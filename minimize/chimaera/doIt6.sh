@@ -92,7 +92,7 @@ ${lftr}
 csleep 3
 
 ${ip6tr} /etc/iptables/rules.v6
-${iptr} /etc/iptables/${tblz4}
+${iptr} /etc/iptables/rules.v4
 
 csleep 3
 ${lftr} 
