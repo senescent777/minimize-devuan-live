@@ -131,13 +131,13 @@ ${asy}
 csleep 3
 
 #VAIH:selvitä missä kohtaa x-oikeudet p.oistuvat
-~/Desktop/minimize/clouds2.sh 0 ${distro}
+~/Desktop/minimize/changedns.sh 0 ${distro}
 csleep 5
 
 ##===================================================PART 4(final)==========================================================
 ##tulisi olla taas tables toiminnassa tässä kohtaa skriptiä
 #${odio} /etc/init.d/dnsmasq restart
-#sudo ${d}/clouds.sh 1
+#${d}/changedns.sh 1
 #ns2 stubby
 #ns4 stubby
 #

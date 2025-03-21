@@ -64,16 +64,13 @@
 #	[ $? -eq 0 ] || exit	
 #
 #	csleep 5
-#	dqb "sudo  ~/Desktop/minimize/${distro}/clouds.sh ${dnsm}"
 #
 #	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 
 #	${shary} iptables 	
 #	${shary} iptables-persistent init-system-helpers netfilter-persistent
 #
-#	#040325:(tai siis nimenomaan pitäisi ajaa clouds iptables-pakettien uudelleenas jälkeen)
 #
 #	csleep 5
-#	sudo ${d}/clouds.sh ${dnsm}
 #	${sifu} ${iface}
 #	csleep 5
 #
@@ -97,7 +94,6 @@
 #	${odio} mv ${pkgdir}/*.deb ~/Desktop/minimize/${distro}
 #	${srat} -rf ${1} ~/Desktop/minimize/${distro}/*.deb
 #
-#	dqb "sudo ~/Desktop/minimize/${distro}/clouds.sh ${dnsm}"
 #}
 #
 #
