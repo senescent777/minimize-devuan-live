@@ -62,5 +62,5 @@ case ${mode} in
 	;;
 esac
 
-#case'n jälkeinen osuus kummankin distron versiossa käytännössä sama	
+#case:n jälkeinen osuus kummankin distron versiossa käytännössä sama	
 clouds_post

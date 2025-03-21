@@ -137,35 +137,7 @@ case "${1}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	0)
-
-#HUOM. 170325: seuraavanlaista nalkutusta tuli: (vissiinkin chimaeran kanssa)
-#firefox-esr depends on libx11-xcb1 (>= 2:1.7.2); however:
-#  Package libx11-xcb1:amd64 is not configured yet.
-#python3.9 depends on libpython3.9-stdlib (= 3.9.2-1+deb11u2); however:
-#  Package libpython3.9-stdlib:amd64 is not configured yet.
-# xserver-xorg-core depends on xserver-common (>= 2:1.20.11-1+deb11u15); however:
-#  Version of xserver-common on system is 2:1.20.11-1+deb11u6.
-# xserver-xorg-legacy depends on xserver-common (>= 2:1.20.11-1+deb11u15); however:
-#  Version of xserver-common on system is 2:1.20.11-1+deb11u6.
-# libgail-common:amd64 depends on libgail18 (= 2.24.33-2+deb11u1); however:
-#  Version of libgail18:amd64 on system is 2.24.33-2.
-# libgtk2.0-bin depends on libgtk2.0-0 (= 2.24.33-2+deb11u1); however:
-#  Version of libgtk2.0-0:amd64 on system is 2.24.33-2.
-# libgtk-3-bin depends on libgtk-3-0 (>= 3.24.24-4+deb11u4); however:
-# Version of libgtk-3-0:amd64 on system is 3.24.24-4+deb11u3.
-#dpkg: dependency problems prevent configuration of libpython3.9-stdlib:amd64:
-# libpython3.9-stdlib:amd64 depends on libpython3.9-minimal (= 3.9.2-1+deb11u2); however:
-#  Version of libpython3.9-minimal:amd64 on system is 3.9.2-1.
-#dpkg: dependency problems prevent configuration of librsvg2-common:amd64:
-# librsvg2-common:amd64 depends on librsvg2-2 (= 2.50.3+dfsg-1+deb11u1); however:
-#  Version of librsvg2-2:amd64 on system is 2.50.3+dfsg-1.
-#dpkg: dependency problems prevent configuration of libsoup-gnome2.4-1:amd64:
-# libsoup-gnome2.4-1:amd64 depends on libsoup2.4-1 (= 2.72.0-2+deb11u1); however:
-#  Version of libsoup2.4-1:amd64 on system is 2.72.0-2.
-#dpkg: dependency problems prevent configuration of libx11-xcb1:amd64:
-# libx11-xcb1:amd64 depends on libx11-6 (= 2:1.7.2-1+deb11u2); however:
-#  Version of libx11-6:amd64 on system is 2:1.7.2-1.
-#... joskohan sorkkisi export:ia vaihteeksi?
+		#JUOM.21035: joskohan uuden päivitysdpkaetin kanssa olisi nalkutukset poistettu
 
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"

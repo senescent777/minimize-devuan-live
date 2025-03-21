@@ -52,15 +52,15 @@ if [ x"${mkt}" == "x" ] ; then
 	exit 8
 fi
 
-sudo chown -Rv _apt:root /var/cache/apt/archives/partial/
-sudo chmod -Rv 700 /var/cache/apt/archives/partial/
+${sco} -Rv _apt:root /var/cache/apt/archives/partial/
+${scm} -Rv 700 /var/cache/apt/archives/partial/
 csleep 4
 
 function pre() {
 	[ x"${1}" == "z" ] && exit 666
 
-	sudo chown -Rv _apt:root /var/cache/apt/archives/partial/
-	sudo chmod -Rv 700 /var/cache/apt/archives/partial/
+	${sco} -Rv _apt:root /var/cache/apt/archives/partial/
+	${scm} -Rv 700 /var/cache/apt/archives/partial/
 	csleep 4
 
 	if [ -d ~/Desktop/minimize/${1} ] ; then
@@ -97,8 +97,8 @@ function pre2() {
 		[ ${debug} -eq 1 ] && /sbin/ifconfig
 		csleep 4
 
-		sudo chown -Rv _apt:root /var/cache/apt/archives/partial/
-		sudo chmod -Rv 700 /var/cache/apt/archives/partial/
+		${sco} -Rv _apt:root /var/cache/apt/archives/partial/
+		${scm} -Rv 700 /var/cache/apt/archives/partial/
 		
 		${sag_u}
 		csleep 4
@@ -299,7 +299,6 @@ function tpu() {
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
 	${NKVD} ${pkgdir}/*.deb
-	#${smr}  ${pkgdir}/*.deb
 #	${smr}  ${pkgdir}/*.bin
 
 	dqb "TUP PART 2"

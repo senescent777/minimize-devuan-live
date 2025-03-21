@@ -61,8 +61,6 @@ function ocs() {
 	CB_LIST1="${CB_LIST1} ${tmp} " #ja nimeäminenkin...
 }
 
-#check_binaries(), check_binaries2() , distro-spesifisiä vai ei? (VAIH: let's find out?)
-
 #HUOM. jos tätä käyttää ni scm ja sco pitää tietenkin esitellä alussa
 function mangle2() {
 	if [ -f ${1} ] ; then 
@@ -141,7 +139,6 @@ function pre_enforce() {
 	##	fi
 	##fi
 
-	#exit 111
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
 	for f in /sbin/halt /sbin/reboot ; do mangle_s ${f} ${q}/meshuggah ; done
 	
@@ -419,7 +416,6 @@ function ns4() {
 	sleep 5
 }
 
-#VAIH:nämä käyttöön vähitellen (tai siis common_lib:in vastaava)
 #HUOM.toisessa clouds:issa taisi olla pre-osuudessa muutakin
 #pitäisiköhän se ipt-testi olla tässä?
 #HUOM. jos mahd ni pitäisi kai sudoersissa speksata millä parametreilla mitäkin komerntoja ajetaan (man sudo, man sudoers)
@@ -476,7 +472,6 @@ function clouds_post() {
 	dqb "d0n3"
 }
 
-#VAIH:tämäkin josqs käyttöön
 function check_binaries() {
 	dqb "ch3ck_b1nar135(${1} )"
 	dqb "sudo= ${odio} "
@@ -601,7 +596,6 @@ function check_binaries2() {
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "	
 
-	#smr="${odio} ${smr} "
 	dch="${odio} ${dch}"
 	dqb "b1nar135.2 0k.2" 
 	csleep 3
