@@ -113,7 +113,7 @@ function pre_enforce() {
 	 
 	dqb "sudo touch ${q}/meshuggah in 5 secs"
 	csleep 3
-	${odio} touch ${q}/meshuggah
+	touch ${q}/meshuggah
 
 	[ ${debug} -eq 1 ] && ls -las ${q}
 	csleep 3
@@ -133,8 +133,7 @@ function pre_enforce() {
 	##
 	##	if [ -d ~/Desktop/minimize/${2} ] ; then
 	#		dqb "1NF3RN0 0F SACR3D D35TRUCT10N"
-	#		#mangle_s ~/Desktop/minimize/${2}/clouds.sh ${q}/meshuggah
-	#		mangle_s ~/Desktop/minimize/clouds2.sh ${q}/meshuggah 			
+	#		mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah 			
 	#		csleep 2
 	##	fi
 	##fi
@@ -424,9 +423,24 @@ function clouds_pre() {
 
 	#HUOM. rm-kikkailuja sietää vähän miettiä, jos vaikka prujaisi daedaluksen clouds:ista ne kikkrilut
 	${smr} /etc/resolv.conf
-	${smr} /etc/dhcp/dhclient.conf
-	${smr} /sbin/dhclient-script
+#if [ -s /etc/resolv.conf.new ] || [ -s /etc/resolv.conf.OLD ] ; then 
+#	${smr} /etc/resolv.conf
+#	[ $? -gt 0 ] && echo "SHOULD USE SUDO WITH THIS SCRIPT OR OTHER TROUBLE WITH REMOVING FILES"
+#fi
 
+	${smr} /etc/dhcp/dhclient.conf
+#
+#if [ -s /etc/dhcp/dhclient.conf.new ] || [ -s /etc/dhcp/dhclient.conf.OLD ] ; then 
+#	${smr} /etc/dhcp/dhclient.conf
+#	[ $? -gt 0 ] && echo "SHOULD USE SUDO WITH THIS SCRIPT OR OTHER TROUBLE WITH REMOVING FILES"
+#fi
+	${smr} /sbin/dhclient-script
+##ei välttis suhtaudu hyvin lib.sh:n alkuun, tulisi siirtää seur. if-blokin jölkeen (?)
+#if [ -s /sbin/dhclient-script.new ] || [ -s /sbin/dhclient-script.OLD ] ; then 
+#	echo "${smr} /sbin/dhclient-script"	
+#	${smr} /sbin/dhclient-script
+#	[ $? -gt 0 ] && echo "SHOULD USE SUDO WITH THIS SCRIPT OR OTHER TROUBLE WITH REMOVING FILES"
+#fi
 	csleep 1
 	#HUOM.160325:lisätty uutena varm. vuoksi
 	${iptr} /etc/iptables/rules.v4

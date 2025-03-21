@@ -90,7 +90,7 @@ function pre2() {
 
 	if [ -d ~/Desktop/minimize/${1} ] ; then
 		dqb "PRKL"
-		~/Desktop/minimize/clouds2.sh ${dnsm} ${1}		
+		~/Desktop/minimize/changedns.sh ${dnsm} ${1}		
 		csleep 4
 		
 		${sifu} ${iface}
