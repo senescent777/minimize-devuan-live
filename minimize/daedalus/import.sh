@@ -1,43 +1,43 @@
-#!/bin/bash
-d=$(dirname $0)
-[ -s ${d}/conf ] && . ${d}/conf
-. ~/Desktop/minimize/common_lib.sh
-
-#VAIH:roskikseen jatkossa(qhan import2 toiminta varmistettu)
-if  [ -s ${d}/lib.sh ] ; then
-	. ${d}/lib.sh
-else
-	srat="sudo /bin/tar"
-	som="sudo /bin/mount"
-	uom="sudo /bin/umount"
-	scm="sudo /bin/chmod"
-
-	dir=/mnt
-	odio=$(which sudo)
-	debug=1
-	
-	function dqb() {
-		[ ${debug} -eq 1 ] && echo ${1}
-	}
-
-	function csleep() {
-		[ ${debug} -eq 1 ] && sleep ${1}
-	}
-	
-fi
-
-olddir=$(pwd)
-part=/dev/disk/by-uuid/${part0}
-dqb "b3f0r3 0ld.tar"
-csleep 5
-
-if [ ! -s /OLD.tar ] ; then #HUOM.260125: -p wttuun varm. vuoksi   
-	${srat} -cf /OLD.tar /etc /sbin /home/stubby /home/devuan/Desktop
-fi
-
-dqb "b3f0r3 par51ng tha param5"
-csleep 5
-
+##!/bin/bash
+#d=$(dirname $0)
+#[ -s ${d}/conf ] && . ${d}/conf
+#. ~/Desktop/minimize/common_lib.sh
+#
+##VAIH:roskikseen jatkossa(qhan import2 toiminta varmistettu)
+#if  [ -s ${d}/lib.sh ] ; then
+#	. ${d}/lib.sh
+#else
+#	srat="sudo /bin/tar"
+#	som="sudo /bin/mount"
+#	uom="sudo /bin/umount"
+#	scm="sudo /bin/chmod"
+#
+#	dir=/mnt
+#	odio=$(which sudo)
+#	debug=1
+#	
+#	function dqb() {
+#		[ ${debug} -eq 1 ] && echo ${1}
+#	}
+#
+#	function csleep() {
+#		[ ${debug} -eq 1 ] && sleep ${1}
+#	}
+#	
+#fi
+#
+#olddir=$(pwd)
+#part=/dev/disk/by-uuid/${part0}
+#dqb "b3f0r3 0ld.tar"
+#csleep 5
+#
+#if [ ! -s /OLD.tar ] ; then #HUOM.260125: -p wttuun varm. vuoksi   
+#	${srat} -cf /OLD.tar /etc /sbin /home/stubby /home/devuan/Desktop
+#fi
+#
+#dqb "b3f0r3 par51ng tha param5"
+#csleep 5
+#
 if [ $# -gt 0 ] ; then
 #	function common_part() {
 #		[ y"${1}" == "y" ] && exit 1
@@ -60,7 +60,7 @@ if [ $# -gt 0 ] ; then
 #		${sco} root:root /tmp #oik. o=rwt mutta rwx kai tarpeeksi hyvä useimpiin tarkoituksiin
 #	}
 #
-	case "${1}" in
+#	case "${1}" in
 #		-1)
 #			[ -b ${part} ] || dqb "no such thing as ${part}"
 #
@@ -109,12 +109,12 @@ if [ $# -gt 0 ] ; then
 #
 #			echo "NEXT: ${d}/doIt6.sh (maybe)"
 #		;;
-		*)
-			dqb "-h"
-		;;
-	esac
-else
-	echo "$0 <mode> [other_params]"
-fi
-
+#		*)
+#			dqb "-h"
+#		;;
+#	esac
+#else
+#	echo "$0 <mode> [other_params]"
+#fi
+#
 ##HUOM. tämän olisi kuvakkeen kanssa tarkoitus mennä jatkossa filesystem.squashfs sisälle

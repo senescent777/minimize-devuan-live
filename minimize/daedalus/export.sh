@@ -1,43 +1,43 @@
-#!/bin/bash
-d=$(dirname $0)
-[ -s ${d}/conf ] && . ${d}/conf
-. ~/Desktop/minimize/common_lib.sh
-
-#TODO:roskikseen jatkossa (qhan varmistettu että e2 toimii kuten pitää)
-if [ -s ${d}/lib.sh ] ; then
-	. ${d}/lib.sh
-else
-	srat="sudo /bin/tar"
-	som="sudo /bin/mount"
-	uom="sudo /bin/umount"
-	dir=/mnt
-	odio=$(which sudo)
-	debug=1
-	
-	function dqb() {
-		[ ${debug} -eq 1 ] && echo ${1}
-	}
-
-	function csleep() {
-		[ ${debug} -eq 1 ] && sleep ${1}
-	}	
-fi
-
-tig=$(sudo which git)
-
-if [ x"${tig}" == "x" ] ; then
-	echo "${sag_u}"
-	echo "${shary} git"
-	exit 7
-fi
-
-mkt=$(sudo which mktemp)
-
-if [ x"${mkt}" == "x" ] ; then
-	echo "${sag_u}"
-	echo "${shary} mktemp"
-	exit 8
-fi
+##!/bin/bash
+#d=$(dirname $0)
+#[ -s ${d}/conf ] && . ${d}/conf
+#. ~/Desktop/minimize/common_lib.sh
+#
+##TODO:roskikseen jatkossa (qhan varmistettu että e2 toimii kuten pitää)
+#if [ -s ${d}/lib.sh ] ; then
+#	. ${d}/lib.sh
+#else
+#	srat="sudo /bin/tar"
+#	som="sudo /bin/mount"
+#	uom="sudo /bin/umount"
+#	dir=/mnt
+#	odio=$(which sudo)
+#	debug=1
+#	
+#	function dqb() {
+#		[ ${debug} -eq 1 ] && echo ${1}
+#	}
+#
+#	function csleep() {
+#		[ ${debug} -eq 1 ] && sleep ${1}
+#	}	
+#fi
+#
+#tig=$(sudo which git)
+#
+#if [ x"${tig}" == "x" ] ; then
+#	echo "${sag_u}"
+#	echo "${shary} git"
+#	exit 7
+#fi
+#
+#mkt=$(sudo which mktemp)
+#
+#if [ x"${mkt}" == "x" ] ; then
+#	echo "${sag_u}"
+#	echo "${shary} mktemp"
+#	exit 8
+#fi
 #
 #function tp1() {
 #	[ z"${1}" == "z" ] && exit
@@ -172,61 +172,61 @@ fi
 #	${sag} upgrade -u
 #	${odio} mv ${pkgdir}/*.deb ~/Desktop/minimize/${distro}
 #	${srat} -jcf ${1} ~/Desktop/minimize/${distro}/*.deb
+##
+##	${sifd} ${iface}
+##}
 #
-#	${sifd} ${iface}
+#function tp5() {
+#	dqb "5FF0RP"
+#
+#	local q
+#	q=$(mktemp -d)
+#	cd ${q}
+#
+#	#HUOM. prsofs kanssa olisi pikkuisen laittamista
+#	${tig} clone https://github.com/senescent777/some_scripts.git
+#
+#	#VAIH:profs* lähteenä jatq0ssa
+#	mv some_scripts/lib/export/profs* ~/Desktop/minimize/${distro}/
+#	${scm} 0755 ~/Desktop/minimize/${distro}/profs*
+#	${srat} -rvf ${1}  ~/Desktop/minimize/${distro}/profs*
 #}
-
-function tp5() {
-	dqb "5FF0RP"
-
-	local q
-	q=$(mktemp -d)
-	cd ${q}
-
-	#HUOM. prsofs kanssa olisi pikkuisen laittamista
-	${tig} clone https://github.com/senescent777/some_scripts.git
-
-	#VAIH:profs* lähteenä jatq0ssa
-	mv some_scripts/lib/export/profs* ~/Desktop/minimize/${distro}/
-	${scm} 0755 ~/Desktop/minimize/${distro}/profs*
-	${srat} -rvf ${1}  ~/Desktop/minimize/${distro}/profs*
-}
-
-mode=0
-tgtfile=""
-
-#parsetus josqs käyttöön, ehkä
-if [ $# -gt 0 ] ; then
-	mode=${1}
-	tgtfile=${2}
-else
-	echo "-h"
-fi
-
-case ${mode} in
-	0)
-		tp1 ${tgtfile}
-		tp2 ${tgtfile}
-		tp3 ${tgtfile}
-		tp4 ${tgtfile}
-
-		#${srat} -tf ${tgtfile} > ./MANIFEST
-		#${srat} -rf ${tgtfile} ./MANIFEST
-	;;
-	1|u|upgrade)
-		tpu ${tgtfile}
-	;;
-	p)
-		tp5 ${tgtfile}
-	;;
-	e)
-		tp4 ${tgtfile}
-	;;
-	-h)
-		echo "$0 0 tgtfile | $0 1 tgtfile"
-	;;
-	*)
-		echo "-h"
-	;;
-esac
+#
+#mode=0
+#tgtfile=""
+#
+##parsetus josqs käyttöön, ehkä
+#if [ $# -gt 0 ] ; then
+#	mode=${1}
+#	tgtfile=${2}
+#else
+#	echo "-h"
+#fi
+#
+#case ${mode} in
+#	0)
+#		tp1 ${tgtfile}
+#		tp2 ${tgtfile}
+#		tp3 ${tgtfile}
+#		tp4 ${tgtfile}
+#
+#		#${srat} -tf ${tgtfile} > ./MANIFEST
+#		#${srat} -rf ${tgtfile} ./MANIFEST
+#	;;
+#	1|u|upgrade)
+#		tpu ${tgtfile}
+#	;;
+#	p)
+#		tp5 ${tgtfile}
+#	;;
+#	e)
+#		tp4 ${tgtfile}
+#	;;
+#	-h)
+#		echo "$0 0 tgtfile | $0 1 tgtfile"
+#	;;
+#	*)
+#		echo "-h"
+#	;;
+#esac
 

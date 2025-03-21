@@ -6,7 +6,6 @@ d=$(dirname $0)
 [ -s ${d}/lib.sh ] && . ${d}/lib.sh
 
 ${fib}
-#g=$(date +%F) #tarpeellinen nykyään?
 
 if [ $# -gt 0 ] ; then  
 	if [ "${1}" == "-v" ] ; then
@@ -51,12 +50,6 @@ ${sharpy} efibootmgr exfalso
 ${asy} 
 ${lftr}
 csleep 5
-
-##190325 uutena, poista jos pykii
-#${sharpy} exim* 
-#${asy} 
-#${lftr}
-#csleep 5
 
 dqb "f1"
 csleep 5
@@ -108,12 +101,6 @@ ${sharpy} os-prober #orca saattaa poistua jo aiemmin
 ${asy} 
 ${lftr}
 csleep 5
-
-##190325 uutena, poista jos pykii
-#${sharpy} nfs* 
-#${asy} 
-#${lftr}
-#csleep 5
 
 dqb "p"
 csleep 5

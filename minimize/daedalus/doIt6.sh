@@ -12,7 +12,7 @@ else
 fi
 
 n=$(whoami)
-#TODO:->common_lib
+#TODO:->common_lib?
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
@@ -49,7 +49,7 @@ enforce_access ${n}
 dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary" 
 part1 ${distro} 
 #HUOM.190325:part_1_5sessa oli bugi, u+w ei vaan riitä
-[ ${debug} -eq 1 ] && less /etc/apt/sources.list
+#[ ${debug} -eq 1 ] && less /etc/apt/sources.list
 [ ${mode} -eq 0 ] && exit
 
 #HUOM.261224: ntpsec uutena
@@ -88,24 +88,14 @@ if [ ${removepkgs} -eq 1 ] ; then
 	#HUOM.200325:eximin läsnäolo aiheuyiu removepkgs-mjan arvosrta
 	${sharpy} avahi* blu* cups* 
 	${sharpy} exim*
+
 	${lftr}
 	csleep 3
 
-#	${sharpy} exim*
-#	${lftr}
-#	csleep 3
-#	
-#	${sharpy} rpc* nfs* 
-#	csleep 3
-#	${sharpy} rpc* 
-#	csleep 4
-#	${sharpy} nfs* 
-#	csleep 4
-
 	${sharpy} modem* wireless* wpa*
 	${sharpy} iw lm-sensors
-
 	${sharpy} ntp*
+
 	${lftr}
 	csleep 3
 	
@@ -147,7 +137,6 @@ echo $?
 csleep 3
 ${ip6tr} /etc/iptables/rules.v6
 
-#VAIH:se ffox-profiili-asia (mallia sieltä ghubin toisesta hmistosta)
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh 
 	. ~/Desktop/minimize/profs.sh
@@ -157,7 +146,6 @@ fi
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
-#sudo ${d}/clouds.sh 0 #jatqs se yleismepi
 #HUOM. TOIMIIKO TUO KOMENTO TUOSSA ALLA VAI EI ??? (olikohan resolv.conf:ista kiinni)
 ~/Desktop/minimize/clouds2 ${dnsm} ${distro}
 ${sipt} -L
@@ -175,8 +163,6 @@ if [ ${mode} -eq 2 ] ; then
  	exit 
 fi
 
-#070235: heittääkö pihalle xfce:stä tuossa yllä vai ei? vissiin pitää muuttaa parametreja
-#sudo ${d}/clouds.sh 1
 ~/Desktop/minimize/clouds2 ${dnsm} ${distro}
 
 #VAIH:stubby-jutut toimimaan
