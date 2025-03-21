@@ -96,7 +96,7 @@ function common_part() {
 		${scm} 0444 ~/Desktop/minimize/${2}/conf*
 	fi
 
-	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize
+	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/${2}
 	csleep 5
 
 	${scm} 0777 /tmp
