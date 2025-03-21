@@ -106,10 +106,8 @@ fi
 
 if [ y"${ipt}" != "y" ] ; then 
 	${ip6tr} /etc/iptables/rules.v6
-	${iptr} /etc/iptables/${tblz4} #voisi olla rules.v4 jatkossa, ei kikkaulua
+	${iptr} /etc/iptables/rules.v4
 fi
-
-#HUOM.270624:oli aikaisemmin tässä clouds.sh 0
 
 csleep 5
 ${lftr} 
@@ -147,7 +145,8 @@ ${asy}
 dqb "GR1DN BELIALAS KYE"
 
 #HUOM. TOIMIIKO TUO KOMENTO TUOSSA ALLA VAI EI ??? (olikohan resolv.conf:ista kiinni)
-~/Desktop/minimize/clouds2 ${dnsm} ${distro}
+#(dns-ip konftdstoon niinqu josqs?)
+~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
 ${sipt} -L
 csleep 6
 
@@ -163,7 +162,7 @@ if [ ${mode} -eq 2 ] ; then
  	exit 
 fi
 
-~/Desktop/minimize/clouds2 ${dnsm} ${distro}
+~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
 
 #VAIH:stubby-jutut toimimaan
 #ongelmana error: Could not bind on given addresses: Permission denied

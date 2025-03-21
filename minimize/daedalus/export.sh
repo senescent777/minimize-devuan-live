@@ -3,7 +3,7 @@
 #[ -s ${d}/conf ] && . ${d}/conf
 #. ~/Desktop/minimize/common_lib.sh
 #
-##TODO:roskikseen jatkossa (qhan varmistettu että e2 toimii kuten pitää)
+##VAIH:roskikseen jatkossa (qhan varmistettu että e2 toimii kuten pitää)
 #if [ -s ${d}/lib.sh ] ; then
 #	. ${d}/lib.sh
 #else
@@ -81,7 +81,7 @@
 #	${shary} iptables-persistent init-system-helpers netfilter-persistent
 #
 #	#actually necessary block
-#	sudo ${d}/clouds.sh ${dnsm}
+#
 #	${sifu} ${iface}
 #
 #	${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
@@ -163,7 +163,7 @@
 #	${odio} shred -fu ${pkgdir}/*.deb 
 #	${odio} shred -fu ~/Desktop/minimize/${distro}/*.deb
 #
-#	${odio} ${d}/clouds.sh ${dnsm} 
+#	
 #	${sifu} ${iface}
 #
 #	${asy}
