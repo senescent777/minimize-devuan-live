@@ -10,7 +10,7 @@ function pr4() {
 }
 
 #HUOM.170325:git näköjään asentuu pr4((), pre3() - vaiheiden aikana vaikka vähän nalkutusta tuleekin(josko nalkutuksen poistaisi)
-
+#HUOM.21035: toimiiko nuo sdi-jutut tädssä myös check_bin() kautta?
 function pre_part3() {
 	dqb "pre_part3( ${1})"
 	${sdi} ${1}/dns-root-data*.deb

@@ -6,7 +6,7 @@ d=$(dirname $0)
 [ -s ${d}/lib.sh ] && . ${d}/lib.sh
 
 ${fib}
-g=$(date +%F)
+#g=$(date +%F)
 
 if [ $# -gt 0 ] ; then  
 	if [ "${1}" == "-v" ] ; then

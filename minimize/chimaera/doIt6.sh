@@ -11,7 +11,7 @@ else
 	exit 111
 fi
 
-#TODO:testaa tämän toiminta pitkästä aikaa (myös siirto->common_lib)
+#TODO:testaa tämän toiminta pitkästä aikaa (myös siirto->common_lib?)
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
@@ -128,9 +128,6 @@ if [ ${mode} -eq 1 ] ; then
 fi
 
 ${asy}
-#dqb "ASTRAL 5L33P"
-#csleep 3
-#dqb "fråm doit6: distro=${distro}"
 csleep 3
 
 #VAIH:selvitä missä kohtaa x-oikeudet p.oistuvat
