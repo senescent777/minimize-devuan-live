@@ -310,7 +310,6 @@ function part3() {
 	if [ $? -eq  0 ] ; then
 		dqb "part3.1 ok"
 		csleep 5
-		#${odio} shred -fu ${1}/lib*.deb
 		${NKVD} ${1}/lib*.deb 
 	else
 	 	exit 66
@@ -496,7 +495,7 @@ function check_binaries() {
 	dqb "params_ok"
 	csleep 1
 
-	smr=$(sudo which rm) #VAIH:shred mukaan kanssa
+	smr=$(sudo which rm)
 	NKVD=$(sudo which shred)
 
 	ipt=$(sudo which iptables)
@@ -614,3 +613,24 @@ function check_binaries2() {
 	dqb "b1nar135.2 0k.2" 
 	csleep 3
 }
+
+#function clouds_case0() { TODO:käyttöön jatqs
+#	${slinky} /etc/resolv.conf.OLD /etc/resolv.conf
+#	${slinky} /etc/dhcp/dhclient.conf.OLD /etc/dhcp/dhclient.conf
+#	${spc} /sbin/dhclient-script.OLD /sbin/dhclient-script
+#
+#	if [ y"${ipt}" == "y" ] ; then
+#		dqb "SHOULD 1NSTALL TABL35"
+#	else
+#		${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
+#		${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
+#
+#		for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do dda_snd ${s} ; done	
+#	fi
+#
+#	${odio} /etc/init.d/dnsmasq stop
+#	${odio} /etc/init.d/ntpsec stop
+#	csleep 5
+#	${whack} dnsmasq*
+#	${whack} ntp*
+#}
