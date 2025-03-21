@@ -13,8 +13,8 @@
 	(i'm yet to confirm if the current version works or not)
 
 - import2.sh 
-	is a shortcut for installing more recent this project into a running live distro
-	it can be used to install upgrades to .deb packages also
+	is a shortcut for installing more recent version of this project into a running live distro
+	it can also be used to install upgrades to .deb packages
 
 - demerde_toi.sh
 	can soon be used to install the most recent version of this project into a running live distro
