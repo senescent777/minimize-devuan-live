@@ -134,6 +134,7 @@ part3 ${d}
 echo $?
 csleep 3
 ${ip6tr} /etc/iptables/rules.v6
+${iptr} /etc/iptables/rules.v4
 
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh 
