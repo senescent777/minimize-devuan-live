@@ -310,7 +310,6 @@ function tpu() {
 	dqb "TUP PART 2"
 
 	${sag} upgrade -u
-	#sudo apt-get upgrade -u
 	echo $?
 	csleep 5	
 
@@ -322,7 +321,7 @@ function tpu() {
 	cd ~/Desktop/minimize/${2}
 	sha512sum ./*.deb > sha512sums.txt
 	${srat} -rf ${1} ~/Desktop/minimize/${2}/sha512sums.txt
-	cd $[p}
+	cd ${p}
 
 	${sifd} ${iface}
 	dqb "SIELUNV1H0LL1N3N"
@@ -370,12 +369,10 @@ case ${mode} in
 		tp4 ${tgtfile} ${distro}
 	;;
 	1|u|upgrade)
-		#HUOM.20325:toimisokohan tämä jo?
 		pre2 ${distro}
 		tpu ${tgtfile} ${distro}
 	;;
 	p)
-		#HUOM.20325:toimisokohan tämä jo?
 		pre2 ${distro}
 		tp5 ${tgtfile}
 	;;
