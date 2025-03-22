@@ -11,7 +11,7 @@ else
 	exit 111
 fi
 
-#TODO:testaa tämän toiminta pitkästä aikaa (myös siirto->common_lib?)
+#HUOM.220325:parsetuS kunnossa
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
@@ -70,7 +70,7 @@ csleep 3
 #K01avahi-jutut sopivaan kohtaan?
 
 #===================================================PART 2===================================
-#TODO:removepkgs riippumaan $distro:n alla olevista -deb-paketeista
+#TODO:removepkgs riippumaan $distro:n alla olevista -deb-paketeista (jos ei pakettei, ei poistoja)
 if [ ${removepkgs} -eq 1 ] ; then
 	${sharpy} libblu* network* libcupsfilters* libgphoto* libopts25
 	${sharpy} avahi* blu* cups* exim*
