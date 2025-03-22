@@ -52,23 +52,24 @@ if [ x"${mkt}" == "x" ] ; then
 	exit 8
 fi
 
-${sco} -Rv _apt:root /var/cache/apt/archives/partial/
-${scm} -Rv 700 /var/cache/apt/archives/partial/
+${sco} -Rv _apt:root ${pkgdir}/partial/
+${scm} -Rv 700 ${pkgdir}/partial/
 csleep 4
 
 function pre() {
 	[ x"${1}" == "z" ] && exit 666
 
-	${sco} -Rv _apt:root /var/cache/apt/archives/partial/
-	${scm} -Rv 700 /var/cache/apt/archives/partial/
+	${sco} -Rv _apt:root ${pkgdir}/partial/
+	${scm} -Rv 700 ${pkgdir}/partial/
 	csleep 4
 
 	if [ -d ~/Desktop/minimize/${1} ] ; then
 		dqb "5TNA"
+
 		#HUOM. tässä yhteydessä sudon kautta vetöäminen lienee liikaa
-		${scm} 0755 ~/Desktop/minimize/${1}
-		${scm} 0755 ~/Desktop/minimize/*.sh
-		${scm} 0755 ~/Desktop/minimize/${1}/*.sh
+		chmod 0755 ~/Desktop/minimize/${1}
+		chmod 0755 ~/Desktop/minimize/*.sh
+		chmod 0755 ~/Desktop/minimize/${1}/*.sh
 		
 		if [ -s /etc/apt/sources.list.${1} ] ; then
 			${smr} /etc/apt/sources.list
@@ -97,8 +98,8 @@ function pre2() {
 		[ ${debug} -eq 1 ] && /sbin/ifconfig
 		csleep 4
 
-		${sco} -Rv _apt:root /var/cache/apt/archives/partial/
-		${scm} -Rv 700 /var/cache/apt/archives/partial/
+		${sco} -Rv _apt:root ${pkgdir}/partial/
+		${scm} -Rv 700 ${pkgdir}/partial/
 		
 		${sag_u}
 		csleep 4
@@ -218,7 +219,11 @@ function tp4() {
 	
 		#HUOM.070325: varm vuoksi speksataan että *.deb
 		${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
-		${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb
+		p=$(pwd)
+		cd ~/Desktop/minimize/${2}
+		sha512sum ./*.deb > sha512sums.txt
+		${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb  ~/Desktop/minimize/${2}/sha512sums.txt
+		cd ${p}
 	fi
 
 	#HUOM.260125: -p wttuun varm. vuoksi  
@@ -267,7 +272,6 @@ function tp3() {
 	q=$(mktemp -d)
 	cd ${q}
 
-	#TODO:jatqos sudoers.new tuonne
 	${tig} clone https://github.com/senescent777/project.git
 	[ $? -eq 0 ] || exit 66
 	cd project
@@ -313,12 +317,16 @@ function tpu() {
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
 	${srat} -cf ${1} ~/Desktop/minimize/${2}/*.deb
-	${sifd} ${iface}
 
+	p=$(pwd)
+	cd ~/Desktop/minimize/${2}
+	sha512sum ./*.deb > sha512sums.txt
+	${srat} -rf ${1} ~/Desktop/minimize/${2}/sha512sums.txt
+	cd $[p}
+
+	${sifd} ${iface}
 	dqb "SIELUNV1H0LL1N3N"
 }
-
-#TODO:ao- if-blkkiin liittyen jos poistaisi ghubista minimize-hamistosta välistä sen /h/d-osuuden
 
 function tp5() {
 	dqb "tp5 ${1} ${2}"

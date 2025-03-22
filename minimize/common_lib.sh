@@ -62,15 +62,12 @@ function ocs() {
 	tmp=$(sudo which ${1})
 
 	if [ y"${tmp}" == "y" ] ; then
-		exit 66 #fiksummankin exit-koodin voisi keksiä
+		exit 69 #fiksummankin exit-koodin voisi keksiä
 	fi
 
 	if [ ! -x ${tmp} ] ; then
 		exit 77
 	fi
-	
-	#dqb "paramz_0k"
-	#CB_LIST1="${CB_LIST1} ${tmp} " #ja nimeäminenkin...
 }
 
 #HUOM. jos tätä käyttää ni scm ja sco pitää tietenkin esitellä alussa
@@ -115,6 +112,161 @@ function mangle_s() {
 	${odio} echo "${n} localhost=NOPASSWD: sha256: ${s} " >> ${2}
 }
 
+#VAIH:check_bin siirto jonnekin mangle_s tienoille
+#TODO:jos mahd ni Python-tyyppinen(?) idea käyttöön ao. fktioon, $cmd=eval_cmd("cmd") tai jhopa $array["cmd"]=aval_cmd("cmd") 
+function check_binaries() {
+	dqb "ch3ck_b1nar135(${1} )"
+	dqb "sudo= ${odio} "
+	csleep 1
+
+	[ z"${1}" == "z" ] && exit 99
+	[ -d ~/Desktop/minimize/${1} ] || exit 100
+	dqb "params_ok"
+	csleep 1
+
+	#HUOM. smr-ip6tr tarvitaan changedns:n kanssa
+	#HUOM.2. odio, sco ja scm myös
+	smr=$(sudo which rm)
+	NKVD=$(sudo which shred)
+	ipt=$(sudo which iptables)
+	ip6t=$(sudo which ip6tables)
+	iptr=$(sudo which iptables-restore)
+	ip6tr=$(sudo which ip6tables-restore)
+
+	if [ y"${ipt}" == "y" ] ; then
+		echo "SHOULD INSTALL IPTABLES"
+	
+		pre_part3 ~/Desktop/minimize/${1}
+		pr4 ~/Desktop/minimize/${1}
+
+		ipt=$(sudo which iptables)
+		ip6t=$(sudo which ip6tables)
+		iptr=$(sudo which iptables-restore)
+		ip6tr=$(sudo which ip6tables-restore)
+	fi
+
+	[ -x ${ipt} ] || exit 5
+	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
+	[ -x ${ip6t} ] || exit 5
+	[ -x ${iptr} ] || exit 5
+	[ -x ${ip6tr} ] || exit 5
+
+	#HUOM.omegaa testessa osoittautui osoitteuatui että /u/b/which on tarpeellinen sudottaa, joten lisätty
+	CB_LIST1="${smr} ${NKVD} ${ipt} ${ip6t} ${iptr} ${ip6tr} /sbin/halt /sbin/reboot /usr/bin/which"
+
+	#HUOM. seuraaviakin tarvitaan changedns:n kanssa
+	sco=$(sudo which chown)
+	scm=$(sudo which chmod)
+	whack=$(sudo which pkill)
+	sifu=$(sudo which ifup)
+	sifd=$(sudo which ifdown)
+	slinky=$(sudo which ln)
+	spc=$(sudo which cp)
+	#sudotettu mv saatttaa myös olla tarpeen tulevbaisuyydessä
+	svm=$(sudo which mv)
+
+	CB_LIST1="${CB_LIST1} ${sco} ${scm} ${whack} ${sifu} ${sifd} ${slinky} ${spc} ${svm}"
+	local x	
+
+	if [ ${dnsm} -eq 1 ] ; then
+		for x in dnsmasq ntpsec stubby ; do
+			if [ -x /etc/init.d/${x} ] ; then
+				CB_LIST1="${CB_LIST1} /etc/init.d/${x}"
+			fi
+		done
+	fi
+
+	#HUOM. cb_list:in komentojen kanssa pitäsi paramettritkin spekasta, jos mahd, millä saa ajaa
+	dqb "second half of c_bin_1"
+	csleep 5
+	
+	#passwd mukaan listaan? ehkä ai tartte
+	#HUOM. listan sisältöä joutanee miettiä ja että missä kohtaa ajetaan
+	#mangle_s tekee samantap tarkistuksia joten riittää että ocs-kiakkailut niille mitkä eivät cb_list:issä
+	
+	for x in apt-get apt ip netstat dpkg tar mount umount 
+		do ocs ${x} 
+	done
+
+	sdi=$(sudo which dpkg)
+	sag=$(sudo which apt-get)
+	sa=$(sudo which apt)
+	sip=$(sudo which ip)
+	snt=$(sudo which netstat)
+	
+	#HUOM. gpgtar olisi vähän parempi kuin pelkkä tar, silleen niinqu tavallaan
+	#, tähän liittyen olisi aiheellista tehdä sha-tarkistus -deb-paketeista siltä vavralta ettttä lahoava muistuitiku paskoo paketit	
+	srat=$(sudo which tar)
+
+	if [ ${debug} -eq 1 ] ; then
+		srat="${srat} -v "
+	fi
+
+	som=$(sudo which mount)
+	uom=$(sudo which umount)
+
+	#dqb "half_fdone"
+	#csleep 1
+	#
+	#ao. kohtaakin joutaisi miettiä, oli jotain nalkutusta 220325
+	#dch=$(find /sbin -name dhclient-script)
+	#[ x"${dch}" == "x" ] && exit 6
+	#[ -x ${dch} ] || exit 6
+	#jos laittaa meshiggah:iin mukaan ni ei voi olla sitä sha-juttus mukana koska x
+
+	#HUOM:tulisi speksata sudolle tarkemmin millä param on ok noita komentoja ajaa
+	dqb "b1nar135 0k" 
+	csleep 3
+}
+
+function check_binaries2() {
+	dqb "c0mm0n_lib.ch3ck_b1nar135.2()"
+
+	ipt="${odio} ${ipt} "
+	ip6t="${odio} ${ip6t} "
+	iptr="${odio} ${iptr} "
+	ip6tr="${odio} ${ip6tr} "
+
+	whack="${odio} ${whack} --signal 9 "
+	snt="${odio} ${snt} "
+	sharpy="${odio} ${sag} remove --purge --yes "
+	spd="${odio} ${sdi} -l "
+	sdi="${odio} ${sdi} -i "
+	
+	#HUOM. ${sag} VIIMEISENÄ
+	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
+	sag_u="${odio} ${sag} update "
+	sag="${odio} ${sag} "
+
+	sco="${odio} ${sco} "
+	scm="${odio} ${scm} "
+	sip="${odio} ${sip} "
+
+	sa="${odio} ${sa} "
+	sifu="${odio} ${sifu} "
+	sifd="${odio} ${sifd} "
+
+	smr="${odio} ${smr} "
+	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
+	
+	NKVD="${NKVD} -fu "
+	NKVD="${odio} ${NKVD}"
+	slinky="${odio} ${slinky} -s "
+
+	spc="${odio} ${spc} "
+	srat="${odio} ${srat} "
+	asy="${odio} ${sa} autoremove --yes"
+
+	fib="${odio} ${sa} --fix-broken install"
+	som="${odio} ${som} "
+	uom="${odio} ${uom} "
+	svm="${odio} ${svm}"	
+
+	dch="${odio} ${dch}"
+	dqb "b1nar135.2 0k.2" 
+	csleep 3
+}
+
 function pre_enforce() {
 	dqb "common_lib.pre_enforce( ${1} , ${2} )"	
 
@@ -151,7 +303,6 @@ function pre_enforce() {
 	##fi
 
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
-	#for f in /sbin/halt /sbin/reboot ; do mangle_s ${f} ${q}/meshuggah ; done
 	
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 5 secs"
@@ -159,10 +310,8 @@ function pre_enforce() {
 
 		${scm} a-wx ${q}/meshuggah
 		${sco} root:root ${q}/meshuggah	
-		${odio} mv ${q}/meshuggah /etc/sudoers.d #svm
+		${svm} ${q}/meshuggah /etc/sudoers.d
 	fi
-
-	#HUOM.190125 nykyään tapahtuu ulosheitto xfce:stä jotta sudo-muutokset tulisivat voimaan?	
 }
 
 function enforce_access() {
@@ -238,30 +387,33 @@ function part1_5() {
 		if [ -d ~/Desktop/minimize/${1} ] ; then
 			if [ ! -s /etc/apt/sources.list.${1} ] ; then
 				local g
-			
+				local h
+
 				g=$(date +%F) 
 				dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
 				csleep 3
 
 				[ -f /etc/apt/sources.list ] && ${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
-				#TODO:jatrqs touch ilman sudotusta
-				${odio} touch /etc/apt/sources.list.${1} 
-				${scm} a+w /etc/apt/sources.list.${1} #joskohan u+w kuitenbkin riittäisi tässä? No Ei
+				h=$(mktemp -d)		
+				touch ${h}/sources.list.${1} 
+
+				#${sco} ${n}:${n} ${h}/sources.list.${1} 
+				#${scm} u+w ${h}/sources.list.${1} #riittääkö u+w nyt?
 
 				for x in ${1} ${1}-updates ${1}-security ; do
-					echo "deb https://${pkgsrc}/merged ${x} main" >> /etc/apt/sources.list.${1}  
+					echo "deb https://${pkgsrc}/merged ${x} main" >> ${h}/sources.list.${1}  
 				done
 		
+				${svm} ${h}/sources.list.${1} /etc/apt/
 				${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list			
-
 				[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
 				csleep 2
 			fi
 		fi
 	fi
 
-	#${scm} a-w /etc/apt/sources.list
-	${sco} -R root:root /etc/apt 
+	${sco} -R root:root /etc/apt
+	#tarkempaa sertiä tulisi findin kanssa
 	${scm} -R a-w /etc/apt/
 }
 
@@ -301,20 +453,31 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE (maybe i have tourettes)"
 }
 
+#HUOM.22325: oli jotain nalkuitusta vielä chimaeran päivityspaketista, lib.sh fktiot tai export2 muutettava vasta avasti
 function part3() {
 	dqb "part3( ${1} )"
-	#[ y"${1}" == "y" ] && exit 1 #mikähän tässäkin on?
+	csleep 1
+
+	[ y"${1}" == "y" ] && exit 1 #mikähän tässäkin on?
 	dqb "11"
+	csleep 1
 	[ -d ${1} ] || exit 2
 
 	dqb "22 ${sdi} ${1} / lib \* .deb"
-	#[ z"${sdi}" == "z" ] && exit 33
-	#[ -x ${sdi} ] || exit 44 #1. kokeilulla pyki, jemmaan toistaiseksi
+	[ z"${sdi}" == "z" ] && exit 33
+	[ -x ${sdi} ] || exit 44 #1. kokeilulla pyki, jemmaan toistaiseksi
 	#220325:edelleenm jotain qsee tässsä kohtaa (toistuuko?)	
+	csleep 1
+
+	dqb "VAIH: sha512sum -c ${1}/sha512sums.txt;echo \$ ?"
+	if [ -s ${1}/sha512sums.txt ] ; then
+		sha512sum -c ${1}/sha512sums.txt
+		echo $?
+		csleep 6
+	fi
 
 	local f
 	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
-
 	#VAIH:varmistus jotta sdi eityhjä+ajokelpoinen ennenq... (oikeastaan check_binaries* pitäisi hoitaa)
 
 	if [ $? -eq  0 ] ; then
@@ -365,160 +528,6 @@ function vommon() {
 		#HUOM. tässä ei tartte jos myöhemmin joka tap
 		exit 	
 	fi
-}
-
-#TODO:check_bin siirto jonnekin mangle_s tienoille
-#TODO:jos mahd ni Python-tyyppinen idea käyttöön ao. fktioon, $cmd=eval_cmd("cmd") tai jhopa $array["cmd"]=aval_cmd("cmd") 
-function check_binaries() {
-	dqb "ch3ck_b1nar135(${1} )"
-	dqb "sudo= ${odio} "
-	csleep 1
-
-	[ z"${1}" == "z" ] && exit 99
-	[ -d ~/Desktop/minimize/${1} ] || exit 100
-	dqb "params_ok"
-	csleep 1
-
-	#HUOM. smr-ip6tr tarvitaan changedns:n kanssa
-	#HUOM.2. odio, sco ja scm myös
-	smr=$(sudo which rm)
-	NKVD=$(sudo which shred)
-	ipt=$(sudo which iptables)
-	ip6t=$(sudo which ip6tables)
-	iptr=$(sudo which iptables-restore)
-	ip6tr=$(sudo which ip6tables-restore)
-
-	if [ y"${ipt}" == "y" ] ; then
-		echo "SHOULD INSTALL IPTABLES"
-	
-		pre_part3 ~/Desktop/minimize/${1}
-		pr4 ~/Desktop/minimize/${1}
-
-		ipt=$(sudo which iptables)
-		ip6t=$(sudo which ip6tables)
-		iptr=$(sudo which iptables-restore)
-		ip6tr=$(sudo which ip6tables-restore)
-	fi
-
-	[ -x ${ipt} ] || exit 5
-	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
-	[ -x ${ip6t} ] || exit 5
-	[ -x ${iptr} ] || exit 5
-	[ -x ${ip6tr} ] || exit 5
-
-	CB_LIST1="${smr} ${NKVD} ${ipt} ${ip6t} ${iptr} ${ip6tr} /sbin/halt /sbin/reboot"
-
-	#HUOM. seuraaviakin tarvitaan changedns:n kanssa
-	sco=$(sudo which chown)
-	scm=$(sudo which chmod)
-	whack=$(sudo which pkill)
-	sifu=$(sudo which ifup)
-	sifd=$(sudo which ifdown)
-	slinky=$(sudo which ln)
-	spc=$(sudo which cp)
-	#sudotettu mv saatttaa myös olla tarpeen tulevbaisuyydessä
-	svm=$(sudo which mv)
-
-	CB_LIST1="${CB_LIST1} ${sco} ${scm} ${whack} ${sifu} ${sifd} ${slinky} ${spc} ${svm}"
-	local x	
-
-#	if [ ${dnsm} -eq 1 ] ; then
-#		for x in dnsmasq ntpsec stubby ; do
-#			if [ -x /etc/init.d/${x} ] ; then
-#				CB_LIST1="${CB_LIST1} /etc/init.d/${x}"
-#			fi
-#		done
-#	fi
-
-	#HUOM. cb_list:in komentojen kanssa pitäsi paramettritkin spekasta, jos mahd, millä saa ajaa
-	dqb "second half of c_bin_1"
-	csleep 5
-	
-	#passwd mukaan listaan? ehkä ai tartte
-	#HUOM. listan sisältöä joutanee miettiä ja että missä kohtaa ajetaan
-	#mangle_s tekee samantap tarkistuksia joten riittää että ocs-kiakkailut niille mitkä eivät cb_list:issä
-	
-	for x in apt-get apt ip netstat dpkg tar mount umount 
-		do ocs ${x} 
-	done
-
-	sdi=$(sudo which dpkg)
-	sag=$(sudo which apt-get)
-	sa=$(sudo which apt)
-	sip=$(sudo which ip)
-	snt=$(sudo which netstat)
-	
-	#HUOM. gpgtar olisi vähän parempi kuin pelkkä tar, silleen niinqu tavallaan
-	srat=$(sudo which tar)
-
-	if [ ${debug} -eq 1 ] ; then
-		srat="${srat} -v "
-	fi
-
-	som=$(sudo which mount)
-	uom=$(sudo which umount)
-
-	#dqb "half_fdone"
-	#csleep 1
-	#
-	#ao. kohtaakin joutaisi miettiä, oli jotain nalkutusta 220325
-	#dch=$(find /sbin -name dhclient-script)
-	#[ x"${dch}" == "x" ] && exit 6
-	#[ -x ${dch} ] || exit 6
-	#jos laittaa meshiggah:iin mukaan ni ei voi olla sitä sha-juttus mukana koska x
-
-	#HUOM:tulisi speksata sudolle tarkemmin millä param on ok noita komentoja ajaa
-	dqb "b1nar135 0k" 
-	csleep 3
-}
-
-#VAIH:voisi tarkIStaa että mitkä komennot pitää jatkossa sudottaa kun omega ajettu (eli clouds käyttämät lähinnä)
-function check_binaries2() {
-	dqb "c0mm0n_lib.ch3ck_b1nar135.2()"
-
-	ipt="${odio} ${ipt} "
-	ip6t="${odio} ${ip6t} "
-	iptr="${odio} ${iptr} "
-	ip6tr="${odio} ${ip6tr} "
-
-	whack="${odio} ${whack} --signal 9 "
-	snt="${odio} ${snt} "
-	sharpy="${odio} ${sag} remove --purge --yes "
-	spd="${odio} ${sdi} -l "
-	sdi="${odio} ${sdi} -i "
-	
-	#HUOM. ${sag} VIIMEISENÄ
-	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
-	sag_u="${odio} ${sag} update "
-	sag="${odio} ${sag} "
-
-	sco="${odio} ${sco} "
-	scm="${odio} ${scm} "
-	sip="${odio} ${sip} "
-
-	sa="${odio} ${sa} "
-	sifu="${odio} ${sifu} "
-	sifd="${odio} ${sifd} "
-
-	smr="${odio} ${smr} "
-	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
-	#NKVD=$(${odio} which shred)
-	NKVD="${NKVD} -fu "
-	NKVD="${odio} ${NKVD}"
-	slinky="${odio} ${slinky} -s "
-
-	spc="${odio} ${spc} "
-	srat="${odio} ${srat} "
-	asy="${odio} ${sa} autoremove --yes"
-
-	fib="${odio} ${sa} --fix-broken install"
-	som="${odio} ${som} "
-	uom="${odio} ${uom} "
-	svm="${odio} ${svm}"	
-
-	dch="${odio} ${dch}"
-	dqb "b1nar135.2 0k.2" 
-	csleep 3
 }
 
 dqb "common_l1b_l0ad3d_5ucc35fully"
