@@ -28,7 +28,7 @@
 - changedns.sh can be used to change the network configuration to use plain-old-DNS and that's all folks , there is something going on with Daedalus and stubby i have to figure out
 (if there's problem with DNS, this script may be helpful)
 
-P.S. there may be some problems with access rights, invocation "chmod 0755 *.sh;chmod 0755 $distro;chmod 0644 $distro/conf*;chmod 0755 $distro/*.sh" helps with those. Shoulf fix that.
+P.S. there may be some problems with access rights, invocation "chmod 0755 ./*.sh;chmod 0755 $distro;chmod 0644 $distro/conf*;chmod 0755 $distro/*.sh" helps with those. Shoulf fix that.
 
 P.P.S. the elder scripts are moved into olds/ , they used to work (i think)
 
