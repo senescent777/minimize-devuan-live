@@ -19,11 +19,13 @@ function csleep() {
 ${smr} /etc/sudoers.d/live
 
 #HUOM.220325:testattu daedaluksen kanssa, toiminee suht koht toivotulla tavalla kun useRmod kommentoitu pois
-#jatkossa a) testaus ei-kommentoidun usermod'in kanssa
-#b) meshuggahiin vain ne komennot mitkä oikeasti tarvitaan, ja parametrien huomiointi jos mahd 
-#c) %sudo mäkeen /e/sudoers'ista? rootille root-salasanan vaatiminen?
-echo "${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev devuan (TODO)"
+#jatkossa a) testaus ei-kommentoidun usermod'in kanssa (toiminee)
+#b) meshuggahiin vain ne komennot mitkä oikeasti tarvitaan(alkaisi olla tehty)
+#, ja parametrien huomiointi jos mahd (TODO)
+#c) %sudo mäkeen /e/sudoers'ista? rootille root-salasanan vaatiminen? (TODO, sudoers_new liittyy)
+#d) usermod-kaikkailun jölkeen which aiheutti urputusta joten lisätty cb_list:iin (toiv ei sivuvaikutuksia)
 
+${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev devuan 
 csleep 5
 ${whack} xfce4-session
 #sössön sössön stna
