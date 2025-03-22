@@ -1,7 +1,19 @@
 #bash kutsuvaan skriptiin tulkiksi saattaa aiheuttaa vähemmän nalkutusta kuin sh
+
 odio=$(which sudo)
 [ y"${odio}" == "y" ] && exit 99 
 [ -x ${odio} ] || exit 100
+
+sco=$(sudo which chown)
+[ y"${sco}" == "y" ] && exit 98
+[ -x ${sco} ] || exit 97
+
+scm=$(sudo which chmod)
+[ y"${scm}" == "y" ] && exit 96
+[ -x ${sco} ] || exit 95
+
+sco="${odio} ${sco} "
+scm="${odio} ${scm} "
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -11,33 +23,33 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#TODO:$sco ja $scm käyttöön jatq?
+#VAIH:$sco ja $scm käyttöön jatq?
 fix_sudo() {
 	echo "fix_sud0.pt0"
-	${odio} chown -R 0:0 /etc/sudoers.d #pitääköhän juuri tässä tehdä tämä? jep
-	${odio} chmod 0440 /etc/sudoers.d/* 
+	${sco} -R 0:0 /etc/sudoers.d #pitääköhän juuri tässä tehdä tämä? jep
+	${scm} 0440 /etc/sudoers.d/* 
 	
-	${odio} chown -R 0:0 /etc/sudo*
-	${odio} chmod -R a-w /etc/sudo*
+	${sco} -R 0:0 /etc/sudo*
+	${scm} -R a-w /etc/sudo*
 
 	dqb "POT. DANGEROUS PT 1"
-	#sudo chown 0:0 /usr/lib/sudo/* #onko moista daedaluksessa?
-	#sudo chown 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+	#${sco} 0:0 /usr/lib/sudo/* #onko moista daedaluksessa?
+	#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 
 	dqb "fix_sud0.pt1"
-	${odio} chmod 0750 /etc/sudoers.d
-	${odio} chmod 0440 /etc/sudoers.d/*
+	${scm} 0750 /etc/sudoers.d
+	${scm} 0440 /etc/sudoers.d/*
 	
 	dqb "POT. DANGEROUS PT 2"
-	#sudo chmod -R a-w /usr/lib/sudo/* #onko moista daedaluksessa?
-	#sudo chmod -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+	#${scm} -R a-w /usr/lib/sudo/* #onko moista daedaluksessa?
+	#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 
-	#sudo chmod 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 
-	#sudo chmod 0444 /usr/lib/sudo/sudoers.so #onko moista daedaluksessa?
+	#${scm} 0444 /usr/lib/sudo/sudoers.so #onko moista daedaluksessa?
 	[ ${debug} -eq 1 ] && ls -las  /usr/bin/sudo*
 	csleep 5	
-	echo "d0n3"
+	echo "fix_sud0.d0n3"
 }
 
 fix_sudo
@@ -265,7 +277,6 @@ function part1() {
 
 	if [ y"${ipt}" == "y" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
-		#ne ppre_part3-jutut sopivaan kohtaan? (kts. daedalus->lib->check_bin)
 	else
 		for t in INPUT OUTPUT FORWARD ; do 
 			${ipt} -P ${t} DROP
@@ -293,15 +304,16 @@ function part1() {
 }
 
 function part3() {
-	dqb "part3()"
-	[ y"${1}" == "y" ] && exit 1
+	dqb "part3( ${1} )"
+	#[ y"${1}" == "y" ] && exit 1 #mikähän tässäkin on?
 	dqb "11"
 	[ -d ${1} ] || exit 2
 
-	dqb "22 ${sdi} ${1} / lib\*.deb"
-	[ z"${sdi}" == "z" ] && exit 33
+	dqb "22 ${sdi} ${1} / lib \* .deb"
+	#[ z"${sdi}" == "z" ] && exit 33
 	#[ -x ${sdi} ] || exit 44 #1. kokeilulla pyki, jemmaan toistaiseksi
-	
+	#220325:edelleenm jotain qsee tässsä kohtaa (toistuuko?)	
+
 	local f
 	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
 
@@ -357,13 +369,146 @@ function vommon() {
 	fi
 } 
 
-#VAIH:näitä josqs käyttööön
+function check_binaries() {
+	dqb "ch3ck_b1nar135(${1} )"
+	dqb "sudo= ${odio} "
+	csleep 1
+
+	[ z"${1}" == "z" ] && exit 99
+	[ -d ~/Desktop/minimize/${1} ] || exit 100
+	dqb "params_ok"
+	csleep 1
+
+	smr=$(sudo which rm)
+	NKVD=$(sudo which shred)
+
+	ipt=$(sudo which iptables)
+	ip6t=$(sudo which ip6tables)
+	iptr=$(sudo which iptables-restore)
+	ip6tr=$(sudo which ip6tables-restore)
+	sdi=$(sudo which dpkg)
+
+	if [ y"${ipt}" == "y" ] ; then
+		echo "SHOULD INSTALL IPTABLES"
+	
+		pre_part3 ~/Desktop/minimize/${1}
+		pr4 ~/Desktop/minimize/${1}
+
+		ipt=$(sudo which iptables)
+		ip6t=$(sudo which ip6tables)
+		iptr=$(sudo which iptables-restore)
+		ip6tr=$(sudo which ip6tables-restore)
+	fi
+
+	[ -x ${ipt} ] || exit 5
+	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
+	[ -x ${ip6t} ] || exit 5
+	[ -x ${iptr} ] || exit 5
+	[ -x ${ip6tr} ] || exit 5
+
+	CB_LIST1="${ipt} ${ip6t} ${iptr} ${ip6tr} "
+	local x
+	
+	#passwd mukaan listaan?
+	for x in chown chmod pkill apt-get apt ip netstat dpkg ifup ifdown rm ln cp tar mount umount 
+		do ocs ${x} 
+	done
+
+	sco=$(sudo which chown)
+	scm=$(sudo which chmod)
+	whack=$(sudo which pkill)
+	sag=$(sudo which apt-get)
+	sa=$(sudo which apt)
+	sip=$(sudo which ip)
+	snt=$(sudo which netstat)
+	
+	sifu=$(sudo which ifup)
+	sifd=$(sudo which ifdown)
+
+	slinky=$(sudo which ln)
+	spc=$(sudo which cp)
+	srat=$(sudo which tar)
+
+	if [ ${debug} -eq 1 ] ; then
+		srat="${srat} -v "
+	fi
+
+	#HUOM. gpgtar olisi vähän parempi kuin pelkkä tar, silleen niinqu tavallaan
+
+	som=$(sudo which mount)
+	uom=$(sudo which umount)
+
+	dqb "half_fdone"
+	csleep 1
+
+	#ao. kohtaakin joutaisi miettiä
+	#dch=$(find /sbin -name dhclient-script)
+	#[ x"${dch}" == "x" ] && exit 6
+	#[ -x ${dch} ] || exit 6
+
+	#HUOM:tulisi speksata sudolle tarkemmin millä param on ok noita komentoja ajaa
+	dqb "b1nar135 0k" 
+	csleep 3
+}
+
+#VAIH:voisi tarkIStaa että mitkä komennot pitää jatkossa sudottaa kun omega ajettu (eli clouds käyttämät lähinnä)
+function check_binaries2() {
+	dqb "c0mm0n_lib.ch3ck_b1nar135.2()"
+
+	ipt="${odio} ${ipt} "
+	ip6t="${odio} ${ip6t} "
+	iptr="${odio} ${iptr} "
+	ip6tr="${odio} ${ip6tr} "
+
+	whack="${odio} ${whack} --signal 9 "
+	snt="${odio} ${snt} "
+	sharpy="${odio} ${sag} remove --purge --yes "
+	spd="${odio} ${sdi} -l "
+	sdi="${odio} ${sdi} -i "
+	
+	#HUOM. ${sag} VIIMEISENÄ
+	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
+	sag_u="${odio} ${sag} update "
+	sag="${odio} ${sag} "
+
+	sco="${odio} ${sco} "
+	scm="${odio} ${scm} "
+	sip="${odio} ${sip} "
+
+	sa="${odio} ${sa} "
+	sifu="${odio} ${sifu} "
+	sifd="${odio} ${sifd} "
+
+	smr="${odio} ${smr} "
+	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
+	NKVD=$(${odio} which shred)
+	NKVD="${NKVD} -fu "
+	NKVD="${odio} ${NKVD}"
+	slinky="${odio} ${slinky} -s "
+
+	spc="${odio} ${spc} "
+	srat="${odio} ${srat} "
+	asy="${odio} ${sa} autoremove --yes"
+
+	fib="${odio} ${sa} --fix-broken install"
+	som="${odio} ${som} "
+	uom="${odio} ${uom} "	
+
+	dch="${odio} ${dch}"
+	dqb "b1nar135.2 0k.2" 
+	csleep 3
+}
+
+#==============================================================
+#josqhan viskoisi takaisin changedns:ään nämä clouds-jutut?
 function tod_dda() { 
+	#dqb "tod_dda(${1}) "
 	${ipt} -A b -p tcp --sport 853 -s ${1} -j c
 	${ipt} -A e -p tcp --dport 853 -d ${1} -j f
 }
 
 function dda_snd() {
+	#dqb "dda_snd( ${1})"
 	${ipt} -A b -p udp -m udp -s ${1} --sport 53 -j ACCEPT 
 	${ipt} -A e -p udp -m udp -d ${1} --dport 53 -j ACCEPT
 }
@@ -456,8 +601,13 @@ function clouds_pre() {
 	dqb "... done"
 }
 
+#VAIH:clouds-fktioiden siirtely vähän fiksumpaan järjkestykseen
+
 function clouds_post() {
 	dqb "common_lib.clouds_post() "
+	dqb "scm= ${scm}"
+	dqb "sco = ${sco}"
+	csleep 5
 
 	${scm} 0444 /etc/resolv.conf*
 	${sco} root:root /etc/resolv.conf*
@@ -485,152 +635,69 @@ function clouds_post() {
 	dqb "d0n3"
 }
 
-function check_binaries() {
-	dqb "ch3ck_b1nar135(${1} )"
-	dqb "sudo= ${odio} "
-	csleep 1
+function clouds_case0() {
+	dqb "clouds_case0()"
 
-	[ z"${1}" == "z" ] && exit 99
-	[ -d ~/Desktop/minimize/${1} ] || exit 100
-	dqb "params_ok"
-	csleep 1
-
-	smr=$(sudo which rm)
-	NKVD=$(sudo which shred)
-
-	ipt=$(sudo which iptables)
-	ip6t=$(sudo which ip6tables)
-	iptr=$(sudo which iptables-restore)
-	ip6tr=$(sudo which ip6tables-restore)
-	sdi=$(sudo which dpkg)
+	${slinky} /etc/resolv.conf.OLD /etc/resolv.conf
+	${slinky} /etc/dhcp/dhclient.conf.OLD /etc/dhcp/dhclient.conf
+	${spc} /sbin/dhclient-script.OLD /sbin/dhclient-script
 
 	if [ y"${ipt}" == "y" ] ; then
-		echo "SHOULD INSTALL IPTABLES"
-	
-		pre_part3 ~/Desktop/minimize/${1}
-		pr4 ~/Desktop/minimize/${1}
+		dqb "SHOULD 1NSTALL TABL35"
+	else
+		${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
+		${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
 
-		ipt=$(sudo which iptables)
-		ip6t=$(sudo which ip6tables)
-		iptr=$(sudo which iptables-restore)
-		ip6tr=$(sudo which ip6tables-restore)
+		for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do dda_snd ${s} ; done	
 	fi
 
-	[ -x ${ipt} ] || exit 5
-	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
-	[ -x ${ip6t} ] || exit 5
-	[ -x ${iptr} ] || exit 5
-	[ -x ${ip6tr} ] || exit 5
-
-	CB_LIST1="${ipt} ${ip6t} ${iptr} ${ip6tr} "
-	local x
-	
-	#passwd mukaan listaan?
-	for x in chown chmod pkill apt-get apt ip netstat dpkg ifup ifdown rm ln cp tar mount umount 
-		do ocs ${x} 
-	done
-
-	sco=$(sudo which chown)
-	scm=$(sudo which chmod)
-	whack=$(sudo which pkill)
-	sag=$(sudo which apt-get)
-	sa=$(sudo which apt)
-	sip=$(sudo which ip)
-	snt=$(sudo which netstat)
-	
-	sifu=$(sudo which ifup)
-	sifd=$(sudo which ifdown)
-
-	slinky=$(sudo which ln)
-	spc=$(sudo which cp)
-	srat=$(sudo which tar)
-
-	if [ ${debug} -eq 1 ] ; then
-		srat="${srat} -v "
-	fi
-
-	#HUOM. gpgtar olisi vähän parempi kuin pelkkä tar, silleen niinqu tavallaan
-
-	som=$(sudo which mount)
-	uom=$(sudo which umount)
-
-	dqb "half_fdone"
-	csleep 1
-
-	dch=$(find /sbin -name dhclient-script)
-	[ x"${dch}" == "x" ] && exit 6
-	[ -x ${dch} ] || exit 6
-
-	#HUOM:tulisi speksata sudolle tarkemmin millä param on ok noita komentoja ajaa
-	dqb "b1nar135 0k" 
-	csleep 3
+	${odio} /etc/init.d/dnsmasq stop
+	${odio} /etc/init.d/ntpsec stop
+	csleep 5
+	${whack} dnsmasq*
+	${whack} ntp*
 }
 
-#TODO:voisi tarkIStaa että mitkä komennot pitää jatkossa sudottaa kun omega ajettu (eli clouds käyttämät lähinnä)
-function check_binaries2() {
-	dqb "c0mm0n_lib.ch3ck_b1nar135.2()"
+function clouds_case1() { #VAIH: -> common_lib
+	echo "WORK IN PROGRESS"
 
-	ipt="${odio} ${ipt} "
-	ip6t="${odio} ${ip6t} "
-	iptr="${odio} ${iptr} "
-	ip6tr="${odio} ${ip6tr} "
-
-	whack="${odio} ${whack} --signal 9 "
-	snt="${odio} ${snt} "
-	sharpy="${odio} ${sag} remove --purge --yes "
-	spd="${odio} ${sdi} -l "
-	sdi="${odio} ${sdi} -i "
-	
-	#HUOM. ${sag} VIIMEISENÄ
-	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
-	sag_u="${odio} ${sag} update "
-	sag="${odio} ${sag} "
-
-	sco="${odio} ${sco} "
-	scm="${odio} ${scm} "
-	sip="${odio} ${sip} "
-
-	sa="${odio} ${sa} "
-	sifu="${odio} ${sifu} "
-	sifd="${odio} ${sifd} "
-
-	smr="${odio} ${smr} "
-	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
-	NKVD=$(${odio} which shred)
-	NKVD="${NKVD} -fu "
-	NKVD="${odio} ${NKVD}"
-	slinky="${odio} ${slinky} -s "
-
-	spc="${odio} ${spc} "
-	srat="${odio} ${srat} "
-	asy="${odio} ${sa} autoremove --yes"
-
-	fib="${odio} ${sa} --fix-broken install"
-	som="${odio} ${som} "
-	uom="${odio} ${uom} "	
-
-	dch="${odio} ${dch}"
-	dqb "b1nar135.2 0k.2" 
-	csleep 3
+#		if [ -s /etc/resolv.conf.new ] ; then
+#			echo "r30lv.c0nf alr3ady 3x15t5"
+#		else
+#			sudo touch /etc/resolv.conf.new
+#			sudo chmod a+w /etc/resolv.conf.new
+#			sudo echo "nameserver 127.0.0.1" > /etc/resolv.conf.new
+#			sudo chmod 0444 /etc/resolv.conf.new
+#			sudo chown root:root /etc/resolv.conf.new
+#		fi
+#
+#		${slinky} /etc/resolv.conf.new /etc/resolv.conf
+#		${slinky} /etc/dhcp/dhclient.conf.new /etc/dhcp/dhclient.conf
+#		${spc} /sbin/dhclient-script.new /sbin/dhclient-script
+#
+#		if [ y"${ipt}" == "y" ] ; then
+#			echo "SHOULD 1NSTALL TABL35"
+#		else
+#			${ipt} -A INPUT -p tcp -m tcp --sport 853 -j b
+#			${ipt} -A OUTPUT -p tcp -m tcp --dport 853 -j e
+#			for s in $(grep -v '#' /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do tod_dda ${s} ; done
+#		fi
+#
+#		echo "dns";sleep 2
+#		${odio} /etc/init.d/dnsmasq restart
+#		pgrep dnsmasq
+#
+#		echo "stu";sleep 2
+#		${whack} stubby* #090325: pitäisiköhän tämä muuttaa?
+#		sleep 3	
+#			
+#		[ -f /run/stubby.pid ] || sudo touch /run/stubby.pid
+#		${sco} devuan:devuan /run/stubby.pid #$n
+#		${scm} 0644 /run/stubby.pid 
+#		sleep 3
+#
+#		su devuan -c '/usr/bin/stubby -C /home/stubby/.stubby.yml -g'
+#		pgrep stubby
 }
-
-#function clouds_case0() { TODO:käyttöön jatqs
-#	${slinky} /etc/resolv.conf.OLD /etc/resolv.conf
-#	${slinky} /etc/dhcp/dhclient.conf.OLD /etc/dhcp/dhclient.conf
-#	${spc} /sbin/dhclient-script.OLD /sbin/dhclient-script
-#
-#	if [ y"${ipt}" == "y" ] ; then
-#		dqb "SHOULD 1NSTALL TABL35"
-#	else
-#		${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
-#		${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
-#
-#		for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do dda_snd ${s} ; done	
-#	fi
-#
-#	${odio} /etc/init.d/dnsmasq stop
-#	${odio} /etc/init.d/ntpsec stop
-#	csleep 5
-#	${whack} dnsmasq*
-#	${whack} ntp*
-#}
+#====================================================================
+dqb dqb "common_l1b_l0ad3d_5ucc35fully"

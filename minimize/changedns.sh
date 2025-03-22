@@ -2,6 +2,7 @@
 debug=1
 distro=""
 mode=-1
+sudo chmod a-wx ./clouds*
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -27,6 +28,7 @@ else
 	echo "${0} <mode> <other_param>";exit
 fi
 
+debug=1
 . ~/Desktop/minimize/common_lib.sh
 dqb "mode=${mode}"
 dqb "distro=${distro}"
@@ -38,12 +40,19 @@ else
 	echo "FALLBACK"
 
 	smr=$(sudo which rm)
-	ipt=$(sudo which iptables)
+	ipt=$(sudo which iptables) #ipt vai sipt?
 	slinky=$(sudo which ln)
 	spc=$(sudo which cp)
 	slinky="${slinky} -s "
 	sco=$(sudo which chown)
 	scm=$(sudo which chmod)	
+
+	smr="${odio} ${smr}"
+	ipt="${odio} ${ipt}"
+	spc="${odio} ${spc}"
+	slinky="${odio} ${slinky}"
+	sco="${odio} ${sco}"
+	scm="${odio} ${scm}"
 
 	echo "when in trouble, sudo chmod 0755 ${distro}; sudo chmod  0755 ${distro}/*.sh; sudo chmod 0644 ${distro}/conf may help "
 fi

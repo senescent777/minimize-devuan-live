@@ -32,21 +32,20 @@ else
 	exit 67
 fi
 
-echo "q=\$(${mkt} -d)"
-echo "cd \$q"
+q=$(${mkt} -d)
+cd ${q}
 
-echo "${tig} clone https://github.com/senescent777/minimize-devuan-live"
-echo "cd minimize-devuan-live"
+${tig} clone https://github.com/senescent777/minimize-devuan-live
+cd minimize-devuan-live
 
-#VAIH:ao- if-blkkiin liittyen jos poistaisi ghubista minimize-hamistosta välistä sen /h/d-osuuden
 if [ -d ~/Desktop/minimize ] ; then #HUOM. pitäisköhän tämä muuttaa?
-	echo "shred -fu ~/Desktop/minimize/* "
+	#echo "shred -fu ~/Desktop/minimize/* "
 	echo "rm -rf ~/Desktop/minimize/*"
 	echo "mv minimize/* ~/Desktop/minimize"
 fi
 
-echo "sudo chmod 0755 ~/Desktop/minimize/${1}"
-echo "sudo chmod 0755 ~/Desktop/minimize/${1}/*.sh"
+${scm} 0755 ~/Desktop/minimize/${1}
+${scm} 0755 ~/Desktop/minimize/${1}/*.sh
 
-echo "cd ~/Desktop/minimize"
-echo "./${1}/export.sh 0 /tmp/vomit.tar ${1}"
+cd ~/Desktop/minimize
+echo "./export2.sh 0 /tmp/vomit.tar ${1}"
