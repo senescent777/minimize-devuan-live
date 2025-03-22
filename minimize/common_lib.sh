@@ -420,13 +420,19 @@ function check_binaries() {
 	svm=$(sudo which mv)
 
 	CB_LIST1="${CB_LIST1} ${sco} ${scm} ${whack} ${sifu} ${sifd} ${slinky} ${spc} ${svm}"
-	#/etc/init.d/{dnsmasq,ntpsec,stubby) tarvitaan changedns'n kanssa	
-	#...eli pitäisi vähitellen lisätä(TODO)
-	#HUOM. cb_list:in komentojen kanssa pitäsi paramettritkin spekasta, jos mahd, millä saa ajaa
+	local x	
 
+#	if [ ${dnsm} -eq 1 ] ; then
+#		for x in dnsmasq ntpsec stubby ; do
+#			if [ -x /etc/init.d/${x} ] ; then
+#				CB_LIST1="${CB_LIST1} /etc/init.d/${x}"
+#			fi
+#		done
+#	fi
+
+	#HUOM. cb_list:in komentojen kanssa pitäsi paramettritkin spekasta, jos mahd, millä saa ajaa
 	dqb "second half of c_bin_1"
 	csleep 5
-	local x
 	
 	#passwd mukaan listaan? ehkä ai tartte
 	#HUOM. listan sisältöä joutanee miettiä ja että missä kohtaa ajetaan
