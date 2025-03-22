@@ -23,7 +23,6 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#VAIH:$sco ja $scm käyttöön jatq?
 fix_sudo() {
 	echo "fix_sud0.pt0"
 	${sco} -R 0:0 /etc/sudoers.d #pitääköhän juuri tässä tehdä tämä? jep
@@ -427,13 +426,13 @@ function check_binaries() {
 
 	slinky=$(sudo which ln)
 	spc=$(sudo which cp)
+
+	#HUOM. gpgtar olisi vähän parempi kuin pelkkä tar, silleen niinqu tavallaan
 	srat=$(sudo which tar)
 
 	if [ ${debug} -eq 1 ] ; then
 		srat="${srat} -v "
 	fi
-
-	#HUOM. gpgtar olisi vähän parempi kuin pelkkä tar, silleen niinqu tavallaan
 
 	som=$(sudo which mount)
 	uom=$(sudo which umount)
@@ -441,7 +440,7 @@ function check_binaries() {
 	dqb "half_fdone"
 	csleep 1
 
-	#ao. kohtaakin joutaisi miettiä
+	#ao. kohtaakin joutaisi miettiä, oli jotain nalkutusta 220325
 	#dch=$(find /sbin -name dhclient-script)
 	#[ x"${dch}" == "x" ] && exit 6
 	#[ -x ${dch} ] || exit 6
@@ -499,205 +498,4 @@ function check_binaries2() {
 	csleep 3
 }
 
-#==============================================================
-#josqhan viskoisi takaisin changedns:ään nämä clouds-jutut?
-function tod_dda() { 
-	#dqb "tod_dda(${1}) "
-	${ipt} -A b -p tcp --sport 853 -s ${1} -j c
-	${ipt} -A e -p tcp --dport 853 -d ${1} -j f
-}
-
-function dda_snd() {
-	#dqb "dda_snd( ${1})"
-	${ipt} -A b -p udp -m udp -s ${1} --sport 53 -j ACCEPT 
-	${ipt} -A e -p udp -m udp -d ${1} --dport 53 -j ACCEPT
-}
-
-#HUOM.220624:stubbyn asentumisen ja käynnistymisen kannalta sleep saattaa olla tarpeen
-function ns2() {
-	[ y"${1}" == "y" ] && exit
-	dqb "ns2( ${1} )"
-	${scm} u+w /home
-	csleep 3
-
-	${odio} /usr/sbin/userdel ${1}
-	sleep 3
-
-	${odio} adduser --system ${1}
-	sleep 3
-
-	${scm} go-w /home
-	${sco} -R ${1}:65534 /home/${1}/ #HUOM.280125: tässä saattaa mennä metsään ... tai sitten se /r/s.pid
-	dqb "d0n3"
-	csleep 4	
-
-	[ ${debug} -eq 1 ]  && ls -las /home
-	csleep 3
-}
-
-function ns4() {
-	dqb "ns4( ${1} )"
-
-	${scm} u+w /run
-	${odio} touch /run/${1}.pid
-	${scm} 0600 /run/${1}.pid
-	${sco} ${1}:65534 /run/${1}.pid
-	${scm} u-w /run
-
-	sleep 5
-	${whack} ${1}* #saattaa joutua muuttamaan vielä
-	sleep 5
-
-	dqb "starting ${1} in 5 secs"
-
-	sleep 5
-	${odio} -u ${1} ${1} -g
-	echo $?
-
-	sleep 1
-	pgrep stubby*
-	sleep 5
-}
-
-#HUOM.toisessa clouds:issa taisi olla pre-osuudessa muutakin
-#pitäisiköhän se ipt-testi olla tässä?
-#HUOM. jos mahd ni pitäisi kai sudoersissa speksata millä parametreilla mitäkin komerntoja ajetaan (man sudo, man sudoers)
-function clouds_pre() {
-	dqb "common_lib.clouds_pre()"
-
-	#HUOM. rm-kikkailuja sietää vähän miettiä, jos vaikka prujaisi daedaluksen clouds:ista ne kikkrilut
-	${smr} /etc/resolv.conf
-#if [ -s /etc/resolv.conf.new ] || [ -s /etc/resolv.conf.OLD ] ; then 
-#	${smr} /etc/resolv.conf
-#	[ $? -gt 0 ] && echo "SHOULD USE SUDO WITH THIS SCRIPT OR OTHER TROUBLE WITH REMOVING FILES"
-#fi
-
-	${smr} /etc/dhcp/dhclient.conf
-#
-#if [ -s /etc/dhcp/dhclient.conf.new ] || [ -s /etc/dhcp/dhclient.conf.OLD ] ; then 
-#	${smr} /etc/dhcp/dhclient.conf
-#	[ $? -gt 0 ] && echo "SHOULD USE SUDO WITH THIS SCRIPT OR OTHER TROUBLE WITH REMOVING FILES"
-#fi
-	${smr} /sbin/dhclient-script
-##ei välttis suhtaudu hyvin lib.sh:n alkuun, tulisi siirtää seur. if-blokin jölkeen (?)
-#if [ -s /sbin/dhclient-script.new ] || [ -s /sbin/dhclient-script.OLD ] ; then 
-#	echo "${smr} /sbin/dhclient-script"	
-#	${smr} /sbin/dhclient-script
-#	[ $? -gt 0 ] && echo "SHOULD USE SUDO WITH THIS SCRIPT OR OTHER TROUBLE WITH REMOVING FILES"
-#fi
-	csleep 1
-	#HUOM.160325:lisätty uutena varm. vuoksi
-	${iptr} /etc/iptables/rules.v4
-	${ip6tr} /etc/iptables/rules.v6
-	csleep 2
-
-	#tässä oikea paikka tables-muutoksille vai ei?
-	${ipt} -F b
-	${ipt} -F e
-
-	${ipt} -D INPUT 5
-	${ipt} -D OUTPUT 6
-
-	dqb "... done"
-}
-
-#VAIH:clouds-fktioiden siirtely vähän fiksumpaan järjkestykseen
-
-function clouds_post() {
-	dqb "common_lib.clouds_post() "
-	dqb "scm= ${scm}"
-	dqb "sco = ${sco}"
-	csleep 5
-
-	${scm} 0444 /etc/resolv.conf*
-	${sco} root:root /etc/resolv.conf*
-
-	${scm} 0444 /etc/dhcp/dhclient*
-	${sco} root:root /etc/dhcp/dhclient*
-	${scm} 0755 /etc/dhcp
-
-	${scm} 0555 /sbin/dhclient*
-	${sco} root:root /sbin/dhclient*
-	${scm} 0755 /sbin
-
-	${sco} -R root:root /etc/iptables
-	${scm} 0400 /etc/iptables/*
-	${scm} 0750 /etc/iptables
- 
-	csleep 2
-
-	if [ ${debug} -eq 1 ] ; then
-		${ipt} -L  #
-		${ip6t} -L #parempi ajaa vain jos löytyy
-		csleep 5
-	fi #
-
-	dqb "d0n3"
-}
-
-function clouds_case0() {
-	dqb "clouds_case0()"
-
-	${slinky} /etc/resolv.conf.OLD /etc/resolv.conf
-	${slinky} /etc/dhcp/dhclient.conf.OLD /etc/dhcp/dhclient.conf
-	${spc} /sbin/dhclient-script.OLD /sbin/dhclient-script
-
-	if [ y"${ipt}" == "y" ] ; then
-		dqb "SHOULD 1NSTALL TABL35"
-	else
-		${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
-		${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
-
-		for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do dda_snd ${s} ; done	
-	fi
-
-	${odio} /etc/init.d/dnsmasq stop
-	${odio} /etc/init.d/ntpsec stop
-	csleep 5
-	${whack} dnsmasq*
-	${whack} ntp*
-}
-
-function clouds_case1() { #VAIH: -> common_lib
-	echo "WORK IN PROGRESS"
-
-#		if [ -s /etc/resolv.conf.new ] ; then
-#			echo "r30lv.c0nf alr3ady 3x15t5"
-#		else
-#			sudo touch /etc/resolv.conf.new
-#			sudo chmod a+w /etc/resolv.conf.new
-#			sudo echo "nameserver 127.0.0.1" > /etc/resolv.conf.new
-#			sudo chmod 0444 /etc/resolv.conf.new
-#			sudo chown root:root /etc/resolv.conf.new
-#		fi
-#
-#		${slinky} /etc/resolv.conf.new /etc/resolv.conf
-#		${slinky} /etc/dhcp/dhclient.conf.new /etc/dhcp/dhclient.conf
-#		${spc} /sbin/dhclient-script.new /sbin/dhclient-script
-#
-#		if [ y"${ipt}" == "y" ] ; then
-#			echo "SHOULD 1NSTALL TABL35"
-#		else
-#			${ipt} -A INPUT -p tcp -m tcp --sport 853 -j b
-#			${ipt} -A OUTPUT -p tcp -m tcp --dport 853 -j e
-#			for s in $(grep -v '#' /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do tod_dda ${s} ; done
-#		fi
-#
-#		echo "dns";sleep 2
-#		${odio} /etc/init.d/dnsmasq restart
-#		pgrep dnsmasq
-#
-#		echo "stu";sleep 2
-#		${whack} stubby* #090325: pitäisiköhän tämä muuttaa?
-#		sleep 3	
-#			
-#		[ -f /run/stubby.pid ] || sudo touch /run/stubby.pid
-#		${sco} devuan:devuan /run/stubby.pid #$n
-#		${scm} 0644 /run/stubby.pid 
-#		sleep 3
-#
-#		su devuan -c '/usr/bin/stubby -C /home/stubby/.stubby.yml -g'
-#		pgrep stubby
-}
-#====================================================================
 dqb dqb "common_l1b_l0ad3d_5ucc35fully"
