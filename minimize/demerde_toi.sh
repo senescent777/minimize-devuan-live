@@ -37,6 +37,7 @@ cd ${q}
 
 ${tig} clone https://github.com/senescent777/minimize-devuan-live
 cd minimize-devuan-live
+[ ${debug} -eq 1 ] && ls -laRs;sleep 10
 
 if [ -d ~/Desktop/minimize ] ; then #HUOM. pitäisköhän tämä muuttaa?
 	#echo "shred -fu ~/Desktop/minimize/* "
