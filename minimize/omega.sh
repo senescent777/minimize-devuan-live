@@ -15,8 +15,15 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-echo "${smr} /etc/sudoers.d/live (TODO)"
+#olisikohan shred parempi tässä?
+${smr} /etc/sudoers.d/live
+
+#HUOM.220325:testattu daedaluksen kanssa, toiminee suht koht toivotulla tavalla kun useRmod kommentoitu pois
+#jatkossa a) testaus ei-kommentoidun usermod'in kanssa
+#b) meshuggahiin vain ne komennot mitkä oikeasti tarvitaan, ja parametrien huomiointi jos mahd 
+#c) %sudo mäkeen /e/sudoers'ista? rootille root-salasanan vaatiminen?
 echo "${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev devuan (TODO)"
+
 csleep 5
 ${whack} xfce4-session
 #sössön sössön stna

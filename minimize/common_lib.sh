@@ -23,6 +23,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+#josko joku päivä uskaltaisi kommentoituja rivejä tuiopda takaisin jossain muodossa?
 fix_sudo() {
 	echo "fix_sud0.pt0"
 	${sco} -R 0:0 /etc/sudoers.d #pitääköhän juuri tässä tehdä tämä? jep
@@ -378,13 +379,16 @@ function check_binaries() {
 	dqb "params_ok"
 	csleep 1
 
+	#HUOM. smr-ip6tr tarvitaan changedns:n kanssa
+	#HUOM.2. odio, sco ja scm myös
 	smr=$(sudo which rm)
 	NKVD=$(sudo which shred)
-
 	ipt=$(sudo which iptables)
 	ip6t=$(sudo which ip6tables)
 	iptr=$(sudo which iptables-restore)
 	ip6tr=$(sudo which ip6tables-restore)
+
+	#oikeastaan tätä ei tartte ihan näin aikaisin alustaa
 	sdi=$(sudo which dpkg)
 
 	if [ y"${ipt}" == "y" ] ; then
@@ -413,19 +417,28 @@ function check_binaries() {
 		do ocs ${x} 
 	done
 
+	#HUOM. sco,scm tarvitaan changedns:n kanssa
 	sco=$(sudo which chown)
 	scm=$(sudo which chmod)
+
+	#whack oltava meshuggah:issa mukana jatrqssa
 	whack=$(sudo which pkill)
+
 	sag=$(sudo which apt-get)
 	sa=$(sudo which apt)
 	sip=$(sudo which ip)
 	snt=$(sudo which netstat)
 	
+	#nämäkinm 2 pitäisi saada sudotettua jatqssa(omegan ajon jölk)
 	sifu=$(sudo which ifup)
 	sifd=$(sudo which ifdown)
 
+	#HUOM. slinky,spc tarvitaan changedns:n kanssa
 	slinky=$(sudo which ln)
 	spc=$(sudo which cp)
+
+	#/etc/init.d/{dnsmasq,ntpsec,stubby) tarvitaan changedns'n kanssa
+	#sudotettu mv saatttaa myös olla tarpeen tulevbaisuyydessä
 
 	#HUOM. gpgtar olisi vähän parempi kuin pelkkä tar, silleen niinqu tavallaan
 	srat=$(sudo which tar)
@@ -444,6 +457,7 @@ function check_binaries() {
 	#dch=$(find /sbin -name dhclient-script)
 	#[ x"${dch}" == "x" ] && exit 6
 	#[ -x ${dch} ] || exit 6
+	#jos laittaa meshiggah:iin mukaan ni ei voi olla sitä sha-juttus mukana koska x
 
 	#HUOM:tulisi speksata sudolle tarkemmin millä param on ok noita komentoja ajaa
 	dqb "b1nar135 0k" 
