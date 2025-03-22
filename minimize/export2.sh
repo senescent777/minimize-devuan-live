@@ -65,7 +65,7 @@ function pre() {
 
 	if [ -d ~/Desktop/minimize/${1} ] ; then
 		dqb "5TNA"
-
+		#HUOM. tässä yhteydessä sudon kautta vetöäminen lienee liikaa
 		${scm} 0755 ~/Desktop/minimize/${1}
 		${scm} 0755 ~/Desktop/minimize/*.sh
 		${scm} 0755 ~/Desktop/minimize/${1}/*.sh
@@ -114,6 +114,7 @@ function tp1() {
 	dqb "params_ok"
 	csleep 4
 
+	#HUOM. tässä yhteydessä sudon kautta vetöäminen lienee liikaa		
 	${scm} -R a-wx ~/Desktop/minimize/*
 	${scm} 0755 ~/Desktop/minimize
 
@@ -216,7 +217,7 @@ function tp4() {
 		${NKVD} ~/Desktop/minimize/${2}/*.deb
 	
 		#HUOM.070325: varm vuoksi speksataan että *.deb
-		${odio} mv ${pkgdir}/*.deb ~/Desktop/minimize/${2}
+		${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
 		${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb
 	fi
 
@@ -266,6 +267,7 @@ function tp3() {
 	q=$(mktemp -d)
 	cd ${q}
 
+	#TODO:jatqos sudoers.new tuonne
 	${tig} clone https://github.com/senescent777/project.git
 	[ $? -eq 0 ] || exit 66
 	cd project
@@ -274,8 +276,8 @@ function tp3() {
 	${spc} /etc/resolv.conf ./etc/resolv.conf.OLD
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.OLD
 
-	sudo mv ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa
-	sudo mv ./etc/network/interfaces ./etc/network/interfaces.tmp
+	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa
+	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 
 	${sco} -R root:root ./etc; ${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin; ${scm} -R a-w ./sbin
@@ -303,13 +305,13 @@ function tpu() {
 
 	dqb "TUP PART 2"
 
-	#${sag} upgrade -u
-	sudo apt-get upgrade -u
+	${sag} upgrade -u
+	#sudo apt-get upgrade -u
 	echo $?
 	csleep 5	
 
 	dqb "UTP PT 3"
-	${odio} mv ${pkgdir}/*.deb ~/Desktop/minimize/${2}
+	${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
 	${srat} -cf ${1} ~/Desktop/minimize/${2}/*.deb
 	${sifd} ${iface}
 
