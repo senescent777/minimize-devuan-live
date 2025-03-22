@@ -70,7 +70,7 @@ function ocs() {
 	fi
 	
 	#dqb "paramz_0k"
-	CB_LIST1="${CB_LIST1} ${tmp} " #ja nimeäminenkin...
+	#CB_LIST1="${CB_LIST1} ${tmp} " #ja nimeäminenkin...
 }
 
 #HUOM. jos tätä käyttää ni scm ja sco pitää tietenkin esitellä alussa
@@ -100,9 +100,9 @@ function mangle_s() {
 	#dqb "mangle_s( ${1} ${2})"
 	csleep 1
 
-	[ y"${1}" == "y" ] && exit
+	[ y"${1}" == "y" ] && exit 44
 	[ -x ${1} ] || exit 55 #oli -s
-	[ y"${2}" == "y" ] && exit 
+	[ y"${2}" == "y" ] && exit 43
 	[ -f ${2} ] || exit 54
 	#dqb "params_oik"
 
@@ -135,7 +135,7 @@ function pre_enforce() {
 	if [ z"${1}" != "z" ] ; then
 		dqb "333"
 		${sco} ${1}:${1} ${q}/meshuggah 
- 		${scm} 0660 ${q}/meshuggah
+ 		${scm} 0660 ${q}/meshuggah #vissiin uskalla tuosta tiukentaa
 	fi	
 
 	##HUOM.lib- ja conf- kikkailujen takia ei ehkä kantsikaan ajaa vlouds2:sta sudon kautta kokonaisuudessaan
@@ -151,7 +151,7 @@ function pre_enforce() {
 	##fi
 
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
-	for f in /sbin/halt /sbin/reboot ; do mangle_s ${f} ${q}/meshuggah ; done
+	#for f in /sbin/halt /sbin/reboot ; do mangle_s ${f} ${q}/meshuggah ; done
 	
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 5 secs"
@@ -159,7 +159,7 @@ function pre_enforce() {
 
 		${scm} a-wx ${q}/meshuggah
 		${sco} root:root ${q}/meshuggah	
-		${odio} mv ${q}/meshuggah /etc/sudoers.d
+		${odio} mv ${q}/meshuggah /etc/sudoers.d #svm
 	fi
 
 	#HUOM.190125 nykyään tapahtuu ulosheitto xfce:stä jotta sudo-muutokset tulisivat voimaan?	
@@ -183,9 +183,7 @@ function enforce_access() {
 		mangle2 ${f}
 	done
 
-	#sudoersin sisältöä voisi kai tiukentaa kanssa(?)
 	${scm} 0755 /etc 
-		
 	${sco} -R root:root /var
 	${scm} -R 0755 /var
 
@@ -204,7 +202,7 @@ function enforce_access() {
 
 	#HUOM.140325:riittääköhän ao. tarkistus?
 	if [ y"${1}" != "y" ] ; then
-		dqb "444"
+		dqb "${sco} -R ${1}:${1} ~"
 		${sco} -R ${1}:${1} ~
 		csleep 5
 	fi
@@ -234,8 +232,8 @@ function enforce_access() {
 	${sco} root:root /tmp
 }
 
+#HUOM.220325:sudotuksessa täytyy huomioida tämän fktion sisältämät komennot
 function part1_5() {
-	#HUOM.1303225:joskohan tänä blokki toimisi
 	if [ z"${pkgsrc}" != "z" ] ; then
 		if [ -d ~/Desktop/minimize/${1} ] ; then
 			if [ ! -s /etc/apt/sources.list.${1} ] ; then
@@ -245,7 +243,8 @@ function part1_5() {
 				dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
 				csleep 3
 
-				[ -f /etc/apt/sources.list ] && ${odio} mv /etc/apt/sources.list /etc/apt/sources.list.${g}
+				[ -f /etc/apt/sources.list ] && ${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
+				#TODO:jatrqs touch ilman sudotusta
 				${odio} touch /etc/apt/sources.list.${1} 
 				${scm} a+w /etc/apt/sources.list.${1} #joskohan u+w kuitenbkin riittäisi tässä? No Ei
 
@@ -297,7 +296,6 @@ function part1() {
 
 	part1_5 ${1}
 
-	#${scm} a-w /etc/apt/sources.list
 	${sco} -R root:root /etc/apt 
 	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WHORE (maybe i have tourettes)"
@@ -367,8 +365,10 @@ function vommon() {
 		#HUOM. tässä ei tartte jos myöhemmin joka tap
 		exit 	
 	fi
-} 
+}
 
+#TODO:check_bin siirto jonnekin mangle_s tienoille
+#TODO:jos mahd ni Python-tyyppinen idea käyttöön ao. fktioon, $cmd=eval_cmd("cmd") tai jhopa $array["cmd"]=aval_cmd("cmd") 
 function check_binaries() {
 	dqb "ch3ck_b1nar135(${1} )"
 	dqb "sudo= ${odio} "
@@ -388,9 +388,6 @@ function check_binaries() {
 	iptr=$(sudo which iptables-restore)
 	ip6tr=$(sudo which ip6tables-restore)
 
-	#oikeastaan tätä ei tartte ihan näin aikaisin alustaa
-	sdi=$(sudo which dpkg)
-
 	if [ y"${ipt}" == "y" ] ; then
 		echo "SHOULD INSTALL IPTABLES"
 	
@@ -409,37 +406,42 @@ function check_binaries() {
 	[ -x ${iptr} ] || exit 5
 	[ -x ${ip6tr} ] || exit 5
 
-	CB_LIST1="${ipt} ${ip6t} ${iptr} ${ip6tr} "
+	CB_LIST1="${smr} ${NKVD} ${ipt} ${ip6t} ${iptr} ${ip6tr} /sbin/halt /sbin/reboot"
+
+	#HUOM. seuraaviakin tarvitaan changedns:n kanssa
+	sco=$(sudo which chown)
+	scm=$(sudo which chmod)
+	whack=$(sudo which pkill)
+	sifu=$(sudo which ifup)
+	sifd=$(sudo which ifdown)
+	slinky=$(sudo which ln)
+	spc=$(sudo which cp)
+	#sudotettu mv saatttaa myös olla tarpeen tulevbaisuyydessä
+	svm=$(sudo which mv)
+
+	CB_LIST1="${CB_LIST1} ${sco} ${scm} ${whack} ${sifu} ${sifd} ${slinky} ${spc} ${svm}"
+	#/etc/init.d/{dnsmasq,ntpsec,stubby) tarvitaan changedns'n kanssa	
+	#...eli pitäisi vähitellen lisätä(TODO)
+	#HUOM. cb_list:in komentojen kanssa pitäsi paramettritkin spekasta, jos mahd, millä saa ajaa
+
+	dqb "second half of c_bin_1"
+	csleep 5
 	local x
 	
-	#passwd mukaan listaan?
-	for x in chown chmod pkill apt-get apt ip netstat dpkg ifup ifdown rm ln cp tar mount umount 
+	#passwd mukaan listaan? ehkä ai tartte
+	#HUOM. listan sisältöä joutanee miettiä ja että missä kohtaa ajetaan
+	#mangle_s tekee samantap tarkistuksia joten riittää että ocs-kiakkailut niille mitkä eivät cb_list:issä
+	
+	for x in apt-get apt ip netstat dpkg tar mount umount 
 		do ocs ${x} 
 	done
 
-	#HUOM. sco,scm tarvitaan changedns:n kanssa
-	sco=$(sudo which chown)
-	scm=$(sudo which chmod)
-
-	#whack oltava meshuggah:issa mukana jatrqssa
-	whack=$(sudo which pkill)
-
+	sdi=$(sudo which dpkg)
 	sag=$(sudo which apt-get)
 	sa=$(sudo which apt)
 	sip=$(sudo which ip)
 	snt=$(sudo which netstat)
 	
-	#nämäkinm 2 pitäisi saada sudotettua jatqssa(omegan ajon jölk)
-	sifu=$(sudo which ifup)
-	sifd=$(sudo which ifdown)
-
-	#HUOM. slinky,spc tarvitaan changedns:n kanssa
-	slinky=$(sudo which ln)
-	spc=$(sudo which cp)
-
-	#/etc/init.d/{dnsmasq,ntpsec,stubby) tarvitaan changedns'n kanssa
-	#sudotettu mv saatttaa myös olla tarpeen tulevbaisuyydessä
-
 	#HUOM. gpgtar olisi vähän parempi kuin pelkkä tar, silleen niinqu tavallaan
 	srat=$(sudo which tar)
 
@@ -450,9 +452,9 @@ function check_binaries() {
 	som=$(sudo which mount)
 	uom=$(sudo which umount)
 
-	dqb "half_fdone"
-	csleep 1
-
+	#dqb "half_fdone"
+	#csleep 1
+	#
 	#ao. kohtaakin joutaisi miettiä, oli jotain nalkutusta 220325
 	#dch=$(find /sbin -name dhclient-script)
 	#[ x"${dch}" == "x" ] && exit 6
@@ -494,7 +496,7 @@ function check_binaries2() {
 
 	smr="${odio} ${smr} "
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
-	NKVD=$(${odio} which shred)
+	#NKVD=$(${odio} which shred)
 	NKVD="${NKVD} -fu "
 	NKVD="${odio} ${NKVD}"
 	slinky="${odio} ${slinky} -s "
@@ -505,11 +507,12 @@ function check_binaries2() {
 
 	fib="${odio} ${sa} --fix-broken install"
 	som="${odio} ${som} "
-	uom="${odio} ${uom} "	
+	uom="${odio} ${uom} "
+	svm="${odio} ${svm}"	
 
 	dch="${odio} ${dch}"
 	dqb "b1nar135.2 0k.2" 
 	csleep 3
 }
 
-dqb dqb "common_l1b_l0ad3d_5ucc35fully"
+dqb "common_l1b_l0ad3d_5ucc35fully"
