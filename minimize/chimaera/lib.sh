@@ -2,6 +2,18 @@
 function pr4() {
 	#HUOM. stubby,dns-siivoamiset voisi olla riippuivaisua konfiguraatiosta
 	dqb "pr4 (${1})"
+
+	
+	#sha512sums ole massaolo kuulusiu kai tarkistaa ensin jos on niinqu pedantti
+	if [ -s ${1}/sha512sums.txt ] ; then
+		p=$(pwd)
+		cd ${1}
+		sha512sum -c sha512sums.txt
+		echo $?
+		csleep 6
+		cd ${p}
+	fi
+
 	${NKVD} ${1}/stubby*
 	${NKVD} ${1}/libgetdns*
 
