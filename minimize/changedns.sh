@@ -3,6 +3,7 @@ debug=1
 distro=""
 mode=-1
 sudo chmod a-wx ./clouds*
+#kesällä -24 oli Tiamat aktiivisessa kuuntelussa, siitä clouds
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -12,7 +13,8 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#(kesällä -24 oli Tiamat aktiivisessa kuuntelussa)
+#HUOM.230325:olosuhteisiin nähden olisi toivottavaa saada 7.62 mm kokoinen ratkaisu stubby:lle että voisi sudottaa koko skriptin eikä jokaista sisältämää komentoa erikseen
+# $ distro/lib olisi hyvä saada pois riippuvuuksista siis
 
 if [ $# -gt 1 ] ; then
 	if [ -d ~/Desktop/minimize/${2} ] ; then

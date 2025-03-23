@@ -23,7 +23,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#josko joku päivä uskaltaisi kommentoituja rivejä tuiopda takaisin jossain muodossa?
+#josko joku päivä uskaltaisi kommentoituja rivejä tuoda takaisin jossain muodossa?
 fix_sudo() {
 	echo "fix_sud0.pt0"
 	${sco} -R 0:0 /etc/sudoers.d #pitääköhän juuri tässä tehdä tämä? jep
@@ -98,7 +98,7 @@ function mangle_s() {
 	csleep 1
 
 	[ y"${1}" == "y" ] && exit 44
-	[ -x ${1} ] || exit 55 #oli -s
+	[ -x ${1} ] || exit 55
 	[ y"${2}" == "y" ] && exit 43
 	[ -f ${2} ] || exit 54
 	#dqb "params_oik"
@@ -112,8 +112,7 @@ function mangle_s() {
 	${odio} echo "${n} localhost=NOPASSWD: sha256: ${s} " >> ${2}
 }
 
-#VAIH:check_bin siirto jonnekin mangle_s tienoille
-#TODO:jos mahd ni Python-tyyppinen(?) idea käyttöön ao. fktioon, $cmd=eval_cmd("cmd") tai jhopa $array["cmd"]=aval_cmd("cmd") 
+#TODO:jos mahd ni Python-tyyppinen(?) idea käyttöön ao. fktioon, $cmd=eval_cmd("cmd") tai jhopa $array["cmd"]=aval_cmd("cmd")
 function check_binaries() {
 	dqb "ch3ck_b1nar135(${1} )"
 	dqb "sudo= ${odio} "
@@ -151,7 +150,7 @@ function check_binaries() {
 	[ -x ${iptr} ] || exit 5
 	[ -x ${ip6tr} ] || exit 5
 
-	#HUOM.omegaa testessa osoittautui osoitteuatui että /u/b/which on tarpeellinen sudottaa, joten lisätty
+	#HUOM.230325:omegaa testessa osoittautui osoittuatui että /u/b/which on tarpeellinen sudottaa, joten lisätty
 	CB_LIST1="${smr} ${NKVD} ${ipt} ${ip6t} ${iptr} ${ip6tr} /sbin/halt /sbin/reboot /usr/bin/which"
 
 	#HUOM. seuraaviakin tarvitaan changedns:n kanssa
@@ -181,10 +180,10 @@ function check_binaries() {
 	csleep 5
 	
 	#passwd mukaan listaan? ehkä ai tartte
-	#HUOM. listan sisältöä joutanee miettiä ja että missä kohtaa ajetaan
-	#mangle_s tekee samantap tarkistuksia joten riittää että ocs-kiakkailut niille mitkä eivät cb_list:issä
+	#HUOM.220235: listan sisältöä joutanee miettiä(trehty) ja että missä kohtaa ajetaan(?)
+	#mangle_s tekee samantap tarkistuksia joten riittää että ocs-kikkailut niille mitkä eivät cb_list:issä
 	
-	for x in apt-get apt ip netstat dpkg tar mount umount 
+	for x in apt-get apt ip netstat dpkg tar mount umount dhclient sha512sum #kilinwittu.sh
 		do ocs ${x} 
 	done
 
@@ -195,24 +194,20 @@ function check_binaries() {
 	snt=$(sudo which netstat)
 	
 	#HUOM. gpgtar olisi vähän parempi kuin pelkkä tar, silleen niinqu tavallaan
-	#, tähän liittyen olisi aiheellista tehdä sha-tarkistus -deb-paketeista siltä vavralta ettttä lahoava muistuitiku paskoo paketit	
-	srat=$(sudo which tar)
+	#, tähän liittyen olisi aiheellista tehdä sha-tarkistus .deb-paketeista siltä varalta ettttä lahoava muistitikkku paskoo paketit
+	if [ -s ~/Desktop/minimize/tar-wrapper.sh ] ; then
+		dqb "TODO: tar-wrapper.sh"
+	else
+		srat=$(sudo which tar)
 
-	if [ ${debug} -eq 1 ] ; then
-		srat="${srat} -v "
+		if [ ${debug} -eq 1 ] ; then
+			srat="${srat} -v "
+		fi
 	fi
 
 	som=$(sudo which mount)
 	uom=$(sudo which umount)
-
-	#dqb "half_fdone"
-	#csleep 1
-	#
-	#ao. kohtaakin joutaisi miettiä, oli jotain nalkutusta 220325
-	#dch=$(find /sbin -name dhclient-script)
-	#[ x"${dch}" == "x" ] && exit 6
-	#[ -x ${dch} ] || exit 6
-	#jos laittaa meshiggah:iin mukaan ni ei voi olla sitä sha-juttus mukana koska x
+	#sah6=$(which sha512sum) TODO:käyttöön vähitellen
 
 	#HUOM:tulisi speksata sudolle tarkemmin millä param on ok noita komentoja ajaa
 	dqb "b1nar135 0k" 
@@ -303,7 +298,8 @@ function pre_enforce() {
 	##fi
 
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
-	
+	#TODO:cb_list:in voisi kai nollata sen jälkeenq meshggah luoto	
+
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 5 secs"
 		csleep 2
@@ -463,22 +459,24 @@ function part3() {
 	csleep 1
 	[ -d ${1} ] || exit 2
 
-	dqb "22 ${sdi} ${1} / lib \* .deb"
-	[ z"${sdi}" == "z" ] && exit 33
-	[ -x ${sdi} ] || exit 44 #1. kokeilulla pyki, jemmaan toistaiseksi
-	#220325:edelleenm jotain qsee tässsä kohtaa (toistuuko?)	
+	dqb "22"
+	#[ z"${sdi}" == "z" ] && exit 33 #TARKKUUTTA PERKELE!!!
+	#[ -x ${sdi} ] || exit 44
+	#230325:edelleenm jotain qsee tässsä kohtaa? no se sudon ymppääminen voi vähän	
 	csleep 1
 
-	dqb "VAIH: sha512sum -c ${1}/sha512sums.txt;echo \$ ?"
 	if [ -s ${1}/sha512sums.txt ] ; then
-		sha512sum -c ${1}/sha512sums.txt
+		p=$(pwd)
+		cd ${1}
+		sha512sum -c sha512sums.txt
 		echo $?
 		csleep 6
+		cd ${p}
 	fi
 
 	local f
 	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
-	#VAIH:varmistus jotta sdi eityhjä+ajokelpoinen ennenq... (oikeastaan check_binaries* pitäisi hoitaa)
+	#HUOM.230325: jospa ei tässä varmistella sdi:n kanssa, tulee vain nalkutusta
 
 	if [ $? -eq  0 ] ; then
 		dqb "part3.1 ok"
@@ -508,6 +506,7 @@ function ecfx() {
 	if [ -s ~/Desktop/minimize/xfce.tar ] ; then
 		${srat} -C / -xvf ~/Desktop/minimize/xfce.tar
 	else 
+		#TODO:070325.tar ihambasqa, roskikseen
 		if  [ -s ~/Desktop/minimize/xfce070325.tar ] ; then
 			${srat} -C / -xvf ~/Desktop/minimize/xfce070325.tar
 		fi

@@ -369,6 +369,7 @@ case ${mode} in
 		tp4 ${tgtfile} ${distro}
 	;;
 	1|u|upgrade)
+		#HUOM.20325:toimisokohan tämä jo?
 		pre2 ${distro}
 		tpu ${tgtfile} ${distro}
 	;;
