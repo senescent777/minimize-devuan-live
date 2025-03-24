@@ -33,13 +33,13 @@ else
 	echo "L1B M1SSING";exit 66
 fi
 
-#HUOM.140325:syystä tässä kohtaa mode'n asxetus näin (ennen common_lib rodnäk myös ok)
+#HUOM.140325:syystä tässä kohtaa moden asetus näin (ennen common_lib todnäk myös ok)
 mode=${1}
 dqb "mode= ${mode}"
 
 tig=$(sudo which git)
 mkt=$(sudo which mktemp)
-#debug=1 #TODO: jos parametriksi
+#debug=1 #TODO: jos parametriksi (parsetuksen muutox vähitellen)
 
 if [ x"${tig}" == "x" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
@@ -48,6 +48,7 @@ if [ x"${tig}" == "x" ] ; then
 fi
 
 if [ x"${mkt}" == "x" ] ; then
+	#HUOM. ei välttämättä ole molemmissa distroissa tuon nimistä pakettia
 	echo "sudo apt-get update;sudo apt-get install mktemp"
 	exit 8
 fi
@@ -55,6 +56,8 @@ fi
 ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 4
+
+#HUOM.240325:oli jossain kohtaa nalkutusta aiheesta chmod, sittenkin scm takaisin?
 
 function pre() {
 	[ x"${1}" == "z" ] && exit 666
@@ -66,11 +69,13 @@ function pre() {
 	if [ -d ~/Desktop/minimize/${1} ] ; then
 		dqb "5TNA"
 
-		#HUOM. tässä yhteydessä sudon kautta vetöäminen lienee liikaa
+		#HUOM. tässä yhteydessä sudon kautta vetäminen lienee liikaa
 		chmod 0755 ~/Desktop/minimize/${1}
 		chmod 0755 ~/Desktop/minimize/*.sh
 		chmod 0755 ~/Desktop/minimize/${1}/*.sh
-		
+		#TODO:piotäisiköhän -deb oikeudet sorkkia?
+		#TODO:yllä nuo chmod-jutut, kts että toimii toivotulla tavalla, jossain poistuu x-oikeudet ja saa aina renkata
+
 		if [ -s /etc/apt/sources.list.${1} ] ; then
 			${smr} /etc/apt/sources.list
 			${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list
@@ -115,20 +120,20 @@ function tp1() {
 	dqb "params_ok"
 	csleep 4
 
-	#HUOM. tässä yhteydessä sudon kautta vetöäminen lienee liikaa		
-	${scm} -R a-wx ~/Desktop/minimize/*
-	${scm} 0755 ~/Desktop/minimize
+	#HUOM. tässä yhteydessä sudon kautta vetäminen lienee liikaa		
+	chmod -R a-wx ~/Desktop/minimize/*
+	chmod 0755 ~/Desktop/minimize
 
 	if [ -d ~/Desktop/minimize/${2} ] ; then
 		dqb "cleaning up ~/Desktop/minimize/${2} "
-		csleep 4
+		csleep 3
 		${NKVD} ~/Desktop/minimize/${2}/*.deb
 		dqb "d0nm3"
 	fi
 
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		${srat} -cvf ~/Desktop/minimize/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
+		${srat} -cf ~/Desktop/minimize/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
 		csleep 3
 
 		local tget
@@ -141,7 +146,8 @@ function tp1() {
 		dqb "TG3T=tget"		
 		csleep 3
 
-		#TODO:pitäsi ensin luoda se tar ennenq alkaa lisäämään
+		#HUOM: cd tuossa yllä, onko tarpeen?
+		#TODO:pitäIsi ensin luoda se tar ennenq alkaa lisäämään
 		for f in $(find . -name '*.js') ; do ${rat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
 		#*.js ja *.json kai oleellisimmat kalat
 		cd ${p}
@@ -221,8 +227,9 @@ function tp4() {
 		${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
 		p=$(pwd)
 		cd ~/Desktop/minimize/${2}
-		sha512sum ./*.deb > sha512sums.txt
-		${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb  ~/Desktop/minimize/${2}/sha512sums.txt
+		${sah6} ./*.deb > sha512sums.txt
+		${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb ~/Desktop/minimize/${2}/sha512sums.txt
+		#TODO:sah6 -c sha512,.txt		
 		cd ${p}
 	fi
 
@@ -294,6 +301,7 @@ function tp3() {
 	csleep 4
 }
 
+#VAIH:jatkossa väkisin vetämään mukaan ne oleellisimmat paketit tapauksessa chimaera
 function tpu() {
 	dqb "tpu( ${1}, ${2})"
 	[ y"${1}" == "y" ] && exit 1
@@ -309,6 +317,15 @@ function tpu() {
 
 	dqb "TUP PART 2"
 
+	if [ "${distro}" == "chimaera" ] ; then 
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
+		${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 
+		${shary} iptables 	
+		${shary} iptables-persistent init-system-helpers netfilter-persistent
+
+		pre2 ${2} #vissiin tyarvitsi tämän
+	fi
+
 	${sag} upgrade -u
 	echo $?
 	csleep 5	
@@ -319,8 +336,11 @@ function tpu() {
 
 	p=$(pwd)
 	cd ~/Desktop/minimize/${2}
-	sha512sum ./*.deb > sha512sums.txt
+
+	#HUOM.240325:tässäkin taisi olla nalkutusta, tee jotain (jos toistuu)
+	${sah6} ./*.deb > sha512sums.txt
 	${srat} -rf ${1} ~/Desktop/minimize/${2}/sha512sums.txt
+	#TODO:sah6 -c sha512,.txt
 	cd ${p}
 
 	${sifd} ${iface}
@@ -330,7 +350,7 @@ function tpu() {
 function tp5() {
 	dqb "tp5 ${1} ${2}"
 	[ z"${1}" == "z" ] && exit 99
-	#[ -s  ${1} ] || exit 98
+	[ -s ${1} ] || exit 98
 
 	dqb "params ok"
 	csleep 5
@@ -369,11 +389,11 @@ case ${mode} in
 		tp4 ${tgtfile} ${distro}
 	;;
 	1|u|upgrade)
-		#HUOM.20325:toimisokohan tämä jo?
 		pre2 ${distro}
 		tpu ${tgtfile} ${distro}
 	;;
 	p)
+		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(S.Lopakka)
 		pre2 ${distro}
 		tp5 ${tgtfile}
 	;;
