@@ -4,6 +4,9 @@ debug=0
 tgtfile=""
 distro=""
 
+${scm} 0555 ~/Desktop/minimize/changedns.sh
+${sco} root:root ~/Desktop/minimize/changedns.sh
+
 case $# in
 	3)
 		tgtfile=${2}
@@ -75,7 +78,7 @@ function pre() {
 		chmod 0755 ~/Desktop/minimize/${1}
 		chmod 0755 ~/Desktop/minimize/*.sh
 		chmod 0755 ~/Desktop/minimize/${1}/*.sh
-		#TODO:piotäisiköhän -deb oikeudet sorkkia?
+		#TODO:pitäisiköhän -deb oikeudet sorkkia?
 		#TODO:yllä nuo chmod-jutut, kts että toimii toivotulla tavalla, jossain poistuu x-oikeudet ja saa aina renkata
 
 		if [ -s /etc/apt/sources.list.${1} ] ; then

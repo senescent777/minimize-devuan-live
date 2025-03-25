@@ -3,7 +3,10 @@ debug=0
 distro=""
 mode=-1
 
+#varm vuoksi muutellaan omistajat ja oikeudet tälleen
 chmod a-wx ./clouds*
+chown root:root ${0}
+chmod 0555  ${0}
 #kesällä -24 oli Tiamat aktiivisessa kuuntelussa, siitä clouds
 
 function dqb() {

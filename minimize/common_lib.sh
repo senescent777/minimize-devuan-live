@@ -330,11 +330,11 @@ function pre_enforce() {
 #HUOM.240325: suattaapi olla niinnii jotta tämä paskoo chimaeran kanssa slim:in vuan suattaapi ettei
 #1 idea olisi laittaa $distro:n taakse muut ch-komennot kuin /home:a koskevat
 #... ehkä selviäisi jotain siitä (ei tainnut auttaa)
-#mikäli saa paketit takaisin kopsaamalla jutut toimimaan(saa vissiin), koklaa miten äksä ja erityisesti miten x kun ao. chimaera-tarkistus poissa 
+#mikäli saa paketit takaisin kopsaamalla jutut toimimaan(saa vissiin), koklaa miten äksä ja erityisesti miten x kun ao. chimaera-tarkistus poissa (vaih)
 function enforce_access() {
 	dqb " enforce_access( ${1})"	
 
-	if [ "${distro}" != "chimaera" ] ; then
+#	if [ "${distro}" != "chimaera" ] ; then
 		${scm} 0440 /etc/sudoers.d/* 
 		${scm} 0750 /etc/sudoers.d 
 		${sco} -R root:root /etc/sudoers.d
@@ -368,7 +368,7 @@ function enforce_access() {
 		${scm} 0777 /tmp
 		#${scm} o+t /tmp #sittenkin pois? chimaerassa slim rikki juuri tämän takia?
 		${sco} root:root /tmp
-	fi
+#	fi
 
 	#ch-jutut siltä varalta että tar sössii oikeudet tai omistajat
 	${sco} root:root /home
@@ -392,6 +392,9 @@ function enforce_access() {
 
 	dqb "F1ND D0N3"
 	csleep 1
+
+	${scm} 0555 ~/Desktop/minimize/changedns.sh
+	${sco} root:root ~/Desktop/minimize/changedns.sh
 
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
