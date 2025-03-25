@@ -57,7 +57,8 @@ cd minimize-devuan-live
 [ ${debug} -eq 1 ] && ls -laRs;sleep 6
 
 if [ -d ~/Desktop/minimize ] ; then
-	echo "rm -rf ~/Desktop/minimize/*"
+	#fiksummankin systeemin voisi keksiä mutta nyt näin
+	echo "mv ~/Desktop/minimize ~/Desktop/minimize.OLD"
 	echo "mv minimize/* ~/Desktop/minimize"
 fi
 
