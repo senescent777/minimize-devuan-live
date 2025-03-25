@@ -10,7 +10,6 @@
 
 - export2.sh can be used to make a tar ($archive)  out of this project with 0 as first param
 	1 as first param makes an upgrade-package for dpkg to install
-	(i'm yet to confirm if the current version works or not)
 
 - import2.sh 
 	is a shortcut for installing more recent version of this project into a running live distro
@@ -28,7 +27,7 @@
 - changedns.sh can be used to change the network configuration to use plain-old-DNS and that's all folks , there is something going on with Daedalus and stubby i have to figure out
 (if there's problem with DNS, this script may be helpful)
 
-P.S. there may be some problems with access rights, invocation "chmod 0755 ./*.sh;chmod 0755 $distro;chmod 0644 $distro/conf*;chmod 0755 $distro/*.sh" helps with those. Shoulf fix that.
+P.S. there may be some problems with access rights, invocation "chmod 0755 ./*.sh;chmod 0755 $distro;chmod 0644 $distro/conf*;chmod 0755 $distro/*.sh" helps with those. Should fix that.
 
 P.P.S. the elder scripts are moved into olds/ , they used to work (i think)
 
