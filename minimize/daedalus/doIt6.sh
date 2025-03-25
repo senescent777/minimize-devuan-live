@@ -81,6 +81,9 @@ if [ ${mode} -eq 1 ] ; then
 	vommon
 fi
 
+c=$(find ${d} -name '*.deb' | wc -l)
+[ ${c} -gt 0 ] || removepkgs=0
+
 if [ ${removepkgs} -eq 1 ] ; then
 	${sharpy} libblu* network* libcupsfilters* libgphoto* 
 	# libopts25 ei tömmöistä daedaluksessa
@@ -147,11 +150,11 @@ dqb "GR1DN BELIALAS KYE"
 
 #HUOM. TOIMIIKO TUO KOMENTO TUOSSA ALLA VAI EI ??? (olikohan resolv.conf:ista kiinni)
 #(dns-ip konftdstoon niinqu josqs?)
-~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+{odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
 ${sipt} -L
 csleep 6
 
-${scm} a-wx ~/Desktop/minimize/*.sh
+#${scm} a-wx ~/Desktop/minimize/*.sh #sotkee
 ${scm} a-wx $0 #oikeastaan kerta-ajo tulisi riittää tai toisaalta daedaluksen versiossa ominaisuuksia
 
 #===================================================PART 4(final)==========================================================
@@ -163,7 +166,7 @@ if [ ${mode} -eq 2 ] ; then
  	exit 
 fi
 
-~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
 
 #VAIH:stubby-jutut toimimaan
 #ongelmana error: Could not bind on given addresses: Permission denied
