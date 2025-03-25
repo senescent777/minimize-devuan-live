@@ -3,7 +3,7 @@ d=$(dirname $0)
 debug=0
 file=""
 distro=""
-#joitrain oletusarvoja
+#joitain oletusarvoja
 dir=/mnt
 part0=ABCD-1234
 
@@ -14,6 +14,11 @@ case $# in
 	3)
 		file=${2}
 		distro=${3}
+	;;
+	4)
+		file=${2}
+		distro=${3}
+		[ "${4}" == "-v" ] && debug=1
 	;;
 	*)
 		echo "$0 <mode> <other_params>"
@@ -34,7 +39,6 @@ else
 	sco="sudo /bin/chown"
 	dir=/mnt
 	odio=$(which sudo)
-	debug=1
 	
 	function dqb() {
 		[ ${debug} -eq 1 ] && echo ${1}
@@ -48,7 +52,6 @@ else
 	dqb "chmod may be a good idea now"
 fi
 
-debug=1
 mode=${1}
 
 dqb "mode=${mode}"
@@ -70,7 +73,7 @@ function common_part() {
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
 
-	#[ y"${2}" == "y" ] && exit 11
+	[ y"${2}" == "y" ] && exit 11
 	dqb "paramz_0k"
 
 	cd /
@@ -80,31 +83,45 @@ function common_part() {
 	csleep 3
 	dqb "tar DONE"
 
-	${scm} -R a-wx ~/Desktop/minimize/*
-	${scm} 0755 ~/Desktop/minimize/*.sh
-	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize
+	#HUOM.240325: jatkuvasta chmod-renkkaamisesta päätellen kaikki chmod-rivit pitäisi iteroida l.äpi
+	#, esim. tässä
+	#lisäksi myÖs export2 epäilyksen alainen
+
+	#HUOM. sittenkin sco ensin, jos tulee rootin omistamaa matskua vastaan
+	chmod -R a-wx ~/Desktop/minimize/*
+	chmod 0755 ~/Desktop/minimize/*.sh
+	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/*.sh
 	csleep 5
 
 	for f in $(find ~/Desktop/minimize -type d) ; do ${scm} 0755 ${f} ; done 
 	#jos nyt olisi hyvä...	
-	${scm} 0755 ~/Desktop/minimize
+	chmod 0755 ~/Desktop/minimize
 	
 	if [ -d ~/Desktop/minimize/${2} ] ; then 
-		echo "HAIL CAESAR"
+		dqb "HAIL UKK"
+
+		#HUOM.240325:varm. vuoksi sudon kautta josomistajaksi joutunut root:toor
 		${scm} 0755 ~/Desktop/minimize/${2}
 		${scm} a+x ~/Desktop/minimize/${2}/*.sh
 		${scm} 0444 ~/Desktop/minimize/${2}/conf*
+
+		#uutena, pois jos kusee
+		${scm} a-w ~/Desktop/minimize/${2}/*.deb
+		csleep 5
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/${2}
+	dqb "CHM09D D0N3"	
 	csleep 5
 
+	#TODO:himaera-spesifinen testi tähän vai ei?
 	${scm} 0777 /tmp
-	${sco} root:root /tmp #oik. o=rwt mutta rwx kai tarpeeksi hyvä useimpiin tarkoituksiin
+	#${scm} o+t /tmp #sittenkin pois?
+	${sco} root:root /tmp 
+	
 	dqb "ALL DONE"
 }
 
-#TODO:ao- if-blkkiin liittyen jos poistaisi ghubista minimize-hamistosta välistä sen /h/d-osuuden
 #VAIH:chmod-juttuja joutaisi miettiä (vissiin jossain se x-oikeus poistui tästä, todnäök commoin_part/lib/common_lib)
 
 case "${1}" in
@@ -116,7 +133,6 @@ case "${1}" in
 		csleep 5
 		${som} | grep ${dir}
 
-		#VAIH:näyttämään NEXT-jutut vain jos ei tullut virheitä ed. komennoissa
 		[ $? -eq 0 ] && echo "NEXT: $0 0 <source> <distro> (unpack AND install) | $0 1 <source> (just unpacks the archive)"
 	;;
 	2)
@@ -137,7 +153,7 @@ case "${1}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	0)
-		#JUOM.21035: joskohan uuden päivitysdpkaetin kanssa olisi nalkutukset poistettu
+		#HUOM.21035: joskohan uuden päivityspaketin kanssa olisi nalkutukset poistettu
 
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
@@ -152,8 +168,8 @@ case "${1}" in
 		csleep 2
 
 		common_part ${file} ${distro}		
-		#HUOM.290325: näillä main saattaa olla jotain härdelliä daedaluksen tapauksessa
-		#... tai pikemminkin väärät parametrit skjriptille
+		#HUOM.190325: näillä main saattaa olla jotain härdelliä daedaluksen tapauksessa
+		#... tai pikemminkin väärät parametrit skriptille
 		#P.S. käyttöoikeudetkin tulisi huomioida stna
 
 		pre_part3 ~/Desktop/minimize/${distro}
@@ -169,5 +185,5 @@ case "${1}" in
 	;;
 esac
 
-sudo chmod 0755 $0 #barm vuoksi
+chmod 0755 $0 #barm vuoksi
 #HUOM. tämän olisi kuvakkeen kanssa tarkoitus mennä jatkossa filesystem.squashfs sisälle

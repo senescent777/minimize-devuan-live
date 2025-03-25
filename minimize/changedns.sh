@@ -1,7 +1,8 @@
 #!/bin/bash
-debug=1
+debug=0
 distro=""
 mode=-1
+
 sudo chmod a-wx ./clouds*
 #kesällä -24 oli Tiamat aktiivisessa kuuntelussa, siitä clouds
 
@@ -14,49 +15,74 @@ function csleep() {
 }
 
 #HUOM.230325:olosuhteisiin nähden olisi toivottavaa saada 7.62 mm kokoinen ratkaisu stubby:lle että voisi sudottaa koko skriptin eikä jokaista sisältämää komentoa erikseen
-# $ distro/lib olisi hyvä saada pois riippuvuuksista siis
+#250325 tienoilla tarkoitus vivuta sek lib että common_lib mäkeen aiheeseen liittyewn
+
+function pr4() {
+	dqb "cdns.pr4 (${1})" 
+}
+function pre_part3() {
+	dqb "cdns.pre_part3( ${1})"
+}
 
 if [ $# -gt 1 ] ; then
 	if [ -d ~/Desktop/minimize/${2} ] ; then
 		distro=${2}
 		dqb "asdasdasd.666"
-		. ~/Desktop/minimize/${distro}/conf
+#		. ~/Desktop/minimize/${distro}/conf
 		csleep 5
+		[ "${3}" == "-v" ] && debug=1
 	fi
 
-	mode=${1} #VAIH:mode VÄHITELLEn WTTUUN conf:ista
+	mode=${1}
 else
 	echo "${0} <mode> <other_param>";exit
 fi
 
-debug=1
-. ~/Desktop/minimize/common_lib.sh
+#. ~/Desktop/minimize/common_lib.sh
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 csleep 6
 
-if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then
-	.  ~/Desktop/minimize/${distro}/lib.sh 
-else
-	echo "FALLBACK"
+#HUOM. jos tarttee ni niälle main dtrsosta riippuvainen fktioiden esittely 
+#(toiv ei tarvitse)
 
+#if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then
+#	#. ~/Desktop/minimize/${distro}/lib.sh TODO:lib-tarkistus yltä pois
+#
+#	dqb "DIIPADAAPA"	
+#	csleep 6
+#	check_binaries ${distro}
+#	check_binaries2
+#else
+#	dqb "FALLBACK"
+#	csleep 1
+#
 	smr=$(sudo which rm)
-	ipt=$(sudo which iptables) #ipt vai sipt?
+	ipt=$(sudo which iptables)
 	slinky=$(sudo which ln)
 	spc=$(sudo which cp)
 	slinky="${slinky} -s "
 	sco=$(sudo which chown)
 	scm=$(sudo which chmod)	
 
-	smr="${odio} ${smr}"
-	ipt="${odio} ${ipt}"
-	spc="${odio} ${spc}"
-	slinky="${odio} ${slinky}"
-	sco="${odio} ${sco}"
-	scm="${odio} ${scm}"
+	#240325 lisäykset
+	ip6t=$(sudo which ip6tables)
+	iptr=$(sudo which iptables-restore)
+	ip6tr=$(sudo which ip6tables-restore)
+
+#	smr="${odio} ${smr}"
+#	ipt="${odio} ${ipt}"
+#	spc="${odio} ${spc}"
+#	slinky="${odio} ${slinky}"
+#	sco="${odio} ${sco}"
+#	scm="${odio} ${scm}"
+#
+#	ip6t="${odio} ${ip6t}"
+#	iptr="${odio} ${iptr}"
+#	ip6tr="${odio} ${ip6tr}"
 
 	echo "when in trouble, sudo chmod 0755 ${distro}; sudo chmod  0755 ${distro}/*.sh; sudo chmod 0644 ${distro}/conf may help "
-fi
+#fi
 
 #==============================================================
 function tod_dda() { 
@@ -78,10 +104,10 @@ function ns2() {
 	${scm} u+w /home
 	csleep 3
 
-	${odio} /usr/sbin/userdel ${1}
+	/usr/sbin/userdel ${1}
 	sleep 3
 
-	${odio} adduser --system ${1}
+	adduser --system ${1}
 	sleep 3
 
 	${scm} go-w /home
@@ -97,7 +123,7 @@ function ns4() {
 	dqb "ns4( ${1} )"
 
 	${scm} u+w /run
-	${odio} touch /run/${1}.pid
+	touch /run/${1}.pid
 	${scm} 0600 /run/${1}.pid
 	${sco} ${1}:65534 /run/${1}.pid
 	${scm} u-w /run
@@ -109,7 +135,7 @@ function ns4() {
 	dqb "starting ${1} in 5 secs"
 
 	sleep 5
-	${odio} -u ${1} ${1} -g
+	${odio} -u ${1} ${1} -g #antaa nyt tämän olla nim toiustaiseksi(25.3.25)
 	echo $?
 
 	sleep 1
@@ -117,33 +143,28 @@ function ns4() {
 	sleep 5
 }
 
-#HUOM.toisessa clouds:issa taisi olla pre-osuudessa muutakin
 #pitäisiköhän se ipt-testi olla tässä?
 #HUOM. jos mahd ni pitäisi kai sudoersissa speksata millä parametreilla mitäkin komerntoja ajetaan (man sudo, man sudoers)
 function clouds_pre() {
 	dqb "common_lib.clouds_pre()"
 
-	#HUOM. rm-kikkailuja sietää vähän miettiä, jos vaikka prujaisi daedaluksen clouds:ista ne kikkrilut
-	${smr} /etc/resolv.conf
-#if [ -s /etc/resolv.conf.new ] || [ -s /etc/resolv.conf.OLD ] ; then 
-#	${smr} /etc/resolv.conf
-#	[ $? -gt 0 ] && echo "SHOULD USE SUDO WITH THIS SCRIPT OR OTHER TROUBLE WITH REMOVING FILES"
-#fi
+	if [ -s /etc/resolv.conf.new ] || [ -s /etc/resolv.conf.OLD ] ; then 
+		${smr} /etc/resolv.conf
+		[ $? -gt 0 ] && echo "FAILURE TO COMPLY WHILE TRYING TO REMOVE RESOLV.CONF"
+	fi
 
-	${smr} /etc/dhcp/dhclient.conf
-#
-#if [ -s /etc/dhcp/dhclient.conf.new ] || [ -s /etc/dhcp/dhclient.conf.OLD ] ; then 
-#	${smr} /etc/dhcp/dhclient.conf
-#	[ $? -gt 0 ] && echo "SHOULD USE SUDO WITH THIS SCRIPT OR OTHER TROUBLE WITH REMOVING FILES"
-#fi
-	${smr} /sbin/dhclient-script
-##ei välttis suhtaudu hyvin lib.sh:n alkuun, tulisi siirtää seur. if-blokin jölkeen (?)
-#if [ -s /sbin/dhclient-script.new ] || [ -s /sbin/dhclient-script.OLD ] ; then 
-#	echo "${smr} /sbin/dhclient-script"	
-#	${smr} /sbin/dhclient-script
-#	[ $? -gt 0 ] && echo "SHOULD USE SUDO WITH THIS SCRIPT OR OTHER TROUBLE WITH REMOVING FILES"
-#fi
+	if [ -s /etc/dhcp/dhclient.conf.new ] || [ -s /etc/dhcp/dhclient.conf.OLD ] ; then 
+		${smr} /etc/dhcp/dhclient.conf
+		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHILÖE TRYING TO REMOVE DHCLIENT.CONF"
+	fi
+
+	if [ -s /sbin/dhclient-script.new ] || [ -s /sbin/dhclient-script.OLD ] ; then 	
+		${smr} /sbin/dhclient-script
+		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHIOLE TRYINMG TO REMOVE DHCLIENT-SCRIPT"
+	fi
+
 	csleep 1
+
 	#HUOM.160325:lisätty uutena varm. vuoksi
 	${iptr} /etc/iptables/rules.v4
 	${ip6tr} /etc/iptables/rules.v6
@@ -179,13 +200,19 @@ function clouds_post() {
 	${sco} -R root:root /etc/iptables
 	${scm} 0400 /etc/iptables/*
 	${scm} 0750 /etc/iptables
- 
 	csleep 2
 
 	if [ ${debug} -eq 1 ] ; then
 		${ipt} -L  #
-		${ip6t} -L #parempi ajaa vain jos löytyy
-		csleep 5
+
+		##HUOM.240325: mitähän tarkistuksia tuohon vielä?
+		#if [ x"${ip6t}" != "x" ] ; then #
+		#	if [ -x ${ip6t} ] ; then #
+		#		${ip6t} -L #parempi ajaa vain jos löytyy
+		#	fi #
+		#fi #
+
+		csleep 5 #
 	fi #
 
 	dqb "d0n3"
@@ -196,19 +223,24 @@ function clouds_case0() {
 
 	${slinky} /etc/resolv.conf.OLD /etc/resolv.conf
 	${slinky} /etc/dhcp/dhclient.conf.OLD /etc/dhcp/dhclient.conf
+
+	#dhclient-script eri tavalla koska linkkien tukeminen lopetettu kesään -24 mennessä	
 	${spc} /sbin/dhclient-script.OLD /sbin/dhclient-script
 
 	if [ y"${ipt}" == "y" ] ; then
 		dqb "SHOULD 1NSTALL TABL35"
+		exit 88
 	else
 		${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
 		${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
 
+		#VAIH:conf sanomaan dns-ip:n jos ei resolv.conf:in kautta löydy
+		[ -s  /etc/resolv.conf ] || echo "NO RESOLV.CONF FOUND, HAVE TO USE CONF"
 		for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do dda_snd ${s} ; done	
 	fi
 
-	${odio} /etc/init.d/dnsmasq stop
-	${odio} /etc/init.d/ntpsec stop
+	/etc/init.d/dnsmasq stop
+	/etc/init.d/ntpsec stop
 	csleep 5
 	${whack} dnsmasq*
 	${whack} ntp*
@@ -217,30 +249,31 @@ function clouds_case0() {
 function clouds_case1() {
 	echo "WORK IN PROGRESS"
 
-#		if [ -s /etc/resolv.conf.new ] ; then
-#			echo "r30lv.c0nf alr3ady 3x15t5"
+		if [ -s /etc/resolv.conf.new ] ; then
+			echo "r30lv.c0nf alr3ady 3x15t5"
 #		else
+#HUOM. römönkin vui tehdä vähemmällä sudotyksella
 #			sudo touch /etc/resolv.conf.new
 #			sudo chmod a+w /etc/resolv.conf.new
 #			sudo echo "nameserver 127.0.0.1" > /etc/resolv.conf.new
 #			sudo chmod 0444 /etc/resolv.conf.new
 #			sudo chown root:root /etc/resolv.conf.new
-#		fi
-#
-#		${slinky} /etc/resolv.conf.new /etc/resolv.conf
-#		${slinky} /etc/dhcp/dhclient.conf.new /etc/dhcp/dhclient.conf
-#		${spc} /sbin/dhclient-script.new /sbin/dhclient-script
-#
-#		if [ y"${ipt}" == "y" ] ; then
-#			echo "SHOULD 1NSTALL TABL35"
+		fi
+
+		${slinky} /etc/resolv.conf.new /etc/resolv.conf
+		${slinky} /etc/dhcp/dhclient.conf.new /etc/dhcp/dhclient.conf
+		${spc} /sbin/dhclient-script.new /sbin/dhclient-script
+
+		if [ y"${ipt}" == "y" ] ; then
+			echo "SHOULD 1NSTALL TABL35"
 #		else
 #			${ipt} -A INPUT -p tcp -m tcp --sport 853 -j b
 #			${ipt} -A OUTPUT -p tcp -m tcp --dport 853 -j e
 #			for s in $(grep -v '#' /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do tod_dda ${s} ; done
-#		fi
+		fi
 #
 #		echo "dns";sleep 2
-#		${odio} /etc/init.d/dnsmasq restart
+#		/etc/init.d/dnsmasq restart
 #		pgrep dnsmasq
 #
 #		echo "stu";sleep 2
@@ -256,7 +289,6 @@ function clouds_case1() {
 #		pgrep stubby
 }
 #====================================================================
-#konftdstojen ja tablesin käsittelyn kanssa pieniä eroavaisuuksia
 clouds_pre
 
 case ${mode} in 
@@ -271,5 +303,4 @@ case ${mode} in
 	;;
 esac
 
-#case:n jälkeinen osuus kummankin distron versiossa käytännössä sama	
 clouds_post

@@ -24,6 +24,13 @@ function csleep() {
 }
 
 #josko joku päivä uskaltaisi kommentoituja rivejä tuoda takaisin jossain muodossa?
+
+#HUOM.230325:ensimmisissä testeissä chimaeran kanssa slim:in kautta UUdelleenkirjautuminen ei enää onnistunut
+#lieneekö tämä /u/l/s vaiko /tmp sorkinta syyllinen
+
+#240325 päivitys:chimaerassa doIt6 ajamisen jälkeen pääseekin kirjautumaan slim:in kautta takaisin, siinä vain kestää että login-ruutu tulee takaisin uloskirjautumisen jälkeen
+#"slim: waiting for X server to shut down" lokissa saattaa liittyä (tikku kuraa tai jokin muu vialla?)
+
 fix_sudo() {
 	echo "fix_sud0.pt0"
 	${sco} -R 0:0 /etc/sudoers.d #pitääköhän juuri tässä tehdä tämä? jep
@@ -33,20 +40,27 @@ fix_sudo() {
 	${scm} -R a-w /etc/sudo*
 
 	dqb "POT. DANGEROUS PT 1"
-	#${sco} 0:0 /usr/lib/sudo/* #onko moista daedaluksessa?
-	#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+
+	if [ -d /usr/lib/sudo ] ; then #onko moista daedaluksessa?
+		${sco} 0:0 /usr/lib/sudo/*
+		${scm} -R a-w /usr/lib/sudo/*
+		${scm} 0444 /usr/lib/sudo/sudoers.so
+	fi
 
 	dqb "fix_sud0.pt1"
 	${scm} 0750 /etc/sudoers.d
 	${scm} 0440 /etc/sudoers.d/*
 	
 	dqb "POT. DANGEROUS PT 2"
-	#${scm} -R a-w /usr/lib/sudo/* #onko moista daedaluksessa?
+	#HUOM. oikeastaan /u/b/s alla d tapauksessa vain 2 tdstoa
+	#... eli ei tarttisi kaikkia hmiston alla muutella
+	#sudoreplay yleisemmän kaavan mukaan, itse sudon kanssa oltava tarkempi
+	#TODO:jos vähiTEllen uskaltaisi kokeilla
+
+	#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 	#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-
 	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-
-	#${scm} 0444 /usr/lib/sudo/sudoers.so #onko moista daedaluksessa?
+	
 	[ ${debug} -eq 1 ] && ls -las  /usr/bin/sudo*
 	csleep 5	
 	echo "fix_sud0.d0n3"
@@ -78,6 +92,8 @@ function mangle2() {
 		${sco} root:root ${1}
 	fi
 }
+
+#HUOM.doit6sen ajon jlkeen chmodin takomninen taas tarpeellista, poista turhat scm siitä
 
 function gpo() {
 	local prevopt
@@ -132,9 +148,13 @@ function check_binaries() {
 	iptr=$(sudo which iptables-restore)
 	ip6tr=$(sudo which ip6tables-restore)
 
+	#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
+	sah6=$(which sha512sum)
+
 	if [ y"${ipt}" == "y" ] ; then
 		echo "SHOULD INSTALL IPTABLES"
-	
+		#HUOM.230435: pitäisiköhän jokin toinen tarkistus lisätä tähän?	
+
 		pre_part3 ~/Desktop/minimize/${1}
 		pr4 ~/Desktop/minimize/${1}
 
@@ -150,8 +170,10 @@ function check_binaries() {
 	[ -x ${iptr} ] || exit 5
 	[ -x ${ip6tr} ] || exit 5
 
-	#HUOM.230325:omegaa testessa osoittautui osoittuatui että /u/b/which on tarpeellinen sudottaa, joten lisätty
-	CB_LIST1="${smr} ${NKVD} ${ipt} ${ip6t} ${iptr} ${ip6tr} /sbin/halt /sbin/reboot /usr/bin/which"
+	#HUOM.230325:omegaa testessa osoittautui osoittAUtui että /u/b/which on tarpeellinen sudottaa, joten lisätty
+	#HUOM.250325:suurin osa listasta kommentteihin koska chnagedns:n ja omegan kanssa juttuja 
+	#CB_LIST1="${smr} ${NKVD} ${ipt} ${ip6t} ${iptr} ${ip6tr}"
+	CB_LIST1=" /sbin/halt /sbin/reboot /usr/bin/which"
 
 	#HUOM. seuraaviakin tarvitaan changedns:n kanssa
 	sco=$(sudo which chown)
@@ -161,12 +183,14 @@ function check_binaries() {
 	sifd=$(sudo which ifdown)
 	slinky=$(sudo which ln)
 	spc=$(sudo which cp)
-	#sudotettu mv saatttaa myös olla tarpeen tulevbaisuyydessä
 	svm=$(sudo which mv)
 
-	CB_LIST1="${CB_LIST1} ${sco} ${scm} ${whack} ${sifu} ${sifd} ${slinky} ${spc} ${svm}"
+	#HUOM.250325:suurin osa listasta kommentteihin koska chnagedns:n ja omegan kanssa juttuja 	
+	CB_LIST1="${CB_LIST1} ${sifu} ${sifd} ${sco} ${scm}" #soc ja scm kuitenkin oltava tässä?
+	#CB_LIST1="${CB_LIST1} ${whack} ${slinky} ${spc} ${svm}"
+	
 	local x	
-
+	#HUOM.250325:tarvitseekohan noita tuossa alla lisätä jatkossa?
 	if [ ${dnsm} -eq 1 ] ; then
 		for x in dnsmasq ntpsec stubby ; do
 			if [ -x /etc/init.d/${x} ] ; then
@@ -175,7 +199,7 @@ function check_binaries() {
 		done
 	fi
 
-	#HUOM. cb_list:in komentojen kanssa pitäsi paramettritkin spekasta, jos mahd, millä saa ajaa
+	#HUOM. cb_list:in komentojen kanssa pitäsi parametritkin spekasta, jos mahd, millä saa ajaa
 	dqb "second half of c_bin_1"
 	csleep 5
 	
@@ -207,7 +231,6 @@ function check_binaries() {
 
 	som=$(sudo which mount)
 	uom=$(sudo which umount)
-	#sah6=$(which sha512sum) TODO:käyttöön vähitellen
 
 	#HUOM:tulisi speksata sudolle tarkemmin millä param on ok noita komentoja ajaa
 	dqb "b1nar135 0k" 
@@ -281,65 +304,82 @@ function pre_enforce() {
 
 	if [ z"${1}" != "z" ] ; then
 		dqb "333"
-		${sco} ${1}:${1} ${q}/meshuggah 
- 		${scm} 0660 ${q}/meshuggah #vissiin uskalla tuosta tiukentaa
+		#HUOM.24325:tarvitseekohan enää noita ch-komentoja alla? ainakaan sudon kautta tai muutenbkaan
+		chown ${1}:${1} ${q}/meshuggah 
+ 		chmod 0660 ${q}/meshuggah #vissiin uskalla tuosta tiukentaa
 	fi	
 
 	##HUOM.lib- ja conf- kikkailujen takia ei ehkä kantsikaan ajaa vlouds2:sta sudon kautta kokonaisuudessaan
+	#HUOM.25325:paitsi että jos kuitenkin uusiksi
 	##if [ z"${2}" != "z" ] ; then
 	##	dqb "FUCKED WITH A KNIFE"
 	##	#[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/${2}
 	##
 	##	if [ -d ~/Desktop/minimize/${2} ] ; then
-	#		dqb "1NF3RN0 0F SACR3D D35TRUCT10N"
-	#		mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah 			
-	#		csleep 2
+			dqb "1NF3RN0 0F SACR3D D35TRUCT10N"
+			mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah 			
+			csleep 2
 	##	fi
 	##fi
 
-	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
-	#TODO:cb_list:in voisi kai nollata sen jälkeenq meshggah luoto	
+	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done	
 
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 5 secs"
 		csleep 2
 
-		${scm} a-wx ${q}/meshuggah
+		chmod a-wx ${q}/meshuggah
 		${sco} root:root ${q}/meshuggah	
 		${svm} ${q}/meshuggah /etc/sudoers.d
+
+		CB_LIST1=""
+		unset CB_LIST1
+		#saavuttaakohan tuolla nollauksella mitään? kuitenkin alustetaan 
 	fi
 }
 
+#HUOM.240325: suattaapi olla niinnii jotta tämä paskoo chimaeran kanssa slim:in vuan suattaapi ettei
+#1 idea olisi laittaa $distro:n taakse muut ch-komennot kuin /home:a koskevat
+#... ehkä selviäisi jotain siitä (ei tainnut auttaa)
+#mikäli saa paketit takaisin kopsaamalla jutut toimimaan(saa vissiin), koklaa miten äksä ja erityisesti miten x kun ao. chimaera-tarkistus poissa 
 function enforce_access() {
 	dqb " enforce_access( ${1})"	
 
-	${scm} 0440 /etc/sudoers.d/* 
-	${scm} 0750 /etc/sudoers.d 
-	${sco} -R root:root /etc/sudoers.d
+	if [ "${distro}" != "chimaera" ] ; then
+		${scm} 0440 /etc/sudoers.d/* 
+		${scm} 0750 /etc/sudoers.d 
+		${sco} -R root:root /etc/sudoers.d
 
-	dqb "changing /sbin , /etc and /var 4 real"
-	${sco} -R root:root /sbin
-	${scm} -R 0755 /sbin
+		dqb "changing /sbin , /etc and /var 4 real"
+		${sco} -R root:root /sbin
+		${scm} -R 0755 /sbin
 
-	${sco} -R root:root /etc
-	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
+		for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
 
-	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do 
-		mangle2 ${f}
-	done
+		for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do 
+			mangle2 ${f}
+		done
 
-	${scm} 0755 /etc 
-	${sco} -R root:root /var
-	${scm} -R 0755 /var
+		${scm} 0755 /etc 
+		${sco} -R root:root /etc #-R liikaa?
 
-	${sco} root:staff /var/local
-	${sco} root:mail /var/mail
-		
-	${sco} -R man:man /var/cache/man 
-	${scm} -R 0755 /var/cache/man
+		#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
+		${sco} root:root /var
+		${scm} 0755 /var
+	
+		${sco} root:staff /var/local
+		${sco} root:mail /var/mail
+			
+		${sco} -R man:man /var/cache/man 
+		${scm} -R 0755 /var/cache/man
 
-	${scm} 0755 /
-	${sco} root:root /
+		${scm} 0755 /
+		${sco} root:root /
+
+		${scm} 0777 /tmp
+		#${scm} o+t /tmp #sittenkin pois? chimaerassa slim rikki juuri tämän takia?
+		${sco} root:root /tmp
+	fi
 
 	#ch-jutut siltä varalta että tar sössii oikeudet tai omistajat
 	${sco} root:root /home
@@ -352,12 +392,17 @@ function enforce_access() {
 		csleep 5
 	fi
 	
+	#HUOM.240325.1:tartteekohan sudon kautta vetää tässä ao. blokissa?
+	#HUOM.2: mahd. .deb kirjoikeudet pitäisi kai poistua töässä
 	local f
 	${scm} 0755 ~/Desktop/minimize	
 	for f in $(find ~/Desktop/minimize -type d) ; do ${scm} 0755 ${f} ; done	
 	for f in $(find ~/Desktop/minimize -type f) ; do ${scm} 0444 ${f} ; done	
 	for f in $(find ~/Desktop/minimize -name '*.sh') ; do ${scm} 0755 ${f} ; done
 	f=$(date +%F)
+
+	dqb "F1ND D0N3"
+	csleep 1
 
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
@@ -369,12 +414,12 @@ function enforce_access() {
 
 	[ -s /sbin/dclient-script.OLD ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.OLD
 	
-	#TODO: se man chmod ao. riveihin liittyen, rwt... (kts nyt vielä miten oikeudet menivät ennen sorkintaa)
 	#HUOM.280125:uutena seur rivit, poista jos pykii
 	#0 drwxrwxrwt 7 root   root   220 Mar 16 22:41 .
-	
-	${scm} 0777 /tmp
-	${sco} root:root /tmp
+	#HUOM.240325: /tmp sorkinta siirretty ylemmäs, takaisin jos pykii
+	#${scm} 0777 /tmp
+	##${scm} o+t /tmp #sittenkin pois? chimaerassa slim rikki juuri tämän takia?
+	#${sco} root:root /tmp
 }
 
 #HUOM.220325:sudotuksessa täytyy huomioida tämän fktion sisältämät komennot
@@ -392,9 +437,7 @@ function part1_5() {
 				[ -f /etc/apt/sources.list ] && ${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
 				h=$(mktemp -d)		
 				touch ${h}/sources.list.${1} 
-
-				#${sco} ${n}:${n} ${h}/sources.list.${1} 
-				#${scm} u+w ${h}/sources.list.${1} #riittääkö u+w nyt?
+				#uudella taballa ei tartte lisäillä oikeuksia rdsroon
 
 				for x in ${1} ${1}-updates ${1}-security ; do
 					echo "deb https://${pkgsrc}/merged ${x} main" >> ${h}/sources.list.${1}  
@@ -449,7 +492,7 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE (maybe i have tourettes)"
 }
 
-#HUOM.22325: oli jotain nalkuitusta vielä chimaeran päivityspaketista, lib.sh fktiot tai export2 muutettava vasta avasti
+#HUOM.22325: oli jotain nalkutusta vielä chimaeran päivityspaketista, lib.sh fktiot tai export2 muutettava vasta avasti
 function part3() {
 	dqb "part3( ${1} )"
 	csleep 1
@@ -459,25 +502,26 @@ function part3() {
 	csleep 1
 	[ -d ${1} ] || exit 2
 
+	#HUOM.230325: jospa ei tässä varmistella sdi:n kanssa, tulee vain nalkutusta
+	#sitäpaItsi check_binaries() : in pitäisi hoitaa asia	
 	dqb "22"
-	#[ z"${sdi}" == "z" ] && exit 33 #TARKKUUTTA PERKELE!!!
-	#[ -x ${sdi} ] || exit 44
-	#230325:edelleenm jotain qsee tässsä kohtaa? no se sudon ymppääminen voi vähän	
 	csleep 1
 
-	if [ -s ${1}/sha512sums.txt ] ; then
+	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		p=$(pwd)
 		cd ${1}
-		sha512sum -c sha512sums.txt
+		${sah6} -c sha512sums.txt --ignore-missing
 		echo $?
 		csleep 6
 		cd ${p}
+	else
+		dqb "NO SHA512SUMS"
+		csleep 1
 	fi
 
 	local f
 	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
-	#HUOM.230325: jospa ei tässä varmistella sdi:n kanssa, tulee vain nalkutusta
-
+	
 	if [ $? -eq  0 ] ; then
 		dqb "part3.1 ok"
 		csleep 5
@@ -505,11 +549,11 @@ function ecfx() {
 	#for .. do .. done saattaisi olla fiksumpi tässä (tai jokin find-loitsu)
 	if [ -s ~/Desktop/minimize/xfce.tar ] ; then
 		${srat} -C / -xvf ~/Desktop/minimize/xfce.tar
-	else 
-		#TODO:070325.tar ihambasqa, roskikseen
-		if  [ -s ~/Desktop/minimize/xfce070325.tar ] ; then
-			${srat} -C / -xvf ~/Desktop/minimize/xfce070325.tar
-		fi
+	#else 
+	#	#HUOM.070325.tar ihambasqa, roskikseen
+	#	if  [ -s ~/Desktop/minimize/xfce070325.tar ] ; then
+	#		${srat} -C / -xvf ~/Desktop/minimize/xfce070325.tar
+	#	fi
 	fi
 }
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 d=$(dirname $0) #tarpeellinen?
-debug=1
+debug=0
 tgtfile=""
 distro=""
 
@@ -8,6 +8,11 @@ case $# in
 	3)
 		tgtfile=${2}
 		distro=${3}
+	;;
+	4)
+		tgtfile=${2}
+		distro=${3}
+		[ "${4}" == "-v" ] && debug=1
 	;;
 	*)
 		echo "$0 <mode> <tgtfile> <distro>"
@@ -18,13 +23,11 @@ esac
 
 if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ]; then
 	#HUOM. mielellään hanskat naulaan jos ei konf löydy
-	
 	. ~/Desktop/minimize/${distro}/conf
 else
 	echo "CONFIG MISSING"; exit 55
 fi
 
-debug=1
 . ~/Desktop/minimize/common_lib.sh
 
 if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
@@ -39,7 +42,6 @@ dqb "mode= ${mode}"
 
 tig=$(sudo which git)
 mkt=$(sudo which mktemp)
-#debug=1 #TODO: jos parametriksi (parsetuksen muutox vähitellen)
 
 if [ x"${tig}" == "x" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
@@ -96,7 +98,7 @@ function pre2() {
 
 	if [ -d ~/Desktop/minimize/${1} ] ; then
 		dqb "PRKL"
-		~/Desktop/minimize/changedns.sh ${dnsm} ${1}		
+		${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${1}		
 		csleep 4
 		
 		${sifu} ${iface}
