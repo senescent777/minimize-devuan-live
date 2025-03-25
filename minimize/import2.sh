@@ -30,7 +30,7 @@ esac
 if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
 	. ~/Desktop/minimize/${distro}/conf
 	. ~/Desktop/minimize/common_lib.sh
-	. ~/Desktop/minimize/${distro}/lib.sh
+	. ~/Desktop/minimize/${distro}/lib.sh #TODO:joskohan tuo lib includointi pois jatkossa
 else
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"

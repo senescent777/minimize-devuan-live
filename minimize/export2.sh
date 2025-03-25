@@ -4,9 +4,6 @@ debug=0
 tgtfile=""
 distro=""
 
-${scm} 0555 ~/Desktop/minimize/changedns.sh
-${sco} root:root ~/Desktop/minimize/changedns.sh
-
 case $# in
 	3)
 		tgtfile=${2}
@@ -34,10 +31,13 @@ fi
 . ~/Desktop/minimize/common_lib.sh
 
 if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
-	. ~/Desktop/minimize/${distro}/lib.sh
+	. ~/Desktop/minimize/${distro}/lib.sh #TODO:tuo lib includeista mäkeen?
 else
 	echo "L1B M1SSING";exit 66
 fi
+
+${scm} 0555 ~/Desktop/minimize/changedns.sh
+${sco} root:root ~/Desktop/minimize/changedns.sh
 
 #HUOM.140325:syystä tässä kohtaa moden asetus näin (ennen common_lib todnäk myös ok)
 mode=${1}
@@ -78,8 +78,9 @@ function pre() {
 		chmod 0755 ~/Desktop/minimize/${1}
 		chmod 0755 ~/Desktop/minimize/*.sh
 		chmod 0755 ~/Desktop/minimize/${1}/*.sh
-		#TODO:pitäisiköhän -deb oikeudet sorkkia?
-		#TODO:yllä nuo chmod-jutut, kts että toimii toivotulla tavalla, jossain poistuu x-oikeudet ja saa aina renkata
+		chmod 0444 ~/Desktop/minimize/${1}/*.deb
+		#VAIH:yllä nuo chmod-jutut, kts että toimii toivotulla tavalla, jossain poistuu x-oikeudet ja saa aina renkata
+		csleep 2
 
 		if [ -s /etc/apt/sources.list.${1} ] ; then
 			${smr} /etc/apt/sources.list
@@ -342,7 +343,7 @@ function tpu() {
 		${shary} iptables 	
 		${shary} iptables-persistent init-system-helpers netfilter-persistent
 
-		pre2 ${2} #vissiin tyarvitsi tämän
+		pre2 ${2} #vissiin tarvitsi tämän
 	fi
 
 	${sag} upgrade -u

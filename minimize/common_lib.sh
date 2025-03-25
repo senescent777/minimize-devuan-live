@@ -55,8 +55,9 @@ fix_sudo() {
 	#HUOM. oikeastaan /u/b/s alla d tapauksessa vain 2 tdstoa
 	#... eli ei tarttisi kaikkia hmiston alla muutella
 	#sudoreplay yleisemmän kaavan mukaan, itse sudon kanssa oltava tarkempi
-	#TODO:jos vähiTEllen uskaltaisi kokeilla
+	#TODO:jos vähiTEllen uskaltaisi kokeilla (no sudoreplayta korkeintaan)
 
+	#HUOM.250325:onkohan tarkoitus että nämä komennot laittavat sudon epäkuntoon vai ei?
 	#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 	#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
@@ -441,6 +442,7 @@ function part1_5() {
 	${scm} -R a-w /etc/apt/
 }
 
+#HUOM. onko todellakin näin että tämä rikkoo jotain äksän kanssa kun slim joutuu odottamaan miniitteja ?
 function part1() {
 	#jos jokin näistä kolmesta hoitaisi homman...
 	${sifd} ${iface}
