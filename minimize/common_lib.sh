@@ -172,7 +172,6 @@ function check_binaries() {
 
 	#HUOM.230325:omegaa testessa osoittautui osoittAUtui että /u/b/which on tarpeellinen sudottaa, joten lisätty
 	#HUOM.250325:suurin osa listasta kommentteihin koska chnagedns:n ja omegan kanssa juttuja 
-	#CB_LIST1="${smr} ${NKVD} ${ipt} ${ip6t} ${iptr} ${ip6tr}"
 	CB_LIST1=" /sbin/halt /sbin/reboot /usr/bin/which"
 
 	#HUOM. seuraaviakin tarvitaan changedns:n kanssa
@@ -186,18 +185,17 @@ function check_binaries() {
 	svm=$(sudo which mv)
 
 	#HUOM.250325:suurin osa listasta kommentteihin koska chnagedns:n ja omegan kanssa juttuja 	
-	CB_LIST1="${CB_LIST1} ${sifu} ${sifd} ${sco} ${scm}" #soc ja scm kuitenkin oltava tässä?
-	#CB_LIST1="${CB_LIST1} ${whack} ${slinky} ${spc} ${svm}"
+	CB_LIST1="${CB_LIST1} ${sifu} ${sifd} " # ${sco} ${scm}
 	
-	local x	
-	#HUOM.250325:tarvitseekohan noita tuossa alla lisätä jatkossa?
-	if [ ${dnsm} -eq 1 ] ; then
-		for x in dnsmasq ntpsec stubby ; do
-			if [ -x /etc/init.d/${x} ] ; then
-				CB_LIST1="${CB_LIST1} /etc/init.d/${x}"
-			fi
-		done
-	fi
+	#local x	
+	##HUOM.250325:tarvitseekohan noita tuossa alla lisätä jatkossa?
+	#if [ ${dnsm} -eq 1 ] ; then
+	#	for x in dnsmasq ntpsec stubby ; do
+	#		if [ -x /etc/init.d/${x} ] ; then
+	#			CB_LIST1="${CB_LIST1} /etc/init.d/${x}"
+	#		fi
+	#	done
+	#fi
 
 	#HUOM. cb_list:in komentojen kanssa pitäsi parametritkin spekasta, jos mahd, millä saa ajaa
 	dqb "second half of c_bin_1"
@@ -309,18 +307,9 @@ function pre_enforce() {
  		chmod 0660 ${q}/meshuggah #vissiin uskalla tuosta tiukentaa
 	fi	
 
-	##HUOM.lib- ja conf- kikkailujen takia ei ehkä kantsikaan ajaa vlouds2:sta sudon kautta kokonaisuudessaan
-	#HUOM.25325:paitsi että jos kuitenkin uusiksi
-	##if [ z"${2}" != "z" ] ; then
-	##	dqb "FUCKED WITH A KNIFE"
-	##	#[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/${2}
-	##
-	##	if [ -d ~/Desktop/minimize/${2} ] ; then
-			dqb "1NF3RN0 0F SACR3D D35TRUCT10N"
-			mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah 			
-			csleep 2
-	##	fi
-	##fi
+	dqb "1NF3RN0 0F SACR3D D35TRUCT10N"
+	mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah 			
+	csleep 2
 
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done	
 
@@ -413,13 +402,6 @@ function enforce_access() {
 	fi
 
 	[ -s /sbin/dclient-script.OLD ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.OLD
-	
-	#HUOM.280125:uutena seur rivit, poista jos pykii
-	#0 drwxrwxrwt 7 root   root   220 Mar 16 22:41 .
-	#HUOM.240325: /tmp sorkinta siirretty ylemmäs, takaisin jos pykii
-	#${scm} 0777 /tmp
-	##${scm} o+t /tmp #sittenkin pois? chimaerassa slim rikki juuri tämän takia?
-	#${sco} root:root /tmp
 }
 
 #HUOM.220325:sudotuksessa täytyy huomioida tämän fktion sisältämät komennot
@@ -549,11 +531,6 @@ function ecfx() {
 	#for .. do .. done saattaisi olla fiksumpi tässä (tai jokin find-loitsu)
 	if [ -s ~/Desktop/minimize/xfce.tar ] ; then
 		${srat} -C / -xvf ~/Desktop/minimize/xfce.tar
-	#else 
-	#	#HUOM.070325.tar ihambasqa, roskikseen
-	#	if  [ -s ~/Desktop/minimize/xfce070325.tar ] ; then
-	#		${srat} -C / -xvf ~/Desktop/minimize/xfce070325.tar
-	#	fi
 	fi
 }
 

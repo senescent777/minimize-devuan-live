@@ -3,7 +3,7 @@ debug=0
 distro=""
 mode=-1
 
-sudo chmod a-wx ./clouds*
+chmod a-wx ./clouds*
 #kesällä -24 oli Tiamat aktiivisessa kuuntelussa, siitä clouds
 
 function dqb() {
@@ -15,7 +15,10 @@ function csleep() {
 }
 
 #HUOM.230325:olosuhteisiin nähden olisi toivottavaa saada 7.62 mm kokoinen ratkaisu stubby:lle että voisi sudottaa koko skriptin eikä jokaista sisältämää komentoa erikseen
-#250325 tienoilla tarkoitus vivuta sek lib että common_lib mäkeen aiheeseen liittyewn
+
+#250325 tienoilla tarkoitus vivuta sek lib että common_lib mäkeen aiheeseen liittyen
+#osoittautunut että kirjastojen ja konftdstojen includointi huono idea jos aikoo sudottaa koko roskan
+#toisaalta jos sudottaa niin sudoersiin ei tartte lisätä niin montaa komentoa eikä rapoa niiden parametrien kanssa että saakko niiden suhteen rajoitettua
 
 function pr4() {
 	dqb "cdns.pr4 (${1})" 
@@ -28,7 +31,6 @@ if [ $# -gt 1 ] ; then
 	if [ -d ~/Desktop/minimize/${2} ] ; then
 		distro=${2}
 		dqb "asdasdasd.666"
-#		. ~/Desktop/minimize/${distro}/conf
 		csleep 5
 		[ "${3}" == "-v" ] && debug=1
 	fi
@@ -38,52 +40,27 @@ else
 	echo "${0} <mode> <other_param>";exit
 fi
 
-#. ~/Desktop/minimize/common_lib.sh
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 csleep 6
 
-#HUOM. jos tarttee ni niälle main dtrsosta riippuvainen fktioiden esittely 
+#HUOM. jos tarttee ni näille main distrosta riippuvainen fktioiden esittely 
 #(toiv ei tarvitse)
 
-#if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then
-#	#. ~/Desktop/minimize/${distro}/lib.sh TODO:lib-tarkistus yltä pois
-#
-#	dqb "DIIPADAAPA"	
-#	csleep 6
-#	check_binaries ${distro}
-#	check_binaries2
-#else
-#	dqb "FALLBACK"
-#	csleep 1
-#
-	smr=$(sudo which rm)
-	ipt=$(sudo which iptables)
-	slinky=$(sudo which ln)
-	spc=$(sudo which cp)
-	slinky="${slinky} -s "
-	sco=$(sudo which chown)
-	scm=$(sudo which chmod)	
+smr=$(sudo which rm)
+ipt=$(sudo which iptables)
+slinky=$(sudo which ln)
+spc=$(sudo which cp)
+slinky="${slinky} -s "
+sco=$(sudo which chown)
+scm=$(sudo which chmod)	
 
-	#240325 lisäykset
-	ip6t=$(sudo which ip6tables)
-	iptr=$(sudo which iptables-restore)
-	ip6tr=$(sudo which ip6tables-restore)
+#240325 lisäykset
+ip6t=$(sudo which ip6tables)
+iptr=$(sudo which iptables-restore)
+ip6tr=$(sudo which ip6tables-restore)
 
-#	smr="${odio} ${smr}"
-#	ipt="${odio} ${ipt}"
-#	spc="${odio} ${spc}"
-#	slinky="${odio} ${slinky}"
-#	sco="${odio} ${sco}"
-#	scm="${odio} ${scm}"
-#
-#	ip6t="${odio} ${ip6t}"
-#	iptr="${odio} ${iptr}"
-#	ip6tr="${odio} ${ip6tr}"
-
-	echo "when in trouble, sudo chmod 0755 ${distro}; sudo chmod  0755 ${distro}/*.sh; sudo chmod 0644 ${distro}/conf may help "
-#fi
-
+dqb "when in trouble, sudo chmod 0755 ${distro}; sudo chmod  0755 ${distro}/*.sh; sudo chmod 0644 ${distro}/conf may help "
 #==============================================================
 function tod_dda() { 
 	#dqb "tod_dda(${1}) "
