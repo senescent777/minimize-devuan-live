@@ -9,14 +9,18 @@ function pre_part3() {
 	#josko vielä testaisi löytyykö asennettavia ennenq dpkg	(esim find)
 	#HUOM.20325:sittenkin varmempi etteoi käytä sdi:tä tässä koska check_binaries() kutsuu pp3 ja pr4
 
-	#sha512sums ole massaolo kuulusiu kai tarkistaa ensin jos on niinqu pedantti
-	if [ -s ${1}/sha512sums.txt ] ; then
+	#sha512sums ole massaolo kuuluISI kai tarkistaa ensin jos on niinqu pedantti
+	#HUOM.2490325:jotain urputusta oli -c:stä , pitäisi kai asettaa sah6 jos tyujhä (TODO)	
+	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		p=$(pwd)
 		cd ${1}
-		sha512sum -c sha512sums.txt
+		${sah6} -c sha512sums.txt --ignore-missing
 		echo $?
 		csleep 6
 		cd ${p}
+	else
+		dqb "NO SHA512SUMS"
+		csleep 1
 	fi
 
 	${odio} dpkg -i ${1}/netfilter-persistent*.deb

@@ -16,6 +16,10 @@ fi
 dqb "a-e"
 csleep 5
 
+#tarvitseeko?
+#c=$(find ${d} -name '*.deb' | wc -l)
+#[ ${c} -gt 0 ] || removepkgs=0
+
 #onkohan hyvä näin?
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
