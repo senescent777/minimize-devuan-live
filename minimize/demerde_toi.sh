@@ -2,7 +2,7 @@
 
 #HUOM. näiden skriptien kanssa bash tulkkina aiheuttaa vähemmän nalkutusta kuin sh
 debug=0
-distro="" #HUOM.250325:aika turha tuo distro tässä skriptissä
+#distro="" #HUOM.250325:aika turha tuo distro tässä skriptissä
 branch=""
 #VAIH:jos mahd ni git hakemaan vaihToehtoisen oksan?
 
@@ -25,28 +25,28 @@ fi
 
 if [ $# -gt 0 ] ; then
 	dqb "params_ok"
-	distro=${1}
+	#distro=${1}
 
-	if [ "${2}" == "-v" ] ; then
+	if [ "${1}" == "-v" ] ; then
 		debug=1
-		branch=${3}
-	else
 		branch=${2}
-		[ "${3}" == "-v" ] && debug=1
+	else
+		branch=${1}
+		[ "${2}" == "-v" ] && debug=1
 	fi
 else
 	echo "${0} <distro> [-v] [branch] | ${0} <distro> [branch] [-v]"
 	exit 66
 fi
 
-if [ -d ~/Desktop/minimize/${distro} ] ; then
-	dqb "tgt dir exists"
-else
-	echo "NO SUCH THING AS ~/Desktop/minimize/${distro} "
-	exit 67
-fi
+#if [ -d ~/Desktop/minimize/${distro} ] ; then
+#	dqb "tgt dir exists"
+#else
+#	echo "NO SUCH THING AS ~/Desktop/minimize/${distro} "
+#	exit 67
+#fi
 
-dqb "distro=${distro}"
+#dqb "distro=${distro}"
 dqb "branch=${branch}"
 
 q=$(${mkt} -d)
@@ -57,13 +57,19 @@ cd minimize-devuan-live
 [ ${debug} -eq 1 ] && ls -laRs;sleep 6
 
 if [ -d ~/Desktop/minimize ] ; then
-	#fiksummankin systeemin voisi keksiä mutta nyt näin
-	mv ~/Desktop/minimize ~/Desktop/minimize.OLD
+	if [ ! -d ~/Desktop/minimize.OLD ] ; then
+		mkdir ~/Desktop/minimize.OLD
+		mv ~/Desktop/minimize/* ~/Desktop/minimize.OLD
+	else
+		rm ~/Desktop/minimize/*
+	fi
+
+	csleep 6
 	mv minimize/* ~/Desktop/minimize
 fi
-
-chmod 0755 ~/Desktop/minimize/${distro}
-chmod 0755 ~/Desktop/minimize/${distro}/*.sh
+#
+#chmod 0755 ~/Desktop/minimize/${distro}
+#chmod 0755 ~/Desktop/minimize/${distro}/*.sh
 
 cd ~/Desktop/minimize
-echo "./export2.sh 0 /tmp/vomit.tar ${distro}"
+echo "./export2.sh 0 /tmp/vomit.tar \${distro}"
