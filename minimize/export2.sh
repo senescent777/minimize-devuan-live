@@ -4,9 +4,6 @@ debug=0
 tgtfile=""
 distro=""
 
-${scm} 0555 ~/Desktop/minimize/changedns.sh
-${sco} root:root ~/Desktop/minimize/changedns.sh
-
 case $# in
 	3)
 		tgtfile=${2}
@@ -38,6 +35,9 @@ if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.
 else
 	echo "L1B M1SSING";exit 66
 fi
+
+${scm} 0555 ~/Desktop/minimize/changedns.sh
+${sco} root:root ~/Desktop/minimize/changedns.sh
 
 #HUOM.140325:syystä tässä kohtaa moden asetus näin (ennen common_lib todnäk myös ok)
 mode=${1}

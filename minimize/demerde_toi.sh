@@ -70,6 +70,7 @@ fi
 #
 #chmod 0755 ~/Desktop/minimize/${distro}
 #chmod 0755 ~/Desktop/minimize/${distro}/*.sh
+#TODO:chmod-juttuja joutaisi kyllä laitella takaisin
 
 cd ~/Desktop/minimize
 echo "./export2.sh 0 /tmp/vomit.tar \${distro}"
