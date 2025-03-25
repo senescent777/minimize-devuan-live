@@ -150,7 +150,7 @@ dqb "GR1DN BELIALAS KYE"
 
 #HUOM. TOIMIIKO TUO KOMENTO TUOSSA ALLA VAI EI ??? (olikohan resolv.conf:ista kiinni)
 #(dns-ip konftdstoon niinqu josqs?)
-{odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
 ${sipt} -L
 csleep 6
 
