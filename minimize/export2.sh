@@ -231,16 +231,17 @@ function tp4() {
 
 		cd ~/Desktop/minimize/${2}
 		[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt		
+		csleep 5
 
 		touch ./sha512sums.txt
-		chown ${n}:${n} sha512sums.txt
-		chmod u+w sha512sums.txt
+		chown ${n}:${n} ./sha512sums.txt
+		chmod u+w ./sha512sums.txt
 		[ ${debug} -eq 1 ] && ls -las sha*;sleep 6
  		
-		${sah6} ./*.deb > sha512sums.txt
+		${sah6} ./*.deb > ./sha512sums.txt
 		csleep 6
 		
-		${sah6} -c ./sha512.txt
+		${sah6} -c ./sha512sums.txt
 		echo $?
 		${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb ~/Desktop/minimize/${2}/sha512sums.txt
 		csleep 1
@@ -353,9 +354,22 @@ function tpu() {
 	cd ~/Desktop/minimize/${2}
 
 	#HUOM.240325:tässäkin taisi olla nalkutusta, tee jotain (jos toistuu)
-	${sah6} ./*.deb > sha512sums.txt
+	[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt
+	csleep 5
+
+	touch ./sha512sums.txt
+	chown ${n}:${n} ./sha512sums.txt
+	chmod u+w ./sha512sums.txt
+	csleep 1
+
+	${sah6} ./*.deb > ./sha512sums.txt
+	csleep 1
+	${sah6} -c ./sha512sums.txt
+
+	echo $?
+	csleep 1
+
 	${srat} -rf ${1} ~/Desktop/minimize/${2}/sha512sums.txt
-	#TODO:sah6 -c sha512,.txt
 	cd ${p}
 
 	${sifd} ${iface}
