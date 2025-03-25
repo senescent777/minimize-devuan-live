@@ -388,7 +388,8 @@ function enforce_access() {
 	${scm} 0755 ~/Desktop/minimize	
 	for f in $(find ~/Desktop/minimize -type d) ; do ${scm} 0755 ${f} ; done	
 	for f in $(find ~/Desktop/minimize -type f) ; do ${scm} 0444 ${f} ; done	
-	for f in $(find ~/Desktop/minimize -name '*.sh') ; do ${scm} 0755 ${f} ; done
+	for f in $(find ~/Desktop/minimize -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
+	for f in $(find ~/Desktop/minimize -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
 	f=$(date +%F)
 
 	dqb "F1ND D0N3"

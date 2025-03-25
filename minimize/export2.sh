@@ -30,11 +30,13 @@ fi
 
 . ~/Desktop/minimize/common_lib.sh
 
-if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
-	. ~/Desktop/minimize/${distro}/lib.sh #TODO:tuo lib includeista mäkeen?
-else
-	echo "L1B M1SSING";exit 66
-fi
+#if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
+#	. ~/Desktop/minimize/${distro}/lib.sh #VAIH:tuo lib includeista mäkeen?
+#else
+#	echo "L1B M1SSING";exit 66
+#fi
+check_binaries ${distro}
+check_binaries2
 
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh

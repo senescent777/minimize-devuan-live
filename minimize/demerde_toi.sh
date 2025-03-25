@@ -45,7 +45,9 @@ ${tig} clone https://github.com/senescent777/minimize-devuan-live
 cd minimize-devuan-live
 [ ${debug} -eq 1 ] && ls -laRs;sleep 6
 
-if [ -d ~/Desktop/minimize ] ; then
+[ -d ~/Desktop/minimize ] || mkdir  ~/Desktop/minimize;sleep 6
+
+#if [ -d ~/Desktop/minimize ] ; then
 	#lototaan aiemman sisällön kanssa vaikka näin
 	if [ ! -d ~/Desktop/minimize.OLD ] ; then
 		mkdir ~/Desktop/minimize.OLD
@@ -56,7 +58,7 @@ if [ -d ~/Desktop/minimize ] ; then
 
 	csleep 6
 	mv minimize/* ~/Desktop/minimize
-fi
+#fi
 
 #jos tämä ao. oikeuksien sorkkiminen olisi hyvä
 n=$(whoami)

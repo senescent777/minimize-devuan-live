@@ -27,10 +27,12 @@ esac
 
 [ z"${distro}" == "z" ] && exit 6
 
-if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
+if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ] ; then	
 	. ~/Desktop/minimize/${distro}/conf
 	. ~/Desktop/minimize/common_lib.sh
-	. ~/Desktop/minimize/${distro}/lib.sh #TODO:joskohan tuo lib includointi pois jatkossa
+#	. ~/Desktop/minimize/${distro}/lib.sh #VAIH:joskohan tuo lib includointi pois jatkossa
+	check_binaries ${distro}
+	check_binaries2
 else
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
@@ -88,6 +90,7 @@ function common_part() {
 	#lisäksi myÖs export2 epäilyksen alainen
 
 	#HUOM. sittenkin sco ensin, jos tulee rootin omistamaa matskua vastaan
+	${sco} -R ${n}:${n} ~/Desktop/minimize		
 	chmod -R a-wx ~/Desktop/minimize/*
 	chmod 0755 ~/Desktop/minimize/*.sh
 	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/*.sh
