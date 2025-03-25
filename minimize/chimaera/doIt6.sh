@@ -42,6 +42,15 @@ if [ $# -gt 0 ] ; then
 	for opt in $@ ; do parse_opts_1 $opt ; done
 fi
 
+#HUOM.240325:fix_sudo/check_bin/enforce/part1 vaikuttavat paskovan jotain chimaeran kanssa
+#s.e. slim jää odottamaan äksää pidemmäksi aikaa
+#lisäksi iptables poistuu jostain syystä, ehkä sivuvaikutuksena toisista poistoista
+#... joten kunnes tulee jokin kuningasidea miten korjata tilanne, täytynee antaa chimaeran olla/keskittyä daedalukseen mieluummin
+#(voi myös olla että chimaeran .iso alkanut lahota, tätä varten sen sha-tarkistuksEN prujaaminen vähitellen, mksums yms.)
+#TODO:jokin minimaalinen testiskripti äksän rikkomiseksi, jos vaikka includoisi common_lib+lib ja katsoisi että riittääkö
+#
+#
+
 check_params 
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
 enforce_access ${n} 
@@ -70,10 +79,21 @@ csleep 3
 #K01avahi-jutut sopivaan kohtaan?
 
 #===================================================PART 2===================================
-#TODO:removepkgs riippumaan $distro:n alla olevista -deb-paketeista (jos ei pakettei, ei poistoja)
+#VAIH:removepkgs riippumaan $distro:n alla olevista -deb-paketeista (jos ei pakettei, ei poistoja)
+#HUOM.230235:näytti iptables kadonneen joten changedns:n toiminta kusi
+
+c=$(find ${d} -name '*.deb' | wc -l)
+[ ${c} -gt 0 ] || removepkgs=0
+
+#HUOM.2409325:saattaa olla turhaa kikkailua tuo c-juttu yllä
+#jos poistaa poakettaja tuossa alla ni tables vaan poistuu ja täts it
+
 if [ ${removepkgs} -eq 1 ] ; then
-	${sharpy} libblu* network* libcupsfilters* libgphoto* libopts25
-	${sharpy} avahi* blu* cups* exim*
+	#HUOM.240325: ekan rivin 3 ekaa kun poistaa niin iptables löytyy jo "no longer required"-listalta
+	#lototaan että network* poistaa tablesin ... NO Ei
+
+	${sharpy} libblu* libcupsfilters* libgphoto* libopts25
+	${sharpy} network* avahi* blu* cups* exim*
 	${sharpy} rpc* nfs* 
 	${sharpy} modem* wireless* wpa* iw lm-sensors
 fi
@@ -131,7 +151,7 @@ ${asy}
 csleep 3
 
 #VAIH:selvitä missä kohtaa x-oikeudet p.oistuvat
-~/Desktop/minimize/changedns.sh 0 ${distro}
+${odio} ~/Desktop/minimize/changedns.sh 0 ${distro}
 csleep 5
 
 ##===================================================PART 4(final)==========================================================
