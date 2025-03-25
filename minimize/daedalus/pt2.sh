@@ -5,6 +5,9 @@ d=$(dirname $0)
 . ~/Desktop/minimize/common_lib.sh
 [ -s ${d}/lib.sh ] && . ${d}/lib.sh
 
+
+${scm} 0555 ~/Desktop/minimize/changedns.sh
+${sco} root:root ~/Desktop/minimize/changedns.sh
 ${fib}
 
 if [ $# -gt 0 ] ; then  

@@ -110,11 +110,14 @@ function common_part() {
 		csleep 5
 	fi
 
+	${scm} 0555 ~/Desktop/minimize/changedns.sh
+	${sco} root:root ~/Desktop/minimize/changedns.sh
+
 	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/${2}
 	dqb "CHM09D D0N3"	
 	csleep 5
 
-	#TODO:himaera-spesifinen testi tähän vai ei?
+	#himaera-spesifinen testi tähän vai ei?
 	${scm} 0777 /tmp
 	#${scm} o+t /tmp #sittenkin pois?
 	${sco} root:root /tmp 

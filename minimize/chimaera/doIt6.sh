@@ -149,6 +149,9 @@ ${asy}
 csleep 3
 
 #VAIH:selvitä missä kohtaa x-oikeudet p.oistuvat
+
+${scm} 0555 ~/Desktop/minimize/changedns.sh
+${sco} root:root ~/Desktop/minimize/changedns.sh
 ${odio} ~/Desktop/minimize/changedns.sh 0 ${distro}
 csleep 5
 

@@ -2,7 +2,7 @@
 
 #HUOM. näiden skriptien kanssa bash tulkkina aiheuttaa vähemmän nalkutusta kuin sh
 debug=0
-distro=""
+distro="" #HUOM.250325:aika turha tuo distro tässä skriptissä
 branch=""
 #VAIH:jos mahd ni git hakemaan vaihToehtoisen oksan?
 
@@ -57,8 +57,9 @@ cd minimize-devuan-live
 [ ${debug} -eq 1 ] && ls -laRs;sleep 6
 
 if [ -d ~/Desktop/minimize ] ; then
-	echo "rm -rf ~/Desktop/minimize/*"
-	echo "mv minimize/* ~/Desktop/minimize"
+	#fiksummankin systeemin voisi keksiä mutta nyt näin
+	mv ~/Desktop/minimize ~/Desktop/minimize.OLD
+	mv minimize/* ~/Desktop/minimize
 fi
 
 chmod 0755 ~/Desktop/minimize/${distro}
