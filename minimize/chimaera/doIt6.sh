@@ -47,9 +47,7 @@ fi
 #lisäksi iptables poistuu jostain syystä, ehkä sivuvaikutuksena toisista poistoista
 #... joten kunnes tulee jokin kuningasidea miten korjata tilanne, täytynee antaa chimaeran olla/keskittyä daedalukseen mieluummin
 #(voi myös olla että chimaeran .iso alkanut lahota, tätä varten sen sha-tarkistuksEN prujaaminen vähitellen, mksums yms.)
-#TODO:jokin minimaalinen testiskripti äksän rikkomiseksi, jos vaikka includoisi common_lib+lib ja katsoisi että riittääkö
-#
-#
+#VAIH:jokin minimaalinen testiskripti äksän rikkomiseksi, jos vaikka includoisi common_lib+lib ja katsoisi että riittääkö
 
 check_params 
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
