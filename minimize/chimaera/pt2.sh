@@ -5,7 +5,6 @@ d=$(dirname $0)
 . ~/Desktop/minimize/common_lib.sh
 [ -s ${d}/lib.sh ] && . ${d}/lib.sh
 
-
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 ${fib}
@@ -15,8 +14,6 @@ if [ $# -gt 0 ] ; then
 		debug=1
 	fi
 fi
-
-#HUOM.120325:mitäköhän tämän kanssa tekee? ehkä oltava distro-kohtainen
 
 #tarvitseeko?
 #c=$(find ${d} -name '*.deb' | wc -l)
