@@ -354,7 +354,9 @@ function tpu() {
 
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
+	${scm} 0444 ~/Desktop/minimize/${2}/*.deb
 	${srat} -cf ${1} ~/Desktop/minimize/${2}/*.deb
+	echo $? #exit jos qsee (TODO)
 
 	p=$(pwd)
 	cd ~/Desktop/minimize/${2}
@@ -364,15 +366,16 @@ function tpu() {
 	csleep 5
 
 	touch ./sha512sums.txt
-	#chown ${n}:${n} ./sha512sums.txt
-	#chmod u+w ./sha512sums.txt
+	chown ${n}:${n} ./sha512sums.txt
+	chmod 0644 ./sha512sums.txt
 	csleep 1
 
 	${sah6} ./*.deb > ./sha512sums.txt
 	csleep 1
 	${sah6} -c ./sha512sums.txt
-
-	echo $?
+	
+	echo $? #exit jos qsee (TODO)
+	chmod 0444 ./sha512sums.txt
 	csleep 1
 
 	${srat} -rf ${1} ~/Desktop/minimize/${2}/sha512sums.txt
