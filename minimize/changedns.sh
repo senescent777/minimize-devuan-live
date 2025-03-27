@@ -21,7 +21,7 @@ function csleep() {
 
 #250325 tienoilla tarkoitus vivuta sek lib että common_lib mäkeen aiheeseen liittyen
 #osoittautunut että kirjastojen ja konftdstojen includointi huono idea jos aikoo sudottaa koko roskan
-#toisaalta jos sudottaa niin sudoersiin ei tartte lisätä niin montaa komentoa eikä rapoa niiden parametrien kanssa että saakko niiden suhteen rajoitettua
+#toisaalta jos sudottaa niin sudoersiin ei tartte lisätä niin montaa komentoa eikä ARpoa niiden parametrien kanssa että saako niiden suhteen rajoitettua
 
 function pr4() {
 	dqb "cdns.pr4 (${1})" 
@@ -188,7 +188,7 @@ function clouds_post() {
 		##HUOM.240325: mitähän tarkistuksia tuohon vielä?
 		#if [ x"${ip6t}" != "x" ] ; then #
 		#	if [ -x ${ip6t} ] ; then #
-		#		${ip6t} -L #parempi ajaa vain jos löytyy
+				${ip6t} -L #parempi ajaa vain jos löytyy
 		#	fi #
 		#fi #
 
@@ -231,13 +231,13 @@ function clouds_case1() {
 
 		if [ -s /etc/resolv.conf.new ] ; then
 			echo "r30lv.c0nf alr3ady 3x15t5"
-#		else
+		else
 #HUOM. römönkin vui tehdä vähemmällä sudotyksella
-#			sudo touch /etc/resolv.conf.new
-#			sudo chmod a+w /etc/resolv.conf.new
-#			sudo echo "nameserver 127.0.0.1" > /etc/resolv.conf.new
-#			sudo chmod 0444 /etc/resolv.conf.new
-#			sudo chown root:root /etc/resolv.conf.new
+			sudo touch /etc/resolv.conf.new
+			sudo chmod a+w /etc/resolv.conf.new
+			sudo echo "nameserver 127.0.0.1" > /etc/resolv.conf.new
+			sudo chmod 0444 /etc/resolv.conf.new
+			sudo chown root:root /etc/resolv.conf.new
 		fi
 
 		${slinky} /etc/resolv.conf.new /etc/resolv.conf
@@ -246,16 +246,17 @@ function clouds_case1() {
 
 		if [ y"${ipt}" == "y" ] ; then
 			echo "SHOULD 1NSTALL TABL35"
-#		else
-#			${ipt} -A INPUT -p tcp -m tcp --sport 853 -j b
-#			${ipt} -A OUTPUT -p tcp -m tcp --dport 853 -j e
-#			for s in $(grep -v '#' /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do tod_dda ${s} ; done
+		else
+			${ipt} -A INPUT -p tcp -m tcp --sport 853 -j b
+			${ipt} -A OUTPUT -p tcp -m tcp --dport 853 -j e
+			for s in $(grep -v '#' /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do tod_dda ${s} ; done
 		fi
-#
-#		echo "dns";sleep 2
-#		/etc/init.d/dnsmasq restart
-#		pgrep dnsmasq
-#
+
+		echo "dns";sleep 2
+		/etc/init.d/dnsmasq restart
+		pgrep dnsmasq
+
+#HUOM.270325:tästä eteenpäin vaatinee pientä laittoa
 #		echo "stu";sleep 2
 #		${whack} stubby* #090325: pitäisiköhän tämä muuttaa?
 #		sleep 3	
