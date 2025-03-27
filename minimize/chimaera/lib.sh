@@ -8,7 +8,7 @@ function pr4() {
 		p=$(pwd)
 		cd ${1}
 		${sah6} -c sha512sums.txt --ignore-missing
-		echo $?
+		echo $? #exit jos ei nolla
 		csleep 6
 		cd ${p}
 	else
