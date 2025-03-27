@@ -398,8 +398,8 @@ function tp5() {
 	[ $? -eq 0 ] || exit 99
 
 	mv some_scripts/lib/export/profs* ~/Desktop/minimize 
-	#${scm} 0755 ~/Desktop/minimize/profs*
-	#${srat} -rvf ${1} ~/Desktop/minimize/profs*
+	${scm} 0755 ~/Desktop/minimize/profs*
+	${srat} -rvf ${1} ~/Desktop/minimize/profs*
 
 	dqb "AAMUNK01"
 }
