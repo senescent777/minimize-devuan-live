@@ -4,6 +4,7 @@
 debug=0
 branch=""
 #VAIH:jos mahd ni git hakemaan vaihToehtoisen oksan?
+#TODO:mktemp-kikkailut pois, plain old git clone tilalle ja täts it
 
 if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
 	. ~/Desktop/minimize/common_lib.sh #HUOM. tarvitsiko tästä jota9in?
