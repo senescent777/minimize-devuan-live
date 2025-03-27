@@ -11,6 +11,8 @@ else
 	exit 111	
 fi
 
+#HUOM.270325:viimeaikaiset testailut daedaluksen kanssa viittaisivat siihen suuntaan että oikeus-omistajuus-asiat muuten ok mutta ehkä import-export-demerde-vaihe tarkistetttava
+
 n=$(whoami)
 #TODO:->common_lib?
 function parse_opts_1() {
@@ -49,7 +51,7 @@ enforce_access ${n}
 dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary" 
 part1 ${distro} 
 #HUOM.190325:part_1_5sessa oli bugi, u+w ei vaan riitä
-#[ ${debug} -eq 1 ] && less /etc/apt/sources.list
+
 [ ${mode} -eq 0 ] && exit
 
 #HUOM.261224: ntpsec uutena
@@ -86,9 +88,11 @@ c=$(find ${d} -name '*.deb' | wc -l)
 
 if [ ${removepkgs} -eq 1 ] ; then
 	${sharpy} libblu* network* libcupsfilters* libgphoto* 
-	# libopts25 ei tömmöistä daedaluksessa
+	# libopts25 ei tÄmmöistä daedaluksessa
 
-	#HUOM.200325:eximin läsnäolo aiheuyiu removepkgs-mjan arvosrta
+	#HUOM.200325:eximin läsnäolo aiheuTUI removepkgs-mjan arvosta
+	#liittyen, tdstoon pt2.sh lisätty kys mjasta riippuvainen if-blokki
+
 	${sharpy} avahi* blu* cups* 
 	${sharpy} exim*
 
@@ -151,14 +155,12 @@ dqb "GR1DN BELIALAS KYE"
 #HUOM. TOIMIIKO TUO KOMENTO TUOSSA ALLA VAI EI ??? (olikohan resolv.conf:ista kiinni)
 #(dns-ip konftdstoon niinqu josqs?)
 
-
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 ${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
 ${sipt} -L
 csleep 6
 
-#${scm} a-wx ~/Desktop/minimize/*.sh #sotkee
 ${scm} a-wx $0 #oikeastaan kerta-ajo tulisi riittää tai toisaalta daedaluksen versiossa ominaisuuksia
 
 #===================================================PART 4(final)==========================================================
