@@ -30,6 +30,7 @@ fi
 
 . ~/Desktop/minimize/common_lib.sh
 #HUOM.270325: olisi hyvä olla tablesin kanssa asiat kunnossa enneq aletaan vetää matsqua verkon yli -> lib ehkä tarvitaan vielä tässä skriptissä
+#jospa kokeilisi ajaa export2 ennen muita skriptejä 
 #if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
 #	. ~/Desktop/minimize/${distro}/lib.sh #VAIH:tuo lib includeista mäkeen?
 #else
@@ -38,8 +39,8 @@ fi
 check_binaries ${distro}
 check_binaries2
 
-#${scm} 0555 ~/Desktop/minimize/changedns.sh
-#${sco} root:root ~/Desktop/minimize/changedns.sh
+${scm} 0555 ~/Desktop/minimize/changedns.sh
+${sco} root:root ~/Desktop/minimize/changedns.sh
 
 #HUOM.140325:syystä tässä kohtaa moden asetus näin (ennen common_lib todnäk myös ok)
 mode=${1}
@@ -60,8 +61,8 @@ if [ x"${mkt}" == "x" ] ; then
 	exit 8
 fi
 
-#${sco} -Rv _apt:root ${pkgdir}/partial/
-#${scm} -Rv 700 ${pkgdir}/partial/
+${sco} -Rv _apt:root ${pkgdir}/partial/
+${scm} -Rv 700 ${pkgdir}/partial/
 csleep 4
 
 #HUOM.240325:oli jossain kohtaa nalkutusta aiheesta chmod, sittenkin scm takaisin?
@@ -69,8 +70,8 @@ csleep 4
 function pre() {
 	[ x"${1}" == "z" ] && exit 666
 
-	#${sco} -Rv _apt:root ${pkgdir}/partial/
-	#${scm} -Rv 700 ${pkgdir}/partial/
+	${sco} -Rv _apt:root ${pkgdir}/partial/
+	${scm} -Rv 700 ${pkgdir}/partial/
 	csleep 4
 
 	if [ -d ~/Desktop/minimize/${1} ] ; then
@@ -112,8 +113,8 @@ function pre2() {
 		[ ${debug} -eq 1 ] && /sbin/ifconfig
 		csleep 4
 
-		#${sco} -Rv _apt:root ${pkgdir}/partial/
-		#${scm} -Rv 700 ${pkgdir}/partial/
+		${sco} -Rv _apt:root ${pkgdir}/partial/
+		${scm} -Rv 700 ${pkgdir}/partial/
 		
 		${sag_u}
 		csleep 4
