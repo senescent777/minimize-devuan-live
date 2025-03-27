@@ -9,13 +9,13 @@ function pre_part3() {
 	#josko vielä testaisi löytyykö asennettavia ennenq dpkg	(esim find)
 	#HUOM.20325:sittenkin varmempi ettei käytä sdi:tä tässä koska check_binaries() kutsuu pp3 ja pr4
 
-	#sha512sums ole massaolo kuuluISI kai tarkistaa ensin jos on niinqu pedantti
-	#HUOM.2490325:jotain urputusta oli -c:stä , pitäisi kai asettaa sah6 jos tyHJä	
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		p=$(pwd)
 		cd ${1}
 		${sah6} -c sha512sums.txt --ignore-missing
 		echo $?
+
+		#HUOM.270352:lienee aiheellista keskeyttää jos sha512-tark qsee
 		csleep 6
 		cd ${p}
 	else
@@ -42,7 +42,6 @@ function pre_part3() {
 	csleep 3
 }
 
-#HUOM.190325: git näyttäisi asentuvan
 #(olikohan näiden pp3 ja pre4 kanssa jotain säätämistä vielä?)
 
 pr4() {
@@ -74,5 +73,3 @@ pr4() {
 
 check_binaries ${distro}
 check_binaries2
-
-
