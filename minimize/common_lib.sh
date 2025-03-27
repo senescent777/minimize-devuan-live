@@ -328,10 +328,8 @@ function pre_enforce() {
 	fi
 }
 
-#HUOM.240325: suattaapi olla niinnii jotta tämä paskoo chimaeran kanssa slim:in vuan suattaapi ettei
-#1 idea olisi laittaa $distro:n taakse muut ch-komennot kuin /home:a koskevat
-#... ehkä selviäisi jotain siitä (ei tainnut auttaa)
-#mikäli saa paketit takaisin kopsaamalla jutut toimimaan(saa vissiin), koklaa miten äksä ja erityisesti miten x kun ao. chimaera-tarkistus poissa (vaih)
+#HUOM.270325:vaikuttaisi siltä että part1() rikkoo chimaeran/äksän/slimin tai sitten uusi tikku tai optinen kiekko olisi kokeilemisen arvoinen juttu
+#pas2.sh kutsuu tätä ja vissiin ei aiheuttanut härdelliä
 function enforce_access() {
 	dqb " enforce_access( ${1})"	
 
@@ -385,11 +383,13 @@ function enforce_access() {
 	#HUOM.240325.1:tartteekohan sudon kautta vetää tässä ao. blokissa?
 	#HUOM.2: mahd. .deb kirjoikeudet pitäisi kai poistua töässä
 	local f
+
 	${scm} 0755 ~/Desktop/minimize	
 	for f in $(find ~/Desktop/minimize -type d) ; do ${scm} 0755 ${f} ; done	
 	for f in $(find ~/Desktop/minimize -type f) ; do ${scm} 0444 ${f} ; done	
 	for f in $(find ~/Desktop/minimize -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
 	for f in $(find ~/Desktop/minimize -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
+	#TODO:chmod 0444 conf* mukaan	
 	f=$(date +%F)
 
 	dqb "F1ND D0N3"
@@ -424,7 +424,7 @@ function part1_5() {
 				[ -f /etc/apt/sources.list ] && ${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
 				h=$(mktemp -d)		
 				touch ${h}/sources.list.${1} 
-				#uudella taballa ei tartte lisäillä oikeuksia rdsroon
+				#uudella taValla ei tartte lisäillä oikeuksia TdsToon
 
 				for x in ${1} ${1}-updates ${1}-security ; do
 					echo "deb https://${pkgsrc}/merged ${x} main" >> ${h}/sources.list.${1}  
@@ -443,7 +443,7 @@ function part1_5() {
 	${scm} -R a-w /etc/apt/
 }
 
-#HUOM. onko todellakin näin että tämä rikkoo jotain äksän kanssa kun slim joutuu odottamaan miniitteja ?
+#HUOM. onko todellakin näin että tämä rikkoo jotain äksän kanssa kun slim joutuu odottamaan minUUtteja ?
 function part1() {
 	#jos jokin näistä kolmesta hoitaisi homman...
 	${sifd} ${iface}
@@ -500,6 +500,8 @@ function part3() {
 		cd ${1}
 		${sah6} -c sha512sums.txt --ignore-missing
 		echo $?
+
+		#HUOM. vähitellen mukaan exit mikli tark ei älpi?
 		csleep 6
 		cd ${p}
 	else
@@ -534,7 +536,7 @@ function part3() {
 function ecfx() {
 	dqb "echx"
 
-	#for .. do .. done saattaisi olla fiksumpi tässä (tai jokin find-loitsu)
+	#for .. do .. done saattaisi olla fiksumpi tässä (tai jokin find-loitsu) tsi Aivan Sama nykyään(270325)
 	if [ -s ~/Desktop/minimize/xfce.tar ] ; then
 		${srat} -C / -xvf ~/Desktop/minimize/xfce.tar
 	fi
