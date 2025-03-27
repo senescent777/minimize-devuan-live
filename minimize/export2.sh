@@ -84,6 +84,7 @@ function pre() {
 		#${sco} 0:0 /home
 		#${scm} 0755 /home
 		#${sco} ${n}:${n} ~
+		#HUOM. enforce_access() on keksitty
 
 		#chmod 0755 ~/Desktop/minimize
 		#chmod 0755 ~/Desktop/minimize/${1}

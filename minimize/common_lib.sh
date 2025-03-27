@@ -333,41 +333,39 @@ function pre_enforce() {
 function enforce_access() {
 	dqb " enforce_access( ${1})"	
 
-#	if [ "${distro}" != "chimaera" ] ; then
-		${scm} 0440 /etc/sudoers.d/* 
-		${scm} 0750 /etc/sudoers.d 
-		${sco} -R root:root /etc/sudoers.d
+	${scm} 0440 /etc/sudoers.d/* 
+	${scm} 0750 /etc/sudoers.d 
+	${sco} -R root:root /etc/sudoers.d
 
-		dqb "changing /sbin , /etc and /var 4 real"
-		${sco} -R root:root /sbin
-		${scm} -R 0755 /sbin
+	dqb "changing /sbin , /etc and /var 4 real"
+	${sco} -R root:root /sbin
+	${scm} -R 0755 /sbin
 
-		for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
+	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
 
-		for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do 
-			mangle2 ${f}
-		done
+	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do 
+		mangle2 ${f}
+	done
 
-		${scm} 0755 /etc 
-		${sco} -R root:root /etc #-R liikaa?
+	${scm} 0755 /etc 
+	${sco} -R root:root /etc #-R liikaa?
 
-		#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
-		${sco} root:root /var
-		${scm} 0755 /var
-	
-		${sco} root:staff /var/local
-		${sco} root:mail /var/mail
+	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
+	${sco} root:root /var
+	${scm} 0755 /var
+
+	${sco} root:staff /var/local
+	${sco} root:mail /var/mail
 			
-		${sco} -R man:man /var/cache/man 
-		${scm} -R 0755 /var/cache/man
+	${sco} -R man:man /var/cache/man 
+	${scm} -R 0755 /var/cache/man
 
-		${scm} 0755 /
-		${sco} root:root /
+	${scm} 0755 /
+	${sco} root:root /
 
-		${scm} 0777 /tmp
-		#${scm} o+t /tmp #sittenkin pois? chimaerassa slim rikki juuri tämän takia?
-		${sco} root:root /tmp
-#	fi
+	${scm} 0777 /tmp
+	#${scm} o+t /tmp #sittenkin pois? chimaerassa slim rikki juuri tämän takia?
+	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar sössii oikeudet tai omistajat
 	${sco} root:root /home
@@ -389,7 +387,7 @@ function enforce_access() {
 	for f in $(find ~/Desktop/minimize -type f) ; do ${scm} 0444 ${f} ; done	
 	for f in $(find ~/Desktop/minimize -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
 	for f in $(find ~/Desktop/minimize -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
-	#TODO:chmod 0444 conf* mukaan	
+	for f in $(find ~/Desktop/minimize -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done	
 	f=$(date +%F)
 
 	dqb "F1ND D0N3"

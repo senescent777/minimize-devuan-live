@@ -106,15 +106,17 @@ function common_part() {
 	#lisäksi myÖs export2 epäilyksen alainen
 
 	#HUOM. sittenkin sco ensin, jos tulee rootin omistamaa matskua vastaan
-	${sco} -R ${n}:${n} ~/Desktop/minimize		
-	chmod -R a-wx ~/Desktop/minimize/*
-	chmod 0755 ~/Desktop/minimize/*.sh
+	#${sco} -R ${n}:${n} ~/Desktop/minimize		
+	#chmod -R a-wx ~/Desktop/minimize/*
+	#chmod 0755 ~/Desktop/minimize/*.sh
+
+	enforce_access ${n}
 	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/*.sh
 	csleep 5
 
-	for f in $(find ~/Desktop/minimize -type d) ; do ${scm} 0755 ${f} ; done 
+	#for f in $(find ~/Desktop/minimize -type d) ; do ${scm} 0755 ${f} ; done 
 	#jos nyt olisi hyvä...	
-	chmod 0755 ~/Desktop/minimize
+	#chmod 0755 ~/Desktop/minimize
 	
 	if [ -d ~/Desktop/minimize/${2} ] ; then 
 		dqb "HAIL UKK"
@@ -125,22 +127,22 @@ function common_part() {
 		${scm} 0444 ~/Desktop/minimize/${2}/conf*
 
 		#uutena, pois jos kusee
-		${scm} a-w ~/Desktop/minimize/${2}/*.deb
+		${scm} 0444 ~/Desktop/minimize/${2}/*.deb
 		csleep 5
 	fi
 
-	${scm} 0555 ~/Desktop/minimize/changedns.sh
-	${sco} root:root ~/Desktop/minimize/changedns.sh
+	#${scm} 0555 ~/Desktop/minimize/changedns.sh
+	#${sco} root:root ~/Desktop/minimize/changedns.sh
 
 	#HUOM.260325:näytti järkevältä ls tässä
 	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/${2}
-	dqb "CHM09D D0N3"	
+	#dqb "CHM09D D0N3"	
 	csleep 5
 
 	#himaera-spesifinen testi tähän vai ei?
-	${scm} 0777 /tmp
-	#${scm} o+t /tmp #sittenkin pois?
-	${sco} root:root /tmp 
+	#${scm} 0777 /tmp
+	##${scm} o+t /tmp #sittenkin pois?
+	#${sco} root:root /tmp 
 	
 	dqb "ALL DONE"
 }

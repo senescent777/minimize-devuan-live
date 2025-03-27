@@ -62,6 +62,13 @@ cd minimize-devuan-live
 #fi
 
 #jos tämä ao. oikeuksien sorkkiminen olisi hyvä
+#HUOM. enforce_access() on keksitty
+${sco} 0:0 /
+${scm} 0755 /
+${sco} 0:0 /home
+${scm} 0755 /home
+${sco} ${n}:${n} ~
+
 n=$(whoami)
 ${sco} -R ${n}:${n} ~ 
 ${scm} -R a-wx ~/Desktop/minimize
