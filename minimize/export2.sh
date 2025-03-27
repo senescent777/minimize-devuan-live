@@ -38,8 +38,8 @@ fi
 check_binaries ${distro}
 check_binaries2
 
-${scm} 0555 ~/Desktop/minimize/changedns.sh
-${sco} root:root ~/Desktop/minimize/changedns.sh
+#${scm} 0555 ~/Desktop/minimize/changedns.sh
+#${sco} root:root ~/Desktop/minimize/changedns.sh
 
 #HUOM.140325:syystä tässä kohtaa moden asetus näin (ennen common_lib todnäk myös ok)
 mode=${1}
@@ -60,8 +60,8 @@ if [ x"${mkt}" == "x" ] ; then
 	exit 8
 fi
 
-${sco} -Rv _apt:root ${pkgdir}/partial/
-${scm} -Rv 700 ${pkgdir}/partial/
+#${sco} -Rv _apt:root ${pkgdir}/partial/
+#${scm} -Rv 700 ${pkgdir}/partial/
 csleep 4
 
 #HUOM.240325:oli jossain kohtaa nalkutusta aiheesta chmod, sittenkin scm takaisin?
@@ -69,21 +69,21 @@ csleep 4
 function pre() {
 	[ x"${1}" == "z" ] && exit 666
 
-	${sco} -Rv _apt:root ${pkgdir}/partial/
-	${scm} -Rv 700 ${pkgdir}/partial/
+	#${sco} -Rv _apt:root ${pkgdir}/partial/
+	#${scm} -Rv 700 ${pkgdir}/partial/
 	csleep 4
 
 	if [ -d ~/Desktop/minimize/${1} ] ; then
 		dqb "5TNA"
 
 		#HUOM. tässä yhteydessä sudon kautta vetäminen lienee liikaa(no sco:n kyllä joutaisi ennen, TODO)
-		chmod 0755 ~/Desktop/minimize/${1}
-		chmod 0755 ~/Desktop/minimize/*.sh
-		chmod 0755 ~/Desktop/minimize/${1}/*.sh
-		#TODO:chmdo 0444 ~/Desktop/minimize/${1}/comnf*
-		chmod 0444 ~/Desktop/minimize/${1}/*.deb
-		#VAIH:yllä nuo chmod-jutut, kts että toimii toivotulla tavalla, jossain poistuu x-oikeudet ja saa aina renkata
-		csleep 2
+		#chmod 0755 ~/Desktop/minimize/${1}
+		#chmod 0755 ~/Desktop/minimize/*.sh
+		#chmod 0755 ~/Desktop/minimize/${1}/*.sh
+		##TODO:chmdo 0444 ~/Desktop/minimize/${1}/comnf*
+		#chmod 0444 ~/Desktop/minimize/${1}/*.deb
+		##VAIH:yllä nuo chmod-jutut, kts että toimii toivotulla tavalla, jossain poistuu x-oikeudet ja saa aina renkata
+		#csleep 2
 
 		if [ -s /etc/apt/sources.list.${1} ] ; then
 			${smr} /etc/apt/sources.list
@@ -112,8 +112,8 @@ function pre2() {
 		[ ${debug} -eq 1 ] && /sbin/ifconfig
 		csleep 4
 
-		${sco} -Rv _apt:root ${pkgdir}/partial/
-		${scm} -Rv 700 ${pkgdir}/partial/
+		#${sco} -Rv _apt:root ${pkgdir}/partial/
+		#${scm} -Rv 700 ${pkgdir}/partial/
 		
 		${sag_u}
 		csleep 4
@@ -131,8 +131,8 @@ function tp1() {
 
 	#HUOM. tässä yhteydessä sudon kautta vetäminen lienee liikaa		
 	#HUOM.2.:mikä näissä se pointti?	
-	chmod -R a-wx ~/Desktop/minimize/*
-	chmod 0755 ~/Desktop/minimize
+	#chmod -R a-wx ~/Desktop/minimize/*
+	#chmod 0755 ~/Desktop/minimize
 
 	if [ -d ~/Desktop/minimize/${2} ] ; then
 		dqb "cleaning up ~/Desktop/minimize/${2} "
@@ -242,8 +242,8 @@ function tp4() {
 		csleep 5
 
 		touch ./sha512sums.txt
-		chown ${n}:${n} ./sha512sums.txt
-		chmod u+w ./sha512sums.txt
+		#chown ${n}:${n} ./sha512sums.txt
+		#chmod u+w ./sha512sums.txt
 		[ ${debug} -eq 1 ] && ls -las sha*;sleep 6
  		
 		${sah6} ./*.deb > ./sha512sums.txt
@@ -313,8 +313,8 @@ function tp3() {
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 
-	${sco} -R root:root ./etc; ${scm} -R a-w ./etc
-	${sco} -R root:root ./sbin; ${scm} -R a-w ./sbin
+	#${sco} -R root:root ./etc; ${scm} -R a-w ./etc
+	#${sco} -R root:root ./sbin; ${scm} -R a-w ./sbin
 	${srat} -rf ${1} ./etc ./sbin 
 	
 	cd ${p}
@@ -363,8 +363,8 @@ function tpu() {
 	csleep 5
 
 	touch ./sha512sums.txt
-	chown ${n}:${n} ./sha512sums.txt
-	chmod u+w ./sha512sums.txt
+	#chown ${n}:${n} ./sha512sums.txt
+	#chmod u+w ./sha512sums.txt
 	csleep 1
 
 	${sah6} ./*.deb > ./sha512sums.txt
@@ -398,8 +398,8 @@ function tp5() {
 	[ $? -eq 0 ] || exit 99
 
 	mv some_scripts/lib/export/profs* ~/Desktop/minimize 
-	${scm} 0755 ~/Desktop/minimize/profs*
-	${srat} -rvf ${1} ~/Desktop/minimize/profs*
+	#${scm} 0755 ~/Desktop/minimize/profs*
+	#${srat} -rvf ${1} ~/Desktop/minimize/profs*
 
 	dqb "AAMUNK01"
 }
