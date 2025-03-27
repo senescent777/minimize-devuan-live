@@ -13,7 +13,7 @@ function pre_part3() {
 		p=$(pwd)
 		cd ${1}
 		${sah6} -c sha512sums.txt --ignore-missing
-		echo $?
+		echo $?  #exit jos ei nolla
 
 		#HUOM.270352:lienee aiheellista keskeyttää jos sha512-tark qsee
 		csleep 6
