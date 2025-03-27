@@ -31,6 +31,7 @@ fi
 . ~/Desktop/minimize/common_lib.sh
 #HUOM.270325: olisi hyvä olla tablesin kanssa asiat kunnossa enneq aletaan vetää matsqua verkon yli -> lib ehkä tarvitaan vielä tässä skriptissä
 #jospa kokeilisi ajaa export2 ennen muita skriptejä 
+
 #if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
 #	. ~/Desktop/minimize/${distro}/lib.sh #VAIH:tuo lib includeista mäkeen?
 #else
@@ -78,12 +79,22 @@ function pre() {
 		dqb "5TNA"
 
 		#HUOM. tässä yhteydessä sudon kautta vetäminen lienee liikaa(no sco:n kyllä joutaisi ennen, TODO)
+		#${sco} 0:0 /
+		#${scm} 0755 /
+		#${sco} 0:0 /home
+		#${scm} 0755 /home
+		#${sco} ${n}:${n} ~
+
+		#chmod 0755 ~/Desktop/minimize
 		#chmod 0755 ~/Desktop/minimize/${1}
 		#chmod 0755 ~/Desktop/minimize/*.sh
+		
 		#chmod 0755 ~/Desktop/minimize/${1}/*.sh
-		##TODO:chmdo 0444 ~/Desktop/minimize/${1}/comnf*
+		#chmod 0444 ~/Desktop/minimize/${1}/conf*
 		#chmod 0444 ~/Desktop/minimize/${1}/*.deb
-		##VAIH:yllä nuo chmod-jutut, kts että toimii toivotulla tavalla, jossain poistuu x-oikeudet ja saa aina renkata
+
+		##VAIH:yllä nuo chmod-jutut, kts että toimii toivotulla tavalla, jossain poistuI x-oikeudet ja sai aina renkata
+		#... tosin mielekkäämpää hakata noita yo. ch-komentoja import2:sessa		
 		#csleep 2
 
 		if [ -s /etc/apt/sources.list.${1} ] ; then
