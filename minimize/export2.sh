@@ -30,7 +30,7 @@ fi
 
 . ~/Desktop/minimize/common_lib.sh
 #HUOM.270325: olisi hyvä olla tablesin kanssa asiat kunnossa enneq aletaan vetää matsqua verkon yli -> lib ehkä tarvitaan vielä tässä skriptissä
-#jospa kokeilisi ajaa export2 ennen muita skriptejä 
+#TODO:jospa kokeilisi ajaa export2 ennen muita skriptejä tjsp. kun tables poissa ni mitä tapahtuu
 
 #if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
 #	. ~/Desktop/minimize/${distro}/lib.sh #VAIH:tuo lib includeista mäkeen?

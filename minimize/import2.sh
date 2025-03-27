@@ -38,6 +38,7 @@ function pre_part3() {
 if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ] ; then	
 	. ~/Desktop/minimize/${distro}/conf
 	. ~/Desktop/minimize/common_lib.sh
+
 	echo $?
 	csleep 1
 
@@ -196,6 +197,9 @@ case "${1}" in
 		#P.S. käyttöoikeudetkin tulisi huomioida stna
 
 		#HUOM.270325:nykyään pp3 ja pr4 turhia vai ei?
+		#... no jos varsinaisilla paketeilla on riippuvuuksia joistain muista
+		#... eli vissiin lib takaisin kuitenkin?
+
 		pre_part3 ~/Desktop/minimize/${distro}
 		pr4 ~/Desktop/minimize/${distro}
 
