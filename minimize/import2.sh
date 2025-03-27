@@ -1,6 +1,6 @@
 #!/bin/bash
 d=$(dirname $0)
-debug=0
+debug=1
 file=""
 distro=""
 #joitain oletusarvoja
@@ -27,10 +27,28 @@ esac
 
 [ z"${distro}" == "z" ] && exit 6
 
-if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
+function pr4() {
+	dqb "imp2.pr4 (${1})" 
+}
+
+function pre_part3() {
+	dqb "imp2.pre_part3( ${1})"
+}
+
+if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ] ; then	
 	. ~/Desktop/minimize/${distro}/conf
 	. ~/Desktop/minimize/common_lib.sh
-	. ~/Desktop/minimize/${distro}/lib.sh
+	echo $?
+	csleep 1
+
+	check_binaries ${distro}
+	#[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon tyakia?
+	echo $?
+	csleep 1
+
+	check_binaries2
+	#[ $? -eq 0 ] || exit 8
+	csleep 1
 else
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
@@ -61,7 +79,7 @@ dqb "file=${file}"
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
 
-if [ ! -s /OLD.tar ] ; then #HUOM.260125: -p wttuun varm. vuoksi   
+if [ ! -s /OLD.tar ] ; then 
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby /home/devuan/Desktop
 fi
 
@@ -88,6 +106,7 @@ function common_part() {
 	#lisäksi myÖs export2 epäilyksen alainen
 
 	#HUOM. sittenkin sco ensin, jos tulee rootin omistamaa matskua vastaan
+	${sco} -R ${n}:${n} ~/Desktop/minimize		
 	chmod -R a-wx ~/Desktop/minimize/*
 	chmod 0755 ~/Desktop/minimize/*.sh
 	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/*.sh
@@ -113,6 +132,7 @@ function common_part() {
 	${scm} 0555 ~/Desktop/minimize/changedns.sh
 	${sco} root:root ~/Desktop/minimize/changedns.sh
 
+	#HUOM.260325:näytti järkevältä ls tässä
 	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/${2}
 	dqb "CHM09D D0N3"	
 	csleep 5
@@ -171,12 +191,12 @@ case "${1}" in
 		csleep 2
 
 		common_part ${file} ${distro}		
-		#HUOM.190325: näillä main saattaa olla jotain härdelliä daedaluksen tapauksessa
-		#... tai pikemminkin väärät parametrit skriptille
 		#P.S. käyttöoikeudetkin tulisi huomioida stna
 
+		#HUOM.270325:nykyään pp3 ja pr4 turhia vai ei?
 		pre_part3 ~/Desktop/minimize/${distro}
 		pr4 ~/Desktop/minimize/${distro}
+
 		part3 ~/Desktop/minimize/${distro}
 		csleep 2
 
