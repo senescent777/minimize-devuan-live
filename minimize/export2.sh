@@ -235,6 +235,7 @@ function tp4() {
 	
 		#HUOM.070325: varm vuoksi speksataan että *.deb
 		${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
+		${scm} 0444 ~/Desktop/minimize/${2}/*.deb
 		p=$(pwd)
 
 		cd ~/Desktop/minimize/${2}
@@ -242,15 +243,15 @@ function tp4() {
 		csleep 5
 
 		touch ./sha512sums.txt
-		#chown ${n}:${n} ./sha512sums.txt
-		#chmod u+w ./sha512sums.txt
+		chown ${n}:${n} ./sha512sums.txt
+		chmod 0644 ./sha512sums.txt
 		[ ${debug} -eq 1 ] && ls -las sha*;sleep 6
  		
 		${sah6} ./*.deb > ./sha512sums.txt
 		csleep 6
 		
 		${sah6} -c ./sha512sums.txt
-		echo $?
+		echo $? #kuuluisi kai stopata jos menee wtuiksi
 		${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb ~/Desktop/minimize/${2}/sha512sums.txt
 		csleep 1
 	
