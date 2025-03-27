@@ -29,7 +29,7 @@ else
 fi
 
 . ~/Desktop/minimize/common_lib.sh
-
+#HUOM.270325: olisi hyvä olla tablesin kanssa asiat kunnossa enneq aletaan vetää matsqua verkon yli -> lib ehkä tarvitaan vielä tässä skriptissä
 #if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
 #	. ~/Desktop/minimize/${distro}/lib.sh #VAIH:tuo lib includeista mäkeen?
 #else
@@ -76,10 +76,11 @@ function pre() {
 	if [ -d ~/Desktop/minimize/${1} ] ; then
 		dqb "5TNA"
 
-		#HUOM. tässä yhteydessä sudon kautta vetäminen lienee liikaa
+		#HUOM. tässä yhteydessä sudon kautta vetäminen lienee liikaa(no sco:n kyllä joutaisi ennen, TODO)
 		chmod 0755 ~/Desktop/minimize/${1}
 		chmod 0755 ~/Desktop/minimize/*.sh
 		chmod 0755 ~/Desktop/minimize/${1}/*.sh
+		#TODO:chmdo 0444 ~/Desktop/minimize/${1}/comnf*
 		chmod 0444 ~/Desktop/minimize/${1}/*.deb
 		#VAIH:yllä nuo chmod-jutut, kts että toimii toivotulla tavalla, jossain poistuu x-oikeudet ja saa aina renkata
 		csleep 2
@@ -129,6 +130,7 @@ function tp1() {
 	csleep 4
 
 	#HUOM. tässä yhteydessä sudon kautta vetäminen lienee liikaa		
+	#HUOM.2.:mikä näissä se pointti?	
 	chmod -R a-wx ~/Desktop/minimize/*
 	chmod 0755 ~/Desktop/minimize
 
@@ -267,7 +269,6 @@ function tp2() {
 	dqb "params_ok"
 	csleep 5
 
-	#HUOM.260125: -p wttuun varm. vuoksi  
 	${srat} -rf ${1} /etc/iptables /etc/network/interfaces*
 
 	if [ ${enforce} -eq 1 ] ; then
@@ -323,7 +324,6 @@ function tp3() {
 	csleep 4
 }
 
-#VAIH:jatkossa väkisin vetämään mukaan ne oleellisimmat paketit tapauksessa chimaera
 function tpu() {
 	dqb "tpu( ${1}, ${2})"
 	[ y"${1}" == "y" ] && exit 1
@@ -335,8 +335,7 @@ function tpu() {
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
 	${NKVD} ${pkgdir}/*.deb
-#	${smr}  ${pkgdir}/*.bin
-
+#	${smr}  ${pkgdir}/*.bin #haittaako vai ei? let's find out?
 	dqb "TUP PART 2"
 
 	if [ "${distro}" == "chimaera" ] ; then 
@@ -428,7 +427,7 @@ case ${mode} in
 		tpu ${tgtfile} ${distro}
 	;;
 	p)
-		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(S.Lopakka)
+		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
 		pre2 ${distro}
 		tp5 ${tgtfile}
 	;;
