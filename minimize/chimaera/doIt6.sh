@@ -47,7 +47,6 @@ fi
 #lisäksi iptables poistuu jostain syystä, ehkä sivuvaikutuksena toisista poistoista
 #... joten kunnes tulee jokin kuningasidea miten korjata tilanne, täytynee antaa chimaeran olla/keskittyä daedalukseen mieluummin
 #(voi myös olla että chimaeran .iso alkanut lahota, tätä varten sen sha-tarkistuksEN prujaaminen vähitellen, mksums yms.)
-#VAIH:jokin minimaalinen testiskripti äksän rikkomiseksi, jos vaikka includoisi common_lib+lib ja katsoisi että riittääkö
 
 check_params 
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
@@ -77,14 +76,13 @@ csleep 3
 #K01avahi-jutut sopivaan kohtaan?
 
 #===================================================PART 2===================================
-#VAIH:removepkgs riippumaan $distro:n alla olevista -deb-paketeista (jos ei pakettei, ei poistoja)
 #HUOM.230235:näytti iptables kadonneen joten changedns:n toiminta kusi
 
 c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
 
-#HUOM.2409325:saattaa olla turhaa kikkailua tuo c-juttu yllä
-#jos poistaa poakettaja tuossa alla ni tables vaan poistuu ja täts it
+#HUOM.240325:saattaa olla turhaa kikkailua tuo c-juttu yllä
+#jos poistaa paketteja tuossa alla ni tables vaan poistuu ja täts it
 
 if [ ${removepkgs} -eq 1 ] ; then
 	#HUOM.240325: ekan rivin 3 ekaa kun poistaa niin iptables löytyy jo "no longer required"-listalta
@@ -148,7 +146,7 @@ fi
 ${asy}
 csleep 3
 
-#VAIH:selvitä missä kohtaa x-oikeudet p.oistuvat
+#HUOM.270325:kokeillaan import2dessa enforce_access():ia josko sitten menisi oikeudet kunnolla
 
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
