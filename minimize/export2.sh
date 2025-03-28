@@ -271,7 +271,7 @@ function tp4() {
 		#${sah6} -c ./sha512sums.txt
 		#echo $? #kuuluisi kai stopata jos menee wtuiksi
 
-		psqa .
+		psqa . #vaiko toisella tavalla?
 
 		${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb ~/Desktop/minimize/${2}/sha512sums.txt
 		csleep 1

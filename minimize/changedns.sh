@@ -215,8 +215,16 @@ function clouds_case0() {
 		${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
 
 		#VAIH:conf sanomaan dns-ip:n jos ei resolv.conf:in kautta löydy
-		[ -s  /etc/resolv.conf ] || echo "NO RESOLV.CONF FOUND, HAVE TO USE CONF"
-		for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do dda_snd ${s} ; done	
+		if [ -s  /etc/resolv.conf ] ; then
+			for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do dda_snd ${s} ; done	
+		else
+			dqb "NO RESOLV.CONF FOUND, HAVE TO USE CONF"
+			csleep 1
+			
+			if [ z"${dsn}" != "z" ] ; then
+				for s in ${dsn} ;  do dda_snd ${s} ; done
+			fi
+		fi
 	fi
 
 	/etc/init.d/dnsmasq stop
@@ -229,45 +237,54 @@ function clouds_case0() {
 function clouds_case1() {
 	echo "WORK IN PROGRESS"
 
-		if [ -s /etc/resolv.conf.new ] ; then
-			echo "r30lv.c0nf alr3ady 3x15t5"
-		else
-#HUOM. römönkin vui tehdä vähemmällä sudotyksella
-			sudo touch /etc/resolv.conf.new
-			sudo chmod a+w /etc/resolv.conf.new
-			sudo echo "nameserver 127.0.0.1" > /etc/resolv.conf.new
-			sudo chmod 0444 /etc/resolv.conf.new
-			sudo chown root:root /etc/resolv.conf.new
-		fi
+	if [ -s /etc/resolv.conf.new ] ; then
+		echo "r30lv.c0nf alr3ady 3x15t5"
+	else
+		touch /etc/resolv.conf.new
+		${scm} a+w /etc/resolv.conf.new
+		echo "nameserver 127.0.0.1" > /etc/resolv.conf.new
+		${scm} 0444 /etc/resolv.conf.new
+		${sco} root:root /etc/resolv.conf.new
+	fi
 
-		${slinky} /etc/resolv.conf.new /etc/resolv.conf
-		${slinky} /etc/dhcp/dhclient.conf.new /etc/dhcp/dhclient.conf
-		${spc} /sbin/dhclient-script.new /sbin/dhclient-script
+	${slinky} /etc/resolv.conf.new /etc/resolv.conf
+	${slinky} /etc/dhcp/dhclient.conf.new /etc/dhcp/dhclient.conf
+	${spc} /sbin/dhclient-script.new /sbin/dhclient-script
 
-		if [ y"${ipt}" == "y" ] ; then
-			echo "SHOULD 1NSTALL TABL35"
-		else
-			${ipt} -A INPUT -p tcp -m tcp --sport 853 -j b
-			${ipt} -A OUTPUT -p tcp -m tcp --dport 853 -j e
+	if [ y"${ipt}" == "y" ] ; then
+		echo "SHOULD 1NSTALL TABL35"
+	else
+		${ipt} -A INPUT -p tcp -m tcp --sport 853 -j b
+		${ipt} -A OUTPUT -p tcp -m tcp --dport 853 -j e
+
+		if [ -s /home/stubby/.stubby.yml ] ; then
 			for s in $(grep -v '#' /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do tod_dda ${s} ; done
+		else
+			dqb "NO RESOLV.CONF FOUND, HAVE TO USE CONF"
+			csleep 1
+		
+			if [ z"${dsn}" != "z" ] ; then
+				for s in ${dsn} ;  do tod_dda ${s} ; done
+			fi
 		fi
+	fi
 
-		echo "dns";sleep 2
-		/etc/init.d/dnsmasq restart
-		pgrep dnsmasq
+	echo "dns";sleep 2
+	/etc/init.d/dnsmasq restart
+	pgrep dnsmasq
 
 #HUOM.270325:tästä eteenpäin vaatinee pientä laittoa
-#		echo "stu";sleep 2
-#		${whack} stubby* #090325: pitäisiköhän tämä muuttaa?
-#		sleep 3	
+#	echo "stu";sleep 2
+#	${whack} stubby* #090325: pitäisiköhän tämä muuttaa?
+#	sleep 3	
 #			
-#		[ -f /run/stubby.pid ] || sudo touch /run/stubby.pid
-#		${sco} devuan:devuan /run/stubby.pid #$n
-#		${scm} 0644 /run/stubby.pid 
-#		sleep 3
+#	[ -f /run/stubby.pid ] || sudo touch /run/stubby.pid
+#	${sco} devuan:devuan /run/stubby.pid #$n
+#	${scm} 0644 /run/stubby.pid 
+#	sleep 3
 #
-#		su devuan -c '/usr/bin/stubby -C /home/stubby/.stubby.yml -g'
-#		pgrep stubby
+#	su devuan -c '/usr/bin/stubby -C /home/stubby/.stubby.yml -g'
+#	pgrep stubby
 }
 #====================================================================
 clouds_pre

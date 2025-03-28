@@ -89,18 +89,18 @@ if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.
 	. ~/Desktop/minimize/${distro}/lib.sh
 else
 	#if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
-		echo $?
-		csleep 1
+	echo $?
+	csleep 1
 
-		#HUOM.280325: onkohan se muuten ihan ehdottoman välttämätöntä asentaa tablöes jo silloin kun tämän skriptin kautta mounttaa sen tikun? no tuleepahan aionakin ajoissa ghoidettua
-		check_binaries ${distro}
-		#[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia?
-		echo $?
-		csleep 1
+	#HUOM.280325: onkohan se muuten ihan ehdottoman välttämätöntä asentaa tablöes jo silloin kun tämän skriptin kautta mounttaa sen tikun? no tuleepahan aionakin ajoissa ghoidettua
+	check_binaries ${distro}
+	#[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia?
+	echo $?
+	csleep 1
 
-		check_binaries2
-		#[ $? -eq 0 ] || exit 8
-		csleep 1
+	check_binaries2
+	#[ $? -eq 0 ] || exit 8
+	csleep 1
 	#fi
 fi
 
@@ -118,6 +118,7 @@ fi
 dqb "b3f0r3 par51ng tha param5"
 csleep 5
 
+#glorified "tar -x" is this functiuon 
 function common_part() {
 	dqb "common_part()"
 	[ y"${1}" == "y" ] && exit 1
@@ -185,8 +186,6 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
-#VAIH:chmod-juttuja joutaisi miettiä (vissiin jossain se x-oikeus poistui tästä, todnäök commoin_part/lib/common_lib)
-
 case "${1}" in
 	-1)
 		part=/dev/disk/by-uuid/${part0}		
@@ -199,12 +198,11 @@ case "${1}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 0 <source> <distro> (unpack AND install) | $0 1 <source> (just unpacks the archive)"
 	;;
 	2)
-		#VAIH:chmod-juttujen läpikäynti (vissiin tämän tdston x-oikeus kyseessä)
 		${uom} ${dir}
 		csleep 3
 		${som} | grep ${dir}
 
-		[ $? -eq 0 ] && echo "NEXT:  ${distro}/doIt6.sh (maybe)"
+		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh (maybe)"
 	;;
 	1)
 		[ x"${file}" == "x" ] && exit 44

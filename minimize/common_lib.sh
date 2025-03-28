@@ -15,6 +15,9 @@ scm=$(sudo which chmod)
 sco="${odio} ${sco} "
 scm="${odio} ${scm} "
 
+#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
+sah6=$(which sha512sum)
+
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -129,16 +132,30 @@ function mangle_s() {
 	${odio} echo "${n} localhost=NOPASSWD: sha256: ${s} " >> ${2}
 }
 
+#VAIH:käyttöön kohta
+function psqa() {
+	dqb "QUASB (THE BURNING) ${1}"
+
+	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
+		p=$(pwd)
+		cd ${1}
+		${sah6} -c sha512sums.txt --ignore-missing
+		echo $?
+
+		#HUOM. vähitellen mukaan exit mikli tark ei älpi?
+		csleep 6
+		cd ${p}
+	else
+		dqb "NO SHA512SUMS CAN BE CHECK FOR R3AQS0N 0R AN0TH3R"
+	fi
+
+	csleep 1
+}
+
 #TODO:jos mahd ni Python-tyyppinen(?) idea käyttöön ao. fktioon, $cmd=eval_cmd("cmd") tai jhopa $array["cmd"]=aval_cmd("cmd")
 function check_binaries() {
-	dqb "ch3ck_b1nar135(${1} )"
+	dqb "c0mm0n_lib.ch3ck_b1nar135(${1} )"
 	dqb "sudo= ${odio} "
-	csleep 1
-
-	#TODO:ao tarkistukset should_inst_:ipt - blokin sisään kuiteskin?
-	[ z"${1}" == "z" ] && exit 99
-	[ -d ~/Desktop/minimize/${1} ] || exit 100
-	dqb "params_ok"
 	csleep 1
 
 	#HUOM. smr-ip6tr tarvitaan changedns:n kanssa
@@ -150,10 +167,12 @@ function check_binaries() {
 	iptr=$(sudo which iptables-restore)
 	ip6tr=$(sudo which ip6tables-restore)
 
-	#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
-	sah6=$(which sha512sum)
-
 	if [ y"${ipt}" == "y" ] ; then
+		[ z"${1}" == "z" ] && exit 99
+		[ -d ~/Desktop/minimize/${1} ] || exit 100
+		dqb "params_ok"
+		csleep 1
+
 		echo "SHOULD INSTALL IPTABLES"
 		#HUOM.230435: pitäisiköhän jokin toinen tarkistus lisätä tähän?	
 
@@ -174,7 +193,9 @@ function check_binaries() {
 
 	#HUOM.230325:omegaa testessa osoittautui osoittAUtui että /u/b/which on tarpeellinen sudottaa, joten lisätty
 	#HUOM.250325:suurin osa listasta kommentteihin koska chnagedns:n ja omegan kanssa juttuja 
+	
 	#VAIH:usermod sudoersiin, ryhmän kautta, ilman salakalaa, koska omega (kts. pre_enforce() liittyen)	
+	#vielä se salakalan kysely pois OIKEASTI
 	CB_LIST1=" /sbin/halt /sbin/reboot /usr/bin/which"
 
 	#HUOM. seuraaviakin tarvitaan changedns:n kanssa, tai siis...
@@ -316,14 +337,14 @@ function pre_enforce() {
 
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done	
 	
-	#muuten voisi alla käyttää mange_s:ää mutta tuo %sudo
+	#HUOM.280325:muuten voisi alla käyttää mange_s:ää mutta tuo %sudo ... eli mangle muutettava
 	smu=$(sudo which usermod)
 	local s2
 	${sco} root:root ${smu}
 	${scm} 0555 ${smu}
 	csleep 1
 	s2=$(sha256sum ${smu})
-	echo "%sudo localhost=NOPASSWD: sha256: ${s2} " >> ${q}/meshuggah
+	echo "%sudo localhost=NOPASSWD:sha256:${s2} " >> ${q}/meshuggah
 
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 5 secs"
@@ -488,23 +509,6 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE (maybe i have tourettes)"
 }
 
-#TODO:käyttöön kohta
-function psqa() {
-	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
-		p=$(pwd)
-		cd ${1}
-		${sah6} -c sha512sums.txt --ignore-missing
-		echo $?
-
-		#HUOM. vähitellen mukaan exit mikli tark ei älpi?
-		csleep 6
-		cd ${p}
-	else
-		dqb "NO SHA512SUMS"
-		csleep 1
-	fi
-}
-
 #HUOM.22325: oli jotain nalkutusta vielä chimaeran päivityspaketista, lib.sh fktiot tai export2 muutettava vasta avasti
 function part3() {
 	dqb "part3( ${1} )"
@@ -520,19 +524,21 @@ function part3() {
 	dqb "22"
 	csleep 1
 
-	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
-		p=$(pwd)
-		cd ${1}
-		${sah6} -c sha512sums.txt --ignore-missing
-		echo $?
-
-		#HUOM. vähitellen mukaan exit mikli tark ei älpi?
-		csleep 6
-		cd ${p}
-	else
-		dqb "NO SHA512SUMS"
-		csleep 1
-	fi
+	#VAIH:psqa()
+	#if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
+	#	p=$(pwd)
+	#	cd ${1}
+	#	${sah6} -c sha512sums.txt --ignore-missing
+	#	echo $?
+#
+#		#HUOM. vähitellen mukaan exit mikli tark ei älpi?
+#		csleep 6
+#		cd ${p}
+#	else
+#		dqb "NO SHA512SUMS"
+#		csleep 1
+#	fi
+	psqa ${1}
 
 	local f
 	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
