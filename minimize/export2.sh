@@ -96,7 +96,11 @@ function pre() {
 
 		##VAIH:yllä nuo chmod-jutut, kts että toimii toivotulla tavalla, jossain poistuI x-oikeudet ja sai aina renkata
 		#... tosin mielekkäämpää hakata noita yo. ch-komentoja import2:sessa		
-		#csleep 2
+		#
+
+		n=$(whoami)
+		enforce_access ${n}
+		csleep 2
 
 		if [ -s /etc/apt/sources.list.${1} ] ; then
 			${smr} /etc/apt/sources.list
@@ -261,10 +265,14 @@ function tp4() {
 		[ ${debug} -eq 1 ] && ls -las sha*;sleep 6
  		
 		${sah6} ./*.deb > ./sha512sums.txt
-		csleep 6
-		#TODO:psqa() käyttöön tähän
-		${sah6} -c ./sha512sums.txt
-		echo $? #kuuluisi kai stopata jos menee wtuiksi
+		csleep 5
+
+		#VAIH:psqa() käyttöön tähän
+		#${sah6} -c ./sha512sums.txt
+		#echo $? #kuuluisi kai stopata jos menee wtuiksi
+
+		psqa .
+
 		${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb ~/Desktop/minimize/${2}/sha512sums.txt
 		csleep 1
 	
