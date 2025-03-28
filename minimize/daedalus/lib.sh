@@ -9,11 +9,12 @@ function pre_part3() {
 	#josko vielä testaisi löytyykö asennettavia ennenq dpkg	(esim find)
 	#HUOM.20325:sittenkin varmempi ettei käytä sdi:tä tässä koska check_binaries() kutsuu pp3 ja pr4
 
+	#VAIH:sha-jutut fktioksi common_lib:iin tai siis psqa() käyttöön
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		p=$(pwd)
 		cd ${1}
 		${sah6} -c sha512sums.txt --ignore-missing
-		echo $?  #exit jos ei nolla
+		echo $?  #TODO:exit jos ei nolla
 
 		#HUOM.270352:lienee aiheellista keskeyttää jos sha512-tark qsee
 		csleep 6
@@ -40,6 +41,7 @@ function pre_part3() {
 
 	dqb "pp3 d0n3"
 	csleep 3
+	#TODO:josko siivoaisi nuo asennetut tässä tai pr4():sessa
 }
 
 #(olikohan näiden pp3 ja pre4 kanssa jotain säätämistä vielä?)
