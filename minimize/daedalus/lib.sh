@@ -27,22 +27,22 @@ function pre_part3() {
 
 	${odio} dpkg -i ${1}/netfilter-persistent*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
-	csleep 3
+	csleep 2
 
 	${odio} dpkg -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
-	csleep 3
+	csleep 2
 
 	${odio} dpkg -i ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
-	csleep 3
+	csleep 2
 
 	${odio} dpkg -i ${1}/iptables-*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/iptables-*.deb
 
 	dqb "pp3 d0n3"
-	csleep 3
-	#TODO:josko siivoaisi nuo asennetut tässä tai pr4():sessa
+	csleep 2
+	#TODO:josko selvittäisi poistuuko nuo asennetut tässä tai pr4():sessa
 }
 
 #(olikohan näiden pp3 ja pre4 kanssa jotain säätämistä vielä?)
