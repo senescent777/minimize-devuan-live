@@ -31,7 +31,7 @@ function csleep() {
 #240325 päivitys:chimaerassa doIt6 ajamisen jälkeen pääseekin kirjautumaan slim:in kautta takaisin, siinä vain kestää että login-ruutu tulee takaisin uloskirjautumisen jälkeen
 #"slim: waiting for X server to shut down" lokissa saattaa liittyä (tikku kuraa tai jokin muu vialla?)
 
-fix_sudo() {
+function fix_sudo() { #function-avainsanan puutteella merkitystä?
 	echo "fix_sud0.pt0"
 	${sco} -R 0:0 /etc/sudoers.d #pitääköhän juuri tässä tehdä tämä? jep
 	${scm} 0440 /etc/sudoers.d/* 
@@ -89,7 +89,7 @@ function ocs() {
 function mangle2() {
 	if [ -f ${1} ] ; then 
 		dqb "MANGLED ${1}"
-		${scm} o-rwx ${1}
+		${scm} o-rwx ${1} 
 		${sco} root:root ${1}
 	fi
 }
@@ -135,6 +135,7 @@ function check_binaries() {
 	dqb "sudo= ${odio} "
 	csleep 1
 
+	#TODO:ao tarkistukset should_inst_:ipt - blokin sisään kuiteskin?
 	[ z"${1}" == "z" ] && exit 99
 	[ -d ~/Desktop/minimize/${1} ] || exit 100
 	dqb "params_ok"
@@ -173,9 +174,10 @@ function check_binaries() {
 
 	#HUOM.230325:omegaa testessa osoittautui osoittAUtui että /u/b/which on tarpeellinen sudottaa, joten lisätty
 	#HUOM.250325:suurin osa listasta kommentteihin koska chnagedns:n ja omegan kanssa juttuja 
+	#VAIH:usermod sudoersiin, ryhmän kautta, ilman salakalaa, koska omega (kts. pre_enforce() liittyen)	
 	CB_LIST1=" /sbin/halt /sbin/reboot /usr/bin/which"
 
-	#HUOM. seuraaviakin tarvitaan changedns:n kanssa
+	#HUOM. seuraaviakin tarvitaan changedns:n kanssa, tai siis...
 	sco=$(sudo which chown)
 	scm=$(sudo which chmod)
 	whack=$(sudo which pkill)
@@ -313,6 +315,15 @@ function pre_enforce() {
 	csleep 2
 
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done	
+	
+	#muuten voisi alla käyttää mange_s:ää mutta tuo %sudo
+	smu=$(sudo which usermod)
+	local s2
+	${sco} root:root ${smu}
+	${scm} 0555 ${smu}
+	csleep 1
+	s2=$(sha256sum ${smu})
+	echo "%sudo localhost=NOPASSWD: sha256: ${s2} " >> ${q}/meshuggah
 
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 5 secs"
@@ -340,7 +351,6 @@ function enforce_access() {
 	dqb "changing /sbin , /etc and /var 4 real"
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
-
 	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
 
 	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do 
@@ -476,6 +486,23 @@ function part1() {
 	${sco} -R root:root /etc/apt 
 	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WHORE (maybe i have tourettes)"
+}
+
+#TODO:käyttöön kohta
+function psqa() {
+	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
+		p=$(pwd)
+		cd ${1}
+		${sah6} -c sha512sums.txt --ignore-missing
+		echo $?
+
+		#HUOM. vähitellen mukaan exit mikli tark ei älpi?
+		csleep 6
+		cd ${p}
+	else
+		dqb "NO SHA512SUMS"
+		csleep 1
+	fi
 }
 
 #HUOM.22325: oli jotain nalkutusta vielä chimaeran päivityspaketista, lib.sh fktiot tai export2 muutettava vasta avasti

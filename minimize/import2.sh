@@ -1,11 +1,12 @@
 #!/bin/bash
-d=$(dirname $0)
+#d=$(dirname $0) #käyutössä?
 debug=1
 file=""
 distro=""
 #joitain oletusarvoja
 dir=/mnt
 part0=ABCD-1234
+n=$(whoami)
 
 case $# in
 	2)
@@ -35,28 +36,25 @@ function pre_part3() {
 	dqb "imp2.pre_part3( ${1})"
 }
 
-if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ] ; then	
+#HUOM.280325:jos testaat ennen doit6 ajoa tätä skriptiä, koita huomioida myös $distro-hmiston oikeuksien vaikutus toimintaan
+#ensimmäisillä yrityksillä "import2 1 kalat distro" kummiskin purki sen tar:in
+
+#jospa common_lib includoidaan aina kun olemassa, conf ja lib tarvittaessa
+#lib varsinaiseSTi tarpeen vasta kun mode=0 , common_lib:ille voi conf kuitenkin olla tarpeen myös muulloinkin
+
+if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ] ; then
 	. ~/Desktop/minimize/${distro}/conf
+fi
+
+if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
 	. ~/Desktop/minimize/common_lib.sh
-
-	echo $?
-	csleep 1
-
-	check_binaries ${distro}
-	#[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon tyakia?
-	echo $?
-	csleep 1
-
-	check_binaries2
-	#[ $? -eq 0 ] || exit 8
-	csleep 1
 else
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
-	uom="sudo /bin/umount"
+	som="sudo /bin/umount"
 	scm="sudo /bin/chmod"
 	sco="sudo /bin/chown"
-	dir=/mnt
+	#dir=/mnt
 	odio=$(which sudo)
 	
 	function dqb() {
@@ -66,17 +64,50 @@ else
 	function csleep() {
 		[ ${debug} -eq 1 ] && sleep ${1}
 	}
+	
+	function check_binaries() {
+		dqb "imp2.ch3ck_b1nar135(${1} )"
+	}
+
+	function check_binaries2() {
+		dqb "imp2.ch3ck_b1nar135_2(${1} )"
+	}
+
+	function fix_sudo() {
+		dqb"imp32.fix.sudo"
+	}
 
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
 fi
 
-mode=${1}
+#ao. blokkia joutaisi vielä vähän miettiä?
+#check_binaries():in esittelisi tuossa yllä niin tarvitsisi vähemmän if-lauseita alla?
+#if [ -x ~/Desktop/minimize/common_lib.sh ] && 
 
+if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then
+	. ~/Desktop/minimize/${distro}/lib.sh
+else
+	#if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
+		echo $?
+		csleep 1
+
+		#HUOM.280325: onkohan se muuten ihan ehdottoman välttämätöntä asentaa tablöes jo silloin kun tämän skriptin kautta mounttaa sen tikun? no tuleepahan aionakin ajoissa ghoidettua
+		check_binaries ${distro}
+		#[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia?
+		echo $?
+		csleep 1
+
+		check_binaries2
+		#[ $? -eq 0 ] || exit 8
+		csleep 1
+	#fi
+fi
+
+mode=${1}
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "file=${file}"
-
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
 
@@ -111,7 +142,13 @@ function common_part() {
 	#chmod -R a-wx ~/Desktop/minimize/*
 	#chmod 0755 ~/Desktop/minimize/*.sh
 
-	enforce_access ${n}
+	#muuten kai hyvä mutta fallback-tapaus
+	#lisäksi $n tulisi asettaa jossain
+	if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
+		enforce_access ${n}
+		dqb "running changedns.sh maY be necessary now to fix some things"
+	fi
+
 	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/*.sh
 	csleep 5
 
@@ -167,7 +204,7 @@ case "${1}" in
 		csleep 3
 		${som} | grep ${dir}
 
-		[ $? -eq 0 ] && echo "NEXT: ${d}/doIt6.sh (maybe)"
+		[ $? -eq 0 ] && echo "NEXT:  ${distro}/doIt6.sh (maybe)"
 	;;
 	1)
 		[ x"${file}" == "x" ] && exit 44

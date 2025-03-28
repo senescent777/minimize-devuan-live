@@ -262,7 +262,7 @@ function tp4() {
  		
 		${sah6} ./*.deb > ./sha512sums.txt
 		csleep 6
-		
+		#TODO:psqa() käyttöön tähän
 		${sah6} -c ./sha512sums.txt
 		echo $? #kuuluisi kai stopata jos menee wtuiksi
 		${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb ~/Desktop/minimize/${2}/sha512sums.txt
@@ -386,7 +386,7 @@ function tpu() {
 	${sah6} ./*.deb > ./sha512sums.txt
 	csleep 1
 	${sah6} -c ./sha512sums.txt
-	
+	#TODO:tähänkin psqa() käyttöön	
 	echo $? #exit jos qsee (TODO)
 	chmod 0444 ./sha512sums.txt
 	csleep 1
