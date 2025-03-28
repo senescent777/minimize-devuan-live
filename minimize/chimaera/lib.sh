@@ -4,18 +4,19 @@ function pr4() {
 	dqb "pr4 (${1})"
 
 	#sha512sums ole massaolo kuuluIsi kai tarkistaa ensin jos on niinqu pedantti
-	#TODO:psqa() käyttöön	
-	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
-		p=$(pwd)
-		cd ${1}
-		${sah6} -c sha512sums.txt --ignore-missing
-		echo $? #exit jos ei nolla
-		csleep 6
-		cd ${p}
-	else
-		dqb "NO SHA512SUMS"
-		csleep 1
-	fi
+#	#VAIH:psqa() käyttöön	
+#	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
+#		p=$(pwd)
+#		cd ${1}
+#		${sah6} -c sha512sums.txt --ignore-missing
+#		echo $? #exit jos ei nolla
+#		csleep 6
+#		cd ${p}
+#	else
+#		dqb "NO SHA512SUMS"
+#		csleep 1
+#	fi
+	psqa  ${1}
 
 	if [ ${dnsm} -eq 1 ] ; then
 		${NKVD} ${1}/stubby*
