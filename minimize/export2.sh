@@ -30,15 +30,25 @@ fi
 
 . ~/Desktop/minimize/common_lib.sh
 #HUOM.270325: olisi hyvä olla tablesin kanssa asiat kunnossa enneq aletaan vetää matsqua verkon yli -> lib ehkä tarvitaan vielä tässä skriptissä
-#TODO:jospa kokeilisi ajaa export2 ennen muita skriptejä tjsp. kun tables poissa ni mitä tapahtuu
+#VAIH:jospa kokeilisi ajaa export2 ennen muita skriptejä tjsp. kun tables poissa ni mitä tapahtuu
+#tai siis ajo-oik pois lib.sh:sta ja sitten koklaa paljnko pykii
 
-#if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
-#	. ~/Desktop/minimize/${distro}/lib.sh #VAIH:tuo lib includeista mäkeen?
-#else
-#	echo "L1B M1SSING";exit 66
-#fi
-check_binaries ${distro}
-check_binaries2
+if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
+	. ~/Desktop/minimize/${distro}/lib.sh #VAIH:tuo lib includeista mäkeen?
+else
+	echo "L1B M1SSING" #;exit 66
+
+	function pr4() {
+		dqb "exp2.pr4 (${1})" 
+	}
+
+	function pre_part3() {
+		dqb "exp2.pre_part3( ${1})"
+	}
+
+	check_binaries ${distro}
+	check_binaries2
+fi
 
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh

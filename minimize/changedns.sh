@@ -26,6 +26,9 @@ function csleep() {
 function pr4() {
 	dqb "cdns.pr4 (${1})" 
 }
+
+#asiasta kukkaruukkuun: wicd oli aikoinaan siedettävä softa, ainakin Networkmanageriin verrattuna
+
 function pre_part3() {
 	dqb "cdns.pre_part3( ${1})"
 }

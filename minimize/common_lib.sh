@@ -113,6 +113,7 @@ function gpo() {
 
 #TODO:gpo jo käyttöön?
 
+#TODO:$n pois, optionaalinen param tilalle
 function mangle_s() {
 	#dqb "mangle_s( ${1} ${2})"
 	csleep 1
@@ -132,7 +133,6 @@ function mangle_s() {
 	${odio} echo "${n} localhost=NOPASSWD: sha256: ${s} " >> ${2}
 }
 
-#VAIH:käyttöön kohta
 function psqa() {
 	dqb "QUASB (THE BURNING) ${1}"
 
@@ -146,7 +146,7 @@ function psqa() {
 		csleep 6
 		cd ${p}
 	else
-		dqb "NO SHA512SUMS CAN BE CHECK FOR R3AQS0N 0R AN0TH3R"
+		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
 	fi
 
 	csleep 1
@@ -195,7 +195,7 @@ function check_binaries() {
 	#HUOM.250325:suurin osa listasta kommentteihin koska chnagedns:n ja omegan kanssa juttuja 
 	
 	#VAIH:usermod sudoersiin, ryhmän kautta, ilman salakalaa, koska omega (kts. pre_enforce() liittyen)	
-	#vielä se salakalan kysely pois OIKEASTI
+	#vielä se salakalan kysely pois OIKEASTI (josko omegassa vain ajaisi usermodin ennen rm ja täts it)
 	CB_LIST1=" /sbin/halt /sbin/reboot /usr/bin/which"
 
 	#HUOM. seuraaviakin tarvitaan changedns:n kanssa, tai siis...
@@ -337,14 +337,19 @@ function pre_enforce() {
 
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done	
 	
-	#HUOM.280325:muuten voisi alla käyttää mange_s:ää mutta tuo %sudo ... eli mangle muutettava
-	smu=$(sudo which usermod)
-	local s2
-	${sco} root:root ${smu}
-	${scm} 0555 ${smu}
-	csleep 1
-	s2=$(sha256sum ${smu})
-	echo "%sudo localhost=NOPASSWD:sha256:${s2} " >> ${q}/meshuggah
+#	#HUOM.280325:muuten voisi alla käyttää mange_s:ää mutta tuo %sudo ... eli mangle muutettava
+#	smu=$(sudo which usermod)
+#	local s2
+#	${sco} root:root ${smu}
+#	${scm} 0555 ${smu}
+#	csleep 1
+#	s2=$(sha256sum ${smu})
+#
+	#HUOM.280325.2:onkohan tuo ao. rivi kohta tarpeellinen? josko voisi toisinkin tehdä
+	#echo "%sudo localhost=NOPASSWD:sha256:${s2} " >> ${q}/meshuggah
+
+	#HUOM.280325,2:lienee niin että samalle tdstonnimelle voi asttaa useamman tiivisteen eli /sbi/dhclient-scrip:in saisi sudoersiin mukaan
+	#, tosin tarvitseeko? ehkä sitten jos estää ifup:ia käynnistelemästä prosesseja
 
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 5 secs"
