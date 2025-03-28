@@ -1,9 +1,10 @@
 #=========================PART 0 ENDS HERE=================================================================
 function pr4() {
-	#HUOM. stubby,dns-siivoamiset voisi olla riippuivaisua konfiguraatiosta
+	#HUOM. stubby,dns-siivoamiset voisi olla riippuvaisIa konfiguraatiosta
 	dqb "pr4 (${1})"
 
 	#sha512sums ole massaolo kuuluIsi kai tarkistaa ensin jos on niinqu pedantti
+	#TODO:psqa() käyttöön	
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		p=$(pwd)
 		cd ${1}
