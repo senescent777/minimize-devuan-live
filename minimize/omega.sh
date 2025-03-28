@@ -4,7 +4,9 @@ debug=1
 odio=$(which sudo)
 smr=$(sudo which rm)
 smr="${odio} ${smr} "
+
 whack=$(sudo which pkill)
+#parempi sudotettuna vai ilman?
 whack="${odio} ${whack} --signal 9 "
 mode=1
 
@@ -42,8 +44,8 @@ ${smr} /etc/sudoers.d/live
 #else
 #	dqb "NOT TOUCHING GROUPS THIS TIME"
 #fi
-
-csleep 1
+#
+#csleep 1
 
 ${whack} xfce4-session
 #sössön sössön stna
