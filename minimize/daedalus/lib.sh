@@ -9,20 +9,21 @@ function pre_part3() {
 	#josko vielä testaisi löytyykö asennettavia ennenq dpkg	(esim find)
 	#HUOM.20325:sittenkin varmempi ettei käytä sdi:tä tässä koska check_binaries() kutsuu pp3 ja pr4
 
-	#VAIH:sha-jutut fktioksi common_lib:iin tai siis psqa() käyttöön
-	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
-		p=$(pwd)
-		cd ${1}
-		${sah6} -c sha512sums.txt --ignore-missing
-		echo $?  #TODO:exit jos ei nolla
-
-		#HUOM.270352:lienee aiheellista keskeyttää jos sha512-tark qsee
-		csleep 6
-		cd ${p}
-	else
-		dqb "NO SHA512SUMS"
-		csleep 1
-	fi
+#	#VAIH:sha-jutut fktioksi common_lib:iin tai siis psqa() käyttöön
+#	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
+#		p=$(pwd)
+#		cd ${1}
+#		${sah6} -c sha512sums.txt --ignore-missing
+#		echo $?  
+#
+#		#HUOM.270352:lienee aiheellista keskeyttää jos sha512-tark qsee
+#		csleep 6
+#		cd ${p}
+#	else
+#		dqb "NO SHA512SUMS"
+#		csleep 1
+#	fi
+	psqa ${1}
 
 	${odio} dpkg -i ${1}/netfilter-persistent*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
