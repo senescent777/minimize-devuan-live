@@ -46,32 +46,42 @@ function pre_part3() {
 }
 
 #(olikohan näiden pp3 ja pre4 kanssa jotain säätämistä vielä?)
+#HUOM.280325:voisi varmistaa että git asentuu(TODO), kun ennen doIt6 ajoa ryittää exsport2:sta niin näyttäisi jäävän asentumatta
 
 pr4() {
 	dqb "pr4( ${1})"
-	csleep 5
+	csleep 3
 
 	${odio} dpkg -i ${1}/libpam-modules-bin_*.deb
 	${odio} dpkg -i ${1}/libpam-modules_*.deb
 	${NKVD} ${1}/libpam-modules*
-	csleep 5
-	${odio} dpkg -i ${1}/libpam*.deb
+	csleep 1
 
+	${odio} dpkg -i ${1}/libpam*.deb
 	${odio} dpkg -i ${1}/perl-modules-*.deb
 	${odio} dpkg -i ${1}/libperl*.deb 
 	${NKVD} ${1}/perl-modules-*.deb 
 	${NKVD} ${1}/libperl*.deb
-	csleep 5
+	csleep 1
 
 	${odio} dpkg -i ${1}/perl*.deb
 	${odio} dpkg -i ${1}/libdbus*.deb
 	${odio} dpkg -i ${1}/dbus*.deb
+	csleep 1
+
+	#280325 uutena 
+	${odio} dpkg -i ${1}/liberror-perl*.deb
+	${odio} dpkg -i ${1}/git*.deb
+	${NKVD} ${1}/git*.deb
+	${NKVD} ${1}/liberror-perl*.deb
+	csleep 1
 
 	${NKVD} ${1}/libpam*
 	${NKVD} ${1}/libperl*
 	${NKVD} ${1}/libdbus*
 	${NKVD} ${1}/dbus*
 	${NKVD} ${1}/perl*
+	csleep 1
 }
 
 check_binaries ${distro}
