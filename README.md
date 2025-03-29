@@ -24,12 +24,15 @@
 
 - about all those .desktop-files: i have to warn you, haven't recently tested if those  do what they're supposed to (some day i will)
 
-- changedns.sh can be used to change the network configuration to use plain-old-DNS and that's all folks , there is something going on with Daedalus and stubby i have to figure out
-(if there's problem with DNS, this script may be helpful)
+- changedns.sh can be used to change the network configuration to use plain-old-DNS and that's all folks.
+  There is something going on with Daedalus/stubby/dnsmasq that i have to figure out
+
+If there's problem with DNS, this script may be helpful. 
 
 - omega.sh removes "Ubuntu-style sudo". Potentially dangerous.
 
-P.S. there may be some problems with access rights.  Should not happen that often anymore. But if it does, invocation "chmod 0755 ./*.sh;chmod 0755 $distro;chmod 0644 $distro/conf*;chmod 0755 $distro/*.sh" helps.
+P.S. there may be some problems with access rights.  Should not happen that often anymore. 
+But if it does, invocation "chmod 0755 *.sh;chmod 0755 $distro;chmod 0644 $distro/conf*;chmod 0755 $distro/*.sh" helps.
 
 P.P.S. the elder scripts are moved into olds/ , they used to work (i think)
 
