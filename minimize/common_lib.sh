@@ -94,9 +94,8 @@ function gpo() {
 
 #TODO:gpo jo käyttöön?
 
-#VAIH:$n pois, optionaalinen param tilalle
 function mangle_s() {
-	#dqb "mangle_s( ${1} ${2})"
+	#dqb "mangle_s( ${1} ${2} ${3})"
 	csleep 1
 
 	[ y"${1}" == "y" ] && exit 44
@@ -119,7 +118,7 @@ function mangle_s() {
 	fi
 
 	s=$(sha256sum ${1})
-	${odio} echo "${n2} localhost=NOPASSWD: sha256: ${s} " >> ${2}
+	echo "${n2} localhost=NOPASSWD: sha256: ${s} " >> ${2}
 }
 
 function psqa() {
@@ -132,7 +131,7 @@ function psqa() {
 		echo $?
 
 		#HUOM. vähitellen mukaan exit mikli tark ei älpi?
-		csleep 6
+		csleep 4
 		cd ${p}
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
@@ -178,8 +177,6 @@ function check_binaries() {
 	[ -x ${iptr} ] || exit 5
 	[ -x ${ip6tr} ] || exit 5
 
-	CB_LIST1=" /sbin/halt /sbin/reboot /usr/bin/which"
-
 	sco=$(sudo which chown)
 	scm=$(sudo which chmod)
 	whack=$(sudo which pkill)
@@ -189,8 +186,7 @@ function check_binaries() {
 	spc=$(sudo which cp)
 	svm=$(sudo which mv)
 
-	CB_LIST1="${CB_LIST1} ${sifu} ${sifd} "
-
+	CB_LIST1="/sbin/halt /sbin/reboot /usr/bin/which ${sifu} ${sifd} "
 	dqb "second half of c_bin_1"
 	csleep 5
 	
@@ -285,27 +281,33 @@ function pre_enforce() {
 	[ -f ${q}/meshuggah ] || exit 33
 	dqb "ANNOYING AMOUNT OF DEBUG"
 
-	if [ z"${1}" != "z" ] ; then
-		dqb "333"
-		#HUOM.24325:tarvitseekohan enää noita ch-komentoja alla? ainakaan sudon kautta tai muutenbkaan
-		chown ${1}:${1} ${q}/meshuggah 
- 		chmod 0660 ${q}/meshuggah #vissiin uskalla tuosta tiukentaa
-	fi	
+#	if [ z"${1}" != "z" ] ; then
+#		dqb "333"
+#		#HUOM.24325:tarvitseekohan enää noita ch-komentoja alla? ainakaan sudon kautta tai muutenbkaan
+#		chown ${1}:${1} ${q}/meshuggah 
+# 		chmod 0660 ${q}/meshuggah #vissiin uskalla tuosta tiukentaa
+#	fi	
 
 	dqb "1NF3RN0 0F SACR3D D35TRUCT10N"
 	mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah 			
 	csleep 2
-
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done	
-	#HUOM.280325,2:lienee niin että samalle tdstonnimelle voi asttaa useamman tiivisteen eli /sbi/dhclient-scrip:in saisi sudoersiin mukaan
-	#, tosin tarvitseeko? ehkä sitten jos estää ifup:ia käynnistelemästä prosesseja
-	#sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq
+	
+#	#HUOM.280325.2:lienee niin että samalle tdstonnimelle voi asEttaa useamman tiivisteen eli /sbin/dhclient-script:in saisi sudoersiin mukaan
+#	#, tosin tarvitseeko? ehkä sitten jos estää ifup:ia käynnistelemästä prosesseja
+#
+#	echo -n "$(whoami) localhost=NOPASSWD: sha256:" >> ${q}/meshuggah 
+#	for f in $(sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq) ; do 
+#		 echo -n "${f} ," >> ${q}/meshuggah 
+#	done
+#JOTENKIN NÄIN, PIENTÄ LAITTOA VAATII VIELÄ (290325)
+#	echo " /sbin/dhclient-script " >> ${q}/meshuggah 
 
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 5 secs"
 		csleep 2
 
-		chmod a-wx ${q}/meshuggah
+		chmod 0440 ${q}/meshuggah
 		${sco} root:root ${q}/meshuggah	
 		${svm} ${q}/meshuggah /etc/sudoers.d
 
@@ -423,8 +425,8 @@ function part1_5() {
 }
 
 #HUOM. onko todellakin näin että tämä rikkoo jotain äksän kanssa kun slim joutuu odottamaan minUUtteja ?
-#P.S.. tämä fktio voisi sihjaita dout6:sessakin paitsi että se pas2:n testaus-juttu
-#part1_5 tarvittaneen muuallakin kuin douit6:dessa nykyään
+#P.S.. tämä fktio voisi sijaita doit6:sessakin paitsi että se pas2:n testaus-juttu
+#part1_5 tarvittaneen muuallakin kuin doit6:dessa nykyään
 function part1() {
 	#jos jokin näistä kolmesta hoitaisi homman...
 	${sifd} ${iface}
@@ -455,7 +457,6 @@ function part1() {
 	fi
 
 	part1_5 ${1}
-
 	${sco} -R root:root /etc/apt 
 	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WHORE (maybe i have tourettes)"
