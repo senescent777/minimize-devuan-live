@@ -8,24 +8,27 @@ function pre_part3() {
 
 	psqa ${1}
 
+	#HUOM.290325:vähemmän nalkutusta rm_:n kanssa, kai
 	${odio} dpkg -i ${1}/netfilter-persistent*.deb
-	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
+	[ $? -eq 0 ] && ${smr}${1}/netfilter-persistent*.deb  #${NKVD} 
 	csleep 2
 
 	${odio} dpkg -i ${1}/libip*.deb
-	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
+	[ $? -eq 0 ] && ${smr} ${1}/libip*.deb #${NKVD}
 	csleep 2
 
 	${odio} dpkg -i ${1}/iptables_*.deb
-	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
+	[ $? -eq 0 ] && ${smr} ${1}/iptables_*.deb
 	csleep 2
 
 	${odio} dpkg -i ${1}/iptables-*.deb
-	[ $? -eq 0 ] && ${NKVD} ${1}/iptables-*.deb
+	[ $? -eq 0 ] && ${smr} ${1}/iptables-*.deb
+
+	[ ${debug} -eq 1 ] && ls -las ${1}/iptables-*.deb
 
 	dqb "pp3 d0n3"
 	csleep 2
-	#TODO:josko selvittäisi poistuuko nuo asennetut tässä tai pr4():sessa
+	#VAIH:josko selvittäisi poistuuko nuo asennetut tässä tai pr4():sessa
 }
 
 pr4() {
