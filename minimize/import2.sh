@@ -1,19 +1,39 @@
 #!/bin/bash
 debug=1
 file=""
-distro="" #=$(cat /etc/devuan_version) #vissiinkin parestus uusiksi kohta (TODO)
+distro=$(cat /etc/devuan_version) #vissiinkin parestus uusiksi kohta (VAIH)
 #joitain oletusarvoja
 dir=/mnt
 part0=ABCD-1234
 n=$(whoami)
 
+function dqb() {
+	[ ${debug} -eq 1 ] && echo ${1}
+}
+
+function csleep() {
+	[ ${debug} -eq 1 ] && sleep ${1}
+}
+
 case $# in
+	1)
+		dqb "maybe ok" #tap -1 ja 2 ok, muissa pitäisi fileen puuttuminen p ysäyttää
+	;;
 	2)
-		distro=${2}
+		if [ -d ~/Desktop/minimize/${2} ] ; then
+			distro=${2}
+		else
+			file=${2}
+		fi
 	;;
 	3)
 		file=${2}
-		distro=${3}
+
+		if [ -d ~/Desktop/minimize/${3} ] ; then
+			distro=${3}
+		else
+			[ "${3}" == "-v" ] && debug=1
+		fi
 	;;
 	4)
 		file=${2}
@@ -35,6 +55,12 @@ function pre_part3() {
 	dqb "imp2.pre_part3( ${1})"
 }
 
+mode=${1}
+dqb "mode=${mode}"
+dqb "distro=${distro}"
+dqb "file=${file}"
+#exit
+
 if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ] ; then
 	. ~/Desktop/minimize/${distro}/conf
 fi
@@ -48,14 +74,6 @@ else
 	scm="sudo /bin/chmod"
 	sco="sudo /bin/chown"
 	odio=$(which sudo)
-	
-	function dqb() {
-		[ ${debug} -eq 1 ] && echo ${1}
-	}
-
-	function csleep() {
-		[ ${debug} -eq 1 ] && sleep ${1}
-	}
 	
 	function check_binaries() {
 		dqb "imp2.ch3ck_b1nar135(${1} )"
@@ -89,10 +107,6 @@ else
 	csleep 1
 fi
 
-mode=${1}
-dqb "mode=${mode}"
-dqb "distro=${distro}"
-dqb "file=${file}"
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
 
