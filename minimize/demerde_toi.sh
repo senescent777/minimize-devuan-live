@@ -63,10 +63,6 @@ cd minimize-devuan-live
 	mv minimize/* ~/Desktop/minimize
 #fi
 
-#jos tämä ao. oikeuksien sorkkiminen olisi hyvä
-#HUOM. enforce_access() on keksitty, jos common_lib ajokelpoinen ni käskytetään sitä
-#... sietäisi varmaan testata toimivuus uudemman kerran
-
 if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
 	. ~/Desktop/minimize/common_lib.sh
 	enforce_access ${n}
@@ -76,7 +72,6 @@ else
 	${sco} 0:0 /home
 	${scm} 0755 /home
 
-	
 	${sco} -R ${n}:${n} ~ 
 	${scm} -R a-wx ~/Desktop/minimize
 	${scm} 0755 ~/Desktop/minimize 

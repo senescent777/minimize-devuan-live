@@ -22,21 +22,17 @@ esac
 [ z"${distro}" == "z" ] && exit 6
 
 if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ]; then
-	#HUOM. mielellään hanskat naulaan jos ei konf löydy
 	. ~/Desktop/minimize/${distro}/conf
 else
 	echo "CONFIG MISSING"; exit 55
 fi
 
 . ~/Desktop/minimize/common_lib.sh
-#HUOM.270325: olisi hyvä olla tablesin kanssa asiat kunnossa enneq aletaan vetää matsqua verkon yli -> lib ehkä tarvitaan vielä tässä skriptissä
-#VAIH:jospa kokeilisi ajaa export2 ennen muita skriptejä tjsp. kun tables poissa ni mitä tapahtuu
-#tai siis ajo-oik pois lib.sh:sta ja sitten koklaa paljnko pykii
 
 if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
-	. ~/Desktop/minimize/${distro}/lib.sh #VAIH:tuo lib includeista mäkeen?
+	. ~/Desktop/minimize/${distro}/lib.sh
 else
-	echo "L1B M1SSING" #;exit 66
+	echo "L1B M1SSING"
 
 	function pr4() {
 		dqb "exp2.pr4 (${1})" 
@@ -53,7 +49,6 @@ fi
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 
-#HUOM.140325:syystä tässä kohtaa moden asetus näin (ennen common_lib todnäk myös ok)
 mode=${1}
 dqb "mode= ${mode}"
 
@@ -76,8 +71,6 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 4
 
-#HUOM.240325:oli jossain kohtaa nalkutusta aiheesta chmod, sittenkin scm takaisin?
-
 function pre() {
 	[ x"${1}" == "z" ] && exit 666
 
@@ -87,26 +80,6 @@ function pre() {
 
 	if [ -d ~/Desktop/minimize/${1} ] ; then
 		dqb "5TNA"
-
-		#HUOM. tässä yhteydessä sudon kautta vetäminen lienee liikaa(no sco:n kyllä joutaisi ennen, TODO)
-		#${sco} 0:0 /
-		#${scm} 0755 /
-		#${sco} 0:0 /home
-		#${scm} 0755 /home
-		#${sco} ${n}:${n} ~
-		#HUOM. enforce_access() on keksitty
-
-		#chmod 0755 ~/Desktop/minimize
-		#chmod 0755 ~/Desktop/minimize/${1}
-		#chmod 0755 ~/Desktop/minimize/*.sh
-		
-		#chmod 0755 ~/Desktop/minimize/${1}/*.sh
-		#chmod 0444 ~/Desktop/minimize/${1}/conf*
-		#chmod 0444 ~/Desktop/minimize/${1}/*.deb
-
-		##VAIH:yllä nuo chmod-jutut, kts että toimii toivotulla tavalla, jossain poistuI x-oikeudet ja sai aina renkata
-		#... tosin mielekkäämpää hakata noita yo. ch-komentoja import2:sessa		
-		#
 
 		n=$(whoami)
 		enforce_access ${n}
@@ -154,12 +127,7 @@ function tp1() {
 	dqb "tp1( ${1} , ${2} )"
 	[ z"${1}" == "z" ] && exit
 	dqb "params_ok"
-	csleep 4
-
-	#HUOM. tässä yhteydessä sudon kautta vetäminen lienee liikaa		
-	#HUOM.2.:mikä näissä se pointti?	
-	#chmod -R a-wx ~/Desktop/minimize/*
-	#chmod 0755 ~/Desktop/minimize
+	csleep 3
 
 	if [ -d ~/Desktop/minimize/${2} ] ; then
 		dqb "cleaning up ~/Desktop/minimize/${2} "
@@ -171,7 +139,7 @@ function tp1() {
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		${srat} -cf ~/Desktop/minimize/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
-		csleep 3
+		csleep 2
 
 		local tget
 		local p
@@ -181,7 +149,7 @@ function tp1() {
 		p=$(pwd)
 		cd ~/.mozilla/firefox/${tget}
 		dqb "TG3T=tget"		
-		csleep 3
+		csleep 2
 
 		#HUOM: cd tuossa yllä, onko tarpeen?
 		#TODO:pitäIsi ensin luoda se tar ennenq alkaa lisäämään
@@ -199,8 +167,6 @@ function tp1() {
 	csleep 3
 }
 
-#HUOM. pitäisiköhän tässä karsia joitain paketteja ettei tartte myöhemmin... no ehkö chimeran tapauksessa
-#HUOM. erilllliseen oksennukseen liittyen kts main() , case e
 function tp4() {
 	dqb "tp4( ${1} , ${2} )"
 	
@@ -211,7 +177,7 @@ function tp4() {
 	[ -d  ~/Desktop/minimize/${2} ] || exit 22
 
 	dqb "paramz_ok"
-	csleep 4
+	csleep 3
 
 	if [ z"${pkgdir}" != "z" ] ; then
 		${NKVD} ${pkgdir}/*.deb
@@ -243,8 +209,8 @@ function tp4() {
 		${shary} stubby
 	fi
 
-	echo "${shary} git mktemp in 4 secs"
-	sleep 5
+	dqb "${shary} git mktemp in 4 secs"
+	csleep 3
 	${lftr} 
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
@@ -253,21 +219,20 @@ function tp4() {
 	${shary} git-man git
 
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"	
-	sleep 6
+	csleep 3
 	${lftr}
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
 	if [ -d ~/Desktop/minimize/${2} ] ; then 
 		${NKVD} ~/Desktop/minimize/${2}/*.deb
 	
-		#HUOM.070325: varm vuoksi speksataan että *.deb
 		${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
 		${scm} 0444 ~/Desktop/minimize/${2}/*.deb
 		p=$(pwd)
 
 		cd ~/Desktop/minimize/${2}
 		[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt		
-		csleep 5
+		csleep 3
 
 		touch ./sha512sums.txt
 		chown ${n}:${n} ./sha512sums.txt
@@ -275,11 +240,7 @@ function tp4() {
 		[ ${debug} -eq 1 ] && ls -las sha*;sleep 6
  		
 		${sah6} ./*.deb > ./sha512sums.txt
-		csleep 5
-
-		#VAIH:psqa() käyttöön tähän
-		#${sah6} -c ./sha512sums.txt
-		#echo $? #kuuluisi kai stopata jos menee wtuiksi
+		csleep 3
 
 		psqa . #vaiko toisella tavalla?
 
@@ -299,7 +260,7 @@ function tp2() {
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
 	dqb "params_ok"
-	csleep 5
+	csleep 4
 
 	${srat} -rf ${1} /etc/iptables /etc/network/interfaces*
 
@@ -316,15 +277,16 @@ function tp2() {
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 
 	dqb "tp2 done"
-	csleep 4
+	csleep 3
 }
 
 function tp3() {
 	dqb "tp3 ${1} ${2}"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
+	
 	dqb "paramz_0k"
-	csleep 4
+	csleep 3
 
 	local p
 	local q	
@@ -353,21 +315,19 @@ function tp3() {
 	${sifd} ${iface}
 
 	dqb "tp3 done"
-	csleep 4
+	csleep 3
 }
 
 function tpu() {
 	dqb "tpu( ${1}, ${2})"
 	[ y"${1}" == "y" ] && exit 1
-	[ -s ${1} ] && mv ${1} ${1}.OLD #oli exit aiemmin
-	
+	[ -s ${1} ] && mv ${1} ${1}.OLD
 	[ z"${2}" == "z" ] && exit 11
 	[ -d  ~/Desktop/minimize/${2} ] || exit 22
 	dqb "params_ok"
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
 	${NKVD} ${pkgdir}/*.deb
-#	${smr}  ${pkgdir}/*.bin #haittaako vai ei? let's find out?
 	dqb "TUP PART 2"
 
 	if [ "${distro}" == "chimaera" ] ; then 
@@ -392,9 +352,8 @@ function tpu() {
 	p=$(pwd)
 	cd ~/Desktop/minimize/${2}
 
-	#HUOM.240325:tässäkin taisi olla nalkutusta, tee jotain (jos toistuu)
 	[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt
-	csleep 5
+	csleep 4
 
 	touch ./sha512sums.txt
 	chown ${n}:${n} ./sha512sums.txt

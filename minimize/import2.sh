@@ -1,5 +1,4 @@
 #!/bin/bash
-#d=$(dirname $0) #käyutössä?
 debug=1
 file=""
 distro=""
@@ -36,12 +35,6 @@ function pre_part3() {
 	dqb "imp2.pre_part3( ${1})"
 }
 
-#HUOM.280325:jos testaat ennen doit6 ajoa tätä skriptiä, koita huomioida myös $distro-hmiston oikeuksien vaikutus toimintaan
-#ensimmäisillä yrityksillä "import2 1 kalat distro" kummiskin purki sen tar:in
-
-#jospa common_lib includoidaan aina kun olemassa, conf ja lib tarvittaessa
-#lib varsinaiseSTi tarpeen vasta kun mode=0 , common_lib:ille voi conf kuitenkin olla tarpeen myös muulloinkin
-
 if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ] ; then
 	. ~/Desktop/minimize/${distro}/conf
 fi
@@ -54,7 +47,6 @@ else
 	som="sudo /bin/umount"
 	scm="sudo /bin/chmod"
 	sco="sudo /bin/chown"
-	#dir=/mnt
 	odio=$(which sudo)
 	
 	function dqb() {
@@ -81,18 +73,12 @@ else
 	dqb "chmod may be a good idea now"
 fi
 
-#ao. blokkia joutaisi vielä vähän miettiä?
-#check_binaries():in esittelisi tuossa yllä niin tarvitsisi vähemmän if-lauseita alla?
-#if [ -x ~/Desktop/minimize/common_lib.sh ] && 
-
 if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then
 	. ~/Desktop/minimize/${distro}/lib.sh
 else
-	#if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
 	echo $?
 	csleep 1
 
-	#HUOM.280325: onkohan se muuten ihan ehdottoman välttämätöntä asentaa tablöes jo silloin kun tämän skriptin kautta mounttaa sen tikun? no tuleepahan aionakin ajoissa ghoidettua
 	check_binaries ${distro}
 	#[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia?
 	echo $?
@@ -101,7 +87,6 @@ else
 	check_binaries2
 	#[ $? -eq 0 ] || exit 8
 	csleep 1
-	#fi
 fi
 
 mode=${1}
@@ -129,60 +114,32 @@ function common_part() {
 
 	cd /
 	dqb "DEBUG:${srat} -xf ${1} "
-	csleep 3
-	${srat} -xf ${1} #HUOM.260125: -p wttuun varm. vuoksi  
-	csleep 3
+	csleep 2
+	${srat} -xf ${1}
+	csleep 2
 	dqb "tar DONE"
 
-	#HUOM.240325: jatkuvasta chmod-renkkaamisesta päätellen kaikki chmod-rivit pitäisi iteroida l.äpi
-	#, esim. tässä
-	#lisäksi myÖs export2 epäilyksen alainen
-
-	#HUOM. sittenkin sco ensin, jos tulee rootin omistamaa matskua vastaan
-	#${sco} -R ${n}:${n} ~/Desktop/minimize		
-	#chmod -R a-wx ~/Desktop/minimize/*
-	#chmod 0755 ~/Desktop/minimize/*.sh
-
-	#muuten kai hyvä mutta fallback-tapaus
-	#lisäksi $n tulisi asettaa jossain
 	if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
 		enforce_access ${n}
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/*.sh
-	csleep 5
-
-	#for f in $(find ~/Desktop/minimize -type d) ; do ${scm} 0755 ${f} ; done 
-	#jos nyt olisi hyvä...	
-	#chmod 0755 ~/Desktop/minimize
+	csleep 3
 	
 	if [ -d ~/Desktop/minimize/${2} ] ; then 
 		dqb "HAIL UKK"
 
-		#HUOM.240325:varm. vuoksi sudon kautta josomistajaksi joutunut root:toor
 		${scm} 0755 ~/Desktop/minimize/${2}
 		${scm} a+x ~/Desktop/minimize/${2}/*.sh
 		${scm} 0444 ~/Desktop/minimize/${2}/conf*
 
-		#uutena, pois jos kusee
 		${scm} 0444 ~/Desktop/minimize/${2}/*.deb
-		csleep 5
+		csleep 3
 	fi
 
-	#${scm} 0555 ~/Desktop/minimize/changedns.sh
-	#${sco} root:root ~/Desktop/minimize/changedns.sh
-
-	#HUOM.260325:näytti järkevältä ls tässä
 	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/${2}
-	#dqb "CHM09D D0N3"	
-	csleep 5
-
-	#himaera-spesifinen testi tähän vai ei?
-	#${scm} 0777 /tmp
-	##${scm} o+t /tmp #sittenkin pois?
-	#${sco} root:root /tmp 
-	
+	csleep 3
 	dqb "ALL DONE"
 }
 
@@ -228,12 +185,7 @@ case "${1}" in
 		dqb " ${3} ${distro} MN"
 		csleep 2
 
-		common_part ${file} ${distro}		
-		#P.S. käyttöoikeudetkin tulisi huomioida stna
-
-		#HUOM.270325:nykyään pp3 ja pr4 turhia vai ei?
-		#... no jos varsinaisilla paketeilla on riippuvuuksia joistain muista
-		#... eli vissiin lib takaisin kuitenkin?
+		common_part ${file} ${distro}
 
 		pre_part3 ~/Desktop/minimize/${distro}
 		pr4 ~/Desktop/minimize/${distro}
@@ -249,5 +201,5 @@ case "${1}" in
 	;;
 esac
 
-chmod 0755 $0 #barm vuoksi
+chmod 0755 $0
 #HUOM. tämän olisi kuvakkeen kanssa tarkoitus mennä jatkossa filesystem.squashfs sisälle

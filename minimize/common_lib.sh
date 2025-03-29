@@ -26,17 +26,9 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#josko joku päivä uskaltaisi kommentoituja rivejä tuoda takaisin jossain muodossa?
-
-#HUOM.230325:ensimmisissä testeissä chimaeran kanssa slim:in kautta UUdelleenkirjautuminen ei enää onnistunut
-#lieneekö tämä /u/l/s vaiko /tmp sorkinta syyllinen
-
-#240325 päivitys:chimaerassa doIt6 ajamisen jälkeen pääseekin kirjautumaan slim:in kautta takaisin, siinä vain kestää että login-ruutu tulee takaisin uloskirjautumisen jälkeen
-#"slim: waiting for X server to shut down" lokissa saattaa liittyä (tikku kuraa tai jokin muu vialla?)
-
 function fix_sudo() { #function-avainsanan puutteella merkitystä?
 	echo "fix_sud0.pt0"
-	${sco} -R 0:0 /etc/sudoers.d #pitääköhän juuri tässä tehdä tämä? jep
+	${sco} -R 0:0 /etc/sudoers.d
 	${scm} 0440 /etc/sudoers.d/* 
 	
 	${sco} -R 0:0 /etc/sudo*
@@ -55,11 +47,6 @@ function fix_sudo() { #function-avainsanan puutteella merkitystä?
 	${scm} 0440 /etc/sudoers.d/*
 	
 	dqb "POT. DANGEROUS PT 2"
-	#HUOM. oikeastaan /u/b/s alla d tapauksessa vain 2 tdstoa
-	#... eli ei tarttisi kaikkia hmiston alla muutella
-	#sudoreplay yleisemmän kaavan mukaan, itse sudon kanssa oltava tarkempi
-	#TODO:jos vähiTEllen uskaltaisi kokeilla (no sudoreplayta korkeintaan)
-
 	#HUOM.250325:onkohan tarkoitus että nämä komennot laittavat sudon epäkuntoon vai ei?
 	#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 	#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
@@ -72,10 +59,7 @@ function fix_sudo() { #function-avainsanan puutteella merkitystä?
 
 fix_sudo
 
-#pr4(), pp3(), p3() distro-spesifisiä, ei tähän tdstoon
-#HUOM.20325:ocs() toiminee kuten tarkoitus, testattu on
 function ocs() {
-	#dqb "ocs(${1})) "
 	local tmp
 	tmp=$(sudo which ${1})
 
@@ -88,7 +72,6 @@ function ocs() {
 	fi
 }
 
-#HUOM. jos tätä käyttää ni scm ja sco pitää tietenkin esitellä alussa
 function mangle2() {
 	if [ -f ${1} ] ; then 
 		dqb "MANGLED ${1}"
@@ -96,8 +79,6 @@ function mangle2() {
 		${sco} root:root ${1}
 	fi
 }
-
-#HUOM.doit6sen ajon jlkeen chmodin takomninen taas tarpeellista, poista turhat scm siitä
 
 function gpo() {
 	local prevopt
@@ -158,8 +139,6 @@ function check_binaries() {
 	dqb "sudo= ${odio} "
 	csleep 1
 
-	#HUOM. smr-ip6tr tarvitaan changedns:n kanssa
-	#HUOM.2. odio, sco ja scm myös
 	smr=$(sudo which rm)
 	NKVD=$(sudo which shred)
 	ipt=$(sudo which iptables)
@@ -191,14 +170,8 @@ function check_binaries() {
 	[ -x ${iptr} ] || exit 5
 	[ -x ${ip6tr} ] || exit 5
 
-	#HUOM.230325:omegaa testessa osoittautui osoittAUtui että /u/b/which on tarpeellinen sudottaa, joten lisätty
-	#HUOM.250325:suurin osa listasta kommentteihin koska chnagedns:n ja omegan kanssa juttuja 
-	
-	#VAIH:usermod sudoersiin, ryhmän kautta, ilman salakalaa, koska omega (kts. pre_enforce() liittyen)	
-	#vielä se salakalan kysely pois OIKEASTI (josko omegassa vain ajaisi usermodin ennen rm ja täts it)
 	CB_LIST1=" /sbin/halt /sbin/reboot /usr/bin/which"
 
-	#HUOM. seuraaviakin tarvitaan changedns:n kanssa, tai siis...
 	sco=$(sudo which chown)
 	scm=$(sudo which chmod)
 	whack=$(sudo which pkill)
@@ -208,26 +181,10 @@ function check_binaries() {
 	spc=$(sudo which cp)
 	svm=$(sudo which mv)
 
-	#HUOM.250325:suurin osa listasta kommentteihin koska chnagedns:n ja omegan kanssa juttuja 	
-	CB_LIST1="${CB_LIST1} ${sifu} ${sifd} " # ${sco} ${scm}
-	
-	#local x	
-	##HUOM.250325:tarvitseekohan noita tuossa alla lisätä jatkossa?
-	#if [ ${dnsm} -eq 1 ] ; then
-	#	for x in dnsmasq ntpsec stubby ; do
-	#		if [ -x /etc/init.d/${x} ] ; then
-	#			CB_LIST1="${CB_LIST1} /etc/init.d/${x}"
-	#		fi
-	#	done
-	#fi
+	CB_LIST1="${CB_LIST1} ${sifu} ${sifd} "
 
-	#HUOM. cb_list:in komentojen kanssa pitäsi parametritkin spekasta, jos mahd, millä saa ajaa
 	dqb "second half of c_bin_1"
 	csleep 5
-	
-	#passwd mukaan listaan? ehkä ai tartte
-	#HUOM.220235: listan sisältöä joutanee miettiä(trehty) ja että missä kohtaa ajetaan(?)
-	#mangle_s tekee samantap tarkistuksia joten riittää että ocs-kikkailut niille mitkä eivät cb_list:issä
 	
 	for x in apt-get apt ip netstat dpkg tar mount umount dhclient sha512sum #kilinwittu.sh
 		do ocs ${x} 
@@ -239,8 +196,6 @@ function check_binaries() {
 	sip=$(sudo which ip)
 	snt=$(sudo which netstat)
 	
-	#HUOM. gpgtar olisi vähän parempi kuin pelkkä tar, silleen niinqu tavallaan
-	#, tähän liittyen olisi aiheellista tehdä sha-tarkistus .deb-paketeista siltä varalta ettttä lahoava muistitikkku paskoo paketit
 	if [ -s ~/Desktop/minimize/tar-wrapper.sh ] ; then
 		dqb "TODO: tar-wrapper.sh"
 	else
@@ -254,7 +209,6 @@ function check_binaries() {
 	som=$(sudo which mount)
 	uom=$(sudo which umount)
 
-	#HUOM:tulisi speksata sudolle tarkemmin millä param on ok noita komentoja ajaa
 	dqb "b1nar135 0k" 
 	csleep 3
 }
@@ -304,13 +258,12 @@ function check_binaries2() {
 
 	dch="${odio} ${dch}"
 	dqb "b1nar135.2 0k.2" 
-	csleep 3
+	csleep 2
 }
 
 function pre_enforce() {
 	dqb "common_lib.pre_enforce( ${1} , ${2} )"	
 
-	#HUOM.230624 /sbin/dhclient* joutuisi hoitamaan toisella tavalla q mangle_s	
 	local q
 	local f
 	q=$(mktemp -d)	
@@ -336,18 +289,6 @@ function pre_enforce() {
 	csleep 2
 
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done	
-	
-#	#HUOM.280325:muuten voisi alla käyttää mange_s:ää mutta tuo %sudo ... eli mangle muutettava
-#	smu=$(sudo which usermod)
-#	local s2
-#	${sco} root:root ${smu}
-#	${scm} 0555 ${smu}
-#	csleep 1
-#	s2=$(sha256sum ${smu})
-#
-	#HUOM.280325.2:onkohan tuo ao. rivi kohta tarpeellinen? josko voisi toisinkin tehdä
-	#echo "%sudo localhost=NOPASSWD:sha256:${s2} " >> ${q}/meshuggah
-
 	#HUOM.280325,2:lienee niin että samalle tdstonnimelle voi asttaa useamman tiivisteen eli /sbi/dhclient-scrip:in saisi sudoersiin mukaan
 	#, tosin tarvitseeko? ehkä sitten jos estää ifup:ia käynnistelemästä prosesseja
 
@@ -407,15 +348,12 @@ function enforce_access() {
 	${sco} root:root /home
 	${scm} 0755 /home
 
-	#HUOM.140325:riittääköhän ao. tarkistus?
 	if [ y"${1}" != "y" ] ; then
 		dqb "${sco} -R ${1}:${1} ~"
 		${sco} -R ${1}:${1} ~
 		csleep 5
 	fi
 	
-	#HUOM.240325.1:tartteekohan sudon kautta vetää tässä ao. blokissa?
-	#HUOM.2: mahd. .deb kirjoikeudet pitäisi kai poistua töässä
 	local f
 
 	${scm} 0755 ~/Desktop/minimize	
@@ -443,7 +381,6 @@ function enforce_access() {
 	[ -s /sbin/dclient-script.OLD ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.OLD
 }
 
-#HUOM.220325:sudotuksessa täytyy huomioida tämän fktion sisältämät komennot
 function part1_5() {
 	if [ z"${pkgsrc}" != "z" ] ; then
 		if [ -d ~/Desktop/minimize/${1} ] ; then
@@ -458,7 +395,6 @@ function part1_5() {
 				[ -f /etc/apt/sources.list ] && ${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
 				h=$(mktemp -d)		
 				touch ${h}/sources.list.${1} 
-				#uudella taValla ei tartte lisäillä oikeuksia TdsToon
 
 				for x in ${1} ${1}-updates ${1}-security ; do
 					echo "deb https://${pkgsrc}/merged ${x} main" >> ${h}/sources.list.${1}  
@@ -529,20 +465,6 @@ function part3() {
 	dqb "22"
 	csleep 1
 
-	#VAIH:psqa()
-	#if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
-	#	p=$(pwd)
-	#	cd ${1}
-	#	${sah6} -c sha512sums.txt --ignore-missing
-	#	echo $?
-#
-#		#HUOM. vähitellen mukaan exit mikli tark ei älpi?
-#		csleep 6
-#		cd ${p}
-#	else
-#		dqb "NO SHA512SUMS"
-#		csleep 1
-#	fi
 	psqa ${1}
 
 	local f
@@ -572,7 +494,6 @@ function part3() {
 function ecfx() {
 	dqb "echx"
 
-	#for .. do .. done saattaisi olla fiksumpi tässä (tai jokin find-loitsu) tsi Aivan Sama nykyään(270325)
 	if [ -s ~/Desktop/minimize/xfce.tar ] ; then
 		${srat} -C / -xvf ~/Desktop/minimize/xfce.tar
 	fi

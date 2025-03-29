@@ -3,11 +3,9 @@ debug=0
 distro=""
 mode=-1
 
-#varm vuoksi muutellaan omistajat ja oikeudet tälleen
 chmod a-wx ./clouds*
 chown root:root ${0}
 chmod 0555  ${0}
-#kesällä -24 oli Tiamat aktiivisessa kuuntelussa, siitä clouds
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -16,12 +14,6 @@ function dqb() {
 function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
-
-#HUOM.230325:olosuhteisiin nähden olisi toivottavaa saada 7.62 mm kokoinen ratkaisu stubby:lle että voisi sudottaa koko skriptin eikä jokaista sisältämää komentoa erikseen
-
-#250325 tienoilla tarkoitus vivuta sek lib että common_lib mäkeen aiheeseen liittyen
-#osoittautunut että kirjastojen ja konftdstojen includointi huono idea jos aikoo sudottaa koko roskan
-#toisaalta jos sudottaa niin sudoersiin ei tartte lisätä niin montaa komentoa eikä ARpoa niiden parametrien kanssa että saako niiden suhteen rajoitettua
 
 function pr4() {
 	dqb "cdns.pr4 (${1})" 
@@ -126,8 +118,6 @@ function ns4() {
 	sleep 5
 }
 
-#pitäisiköhän se ipt-testi olla tässä?
-#HUOM. jos mahd ni pitäisi kai sudoersissa speksata millä parametreilla mitäkin komerntoja ajetaan (man sudo, man sudoers)
 function clouds_pre() {
 	dqb "common_lib.clouds_pre()"
 
@@ -188,12 +178,9 @@ function clouds_post() {
 	if [ ${debug} -eq 1 ] ; then
 		${ipt} -L  #
 
-		##HUOM.240325: mitähän tarkistuksia tuohon vielä?
-		#if [ x"${ip6t}" != "x" ] ; then #
-		#	if [ -x ${ip6t} ] ; then #
+	
 				${ip6t} -L #parempi ajaa vain jos löytyy
-		#	fi #
-		#fi #
+
 
 		csleep 5 #
 	fi #
@@ -217,7 +204,6 @@ function clouds_case0() {
 		${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
 		${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
 
-		#VAIH:conf sanomaan dns-ip:n jos ei resolv.conf:in kautta löydy
 		if [ -s  /etc/resolv.conf ] ; then
 			for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do dda_snd ${s} ; done	
 		else
@@ -232,7 +218,7 @@ function clouds_case0() {
 
 	/etc/init.d/dnsmasq stop
 	/etc/init.d/ntpsec stop
-	csleep 5
+	csleep 4
 	${whack} dnsmasq*
 	${whack} ntp*
 }
