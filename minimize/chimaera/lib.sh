@@ -120,6 +120,13 @@ function pre_part3() {
 
 }
 
+dqb "=========================================="
+whoami
+pwd | cut -d '/' -f 6
+dqb "=========================================="
+
+sleep 3
+
 dqb "BIL-UR-SAG"
 check_binaries ${distro}
 check_binaries2 

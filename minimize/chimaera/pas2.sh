@@ -14,7 +14,7 @@ fi
 [ ${mode} -gt 3 ] && . ~/Desktop/minimize/chimaera/lib.sh
 [ ${mode} -gt 4 ] && pre_enforce ${n} chimaera 
 [ ${mode} -gt 5 ] && enforce_access ${n} #tämä ei vielä riko äksää
-[ ${mode} -gt 6 ] && part1_5 chimaera #VAIH:testaa josko rikkomiseen riittäisi vain prt1_5 (oli ennen part1)
+[ ${mode} -gt 6 ] && part1 chimaera #HUOM.290325:se on nimenomaan part1 mikä paskoo asioita
 [ ${mode} -gt 0 ] && sleep 5
 
 pkill --signal 9 xfce4-session
