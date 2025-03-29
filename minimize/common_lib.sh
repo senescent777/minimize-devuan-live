@@ -94,7 +94,7 @@ function gpo() {
 
 #TODO:gpo jo käyttöön?
 
-#TODO:$n pois, optionaalinen param tilalle
+#VAIH:$n pois, optionaalinen param tilalle
 function mangle_s() {
 	#dqb "mangle_s( ${1} ${2})"
 	csleep 1
@@ -110,8 +110,16 @@ function mangle_s() {
 	${sco} root:root ${1} 
 
 	local s
+	local n2
+
+	if [ y"${4}" == "y" ] ; then
+		n2=$(whoami)
+	else
+		n2=${3}
+	fi
+
 	s=$(sha256sum ${1})
-	${odio} echo "${n} localhost=NOPASSWD: sha256: ${s} " >> ${2}
+	${odio} echo "${n2} localhost=NOPASSWD: sha256: ${s} " >> ${2}
 }
 
 function psqa() {
@@ -291,6 +299,7 @@ function pre_enforce() {
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done	
 	#HUOM.280325,2:lienee niin että samalle tdstonnimelle voi asttaa useamman tiivisteen eli /sbi/dhclient-scrip:in saisi sudoersiin mukaan
 	#, tosin tarvitseeko? ehkä sitten jos estää ifup:ia käynnistelemästä prosesseja
+	#sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq
 
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 5 secs"
@@ -414,6 +423,8 @@ function part1_5() {
 }
 
 #HUOM. onko todellakin näin että tämä rikkoo jotain äksän kanssa kun slim joutuu odottamaan minUUtteja ?
+#P.S.. tämä fktio voisi sihjaita dout6:sessakin paitsi että se pas2:n testaus-juttu
+#part1_5 tarvittaneen muuallakin kuin douit6:dessa nykyään
 function part1() {
 	#jos jokin näistä kolmesta hoitaisi homman...
 	${sifd} ${iface}

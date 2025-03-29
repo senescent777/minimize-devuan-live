@@ -3,7 +3,7 @@
 #HUOM. näiden skriptien kanssa bash tulkkina aiheuttaa vähemmän nalkutusta kuin sh
 debug=0
 branch=""
-#VAIH:jos mahd ni git hakemaan vaihToehtoisen oksan?
+#VAIH:jos mahd ni git hakemaan vaihToehtoisen oksan? man-sivuja pitäisi taas kahlata niin maan perkeleesti ja tasaiseenm
 #TODO:mktemp-kikkailut pois, plain old git clone tilalle ja täts it
 n=$(whoami)
 
@@ -48,7 +48,7 @@ ${tig} clone https://github.com/senescent777/minimize-devuan-live
 cd minimize-devuan-live
 [ ${debug} -eq 1 ] && ls -laRs;sleep 6
 
-[ -d ~/Desktop/minimize ] || mkdir  ~/Desktop/minimize;sleep 6
+[ -d ~/Desktop/minimize ] || mkdir ~/Desktop/minimize;sleep 6
 
 #if [ -d ~/Desktop/minimize ] ; then
 	#lototaan aiemman sisällön kanssa vaikka näin

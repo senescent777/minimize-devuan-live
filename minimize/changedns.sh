@@ -5,7 +5,7 @@ mode=-1
 
 chmod a-wx ./clouds*
 chown root:root ${0}
-chmod 0555  ${0}
+chmod 0555 ${0}
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -25,11 +25,12 @@ function pre_part3() {
 	dqb "cdns.pre_part3( ${1})"
 }
 
+#HUOM.jatkossa ehkä parempi että komentorivioptioilla ei aktivoida dabugia
 if [ $# -gt 1 ] ; then
 	if [ -d ~/Desktop/minimize/${2} ] ; then
 		distro=${2}
 		dqb "asdasdasd.666"
-		csleep 5
+		csleep 3
 		[ "${3}" == "-v" ] && debug=1
 	fi
 
@@ -40,7 +41,7 @@ fi
 
 dqb "mode=${mode}"
 dqb "distro=${distro}"
-csleep 6
+csleep 3
 
 #HUOM. jos tarttee ni näille main distrosta riippuvainen fktioiden esittely 
 #(toiv ei tarvitse)
@@ -58,16 +59,16 @@ ip6t=$(sudo which ip6tables)
 iptr=$(sudo which iptables-restore)
 ip6tr=$(sudo which ip6tables-restore)
 
-dqb "when in trouble, sudo chmod 0755 ${distro}; sudo chmod  0755 ${distro}/*.sh; sudo chmod 0644 ${distro}/conf may help "
+dqb "when in trouble, \"sudo chmod 0755 *.sh ;sudo chmod 0755 ${distro}; sudo chmod 0755 ${distro}/*.sh; sudo chmod 0644 ${distro}/conf\" may help "
 #==============================================================
 function tod_dda() { 
-	#dqb "tod_dda(${1}) "
+	dqb "tod_dda(${1}) "
 	${ipt} -A b -p tcp --sport 853 -s ${1} -j c
 	${ipt} -A e -p tcp --dport 853 -d ${1} -j f
 }
 
 function dda_snd() {
-	#dqb "dda_snd( ${1})"
+	dqb "dda_snd( ${1})"
 	${ipt} -A b -p udp -m udp -s ${1} --sport 53 -j ACCEPT 
 	${ipt} -A e -p udp -m udp -d ${1} --dport 53 -j ACCEPT
 }
@@ -110,7 +111,7 @@ function ns4() {
 	dqb "starting ${1} in 5 secs"
 
 	sleep 5
-	${odio} -u ${1} ${1} -g #antaa nyt tämän olla nim toiustaiseksi(25.3.25)
+	${odio} -u ${1} ${1} -g #antaa nyt tämän olla näin toistaiseksi(25.3.25)
 	echo $?
 
 	sleep 1
@@ -119,7 +120,7 @@ function ns4() {
 }
 
 function clouds_pre() {
-	dqb "common_lib.clouds_pre()"
+	dqb "cdns.clouds_pre()"
 
 	if [ -s /etc/resolv.conf.new ] || [ -s /etc/resolv.conf.OLD ] ; then 
 		${smr} /etc/resolv.conf
@@ -154,7 +155,7 @@ function clouds_pre() {
 }
 
 function clouds_post() {
-	dqb "common_lib.clouds_post() "
+	dqb "cdns.clouds_post() "
 	dqb "scm= ${scm}"
 	dqb "sco = ${sco}"
 	csleep 5
@@ -177,19 +178,15 @@ function clouds_post() {
 
 	if [ ${debug} -eq 1 ] ; then
 		${ipt} -L  #
-
-	
-				${ip6t} -L #parempi ajaa vain jos löytyy
-
-
-		csleep 5 #
+		${ip6t} -L #parempi ajaa vain jos löytyy
+		csleep 3 #
 	fi #
 
 	dqb "d0n3"
 }
 
 function clouds_case0() {
-	dqb "clouds_case0()"
+	dqb "cdns.clouds_case0()"
 
 	${slinky} /etc/resolv.conf.OLD /etc/resolv.conf
 	${slinky} /etc/dhcp/dhclient.conf.OLD /etc/dhcp/dhclient.conf
