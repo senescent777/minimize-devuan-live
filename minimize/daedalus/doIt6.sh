@@ -11,10 +11,9 @@ else
 	exit 111	
 fi
 
-#HUOM.270325:viimeaikaiset testailut daedaluksen kanssa viittaisivat siihen suuntaan että oikeus-omistajuus-asiat muuten ok mutta ehkä import-export-demerde-vaihe tarkistetttava
-
 n=$(whoami)
 #TODO:->common_lib?
+
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
@@ -90,25 +89,22 @@ if [ ${removepkgs} -eq 1 ] ; then
 	${sharpy} libblu* network* libcupsfilters* libgphoto* 
 	# libopts25 ei tÄmmöistä daedaluksessa
 
-	#HUOM.200325:eximin läsnäolo aiheuTUI removepkgs-mjan arvosta
-	#liittyen, tdstoon pt2.sh lisätty kys mjasta riippuvainen if-blokki
-
 	${sharpy} avahi* blu* cups* 
 	${sharpy} exim*
 
 	${lftr}
-	csleep 3
+	csleep 2
 
 	${sharpy} modem* wireless* wpa*
 	${sharpy} iw lm-sensors
 	${sharpy} ntp*
 
 	${lftr}
-	csleep 3
+	csleep 2
 	
 	${sharpy} po* pkexec
 	${lftr}
-	csleep 3
+	csleep 2
 fi
 
 if [ y"${ipt}" != "y" ] ; then 
@@ -152,17 +148,13 @@ fi
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
-#HUOM. TOIMIIKO TUO KOMENTO TUOSSA ALLA VAI EI ??? (olikohan resolv.conf:ista kiinni)
-#(dns-ip konftdstoon niinqu josqs?)
-
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 ${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
 ${sipt} -L
 csleep 6
 
-${scm} a-wx $0 #oikeastaan kerta-ajo tulisi riittää tai toisaalta daedaluksen versiossa ominaisuuksia
-
+${scm} a-wx $0 
 #===================================================PART 4(final)==========================================================
 
 if [ ${mode} -eq 2 ] ; then

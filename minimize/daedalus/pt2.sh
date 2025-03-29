@@ -170,4 +170,3 @@ ${scm} a-wx $0
 
 #whack xfce so that the ui is reset
 ${whack} xfce4-session
-#HUOM. omegankin toiminnan voisi testata
