@@ -42,12 +42,6 @@ if [ $# -gt 0 ] ; then
 	for opt in $@ ; do parse_opts_1 $opt ; done
 fi
 
-#HUOM.240325:fix_sudo/check_bin/enforce/part1 vaikuttavat paskovan jotain chimaeran kanssa
-#s.e. slim jää odottamaan äksää pidemmäksi aikaa
-#lisäksi iptables poistuu jostain syystä, ehkä sivuvaikutuksena toisista poistoista
-#... joten kunnes tulee jokin kuningasidea miten korjata tilanne, täytynee antaa chimaeran olla/keskittyä daedalukseen mieluummin
-#(voi myös olla että chimaeran .iso alkanut lahota, tätä varten sen sha-tarkistuksEN prujaaminen vähitellen, mksums yms.)
-
 check_params 
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
 enforce_access ${n} 
@@ -71,38 +65,18 @@ ${whack} stubby*
 ${whack} nm-applet
 csleep 3
 
-#exit
-#ntp-jutut tähän?
-#K01avahi-jutut sopivaan kohtaan?
-
 #===================================================PART 2===================================
 #HUOM.230235:näytti iptables kadonneen joten changedns:n toiminta kusi
 
 c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
 
-#HUOM.240325:saattaa olla turhaa kikkailua tuo c-juttu yllä
-#jos poistaa paketteja tuossa alla ni tables vaan poistuu ja täts it
-
 if [ ${removepkgs} -eq 1 ] ; then
-	#HUOM.240325: ekan rivin 3 ekaa kun poistaa niin iptables löytyy jo "no longer required"-listalta
-	#lototaan että network* poistaa tablesin ... NO Ei
-
 	${sharpy} libblu* libcupsfilters* libgphoto* libopts25
 	${sharpy} network* avahi* blu* cups* exim*
 	${sharpy} rpc* nfs* 
 	${sharpy} modem* wireless* wpa* iw lm-sensors
 fi
-
-#HUOM. seur 2 riviä lisätty uutena 150325, pois jos qsee
-#${sharpy} ntp* #tämäkin liikaa?
-#${sharpy} po* #uskaltaakohan tätäkään ajaa? tai siis jos vähän tarkempi...
-
-#${sharpy} pkexec #HUOM.160325:tästä tuli nalkutusta
-#lisäksi apt yritti poistaa oleellisia paketteja
-#option --allow-remove-essential puutos esti oleellisten poistumisen
-
-#paketin mdadm poisto siirretty tdstoon pt2.sh päiväyksellä 220624
 
 ${lftr}
 csleep 3

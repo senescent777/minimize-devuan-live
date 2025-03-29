@@ -176,8 +176,7 @@ ${NKVD} /var/cache/apt/archives/*.deb
 ${NKVD} ${d}/*.deb 
 ${NKVD} /tmp/*.tar 
 ${smr} -rf /tmp/tmp.*
-${smr} /usr/share/doc #rikkookohan jotain nykyään?
+${smr} /usr/share/doc 
 df
 
-#mimimize-hmiston siivous kanssa?
 [ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
