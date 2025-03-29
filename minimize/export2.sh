@@ -2,7 +2,7 @@
 d=$(dirname $0) #tarpeellinen?
 debug=0
 tgtfile=""
-distro=""
+distro="" #=$(cat /etc/devuan_version) #vissiinkin parestus uusiksi kohta (TODO)
 
 case $# in
 	3)
@@ -194,7 +194,7 @@ function tp4() {
 	#actually necessary
 	pre2 ${2}
 
-	if [ ${dnsm} -eq 1 ] ; then
+	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
 

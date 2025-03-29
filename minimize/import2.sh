@@ -1,7 +1,7 @@
 #!/bin/bash
 debug=1
 file=""
-distro=""
+distro="" #=$(cat /etc/devuan_version) #vissiinkin parestus uusiksi kohta (TODO)
 #joitain oletusarvoja
 dir=/mnt
 part0=ABCD-1234

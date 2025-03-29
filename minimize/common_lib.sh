@@ -29,8 +29,7 @@ function csleep() {
 function fix_sudo() { #function-avainsanan puutteella merkitystä?
 	echo "fix_sud0.pt0"
 	${sco} -R 0:0 /etc/sudoers.d
-	${scm} 0440 /etc/sudoers.d/* 
-	
+	${scm} 0440 /etc/sudoers.d/*
 	${sco} -R 0:0 /etc/sudo*
 	${scm} -R a-w /etc/sudo*
 
@@ -45,15 +44,15 @@ function fix_sudo() { #function-avainsanan puutteella merkitystä?
 	dqb "fix_sud0.pt1"
 	${scm} 0750 /etc/sudoers.d
 	${scm} 0440 /etc/sudoers.d/*
-	
+
 	dqb "POT. DANGEROUS PT 2"
 	#HUOM.250325:onkohan tarkoitus että nämä komennot laittavat sudon epäkuntoon vai ei?
 	#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 	#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-	
+
 	[ ${debug} -eq 1 ] && ls -las  /usr/bin/sudo*
-	csleep 5	
+	csleep 5
 	echo "fix_sud0.d0n3"
 }
 
@@ -73,9 +72,9 @@ function ocs() {
 }
 
 function mangle2() {
-	if [ -f ${1} ] ; then 
+	if [ -f ${1} ] ; then
 		dqb "MANGLED ${1}"
-		${scm} o-rwx ${1} 
+		${scm} o-rwx ${1}
 		${sco} root:root ${1}
 	fi
 }
@@ -102,11 +101,11 @@ function mangle_s() {
 	[ -x ${1} ] || exit 55
 	[ y"${2}" == "y" ] && exit 43
 	[ -f ${2} ] || exit 54
-	#dqb "params_oik"
+	#dqb "params_ok"
 
 	${scm} 0555 ${1}
 	#HUOM. miksi juuri 5? no six six six että suoritettavaan tdstoon ei tartte kirjoittaa
-	${sco} root:root ${1} 
+	${sco} root:root ${1}
 
 	local s
 	local n2
@@ -130,7 +129,7 @@ function psqa() {
 		${sah6} -c sha512sums.txt --ignore-missing
 		echo $?
 
-		#HUOM. vähitellen mukaan exit mikli tark ei älpi?
+		#HUOM. vähitellen mukaan exit mikli tark ei läpi? (TODO)
 		csleep 4
 		cd ${p}
 	else
@@ -140,7 +139,7 @@ function psqa() {
 	csleep 1
 }
 
-#TODO:jos mahd ni Python-tyyppinen(?) idea käyttöön ao. fktioon, $cmd=eval_cmd("cmd") tai jhopa $array["cmd"]=aval_cmd("cmd")
+#TODO:jos mahd ni Python-tyyppinen(?) idea käyttöön ao. fktioon, $cmd=eval_cmd("cmd") tai jopa $array["cmd"]=aval_cmd("cmd")
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135(${1} )"
 	dqb "sudo= ${odio} "
@@ -189,9 +188,9 @@ function check_binaries() {
 	CB_LIST1="/sbin/halt /sbin/reboot /usr/bin/which ${sifu} ${sifd} "
 	dqb "second half of c_bin_1"
 	csleep 5
-	
+
 	for x in apt-get apt ip netstat dpkg tar mount umount dhclient sha512sum #kilinwittu.sh
-		do ocs ${x} 
+		do ocs ${x}
 	done
 
 	sdi=$(sudo which dpkg)
@@ -199,7 +198,7 @@ function check_binaries() {
 	sa=$(sudo which apt)
 	sip=$(sudo which ip)
 	snt=$(sudo which netstat)
-	
+
 	if [ -s ~/Desktop/minimize/tar-wrapper.sh ] ; then
 		dqb "TODO: tar-wrapper.sh"
 	else
@@ -230,7 +229,7 @@ function check_binaries2() {
 	sharpy="${odio} ${sag} remove --purge --yes "
 	spd="${odio} ${sdi} -l "
 	sdi="${odio} ${sdi} -i "
-	
+
 	#HUOM. ${sag} VIIMEISENÄ
 	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
 	sag_u="${odio} ${sag} update "
@@ -245,8 +244,8 @@ function check_binaries2() {
 	sifd="${odio} ${sifd} "
 
 	smr="${odio} ${smr} "
-	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
-	
+	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
+
 	NKVD="${NKVD} -fu "
 	NKVD="${odio} ${NKVD}"
 	slinky="${odio} ${slinky} -s "
@@ -258,7 +257,7 @@ function check_binaries2() {
 	fib="${odio} ${sa} --fix-broken install"
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
-	svm="${odio} ${svm}"	
+	svm="${odio} ${svm}"
 
 	dch="${odio} ${dch}"
 	dqb "b1nar135.2 0k.2" 
@@ -266,13 +265,13 @@ function check_binaries2() {
 }
 
 function pre_enforce() {
-	dqb "common_lib.pre_enforce( ${1} , ${2} )"	
+	dqb "common_lib.pre_enforce( ${1} , ${2} )"
 
 	local q
 	local f
-	q=$(mktemp -d)	
-	 
-	dqb "sudo touch ${q}/meshuggah in 5 secs"
+	q=$(mktemp -d)
+
+	dqb "sudo touch ${q}/meshuggah in 3 secs"
 	csleep 3
 	touch ${q}/meshuggah
 
@@ -286,22 +285,24 @@ function pre_enforce() {
 #		#HUOM.24325:tarvitseekohan enää noita ch-komentoja alla? ainakaan sudon kautta tai muutenbkaan
 #		chown ${1}:${1} ${q}/meshuggah 
 # 		chmod 0660 ${q}/meshuggah #vissiin uskalla tuosta tiukentaa
-#	fi	
+#	fi
 
 	dqb "1NF3RN0 0F SACR3D D35TRUCT10N"
-	mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah 			
+	mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah
 	csleep 2
-	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done	
-	
+	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
+
 #	#HUOM.280325.2:lienee niin että samalle tdstonnimelle voi asEttaa useamman tiivisteen eli /sbin/dhclient-script:in saisi sudoersiin mukaan
 #	#, tosin tarvitseeko? ehkä sitten jos estää ifup:ia käynnistelemästä prosesseja
 #
-#	echo -n "$(whoami) localhost=NOPASSWD: sha256:" >> ${q}/meshuggah 
+#	echo -n "$(whoami) localhost=NOPASSWD: sha256:" >> ${q}/meshuggah
+#	frist=1
 #	for f in $(sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq) ; do 
-#		 echo -n "${f} ," >> ${q}/meshuggah 
+#		[ ${frist} -eq 1 ] || echo -n "," >> ${q}/meshuggah
+#		[ ${frist} - eq 1 ] && frist=0
+#		echo -n "${f}" >> ${q}/meshuggah
 #	done
-#JOTENKIN NÄIN, PIENTÄ LAITTOA VAATII VIELÄ (290325)
-#	echo " /sbin/dhclient-script " >> ${q}/meshuggah 
+#	echo " /sbin/dhclient-script " >> ${q}/meshuggah
 
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 5 secs"
@@ -344,7 +345,7 @@ function enforce_access() {
 
 	${sco} root:staff /var/local
 	${sco} root:mail /var/mail
-			
+
 	${sco} -R man:man /var/cache/man 
 	${scm} -R 0755 /var/cache/man
 
@@ -528,3 +529,4 @@ function vommon() {
 }
 
 dqb "common_l1b_l0ad3d_5ucc35fully"
+cat /etc/devuan_version #jos tällä voisi jyrätä $distro konftsdtossa
