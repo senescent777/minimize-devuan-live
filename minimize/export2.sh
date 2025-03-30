@@ -1,24 +1,45 @@
 #!/bin/bash
-d=$(dirname $0) #tarpeellinen?
-debug=0
+#d=$(dirname $0) #tarpeellinen?
+debug=1
 tgtfile=""
-distro="" #=$(cat /etc/devuan_version) #vissiinkin parestus uusiksi kohta (TODO)
+distro=$(cat /etc/devuan_version) #vissiinkin parestus uusiksi kohta (VAIH)
+n=$(whoami)
+
+function dqb() {
+	[ ${debug} -eq 1 ] && echo ${1}
+}
+
+function csleep() {
+	[ ${debug} -eq 1 ] && sleep ${1}
+}
+
+mode=${1}
+tgtfile=${2}
 
 case $# in
+	2)
+		dqb "maybe ok"		
+	;;
 	3)
-		tgtfile=${2}
-		distro=${3}
+		if [ -d ~/Desktop/minimize/${3} ] ; then
+			distro=${3}
+		else
+			[ "${3}" == "-v" ] && debug=1
+		fi
 	;;
 	4)
-		tgtfile=${2}
 		distro=${3}
 		[ "${4}" == "-v" ] && debug=1
 	;;
 	*)
-		echo "$0 <mode> <tgtfile> <distro>"
+		echo "$0 <mode> <tgtfile> [distro]"
 	;;
 esac
 
+dqb "mode= ${mode}"
+dqb "distro=${distro}"
+dqb "file=${tgtfile}"
+#exit
 [ z"${distro}" == "z" ] && exit 6
 
 if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ]; then
@@ -48,9 +69,6 @@ fi
 
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
-
-mode=${1}
-dqb "mode= ${mode}"
 
 tig=$(sudo which git)
 mkt=$(sudo which mktemp)
