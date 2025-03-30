@@ -1,7 +1,7 @@
 #!/bin/bash
 debug=0
 file=""
-distro=$(cat /etc/devuan_version) #vissiinkin parestus uusiksi kohta (VAIH)
+distro=$(cat /etc/devuan_version)
 #joitain oletusarvoja
 dir=/mnt
 part0=ABCD-1234
@@ -166,7 +166,7 @@ case "${1}" in
 		csleep 5
 		${som} | grep ${dir}
 
-		[ $? -eq 0 ] && echo "NEXT: $0 0 <source> <distro> (unpack AND install) | $0 1 <source> (just unpacks the archive)"
+		[ $? -eq 0 ] && echo "NEXT: $0 0 <source> [distro] (unpack AND install) | $0 1 <source> (just unpacks the archive)"
 	;;
 	2)
 		${uom} ${dir}

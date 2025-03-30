@@ -2,7 +2,7 @@
 #d=$(dirname $0) #tarpeellinen?
 debug=0
 tgtfile=""
-distro=$(cat /etc/devuan_version) #vissiinkin parestus uusiksi kohta (VAIH)
+distro=$(cat /etc/devuan_version)
 n=$(whoami)
 
 function dqb() {
@@ -245,6 +245,7 @@ function tp4() {
 		${NKVD} ~/Desktop/minimize/${2}/*.deb
 	
 		${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
+		#TODO:tästä if-blokin loppuun asti fktioksi+käyttöön+main():iin uusi case tätä varten
 		${scm} 0444 ~/Desktop/minimize/${2}/*.deb
 		p=$(pwd)
 
@@ -361,6 +362,7 @@ function tpu() {
 	echo $?
 	csleep 5	
 
+	#TODO:kts tp4()
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
 	${scm} 0444 ~/Desktop/minimize/${2}/*.deb
