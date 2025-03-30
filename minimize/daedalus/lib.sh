@@ -26,7 +26,7 @@ function pre_part3() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/iptables-*.deb
 
 	dqb "pp3 d0n3"
-	csleep 2
+	csleep 6
 	#VAIH:josko selvittäisi poistuuko nuo asennetut tässä tai pr4():sessa
 }
 
@@ -66,12 +66,12 @@ pr4() {
 	csleep 1
 }
 
-dqb "=========================================="
-whoami
-pwd | cut -d '/' -f 6
-dqb "=========================================="
-
-sleep 3
+#dqb "=========================================="
+#whoami
+#pwd | cut -d '/' -f 6
+#dqb "=========================================="
+#
+#sleep 3
 
 check_binaries ${distro}
 check_binaries2

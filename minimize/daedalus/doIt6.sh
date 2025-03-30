@@ -1,6 +1,11 @@
 #!/bin/bash
 d=$(dirname $0)
 mode=2
+
+distro=$(cat /etc/devuan_version)
+n=$(whoami)
+#TODO:n,distro->common_lib?
+
 [ -s ${d}/conf ] && . ${d}/conf
 . ~/Desktop/minimize/common_lib.sh
 
@@ -10,9 +15,6 @@ else
 	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING"
 	exit 111	
 fi
-
-n=$(whoami)
-#TODO:->common_lib?
 
 function parse_opts_1() {
 	case "${1}" in
@@ -43,7 +45,6 @@ if [ $# -gt 0 ] ; then
 	for opt in $@ ; do parse_opts_1 $opt ; done
 fi
 
-#HUOM.290325: josko voisi distron johtaa pwd:n outputista?
 check_params 
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
 enforce_access ${n}
