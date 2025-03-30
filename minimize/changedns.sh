@@ -2,6 +2,7 @@
 debug=0
 distro=""
 mode=-1
+distro=$(cat /etc/devuan_version)
 
 chmod a-wx ./clouds*
 chown root:root ${0}
@@ -25,23 +26,34 @@ function pre_part3() {
 	dqb "cdns.pre_part3( ${1})"
 }
 
-#HUOM.jatkossa ehkä parempi että komentorivioptioilla ei aktivoida dabugia
-if [ $# -gt 1 ] ; then
-	if [ -d ~/Desktop/minimize/${2} ] ; then
-		distro=${2}
-		dqb "asdasdasd.666"
-		csleep 3
-		[ "${3}" == "-v" ] && debug=1
-	fi
+#HUOM.jatkossa ehkä parempi että komentorivioptioilla ei aktivoida debugia
+mode=${1}
+[ -d ~/Desktop/minimize/${2} ] && distro=${2}
 
-	mode=${1}
-else
-	echo "${0} <mode> <other_param>";exit
-fi
+case $# in
+	1)
+		dqb "maybe ok"
+	;;
+	2)
+		[ "${2}" == "-v" ] && debug=1
+	;;
+	3)
+		if [ "${2}" == "-v" ] ; then
+			debug=1
+			distro=${3}
+		else
+			[ "${3}" == "-v" ] && debug=1
+		fi
+	;;
+	*)
+		echo "${0} <mode> [other_params]";exit
+	;;
+esac
 
 dqb "mode=${mode}"
 dqb "distro=${distro}"
-csleep 3
+csleep 2
+#exit
 
 #HUOM. jos tarttee ni näille main distrosta riippuvainen fktioiden esittely 
 #(toiv ei tarvitse)
@@ -260,6 +272,7 @@ function clouds_case1() {
 	pgrep dnsmasq
 
 #HUOM.270325:tästä eteenpäin vaatinee pientä laittoa
+#ensinnäkin dnsmasq pitäisi saada taas vastaamaan pyyntöihin ja sitten muut jutut
 #	echo "stu";sleep 2
 #	${whack} stubby* #090325: pitäisiköhän tämä muuttaa?
 #	sleep 3	
