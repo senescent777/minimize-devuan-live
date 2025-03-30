@@ -1,6 +1,11 @@
 #!/bin/bash
 d=$(dirname $0)
 mode=2
+
+distro=$(cat /etc/devuan_version)
+n=$(whoami)
+#TODO:n,distro->common_lib?
+
 [ -s ${d}/conf ] && . ${d}/conf
 . ~/Desktop/minimize/common_lib.sh
 
