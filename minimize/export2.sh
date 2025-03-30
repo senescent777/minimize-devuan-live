@@ -1,28 +1,48 @@
 #!/bin/bash
-d=$(dirname $0) #tarpeellinen?
+#d=$(dirname $0) #tarpeellinen?
 debug=0
 tgtfile=""
-distro=""
+distro=$(cat /etc/devuan_version)
+n=$(whoami)
+
+function dqb() {
+	[ ${debug} -eq 1 ] && echo ${1}
+}
+
+function csleep() {
+	[ ${debug} -eq 1 ] && sleep ${1}
+}
+
+mode=${1}
+tgtfile=${2}
 
 case $# in
+	2)
+		dqb "maybe ok"		
+	;;
 	3)
-		tgtfile=${2}
-		distro=${3}
+		if [ -d ~/Desktop/minimize/${3} ] ; then
+			distro=${3}
+		else
+			[ "${3}" == "-v" ] && debug=1
+		fi
 	;;
 	4)
-		tgtfile=${2}
 		distro=${3}
 		[ "${4}" == "-v" ] && debug=1
 	;;
 	*)
-		echo "$0 <mode> <tgtfile> <distro>"
+		echo "$0 <mode> <tgtfile> [distro]"
 	;;
 esac
 
+dqb "mode= ${mode}"
+dqb "distro=${distro}"
+dqb "file=${tgtfile}"
+#exit
 [ z"${distro}" == "z" ] && exit 6
 
 if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ]; then
-	#HUOM. mielellään hanskat naulaan jos ei konf löydy
 	. ~/Desktop/minimize/${distro}/conf
 else
 	echo "CONFIG MISSING"; exit 55
@@ -33,15 +53,22 @@ fi
 if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
 	. ~/Desktop/minimize/${distro}/lib.sh
 else
-	echo "L1B M1SSING";exit 66
+	echo "L1B M1SSING"
+
+	function pr4() {
+		dqb "exp2.pr4 (${1})" 
+	}
+
+	function pre_part3() {
+		dqb "exp2.pre_part3( ${1})"
+	}
+
+	check_binaries ${distro}
+	check_binaries2
 fi
 
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
-
-#HUOM.140325:syystä tässä kohtaa moden asetus näin (ennen common_lib todnäk myös ok)
-mode=${1}
-dqb "mode= ${mode}"
 
 tig=$(sudo which git)
 mkt=$(sudo which mktemp)
@@ -62,8 +89,6 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 4
 
-#HUOM.240325:oli jossain kohtaa nalkutusta aiheesta chmod, sittenkin scm takaisin?
-
 function pre() {
 	[ x"${1}" == "z" ] && exit 666
 
@@ -74,12 +99,9 @@ function pre() {
 	if [ -d ~/Desktop/minimize/${1} ] ; then
 		dqb "5TNA"
 
-		#HUOM. tässä yhteydessä sudon kautta vetäminen lienee liikaa
-		chmod 0755 ~/Desktop/minimize/${1}
-		chmod 0755 ~/Desktop/minimize/*.sh
-		chmod 0755 ~/Desktop/minimize/${1}/*.sh
-		#TODO:pitäisiköhän -deb oikeudet sorkkia?
-		#TODO:yllä nuo chmod-jutut, kts että toimii toivotulla tavalla, jossain poistuu x-oikeudet ja saa aina renkata
+		n=$(whoami)
+		enforce_access ${n}
+		csleep 2
 
 		if [ -s /etc/apt/sources.list.${1} ] ; then
 			${smr} /etc/apt/sources.list
@@ -123,11 +145,7 @@ function tp1() {
 	dqb "tp1( ${1} , ${2} )"
 	[ z"${1}" == "z" ] && exit
 	dqb "params_ok"
-	csleep 4
-
-	#HUOM. tässä yhteydessä sudon kautta vetäminen lienee liikaa		
-	chmod -R a-wx ~/Desktop/minimize/*
-	chmod 0755 ~/Desktop/minimize
+	csleep 3
 
 	if [ -d ~/Desktop/minimize/${2} ] ; then
 		dqb "cleaning up ~/Desktop/minimize/${2} "
@@ -139,7 +157,7 @@ function tp1() {
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		${srat} -cf ~/Desktop/minimize/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
-		csleep 3
+		csleep 2
 
 		local tget
 		local p
@@ -149,7 +167,7 @@ function tp1() {
 		p=$(pwd)
 		cd ~/.mozilla/firefox/${tget}
 		dqb "TG3T=tget"		
-		csleep 3
+		csleep 2
 
 		#HUOM: cd tuossa yllä, onko tarpeen?
 		#TODO:pitäIsi ensin luoda se tar ennenq alkaa lisäämään
@@ -167,8 +185,6 @@ function tp1() {
 	csleep 3
 }
 
-#HUOM. pitäisiköhän tässä karsia joitain paketteja ettei tartte myöhemmin... no ehkö chimeran tapauksessa
-#HUOM. erilllliseen oksennukseen liittyen kts main() , case e
 function tp4() {
 	dqb "tp4( ${1} , ${2} )"
 	
@@ -179,7 +195,7 @@ function tp4() {
 	[ -d  ~/Desktop/minimize/${2} ] || exit 22
 
 	dqb "paramz_ok"
-	csleep 4
+	csleep 3
 
 	if [ z"${pkgdir}" != "z" ] ; then
 		${NKVD} ${pkgdir}/*.deb
@@ -196,7 +212,7 @@ function tp4() {
 	#actually necessary
 	pre2 ${2}
 
-	if [ ${dnsm} -eq 1 ] ; then
+	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
 
@@ -211,8 +227,8 @@ function tp4() {
 		${shary} stubby
 	fi
 
-	echo "${shary} git mktemp in 4 secs"
-	sleep 5
+	dqb "${shary} git mktemp in 4 secs"
+	csleep 3
 	${lftr} 
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
@@ -221,31 +237,32 @@ function tp4() {
 	${shary} git-man git
 
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"	
-	sleep 6
+	csleep 3
 	${lftr}
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
 	if [ -d ~/Desktop/minimize/${2} ] ; then 
 		${NKVD} ~/Desktop/minimize/${2}/*.deb
 	
-		#HUOM.070325: varm vuoksi speksataan että *.deb
 		${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
+		#TODO:tästä if-blokin loppuun asti fktioksi+käyttöön+main():iin uusi case tätä varten
+		${scm} 0444 ~/Desktop/minimize/${2}/*.deb
 		p=$(pwd)
 
 		cd ~/Desktop/minimize/${2}
 		[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt		
-		csleep 5
+		csleep 3
 
 		touch ./sha512sums.txt
 		chown ${n}:${n} ./sha512sums.txt
-		chmod u+w ./sha512sums.txt
+		chmod 0644 ./sha512sums.txt
 		[ ${debug} -eq 1 ] && ls -las sha*;sleep 6
  		
 		${sah6} ./*.deb > ./sha512sums.txt
-		csleep 6
-		
-		${sah6} -c ./sha512sums.txt
-		echo $?
+		csleep 3
+
+		psqa . #vaiko toisella tavalla?
+
 		${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb ~/Desktop/minimize/${2}/sha512sums.txt
 		csleep 1
 	
@@ -262,9 +279,8 @@ function tp2() {
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
 	dqb "params_ok"
-	csleep 5
+	csleep 4
 
-	#HUOM.260125: -p wttuun varm. vuoksi  
 	${srat} -rf ${1} /etc/iptables /etc/network/interfaces*
 
 	if [ ${enforce} -eq 1 ] ; then
@@ -280,15 +296,16 @@ function tp2() {
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 
 	dqb "tp2 done"
-	csleep 4
+	csleep 3
 }
 
 function tp3() {
 	dqb "tp3 ${1} ${2}"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
+	
 	dqb "paramz_0k"
-	csleep 4
+	csleep 3
 
 	local p
 	local q	
@@ -309,31 +326,27 @@ function tp3() {
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 
-	${sco} -R root:root ./etc; ${scm} -R a-w ./etc
-	${sco} -R root:root ./sbin; ${scm} -R a-w ./sbin
+	#${sco} -R root:root ./etc; ${scm} -R a-w ./etc
+	#${sco} -R root:root ./sbin; ${scm} -R a-w ./sbin
 	${srat} -rf ${1} ./etc ./sbin 
 	
 	cd ${p}
 	${sifd} ${iface}
 
 	dqb "tp3 done"
-	csleep 4
+	csleep 3
 }
 
-#VAIH:jatkossa väkisin vetämään mukaan ne oleellisimmat paketit tapauksessa chimaera
 function tpu() {
 	dqb "tpu( ${1}, ${2})"
 	[ y"${1}" == "y" ] && exit 1
-	[ -s ${1} ] && mv ${1} ${1}.OLD #oli exit aiemmin
-	
+	[ -s ${1} ] && mv ${1} ${1}.OLD
 	[ z"${2}" == "z" ] && exit 11
 	[ -d  ~/Desktop/minimize/${2} ] || exit 22
 	dqb "params_ok"
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
 	${NKVD} ${pkgdir}/*.deb
-#	${smr}  ${pkgdir}/*.bin
-
 	dqb "TUP PART 2"
 
 	if [ "${distro}" == "chimaera" ] ; then 
@@ -342,34 +355,43 @@ function tpu() {
 		${shary} iptables 	
 		${shary} iptables-persistent init-system-helpers netfilter-persistent
 
-		pre2 ${2} #vissiin tyarvitsi tämän
+		pre2 ${2} #vissiin tarvitsi tämän
 	fi
 
 	${sag} upgrade -u
 	echo $?
 	csleep 5	
 
+	#TODO:kts tp4()
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
+	${scm} 0444 ~/Desktop/minimize/${2}/*.deb
 	${srat} -cf ${1} ~/Desktop/minimize/${2}/*.deb
+	[ $? -eq 0 ] || exit
 
+	dqb "UPT TP 444"
 	p=$(pwd)
 	cd ~/Desktop/minimize/${2}
 
-	#HUOM.240325:tässäkin taisi olla nalkutusta, tee jotain (jos toistuu)
 	[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt
-	csleep 5
+	csleep 4
 
 	touch ./sha512sums.txt
 	chown ${n}:${n} ./sha512sums.txt
-	chmod u+w ./sha512sums.txt
+	chmod 0644 ./sha512sums.txt
+	csleep 1
+
+	dqb "TUPTWA55"
 	csleep 1
 
 	${sah6} ./*.deb > ./sha512sums.txt
 	csleep 1
-	${sah6} -c ./sha512sums.txt
+	#${sah6} -c ./sha512sums.txt
+	psqa .	
 
-	echo $?
+	dqb "MAX PTU 666"
+	echo $? 
+	chmod 0444 ./sha512sums.txt
 	csleep 1
 
 	${srat} -rf ${1} ~/Desktop/minimize/${2}/sha512sums.txt
@@ -425,7 +447,7 @@ case ${mode} in
 		tpu ${tgtfile} ${distro}
 	;;
 	p)
-		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(S.Lopakka)
+		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
 		pre2 ${distro}
 		tp5 ${tgtfile}
 	;;

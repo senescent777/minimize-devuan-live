@@ -2,12 +2,11 @@
 debug=0
 distro=""
 mode=-1
+distro=$(cat /etc/devuan_version)
 
-#varm vuoksi muutellaan omistajat ja oikeudet tälleen
 chmod a-wx ./clouds*
 chown root:root ${0}
-chmod 0555  ${0}
-#kesällä -24 oli Tiamat aktiivisessa kuuntelussa, siitä clouds
+chmod 0555 ${0}
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -17,35 +16,44 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#HUOM.230325:olosuhteisiin nähden olisi toivottavaa saada 7.62 mm kokoinen ratkaisu stubby:lle että voisi sudottaa koko skriptin eikä jokaista sisältämää komentoa erikseen
-
-#250325 tienoilla tarkoitus vivuta sek lib että common_lib mäkeen aiheeseen liittyen
-#osoittautunut että kirjastojen ja konftdstojen includointi huono idea jos aikoo sudottaa koko roskan
-#toisaalta jos sudottaa niin sudoersiin ei tartte lisätä niin montaa komentoa eikä rapoa niiden parametrien kanssa että saakko niiden suhteen rajoitettua
-
 function pr4() {
 	dqb "cdns.pr4 (${1})" 
 }
+
 function pre_part3() {
 	dqb "cdns.pre_part3( ${1})"
 }
 
-if [ $# -gt 1 ] ; then
-	if [ -d ~/Desktop/minimize/${2} ] ; then
-		distro=${2}
-		dqb "asdasdasd.666"
-		csleep 5
-		[ "${3}" == "-v" ] && debug=1
-	fi
+#asiasta kukkaruukkuun: wicd oli aikoinaan siedettävä softa, ainakin Networkmanageriin verrattuna
 
-	mode=${1}
-else
-	echo "${0} <mode> <other_param>";exit
-fi
+#HUOM.jatkossa ehkä parempi että komentorivioptioilla ei aktivoida debugia
+mode=${1}
+[ -d ~/Desktop/minimize/${2} ] && distro=${2}
+
+case $# in
+	1)
+		dqb "maybe ok"
+	;;
+	2)
+		[ "${2}" == "-v" ] && debug=1
+	;;
+	3)
+		if [ "${2}" == "-v" ] ; then
+			debug=1
+			distro=${3}
+		else
+			[ "${3}" == "-v" ] && debug=1
+		fi
+	;;
+	*)
+		echo "${0} <mode> [other_params]";exit
+	;;
+esac
 
 dqb "mode=${mode}"
 dqb "distro=${distro}"
-csleep 6
+csleep 2
+#exit
 
 #HUOM. jos tarttee ni näille main distrosta riippuvainen fktioiden esittely 
 #(toiv ei tarvitse)
@@ -57,22 +65,23 @@ spc=$(sudo which cp)
 slinky="${slinky} -s "
 sco=$(sudo which chown)
 scm=$(sudo which chmod)	
+svm=$(sudo which mv)
 
 #240325 lisäykset
 ip6t=$(sudo which ip6tables)
 iptr=$(sudo which iptables-restore)
 ip6tr=$(sudo which ip6tables-restore)
 
-dqb "when in trouble, sudo chmod 0755 ${distro}; sudo chmod  0755 ${distro}/*.sh; sudo chmod 0644 ${distro}/conf may help "
+dqb "when in trouble, \"sudo chmod 0755 *.sh ;sudo chmod 0755 ${distro}; sudo chmod 0755 ${distro}/*.sh; sudo chmod 0644 ${distro}/conf\" may help "
 #==============================================================
 function tod_dda() { 
-	#dqb "tod_dda(${1}) "
+	dqb "tod_dda(${1}) "
 	${ipt} -A b -p tcp --sport 853 -s ${1} -j c
 	${ipt} -A e -p tcp --dport 853 -d ${1} -j f
 }
 
 function dda_snd() {
-	#dqb "dda_snd( ${1})"
+	dqb "dda_snd( ${1})"
 	${ipt} -A b -p udp -m udp -s ${1} --sport 53 -j ACCEPT 
 	${ipt} -A e -p udp -m udp -d ${1} --dport 53 -j ACCEPT
 }
@@ -115,7 +124,7 @@ function ns4() {
 	dqb "starting ${1} in 5 secs"
 
 	sleep 5
-	${odio} -u ${1} ${1} -g #antaa nyt tämän olla nim toiustaiseksi(25.3.25)
+	${odio} -u ${1} ${1} -g #antaa nyt tämän olla näin toistaiseksi(25.3.25)
 	echo $?
 
 	sleep 1
@@ -123,10 +132,8 @@ function ns4() {
 	sleep 5
 }
 
-#pitäisiköhän se ipt-testi olla tässä?
-#HUOM. jos mahd ni pitäisi kai sudoersissa speksata millä parametreilla mitäkin komerntoja ajetaan (man sudo, man sudoers)
 function clouds_pre() {
-	dqb "common_lib.clouds_pre()"
+	dqb "cdns.clouds_pre()"
 
 	if [ -s /etc/resolv.conf.new ] || [ -s /etc/resolv.conf.OLD ] ; then 
 		${smr} /etc/resolv.conf
@@ -146,6 +153,7 @@ function clouds_pre() {
 	csleep 1
 
 	#HUOM.160325:lisätty uutena varm. vuoksi
+
 	${iptr} /etc/iptables/rules.v4
 	${ip6tr} /etc/iptables/rules.v6
 	csleep 2
@@ -161,7 +169,7 @@ function clouds_pre() {
 }
 
 function clouds_post() {
-	dqb "common_lib.clouds_post() "
+	dqb "cdns.clouds_post() "
 	dqb "scm= ${scm}"
 	dqb "sco = ${sco}"
 	csleep 5
@@ -184,22 +192,15 @@ function clouds_post() {
 
 	if [ ${debug} -eq 1 ] ; then
 		${ipt} -L  #
-
-		##HUOM.240325: mitähän tarkistuksia tuohon vielä?
-		#if [ x"${ip6t}" != "x" ] ; then #
-		#	if [ -x ${ip6t} ] ; then #
-		#		${ip6t} -L #parempi ajaa vain jos löytyy
-		#	fi #
-		#fi #
-
-		csleep 5 #
+		${ip6t} -L #parempi ajaa vain jos löytyy
+		csleep 3 #
 	fi #
 
 	dqb "d0n3"
 }
 
 function clouds_case0() {
-	dqb "clouds_case0()"
+	dqb "cdns.clouds_case0()"
 
 	${slinky} /etc/resolv.conf.OLD /etc/resolv.conf
 	${slinky} /etc/dhcp/dhclient.conf.OLD /etc/dhcp/dhclient.conf
@@ -214,14 +215,21 @@ function clouds_case0() {
 		${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
 		${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
 
-		#VAIH:conf sanomaan dns-ip:n jos ei resolv.conf:in kautta löydy
-		[ -s  /etc/resolv.conf ] || echo "NO RESOLV.CONF FOUND, HAVE TO USE CONF"
-		for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do dda_snd ${s} ; done	
+		if [ -s  /etc/resolv.conf ] ; then
+			for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do dda_snd ${s} ; done	
+		else
+			dqb "NO RESOLV.CONF FOUND, HAVE TO USE CONF"
+			csleep 1
+			
+			if [ z"${dsn}" != "z" ] ; then
+				for s in ${dsn} ;  do dda_snd ${s} ; done
+			fi
+		fi
 	fi
 
 	/etc/init.d/dnsmasq stop
 	/etc/init.d/ntpsec stop
-	csleep 5
+	csleep 3
 	${whack} dnsmasq*
 	${whack} ntp*
 }
@@ -229,44 +237,55 @@ function clouds_case0() {
 function clouds_case1() {
 	echo "WORK IN PROGRESS"
 
-		if [ -s /etc/resolv.conf.new ] ; then
-			echo "r30lv.c0nf alr3ady 3x15t5"
-#		else
-#HUOM. römönkin vui tehdä vähemmällä sudotyksella
-#			sudo touch /etc/resolv.conf.new
-#			sudo chmod a+w /etc/resolv.conf.new
-#			sudo echo "nameserver 127.0.0.1" > /etc/resolv.conf.new
-#			sudo chmod 0444 /etc/resolv.conf.new
-#			sudo chown root:root /etc/resolv.conf.new
-		fi
+	if [ -s /etc/resolv.conf.new ] ; then
+		echo "r30lv.c0nf alr3ady 3x15t5"
+	else
+		touch /etc/resolv.conf.new
+		${scm} a+w /etc/resolv.conf.new
+		echo "nameserver 127.0.0.1" > /etc/resolv.conf.new
+		${scm} 0444 /etc/resolv.conf.new
+		${sco} root:root /etc/resolv.conf.new
+	fi
 
-		${slinky} /etc/resolv.conf.new /etc/resolv.conf
-		${slinky} /etc/dhcp/dhclient.conf.new /etc/dhcp/dhclient.conf
-		${spc} /sbin/dhclient-script.new /sbin/dhclient-script
+	${slinky} /etc/resolv.conf.new /etc/resolv.conf
+	${slinky} /etc/dhcp/dhclient.conf.new /etc/dhcp/dhclient.conf
+	${spc} /sbin/dhclient-script.new /sbin/dhclient-script
 
-		if [ y"${ipt}" == "y" ] ; then
-			echo "SHOULD 1NSTALL TABL35"
-#		else
-#			${ipt} -A INPUT -p tcp -m tcp --sport 853 -j b
-#			${ipt} -A OUTPUT -p tcp -m tcp --dport 853 -j e
-#			for s in $(grep -v '#' /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do tod_dda ${s} ; done
+	if [ y"${ipt}" == "y" ] ; then
+		echo "SHOULD 1NSTALL TABL35"
+	else
+		${ipt} -A INPUT -p tcp -m tcp --sport 853 -j b
+		${ipt} -A OUTPUT -p tcp -m tcp --dport 853 -j e
+
+		if [ -s /home/stubby/.stubby.yml ] ; then
+			for s in $(grep -v '#' /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do tod_dda ${s} ; done
+		else
+			dqb "NO RESOLV.CONF FOUND, HAVE TO USE CONF"
+			csleep 1
+		
+			if [ z"${dsn}" != "z" ] ; then
+				for s in ${dsn} ;  do tod_dda ${s} ; done
+			fi
 		fi
-#
-#		echo "dns";sleep 2
-#		/etc/init.d/dnsmasq restart
-#		pgrep dnsmasq
-#
-#		echo "stu";sleep 2
-#		${whack} stubby* #090325: pitäisiköhän tämä muuttaa?
-#		sleep 3	
+	fi
+
+	echo "dns";sleep 2
+	/etc/init.d/dnsmasq restart
+	pgrep dnsmasq
+
+#HUOM.270325:tästä eteenpäin vaatinee pientä laittoa
+#ensinnäkin dnsmasq pitäisi saada taas vastaamaan pyyntöihin ja sitten muut jutut
+#	echo "stu";sleep 2
+#	${whack} stubby* #090325: pitäisiköhän tämä muuttaa?
+#	sleep 3	
 #			
-#		[ -f /run/stubby.pid ] || sudo touch /run/stubby.pid
-#		${sco} devuan:devuan /run/stubby.pid #$n
-#		${scm} 0644 /run/stubby.pid 
-#		sleep 3
+#	[ -f /run/stubby.pid ] || sudo touch /run/stubby.pid
+#	${sco} devuan:devuan /run/stubby.pid #$n
+#	${scm} 0644 /run/stubby.pid 
+#	sleep 3
 #
-#		su devuan -c '/usr/bin/stubby -C /home/stubby/.stubby.yml -g'
-#		pgrep stubby
+#	su devuan -c '/usr/bin/stubby -C /home/stubby/.stubby.yml -g'
+#	pgrep stubby
 }
 #====================================================================
 clouds_pre
@@ -278,6 +297,11 @@ case ${mode} in
 	1)
 		clouds_case1
 	;;
+#	2)
+#		#päin Vittua hui hai
+#		f=$(date +%F)
+#		[ -f /etc/iptables/rules.v4.${f} ] && ${svm} /etc/iptables/rules.v4.${f} /etc/iptables/rules.v4
+#	;;	[ -f /etc/iptables/rules.v6.${f} ] && ${svm} /etc/iptables/rules.v6.${f} /etc/iptables/rules.v6
 	*)
 		echo "MEE HIMAAS LEIKKIMÄHÄN"
 	;;

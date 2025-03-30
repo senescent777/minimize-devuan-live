@@ -2,9 +2,10 @@
 
 #HUOM. näiden skriptien kanssa bash tulkkina aiheuttaa vähemmän nalkutusta kuin sh
 debug=0
-#distro="" #HUOM.250325:aika turha tuo distro tässä skriptissä
 branch=""
-#VAIH:jos mahd ni git hakemaan vaihToehtoisen oksan?
+#VAIH:jos mahd ni git hakemaan vaihToehtoisen oksan? man-sivuja pitäisi taas kahlata niin maan perkeleesti ja tasaiseenm
+#TODO:mktemp-kikkailut pois, plain old git clone tilalle ja täts it
+n=$(whoami)
 
 if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
 	. ~/Desktop/minimize/common_lib.sh #HUOM. tarvitsiko tästä jota9in?
@@ -12,6 +13,7 @@ fi
 
 #tig ja mkt alustukset jatkossa check_binaries():iin? no mkt ehkä
 tig=$(sudo which git)
+
 if [ x"${tig}" == "x" ] ; then
 	echo "sudo apt-get install git"
 	exit 7
@@ -25,7 +27,6 @@ fi
 
 if [ $# -gt 0 ] ; then
 	dqb "params_ok"
-	#distro=${1}
 
 	if [ "${1}" == "-v" ] ; then
 		debug=1
@@ -35,20 +36,11 @@ if [ $# -gt 0 ] ; then
 		[ "${2}" == "-v" ] && debug=1
 	fi
 else
-	echo "${0} <distro> [-v] [branch] | ${0} <distro> [branch] [-v]"
+	echo "${0} [-v] [branch] | ${0} [branch] [-v]"
 	exit 66
 fi
 
-#if [ -d ~/Desktop/minimize/${distro} ] ; then
-#	dqb "tgt dir exists"
-#else
-#	echo "NO SUCH THING AS ~/Desktop/minimize/${distro} "
-#	exit 67
-#fi
-
-#dqb "distro=${distro}"
 dqb "branch=${branch}"
-
 q=$(${mkt} -d)
 cd ${q}
 
@@ -56,7 +48,10 @@ ${tig} clone https://github.com/senescent777/minimize-devuan-live
 cd minimize-devuan-live
 [ ${debug} -eq 1 ] && ls -laRs;sleep 6
 
-if [ -d ~/Desktop/minimize ] ; then
+[ -d ~/Desktop/minimize ] || mkdir ~/Desktop/minimize;sleep 6
+
+#if [ -d ~/Desktop/minimize ] ; then
+	#lototaan aiemman sisällön kanssa vaikka näin
 	if [ ! -d ~/Desktop/minimize.OLD ] ; then
 		mkdir ~/Desktop/minimize.OLD
 		mv ~/Desktop/minimize/* ~/Desktop/minimize.OLD
@@ -66,11 +61,29 @@ if [ -d ~/Desktop/minimize ] ; then
 
 	csleep 6
 	mv minimize/* ~/Desktop/minimize
+#fi
+
+if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
+	. ~/Desktop/minimize/common_lib.sh
+	enforce_access ${n}
+else
+	${sco} 0:0 /
+	${scm} 0755 /
+	${sco} 0:0 /home
+	${scm} 0755 /home
+
+	${sco} -R ${n}:${n} ~ 
+	${scm} -R a-wx ~/Desktop/minimize
+	${scm} 0755 ~/Desktop/minimize 
+
+	for t in $(find ~/Desktop/minimize -type d) ; do ${scm} 0755 ${t}; done
+	for t in $(find ~/Desktop/minimize -type f -name '*.sh') ; do ${scm} 0755 ${t}; done
+	for t in $(find ~/Desktop/minimize -type f -name 'conf*') ; do ${scm} 0444 ${t}; done
+	for t in $(find ~/Desktop/minimize -type f -name '*.deb') ; do ${scm} 0444 ${t}; done
+	
+	${sco} 0:0 ~/Desktop/minimize/changedns.sh
+	${scm} 0555 ~/Desktop/minimize/changedns.sh
 fi
-#
-#chmod 0755 ~/Desktop/minimize/${distro}
-#chmod 0755 ~/Desktop/minimize/${distro}/*.sh
-#TODO:chmod-juttuja joutaisi kyllä laitella takaisin
 
 cd ~/Desktop/minimize
 echo "./export2.sh 0 /tmp/vomit.tar \${distro}"

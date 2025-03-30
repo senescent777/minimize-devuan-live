@@ -1,20 +1,7 @@
 #=========================PART 0 ENDS HERE=================================================================
 function pr4() {
-	#HUOM. stubby,dns-siivoamiset voisi olla riippuivaisua konfiguraatiosta
 	dqb "pr4 (${1})"
-
-	#sha512sums ole massaolo kuuluIsi kai tarkistaa ensin jos on niinqu pedantti
-	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
-		p=$(pwd)
-		cd ${1}
-		${sah6} -c sha512sums.txt --ignore-missing
-		echo $?
-		csleep 6
-		cd ${p}
-	else
-		dqb "NO SHA512SUMS"
-		csleep 1
-	fi
+	psqa  ${1}
 
 	if [ ${dnsm} -eq 1 ] ; then
 		${NKVD} ${1}/stubby*
@@ -24,10 +11,6 @@ function pr4() {
 
 	dqb "d0n3"
 }
-
-#HUOM.170325:git näköjään asentuu pr4((), pre3() - vaiheiden aikana vaikka vähän nalkutusta tuleekin(josko nalkutuksen poistaisi)
-#HUOM.21035: toimiiko nuo sdi-jutut tädssä myös check_bin() kautta? pitäisikö?
-#HUOM.230325:tuoreemmat nalkutukset import2.sh kautta, josko tekisi jotain? (VAIH)
 
 #libx11-xcb1:amd64
 #dpkg: regarding .../iptables-persistent_1.0.15_all.deb containing iptables-persistent, pre-dependency problem:
@@ -135,21 +118,14 @@ function pre_part3() {
 	${sdi} ${1}/perl-modules-*.deb
 	${NKVD} ${1}/perl-modules-*.deb
 
-#	#240325:quick and dirty way of suppressing complaints from dpkg
-#	#...except that it didnt work
-#	#it is a fatal illusion 
-#
-#	${NKVD} libpython3.9*
-#	${NKVD} python3.9*
-#	${NKVD} xserver*
-#	${NKVD} libgail*
-#	${NKVD} libgtk*
-#	${NKVD} librsvg*
-#	${NKVD} libsoup*
-#	${NKVD} libx11*
-#	${NKVD} libgdk*
-#
 }
+
+#dqb "=========================================="
+#whoami
+#pwd | cut -d '/' -f 6
+#dqb "=========================================="
+#
+#sleep 3
 
 dqb "BIL-UR-SAG"
 check_binaries ${distro}

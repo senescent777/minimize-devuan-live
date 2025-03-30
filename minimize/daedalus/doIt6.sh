@@ -1,6 +1,11 @@
 #!/bin/bash
 d=$(dirname $0)
 mode=2
+
+distro=$(cat /etc/devuan_version)
+n=$(whoami)
+#TODO:n,distro->common_lib?
+
 [ -s ${d}/conf ] && . ${d}/conf
 . ~/Desktop/minimize/common_lib.sh
 
@@ -11,8 +16,6 @@ else
 	exit 111	
 fi
 
-n=$(whoami)
-#TODO:->common_lib?
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
@@ -49,7 +52,7 @@ enforce_access ${n}
 dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary" 
 part1 ${distro} 
 #HUOM.190325:part_1_5sessa oli bugi, u+w ei vaan riitä
-#[ ${debug} -eq 1 ] && less /etc/apt/sources.list
+
 [ ${mode} -eq 0 ] && exit
 
 #HUOM.261224: ntpsec uutena
@@ -86,25 +89,24 @@ c=$(find ${d} -name '*.deb' | wc -l)
 
 if [ ${removepkgs} -eq 1 ] ; then
 	${sharpy} libblu* network* libcupsfilters* libgphoto* 
-	# libopts25 ei tömmöistä daedaluksessa
+	# libopts25 ei tÄmmöistä daedaluksessa
 
-	#HUOM.200325:eximin läsnäolo aiheuyiu removepkgs-mjan arvosrta
 	${sharpy} avahi* blu* cups* 
 	${sharpy} exim*
 
 	${lftr}
-	csleep 3
+	csleep 2
 
 	${sharpy} modem* wireless* wpa*
 	${sharpy} iw lm-sensors
 	${sharpy} ntp*
 
 	${lftr}
-	csleep 3
+	csleep 2
 	
 	${sharpy} po* pkexec
 	${lftr}
-	csleep 3
+	csleep 2
 fi
 
 if [ y"${ipt}" != "y" ] ; then 
@@ -148,19 +150,13 @@ fi
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
-#HUOM. TOIMIIKO TUO KOMENTO TUOSSA ALLA VAI EI ??? (olikohan resolv.conf:ista kiinni)
-#(dns-ip konftdstoon niinqu josqs?)
-
-
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 ${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
 ${sipt} -L
 csleep 6
 
-#${scm} a-wx ~/Desktop/minimize/*.sh #sotkee
-${scm} a-wx $0 #oikeastaan kerta-ajo tulisi riittää tai toisaalta daedaluksen versiossa ominaisuuksia
-
+${scm} a-wx $0 
 #===================================================PART 4(final)==========================================================
 
 if [ ${mode} -eq 2 ] ; then

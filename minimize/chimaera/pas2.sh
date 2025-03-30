@@ -12,9 +12,9 @@ fi
 [ ${mode} -gt 1 ] && . ~/Desktop/minimize/chimaera/conf
 [ ${mode} -gt 2 ] && . ~/Desktop/minimize/common_lib.sh
 [ ${mode} -gt 3 ] && . ~/Desktop/minimize/chimaera/lib.sh
-[ ${mode} -gt 4 ] && pre_enforce ${n} chimaera
-[ ${mode} -gt 5 ] && enforce_access ${n}
-[ ${mode} -gt 6 ] && part1 chimaera
+[ ${mode} -gt 4 ] && pre_enforce ${n} chimaera 
+[ ${mode} -gt 5 ] && enforce_access ${n} #tämä ei vielä riko äksää
+[ ${mode} -gt 6 ] && part1 chimaera #HUOM.290325:se on nimenomaan part1 mikä paskoo asioita
 [ ${mode} -gt 0 ] && sleep 5
 
 pkill --signal 9 xfce4-session

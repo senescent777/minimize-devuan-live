@@ -5,7 +5,6 @@ d=$(dirname $0)
 . ~/Desktop/minimize/common_lib.sh
 [ -s ${d}/lib.sh ] && . ${d}/lib.sh
 
-
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 ${fib}
@@ -116,7 +115,6 @@ ${sharpy} screen
 ${asy} 
 ${lftr}
 csleep 5
-#HUOM.080125 screen ei suostunut poistumaan yänään, joten...
 
 ${sharpy} pkexec po* refracta*
 #samba poistunee jo aiemmin?
@@ -161,8 +159,8 @@ ${NKVD} ${pkgdir}/*.bin
 ${NKVD} ${d}/*.deb 
 ${NKVD} /tmp/*.tar
 ${smr} /tmp/tmp.*
-${smr} /usr/share/doc #rikkookohan jotain nykyään?
-#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä?)
+${smr} /usr/share/doc #rikkookohan jotain nykyään? (2005 ei rikkonut)
+#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
 df
 ${odio} which dhclient; ${odio} which ifup; csleep 6
 
@@ -172,4 +170,3 @@ ${scm} a-wx $0
 
 #whack xfce so that the ui is reset
 ${whack} xfce4-session
-#HUOM. omegankin toiminnan voisi testata

@@ -16,18 +16,26 @@
 	it can also be used to install upgrades to .deb packages
 
 - demerde_toi.sh
-	can soon be used to install the most recent version of this project into a running live distro
+	can be used to install the most recent version of this project into a running live distro
 
-- $distro/pt2.sh removes little more packages, if you want even lighter filesystem.squashfs
+- $distro/pt2.sh removes little more packages,
+  	 if you want even lighter filesystem.squashfs
 	https://github.com/senescent777/some_scripts/blob/main/skripts/export/squ.ash.export can be used some day to make that .squashfs from / - partition
 
 
 - about all those .desktop-files: i have to warn you, haven't recently tested if those  do what they're supposed to (some day i will)
 
-- changedns.sh can be used to change the network configuration to use plain-old-DNS and that's all folks , there is something going on with Daedalus and stubby i have to figure out
-(if there's problem with DNS, this script may be helpful)
+- changedns.sh can be used to change the network configuration to use plain-old-DNS and that's all folks.
+  There is something going on with Daedalus/stubby/dnsmasq that i have to figure out
 
-P.S. there may be some problems with access rights, invocation "chmod 0755 ./*.sh;chmod 0755 $distro;chmod 0644 $distro/conf*;chmod 0755 $distro/*.sh" helps with those. Should fix that.
+
+If there's problem with DNS, this script may fix that. 
+
+- omega.sh removes "Ubuntu-style sudo". Potentially dangerous.
+
+P.S. there may be some problems with access rights.  Should not happen that often anymore. 
+But if it does, invocation "chmod 0755 *.sh;chmod 0755 $distro;chmod 0644 $distro/conf*;chmod 0755 $distro/*.sh" helps.
+
 
 P.P.S. the elder scripts are moved into olds/ , they used to work (i think)
 

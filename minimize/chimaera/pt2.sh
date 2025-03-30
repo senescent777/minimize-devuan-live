@@ -5,7 +5,6 @@ d=$(dirname $0)
 . ~/Desktop/minimize/common_lib.sh
 [ -s ${d}/lib.sh ] && . ${d}/lib.sh
 
-
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 ${fib}
@@ -15,8 +14,6 @@ if [ $# -gt 0 ] ; then
 		debug=1
 	fi
 fi
-
-#HUOM.120325:mitäköhän tämän kanssa tekee? ehkä oltava distro-kohtainen
 
 #tarvitseeko?
 #c=$(find ${d} -name '*.deb' | wc -l)
@@ -49,85 +46,94 @@ ${fib}
 ${sharpy} dirmngr discover* distro-info-data efibootmgr exfalso ftp gcr
 ${asy}
 
-${odio} which dhclient; ${odio} which ifup; csleep 3
-${odio} which iptables; csleep 3
+[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
+[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
 
 ${lftr}
 ${fib}
 ${sharpy} ghostscript gir* gdisk gpg-* gpgconf gpgsm gparted
 ${asy}
-${odio} which dhclient; ${odio} which ifup; csleep 3
-${odio} which iptables; csleep 3
+
+[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
+[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
 
 ${lftr}
 ${fib}
 ${sharpy} gsasl* gsfonts* gstreamer*
 ${asy}
-${odio} which dhclient; ${odio} which ifup; csleep 3 #tulostuksetkin dbg taakse?
-${odio} which iptables; csleep 3
+
+[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3 #tulostuksetkin dbg taakse?
+[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
 
 ${lftr}
 ${fib}
 ${sharpy} htop 
 ${asy}
-${odio} which dhclient; ${odio} which ifup; csleep 3
+
+[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
 csleep 5
-${odio} which iptables; csleep 3
+[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
 
 ${lftr}
 ${fib}
 ${sharpy} intel-microcode
 ${asy}
-${odio} which dhclient; ${odio} which ifup; csleep 3
+
+[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
 csleep 5
-${odio} which iptables; csleep 3
+[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
 
 ${lftr}
 ${sharpy} mdadm 
 ${asy}
 csleep 6
-${odio} which dhclient; ${odio} which ifup; csleep 3
+
+[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
 csleep 5
-${odio} which iptables; csleep 3
+[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
 
 ${lftr}
 ${sharpy} lvm2
 ${asy}
 csleep 6
-${odio} which dhclient; ${odio} which ifup; csleep 3
+
+[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
 csleep 5
-${odio} which iptables; csleep 3
+[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
 
 ${lftr}
 ${sharpy} mailcap mariadb-common
 ${asy}
 ${lftr}
-${odio} which dhclient; ${odio} which ifup; csleep 3
+
+[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
 ${fib}
-${odio} which iptables; csleep 3
+[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
 
 ${sharpy} mokutil mysql-common orca openssh*
 ${asy}
 ${lftr}
-${odio} which iptables; csleep 3
+[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
 
 ${sharpy} speech* system-config* telnet tex* udisks2 uno* ure* upower
 ${sa} autoremove --yes
-${odio} which dhclient; ${odio} which ifup; csleep 3
+
+[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
 ${fib}
-${odio} which iptables; csleep 3
+[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
 
 ${lftr}
 ${sharpy} vim* xorriso xfburn
 ${asy}
-${odio} which iptables; csleep 3
+
+[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
 
 ${sharpy} iucode-tool libgstreamer* os-prober po*
 ${asy}
 
-${odio} which dhclient; ${odio} which ifup; csleep 3
+[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
 ${fib}
-${odio} which iptables; csleep 3
+[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
 
 ${lftr}
 ${sharpy} ppp 
@@ -142,7 +148,8 @@ csleep 1
 ${sharpy} screen shim* samba* 
 ${asy}
 csleep 1
-${odio} which iptables; csleep 3
+
+[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
 
 ${lftr}
 ${sharpy} procmail
@@ -169,7 +176,7 @@ ${NKVD} /var/cache/apt/archives/*.deb
 ${NKVD} ${d}/*.deb 
 ${NKVD} /tmp/*.tar 
 ${smr} -rf /tmp/tmp.*
-${smr} /usr/share/doc #rikkookohan jotain nykyään?
+${smr} /usr/share/doc 
 df
-#mimimize-hmiston siivous kanssa?
-${odio} which dhclient; ${odio} which ifup; csleep 3
+
+[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
