@@ -297,11 +297,11 @@ case ${mode} in
 	1)
 		clouds_case1
 	;;
-	2)
-		#jotenkin tälleen
-		f=$(date +%F)
-		[ -f /etc/iptables.rules.v4.${f} ] && ${svm} /etc/iptables.rules.v4.${f} /etc/iptables.rules.v4
-	;;	[ -f /etc/iptables.rules.v6.${f} ] && ${svm} /etc/iptables.rules.v6.${f} /etc/iptables.rules.v6
+#	2)
+#		#päin Vittua hui hai
+#		f=$(date +%F)
+#		[ -f /etc/iptables/rules.v4.${f} ] && ${svm} /etc/iptables/rules.v4.${f} /etc/iptables/rules.v4
+#	;;	[ -f /etc/iptables/rules.v6.${f} ] && ${svm} /etc/iptables/rules.v6.${f} /etc/iptables/rules.v6
 	*)
 		echo "MEE HIMAAS LEIKKIMÄHÄN"
 	;;

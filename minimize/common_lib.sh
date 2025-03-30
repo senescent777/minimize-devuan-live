@@ -45,13 +45,13 @@ function fix_sudo() { #function-avainsanan puutteella merkitystä?
 	${scm} 0750 /etc/sudoers.d
 	${scm} 0440 /etc/sudoers.d/*
 
-	dqb "POT. DANGEROUS PT 2"
+	#dqb "POT. DANGEROUS PT 2"
 	#HUOM.250325:onkohan tarkoitus että nämä komennot laittavat sudon epäkuntoon vai ei?
 	#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 	#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 
-	[ ${debug} -eq 1 ] && ls -las  /usr/bin/sudo*
+	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
 	csleep 5
 	echo "fix_sud0.d0n3"
 }
@@ -127,16 +127,15 @@ function psqa() {
 		p=$(pwd)
 		cd ${1}
 		${sah6} -c sha512sums.txt --ignore-missing
-		echo $?
+		[ $? -eq 0 ] || exit 97
 
-		#HUOM. vähitellen mukaan exit mikli tark ei läpi? (TODO)
-		csleep 4
+		dqb "sha-test passed"
 		cd ${p}
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
 	fi
 
-	csleep 1
+	csleep 3
 }
 
 #TODO:jos mahd ni Python-tyyppinen(?) idea käyttöön ao. fktioon, $cmd=eval_cmd("cmd") tai jopa $array["cmd"]=aval_cmd("cmd")
@@ -160,7 +159,9 @@ function check_binaries() {
 
 		echo "SHOULD INSTALL IPTABLES"
 		#HUOM.230435: pitäisiköhän jokin toinen tarkistus lisätä tähän?	
-
+		#VAIH:no ainakin sha-tarkistus tähän ennen asentelua
+		
+		psqa ~/Desktop/minimize/${1}	
 		pre_part3 ~/Desktop/minimize/${1}
 		pr4 ~/Desktop/minimize/${1}
 
@@ -264,6 +265,32 @@ function check_binaries2() {
 	csleep 2
 }
 
+#pitäisiköhän vartm vuoksi sorkkia tdstojen oikeudet ja omustajuudet salamma?  enforce_access() kyllä hoitaa tuon /sbin...
+function dinf() {
+#	#HUOM.280325.2:lienee niin että samalle tdstonnimelle voi asEttaa useamman tiivisteen eli /sbin/dhclient-script:in saisi sudoersiin mukaan
+#	#, tosin tarvitseeko? ehkä sitten jos estää ifup:ia käynnistelemästä prosesseja
+#
+#	echo -n "$(whoami) localhost=NOPASSWD: " >> ${1}
+#	local frist
+	local g
+#	frist=1
+#
+	for g in $(sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq) ; do 
+#		if [ ${frist} -eq 1 ] ; then 
+#			frist=0
+#		else
+#			echo -n "," >> ${1}
+#		fi
+#
+#		echo -n "sha256:${f}" >> ${1}
+		dqb ${g}
+	done
+#
+#	#echo " /sbin/dhclient-script " >> ${1}
+#	#cat ${q}/meshuggah
+#	#exit
+}
+
 function pre_enforce() {
 	dqb "common_lib.pre_enforce( ${1} , ${2} )"
 
@@ -282,30 +309,17 @@ function pre_enforce() {
 	dqb "1NF3RN0 0F SACR3D D35TRUCT10N"
 	mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah
 	csleep 2
-	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
 
-#	#HUOM.280325.2:lienee niin että samalle tdstonnimelle voi asEttaa useamman tiivisteen eli /sbin/dhclient-script:in saisi sudoersiin mukaan
-#	#, tosin tarvitseeko? ehkä sitten jos estää ifup:ia käynnistelemästä prosesseja
-#
-#	echo -n "$(whoami) localhost=NOPASSWD: " >> ${q}/meshuggah
-#	frist=1
-#
-#	for f in $(sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq) ; do 
-#		if [ ${frist} -eq 1 ] ; then 
-#			frist=0
-#		else
-#			echo -n "," >> ${q}/meshuggah
-#		fi
-#
-#		echo -n "sha256:${f}" >> ${q}/meshuggah
-#	done
-#
-#	#echo " /sbin/dhclient-script " >> ${q}/meshuggah
-#	#cat ${q}/meshuggah
-#	#exit
+	dqb "LETf HOUTER JOINDE IN DARKN355"
+	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
+	csleep 3
+
+	dqb "TRANSILVAN1AN HUNG3R"
+	dinf ${q}/meshuggah
+	csleep 2
 
 	if [ -s ${q}/meshuggah ] ; then
-		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 5 secs"
+		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
 		csleep 2
 
 		chmod 0440 ${q}/meshuggah
@@ -316,6 +330,8 @@ function pre_enforce() {
 		unset CB_LIST1
 		#saavuttaakohan tuolla nollauksella mitään? kuitenkin alustetaan 
 	fi
+
+	dqb "common_lib.pre_enforce d0n3"
 }
 
 #HUOM.270325:vaikuttaisi siltä että part1() rikkoo chimaeran/äksän/slimin tai sitten uusi tikku tai optinen kiekko olisi kokeilemisen arvoinen juttu
@@ -353,10 +369,10 @@ function enforce_access() {
 	${sco} root:root /
 
 	${scm} 0777 /tmp
-	#${scm} o+t /tmp #sittenkin pois? chimaerassa slim rikki juuri tämän takia?
+	#${scm} o+t /tmp 
 	${sco} root:root /tmp
 
-	#ch-jutut siltä varalta että tar sössii oikeudet tai omistajat
+	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
 	${sco} root:root /home
 	${scm} 0755 /home
 
@@ -391,8 +407,8 @@ function enforce_access() {
 	fi
 
 	[ -s /sbin/dclient-script.OLD ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.OLD
-	[ -f /etc/iptables.rules.v4.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables.rules.v4.${f}
-	[ -f /etc/iptables.rules.v6.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables.rules.v6.${f}
+	[ -f /etc/iptables/rules.v4.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v4.${f}
+	[ -f /etc/iptables/rules.v6.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v6.${f}
 }
 
 function part1_5() {
@@ -531,4 +547,4 @@ function vommon() {
 }
 
 dqb "common_l1b_l0ad3d_5ucc35fully"
-cat /etc/devuan_version #jos tällä voisi jyrätä $distro konftsdtossa
+#cat /etc/devuan_version #jos tällä voisi jyrätä $distro konftsdtossa
