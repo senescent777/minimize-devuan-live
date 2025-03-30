@@ -18,7 +18,8 @@
 - demerde_toi.sh
 	can be used to install the most recent version of this project into a running live distro
 
-- $distro/pt2.sh removes little more packages, if you want even lighter filesystem.squashfs
+- $distro/pt2.sh removes little more packages,
+  	 if you want even lighter filesystem.squashfs
 	https://github.com/senescent777/some_scripts/blob/main/skripts/export/squ.ash.export can be used some day to make that .squashfs from / - partition
 
 
@@ -27,7 +28,7 @@
 - changedns.sh can be used to change the network configuration to use plain-old-DNS and that's all folks.
   There is something going on with Daedalus/stubby/dnsmasq that i have to figure out
 
-If there's problem with DNS, this script may be helpful. 
+If there's problem with DNS, this script may fix that. 
 
 - omega.sh removes "Ubuntu-style sudo". Potentially dangerous.
 
