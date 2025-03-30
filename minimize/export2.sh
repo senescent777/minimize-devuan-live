@@ -1,6 +1,6 @@
 #!/bin/bash
 #d=$(dirname $0) #tarpeellinen?
-debug=1
+debug=0
 tgtfile=""
 distro=$(cat /etc/devuan_version) #vissiinkin parestus uusiksi kohta (VAIH)
 n=$(whoami)

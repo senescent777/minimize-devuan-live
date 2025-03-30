@@ -152,6 +152,7 @@ function clouds_pre() {
 	csleep 1
 
 	#HUOM.160325:lisätty uutena varm. vuoksi
+	#TODO:tarvittaessa rules:in vkopioiden kopsaus alkup nimelle
 	${iptr} /etc/iptables/rules.v4
 	${ip6tr} /etc/iptables/rules.v6
 	csleep 2

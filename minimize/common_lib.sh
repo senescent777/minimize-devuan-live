@@ -278,14 +278,6 @@ function pre_enforce() {
 	[ ${debug} -eq 1 ] && ls -las ${q}
 	csleep 3
 	[ -f ${q}/meshuggah ] || exit 33
-	dqb "ANNOYING AMOUNT OF DEBUG"
-
-#	if [ z"${1}" != "z" ] ; then
-#		dqb "333"
-#		#HUOM.24325:tarvitseekohan enää noita ch-komentoja alla? ainakaan sudon kautta tai muutenbkaan
-#		chown ${1}:${1} ${q}/meshuggah 
-# 		chmod 0660 ${q}/meshuggah #vissiin uskalla tuosta tiukentaa
-#	fi
 
 	dqb "1NF3RN0 0F SACR3D D35TRUCT10N"
 	mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah
@@ -295,14 +287,22 @@ function pre_enforce() {
 #	#HUOM.280325.2:lienee niin että samalle tdstonnimelle voi asEttaa useamman tiivisteen eli /sbin/dhclient-script:in saisi sudoersiin mukaan
 #	#, tosin tarvitseeko? ehkä sitten jos estää ifup:ia käynnistelemästä prosesseja
 #
-#	echo -n "$(whoami) localhost=NOPASSWD: sha256:" >> ${q}/meshuggah
+#	echo -n "$(whoami) localhost=NOPASSWD: " >> ${q}/meshuggah
 #	frist=1
+#
 #	for f in $(sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq) ; do 
-#		[ ${frist} -eq 1 ] || echo -n "," >> ${q}/meshuggah
-#		[ ${frist} - eq 1 ] && frist=0
-#		echo -n "${f}" >> ${q}/meshuggah
+#		if [ ${frist} -eq 1 ] ; then 
+#			frist=0
+#		else
+#			echo -n "," >> ${q}/meshuggah
+#		fi
+#
+#		echo -n "sha256:${f}" >> ${q}/meshuggah
 #	done
-#	echo " /sbin/dhclient-script " >> ${q}/meshuggah
+#
+#	#echo " /sbin/dhclient-script " >> ${q}/meshuggah
+#	#cat ${q}/meshuggah
+#	#exit
 
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 5 secs"
@@ -391,6 +391,8 @@ function enforce_access() {
 	fi
 
 	[ -s /sbin/dclient-script.OLD ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.OLD
+	[ -f /etc/iptables.rules.v4.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables.rules.v4.${f}
+	[ -f /etc/iptables.rules.v6.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables.rules.v6.${f}
 }
 
 function part1_5() {

@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=1
+debug=0
 file=""
 distro=$(cat /etc/devuan_version) #vissiinkin parestus uusiksi kohta (VAIH)
 #joitain oletusarvoja
