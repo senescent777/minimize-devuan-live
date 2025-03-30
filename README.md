@@ -28,12 +28,14 @@
 - changedns.sh can be used to change the network configuration to use plain-old-DNS and that's all folks.
   There is something going on with Daedalus/stubby/dnsmasq that i have to figure out
 
+
 If there's problem with DNS, this script may fix that. 
 
 - omega.sh removes "Ubuntu-style sudo". Potentially dangerous.
 
 P.S. there may be some problems with access rights.  Should not happen that often anymore. 
 But if it does, invocation "chmod 0755 *.sh;chmod 0755 $distro;chmod 0644 $distro/conf*;chmod 0755 $distro/*.sh" helps.
+
 
 P.P.S. the elder scripts are moved into olds/ , they used to work (i think)
 
