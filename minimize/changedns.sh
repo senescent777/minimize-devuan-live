@@ -20,11 +20,11 @@ function pr4() {
 	dqb "cdns.pr4 (${1})" 
 }
 
-#asiasta kukkaruukkuun: wicd oli aikoinaan siedettävä softa, ainakin Networkmanageriin verrattuna
-
 function pre_part3() {
 	dqb "cdns.pre_part3( ${1})"
 }
+
+#asiasta kukkaruukkuun: wicd oli aikoinaan siedettävä softa, ainakin Networkmanageriin verrattuna
 
 #HUOM.jatkossa ehkä parempi että komentorivioptioilla ei aktivoida debugia
 mode=${1}
@@ -65,6 +65,7 @@ spc=$(sudo which cp)
 slinky="${slinky} -s "
 sco=$(sudo which chown)
 scm=$(sudo which chmod)	
+svm=$(sudo which mv)
 
 #240325 lisäykset
 ip6t=$(sudo which ip6tables)
@@ -152,7 +153,7 @@ function clouds_pre() {
 	csleep 1
 
 	#HUOM.160325:lisätty uutena varm. vuoksi
-	#TODO:tarvittaessa rules:in vkopioiden kopsaus alkup nimelle
+
 	${iptr} /etc/iptables/rules.v4
 	${ip6tr} /etc/iptables/rules.v6
 	csleep 2
@@ -228,7 +229,7 @@ function clouds_case0() {
 
 	/etc/init.d/dnsmasq stop
 	/etc/init.d/ntpsec stop
-	csleep 4
+	csleep 3
 	${whack} dnsmasq*
 	${whack} ntp*
 }
@@ -296,6 +297,11 @@ case ${mode} in
 	1)
 		clouds_case1
 	;;
+	2)
+		#jotenkin tälleen
+		f=$(date +%F)
+		[ -f /etc/iptables.rules.v4.${f} ] && svm /etc/iptables.rules.v4.${f} /etc/iptables.rules.v4
+	;;	[ -f /etc/iptables.rules.v6.${f} ] && svm /etc/iptables.rules.v6.${f} /etc/iptables.rules.v6
 	*)
 		echo "MEE HIMAAS LEIKKIMÄHÄN"
 	;;
