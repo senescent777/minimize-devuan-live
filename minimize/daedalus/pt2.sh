@@ -159,7 +159,7 @@ ${NKVD} ${pkgdir}/*.bin
 ${NKVD} ${d}/*.deb 
 ${NKVD} /tmp/*.tar
 ${smr} /tmp/tmp.*
-${smr} /usr/share/doc #rikkookohan jotain nykyään? (2005 ei rikkonut)
+${smr} /usr/share/doc #rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
 #squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
 df
 ${odio} which dhclient; ${odio} which ifup; csleep 6
