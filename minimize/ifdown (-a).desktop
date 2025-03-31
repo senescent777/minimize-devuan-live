@@ -2,7 +2,7 @@
 Version=1.0
 Type=Application
 Name=ifdown -a
-Comment=
+Comment=TODO:wrapper?
 Exec=sudo /sbin/ifdown -a
 Icon=
 Path=

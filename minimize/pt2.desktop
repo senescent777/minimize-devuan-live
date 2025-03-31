@@ -2,7 +2,7 @@
 Version=1.0
 Type=Application
 Name=pt2
-Comment=does not yet work, a wrapper is required
+Comment=this .desktop-file does not yet work, a wrapper is required
 Exec=/home/devuan/Desktop/minimize/pt2.sh
 Icon=
 Path=

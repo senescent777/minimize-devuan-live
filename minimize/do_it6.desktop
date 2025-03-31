@@ -2,7 +2,7 @@
 Version=1.0
 Type=Application
 Name=do_it6
-Comment=does not yet work, a wrapper is required
+Comment=this .desktop-file does not yet work as intended, a wrapper is required
 Exec=/home/devuan/Desktop/minimize/doIt6.sh -v
 Icon=
 Path=

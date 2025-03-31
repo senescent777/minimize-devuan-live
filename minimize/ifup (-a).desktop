@@ -2,7 +2,7 @@
 Version=1.0
 Type=Application
 Name=ifup -a
-Comment=
+Comment=TODO:wrapper?
 Exec=sudo /sbin/ifup -a
 Icon=
 Path=
