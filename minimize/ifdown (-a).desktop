@@ -2,8 +2,8 @@
 Version=1.0
 Type=Application
 Name=ifdown -a
-Comment=TODO:wrapper?
-Exec=sudo /sbin/ifdown -a
+Comment=WORK IN PROIGESS
+Exec=/home/devuan/Desktop/minimize/wrapper.sh ifup
 Icon=
 Path=
 Terminal=true

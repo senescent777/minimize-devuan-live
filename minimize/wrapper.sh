@@ -3,6 +3,8 @@ distro=$(cat /etc/devuan_version)
 d=$(dirname $0)
 . ${d}/${distro}/conf
 
+#TODO:ehco josqs pois ympäriltä
+
 case ${1} in
 	merde)
 		echo "${d}/demerde_toi.sh main"		
@@ -17,7 +19,7 @@ case ${1} in
 		echo "sudo /sbin/ifdown ${iface}"
 	;;
 	import)
-		echo "TODO:smthng w/ import2.sh"
+		echo "TODO:smthng w/ import2.sh" #HUOM.010425:tässä tarvitaaan käli kysymään ainakin mikä tdsto tuodaan
 	;;
 	doit)
 		echo "${d}/${distro}/doIt6.sh"
