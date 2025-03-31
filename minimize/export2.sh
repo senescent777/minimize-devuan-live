@@ -185,6 +185,29 @@ function tp1() {
 	csleep 3
 }
 
+function rmt() {
+	${scm} 0444 ~/Desktop/minimize/${2}/*.deb
+	p=$(pwd)
+
+	cd ~/Desktop/minimize/${2}
+	[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt		
+	csleep 3
+
+	touch ./sha512sums.txt
+	chown $(whoami):$(whoami) ./sha512sums.txt
+	chmod 0644 ./sha512sums.txt
+	[ ${debug} -eq 1 ] && ls -las sha*;sleep 6
+ 		
+	${sah6} ./*.deb > ./sha512sums.txt
+	csleep 3
+
+	psqa . #vaiko toisella tavalla?
+
+	${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb ~/Desktop/minimize/${2}/sha512sums.txt
+	csleep 1
+	cd ${p}
+}
+
 function tp4() {
 	dqb "tp4( ${1} , ${2} )"
 	
@@ -242,31 +265,32 @@ function tp4() {
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
 	if [ -d ~/Desktop/minimize/${2} ] ; then 
-		${NKVD} ~/Desktop/minimize/${2}/*.deb
-	
+		${NKVD} ~/Desktop/minimize/${2}/*.deb	
 		${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
-		#TODO:tästä if-blokin loppuun asti fktioksi+käyttöön+main():iin uusi case tätä varten
-		${scm} 0444 ~/Desktop/minimize/${2}/*.deb
-		p=$(pwd)
+		rmt ${1} ${2}
 
-		cd ~/Desktop/minimize/${2}
-		[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt		
-		csleep 3
-
-		touch ./sha512sums.txt
-		chown ${n}:${n} ./sha512sums.txt
-		chmod 0644 ./sha512sums.txt
-		[ ${debug} -eq 1 ] && ls -las sha*;sleep 6
- 		
-		${sah6} ./*.deb > ./sha512sums.txt
-		csleep 3
-
-		psqa . #vaiko toisella tavalla?
-
-		${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb ~/Desktop/minimize/${2}/sha512sums.txt
-		csleep 1
-	
-		cd ${p}
+#		#VAIH:tästä if-blokin loppuun asti fktioksi+käyttöön+main():iin uusi case tätä varten
+#		#${scm} 0444 ~/Desktop/minimize/${2}/*.deb
+#		#p=$(pwd)
+#
+#		cd ~/Desktop/minimize/${2}
+#		[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt		
+#		csleep 3
+#
+#		touch ./sha512sums.txt
+#		chown ${n}:${n} ./sha512sums.txt
+#		chmod 0644 ./sha512sums.txt
+#		[ ${debug} -eq 1 ] && ls -las sha*;sleep 6
+# 		
+#		${sah6} ./*.deb > ./sha512sums.txt
+#		csleep 3
+#
+#		psqa . #vaiko toisella tavalla?
+#
+#		${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb ~/Desktop/minimize/${2}/sha512sums.txt
+#		csleep 1
+#	
+#		cd ${p}
 	fi
 
 	#HUOM.260125: -p wttuun varm. vuoksi  
@@ -326,8 +350,11 @@ function tp3() {
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 
-	#${sco} -R root:root ./etc; ${scm} -R a-w ./etc
-	#${sco} -R root:root ./sbin; ${scm} -R a-w ./sbin
+	#HUOM.310325:jostain erityisestä syystä kommenteissa?
+	${sco} -R root:root ./etc
+	${scm} -R a-w ./etc
+	${sco} -R root:root ./sbin 
+	${scm} -R a-w ./sbin
 	${srat} -rf ${1} ./etc ./sbin 
 	
 	cd ${p}
@@ -362,7 +389,7 @@ function tpu() {
 	echo $?
 	csleep 5	
 
-	#TODO:kts tp4()
+	#TODO:kts tp4(), l. mv:n jölkeen paikanpitäjä tar:iin ja sen jälkeen rmk()
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
 	${scm} 0444 ~/Desktop/minimize/${2}/*.deb

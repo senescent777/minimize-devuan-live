@@ -1,6 +1,5 @@
 #!/bin/bash
 debug=0
-
 file=""
 distro=$(cat /etc/devuan_version)
 #joitain oletusarvoja
@@ -202,7 +201,6 @@ case "${1}" in
 
 		common_part ${file} ${distro}
 
-		#HUOM.270325:nykyään pp3 ja pr4 turhia vai ei?
 		pre_part3 ~/Desktop/minimize/${distro}
 		pr4 ~/Desktop/minimize/${distro}
 
