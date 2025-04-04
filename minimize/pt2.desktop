@@ -2,7 +2,7 @@
 Version=1.0
 Type=Application
 Name=pt2
-Comment=this .desktop-file does not yet work, a wrapper is required
+Comment=maybe this works
 Exec=/home/devuan/Desktop/minimize/wrapper.sh pt2
 Icon=
 Path=
