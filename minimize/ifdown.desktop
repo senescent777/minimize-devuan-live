@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=ifdown
+Comment=
+Exec=/home/devuan/Desktop/minimize/wrapper.sh ifdown
+Icon=
+Path=
+Terminal=true
+StartupNotify=false
