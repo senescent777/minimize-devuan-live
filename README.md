@@ -23,7 +23,7 @@
 	https://github.com/senescent777/some_scripts/blob/main/skripts/export/squ.ash.export can be used some day to make that .squashfs from / - partition
 
 
-- about all those .desktop-files: i have to warn you, haven't recently tested if those  do what they're supposed to (some day i will)
+- about all those .desktop-files: i have started to work on them, maybe part of them are already doing what it they're supposed to
 
 - changedns.sh can be used to change the network configuration to use plain-old-DNS and that's all folks.
   There is something going on with Daedalus/stubby/dnsmasq that i have to figure out
