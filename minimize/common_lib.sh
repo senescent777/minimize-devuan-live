@@ -18,6 +18,8 @@ scm="${odio} ${scm} "
 #HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
 sah6=$(which sha512sum)
 
+#distro:n ja n_n alsustus vähitellen tähän ni ai tartte kutsuvissa skeipteissä...
+
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -110,7 +112,7 @@ function mangle_s() {
 	local s
 	local n2
 
-	if [ y"${4}" == "y" ] ; then
+	if [ y"${3}" == "y" ] ; then #typo krjattu 310325
 		n2=$(whoami)
 	else
 		n2=${3}
@@ -159,8 +161,16 @@ function check_binaries() {
 
 		echo "SHOULD INSTALL IPTABLES"
 		#HUOM.230435: pitäisiköhän jokin toinen tarkistus lisätä tähän?	
-		#VAIH:no ainakin sha-tarkistus tähän ennen asentelua
+		#sha-tark löytyy jo, tarvitseeko muuta?
 		
+		#HUOM.310325:lisätäännyt vielä tbls-sääntöjen vkopiointi , varm vuoksi
+		local f		
+		f=$(date +%F)
+		#sittenkin -s ?		
+		[ -f /etc/iptables/rules.v4.${f}.0 ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v4.${f}.0
+		[ -f /etc/iptables/rules.v6.${f}.0 ] || ${spc} /etc/iptables/rules.v6 /etc/iptables/rules.v6.${f}.0
+		#TODO:changedns vastaava kohta tarttisiko muuttaa? 
+
 		psqa ~/Desktop/minimize/${1}	
 		pre_part3 ~/Desktop/minimize/${1}
 		pr4 ~/Desktop/minimize/${1}
@@ -287,7 +297,7 @@ function dinf() {
 	done
 #
 #	#echo " /sbin/dhclient-script " >> ${1}
-#	#cat ${q}/meshuggah
+#	#cat ${1}
 #	#exit
 }
 
@@ -310,11 +320,11 @@ function pre_enforce() {
 	mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah
 	csleep 2
 
-	dqb "LETf HOUTER JOINDE IN DARKN355"
+	dqb "LETf HOUTRE JOINED IN DARKN355"
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
 	csleep 3
 
-	dqb "TRANSILVAN1AN HUNG3R"
+	dqb "TRANS1LVAN1AN HUGN3R"
 	dinf ${q}/meshuggah
 	csleep 2
 
@@ -407,6 +417,7 @@ function enforce_access() {
 	fi
 
 	[ -s /sbin/dclient-script.OLD ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.OLD
+	#sittenkin -s ?	
 	[ -f /etc/iptables/rules.v4.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v4.${f}
 	[ -f /etc/iptables/rules.v6.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v6.${f}
 }
@@ -547,4 +558,3 @@ function vommon() {
 }
 
 dqb "common_l1b_l0ad3d_5ucc35fully"
-#cat /etc/devuan_version #jos tällä voisi jyrätä $distro konftsdtossa

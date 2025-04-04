@@ -1,11 +1,10 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=pt2
+Name=ifdown
 Comment=
-Exec=/home/devuan/Desktop/minimize/wrapper.sh pt2
+Exec=/home/devuan/Desktop/minimize/wrapper.sh ifdown
 Icon=
 Path=
 Terminal=true
 StartupNotify=false
-GenericName=remove more stuff
