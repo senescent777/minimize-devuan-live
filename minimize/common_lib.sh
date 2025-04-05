@@ -324,7 +324,7 @@ function pre_enforce() {
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
 	csleep 3
 
-	dqb "TRANS1LVAN1AN HUGN3R"
+	dqb "TRAN S1LVAN1AN HUGN3R"
 	dinf ${q}/meshuggah
 	csleep 2
 
@@ -420,6 +420,13 @@ function enforce_access() {
 	#sittenkin -s ?	
 	[ -f /etc/iptables/rules.v4.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v4.${f}
 	[ -f /etc/iptables/rules.v6.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v6.${f}
+
+	#050425 lisättyjä seur. blokki
+	[ -h  /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
+	[ -h  /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6
+	[ -s /etc/iptables/rules.v4.${dnsm} ] && ${slinky} /etc/iptables/rules.v4.${dnsm} /etc/iptables/rules.v4
+	#ao. rivillä DROP kaikkiin riittänee säännöiksi
+	[ -s /etc/iptables/rules.v6.${dnsm} ] && ${slinky} /etc/iptables/rules.v6.${dnsm} /etc/iptables/rules.v6
 }
 
 function part1_5() {

@@ -152,8 +152,14 @@ function clouds_pre() {
 
 	csleep 1
 
+	#050425 lisättyjä seur. blokki
+	[ -h  /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
+	[ -h  /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6
+	[ -s /etc/iptables/rules.v4.${1} ] && ${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
+	#ao. rivillä DROP kaikkiin riittänee säännöiksi
+	[ -s /etc/iptables/rules.v6.${1} ] && ${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
+	
 	#HUOM.160325:lisätty uutena varm. vuoksi
-
 	${iptr} /etc/iptables/rules.v4
 	${ip6tr} /etc/iptables/rules.v6
 	csleep 2
@@ -162,6 +168,7 @@ function clouds_pre() {
 	${ipt} -F b
 	${ipt} -F e
 
+	#pidemmän päälle olisi kätevämpi nimetä kuin numeroida ne säännöt...
 	${ipt} -D INPUT 5
 	${ipt} -D OUTPUT 6
 
@@ -199,6 +206,7 @@ function clouds_post() {
 	dqb "d0n3"
 }
 
+#HUOM. joskohan jatkossa yhdistelisi case0:aa ja case1:stä, {.new,.old}-{.0,.1} ja sit jotain
 function clouds_case0() {
 	dqb "cdns.clouds_case0()"
 
@@ -288,7 +296,7 @@ function clouds_case1() {
 #	pgrep stubby
 }
 #====================================================================
-clouds_pre
+clouds_pre ${mode}
 
 case ${mode} in 
 	0)
@@ -297,12 +305,12 @@ case ${mode} in
 	1)
 		clouds_case1
 	;;
-	2)
-		dqb "#päin Vittua hui hai"
-		f=$(date +%F)
-		[ -f /etc/iptables/rules.v4.${f} ] && ${svm} /etc/iptables/rules.v4.${f} /etc/iptables/rules.v4
-		[ -f /etc/iptables/rules.v6.${f} ] && ${svm} /etc/iptables/rules.v6.${f} /etc/iptables/rules.v6
-	;;
+#	2) 050425:vaihteeksi kikkailut mäkeen, yleisempi toimintatatatapa tilalle
+#		dqb "#päin Vittua hui hai"
+#		f=$(date +%F)
+#		[ -f /etc/iptables/rules.v4.${f} ] && ${svm} /etc/iptables/rules.v4.${f} /etc/iptables/rules.v4
+#		[ -f /etc/iptables/rules.v6.${f} ] && ${svm} /etc/iptables/rules.v6.${f} /etc/iptables/rules.v6
+#	;;
 	*)
 		echo "MEE HIMAAS LEIKKIMÄHÄN"
 	;;

@@ -169,7 +169,7 @@ function tp1() {
 		dqb "TG3T=tget"		
 		csleep 2
 
-		#HUOM: cd tuossa yllä, onko tarpeen?
+		#HUOM: cd tuossa yllä, onko tarpeen? ehkä on
 		#TODO:pitäIsi ensin luoda se tar ennenq alkaa lisäämään
 		for f in $(find . -name '*.js') ; do ${rat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
 		#*.js ja *.json kai oleellisimmat kalat
