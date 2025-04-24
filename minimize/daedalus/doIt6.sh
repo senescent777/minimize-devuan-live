@@ -88,25 +88,45 @@ c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
 
 if [ ${removepkgs} -eq 1 ] ; then
-	${sharpy} libblu* network* libcupsfilters* libgphoto* 
-	# libopts25 ei tÄmmöistä daedaluksessa
+	part2
 
-	${sharpy} avahi* blu* cups* 
-	${sharpy} exim*
-
-	${lftr}
-	csleep 2
-
-	${sharpy} modem* wireless* wpa*
-	${sharpy} iw lm-sensors
-	${sharpy} ntp*
-
-	${lftr}
-	csleep 2
-	
-	${sharpy} po* pkexec
-	${lftr}
-	csleep 2
+#	case ${iface} in
+#		wlan0)
+#			dqb "NOT REMOVING networkmanager JUST YET"
+#			csleep 6
+#			;;
+#		*)
+#			${sharpy} network*
+#		;;
+#	esac
+#
+#	${sharpy} libblu* libcupsfilters* libgphoto* 
+#	# libopts25 ei tÄmmöistä daedaluksessa
+#
+#	${sharpy} avahi* blu* cups* 
+#	${sharpy} exim*
+#
+#	${lftr}
+#	csleep 2
+#
+#	case ${iface} in
+#		wlan0)
+#			dqb "NOT REMOVING WPASUPPLICANT"
+#			csleep 6
+#			;;
+#		*)
+#			${sharpy} modem* wireless* wpa*
+#			${sharpy} iw lm-sensors
+#		;;
+#	esac
+#
+#	${sharpy} ntp*
+#	${lftr}
+#	csleep 2
+#	
+#	${sharpy} po* pkexec
+#	${lftr}
+#	csleep 2
 fi
 
 if [ y"${ipt}" != "y" ] ; then 

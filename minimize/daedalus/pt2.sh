@@ -26,24 +26,49 @@ csleep 5
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	${sharpy} libblu* network* libcupsfilters* libgphoto* 
-	# libopts25 ei tömmöistä daedaluksessa
-	
-	${sharpy} avahi* blu* cups* 
-	${sharpy} exim*
-	${lftr}
-	csleep 3
-
-	${sharpy} modem* wireless* wpa*
-	${sharpy} iw lm-sensors
-
-	${sharpy} ntp*
-	${lftr}
-	csleep 3
-	
-	${sharpy} po* pkexec
-	${lftr}
-	csleep 3
+	part2
+#	#VAIH: tämä else-haara -> common_lib
+#
+#	case ${iface} in
+#		wlan0)
+#			dqb "NOT REMOVING networkmanager JUST YET"
+#			csleep 6
+#			;;
+#		*)
+#			${sharpy} network*
+#		;;
+#	esac
+#
+#	${sharpy} libblu* libcupsfilters* libgphoto* 
+#	# libopts25 ei tömmöistä daedaluksessa
+#	
+#	${sharpy} avahi* blu* cups* 
+#	${sharpy} exim*
+#	${lftr}
+#	csleep 3
+#
+##	${sharpy} modem* wireless* wpa*
+##	${sharpy} iw lm-sensors
+#
+#	case ${iface} in
+#		wlan0)
+#			#VAIH:KVG liittyen:"wpa_supplicant: cannot read contents of /etc/wpa-supplicant/wpa_supplicant.conf"
+#			dqb "NOT REMOVING WPASUPPLICANT"
+#			csleep 6
+#			;;
+#		*)
+#			${sharpy} modem* wireless* wpa*
+#			${sharpy} iw lm-sensors
+#		;;
+#	esac
+#
+#	${sharpy} ntp*
+#	${lftr}
+#	csleep 3
+#	
+#	${sharpy} po* pkexec
+#	${lftr}
+#	csleep 3
 fi
 
 #HUOM. ao. rivillä 2. viimeisessä syystä vain core
