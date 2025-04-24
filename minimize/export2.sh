@@ -266,7 +266,18 @@ function tp4() {
 	csleep 3
 	${lftr}
 
-	#TODO:vetämään:paketti wpasupplicant jos konf niin vaatii?
+	#VAIH:vetämään:paketti wpasupplicant jos konf niin vaatii?
+	case ${iface} in
+		wlan0)
+			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
+
+			#${shary} libdbus-1-3 libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 libssl3
+			${shary} wpasupplicant
+		;;
+		*)
+			dqb "not pulinh wpasuplicant"
+		;;
+	esac
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
 	if [ -d ~/Desktop/minimize/${2} ] ; then 
@@ -288,7 +299,15 @@ function tp2() {
 	csleep 4
 
 	${srat} -rf ${1} /etc/iptables /etc/network/interfaces*
-	#TODO:/etc/wpa* mukaan jos tarttee (iface==wlan0)
+	#VAIH:/etc/wpa* mukaan jos tarttee (iface==wlan0)
+	case ${iface} in
+		wlan0)
+			{srat} -rf ${1} /etc/wpa*
+		;;
+		*)
+			dqb "non-wlan"
+		;;
+	esac
 
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "das asdd"
