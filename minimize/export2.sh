@@ -266,6 +266,8 @@ function tp4() {
 	csleep 3
 	${lftr}
 
+	#TODO:vetämään:paketti wpasupplicant jos konf niin vaatii?
+
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
 	if [ -d ~/Desktop/minimize/${2} ] ; then 
 		${NKVD} ~/Desktop/minimize/${2}/*.deb	
@@ -286,6 +288,7 @@ function tp2() {
 	csleep 4
 
 	${srat} -rf ${1} /etc/iptables /etc/network/interfaces*
+	#TODO:/etc/wpa* mukaan jos tarttee (iface==wlan0)
 
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "das asdd"

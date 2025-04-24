@@ -169,7 +169,7 @@ function check_binaries() {
 		#sittenkin -s ?		
 		[ -f /etc/iptables/rules.v4.${f}.0 ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v4.${f}.0
 		[ -f /etc/iptables/rules.v6.${f}.0 ] || ${spc} /etc/iptables/rules.v6 /etc/iptables/rules.v6.${f}.0
-		#TODO:changedns vastaava kohta tarttisiko muuttaa? 
+		#VAIH:changedns vastaava kohta tarttisiko muuttaa? no muutettu kuitenkin 250425 
 
 		psqa ~/Desktop/minimize/${1}	
 		pre_part3 ~/Desktop/minimize/${1}
@@ -275,7 +275,7 @@ function check_binaries2() {
 	csleep 2
 }
 
-#pitäisiköhän vartm vuoksi sorkkia tdstojen oikeudet ja omustajuudet salamma?  enforce_access() kyllä hoitaa tuon /sbin...
+#pitäisiköhän varm vuoksi sorkkia tdstojen oikeudet ja omistajuudet samalla?  enforce_access() kyllä hoitaa tuon /sbin...
 function dinf() {
 #	#HUOM.280325.2:lienee niin että samalle tdstonnimelle voi asEttaa useamman tiivisteen eli /sbin/dhclient-script:in saisi sudoersiin mukaan
 #	#, tosin tarvitseeko? ehkä sitten jos estää ifup:ia käynnistelemästä prosesseja
@@ -422,11 +422,14 @@ function enforce_access() {
 	[ -f /etc/iptables/rules.v6.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v6.${f}
 
 	#050425 lisättyjä seur. blokki
-	[ -h  /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
-	[ -h  /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6
+	#VAIH:rules-juttuihin jatkosäätöä, changedns.sh myös
+	[ -h /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
+	[ -h /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6
 	[ -s /etc/iptables/rules.v4.${dnsm} ] && ${slinky} /etc/iptables/rules.v4.${dnsm} /etc/iptables/rules.v4
 	#ao. rivillä DROP kaikkiin riittänee säännöiksi
 	[ -s /etc/iptables/rules.v6.${dnsm} ] && ${slinky} /etc/iptables/rules.v6.${dnsm} /etc/iptables/rules.v6
+
+	#TODO:wpasupplicant:in kanssa myös jotain?
 }
 
 function part1_5() {
@@ -499,6 +502,45 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE (maybe i have tourettes)"
 }
 
+function part2() {
+#	case ${iface} in
+#		wlan0)
+#			dqb "NOT REMOVING networkmanager JUST YET"
+#			csleep 6
+#			;;
+#		*)
+#			${sharpy} network*
+#		;;
+#	esac
+
+	${sharpy} libblu* libcupsfilters* libgphoto* 
+	# libopts25 ei tÄmmöistä daedaluksessa
+
+	${sharpy} avahi* blu* cups*
+	${sharpy} exim*
+	${lftr}
+	csleep 3 
+
+	case ${iface} in
+		wlan0)
+			dqb "NOT REMOVING WPASUPPLICANT"
+			csleep 6
+			;;
+		*)
+			${sharpy} modem* wireless* wpa*
+			${sharpy} iw lm-sensors
+		;;
+	esac
+
+	${sharpy} ntp*
+	${lftr}
+	csleep 3
+	
+	${sharpy} po* pkexec
+	${lftr}
+	csleep 3
+}
+
 #HUOM.22325: oli jotain nalkutusta vielä chimaeran päivityspaketista, lib.sh fktiot tai export2 muutettava vasta avasti
 function part3() {
 	dqb "part3( ${1} )"
@@ -560,7 +602,8 @@ function vommon() {
 	if [ $? -eq 0 ] ; then
 		${whack} xfce4-session
 		#HUOM. tässä ei tartte jos myöhemmin joka tap
-		exit 	
+		exit 
+		#pitäisiköhän else-haarassa nalkuttaa jotain?	
 	fi
 }
 

@@ -2,6 +2,7 @@
 distro=$(cat /etc/devuan_version)
 d=$(dirname $0)
 . ${d}/${distro}/conf
+#mitä jos ei konf löydy?
 
 case ${1} in
 	merde)
@@ -26,5 +27,11 @@ case ${1} in
 	;;
 	pt2)
 		${d}/${distro}/pt2.sh
+	;;
+	pw)
+		${d}/${distro}/doIt6.sh 1
 	;;	
 esac
+
+#VAIH:oma case salakalan vaihtoa varten
+#TODO: (ha kuvake myös)

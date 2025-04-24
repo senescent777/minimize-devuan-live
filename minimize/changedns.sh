@@ -153,12 +153,38 @@ function clouds_pre() {
 	csleep 1
 
 	#050425 lisättyjä seur. blokki
-	[ -h  /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
-	[ -h  /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6
-	[ -s /etc/iptables/rules.v4.${1} ] && ${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
+	if [ -h /etc/iptables/rules.v4 ] ; then
+		dqb "smr /e/i/rv4"
+		${smr} /etc/iptables/rules.v4
+	else
+		${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD		
+	fi
+
+	if [ -h /etc/iptables/rules.v6 ] ; then
+		dqb "smr /e/i/r6v"
+		${smr} /etc/iptables/rules.v6
+	else
+		${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
+	fi
+
+	csleep 1
+
+	if [ -s /etc/iptables/rules.v4.${1} ] ; then
+		${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
+		dqb "stinky1"
+	fi
+
+	csleep 1
+
 	#ao. rivillä DROP kaikkiin riittänee säännöiksi
-	[ -s /etc/iptables/rules.v6.${1} ] && ${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
-	
+	if [ -s /etc/iptables/rules.v6.${1} ] ; then
+		${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
+		dqb "stunky2"
+	fi
+
+	csleep 1
+	dqb "RELOADING TBLZ RULEZ"
+
 	#HUOM.160325:lisätty uutena varm. vuoksi
 	${iptr} /etc/iptables/rules.v4
 	${ip6tr} /etc/iptables/rules.v6
