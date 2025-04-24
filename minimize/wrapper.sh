@@ -34,4 +34,4 @@ case ${1} in
 esac
 
 #VAIH:oma case salakalan vaihtoa varten
-#TODO: (ha kuvake myös)
+#VAIH: (ha kuvake myös)
