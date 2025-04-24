@@ -302,7 +302,7 @@ function tp2() {
 	#VAIH:/etc/wpa* mukaan jos tarttee (iface==wlan0)
 	case ${iface} in
 		wlan0)
-			{srat} -rf ${1} /etc/wpa*
+			${srat} -rf ${1} /etc/wpa*
 		;;
 		*)
 			dqb "non-wlan"
