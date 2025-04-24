@@ -153,18 +153,22 @@ function clouds_pre() {
 	csleep 1
 
 	#050425 lisättyjä seur. blokki
-	if [ -h /etc/iptables/rules.v4 ] ; then
-		dqb "smr /e/i/rv4"
-		${smr} /etc/iptables/rules.v4
-	else
-		${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD		
+	if [ -s /etc/iptables/rules.v4.${1} ] ; then
+		if [ -h /etc/iptables/rules.v4 ] ; then
+			dqb "smr /e/i/rv4"
+			${smr} /etc/iptables/rules.v4
+		else
+			${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD		
+		fi
 	fi
 
-	if [ -h /etc/iptables/rules.v6 ] ; then
-		dqb "smr /e/i/r6v"
-		${smr} /etc/iptables/rules.v6
-	else
-		${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
+	if [ -s /etc/iptables/rules.v6.${1} ] ; then
+		if [ -h /etc/iptables/rules.v6 ] ; then
+			dqb "smr /e/i/r6v"
+			${smr} /etc/iptables/rules.v6
+		else
+			${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
+		fi
 	fi
 
 	csleep 1
@@ -184,6 +188,7 @@ function clouds_pre() {
 
 	csleep 1
 	dqb "RELOADING TBLZ RULEZ"
+	csleep 1
 
 	#HUOM.160325:lisätty uutena varm. vuoksi
 	${iptr} /etc/iptables/rules.v4

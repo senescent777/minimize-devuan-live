@@ -422,7 +422,7 @@ function enforce_access() {
 	[ -f /etc/iptables/rules.v6.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v6.${f}
 
 	#050425 lisättyjä seur. blokki
-	#VAIH:rules-juttuihin jatkosäätöä, changedns.sh myös
+	#joskohan jättäisi rules-jutut changedns:lle ?
 	[ -h /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
 	[ -h /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6
 	[ -s /etc/iptables/rules.v4.${dnsm} ] && ${slinky} /etc/iptables/rules.v4.${dnsm} /etc/iptables/rules.v4
@@ -503,15 +503,15 @@ function part1() {
 }
 
 function part2() {
-#	case ${iface} in
-#		wlan0)
-#			dqb "NOT REMOVING networkmanager JUST YET"
-#			csleep 6
-#			;;
-#		*)
-#			${sharpy} network*
-#		;;
-#	esac
+	case ${iface} in
+		wlan0)
+			dqb "NOT REMOVING networkmanager JUST YET"
+			csleep 6
+			;;
+		*)
+			${sharpy} network*
+		;;
+	esac
 
 	${sharpy} libblu* libcupsfilters* libgphoto* 
 	# libopts25 ei tÄmmöistä daedaluksessa
