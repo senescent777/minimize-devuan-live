@@ -166,9 +166,11 @@ function check_binaries() {
 		#HUOM.310325:lisätäännyt vielä tbls-sääntöjen vkopiointi , varm vuoksi
 		local f		
 		f=$(date +%F)
-		#sittenkin -s ?		
-		[ -f /etc/iptables/rules.v4.${f}.0 ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v4.${f}.0
-		[ -f /etc/iptables/rules.v6.${f}.0 ] || ${spc} /etc/iptables/rules.v6 /etc/iptables/rules.v6.${f}.0
+
+		#sittenkin -s ?
+		#VAIH:.0 -> .$dnsm		
+		[ -f /etc/iptables/rules.v4.${f}.${dnsm} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v4.${f}.${dnsm}
+		[ -f /etc/iptables/rules.v6.${f}.${dnsm} ] || ${spc} /etc/iptables/rules.v6 /etc/iptables/rules.v6.${f}.${dnsm}
 		#VAIH:changedns vastaava kohta tarttisiko muuttaa? no muutettu kuitenkin 250425 
 
 		psqa ~/Desktop/minimize/${1}	
@@ -501,7 +503,7 @@ function part1() {
 	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WHORE (maybe i have tourettes)"
 }
-
+#TODO:joskohan se manageri mäkeen vähitellen
 function part2() {
 	case ${iface} in
 		wlan0)
