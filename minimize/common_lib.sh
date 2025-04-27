@@ -18,7 +18,7 @@ scm="${odio} ${scm} "
 #HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
 sah6=$(which sha512sum)
 
-#distro:n ja n_n alsustus vähitellen tähän ni ai tartte kutsuvissa skeipteissä...
+#distro:n ja n_n alustus vähitellen tähän ni ei tartte kutsuvissa skripteissä...
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -423,7 +423,7 @@ function enforce_access() {
 	[ -f /etc/iptables/rules.v4.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v4.${f}
 	[ -f /etc/iptables/rules.v6.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v6.${f}
 
-	#050425 lisättyjä seur. blokki
+	#050425 lisättyjä seur. blokki, uuaittu 1205425
 	#joskohan jättäisi rules-jutut changedns:lle ?
 	[ -h /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
 	[ -h /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6
@@ -431,7 +431,7 @@ function enforce_access() {
 	#ao. rivillä DROP kaikkiin riittänee säännöiksi
 	[ -s /etc/iptables/rules.v6.${dnsm} ] && ${slinky} /etc/iptables/rules.v6.${dnsm} /etc/iptables/rules.v6
 
-	#TODO:wpasupplicant:in kanssa myös jotain?
+	#wpasupplicant:in kanssa myös jotain säätöä?
 }
 
 function part1_5() {
@@ -503,17 +503,18 @@ function part1() {
 	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WHORE (maybe i have tourettes)"
 }
-#TODO:joskohan se manageri mäkeen vähitellen
+
+#VAIH:joskohan se manageri mäkeen vähitellen
 function part2() {
-	case ${iface} in
-		wlan0)
-			dqb "NOT REMOVING networkmanager JUST YET"
-			csleep 6
-			;;
-		*)
+#	case ${iface} in
+#		wlan0)
+#			dqb "NOT REMOVING networkmanager JUST YET"
+#			csleep 6
+#			;;
+#		*)
 			${sharpy} network*
-		;;
-	esac
+#		;;
+#	esac
 
 	${sharpy} libblu* libcupsfilters* libgphoto* 
 	# libopts25 ei tÄmmöistä daedaluksessa
@@ -543,7 +544,7 @@ function part2() {
 	csleep 3
 }
 
-#HUOM.22325: oli jotain nalkutusta vielä chimaeran päivityspaketista, lib.sh fktiot tai export2 muutettava vasta avasti
+#HUOM.22325: oli jotain nalkutusta vielä chimaeran päivityspaketista, lib.sh fktiot tai export2 muutettava vasta avasti (vielä ongelma?)
 function part3() {
 	dqb "part3( ${1} )"
 	csleep 1
@@ -605,7 +606,8 @@ function vommon() {
 		${whack} xfce4-session
 		#HUOM. tässä ei tartte jos myöhemmin joka tap
 		exit 
-		#pitäisiköhän else-haarassa nalkuttaa jotain?	
+	else
+		dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
 	fi
 }
 
