@@ -13,10 +13,9 @@ if [ -s ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
 	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING"
-	exit 111
+	exit 111	
 fi
 
-#HUOM.220325:parsetuS kunnossa
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
@@ -28,6 +27,8 @@ function parse_opts_1() {
 	esac
 }
 
+#HUOM. mode otetaan jo parametriksi p_o_1:sessä, josko enforce kanssa?
+ 
 function check_params() {
 	case ${debug} in
 		0|1)
@@ -40,24 +41,24 @@ function check_params() {
 	esac
 }
 
-n=$(whoami)
-#==================================PART 1============================================================
-
 if [ $# -gt 0 ] ; then
 	for opt in $@ ; do parse_opts_1 $opt ; done
 fi
 
 check_params 
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
-enforce_access ${n} 
+enforce_access ${n}
 
 dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary" 
 part1 ${distro} 
+#HUOM.190325:part_1_5sessa oli bugi, u+w ei vaan riitä
+
 [ ${mode} -eq 0 ] && exit
 
-for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ; do
+#HUOM.261224: ntpsec uutena
+for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ntpsec ; do
 	${odio} /etc/init.d/${s} stop
-	sleep 1
+	csleep 1
 done
 
 dqb "shutting down some services (4 real) in 3 secs"
@@ -68,28 +69,34 @@ ${whack} avahi*
 ${whack} dnsmasq*
 ${whack} stubby*
 ${whack} nm-applet
-csleep 3
+
+#ntp ehkä takaisin myöhemmin
+${whack} ntp*
+csleep 5
+${odio} /etc/init.d/ntpsec stop
+#K01avahi-jutut sopivaan kohtaan?
 
 #===================================================PART 2===================================
-#HUOM.230235:näytti iptables kadonneen joten changedns:n toiminta kusi
+ecfx
+csleep 5
+
+if [ ${mode} -eq 1 ] ; then
+	vommon
+fi
 
 c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
 
 if [ ${removepkgs} -eq 1 ] ; then
-	${sharpy} libopts25
-	${sharpy} rpc* nfs* 
-
 	part2
 fi
 
-${lftr}
-csleep 3
+if [ y"${ipt}" != "y" ] ; then 
+	${ip6tr} /etc/iptables/rules.v6
+	${iptr} /etc/iptables/rules.v4
+fi
 
-${ip6tr} /etc/iptables/rules.v6
-${iptr} /etc/iptables/rules.v4
-
-csleep 3
+csleep 5
 ${lftr} 
 csleep 3
 
@@ -105,46 +112,61 @@ csleep 3
 echo "DO NOT ANSWER \"Yes\" TO A QUESTION ABOUT IPTABLES";sleep 2
 echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 5
 
-pre_part3 ${d} 
+#toimiiko? jos vaikka
+pre_part3 ${d}
 pr4 ${d}
-part3 ${d} 
-ecfx
+part3 ${d}
+#HUOM.190325: joskohan nyt chimerankin kanssa loppuisi nalkutukset paketeista
 
-csleep 5
+echo $?
+csleep 3
+${ip6tr} /etc/iptables/rules.v6
+${iptr} /etc/iptables/rules.v4
+
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
-	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh	
+	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh 
 	. ~/Desktop/minimize/profs.sh
 	copyprof ${n} someparam
 fi
 
-#toimii
-if [ ${mode} -eq 1 ] ; then
-	vommon
-fi
-
 ${asy}
-csleep 3
-
-#HUOM.270325:kokeillaan import2dessa enforce_access():ia josko sitten menisi oikeudet kunnolla
+dqb "GR1DN BELIALAS KYE"
 
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
-${odio} ~/Desktop/minimize/changedns.sh 0 ${distro}
-csleep 5
+${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+${sipt} -L
+csleep 6
 
-##===================================================PART 4(final)==========================================================
-##tulisi olla taas tables toiminnassa tässä kohtaa skriptiä
-#${odio} /etc/init.d/dnsmasq restart
-#${d}/changedns.sh 1
-#ns2 stubby
-#ns4 stubby
-#
-#if [ ${debug} -eq 1 ] ; then 
-#	${snt} -tulpan
-#	sleep 5
-#	pgrep stubby*
-#	sleep 5
-#fi
-#
-#echo "time to ${sifu} ${iface} or whåtever"
-#echo "P.S. if stubby dies, resurrect it with \"restart_stubby.desktop\" "
+${scm} a-wx $0 
+#===================================================PART 4(final)==========================================================
+
+if [ ${mode} -eq 2 ] ; then
+	echo "time to ${sifu} ${iface} or whåtever"
+	csleep 5
+	${whack} xfce4-session
+ 	exit 
+fi
+
+${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+
+#VAIH:stubby-jutut toimimaan
+#ongelmana error: Could not bind on given addresses: Permission denied
+dqb "MESSIAH OF IMPURITY AND DARKNESS"
+csleep 4
+
+if [ ${debug} -eq 1 ] ; then 
+	${snt} -tulpan
+	sleep 5
+	pgrep stubby*
+	sleep 5
+fi
+
+echo "time to ${sifu} ${iface} or whåtever"
+echo "P.S. if stubby dies, resurrect it with \"restart_stubby.desktop\" "
+
+if [ ${debug} -eq 1 ] ; then 
+	sleep 5
+	#whack xfce so that the ui is reset
+	${whack} xfce4-session
+fi

@@ -1,6 +1,6 @@
 #!/bin/bash
-
 d=$(dirname $0)
+
 [ -s ${d}/conf ] && . ${d}/conf
 . ~/Desktop/minimize/common_lib.sh
 [ -s ${d}/lib.sh ] && . ${d}/lib.sh
@@ -15,168 +15,141 @@ if [ $# -gt 0 ] ; then
 	fi
 fi
 
+dqb "a-e"
+csleep 5
+
 #tarvitseeko?
 #c=$(find ${d} -name '*.deb' | wc -l)
 #[ ${c} -gt 0 ] || removepkgs=0
-${odio} which iptables; csleep 3
 
 #onkohan hyvä näin?
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	${sharpy} libopts25
-	${sharpy} rpc* nfs* 
-
 	part2
-	${odio} which iptables; csleep 3
 fi
 
-#==============================================================
+#HUOM. ao. rivillä 2. viimeisessä syystä vain core
+${sharpy} amd64-microcode iucode-tool arch-test at-spi2-core bubblewrap
+
+${sharpy} atril* coinor* cryptsetup debootstrap
+${sharpy} dmidecode discover* dirmngr #tuleekohan viimeisestä ongelma? vissiin ei
+${sharpy} doc-debian docutils* 
+${sharpy} efibootmgr exfalso 
+${asy} 
+${lftr}
+csleep 5
+
+dqb "f1"
+csleep 5
+${sharpy} fdisk ftp*
+${sharpy} gdisk gcr
+${asy} 
+${lftr}
+csleep 5
+
+#gnupg poisto täs kohtaa hyvä idea? vai veikö dirmngr mukanaan jo?
+dqb "g2"
+csleep 5
+${sharpy} ghostscript gir* gnupg*
+${sharpy} gpg-* gpgconf gpgsm gsasl-common
+${sharpy} shim* grub* 
+${sharpy} gsfonts gstreamer*
+${asy} 
+${lftr}
+csleep 5
+
+#gnome-* poisto veisi myös: task-desktop task-xfce-desktop
+#gpg* kanssa: The following packages have unmet dependencies:
+# apt : Depends: gpgv but it is not going to be installed or
+#                gpgv2 but it is not going to be installed or
+#                gpgv1 but it is not going to be installed
+#HUOM. grub* poisto voi johtaa shim-pakettien päivitykseen
+#gsettings* voi viedä paljon paketteja mukanaan
+
+dqb "iii"
+csleep 5
+${sharpy} intel-microcode iucode-tool
+${sharpy} htop inetutils-telnet
+${asy} 
+${lftr}
+csleep 5
+
+#lib-paketteihin ei yleisessä tapauksessa kande koskea eikä live-
+#... libgstreamer ja libgsm uutena (060125)
+${sharpy} libpoppler* libuno* libreoffice* libgsm* libgstreamer*
+
 #HUOM! PAKETIT procps, mtools JA mawk JÄTETTÄVÄ RAUHAAN!!!
-#==============================================================
-${odio} which iptables; csleep 3
-
-${lftr}
-${fib}
-${sharpy} amd64-microcode atril* at-spi2-core coinor*
+dqb "l-o"
+csleep 5
+${sharpy} lvm2 mdadm  
+${sharpy} mailcap mlocate
+${sharpy} mokutil mariadb-common mysql-common
+${sharpy} netcat-traditional openssh*
+${sharpy} os-prober #orca saattaa poistua jo aiemmin
 ${asy} 
-
 ${lftr}
-${fib}
-${sharpy} dirmngr discover* distro-info-data efibootmgr exfalso ftp gcr
-${asy}
-
-[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
-[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
-
-${lftr}
-${fib}
-${sharpy} ghostscript gir* gdisk gpg-* gpgconf gpgsm gparted
-${asy}
-
-[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
-[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
-
-${lftr}
-${fib}
-${sharpy} gsasl* gsfonts* gstreamer*
-${asy}
-
-[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3 #tulostuksetkin dbg taakse?
-[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
-
-${lftr}
-${fib}
-${sharpy} htop 
-${asy}
-
-[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
 csleep 5
-[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
 
-${lftr}
-${fib}
-${sharpy} intel-microcode
-${asy}
-
-[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
+dqb "p"
 csleep 5
-[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
-
-${lftr}
-${sharpy} mdadm 
-${asy}
-csleep 6
-
-[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
-csleep 5
-[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
-
-${lftr}
-${sharpy} lvm2
-${asy}
-csleep 6
-
-[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
-csleep 5
-[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
-
-${lftr}
-${sharpy} mailcap mariadb-common
-${asy}
-${lftr}
-
-[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
-${fib}
-[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
-
-${sharpy} mokutil mysql-common orca openssh*
-${asy}
-${lftr}
-[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
-
-${sharpy} speech* system-config* telnet tex* udisks2 uno* ure* upower
-${sa} autoremove --yes
-
-[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
-${fib}
-[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
-
-${lftr}
-${sharpy} vim* xorriso xfburn
-${asy}
-
-[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
-
-${sharpy} iucode-tool libgstreamer* os-prober po*
-${asy}
-
-[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
-${fib}
-[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
-
-${lftr}
-${sharpy} ppp 
-${asy}
-csleep 1
-
-${lftr}
-${sharpy} ristretto
-${asy}
-csleep 1
-
-${sharpy} screen shim* samba* 
-${asy}
-csleep 1
-
-[ ${debug} -eq 1 ] && ${odio} which iptables; csleep 3
-
-${lftr}
-${sharpy} procmail
-${asy}
-csleep 1
-
-${lftr}
-${sharpy} squashfs-tools
-${asy}
-csleep 6
-
-${lftr}
-${sharpy} grub*
-${asy}
-csleep 6
-
-${lftr}
-${sharpy} libgsm*
+${sharpy} ppp procmail ristretto 
+${sharpy} screen
 ${asy} 
-csleep 6
+${lftr}
+csleep 5
+
+${sharpy} pkexec po* refracta*
+#samba poistunee jo aiemmin?
+${sharpy} squashfs-tools samba* system-config*
+${asy} 
+${lftr}
+csleep 5
+
+dqb "t"
+csleep 5
+${sharpy} telnet 
+${sharpy} tex*
+${asy} 
+${lftr}
+csleep 5
+
+dqb "u"
+csleep 5
+${sharpy} uno* ure*
+${sharpy} upower vim* # udisks* saattaa poistua jo aiemmin
+${asy} 
+${lftr}
+csleep 5
+
+dqb "x"
+csleep 5
+${sharpy} xorriso xfburn
+${asy} 
+${sharpy} xorriso 
+${asy} 
+csleep 5
+ 
+dqb "y"
+csleep 5
+${sharpy} xfburn
+${asy} 
+csleep 5
 
 ${lftr}
-${NKVD} /var/cache/apt/archives/*.deb
+${NKVD} ${pkgdir}/*.deb
+${NKVD} ${pkgdir}/*.bin 
 ${NKVD} ${d}/*.deb 
-${NKVD} /tmp/*.tar 
-${smr} -rf /tmp/tmp.*
-${smr} /usr/share/doc 
+${NKVD} /tmp/*.tar
+${smr} /tmp/tmp.*
+${smr} /usr/share/doc #rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
+#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
 df
+${odio} which dhclient; ${odio} which ifup; csleep 6
 
-[ ${debug} -eq 1 ] && ${odio} which dhclient; ${odio} which ifup; csleep 3
+dqb "${scm} a-wx $0 in 6 secs "
+csleep 6
+${scm} a-wx $0 
+
+#whack xfce so that the ui is reset
+${whack} xfce4-session
