@@ -24,13 +24,8 @@ ${odio} which iptables; csleep 3
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	#${sharpy} libblu* libcupsfilters* libgphoto* 
 	${sharpy} libopts25
-	#${sharpy} network* 
-	#${sharpy} avahi* blu* cups* exim*
-	
 	${sharpy} rpc* nfs* 
-	#${sharpy} modem* wireless* wpa* iw lm-sensors
 
 	part2
 	${odio} which iptables; csleep 3

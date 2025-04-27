@@ -77,12 +77,9 @@ c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
 
 if [ ${removepkgs} -eq 1 ] ; then
-	#${sharpy} libblu* libcupsfilters* libgphoto* 
 	${sharpy} libopts25
-	#${sharpy} network* 
-	#${sharpy} avahi* blu* cups* exim*
 	${sharpy} rpc* nfs* 
-	#${sharpy} modem* wireless* wpa* iw lm-sensors
+
 	part2
 fi
 
