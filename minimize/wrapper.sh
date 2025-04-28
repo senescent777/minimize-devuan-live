@@ -1,8 +1,12 @@
 #!/bin/bash
 distro=$(cat /etc/devuan_version)
 d=$(dirname $0)
-. ${d}/${distro}/conf
-#mitä jos ei konf löydy?
+
+if [ -s ${d}/${distro}/conf ] ; then
+	. ${d}/${distro}/conf
+else
+	echo "NO CONFIG FILE"
+fi
 
 case ${1} in
 	merde)
