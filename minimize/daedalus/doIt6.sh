@@ -48,8 +48,7 @@ fi
 check_params 
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
 enforce_access ${n}
-
-dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary" 
+ 
 part1 ${distro} 
 #HUOM.190325:part_1_5sessa oli bugi, u+w ei vaan riitä
 
@@ -80,6 +79,7 @@ ${odio} /etc/init.d/ntpsec stop
 ecfx
 csleep 5
 
+#TODO:ehto uusiksi vai ei?
 if [ ${mode} -eq 1 ] ; then
 	vommon
 fi
@@ -106,20 +106,14 @@ if [ ${debug} -eq 1 ] ; then
 fi #
 
 #===================================================PART 3===========================================================
-dqb "INSTALLING NEW PACKAGES IN 10 SECS"
-csleep 3
-
-echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES";sleep 2
-echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 5
-
-#toimiiko? jos vaikka
+message
 pre_part3 ${d}
 pr4 ${d}
 part3 ${d}
-#HUOM.190325: joskohan nyt chimerankin kanssa loppuisi nalkutukset paketeista
 
 echo $?
 csleep 3
+
 ${ip6tr} /etc/iptables/rules.v6
 ${iptr} /etc/iptables/rules.v4
 
