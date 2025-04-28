@@ -270,10 +270,10 @@ function tp4() {
 	case ${iface} in
 		wlan0)
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-			#toivottavasti ei libdbus sotke mitään ${shary} libdbus-1-3 toisetaiseksi jemmaan 280425
+			#toivottavasti ei libdbus sotke mitään ${shary} libdbus-1-3 toistaiseksi jemmaan 280425
 			
 			#HUOM.280425:jemmaan nuo riippuvuudetkin toistaiseksi
-			#${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3
+			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3 adduser
 			${shary} wpasupplicant
 		;;
 		*)

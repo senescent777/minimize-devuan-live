@@ -167,8 +167,7 @@ function check_binaries() {
 		local f		
 		f=$(date +%F)
 
-		#sittenkin -s ?
-		#VAIH:.0 -> .$dnsm		
+		#sittenkin -s ?		
 		[ -f /etc/iptables/rules.v4.${f}.${dnsm} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v4.${f}.${dnsm}
 		[ -f /etc/iptables/rules.v6.${f}.${dnsm} ] || ${spc} /etc/iptables/rules.v6 /etc/iptables/rules.v6.${f}.${dnsm}
 		#VAIH:changedns vastaava kohta tarttisiko muuttaa? no muutettu kuitenkin 250425 
@@ -470,6 +469,8 @@ function part1_5() {
 #P.S.. tämä fktio voisi sijaita doit6:sessakin paitsi että se pas2:n testaus-juttu
 #part1_5 tarvittaneen muuallakin kuin doit6:dessa nykyään
 function part1() {
+	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
+	
 	#jos jokin näistä kolmesta hoitaisi homman...
 	${sifd} ${iface}
 	${sifd} -a
@@ -504,8 +505,13 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE (maybe i have tourettes)"
 }
 
-#VAIH:joskohan se manageri mäkeen vähitellen
 function part2() {
+	#HUOM.removepkgs-jutut voisivat olla tässä fktiossakin, kai
+	#c=$(find ${d} -name '*.deb' | wc -l)
+	#[ ${c} -gt 0 ] || removepkgs=0
+	#
+	#if [ ${removepkgs} -eq 1 ] ; then
+
 #	case ${iface} in
 #		wlan0)
 #			dqb "NOT REMOVING networkmanager JUST YET"
@@ -542,6 +548,14 @@ function part2() {
 	${sharpy} po* pkexec
 	${lftr}
 	csleep 3
+}
+
+function message () {
+	dqb "INSTALLING NEW PACKAGES IN 10 SECS"
+	csleep 3
+
+	echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES";sleep 2
+	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 5
 }
 
 #HUOM.22325: oli jotain nalkutusta vielä chimaeran päivityspaketista, lib.sh fktiot tai export2 muutettava vasta avasti (vielä ongelma?)
