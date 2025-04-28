@@ -3,9 +3,10 @@
 #HUOM. näiden skriptien kanssa bash tulkkina aiheuttaa vähemmän nalkutusta kuin sh
 debug=0
 branch=""
+
 #VAIH:jos mahd ni git hakemaan vaihToehtoisen oksan? man-sivuja pitäisi taas kahlata niin maan perkeleesti ja tasaiseenm
 #TODO:mktemp-kikkailut pois, plain old git clone tilalle ja täts it
-n=$(whoami)
+#n=$(whoami)
 
 if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
 	. ~/Desktop/minimize/common_lib.sh #HUOM. tarvitsiko tästä jota9in?
