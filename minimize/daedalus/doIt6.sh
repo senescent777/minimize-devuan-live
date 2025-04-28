@@ -109,7 +109,7 @@ fi #
 dqb "INSTALLING NEW PACKAGES IN 10 SECS"
 csleep 3
 
-echo "DO NOT ANSWER \"Yes\" TO A QUESTION ABOUT IPTABLES";sleep 2
+echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES";sleep 2
 echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 5
 
 #toimiiko? jos vaikka
