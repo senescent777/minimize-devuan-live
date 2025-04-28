@@ -32,6 +32,3 @@ case ${1} in
 		${d}/${distro}/doIt6.sh 1
 	;;	
 esac
-
-#VAIH:oma case salakalan vaihtoa varten
-#VAIH: (ha kuvake myös)

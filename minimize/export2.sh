@@ -270,12 +270,15 @@ function tp4() {
 	case ${iface} in
 		wlan0)
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-
-			#${shary} libdbus-1-3 libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 libssl3
+			#toivottavasti ei libdbus sotke mitään ${shary} libdbus-1-3 toisetaiseksi jemmaan 280425
+			
+			#HUOM.280425:jemmaan nuo riippuvuudetkin toistaiseksi
+			#${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3
 			${shary} wpasupplicant
 		;;
 		*)
-			dqb "not pulinh wpasuplicant"
+			dqb "not pulling wpasuplicant"
+			csleep 4
 		;;
 	esac
 
@@ -353,6 +356,7 @@ function tp3() {
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 
 	#HUOM.310325:jostain erityisestä syystä kommenteissa?
+	#280425: varm vuoksi takqaisin kommentteihin?
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
@@ -391,7 +395,6 @@ function tpu() {
 	echo $?
 	csleep 5	
 
-	#VAIH:kts tp4(), l. mv:n jölkeen paikanpitäjä tar:iin ja sen jälkeen rmk()
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
 	date > 	~/Desktop/minimize/${2}/tim3stamp
