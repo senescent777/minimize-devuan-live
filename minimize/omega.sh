@@ -18,13 +18,13 @@ if [ $# -gt 0 ] ; then
 	mode=${1}
 fi
 
-function dqb() {
-	[ ${debug} -eq 1 ] && echo ${1}
-}
-
-function csleep() {
-	[ ${debug} -eq 1 ] && sleep ${1}
-}
+#function dqb() {
+#	[ ${debug} -eq 1 ] && echo ${1}
+#}
+#
+#function csleep() {
+#	[ ${debug} -eq 1 ] && sleep ${1}
+#}
 
 [ ${mode} -gt 1 ] && ${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev devuan 
 [ ${mode} -gt 2 ] && ${smr} /etc/sudoers.d/live
