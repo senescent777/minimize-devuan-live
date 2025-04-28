@@ -19,6 +19,8 @@ scm="${odio} ${scm} "
 sah6=$(which sha512sum)
 
 #distro:n ja n_n alustus vähitellen tähän ni ei tartte kutsuvissa skripteissä...
+#distro=$(cat /etc/devuan_version)
+#n=$(whoami)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
