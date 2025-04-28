@@ -66,12 +66,5 @@ pr4() {
 	csleep 1
 }
 
-#dqb "=========================================="
-#whoami
-#pwd | cut -d '/' -f 6
-#dqb "=========================================="
-#
-#sleep 3
-
 check_binaries ${distro}
 check_binaries2
