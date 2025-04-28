@@ -85,10 +85,6 @@ csleep 3
 ${ip6tr} /etc/iptables/rules.v6
 ${iptr} /etc/iptables/rules.v4
 
-#csleep 3
-#${lftr} 
-#csleep 3
-
 if [ ${debug} -eq 1 ] ; then
 	${snt} -tulpan
 	sleep 5
