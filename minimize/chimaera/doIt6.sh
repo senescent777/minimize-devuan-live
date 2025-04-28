@@ -50,8 +50,6 @@ fi
 check_params 
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
 enforce_access ${n} 
-
-dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary" 
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
 
@@ -71,8 +69,6 @@ ${whack} nm-applet
 csleep 3
 
 #===================================================PART 2===================================
-#HUOM.230235:näytti iptables kadonneen joten changedns:n toiminta kusi
-
 c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
 
@@ -89,9 +85,9 @@ csleep 3
 ${ip6tr} /etc/iptables/rules.v6
 ${iptr} /etc/iptables/rules.v4
 
-csleep 3
-${lftr} 
-csleep 3
+#csleep 3
+#${lftr} 
+#csleep 3
 
 if [ ${debug} -eq 1 ] ; then
 	${snt} -tulpan
@@ -99,12 +95,7 @@ if [ ${debug} -eq 1 ] ; then
 fi #
 
 #===================================================PART 3===========================================================
-dqb "INSTALLING NEW PACKAGES IN 10 SECS"
-csleep 3
-
-echo "DO NOT ANSWER \"Yes\" TO A QUESTION ABOUT IPTABLES";sleep 2
-echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 5
-
+message
 pre_part3 ${d} 
 pr4 ${d}
 part3 ${d} 
@@ -117,7 +108,7 @@ if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	copyprof ${n} someparam
 fi
 
-#toimii
+#TODO:ehto uusiksi jotenkin?
 if [ ${mode} -eq 1 ] ; then
 	vommon
 fi
@@ -129,6 +120,7 @@ csleep 3
 
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
+#TODO:$dnsm käyttööm tähän alle? vaiko mode-riippuvainen exit taas?
 ${odio} ~/Desktop/minimize/changedns.sh 0 ${distro}
 csleep 5
 
