@@ -68,11 +68,12 @@ part3 ${d}
 ecfx
 
 csleep 5
-if [ -x ~/Desktop/minimize/profs.sh ] ; then
-	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh	
-	. ~/Desktop/minimize/profs.sh
-	copyprof ${n} someparam
-fi
+#HUOM.30425:pois kommenteista sittenq testattu tarpeeksi
+#if [ -x ~/Desktop/minimize/profs.sh ] ; then
+#	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh	
+#	. ~/Desktop/minimize/profs.sh
+#	copyprof ${n} someparam
+#fi
 
 #TODO:ehto uusiksi jotenkin?
 if [ ${mode} -eq 1 ] ; then
