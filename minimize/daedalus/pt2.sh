@@ -23,11 +23,11 @@ csleep 5
 #[ ${c} -gt 0 ] || removepkgs=0
 
 #onkohan hyvä näin?
-if [ ${removepkgs} -eq 1 ] ; then
-	dqb "kö"
-else
-	part2
-fi
+#if [ ${removepkgs} -eq 1 ] ; then
+#	dqb "kö"
+#else
+	part2 ${removepkgs}
+#fi
 
 #HUOM. ao. rivillä 2. viimeisessä syystä vain core
 ${sharpy} amd64-microcode iucode-tool arch-test at-spi2-core bubblewrap

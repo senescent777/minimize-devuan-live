@@ -2,10 +2,6 @@
 d=$(dirname $0)
 mode=2
 
-distro=$(cat /etc/devuan_version)
-n=$(whoami)
-#TODO:n,distro->common_lib?
-
 [ -s ${d}/conf ] && . ${d}/conf
 . ~/Desktop/minimize/common_lib.sh
 
@@ -51,7 +47,6 @@ enforce_access ${n}
  
 part1 ${distro} 
 #HUOM.190325:part_1_5sessa oli bugi, u+w ei vaan riitä
-
 [ ${mode} -eq 0 ] && exit
 
 #HUOM.261224: ntpsec uutena
@@ -87,23 +82,24 @@ fi
 c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
 
-if [ ${removepkgs} -eq 1 ] ; then
-	part2
-fi
-
-if [ y"${ipt}" != "y" ] ; then 
-	${ip6tr} /etc/iptables/rules.v6
-	${iptr} /etc/iptables/rules.v4
-fi
-
-csleep 5
-${lftr} 
-csleep 3
-
-if [ ${debug} -eq 1 ] ; then
-	${snt} -tulpan
-	sleep 5
-fi #
+#if [ ${removepkgs} -eq 1 ] ; then
+	part2 ${removepkgs}
+#fi
+#
+#VAIH:->part2
+#if [ y"${ipt}" != "y" ] ; then 
+#	${ip6tr} /etc/iptables/rules.v6
+#	${iptr} /etc/iptables/rules.v4
+#fi
+#
+#csleep 5
+#${lftr} 
+#csleep 3
+#
+#if [ ${debug} -eq 1 ] ; then
+#	${snt} -tulpan
+#	sleep 5
+#fi #
 
 #===================================================PART 3===========================================================
 message
