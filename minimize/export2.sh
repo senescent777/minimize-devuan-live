@@ -235,6 +235,8 @@ function tp4() {
 	fi
 
 	dqb "EDIBLE AUTOPSY"
+	${fib}
+	#TODO:$asy myös?
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 
@@ -243,6 +245,7 @@ function tp4() {
 
 	#actually necessary
 	pre2 ${2}
+	csleep 3
 
 	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
