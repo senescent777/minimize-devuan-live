@@ -511,47 +511,52 @@ function part2() {
 	#HUOM.removepkgs-jutut voisivat olla tässä fktiossakin, kai
 	#c=$(find ${d} -name '*.deb' | wc -l)
 	#[ ${c} -gt 0 ] || removepkgs=0
-	#
-	#if [ ${removepkgs} -eq 1 ] ; then
-
-	${sharpy} network*
-
-	${sharpy} libblu* libcupsfilters* libgphoto* 
-	# libopts25 ei tÄmmöistä daedaluksessa
-
-	${sharpy} avahi* blu* cups*
-	${sharpy} exim*
-	${lftr}
-	csleep 3 
-
-	case ${iface} in
-		wlan0)
-			dqb "NOT REMOVING WPASUPPLICANT"
-			csleep 6
-			;;
-		*)
-			${sharpy} modem* wireless* wpa*
-			${sharpy} iw lm-sensors
-		;;
-	esac
-
-	${sharpy} ntp*
-	${lftr}
-	csleep 3
 	
-	${sharpy} po* pkexec
-	${lftr}
-	csleep 3
+	if [ ${1} -eq 1 ] ; then
+		${sharpy} network*
 
-	#TODO:kommentoitu blokki käyttöön 
-	#if [ y"${ipt}" != "y" ] ; then 
-	#	${ip6tr} /etc/iptables/rules.v6
-	#	${iptr} /etc/iptables/rules.v4
-	#fi
+		${sharpy} libblu* libcupsfilters* libgphoto* 
+		# libopts25 ei tÄmmöistä daedaluksessa
+
+		${sharpy} avahi* blu* cups*
+		${sharpy} exim*
+		${lftr}
+		csleep 3 
+
+		case ${iface} in
+			wlan0)
+				dqb "NOT REMOVING WPASUPPLICANT"
+				csleep 6
+			;;
+			*)
+				${sharpy} modem* wireless* wpa*
+				${sharpy} iw lm-sensors
+			;;
+		esac
+
+		${sharpy} ntp*
+		${lftr}
+		csleep 3
+	
+		${sharpy} po* pkexec
+		${lftr}
+		csleep 3
+	fi
+
+	#VAIH:kommentoitu blokki käyttöön 
+	if [ y"${ipt}" != "y" ] ; then 
+		${ip6tr} /etc/iptables/rules.v6
+		${iptr} /etc/iptables/rules.v4
+	fi
 
 	csleep 5
 	${lftr} 
 	csleep 3
+
+	if [ ${debug} -eq 1 ] ; then
+		${snt} -tulpan
+		sleep 5
+	fi #
 }
 
 function message () {
