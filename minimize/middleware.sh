@@ -6,5 +6,5 @@ function whack() {
 
 function prepare() {
 	tmpdir=$(mktemp -d)
-	[ -s $1 ] && tar -C $tmpdir -xvf $1
+	[ -s ${1} ] && tar -C ${tmpdir} -xvf ${1}
 }
