@@ -52,20 +52,21 @@ part1 ${distro}
 [ ${mode} -eq 0 ] && exit
 
 #HUOM.261224: ntpsec uutena
-#TODO:vrt. tämä lista vs chimaeran
-for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ntpsec ; do
-	${odio} /etc/init.d/${s} stop
-	csleep 1
-done
-
-dqb "shutting down some services (4 real) in 3 secs"
-sleep 3 
-
-${whack} cups*
-${whack} avahi*
-${whack} dnsmasq*
-${whack} stubby*
-${whack} nm-applet
+#VAIH:vrt. tämä lista vs chimaeran
+#for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ntpsec ; do
+#	${odio} /etc/init.d/${s} stop
+#	csleep 1
+#done
+#
+#dqb "shutting down some services (4 real) in 3 secs"
+#sleep 3 
+#
+#${whack} cups*
+#${whack} avahi*
+#${whack} dnsmasq*
+#${whack} stubby*
+#${whack} nm-applet
+part175
 
 #ntp ehkä takaisin myöhemmin
 ${whack} ntp*
