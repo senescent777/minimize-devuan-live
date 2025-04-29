@@ -376,6 +376,8 @@ function tp3() {
 }
 
 function tpu() {
+	debug=1	
+
 	dqb "tpu( ${1}, ${2})"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] && mv ${1} ${1}.OLD
@@ -387,18 +389,56 @@ function tpu() {
 	${NKVD} ${pkgdir}/*.deb
 	dqb "TUP PART 2"
 
-	if [ "${distro}" == "chimaera" ] ; then 
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-		${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 
-		${shary} iptables 	
-		${shary} iptables-persistent init-system-helpers netfilter-persistent
-
-		pre2 ${2} #vissiin tarvitsi tämän
-	fi
+	#VAIH:case+upgraden jälkeen? 
+	#if [ "${distro}" == "chimaera" ] ; then 
+	#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
+	#	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 
+	#	${shary} iptables 	
+	#	${shary} iptables-persistent init-system-helpers netfilter-persistent
+#
+#		pre2 ${2} #vissiin tarvitsi tämän
+#	fi
 
 	${sag} upgrade -u
 	echo $?
 	csleep 5	
+
+	#TODO:testaus
+	case ${distro} in
+		chimaera)
+			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
+			${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 
+			${shary} iptables 	
+			${shary} iptables-persistent init-system-helpers netfilter-persistent
+
+			pre2 ${2} #vissiin tarvitsi tämän	
+		;;
+		daedalus)
+			#jääköhän tyuonne hmistoon jotrain?
+			${NKVD} ${pkgdir}/libx11-xcb1*
+			${NKVD} ${pkgdir}/nfs*
+			${NKVD} ${pkgdir}/rpc*
+			${NKVD} ${pkgdir}/python3.11*
+			${NKVD} xserver-xorg-core*
+			${NKVD} xserver-xorg-legacy*
+			${NKVD} libgtk-3-bin*
+			${NKVD} libpython3.11*
+			${NKVD} librsvg2*
+		;;
+	esac
+
+#	#VAIH:case+upgraden jälkeen? 
+#	if [ "${distro}" == "daedalus" ] ; then
+#		${NKVD} ${pkgdir}/libx11-xcb1*
+#		${NKVD} ${pkgdir}/nfs*
+#		${NKVD} ${pkgdir}/rpc*
+#		${NKVD} ${pkgdir}/python3.11*
+#		${NKVD} xserver-xorg-core*
+#		${NKVD} xserver-xorg-legacy*
+#		${NKVD} libgtk-3-bin*
+#		${NKVD} libpython3.11*
+#		${NKVD} librsvg2*
+#	fi
 
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}

@@ -142,6 +142,14 @@ function psqa() {
 	csleep 3
 }
 
+function message() {
+	dqb "INSTALLING NEW PACKAGES IN 10 SECS"
+	csleep 3
+
+	echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES";sleep 2
+	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 5
+}
+
 #TODO:jos mahd ni Python-tyyppinen(?) idea käyttöön ao. fktioon, $cmd=eval_cmd("cmd") tai jopa $array["cmd"]=aval_cmd("cmd")
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135(${1} )"
@@ -174,7 +182,9 @@ function check_binaries() {
 		[ -f /etc/iptables/rules.v6.${f}.${dnsm} ] || ${spc} /etc/iptables/rules.v6 /etc/iptables/rules.v6.${f}.${dnsm}
 		#VAIH:changedns vastaava kohta tarttisiko muuttaa? no muutettu kuitenkin 250425 
 
-		psqa ~/Desktop/minimize/${1}	
+		psqa ~/Desktop/minimize/${1}
+		#HUOM.tässä kohtaa jos nalkuttaisi syytä kysymykseen vastaamisesta kanssa	
+		message		
 		pre_part3 ~/Desktop/minimize/${1}
 		pr4 ~/Desktop/minimize/${1}
 
@@ -557,14 +567,6 @@ function part2() {
 		${snt} -tulpan
 		sleep 5
 	fi #
-}
-
-function message () {
-	dqb "INSTALLING NEW PACKAGES IN 10 SECS"
-	csleep 3
-
-	echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES";sleep 2
-	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 5
 }
 
 #HUOM.22325: oli jotain nalkutusta vielä chimaeran päivityspaketista, lib.sh fktiot tai export2 muutettava vasta avasti (vielä ongelma?)
