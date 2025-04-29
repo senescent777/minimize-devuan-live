@@ -26,10 +26,10 @@ if [ ${removepkgs} -eq 1 ] ; then
 else
 	${sharpy} libopts25
 	${sharpy} rpc* nfs* 
-
-	part2
-	${odio} which iptables; csleep 3
 fi
+
+part2 ${removepkgs}
+${odio} which iptables; csleep 3
 
 #==============================================================
 #HUOM! PAKETIT procps, mtools JA mawk JÄTETTÄVÄ RAUHAAN!!!

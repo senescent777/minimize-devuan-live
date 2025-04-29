@@ -2,10 +2,6 @@
 d=$(dirname $0)
 mode=2
 
-distro=$(cat /etc/devuan_version)
-n=$(whoami)
-#TODO:n,distro->common_lib?
-
 [ -s ${d}/conf ] && . ${d}/conf
 . ~/Desktop/minimize/common_lib.sh
 
@@ -40,7 +36,7 @@ function check_params() {
 	esac
 }
 
-n=$(whoami)
+#n=$(whoami)
 #==================================PART 1============================================================
 
 if [ $# -gt 0 ] ; then
@@ -75,20 +71,20 @@ c=$(find ${d} -name '*.deb' | wc -l)
 if [ ${removepkgs} -eq 1 ] ; then
 	${sharpy} libopts25
 	${sharpy} rpc* nfs* 
-
-	part2
 fi
 
-${lftr}
-csleep 3
+part2 ${removepkgs}
 
-${ip6tr} /etc/iptables/rules.v6
-${iptr} /etc/iptables/rules.v4
-
-if [ ${debug} -eq 1 ] ; then
-	${snt} -tulpan
-	sleep 5
-fi #
+#VAIH:ao.blokki -> part2()
+#${lftr}
+#csleep 3
+#${ip6tr} /etc/iptables/rules.v6
+#${iptr} /etc/iptables/rules.v4
+#
+#if [ ${debug} -eq 1 ] ; then
+#	${snt} -tulpan
+#	sleep 5
+#fi #
 
 #===================================================PART 3===========================================================
 message
@@ -116,8 +112,8 @@ csleep 3
 
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
-#TODO:$dnsm käyttööm tähän alle? vaiko mode-riippuvainen exit taas?
-${odio} ~/Desktop/minimize/changedns.sh 0 ${distro}
+#VAIH:$dnsm käyttööm tähän alle? vaiko mode-riippuvainen exit taas?
+${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
 csleep 5
 
 ##===================================================PART 4(final)==========================================================
