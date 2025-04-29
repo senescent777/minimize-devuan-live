@@ -34,7 +34,6 @@ case $# in
 	;;
 esac
 
-#debug=1
 dqb "mode= ${mode}"
 dqb "distro=${distro}"
 dqb "file=${tgtfile}"
@@ -65,7 +64,6 @@ else
 	check_binaries2
 fi
 
-#debug=1
 dqb "tar = ${srat} "
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
@@ -88,7 +86,6 @@ fi
 ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 4
-#debug=1
 
 function pre() {
 	[ x"${1}" == "z" ] && exit 666
@@ -119,6 +116,8 @@ function pre() {
 }
 
 function pre2() {
+	debug=1
+	dqb "pre2( ${1}, ${2})" #WTIN KAARISULKEET STNA
 	[ x"${1}" == "z" ] && exit 666
 
 	if [ -d ~/Desktop/minimize/${1} ] ; then
@@ -411,7 +410,11 @@ function tpu() {
 	dqb "SIELUNV1H0LL1N3N"
 }
 
+#TODO:-v tekemään jotain hyödyllistä
+
 function tp5() {
+	debug=1
+
 	dqb "tp5 ${1} ${2}"
 	[ z"${1}" == "z" ] && exit 99
 	[ -s ${1} ] || exit 98
@@ -470,3 +473,4 @@ case ${mode} in
 	;;
 esac
 
+#TODO:-h
