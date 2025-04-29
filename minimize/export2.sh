@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0
+debug=1
 tgtfile=""
 distro=$(cat /etc/devuan_version) #tarpeellinen tässä
 
@@ -34,6 +34,7 @@ case $# in
 	;;
 esac
 
+debug=1
 dqb "mode= ${mode}"
 dqb "distro=${distro}"
 dqb "file=${tgtfile}"
@@ -64,6 +65,8 @@ else
 	check_binaries2
 fi
 
+debug=1
+dqb "tar = ${srat} "
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 
@@ -85,6 +88,7 @@ fi
 ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 4
+debug=1
 
 function pre() {
 	[ x"${1}" == "z" ] && exit 666
@@ -161,15 +165,20 @@ function tp1() {
 
 		tget=$(ls ~/.mozilla/firefox/ | grep default-esr | tail -n 1)
 		p=$(pwd)
+
+		${odio} touch ./rnd
+		${sco} ${n}:${n} ./rnd
+		${scm} 0644 ./rnd
 		dd if=/dev/random bs=6 count=1 > ./rnd
+
 		cd ~/.mozilla/firefox/${tget}
 		dqb "TG3T=tget"		
 		csleep 2
 
 		#HUOM: cd tuossa yllä, onko tarpeen? ehkä on
 		
-		${rat} -cvf  ~/Desktop/minimize/someparam.tar ${p}/rnd
-		for f in $(find . -name '*.js') ; do ${rat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
+		${srat} -cvf  ~/Desktop/minimize/someparam.tar ${p}/rnd
+		for f in $(find . -name '*.js') ; do ${srat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
 		#*.js ja *.json kai oleellisimmat kalat
 		cd ${p}
 	fi
