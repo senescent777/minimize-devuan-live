@@ -1,4 +1,5 @@
 #!/bin/bash
+debug=1
 . ~/Desktop/minimize/middleware.sh
 #TODO:jatkossa vähän toisin nämmä asiat
 
@@ -20,9 +21,11 @@ cprof_1_1() {
 			sudo chown -R $1:$1 /home/$1/.mozilla/firefox
 		fi
 
+	if [ ${debug} -eq 1 ] ; then
 		echo "AFTER MKDIR";sleep 5
 		ls -las /home/$1/.mozilla/firefox;sleep 6
 		echo "eEXIT CPROF_1_1($1)"
+	fi
 }
 
 cprof_1_2() {
@@ -49,42 +52,49 @@ cprof_1_2() {
 }
 
 cprof_1_3() {
-	cd /
-	sudo touch $tmpdir/.mozilla/*
-	sudo chmod 0600  $tmpdir/.mozilla/*
+#	cd /
+#	sudo touch $tmpdir/.mozilla/*
+#	sudo chmod 0600  $tmpdir/.mozilla/*
 
 	[ -d /home/$2/.mozilla/firefox ] || exit 68
 	cd /home/$2/.mozilla/firefox
 	
+	if [ ${debug} -eq 1 ] ; then
 		pwd;sleep 6 
 		echo "CPROF_1_3_1";sleep 5
 		ls -las /home/$2/.mozilla/firefox;sleep 6
+	fi
 
 		tget=$(ls | grep $1 | tail -n 1) 
 
 		sudo chown $2:$2 ./$tget
 		sudo chmod 0700 ./$tget
 		
-		if [ x$tget != x ] ; then 
+		if [ x"$tget" != "x" ] ; then 
 			cd $tget
 		#else
 		fi
 
-			echo -n "pwd=";pwd
-			echo "IN 6 SECONDS: sudo mv $tmpdir/.mozilla/* ."
-			sleep 6
+	if [ x"${tmpdir}" != "x" ] ; then
+		if [ -d ${tmpdir} ] ; then
+			if [ ${debug} -eq 1 ] ; then
+				echo -n "pwd=";pwd
+				echo "IN 6 SECONDS: sudo mv $tmpdir/* ."
+				sleep 6
+			fi
 
-#		sudo mv $tmpdir/.mozilla/* . #TÄMÄN KANSSA TARKKUUTTA PERKELE
-		sudo chown -R $2:$2 ./* 		
+	#		sudo mv $tmpdir/* . #TÄMÄN KANSSA TARKKUUTTA PERKELE
+			sudo chown -R $2:$2 ./* 		
 	
-			echo "AFT3R MV";sleep 6
-			ls -las;sleep 5
-		
+			if [ ${debug} -eq 1 ] ; then
+				echo "AFT3R MV";sleep 6
+				ls -las;sleep 5
+			fi	
 
-
-	sudo shred -fu $tmpdir/.mozilla/*
-	sudo rm -rf $tmpdir/.mozilla
-
+			sudo shred -fu $tmpdir/*
+			sudo rm -rf $tmpdir
+		fi
+	fi
 }
 
 cprof_2_1() {
