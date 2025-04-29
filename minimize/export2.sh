@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=1
+debug=0 #1
 tgtfile=""
 distro=$(cat /etc/devuan_version) #tarpeellinen tässä
 
@@ -34,7 +34,7 @@ case $# in
 	;;
 esac
 
-debug=1
+#debug=1
 dqb "mode= ${mode}"
 dqb "distro=${distro}"
 dqb "file=${tgtfile}"
@@ -65,7 +65,7 @@ else
 	check_binaries2
 fi
 
-debug=1
+#debug=1
 dqb "tar = ${srat} "
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
@@ -88,7 +88,7 @@ fi
 ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 4
-debug=1
+#debug=1
 
 function pre() {
 	[ x"${1}" == "z" ] && exit 666
@@ -308,7 +308,7 @@ function tp2() {
 	csleep 4
 
 	${srat} -rf ${1} /etc/iptables /etc/network/interfaces*
-	#VAIH:/etc/wpa* mukaan jos tarttee (iface==wlan0)
+	
 	case ${iface} in
 		wlan0)
 			${srat} -rf ${1} /etc/wpa*
