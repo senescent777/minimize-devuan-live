@@ -3,6 +3,7 @@ function pr4() {
 	dqb "pr4 (${1})"
 	psqa  ${1}
 
+	#TODO:dnsm-jutuille jos tekisijojo tain , esim. stubby+dnsmasq toimimaan ni ei tartte noita poistella
 	if [ ${dnsm} -eq 1 ] ; then
 		${NKVD} ${1}/stubby*
 		${NKVD} ${1}/libgetdns*

@@ -48,21 +48,22 @@ enforce_access ${n}
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
 
-#TODO:vrt. tämä lista vs chimaeran
-for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ; do
-	${odio} /etc/init.d/${s} stop
-	sleep 1
-done
-
-dqb "shutting down some services (4 real) in 3 secs"
-sleep 3 
-
-${whack} cups*
-${whack} avahi*
-${whack} dnsmasq*
-${whack} stubby*
-${whack} nm-applet
-csleep 3
+#VAIH:vrt. tämä lista vs chimaeran
+#for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ; do
+#	${odio} /etc/init.d/${s} stop
+#	sleep 1
+#done
+#
+#dqb "shutting down some services (4 real) in 3 secs"
+#sleep 3 
+#
+#${whack} cups*
+#${whack} avahi*
+#${whack} dnsmasq*
+#${whack} stubby*
+#${whack} nm-applet
+#csleep 3
+part175
 
 #===================================================PART 2===================================
 c=$(find ${d} -name '*.deb' | wc -l)
