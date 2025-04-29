@@ -1,9 +1,7 @@
 #!/bin/bash
-#d=$(dirname $0) #tarpeellinen?
 debug=0
 tgtfile=""
-distro=$(cat /etc/devuan_version)
-n=$(whoami)
+distro=$(cat /etc/devuan_version) #tarpeellinen tässä
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -39,7 +37,6 @@ esac
 dqb "mode= ${mode}"
 dqb "distro=${distro}"
 dqb "file=${tgtfile}"
-#exit
 [ z"${distro}" == "z" ] && exit 6
 
 if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ]; then
@@ -117,7 +114,6 @@ function pre() {
 	fi
 }
 
-#TODO:glob muutt pois jatqssa jos mahd
 function pre2() {
 	[ x"${1}" == "z" ] && exit 666
 
@@ -165,12 +161,14 @@ function tp1() {
 
 		tget=$(ls ~/.mozilla/firefox/ | grep default-esr | tail -n 1)
 		p=$(pwd)
+		dd if=/dev/random bs=6 count=1 > ./rnd
 		cd ~/.mozilla/firefox/${tget}
 		dqb "TG3T=tget"		
 		csleep 2
 
 		#HUOM: cd tuossa yllä, onko tarpeen? ehkä on
-		#TODO:pitäIsi ensin luoda se tar ennenq alkaa lisäämään
+		
+		${rat} -cvf  ~/Desktop/minimize/someparam.tar ${p}/rnd
 		for f in $(find . -name '*.js') ; do ${rat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
 		#*.js ja *.json kai oleellisimmat kalat
 		cd ${p}
@@ -266,7 +264,6 @@ function tp4() {
 	csleep 3
 	${lftr}
 
-	#VAIH:vetämään:paketti wpasupplicant jos konf niin vaatii?
 	case ${iface} in
 		wlan0)
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
