@@ -19,8 +19,8 @@ scm="${odio} ${scm} "
 sah6=$(which sha512sum)
 
 #distro:n ja n_n alustus vähitellen tähän ni ei tartte kutsuvissa skripteissä...
-#distro=$(cat /etc/devuan_version)
-#n=$(whoami)
+distro=$(cat /etc/devuan_version)
+n=$(whoami)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -514,15 +514,7 @@ function part2() {
 	#
 	#if [ ${removepkgs} -eq 1 ] ; then
 
-#	case ${iface} in
-#		wlan0)
-#			dqb "NOT REMOVING networkmanager JUST YET"
-#			csleep 6
-#			;;
-#		*)
-			${sharpy} network*
-#		;;
-#	esac
+	${sharpy} network*
 
 	${sharpy} libblu* libcupsfilters* libgphoto* 
 	# libopts25 ei tÄmmöistä daedaluksessa
@@ -549,6 +541,16 @@ function part2() {
 	
 	${sharpy} po* pkexec
 	${lftr}
+	csleep 3
+
+	#TODO:kommentoitu blokki käyttöön 
+	#if [ y"${ipt}" != "y" ] ; then 
+	#	${ip6tr} /etc/iptables/rules.v6
+	#	${iptr} /etc/iptables/rules.v4
+	#fi
+
+	csleep 5
+	${lftr} 
 	csleep 3
 }
 

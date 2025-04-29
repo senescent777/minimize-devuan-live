@@ -1,6 +1,6 @@
 #!/bin/bash
 debug=0
-distro=""
+#distro=""
 mode=-1
 distro=$(cat /etc/devuan_version)
 
@@ -336,12 +336,6 @@ case ${mode} in
 	1)
 		clouds_case1
 	;;
-#	2) 050425:vaihteeksi kikkailut mäkeen, yleisempi toimintatatatapa tilalle
-#		dqb "#päin Vittua hui hai"
-#		f=$(date +%F)
-#		[ -f /etc/iptables/rules.v4.${f} ] && ${svm} /etc/iptables/rules.v4.${f} /etc/iptables/rules.v4
-#		[ -f /etc/iptables/rules.v6.${f} ] && ${svm} /etc/iptables/rules.v6.${f} /etc/iptables/rules.v6
-#	;;
 	*)
 		echo "MEE HIMAAS LEIKKIMÄHÄN"
 	;;

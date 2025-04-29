@@ -1,11 +1,11 @@
 #!/bin/bash
 debug=0
 file=""
-distro=$(cat /etc/devuan_version)
+distro=$(cat /etc/devuan_version) #tämjä tarvitaan toistaiseksi
 #joitain oletusarvoja
 dir=/mnt
 part0=ABCD-1234
-n=$(whoami)
+#n=$(whoami)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
