@@ -23,20 +23,20 @@ csleep 5
 #[ ${c} -gt 0 ] || removepkgs=0
 
 #onkohan hyvä näin?
-#TODO:pitäisi kai miettiä tämä kohta, ideana kai että ei poisteta iptables jos ei korvaavaa pakerria
+#VAIH:pitäisi kai miettiä tämä kohta, ideana kai että ei poisteta iptables jos ei korvaavaa pakerria
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	part2 ${removepkgs}
+	part2 1 #${removepkgs}
 fi
 
 #HUOM. ao. rivillä 2. viimeisessä syystä vain core
 ${sharpy} amd64-microcode iucode-tool arch-test at-spi2-core bubblewrap
-
 ${sharpy} atril* coinor* cryptsetup debootstrap
 ${sharpy} dmidecode discover* dirmngr #tuleekohan viimeisestä ongelma? vissiin ei
 ${sharpy} doc-debian docutils* 
 ${sharpy} efibootmgr exfalso 
+
 ${asy} 
 ${lftr}
 csleep 5
@@ -91,6 +91,11 @@ ${sharpy} os-prober #orca saattaa poistua jo aiemmin
 ${asy} 
 ${lftr}
 csleep 5
+
+#uutena 290425
+${sharpy} nfs-common rpcbind
+csleep 5
+#TODO:libcolor* mukaan?
 
 dqb "p"
 csleep 5
