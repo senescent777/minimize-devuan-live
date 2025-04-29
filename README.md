@@ -8,8 +8,8 @@
 
 -----------------------------------------------------------
 
-- export2.sh can be used to make a tar ($archive)  out of this project with 0 as first param
-	1 as first param makes an upgrade-package for dpkg to install
+- export2.sh can be used to make a tar ($archive)  out of this project with 0 as first param. 
+	On the other hand 1 as first param makes an upgrade-package for dpkg to install
 
 - import2.sh 
 	is a shortcut for installing more recent version of this project into a running live distro
@@ -25,11 +25,12 @@
 
 - about all those .desktop-files: i have started to work on them, maybe part of them are already doing what they're supposed to
 
-- changedns.sh can be used to change the network configuration to use plain-old-DNS and that's all folks.
+- changedns.sh
+  	If there's problem with DNS, this script may fix that. 
+	It can be used to change the network configuration to use plain-old-DNS and that's all folks.
   There is something going on with Daedalus/stubby/dnsmasq that i have to figure out
 
-
-If there's problem with DNS, this script may fix that. 
+	
 
 - omega.sh removes "Ubuntu-style sudo". Potentially dangerous.
 
