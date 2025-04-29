@@ -83,11 +83,12 @@ csleep 3
 ${ip6tr} /etc/iptables/rules.v6
 ${iptr} /etc/iptables/rules.v4
 
-if [ -x ~/Desktop/minimize/profs.sh ] ; then
-	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh 
-	. ~/Desktop/minimize/profs.sh
-	copyprof ${n} someparam
-fi
+#HUOM.30425:pois kommenteista sittenq testattu tarpeeksi
+#if [ -x ~/Desktop/minimize/profs.sh ] ; then
+#	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh 
+#	. ~/Desktop/minimize/profs.sh
+#	copyprof ${n} someparam
+#fi
 
 ${asy}
 dqb "GR1DN BELIALAS KYE"
