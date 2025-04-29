@@ -21,6 +21,7 @@ fi
 ${odio} which iptables; csleep 3
 
 #onkohan hyvä näin?
+#TODO:pitäisi kai miettiä tämä kohta, ideana kai että ei poisteta iptables jos ei korvaavaa pakerria
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else

@@ -36,7 +36,6 @@ function check_params() {
 	esac
 }
 
-#n=$(whoami)
 #==================================PART 1============================================================
 
 if [ $# -gt 0 ] ; then
@@ -49,6 +48,7 @@ enforce_access ${n}
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
 
+#TODO:vrt. tämä lista vs chimaeran
 for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ; do
 	${odio} /etc/init.d/${s} stop
 	sleep 1
@@ -74,17 +74,6 @@ if [ ${removepkgs} -eq 1 ] ; then
 fi
 
 part2 ${removepkgs}
-
-#VAIH:ao.blokki -> part2()
-#${lftr}
-#csleep 3
-#${ip6tr} /etc/iptables/rules.v6
-#${iptr} /etc/iptables/rules.v4
-#
-#if [ ${debug} -eq 1 ] ; then
-#	${snt} -tulpan
-#	sleep 5
-#fi #
 
 #===================================================PART 3===========================================================
 message
@@ -112,7 +101,7 @@ csleep 3
 
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
-#VAIH:$dnsm käyttööm tähän alle? vaiko mode-riippuvainen exit taas?
+#VAIH:$dnsm käyttööN tähän alle? vaiko mode-riippuvainen exit taas?
 ${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
 csleep 5
 
