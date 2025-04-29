@@ -37,6 +37,8 @@ function check_params() {
 	esac
 }
 
+#==================================PART 1============================================================
+
 if [ $# -gt 0 ] ; then
 	for opt in $@ ; do parse_opts_1 $opt ; done
 fi
@@ -50,6 +52,7 @@ part1 ${distro}
 [ ${mode} -eq 0 ] && exit
 
 #HUOM.261224: ntpsec uutena
+#TODO:vrt. tämä lista vs chimaeran
 for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ntpsec ; do
 	${odio} /etc/init.d/${s} stop
 	csleep 1
@@ -81,25 +84,7 @@ fi
 
 c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
-
-#if [ ${removepkgs} -eq 1 ] ; then
-	part2 ${removepkgs}
-#fi
-#
-#VAIH:->part2
-#if [ y"${ipt}" != "y" ] ; then 
-#	${ip6tr} /etc/iptables/rules.v6
-#	${iptr} /etc/iptables/rules.v4
-#fi
-#
-#csleep 5
-#${lftr} 
-#csleep 3
-#
-#if [ ${debug} -eq 1 ] ; then
-#	${snt} -tulpan
-#	sleep 5
-#fi #
+part2 ${removepkgs}
 
 #===================================================PART 3===========================================================
 message
