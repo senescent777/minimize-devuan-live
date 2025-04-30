@@ -217,6 +217,7 @@ function rmt() {
 	dqb "rmt d0n3"
 }
 
+#TODO:kutsuva koodi muodostamaan erillisen paketin mikä sitten mukaan muissa tp()-fktioissa, esim. tp1()
 function tp4() {
 	dqb "tp4( ${1} , ${2} )"
 	
@@ -280,7 +281,6 @@ function tp4() {
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
 			#toivottavasti ei libdbus sotke mitään ${shary} libdbus-1-3 toistaiseksi jemmaan 280425
 			
-			#HUOM.280425:jemmaan nuo riippuvuudetkin toistaiseksi
 			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3 adduser
 			${shary} wpasupplicant
 		;;
@@ -309,7 +309,8 @@ function tp2() {
 	dqb "params_ok"
 	csleep 4
 
-	${srat} -rf ${1} /etc/iptables /etc/network/interfaces*
+	#HUOM.30425:koklataan josko sittenkin pelkkä /e/n/interfaces riittäisi koska a) ja b)
+	${srat} -rf ${1} /etc/iptables /etc/network/interfaces #*
 	
 	case ${iface} in
 		wlan0)
@@ -389,36 +390,15 @@ function tpu() {
 	dqb "params_ok"
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
-	${NKVD} ${pkgdir}/*.deb
+	${NKVD} ${pkgdir}/*.deb #toimiiko tuo vai ei?
 	dqb "TUP PART 2"
 
 	${sag} upgrade -u
 	echo $?
 	csleep 5	
 
-	#VAIH:testaus
-	case ${distro} in
-		chimaera)
-			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-			${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 
-			${shary} iptables 	
-			${shary} iptables-persistent init-system-helpers netfilter-persistent
-
-			pre2 ${2} #vissiin tarvitsi tämän	
-		;;
-		daedalus)
-			#jääköhän tyuonne hmistoon jotrain?
-			${NKVD} ${pkgdir}/libx11-xcb1*
-			${NKVD} ${pkgdir}/nfs*
-			${NKVD} ${pkgdir}/rpc*
-			${NKVD} ${pkgdir}/python3.11*
-			${NKVD} ${pkgdir}/xserver-xorg-core*
-			${NKVD} ${pkgdir}/xserver-xorg-legacy*
-			${NKVD} ${pkgdir}/libgtk-3-bin*
-			${NKVD} ${pkgdir}/libpython3.11*
-			${NKVD} ${pkgdir}/librsvg2*
-		;;
-	esac
+	#30425:kuseekohan tuossa jokin? wpasupplicantin poisto melkein johti xorgin poistoon...
+	udp6
 
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
@@ -460,6 +440,7 @@ function tp5() {
 dqb "mode= ${mode}"
 pre ${distro}
 
+#TODO:JATKOSSA DEB-PAKETIT ERILLISEEN ARKISTOON ELLEI ERIKSEEN PYYDETÄ!!! KENTIES PIENBEMPI SÄÄTÖ NIIN PÄIN
 case ${mode} in
 	0)
 		tp1 ${tgtfile} ${distro}

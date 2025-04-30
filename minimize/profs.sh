@@ -1,7 +1,7 @@
-#!/bin/bash
+##!/bin/bash
 debug=1
-. ~/Desktop/minimize/middleware.sh
-#TODO:jatkossa vähän toisin nämä asiat
+#. ~/Desktop/minimize/middleware.sh
+#VAIH:jatkossa vähän toisin nämä asiat
 
 cprof_1_1() {
 	
@@ -131,5 +131,5 @@ copyprof() {
 }
 
 #vähän toisella tyylillä jatkossa
-prepare $3
-copyprof $1 $2
+#prepare $3
+#copyprof $1 $2

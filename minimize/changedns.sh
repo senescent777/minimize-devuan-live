@@ -237,7 +237,7 @@ function clouds_post() {
 	dqb "d0n3"
 }
 
-#HUOM. joskohan jatkossa yhdistelisi case0:aa ja case1:stä, {.new,.old}-{.0,.1} ja sit jotain
+#HUOM. joskohan jatkossa yhdistelisi case0:aa ja case1:stä, {.new,.old} -> {.0,.1} ja sit jotain
 function clouds_case0() {
 	dqb "cdns.clouds_case0()"
 

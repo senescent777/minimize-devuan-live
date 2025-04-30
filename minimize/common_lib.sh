@@ -518,11 +518,18 @@ function part1() {
 }
 
 function part2() {
+	debug=1
 	#HUOM.removepkgs-jutut voisivat olla tässä fktiossakin, kai
 	#c=$(find ${d} -name '*.deb' | wc -l)
 	#[ ${c} -gt 0 ] || removepkgs=0
 	
+	dqb "PART2 ${1}"
+	csleep 10
+
 	if [ ${1} -eq 1 ] ; then
+		dqb "PART2-2"
+		csleep 10
+
 		${sharpy} network*
 
 		${sharpy} libblu* libcupsfilters* libgphoto* 
@@ -553,6 +560,9 @@ function part2() {
 		csleep 3
 	fi
 
+	dqb "PART2-3"
+	csleep 10
+
 	#VAIH:kommentoitu blokki käyttöön 
 	if [ y"${ipt}" != "y" ] ; then 
 		${ip6tr} /etc/iptables/rules.v6
@@ -567,6 +577,9 @@ function part2() {
 		${snt} -tulpan
 		sleep 5
 	fi #
+
+	dqb "PART2 D0N3"
+	csleep 10
 }
 
 #HUOM.22325: oli jotain nalkutusta vielä chimaeran päivityspaketista, lib.sh fktiot tai export2 muutettava vasta avasti (vielä ongelma?)
