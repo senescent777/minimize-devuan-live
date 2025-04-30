@@ -310,6 +310,7 @@ function tp2() {
 	csleep 4
 
 	#HUOM.30425:koklataan josko sittenkin pelkkä /e/n/interfaces riittäisi koska a) ja b)
+	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?	
 	${srat} -rf ${1} /etc/iptables /etc/network/interfaces #*
 	
 	case ${iface} in
@@ -440,9 +441,28 @@ function tp5() {
 dqb "mode= ${mode}"
 pre ${distro}
 
-#TODO:JATKOSSA DEB-PAKETIT ERILLISEEN ARKISTOON ELLEI ERIKSEEN PYYDETÄ!!! KENTIES PIENBEMPI SÄÄTÖ NIIN PÄIN
+#VAIH:JATKOSSA DEB-PAKETIT ERILLISEEN ARKISTOON ELLEI ERIKSEEN PYYDETÄ!!! KENTIES PIENBEMPI SÄÄTÖ NIIN PÄIN
 case ${mode} in
 	0)
+		pre ${distro}
+		pre2 ${distro}		
+
+		tp3 ${tgtfile} ${distro}
+		[ -f ~/Desktop/minimize/${distro}/e.tar ] && ${NKVD} ~/Desktop/minimize/${distro}/e.tar
+		
+		${odio} touch ./rnd
+		${sco} ${n}:${n} ./rnd
+		${scm} 0644 ./rnd
+		dd if=/dev/random bs=6 count=1 > ./rnd
+
+		${srat} -cvf ~/Desktop/minimize/${distro}/e.tar ./rnd
+		tp4 ~/Desktop/minimize/${distro}/e.tar ${distro} #${tgtfile} ${distro}
+
+		tp1 ${tgtfile} ${distro}
+		pre ${distro}
+		tp2 ${tgtfile} ${distro}
+	;;
+	2)
 		tp1 ${tgtfile} ${distro}
 
 		pre ${distro}
