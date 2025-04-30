@@ -92,7 +92,7 @@ ${asy}
 ${lftr}
 csleep 5
 
-#uutena 290425
+#uutena 290425 (pois jos kusee)
 ${sharpy} nfs-common rpcbind
 csleep 5
 #TODO:libcolor* mukaan?

@@ -12,6 +12,8 @@ else
 	exit 111	
 fi
 
+#TODO:geneerinen doit6 minmize-hmistoon jatkossa?
+
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
@@ -53,12 +55,14 @@ part1 ${distro}
 part175
 
 #ntp ehkä takaisin myöhemmin
+#TODO:lib.part1_post() ?
 ${whack} ntp*
 csleep 5
 ${odio} /etc/init.d/ntpsec stop
 #K01avahi-jutut sopivaan kohtaan?
 
 #===================================================PART 2===================================
+#TODO:lib.part2.pre()
 ecfx
 csleep 5
 
@@ -77,19 +81,23 @@ pre_part3 ${d}
 pr4 ${d}
 part3 ${d}
 
+#TODO:lib-part3-post() 
 echo $?
 csleep 3
 
 ${ip6tr} /etc/iptables/rules.v6
 ${iptr} /etc/iptables/rules.v4
 
-#HUOM.30425:pois kommenteista sittenq testattu tarpeeksi
-#if [ -x ~/Desktop/minimize/profs.sh ] ; then
-#	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh 
-#	. ~/Desktop/minimize/profs.sh
-#	copyprof ${n} someparam
-#fi
+#TODO:prof-kikkailu aiemmaksi
+#HUOM.30425:jospa vaikka toimisi (TODO:profs.sh siirto takaisin lähteeseen)
+if [ -x ~/Desktop/minimize/profs.sh ] ; then
+	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh 
+	. ~/Desktop/minimize/profs.sh
+	prepare ~/Desktop/minimize/someparam.tar
+	copyprof esr ${n} ~/Desktop/minimize/someparam.tar
+fi
 
+#asy-cdns voisi olla yhteistä, jotenkin
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 

@@ -66,5 +66,27 @@ pr4() {
 	csleep 1
 }
 
+udp6() {
+	#jääköhän tyuonne hmistoon vielä jotrain?
+	${smr} ${pkgdir}/libx11-xcb1*
+	${smr} ${pkgdir}/nfs*
+	${smr} ${pkgdir}/rpc*
+	${smr} ${pkgdir}/python3.11*
+	${smr} ${pkgdir}/xserver-xorg-core*
+	${smr} ${pkgdir}/xserver-xorg-legacy*
+	${smr} ${pkgdir}/libgtk-3-bin*
+	${smr} ${pkgdir}/libpython3.11*
+	${smr} ${pkgdir}/librsvg2*
+
+	#TODO:kts part2
+	${smr} ${pkgdir}/avahi*
+	${smr} ${pkgdir}/blu*
+	${smr} ${pkgdir}/cups*
+	${smr} ${pkgdir}/exim*
+	${smr} ${pkgdir}/nfs*
+
+	${smr} ${pkgdir}/wpa*
+}
+
 check_binaries ${distro}
 check_binaries2
