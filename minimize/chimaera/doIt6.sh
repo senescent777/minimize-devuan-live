@@ -52,7 +52,7 @@ part175
 #===================================================PART 2===================================
 c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
-
+#TODO:lib.part2.pre()?
 if [ ${removepkgs} -eq 1 ] ; then
 	${sharpy} libopts25
 	${sharpy} rpc* nfs* 
@@ -65,21 +65,24 @@ message
 pre_part3 ${d} 
 pr4 ${d}
 part3 ${d} 
+#TODO:lib-part3-post() , ecfx und vommon
 ecfx
 
 csleep 5
+#TODO:prof-kikkailu aiemmaksi
 #HUOM.30425:pois kommenteista sittenq testattu tarpeeksi
-#if [ -x ~/Desktop/minimize/profs.sh ] ; then
-#	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh	
-#	. ~/Desktop/minimize/profs.sh
-#	copyprof ${n} someparam
-#fi
+if [ -x ~/Desktop/minimize/profs.sh ] ; then
+	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh	
+	. ~/Desktop/minimize/profs.sh
+	copyprof ${n} someparam
+fi
 
 #TODO:ehto uusiksi jotenkin?
 if [ ${mode} -eq 1 ] ; then
 	vommon
 fi
 
+#asy-cdns voisi olla yhteistä, jotenkin
 ${asy}
 csleep 3
 

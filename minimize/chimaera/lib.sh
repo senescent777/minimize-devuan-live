@@ -26,6 +26,14 @@ function pre_part3() {
 
 }
 
+function udp6() {
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
+	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 
+	${shary} iptables 	
+	${shary} iptables-persistent init-system-helpers netfilter-persistent
+	pre2 ${2} #vissiin tarvitsi tämän
+}
+
 dqb "BIL-UR-SAG"
 check_binaries ${distro}
 check_binaries2 
