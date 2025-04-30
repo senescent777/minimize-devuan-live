@@ -236,7 +236,8 @@ function tp4() {
 
 	dqb "EDIBLE AUTOPSY"
 	${fib}
-	#TODO:$asy myös?
+	${asy}
+	csleep 3
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 
@@ -245,7 +246,6 @@ function tp4() {
 
 	#actually necessary
 	pre2 ${2}
-	csleep 3
 
 	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
@@ -392,21 +392,11 @@ function tpu() {
 	${NKVD} ${pkgdir}/*.deb
 	dqb "TUP PART 2"
 
-	#VAIH:case+upgraden jälkeen? 
-	#if [ "${distro}" == "chimaera" ] ; then 
-	#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-	#	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 
-	#	${shary} iptables 	
-	#	${shary} iptables-persistent init-system-helpers netfilter-persistent
-#
-#		pre2 ${2} #vissiin tarvitsi tämän
-#	fi
-
 	${sag} upgrade -u
 	echo $?
 	csleep 5	
 
-	#TODO:testaus
+	#VAIH:testaus
 	case ${distro} in
 		chimaera)
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
@@ -422,30 +412,17 @@ function tpu() {
 			${NKVD} ${pkgdir}/nfs*
 			${NKVD} ${pkgdir}/rpc*
 			${NKVD} ${pkgdir}/python3.11*
-			${NKVD} xserver-xorg-core*
-			${NKVD} xserver-xorg-legacy*
-			${NKVD} libgtk-3-bin*
-			${NKVD} libpython3.11*
-			${NKVD} librsvg2*
+			${NKVD} ${pkgdir}/xserver-xorg-core*
+			${NKVD} ${pkgdir}/xserver-xorg-legacy*
+			${NKVD} ${pkgdir}/libgtk-3-bin*
+			${NKVD} ${pkgdir}/libpython3.11*
+			${NKVD} ${pkgdir}/librsvg2*
 		;;
 	esac
 
-#	#VAIH:case+upgraden jälkeen? 
-#	if [ "${distro}" == "daedalus" ] ; then
-#		${NKVD} ${pkgdir}/libx11-xcb1*
-#		${NKVD} ${pkgdir}/nfs*
-#		${NKVD} ${pkgdir}/rpc*
-#		${NKVD} ${pkgdir}/python3.11*
-#		${NKVD} xserver-xorg-core*
-#		${NKVD} xserver-xorg-legacy*
-#		${NKVD} libgtk-3-bin*
-#		${NKVD} libpython3.11*
-#		${NKVD} librsvg2*
-#	fi
-
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
-	date > 	~/Desktop/minimize/${2}/tim3stamp
+	date > ~/Desktop/minimize/${2}/tim3stamp
 	${srat} -cf ${1} ~/Desktop/minimize/${2}/tim3stamp
 	rmt ${1} ${2}
 
