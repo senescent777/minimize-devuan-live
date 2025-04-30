@@ -1,9 +1,7 @@
 #!/bin/bash
-#d=$(dirname $0) #tarpeellinen?
-debug=0
+debug=0 #1
 tgtfile=""
-distro=$(cat /etc/devuan_version)
-n=$(whoami)
+distro=$(cat /etc/devuan_version) #tarpeellinen tässä
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -39,7 +37,6 @@ esac
 dqb "mode= ${mode}"
 dqb "distro=${distro}"
 dqb "file=${tgtfile}"
-#exit
 [ z"${distro}" == "z" ] && exit 6
 
 if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ]; then
@@ -67,6 +64,7 @@ else
 	check_binaries2
 fi
 
+dqb "tar = ${srat} "
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 
@@ -117,8 +115,9 @@ function pre() {
 	fi
 }
 
-#TODO:glob muutt pois jatqssa jos mahd
 function pre2() {
+	debug=1
+	dqb "pre2( ${1}, ${2})" #WTIN KAARISULKEET STNA
 	[ x"${1}" == "z" ] && exit 666
 
 	if [ -d ~/Desktop/minimize/${1} ] ; then
@@ -165,13 +164,20 @@ function tp1() {
 
 		tget=$(ls ~/.mozilla/firefox/ | grep default-esr | tail -n 1)
 		p=$(pwd)
+
+		${odio} touch ./rnd
+		${sco} ${n}:${n} ./rnd
+		${scm} 0644 ./rnd
+		dd if=/dev/random bs=6 count=1 > ./rnd
+
 		cd ~/.mozilla/firefox/${tget}
 		dqb "TG3T=tget"		
 		csleep 2
 
 		#HUOM: cd tuossa yllä, onko tarpeen? ehkä on
-		#TODO:pitäIsi ensin luoda se tar ennenq alkaa lisäämään
-		for f in $(find . -name '*.js') ; do ${rat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
+		
+		${srat} -cvf  ~/Desktop/minimize/someparam.tar ${p}/rnd
+		for f in $(find . -name '*.js') ; do ${srat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
 		#*.js ja *.json kai oleellisimmat kalat
 		cd ${p}
 	fi
@@ -211,6 +217,7 @@ function rmt() {
 	dqb "rmt d0n3"
 }
 
+#TODO:kutsuva koodi muodostamaan erillisen paketin mikä sitten mukaan muissa tp()-fktioissa, esim. tp1()
 function tp4() {
 	dqb "tp4( ${1} , ${2} )"
 	
@@ -229,6 +236,9 @@ function tp4() {
 	fi
 
 	dqb "EDIBLE AUTOPSY"
+	${fib}
+	${asy}
+	csleep 3
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 
@@ -266,16 +276,16 @@ function tp4() {
 	csleep 3
 	${lftr}
 
-	#VAIH:vetämään:paketti wpasupplicant jos konf niin vaatii?
 	case ${iface} in
 		wlan0)
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-			#toivottavasti ei libdbus sotke mitään
-			${shary} libdbus-1-3 libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3
+			#toivottavasti ei libdbus sotke mitään ${shary} libdbus-1-3 toistaiseksi jemmaan 280425
+			
+			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3 adduser
 			${shary} wpasupplicant
 		;;
 		*)
-			dqb "not pulinh wpasuplicant"
+			dqb "not pulling wpasuplicant"
 			csleep 4
 		;;
 	esac
@@ -299,8 +309,10 @@ function tp2() {
 	dqb "params_ok"
 	csleep 4
 
-	${srat} -rf ${1} /etc/iptables /etc/network/interfaces*
-	#VAIH:/etc/wpa* mukaan jos tarttee (iface==wlan0)
+	#HUOM.30425:koklataan josko sittenkin pelkkä /e/n/interfaces riittäisi koska a) ja b)
+	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?	
+	${srat} -rf ${1} /etc/iptables /etc/network/interfaces #*
+	
 	case ${iface} in
 		wlan0)
 			${srat} -rf ${1} /etc/wpa*
@@ -354,6 +366,7 @@ function tp3() {
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 
 	#HUOM.310325:jostain erityisestä syystä kommenteissa?
+	#280425: varm vuoksi takqaisin kommentteihin?
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
@@ -368,6 +381,8 @@ function tp3() {
 }
 
 function tpu() {
+	debug=1	
+
 	dqb "tpu( ${1}, ${2})"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] && mv ${1} ${1}.OLD
@@ -376,26 +391,19 @@ function tpu() {
 	dqb "params_ok"
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
-	${NKVD} ${pkgdir}/*.deb
+	${NKVD} ${pkgdir}/*.deb #toimiiko tuo vai ei?
 	dqb "TUP PART 2"
-
-	if [ "${distro}" == "chimaera" ] ; then 
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-		${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 
-		${shary} iptables 	
-		${shary} iptables-persistent init-system-helpers netfilter-persistent
-
-		pre2 ${2} #vissiin tarvitsi tämän
-	fi
 
 	${sag} upgrade -u
 	echo $?
 	csleep 5	
 
-	#VAIH:kts tp4(), l. mv:n jölkeen paikanpitäjä tar:iin ja sen jälkeen rmk()
+	#30425:kuseekohan tuossa jokin? wpasupplicantin poisto melkein johti xorgin poistoon...
+	udp6
+
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
-	date > 	~/Desktop/minimize/${2}/tim3stamp
+	date > ~/Desktop/minimize/${2}/tim3stamp
 	${srat} -cf ${1} ~/Desktop/minimize/${2}/tim3stamp
 	rmt ${1} ${2}
 
@@ -403,7 +411,11 @@ function tpu() {
 	dqb "SIELUNV1H0LL1N3N"
 }
 
+#TODO:-v tekemään jotain hyödyllistä
+
 function tp5() {
+	debug=1
+
 	dqb "tp5 ${1} ${2}"
 	[ z"${1}" == "z" ] && exit 99
 	[ -s ${1} ] || exit 98
@@ -429,8 +441,28 @@ function tp5() {
 dqb "mode= ${mode}"
 pre ${distro}
 
+#VAIH:JATKOSSA DEB-PAKETIT ERILLISEEN ARKISTOON ELLEI ERIKSEEN PYYDETÄ!!! KENTIES PIENBEMPI SÄÄTÖ NIIN PÄIN
 case ${mode} in
 	0)
+		pre ${distro}
+		pre2 ${distro}		
+
+		tp3 ${tgtfile} ${distro}
+		[ -f ~/Desktop/minimize/${distro}/e.tar ] && ${NKVD} ~/Desktop/minimize/${distro}/e.tar
+		
+		${odio} touch ./rnd
+		${sco} ${n}:${n} ./rnd
+		${scm} 0644 ./rnd
+		dd if=/dev/random bs=6 count=1 > ./rnd
+
+		${srat} -cvf ~/Desktop/minimize/${distro}/e.tar ./rnd
+		tp4 ~/Desktop/minimize/${distro}/e.tar ${distro} #${tgtfile} ${distro}
+
+		tp1 ${tgtfile} ${distro}
+		pre ${distro}
+		tp2 ${tgtfile} ${distro}
+	;;
+	2)
 		tp1 ${tgtfile} ${distro}
 
 		pre ${distro}
@@ -462,3 +494,4 @@ case ${mode} in
 	;;
 esac
 
+#TODO:-h
