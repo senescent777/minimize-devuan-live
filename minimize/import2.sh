@@ -117,7 +117,7 @@ fi
 dqb "b3f0r3 par51ng tha param5"
 csleep 5
 
-#glorified "tar -x" is this functiuon 
+#glorified "tar -x" is this function - Yoda
 function common_part() {
 	dqb "common_part()"
 	[ y"${1}" == "y" ] && exit 1
@@ -184,7 +184,7 @@ case "${1}" in
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
-	0)
+	0|2) #VAIH:uusi case, missä e.tar purq
 		#HUOM.21035: joskohan uuden päivityspaketin kanssa olisi nalkutukset poistettu
 
 		[ x"${file}" == "x" ] && exit 55
@@ -200,6 +200,9 @@ case "${1}" in
 		csleep 2
 
 		common_part ${file} ${distro}
+
+		#... ELI TÄHÄN SE tar -xvf e.tar
+		[ ${1} -eq 0 ] && common_part ~/Desktop/minimize/${distro}/e.tar ${distro}
 
 		pre_part3 ~/Desktop/minimize/${distro}
 		pr4 ~/Desktop/minimize/${distro}

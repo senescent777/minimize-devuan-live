@@ -217,7 +217,7 @@ function rmt() {
 	dqb "rmt d0n3"
 }
 
-#TODO:kutsuva koodi muodostamaan erillisen paketin mikä sitten mukaan muissa tp()-fktioissa, esim. tp1()
+#VAIH:kutsuva koodi muodostamaan erillisen paketin mikä sitten mukaan muissa tp()-fktioissa, esim. tp1()
 function tp4() {
 	dqb "tp4( ${1} , ${2} )"
 	
@@ -374,7 +374,7 @@ function tp3() {
 	${srat} -rf ${1} ./etc ./sbin 
 	
 	cd ${p}
-	${sifd} ${iface}
+	#${sifd} ${iface}
 
 	dqb "tp3 done"
 	csleep 3
@@ -447,14 +447,15 @@ case ${mode} in
 		pre ${distro}
 		pre2 ${distro}		
 
-		tp3 ${tgtfile} ${distro}
-		[ -f ~/Desktop/minimize/${distro}/e.tar ] && ${NKVD} ~/Desktop/minimize/${distro}/e.tar
-		
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
 		${scm} 0644 ./rnd
 		dd if=/dev/random bs=6 count=1 > ./rnd
 
+		${srat} -cvf ${tgtfile} ./rnd
+		tp3 ${tgtfile} ${distro}
+
+		[ -f ~/Desktop/minimize/${distro}/e.tar ] && ${NKVD} ~/Desktop/minimize/${distro}/e.tar
 		${srat} -cvf ~/Desktop/minimize/${distro}/e.tar ./rnd
 		tp4 ~/Desktop/minimize/${distro}/e.tar ${distro} #${tgtfile} ${distro}
 
