@@ -32,6 +32,8 @@ function udp6() {
 	${shary} iptables 	
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 	pre2 ${2} #vissiin tarvitsi tämän
+
+	#avahi-exim roskikseen tässä?
 }
 
 dqb "BIL-UR-SAG"
