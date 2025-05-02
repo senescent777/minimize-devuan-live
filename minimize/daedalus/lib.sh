@@ -78,14 +78,21 @@ udp6() {
 	${smr} ${pkgdir}/libpython3.11*
 	${smr} ${pkgdir}/librsvg2*
 
-	#TODO:kts part2
+	#TODO:kts part2 (?)
 	${smr} ${pkgdir}/avahi*
 	${smr} ${pkgdir}/blu*
 	${smr} ${pkgdir}/cups*
 	${smr} ${pkgdir}/exim*
-	${smr} ${pkgdir}/nfs*
 
-	${smr} ${pkgdir}/wpa*
+	case ${iface} in
+		wlan0)
+			dqb "NOT REMOVING WPASUPPLICANT"
+			csleep 6
+		;;
+		*)
+			${smr} ${pkgdir}/wpa*
+		;;
+	esac
 }
 
 check_binaries ${distro}

@@ -89,7 +89,7 @@ ${ip6tr} /etc/iptables/rules.v6
 ${iptr} /etc/iptables/rules.v4
 
 #TODO:prof-kikkailu aiemmaksi
-#HUOM.30425:jospa vaikka toimisi (TODO:profs.sh siirto takaisin lähteeseen)
+
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh 
 	. ~/Desktop/minimize/profs.sh
