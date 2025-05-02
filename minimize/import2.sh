@@ -184,7 +184,7 @@ case "${1}" in
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
-	0|2) #VAIH:uusi case, missä e.tar purq
+	0|3) #VAIH:uusi case, missä e.tar purq
 		#HUOM.21035: joskohan uuden päivityspaketin kanssa olisi nalkutukset poistettu
 
 		[ x"${file}" == "x" ] && exit 55
@@ -200,8 +200,6 @@ case "${1}" in
 		csleep 2
 
 		common_part ${file} ${distro}
-
-		#... ELI TÄHÄN SE tar -xvf e.tar
 		[ ${1} -eq 0 ] && common_part ~/Desktop/minimize/${distro}/e.tar ${distro}
 
 		pre_part3 ~/Desktop/minimize/${distro}

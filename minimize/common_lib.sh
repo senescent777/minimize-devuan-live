@@ -163,6 +163,16 @@ function check_binaries() {
 	iptr=$(sudo which iptables-restore)
 	ip6tr=$(sudo which ip6tables-restore)
 
+	if [ -s ~/Desktop/minimize/tar-wrapper.sh ] ; then
+		dqb "TODO: tar-wrapper.sh"
+	else
+		srat=$(sudo which tar)
+
+		if [ ${debug} -eq 1 ] ; then
+			srat="${srat} -v "
+		fi
+	fi
+
 	if [ y"${ipt}" == "y" ] ; then
 		[ z"${1}" == "z" ] && exit 99
 		[ -d ~/Desktop/minimize/${1} ] || exit 100
@@ -177,10 +187,16 @@ function check_binaries() {
 		local f		
 		f=$(date +%F)
 
-		#sittenkin -s ?		
-		[ -f /etc/iptables/rules.v4.${f}.${dnsm} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v4.${f}.${dnsm}
-		[ -f /etc/iptables/rules.v6.${f}.${dnsm} ] || ${spc} /etc/iptables/rules.v6 /etc/iptables/rules.v6.${f}.${dnsm}
-		#VAIH:changedns vastaava kohta tarttisiko muuttaa? no muutettu kuitenkin 250425 
+		#sittenkin -s ?	
+		
+		#HUOM.020525:onkohan tssä jokin ongelma? no sudo puuttui ainakin	
+		[ -s /etc/iptables/rules.v4.${dnsm} ] || ${odio} ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v4.${dnsm}
+		[ -s /etc/iptables/rules.v6.${dnsm} ] || ${odio} ${spc} /etc/iptables/rules.v6 /etc/iptables/rules.v6.${dnsm}
+		
+		if [ -s ~/Desktop/minimize/${1}/e.tar ] ; then
+			${odio} ${srat} -C / -xf ~/Desktop/minimize/${1}/e.tar 
+			${odio} ${NKVD} ~/Desktop/minimize/${1}/e.tar  
+		fi
 
 		psqa ~/Desktop/minimize/${1}
 		#HUOM.tässä kohtaa jos nalkuttaisi syytä kysymykseen vastaamisesta kanssa	
@@ -222,20 +238,8 @@ function check_binaries() {
 	sa=$(sudo which apt)
 	sip=$(sudo which ip)
 	snt=$(sudo which netstat)
-
-	if [ -s ~/Desktop/minimize/tar-wrapper.sh ] ; then
-		dqb "TODO: tar-wrapper.sh"
-	else
-		srat=$(sudo which tar)
-
-		if [ ${debug} -eq 1 ] ; then
-			srat="${srat} -v "
-		fi
-	fi
-
 	som=$(sudo which mount)
 	uom=$(sudo which umount)
-
 	dqb "b1nar135 0k" 
 	csleep 3
 }
@@ -251,7 +255,7 @@ function check_binaries2() {
 	whack="${odio} ${whack} --signal 9 "
 	snt="${odio} ${snt} "
 	sharpy="${odio} ${sag} remove --purge --yes "
-	spd="${odio} ${sdi} -l "
+	spd="${odio} ${sdi} -l " #käytössä?
 	sdi="${odio} ${sdi} -i "
 
 	#HUOM. ${sag} VIIMEISENÄ
@@ -517,6 +521,26 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE (maybe i have tourettes)"
 }
 
+function part175() {
+	dqb "PART175()"
+	csleep 3	
+
+	for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ; do
+		${odio} /etc/init.d/${s} stop
+		sleep 1
+	done
+
+	dqb "shutting down some services (4 real) in 3 secs"
+	sleep 3 
+
+	${whack} cups*
+	${whack} avahi*
+	${whack} dnsmasq*
+	${whack} stubby*
+	${whack} nm-applet
+	csleep 3
+}
+
 function part2() {
 	debug=1
 	#HUOM.removepkgs-jutut voisivat olla tässä fktiossakin, kai
@@ -647,26 +671,6 @@ function vommon() {
 	else
 		dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
 	fi
-}
-
-function part175() {
-	dqb "PART175()"
-	csleep 3	
-
-	for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ; do
-		${odio} /etc/init.d/${s} stop
-		sleep 1
-	done
-
-	dqb "shutting down some services (4 real) in 3 secs"
-	sleep 3 
-
-	${whack} cups*
-	${whack} avahi*
-	${whack} dnsmasq*
-	${whack} stubby*
-	${whack} nm-applet
-	csleep 3
 }
 
 dqb "common_l1b_l0ad3d_5ucc35fully"

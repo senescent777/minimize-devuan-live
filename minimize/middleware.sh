@@ -7,4 +7,7 @@ function whack() {
 function prepare() {
 	tmpdir=$(mktemp -d)
 	[ -s ${1} ] && tar -C ${tmpdir} -xvf ${1}
+
+	#jotain nalkutusta saattaa tulla
+	${svm} ${tmpdir}/prefs.js ${tmpdir}/user.js
 }

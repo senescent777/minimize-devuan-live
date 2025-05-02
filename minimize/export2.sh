@@ -458,12 +458,13 @@ case ${mode} in
 		[ -f ~/Desktop/minimize/${distro}/e.tar ] && ${NKVD} ~/Desktop/minimize/${distro}/e.tar
 		${srat} -cvf ~/Desktop/minimize/${distro}/e.tar ./rnd
 		tp4 ~/Desktop/minimize/${distro}/e.tar ${distro} #${tgtfile} ${distro}
+		#sifd voisi olla yässä		
 
 		tp1 ${tgtfile} ${distro}
 		pre ${distro}
 		tp2 ${tgtfile} ${distro}
 	;;
-	2)
+	3)
 		tp1 ${tgtfile} ${distro}
 
 		pre ${distro}
