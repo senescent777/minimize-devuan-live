@@ -1,11 +1,9 @@
 #!/bin/bash
 debug=0
 file=""
-distro=$(cat /etc/devuan_version) #tämjä tarvitaan toistaiseksi
-#joitain oletusarvoja
+distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 dir=/mnt
 part0=ABCD-1234
-#n=$(whoami)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -59,7 +57,6 @@ mode=${1}
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "file=${file}"
-#exit
 
 if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ] ; then
 	. ~/Desktop/minimize/${distro}/conf
@@ -94,16 +91,17 @@ fi
 if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then
 	. ~/Desktop/minimize/${distro}/lib.sh
 else
+	#TODO:josko testaisi tilanteen missä $distro/{conf,lib} puuttuvat
 	echo $?
 	csleep 1
 
 	check_binaries ${distro}
-	#[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia?
+	[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia?
 	echo $?
 	csleep 1
 
 	check_binaries2
-	#[ $? -eq 0 ] || exit 8
+	[ $? -eq 0 ] || exit 8
 	csleep 1
 fi
 
@@ -117,7 +115,7 @@ fi
 dqb "b3f0r3 par51ng tha param5"
 csleep 5
 
-#glorified "tar -x" is this function - Yoda
+#glorified "tar -x" this function is - Yoda
 function common_part() {
 	dqb "common_part()"
 	[ y"${1}" == "y" ] && exit 1
@@ -143,11 +141,9 @@ function common_part() {
 	
 	if [ -d ~/Desktop/minimize/${2} ] ; then 
 		dqb "HAIL UKK"
-
 		${scm} 0755 ~/Desktop/minimize/${2}
 		${scm} a+x ~/Desktop/minimize/${2}/*.sh
 		${scm} 0444 ~/Desktop/minimize/${2}/conf*
-
 		${scm} 0444 ~/Desktop/minimize/${2}/*.deb
 		csleep 3
 	fi
@@ -184,9 +180,7 @@ case "${1}" in
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
-	0|3) #VAIH:uusi case, missä e.tar purq
-		#HUOM.21035: joskohan uuden päivityspaketin kanssa olisi nalkutukset poistettu
-
+	0|3)
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 2
@@ -204,7 +198,6 @@ case "${1}" in
 
 		pre_part3 ~/Desktop/minimize/${distro}
 		pr4 ~/Desktop/minimize/${distro}
-
 		part3 ~/Desktop/minimize/${distro}
 		csleep 2
 

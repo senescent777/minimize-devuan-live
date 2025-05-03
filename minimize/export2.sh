@@ -173,8 +173,6 @@ function tp1() {
 		cd ~/.mozilla/firefox/${tget}
 		dqb "TG3T=tget"		
 		csleep 2
-
-		#HUOM: cd tuossa yllä, onko tarpeen? ehkä on
 		
 		${srat} -cvf  ~/Desktop/minimize/someparam.tar ${p}/rnd
 		for f in $(find . -name '*.js') ; do ${srat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
@@ -207,8 +205,7 @@ function rmt() {
  		
 	${sah6} ./*.deb > ./sha512sums.txt
 	csleep 3
-
-	psqa . #vaiko toisella tavalla?
+	psqa .
 
 	${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb ~/Desktop/minimize/${2}/sha512sums.txt
 	csleep 1
@@ -217,7 +214,6 @@ function rmt() {
 	dqb "rmt d0n3"
 }
 
-#VAIH:kutsuva koodi muodostamaan erillisen paketin mikä sitten mukaan muissa tp()-fktioissa, esim. tp1()
 function tp4() {
 	dqb "tp4( ${1} , ${2} )"
 	
@@ -251,7 +247,6 @@ function tp4() {
 	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
-
 		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
 		${lftr} 
 
@@ -359,6 +354,7 @@ function tp3() {
 	cd project
 
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.OLD
+	#HUOM.030525:resolv.conf kanssa hämminkiä, tarttiskohan tehrä jotain?
 	${spc} /etc/resolv.conf ./etc/resolv.conf.OLD
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.OLD
 
@@ -374,8 +370,6 @@ function tp3() {
 	${srat} -rf ${1} ./etc ./sbin 
 	
 	cd ${p}
-	#${sifd} ${iface}
-
 	dqb "tp3 done"
 	csleep 3
 }
@@ -441,7 +435,6 @@ function tp5() {
 dqb "mode= ${mode}"
 pre ${distro}
 
-#VAIH:JATKOSSA DEB-PAKETIT ERILLISEEN ARKISTOON ELLEI ERIKSEEN PYYDETÄ!!! KENTIES PIENBEMPI SÄÄTÖ NIIN PÄIN
 case ${mode} in
 	0)
 		pre ${distro}
@@ -457,8 +450,8 @@ case ${mode} in
 
 		[ -f ~/Desktop/minimize/${distro}/e.tar ] && ${NKVD} ~/Desktop/minimize/${distro}/e.tar
 		${srat} -cvf ~/Desktop/minimize/${distro}/e.tar ./rnd
-		tp4 ~/Desktop/minimize/${distro}/e.tar ${distro} #${tgtfile} ${distro}
-		#sifd voisi olla yässä		
+		tp4 ~/Desktop/minimize/${distro}/e.tar ${distro} #${tgtfile} ${distro}	
+		${sifd} ${iface}
 
 		tp1 ${tgtfile} ${distro}
 		pre ${distro}

@@ -186,8 +186,6 @@ function check_binaries() {
 		#HUOM.310325:lisätäännyt vielä tbls-sääntöjen vkopiointi , varm vuoksi
 		local f		
 		f=$(date +%F)
-
-		#sittenkin -s ?	
 		
 		#HUOM.020525:onkohan tssä jokin ongelma? no sudo puuttui ainakin	
 		[ -s /etc/iptables/rules.v4.${dnsm} ] || ${odio} ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v4.${dnsm}
@@ -438,7 +436,7 @@ function enforce_access() {
 	[ -f /etc/iptables/rules.v4.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v4.${f}
 	[ -f /etc/iptables/rules.v6.${f} ] || ${spc} /etc/iptables/rules.v4 /etc/iptables/rules.v6.${f}
 
-	#050425 lisättyjä seur. blokki, uuaittu 1205425
+	#050425 lisättyjä seur. blokki, uusittu 1205425
 	#joskohan jättäisi rules-jutut changedns:lle ?
 	[ -h /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
 	[ -h /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6
@@ -587,7 +585,6 @@ function part2() {
 	dqb "PART2-3"
 	csleep 10
 
-	#VAIH:kommentoitu blokki käyttöön 
 	if [ y"${ipt}" != "y" ] ; then 
 		${ip6tr} /etc/iptables/rules.v6
 		${iptr} /etc/iptables/rules.v4
