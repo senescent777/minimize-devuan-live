@@ -52,7 +52,7 @@ part175
 #===================================================PART 2===================================
 c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
-#TODO:lib.part2.pre()?
+
 if [ ${removepkgs} -eq 1 ] ; then
 	${sharpy} libopts25
 	${sharpy} rpc* nfs* 
@@ -69,8 +69,7 @@ part3 ${d}
 ecfx
 
 csleep 5
-#TODO:prof-kikkailu aiemmaksi
-#HUOM.30425:pois kommenteista sittenq testattu tarpeeksi
+
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh	
 	. ~/Desktop/minimize/profs.sh
@@ -90,23 +89,6 @@ csleep 3
 
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
-#VAIH:$dnsm käyttööN tähän alle? vaiko mode-riippuvainen exit taas?
+6
 ${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
 csleep 5
-
-##===================================================PART 4(final)==========================================================
-##tulisi olla taas tables toiminnassa tässä kohtaa skriptiä
-#${odio} /etc/init.d/dnsmasq restart
-#${d}/changedns.sh 1
-#ns2 stubby
-#ns4 stubby
-#
-#if [ ${debug} -eq 1 ] ; then 
-#	${snt} -tulpan
-#	sleep 5
-#	pgrep stubby*
-#	sleep 5
-#fi
-#
-#echo "time to ${sifu} ${iface} or whåtever"
-#echo "P.S. if stubby dies, resurrect it with \"restart_stubby.desktop\" "
