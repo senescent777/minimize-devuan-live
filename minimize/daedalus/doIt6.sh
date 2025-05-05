@@ -53,16 +53,18 @@ part1 ${distro}
 part175
 
 #ntp ehkä takaisin myöhemmin
+#TODO:lib.part1_post() ?
 ${whack} ntp*
 csleep 5
 ${odio} /etc/init.d/ntpsec stop
 #K01avahi-jutut sopivaan kohtaan?
 
 #===================================================PART 2===================================
+#TODO:lib.part2.pre()
 ecfx
 csleep 5
 
-if [ ${mode} -eq 1 ] ; then
+if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
 	vommon
 fi
 
@@ -76,11 +78,14 @@ pre_part3 ${d}
 pr4 ${d}
 part3 ${d}
 
+#TODO:lib-part3-post() 
 echo $?
 csleep 3
 
 ${ip6tr} /etc/iptables/rules.v6
 ${iptr} /etc/iptables/rules.v4
+
+#TODO:prof-kikkailu aiemmaksi
 
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh 
