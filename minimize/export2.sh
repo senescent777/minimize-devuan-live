@@ -16,7 +16,7 @@ tgtfile=${2}
 
 case $# in
 	2)
-		dqb "maybe ok"		
+		dqb "maybe ok"
 	;;
 	3)
 		if [ -d ~/Desktop/minimize/${3} ] ; then
@@ -47,7 +47,7 @@ fi
 
 . ~/Desktop/minimize/common_lib.sh
 
-if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then	
+if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then
 	. ~/Desktop/minimize/${distro}/lib.sh
 else
 	echo "L1B M1SSING"
@@ -105,7 +105,7 @@ function pre() {
 			${smr} /etc/apt/sources.list
 			${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list
 		else
-			part1_5 ${1}		
+			part1_5 ${1}
 		fi
 
 		csleep 2
@@ -122,23 +122,22 @@ function pre2() {
 
 	if [ -d ~/Desktop/minimize/${1} ] ; then
 		dqb "PRKL"
-		${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${1}		
+		${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${1}
 		csleep 4
-		
 		${sifu} ${iface}
 		[ ${debug} -eq 1 ] && /sbin/ifconfig
 		csleep 4
 
 		${sco} -Rv _apt:root ${pkgdir}/partial/
 		${scm} -Rv 700 ${pkgdir}/partial/
-		
+
 		${sag_u}
 		csleep 4
 	else
 		echo "P.V.HH"
 		exit 111
 	fi
-} 
+}
 
 function tp1() {
 	dqb "tp1( ${1} , ${2} )"
@@ -171,9 +170,9 @@ function tp1() {
 		dd if=/dev/random bs=6 count=1 > ./rnd
 
 		cd ~/.mozilla/firefox/${tget}
-		dqb "TG3T=tget"		
+		dqb "TG3T=tget"
 		csleep 2
-		
+
 		${srat} -cvf  ~/Desktop/minimize/someparam.tar ${p}/rnd
 		for f in $(find . -name '*.js') ; do ${srat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
 		#*.js ja *.json kai oleellisimmat kalat
@@ -183,26 +182,27 @@ function tp1() {
 	if [ ${debug} -eq 1 ] ; then
 		ls -las ~/Desktop/minimize/; sleep 5
 	fi
-	
-	${srat} -cvf ${1} ~/Desktop/minimize /home/stubby #HUOM.260125: -p wttuun varm. vuoksi  
+
+	${srat} -rvf ${1} ~/Desktop/minimize /home/stubby #HUOM.260125: -p wttuun varm. vuoksi
 	dqb "tp1 d0n3"
 	csleep 3
 }
 
 function rmt() {
+	dqb=1
 	dqb "rmt(${1}, ${2})" #WTUN TYPOT STNA111223456
 	${scm} 0444 ~/Desktop/minimize/${2}/*.deb
 	p=$(pwd)
 
 	cd ~/Desktop/minimize/${2}
-	[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt		
+	[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt
 	csleep 3
 
 	touch ./sha512sums.txt
 	chown $(whoami):$(whoami) ./sha512sums.txt
 	chmod 0644 ./sha512sums.txt
 	[ ${debug} -eq 1 ] && ls -las sha*;sleep 6
- 		
+
 	${sah6} ./*.deb > ./sha512sums.txt
 	csleep 3
 	psqa .
@@ -210,18 +210,19 @@ function rmt() {
 	${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb ~/Desktop/minimize/${2}/sha512sums.txt
 	csleep 1
 	cd ${p}
-	
+
 	dqb "rmt d0n3"
 }
 
 function tp4() {
+	dqb=1
 	dqb "tp4( ${1} , ${2} )"
-	
+
 	[ z"${1}" == "z" ] && exit 1
 	[ -s ${1} ] || exit 2
-	
+
 	[ z"${2}" == "z" ] && exit 11
-	[ -d  ~/Desktop/minimize/${2} ] || exit 22
+	[ -d ~/Desktop/minimize/${2} ] || exit 22
 
 	dqb "paramz_ok"
 	csleep 3
@@ -236,9 +237,12 @@ function tp4() {
 	${asy}
 	csleep 3
 
+	#VAIH:sudo mukaan
+	${shary} man-db sudo
+
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 
-	${shary} iptables 	
+	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
+	${shary} iptables
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 
 	#actually necessary
@@ -263,11 +267,11 @@ function tp4() {
 	${lftr} 
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
-	#${shary} mktemp
+	#${shary} mktemp #tämän kanssa jotain distro-spesifistä säätöä?
 	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 zlib1g 
 	${shary} git-man git
 
-	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"	
+	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
 	csleep 3
 	${lftr}
 
@@ -275,7 +279,7 @@ function tp4() {
 		wlan0)
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
 			#toivottavasti ei libdbus sotke mitään ${shary} libdbus-1-3 toistaiseksi jemmaan 280425
-			
+
 			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3 adduser
 			${shary} wpasupplicant
 		;;
@@ -297,17 +301,19 @@ function tp4() {
 	csleep 3
 }
 
+#VAIH:varmista että ao. kalat tulevat mukaan
 function tp2() {
+	debug=1
 	dqb "tp2 ${1} ${2}"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
 	dqb "params_ok"
-	csleep 4
+	csleep 5
 
 	#HUOM.30425:koklataan josko sittenkin pelkkä /e/n/interfaces riittäisi koska a) ja b)
-	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?	
+	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?
 	${srat} -rf ${1} /etc/iptables /etc/network/interfaces #*
-	
+
 	case ${iface} in
 		wlan0)
 			${srat} -rf ${1} /etc/wpa*
@@ -323,6 +329,7 @@ function tp2() {
 		${srat} -rf ${1} /etc/sudoers.d/meshuggah
 	fi
 
+	#TODO:ao. 2 riviä vain tarvittaessa ($dnsm)
 	local f;for f in $(find /etc -type f -name 'stubby*') ; do ${srat} -rf ${1} ${f} ; done
 	for f in $(find /etc -type f -name 'dns*') ; do ${srat} -rf ${1} ${f} ; done
 
@@ -330,16 +337,18 @@ function tp2() {
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 
 	dqb "tp2 done"
-	csleep 3
+	csleep 5
 }
 
+#VAIH:varmista että nämäkin ao. kalat tulevat mukaan
 function tp3() {
+	debug=1
 	dqb "tp3 ${1} ${2}"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
-	
+
 	dqb "paramz_0k"
-	csleep 3
+	csleep 5
 
 	local p
 	local q	
@@ -351,6 +360,8 @@ function tp3() {
 
 	${tig} clone https://github.com/senescent777/project.git
 	[ $? -eq 0 ] || exit 66
+	dqb "TP3 PT2"
+	csleep 10
 	cd project
 
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.OLD
@@ -367,11 +378,12 @@ function tp3() {
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
 	${scm} -R a-w ./sbin
-	${srat} -rf ${1} ./etc ./sbin 
-	
+	${srat} -rvf ${1} ./etc ./sbin 
+
+	echo $?
 	cd ${p}
 	dqb "tp3 done"
-	csleep 3
+	csleep 6
 }
 
 function tpu() {
@@ -385,12 +397,12 @@ function tpu() {
 	dqb "params_ok"
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
-	${NKVD} ${pkgdir}/*.deb #toimiiko tuo vai ei?
+	${NKVD} ${pkgdir}/*.deb #toimiiko tuo NKVD vai ei?
 	dqb "TUP PART 2"
 
 	${sag} upgrade -u
 	echo $?
-	csleep 5	
+	csleep 5
 
 	#30425:kuseekohan tuossa jokin? wpasupplicantin poisto melkein johti xorgin poistoon...
 	udp6
@@ -438,7 +450,7 @@ pre ${distro}
 case ${mode} in
 	0)
 		pre ${distro}
-		pre2 ${distro}		
+		pre2 ${distro}
 
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
@@ -461,7 +473,7 @@ case ${mode} in
 		tp1 ${tgtfile} ${distro}
 
 		pre ${distro}
-		pre2 ${distro}		
+		pre2 ${distro}
 		tp3 ${tgtfile} ${distro}
 
 		pre ${distro}

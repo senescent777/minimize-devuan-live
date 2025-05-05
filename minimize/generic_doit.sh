@@ -52,10 +52,11 @@ part175
 part1_post
 
 #===================================================PART 2===================================
-part2_pre
+part2_pre #TODO:tähän tuon ao. blokin lisäksi vommon():in kutsu kahdella ehdolla (kts daedalus/doit6)
 c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
 
+#TODO:kuuluisi kai part2_pre()
 if [ ${removepkgs} -eq 1 ] ; then
 	${sharpy} libopts25
 	${sharpy} rpc* nfs* 
