@@ -1,8 +1,4 @@
-##!/bin/bash
-debug=1
-#. ~/Desktop/minimize/middleware.sh
-#VAIH:jatkossa vähän toisin nämä asiat
-
+#TODO:päivitys toiseen lähteeseen kanssa
 cprof_1_1() {
 	
 
@@ -12,8 +8,6 @@ cprof_1_1() {
 			if [ -d /home/$1/.mozilla ] ; then
 				sudo shred /home/$1/.mozilla/*
 				sudo rm -rf /home/$1/.mozilla 
-	
-			#else
 			fi
 	
 	
@@ -68,7 +62,6 @@ cprof_1_3() {
 		
 		if [ x"${tget}" != "x" ] ; then 
 			cd ${tget}
-		#else
 		fi
 
 	if [ x"${tmpdir}" != "x" ] ; then
@@ -129,7 +122,3 @@ copyprof() {
 	fi
 
 }
-
-#vähän toisella tyylillä jatkossa
-#prepare $3
-#copyprof $1 $2

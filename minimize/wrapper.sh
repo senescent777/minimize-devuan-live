@@ -27,6 +27,7 @@ case ${1} in
 		echo "${d}/import2.sh 2"
 	;;
 	doit)
+		#TODO:jatkossa generic_doit
 		${d}/${distro}/doIt6.sh
 	;;
 	pt2)
