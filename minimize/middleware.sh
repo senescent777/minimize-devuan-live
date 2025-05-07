@@ -4,9 +4,14 @@ function whack() {
 }
 
 function prepare() {
+	local tmpdir
 	tmpdir=$(mktemp -d)
+	[ $? -gt 0 ] && exit
+
 	#[ -s ${1} ] && tar -C ${tmpdir} -xvf ${1}
 	[ -s ${1} ] && ${srat} -C ${tmpdir} -xf ${1}
+	[ -d ${tmpdir}/home ] && ${smr} ${tmpdir}/home
+	[ -f ${tmpdir}/.rnd ] && ${smr} ${tmpdir}/.rnd
 
 	#jotain nalkutusta saattaa tulla
 	#${svm} ${tmpdir}/prefs.js ${tmpdir}/user.js
