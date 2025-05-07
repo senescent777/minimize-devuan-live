@@ -445,6 +445,15 @@ function enforce_access() {
 	[ -s /etc/iptables/rules.v6.${dnsm} ] && ${slinky} /etc/iptables/rules.v6.${dnsm} /etc/iptables/rules.v6
 
 	#wpasupplicant:in kanssa myös jotain säätöä?
+
+	#olkoon tässä kunnes keksii paremman sijainnin (export2 saattaa liittyä)
+	if [ -f ~/.ripuli2 ] ; then
+		dqb "KO"
+	else
+		${odio} dpkg-reconfigure locales
+		${odio} dpkg-reconfigure tzdata
+		touch ~/.ripuli2
+	fi
 }
 
 function part1_5() {
