@@ -1,4 +1,5 @@
-#TODO:päivitys toiseen lähteeseen kanssa
+#netscape/mozilla/firefox profiles can be a Pain In the Ass
+#VAIH?:päivitys toiseen lähteeseen kanssa
 cprof_1_1() {
 	
 
@@ -121,4 +122,28 @@ copyprof() {
 		fi
 	fi
 
+}
+
+function exp_prof() {
+	local tget
+	local p
+	local f
+	
+	#TODO:grepattava parametriksi
+	tget=$(ls ~/.mozilla/firefox/ | grep default-esr | tail -n 1)
+	p=$(pwd)
+
+	cd ~/.mozilla/firefox/${tget}
+	dqb "TG3T=${tget}"
+	csleep 2
+
+	${odio} touch ./rnd
+	${sco} ${n}:${n} ./rnd
+	${scm} 0644 ./rnd
+	dd if=/dev/random bs=6 count=1 > ./rnd
+
+	${srat} -cvf ${1} ./rnd
+	for f in $(find . -name '*.js') ; do ${srat} -rf ${1} ${f} ; done
+	#*.js ja *.json kai oleellisimmat kalat
+	cd ${p}
 }

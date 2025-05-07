@@ -161,23 +161,29 @@ function tp1() {
 		local p
 		local f
 		
-		#TODO:josko ao. kikkailut -> profs.js
-		tget=$(ls ~/.mozilla/firefox/ | grep default-esr | tail -n 1)
-		p=$(pwd)
+#		#VAIH:josko ao. kikkailut -> profs.js
+#		tget=$(ls ~/.mozilla/firefox/ | grep default-esr | tail -n 1)
+#		p=$(pwd)
+#
+#		cd ~/.mozilla/firefox/${tget}
+#		dqb "TG3T=${tget}"
+#		csleep 2
+#
+#		${odio} touch ./rnd
+#		${sco} ${n}:${n} ./rnd
+#		${scm} 0644 ./rnd
+#		dd if=/dev/random bs=6 count=1 > ./rnd
+#
+		#${srat} -cvf ~/Desktop/minimize/someparam.tar ./rnd
+		#for f in $(find . -name '*.js') ; do ${srat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
+		##*.js ja *.json kai oleellisimmat kalat
+		#cd ${p}
 
-		cd ~/.mozilla/firefox/${tget}
-		dqb "TG3T=${tget}"
-		csleep 2
-
-		${odio} touch ./rnd
-		${sco} ${n}:${n} ./rnd
-		${scm} 0644 ./rnd
-		dd if=/dev/random bs=6 count=1 > ./rnd
-
-		${srat} -cvf ~/Desktop/minimize/someparam.tar ./rnd
-		for f in $(find . -name '*.js') ; do ${srat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
-		#*.js ja *.json kai oleellisimmat kalat
-		cd ${p}
+		if [ -x ~/Desktop/minimize/profs.sh ] ; then
+			[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh
+			. ~/Desktop/minimize/profs.sh
+			exp_prof ~/Desktop/minimize/someparam.tar
+		fi
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
