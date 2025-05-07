@@ -502,6 +502,14 @@ case ${mode} in
 	f)
 		rmt ${tgtfile} ${distro}
 	;;
+	-h)
+		echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
+		echo "$0 3 <tgtfile> [distro] [-v]: makes the main pkg (old way)"
+		echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
+		echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
+		echo "$0 f <tgtfile> [distro] [-v]: archives .deb files"
+		echo "$0 -h: shows this message about usage"		
+	;;
 esac
 
-#TODO:-h
+#VAIH:-h
