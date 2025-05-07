@@ -164,17 +164,17 @@ function tp1() {
 		tget=$(ls ~/.mozilla/firefox/ | grep default-esr | tail -n 1)
 		p=$(pwd)
 
+		cd ~/.mozilla/firefox/${tget}
+		dqb "TG3T=tget"
+		csleep 2
+
+		#VAIH:-cvf toisella tavalla, täyte illman alihakemistoa
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
 		${scm} 0644 ./rnd
 		dd if=/dev/random bs=6 count=1 > ./rnd
 
-		cd ~/.mozilla/firefox/${tget}
-		dqb "TG3T=tget"
-		csleep 2
-
-		#TODO:-cvf toisella tavalla, täyte illman alihakemistoa
-		${srat} -cvf  ~/Desktop/minimize/someparam.tar ${p}/rnd
+		${srat} -cvf ~/Desktop/minimize/someparam.tar ./rnd
 		for f in $(find . -name '*.js') ; do ${srat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
 		#*.js ja *.json kai oleellisimmat kalat
 		cd ${p}
