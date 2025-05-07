@@ -330,9 +330,10 @@ function tp2() {
 		${srat} -rf ${1} /etc/sudoers.d/meshuggah
 	fi
 
-	#TODO:ao. 2 riviä vain tarvittaessa ($dnsm)
-	local f;for f in $(find /etc -type f -name 'stubby*') ; do ${srat} -rf ${1} ${f} ; done
-	for f in $(find /etc -type f -name 'dns*') ; do ${srat} -rf ${1} ${f} ; done
+	if [ ${dnsm} -eq 1 ] ; then
+		local f;for f in $(find /etc -type f -name 'stubby*') ; do ${srat} -rf ${1} ${f} ; done
+		for f in $(find /etc -type f -name 'dns*') ; do ${srat} -rf ${1} ${f} ; done
+	fi
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
