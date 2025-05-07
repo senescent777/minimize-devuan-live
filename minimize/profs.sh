@@ -41,7 +41,6 @@ cprof_1_2() {
 			else
 				echo "https://www.youtube.com/watch?v=PjotFePip2M" 
 			fi
-		#else
 		fi
 
 }
@@ -125,12 +124,13 @@ copyprof() {
 }
 
 function exp_prof() {
+	dqb "exp_pros ${1} ${2}"
 	local tget
 	local p
 	local f
 	
-	#TODO:grepattava parametriksi
-	tget=$(ls ~/.mozilla/firefox/ | grep default-esr | tail -n 1)
+	#VAIH:grepattava parametriksi
+	tget=$(ls ~/.mozilla/firefox/ | grep ${2} | tail -n 1)
 	p=$(pwd)
 
 	cd ~/.mozilla/firefox/${tget}

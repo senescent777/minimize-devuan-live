@@ -182,7 +182,7 @@ function tp1() {
 		if [ -x ~/Desktop/minimize/profs.sh ] ; then
 			[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh
 			. ~/Desktop/minimize/profs.sh
-			exp_prof ~/Desktop/minimize/someparam.tar
+			exp_prof ~/Desktop/minimize/someparam.tar default-esr
 		fi
 	fi
 
