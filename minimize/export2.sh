@@ -238,7 +238,14 @@ function tp4() {
 	${asy}
 	csleep 3
 
-	#VAIH:sudo mukaan (ja riippuvuudet)
+	#TODO:testaa
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
+	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
+	
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
+	${shary} libaudit1 libpam0g libselinux1 libpam-modules #zlib1g
+
 	${shary} man-db sudo
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
