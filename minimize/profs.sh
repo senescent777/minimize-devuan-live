@@ -1,5 +1,5 @@
 #netscape/mozilla/firefox profiles can be a Pain In the Ass
-#VAIH?:päivitys toiseen lähteeseen kanssa
+
 cprof_1_1() {
 	
 
