@@ -30,7 +30,7 @@ case $# in
 		[ "${4}" == "-v" ] && debug=1
 	;;
 	*)
-		echo "$0 <mode> <tgtfile> [distro]"
+		echo "-h"
 	;;
 esac
 
@@ -511,5 +511,3 @@ case ${mode} in
 		echo "$0 -h: shows this message about usage"		
 	;;
 esac
-
-#VAIH:-h
