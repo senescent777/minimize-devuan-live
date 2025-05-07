@@ -173,6 +173,7 @@ function tp1() {
 		dqb "TG3T=tget"
 		csleep 2
 
+		#TODO:-cvf toisella tavalla, täyte illman alihakemistoa
 		${srat} -cvf  ~/Desktop/minimize/someparam.tar ${p}/rnd
 		for f in $(find . -name '*.js') ; do ${srat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
 		#*.js ja *.json kai oleellisimmat kalat
@@ -237,7 +238,7 @@ function tp4() {
 	${asy}
 	csleep 3
 
-	#VAIH:sudo mukaan
+	#VAIH:sudo mukaan (ja riippuvuudet)
 	${shary} man-db sudo
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
@@ -301,7 +302,7 @@ function tp4() {
 	csleep 3
 }
 
-#VAIH:varmista että ao. kalat tulevat mukaan
+#VAIH:varmista että ao. kalat tulevat mukaan (vissiin)
 function tp2() {
 	debug=1
 	dqb "tp2 ${1} ${2}"
@@ -312,7 +313,7 @@ function tp2() {
 
 	#HUOM.30425:koklataan josko sittenkin pelkkä /e/n/interfaces riittäisi koska a) ja b)
 	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?
-	${srat} -rf ${1} /etc/iptables /etc/network/interfaces #*
+	${srat} -rf ${1} /etc/iptables /etc/network/interfaces /etc/default/locale
 
 	case ${iface} in
 		wlan0)
@@ -340,7 +341,7 @@ function tp2() {
 	csleep 5
 }
 
-#VAIH:varmista että nämäkin ao. kalat tulevat mukaan
+#VAIH:varmista että nämäkin ao. kalat tulevat mukaan (vissiin)
 function tp3() {
 	debug=1
 	dqb "tp3 ${1} ${2}"
@@ -358,6 +359,7 @@ function tp3() {
 	q=$(mktemp -d)
 	cd ${q}
 
+	#TODO:tuonne /e/d/grub-juttuja
 	${tig} clone https://github.com/senescent777/project.git
 	[ $? -eq 0 ] || exit 66
 	dqb "TP3 PT2"
