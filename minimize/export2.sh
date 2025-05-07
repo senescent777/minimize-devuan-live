@@ -244,13 +244,13 @@ function tp4() {
 	${asy}
 	csleep 3
 
-	#TODO:testaa
+	#VAIH:testaa
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
 	
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
-	${shary} libaudit1 libpam0g libselinux1 libpam-modules #zlib1g
+	${shary} libaudit1 libselinux1 #libpam0g #libpam-modules zlib1g #libpam kanssa oli nalkutusta 080525
 
 	${shary} man-db sudo
 
@@ -379,7 +379,7 @@ function tp3() {
 	cd project
 
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.OLD
-	#HUOM.030525:resolv.conf kanssa hämminkiä, tarttiskohan tehrä jotain?
+	#HUOM.8535:/e/r.conf-tilanne korjattu
 	${spc} /etc/resolv.conf ./etc/resolv.conf.OLD
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.OLD
 

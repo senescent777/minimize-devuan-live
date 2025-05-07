@@ -456,12 +456,17 @@ function enforce_access() {
 
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
-		#TODO:set LC_TIME=smthing;export LC_TIME
-		#TODO:${odio} echo "LC_TIME=smthng" >> /etc/default/locales
+
+		#VAIH:set LC_TIME=smthing;export LC_TIME
+		#VAIH:${odio} echo "LC_TIME=smthng" >> /etc/default/locales
+		#HUOM. tulisi kai tarkistaa mjan olemassaolo+ei-tyhjyys
+		set LC_TIME=${LCF666};export LC_TIME
+		${odio} echo "LC_TIME=${LCF666}" >> /etc/default/locale		
+
 		touch ~/.ripuli2 
 	fi
 
-	#TODO:/e/d/grub-kikkailut tähän ?
+	#TODO:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
 function part1_5() {
