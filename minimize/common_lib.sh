@@ -460,6 +460,8 @@ function enforce_access() {
 		#TODO:${odio} echo "LC_TIME=smthng" >> /etc/default/locales
 		touch ~/.ripuli2 
 	fi
+
+	#TODO:/e/d/grub-kikkailut tähän ?
 }
 
 function part1_5() {
