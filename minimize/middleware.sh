@@ -11,8 +11,8 @@ function prepare() {
 
 	#[ -s ${1} ] && tar -C ${tmpdir} -xvf ${1}
 	[ -s ${1} ] && ${srat} -C ${tmpdir} -xf ${1}
-	[ -d ${tmpdir}/home ] && ${smr} ${tmpdir}/home
-	[ -f ${tmpdir}/.rnd ] && ${smr} ${tmpdir}/.rnd
+	[ -d ${tmpdir}/home ] && ${smr} -rf ${tmpdir}/home
+	[ -f ${tmpdir}/.rnd ] && ${smr} -rf ${tmpdir}/.rnd
 
 	#jotain nalkutusta saattaa tulla
 	#${svm} ${tmpdir}/prefs.js ${tmpdir}/user.js
