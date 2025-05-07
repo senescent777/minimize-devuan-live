@@ -309,7 +309,6 @@ function tp4() {
 	csleep 3
 }
 
-#VAIH:varmista että ao. kalat tulevat mukaan (vissiin)
 function tp2() {
 	debug=1
 	dqb "tp2 ${1} ${2}"
@@ -349,7 +348,6 @@ function tp2() {
 	csleep 5
 }
 
-#VAIH:varmista että nämäkin ao. kalat tulevat mukaan (vissiin)
 function tp3() {
 	debug=1
 	dqb "tp3 ${1} ${2}"
