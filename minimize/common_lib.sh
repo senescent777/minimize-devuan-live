@@ -446,7 +446,7 @@ function enforce_access() {
 
 	#wpasupplicant:in kanssa myös jotain säätöä?
 	${sco} -R root:root /etc/wpa_supplicant
-	${smc} -R a-w /etc/wpa_supplicant
+	${scm} -R a-w /etc/wpa_supplicant
  
 	#olkoon tässä kunnes keksii paremman sijainnin (export2 saattaa liittyä)
 	if [ -f ~/.ripuli2 ] ; then
