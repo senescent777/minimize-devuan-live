@@ -160,15 +160,15 @@ function tp1() {
 		local tget
 		local p
 		local f
-
+		
+		#TODO:josko ao. kikkailut -> profs.js
 		tget=$(ls ~/.mozilla/firefox/ | grep default-esr | tail -n 1)
 		p=$(pwd)
 
 		cd ~/.mozilla/firefox/${tget}
-		dqb "TG3T=tget"
+		dqb "TG3T=${tget}"
 		csleep 2
 
-		#VAIH:-cvf toisella tavalla, täyte illman alihakemistoa
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
 		${scm} 0644 ./rnd
