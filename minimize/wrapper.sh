@@ -27,7 +27,8 @@ case ${1} in
 		echo "${d}/import2.sh 2"
 	;;
 	doit)
-		${d}/${distro}/doIt6.sh
+		#VAIH:jatkossa generic_doit
+		${d}/generic_doit.sh #${distro}/doIt6.sh
 	;;
 	pt2)
 		${d}/${distro}/pt2.sh
