@@ -71,9 +71,10 @@ ecfx
 csleep 5
 
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
-	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh	
 	. ~/Desktop/minimize/profs.sh
-	copyprof ${n} someparam
+	q=$(mktemp -d)
+	${srat} -C ${q} -xvf ~/Desktop/minimize/someparam.tar
+	copyprof esr ${n} ${q}
 fi
 
 #TODO:ehto uusiksi jotenkin?
