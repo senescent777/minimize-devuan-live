@@ -65,6 +65,7 @@ ecfx
 csleep 5
 
 if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
+	el_loco
 	vommon
 fi
 
@@ -91,7 +92,7 @@ if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	. ~/Desktop/minimize/profs.sh
 	q=$(mktemp -d)
 	${srat} -C ${q} -xvf ~/Desktop/minimize/someparam.tar
-	copyprof esr ${n} ${q}
+	imp_prof esr ${n} ${q}
 fi
 
 #TODO:se generic_doit vähitellen
