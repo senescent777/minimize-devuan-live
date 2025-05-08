@@ -448,15 +448,20 @@ function enforce_access() {
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
  
-	el_loco
+	#el_loco
 	#TODO:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
 function el_loco() {
+	dqb "MI LOCO"
+	csleep 4
+
 	#HUOM.8525:olkoon tässä kunnes keksii paremman sijainnin (export2 saattaa liittyä)	
 	local ce
 	ce=$(grep -v '#' /etc/default/locale  | grep LC_TIME | grep -c ${LCF666})
-	
+	echo ${ce}
+	csleep 3
+
 	if [ ${ce} -lt 1 ] ; then 
 		#client-side session_expiration_checks can be a PITA
 
@@ -478,7 +483,9 @@ function el_loco() {
 		ls -las /etc/default/lo*
 		csleep 5
 	fi
-
+	
+	dqb "DN03"
+	csleep 3
 }
 
 function part1_5() {
@@ -681,6 +688,7 @@ function part3() {
 	csleep 2
 }
 
+#tartteeko varsinaista fktiota tätä varten?
 function ecfx() {
 	dqb "echx"
 

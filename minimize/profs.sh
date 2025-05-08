@@ -14,7 +14,6 @@ function cprof_1_1() {
 			${smr} -rf /home/${1}/.mozilla 
 		fi
 	
-	
 		${odio} mkdir -p /home/${1}/.mozilla/firefox
 		${sco} -R ${1}:${1} /home/${1}/.mozilla/firefox
 	fi
@@ -32,7 +31,7 @@ function cprof_1_2() {
 
 	fox=$(sudo which firefox)
 	local tmp
-	tmp=$(grep ${1} /etc/passwd | wc -l) #grep -c 
+	tmp=$(grep -c ${1} /etc/passwd)
 
 	if [ ${tmp} -gt 0 ] ; then 
 		if [ -x ${fox} ] ; then
@@ -125,7 +124,7 @@ function cprof_2_1() {
 	csleep 3
 }
 
-function copyprof() { #TODO:import_prof jatkossa
+function imp_prof() { 
 	#debug=1
 	dqb "cprof ${1} ${2} ${3}"
 	csleep 3

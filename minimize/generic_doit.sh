@@ -53,6 +53,7 @@ part1_post
 
 #===================================================PART 2===================================
 part2_pre #TODO:tähän tuon ao. blokin lisäksi vommon():in kutsu kahdella ehdolla (kts daedalus/doit6)
+#TODO:vommon() yhteydessä el_loco
 c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
 
@@ -74,7 +75,7 @@ if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	. ~/Desktop/minimize/profs.sh
 	q=$(mktemp -d)
 	${srat} -C ${q} -xvf ~/Desktop/minimize/someparam.tar
-	copyprof esr ${n} ${q}
+	imp_prof esr ${n} ${q}
 fi
 
 part3_post

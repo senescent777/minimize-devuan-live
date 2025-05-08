@@ -171,10 +171,13 @@ case "${1}" in
 
 		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh (maybe)"
 	;;
-	#TODO:seur 2 case:a kysymään vafrmistuksen ensin koska X
+	#VAIH:seur 2 case:a kysymään vafrmistuksen ensin koska X
 	1)
 		[ x"${file}" == "x" ] && exit 44
 		[ -s ${file} ] || exit 55
+
+		read -p "U R ABT TO INSTALL ${file} , R U SURE ABOUT THAT?" confirm
+		[ "${confirm}" == "Y" ]  || exit 33
 
 		common_part ${file} ${distro}
 		csleep 3
@@ -194,6 +197,9 @@ case "${1}" in
 		dqb " ${3} ${distro} MN"
 		csleep 2
 
+		read -p "U R ABT TO INSTALL ${file} , R U SURE ABOUT THAT?" confirm
+		[ "${confirm}" == "Y" ]  || exit 33
+
 		common_part ${file} ${distro}
 		[ ${1} -eq 0 ] && common_part ~/Desktop/minimize/${distro}/e.tar ${distro}
 
@@ -210,7 +216,7 @@ case "${1}" in
 			. ~/Desktop/minimize/profs.sh
 			q=$(mktemp -d)
 			${srat} -C ${q} -xvf ~/Desktop/minimize/someparam.tar
-			copyprof esr ${n} ${q}
+			imp_prof esr ${n} ${q}
 		fi
 	;;
 	*)
