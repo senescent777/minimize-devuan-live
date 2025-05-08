@@ -23,8 +23,7 @@ function prepare() {
 	if [ x"${tmpdir}" != "x" ] ; then
 		if [ -d ${tmpdir} ] ; then
 			#kolmaskin komento voisi olla bloki n sisällä
-			[ -d ${tmpdir}/home ] && ${smr} -rf ${tmpdir}/home
-			[ -f ${tmpdir}/.rnd ] && ${smr} -rf ${tmpdir}/.rnd
+			
 		fi
 	fi
 
