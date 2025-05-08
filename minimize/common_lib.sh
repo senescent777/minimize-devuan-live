@@ -448,11 +448,16 @@ function enforce_access() {
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
  
-	#HUOM.8525:olkoon tässä kunnes keksii paremman sijainnin (export2 saattaa liittyä)
-	#vähitellen voisi kyllä erilliseksi fktioksi	
-	if [ -f ~/.ripuli2 ] ; then #HUOM./e/d/locale:n greppaaminen parempi idea q ripulijutut
-		dqb "KO"
-	else
+	el_loco
+	#TODO:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
+}
+
+function el_loco() {
+	#HUOM.8525:olkoon tässä kunnes keksii paremman sijainnin (export2 saattaa liittyä)	
+	local ce
+	ce=$(grep -v '#' /etc/default/locale  | grep LC_TIME | grep -c ${LCF666})
+	
+	if [ ${ce} -lt 1 ] ; then 
 		#client-side session_expiration_checks can be a PITA
 
 		${odio} dpkg-reconfigure locales
@@ -465,7 +470,6 @@ function enforce_access() {
 		${scm} a+w /etc/default/locale
 		csleep 5
 
-		#TODO:tulisi kai tarkistaa onko tuo LC_TIME jo tdstossa
 		${odio} echo "LC_TIME=${LCF666}" >> /etc/default/locale		
 		cat /etc/default/locale
 		csleep 5
@@ -473,11 +477,8 @@ function enforce_access() {
 		${scm} a-w /etc/default/locale
 		ls -las /etc/default/lo*
 		csleep 5
-
-		touch ~/.ripuli2 
 	fi
 
-	#TODO:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
 function part1_5() {
