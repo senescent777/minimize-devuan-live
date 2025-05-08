@@ -5,18 +5,19 @@ function cprof_1_1() {
 	dqb "cprof1 ${1} ${2}"
 	csleep 5
 
-	tmp=$(grep $1 /etc/passwd | wc -l) #TODO:grep -c myös keksitty
+	local tmp
+	tmp=$(grep -c ${1} /etc/passwd)
 
-		if [ $tmp -gt 0 ] ; then 
-			if [ -d /home/$1/.mozilla ] ; then
-				sudo shred /home/$1/.mozilla/*
-				sudo rm -rf /home/$1/.mozilla 
-			fi
-	
-	
-			sudo mkdir -p /home/$1/.mozilla/firefox
-			sudo chown -R $1:$1 /home/$1/.mozilla/firefox
+	if [ $tmp -gt 0 ] ; then 
+		if [ -d /home/$1/.mozilla ] ; then
+			sudo shred /home/$1/.mozilla/*
+			sudo rm -rf /home/$1/.mozilla 
 		fi
+	
+	
+		sudo mkdir -p /home/$1/.mozilla/firefox
+		sudo chown -R $1:$1 /home/$1/.mozilla/firefox
+	fi
 
 	if [ ${debug} -eq 1 ] ; then
 		echo "AFTER MKDIR";sleep 5
