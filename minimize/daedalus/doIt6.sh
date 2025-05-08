@@ -88,11 +88,13 @@ ${iptr} /etc/iptables/rules.v4
 #TODO:prof-kikkailu aiemmaksi
 
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
-	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh 
 	. ~/Desktop/minimize/profs.sh
-	prepare ~/Desktop/minimize/someparam.tar
-	copyprof esr ${n} ~/Desktop/minimize/someparam.tar
+	q=$(mktemp -d)
+	${srat} -C ${q} -xvf ~/Desktop/minimize/someparam.tar
+	copyprof esr ${n} ${q}
 fi
+
+#TODO:se generic_doit vähitellen
 
 #asy-cdns voisi olla yhteistä, jotenkin
 ${asy}
