@@ -165,7 +165,6 @@ function tp1() {
 		if [ -x ~/Desktop/minimize/profs.sh ] ; then
 			dqb "PR0FS.SH F+UND"
 			
-			[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh
 			. ~/Desktop/minimize/profs.sh
 			exp_prof ~/Desktop/minimize/someparam.tar default-esr
 		else

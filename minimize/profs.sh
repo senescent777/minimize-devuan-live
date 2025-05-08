@@ -30,23 +30,23 @@ function cprof_1_2() {
 	dqb "cpfor_12 ${1},${2}"
 
 	fox=$(sudo which firefox)
+	local tmp
+	tmp=$(grep ${1} /etc/passwd | wc -l) #grep -c 
 
-		tmp=$(grep $1 /etc/passwd | wc -l) #grep -c 
-
-		if [ $tmp -gt 0 ] ; then 
-			if [ -x $fox ] ; then
-				cd /home/$1
-				sudo -u $1 $fox&
+	if [ ${tmp} -gt 0 ] ; then 
+		if [ -x ${fox} ] ; then
+			cd /home/${1}
+			${odio} -u ${1} ${fox}&
 	
-				if [ $? -eq 0 ] ; then
-					sleep 5
-					whack firefox-esr 
-					whack firefox 
-				fi
-			else
-				echo "https://www.youtube.com/watch?v=PjotFePip2M" 
+			if [ $? -eq 0 ] ; then
+				sleep 5
+				${whack} firefox-esr 
+				${whack} firefox 
 			fi
+		else
+			echo "https://www.youtube.com/watch?v=PjotFePip2M" 
 		fi
+	fi
 
 	csleep 5
 }
