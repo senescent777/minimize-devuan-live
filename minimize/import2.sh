@@ -171,6 +171,7 @@ case "${1}" in
 
 		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh (maybe)"
 	;;
+	#TODO:seur 2 case:a kysymään vafrmistuksen ensin koska X
 	1)
 		[ x"${file}" == "x" ] && exit 44
 		[ -s ${file} ] || exit 55

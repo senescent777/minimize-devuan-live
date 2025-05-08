@@ -1,11 +1,11 @@
 #netscape/mozilla/firefox profiles can be a Pain In the Ass
 
 function cprof_1_1() {
-	debug=1	
+	#debug=1	
 	dqb "cprof1 ${1} ${2}"
 	csleep 5
 
-		tmp=$(grep $1 /etc/passwd | wc -l) #grep -c myös keksitty
+	tmp=$(grep $1 /etc/passwd | wc -l) #TODO:grep -c myös keksitty
 
 		if [ $tmp -gt 0 ] ; then 
 			if [ -d /home/$1/.mozilla ] ; then
@@ -26,7 +26,7 @@ function cprof_1_1() {
 }
 
 function cprof_1_2() {
-	debug=1
+	#debug=1
 	dqb "cpfor_12 ${1},${2}"
 
 	fox=$(sudo which firefox)
@@ -52,7 +52,7 @@ function cprof_1_2() {
 }
 
 function cprof_1_3() {
-	debug=1
+	#debug=1
 	dqb "cprof13 ${1} ${2} ${3}"
 	csleep 4
 	
@@ -98,7 +98,7 @@ function cprof_1_3() {
 }
 
 function cprof_2_1() {
-	debug=1
+	#debug=1
 	dqb "CPFOR21 ${1} , ${2}"
 	csleep 3
 
@@ -124,8 +124,8 @@ function cprof_2_1() {
 	csleep 3
 }
 
-function copyprof() { #import_prof jatkossa
-	debug=1
+function copyprof() { #TODO:import_prof jatkossa
+	#debug=1
 	dqb "cprof ${1} ${2} ${3}"
 	csleep 3
 	cd /home/${2} 
