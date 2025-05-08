@@ -30,7 +30,7 @@ case $# in
 		[ "${4}" == "-v" ] && debug=1
 	;;
 	*)
-		echo "$0 <mode> <tgtfile> [distro]"
+		echo "-h"
 	;;
 esac
 
@@ -140,6 +140,7 @@ function pre2() {
 }
 
 function tp1() {
+	debug=1
 	dqb "tp1( ${1} , ${2} )"
 	[ z"${1}" == "z" ] && exit
 	dqb "params_ok"
@@ -160,23 +161,36 @@ function tp1() {
 		local tget
 		local p
 		local f
+		
+#		#VAIH:josko ao. kikkailut -> profs.js
+#		tget=$(ls ~/.mozilla/firefox/ | grep default-esr | tail -n 1)
+#		p=$(pwd)
+#
+#		cd ~/.mozilla/firefox/${tget}
+#		dqb "TG3T=${tget}"
+#		csleep 2
+#
+#		${odio} touch ./rnd
+#		${sco} ${n}:${n} ./rnd
+#		${scm} 0644 ./rnd
+#		dd if=/dev/random bs=6 count=1 > ./rnd
+#
+#		${srat} -cvf ~/Desktop/minimize/someparam.tar ./rnd
+#		for f in $(find . -name '*.js') ; do ${srat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
+#		#*.js ja *.json kai oleellisimmat kalat
+#		cd ${p}
 
-		tget=$(ls ~/.mozilla/firefox/ | grep default-esr | tail -n 1)
-		p=$(pwd)
+		if [ -x ~/Desktop/minimize/profs.sh ] ; then
+			dqb "PR0FS.SH F+UND"
+			
+			[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh
+			. ~/Desktop/minimize/profs.sh
+			exp_prof ~/Desktop/minimize/someparam.tar default-esr
+		else
+			dqb "FASD FADS SAFD"	
+		fi
 
-		${odio} touch ./rnd
-		${sco} ${n}:${n} ./rnd
-		${scm} 0644 ./rnd
-		dd if=/dev/random bs=6 count=1 > ./rnd
-
-		cd ~/.mozilla/firefox/${tget}
-		dqb "TG3T=tget"
-		csleep 2
-
-		${srat} -cvf  ~/Desktop/minimize/someparam.tar ${p}/rnd
-		for f in $(find . -name '*.js') ; do ${srat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
-		#*.js ja *.json kai oleellisimmat kalat
-		cd ${p}
+		csleep 5
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
@@ -237,7 +251,14 @@ function tp4() {
 	${asy}
 	csleep 3
 
-	#VAIH:sudo mukaan
+	#VAIH:testaa
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
+	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
+	
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
+	${shary} libaudit1 libselinux1 #libpam0g #libpam-modules zlib1g #libpam kanssa oli nalkutusta 080525
+
 	${shary} man-db sudo
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
@@ -301,7 +322,6 @@ function tp4() {
 	csleep 3
 }
 
-#VAIH:varmista että ao. kalat tulevat mukaan
 function tp2() {
 	debug=1
 	dqb "tp2 ${1} ${2}"
@@ -312,7 +332,7 @@ function tp2() {
 
 	#HUOM.30425:koklataan josko sittenkin pelkkä /e/n/interfaces riittäisi koska a) ja b)
 	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?
-	${srat} -rf ${1} /etc/iptables /etc/network/interfaces #*
+	${srat} -rf ${1} /etc/iptables /etc/network/interfaces /etc/default/locale
 
 	case ${iface} in
 		wlan0)
@@ -329,9 +349,10 @@ function tp2() {
 		${srat} -rf ${1} /etc/sudoers.d/meshuggah
 	fi
 
-	#TODO:ao. 2 riviä vain tarvittaessa ($dnsm)
-	local f;for f in $(find /etc -type f -name 'stubby*') ; do ${srat} -rf ${1} ${f} ; done
-	for f in $(find /etc -type f -name 'dns*') ; do ${srat} -rf ${1} ${f} ; done
+	if [ ${dnsm} -eq 1 ] ; then
+		local f;for f in $(find /etc -type f -name 'stubby*') ; do ${srat} -rf ${1} ${f} ; done
+		for f in $(find /etc -type f -name 'dns*') ; do ${srat} -rf ${1} ${f} ; done
+	fi
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
@@ -340,7 +361,6 @@ function tp2() {
 	csleep 5
 }
 
-#VAIH:varmista että nämäkin ao. kalat tulevat mukaan
 function tp3() {
 	debug=1
 	dqb "tp3 ${1} ${2}"
@@ -358,6 +378,7 @@ function tp3() {
 	q=$(mktemp -d)
 	cd ${q}
 
+	#TODO:tuonne /e/d/grub-juttuja
 	${tig} clone https://github.com/senescent777/project.git
 	[ $? -eq 0 ] || exit 66
 	dqb "TP3 PT2"
@@ -365,7 +386,7 @@ function tp3() {
 	cd project
 
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.OLD
-	#HUOM.030525:resolv.conf kanssa hämminkiä, tarttiskohan tehrä jotain?
+	#HUOM.8535:/e/r.conf-tilanne korjattu
 	${spc} /etc/resolv.conf ./etc/resolv.conf.OLD
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.OLD
 
@@ -499,6 +520,18 @@ case ${mode} in
 	f)
 		rmt ${tgtfile} ${distro}
 	;;
+	-h)
+		echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
+		echo "$0 3 <tgtfile> [distro] [-v]: makes the main pkg (old way)"
+		echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
+		echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
+		echo "$0 f <tgtfile> [distro] [-v]: archives .deb files"
+		echo "$0 -h: shows this message about usage"		
+	;;
+#	q)
+#		${sifd} ${iface}
+#		tp1 ${tgtfile} ${distro}
+#	;;
 esac
 
-#TODO:-h
+#VAIH:uusi case, ffox-profiilin exportointia vartem, JA TOIMIMAAN PRKL

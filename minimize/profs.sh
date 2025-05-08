@@ -1,6 +1,9 @@
-#TODO:päivitys toiseen lähteeseen kanssa
+#netscape/mozilla/firefox profiles can be a Pain In the Ass
+
 cprof_1_1() {
-	
+	debug=1	
+	dqb "cprof1 ${1} ${2}"
+	csleep 5
 
 		tmp=$(grep $1 /etc/passwd | wc -l)
 
@@ -23,6 +26,9 @@ cprof_1_1() {
 }
 
 cprof_1_2() {
+	debug=1
+	dqb "cpfor_12 ${1},${2}"
+
 	fox=$(sudo which firefox)
 
 		tmp=$(grep $1 /etc/passwd | wc -l)
@@ -40,12 +46,14 @@ cprof_1_2() {
 			else
 				echo "https://www.youtube.com/watch?v=PjotFePip2M" 
 			fi
-		#else
 		fi
 
+	csleep 5
 }
 
+#TODO:vissiinkin tmpdir parametriksi
 cprof_1_3() {
+	debug=1
 	[ -d /home/$2/.mozilla/firefox ] || exit 68
 	cd /home/${2}/.mozilla/firefox
 	
@@ -64,6 +72,7 @@ cprof_1_3() {
 			cd ${tget}
 		fi
 
+	#HUOM!MISSÄ TMPDIR ASETETAAN
 	if [ x"${tmpdir}" != "x" ] ; then
 		if [ -d ${tmpdir} ] ; then
 			if [ ${debug} -eq 1 ] ; then
@@ -84,10 +93,15 @@ cprof_1_3() {
 			sudo rm -rf ${tmpdir}
 		fi
 	fi
+
+	csleep 5
+	dqb "CPROF13 D0N3"
 }
 
 cprof_2_1() {
-
+	debug=1
+	dqb "CPFOR21 ${1} , ${2}"
+	csleep 3
 
 	if [ x$1 != x ] ; then 
 		sudo chown -R $1:$1 /home/$1
@@ -104,9 +118,13 @@ cprof_2_1() {
 		sudo chmod o+w /tmp 
 	fi
 
+	dqb "d0n3"
+	csleep 3
 }
 
 copyprof() {
+	dqb "cprof ${1} ${2}"
+	csleep 3
 	cd /home/$2 
 
 	if [ x$2 != x ] ; then 
@@ -121,4 +139,35 @@ copyprof() {
 		fi
 	fi
 
+	dqb "cpforf dnoe"
+	csleep 3
+}
+
+function exp_prof() {
+	dqb "exp_pros ${1} ${2}"
+	local tget
+	local p
+	local f
+	
+	csleep 3
+	
+	tget=$(ls ~/.mozilla/firefox/ | grep ${2} | tail -n 1)
+	p=$(pwd)
+
+	cd ~/.mozilla/firefox/${tget}
+	dqb "TG3T=${tget}"
+	csleep 2
+
+	${odio} touch ./rnd
+	${sco} ${n}:${n} ./rnd
+	${scm} 0644 ./rnd
+	dd if=/dev/random bs=6 count=1 > ./rnd
+
+	${srat} -cvf ${1} ./rnd
+	for f in $(find . -name '*.js') ; do ${srat} -rf ${1} ${f} ; done
+	#*.js ja *.json kai oleellisimmat kalat
+	cd ${p}
+
+	cslep 5
+	dqb "eprof.D03N"
 }

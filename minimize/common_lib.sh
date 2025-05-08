@@ -445,6 +445,27 @@ function enforce_access() {
 	[ -s /etc/iptables/rules.v6.${dnsm} ] && ${slinky} /etc/iptables/rules.v6.${dnsm} /etc/iptables/rules.v6
 
 	#wpasupplicant:in kanssa myös jotain säätöä?
+	${sco} -R root:root /etc/wpa_supplicant
+	${scm} -R a-w /etc/wpa_supplicant
+ 
+	#olkoon tässä kunnes keksii paremman sijainnin (export2 saattaa liittyä)
+	if [ -f ~/.ripuli2 ] ; then
+		dqb "KO"
+	else
+		#client-side session_expiration_checks can be a PITA
+
+		${odio} dpkg-reconfigure locales
+		${odio} dpkg-reconfigure tzdata
+
+		#TODO:koita saada ainaskin /e/d/l muuttaminen onnaamaan	
+		#HUOM. tulisi kai tarkistaa mjan olemassaolo+ei-tyhjyys
+		set LC_TIME=${LCF666};export LC_TIME
+		${odio} echo "LC_TIME=${LCF666}" >> /etc/default/locale		
+
+		touch ~/.ripuli2 
+	fi
+
+	#TODO:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
 function part1_5() {
@@ -484,7 +505,8 @@ function part1_5() {
 #part1_5 tarvittaneen muuallakin kuin doit6:dessa nykyään
 function part1() {
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
-	
+	#jatkossa tähän ne tzdata- ja /e/d/locales-jutut?	
+
 	#jos jokin näistä kolmesta hoitaisi homman...
 	${sifd} ${iface}
 	${sifd} -a

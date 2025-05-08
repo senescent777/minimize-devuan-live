@@ -204,10 +204,19 @@ case "${1}" in
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
+#	q)
+#		if [ -x ~/Desktop/minimize/profs.sh ] ; then
+#			[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh 
+#			. ~/Desktop/minimize/profs.sh
+#			prepare ~/Desktop/minimize/someparam.tar
+#			copyprof esr ${n} ~/Desktop/minimize/someparam.tar
+#		fi
+#	;;
 	*)
 		echo "-h"
 	;;
 esac
 
+#VAIH:main():iin uusi case ffox-profiilin tuomista varten+TOIMIMAAN PRKL (mallia voisi ottaa:doit6)
 chmod 0755 $0
 #HUOM. tämän olisi kuvakkeen kanssa tarkoitus mennä jatkossa filesystem.squashfs sisälle
