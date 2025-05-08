@@ -208,7 +208,8 @@ case "${1}" in
 		if [ -x ~/Desktop/minimize/profs.sh ] ; then
 			[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh 
 			. ~/Desktop/minimize/profs.sh
-			prepare ~/Desktop/minimize/someparam.tar
+			q=$(mktemp -d)
+			prepare ~/Desktop/minimize/someparam.tar ${q}
 			exit 99
 			copyprof esr ${n} ~/Desktop/minimize/someparam.tar
 		fi

@@ -6,28 +6,26 @@ function whack() {
 	${whack} ${1}
 }
 
-#TODO:tmpdir parametriksi
 function prepare() {
 	debug=1
-	dqb "prepare(${1}) "
+	dqb "prepare(${1}, ${2}) "
 	csleep 5
 
-#	local tmpdir
-#	tmpdir=$(mktemp -d)
+	[ x"${1}" == "x" ] && exit 33
+	[ y"${2}" == "y" ] && exit 44
+	dqb "params_ok"
 
-	echo $?
-	csleep 5
+	if [ -s ${1} ] ; then
+		if [ -d ${2} ] ; then
+			dqb "POPPER.3"
+			csleep 5
 
-	[ -s ${1} ] && ${srat} -C ${tmpdir} -xvf ${1}
-
-	if [ x"${tmpdir}" != "x" ] ; then
-		if [ -d ${tmpdir} ] ; then
-			#kolmaskin komento voisi olla bloki n sisällä
-			
+			${srat} -C ${2} -xvf ${1}
+			#jotain nalkutusta saattaa tulla
+			#${svm} ${tmpdir}/prefs.js ${tmpdir}/user.js
 		fi
 	fi
 
-	#jotain nalkutusta saattaa tulla
-	#${svm} ${tmpdir}/prefs.js ${tmpdir}/user.js
+	csleep 5
 	dqb "PERP D0N3"
 }
