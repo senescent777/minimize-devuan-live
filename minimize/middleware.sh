@@ -1,15 +1,19 @@
+echo "INSTALLING MIDDLEWARE"
+sleep 3
+
 function whack() {
 	#sudo /usr/bin/pkill --signal 9 $1
 	${whack} ${1}
 }
 
+#TODO:tmpdir parametriksi
 function prepare() {
 	debug=1
 	dqb "prepare(${1}) "
 	csleep 5
 
-	local tmpdir
-	tmpdir=$(mktemp -d)
+#	local tmpdir
+#	tmpdir=$(mktemp -d)
 
 	echo $?
 	csleep 5
@@ -19,8 +23,7 @@ function prepare() {
 	if [ x"${tmpdir}" != "x" ] ; then
 		if [ -d ${tmpdir} ] ; then
 			#kolmaskin komento voisi olla bloki n sisällä
-			[ -d ${tmpdir}/home ] && ${smr} -rf ${tmpdir}/home
-			[ -f ${tmpdir}/.rnd ] && ${smr} -rf ${tmpdir}/.rnd
+			
 		fi
 	fi
 

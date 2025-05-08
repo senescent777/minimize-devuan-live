@@ -457,11 +457,21 @@ function enforce_access() {
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
 
-		#VAIH:set LC_TIME=smthing;export LC_TIME
-		#VAIH:${odio} echo "LC_TIME=smthng" >> /etc/default/locales
+		#VAIH:koita saada ainaskin /e/d/l muuttaminen onnaamaan	
 		#HUOM. tulisi kai tarkistaa mjan olemassaolo+ei-tyhjyys
-		set LC_TIME=${LCF666};export LC_TIME
+		set LC_TIME=${LCF666}
+		export LC_TIME
+		# HUOM.8525: muitakin LC-juttuja joutuisi sorkkimaan
+		${scm} a+w /etc/default/locale
+		csleep 5
+
 		${odio} echo "LC_TIME=${LCF666}" >> /etc/default/locale		
+		cat /etc/default/locale
+		csleep 5
+
+		${scm} a-w /etc/default/locale
+		ls -las /etc/default/lo*
+		csleep 5
 
 		touch ~/.ripuli2 
 	fi
