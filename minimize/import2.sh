@@ -210,7 +210,7 @@ case "${1}" in
 			. ~/Desktop/minimize/profs.sh
 			q=$(mktemp -d)
 			prepare ~/Desktop/minimize/someparam.tar ${q}
-			exit 99
+			
 			copyprof esr ${n} ~/Desktop/minimize/someparam.tar
 		fi
 	;;

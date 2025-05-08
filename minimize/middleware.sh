@@ -2,10 +2,10 @@ echo "INSTALLING MIDDLEWARE"
 sleep 3
 
 function whack() {
-	#sudo /usr/bin/pkill --signal 9 $1
 	${whack} ${1}
 }
 
+#TODO:fktion ulostusta tarvitsevassa koodissa mv find:in avulla ni turhat jää matkalle
 function prepare() {
 	debug=1
 	dqb "prepare(${1}, ${2}) "

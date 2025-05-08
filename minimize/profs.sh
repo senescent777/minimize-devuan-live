@@ -1,7 +1,9 @@
 #netscape/mozilla/firefox profiles can be a Pain In the Ass
 
 cprof_1_1() {
-	
+	debug=1	
+	dqb "cprof1 ${1} ${2}"
+	csleep 5
 
 		tmp=$(grep $1 /etc/passwd | wc -l)
 
@@ -24,6 +26,9 @@ cprof_1_1() {
 }
 
 cprof_1_2() {
+	debug=1
+	dqb "cpfor_12 ${1},${2}"
+
 	fox=$(sudo which firefox)
 
 		tmp=$(grep $1 /etc/passwd | wc -l)
@@ -43,9 +48,12 @@ cprof_1_2() {
 			fi
 		fi
 
+	csleep 5
 }
 
+#TODO:vissiinkin tmpdir parametriksi
 cprof_1_3() {
+	debug=1
 	[ -d /home/$2/.mozilla/firefox ] || exit 68
 	cd /home/${2}/.mozilla/firefox
 	
@@ -64,6 +72,7 @@ cprof_1_3() {
 			cd ${tget}
 		fi
 
+	#HUOM!MISSÄ TMPDIR ASETETAAN
 	if [ x"${tmpdir}" != "x" ] ; then
 		if [ -d ${tmpdir} ] ; then
 			if [ ${debug} -eq 1 ] ; then
@@ -84,10 +93,15 @@ cprof_1_3() {
 			sudo rm -rf ${tmpdir}
 		fi
 	fi
+
+	csleep 5
+	dqb "CPROF13 D0N3"
 }
 
 cprof_2_1() {
-
+	debug=1
+	dqb "CPFOR21 ${1} , ${2}"
+	csleep 3
 
 	if [ x$1 != x ] ; then 
 		sudo chown -R $1:$1 /home/$1
@@ -104,9 +118,13 @@ cprof_2_1() {
 		sudo chmod o+w /tmp 
 	fi
 
+	dqb "d0n3"
+	csleep 3
 }
 
 copyprof() {
+	dqb "cprof ${1} ${2}"
+	csleep 3
 	cd /home/$2 
 
 	if [ x$2 != x ] ; then 
@@ -116,11 +134,14 @@ copyprof() {
 
 			cprof_1_1 $2
 			cprof_1_2 $2
+			exit 99
 			cprof_1_3 $1 $2
 			cprof_2_1 $2
 		fi
 	fi
 
+	dqb "cpforf dnoe"
+	csleep 3
 }
 
 function exp_prof() {
@@ -129,7 +150,8 @@ function exp_prof() {
 	local p
 	local f
 	
-	#VAIH:grepattava parametriksi
+	csleep 3
+	
 	tget=$(ls ~/.mozilla/firefox/ | grep ${2} | tail -n 1)
 	p=$(pwd)
 
@@ -146,4 +168,7 @@ function exp_prof() {
 	for f in $(find . -name '*.js') ; do ${srat} -rf ${1} ${f} ; done
 	#*.js ja *.json kai oleellisimmat kalat
 	cd ${p}
+
+	cslep 5
+	dqb "eprof.D03N"
 }
