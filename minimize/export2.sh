@@ -140,6 +140,7 @@ function pre2() {
 }
 
 function tp1() {
+	debug=1
 	dqb "tp1( ${1} , ${2} )"
 	[ z"${1}" == "z" ] && exit
 	dqb "params_ok"
@@ -160,30 +161,18 @@ function tp1() {
 		local tget
 		local p
 		local f
-		
-#		#VAIH:josko ao. kikkailut -> profs.js
-#		tget=$(ls ~/.mozilla/firefox/ | grep default-esr | tail -n 1)
-#		p=$(pwd)
-#
-#		cd ~/.mozilla/firefox/${tget}
-#		dqb "TG3T=${tget}"
-#		csleep 2
-#
-#		${odio} touch ./rnd
-#		${sco} ${n}:${n} ./rnd
-#		${scm} 0644 ./rnd
-#		dd if=/dev/random bs=6 count=1 > ./rnd
-#
-		#${srat} -cvf ~/Desktop/minimize/someparam.tar ./rnd
-		#for f in $(find . -name '*.js') ; do ${srat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
-		##*.js ja *.json kai oleellisimmat kalat
-		#cd ${p}
 
 		if [ -x ~/Desktop/minimize/profs.sh ] ; then
+			dqb "PR0FS.SH F+UND"
+			
 			[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh
 			. ~/Desktop/minimize/profs.sh
 			exp_prof ~/Desktop/minimize/someparam.tar default-esr
+		else
+			dqb "FASD FADS SAFD"	
 		fi
+
+		csleep 5
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
@@ -521,4 +510,10 @@ case ${mode} in
 		echo "$0 f <tgtfile> [distro] [-v]: archives .deb files"
 		echo "$0 -h: shows this message about usage"		
 	;;
+	q)
+		${sifd} ${iface}
+		tp1 ${tgtfile} ${distro}
+	;;
 esac
+
+#VAIH:uusi case, ffox-profiilin exportointia vartem, JA TOIMIMAAN PRKL

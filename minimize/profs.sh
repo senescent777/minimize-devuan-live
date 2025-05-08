@@ -1,11 +1,11 @@
 #netscape/mozilla/firefox profiles can be a Pain In the Ass
 
-cprof_1_1() {
+function cprof_1_1() {
 	debug=1	
 	dqb "cprof1 ${1} ${2}"
 	csleep 5
 
-		tmp=$(grep $1 /etc/passwd | wc -l)
+		tmp=$(grep $1 /etc/passwd | wc -l) #grep -c myös keksitty
 
 		if [ $tmp -gt 0 ] ; then 
 			if [ -d /home/$1/.mozilla ] ; then
@@ -25,13 +25,13 @@ cprof_1_1() {
 	fi
 }
 
-cprof_1_2() {
+function cprof_1_2() {
 	debug=1
 	dqb "cpfor_12 ${1},${2}"
 
 	fox=$(sudo which firefox)
 
-		tmp=$(grep $1 /etc/passwd | wc -l)
+		tmp=$(grep $1 /etc/passwd | wc -l) #grep -c 
 
 		if [ $tmp -gt 0 ] ; then 
 			if [ -x $fox ] ; then
@@ -51,10 +51,15 @@ cprof_1_2() {
 	csleep 5
 }
 
-#TODO:vissiinkin tmpdir parametriksi
-cprof_1_3() {
+function cprof_1_3() {
 	debug=1
-	[ -d /home/$2/.mozilla/firefox ] || exit 68
+	dqb "cprof13 ${1} ${2} ${3}"
+	csleep 4
+	
+	[ -d /home/${2}/.mozilla/firefox ] || exit 68
+	[ x"${3}" == "x" ] && exit 69
+	[ -d ${3} ] || exit 70
+
 	cd /home/${2}/.mozilla/firefox
 	
 	if [ ${debug} -eq 1 ] ; then
@@ -63,80 +68,77 @@ cprof_1_3() {
 		ls -las /home/${2}/.mozilla/firefox;sleep 6
 	fi
 
-		tget=$(ls | grep $1 | tail -n 1) 
+	local tget
+	tget=$(ls | grep ${1} | tail -n 1) 
 
-		sudo chown ${2}:${2} ./${tget}
-		sudo chmod 0700 ./${tget}
+	${sco} ${2}:${2} ./${tget}
+	${scm} 0700 ./${tget}
 		
-		if [ x"${tget}" != "x" ] ; then 
-			cd ${tget}
-		fi
-
-	#HUOM!MISSÄ TMPDIR ASETETAAN
-	if [ x"${tmpdir}" != "x" ] ; then
-		if [ -d ${tmpdir} ] ; then
-			if [ ${debug} -eq 1 ] ; then
-				echo -n "pwd=";pwd
-				echo "IN 6 SECONDS: sudo mv $tmpdir/* ."
-				sleep 6
-			fi
-
-			sudo mv ${tmpdir}/* . #TÄMÄN KANSSA TARKKUUTTA PERKELE
-			sudo chown -R ${2}:${2} ./* 		
-	
-			if [ ${debug} -eq 1 ] ; then
-				echo "AFT3R MV";sleep 6
-				ls -las;sleep 5
-			fi	
-
-			sudo shred -fu ${tmpdir}/*
-			sudo rm -rf ${tmpdir}
-		fi
+	if [ x"${tget}" != "x" ] ; then 
+		cd ${tget}
 	fi
+
+	if [ ${debug} -eq 1 ] ; then
+		echo -n "pwd=";pwd
+		echo "IN 6 SECONDS: sudo mv ${3}/* ."
+		sleep 6
+	fi
+
+	local f
+	for f in $(find ${3} -type f -name '*.js*') ; do mv ${f} . ; done
+	${sco} -R ${2}:${2} ./* 		
+	
+	if [ ${debug} -eq 1 ] ; then
+		echo "AFT3R MV";sleep 6
+		ls -las;sleep 5
+	fi	
 
 	csleep 5
 	dqb "CPROF13 D0N3"
 }
 
-cprof_2_1() {
+function cprof_2_1() {
 	debug=1
 	dqb "CPFOR21 ${1} , ${2}"
 	csleep 3
 
-	if [ x$1 != x ] ; then 
-		sudo chown -R $1:$1 /home/$1
+	if [ x"${1}" != "x" ] ; then 
+		#${sco} -R ${1}:${1} /home/${1} #kommentteihin koska x
+		#voisi mennä ilmankin sudoa tuossa alla...
+		dqb "shdgfsdhgfsdhgf"
+		csleep 3
 
-		if [ -d /home/$1/.mozilla ] ; then 
-			sudo chown -R $1:$1 /home/$1/.mozilla
-			sudo chmod -R go-rwx /home/$1/.mozilla 	
+		if [ -d /home/${1}/.mozilla ] ; then 
+			${sco} -R ${1}:${1} /home/${1}/.mozilla
+			${scm} -R go-rwx /home/${1}/.mozilla 	
 		fi
 
-		[ -d /home/$1/Downloads ] || sudo mkdir /home/$1/Downloads
+		[ -d /home/${1}/Downloads ] || sudo mkdir /home/${1}/Downloads
 
-		sudo chown -R $1:$1 /home/$1/Downloads
-		sudo chmod u+wx /home/$1/Downloads
-		sudo chmod o+w /tmp 
+		${sco} -R ${1}:${1} /home/${1}/Downloads
+		${scm} u+wx /home/${1}/Downloads
+		${scm} o+w /tmp 
 	fi
 
 	dqb "d0n3"
 	csleep 3
 }
 
-copyprof() {
-	dqb "cprof ${1} ${2}"
+function copyprof() { #import_prof jatkossa
+	debug=1
+	dqb "cprof ${1} ${2} ${3}"
 	csleep 3
-	cd /home/$2 
+	cd /home/${2} 
 
-	if [ x$2 != x ] ; then 
-		if [ -d /home/$2 ] ; then 
-			sudo chmod 0700 /home/$2
+	if [ x"${2}" != "x" ] ; then 
+		if [ -d /home/${2} ] ; then 
+			${scm} 0700 /home/${2}
 
-
-			cprof_1_1 $2
-			cprof_1_2 $2
-			exit 99
-			cprof_1_3 $1 $2
-			cprof_2_1 $2
+			cprof_1_1 ${2}
+			cprof_1_2 ${2}
+			
+			cprof_1_3 ${1} ${2} ${3}
+			cprof_2_1 ${2}
 		fi
 	fi
 
@@ -169,6 +171,6 @@ function exp_prof() {
 	#*.js ja *.json kai oleellisimmat kalat
 	cd ${p}
 
-	cslep 5
+	csleep 5
 	dqb "eprof.D03N"
 }

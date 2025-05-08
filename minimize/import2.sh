@@ -211,7 +211,7 @@ case "${1}" in
 			q=$(mktemp -d)
 			prepare ~/Desktop/minimize/someparam.tar ${q}
 			
-			copyprof esr ${n} ~/Desktop/minimize/someparam.tar
+			copyprof esr ${n} ${q}
 		fi
 	;;
 	*)
@@ -219,6 +219,5 @@ case "${1}" in
 	;;
 esac
 
-#VAIH:main():iin uusi case ffox-profiilin tuomista varten+TOIMIMAAN PRKL (mallia voisi ottaa:doit6)
 chmod 0755 $0
 #HUOM. tämän olisi kuvakkeen kanssa tarkoitus mennä jatkossa filesystem.squashfs sisälle

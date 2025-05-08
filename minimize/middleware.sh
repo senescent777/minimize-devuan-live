@@ -1,11 +1,11 @@
 echo "INSTALLING MIDDLEWARE"
 sleep 3
-
+#TODO:jatkossa koko tdsto roskikseen
 function whack() {
 	${whack} ${1}
 }
 
-#TODO:fktion ulostusta tarvitsevassa koodissa mv find:in avulla ni turhat jää matkalle
+#HUOM.8525:joutaisi roskikseen jatkossa tämä fktio
 function prepare() {
 	debug=1
 	dqb "prepare(${1}, ${2}) "

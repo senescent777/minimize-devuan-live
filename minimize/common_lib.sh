@@ -444,12 +444,13 @@ function enforce_access() {
 	#ao. rivillä DROP kaikkiin riittänee säännöiksi
 	[ -s /etc/iptables/rules.v6.${dnsm} ] && ${slinky} /etc/iptables/rules.v6.${dnsm} /etc/iptables/rules.v6
 
-	#wpasupplicant:in kanssa myös jotain säätöä?
+	#wpasupplicant:in kanssa myös jotain säätöä, esim tällaista
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
  
-	#olkoon tässä kunnes keksii paremman sijainnin (export2 saattaa liittyä)
-	if [ -f ~/.ripuli2 ] ; then
+	#HUOM.8525:olkoon tässä kunnes keksii paremman sijainnin (export2 saattaa liittyä)
+	#vähitellen voisi kyllä erilliseksi fktioksi	
+	if [ -f ~/.ripuli2 ] ; then #HUOM./e/d/locale:n greppaaminen parempi idea q ripulijutut
 		dqb "KO"
 	else
 		#client-side session_expiration_checks can be a PITA
@@ -457,7 +458,6 @@ function enforce_access() {
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
 
-		#VAIH:koita saada ainaskin /e/d/l muuttaminen onnaamaan	
 		#HUOM. tulisi kai tarkistaa mjan olemassaolo+ei-tyhjyys
 		set LC_TIME=${LCF666}
 		export LC_TIME
@@ -465,6 +465,7 @@ function enforce_access() {
 		${scm} a+w /etc/default/locale
 		csleep 5
 
+		#TODO:tulisi kai tarkistaa onko tuo LC_TIME jo tdstossa
 		${odio} echo "LC_TIME=${LCF666}" >> /etc/default/locale		
 		cat /etc/default/locale
 		csleep 5
@@ -551,6 +552,8 @@ function part1() {
 	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WHORE (maybe i have tourettes)"
 }
+
+#TODO:jatkossa part1+part175 mahd aik. vaiheessa, tai ainakin ennen lokaalien konffausta selkeästi
 
 function part175() {
 	dqb "PART175()"
