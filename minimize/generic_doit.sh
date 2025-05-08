@@ -69,11 +69,12 @@ pre_part3 ${d}
 pr4 ${d}
 part3 ${d}
 
+#tai sitten käskytetään:import2
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
-	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh 
 	. ~/Desktop/minimize/profs.sh
-	prepare ~/Desktop/minimize/someparam.tar
-	copyprof esr ${n} ~/Desktop/minimize/someparam.tar
+	q=$(mktemp -d)
+	${srat} -C ${q} -xvf ~/Desktop/minimize/someparam.tar
+	copyprof esr ${n} ${q}
 fi
 
 part3_post
