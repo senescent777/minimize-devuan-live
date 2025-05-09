@@ -52,17 +52,9 @@ part175
 part1_post
 
 #===================================================PART 2===================================
-part2_pre #TODO:tähän tuon ao. blokin lisäksi vommon():in kutsu kahdella ehdolla (kts daedalus/doit6)
-#TODO:vommon() yhteydessä el_loco
 c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
-
-#TODO:kuuluisi kai part2_pre()
-if [ ${removepkgs} -eq 1 ] ; then
-	${sharpy} libopts25
-	${sharpy} rpc* nfs* 
-fi
-
+part2_pre  ${removepkgs}
 part2 ${removepkgs}
 #===================================================PART 3===========================================================
 message
@@ -70,7 +62,7 @@ pre_part3 ${d}
 pr4 ${d}
 part3 ${d}
 
-#tai sitten käskytetään:import2
+#tai sitten käskytetään:import2 (jatkossa -> part3_post ?)
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	. ~/Desktop/minimize/profs.sh
 	q=$(mktemp -d)
@@ -79,15 +71,6 @@ if [ -x ~/Desktop/minimize/profs.sh ] ; then
 fi
 
 part3_post
-${asy}
-dqb "GR1DN BELIALAS KYE"
-
-${scm} 0555 ~/Desktop/minimize/changedns.sh
-${sco} root:root ~/Desktop/minimize/changedns.sh
-${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
-${sipt} -L
-csleep 6
-
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
 
