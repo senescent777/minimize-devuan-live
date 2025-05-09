@@ -454,13 +454,13 @@ function enforce_access() {
 function el_loco() {
 	dqb "MI LOCO"
 	csleep 4
-
-	#HUOM.8525:olkoon tässä kunnes keksii paremman sijainnin (export2 saattaa liittyä)	
+	
 	local ce
 	ce=$(grep -v '#' /etc/default/locale  | grep LC_TIME | grep -c ${LCF666})
 	echo ${ce}
 	csleep 3
 
+	#joskohan tarkistus pois jatkossa?
 	if [ ${ce} -lt 1 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
 		#client-side session_expiration_checks can be a PITA
 
@@ -470,14 +470,26 @@ function el_loco() {
 		#HUOM. tulisi kai tarkistaa mjan olemassaolo+ei-tyhjyys
 		set LC_TIME=${LCF666}
 		export LC_TIME
+
+		set LANGUAGE=${LCF667}
+		export LANGUAGE
+
+		set LC_ALL=${LCF668}
+		export LC_ALL
+
 		# HUOM.8525: muitakin LC-juttuja joutuisi sorkkimaan
-		#TODO:LANGUAGE JA LC_ALL vielä joutuisi
+		#VAIH:LANGUAGE JA LC_ALL vielä joutuisi
 		
 		${scm} a+w /etc/default/locale
 		csleep 5
 
 		${odio} echo "LC_TIME=${LCF666}" >> /etc/default/locale		
+		${odio} echo "LANGUAGE=${LCF667}" >> /etc/default/locale		
+		${odio} echo "LC_ALL=${LCF668}" >> /etc/default/locale		
+			
 		cat /etc/default/locale
+		csleep 5	
+		cat /etc/timezone
 		csleep 5
 
 		${scm} a-w /etc/default/locale
@@ -562,8 +574,7 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE (maybe i have tourettes)"
 }
 
-#TODO:jatkossa part1+part175 mahd aik. vaiheessa, tai ainakin ennen lokaalien konffausta selkeästi?
-
+#HUOM.090525:joskohan nyt tarpeeksi aikaisessa vaiheessa tables+palv.prosessien sammutus
 function part175() {
 	dqb "PART175()"
 	csleep 3	
