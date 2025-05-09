@@ -95,5 +95,39 @@ udp6() {
 	esac
 }
 
+#uusien fktioiden sisältöä saattaa mennä takaisinkin ->g_doit
+function part1_post() {
+	#ntp ehkä takaisin myöhemmin
+	${whack} ntp*
+	csleep 5
+	${odio} /etc/init.d/ntpsec stop
+	#K01avahi-jutut sopivaan kohtaan?
+}
+
+function part2_pre() {
+	ecfx
+	csleep 5
+
+	if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
+		el_loco
+		vommon
+	fi
+}
+
+function part3_post() {
+	${ip6tr} /etc/iptables/rules.v6
+	${iptr} /etc/iptables/rules.v4
+
+	
+	${asy}
+	dqb "GR1DN BELIALAS KYE"
+
+	${scm} 0555 ~/Desktop/minimize/changedns.sh
+	${sco} root:root ~/Desktop/minimize/changedns.sh
+	${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+	${sipt} -L
+	csleep 6
+}
+
 check_binaries ${distro}
 check_binaries2

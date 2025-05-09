@@ -60,7 +60,7 @@ ${odio} /etc/init.d/ntpsec stop
 #K01avahi-jutut sopivaan kohtaan?
 
 #===================================================PART 2===================================
-#TODO:lib.part2.pre()
+
 ecfx
 csleep 5
 
@@ -79,7 +79,7 @@ pre_part3 ${d}
 pr4 ${d}
 part3 ${d}
 
-#TODO:lib-part3-post() 
+#VAIH:lib.part3-post() 
 echo $?
 csleep 3
 
@@ -95,7 +95,7 @@ if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	imp_prof esr ${n} ${q}
 fi
 
-#TODO:se generic_doit vähitellen
+#VAIH:se generic_doit vähitellen
 
 #asy-cdns voisi olla yhteistä, jotenkin
 ${asy}
