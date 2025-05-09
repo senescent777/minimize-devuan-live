@@ -65,7 +65,7 @@ message
 pre_part3 ${d} 
 pr4 ${d}
 part3 ${d} 
-#TODO:lib.part3_post() , ecfx und vommon + el_loco
+#VAIH:lib.part3_post() , ecfx und vommon + el_loco
 ecfx
 
 csleep 5
@@ -77,7 +77,6 @@ if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	imp_prof esr ${n} ${q}
 fi
 
-#TODO:ehto uusiksi jotenkin?
 if [ ${mode} -eq 1 ] ; then
 	el_loco
 	vommon

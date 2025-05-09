@@ -36,6 +36,37 @@ function udp6() {
 	#avahi-exim roskikseen tässä?
 }
 
+function part1_post() {
+	dqb "UNDER CONSTRUCTION"
+}
+
+function part2_pre() {
+	if [ ${1} -eq 1 ] ; then
+		${sharpy} libopts25
+		${sharpy} rpc* nfs* 
+	fi
+}
+
+function part3_post() {
+	ecfx
+
+	if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ]  ; then
+		el_loco
+		vommon
+	fi
+	
+	${asy}
+	csleep 3
+
+	#HUOM.270325:kokeillaan import2dessa enforce_access():ia josko sitten menisi oikeudet kunnolla
+
+	${scm} 0555 ~/Desktop/minimize/changedns.sh
+	${sco} root:root ~/Desktop/minimize/changedns.sh
+
+	${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+	csleep 5
+}
+
 dqb "BIL-UR-SAG"
 check_binaries ${distro}
 check_binaries2 
