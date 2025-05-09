@@ -1,12 +1,20 @@
 #!/bin/bash
 d=$(dirname $0)
 mode=2
+distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 
-[ -s ${d}/conf ] && . ${d}/conf
+[ z"${distro}" == "z" ] && exit 6
+
+if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ]; then
+	. ~/Desktop/minimize/${distro}/conf
+else
+	echo "CONFIG MISSING"; exit 55
+fi
+
 . ~/Desktop/minimize/common_lib.sh
 
-if [ -s ${d}/lib.sh ] ; then
-	. ${d}/lib.sh
+if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then
+	. ~/Desktop/minimize/${distro}/lib.sh
 else
 	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING"
 	exit 111

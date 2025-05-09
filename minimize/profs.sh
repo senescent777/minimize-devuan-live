@@ -1,4 +1,4 @@
-#netscape/mozilla/firefox profiles can be a Pain In the Ass
+#i've known since year 2003 that netscape/mozilla/firefox profiles can be a Pain In the Ass
 
 function cprof_1_1() {
 	#debug=1	

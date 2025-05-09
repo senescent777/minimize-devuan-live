@@ -448,7 +448,6 @@ function enforce_access() {
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
  
-	#el_loco
 	#TODO:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
@@ -462,7 +461,7 @@ function el_loco() {
 	echo ${ce}
 	csleep 3
 
-	if [ ${ce} -lt 1 ] ; then 
+	if [ ${ce} -lt 1 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
 		#client-side session_expiration_checks can be a PITA
 
 		${odio} dpkg-reconfigure locales
@@ -472,6 +471,8 @@ function el_loco() {
 		set LC_TIME=${LCF666}
 		export LC_TIME
 		# HUOM.8525: muitakin LC-juttuja joutuisi sorkkimaan
+		#TODO:LANGUAGE JA LC_ALL vielä joutuisi
+		
 		${scm} a+w /etc/default/locale
 		csleep 5
 
@@ -561,7 +562,7 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE (maybe i have tourettes)"
 }
 
-#TODO:jatkossa part1+part175 mahd aik. vaiheessa, tai ainakin ennen lokaalien konffausta selkeästi
+#TODO:jatkossa part1+part175 mahd aik. vaiheessa, tai ainakin ennen lokaalien konffausta selkeästi?
 
 function part175() {
 	dqb "PART175()"
