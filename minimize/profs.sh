@@ -36,7 +36,8 @@ function cprof_1_2() {
 	if [ ${tmp} -gt 0 ] ; then 
 		if [ -x ${fox} ] ; then
 			cd /home/${1}
-			${odio} -u ${1} ${fox}&
+			#${odio} -u ${1} toimisikohan ilmankn sudoa?
+			${fox}&
 	
 			if [ $? -eq 0 ] ; then
 				sleep 5

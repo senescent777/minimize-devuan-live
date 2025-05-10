@@ -59,12 +59,14 @@ part1 ${distro}
 part175
 part1_post
 
+#TODO:testit chmaeran kanssa, paketit pois ja localet wtuiksi, let's find out
+
 #===================================================PART 2===================================
 c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
-part2_pre  ${removepkgs}
+#TODO:muutoksia tuohon ylle, mm. syystä chimaeran testit
+part2_pre ${removepkgs}
 part2 ${removepkgs}
-
 #===================================================PART 3===========================================================
 message
 pre_part3 ${d}
@@ -72,7 +74,6 @@ pr4 ${d}
 part3 ${d}
 
 #tai sitten käskytetään:import2 (jatkossa -> part3_post ?)
-#TODO:varmista että profiilihommat toimivat edelleen
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	. ~/Desktop/minimize/profs.sh
 	q=$(mktemp -d)

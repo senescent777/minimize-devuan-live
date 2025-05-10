@@ -34,6 +34,8 @@ case ${1} in
 		${d}/${distro}/pt2.sh
 	;;
 	pw)
-		${d}/${distro}/doIt6.sh 1
+		#VAIH:uusicksi
+		#${d}/${distro}/doIt6.sh 1
+		${d}/generic_doit.sh 1
 	;;	
 esac

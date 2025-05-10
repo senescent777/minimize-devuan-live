@@ -171,12 +171,11 @@ case "${1}" in
 
 		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh (maybe)"
 	;;
-	#VAIH:seur 2 case:a kysymään vafrmistuksen ensin koska X
 	1)
 		[ x"${file}" == "x" ] && exit 44
 		[ -s ${file} ] || exit 55
 
-		read -p "U R ABT TO INSTALL ${file} , R U SURE ABOUT THAT?" confirm
+		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ]  || exit 33
 
 		common_part ${file} ${distro}
@@ -197,7 +196,7 @@ case "${1}" in
 		dqb " ${3} ${distro} MN"
 		csleep 2
 
-		read -p "U R ABT TO INSTALL ${file} , R U SURE ABOUT THAT?" confirm
+		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ]  || exit 33
 
 		common_part ${file} ${distro}
