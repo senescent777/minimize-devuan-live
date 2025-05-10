@@ -107,17 +107,17 @@ function part1_post() {
 function part2_pre() {
 	ecfx
 	csleep 5
+	el_loco
 
-	if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
-		el_loco
+	if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then		
 		vommon
+		exit #varm. vuoksi kesk. suor. jos salakala tyritty
 	fi
 }
 
 function part3_post() {
 	${ip6tr} /etc/iptables/rules.v6
 	${iptr} /etc/iptables/rules.v4
-
 	
 	${asy}
 	dqb "GR1DN BELIALAS KYE"
