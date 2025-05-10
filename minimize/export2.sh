@@ -362,7 +362,7 @@ function tp3() {
 	q=$(mktemp -d)
 	cd ${q}
 
-	#TODO:tuonne /e/d/grub-juttuja
+	#TODO:tuonne /e/d/grub-juttuja (disable ipv6-juttuja)
 	${tig} clone https://github.com/senescent777/project.git
 	[ $? -eq 0 ] || exit 66
 	dqb "TP3 PT2"
@@ -513,13 +513,11 @@ case ${mode} in
 		echo "$0 -h: shows this message about usage"		
 	;;
 	q)
-		#VAIH:pientä laittoa, ffox prof takia ei tarvinne koko minimize-hmistoa
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
+
 		#tp1 ${tgtfile} ${distro}
 		tpq
-		${rat} -cf ${tgtfile} ~/Desktop/xfce.tar ~/Desktop/fediverse.tar
+		${srat} -cf ${tgtfile} ~/Desktop/minimize/xfce.tar ~/Desktop/minimize/fediverse.tar
 	;;
 esac
-
-#VAIH:uusi case, ffox-profiilin exportointia vartem, JA TOIMIMAAN PRKL
