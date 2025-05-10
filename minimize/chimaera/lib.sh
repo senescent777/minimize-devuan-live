@@ -1,7 +1,7 @@
 #=========================PART 0 ENDS HERE=================================================================
 function pr4() {
 	dqb "pr4 (${1})"
-	psqa  ${1}
+	psqa ${1}
 
 	#TODO:dnsm-jutuille jos tekisijojo tain , esim. stubby+dnsmasq toimimaan ni ei tartte noita poistella
 	if [ ${dnsm} -eq 1 ] ; then
@@ -46,6 +46,7 @@ function part2_pre() {
 		${sharpy} rpc* nfs* 
 	fi
 
+	#TODO:ao. rivit-> generic_doit?
 	ecfx
 
 	if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ]  ; then

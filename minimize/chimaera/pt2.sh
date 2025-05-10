@@ -29,7 +29,7 @@ ${odio} which iptables; csleep 3
 #	${sharpy} rpc* nfs* 
 #fi
 
-pre_part1 1
+part2_pre 1
 part2 1 #${removepkgs}
 ${odio} which iptables; csleep 3
 
