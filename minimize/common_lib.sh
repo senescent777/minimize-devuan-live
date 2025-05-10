@@ -126,6 +126,8 @@ function mangle_s() {
 
 function psqa() {
 	dqb "QUASB (THE BURNING) ${1}"
+	ls -las ${sah6}
+	sleep 5
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		p=$(pwd)
@@ -196,7 +198,10 @@ function check_binaries() {
 			${odio} ${NKVD} ~/Desktop/minimize/${1}/e.tar  
 		fi
 
+		#100525:tulikohan täss nalkutusta? kala puuttuu vai se toinen?
 		psqa ~/Desktop/minimize/${1}
+		sleep 5
+
 		#HUOM.tässä kohtaa jos nalkuttaisi syytä kysymykseen vastaamisesta kanssa	
 		message		
 		pre_part3 ~/Desktop/minimize/${1}
@@ -460,6 +465,9 @@ function el_loco() {
 	echo ${ce}
 	csleep 3
 
+	#TODO:ehto jatkossa toisin, eism- kutsuva koodi pääättämään?
+	#... tai jos nuo set-export-jutut ennen if?
+
 	#joskohan tarkistus pois jatkossa?
 	if [ ${ce} -lt 1 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
 		#client-side session_expiration_checks can be a PITA
@@ -721,11 +729,10 @@ function vommon() {
 	if [ $? -eq 0 ] ; then
 		${whack} xfce4-session
 		#HUOM. tässä ei tartte jos myöhemmin joka tap
+		exit 
 	else
 		dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
 	fi
-
-	exit 
 }
 
 dqb "common_l1b_l0ad3d_5ucc35fully"

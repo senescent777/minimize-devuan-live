@@ -1,20 +1,20 @@
 #!/bin/bash
-d=$(dirname $0)
+
 mode=2
 distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
-
+d=~/Desktop/minimize/${distro} 
 [ z"${distro}" == "z" ] && exit 6
 
-if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ]; then
-	. ~/Desktop/minimize/${distro}/conf
+if [ -d ${d} ] && [ -s ${d}/conf ]; then
+	. ${d}/conf
 else
 	echo "CONFIG MISSING"; exit 55
 fi
 
 . ~/Desktop/minimize/common_lib.sh
 
-if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then
-	. ~/Desktop/minimize/${distro}/lib.sh
+if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+	. ${d}/lib.sh
 else
 	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING"
 	exit 111
@@ -60,9 +60,10 @@ part175
 part1_post
 
 #TODO:testit chmaeran kanssa, paketit pois ja localet wtuiksi, let's find out
+#VAIH:myös daed-testit s.e. localet wtuiksi&&profs disablointi
 
 #===================================================PART 2===================================
-c=$(find ~/Desktop/minimize/${distro} -name '*.deb' | wc -l)
+c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
 
 #VAIH:muutoksia tuohon ylle, mm. syystä chimaeran testit
@@ -72,6 +73,8 @@ part2 ${removepkgs}
 
 #===================================================PART 3===========================================================
 message
+
+#HUOM.10525:jossain näillä main oli nalkutusta, ilmeinen korjaus tehty
 pre_part3 ${d}
 pr4 ${d}
 part3 ${d}
@@ -79,9 +82,6 @@ part3 ${d}
 #tai sitten käskytetään:import2 (jatkossa -> part3_post ?)
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	. ~/Desktop/minimize/profs.sh
-
-	local q
-	local tgt
 
 	q=$(mktemp -d)
 	dqb "${srat} -C ${q} ... 1n 3 s3c5s"

@@ -31,6 +31,7 @@ case $# in
 	;;
 	*)
 		echo "-h"
+		exit
 	;;
 esac
 
@@ -507,6 +508,8 @@ case ${mode} in
 		echo "$0 -h: shows this message about usage"		
 	;;
 	q)
+		#TODO:pientä laittoa, ffox prof takia ei tarvinne koko minimize-hmistoa
+		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 		tp1 ${tgtfile} ${distro}
 	;;
