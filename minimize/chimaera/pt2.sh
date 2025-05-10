@@ -15,22 +15,14 @@ if [ $# -gt 0 ] ; then
 	fi
 fi
 
-#tarvitseeko?
-#c=$(find ${d} -name '*.deb' | wc -l)
-#[ ${c} -gt 0 ] || removepkgs=0
-${odio} which iptables; csleep 3
+#VAIH:pitäisi kai miettiä tämä kohta, ideana doit-skriptin puolella kai että ei poisteta iptables jos ei korvaavaa pakerria
+if [ ${removepkgs} -eq 1 ] ; then
+	dqb "kö"
+else
+	part2_pre 1
+	part2 1 #${removepkgs}
+fi
 
-#onkohan hyvä näin?
-#VAIH:pitäisi kai miettiä tämä kohta, ideana kai että ei poisteta iptables jos ei korvaavaa pakerria
-#if [ ${removepkgs} -eq 1 ] ; then
-#	dqb "kö"
-#else
-##	${sharpy} libopts25
-#	${sharpy} rpc* nfs* 
-#fi
-
-part2_pre 1
-part2 1 #${removepkgs}
 ${odio} which iptables; csleep 3
 
 #==============================================================
