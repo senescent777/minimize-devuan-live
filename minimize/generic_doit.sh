@@ -62,11 +62,14 @@ part1_post
 #TODO:testit chmaeran kanssa, paketit pois ja localet wtuiksi, let's find out
 
 #===================================================PART 2===================================
-c=$(find ${d} -name '*.deb' | wc -l)
+c=$(find ~/Desktop/minimize/${distro} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
-#TODO:muutoksia tuohon ylle, mm. syystä chimaeran testit
+
+#VAIH:muutoksia tuohon ylle, mm. syystä chimaeran testit
+
 part2_pre ${removepkgs}
 part2 ${removepkgs}
+
 #===================================================PART 3===========================================================
 message
 pre_part3 ${d}
@@ -76,9 +79,27 @@ part3 ${d}
 #tai sitten käskytetään:import2 (jatkossa -> part3_post ?)
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	. ~/Desktop/minimize/profs.sh
+
+	local q
+	local tgt
+
 	q=$(mktemp -d)
-	${srat} -C ${q} -xvf ~/Desktop/minimize/someparam.tar
-	imp_prof esr ${n} ${q}
+	dqb "${srat} -C ${q} ... 1n 3 s3c5s"
+	csleep 3
+	tgt=~/Desktop/minimize/fediverse.tar
+
+	if [ -s ${tgt} ] ; then	
+		${srat} -C ${q} -xvf ${tgt}
+
+		dqb "${srat} d0me"
+		csleep 3
+
+		imp_prof esr ${n} ${q}
+	else
+		dqb "NO SUCH THING AS ${tgt}"
+	fi
+
+	csleep 3
 fi
 
 part3_post

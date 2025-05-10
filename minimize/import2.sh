@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0
+debug=0 #1
 file=""
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 dir=/mnt
@@ -197,7 +197,7 @@ case "${1}" in
 		csleep 2
 
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
-		[ "${confirm}" == "Y" ]  || exit 33
+		[ "${confirm}" == "Y" ] || exit 33
 
 		common_part ${file} ${distro}
 		[ ${1} -eq 0 ] && common_part ~/Desktop/minimize/${distro}/e.tar ${distro}
@@ -211,11 +211,27 @@ case "${1}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
+		#debug=1
+		[ x"${file}" == "x" ] && exit 55
+		dqb "KL"
+		csleep 2
+
+		[ -s ${file} ] || exit 66
+		dqb "${file} IJ"
+		csleep 2
+
 		if [ -x ~/Desktop/minimize/profs.sh ] ; then
 			. ~/Desktop/minimize/profs.sh
+			[ $? -gt 0 ] && exit 33
+			
+			dqb "INCLUDE OK"
+			csleep 3
+
 			q=$(mktemp -d)
-			${srat} -C ${q} -xvf ~/Desktop/minimize/someparam.tar
+			${srat} -C ${q} -xvf ${file}
 			imp_prof esr ${n} ${q}
+		else
+			dqb "CANNOT INCLUDE PROFS.HS"
 		fi
 	;;
 	*)

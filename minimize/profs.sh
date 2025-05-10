@@ -36,7 +36,7 @@ function cprof_1_2() {
 	if [ ${tmp} -gt 0 ] ; then 
 		if [ -x ${fox} ] ; then
 			cd /home/${1}
-			#${odio} -u ${1} toimisikohan ilmankn sudoa?
+#			#${odio} -u ${1} toimisikohan ilmankn sudoa?
 			${fox}&
 	
 			if [ $? -eq 0 ] ; then
@@ -137,7 +137,6 @@ function imp_prof() {
 
 			cprof_1_1 ${2}
 			cprof_1_2 ${2}
-			
 			cprof_1_3 ${1} ${2} ${3}
 			cprof_2_1 ${2}
 		fi

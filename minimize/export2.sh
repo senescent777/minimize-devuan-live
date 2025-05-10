@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0 #1
+debug=1
 tgtfile=""
 distro=$(cat /etc/devuan_version) #tarpeellinen tässä
 
@@ -71,10 +71,11 @@ ${sco} root:root ~/Desktop/minimize/changedns.sh
 tig=$(sudo which git)
 mkt=$(sudo which mktemp)
 
+#HUOM.10525:jostain syystä git poistuu, tee jotain asialle (siihen asti näin)
 if [ x"${tig}" == "x" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
 	echo "sudo apt-get update;sudo apt-get install git"
-	exit 7
+#	exit 7
 fi
 
 if [ x"${mkt}" == "x" ] ; then
@@ -158,15 +159,11 @@ function tp1() {
 		${srat} -cf ~/Desktop/minimize/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
 		csleep 2
 
-		local tget
-		local p
-		local f
-
 		if [ -x ~/Desktop/minimize/profs.sh ] ; then
 			dqb "PR0FS.SH F+UND"
 			
 			. ~/Desktop/minimize/profs.sh
-			exp_prof ~/Desktop/minimize/someparam.tar default-esr
+			exp_prof ~/Desktop/minimize/fediverse.tar default-esr
 		else
 			dqb "FASD FADS SAFD"	
 		fi
@@ -313,9 +310,7 @@ function tp2() {
 
 	#HUOM.30425:koklataan josko sittenkin pelkkä /e/n/interfaces riittäisi koska a) ja b)
 	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?
-	#HUOM.100525:kahden vaiheilla josko kuitenkin tp1() hoitaisi locale,rimezone
-
-	${srat} -rf ${1} /etc/iptables/rules.* /etc/network/interfaces /etc/default/locale /etc/timezone
+	${srat} -rf ${1} /etc/iptables /etc/network/interfaces /etc/default/locale /etc/timezone
 
 	case ${iface} in
 		wlan0)
