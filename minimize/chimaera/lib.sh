@@ -45,15 +45,18 @@ function part2_pre() {
 		${sharpy} libopts25
 		${sharpy} rpc* nfs* 
 	fi
-}
 
-function part3_post() {
 	ecfx
 
 	if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ]  ; then
 		el_loco
-		vommon
+		vommon	
+		exit #varm. vuoksi kesk. suor. jos salakala tyritty	
 	fi
+}
+
+function part3_post() {
+	
 	
 	${asy}
 	csleep 3

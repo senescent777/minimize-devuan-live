@@ -21,15 +21,16 @@ fi
 ${odio} which iptables; csleep 3
 
 #onkohan hyvä näin?
-#TODO:pitäisi kai miettiä tämä kohta, ideana kai että ei poisteta iptables jos ei korvaavaa pakerria
-if [ ${removepkgs} -eq 1 ] ; then
-	dqb "kö"
-else
-	${sharpy} libopts25
-	${sharpy} rpc* nfs* 
-fi
+#VAIH:pitäisi kai miettiä tämä kohta, ideana kai että ei poisteta iptables jos ei korvaavaa pakerria
+#if [ ${removepkgs} -eq 1 ] ; then
+#	dqb "kö"
+#else
+##	${sharpy} libopts25
+#	${sharpy} rpc* nfs* 
+#fi
 
-part2 ${removepkgs}
+pre_part1 1
+part2 1 #${removepkgs}
 ${odio} which iptables; csleep 3
 
 #==============================================================
