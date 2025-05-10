@@ -141,6 +141,22 @@ function pre2() {
 	fi
 }
 
+function tpq() {
+	${srat} -cf ~/Desktop/minimize/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
+	csleep 2
+
+	if [ -x ~/Desktop/minimize/profs.sh ] ; then
+		dqb "PR0FS.SH F+UND"
+			
+		. ~/Desktop/minimize/profs.sh
+		exp_prof ~/Desktop/minimize/fediverse.tar default-esr
+	else
+		dqb "FASD FADS SAFD"	
+	fi
+
+	csleep 5
+}
+
 function tp1() {
 	debug=1
 	dqb "tp1( ${1} , ${2} )"
@@ -157,19 +173,7 @@ function tp1() {
 
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		${srat} -cf ~/Desktop/minimize/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
-		csleep 2
-
-		if [ -x ~/Desktop/minimize/profs.sh ] ; then
-			dqb "PR0FS.SH F+UND"
-			
-			. ~/Desktop/minimize/profs.sh
-			exp_prof ~/Desktop/minimize/fediverse.tar default-esr
-		else
-			dqb "FASD FADS SAFD"	
-		fi
-
-		csleep 5
+		tpq
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
@@ -184,6 +188,7 @@ function tp1() {
 function rmt() {
 	dqb=1
 	dqb "rmt(${1}, ${2})" #WTUN TYPOT STNA111223456
+
 	${scm} 0444 ~/Desktop/minimize/${2}/*.deb
 	p=$(pwd)
 
@@ -229,8 +234,6 @@ function tp4() {
 	${fib}
 	${asy}
 	csleep 3
-
-	#VAIH:testaa
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
@@ -311,7 +314,9 @@ function tp2() {
 
 	#HUOM.30425:koklataan josko sittenkin pelkkä /e/n/interfaces riittäisi koska a) ja b)
 	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?
-	${srat} -rf ${1} /etc/iptables /etc/network/interfaces /etc/default/locale /etc/timezone
+	#rules ja locale mukaan toisessa fktiossa vai ei?
+
+	${srat} -rf ${1} /etc/iptables/rules.* /etc/network/interfaces /etc/default/locale /etc/timezone
 
 	case ${iface} in
 		wlan0)
@@ -508,10 +513,12 @@ case ${mode} in
 		echo "$0 -h: shows this message about usage"		
 	;;
 	q)
-		#TODO:pientä laittoa, ffox prof takia ei tarvinne koko minimize-hmistoa
+		#VAIH:pientä laittoa, ffox prof takia ei tarvinne koko minimize-hmistoa
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
-		tp1 ${tgtfile} ${distro}
+		#tp1 ${tgtfile} ${distro}
+		tpq
+		${rat} -cf ${tgtfile} ~/Desktop/xfce.tar ~/Desktop/fediverse.tar
 	;;
 esac
 
