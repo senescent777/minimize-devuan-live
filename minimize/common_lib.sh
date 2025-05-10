@@ -612,7 +612,7 @@ function part2() {
 
 		${sharpy} libblu* libcupsfilters* libgphoto* 
 		# libopts25 ei tÄmmöistä daedaluksessa
-
+#TODO:python3-cups pois jossain kohdassa
 		${sharpy} avahi* blu* cups*
 		${sharpy} exim*
 		${lftr}
@@ -721,10 +721,11 @@ function vommon() {
 	if [ $? -eq 0 ] ; then
 		${whack} xfce4-session
 		#HUOM. tässä ei tartte jos myöhemmin joka tap
-		exit 
 	else
 		dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
 	fi
+
+	exit 
 }
 
 dqb "common_l1b_l0ad3d_5ucc35fully"

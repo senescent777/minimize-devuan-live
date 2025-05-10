@@ -313,7 +313,9 @@ function tp2() {
 
 	#HUOM.30425:koklataan josko sittenkin pelkkä /e/n/interfaces riittäisi koska a) ja b)
 	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?
-	${srat} -rf ${1} /etc/iptables /etc/network/interfaces /etc/default/locale /etc/timezone
+	#HUOM.100525:kahden vaiheilla josko kuitenkin tp1() hoitaisi locale,rimezone
+
+	${srat} -rf ${1} /etc/iptables/rules.* /etc/network/interfaces /etc/default/locale /etc/timezone
 
 	case ${iface} in
 		wlan0)
