@@ -205,12 +205,12 @@ function check_binaries() {
 
 		#HUOM.tässä kohtaa jos nalkuttaisi syytä kysymykseen vastaamisesta kanssa	
 		message
-		#TODO:nalkutuksen sijaan fiksumpi idea olisi pakottaa "n" vastaukseksi jos mahd	
+		#VAIH:nalkutuksen sijaan fiksumpi idea olisi pakottaa "n" vastaukseksi jos mahd	
 		
 		pre_part3 ~/Desktop/minimize/${1}
 		pr4 ~/Desktop/minimize/${1}
 
-		#HUOM. pitäisiköhän tässä kohtaa kopsata .0:t takaisin alkup nimille?
+		#HUOM. pitäisiköhän tässä kohtaa kopsata .0:t takaisin alkup nimille? (TODO)
 
 		ipt=$(sudo which iptables)
 		ip6t=$(sudo which ip6tables)
@@ -379,7 +379,6 @@ function pre_enforce() {
 	dqb "common_lib.pre_enforce d0n3"
 }
 
-#TODO:/e/fstab sorkkiminen, tavis-kjälle mahdollista mountata tikku
 #HUOM.270325:vaikuttaisi siltä että part1() rikkoo chimaeran/äksän/slimin tai sitten uusi tikku tai optinen kiekko olisi kokeilemisen arvoinen juttu
 #pas2.sh kutsuu tätä ja vissiin ei aiheuttanut härdelliä
 
