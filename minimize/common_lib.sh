@@ -17,8 +17,6 @@ scm="${odio} ${scm} "
 
 #HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
 sah6=$(which sha512sum)
-
-#distro:n ja n_n alustus vähitellen tähän ni ei tartte kutsuvissa skripteissä...
 distro=$(cat /etc/devuan_version)
 n=$(whoami)
 
@@ -198,12 +196,12 @@ function check_binaries() {
 			${odio} ${NKVD} ~/Desktop/minimize/${1}/e.tar  
 		fi
 
-		#100525:tulikohan täss nalkutusta? kala puuttuu vai se toinen?
 		psqa ~/Desktop/minimize/${1}
 		sleep 5
 
 		#HUOM.tässä kohtaa jos nalkuttaisi syytä kysymykseen vastaamisesta kanssa	
-		message		
+		message
+		#TODO:nalkutuksen sijaan fiksumpi idea olisi pakottaa "n" vastaukseksi jos mahd	
 		pre_part3 ~/Desktop/minimize/${1}
 		pr4 ~/Desktop/minimize/${1}
 
@@ -361,11 +359,14 @@ function pre_enforce() {
 		#saavuttaakohan tuolla nollauksella mitään? kuitenkin alustetaan 
 	fi
 
+	echo "/dev/disk/by-uuid/${part0} ${dir} auto nosuid,noexec,noauto,user 0 2 > /e/fstab"
 	dqb "common_lib.pre_enforce d0n3"
 }
 
+#TODO:/e/fstab sorkkiminen, tavis-kjälle mahdollista mountata tikku
 #HUOM.270325:vaikuttaisi siltä että part1() rikkoo chimaeran/äksän/slimin tai sitten uusi tikku tai optinen kiekko olisi kokeilemisen arvoinen juttu
 #pas2.sh kutsuu tätä ja vissiin ei aiheuttanut härdelliä
+
 function enforce_access() {
 	dqb " enforce_access( ${1})"	
 
@@ -466,7 +467,18 @@ function el_loco() {
 	csleep 3
 
 	#TODO:ehto jatkossa toisin, eism- kutsuva koodi pääättämään?
-	#... tai jos nuo set-export-jutut ennen if?
+	
+#	#HUOM. tulisi kai tarkistaa mjan olemassaolo+ei-tyhjyys
+#	set LC_TIME=${LCF666}
+#	export LC_TIME
+#
+#	set LANGUAGE=${LCF667}
+#	export LANGUAGE
+#
+#	set LC_ALL=${LCF668}
+#	export LC_ALL
+#	#VAIH:nuo mjien asettelut toisin jatkossa, /e/d/locale.tmp ...
+	[ -s /etc/default/locale.tmp ] && . /etc/default/locale.tmp
 
 	#joskohan tarkistus pois jatkossa?
 	if [ ${ce} -lt 1 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
@@ -475,25 +487,13 @@ function el_loco() {
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
 
-		#HUOM. tulisi kai tarkistaa mjan olemassaolo+ei-tyhjyys
-		set LC_TIME=${LCF666}
-		export LC_TIME
-
-		set LANGUAGE=${LCF667}
-		export LANGUAGE
-
-		set LC_ALL=${LCF668}
-		export LC_ALL
-
-		# HUOM.8525: muitakin LC-juttuja joutuisi sorkkimaan
-		#VAIH:LANGUAGE JA LC_ALL vielä joutuisi
-		
 		${scm} a+w /etc/default/locale
 		csleep 5
 
-		${odio} echo "LC_TIME=${LCF666}" >> /etc/default/locale		
-		${odio} echo "LANGUAGE=${LCF667}" >> /etc/default/locale		
-		${odio} echo "LC_ALL=${LCF668}" >> /etc/default/locale		
+#		${odio} echo "LC_TIME=${LCF666}" >> /etc/default/locale		
+#		${odio} echo "LANGUAGE=${LCF667}" >> /etc/default/locale		
+#		${odio} echo "LC_ALL=${LCF668}" >> /etc/default/locale		
+		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
 			
 		cat /etc/default/locale
 		csleep 5	
@@ -553,6 +553,9 @@ function part1() {
 	${sifd} -a
 	${sip} link set ${iface} down
 
+	#VAIH:pitäisiköhän tässä ajaa sysctl?
+	${odio} sysctl -p #/etc/sysctl.conf
+
 	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 	[ ${debug} -eq 1 ] && /sbin/ifconfig;sleep 5 
 
@@ -605,12 +608,9 @@ function part175() {
 
 function part2() {
 	debug=1
-	#HUOM.removepkgs-jutut voisivat olla tässä fktiossakin, kai
-	#c=$(find ${d} -name '*.deb' | wc -l)
-	#[ ${c} -gt 0 ] || removepkgs=0
 	
 	dqb "PART2 ${1}"
-	csleep 10
+	csleep 6
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "PART2-2"
@@ -620,7 +620,7 @@ function part2() {
 
 		${sharpy} libblu* libcupsfilters* libgphoto* 
 		# libopts25 ei tÄmmöistä daedaluksessa
-#TODO:python3-cups pois jossain kohdassa
+
 		${sharpy} avahi* blu* cups*
 		${sharpy} exim*
 		${lftr}
@@ -647,7 +647,7 @@ function part2() {
 	fi
 
 	dqb "PART2-3"
-	csleep 10
+	csleep 6
 
 	if [ y"${ipt}" != "y" ] ; then 
 		${ip6tr} /etc/iptables/rules.v6
@@ -707,15 +707,15 @@ function part3() {
 
 	csleep 2
 }
-
+#
 #tartteeko varsinaista fktiota tätä varten?
-function ecfx() {
-	dqb "echx"
-
-	if [ -s ~/Desktop/minimize/xfce.tar ] ; then
-		${srat} -C / -xvf ~/Desktop/minimize/xfce.tar
-	fi
-}
+#function ecfx() {
+#	dqb "echx"
+#
+#	if [ -s ~/Desktop/minimize/xfce.tar ] ; then
+#		${srat} -C / -xvf ~/Desktop/minimize/xfce.tar
+#	fi
+#}
 
 function vommon() {
 	dqb "R (in 6 secs)"; csleep 6
@@ -729,10 +729,11 @@ function vommon() {
 	if [ $? -eq 0 ] ; then
 		${whack} xfce4-session
 		#HUOM. tässä ei tartte jos myöhemmin joka tap
-		exit 
 	else
 		dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
 	fi
+
+	exit 
 }
 
 dqb "common_l1b_l0ad3d_5ucc35fully"

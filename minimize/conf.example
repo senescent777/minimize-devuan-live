@@ -9,8 +9,4 @@ part0=ABCD-1234-XXXX
 removepkgs=1
 #dsn="INSERT LIST OF DNS/DOT SERVERS HERE"
 changepw=0
-#
-LCF666=smthng #LC_TIME
-LCF667=en_US.UTF-8 #menisikö vaikka näin?
-LCF668=en_US.UTF-8
-#TODO:jos mahd ni jkn fiksunpi menettly locale-asetusten kanssa, esim- cat xxx >> /e/d/l ?
+#HUOM.11525:locale-juttuja varten nykyään /e/d/l.tmp

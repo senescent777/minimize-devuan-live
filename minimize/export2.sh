@@ -76,7 +76,7 @@ mkt=$(sudo which mktemp)
 if [ x"${tig}" == "x" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
 	echo "sudo apt-get update;sudo apt-get install git"
-#	exit 7
+	exit 7
 fi
 
 if [ x"${mkt}" == "x" ] ; then
@@ -314,9 +314,10 @@ function tp2() {
 
 	#HUOM.30425:koklataan josko sittenkin pelkkä /e/n/interfaces riittäisi koska a) ja b)
 	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?
-	#rules ja locale mukaan toisessa fktiossa vai ei?
+	#rules ja tzone mukaan toisessa fktiossa vai ei?
+	#11525:tuleeko /e/iptables mukaan vai ei?
 
-	${srat} -rf ${1} /etc/iptables/rules.* /etc/network/interfaces /etc/default/locale /etc/timezone
+	${srat} -rvf ${1} /etc/iptables /etc/network/interfaces /etc/default/locale* /etc/timezone
 
 	case ${iface} in
 		wlan0)
@@ -517,7 +518,7 @@ case ${mode} in
 		${sifd} ${iface}
 
 		#tp1 ${tgtfile} ${distro}
-		tpq
+		tpq #fktio ottamaan parametreja?
 		${srat} -cf ${tgtfile} ~/Desktop/minimize/xfce.tar ~/Desktop/minimize/fediverse.tar
 	;;
 esac
