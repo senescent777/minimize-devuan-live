@@ -45,17 +45,18 @@ function part2_pre() {
 		${sharpy} libopts25
 		${sharpy} rpc* nfs* 
 	fi
-
-	#TODO:ao. rivit-> generic_doit?
-	ecfx
-
-	if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ]  ; then
-		el_loco
-		vommon	
-		exit #varm. vuoksi kesk. suor. jos salakala tyritty	
-	fi
+#
+#	#VAIH:ao. rivit-> generic_doit?
+#	ecfx
+#
+#	if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ]  ; then
+#		el_loco
+#		vommon	
+#		exit #varm. vuoksi kesk. suor. jos salakala tyritty	
+#	fi
 }
 
+#tämä fktio pois jatkossa(?)
 function part3_post() {
 	
 	
