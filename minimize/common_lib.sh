@@ -206,8 +206,11 @@ function check_binaries() {
 		#HUOM.tässä kohtaa jos nalkuttaisi syytä kysymykseen vastaamisesta kanssa	
 		message
 		#TODO:nalkutuksen sijaan fiksumpi idea olisi pakottaa "n" vastaukseksi jos mahd	
+		
 		pre_part3 ~/Desktop/minimize/${1}
 		pr4 ~/Desktop/minimize/${1}
+
+		#HUOM. pitäisiköhän tässä kohtaa kopsata .0:t takaisin alkup nimille?
 
 		ipt=$(sudo which iptables)
 		ip6t=$(sudo which ip6tables)
