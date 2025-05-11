@@ -499,6 +499,11 @@ function el_loco() {
 	
 	#ennen vai jälkeen if-blokin?
 	[ -s /etc/default/locale.tmp ] && . /etc/default/locale.tmp
+	
+	export LC_TIME
+	export LANGUAGE
+	export LC_ALL
+
 	dqb "DN03"
 	csleep 2
 }
