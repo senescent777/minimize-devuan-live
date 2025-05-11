@@ -124,16 +124,20 @@ function mangle_s() {
 
 function psqa() {
 	dqb "QUASB (THE BURNING) ${1}"
-	ls -las ${sah6}
-	sleep 5
+#	ls -las ${sah6}
+#	sleep 5
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		p=$(pwd)
 		cd ${1}
+
+#		dpkg -V #HUOM.11525:toistaiseksi jemmaan
+#		sleep 5
+
 		${sah6} -c sha512sums.txt --ignore-missing
 		[ $? -eq 0 ] || exit 97
 
-		dqb "sha-test passed"
+		#dqb "sha-test passed"
 		cd ${p}
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
@@ -147,7 +151,7 @@ function message() {
 	csleep 3
 
 	echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES";sleep 2
-	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 5
+	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 3
 }
 
 #TODO:jos mahd ni Python-tyyppinen(?) idea käyttöön ao. fktioon, $cmd=eval_cmd("cmd") tai jopa $array["cmd"]=aval_cmd("cmd")
@@ -242,7 +246,7 @@ function check_binaries() {
 	som=$(sudo which mount)
 	uom=$(sudo which umount)
 	dqb "b1nar135 0k" 
-	csleep 3
+	csleep 2
 }
 
 function check_binaries2() {
@@ -327,7 +331,7 @@ function pre_enforce() {
 	q=$(mktemp -d)
 
 	dqb "sudo touch ${q}/meshuggah in 3 secs"
-	csleep 3
+	csleep 2
 	touch ${q}/meshuggah
 
 	[ ${debug} -eq 1 ] && ls -las ${q}
@@ -359,7 +363,16 @@ function pre_enforce() {
 		#saavuttaakohan tuolla nollauksella mitään? kuitenkin alustetaan 
 	fi
 
-	echo "/dev/disk/by-uuid/${part0} ${dir} auto nosuid,noexec,noauto,user 0 2 > /e/fstab"
+	local c4
+	c4=$(grep -c ${part0} /etc/fstab)
+
+	if [ ${c4} -lt 1 ] ; then
+		${scm} a+w /etc/fstab	
+		${odio} echo "/dev/disk/by-uuid/${part0} ${dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+		${scm} a-w /etc/fstab
+	fi
+
+	csleep 5
 	dqb "common_lib.pre_enforce d0n3"
 }
 
@@ -459,15 +472,15 @@ function enforce_access() {
 
 function el_loco() {
 	dqb "MI LOCO"
-	csleep 4
+	csleep 3
 	
 	local ce
 	ce=$(grep -v '#' /etc/default/locale  | grep LC_TIME | grep -c ${LCF666})
 	echo ${ce}
 	csleep 3
 
-	#TODO:ehto jatkossa toisin, eism- kutsuva koodi pääättämään?
-	
+	#VAIH:ehto jatkossa toisin, eism- kutsuva koodi pääättämään?
+
 #	#HUOM. tulisi kai tarkistaa mjan olemassaolo+ei-tyhjyys
 #	set LC_TIME=${LCF666}
 #	export LC_TIME
@@ -478,6 +491,7 @@ function el_loco() {
 #	set LC_ALL=${LCF668}
 #	export LC_ALL
 #	#VAIH:nuo mjien asettelut toisin jatkossa, /e/d/locale.tmp ...
+#TODO:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön
 	[ -s /etc/default/locale.tmp ] && . /etc/default/locale.tmp
 
 	#joskohan tarkistus pois jatkossa?
@@ -494,9 +508,9 @@ function el_loco() {
 #		${odio} echo "LANGUAGE=${LCF667}" >> /etc/default/locale		
 #		${odio} echo "LC_ALL=${LCF668}" >> /etc/default/locale		
 		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
-			
+
 		cat /etc/default/locale
-		csleep 5	
+		csleep 5
 		cat /etc/timezone
 		csleep 5
 
@@ -504,9 +518,9 @@ function el_loco() {
 		ls -las /etc/default/lo*
 		csleep 5
 	fi
-	
+
 	dqb "DN03"
-	csleep 3
+	csleep 2
 }
 
 function part1_5() {
@@ -518,16 +532,16 @@ function part1_5() {
 
 				g=$(date +%F) 
 				dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
-				csleep 3
+				csleep 2
 
 				[ -f /etc/apt/sources.list ] && ${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
-				h=$(mktemp -d)		
+				h=$(mktemp -d)
 				touch ${h}/sources.list.${1} 
 
 				for x in ${1} ${1}-updates ${1}-security ; do
 					echo "deb https://${pkgsrc}/merged ${x} main" >> ${h}/sources.list.${1}  
 				done
-		
+
 				${svm} ${h}/sources.list.${1} /etc/apt/
 				${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list			
 				[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
@@ -557,14 +571,14 @@ function part1() {
 	${odio} sysctl -p #/etc/sysctl.conf
 
 	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
-	[ ${debug} -eq 1 ] && /sbin/ifconfig;sleep 5 
+	[ ${debug} -eq 1 ] && /sbin/ifconfig;sleep 4
 
 	if [ y"${ipt}" == "y" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
 		for t in INPUT OUTPUT FORWARD ; do 
 			${ipt} -P ${t} DROP
-			dqb "V6"; csleep 3
+			dqb "V6"; csleep 2
 			${ip6t} -P ${t} DROP
 			${ip6t} -F ${t}
 		done
@@ -573,7 +587,7 @@ function part1() {
 
 		if [ ${debug} -eq 1 ] ; then
 			${ipt} -L #
-			dqb "V6.b"; csleep 3
+			dqb "V6.b"; csleep 2
 			${ip6t} -L # -x mukaan?
 			sleep 5 
 		fi #	
@@ -588,7 +602,7 @@ function part1() {
 #HUOM.090525:joskohan nyt tarpeeksi aikaisessa vaiheessa tables+palv.prosessien sammutus
 function part175() {
 	dqb "PART175()"
-	csleep 3	
+	csleep 2
 
 	for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ; do
 		${odio} /etc/init.d/${s} stop
@@ -596,7 +610,7 @@ function part175() {
 	done
 
 	dqb "shutting down some services (4 real) in 3 secs"
-	sleep 3 
+	sleep 2
 
 	${whack} cups*
 	${whack} avahi*
@@ -608,13 +622,12 @@ function part175() {
 
 function part2() {
 	debug=1
-	
 	dqb "PART2 ${1}"
-	csleep 6
+	csleep 2
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "PART2-2"
-		csleep 10
+		csleep 5
 
 		${sharpy} network*
 
@@ -629,7 +642,7 @@ function part2() {
 		case ${iface} in
 			wlan0)
 				dqb "NOT REMOVING WPASUPPLICANT"
-				csleep 6
+				csleep 3
 			;;
 			*)
 				${sharpy} modem* wireless* wpa*
@@ -640,14 +653,13 @@ function part2() {
 		${sharpy} ntp*
 		${lftr}
 		csleep 3
-	
 		${sharpy} po* pkexec
 		${lftr}
 		csleep 3
 	fi
 
 	dqb "PART2-3"
-	csleep 6
+	csleep 3
 
 	if [ y"${ipt}" != "y" ] ; then 
 		${ip6tr} /etc/iptables/rules.v6
@@ -664,7 +676,7 @@ function part2() {
 	fi #
 
 	dqb "PART2 D0N3"
-	csleep 10
+	csleep 5
 }
 
 #HUOM.22325: oli jotain nalkutusta vielä chimaeran päivityspaketista, lib.sh fktiot tai export2 muutettava vasta avasti (vielä ongelma?)
@@ -684,22 +696,23 @@ function part3() {
 
 	psqa ${1}
 
+	#HUOM. dpkg -R olisi myös keksitty
 	local f
 	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
-	
+
 	if [ $? -eq  0 ] ; then
 		dqb "part3.1 ok"
-		csleep 5
+		csleep 3
 		${NKVD} ${1}/lib*.deb 
 	else
 	 	exit 66
 	fi
 
-	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done	
+	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
 
 	if [ $? -eq  0 ] ; then
 		dqb "part3.2 ok"
-		csleep 5
+		csleep 3
 		${NKVD} ${1}/*.deb 
 	else
 	 	exit 67
@@ -707,22 +720,13 @@ function part3() {
 
 	csleep 2
 }
-#
-#tartteeko varsinaista fktiota tätä varten?
-#function ecfx() {
-#	dqb "echx"
-#
-#	if [ -s ~/Desktop/minimize/xfce.tar ] ; then
-#		${srat} -C / -xvf ~/Desktop/minimize/xfce.tar
-#	fi
-#}
 
 function vommon() {
-	dqb "R (in 6 secs)"; csleep 6
+	dqb "R (in 3 secs)"; csleep 3
 	${odio} passwd
-	
+
 	if [ $? -eq 0 ] ; then
-		dqb "L (in 6 secs)"; csleep 6
+		dqb "L (in 3 secs)"; csleep 3
 		passwd
 	fi
 

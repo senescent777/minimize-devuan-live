@@ -63,10 +63,18 @@ part1_post
 #VAIH:myös daed-testit s.e. localet wtuiksi&&profs disablointi
 
 #===================================================PART 2===================================
+[ -s ~/Desktop/minimize/xfce.tar ] && ${srat} -C / -xf ~/Desktop/minimize/xfce.tar
+csleep 5
+#TODO: josko pakottaisi lokaaliasetukset ehdolla mode==1 ? sen lisäksi että LC_TIME-ehto
+el_loco
+
+if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
+	vommon
+	exit #varm. vuoksi kesk. suor. jos salakala tyritty
+fi
+
 c=$(find ${d} -name '*.deb' | wc -l)
 [ ${c} -gt 0 ] || removepkgs=0
-
-#VAIH:muutoksia tuohon ylle, mm. syystä chimaeran testit
 
 part2_pre ${removepkgs}
 part2 ${removepkgs}

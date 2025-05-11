@@ -314,7 +314,7 @@ function tp2() {
 
 	#HUOM.30425:koklataan josko sittenkin pelkkä /e/n/interfaces riittäisi koska a) ja b)
 	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?
-	#rules ja tzone mukaan toisessa fktiossa vai ei?
+	#locale ja tzone mukaan toisessa fktiossa vai ei?
 	#11525:tuleeko /e/iptables mukaan vai ei?
 
 	${srat} -rvf ${1} /etc/iptables /etc/network/interfaces /etc/default/locale* /etc/timezone
@@ -510,7 +510,10 @@ case ${mode} in
 		echo "$0 3 <tgtfile> [distro] [-v]: makes the main pkg (old way)"
 		echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
 		echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
-		echo "$0 f <tgtfile> [distro] [-v]: archives .deb files"
+		echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under ~/Desktop/minimize/\${distro}"
+		echo "$0 p <> [] [] pulls Profs.sh from somewhere"
+		echo "$0 q <> [] [] archives firefox settings"
+				
 		echo "$0 -h: shows this message about usage"		
 	;;
 	q)
