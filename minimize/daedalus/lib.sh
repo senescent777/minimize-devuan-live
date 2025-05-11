@@ -1,6 +1,7 @@
 #=================================================PART 0=====================================
 
 #VAIH:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
+#https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 function pre_part3() {
 	[ y"${1}" == "y" ] && exit
 	dqb "pp3( ${1} )"
