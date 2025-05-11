@@ -108,19 +108,9 @@ function part1_post() {
 function part2_pre() {
 	#VAIH:python3-cups pois jossain kohdassa, esim. tässä (kts onko cjimaerassa python3-cups)
 	${sharpy} python3-cups
-
-	#ecfx
-	#TODO:tästä fktion loppuun -> generic_doit
-	[ -s ~/Desktop/minimize/xfce.tar ] && ${srat} -C / -xvf ~/Desktop/minimize/xfce.tar
-	csleep 5
-	el_loco
-
-	if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then #globaali mjs x 2		
-		vommon
-		exit #varm. vuoksi kesk. suor. jos salakala tyritty
-	fi
 }
 
+#seuraavaksi tämä takaisin > h_doit?
 function part3_post() {
 	${ip6tr} /etc/iptables/rules.v6
 	${iptr} /etc/iptables/rules.v4
