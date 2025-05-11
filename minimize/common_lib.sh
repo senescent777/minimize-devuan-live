@@ -473,52 +473,32 @@ function enforce_access() {
 function el_loco() {
 	dqb "MI LOCO"
 	csleep 3
-	
-	local ce
-	ce=$(grep -v '#' /etc/default/locale  | grep LC_TIME | grep -c ${LCF666})
-	echo ${ce}
-	csleep 3
 
-	#VAIH:ehto jatkossa toisin, eism- kutsuva koodi pääättämään?
-
-#	#HUOM. tulisi kai tarkistaa mjan olemassaolo+ei-tyhjyys
-#	set LC_TIME=${LCF666}
-#	export LC_TIME
-#
-#	set LANGUAGE=${LCF667}
-#	export LANGUAGE
-#
-#	set LC_ALL=${LCF668}
-#	export LC_ALL
-#	#VAIH:nuo mjien asettelut toisin jatkossa, /e/d/locale.tmp ...
-#TODO:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön
-	[ -s /etc/default/locale.tmp ] && . /etc/default/locale.tmp
+	#TODO:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön, locale-gen...
 
 	#joskohan tarkistus pois jatkossa?
-	if [ ${ce} -lt 1 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
+	if [ ${1} -gt 0 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
 		#client-side session_expiration_checks can be a PITA
 
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
 
 		${scm} a+w /etc/default/locale
-		csleep 5
-
-#		${odio} echo "LC_TIME=${LCF666}" >> /etc/default/locale		
-#		${odio} echo "LANGUAGE=${LCF667}" >> /etc/default/locale		
-#		${odio} echo "LC_ALL=${LCF668}" >> /etc/default/locale		
+		csleep 3
 		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
 
 		cat /etc/default/locale
-		csleep 5
+		csleep 3
 		cat /etc/timezone
-		csleep 5
+		csleep 3
 
 		${scm} a-w /etc/default/locale
 		ls -las /etc/default/lo*
-		csleep 5
+		csleep 3
 	fi
-
+	
+	#ennen vai jälkeen if-blokin?
+	[ -s /etc/default/locale.tmp ] && . /etc/default/locale.tmp
 	dqb "DN03"
 	csleep 2
 }
@@ -567,7 +547,6 @@ function part1() {
 	${sifd} -a
 	${sip} link set ${iface} down
 
-	#VAIH:pitäisiköhän tässä ajaa sysctl?
 	${odio} sysctl -p #/etc/sysctl.conf
 
 	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"

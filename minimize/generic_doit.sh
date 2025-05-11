@@ -59,22 +59,23 @@ part1 ${distro}
 part175
 part1_post
 
-#TODO:testit chmaeran kanssa, paketit pois ja localet wtuiksi, let's find out
-#VAIH:myös daed-testit s.e. localet wtuiksi&&profs disablointi
+#TODO:testit chmaeran kanssa, paketit pois ja , let's find out
 
 #===================================================PART 2===================================
-[ -s ~/Desktop/minimize/xfce.tar ] && ${srat} -C / -xf ~/Desktop/minimize/xfce.tar
-csleep 5
-#TODO: josko pakottaisi lokaaliasetukset ehdolla mode==1 ? sen lisäksi että LC_TIME-ehto
-el_loco
+#VAIH: josko pakottaisi lokaaliasetukset ehdolla mode==1 ? sen lisäksi että LC_TIME-ehto
+c14=0
+[ ${mode} -eq 1 ] && c14=1
+c13=$(grep -v '#' /etc/default/locale  | grep LC_TIME | grep -c ${LCF666})
+[ ${c13} -lt 1 ] && c14=1
+el_loco ${c14}
 
 if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
 	vommon
 	exit #varm. vuoksi kesk. suor. jos salakala tyritty
 fi
 
-c=$(find ${d} -name '*.deb' | wc -l)
-[ ${c} -gt 0 ] || removepkgs=0
+c14=$(find ${d} -name '*.deb' | wc -l)
+[ ${c14} -gt 0 ] || removepkgs=0
 
 part2_pre ${removepkgs}
 part2 ${removepkgs}
@@ -86,6 +87,9 @@ message
 pre_part3 ${d}
 pr4 ${d}
 part3 ${d}
+
+[ -s ~/Desktop/minimize/xfce.tar ] && ${srat} -C / -xf ~/Desktop/minimize/xfce.tar
+csleep 5
 
 #tai sitten käskytetään:import2 (jatkossa -> part3_post ?)
 if [ -x ~/Desktop/minimize/profs.sh ] ; then

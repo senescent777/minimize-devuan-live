@@ -213,7 +213,7 @@ function rmt() {
 }
 
 function tp4() {
-	dqb=1
+	debug=1
 	dqb "tp4( ${1} , ${2} )"
 
 	[ z"${1}" == "z" ] && exit 1
@@ -315,9 +315,10 @@ function tp2() {
 	#HUOM.30425:koklataan josko sittenkin pelkkä /e/n/interfaces riittäisi koska a) ja b)
 	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?
 	#locale ja tzone mukaan toisessa fktiossa vai ei?
-	#11525:tuleeko /e/iptables mukaan vai ei?
+	#11525:tuleeko /e/iptables mukaan vai ei? kyl kai
 
-	${srat} -rvf ${1} /etc/iptables /etc/network/interfaces /etc/default/locale* /etc/timezone
+	${srat} -rvf ${1} /etc/iptables /etc/network/interfaces
+	${srat} -rvf ${1} /etc/default/locale* /etc/timezone /etc/locale-gen
 
 	case ${iface} in
 		wlan0)
