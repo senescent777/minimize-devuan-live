@@ -35,6 +35,7 @@ ${odio} DEBIAN_FRONTEND=noninteractive dpkg -i ${1}/iptables-*.deb
 dqb "pp3 d0n3"
 csleep 6
 }
+
 function pr4() {
 dqb "pr4( ${1})"
 csleep 3
@@ -74,6 +75,9 @@ csleep 1
 }
 
 function udp6() {
+dqb "UPDP-6"
+csleep 2
+
 ${smr} ${pkgdir}/libx11-xcb1*
 ${smr} ${pkgdir}/nfs*
 ${smr} ${pkgdir}/rpc*
@@ -114,24 +118,23 @@ function part2_pre() {
 ${sharpy} python3-cups
 }
 
-##TODO:seuraavaksi tämä takaisin > h_doit?
+##VAIH:seuraavaksi tämä takaisin > h_doit?
 ##VAIH:rules-kikkailut?
-
-function part3_post() {
-jules
-##
-###seur. 2 riviä turhia koska chagedns
-##${ip6tr} /etc/iptables/rules.v6
-##${iptr} /etc/iptables/rules.v4
-##
-${asy}
-dqb "GR1DN BELIALAS KYE"
-${scm} 0555 ~/Desktop/minimize/changedns.sh
-${sco} root:root ~/Desktop/minimize/changedns.sh
-${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
-${sipt} -L
-csleep 6
-}
-
+#function part3_post() {
+#jules
+###
+####seur. 2 riviä turhia koska chagedns
+###${ip6tr} /etc/iptables/rules.v6
+###${iptr} /etc/iptables/rules.v4
+###
+#${asy}
+#dqb "GR1DN BELIALAS KYE"
+#${scm} 0555 ~/Desktop/minimize/changedns.sh
+#${sco} root:root ~/Desktop/minimize/changedns.sh
+#${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+#${sipt} -L
+#csleep 6
+#}
+#
 check_binaries ${distro}
 check_binaries2
