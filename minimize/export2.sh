@@ -521,7 +521,7 @@ case ${mode} in
 	;;
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
-		pre2 ${d} #istro}
+		pre2 ${d}
 		tp5 ${tgtfile}
 	;;
 	e)
