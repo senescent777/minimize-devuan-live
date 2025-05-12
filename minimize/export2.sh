@@ -264,7 +264,7 @@ function tp4() {
 	${shary} libaudit1 libselinux1 #libpam0g #libpam-modules zlib1g #libpam kanssa oli nalkutusta 080525
 
 	${shary} man-db sudo
-	#TODO:message
+	message
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
@@ -272,7 +272,7 @@ function tp4() {
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 
 	#actually necessary
-	pre2 ${2} #VAIH:tämänkin joutuu muuttamaan toiseen suuntaan
+	pre2 ${2}
 
 	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
