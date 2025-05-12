@@ -416,7 +416,6 @@ function tp3() {
 	csleep 6
 }
 
-#VAIH:$2-kogtien muuttaminen
 function tpu() {
 	debug=1	
 
@@ -516,8 +515,8 @@ case ${mode} in
 		tp4 ${tgtfile} ${d} #istro}
 	;;
 	1|u|upgrade)
-		pre2 ${d} #istro}
-		tpu ${tgtfile} ${d} #istro}
+		pre2 ${d}
+		tpu ${tgtfile} ${d}
 	;;
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
@@ -525,7 +524,7 @@ case ${mode} in
 		tp5 ${tgtfile}
 	;;
 	e)
-		pre2 ${d} #istro}
+		pre2 ${d}
 		tp4 ${tgtfile} ${d}
 	;;
 	f)
