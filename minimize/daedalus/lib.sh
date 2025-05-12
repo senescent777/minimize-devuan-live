@@ -3,8 +3,6 @@
 ##VAIH:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 ##https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
-#TODO: . desktop-filut omaan hmistoon
-
 function pre_part3() {
 	[ y"${1}" == "y" ] && exit
 	dqb "pp3( ${1} )"
@@ -77,34 +75,34 @@ csleep 1
 }
 
 function udp6() {
-dqb "UPDP-6"
-csleep 2
+	dqb "UPDP-6"
+	csleep 2
 
-${smr} ${pkgdir}/libx11-xcb1*
-${smr} ${pkgdir}/nfs*
-${smr} ${pkgdir}/rpc*
-${smr} ${pkgdir}/python3.11*
-${smr} ${pkgdir}/xserver-xorg-core*
-${smr} ${pkgdir}/xserver-xorg-legacy*
-${smr} ${pkgdir}/libgtk-3-bin*
-${smr} ${pkgdir}/libpython3.11*
-${smr} ${pkgdir}/librsvg2*
+	${smr} ${pkgdir}/libx11-xcb1*
+	${smr} ${pkgdir}/nfs*
+	${smr} ${pkgdir}/rpc*
+	${smr} ${pkgdir}/python3.11*
+	${smr} ${pkgdir}/xserver-xorg-core*
+	${smr} ${pkgdir}/xserver-xorg-legacy*
+	${smr} ${pkgdir}/libgtk-3-bin*
+	${smr} ${pkgdir}/libpython3.11*
+	${smr} ${pkgdir}/librsvg2*
+	
+	#TODO:kts part2 (?)
+	${smr} ${pkgdir}/avahi*
+	${smr} ${pkgdir}/blu*
+	${smr} ${pkgdir}/cups*
+	${smr} ${pkgdir}/exim*
 
-#TODO:kts part2 (?)
-${smr} ${pkgdir}/avahi*
-${smr} ${pkgdir}/blu*
-${smr} ${pkgdir}/cups*
-${smr} ${pkgdir}/exim*
-
-case ${iface} in
-wlan0)
-dqb "NOT REMOVING WPASUPPLICANT"
-csleep 6
-;;
-*)
-${smr} ${pkgdir}/wpa*
-;;
-esac
+	case ${iface} in
+		wlan0)
+			dqb "NOT REMOVING WPASUPPLICANT"
+			csleep 6
+		;;
+		*)
+			${smr} ${pkgdir}/wpa*
+		;;
+	esac
 }
 
 #uusien fktioiden sisältöä saattaa mennä takaisinkin ->g_doit, esim tämä fktio (TODO?)
