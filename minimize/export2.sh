@@ -165,10 +165,10 @@ function tp1() {
 	dqb "params_ok"
 	csleep 3
 
-	if [ -d ~/Desktop/minimize/${2} ] ; then
-		dqb "cleaning up ~/Desktop/minimize/${2} "
+	if [ -d ${2} ] ; then
+		dqb "cleaning up ${2} "
 		csleep 3
-		${NKVD} ~/Desktop/minimize/${2}/*.deb
+		${NKVD} ${2}/*.deb
 		dqb "d0nm3"
 	fi
 
@@ -186,16 +186,17 @@ function tp1() {
 	csleep 3
 }
 
+#TODO:tarkistukset
 function rmt() {
 	dqb=1
 	dqb "rmt(${1}, ${2})" #WTUN TYPOT STNA111223456
 
-	${scm} 0444 ~/Desktop/minimize/${2}/*.deb
+	${scm} 0444 ${2}/*.deb
 	p=$(pwd)
 
-	cd ~/Desktop/minimize/${2}
+	cd ${2}
 	[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt
-	csleep 3
+	csleep 2
 
 	touch ./sha512sums.txt
 	chown $(whoami):$(whoami) ./sha512sums.txt
@@ -203,10 +204,10 @@ function rmt() {
 	[ ${debug} -eq 1 ] && ls -las sha*;sleep 6
 
 	${sah6} ./*.deb > ./sha512sums.txt
-	csleep 3
+	csleep 2
 	psqa .
 
-	${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb ~/Desktop/minimize/${2}/sha512sums.txt
+	${srat} -rf ${1} ${2}/*.deb ${2}/sha512sums.txt
 	csleep 1
 	cd ${p}
 
@@ -221,7 +222,7 @@ function tp4() {
 	[ -s ${1} ] || exit 2
 
 	[ z"${2}" == "z" ] && exit 11
-	[ -d ~/Desktop/minimize/${2} ] || exit 22
+	[ -d ${2} ] || exit 22
 
 	dqb "paramz_ok"
 	csleep 3
@@ -250,7 +251,7 @@ function tp4() {
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 
 	#actually necessary
-	pre2 ${2}
+	pre2 ${2} #TODO:tämänkin joutuu muuttaaan toiseen suuntaan
 
 	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
@@ -294,9 +295,9 @@ function tp4() {
 	esac
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
-	if [ -d ~/Desktop/minimize/${2} ] ; then 
-		${NKVD} ~/Desktop/minimize/${2}/*.deb	
-		${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
+	if [ -d ${2} ] ; then 
+		${NKVD} *.deb	
+		${svm} ${pkgdir}/*.deb /${2}
 		rmt ${1} ${2}
 	fi
 
@@ -320,6 +321,7 @@ function tp2() {
 	#HUOM.12525.2:tarttisi ehkä kopsata /e/ipt/r -> /e/d/r
 
 	#HUOM.12525.1:jotain karsimista jatkossa kenties?
+	#HUOM.1252525.25252525:rules.x ei näköjään tullut mukaan, joko väärät jokerit tai käyttöoikeudet, tee joatin
 	${srat} -rvf ${1} /etc/network/interfaces /etc/iptables/rules.v4.? /etc/iptables/rules.v6.? 
 	${srat} -rvf ${1} /etc/default/rules* /etc/default/locale* /etc/timezone /etc/locale-gen
 
@@ -396,6 +398,7 @@ function tp3() {
 	csleep 6
 }
 
+#VAIH:$2-kogtien muuttaminen
 function tpu() {
 	debug=1	
 
@@ -403,7 +406,7 @@ function tpu() {
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] && mv ${1} ${1}.OLD
 	[ z"${2}" == "z" ] && exit 11
-	[ -d  ~/Desktop/minimize/${2} ] || exit 22
+	[ -d ${2} ] || exit 22
 	dqb "params_ok"
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
@@ -418,9 +421,9 @@ function tpu() {
 	udp6
 
 	dqb "UTP PT 3"
-	${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
-	date > ~/Desktop/minimize/${2}/tim3stamp
-	${srat} -cf ${1} ~/Desktop/minimize/${2}/tim3stamp
+	${svm} ${pkgdir}/*.deb ${2}
+	date > ${2}/tim3stamp
+	${srat} -cf ${1} ${2}/tim3stamp
 	rmt ${1} ${2}
 
 	${sifd} ${iface}
@@ -429,6 +432,7 @@ function tpu() {
 
 #TODO:-v tekemään jotain hyödyllistä
 
+#TODO:tsoituvia mjpnoja vähemmksi
 function tp5() {
 	debug=1
 
@@ -472,15 +476,15 @@ case ${mode} in
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		${srat} -cvf ${d}/e.tar ./rnd
-		tp4 ${d}/e.tar ${distro} #${tgtfile} ${distro}	
+		tp4 ${d}/e.tar ${d} #istro} #${tgtfile} ${distro}	
 		${sifd} ${iface}
 
-		tp1 ${tgtfile} ${distro}
+		tp1 ${tgtfile} ${d} #istro}
 		pre ${distro}
 		tp2 ${tgtfile} ${distro}
 	;;
 	3)
-		tp1 ${tgtfile} ${distro}
+		tp1 ${tgtfile} ${d} #istro}
 
 		pre ${distro}
 		pre2 ${distro}
@@ -491,11 +495,11 @@ case ${mode} in
 
 		pre ${distro}
 		pre2 ${distro}
-		tp4 ${tgtfile} ${distro}
+		tp4 ${tgtfile} ${d} #istro}
 	;;
 	1|u|upgrade)
 		pre2 ${distro}
-		tpu ${tgtfile} ${distro}
+		tpu ${tgtfile} ${d} #istro}
 	;;
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
@@ -504,10 +508,10 @@ case ${mode} in
 	;;
 	e)
 		pre2 ${distro}
-		tp4 ${tgtfile} ${distro}
+		tp4 ${tgtfile} ${d} #istro}
 	;;
 	f)
-		rmt ${tgtfile} ${distro}
+		rmt ${tgtfile} ${d} #istro}
 	;;
 	-h)
 		echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
@@ -524,7 +528,7 @@ case ${mode} in
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 
-		#tp1 ${tgtfile} ${distro}
+		#tp1 ${tgtfile} ${d} #istro}
 		tpq #fktio ottamaan parametreja?
 		${srat} -cf ${tgtfile} ~/Desktop/minimize/xfce.tar ~/Desktop/minimize/fediverse.tar
 	;;
