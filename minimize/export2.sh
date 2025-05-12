@@ -126,9 +126,12 @@ function pre2() {
 	dqb "pre2( ${1}, ${2})" #WTIN KAARISULKEET STNA
 	[ x"${1}" == "z" ] && exit 666
 
-	if [ -d ~/Desktop/minimize/${1} ] ; then
+	local ortsac
+	ortsac=$(echo ${1} | cut -d '/' -f 6)
+
+	if [ -d ${1} ] ; then
 		dqb "PRKL"
-		${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${1}
+		${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${ortsac}
 		csleep 4
 		${sifu} ${iface}
 		[ ${debug} -eq 1 ] && /sbin/ifconfig
@@ -231,6 +234,9 @@ function tp4() {
 
 	[ z"${1}" == "z" ] && exit 1
 	[ -s ${1} ] || exit 2
+	
+	dqb "DEMI-SEC"
+	csleep 1
 
 	[ z"${2}" == "z" ] && exit 11
 	[ -d ${2} ] || exit 22
@@ -255,6 +261,7 @@ function tp4() {
 	${shary} libaudit1 libselinux1 #libpam0g #libpam-modules zlib1g #libpam kanssa oli nalkutusta 080525
 
 	${shary} man-db sudo
+	#TODO:message
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
@@ -262,7 +269,7 @@ function tp4() {
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 
 	#actually necessary
-	pre2 ${2} #TODO:tämänkin joutuu muuttaaan toiseen suuntaan
+	pre2 ${2} #VAIH:tämänkin joutuu muuttamaan toiseen suuntaan
 
 	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
@@ -308,7 +315,7 @@ function tp4() {
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
 	if [ -d ${2} ] ; then 
 		${NKVD} *.deb	
-		${svm} ${pkgdir}/*.deb /${2}
+		${svm} ${pkgdir}/*.deb ${2}
 		rmt ${1} ${2}
 	fi
 
@@ -475,7 +482,7 @@ pre ${distro}
 case ${mode} in
 	0)
 		pre ${distro}
-		pre2 ${distro}
+		pre2 ${d} #istro}
 
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
@@ -498,31 +505,31 @@ case ${mode} in
 		tp1 ${tgtfile} ${d} #istro}
 
 		pre ${distro}
-		pre2 ${distro}
+		pre2 ${d} #istro}
 		tp3 ${tgtfile} ${distro}
 
 		pre ${distro}
 		tp2 ${tgtfile} ${distro}
 
 		pre ${distro}
-		pre2 ${distro}
+		pre2 ${d} #istro}
 		tp4 ${tgtfile} ${d} #istro}
 	;;
 	1|u|upgrade)
-		pre2 ${distro}
+		pre2 ${d} #istro}
 		tpu ${tgtfile} ${d} #istro}
 	;;
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
-		pre2 ${distro}
+		pre2 ${d} #istro}
 		tp5 ${tgtfile}
 	;;
 	e)
-		pre2 ${distro}
-		tp4 ${tgtfile} ${d} #istro}
+		pre2 ${d} #istro}
+		tp4 ${tgtfile} ${d}
 	;;
 	f)
-		rmt ${tgtfile} ${d} #istro}
+		rmt ${tgtfile} ${d}
 	;;
 	-h)
 		echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
@@ -539,7 +546,6 @@ case ${mode} in
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 
-		#tp1 ${tgtfile} ${d} #istro}
 		tpq #fktio ottamaan parametreja?
 		${srat} -cf ${tgtfile} ~/Desktop/minimize/xfce.tar ~/Desktop/minimize/fediverse.tar
 	;;
