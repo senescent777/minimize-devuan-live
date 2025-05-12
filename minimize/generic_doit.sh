@@ -136,7 +136,21 @@ if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	csleep 3
 fi
 
-part3_post
+#part3_post
+jules
+##
+###seur. 2 riviä turhia koska chagedns
+##${ip6tr} /etc/iptables/rules.v6
+##${iptr} /etc/iptables/rules.v4
+##
+${asy}
+dqb "GR1DN BELIALAS KYE"
+${scm} 0555 ~/Desktop/minimize/changedns.sh
+${sco} root:root ~/Desktop/minimize/changedns.sh
+${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+${sipt} -L
+csleep 6
+
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
 
