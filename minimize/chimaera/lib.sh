@@ -1,7 +1,7 @@
 #=========================PART 0 ENDS HERE=================================================================
 function pr4() {
 	dqb "pr4 (${1})"
-	psqa  ${1}
+	psqa ${1}
 
 	#TODO:dnsm-jutuille jos tekisijojo tain , esim. stubby+dnsmasq toimimaan ni ei tartte noita poistella
 	if [ ${dnsm} -eq 1 ] ; then
@@ -23,7 +23,6 @@ function pre_part3() {
 
 	${sdi} ${1}/perl-modules-*.deb
 	${NKVD} ${1}/perl-modules-*.deb
-
 }
 
 function udp6() {
@@ -34,6 +33,31 @@ function udp6() {
 	pre2 ${2} #vissiin tarvitsi tämän
 
 	#avahi-exim roskikseen tässä?
+}
+
+function part1_post() {
+	dqb "UNDER CONSTRUCTION"
+}
+
+function part2_pre() {
+	if [ ${1} -eq 1 ] ; then
+		${sharpy} libopts25
+		${sharpy} rpc* nfs* 
+	fi
+}
+
+#TODO:tämä fktio pois jatkossa(?)
+function part3_post() {
+	${asy}
+	csleep 3
+
+	#HUOM.270325:kokeillaan import2dessa enforce_access():ia josko sitten menisi oikeudet kunnolla
+
+	${scm} 0555 ~/Desktop/minimize/changedns.sh
+	${sco} root:root ~/Desktop/minimize/changedns.sh
+
+	${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+	csleep 5
 }
 
 dqb "BIL-UR-SAG"

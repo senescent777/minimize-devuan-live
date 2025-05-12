@@ -65,19 +65,20 @@ message
 pre_part3 ${d} 
 pr4 ${d}
 part3 ${d} 
-#TODO:lib-part3-post() , ecfx und vommon
+#VAIH:lib.part3_post() , ecfx und vommon + el_loco
 ecfx
 
 csleep 5
 
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
-	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh	
 	. ~/Desktop/minimize/profs.sh
-	copyprof ${n} someparam
+	q=$(mktemp -d)
+	${srat} -C ${q} -xvf ~/Desktop/minimize/someparam.tar
+	imp_prof esr ${n} ${q}
 fi
 
-#TODO:ehto uusiksi jotenkin?
 if [ ${mode} -eq 1 ] ; then
+	el_loco
 	vommon
 fi
 
@@ -89,6 +90,6 @@ csleep 3
 
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
-6
+
 ${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
 csleep 5
