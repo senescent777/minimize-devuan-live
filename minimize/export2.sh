@@ -189,10 +189,18 @@ function tp1() {
 	csleep 3
 }
 
-#TODO:tarkistukset
 function rmt() {
-	dqb=1
+	debug=1
 	dqb "rmt(${1}, ${2})" #WTUN TYPOT STNA111223456
+
+	[ z"${1}" == "z" ] && exit 1
+	[ -s ${1} ] || exit 2
+
+	[ z"${2}" == "z" ] && exit 11
+	[ -d ${2} ] || exit 22
+
+	dqb "paramz_ok"
+	csleep 3
 
 	${scm} 0444 ${2}/*.deb
 	p=$(pwd)
