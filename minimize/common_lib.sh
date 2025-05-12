@@ -517,6 +517,7 @@ export LC_TIME
 export LANGUAGE
 export LC_ALL
 fi
+
 #joskohan tarkistus pois jatkossa?
 if [ ${1} -gt 0 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
 #client-side session_expiration_checks can be a PITA
@@ -536,26 +537,6 @@ fi
 
 dqb "DN03"
 csleep 2
-}
-
-#TODO:->g_doit (myös testaus että molemmat salakalat saadaan vaihd)
-#HU0OM12525:oli tilanne että g_doit ei löytänyt tätä, toivottavasti menee phi
-function vommon() {
-dqb "R (in 3 secs)"; csleep 3
-${odio} passwd
-
-if [ $? -eq 0 ] ; then
-dqb "L (in 3 secs)"; csleep 3
-passwd
-fi
-
-if [ $? -eq 0 ] ; then
-${whack} xfce4-session
-#HUOM. tässä ei tartte jos myöhemmin joka tap
-else
-dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
-fi
-exit
 }
 
 function part2() {
