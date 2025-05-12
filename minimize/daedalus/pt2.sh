@@ -18,10 +18,6 @@ fi
 dqb "a-e"
 csleep 5
 
-#tarvitseeko?
-#c=$(find ${d} -name '*.deb' | wc -l)
-#[ ${c} -gt 0 ] || removepkgs=0
-
 #onkohan hyvä näin?
 #VAIH:pitäisi kai miettiä tämä kohta, ideana kai että ei poisteta iptables jos ei korvaavaa pakerria
 if [ ${removepkgs} -eq 1 ] ; then
