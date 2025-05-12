@@ -72,35 +72,34 @@ ${NKVD} ${1}/dbus*
 ${NKVD} ${1}/perl*
 csleep 1
 }
-#
-#function udp6() {
-#	#jääköhän tyuonne hmistoon vielä jotrain?
-#	${smr} ${pkgdir}/libx11-xcb1*
-#	${smr} ${pkgdir}/nfs*
-#	${smr} ${pkgdir}/rpc*
-#	${smr} ${pkgdir}/python3.11*
-#	${smr} ${pkgdir}/xserver-xorg-core*
-#	${smr} ${pkgdir}/xserver-xorg-legacy*
-#	${smr} ${pkgdir}/libgtk-3-bin*
-#	${smr} ${pkgdir}/libpython3.11*
-#	${smr} ${pkgdir}/librsvg2*
-#
-#	#TODO:kts part2 (?)
-#	${smr} ${pkgdir}/avahi*
-#	${smr} ${pkgdir}/blu*
-#	${smr} ${pkgdir}/cups*
-#	${smr} ${pkgdir}/exim*
-#
-#	case ${iface} in
-#		wlan0)
-#			dqb "NOT REMOVING WPASUPPLICANT"
-#			csleep 6
-#		;;
-#		*)
-#			${smr} ${pkgdir}/wpa*
-#		;;
-#	esac
-#}
+
+function udp6() {
+${smr} ${pkgdir}/libx11-xcb1*
+${smr} ${pkgdir}/nfs*
+${smr} ${pkgdir}/rpc*
+${smr} ${pkgdir}/python3.11*
+${smr} ${pkgdir}/xserver-xorg-core*
+${smr} ${pkgdir}/xserver-xorg-legacy*
+${smr} ${pkgdir}/libgtk-3-bin*
+${smr} ${pkgdir}/libpython3.11*
+${smr} ${pkgdir}/librsvg2*
+
+#TODO:kts part2 (?)
+${smr} ${pkgdir}/avahi*
+${smr} ${pkgdir}/blu*
+${smr} ${pkgdir}/cups*
+${smr} ${pkgdir}/exim*
+
+case ${iface} in
+wlan0)
+dqb "NOT REMOVING WPASUPPLICANT"
+csleep 6
+;;
+*)
+${smr} ${pkgdir}/wpa*
+;;
+esac
+}
 
 #uusien fktioiden sisältöä saattaa mennä takaisinkin ->g_doit, esim tämä fktio (TODO?)
 function part1_post() {
