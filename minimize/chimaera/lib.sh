@@ -46,21 +46,21 @@ function part2_pre() {
 	fi
 }
 
-#TODO:tämä fktio pois jatkossa(?)
-function part3_post() {
-	${asy}
-	csleep 3
-
-	#HUOM.270325:kokeillaan import2dessa enforce_access():ia josko sitten menisi oikeudet kunnolla
-
-	${scm} 0555 ~/Desktop/minimize/changedns.sh
-	${sco} root:root ~/Desktop/minimize/changedns.sh
-
-	${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
-	csleep 5
-}
-
-dqb "BIL-UR-SAG"
+#VAIH:tämä fktio pois jatkossa(?)
+#function part3_post() {
+#	${asy}
+#	csleep 3
+#
+#	#HUOM.270325:kokeillaan import2dessa enforce_access():ia josko sitten menisi oikeudet kunnolla
+#
+#	${scm} 0555 ~/Desktop/minimize/changedns.sh
+#	${sco} root:root ~/Desktop/minimize/changedns.sh
+#
+#	${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+#	csleep 5
+#}
+#
+#dqb "BIL-UR-SAG"
 check_binaries ${distro}
 check_binaries2 
-dqb "UMULAMAHRI"
+#dqb "UMULAMAHRI"
