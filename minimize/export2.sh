@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0 #1
+debug=1
 tgtfile=""
 distro=$(cat /etc/devuan_version) #tarpeellinen tässä
 
@@ -31,6 +31,7 @@ case $# in
 	;;
 	*)
 		echo "-h"
+		exit
 	;;
 esac
 
@@ -71,6 +72,7 @@ ${sco} root:root ~/Desktop/minimize/changedns.sh
 tig=$(sudo which git)
 mkt=$(sudo which mktemp)
 
+#HUOM.10525:jostain syystä git poistuu, tee jotain asialle (siihen asti näin)
 if [ x"${tig}" == "x" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
 	echo "sudo apt-get update;sudo apt-get install git"
@@ -139,6 +141,22 @@ function pre2() {
 	fi
 }
 
+function tpq() {
+	${srat} -cf ~/Desktop/minimize/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
+	csleep 2
+
+	if [ -x ~/Desktop/minimize/profs.sh ] ; then
+		dqb "PR0FS.SH F+UND"
+			
+		. ~/Desktop/minimize/profs.sh
+		exp_prof ~/Desktop/minimize/fediverse.tar default-esr
+	else
+		dqb "FASD FADS SAFD"	
+	fi
+
+	csleep 5
+}
+
 function tp1() {
 	debug=1
 	dqb "tp1( ${1} , ${2} )"
@@ -155,42 +173,7 @@ function tp1() {
 
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		${srat} -cf ~/Desktop/minimize/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
-		csleep 2
-
-		local tget
-		local p
-		local f
-		
-#		#VAIH:josko ao. kikkailut -> profs.js
-#		tget=$(ls ~/.mozilla/firefox/ | grep default-esr | tail -n 1)
-#		p=$(pwd)
-#
-#		cd ~/.mozilla/firefox/${tget}
-#		dqb "TG3T=${tget}"
-#		csleep 2
-#
-#		${odio} touch ./rnd
-#		${sco} ${n}:${n} ./rnd
-#		${scm} 0644 ./rnd
-#		dd if=/dev/random bs=6 count=1 > ./rnd
-#
-#		${srat} -cvf ~/Desktop/minimize/someparam.tar ./rnd
-#		for f in $(find . -name '*.js') ; do ${srat} -rf ~/Desktop/minimize/someparam.tar ${f} ; done
-#		#*.js ja *.json kai oleellisimmat kalat
-#		cd ${p}
-
-		if [ -x ~/Desktop/minimize/profs.sh ] ; then
-			dqb "PR0FS.SH F+UND"
-			
-			[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh
-			. ~/Desktop/minimize/profs.sh
-			exp_prof ~/Desktop/minimize/someparam.tar default-esr
-		else
-			dqb "FASD FADS SAFD"	
-		fi
-
-		csleep 5
+		tpq
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
@@ -205,6 +188,7 @@ function tp1() {
 function rmt() {
 	dqb=1
 	dqb "rmt(${1}, ${2})" #WTUN TYPOT STNA111223456
+
 	${scm} 0444 ~/Desktop/minimize/${2}/*.deb
 	p=$(pwd)
 
@@ -229,7 +213,7 @@ function rmt() {
 }
 
 function tp4() {
-	dqb=1
+	debug=1
 	dqb "tp4( ${1} , ${2} )"
 
 	[ z"${1}" == "z" ] && exit 1
@@ -250,8 +234,6 @@ function tp4() {
 	${fib}
 	${asy}
 	csleep 3
-
-	#VAIH:testaa
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
@@ -332,7 +314,13 @@ function tp2() {
 
 	#HUOM.30425:koklataan josko sittenkin pelkkä /e/n/interfaces riittäisi koska a) ja b)
 	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?
-	${srat} -rf ${1} /etc/iptables /etc/network/interfaces /etc/default/locale
+	#locale ja tzone mukaan toisessa fktiossa vai ei?
+	#11525:tuleeko /e/iptables mukaan vai ei? kyl kai
+	#HUOM.12525.2:tarttisi ehkä kopsata /e/ipt/r -> /e/d/r
+
+	#HUOM.12525.1:jotain karsimista jatkossa kenties?
+	${srat} -rvf ${1} /etc/network/interfaces /etc/iptables/rules.v4.? /etc/iptables/rules.v6.? 
+	${srat} -rvf ${1} /etc/default/rules* /etc/default/locale* /etc/timezone /etc/locale-gen
 
 	case ${iface} in
 		wlan0)
@@ -378,7 +366,7 @@ function tp3() {
 	q=$(mktemp -d)
 	cd ${q}
 
-	#TODO:tuonne /e/d/grub-juttuja
+	#TODO:tuonne /e/d/grub-juttuja (disable ipv6-juttuja)
 	${tig} clone https://github.com/senescent777/project.git
 	[ $? -eq 0 ] || exit 66
 	dqb "TP3 PT2"
@@ -525,13 +513,18 @@ case ${mode} in
 		echo "$0 3 <tgtfile> [distro] [-v]: makes the main pkg (old way)"
 		echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
 		echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
-		echo "$0 f <tgtfile> [distro] [-v]: archives .deb files"
+		echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under ~/Desktop/minimize/\${distro}"
+		echo "$0 p <> [] [] pulls Profs.sh from somewhere"
+		echo "$0 q <> [] [] archives firefox settings"
+				
 		echo "$0 -h: shows this message about usage"		
 	;;
-#	q)
-#		${sifd} ${iface}
-#		tp1 ${tgtfile} ${distro}
-#	;;
-esac
+	q)
+		[ z"${tgtfile}" == "z" ] && exit 99
+		${sifd} ${iface}
 
-#VAIH:uusi case, ffox-profiilin exportointia vartem, JA TOIMIMAAN PRKL
+		#tp1 ${tgtfile} ${distro}
+		tpq #fktio ottamaan parametreja?
+		${srat} -cf ${tgtfile} ~/Desktop/minimize/xfce.tar ~/Desktop/minimize/fediverse.tar
+	;;
+esac

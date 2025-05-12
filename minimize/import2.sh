@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0
+debug=0 #1
 file=""
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 dir=/mnt
@@ -88,6 +88,8 @@ else
 	dqb "chmod may be a good idea now"
 fi
 
+#TODO:$d
+
 if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then
 	. ~/Desktop/minimize/${distro}/lib.sh
 else
@@ -117,7 +119,9 @@ csleep 5
 
 #glorified "tar -x" this function is - Yoda
 function common_part() {
-	dqb "common_part()"
+	debug=1
+
+	dqb "common_part( ${1}, ${2})"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
 
@@ -175,12 +179,16 @@ case "${1}" in
 		[ x"${file}" == "x" ] && exit 44
 		[ -s ${file} ] || exit 55
 
+		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
+		[ "${confirm}" == "Y" ]  || exit 33
+
 		common_part ${file} ${distro}
 		csleep 3
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	0|3)
+		debug=1
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 2
@@ -193,8 +201,23 @@ case "${1}" in
 		dqb " ${3} ${distro} MN"
 		csleep 2
 
+		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
+		[ "${confirm}" == "Y" ] || exit 33
+
 		common_part ${file} ${distro}
-		[ ${1} -eq 0 ] && common_part ~/Desktop/minimize/${distro}/e.tar ${distro}
+
+		#debig taakse jatkossa seur 2
+		ls -las ~/Desktop/minimize/${distro}/*.tar
+		csleep 6
+
+		if [ ${1} -eq 0 ] ; then
+			if [ -s ~/Desktop/minimize/${distro}/e.tar ] ; then
+				common_part ~/Desktop/minimize/${distro}/e.tar ${distro}
+			fi
+		fi
+
+		dqb "c_p_d0n3, NEXT: pp3()"
+		csleep 6
 
 		pre_part3 ~/Desktop/minimize/${distro}
 		pr4 ~/Desktop/minimize/${distro}
@@ -204,19 +227,34 @@ case "${1}" in
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
-#	q)
-#		if [ -x ~/Desktop/minimize/profs.sh ] ; then
-#			[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh 
-#			. ~/Desktop/minimize/profs.sh
-#			prepare ~/Desktop/minimize/someparam.tar
-#			copyprof esr ${n} ~/Desktop/minimize/someparam.tar
-#		fi
-#	;;
+	q)
+		#debug=1
+		[ x"${file}" == "x" ] && exit 55
+		dqb "KL"
+		csleep 2
+
+		[ -s ${file} ] || exit 66
+		dqb "${file} IJ"
+		csleep 2
+
+		if [ -x ~/Desktop/minimize/profs.sh ] ; then
+			. ~/Desktop/minimize/profs.sh
+			[ $? -gt 0 ] && exit 33
+			
+			dqb "INCLUDE OK"
+			csleep 3
+
+			q=$(mktemp -d)
+			${srat} -C ${q} -xvf ${file}
+			imp_prof esr ${n} ${q}
+		else
+			dqb "CANNOT INCLUDE PROFS.HS"
+		fi
+	;;
 	*)
 		echo "-h"
 	;;
 esac
 
-#VAIH:main():iin uusi case ffox-profiilin tuomista varten+TOIMIMAAN PRKL (mallia voisi ottaa:doit6)
 chmod 0755 $0
 #HUOM. tämän olisi kuvakkeen kanssa tarkoitus mennä jatkossa filesystem.squashfs sisälle

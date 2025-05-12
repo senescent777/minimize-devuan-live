@@ -173,6 +173,7 @@ function clouds_pre() {
 
 	csleep 1
 
+	#TODO:ao jutskat voisi yhdustää ylempiin if-blokkeihibn
 	if [ -s /etc/iptables/rules.v4.${1} ] ; then
 		${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
 		dqb "stinky1"

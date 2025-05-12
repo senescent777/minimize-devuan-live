@@ -1,11 +1,20 @@
 #!/bin/bash
-d=$(dirname $0)
-mode=2
 
-[ -s ${d}/conf ] && . ${d}/conf
+mode=2
+distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
+d=~/Desktop/minimize/${distro} 
+[ z"${distro}" == "z" ] && exit 6
+debug=1
+
+if [ -d ${d} ] && [ -s ${d}/conf ]; then
+	. ${d}/conf
+else
+	echo "CONFIG MISSING"; exit 55
+fi
+
 . ~/Desktop/minimize/common_lib.sh
 
-if [ -s ${d}/lib.sh ] ; then
+if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
 	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING"
@@ -51,41 +60,62 @@ part1 ${distro}
 part175
 part1_post
 
-#===================================================PART 2===================================
-part2_pre #TODO:tähän tuon ao. blokin lisäksi vommon():in kutsu kahdella ehdolla (kts daedalus/doit6)
-c=$(find ${d} -name '*.deb' | wc -l)
-[ ${c} -gt 0 ] || removepkgs=0
+#TODO:testit chmaeran kanssa, paketit pois ja , let's find out
 
-#TODO:kuuluisi kai part2_pre()
-if [ ${removepkgs} -eq 1 ] ; then
-	${sharpy} libopts25
-	${sharpy} rpc* nfs* 
+#===================================================PART 2===================================
+#VAIH: josko pakottaisi lokaaliasetukset ehdolla mode==1 ? sen lisäksi että LC_TIME-ehto
+c14=0
+[ ${mode} -eq 1 ] && c14=1
+c13=$(grep -v '#' /etc/default/locale  | grep LC_TIME | grep -c ${LCF666})
+[ ${c13} -lt 1 ] && c14=1
+el_loco ${c14}
+
+if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
+	vommon
+	exit #varm. vuoksi kesk. suor. jos salakala tyritty
 fi
 
+c14=$(find ${d} -name '*.deb' | wc -l)
+[ ${c14} -gt 0 ] || removepkgs=0
+
+part2_pre ${removepkgs}
 part2 ${removepkgs}
+
 #===================================================PART 3===========================================================
-message
+message #voi muuttua turhaksi jatkossa
+
+#HUOM.10525:jossain näillä main oli nalkutusta, ilmeinen korjaus tehty
 pre_part3 ${d}
 pr4 ${d}
 part3 ${d}
 
+[ -s ~/Desktop/minimize/xfce.tar ] && ${srat} -C / -xf ~/Desktop/minimize/xfce.tar
+csleep 5
+
+#tai sitten käskytetään:import2 (jatkossa -> part3_post ?)
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
-	[ -x ~/Desktop/minimize/middleware.sh ] && . ~/Desktop/minimize/middleware.sh 
 	. ~/Desktop/minimize/profs.sh
-	prepare ~/Desktop/minimize/someparam.tar
-	copyprof esr ${n} ~/Desktop/minimize/someparam.tar
+
+	q=$(mktemp -d)
+	dqb "${srat} -C ${q} ... 1n 3 s3c5s"
+	csleep 3
+	tgt=~/Desktop/minimize/fediverse.tar
+
+	if [ -s ${tgt} ] ; then	
+		${srat} -C ${q} -xvf ${tgt}
+
+		dqb "${srat} d0me"
+		csleep 3
+
+		imp_prof esr ${n} ${q}
+	else
+		dqb "NO SUCH THING AS ${tgt}"
+	fi
+
+	csleep 3
 fi
 
 part3_post
-${asy}
-dqb "GR1DN BELIALAS KYE"
-
-${scm} 0555 ~/Desktop/minimize/changedns.sh
-${sco} root:root ~/Desktop/minimize/changedns.sh
-${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
-${sipt} -L
-csleep 6
-
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
 
