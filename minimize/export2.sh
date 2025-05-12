@@ -39,17 +39,18 @@ dqb "mode= ${mode}"
 dqb "distro=${distro}"
 dqb "file=${tgtfile}"
 [ z"${distro}" == "z" ] && exit 6
+d=~/Desktop/minimize/${distro}
 
-if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ]; then
-	. ~/Desktop/minimize/${distro}/conf
+if [ -d ${d} ] && [ -s ${d}/conf ]; then
+	. ${d}/conf
 else
 	echo "CONFIG MISSING"; exit 55
 fi
 
 . ~/Desktop/minimize/common_lib.sh
 
-if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then
-	. ~/Desktop/minimize/${distro}/lib.sh
+if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+	. ${d}/lib.sh
 else
 	echo "L1B M1SSING"
 
@@ -469,9 +470,9 @@ case ${mode} in
 		${srat} -cvf ${tgtfile} ./rnd
 		tp3 ${tgtfile} ${distro}
 
-		[ -f ~/Desktop/minimize/${distro}/e.tar ] && ${NKVD} ~/Desktop/minimize/${distro}/e.tar
-		${srat} -cvf ~/Desktop/minimize/${distro}/e.tar ./rnd
-		tp4 ~/Desktop/minimize/${distro}/e.tar ${distro} #${tgtfile} ${distro}	
+		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
+		${srat} -cvf ${d}/e.tar ./rnd
+		tp4 ${d}/e.tar ${distro} #${tgtfile} ${distro}	
 		${sifd} ${iface}
 
 		tp1 ${tgtfile} ${distro}
