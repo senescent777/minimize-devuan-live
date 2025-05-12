@@ -327,6 +327,7 @@ function tp4() {
 	csleep 3
 }
 
+#HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
 function tp2() {
 	debug=1
 	dqb "tp2 ${1} ${2}"
@@ -342,8 +343,15 @@ function tp2() {
 	#HUOM.12525.2:tarttisi ehkä kopsata /e/ipt/r -> /e/d/r
 
 	#HUOM.12525.1:jotain karsimista jatkossa kenties?
+	${scm} -R a+r /etc/iptables
+	${scm} a+x /etc/iptables
 	#HUOM.1252525.25252525:rules.x ei näköjään tullut mukaan, joko väärät jokerit tai käyttöoikeudet, tee joatin
 	${srat} -rvf ${1} /etc/network/interfaces /etc/iptables/rules.v4.? /etc/iptables/rules.v6.? 
+	${scm} -R 0440 /etc/iptables
+	${scm} ug+x /etc/iptables
+	ls -las /etc/iptables
+	csleep 6
+
 	${srat} -rvf ${1} /etc/default/rules* /etc/default/locale* /etc/timezone /etc/locale-gen
 
 	case ${iface} in
@@ -373,6 +381,7 @@ function tp2() {
 	csleep 5
 }
 
+#HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
 function tp3() {
 	debug=1
 	dqb "tp3 ${1} ${2}"
@@ -483,8 +492,8 @@ pre1 ${d} #istro}
 
 case ${mode} in
 	0)
-		pre1 ${d} #istro}
-		pre2 ${d} #istro}
+		pre1 ${d}
+		pre2 ${d}
 
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
@@ -492,28 +501,28 @@ case ${mode} in
 		dd if=/dev/random bs=6 count=1 > ./rnd
 
 		${srat} -cvf ${tgtfile} ./rnd
-		tp3 ${tgtfile} ${distro}
+		tp3 ${tgtfile} #${distro}
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		${srat} -cvf ${d}/e.tar ./rnd
-		tp4 ${d}/e.tar ${d} #istro} #${tgtfile} ${distro}	
+		tp4 ${d}/e.tar ${d}	
 		${sifd} ${iface}
 
-		tp1 ${tgtfile} ${d} #istro}
-		pre1 ${d} #istro}
-		tp2 ${tgtfile} ${distro}
+		tp1 ${tgtfile} ${d}
+		pre1 ${d}
+		tp2 ${tgtfile} #${distro}
 	;;
 	3)
 		tp1 ${tgtfile} ${d}
 
-		pre1 ${d} #istro}
+		pre1 ${d}
 		pre2 ${d}
-		tp3 ${tgtfile} ${distro}
+		tp3 ${tgtfile} #${distro}
 
-		pre1 ${d} #istro}
-		tp2 ${tgtfile} ${distro}
+		pre1 ${d}
+		tp2 ${tgtfile} #${distro}
 
-		pre1 ${d} #istro}
+		pre1 ${d}
 		pre2 ${d}
 		tp4 ${tgtfile} ${d}
 	;;
