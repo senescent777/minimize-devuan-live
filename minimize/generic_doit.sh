@@ -4,6 +4,7 @@ mode=2
 distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 d=~/Desktop/minimize/${distro} 
 [ z"${distro}" == "z" ] && exit 6
+debug=1
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
@@ -41,6 +42,27 @@ function check_params() {
 			exit 4
 		;;
 	esac
+}
+
+#VAIH:->g_doit (myös testaus että molemmat salakalat saadaan vaihd)
+#HU0OM12525:oli tilanne että g_doit ei löytänyt tätä, toivottavasti menee phi
+function vommon() {
+dqb "R (in 3 secs)"; csleep 3
+${odio} passwd
+
+if [ $? -eq 0 ] ; then
+dqb "L (in 3 secs)"; csleep 3
+passwd
+fi
+
+if [ $? -eq 0 ] ; then
+${whack} xfce4-session
+#HUOM. tässä ei tartte jos myöhemmin joka tap
+else
+dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
+fi
+
+exit
 }
 
 #==================================PART 1============================================================
@@ -81,7 +103,7 @@ part2_pre ${removepkgs}
 part2 ${removepkgs}
 
 #===================================================PART 3===========================================================
-message
+message #voi muuttua turhaksi jatkossa
 
 #HUOM.10525:jossain näillä main oli nalkutusta, ilmeinen korjaus tehty
 pre_part3 ${d}
@@ -114,7 +136,21 @@ if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	csleep 3
 fi
 
-part3_post
+#part3_post
+jules
+##
+###seur. 2 riviä turhia koska chagedns
+##${ip6tr} /etc/iptables/rules.v6
+##${iptr} /etc/iptables/rules.v4
+##
+${asy}
+dqb "GR1DN BELIALAS KYE"
+${scm} 0555 ~/Desktop/minimize/changedns.sh
+${sco} root:root ~/Desktop/minimize/changedns.sh
+${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+${sipt} -L
+csleep 6
+
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
 
