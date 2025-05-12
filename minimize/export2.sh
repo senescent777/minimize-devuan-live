@@ -93,25 +93,28 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 4
 
-function pre() {
+function pre1() {
 	[ x"${1}" == "z" ] && exit 666
 
 	${sco} -Rv _apt:root ${pkgdir}/partial/
 	${scm} -Rv 700 ${pkgdir}/partial/
 	csleep 4
 
-	if [ -d ~/Desktop/minimize/${1} ] ; then
+	if [ -d ${1} ] ; then
 		dqb "5TNA"
 
 		n=$(whoami)
 		enforce_access ${n}
 		csleep 2
 
-		if [ -s /etc/apt/sources.list.${1} ] ; then
+		local ortsac
+		ortsac=$(echo ${1} | cut -d '/' -f 6)
+
+		if [ -s /etc/apt/sources.list.${ortsac} ] ; then
 			${smr} /etc/apt/sources.list
-			${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list
+			${slinky} /etc/apt/sources.list.${ortsac} /etc/apt/sources.list
 		else
-			part1_5 ${1}
+			part1_5 ${ortsac}
 		fi
 
 		csleep 2
@@ -476,11 +479,11 @@ function tp5() {
 }
 
 dqb "mode= ${mode}"
-pre ${distro}
+pre1 ${d} #istro}
 
 case ${mode} in
 	0)
-		pre ${distro}
+		pre1 ${d} #istro}
 		pre2 ${d} #istro}
 
 		${odio} touch ./rnd
@@ -497,22 +500,22 @@ case ${mode} in
 		${sifd} ${iface}
 
 		tp1 ${tgtfile} ${d} #istro}
-		pre ${distro}
+		pre1 ${d} #istro}
 		tp2 ${tgtfile} ${distro}
 	;;
 	3)
-		tp1 ${tgtfile} ${d} #istro}
+		tp1 ${tgtfile} ${d}
 
-		pre ${distro}
-		pre2 ${d} #istro}
+		pre1 ${d} #istro}
+		pre2 ${d}
 		tp3 ${tgtfile} ${distro}
 
-		pre ${distro}
+		pre1 ${d} #istro}
 		tp2 ${tgtfile} ${distro}
 
-		pre ${distro}
-		pre2 ${d} #istro}
-		tp4 ${tgtfile} ${d} #istro}
+		pre1 ${d} #istro}
+		pre2 ${d}
+		tp4 ${tgtfile} ${d}
 	;;
 	1|u|upgrade)
 		pre2 ${d}
