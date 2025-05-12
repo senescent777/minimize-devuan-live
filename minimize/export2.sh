@@ -15,6 +15,9 @@ mode=${1}
 tgtfile=${2}
 
 case $# in
+	1)
+		[ "${1}" == "-h" ]  || exit
+	;;
 	2)
 		dqb "maybe ok"
 	;;
