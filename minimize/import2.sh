@@ -57,9 +57,10 @@ mode=${1}
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "file=${file}"
+d=~/Desktop/minimize/${distro}
 
-if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ] ; then
-	. ~/Desktop/minimize/${distro}/conf
+if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+	. ${d}/conf
 fi
 
 if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
@@ -88,10 +89,8 @@ else
 	dqb "chmod may be a good idea now"
 fi
 
-#TODO:$d
-
-if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then
-	. ~/Desktop/minimize/${distro}/lib.sh
+if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+	. ${d}/lib.sh
 else
 	#TODO:josko testaisi tilanteen missä $distro/{conf,lib} puuttuvat
 	echo $?
@@ -207,21 +206,21 @@ case "${1}" in
 		common_part ${file} ${distro}
 
 		#debig taakse jatkossa seur 2
-		ls -las ~/Desktop/minimize/${distro}/*.tar
+		ls -las ${d}/*.tar
 		csleep 6
 
 		if [ ${1} -eq 0 ] ; then
-			if [ -s ~/Desktop/minimize/${distro}/e.tar ] ; then
-				common_part ~/Desktop/minimize/${distro}/e.tar ${distro}
+			if [ -s ${d}/e.tar ] ; then
+				common_part ${d}/e.tar ${distro}
 			fi
 		fi
 
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 6
 
-		pre_part3 ~/Desktop/minimize/${distro}
-		pr4 ~/Desktop/minimize/${distro}
-		part3 ~/Desktop/minimize/${distro}
+		pre_part3 ${d}
+		pr4 ${d}
+		part3 ${d}
 		csleep 2
 
 		cd ${olddir}
