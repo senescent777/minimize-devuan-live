@@ -358,67 +358,88 @@ ${scm} o-rwx ${1}
 ${sco} root:root ${1}
 fi
 }
-function enforce_access() {
-dqb " enforce_access( ${1})"
-${scm} 0440 /etc/sudoers.d/*
-${scm} 0750 /etc/sudoers.d
-${sco} -R root:root /etc/sudoers.d
-dqb "changing /sbin , /etc and /var 4 real"
-${sco} -R root:root /sbin
-${scm} -R 0755 /sbin
-for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
-for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
-mangle2 ${f}
-done
-${scm} 0755 /etc
-${sco} -R root:root /etc #-R liikaa?
-#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
-${sco} root:root /var
-${scm} 0755 /var
-${sco} root:staff /var/local
-${sco} root:mail /var/mail
-${sco} -R man:man /var/cache/man
-${scm} -R 0755 /var/cache/man
-${scm} 0755 /
-${sco} root:root /
-${scm} 0777 /tmp
-#${scm} o+t /tmp
-${sco} root:root /tmp
-#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
-${sco} root:root /home
-${scm} 0755 /home
-if [ y"${1}" != "y" ] ; then
-dqb "${sco} -R ${1}:${1} ~"
-${sco} -R ${1}:${1} ~
-csleep 5
-fi
-local f
-${scm} 0755 ~/Desktop/minimize
-for f in $(find ~/Desktop/minimize -type d) ; do ${scm} 0755 ${f} ; done
-for f in $(find ~/Desktop/minimize -type f) ; do ${scm} 0444 ${f} ; done
-for f in $(find ~/Desktop/minimize -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
-for f in $(find ~/Desktop/minimize -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
-for f in $(find ~/Desktop/minimize -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
-f=$(date +%F)
-dqb "F1ND D0N3"
-csleep 1
-${scm} 0555 ~/Desktop/minimize/changedns.sh
-${sco} root:root ~/Desktop/minimize/changedns.sh
-[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
-[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
-#HUOM.120525:näitäkin voi kasautua liikaa?
-[ -f /etc/network/interfaces.${f} ] || ${spc} /etc/network/interfaces /etc/network/interfaces.${f}
-if [ -s /etc/resolv.conf.new ] && [ -s /etc/resolv.conf.OLD ] ; then
-${smr} /etc/resolv.conf
-fi
-[ -s /sbin/dclient-script.OLD ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.OLD
-jules
-#wpasupplicant:in kanssa myös jotain säätöä, esim tällaista
-${sco} -R root:root /etc/wpa_supplicant
-${scm} -R a-w /etc/wpa_supplicant
 
-#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
+function enforce_access() {
+	dqb " enforce_access( ${1})"
+
+	${scm} 0440 /etc/sudoers.d/*
+	${scm} 0750 /etc/sudoers.d
+	${sco} -R root:root /etc/sudoers.d
+
+	dqb "changing /sbin , /etc and /var 4 real"
+
+	${sco} -R root:root /sbin
+	${scm} -R 0755 /sbin
+
+	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
+
+	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
+		mangle2 ${f}
+	done
+
+	${scm} 0755 /etc
+	${sco} -R root:root /etc #-R liikaa?
+	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
+
+	${sco} root:root /var
+	${scm} 0755 /var
+	${sco} root:staff /var/local
+	${sco} root:mail /var/mail
+	${sco} -R man:man /var/cache/man
+	${scm} -R 0755 /var/cache/man
+
+	${scm} 0755 /
+	${sco} root:root /
+
+	${scm} 0777 /tmp
+	#${scm} o+t /tmp
+	${sco} root:root /tmp
+
+	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
+	${sco} root:root /home
+	${scm} 0755 /home
+
+	if [ y"${1}" != "y" ] ; then
+		dqb "${sco} -R ${1}:${1} ~"
+		${sco} -R ${1}:${1} ~
+		csleep 5
+	fi
+
+	local f
+	${scm} 0755 ~/Desktop/minimize
+
+	for f in $(find ~/Desktop/minimize -type d) ; do ${scm} 0755 ${f} ; done
+	for f in $(find ~/Desktop/minimize -type f) ; do ${scm} 0444 ${f} ; done
+	for f in $(find ~/Desktop/minimize -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
+	for f in $(find ~/Desktop/minimize -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
+	for f in $(find ~/Desktop/minimize -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
+
+	f=$(date +%F)
+	dqb "F1ND D0N3"
+	csleep 1
+
+	${scm} 0555 ~/Desktop/minimize/changedns.sh
+	${sco} root:root ~/Desktop/minimize/changedns.sh
+
+	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
+	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
+	#HUOM.120525:näitäkin voi kasautua liikaa?
+	[ -f /etc/network/interfaces.${f} ] || ${spc} /etc/network/interfaces /etc/network/interfaces.${f}
+
+	if [ -s /etc/resolv.conf.new ] && [ -s /etc/resolv.conf.OLD ] ; then
+		${smr} /etc/resolv.conf
+	fi
+
+	[ -s /sbin/dclient-script.OLD ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.OLD
+	jules
+
+	#wpasupplicant:in kanssa myös jotain säätöä, esim tällaista
+	${sco} -R root:root /etc/wpa_supplicant
+	${scm} -R a-w /etc/wpa_supplicant
+
+	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
+
 function part1_5() {
 if [ z"${pkgsrc}" != "z" ] ; then
 if [ -d ~/Desktop/minimize/${1} ] ; then
