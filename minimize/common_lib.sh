@@ -518,25 +518,27 @@ PART175_LIST="avahi bluetooth cups exim4 nfs network-manager ntp mdadm sane rpcb
 #TODO:p175 ja p2 uudet versiot mitkä käyttävät em. listaa
 
 function part175() {
-dqb "PART175()"
-csleep 2
+	dqb "PART175()"
+	csleep 2
 
-#VAIH:s listaksi konftdstoon ja sitten sammuttelu+poisto yhdess läjässä tjsp?
-for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ; do
-${odio} /etc/init.d/${s} stop
-sleep 1
-done
+	#VAIH:s listaksi konftdstoon ja sitten sammuttelu+poisto yhdess läjässä tjsp?
+	for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ; do
+		${odio} /etc/init.d/${s} stop
+		sleep 1
+	done
 
-dqb "shutting down some services (4 real) in 3 secs"
-sleep 2
+	dqb "shutting down some services (4 real) in 3 secs"
+	sleep 2
 
-${whack} cups*
-${whack} avahi*
-${whack} dnsmasq*
-${whack} stubby*
-${whack} nm-applet
-csleep 3
-#TODO:snt?
+	${whack} cups*
+	${whack} avahi*
+	${whack} dnsmasq*
+	${whack} stubby*
+	${whack} nm-applet
+	csleep 3
+
+	${snt} -tulpan
+	csleep 3
 }
 
 function el_loco() {
