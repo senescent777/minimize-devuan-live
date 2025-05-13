@@ -463,7 +463,6 @@ function tpu() {
 
 #TODO:-v tekemään jotain hyödyllistä
 
-#VAIH:prefix 2. parametriksi jos mahd
 function tp5() {
 	debug=1
 
@@ -483,7 +482,9 @@ function tp5() {
 	${tig} clone https://github.com/senescent777/some_scripts.git
 	[ $? -eq 0 ] || exit 99
 
-	mv some_scripts/lib/export/profs* ${2} 
+	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
+	mv some_scripts/lib/export/profs* ${2}
+
 	${scm} 0755 ${2}/profs*
 	${srat} -rvf ${1} ${2}/profs*
 
