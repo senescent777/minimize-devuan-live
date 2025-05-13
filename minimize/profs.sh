@@ -27,8 +27,6 @@ function oldprof() {
 	fi
 }
 
-#VAIH:fktioiden kuvaavampi nimeäminen
-
 function createnew() {
 	#debug=1
 	dqb "cpfor_12 ${1},${2}"
@@ -56,49 +54,52 @@ function createnew() {
 	csleep 3
 }
 
-#TODO:profiilin hakemiseen $(${}) - tyyppinen juttu jatkossa
+#VAIH:profiilin hakemiseen $(${}) - tyyppinen juttu jatkossa
+#findprof=$(find ~/.mozilla/firefox -type d -name '*esr*' | grep -v '+' | tail -n 1)
+#HUOM. findprof-kikkailu vaatisi lisää laittoa, ehkä
+
 function copy_to() {
 	#debug=1
 	dqb "cprof13 ${1} ${2} ${3}"
 	csleep 3
-	
-	[ -d /home/${2}/.mozilla/firefox ] || exit 68
-	[ x"${3}" == "x" ] && exit 69
-	[ -d ${3} ] || exit 70
-
-	cd /home/${2}/.mozilla/firefox
-	
-	if [ ${debug} -eq 1 ] ; then
-		pwd;sleep 3
-		echo "copy_to_1";sleep 3
-		ls -las /home/${2}/.mozilla/firefox;sleep 3
-	fi
-
-	local tget
-	tget=$(ls | grep ${1} | tail -n 1) 
-
-	${sco} ${2}:${2} ./${tget}
-	${scm} 0700 ./${tget}
-		
-	if [ x"${tget}" != "x" ] ; then 
-		cd ${tget}
-	fi
-
-	if [ ${debug} -eq 1 ] ; then
-		echo -n "pwd=";pwd
-		echo "IN 6 SECONDS: sudo mv ${3}/* ."
-		sleep 3
-	fi
-
-	local f
-	for f in $(find ${3} -type f -name '*.js*') ; do mv ${f} . ; done
-	${sco} -R ${2}:${2} ./* 		
-	
-	if [ ${debug} -eq 1 ] ; then
-		echo "AFT3R MV";sleep 3
-		ls -las;sleep 3
-	fi	
-
+#	
+#	[ -d /home/${2}/.mozilla/firefox ] || exit 68
+#	[ x"${3}" == "x" ] && exit 69
+#	[ -d ${3} ] || exit 70
+#
+#	cd /home/${2}/.mozilla/firefox
+#	
+#	if [ ${debug} -eq 1 ] ; then
+#		pwd;sleep 3
+#		echo "copy_to_1";sleep 3
+#		ls -las /home/${2}/.mozilla/firefox;sleep 3
+#	fi
+#
+#	local tget
+#	tget=$(ls | grep ${1} | tail -n 1) 
+#
+#	${sco} ${2}:${2} ./${tget}
+#	${scm} 0700 ./${tget}
+#		
+#	if [ x"${tget}" != "x" ] ; then 
+#		cd ${tget}
+#	fi
+#
+#	if [ ${debug} -eq 1 ] ; then
+#		echo -n "pwd=";pwd
+#		echo "IN 6 SECONDS: sudo mv ${3}/* ."
+#		sleep 3
+#	fi
+#
+#	local f
+#	for f in $(find ${3} -type f -name '*.js*') ; do mv ${f} . ; done
+#	${sco} -R ${2}:${2} ./* 		
+#	
+#	if [ ${debug} -eq 1 ] ; then
+#		echo "AFT3R MV";sleep 3
+#		ls -las;sleep 3
+#	fi	
+#
 	csleep 3
 	dqb "CPROF13 D0N3"
 }
