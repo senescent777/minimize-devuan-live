@@ -94,14 +94,12 @@ function jules() { #HUOM.12525:function puuttui edestä aiemmin
 	${scm} 0440 /etc/iptables/*
 }
 
-#TODO:käyttöön
-#function message() {
-#	dqb "INSTALLING NEW PACKAGES IN 10 SECS"
-#	csleep 3
-#
-#	echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES";sleep 2
-#	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 3
-#}
+function message() {
+dqb "INSTALLING NEW PACKAGES IN 10 SECS"
+csleep 3
+echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES";sleep 2
+echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 3
+}
 
 function ocs() {
 	local tmp
