@@ -75,7 +75,7 @@ csleep 1
 }
 
 function udp6() {
-	dqb "UPDP-6"
+	dqb "daud.lib.UPDP-6"
 	csleep 2
 
 	${smr} ${pkgdir}/libx11-xcb1*
@@ -103,16 +103,19 @@ function udp6() {
 			${smr} ${pkgdir}/wpa*
 		;;
 	esac
-}
 
-#uusien fktioiden sisältöä saattaa mennä takaisinkin ->g_doit, esim tämä fktio (TODO?)
-function part1_post() {
-#ntp ehkä takaisin myöhemmin
-${whack} ntp*
-csleep 5
-${odio} /etc/init.d/ntpsec stop
-#K01avahi-jutut sopivaan kohtaan?
+	dqb "D0NE"
+	csleep 4
 }
+#
+##uusien fktioiden sisältöä saattaa mennä takaisinkin ->g_doit, esim tämä fktio (VAIH)
+#function part1_post() {
+##ntp ehkä takaisin myöhemmin
+#${whack} ntp*
+#csleep 5
+#${odio} /etc/init.d/ntpsec stop
+##K01avahi-jutut sopivaan kohtaan?
+#}
 
 function part2_pre() {
 ${sharpy} python3-cups
