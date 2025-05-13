@@ -23,7 +23,7 @@
 	https://github.com/senescent777/some_scripts/blob/main/skripts/export/squ.ash.export can be used some day to make that .squashfs from / - partition
 
 
-- about all those .desktop-files: i have started to work on them, maybe part of them are already doing what they're supposed to
+- about all those .desktop-files under 1c0ns: i have started to work on them, maybe part of them are already doing what they're supposed to
 
 - changedns.sh
   	If there's problem with DNS, this script may fix that. 

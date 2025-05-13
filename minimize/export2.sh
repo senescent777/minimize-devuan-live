@@ -2,6 +2,7 @@
 debug=1
 tgtfile=""
 distro=$(cat /etc/devuan_version) #tarpeellinen tässä
+PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -11,15 +12,30 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+function usage() {
+	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
+	echo "$0 3 <tgtfile> [distro] [-v]: makes the main pkg (old way)"
+	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
+	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
+	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \${PREFIX}/\${distro}"
+	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
+	echo "$0 q <> [] [] archives firefox settings"				
+	echo "$0 -h: shows this message about usage"	
+}
+
 mode=${1}
 tgtfile=${2}
 
 case $# in
+	1)
+		[ "${1}" == "-h" ]  && usage
+		exit
+	;;
 	2)
 		dqb "maybe ok"
 	;;
 	3)
-		if [ -d ~/Desktop/minimize/${3} ] ; then
+		if [ -d ${PREFIX}/${3} ] ; then
 			distro=${3}
 		else
 			[ "${3}" == "-v" ] && debug=1
@@ -39,17 +55,18 @@ dqb "mode= ${mode}"
 dqb "distro=${distro}"
 dqb "file=${tgtfile}"
 [ z"${distro}" == "z" ] && exit 6
+d=${PREFIX}/${distro}
 
-if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ]; then
-	. ~/Desktop/minimize/${distro}/conf
+if [ -d ${d} ] && [ -s ${d}/conf ]; then
+	. ${d}/conf
 else
 	echo "CONFIG MISSING"; exit 55
 fi
 
-. ~/Desktop/minimize/common_lib.sh
+. ${PREFIX}/common_lib.sh
 
-if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then
-	. ~/Desktop/minimize/${distro}/lib.sh
+if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+	. ${d}/lib.sh
 else
 	echo "L1B M1SSING"
 
@@ -66,8 +83,8 @@ else
 fi
 
 dqb "tar = ${srat} "
-${scm} 0555 ~/Desktop/minimize/changedns.sh
-${sco} root:root ~/Desktop/minimize/changedns.sh
+${scm} 0555 ${PREFIX}/changedns.sh
+${sco} root:root ${PREFIX}/changedns.sh
 
 tig=$(sudo which git)
 mkt=$(sudo which mktemp)
@@ -89,25 +106,28 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 4
 
-function pre() {
+function pre1() {
 	[ x"${1}" == "z" ] && exit 666
 
 	${sco} -Rv _apt:root ${pkgdir}/partial/
 	${scm} -Rv 700 ${pkgdir}/partial/
 	csleep 4
 
-	if [ -d ~/Desktop/minimize/${1} ] ; then
+	if [ -d ${1} ] ; then
 		dqb "5TNA"
 
 		n=$(whoami)
 		enforce_access ${n}
 		csleep 2
 
-		if [ -s /etc/apt/sources.list.${1} ] ; then
+		local ortsac
+		ortsac=$(echo ${1} | cut -d '/' -f 6)
+
+		if [ -s /etc/apt/sources.list.${ortsac} ] ; then
 			${smr} /etc/apt/sources.list
-			${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list
+			${slinky} /etc/apt/sources.list.${ortsac} /etc/apt/sources.list
 		else
-			part1_5 ${1}
+			part1_5 ${ortsac}
 		fi
 
 		csleep 2
@@ -122,10 +142,18 @@ function pre2() {
 	dqb "pre2( ${1}, ${2})" #WTIN KAARISULKEET STNA
 	[ x"${1}" == "z" ] && exit 666
 
-	if [ -d ~/Desktop/minimize/${1} ] ; then
+	local ortsac
+	local ledif
+
+	ortsac=$(echo ${1} | cut -d '/' -f 6)
+	ledif=$(echo ${1} | cut -d '/' -f 1-5 )
+
+	if [ -d ${1} ] ; then
 		dqb "PRKL"
-		${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${1}
+		#${odio} ${PREFIX}/changedns.sh ${dnsm} ${ortsac}
+		${odio} ${ledif}/changedns.sh ${dnsm} ${ortsac}
 		csleep 4
+
 		${sifu} ${iface}
 		[ ${debug} -eq 1 ] && /sbin/ifconfig
 		csleep 4
@@ -142,14 +170,22 @@ function pre2() {
 }
 
 function tpq() {
-	${srat} -cf ~/Desktop/minimize/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
+	dqb "tpq ${1} ${2}"
+	[ -d ${1} ] || exit 22
+	dqb "paramz 0k"
+	csleep 1
+
+	#VAIH:kokeillaanpa ../../  tavalla
+	#${srat} -cf ${1}/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
+	${srat} -cf ${1}/xfce.tar ${1}/../../.config/xfce4/xfconf/xfce-perchannel-xml
 	csleep 2
 
-	if [ -x ~/Desktop/minimize/profs.sh ] ; then
-		dqb "PR0FS.SH F+UND"
+	if [ -x ${1}/profs.sh ] ; then
+		dqb "DE PROFUNDIS"
 			
-		. ~/Desktop/minimize/profs.sh
-		exp_prof ~/Desktop/minimize/fediverse.tar default-esr
+		. ${1}/profs.sh
+		exp_prof ${1}/fediverse.tar default-esr
+
 	else
 		dqb "FASD FADS SAFD"	
 	fi
@@ -157,6 +193,8 @@ function tpq() {
 	csleep 5
 }
 
+
+#VAIH:PREFIX paraetriksi, tai esim cut
 function tp1() {
 	debug=1
 	dqb "tp1( ${1} , ${2} )"
@@ -164,37 +202,57 @@ function tp1() {
 	dqb "params_ok"
 	csleep 3
 
-	if [ -d ~/Desktop/minimize/${2} ] ; then
-		dqb "cleaning up ~/Desktop/minimize/${2} "
+	if [ -d ${2} ] ; then
+		dqb "cleaning up ${2} "
 		csleep 3
-		${NKVD} ~/Desktop/minimize/${2}/*.deb
+		${NKVD} ${2}/*.deb
 		dqb "d0nm3"
 	fi
 
-	if [ ${enforce} -eq 1 ] ; then
+
+	local ledif
+	ledif=$(echo ${2} | cut -d '/' -f 1-5 )
+	#itäisiköhän olla jokin tarkistus tässä?
+
+	if [ ${enforce} -eq 1 ] && [ -d ${ledif} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		tpq
+		tpq ${ledif} #PREFIX}
+
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
-		ls -las ~/Desktop/minimize/; sleep 5
+		ls -las ${ledif} #PREFIX}
+		sleep 5
 	fi
 
-	${srat} -rvf ${1} ~/Desktop/minimize /home/stubby #HUOM.260125: -p wttuun varm. vuoksi
+	#${srat} -rvf ${1} ${PREFIX} /home/stubby #HUOM.260125: -p wttuun varm. vuoksi
+	${srat} -rvf ${1} ${ledif} /home/stubby 	
+
 	dqb "tp1 d0n3"
 	csleep 3
 }
 
 function rmt() {
-	dqb=1
+	debug=1
 	dqb "rmt(${1}, ${2})" #WTUN TYPOT STNA111223456
 
-	${scm} 0444 ~/Desktop/minimize/${2}/*.deb
+
+	[ z"${1}" == "z" ] && exit 1
+	[ -s ${1} ] || exit 2
+
+	[ z"${2}" == "z" ] && exit 11
+	[ -d ${2} ] || exit 22
+
+	dqb "paramz_ok"
+	csleep 3
+
+	${scm} 0444 ${2}/*.deb
+
 	p=$(pwd)
 
-	cd ~/Desktop/minimize/${2}
+	cd ${2}
 	[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt
-	csleep 3
+	csleep 2
 
 	touch ./sha512sums.txt
 	chown $(whoami):$(whoami) ./sha512sums.txt
@@ -202,10 +260,10 @@ function rmt() {
 	[ ${debug} -eq 1 ] && ls -las sha*;sleep 6
 
 	${sah6} ./*.deb > ./sha512sums.txt
-	csleep 3
+	csleep 2
 	psqa .
 
-	${srat} -rf ${1} ~/Desktop/minimize/${2}/*.deb ~/Desktop/minimize/${2}/sha512sums.txt
+	${srat} -rf ${1} ${2}/*.deb ${2}/sha512sums.txt
 	csleep 1
 	cd ${p}
 
@@ -218,9 +276,12 @@ function tp4() {
 
 	[ z"${1}" == "z" ] && exit 1
 	[ -s ${1} ] || exit 2
+	
+	dqb "DEMI-SEC"
+	csleep 1
 
 	[ z"${2}" == "z" ] && exit 11
-	[ -d ~/Desktop/minimize/${2} ] || exit 22
+	[ -d ${2} ] || exit 22
 
 	dqb "paramz_ok"
 	csleep 3
@@ -242,6 +303,7 @@ function tp4() {
 	${shary} libaudit1 libselinux1 #libpam0g #libpam-modules zlib1g #libpam kanssa oli nalkutusta 080525
 
 	${shary} man-db sudo
+	message
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
@@ -293,9 +355,9 @@ function tp4() {
 	esac
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
-	if [ -d ~/Desktop/minimize/${2} ] ; then 
-		${NKVD} ~/Desktop/minimize/${2}/*.deb	
-		${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
+	if [ -d ${2} ] ; then 
+		${NKVD} *.deb	
+		${svm} ${pkgdir}/*.deb ${2}
 		rmt ${1} ${2}
 	fi
 
@@ -304,6 +366,8 @@ function tp4() {
 	csleep 3
 }
 
+
+#HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
 function tp2() {
 	debug=1
 	dqb "tp2 ${1} ${2}"
@@ -317,8 +381,19 @@ function tp2() {
 	#locale ja tzone mukaan toisessa fktiossa vai ei?
 	#11525:tuleeko /e/iptables mukaan vai ei? kyl kai
 
-	${srat} -rvf ${1} /etc/iptables /etc/network/interfaces
-	${srat} -rvf ${1} /etc/default/locale* /etc/timezone /etc/locale-gen
+	#HUOM.12525.2:tarttisi ehkä kopsata /e/ipt/r -> /e/d/r
+
+	#HUOM.12525.1:jotain karsimista jatkossa kenties?
+	${scm} -R a+r /etc/iptables
+	${scm} a+x /etc/iptables
+	
+	${srat} -rvf ${1} /etc/network/interfaces /etc/iptables/rules.v4.? /etc/iptables/rules.v6.? 
+	${scm} -R 0440 /etc/iptables
+	${scm} ug+x /etc/iptables
+
+	#ls -las /etc/iptables
+	csleep 3
+
 
 	case ${iface} in
 		wlan0)
@@ -329,6 +404,7 @@ function tp2() {
 		;;
 	esac
 
+	#TODO:selvitä miten toimii q enforce nolla
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "das asdd"
 	else
@@ -347,6 +423,8 @@ function tp2() {
 	csleep 5
 }
 
+#HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
+
 function tp3() {
 	debug=1
 	dqb "tp3 ${1} ${2}"
@@ -364,23 +442,48 @@ function tp3() {
 	q=$(mktemp -d)
 	cd ${q}
 
-	#TODO:tuonne /e/d/grub-juttuja (disable ipv6-juttuja)
+	#HUOM. jonnekin pitäisi jotain kikkailuja lisätä grum.tmp liittyen
+
 	${tig} clone https://github.com/senescent777/project.git
 	[ $? -eq 0 ] || exit 66
+	
 	dqb "TP3 PT2"
 	csleep 10
 	cd project
 
+	#VAIH:{old,new} -> {0,1} ?
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.OLD
-	#HUOM.8535:/e/r.conf-tilanne korjattu
-	${spc} /etc/resolv.conf ./etc/resolv.conf.OLD
-	${spc} /sbin/dhclient-script ./sbin/dhclient-script.OLD
 
-	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa
+	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.0
+	${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1
+
+	#HUOM.8535:/e/r.conf-tilanne korjattu?
+
+	${spc} /etc/resolv.conf ./etc/resolv.conf.OLD
+	${spc} /etc/resolv.conf ./etc/resolv.conf.0
+
+	if [ -s /etc/resolv.conf.new ] ; then
+		${spc} /etc/resolv.conf.new ./etc/resolv.conf.new
+	else
+		touch ./etc/resolv.conf.new
+		${scm} a+w ./etc/resolv.conf.new
+		echo "nameserver 127.0.0.1" > ./etc/resolv.conf.new
+		${scm} 0444 ./etc/resolv.conf.new
+		${sco} root:root ./etc/resolv.conf.new
+	fi
+
+	${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
+
+	${spc} /sbin/dhclient-script ./sbin/dhclient-script.OLD
+	${spc} /sbin/dhclient-script ./sbin/dhclient-script.0
+	${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
+
+	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 
 	#HUOM.310325:jostain erityisestä syystä kommenteissa?
 	#280425: varm vuoksi takqaisin kommentteihin?
+
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
@@ -395,12 +498,13 @@ function tp3() {
 
 function tpu() {
 	debug=1	
-
+	#TODO:{old,new} -> {0,1} jos soveltuu
 	dqb "tpu( ${1}, ${2})"
+
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] && mv ${1} ${1}.OLD
 	[ z"${2}" == "z" ] && exit 11
-	[ -d  ~/Desktop/minimize/${2} ] || exit 22
+	[ -d ${2} ] || exit 22
 	dqb "params_ok"
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
@@ -415,9 +519,9 @@ function tpu() {
 	udp6
 
 	dqb "UTP PT 3"
-	${svm} ${pkgdir}/*.deb ~/Desktop/minimize/${2}
-	date > ~/Desktop/minimize/${2}/tim3stamp
-	${srat} -cf ${1} ~/Desktop/minimize/${2}/tim3stamp
+	${svm} ${pkgdir}/*.deb ${2}
+	date > ${2}/tim3stamp
+	${srat} -cf ${1} ${2}/tim3stamp
 	rmt ${1} ${2}
 
 	${sifd} ${iface}
@@ -432,7 +536,8 @@ function tp5() {
 	dqb "tp5 ${1} ${2}"
 	[ z"${1}" == "z" ] && exit 99
 	[ -s ${1} ] || exit 98
-
+	[ -d ${2} ] || exit 97
+ 
 	dqb "params ok"
 	csleep 5
 
@@ -443,21 +548,27 @@ function tp5() {
 
 	${tig} clone https://github.com/senescent777/some_scripts.git
 	[ $? -eq 0 ] || exit 99
+	
+	#TODO:{old,new} -> {0,1} jos soveltuu
+	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
+	mv some_scripts/lib/export/profs* ${2}
 
-	mv some_scripts/lib/export/profs* ~/Desktop/minimize 
-	${scm} 0755 ~/Desktop/minimize/profs*
-	${srat} -rvf ${1} ~/Desktop/minimize/profs*
+	${scm} 0755 ${2}/profs*
+	${srat} -rvf ${1} ${2}/profs*
 
 	dqb "AAMUNK01"
 }
 
 dqb "mode= ${mode}"
-pre ${distro}
+dqb "tar= ${srat}"
+csleep 6
+
+pre1 ${d} #istro}
 
 case ${mode} in
 	0)
-		pre ${distro}
-		pre2 ${distro}
+		pre1 ${d}
+		pre2 ${d}
 
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
@@ -465,64 +576,53 @@ case ${mode} in
 		dd if=/dev/random bs=6 count=1 > ./rnd
 
 		${srat} -cvf ${tgtfile} ./rnd
-		tp3 ${tgtfile} ${distro}
+		tp3 ${tgtfile} #${distro}
 
-		[ -f ~/Desktop/minimize/${distro}/e.tar ] && ${NKVD} ~/Desktop/minimize/${distro}/e.tar
-		${srat} -cvf ~/Desktop/minimize/${distro}/e.tar ./rnd
-		tp4 ~/Desktop/minimize/${distro}/e.tar ${distro} #${tgtfile} ${distro}	
+		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
+		${srat} -cvf ${d}/e.tar ./rnd
+		tp4 ${d}/e.tar ${d}	
 		${sifd} ${iface}
 
-		tp1 ${tgtfile} ${distro}
-		pre ${distro}
-		tp2 ${tgtfile} ${distro}
+		tp1 ${tgtfile} ${d}
+		pre1 ${d}
+		tp2 ${tgtfile} #${distro}
 	;;
 	3)
-		tp1 ${tgtfile} ${distro}
+		tp1 ${tgtfile} ${d}
 
-		pre ${distro}
-		pre2 ${distro}
-		tp3 ${tgtfile} ${distro}
+		pre1 ${d}
+		pre2 ${d}
+		tp3 ${tgtfile} #${distro}
 
-		pre ${distro}
-		tp2 ${tgtfile} ${distro}
+		pre1 ${d}
+		tp2 ${tgtfile} #${distro}
 
-		pre ${distro}
-		pre2 ${distro}
-		tp4 ${tgtfile} ${distro}
+		pre1 ${d}
+		pre2 ${d}
+		tp4 ${tgtfile} ${d}
 	;;
 	1|u|upgrade)
-		pre2 ${distro}
-		tpu ${tgtfile} ${distro}
+		pre2 ${d}
+		tpu ${tgtfile} ${d}
 	;;
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
-		pre2 ${distro}
-		tp5 ${tgtfile}
+		pre2 ${d}
+		tp5 ${tgtfile} ${PREFIX}
 	;;
 	e)
-		pre2 ${distro}
-		tp4 ${tgtfile} ${distro}
+		pre2 ${d}
+		tp4 ${tgtfile} ${d}
 	;;
 	f)
-		rmt ${tgtfile} ${distro}
-	;;
-	-h)
-		echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
-		echo "$0 3 <tgtfile> [distro] [-v]: makes the main pkg (old way)"
-		echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
-		echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
-		echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under ~/Desktop/minimize/\${distro}"
-		echo "$0 p <> [] [] pulls Profs.sh from somewhere"
-		echo "$0 q <> [] [] archives firefox settings"
-				
-		echo "$0 -h: shows this message about usage"		
+		rmt ${tgtfile} ${d}
 	;;
 	q)
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 
-		#tp1 ${tgtfile} ${distro}
-		tpq #fktio ottamaan parametreja?
-		${srat} -cf ${tgtfile} ~/Desktop/minimize/xfce.tar ~/Desktop/minimize/fediverse.tar
+		tpq ${PREFIX}
+		${srat} -cf ${tgtfile} ${PREFIX}/xfce.tar ${PREFIX}/fediverse.tar
+
 	;;
 esac

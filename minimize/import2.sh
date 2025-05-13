@@ -4,6 +4,7 @@ file=""
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 dir=/mnt
 part0=ABCD-1234
+PREFIX=~/Desktop/minimize
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -18,7 +19,7 @@ case $# in
 		dqb "maybe ok" #tap -1 ja 2 ok, muissa pitäisi fileen puuttuminen p ysäyttää
 	;;
 	2)
-		if [ -d ~/Desktop/minimize/${2} ] ; then
+		if [ -d ${PREFIX}/${2} ] ; then
 			distro=${2}
 		else
 			file=${2}
@@ -27,7 +28,7 @@ case $# in
 	3)
 		file=${2}
 
-		if [ -d ~/Desktop/minimize/${3} ] ; then
+		if [ -d ${PREFIX}/${3} ] ; then
 			distro=${3}
 		else
 			[ "${3}" == "-v" ] && debug=1
@@ -57,13 +58,14 @@ mode=${1}
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "file=${file}"
+d=${PREFIX}/${distro}
 
-if [ -d ~/Desktop/minimize/${distro} ] && [ -s ~/Desktop/minimize/${distro}/conf ] ; then
-	. ~/Desktop/minimize/${distro}/conf
+if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+	. ${d}/conf
 fi
 
-if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
-	. ~/Desktop/minimize/common_lib.sh
+if [ -x ${PREFIX}/common_lib.sh ] ; then
+	. ${PREFIX}/common_lib.sh
 else
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
@@ -88,8 +90,8 @@ else
 	dqb "chmod may be a good idea now"
 fi
 
-if [ -d ~/Desktop/minimize/${distro} ] && [ -x ~/Desktop/minimize/${distro}/lib.sh ] ; then
-	. ~/Desktop/minimize/${distro}/lib.sh
+if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+	. ${d}/lib.sh
 else
 	#TODO:josko testaisi tilanteen missä $distro/{conf,lib} puuttuvat
 	echo $?
@@ -117,11 +119,14 @@ csleep 5
 
 #glorified "tar -x" this function is - Yoda
 function common_part() {
-	dqb "common_part()"
+	debug=1
+
+	dqb "common_part( ${1}, ${2})"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
 
 	[ y"${2}" == "y" ] && exit 11
+	[ -d ${2} ] || exit 22
 	dqb "paramz_0k"
 
 	cd /
@@ -131,24 +136,28 @@ function common_part() {
 	csleep 2
 	dqb "tar DONE"
 
-	if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
+	#toisella tavalla jatkossa
+	#if [ -x ${PREFIX}/common_lib.sh ] ; then
+	if [ -x ${2}/../common_lib.sh ] ; then
 		enforce_access ${n}
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	fi
 
-	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/*.sh
+#	[ ${debug} -eq 1 ] && ls -las ${PREFIX}/*.sh
 	csleep 3
 	
-	if [ -d ~/Desktop/minimize/${2} ] ; then 
+	if [ -d ${2} ] ; then 
 		dqb "HAIL UKK"
-		${scm} 0755 ~/Desktop/minimize/${2}
-		${scm} a+x ~/Desktop/minimize/${2}/*.sh
-		${scm} 0444 ~/Desktop/minimize/${2}/conf*
-		${scm} 0444 ~/Desktop/minimize/${2}/*.deb
+
+		${scm} 0755 ${2}
+		${scm} a+x ${2}/*.sh
+		${scm} 0444 ${2}/conf*
+		${scm} 0444 ${2}/*.deb
+
 		csleep 3
 	fi
 
-	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/${2}
+	[ ${debug} -eq 1 ] && ls -las ${2}
 	csleep 3
 	dqb "ALL DONE"
 }
@@ -178,12 +187,17 @@ case "${1}" in
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ]  || exit 33
 
-		common_part ${file} ${distro}
+		common_part ${file} ${d} #istro}
+
 		csleep 3
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	0|3)
+		#debug=1
+		dqb "ZER0 S0UND"
+		csleep 2
+
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 2
@@ -199,12 +213,24 @@ case "${1}" in
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
 
-		common_part ${file} ${distro}
-		[ ${1} -eq 0 ] && common_part ~/Desktop/minimize/${distro}/e.tar ${distro}
+		common_part ${file} ${d} #istro}
 
-		pre_part3 ~/Desktop/minimize/${distro}
-		pr4 ~/Desktop/minimize/${distro}
-		part3 ~/Desktop/minimize/${distro}
+		#debig taakse jatkossa seur 2
+		ls -las ${d}/*.tar
+		csleep 6
+
+		if [ ${1} -eq 0 ] ; then
+			if [ -s ${d}/e.tar ] ; then
+				common_part ${d}/e.tar ${d} #istro}
+			fi
+		fi
+
+		dqb "c_p_d0n3, NEXT: pp3()"
+		csleep 6
+
+		pre_part3 ${d}
+		pr4 ${d}
+		part3 ${d}
 		csleep 2
 
 		cd ${olddir}
@@ -220,8 +246,9 @@ case "${1}" in
 		dqb "${file} IJ"
 		csleep 2
 
-		if [ -x ~/Desktop/minimize/profs.sh ] ; then
-			. ~/Desktop/minimize/profs.sh
+		if [ -x ${PREFIX}/profs.sh ] ; then
+			. ${PREFIX}/profs.sh
+
 			[ $? -gt 0 ] && exit 33
 			
 			dqb "INCLUDE OK"

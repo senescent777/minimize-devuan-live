@@ -9,7 +9,8 @@ debug=1
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
 else
-	echo "CONFIG MISSING"; exit 55
+	echo "CONFIG MISSING"
+	exit 55
 fi
 
 . ~/Desktop/minimize/common_lib.sh
@@ -44,47 +45,58 @@ function check_params() {
 	esac
 }
 
-#VAIH:->g_doit (myös testaus että molemmat salakalat saadaan vaihd)
-#HU0OM12525:oli tilanne että g_doit ei löytänyt tätä, toivottavasti menee phi
 function vommon() {
-dqb "R (in 3 secs)"; csleep 3
-${odio} passwd
+	dqb "R (in 3 secs)"
+	csleep 3
+	${odio} passwd
 
-if [ $? -eq 0 ] ; then
-dqb "L (in 3 secs)"; csleep 3
-passwd
-fi
+	#miksi tähän ei mennä? vai mennäänkö?
+	if [ $? -eq 0 ] ; then
+		dqb "L (in 3 secs)"
+		csleep 3
+		passwd
+	fi
 
-if [ $? -eq 0 ] ; then
-${whack} xfce4-session
-#HUOM. tässä ei tartte jos myöhemmin joka tap
-else
-dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
-fi
+	if [ $? -eq 0 ] ; then
+		${whack} xfce4-session
+		#HUOM. tässä ei tartte jos myöhemmin joka tap
+	else
+		dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
+	fi
 
-exit
+	exit
+}
+
+function part1_post() {
+	#ntp ehkä takaisin myöhemmin
+	${whack} ntp*
+	csleep 5
+	${odio} /etc/init.d/ntpsec stop
+	#K01avahi-jutut sopivaan kohtaan?
 }
 
 #==================================PART 1============================================================
 
+#TODO:gpo():n kautta jatkossa
 if [ $# -gt 0 ] ; then
 	for opt in $@ ; do parse_opts_1 $opt ; done
 fi
 
-check_params 
+check_params
+#HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
 enforce_access ${n}
  
 part1 ${distro} 
 #HUOM.190325:part_1_5sessa oli bugi, u+w ei vaan riitä
 [ ${mode} -eq 0 ] && exit
-part175
+part175 #part176 (TODO)
 part1_post
 
 #TODO:testit chmaeran kanssa, paketit pois ja , let's find out
 
 #===================================================PART 2===================================
-#VAIH: josko pakottaisi lokaaliasetukset ehdolla mode==1 ? sen lisäksi että LC_TIME-ehto
+
 c14=0
 [ ${mode} -eq 1 ] && c14=1
 c13=$(grep -v '#' /etc/default/locale  | grep LC_TIME | grep -c ${LCF666})
@@ -100,7 +112,7 @@ c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 
 part2_pre ${removepkgs}
-part2 ${removepkgs}
+part2 ${removepkgs} #part2_5 (TODO)
 
 #===================================================PART 3===========================================================
 message #voi muuttua turhaksi jatkossa
@@ -136,13 +148,7 @@ if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	csleep 3
 fi
 
-#part3_post
 jules
-##
-###seur. 2 riviä turhia koska chagedns
-##${ip6tr} /etc/iptables/rules.v6
-##${iptr} /etc/iptables/rules.v4
-##
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
@@ -154,9 +160,11 @@ csleep 6
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
 
+#HUOM.12525:tämä kohta ei vaikuttanut toimivan kunnolla, toi bttavasti tilapäist
+
 if [ ${mode} -eq 2 ] ; then
 	echo "time to ${sifu} ${iface} or whåtever"
-	csleep 5
+	csleep 2
 	${whack} xfce4-session
  	exit 
 fi

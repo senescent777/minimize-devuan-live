@@ -2,10 +2,15 @@
 #csleep 6
 #lukkotiedostojen hävitys oli kanssa 1 juttu mikä piti uistaa tehdä...
 
-function cprof_1_1() {
+
+function oldprof() {
+
 	#debug=1	
 	dqb "cprof1 ${1} ${2}"
 	csleep 3
+
+
+	#toist mjonot ouis?
 
 	local tmp
 	tmp=$(grep -c ${1} /etc/passwd)
@@ -23,11 +28,11 @@ function cprof_1_1() {
 	if [ ${debug} -eq 1 ] ; then
 		echo "AFTER MKDIR";sleep 3
 		ls -las /home/${1}/.mozilla/firefox;sleep 3
-		echo "eEXIT CPROF_1_1($1)"
+		echo "eEXIT oldprof($1)"
 	fi
 }
 
-function cprof_1_2() {
+function createnew() {
 	#debug=1
 	dqb "cpfor_12 ${1},${2}"
 
@@ -54,56 +59,70 @@ function cprof_1_2() {
 	csleep 3
 }
 
-function cprof_1_3() {
-	#debug=1
+#VAIH:profiilin hakemiseen $(${}) - tyyppinen juttu jatkossa, skripti tai fktio
+#findprof=$(find ~/.mozilla/firefox -type d -name '*esr*' | grep -v '+' | tail -n 1)
+
+#HUOM. findprof-kikkailu vaatisi lisää laittoa, ehkä
+#VAIH:takaksin toimintakuntoon myös
+
+function copy_to() {
+	debug=1
 	dqb "cprof13 ${1} ${2} ${3}"
 	csleep 3
 	
+	#tpiostuvia mjonoja pystyisi poistamaan
 	[ -d /home/${2}/.mozilla/firefox ] || exit 68
 	[ x"${3}" == "x" ] && exit 69
 	[ -d ${3} ] || exit 70
 
-	cd /home/${2}/.mozilla/firefox
-	
-	if [ ${debug} -eq 1 ] ; then
-		pwd;sleep 3
-		echo "CPROF_1_3_1";sleep 3
-		ls -las /home/${2}/.mozilla/firefox;sleep 3
-	fi
-
+#	cd /home/${2}/.mozilla/firefox
+#	
+#	if [ ${debug} -eq 1 ] ; then
+#		pwd;sleep 3
+#		echo "copy_to_1";sleep 3
+#		ls -las /home/${2}/.mozilla/firefox;sleep 3
+#	fi
+#
 	local tget
-	tget=$(ls | grep ${1} | tail -n 1) 
+#	tget=$(ls | grep ${1} | tail -n 1)
+	#saattaisi onnistua ilman greppiäkin?
+	tget=$(find /home/${2}/.mozilla/firefox -type d | grep -v '+' | grep ${1} | head -n 1)
+	dqb "TGET= ${tget}"
 
-	${sco} ${2}:${2} ./${tget}
-	${scm} 0700 ./${tget}
-		
-	if [ x"${tget}" != "x" ] ; then 
-		cd ${tget}
-	fi
-
-	if [ ${debug} -eq 1 ] ; then
-		echo -n "pwd=";pwd
-		echo "IN 6 SECONDS: sudo mv ${3}/* ."
-		sleep 3
-	fi
-
+	${sco} ${2}:${2} ${tget}
+	${scm} 0700 ${tget}
+#		
+#	if [ x"${tget}" != "x" ] ; then 
+#		cd ${tget}
+#	fi
+#
+#	if [ ${debug} -eq 1 ] ; then
+#		echo -n "pwd=";pwd
+		dqb "IN 3 SECONDS: sudo mv ${3}/* ${tget}"
+		csleep 3
+#	fi
+#
 	local f
-	for f in $(find ${3} -type f -name '*.js*') ; do mv ${f} . ; done
+	for f in $(find ${3} -type f -name '*.js*') ; do mv ${f} ${tget} ; done
 	${sco} -R ${2}:${2} ./* 		
 	
 	if [ ${debug} -eq 1 ] ; then
 		echo "AFT3R MV";sleep 3
-		ls -las;sleep 3
+		ls -las ${tget}
+		sleep 3
 	fi	
 
 	csleep 3
 	dqb "CPROF13 D0N3"
 }
 
-function cprof_2_1() {
+
+function access() {
 	#debug=1
 	dqb "CPFOR21 ${1} , ${2}"
 	csleep 2
+
+	#toist mjonot pois
 
 	if [ x"${1}" != "x" ] ; then 
 		#${sco} -R ${1}:${1} /home/${1} #kommentteihin koska x
@@ -131,16 +150,16 @@ function imp_prof() {
 	#debug=1
 	dqb "cprof ${1} ${2} ${3}"
 	csleep 2
-	cd /home/${2} 
+	#cd /home/${2} tarpeellinen?
 
 	if [ x"${2}" != "x" ] ; then 
 		if [ -d /home/${2} ] ; then 
 			${scm} 0700 /home/${2}
 
-			cprof_1_1 ${2}
-			cprof_1_2 ${2}
-			cprof_1_3 ${1} ${2} ${3}
-			cprof_2_1 ${2}
+			oldprof ${2}
+			createnew ${2}
+			copy_to ${1} ${2} ${3}
+			access ${2}
 		fi
 	fi
 

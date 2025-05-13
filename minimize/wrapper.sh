@@ -22,20 +22,22 @@ case ${1} in
 		sudo /sbin/ifdown ${iface}
 	;;
 	import)
-		echo "${d}/import2.sh -1"
-		echo "read \$file;${d}/import2.sh 0 \${file}"
-		echo "${d}/import2.sh 2"
+		${d}/import2.sh -1
+		read -p "source?" sorsa
+
+		${d}/import2.sh 0 ${sorsa}
+		echo $?
+		
+		sleep 2
+		${d}/import2.sh 2
 	;;
 	doit)
-		#VAIH:jatkossa generic_doit
-		${d}/generic_doit.sh #${distro}/doIt6.sh
+		${d}/generic_doit.sh
 	;;
 	pt2)
 		${d}/${distro}/pt2.sh
 	;;
 	pw)
-		#VAIH:uusicksi
-		#${d}/${distro}/doIt6.sh 1
 		${d}/generic_doit.sh 1
 	;;	
 esac
