@@ -3,6 +3,8 @@
 ##VAIH:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 ##https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
+#VAIH:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
+#https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 function pre_part3() {
 	[ y"${1}" == "y" ] && exit
 	dqb "pp3( ${1} )"
@@ -29,6 +31,7 @@ function pre_part3() {
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg -i ${1}/iptables-*.deb
 	#${odio} dpkg -i ${1}/iptables-*.deb
+
 	[ $? -eq 0 ] && ${smr} -f ${1}/iptables-*.deb
 	#[ ${debug} -eq 1 ] && ls -las ${1}/iptables-*.deb
 
@@ -112,6 +115,35 @@ function part2_pre() {
 	dqb "PP2"
 	${sharpy} python3-cups
 	csleep 5
+}
+
+#uusien fktioiden sisältöä saattaa mennä takaisinkin ->g_doit
+function part1_post() {
+	#ntp ehkä takaisin myöhemmin
+	${whack} ntp*
+	csleep 5
+	${odio} /etc/init.d/ntpsec stop
+	#K01avahi-jutut sopivaan kohtaan?
+}
+
+function part2_pre() {
+	${sharpy} python3-cups
+}
+
+#TODO:seuraavaksi tämä takaisin > h_doit?
+function part3_post() {
+	#seur. 2 riviä turhia koska chagedns
+	${ip6tr} /etc/iptables/rules.v6
+	${iptr} /etc/iptables/rules.v4
+	
+	${asy}
+	dqb "GR1DN BELIALAS KYE"
+
+	${scm} 0555 ~/Desktop/minimize/changedns.sh
+	${sco} root:root ~/Desktop/minimize/changedns.sh
+	${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+	${sipt} -L
+	csleep 6
 }
 
 check_binaries ${distro}

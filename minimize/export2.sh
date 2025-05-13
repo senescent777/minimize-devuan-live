@@ -185,12 +185,14 @@ function tpq() {
 			
 		. ${1}/profs.sh
 		exp_prof ${1}/fediverse.tar default-esr
+
 	else
 		dqb "FASD FADS SAFD"	
 	fi
 
 	csleep 5
 }
+
 
 #VAIH:PREFIX paraetriksi, tai esim cut
 function tp1() {
@@ -207,6 +209,7 @@ function tp1() {
 		dqb "d0nm3"
 	fi
 
+
 	local ledif
 	ledif=$(echo ${2} | cut -d '/' -f 1-5 )
 	#itäisiköhän olla jokin tarkistus tässä?
@@ -214,6 +217,7 @@ function tp1() {
 	if [ ${enforce} -eq 1 ] && [ -d ${ledif} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		tpq ${ledif} #PREFIX}
+
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
@@ -232,6 +236,7 @@ function rmt() {
 	debug=1
 	dqb "rmt(${1}, ${2})" #WTUN TYPOT STNA111223456
 
+
 	[ z"${1}" == "z" ] && exit 1
 	[ -s ${1} ] || exit 2
 
@@ -242,6 +247,7 @@ function rmt() {
 	csleep 3
 
 	${scm} 0444 ${2}/*.deb
+
 	p=$(pwd)
 
 	cd ${2}
@@ -360,6 +366,7 @@ function tp4() {
 	csleep 3
 }
 
+
 #HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
 function tp2() {
 	debug=1
@@ -373,6 +380,7 @@ function tp2() {
 	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?
 	#locale ja tzone mukaan toisessa fktiossa vai ei?
 	#11525:tuleeko /e/iptables mukaan vai ei? kyl kai
+
 	#HUOM.12525.2:tarttisi ehkä kopsata /e/ipt/r -> /e/d/r
 
 	#HUOM.12525.1:jotain karsimista jatkossa kenties?
@@ -385,7 +393,7 @@ function tp2() {
 
 	#ls -las /etc/iptables
 	csleep 3
-	${srat} -rvf ${1} /etc/default/rules* /etc/default/locale* /etc/timezone /etc/locale-gen
+
 
 	case ${iface} in
 		wlan0)
@@ -416,6 +424,7 @@ function tp2() {
 }
 
 #HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
+
 function tp3() {
 	debug=1
 	dqb "tp3 ${1} ${2}"
@@ -434,6 +443,7 @@ function tp3() {
 	cd ${q}
 
 	#HUOM. jonnekin pitäisi jotain kikkailuja lisätä grum.tmp liittyen
+
 	${tig} clone https://github.com/senescent777/project.git
 	[ $? -eq 0 ] || exit 66
 	
@@ -443,10 +453,12 @@ function tp3() {
 
 	#VAIH:{old,new} -> {0,1} ?
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.OLD
+
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.0
 	${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1
 
 	#HUOM.8535:/e/r.conf-tilanne korjattu?
+
 	${spc} /etc/resolv.conf ./etc/resolv.conf.OLD
 	${spc} /etc/resolv.conf ./etc/resolv.conf.0
 
@@ -611,5 +623,6 @@ case ${mode} in
 
 		tpq ${PREFIX}
 		${srat} -cf ${tgtfile} ${PREFIX}/xfce.tar ${PREFIX}/fediverse.tar
+
 	;;
 esac

@@ -2,10 +2,13 @@
 #csleep 6
 #lukkotiedostojen hävitys oli kanssa 1 juttu mikä piti uistaa tehdä...
 
+
 function oldprof() {
+
 	#debug=1	
 	dqb "cprof1 ${1} ${2}"
 	csleep 3
+
 
 	#toist mjonot ouis?
 
@@ -112,6 +115,7 @@ function copy_to() {
 	csleep 3
 	dqb "CPROF13 D0N3"
 }
+
 
 function access() {
 	#debug=1

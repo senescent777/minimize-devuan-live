@@ -119,6 +119,8 @@ function ocs() {
 
 function psqa() {
 	dqb "QUASB (THE BURNING) ${1}"
+#	ls -las ${sah6}
+#	sleep 5
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		p=$(pwd)
@@ -129,6 +131,7 @@ function psqa() {
 
 		${sah6} -c sha512sums.txt --ignore-missing
 		[ $? -eq 0 ] || exit 97
+
 		cd ${p}
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
@@ -182,6 +185,8 @@ function check_binaries() {
 
 		pre_part3 ~/Desktop/minimize/${1}
 		pr4 ~/Desktop/minimize/${1}
+
+		#HUOM. pitäisiköhän tässä kohtaa kopsata .0:t takaisin alkup nimille? (TODO)
 
 		ipt=$(sudo which iptables)
 		ip6t=$(sudo which ip6tables)
@@ -461,7 +466,7 @@ function enforce_access() {
 	${scm} -R a-w /etc/wpa_supplicant
 
 	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
-}
+
 
 function part1_5() {
 if [ z"${pkgsrc}" != "z" ] ; then
@@ -499,7 +504,9 @@ ${scm} -R a-w /etc/apt/
 #HUOM.13525:pitäisikö tämän toiminta varmistaa?
 function part1() {
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
+
 	#jatkossa tähän ne tzdata- ja /e/d/locales-jutut?
+
 	#jos jokin näistä kolmesta hoitaisi homman...
 
 	${sifd} ${iface}
@@ -521,6 +528,7 @@ else
 		${ipt} -P ${t} DROP
 		dqb "V6"; csleep 2
 
+
 		${ip6t} -P ${t} DROP
 		${ip6t} -F ${t}
 	done
@@ -532,6 +540,7 @@ else
 		dqb "V6.b"; csleep 2
 		${ip6t} -L # -x mukaan?
 		sleep 5
+
 	fi
 fi
 
@@ -650,6 +659,7 @@ function part2() {
 	if [ ${1} -eq 1 ] ; then
 		dqb "PART2-2"
 		csleep 5
+
 		${sharpy} network*
 		${sharpy} libblu* libcupsfilters* libgphoto* 
 
@@ -723,6 +733,7 @@ function part3() {
 		dqb "part3.1 ok"
 		csleep 3
 		${NKVD} ${1}/lib*.deb
+
 	else
 		exit 66
 	fi
@@ -732,7 +743,9 @@ function part3() {
 	if [ $? -eq  0 ] ; then
 		dqb "part3.2 ok"
 		csleep 3
+
 		${NKVD} ${1}/*.deb
+
 	else
 		exit 67
 	fi

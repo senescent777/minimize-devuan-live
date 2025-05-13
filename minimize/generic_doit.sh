@@ -151,7 +151,6 @@ fi
 jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
-
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 ${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}

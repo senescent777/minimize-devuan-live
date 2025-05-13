@@ -5,6 +5,7 @@ v=0
 
 #TODO:tapaus $dir valmiiksi mountattu, miksi urputtaa? korjaa
 
+
 if [ z"${distro}" != "z" ] ; then
 	if [ -s ~/Desktop/minimize/${distro}/conf ] ; then
 		. ~/Desktop/minimize/${distro}/conf
@@ -22,11 +23,11 @@ if [ z"${distro}" != "z" ] ; then
 				fi
 			fi
 		fi
+
 	fi
 fi
 
 tgt=${1}
-
 tcmd=$(which tar)
 #jos ei tällä lähde taas toimimaan niin $2 sanomaan sudotetaanko vai ei?
 
