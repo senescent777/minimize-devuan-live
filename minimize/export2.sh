@@ -12,13 +12,25 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+function usage() {
+	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
+	echo "$0 3 <tgtfile> [distro] [-v]: makes the main pkg (old way)"
+	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
+	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
+	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \${PREFIX}/\${distro}"
+	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
+	echo "$0 q <> [] [] archives firefox settings"				
+	echo "$0 -h: shows this message about usage"	
+}
+
 mode=${1}
 tgtfile=${2}
-#TODO: "-h"-ulostusta varten fktio ennen ao. .case:a ja kåyttöön ei tartte mennä main() asti
+#VAIH: "-h"-ulostusta varten fktio ennen ao. .case:a ja kåyttöön ei tartte mennä main() asti
 
 case $# in
 	1)
-		[ "${1}" == "-h" ]  || exit
+		[ "${1}" == "-h" ]  && usage
+		exit
 	;;
 	2)
 		dqb "maybe ok"
@@ -556,17 +568,9 @@ case ${mode} in
 	f)
 		rmt ${tgtfile} ${d}
 	;;
-	-h)
-		echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
-		echo "$0 3 <tgtfile> [distro] [-v]: makes the main pkg (old way)"
-		echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
-		echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
-		echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under ${PREFIX}/\${distro}"
-		echo "$0 p <> [] [] pulls Profs.sh from somewhere"
-		echo "$0 q <> [] [] archives firefox settings"
-				
-		echo "$0 -h: shows this message about usage"		
-	;;
+#	-h)
+#	
+#	;;
 	q)
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
