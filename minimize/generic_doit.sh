@@ -50,7 +50,7 @@ function vommon() {
 	csleep 3
 	${odio} passwd
 
-	#miksi tähän ei mennä?
+	#miksi tähän ei mennä? vai mennäänkö?
 	if [ $? -eq 0 ] ; then
 		dqb "L (in 3 secs)"
 		csleep 3
@@ -68,11 +68,11 @@ function vommon() {
 }
 
 function part1_post() {
-#ntp ehkä takaisin myöhemmin
-${whack} ntp*
-csleep 5
-${odio} /etc/init.d/ntpsec stop
-#K01avahi-jutut sopivaan kohtaan?
+	#ntp ehkä takaisin myöhemmin
+	${whack} ntp*
+	csleep 5
+	${odio} /etc/init.d/ntpsec stop
+	#K01avahi-jutut sopivaan kohtaan?
 }
 
 #==================================PART 1============================================================
@@ -81,7 +81,8 @@ if [ $# -gt 0 ] ; then
 	for opt in $@ ; do parse_opts_1 $opt ; done
 fi
 
-check_params 
+check_params
+#HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
 enforce_access ${n}
  

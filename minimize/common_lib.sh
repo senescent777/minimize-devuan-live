@@ -68,6 +68,8 @@ svm="${odio} ${svm} "
 spc="${odio} ${spc} "
 
 function jules() { #HUOM.12525:function puuttui edestä aiemmin
+	dqb "LE BIG MAC"
+
 	${scm} -R a+rw /etc/iptables
 	echo $?
 	dqb "svm= ${svm}"
@@ -96,10 +98,10 @@ function jules() { #HUOM.12525:function puuttui edestä aiemmin
 }
 
 function message() {
-dqb "INSTALLING NEW PACKAGES IN 10 SECS"
-csleep 3
-echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES";sleep 2
-echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 3
+	echo "INSTALLING NEW PACKAGES IN 10 SECS"
+	csleep 3
+	echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES";sleep 2
+	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 3
 }
 
 function ocs() {
@@ -467,20 +469,23 @@ ${sco} -R root:root /etc/apt
 ${scm} -R a-w /etc/apt/
 }
 
+#HUOM.13525:pitäisikö tämän toiminta varmistaa?
 function part1() {
-dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
-#jatkossa tähän ne tzdata- ja /e/d/locales-jutut?
-#jos jokin näistä kolmesta hoitaisi homman...
+	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
+	#jatkossa tähän ne tzdata- ja /e/d/locales-jutut?
+	#jos jokin näistä kolmesta hoitaisi homman...
 
-${sifd} ${iface}
-${sifd} -a
-dqb "${sip} link set ${iface} down"
-${sip} link set ${iface} down
-csleep 1
-${odio} sysctl -p #/etc/sysctl.conf
+	${sifd} ${iface}
+	${sifd} -a
+	[ ${debug} -eq 1 ] && /sbin/ifconfig;sleep 4
 
-[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
-[ ${debug} -eq 1 ] && /sbin/ifconfig;sleep 4
+	dqb "${sip} link set ${iface} down"
+	${sip} link set ${iface} down
+	
+	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+	csleep 1
+	
+	${odio} sysctl -p #/etc/sysctl.conf
 
 if [ y"${ipt}" == "y" ] ; then
 	echo "5H0ULD-1N\$TALL-1PTABL35!!!"
@@ -510,6 +515,7 @@ dqb "FOUR-LEGGED WHORE (i have Tourettes)"
 }
 
 PART175_LIST="avahi bluetooth cups exim4 nfs network-manager ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+#TODO:p175 ja p2 uudet versiot mitkä käyttävät em. listaa
 
 function part175() {
 dqb "PART175()"
@@ -530,6 +536,7 @@ ${whack} dnsmasq*
 ${whack} stubby*
 ${whack} nm-applet
 csleep 3
+#TODO:snt?
 }
 
 function el_loco() {

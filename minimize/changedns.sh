@@ -160,6 +160,9 @@ function clouds_pre() {
 		else
 			${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD		
 		fi
+#TODO:viimeistele
+#${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
+#dqb "stinky1"
 	fi
 
 	if [ -s /etc/iptables/rules.v6.${1} ] ; then
@@ -169,11 +172,12 @@ function clouds_pre() {
 		else
 			${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
 		fi
+#${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
+#dqb "stunky2"
 	fi
 
 	csleep 1
 
-	#TODO:ao jutskat voisi yhdustää ylempiin if-blokkeihibn
 	if [ -s /etc/iptables/rules.v4.${1} ] ; then
 		${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
 		dqb "stinky1"

@@ -27,6 +27,7 @@ fi
 tgt=${1}
 
 if [ -f ${tgt} ] ; then
+	#TODO:sudotus sittenkin wttuun
 	for f in $(find ~/Desktop/minimize/ -name 'conf*') ; do sudo tar -f ${tgt} -rv ${f} ; done
 	for f in $(find ~/Desktop/minimize/ -name '*.sh') ; do sudo tar -f ${tgt} -rv ${f} ; done
 	for f in $(find /etc -name 'locale*') ; do sudo tar -f ${tgt} -rv ${f} ; done
