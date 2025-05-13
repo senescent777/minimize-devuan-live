@@ -444,6 +444,7 @@ function tp3() {
 	#VAIH:{old,new} -> {0,1} ?
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.OLD
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.0
+	${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1
 
 	#HUOM.8535:/e/r.conf-tilanne korjattu?
 	${spc} /etc/resolv.conf ./etc/resolv.conf.OLD
@@ -547,6 +548,9 @@ function tp5() {
 }
 
 dqb "mode= ${mode}"
+dqb "tar= ${srat}"
+csleep 6
+
 pre1 ${d} #istro}
 
 case ${mode} in
