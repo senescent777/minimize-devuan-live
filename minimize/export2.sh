@@ -400,9 +400,10 @@ function tp3() {
 	q=$(mktemp -d)
 	cd ${q}
 
-	#TODO:tuonne /e/d/grub-juttuja (disable ipv6-juttuja)
+	#HUOM. jonnekin pitäisi jotain kikkailuja lisätä grum.tmp liittyen
 	${tig} clone https://github.com/senescent777/project.git
 	[ $? -eq 0 ] || exit 66
+	
 	dqb "TP3 PT2"
 	csleep 10
 	cd project
