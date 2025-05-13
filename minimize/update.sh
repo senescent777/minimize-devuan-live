@@ -12,7 +12,8 @@ if [ z"${distro}" != "z" ] ; then
 		if [ -d ${dir} ] ; then
 			v=$(grep -c ${dir} /proc/mounts)
 
-			if [ ${v} -lt 1 ] ; then			
+			if [ ${v} -lt 1 ] ; then
+				echo "HAVE TO MOUNT";sleep 1			
 				mount ${dir}
 		
 				if [ $? -eq 0 ] ; then
@@ -26,12 +27,15 @@ fi
 
 tgt=${1}
 
+tcmd=$(which tar)
+#jos ei tällä lähde taas toimimaan niin $2 sanomaan sudotetaanko vai ei?
+
 if [ -f ${tgt} ] ; then
-	#TODO:sudotus sittenkin wttuun
-	for f in $(find ~/Desktop/minimize/ -name 'conf*') ; do sudo tar -f ${tgt} -rv ${f} ; done
-	for f in $(find ~/Desktop/minimize/ -name '*.sh') ; do sudo tar -f ${tgt} -rv ${f} ; done
-	for f in $(find /etc -name 'locale*') ; do sudo tar -f ${tgt} -rv ${f} ; done
-	sudo tar -f ${tgt} -rv /etc/timezone
+	#VAIH:sudotus sittenkin wttuun
+	for f in $(find ~/Desktop/minimize/ -name 'conf*') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
+	for f in $(find ~/Desktop/minimize/ -name '*.sh') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
+	for f in $(find /etc -name 'locale*') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
+	${tcmd} -f ${tgt} -rv /etc/timezone
 else	
 	exit 1
 fi
