@@ -625,6 +625,7 @@ function el_loco() {
 		${scm} a+w /etc/default/locale
 		csleep 3
 
+		#/e/d/l voi kasvaa isoksikin näin...
 		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
 		cat /etc/default/locale
 		csleep 3

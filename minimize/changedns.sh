@@ -248,7 +248,7 @@ function clouds_post() {
 function clouds_case0() {
 	dqb "cdns.clouds_case0()"
 
-	#TODO:{old,new} -> {0,1}
+	#VAIH:{old,new} -> {0,1}
 
 	${slinky} /etc/resolv.conf.OLD /etc/resolv.conf
 	${slinky} /etc/dhcp/dhclient.conf.OLD /etc/dhcp/dhclient.conf
@@ -339,7 +339,14 @@ function clouds_case1() {
 }
 #====================================================================
 clouds_pre ${mode}
-#TODO:slinky-juttu vhitellen
+
+#VAIH:slinky-juttu vhitellen
+##[-f /etc/resolv.conf.${mode} ] && ${smr} /etc/resolv.conf
+#[-f /etc/resolv.conf.${mode} ] && ${slinky} /etc/resolv.conf
+##[-f /etc/dhcp/dhclient.conf.${mode} ] && ${smr} /etc/dhcp/dhclient.conf
+#[-f /etc/dhcp/dhclient.conf.${mode} ] && ${slinky} /etc/dhcp/dhclient.conf.${mode} /etc/dhcp/dhclient.conf
+##[-f /sbin/dhclient-script.${mode} ] &&  ${smr} /sbin/dhclient-script 
+#[-f /sbin/dhclient-script.${mode} ] &&  ${spc} /sbin/dhclient-script.${mode} /sbin/dhclient-script
 
 case ${mode} in 
 	0)

@@ -29,6 +29,7 @@ tgt=${1}
 
 tcmd=$(which tar)
 #jos ei tällä lähde taas toimimaan niin $2 sanomaan sudotetaanko vai ei?
+
 if [ ${2} -eq 1 ] ; then
 	tcmd="sudo ${tcmd} "
 fi 
@@ -43,6 +44,9 @@ else
 fi
 
 if [ ${u} -eq 1 ] ; then
+	ls -las ${tgt}
+	sleep 3
+	echo "WILL UMOUNT SOON";sleep 1
 	umount ${dir}
 	sleep 5
 fi
