@@ -416,7 +416,8 @@ jules
 #wpasupplicant:in kanssa myös jotain säätöä, esim tällaista
 ${sco} -R root:root /etc/wpa_supplicant
 ${scm} -R a-w /etc/wpa_supplicant
-#TODO:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
+
+#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 function part1_5() {
 if [ z"${pkgsrc}" != "z" ] ; then
