@@ -107,37 +107,12 @@ function udp6() {
 	dqb "D0NE"
 	csleep 4
 }
-#
-##uusien fktioiden sisältöä saattaa mennä takaisinkin ->g_doit, esim tämä fktio (VAIH)
-#function part1_post() {
-##ntp ehkä takaisin myöhemmin
-#${whack} ntp*
-#csleep 5
-#${odio} /etc/init.d/ntpsec stop
-##K01avahi-jutut sopivaan kohtaan?
-#}
 
 function part2_pre() {
-${sharpy} python3-cups
+	dqb "PP2"
+	${sharpy} python3-cups
+	csleep 5
 }
 
-##VAIH:seuraavaksi tämä takaisin > h_doit?
-##VAIH:rules-kikkailut?
-#function part3_post() {
-#jules
-###
-####seur. 2 riviä turhia koska chagedns
-###${ip6tr} /etc/iptables/rules.v6
-###${iptr} /etc/iptables/rules.v4
-###
-#${asy}
-#dqb "GR1DN BELIALAS KYE"
-#${scm} 0555 ~/Desktop/minimize/changedns.sh
-#${sco} root:root ~/Desktop/minimize/changedns.sh
-#${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
-#${sipt} -L
-#csleep 6
-#}
-#
 check_binaries ${distro}
 check_binaries2
