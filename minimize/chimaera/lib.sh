@@ -25,7 +25,10 @@ function pre_part3() {
 	${NKVD} ${1}/perl-modules-*.deb
 }
 
+#TODO:testaa tämän toiminta
 function udp6() {
+	dqb "chim.lib.updp6( ${1], ${2})"
+
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 
 	${shary} iptables 	
@@ -33,12 +36,14 @@ function udp6() {
 	pre2 ${2} #vissiin tarvitsi tämän
 
 	#avahi-exim roskikseen tässä?
+	dqb "updp6 d0n3"
+	csleep 6
 }
-
-function part1_post() {
-	dqb "UNDER CONSTRUCTION"
-}
-
+#
+#function part1_post() { #vissiin turha fktio
+#	dqb "UNDER CONSTRUCTION"
+#}
+#
 function part2_pre() {
 	if [ ${1} -eq 1 ] ; then
 		${sharpy} libopts25
