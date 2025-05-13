@@ -353,12 +353,13 @@ fi
 csleep 5
 dqb "common_lib.pre_enforce d0n3"
 }
+
 function mangle2() {
-if [ -f ${1} ] ; then
-dqb "MANGLED ${1}"
-${scm} o-rwx ${1}
-${sco} root:root ${1}
-fi
+	if [ -f ${1} ] ; then
+		dqb "MANGLED ${1}"
+		${scm} o-rwx ${1}
+		${sco} root:root ${1}
+	fi
 }
 
 function enforce_access() {
@@ -448,15 +449,20 @@ if [ -d ~/Desktop/minimize/${1} ] ; then
 if [ ! -s /etc/apt/sources.list.${1} ] ; then
 local g
 local h
+
 g=$(date +%F)
 dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
+
 csleep 2
 [ -f /etc/apt/sources.list ] && ${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
+
 h=$(mktemp -d)
 touch ${h}/sources.list.${1}
+
 for x in ${1} ${1}-updates ${1}-security ; do
 echo "deb https://${pkgsrc}/merged ${x} main" >> ${h}/sources.list.${1}
 done
+
 ${svm} ${h}/sources.list.${1} /etc/apt/
 ${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list
 [ ${debug} -eq 1 ] && cat /etc/apt/sources.list
@@ -464,6 +470,7 @@ csleep 2
 fi
 fi
 fi
+
 ${sco} -R root:root /etc/apt
 #tarkempaa sertiä tulisi findin kanssa
 ${scm} -R a-w /etc/apt/
@@ -515,7 +522,43 @@ dqb "FOUR-LEGGED WHORE (i have Tourettes)"
 }
 
 PART175_LIST="avahi bluetooth cups exim4 nfs network-manager ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
-#TODO:p175 ja p2 uudet versiot mitkä käyttävät em. listaa
+
+#VAIH:p175 ja p2 uudet versiot mitkä käyttävät em. listaa
+#function part176() {
+#	dqb "PART176()"
+#	csleep 2
+#
+#	local s
+#	local t
+#
+#	#VAIH:s listaksi konftdstoon ja sitten sammuttelu+poisto yhdess läjässä tjsp?
+#	for s in ${PART175_LIST} ; do
+#		for t in $(find /etc/init.d -name '${s}*') ; do
+#			echo "${odio} /etc/init.d/${} stop"
+#			sleep 1
+#		done
+#	done
+#
+#	#TODO:whack-jutut vielä varm vuoksi
+#
+#	${snt} -tulpan
+#	csleep 3
+#}
+#function part2_5() {
+#	debug=1
+#	dqb "PART2 ${1}"
+#	csleep 2
+#
+#	if [ ${1} -eq 1 ] ; then
+#		for s in ${PART175_LIST} ; do
+#			${sharpy} ${s}*
+#		done
+#		#TODO:jälkisiivous
+#		#TODO:wlan
+#	fi
+#
+#	#TODO:jules-tules-tulpan
+#}
 
 function part175() {
 	dqb "PART175()"
@@ -542,95 +585,98 @@ function part175() {
 }
 
 function el_loco() {
-dqb "MI LOCO"
-csleep 3
-#TODO:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön, locale-gen...
+	dqb "MI LOCO"
+	csleep 3
+	#TODO:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön, locale-gen...
 
-#ennen vai jälkeen "dpkg reconfig"-blokin tämä?
-if [ -s /etc/default/locale.tmp ] ; then
-. /etc/default/locale.tmp
-export LC_TIME
-export LANGUAGE
-export LC_ALL
-fi
+	#ennen vai jälkeen "dpkg reconfig"-blokin tämä?
+	if [ -s /etc/default/locale.tmp ] ; then
+		. /etc/default/locale.tmp
+		export LC_TIME
+		export LANGUAGE
+		export LC_ALL
+	fi
 
-#joskohan tarkistus pois jatkossa?
-if [ ${1} -gt 0 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
-#client-side session_expiration_checks can be a PITA
-${odio} dpkg-reconfigure locales
-${odio} dpkg-reconfigure tzdata
-${scm} a+w /etc/default/locale
-csleep 3
-${odio} cat /etc/default/locale.tmp >> /etc/default/locale
-cat /etc/default/locale
-csleep 3
-cat /etc/timezone
-csleep 3
-${scm} a-w /etc/default/locale
-ls -las /etc/default/lo*
-csleep 3
-fi
+	#joskohan tarkistus pois jatkossa?
+	if [ ${1} -gt 0 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
+		#client-side session_expiration_checks can be a PITA
+		${odio} dpkg-reconfigure locales
+		${odio} dpkg-reconfigure tzdata
+		${scm} a+w /etc/default/locale
+		csleep 3
 
-dqb "DN03"
-csleep 2
+		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
+		cat /etc/default/locale
+		csleep 3
+
+		cat /etc/timezone
+		csleep 3
+
+		${scm} a-w /etc/default/locale
+		ls -las /etc/default/lo*
+		csleep 3
+	fi
+
+	dqb "DN03"
+	csleep 2
 }
 
 function part2() {
-debug=1
-dqb "PART2 ${1}"
-csleep 2
+	debug=1
+	dqb "PART2 ${1}"
+	csleep 2
 
-if [ ${1} -eq 1 ] ; then
-dqb "PART2-2"
-csleep 5
-${sharpy} network*
-${sharpy} libblu* libcupsfilters* libgphoto* 
+	if [ ${1} -eq 1 ] ; then
+		dqb "PART2-2"
+		csleep 5
+		${sharpy} network*
+		${sharpy} libblu* libcupsfilters* libgphoto* 
 
-${sharpy} avahi* blu* cups*
-${sharpy} exim*
-${lftr}
-csleep 3
+		${sharpy} avahi* blu* cups*
+		${sharpy} exim*
+		${lftr}
+		csleep 3
 
-case ${iface} in
-wlan0)
-dqb "NOT REMOVING WPASUPPLICANT"
-csleep 3
-;;
-*)
-${sharpy} modem* wireless* wpa*
-${sharpy} iw lm-sensors
-;;
-esac
+		case ${iface} in
+			wlan0)
+				dqb "NOT REMOVING WPASUPPLICANT"
+				csleep 3
+			;;
+			*)
+				${sharpy} modem* wireless* wpa*
+				${sharpy} iw lm-sensors
+			;;
+		esac
 
-${sharpy} ntp*
-${lftr}
-csleep 3
-${sharpy} po* pkexec
-${lftr}
-csleep 3
-fi
+		${sharpy} ntp*
+		${lftr}
+		csleep 3
+		${sharpy} po* pkexec
+		${lftr}
+		csleep 3
+	fi
 
-dqb "PART2-3"
-csleep 3
+	dqb "PART2-3"
+	csleep 3
 
-#HUOM.12525:riittäisikö tämä vai myös part3 jälkeen?
-if [ y"${ipt}" != "y" ] ; then
-jules
-${ip6tr} /etc/iptables/rules.v6
-${iptr} /etc/iptables/rules.v4
-fi
+	#HUOM.12525:riittäisikö tämä vai myös part3 jälkeen?
+	if [ y"${ipt}" != "y" ] ; then
+		jules
+		${ip6tr} /etc/iptables/rules.v6
+		${iptr} /etc/iptables/rules.v4
+	fi
 
-csleep 5
-${lftr}
-csleep 3
+	csleep 5
+	${lftr}
+	csleep 3
 
-if [ ${debug} -eq 1 ] ; then
-${snt} -tulpan
-sleep 5
-fi
+	if [ ${debug} -eq 1 ] ; then
+		${snt} -tulpan
+		sleep 5
+	fi
 
-dqb "PART2 D0N3"
-csleep 5
+	dqb "PART2 D0N3"
+	csleep 5
 }
 
 function part3() {

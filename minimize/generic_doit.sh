@@ -89,7 +89,7 @@ enforce_access ${n}
 part1 ${distro} 
 #HUOM.190325:part_1_5sessa oli bugi, u+w ei vaan riitä
 [ ${mode} -eq 0 ] && exit
-part175
+part175 #part176
 part1_post
 
 #TODO:testit chmaeran kanssa, paketit pois ja , let's find out
@@ -111,7 +111,7 @@ c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 
 part2_pre ${removepkgs}
-part2 ${removepkgs}
+part2 ${removepkgs} #part2_5
 
 #===================================================PART 3===========================================================
 message #voi muuttua turhaksi jatkossa

@@ -1,6 +1,5 @@
 #!/bin/bash
 debug=0
-#distro=""
 mode=-1
 distro=$(cat /etc/devuan_version)
 
@@ -132,9 +131,8 @@ function ns4() {
 	sleep 5
 }
 
-function clouds_pre() {
-	dqb "cdns.clouds_pre()"
-
+function clouds_pp1() {
+	#c.pp.1
 	if [ -s /etc/resolv.conf.new ] || [ -s /etc/resolv.conf.OLD ] ; then 
 		${smr} /etc/resolv.conf
 		[ $? -gt 0 ] && echo "FAILURE TO COMPLY WHILE TRYING TO REMOVE RESOLV.CONF"
@@ -149,48 +147,41 @@ function clouds_pre() {
 		${smr} /sbin/dhclient-script
 		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHIOLE TRYINMG TO REMOVE DHCLIENT-SCRIPT"
 	fi
+}
 
+function clouds_pp2() {
+	debug=1
+	dqb "#c.pp.2 ${1}"
 	csleep 1
-
 	#050425 lisättyjä seur. blokki
+	#HUOM. pitäisiköhän linkit hukata jokatapauksessa? 0<->1 - vaihdoissa silloin häviää linkitys kokonaan
+		
+	if [ -h /etc/iptables/rules.v4 ] ; then
+		dqb "smr /e/i/rv4"
+		${smr} /etc/iptables/rules.v4
+	else
+		${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD		
+	fi
+
+	if [ -h /etc/iptables/rules.v6 ] ; then
+		dqb "smr /e/i/r6v"
+		${smr} /etc/iptables/rules.v6
+	else
+		${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
+	fi
+
 	if [ -s /etc/iptables/rules.v4.${1} ] ; then
-		if [ -h /etc/iptables/rules.v4 ] ; then
-			dqb "smr /e/i/rv4"
-			${smr} /etc/iptables/rules.v4
-		else
-			${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD		
-		fi
-#TODO:viimeistele
-#${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
-#dqb "stinky1"
+		${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
+		dqb "stinky1"
 	fi
 
 	if [ -s /etc/iptables/rules.v6.${1} ] ; then
-		if [ -h /etc/iptables/rules.v6 ] ; then
-			dqb "smr /e/i/r6v"
-			${smr} /etc/iptables/rules.v6
-		else
-			${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
-		fi
-#${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
-#dqb "stunky2"
+		${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
+		dqb "stunky2"
 	fi
+}
 
-#	csleep 1
-#
-#	if [ -s /etc/iptables/rules.v4.${1} ] ; then
-#		${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
-#		dqb "stinky1"
-#	fi
-#
-#	csleep 1
-#
-#	#ao. rivillä DROP kaikkiin riittänee säännöiksi
-#	if [ -s /etc/iptables/rules.v6.${1} ] ; then
-#		${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
-#		dqb "stunky2"
-#	fi
-
+function clouds_pp3() {
 	csleep 1
 	dqb "RELOADING TBLZ RULEZ"
 	csleep 1
@@ -207,6 +198,16 @@ function clouds_pre() {
 	#pidemmän päälle olisi kätevämpi nimetä kuin numeroida ne säännöt...
 	${ipt} -D INPUT 5
 	${ipt} -D OUTPUT 6
+}
+
+#VAIH:fktion paloittelu
+function clouds_pre() {
+	#debug=1
+	dqb "cdns.clouds_pre()"
+
+	clouds_pp1
+	clouds_pp2 ${1}
+	clouds_pp3
 
 	dqb "... done"
 }

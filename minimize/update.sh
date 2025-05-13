@@ -29,9 +29,11 @@ tgt=${1}
 
 tcmd=$(which tar)
 #jos ei tällä lähde taas toimimaan niin $2 sanomaan sudotetaanko vai ei?
+if [ ${2} -eq 1 ] ; then
+	tcmd="sudo ${tcmd} "
+fi 
 
 if [ -f ${tgt} ] ; then
-	#VAIH:sudotus sittenkin wttuun
 	for f in $(find ~/Desktop/minimize/ -name 'conf*') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
 	for f in $(find ~/Desktop/minimize/ -name '*.sh') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
 	for f in $(find /etc -name 'locale*') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
