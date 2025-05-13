@@ -270,88 +270,104 @@ function check_binaries2() {
 }
 
 function mangle_s() {
-csleep 1
+	csleep 1
 
-[ y"${1}" == "y" ] && exit 44
-[ -x ${1} ] || exit 55
-[ y"${2}" == "y" ] && exit 43
-[ -f ${2} ] || exit 54
+	[ y"${1}" == "y" ] && exit 44
+	[ -x ${1} ] || exit 55
+	[ y"${2}" == "y" ] && exit 43
+	[ -f ${2} ] || exit 54
 
-${scm} 0555 ${1}
-${sco} root:root ${1}
-local s
-local n2
+	${scm} 0555 ${1}
+	${sco} root:root ${1}
 
-if [ y"${3}" == "y" ] ; then
-n2=$(whoami)
-else
-n2=${3}
-fi
+	local s
+	local n2
 
-s=$(sha256sum ${1})
-echo "${n2} localhost=NOPASSWD: sha256: ${s} " >> ${2}
+	if [ y"${3}" == "y" ] ; then
+		n2=$(whoami)
+	else
+		n2=${3}
+	fi
+
+	s=$(sha256sum ${1})
+	echo "${n2} localhost=NOPASSWD: sha256: ${s} " >> ${2}
 }
+
 function dinf() {
-##HUOM.280325.2:lienee niin että samalle tdstonnimelle voi asEttaa useamman tiivisteen eli /sbin/dhclient-script:in saisi sudoersiin mukaan
-##, tosin tarvitseeko? ehkä sitten jos estää ifup:ia käynnistelemästä prosesseja
-#echo -n "$(whoami) localhost=NOPASSWD: " >> ${1}
-#local frist
-local g
-#frist=1
-for g in $(sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq) ; do
-#if [ ${frist} -eq 1 ] ; then 
-#frist=0
-#else
-#echo -n "," >> ${1}
-#fi
-#
-#echo -n "sha256:${f}" >> ${1}
-dqb ${g}
-done
-#echo " /sbin/dhclient-script " >> ${1}
-#cat ${1}
-#exit
+	##HUOM.280325.2:lienee niin että samalle tdstonnimelle voi asEttaa useamman tiivisteen eli /sbin/dhclient-script:in saisi sudoersiin mukaan
+	##, tosin tarvitseeko? ehkä sitten jos estää ifup:ia käynnistelemästä prosesseja
+	#echo -n "$(whoami) localhost=NOPASSWD: " >> ${1}
+
+	#local frist
+	local g
+	#frist=1
+
+	for g in $(sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq) ; do
+		#if [ ${frist} -eq 1 ] ; then 
+		#frist=0
+		#else
+		#echo -n "," >> ${1}
+		#fi
+		#
+		#echo -n "sha256:${f}" >> ${1}
+
+		dqb ${g}
+	done
+
+	#echo " /sbin/dhclient-script " >> ${1}
+	#cat ${1}
+	#exit
 }
+
 function pre_enforce() {
-dqb "common_lib.pre_enforce( ${1} , ${2} )"
-local q
-local f
-q=$(mktemp -d)
-dqb "sudo touch ${q}/meshuggah in 3 secs"
-csleep 2
-touch ${q}/meshuggah
-[ ${debug} -eq 1 ] && ls -las ${q}
-csleep 3
-[ -f ${q}/meshuggah ] || exit 33
-dqb "1NF3RN0 0F SACR3D D35TRUCT10N"
-mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah
-csleep 2
-dqb "LETf HOUTRE JOINED IN DARKN355"
-for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
-csleep 3
-dqb "TRAN S1LVAN1AN HUGN3R"
-dinf ${q}/meshuggah
-csleep 2
-if [ -s ${q}/meshuggah ] ; then
-dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
-csleep 2
-chmod 0440 ${q}/meshuggah
-${sco} root:root ${q}/meshuggah
-${svm} ${q}/meshuggah /etc/sudoers.d
-CB_LIST1=""
-unset CB_LIST1
-#saavuttaakohan tuolla nollauksella mitään? kuitenkin alustetaan
-fi
-#HUOM.12525:jokin lisäehto vielä?
-local c4
-c4=$(grep -c ${part0} /etc/fstab)
-if [ ${c4} -lt 1 ] ; then
-${scm} a+w /etc/fstab
-${odio} echo "/dev/disk/by-uuid/${part0} ${dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
-${scm} a-w /etc/fstab
-fi
-csleep 5
-dqb "common_lib.pre_enforce d0n3"
+	dqb "common_lib.pre_enforce( ${1} , ${2} )"
+	local q
+	local f
+
+	q=$(mktemp -d)
+	dqb "sudo touch ${q}/meshuggah in 3 secs"
+	csleep 2
+
+	touch ${q}/meshuggah
+	[ ${debug} -eq 1 ] && ls -las ${q}
+	csleep 3
+
+	[ -f ${q}/meshuggah ] || exit 33
+	dqb "1NF3RN0 0F SACR3D D35TRUCT10N"
+	mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah
+	csleep 2
+
+	dqb "LETf HOUTRE JOINED IN DARKN355"
+	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
+	csleep 3
+
+	dqb "TRAN S1LVAN1AN HUGN3R"
+	dinf ${q}/meshuggah
+	csleep 2
+
+	if [ -s ${q}/meshuggah ] ; then
+		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
+		csleep 2
+		chmod 0440 ${q}/meshuggah
+		${sco} root:root ${q}/meshuggah
+		${svm} ${q}/meshuggah /etc/sudoers.d
+		CB_LIST1=""
+		unset CB_LIST1
+		#saavuttaakohan tuolla nollauksella mitään? kuitenkin alustetaan
+	fi
+
+	#HUOM.12525:jokin lisäehto vielä? enforcen taakse?
+	local c4
+	c4=$(grep -c ${part0} /etc/fstab)
+
+	if [ ${c4} -lt 1 ] ; then
+		${scm} a+w /etc/fstab
+		${odio} echo "/dev/disk/by-uuid/${part0} ${dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+		${scm} a-w /etc/fstab
+	fi
+
+	csleep 5
+	dqb "common_lib.pre_enforce d0n3"
 }
 
 function mangle2() {
@@ -424,15 +440,19 @@ function enforce_access() {
 	${scm} 0555 ~/Desktop/minimize/changedns.sh
 	${sco} root:root ~/Desktop/minimize/changedns.sh
 
+	#TODO:{old,new} -> {0,1} ?
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
+
 	#HUOM.120525:näitäkin voi kasautua liikaa?
 	[ -f /etc/network/interfaces.${f} ] || ${spc} /etc/network/interfaces /etc/network/interfaces.${f}
 
+	#TODO:{old,new} -> {0,1}
 	if [ -s /etc/resolv.conf.new ] && [ -s /etc/resolv.conf.OLD ] ; then
 		${smr} /etc/resolv.conf
 	fi
 
+	#TODO:{old,new} -> {0,1}
 	[ -s /sbin/dclient-script.OLD ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.OLD
 	jules
 
@@ -557,7 +577,7 @@ PART175_LIST="avahi bluetooth cups exim4 nfs network-manager ntp mdadm sane rpcb
 #		#TODO:wlan
 #	fi
 #
-#	#TODO:jules-tules-tulpan
+#	#TODO:jules-rules-tulpan
 #}
 
 function part175() {
@@ -680,40 +700,41 @@ function part2() {
 }
 
 function part3() {
-dqb "part3( ${1} )"
-csleep 1
+	dqb "part3( ${1} )"
+	csleep 1
 
-[ y"${1}" == "y" ] && exit 1 #mikähän tässäkin on?
-dqb "11"
-csleep 1
-[ -d ${1} ] || exit 2
+	[ y"${1}" == "y" ] && exit 1 #mikähän tässäkin on?
+	dqb "11"
+	csleep 1
+	[ -d ${1} ] || exit 2
 
-#HUOM.230325: jospa ei tässä varmistella sdi:n kanssa, tulee vain nalkutusta
-#sitäpaItsi check_binaries() : in pitäisi hoitaa asia
-dqb "22"
-csleep 1
-psqa ${1}
+	#HUOM.230325: jospa ei tässä varmistella sdi:n kanssa, tulee vain nalkutusta
+	#sitäpaItsi check_binaries() : in pitäisi hoitaa asia
+	dqb "22"
+	csleep 1
+	psqa ${1}
 
-#HUOM. dpkg -R olisi myös keksitty
-local f
-for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
+	#HUOM. dpkg -R olisi myös keksitty
+	local f
+	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
 
-if [ $? -eq  0 ] ; then
-dqb "part3.1 ok"
-csleep 3
-${NKVD} ${1}/lib*.deb
-else
-exit 66
-fi
-for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
+	if [ $? -eq  0 ] ; then
+		dqb "part3.1 ok"
+		csleep 3
+		${NKVD} ${1}/lib*.deb
+	else
+		exit 66
+	fi
 
-if [ $? -eq  0 ] ; then
-dqb "part3.2 ok"
-csleep 3
-${NKVD} ${1}/*.deb
-else
-exit 67
-fi
+	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
 
-csleep 2
+	if [ $? -eq  0 ] ; then
+		dqb "part3.2 ok"
+		csleep 3
+		${NKVD} ${1}/*.deb
+	else
+		exit 67
+	fi
+
+	csleep 2
 }

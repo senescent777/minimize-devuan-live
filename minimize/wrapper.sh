@@ -22,9 +22,14 @@ case ${1} in
 		sudo /sbin/ifdown ${iface}
 	;;
 	import)
-		#VAIH:testaa tämäkin
+		#VAIH:testaa tämäkin (130525 ei vielä 1. yrityksellä lähtenyt skulaamaan, symtaksi)
 		${d}/import2.sh -1
-		read ${file};${d}/import2.sh 0 ${file}
+		read -p "source?" sorsa
+
+		${d}/import2.sh 0 ${sorsa}
+		echo $?
+		
+		sleep 2
 		${d}/import2.sh 2
 	;;
 	doit)

@@ -378,13 +378,13 @@ function tp2() {
 	#HUOM.12525.1:jotain karsimista jatkossa kenties?
 	${scm} -R a+r /etc/iptables
 	${scm} a+x /etc/iptables
-	#HUOM.1252525.25252525:rules.x ei näköjään tullut mukaan, joko väärät jokerit tai käyttöoikeudet, tee joatin
+	
 	${srat} -rvf ${1} /etc/network/interfaces /etc/iptables/rules.v4.? /etc/iptables/rules.v6.? 
 	${scm} -R 0440 /etc/iptables
 	${scm} ug+x /etc/iptables
-	ls -las /etc/iptables
-	csleep 6
 
+	#ls -las /etc/iptables
+	csleep 3
 	${srat} -rvf ${1} /etc/default/rules* /etc/default/locale* /etc/timezone /etc/locale-gen
 
 	case ${iface} in
@@ -396,6 +396,7 @@ function tp2() {
 		;;
 	esac
 
+	#TODO:selvitä miten toimii q enforce nolla
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "das asdd"
 	else
@@ -440,16 +441,23 @@ function tp3() {
 	csleep 10
 	cd project
 
+	#VAIH:{old,new} -> {0,1} ?
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.OLD
-	#HUOM.8535:/e/r.conf-tilanne korjattu
-	${spc} /etc/resolv.conf ./etc/resolv.conf.OLD
-	${spc} /sbin/dhclient-script ./sbin/dhclient-script.OLD
+	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.0
 
-	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa
+	#HUOM.8535:/e/r.conf-tilanne korjattu?
+	${spc} /etc/resolv.conf ./etc/resolv.conf.OLD
+	${spc} /etc/resolv.conf ./etc/resolv.conf.0
+
+	${spc} /sbin/dhclient-script ./sbin/dhclient-script.OLD
+	${spc} /sbin/dhclient-script ./sbin/dhclient-script.0
+
+	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 
 	#HUOM.310325:jostain erityisestä syystä kommenteissa?
 	#280425: varm vuoksi takqaisin kommentteihin?
+
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
@@ -464,8 +472,9 @@ function tp3() {
 
 function tpu() {
 	debug=1	
-
+	#TODO:{old,new} -> {0,1} jos soveltuu
 	dqb "tpu( ${1}, ${2})"
+
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] && mv ${1} ${1}.OLD
 	[ z"${2}" == "z" ] && exit 11
@@ -513,7 +522,8 @@ function tp5() {
 
 	${tig} clone https://github.com/senescent777/some_scripts.git
 	[ $? -eq 0 ] || exit 99
-
+	
+	#TODO:{old,new} -> {0,1} jos soveltuu
 	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
 	mv some_scripts/lib/export/profs* ${2}
 

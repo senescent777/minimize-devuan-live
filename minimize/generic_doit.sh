@@ -77,6 +77,7 @@ function part1_post() {
 
 #==================================PART 1============================================================
 
+#TODO:gpo():n kautta jatkossa
 if [ $# -gt 0 ] ; then
 	for opt in $@ ; do parse_opts_1 $opt ; done
 fi
@@ -150,6 +151,7 @@ fi
 jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
+
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 ${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}

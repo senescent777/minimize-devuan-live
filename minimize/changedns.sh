@@ -131,6 +131,7 @@ function ns4() {
 	sleep 5
 }
 
+#TODO:{old,new} -> {0,1}
 function clouds_pp1() {
 	#c.pp.1
 	if [ -s /etc/resolv.conf.new ] || [ -s /etc/resolv.conf.OLD ] ; then 
@@ -149,8 +150,9 @@ function clouds_pp1() {
 	fi
 }
 
+#TODO:{old,new} -> {0,1} ? (eri juttu kyllä)
 function clouds_pp2() {
-	debug=1
+	#debug=1
 	dqb "#c.pp.2 ${1}"
 	csleep 1
 	#050425 lisättyjä seur. blokki
@@ -200,7 +202,6 @@ function clouds_pp3() {
 	${ipt} -D OUTPUT 6
 }
 
-#VAIH:fktion paloittelu
 function clouds_pre() {
 	#debug=1
 	dqb "cdns.clouds_pre()"
@@ -247,6 +248,8 @@ function clouds_post() {
 function clouds_case0() {
 	dqb "cdns.clouds_case0()"
 
+	#TODO:{old,new} -> {0,1}
+
 	${slinky} /etc/resolv.conf.OLD /etc/resolv.conf
 	${slinky} /etc/dhcp/dhclient.conf.OLD /etc/dhcp/dhclient.conf
 
@@ -279,12 +282,14 @@ function clouds_case0() {
 	${whack} ntp*
 }
 
+#TODO:{old,new} -> {0,1}
 function clouds_case1() {
 	echo "WORK IN PROGRESS"
 
 	if [ -s /etc/resolv.conf.new ] ; then
 		echo "r30lv.c0nf alr3ady 3x15t5"
 	else
+		#TODO:jos export...
 		touch /etc/resolv.conf.new
 		${scm} a+w /etc/resolv.conf.new
 		echo "nameserver 127.0.0.1" > /etc/resolv.conf.new
@@ -334,6 +339,7 @@ function clouds_case1() {
 }
 #====================================================================
 clouds_pre ${mode}
+#TODO:slinky-juttu vhitellen
 
 case ${mode} in 
 	0)

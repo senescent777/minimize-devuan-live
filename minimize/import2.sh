@@ -193,7 +193,10 @@ case "${1}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	0|3)
-		debug=1
+		#debug=1
+		dqb "ZER0 S0UND"
+		csleep 2
+
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 2
