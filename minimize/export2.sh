@@ -192,7 +192,7 @@ function tpq() {
 	csleep 5
 }
 
-#TODO:PREFIX paraetriksi, tai esim cut
+#VAIH:PREFIX paraetriksi, tai esim cut
 function tp1() {
 	debug=1
 	dqb "tp1( ${1} , ${2} )"
@@ -207,16 +207,23 @@ function tp1() {
 		dqb "d0nm3"
 	fi
 
-	if [ ${enforce} -eq 1 ] ; then
+	local ledif
+	ledif=$(echo ${2} | cut -d '/' -f 1-5 )
+	#itäisiköhän olla jokin tarkistus tässä?
+
+	if [ ${enforce} -eq 1 ] && [ -d ${ledif} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		tpq ${PREFIX}
+		tpq ${ledif} #PREFIX}
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
-		ls -las ${PREFIX}/; sleep 5
+		ls -las ${ledif} #PREFIX}
+		sleep 5
 	fi
 
-	${srat} -rvf ${1} ${PREFIX} /home/stubby #HUOM.260125: -p wttuun varm. vuoksi
+	#${srat} -rvf ${1} ${PREFIX} /home/stubby #HUOM.260125: -p wttuun varm. vuoksi
+	${srat} -rvf ${1} ${ledif} /home/stubby 	
+
 	dqb "tp1 d0n3"
 	csleep 3
 }
