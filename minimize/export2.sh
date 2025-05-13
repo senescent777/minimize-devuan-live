@@ -152,6 +152,7 @@ function pre2() {
 	fi
 }
 
+#TODO:PREFIX parametriksi
 function tpq() {
 	${srat} -cf ${PREFIX}/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
 	csleep 2

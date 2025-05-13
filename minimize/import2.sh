@@ -118,7 +118,6 @@ dqb "b3f0r3 par51ng tha param5"
 csleep 5
 
 #glorified "tar -x" this function is - Yoda
-#VAIH:$2 muutoksia
 function common_part() {
 	debug=1
 
@@ -127,6 +126,7 @@ function common_part() {
 	[ -s ${1} ] || exit 2
 
 	[ y"${2}" == "y" ] && exit 11
+	[ -d ${2} ] || exit 22
 	dqb "paramz_0k"
 
 	cd /
