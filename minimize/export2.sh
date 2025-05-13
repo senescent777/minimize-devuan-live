@@ -152,16 +152,21 @@ function pre2() {
 	fi
 }
 
-#TODO:PREFIX parametriksi
+#VAIH:PREFIX parametriksi
 function tpq() {
-	${srat} -cf ${PREFIX}/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
+	dqb "tpq ${1} ${2}"
+	[ -d ${1} ] || exit 22
+	dqb "paramz 0k"
+	csleep 1
+
+	${srat} -cf ${1}/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
 	csleep 2
 
-	if [ -x ${PREFIX}/profs.sh ] ; then
+	if [ -x ${1}/profs.sh ] ; then
 		dqb "PR0FS.SH F+UND"
 			
-		. ${PREFIX}/profs.sh
-		exp_prof ${PREFIX}/fediverse.tar default-esr
+		. ${1}/profs.sh
+		exp_prof ${1}/fediverse.tar default-esr
 	else
 		dqb "FASD FADS SAFD"	
 	fi
@@ -169,6 +174,7 @@ function tpq() {
 	csleep 5
 }
 
+#TODO:PREFIX paraetriksi, tai esim cut
 function tp1() {
 	debug=1
 	dqb "tp1( ${1} , ${2} )"
@@ -185,7 +191,7 @@ function tp1() {
 
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		tpq
+		tpq ${PREFIX}
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
@@ -562,7 +568,7 @@ case ${mode} in
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 
-		tpq #fktio ottamaan parametreja?
+		tpq ${PREFIX}
 		${srat} -cf ${tgtfile} ${PREFIX}/xfce.tar ${PREFIX}/fediverse.tar
 	;;
 esac
