@@ -463,7 +463,7 @@ function tpu() {
 
 #TODO:-v tekemään jotain hyödyllistä
 
-#TODO:tsoituvia mjpnoja vähemmksi
+#TODO:prefix 2. parametriksi jos mahd
 function tp5() {
 	debug=1
 
