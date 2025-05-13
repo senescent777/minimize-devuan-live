@@ -45,8 +45,6 @@ function check_params() {
 	esac
 }
 
-#VAIH:(myös testaus että molemmat salakalat saadaan vaihd)
-#HU0OM12525:oli tilanne että g_doit ei löytänyt tätä, toivottavasti menee phi
 function vommon() {
 	dqb "R (in 3 secs)"
 	csleep 3
@@ -67,6 +65,14 @@ function vommon() {
 	fi
 
 	exit
+}
+
+function part1_post() {
+#ntp ehkä takaisin myöhemmin
+${whack} ntp*
+csleep 5
+${odio} /etc/init.d/ntpsec stop
+#K01avahi-jutut sopivaan kohtaan?
 }
 
 #==================================PART 1============================================================

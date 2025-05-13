@@ -27,6 +27,8 @@ function cprof_1_1() {
 	fi
 }
 
+#TODO:fktioiden loogisempi nimeäminen
+
 function cprof_1_2() {
 	#debug=1
 	dqb "cpfor_12 ${1},${2}"
@@ -54,6 +56,7 @@ function cprof_1_2() {
 	csleep 3
 }
 
+#TODO:profiilin hakemiseen $(${}) - tyyppinen juttu jatkossa
 function cprof_1_3() {
 	#debug=1
 	dqb "cprof13 ${1} ${2} ${3}"

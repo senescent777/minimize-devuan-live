@@ -3,11 +3,12 @@ distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 u=0
 v=0
 
+#TODO:tapaus $dir valmiiksi mountattu, miksi urputtaa? korjaa
+
 if [ z"${distro}" != "z" ] ; then
 	if [ -s ~/Desktop/minimize/${distro}/conf ] ; then
 		. ~/Desktop/minimize/${distro}/conf
 
-		#VAIH:jatkossa mount jos ei ole jo mountattu, grep -c /proc/mounts
 		if [ -d ${dir} ] ; then
 			v=$(grep -c ${dir} /proc/mounts)
 

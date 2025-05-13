@@ -4,6 +4,7 @@ file=""
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 dir=/mnt
 part0=ABCD-1234
+PREFIX=~/Desktop/minimize
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -18,7 +19,7 @@ case $# in
 		dqb "maybe ok" #tap -1 ja 2 ok, muissa pitäisi fileen puuttuminen p ysäyttää
 	;;
 	2)
-		if [ -d ~/Desktop/minimize/${2} ] ; then
+		if [ -d ${PREFIX}/${2} ] ; then
 			distro=${2}
 		else
 			file=${2}
@@ -27,7 +28,7 @@ case $# in
 	3)
 		file=${2}
 
-		if [ -d ~/Desktop/minimize/${3} ] ; then
+		if [ -d ${PREFIX}/${3} ] ; then
 			distro=${3}
 		else
 			[ "${3}" == "-v" ] && debug=1
@@ -57,14 +58,14 @@ mode=${1}
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "file=${file}"
-d=~/Desktop/minimize/${distro}
+d=${PREFIX}/${distro}
 
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
 fi
 
-if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
-	. ~/Desktop/minimize/common_lib.sh
+if [ -x ${PREFIX}/common_lib.sh ] ; then
+	. ${PREFIX}/common_lib.sh
 else
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
@@ -117,6 +118,7 @@ dqb "b3f0r3 par51ng tha param5"
 csleep 5
 
 #glorified "tar -x" this function is - Yoda
+#TODO:$2 muutoksia
 function common_part() {
 	debug=1
 
@@ -134,24 +136,24 @@ function common_part() {
 	csleep 2
 	dqb "tar DONE"
 
-	if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
+	if [ -x ${PREFIX}/common_lib.sh ] ; then
 		enforce_access ${n}
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	fi
 
-	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/*.sh
+	[ ${debug} -eq 1 ] && ls -las ${PREFIX}/*.sh
 	csleep 3
 	
-	if [ -d ~/Desktop/minimize/${2} ] ; then 
+	if [ -d ${PREFIX}/${2} ] ; then 
 		dqb "HAIL UKK"
-		${scm} 0755 ~/Desktop/minimize/${2}
-		${scm} a+x ~/Desktop/minimize/${2}/*.sh
-		${scm} 0444 ~/Desktop/minimize/${2}/conf*
-		${scm} 0444 ~/Desktop/minimize/${2}/*.deb
+		${scm} 0755 ${PREFIX}/${2}
+		${scm} a+x ${PREFIX}/${2}/*.sh
+		${scm} 0444 ${PREFIX}/${2}/conf*
+		${scm} 0444 ${PREFIX}/${2}/*.deb
 		csleep 3
 	fi
 
-	[ ${debug} -eq 1 ] && ls -las ~/Desktop/minimize/${2}
+	[ ${debug} -eq 1 ] && ls -las ${PREFIX}/${2}
 	csleep 3
 	dqb "ALL DONE"
 }
@@ -236,8 +238,8 @@ case "${1}" in
 		dqb "${file} IJ"
 		csleep 2
 
-		if [ -x ~/Desktop/minimize/profs.sh ] ; then
-			. ~/Desktop/minimize/profs.sh
+		if [ -x ${PREFIX}/profs.sh ] ; then
+			. ${PREFIX}/profs.sh
 			[ $? -gt 0 ] && exit 33
 			
 			dqb "INCLUDE OK"

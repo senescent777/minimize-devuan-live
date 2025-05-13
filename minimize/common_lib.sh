@@ -19,45 +19,46 @@ distro=$(cat /etc/devuan_version)
 n=$(whoami)
 
 function dqb() {
-[ ${debug} -eq 1 ] && echo ${1}
+	[ ${debug} -eq 1 ] && echo ${1}
 }
+
 function csleep() {
-[ ${debug} -eq 1 ] && sleep ${1}
+	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
 function fix_sudo() {
-echo "fix_sud0.pt0"
+	echo "fix_sud0.pt0"
 
-${sco} -R 0:0 /etc/sudoers.d
-${scm} 0440 /etc/sudoers.d/*
-${sco} -R 0:0 /etc/sudo*
-${scm} -R a-w /etc/sudo*
+	${sco} -R 0:0 /etc/sudoers.d
+	${scm} 0440 /etc/sudoers.d/*
+	${sco} -R 0:0 /etc/sudo*
+	${scm} -R a-w /etc/sudo*
 
-dqb "POT. DANGEROUS PT 1"
+	dqb "POT. DANGEROUS PT 1"
 
-if [ -d /usr/lib/sudo ] ; then #onko moista daedaluksessa?
-	${sco} 0:0 /usr/lib/sudo/*
-	${scm} -R a-w /usr/lib/sudo/*
-	${scm} 0444 /usr/lib/sudo/sudoers.so
-fi
+	if [ -d /usr/lib/sudo ] ; then #onko moista daedaluksessa?
+		${sco} 0:0 /usr/lib/sudo/*
+		${scm} -R a-w /usr/lib/sudo/*
+		${scm} 0444 /usr/lib/sudo/sudoers.so
+	fi
 
-dqb "fix_sud0.pt1"
-${scm} 0750 /etc/sudoers.d
-${scm} 0440 /etc/sudoers.d/*
+	dqb "fix_sud0.pt1"
+	${scm} 0750 /etc/sudoers.d
+	${scm} 0440 /etc/sudoers.d/*
 
-#dqb "POT. DANGEROUS PT 2"
-#HUOM.250325:onkohan tarkoitus että nämä komennot laittavat sudon epäkuntoon vai ei?
-#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+	#dqb "POT. DANGEROUS PT 2"
+	#HUOM.250325:onkohan tarkoitus että nämä komennot laittavat sudon epäkuntoon vai ei?
+	#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+	#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 
-[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
-csleep 5
-echo "fix_sud0.d0n3"
+	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
+	csleep 5
+	echo "fix_sud0.d0n3"
 }
 
 fix_sudo
-
+#yhteen läjän nämä määrittelyt?
 slinky=$(${odio} which ln)
 slinky="${odio} ${slinky} -s "
 spc=$(${odio} which cp)
@@ -93,37 +94,46 @@ function jules() { #HUOM.12525:function puuttui edestä aiemmin
 	${scm} 0440 /etc/iptables/*
 }
 
+#TODO:käyttöön
+#function message() {
+#	dqb "INSTALLING NEW PACKAGES IN 10 SECS"
+#	csleep 3
+#
+#	echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES";sleep 2
+#	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 3
+#}
+
 function ocs() {
-local tmp
-tmp=$(sudo which ${1})
+	local tmp
+	tmp=$(sudo which ${1})
 
-if [ y"${tmp}" == "y" ] ; then
-	exit 69 #fiksummankin exit-koodin voisi keksiä
-fi
+	if [ y"${tmp}" == "y" ] ; then
+		exit 69 #fiksummankin exit-koodin voisi keksiä
+	fi
 
-if [ ! -x ${tmp} ] ; then
-	exit 77
-fi
+	if [ ! -x ${tmp} ] ; then
+		exit 77
+	fi
 }
 
 function psqa() {
-dqb "QUASB (THE BURNING) ${1}"
-#ls -las ${sah6}
-#sleep 5
+	dqb "QUASB (THE BURNING) ${1}"
 
-if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
-	p=$(pwd)
-	cd ${1}
-	#dpkg -V #HUOM.11525:toistaiseksi jemmaan
-	#sleep 5
-	${sah6} -c sha512sums.txt --ignore-missing
-	[ $? -eq 0 ] || exit 97
-	cd ${p}
-else
-	dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
-fi
+	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
+		p=$(pwd)
+		cd ${1}
 
-csleep 3
+		#dpkg -V #HUOM.11525:toistaiseksi jemmaan
+		#sleep 5
+
+		${sah6} -c sha512sums.txt --ignore-missing
+		[ $? -eq 0 ] || exit 97
+		cd ${p}
+	else
+		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
+	fi
+
+	csleep 3
 }
 
 function check_binaries() {
@@ -178,21 +188,16 @@ function check_binaries() {
 		ip6tr=$(sudo which ip6tables-restore)
 	fi
 
+	#voisi kai ocs-kohtaankin viedä ao. blokin sisällön
 	[ -x ${ipt} ] || exit 5
 	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
 	[ -x ${ip6t} ] || exit 5
 	[ -x ${iptr} ] || exit 5
 	[ -x ${ip6tr} ] || exit 5
 
-	#sco=$(sudo which chown)
-	#scm=$(sudo which chmod)
-
 	whack=$(sudo which pkill)
 	sifu=$(sudo which ifup)
 	sifd=$(sudo which ifdown)
-
-	#spc=$(sudo which cp)
-	#svm=$(sudo which mv)
 
 	CB_LIST1="/sbin/halt /sbin/reboot /usr/bin/which ${sifu} ${sifd} "
 	dqb "second half of c_bin_1"
@@ -237,9 +242,6 @@ function check_binaries2() {
 	sag_u="${odio} ${sag} update "
 	sag="${odio} ${sag} "
 
-	#sco="${odio} ${sco} "
-	#scm="${odio} ${scm} "
-
 	sip="${odio} ${sip} "
 	dqb "sip= ${sip}"
 	csleep 3
@@ -253,7 +255,6 @@ function check_binaries2() {
 	NKVD="${NKVD} -fu "
 	NKVD="${odio} ${NKVD} "
 
-	#spc="${odio} ${spc} "
 	srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
 	fib="${odio} ${sa} --fix-broken install "
@@ -261,7 +262,6 @@ function check_binaries2() {
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
 	
-	#svm="${odio} ${svm}"
 	#HUOM. ei alustetttu tämmöstä dch="${odio} ${dch}"
 
 	dqb "b1nar135.2 0k.2" 
@@ -270,19 +270,23 @@ function check_binaries2() {
 
 function mangle_s() {
 csleep 1
+
 [ y"${1}" == "y" ] && exit 44
 [ -x ${1} ] || exit 55
 [ y"${2}" == "y" ] && exit 43
 [ -f ${2} ] || exit 54
+
 ${scm} 0555 ${1}
 ${sco} root:root ${1}
 local s
 local n2
+
 if [ y"${3}" == "y" ] ; then
 n2=$(whoami)
 else
 n2=${3}
 fi
+
 s=$(sha256sum ${1})
 echo "${n2} localhost=NOPASSWD: sha256: ${s} " >> ${2}
 }
@@ -403,7 +407,7 @@ ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 [ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 [ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
-#HUOM.120525:näitäkin voi kasautua liikaa
+#HUOM.120525:näitäkin voi kasautua liikaa?
 [ -f /etc/network/interfaces.${f} ] || ${spc} /etc/network/interfaces /etc/network/interfaces.${f}
 if [ -s /etc/resolv.conf.new ] && [ -s /etc/resolv.conf.OLD ] ; then
 ${smr} /etc/resolv.conf

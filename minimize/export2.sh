@@ -2,6 +2,7 @@
 debug=1
 tgtfile=""
 distro=$(cat /etc/devuan_version) #tarpeellinen tässä
+PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -22,7 +23,7 @@ case $# in
 		dqb "maybe ok"
 	;;
 	3)
-		if [ -d ~/Desktop/minimize/${3} ] ; then
+		if [ -d ${PREFIX}/${3} ] ; then
 			distro=${3}
 		else
 			[ "${3}" == "-v" ] && debug=1
@@ -42,7 +43,7 @@ dqb "mode= ${mode}"
 dqb "distro=${distro}"
 dqb "file=${tgtfile}"
 [ z"${distro}" == "z" ] && exit 6
-d=~/Desktop/minimize/${distro}
+d=${PREFIX}/${distro}
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
@@ -50,7 +51,7 @@ else
 	echo "CONFIG MISSING"; exit 55
 fi
 
-. ~/Desktop/minimize/common_lib.sh
+. ${PREFIX}/common_lib.sh
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -70,8 +71,8 @@ else
 fi
 
 dqb "tar = ${srat} "
-${scm} 0555 ~/Desktop/minimize/changedns.sh
-${sco} root:root ~/Desktop/minimize/changedns.sh
+${scm} 0555 ${PREFIX}/changedns.sh
+${sco} root:root ${PREFIX}/changedns.sh
 
 tig=$(sudo which git)
 mkt=$(sudo which mktemp)
@@ -134,7 +135,7 @@ function pre2() {
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
-		${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${ortsac}
+		${odio} ${PREFIX}/changedns.sh ${dnsm} ${ortsac}
 		csleep 4
 		${sifu} ${iface}
 		[ ${debug} -eq 1 ] && /sbin/ifconfig
@@ -152,14 +153,14 @@ function pre2() {
 }
 
 function tpq() {
-	${srat} -cf ~/Desktop/minimize/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
+	${srat} -cf ${PREFIX}/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
 	csleep 2
 
-	if [ -x ~/Desktop/minimize/profs.sh ] ; then
+	if [ -x ${PREFIX}/profs.sh ] ; then
 		dqb "PR0FS.SH F+UND"
 			
-		. ~/Desktop/minimize/profs.sh
-		exp_prof ~/Desktop/minimize/fediverse.tar default-esr
+		. ${PREFIX}/profs.sh
+		exp_prof ${PREFIX}/fediverse.tar default-esr
 	else
 		dqb "FASD FADS SAFD"	
 	fi
@@ -187,10 +188,10 @@ function tp1() {
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
-		ls -las ~/Desktop/minimize/; sleep 5
+		ls -las ${PREFIX}/; sleep 5
 	fi
 
-	${srat} -rvf ${1} ~/Desktop/minimize /home/stubby #HUOM.260125: -p wttuun varm. vuoksi
+	${srat} -rvf ${1} ${PREFIX} /home/stubby #HUOM.260125: -p wttuun varm. vuoksi
 	dqb "tp1 d0n3"
 	csleep 3
 }
@@ -480,9 +481,9 @@ function tp5() {
 	${tig} clone https://github.com/senescent777/some_scripts.git
 	[ $? -eq 0 ] || exit 99
 
-	mv some_scripts/lib/export/profs* ~/Desktop/minimize 
-	${scm} 0755 ~/Desktop/minimize/profs*
-	${srat} -rvf ${1} ~/Desktop/minimize/profs*
+	mv some_scripts/lib/export/profs* ${PREFIX} 
+	${scm} 0755 ${PREFIX}/profs*
+	${srat} -rvf ${1} ${PREFIX}/profs*
 
 	dqb "AAMUNK01"
 }
@@ -547,7 +548,7 @@ case ${mode} in
 		echo "$0 3 <tgtfile> [distro] [-v]: makes the main pkg (old way)"
 		echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
 		echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
-		echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under ~/Desktop/minimize/\${distro}"
+		echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under ${PREFIX}/\${distro}"
 		echo "$0 p <> [] [] pulls Profs.sh from somewhere"
 		echo "$0 q <> [] [] archives firefox settings"
 				
@@ -558,6 +559,6 @@ case ${mode} in
 		${sifd} ${iface}
 
 		tpq #fktio ottamaan parametreja?
-		${srat} -cf ${tgtfile} ~/Desktop/minimize/xfce.tar ~/Desktop/minimize/fediverse.tar
+		${srat} -cf ${tgtfile} ${PREFIX}/xfce.tar ${PREFIX}/fediverse.tar
 	;;
 esac
