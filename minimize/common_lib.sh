@@ -17,6 +17,7 @@ scm="${odio} ${scm} "
 sah6=$(which sha512sum)
 distro=$(cat /etc/devuan_version)
 n=$(whoami)
+PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
