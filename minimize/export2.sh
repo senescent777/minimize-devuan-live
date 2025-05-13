@@ -25,7 +25,6 @@ function usage() {
 
 mode=${1}
 tgtfile=${2}
-#VAIH: "-h"-ulostusta varten fktio ennen ao. .case:a ja kåyttöön ei tartte mennä main() asti
 
 case $# in
 	1)
@@ -144,13 +143,17 @@ function pre2() {
 	[ x"${1}" == "z" ] && exit 666
 
 	local ortsac
+	local ledif
+
 	ortsac=$(echo ${1} | cut -d '/' -f 6)
-	#TODO: vut toistakin kohtaa varten
+	ledif=$(echo ${1} | cut -d '/' -f 1-5 )
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
-		${odio} ${PREFIX}/changedns.sh ${dnsm} ${ortsac}
+		#${odio} ${PREFIX}/changedns.sh ${dnsm} ${ortsac}
+		${odio} ${ledif}/changedns.sh ${dnsm} ${ortsac}
 		csleep 4
+
 		${sifu} ${iface}
 		[ ${debug} -eq 1 ] && /sbin/ifconfig
 		csleep 4
@@ -568,9 +571,6 @@ case ${mode} in
 	f)
 		rmt ${tgtfile} ${d}
 	;;
-#	-h)
-#	
-#	;;
 	q)
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
