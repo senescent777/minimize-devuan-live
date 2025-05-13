@@ -487,11 +487,13 @@ ${scm} -R a-w /etc/apt/
 dqb "FOUR-LEGGED WHORE (i have Tourettes)"
 }
 
+PART175_LIST="avahi bluetooth cups exim4 nfs network-manager ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+
 function part175() {
 dqb "PART175()"
 csleep 2
 
-#TODO:s listaksi konftdstoon ja sitten sammuttelu+poisto yhdess läjässä?
+#VAIH:s listaksi konftdstoon ja sitten sammuttelu+poisto yhdess läjässä tjsp?
 for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ; do
 ${odio} /etc/init.d/${s} stop
 sleep 1
