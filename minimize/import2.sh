@@ -118,7 +118,7 @@ dqb "b3f0r3 par51ng tha param5"
 csleep 5
 
 #glorified "tar -x" this function is - Yoda
-#TODO:$2 muutoksia
+#VAIH:$2 muutoksia
 function common_part() {
 	debug=1
 
@@ -136,24 +136,28 @@ function common_part() {
 	csleep 2
 	dqb "tar DONE"
 
-	if [ -x ${PREFIX}/common_lib.sh ] ; then
+	#toisella tavalla jatkossa
+	#if [ -x ${PREFIX}/common_lib.sh ] ; then
+	if [ -x ${2}/../common_lib.sh ] ; then
 		enforce_access ${n}
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	fi
 
-	[ ${debug} -eq 1 ] && ls -las ${PREFIX}/*.sh
+#	[ ${debug} -eq 1 ] && ls -las ${PREFIX}/*.sh
 	csleep 3
 	
-	if [ -d ${PREFIX}/${2} ] ; then 
+	if [ -d ${2} ] ; then 
 		dqb "HAIL UKK"
-		${scm} 0755 ${PREFIX}/${2}
-		${scm} a+x ${PREFIX}/${2}/*.sh
-		${scm} 0444 ${PREFIX}/${2}/conf*
-		${scm} 0444 ${PREFIX}/${2}/*.deb
+
+		${scm} 0755 ${2}
+		${scm} a+x ${2}/*.sh
+		${scm} 0444 ${2}/conf*
+		${scm} 0444 ${2}/*.deb
+
 		csleep 3
 	fi
 
-	[ ${debug} -eq 1 ] && ls -las ${PREFIX}/${2}
+	[ ${debug} -eq 1 ] && ls -las ${2}
 	csleep 3
 	dqb "ALL DONE"
 }
@@ -182,8 +186,8 @@ case "${1}" in
 
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ]  || exit 33
+		common_part ${file} ${d} #istro}
 
-		common_part ${file} ${distro}
 		csleep 3
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
@@ -204,8 +208,7 @@ case "${1}" in
 
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
-
-		common_part ${file} ${distro}
+		common_part ${file} ${d} #istro}
 
 		#debig taakse jatkossa seur 2
 		ls -las ${d}/*.tar
@@ -213,7 +216,7 @@ case "${1}" in
 
 		if [ ${1} -eq 0 ] ; then
 			if [ -s ${d}/e.tar ] ; then
-				common_part ${d}/e.tar ${distro}
+				common_part ${d}/e.tar ${d} #istro}
 			fi
 		fi
 
