@@ -14,6 +14,7 @@ function csleep() {
 
 mode=${1}
 tgtfile=${2}
+#TODO: "-h"-ulostusta varten fktio ennen ao. .case:a ja kåyttöön ei tartte mennä main() asti
 
 case $# in
 	1)
@@ -132,6 +133,7 @@ function pre2() {
 
 	local ortsac
 	ortsac=$(echo ${1} | cut -d '/' -f 6)
+	#TODO: vut toistakin kohtaa varten
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
@@ -159,6 +161,7 @@ function tpq() {
 	dqb "paramz 0k"
 	csleep 1
 
+	#TODO:kokeillaanpa ../../  tavalla
 	${srat} -cf ${1}/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
 	csleep 2
 
