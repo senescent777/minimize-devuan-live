@@ -449,8 +449,21 @@ function tp3() {
 	${spc} /etc/resolv.conf ./etc/resolv.conf.OLD
 	${spc} /etc/resolv.conf ./etc/resolv.conf.0
 
+	if [ -s /etc/resolv.conf.new ] ; then
+		${spc} /etc/resolv.conf.new ./etc/resolv.conf.new
+	else
+		touch ./etc/resolv.conf.new
+		${scm} a+w ./etc/resolv.conf.new
+		echo "nameserver 127.0.0.1" > ./etc/resolv.conf.new
+		${scm} 0444 ./etc/resolv.conf.new
+		${sco} root:root ./etc/resolv.conf.new
+	fi
+
+	${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
+
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.OLD
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.0
+	${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
 
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp

@@ -282,20 +282,20 @@ function clouds_case0() {
 	${whack} ntp*
 }
 
-#TODO:{old,new} -> {0,1}
+#VAIH:{old,new} -> {0,1}
 function clouds_case1() {
 	echo "WORK IN PROGRESS"
 
-	if [ -s /etc/resolv.conf.new ] ; then
-		echo "r30lv.c0nf alr3ady 3x15t5"
-	else
-		#TODO:jos export...
-		touch /etc/resolv.conf.new
-		${scm} a+w /etc/resolv.conf.new
-		echo "nameserver 127.0.0.1" > /etc/resolv.conf.new
-		${scm} 0444 /etc/resolv.conf.new
-		${sco} root:root /etc/resolv.conf.new
-	fi
+#	if [ -s /etc/resolv.conf.new ] ; then
+#		echo "r30lv.c0nf alr3ady 3x15t5"
+#	else
+#		#VAIH:jos export...
+#		touch /etc/resolv.conf.new
+#		${scm} a+w /etc/resolv.conf.new
+#		echo "nameserver 127.0.0.1" > /etc/resolv.conf.new
+#		${scm} 0444 /etc/resolv.conf.new
+#		${sco} root:root /etc/resolv.conf.new
+#	fi
 
 	${slinky} /etc/resolv.conf.new /etc/resolv.conf
 	${slinky} /etc/dhcp/dhclient.conf.new /etc/dhcp/dhclient.conf
