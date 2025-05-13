@@ -176,20 +176,20 @@ function clouds_pre() {
 #dqb "stunky2"
 	fi
 
-	csleep 1
-
-	if [ -s /etc/iptables/rules.v4.${1} ] ; then
-		${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
-		dqb "stinky1"
-	fi
-
-	csleep 1
-
-	#ao. rivillä DROP kaikkiin riittänee säännöiksi
-	if [ -s /etc/iptables/rules.v6.${1} ] ; then
-		${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
-		dqb "stunky2"
-	fi
+#	csleep 1
+#
+#	if [ -s /etc/iptables/rules.v4.${1} ] ; then
+#		${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
+#		dqb "stinky1"
+#	fi
+#
+#	csleep 1
+#
+#	#ao. rivillä DROP kaikkiin riittänee säännöiksi
+#	if [ -s /etc/iptables/rules.v6.${1} ] ; then
+#		${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
+#		dqb "stunky2"
+#	fi
 
 	csleep 1
 	dqb "RELOADING TBLZ RULEZ"
