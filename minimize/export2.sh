@@ -463,14 +463,15 @@ function tpu() {
 
 #TODO:-v tekemään jotain hyödyllistä
 
-#TODO:prefix 2. parametriksi jos mahd
+#VAIH:prefix 2. parametriksi jos mahd
 function tp5() {
 	debug=1
 
 	dqb "tp5 ${1} ${2}"
 	[ z"${1}" == "z" ] && exit 99
 	[ -s ${1} ] || exit 98
-
+	[ -d ${2} ] || exit 97
+ 
 	dqb "params ok"
 	csleep 5
 
@@ -482,9 +483,9 @@ function tp5() {
 	${tig} clone https://github.com/senescent777/some_scripts.git
 	[ $? -eq 0 ] || exit 99
 
-	mv some_scripts/lib/export/profs* ${PREFIX} 
-	${scm} 0755 ${PREFIX}/profs*
-	${srat} -rvf ${1} ${PREFIX}/profs*
+	mv some_scripts/lib/export/profs* ${2} 
+	${scm} 0755 ${2}/profs*
+	${srat} -rvf ${1} ${2}/profs*
 
 	dqb "AAMUNK01"
 }
@@ -535,7 +536,7 @@ case ${mode} in
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
 		pre2 ${d}
-		tp5 ${tgtfile}
+		tp5 ${tgtfile} ${PREFIX}
 	;;
 	e)
 		pre2 ${d}
