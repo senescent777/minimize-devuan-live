@@ -169,19 +169,19 @@ function pre2() {
 	fi
 }
 
-#VAIH:PREFIX parametriksi
 function tpq() {
 	dqb "tpq ${1} ${2}"
 	[ -d ${1} ] || exit 22
 	dqb "paramz 0k"
 	csleep 1
 
-	#TODO:kokeillaanpa ../../  tavalla
-	${srat} -cf ${1}/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
+	#VAIH:kokeillaanpa ../../  tavalla
+	#${srat} -cf ${1}/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
+	${srat} -cf ${1}/xfce.tar ${1}/../../.config/xfce4/xfconf/xfce-perchannel-xml
 	csleep 2
 
 	if [ -x ${1}/profs.sh ] ; then
-		dqb "PR0FS.SH F+UND"
+		dqb "DE PROFUNDIS"
 			
 		. ${1}/profs.sh
 		exp_prof ${1}/fediverse.tar default-esr
