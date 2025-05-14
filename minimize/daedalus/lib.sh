@@ -1,114 +1,56 @@
-#=================================================PART 0=====================================
-#
-#VAIH:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
-#https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
+#=========================PART 0 ENDS HERE=================================================================
+function pr4() {
+	psqa ${1}
+	#TODO:dnsm-jutuille jos tekisijojo tain , esim. stubby+dnsmasq toimimaan ni ei tartte noita poistella
+
+	if [ ${dnsm} -eq 1 ] ; then #TODO:dnsm paraetriksi
+		${NKVD} ${1}/stubby*
+		${NKVD} ${1}/libgetdns*
+		${NKVD} ${1}/dnsmasq*
+	fi
+}
 
 function pre_part3() {
-	[ y"${1}" == "y" ] && exit
-	dqb "pp3( ${1} )"
-	[ -d ${1} ] || exit
-	dqb "pp3.2"
+	dqb "PER3"
+	csleep 1
 
-	psqa ${1}
+	if [ ${dnsm} -eq 1 ] ; then #TODO:dnsm parametriksi
+		${sdi} ${1}/dns-root-data*.deb
+		${NKVD} ${1}/dns-root-data*.deb
+	fi
 
-	#HUOM.140525:toiminee jo jollain lailla, "no" siihen kysymykseen olisi kuitenkin kiva saada välitettyä dpkg:lle asti
+	csleep 1
 
-	${odio} DEBIAN_FRONTEND=noninteractive dpkg -i ${1}/netfilter-persistent*.deb
-	[ $? -eq 0 ] && ${smr} -f ${1}/netfilter-persistent*.deb  #${NKVD}
-	csleep 2
+	${sdi} ${1}/perl-modules-*.deb
+	${NKVD} ${1}/perl-modules-*.deb
 
-	${odio} DEBIAN_FRONTEND=noninteractive dpkg -i ${1}/libip*.deb
-	[ $? -eq 0 ] && ${smr} -f ${1}/libip*.deb #${NKVD}
-	csleep 2
+	dqb "PER3.D0EN"
+	csleep 1
+}
 
-	${odio} DEBIAN_FRONTEND=noninteractive dpkg -i ${1}/iptables_*.deb
-	[ $? -eq 0 ] && ${smr} -f ${1}/iptables_*.deb
-	csleep 2
+#TODO:testaa tämän toiminta
+function udp6() {
+	dqb "UDPD6"
+	csleep 4
 
-	${odio} DEBIAN_FRONTEND=noninteractive dpkg -i ${1}/iptables-*.deb
-	[ $? -eq 0 ] && ${smr} -f ${1}/iptables-*.deb
+	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
+	${shary} iptables
+	${shary} iptables-persistent init-system-helpers netfilter-persistent
 
-	dqb "pp3 d0n3"
+	pre2 ${2}
 	csleep 6
 }
 
-#HUOM.14525:pitäisiköhän tässäkin olla se debian_fromtend-juttu?
-function pr4() {
-	dqb "pr4( ${1})"
-	csleep 3
-
-	${odio} dpkg -i ${1}/libpam-modules-bin_*.deb
-	${odio} dpkg -i ${1}/libpam-modules_*.deb
-
-	${NKVD} ${1}/libpam-modules*
-	csleep 1
-
-	${odio} dpkg -i ${1}/libpam*.deb
-	${odio} dpkg -i ${1}/perl-modules-*.deb
-	${odio} dpkg -i ${1}/libperl*.deb
-
-	${NKVD} ${1}/perl-modules-*.deb
-	${NKVD} ${1}/libperl*.deb
-	csleep 1
-
-	${odio} dpkg -i ${1}/perl*.deb
-	${odio} dpkg -i ${1}/libdbus*.deb
-	${odio} dpkg -i ${1}/dbus*.deb
-	csleep 1
-
-	${odio} dpkg -i ${1}/liberror-perl*.deb
-	${odio} dpkg -i ${1}/git*.deb
-
-	${NKVD} ${1}/git*.deb
-	${NKVD} ${1}/liberror-perl*.deb
-	csleep 1
-
-	${NKVD} ${1}/libpam*
-	${NKVD} ${1}/libperl*
-	${NKVD} ${1}/libdbus*
-	${NKVD} ${1}/dbus*
-	${NKVD} ${1}/perl*
-	csleep 1
-}
-
-function udp6() {
-	dqb "daud.lib.UPDP-6"
+function part2_pre() {
+	dqb "PART2PRE"
 	csleep 2
 
-	${smr} ${pkgdir}/libx11-xcb1*
-	${smr} ${pkgdir}/nfs*
-	${smr} ${pkgdir}/rpc*
-	${smr} ${pkgdir}/python3.11*
-	${smr} ${pkgdir}/xserver-xorg-core*
-	${smr} ${pkgdir}/xserver-xorg-legacy*
-	${smr} ${pkgdir}/libgtk-3-bin*
-	${smr} ${pkgdir}/libpython3.11*
-	${smr} ${pkgdir}/librsvg2*
-	
-	#TODO:kts part2_5 (?)
-	${smr} ${pkgdir}/avahi*
-	${smr} ${pkgdir}/blu*
-	${smr} ${pkgdir}/cups*
-	${smr} ${pkgdir}/exim*
+	if [ ${1} -eq 1 ] ; then
+		${sharpy} libopts25
+		${sharpy} rpc* nfs*
+	fi
 
-	case ${iface} in
-		wlan0)
-			dqb "NOT REMOVING WPASUPPLICANT"
-			csleep 6
-		;;
-		*)
-			${smr} ${pkgdir}/wpa*
-		;;
-	esac
-
-	dqb "D0NE"
-	csleep 4
-}
-
-function part2_pre() {
-	dqb "PP2"
-	${sharpy} python3-cups
-	csleep 5
+	csleep 3
 }
 
 check_binaries ${distro}
