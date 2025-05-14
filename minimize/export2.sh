@@ -467,8 +467,9 @@ function tp3() {
 	fi
 	
 	#HUOM.14525.4:tp3 ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
-	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? (TODO?)
- 
+	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? (VAIH)
+ 	${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2} #saisikohan distron gtulemaan parametrina?
+
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 
@@ -564,7 +565,7 @@ case ${mode} in
 		dd if=/dev/random bs=6 count=1 > ./rnd
 
 		${srat} -cvf ${tgtfile} ./rnd
-		tp3 ${tgtfile}
+		tp3 ${tgtfile} ${distro}
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		${srat} -cvf ${d}/e.tar ./rnd
@@ -580,7 +581,7 @@ case ${mode} in
 
 		pre1 ${d}
 		pre2 ${d}
-		tp3 ${tgtfile}
+		tp3 ${tgtfile} ${distro}
 
 		pre1 ${d}
 		tp2 ${tgtfile}
