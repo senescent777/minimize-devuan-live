@@ -1,9 +1,9 @@
 1. boot a live cd (for example Chimaera desktop live)
 2. sudo mount /dev/$usbdrive /mnt/ -o ro
-3. cd /;sudo tar -xvf /mnt/$archive.tar
+3. sudo tar -C / -xvf /mnt/$archive.tar
 4. sudo umount /mnt
 5. cd ~/Desktop/minimize
-6. cp conf.example $distro; mv $distro/conf.example $distro/conf; $EDITOR $distro/conf #for initial config
+6. cp conf.example $distro/conf; $EDITOR $distro/conf #for initial config
 7. ./generic_doit.sh
 
 -----------------------------------------------------------
