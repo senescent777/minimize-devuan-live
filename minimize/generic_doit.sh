@@ -41,7 +41,6 @@ fi
 #gpo
 #exit
 
-#VAIH:turhien sammuttelu jo tässä (pitääkö olla ennen vai jälkeen lib)
 dqb "b3f0r3 p.076"
 csleep 1
 part076
@@ -99,7 +98,7 @@ part1 ${distro}
 #HUOM.190325:part_1_5sessa oli bugi, u+w ei vaan riitä
 [ ${mode} -eq 0 ] && exit
 
-${snt} -tulpan #HUOM14525:oli ennen: part175
+${snt} #HUOM14525:oli ennen: part175
 csleep 3
 part1_post #tarpeellinen jatkossa? josko copy-paste kuitenkin
 
@@ -121,8 +120,9 @@ c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 
 part2_pre ${removepkgs}
-part2 ${removepkgs} #part2_5 (TODO)
-
+#part2 ${removepkgs} #takaisin jos 2_5 pykii
+part2_5 ${removepkgs}
+#exit
 #===================================================PART 3===========================================================
 message #voi muuttua turhaksi jatkossa
 

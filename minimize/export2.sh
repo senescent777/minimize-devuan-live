@@ -83,8 +83,8 @@ else
 	check_binaries2
 fi
 
-#TODO:nuo /e/kala.$x  - jutut ojennukseen vähitellen
-#TODO:main():iin uusi optio millä skipataan e.tar ja ehkä muitakin
+#VAIH:nuo /e/kala.$x  - jutut ojennukseen vähitellen
+#TODO:main():iin uusi optio millä skipataan e.tar lisäys arkistoon ja ehkä muitakin
 
 dqb "tar = ${srat} "
 ${scm} 0555 ${PREFIX}/changedns.sh
@@ -125,6 +125,9 @@ function pre1() {
 
 		local ortsac
 		ortsac=$(echo ${1} | cut -d '/' -f 6)
+
+		#HUOM.14525:yritetään tässä muuttaa sources.list s.e. toisen distron pakettien lataus onnistuu
+		#erikseen sitten se, mikä sources menee arkistoon ja millä nimellä
 
 		if [ -s /etc/apt/sources.list.${ortsac} ] ; then
 			${smr} /etc/apt/sources.list
@@ -432,15 +435,39 @@ function tp3() {
 
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm} #.0
+	
+	if [ ${dnsm} -eq 0 ] && [ ! -s  ./etc/dhcp/dhclient.conf.1 ] ; then
+		${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1	
+	fi
 
 	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
 	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm} #.0
 
+	if [ -s ./etc/resolv.conf.new ] ; then
+		echo "r30lv.c0nf alr3ady 3x15t5"
+	else
+		#HUOM. sudotus ei ihan pakollinen, chmod ja chown keksitty
+		sudo touch ./etc/resolv.conf.new
+		sudo chmod a+w /etc/resolv.conf.new
+		sudo echo "nameserver 127.0.0.1" > ./etc/resolv.conf.new
+		sudo chmod 0444 ./etc/resolv.conf.new
+		sudo chown root:root ./etc/resolv.conf.new
+	fi
+
+	#HUOM.14525.5:eka tarkistus lienee turha
+	if [ ${dnsm} -eq 0 ] && [ ! -s ./etc/resolv.conf.1 ] ; then
+		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
+	fi
+
 	#HUOM.14525.3:ghubista löytyvä(.new) vastaa tilannetta dnsm=1
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm} #.0
 
+	if [ ${dnsm} -eq 0 ] && [ ! -s ./sbin/dhclient-script.1 ] ; then
+		  ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
+	fi
+	
 	#HUOM.14525.4:tp3 ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
-	#HUOM.sources-list kanssa voisi mennä samantap idealla kuin yllä
+	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? (TODO?)
  
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp

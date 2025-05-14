@@ -17,7 +17,7 @@ scm="${odio} ${scm} "
 sah6=$(which sha512sum)
 distro=$(cat /etc/devuan_version)
 n=$(whoami)
-PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
+PREFIX=${PREFIX} #käyttöön+komftdstoon jos mahd
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -59,6 +59,7 @@ function fix_sudo() {
 }
 
 fix_sudo
+
 #yhteen läjän nämä määrittelyt?
 slinky=$(${odio} which ln)
 slinky="${odio} ${slinky} -s "
@@ -68,15 +69,17 @@ svm="${odio} ${svm} "
 spc="${odio} ${spc} "
 whack=$(sudo which pkill)
 whack="${odio} ${whack} --signal 9 "
+snt=$(${odio} which netstat)
+snt="${odio} ${snt} -tulpan "
 
 function jules() { #HUOM.12525:function puuttui edestä aiemmin
 	dqb "LE BIG MAC"
 
-	${scm} -R a+rw /etc/iptables
-	echo $?
-	dqb "svm= ${svm}"
-	dqb "spc= ${spc}"
-	csleep 3
+	${scm} -R a+rw /etc/iptables #jos vähempi riittäisi jatkossa
+#	echo $?
+#	dqb "svm= ${svm}"
+#	dqb "spc= ${spc}"
+#	csleep 3
 
 	[ -f /etc/iptables/rules.v4 ] && ${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD
 	[ -f /etc/iptables/rules.v4 ] && ${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
@@ -142,21 +145,21 @@ function psqa() {
 function check_binaries() {
 	#debug=1
 	dqb "c0mm0n_lib.ch3ck_b1nar135(${1} )"
-	dqb "sudo= ${odio} "
+	#dqb "sudo= ${odio} "
 	csleep 1
 
 	smr=$(${odio} which rm)
 	NKVD=$(${odio} which shred)
 
-	ipt=$(sudo which iptables)
-	ip6t=$(sudo which ip6tables)
-	iptr=$(sudo which iptables-restore)
-	ip6tr=$(sudo which ip6tables-restore)
+	ipt=$(${odio} which iptables)
+	ip6t=$(${odio} which ip6tables)
+	iptr=$(${odio} which iptables-restore)
+	ip6tr=$(${odio} which ip6tables-restore)
 
-	if [ -s ~/Desktop/minimize/tar-wrapper.sh ] ; then
+	if [ -s ${PREFIX}/tar-wrapper.sh ] ; then #VAIH:PREFIX
 		dqb "TODO: tar-wrapper.sh"
 	else
-		srat=$(sudo which tar)
+		srat=$(${odio} which tar)
 		
 		if [ ${debug} -eq 1 ] ; then
 			srat="${srat} -v "
@@ -165,7 +168,7 @@ function check_binaries() {
 
 	if [ y"${ipt}" == "y" ] ; then
 		[ z"${1}" == "z" ] && exit 99
-		[ -d ~/Desktop/minimize/${1} ] || exit 100
+		[ -d ${PREFIX}/${1} ] || exit 100
 
 		dqb "params_ok"
 		csleep 1
@@ -173,17 +176,17 @@ function check_binaries() {
 		echo "SHOULD INSTALL IPTABLES"
 		jules
 
-		if [ -s ~/Desktop/minimize/${1}/e.tar ] ; then
-			${odio} ${srat} -C / -xf ~/Desktop/minimize/${1}/e.tar
-			${odio} ${NKVD} ~/Desktop/minimize/${1}/e.tar  #jompikumpi hoitaa
-			${odio} ${smr} ~/Desktop/minimize/${1}/e.tar
+		if [ -s ${PREFIX}/${1}/e.tar ] ; then
+			${odio} ${srat} -C / -xf ${PREFIX}/${1}/e.tar
+			${odio} ${NKVD} ${PREFIX}/${1}/e.tar  #jompikumpi hoitaa
+			${odio} ${smr} ${PREFIX}/${1}/e.tar
 		fi
 
-		#psqa ~/Desktop/minimize/${1} #pp3 tekee saman tark
+		#psqa ${PREFIX}/${1} #pp3 tekee saman tark
 		csleep 3
 
-		pre_part3 ~/Desktop/minimize/${1}
-		pr4 ~/Desktop/minimize/${1}
+		pre_part3 ${PREFIX}/${1}
+		pr4 ${PREFIX}/${1}
 
 		ipt=$(sudo which iptables)
 		ip6t=$(sudo which ip6tables)
@@ -191,13 +194,13 @@ function check_binaries() {
 		ip6tr=$(sudo which ip6tables-restore)
 	fi
 
-	#voisi kai ocs-kohtaankin viedä ao. blokin sisällön (TODO)
-	[ -x ${ipt} ] || exit 5
-	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
-	[ -x ${ip6t} ] || exit 5
-	[ -x ${iptr} ] || exit 5
-	[ -x ${ip6tr} ] || exit 5
-
+#	#voisi kai ocs-kohtaankin viedä ao. blokin sisällön (VAIH)
+#	[ -x ${ipt} ] || exit 5
+#	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
+#	[ -x ${ip6t} ] || exit 5
+#	[ -x ${iptr} ] || exit 5
+#	[ -x ${ip6tr} ] || exit 5
+#
 	sifu=$(sudo which ifup)
 	sifd=$(sudo which ifdown)
 
@@ -205,7 +208,8 @@ function check_binaries() {
 	dqb "second half of c_bin_1"
 	csleep 3
 
-	for x in apt-get apt ip netstat dpkg tar mount umount dhclient sha512sum #kilinwittu.sh
+	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
+	for x in iptables ip6tables iptables-restore ip6tables-restore ifup ifdown apt-get apt ip netstat dpkg tar mount umount dhclient sha512sum #kilinwittu.sh
 		do ocs ${x}
 	done
 	
@@ -213,11 +217,10 @@ function check_binaries() {
 	sag=$(sudo which apt-get)
 	sa=$(sudo which apt)
 
-	sip=$(sudo which ip)
-	dqb "sip= ${sip}"
-	csleep 3
+	sip=$(${odio} which ip)
+	#dqb "sip= ${sip}"
+	#csleep 3
 
-	snt=$(sudo which netstat)
 	som=$(sudo which mount)
 	uom=$(sudo which umount)
 
@@ -233,7 +236,6 @@ function check_binaries2() {
 	iptr="${odio} ${iptr} "
 	ip6tr="${odio} ${ip6tr} "
 
-	snt="${odio} ${snt} "
 	sharpy="${odio} ${sag} remove --purge --yes "
 	spd="${odio} ${sdi} -l " #käytössä?
 	sdi="${odio} ${sdi} -i "
@@ -244,8 +246,8 @@ function check_binaries2() {
 	sag="${odio} ${sag} "
 
 	sip="${odio} ${sip} "
-	dqb "sip= ${sip}"
-	csleep 3
+	#dqb "sip= ${sip}"
+	#csleep 3
 
 	sa="${odio} ${sa} "
 	sifu="${odio} ${sifu} "
@@ -266,7 +268,7 @@ function check_binaries2() {
 	#HUOM. ei alustetttu tämmöstä dch="${odio} ${dch}"
 
 	dqb "b1nar135.2 0k.2" 
-	csleep 2
+	csleep 1
 }
 
 function mangle_s() {
@@ -334,7 +336,7 @@ function pre_enforce() {
 
 	[ -f ${q}/meshuggah ] || exit 33
 	dqb "1NF3RN0 0F SACR3D D35TRUCT10N"
-	mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah
+	mangle_s ${PREFIX}/changedns.sh ${q}/meshuggah
 	csleep 2
 
 	dqb "LETf HOUTRE JOINED IN DARKN355"
@@ -366,7 +368,7 @@ function pre_enforce() {
 		${scm} a-w /etc/fstab
 	fi
 
-	csleep 5
+	csleep 3
 	dqb "common_lib.pre_enforce d0n3"
 }
 
@@ -438,20 +440,20 @@ function enforce_access() {
 	fi
 
 	local f
-	${scm} 0755 ~/Desktop/minimize
+	${scm} 0755 ${PREFIX}
 
-	for f in $(find ~/Desktop/minimize -type d) ; do ${scm} 0755 ${f} ; done
-	for f in $(find ~/Desktop/minimize -type f) ; do ${scm} 0444 ${f} ; done
-	for f in $(find ~/Desktop/minimize -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
-	for f in $(find ~/Desktop/minimize -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
-	for f in $(find ~/Desktop/minimize -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
+	for f in $(find ${PREFIX} -type d) ; do ${scm} 0755 ${f} ; done
+	for f in $(find ${PREFIX} -type f) ; do ${scm} 0444 ${f} ; done
+	for f in $(find ${PREFIX} -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
+	for f in $(find ${PREFIX} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
+	for f in $(find ${PREFIX} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
 
 	f=$(date +%F)
 	dqb "F1ND D0N3"
 	csleep 1
 
-	${scm} 0555 ~/Desktop/minimize/changedns.sh
-	${sco} root:root ~/Desktop/minimize/changedns.sh
+	${scm} 0555 ${PREFIX}/changedns.sh
+	${sco} root:root ${PREFIX}/changedns.sh
 
 	#{old,new} -> {0,1} ei sovellu tähän
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
@@ -464,9 +466,8 @@ function enforce_access() {
 	if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
 		${smr} /etc/resolv.conf
 	fi
-
-	#TODO:{old,new} -> {0,1}
-	[ -s /sbin/dclient-script.OLD ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.OLD
+	
+	#HUOM.140525:tarvitseeko tehdä tässä jotain dhclient.conf'lle?
 	jules
 
 	#wpasupplicant:in kanssa myös jotain säätöä, esim tällaista
@@ -478,7 +479,8 @@ function enforce_access() {
 
 function part1_5() {
 	if [ z"${pkgsrc}" != "z" ] ; then
-		if [ -d ~/Desktop/minimize/${1} ] ; then
+		if [ -d ${PREFIX}/${1} ] ; then
+			#HUOM.14525:ao. if-lauseeseen liittyv muutos toisaalle (export2) vaiko ei?
 			if [ ! -s /etc/apt/sources.list.${1} ] ; then
 				local g
 				local h
@@ -554,16 +556,15 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE (i have Tourettes)"
 }
 
-PART175_LIST="avahi bluetooth cups exim4 nfs network-manager ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+#HUOM.14525:aijsitseeko jatkossa tässä tdstossa va muualla ao. lista?
+PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
 
-#VAIH:p175 ja p2 uudet versiot mitkä käyttävät em. listaa
 function part076() {
 	dqb "PART076()"
 	csleep 2
 	local s
 	local t
 
-	#VAIH:s listaksi konftdstoon ja sitten sammuttelu+poisto yhdess läjässä tjsp?
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
 
@@ -575,51 +576,39 @@ function part076() {
 		${whack} ${s}* #oli pgrep aiemmin
 	done
 
-	${whack} nm-applet
-	${snt} -tulpan #ei välttis toimi jos ennen check_bin kutsutaan
-	dqb "P.I76 DONE"
-	csleep 3
-}
-
-#function part2_5() {
-#	debug=1
-#	dqb "PART2 ${1}"
-#	csleep 2
-#
-#	if [ ${1} -eq 1 ] ; then
-#		for s in ${PART175_LIST} ; do
-#			${sharpy} ${s}*
-#		done
-#		#TODO:jälkisiivous(?)
-#		#TODO:wlan
-#	fi
-#
-#	#TODO:jules-rules-tulpan
-#}
-
-function part175() {
-	dqb "PART175()"
+	dqb "alm0st d0n3"
 	csleep 2
 
-	#VAIH:s listaksi konftdstoon ja sitten sammuttelu+poisto yhdess läjässä tjsp?
-	for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ; do
-		${odio} /etc/init.d/${s} stop
-		sleep 1
-	done
-
-	dqb "shutting down some services (4 real) in 3 secs"
-	sleep 2
-
-	${whack} cups*
-	${whack} avahi*
-	${whack} dnsmasq*
-	${whack} stubby*
 	${whack} nm-applet
-	csleep 3
+	${snt} #ei välttis toimi jos ennen check_bin kutsutaan
 
-	${snt} -tulpan
+	dqb "P.176 DONE"
 	csleep 3
 }
+
+#function part175() {
+#	dqb "PART175()"
+#	csleep 2
+#
+#	#VAIH:s listaksi konftdstoon ja sitten sammuttelu+poisto yhdess läjässä tjsp?
+#	for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ; do
+#		${odio} /etc/init.d/${s} stop
+#		sleep 1
+#	done
+#
+#	dqb "shutting down some services (4 real) in 3 secs"
+#	sleep 2
+#
+#	${whack} cups*
+#	${whack} avahi*
+#	${whack} dnsmasq*
+#	${whack} stubby*
+#	${whack} nm-applet
+#	csleep 3
+#
+#	${snt}
+#	csleep 3
+#}
 
 function el_loco() {
 	dqb "MI LOCO ${1} ${2}"
@@ -662,23 +651,87 @@ function el_loco() {
 	dqb "DN03"
 	csleep 2
 }
+#
+#function part2() {
+#	#debug=1
+#	dqb "PART2 ${1}"
+#	csleep 2
+#
+#	if [ ${1} -eq 1 ] ; then
+#		dqb "PART2-2"
+#		csleep 5
+#		${sharpy} network*
+#		${sharpy} libblu* libcupsfilters* libgphoto* 
+#
+#		${sharpy} avahi* blu* cups*
+#		${sharpy} exim*
+#		${lftr}
+#		csleep 3
+#
+#		case ${iface} in
+#			wlan0)
+#				dqb "NOT REMOVING WPASUPPLICANT"
+#				csleep 3
+#			;;
+#			*)
+#				${sharpy} modem* wireless* wpa*
+#				${sharpy} iw lm-sensors
+#			;;
+#		esac
+#
+#		${sharpy} ntp*
+#		${lftr}
+#		csleep 3
+#		${sharpy} po* pkexec
+#		${lftr}
+#		csleep 3
+#	fi
+#
+#	dqb "PART2-3"
+#	csleep 3
+#
+#	#HUOM.12525:riittäisikö tämä vai myös part3 jälkeen?
+#	if [ y"${ipt}" != "y" ] ; then
+#		jules
+#		${ip6tr} /etc/iptables/rules.v6
+#		${iptr} /etc/iptables/rules.v4
+#	fi
+#
+#	csleep 5
+#	${lftr}
+#	csleep 3
+#
+#	if [ ${debug} -eq 1 ] ; then
+#		${snt}
+#		sleep 5
+#	fi
+#
+#	dqb "PART2 D0N3"
+#	csleep 5
+#}
 
-function part2() {
-	#debug=1
-	dqb "PART2 ${1}"
+function part2_5() {
+	debug=1
+	dqb "PART2.5 ${1}"
 	csleep 2
 
 	if [ ${1} -eq 1 ] ; then
-		dqb "PART2-2"
-		csleep 5
-		${sharpy} network*
-		${sharpy} libblu* libcupsfilters* libgphoto* 
+		for s in ${PART175_LIST} ; do
+			dqb "processing ${s}"
+			csleep 1
 
-		${sharpy} avahi* blu* cups*
-		${sharpy} exim*
+			${sharpy} ${s}*
+			csleep 1
+		done
+
+		#VAIH:jälkisiivous
+		${sharpy} libblu* libcupsfilters* libgphoto* #tartteeko vielä?
+		${sharpy} blu*
+		${sharpy} po* pkexec
 		${lftr}
 		csleep 3
 
+		#VAIH:wlan
 		case ${iface} in
 			wlan0)
 				dqb "NOT REMOVING WPASUPPLICANT"
@@ -689,36 +742,25 @@ function part2() {
 				${sharpy} iw lm-sensors
 			;;
 		esac
-
-		${sharpy} ntp*
-		${lftr}
-		csleep 3
-		${sharpy} po* pkexec
-		${lftr}
-		csleep 3
 	fi
 
-	dqb "PART2-3"
-	csleep 3
+	#VAIH:jules-rules-tulpan
+	csleep 2
 
-	#HUOM.12525:riittäisikö tämä vai myös part3 jälkeen?
 	if [ y"${ipt}" != "y" ] ; then
 		jules
 		${ip6tr} /etc/iptables/rules.v6
 		${iptr} /etc/iptables/rules.v4
 	fi
 
-	csleep 5
-	${lftr}
-	csleep 3
-
 	if [ ${debug} -eq 1 ] ; then
-		${snt} -tulpan
+		${snt}
 		sleep 5
 	fi
 
-	dqb "PART2 D0N3"
-	csleep 5
+	csleep 1
+	dqb "PART2.5 ${1} d0ne"
+	csleep 2
 }
 
 function part3() {
