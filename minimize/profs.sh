@@ -3,7 +3,6 @@
 #lukkotiedostojen hävitys oli kanssa 1 juttu mikä piti uistaa tehdä...
 
 function oldprof() {
-	#debug=1	
 	dqb "cprof1 ${1} ${2}"
 	csleep 3
 
@@ -27,7 +26,6 @@ function oldprof() {
 }
 
 function createnew() {
-	#debug=1
 	dqb "cpfor_12 ${1},${2}" #HUOM.ei pitäisi tulla 2. param
 
 	local tmp
@@ -38,7 +36,6 @@ function createnew() {
 
 	if [ ${tmp} -gt 0 ] ; then 
 		if [ -x ${fox} ] ; then
-#			cd /home/${1} tarpeellinen?
 #			#${odio} -u ${1} toimisikohan ilmankn sudoa? kyl kait
 			${fox}&
 	
@@ -69,19 +66,15 @@ function copy_to() {
 
 	local tget
 
-	#saattaisi onnistua ilman greppiäkin?
+	#saattaisi onnistua ilman greppiäkin? man find...
 	tget=$(find ${2} -type d | grep -v '+' | grep ${1} | head -n 1)
 	dqb "TGET= ${tget}"
-
-	#${sco} ${2}:${2} ${tget}
-	#${scm} 0700 ${tget}
 
 	dqb "IN 3 SECONDS: sudo mv ${3}/* ${tget}"
 	csleep 3
 
 	local f
-	for f in $(find ${3} -type f -name '*.js*') ; do mv ${f} ${tget} ; done
-	#${sco} -R ${2}:${2} ./* 		
+	for f in $(find ${3} -type f -name '*.js*') ; do mv ${f} ${tget} ; done		
 	
 	if [ ${debug} -eq 1 ] ; then
 		echo "AFT3R MV";sleep 3
@@ -118,8 +111,7 @@ function access() {
 	csleep 2
 }
 
-function imp_prof() { 
-	#debug=1
+function imp_prof() {
 	dqb "cprof ${1} ${2} ${3}"
 	csleep 2
 
