@@ -407,7 +407,6 @@ function tp2() {
 	csleep 5
 }
 
-#HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
 function tp3() {
 	debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
@@ -424,6 +423,9 @@ function tp3() {
 	p=$(pwd)
 	q=$(mktemp -d)
 	cd ${q}
+	
+	[ ${debug} -eq 1 ] && pwd  
+	csleep 5
 
 	#HUOM. jonnekin pitäisi jotain kikkailuja lisätä grub.tmp liittyen
 	${tig} clone https://github.com/senescent777/project.git
@@ -447,11 +449,16 @@ function tp3() {
 		echo "r30lv.c0nf alr3ady 3x15t5"
 	else
 		#HUOM. sudotus ei ihan pakollinen, chmod ja chown keksitty
-		sudo touch ./etc/resolv.conf.new
-		sudo chmod a+w /etc/resolv.conf.new
-		sudo echo "nameserver 127.0.0.1" > ./etc/resolv.conf.new
-		sudo chmod 0444 ./etc/resolv.conf.new
-		sudo chown root:root ./etc/resolv.conf.new
+		#VAIH:varmista että tämä kohta toimii
+		
+		${odio} touch ./etc/resolv.conf.new
+		${scm} a+w ./etc/resolv.conf.new
+		${sco} ${n}:${n}  ./etc/resolv.conf.new
+
+		echo "nameserver 127.0.0.1" > ./etc/resolv.conf.new
+		
+		${scm} 0444 ./etc/resolv.conf.new
+		${sco} root:root ./etc/resolv.conf.new
 	fi
 
 	#HUOM.14525.5:eka tarkistus lienee turha
