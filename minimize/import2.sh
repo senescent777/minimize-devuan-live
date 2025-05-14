@@ -94,6 +94,7 @@ if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
 	#TODO:josko testaisi tilanteen missä $distro/{conf,lib} puuttuvat
+	#JOKO JO?
 	echo $?
 	dqb "NO LIB"
 	csleep 1
@@ -137,14 +138,11 @@ function common_part() {
 	csleep 2
 	dqb "tar DONE"
 
-	#toisella tavalla jatkossa
-	#if [ -x ${PREFIX}/common_lib.sh ] ; then
 	if [ -x ${2}/../common_lib.sh ] ; then
 		enforce_access ${n}
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	fi
 
-#	[ ${debug} -eq 1 ] && ls -las ${PREFIX}/*.sh
 	csleep 3
 	
 	if [ -d ${2} ] ; then 
@@ -187,14 +185,13 @@ case "${1}" in
 
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ]  || exit 33
-		common_part ${file} ${d} #istro}
+		common_part ${file} ${d}
 
 		csleep 3
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	0|3)
-		#debug=1
 		dqb "ZER0 S0UND"
 		csleep 2
 
@@ -212,15 +209,15 @@ case "${1}" in
 
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
-		common_part ${file} ${d} #istro}
+		common_part ${file} ${d}
 
 		#debig taakse jatkossa seur 2
-		ls -las ${d}/*.tar
-		csleep 6
+		#ls -las ${d}/*.tar
+		#csleep 6
 
 		if [ ${1} -eq 0 ] ; then
 			if [ -s ${d}/e.tar ] ; then
-				common_part ${d}/e.tar ${d} #istro}
+				common_part ${d}/e.tar ${d}
 			fi
 		fi
 
@@ -236,7 +233,6 @@ case "${1}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#debug=1
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 2
