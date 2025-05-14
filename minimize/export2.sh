@@ -430,13 +430,16 @@ function tp3() {
 	csleep 10
 	cd project
 
+	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm} #.0
 
+	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
 	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm} #.0
 
-
+	#HUOM.14525.3:ghubista löytyvä(.new) vastaa tilannetta dnsm=1
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm} #.0
 
+	#HUOM.14525.4:tp3 ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
 	#HUOM.sources-list kanssa voisi mennä samantap idealla kuin yllä
  
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
@@ -534,7 +537,7 @@ case ${mode} in
 		dd if=/dev/random bs=6 count=1 > ./rnd
 
 		${srat} -cvf ${tgtfile} ./rnd
-		tp3 ${tgtfile} #${distro}
+		tp3 ${tgtfile}
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		${srat} -cvf ${d}/e.tar ./rnd
