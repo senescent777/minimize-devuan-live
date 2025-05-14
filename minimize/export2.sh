@@ -185,7 +185,6 @@ function tpq() {
 			
 		. ${1}/profs.sh
 		exp_prof ${1}/fediverse.tar default-esr
-
 	else
 		dqb "FASD FADS SAFD"	
 	fi
@@ -193,8 +192,6 @@ function tpq() {
 	csleep 5
 }
 
-
-#VAIH:PREFIX paraetriksi, tai esim cut
 function tp1() {
 	debug=1
 	dqb "tp1( ${1} , ${2} )"
@@ -209,15 +206,13 @@ function tp1() {
 		dqb "d0nm3"
 	fi
 
-
 	local ledif
 	ledif=$(echo ${2} | cut -d '/' -f 1-5 )
-	#itäisiköhän olla jokin tarkistus tässä?
+	#p.itäisiköhän olla jokin tarkistus tässä?
 
 	if [ ${enforce} -eq 1 ] && [ -d ${ledif} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		tpq ${ledif} #PREFIX}
-
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
@@ -225,9 +220,7 @@ function tp1() {
 		sleep 5
 	fi
 
-	#${srat} -rvf ${1} ${PREFIX} /home/stubby #HUOM.260125: -p wttuun varm. vuoksi
 	${srat} -rvf ${1} ${ledif} /home/stubby 	
-
 	dqb "tp1 d0n3"
 	csleep 3
 }
@@ -235,7 +228,6 @@ function tp1() {
 function rmt() {
 	debug=1
 	dqb "rmt(${1}, ${2})" #WTUN TYPOT STNA111223456
-
 
 	[ z"${1}" == "z" ] && exit 1
 	[ -s ${1} ] || exit 2
@@ -247,7 +239,6 @@ function rmt() {
 	csleep 3
 
 	${scm} 0444 ${2}/*.deb
-
 	p=$(pwd)
 
 	cd ${2}
@@ -366,7 +357,6 @@ function tp4() {
 	csleep 3
 }
 
-
 #HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
 function tp2() {
 	debug=1
@@ -380,7 +370,6 @@ function tp2() {
 	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?
 	#locale ja tzone mukaan toisessa fktiossa vai ei?
 	#11525:tuleeko /e/iptables mukaan vai ei? kyl kai
-
 	#HUOM.12525.2:tarttisi ehkä kopsata /e/ipt/r -> /e/d/r
 
 	#HUOM.12525.1:jotain karsimista jatkossa kenties?
@@ -393,7 +382,7 @@ function tp2() {
 
 	#ls -las /etc/iptables
 	csleep 3
-
+	${srat} -rvf ${1} /etc/default/rules* /etc/default/locale* /etc/timezone /etc/locale-gen
 
 	case ${iface} in
 		wlan0)
@@ -424,7 +413,6 @@ function tp2() {
 }
 
 #HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
-
 function tp3() {
 	debug=1
 	dqb "tp3 ${1} ${2}"
@@ -442,8 +430,7 @@ function tp3() {
 	q=$(mktemp -d)
 	cd ${q}
 
-	#HUOM. jonnekin pitäisi jotain kikkailuja lisätä grum.tmp liittyen
-
+	#HUOM. jonnekin pitäisi jotain kikkailuja lisätä grub.tmp liittyen
 	${tig} clone https://github.com/senescent777/project.git
 	[ $? -eq 0 ] || exit 66
 	
@@ -451,33 +438,34 @@ function tp3() {
 	csleep 10
 	cd project
 
-	#VAIH:{old,new} -> {0,1} ?
-	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.OLD
+#	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.OLD
+	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm} #.0
+#	${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1
+#
+#	#HUOM.8535:/e/r.conf-tilanne korjattu?
+#	${spc} /etc/resolv.conf ./etc/resolv.conf.OLD
+	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm} #.0
 
-	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.0
-	${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1
+#	if [ -s /etc/resolv.conf.new ] ; then
+#		${spc} /etc/resolv.conf.new ./etc/resolv.conf.new
+#	else
+#		touch ./etc/resolv.conf.new
+#		${scm} a+w ./etc/resolv.conf.new
+#		echo "nameserver 127.0.0.1" > ./etc/resolv.conf.new
+#		${scm} 0444 ./etc/resolv.conf.new
+#		${sco} root:root ./etc/resolv.conf.new
+#	fi
+#
+#	#TODO:vielä pitäisi miettiä miten toimii tämän kanssa, jos dnsm onkin 1 niin miten sitten? 
+#...ja mitä matskua git:iin jäi
+#	${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
+#
+#	${spc} /sbin/dhclient-script ./sbin/dhclient-script.OLD
+	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm} #.0
+#	${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
 
-	#HUOM.8535:/e/r.conf-tilanne korjattu?
-
-	${spc} /etc/resolv.conf ./etc/resolv.conf.OLD
-	${spc} /etc/resolv.conf ./etc/resolv.conf.0
-
-	if [ -s /etc/resolv.conf.new ] ; then
-		${spc} /etc/resolv.conf.new ./etc/resolv.conf.new
-	else
-		touch ./etc/resolv.conf.new
-		${scm} a+w ./etc/resolv.conf.new
-		echo "nameserver 127.0.0.1" > ./etc/resolv.conf.new
-		${scm} 0444 ./etc/resolv.conf.new
-		${sco} root:root ./etc/resolv.conf.new
-	fi
-
-	${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
-
-	${spc} /sbin/dhclient-script ./sbin/dhclient-script.OLD
-	${spc} /sbin/dhclient-script ./sbin/dhclient-script.0
-	${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
-
+	#HUOM.sources-list kanssa voisi mennä samantap idealla kuin yllä
+ 
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 
@@ -498,7 +486,7 @@ function tp3() {
 
 function tpu() {
 	debug=1	
-	#TODO:{old,new} -> {0,1} jos soveltuu
+	#HUOM:0/1/old/new ei liity
 	dqb "tpu( ${1}, ${2})"
 
 	[ y"${1}" == "y" ] && exit 1
@@ -549,7 +537,7 @@ function tp5() {
 	${tig} clone https://github.com/senescent777/some_scripts.git
 	[ $? -eq 0 ] || exit 99
 	
-	#TODO:{old,new} -> {0,1} jos soveltuu
+	#HUOM:{old,new} -> {0,1} ei liity
 	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
 	mv some_scripts/lib/export/profs* ${2}
 
@@ -623,6 +611,5 @@ case ${mode} in
 
 		tpq ${PREFIX}
 		${srat} -cf ${tgtfile} ${PREFIX}/xfce.tar ${PREFIX}/fediverse.tar
-
 	;;
 esac

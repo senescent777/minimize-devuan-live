@@ -131,20 +131,20 @@ function ns4() {
 	sleep 5
 }
 
-#TODO:{old,new} -> {0,1}
+#VAIH:{old,new} -> {0,1} AJANKOHTAISTA
 function clouds_pp1() {
 	#c.pp.1
-	if [ -s /etc/resolv.conf.new ] || [ -s /etc/resolv.conf.OLD ] ; then 
+	if [ -s /etc/resolv.conf.1 ] || [ -s /etc/resolv.conf.0 ] ; then 
 		${smr} /etc/resolv.conf
 		[ $? -gt 0 ] && echo "FAILURE TO COMPLY WHILE TRYING TO REMOVE RESOLV.CONF"
 	fi
 
-	if [ -s /etc/dhcp/dhclient.conf.new ] || [ -s /etc/dhcp/dhclient.conf.OLD ] ; then 
+	if [ -s /etc/dhcp/dhclient.conf.1 ] || [ -s /etc/dhcp/dhclient.conf.0 ] ; then 
 		${smr} /etc/dhcp/dhclient.conf
 		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHILÖE TRYING TO REMOVE DHCLIENT.CONF"
 	fi
 
-	if [ -s /sbin/dhclient-script.new ] || [ -s /sbin/dhclient-script.OLD ] ; then 	
+	if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 	
 		${smr} /sbin/dhclient-script
 		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHIOLE TRYINMG TO REMOVE DHCLIENT-SCRIPT"
 	fi
@@ -152,10 +152,9 @@ function clouds_pp1() {
 
 #TODO:{old,new} -> {0,1} ? (eri juttu kyllä)
 function clouds_pp2() {
-	#debug=1
 	dqb "#c.pp.2 ${1}"
 	csleep 1
-	#050425 lisättyjä seur. blokki
+	
 	#HUOM. pitäisiköhän linkit hukata jokatapauksessa? 0<->1 - vaihdoissa silloin häviää linkitys kokonaan
 		
 	if [ -h /etc/iptables/rules.v4 ] ; then
@@ -203,13 +202,10 @@ function clouds_pp3() {
 }
 
 function clouds_pre() {
-	#debug=1
 	dqb "cdns.clouds_pre()"
-
 	clouds_pp1
 	clouds_pp2 ${1}
 	clouds_pp3
-
 	dqb "... done"
 }
 
@@ -247,15 +243,15 @@ function clouds_post() {
 #HUOM. joskohan jatkossa yhdistelisi case0:aa ja case1:stä, {.new,.old} -> {.0,.1} ja sit jotain
 function clouds_case0() {
 	dqb "cdns.clouds_case0()"
-
-	#VAIH:{old,new} -> {0,1}
-
-	${slinky} /etc/resolv.conf.OLD /etc/resolv.conf
-	${slinky} /etc/dhcp/dhclient.conf.OLD /etc/dhcp/dhclient.conf
-
-	#dhclient-script eri tavalla koska linkkien tukeminen lopetettu kesään -24 mennessä	
-	${spc} /sbin/dhclient-script.OLD /sbin/dhclient-script
-
+#
+#	#VAIH:{old,new} -> {0,1}
+#
+#	${slinky} /etc/resolv.conf.OLD /etc/resolv.conf
+#	${slinky} /etc/dhcp/dhclient.conf.OLD /etc/dhcp/dhclient.conf
+#
+#	#dhclient-script eri tavalla koska linkkien tukeminen lopetettu kesään -24 mennessä	
+#	${spc} /sbin/dhclient-script.OLD /sbin/dhclient-script
+#
 	if [ y"${ipt}" == "y" ] ; then
 		dqb "SHOULD 1NSTALL TABL35"
 		exit 88
@@ -286,21 +282,21 @@ function clouds_case0() {
 function clouds_case1() {
 	echo "WORK IN PROGRESS"
 
-#	if [ -s /etc/resolv.conf.new ] ; then
-#		echo "r30lv.c0nf alr3ady 3x15t5"
-#	else
-#		#VAIH:jos export...
-#		touch /etc/resolv.conf.new
-#		${scm} a+w /etc/resolv.conf.new
-#		echo "nameserver 127.0.0.1" > /etc/resolv.conf.new
-#		${scm} 0444 /etc/resolv.conf.new
-#		${sco} root:root /etc/resolv.conf.new
-#	fi
-
-	${slinky} /etc/resolv.conf.new /etc/resolv.conf
-	${slinky} /etc/dhcp/dhclient.conf.new /etc/dhcp/dhclient.conf
-	${spc} /sbin/dhclient-script.new /sbin/dhclient-script
-
+##	if [ -s /etc/resolv.conf.new ] ; then
+##		echo "r30lv.c0nf alr3ady 3x15t5"
+##	else
+##		#VAIH:jos export...
+##		touch /etc/resolv.conf.new
+##		${scm} a+w /etc/resolv.conf.new
+##		echo "nameserver 127.0.0.1" > /etc/resolv.conf.new
+##		${scm} 0444 /etc/resolv.conf.new
+##		${sco} root:root /etc/resolv.conf.new
+##	fi
+#
+#	${slinky} /etc/resolv.conf.new /etc/resolv.conf
+#	${slinky} /etc/dhcp/dhclient.conf.new /etc/dhcp/dhclient.conf
+#	${spc} /sbin/dhclient-script.new /sbin/dhclient-script
+#
 	if [ y"${ipt}" == "y" ] ; then
 		echo "SHOULD 1NSTALL TABL35"
 	else
@@ -341,12 +337,9 @@ function clouds_case1() {
 clouds_pre ${mode}
 
 #VAIH:slinky-juttu vhitellen
-##[-f /etc/resolv.conf.${mode} ] && ${smr} /etc/resolv.conf
-#[-f /etc/resolv.conf.${mode} ] && ${slinky} /etc/resolv.conf
-##[-f /etc/dhcp/dhclient.conf.${mode} ] && ${smr} /etc/dhcp/dhclient.conf
-#[-f /etc/dhcp/dhclient.conf.${mode} ] && ${slinky} /etc/dhcp/dhclient.conf.${mode} /etc/dhcp/dhclient.conf
-##[-f /sbin/dhclient-script.${mode} ] &&  ${smr} /sbin/dhclient-script 
-#[-f /sbin/dhclient-script.${mode} ] &&  ${spc} /sbin/dhclient-script.${mode} /sbin/dhclient-script
+[ -f /etc/resolv.conf.${mode} ] && ${slinky} /etc/resolv.conf.${mode} /etc/resolv.conf
+[ -f /etc/dhcp/dhclient.conf.${mode} ] && ${slinky} /etc/dhcp/dhclient.conf.${mode} /etc/dhcp/dhclient.conf
+[ -f /sbin/dhclient-script.${mode} ] && ${spc} /sbin/dhclient-script.${mode} /sbin/dhclient-script
 
 case ${mode} in 
 	0)

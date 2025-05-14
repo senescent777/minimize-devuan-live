@@ -66,6 +66,8 @@ spc=$(${odio} which cp)
 svm=$(${odio} which mv)
 svm="${odio} ${svm} "
 spc="${odio} ${spc} "
+whack=$(sudo which pkill)
+whack="${odio} ${whack} --signal 9 "
 
 function jules() { #HUOM.12525:function puuttui edestä aiemmin
 	dqb "LE BIG MAC"
@@ -119,8 +121,6 @@ function ocs() {
 
 function psqa() {
 	dqb "QUASB (THE BURNING) ${1}"
-#	ls -las ${sah6}
-#	sleep 5
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		p=$(pwd)
@@ -131,7 +131,6 @@ function psqa() {
 
 		${sah6} -c sha512sums.txt --ignore-missing
 		[ $? -eq 0 ] || exit 97
-
 		cd ${p}
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
@@ -141,7 +140,7 @@ function psqa() {
 }
 
 function check_binaries() {
-	debug=1
+	#debug=1
 	dqb "c0mm0n_lib.ch3ck_b1nar135(${1} )"
 	dqb "sudo= ${odio} "
 	csleep 1
@@ -186,22 +185,19 @@ function check_binaries() {
 		pre_part3 ~/Desktop/minimize/${1}
 		pr4 ~/Desktop/minimize/${1}
 
-		#HUOM. pitäisiköhän tässä kohtaa kopsata .0:t takaisin alkup nimille? (TODO)
-
 		ipt=$(sudo which iptables)
 		ip6t=$(sudo which ip6tables)
 		iptr=$(sudo which iptables-restore)
 		ip6tr=$(sudo which ip6tables-restore)
 	fi
 
-	#voisi kai ocs-kohtaankin viedä ao. blokin sisällön
+	#voisi kai ocs-kohtaankin viedä ao. blokin sisällön (TODO)
 	[ -x ${ipt} ] || exit 5
 	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
 	[ -x ${ip6t} ] || exit 5
 	[ -x ${iptr} ] || exit 5
 	[ -x ${ip6tr} ] || exit 5
 
-	whack=$(sudo which pkill)
 	sifu=$(sudo which ifup)
 	sifd=$(sudo which ifdown)
 
@@ -237,7 +233,6 @@ function check_binaries2() {
 	iptr="${odio} ${iptr} "
 	ip6tr="${odio} ${ip6tr} "
 
-	whack="${odio} ${whack} --signal 9 "
 	snt="${odio} ${snt} "
 	sharpy="${odio} ${sag} remove --purge --yes "
 	spd="${odio} ${sdi} -l " #käytössä?
@@ -383,6 +378,19 @@ function mangle2() {
 	fi
 }
 
+#HUOM.14525:ideana taisi olla että ajettaisiin tämä tdston lopussa
+function gpo() {
+	local prevopt
+	local opt
+	prevopt=""
+
+	for opt in $@ ; do
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
+}
+
 function enforce_access() {
 	dqb " enforce_access( ${1})"
 
@@ -445,15 +453,15 @@ function enforce_access() {
 	${scm} 0555 ~/Desktop/minimize/changedns.sh
 	${sco} root:root ~/Desktop/minimize/changedns.sh
 
-	#TODO:{old,new} -> {0,1} ?
+	#{old,new} -> {0,1} ei sovellu tähän
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
 	#HUOM.120525:näitäkin voi kasautua liikaa?
 	[ -f /etc/network/interfaces.${f} ] || ${spc} /etc/network/interfaces /etc/network/interfaces.${f}
 
-	#TODO:{old,new} -> {0,1}
-	if [ -s /etc/resolv.conf.new ] && [ -s /etc/resolv.conf.OLD ] ; then
+	#VAIH:{old,new} -> {0,1}
+	if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
 		${smr} /etc/resolv.conf
 	fi
 
@@ -466,47 +474,45 @@ function enforce_access() {
 	${scm} -R a-w /etc/wpa_supplicant
 
 	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
-
+}
 
 function part1_5() {
-if [ z"${pkgsrc}" != "z" ] ; then
-if [ -d ~/Desktop/minimize/${1} ] ; then
-if [ ! -s /etc/apt/sources.list.${1} ] ; then
-local g
-local h
+	if [ z"${pkgsrc}" != "z" ] ; then
+		if [ -d ~/Desktop/minimize/${1} ] ; then
+			if [ ! -s /etc/apt/sources.list.${1} ] ; then
+				local g
+				local h
 
-g=$(date +%F)
-dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
+				g=$(date +%F)
+				dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
+				csleep 2
 
-csleep 2
-[ -f /etc/apt/sources.list ] && ${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
+				[ -f /etc/apt/sources.list ] && ${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
 
-h=$(mktemp -d)
-touch ${h}/sources.list.${1}
+				h=$(mktemp -d)
+				touch ${h}/sources.list.${1}
 
-for x in ${1} ${1}-updates ${1}-security ; do
-echo "deb https://${pkgsrc}/merged ${x} main" >> ${h}/sources.list.${1}
-done
+				for x in ${1} ${1}-updates ${1}-security ; do
+					echo "deb https://${pkgsrc}/merged ${x} main" >> ${h}/sources.list.${1}
+				done
 
-${svm} ${h}/sources.list.${1} /etc/apt/
-${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list
-[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
-csleep 2
-fi
-fi
-fi
+				${svm} ${h}/sources.list.${1} /etc/apt/
+				${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list
+				[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
+				csleep 2
+			fi
+		fi
+	fi
 
-${sco} -R root:root /etc/apt
-#tarkempaa sertiä tulisi findin kanssa
-${scm} -R a-w /etc/apt/
+	${sco} -R root:root /etc/apt
+	#tarkempaa sertiä tulisi findin kanssa
+	${scm} -R a-w /etc/apt/
 }
 
 #HUOM.13525:pitäisikö tämän toiminta varmistaa?
 function part1() {
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
-
 	#jatkossa tähän ne tzdata- ja /e/d/locales-jutut?
-
 	#jos jokin näistä kolmesta hoitaisi homman...
 
 	${sifd} ${iface}
@@ -521,58 +527,60 @@ function part1() {
 	
 	${odio} sysctl -p #/etc/sysctl.conf
 
-if [ y"${ipt}" == "y" ] ; then
-	echo "5H0ULD-1N\$TALL-1PTABL35!!!"
-else
-	for t in INPUT OUTPUT FORWARD ; do
-		${ipt} -P ${t} DROP
-		dqb "V6"; csleep 2
+	if [ y"${ipt}" == "y" ] ; then
+		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
+	else
+		for t in INPUT OUTPUT FORWARD ; do
+			${ipt} -P ${t} DROP
+			dqb "V6"; csleep 2
 
+			${ip6t} -P ${t} DROP
+			${ip6t} -F ${t}
+		done
 
-		${ip6t} -P ${t} DROP
-		${ip6t} -F ${t}
-	done
-
-	for t in INPUT OUTPUT FORWARD b c e f ; do ${ipt} -F ${t} ; done
-
-	if [ ${debug} -eq 1 ] ; then
-		${ipt} -L #
-		dqb "V6.b"; csleep 2
-		${ip6t} -L # -x mukaan?
-		sleep 5
-
+		for t in INPUT OUTPUT FORWARD b c e f ; do ${ipt} -F ${t} ; done
+	
+		if [ ${debug} -eq 1 ] ; then
+			${ipt} -L #
+			dqb "V6.b"; csleep 2
+			${ip6t} -L # -x mukaan?
+			sleep 5
+		fi
 	fi
-fi
 
-part1_5 ${1}
-${sco} -R root:root /etc/apt
-${scm} -R a-w /etc/apt/
-dqb "FOUR-LEGGED WHORE (i have Tourettes)"
+	part1_5 ${1}
+	${sco} -R root:root /etc/apt
+	${scm} -R a-w /etc/apt/
+	dqb "FOUR-LEGGED WHORE (i have Tourettes)"
 }
 
 PART175_LIST="avahi bluetooth cups exim4 nfs network-manager ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
 
 #VAIH:p175 ja p2 uudet versiot mitkä käyttävät em. listaa
-#function part176() {
-#	dqb "PART176()"
-#	csleep 2
-#
-#	local s
-#	local t
-#
-#	#VAIH:s listaksi konftdstoon ja sitten sammuttelu+poisto yhdess läjässä tjsp?
-#	for s in ${PART175_LIST} ; do
-#		for t in $(find /etc/init.d -name '${s}*') ; do
-#			echo "${odio} /etc/init.d/${} stop"
-#			sleep 1
-#		done
-#	done
-#
-#	#TODO:whack-jutut vielä varm vuoksi
-#
-#	${snt} -tulpan
-#	csleep 3
-#}
+function part176() {
+	dqb "PART176()"
+	csleep 2
+	local s
+	local t
+
+	#VAIH:s listaksi konftdstoon ja sitten sammuttelu+poisto yhdess läjässä tjsp?
+	for s in ${PART175_LIST} ; do
+		dqb ${s}
+
+		for t in $(find /etc/init.d -name ${s}*) ; do
+			${odio} ${t} stop
+			csleep 1
+		done
+
+		${whack} ${s}* #oli pgrep aiemmin
+	done
+
+	${whack} nm-applet
+	${snt} -tulpan #ei välttis toimi jos ennen check_bin kutsutaan
+	dqb "P.I76 DONE"
+	csleep 3
+}
+
 #function part2_5() {
 #	debug=1
 #	dqb "PART2 ${1}"
@@ -582,7 +590,7 @@ PART175_LIST="avahi bluetooth cups exim4 nfs network-manager ntp mdadm sane rpcb
 #		for s in ${PART175_LIST} ; do
 #			${sharpy} ${s}*
 #		done
-#		#TODO:jälkisiivous
+#		#TODO:jälkisiivous(?)
 #		#TODO:wlan
 #	fi
 #
@@ -614,13 +622,14 @@ function part175() {
 }
 
 function el_loco() {
-	dqb "MI LOCO"
+	dqb "MI LOCO ${1} ${2}"
 	csleep 3
 	#TODO:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön, locale-gen...
 
 	#ennen vai jälkeen "dpkg reconfig"-blokin tämä?
 	if [ -s /etc/default/locale.tmp ] ; then
 		. /etc/default/locale.tmp
+
 		export LC_TIME
 		export LANGUAGE
 		export LC_ALL
@@ -631,6 +640,9 @@ function el_loco() {
 		#client-side session_expiration_checks can be a PITA
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
+	fi
+
+	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
 		csleep 3
 
@@ -652,14 +664,13 @@ function el_loco() {
 }
 
 function part2() {
-	debug=1
+	#debug=1
 	dqb "PART2 ${1}"
 	csleep 2
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "PART2-2"
 		csleep 5
-
 		${sharpy} network*
 		${sharpy} libblu* libcupsfilters* libgphoto* 
 
@@ -733,7 +744,6 @@ function part3() {
 		dqb "part3.1 ok"
 		csleep 3
 		${NKVD} ${1}/lib*.deb
-
 	else
 		exit 66
 	fi
@@ -743,12 +753,12 @@ function part3() {
 	if [ $? -eq  0 ] ; then
 		dqb "part3.2 ok"
 		csleep 3
-
 		${NKVD} ${1}/*.deb
-
 	else
 		exit 67
 	fi
 
 	csleep 2
 }
+
+#gpo

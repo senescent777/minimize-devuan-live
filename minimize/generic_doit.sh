@@ -4,22 +4,13 @@ mode=2
 distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 d=~/Desktop/minimize/${distro} 
 [ z"${distro}" == "z" ] && exit 6
-debug=1
+debug=0 #1
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
 else
 	echo "CONFIG MISSING"
 	exit 55
-fi
-
-. ~/Desktop/minimize/common_lib.sh
-
-if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-	. ${d}/lib.sh
-else
-	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING"
-	exit 111
 fi
 
 function parse_opts_1() {
@@ -33,17 +24,35 @@ function parse_opts_1() {
 	esac
 }
 
-function check_params() {
-	case ${debug} in
-		0|1)
-			dqb "ko"
-		;;
-		*)
-			echo "MEE HIMAAS LEIKKIMÄÄN"
-			exit 4
-		;;
-	esac
+. ~/Desktop/minimize/common_lib.sh
+#HUOM.140525:vaikuttaisi siltä että vasta lib.sh includoinnin jälkeen alkaa 176 pelata, kts toistuuko+koita korjata
+
+function parse_opts_2() {
+	#toistaiseksi oltava common_lib jälkeen koska dqb
+	dqb "parseopts_2 ${1} ${2}"
 }
+
+#VAIH:gpo():n kautta jatkossa, jos mahd (vaikuttaisi siltä että $@ ei kulkeudu automaagisesti, man bash+KVG)
+#HUOM.tämä blokki oli aiemmin juuri ennen pre_enforce():a
+if [ $# -gt 0 ] ; then
+	for opt in $@ ; do parse_opts_1 $opt ; done
+fi
+#check_params
+#gpo
+#exit
+
+#VAIH:turhien sammuttelu jo tässä (pitääkö olla ennen vai jälkeen lib)
+dqb "b3f0r3 p.176"
+csleep 1
+part176
+#exit
+
+if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+	. ${d}/lib.sh
+else
+	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING"
+	exit 111
+fi
 
 function vommon() {
 	dqb "R (in 3 secs)"
@@ -67,6 +76,7 @@ function vommon() {
 	exit
 }
 
+#HUOM. onko chimaerassa oletuksena ntp-paketteja asnennettuna?
 function part1_post() {
 	#ntp ehkä takaisin myöhemmin
 	${whack} ntp*
@@ -77,12 +87,10 @@ function part1_post() {
 
 #==================================PART 1============================================================
 
-#TODO:gpo():n kautta jatkossa
-if [ $# -gt 0 ] ; then
-	for opt in $@ ; do parse_opts_1 $opt ; done
-fi
+dqb "mode= ${mode}"
+csleep 5
+#exit
 
-check_params
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
 enforce_access ${n}
@@ -90,18 +98,19 @@ enforce_access ${n}
 part1 ${distro} 
 #HUOM.190325:part_1_5sessa oli bugi, u+w ei vaan riitä
 [ ${mode} -eq 0 ] && exit
-part175 #part176 (TODO)
-part1_post
 
-#TODO:testit chmaeran kanssa, paketit pois ja , let's find out
+${snt} -tulpan #HUOM14525:oli ennen: part175
+csleep 3
+part1_post #tarpeellinen jatkossa? josko copy-paste kuitenkin
 
+#jotain perusteellisempia testejä chimaeran kanssa sitten mikäli jksaa sitä kirjautumisongelmaa
 #===================================================PART 2===================================
 
 c14=0
 [ ${mode} -eq 1 ] && c14=1
 c13=$(grep -v '#' /etc/default/locale  | grep LC_TIME | grep -c ${LCF666})
 [ ${c13} -lt 1 ] && c14=1
-el_loco ${c14}
+el_loco ${c14} ${c13} #VAIH:jos jatkossa 2 param ni ei turhaan kasvateta /e/d/l
 
 if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
 	vommon
@@ -151,6 +160,7 @@ fi
 jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
+
 ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 ${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}

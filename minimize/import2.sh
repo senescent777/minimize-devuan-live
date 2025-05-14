@@ -95,6 +95,7 @@ if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 else
 	#TODO:josko testaisi tilanteen missä $distro/{conf,lib} puuttuvat
 	echo $?
+	dqb "NO LIB"
 	csleep 1
 
 	check_binaries ${distro}
@@ -186,7 +187,6 @@ case "${1}" in
 
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ]  || exit 33
-
 		common_part ${file} ${d} #istro}
 
 		csleep 3
@@ -212,7 +212,6 @@ case "${1}" in
 
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
-
 		common_part ${file} ${d} #istro}
 
 		#debig taakse jatkossa seur 2
@@ -248,7 +247,6 @@ case "${1}" in
 
 		if [ -x ${PREFIX}/profs.sh ] ; then
 			. ${PREFIX}/profs.sh
-
 			[ $? -gt 0 ] && exit 33
 			
 			dqb "INCLUDE OK"
