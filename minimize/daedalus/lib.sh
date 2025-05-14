@@ -1,10 +1,8 @@
-##=================================================PART 0=====================================
+#=================================================PART 0=====================================
 #
-##VAIH:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
-##https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
-
 #VAIH:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
+
 function pre_part3() {
 	[ y"${1}" == "y" ] && exit
 	dqb "pp3( ${1} )"
@@ -13,7 +11,8 @@ function pre_part3() {
 
 	psqa ${1}
 
-	#HUOM.110525:ei ihan vielä toimi kuten tarkoitus
+	#HUOM.140525:toiminee jo jollain lailla, "no" siihen kysymykseen olisi kuitenkin kiva saada välitettyä dpkg:lle asti
+
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg -i ${1}/netfilter-persistent*.deb
 	#${odio} dpkg -i ${1}/netfilter-persistent*.deb
 	[ $? -eq 0 ] && ${smr} -f ${1}/netfilter-persistent*.deb  #${NKVD}
@@ -31,7 +30,6 @@ function pre_part3() {
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg -i ${1}/iptables-*.deb
 	#${odio} dpkg -i ${1}/iptables-*.deb
-
 	[ $? -eq 0 ] && ${smr} -f ${1}/iptables-*.deb
 	#[ ${debug} -eq 1 ] && ls -las ${1}/iptables-*.deb
 
@@ -40,41 +38,41 @@ function pre_part3() {
 }
 
 function pr4() {
-dqb "pr4( ${1})"
-csleep 3
+	dqb "pr4( ${1})"
+	csleep 3
 
-${odio} dpkg -i ${1}/libpam-modules-bin_*.deb
-${odio} dpkg -i ${1}/libpam-modules_*.deb
+	${odio} dpkg -i ${1}/libpam-modules-bin_*.deb
+	${odio} dpkg -i ${1}/libpam-modules_*.deb
 
-${NKVD} ${1}/libpam-modules*
-csleep 1
+	${NKVD} ${1}/libpam-modules*
+	csleep 1
 
-${odio} dpkg -i ${1}/libpam*.deb
-${odio} dpkg -i ${1}/perl-modules-*.deb
-${odio} dpkg -i ${1}/libperl*.deb
+	${odio} dpkg -i ${1}/libpam*.deb
+	${odio} dpkg -i ${1}/perl-modules-*.deb
+	${odio} dpkg -i ${1}/libperl*.deb
 
-${NKVD} ${1}/perl-modules-*.deb
-${NKVD} ${1}/libperl*.deb
-csleep 1
+	${NKVD} ${1}/perl-modules-*.deb
+	${NKVD} ${1}/libperl*.deb
+	csleep 1
 
-${odio} dpkg -i ${1}/perl*.deb
-${odio} dpkg -i ${1}/libdbus*.deb
-${odio} dpkg -i ${1}/dbus*.deb
-csleep 1
+	${odio} dpkg -i ${1}/perl*.deb
+	${odio} dpkg -i ${1}/libdbus*.deb
+	${odio} dpkg -i ${1}/dbus*.deb
+	csleep 1
 
-${odio} dpkg -i ${1}/liberror-perl*.deb
-${odio} dpkg -i ${1}/git*.deb
+	${odio} dpkg -i ${1}/liberror-perl*.deb
+	${odio} dpkg -i ${1}/git*.deb
 
-${NKVD} ${1}/git*.deb
-${NKVD} ${1}/liberror-perl*.deb
-csleep 1
+	${NKVD} ${1}/git*.deb
+	${NKVD} ${1}/liberror-perl*.deb
+	csleep 1
 
-${NKVD} ${1}/libpam*
-${NKVD} ${1}/libperl*
-${NKVD} ${1}/libdbus*
-${NKVD} ${1}/dbus*
-${NKVD} ${1}/perl*
-csleep 1
+	${NKVD} ${1}/libpam*
+	${NKVD} ${1}/libperl*
+	${NKVD} ${1}/libdbus*
+	${NKVD} ${1}/dbus*
+	${NKVD} ${1}/perl*
+	csleep 1
 }
 
 function udp6() {
@@ -115,35 +113,6 @@ function part2_pre() {
 	dqb "PP2"
 	${sharpy} python3-cups
 	csleep 5
-}
-
-#uusien fktioiden sisältöä saattaa mennä takaisinkin ->g_doit
-function part1_post() {
-	#ntp ehkä takaisin myöhemmin
-	${whack} ntp*
-	csleep 5
-	${odio} /etc/init.d/ntpsec stop
-	#K01avahi-jutut sopivaan kohtaan?
-}
-
-function part2_pre() {
-	${sharpy} python3-cups
-}
-
-#TODO:seuraavaksi tämä takaisin > h_doit?
-function part3_post() {
-	#seur. 2 riviä turhia koska chagedns
-	${ip6tr} /etc/iptables/rules.v6
-	${iptr} /etc/iptables/rules.v4
-	
-	${asy}
-	dqb "GR1DN BELIALAS KYE"
-
-	${scm} 0555 ~/Desktop/minimize/changedns.sh
-	${sco} root:root ~/Desktop/minimize/changedns.sh
-	${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
-	${sipt} -L
-	csleep 6
 }
 
 check_binaries ${distro}
