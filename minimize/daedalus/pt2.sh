@@ -23,12 +23,19 @@ csleep 5
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	part2 1 #${removepkgs}
+	#part2_pre 1 daedaluksen kanssa tarpeen?
+	part2_5 1 #HUOM.15425: oli part2 1
 fi
 
 #HUOM. ao. rivillä 2. viimeisessä syystä vain core
 ${sharpy} amd64-microcode iucode-tool arch-test at-spi2-core bubblewrap
 ${sharpy} atril* coinor* cryptsetup debootstrap
+
+${asy} 
+${lftr}
+csleep 5
+
+${sharpy} cryptsetup-bin #asy+c-bin uutena 14525
 ${sharpy} dmidecode discover* dirmngr #tuleekohan viimeisestä ongelma? vissiin ei
 ${sharpy} doc-debian docutils* 
 ${sharpy} efibootmgr exfalso 
@@ -79,7 +86,12 @@ ${sharpy} libpoppler* libuno* libreoffice* libgsm* libgstreamer*
 #HUOM! PAKETIT procps, mtools JA mawk JÄTETTÄVÄ RAUHAAN!!!
 dqb "l-o"
 csleep 5
-${sharpy} lvm2 mdadm  
+${sharpy} lvm2 lynx* #HUOM.1454525:poistuuko lvm2?
+${asy} 
+${lftr}
+csleep 5
+
+${sharpy} mdadm  
 ${sharpy} mailcap mlocate
 ${sharpy} mokutil mariadb-common mysql-common
 ${sharpy} netcat-traditional openssh*
@@ -101,9 +113,18 @@ ${asy}
 ${lftr}
 csleep 5
 
-${sharpy} pkexec po* refracta*
-#samba poistunee jo aiemmin?
-${sharpy} squashfs-tools samba* system-config*
+${sharpy} pkexec
+${sharpy} po* refracta*
+${asy} 
+${lftr}
+csleep 5
+
+#samba poistunee jo aiemmin? miten squash?
+${sharpy} squashfs-tools
+${asy}
+csleep 5
+
+${sharpy} samba* system-config*
 ${asy} 
 ${lftr}
 csleep 5
