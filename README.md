@@ -4,7 +4,7 @@
 4. sudo umount /mnt
 5. cd ~/Desktop/minimize
 6. cp conf.example $distro; mv $distro/conf.example $distro/conf; $EDITOR $distro/conf #for initial config
-7. ./$distro/doIt6.sh
+7. ./generic_doit.sh
 
 -----------------------------------------------------------
 
