@@ -84,7 +84,7 @@ else
 fi
 
 #VAIH:nuo /e/kala.$x  - jutut ojennukseen vähitellen
-#TODO:main():iin uusi optio millä skipataan e.tar lisäys arkistoon ja ehkä muitakin
+#VAIH:main():iin uusi optio millä skipataan e.tar lisäys arkistoon ja ehkä muitakin
 
 dqb "tar = ${srat} "
 ${scm} 0555 ${PREFIX}/changedns.sh
@@ -554,7 +554,7 @@ csleep 6
 pre1 ${d}
 
 case ${mode} in
-	0)
+	0|4)
 		pre1 ${d}
 		pre2 ${d}
 
@@ -568,7 +568,7 @@ case ${mode} in
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		${srat} -cvf ${d}/e.tar ./rnd
-		tp4 ${d}/e.tar ${d}	
+		#[ ${mode} -eq 0 ] && tp4 ${d}/e.tar ${d}
 		${sifd} ${iface}
 
 		tp1 ${tgtfile} ${d}
