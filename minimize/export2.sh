@@ -65,6 +65,7 @@ fi
 
 . ${PREFIX}/common_lib.sh
 
+#HUOM.14525:pitäisiköhän testata ao. else-haara?
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
@@ -81,6 +82,9 @@ else
 	check_binaries ${distro}
 	check_binaries2
 fi
+
+#TODO:nuo /e/kala.$x  - jutut ojennukseen vähitellen
+#TODO:main():iin uusi optio millä skipataan e.tar ja ehkä muitakin
 
 dqb "tar = ${srat} "
 ${scm} 0555 ${PREFIX}/changedns.sh
