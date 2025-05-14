@@ -15,14 +15,14 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-function pr4() {
-	dqb "cdns.pr4 (${1})" 
-}
-
-function pre_part3() {
-	dqb "cdns.pre_part3( ${1})"
-}
-
+#function pr4() { tarpeellisia?
+#	dqb "cdns.pr4 (${1})" 
+#}
+#
+#function pre_part3() {
+#	dqb "cdns.pre_part3( ${1})"
+#}
+#
 #asiasta kukkaruukkuun: wicd oli aikoinaan siedettävä softa, ainakin Networkmanageriin verrattuna
 
 #HUOM.jatkossa ehkä parempi että komentorivioptioilla ei aktivoida debugia
@@ -282,7 +282,7 @@ function clouds_case1() {
 		if [ -s /home/stubby/.stubby.yml ] ; then
 			for s in $(grep -v '#' /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do tod_dda ${s} ; done
 		else
-			dqb "NO RESOLV.CONF FOUND, HAVE TO USE CONF"
+			dqb "NO CONF FOUND, HAVE TO USE ALT CONF"
 			csleep 1
 		
 			if [ z"${dsn}" != "z" ] ; then
