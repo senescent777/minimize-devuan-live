@@ -555,7 +555,7 @@ csleep 6
 pre1 ${d}
 
 case ${mode} in
-	0|4)
+	0|4) #TODO:testaa 
 		pre1 ${d}
 		pre2 ${d}
 
@@ -569,7 +569,7 @@ case ${mode} in
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		${srat} -cvf ${d}/e.tar ./rnd
-		#[ ${mode} -eq 0 ] && tp4 ${d}/e.tar ${d}
+		[ ${mode} -eq 0 ] && tp4 ${d}/e.tar ${d}
 		${sifd} ${iface}
 
 		tp1 ${tgtfile} ${d}
