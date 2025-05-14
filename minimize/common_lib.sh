@@ -557,8 +557,8 @@ function part1() {
 PART175_LIST="avahi bluetooth cups exim4 nfs network-manager ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
 
 #VAIH:p175 ja p2 uudet versiot mitkä käyttävät em. listaa
-function part176() {
-	dqb "PART176()"
+function part076() {
+	dqb "PART076()"
 	csleep 2
 	local s
 	local t

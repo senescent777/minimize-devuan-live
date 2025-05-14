@@ -25,7 +25,7 @@ function parse_opts_1() {
 }
 
 . ~/Desktop/minimize/common_lib.sh
-#HUOM.140525:vaikuttaisi siltä että vasta lib.sh includoinnin jälkeen alkaa 176 pelata, kts toistuuko+koita korjata
+#HUOM.140525:vaikuttaisi siltä että vasta lib.sh includoinnin jälkeen alkaa 076 pelata, kts toistuuko+koita korjata
 
 function parse_opts_2() {
 	#toistaiseksi oltava common_lib jälkeen koska dqb
@@ -42,9 +42,9 @@ fi
 #exit
 
 #VAIH:turhien sammuttelu jo tässä (pitääkö olla ennen vai jälkeen lib)
-dqb "b3f0r3 p.176"
+dqb "b3f0r3 p.076"
 csleep 1
-part176
+part076
 #exit
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
