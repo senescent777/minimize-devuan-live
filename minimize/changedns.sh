@@ -52,7 +52,6 @@ esac
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 csleep 2
-#exit
 
 #HUOM. jos tarttee ni näille main distrosta riippuvainen fktioiden esittely 
 #(toiv ei tarvitse)
@@ -243,15 +242,7 @@ function clouds_post() {
 #HUOM. joskohan jatkossa yhdistelisi case0:aa ja case1:stä, {.new,.old} -> {.0,.1} ja sit jotain
 function clouds_case0() {
 	dqb "cdns.clouds_case0()"
-#
-#	#VAIH:{old,new} -> {0,1}
-#
-#	${slinky} /etc/resolv.conf.OLD /etc/resolv.conf
-#	${slinky} /etc/dhcp/dhclient.conf.OLD /etc/dhcp/dhclient.conf
-#
-#	#dhclient-script eri tavalla koska linkkien tukeminen lopetettu kesään -24 mennessä	
-#	${spc} /sbin/dhclient-script.OLD /sbin/dhclient-script
-#
+
 	if [ y"${ipt}" == "y" ] ; then
 		dqb "SHOULD 1NSTALL TABL35"
 		exit 88
@@ -282,21 +273,6 @@ function clouds_case0() {
 function clouds_case1() {
 	echo "WORK IN PROGRESS"
 
-##	if [ -s /etc/resolv.conf.new ] ; then
-##		echo "r30lv.c0nf alr3ady 3x15t5"
-##	else
-##		#VAIH:jos export...
-##		touch /etc/resolv.conf.new
-##		${scm} a+w /etc/resolv.conf.new
-##		echo "nameserver 127.0.0.1" > /etc/resolv.conf.new
-##		${scm} 0444 /etc/resolv.conf.new
-##		${sco} root:root /etc/resolv.conf.new
-##	fi
-#
-#	${slinky} /etc/resolv.conf.new /etc/resolv.conf
-#	${slinky} /etc/dhcp/dhclient.conf.new /etc/dhcp/dhclient.conf
-#	${spc} /sbin/dhclient-script.new /sbin/dhclient-script
-#
 	if [ y"${ipt}" == "y" ] ; then
 		echo "SHOULD 1NSTALL TABL35"
 	else

@@ -93,7 +93,6 @@ ${sco} root:root ${PREFIX}/changedns.sh
 tig=$(sudo which git)
 mkt=$(sudo which mktemp)
 
-#HUOM.10525:jostain syystä git poistuu, tee jotain asialle (siihen asti näin)
 if [ x"${tig}" == "x" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
 	echo "sudo apt-get update;sudo apt-get install git"
@@ -154,7 +153,6 @@ function pre2() {
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
-		#${odio} ${PREFIX}/changedns.sh ${dnsm} ${ortsac}
 		${odio} ${ledif}/changedns.sh ${dnsm} ${ortsac}
 		csleep 4
 
@@ -179,7 +177,6 @@ function tpq() {
 	dqb "paramz 0k"
 	csleep 1
 
-	#VAIH:kokeillaanpa ../../  tavalla
 	#${srat} -cf ${1}/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
 	${srat} -cf ${1}/xfce.tar ${1}/../../.config/xfce4/xfconf/xfce-perchannel-xml
 	csleep 2
@@ -216,11 +213,11 @@ function tp1() {
 
 	if [ ${enforce} -eq 1 ] && [ -d ${ledif} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		tpq ${ledif} #PREFIX}
+		tpq ${ledif}
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
-		ls -las ${ledif} #PREFIX}
+		ls -las ${ledif}
 		sleep 5
 	fi
 
@@ -230,7 +227,7 @@ function tp1() {
 }
 
 function rmt() {
-	debug=1
+	#debug=1
 	dqb "rmt(${1}, ${2})" #WTUN TYPOT STNA111223456
 
 	[ z"${1}" == "z" ] && exit 1
@@ -356,7 +353,6 @@ function tp4() {
 		rmt ${1} ${2}
 	fi
 
-	#HUOM.260125: -p wttuun varm. vuoksi  
 	dqb "tp4 donew"
 	csleep 3
 }
@@ -370,12 +366,6 @@ function tp2() {
 	dqb "params_ok"
 	csleep 5
 
-	#HUOM.30425:koklataan josko sittenkin pelkkä /e/n/interfaces riittäisi koska a) ja b)
-	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?
-	#locale ja tzone mukaan toisessa fktiossa vai ei?
-	#11525:tuleeko /e/iptables mukaan vai ei? kyl kai
-	#HUOM.12525.2:tarttisi ehkä kopsata /e/ipt/r -> /e/d/r
-
 	#HUOM.12525.1:jotain karsimista jatkossa kenties?
 	${scm} -R a+r /etc/iptables
 	${scm} a+x /etc/iptables
@@ -384,8 +374,6 @@ function tp2() {
 	${scm} -R 0440 /etc/iptables
 	${scm} ug+x /etc/iptables
 
-	#ls -las /etc/iptables
-	csleep 3
 	${srat} -rvf ${1} /etc/default/rules* /etc/default/locale* /etc/timezone /etc/locale-gen
 
 	case ${iface} in
@@ -442,39 +430,17 @@ function tp3() {
 	csleep 10
 	cd project
 
-#	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.OLD
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm} #.0
-#	${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1
-#
-#	#HUOM.8535:/e/r.conf-tilanne korjattu?
-#	${spc} /etc/resolv.conf ./etc/resolv.conf.OLD
+
 	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm} #.0
 
-#	if [ -s /etc/resolv.conf.new ] ; then
-#		${spc} /etc/resolv.conf.new ./etc/resolv.conf.new
-#	else
-#		touch ./etc/resolv.conf.new
-#		${scm} a+w ./etc/resolv.conf.new
-#		echo "nameserver 127.0.0.1" > ./etc/resolv.conf.new
-#		${scm} 0444 ./etc/resolv.conf.new
-#		${sco} root:root ./etc/resolv.conf.new
-#	fi
-#
-#	#TODO:vielä pitäisi miettiä miten toimii tämän kanssa, jos dnsm onkin 1 niin miten sitten? 
-#...ja mitä matskua git:iin jäi
-#	${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
-#
-#	${spc} /sbin/dhclient-script ./sbin/dhclient-script.OLD
+
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm} #.0
-#	${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
 
 	#HUOM.sources-list kanssa voisi mennä samantap idealla kuin yllä
  
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
-
-	#HUOM.310325:jostain erityisestä syystä kommenteissa?
-	#280425: varm vuoksi takqaisin kommentteihin?
 
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
@@ -555,7 +521,7 @@ dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 6
 
-pre1 ${d} #istro}
+pre1 ${d}
 
 case ${mode} in
 	0)
@@ -577,17 +543,17 @@ case ${mode} in
 
 		tp1 ${tgtfile} ${d}
 		pre1 ${d}
-		tp2 ${tgtfile} #${distro}
+		tp2 ${tgtfile}
 	;;
 	3)
 		tp1 ${tgtfile} ${d}
 
 		pre1 ${d}
 		pre2 ${d}
-		tp3 ${tgtfile} #${distro}
+		tp3 ${tgtfile}
 
 		pre1 ${d}
-		tp2 ${tgtfile} #${distro}
+		tp2 ${tgtfile}
 
 		pre1 ${d}
 		pre2 ${d}
