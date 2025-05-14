@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=1
+debug=0 #1
 tgtfile=""
 distro=$(cat /etc/devuan_version) #tarpeellinen tässä
 PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
@@ -141,7 +141,7 @@ function pre1() {
 }
 
 function pre2() {
-	debug=1
+	#debug=1
 	dqb "pre2( ${1}, ${2})" #WTIN KAARISULKEET STNA
 	[ x"${1}" == "z" ] && exit 666
 
@@ -194,7 +194,7 @@ function tpq() {
 }
 
 function tp1() {
-	debug=1
+	#debug=1
 	dqb "tp1( ${1} , ${2} )"
 	[ z"${1}" == "z" ] && exit
 	dqb "params_ok"
@@ -263,7 +263,7 @@ function rmt() {
 }
 
 function tp4() {
-	debug=1
+	#debug=1
 	dqb "tp4( ${1} , ${2} )"
 
 	[ z"${1}" == "z" ] && exit 1
@@ -359,7 +359,7 @@ function tp4() {
 
 #HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
 function tp2() {
-	debug=1
+	#debug=1
 	dqb "tp2 ${1} ${2}"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
@@ -406,7 +406,7 @@ function tp2() {
 
 #HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
 function tp3() {
-	debug=1
+	debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
@@ -458,7 +458,7 @@ function tp3() {
 }
 
 function tpu() {
-	debug=1	
+	#debug=1	
 	#HUOM:0/1/old/new ei liity
 	dqb "tpu( ${1}, ${2})"
 
@@ -492,7 +492,7 @@ function tpu() {
 #TODO:-v tekemään jotain hyödyllistä
 
 function tp5() {
-	debug=1
+	#debug=1
 
 	dqb "tp5 ${1} ${2}"
 	[ z"${1}" == "z" ] && exit 99
