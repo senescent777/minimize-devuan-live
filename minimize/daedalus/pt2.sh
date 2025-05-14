@@ -18,8 +18,8 @@ fi
 dqb "a-e"
 csleep 5
 
-#onkohan hyvä näin?
 #VAIH:pitäisi kai miettiä tämä kohta, ideana kai että ei poisteta iptables jos ei korvaavaa pakerria
+
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
@@ -96,6 +96,7 @@ ${sharpy} mailcap mlocate
 ${sharpy} mokutil mariadb-common mysql-common
 ${sharpy} netcat-traditional openssh*
 ${sharpy} os-prober #orca saattaa poistua jo aiemmin
+
 ${asy} 
 ${lftr}
 csleep 5
@@ -103,7 +104,10 @@ csleep 5
 #uutena 290425 (pois jos kusee)
 ${sharpy} nfs-common rpcbind
 csleep 5
-#TODO:libcolor* mukaan?
+
+#HUOM.15525:uutena libcolor, poista jos pykii
+${sharpy} libcolor* 
+csleep 5
 
 dqb "p"
 csleep 5
