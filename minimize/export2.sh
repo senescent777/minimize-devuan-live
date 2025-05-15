@@ -428,12 +428,13 @@ function tp3() {
 	csleep 5
 
 	#VAIH:grub.tmp ja muut jutut tuosta alta eri repository:yn ghub sisällä (https://github.com/senescent777/more_scripts/misc)
-	${tig} clone https://github.com/senescent777/project.git
+	${tig} clone https://github.com/senescent777/more_scripts.git
+
 	[ $? -eq 0 ] || exit 66
 	
 	dqb "TP3 PT2"
-	csleep 10
-	cd project
+	csleep 5
+	cd more_scripts/misc
 
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm} #.0
