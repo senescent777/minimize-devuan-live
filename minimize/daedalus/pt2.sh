@@ -18,12 +18,10 @@ fi
 dqb "a-e"
 csleep 5
 
-#VAIH:pitäisi kai miettiä tämä kohta, ideana kai että ei poisteta iptables jos ei korvaavaa pakerria
-
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	#part2_pre 1 daedaluksen kanssa tarpeen?
+	part2_pre 1 #15525 pois kommenteista, testaa miten käy
 	part2_5 1 #HUOM.15425: oli part2 1
 fi
 
@@ -105,9 +103,9 @@ csleep 5
 ${sharpy} nfs-common rpcbind
 csleep 5
 
-#HUOM.15525:uutena libcolor, poista jos pykii
-${sharpy} libcolor* 
-csleep 5
+#HUOM.15525:uutena libcolor, näytti poistavan liikaa joten jemmaan
+#${sharpy} libcolor* 
+#csleep 5
 
 dqb "p"
 csleep 5
@@ -123,7 +121,7 @@ ${asy}
 ${lftr}
 csleep 5
 
-#samba poistunee jo aiemmin? miten squash?
+#samba poistunee jo aiemmin? miten squash? nyt åpostuu
 ${sharpy} squashfs-tools
 ${asy}
 csleep 5
@@ -132,6 +130,8 @@ ${sharpy} samba* system-config*
 ${asy} 
 ${lftr}
 csleep 5
+
+#TODO:syslinux*, python3*, mythes, isolinux , voisiko niitä karsia?
 
 dqb "t"
 csleep 5
