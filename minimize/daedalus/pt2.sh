@@ -21,9 +21,11 @@ csleep 5
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	part2_pre 1 #15525 pois kommenteista, testaa miten käy
+	part2_pre 1
 	part2_5 1 #HUOM.15425: oli part2 1
 fi
+
+#libgutls-dane, aiheuttaako härdelliä jos poistaa? ei näköjään
 
 #HUOM. ao. rivillä 2. viimeisessä syystä vain core
 ${sharpy} amd64-microcode iucode-tool arch-test at-spi2-core 
@@ -36,49 +38,48 @@ csleep 5
 ${sharpy} dmidecode discover* dirmngr #tuleekohan viimeisestä ongelma? vissiin ei
 ${sharpy} doc-debian docutils* efibootmgr exfalso 
 
-${asy} 
-${lftr}
-csleep 5
-
-dqb "f1"
-csleep 5
+#${asy} 
+#${lftr}
+#csleep 5
+#
+#dqb "f1"
+#csleep 5
 ${sharpy} fdisk ftp* gdisk gcr
 ${asy} 
 ${lftr}
 csleep 5
 
-#gnupg poisto täs kohtaa hyvä idea? vai veikö dirmngr mukanaan jo?
 dqb "g2"
 csleep 5
 ${sharpy} ghostscript gir* gnupg* gpg-*
 ${sharpy} gpgconf gpgsm gsasl-common shim*
 ${sharpy} grub* gsfonts gstreamer*
-${asy} 
-${lftr}
-csleep 5
-
-#gnome-* poisto veisi myös: task-desktop task-xfce-desktop
-#gpg* kanssa: The following packages have unmet dependencies:
-# apt : Depends: gpgv but it is not going to be installed or
-#                gpgv2 but it is not going to be installed or
-#                gpgv1 but it is not going to be installed
-#HUOM. grub* poisto voi johtaa shim-pakettien päivitykseen
-#gsettings* voi viedä paljon paketteja mukanaan
-
-dqb "iii"
-csleep 5
+#${asy} 
+#${lftr}
+#csleep 5
+#
+##gnome-* poisto veisi myös: task-desktop task-xfce-desktop
+##gpg* kanssa: The following packages have unmet dependencies:
+## apt : Depends: gpgv but it is not going to be installed or
+##                gpgv2 but it is not going to be installed or
+##                gpgv1 but it is not going to be installed
+##HUOM. grub* poisto voi johtaa shim-pakettien päivitykseen
+##gsettings* voi viedä paljon paketteja mukanaan
+#
+#dqb "iii"
+#csleep 5
 ${sharpy} intel-microcode iucode-tool htop inetutils-telnet
 ${asy} 
 ${lftr}
 csleep 5
 
 #lib-paketteihin ei yleisessä tapauksessa kande koskea eikä live-
-#... libgstreamer ja libgsm uutena (060125)
 ${sharpy} libpoppler* libuno* libreoffice* libgsm* libgstreamer*
-
-#HUOM! PAKETIT procps, mtools JA mawk JÄTETTÄVÄ RAUHAAN!!!
-dqb "l-o"
-csleep 5
+##libgssapi-krb5 tarpeellinen?
+#
+##HUOM! PAKETIT procps, mtools JA mawk JÄTETTÄVÄ RAUHAAN!!!
+#dqb "l-o"
+#csleep 5
 ${sharpy} lvm2 lynx* mdadm mailcap
 ${asy} 
 ${lftr}
@@ -86,11 +87,10 @@ csleep 5
 
 ${sharpy} mlocate mokutil mariadb-common mysql-common
 ${sharpy} netcat-traditional openssh* os-prober #orca saattaa poistua jo aiemmin
-${asy} 
-${lftr}
-csleep 5
-
-#uutena 290425 (pois jos kusee)
+#${asy} 
+#${lftr}
+#csleep 5
+#
 ${sharpy} nfs-common rpcbind
 csleep 5
 
@@ -101,37 +101,26 @@ csleep 5
 dqb "p"
 csleep 5
 ${sharpy} ppp procmail ristretto screen
-${asy} 
-${lftr}
-csleep 5
-
+#${asy} 
+#${lftr}
+#csleep 5
+#
 ${sharpy} pkexec po* refracta* squashfs-tools
 ${asy} 
 ${lftr}
 csleep 5
 
-#samba poistunee jo aiemmin? miten squash? nyt åpostuu
-#${sharpy} 
-#${asy}
-#csleep 5
+#HUOM.15525 vaikuttaisi toimivan, ajon jälkeen x toimii edelleen
 
 ${sharpy} samba* system-config* telnet tex* 
-${asy} 
-${lftr}
-csleep 5
-
-#TODO:syslinux*, python3*, mythes, isolinux , voisiko niitä karsia?
-
-#dqb "t"
-#csleep 5
-#${sharpy}
-#${sharpy}
 #${asy} 
 #${lftr}
 #csleep 5
 
-dqb "u"
-csleep 5
+#TODO:syslinux*, python3*, mythes, isolinux , voisiko niitä karsia?
+
+#dqb "u"
+#csleep 5
 ${sharpy} uno* ure* upower vim* # udisks* saattaa poistua jo aiemmin
 ${asy} 
 ${lftr}
@@ -141,16 +130,6 @@ dqb "x"
 csleep 5
 ${sharpy} xorriso xfburn
 ${asy} 
-
-#${sharpy} xorriso 
-#${asy} 
-#csleep 5
-# 
-#dqb "y"
-#csleep 5
-#${sharpy} xfburn
-#${asy} 
-#csleep 5
 
 ${lftr}
 ${NKVD} ${pkgdir}/*.deb
