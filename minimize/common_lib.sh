@@ -45,8 +45,8 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-if [ -r /etc/iptables ] || [ -w /etc/iptables ]  || [ -r /etc/iptables/rules.v4 ] ; then
-	echo "/E/IPTABLES IS WRITABEL"
+if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then # linkkien kanssa pitäisi tehdä toisin
+	echo "WARNING: /E/IPTABLES IS WRITABEL"
 	exit 12
 fi
 
@@ -88,6 +88,7 @@ function fix_sudo() {
 
 fix_sudo
 
+#TODO:dnsm parametriksi
 function jules() { #HUOM.12525:function puuttui edestä aiemmin
 	dqb "LE BIG MAC"
 
@@ -114,6 +115,8 @@ function jules() { #HUOM.12525:function puuttui edestä aiemmin
 	${scm} 0550 /etc/iptables
 	${sco} -R root:root /etc/iptables
 
+	#jospa vielä varmistettaisiin tässä että oikeudet tosiaan ovat ok	
+	
 	[ ${debug} -eq 1 ] && ls -las /etc/iptables
 	csleep 6	
 }
@@ -393,6 +396,7 @@ function enforce_access() {
 	${scm} 0755 /etc
 	${sco} -R root:root /etc #-R liikaa?
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
+	#HUO.m:pitäisiköhän tässä pakotella /e/i
 
 	${sco} root:root /var
 	${scm} 0755 /var
