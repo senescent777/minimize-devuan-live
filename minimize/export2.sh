@@ -425,8 +425,6 @@ function tp3() {
 	
 	[ ${debug} -eq 1 ] && pwd  
 	csleep 5
-
-	#VAIH:grub.tmp ja muut jutut tuosta alta eri repository:yn ghub sisällä (https://github.com/senescent777/more_scripts/misc)
 	${tig} clone https://github.com/senescent777/more_scripts.git
 
 	[ $? -eq 0 ] || exit 66
@@ -448,8 +446,6 @@ function tp3() {
 	if [ -s ./etc/resolv.conf.new ] ; then
 		echo "r30lv.c0nf alr3ady 3x15t5"
 	else
-		#HUOM. sudotus ei ihan pakollinen, chmod ja chown keksitty
-		
 		${odio} touch ./etc/resolv.conf.new
 		${scm} a+w ./etc/resolv.conf.new
 		${sco} ${n}:${n}  ./etc/resolv.conf.new
