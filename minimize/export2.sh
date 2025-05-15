@@ -373,19 +373,20 @@ function tp2() {
 	dqb "tp2 ${1} ${2}"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
+
 	dqb "params_ok"
 	csleep 5
 
-	#HUOM.12525.1:jotain karsimista jatkossa kenties?
-	${scm} -R a+r /etc/iptables
-	${scm} a+x /etc/iptables
-
+	${scm} 0755 /etc/iptables
+	
+	#jatqs v pois
 	${srat} -rvf ${1} /etc/network/interfaces /etc/network/interfaces.* 
 	${srat} -rvf ${1} /etc/iptables/rules.v4.? /etc/iptables/rules.v6.? 
 	${srat} -rvf ${1} /etc/default/rules* /etc/default/locale* /etc/timezone /etc/locale-gen
 
-	${scm} -R 0440 /etc/iptables
-	${scm} ug+x /etc/iptables
+	${scm} -R 0400 /etc/iptables/*
+	${scm} 0550 /etc/iptables
+	#TODO:exit urputuksen kanssa jos x
 
 	#HUOM.15525:se kai onnistuu että samassa tdstossa usemapi iface, auto ja hotplug pois ni pystyy valkkaamaan minkä starttaa/stoppaa?
 	case ${iface} in
