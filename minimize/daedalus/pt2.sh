@@ -26,17 +26,15 @@ else
 fi
 
 #HUOM. ao. rivillä 2. viimeisessä syystä vain core
-${sharpy} amd64-microcode iucode-tool arch-test at-spi2-core bubblewrap
-${sharpy} atril* coinor* cryptsetup debootstrap
+${sharpy} amd64-microcode iucode-tool arch-test at-spi2-core 
+${sharpy} bubblewrap atril* coinor* cryptsetup* debootstrap
 
 ${asy} 
 ${lftr}
 csleep 5
 
-${sharpy} cryptsetup-bin #asy+c-bin uutena 14525
 ${sharpy} dmidecode discover* dirmngr #tuleekohan viimeisestä ongelma? vissiin ei
-${sharpy} doc-debian docutils* 
-${sharpy} efibootmgr exfalso 
+${sharpy} doc-debian docutils* efibootmgr exfalso 
 
 ${asy} 
 ${lftr}
@@ -44,8 +42,7 @@ csleep 5
 
 dqb "f1"
 csleep 5
-${sharpy} fdisk ftp*
-${sharpy} gdisk gcr
+${sharpy} fdisk ftp* gdisk gcr
 ${asy} 
 ${lftr}
 csleep 5
@@ -53,10 +50,9 @@ csleep 5
 #gnupg poisto täs kohtaa hyvä idea? vai veikö dirmngr mukanaan jo?
 dqb "g2"
 csleep 5
-${sharpy} ghostscript gir* gnupg*
-${sharpy} gpg-* gpgconf gpgsm gsasl-common
-${sharpy} shim* grub* 
-${sharpy} gsfonts gstreamer*
+${sharpy} ghostscript gir* gnupg* gpg-*
+${sharpy} gpgconf gpgsm gsasl-common shim*
+${sharpy} grub* gsfonts gstreamer*
 ${asy} 
 ${lftr}
 csleep 5
@@ -71,8 +67,7 @@ csleep 5
 
 dqb "iii"
 csleep 5
-${sharpy} intel-microcode iucode-tool
-${sharpy} htop inetutils-telnet
+${sharpy} intel-microcode iucode-tool htop inetutils-telnet
 ${asy} 
 ${lftr}
 csleep 5
@@ -84,17 +79,13 @@ ${sharpy} libpoppler* libuno* libreoffice* libgsm* libgstreamer*
 #HUOM! PAKETIT procps, mtools JA mawk JÄTETTÄVÄ RAUHAAN!!!
 dqb "l-o"
 csleep 5
-${sharpy} lvm2 lynx* #HUOM.1454525:poistuuko lvm2?
+${sharpy} lvm2 lynx* mdadm mailcap
 ${asy} 
 ${lftr}
 csleep 5
 
-${sharpy} mdadm  
-${sharpy} mailcap mlocate
-${sharpy} mokutil mariadb-common mysql-common
-${sharpy} netcat-traditional openssh*
-${sharpy} os-prober #orca saattaa poistua jo aiemmin
-
+${sharpy} mlocate mokutil mariadb-common mysql-common
+${sharpy} netcat-traditional openssh* os-prober #orca saattaa poistua jo aiemmin
 ${asy} 
 ${lftr}
 csleep 5
@@ -109,42 +100,39 @@ csleep 5
 
 dqb "p"
 csleep 5
-${sharpy} ppp procmail ristretto 
-${sharpy} screen
+${sharpy} ppp procmail ristretto screen
 ${asy} 
 ${lftr}
 csleep 5
 
-${sharpy} pkexec
-${sharpy} po* refracta*
+${sharpy} pkexec po* refracta* squashfs-tools
 ${asy} 
 ${lftr}
 csleep 5
 
 #samba poistunee jo aiemmin? miten squash? nyt åpostuu
-${sharpy} squashfs-tools
-${asy}
-csleep 5
+#${sharpy} 
+#${asy}
+#csleep 5
 
-${sharpy} samba* system-config*
+${sharpy} samba* system-config* telnet tex* 
 ${asy} 
 ${lftr}
 csleep 5
 
 #TODO:syslinux*, python3*, mythes, isolinux , voisiko niitä karsia?
 
-dqb "t"
-csleep 5
-${sharpy} telnet 
-${sharpy} tex*
-${asy} 
-${lftr}
-csleep 5
+#dqb "t"
+#csleep 5
+#${sharpy}
+#${sharpy}
+#${asy} 
+#${lftr}
+#csleep 5
 
 dqb "u"
 csleep 5
-${sharpy} uno* ure*
-${sharpy} upower vim* # udisks* saattaa poistua jo aiemmin
+${sharpy} uno* ure* upower vim* # udisks* saattaa poistua jo aiemmin
 ${asy} 
 ${lftr}
 csleep 5
@@ -153,22 +141,23 @@ dqb "x"
 csleep 5
 ${sharpy} xorriso xfburn
 ${asy} 
-${sharpy} xorriso 
-${asy} 
-csleep 5
- 
-dqb "y"
-csleep 5
-${sharpy} xfburn
-${asy} 
-csleep 5
+
+#${sharpy} xorriso 
+#${asy} 
+#csleep 5
+# 
+#dqb "y"
+#csleep 5
+#${sharpy} xfburn
+#${asy} 
+#csleep 5
 
 ${lftr}
 ${NKVD} ${pkgdir}/*.deb
 ${NKVD} ${pkgdir}/*.bin 
 ${NKVD} ${d}/*.deb 
 ${NKVD} /tmp/*.tar
-${smr} /tmp/tmp.*
+${smr} -rf /tmp/tmp.*
 ${smr} /usr/share/doc #rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
 #squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
 df
