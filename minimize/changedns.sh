@@ -130,9 +130,9 @@ function ns4() {
 	sleep 5
 }
 
-#TVAIH:interfaces kanssa kikkaiut kuten rules
 function clouds_pp1() {
-	#c.pp.1
+	dqb "#c.pp.1 ${1}"
+
 	if [ -s /etc/resolv.conf.1 ] || [ -s /etc/resolv.conf.0 ] ; then 
 		${smr} /etc/resolv.conf
 		[ $? -gt 0 ] && echo "FAILURE TO COMPLY WHILE TRYING TO REMOVE RESOLV.CONF"
@@ -148,12 +148,15 @@ function clouds_pp1() {
 		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHIOLE TRYINMG TO REMOVE DHCLIENT-SCRIPT"
 	fi
 	
-	#jatkossa tietebkub parametrina distri
-	if [ -h /etc/network/interfaces.${distro} ] ; then
+	#jatkossa tietebkub parametrina distri...tai iface ... whåtever
+	if [ -h /etc/network/interfaces.${1} ] ; then
 		${smr} /etc/network/interfaces
 	else
 		${svm} /etc/network/interfaces /etc/network/interfaces.OLD
 	fi
+
+	csleep 1
+	dqb "...done"
 }
 
 function clouds_pp2() {
@@ -185,11 +188,14 @@ function clouds_pp2() {
 		${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
 		dqb "stunky2"
 	fi
+
+	csleep 1
+	dqb "...done"
 }
 
 function clouds_pp3() {
 	csleep 1
-	dqb "RELOADING TBLZ RULEZ"
+	dqb "# c.pp.3 a.k.a RELOADING TBLZ RULEZ"
 	csleep 1
 
 	#HUOM.160325:lisätty uutena varm. vuoksi
@@ -208,7 +214,7 @@ function clouds_pp3() {
 
 function clouds_pre() {
 	dqb "cdns.clouds_pre()"
-	clouds_pp1
+	clouds_pp1 ${distro}
 	clouds_pp2 ${1}
 	clouds_pp3
 	dqb "... done"
