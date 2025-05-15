@@ -4,6 +4,16 @@ tgtfile=""
 distro=$(cat /etc/devuan_version) #tarpeellinen tässä
 PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
 
+if [ -r /etc/iptables ] || [ -w /etc/iptables ]  || [ -r /etc/iptables/rules.v4 ] ; then
+	echo "/E/IPTABLES IS WRITABEL"
+	exit 12
+fi
+
+if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
+	echo "/E/S.D IS WRITABLE"
+	exit 34
+fi
+
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
