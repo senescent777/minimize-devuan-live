@@ -4,7 +4,7 @@ tgtfile=""
 distro=$(cat /etc/devuan_version) #tarpeellinen tässä
 PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
 
-if [ -r /etc/iptables ] || [ -w /etc/iptables ]  || [ -r /etc/iptables/rules.v4 ] ; then
+if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 	echo "/E/IPTABLES IS WRITABEL"
 	exit 12
 fi
@@ -182,6 +182,7 @@ function pre2() {
 }
 
 function tpq() {
+	debug=1
 	dqb "tpq ${1} ${2}"
 	[ -d ${1} ] || exit 22
 	dqb "paramz 0k"
@@ -367,7 +368,6 @@ function tp4() {
 	csleep 3
 }
 
-#HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
 function tp2() {
 	#debug=1
 	dqb "tp2 ${1} ${2}"
@@ -378,15 +378,23 @@ function tp2() {
 	csleep 5
 
 	${scm} 0755 /etc/iptables
-	
+	${scm} 0444 /etc/iptables/rules*
+
 	#jatqs v pois
-	${srat} -rvf ${1} /etc/network/interfaces /etc/network/interfaces.* 
+	${srat} -rvf ${1} /etc/network/interfaces /etc/network/interfaces.*
+	#HUOM.16525:meneekö pieleen väärien oikeuksien takia ao. rivi? 
 	${srat} -rvf ${1} /etc/iptables/rules.v4.? /etc/iptables/rules.v6.? 
 	${srat} -rvf ${1} /etc/default/rules* /etc/default/locale* /etc/timezone /etc/locale-gen
 
 	${scm} -R 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
-	#TODO:exit urputuksen kanssa jos x
+	csleep 6
+
+	#VAIH:exit urputuksen kanssa jos x
+	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
+		echo "/E/IPTABLES sdhgfsdhgf"
+		exit 112
+	fi
 
 	#HUOM.15525:se kai onnistuu että samassa tdstossa usemapi iface, auto ja hotplug pois ni pystyy valkkaamaan minkä starttaa/stoppaa?
 	case ${iface} in

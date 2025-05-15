@@ -8,9 +8,10 @@ v=0
 if [ z"${distro}" != "z" ] ; then
 	if [ -s ~/Desktop/minimize/${distro}/conf ] ; then
 		. ~/Desktop/minimize/${distro}/conf
+		echo "CNF F0UND"; sleep 1
 
 		if [ -d ${dir} ] ; then
-			v=$(grep -c ${dir} /proc/mounts)
+			v=$(grep -c ${dir} /proc/mounts) #qseeko tässä jokin?
 
 			if [ ${v} -lt 1 ] ; then
 				echo "HAVE TO MOUNT";sleep 1			
@@ -26,9 +27,8 @@ if [ z"${distro}" != "z" ] ; then
 fi
 
 tgt=${1}
-
 tcmd=$(which tar)
-spc=$(which mv)
+spc=$(which cp)
 #jos ei tällä lähde taas toimimaan niin $2 sanomaan sudotetaanko vai ei?
 
 if [ $# -gt 1 ] ; then
@@ -37,13 +37,15 @@ if [ $# -gt 1 ] ; then
 		spc="sudo ${spc} "
 	fi
 fi
- 
+
+echo "PARAMS CHECKED"
+sleep 1
 
 if [ -f ${tgt} ] ; then
 	read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
 	
 	if [ "${confirm}" == "Y" ] ; then
-		${spc} ${tgt} ${tgt.OLD}
+		${spc} ${tgt} ${tgt}.OLD
 		sleep 3
 
 		for f in $(find ~/Desktop/minimize/ -name 'conf*') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
@@ -58,9 +60,10 @@ else
 	exit 1
 fi
 
-if [ ${u} -eq 1 ] ; then
-	ls -las ${tgt}
-	sleep 3
+ls -las ${tgt}
+sleep 3
+
+if [ ${u} -eq 1 ] ; then	
 	echo "WILL UMOUNT SOON";sleep 1
 	umount ${dir}
 	sleep 5

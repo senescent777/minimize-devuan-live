@@ -81,7 +81,8 @@ ip6t=$(sudo which ip6tables)
 iptr=$(sudo which iptables-restore)
 ip6tr=$(sudo which ip6tables-restore)
 
-dqb "when in trouble, \"sudo chmod 0755 *.sh ;sudo chmod 0755 ${distro}; sudo chmod 0755 ${distro}/*.sh; sudo chmod 0644 ${distro}/conf\" may help "
+dqb "when in trouble, \"sudo chmod 0755  * .sh ;sudo chmod 0755 \${distro}; sudo chmod 0755 \${distro}/ * .sh; sudo chmod 0644 \${distro}/conf\" may help "
+
 #==============================================================
 function tod_dda() { 
 	dqb "tod_dda(${1}) "
@@ -172,7 +173,10 @@ function clouds_pp1() {
 
 function clouds_pp2() {
 	dqb "#c.pp.2 ${1}"
-	csleep 1
+#	${scm} 0750 /etc/iptables
+#	echo $?
+#	ls -las /etc/iptables
+	csleep 3
 	
 	#HUOM. pitäisiköhän linkit hukata jokatapauksessa? 0<->1 - vaihdoissa silloin häviää linkitys kokonaan
 		
@@ -190,6 +194,11 @@ function clouds_pp2() {
 		${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
 	fi
 
+	dqb "cpp2.PART2"
+#	${scm} 0444 /etc/iptables/rules.*
+#	csleep 5
+#HUOM.16525:josko nalkuttaisi jotain 0-pituisen tdston johdosta?
+
 	if [ -s /etc/iptables/rules.v4.${1} ] ; then
 		${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
 		dqb "stinky1"
@@ -200,7 +209,11 @@ function clouds_pp2() {
 		dqb "stunky2"
 	fi
 
-	csleep 1
+	${scm} 0550 /etc/iptables
+
+#	csleep 1
+#	sudo ls -las /etc/iptables
+#	csleep 5
 	dqb "...done"
 }
 
