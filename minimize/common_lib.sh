@@ -82,10 +82,6 @@ function jules() { #HUOM.12525:function puuttui edestä aiemmin
 	dqb "LE BIG MAC"
 
 	${scm} -R a+rw /etc/iptables #jos vähempi riittäisi jatkossa
-#	echo $?
-#	dqb "svm= ${svm}"
-#	dqb "spc= ${spc}"
-#	csleep 3
 
 	[ -f /etc/iptables/rules.v4 ] && ${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD
 	[ -f /etc/iptables/rules.v4 ] && ${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
@@ -150,9 +146,7 @@ function psqa() {
 }
 
 function check_binaries() {
-	#debug=1
 	dqb "c0mm0n_lib.ch3ck_b1nar135(${1} )"
-	#dqb "sudo= ${odio} "
 	csleep 1
 
 	ipt=$(${odio} which iptables)
@@ -187,11 +181,9 @@ function check_binaries() {
 			${odio} ${smr} ${PREFIX}/${1}/e.tar
 		fi
 
-		#psqa ${PREFIX}/${1} #pp3 tekee saman tark
 		csleep 3
-
-		pre_part3 ${PREFIX}/${1} ${dnsm} #VAIH:dnsm 2. paramertiksi
-		pr4 ${PREFIX}/${1} ${dnsm} #VAIH:dnsm 2. paramertiksi
+		pre_part3 ${PREFIX}/${1} ${dnsm}
+		pr4 ${PREFIX}/${1} ${dnsm}
 
 		ipt=$(sudo which iptables)
 		ip6t=$(sudo which ip6tables)
@@ -215,11 +207,7 @@ function check_binaries() {
 	sdi=$(${odio} which dpkg)
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
-
 	sip=$(${odio} which ip)
-	#dqb "sip= ${sip}"
-	#csleep 3
-
 	som=$(${odio} which mount)
 	uom=$(${odio} which umount)
 
@@ -243,29 +231,20 @@ function check_binaries2() {
 	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
 	sag_u="${odio} ${sag} update "
 	sag="${odio} ${sag} "
-
 	sip="${odio} ${sip} "
-	#dqb "sip= ${sip}"
-	#csleep 3
-
 	sa="${odio} ${sa} "
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
 	smr="${odio} ${smr} "
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
-
-	#NKVD="${NKVD} -fu "
 	NKVD="${odio} ${NKVD} "
-
 	srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
 	fib="${odio} ${sa} --fix-broken install "
-
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
 	
 	#HUOM. ei alustetttu tämmöstä dch="${odio} ${dch}"
-
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
@@ -357,7 +336,7 @@ function pre_enforce() {
 		#saavuttaakohan tuolla nollauksella mitään? kuitenkin alustetaan
 	fi
 
-	#HUOM.12525:jokin lisäehto vielä? enforcen taakse?
+	#HUOM.12525:jokin lisäehto vielä? enforcen taakse? tai siis
 	local c4
 	c4=$(grep -c ${part0} /etc/fstab)
 
@@ -454,6 +433,8 @@ function enforce_access() {
 	${scm} 0555 ${PREFIX}/changedns.sh
 	${sco} root:root ${PREFIX}/changedns.sh
 
+	#HUOM.15525:interfaces kanssa kikkaiut kuten rules, tartteeko niihin liittyen tehdä tässä jotain?
+
 	#{old,new} -> {0,1} ei sovellu tähän
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
@@ -475,6 +456,7 @@ function enforce_access() {
 	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
+#TODO:voisi kai toisellakin tavalla sen sources.list sorkkia, sed edelleen optio pienellä säädöllä
 function part1_5() {
 	if [ z"${pkgsrc}" != "z" ] ; then
 		if [ -d ${PREFIX}/${1} ] ; then
@@ -509,7 +491,6 @@ function part1_5() {
 	${scm} -R a-w /etc/apt/
 }
 
-#HUOM.13525:pitäisikö tämän toiminta varmistaa?
 function part1() {
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
 	#jatkossa tähän ne tzdata- ja /e/d/locales-jutut?
@@ -718,14 +699,12 @@ function part2_5() {
 			csleep 1
 		done
 
-		#VAIH:jälkisiivous
 		${sharpy} libblu* libcupsfilters* libgphoto* #tartteeko vielä?
 		${sharpy} blu*
 		${sharpy} po* pkexec
 		${lftr}
 		csleep 3
 
-		#VAIH:wlan
 		case ${iface} in
 			wlan0)
 				dqb "NOT REMOVING WPASUPPLICANT"
@@ -738,7 +717,6 @@ function part2_5() {
 		esac
 	fi
 
-	#VAIH:jules-rules-tulpan
 	csleep 2
 
 	if [ y"${ipt}" != "y" ] ; then
@@ -758,7 +736,6 @@ function part2_5() {
 }
 
 function part3_4real() {
-#function part3() {
 	dqb "part3_4real( ${1} )"
 	csleep 1
 
@@ -800,7 +777,6 @@ function part3_4real() {
 	csleep 1
 }
 
-#VAIH:jatkossa real_part3(), tämä vain käskyttäisi apureita
 function part3() {
 	pre_part3 ${1} ${2}
 	pr4  ${1} ${2}

@@ -37,15 +37,12 @@ function parse_opts_2() {
 if [ $# -gt 0 ] ; then
 	for opt in $@ ; do parse_opts_1 $opt ; done
 fi
-#check_params
 #gpo
-#exit
 
 #=====================================PART0======================================
 dqb "b3f0r3 p.076"
 csleep 1
 part076
-#exit
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -59,7 +56,7 @@ function vommon() {
 	csleep 3
 	${odio} passwd
 
-	#miksi tähän ei mennä? vai mennäänkö?
+	#miksi tähän ei mennä? vai mennäänkö? ilmeinen syy?
 	if [ $? -eq 0 ] ; then
 		dqb "L (in 3 secs)"
 		csleep 3
@@ -75,22 +72,11 @@ function vommon() {
 
 	exit
 }
-#
-##HUOM. onko chimaerassa oletuksena ntp-paketteja asnennettuna? no o 
-##... kommentoitu jemmaan 150525 koska 076 pitäisi hoitaa (listassa ntp)
-#function part1_post() {
-#	#ntp ehkä takaisin myöhemmin
-#	${whack} ntp*
-#	csleep 5
-#	${odio} /etc/init.d/ntpsec stop
-#	#K01avahi-jutut sopivaan kohtaan?
-#}
 
 #==================================PART 1============================================================
 
 dqb "mode= ${mode}"
 csleep 5
-#exit
 
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
@@ -100,9 +86,8 @@ part1 ${distro}
 #HUOM.190325:part_1_5sessa oli bugi, u+w ei vaan riitä
 [ ${mode} -eq 0 ] && exit
 
-${snt} #HUOM14525:oli tässä ennen: part175
+${snt} #HUOM.14525:oli tässä ennen: part175
 csleep 3
-#part1_post #tarpeellinen jatkossa? josko copy-paste kuitenkin
 
 #jotain perusteellisempia testejä chimaeran kanssa sitten mikäli jksaa sitä kirjautumisongelmaa (josko selvittelisi korjaamista?)
 #===================================================PART 2===================================
@@ -129,12 +114,7 @@ part2_5 ${removepkgs}
 
 #===================================================PART 3===========================================================
 message #voi muuttua turhaksi jatkossa
-
-#HUOM.10525:jossain näillä main oli nalkutusta, ilmeinen korjaus tehty
-#pre_part3 ${d} ${dnsm}
-#pr4 ${d} ${dnsm}
-part3 ${d} ${dnsm} #VAIH:jatkossa part3 toisin+sivuvaikutux
-
+part3 ${d} ${dnsm}
 [ -s ~/Desktop/minimize/xfce.tar ] && ${srat} -C / -xf ~/Desktop/minimize/xfce.tar
 csleep 5
 
@@ -173,8 +153,6 @@ csleep 6
 
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
-
-#HUOM.12525:tämä kohta ei vaikuttanut toimivan kunnolla, toi bttavasti tilapäist
 
 if [ ${mode} -eq 2 ] ; then
 	echo "time to ${sifu} ${iface} or whåtever"

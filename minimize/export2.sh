@@ -373,11 +373,14 @@ function tp2() {
 	${scm} -R a+r /etc/iptables
 	${scm} a+x /etc/iptables
 	
-	${srat} -rvf ${1} /etc/network/interfaces /etc/iptables/rules.v4.? /etc/iptables/rules.v6.? 
+	#VAIH:interfaces kanssa kikkaiut kuten rules
+
+	${srat} -rvf ${1} /etc/network/interfaces /etc/network/interfaces.* 
+	${srat} -rvf ${1} /etc/iptables/rules.v4.? /etc/iptables/rules.v6.? 
+	${srat} -rvf ${1} /etc/default/rules* /etc/default/locale* /etc/timezone /etc/locale-gen
+
 	${scm} -R 0440 /etc/iptables
 	${scm} ug+x /etc/iptables
-
-	${srat} -rvf ${1} /etc/default/rules* /etc/default/locale* /etc/timezone /etc/locale-gen
 
 	case ${iface} in
 		wlan0)
@@ -389,6 +392,7 @@ function tp2() {
 	esac
 
 	#VAIH:selvitä miten toimii q enforce nolla (15525 vaihdettu daedaluksen conf näin)
+	#...omagen ajon jälkeen voi tulla pykimistä mut miten sitä ennen	
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "das asdd"
 	else
@@ -476,10 +480,11 @@ function tp3() {
 	
 	#HUOM.14525.4:tp3 ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
 	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? (VAIH)
- 	${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2} #saisikohan distron gtulemaan parametrina?
+ 	${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
 
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
+	${spc} /etc/network/interfaces ./etc/network/interfaces.${2} #tässä iface olisi parempi kuin distro, EHKä
 
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc

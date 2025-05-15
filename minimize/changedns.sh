@@ -130,6 +130,7 @@ function ns4() {
 	sleep 5
 }
 
+#TVAIH:interfaces kanssa kikkaiut kuten rules
 function clouds_pp1() {
 	#c.pp.1
 	if [ -s /etc/resolv.conf.1 ] || [ -s /etc/resolv.conf.0 ] ; then 
@@ -145,6 +146,13 @@ function clouds_pp1() {
 	if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 	
 		${smr} /sbin/dhclient-script
 		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHIOLE TRYINMG TO REMOVE DHCLIENT-SCRIPT"
+	fi
+	
+	#jatkossa tietebkub parametrina distri
+	if [ -h /etc/network/interfaces.${distro} ] ; then
+		${smr} /etc/network/interfaces
+	else
+		${svm} /etc/network/interfaces /etc/network/interfaces.OLD
 	fi
 }
 
@@ -226,6 +234,12 @@ function clouds_post() {
 	${sco} -R root:root /etc/iptables
 	${scm} 0400 /etc/iptables/*
 	${scm} 0750 /etc/iptables
+	csleep 2
+
+	#jotenkin näin (find -type f myös keksitty)
+	${sco} -R root:root /etc/network/interfaces*
+	${scm} 0444 /etc/network/interfaces
+	${scm} 0444 /etc/network/interfaces.*
 	csleep 2
 
 	if [ ${debug} -eq 1 ] ; then
@@ -311,7 +325,8 @@ clouds_pre ${mode}
 [ -f /etc/resolv.conf.${mode} ] && ${slinky} /etc/resolv.conf.${mode} /etc/resolv.conf
 [ -f /etc/dhcp/dhclient.conf.${mode} ] && ${slinky} /etc/dhcp/dhclient.conf.${mode} /etc/dhcp/dhclient.conf
 [ -f /sbin/dhclient-script.${mode} ] && ${spc} /sbin/dhclient-script.${mode} /sbin/dhclient-script
-
+[ -f /etc/network/interfaces.${distro} ] && ${slinky} /etc/network/interfaces.${distro} /etc/network/interfaces
+ 
 case ${mode} in 
 	0)
 		clouds_case0

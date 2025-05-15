@@ -211,10 +211,6 @@ case "${1}" in
 		[ "${confirm}" == "Y" ] || exit 33
 		common_part ${file} ${d}
 
-		#debig taakse jatkossa seur 2
-		#ls -las ${d}/*.tar
-		#csleep 6
-
 		if [ ${1} -eq 0 ] ; then
 			if [ -s ${d}/e.tar ] ; then
 				common_part ${d}/e.tar ${d}
@@ -224,9 +220,7 @@ case "${1}" in
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 6
 
-		#pre_part3 ${d} ${dnsm}
-		#pr4 ${d} ${dnsm}
-		part3 ${d} ${dnsm} #VAIH:näille main muutoksia
+		part3 ${d} ${dnsm}
 		csleep 2
 
 		cd ${olddir}
