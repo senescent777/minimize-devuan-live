@@ -29,15 +29,16 @@ function csleep() {
 mode=${1}
 [ -d ~/Desktop/minimize/${2} ] && distro=${2}
 
-if [ -r /etc/iptables ] || [ -w /etc/iptables ]  || [ -r /etc/iptables/rules.v4 ] ; then
-	echo "/E/IPTABLES IS WRITABEL"
-	exit 12
-fi
-
-if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
-	echo "/E/S.D IS WRITABLE"
-	exit 34
-fi
+##if [ -r /etc/iptables ] || [ -w /etc/iptables ] ; then #linkkien kanssa tehtvä toisin || [ -r /etc/iptables/rules.v4 ]
+#if  [ -w /etc/iptables ] ; then #TODO:KOITA KEKSIÄ JOKIN TARKISTUS NIMENOMAAN TAVIKSEN NÄKÖKULMAA VARTEN, ROOT VOI TEHDÄ MIT LYSTÄÄ
+#	echo "W: /E/IPTABLES IS WRITABEL"
+#	exit 12
+#fi
+#
+#if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
+#	echo "/E/S.D IS WRITABLE"
+#	exit 34
+#fi
 	
 case $# in
 	1)
@@ -227,7 +228,7 @@ function clouds_pp3() {
 
 function clouds_pre() {
 	dqb "cdns.clouds_pre()"
-	clouds_pp1 ${2) #distro}
+	clouds_pp1 ${2} #distro}
 	clouds_pp2 ${1}
 	clouds_pp3
 	dqb "... done"
