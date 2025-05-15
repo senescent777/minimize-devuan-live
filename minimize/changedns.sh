@@ -29,6 +29,16 @@ function csleep() {
 mode=${1}
 [ -d ~/Desktop/minimize/${2} ] && distro=${2}
 
+if [ -r /etc/iptables ] || [ -w /etc/iptables ]  || [ -r /etc/iptables/rules.v4 ] ; then
+	echo "/E/IPTABLES IS WRITABEL"
+	exit 12
+fi
+
+if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
+	echo "/E/S.D IS WRITABLE"
+	exit 34
+fi
+	
 case $# in
 	1)
 		dqb "maybe ok"
