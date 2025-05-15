@@ -130,7 +130,6 @@ function ns4() {
 	sleep 5
 }
 
-#VAIH:{old,new} -> {0,1} AJANKOHTAISTA
 function clouds_pp1() {
 	#c.pp.1
 	if [ -s /etc/resolv.conf.1 ] || [ -s /etc/resolv.conf.0 ] ; then 
@@ -149,7 +148,6 @@ function clouds_pp1() {
 	fi
 }
 
-#TODO:{old,new} -> {0,1} ? (eri juttu kyllä)
 function clouds_pp2() {
 	dqb "#c.pp.2 ${1}"
 	csleep 1
@@ -239,7 +237,6 @@ function clouds_post() {
 	dqb "d0n3"
 }
 
-#HUOM. joskohan jatkossa yhdistelisi case0:aa ja case1:stä, {.new,.old} -> {.0,.1} ja sit jotain
 function clouds_case0() {
 	dqb "cdns.clouds_case0()"
 
@@ -269,7 +266,6 @@ function clouds_case0() {
 	${whack} ntp*
 }
 
-#VAIH:{old,new} -> {0,1}
 function clouds_case1() {
 	echo "WORK IN PROGRESS"
 
@@ -312,7 +308,6 @@ function clouds_case1() {
 #====================================================================
 clouds_pre ${mode}
 
-#VAIH:slinky-juttu vhitellen
 [ -f /etc/resolv.conf.${mode} ] && ${slinky} /etc/resolv.conf.${mode} /etc/resolv.conf
 [ -f /etc/dhcp/dhclient.conf.${mode} ] && ${slinky} /etc/dhcp/dhclient.conf.${mode} /etc/dhcp/dhclient.conf
 [ -f /sbin/dhclient-script.${mode} ] && ${spc} /sbin/dhclient-script.${mode} /sbin/dhclient-script

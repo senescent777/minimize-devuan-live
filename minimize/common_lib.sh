@@ -17,7 +17,7 @@ scm="${odio} ${scm} "
 sah6=$(which sha512sum)
 distro=$(cat /etc/devuan_version)
 n=$(whoami)
-PREFIX=${PREFIX} #käyttöön+komftdstoon jos mahd
+PREFIX=~/Desktop/minimize #SDAATANAN TUNARI(T)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -156,7 +156,7 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	if [ -s ${PREFIX}/tar-wrapper.sh ] ; then #VAIH:PREFIX
+	if [ -s ${PREFIX}/tar-wrapper.sh ] ; then
 		dqb "TODO: tar-wrapper.sh"
 	else
 		srat=$(${odio} which tar)
@@ -168,7 +168,8 @@ function check_binaries() {
 
 	if [ y"${ipt}" == "y" ] ; then
 		[ z"${1}" == "z" ] && exit 99
-		[ -d ${PREFIX}/${1} ] || exit 100
+		dqb "-d ${PREFIX}/${1} existsts?"
+		[ -d ${PREFIX}/${1} ] || exit 101
 
 		dqb "params_ok"
 		csleep 1
@@ -194,15 +195,9 @@ function check_binaries() {
 		ip6tr=$(sudo which ip6tables-restore)
 	fi
 
-#	#voisi kai ocs-kohtaankin viedä ao. blokin sisällön (VAIH)
-#	[ -x ${ipt} ] || exit 5
-#	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
-#	[ -x ${ip6t} ] || exit 5
-#	[ -x ${iptr} ] || exit 5
-#	[ -x ${ip6tr} ] || exit 5
-#
-	sifu=$(sudo which ifup)
-	sifd=$(sudo which ifdown)
+	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
+	sifu=$(${odio} which ifup)
+	sifd=$(${odio} which ifdown)
 
 	CB_LIST1="/sbin/halt /sbin/reboot /usr/bin/which ${sifu} ${sifd} "
 	dqb "second half of c_bin_1"
@@ -213,9 +208,9 @@ function check_binaries() {
 		do ocs ${x}
 	done
 	
-	sdi=$(sudo which dpkg)
-	sag=$(sudo which apt-get)
-	sa=$(sudo which apt)
+	sdi=$(${odio} which dpkg)
+	sag=$(${odio} which apt-get)
+	sa=$(${odio} which apt)
 
 	sip=$(${odio} which ip)
 	#dqb "sip= ${sip}"
@@ -590,7 +585,6 @@ function part076() {
 #	dqb "PART175()"
 #	csleep 2
 #
-#	#VAIH:s listaksi konftdstoon ja sitten sammuttelu+poisto yhdess läjässä tjsp?
 #	for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ; do
 #		${odio} /etc/init.d/${s} stop
 #		sleep 1
@@ -763,6 +757,7 @@ function part2_5() {
 	csleep 2
 }
 
+#TODO:jatkossa real_part3(), tämä vain käskyttäisi apureita
 function part3() {
 	dqb "part3( ${1} )"
 	csleep 1

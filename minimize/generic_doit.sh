@@ -98,7 +98,7 @@ part1 ${distro}
 #HUOM.190325:part_1_5sessa oli bugi, u+w ei vaan riitä
 [ ${mode} -eq 0 ] && exit
 
-${snt} #HUOM14525:oli ennen: part175
+${snt} #HUOM14525:oli tässä ennen: part175
 csleep 3
 part1_post #tarpeellinen jatkossa? josko copy-paste kuitenkin
 
@@ -109,7 +109,9 @@ c14=0
 [ ${mode} -eq 1 ] && c14=1
 c13=$(grep -v '#' /etc/default/locale  | grep LC_TIME | grep -c ${LCF666})
 [ ${c13} -lt 1 ] && c14=1
-el_loco ${c14} ${c13} #VAIH:jos jatkossa 2 param ni ei turhaan kasvateta /e/d/l
+
+el_loco ${c14} ${c13}
+#HUOM.15525:joskohan el_loco toimisi jo kuten tarkoitus?
 
 if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
 	vommon
@@ -122,7 +124,7 @@ c14=$(find ${d} -name '*.deb' | wc -l)
 part2_pre ${removepkgs}
 #part2 ${removepkgs} #takaisin jos 2_5 pykii
 part2_5 ${removepkgs}
-#exit
+
 #===================================================PART 3===========================================================
 message #voi muuttua turhaksi jatkossa
 
