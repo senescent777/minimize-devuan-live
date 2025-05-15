@@ -41,6 +41,7 @@ fi
 #gpo
 #exit
 
+#=====================================PART0======================================
 dqb "b3f0r3 p.076"
 csleep 1
 part076
@@ -74,15 +75,16 @@ function vommon() {
 
 	exit
 }
-
-#HUOM. onko chimaerassa oletuksena ntp-paketteja asnennettuna?
-function part1_post() {
-	#ntp ehkä takaisin myöhemmin
-	${whack} ntp*
-	csleep 5
-	${odio} /etc/init.d/ntpsec stop
-	#K01avahi-jutut sopivaan kohtaan?
-}
+#
+##HUOM. onko chimaerassa oletuksena ntp-paketteja asnennettuna? no o 
+##... kommentoitu jemmaan 150525 koska 076 pitäisi hoitaa (listassa ntp)
+#function part1_post() {
+#	#ntp ehkä takaisin myöhemmin
+#	${whack} ntp*
+#	csleep 5
+#	${odio} /etc/init.d/ntpsec stop
+#	#K01avahi-jutut sopivaan kohtaan?
+#}
 
 #==================================PART 1============================================================
 
@@ -100,9 +102,9 @@ part1 ${distro}
 
 ${snt} #HUOM14525:oli tässä ennen: part175
 csleep 3
-part1_post #tarpeellinen jatkossa? josko copy-paste kuitenkin
+#part1_post #tarpeellinen jatkossa? josko copy-paste kuitenkin
 
-#jotain perusteellisempia testejä chimaeran kanssa sitten mikäli jksaa sitä kirjautumisongelmaa
+#jotain perusteellisempia testejä chimaeran kanssa sitten mikäli jksaa sitä kirjautumisongelmaa (josko selvittelisi korjaamista?)
 #===================================================PART 2===================================
 
 c14=0
@@ -129,9 +131,9 @@ part2_5 ${removepkgs}
 message #voi muuttua turhaksi jatkossa
 
 #HUOM.10525:jossain näillä main oli nalkutusta, ilmeinen korjaus tehty
-pre_part3 ${d}
-pr4 ${d}
-part3 ${d}
+#pre_part3 ${d} ${dnsm}
+#pr4 ${d} ${dnsm}
+part3 ${d} ${dnsm} #VAIH:jatkossa part3 toisin+sivuvaikutux
 
 [ -s ~/Desktop/minimize/xfce.tar ] && ${srat} -C / -xf ~/Desktop/minimize/xfce.tar
 csleep 5

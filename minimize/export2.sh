@@ -72,11 +72,11 @@ else
 	echo "L1B M1SSING"
 
 	function pr4() {
-		dqb "exp2.pr4 (${1})" 
+		dqb "exp2.pr4 (${1} ${2})" 
 	}
 
 	function pre_part3() {
-		dqb "exp2.pre_part3( ${1})"
+		dqb "exp2.pre_part3( ${1} ${2})"
 	}
 
 	check_binaries ${distro}
@@ -388,7 +388,7 @@ function tp2() {
 		;;
 	esac
 
-	#TODO:selvitä miten toimii q enforce nolla
+	#VAIH:selvitä miten toimii q enforce nolla (15525 vaihdettu daedaluksen conf näin)
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "das asdd"
 	else

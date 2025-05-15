@@ -47,11 +47,11 @@ esac
 [ z"${distro}" == "z" ] && exit 6
 
 function pr4() {
-	dqb "imp2.pr4 (${1})" 
+	dqb "imp2.pr4 (${1} ${2})" 
 }
 
 function pre_part3() {
-	dqb "imp2.pre_part3( ${1})"
+	dqb "imp2.pre_part3( ${1} ${2})"
 }
 
 mode=${1}
@@ -224,9 +224,9 @@ case "${1}" in
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 6
 
-		pre_part3 ${d}
-		pr4 ${d}
-		part3 ${d}
+		#pre_part3 ${d} ${dnsm}
+		#pr4 ${d} ${dnsm}
+		part3 ${d} ${dnsm} #VAIH:näille main muutoksia
 		csleep 2
 
 		cd ${olddir}

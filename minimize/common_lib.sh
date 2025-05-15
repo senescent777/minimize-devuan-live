@@ -19,6 +19,24 @@ distro=$(cat /etc/devuan_version)
 n=$(whoami)
 PREFIX=~/Desktop/minimize #SDAATANAN TUNARI(T)
 
+#yhteen läjän nämä määrittelyt?
+slinky=$(${odio} which ln)
+slinky="${odio} ${slinky} -s "
+spc=$(${odio} which cp)
+svm=$(${odio} which mv)
+svm="${odio} ${svm} "
+spc="${odio} ${spc} "
+whack=$(sudo which pkill)
+whack="${odio} ${whack} --signal 9 "
+snt=$(${odio} which netstat)
+snt="${odio} ${snt} -tulpan "
+smr=$(${odio} which rm)
+NKVD=$(${odio} which shred)
+NKVD="${NKVD} -fu "
+
+#HUOM.14525:aijsitseeko jatkossa tässä tdstossa va muualla ao. lista?
+PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -59,18 +77,6 @@ function fix_sudo() {
 }
 
 fix_sudo
-
-#yhteen läjän nämä määrittelyt?
-slinky=$(${odio} which ln)
-slinky="${odio} ${slinky} -s "
-spc=$(${odio} which cp)
-svm=$(${odio} which mv)
-svm="${odio} ${svm} "
-spc="${odio} ${spc} "
-whack=$(sudo which pkill)
-whack="${odio} ${whack} --signal 9 "
-snt=$(${odio} which netstat)
-snt="${odio} ${snt} -tulpan "
 
 function jules() { #HUOM.12525:function puuttui edestä aiemmin
 	dqb "LE BIG MAC"
@@ -132,8 +138,9 @@ function psqa() {
 		#dpkg -V #HUOM.11525:toistaiseksi jemmaan
 		#sleep 5
 
+		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
-		[ $? -eq 0 ] || exit 97
+		[ $? -eq 0 ] || exit 94
 		cd ${p}
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
@@ -147,9 +154,6 @@ function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135(${1} )"
 	#dqb "sudo= ${odio} "
 	csleep 1
-
-	smr=$(${odio} which rm)
-	NKVD=$(${odio} which shred)
 
 	ipt=$(${odio} which iptables)
 	ip6t=$(${odio} which ip6tables)
@@ -186,8 +190,8 @@ function check_binaries() {
 		#psqa ${PREFIX}/${1} #pp3 tekee saman tark
 		csleep 3
 
-		pre_part3 ${PREFIX}/${1}
-		pr4 ${PREFIX}/${1}
+		pre_part3 ${PREFIX}/${1} ${dnsm} #VAIH:dnsm 2. paramertiksi
+		pr4 ${PREFIX}/${1} ${dnsm} #VAIH:dnsm 2. paramertiksi
 
 		ipt=$(sudo which iptables)
 		ip6t=$(sudo which ip6tables)
@@ -216,8 +220,8 @@ function check_binaries() {
 	#dqb "sip= ${sip}"
 	#csleep 3
 
-	som=$(sudo which mount)
-	uom=$(sudo which umount)
+	som=$(${odio} which mount)
+	uom=$(${odio} which umount)
 
 	dqb "b1nar135 0k"
 	csleep 2
@@ -250,7 +254,7 @@ function check_binaries2() {
 	smr="${odio} ${smr} "
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
 
-	NKVD="${NKVD} -fu "
+	#NKVD="${NKVD} -fu "
 	NKVD="${odio} ${NKVD} "
 
 	srat="${odio} ${srat} "
@@ -457,7 +461,6 @@ function enforce_access() {
 	#HUOM.120525:näitäkin voi kasautua liikaa?
 	[ -f /etc/network/interfaces.${f} ] || ${spc} /etc/network/interfaces /etc/network/interfaces.${f}
 
-	#VAIH:{old,new} -> {0,1}
 	if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
 		${smr} /etc/resolv.conf
 	fi
@@ -550,9 +553,6 @@ function part1() {
 	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WHORE (i have Tourettes)"
 }
-
-#HUOM.14525:aijsitseeko jatkossa tässä tdstossa va muualla ao. lista?
-PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
 
 function part076() {
 	dqb "PART076()"
@@ -757,9 +757,9 @@ function part2_5() {
 	csleep 2
 }
 
-#TODO:jatkossa real_part3(), tämä vain käskyttäisi apureita
-function part3() {
-	dqb "part3( ${1} )"
+function part3_4real() {
+#function part3() {
+	dqb "part3_4real( ${1} )"
 	csleep 1
 
 	[ y"${1}" == "y" ] && exit 1 #mikähän tässäkin on?
@@ -796,6 +796,14 @@ function part3() {
 	fi
 
 	csleep 2
+	dqb "part3_4real( ${1} ) DONE"
+	csleep 1
 }
 
+#VAIH:jatkossa real_part3(), tämä vain käskyttäisi apureita
+function part3() {
+	pre_part3 ${1} ${2}
+	pr4  ${1} ${2}
+	part3_4real ${1}
+}
 #gpo
