@@ -38,26 +38,11 @@ csleep 5
 ${sharpy} dmidecode discover* dirmngr #tuleekohan viimeisestä ongelma? vissiin ei
 ${sharpy} doc-debian docutils* efibootmgr exfalso 
 
-#${asy} 
-#${lftr}
-#csleep 5
-#
-#dqb "f1"
-#csleep 5
 ${sharpy} fdisk ftp* gdisk gcr
 ${asy} 
 ${lftr}
 csleep 5
 
-dqb "g2"
-csleep 5
-${sharpy} ghostscript gir* gnupg* gpg-*
-${sharpy} gpgconf gpgsm gsasl-common shim*
-${sharpy} grub* gsfonts gstreamer*
-#${asy} 
-#${lftr}
-#csleep 5
-#
 ##gnome-* poisto veisi myös: task-desktop task-xfce-desktop
 ##gpg* kanssa: The following packages have unmet dependencies:
 ## apt : Depends: gpgv but it is not going to be installed or
@@ -65,9 +50,14 @@ ${sharpy} grub* gsfonts gstreamer*
 ##                gpgv1 but it is not going to be installed
 ##HUOM. grub* poisto voi johtaa shim-pakettien päivitykseen
 ##gsettings* voi viedä paljon paketteja mukanaan
-#
-#dqb "iii"
-#csleep 5
+
+dqb "g2"
+csleep 5
+
+${sharpy} ghostscript gir* gnupg* gpg-*
+${sharpy} gpgconf gpgsm gsasl-common shim*
+${sharpy} grub* gsfonts gstreamer*
+
 ${sharpy} intel-microcode iucode-tool htop inetutils-telnet
 ${asy} 
 ${lftr}
@@ -75,11 +65,9 @@ csleep 5
 
 #lib-paketteihin ei yleisessä tapauksessa kande koskea eikä live-
 ${sharpy} libpoppler* libuno* libreoffice* libgsm* libgstreamer*
-##libgssapi-krb5 tarpeellinen?
-#
-##HUOM! PAKETIT procps, mtools JA mawk JÄTETTÄVÄ RAUHAAN!!!
-#dqb "l-o"
-#csleep 5
+#libgssapi-krb5 tarpeellinen?
+#HUOM! PAKETIT procps, mtools JA mawk JÄTETTÄVÄ RAUHAAN!!!
+
 ${sharpy} lvm2 lynx* mdadm mailcap
 ${asy} 
 ${lftr}
@@ -87,10 +75,7 @@ csleep 5
 
 ${sharpy} mlocate mokutil mariadb-common mysql-common
 ${sharpy} netcat-traditional openssh* os-prober #orca saattaa poistua jo aiemmin
-#${asy} 
-#${lftr}
-#csleep 5
-#
+
 ${sharpy} nfs-common rpcbind
 csleep 5
 
@@ -101,10 +86,6 @@ csleep 5
 dqb "p"
 csleep 5
 ${sharpy} ppp procmail ristretto screen
-#${asy} 
-#${lftr}
-#csleep 5
-#
 ${sharpy} pkexec po* refracta* squashfs-tools
 ${asy} 
 ${lftr}
@@ -113,14 +94,9 @@ csleep 5
 #HUOM.15525 vaikuttaisi toimivan, ajon jälkeen x toimii edelleen
 
 ${sharpy} samba* system-config* telnet tex* 
-#${asy} 
-#${lftr}
-#csleep 5
 
 #TODO:syslinux*, python3*, mythes, isolinux , voisiko niitä karsia?
 
-#dqb "u"
-#csleep 5
 ${sharpy} uno* ure* upower vim* # udisks* saattaa poistua jo aiemmin
 ${asy} 
 ${lftr}
