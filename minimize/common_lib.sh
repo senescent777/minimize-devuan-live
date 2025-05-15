@@ -91,7 +91,7 @@ fix_sudo
 function jules() { #HUOM.12525:function puuttui edestä aiemmin
 	dqb "LE BIG MAC"
 
-	${scm} -R a+rw /etc/iptables #jos vähempi riittäisi jatkossa
+	${scm} 0755 /etc/iptables #jos vähempi riittäisi jatkossa
 
 	[ -f /etc/iptables/rules.v4 ] && ${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD
 	[ -f /etc/iptables/rules.v4 ] && ${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
@@ -110,8 +110,12 @@ function jules() { #HUOM.12525:function puuttui edestä aiemmin
 	[ -h /etc/iptables/rules.v6 ] || ${slinky} /etc/iptables/rules.v6.${dnsm} /etc/iptables/rules.v6
 
 	csleep 3
+	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
-	${scm} 0440 /etc/iptables/*
+	${sco} -R root:root /etc/iptables
+
+	[ ${debug} -eq 1 ] && ls -las /etc/iptables
+	csleep 6	
 }
 
 function message() {
@@ -195,10 +199,10 @@ function check_binaries() {
 		pre_part3 ${PREFIX}/${1} ${dnsm}
 		pr4 ${PREFIX}/${1} ${dnsm}
 
-		ipt=$(sudo which iptables)
-		ip6t=$(sudo which ip6tables)
-		iptr=$(sudo which iptables-restore)
-		ip6tr=$(sudo which ip6tables-restore)
+		ipt=$(${odio} which iptables)
+		ip6t=$(${odio} which ip6tables)
+		iptr=$(${odio} which iptables-restore)
+		ip6tr=$(${odio} which ip6tables-restore)
 	fi
 
 	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
