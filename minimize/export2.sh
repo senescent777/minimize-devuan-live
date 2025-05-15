@@ -83,9 +83,6 @@ else
 	check_binaries2
 fi
 
-#VAIH:nuo /e/kala.$x  - jutut ojennukseen vähitellen
-#VAIH:main():iin uusi optio millä skipataan e.tar lisäys arkistoon ja ehkä muitakin
-
 dqb "tar = ${srat} "
 ${scm} 0555 ${PREFIX}/changedns.sh
 ${sco} root:root ${PREFIX}/changedns.sh
@@ -372,8 +369,6 @@ function tp2() {
 	#HUOM.12525.1:jotain karsimista jatkossa kenties?
 	${scm} -R a+r /etc/iptables
 	${scm} a+x /etc/iptables
-	
-	#VAIH:interfaces kanssa kikkaiut kuten rules
 
 	${srat} -rvf ${1} /etc/network/interfaces /etc/network/interfaces.* 
 	${srat} -rvf ${1} /etc/iptables/rules.v4.? /etc/iptables/rules.v6.? 
@@ -382,6 +377,7 @@ function tp2() {
 	${scm} -R 0440 /etc/iptables
 	${scm} ug+x /etc/iptables
 
+	#HUOM.15525:se kai onnistuu että samassa tdstossa usemapi iface, auto ja hotplug pois ni pystyy valkkaamaan minkä starttaa/stoppaa?
 	case ${iface} in
 		wlan0)
 			${srat} -rf ${1} /etc/wpa*
@@ -391,8 +387,7 @@ function tp2() {
 		;;
 	esac
 
-	#VAIH:selvitä miten toimii q enforce nolla (15525 vaihdettu daedaluksen conf näin)
-	#...omagen ajon jälkeen voi tulla pykimistä mut miten sitä ennen	
+	#HUOM.15525:enforcen nollaus ei vaikuttaisi iaheuttavan mainittavia sivuvaikutuksia ennen omegaa	
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "das asdd"
 	else
@@ -454,7 +449,6 @@ function tp3() {
 		echo "r30lv.c0nf alr3ady 3x15t5"
 	else
 		#HUOM. sudotus ei ihan pakollinen, chmod ja chown keksitty
-		#VAIH:varmista että tämä kohta toimii
 		
 		${odio} touch ./etc/resolv.conf.new
 		${scm} a+w ./etc/resolv.conf.new
@@ -479,7 +473,7 @@ function tp3() {
 	fi
 	
 	#HUOM.14525.4:tp3 ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
-	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? (VAIH)
+	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? 
  	${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
 
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
@@ -533,7 +527,7 @@ function tpu() {
 #TODO:-v tekemään jotain hyödyllistä
 
 function tp5() {
-	#debug=1
+	debug=1
 
 	dqb "tp5 ${1} ${2}"
 	[ z"${1}" == "z" ] && exit 99
@@ -548,7 +542,6 @@ function tp5() {
 	cd ${q}
 	[ $? -eq 0 ] || exit 77
 
-	#TODO:testaa
 	${tig} clone https://github.com/senescent777/more_scripts.git
 	[ $? -eq 0 ] || exit 99
 	
