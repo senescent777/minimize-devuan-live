@@ -4,13 +4,15 @@
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
 function pre_part3() {
-	[ y"${1}" == "y" ] && exit
-	dqb "pp3( ${1} )"
+	dqb "pp3( ${1} , ${2} )"
+	csleep 1
+
+	[ y"${1}" == "y" ] && exit	
 	[ -d ${1} ] || exit
 	dqb "pp3.2"
+	csleep 1
 
 	psqa ${1}
-
 	#HUOM.140525:toiminee jo jollain lailla, "no" siihen kysymykseen olisi kuitenkin kiva saada välitettyä dpkg:lle asti
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg -i ${1}/netfilter-persistent*.deb
@@ -34,7 +36,7 @@ function pre_part3() {
 
 #HUOM.14525:pitäisiköhän tässäkin olla se debian_fromtend-juttu?
 function pr4() {
-	dqb "pr4( ${1})"
+	dqb "pr4( ${1} , ${2} )"
 	csleep 3
 
 	${odio} dpkg -i ${1}/libpam-modules-bin_*.deb
