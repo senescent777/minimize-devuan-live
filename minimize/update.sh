@@ -28,20 +28,32 @@ fi
 tgt=${1}
 
 tcmd=$(which tar)
+spc=$(which mv)
 #jos ei tällä lähde taas toimimaan niin $2 sanomaan sudotetaanko vai ei?
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
 		tcmd="sudo ${tcmd} "
+		spc="sudo ${spc} "
 	fi
 fi
  
 
 if [ -f ${tgt} ] ; then
-	for f in $(find ~/Desktop/minimize/ -name 'conf*') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
-	for f in $(find ~/Desktop/minimize/ -name '*.sh') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
-	for f in $(find /etc -name 'locale*') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
-	${tcmd} -f ${tgt} -rv /etc/timezone
+	read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
+	
+	if [ "${confirm}" == "Y" ] ; then
+		${spc} ${tgt} ${tgt.OLD}
+		sleep 3
+
+		for f in $(find ~/Desktop/minimize/ -name 'conf*') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
+		for f in $(find ~/Desktop/minimize/ -name '*.sh') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
+		for f in $(find /etc -name 'locale*') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
+	
+		${tcmd} -f ${tgt} -rv /etc/timezone #tarttisiko jotain muutakin lisätä tssä?
+		echo "DONE UPDATING"
+		sleep 2
+	fi
 else	
 	exit 1
 fi
