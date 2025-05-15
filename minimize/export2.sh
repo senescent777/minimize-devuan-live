@@ -427,7 +427,7 @@ function tp3() {
 	[ ${debug} -eq 1 ] && pwd  
 	csleep 5
 
-	#TODO:grub.tmp ja muut jutut tuosta alta eri repository:yn ghub sisällä (https://github.com/senescent777/more_scripts)
+	#VAIH:grub.tmp ja muut jutut tuosta alta eri repository:yn ghub sisällä (https://github.com/senescent777/more_scripts/misc)
 	${tig} clone https://github.com/senescent777/project.git
 	[ $? -eq 0 ] || exit 66
 	
@@ -563,7 +563,7 @@ csleep 6
 pre1 ${d}
 
 case ${mode} in
-	0|4) #TODO:testaa 
+	0|4) 
 		pre1 ${d}
 		pre2 ${d}
 
@@ -584,20 +584,20 @@ case ${mode} in
 		pre1 ${d}
 		tp2 ${tgtfile}
 	;;
-	3)
-		tp1 ${tgtfile} ${d}
-
-		pre1 ${d}
-		pre2 ${d}
-		tp3 ${tgtfile} ${distro}
-
-		pre1 ${d}
-		tp2 ${tgtfile}
-
-		pre1 ${d}
-		pre2 ${d}
-		tp4 ${tgtfile} ${d}
-	;;
+#	3)
+#		tp1 ${tgtfile} ${d}
+#
+#		pre1 ${d}
+#		pre2 ${d}
+#		tp3 ${tgtfile} ${distro}
+#
+#		pre1 ${d}
+#		tp2 ${tgtfile}
+#
+#		pre1 ${d}
+#		pre2 ${d}
+#		tp4 ${tgtfile} ${d}
+#	;;
 	1|u|upgrade)
 		pre2 ${d}
 		tpu ${tgtfile} ${d}
