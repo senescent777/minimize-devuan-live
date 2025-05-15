@@ -427,7 +427,7 @@ function tp3() {
 	[ ${debug} -eq 1 ] && pwd  
 	csleep 5
 
-	#HUOM. jonnekin pitäisi jotain kikkailuja lisätä grub.tmp liittyen
+	#TODO:grub.tmp ja muut jutut tuosta alta eri repository:yn ghub sisällä (https://github.com/senescent777/more_scripts)
 	${tig} clone https://github.com/senescent777/project.git
 	[ $? -eq 0 ] || exit 66
 	
@@ -542,6 +542,7 @@ function tp5() {
 	cd ${q}
 	[ $? -eq 0 ] || exit 77
 
+	#TODO:jatkossa juttujen haku toisesta osoitteesta (https://github.com/senescent777/more_scripts)
 	${tig} clone https://github.com/senescent777/some_scripts.git
 	[ $? -eq 0 ] || exit 99
 	
