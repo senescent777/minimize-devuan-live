@@ -543,13 +543,13 @@ function tp5() {
 	cd ${q}
 	[ $? -eq 0 ] || exit 77
 
-	#TODO:jatkossa juttujen haku toisesta osoitteesta (https://github.com/senescent777/more_scripts)
-	${tig} clone https://github.com/senescent777/some_scripts.git
+	#TODO:testaa
+	${tig} clone https://github.com/senescent777/more_scripts.git
 	[ $? -eq 0 ] || exit 99
 	
 	#HUOM:{old,new} -> {0,1} ei liity
 	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
-	mv some_scripts/lib/export/profs* ${2}
+	mv more_scripts/profs/profs* ${2}
 
 	${scm} 0755 ${2}/profs*
 	${srat} -rvf ${1} ${2}/profs*
