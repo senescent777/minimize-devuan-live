@@ -210,11 +210,14 @@ function clouds_pp3() {
 	#pidemmän päälle olisi kätevämpi nimetä kuin numeroida ne säännöt...
 	${ipt} -D INPUT 5
 	${ipt} -D OUTPUT 6
+
+	csleep 1
+	dqb "...done"
 }
 
 function clouds_pre() {
 	dqb "cdns.clouds_pre()"
-	clouds_pp1 ${distro}
+	clouds_pp1 ${2) #distro}
 	clouds_pp2 ${1}
 	clouds_pp3
 	dqb "... done"
@@ -326,7 +329,7 @@ function clouds_case1() {
 #	pgrep stubby
 }
 #====================================================================
-clouds_pre ${mode}
+clouds_pre ${mode} ${distro}
 
 [ -f /etc/resolv.conf.${mode} ] && ${slinky} /etc/resolv.conf.${mode} /etc/resolv.conf
 [ -f /etc/dhcp/dhclient.conf.${mode} ] && ${slinky} /etc/dhcp/dhclient.conf.${mode} /etc/dhcp/dhclient.conf
