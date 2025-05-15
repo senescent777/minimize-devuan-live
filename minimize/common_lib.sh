@@ -358,19 +358,6 @@ function mangle2() {
 	fi
 }
 
-#HUOM.14525:ideana taisi olla että ajettaisiin tämä tdston lopussa
-function gpo() {
-	local prevopt
-	local opt
-	prevopt=""
-
-	for opt in $@ ; do
-		parse_opts_1 ${opt}
-		parse_opts_2 ${prevopt} ${opt}
-		prevopt=${opt}
-	done
-}
-
 function enforce_access() {
 	dqb " enforce_access( ${1})"
 
@@ -782,4 +769,21 @@ function part3() {
 	pr4  ${1} ${2}
 	part3_4real ${1}
 }
-#gpo
+
+#HUOM.14525:ideana taisi olla että ajettaisiin tämä tdston lopussa
+function gpo() {
+	dqb "GPO"
+
+	local prevopt
+	local opt
+	prevopt=""
+
+	for opt in $@ ; do
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
+}
+
+#https://stackoverflow.com/questions/16988427/calling-one-bash-script-from-another-script-passing-it-arguments-with-quotes-and
+#gpo "$@"

@@ -32,7 +32,10 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#VAIH:gpo():n kautta jatkossa, jos mahd (vaikuttaisi siltä että $@ ei kulkeudu automaagisesti, man bash+KVG)
+#VAIH:gpo():n kautta jatkossa, jos mahd (vaikuttaisi siltä että $@ ei kulkeudu automaagisesti, man bash, googella jo kokeiltu, kts c_lib loppu)
+#https://linuxopsys.com/use-dollar-at-in-bash-scripting
+#https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
+
 #HUOM.tämä blokki oli aiemmin juuri ennen pre_enforce():a
 if [ $# -gt 0 ] ; then
 	for opt in $@ ; do parse_opts_1 $opt ; done

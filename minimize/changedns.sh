@@ -267,6 +267,7 @@ function clouds_case0() {
 		dqb "SHOULD 1NSTALL TABL35"
 		exit 88
 	else
+		#TODO:fktioksi nämäkin pätkät?
 		${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
 		${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
 
@@ -334,8 +335,10 @@ clouds_pre ${mode} ${distro}
 [ -f /etc/resolv.conf.${mode} ] && ${slinky} /etc/resolv.conf.${mode} /etc/resolv.conf
 [ -f /etc/dhcp/dhclient.conf.${mode} ] && ${slinky} /etc/dhcp/dhclient.conf.${mode} /etc/dhcp/dhclient.conf
 [ -f /sbin/dhclient-script.${mode} ] && ${spc} /sbin/dhclient-script.${mode} /sbin/dhclient-script
+
+#HUOM.15525:iface olisi parempi idea kuin distro mutta joutuisi includoimaan conf
 [ -f /etc/network/interfaces.${distro} ] && ${slinky} /etc/network/interfaces.${distro} /etc/network/interfaces
- 
+
 case ${mode} in 
 	0)
 		clouds_case0
