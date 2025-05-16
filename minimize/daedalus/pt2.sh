@@ -37,8 +37,8 @@ csleep 5
 
 ${sharpy} dmidecode discover* dirmngr #tuleekohan viimeisestä ongelma? vissiin ei
 ${sharpy} doc-debian docutils* efibootmgr exfalso 
-
 ${sharpy} fdisk ftp* gdisk gcr
+
 ${asy} 
 ${lftr}
 csleep 5
@@ -57,45 +57,47 @@ csleep 5
 ${sharpy} ghostscript gir* gnupg* gpg-*
 ${sharpy} gpgconf gpgsm gsasl-common shim*
 ${sharpy} grub* gsfonts gstreamer*
-
 ${sharpy} intel-microcode iucode-tool htop inetutils-telnet
+
 ${asy} 
 ${lftr}
 csleep 5
 
 #lib-paketteihin ei yleisessä tapauksessa kande koskea eikä live-
-${sharpy} libpoppler* libuno* libreoffice* libgsm* libgstreamer*
 #libgssapi-krb5 tarpeellinen?
-#HUOM! PAKETIT procps, mtools JA mawk JÄTETTÄVÄ RAUHAAN!!!
+#HUOM! PAKETIT procps, mtools JA mawk JÄTETTÄVÄ RAUHAAN!!! (tai mtools ehkä uskaltaa kun o muitsa poistettu ensin)
 
+#HUOM.15525:uutena libcolor, näytti poistavan liikaa joten jemmaan
+#${sharpy} libcolor* 
+#csleep 5
+
+${sharpy} libpoppler* libuno* libreoffice* libgsm* libgstreamer*
 ${sharpy} lvm2 lynx* mdadm mailcap
+
 ${asy} 
 ${lftr}
 csleep 5
 
 ${sharpy} mlocate mokutil mariadb-common mysql-common
 ${sharpy} netcat-traditional openssh* os-prober #orca saattaa poistua jo aiemmin
-
 ${sharpy} nfs-common rpcbind
+
 csleep 5
-
-#HUOM.15525:uutena libcolor, näytti poistavan liikaa joten jemmaan
-#${sharpy} libcolor* 
-#csleep 5
-
 dqb "p"
 csleep 5
+
 ${sharpy} ppp procmail ristretto screen
 ${sharpy} pkexec po* refracta* squashfs-tools
+
 ${asy} 
 ${lftr}
 csleep 5
 
 #HUOM.15525 vaikuttaisi toimivan, ajon jälkeen x toimii edelleen
-
 ${sharpy} samba* system-config* telnet tex* 
 
-#TODO:syslinux*, python3*, mythes, isolinux , voisiko niitä karsia?
+#VAIH:, python3*, , voisiko niitä karsia?
+${sharpy} syslinux* mythes isolinux libgssapi-krb5-2
 
 ${sharpy} uno* ure* upower vim* # udisks* saattaa poistua jo aiemmin
 ${asy} 
