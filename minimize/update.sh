@@ -22,6 +22,8 @@ if [ z"${distro}" != "z" ] ; then
 					sleep 5
 				fi
 			fi
+		else
+			echo "${dir} NOT DOUNF"; sleep 1		
 		fi
 	fi
 fi

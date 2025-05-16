@@ -45,7 +45,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#TODO:paremmin toimiva tarkistus,0750 voisi mennä läpi
+#TODO:paremmin toimiva tarkistus,0750 voisi mennä läpi kun taviksena ajellaamn
 if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then # linkkien kanssa pitäisi tehdä toisin
 	echo "WARNING: /E/IPTABLES IS WRITABEL"
 	#exit 12
@@ -91,24 +91,42 @@ function fix_sudo() {
 
 fix_sudo
 
-function jules() { #HUOM.12525:function puuttui edestä aiemmin
+#TÄMÄKÖ NE SÄÄNNÖT PASKOO?
+function jules() {
 	dqb "LE BIG MAC"
 
-	${scm} 0755 /etc/iptables #jos vähempi riittäisi jatkossa
+	${scm} 0755 /etc/iptables #oli 0755, jos riittäisi vähempi
 
 	[ -f /etc/iptables/rules.v4 ] && ${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD
 	[ -f /etc/iptables/rules.v4 ] && ${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
 
-	csleep 3
-	${scm} 0444 /etc/default/rules.*
+	#csleep 3
+	#${scm} 0444 /etc/default/rules.*
+	#
+	#HUOM.16525:JOS PITÄÄ KOPSAILLA TÄSSÄ NIIN TARKKUUTTA PELIIN PRKL
+	#tänään ei tullut mukaan /e/d/rules joten kikkialut pois toistaiseski
+	#[ -s /etc/iptables/rules.v4.${dnsm} ] || ${spc} /etc/default/rules.v4 /etc/iptables/rules.v4.${dnsm}
+	#[ -s /etc/iptables/rules.v6.${dnsm} ] || ${spc} /etc/default/rules.v6 /etc/iptables/rules.v6.${dnsm}
+	#
+	#${scm} 0400 /etc/default/rules.*
+	#csleep 3
+	dqb "V4	"
 
-	[ -s /etc/iptables/rules.v4.${dnsm} ] || ${spc} /etc/default/rules.4.${dnsm} /etc/iptables/rules.v4.${dnsm}
-	[ -s /etc/iptables/rules.v6.${dnsm} ] || ${spc} /etc/default/rules.6.${dnsm} /etc/iptables/rules.v6.${dnsm}
+	if [ ! -h /etc/iptables/rules.v4 ] ; then
+		dqb "RECHTS"
+		csleep 1
 
-	${scm} 0400 /etc/default/rules.*
-	csleep 3
+		if [ -s /etc/iptables/rules.v4.${dnsm} ] ; then
+			dqb "FASDFASD"
+			csleep 1
+			${slinky} /etc/iptables/rules.v4.${dnsm} /etc/iptables/rules.v4
+			echo $?
+		fi
+	fi
 
-	[ -h /etc/iptables/rules.v4 ] || ${slinky} /etc/iptables/rules.v4.${dnsm} /etc/iptables/rules.v4
+	sleep 6
+	dqb "V6"
+
 	#HUOM.12525:toimiiko v6sen kanssa?	
 	[ -h /etc/iptables/rules.v6 ] || ${slinky} /etc/iptables/rules.v6.${dnsm} /etc/iptables/rules.v6
 
@@ -117,8 +135,8 @@ function jules() { #HUOM.12525:function puuttui edestä aiemmin
 	${scm} 0550 /etc/iptables
 	${sco} -R root:root /etc/iptables
 
-	[ ${debug} -eq 1 ] && ls -las /etc/iptables
-	csleep 6	
+	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
+	csleep 10
 }
 
 function message() {
@@ -590,7 +608,7 @@ function part076() {
 #}
 
 function el_loco() {
-	dqb "MI LOCO ${1} ${2}"
+	dqb "MI LOCO ${1} , ${2}"
 	csleep 3
 	#TODO:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön, locale-gen...
 
@@ -610,6 +628,7 @@ function el_loco() {
 		${odio} dpkg-reconfigure tzdata
 	fi
 
+	#HUOM.16525:tulisi kai testata $2 olemassaolo , -v , -z . josko?
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
 		csleep 3

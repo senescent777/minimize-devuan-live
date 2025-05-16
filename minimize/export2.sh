@@ -382,9 +382,15 @@ function tp2() {
 
 	#jatqs v pois
 	${srat} -rvf ${1} /etc/network/interfaces /etc/network/interfaces.*
-	#HUOM.16525:meneekö pieleen väärien oikeuksien takia ao. rivi? 
-	${srat} -rvf ${1} /etc/iptables/rules.v4.? /etc/iptables/rules.v6.? 
+
+	#HUOM.16525:meneekö pieleen väärien oikeuksien takia ao. rivi? KOPIOIKO TAR MITÄÄN VAI EI?
+	${srat} -rvf ${1} /etc/iptables/rules.v4.? /etc/iptables/rules.v6.?
+	echo $?
+	sleep 5
+
 	${srat} -rvf ${1} /etc/default/rules* /etc/default/locale* /etc/timezone /etc/locale-gen
+	echo $?
+	sleep 5
 
 	${scm} -R 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables

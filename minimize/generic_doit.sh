@@ -110,7 +110,8 @@ csleep 3
 
 c14=0
 [ ${mode} -eq 1 ] && c14=1
-c13=$(grep -v '#' /etc/default/locale  | grep LC_TIME | grep -c ${LCF666})
+#HUOM.16525:vissiin urputtaa kska lcf666 puuttuu konffista, palauta jostain
+c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
 [ ${c13} -lt 1 ] && c14=1
 
 el_loco ${c14} ${c13}

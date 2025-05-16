@@ -81,7 +81,7 @@ ip6t=$(sudo which ip6tables)
 iptr=$(sudo which iptables-restore)
 ip6tr=$(sudo which ip6tables-restore)
 
-dqb "when in trouble, \"sudo chmod 0755  * .sh ;sudo chmod 0755 \${distro}; sudo chmod 0755 \${distro}/ * .sh; sudo chmod 0644 \${distro}/conf\" may help "
+dqb "when in trouble, \"sudo chmod 0755  \*.sh ;sudo chmod 0755 \${distro}; sudo chmod 0755 \${distro}/ \*.sh; sudo chmod 0644 \${distro}/conf\" may help "
 
 #==============================================================
 function tod_dda() { 
@@ -155,13 +155,14 @@ function clouds_pp1() {
 		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHILÖE TRYING TO REMOVE DHCLIENT.CONF"
 	fi
 
+	#HUOM.17525:mikähän tätäkin tdstoa vaivaa? varmaan pp2 pykiminen sotkenut
 	if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 	
 		${smr} /sbin/dhclient-script
 		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHIOLE TRYINMG TO REMOVE DHCLIENT-SCRIPT"
 	fi
 	
 	#jatkossa tietebkub parametrina distri...tai iface ... whåtever
-	if [ -h /etc/network/interfaces.${1} ] ; then
+	if [ -h /etc/network/interfaces ] ; then
 		${smr} /etc/network/interfaces
 	else
 		${svm} /etc/network/interfaces /etc/network/interfaces.OLD
@@ -171,50 +172,81 @@ function clouds_pp1() {
 	dqb "...done"
 }
 
+#HUOM.17525:OLISI VARMAAN PRKL HELPOMPAA VAIN LADATA SÄÄNNÖT VAIHTELEVAN NIMISESTÄ TDSTOSTA JA TÄTS IT
 function clouds_pp2() {
+	debug=1
 	dqb "#c.pp.2 ${1}"
-#	${scm} 0750 /etc/iptables
-#	echo $?
-#	ls -las /etc/iptables
-	csleep 3
-	
+	${scm} 0755 /etc/iptables
+	echo $?
+
+	${scm} 0444 /etc/iptables/rules.*
+	echo $?
+
+	dqb "BEFORE"
+	sudo ls -las /etc/iptables
+	csleep 3	
 	#HUOM. pitäisiköhän linkit hukata jokatapauksessa? 0<->1 - vaihdoissa silloin häviää linkitys kokonaan
 		
 	if [ -h /etc/iptables/rules.v4 ] ; then
 		dqb "smr /e/i/rv4"
 		${smr} /etc/iptables/rules.v4
 	else
-		${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD		
+		#tarpeellinen tarkistus?
+		if [ -s /etc/iptables/rules.v4 ] ; then
+			dqb "smr rv4 rv4.OLD"
+			${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD
+			echo $?
+		fi		
 	fi
+
+	csleep 3
 
 	if [ -h /etc/iptables/rules.v6 ] ; then
 		dqb "smr /e/i/r6v"
 		${smr} /etc/iptables/rules.v6
 	else
-		${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
+		if [ -s /etc/iptables/rules.v6 ] ; then #TARKKUUTTA PELIIN PRKL
+			dqb "smr rv6 rv6.OLD"
+			${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
+			echo $?
+		fi
 	fi
 
 	dqb "cpp2.PART2"
-#	${scm} 0444 /etc/iptables/rules.*
-#	csleep 5
-#HUOM.16525:josko nalkuttaisi jotain 0-pituisen tdston johdosta?
+	csleep 5
+	#HUOM.16525:josko nalkuttaisi jotain 0-pituisen tdston johdosta?
 
+	#onko nyt näin että -s vaatii lukuoikeuden? vai mitvit?
 	if [ -s /etc/iptables/rules.v4.${1} ] ; then
 		${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
 		dqb "stinky1"
+	else
+		dqb "ZERO THE HERO"
+		exit 99
 	fi
 
+	csleep 6
+
+	#v6-sääntöjen kanssa -P DROP kiakkiin olisi oikeastaan ok
 	if [ -s /etc/iptables/rules.v6.${1} ] ; then
 		${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
 		dqb "stunky2"
+	else
+		dqb "ZERO THE HERO (COVER)"
+		#exit 100
 	fi
 
-	${scm} 0550 /etc/iptables
+	${scm} 0400 /etc/iptables/rules.*
+	echo $?
 
-#	csleep 1
-#	sudo ls -las /etc/iptables
-#	csleep 5
-	dqb "...done"
+	${scm} 0550 /etc/iptables
+	echo $?
+
+	csleep 1
+	dqb "AFTER"
+	sudo ls -las /etc/iptables
+	csleep 5
+	dqb "...finally d0n3"
 }
 
 function clouds_pp3() {
