@@ -82,11 +82,11 @@ else
 	echo "L1B M1SSING"
 
 	function pr4() {
-		dqb "exp2.pr4 (${1} ${2})" 
+		dqb "exp2.pr4 ${1} ${2} " 
 	}
 
 	function pre_part3() {
-		dqb "exp2.pre_part3( ${1} ${2})"
+		dqb "exp2.pre_part3 ${1} ${2} "
 	}
 
 	check_binaries ${distro}
@@ -152,7 +152,7 @@ function pre1() {
 
 function pre2() {
 	#debug=1
-	dqb "pre2( ${1}, ${2})" #WTIN KAARISULKEET STNA
+	dqb "pre2 ${1}, ${2} " #WTIN KAARISULKEET STNA
 	[ x"${1}" == "z" ] && exit 666
 
 	local ortsac
@@ -198,7 +198,7 @@ function tpq() {
 		. ${1}/profs.sh
 		exp_prof ${1}/fediverse.tar default-esr
 	else
-		dqb "FASD FADS SAFD"	
+		dqb "M0RB1D R31CH"	
 	fi
 
 	csleep 5
@@ -206,7 +206,7 @@ function tpq() {
 
 function tp1() {
 	#debug=1
-	dqb "tp1( ${1} , ${2} )"
+	dqb "tp1 ${1} , ${2} "
 	[ z"${1}" == "z" ] && exit
 	dqb "params_ok"
 	csleep 3
@@ -239,7 +239,7 @@ function tp1() {
 
 function rmt() {
 	#debug=1
-	dqb "rmt(${1}, ${2})" #WTUN TYPOT STNA111223456
+	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
 	[ z"${1}" == "z" ] && exit 1
 	[ -s ${1} ] || exit 2
@@ -275,7 +275,7 @@ function rmt() {
 
 function tp4() {
 	#debug=1
-	dqb "tp4( ${1} , ${2} )"
+	dqb "tp4 ${1} , ${2} "
 
 	[ z"${1}" == "z" ] && exit 1
 	[ -s ${1} ] || exit 2
@@ -516,7 +516,7 @@ function tp3() {
 function tpu() {
 	#debug=1	
 	#HUOM:0/1/old/new ei liity
-	dqb "tpu( ${1}, ${2})"
+	dqb "tpu ${1}, ${2}"
 
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] && mv ${1} ${1}.OLD
