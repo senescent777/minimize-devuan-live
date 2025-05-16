@@ -171,84 +171,85 @@ function clouds_pp1() {
 	csleep 1
 	dqb "...done"
 }
+#
+##HUOM.17525:OLISI VARMAAN PRKL HELPOMPAA VAIN LADATA SÄÄNNÖT VAIHTELEVAN NIMISESTÄ TDSTOSTA JA TÄTS IT
+#function clouds_pp2() {
+#	debug=1
+#	dqb "#c.pp.2 ${1}"
+#	${scm} 0755 /etc/iptables
+#	echo $?
+#
+#	${scm} 0444 /etc/iptables/rules.*
+#	echo $?
+#
+#	dqb "BEFORE"
+#	sudo ls -las /etc/iptables
+#	csleep 3	
+#	#HUOM. pitäisiköhän linkit hukata jokatapauksessa? 0<->1 - vaihdoissa silloin häviää linkitys kokonaan
+#		
+#	if [ -h /etc/iptables/rules.v4 ] ; then
+#		dqb "smr /e/i/rv4"
+#		${smr} /etc/iptables/rules.v4
+#	else
+#		#tarpeellinen tarkistus?
+#		if [ -s /etc/iptables/rules.v4 ] ; then
+#			dqb "smr rv4 rv4.OLD"
+#			${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD
+#			echo $?
+#		fi		
+#	fi
+#
+#	csleep 3
+#
+#	if [ -h /etc/iptables/rules.v6 ] ; then
+#		dqb "smr /e/i/r6v"
+#		${smr} /etc/iptables/rules.v6
+#	else
+#		if [ -s /etc/iptables/rules.v6 ] ; then #TARKKUUTTA PELIIN PRKL
+#			dqb "smr rv6 rv6.OLD"
+#			${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
+#			echo $?
+#		fi
+#	fi
+#
+#	dqb "cpp2.PART2"
+#	csleep 5
+#	#HUOM.16525:josko nalkuttaisi jotain 0-pituisen tdston johdosta?
+#
+#	#onko nyt näin että -s vaatii lukuoikeuden? vai mitvit?
+#	if [ -s /etc/iptables/rules.v4.${1} ] ; then
+#		${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
+#		dqb "stinky1"
+#	else
+#		dqb "ZERO THE HERO"
+#		exit 99
+#	fi
+#
+#	csleep 6
+#
+#	#v6-sääntöjen kanssa -P DROP kiakkiin olisi oikeastaan ok
+#	if [ -s /etc/iptables/rules.v6.${1} ] ; then
+#		${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
+#		dqb "stunky2"
+#	else
+#		dqb "ZERO THE HERO (COVER)"
+#		#exit 100
+#	fi
+#
+#	${scm} 0400 /etc/iptables/rules.*
+#	echo $?
+#
+#	${scm} 0550 /etc/iptables
+#	echo $?
+#
+#	csleep 1
+#	dqb "AFTER"
+#	sudo ls -las /etc/iptables
+#	csleep 5
+#	dqb "...finally d0n3"
+#}
 
-#HUOM.17525:OLISI VARMAAN PRKL HELPOMPAA VAIN LADATA SÄÄNNÖT VAIHTELEVAN NIMISESTÄ TDSTOSTA JA TÄTS IT
-function clouds_pp2() {
-	debug=1
-	dqb "#c.pp.2 ${1}"
-	${scm} 0755 /etc/iptables
-	echo $?
-
-	${scm} 0444 /etc/iptables/rules.*
-	echo $?
-
-	dqb "BEFORE"
-	sudo ls -las /etc/iptables
-	csleep 3	
-	#HUOM. pitäisiköhän linkit hukata jokatapauksessa? 0<->1 - vaihdoissa silloin häviää linkitys kokonaan
-		
-	if [ -h /etc/iptables/rules.v4 ] ; then
-		dqb "smr /e/i/rv4"
-		${smr} /etc/iptables/rules.v4
-	else
-		#tarpeellinen tarkistus?
-		if [ -s /etc/iptables/rules.v4 ] ; then
-			dqb "smr rv4 rv4.OLD"
-			${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD
-			echo $?
-		fi		
-	fi
-
-	csleep 3
-
-	if [ -h /etc/iptables/rules.v6 ] ; then
-		dqb "smr /e/i/r6v"
-		${smr} /etc/iptables/rules.v6
-	else
-		if [ -s /etc/iptables/rules.v6 ] ; then #TARKKUUTTA PELIIN PRKL
-			dqb "smr rv6 rv6.OLD"
-			${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
-			echo $?
-		fi
-	fi
-
-	dqb "cpp2.PART2"
-	csleep 5
-	#HUOM.16525:josko nalkuttaisi jotain 0-pituisen tdston johdosta?
-
-	#onko nyt näin että -s vaatii lukuoikeuden? vai mitvit?
-	if [ -s /etc/iptables/rules.v4.${1} ] ; then
-		${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
-		dqb "stinky1"
-	else
-		dqb "ZERO THE HERO"
-		exit 99
-	fi
-
-	csleep 6
-
-	#v6-sääntöjen kanssa -P DROP kiakkiin olisi oikeastaan ok
-	if [ -s /etc/iptables/rules.v6.${1} ] ; then
-		${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
-		dqb "stunky2"
-	else
-		dqb "ZERO THE HERO (COVER)"
-		#exit 100
-	fi
-
-	${scm} 0400 /etc/iptables/rules.*
-	echo $?
-
-	${scm} 0550 /etc/iptables
-	echo $?
-
-	csleep 1
-	dqb "AFTER"
-	sudo ls -las /etc/iptables
-	csleep 5
-	dqb "...finally d0n3"
-}
-
+#TODO:mode parametriksi jnpp
 function clouds_pp3() {
 	csleep 1
 	dqb "# c.pp.3 a.k.a RELOADING TBLZ RULEZ"
