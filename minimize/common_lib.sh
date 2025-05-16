@@ -112,6 +112,7 @@ function jules() {
 	#csleep 3
 	dqb "V4	"
 
+	#TODO:testaa nyt vielä että miten toimii jatkossa
 	if [ ! -h /etc/iptables/rules.v4 ] ; then
 		dqb "RECHTS"
 		csleep 1
