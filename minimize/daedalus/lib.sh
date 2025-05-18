@@ -2,6 +2,7 @@
 #
 #VAIH:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
+#... joskohan --force-confold olisi se haettu juttu
 
 function pre_part3() {
 	dqb "pp3( ${1} , ${2} )"
@@ -15,19 +16,19 @@ function pre_part3() {
 	psqa ${1}
 	#HUOM.140525:toiminee jo jollain lailla, "no" siihen kysymykseen olisi kuitenkin kiva saada välitettyä dpkg:lle asti
 
-	${odio} DEBIAN_FRONTEND=noninteractive dpkg -i ${1}/netfilter-persistent*.deb
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
 	[ $? -eq 0 ] && ${smr} -f ${1}/netfilter-persistent*.deb  #${NKVD}
 	csleep 2
 
-	${odio} DEBIAN_FRONTEND=noninteractive dpkg -i ${1}/libip*.deb
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${smr} -f ${1}/libip*.deb #${NKVD}
 	csleep 2
 
-	${odio} DEBIAN_FRONTEND=noninteractive dpkg -i ${1}/iptables_*.deb
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${smr} -f ${1}/iptables_*.deb
 	csleep 2
 
-	${odio} DEBIAN_FRONTEND=noninteractive dpkg -i ${1}/iptables-*.deb
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables-*.deb
 	[ $? -eq 0 ] && ${smr} -f ${1}/iptables-*.deb
 
 	dqb "pp3 d0n3"
