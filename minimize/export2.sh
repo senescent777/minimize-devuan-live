@@ -610,20 +610,6 @@ case ${mode} in
 		pre1 ${d}
 		tp2 ${tgtfile}
 	;;
-#	3)
-#		tp1 ${tgtfile} ${d}
-#
-#		pre1 ${d}
-#		pre2 ${d}
-#		tp3 ${tgtfile} ${distro}
-#
-#		pre1 ${d}
-#		tp2 ${tgtfile}
-#
-#		pre1 ${d}
-#		pre2 ${d}
-#		tp4 ${tgtfile} ${d}
-#	;;
 	1|u|upgrade)
 		pre2 ${d}
 		tpu ${tgtfile} ${d}

@@ -55,7 +55,7 @@ case $# in
 esac
 
 [ z"${distro}" == "z" ] && exit 6
-
+#HUOM.18525:ao. 2 fktiota voisi esitellä pikemminkin sittenq lib puuttuu
 function pr4() {
 	dqb "imp2.pr4 (${1} ${2})" 
 }
@@ -79,7 +79,7 @@ if [ -x ${PREFIX}/common_lib.sh ] ; then
 else
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
-	som="sudo /bin/umount"
+	uom="sudo /bin/umount"
 	scm="sudo /bin/chmod"
 	sco="sudo /bin/chown"
 	odio=$(which sudo)
@@ -93,8 +93,19 @@ else
 	}
 
 	function fix_sudo() {
-		dqb"imp32.fix.sudo"
+		dqb "imp32.fix.sudo"
 	}
+
+	function enforce_access() {
+		dqb "imp32.enf_acc()"
+	}
+
+	function part3() {
+		dqb "imp32.part3()"
+	}
+
+
+	#tähän tarvitsisi jonkinmoisen läjn speksaamista common_lib:istä, ehkä
 
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
@@ -103,15 +114,18 @@ fi
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	#TODO:josko testaisi tilanteen missä $distro/{conf,lib} puuttuvat
-	#JOKO JO?
+	#VAIH:josko testaisi tilanteen missä $distro/{conf,lib} puuttuvat
+	#...ensiksi vain tapaus "lib puuttuu"
+	#HUOM.18525: main(), vase -1 , 2 ja q toimivat, loput saattavat toimia pienen nalkutuksen kanssa
+
 	echo $?
 	dqb "NO LIB"
 	csleep 1
 
 	check_binaries ${distro}
-	[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia?
 	echo $?
+	[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia?
+	
 	csleep 1
 
 	check_binaries2

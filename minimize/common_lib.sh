@@ -125,7 +125,7 @@ function jules() {
 			${slinky} /etc/iptables/rules.v4.${dnsm} /etc/iptables/rules.v4
 			echo $?
 		else
-			echo "SCHEISSEKOMMANDO 666"
+			echo "SCHEISSEKOMMANDO 666";exit 666
 		fi
 	fi
 
@@ -620,10 +620,12 @@ function part076() {
 #	csleep 3
 #}
 
+#TODO:voisi välillä koklata ohittaa tuo "g_doit -v 1"-välivaihe että miten käy
+#, jos lisää haluaa kokeilla niin se ympäristömuuttuja kanssa kehiin
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 3
-	#TODO:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön, locale-gen...
+	#TODO:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön? locale-gen...
 
 	#ennen vai jälkeen "dpkg reconfig"-blokin tämä?
 	if [ -s /etc/default/locale.tmp ] ; then
@@ -641,7 +643,7 @@ function el_loco() {
 		${odio} dpkg-reconfigure tzdata
 	fi
 
-	#HUOM.16525:tulisi kai testata $2 olemassaolo , -v , -z . josko?
+	#joskohan kutsuvassa koodissa -v - tark riittäisi toistaiseksi
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
 		csleep 3
