@@ -101,6 +101,7 @@ fix_sudo
 [ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 csleep 5
 
+#TODO:testaa nyt vielä miteb tämnk versio toimii, sen jälk tables-kikkailujen siirto pelkästään changedns:lle
 function jules() {
 	dqb "LE BIG MAC"
 
@@ -360,7 +361,7 @@ function pre_enforce() {
 	csleep 3
 
 	[ -f ${q}/meshuggah ] || exit 33
-	dqb "1N F3RN0 0F SACR3D D35TRUCT10N"
+	dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 	mangle_s ${PREFIX}/changedns.sh ${q}/meshuggah
 	csleep 2
 
