@@ -36,6 +36,7 @@ function usage() {
 mode=${1}
 tgtfile=${2}
 
+#...ehkä pystyisi myös gpo()-tavalla (kokeilisiko?)
 case $# in
 	1)
 		[ "${1}" == "-h" ]  && usage
@@ -240,7 +241,7 @@ function tpq() {
 		. ${1}/profs.sh
 		exp_prof ${1}/fediverse.tar default-esr
 	else
-		dqb "M0RB1D R31CH"	
+		dqb "1nT0 TH3 M0RB1D R31CH"	
 	fi
 
 	csleep 5

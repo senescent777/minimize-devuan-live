@@ -15,14 +15,6 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#function pr4() { tarpeellisia?
-#	dqb "cdns.pr4 (${1})" 
-#}
-#
-#function pre_part3() {
-#	dqb "cdns.pre_part3( ${1})"
-#}
-#
 #asiasta kukkaruukkuun: wicd oli aikoinaan siedettävä softa, ainakin Networkmanageriin verrattuna
 
 #HUOM.jatkossa ehkä parempi että komentorivioptioilla ei aktivoida debugia
@@ -176,83 +168,84 @@ function clouds_pp1() {
 	csleep 1
 	dqb "...done"
 }
-#
-##HUOM.17525:OLISI VARMAAN PRKL HELPOMPAA VAIN LADATA SÄÄNNÖT VAIHTELEVAN NIMISESTÄ TDSTOSTA JA TÄTS IT
-#function clouds_pp2() {
-#	debug=1
-#	dqb "#c.pp.2 ${1}"
-#	${scm} 0755 /etc/iptables
-#	echo $?
-#
-#	${scm} 0444 /etc/iptables/rules.*
-#	echo $?
-#
-#	dqb "BEFORE"
-#	sudo ls -las /etc/iptables
-#	csleep 3	
-#	#HUOM. pitäisiköhän linkit hukata jokatapauksessa? 0<->1 - vaihdoissa silloin häviää linkitys kokonaan
-#		
-#	if [ -h /etc/iptables/rules.v4 ] ; then
-#		dqb "smr /e/i/rv4"
-#		${smr} /etc/iptables/rules.v4
-#	else
-#		#tarpeellinen tarkistus?
-#		if [ -s /etc/iptables/rules.v4 ] ; then
-#			dqb "smr rv4 rv4.OLD"
-#			${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD
-#			echo $?
-#		fi		
-#	fi
-#
-#	csleep 3
-#
-#	if [ -h /etc/iptables/rules.v6 ] ; then
-#		dqb "smr /e/i/r6v"
-#		${smr} /etc/iptables/rules.v6
-#	else
-#		if [ -s /etc/iptables/rules.v6 ] ; then #TARKKUUTTA PELIIN PRKL
-#			dqb "smr rv6 rv6.OLD"
-#			${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
-#			echo $?
-#		fi
-#	fi
-#
-#	dqb "cpp2.PART2"
-#	csleep 5
-#	#HUOM.16525:josko nalkuttaisi jotain 0-pituisen tdston johdosta?
-#
-#	#onko nyt näin että -s vaatii lukuoikeuden? vai mitvit?
-#	if [ -s /etc/iptables/rules.v4.${1} ] ; then
-#		${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
-#		dqb "stinky1"
-#	else
-#		dqb "ZERO THE HERO"
-#		exit 99
-#	fi
-#
-#	csleep 6
-#
-#	#v6-sääntöjen kanssa -P DROP kiakkiin olisi oikeastaan ok
-#	if [ -s /etc/iptables/rules.v6.${1} ] ; then
-#		${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
-#		dqb "stunky2"
-#	else
-#		dqb "ZERO THE HERO (COVER)"
-#		#exit 100
-#	fi
-#
-#	${scm} 0400 /etc/iptables/rules.*
-#	echo $?
-#
-#	${scm} 0550 /etc/iptables
-#	echo $?
-#
-#	csleep 1
-#	dqb "AFTER"
-#	sudo ls -las /etc/iptables
-#	csleep 5
-#	dqb "...finally d0n3"
-#}
+
+#HUOM.17525:OLISI VARMAAN PRKL HELPOMPAA VAIN LADATA SÄÄNNÖT VAIHTELEVAN NIMISESTÄ TDSTOSTA JA TÄTS IT
+function clouds_pp2() {
+	debug=1
+	dqb "#c.pp.2 ${1}"
+	${scm} 0755 /etc/iptables
+	echo $?
+
+	${scm} 0444 /etc/iptables/rules.*
+	echo $?
+
+	dqb "BEFORE"
+	sudo ls -las /etc/iptables
+	csleep 3	
+	#HUOM. pitäisiköhän linkit hukata jokatapauksessa? 0<->1 - vaihdoissa silloin häviää linkitys kokonaan
+		
+	#TODO:se silmukka-juttu
+	if [ -h /etc/iptables/rules.v4 ] ; then
+		dqb "smr /e/i/rv4"
+		${smr} /etc/iptables/rules.v4
+	else
+		#tarpeellinen tarkistus? no -r tuohon lisäksi varm- vuoksi
+		if [ -s /etc/iptables/rules.v4 ] ; then
+			dqb "smr rv4 rv4.OLD"
+			${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD
+			echo $?
+		fi		
+	fi
+
+	csleep 3
+
+	if [ -h /etc/iptables/rules.v6 ] ; then
+		dqb "smr /e/i/r6v"
+		${smr} /etc/iptables/rules.v6
+	else
+		if [ -s /etc/iptables/rules.v6 ] ; then #TARKKUUTTA PELIIN PRKL
+			dqb "smr rv6 rv6.OLD"
+			${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
+			echo $?
+		fi
+	fi
+
+	dqb "cpp2.PART2"
+	csleep 5
+	#HUOM.16525:josko nalkuttaisi jotain 0-pituisen tdston johdosta?
+
+	#onko nyt näin että -s vaatii lukuoikeuden? vai mitvit?
+	if [ -s /etc/iptables/rules.v4.${1} ] ; then
+		${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
+		dqb "stinky1"
+	else
+		dqb "ZERO THE HERO"
+		exit 99
+	fi
+
+	csleep 6
+
+	#v6-sääntöjen kanssa -P DROP kiakkiin olisi oikeastaan ok
+	if [ -s /etc/iptables/rules.v6.${1} ] ; then
+		${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
+		dqb "stunky2"
+	else
+		dqb "ZERO THE HERO (COVER)"
+		#exit 100
+	fi
+
+	${scm} 0400 /etc/iptables/rules.*
+	echo $?
+
+	${scm} 0550 /etc/iptables
+	echo $?
+
+	csleep 1
+	dqb "AFTER"
+	sudo ls -las /etc/iptables
+	csleep 5
+	dqb "...finally d0n3"
+}
 
 function clouds_pp3() {
 	csleep 1
@@ -328,29 +321,43 @@ function clouds_post() {
 	dqb "d0n3"
 }
 
-function clouds_case0() {
-	dqb "cdns.clouds_case0()"
+function clouds_case0_0() {
+	${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
+	${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
+}
 
-	if [ y"${ipt}" == "y" ] ; then
-		dqb "SHOULD 1NSTALL TABL35"
-		exit 88
+function clouds_case1_0() {
+	${ipt} -A INPUT -p tcp -m tcp --sport 853 -j b
+	${ipt} -A OUTPUT -p tcp -m tcp --dport 853 -j e
+}
+
+function clouds_case0_1() {
+	if [ -s  /etc/resolv.conf ] ; then
+		for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do dda_snd ${s} ; done	
 	else
-		#TODO:fktioksi nämäkin pätkät?
-		${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
-		${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
-
-		if [ -s  /etc/resolv.conf ] ; then
-			for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do dda_snd ${s} ; done	
-		else
-			dqb "NO RESOLV.CONF FOUND, HAVE TO USE CONF"
-			csleep 1
+		dqb "NO RESOLV.CONF FOUND, HAVE TO USE CONF"
+		csleep 1
 			
-			if [ z"${dsn}" != "z" ] ; then
-				for s in ${dsn} ;  do dda_snd ${s} ; done
-			fi
+		if [ z"${dsn}" != "z" ] ; then
+			for s in ${dsn} ;  do dda_snd ${s} ; done
 		fi
 	fi
+}
 
+function clouds_case1_1() {
+	if [ -s /home/stubby/.stubby.yml ] ; then
+		for s in $(grep -v '#' /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do tod_dda ${s} ; done
+	else
+		dqb "NO CONF FOUND, HAVE TO USE ALT CONF"
+		csleep 1
+		
+		if [ z"${dsn}" != "z" ] ; then
+			for s in ${dsn} ;  do tod_dda ${s} ; done
+		fi
+	fi
+}
+
+function clouds_case0_2() {
 	/etc/init.d/dnsmasq stop
 	/etc/init.d/ntpsec stop
 	csleep 3
@@ -358,27 +365,8 @@ function clouds_case0() {
 	${whack} ntp*
 }
 
-function clouds_case1() {
-	echo "WORK IN PROGRESS"
-
-	if [ y"${ipt}" == "y" ] ; then
-		echo "SHOULD 1NSTALL TABL35"
-	else
-		${ipt} -A INPUT -p tcp -m tcp --sport 853 -j b
-		${ipt} -A OUTPUT -p tcp -m tcp --dport 853 -j e
-
-		if [ -s /home/stubby/.stubby.yml ] ; then
-			for s in $(grep -v '#' /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do tod_dda ${s} ; done
-		else
-			dqb "NO CONF FOUND, HAVE TO USE ALT CONF"
-			csleep 1
-		
-			if [ z"${dsn}" != "z" ] ; then
-				for s in ${dsn} ;  do tod_dda ${s} ; done
-			fi
-		fi
-	fi
-
+function clouds_case1_2() {
+	
 	echo "dns";sleep 2
 	/etc/init.d/dnsmasq restart
 	pgrep dnsmasq
@@ -397,6 +385,35 @@ function clouds_case1() {
 #	su devuan -c '/usr/bin/stubby -C /home/stubby/.stubby.yml -g'
 #	pgrep stubby
 }
+
+#välimiehiä voisi leikellä pois jatkossa
+function clouds_case0() {
+	dqb "cdns.clouds_case0()"
+
+	if [ y"${ipt}" == "y" ] ; then
+		dqb "SHOULD 1NSTALL TABL35"
+		exit 88
+	else
+		clouds_case0_0
+		clouds_case0_1
+	fi
+
+	clouds_case0_2
+}
+
+function clouds_case1() {
+	echo "WORK IN PROGRESS"
+
+	if [ y"${ipt}" == "y" ] ; then
+		echo "SHOULD 1NSTALL TABL35"
+	else
+		clouds_case1_0
+		clouds_case1_1
+	fi
+
+	clouds_case1_2
+}
+
 #====================================================================
 clouds_pre ${mode} #${distro}
 

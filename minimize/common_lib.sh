@@ -105,42 +105,48 @@ function jules() {
 	dqb "LE BIG MAC"
 
 	${scm} 0755 /etc/iptables #oli 0755, jos riittäisi vähempi
-
-	[ -f /etc/iptables/rules.v4 ] && ${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD
+	#HUOM.tähän joko $scm 0444 /e/i/* tai sit noiden tdstojen sorkinta ainostaan changedns kautta
+	#[ -f /etc/iptables/rules.v4 ] && ${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD
 	#TARKKUUTTA PRKL	
-	[ -f /etc/iptables/rules.v6 ] && ${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
+	#[ -f /etc/iptables/rules.v6 ] && ${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
 
-	dqb "V4	"
+	for x in 4 6 ; do
+		dqb ${x}
 
-	#olisikohan testi mennyt päinväärin?
-	if [ ! -h /etc/iptables/rules.v4 ] ; then
-		dqb "RECHTS"
-		csleep 1
-	else
-		#pitäisiköhän wanha linkki oipstaa esnin?
-		if [ -s /etc/iptables/rules.v4.${dnsm} ] ; then
-			dqb "FASDFASD"
-			csleep 1
-			${slinky} /etc/iptables/rules.v4.${dnsm} /etc/iptables/rules.v4
-			echo $?
-		else
-			echo "SCHEISSEKOMMANDO 666";exit 666
+		if [ -f /etc/iptables/rules.v${x} ] && [ -r /etc/iptables/rules.v${x} ] ; then
+			${svm} /etc/iptables/rules.v${x} /etc/iptables/rules.v${x}.OLD
 		fi
-	fi
+
+		#olemassaolokin pitäisi tarkistaa ennen linkkiyttä 
+		if [ ! -h /etc/iptables/rules.v${x} ] ; then
+			dqb "RECHTS"
+			csleep 1
+		else
+			#pitäisiköhän wanha linkki oipstaa esnin?
+	
+			if [ -s /etc/iptables/rules.v${x}.${dnsm} ] ; then
+				dqb "ICH KOMME"
+				csleep 1
+				${slinky} /etc/iptables/rules.v${x}.${dnsm} /etc/iptables/rules.v${x}
+				echo $?
+			else
+				echo "SCHEISSEKOMMANDO 666";exit 666
+			fi
+		fi
+	done
 
 	sleep 6
 	dqb "V6"
-
 	#HUOM. pitäisi kai tehdä kuten ylempänä, -s mukaan	
-	[ -h /etc/iptables/rules.v6 ] || ${slinky} /etc/iptables/rules.v6.${dnsm} /etc/iptables/rules.v6
+	#[ -h /etc/iptables/rules.v6 ] || ${slinky} /etc/iptables/rules.v6.${dnsm} /etc/iptables/rules.v6
 	
-	csleep 3
+	csleep 6
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
 	${sco} -R root:root /etc/iptables
 
 	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
-	csleep 10
+	csleep 6
 }
 
 function message() {
@@ -354,7 +360,7 @@ function pre_enforce() {
 	csleep 3
 
 	[ -f ${q}/meshuggah ] || exit 33
-	dqb "1NF3RN0 0F SACR3D D35TRUCT10N"
+	dqb "1N F3RN0 0F SACR3D D35TRUCT10N"
 	mangle_s ${PREFIX}/changedns.sh ${q}/meshuggah
 	csleep 2
 
@@ -409,7 +415,6 @@ function enforce_access() {
 	${scm} 0440 /etc/sudoers.d/*
 	${scm} 0750 /etc/sudoers.d
 	${sco} -R root:root /etc/sudoers.d
-
 	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
 
 	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
@@ -540,7 +545,6 @@ function part1() {
 
 	dqb "${sip} link set ${iface} down"
 	${sip} link set ${iface} down
-	
 	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 	csleep 1
 	
@@ -626,11 +630,11 @@ function part076() {
 #VAIH:voisi välillä koklata ohittaa tuo "g_doit -v 1"-välivaihe että miten käy
 #, jos lisää haluaa kokeilla niin se ympäristömuuttuja kanssa kehiin
 #... yllättäem reconfiguren skippaaminen jättää aika-asetukset wanhaan tilanteeseem
+
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 3
-	#TODO:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön? locale-gen...
-
+	
 	#ennen vai jälkeen "dpkg reconfig"-blokin tämä?
 	if [ -s /etc/default/locale.tmp ] ; then
 		. /etc/default/locale.tmp
@@ -639,6 +643,8 @@ function el_loco() {
 		export LANGUAGE
 		export LC_ALL
 	fi
+
+	#TODO:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön? locale-gen...
 
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
@@ -661,23 +667,12 @@ function el_loco() {
 		${odio} dpkg-reconfigure locales
 		
 		#suattaapi olla olematta tuo --oprio tuolla koennolla tuatanoinnii vuan mitenkä ympäristömuuttuja vaikuttaa?
-		${odio} DEBIAN_FRONTEND=noninteractive dpkg-reconfigure --force-confold tzdata
+		#ekalla yrityksellä ei toivottua lopputulosta myöskään pelkällä ympäristömjalla vaikka ncurses-vaihe ohitettiinkin		
+		${odio} dpkg-reconfigure tzdata
 	fi
 
 	#joskohan kutsuvassa koodissa -v - tark riittäisi toistaiseksi
 	if [ ${2} -lt 1 ]; then
-#		${scm} a+w /etc/default/locale
-#		csleep 3
-#
-#		#/e/d/l voi kasvaa isoksikin näin...
-#		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
-#		cat /etc/default/locale
-#		csleep 3
-#
-#		cat /etc/timezone
-#		csleep 3
-#
-#		${scm} a-w /etc/default/locale
 		ls -las /etc/default/lo*
 		csleep 3
 	fi
@@ -685,7 +680,7 @@ function el_loco() {
 	dqb "DN03"
 	csleep 2
 }
-#
+
 #function part2() {
 #	#debug=1
 #	dqb "PART2 ${1}"
@@ -845,6 +840,7 @@ function part3() {
 #HUOM.14525:ideana taisi olla että ajettaisiin tämä tdston lopussa
 function gpo() {
 	dqb "GPO"
+	#getopt olisi myös keksitty
 
 	local prevopt
 	local opt

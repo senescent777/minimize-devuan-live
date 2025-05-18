@@ -5,6 +5,7 @@ distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 dir=/mnt
 part0=ABCD-1234
 PREFIX=~/Desktop/minimize
+mode=-2
 
 if [ -r /etc/iptables ] || [ -w /etc/iptables ]  || [ -r /etc/iptables/rules.v4 ] ; then
 	echo "/E/IPTABLES IS WRITABEL"
@@ -24,6 +25,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+#HUOM.18525:optioiden parsiminen saattaa tässä tdstossa olla kätevämpi näin q gpo():n kautta
 case $# in
 	1)
 		dqb "maybe ok" #tap -1 ja 2 ok, muissa pitäisi fileen puuttuminen p ysäyttää
@@ -85,11 +87,11 @@ else
 	whack="${odio} ${whack} --signal 9 "
 
 	function check_binaries() {
-		dqb "imp2.ch3ck_b1nar135( ${1} )"
+		dqb "imp2.ch3ck_b1nar135( \${1} )"
 	}
 
 	function check_binaries2() {
-		dqb "imp2.ch3ck_b1nar135_2( ${1} )"
+		dqb "imp2.ch3ck_b1nar135_2( \${1} )"
 	}
 
 	function fix_sudo() {
@@ -124,11 +126,11 @@ else
 
 	#HUOM.18525:ao. 2 fktiota voisi esitellä pikemminkin sittenq lib puuttuu
 	function pr4() {
-		dqb "imp2.pr4 (${1} ${2})" 
+		dqb "imp2.pr4 (\${1} \${2})" 
 	}
 
 	function pre_part3() {
-		dqb "imp2.pre_part3( ${1} ${2})"
+		dqb "imp2.pre_part3( \${1} \${2})"
 	}
 
 	check_binaries ${distro}
@@ -194,8 +196,8 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
-case "${1}" in
-	-1)
+case "${mode}" in
+	-1) #jatkossa jokim fiksumpi kuin -1
 		part=/dev/disk/by-uuid/${part0}		
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 
