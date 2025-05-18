@@ -70,10 +70,52 @@ d=${PREFIX}/${distro}
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
 else
-	echo "CONFIG MISSING"; exit 55
+	echo "CONFIG MISSING" #; exit 55
+	pkgdir=/var/cache/apt/archives
 fi
 
-. ${PREFIX}/common_lib.sh
+if [ -x ${PREFIX}/common_lib.sh ] ; then
+	. ${PREFIX}/common_lib.sh
+else
+	srat="sudo /bin/tar"
+	som="sudo /bin/mount"
+	uom="sudo /bin/umount"
+	scm="sudo /bin/chmod"
+	sco="sudo /bin/chown"
+	odio=$(which sudo)
+
+	#jos näillä lähtisi aikankin case q toimimaan
+	n=$(whoami)
+#	smr=$(${odio} which rm)
+#	NKVD=$(${odio} which shred)
+#	NKVD="${NKVD} -fu "
+#	whack=$(${odio} which pkill)
+#	whack="${odio} ${whack} --signal 9 "
+
+	function check_binaries() {
+		dqb "exp2.ch3ck_b1nar135( ${1} )"
+	}
+
+	function check_binaries2() {
+		dqb "exp2.ch3ck_b1nar135_2( ${1} )"
+	}
+
+	function fix_sudo() {
+		dqb "exp32.fix.sudo"
+	}
+
+	function enforce_access() {
+		dqb "exp32.enf_acc()"
+	}
+
+	function part3() {
+		dqb "exp32.part3()"
+	}
+
+
+	dqb "FALLBACK"
+	dqb "chmod may be a good idea now"
+fi
 
 #HUOM.14525:pitäisiköhän testata ao. else-haara?
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
@@ -368,7 +410,7 @@ function tp4() {
 	csleep 3
 }
 
-#TODO:koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
+#koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
 function tp2() {
 	#debug=1
 	dqb "tp2 ${1} ${2}"

@@ -55,14 +55,6 @@ case $# in
 esac
 
 [ z"${distro}" == "z" ] && exit 6
-#HUOM.18525:ao. 2 fktiota voisi esitellä pikemminkin sittenq lib puuttuu
-function pr4() {
-	dqb "imp2.pr4 (${1} ${2})" 
-}
-
-function pre_part3() {
-	dqb "imp2.pre_part3( ${1} ${2})"
-}
 
 mode=${1}
 dqb "mode=${mode}"
@@ -83,13 +75,21 @@ else
 	scm="sudo /bin/chmod"
 	sco="sudo /bin/chown"
 	odio=$(which sudo)
-	
+
+	#jos näillä lähtisi aikankin case q toimimaan
+	n=$(whoami)
+	smr=$(${odio} which rm)
+	NKVD=$(${odio} which shred)
+	NKVD="${NKVD} -fu "
+	whack=$(${odio} which pkill)
+	whack="${odio} ${whack} --signal 9 "
+
 	function check_binaries() {
-		dqb "imp2.ch3ck_b1nar135(${1} )"
+		dqb "imp2.ch3ck_b1nar135( ${1} )"
 	}
 
 	function check_binaries2() {
-		dqb "imp2.ch3ck_b1nar135_2(${1} )"
+		dqb "imp2.ch3ck_b1nar135_2( ${1} )"
 	}
 
 	function fix_sudo() {
@@ -105,8 +105,6 @@ else
 	}
 
 
-	#tähän tarvitsisi jonkinmoisen läjn speksaamista common_lib:istä, ehkä
-
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
 fi
@@ -114,13 +112,24 @@ fi
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	#VAIH:josko testaisi tilanteen missä $distro/{conf,lib} puuttuvat
+	#TEHTY:josko testaisi tilanteen missä $distro/{conf,lib} puuttuvat
+	
 	#...ensiksi vain tapaus "lib puuttuu"
 	#HUOM.18525: main(), vase -1 , 2 ja q toimivat, loput saattavat toimia pienen nalkutuksen kanssa
-
+	#konftdston puuttuminen ei estä case 0:aa toimimasta, -1 ja 2 tietenkin poissa pelistä
+	
 	echo $?
 	dqb "NO LIB"
 	csleep 1
+
+	#HUOM.18525:ao. 2 fktiota voisi esitellä pikemminkin sittenq lib puuttuu
+	function pr4() {
+		dqb "imp2.pr4 (${1} ${2})" 
+	}
+
+	function pre_part3() {
+		dqb "imp2.pre_part3( ${1} ${2})"
+	}
 
 	check_binaries ${distro}
 	echo $?

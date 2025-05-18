@@ -101,7 +101,6 @@ fix_sudo
 [ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 csleep 5
 
-#TÄMÄKÖ NE SÄÄNNÖT PASKOO?
 function jules() {
 	dqb "LE BIG MAC"
 
@@ -256,7 +255,9 @@ function check_binaries() {
 }
 
 function check_binaries2() {
+#	debug=1
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2()"
+	csleep 1
 
 	ipt="${odio} ${ipt} "
 	ip6t="${odio} ${ip6t} "
@@ -369,8 +370,10 @@ function pre_enforce() {
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
 		csleep 2
 		chmod 0440 ${q}/meshuggah
+
 		${sco} root:root ${q}/meshuggah
 		${svm} ${q}/meshuggah /etc/sudoers.d
+
 		CB_LIST1=""
 		unset CB_LIST1
 		#saavuttaakohan tuolla nollauksella mitään? kuitenkin alustetaan
@@ -432,7 +435,7 @@ function enforce_access() {
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
 
-	dqb "/var d0mne"
+	dqb "VAN DAMME"
 	csleep 1
 
 	${scm} 0755 /
@@ -620,8 +623,9 @@ function part076() {
 #	csleep 3
 #}
 
-#TODO:voisi välillä koklata ohittaa tuo "g_doit -v 1"-välivaihe että miten käy
+#VAIH:voisi välillä koklata ohittaa tuo "g_doit -v 1"-välivaihe että miten käy
 #, jos lisää haluaa kokeilla niin se ympäristömuuttuja kanssa kehiin
+#... yllättäem reconfiguren skippaaminen jättää aika-asetukset wanhaan tilanteeseem
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 3
@@ -636,14 +640,6 @@ function el_loco() {
 		export LC_ALL
 	fi
 
-	#joskohan tarkistus pois jatkossa?
-	if [ ${1} -gt 0 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
-		#client-side session_expiration_checks can be a PITA
-		${odio} dpkg-reconfigure locales
-		${odio} dpkg-reconfigure tzdata
-	fi
-
-	#joskohan kutsuvassa koodissa -v - tark riittäisi toistaiseksi
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
 		csleep 3
@@ -657,6 +653,31 @@ function el_loco() {
 		csleep 3
 
 		${scm} a-w /etc/default/locale
+	fi
+
+	#joskohan tarkistus pois jatkossa?
+	if [ ${1} -gt 0 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
+		#client-side session_expiration_checks can be a PITA
+		${odio} dpkg-reconfigure locales
+		
+		#suattaapi olla olematta tuo --oprio tuolla koennolla tuatanoinnii vuan mitenkä ympäristömuuttuja vaikuttaa?
+		${odio} DEBIAN_FRONTEND=noninteractive dpkg-reconfigure --force-confold tzdata
+	fi
+
+	#joskohan kutsuvassa koodissa -v - tark riittäisi toistaiseksi
+	if [ ${2} -lt 1 ]; then
+#		${scm} a+w /etc/default/locale
+#		csleep 3
+#
+#		#/e/d/l voi kasvaa isoksikin näin...
+#		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
+#		cat /etc/default/locale
+#		csleep 3
+#
+#		cat /etc/timezone
+#		csleep 3
+#
+#		${scm} a-w /etc/default/locale
 		ls -las /etc/default/lo*
 		csleep 3
 	fi

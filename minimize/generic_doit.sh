@@ -99,7 +99,6 @@ csleep 5
 enforce_access ${n}
  
 part1 ${distro} 
-#HUOM.190325:part_1_5sessa oli bugi, u+w ei vaan riitä
 [ ${mode} -eq 0 ] && exit
 
 ${snt} #HUOM.14525:oli tässä ennen: part175
