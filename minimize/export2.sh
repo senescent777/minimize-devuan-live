@@ -368,6 +368,7 @@ function tp4() {
 	csleep 3
 }
 
+#TODO:koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
 function tp2() {
 	#debug=1
 	dqb "tp2 ${1} ${2}"
@@ -458,16 +459,18 @@ function tp3() {
 	csleep 5
 	cd more_scripts/misc
 
-	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1
+	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm} #.0
 	
-	if [ ${dnsm} -eq 0 ] && [ ! -s  ./etc/dhcp/dhclient.conf.1 ] ; then
+	if [ ! -s  ./etc/dhcp/dhclient.conf.1 ] ; then
 		${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1	
 	fi
 
 	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
+	# (ao. rivi tp2() jatkossa?)	
 	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm} #.0
 
+	#joskohan tämä if-blokki pois jatqssa
 	if [ -s ./etc/resolv.conf.new ] ; then
 		echo "r30lv.c0nf alr3ady 3x15t5"
 	else
@@ -482,11 +485,12 @@ function tp3() {
 	fi
 
 	#HUOM.14525.5:eka tarkistus lienee turha
-	if [ ${dnsm} -eq 0 ] && [ ! -s ./etc/resolv.conf.1 ] ; then
+	if [ ! -s ./etc/resolv.conf.1 ] ; then
 		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
 	fi
 
 	#HUOM.14525.3:ghubista löytyvä(.new) vastaa tilannetta dnsm=1
+	# (ao. rivi tp2() jatkossa?)
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm} #.0
 
 	if [ ${dnsm} -eq 0 ] && [ ! -s ./sbin/dhclient-script.1 ] ; then
@@ -495,10 +499,12 @@ function tp3() {
 	
 	#HUOM.14525.4:tp3 ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
 	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? 
+	# (ao. rivi tp2() jatkossa?)
  	${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
 
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
+	# (ao. rivi tp2() jatkossa?)
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${2} #tässä iface olisi parempi kuin distro, EHKä
 
 	${sco} -R root:root ./etc

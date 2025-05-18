@@ -39,7 +39,12 @@ mode=${1}
 #	echo "/E/S.D IS WRITABLE"
 #	exit 34
 #fi
-	
+
+[ -s /etc/iptables/rules.v4.0 ] || echo "PISEN PRO VOI VITTU"
+sleep 1
+[ -s /etc/iptables/rules.v6.0} ] || echo "OIJBIYF97TF98YG087T976R"
+sleep 1
+		
 case $# in
 	1)
 		dqb "maybe ok"
@@ -56,7 +61,7 @@ case $# in
 		fi
 	;;
 	*)
-		echo "${0} <mode> [other_params]";exit
+		echo "${0} <mode> [other_params]";exit 13
 	;;
 esac
 
@@ -98,7 +103,7 @@ function dda_snd() {
 
 #HUOM.220624:stubbyn asentumisen ja käynnistymisen kannalta sleep saattaa olla tarpeen
 function ns2() {
-	[ y"${1}" == "y" ] && exit
+	[ y"${1}" == "y" ] && exit 154
 	dqb "ns2( ${1} )"
 	${scm} u+w /home
 	csleep 3
@@ -143,7 +148,7 @@ function ns4() {
 }
 
 function clouds_pp1() {
-	dqb "#c.pp.1 ${1}"
+	dqb "#c.pp.1  ( ${1} )"
 
 	if [ -s /etc/resolv.conf.1 ] || [ -s /etc/resolv.conf.0 ] ; then 
 		${smr} /etc/resolv.conf
@@ -249,15 +254,14 @@ function clouds_pp1() {
 #	dqb "...finally d0n3"
 #}
 
-#TODO:mode parametriksi jnpp
 function clouds_pp3() {
 	csleep 1
-	dqb "# c.pp.3 a.k.a RELOADING TBLZ RULEZ"
+	dqb "# c.pp.3 a.k.a RELOADING TBLZ RULEZ ${1}"
 	csleep 1
 
 	#HUOM.160325:lisätty uutena varm. vuoksi
-	${iptr} /etc/iptables/rules.v4
-	${ip6tr} /etc/iptables/rules.v6
+	${iptr} /etc/iptables/rules.v4.${1}
+	${ip6tr} /etc/iptables/rules.v6.${1}
 	csleep 2
 
 	#tässä oikea paikka tables-muutoksille vai ei?
@@ -273,10 +277,17 @@ function clouds_pp3() {
 }
 
 function clouds_pre() {
-	dqb "cdns.clouds_pre()"
-	clouds_pp1 ${2} #distro}
-	clouds_pp2 ${1}
-	clouds_pp3
+	dqb "cdns.clouds_pre( ${1}, ${2} )"
+	csleep 1
+
+	clouds_pp1
+	csleep 1
+
+	#clouds_pp2 ${1}
+	
+	clouds_pp3 ${1}
+	csleep 1
+
 	dqb "... done"
 }
 
@@ -387,7 +398,7 @@ function clouds_case1() {
 #	pgrep stubby
 }
 #====================================================================
-clouds_pre ${mode} ${distro}
+clouds_pre ${mode} #${distro}
 
 [ -f /etc/resolv.conf.${mode} ] && ${slinky} /etc/resolv.conf.${mode} /etc/resolv.conf
 [ -f /etc/dhcp/dhclient.conf.${mode} ] && ${slinky} /etc/dhcp/dhclient.conf.${mode} /etc/dhcp/dhclient.conf

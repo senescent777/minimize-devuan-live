@@ -57,6 +57,12 @@ if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
 	#exit 34
 	sleep 1
 fi
+
+#näissä pointtina olisi korkeintaan varmistaa että /e/i oikeudet 0550
+[ -s /etc/iptables/rules.v4.${dnsm} ] || echo "PISEN PRO VOI VITTU"
+#sleep 3
+[ -s /etc/iptables/rules.v6.${dnsm} ] || echo "OIJBIYF97TF98YG087T976R"
+#sleep 3
 	
 function fix_sudo() {
 	echo "fix_sud0.pt0"
@@ -85,11 +91,15 @@ function fix_sudo() {
 	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 
 	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
-	csleep 5
+	csleep 3
 	echo "fix_sud0.d0n3"
 }
 
 fix_sudo
+
+#parempi tehdä näin
+[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
+csleep 5
 
 #TÄMÄKÖ NE SÄÄNNÖT PASKOO?
 function jules() {
@@ -98,39 +108,33 @@ function jules() {
 	${scm} 0755 /etc/iptables #oli 0755, jos riittäisi vähempi
 
 	[ -f /etc/iptables/rules.v4 ] && ${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD
-	[ -f /etc/iptables/rules.v4 ] && ${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
+	#TARKKUUTTA PRKL	
+	[ -f /etc/iptables/rules.v6 ] && ${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
 
-	#csleep 3
-	#${scm} 0444 /etc/default/rules.*
-	#
-	#HUOM.16525:JOS PITÄÄ KOPSAILLA TÄSSÄ NIIN TARKKUUTTA PELIIN PRKL
-	#tänään ei tullut mukaan /e/d/rules joten kikkialut pois toistaiseski
-	#[ -s /etc/iptables/rules.v4.${dnsm} ] || ${spc} /etc/default/rules.v4 /etc/iptables/rules.v4.${dnsm}
-	#[ -s /etc/iptables/rules.v6.${dnsm} ] || ${spc} /etc/default/rules.v6 /etc/iptables/rules.v6.${dnsm}
-	#
-	#${scm} 0400 /etc/default/rules.*
-	#csleep 3
 	dqb "V4	"
 
-	#TODO:testaa nyt vielä että miten toimii jatkossa
+	#olisikohan testi mennyt päinväärin?
 	if [ ! -h /etc/iptables/rules.v4 ] ; then
 		dqb "RECHTS"
 		csleep 1
-
+	else
+		#pitäisiköhän wanha linkki oipstaa esnin?
 		if [ -s /etc/iptables/rules.v4.${dnsm} ] ; then
 			dqb "FASDFASD"
 			csleep 1
 			${slinky} /etc/iptables/rules.v4.${dnsm} /etc/iptables/rules.v4
 			echo $?
+		else
+			echo "SCHEISSEKOMMANDO 666"
 		fi
 	fi
 
 	sleep 6
 	dqb "V6"
 
-	#HUOM.12525:toimiiko v6sen kanssa?	
+	#HUOM. pitäisi kai tehdä kuten ylempänä, -s mukaan	
 	[ -h /etc/iptables/rules.v6 ] || ${slinky} /etc/iptables/rules.v6.${dnsm} /etc/iptables/rules.v6
-
+	
 	csleep 3
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
@@ -396,15 +400,12 @@ function mangle2() {
 
 function enforce_access() {
 	dqb " enforce_access( ${1})"
-
+	csleep 1
+	dqb "changing /sbin , /etc and /var 4 real"
+	
 	${scm} 0440 /etc/sudoers.d/*
 	${scm} 0750 /etc/sudoers.d
 	${sco} -R root:root /etc/sudoers.d
-
-	dqb "changing /sbin , /etc and /var 4 real"
-
-	${sco} -R root:root /sbin
-	${scm} -R 0755 /sbin
 
 	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
 
@@ -412,9 +413,17 @@ function enforce_access() {
 		mangle2 ${f}
 	done
 
+	#uusi osio 18.5.25
+	${scm} 0400 /etc/iptables/*
+	${scm} 0550 /etc/iptables
+	#/uusi osio
+
 	${scm} 0755 /etc
 	${sco} -R root:root /etc #-R liikaa?
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
+
+	${sco} -R root:root /sbin
+	${scm} -R 0755 /sbin
 
 	${sco} root:root /var
 	${scm} 0755 /var
@@ -422,6 +431,9 @@ function enforce_access() {
 	${sco} root:mail /var/mail
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
+
+	dqb "/var d0mne"
+	csleep 1
 
 	${scm} 0755 /
 	${sco} root:root /

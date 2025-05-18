@@ -6,7 +6,7 @@ d=~/Desktop/minimize/${distro}
 [ z"${distro}" == "z" ] && exit 6
 debug=0 #1
 
-#TODO:paremmin toimiva tarkistus,0750 voisi mennä läpi
+#TODO:paremmin toimiva tarkistus,0750 voisi mennä läpi tavis-kjänä
 if [ -r /etc/iptables ] || [ -w /etc/iptables ]  || [ -r /etc/iptables/rules.v4 ] ; then
 	echo "/E/IPTABLES IS WRITABEL"
 	#exit 12
@@ -109,11 +109,18 @@ csleep 3
 #===================================================PART 2===================================
 
 c14=0
+c13=0
 [ ${mode} -eq 1 ] && c14=1
-#HUOM.16525:vissiin urputtaa kska lcf666 puuttuu konffista, palauta jostain
-c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
-[ ${c13} -lt 1 ] && c14=1
 
+if [ -v LCF666 ] ; then
+	#HUOM.16525:vissiin urputti kska lcf666 puuttuu konffista, palautettu
+	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
+else
+	echo "555"
+fi
+
+csleep 6
+[ ${c13} -lt 1 ] && c14=1
 el_loco ${c14} ${c13}
 #HUOM.15525:joskohan el_loco toimisi jo kuten tarkoitus?
 
