@@ -56,7 +56,9 @@ if [ -f ${tgt} ] ; then
 		for f in $(find /etc -name 'locale*') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
 	
 		${tcmd} -f ${tgt} -rv /etc/timezone #tarttisiko jotain muutakin lisätä tssä?
-		#TODO:päivitetyn kalan sha myös talteen		
+		sha512sum ${tgt} > ${tgt}.sha
+		sha512sum -c  ${tgt}.sha
+ 	
 		echo "DONE UPDATING"
 		sleep 2
 	fi
