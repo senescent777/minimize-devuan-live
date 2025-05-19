@@ -10,9 +10,9 @@ if [ z"${distro}" != "z" ] ; then
 		. ~/Desktop/minimize/${distro}/conf
 		echo "CNF F0UND"; sleep 1
 
-		#TODO:-v mukaan testeihin
-		if [ -d ${dir} ] ; then
-			v=$(grep -c ${dir} /proc/mounts) #qseeko tässä jokin? aiempi tapa parempi?
+		if  [ -v dir ] && [ -d ${dir} ] ; then
+			#v=$(grep -c ${dir} /proc/mounts) #qseeko tässä jokin? aiempi tapa parempi?
+			v=$(grep ${dir} /proc/mounts | wc -l)
 
 			if [ ${v} -lt 1 ] ; then
 				echo "HAVE TO MOUNT";sleep 1			
