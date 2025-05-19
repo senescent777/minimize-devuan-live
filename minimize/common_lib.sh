@@ -838,7 +838,6 @@ function part3() {
 	part3_4real ${1}
 }
 
-#HUOM.14525:ideana taisi olla että ajettaisiin tämä tdston lopussa
 function gpo() {
 	dqb "GPO"
 	#getopt olisi myös keksitty
@@ -854,5 +853,6 @@ function gpo() {
 	done
 }
 
+#TODO:gpo käyttöön
 #https://stackoverflow.com/questions/16988427/calling-one-bash-script-from-another-script-passing-it-arguments-with-quotes-and
 #gpo "$@"

@@ -67,28 +67,10 @@ else
 	exit 111
 fi
 
-function vommon() {
-	dqb "R (in 3 secs)"
-	csleep 3
-	${odio} passwd
-
-	#miksi tähän ei mennä? vai mennäänkö? ilmeinen syy?
-	if [ $? -eq 0 ] ; then
-		dqb "L (in 3 secs)"
-		csleep 3
-		passwd
-	fi
-
-	if [ $? -eq 0 ] ; then
-		${whack} xfce4-session
-		#HUOM. tässä ei tartte jos myöhemmin joka tap
-	else
-		dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
-	fi
-
-	exit
-}
-
+#function vommon() {
+#
+#}
+#
 #==================================PART 1============================================================
 
 dqb "mode= ${mode}"
@@ -124,7 +106,26 @@ el_loco ${c14} ${c13}
 #HUOM.15525:joskohan el_loco toimisi jo kuten tarkoitus?
 
 if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
-	vommon
+	dqb "R (in 3 secs)"
+	csleep 3
+	${odio} passwd
+
+	#miksi tähän ei mennä? vai mennäänkö? ilmeinen syy?
+	if [ $? -eq 0 ] ; then
+		dqb "L (in 3 secs)"
+		csleep 3
+		passwd
+	fi
+
+	if [ $? -eq 0 ] ; then
+		${whack} xfce4-session
+		#HUOM. tässä ei tartte jos myöhemmin joka tap
+	else
+		dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
+	fi
+
+	exit
+
 	exit #varm. vuoksi kesk. suor. jos salakala tyritty
 fi
 
