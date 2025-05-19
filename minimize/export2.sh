@@ -225,7 +225,7 @@ function pre2() {
 }
 
 function tpq() {
-	debug=1
+	#debug=1
 	dqb "tpq ${1} ${2}"
 	[ -d ${1} ] || exit 22
 	dqb "paramz 0k"
@@ -412,8 +412,9 @@ function tp4() {
 }
 
 #koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
+#HUOM.20525:joskohan locale- ja rules- juttuja varten uusi fktio? vääntöä tuntuu riittävän nimittäin
 function tp2() {
-	#debug=1
+	debug=1
 	dqb "tp2 ${1} ${2}"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
@@ -423,18 +424,33 @@ function tp2() {
 
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
+	${srat} -rf ${1} /etc/network/interfaces /etc/network/interfaces.*
 
-	#jatqs v pois
-	${srat} -rvf ${1} /etc/network/interfaces /etc/network/interfaces.*
+	dqb "JUST BEFORE URLE	S"
+	csleep 6
 
-	#HUOM.16525:meneekö pieleen väärien oikeuksien takia ao. rivi? KOPIOIKO TAR MITÄÄN VAI EI?
-	${srat} -rvf ${1} /etc/iptables/rules.v4.? /etc/iptables/rules.v6.?
+	#HUOM.16525:meneekö pieleen väärien oikeuksien takia ao. rivi? KOPIOIKO TAR MITÄÄN VAI EI? PASKA TIKKU VAI MIT VIT
+	#${srat} -rvf ${1} /etc/iptables/rules.v4.? /etc/iptables/rules.v6.?
+
+	#TOIMISIKO JO?
+	for f in $(find /etc -type f -name 'rules*') ; do ${srat} -rvf ${1} ${f} ; done
+
+	echo $?
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep etc | less
+	sleep 6
+
+	dqb "JUST BEFORE LOCALES"
+	sleep 1
+
+	#/etc/default/rules* 
+	${srat} -rvf ${1} /etc/timezone 
+	for f in $(find /etc -type f -name 'locale*') ; do ${srat} -rvf ${1} ${f} ; done
+
 	echo $?
 	sleep 5
 
-	${srat} -rvf ${1} /etc/default/rules* /etc/default/locale* /etc/timezone /etc/locale-gen
-	echo $?
-	sleep 5
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep etc | less
+	csleep 5
 
 	${scm} -R 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
@@ -476,7 +492,7 @@ function tp2() {
 }
 
 function tp3() {
-	debug=1 #antaa olla vielä
+	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
@@ -597,7 +613,7 @@ function tpu() {
 #TODO:-v tekemään jotain hyödyllistä
 
 function tp5() {
-	debug=1
+	#debug=1
 
 	dqb "tp5 ${1} ${2}"
 	[ z"${1}" == "z" ] && exit 99
