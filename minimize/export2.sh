@@ -36,7 +36,7 @@ function usage() {
 mode=${1}
 tgtfile=${2}
 
-#...ehkä pystyisi myös gpo()-tavalla (kokeilisiko?)
+#...ehkä pystyisi myös gpo()-tavalla (vähitellen, TODO)
 case $# in
 	1)
 		[ "${1}" == "-h" ]  && usage

@@ -25,7 +25,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#HUOM.18525:optioiden parsiminen saattaa tässä tdstossa olla kätevämpi näin q gpo():n kautta
+#HUOM.19525:pitäisi onnistua gpo():n kautta tehdä parsetus (TODO)
 case $# in
 	1)
 		dqb "maybe ok" #tap -1 ja 2 ok, muissa pitäisi fileen puuttuminen p ysäyttää

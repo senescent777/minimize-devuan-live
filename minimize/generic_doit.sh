@@ -53,7 +53,7 @@ function parse_opts_2() {
 if [ $# -gt 0 ] ; then
 	for opt in $@ ; do parse_opts_1 $opt ; done
 fi
-#gpo
+#gpo #TODO:tämä vähitellen
 
 #=====================================PART0======================================
 dqb "b3f0r3 p.076"

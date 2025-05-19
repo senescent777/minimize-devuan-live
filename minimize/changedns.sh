@@ -141,6 +141,7 @@ function ns4() {
 
 function clouds_pp1() {
 	dqb "#c.pp.1  ( ${1} )"
+	#TODO:linkkiys-tarkistuksia
 
 	if [ -s /etc/resolv.conf.1 ] || [ -s /etc/resolv.conf.0 ] ; then 
 		${smr} /etc/resolv.conf
@@ -169,6 +170,7 @@ function clouds_pp1() {
 	dqb "...done"
 }
 
+#TODO:tämäkin vähitellen ojennukseen
 #HUOM.17525:OLISI VARMAAN PRKL HELPOMPAA VAIN LADATA SÄÄNNÖT VAIHTELEVAN NIMISESTÄ TDSTOSTA JA TÄTS IT
 function clouds_pp2() {
 	debug=1
@@ -203,7 +205,7 @@ function clouds_pp2() {
 
 	for f in rules.v4 rules.v6 ; do
 		if [ -s /etc/iptables/${f}.${1} ] && [ -r /etc/iptables/${f}.${1} ] ; then
-			${slinky}  /etc/iptables/${f}.${1}  /etc/iptables/${f}
+			${slinky}  /etc/iptables/${f}.${1} /etc/iptables/${f}
 			
 			csleep 1
 		else

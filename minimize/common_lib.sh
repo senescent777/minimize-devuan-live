@@ -101,6 +101,7 @@ fix_sudo
 [ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 csleep 5
 
+#TODO:tähän saattoi tulla pientä laittoa 19525 tienoilla
 #TODO:testaa nyt vielä miteb tämnk versio toimii, sen jälk tables-kikkailujen siirto pelkästään changedns:lle
 function jules() {
 	dqb "LE BIG MAC"
@@ -408,6 +409,7 @@ function mangle2() {
 	fi
 }
 
+#TODO:josko pilkkoisi pienimpiin fktioihin tämän
 function enforce_access() {
 	dqb " enforce_access( ${1})"
 	csleep 1
