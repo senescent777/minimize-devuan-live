@@ -35,7 +35,7 @@ function pre_part3() {
 	csleep 6
 }
 
-#HUOM.14525:pitäisiköhän tässäkin olla se debian_fromtend-juttu?
+#HUOM.19525:pitäisiköhän tässäkin olla se debian_fromtend-juttu? ehkä ei ole pakko
 function pr4() {
 	dqb "pr4( ${1} , ${2} )"
 	csleep 3
@@ -74,6 +74,7 @@ function pr4() {
 	csleep 1
 }
 
+#TODO:toimivuuden testaus
 function udp6() {
 	dqb "daud.lib.UPDP-6"
 	csleep 2
@@ -88,7 +89,7 @@ function udp6() {
 	${smr} ${pkgdir}/libpython3.11*
 	${smr} ${pkgdir}/librsvg2*
 	
-	#TODO:kts part2_5 (?)
+	#TODO:part2_5 jekku käyttöön
 	${smr} ${pkgdir}/avahi*
 	${smr} ${pkgdir}/blu*
 	${smr} ${pkgdir}/cups*
@@ -115,4 +116,7 @@ function part2_pre() {
 }
 
 check_binaries ${distro}
+echo $?;sleep 3
 check_binaries2
+echo $?;sleep 3
+

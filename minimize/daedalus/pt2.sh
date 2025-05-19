@@ -9,6 +9,7 @@ ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 ${fib}
 
+#TODO:gpo() käyttöön tähänkin
 if [ $# -gt 0 ] ; then  
 	if [ "${1}" == "-v" ] ; then
 		debug=1
