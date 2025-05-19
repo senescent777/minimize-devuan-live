@@ -3,15 +3,16 @@ distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 u=0
 v=0
 
-#TODO:tapaus $dir valmiiksi mountattu, miksi urputtaa? korjaa
+#TODO:tapaus $dir valmiiksi mountattu, miksi urputtaa? korjaa muutkin kiukuttelu samalla jos mahd
 
 if [ z"${distro}" != "z" ] ; then
 	if [ -s ~/Desktop/minimize/${distro}/conf ] ; then
 		. ~/Desktop/minimize/${distro}/conf
 		echo "CNF F0UND"; sleep 1
 
+		#TODO:-v mukaan testeihin
 		if [ -d ${dir} ] ; then
-			v=$(grep -c ${dir} /proc/mounts) #qseeko tässä jokin?
+			v=$(grep -c ${dir} /proc/mounts) #qseeko tässä jokin? aiempi tapa parempi?
 
 			if [ ${v} -lt 1 ] ; then
 				echo "HAVE TO MOUNT";sleep 1			
@@ -55,6 +56,7 @@ if [ -f ${tgt} ] ; then
 		for f in $(find /etc -name 'locale*') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
 	
 		${tcmd} -f ${tgt} -rv /etc/timezone #tarttisiko jotain muutakin lisätä tssä?
+		#TODO:päivitetyn kalan sha myös talteen		
 		echo "DONE UPDATING"
 		sleep 2
 	fi

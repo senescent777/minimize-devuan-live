@@ -169,6 +169,7 @@ function common_part() {
 	cd /
 	dqb "DEBUG:${srat} -xf ${1} "
 	csleep 2
+	#TODO:kalan sha-tarkistus bittiruton varalta
 	${srat} -xf ${1}
 	csleep 2
 	dqb "tar DONE"
