@@ -227,6 +227,7 @@ function pre2() {
 	sleep 4
 }
 
+#TODO:tarkista että tämäkin toimii kuten pitää
 function tpq() {
 	#debug=1
 	dqb "tpq ${1} ${2}"

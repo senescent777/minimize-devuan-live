@@ -167,6 +167,7 @@ function common_part() {
 	dqb "paramz_0k"
 
 	cd /
+	#TODO:sha-tarkistus toimimaan, polun kanssa on juttuja
 	dqb "DEBUG:${srat} -xf ${1} "
 	csleep 2
 	
