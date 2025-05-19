@@ -194,7 +194,7 @@ function pre1() {
 }
 
 function pre2() {
-	#debug=1
+	debug=1
 	dqb "pre2 ${1}, ${2} " #WTIN KAARISULKEET STNA
 	[ x"${1}" == "z" ] && exit 666
 
@@ -222,6 +222,9 @@ function pre2() {
 		echo "P.V.HH"
 		exit 111
 	fi
+
+	echo "PRE 2DONE"
+	sleep 4
 }
 
 function tpq() {
@@ -317,7 +320,7 @@ function rmt() {
 }
 
 function tp4() {
-	#debug=1
+	debug=1
 	dqb "tp4 ${1} , ${2} "
 
 	[ z"${1}" == "z" ] && exit 1
@@ -424,8 +427,10 @@ function tp2() {
 
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
-	${srat} -rf ${1} /etc/network/interfaces /etc/network/interfaces.*
 
+	#VAIH:findin kanssa?
+	#${srat} -rf ${1} /etc/network/interfaces /etc/network/interfaces.*
+	for f in $(find /etc -type f -name 'interfaces*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
 	csleep 6
 
@@ -644,7 +649,7 @@ function tp5() {
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 6
-#TODO;muodostetun arkiston sha-tarkistus
+#VAIH;muodostetun arkiston sha-tarkistus
 pre1 ${d}
 
 case ${mode} in
@@ -668,6 +673,10 @@ case ${mode} in
 		tp1 ${tgtfile} ${d}
 		pre1 ${d}
 		tp2 ${tgtfile}
+
+		${sah6} ${tgtfile} > ${tgtfile}.sha
+		${sah6} -c ${tgtfile}.sha
+		echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
 	;;
 	1|u|upgrade)
 		pre2 ${d}
@@ -681,6 +690,10 @@ case ${mode} in
 	e)
 		pre2 ${d}
 		tp4 ${tgtfile} ${d}
+
+		${sah6} ${tgtfile} > ${tgtfile}.sha
+		${sah6} -c ${tgtfile}.sha
+		echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
 	;;
 	f)
 		rmt ${tgtfile} ${d}
