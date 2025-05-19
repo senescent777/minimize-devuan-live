@@ -291,7 +291,7 @@ case "${mode}" in
 		fi
 	;;
 	*)
-		echo "-h"
+		echo "-h" #TODO:usage() , kuten export2 kanssa
 	;;
 esac
 
