@@ -628,7 +628,7 @@ function tp5() {
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 6
-
+#TODO;muodostetun arkiston sha-tarkistus
 pre1 ${d}
 
 case ${mode} in
