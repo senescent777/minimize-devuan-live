@@ -1,40 +1,41 @@
-#function init() {
-odio=$(which sudo)
-[ y"${odio}" == "y" ] && exit 99 
-[ -x ${odio} ] || exit 100
+function init() {
+	odio=$(which sudo)
+	[ y"${odio}" == "y" ] && exit 99 
+	[ -x ${odio} ] || exit 100
+	
+	sco=$(sudo which chown)
+	[ y"${sco}" == "y" ] && exit 98
+	[ -x ${sco} ] || exit 97
+	
+	scm=$(sudo which chmod)
+	[ y"${scm}" == "y" ] && exit 96
+	[ -x ${scm} ] || exit 95
+	
+	sco="${odio} ${sco} "
+	scm="${odio} ${scm} "
+	
+	#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
+	sah6=$(which sha512sum)
+	distro=$(cat /etc/devuan_version)
+	n=$(whoami)
+	PREFIX=~/Desktop/minimize #SDAATANAN TUNARI(T)
+	slinky=$(${odio} which ln)
+	slinky="${odio} ${slinky} -s "
+	spc=$(${odio} which cp)
+	svm=$(${odio} which mv)
+	svm="${odio} ${svm} "
+	spc="${odio} ${spc} "
+	whack=$(${odio} which pkill)
+	whack="${odio} ${whack} --signal 9 "
+	snt=$(${odio} which netstat)
+	snt="${odio} ${snt} -tulpan "
+	smr=$(${odio} which rm)
+	NKVD=$(${odio} which shred)
+	NKVD="${NKVD} -fu "
+	PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+}
 
-sco=$(sudo which chown)
-[ y"${sco}" == "y" ] && exit 98
-[ -x ${sco} ] || exit 97
-
-scm=$(sudo which chmod)
-[ y"${scm}" == "y" ] && exit 96
-[ -x ${scm} ] || exit 95
-
-sco="${odio} ${sco} "
-scm="${odio} ${scm} "
-
-#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
-sah6=$(which sha512sum)
-distro=$(cat /etc/devuan_version)
-n=$(whoami)
-PREFIX=~/Desktop/minimize #SDAATANAN TUNARI(T)
-slinky=$(${odio} which ln)
-slinky="${odio} ${slinky} -s "
-spc=$(${odio} which cp)
-svm=$(${odio} which mv)
-svm="${odio} ${svm} "
-spc="${odio} ${spc} "
-whack=$(${odio} which pkill)
-whack="${odio} ${whack} --signal 9 "
-snt=$(${odio} which netstat)
-snt="${odio} ${snt} -tulpan "
-smr=$(${odio} which rm)
-NKVD=$(${odio} which shred)
-NKVD="${NKVD} -fu "
-PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
-#}
-#init
+init
 
 #TODO:paremmin toimiva tarkistus,0750 voisi mennä läpi kun taviksena ajellaamn
 if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then # linkkien kanssa pitäisi tehdä toisin
