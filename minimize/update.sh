@@ -66,6 +66,7 @@ if [ -f ${tgt} ] ; then
 		#HUOM.oikeuksien pakottaminen mukaan tai if -r loopin sisälle , sama export2 kanssa (VAIH)
 		${scm} 0755 /etc/iptables
 		${scm} 0444 /etc/iptables/*
+		${scm} 0444 /etc/default/rules*
 		sleep 5
 				
 		for f in $(find /etc -name 'rules*') ; do
@@ -75,6 +76,7 @@ if [ -f ${tgt} ] ; then
 		done #JOSKO NYT SKEOILU VÄHENISI PRKL
 
 		sleep 5
+		${scm} 0400 /etc/default/rules*
 		${scm} 0400 /etc/iptables/*
 		${scm} 0550 /etc/iptables
 		sleep 5
@@ -83,7 +85,7 @@ if [ -f ${tgt} ] ; then
 		sleep 3
 
 		#HUOM.saattaa urputtaa $tgt polusta riippuen
-		sudo touch  ${tgt}.sha
+		sudo touch ${tgt}.sha
 		sudo chmod 0666  ${tgt}.sha
 		sha512sum ${tgt} > ${tgt}.sha
 		sha512sum -c ${tgt}.sha
