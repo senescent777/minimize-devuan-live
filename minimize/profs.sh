@@ -2,7 +2,6 @@
 #csleep 6
 
 #lukkotiedostojen hävitys oli kanssa 1 juttu mikä piti uistaa tehdä...
-#TEHTY:siirto git:in sisällä eri repositoryyn
 
 function oldprof() {
 	dqb "cprof1 ${1} ${2}"
@@ -53,8 +52,6 @@ function createnew() {
 
 	csleep 3
 }
-
-#VAIH:profiilin hakemiseen $(${}) - tyyppinen juttu jatkossa, skripti tai fktio
 
 function findprof() {
 	result=$(find ${1} -type d  | grep -v '+' | grep ${2}  | head -n 1 )
@@ -138,6 +135,7 @@ function imp_prof() {
 	csleep 2
 }
 
+#HUOM.20525:toimiikohan findprof kuitebkaan?
 function exp_prof() {
 	dqb "exp_pros ${1} ${2}"
 
@@ -146,17 +144,15 @@ function exp_prof() {
 	local f
 	
 	csleep 2
-	#tget=$(ls ~/.mozilla/firefox/ | grep ${2} | tail -n 1)
+	#tget=$(ls ~/.mozilla/firefox | grep ${2} | tail -n 1)
 	
-	findprof ~/.mozilla/firefox/ ${2}
+	findprof ~/.mozilla/firefox ${2}
 	tget=${result}
-
+	dqb "TG3T=${tget}"
+	csleep 5
 	p=$(pwd)
 
 	cd ~/.mozilla/firefox/${tget}
-	dqb "TG3T=${tget}"
-	csleep 2
-
 	${odio} touch ./rnd
 	${sco} ${n}:${n} ./rnd
 	${scm} 0644 ./rnd
