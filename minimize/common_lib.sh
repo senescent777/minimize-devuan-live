@@ -548,7 +548,7 @@ function part1() {
 	if [ -f /etc/apt/sources.list ] ; then
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
 
-		if [ ${c} -gt 0 ] ; 
+		if [ ${c} -gt 0 ] ; then 
 			${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
 			csleep 5
 		fi

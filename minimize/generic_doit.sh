@@ -68,7 +68,7 @@ csleep 5
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
 enforce_access ${n}
 
-#TODO:tarttisikohan jotain tehdä sources.list suhteen?
+#VAIH:tarttisikohan jotain tehdä sources.list suhteen? no testaapa part1 ainakin
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
 

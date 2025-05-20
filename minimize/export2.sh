@@ -425,7 +425,7 @@ function tp2() {
 	dqb "JUST BEFORE URLE	S"
 	csleep 6
 
-	#TOIMISIKO JO? PITÄISI KAI VARMISTAA ETTÄ 0-PITUISIA EI TULE MUKAAN (VAI VIELÄKÖ SKRIPTI PASKOVAT?)
+	#TOIMISIKO JO? PITÄISI KAI VARMISTAA ETTÄ 0-PITUISIA EI TULE MUKAAN (VAI VIELÄKÖ SKRIPTIt PASKOVAT?)
 	for f in $(find /etc -type f -name 'rules*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
@@ -488,7 +488,7 @@ function tp2() {
 	csleep 5
 }
 
-#TODO:tarttisikohan jotain tehdä sources.list suhteen? avainsana "http:" voisi laukaista toiminnan
+#VAIH:tarttisikohan jotain tehdä sources.list suhteen? avainsana "http:" voisi laukaista toiminnan
 #c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l) , kts. part1 nykyään
 function tp3() {
 	#debug=1 #antaa olla vielä
@@ -518,15 +518,15 @@ function tp3() {
 	cd more_scripts/misc
 
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
-	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm} #.0
-	
-	if [ ! -s  ./etc/dhcp/dhclient.conf.1 ] ; then
+	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm}
+
+	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
 		${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1	
 	fi
 
 	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
 	# (ao. rivi tp2() jatkossa?)	
-	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm} #.0
+	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm}
 
 	#HUOM.14525.5:eka tarkistus lienee turha
 	if [ ! -s ./etc/resolv.conf.1 ] ; then
@@ -535,7 +535,7 @@ function tp3() {
 
 	#HUOM.14525.3:ghubista löytyvä(.new) vastaa tilannetta dnsm=1
 	# (ao. rivi tp2() jatkossa?)
-	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm} #.0
+	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm}
 
 	if [ ${dnsm} -eq 0 ] && [ ! -s ./sbin/dhclient-script.1 ] ; then
 		  ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
@@ -544,7 +544,15 @@ function tp3() {
 	#HUOM.14525.4:tp3 ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
 	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? 
 	# (ao. rivi tp2() jatkossa?)
- 	${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
+
+	if [ -f /etc/apt/sources.list ] ; then
+		local c
+		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
+
+		if [ ${c} -lt 1 ] ; then
+ 			${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
+		fi
+	fi
 
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
@@ -666,7 +674,7 @@ case ${mode} in
 		pre2 ${d}
 		tpu ${tgtfile} ${d}
 
-		#HUOM.sah6-jutut voisivat olla esac hälkeen jatkossa
+		#HUOM.sah6-jutut voisivat olla esac hälkeen jatkossa (TODO)
 		${sah6} ${tgtfile} > ${tgtfile}.sha
 		${sah6} -c ${tgtfile}.sha
 	;;
