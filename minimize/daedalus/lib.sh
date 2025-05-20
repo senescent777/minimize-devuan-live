@@ -91,11 +91,19 @@ function udp6() {
 	${smr} ${pkgdir}/libpython3.11*
 	${smr} ${pkgdir}/librsvg2*
 	
-	#TODO:part2_5 jekku käyttöön
-	${smr} ${pkgdir}/avahi*
-	${smr} ${pkgdir}/blu*
-	${smr} ${pkgdir}/cups*
-	${smr} ${pkgdir}/exim*
+#	#VAIH:part2_5 jekku käyttöön
+#	${smr} ${pkgdir}/avahi*
+#	${smr} ${pkgdir}/blu*
+#	${smr} ${pkgdir}/cups*
+#	${smr} ${pkgdir}/exim*
+	
+	for s in ${PART175_LIST} ; do
+		dqb "processing ${s}"
+		csleep 1
+
+		${smr} ${pkgdir}/${s}*
+		csleep 1
+	done
 
 	case ${iface} in
 		wlan0)
