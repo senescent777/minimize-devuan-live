@@ -22,13 +22,6 @@ ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 ${fib}
 
-#VAIH:gpo() käyttöön tähänkin
-#if [ $# -gt 0 ] ; then  
-#	if [ "${1}" == "-v" ] ; then
-#		debug=1
-#	fi
-#fi
-#exit
 dqb "a-e"
 csleep 5
 
@@ -45,10 +38,10 @@ fi
 ${sharpy} amd64-microcode iucode-tool arch-test at-spi2-core 
 ${sharpy} bubblewrap atril* coinor* cryptsetup* debootstrap
 
-${asy} 
-${lftr}
-csleep 5
-
+#${asy} 
+#${lftr}
+#csleep 5
+#
 ${sharpy} dmidecode discover* dirmngr #tuleekohan viimeisestä ongelma? vissiin ei
 ${sharpy} doc-debian docutils* efibootmgr exfalso 
 ${sharpy} fdisk ftp* gdisk gcr
@@ -80,7 +73,6 @@ csleep 5
 #lib-paketteihin ei yleisessä tapauksessa kande koskea eikä live-
 #libgssapi-krb5 tarpeellinen?
 #HUOM! PAKETIT procps, mtools JA mawk JÄTETTÄVÄ RAUHAAN!!! (tai mtools ehkä uskaltaa kun o muitsa poistettu ensin)
-
 #HUOM.15525:uutena libcolor, näytti poistavan liikaa joten jemmaan
 #${sharpy} libcolor* 
 #csleep 5
@@ -96,10 +88,10 @@ ${sharpy} mlocate mokutil mariadb-common mysql-common
 ${sharpy} netcat-traditional openssh* os-prober #orca saattaa poistua jo aiemmin
 ${sharpy} nfs-common rpcbind
 
-csleep 5
-dqb "p"
-csleep 5
-
+#csleep 5
+#dqb "p"
+#csleep 5
+#
 ${sharpy} ppp procmail ristretto screen
 ${sharpy} pkexec po* refracta* squashfs-tools
 
@@ -107,13 +99,11 @@ ${asy}
 ${lftr}
 csleep 5
 
-#HUOM.15525 vaikuttaisi toimivan, ajon jälkeen x toimii edelleen
-${sharpy} samba* system-config* telnet tex* 
-
 #VAIH:, python3*, , voisiko niitä karsia?
+${sharpy} samba* system-config* telnet tex* 
 ${sharpy} syslinux* mythes isolinux libgssapi-krb5-2
-
 ${sharpy} uno* ure* upower vim* # udisks* saattaa poistua jo aiemmin
+
 ${asy} 
 ${lftr}
 csleep 5
