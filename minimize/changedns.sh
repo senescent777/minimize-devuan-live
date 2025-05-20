@@ -27,6 +27,15 @@ sleep 1
 [ -s /etc/iptables/rules.v6.0} ] || echo "OIJBIYF97TF98YG087T976R"
 sleep 1
 
+
+#EI SITTEN PERKELE ALETA KIKKAILLA /ETC/IPTABLES/RULES KANSSA
+#ESIM. PASKOJEN TIKKUJEN KANSSA TULEE TÄYDI SIRKUS 666
+# (JA SITTEN ON NE OIKEUDETKIN MITKÄ VOIVAT OLLA PÄIN VITTUA)
+#LISÄKSI PAKETTIIN VOI TULLA KAIKENLAISTA YLIMÄÄRÄISTÄ PASKAA SOTKEMAAN JOS EI OLE TARKKA
+
+
+
+
 sudo chmod 0755 /etc/iptables
 sudo chmod 0444 /etc/iptables/*
 sudo chmod 0444 /etc/default/rules.*
@@ -182,7 +191,9 @@ sudo chmod 0400 /etc/iptables/*
 sudo chmod 0400 /etc/default/rules*
 sudo chmod 0550 /etc/iptables
 sleep 5
+
 	if [ -s /etc/resolv.conf.1 ] || [ -s /etc/resolv.conf.0 ] ; then 
+
 		${smr} /etc/resolv.conf
 		[ $? -gt 0 ] && echo "FAILURE TO COMPLY WHILE TRYING TO REMOVE RESOLV.CONF"
 	fi
@@ -207,6 +218,7 @@ sleep 5
 
 	csleep 1
 	dqb "...done"
+
 }
 
 function clouds_pp3() {
@@ -250,6 +262,46 @@ sleep 5
 	#pidemmän päälle olisi kätevämpi nimetä kuin numeroida ne säännöt...
 	${ipt} -D INPUT 5
 	${ipt} -D OUTPUT 6
+
+	csleep 1
+	dqb "...done"
+}
+
+function clouds_pre() {
+	dqb "cdns.clouds_pre( ${1}, ${2} )"
+	csleep 1
+
+sudo chmod 0755 /etc/iptables
+sudo chmod 0444 /etc/iptables/*
+sudo chmod 0444 /etc/default/rules.*
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sleep 5
+sudo chmod 0400 /etc/iptables/*
+sudo chmod 0400 /etc/default/rules*
+sudo chmod 0550 /etc/iptables
+sleep 5
+	clouds_pp1
+	csleep 1
+
+	#clouds_pp2 ${1} #tätäkö ei kutsuta? ja silti menee rules votuiksi?
+	
+	clouds_pp3 ${1}
+	csleep 1
 
 	csleep 1
 	dqb "...done"

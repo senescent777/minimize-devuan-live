@@ -11,6 +11,7 @@ if [ -r /etc/iptables ] || [ -w /etc/iptables ]  || [ -r /etc/iptables/rules.v4 
 	echo "/E/IPTABLES IS WRITABEL"
 	#exit 12
 	sleep 1
+
 fi
 
 if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
