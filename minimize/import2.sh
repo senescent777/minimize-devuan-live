@@ -25,7 +25,6 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#HUOM.19525:pitäisi onnistua gpo():n kautta tehdä parsetus (TODO)
 #case $# in
 #	1)
 #		dqb "maybe ok" #tap -1 ja 2 ok, muissa pitäisi fileen puuttuminen p ysäyttää

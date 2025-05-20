@@ -38,22 +38,12 @@ function parse_opts_1() {
 }
 
 function parse_opts_2() {
-	#toistaiseksi oltava common_lib jälkeen koska dqb
 	dqb "parseopts_2 ${1} ${2}"
 }
 
 . ~/Desktop/minimize/common_lib.sh
-#HUOM.140525:vaikuttaisi siltä että vasta lib.sh includoinnin jälkeen alkaa 076 pelata, kts toistuuko+koita korjata
-
-#VAIH:gpo():n kautta jatkossa, jos mahd (vaikuttaisi siltä että $@ ei kulkeudu automaagisesti, man bash, googella jo kokeiltu, kts c_lib loppu)
 #https://linuxopsys.com/use-dollar-at-in-bash-scripting
 #https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
-#
-##HUOM.tämä blokki oli aiemmin juuri ennen pre_enforce():a
-#if [ $# -gt 0 ] ; then
-#	for opt in $@ ; do parse_opts_1 $opt ; done
-#fi
-#gpo
 
 #=====================================PART0======================================
 dqb "b3f0r3 p.076"
@@ -101,7 +91,7 @@ fi
 csleep 6
 [ ${c13} -lt 1 ] && c14=1
 el_loco ${c14} ${c13}
-#HUOM.15525:joskohan el_loco toimisi jo kuten tarkoitus?
+#TODO:joskohan copy-pastella el_loco tähän
 
 if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
 	dqb "R (in 3 secs)"

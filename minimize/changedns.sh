@@ -171,7 +171,7 @@ function clouds_pp1() {
 	dqb "...done"
 }
 
-#TODO:tämäkin vähitellen ojennukseen
+#VAIH:tämäkin vähitellen ojennukseen (se fktio common_lib:issä olisi sisllöltään melkeins ama kohta)
 #HUOM.17525:OLISI VARMAAN PRKL HELPOMPAA VAIN LADATA SÄÄNNÖT VAIHTELEVAN NIMISESTÄ TDSTOSTA JA TÄTS IT
 function clouds_pp2() {
 	debug=1
@@ -187,16 +187,18 @@ function clouds_pp2() {
 	csleep 3	
 	#HUOM. pitäisiköhän linkit hukata jokatapauksessa? 0<->1 - vaihdoissa silloin häviää linkitys kokonaan
 
-	for f in rules.v4 rules.v6 ; do
-		if [ -h /etc/iptables/${f} ; then
-			dqb "smr /e/i/rv4"
-			${smr} /etc/iptables/${f}
-			echo $?
-		else
-			if [ -s /etc/iptables/${f} ] && [ -r /etc/iptables/${f} ]  ; then
-				dqb "svm ${f} ${f}.OLD"
-				${svm} /etc/iptables/${f}  /etc/iptables/${f}.OLD
-				echo $?			
+	for f in /etc/iptables/rules.v4 /etc/iptables/rules.v6 ; do
+		if [ -e ${f} ] ; then
+			if [ -h /etc/iptables/${f} ; then
+				dqb "smr /e/i/rv4"
+				${smr} /etc/iptables/${f}
+				echo $?
+			else
+				if [ -s /etc/iptables/${f} ] && [ -r /etc/iptables/${f} ] ; then
+					dqb "svm ${f} ${f}.OLD"
+					${svm} /etc/iptables/${f}  /etc/iptables/${f}.OLD
+					echo $?			
+				fi
 			fi
 		fi
 	done
@@ -204,65 +206,15 @@ function clouds_pp2() {
 	dqb "cpp2.PART2"
 	csleep 5
 
-	for f in rules.v4 rules.v6 ; do
-		if [ -s /etc/iptables/${f}.${1} ] && [ -r /etc/iptables/${f}.${1} ] ; then
-			${slinky}  /etc/iptables/${f}.${1} /etc/iptables/${f}
-			
-			csleep 1
+	for f in /etc/iptables/rules.v4 /etc/iptables/rules.v6 ; do
+		if [ -s ${f}.${1} ] && [ -r ${f}.${1} ] ; then
+			${slinky} ${f}.${1} ${f}
 		else
 			dqb "FFF"
 		fi
-	done
 
-#	#VAIH:se silmukka-juttu
-#	if [ -h /etc/iptables/rules.v4 ] ; then
-#		dqb "smr /e/i/rv4"
-#		${smr} /etc/iptables/rules.v4
-#	else
-#		#tarpeellinen tarkistus? no -r tuohon lisäksi varm- vuoksi
-#		if [ -s /etc/iptables/rules.v4 ] ; then
-#			dqb "smr rv4 rv4.OLD"
-#			${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD
-#			echo $?
-#		fi		
-#	fi
-#
-#	csleep 3
-#
-#	if [ -h /etc/iptables/rules.v6 ] ; then
-#		dqb "smr /e/i/r6v"
-#		${smr} /etc/iptables/rules.v6
-#	else
-#		if [ -s /etc/iptables/rules.v6 ] ; then #TARKKUUTTA PELIIN PRKL
-#			dqb "smr rv6 rv6.OLD"
-#			${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
-#			echo $?
-#		fi
-#	fi
-#
-#	dqb "cpp2.PART2"
-#	csleep 5
-#	#HUOM.16525:josko nalkuttaisi jotain 0-pituisen tdston johdosta?
-#
-#	#onko nyt näin että -s vaatii lukuoikeuden? vai mitvit?
-#	if [ -s /etc/iptables/rules.v4.${1} ] ; then
-#		${slinky} /etc/iptables/rules.v4.${1} /etc/iptables/rules.v4
-#		dqb "stinky1"
-#	else
-#		dqb "ZERO THE HERO"
-#		exit 99
-#	fi
-#
-#	csleep 6
-#
-#	#v6-sääntöjen kanssa -P DROP kiakkiin olisi oikeastaan ok
-#	if [ -s /etc/iptables/rules.v6.${1} ] ; then
-#		${slinky} /etc/iptables/rules.v6.${1} /etc/iptables/rules.v6
-#		dqb "stunky2"
-#	else
-#		dqb "ZERO THE HERO (COVER)"
-#		#exit 100
-#	fi
+		csleep 1
+	done
 
 	${scm} 0400 /etc/iptables/rules.*
 	echo $?
@@ -445,8 +397,7 @@ function clouds_case1() {
 }
 
 #====================================================================
-clouds_pre ${mode} #${distro}
-
+clouds_pre ${mode}
 [ -f /etc/resolv.conf.${mode} ] && ${slinky} /etc/resolv.conf.${mode} /etc/resolv.conf
 [ -f /etc/dhcp/dhclient.conf.${mode} ] && ${slinky} /etc/dhcp/dhclient.conf.${mode} /etc/dhcp/dhclient.conf
 [ -f /sbin/dhclient-script.${mode} ] && ${spc} /sbin/dhclient-script.${mode} /sbin/dhclient-script

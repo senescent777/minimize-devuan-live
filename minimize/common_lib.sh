@@ -1,3 +1,4 @@
+#function init() {
 odio=$(which sudo)
 [ y"${odio}" == "y" ] && exit 99 
 [ -x ${odio} ] || exit 100
@@ -18,32 +19,22 @@ sah6=$(which sha512sum)
 distro=$(cat /etc/devuan_version)
 n=$(whoami)
 PREFIX=~/Desktop/minimize #SDAATANAN TUNARI(T)
-
-#yhteen läjän nämä määrittelyt?
 slinky=$(${odio} which ln)
 slinky="${odio} ${slinky} -s "
 spc=$(${odio} which cp)
 svm=$(${odio} which mv)
 svm="${odio} ${svm} "
 spc="${odio} ${spc} "
-whack=$(sudo which pkill)
+whack=$(${odio} which pkill)
 whack="${odio} ${whack} --signal 9 "
 snt=$(${odio} which netstat)
 snt="${odio} ${snt} -tulpan "
 smr=$(${odio} which rm)
 NKVD=$(${odio} which shred)
 NKVD="${NKVD} -fu "
-
-#HUOM.14525:aijsitseeko jatkossa tässä tdstossa va muualla ao. lista?
 PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
-
-function dqb() {
-	[ ${debug} -eq 1 ] && echo ${1}
-}
-
-function csleep() {
-	[ ${debug} -eq 1 ] && sleep ${1}
-}
+#}
+#init
 
 #TODO:paremmin toimiva tarkistus,0750 voisi mennä läpi kun taviksena ajellaamn
 if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then # linkkien kanssa pitäisi tehdä toisin
@@ -60,10 +51,16 @@ fi
 
 #näissä pointtina olisi korkeintaan varmistaa että /e/i oikeudet 0550
 [ -s /etc/iptables/rules.v4.${dnsm} ] || echo "PISEN PRO VOI VITTU"
-#sleep 3
-[ -s /etc/iptables/rules.v6.${dnsm} ] || echo "OIJBIYF97TF98YG087T976R"
-#sleep 3
-	
+[ -s /etc/iptables/rules.v6.${dnsm} ] || echo "OIJBIYF97TF98YG087T97"
+
+function dqb() {
+	[ ${debug} -eq 1 ] && echo ${1}
+}
+
+function csleep() {
+	[ ${debug} -eq 1 ] && sleep ${1}
+}
+
 function fix_sudo() {
 	echo "fix_sud0.pt0"
 
@@ -101,49 +98,52 @@ fix_sudo
 [ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 csleep 5
 
-#TODO:uudemman kerran tables- ja linkittely-jutut
-#TODO:tähän saattoi tulla pientä laittoa 19525 tienoilla
-#TODO:testaa nyt vielä miteb tämnk versio toimii, sen jälk tables-kikkailujen siirto pelkästään changedns:lle
+#VAIH:uudemman kerran tables- ja linkittely-jutut
+#VAIH:tähän saattoi tulla pientä laittoa 19525 tienoilla
+#VAIH:testaa nyt vielä miteb tämnk versio toimii, sen jälk tables-kikkailujen siirto pelkästään changedns:lle (tai siis...)
 function jules() {
 	dqb "LE BIG MAC"
-
 	${scm} 0755 /etc/iptables #oli 0755, jos riittäisi vähempi
-	#HUOM.tähän joko $scm 0444 /e/i/* tai sit noiden tdstojen sorkinta ainostaan changedns kautta
-	#[ -f /etc/iptables/rules.v4 ] && ${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD
-	#TARKKUUTTA PRKL	
-	#[ -f /etc/iptables/rules.v6 ] && ${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
+	${scm} 0444 /etc/iptables/*
+	csleep 6
 
-	for x in 4 6 ; do
+	for x in /etc/iptables/rules.v4 /etc/iptables/rules.v6 ; do
 		dqb ${x}
 
-		if [ -f /etc/iptables/rules.v${x} ] && [ -r /etc/iptables/rules.v${x} ] ; then
-			${svm} /etc/iptables/rules.v${x} /etc/iptables/rules.v${x}.OLD
+		if [ -e ${x} ] ; then
+			#seur. if-blokin sisälle? pointtia nimetä uudestaan linkkejä?
+			if [ -f ${x} ] && [ -r ${x} ] ; then
+				dqb "123"
+				${svm} ${x} ${x}.OLD
+			fi
+
+			csleep 1
+ 
+			if [ ! -h ${x} ] ; then
+				dqb "RECHTS"
+			else
+				dqb "LINKS"
+				#pitäisiköhän wanha linkki oipstaa esnin?
+				${smr} ${x}
+			fi
+
+			csleep 1
 		fi
 
-		#olemassaolokin pitäisi tarkistaa ennen linkkiyttä 
-		if [ ! -h /etc/iptables/rules.v${x} ] ; then
-			dqb "RECHTS"
+		if [ -s ${x}.${dnsm} ] ; then
+			dqb "ICH KOMME"
 			csleep 1
+
+			${slinky} ${x}.${dnsm} ${x}
+			echo $?
 		else
-			#pitäisiköhän wanha linkki oipstaa esnin?
-	
-			if [ -s /etc/iptables/rules.v${x}.${dnsm} ] ; then
-				dqb "ICH KOMME"
-				csleep 1
-				${slinky} /etc/iptables/rules.v${x}.${dnsm} /etc/iptables/rules.v${x}
-				echo $?
-			else
-				echo "SCHEISSEKOMMANDO 666";exit 666
-			fi
+			echo "SCHEISSEKOMMANDO 666";exit 666
 		fi
 	done
 
-	sleep 6
-	dqb "V6"
-	#HUOM. pitäisi kai tehdä kuten ylempänä, -s mukaan	
-	#[ -h /etc/iptables/rules.v6 ] || ${slinky} /etc/iptables/rules.v6.${dnsm} /etc/iptables/rules.v6
-	
+	dqb "V8"
 	csleep 6
+
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
 	${sco} -R root:root /etc/iptables
@@ -388,7 +388,6 @@ function pre_enforce() {
 		#saavuttaakohan tuolla nollauksella mitään? kuitenkin alustetaan
 	fi
 
-	#HUOM.12525:jokin lisäehto vielä? enforcen taakse? tai siis
 	local c4
 	c4=$(grep -c ${part0} /etc/fstab)
 
@@ -410,12 +409,13 @@ function mangle2() {
 	fi
 }
 
-#TODO:josko pilkkoisi pienimpiin fktioihin tämän
+#VAIH:josko pilkkoisi pienimpiin fktioihin tämän
 function enforce_access() {
 	dqb " enforce_access( ${1})"
 	csleep 1
 	dqb "changing /sbin , /etc and /var 4 real"
 	
+	#function e_e() {
 	${scm} 0440 /etc/sudoers.d/*
 	${scm} 0750 /etc/sudoers.d
 	${sco} -R root:root /etc/sudoers.d
@@ -433,7 +433,9 @@ function enforce_access() {
 	${scm} 0755 /etc
 	${sco} -R root:root /etc #-R liikaa?
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
-
+	#}
+	
+	#function e_v () {
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
 
@@ -446,6 +448,7 @@ function enforce_access() {
 
 	dqb "VAN DAMME"
 	csleep 1
+	#}
 
 	${scm} 0755 /
 	${sco} root:root /
@@ -455,6 +458,7 @@ function enforce_access() {
 	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
+	#function e_h () {
 	${sco} root:root /home
 	${scm} 0755 /home
 
@@ -479,10 +483,10 @@ function enforce_access() {
 
 	${scm} 0555 ${PREFIX}/changedns.sh
 	${sco} root:root ${PREFIX}/changedns.sh
+	#}
 
+	#function e_final() {
 	#HUOM.15525:interfaces kanssa kikkaiut kuten rules, tartteeko niihin liittyen tehdä tässä jotain?
-
-	#{old,new} -> {0,1} ei sovellu tähän
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
@@ -492,14 +496,13 @@ function enforce_access() {
 	if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
 		${smr} /etc/resolv.conf
 	fi
-	
-	#HUOM.140525:tarvitseeko tehdä tässä jotain dhclient.conf'lle?
-	jules
 
 	#wpasupplicant:in kanssa myös jotain säätöä, esim tällaista
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
+	#}
 
+	jules
 	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
@@ -507,7 +510,6 @@ function enforce_access() {
 function part1_5() {
 	if [ z"${pkgsrc}" != "z" ] ; then
 		if [ -d ${PREFIX}/${1} ] ; then
-			#HUOM.14525:ao. if-lauseeseen liittyv muutos toisaalle (export2) vaiko ei?
 			if [ ! -s /etc/apt/sources.list.${1} ] ; then
 				local g
 				local h
@@ -540,7 +542,6 @@ function part1_5() {
 
 function part1() {
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
-	#jatkossa tähän ne tzdata- ja /e/d/locales-jutut?
 	#jos jokin näistä kolmesta hoitaisi homman...
 
 	${sifd} ${iface}
@@ -633,7 +634,7 @@ function part076() {
 
 #VAIH:voisi välillä koklata ohittaa tuo "g_doit -v 1"-välivaihe että miten käy
 #, jos lisää haluaa kokeilla niin se ympäristömuuttuja kanssa kehiin
-#... yllättäem reconfiguren skippaaminen jättää aika-asetukset wanhaan tilanteeseem
+#... yllättäeN reconfiguren skippaaminen jättää aika-asetukset wanhaan tilanteeseeN
 
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
@@ -648,7 +649,7 @@ function el_loco() {
 		export LC_ALL
 	fi
 
-	#TODO:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön? locale-gen...
+	#TODO:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön? locale-gen... (joko jo?)
 
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
@@ -744,7 +745,7 @@ function el_loco() {
 #}
 
 function part2_5() {
-	debug=1
+	#debug=1
 	dqb "PART2.5 ${1}"
 	csleep 2
 
@@ -779,8 +780,14 @@ function part2_5() {
 
 	if [ y"${ipt}" != "y" ] ; then
 		jules
-		${ip6tr} /etc/iptables/rules.v6
-		${iptr} /etc/iptables/rules.v4
+
+		if [ -s /etc/iptables/rules.v6.${dnsm} ] ; then
+			${ip6tr} /etc/iptables/rules.v6.${dnsm}
+		fi
+
+		if [ -s /etc/iptables/rules.v4.${dnsm} ] ; then
+			${iptr} /etc/iptables/rules.v4.${dnsm}
+		fi
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
@@ -837,9 +844,10 @@ function part3_4real() {
 
 function part3() {
 	pre_part3 ${1} ${2}
-	pr4  ${1} ${2}
+	pr4 ${1} ${2}
 	part3_4real ${1}
 }
+
 #HUOM.voisi -v käsitellä jo tässä
 function gpo() {
 	dqb "GPO"

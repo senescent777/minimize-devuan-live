@@ -3,7 +3,7 @@ distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 u=0
 v=0
 
-#TODO:tapaus $dir valmiiksi mountattu, miksi urputtaa? korjaa muutkin kiukuttelu samalla jos mahd
+#TODO:tapaus $dir valmiiksi mountattu, miksi urputtaa? korjaa muutkin kiukutteluT samalla jos mahd
 
 if [ z"${distro}" != "z" ] ; then
 	if [ -s ~/Desktop/minimize/${distro}/conf ] ; then
@@ -46,7 +46,8 @@ sleep 1
 
 if [ -f ${tgt} ] ; then
 	read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
-	
+	#HUOM. pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
+
 	if [ "${confirm}" == "Y" ] ; then
 		${spc} ${tgt} ${tgt}.OLD
 		sleep 3
@@ -56,8 +57,9 @@ if [ -f ${tgt} ] ; then
 		for f in $(find /etc -name 'locale*') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
 	
 		${tcmd} -f ${tgt} -rv /etc/timezone #tarttisiko jotain muutakin lisätä tssä?
+		sleep 3
 		sha512sum ${tgt} > ${tgt}.sha
-		sha512sum -c  ${tgt}.sha
+		sha512sum -c ${tgt}.sha
  	
 		echo "DONE UPDATING"
 		sleep 2
