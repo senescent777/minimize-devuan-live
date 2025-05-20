@@ -3,6 +3,7 @@ distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 u=0
 v=0
 
+
 #TODO:tapaus $dir valmiiksi mountattu, miksi urputtaa? korjaa muutkin kiukutteluT samalla jos mahd (joko jo?
 
 if [ z"${distro}" != "z" ] ; then
@@ -23,9 +24,11 @@ if [ z"${distro}" != "z" ] ; then
 					sleep 5
 				fi
 			fi
+
 		else
 			echo "${dir} NOT DOUNF"; sleep 1		
 		fi
+
 	fi
 fi
 
@@ -105,3 +108,4 @@ if [ ${u} -eq 1 ] ; then
 	umount ${dir}
 	sleep 5
 fi
+

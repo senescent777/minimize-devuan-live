@@ -7,6 +7,9 @@ function oldprof() {
 	dqb "cprof1 ${1} ${2}"
 	csleep 3
 
+
+	#toist mjonot ouis?
+
 	local tmp
 	tmp=$(grep -c ${1} /etc/passwd)
 
@@ -21,14 +24,15 @@ function oldprof() {
 
 	if [ ${debug} -eq 1 ] ; then
 		echo "AFTER MKDIR";sleep 3
+
 		ls -las ${1}/.mozilla/firefox;sleep 3
+
 		echo "eEXIT oldprof($1)"
 	fi
 }
 
 function createnew() {
 	dqb "cpfor_12 ${1},${2}" #HUOM.ei pitäisi tulla 2. param
-
 	local tmp
 	local fox
 
@@ -53,9 +57,11 @@ function createnew() {
 	csleep 3
 }
 
+
 function findprof() {
 	result=$(find ${1} -type d  | grep -v '+' | grep ${2}  | head -n 1 )
 }
+
 
 function copy_to() {
 	debug=1
@@ -118,6 +124,7 @@ function access() {
 function imp_prof() {
 	dqb "cprof ${1} ${2} ${3}"
 	csleep 2
+
 
 	if [ x"${2}" != "x" ] ; then 
 		if [ -d /home/${2} ] ; then 

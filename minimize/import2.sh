@@ -224,6 +224,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	0|3)
+
 		dqb "ZER0 S0UND"
 		csleep 2
 
@@ -243,15 +244,16 @@ case "${mode}" in
 		[ "${confirm}" == "Y" ] || exit 33
 		common_part ${file} ${d}
 
+
 		if [ ${1} -eq 0 ] ; then
 			if [ -s ${d}/e.tar ] ; then
 				common_part ${d}/e.tar ${d}
+
 			fi
 		fi
 
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 6
-
 		part3 ${d} ${dnsm}
 		csleep 2
 

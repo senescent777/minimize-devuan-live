@@ -93,4 +93,4 @@
 #
 #${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
 #csleep 5
-#
+

@@ -11,6 +11,7 @@ if [ -r /etc/iptables ] || [ -w /etc/iptables ]  || [ -r /etc/iptables/rules.v4 
 	echo "/E/IPTABLES IS WRITABEL"
 	#exit 12
 	sleep 1
+
 fi
 
 if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
@@ -230,6 +231,8 @@ csleep 6
 
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
+
+#HUOM.12525:tämä kohta ei vaikuttanut toimivan kunnolla, toi bttavasti tilapäist
 
 if [ ${mode} -eq 2 ] ; then
 	echo "time to ${sifu} ${iface} or whåtever"

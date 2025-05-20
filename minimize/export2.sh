@@ -112,6 +112,7 @@ dqb "file=${tgtfile}"
 csleep 6
 
 #HUOM.14525:pitäisiköhän testata ao. else-haara?
+
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
@@ -199,6 +200,7 @@ function pre2() {
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
+
 		${odio} ${ledif}/changedns.sh ${dnsm} ${ortsac}
 		csleep 4
 
@@ -226,6 +228,7 @@ function tpq() {
 	dqb "paramz 0k"
 	csleep 1
 
+
 	${srat} -cf ${1}/xfce.tar ${1}/../../.config/xfce4/xfconf/xfce-perchannel-xml
 	csleep 2
 
@@ -234,6 +237,7 @@ function tpq() {
 			
 		. ${1}/profs.sh
 		exp_prof ${1}/fediverse.tar default-esr
+
 	else
 		dqb "1nT0 TH3 M0RB1D R31CH"	
 	fi
@@ -241,6 +245,8 @@ function tpq() {
 	csleep 5
 }
 
+
+#VAIH:PREFIX paraetriksi, tai esim cut
 function tp1() {
 	#debug=1
 	dqb "tp1 ${1} , ${2} "
@@ -270,11 +276,13 @@ function tp1() {
 	fi
 
 	${srat} -rvf ${1} ${ledif} /home/stubby 	
+
 	dqb "tp1 d0n3"
 	csleep 3
 }
 
 function rmt() {
+
 	#debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
@@ -284,10 +292,12 @@ function rmt() {
 	[ z"${2}" == "z" ] && exit 11
 	[ -d ${2} ] || exit 22
 
+
 	dqb "paramz_ok"
 	csleep 3
 
 	${scm} 0444 ${2}/*.deb
+
 	p=$(pwd)
 
 	cd ${2}
@@ -407,6 +417,7 @@ function tp4() {
 
 #koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
 #HUOM.20525:joskohan locale- ja rules- juttuja varten uusi fktio? vääntöä tuntuu riittävän nimittäin
+
 function tp2() {
 	debug=1
 	dqb "tp2 ${1} ${2}"
@@ -460,6 +471,7 @@ function tp2() {
 		exit 112
 	fi
 
+
 	case ${iface} in
 		wlan0)
 			${srat} -rf ${1} /etc/wpa*
@@ -469,6 +481,7 @@ function tp2() {
 		;;
 	esac
 
+	#TODO:selvitä miten toimii q enforce nolla
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "das asdd"
 	else
@@ -486,6 +499,8 @@ function tp2() {
 	dqb "tp2 done"
 	csleep 5
 }
+
+#HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
 
 function tp3() {
 	#debug=1 #antaa olla vielä
@@ -529,7 +544,7 @@ function tp3() {
 	if [ ! -s ./etc/resolv.conf.1 ] ; then
 		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
 	fi
-
+  
 	#HUOM.14525.3:ghubista löytyvä(.new) vastaa tilannetta dnsm=1
 	# (ao. rivi tp2() jatkossa?)
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm} #.0
@@ -548,6 +563,7 @@ function tp3() {
 	# (ao. rivi tp2() jatkossa?)
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${2} #tässä iface olisi parempi kuin distro, EHKä
 
+
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
@@ -564,6 +580,7 @@ function tpu() {
 	#debug=1	
 	#HUOM:0/1/old/new ei liity
 	dqb "tpu ${1}, ${2}"
+
 
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] && mv ${1} ${1}.OLD
@@ -617,9 +634,11 @@ function tp5() {
 	${tig} clone https://github.com/senescent777/more_scripts.git
 	[ $? -eq 0 ] || exit 99
 	
+
 	#HUOM:{old,new} -> {0,1} ei liity
 	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
 	mv more_scripts/profs/profs* ${2}
+
 
 	${scm} 0755 ${2}/profs*
 	${srat} -rvf ${1} ${2}/profs*
@@ -632,9 +651,11 @@ dqb "tar= ${srat}"
 csleep 6
 pre1 ${d}
 
+
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
 case ${mode} in
 	0|4) 
+
 		pre1 ${d}
 		pre2 ${d}
 
@@ -644,11 +665,12 @@ case ${mode} in
 		dd if=/dev/random bs=6 count=1 > ./rnd
 
 		${srat} -cvf ${tgtfile} ./rnd
-		tp3 ${tgtfile} ${distro}
+		tp3 ${tgtfile} #${distro}
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		${srat} -cvf ${d}/e.tar ./rnd
 		[ ${mode} -eq 0 ] && tp4 ${d}/e.tar ${d}
+
 		${sifd} ${iface}
 
 		tp1 ${tgtfile} ${d}
@@ -658,6 +680,7 @@ case ${mode} in
 		${sah6} ${tgtfile} > ${tgtfile}.sha
 		${sah6} -c ${tgtfile}.sha
 		echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
+
 	;;
 	1|u|upgrade)
 		pre2 ${d}
@@ -666,6 +689,7 @@ case ${mode} in
 		#HUOM.sah6-jutut voisivat olla esac hälkeen jatkossa
 		${sah6} ${tgtfile} > ${tgtfile}.sha
 		${sah6} -c ${tgtfile}.sha
+
 	;;
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
@@ -679,6 +703,7 @@ case ${mode} in
 		${sah6} ${tgtfile} > ${tgtfile}.sha
 		${sah6} -c ${tgtfile}.sha
 		echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
+
 	;;
 	f)
 		rmt ${tgtfile} ${d}
@@ -696,5 +721,6 @@ case ${mode} in
 	*)
 		echo "-h"
 		exit
+
 	;;
 esac

@@ -12,9 +12,10 @@ function pr4() {
 	fi
 
 	csleep 1
-}
 
+}
 function pre_part3() {
+
 	dqb "PER3 ${1} ${2}"
 	csleep 1
 
@@ -56,6 +57,7 @@ function part2_pre() {
 
 	csleep 3
 }
+
 
 check_binaries ${distro}
 check_binaries2
