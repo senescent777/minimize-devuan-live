@@ -267,7 +267,7 @@ function tpq() {
 	if [ -x ${1}/profs.sh ] ; then
 		dqb "DE PROFUNDIS"
 		
-		#TODO:selvitä toimiiko vai ei? korjaa jos tarttee	
+		#VAIH:selvitä toimiiko vai ei? korjaa jos tarttee	
 		. ${1}/profs.sh
 		exp_prof ${1}/fediverse.tar default-esr
 	else
@@ -679,6 +679,7 @@ csleep 6
 #VAIH;muodostetun arkiston sha-tarkistus
 pre1 ${d}
 
+#HUOM.20525:pitäisi kai suosia numeerisia arvoja koska urputukset
 case ${mode} in
 	0|4) 
 		pre1 ${d}

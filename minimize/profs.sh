@@ -152,7 +152,7 @@ function exp_prof() {
 	csleep 5
 	p=$(pwd)
 
-	cd ~/.mozilla/firefox/${tget}
+	cd ${tget}
 	${odio} touch ./rnd
 	${sco} ${n}:${n} ./rnd
 	${scm} 0644 ./rnd
