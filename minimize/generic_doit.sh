@@ -88,10 +88,77 @@ else
 	echo "555"
 fi
 
+function el_loco() {
+	dqb "MI LOCO ${1} , ${2}"
+	csleep 3
+	
+	#ennen vai jälkeen "dpkg reconfig"-blokin tämä?
+	if [ -s /etc/default/locale.tmp ] ; then
+		. /etc/default/locale.tmp
+
+		export LC_TIME
+		export LANGUAGE
+		export LC_ALL
+	fi
+
+	if [ ${2} -lt 1 ]; then
+		${scm} a+w /etc/default/locale
+		csleep 3
+
+		#/e/d/l voi kasvaa isoksikin näin...
+		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
+		cat /etc/default/locale
+		csleep 3
+
+		cat /etc/timezone
+		csleep 3
+
+		${scm} a-w /etc/default/locale
+
+		#kuuluuko debian-johdannaisilla kalustoon tämä? pitäisikö luoda ensin?
+		echo " stuff > /etc/locale.conf"
+
+		if [ ! -s  /etc/locale.conf ] ; then
+			${odio} touch /etc/locale.conf
+		fi
+
+		${scm} a+w /etc/locale.conf
+		csleep 3
+		
+		grep LC_TIME /etc/default/locale >> /etc/locale.conf
+
+		csleep 3
+		${scm} a-w /etc/locale.conf
+		cat /etc/locale.conf
+		csleep 3
+	fi
+
+	#VAIH:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön? locale-gen... (joko jo?)
+	${odio} locale-gen
+
+	#joskohan tarkistus pois jatkossa?
+	if [ ${1} -gt 0 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
+		#client-side session_expiration_checks can be a PITA
+		${odio} dpkg-reconfigure locales
+		
+		#suattaapi olla olematta tuo --oprio tuolla koennolla tuatanoinnii vuan mitenkä ympäristömuuttuja vaikuttaa?
+		#ekalla yrityksellä ei toivottua lopputulosta myöskään pelkällä ympäristömjalla vaikka ncurses-vaihe ohitettiinkin		
+		${odio} dpkg-reconfigure tzdata
+	fi
+
+	#joskohan kutsuvassa koodissa -v - tark riittäisi toistaiseksi
+	if [ ${2} -lt 1 ]; then
+		ls -las /etc/default/lo*
+		csleep 3
+	fi
+
+	dqb "DN03"
+	csleep 2
+}
+
 csleep 6
 [ ${c13} -lt 1 ] && c14=1
 el_loco ${c14} ${c13}
-#TODO:joskohan copy-pastella el_loco tähän
 
 if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
 	dqb "R (in 3 secs)"
