@@ -417,6 +417,7 @@ function tp2() {
 
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
+	${scm} 0444 /etc/default/rules*
 
 	for f in $(find /etc -type f -name 'interfaces*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
@@ -427,8 +428,8 @@ function tp2() {
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
 		else
-			echo "SUURI HIRVIKYRPÄ"
-			exit 666
+			echo "SUURI HIRVIKYRPÄ ${f} "
+			echo "5H0ULD exit 666"
 		fi
 	done
 
@@ -449,6 +450,7 @@ function tp2() {
 	csleep 5
 
 	${scm} -R 0400 /etc/iptables/*
+	${scm} 0400 /etc/default/rules*
 	${scm} 0550 /etc/iptables
 	csleep 6
 
@@ -626,7 +628,7 @@ csleep 6
 #VAIH;muodostetun arkiston sha-tarkistus
 pre1 ${d}
 
-#HUOM.20525:pitäisi kai suosia numeerisia arvoja koska urputukset
+#HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
 case ${mode} in
 	0|4) 
 		pre1 ${d}

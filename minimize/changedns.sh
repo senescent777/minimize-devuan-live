@@ -27,6 +27,9 @@ sleep 1
 [ -s /etc/iptables/rules.v6.0} ] || echo "OIJBIYF97TF98YG087T976R"
 sleep 1
 
+#EI SITTEN PERKELE ALETA KIKKAILLA /ETC/IPTABLES/RULES KANSSA
+#ESIM. PASKOJEN TIKKUJEN KANSSA TULEE TÄYDI SIRKUS 666 (JA SITTEN ON NE OIKEUDETKIN)
+
 sudo chmod 0755 /etc/iptables
 sudo chmod 0444 /etc/iptables/*
 sudo chmod 0444 /etc/default/rules.*

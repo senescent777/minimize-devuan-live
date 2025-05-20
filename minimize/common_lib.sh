@@ -103,6 +103,7 @@ fix_sudo
 csleep 5
 
 #EI SITTEN PERKELE ALETA KIKKAILLA /ETC/IPTABLES/RULES KANSSA
+#ESIM. PASKOJEN TIKKUJEN KANSSA TULEE TÄYDI SIRKUS 666 (JA SITTEN ON NE OIKEUDETKIN)
 function jules() {
 	dqb "LE BIG MAC"
 	dqb "V8"
@@ -125,7 +126,7 @@ function message() {
 
 function ocs() {
 	local tmp
-	tmp=$(sudo which ${1})
+	tmp=$(${odio} which ${1})
 
 	if [ y"${tmp}" == "y" ] ; then
 		exit 69 #fiksummankin exit-koodin voisi keksiä
