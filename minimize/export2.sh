@@ -200,7 +200,6 @@ function pre2() {
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
-
 		${odio} ${ledif}/changedns.sh ${dnsm} ${ortsac}
 		csleep 4
 
@@ -277,7 +276,6 @@ function tp1() {
 }
 
 function rmt() {
-
 	#debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
@@ -286,7 +284,6 @@ function rmt() {
 
 	[ z"${2}" == "z" ] && exit 11
 	[ -d ${2} ] || exit 22
-
 
 	dqb "paramz_ok"
 	csleep 3
@@ -411,7 +408,6 @@ function tp4() {
 
 #koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
 #HUOM.20525:joskohan locale- ja rules- juttuja varten uusi fktio? vääntöä tuntuu riittävän nimittäin
-
 function tp2() {
 	debug=1
 	dqb "tp2 ${1} ${2}"
@@ -430,7 +426,6 @@ function tp2() {
 	csleep 6
 
 	#TOIMISIKO JO? PITÄISI KAI VARMISTAA ETTÄ 0-PITUISIA EI TULE MUKAAN (VAI VIELÄKÖ SKRIPTIt PASKOVAT?)
-
 	for f in $(find /etc -type f -name 'rules*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
@@ -560,7 +555,6 @@ function tp3() {
 		fi
 	fi
 
-
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	# (ao. rivi tp2() jatkossa?)
@@ -634,7 +628,7 @@ function tp5() {
 
 	${tig} clone https://github.com/senescent777/more_scripts.git
 	[ $? -eq 0 ] || exit 99
-
+	
 	#HUOM:{old,new} -> {0,1} ei liity
 	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
 	mv more_scripts/profs/profs* ${2}
@@ -667,26 +661,15 @@ case ${mode} in
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		${srat} -cvf ${d}/e.tar ./rnd
 		[ ${mode} -eq 0 ] && tp4 ${d}/e.tar ${d}
-
 		${sifd} ${iface}
 
 		tp1 ${tgtfile} ${d}
 		pre1 ${d}
 		tp2 ${tgtfile}
-
-		${sah6} ${tgtfile} > ${tgtfile}.sha
-		${sah6} -c ${tgtfile}.sha
-		echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
-
 	;;
 	1|u|upgrade)
 		pre2 ${d}
 		tpu ${tgtfile} ${d}
-
-		#HUOM.sah6-jutut voisivat olla esac hälkeen jatkossa (TODO)
-		${sah6} ${tgtfile} > ${tgtfile}.sha
-		${sah6} -c ${tgtfile}.sha
-
 	;;
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
@@ -696,10 +679,6 @@ case ${mode} in
 	e)
 		pre2 ${d}
 		tp4 ${tgtfile} ${d}
-
-		${sah6} ${tgtfile} > ${tgtfile}.sha
-		${sah6} -c ${tgtfile}.sha
-		echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
 	;;
 	f)
 		rmt ${tgtfile} ${d}
@@ -719,3 +698,9 @@ case ${mode} in
 		exit
 	;;
 esac
+
+if [ -s ${tgtfile} ] ; then
+	${sah6} ${tgtfile} > ${tgtfile}.sha
+	${sah6} -c ${tgtfile}.sha
+	echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
+fi
