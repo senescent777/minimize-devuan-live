@@ -76,7 +76,7 @@ function pr4() {
 	csleep 1
 }
 
-#TODO:toimivuuden testaus
+#VAIH:toimivuuden testaus
 function udp6() {
 	dqb "daud.lib.UPDP-6"
 	csleep 2
@@ -126,7 +126,7 @@ function part2_pre() {
 }
 
 check_binaries ${distro}
-echo $?;sleep 3
+#echo $?;sleep 3
 check_binaries2
-echo $?;sleep 3
+#echo $?;sleep 3
 
