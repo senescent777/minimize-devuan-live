@@ -34,35 +34,6 @@ function usage() {
 	echo "$0 -h: shows this message about usage"	
 }
 
-#mode=${1}
-#tgtfile=${2}
-#
-#...ehkä pystyisi myös gpo()-tavalla (VAIH)
-#case $# in
-#	1)
-#		[ "${1}" == "-h" ]  && usage
-#		exit
-#	;;
-#	2)
-#		dqb "maybe ok"
-#	;;
-#	3)
-#		if [ -d ${PREFIX}/${3} ] ; then
-#			distro=${3}
-#		else
-#			[ "${3}" == "-v" ] && debug=1
-#		fi
-#	;;
-#	4)
-#		distro=${3}
-#		[ "${4}" == "-v" ] && debug=1
-#	;;
-#	*)
-#		echo "-h"
-#		exit
-#	;;
-#esac
-
 [ -z ${distro} ] && exit 6
 d=${PREFIX}/${distro}
 
@@ -108,11 +79,6 @@ else
 
 	#jos näillä lähtisi aikankin case q toimimaan
 	n=$(whoami)
-#	smr=$(${odio} which rm)
-#	NKVD=$(${odio} which shred)
-#	NKVD="${NKVD} -fu "
-#	whack=$(${odio} which pkill)
-#	whack="${odio} ${whack} --signal 9 "
 
 	function check_binaries() {
 		dqb "exp2.ch3ck_b1nar135( ${1} )"
@@ -254,20 +220,17 @@ function pre2() {
 }
 
 function tpq() {
-	#debug=1
 	dqb "tpq ${1} ${2}"
 	[ -d ${1} ] || exit 22
 	dqb "paramz 0k"
 	csleep 1
 
-	#${srat} -cf ${1}/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
 	${srat} -cf ${1}/xfce.tar ${1}/../../.config/xfce4/xfconf/xfce-perchannel-xml
 	csleep 2
 
 	if [ -x ${1}/profs.sh ] ; then
 		dqb "DE PROFUNDIS"
-		
-		#VAIH:selvitä toimiiko vai ei? korjaa jos tarttee	
+			
 		. ${1}/profs.sh
 		exp_prof ${1}/fediverse.tar default-esr
 	else
@@ -383,7 +346,7 @@ function tp4() {
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
-	${shary} iptables
+	${shary} iptables #se ympäristömuuttuja-jekku tähän vai ei?
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 
 	#actually necessary
@@ -455,46 +418,45 @@ function tp2() {
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
 
-	#VAIH:findin kanssa?
-	#${srat} -rf ${1} /etc/network/interfaces /etc/network/interfaces.*
 	for f in $(find /etc -type f -name 'interfaces*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
 	csleep 6
 
-	#HUOM.16525:meneekö pieleen väärien oikeuksien takia ao. rivi? KOPIOIKO TAR MITÄÄN VAI EI? PASKA TIKKU VAI MIT VIT
-	#${srat} -rvf ${1} /etc/iptables/rules.v4.? /etc/iptables/rules.v6.?
-
-	#TOIMISIKO JO?
-	for f in $(find /etc -type f -name 'rules*') ; do ${srat} -rvf ${1} ${f} ; done
+	#TOIMISIKO JO? PITÄISI KAI VARMISTAA ETTÄ 0-PITUISIA EI TULE MUKAAN (VAI VIELÄKÖ SKRIPTI PASKOVAT?)
+	for f in $(find /etc -type f -name 'rules*') ; do
+		if [ -s ${f} ] && [ -r ${f} ] ; then
+			${srat} -rvf ${1} ${f}
+		else
+			echo "SUURI HIRVIKYRPÄ"
+			exit 666
+		fi
+	done
 
 	echo $?
-	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep etc | less
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule | less
 	sleep 6
 
 	dqb "JUST BEFORE LOCALES"
 	sleep 1
 
-	#/etc/default/rules* 
 	${srat} -rvf ${1} /etc/timezone 
 	for f in $(find /etc -type f -name 'locale*') ; do ${srat} -rvf ${1} ${f} ; done
 
 	echo $?
 	sleep 5
 
-	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep etc | less
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local | less
 	csleep 5
 
 	${scm} -R 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
 	csleep 6
 
-	#VAIH:exit urputuksen kanssa jos x
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		echo "/E/IPTABLES sdhgfsdhgf"
 		exit 112
 	fi
 
-	#HUOM.15525:se kai onnistuu että samassa tdstossa usemapi iface, auto ja hotplug pois ni pystyy valkkaamaan minkä starttaa/stoppaa?
 	case ${iface} in
 		wlan0)
 			${srat} -rf ${1} /etc/wpa*
@@ -504,7 +466,6 @@ function tp2() {
 		;;
 	esac
 
-	#HUOM.15525:enforcen nollaus ei vaikuttaisi iaheuttavan mainittavia sivuvaikutuksia ennen omegaa	
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "das asdd"
 	else
@@ -560,20 +521,6 @@ function tp3() {
 	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
 	# (ao. rivi tp2() jatkossa?)	
 	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm} #.0
-
-#	#joskohan tämä if-blokki pois jatqssa
-#	if [ -s ./etc/resolv.conf.new ] ; then
-#		echo "r30lv.c0nf alr3ady 3x15t5"
-#	else
-#		${odio} touch ./etc/resolv.conf.new
-#		${scm} a+w ./etc/resolv.conf.new
-#		${sco} ${n}:${n}  ./etc/resolv.conf.new
-#
-#		echo "nameserver 127.0.0.1" > ./etc/resolv.conf.new
-#		
-#		${scm} 0444 ./etc/resolv.conf.new
-#		${sco} root:root ./etc/resolv.conf.new
-#	fi
 
 	#HUOM.14525.5:eka tarkistus lienee turha
 	if [ ! -s ./etc/resolv.conf.1 ] ; then

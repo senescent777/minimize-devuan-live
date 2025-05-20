@@ -36,6 +36,31 @@ mode=${1}
 sleep 1
 [ -s /etc/iptables/rules.v6.0} ] || echo "OIJBIYF97TF98YG087T976R"
 sleep 1
+
+sudo chmod 0755 /etc/iptables
+sudo chmod 0444 /etc/iptables/*
+sudo chmod 0444 /etc/default/rules.*
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sleep 5
+sudo chmod 0400 /etc/iptables/*
+sudo chmod 0400 /etc/default/rules*
+sudo chmod 0550 /etc/iptables
+sleep 5
 		
 case $# in
 	1)
@@ -61,7 +86,6 @@ dqb "mode=${mode}"
 dqb "distro=${distro}"
 csleep 2
 
-#TODO:uudemman kerran tables- ja linkittely-jutut
 #HUOM. jos tarttee ni näille main distrosta riippuvainen fktioiden esittely 
 #(toiv ei tarvitse)
 
@@ -144,6 +168,30 @@ function clouds_pp1() {
 	dqb "#c.pp.1  ( ${1} )"
 	#TODO:linkkiys-tarkistuksia
 
+sudo chmod 0755 /etc/iptables
+sudo chmod 0444 /etc/iptables/*
+sudo chmod 0444 /etc/default/rules.*
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sleep 5
+sudo chmod 0400 /etc/iptables/*
+sudo chmod 0400 /etc/default/rules*
+sudo chmod 0550 /etc/iptables
+sleep 5
 	if [ -s /etc/resolv.conf.1 ] || [ -s /etc/resolv.conf.0 ] ; then 
 		${smr} /etc/resolv.conf
 		[ $? -gt 0 ] && echo "FAILURE TO COMPLY WHILE TRYING TO REMOVE RESOLV.CONF"
@@ -171,69 +219,93 @@ function clouds_pp1() {
 	dqb "...done"
 }
 
-#VAIH:tämäkin vähitellen ojennukseen (se fktio common_lib:issä olisi sisllöltään melkeins ama kohta)
-#HUOM.17525:OLISI VARMAAN PRKL HELPOMPAA VAIN LADATA SÄÄNNÖT VAIHTELEVAN NIMISESTÄ TDSTOSTA JA TÄTS IT
-function clouds_pp2() {
-	debug=1
-	dqb "#c.pp.2 ${1}"
-	${scm} 0755 /etc/iptables
-	echo $?
-
-	${scm} 0444 /etc/iptables/rules.*
-	echo $?
-
-	dqb "BEFORE"
-	sudo ls -las /etc/iptables
-	csleep 3	
-	#HUOM. pitäisiköhän linkit hukata jokatapauksessa? 0<->1 - vaihdoissa silloin häviää linkitys kokonaan
-
-	for f in /etc/iptables/rules.v4 /etc/iptables/rules.v6 ; do
-		if [ -e ${f} ] ; then
-			if [ -h /etc/iptables/${f} ; then
-				dqb "smr /e/i/rv4"
-				${smr} /etc/iptables/${f}
-				echo $?
-			else
-				if [ -s /etc/iptables/${f} ] && [ -r /etc/iptables/${f} ] ; then
-					dqb "svm ${f} ${f}.OLD"
-					${svm} /etc/iptables/${f}  /etc/iptables/${f}.OLD
-					echo $?			
-				fi
-			fi
-		fi
-	done
-
-	dqb "cpp2.PART2"
-	csleep 5
-
-	for f in /etc/iptables/rules.v4 /etc/iptables/rules.v6 ; do
-		if [ -s ${f}.${1} ] && [ -r ${f}.${1} ] ; then
-			${slinky} ${f}.${1} ${f}
-		else
-			dqb "FFF"
-		fi
-
-		csleep 1
-	done
-
-	${scm} 0400 /etc/iptables/rules.*
-	echo $?
-
-	${scm} 0550 /etc/iptables
-	echo $?
-
-	csleep 1
-	dqb "AFTER"
-	sudo ls -las /etc/iptables
-	csleep 5
-	dqb "...finally d0n3"
-}
+##VAIH:tämäkin vähitellen ojennukseen (se fktio common_lib:issä olisi sisllöltään melkeins ama kohta)
+##HUOM.17525:OLISI VARMAAN PRKL HELPOMPAA VAIN LADATA SÄÄNNÖT VAIHTELEVAN NIMISESTÄ TDSTOSTA JA TÄTS IT
+#function clouds_pp2() {
+#	debug=1
+#	dqb "#c.pp.2 ${1}"
+#	${scm} 0755 /etc/iptables
+#	echo $?
+#
+#	${scm} 0444 /etc/iptables/rules.*
+#	echo $?
+#
+#	dqb "BEFORE"
+#	sudo ls -las /etc/iptables
+#	csleep 3	
+#	#HUOM. pitäisiköhän linkit hukata jokatapauksessa? 0<->1 - vaihdoissa silloin häviää linkitys kokonaan
+#
+#	for f in /etc/iptables/rules.v4 /etc/iptables/rules.v6 ; do
+#		if [ -e ${f} ] ; then
+#			if [ -h ${f} ] ; then
+#				dqb "smr /e/i/rv4"
+#				${smr} ${f} #ei kai vaan tämä deletoi linkin kohdetta samalla?
+#				echo $?
+#			else
+#				if [ -s ${f} ] && [ -r ${f} ] ; then
+#					dqb "svm ${f} ${f}.OLD"
+#					${svm} ${f} ${f}.OLD
+#					echo $?			
+#				fi
+#			fi
+#		fi
+#	done
+#
+#	dqb "cpp2.PART2"
+#	csleep 5
+#
+#	for f in /etc/iptables/rules.v4 /etc/iptables/rules.v6 ; do
+#		if [ -s ${f}.${1} ] && [ -r ${f}.${1} ] ; then
+#			${slinky} ${f}.${1} ${f}
+#		else
+#			dqb "FFF"
+#		fi
+#
+#		csleep 1
+#	done
+#
+#	${scm} 0400 /etc/iptables/rules.*
+#	echo $?
+#
+#	${scm} 0550 /etc/iptables
+#	echo $?
+#
+#	csleep 1
+#	dqb "AFTER"
+#	sudo ls -las /etc/iptables
+#	csleep 5
+#	dqb "...finally d0n3"
+#}
 
 function clouds_pp3() {
 	csleep 1
 	dqb "# c.pp.3 a.k.a RELOADING TBLZ RULEZ ${1}"
 	csleep 1
 
+sudo chmod 0755 /etc/iptables
+sudo chmod 0444 /etc/iptables/*
+sudo chmod 0444 /etc/default/rules.*
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sleep 5
+sudo chmod 0400 /etc/iptables/*
+sudo chmod 0400 /etc/default/rules*
+sudo chmod 0550 /etc/iptables
+sleep 5
 	#HUOM.160325:lisätty uutena varm. vuoksi
 	${iptr} /etc/iptables/rules.v4.${1}
 	${ip6tr} /etc/iptables/rules.v6.${1}
@@ -255,10 +327,34 @@ function clouds_pre() {
 	dqb "cdns.clouds_pre( ${1}, ${2} )"
 	csleep 1
 
+sudo chmod 0755 /etc/iptables
+sudo chmod 0444 /etc/iptables/*
+sudo chmod 0444 /etc/default/rules.*
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sleep 5
+sudo chmod 0400 /etc/iptables/*
+sudo chmod 0400 /etc/default/rules*
+sudo chmod 0550 /etc/iptables
+sleep 5
 	clouds_pp1
 	csleep 1
 
-	#clouds_pp2 ${1}
+	#clouds_pp2 ${1} #tätäkö ei kutsuta? ja silti menee rules votuiksi?
 	
 	clouds_pp3 ${1}
 	csleep 1
@@ -272,6 +368,30 @@ function clouds_post() {
 	dqb "sco = ${sco}"
 	csleep 5
 
+sudo chmod 0755 /etc/iptables
+sudo chmod 0444 /etc/iptables/*
+sudo chmod 0444 /etc/default/rules.*
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sleep 5
+sudo chmod 0400 /etc/iptables/*
+sudo chmod 0400 /etc/default/rules*
+sudo chmod 0550 /etc/iptables
+sleep 5
 	${scm} 0444 /etc/resolv.conf*
 	${sco} root:root /etc/resolv.conf*
 
@@ -418,3 +538,28 @@ case ${mode} in
 esac
 
 clouds_post
+
+sudo chmod 0755 /etc/iptables
+sudo chmod 0444 /etc/iptables/*
+sudo chmod 0444 /etc/default/rules.*
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+sudo cp /etc/default/rules.* /etc/iptables
+
+sleep 5
+sudo chmod 0400 /etc/iptables/*
+sudo chmod 0400 /etc/default/rules*
+sudo chmod 0550 /etc/iptables
+sleep 5

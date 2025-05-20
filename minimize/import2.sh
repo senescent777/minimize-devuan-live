@@ -25,35 +25,6 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#case $# in
-#	1)
-#		dqb "maybe ok" #tap -1 ja 2 ok, muissa pitäisi fileen puuttuminen p ysäyttää
-#	;;
-#	2)
-#		if [ -d ${PREFIX}/${2} ] ; then
-#			distro=${2}
-#		else
-#			file=${2}
-#		fi
-#	;;
-#	3)
-#		file=${2}
-#
-#		if [ -d ${PREFIX}/${3} ] ; then
-#		else
-#			[ "${3}" == "-v" ] && debug=1
-#		fi
-#	;;
-#	4)
-#		file=${2}
-#		distro=${3}
-#		[ "${4}" == "-v" ] && debug=1
-#	;;
-#	*)
-#		echo "$0 <mode> <other_params>"
-#	;;
-#esac
-
 [ -z ${distro} ] && exit 6
 
 #mode=${1}

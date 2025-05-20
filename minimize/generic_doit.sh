@@ -112,8 +112,6 @@ if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
 		dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
 	fi
 
-	exit
-
 	exit #varm. vuoksi kesk. suor. jos salakala tyritty
 fi
 

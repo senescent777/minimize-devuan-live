@@ -98,49 +98,40 @@ fix_sudo
 [ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 csleep 5
 
-#VAIH:uudemman kerran tables- ja linkittely-jutut
-#VAIH:tähän saattoi tulla pientä laittoa 19525 tienoilla
-#VAIH:testaa nyt vielä miteb tämnk versio toimii, sen jälk tables-kikkailujen siirto pelkästään changedns:lle (tai siis...)
+#toistaiseksi kommentteihin että saisi välillä jotain aikaiseksi
 function jules() {
 	dqb "LE BIG MAC"
-	${scm} 0755 /etc/iptables #oli 0755, jos riittäisi vähempi
-	${scm} 0444 /etc/iptables/*
-	csleep 6
-
-	for x in /etc/iptables/rules.v4 /etc/iptables/rules.v6 ; do
-		dqb ${x}
-
-		if [ -e ${x} ] ; then
-			#seur. if-blokin sisälle? pointtia nimetä uudestaan linkkejä?
-			if [ -f ${x} ] && [ -r ${x} ] ; then
-				dqb "123"
-				${svm} ${x} ${x}.OLD
-			fi
-
-			csleep 1
- 
-			if [ ! -h ${x} ] ; then
-				dqb "RECHTS"
-			else
-				dqb "LINKS"
-				#pitäisiköhän wanha linkki oipstaa esnin?
-				${smr} ${x}
-			fi
-
-			csleep 1
-		fi
-
-		if [ -s ${x}.${dnsm} ] ; then
-			dqb "ICH KOMME"
-			csleep 1
-
-			${slinky} ${x}.${dnsm} ${x}
-			echo $?
-		else
-			echo "SCHEISSEKOMMANDO 666";exit 666
-		fi
-	done
-
+#	${scm} 0755 /etc/iptables #oli 0755, jos riittäisi vähempi
+#	${scm} 0444 /etc/iptables/*
+#	csleep 6
+#
+#	for x in /etc/iptables/rules.v4 /etc/iptables/rules.v6 ; do
+#		dqb ${x}
+#
+#		if [ -e ${x} ] ; then
+#			if [ -h ${x} ] ; then
+#				dqb "LINKS"
+#				${smr} ${x} #poistaako tosiaan kohteen?
+#			else #-s ja -r , pitäisikö olla mukana tuossa alla?
+#				dqb "RECHTS"
+#				if -r ${x} and -s ${x} then
+#					 ${svm} ${x} ${x}.OLD
+#			fi
+#
+#			csleep 1
+#		fi
+#
+#		if  -s ${x}.${dnsm} and -s  then -r mys tähän?
+#			dqb "ICH KOMME"
+#			csleep 1
+#
+#			${slinky} ${x}.${dnsm} ${x}
+#			echo $?
+#		else
+#			echo "SCHEISSEKOMMANDO 666";exit 666
+#		fi
+#	done
+#
 	dqb "V8"
 	csleep 6
 
@@ -632,10 +623,6 @@ function part076() {
 #	csleep 3
 #}
 
-#VAIH:voisi välillä koklata ohittaa tuo "g_doit -v 1"-välivaihe että miten käy
-#, jos lisää haluaa kokeilla niin se ympäristömuuttuja kanssa kehiin
-#... yllättäeN reconfiguren skippaaminen jättää aika-asetukset wanhaan tilanteeseeN
-
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 3
@@ -648,8 +635,6 @@ function el_loco() {
 		export LANGUAGE
 		export LC_ALL
 	fi
-
-	#TODO:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön? locale-gen... (joko jo?)
 
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
@@ -664,7 +649,27 @@ function el_loco() {
 		csleep 3
 
 		${scm} a-w /etc/default/locale
+
+		#kuuluuko debian-johdannaisilla kalustoon tämä? pitäisikö luoda ensin?
+		echo " stuff > /etc/locale.conf"
+
+		if [ ! -s  /etc/locale.conf ] ; then
+			${odio} touch /etc/locale.conf
+		fi
+
+		${scm} a+w /etc/locale.conf
+		csleep 3
+		
+		grep LC_TIME /etc/default/locale >> /etc/locale.conf
+
+		csleep 3
+		${scm} a-w /etc/locale.conf
+		cat /etc/locale.conf
+		csleep 3
 	fi
+
+	#VAIH:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön? locale-gen... (joko jo?)
+	${odio} locale-gen
 
 	#joskohan tarkistus pois jatkossa?
 	if [ ${1} -gt 0 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
