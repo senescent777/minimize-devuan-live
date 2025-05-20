@@ -3,8 +3,7 @@ distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 u=0
 v=0
 
-
-#TODO:tapaus $dir valmiiksi mountattu, miksi urputtaa? korjaa muutkin kiukutteluT samalla jos mahd (joko jo?
+#TODO:tapaus $dir valmiiksi mountattu, miksi urputtaa? korjaa muutkin kiukutteluT samalla jos mahd (JOKO JO 21525???)
 
 if [ z"${distro}" != "z" ] ; then
 	if [ -s ~/Desktop/minimize/${distro}/conf ] ; then
@@ -24,11 +23,9 @@ if [ z"${distro}" != "z" ] ; then
 					sleep 5
 				fi
 			fi
-
 		else
 			echo "${dir} NOT DOUNF"; sleep 1		
 		fi
-
 	fi
 fi
 
@@ -89,8 +86,8 @@ if [ -f ${tgt} ] ; then
 
 		#HUOM.saattaa urputtaa $tgt polusta riippuen
 		sudo touch ${tgt}.sha
-		sudo chmod 0666  ${tgt}.sha
-		sha512sum ${tgt} > ${tgt}.sha
+		sudo chmod 0666 ${tgt}.sha
+		sudo sha512sum ${tgt} > ${tgt}.sha
 		sha512sum -c ${tgt}.sha
  	
 		echo "DONE UPDATING"
@@ -108,4 +105,3 @@ if [ ${u} -eq 1 ] ; then
 	umount ${dir}
 	sleep 5
 fi
-

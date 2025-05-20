@@ -5,16 +5,16 @@ distro=$(cat /etc/devuan_version) #tarpeellinen tässä
 PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
 mode=-2
 
-#TODO:sitä find-kikkailua
+#VAIH:sitä find-kikkailua
 if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
-	echo "/E/IPTABLES IS WRITABEL"
-	exit 12
-fi
-
-if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
-	echo "/E/S.D IS WRITABLE"
-	exit 34
-fi
+#	echo "/E/IPTABLES IS WRITABEL"
+#	exit 12
+##fi
+#
+#if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
+#	echo "/E/S.D IS WRITABLE"
+#	exit 34
+##fi
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -101,7 +101,7 @@ else
 		dqb "exp32.part3()"
 	}
 
-
+	#TODO;tähän sitten se common_lib.init2
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
 fi

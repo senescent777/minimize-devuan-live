@@ -6,19 +6,19 @@ d=~/Desktop/minimize/${distro}
 [ z"${distro}" == "z" ] && exit 6
 debug=0 #1
 
-#TODO:paremmin toimiva tarkistus,0750 voisi mennä läpi tavis-kjänä
-if [ -r /etc/iptables ] || [ -w /etc/iptables ]  || [ -r /etc/iptables/rules.v4 ] ; then
-	echo "/E/IPTABLES IS WRITABEL"
-	#exit 12
-	sleep 1
-
-fi
-
-if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
-	echo "/E/S.D IS WRITABLE"
-	#exit 34
-	sleep 1
-fi
+#HUOM.20525:common_lib.init2() nykyään tekee noita samoja kuin kommentoidur blokit
+#VAIH:paremmin toimiva tarkistus,0750 voisi mennä läpi tavis-kjänä
+#if [ -r /etc/iptables ] || [ -w /etc/iptables ]  || [ -r /etc/iptables/rules.v4 ] ; then
+#	echo "/E/IPTABLES IS WRITABEL"
+#	#exit 12
+#	sleep 1
+##fi
+#
+#if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
+#	echo "/E/S.D IS WRITABLE"
+#	#exit 34
+#	sleep 1
+##fi
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
@@ -46,7 +46,7 @@ function parse_opts_2() {
 #https://linuxopsys.com/use-dollar-at-in-bash-scripting
 #https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
 
-#=====================================PART0======================================
+#=====================================PART0=========================================================
 dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
