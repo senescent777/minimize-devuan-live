@@ -11,7 +11,6 @@ if [ -r /etc/iptables ] || [ -w /etc/iptables ]  || [ -r /etc/iptables/rules.v4 
 	echo "/E/IPTABLES IS WRITABEL"
 	#exit 12
 	sleep 1
-
 fi
 
 if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
@@ -68,7 +67,8 @@ csleep 5
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
 enforce_access ${n}
- 
+
+#TODO:tarttisikohan jotain tehdä sources.list suhteen?
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
 
@@ -231,8 +231,6 @@ csleep 6
 
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
-
-#HUOM.12525:tämä kohta ei vaikuttanut toimivan kunnolla, toi bttavasti tilapäist
 
 if [ ${mode} -eq 2 ] ; then
 	echo "time to ${sifu} ${iface} or whåtever"

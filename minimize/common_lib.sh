@@ -1,4 +1,3 @@
-
 function init() {
 	odio=$(which sudo)
 	[ y"${odio}" == "y" ] && exit 99 
@@ -37,7 +36,6 @@ function init() {
 }
 
 init
-
 
 #TODO:paremmin toimiva tarkistus,0750 voisi mennä läpi kun taviksena ajellaamn
 #https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
@@ -99,13 +97,10 @@ function fix_sudo() {
 }
 
 fix_sudo
-#yhteen läjän nämä määrittelyt?
-slinky=$(${odio} which ln)
-slinky="${odio} ${slinky} -s "
-spc=$(${odio} which cp)
-svm=$(${odio} which mv)
-svm="${odio} ${svm} "
-spc="${odio} ${spc} "
+
+#parempi tehdä näin
+[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
+csleep 5
 
 #EI SITTEN PERKELE ALETA KIKKAILLA /ETC/IPTABLES/RULES KANSSA
 #ESIM. PASKOJEN TIKKUJEN KANSSA TULEE TÄYDI SIRKUS 666 (JA SITTEN ON NE OIKEUDETKIN)
@@ -154,7 +149,7 @@ function psqa() {
 
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
-
+		[ $? -eq 0 ] || exit 94
 		cd ${p}
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
@@ -164,10 +159,8 @@ function psqa() {
 }
 
 function check_binaries() {
-	debug=1
 	dqb "c0mm0n_lib.ch3ck_b1nar135(${1} )"
 	csleep 1
-
 
 	ipt=$(${odio} which iptables)
 	ip6t=$(${odio} which ip6tables)
@@ -186,10 +179,8 @@ function check_binaries() {
 
 	if [ y"${ipt}" == "y" ] ; then
 		[ z"${1}" == "z" ] && exit 99
-
 		dqb "-d ${PREFIX}/${1} existsts?"
 		[ -d ${PREFIX}/${1} ] || exit 101
-
 
 		dqb "params_ok"
 		csleep 1
@@ -197,13 +188,11 @@ function check_binaries() {
 		echo "SHOULD INSTALL IPTABLES"
 		jules
 
-
 		if [ -s ${PREFIX}/${1}/e.tar ] ; then
 			${odio} ${srat} -C / -xf ${PREFIX}/${1}/e.tar
 			${odio} ${NKVD} ${PREFIX}/${1}/e.tar  #jompikumpi hoitaa
 			${odio} ${smr} ${PREFIX}/${1}/e.tar
 		fi
-
 
 		csleep 3
 		pre_part3 ${PREFIX}/${1} ${dnsm}
@@ -215,11 +204,9 @@ function check_binaries() {
 		ip6tr=$(${odio} which ip6tables-restore)
 	fi
 
-
 	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
 	sifu=$(${odio} which ifup)
 	sifd=$(${odio} which ifdown)
-
 
 	CB_LIST1="/sbin/halt /sbin/reboot /usr/bin/which ${sifu} ${sifd} "
 	dqb "second half of c_bin_1"
@@ -230,7 +217,6 @@ function check_binaries() {
 		do ocs ${x}
 	done
 	
-
 	sdi=$(${odio} which dpkg)
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
@@ -260,25 +246,20 @@ function check_binaries2() {
 	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
 	sag_u="${odio} ${sag} update "
 	sag="${odio} ${sag} "
-
 	sip="${odio} ${sip} "
-
 	sa="${odio} ${sa} "
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
 	smr="${odio} ${smr} "
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
-
 	NKVD="${odio} ${NKVD} "
 	srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
 	fib="${odio} ${sa} --fix-broken install "
-
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
 	
 	#HUOM. ei alustetttu tämmöstä dch="${odio} ${dch}"
-
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
@@ -347,7 +328,6 @@ function pre_enforce() {
 	csleep 3
 
 	[ -f ${q}/meshuggah ] || exit 33
-
 	dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 	mangle_s ${PREFIX}/changedns.sh ${q}/meshuggah
 	csleep 2
@@ -367,12 +347,12 @@ function pre_enforce() {
 
 		${sco} root:root ${q}/meshuggah
 		${svm} ${q}/meshuggah /etc/sudoers.d
+
 		CB_LIST1=""
 		unset CB_LIST1
 		#saavuttaakohan tuolla nollauksella mitään? kuitenkin alustetaan
 	fi
 
-	#HUOM.12525:jokin lisäehto vielä? enforcen taakse?
 	local c4
 	c4=$(grep -c ${part0} /etc/fstab)
 
@@ -394,12 +374,10 @@ function mangle2() {
 	fi
 }
 
-
 function e_e() {
 	${scm} 0440 /etc/sudoers.d/*
 	${scm} 0750 /etc/sudoers.d
 	${sco} -R root:root /etc/sudoers.d
-
 	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
 
 	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
@@ -431,7 +409,6 @@ function e_v() {
 	csleep 1
 }
 
-
 function e_h () {
 	${sco} root:root /home
 	${scm} 0755 /home
@@ -443,7 +420,6 @@ function e_h () {
 	fi
 
 	local f
-
 	${scm} 0755 ${PREFIX}
 
 	for f in $(find ${PREFIX} -type d) ; do ${scm} 0755 ${f} ; done
@@ -451,7 +427,6 @@ function e_h () {
 	for f in $(find ${PREFIX} -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${PREFIX} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
 	for f in $(find ${PREFIX} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
-
 
 	f=$(date +%F)
 	dqb "F1ND D0N3"
@@ -461,10 +436,8 @@ function e_h () {
 	${sco} root:root ${PREFIX}/changedns.sh
 }
 
-
 function e_final() {
 	#HUOM.15525:interfaces kanssa kikkaiut kuten rules, tartteeko niihin liittyen tehdä tässä jotain?
-
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
@@ -508,14 +481,11 @@ function part1_5() {
 	if [ z"${pkgsrc}" != "z" ] ; then
 		if [ -d ${PREFIX}/${1} ] ; then
 			if [ ! -s /etc/apt/sources.list.${1} ] ; then
-				local g
+				#HUOM. mitä jos onkin s.list.$1 olemassa mutta s.list pitäisi vaihtaa?
+				
 				local h
-
-				g=$(date +%F)
 				dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
 				csleep 2
-
-				[ -f /etc/apt/sources.list ] && ${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
 
 				h=$(mktemp -d)
 				touch ${h}/sources.list.${1}
@@ -525,9 +495,6 @@ function part1_5() {
 				done
 
 				${svm} ${h}/sources.list.${1} /etc/apt/
-				${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list
-				[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
-				csleep 2
 			fi
 		fi
 	fi
@@ -539,7 +506,6 @@ function part1_5() {
 
 function part1() {
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
-
 	#jos jokin näistä kolmesta hoitaisi homman...
 
 	${sifd} ${iface}
@@ -570,12 +536,34 @@ function part1() {
 			${ipt} -L #
 			dqb "V6.b"; csleep 2
 			${ip6t} -L # -x mukaan?
-			sleep 5
+			scleep 5
 		fi
 	fi
-fi
 
+	#HUOM.20525:jatqssa blokki part1_5:teen?
+	local c
+	local g
+	g=$(date +%F)
+
+	if [ -f /etc/apt/sources.list ] ; then
+		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
+
+		if [ ${c} -gt 0 ] ; 
+			${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
+			csleep 5
+		fi
+	fi
+
+	#TODO:nyt varmaankin joutuu linkitysjutut kopsailemaan muuallekin
 	part1_5 ${1}
+
+	if [ ! -f /etc/apt/sources.list ] ; then
+		${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list
+	fi
+
+	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
+	csleep 2
+
 	${sco} -R root:root /etc/apt
 	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WHORE (i have Tourettes)"
@@ -583,7 +571,6 @@ fi
 
 function part076() {
 	dqb "PART076()"
-
 	csleep 2
 	local s
 	local t
@@ -597,7 +584,6 @@ function part076() {
 		done
 
 		${whack} ${s}* #oli pgrep aiemmin
-
 	done
 
 	dqb "alm0st d0n3"
@@ -608,47 +594,6 @@ function part076() {
 
 	dqb "P.176 DONE"
 	csleep 3
-
-	${snt} -tulpan
-	csleep 3
-}
-
-function el_loco() {
-	dqb "MI LOCO"
-	csleep 3
-	#TODO:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön, locale-gen...
-
-	#ennen vai jälkeen "dpkg reconfig"-blokin tämä?
-	if [ -s /etc/default/locale.tmp ] ; then
-		. /etc/default/locale.tmp
-		export LC_TIME
-		export LANGUAGE
-		export LC_ALL
-	fi
-
-	#joskohan tarkistus pois jatkossa?
-	if [ ${1} -gt 0 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
-		#client-side session_expiration_checks can be a PITA
-		${odio} dpkg-reconfigure locales
-		${odio} dpkg-reconfigure tzdata
-		${scm} a+w /etc/default/locale
-		csleep 3
-
-		#/e/d/l voi kasvaa isoksikin näin...
-		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
-		cat /etc/default/locale
-		csleep 3
-
-		cat /etc/timezone
-		csleep 3
-
-		${scm} a-w /etc/default/locale
-		ls -las /etc/default/lo*
-		csleep 3
-	fi
-
-	dqb "DN03"
-	csleep 2
 }
 
 function part2_5() {
@@ -657,7 +602,6 @@ function part2_5() {
 	csleep 2
 
 	if [ ${1} -eq 1 ] ; then
-
 		for s in ${PART175_LIST} ; do
 			dqb "processing ${s}"
 			csleep 1
@@ -665,7 +609,6 @@ function part2_5() {
 			${sharpy} ${s}*
 			csleep 1
 		done
-
 
 		${sharpy} libblu* libcupsfilters* libgphoto* #tartteeko vielä?
 		${sharpy} blu*
@@ -699,7 +642,6 @@ function part2_5() {
 		fi
 	fi
 
-
 	if [ ${debug} -eq 1 ] ; then
 		${snt}
 		sleep 5
@@ -710,10 +652,8 @@ function part2_5() {
 	csleep 2
 }
 
-
 function part3_4real() {
 	dqb "part3_4real( ${1} )"
-
 	csleep 1
 
 	[ y"${1}" == "y" ] && exit 1 #mikähän tässäkin on?
@@ -735,7 +675,6 @@ function part3_4real() {
 		dqb "part3.1 ok"
 		csleep 3
 		${NKVD} ${1}/lib*.deb
-
 	else
 		exit 66
 	fi
@@ -745,7 +684,6 @@ function part3_4real() {
 	if [ $? -eq  0 ] ; then
 		dqb "part3.2 ok"
 		csleep 3
-
 		${NKVD} ${1}/*.deb
 	else
 		exit 67
