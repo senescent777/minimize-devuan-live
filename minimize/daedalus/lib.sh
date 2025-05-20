@@ -1,7 +1,4 @@
-##=================================================PART 0=====================================
-#
-##VAIH:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
-##https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
+#=================================================PART 0=====================================
 
 #TEHTY:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
@@ -38,7 +35,7 @@ function pre_part3() {
 	csleep 6
 }
 
-#HUOM.19525:pitäisiköhän tässäkin olla se debian_fromtend-juttu? ehkä ei ole pakko
+#HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 function pr4() {
 	dqb "pr4( ${1} , ${2} )"
 	csleep 3
@@ -79,8 +76,6 @@ function pr4() {
 	csleep 1
 }
 
-#VAIH:toimivuuden testaus
-
 function udp6() {
 	dqb "daud.lib.UPDP-6"
 	csleep 2
@@ -95,12 +90,6 @@ function udp6() {
 	${smr} ${pkgdir}/libpython3.11*
 	${smr} ${pkgdir}/librsvg2*
 	
-#	#VAIH:part2_5 jekku käyttöön
-#	${smr} ${pkgdir}/avahi*
-#	${smr} ${pkgdir}/blu*
-#	${smr} ${pkgdir}/cups*
-#	${smr} ${pkgdir}/exim*
-	
 	for s in ${PART175_LIST} ; do
 		dqb "processing ${s}"
 		csleep 1
@@ -108,7 +97,6 @@ function udp6() {
 		${smr} ${pkgdir}/${s}*
 		csleep 1
 	done
-
 
 	case ${iface} in
 		wlan0)
@@ -131,7 +119,6 @@ function part2_pre() {
 }
 
 check_binaries ${distro}
-#echo $?;sleep 3
 check_binaries2
-#echo $?;sleep 3
+
 

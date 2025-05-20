@@ -36,12 +36,7 @@ fi
 
 #HUOM. ao. rivillä 2. viimeisessä syystä vain core
 ${sharpy} amd64-microcode iucode-tool arch-test at-spi2-core 
-${sharpy} bubblewrap atril* coinor* cryptsetup* debootstrap
-
-#${asy} 
-#${lftr}
-#csleep 5
-#
+${sharpy} bubblewrap atril* coinor* cryptsetup* debootstrap'
 ${sharpy} dmidecode discover* dirmngr #tuleekohan viimeisestä ongelma? vissiin ei
 ${sharpy} doc-debian docutils* efibootmgr exfalso 
 ${sharpy} fdisk ftp* gdisk gcr
@@ -87,11 +82,6 @@ csleep 5
 ${sharpy} mlocate mokutil mariadb-common mysql-common
 ${sharpy} netcat-traditional openssh* os-prober #orca saattaa poistua jo aiemmin
 ${sharpy} nfs-common rpcbind
-
-#csleep 5
-#dqb "p"
-#csleep 5
-#
 ${sharpy} ppp procmail ristretto screen
 ${sharpy} pkexec po* refracta* squashfs-tools
 
