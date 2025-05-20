@@ -219,64 +219,6 @@ sleep 5
 	dqb "...done"
 }
 
-##VAIH:tämäkin vähitellen ojennukseen (se fktio common_lib:issä olisi sisllöltään melkeins ama kohta)
-##HUOM.17525:OLISI VARMAAN PRKL HELPOMPAA VAIN LADATA SÄÄNNÖT VAIHTELEVAN NIMISESTÄ TDSTOSTA JA TÄTS IT
-#function clouds_pp2() {
-#	debug=1
-#	dqb "#c.pp.2 ${1}"
-#	${scm} 0755 /etc/iptables
-#	echo $?
-#
-#	${scm} 0444 /etc/iptables/rules.*
-#	echo $?
-#
-#	dqb "BEFORE"
-#	sudo ls -las /etc/iptables
-#	csleep 3	
-#	#HUOM. pitäisiköhän linkit hukata jokatapauksessa? 0<->1 - vaihdoissa silloin häviää linkitys kokonaan
-#
-#	for f in /etc/iptables/rules.v4 /etc/iptables/rules.v6 ; do
-#		if [ -e ${f} ] ; then
-#			if [ -h ${f} ] ; then
-#				dqb "smr /e/i/rv4"
-#				${smr} ${f} #ei kai vaan tämä deletoi linkin kohdetta samalla?
-#				echo $?
-#			else
-#				if [ -s ${f} ] && [ -r ${f} ] ; then
-#					dqb "svm ${f} ${f}.OLD"
-#					${svm} ${f} ${f}.OLD
-#					echo $?			
-#				fi
-#			fi
-#		fi
-#	done
-#
-#	dqb "cpp2.PART2"
-#	csleep 5
-#
-#	for f in /etc/iptables/rules.v4 /etc/iptables/rules.v6 ; do
-#		if [ -s ${f}.${1} ] && [ -r ${f}.${1} ] ; then
-#			${slinky} ${f}.${1} ${f}
-#		else
-#			dqb "FFF"
-#		fi
-#
-#		csleep 1
-#	done
-#
-#	${scm} 0400 /etc/iptables/rules.*
-#	echo $?
-#
-#	${scm} 0550 /etc/iptables
-#	echo $?
-#
-#	csleep 1
-#	dqb "AFTER"
-#	sudo ls -las /etc/iptables
-#	csleep 5
-#	dqb "...finally d0n3"
-#}
-
 function clouds_pp3() {
 	csleep 1
 	dqb "# c.pp.3 a.k.a RELOADING TBLZ RULEZ ${1}"

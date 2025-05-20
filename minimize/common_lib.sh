@@ -101,37 +101,6 @@ csleep 5
 #toistaiseksi kommentteihin että saisi välillä jotain aikaiseksi
 function jules() {
 	dqb "LE BIG MAC"
-#	${scm} 0755 /etc/iptables #oli 0755, jos riittäisi vähempi
-#	${scm} 0444 /etc/iptables/*
-#	csleep 6
-#
-#	for x in /etc/iptables/rules.v4 /etc/iptables/rules.v6 ; do
-#		dqb ${x}
-#
-#		if [ -e ${x} ] ; then
-#			if [ -h ${x} ] ; then
-#				dqb "LINKS"
-#				${smr} ${x} #poistaako tosiaan kohteen?
-#			else #-s ja -r , pitäisikö olla mukana tuossa alla?
-#				dqb "RECHTS"
-#				if -r ${x} and -s ${x} then
-#					 ${svm} ${x} ${x}.OLD
-#			fi
-#
-#			csleep 1
-#		fi
-#
-#		if  -s ${x}.${dnsm} and -s  then -r mys tähän?
-#			dqb "ICH KOMME"
-#			csleep 1
-#
-#			${slinky} ${x}.${dnsm} ${x}
-#			echo $?
-#		else
-#			echo "SCHEISSEKOMMANDO 666";exit 666
-#		fi
-#	done
-#
 	dqb "V8"
 	csleep 6
 
