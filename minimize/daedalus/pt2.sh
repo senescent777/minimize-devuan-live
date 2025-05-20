@@ -2,6 +2,19 @@
 d=$(dirname $0)
 
 [ -s ${d}/conf ] && . ${d}/conf
+
+function parse_opts_1() {
+	case "${1}" in
+		-v|--v)
+			debug=1
+		;;
+	esac
+}
+
+function parse_opts_2() {
+	dqb "parseopts_2 ${1} ${2}"
+}
+
 . ~/Desktop/minimize/common_lib.sh
 [ -s ${d}/lib.sh ] && . ${d}/lib.sh
 
@@ -9,13 +22,13 @@ ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 ${fib}
 
-#TODO:gpo() käyttöön tähänkin
-if [ $# -gt 0 ] ; then  
-	if [ "${1}" == "-v" ] ; then
-		debug=1
-	fi
-fi
-
+#VAIH:gpo() käyttöön tähänkin
+#if [ $# -gt 0 ] ; then  
+#	if [ "${1}" == "-v" ] ; then
+#		debug=1
+#	fi
+#fi
+#exit
 dqb "a-e"
 csleep 5
 

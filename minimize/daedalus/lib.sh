@@ -1,6 +1,6 @@
 #=================================================PART 0=====================================
-#
-#VAIH:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
+
+#TEHTY:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 #... joskohan --force-confold olisi se haettu juttu
 
@@ -65,6 +65,8 @@ function pr4() {
 	${NKVD} ${1}/git*.deb
 	${NKVD} ${1}/liberror-perl*.deb
 	csleep 1
+
+#TODO:libdevmappwr-juttuja?
 
 	${NKVD} ${1}/libpam*
 	${NKVD} ${1}/libperl*
