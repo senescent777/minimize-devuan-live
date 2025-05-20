@@ -27,7 +27,6 @@ function csleep() {
 
 [ -z ${distro} ] && exit 6
 
-#mode=${1}
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "file=${file}"
@@ -110,12 +109,6 @@ fi
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	#TEHTY:josko testaisi tilanteen missä $distro/{conf,lib} puuttuvat
-	
-	#...ensiksi vain tapaus "lib puuttuu"
-	#HUOM.18525: main(), vase -1 , 2 ja q toimivat, loput saattavat toimia pienen nalkutuksen kanssa
-	#konftdston puuttuminen ei estä case 0:aa toimimasta, -1 ja 2 tietenkin poissa pelistä
-	
 	echo $?
 	dqb "NO LIB"
 	csleep 1
@@ -168,8 +161,9 @@ function common_part() {
 	csleep 2
 	
 	if [ -s ${1}.sha ] ; then
+		dqb "KHAZAD-DUM"
 		${sah6} -c ${1}.sha
-		csleep 6 
+		csleep 10
 	fi
 
 	${srat} -xf ${1}
