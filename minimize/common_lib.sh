@@ -38,6 +38,9 @@ function init() {
 init
 
 #TODO:paremmin toimiva tarkistus,0750 voisi mennä läpi kun taviksena ajellaamn
+#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
+#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
+
 if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then # linkkien kanssa pitäisi tehdä toisin
 	echo "WARNING: /E/IPTABLES IS WRITABEL"
 	#exit 12
@@ -449,16 +452,12 @@ function e_final() {
 	${scm} -R a-w /etc/wpa_supplicant
 }
 
-#VAIH:josko pilkkoisi pienimpiin fktioihin tämän
 function enforce_access() {
 	dqb " enforce_access( ${1})"
 	csleep 1
 	dqb "changing /sbin , /etc and /var 4 real"
 	
-
 	e_e	
-
-
 	e_v
 
 	${scm} 0755 /
@@ -469,10 +468,7 @@ function enforce_access() {
 	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
-
 	e_h
-
-
 	e_final
 
 	jules
@@ -702,6 +698,5 @@ function gpo() {
 	done
 }
 
-#VAIH:gpo käyttöön
 #https://stackoverflow.com/questions/16988427/calling-one-bash-script-from-another-script-passing-it-arguments-with-quotes-and
 gpo "$@"
