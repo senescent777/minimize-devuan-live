@@ -99,7 +99,7 @@ fix_sudo
 [ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 csleep 5
 
-#toistaiseksi kommentteihin että saisi välillä jotain aikaiseksi
+#EI SITTEN PERKELE ALETA KIKKAILLA /ETC/IPTABLES/RULES KANSSA
 function jules() {
 	dqb "LE BIG MAC"
 	dqb "V8"
@@ -370,13 +370,7 @@ function mangle2() {
 	fi
 }
 
-#VAIH:josko pilkkoisi pienimpiin fktioihin tämän
-function enforce_access() {
-	dqb " enforce_access( ${1})"
-	csleep 1
-	dqb "changing /sbin , /etc and /var 4 real"
-	
-	#function e_e() {
+function e_e() {
 	${scm} 0440 /etc/sudoers.d/*
 	${scm} 0750 /etc/sudoers.d
 	${sco} -R root:root /etc/sudoers.d
@@ -394,9 +388,9 @@ function enforce_access() {
 	${scm} 0755 /etc
 	${sco} -R root:root /etc #-R liikaa?
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
-	#}
-	
-	#function e_v () {
+}
+
+function e_v() {
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
 
@@ -409,17 +403,9 @@ function enforce_access() {
 
 	dqb "VAN DAMME"
 	csleep 1
-	#}
+}
 
-	${scm} 0755 /
-	${sco} root:root /
-
-	${scm} 0777 /tmp
-	#${scm} o+t /tmp
-	${sco} root:root /tmp
-
-	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
-	#function e_h () {
+function e_h () {
 	${sco} root:root /home
 	${scm} 0755 /home
 
@@ -444,9 +430,9 @@ function enforce_access() {
 
 	${scm} 0555 ${PREFIX}/changedns.sh
 	${sco} root:root ${PREFIX}/changedns.sh
-	#}
+}
 
-	#function e_final() {
+function e_final() {
 	#HUOM.15525:interfaces kanssa kikkaiut kuten rules, tartteeko niihin liittyen tehdä tässä jotain?
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
@@ -461,7 +447,33 @@ function enforce_access() {
 	#wpasupplicant:in kanssa myös jotain säätöä, esim tällaista
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
-	#}
+}
+
+#VAIH:josko pilkkoisi pienimpiin fktioihin tämän
+function enforce_access() {
+	dqb " enforce_access( ${1})"
+	csleep 1
+	dqb "changing /sbin , /etc and /var 4 real"
+	
+
+	e_e	
+
+
+	e_v
+
+	${scm} 0755 /
+	${sco} root:root /
+
+	${scm} 0777 /tmp
+	#${scm} o+t /tmp
+	${sco} root:root /tmp
+
+	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
+
+	e_h
+
+
+	e_final
 
 	jules
 	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
