@@ -375,6 +375,9 @@ function mangle2() {
 }
 
 function e_e() {
+	dqb "e_e()"	
+	csleep 1
+
 	${scm} 0440 /etc/sudoers.d/*
 	${scm} 0750 /etc/sudoers.d
 	${sco} -R root:root /etc/sudoers.d
@@ -392,9 +395,15 @@ function e_e() {
 	${scm} 0755 /etc
 	${sco} -R root:root /etc #-R liikaa?
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
+
+	dqb "e_e d0n3"
+	csleep 1
 }
 
 function e_v() {
+	dqb "e_v()"
+	csleep 1
+
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
 
@@ -409,7 +418,10 @@ function e_v() {
 	csleep 1
 }
 
-function e_h () {
+function e_h() {
+	dqb "e_h( ${1} )"
+	csleep 1
+
 	${sco} root:root /home
 	${scm} 0755 /home
 
@@ -428,15 +440,22 @@ function e_h () {
 	for f in $(find ${PREFIX} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
 	for f in $(find ${PREFIX} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
 
-	f=$(date +%F)
 	dqb "F1ND D0N3"
 	csleep 1
 
 	${scm} 0555 ${PREFIX}/changedns.sh
 	${sco} root:root ${PREFIX}/changedns.sh
+
+	dqb "e_h()"
+	csleep 1
 }
 
 function e_final() {
+	dqb "e_final()"
+	csleep 1
+	local f
+	f=$(date +%F)
+
 	#HUOM.15525:interfaces kanssa kikkaiut kuten rules, tartteeko niihin liittyen tehdä tässä jotain?
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
@@ -451,6 +470,9 @@ function e_final() {
 	#wpasupplicant:in kanssa myös jotain säätöä, esim tällaista
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
+
+	dqb "e_final() D0N3"
+	csleep 1
 }
 
 function enforce_access() {
@@ -469,7 +491,7 @@ function enforce_access() {
 	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
-	e_h
+	e_h ${1}
 	e_final
 
 	jules
@@ -536,7 +558,7 @@ function part1() {
 			${ipt} -L #
 			dqb "V6.b"; csleep 2
 			${ip6t} -L # -x mukaan?
-			scleep 5
+			csleep 5
 		fi
 	fi
 
@@ -545,6 +567,7 @@ function part1() {
 	local g
 	g=$(date +%F)
 
+	#HUOM.20525:onkohan ao. ehto ok?
 	if [ -f /etc/apt/sources.list ] ; then
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
 
@@ -558,7 +581,9 @@ function part1() {
 	part1_5 ${1}
 
 	if [ ! -f /etc/apt/sources.list ] ; then
-		${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list
+		if [ -s /etc/apt/sources.list.${1} ] && [ -r /etc/apt/sources.list.${1} ] ; then
+			${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list
+		fi	
 	fi
 
 	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list

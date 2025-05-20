@@ -173,7 +173,7 @@ function pre1() {
 		#erikseen sitten se, mikä sources menee arkistoon ja millä nimellä
 
 		if [ -s /etc/apt/sources.list.${ortsac} ] ; then
-			${smr} /etc/apt/sources.list
+			${smr} /etc/apt/sources.list #vähän jyrkkää mutta
 		else
 			#HUOM.20525:joutunee laittamaan uusiksi tässä
 			part1_5 ${ortsac}
@@ -490,6 +490,7 @@ function tp2() {
 
 #VAIH:tarttisikohan jotain tehdä sources.list suhteen? avainsana "http:" voisi laukaista toiminnan
 #c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l) , kts. part1 nykyään
+#josko joka tdstoa varten oma fktio?
 function tp3() {
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
@@ -528,7 +529,6 @@ function tp3() {
 	# (ao. rivi tp2() jatkossa?)	
 	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm}
 
-	#HUOM.14525.5:eka tarkistus lienee turha
 	if [ ! -s ./etc/resolv.conf.1 ] ; then
 		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
 	fi
@@ -537,7 +537,7 @@ function tp3() {
 	# (ao. rivi tp2() jatkossa?)
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm}
 
-	if [ ${dnsm} -eq 0 ] && [ ! -s ./sbin/dhclient-script.1 ] ; then
+	if [ ! -s ./sbin/dhclient-script.1 ] ; then
 		  ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
 	fi
 	
@@ -549,6 +549,7 @@ function tp3() {
 		local c
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
 
+		#HUOM.20525:onkohan tuo ehto hyvä noin? pikemminkin https läsnäolo?
 		if [ ${c} -lt 1 ] ; then
  			${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
 		fi
@@ -557,7 +558,7 @@ function tp3() {
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	# (ao. rivi tp2() jatkossa?)
-	${spc} /etc/network/interfaces ./etc/network/interfaces.${2} #tässä iface olisi parempi kuin distro, EHKä
+	${spc} /etc/network/interfaces ./etc/network/interfaces.${2}
 
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
