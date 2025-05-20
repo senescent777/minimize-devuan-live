@@ -20,7 +20,7 @@ if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
 	part2_pre 1
-	part2 1 #${removepkgs}
+	part2_5 1 #HUOM.15425: oli part2 1
 fi
 
 ${odio} which iptables; csleep 3

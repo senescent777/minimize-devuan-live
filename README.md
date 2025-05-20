@@ -1,10 +1,10 @@
 1. boot a live cd (for example Chimaera desktop live)
 2. sudo mount /dev/$usbdrive /mnt/ -o ro
-3. cd /;sudo tar -xvf /mnt/$archive.tar
+3. sudo tar -C / -xvf /mnt/$archive.tar
 4. sudo umount /mnt
 5. cd ~/Desktop/minimize
-6. cp conf.example $distro; mv $distro/conf.example $distro/conf; $EDITOR $distro/conf #for initial config
-7. ./$distro/doIt6.sh
+6. cp conf.example $distro/conf; $EDITOR $distro/conf #for initial config
+7. ./generic_doit.sh
 
 -----------------------------------------------------------
 
@@ -18,8 +18,8 @@
 - demerde_toi.sh
 	can be used to install the most recent version of this project into a running live distro
 
-- $distro/pt2.sh removes little more packages,
-  	 if you want even lighter filesystem.squashfs
+- $distro/pt2.sh removes little more packages.
+  If you want even lighter filesystem.squashfs
 	https://github.com/senescent777/some_scripts/blob/main/skripts/export/squ.ash.export can be used some day to make that .squashfs from / - partition
 
 

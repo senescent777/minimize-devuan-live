@@ -5,6 +5,17 @@ distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 dir=/mnt
 part0=ABCD-1234
 PREFIX=~/Desktop/minimize
+mode=-2
+
+if [ -r /etc/iptables ] || [ -w /etc/iptables ]  || [ -r /etc/iptables/rules.v4 ] ; then
+	echo "/E/IPTABLES IS WRITABEL"
+	exit 12
+fi
+
+if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
+	echo "/E/S.D IS WRITABLE"
+	exit 34
+fi
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -14,47 +25,8 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-case $# in
-	1)
-		dqb "maybe ok" #tap -1 ja 2 ok, muissa pitäisi fileen puuttuminen p ysäyttää
-	;;
-	2)
-		if [ -d ${PREFIX}/${2} ] ; then
-			distro=${2}
-		else
-			file=${2}
-		fi
-	;;
-	3)
-		file=${2}
+[ -z ${distro} ] && exit 6
 
-		if [ -d ${PREFIX}/${3} ] ; then
-			distro=${3}
-		else
-			[ "${3}" == "-v" ] && debug=1
-		fi
-	;;
-	4)
-		file=${2}
-		distro=${3}
-		[ "${4}" == "-v" ] && debug=1
-	;;
-	*)
-		echo "$0 <mode> <other_params>"
-	;;
-esac
-
-[ z"${distro}" == "z" ] && exit 6
-
-function pr4() {
-	dqb "imp2.pr4 (${1})" 
-}
-
-function pre_part3() {
-	dqb "imp2.pre_part3( ${1})"
-}
-
-mode=${1}
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "file=${file}"
@@ -64,27 +36,71 @@ if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
 fi
 
+function parse_opts_1() {
+	case "${1}" in
+		-v|--v)
+			debug=1
+		;;
+		*)
+			if [ ${mode} -eq -2 ] ; then
+				mode=${1}
+			else
+				if [ -d ${PREFIX}/${1} ] ; then
+					distro=${1}
+				else
+					file=${1}
+				fi
+			fi
+		;;
+	esac
+}
+
+function parse_opts_2() {
+	dqb "parseopts_2 ${1} ${2}"
+}
+
+function usage() {
+	echo "TODO"
+}
+
 if [ -x ${PREFIX}/common_lib.sh ] ; then
 	. ${PREFIX}/common_lib.sh
 else
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
-	som="sudo /bin/umount"
+	uom="sudo /bin/umount"
 	scm="sudo /bin/chmod"
 	sco="sudo /bin/chown"
 	odio=$(which sudo)
-	
+
+	#jos näillä lähtisi aikankin case q toimimaan
+	n=$(whoami)
+	smr=$(${odio} which rm)
+	NKVD=$(${odio} which shred)
+	NKVD="${NKVD} -fu "
+	whack=$(${odio} which pkill)
+	whack="${odio} ${whack} --signal 9 "
+
 	function check_binaries() {
-		dqb "imp2.ch3ck_b1nar135(${1} )"
+		dqb "imp2.ch3ck_b1nar135( \${1} )"
 	}
 
 	function check_binaries2() {
-		dqb "imp2.ch3ck_b1nar135_2(${1} )"
+		dqb "imp2.ch3ck_b1nar135_2( \${1} )"
 	}
 
 	function fix_sudo() {
-		dqb"imp32.fix.sudo"
+		dqb "imp32.fix.sudo"
 	}
+
+	function enforce_access() {
+		dqb "imp32.enf_acc()"
+	}
+
+	function part3() {
+		dqb "imp32.part3()"
+	}
+
 
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
@@ -93,13 +109,23 @@ fi
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	#TODO:josko testaisi tilanteen missä $distro/{conf,lib} puuttuvat
 	echo $?
+	dqb "NO LIB"
 	csleep 1
 
+	#HUOM.18525:ao. 2 fktiota voisi esitellä pikemminkin sittenq lib puuttuu
+	function pr4() {
+		dqb "imp2.pr4 (\${1} \${2})" 
+	}
+
+	function pre_part3() {
+		dqb "imp2.pre_part3( \${1} \${2})"
+	}
+
 	check_binaries ${distro}
-	[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia?
 	echo $?
+	[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia?
+	
 	csleep 1
 
 	check_binaries2
@@ -130,20 +156,25 @@ function common_part() {
 	dqb "paramz_0k"
 
 	cd /
+	#TODO:sha-tarkistus toimimaan, polun kanssa on juttuja
 	dqb "DEBUG:${srat} -xf ${1} "
 	csleep 2
+	
+	if [ -s ${1}.sha ] ; then
+		dqb "KHAZAD-DUM"
+		${sah6} -c ${1}.sha
+		csleep 10
+	fi
+
 	${srat} -xf ${1}
 	csleep 2
 	dqb "tar DONE"
 
-	#toisella tavalla jatkossa
-	#if [ -x ${PREFIX}/common_lib.sh ] ; then
 	if [ -x ${2}/../common_lib.sh ] ; then
 		enforce_access ${n}
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	fi
 
-#	[ ${debug} -eq 1 ] && ls -las ${PREFIX}/*.sh
 	csleep 3
 	
 	if [ -d ${2} ] ; then 
@@ -162,8 +193,8 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
-case "${1}" in
-	-1)
+case "${mode}" in
+	-1) #jatkossa jokim fiksumpi kuin -1
 		part=/dev/disk/by-uuid/${part0}		
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 
@@ -186,15 +217,14 @@ case "${1}" in
 
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ]  || exit 33
-
-		common_part ${file} ${d} #istro}
+		common_part ${file} ${d}
 
 		csleep 3
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	0|3)
-		#debug=1
+
 		dqb "ZER0 S0UND"
 		csleep 2
 
@@ -212,32 +242,25 @@ case "${1}" in
 
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
+		common_part ${file} ${d}
 
-		common_part ${file} ${d} #istro}
-
-		#debig taakse jatkossa seur 2
-		ls -las ${d}/*.tar
-		csleep 6
 
 		if [ ${1} -eq 0 ] ; then
 			if [ -s ${d}/e.tar ] ; then
-				common_part ${d}/e.tar ${d} #istro}
+				common_part ${d}/e.tar ${d}
+
 			fi
 		fi
 
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 6
-
-		pre_part3 ${d}
-		pr4 ${d}
-		part3 ${d}
+		part3 ${d} ${dnsm}
 		csleep 2
 
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#debug=1
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 2
@@ -248,7 +271,6 @@ case "${1}" in
 
 		if [ -x ${PREFIX}/profs.sh ] ; then
 			. ${PREFIX}/profs.sh
-
 			[ $? -gt 0 ] && exit 33
 			
 			dqb "INCLUDE OK"
@@ -260,6 +282,9 @@ case "${1}" in
 		else
 			dqb "CANNOT INCLUDE PROFS.HS"
 		fi
+	;;
+	-h)
+		usage
 	;;
 	*)
 		echo "-h"

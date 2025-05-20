@@ -1,8 +1,20 @@
 #!/bin/bash
-debug=1
+debug=0 #1
 tgtfile=""
 distro=$(cat /etc/devuan_version) #tarpeellinen tässä
 PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
+mode=-2
+
+#TODO:sitä find-kikkailua
+if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
+	echo "/E/IPTABLES IS WRITABEL"
+	exit 12
+fi
+
+if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
+	echo "/E/S.D IS WRITABLE"
+	exit 34
+fi
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -23,47 +35,83 @@ function usage() {
 	echo "$0 -h: shows this message about usage"	
 }
 
-mode=${1}
-tgtfile=${2}
-
-case $# in
-	1)
-		[ "${1}" == "-h" ]  && usage
-		exit
-	;;
-	2)
-		dqb "maybe ok"
-	;;
-	3)
-		if [ -d ${PREFIX}/${3} ] ; then
-			distro=${3}
-		else
-			[ "${3}" == "-v" ] && debug=1
-		fi
-	;;
-	4)
-		distro=${3}
-		[ "${4}" == "-v" ] && debug=1
-	;;
-	*)
-		echo "-h"
-		exit
-	;;
-esac
-
-dqb "mode= ${mode}"
-dqb "distro=${distro}"
-dqb "file=${tgtfile}"
-[ z"${distro}" == "z" ] && exit 6
+[ -z ${distro} ] && exit 6
 d=${PREFIX}/${distro}
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
 else
-	echo "CONFIG MISSING"; exit 55
+	echo "CONFIG MISSING" #; exit 55
+	pkgdir=/var/cache/apt/archives
 fi
 
-. ${PREFIX}/common_lib.sh
+function parse_opts_1() {
+	case "${1}" in
+		-v|--v)
+			debug=1
+		;;
+		*)
+			if [ ${mode} -eq -2 ] ; then
+				mode=${1}
+			else
+				if [ -d ${PREFIX}/${1} ] ; then
+					distro=${1}
+				else
+					tgtfile=${1}
+				fi
+			fi
+		;;
+	esac
+}
+
+function parse_opts_2() {
+	dqb "parseopts_2 ${1} ${2}"
+}
+
+if [ -x ${PREFIX}/common_lib.sh ] ; then
+	. ${PREFIX}/common_lib.sh
+else
+	srat="sudo /bin/tar"
+	som="sudo /bin/mount"
+	uom="sudo /bin/umount"
+	scm="sudo /bin/chmod"
+	sco="sudo /bin/chown"
+	odio=$(which sudo)
+
+	#jos näillä lähtisi aikankin case q toimimaan
+	n=$(whoami)
+
+	function check_binaries() {
+		dqb "exp2.ch3ck_b1nar135( ${1} )"
+	}
+
+	function check_binaries2() {
+		dqb "exp2.ch3ck_b1nar135_2( ${1} )"
+	}
+
+	function fix_sudo() {
+		dqb "exp32.fix.sudo"
+	}
+
+	function enforce_access() {
+		dqb "exp32.enf_acc()"
+	}
+
+	function part3() {
+		dqb "exp32.part3()"
+	}
+
+
+	dqb "FALLBACK"
+	dqb "chmod may be a good idea now"
+fi
+
+dqb "mode= ${mode}"
+dqb "distro=${distro}"
+dqb "file=${tgtfile}"
+csleep 6
+
+#HUOM.14525:pitäisiköhän testata ao. else-haara?
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -71,11 +119,11 @@ else
 	echo "L1B M1SSING"
 
 	function pr4() {
-		dqb "exp2.pr4 (${1})" 
+		dqb "exp2.pr4 ${1} ${2} " 
 	}
 
 	function pre_part3() {
-		dqb "exp2.pre_part3( ${1})"
+		dqb "exp2.pre_part3 ${1} ${2} "
 	}
 
 	check_binaries ${distro}
@@ -89,7 +137,6 @@ ${sco} root:root ${PREFIX}/changedns.sh
 tig=$(sudo which git)
 mkt=$(sudo which mktemp)
 
-#HUOM.10525:jostain syystä git poistuu, tee jotain asialle (siihen asti näin)
 if [ x"${tig}" == "x" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
 	echo "sudo apt-get update;sudo apt-get install git"
@@ -123,6 +170,9 @@ function pre1() {
 		local ortsac
 		ortsac=$(echo ${1} | cut -d '/' -f 6)
 
+		#HUOM.14525:yritetään tässä muuttaa sources.list s.e. toisen distron pakettien lataus onnistuu
+		#erikseen sitten se, mikä sources menee arkistoon ja millä nimellä
+
 		if [ -s /etc/apt/sources.list.${ortsac} ] ; then
 			${smr} /etc/apt/sources.list
 			${slinky} /etc/apt/sources.list.${ortsac} /etc/apt/sources.list
@@ -139,7 +189,7 @@ function pre1() {
 
 function pre2() {
 	debug=1
-	dqb "pre2( ${1}, ${2})" #WTIN KAARISULKEET STNA
+	dqb "pre2 ${1}, ${2} " #WTIN KAARISULKEET STNA
 	[ x"${1}" == "z" ] && exit 666
 
 	local ortsac
@@ -150,7 +200,7 @@ function pre2() {
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
-		#${odio} ${PREFIX}/changedns.sh ${dnsm} ${ortsac}
+
 		${odio} ${ledif}/changedns.sh ${dnsm} ${ortsac}
 		csleep 4
 
@@ -167,6 +217,9 @@ function pre2() {
 		echo "P.V.HH"
 		exit 111
 	fi
+
+	echo "PRE 2DONE"
+	sleep 4
 }
 
 function tpq() {
@@ -175,8 +228,7 @@ function tpq() {
 	dqb "paramz 0k"
 	csleep 1
 
-	#VAIH:kokeillaanpa ../../  tavalla
-	#${srat} -cf ${1}/xfce.tar ~/.config/xfce4/xfconf/xfce-perchannel-xml 
+
 	${srat} -cf ${1}/xfce.tar ${1}/../../.config/xfce4/xfconf/xfce-perchannel-xml
 	csleep 2
 
@@ -187,7 +239,7 @@ function tpq() {
 		exp_prof ${1}/fediverse.tar default-esr
 
 	else
-		dqb "FASD FADS SAFD"	
+		dqb "1nT0 TH3 M0RB1D R31CH"	
 	fi
 
 	csleep 5
@@ -196,8 +248,8 @@ function tpq() {
 
 #VAIH:PREFIX paraetriksi, tai esim cut
 function tp1() {
-	debug=1
-	dqb "tp1( ${1} , ${2} )"
+	#debug=1
+	dqb "tp1 ${1} , ${2} "
 	[ z"${1}" == "z" ] && exit
 	dqb "params_ok"
 	csleep 3
@@ -209,23 +261,20 @@ function tp1() {
 		dqb "d0nm3"
 	fi
 
-
 	local ledif
 	ledif=$(echo ${2} | cut -d '/' -f 1-5 )
-	#itäisiköhän olla jokin tarkistus tässä?
+	#p.itäisiköhän olla jokin tarkistus tässä?
 
 	if [ ${enforce} -eq 1 ] && [ -d ${ledif} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		tpq ${ledif} #PREFIX}
-
+		tpq ${ledif}
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
-		ls -las ${ledif} #PREFIX}
+		ls -las ${ledif}
 		sleep 5
 	fi
 
-	#${srat} -rvf ${1} ${PREFIX} /home/stubby #HUOM.260125: -p wttuun varm. vuoksi
 	${srat} -rvf ${1} ${ledif} /home/stubby 	
 
 	dqb "tp1 d0n3"
@@ -233,15 +282,16 @@ function tp1() {
 }
 
 function rmt() {
-	debug=1
-	dqb "rmt(${1}, ${2})" #WTUN TYPOT STNA111223456
 
+	#debug=1
+	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
 	[ z"${1}" == "z" ] && exit 1
 	[ -s ${1} ] || exit 2
 
 	[ z"${2}" == "z" ] && exit 11
 	[ -d ${2} ] || exit 22
+
 
 	dqb "paramz_ok"
 	csleep 3
@@ -272,7 +322,7 @@ function rmt() {
 
 function tp4() {
 	debug=1
-	dqb "tp4( ${1} , ${2} )"
+	dqb "tp4 ${1} , ${2} "
 
 	[ z"${1}" == "z" ] && exit 1
 	[ -s ${1} ] || exit 2
@@ -307,7 +357,7 @@ function tp4() {
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
-	${shary} iptables
+	${shary} iptables #se ympäristömuuttuja-jekku tähän vai ei?
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 
 	#actually necessary
@@ -361,38 +411,65 @@ function tp4() {
 		rmt ${1} ${2}
 	fi
 
-	#HUOM.260125: -p wttuun varm. vuoksi  
 	dqb "tp4 donew"
 	csleep 3
 }
 
+#koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
+#HUOM.20525:joskohan locale- ja rules- juttuja varten uusi fktio? vääntöä tuntuu riittävän nimittäin
 
-#HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
 function tp2() {
 	debug=1
 	dqb "tp2 ${1} ${2}"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
+
 	dqb "params_ok"
 	csleep 5
 
-	#HUOM.30425:koklataan josko sittenkin pelkkä /e/n/interfaces riittäisi koska a) ja b)
-	#tablesin kohdalla jos jatkossa /e/i/rules.v? riittäisi?
-	#locale ja tzone mukaan toisessa fktiossa vai ei?
-	#11525:tuleeko /e/iptables mukaan vai ei? kyl kai
+	${scm} 0755 /etc/iptables
+	${scm} 0444 /etc/iptables/rules*
+	${scm} 0444 /etc/default/rules*
 
-	#HUOM.12525.2:tarttisi ehkä kopsata /e/ipt/r -> /e/d/r
+	for f in $(find /etc -type f -name 'interfaces*') ; do ${srat} -rvf ${1} ${f} ; done
+	dqb "JUST BEFORE URLE	S"
+	csleep 6
 
-	#HUOM.12525.1:jotain karsimista jatkossa kenties?
-	${scm} -R a+r /etc/iptables
-	${scm} a+x /etc/iptables
-	
-	${srat} -rvf ${1} /etc/network/interfaces /etc/iptables/rules.v4.? /etc/iptables/rules.v6.? 
-	${scm} -R 0440 /etc/iptables
-	${scm} ug+x /etc/iptables
+	#TOIMISIKO JO? PITÄISI KAI VARMISTAA ETTÄ 0-PITUISIA EI TULE MUKAAN (VAI VIELÄKÖ SKRIPTI PASKOVAT?)
+	for f in $(find /etc -type f -name 'rules*') ; do
+		if [ -s ${f} ] && [ -r ${f} ] ; then
+			${srat} -rvf ${1} ${f}
+		else
+			echo "SUURI HIRVIKYRPÄ ${f} "
+			echo "5H0ULD exit 666"
+		fi
+	done
 
-	#ls -las /etc/iptables
-	csleep 3
+	echo $?
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule | less
+	sleep 6
+
+	dqb "JUST BEFORE LOCALES"
+	sleep 1
+
+	${srat} -rvf ${1} /etc/timezone 
+	for f in $(find /etc -type f -name 'locale*') ; do ${srat} -rvf ${1} ${f} ; done
+
+	echo $?
+	sleep 5
+
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local | less
+	csleep 5
+
+	${scm} -R 0400 /etc/iptables/*
+	${scm} 0400 /etc/default/rules*
+	${scm} 0550 /etc/iptables
+	csleep 6
+
+	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
+		echo "/E/IPTABLES sdhgfsdhgf"
+		exit 112
+	fi
 
 
 	case ${iface} in
@@ -426,7 +503,7 @@ function tp2() {
 #HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
 
 function tp3() {
-	debug=1
+	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
@@ -441,48 +518,51 @@ function tp3() {
 	p=$(pwd)
 	q=$(mktemp -d)
 	cd ${q}
+	
+	[ ${debug} -eq 1 ] && pwd  
+	csleep 5
+	${tig} clone https://github.com/senescent777/more_scripts.git
 
-	#HUOM. jonnekin pitäisi jotain kikkailuja lisätä grum.tmp liittyen
-
-	${tig} clone https://github.com/senescent777/project.git
 	[ $? -eq 0 ] || exit 66
 	
 	dqb "TP3 PT2"
-	csleep 10
-	cd project
+	csleep 5
+	cd more_scripts/misc
 
-	#VAIH:{old,new} -> {0,1} ?
-	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.OLD
-
-	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.0
-	${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1
-
-	#HUOM.8535:/e/r.conf-tilanne korjattu?
-
-	${spc} /etc/resolv.conf ./etc/resolv.conf.OLD
-	${spc} /etc/resolv.conf ./etc/resolv.conf.0
-
-	if [ -s /etc/resolv.conf.new ] ; then
-		${spc} /etc/resolv.conf.new ./etc/resolv.conf.new
-	else
-		touch ./etc/resolv.conf.new
-		${scm} a+w ./etc/resolv.conf.new
-		echo "nameserver 127.0.0.1" > ./etc/resolv.conf.new
-		${scm} 0444 ./etc/resolv.conf.new
-		${sco} root:root ./etc/resolv.conf.new
+	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
+	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm} #.0
+	
+	if [ ! -s  ./etc/dhcp/dhclient.conf.1 ] ; then
+		${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1	
 	fi
 
-	${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
+	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
+	# (ao. rivi tp2() jatkossa?)	
+	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm} #.0
 
-	${spc} /sbin/dhclient-script ./sbin/dhclient-script.OLD
-	${spc} /sbin/dhclient-script ./sbin/dhclient-script.0
-	${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
+	#HUOM.14525.5:eka tarkistus lienee turha
+	if [ ! -s ./etc/resolv.conf.1 ] ; then
+		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
+	fi
+  
+	#HUOM.14525.3:ghubista löytyvä(.new) vastaa tilannetta dnsm=1
+	# (ao. rivi tp2() jatkossa?)
+	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm} #.0
+
+	if [ ${dnsm} -eq 0 ] && [ ! -s ./sbin/dhclient-script.1 ] ; then
+		  ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
+	fi
+	
+	#HUOM.14525.4:tp3 ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
+	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? 
+	# (ao. rivi tp2() jatkossa?)
+ 	${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
 
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
+	# (ao. rivi tp2() jatkossa?)
+	${spc} /etc/network/interfaces ./etc/network/interfaces.${2} #tässä iface olisi parempi kuin distro, EHKä
 
-	#HUOM.310325:jostain erityisestä syystä kommenteissa?
-	#280425: varm vuoksi takqaisin kommentteihin?
 
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
@@ -497,9 +577,10 @@ function tp3() {
 }
 
 function tpu() {
-	debug=1	
-	#TODO:{old,new} -> {0,1} jos soveltuu
-	dqb "tpu( ${1}, ${2})"
+	#debug=1	
+	#HUOM:0/1/old/new ei liity
+	dqb "tpu ${1}, ${2}"
+
 
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] && mv ${1} ${1}.OLD
@@ -511,6 +592,7 @@ function tpu() {
 	${NKVD} ${pkgdir}/*.deb #toimiiko tuo NKVD vai ei?
 	dqb "TUP PART 2"
 
+	${fib} #iiutena 205.25
 	${sag} upgrade -u
 	echo $?
 	csleep 5
@@ -520,6 +602,9 @@ function tpu() {
 
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ${2}
+	${odio} touch ${2}/tim3stamp
+	$csm} a+w  ${2}/tim3stamp
+
 	date > ${2}/tim3stamp
 	${srat} -cf ${1} ${2}/tim3stamp
 	rmt ${1} ${2}
@@ -531,7 +616,7 @@ function tpu() {
 #TODO:-v tekemään jotain hyödyllistä
 
 function tp5() {
-	debug=1
+	#debug=1
 
 	dqb "tp5 ${1} ${2}"
 	[ z"${1}" == "z" ] && exit 99
@@ -546,12 +631,14 @@ function tp5() {
 	cd ${q}
 	[ $? -eq 0 ] || exit 77
 
-	${tig} clone https://github.com/senescent777/some_scripts.git
+	${tig} clone https://github.com/senescent777/more_scripts.git
 	[ $? -eq 0 ] || exit 99
 	
-	#TODO:{old,new} -> {0,1} jos soveltuu
+
+	#HUOM:{old,new} -> {0,1} ei liity
 	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
-	mv some_scripts/lib/export/profs* ${2}
+	mv more_scripts/profs/profs* ${2}
+
 
 	${scm} 0755 ${2}/profs*
 	${srat} -rvf ${1} ${2}/profs*
@@ -562,11 +649,13 @@ function tp5() {
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 6
+pre1 ${d}
 
-pre1 ${d} #istro}
 
+#HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
 case ${mode} in
-	0)
+	0|4) 
+
 		pre1 ${d}
 		pre2 ${d}
 
@@ -580,30 +669,27 @@ case ${mode} in
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		${srat} -cvf ${d}/e.tar ./rnd
-		tp4 ${d}/e.tar ${d}	
+		[ ${mode} -eq 0 ] && tp4 ${d}/e.tar ${d}
+
 		${sifd} ${iface}
 
 		tp1 ${tgtfile} ${d}
 		pre1 ${d}
-		tp2 ${tgtfile} #${distro}
-	;;
-	3)
-		tp1 ${tgtfile} ${d}
+		tp2 ${tgtfile}
 
-		pre1 ${d}
-		pre2 ${d}
-		tp3 ${tgtfile} #${distro}
+		${sah6} ${tgtfile} > ${tgtfile}.sha
+		${sah6} -c ${tgtfile}.sha
+		echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
 
-		pre1 ${d}
-		tp2 ${tgtfile} #${distro}
-
-		pre1 ${d}
-		pre2 ${d}
-		tp4 ${tgtfile} ${d}
 	;;
 	1|u|upgrade)
 		pre2 ${d}
 		tpu ${tgtfile} ${d}
+
+		#HUOM.sah6-jutut voisivat olla esac hälkeen jatkossa
+		${sah6} ${tgtfile} > ${tgtfile}.sha
+		${sah6} -c ${tgtfile}.sha
+
 	;;
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
@@ -613,6 +699,11 @@ case ${mode} in
 	e)
 		pre2 ${d}
 		tp4 ${tgtfile} ${d}
+
+		${sah6} ${tgtfile} > ${tgtfile}.sha
+		${sah6} -c ${tgtfile}.sha
+		echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
+
 	;;
 	f)
 		rmt ${tgtfile} ${d}
@@ -623,6 +714,13 @@ case ${mode} in
 
 		tpq ${PREFIX}
 		${srat} -cf ${tgtfile} ${PREFIX}/xfce.tar ${PREFIX}/fediverse.tar
+	;;
+	-h)
+		usage
+	;;
+	*)
+		echo "-h"
+		exit
 
 	;;
 esac

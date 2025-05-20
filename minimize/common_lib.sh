@@ -1,23 +1,63 @@
-odio=$(which sudo)
-[ y"${odio}" == "y" ] && exit 99 
-[ -x ${odio} ] || exit 100
 
-sco=$(sudo which chown)
-[ y"${sco}" == "y" ] && exit 98
-[ -x ${sco} ] || exit 97
+function init() {
+	odio=$(which sudo)
+	[ y"${odio}" == "y" ] && exit 99 
+	[ -x ${odio} ] || exit 100
+	
+	sco=$(sudo which chown)
+	[ y"${sco}" == "y" ] && exit 98
+	[ -x ${sco} ] || exit 97
+	
+	scm=$(sudo which chmod)
+	[ y"${scm}" == "y" ] && exit 96
+	[ -x ${scm} ] || exit 95
+	
+	sco="${odio} ${sco} "
+	scm="${odio} ${scm} "
+	
+	#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
+	sah6=$(which sha512sum)
+	distro=$(cat /etc/devuan_version)
+	n=$(whoami)
+	PREFIX=~/Desktop/minimize #SDAATANAN TUNARI(T)
+	slinky=$(${odio} which ln)
+	slinky="${odio} ${slinky} -s "
+	spc=$(${odio} which cp)
+	svm=$(${odio} which mv)
+	svm="${odio} ${svm} "
+	spc="${odio} ${spc} "
+	whack=$(${odio} which pkill)
+	whack="${odio} ${whack} --signal 9 "
+	snt=$(${odio} which netstat)
+	snt="${odio} ${snt} -tulpan "
+	smr=$(${odio} which rm)
+	NKVD=$(${odio} which shred)
+	NKVD="${NKVD} -fu "
+	PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+}
 
-scm=$(sudo which chmod)
-[ y"${scm}" == "y" ] && exit 96
-[ -x ${scm} ] || exit 95
+init
 
-sco="${odio} ${sco} "
-scm="${odio} ${scm} "
 
-#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
-sah6=$(which sha512sum)
-distro=$(cat /etc/devuan_version)
-n=$(whoami)
-PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
+#TODO:paremmin toimiva tarkistus,0750 voisi mennä läpi kun taviksena ajellaamn
+#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
+#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
+
+if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then # linkkien kanssa pitäisi tehdä toisin
+	echo "WARNING: /E/IPTABLES IS WRITABEL"
+	#exit 12
+	sleep 1
+fi
+
+if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
+	echo "/E/S.D IS WRITABLE"
+	#exit 34
+	sleep 1
+fi
+
+#näissä pointtina olisi korkeintaan varmistaa että /e/i oikeudet 0550
+[ -s /etc/iptables/rules.v4.${dnsm} ] || echo "PISEN PRO VOI VITTU"
+[ -s /etc/iptables/rules.v6.${dnsm} ] || echo "OIJBIYF97TF98YG087T97"
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -54,7 +94,7 @@ function fix_sudo() {
 	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 
 	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
-	csleep 5
+	csleep 3
 	echo "fix_sud0.d0n3"
 }
 
@@ -67,34 +107,19 @@ svm=$(${odio} which mv)
 svm="${odio} ${svm} "
 spc="${odio} ${spc} "
 
-function jules() { #HUOM.12525:function puuttui edestä aiemmin
+#EI SITTEN PERKELE ALETA KIKKAILLA /ETC/IPTABLES/RULES KANSSA
+#ESIM. PASKOJEN TIKKUJEN KANSSA TULEE TÄYDI SIRKUS 666 (JA SITTEN ON NE OIKEUDETKIN)
+function jules() {
 	dqb "LE BIG MAC"
+	dqb "V8"
+	csleep 6
 
-	${scm} -R a+rw /etc/iptables
-	echo $?
-	dqb "svm= ${svm}"
-	dqb "spc= ${spc}"
-	csleep 3
-
-	[ -f /etc/iptables/rules.v4 ] && ${svm} /etc/iptables/rules.v4 /etc/iptables/rules.v4.OLD
-	[ -f /etc/iptables/rules.v4 ] && ${svm} /etc/iptables/rules.v6 /etc/iptables/rules.v6.OLD
-
-	csleep 3
-	${scm} 0444 /etc/default/rules.*
-
-	[ -s /etc/iptables/rules.v4.${dnsm} ] || ${spc} /etc/default/rules.4.${dnsm} /etc/iptables/rules.v4.${dnsm}
-	[ -s /etc/iptables/rules.v6.${dnsm} ] || ${spc} /etc/default/rules.6.${dnsm} /etc/iptables/rules.v6.${dnsm}
-
-	${scm} 0400 /etc/default/rules.*
-	csleep 3
-
-	[ -h /etc/iptables/rules.v4 ] || ${slinky} /etc/iptables/rules.v4.${dnsm} /etc/iptables/rules.v4
-	#HUOM.12525:toimiiko v6sen kanssa?	
-	[ -h /etc/iptables/rules.v6 ] || ${slinky} /etc/iptables/rules.v6.${dnsm} /etc/iptables/rules.v6
-
-	csleep 3
+	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
-	${scm} 0440 /etc/iptables/*
+	${sco} -R root:root /etc/iptables
+
+	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
+	csleep 6
 }
 
 function message() {
@@ -106,7 +131,7 @@ function message() {
 
 function ocs() {
 	local tmp
-	tmp=$(sudo which ${1})
+	tmp=$(${odio} which ${1})
 
 	if [ y"${tmp}" == "y" ] ; then
 		exit 69 #fiksummankin exit-koodin voisi keksiä
@@ -119,8 +144,6 @@ function ocs() {
 
 function psqa() {
 	dqb "QUASB (THE BURNING) ${1}"
-#	ls -las ${sah6}
-#	sleep 5
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		p=$(pwd)
@@ -129,8 +152,8 @@ function psqa() {
 		#dpkg -V #HUOM.11525:toistaiseksi jemmaan
 		#sleep 5
 
+		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
-		[ $? -eq 0 ] || exit 97
 
 		cd ${p}
 	else
@@ -143,21 +166,18 @@ function psqa() {
 function check_binaries() {
 	debug=1
 	dqb "c0mm0n_lib.ch3ck_b1nar135(${1} )"
-	dqb "sudo= ${odio} "
 	csleep 1
 
-	smr=$(${odio} which rm)
-	NKVD=$(${odio} which shred)
 
-	ipt=$(sudo which iptables)
-	ip6t=$(sudo which ip6tables)
-	iptr=$(sudo which iptables-restore)
-	ip6tr=$(sudo which ip6tables-restore)
+	ipt=$(${odio} which iptables)
+	ip6t=$(${odio} which ip6tables)
+	iptr=$(${odio} which iptables-restore)
+	ip6tr=$(${odio} which ip6tables-restore)
 
-	if [ -s ~/Desktop/minimize/tar-wrapper.sh ] ; then
+	if [ -s ${PREFIX}/tar-wrapper.sh ] ; then
 		dqb "TODO: tar-wrapper.sh"
 	else
-		srat=$(sudo which tar)
+		srat=$(${odio} which tar)
 		
 		if [ ${debug} -eq 1 ] ; then
 			srat="${srat} -v "
@@ -166,7 +186,10 @@ function check_binaries() {
 
 	if [ y"${ipt}" == "y" ] ; then
 		[ z"${1}" == "z" ] && exit 99
-		[ -d ~/Desktop/minimize/${1} ] || exit 100
+
+		dqb "-d ${PREFIX}/${1} existsts?"
+		[ -d ${PREFIX}/${1} ] || exit 101
+
 
 		dqb "params_ok"
 		csleep 1
@@ -174,71 +197,61 @@ function check_binaries() {
 		echo "SHOULD INSTALL IPTABLES"
 		jules
 
-		if [ -s ~/Desktop/minimize/${1}/e.tar ] ; then
-			${odio} ${srat} -C / -xf ~/Desktop/minimize/${1}/e.tar
-			${odio} ${NKVD} ~/Desktop/minimize/${1}/e.tar  #jompikumpi hoitaa
-			${odio} ${smr} ~/Desktop/minimize/${1}/e.tar
+
+		if [ -s ${PREFIX}/${1}/e.tar ] ; then
+			${odio} ${srat} -C / -xf ${PREFIX}/${1}/e.tar
+			${odio} ${NKVD} ${PREFIX}/${1}/e.tar  #jompikumpi hoitaa
+			${odio} ${smr} ${PREFIX}/${1}/e.tar
 		fi
 
-		#psqa ~/Desktop/minimize/${1} #pp3 tekee saman tark
+
 		csleep 3
+		pre_part3 ${PREFIX}/${1} ${dnsm}
+		pr4 ${PREFIX}/${1} ${dnsm}
 
-		pre_part3 ~/Desktop/minimize/${1}
-		pr4 ~/Desktop/minimize/${1}
-
-		#HUOM. pitäisiköhän tässä kohtaa kopsata .0:t takaisin alkup nimille? (TODO)
-
-		ipt=$(sudo which iptables)
-		ip6t=$(sudo which ip6tables)
-		iptr=$(sudo which iptables-restore)
-		ip6tr=$(sudo which ip6tables-restore)
+		ipt=$(${odio} which iptables)
+		ip6t=$(${odio} which ip6tables)
+		iptr=$(${odio} which iptables-restore)
+		ip6tr=$(${odio} which ip6tables-restore)
 	fi
 
-	#voisi kai ocs-kohtaankin viedä ao. blokin sisällön
-	[ -x ${ipt} ] || exit 5
-	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
-	[ -x ${ip6t} ] || exit 5
-	[ -x ${iptr} ] || exit 5
-	[ -x ${ip6tr} ] || exit 5
 
-	whack=$(sudo which pkill)
-	sifu=$(sudo which ifup)
-	sifd=$(sudo which ifdown)
+	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
+	sifu=$(${odio} which ifup)
+	sifd=$(${odio} which ifdown)
+
 
 	CB_LIST1="/sbin/halt /sbin/reboot /usr/bin/which ${sifu} ${sifd} "
 	dqb "second half of c_bin_1"
 	csleep 3
 
-	for x in apt-get apt ip netstat dpkg tar mount umount dhclient sha512sum #kilinwittu.sh
+	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
+	for x in iptables ip6tables iptables-restore ip6tables-restore ifup ifdown apt-get apt ip netstat dpkg tar mount umount dhclient sha512sum #kilinwittu.sh
 		do ocs ${x}
 	done
 	
-	sdi=$(sudo which dpkg)
-	sag=$(sudo which apt-get)
-	sa=$(sudo which apt)
 
-	sip=$(sudo which ip)
-	dqb "sip= ${sip}"
-	csleep 3
-
-	snt=$(sudo which netstat)
-	som=$(sudo which mount)
-	uom=$(sudo which umount)
+	sdi=$(${odio} which dpkg)
+	sag=$(${odio} which apt-get)
+	sa=$(${odio} which apt)
+	sip=$(${odio} which ip)
+	som=$(${odio} which mount)
+	uom=$(${odio} which umount)
 
 	dqb "b1nar135 0k"
 	csleep 2
 }
 
 function check_binaries2() {
+#	debug=1
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2()"
+	csleep 1
 
 	ipt="${odio} ${ipt} "
 	ip6t="${odio} ${ip6t} "
 	iptr="${odio} ${iptr} "
 	ip6tr="${odio} ${ip6tr} "
 
-	whack="${odio} ${whack} --signal 9 "
-	snt="${odio} ${snt} "
 	sharpy="${odio} ${sag} remove --purge --yes "
 	spd="${odio} ${sdi} -l " #käytössä?
 	sdi="${odio} ${sdi} -i "
@@ -249,8 +262,6 @@ function check_binaries2() {
 	sag="${odio} ${sag} "
 
 	sip="${odio} ${sip} "
-	dqb "sip= ${sip}"
-	csleep 3
 
 	sa="${odio} ${sa} "
 	sifu="${odio} ${sifu} "
@@ -258,9 +269,7 @@ function check_binaries2() {
 	smr="${odio} ${smr} "
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
 
-	NKVD="${NKVD} -fu "
 	NKVD="${odio} ${NKVD} "
-
 	srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
 	fib="${odio} ${sa} --fix-broken install "
@@ -271,7 +280,7 @@ function check_binaries2() {
 	#HUOM. ei alustetttu tämmöstä dch="${odio} ${dch}"
 
 	dqb "b1nar135.2 0k.2" 
-	csleep 2
+	csleep 1
 }
 
 function mangle_s() {
@@ -338,8 +347,9 @@ function pre_enforce() {
 	csleep 3
 
 	[ -f ${q}/meshuggah ] || exit 33
-	dqb "1NF3RN0 0F SACR3D D35TRUCT10N"
-	mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah
+
+	dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
+	mangle_s ${PREFIX}/changedns.sh ${q}/meshuggah
 	csleep 2
 
 	dqb "LETf HOUTRE JOINED IN DARKN355"
@@ -354,6 +364,7 @@ function pre_enforce() {
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
 		csleep 2
 		chmod 0440 ${q}/meshuggah
+
 		${sco} root:root ${q}/meshuggah
 		${svm} ${q}/meshuggah /etc/sudoers.d
 		CB_LIST1=""
@@ -371,7 +382,7 @@ function pre_enforce() {
 		${scm} a-w /etc/fstab
 	fi
 
-	csleep 5
+	csleep 3
 	dqb "common_lib.pre_enforce d0n3"
 }
 
@@ -383,17 +394,11 @@ function mangle2() {
 	fi
 }
 
-function enforce_access() {
-	dqb " enforce_access( ${1})"
 
+function e_e() {
 	${scm} 0440 /etc/sudoers.d/*
 	${scm} 0750 /etc/sudoers.d
 	${sco} -R root:root /etc/sudoers.d
-
-	dqb "changing /sbin , /etc and /var 4 real"
-
-	${sco} -R root:root /sbin
-	${scm} -R 0755 /sbin
 
 	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
 
@@ -401,9 +406,19 @@ function enforce_access() {
 		mangle2 ${f}
 	done
 
+	#uusi osio 18.5.25
+	${scm} 0400 /etc/iptables/*
+	${scm} 0550 /etc/iptables
+	#/uusi osio
+
 	${scm} 0755 /etc
 	${sco} -R root:root /etc #-R liikaa?
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
+}
+
+function e_v() {
+	${sco} -R root:root /sbin
+	${scm} -R 0755 /sbin
 
 	${sco} root:root /var
 	${scm} 0755 /var
@@ -412,14 +427,12 @@ function enforce_access() {
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
 
-	${scm} 0755 /
-	${sco} root:root /
+	dqb "VAN DAMME"
+	csleep 1
+}
 
-	${scm} 0777 /tmp
-	#${scm} o+t /tmp
-	${sco} root:root /tmp
 
-	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
+function e_h () {
 	${sco} root:root /home
 	${scm} 0755 /home
 
@@ -430,82 +443,102 @@ function enforce_access() {
 	fi
 
 	local f
-	${scm} 0755 ~/Desktop/minimize
 
-	for f in $(find ~/Desktop/minimize -type d) ; do ${scm} 0755 ${f} ; done
-	for f in $(find ~/Desktop/minimize -type f) ; do ${scm} 0444 ${f} ; done
-	for f in $(find ~/Desktop/minimize -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
-	for f in $(find ~/Desktop/minimize -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
-	for f in $(find ~/Desktop/minimize -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
+	${scm} 0755 ${PREFIX}
+
+	for f in $(find ${PREFIX} -type d) ; do ${scm} 0755 ${f} ; done
+	for f in $(find ${PREFIX} -type f) ; do ${scm} 0444 ${f} ; done
+	for f in $(find ${PREFIX} -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
+	for f in $(find ${PREFIX} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
+	for f in $(find ${PREFIX} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
+
 
 	f=$(date +%F)
 	dqb "F1ND D0N3"
 	csleep 1
 
-	${scm} 0555 ~/Desktop/minimize/changedns.sh
-	${sco} root:root ~/Desktop/minimize/changedns.sh
+	${scm} 0555 ${PREFIX}/changedns.sh
+	${sco} root:root ${PREFIX}/changedns.sh
+}
 
-	#TODO:{old,new} -> {0,1} ?
+
+function e_final() {
+	#HUOM.15525:interfaces kanssa kikkaiut kuten rules, tartteeko niihin liittyen tehdä tässä jotain?
+
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
 	#HUOM.120525:näitäkin voi kasautua liikaa?
 	[ -f /etc/network/interfaces.${f} ] || ${spc} /etc/network/interfaces /etc/network/interfaces.${f}
 
-	#TODO:{old,new} -> {0,1}
-	if [ -s /etc/resolv.conf.new ] && [ -s /etc/resolv.conf.OLD ] ; then
+	if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
 		${smr} /etc/resolv.conf
 	fi
-
-	#TODO:{old,new} -> {0,1}
-	[ -s /sbin/dclient-script.OLD ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.OLD
-	jules
 
 	#wpasupplicant:in kanssa myös jotain säätöä, esim tällaista
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
-
-	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
-
-
-function part1_5() {
-if [ z"${pkgsrc}" != "z" ] ; then
-if [ -d ~/Desktop/minimize/${1} ] ; then
-if [ ! -s /etc/apt/sources.list.${1} ] ; then
-local g
-local h
-
-g=$(date +%F)
-dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
-
-csleep 2
-[ -f /etc/apt/sources.list ] && ${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
-
-h=$(mktemp -d)
-touch ${h}/sources.list.${1}
-
-for x in ${1} ${1}-updates ${1}-security ; do
-echo "deb https://${pkgsrc}/merged ${x} main" >> ${h}/sources.list.${1}
-done
-
-${svm} ${h}/sources.list.${1} /etc/apt/
-${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list
-[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
-csleep 2
-fi
-fi
-fi
-
-${sco} -R root:root /etc/apt
-#tarkempaa sertiä tulisi findin kanssa
-${scm} -R a-w /etc/apt/
 }
 
-#HUOM.13525:pitäisikö tämän toiminta varmistaa?
+function enforce_access() {
+	dqb " enforce_access( ${1})"
+	csleep 1
+	dqb "changing /sbin , /etc and /var 4 real"
+	
+	e_e	
+	e_v
+
+	${scm} 0755 /
+	${sco} root:root /
+
+	${scm} 0777 /tmp
+	#${scm} o+t /tmp
+	${sco} root:root /tmp
+
+	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
+	e_h
+	e_final
+
+	jules
+	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
+}
+
+#TODO:voisi kai toisellakin tavalla sen sources.list sorkkia, sed edelleen optio pienellä säädöllä
+function part1_5() {
+	if [ z"${pkgsrc}" != "z" ] ; then
+		if [ -d ${PREFIX}/${1} ] ; then
+			if [ ! -s /etc/apt/sources.list.${1} ] ; then
+				local g
+				local h
+
+				g=$(date +%F)
+				dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
+				csleep 2
+
+				[ -f /etc/apt/sources.list ] && ${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
+
+				h=$(mktemp -d)
+				touch ${h}/sources.list.${1}
+
+				for x in ${1} ${1}-updates ${1}-security ; do
+					echo "deb https://${pkgsrc}/merged ${x} main" >> ${h}/sources.list.${1}
+				done
+
+				${svm} ${h}/sources.list.${1} /etc/apt/
+				${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list
+				[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
+				csleep 2
+			fi
+		fi
+	fi
+
+	${sco} -R root:root /etc/apt
+	#tarkempaa sertiä tulisi findin kanssa
+	${scm} -R a-w /etc/apt/
+}
+
 function part1() {
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
-
-	#jatkossa tähän ne tzdata- ja /e/d/locales-jutut?
 
 	#jos jokin näistä kolmesta hoitaisi homman...
 
@@ -515,98 +548,65 @@ function part1() {
 
 	dqb "${sip} link set ${iface} down"
 	${sip} link set ${iface} down
-	
 	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 	csleep 1
 	
 	${odio} sysctl -p #/etc/sysctl.conf
 
-if [ y"${ipt}" == "y" ] ; then
-	echo "5H0ULD-1N\$TALL-1PTABL35!!!"
-else
-	for t in INPUT OUTPUT FORWARD ; do
-		${ipt} -P ${t} DROP
-		dqb "V6"; csleep 2
+	if [ y"${ipt}" == "y" ] ; then
+		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
+	else
+		for t in INPUT OUTPUT FORWARD ; do
+			${ipt} -P ${t} DROP
+			dqb "V6"; csleep 2
 
+			${ip6t} -P ${t} DROP
+			${ip6t} -F ${t}
+		done
 
-		${ip6t} -P ${t} DROP
-		${ip6t} -F ${t}
-	done
-
-	for t in INPUT OUTPUT FORWARD b c e f ; do ${ipt} -F ${t} ; done
-
-	if [ ${debug} -eq 1 ] ; then
-		${ipt} -L #
-		dqb "V6.b"; csleep 2
-		${ip6t} -L # -x mukaan?
-		sleep 5
-
+		for t in INPUT OUTPUT FORWARD b c e f ; do ${ipt} -F ${t} ; done
+	
+		if [ ${debug} -eq 1 ] ; then
+			${ipt} -L #
+			dqb "V6.b"; csleep 2
+			${ip6t} -L # -x mukaan?
+			sleep 5
+		fi
 	fi
 fi
 
-part1_5 ${1}
-${sco} -R root:root /etc/apt
-${scm} -R a-w /etc/apt/
-dqb "FOUR-LEGGED WHORE (i have Tourettes)"
+	part1_5 ${1}
+	${sco} -R root:root /etc/apt
+	${scm} -R a-w /etc/apt/
+	dqb "FOUR-LEGGED WHORE (i have Tourettes)"
 }
 
-PART175_LIST="avahi bluetooth cups exim4 nfs network-manager ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+function part076() {
+	dqb "PART076()"
 
-#VAIH:p175 ja p2 uudet versiot mitkä käyttävät em. listaa
-#function part176() {
-#	dqb "PART176()"
-#	csleep 2
-#
-#	local s
-#	local t
-#
-#	#VAIH:s listaksi konftdstoon ja sitten sammuttelu+poisto yhdess läjässä tjsp?
-#	for s in ${PART175_LIST} ; do
-#		for t in $(find /etc/init.d -name '${s}*') ; do
-#			echo "${odio} /etc/init.d/${} stop"
-#			sleep 1
-#		done
-#	done
-#
-#	#TODO:whack-jutut vielä varm vuoksi
-#
-#	${snt} -tulpan
-#	csleep 3
-#}
-#function part2_5() {
-#	debug=1
-#	dqb "PART2 ${1}"
-#	csleep 2
-#
-#	if [ ${1} -eq 1 ] ; then
-#		for s in ${PART175_LIST} ; do
-#			${sharpy} ${s}*
-#		done
-#		#TODO:jälkisiivous
-#		#TODO:wlan
-#	fi
-#
-#	#TODO:jules-rules-tulpan
-#}
-
-function part175() {
-	dqb "PART175()"
 	csleep 2
+	local s
+	local t
 
-	#VAIH:s listaksi konftdstoon ja sitten sammuttelu+poisto yhdess läjässä tjsp?
-	for s in avahi-daemon bluetooth cups cups-browsed exim4 nfs-common network-manager ntp mdadm saned rpcbind lm-sensors dnsmasq stubby ; do
-		${odio} /etc/init.d/${s} stop
-		sleep 1
+	for s in ${PART175_LIST} ; do
+		dqb ${s}
+
+		for t in $(find /etc/init.d -name ${s}*) ; do
+			${odio} ${t} stop
+			csleep 1
+		done
+
+		${whack} ${s}* #oli pgrep aiemmin
+
 	done
 
-	dqb "shutting down some services (4 real) in 3 secs"
-	sleep 2
+	dqb "alm0st d0n3"
+	csleep 2
 
-	${whack} cups*
-	${whack} avahi*
-	${whack} dnsmasq*
-	${whack} stubby*
 	${whack} nm-applet
+	${snt} #ei välttis toimi jos ennen check_bin kutsutaan
+
+	dqb "P.176 DONE"
 	csleep 3
 
 	${snt} -tulpan
@@ -651,20 +651,25 @@ function el_loco() {
 	csleep 2
 }
 
-function part2() {
-	debug=1
-	dqb "PART2 ${1}"
+function part2_5() {
+	#debug=1
+	dqb "PART2.5 ${1}"
 	csleep 2
 
 	if [ ${1} -eq 1 ] ; then
-		dqb "PART2-2"
-		csleep 5
 
-		${sharpy} network*
-		${sharpy} libblu* libcupsfilters* libgphoto* 
+		for s in ${PART175_LIST} ; do
+			dqb "processing ${s}"
+			csleep 1
 
-		${sharpy} avahi* blu* cups*
-		${sharpy} exim*
+			${sharpy} ${s}*
+			csleep 1
+		done
+
+
+		${sharpy} libblu* libcupsfilters* libgphoto* #tartteeko vielä?
+		${sharpy} blu*
+		${sharpy} po* pkexec
 		${lftr}
 		csleep 3
 
@@ -678,40 +683,37 @@ function part2() {
 				${sharpy} iw lm-sensors
 			;;
 		esac
-
-		${sharpy} ntp*
-		${lftr}
-		csleep 3
-		${sharpy} po* pkexec
-		${lftr}
-		csleep 3
 	fi
 
-	dqb "PART2-3"
-	csleep 3
+	csleep 2
 
-	#HUOM.12525:riittäisikö tämä vai myös part3 jälkeen?
 	if [ y"${ipt}" != "y" ] ; then
 		jules
-		${ip6tr} /etc/iptables/rules.v6
-		${iptr} /etc/iptables/rules.v4
+
+		if [ -s /etc/iptables/rules.v6.${dnsm} ] ; then
+			${ip6tr} /etc/iptables/rules.v6.${dnsm}
+		fi
+
+		if [ -s /etc/iptables/rules.v4.${dnsm} ] ; then
+			${iptr} /etc/iptables/rules.v4.${dnsm}
+		fi
 	fi
 
-	csleep 5
-	${lftr}
-	csleep 3
 
 	if [ ${debug} -eq 1 ] ; then
-		${snt} -tulpan
+		${snt}
 		sleep 5
 	fi
 
-	dqb "PART2 D0N3"
-	csleep 5
+	csleep 1
+	dqb "PART2.5 ${1} d0ne"
+	csleep 2
 }
 
-function part3() {
-	dqb "part3( ${1} )"
+
+function part3_4real() {
+	dqb "part3_4real( ${1} )"
+
 	csleep 1
 
 	[ y"${1}" == "y" ] && exit 1 #mikähän tässäkin on?
@@ -745,10 +747,36 @@ function part3() {
 		csleep 3
 
 		${NKVD} ${1}/*.deb
-
 	else
 		exit 67
 	fi
 
 	csleep 2
+	dqb "part3_4real( ${1} ) DONE"
+	csleep 1
 }
+
+function part3() {
+	pre_part3 ${1} ${2}
+	pr4 ${1} ${2}
+	part3_4real ${1}
+}
+
+#HUOM.voisi -v käsitellä jo tässä
+function gpo() {
+	dqb "GPO"
+	#getopt olisi myös keksitty
+
+	local prevopt
+	local opt
+	prevopt=""
+
+	for opt in $@ ; do
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
+}
+
+#https://stackoverflow.com/questions/16988427/calling-one-bash-script-from-another-script-passing-it-arguments-with-quotes-and
+gpo "$@"
