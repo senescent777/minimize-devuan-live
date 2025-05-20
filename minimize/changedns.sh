@@ -21,16 +21,6 @@ function csleep() {
 mode=${1}
 [ -d ~/Desktop/minimize/${2} ] && distro=${2}
 
-##if [ -r /etc/iptables ] || [ -w /etc/iptables ] ; then #linkkien kanssa tehtvä toisin || [ -r /etc/iptables/rules.v4 ]
-#if  [ -w /etc/iptables ] ; then #TODO:KOITA KEKSIÄ JOKIN TARKISTUS NIMENOMAAN TAVIKSEN NÄKÖKULMAA VARTEN, ROOT VOI TEHDÄ MIT LYSTÄÄ
-#	echo "W: /E/IPTABLES IS WRITABEL"
-#	exit 12
-#fi
-#
-#if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
-#	echo "/E/S.D IS WRITABLE"
-#	exit 34
-#fi
 
 [ -s /etc/iptables/rules.v4.0 ] || echo "PISEN PRO VOI VITTU"
 sleep 1
