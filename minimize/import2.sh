@@ -26,39 +26,38 @@ function csleep() {
 }
 
 #HUOM.19525:pitäisi onnistua gpo():n kautta tehdä parsetus (TODO)
-case $# in
-	1)
-		dqb "maybe ok" #tap -1 ja 2 ok, muissa pitäisi fileen puuttuminen p ysäyttää
-	;;
-	2)
-		if [ -d ${PREFIX}/${2} ] ; then
-			distro=${2}
-		else
-			file=${2}
-		fi
-	;;
-	3)
-		file=${2}
+#case $# in
+#	1)
+#		dqb "maybe ok" #tap -1 ja 2 ok, muissa pitäisi fileen puuttuminen p ysäyttää
+#	;;
+#	2)
+#		if [ -d ${PREFIX}/${2} ] ; then
+#			distro=${2}
+#		else
+#			file=${2}
+#		fi
+#	;;
+#	3)
+#		file=${2}
+#
+#		if [ -d ${PREFIX}/${3} ] ; then
+#		else
+#			[ "${3}" == "-v" ] && debug=1
+#		fi
+#	;;
+#	4)
+#		file=${2}
+#		distro=${3}
+#		[ "${4}" == "-v" ] && debug=1
+#	;;
+#	*)
+#		echo "$0 <mode> <other_params>"
+#	;;
+#esac
 
-		if [ -d ${PREFIX}/${3} ] ; then
-			distro=${3}
-		else
-			[ "${3}" == "-v" ] && debug=1
-		fi
-	;;
-	4)
-		file=${2}
-		distro=${3}
-		[ "${4}" == "-v" ] && debug=1
-	;;
-	*)
-		echo "$0 <mode> <other_params>"
-	;;
-esac
+[ -z ${distro} ] && exit 6
 
-[ z"${distro}" == "z" ] && exit 6
-
-mode=${1}
+#mode=${1}
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "file=${file}"
@@ -67,6 +66,33 @@ d=${PREFIX}/${distro}
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
 fi
+
+function parse_opts_1() {
+	case "${1}" in
+		-v|--v)
+			debug=1
+		;;
+		*)
+			if [ ${mode} -eq -2 ] ; then
+				mode=${1}
+			else
+				if [ -d ${PREFIX}/${1} ] ; then
+					distro=${1}
+				else
+					file=${1}
+				fi
+			fi
+		;;
+	esac
+}
+
+function parse_opts_2() {
+	dqb "parseopts_2 ${1} ${2}"
+}
+
+function usage() {
+	echo "TODO"
+}
 
 if [ -x ${PREFIX}/common_lib.sh ] ; then
 	. ${PREFIX}/common_lib.sh
@@ -171,7 +197,7 @@ function common_part() {
 	dqb "DEBUG:${srat} -xf ${1} "
 	csleep 2
 	
-	if [ -s ${1} ] ; then
+	if [ -s ${1}.sha ] ; then
 		${sah6} -c ${1}.sha
 		csleep 6 
 	fi
@@ -291,8 +317,11 @@ case "${mode}" in
 			dqb "CANNOT INCLUDE PROFS.HS"
 		fi
 	;;
+	-h)
+		usage
+	;;
 	*)
-		echo "-h" #TODO:usage() , kuten export2 kanssa
+		echo "-h"
 	;;
 esac
 

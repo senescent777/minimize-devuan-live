@@ -37,28 +37,30 @@ function parse_opts_1() {
 	esac
 }
 
-. ~/Desktop/minimize/common_lib.sh
-#HUOM.140525:vaikuttaisi siltä että vasta lib.sh includoinnin jälkeen alkaa 076 pelata, kts toistuuko+koita korjata
-
 function parse_opts_2() {
 	#toistaiseksi oltava common_lib jälkeen koska dqb
 	dqb "parseopts_2 ${1} ${2}"
 }
 
+. ~/Desktop/minimize/common_lib.sh
+#HUOM.140525:vaikuttaisi siltä että vasta lib.sh includoinnin jälkeen alkaa 076 pelata, kts toistuuko+koita korjata
+
 #VAIH:gpo():n kautta jatkossa, jos mahd (vaikuttaisi siltä että $@ ei kulkeudu automaagisesti, man bash, googella jo kokeiltu, kts c_lib loppu)
 #https://linuxopsys.com/use-dollar-at-in-bash-scripting
 #https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
-
-#HUOM.tämä blokki oli aiemmin juuri ennen pre_enforce():a
-if [ $# -gt 0 ] ; then
-	for opt in $@ ; do parse_opts_1 $opt ; done
-fi
-#gpo #TODO:tämä vähitellen
+#
+##HUOM.tämä blokki oli aiemmin juuri ennen pre_enforce():a
+#if [ $# -gt 0 ] ; then
+#	for opt in $@ ; do parse_opts_1 $opt ; done
+#fi
+#gpo
 
 #=====================================PART0======================================
 dqb "b3f0r3 p.076"
+dqb "mode= ${mode}"
 csleep 1
 part076
+#exit
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -67,10 +69,6 @@ else
 	exit 111
 fi
 
-#function vommon() {
-#
-#}
-#
 #==================================PART 1============================================================
 
 dqb "mode= ${mode}"

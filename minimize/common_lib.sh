@@ -101,6 +101,7 @@ fix_sudo
 [ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 csleep 5
 
+#TODO:uudemman kerran tables- ja linkittely-jutut
 #TODO:tähän saattoi tulla pientä laittoa 19525 tienoilla
 #TODO:testaa nyt vielä miteb tämnk versio toimii, sen jälk tables-kikkailujen siirto pelkästään changedns:lle
 function jules() {
@@ -839,7 +840,7 @@ function part3() {
 	pr4  ${1} ${2}
 	part3_4real ${1}
 }
-
+#HUOM.voisi -v käsitellä jo tässä
 function gpo() {
 	dqb "GPO"
 	#getopt olisi myös keksitty
@@ -855,6 +856,6 @@ function gpo() {
 	done
 }
 
-#TODO:gpo käyttöön
+#VAIH:gpo käyttöön
 #https://stackoverflow.com/questions/16988427/calling-one-bash-script-from-another-script-passing-it-arguments-with-quotes-and
-#gpo "$@"
+gpo "$@"

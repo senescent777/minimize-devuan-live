@@ -61,6 +61,7 @@ dqb "mode=${mode}"
 dqb "distro=${distro}"
 csleep 2
 
+#TODO:uudemman kerran tables- ja linkittely-jutut
 #HUOM. jos tarttee ni näille main distrosta riippuvainen fktioiden esittely 
 #(toiv ei tarvitse)
 

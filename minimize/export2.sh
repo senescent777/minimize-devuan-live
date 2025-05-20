@@ -3,6 +3,7 @@ debug=0 #1
 tgtfile=""
 distro=$(cat /etc/devuan_version) #tarpeellinen tässä
 PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
+mode=-2
 
 if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 	echo "/E/IPTABLES IS WRITABEL"
@@ -33,39 +34,36 @@ function usage() {
 	echo "$0 -h: shows this message about usage"	
 }
 
-mode=${1}
-tgtfile=${2}
+#mode=${1}
+#tgtfile=${2}
+#
+#...ehkä pystyisi myös gpo()-tavalla (VAIH)
+#case $# in
+#	1)
+#		[ "${1}" == "-h" ]  && usage
+#		exit
+#	;;
+#	2)
+#		dqb "maybe ok"
+#	;;
+#	3)
+#		if [ -d ${PREFIX}/${3} ] ; then
+#			distro=${3}
+#		else
+#			[ "${3}" == "-v" ] && debug=1
+#		fi
+#	;;
+#	4)
+#		distro=${3}
+#		[ "${4}" == "-v" ] && debug=1
+#	;;
+#	*)
+#		echo "-h"
+#		exit
+#	;;
+#esac
 
-#...ehkä pystyisi myös gpo()-tavalla (vähitellen, TODO)
-case $# in
-	1)
-		[ "${1}" == "-h" ]  && usage
-		exit
-	;;
-	2)
-		dqb "maybe ok"
-	;;
-	3)
-		if [ -d ${PREFIX}/${3} ] ; then
-			distro=${3}
-		else
-			[ "${3}" == "-v" ] && debug=1
-		fi
-	;;
-	4)
-		distro=${3}
-		[ "${4}" == "-v" ] && debug=1
-	;;
-	*)
-		echo "-h"
-		exit
-	;;
-esac
-
-dqb "mode= ${mode}"
-dqb "distro=${distro}"
-dqb "file=${tgtfile}"
-[ z"${distro}" == "z" ] && exit 6
+[ -z ${distro} ] && exit 6
 d=${PREFIX}/${distro}
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
@@ -74,6 +72,29 @@ else
 	echo "CONFIG MISSING" #; exit 55
 	pkgdir=/var/cache/apt/archives
 fi
+
+function parse_opts_1() {
+	case "${1}" in
+		-v|--v)
+			debug=1
+		;;
+		*)
+			if [ ${mode} -eq -2 ] ; then
+				mode=${1}
+			else
+				if [ -d ${PREFIX}/${1} ] ; then
+					distro=${1}
+				else
+					tgtfile=${1}
+				fi
+			fi
+		;;
+	esac
+}
+
+function parse_opts_2() {
+	dqb "parseopts_2 ${1} ${2}"
+}
 
 if [ -x ${PREFIX}/common_lib.sh ] ; then
 	. ${PREFIX}/common_lib.sh
@@ -117,6 +138,11 @@ else
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
 fi
+
+dqb "mode= ${mode}"
+dqb "distro=${distro}"
+dqb "file=${tgtfile}"
+csleep 6
 
 #HUOM.14525:pitäisiköhän testata ao. else-haara?
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
@@ -227,7 +253,6 @@ function pre2() {
 	sleep 4
 }
 
-#TODO:tarkista että tämäkin toimii kuten pitää
 function tpq() {
 	#debug=1
 	dqb "tpq ${1} ${2}"
@@ -241,7 +266,8 @@ function tpq() {
 
 	if [ -x ${1}/profs.sh ] ; then
 		dqb "DE PROFUNDIS"
-			
+		
+		#TODO:selvitä toimiiko vai ei? korjaa jos tarttee	
 		. ${1}/profs.sh
 		exp_prof ${1}/fediverse.tar default-esr
 	else
@@ -535,19 +561,19 @@ function tp3() {
 	# (ao. rivi tp2() jatkossa?)	
 	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm} #.0
 
-	#joskohan tämä if-blokki pois jatqssa
-	if [ -s ./etc/resolv.conf.new ] ; then
-		echo "r30lv.c0nf alr3ady 3x15t5"
-	else
-		${odio} touch ./etc/resolv.conf.new
-		${scm} a+w ./etc/resolv.conf.new
-		${sco} ${n}:${n}  ./etc/resolv.conf.new
-
-		echo "nameserver 127.0.0.1" > ./etc/resolv.conf.new
-		
-		${scm} 0444 ./etc/resolv.conf.new
-		${sco} root:root ./etc/resolv.conf.new
-	fi
+#	#joskohan tämä if-blokki pois jatqssa
+#	if [ -s ./etc/resolv.conf.new ] ; then
+#		echo "r30lv.c0nf alr3ady 3x15t5"
+#	else
+#		${odio} touch ./etc/resolv.conf.new
+#		${scm} a+w ./etc/resolv.conf.new
+#		${sco} ${n}:${n}  ./etc/resolv.conf.new
+#
+#		echo "nameserver 127.0.0.1" > ./etc/resolv.conf.new
+#		
+#		${scm} 0444 ./etc/resolv.conf.new
+#		${sco} root:root ./etc/resolv.conf.new
+#	fi
 
 	#HUOM.14525.5:eka tarkistus lienee turha
 	if [ ! -s ./etc/resolv.conf.1 ] ; then
@@ -705,5 +731,12 @@ case ${mode} in
 
 		tpq ${PREFIX}
 		${srat} -cf ${tgtfile} ${PREFIX}/xfce.tar ${PREFIX}/fediverse.tar
+	;;
+	-h)
+		usage
+	;;
+	*)
+		echo "-h"
+		exit
 	;;
 esac
