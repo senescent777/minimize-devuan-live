@@ -5,6 +5,7 @@ distro=$(cat /etc/devuan_version) #tarpeellinen tässä
 PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
 mode=-2
 
+#TODO:sitä find-kikkailua
 if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 	echo "/E/IPTABLES IS WRITABEL"
 	exit 12
@@ -574,6 +575,7 @@ function tpu() {
 	${NKVD} ${pkgdir}/*.deb #toimiiko tuo NKVD vai ei?
 	dqb "TUP PART 2"
 
+	${fib} #iiutena 205.25
 	${sag} upgrade -u
 	echo $?
 	csleep 5
@@ -583,6 +585,9 @@ function tpu() {
 
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ${2}
+	${odio} touch ${2}/tim3stamp
+	$csm} a+w  ${2}/tim3stamp
+
 	date > ${2}/tim3stamp
 	${srat} -cf ${1} ${2}/tim3stamp
 	rmt ${1} ${2}
@@ -625,7 +630,6 @@ function tp5() {
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 6
-#VAIH;muodostetun arkiston sha-tarkistus
 pre1 ${d}
 
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
@@ -658,6 +662,10 @@ case ${mode} in
 	1|u|upgrade)
 		pre2 ${d}
 		tpu ${tgtfile} ${d}
+
+		#HUOM.sah6-jutut voisivat olla esac hälkeen jatkossa
+		${sah6} ${tgtfile} > ${tgtfile}.sha
+		${sah6} -c ${tgtfile}.sha
 	;;
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
