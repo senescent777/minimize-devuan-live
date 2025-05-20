@@ -68,7 +68,8 @@ csleep 5
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
 enforce_access ${n}
- 
+
+#VAIH:tarttisikohan jotain tehdä sources.list suhteen? no testaapa part1 ainakin
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
 
@@ -231,8 +232,6 @@ csleep 6
 
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
-
-#HUOM.12525:tämä kohta ei vaikuttanut toimivan kunnolla, toi bttavasti tilapäist
 
 if [ ${mode} -eq 2 ] ; then
 	echo "time to ${sifu} ${iface} or whåtever"

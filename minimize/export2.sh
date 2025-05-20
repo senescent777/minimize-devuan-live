@@ -112,7 +112,6 @@ dqb "file=${tgtfile}"
 csleep 6
 
 #HUOM.14525:pitäisiköhän testata ao. else-haara?
-
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
@@ -174,12 +173,13 @@ function pre1() {
 		#erikseen sitten se, mikä sources menee arkistoon ja millä nimellä
 
 		if [ -s /etc/apt/sources.list.${ortsac} ] ; then
-			${smr} /etc/apt/sources.list
-			${slinky} /etc/apt/sources.list.${ortsac} /etc/apt/sources.list
+			${smr} /etc/apt/sources.list #vähän jyrkkää mutta
 		else
+			#HUOM.20525:joutunee laittamaan uusiksi tässä
 			part1_5 ${ortsac}
 		fi
 
+		${slinky} /etc/apt/sources.list.${ortsac} /etc/apt/sources.list
 		csleep 2
 	else
 		echo "P.V.HH"
@@ -228,7 +228,6 @@ function tpq() {
 	dqb "paramz 0k"
 	csleep 1
 
-
 	${srat} -cf ${1}/xfce.tar ${1}/../../.config/xfce4/xfconf/xfce-perchannel-xml
 	csleep 2
 
@@ -237,7 +236,6 @@ function tpq() {
 			
 		. ${1}/profs.sh
 		exp_prof ${1}/fediverse.tar default-esr
-
 	else
 		dqb "1nT0 TH3 M0RB1D R31CH"	
 	fi
@@ -245,8 +243,6 @@ function tpq() {
 	csleep 5
 }
 
-
-#VAIH:PREFIX paraetriksi, tai esim cut
 function tp1() {
 	#debug=1
 	dqb "tp1 ${1} , ${2} "
@@ -276,7 +272,6 @@ function tp1() {
 	fi
 
 	${srat} -rvf ${1} ${ledif} /home/stubby 	
-
 	dqb "tp1 d0n3"
 	csleep 3
 }
@@ -297,7 +292,6 @@ function rmt() {
 	csleep 3
 
 	${scm} 0444 ${2}/*.deb
-
 	p=$(pwd)
 
 	cd ${2}
@@ -435,7 +429,8 @@ function tp2() {
 	dqb "JUST BEFORE URLE	S"
 	csleep 6
 
-	#TOIMISIKO JO? PITÄISI KAI VARMISTAA ETTÄ 0-PITUISIA EI TULE MUKAAN (VAI VIELÄKÖ SKRIPTI PASKOVAT?)
+	#TOIMISIKO JO? PITÄISI KAI VARMISTAA ETTÄ 0-PITUISIA EI TULE MUKAAN (VAI VIELÄKÖ SKRIPTIt PASKOVAT?)
+
 	for f in $(find /etc -type f -name 'rules*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
@@ -471,7 +466,6 @@ function tp2() {
 		exit 112
 	fi
 
-
 	case ${iface} in
 		wlan0)
 			${srat} -rf ${1} /etc/wpa*
@@ -481,7 +475,6 @@ function tp2() {
 		;;
 	esac
 
-	#TODO:selvitä miten toimii q enforce nolla
 	if [ ${enforce} -eq 1 ] ; then
 		dqb "das asdd"
 	else
@@ -500,8 +493,9 @@ function tp2() {
 	csleep 5
 }
 
-#HUOM.12525:kakkosparametri ei tee mitään tässä fktiossa
-
+#VAIH:tarttisikohan jotain tehdä sources.list suhteen? avainsana "http:" voisi laukaista toiminnan
+#c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l) , kts. part1 nykyään
+#josko joka tdstoa varten oma fktio?
 function tp3() {
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
@@ -530,39 +524,47 @@ function tp3() {
 	cd more_scripts/misc
 
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
-	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm} #.0
-	
-	if [ ! -s  ./etc/dhcp/dhclient.conf.1 ] ; then
+	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm}
+
+	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
 		${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1	
 	fi
 
 	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
 	# (ao. rivi tp2() jatkossa?)	
-	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm} #.0
+	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm}
 
-	#HUOM.14525.5:eka tarkistus lienee turha
 	if [ ! -s ./etc/resolv.conf.1 ] ; then
 		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
 	fi
-  
+
 	#HUOM.14525.3:ghubista löytyvä(.new) vastaa tilannetta dnsm=1
 	# (ao. rivi tp2() jatkossa?)
-	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm} #.0
+	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm}
 
-	if [ ${dnsm} -eq 0 ] && [ ! -s ./sbin/dhclient-script.1 ] ; then
+	if [ ! -s ./sbin/dhclient-script.1 ] ; then
 		  ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
 	fi
 	
 	#HUOM.14525.4:tp3 ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
 	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? 
 	# (ao. rivi tp2() jatkossa?)
- 	${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
+
+	if [ -f /etc/apt/sources.list ] ; then
+		local c
+		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
+
+		#HUOM.20525:onkohan tuo ehto hyvä noin? pikemminkin https läsnäolo?
+		if [ ${c} -lt 1 ] ; then
+ 			${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
+		fi
+	fi
+
 
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	# (ao. rivi tp2() jatkossa?)
-	${spc} /etc/network/interfaces ./etc/network/interfaces.${2} #tässä iface olisi parempi kuin distro, EHKä
-
+	${spc} /etc/network/interfaces ./etc/network/interfaces.${2}
 
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
@@ -580,7 +582,6 @@ function tpu() {
 	#debug=1	
 	#HUOM:0/1/old/new ei liity
 	dqb "tpu ${1}, ${2}"
-
 
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] && mv ${1} ${1}.OLD
@@ -633,12 +634,10 @@ function tp5() {
 
 	${tig} clone https://github.com/senescent777/more_scripts.git
 	[ $? -eq 0 ] || exit 99
-	
 
 	#HUOM:{old,new} -> {0,1} ei liity
 	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
 	mv more_scripts/profs/profs* ${2}
-
 
 	${scm} 0755 ${2}/profs*
 	${srat} -rvf ${1} ${2}/profs*
@@ -651,11 +650,9 @@ dqb "tar= ${srat}"
 csleep 6
 pre1 ${d}
 
-
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
 case ${mode} in
 	0|4) 
-
 		pre1 ${d}
 		pre2 ${d}
 
@@ -665,7 +662,7 @@ case ${mode} in
 		dd if=/dev/random bs=6 count=1 > ./rnd
 
 		${srat} -cvf ${tgtfile} ./rnd
-		tp3 ${tgtfile} #${distro}
+		tp3 ${tgtfile} ${distro}
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		${srat} -cvf ${d}/e.tar ./rnd
@@ -686,7 +683,7 @@ case ${mode} in
 		pre2 ${d}
 		tpu ${tgtfile} ${d}
 
-		#HUOM.sah6-jutut voisivat olla esac hälkeen jatkossa
+		#HUOM.sah6-jutut voisivat olla esac hälkeen jatkossa (TODO)
 		${sah6} ${tgtfile} > ${tgtfile}.sha
 		${sah6} -c ${tgtfile}.sha
 
@@ -703,7 +700,6 @@ case ${mode} in
 		${sah6} ${tgtfile} > ${tgtfile}.sha
 		${sah6} -c ${tgtfile}.sha
 		echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
-
 	;;
 	f)
 		rmt ${tgtfile} ${d}
@@ -721,6 +717,5 @@ case ${mode} in
 	*)
 		echo "-h"
 		exit
-
 	;;
 esac
