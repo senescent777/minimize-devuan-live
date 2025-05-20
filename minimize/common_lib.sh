@@ -66,8 +66,6 @@ function init2 {
 	[ ${c} -gt 0 ] && exit 122
 }
 
-init2 #josko jonkn asetuksen takana tuon ajo? muuten voi olla raskasta
-
 ##VAIH:paremmin toimiva tarkistus,0750 voisi mennä läpi kun taviksena ajellaamn
 ##https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
 ##https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
@@ -128,6 +126,10 @@ function fix_sudo() {
 }
 
 fix_sudo
+
+if [ ! -v loose ] ; then
+	init2
+fi
 
 #parempi tehdä näin
 [ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
