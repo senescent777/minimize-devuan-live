@@ -171,15 +171,18 @@ function ns4() {
 
 function clouds_pp1() {
 	dqb "#c.pp.1  ( ${1} )"
-	#VAIH:linkkiys-tarkistuksia
+	#VAIH:linkkiys-tarkistuksia (tarkista linkittääkö dhclient.conf takaisinpäin)
 	local f
 
 	for f in /etc/resolv.conf /etc/dhcp/dhclient.conf ; do
 		if [ -h ${f} ] ; then #mikä ero -L nähden?
-			if [ -s ${f}.1 ] || [ -s ${f}.0  ] ; then #riittäisikö nämä tark?
+			if [ -s ${f}.1 ] || [ -s ${f}.0 ] ; then #riittäisikö nämä tark?
 				${smr} ${f}
-				[ $? -gt 0 ] && echo "FAILURE TO COMPLY WHILE TRYING TO REMOVE ${f}"
+				[ $? -gt 0 ] && dqb "FAILURE TO COMPLY WHILE TRYING TO REMOVE ${f}"
 			fi
+		else
+			dqb "NO A SHARk... link: ${f}"
+			${svm} ${f} ${f}.OLD
 		fi
 	done
 
@@ -214,16 +217,6 @@ function clouds_pp3() {
 	csleep 1
 	dqb "# c.pp.3 a.k.a RELOADING TBLZ RULEZ ${1}"
 	csleep 1
-#
-#	cp /etc/default/rules.* /etc/iptables
-#
-#	chmod 0400 /etc/iptables/*
-#	chmod 0550 /etc/iptables
-#	chown -R root:root /etc/iptables
-#	chmod 0400 /etc/default/rules*
-#	chown -R root:root /etc/default
-#	sleep 5
-
 	p3r1m3tr
 
 	#HUOM.160325:lisätty uutena varm. vuoksi
@@ -259,34 +252,36 @@ function clouds_pre() {
 function clouds_post() {
 	dqb "cdns.clouds_post() "
 	dqb "scm= ${scm}"
-	dqb "sco = ${sco}"
+	dqb "sco =${sco}"
+
 	csleep 5
+	local f
 
-	${scm} 0444 /etc/resolv.conf*
-	${sco} root:root /etc/resolv.conf*
+	for f in $(find /etc -type f -name 'resolv.conf*') ; do
+		${scm} 0444 ${f}
+		${sco} root:root  ${f}
+	done
+	
+	for f in $(find /etc -type f -name 'dhclient*') ; do
+		${scm} 0444 ${f}
+		${sco} root:root  ${f}
+	done
 
-	${scm} 0444 /etc/dhcp/dhclient*
-	${sco} root:root /etc/dhcp/dhclient*
 	${scm} 0755 /etc/dhcp
 
-	${scm} 0555 /sbin/dhclient*
-	${sco} root:root /sbin/dhclient*
-	${scm} 0755 /sbin
-#
-#	cp /etc/default/rules.* /etc/iptables
-#
-#	chmod 0400 /etc/iptables/*
-#	chmod 0550 /etc/iptables
-#	chown -R root:root /etc/iptables
-#	chmod 0400 /etc/default/rules*
-#	chown -R root:root /etc/default
-#	sleep 5
-	p3r1m3tr	
+	for f in $(find /sbin -type f -name 'dhclient*') ; do
+		${scm} 0555 ${f}
+		${sco} root:root  ${f}
+	done
 
-	#jotenkin näin (find -type f myös keksitty, TODO)
-	${sco} -R root:root /etc/network/interfaces*
-	${scm} 0444 /etc/network/interfaces
-	${scm} 0444 /etc/network/interfaces.*
+	${scm} 0755 /sbin
+	p3r1m3tr	
+	
+	for f in $(find /etc/network -type f -name 'interface*') ; do
+		${scm} 0444 ${f}
+		${sco} root:root  ${f}
+	done
+
 	csleep 2
 
 	if [ ${debug} -eq 1 ] ; then
@@ -343,7 +338,6 @@ function clouds_case0_2() {
 }
 
 function clouds_case1_2() {
-	
 	echo "dns";sleep 2
 	/etc/init.d/dnsmasq restart
 	pgrep dnsmasq

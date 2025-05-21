@@ -334,6 +334,7 @@ function tp4() {
 
 	${shary} man-db sudo
 	message
+	echo "UNLINK TABLES?";sleep 6
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
@@ -342,6 +343,8 @@ function tp4() {
 
 	#actually necessary
 	pre2 ${2}
+	echo "OTHER HORRORS???";sleep 6
+	#TODO:other_horrors/jules tähän tai pre2? tai siis ennen ipt asennusta
 
 	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
@@ -385,8 +388,11 @@ function tp4() {
 	esac
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
-	if [ -d ${2} ] ; then 
-		${NKVD} *.deb	
+	if [ -d ${2} ] ; then
+		pwd
+		csleep 1
+
+		${NKVD} *.deb	#pitäisikö tässä olla se polku ukana?
 		${svm} ${pkgdir}/*.deb ${2}
 		rmt ${1} ${2}
 	fi
@@ -410,6 +416,8 @@ function tp2() {
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
 
+	#HUOM.21525:OLISI HYVÄKSI KARSIA NOITA /etc/xxx.päiväys - TYYPPISIÄ TIEDOSTOJA PAKETISTA
+
 	for f in $(find /etc -type f -name 'interfaces*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
 	csleep 6
@@ -421,6 +429,7 @@ function tp2() {
 		else
 			echo "SUURI HIRVIKYRPÄ ${f} "
 			echo "5H0ULD exit 666"
+			sleep 2
 		fi
 	done
 
@@ -440,6 +449,7 @@ function tp2() {
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local | less
 	csleep 5
 
+	#other_horrors
 	${scm} -R 0400 /etc/iptables/*
 	${scm} 0400 /etc/default/rules*
 	${scm} 0550 /etc/iptables
@@ -506,6 +516,8 @@ function tp3() {
 	dqb "TP3 PT2"
 	csleep 5
 	cd more_scripts/misc
+
+	#HUOM.21525:OLISI HYVÄKSI KARSIA NOITA /etc/xxx.päiväys - TYYPPISIÄ TIEDOSTOJA PAKETISTA
 
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm}

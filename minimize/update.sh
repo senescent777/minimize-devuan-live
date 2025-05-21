@@ -59,7 +59,8 @@ if [ -f ${tgt} ] ; then
 		#HUOM.21525:mutenkähän tuo -uv -rv sijaan?
 		for f in $(find ~/Desktop/minimize/ -name 'conf*') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
 		for f in $(find ~/Desktop/minimize/ -name '*.sh') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
-		
+		${tcmd} -f ${tgt} -rv ~/Desktop/minimize/fediverse.tar ~/Desktop/minimize/xfce.tar
+
 		for f in $(find /etc -name 'locale*') ; do
 			if [ -s ${f} ] && [ -r ${f} ] ; then
 				${tcmd} -f ${tgt} -rv ${f}
@@ -110,4 +111,5 @@ if [ ${u} -eq 1 ] ; then
 fi
 
 #ettei unohtuisi umount
+echo "LEST WE FORGET:"
 grep ${dir} /proc/mounts

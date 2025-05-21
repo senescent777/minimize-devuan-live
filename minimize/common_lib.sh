@@ -118,10 +118,10 @@ function fix_sudo() {
 	dqb "fix_sud0.d0n3"
 }
 
-#VAIH:tämä ja/tai jules kopsaamaan /e/default alta säännöt jos /e/i alla tyhiä
 function other_horrors() {	
 	dqb "other_horrors()"
-	cp /etc/default/rules.* /etc/iptables
+	${spc} /etc/default/rules.* /etc/iptables
+	echo $?	
 
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
@@ -129,15 +129,15 @@ function other_horrors() {
 	${scm} 0400 /etc/default/rules*
 	${sco} -R root:root /etc/default
 
-	csleep 1
 	dqb "other_horrors() DONE"
+	csleep 10
 }
 
 #HUOM.21525:menee päällekkäin e_ - juttujen toiminnallsiuuden kanssa nmä 2 , voisi yhdistää
 fix_sudo
 other_horrors
 
-#tarkistuksia yksinkertaisempi vain pakottaa oikeudet ja omistajat jokatap 
+#HUOM.21525.2:tarkistuksia yksinkertaisempi vain pakottaa oikeudet ja omistajat jokatap 
 if [ ! -v loose ] ; then
 	init2
 fi
@@ -149,13 +149,17 @@ csleep 5
 #ESIM. PASKOJEN TIKKUJEN KANSSA TULEE TÄYSI SIRKUS 666
 # (JA SITTEN ON NE OIKEUDETKIN MITKÄ VOIVAT OLLA PÄIN VITTUA)
 #LISÄKSI PAKETTIIN VOI TULLA KAIKENLAISTA YLIMÄÄRÄISTÄ PASKAA SOTKEMAAN JOS EI OLE TARKKA
+#... tai muut syyt
 function jules() {
 	#HUOM.21525:tällaisella sisällöllä fktio turhahko koska other_horrors
 	dqb "LE BIG MAC"
 	dqb "V8"
-	csleep 6
+	csleep 4
 
 	cp /etc/default/rules.* /etc/iptables
+	#HUOM.linkityksen purku vaatisi kai w-oikeudet hmistoon
+	[ -h /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
+	[ -L /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6 #mikä ero, L vs h ?
 
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
@@ -215,7 +219,7 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	if [ -s ${PREFIX}/tar-wrapper.sh ] ; then
+	if [ -x ${PREFIX}/tar-wrapper.sh ] ; then 
 		dqb "TODO: tar-wrapper.sh"
 	else
 		srat=$(${odio} which tar)
@@ -242,9 +246,13 @@ function check_binaries() {
 			${odio} ${smr} ${PREFIX}/${1}/e.tar
 		fi
 
+		#HUOM.21525:olisikohan niin simppeli juttu että dpkg seuraa linkkiä ja nollaa tdston mihin linkki osoittaa?
+		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
 		csleep 3
 		pre_part3 ${PREFIX}/${1} ${dnsm}
 		pr4 ${PREFIX}/${1} ${dnsm}
+		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
+		other_horrors
 
 		ipt=$(${odio} which iptables)
 		ip6t=$(${odio} which ip6tables)
@@ -425,23 +433,14 @@ function mangle2() {
 function e_e() {
 	dqb "e_e()"	
 	csleep 1
-	
-	#TODO:kutsumaan fix_sudo?
-	${scm} 0440 /etc/sudoers.d/*
-	${scm} 0750 /etc/sudoers.d
-	${sco} -R root:root /etc/sudoers.d
+	fix_sudo
 	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
 
 	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
 		mangle2 ${f}
 	done
 
-	#uusi osio 18.5.25
-	#TODO:näille main se cp? tai other_horrors() samantien
-	${scm} 0400 /etc/iptables/*
-	${scm} 0550 /etc/iptables
-	#/uusi osio
-
+	other_horrors
 	${scm} 0755 /etc
 	${sco} -R root:root /etc #-R liikaa?
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
@@ -513,9 +512,10 @@ function e_final() {
 	#HUOM.120525:näitäkin voi kasautua liikaa?
 	[ -f /etc/network/interfaces.${f} ] || ${spc} /etc/network/interfaces /etc/network/interfaces.${f}
 
-	#linkkiys-tark tähän?
-	if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
-		${smr} /etc/resolv.conf
+	if [ -h /etc/resolv.conf ] ; then
+		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
+			${smr} /etc/resolv.conf
+		fi
 	fi
 
 	#wpasupplicant:in kanssa myös jotain säätöä, esim tällaista
@@ -531,14 +531,14 @@ function enforce_access() {
 	csleep 1
 	dqb "changing /sbin , /etc and /var 4 real"
 
-#kommentit pois niin alkaisi selvitä missä kohdassa sisältö nollautuu
-#	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less	
+	#kommentit pois niin alkaisi selvitä missä kohdassa sisältö nollautuu
+	#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less	
 
 	e_e
-#	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
+	#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
 	
 	e_v
-#	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
+	#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
 
 	${scm} 0755 /
 	${sco} root:root /
@@ -549,13 +549,13 @@ function enforce_access() {
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
 	e_h ${1}
-#	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
+	#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
 
 	e_final
-#	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
+	#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
 
 	jules
-#	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
+	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
 	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
@@ -781,9 +781,11 @@ function part3_4real() {
 }
 
 function part3() {
+	jules
 	pre_part3 ${1} ${2}
 	pr4 ${1} ${2}
 	part3_4real ${1}
+	other_horrors
 }
 
 #HUOM.voisi -v käsitellä jo tässä

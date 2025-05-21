@@ -179,6 +179,7 @@ part2_5 ${removepkgs}
 #===================================================PART 3===========================================================
 message #voi muuttua turhaksi jatkossa
 part3 ${d} ${dnsm}
+other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 [ -s ~/Desktop/minimize/xfce.tar ] && ${srat} -C / -xf ~/Desktop/minimize/xfce.tar
 csleep 5
 

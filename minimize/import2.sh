@@ -249,6 +249,7 @@ case "${mode}" in
 		csleep 6
 
 		part3 ${d} ${dnsm}
+		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 		csleep 2
 
 		cd ${olddir}
