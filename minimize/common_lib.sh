@@ -37,8 +37,16 @@ function init() {
 
 init
 
+#VAIH:paremmin toimiva tarkistus,0750 voisi mennä läpi kun taviksena ajellaamn
+#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
+#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
+#jos nyt olisi tarpeeksi jyrkkää
+
 function init2 {
 	local c
+	local d
+	d=0
+
 	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 111
 	c=$(find /etc -name 'iptab*' -type d -not -user 0 | wc -l)
@@ -65,26 +73,6 @@ function init2 {
 	c=$(find /etc/sudoers.d -type f -not -group 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 122
 }
-
-##VAIH:paremmin toimiva tarkistus,0750 voisi mennä läpi kun taviksena ajellaamn
-##https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
-##https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
-#
-#if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then # linkkien kanssa pitäisi tehdä toisin
-#	echo "WARNING: /E/IPTABLES IS WRITABEL"
-#	#exit 12
-#	sleep 1
-##fi
-#
-#if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
-#	echo "/E/S.D IS WRITABLE"
-#	#exit 34
-#	sleep 1
-##fi
-#
-#näissä pointtina olisi korkeintaan varmistaa että /e/i oikeudet 0550
-#[ -s /etc/iptables/rules.v4.${dnsm} ] || echo "PISEN PRO VOI VITTU"
-#[ -s /etc/iptables/rules.v6.${dnsm} ] || echo "OIJBIYF97TF98YG087T97"
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -125,18 +113,23 @@ function fix_sudo() {
 	echo "fix_sud0.d0n3"
 }
 
+#function other_horrors() {lisää_pakotusta}
 fix_sudo
+#other_horrors
 
+#HUOM. voisi tehdä toisinkin, eli "jos ei ajeta fix_sudo+enforce niin sitten init2" olisi se peruslähtökohta
+#... eli enforce- jutut ja jules pitäisi esitellä ennenq init2 mahdollisesti ajetaan
+#tai jopa niin että lasketaan poikkeukset hteen ja jos > 0 ni enforce (fix-sudo jo ajettu tässä kohtaa)
+#... tosin yksinkertaisempi vain pakottaa oikeudet ja omistajat jokatap 
 if [ ! -v loose ] ; then
 	init2
 fi
 
-#parempi tehdä näin
 [ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 csleep 5
 
 #EI SITTEN PERKELE ALETA KIKKAILLA /ETC/IPTABLES/RULES KANSSA
-#ESIM. PASKOJEN TIKKUJEN KANSSA TULEE TÄYDI SIRKUS 666
+#ESIM. PASKOJEN TIKKUJEN KANSSA TULEE TÄYSI SIRKUS 666
 # (JA SITTEN ON NE OIKEUDETKIN MITKÄ VOIVAT OLLA PÄIN VITTUA)
 #LISÄKSI PAKETTIIN VOI TULLA KAIKENLAISTA YLIMÄÄRÄISTÄ PASKAA SOTKEMAAN JOS EI OLE TARKKA
 function jules() {
@@ -378,7 +371,7 @@ function pre_enforce() {
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
 		csleep 2
-		chmod 0440 ${q}/meshuggah
+		chmod 0440 ${q}/meshuggah #scm
 
 		${sco} root:root ${q}/meshuggah
 		${svm} ${q}/meshuggah /etc/sudoers.d
