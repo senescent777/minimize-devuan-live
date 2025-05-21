@@ -5,17 +5,6 @@ distro=$(cat /etc/devuan_version) #tarpeellinen tässä
 PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
 mode=-2
 
-#TODO:sitä find-kikkailua
-if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
-	echo "/E/IPTABLES IS WRITABEL"
-	exit 12
-fi
-
-if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
-	echo "/E/S.D IS WRITABLE"
-	exit 34
-fi
-
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -78,7 +67,7 @@ else
 	sco="sudo /bin/chown"
 	odio=$(which sudo)
 
-	#jos näillä lähtisi aikankin case q toimimaan
+	#jos näillä lähtisi aiNAKin case q toimimaan
 	n=$(whoami)
 
 	function check_binaries() {
@@ -101,7 +90,7 @@ else
 		dqb "exp32.part3()"
 	}
 
-
+	#TODO;tähän sitten se common_lib.init2 tai sit ei
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
 fi
@@ -200,7 +189,6 @@ function pre2() {
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
-
 		${odio} ${ledif}/changedns.sh ${dnsm} ${ortsac}
 		csleep 4
 
@@ -277,7 +265,6 @@ function tp1() {
 }
 
 function rmt() {
-
 	#debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
@@ -286,7 +273,6 @@ function rmt() {
 
 	[ z"${2}" == "z" ] && exit 11
 	[ -d ${2} ] || exit 22
-
 
 	dqb "paramz_ok"
 	csleep 3
@@ -411,7 +397,6 @@ function tp4() {
 
 #koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
 #HUOM.20525:joskohan locale- ja rules- juttuja varten uusi fktio? vääntöä tuntuu riittävän nimittäin
-
 function tp2() {
 	debug=1
 	dqb "tp2 ${1} ${2}"
@@ -652,7 +637,9 @@ pre1 ${d}
 
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
 case ${mode} in
-	0|4) 
+
+	0|4) #erikseen vielä case missä tp3 skipataan?
+
 		pre1 ${d}
 		pre2 ${d}
 
@@ -667,25 +654,15 @@ case ${mode} in
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		${srat} -cvf ${d}/e.tar ./rnd
 		[ ${mode} -eq 0 ] && tp4 ${d}/e.tar ${d}
-
 		${sifd} ${iface}
 
 		tp1 ${tgtfile} ${d}
 		pre1 ${d}
 		tp2 ${tgtfile}
-
-		${sah6} ${tgtfile} > ${tgtfile}.sha
-		${sah6} -c ${tgtfile}.sha
-		echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
-
 	;;
 	1|u|upgrade)
 		pre2 ${d}
 		tpu ${tgtfile} ${d}
-
-		#HUOM.sah6-jutut voisivat olla esac hälkeen jatkossa (TODO)
-		${sah6} ${tgtfile} > ${tgtfile}.sha
-		${sah6} -c ${tgtfile}.sha
 
 	;;
 	p)
@@ -697,9 +674,6 @@ case ${mode} in
 		pre2 ${d}
 		tp4 ${tgtfile} ${d}
 
-		${sah6} ${tgtfile} > ${tgtfile}.sha
-		${sah6} -c ${tgtfile}.sha
-		echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
 	;;
 	f)
 		rmt ${tgtfile} ${d}
@@ -719,3 +693,9 @@ case ${mode} in
 		exit
 	;;
 esac
+
+if [ -s ${tgtfile} ] ; then
+	${sah6} ${tgtfile} > ${tgtfile}.sha
+	${sah6} -c ${tgtfile}.sha
+	echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
+fi

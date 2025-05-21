@@ -1,4 +1,3 @@
-
 function init() {
 	odio=$(which sudo)
 	[ y"${odio}" == "y" ] && exit 99 
@@ -38,25 +37,44 @@ function init() {
 
 init
 
-#TODO:paremmin toimiva tarkistus,0750 voisi mennä läpi kun taviksena ajellaamn
+
+#VAIH:paremmin toimiva tarkistus,0750 voisi mennä läpi kun taviksena ajellaamn
+
 #https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
 #https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
+#jos nyt olisi tarpeeksi jyrkkää
 
-if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then # linkkien kanssa pitäisi tehdä toisin
-	echo "WARNING: /E/IPTABLES IS WRITABEL"
-	#exit 12
-	sleep 1
-fi
+function init2 {
+	local c
+	local d
+	d=0
 
-if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
-	echo "/E/S.D IS WRITABLE"
-	#exit 34
-	sleep 1
-fi
-
-#näissä pointtina olisi korkeintaan varmistaa että /e/i oikeudet 0550
-[ -s /etc/iptables/rules.v4.${dnsm} ] || echo "PISEN PRO VOI VITTU"
-[ -s /etc/iptables/rules.v6.${dnsm} ] || echo "OIJBIYF97TF98YG087T97"
+	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
+	[ ${c} -gt 0 ] && exit 111
+	c=$(find /etc -name 'iptab*' -type d -not -user 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 112
+	c=$(find /etc -name 'iptab*' -type d -not -group 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 113
+	c=$(find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
+	[ ${c} -gt 0 ] && exit 114
+	c=$(find /etc -name 'rules.v*' -type f -not -user 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 115
+	c=$(find /etc -name 'rules.v*' -type f -not -group 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 116
+	 
+	c=$(find /etc -name 'sudoers*' -type d -perm /o+w,o+r,o+x | wc -l)
+	[ ${c} -gt 0 ] && exit 117
+	c=$(find /etc -name 'sudoers*' -type d -not -user 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 118
+	c=$(find /etc -name 'sudoers*' -type d -not -group 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 119
+	c=$(find /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
+	[ ${c} -gt 0 ] && exit 120
+	c=$(find /etc/sudoers.d -type f -not -user 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 121
+	c=$(find /etc/sudoers.d -type f -not -group 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 122
+}
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -97,14 +115,24 @@ function fix_sudo() {
 	echo "fix_sud0.d0n3"
 }
 
+#function other_horrors() {lisää_pakotusta}
 fix_sudo
 
-#parempi tehdä näin
+#other_horrors
+
+#HUOM. voisi tehdä toisinkin, eli "jos ei ajeta fix_sudo+enforce niin sitten init2" olisi se peruslähtökohta
+#... eli enforce- jutut ja jules pitäisi esitellä ennenq init2 mahdollisesti ajetaan
+#tai jopa niin että lasketaan poikkeukset hteen ja jos > 0 ni enforce (fix-sudo jo ajettu tässä kohtaa)
+#... tosin yksinkertaisempi vain pakottaa oikeudet ja omistajat jokatap 
+if [ ! -v loose ] ; then
+	init2
+fi
+
 [ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 csleep 5
 
 #EI SITTEN PERKELE ALETA KIKKAILLA /ETC/IPTABLES/RULES KANSSA
-#ESIM. PASKOJEN TIKKUJEN KANSSA TULEE TÄYDI SIRKUS 666
+#ESIM. PASKOJEN TIKKUJEN KANSSA TULEE TÄYSI SIRKUS 666
 # (JA SITTEN ON NE OIKEUDETKIN MITKÄ VOIVAT OLLA PÄIN VITTUA)
 #LISÄKSI PAKETTIIN VOI TULLA KAIKENLAISTA YLIMÄÄRÄISTÄ PASKAA SOTKEMAAN JOS EI OLE TARKKA
 
@@ -153,7 +181,6 @@ function psqa() {
 
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
-
 		[ $? -eq 0 ] || exit 94
 
 		cd ${p}
@@ -185,10 +212,8 @@ function check_binaries() {
 
 	if [ y"${ipt}" == "y" ] ; then
 		[ z"${1}" == "z" ] && exit 99
-
 		dqb "-d ${PREFIX}/${1} existsts?"
 		[ -d ${PREFIX}/${1} ] || exit 101
-
 
 		dqb "params_ok"
 		csleep 1
@@ -255,13 +280,11 @@ function check_binaries2() {
 	sag_u="${odio} ${sag} update "
 	sag="${odio} ${sag} "
 	sip="${odio} ${sip} "
-
 	sa="${odio} ${sa} "
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
 	smr="${odio} ${smr} "
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
-
 	NKVD="${odio} ${NKVD} "
 	srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
@@ -338,7 +361,6 @@ function pre_enforce() {
 	csleep 3
 
 	[ -f ${q}/meshuggah ] || exit 33
-
 	dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 	mangle_s ${PREFIX}/changedns.sh ${q}/meshuggah
 	csleep 2
@@ -354,7 +376,7 @@ function pre_enforce() {
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
 		csleep 2
-		chmod 0440 ${q}/meshuggah
+		chmod 0440 ${q}/meshuggah #scm
 
 		${sco} root:root ${q}/meshuggah
 		${svm} ${q}/meshuggah /etc/sudoers.d
@@ -389,12 +411,9 @@ function e_e() {
 	dqb "e_e()"	
 	csleep 1
 
-
-function e_e() {
 	${scm} 0440 /etc/sudoers.d/*
 	${scm} 0750 /etc/sudoers.d
 	${sco} -R root:root /etc/sudoers.d
-
 	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
 
 	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
@@ -409,9 +428,15 @@ function e_e() {
 	${scm} 0755 /etc
 	${sco} -R root:root /etc #-R liikaa?
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
+
+	dqb "e_e d0n3"
+	csleep 1
 }
 
 function e_v() {
+	dqb "e_v()"
+	csleep 1
+
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
 
@@ -459,7 +484,6 @@ function e_h() {
 	for f in $(find ${PREFIX} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
 	for f in $(find ${PREFIX} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
 
-
 	dqb "F1ND D0N3"
 	csleep 1
 
@@ -476,8 +500,8 @@ function e_final() {
 	local f
 	f=$(date +%F)
 
-	#HUOM.15525:interfaces kanssa kikkaiut kuten rules, tartteeko niihin liittyen tehdä tässä jotain?
 
+	#HUOM.15525:interfaces kanssa kikkaiut kuten rules, tartteeko niihin liittyen tehdä tässä jotain?
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
@@ -491,6 +515,9 @@ function e_final() {
 	#wpasupplicant:in kanssa myös jotain säätöä, esim tällaista
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
+
+	dqb "e_final() D0N3"
+	csleep 1
 }
 
 	dqb "e_final() D0N3"
@@ -514,9 +541,7 @@ function enforce_access() {
 	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
-
 	e_h ${1}
-
 	e_final
 
 	jules
@@ -554,7 +579,6 @@ function part1_5() {
 
 function part1() {
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
-
 	#jos jokin näistä kolmesta hoitaisi homman...
 
 	${sifd} ${iface}
@@ -694,7 +718,6 @@ function part2_5() {
 		fi
 	fi
 
-
 	if [ ${debug} -eq 1 ] ; then
 		${snt}
 		sleep 5
@@ -707,7 +730,6 @@ function part2_5() {
 
 function part3_4real() {
 	dqb "part3_4real( ${1} )"
-
 	csleep 1
 
 	[ y"${1}" == "y" ] && exit 1 #mikähän tässäkin on?

@@ -7,15 +7,7 @@ part0=ABCD-1234
 PREFIX=~/Desktop/minimize
 mode=-2
 
-if [ -r /etc/iptables ] || [ -w /etc/iptables ]  || [ -r /etc/iptables/rules.v4 ] ; then
-	echo "/E/IPTABLES IS WRITABEL"
-	exit 12
-fi
-
-if [ -r /etc/sudoers.d ] || [ -w /etc/iptables ] ; then
-	echo "/E/S.D IS WRITABLE"
-	exit 34
-fi
+#HUOM.21525:uudet tark siirretty tdstoon common_lib
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -101,7 +93,7 @@ else
 		dqb "imp32.part3()"
 	}
 
-
+	#TODO;tähän sitten se common_lib.init2?
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
 fi
@@ -224,7 +216,6 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	0|3)
-
 		dqb "ZER0 S0UND"
 		csleep 2
 
@@ -244,16 +235,15 @@ case "${mode}" in
 		[ "${confirm}" == "Y" ] || exit 33
 		common_part ${file} ${d}
 
-
 		if [ ${1} -eq 0 ] ; then
 			if [ -s ${d}/e.tar ] ; then
 				common_part ${d}/e.tar ${d}
-
 			fi
 		fi
 
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 6
+
 		part3 ${d} ${dnsm}
 		csleep 2
 
