@@ -36,7 +36,7 @@ fi
 
 #HUOM. ao. rivillä 2. viimeisessä syystä vain core
 ${sharpy} amd64-microcode iucode-tool arch-test at-spi2-core 
-${sharpy} bubblewrap atril* coinor* cryptsetup* debootstrap'
+${sharpy} bubblewrap atril* coinor* cryptsetup* debootstrap
 ${sharpy} dmidecode discover* dirmngr #tuleekohan viimeisestä ongelma? vissiin ei
 ${sharpy} doc-debian docutils* efibootmgr exfalso 
 ${sharpy} fdisk ftp* gdisk gcr
