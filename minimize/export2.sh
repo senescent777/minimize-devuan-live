@@ -415,14 +415,14 @@ function tp2() {
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
 
-	#HUOM.21525:OLISI HYVÄKSI KARSIA NOITA /etc/xxx.päiväys - TYYPPISIÄ TIEDOSTOJA PAKETISTA
+	#VAIH:OLISI HYVÄKSI KARSIA NOITA /etc/xxx.päiväys - TYYPPISIÄ TIEDOSTOJA PAKETISTA
 
-	for f in $(find /etc -type f -name 'interfaces*') ; do ${srat} -rvf ${1} ${f} ; done
+	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
 	csleep 6
 
 	#TOIMISIKO JO? PITÄISI KAI VARMISTAA ETTÄ 0-PITUISIA EI TULE MUKAAN (VAI VIELÄKÖ SKRIPTIt PASKOVAT?)
-	for f in $(find /etc -type f -name 'rules*') ; do
+	for f in $(find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
 		else
@@ -440,7 +440,7 @@ function tp2() {
 	sleep 1
 
 	${srat} -rvf ${1} /etc/timezone 
-	for f in $(find /etc -type f -name 'locale*') ; do ${srat} -rvf ${1} ${f} ; done
+	for f in $(find /etc -type f -name 'locale*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 
 	echo $?
 	sleep 5
@@ -475,8 +475,8 @@ function tp2() {
 	fi
 
 	if [ ${dnsm} -eq 1 ] ; then
-		local f;for f in $(find /etc -type f -name 'stubby*') ; do ${srat} -rf ${1} ${f} ; done
-		for f in $(find /etc -type f -name 'dns*') ; do ${srat} -rf ${1} ${f} ; done
+		local f;for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
+		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 	fi
 
 	${srat} -rf ${1} /etc/init.d/net*

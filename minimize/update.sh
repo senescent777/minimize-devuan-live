@@ -53,6 +53,10 @@ if [ -f ${tgt} ] ; then
 	#HUOM. pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
 
 	if [ "${confirm}" == "Y" ] ; then
+		function process_entry() {
+			${tcmd} -f ${1} -rv ${2}
+		}
+
 		${spc} ${tgt} ${tgt}.OLD #vaiko mv?
 		sleep 3
 
