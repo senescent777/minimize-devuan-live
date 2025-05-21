@@ -118,9 +118,10 @@ function fix_sudo() {
 	dqb "fix_sud0.d0n3"
 }
 
-#TODO:tämä ja/tai jules kopsaamaan /e/default alta säännöt jos /e/i alla tyhiä
+#VAIH:tämä ja/tai jules kopsaamaan /e/default alta säännöt jos /e/i alla tyhiä
 function other_horrors() {	
 	dqb "other_horrors()"
+	cp /etc/default/rules.* /etc/iptables
 
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
@@ -153,6 +154,8 @@ function jules() {
 	dqb "LE BIG MAC"
 	dqb "V8"
 	csleep 6
+
+	cp /etc/default/rules.* /etc/iptables
 
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
@@ -422,7 +425,8 @@ function mangle2() {
 function e_e() {
 	dqb "e_e()"	
 	csleep 1
-
+	
+	#TODO:kutsumaan fix_sudo?
 	${scm} 0440 /etc/sudoers.d/*
 	${scm} 0750 /etc/sudoers.d
 	${sco} -R root:root /etc/sudoers.d
@@ -433,6 +437,7 @@ function e_e() {
 	done
 
 	#uusi osio 18.5.25
+	#TODO:näille main se cp? tai other_horrors() samantien
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
 	#/uusi osio
@@ -508,6 +513,7 @@ function e_final() {
 	#HUOM.120525:näitäkin voi kasautua liikaa?
 	[ -f /etc/network/interfaces.${f} ] || ${spc} /etc/network/interfaces /etc/network/interfaces.${f}
 
+	#linkkiys-tark tähän?
 	if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
 		${smr} /etc/resolv.conf
 	fi
