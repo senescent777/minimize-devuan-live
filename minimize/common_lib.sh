@@ -37,7 +37,9 @@ function init() {
 
 init
 
+
 #VAIH:paremmin toimiva tarkistus,0750 voisi mennä läpi kun taviksena ajellaamn
+
 #https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
 #https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
 #jos nyt olisi tarpeeksi jyrkkää
@@ -115,6 +117,7 @@ function fix_sudo() {
 
 #function other_horrors() {lisää_pakotusta}
 fix_sudo
+
 #other_horrors
 
 #HUOM. voisi tehdä toisinkin, eli "jos ei ajeta fix_sudo+enforce niin sitten init2" olisi se peruslähtökohta
@@ -132,6 +135,7 @@ csleep 5
 #ESIM. PASKOJEN TIKKUJEN KANSSA TULEE TÄYSI SIRKUS 666
 # (JA SITTEN ON NE OIKEUDETKIN MITKÄ VOIVAT OLLA PÄIN VITTUA)
 #LISÄKSI PAKETTIIN VOI TULLA KAIKENLAISTA YLIMÄÄRÄISTÄ PASKAA SOTKEMAAN JOS EI OLE TARKKA
+
 function jules() {
 	dqb "LE BIG MAC"
 	dqb "V8"
@@ -178,6 +182,7 @@ function psqa() {
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
 		[ $? -eq 0 ] || exit 94
+
 		cd ${p}
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
@@ -435,6 +440,17 @@ function e_v() {
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
 
+	dqb "e_e d0n3"
+	csleep 1
+}
+
+function e_v() {
+	dqb "e_v()"
+	csleep 1
+
+	${sco} -R root:root /sbin
+	${scm} -R 0755 /sbin
+
 	${sco} root:root /var
 	${scm} 0755 /var
 	${sco} root:staff /var/local
@@ -484,6 +500,7 @@ function e_final() {
 	local f
 	f=$(date +%F)
 
+
 	#HUOM.15525:interfaces kanssa kikkaiut kuten rules, tartteeko niihin liittyen tehdä tässä jotain?
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
@@ -502,6 +519,11 @@ function e_final() {
 	dqb "e_final() D0N3"
 	csleep 1
 }
+
+	dqb "e_final() D0N3"
+	csleep 1
+}
+
 
 function enforce_access() {
 	dqb " enforce_access( ${1})"
@@ -531,6 +553,7 @@ function part1_5() {
 	if [ z"${pkgsrc}" != "z" ] ; then
 		if [ -d ${PREFIX}/${1} ] ; then
 			if [ ! -s /etc/apt/sources.list.${1} ] ; then
+
 				#HUOM. mitä jos onkin s.list.$1 olemassa mutta s.list pitäisi vaihtaa?
 				
 				local h

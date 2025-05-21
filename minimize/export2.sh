@@ -415,6 +415,7 @@ function tp2() {
 	csleep 6
 
 	#TOIMISIKO JO? PITÄISI KAI VARMISTAA ETTÄ 0-PITUISIA EI TULE MUKAAN (VAI VIELÄKÖ SKRIPTIt PASKOVAT?)
+
 	for f in $(find /etc -type f -name 'rules*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
@@ -544,6 +545,7 @@ function tp3() {
 		fi
 	fi
 
+
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	# (ao. rivi tp2() jatkossa?)
@@ -617,7 +619,7 @@ function tp5() {
 
 	${tig} clone https://github.com/senescent777/more_scripts.git
 	[ $? -eq 0 ] || exit 99
-	
+
 	#HUOM:{old,new} -> {0,1} ei liity
 	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
 	mv more_scripts/profs/profs* ${2}
@@ -635,7 +637,9 @@ pre1 ${d}
 
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
 case ${mode} in
+
 	0|4) #erikseen vielä case missä tp3 skipataan?
+
 		pre1 ${d}
 		pre2 ${d}
 
@@ -659,6 +663,7 @@ case ${mode} in
 	1|u|upgrade)
 		pre2 ${d}
 		tpu ${tgtfile} ${d}
+
 	;;
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
@@ -668,6 +673,7 @@ case ${mode} in
 	e)
 		pre2 ${d}
 		tp4 ${tgtfile} ${d}
+
 	;;
 	f)
 		rmt ${tgtfile} ${d}

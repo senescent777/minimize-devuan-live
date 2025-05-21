@@ -52,6 +52,7 @@ function init2 {
 	[ ${c} -gt 0 ] && exit 122
 }
 
+
 #init2
 #
 #sudo chmod 0755 /etc/iptables
@@ -79,6 +80,7 @@ chmod 0550 /etc/iptables
 chown -R root:root /etc/iptables
 chmod 0400 /etc/default/rules*
 chown -R root:root /etc/default
+
 sleep 5
 #		
 case $# in
@@ -186,6 +188,7 @@ function ns4() {
 function clouds_pp1() {
 	dqb "#c.pp.1  ( ${1} )"
 	#TODO:linkkiys-tarkistuksia
+
 #
 #sudo chmod 0755 /etc/iptables
 #sudo chmod 0444 /etc/iptables/*
@@ -211,6 +214,7 @@ function clouds_pp1() {
 #sudo chmod 0400 /etc/default/rules*
 #sudo chmod 0550 /etc/iptables
 #sleep 5
+
 	if [ -s /etc/resolv.conf.1 ] || [ -s /etc/resolv.conf.0 ] ; then 
 		${smr} /etc/resolv.conf
 		[ $? -gt 0 ] && echo "FAILURE TO COMPLY WHILE TRYING TO REMOVE RESOLV.CONF"
@@ -281,6 +285,7 @@ function clouds_pp3() {
 	#pidemmän päälle olisi kätevämpi nimetä kuin numeroida ne säännöt...
 	${ipt} -D INPUT 5
 	${ipt} -D OUTPUT 6
+
 
 	csleep 1
 	dqb "...done"
