@@ -93,7 +93,7 @@ else
 		dqb "imp32.part3()"
 	}
 
-	#TODO:tähän sitten se common_lib.init2 copypastella? tai jos ne /e pakotukset mieluummin
+	#tähän sitten se common_lib.init2 copypastella? tai jos ne /e pakotukset mieluummin
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
 fi

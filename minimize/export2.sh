@@ -90,7 +90,7 @@ else
 		dqb "exp32.part3()"
 	}
 
-	#TODO;tähän sitten se common_lib.init2 tai sit ei
+	#tähän sitten se common_lib.init2 tai sit ei
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
 fi
@@ -334,7 +334,7 @@ function tp4() {
 
 	${shary} man-db sudo
 	message
-	echo "UNLINK TABLES?";sleep 6
+	jules
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
@@ -343,8 +343,7 @@ function tp4() {
 
 	#actually necessary
 	pre2 ${2}
-	echo "OTHER HORRORS???";sleep 6
-	#TODO:other_horrors/jules tähän tai pre2? tai siis ennen ipt asennusta
+	other_horrors
 
 	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
@@ -487,9 +486,6 @@ function tp2() {
 	csleep 5
 }
 
-#VAIH:tarttisikohan jotain tehdä sources.list suhteen? avainsana "http:" voisi laukaista toiminnan
-#c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l) , kts. part1 nykyään
-#josko joka tdstoa varten oma fktio?
 function tp3() {
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
