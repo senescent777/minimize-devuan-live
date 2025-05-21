@@ -23,8 +23,6 @@ mode=${1}
 
 #function init2 {
 #	local c
-##TODO:jospa vain hakkaisi tässä tuettyjen tdstojen/hmistojen oikeudet kohdalleen ja täts it
-#
 #	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
 #	[ ${c} -gt 0 ] && exit 111
 #	c=$(find /etc -name 'iptab*' -type d -not -user 0 | wc -l)
@@ -54,7 +52,7 @@ mode=${1}
 #
 #init2
 
-#sleep 5 #VAIH:tästä mallia muihinkin skripteihin
+
 function p3r1m3tr() {
 	cp /etc/default/rules.* /etc/iptables
 	#[ -s /etc/iptables/rules.v4.] or exit 666
@@ -173,18 +171,28 @@ function ns4() {
 
 function clouds_pp1() {
 	dqb "#c.pp.1  ( ${1} )"
-	#TODO:linkkiys-tarkistuksia
+	#VAIH:linkkiys-tarkistuksia
+	local f
 
-	if [ -s /etc/resolv.conf.1 ] || [ -s /etc/resolv.conf.0 ] ; then 
-		${smr} /etc/resolv.conf
-		[ $? -gt 0 ] && echo "FAILURE TO COMPLY WHILE TRYING TO REMOVE RESOLV.CONF"
-	fi
+	for f in /etc/resolv.conf /etc/dhcp/dhclient.conf ; do
+		if [ -h ${f} ] ; then #mikä ero -L nähden?
+			if [ -s ${f}.1 ] || [ -s ${f}.0  ] ; then #riittäisikö nämä tark?
+				${smr} ${f}
+				[ $? -gt 0 ] && echo "FAILURE TO COMPLY WHILE TRYING TO REMOVE ${f}"
+			fi
+		fi
+	done
 
-	if [ -s /etc/dhcp/dhclient.conf.1 ] || [ -s /etc/dhcp/dhclient.conf.0 ] ; then 
-		${smr} /etc/dhcp/dhclient.conf
-		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHILÖE TRYING TO REMOVE DHCLIENT.CONF"
-	fi
-
+#	if [ -s /etc/resolv.conf.1 ] || [ -s /etc/resolv.conf.0 ] ; then 
+#		${smr} /etc/resolv.conf
+#		[ $? -gt 0 ] && echo "FAILURE TO COMPLY WHILE TRYING TO REMOVE RESOLV.CONF"
+#	fi
+#
+#	if [ -s /etc/dhcp/dhclient.conf.1 ] || [ -s /etc/dhcp/dhclient.conf.0 ] ; then 
+#		${smr} /etc/dhcp/dhclient.conf
+#		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHILÖE TRYING TO REMOVE DHCLIENT.CONF"
+#	fi
+#
 	#HUOM.17525:mikähän tätäkin tdstoa vaivaa? varmaan pp2 pykiminen sotkenut
 	if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 	
 		${smr} /sbin/dhclient-script
