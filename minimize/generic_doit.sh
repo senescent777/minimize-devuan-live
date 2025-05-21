@@ -55,7 +55,6 @@ csleep 5
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
 enforce_access ${n}
 
-#VAIH:tarttisikohan jotain tehdä sources.list suhteen? no testaapa part1 ainakin
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
 
@@ -64,17 +63,7 @@ csleep 3
 
 #jotain perusteellisempia testejä chimaeran kanssa sitten mikäli jksaa sitä kirjautumisongelmaa (josko selvittelisi korjaamista?)
 #===================================================PART 2===================================
-
-c14=0
-c13=0
-[ ${mode} -eq 1 ] && c14=1
-
-if [ -v LCF666 ] ; then
-	#HUOM.16525:vissiin urputti kska lcf666 puuttuu konffista, palautettu
-	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
-else
-	echo "555"
-fi
+#HUOM.21525:tekisiköhän jotain daedaluksen audiomixrin suhteen? pois kokonaan tai asetusten import/export
 
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
@@ -121,7 +110,6 @@ function el_loco() {
 		csleep 3
 	fi
 
-	#VAIH:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön? locale-gen... (joko jo?)
 	${odio} locale-gen
 
 	#joskohan tarkistus pois jatkossa?
@@ -143,6 +131,17 @@ function el_loco() {
 	dqb "DN03"
 	csleep 2
 }
+
+c14=0
+c13=0
+[ ${mode} -eq 1 ] && c14=1
+
+if [ -v LCF666 ] ; then
+	#HUOM.16525:vissiin urputti kska lcf666 puuttuu konffista, palautettu
+	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
+else
+	echo "555"
+fi
 
 csleep 6
 [ ${c13} -lt 1 ] && c14=1
@@ -187,6 +186,7 @@ csleep 5
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	. ~/Desktop/minimize/profs.sh
 
+	#HUOM.21525:miksi caten ilm suoraan /tmp alle firefox-esr? tarttisko tehdä jotain?
 	q=$(mktemp -d)
 	dqb "${srat} -C ${q} ... 1n 3 s3c5s"
 	csleep 3

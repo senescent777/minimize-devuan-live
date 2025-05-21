@@ -52,7 +52,7 @@ function parse_opts_2() {
 }
 
 function usage() {
-	echo "TODO"
+	echo "${0} [mode] [tgtfile] <distro> <debug> "
 }
 
 if [ -x ${PREFIX}/common_lib.sh ] ; then
@@ -93,7 +93,7 @@ else
 		dqb "imp32.part3()"
 	}
 
-	#TODO;tähän sitten se common_lib.init2?
+	#TODO:tähän sitten se common_lib.init2 copypastella? tai jos ne /e pakotukset mieluummin
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
 fi
@@ -148,16 +148,20 @@ function common_part() {
 	dqb "paramz_0k"
 
 	cd /
-	#TODO:sha-tarkistus toimimaan, polun kanssa on juttuja
+	#VAIH:sha-tarkistus toimimaan, polun kanssa on juttuja
 	dqb "DEBUG:${srat} -xf ${1} "
 	csleep 2
 	
-	if [ -s ${1}.sha ] ; then
+	if [ -s ${1}.sha ] ; then #mennäänkö tähän?
 		dqb "KHAZAD-DUM"
-		${sah6} -c ${1}.sha
+		cat ${1}.sha
+		${sah6} ${1}
 		csleep 10
+	else
+		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
+	csleep 5
 	${srat} -xf ${1}
 	csleep 2
 	dqb "tar DONE"
@@ -280,6 +284,11 @@ case "${mode}" in
 		echo "-h"
 	;;
 esac
+
+#ettei umount unohdu
+echo "REMEMBER 2 UNM0UNT TH3S3:"
+grep ${part} /proc/mounts
+grep ${dir} /proc/mounts
 
 chmod 0755 $0
 #HUOM. tämän olisi kuvakkeen kanssa tarkoitus mennä jatkossa filesystem.squashfs sisälle

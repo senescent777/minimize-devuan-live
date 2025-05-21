@@ -37,9 +37,7 @@ function init() {
 
 init
 
-
 #VAIH:paremmin toimiva tarkistus,0750 voisi mennä läpi kun taviksena ajellaamn
-
 #https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
 #https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
 #jos nyt olisi tarpeeksi jyrkkää
@@ -48,6 +46,9 @@ function init2 {
 	local c
 	local d
 	d=0
+
+	dqb "common_lib.INIT.2"
+	csleep 6
 
 	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 111
@@ -74,6 +75,8 @@ function init2 {
 	[ ${c} -gt 0 ] && exit 121
 	c=$(find /etc/sudoers.d -type f -not -group 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 122
+
+	csleep 4
 }
 
 function dqb() {
@@ -85,7 +88,7 @@ function csleep() {
 }
 
 function fix_sudo() {
-	echo "fix_sud0.pt0"
+	dqb "fix_sud0.pt0"
 
 	${sco} -R 0:0 /etc/sudoers.d
 	${scm} 0440 /etc/sudoers.d/*
@@ -112,18 +115,28 @@ function fix_sudo() {
 
 	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
 	csleep 3
-	echo "fix_sud0.d0n3"
+	dqb "fix_sud0.d0n3"
 }
 
-#function other_horrors() {lisää_pakotusta}
+#TODO:tämä ja/tai jules kopsaamaan /e/default alta säännöt jos /e/i alla tyhiä
+function other_horrors() {	
+	dqb "other_horrors()"
+
+	${scm} 0400 /etc/iptables/*
+	${scm} 0550 /etc/iptables
+	${sco} -R root:root /etc/iptables
+	${scm} 0400 /etc/default/rules*
+	${sco} -R root:root /etc/default
+
+	csleep 1
+	dqb "other_horrors() DONE"
+}
+
+#HUOM.21525:menee päällekkäin e_ - juttujen toiminnallsiuuden kanssa nmä 2 , voisi yhdistää
 fix_sudo
+other_horrors
 
-#other_horrors
-
-#HUOM. voisi tehdä toisinkin, eli "jos ei ajeta fix_sudo+enforce niin sitten init2" olisi se peruslähtökohta
-#... eli enforce- jutut ja jules pitäisi esitellä ennenq init2 mahdollisesti ajetaan
-#tai jopa niin että lasketaan poikkeukset hteen ja jos > 0 ni enforce (fix-sudo jo ajettu tässä kohtaa)
-#... tosin yksinkertaisempi vain pakottaa oikeudet ja omistajat jokatap 
+#tarkistuksia yksinkertaisempi vain pakottaa oikeudet ja omistajat jokatap 
 if [ ! -v loose ] ; then
 	init2
 fi
@@ -135,8 +148,8 @@ csleep 5
 #ESIM. PASKOJEN TIKKUJEN KANSSA TULEE TÄYSI SIRKUS 666
 # (JA SITTEN ON NE OIKEUDETKIN MITKÄ VOIVAT OLLA PÄIN VITTUA)
 #LISÄKSI PAKETTIIN VOI TULLA KAIKENLAISTA YLIMÄÄRÄISTÄ PASKAA SOTKEMAAN JOS EI OLE TARKKA
-
 function jules() {
+	#HUOM.21525:tällaisella sisällöllä fktio turhahko koska other_horrors
 	dqb "LE BIG MAC"
 	dqb "V8"
 	csleep 6
@@ -182,7 +195,6 @@ function psqa() {
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
 		[ $? -eq 0 ] || exit 94
-
 		cd ${p}
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
@@ -440,17 +452,6 @@ function e_v() {
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
 
-	dqb "e_e d0n3"
-	csleep 1
-}
-
-function e_v() {
-	dqb "e_v()"
-	csleep 1
-
-	${sco} -R root:root /sbin
-	${scm} -R 0755 /sbin
-
 	${sco} root:root /var
 	${scm} 0755 /var
 	${sco} root:staff /var/local
@@ -500,7 +501,6 @@ function e_final() {
 	local f
 	f=$(date +%F)
 
-
 	#HUOM.15525:interfaces kanssa kikkaiut kuten rules, tartteeko niihin liittyen tehdä tässä jotain?
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
@@ -520,18 +520,19 @@ function e_final() {
 	csleep 1
 }
 
-	dqb "e_final() D0N3"
-	csleep 1
-}
-
-
 function enforce_access() {
 	dqb " enforce_access( ${1})"
 	csleep 1
 	dqb "changing /sbin , /etc and /var 4 real"
+
+#kommentit pois niin alkaisi selvitä missä kohdassa sisältö nollautuu
+#	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less	
+
+	e_e
+#	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
 	
-	e_e	
 	e_v
+#	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
 
 	${scm} 0755 /
 	${sco} root:root /
@@ -542,9 +543,13 @@ function enforce_access() {
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
 	e_h ${1}
+#	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
+
 	e_final
+#	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
 
 	jules
+#	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
 	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
@@ -553,7 +558,6 @@ function part1_5() {
 	if [ z"${pkgsrc}" != "z" ] ; then
 		if [ -d ${PREFIX}/${1} ] ; then
 			if [ ! -s /etc/apt/sources.list.${1} ] ; then
-
 				#HUOM. mitä jos onkin s.list.$1 olemassa mutta s.list pitäisi vaihtaa?
 				
 				local h

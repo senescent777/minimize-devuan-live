@@ -21,68 +21,54 @@ function csleep() {
 mode=${1}
 [ -d ~/Desktop/minimize/${2} ] && distro=${2}
 
-function init2 {
-	local c
-#TODO:jospa vain hakkaisi tässä tuettyjen tdstojen/hmistojen oikeudet kohdalleen ja täts it
+#function init2 {
+#	local c
+##TODO:jospa vain hakkaisi tässä tuettyjen tdstojen/hmistojen oikeudet kohdalleen ja täts it
+#
+#	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
+#	[ ${c} -gt 0 ] && exit 111
+#	c=$(find /etc -name 'iptab*' -type d -not -user 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 112
+#	c=$(find /etc -name 'iptab*' -type d -not -group 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 113
+#	c=$(find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
+#	[ ${c} -gt 0 ] && exit 114
+#	c=$(find /etc -name 'rules.v*' -type f -not -user 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 115
+#	c=$(find /etc -name 'rules.v*' -type f -not -group 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 116
+#	 
+#	c=$(find /etc -name 'sudoers*' -type d -perm /o+w,o+r,o+x | wc -l)
+#	[ ${c} -gt 0 ] && exit 117
+#	c=$(find /etc -name 'sudoers*' -type d -not -user 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 118
+#	c=$(find /etc -name 'sudoers*' -type d -not -group 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 119
+#	c=$(find /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
+#	[ ${c} -gt 0 ] && exit 120
+#	c=$(find /etc/sudoers.d -type f -not -user 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 121
+#	c=$(find /etc/sudoers.d -type f -not -group 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 122
+#}
+#
+#init2
 
-	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
-	[ ${c} -gt 0 ] && exit 111
-	c=$(find /etc -name 'iptab*' -type d -not -user 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 112
-	c=$(find /etc -name 'iptab*' -type d -not -group 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 113
-	c=$(find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
-	[ ${c} -gt 0 ] && exit 114
-	c=$(find /etc -name 'rules.v*' -type f -not -user 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 115
-	c=$(find /etc -name 'rules.v*' -type f -not -group 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 116
-	 
-	c=$(find /etc -name 'sudoers*' -type d -perm /o+w,o+r,o+x | wc -l)
-	[ ${c} -gt 0 ] && exit 117
-	c=$(find /etc -name 'sudoers*' -type d -not -user 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 118
-	c=$(find /etc -name 'sudoers*' -type d -not -group 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 119
-	c=$(find /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
-	[ ${c} -gt 0 ] && exit 120
-	c=$(find /etc/sudoers.d -type f -not -user 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 121
-	c=$(find /etc/sudoers.d -type f -not -group 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 122
+#sleep 5 #VAIH:tästä mallia muihinkin skripteihin
+function p3r1m3tr() {
+	cp /etc/default/rules.* /etc/iptables
+	#[ -s /etc/iptables/rules.v4.] or exit 666
+
+	chmod 0400 /etc/iptables/*
+	chmod 0550 /etc/iptables
+	chown -R root:root /etc/iptables
+	chmod 0400 /etc/default/rules*
+	chown -R root:root /etc/default
+	sleep 5
 }
 
-
-#init2
-#
-#sudo chmod 0755 /etc/iptables
-#sudo chmod 0444 /etc/iptables/*
-#sudo chmod 0444 /etc/default/rules.*
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sleep 5 #TODO:tästä mallia muihinkin skripteihin
-chmod 0400 /etc/iptables/*
-chmod 0550 /etc/iptables
-chown -R root:root /etc/iptables
-chmod 0400 /etc/default/rules*
-chown -R root:root /etc/default
-
-sleep 5
-#		
+p3r1m3tr
+		
 case $# in
 	1)
 		dqb "maybe ok"
@@ -189,32 +175,6 @@ function clouds_pp1() {
 	dqb "#c.pp.1  ( ${1} )"
 	#TODO:linkkiys-tarkistuksia
 
-#
-#sudo chmod 0755 /etc/iptables
-#sudo chmod 0444 /etc/iptables/*
-#sudo chmod 0444 /etc/default/rules.*
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sleep 5
-#sudo chmod 0400 /etc/iptables/*
-#sudo chmod 0400 /etc/default/rules*
-#sudo chmod 0550 /etc/iptables
-#sleep 5
-
 	if [ -s /etc/resolv.conf.1 ] || [ -s /etc/resolv.conf.0 ] ; then 
 		${smr} /etc/resolv.conf
 		[ $? -gt 0 ] && echo "FAILURE TO COMPLY WHILE TRYING TO REMOVE RESOLV.CONF"
@@ -246,32 +206,17 @@ function clouds_pp3() {
 	csleep 1
 	dqb "# c.pp.3 a.k.a RELOADING TBLZ RULEZ ${1}"
 	csleep 1
-
-#sudo chmod 0755 /etc/iptables
-#sudo chmod 0444 /etc/iptables/*
-#sudo chmod 0444 /etc/default/rules.*
 #
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
+#	cp /etc/default/rules.* /etc/iptables
 #
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
+#	chmod 0400 /etc/iptables/*
+#	chmod 0550 /etc/iptables
+#	chown -R root:root /etc/iptables
+#	chmod 0400 /etc/default/rules*
+#	chown -R root:root /etc/default
+#	sleep 5
 
-	cp /etc/default/rules.* /etc/iptables
-
-	chmod 0400 /etc/iptables/*
-	chmod 0550 /etc/iptables
-	chown -R root:root /etc/iptables
-	chmod 0400 /etc/default/rules*
-	chown -R root:root /etc/default
-	sleep 5
+	p3r1m3tr
 
 	#HUOM.160325:lisätty uutena varm. vuoksi
 	${iptr} /etc/iptables/rules.v4.${1}
@@ -286,7 +231,6 @@ function clouds_pp3() {
 	${ipt} -D INPUT 5
 	${ipt} -D OUTPUT 6
 
-
 	csleep 1
 	dqb "...done"
 }
@@ -294,31 +238,6 @@ function clouds_pp3() {
 function clouds_pre() {
 	dqb "cdns.clouds_pre( ${1}, ${2} )"
 	csleep 1
-
-#sudo chmod 0755 /etc/iptables
-#sudo chmod 0444 /etc/iptables/*
-#sudo chmod 0444 /etc/default/rules.*
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sleep 5
-#sudo chmod 0400 /etc/iptables/*
-#sudo chmod 0400 /etc/default/rules*
-#sudo chmod 0550 /etc/iptables
-#sleep 5
 
 	clouds_pp1
 	csleep 1
@@ -335,31 +254,6 @@ function clouds_post() {
 	dqb "sco = ${sco}"
 	csleep 5
 
-#sudo chmod 0755 /etc/iptables
-#sudo chmod 0444 /etc/iptables/*
-#sudo chmod 0444 /etc/default/rules.*
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sleep 5
-#sudo chmod 0400 /etc/iptables/*
-#sudo chmod 0400 /etc/default/rules*
-#sudo chmod 0550 /etc/iptables
-#sleep 5
-
 	${scm} 0444 /etc/resolv.conf*
 	${sco} root:root /etc/resolv.conf*
 
@@ -370,22 +264,18 @@ function clouds_post() {
 	${scm} 0555 /sbin/dhclient*
 	${sco} root:root /sbin/dhclient*
 	${scm} 0755 /sbin
+#
+#	cp /etc/default/rules.* /etc/iptables
+#
+#	chmod 0400 /etc/iptables/*
+#	chmod 0550 /etc/iptables
+#	chown -R root:root /etc/iptables
+#	chmod 0400 /etc/default/rules*
+#	chown -R root:root /etc/default
+#	sleep 5
+	p3r1m3tr	
 
-#	${sco} -R root:root /etc/iptables
-#	${scm} 0400 /etc/iptables/*
-#	${scm} 0550 /etc/iptables
-#	csleep 2
-
-	cp /etc/default/rules.* /etc/iptables
-
-	chmod 0400 /etc/iptables/*
-	chmod 0550 /etc/iptables
-	chown -R root:root /etc/iptables
-	chmod 0400 /etc/default/rules*
-	chown -R root:root /etc/default
-	sleep 5
-
-	#jotenkin näin (find -type f myös keksitty)
+	#jotenkin näin (find -type f myös keksitty, TODO)
 	${sco} -R root:root /etc/network/interfaces*
 	${scm} 0444 /etc/network/interfaces
 	${scm} 0444 /etc/network/interfaces.*
@@ -515,28 +405,3 @@ case ${mode} in
 esac
 
 clouds_post
-#
-#sudo chmod 0755 /etc/iptables
-#sudo chmod 0444 /etc/iptables/*
-#sudo chmod 0444 /etc/default/rules.*
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#sudo cp /etc/default/rules.* /etc/iptables
-#
-#sleep 5
-#sudo chmod 0400 /etc/iptables/*
-#sudo chmod 0400 /etc/default/rules*
-#sudo chmod 0550 /etc/iptables
-#sleep 5

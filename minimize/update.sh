@@ -3,7 +3,9 @@ distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 u=0
 v=0
 
-#TODO:tapaus $dir valmiiksi mountattu, miksi urputtaa? korjaa muutkin kiukutteluT samalla jos mahd (JOKO JO 21525???)
+#TODO:tapaus $dir valmiiksi mountattu, miksi urputtaa?
+# korjaa muutkin kiukutteluT samalla jos mahd (JOKO JO 21525???)
+#... tai siis jos vielä toistuu juuri tuo
 
 if [ z"${distro}" != "z" ] ; then
 	if [ -s ~/Desktop/minimize/${distro}/conf ] ; then
@@ -51,9 +53,10 @@ if [ -f ${tgt} ] ; then
 	#HUOM. pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
 
 	if [ "${confirm}" == "Y" ] ; then
-		${spc} ${tgt} ${tgt}.OLD
+		${spc} ${tgt} ${tgt}.OLD #vaiko mv?
 		sleep 3
 
+		#HUOM.21525:mutenkähän tuo -uv -rv sijaan?
 		for f in $(find ~/Desktop/minimize/ -name 'conf*') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
 		for f in $(find ~/Desktop/minimize/ -name '*.sh') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
 		
@@ -105,3 +108,6 @@ if [ ${u} -eq 1 ] ; then
 	umount ${dir}
 	sleep 5
 fi
+
+#ettei unohtuisi umount
+grep ${dir} /proc/mounts
