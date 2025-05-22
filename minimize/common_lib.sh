@@ -560,6 +560,11 @@ function enforce_access() {
 #VAIH:voisi kai toisellakin tavalla sen sources.list sorkkia, sed edelleen optio pienellä säädöllä
 #"${odio} sed -i 's/DISTRO/daedalus/g' /etc/apt/sources.list.tmp" olisi se mistä lähteä kehittelemään, ohjaus > bash -s
 function part1_5() {
+	local tdmc
+	tdmc="sed -i 's/DISTRO/${distro}/g'"
+	echo "${tdmc} /etc/apt/sources.list.tmp"
+	csleep 10
+
 	if [ z"${pkgsrc}" != "z" ] ; then
 		if [ -d ${PREFIX}/${1} ] ; then
 			if [ ! -s /etc/apt/sources.list.${1} ] ; then
