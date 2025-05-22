@@ -415,8 +415,6 @@ function tp2() {
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
 
-	#VAIH:OLISI HYVÄKSI KARSIA NOITA /etc/xxx.päiväys - TYYPPISIÄ TIEDOSTOJA PAKETISTA
-
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
 	csleep 6

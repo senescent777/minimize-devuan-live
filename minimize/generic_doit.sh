@@ -64,7 +64,9 @@ csleep 3
 #jotain perusteellisempia testejä chimaeran kanssa sitten mikäli jksaa sitä kirjautumisongelmaa (josko selvittelisi korjaamista?)
 #===================================================PART 2===================================
 
-#HUOM. välillä mode=0 - testi 
+#HUOM. välillä mode=0 - testi
+#TODO:vaikka samassa yhteydessä katsoisi mitä pulseaudi on syönyt, ennen pt2 tekemää poistoa siis
+#jos tästä hyötyä: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 3
