@@ -217,7 +217,12 @@ function tpq() {
 	dqb "paramz 0k"
 	csleep 1
 
-	${srat} -cf ${1}/config.tar ${1}/../../.config/xfce4/xfconf/xfce-perchannel-xml ${1}/../../.config/pulse /etc/pulse
+	#VAIH:suhteelliset polut Vittuun, cut $1
+	#tämä syystä: -C / tdstossa generic_doit
+
+	local t
+	t=$(echo ${1}  | cut -d '/' -f 1,2,3)
+	${srat} -cf ${1}/config.tar ${t}/.config/xfce4/xfconf/xfce-perchannel-xml ${t}/.config/pulse /etc/pulse
 	csleep 2
 
 	if [ -x ${1}/profs.sh ] ; then
@@ -265,6 +270,7 @@ function tp1() {
 	csleep 3
 }
 
+#HUOM.22525:pitäisiköhän reagoida: hak $2 ei sisällä .deb ?
 function rmt() {
 	#debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
@@ -277,6 +283,10 @@ function rmt() {
 
 	dqb "paramz_ok"
 	csleep 3
+
+	local c
+	c=$(find ${2} -type f -name '*.deb' | wc -l)
+	[ ${c} -lt 1 ] && echo "TH3R3 1S N0 F15H";exit 55
 
 	${scm} 0444 ${2}/*.deb
 	p=$(pwd)
@@ -392,7 +402,8 @@ function tp4() {
 		pwd
 		csleep 1
 
-		${NKVD} *.deb	#pitäisikö tässä olla se polku ukana?
+		${NKVD} ${2}/*.deb	#pitäisikö tässä olla se polku ukana?
+		csleep 1		
 		${svm} ${pkgdir}/*.deb ${2}
 		rmt ${1} ${2}
 	fi
@@ -656,6 +667,7 @@ case ${mode} in
 		[ ${mode} -eq 0 ] && tp4 ${d}/e.tar ${d}
 		${sifd} ${iface}
 
+		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä
 		tp1 ${tgtfile} ${d}
 		pre1 ${d}
 		tp2 ${tgtfile}

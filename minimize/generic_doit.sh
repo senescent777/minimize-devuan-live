@@ -41,6 +41,7 @@ part076
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
+	#HUOM.22525:tap mode=0 pitäisi kutsua check_binaries ja sitä kautta pakottaa tablesin asennus... puuttuuko .deb?
 else
 	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING"
 	exit 111
@@ -64,7 +65,7 @@ csleep 3
 #jotain perusteellisempia testejä chimaeran kanssa sitten mikäli jksaa sitä kirjautumisongelmaa (josko selvittelisi korjaamista?)
 #===================================================PART 2===================================
 
-#HUOM. välillä mode=0 - testi
+#HUOM. välillä mode=0 - testi (22525 viimeksi)
 
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 function el_loco() {
@@ -112,9 +113,6 @@ function el_loco() {
 #		csleep 3
 	fi
 
-	${odio} locale-gen
-
-	#joskohan tarkistus pois jatkossa?
 	if [ ${1} -gt 0 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
 		#client-side session_expiration_checks can be a PITA
 		${odio} dpkg-reconfigure locales
@@ -124,10 +122,12 @@ function el_loco() {
 
 		#ei vissiin Devuanissa tämmöistä: https://www.tecmint.com/set-time-timezone-and-synchronize-time-using-timedatectl-command/
 		#https://pkginfo.devuan.org/cgi-bin/policy-query.html?c=package&q=timedatectl&x=submit
+	else
+		${odio} locale-gen #oli aiemmin ennen if-blokkia
 	fi
 
 	#joskohan kutsuvassa koodissa -v - tark riittäisi toistaiseksi
-	if [ ${2} -lt 1 ]; then
+	if [ ${2} -lt 1 ] && [ ${debug} -eq 1 ] ; then
 		ls -las /etc/default/lo*
 		csleep 3
 	fi
@@ -188,7 +188,7 @@ other_horrors
 [ -s ~/Desktop/minimize/config.tar ] && ${srat} -C / -xf ~/Desktop/minimize/config.tar
 csleep 5
 
-#tai sitten käskytetään:import2
+#tai sitten käskytetään:import2 (TODO?)
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	. ~/Desktop/minimize/profs.sh
 

@@ -5,7 +5,7 @@ v=0
 PREFIX=~/Desktop/minimize
 
 #tapaus $dir valmiiksi mountattu, miksi urputtaa?
-# korjaa muutkin kiukutteluT samalla jos mahd (JOKO JO 21525???)
+# korjaa muutkin kiukutteluT samalla jos mahd 
 #... tai siis jos vielä toistuu juuri tuo
 
 if [ z"${distro}" != "z" ] ; then
@@ -61,14 +61,18 @@ if [ -f ${tgt} ] ; then
 		${spc} ${tgt} ${tgt}.OLD #vaiko mv?
 		sleep 3
 
-		#HUOM.21525:mutenkähän tuo -uv -rv sijaan?
+		#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
 		for f in $(find ${PREFIX}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
 		for f in $(find ${PREFIX}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
 	
 		#tai yksinkertaisemmin kaikki .tar vain mukaan ${PREFIX} alta		
-		process_entry ${tgt} ${PREFIX}/fediverse.tar 
-		process_entry ${tgt} ${PREFIX}/config.tar
-
+		#process_entry ${tgt} ${PREFIX}/fediverse.tar 
+		#process_entry ${tgt} ${PREFIX}/config.tar
+		
+		#VAIH:varm. vuoksi rajaus että alihakemistoista ei katsota, jos keksii miten
+		#...pitäisi myös varmistaa että menevät kalat oikeaan kohteeseen hmistopolussa
+		for f in $(find ${PREFIX}/ -maxdepth 1 -type f -name '*.tar') ; do process_entry ${tgt} ${f} ; done
+	
 		#tavoitteena locale-juttujen lisäksi localtime mukaan
 		for f in $(find /etc -type f -name 'locale*') ; do
 			if [ -s ${f} ] && [ -r ${f} ] ; then
@@ -80,8 +84,7 @@ if [ -f ${tgt} ] ; then
 		process_entry ${tgt} /etc/timezone
 		process_entry ${tgt} /etc/localtime
 
-		#VAIH: b) firefoxin käännösasetukset, missä? 
-		#a) josko ~/.config/pulse , /etc/pulse (menee export2 kautta)
+		#firefoxin käännösasetukset pikemminkin export2:n hommia 
 
 		${scm} 0755 /etc/iptables
 		${scm} 0444 /etc/iptables/*

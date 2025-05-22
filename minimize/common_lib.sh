@@ -120,7 +120,7 @@ function fix_sudo() {
 
 function other_horrors() {	
 	dqb "other_horrors()"
-	${spc} /etc/default/rules.* /etc/iptables
+	${spc} /etc/default/rules.* /etc/iptables #jatkossa ehdollinen nkopsaus?
 	echo $?	
 
 	${scm} 0400 /etc/iptables/*
@@ -156,10 +156,14 @@ function jules() {
 	dqb "V8"
 	csleep 4
 
-	cp /etc/default/rules.* /etc/iptables
 	#HUOM.linkityksen purku vaatisi kai w-oikeudet hmistoon
+	${scm} 0755 /etc/iptables
+	csleep 5
+
+	cp /etc/default/rules.* /etc/iptables #jatkoss ehdollinen kopsaus?
 	[ -h /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
 	[ -L /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6 #mikä ero, L vs h ?
+	csleep 5
 
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables

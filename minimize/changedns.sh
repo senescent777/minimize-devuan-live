@@ -52,7 +52,6 @@ mode=${1}
 #
 #init2
 
-
 function p3r1m3tr() {
 	cp /etc/default/rules.* /etc/iptables
 	#[ -s /etc/iptables/rules.v4.] or exit 666

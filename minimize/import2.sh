@@ -55,6 +55,8 @@ function usage() {
 	echo "${0} [mode] [tgtfile] <distro> <debug> "
 }
 
+dqb "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
+
 if [ -x ${PREFIX}/common_lib.sh ] ; then
 	. ${PREFIX}/common_lib.sh
 else
@@ -164,7 +166,7 @@ function common_part() {
 	fi
 
 	csleep 5
-	${srat} -xf ${1}
+	${srat} -C / -xf ${1} #HUOM.22525:uutena -C
 	csleep 2
 	dqb "tar DONE"
 
@@ -193,6 +195,9 @@ function common_part() {
 
 case "${mode}" in
 	-1) #jatkossa jokim fiksumpi kuin -1
+		#TODO:jatkossa tämä skripti olisi hyvä ptstyä ajamaan myös silloinq iptables tai kys softan sis paketit puuttuvat (esmes paskat muistitikut niinqu)
+		#liittyen:common_lib x-oik poisto tai uudelleennimeäminen ja sitten jotain
+		
 		part=/dev/disk/by-uuid/${part0}		
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 
@@ -258,6 +263,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
+		#TODO:testaa uudemman kerran, polut tar:in sisällä saattavat olla P.V.H.H.
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 2
