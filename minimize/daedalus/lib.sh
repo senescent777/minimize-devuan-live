@@ -13,7 +13,10 @@ function pre_part3() {
 	dqb "pp3.2"
 	csleep 1
 
-	psqa ${1}
+	ls -las ${1}/ip*.deb | wc -l
+	csleep 3
+
+	psqa ${1} #HUOM.22525:varm. vuoksi pp3 kutsuvaan koodiin tämä?
 	#HUOM.140525:toiminee jo jollain lailla, "no" siihen kysymykseen olisi kuitenkin kiva saada välitettyä dpkg:lle asti
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
@@ -40,6 +43,7 @@ function pr4() {
 	dqb "pr4( ${1} , ${2} )"
 	csleep 3
 
+	#TODO:tähänkin psqa?
 	${odio} dpkg -i ${1}/libpam-modules-bin_*.deb
 	${odio} dpkg -i ${1}/libpam-modules_*.deb
 
@@ -66,7 +70,7 @@ function pr4() {
 	${NKVD} ${1}/liberror-perl*.deb
 	csleep 1
 
-#TODO:libdevmappwr-juttuja?
+	#TODO:libdevmappwr-juttuja?
 
 	${NKVD} ${1}/libpam*
 	${NKVD} ${1}/libperl*
