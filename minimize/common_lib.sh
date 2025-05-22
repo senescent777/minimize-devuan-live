@@ -510,6 +510,7 @@ function e_final() {
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
 	#HUOM.120525:näitäkin voi kasautua liikaa?
+	#HUOM.22525:pitäisiköjän olla: a) spc -> svm b) linkitys ?
 	[ -f /etc/network/interfaces.${f} ] || ${spc} /etc/network/interfaces /etc/network/interfaces.${f}
 
 	if [ -h /etc/resolv.conf ] ; then

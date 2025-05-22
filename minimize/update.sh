@@ -61,16 +61,24 @@ if [ -f ${tgt} ] ; then
 		sleep 3
 
 		#HUOM.21525:mutenkähän tuo -uv -rv sijaan?
-		for f in $(find ~/Desktop/minimize/ -name 'conf*') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
-		for f in $(find ~/Desktop/minimize/ -name '*.sh') ; do ${tcmd} -f ${tgt} -rv ${f} ; done
-		${tcmd} -f ${tgt} -rv ~/Desktop/minimize/fediverse.tar ~/Desktop/minimize/xfce.tar
+		for f in $(find ~/Desktop/minimize/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
+		for f in $(find ~/Desktop/minimize/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
+	
+		#tai yksnkertaisemmen kaikki .tar vain mukaan PREFIX alta		
+		process_entry ${tgt} ~/Desktop/minimize/fediverse.tar 
+		process_entry ${tgt} ~/Desktop/minimize/xfce.tar
 
-		for f in $(find /etc -name 'locale*') ; do
+		#tavoitteena locale-juttujen lisäksi localtime mukaan
+		for f in $(find /etc -type f -name 'locale*') ; do
 			if [ -s ${f} ] && [ -r ${f} ] ; then
-				${tcmd} -f ${tgt} -rv ${f}
+				process_entry ${tgt} ${f}
 			fi
 		done
 
+		#tuossa yllä find ilman type-rajoitusta vetäisi ylimääräisiä mukaan, toisaalta /e/localtime on linkki
+		process_entry ${tgt} /etc/timezone
+		process_entry ${tgt} /etc/localtime
+		
 		#HUOM.oikeuksien pakottaminen mukaan tai if -r loopin sisälle , sama export2 kanssa (VAIH)
 		${scm} 0755 /etc/iptables
 		${scm} 0444 /etc/iptables/*
@@ -79,7 +87,7 @@ if [ -f ${tgt} ] ; then
 				
 		for f in $(find /etc -name 'rules*') ; do
 			if [ -s ${f} ] && [ -r ${f} ] ; then
-				${tcmd} -f ${tgt} -rv ${f}
+				process_entry ${tgt} ${f}
 			fi
 		done #JOSKO NYT SKEOILU VÄHENISI PRKL
 
@@ -89,7 +97,6 @@ if [ -f ${tgt} ] ; then
 		${scm} 0550 /etc/iptables
 		sleep 5
 
-		${tcmd} -f ${tgt} -rv /etc/timezone #tarttisiko jotain muutakin lisätä tssä?
 		sleep 3
 
 		#HUOM.saattaa urputtaa $tgt polusta riippuen
