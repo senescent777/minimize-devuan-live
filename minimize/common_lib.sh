@@ -553,7 +553,8 @@ function enforce_access() {
 	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
-#TODO:voisi kai toisellakin tavalla sen sources.list sorkkia, sed edelleen optio pienellä säädöllä
+#VAIH:voisi kai toisellakin tavalla sen sources.list sorkkia, sed edelleen optio pienellä säädöllä
+#"${odio} sed -i 's/DISTRO/daedalus/g' /etc/apt/sources.list.tmp" olisi se mistä lähteä kehittelemään, ohjaus > bash -s
 function part1_5() {
 	if [ z"${pkgsrc}" != "z" ] ; then
 		if [ -d ${PREFIX}/${1} ] ; then
