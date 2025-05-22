@@ -439,20 +439,16 @@ function tp2() {
 	dqb "JUST BEFORE LOCALES"
 	sleep 1
 
-	${srat} -rvf ${1} /etc/timezone 
-	for f in $(find /etc -type f -name 'locale*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
+	${srat} -rvf ${1} /etc/timezone /etc/localtime 
+	#HUOM.22525:tuossa alla locale->local niin saisi localtime:n mukaan mutta -type f
+	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 
 	echo $?
 	sleep 5
 
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local | less
 	csleep 5
-
-	#other_horrors
-	${scm} -R 0400 /etc/iptables/*
-	${scm} 0400 /etc/default/rules*
-	${scm} 0550 /etc/iptables
-	csleep 6
+	other_horrors
 
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		echo "/E/IPTABLES sdhgfsdhgf"
@@ -486,6 +482,7 @@ function tp2() {
 	csleep 5
 }
 
+#TODO:pavucontrol-asetukset jossain kohtaa talteen?
 function tp3() {
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
