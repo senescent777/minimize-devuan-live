@@ -565,6 +565,8 @@ function part1_5() {
 	echo "${tdmc} /etc/apt/sources.list.tmp"
 	csleep 10
 
+	#echo "sed -i 's/q_${d}/${v}/g' ${1}/1/init-user-db.sql.tmp" >> ${2}
+
 	if [ z"${pkgsrc}" != "z" ] ; then
 		if [ -d ${PREFIX}/${1} ] ; then
 			if [ ! -s /etc/apt/sources.list.${1} ] ; then
