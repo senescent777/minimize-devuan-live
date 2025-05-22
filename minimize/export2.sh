@@ -210,14 +210,14 @@ function pre2() {
 	sleep 4
 }
 
-#TODO:jatkossa mukaan: ~/.config/pulse , /etc/pulse ?
+#VAIH:jatkossa mukaan: ~/.config/pulse , /etc/pulse (jälkimmäinen jatkossa toisella tavalla)
 function tpq() {
 	dqb "tpq ${1} ${2}"
 	[ -d ${1} ] || exit 22
 	dqb "paramz 0k"
 	csleep 1
 
-	${srat} -cf ${1}/xfce.tar ${1}/../../.config/xfce4/xfconf/xfce-perchannel-xml
+	${srat} -cf ${1}/config.tar ${1}/../../.config/xfce4/xfconf/xfce-perchannel-xml ${1}/../../.config/pulse /etc/pulse
 	csleep 2
 
 	if [ -x ${1}/profs.sh ] ; then
@@ -681,7 +681,7 @@ case ${mode} in
 		${sifd} ${iface}
 
 		tpq ${PREFIX}
-		${srat} -cf ${tgtfile} ${PREFIX}/xfce.tar ${PREFIX}/fediverse.tar
+		${srat} -cf ${tgtfile} ${PREFIX}/config.tar ${PREFIX}/fediverse.tar
 	;;
 	-h)
 		usage

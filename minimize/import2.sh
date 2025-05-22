@@ -135,7 +135,7 @@ fi
 dqb "b3f0r3 par51ng tha param5"
 csleep 5
 
-#TODO:a) pavucontrol-asetukset, missä? (1 arvaus olisi jo)
+#VAIH:a) pavucontrol-asetukset, missä? (1 arvaus olisi jo)
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
 
 #glorified "tar -x" this function is - Yoda

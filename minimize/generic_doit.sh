@@ -185,14 +185,14 @@ message
 part3 ${d} ${dnsm}
 other_horrors
 
-[ -s ~/Desktop/minimize/xfce.tar ] && ${srat} -C / -xf ~/Desktop/minimize/xfce.tar
+[ -s ~/Desktop/minimize/config.tar ] && ${srat} -C / -xf ~/Desktop/minimize/config.tar
 csleep 5
 
 #tai sitten käskytetään:import2
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	. ~/Desktop/minimize/profs.sh
 
-	#HUOM.21525:miksi caten ilm suoraan /tmp alle firefox-esr? tarttisko tehdä jotain?
+	#HUOM.21525:miksi varten ilm suoraan /tmp alle firefox-esr? tarttisko tehdä jotain?
 	q=$(mktemp -d)
 	dqb "${srat} -C ${q} ... 1n 3 s3c5s"
 	csleep 3

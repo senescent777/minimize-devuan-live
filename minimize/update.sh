@@ -64,9 +64,9 @@ if [ -f ${tgt} ] ; then
 		for f in $(find ~/Desktop/minimize/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
 		for f in $(find ~/Desktop/minimize/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
 	
-		#tai yksnkertaisemmin kaikki .tar vain mukaan PREFIX alta		
+		#tai yksinkertaisemmin kaikki .tar vain mukaan PREFIX alta		
 		process_entry ${tgt} ~/Desktop/minimize/fediverse.tar 
-		process_entry ${tgt} ~/Desktop/minimize/xfce.tar
+		process_entry ${tgt} ~/Desktop/minimize/config.tar
 
 		#tavoitteena locale-juttujen lisäksi localtime mukaan
 		for f in $(find /etc -type f -name 'locale*') ; do
