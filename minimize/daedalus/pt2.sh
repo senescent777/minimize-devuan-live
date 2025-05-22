@@ -84,6 +84,7 @@ ${sharpy} netcat-traditional openssh* os-prober #orca saattaa poistua jo aiemmin
 ${sharpy} nfs-common rpcbind
 ${sharpy} ppp procmail ristretto screen
 ${sharpy} pkexec po* refracta* squashfs-tools
+${sharpy} pavucontrol #HUOM.22525:näyttäisi poistuvan ilman katastrofia, pieni nalkutus kyllä tulee mutta ei välttämättä juuri tuosta paketista
 
 ${asy} 
 ${lftr}
