@@ -376,7 +376,11 @@ function clouds_case1() {
 
 #====================================================================
 clouds_pre ${mode}
+
+#HUOM.22525:linkittyykö resolv.conf tässä vai ei?
 [ -f /etc/resolv.conf.${mode} ] && ${slinky} /etc/resolv.conf.${mode} /etc/resolv.conf
+[ ${debug} -eq 1 ] && ls -las /etc/resolv*;sleep 6
+
 [ -f /etc/dhcp/dhclient.conf.${mode} ] && ${slinky} /etc/dhcp/dhclient.conf.${mode} /etc/dhcp/dhclient.conf
 [ -f /sbin/dhclient-script.${mode} ] && ${spc} /sbin/dhclient-script.${mode} /sbin/dhclient-script
 

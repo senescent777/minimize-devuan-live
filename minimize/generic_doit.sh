@@ -65,8 +65,8 @@ csleep 3
 #===================================================PART 2===================================
 
 #HUOM. välillä mode=0 - testi
-#TODO:vaikka samassa yhteydessä katsoisi mitä pulseaudi on syönyt, ennen pt2 tekemää poistoa siis
-#jos tästä hyötyä: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
+
+#jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 3
@@ -181,14 +181,14 @@ part2_pre ${removepkgs}
 part2_5 ${removepkgs}
 
 #===================================================PART 3===========================================================
-message #voi muuttua turhaksi jatkossa
+message
 part3 ${d} ${dnsm}
-other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
+other_horrors
 
 [ -s ~/Desktop/minimize/xfce.tar ] && ${srat} -C / -xf ~/Desktop/minimize/xfce.tar
 csleep 5
 
-#tai sitten käskytetään:import2 (jatkossa -> part3_post ?)
+#tai sitten käskytetään:import2
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	. ~/Desktop/minimize/profs.sh
 

@@ -210,6 +210,7 @@ function pre2() {
 	sleep 4
 }
 
+#TODO:jatkossa mukaan: ~/.config/pulse , /etc/pulse ?
 function tpq() {
 	dqb "tpq ${1} ${2}"
 	[ -d ${1} ] || exit 22
@@ -480,7 +481,7 @@ function tp2() {
 	csleep 5
 }
 
-#TODO:a) pavucontrol-asetukset, missä? b) firefoxin käännösasetukset, missä? 
+#TODO: b) firefoxin käännösasetukset, missä? 
 function tp3() {
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"

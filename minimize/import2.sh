@@ -135,7 +135,9 @@ fi
 dqb "b3f0r3 par51ng tha param5"
 csleep 5
 
-#TODO:a) pavucontrol-asetukset, missä? b) firefoxin käännösasetukset, missä? 
+#TODO:a) pavucontrol-asetukset, missä? (1 arvaus olisi jo)
+#b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
+
 #glorified "tar -x" this function is - Yoda
 function common_part() {
 	debug=1
@@ -149,15 +151,14 @@ function common_part() {
 	dqb "paramz_0k"
 
 	cd /
-	#VAIH:sha-tarkistus toimimaan, polun kanssa on juttuja
 	dqb "DEBUG:${srat} -xf ${1} "
 	csleep 2
 	
-	if [ -s ${1}.sha ] ; then #mennäänkö tähän?
+	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
 		cat ${1}.sha
 		${sah6} ${1}
-		csleep 10
+		#csleep 10
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi

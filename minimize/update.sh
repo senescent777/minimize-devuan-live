@@ -3,7 +3,7 @@ distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 u=0
 v=0
 
-#TODO:tapaus $dir valmiiksi mountattu, miksi urputtaa?
+#tapaus $dir valmiiksi mountattu, miksi urputtaa?
 # korjaa muutkin kiukutteluT samalla jos mahd (JOKO JO 21525???)
 #... tai siis jos vielä toistuu juuri tuo
 
@@ -64,7 +64,7 @@ if [ -f ${tgt} ] ; then
 		for f in $(find ~/Desktop/minimize/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
 		for f in $(find ~/Desktop/minimize/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
 	
-		#tai yksnkertaisemmen kaikki .tar vain mukaan PREFIX alta		
+		#tai yksnkertaisemmin kaikki .tar vain mukaan PREFIX alta		
 		process_entry ${tgt} ~/Desktop/minimize/fediverse.tar 
 		process_entry ${tgt} ~/Desktop/minimize/xfce.tar
 
@@ -79,7 +79,8 @@ if [ -f ${tgt} ] ; then
 		process_entry ${tgt} /etc/timezone
 		process_entry ${tgt} /etc/localtime
 
-		#TODO:a) pavucontrol-asetukset, missä? b) firefoxin käännösasetukset, missä? 
+		#VAIH:a) pavucontrol-asetukset, missä? b) firefoxin käännösasetukset, missä? 
+		#a) josko ~/.config/pulse , /etc/pulse 
 
 		${scm} 0755 /etc/iptables
 		${scm} 0444 /etc/iptables/*
