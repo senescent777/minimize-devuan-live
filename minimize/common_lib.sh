@@ -247,11 +247,13 @@ function check_binaries() {
 		fi
 
 		#HUOM.21525:olisikohan niin simppeli juttu että dpkg seuraa linkkiä ja nollaa tdston mihin linkki osoittaa?
-		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
-		csleep 3
+		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 6
+		#csleep 3
+
 		pre_part3 ${PREFIX}/${1} ${dnsm}
 		pr4 ${PREFIX}/${1} ${dnsm}
-		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
+
+		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 6
 		other_horrors
 
 		ipt=$(${odio} which iptables)
@@ -547,7 +549,7 @@ function enforce_access() {
 	e_final
 
 	jules
-	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
+	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 6
 	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
