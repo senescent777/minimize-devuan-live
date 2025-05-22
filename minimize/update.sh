@@ -75,7 +75,7 @@ if [ -f ${tgt} ] ; then
 			fi
 		done
 
-		#tuossa yllä find ilman type-rajoitusta vetäisi ylimääräisiä mukaan, toisaalta /e/localtime on linkki
+		#tuossa yllä find ilman tiukempaa name-rajausta vetäisi ylimääräisiä mukaan, toisaalta /e/localtime on linkki
 		process_entry ${tgt} /etc/timezone
 		process_entry ${tgt} /etc/localtime
 		
