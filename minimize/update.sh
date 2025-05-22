@@ -2,14 +2,15 @@
 distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 u=0
 v=0
+PREFIX=~/Desktop/minimize
 
 #tapaus $dir valmiiksi mountattu, miksi urputtaa?
 # korjaa muutkin kiukutteluT samalla jos mahd (JOKO JO 21525???)
 #... tai siis jos vielä toistuu juuri tuo
 
 if [ z"${distro}" != "z" ] ; then
-	if [ -s ~/Desktop/minimize/${distro}/conf ] ; then
-		. ~/Desktop/minimize/${distro}/conf
+	if [ -s ${PREFIX}/${distro}/conf ] ; then
+		. ${PREFIX}/${distro}/conf
 		echo "CNF F0UND"; sleep 1
 
 		if  [ -v dir ] && [ -d ${dir} ] ; then
@@ -61,12 +62,12 @@ if [ -f ${tgt} ] ; then
 		sleep 3
 
 		#HUOM.21525:mutenkähän tuo -uv -rv sijaan?
-		for f in $(find ~/Desktop/minimize/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
-		for f in $(find ~/Desktop/minimize/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
+		for f in $(find ${PREFIX}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
+		for f in $(find ${PREFIX}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
 	
-		#tai yksinkertaisemmin kaikki .tar vain mukaan PREFIX alta		
-		process_entry ${tgt} ~/Desktop/minimize/fediverse.tar 
-		process_entry ${tgt} ~/Desktop/minimize/config.tar
+		#tai yksinkertaisemmin kaikki .tar vain mukaan ${PREFIX} alta		
+		process_entry ${tgt} ${PREFIX}/fediverse.tar 
+		process_entry ${tgt} ${PREFIX}/config.tar
 
 		#tavoitteena locale-juttujen lisäksi localtime mukaan
 		for f in $(find /etc -type f -name 'locale*') ; do
@@ -79,8 +80,8 @@ if [ -f ${tgt} ] ; then
 		process_entry ${tgt} /etc/timezone
 		process_entry ${tgt} /etc/localtime
 
-		#VAIH:a) pavucontrol-asetukset, missä? b) firefoxin käännösasetukset, missä? 
-		#a) josko ~/.config/pulse , /etc/pulse 
+		#VAIH: b) firefoxin käännösasetukset, missä? 
+		#a) josko ~/.config/pulse , /etc/pulse (menee export2 kautta)
 
 		${scm} 0755 /etc/iptables
 		${scm} 0444 /etc/iptables/*
