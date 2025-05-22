@@ -482,7 +482,7 @@ function tp2() {
 	csleep 5
 }
 
-#TODO:pavucontrol-asetukset jossain kohtaa talteen?
+#TODO:a) pavucontrol-asetukset, missä? b) firefoxin käännösasetukset, missä? 
 function tp3() {
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"

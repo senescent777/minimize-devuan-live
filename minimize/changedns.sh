@@ -171,7 +171,6 @@ function ns4() {
 
 function clouds_pp1() {
 	dqb "#c.pp.1  ( ${1} )"
-	#VAIH:linkkiys-tarkistuksia (tarkista linkittääkö dhclient.conf takaisinpäin)
 	local f
 
 	for f in /etc/resolv.conf /etc/dhcp/dhclient.conf ; do
@@ -181,21 +180,11 @@ function clouds_pp1() {
 				[ $? -gt 0 ] && dqb "FAILURE TO COMPLY WHILE TRYING TO REMOVE ${f}"
 			fi
 		else
-			dqb "NO A SHARk... link: ${f}"
+			dqb "NOt A SHARk... link: ${f}"
 			${svm} ${f} ${f}.OLD
 		fi
 	done
 
-#	if [ -s /etc/resolv.conf.1 ] || [ -s /etc/resolv.conf.0 ] ; then 
-#		${smr} /etc/resolv.conf
-#		[ $? -gt 0 ] && echo "FAILURE TO COMPLY WHILE TRYING TO REMOVE RESOLV.CONF"
-#	fi
-#
-#	if [ -s /etc/dhcp/dhclient.conf.1 ] || [ -s /etc/dhcp/dhclient.conf.0 ] ; then 
-#		${smr} /etc/dhcp/dhclient.conf
-#		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHILÖE TRYING TO REMOVE DHCLIENT.CONF"
-#	fi
-#
 	#HUOM.17525:mikähän tätäkin tdstoa vaivaa? varmaan pp2 pykiminen sotkenut
 	if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 	
 		${smr} /sbin/dhclient-script
@@ -242,7 +231,7 @@ function clouds_pre() {
 
 	clouds_pp1
 	csleep 1
-	#clouds_pp2 ${1} #tätäkö ei kutsuta? ja silti menee rules votuiksi?
+	#clouds_pp2 ${1} #vissiin common_lib.change_bin1:stä löytyy syy miksi rules.v$x.$y tyhjenee
 	clouds_pp3 ${1}
 	csleep 1
 
@@ -259,19 +248,19 @@ function clouds_post() {
 
 	for f in $(find /etc -type f -name 'resolv.conf*') ; do
 		${scm} 0444 ${f}
-		${sco} root:root  ${f}
+		${sco} root:root ${f}
 	done
 	
 	for f in $(find /etc -type f -name 'dhclient*') ; do
 		${scm} 0444 ${f}
-		${sco} root:root  ${f}
+		${sco} root:root ${f}
 	done
 
 	${scm} 0755 /etc/dhcp
 
 	for f in $(find /sbin -type f -name 'dhclient*') ; do
 		${scm} 0555 ${f}
-		${sco} root:root  ${f}
+		${sco} root:root ${f}
 	done
 
 	${scm} 0755 /sbin
@@ -279,7 +268,7 @@ function clouds_post() {
 	
 	for f in $(find /etc/network -type f -name 'interface*') ; do
 		${scm} 0444 ${f}
-		${sco} root:root  ${f}
+		${sco} root:root ${f}
 	done
 
 	csleep 2

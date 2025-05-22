@@ -135,6 +135,7 @@ fi
 dqb "b3f0r3 par51ng tha param5"
 csleep 5
 
+#TODO:a) pavucontrol-asetukset, missä? b) firefoxin käännösasetukset, missä? 
 #glorified "tar -x" this function is - Yoda
 function common_part() {
 	debug=1

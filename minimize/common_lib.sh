@@ -37,7 +37,7 @@ function init() {
 
 init
 
-#VAIH:paremmin toimiva tarkistus,0750 voisi mennä läpi kun taviksena ajellaamn
+#HUOM.22525:josko nyt 0750 voisi mennä läpi kun taviksena ajellaan
 #https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
 #https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
 #jos nyt olisi tarpeeksi jyrkkää
@@ -532,14 +532,8 @@ function enforce_access() {
 	csleep 1
 	dqb "changing /sbin , /etc and /var 4 real"
 
-	#kommentit pois niin alkaisi selvitä missä kohdassa sisältö nollautuu
-	#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less	
-
 	e_e
-	#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
-	
 	e_v
-	#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
 
 	${scm} 0755 /
 	${sco} root:root /
@@ -550,10 +544,7 @@ function enforce_access() {
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
 	e_h ${1}
-	#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
-
 	e_final
-	#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
 
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables | less
@@ -639,7 +630,7 @@ function part1() {
 		fi
 	fi
 
-	#TODO:nyt varmaankin joutuu linkitysjutut kopsailemaan muuallekin
+	#nyt varmaankin joutuu linkitysjutut kopsailemaan muuallekin vai joutuuko?
 	part1_5 ${1}
 
 	if [ ! -f /etc/apt/sources.list ] ; then

@@ -89,26 +89,25 @@ function el_loco() {
 
 		cat /etc/timezone
 		csleep 3
-
 		${scm} a-w /etc/default/locale
 
-		#kuuluuko debian-johdannaisilla kalustoon tämä? pitäisikö luoda ensin?
-		#... systemd-maailman juttuja?		
-		echo " stuff > /etc/locale.conf"
-
-		if [ ! -s  /etc/locale.conf ] ; then
-			${odio} touch /etc/locale.conf
-		fi
-
-		${scm} a+w /etc/locale.conf
-		csleep 3
-		
-		grep LC_TIME /etc/default/locale >> /etc/locale.conf
-
-		csleep 3
-		${scm} a-w /etc/locale.conf
-		cat /etc/locale.conf
-		csleep 3
+#		#kuuluuko debian-johdannaisilla kalustoon tämä? pitäisikö luoda ensin?
+#		#... systemd-maailman juttuja?		
+#		echo " stuff > /etc/locale.conf"
+#
+#		if [ ! -s  /etc/locale.conf ] ; then
+#			${odio} touch /etc/locale.conf
+#		fi
+#
+#		${scm} a+w /etc/locale.conf
+#		csleep 3
+#		
+#		grep LC_TIME /etc/default/locale >> /etc/locale.conf
+#
+#		csleep 3
+#		${scm} a-w /etc/locale.conf
+#		cat /etc/locale.conf
+#		csleep 3
 	fi
 
 	${odio} locale-gen
@@ -118,20 +117,11 @@ function el_loco() {
 		#client-side session_expiration_checks can be a PITA
 		${odio} dpkg-reconfigure locales
 		
-		#suattaapi olla olematta tuo --oprio tuolla koennolla tuatanoinnii vuan mitenkä ympäristömuuttuja vaikuttaa?
-		#ekalla yrityksellä ei toivottua lopputulosta myöskään pelkällä ympäristömjalla vaikka ncurses-vaihe ohitettiinkin		
 		#https://tecadmin.net/change-timezone-on-debian/ miten tuo method 2?
-
 		${odio} dpkg-reconfigure tzdata
 
 		#ei vissiin Devuanissa tämmöistä: https://www.tecmint.com/set-time-timezone-and-synchronize-time-using-timedatectl-command/
 		#https://pkginfo.devuan.org/cgi-bin/policy-query.html?c=package&q=timedatectl&x=submit
-
-		# cat /etc/timezone 
-		#Europe/Helsinki
-
-		#ls -las /etc/local*
-		#0 lrwxrwxrwx 1 root root   35 May 21 22:36 /etc/localtime -> /usr/share/zoneinfo/Europe/Helsinki
 	fi
 
 	#joskohan kutsuvassa koodissa -v - tark riittäisi toistaiseksi
@@ -193,7 +183,6 @@ message #voi muuttua turhaksi jatkossa
 part3 ${d} ${dnsm}
 other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 
-#HUOM.22525:jos pavucontrol:in asetukset saisi talteen ni sen voisi jopa jättää poistamatta
 [ -s ~/Desktop/minimize/xfce.tar ] && ${srat} -C / -xf ~/Desktop/minimize/xfce.tar
 csleep 5
 

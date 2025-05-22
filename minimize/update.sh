@@ -78,8 +78,9 @@ if [ -f ${tgt} ] ; then
 		#tuossa yllä find ilman tiukempaa name-rajausta vetäisi ylimääräisiä mukaan, toisaalta /e/localtime on linkki
 		process_entry ${tgt} /etc/timezone
 		process_entry ${tgt} /etc/localtime
-		
-		#HUOM.oikeuksien pakottaminen mukaan tai if -r loopin sisälle , sama export2 kanssa (VAIH)
+
+		#TODO:a) pavucontrol-asetukset, missä? b) firefoxin käännösasetukset, missä? 
+
 		${scm} 0755 /etc/iptables
 		${scm} 0444 /etc/iptables/*
 		${scm} 0444 /etc/default/rules*
