@@ -60,6 +60,7 @@ function parse_opts_2() {
 if [ -x ${PREFIX}/common_lib.sh ] ; then
 	. ${PREFIX}/common_lib.sh
 else
+	#TODO:"lelu-kirjasto" toimimaan tässäkin tdstossa
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
 	uom="sudo /bin/umount"
@@ -88,6 +89,22 @@ else
 
 	function part3() {
 		dqb "exp32.part3()"
+	}
+
+	function part1_5() {
+		dqb "exp32.p15()"
+	}
+
+	function message() {
+		dqb "exp32.message()"
+	}
+
+	function jules() {
+		dqb "exp32.jules()"
+	}
+
+	function other_horrors() {
+		dqb "AZATHOTH AND OTHER HORRORS"
 	}
 
 	#tähän sitten se common_lib.init2 tai sit ei
@@ -602,7 +619,7 @@ function tpu() {
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ${2}
 	${odio} touch ${2}/tim3stamp
-	$csm} a+w  ${2}/tim3stamp
+	$csm} a+w ${2}/tim3stamp
 
 	date > ${2}/tim3stamp
 	${srat} -cf ${1} ${2}/tim3stamp

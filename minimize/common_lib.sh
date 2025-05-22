@@ -560,12 +560,18 @@ function enforce_access() {
 #VAIH:voisi kai toisellakin tavalla sen sources.list sorkkia, sed edelleen optio pienellä säädöllä
 #"${odio} sed -i 's/DISTRO/daedalus/g' /etc/apt/sources.list.tmp" olisi se mistä lähteä kehittelemään, ohjaus > bash -s
 function part1_5() {
+	dqb "part1_5()"
+	csleep 1
+
+	#HUOM.22525:vaikuttaisi jopa toimivan, seur formardointi sh:lle
 	local tdmc
 	tdmc="sed -i 's/DISTRO/${distro}/g'"
 	echo "${tdmc} /etc/apt/sources.list.tmp"
-	csleep 10
+	csleep 5
 
 	#echo "sed -i 's/q_${d}/${v}/g' ${1}/1/init-user-db.sql.tmp" >> ${2}
+	dqb "p1.5.2()"
+	csleep 1
 
 	if [ z"${pkgsrc}" != "z" ] ; then
 		if [ -d ${PREFIX}/${1} ] ; then
@@ -588,9 +594,15 @@ function part1_5() {
 		fi
 	fi
 
+	dqb "finally"
+	csleep 1
+
 	${sco} -R root:root /etc/apt
 	#tarkempaa sertiä tulisi findin kanssa
 	${scm} -R a-w /etc/apt/
+
+	dqb "p1.5 done"
+	csleep 1
 }
 
 function part1() {

@@ -55,7 +55,7 @@ function usage() {
 	echo "${0} [mode] [tgtfile] <distro> <debug> "
 }
 
-dqb "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
+echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 
 if [ -x ${PREFIX}/common_lib.sh ] ; then
 	. ${PREFIX}/common_lib.sh
@@ -67,13 +67,14 @@ else
 	sco="sudo /bin/chown"
 	odio=$(which sudo)
 
-	#jos näillä lähtisi aikankin case q toimimaan
+	#jos näillä lähtisi aiNAKin case q toimimaan
 	n=$(whoami)
 	smr=$(${odio} which rm)
 	NKVD=$(${odio} which shred)
 	NKVD="${NKVD} -fu "
 	whack=$(${odio} which pkill)
 	whack="${odio} ${whack} --signal 9 "
+	sah6=$(${odio} which sha512sum)
 
 	function check_binaries() {
 		dqb "imp2.ch3ck_b1nar135( \${1} )"
@@ -91,13 +92,36 @@ else
 		dqb "imp32.enf_acc()"
 	}
 
+	#TODO:"leikki-fktioon" oikea sha-tarkistus
 	function part3() {
-		dqb "imp32.part3()"
+		dqb "imp32.part3( ${1} ${2} )"
+
+		echo "cd ${1}"
+		echo "${sah6} -c ./sha512sums.txt"
+		echo "IF TEST PASSES:"
+		echo "${odio} dpkg -i ./lib*.deb"
+		echo "${odio} rm ./lib*.deb"
+		echo "${odio} dpkg -i ./*.deb"
+		echo "${odio} rm ./*.deb"
+	}
+
+	function other_horrors() {
+		dqb "AZATHOTH AND OTHER HORRORS"
 	}
 
 	#tähän sitten se common_lib.init2 copypastella? tai jos ne /e pakotukset mieluummin
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
+
+	local prevopt
+	local opt
+	prevopt=""
+
+	for opt in $@ ; do
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
 fi
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
@@ -195,9 +219,10 @@ function common_part() {
 
 case "${mode}" in
 	-1) #jatkossa jokim fiksumpi kuin -1
-		#TODO:jatkossa tämä skripti olisi hyvä ptstyä ajamaan myös silloinq iptables tai kys softan sis paketit puuttuvat (esmes paskat muistitikut niinqu)
+		#VAIH:jatkossa tämä skripti olisi hyvä ptstyä ajamaan myös silloinq iptables tai kys softan sis paketit puuttuvat (esmes paskat muistitikut niinqu)
 		#liittyen:common_lib x-oik poisto tai uudelleennimeäminen ja sitten jotain
-		
+		#22525 loppuillasta vaikuttaisi toimivan imp2 ilmankin c_lib, siis tar purq toimi		
+
 		part=/dev/disk/by-uuid/${part0}		
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 
