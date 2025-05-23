@@ -13,7 +13,14 @@ function pre_part3() {
 	dqb "pp3.2"
 	csleep 1
 
-	ls -las ${1}/ip*.deb | wc -l
+	c=$(find ${1} -type f -name '*.deb' | wc -l) #oli:ls -las ip*.deb
+
+	if [ ${c} -lt 1 ] ; then
+		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
+		echo "SHOULD REMOVE ${1}/sha512sums.txt"
+		echo "\"${scm} a-x ${1}/../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
+	fi
+
 	csleep 3
 
 	psqa ${1} #HUOM.22525:varm. vuoksi pp3 kutsuvaan koodiin tämä?
