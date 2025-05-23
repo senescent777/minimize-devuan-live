@@ -71,7 +71,11 @@ else
 	#jos näillä lähtisi aiNAKin case q toimimaan
 	n=$(whoami)
 	sah6=$(${odio} which sha512sum)
-	#TODO:sco,smr yms sudotus
+	#VAIH:sco,smr yms sudotus
+	scm="${odio} ${scm}"
+	sco="${odio} ${sco}"
+	smr="${odio} which rm"
+	smr="${odio} ${smr}"
 
 	function check_binaries() {
 		dqb "exp2.ch3ck_b1nar135( ${1} )"
@@ -246,7 +250,6 @@ function pre2() {
 	sleep 4
 }
 
-#VAIH:jatkossa mukaan: ~/.config/pulse , /etc/pulse (jälkimmäinen jatkossa toisella tavalla)
 function tpq() {
 	dqb "tpq ${1} ${2}"
 	[ -d ${1} ] || exit 22
@@ -493,6 +496,7 @@ function tp2() {
 	csleep 5
 	other_horrors
 
+	#HUOM.23525:tähän tökkäsi kun mode=4 && a-x common
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		echo "/E/IPTABLES sdhgfsdhgf"
 		exit 112
