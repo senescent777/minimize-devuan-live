@@ -24,6 +24,7 @@ ${fib}
 
 dqb "a-e"
 csleep 5
+${fib} #HUOM.23525:oli kiukuttelua, josko tällä asettuisi
 
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
