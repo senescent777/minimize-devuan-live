@@ -92,17 +92,29 @@ else
 		dqb "imp32.enf_acc()"
 	}
 
-	#TODO:"leikki-fktioon" oikea sha-tarkistus
+	#VAIH:"leikki-fktioon" oikea sha-tarkistus
 	function part3() {
 		dqb "imp32.part3( ${1} ${2} )"
+		csleep 1
 
-		echo "cd ${1}"
-		echo "${sah6} -c ./sha512sums.txt"
-		echo "IF TEST PASSES:"
-		echo "${odio} dpkg -i ./lib*.deb"
-		echo "${odio} rm ./lib*.deb"
-		echo "${odio} dpkg -i ./*.deb"
-		echo "${odio} rm ./*.deb"
+		dqb "cd ${1}"
+		cd ${1}
+		csleep 1
+
+		dqb "${sah6} -c ./sha512sums.txt"
+		${sah6} -c ./sha512sums.txt
+
+		if [ $? -eq 0 ] ; then
+			csleep 1
+			#echo "IF TEST PASSES:"
+
+			echo "${odio} dpkg -i ./lib*.deb"
+			echo "${odio} rm ./lib*.deb"
+			echo "${odio} dpkg -i ./*.deb"
+			echo "${odio} rm ./*.deb"
+
+			dqb "U MAY NOW ${scm} a+x ${1}/../common_lib.sh"
+		fi
 	}
 
 	function other_horrors() {
@@ -113,8 +125,8 @@ else
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
 
-	local prevopt
-	local opt
+	#local prevopt #vain fktion sisällä tmmöisiä
+	#local opt
 	prevopt=""
 
 	for opt in $@ ; do

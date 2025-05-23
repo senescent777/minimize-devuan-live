@@ -16,13 +16,13 @@ if [ z"${distro}" != "z" ] ; then
 		if  [ -v dir ] && [ -d ${dir} ] ; then
 			#v=$(grep -c ${dir} /proc/mounts) #qseeko tässä jokin? aiempi tapa parempi?
 			v=$(grep ${dir} /proc/mounts | wc -l)
+			u=1 #tdstojärj paskoontumisem välttämiseksi
 
 			if [ ${v} -lt 1 ] ; then
 				echo "HAVE TO MOUNT";sleep 1			
 				mount ${dir}
 		
 				if [ $? -eq 0 ] ; then
-					u=1
 					sleep 5
 				fi
 			fi
@@ -64,12 +64,8 @@ if [ -f ${tgt} ] ; then
 		#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
 		for f in $(find ${PREFIX}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
 		for f in $(find ${PREFIX}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
-	
-		#tai yksinkertaisemmin kaikki .tar vain mukaan ${PREFIX} alta		
-		#process_entry ${tgt} ${PREFIX}/fediverse.tar 
-		#process_entry ${tgt} ${PREFIX}/config.tar
 		
-		#VAIH:varm. vuoksi rajaus että alihakemistoista ei katsota, jos keksii miten
+		#VAIH:varm. vuoksi rajaus että alihakemistoista ei katsota
 		#...pitäisi myös varmistaa että menevät kalat oikeaan kohteeseen hmistopolussa
 		for f in $(find ${PREFIX}/ -maxdepth 1 -type f -name '*.tar') ; do process_entry ${tgt} ${f} ; done
 	

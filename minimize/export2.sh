@@ -107,7 +107,7 @@ else
 		dqb "AZATHOTH AND OTHER HORRORS"
 	}
 
-	#tähän sitten se common_lib.init2 tai sit ei
+	#TODO:tähän pikemminkin sen gpo() ilman local-rivejä
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
 fi
@@ -234,9 +234,6 @@ function tpq() {
 	dqb "paramz 0k"
 	csleep 1
 
-	#VAIH:suhteelliset polut Vittuun, cut $1
-	#tämä syystä: -C / tdstossa generic_doit
-
 	local t
 	t=$(echo ${1}  | cut -d '/' -f 1,2,3)
 	${srat} -cf ${1}/config.tar ${t}/.config/xfce4/xfconf/xfce-perchannel-xml ${t}/.config/pulse /etc/pulse
@@ -287,7 +284,7 @@ function tp1() {
 	csleep 3
 }
 
-#HUOM.22525:pitäisiköhän reagoida: hak $2 ei sisällä .deb ?
+#VAIH:pitäisiköhän reagoida: hak $2 ei sisällä .deb ?
 function rmt() {
 	#debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
@@ -301,18 +298,18 @@ function rmt() {
 	dqb "paramz_ok"
 	csleep 3
 
-	local c
-	c=$(find ${2} -type f -name '*.deb' | wc -l)
-	[ ${c} -lt 1 ] && echo "TH3R3 1S N0 F15H";exit 55
-
-	${scm} 0444 ${2}/*.deb
 	p=$(pwd)
-
 	cd ${2}
 	[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt
 	csleep 2
 
+	local c
+	c=$(find . -type f -name '*.deb' | wc -l)
+	[ ${c} -lt 1 ] && echo "TH3R3 1S N0 F15H";exit 55
+
+	${scm} 0444 ./*.deb
 	touch ./sha512sums.txt
+
 	chown $(whoami):$(whoami) ./sha512sums.txt
 	chmod 0644 ./sha512sums.txt
 	[ ${debug} -eq 1 ] && ls -las sha*;sleep 6
@@ -321,10 +318,10 @@ function rmt() {
 	csleep 2
 	psqa .
 
+	cd ${p}
 	${srat} -rf ${1} ${2}/*.deb ${2}/sha512sums.txt
 	csleep 1
-	cd ${p}
-
+	
 	dqb "rmt d0n3"
 }
 

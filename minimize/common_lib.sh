@@ -127,10 +127,11 @@ function other_horrors() {
 	${scm} 0550 /etc/iptables
 	${sco} -R root:root /etc/iptables
 	${scm} 0400 /etc/default/rules*
+	${scm} 0555 /etc/default
 	${sco} -R root:root /etc/default
 
 	dqb "other_horrors() DONE"
-	csleep 10
+	csleep 5
 }
 
 #HUOM.21525:menee päällekkäin e_ - juttujen toiminnallsiuuden kanssa nmä 2 , voisi yhdistää
@@ -158,16 +159,22 @@ function jules() {
 
 	#HUOM.linkityksen purku vaatisi kai w-oikeudet hmistoon
 	${scm} 0755 /etc/iptables
+	${scm} 0444 /etc/default/rules*
 	csleep 5
 
-	cp /etc/default/rules.* /etc/iptables #jatkoss ehdollinen kopsaus?
+	#HUOM.23535:cp aiheutti nalkutusta
+	#jatkoss ehdollinen kopsaus?
+	cp /etc/default/rules.* /etc/iptables
+
 	[ -h /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
 	[ -L /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6 #mikä ero, L vs h ?
 	csleep 5
 
-	${scm} 0400 /etc/iptables/*
-	${scm} 0550 /etc/iptables
-	${sco} -R root:root /etc/iptables
+#	${scm} 0400 /etc/iptables/*
+#	${scm} 0400 /etc/default/rules*
+#	${scm} 0550 /etc/iptables
+#	${sco} -R root:root /etc/iptables
+	other_horrors
 
 	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 	csleep 6
@@ -193,6 +200,7 @@ function ocs() {
 	fi
 }
 
+#HUOM.23525:jossain kantsisi poistaa sha512sums jos ei ole .deb
 function psqa() {
 	dqb "QUASB (THE BURNING) ${1}"
 
@@ -558,18 +566,22 @@ function enforce_access() {
 }
 
 #VAIH:voisi kai toisellakin tavalla sen sources.list sorkkia, sed edelleen optio pienellä säädöllä
-#"${odio} sed -i 's/DISTRO/daedalus/g' /etc/apt/sources.list.tmp" olisi se mistä lähteä kehittelemään, ohjaus > bash -s
 function part1_5() {
 	dqb "part1_5()"
 	csleep 1
 
-	#HUOM.22525:vaikuttaisi jopa toimivan, seur formardointi sh:lle
+	#HUOM.22525:vaikuttaisi jopa toimivan, seur forWardointi sh:lle
 	local tdmc
 	tdmc="sed -i 's/DISTRO/${distro}/g'"
-	echo "${tdmc} /etc/apt/sources.list.tmp"
-	csleep 5
+	dqb "${odio} ${tdmc} /etc/apt/sources.list.tmp | bash -s"
+	csleep 3
 
-	#echo "sed -i 's/q_${d}/${v}/g' ${1}/1/init-user-db.sql.tmp" >> ${2}
+	#HUOM.23525:samaan tap voisi sen pakettipalvelimenkin vaihtaa
+
+	tdmc="sed -i 's/REPOSITORY/${pkgsrc}/g'"
+	dqb "${odio} ${tdmc} /etc/apt/sources.list.tmp | bash -s"
+	csleep 3
+
 	dqb "p1.5.2()"
 	csleep 1
 
