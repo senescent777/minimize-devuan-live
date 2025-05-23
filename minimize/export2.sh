@@ -1,169 +1,171 @@
 #!/bin/bash
-#debug=0 #1
-#tgtfile=""
-#distro=$(cat /etc/devuan_version) #tarpeellinen tässä
-#PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
-#mode=-2
-#
-#function dqb() {
-#	[ ${debug} -eq 1 ] && echo ${1}
-#}
-#
-#function csleep() {
-#	[ ${debug} -eq 1 ] && sleep ${1}
-#}
-#
-#function usage() {
-#	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
-#	echo "$0 3 <tgtfile> [distro] [-v]: makes the main pkg (old way)"
-#	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
-#	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
-#	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \${PREFIX}/\${distro}"
-#	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
-#	echo "$0 q <> [] [] archives firefox settings"				
-#	echo "$0 -h: shows this message about usage"	
-#}
-#
-#[ -z ${distro} ] && exit 6
-#d=${PREFIX}/${distro}
-#
-#if [ -d ${d} ] && [ -s ${d}/conf ]; then
-#	. ${d}/conf
-#else
-#	echo "CONFIG MISSING" #; exit 55
-#	pkgdir=/var/cache/apt/archives
-#fi
-#
-#function parse_opts_1() {
-#	case "${1}" in
-#		-v|--v)
-#			debug=1
-#		;;
-#		*)
-#			if [ ${mode} -eq -2 ] ; then
-#				mode=${1}
-#			else
-#				if [ -d ${PREFIX}/${1} ] ; then
-#					distro=${1}
-#				else
-#					tgtfile=${1}
-#				fi
-#			fi
-#		;;
-#	esac
-#}
-#
-#function parse_opts_2() {
-#	dqb "parseopts_2 ${1} ${2}"
-#}
-#
-#if [ -x ${PREFIX}/common_lib.sh ] ; then
-#	. ${PREFIX}/common_lib.sh
-#else
-#	#HUOM.23525:oleellisempaa että import2 toimii tarvittaessa ilman common_lib
-#	#"lelukirjasto" saattaa toimia sen varren että "$0 4 ..." onnistuu	
-#	srat="sudo /bin/tar"
-#	som="sudo /bin/mount"
-#	uom="sudo /bin/umount"
-#	scm="sudo /bin/chmod"
-#	sco="sudo /bin/chown"
-#	odio=$(which sudo)
-#
-#	#jos näillä lähtisi aiNAKin case q toimimaan
-#	n=$(whoami)
-#	sah6=$(${odio} which sha512sum)
-#
-#	smr="${odio} which rm"
-#	smr="${odio} ${smr}"
-#
-#	function check_binaries() {
-#		dqb "exp2.ch3ck_b1nar135( ${1} )"
-#	}
-#
-#	function check_binaries2() {
-#		dqb "exp2.ch3ck_b1nar135_2( ${1} )"
-#	}
-#
-#	function fix_sudo() {
-#		dqb "exp32.fix.sudo"
-#	}
-#
-#	function enforce_access() {
-#		dqb "exp32.enf_acc()"
-#	}
-#
-#	function part3() {
-#		dqb "exp32.part3()"
-#	}
-#
-#	function part1_5() {
-#		dqb "exp32.p15()"
-#	}
-#
-#	function message() {
-#		dqb "exp32.message()"
-#	}
-#
-#	function jules() {
-#		dqb "exp32.jules()"
-#	}
-#
-#	#HUOM.23525:josko tässä kohtaa pakotus riittäisi
-#	function other_horrors() {
-#		dqb "AZATHOTH AND OTHER HORRORS"
-#		${spc} /etc/default/rules.* /etc/iptables
-#		${scm} 0400 /etc/iptables/*
-#		${scm} 0550 /etc/iptables
-#		${sco} -R root:root /etc/iptables
-#		${scm} 0400 /etc/default/rules*
-#		${scm} 0555 /etc/default
-#		${sco} -R root:root /etc/default
-#	}
-#
-#	function ppp3() {
-#		dqb "exp32.ppp3()"
-#	}
-#
-#	
-#	prevopt=""
-#
-#	for opt in $@ ; do
-#		parse_opts_1 ${opt}
-#		parse_opts_2 ${prevopt} ${opt}
-#		prevopt=${opt}
-#	done
-#
-#	dqb "FALLBACK"
-#	dqb "chmod may be a good idea now"
-#fi
-#
-#dqb "mode= ${mode}"
-#dqb "distro=${distro}"
-#dqb "file=${tgtfile}"
-#csleep 3
-#
-##HUOM.14525:pitäisiköhän testata ao. else-haara?
-#if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-#	. ${d}/lib.sh
-#else
-#	echo "L1B M1SSING"
-#
-#	function pr4() {
-#		dqb "exp2.pr4 ${1} ${2} " 
-#	}
-#
-#	function pre_part3() {
-#		dqb "exp2.pre_part3 ${1} ${2} "
-#	}
-#
-#	function udp6() {
-#		dqb "exp32.UPD6()"
-#	}
-#
-#	check_binaries ${distro}
-#	check_binaries2
-#fi
-#
+debug=0 #1
+tgtfile=""
+distro=$(cat /etc/devuan_version) #HUOM.23525:tarpeellinen tässä nykyään?
+PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
+mode=-2
+loose=1
+
+#ehkä joutuu tässä vielä includoimaan $distro/conf
+
+function dqb() {
+	[ ${debug} -eq 1 ] && echo ${1}
+}
+
+function csleep() {
+	[ ${debug} -eq 1 ] && sleep ${1}
+}
+
+function parse_opts_1() {
+	case "${1}" in
+		-v|--v)
+			debug=1
+		;;
+		*)
+			if [ ${mode} -eq -2 ] ; then
+				mode=${1}
+			else
+				if [ -d ${PREFIX}/${1} ] ; then
+					distro=${1}
+				else
+					tgtfile=${1}
+				fi
+			fi
+		;;
+	esac
+}
+
+function parse_opts_2() {
+	dqb "parseopts_2 ${1} ${2}"
+}
+
+if [ -x ${PREFIX}/common_lib.sh ] ; then
+	. ${PREFIX}/common_lib.sh
+else
+	#HUOM.23525:oleellisempaa että import2 toimii tarvittaessa ilman common_lib
+	#"lelukirjasto" saattaa toimia sen varren että "$0 4 ..." onnistuu	
+	srat="sudo /bin/tar"
+	som="sudo /bin/mount"
+	uom="sudo /bin/umount"
+	scm="sudo /bin/chmod"
+	sco="sudo /bin/chown"
+	odio=$(which sudo)
+
+	#jos näillä lähtisi aiNAKin case q toimimaan
+	n=$(whoami)
+	sah6=$(${odio} which sha512sum)
+
+	smr="${odio} which rm"
+	smr="${odio} ${smr}"
+
+	function check_binaries() {
+		dqb "exp2.ch3ck_b1nar135( ${1} )"
+	}
+
+	function check_binaries2() {
+		dqb "exp2.ch3ck_b1nar135_2( ${1} )"
+	}
+
+	function fix_sudo() {
+		dqb "exp32.fix.sudo"
+	}
+
+	function enforce_access() {
+		dqb "exp32.enf_acc()"
+	}
+
+	function part3() {
+		dqb "exp32.part3()"
+	}
+
+	function part1_5() {
+		dqb "exp32.p15()"
+	}
+
+	function message() {
+		dqb "exp32.message()"
+	}
+
+	function jules() {
+		dqb "exp32.jules()"
+	}
+
+	#HUOM.23525:josko tässä kohtaa pakotus riittäisi
+	function other_horrors() {
+		dqb "AZATHOTH AND OTHER HORRORS"
+		${spc} /etc/default/rules.* /etc/iptables
+		${scm} 0400 /etc/iptables/*
+		${scm} 0550 /etc/iptables
+		${sco} -R root:root /etc/iptables
+		${scm} 0400 /etc/default/rules*
+		${scm} 0555 /etc/default
+		${sco} -R root:root /etc/default
+	}
+
+	function ppp3() {
+		dqb "exp32.ppp3()"
+	}
+
+	
+	prevopt=""
+
+	for opt in $@ ; do
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
+
+	dqb "FALLBACK"
+	dqb "chmod may be a good idea now"
+fi
+
+[ -z ${distro} ] && exit 6
+d=${PREFIX}/${distro}
+
+dqb "mode= ${mode}"
+dqb "distro=${distro}"
+dqb "file=${tgtfile}"
+csleep 3
+
+if [ -s ${d}/conf ] ; then
+	. ${d}/conf
+else
+	echo "CONF MISSING"
+	exit 55
+fi
+
+if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+	. ${d}/lib.sh
+else
+	echo "L1B M1SSING"
+
+	function pr4() {
+		dqb "exp2.pr4 ${1} ${2} " 
+	}
+
+	function pre_part3() {
+		dqb "exp2.pre_part3 ${1} ${2} "
+	}
+
+	function udp6() {
+		dqb "exp32.UPD6()"
+	}
+
+	check_binaries ${distro}
+	check_binaries2
+fi
+
+function usage() {
+	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
+	echo "$0 3 <tgtfile> [distro] [-v]: makes the main pkg (old way)"
+	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
+	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
+	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \${PREFIX}/\${distro}"
+	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
+	echo "$0 q <> [] [] archives firefox settings"				
+	echo "$0 -h: shows this message about usage"	
+}
+
 dqb "tar = ${srat} "
 ${scm} 0555 ${PREFIX}/changedns.sh
 ${sco} root:root ${PREFIX}/changedns.sh
@@ -192,7 +194,7 @@ function pre1() {
 	debug=1
 	dqb "pre1( ${1} )"
 	#[ x"${1}" == "z" ] && exit 666
-	csleep 10
+	csleep 6
 
 	${sco} -Rv _apt:root ${pkgdir}/partial/
 	${scm} -Rv 700 ${pkgdir}/partial/
@@ -210,9 +212,7 @@ function pre1() {
 
 		#HUOM.14525:yritetään tässä muuttaa sources.list s.e. toisen distron pakettien lataus onnistuu
 		#erikseen sitten se, mikä sources menee arkistoon ja millä nimellä
-		ls -las /etc/apt/sources.list.${ortsac}
-		csleep 6
-
+	
 		if [ -s /etc/apt/sources.list.${ortsac} ] ; then
 			${smr} /etc/apt/sources.list #vähän jyrkkää mutta
 		else
@@ -221,7 +221,8 @@ function pre1() {
 		fi
 
 		${slinky} /etc/apt/sources.list.${ortsac} /etc/apt/sources.list
-		csleep 1
+		ls -las /etc/apt/sources.list*		
+		csleep 6
 	else
 		echo "P.V.HH"
 		exit 111
@@ -380,6 +381,7 @@ function rmt() {
 }
 
 #HUOM.23525:qseeeko tämäkin nyt?
+#TODO:reagointi tapaukseen /etc/devuan_version != $distro , pitäisi silloin vain vetää paketit asentamatta
 function tp4() {
 	debug=1
 	dqb "tp4 ${1} , ${2} "
@@ -730,7 +732,7 @@ case ${mode} in
 		dd if=/dev/random bs=6 count=1 > ./rnd
 
 		${srat} -cvf ${tgtfile} ./rnd
-		tp3 ${tgtfile} ${distro}
+		tp3 ${tgtfile} ${distro} #voisiko käyttää $d?
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		${srat} -cvf ${d}/e.tar ./rnd
