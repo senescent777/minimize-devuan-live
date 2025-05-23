@@ -382,6 +382,8 @@ function rmt() {
 
 #HUOM.23525:qseeeko tämäkin nyt?
 #TODO:reagointi tapaukseen /etc/devuan_version != $distro , pitäisi silloin vain vetää paketit asentamatta
+#https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
+#shary="${odio} ${sag} --download-only"
 function tp4() {
 	debug=1
 	dqb "tp4 ${1} , ${2} "
@@ -565,6 +567,7 @@ function tp2() {
 }
 
 #HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
+#TODO:dnsm 2. parametriksi... eiku ei, $2 onkin jo köäyktössä ja tarttisi sen cut-jekun
 function tp3() {
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
