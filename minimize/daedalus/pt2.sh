@@ -23,7 +23,7 @@ ${sco} root:root ~/Desktop/minimize/changedns.sh
 ${fib}
 
 dqb "a-e"
-csleep 5
+csleep 2
 ${fib} #HUOM.23525:oli kiukuttelua, josko tällä asettuisi
 
 if [ ${removepkgs} -eq 1 ] ; then
@@ -44,7 +44,7 @@ ${sharpy} fdisk ftp* gdisk gcr
 
 ${asy} 
 ${lftr}
-csleep 5
+csleep 2
 
 ##gnome-* poisto veisi myös: task-desktop task-xfce-desktop
 ##gpg* kanssa: The following packages have unmet dependencies:
@@ -55,54 +55,113 @@ csleep 5
 ##gsettings* voi viedä paljon paketteja mukanaan
 
 dqb "g2"
-csleep 5
+csleep 2
 
 ${sharpy} ghostscript gir* gnupg* gpg-*
 ${sharpy} gpgconf gpgsm gsasl-common shim*
 ${sharpy} grub* gsfonts gstreamer*
-${sharpy} intel-microcode iucode-tool htop inetutils-telnet
+${sharpy} intel-microcode iucode-tool
+${asy} 
+
+${sharpy} htop
+${asy} 
+${sharpy} inetutils-telnet
+${asy} 
 
 ${asy} 
 ${lftr}
-csleep 5
+csleep 2
 
 #lib-paketteihin ei yleisessä tapauksessa kande koskea eikä live-
 #libgssapi-krb5 tarpeellinen?
 #HUOM! PAKETIT procps, mtools JA mawk JÄTETTÄVÄ RAUHAAN!!! (tai mtools ehkä uskaltaa kun o muitsa poistettu ensin)
 #HUOM.15525:uutena libcolor, näytti poistavan liikaa joten jemmaan
 #${sharpy} libcolor* 
-#csleep 5
+#csleep 2
 
 ${sharpy} libpoppler* libuno* libreoffice* libgsm* libgstreamer*
-${sharpy} lvm2 lynx* mdadm mailcap
-
 ${asy} 
 ${lftr}
-csleep 5
 
-${sharpy} mlocate mokutil mariadb-common mysql-common
-${sharpy} netcat-traditional openssh* os-prober #orca saattaa poistua jo aiemmin
+#josko nyt poistuisi prkl?
+${sharpy} lvm2 
+${asy}
+
+${sharpy} lynx* 
+${asy}
+
+${sharpy} mdadm 
+${asy}
+
+${sharpy} mailcap
+${asy} 
+${lftr}
+csleep 2
+
+${sharpy} mlocate 
+${asy} 
+${sharpy} mokutil mariadb-common mysql-common
+${asy} 
+
+${sharpy} netcat-traditional 
+${asy} 
+${sharpy} openssh* 
+${asy} 
+${sharpy} os-prober #orca saattaa poistua jo aiemmin
+${asy} 
+
 ${sharpy} nfs-common rpcbind
 ${sharpy} ppp procmail ristretto screen
-${sharpy} pkexec po* refracta* squashfs-tools
+${sharpy} pkexec po* 
+${asy} 
+
+${sharpy} refracta*
+${asy} 
+${sharpy} squashfs-tools
+${asy} 
 ${sharpy} pavucontrol #HUOM.22525:näyttäisi poistuvan ilman katastrofia, pieni nalkutus kyllä tulee mutta ei välttämättä juuri tuosta paketista
 
 ${asy} 
 ${lftr}
-csleep 5
+csleep 2
 
 #VAIH:, python3*, , voisiko niitä karsia?
-${sharpy} samba* system-config* telnet tex* 
-${sharpy} syslinux* mythes isolinux libgssapi-krb5-2
-${sharpy} uno* ure* upower vim* # udisks* saattaa poistua jo aiemmin
+${sharpy} samba* system-config*
+${asy} 
+${sharpy} telnet
+${asy} 
+${sharpy} tex* 
+${asy} 
+csleep 2
+
+${sharpy} syslinux* mythes
+${asy} 
+${sharpy} isolinux 
+${asy} 
+${sharpy} libgssapi-krb5-2
+${asy}
+csleep 2
+${sharpy} uno* ure* upower 
+${asy} 
+
+${sharpy} vim* # udisks* saattaa poistua jo aiemmin
 
 ${asy} 
 ${lftr}
-csleep 5
+csleep 2
 
 dqb "x"
-csleep 5
-${sharpy} xorriso xfburn
+csleep 2
+${sharpy} xorriso
+${asy} 
+${sharpy} xfburn
+${asy} 
+
+csleep 2
+
+${sharpy} xorriso
+${asy} 
+${sharpy} xfburn
 ${asy} 
 
 ${lftr}
@@ -114,10 +173,10 @@ ${smr} -rf /tmp/tmp.*
 ${smr} /usr/share/doc #rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
 #squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
 df
-${odio} which dhclient; ${odio} which ifup; csleep 6
+${odio} which dhclient; ${odio} which ifup; csleep 2
 
 dqb "${scm} a-wx $0 in 6 secs "
-csleep 6
+csleep 2
 ${scm} a-wx $0 
 
 #whack xfce so that the ui is reset
