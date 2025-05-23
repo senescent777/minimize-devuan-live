@@ -60,8 +60,8 @@ function parse_opts_2() {
 if [ -x ${PREFIX}/common_lib.sh ] ; then
 	. ${PREFIX}/common_lib.sh
 else
-	#VAIH:"lelu-kirjasto" toimimaan tässäkin tdstossa
 	#HUOM.23525:oleellisempaa että import2 toimii tarvittaessa ilman common_lib
+	#"lelukirjasto" saattaa toimia sen varren että "$0 4 ..." onnistuu	
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
 	uom="sudo /bin/umount"
@@ -72,9 +72,7 @@ else
 	#jos näillä lähtisi aiNAKin case q toimimaan
 	n=$(whoami)
 	sah6=$(${odio} which sha512sum)
-	#VAIH:sco,smr yms sudotus
-	scm="${odio} ${scm}"
-	sco="${odio} ${sco}"
+
 	smr="${odio} which rm"
 	smr="${odio} ${smr}"
 
@@ -85,7 +83,6 @@ else
 	function check_binaries2() {
 		dqb "exp2.ch3ck_b1nar135_2( ${1} )"
 	}
-
 
 	function fix_sudo() {
 		dqb "exp32.fix.sudo"
@@ -190,7 +187,7 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 4
 
-#HUOM.23525:$smr-jutut aiheuttivat nalkutusta tässä kun common_lib poissa pelistä
+#HUOM.23525:$smr-jutut aiheuttivat nalkutusta tässä kun common_lib poissa pelistä (toivottavasti jo kunnossa)
 function pre1() {
 	[ x"${1}" == "z" ] && exit 666
 
@@ -317,7 +314,8 @@ function tp1() {
 	csleep 3
 }
 
-#VAIH:pitäisiköhän reagoida: hak $2 ei sisällä .deb ?
+#HUOM.23525:josko nyt vähän fiksummin toimisi
+#TODO:testaa josqs "$0 0"
 function rmt() {
 	#debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
