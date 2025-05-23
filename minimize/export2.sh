@@ -375,12 +375,13 @@ function rmt() {
 	dqb "rmt d0n3"
 }
 
+#HUOM.23525:qseeeko tämäkin nyt?
 function tp4() {
 	debug=1
 	dqb "tp4 ${1} , ${2} "
 
-	[ z"${1}" == "z" ] && exit 1
-	[ -s ${1} ] || exit 2
+#	[ z"${1}" == "z" ] && exit 1
+#	[ -s ${1} ] || exit 2
 	
 	dqb "DEMI-SEC"
 	csleep 1
