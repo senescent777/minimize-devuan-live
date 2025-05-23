@@ -270,7 +270,7 @@ function tpq() {
 	csleep 1
 
 	local t
-	t=$(echo ${1}  | cut -d '/' -f 1,2,3)
+	t=$(echo ${1} | cut -d '/' -f 1,2,3)
 	#HUOM.23525:pakkaus mukaan kuten näkyy, vie suht paljon tilaa silloinq ei .deb mukana
 	${srat} -jcf ${1}/config.tar.bz2 ${t}/.config/xfce4/xfconf/xfce-perchannel-xml ${t}/.config/pulse /etc/pulse
 	csleep 1
@@ -381,14 +381,14 @@ function rmt() {
 }
 
 #HUOM.23525:qseeeko tämäkin nyt?
-#TODO:reagointi tapaukseen /etc/devuan_version != $distro , pitäisi silloin vain vetää paketit asentamatta
+#VAIH:reagointi tapaukseen /etc/devuan_version != $distro , pitäisi silloin vain vetää paketit asentamatta
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
-#shary="${odio} ${sag} --download-only"
+
 function tp4() {
 	debug=1
 	dqb "tp4 ${1} , ${2} "
 
-#	[ z"${1}" == "z" ] && exit 1
+#	[ z"${1}" == "z" ] && exit 1 #mikä juttu näissä on?
 #	[ -s ${1} ] || exit 2
 	
 	dqb "DEMI-SEC"
@@ -403,6 +403,18 @@ function tp4() {
 	if [ z"${pkgdir}" != "z" ] ; then
 		${NKVD} ${pkgdir}/*.deb
 		dqb "SHREDDED HUMANS"
+	fi
+	
+	local tcdd
+	local t2
+
+	tcdd=$(cat /etc/devuan_version)
+	t2=$(echo ${2} | cut -d '/' -f 6)
+	
+	if [ ${tcdd} != ${t2} ] ; then
+		dqb "XXX"
+		csleep 1
+		shary="${odio} ${sag} install --download-only "
 	fi
 
 	dqb "EDIBLE AUTOPSY"
