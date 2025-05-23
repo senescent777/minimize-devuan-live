@@ -61,7 +61,7 @@ function p3r1m3tr() {
 	chown -R root:root /etc/iptables
 	chmod 0400 /etc/default/rules*
 	chown -R root:root /etc/default
-	sleep 5
+	sleep 2
 }
 
 p3r1m3tr
@@ -88,7 +88,7 @@ esac
 
 dqb "mode=${mode}"
 dqb "distro=${distro}"
-csleep 2
+csleep 1
 
 #HUOM. jos tarttee ni näille main distrosta riippuvainen fktioiden esittely 
 #(toiv ei tarvitse)
@@ -210,7 +210,7 @@ function clouds_pp3() {
 	#HUOM.160325:lisätty uutena varm. vuoksi
 	${iptr} /etc/iptables/rules.v4.${1}
 	${ip6tr} /etc/iptables/rules.v6.${1}
-	csleep 2
+	csleep 1
 
 	#tässä oikea paikka tables-muutoksille vai ei?
 	${ipt} -F b
@@ -242,7 +242,7 @@ function clouds_post() {
 	dqb "scm= ${scm}"
 	dqb "sco =${sco}"
 
-	csleep 5
+	csleep 1
 	local f
 
 	for f in $(find /etc -type f -name 'resolv.conf*') ; do
@@ -270,12 +270,12 @@ function clouds_post() {
 		${sco} root:root ${f}
 	done
 
-	csleep 2
+	csleep 1
 
 	if [ ${debug} -eq 1 ] ; then
 		${ipt} -L  #
 		${ip6t} -L #parempi ajaa vain jos löytyy
-		csleep 3 #
+		csleep 1 #
 	fi #
 
 	dqb "d0n3"
@@ -320,26 +320,26 @@ function clouds_case1_1() {
 function clouds_case0_2() {
 	/etc/init.d/dnsmasq stop
 	/etc/init.d/ntpsec stop
-	csleep 3
+	csleep 1
 	${whack} dnsmasq*
 	${whack} ntp*
 }
 
 function clouds_case1_2() {
-	echo "dns";sleep 2
+	echo "dns";sleep 1
 	/etc/init.d/dnsmasq restart
 	pgrep dnsmasq
 
 #HUOM.270325:tästä eteenpäin vaatinee pientä laittoa
 #ensinnäkin dnsmasq pitäisi saada taas vastaamaan pyyntöihin ja sitten muut jutut
-#	echo "stu";sleep 2
+#	echo "stu";sleep 1
 #	${whack} stubby* #090325: pitäisiköhän tämä muuttaa?
-#	sleep 3	
+#	sleep 1
 #			
 #	[ -f /run/stubby.pid ] || sudo touch /run/stubby.pid
 #	${sco} devuan:devuan /run/stubby.pid #$n
 #	${scm} 0644 /run/stubby.pid 
-#	sleep 3
+#	sleep 1
 #
 #	su devuan -c '/usr/bin/stubby -C /home/stubby/.stubby.yml -g'
 #	pgrep stubby
@@ -378,7 +378,7 @@ clouds_pre ${mode}
 
 #HUOM.22525:linkittyykö resolv.conf tässä vai ei?
 [ -f /etc/resolv.conf.${mode} ] && ${slinky} /etc/resolv.conf.${mode} /etc/resolv.conf
-[ ${debug} -eq 1 ] && ls -las /etc/resolv*;sleep 6
+[ ${debug} -eq 1 ] && ls -las /etc/resolv*;sleep 2
 
 [ -f /etc/dhcp/dhclient.conf.${mode} ] && ${slinky} /etc/dhcp/dhclient.conf.${mode} /etc/dhcp/dhclient.conf
 [ -f /sbin/dhclient-script.${mode} ] && ${spc} /sbin/dhclient-script.${mode} /sbin/dhclient-script

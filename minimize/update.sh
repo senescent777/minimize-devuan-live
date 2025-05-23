@@ -76,6 +76,9 @@ if [ -f ${tgt} ] ; then
 			fi
 		done
 
+		#jos git:n kanssa menisi ni $prefix alaiset voisi commitoida suoraan?
+		#sen sijaan /e alaiset?pitäisikö kasata johonkin pakettiin ja se commitoida?
+
 		#tuossa yllä find ilman tiukempaa name-rajausta vetäisi ylimääräisiä mukaan, toisaalta /e/localtime on linkki
 		process_entry ${tgt} /etc/timezone
 		process_entry ${tgt} /etc/localtime

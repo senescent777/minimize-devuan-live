@@ -52,7 +52,7 @@ fi
 #==================================PART 1============================================================
 
 dqb "mode= ${mode}"
-csleep 5
+csleep 2
 
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
@@ -62,9 +62,11 @@ part1 ${distro}
 [ ${mode} -eq 0 ] && exit
 
 ${snt} #HUOM.14525:oli tässä ennen: part175
-csleep 3
+csleep 1
 
 #jotain perusteellisempia testejä chimaeran kanssa sitten mikäli jksaa sitä kirjautumisongelmaa (josko selvittelisi korjaamista?)
+#23525: $0 -v 0 toimii, $0 -v toimii, pt2 kun fiksaa parsetuksen, list175 juttujen kanssa vaikeuksia poistaa pak(conf syynä)
+#import2/export2 - testaukset sittenq chimaeraa varten päivityspaketit saatavilla
 #===================================================PART 2===================================
 
 #HUOM. välillä mode=0 - testi (22525 viimeksi)
@@ -72,7 +74,7 @@ csleep 3
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
-	csleep 3
+	csleep 1
 	
 	#ennen vai jälkeen "dpkg reconfig"-blokin tämä?
 	if [ -s /etc/default/locale.tmp ] ; then
@@ -85,15 +87,15 @@ function el_loco() {
 
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
-		csleep 3
+		csleep 1
 
 		#/e/d/l voi kasvaa isoksikin näin...
 		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
 		cat /etc/default/locale
-		csleep 3
+		csleep 1
 
 		cat /etc/timezone
-		csleep 3
+		csleep 1
 		${scm} a-w /etc/default/locale
 
 #		#kuuluuko debian-johdannaisilla kalustoon tämä? pitäisikö luoda ensin?
@@ -105,14 +107,14 @@ function el_loco() {
 #		fi
 #
 #		${scm} a+w /etc/locale.conf
-#		csleep 3
+#		csleep 1
 #		
 #		grep LC_TIME /etc/default/locale >> /etc/locale.conf
 #
-#		csleep 3
+#		csleep 1
 #		${scm} a-w /etc/locale.conf
 #		cat /etc/locale.conf
-#		csleep 3
+#		csleep 1
 	fi
 
 	if [ ${1} -gt 0 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
@@ -131,11 +133,11 @@ function el_loco() {
 	#joskohan kutsuvassa koodissa -v - tark riittäisi toistaiseksi
 	if [ ${2} -lt 1 ] && [ ${debug} -eq 1 ] ; then
 		ls -las /etc/default/lo*
-		csleep 3
+		csleep 1
 	fi
 
 	dqb "DN03"
-	csleep 2
+	csleep 1
 }
 
 c14=0
@@ -149,19 +151,19 @@ else
 	echo "555"
 fi
 
-csleep 6
+csleep 2
 [ ${c13} -lt 1 ] && c14=1
 el_loco ${c14} ${c13}
 
 if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
-	dqb "R (in 3 secs)"
-	csleep 3
+	dqb "R (in 2 secs)"
+	csleep 2
 	${odio} passwd
 
 	#miksi tähän ei mennä? vai mennäänkö? ilmeinen syy?
 	if [ $? -eq 0 ] ; then
-		dqb "L (in 3 secs)"
-		csleep 3
+		dqb "L (in 2 secs)"
+		csleep 2
 		passwd
 	fi
 
@@ -189,29 +191,29 @@ other_horrors
 
 #tai sitten käskytetään:import2 (TODO?)
 [ -s ~/Desktop/minimize/config.tar.bz2 ] && ${srat} -C / -jxf ~/Desktop/minimize/config.tar.bz2
-csleep 5
+csleep 2
 
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	. ~/Desktop/minimize/profs.sh
 
 	#HUOM.21525:miksi varten ilm suoraan /tmp alle firefox-esr? tarttisko tehdä jotain?
 	q=$(mktemp -d)
-	dqb "${srat} -C ${q} ... 1n 3 s3c5s"
-	csleep 3
+	dqb "${srat} -C ${q} ... 1n 1 s3c5s"
+	csleep 1
 	tgt=~/Desktop/minimize/fediverse.tar
 
 	if [ -s ${tgt} ] ; then	
 		${srat} -C ${q} -xvf ${tgt}
 
 		dqb "${srat} d0me"
-		csleep 3
+		csleep 1
 
 		imp_prof esr ${n} ${q}
 	else
 		dqb "NO SUCH THING AS ${tgt}"
 	fi
 
-	csleep 3
+	csleep 1
 fi
 
 jules
@@ -222,14 +224,14 @@ ${scm} 0555 ~/Desktop/minimize/changedns.sh
 ${sco} root:root ~/Desktop/minimize/changedns.sh
 ${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
 ${sipt} -L
-csleep 6
+csleep 2
 
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
 
 if [ ${mode} -eq 2 ] ; then
 	echo "time to ${sifu} ${iface} or whåtever"
-	csleep 2
+	csleep 1
 	${whack} xfce4-session
  	exit 
 fi

@@ -48,7 +48,7 @@ function init2 {
 	d=0
 
 	dqb "common_lib.INIT.2"
-	csleep 6
+	csleep 3
 
 	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 111
@@ -76,7 +76,7 @@ function init2 {
 	c=$(find /etc/sudoers.d -type f -not -group 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 122
 
-	csleep 4
+	csleep 2
 }
 
 function dqb() {
@@ -114,7 +114,7 @@ function fix_sudo() {
 	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 
 	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
-	csleep 3
+	csleep 2
 	dqb "fix_sud0.d0n3"
 }
 
@@ -131,7 +131,7 @@ function other_horrors() {
 	${sco} -R root:root /etc/default
 
 	dqb "other_horrors() DONE"
-	csleep 5
+	csleep 2
 }
 
 #HUOM.21525:menee päällekkäin e_ - juttujen toiminnallsiuuden kanssa nmä 2 , voisi yhdistää
@@ -144,7 +144,7 @@ if [ ! -v loose ] ; then
 fi
 
 [ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
-csleep 5
+csleep 2
 
 #EI SITTEN PERKELE ALETA KIKKAILLA /ETC/IPTABLES/RULES KANSSA
 #ESIM. PASKOJEN TIKKUJEN KANSSA TULEE TÄYSI SIRKUS 666
@@ -155,12 +155,12 @@ function jules() {
 	#HUOM.21525:tällaisella sisällöllä fktio turhahko koska other_horrors
 	dqb "LE BIG MAC"
 	dqb "V8"
-	csleep 4
+	csleep 2
 
 	#HUOM.linkityksen purku vaatisi kai w-oikeudet hmistoon
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/default/rules*
-	csleep 5
+	csleep 2
 
 	#HUOM.23535:cp aiheutti nalkutusta
 	#jatkoss ehdollinen kopsaus?
@@ -168,7 +168,7 @@ function jules() {
 
 	[ -h /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
 	[ -L /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6 #mikä ero, L vs h ?
-	csleep 5
+	csleep 2
 
 #	${scm} 0400 /etc/iptables/*
 #	${scm} 0400 /etc/default/rules*
@@ -177,14 +177,14 @@ function jules() {
 	other_horrors
 
 	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
-	csleep 6
+	csleep 2
 }
 
 function message() {
-	echo "INSTALLING NEW PACKAGES IN 10 SECS"
-	csleep 3
-	echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES";sleep 2
-	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 3
+	echo "INSTALLING NEW PACKAGES IN x SECS"
+	csleep 2
+	echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES";sleep 1
+	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 1
 }
 
 function ocs() {
@@ -210,7 +210,7 @@ function psqa() {
 		cd ${1}
 
 		#dpkg -V #HUOM.11525:toistaiseksi jemmaan
-		#sleep 5
+		#sleep 2
 
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
@@ -220,7 +220,7 @@ function psqa() {
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
 	fi
 
-	csleep 3
+	csleep 1
 }
 
 #HUOM.23525:jossain debug-tekstissä saattoi olla polut väärin, selvitä+korjaa jos toistuu
@@ -273,14 +273,14 @@ function check_binaries() {
 		fi
 
 		#HUOM.21525:olisikohan niin simppeli juttu että dpkg seuraa linkkiä ja nollaa tdston mihin linkki osoittaa?
-		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 6
+		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
 		#csleep 3
 
 		ppp3 ${PREFIX}/${1}
 		pre_part3 ${PREFIX}/${1} #${dnsm} HUOM.23525:tekeekö jälkimmäinen param mitään?
 		pr4 ${PREFIX}/${1} #${dnsm}
 
-		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 6
+		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
 		other_horrors
 
 		ipt=$(${odio} which iptables)
@@ -295,7 +295,7 @@ function check_binaries() {
 
 	CB_LIST1="/sbin/halt /sbin/reboot /usr/bin/which ${sifu} ${sifd} "
 	dqb "second half of c_bin_1"
-	csleep 3
+	csleep 1
 
 	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
 	for x in iptables ip6tables iptables-restore ip6tables-restore ifup ifdown apt-get apt ip netstat dpkg tar mount umount dhclient sha512sum #kilinwittu.sh
@@ -310,7 +310,7 @@ function check_binaries() {
 	uom=$(${odio} which umount)
 
 	dqb "b1nar135 0k"
-	csleep 2
+	csleep 1
 }
 
 function check_binaries2() {
@@ -406,28 +406,28 @@ function pre_enforce() {
 
 	q=$(mktemp -d)
 	dqb "sudo touch ${q}/meshuggah in 3 secs"
-	csleep 2
+	csleep 1
 
 	touch ${q}/meshuggah
 	[ ${debug} -eq 1 ] && ls -las ${q}
-	csleep 3
+	csleep 1
 
 	[ -f ${q}/meshuggah ] || exit 33
 	dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 	mangle_s ${PREFIX}/changedns.sh ${q}/meshuggah
-	csleep 2
+	csleep 1
 
 	dqb "LETf HOUTRE JOINED IN DARKN355"
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
-	csleep 3
+	csleep 1
 
 	dqb "TRAN S1LVAN1AN HUGN3R"
 	dinf ${q}/meshuggah
-	csleep 2
+	csleep 1
 
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
-		csleep 2
+		csleep 1
 		chmod 0440 ${q}/meshuggah #scm
 
 		${sco} root:root ${q}/meshuggah
@@ -442,12 +442,13 @@ function pre_enforce() {
 	c4=$(grep -c ${part0} /etc/fstab)
 
 	if [ ${c4} -lt 1 ] ; then
+		#HUOM. pitäisi kai karsia edellinen rivi millä $dir
 		${scm} a+w /etc/fstab
 		${odio} echo "/dev/disk/by-uuid/${part0} ${dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		${scm} a-w /etc/fstab
 	fi
 
-	csleep 3
+	csleep 1
 	dqb "common_lib.pre_enforce d0n3"
 }
 
@@ -506,7 +507,7 @@ function e_h() {
 	if [ y"${1}" != "y" ] ; then
 		dqb "${sco} -R ${1}:${1} ~"
 		${sco} -R ${1}:${1} ~
-		csleep 5
+		csleep 1
 	fi
 
 	local f
@@ -576,7 +577,7 @@ function enforce_access() {
 	e_final
 
 	jules
-	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 6
+	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 3
 	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
@@ -593,7 +594,7 @@ function part1_5() {
 				
 			local h
 			dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
-			csleep 2
+			csleep 1
 
 			h=$(mktemp -d)
 			#touch ${h}/sources.list.${1}
@@ -621,17 +622,17 @@ function part1_5() {
 	
 			tdmc="sed -i 's/DISTRO/${1}/g'"
 			echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
-			csleep 3
+			csleep 1
 
 			#HUOM.23525:samaan tap voisi sen pakettipalvelimenkin vaihtaa
 			if [ ! -z ${pkgsrc} ] ; then
 				tdmc="sed -i 's/REPOSITORY/${pkgsrc}/g'"
 				echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
-				csleep 3
+				csleep 1
 			fi
 	
 			echo "${odio} mv /etc/apt/sources.list.tmp /etc/apt/sources.list.${1}" | bash -s
-			csleep 3
+			csleep 1
 
 			dqb "finally"
 			csleep 1
@@ -652,7 +653,7 @@ function part1() {
 
 	${sifd} ${iface}
 	${sifd} -a
-	[ ${debug} -eq 1 ] && /sbin/ifconfig;sleep 4
+	[ ${debug} -eq 1 ] && /sbin/ifconfig;sleep 2
 
 	dqb "${sip} link set ${iface} down"
 	${sip} link set ${iface} down
@@ -666,7 +667,7 @@ function part1() {
 	else
 		for t in INPUT OUTPUT FORWARD ; do
 			${ipt} -P ${t} DROP
-			dqb "V6"; csleep 2
+			dqb "V6"; csleep 1
 
 			${ip6t} -P ${t} DROP
 			${ip6t} -F ${t}
@@ -676,9 +677,9 @@ function part1() {
 	
 		if [ ${debug} -eq 1 ] ; then
 			${ipt} -L #
-			dqb "V6.b"; csleep 2
+			dqb "V6.b"; csleep 1
 			${ip6t} -L # -x mukaan?
-			csleep 5
+			csleep 2
 		fi
 	fi
 
@@ -693,7 +694,7 @@ function part1() {
 
 		if [ ${c} -gt 0 ] ; then 
 			${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
-			csleep 5
+			csleep 2
 		fi
 	fi
 
@@ -707,7 +708,7 @@ function part1() {
 	fi
 
 	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
-	csleep 2
+	csleep 1
 
 	${sco} -R root:root /etc/apt
 	${scm} -R a-w /etc/apt/
@@ -716,7 +717,7 @@ function part1() {
 
 function part076() {
 	dqb "PART076()"
-	csleep 2
+	csleep 1
 	local s
 	local t
 
@@ -732,24 +733,24 @@ function part076() {
 	done
 
 	dqb "alm0st d0n3"
-	csleep 2
+	csleep 1
 
 	${whack} nm-applet
 	${snt} #ei välttis toimi jos ennen check_bin kutsutaan
 
 	dqb "P.176 DONE"
-	csleep 3
+	csleep 1
 }
 
 function part2_5() {
 	#debug=1
 	dqb "PART2.5 ${1}"
-	csleep 2
+	csleep 1
 
 	if [ ${1} -eq 1 ] ; then
 		for s in ${PART175_LIST} ; do
 			dqb "processing ${s}"
-			csleep 1
+			#csleep 1
 
 			${sharpy} ${s}*
 			csleep 1
@@ -759,12 +760,12 @@ function part2_5() {
 		${sharpy} blu*
 		${sharpy} po* pkexec
 		${lftr}
-		csleep 3
+		csleep 1
 
 		case ${iface} in
 			wlan0)
 				dqb "NOT REMOVING WPASUPPLICANT"
-				csleep 3
+				csleep 1
 			;;
 			*)
 				${sharpy} modem* wireless* wpa*
@@ -773,7 +774,7 @@ function part2_5() {
 		esac
 	fi
 
-	csleep 2
+	csleep 1
 
 	if [ y"${ipt}" != "y" ] ; then
 		jules
@@ -789,12 +790,12 @@ function part2_5() {
 
 	if [ ${debug} -eq 1 ] ; then
 		${snt}
-		sleep 5
+		sleep 2
 	fi
 
 	csleep 1
 	dqb "PART2.5 ${1} d0ne"
-	csleep 2
+	csleep 1
 }
 
 function part3_4real() {
@@ -818,7 +819,7 @@ function part3_4real() {
 
 	if [ $? -eq  0 ] ; then
 		dqb "part3.1 ok"
-		csleep 3
+		csleep 1
 		${NKVD} ${1}/lib*.deb
 	else
 		exit 66
@@ -828,13 +829,13 @@ function part3_4real() {
 
 	if [ $? -eq  0 ] ; then
 		dqb "part3.2 ok"
-		csleep 3
+		csleep 1
 		${NKVD} ${1}/*.deb
 	else
 		exit 67
 	fi
 
-	csleep 2
+	csleep 1
 	dqb "part3_4real( ${1} ) DONE"
 	csleep 1
 }
