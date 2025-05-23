@@ -140,7 +140,7 @@ fi
 dqb "mode= ${mode}"
 dqb "distro=${distro}"
 dqb "file=${tgtfile}"
-csleep 6
+csleep 3
 
 #HUOM.14525:pitäisiköhän testata ao. else-haara?
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
@@ -185,7 +185,7 @@ fi
 
 ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
-csleep 4
+csleep 2
 
 #HUOM.23525:$smr-jutut aiheuttivat nalkutusta tässä kun common_lib poissa pelistä (toivottavasti jo kunnossa)
 function pre1() {
@@ -193,14 +193,14 @@ function pre1() {
 
 	${sco} -Rv _apt:root ${pkgdir}/partial/
 	${scm} -Rv 700 ${pkgdir}/partial/
-	csleep 4
+	csleep 2
 
 	if [ -d ${1} ] ; then
 		dqb "5TNA"
 
 		n=$(whoami)
 		enforce_access ${n}
-		csleep 2
+		csleep 1
 
 		local ortsac
 		ortsac=$(echo ${1} | cut -d '/' -f 6)
@@ -216,7 +216,7 @@ function pre1() {
 		fi
 
 		${slinky} /etc/apt/sources.list.${ortsac} /etc/apt/sources.list
-		csleep 2
+		csleep 1
 	else
 		echo "P.V.HH"
 		exit 111
@@ -237,24 +237,24 @@ function pre2() {
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
 		${odio} ${ledif}/changedns.sh ${dnsm} ${ortsac}
-		csleep 4
+		csleep 2
 
 		${sifu} ${iface}
 		[ ${debug} -eq 1 ] && /sbin/ifconfig
-		csleep 4
+		csleep 2
 
 		${sco} -Rv _apt:root ${pkgdir}/partial/
 		${scm} -Rv 700 ${pkgdir}/partial/
 
 		${sag_u}
-		csleep 4
+		csleep 2
 	else
 		echo "P.V.HH"
 		exit 111
 	fi
 
 	echo "PRE 2DONE"
-	sleep 4
+	sleep 2
 }
 
 function tpq() {
@@ -267,7 +267,7 @@ function tpq() {
 	t=$(echo ${1}  | cut -d '/' -f 1,2,3)
 	#HUOM.23525:pakkaus mukaan kuten näkyy, vie suht paljon tilaa silloinq ei .deb mukana
 	${srat} -jcf ${1}/config.tar.bz2 ${t}/.config/xfce4/xfconf/xfce-perchannel-xml ${t}/.config/pulse /etc/pulse
-	csleep 2
+	csleep 1
 
 	if [ -x ${1}/profs.sh ] ; then
 		dqb "DE PROFUNDIS"
@@ -278,7 +278,7 @@ function tpq() {
 		dqb "1nT0 TH3 M0RB1D R31CH"	
 	fi
 
-	csleep 5
+	csleep 2
 }
 
 function tp1() {
@@ -286,11 +286,11 @@ function tp1() {
 	dqb "tp1 ${1} , ${2} "
 	[ z"${1}" == "z" ] && exit
 	dqb "params_ok"
-	csleep 3
+	csleep 1
 
 	if [ -d ${2} ] ; then
 		dqb "cleaning up ${2} "
-		csleep 3
+		csleep 1
 		${NKVD} ${2}/*.deb
 		dqb "d0nm3"
 	fi
@@ -306,12 +306,12 @@ function tp1() {
 
 	if [ ${debug} -eq 1 ] ; then
 		ls -las ${ledif}
-		sleep 5
+		sleep 2
 	fi
 
 	${srat} -rvf ${1} ${ledif} /home/stubby 	
 	dqb "tp1 d0n3"
-	csleep 3
+	csleep 1
 }
 
 #HUOM.23525:josko nyt vähän fiksummin toimisi
@@ -327,12 +327,12 @@ function rmt() {
 	[ -d ${2} ] || exit 22
 
 	dqb "paramz_ok"
-	csleep 3
+	csleep 1
 
 	p=$(pwd)
 	cd ${2}
 	[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt
-	csleep 2
+	csleep 1
 
 	local c
 	c=$(find . -type f -name '*.deb' | wc -l)
@@ -343,10 +343,10 @@ function rmt() {
 
 	chown $(whoami):$(whoami) ./sha512sums.txt
 	chmod 0644 ./sha512sums.txt
-	[ ${debug} -eq 1 ] && ls -las sha*;sleep 6
+	[ ${debug} -eq 1 ] && ls -las sha*;sleep 3
 
 	${sah6} ./*.deb > ./sha512sums.txt
-	csleep 2
+	csleep 1
 	psqa .
 
 	cd ${p}
@@ -370,7 +370,7 @@ function tp4() {
 	[ -d ${2} ] || exit 22
 
 	dqb "paramz_ok"
-	csleep 3
+	csleep 1
 
 	if [ z"${pkgdir}" != "z" ] ; then
 		${NKVD} ${pkgdir}/*.deb
@@ -380,7 +380,7 @@ function tp4() {
 	dqb "EDIBLE AUTOPSY"
 	${fib}
 	${asy}
-	csleep 3
+	csleep 1
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
@@ -415,8 +415,8 @@ function tp4() {
 		${shary} stubby
 	fi
 
-	dqb "${shary} git mktemp in 4 secs"
-	csleep 3
+	dqb "${shary} git mktemp in secs"
+	csleep 1
 	${lftr} 
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
@@ -425,7 +425,7 @@ function tp4() {
 	${shary} git-man git
 
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
-	csleep 3
+	csleep 1
 	${lftr}
 
 	case ${iface} in
@@ -438,7 +438,7 @@ function tp4() {
 		;;
 		*)
 			dqb "not pulling wpasuplicant"
-			csleep 4
+			csleep 2
 		;;
 	esac
 
@@ -454,7 +454,7 @@ function tp4() {
 	fi
 
 	dqb "tp4 donew"
-	csleep 3
+	csleep 1
 }
 
 #koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
@@ -466,7 +466,7 @@ function tp2() {
 	[ -s ${1} ] || exit 2
 
 	dqb "params_ok"
-	csleep 5
+	csleep 2
 
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
@@ -474,7 +474,7 @@ function tp2() {
 
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
-	csleep 6
+	csleep 2
 
 	#TOIMISIKO JO? PITÄISI KAI VARMISTAA ETTÄ 0-PITUISIA EI TULE MUKAAN (VAI VIELÄKÖ SKRIPTIt PASKOVAT?)
 	for f in $(find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
@@ -483,13 +483,13 @@ function tp2() {
 		else
 			echo "SUURI HIRVIKYRPÄ ${f} "
 			echo "5H0ULD exit 666"
-			sleep 2
+			sleep 1
 		fi
 	done
 
 	echo $?
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule | less
-	sleep 6
+	sleep 2
 
 	dqb "JUST BEFORE LOCALES"
 	sleep 1
@@ -499,10 +499,10 @@ function tp2() {
 	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 
 	echo $?
-	sleep 5
+	sleep 2
 
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local | less
-	csleep 5
+	csleep 2
 	other_horrors
 
 	#HUOM.23525:tähän tökkäsi kun mode=4 && a-x common
@@ -535,7 +535,7 @@ function tp2() {
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 
 	dqb "tp2 done"
-	csleep 5
+	csleep 2
 }
 
 #HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
@@ -546,7 +546,7 @@ function tp3() {
 	[ -s ${1} ] || exit 2
 
 	dqb "paramz_0k"
-	csleep 5
+	csleep 2
 
 	local p
 	local q	
@@ -557,13 +557,13 @@ function tp3() {
 	cd ${q}
 	
 	[ ${debug} -eq 1 ] && pwd  
-	csleep 5
+	csleep 2
 	${tig} clone https://github.com/senescent777/more_scripts.git
 
 	[ $? -eq 0 ] || exit 66
 	
 	dqb "TP3 PT2"
-	csleep 5
+	csleep 2
 	cd more_scripts/misc
 
 	#HUOM.21525:OLISI HYVÄKSI KARSIA NOITA /etc/xxx.päiväys - TYYPPISIÄ TIEDOSTOJA PAKETISTA
@@ -619,7 +619,7 @@ function tp3() {
 	echo $?
 	cd ${p}
 	dqb "tp3 done"
-	csleep 6
+	csleep 2
 }
 
 function tpu() {
@@ -640,7 +640,7 @@ function tpu() {
 	${fib} #uutena 205.25
 	${sag} upgrade -u
 	echo $?
-	csleep 5
+	csleep 2
 
 	#30425:kuseekohan tuossa jokin? wpasupplicantin poisto melkein johti xorgin poistoon...
 	udp6
@@ -669,7 +669,7 @@ function tp5() {
 	[ -d ${2} ] || exit 97
  
 	dqb "params ok"
-	csleep 5
+	csleep 2
 
 	local q
 	q=$(mktemp -d)
@@ -691,7 +691,7 @@ function tp5() {
 
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
-csleep 6
+csleep 2
 pre1 ${d}
 
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset

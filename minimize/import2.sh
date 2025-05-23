@@ -176,7 +176,7 @@ if [ ! -s /OLD.tar ] ; then
 fi
 
 dqb "b3f0r3 par51ng tha param5"
-csleep 5
+csleep 2
 
 #VAIH:a) pavucontrol-asetukset, missä? (1 arvaus olisi jo)
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
@@ -195,20 +195,19 @@ function common_part() {
 
 	cd /
 	dqb "DEBUG:${srat} -xf ${1} "
-	csleep 2
+	csleep 1
 	
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
 		cat ${1}.sha
 		${sah6} ${1}
-		#csleep 10
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	csleep 5
-	${srat} -C / -xf ${1} #HUOM.22525:uutena -C
 	csleep 2
+	${srat} -C / -xf ${1} #HUOM.22525:uutena -C
+	csleep 1
 	dqb "tar DONE"
 
 	if [ -x ${2}/../common_lib.sh ] ; then
@@ -216,7 +215,7 @@ function common_part() {
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	fi
 
-	csleep 3
+	csleep 1
 	
 	if [ -d ${2} ] ; then 
 		dqb "HAIL UKK"
@@ -227,11 +226,11 @@ function common_part() {
 		${scm} 0444 ${2}/conf*
 		${scm} 0444 ${2}/*.deb
 
-		csleep 3
+		csleep 1
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las ${2}
-	csleep 3
+	csleep 1
 	dqb "ALL DONE"
 }
 
@@ -244,14 +243,14 @@ case "${mode}" in
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 
 		${som} -o ro ${part} ${dir}
-		csleep 5
+		csleep 2
 		${som} | grep ${dir}
 
 		[ $? -eq 0 ] && echo "NEXT: $0 0 <source> [distro] (unpack AND install) | $0 1 <source> (just unpacks the archive)"
 	;;
 	2)
 		${uom} ${dir}
-		csleep 3
+		csleep 1
 		${som} | grep ${dir}
 
 		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh (maybe)"
@@ -264,25 +263,25 @@ case "${mode}" in
 		[ "${confirm}" == "Y" ]  || exit 33
 		common_part ${file} ${d}
 
-		csleep 3
+		csleep 1
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	0|3)
 		dqb "ZER0 S0UND"
-		csleep 2
+		csleep 1
 
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
-		csleep 2
+		csleep 1
 
 		[ -s ${file} ] || exit 66
 		dqb "${file} IJ"
-		csleep 2
+		csleep 1
 
 		[ z"{distro}" == "z" ] && exit 77
 		dqb " ${3} ${distro} MN"
-		csleep 2
+		csleep 1
 
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
@@ -295,11 +294,11 @@ case "${mode}" in
 		fi
 
 		dqb "c_p_d0n3, NEXT: pp3()"
-		csleep 6
+		csleep 2
 
 		part3 ${d} ${dnsm}
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
-		csleep 2
+		csleep 1
 
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
@@ -308,18 +307,18 @@ case "${mode}" in
 		#TODO:voisi olla config.tar purq samassa casessa		
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
-		csleep 2
+		csleep 1
 
 		[ -s ${file} ] || exit 66
 		dqb "${file} IJ"
-		csleep 2
+		csleep 1
 
 		if [ -x ${PREFIX}/profs.sh ] ; then
 			. ${PREFIX}/profs.sh
 			[ $? -gt 0 ] && exit 33
 			
 			dqb "INCLUDE OK"
-			csleep 3
+			csleep 1
 
 			q=$(mktemp -d)
 			${srat} -C ${q} -xvf ${file}
