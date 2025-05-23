@@ -111,7 +111,15 @@ else
 		dqb "exp32.ppp3()"
 	}
 
-	#TODO:tähän pikemminkin sen gpo() ilman local-rivejä
+	
+	prevopt=""
+
+	for opt in $@ ; do
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
+
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
 fi

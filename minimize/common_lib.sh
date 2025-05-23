@@ -578,7 +578,7 @@ function enforce_access() {
 }
 
 #VAIH:voisi kai toisellakin tavalla sen sources.list sorkkia, sed edelleen optio pienellä säädöllä
-#... josko jatkossa /e/e/s.l.tmp luonti jos puuttuu && sed hoitaa loput
+#... josko jatkossa /e/a/s.l.tmp luonti jos puuttuu && sed hoitaa loput
 function part1_5() {
 	dqb "part1_5()"
 	csleep 1
