@@ -22,6 +22,7 @@ case ${1} in
 		sudo /sbin/ifdown ${iface}
 	;;
 	import)
+		#HUOM.23525:ei tahtonut w toimia q common_lib poissa pelistä, vissiin imp2 johtuva
 		${d}/import2.sh -1
 		read -p "source?" sorsa
 

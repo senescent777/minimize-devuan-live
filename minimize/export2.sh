@@ -61,6 +61,7 @@ if [ -x ${PREFIX}/common_lib.sh ] ; then
 	. ${PREFIX}/common_lib.sh
 else
 	#VAIH:"lelu-kirjasto" toimimaan tässäkin tdstossa
+	#HUOM.23525:oleellisempaa että import2 toimii tarvittaessa ilman common_lib
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
 	uom="sudo /bin/umount"
@@ -84,6 +85,7 @@ else
 	function check_binaries2() {
 		dqb "exp2.ch3ck_b1nar135_2( ${1} )"
 	}
+
 
 	function fix_sudo() {
 		dqb "exp32.fix.sudo"
@@ -109,8 +111,16 @@ else
 		dqb "exp32.jules()"
 	}
 
+	#HUOM.23525:josko tässä kohtaa pakotus riittäisi
 	function other_horrors() {
 		dqb "AZATHOTH AND OTHER HORRORS"
+		${spc} /etc/default/rules.* /etc/iptables
+		${scm} 0400 /etc/iptables/*
+		${scm} 0550 /etc/iptables
+		${sco} -R root:root /etc/iptables
+		${scm} 0400 /etc/default/rules*
+		${scm} 0555 /etc/default
+		${sco} -R root:root /etc/default
 	}
 
 	function ppp3() {
@@ -258,7 +268,8 @@ function tpq() {
 
 	local t
 	t=$(echo ${1}  | cut -d '/' -f 1,2,3)
-	${srat} -cf ${1}/config.tar ${t}/.config/xfce4/xfconf/xfce-perchannel-xml ${t}/.config/pulse /etc/pulse
+	#HUOM.23525:pakkaus mukaan kuten näkyy, vie suht paljon tilaa silloinq ei .deb mukana
+	${srat} -jcf ${1}/config.tar.bz2 ${t}/.config/xfce4/xfconf/xfce-perchannel-xml ${t}/.config/pulse /etc/pulse
 	csleep 2
 
 	if [ -x ${1}/profs.sh ] ; then
@@ -628,7 +639,7 @@ function tpu() {
 	${NKVD} ${pkgdir}/*.deb #toimiiko tuo NKVD vai ei?
 	dqb "TUP PART 2"
 
-	${fib} #iiutena 205.25
+	${fib} #uutena 205.25
 	${sag} upgrade -u
 	echo $?
 	csleep 5
@@ -730,7 +741,7 @@ case ${mode} in
 		${sifd} ${iface}
 
 		tpq ${PREFIX}
-		${srat} -cf ${tgtfile} ${PREFIX}/config.tar ${PREFIX}/fediverse.tar
+		${srat} -cf ${tgtfile} ${PREFIX}/config.tar.bz2 ${PREFIX}/fediverse.tar
 	;;
 	-h)
 		usage

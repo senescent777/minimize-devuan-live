@@ -29,6 +29,8 @@ function parse_opts_2() {
 }
 
 . ~/Desktop/minimize/common_lib.sh
+#HUOM.23525:pitäisiköhän tässä kohtaa jo keskeyttää suoritus jos includointi ei onnistu?
+
 #https://linuxopsys.com/use-dollar-at-in-bash-scripting
 #https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
 
@@ -185,10 +187,10 @@ message
 part3 ${d} ${dnsm}
 other_horrors
 
-[ -s ~/Desktop/minimize/config.tar ] && ${srat} -C / -xf ~/Desktop/minimize/config.tar
+#tai sitten käskytetään:import2 (TODO?)
+[ -s ~/Desktop/minimize/config.tar.bz2 ] && ${srat} -C / -jxf ~/Desktop/minimize/config.tar.bz2
 csleep 5
 
-#tai sitten käskytetään:import2 (TODO?)
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	. ~/Desktop/minimize/profs.sh
 

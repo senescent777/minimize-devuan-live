@@ -55,12 +55,13 @@ function usage() {
 	echo "${0} [mode] [tgtfile] <distro> <debug> "
 }
 
+#HUOM.23525:jossain debug-tekstissä saattoi olla polut väärin, selvitä+korjaa jos toistuu (TODO)
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 
 if [ -x ${PREFIX}/common_lib.sh ] ; then
 	. ${PREFIX}/common_lib.sh
 else
-	srat="sudo /bin/tar"
+	srat="sudo /bin/tar" #which mukaan?
 	som="sudo /bin/mount"
 	uom="sudo /bin/umount"
 	scm="sudo /bin/chmod"
@@ -92,7 +93,7 @@ else
 		dqb "imp32.enf_acc()"
 	}
 
-	#VAIH:"leikki-fktioon" oikea sha-tarkistus
+	#HUOM.23525:vaikuttaisi toimivan tarkistus "leikki-fktiossa"
 	function part3() {
 		dqb "imp32.part3( ${1} ${2} )"
 		csleep 1
@@ -127,7 +128,7 @@ else
 
 	#tähän sitten se common_lib.init2 copypastella? tai jos ne /e pakotukset mieluummin
 	dqb "FALLBACK"
-	dqb "chmod may be a good idea now"
+	dqb "${scm} may be a good idea now"
 
 	#local prevopt #vain fktion sisällä tmmöisiä
 	#local opt
@@ -220,6 +221,7 @@ function common_part() {
 	if [ -d ${2} ] ; then 
 		dqb "HAIL UKK"
 
+		#vissiinkin tässä kohtaa common_lib taas käyttöön EIKU
 		${scm} 0755 ${2}
 		${scm} a+x ${2}/*.sh
 		${scm} 0444 ${2}/conf*
@@ -235,9 +237,8 @@ function common_part() {
 
 case "${mode}" in
 	-1) #jatkossa jokim fiksumpi kuin -1
-		#VAIH:jatkossa tämä skripti olisi hyvä ptstyä ajamaan myös silloinq iptables tai kys softan sis paketit puuttuvat (esmes paskat muistitikut niinqu)
-		#liittyen:common_lib x-oik poisto tai uudelleennimeäminen ja sitten jotain
-		#22525 loppuillasta vaikuttaisi toimivan imp2 ilmankin c_lib, siis tar purq toimi		
+		#HUOM.23525:vaikuttaisi jo toimivan imp2 ilmankin common_lib
+		#(no sitq huvittaa niin voi koklata s.e. kirjastot kopsattu uudelle nimelle)
 
 		part=/dev/disk/by-uuid/${part0}		
 		[ -b ${part} ] || dqb "no such thing as ${part}"
@@ -304,7 +305,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#TODO:testaa uudemman kerran, polut tar:in sisällä saattavat olla P.V.H.H.
+		#TODO:voisi olla config.tar purq samassa casessa		
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 2
@@ -340,5 +341,5 @@ echo "REMEMBER 2 UNM0UNT TH3S3:"
 grep ${part} /proc/mounts
 grep ${dir} /proc/mounts
 
-chmod 0755 $0
+${scm} 0755 $0
 #HUOM. tämän olisi kuvakkeen kanssa tarkoitus mennä jatkossa filesystem.squashfs sisälle

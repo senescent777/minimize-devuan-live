@@ -192,6 +192,7 @@ function ocs() {
 	tmp=$(${odio} which ${1})
 
 	if [ y"${tmp}" == "y" ] ; then
+		dqb "${1} NOT FOUND"
 		exit 69 #fiksummankin exit-koodin voisi keksiä
 	fi
 
@@ -200,7 +201,7 @@ function ocs() {
 	fi
 }
 
-#HUOM.23525:jossain kantsisi poistaa sha512sums jos ei ole .deb
+#HUOM.23525:jossain kantsisi poistaa sha512sums.t jos ei ole .deb hakemistossa
 function psqa() {
 	dqb "QUASB (THE BURNING) ${1}"
 
@@ -222,14 +223,16 @@ function psqa() {
 	csleep 3
 }
 
+#HUOM.23525:jossain debug-tekstissä saattoi olla polut väärin, selvitä+korjaa jos toistuu
+#"import2 0 /xxx/yyy -v" kautta tapahtui joten check_bin ja PREFIX tulisi tarkistaa että itä arvoja assvat
 function ppp3() {
 	local c
 	c=$(find ${1} -type f -name '*.deb' | wc -l) #oli:ls -las ip*.deb
 
 	if [ ${c} -lt 1 ] ; then
 		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
-		echo "SHOULD REMOVE ${1}/sha512sums.txt"
-		echo "\"${scm} a-x ${1}/../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
+		echo "SHOULD REMOVE  ${1} /sha512sums.txt"
+		echo "\"${scm} a-x  ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
 	fi
 }
 
@@ -577,50 +580,63 @@ function enforce_access() {
 	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
-#VAIH:voisi kai toisellakin tavalla sen sources.list sorkkia, sed edelleen optio pienellä säädöllä
-#... josko jatkossa /e/a/s.l.tmp luonti jos puuttuu && sed hoitaa loput
 function part1_5() {
 	dqb "part1_5()"
 	csleep 1
 
-	#HUOM.22525:vaikuttaisi jopa toimivan, seur forWardointi sh:lle
-	local tdmc
-	tdmc="sed -i 's/DISTRO/${distro}/g'"
-	dqb "${odio} ${tdmc} /etc/apt/sources.list.tmp | bash -s"
-	csleep 3
+	if [ ! -s /etc/apt/sources.list.${1} ] ; then
+		#if [ z"${pkgsrc}" != "z" ] ; then
+			#if [ -d ${PREFIX}/${1} ] ; then
+			#
+		if [ ! -s /etc/apt/sources.list.tmp ] ; then
+			#HUOM. mitä jos onkin s.list.$1 olemassa mutta s.list pitäisi vaihtaa?
+				
+			local h
+			dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
+			csleep 2
 
-	#HUOM.23525:samaan tap voisi sen pakettipalvelimenkin vaihtaa
+			h=$(mktemp -d)
+			#touch ${h}/sources.list.${1}
+			touch ${h}/sources.list.tmp
 
-	tdmc="sed -i 's/REPOSITORY/${pkgsrc}/g'"
-	dqb "${odio} ${tdmc} /etc/apt/sources.list.tmp | bash -s"
-	csleep 3
+			#for x in ${1} ${1}-updates ${1}-security ; do
+			#	echo "deb https://${pkgsrc}/merged ${x} main" >> ${h}/sources.list.${1}
+			for x in DISTRO DISTRO-updates DISTRO-security ; do
+				echo "deb https://REPOSITORY/merged ${x} main" >> ${h}/sources.list.tmp
+			done
+
+			#${svm} ${h}/sources.list.${1} /etc/apt/
+			${svm} ${h}/sources.list.tmp /etc/apt
+		fi
+		#fi
+	fi
 
 	dqb "p1.5.2()"
 	csleep 1
 
-	if [ z"${pkgsrc}" != "z" ] ; then
-		if [ -d ${PREFIX}/${1} ] ; then
-			if [ ! -s /etc/apt/sources.list.${1} ] ; then
-				#HUOM. mitä jos onkin s.list.$1 olemassa mutta s.list pitäisi vaihtaa?
-				
-				local h
-				dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
-				csleep 2
+	if [ ! -s /etc/apt/sources.list.${1} ] ; then
+		if [ -s /etc/apt/sources.list.tmp ] ; then
+			#HUOM.22525:vaikuttaisi jopa toimivan, seur forWardointi sh:lle
+			local tdmc
+	
+			tdmc="sed -i 's/DISTRO/${1}/g'"
+			echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
+			csleep 3
 
-				h=$(mktemp -d)
-				touch ${h}/sources.list.${1}
-
-				for x in ${1} ${1}-updates ${1}-security ; do
-					echo "deb https://${pkgsrc}/merged ${x} main" >> ${h}/sources.list.${1}
-				done
-
-				${svm} ${h}/sources.list.${1} /etc/apt/
+			#HUOM.23525:samaan tap voisi sen pakettipalvelimenkin vaihtaa
+			if [ ! -z ${pkgsrc} ] ; then
+				tdmc="sed -i 's/REPOSITORY/${pkgsrc}/g'"
+				echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
+				csleep 3
 			fi
+	
+			echo "${odio} mv /etc/apt/sources.list.tmp /etc/apt/sources.list.${1}" | bash -s
+			csleep 3
+
+			dqb "finally"
+			csleep 1
 		fi
 	fi
-
-	dqb "finally"
-	csleep 1
 
 	${sco} -R root:root /etc/apt
 	#tarkempaa sertiä tulisi findin kanssa
