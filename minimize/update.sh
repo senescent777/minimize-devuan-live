@@ -65,9 +65,9 @@ if [ -f ${tgt} ] ; then
 		for f in $(find ${PREFIX}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
 		for f in $(find ${PREFIX}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
 		
-		#VAIH:varm. vuoksi rajaus että alihakemistoista ei katsota
+		#varm. vuoksi rajaus että alihakemistoista ei katsota
 		#...pitäisi myös varmistaa että menevät kalat oikeaan kohteeseen hmistopolussa
-		for f in $(find ${PREFIX}/ -maxdepth 1 -type f -name '*.tar') ; do process_entry ${tgt} ${f} ; done
+		for f in $(find ${PREFIX}/ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
 	
 		#tavoitteena locale-juttujen lisäksi localtime mukaan
 		for f in $(find /etc -type f -name 'locale*') ; do
