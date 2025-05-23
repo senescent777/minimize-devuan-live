@@ -70,6 +70,7 @@ else
 
 	#jos näillä lähtisi aiNAKin case q toimimaan
 	n=$(whoami)
+	sah6=$(${odio} which sha512sum)
 
 	function check_binaries() {
 		dqb "exp2.ch3ck_b1nar135( ${1} )"
@@ -170,6 +171,7 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 4
 
+#HUOM.23525:$smr-jutut aiheuttivat nalkutusta tässä kun common_lib poissa pelistä
 function pre1() {
 	[ x"${1}" == "z" ] && exit 666
 
