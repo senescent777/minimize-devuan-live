@@ -121,6 +121,10 @@ else
 		dqb "AZATHOTH AND OTHER HORRORS"
 	}
 
+	function ppp3() {
+		dqb "imp32.ppp3()"
+	}
+
 	#tähän sitten se common_lib.init2 copypastella? tai jos ne /e pakotukset mieluummin
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"

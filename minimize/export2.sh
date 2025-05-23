@@ -107,6 +107,10 @@ else
 		dqb "AZATHOTH AND OTHER HORRORS"
 	}
 
+	function ppp3() {
+		dqb "exp32.ppp3()"
+	}
+
 	#TODO:tähän pikemminkin sen gpo() ilman local-rivejä
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"

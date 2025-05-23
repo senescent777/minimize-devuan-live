@@ -222,6 +222,17 @@ function psqa() {
 	csleep 3
 }
 
+function ppp3() {
+	local c
+	c=$(find ${1} -type f -name '*.deb' | wc -l) #oli:ls -las ip*.deb
+
+	if [ ${c} -lt 1 ] ; then
+		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
+		echo "SHOULD REMOVE ${1}/sha512sums.txt"
+		echo "\"${scm} a-x ${1}/../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
+	fi
+}
+
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135(${1} )"
 	csleep 1
@@ -262,8 +273,9 @@ function check_binaries() {
 		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 6
 		#csleep 3
 
-		pre_part3 ${PREFIX}/${1} ${dnsm}
-		pr4 ${PREFIX}/${1} ${dnsm}
+		ppp3 ${PREFIX}/${1}
+		pre_part3 ${PREFIX}/${1} #${dnsm} HUOM.23525:tekeekö jälkimmäinen param mitään?
+		pr4 ${PREFIX}/${1} #${dnsm}
 
 		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 6
 		other_horrors
@@ -566,6 +578,7 @@ function enforce_access() {
 }
 
 #VAIH:voisi kai toisellakin tavalla sen sources.list sorkkia, sed edelleen optio pienellä säädöllä
+#... josko jatkossa /e/e/s.l.tmp luonti jos puuttuu && sed hoitaa loput
 function part1_5() {
 	dqb "part1_5()"
 	csleep 1
@@ -812,9 +825,12 @@ function part3_4real() {
 
 function part3() {
 	jules
+	ppp3 ${PREFIX}/${1}
+
 	pre_part3 ${1} ${2}
 	pr4 ${1} ${2}
 	part3_4real ${1}
+
 	other_horrors
 }
 
