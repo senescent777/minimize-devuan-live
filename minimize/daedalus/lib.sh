@@ -5,7 +5,7 @@
 #... joskohan --force-confold olisi se haettu juttu
 
 function pre_part3() {
-	dqb "pp3( ${1} , ${2} )"
+	dqb "daud.pp3( ${1} , ${2} )"
 	csleep 1
 
 	[ y"${1}" == "y" ] && exit	
@@ -13,13 +13,13 @@ function pre_part3() {
 	dqb "pp3.2"
 	csleep 1
 
-	c=$(find ${1} -type f -name '*.deb' | wc -l) #oli:ls -las ip*.deb
-
-	if [ ${c} -lt 1 ] ; then
-		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
-		echo "SHOULD REMOVE ${1}/sha512sums.txt"
-		echo "\"${scm} a-x ${1}/../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
-	fi
+#	c=$(find ${1} -type f -name '*.deb' | wc -l) #oli:ls -las ip*.deb
+#
+#	if [ ${c} -lt 1 ] ; then
+#		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
+#		echo "SHOULD REMOVE ${1}/sha512sums.txt"
+#		echo "\"${scm} a-x ${1}/../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
+#	fi
 
 	csleep 3
 
@@ -47,7 +47,7 @@ function pre_part3() {
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 function pr4() {
-	dqb "pr4( ${1} , ${2} )"
+	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 3
 
 	#TODO:tähänkin psqa?
@@ -77,7 +77,7 @@ function pr4() {
 	${NKVD} ${1}/liberror-perl*.deb
 	csleep 1
 
-	#TODO:libdevmappwr-juttuja?
+	#TODO:libdevmappwr-juttuja? tai mitä olikaan
 
 	${NKVD} ${1}/libpam*
 	${NKVD} ${1}/libperl*
@@ -124,7 +124,7 @@ function udp6() {
 }
 
 function part2_pre() {
-	dqb "PP2"
+	dqb "dausd.PP2"
 	${sharpy} python3-cups
 	csleep 5
 }
