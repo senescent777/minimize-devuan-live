@@ -315,13 +315,13 @@ function tp1() {
 }
 
 #HUOM.23525:josko nyt vähän fiksummin toimisi
-#TODO:testaa josqs "$0 0"
+#VAIH:testaa josqs "$0 0"
 function rmt() {
-	#debug=1
+	debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
-	[ z"${1}" == "z" ] && exit 1
-	[ -s ${1} ] || exit 2
+#	[ z"${1}" == "z" ] && exit 1 #23525:mikä tässä nyt qsee?
+#	[ -s ${1} ] || exit 2
 
 	[ z"${2}" == "z" ] && exit 11
 	[ -d ${2} ] || exit 22
@@ -330,20 +330,39 @@ function rmt() {
 	csleep 1
 
 	p=$(pwd)
-	cd ${2}
-	[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt
+	csleep 1
+
+	if [ -f ${2}/sha512sums.txt ] ; then
+		dqb "rem0v1ng pr3v1oisu shasums"
+		csleep 1
+
+		${NKVD} ${2}/sha512sums.txt
+	else
+		dqb "JGFIGFIYT"
+	fi
+
 	csleep 1
 
 	local c
-	c=$(find . -type f -name '*.deb' | wc -l)
-	[ ${c} -lt 1 ] && echo "TH3R3 1S N0 F15H";exit 55
+	c=$(find ${2} -type f -name '*.deb' | wc -l)
 
-	${scm} 0444 ./*.deb
-	touch ./sha512sums.txt
+	if [ ${c} -lt 1 ] ; then
+		echo "TH3R3 1S N0 F15H"
+		exit 55
+	fi
 
-	chown $(whoami):$(whoami) ./sha512sums.txt
-	chmod 0644 ./sha512sums.txt
-	[ ${debug} -eq 1 ] && ls -las sha*;sleep 3
+	dqb "KJHGOUYFIYT"
+	csleep 2
+
+	${scm} 0444 ${2}/*.deb
+	touch ${2}/sha512sums.txt
+
+	chown $(whoami):$(whoami) ${2}/sha512sums.txt
+	chmod 0644 ${2}/sha512sums.txt
+	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+
+	cd ${2}
+	echo $?
 
 	${sah6} ./*.deb > ./sha512sums.txt
 	csleep 1
