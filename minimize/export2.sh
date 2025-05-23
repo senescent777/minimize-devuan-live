@@ -129,7 +129,7 @@ csleep 3
 
 if [ -s ${d}/conf ] ; then
 	. ${d}/conf
-else
+else #joutuukohan else-haaran muuttamaan jatkossa?
 	echo "CONF MISSING"
 	exit 55
 fi

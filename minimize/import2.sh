@@ -1,173 +1,174 @@
 #!/bin/bash
-#debug=0 #1
-#file=""
-#distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
-#dir=/mnt
-#part0=ABCD-1234
-#PREFIX=~/Desktop/minimize
-#mode=-2
-#
-##HUOM.21525:uudet tark siirretty tdstoon common_lib
-#
-#function dqb() {
-#	[ ${debug} -eq 1 ] && echo ${1}
-#}
-#
-#function csleep() {
-#	[ ${debug} -eq 1 ] && sleep ${1}
-#}
-#
-#[ -z ${distro} ] && exit 6
-#
-#dqb "mode=${mode}"
-#dqb "distro=${distro}"
-#dqb "file=${file}"
-#d=${PREFIX}/${distro}
-#
-#if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-#	. ${d}/conf
-#fi
-#
-#function parse_opts_1() {
-#	case "${1}" in
-#		-v|--v)
-#			debug=1
-#		;;
-#		*)
-#			if [ ${mode} -eq -2 ] ; then
-#				mode=${1}
-#			else
-#				if [ -d ${PREFIX}/${1} ] ; then
-#					distro=${1}
-#				else
-#					file=${1}
-#				fi
-#			fi
-#		;;
-#	esac
-#}
-#
-#function parse_opts_2() {
-#	dqb "parseopts_2 ${1} ${2}"
-#}
-#
-#function usage() {
-#	echo "${0} [mode] [tgtfile] <distro> <debug> "
-#}
-#
-##HUOM.23525:jossain debug-tekstissä saattoi olla polut väärin, selvitä+korjaa jos toistuu (TODO)
-#echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
-#
-#if [ -x ${PREFIX}/common_lib.sh ] ; then
-#	. ${PREFIX}/common_lib.sh
-#else
-#	srat="sudo /bin/tar" #which mukaan?
-#	som="sudo /bin/mount"
-#	uom="sudo /bin/umount"
-#	scm="sudo /bin/chmod"
-#	sco="sudo /bin/chown"
-#	odio=$(which sudo)
-#
-#	#jos näillä lähtisi aiNAKin case q toimimaan
-#	n=$(whoami)
-#	smr=$(${odio} which rm)
-#	NKVD=$(${odio} which shred)
-#	NKVD="${NKVD} -fu "
-#	whack=$(${odio} which pkill)
-#	whack="${odio} ${whack} --signal 9 "
-#	sah6=$(${odio} which sha512sum)
-#
-#	function check_binaries() {
-#		dqb "imp2.ch3ck_b1nar135( \${1} )"
-#	}
-#
-#	function check_binaries2() {
-#		dqb "imp2.ch3ck_b1nar135_2( \${1} )"
-#	}
-#
-#	function fix_sudo() {
-#		dqb "imp32.fix.sudo"
-#	}
-#
-#	function enforce_access() {
-#		dqb "imp32.enf_acc()"
-#	}
-#
-#	#HUOM.23525:vaikuttaisi toimivan tarkistus "leikki-fktiossa"
-#	function part3() {
-#		dqb "imp32.part3( ${1} ${2} )"
-#		csleep 1
-#
-#		dqb "cd ${1}"
-#		cd ${1}
-#		csleep 1
-#
-#		dqb "${sah6} -c ./sha512sums.txt"
-#		${sah6} -c ./sha512sums.txt
-#
-#		if [ $? -eq 0 ] ; then
-#			csleep 1
-#			#echo "IF TEST PASSES:"
-#
-#			echo "${odio} dpkg -i ./lib*.deb"
-#			echo "${odio} rm ./lib*.deb"
-#			echo "${odio} dpkg -i ./*.deb"
-#			echo "${odio} rm ./*.deb"
-#
-#			dqb "U MAY NOW ${scm} a+x ${1}/../common_lib.sh"
-#		fi
-#	}
-#
-#	function other_horrors() {
-#		dqb "AZATHOTH AND OTHER HORRORS"
-#	}
-#
-#	function ppp3() {
-#		dqb "imp32.ppp3()"
-#	}
-#
-#	#tähän sitten se common_lib.init2 copypastella? tai jos ne /e pakotukset mieluummin
-#	dqb "FALLBACK"
-#	dqb "${scm} may be a good idea now"
-#
-#	#local prevopt #vain fktion sisällä tmmöisiä
-#	#local opt
-#	prevopt=""
-#
-#	for opt in $@ ; do
-#		parse_opts_1 ${opt}
-#		parse_opts_2 ${prevopt} ${opt}
-#		prevopt=${opt}
-#	done
-#fi
-#
-#if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-#	. ${d}/lib.sh
-#else
-#	echo $?
-#	dqb "NO LIB"
-#	csleep 1
-#
-#	#HUOM.18525:ao. 2 fktiota voisi esitellä pikemminkin sittenq lib puuttuu
-#	function pr4() {
-#		dqb "imp2.pr4 (\${1} \${2})" 
-#	}
-#
-#	function pre_part3() {
-#		dqb "imp2.pre_part3( \${1} \${2})"
-#	}
-#
-#	check_binaries ${distro}
-#	echo $?
-#	[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia?
-#	
-#	csleep 1
-#
-#	check_binaries2
-#	[ $? -eq 0 ] || exit 8
-#	csleep 1
-#fi
-#
+debug=0 #1
+file=""
+distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
+dir=/mnt
+part0=ABCD-1234
+PREFIX=~/Desktop/minimize
+mode=-2
+loose=1
+
+#HUOM.21525:uudet tark siirretty tdstoon common_lib
+
+function dqb() {
+	[ ${debug} -eq 1 ] && echo ${1}
+}
+
+function csleep() {
+	[ ${debug} -eq 1 ] && sleep ${1}
+}
+
+function parse_opts_1() {
+	case "${1}" in
+		-v|--v)
+			debug=1
+		;;
+		*)
+			if [ ${mode} -eq -2 ] ; then
+				mode=${1}
+			else
+				if [ -d ${PREFIX}/${1} ] ; then
+					distro=${1}
+				else
+					file=${1}
+				fi
+			fi
+		;;
+	esac
+}
+
+function parse_opts_2() {
+	dqb "parseopts_2 ${1} ${2}"
+}
+
+if [ -x ${PREFIX}/common_lib.sh ] ; then
+	. ${PREFIX}/common_lib.sh
+else
+	srat="sudo /bin/tar" #which mukaan?
+	som="sudo /bin/mount"
+	uom="sudo /bin/umount"
+	scm="sudo /bin/chmod"
+	sco="sudo /bin/chown"
+	odio=$(which sudo)
+
+	#jos näillä lähtisi aiNAKin case q toimimaan
+	n=$(whoami)
+	smr=$(${odio} which rm)
+	NKVD=$(${odio} which shred)
+	NKVD="${NKVD} -fu "
+	whack=$(${odio} which pkill)
+	whack="${odio} ${whack} --signal 9 "
+	sah6=$(${odio} which sha512sum)
+
+	function check_binaries() {
+		dqb "imp2.ch3ck_b1nar135( \${1} )"
+	}
+
+	function check_binaries2() {
+		dqb "imp2.ch3ck_b1nar135_2( \${1} )"
+	}
+
+	function fix_sudo() {
+		dqb "imp32.fix.sudo"
+	}
+
+	function enforce_access() {
+		dqb "imp32.enf_acc()"
+	}
+
+	#HUOM.23525:vaikuttaisi toimivan tarkistus "leikki-fktiossa"
+	function part3() {
+		dqb "imp32.part3( ${1} ${2} )"
+		csleep 1
+
+		dqb "cd ${1}"
+		cd ${1}
+		csleep 1
+
+		dqb "${sah6} -c ./sha512sums.txt"
+		${sah6} -c ./sha512sums.txt
+
+		if [ $? -eq 0 ] ; then
+			csleep 1
+			#echo "IF TEST PASSES:"
+
+			echo "${odio} dpkg -i ./lib*.deb"
+			echo "${odio} rm ./lib*.deb"
+			echo "${odio} dpkg -i ./*.deb"
+			echo "${odio} rm ./*.deb"
+
+			dqb "U MAY NOW ${scm} a+x ${1}/../common_lib.sh"
+		fi
+	}
+
+	function other_horrors() {
+		dqb "AZATHOTH AND OTHER HORRORS"
+	}
+
+	function ppp3() {
+		dqb "imp32.ppp3()"
+	}
+
+	#tähän sitten se common_lib.init2 copypastella? tai jos ne /e pakotukset mieluummin
+	dqb "FALLBACK"
+	dqb "${scm} may be a good idea now"
+	prevopt=""
+
+	for opt in $@ ; do
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
+fi
+
+[ -z ${distro} ] && exit 6
+
+dqb "mode=${mode}"
+dqb "distro=${distro}"
+dqb "file=${file}"
+d=${PREFIX}/${distro}
+
+if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+	. ${d}/conf
+else #joutuukohan else-haaran muuttamaan jatkossa?
+	echo "CONF MISSING"
+	exit 56
+fi
+
+#HUOM.23525:jossain debug-tekstissä saattoi olla polut väärin, selvitä+korjaa jos toistuu (TODO)
+echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
+
+if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+	. ${d}/lib.sh
+else
+	echo $?
+	dqb "NO LIB"
+	csleep 1
+
+	#HUOM.18525:ao. 2 fktiota voisi esitellä pikemminkin sittenq lib puuttuu
+	function pr4() {
+		dqb "imp2.pr4 (\${1} \${2})" 
+	}
+
+	function pre_part3() {
+		dqb "imp2.pre_part3( \${1} \${2})"
+	}
+
+	check_binaries ${distro}
+	echo $?
+	[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia?
+	
+	csleep 1
+
+	check_binaries2
+	[ $? -eq 0 ] || exit 8
+	csleep 1
+fi
+
+function usage() {
+	echo "${0} [mode] [tgtfile] <distro> <debug> "
+}
+
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
 
