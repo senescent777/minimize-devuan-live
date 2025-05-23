@@ -60,7 +60,7 @@ function parse_opts_2() {
 if [ -x ${PREFIX}/common_lib.sh ] ; then
 	. ${PREFIX}/common_lib.sh
 else
-	#TODO:"lelu-kirjasto" toimimaan tässäkin tdstossa
+	#VAIH:"lelu-kirjasto" toimimaan tässäkin tdstossa
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
 	uom="sudo /bin/umount"
@@ -71,6 +71,7 @@ else
 	#jos näillä lähtisi aiNAKin case q toimimaan
 	n=$(whoami)
 	sah6=$(${odio} which sha512sum)
+	#TODO:sco,smr yms sudotus
 
 	function check_binaries() {
 		dqb "exp2.ch3ck_b1nar135( ${1} )"
@@ -142,6 +143,10 @@ else
 
 	function pre_part3() {
 		dqb "exp2.pre_part3 ${1} ${2} "
+	}
+
+	function udp6() {
+		dqb "exp32.UPD6()"
 	}
 
 	check_binaries ${distro}
@@ -520,7 +525,7 @@ function tp2() {
 	csleep 5
 }
 
-#TODO: b) firefoxin käännösasetukset, missä? 
+#HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
 function tp3() {
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
