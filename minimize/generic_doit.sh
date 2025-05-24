@@ -99,24 +99,6 @@ function el_loco() {
 		cat /etc/timezone
 		csleep 1
 		${scm} a-w /etc/default/locale
-
-#		#kuuluuko debian-johdannaisilla kalustoon tämä? pitäisikö luoda ensin?
-#		#... systemd-maailman juttuja?		
-#		echo " stuff > /etc/locale.conf"
-#
-#		if [ ! -s  /etc/locale.conf ] ; then
-#			${odio} touch /etc/locale.conf
-#		fi
-#
-#		${scm} a+w /etc/locale.conf
-#		csleep 1
-#		
-#		grep LC_TIME /etc/default/locale >> /etc/locale.conf
-#
-#		csleep 1
-#		${scm} a-w /etc/locale.conf
-#		cat /etc/locale.conf
-#		csleep 1
 	fi
 
 	if [ ${1} -gt 0 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
