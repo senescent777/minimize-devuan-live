@@ -36,6 +36,7 @@ case ${1} in
 		${d}/generic_doit.sh
 	;;
 	pt2)
+		#VAIH:generic_pt2 jatkossa?
 		${d}/${distro}/pt2.sh
 	;;
 	pw)

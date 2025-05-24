@@ -233,6 +233,7 @@ function ppp3() {
 		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
 		echo "SHOULD REMOVE  ${1} /sha512sums.txt"
 		echo "\"${scm} a-x  ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
+		#exit 555	
 	fi
 }
 
@@ -256,6 +257,7 @@ function check_binaries() {
 	fi
 
 	if [ y"${ipt}" == "y" ] ; then
+		#TODO:PREFIXin karsiminen
 		[ z"${1}" == "z" ] && exit 99
 		dqb "-d ${PREFIX}/${1} existsts?"
 		[ -d ${PREFIX}/${1} ] || exit 101

@@ -8,7 +8,7 @@ PREFIX=~/Desktop/minimize
 mode=-2
 loose=1
 
-#HUOM.21525:uudet tark siirretty tdstoon common_lib
+#TODO:modatun kiekon squashfs:lle mukaan tämä ja demerde_toi
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -90,7 +90,6 @@ else
 
 		if [ $? -eq 0 ] ; then
 			csleep 1
-			#echo "IF TEST PASSES:"
 
 			echo "${odio} dpkg -i ./lib*.deb"
 			echo "${odio} rm ./lib*.deb"
@@ -156,7 +155,7 @@ else
 
 	check_binaries ${distro}
 	echo $?
-	[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia?
+	[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia? ei kai enää
 	
 	csleep 1
 

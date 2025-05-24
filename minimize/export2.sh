@@ -2,7 +2,7 @@
 debug=0 #1
 tgtfile=""
 distro=$(cat /etc/devuan_version) #HUOM.23525:tarpeellinen tässä nykyään?
-PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
+PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd
 mode=-2
 loose=1
 
@@ -54,7 +54,6 @@ else
 	#jos näillä lähtisi aiNAKin case q toimimaan
 	n=$(whoami)
 	sah6=$(${odio} which sha512sum)
-
 	smr="${odio} which rm"
 	smr="${odio} ${smr}"
 
@@ -321,7 +320,7 @@ function tp1() {
 }
 
 #HUOM.23525:josko nyt vähän fiksummin toimisi
-#VAIH:testaa josqs "$0 0"
+#testattu "$0 0" uloste 24525, muuten kai toimi mutta pt2
 function rmt() {
 	debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
@@ -380,8 +379,7 @@ function rmt() {
 	dqb "rmt d0n3"
 }
 
-#HUOM.23525:qseeeko tämäkin nyt?
-#VAIH:reagointi tapaukseen /etc/devuan_version != $distro , pitäisi silloin vain vetää paketit asentamatta
+#HUOM.24525:lienee turhaa kikkailua niitä chimaeran paketteja yrittää daedaluksella vetää
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 
 function tp4() {
@@ -579,7 +577,7 @@ function tp2() {
 }
 
 #HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
-#TODO:dnsm 2. parametriksi... eiku ei, $2 onkin jo köäyktössä ja tarttisi sen cut-jekun
+#dnsm 2. parametriksi... eiku ei, $2 onkin jo käytössä ja tarttisi sen cut-jekun
 function tp3() {
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
