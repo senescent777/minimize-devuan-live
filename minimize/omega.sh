@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#debug=1
 odio=$(which sudo)
 smr=$(sudo which rm)
 smr="${odio} ${smr} "
