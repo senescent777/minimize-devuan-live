@@ -115,8 +115,8 @@ function udp6() {
 
 function part2_pre() {
 	dqb "dausd.PP2"
-	${sharpy} python3-cups
-	csleep 1
+#	${sharpy} python3-cups
+#	csleep 1
 }
 
 check_binaries ${PREFIX}/${distro}
