@@ -15,7 +15,8 @@ function pre_part3() {
 	csleep 1
 
 	psqa ${1}
-	#HUOM.140525:toiminee jo jollain lailla, "no" siihen kysymykseen olisi kuitenkin kiva saada välitettyä dpkg:lle asti
+	#HUOM.24525:vaikuttaisi toimivan vähän eri tavalla sääntjen tallennuksen sihteen q daedalus
+	#löytyi rules.v4 minkä sisältönä kaikkiin ketjuihin DROP (no vähän patrempi qu ACCEPT)
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb
@@ -31,6 +32,9 @@ function pre_part3() {
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables-*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables-*.deb
+
+	#${svm} /etc/iptables/rules.v4 /etc/iptables.rules.v4.$(date +%F)
+	#${svm} /etc/iptables/rules.v6 /etc/iptables.rules.v6.$(date +%F)
 
 	dqb "pp3 d0n3"
 	csleep 6
@@ -118,6 +122,9 @@ function part2_pre() {
 }
 
 function t2p() {
+	#HUOM.24545:näköjään ei poistunut tokan rivin listasta mikään. kts jos toistuu
+	#tulisi kai selvittää, onko oikeasti poissa vai kaipaako jokin välimuisti päivitystä
+
 	${sharpy} amd64-microcode iucode-tool arch-test at-spi2-core 
 	${sharpy} bubblewrap atril* coinor* cryptsetup* debootstrap
 
@@ -148,7 +155,9 @@ function t2p() {
 
 	${sharpy} ghostscript gir* gnupg* gpg-*
 	${sharpy} gpgconf gpgsm gsasl-common shim*
-	${sharpy} grub* gsfonts gstreamer*
+	${sharpy} grub* gsfonts gstreamer* #gs-jutut tilassa ic
+
+	#htop ei poistunut eikä microcode-jutut
 	${sharpy} intel-microcode iucode-tool htop inetutils-telnet
 
 	${asy} 
@@ -163,8 +172,9 @@ function t2p() {
 	#${sharpy} libcolor* 
 	#csleep 5
 
+	#libgphoto edelleen läsnä kuten libgssapi
 	${sharpy} libpoppler* libuno* libreoffice* libgsm* libgstreamer*
-	${sharpy} lvm2 lynx* mdadm mailcap
+	${sharpy} lvm2 lynx* mdadm mailcap #nämä tilassa ic
 
 	${asy} 
 	${lftr}
@@ -173,32 +183,33 @@ function t2p() {
 	${sharpy} mlocate mokutil mariadb-common mysql-common
 	${sharpy} netcat-traditional openssh* os-prober #orca saattaa poistua jo aiemmin
 	${sharpy} nfs-common rpcbind
+	#policykit-*,  pop-con ja powertop edelleen ii
 
 	csleep 5
 	dqb "p"
 	csleep 5
 
 	${sharpy} ppp procmail ristretto screen
-	${sharpy} pkexec po* refracta* squashfs-tools
+	${sharpy} pkexec po* refracta* squashfs-tools #reftactat enimmäkseen ii kuten myös squashfs
 	
 	${asy} 
 	${lftr}
 	csleep 5
 
 	#HUOM.15525 vaikuttaisi toimivan, ajon jälkeen x toimii edelleen
-	${sharpy} samba* system-config* telnet tex* 
+	${sharpy} samba* system-config* telnet tex*  #nämä edlleen ii
 
 	#VAIH:, python3*, , voisiko niitä karsia?
-	${sharpy} syslinux* mythes isolinux libgssapi-krb5-2
+	${sharpy} syslinux* mythes isolinux libgssapi-krb5-2 #nämä edelleen ii
 
-	${sharpy} uno* ure* upower vim* # udisks* saattaa poistua jo aiemmin
+	${sharpy} uno* ure* upower vim* #upower ja vim edelleen
 	${asy} 
 	${lftr}
 	csleep 5
 
 	dqb "x"
 	csleep 5
-	${sharpy} xorriso xfburn
+	${sharpy} xorriso xfburn #edelleen
 	${asy} 
 
 	${lftr}
@@ -207,7 +218,10 @@ function t2p() {
 	${NKVD} ${d}/*.deb 
 	${NKVD} /tmp/*.tar
 	${smr} -rf /tmp/tmp.*
-	${smr} /usr/share/doc #rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
+
+	${smr} -rf /usr/share/doc 
+	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
+
 	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
 	df
 	${odio} which dhclient; ${odio} which ifup; csleep 6
