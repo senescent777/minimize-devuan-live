@@ -122,25 +122,29 @@ function part2_pre() {
 }
 
 function t2p() {
-	#HUOM.24545:näköjään ei poistunut tokan rivin listasta mikään. kts jos toistuu
-	#tulisi kai selvittää, onko oikeasti poissa vai kaipaako jokin välimuisti päivitystä
+	dqb "x"
+	csleep 1
+
+	${sharpy} xorriso xfburn #edelleen
+	${asy}
+	csleep 4
 
 	${sharpy} amd64-microcode iucode-tool arch-test at-spi2-core 
-	${sharpy} bubblewrap atril* coinor* cryptsetup* debootstrap
+
 
 	#HUOM.23525:poistettavien listaa pystyisi ehkä säätämään vielä, dpkg -l
 
 	${asy} 
 	${lftr}
-	csleep 5
+	csleep 3
 
-	${sharpy} dmidecode discover* dirmngr #tuleekohan viimeisestä ongelma? vissiin ei
-	${sharpy} doc-debian docutils* efibootmgr exfalso 
-	${sharpy} fdisk ftp* gdisk gcr
+	${sharpy} dmidecode dirmngr discover*
+	${sharpy} doc-debian efibootmgr exfalso docutils*
+	${sharpy} fdisk gdisk gcr ftp*
 
 	${asy} 
 	${lftr}
-	csleep 5
+	csleep 3
 
 	##gnome-* poisto veisi myös: task-desktop task-xfce-desktop
 	##gpg* kanssa: The following packages have unmet dependencies:
@@ -155,10 +159,7 @@ function t2p() {
 
 	${sharpy} ghostscript gir* gnupg* gpg-*
 	${sharpy} gpgconf gpgsm gsasl-common shim*
-	${sharpy} grub* gsfonts gstreamer* #gs-jutut tilassa ic
 
-	#htop ei poistunut eikä microcode-jutut
-	${sharpy} intel-microcode iucode-tool htop inetutils-telnet
 
 	${asy} 
 	${lftr}
@@ -172,59 +173,114 @@ function t2p() {
 	#${sharpy} libcolor* 
 	#csleep 5
 
-	#libgphoto edelleen läsnä kuten libgssapi
+	
 	${sharpy} libpoppler* libuno* libreoffice* libgsm* libgstreamer*
-	${sharpy} lvm2 lynx* mdadm mailcap #nämä tilassa ic
 
 	${asy} 
 	${lftr}
 	csleep 5
 
 	${sharpy} mlocate mokutil mariadb-common mysql-common
-	${sharpy} netcat-traditional openssh* os-prober #orca saattaa poistua jo aiemmin
+	${sharpy} netcat-traditional os-prober openssh* #orca saattaa poistua jo aiemmin
 	${sharpy} nfs-common rpcbind
-	#policykit-*,  pop-con ja powertop edelleen ii
+	
+	${asy} 
+	${lftr}
 
 	csleep 5
 	dqb "p"
 	csleep 5
 
 	${sharpy} ppp procmail ristretto screen
-	${sharpy} pkexec po* refracta* squashfs-tools #reftactat enimmäkseen ii kuten myös squashfs
 	
 	${asy} 
 	${lftr}
 	csleep 5
 
 	#HUOM.15525 vaikuttaisi toimivan, ajon jälkeen x toimii edelleen
-	${sharpy} samba* system-config* telnet tex*  #nämä edlleen ii
+	
 
 	#VAIH:, python3*, , voisiko niitä karsia?
-	${sharpy} syslinux* mythes isolinux libgssapi-krb5-2 #nämä edelleen ii
+	
 
-	${sharpy} uno* ure* upower vim* #upower ja vim edelleen
+	${sharpy} uno* ure* #upower vim* 
 	${asy} 
 	${lftr}
-	csleep 5
+	csleep 4
 
-	dqb "x"
-	csleep 5
-	${sharpy} xorriso xfburn #edelleen
+	#HUOM.24545:näköjään ei poistunut tokan rivin listasta mikään. kts jos toistuu
+	#tulisi kai selvittää, onko oikeasti poissa vai kaipaako jokin välimuisti päivitystä
+	${sharpy} bubblewrap debootstrap
+	${sharpy} atril* coinor* cryptsetup*
+
 	${asy} 
-
 	${lftr}
-	${NKVD} ${pkgdir}/*.deb
-	${NKVD} ${pkgdir}/*.bin 
-	${NKVD} ${d}/*.deb 
-	${NKVD} /tmp/*.tar
-	${smr} -rf /tmp/tmp.*
+	csleep 4
 
-	${smr} -rf /usr/share/doc 
-	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
+	${sharpy} gsfonts grub* gstreamer* #gs-jutut tilassa ic
 
-	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
-	df
-	${odio} which dhclient; ${odio} which ifup; csleep 6
+	#htop ei poistunut eikä microcode-jutut
+	${sharpy} intel-microcode iucode-tool htop inetutils-telnet
+
+	${asy} 
+	${lftr}
+	csleep 4
+
+	#libgphoto edelleen läsnä kuten libgssapi
+	${sharpy} libgphoto2* libgssapi*
+	
+	${asy} 
+	${lftr}
+	csleep 4
+
+	#policykit-*,  pop-con ja powertop edelleen ii
+	${sharpy} po*
+	
+	${asy} 
+	${lftr}
+	csleep 4
+
+	${sharpy} pkexec squashfs-tools refracta* #refRactat enimmäkseen ii kuten myös squashfs
+	${asy} 
+	${lftr}
+	csleep 4
+
+	${sharpy} mdadm mailcap lvm2 lynx*  #nämä tilassa ic
+	${asy} 
+	${lftr}
+	csleep 4
+
+	${sharpy} telnet samba* system-config* tex*  #nämä edlleen ii
+	${asy} 
+	${lftr}
+	csleep 4
+
+	${sharpy} mythes isolinux syslinux* #libgssapi-krb5-2 #nämä edelleen ii
+	${asy} 
+	${lftr}
+	csleep 4
+
+	#upower ja vim edelleen
+	${sharpy} upower vim*
+	${asy} 
+	${lftr}
+	csleep 4
+
+
+	t2pf
+
+#	${NKVD} ${pkgdir}/*.deb
+#	${NKVD} ${pkgdir}/*.bin 
+#	${NKVD} ${d}/*.deb 
+#	${NKVD} /tmp/*.tar
+#	${smr} -rf /tmp/tmp.*
+#
+#	${smr} -rf /usr/share/doc 
+#	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
+#
+#	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
+#	df
+#	${odio} which dhclient; ${odio} which ifup; csleep 6
 } 
 
 check_binaries ${PREFIX}/${distro}
