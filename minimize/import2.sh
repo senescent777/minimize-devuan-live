@@ -138,6 +138,13 @@ dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "file=${file}"
 d=${PREFIX}/${distro}
+mkt=$(${odio} which mktemp)
+
+if [ x"${mkt}" == "x" ] ; then
+	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
+	echo "sudo apt-get update;sudo apt-get install coreutils"
+	exit 8
+fi
 
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
@@ -335,7 +342,7 @@ case "${mode}" in
 			dqb "INCLUDE OK"
 			csleep 1
 
-			q=$(mktemp -d)
+			q=$(${mkt} -d)
 			${srat} -C ${q} -xvf ${file}
 			imp_prof esr ${n} ${q}
 		else

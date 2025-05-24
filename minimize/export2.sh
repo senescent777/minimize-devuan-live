@@ -167,8 +167,8 @@ function usage() {
 dqb "tar = ${srat} "
 ${scm} 0555 ${PREFIX}/changedns.sh
 ${sco} root:root ${PREFIX}/changedns.sh
-tig=$(sudo which git)
-mkt=$(sudo which mktemp)
+tig=$(${odio} which git)
+mkt=$(${odio} which mktemp)
 
 if [ x"${tig}" == "x" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
@@ -585,7 +585,7 @@ function tp3() {
 	tig=$(sudo which git)
 
 	p=$(pwd)
-	q=$(mktemp -d) #TODO:${mkt}
+	q=$(${mkt} -d)
 	cd ${q}
 	
 	[ ${debug} -eq 1 ] && pwd  
@@ -703,7 +703,7 @@ function tp5() {
 	csleep 2
 
 	local q
-	q=$(mktemp -d) #TODO:${mkt}
+	q=$(${mkt} -d)
 	cd ${q}
 	[ $? -eq 0 ] || exit 77
 
