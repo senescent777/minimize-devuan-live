@@ -32,4 +32,6 @@ else
 	part2_5 1 #HUOM.15425: oli part2 1
 fi
 
-#TODO:tähän sitten jotain, tai siis $dustro/lib, tässä kutsutaan
+#VAIH:tähän sitten jotain, tai siis $dustro/lib, tässä kutsutaan
+t2p
+${whack} xfce4-session

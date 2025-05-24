@@ -761,6 +761,7 @@ function part2_5() {
 		${sharpy} libblu* libcupsfilters* libgphoto* #tartteeko vielä?
 		${sharpy} blu*
 		${sharpy} po* pkexec
+		${sharpy} python3-cups
 		${lftr}
 		csleep 1
 

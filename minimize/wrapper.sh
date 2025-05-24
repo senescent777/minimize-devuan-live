@@ -24,6 +24,7 @@ case ${1} in
 	import)
 		#HUOM.23525:ei tahtonut w toimia q common_lib poissa pelistä, vissiin imp2 johtuva
 		${d}/import2.sh -1
+		#TODO:exit jos ei onnistu?
 		read -p "source?" sorsa
 
 		${d}/import2.sh 0 ${sorsa}
@@ -36,8 +37,8 @@ case ${1} in
 		${d}/generic_doit.sh
 	;;
 	pt2)
-		#VAIH:generic_pt2 jatkossa?
-		${d}/${distro}/pt2.sh
+		#${d}/${distro}/pt2.sh
+		${d}/generic_pt2.sh -v
 	;;
 	pw)
 		${d}/generic_doit.sh 1
