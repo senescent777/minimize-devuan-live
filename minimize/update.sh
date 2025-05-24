@@ -61,7 +61,7 @@ if [ -f ${tgt} ] ; then
 		}
 
 		${spc} ${tgt} ${tgt}.OLD #vaiko mv?
-		sleep 3
+		sleep 2
 
 		#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
 		for f in $(find ${PREFIX}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
@@ -90,7 +90,7 @@ if [ -f ${tgt} ] ; then
 		${scm} 0755 /etc/iptables
 		${scm} 0444 /etc/iptables/*
 		${scm} 0444 /etc/default/rules*
-		sleep 5
+		sleep 2
 				
 		for f in $(find /etc -name 'rules*') ; do
 			if [ -s ${f} ] && [ -r ${f} ] ; then
@@ -98,13 +98,16 @@ if [ -f ${tgt} ] ; then
 			fi
 		done #JOSKO NYT SKEOILU VÄHENISI PRKL
 
-		sleep 5
+		#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
+		for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
+
+		sleep 2
 		${scm} 0400 /etc/default/rules*
 		${scm} 0400 /etc/iptables/*
 		${scm} 0550 /etc/iptables
-		sleep 5
+		sleep 2
 
-		sleep 3
+		#sleep 3
 
 		#HUOM.saattaa urputtaa $tgt polusta riippuen
 		sudo touch ${tgt}.sha
