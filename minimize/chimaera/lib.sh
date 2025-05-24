@@ -18,19 +18,19 @@ function pre_part3() {
 	#HUOM.140525:toiminee jo jollain lailla, "no" siihen kysymykseen olisi kuitenkin kiva saada välitettyä dpkg:lle asti
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
-	[ $? -eq 0 ] && ${smr} -f ${1}/netfilter-persistent*.deb  #${NKVD}
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb
 	csleep 2
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
-	[ $? -eq 0 ] && ${smr} -f ${1}/libip*.deb #${NKVD}
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb
 	csleep 2
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
-	[ $? -eq 0 ] && ${smr} -f ${1}/iptables_*.deb
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables_*.deb
 	csleep 2
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables-*.deb
-	[ $? -eq 0 ] && ${smr} -f ${1}/iptables-*.deb
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables-*.deb
 
 	dqb "pp3 d0n3"
 	csleep 6
@@ -79,27 +79,21 @@ function udp6() {
 	dqb "ch1m.lib.UPDP-6"
 	csleep 2
 
-	${smr} ${pkgdir}/libx11-xcb1*
-	${smr} ${pkgdir}/nfs*
-	${smr} ${pkgdir}/rpc*
-	${smr} ${pkgdir}/python3.11*
-	${smr} ${pkgdir}/xserver-xorg-core*
-	${smr} ${pkgdir}/xserver-xorg-legacy*
-	${smr} ${pkgdir}/libgtk-3-bin*
-	${smr} ${pkgdir}/libpython3.11*
-	${smr} ${pkgdir}/librsvg2*
-	
-#	#VAIH:kts part2_5 (?)
-#	${smr} ${pkgdir}/avahi*
-#	${smr} ${pkgdir}/blu*
-#	${smr} ${pkgdir}/cups*
-#	${smr} ${pkgdir}/exim*
+	${NKVD} ${pkgdir}/libx11-xcb1*
+	${NKVD} ${pkgdir}/nfs*
+	${NKVD} ${pkgdir}/rpc*
+	${NKVD} ${pkgdir}/python3.11*
+	${NKVD} ${pkgdir}/xserver-xorg-core*
+	${NKVD} ${pkgdir}/xserver-xorg-legacy*
+	${NKVD} ${pkgdir}/libgtk-3-bin*
+	${NKVD} ${pkgdir}/libpython3.11*
+	${NKVD} ${pkgdir}/librsvg2*
 	
 	for s in ${PART175_LIST} ; do
 		dqb "processing ${s}"
 		csleep 1
 
-		${smr} ${pkgdir}/${s}*
+		${NKVD} ${pkgdir}/${s}*
 		csleep 1
 	done
 
@@ -109,7 +103,7 @@ function udp6() {
 			csleep 6
 		;;
 		*)
-			${smr} ${pkgdir}/wpa*
+			${NKVD} ${pkgdir}/wpa*
 		;;
 	esac
 
@@ -123,5 +117,5 @@ function part2_pre() {
 	csleep 5
 }
 
-check_binaries ${distro}
+check_binaries ${PREFIX}/${distro}
 check_binaries2
