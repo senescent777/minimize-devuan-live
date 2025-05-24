@@ -105,7 +105,6 @@ else
 		dqb "exp32.ppp3()"
 	}
 
-	
 	prevopt=""
 
 	for opt in $@ ; do
@@ -168,7 +167,6 @@ function usage() {
 dqb "tar = ${srat} "
 ${scm} 0555 ${PREFIX}/changedns.sh
 ${sco} root:root ${PREFIX}/changedns.sh
-
 tig=$(sudo which git)
 mkt=$(sudo which mktemp)
 
@@ -188,7 +186,6 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 2
 
-#HUOM.23525:$smr-jutut aiheuttivat nalkutusta tässä kun common_lib poissa pelistä (toivottavasti jo kunnossa)
 function pre1() {
 	debug=1
 	dqb "pre1( ${1} )"
@@ -209,9 +206,6 @@ function pre1() {
 		local ortsac
 		ortsac=$(echo ${1} | cut -d '/' -f 6)
 
-		#HUOM.14525:yritetään tässä muuttaa sources.list s.e. toisen distron pakettien lataus onnistuu
-		#erikseen sitten se, mikä sources menee arkistoon ja millä nimellä
-	
 		if [ -s /etc/apt/sources.list.${ortsac} ] ; then
 			${smr} /etc/apt/sources.list #vähän jyrkkää mutta
 		else
@@ -220,7 +214,7 @@ function pre1() {
 		fi
 
 		${slinky} /etc/apt/sources.list.${ortsac} /etc/apt/sources.list
-		ls -las /etc/apt/sources.list*		
+		[ ${debug} -eq 1 ] && ls -las /etc/apt/sources.list*		
 		csleep 6
 	else
 		echo "P.V.HH"
@@ -356,7 +350,7 @@ function rmt() {
 	fi
 
 	dqb "KJHGOUYFIYT"
-	csleep 2
+	csleep 1
 
 	${scm} 0444 ${2}/*.deb
 	touch ${2}/sha512sums.txt
@@ -514,7 +508,6 @@ function tp2() {
 	dqb "JUST BEFORE URLE	S"
 	csleep 2
 
-	#TOIMISIKO JO? PITÄISI KAI VARMISTAA ETTÄ 0-PITUISIA EI TULE MUKAAN (VAI VIELÄKÖ SKRIPTIt PASKOVAT?)
 	for f in $(find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
@@ -605,8 +598,6 @@ function tp3() {
 	csleep 2
 	cd more_scripts/misc
 
-	#HUOM.21525:OLISI HYVÄKSI KARSIA NOITA /etc/xxx.päiväys - TYYPPISIÄ TIEDOSTOJA PAKETISTA
-
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm}
 
@@ -673,7 +664,7 @@ function tpu() {
 	dqb "params_ok"
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
-	${NKVD} ${pkgdir}/*.deb #toimiiko tuo NKVD vai ei?
+	${NKVD} ${pkgdir}/*.deb
 	dqb "TUP PART 2"
 
 	${fib} #uutena 205.25
@@ -682,7 +673,7 @@ function tpu() {
 	csleep 2
 
 	#30425:kuseekohan tuossa jokin? wpasupplicantin poisto melkein johti xorgin poistoon...
-	udp6
+	udp6 #HUOM.24525:tähän se mktemp?
 
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ${2}
