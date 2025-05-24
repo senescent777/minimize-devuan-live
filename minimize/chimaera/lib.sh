@@ -116,202 +116,135 @@ function udp6() {
 
 function part2_pre() {
 	dqb "PP2"
+	csleep 1
 }
 
 function t2p() {
-	dqb "DOES NOT YET WORK PROPERLY"	
-#	dqb "x"
+	dqb "DOES NOT YET WORK PROPERLY"
 	csleep 1
-#
-#	#libgphoto edelleen läsnä kuten libgssapi
-#	${sharpy} libgphoto2*
-#	${asy}
-#
-#	${sharpy} libgssapi*
-#	${asy}
-#
-#	${sharpy} xorriso xfburn #nyt jos jo poistuisi
-#	${asy}
-#	csleep 3
-#
-#	#HUOM.23525:poistettavien listaa pystyisi ehkä säätämään vielä, dpkg -l
-#
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	${sharpy} dmidecode
-#	${sharpy} doc-debian efibootmgr exfalso docutils*
-#	${sharpy} fdisk gdisk gcr ftp*
-#
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	##gnome-* poisto veisi myös: task-desktop task-xfce-desktop
-#	##gpg* kanssa: The following packages have unmet dependencies:
-#	## apt : Depends: gpgv but it is not going to be installed or
-#	##                gpgv2 but it is not going to be installed or
-#	##                gpgv1 but it is not going to be installed
-#	##HUOM. grub* poisto voi johtaa shim-pakettien päivitykseen
-#	##gsettings* voi viedä paljon paketteja mukanaan
-#
-#	dqb "g2"
-#	csleep 3
-#
-#	${sharpy} ghostscript gir* gnupg* gpg-*
-#	${sharpy} gpgconf gpgsm gsasl-common shim*
-#
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	#lib-paketteihin ei yleisessä tapauksessa kande koskea eikä live-
-#	#libgssapi-krb5 tarpeellinen?
-#	#HUOM! PAKETIT procps, mtools JA mawk JÄTETTÄVÄ RAUHAAN!!! (tai mtools ehkä uskaltaa kun o muitsa poistettu ensin)
-#
-#	#HUOM.15525:uutena libcolor, näytti poistavan liikaa joten jemmaan
-#	#${sharpy} libcolor* 
-#	#csleep 3
-#
-#	${sharpy} libpoppler* libuno* libreoffice* libgsm* libgstreamer*
-#
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	${sharpy} mlocate mokutil mariadb-common mysql-common
-#	${sharpy} netcat-traditional os-prober openssh* #orca saattaa poistua jo aiemmin
-#	${sharpy} nfs-common rpcbind
-#	
-#	${asy} 
-#	${lftr}
-#
-#	csleep 3
-#	dqb "p"
-#	#csleep 5
-#
-#	${sharpy} ppp procmail ristretto screen
-#	
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	#HUOM.15525 vaikuttaisi toimivan, ajon jälkeen x toimii edelleen
-#	#VAIH:, python3*, , voisiko niitä karsia?
-#
-#	${sharpy} uno* ure* #upower vim* 
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	#HUOM.24545:näköjään ei poistunut tokan rivin listasta mikään. kts jos toistuu
-#	#tulisi kai selvittää, onko oikeasti poissa vai kaipaako jokin välimuisti päivitystä
-#	${sharpy} bubblewrap
-#	${sharpy} atril* coinor* cryptsetup*
-#
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	${sharpy} gsfonts grub* gstreamer* #gs-jutut tilassa ic
-#
-#	#htop ei poistunut eikä microcode-jutut
-#	#${sharpy} htop intel-microcode iucode-tool inetutils-telnet
-#
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#	
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	#policykit-*,  pop-con ja powertop edelleen ii
-#	${sharpy} po*
-#	
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	${sharpy} pkexec squashfs-tools refracta* #refRactat enimmäkseen ii kuten myös squashfs
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	${sharpy} mdadm mailcap lvm2 lynx*  #nämä tilassa ic
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	${sharpy} samba* system-config*  #nämä edlleen ii
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	${sharpy} mythes isolinux syslinux* #libgssapi-krb5-2 #nämä edelleen ii
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	#upower ja vim edelleen
-#	${sharpy} upower vim*
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	${sharpy} bluez cryptsetup*
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-# 	${sharpy} debootstrap dirmngr dmsetup discover*
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	#seur 6 blokkia saattaa joutua ottamaan pois, ehkä fråm scarchc olisi hyvä idea
-#	${sharpy} htop
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	${sharpy} intel-microcode
-#	${asy} 
-#	${lftr}
-#	
-#	${sharpy} iucode-tool
-#	${asy}
-#	csleep 3
-# 
-#	${sharpy} inetutils-telnet
-#	${asy} 
-#	${lftr}
-#	csleep 3
-#
-#	${sharpy} amd64-microcode at-spi2-core arch-test iucode-tool
-#	${asy} 
-#	${lftr}
-#	csleep 3 
-#
-#	${sharpy} telnet tex*
-#	${asy} 
-#	${lftr}
-#	csleep 3 
-#	t2pf
-#
-##	${NKVD} ${pkgdir}/*.deb
-##	${NKVD} ${pkgdir}/*.bin 
-##	${NKVD} ${d}/*.deb 
-##	${NKVD} /tmp/*.tar
-##	${smr} -rf /tmp/tmp.*
-##
-##	${smr} -rf /usr/share/doc 
-##	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
-##
-##	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
-##	df
-##	${odio} which dhclient; ${odio} which ifup; csleep 6
+
+	${sharpy} amd64-microcode at-spi2-core atril*
+	${lftr}
+	${sharpy} bc bluez bubblewrap #bluezin saisi aikaisemminkin pois, åart2_5...
+	${lftr}
+	${asy}
+	csleep 3
+
+	${sharpy} coinor* cryptsetup*
+	${lftr}
+	${asy}
+	csleep 3
+	
+	#dconf,debconf off limits
+	${sharpy} debian-faq  dirmngr discover* doc-debian
+	${lftr}
+	${asy}
+	csleep 3
+
+	${sharpy} docutils* dosfstools efibootmgr exfalso
+	${lftr}
+	${asy}
+	csleep 3
+
+	${sharpy} exfat* fdisk 
+	${lftr}
+	${asy}
+	csleep 3
+
+	${sharpy} ftp gcr ghostscript gimp-data gir*
+	${lftr}
+	${asy}
+	csleep 3
+	
+	#gnome* , gpg* off limits , gnupg* ei löydy
+
+	${sharpy} gparted* gpgsm gpg-agent gpg
+	${lftr}
+	${asy}
+	csleep 3
+	
+	#gsettings-desktop-schemas off limits
+	${sharpy} grub* gsasl-common gsfonts* gstreamer*
+	${lftr}
+	${asy}
+	csleep 3
+
+	${sharpy} gvfs* #jljellä?
+	${sharpy} htop intel-microcode isolinux
+	${lftr}
+	${asy}
+	csleep 3
+	
+	${sharpy} libreoffice*
+	${lftr}
+	${asy}
+	csleep 3
+
+	#lib-jutut jos antaisi enimmäkseen olla rauhassa
+	#HUOM. jokin noista johtaa git:in poistoon
+	${sharpy} libgstreamer* libpoppler* libsane* libsasl*
+	${lftr}
+	${asy}
+	csleep 3
+	
+	#linux* , live* off limits
+	${sharpy} lvm2 lynx* mail* mariadb-common
+	${lftr}
+	${asy}
+	csleep 3
+
+	${sharpy} mdadm mlocate mobile* modem*
+	${lftr}
+	${asy}
+	csleep 3
+
+	${sharpy} mtools mysql-common mythes*
+	${lftr}
+	${asy}
+	csleep 3
+
+	${sharpy} netcat-traditional notification-daemon openssh*
+	${lftr}
+	${asy}
+	csleep 3
+
+	${sharpy} orca packagekit* parted pavucontrol
+	${lftr}
+	${asy}
+	csleep 3
+
+	#TODO:openssh
+
+	${sharpy} pciutils pigz po* ppp
+	${lftr}
+	${asy}
+	csleep 3
+
+	#procps off limits
+	${sharpy} procmail ristretto rpcbind sane-utils screen
+	${lftr}
+	${asy}
+	csleep 3
+
+	${sharpy} shim* squash* speech* syslinux-common
+	${lftr}
+	${asy}
+	csleep 3
+
+	${sharpy} telnet tex* tumbler-common
+	${lftr}
+	${asy}
+	csleep 3
+
+	${sharpy} vim* xorriso yad xz-utils
+	#xfce*,xorg* off limits
+
+	${lftr}
+	${asy}
+	csleep 3
+	
+	dqb "D0N3"
+	csleep 1
 } 
 
 check_binaries ${PREFIX}/${distro}
