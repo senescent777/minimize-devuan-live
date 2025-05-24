@@ -29,6 +29,8 @@ function parse_opts_2() {
 }
 
 . ~/Desktop/minimize/common_lib.sh
+echo $?
+csleep 3
 #HUOM.23525:pitäisiköhän tässä kohtaa jo keskeyttää suoritus jos includointi ei onnistu?
 
 #https://linuxopsys.com/use-dollar-at-in-bash-scripting
