@@ -41,7 +41,6 @@ dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
 part076
-#exit
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -63,12 +62,12 @@ enforce_access ${n}
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
 
-${snt} #HUOM.14525:oli tässä ennen: part175
+${snt}
 csleep 1
 
 #jotain perusteellisempia testejä chimaeran kanssa sitten mikäli jksaa sitä kirjautumisongelmaa (josko selvittelisi korjaamista?)
 #23525: $0 -v 0 toimii, $0 -v toimii, pt2 kun fiksaa parsetuksen, list175 juttujen kanssa vaikeuksia poistaa pak(conf syynä)
-#import2/export2 - testaukset sittenq chimaeraa varten päivityspaketit saatavilla
+#import2/export2 - testaukset sittenq saa aikaiseksi
 #===================================================PART 2===================================
 
 #HUOM. välillä mode=0 - testi (22525 viimeksi)
@@ -91,7 +90,7 @@ function el_loco() {
 		${scm} a+w /etc/default/locale
 		csleep 1
 
-		#/e/d/l voi kasvaa isoksikin näin...
+		#export2 ja update sisältää nykyään rajauksen tdstonimiin tähän liittyen
 		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
 		cat /etc/default/locale
 		csleep 1
@@ -101,15 +100,9 @@ function el_loco() {
 		${scm} a-w /etc/default/locale
 	fi
 
-	if [ ${1} -gt 0 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
-		#client-side session_expiration_checks can be a PITA
+	if [ ${1} -gt 0 ] ; then
 		${odio} dpkg-reconfigure locales
-		
-		#https://tecadmin.net/change-timezone-on-debian/ miten tuo method 2?
 		${odio} dpkg-reconfigure tzdata
-
-		#ei vissiin Devuanissa tämmöistä: https://www.tecmint.com/set-time-timezone-and-synchronize-time-using-timedatectl-command/
-		#https://pkginfo.devuan.org/cgi-bin/policy-query.html?c=package&q=timedatectl&x=submit
 	else
 		${odio} locale-gen #oli aiemmin ennen if-blokkia
 	fi
@@ -144,7 +137,6 @@ if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
 	csleep 2
 	${odio} passwd
 
-	#miksi tähän ei mennä? vai mennäänkö? ilmeinen syy?
 	if [ $? -eq 0 ] ; then
 		dqb "L (in 2 secs)"
 		csleep 2
@@ -165,7 +157,6 @@ c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 
 part2_pre ${removepkgs}
-#part2 ${removepkgs} #takaisin jos 2_5 pykii
 part2_5 ${removepkgs}
 
 #===================================================PART 3===========================================================
@@ -185,7 +176,6 @@ csleep 2
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	. ~/Desktop/minimize/profs.sh
 
-	#HUOM.21525:miksi varten ilm suoraan /tmp alle firefox-esr? tarttisko tehdä jotain?
 	q=$(mktemp -d)
 	dqb "${srat} -C ${q} ... 1n 1 s3c5s"
 	csleep 1
