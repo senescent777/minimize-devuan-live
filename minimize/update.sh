@@ -4,17 +4,12 @@ u=0
 v=0
 PREFIX=~/Desktop/minimize
 
-#tapaus $dir valmiiksi mountattu, miksi urputtaa?
-# korjaa muutkin kiukutteluT samalla jos mahd 
-#... tai siis jos vielä toistuu juuri tuo
-
 if [ z"${distro}" != "z" ] ; then
 	if [ -s ${PREFIX}/${distro}/conf ] ; then
 		. ${PREFIX}/${distro}/conf
 		echo "CNF F0UND"; sleep 1
 
 		if  [ -v dir ] && [ -d ${dir} ] ; then
-			#v=$(grep -c ${dir} /proc/mounts) #qseeko tässä jokin? aiempi tapa parempi?
 			v=$(grep ${dir} /proc/mounts | wc -l)
 			u=1 #tdstojärj paskoontumisem välttämiseksi
 
@@ -37,7 +32,6 @@ tcmd=$(which tar)
 spc=$(which cp)
 scm=$(which chmod)
 sco=$(which chown)
-#jos ei tällä lähde taas toimimaan niin $2 sanomaan sudotetaanko vai ei?
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
@@ -66,9 +60,6 @@ if [ -f ${tgt} ] ; then
 		#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
 		for f in $(find ${PREFIX}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
 		for f in $(find ${PREFIX}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
-		
-		#varm. vuoksi rajaus että alihakemistoista ei katsota
-		#...pitäisi myös varmistaa että menevät kalat oikeaan kohteeseen hmistopolussa
 		for f in $(find ${PREFIX}/ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
 	
 		#tavoitteena locale-juttujen lisäksi localtime mukaan
