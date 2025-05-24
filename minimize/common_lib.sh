@@ -233,7 +233,7 @@ function ppp3() {
 		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
 		echo "SHOULD REMOVE ${1} /sha512sums.txt"
 		echo "\"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
-		exit 55	
+		#exit 55 HUOM.24525:antaa olla kommenteissa toistaiseksi, ,esim. chimaeran tapauksessa ei välttis ole $distro:n alla .deb aluksi	
 	fi
 }
 
@@ -400,6 +400,7 @@ function dinf() {
 	#exit
 }
 
+#HUOM.24525:annettiinko tälle 2. parametria? käytetäänkö edes ekaa nkyään?
 function pre_enforce() {
 	dqb "common_lib.pre_enforce( ${1} , ${2} )"
 	local q
@@ -497,9 +498,9 @@ function e_v() {
 	csleep 1
 }
 
-#TODO:$PREFIX 2. parametriksi
+#VAIH:$PREFIX 2. parametriksi
 function e_h() {
-	dqb "e_h( ${1} )"
+	dqb "e_h( ${1} , ${2} )"
 	csleep 1
 
 	${sco} root:root /home
@@ -511,20 +512,23 @@ function e_h() {
 		csleep 1
 	fi
 
+	[ -d ${2} ] || exit 99
 	local f
-	${scm} 0755 ${PREFIX}
+	dqb " e h PT 2"
+	csleep 2
+	${scm} 0755 ${2}
 
-	for f in $(find ${PREFIX} -type d) ; do ${scm} 0755 ${f} ; done
-	for f in $(find ${PREFIX} -type f) ; do ${scm} 0444 ${f} ; done
-	for f in $(find ${PREFIX} -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
-	for f in $(find ${PREFIX} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
-	for f in $(find ${PREFIX} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
+	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
+	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
+	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
+	for f in $(find ${2} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
+	for f in $(find ${2} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
 
 	dqb "F1ND D0N3"
 	csleep 1
 
-	${scm} 0555 ${PREFIX}/changedns.sh
-	${sco} root:root ${PREFIX}/changedns.sh
+	${scm} 0555 ${2}/changedns.sh
+	${sco} root:root ${2}/changedns.sh
 
 	dqb "e_h()"
 	csleep 1
@@ -571,7 +575,7 @@ function enforce_access() {
 	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
-	e_h ${1}
+	e_h ${1} ${PREFIX}
 	e_final
 
 	jules

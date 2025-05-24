@@ -67,7 +67,7 @@ csleep 1
 
 #jotain perusteellisempia testejä chimaeran kanssa sitten mikäli jksaa sitä kirjautumisongelmaa (josko selvittelisi korjaamista?)
 #23525: $0 -v 0 toimii, $0 -v toimii, pt2 kun fiksaa parsetuksen, list175 juttujen kanssa vaikeuksia poistaa pak(conf syynä)
-#import2/export2 - testaukset sittenq saa aikaiseksi
+#import2/export2 - testaukset sittenq saa aikaiseksi (e2 onnistuu jotain paketteja tekemään ainakin)
 #===================================================PART 2===================================
 
 #HUOM. välillä mode=0 - testi (22525 viimeksi)
