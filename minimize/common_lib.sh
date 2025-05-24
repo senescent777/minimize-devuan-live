@@ -844,7 +844,7 @@ function part3_4real() {
 
 function part3() {
 	dqb "part3 ${1}"
-	csleep 3
+	csleep 1
 	jules
 	ppp3 ${1}
 
@@ -853,6 +853,21 @@ function part3() {
 	part3_4real ${1}
 
 	other_horrors
+}
+
+function t2pf() {
+	${NKVD} ${pkgdir}/*.deb
+	${NKVD} ${pkgdir}/*.bin 
+	${NKVD} ${d}/*.deb 
+	${NKVD} /tmp/*.tar
+	${smr} -rf /tmp/tmp.*
+
+	${smr} -rf /usr/share/doc 
+	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
+
+	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
+	df
+	${odio} which dhclient; ${odio} which ifup; csleep 6
 }
 
 #HUOM.voisi -v käsitellä jo tässä
