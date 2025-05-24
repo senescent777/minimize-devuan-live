@@ -174,7 +174,12 @@ part3 ${d} ${dnsm}
 other_horrors
 
 #tai sitten käskytetään:import2 (TODO?)
-[ -s ~/Desktop/minimize/config.tar.bz2 ] && ${srat} -C / -jxf ~/Desktop/minimize/config.tar.bz2
+if [ -s ${PREFIX}/config.tar.bz2 ] ; then
+	${srat} -C / -jxf ${PREFIX}/config.tar.bz2
+	#${NKVD} ${PREFIX}/config.tar.bz2 tämä saa olla toistaiseksi
+fi
+
+${NKVD} ${PREFIX}/config.tar #tämä vie turhaan tilaa, pois
 csleep 2
 
 if [ -x ~/Desktop/minimize/profs.sh ] ; then

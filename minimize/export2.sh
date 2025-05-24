@@ -150,7 +150,7 @@ else
 		dqb "exp32.UPD6()"
 	}
 
-	check_binaries ${distro}
+	check_binaries ${PREFIX}/${distro}
 	check_binaries2
 fi
 

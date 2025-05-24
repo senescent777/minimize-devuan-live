@@ -170,10 +170,6 @@ function jules() {
 	[ -L /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6 #mikä ero, L vs h ?
 	csleep 2
 
-#	${scm} 0400 /etc/iptables/*
-#	${scm} 0400 /etc/default/rules*
-#	${scm} 0550 /etc/iptables
-#	${sco} -R root:root /etc/iptables
 	other_horrors
 
 	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
@@ -225,15 +221,19 @@ function psqa() {
 
 #HUOM.23525:jossain debug-tekstissä saattoi olla polut väärin, selvitä+korjaa jos toistuu
 #"import2 0 /xxx/yyy -v" kautta tapahtui joten check_bin ja PREFIX tulisi tarkistaa että itä arvoja assvat
+#24525:saattoi löytyä syyllinen
 function ppp3() {
+	dqb "ppp3 ${1}"
+	csleep 3
+
 	local c
 	c=$(find ${1} -type f -name '*.deb' | wc -l) #oli:ls -las ip*.deb
 
 	if [ ${c} -lt 1 ] ; then
 		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
-		echo "SHOULD REMOVE  ${1} /sha512sums.txt"
-		echo "\"${scm} a-x  ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
-		#exit 555	
+		echo "SHOULD REMOVE ${1} /sha512sums.txt"
+		echo "\"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
+		#exit 55	
 	fi
 }
 
@@ -257,10 +257,10 @@ function check_binaries() {
 	fi
 
 	if [ y"${ipt}" == "y" ] ; then
-		#TODO:PREFIXin karsiminen
+		#VAIH:PREFIXin karsiminen
 		[ z"${1}" == "z" ] && exit 99
-		dqb "-d ${PREFIX}/${1} existsts?"
-		[ -d ${PREFIX}/${1} ] || exit 101
+		dqb "-d ${1} existsts?"
+		[ -d ${1} ] || exit 101
 
 		dqb "params_ok"
 		csleep 1
@@ -268,19 +268,19 @@ function check_binaries() {
 		echo "SHOULD INSTALL IPTABLES"
 		jules
 
-		if [ -s ${PREFIX}/${1}/e.tar ] ; then
-			${odio} ${srat} -C / -xf ${PREFIX}/${1}/e.tar
-			${odio} ${NKVD} ${PREFIX}/${1}/e.tar  #jompikumpi hoitaa
-			${odio} ${smr} ${PREFIX}/${1}/e.tar
+		if [ -s ${1}/e.tar ] ; then
+			${odio} ${srat} -C / -xf ${1}/e.tar
+			${odio} ${NKVD} ${1}/e.tar  #jompikumpi hoitaa
+			${odio} ${smr} ${1}/e.tar
 		fi
 
 		#HUOM.21525:olisikohan niin simppeli juttu että dpkg seuraa linkkiä ja nollaa tdston mihin linkki osoittaa?
 		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
 		#csleep 3
 
-		ppp3 ${PREFIX}/${1}
-		pre_part3 ${PREFIX}/${1} #${dnsm} HUOM.23525:tekeekö jälkimmäinen param mitään?
-		pr4 ${PREFIX}/${1} #${dnsm}
+		ppp3 ${1}
+		pre_part3 ${1} #${dnsm} HUOM.23525:tekeekö jälkimmäinen param mitään?
+		pr4 ${1} #${dnsm}
 
 		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
 		other_horrors
@@ -843,8 +843,10 @@ function part3_4real() {
 }
 
 function part3() {
+	dqb "part3 ${1}"
+	csleep 3
 	jules
-	ppp3 ${PREFIX}/${1}
+	ppp3 ${1}
 
 	pre_part3 ${1} ${2}
 	pr4 ${1} ${2}
