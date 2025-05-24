@@ -24,7 +24,7 @@ case ${1} in
 	import)
 		#HUOM.23525:ei tahtonut w toimia q common_lib poissa pelistä, vissiin imp2 johtuva
 		${d}/import2.sh -1
-		#TODO:exit jos ei onnistu?
+		#[ $? -gt 0 ] && exit 45 HUOM. jos on jo valmiiksi mountattu ni turha exit
 		read -p "source?" sorsa
 
 		${d}/import2.sh 0 ${sorsa}
