@@ -36,6 +36,7 @@ tgt=${1}
 tcmd=$(which tar)
 spc=$(which cp)
 scm=$(which chmod)
+sco=$(which chown)
 #jos ei tällä lähde taas toimimaan niin $2 sanomaan sudotetaanko vai ei?
 
 if [ $# -gt 1 ] ; then
@@ -43,6 +44,7 @@ if [ $# -gt 1 ] ; then
 		tcmd="sudo ${tcmd} "
 		spc="sudo ${spc} "
 		scm="sudo ${scm} "
+		sco="sudo ${sco} "
 	fi
 fi
 
@@ -106,8 +108,9 @@ if [ -f ${tgt} ] ; then
 
 		#HUOM.saattaa urputtaa $tgt polusta riippuen
 		sudo touch ${tgt}.sha
-		sudo chmod 0666 ${tgt}.sha
-		sudo sha512sum ${tgt} > ${tgt}.sha
+		${scm} 0666 ${tgt}.sha
+		${sco} $(whoami):$(whoami) ${tgt}.sha
+		sha512sum ${tgt} > ${tgt}.sha
 		sha512sum -c ${tgt}.sha
  	
 		echo "DONE UPDATING"
