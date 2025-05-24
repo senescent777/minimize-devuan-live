@@ -678,7 +678,8 @@ function tpu() {
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ${2}
 	${odio} touch ${2}/tim3stamp
-	$csm} a+w ${2}/tim3stamp
+	${scm} 0644 ${2}/tim3stamp
+	${sco} $(whoami):$(whoami) ${2}/tim3stamp
 
 	date > ${2}/tim3stamp
 	${srat} -cf ${1} ${2}/tim3stamp
