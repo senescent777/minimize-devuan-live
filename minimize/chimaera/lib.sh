@@ -127,11 +127,9 @@ function t2p() {
 
 	${sharpy} xorriso xfburn #edelleen
 	${asy}
-	csleep 4
+	csleep 3
 
 	${sharpy} amd64-microcode iucode-tool arch-test at-spi2-core 
-
-
 	#HUOM.23525:poistettavien listaa pystyisi ehkä säätämään vielä, dpkg -l
 
 	${asy} 
@@ -155,15 +153,14 @@ function t2p() {
 	##gsettings* voi viedä paljon paketteja mukanaan
 
 	dqb "g2"
-	csleep 5
+	csleep 3
 
 	${sharpy} ghostscript gir* gnupg* gpg-*
 	${sharpy} gpgconf gpgsm gsasl-common shim*
 
-
 	${asy} 
 	${lftr}
-	csleep 5
+	csleep 3
 
 	#lib-paketteihin ei yleisessä tapauksessa kande koskea eikä live-
 	#libgssapi-krb5 tarpeellinen?
@@ -171,14 +168,13 @@ function t2p() {
 
 	#HUOM.15525:uutena libcolor, näytti poistavan liikaa joten jemmaan
 	#${sharpy} libcolor* 
-	#csleep 5
+	#csleep 3
 
-	
 	${sharpy} libpoppler* libuno* libreoffice* libgsm* libgstreamer*
 
 	${asy} 
 	${lftr}
-	csleep 5
+	csleep 3
 
 	${sharpy} mlocate mokutil mariadb-common mysql-common
 	${sharpy} netcat-traditional os-prober openssh* #orca saattaa poistua jo aiemmin
@@ -187,26 +183,23 @@ function t2p() {
 	${asy} 
 	${lftr}
 
-	csleep 5
+	csleep 3
 	dqb "p"
-	csleep 5
+	#csleep 5
 
 	${sharpy} ppp procmail ristretto screen
 	
 	${asy} 
 	${lftr}
-	csleep 5
+	csleep 3
 
 	#HUOM.15525 vaikuttaisi toimivan, ajon jälkeen x toimii edelleen
-	
-
 	#VAIH:, python3*, , voisiko niitä karsia?
-	
 
 	${sharpy} uno* ure* #upower vim* 
 	${asy} 
 	${lftr}
-	csleep 4
+	csleep 3
 
 	#HUOM.24545:näköjään ei poistunut tokan rivin listasta mikään. kts jos toistuu
 	#tulisi kai selvittää, onko oikeasti poissa vai kaipaako jokin välimuisti päivitystä
@@ -215,57 +208,56 @@ function t2p() {
 
 	${asy} 
 	${lftr}
-	csleep 4
+	csleep 3
 
 	${sharpy} gsfonts grub* gstreamer* #gs-jutut tilassa ic
 
 	#htop ei poistunut eikä microcode-jutut
-	${sharpy} intel-microcode iucode-tool htop inetutils-telnet
+	${sharpy} htop intel-microcode iucode-tool inetutils-telnet
 
 	${asy} 
 	${lftr}
-	csleep 4
+	csleep 3
 
 	#libgphoto edelleen läsnä kuten libgssapi
 	${sharpy} libgphoto2* libgssapi*
 	
 	${asy} 
 	${lftr}
-	csleep 4
+	csleep 3
 
 	#policykit-*,  pop-con ja powertop edelleen ii
 	${sharpy} po*
 	
 	${asy} 
 	${lftr}
-	csleep 4
+	csleep 3
 
 	${sharpy} pkexec squashfs-tools refracta* #refRactat enimmäkseen ii kuten myös squashfs
 	${asy} 
 	${lftr}
-	csleep 4
+	csleep 3
 
 	${sharpy} mdadm mailcap lvm2 lynx*  #nämä tilassa ic
 	${asy} 
 	${lftr}
-	csleep 4
+	csleep 3
 
 	${sharpy} telnet samba* system-config* tex*  #nämä edlleen ii
 	${asy} 
 	${lftr}
-	csleep 4
+	csleep 3
 
 	${sharpy} mythes isolinux syslinux* #libgssapi-krb5-2 #nämä edelleen ii
 	${asy} 
 	${lftr}
-	csleep 4
+	csleep 3
 
 	#upower ja vim edelleen
 	${sharpy} upower vim*
 	${asy} 
 	${lftr}
-	csleep 4
-
+	csleep 3
 
 	t2pf
 
