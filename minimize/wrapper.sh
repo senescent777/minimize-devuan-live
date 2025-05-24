@@ -22,7 +22,6 @@ case ${1} in
 		sudo /sbin/ifdown ${iface}
 	;;
 	import)
-		#HUOM.23525:ei tahtonut w toimia q common_lib poissa pelistä, vissiin imp2 johtuva
 		${d}/import2.sh -1
 		#[ $? -gt 0 ] && exit 45 HUOM. jos on jo valmiiksi mountattu ni turha exit
 		read -p "source?" sorsa
@@ -37,7 +36,6 @@ case ${1} in
 		${d}/generic_doit.sh
 	;;
 	pt2)
-		#${d}/${distro}/pt2.sh
 		${d}/generic_pt2.sh -v
 	;;
 	pw)
