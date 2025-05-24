@@ -106,20 +106,21 @@ dqb "x"
 csleep 5
 ${sharpy} xorriso xfburn
 ${asy} 
-
 ${lftr}
-${NKVD} ${pkgdir}/*.deb
-${NKVD} ${pkgdir}/*.bin 
-${NKVD} ${d}/*.deb 
-${NKVD} /tmp/*.tar
-${smr} -rf /tmp/tmp.*
-${smr} /usr/share/doc #rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
-#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
-df
-${odio} which dhclient; ${odio} which ifup; csleep 6
+t2pf
 
-dqb "${scm} a-wx $0 in 6 secs "
-csleep 6
+#${NKVD} ${pkgdir}/*.deb
+#${NKVD} ${pkgdir}/*.bin 
+#${NKVD} ${d}/*.deb 
+#${NKVD} /tmp/*.tar
+#${smr} -rf /tmp/tmp.*
+#${smr} /usr/share/doc #rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
+##squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
+#df
+#${odio} which dhclient; ${odio} which ifup; csleep 3
+
+dqb "${scm} a-wx $0 in 3 secs "
+csleep 3
 ${scm} a-wx $0 
 
 #whack xfce so that the ui is reset
