@@ -1,11 +1,8 @@
 #!/bin/bash
-distro=$(cat /etc/devuan_version)
-debug=1 #HUOM.24525:pientä laittoa vielä komentorivioptioiden kanssa
-d="" #$(dirname $0)
+debug=0 #1
+distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
+PREFIX=~/Desktop/minimize
 loose=1
-PREFIX=~/Desktop/minimize #josqo tähän se dirname?
-
-#HUOM.24525:meneekö -v perille asti? erit. wrapperin kautta? let's find out?
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -16,48 +13,74 @@ function csleep() {
 }
 
 function parse_opts_1() {
-	echo "gp2.po1( ${1} )"
-
+	echo "popt_1( ${1} )"
+	
 	case ${1} in
 		-v|--v)
 			debug=1
 		;;
-	esac
+		*)
+			#if [ ${mode} -eq -2 ] ; then
+			#	mode=${1}
+			#else
+				if [ -d ${PREFIX}/${1} ] ; then
+					distro=${1}
+			#	else
+			#		file=${1}
+				fi
+			#fi
 
-	#tarvisiko yo.caseen sen distron asettamisen?
+			dqb "0th3r 0tps"
+		;;
+	esac
 }
 
 function parse_opts_2() {
-	dqb "gp2.parseopts_2 ${1} ${2}"
+	dqb "parseopts_2 ${1} ${2}"
 }
 
 if [ -x ${PREFIX}/common_lib.sh ] ; then
 	. ${PREFIX}/common_lib.sh
-	[ $? -gt 0 ] && exit 7
 else
-	echo "COMMON LIB NOT FOUND"
-	exit 11
+	echo "NO COMMON LIB"
+	exit 89
 fi
 
-[ -z ${distro} ] && exit 8
+[ -z ${distro} ] && exit 6
 d=${PREFIX}/${distro}
-#jos ei muuten lähde niin kopsaa jutut sieltä mistä toimii tai korjoita tyhjästä uusiksi koko paska
-[ -d ${d} ] || exit 9
-[ -s ${d}/conf ] && . ${d}/conf
-[ -x ${d}/lib.sh ] && . ${d}/lib.sh #mihin tuota taas tarvittiinkaan? kutsumaan check_bin varmaankin
+
+echo "BEFORE CNF"
+echo "dbig= ${debug}"
+sleep 5
+
+if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+	. ${d}/conf
+else #joutuukohan else-haaran muuttamaan jatkossa?
+	echo "CONF MISSING"
+	exit 56
+fi
+
+if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+	. ${d}/lib.sh
+else
+	echo $?
+	dqb "NO LIB"
+	exit 67
+fi
 
 ${scm} 0555 ${PREFIX}/changedns.sh
 ${sco} root:root ${PREFIX}/changedns.sh
 ${fib}
 
-dqb "d=${d}"
+echo "d=${d}"
 echo "debug=${debug}"
-dqb "distro=${distro}"
-dqb "removepkgs=${removepkgs}"
-#exit 10
+echo "distro=${distro}"
+echo "removepkgs=${removepkgs}"
+sleep 2
 
 dqb "a-e"
 csleep 2
+#exit
 
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
@@ -66,6 +89,6 @@ else
 	part2_5 1
 fi
 
-#VAIH:tähän sitten jotain, tai siis $dustro/lib, tässä kutsutaan
 t2p
+t2pf
 ${whack} xfce4-session

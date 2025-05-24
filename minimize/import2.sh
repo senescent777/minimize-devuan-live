@@ -100,10 +100,6 @@ else
 		fi
 	}
 
-	function other_horrors() {
-		dqb "AZATHOTH AND OTHER HORRORS"
-	}
-
 	function ppp3() {
 		dqb "imp32.ppp3()"
 	}
@@ -314,9 +310,9 @@ case "${mode}" in
 
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1
-	
-		dqb "d = ${d}"
-		csleep 1	
+	#
+	#	dqb "d = ${d}"
+	#	csleep 1	
 
 		part3 ${d} ${dnsm} #onkohan tuossa $d polussa jotain vikaa vikaa
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
