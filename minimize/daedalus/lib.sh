@@ -11,35 +11,25 @@ function pre_part3() {
 	[ y"${1}" == "y" ] && exit	
 	[ -d ${1} ] || exit
 	dqb "pp3.2"
-	csleep 1
-
-#	c=$(find ${1} -type f -name '*.deb' | wc -l) #oli:ls -las ip*.deb
-#
-#	if [ ${c} -lt 1 ] ; then
-#		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
-#		echo "SHOULD REMOVE ${1}/sha512sums.txt"
-#		echo "\"${scm} a-x ${1}/../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
-#	fi
 
 	csleep 1
-
 	psqa ${1} #HUOM.22525:varm. vuoksi pp3 kutsuvaan koodiin tämä?
 	#HUOM.140525:toiminee jo jollain lailla, "no" siihen kysymykseen olisi kuitenkin kiva saada välitettyä dpkg:lle asti
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
-	[ $? -eq 0 ] && ${smr} -f ${1}/netfilter-persistent*.deb  #${NKVD}
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb  #${NKVD}
 	csleep 1
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
-	[ $? -eq 0 ] && ${smr} -f ${1}/libip*.deb #${NKVD}
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb #${NKVD}
 	csleep 1
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
-	[ $? -eq 0 ] && ${smr} -f ${1}/iptables_*.deb
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables_*.deb
 	csleep 1
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables-*.deb
-	[ $? -eq 0 ] && ${smr} -f ${1}/iptables-*.deb
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables-*.deb
 
 	dqb "pp3 d0n3"
 	csleep 1
@@ -129,7 +119,7 @@ function part2_pre() {
 	csleep 1
 }
 
-check_binaries ${distro}
+check_binaries ${PREFIX}/${distro}
 check_binaries2
 
 

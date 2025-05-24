@@ -32,6 +32,10 @@ else
 	part2_5 1 #HUOM.15425: oli part2 1
 fi
 
+#HUOM.24525:poistamatta jäi: htop, inetutils-telnet, libgssapi, lynx*, lvm2, mythes-en-us, openssh-client, refracta*, syslinux*, isolinux
+#, telnet, tex*, upower, vim* , xorriso
+#jotain tarttis tehrä
+
 #libgutls-dane, aiheuttaako härdelliä jos poistaa? ei näköjään
 
 #HUOM. ao. rivillä 2. viimeisessä syystä vain core
