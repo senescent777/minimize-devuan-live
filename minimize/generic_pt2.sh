@@ -34,7 +34,6 @@ ${fib}
 
 dqb "a-e"
 csleep 2
-#${fib} #jos kerta riittäisi
 
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
