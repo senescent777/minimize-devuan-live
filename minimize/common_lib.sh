@@ -498,7 +498,6 @@ function e_v() {
 	csleep 1
 }
 
-#VAIH:$PREFIX 2. parametriksi
 function e_h() {
 	dqb "e_h( ${1} , ${2} )"
 	csleep 1
@@ -559,6 +558,7 @@ function e_final() {
 	csleep 1
 }
 
+#TODO:kutsuva koodi tuomaan param $2 kanssa?
 function enforce_access() {
 	dqb " enforce_access( ${1})"
 	csleep 1
@@ -759,7 +759,7 @@ function part2_5() {
 
 		${sharpy} libblu* libcupsfilters* libgphoto* #tartteeko vielä?
 		${sharpy} blu*
-		${sharpy} po* pkexec
+		${sharpy} pkexec po* #jos järjestys merkitsee
 		${sharpy} python3-cups
 		${lftr}
 		csleep 1
