@@ -108,7 +108,19 @@ else
 		dqb "imp32.ppp3()"
 	}
 
-	#tähän sitten se common_lib.init2 copypastella? tai jos ne /e pakotukset mieluummin
+	#kutsutaanko tätä? no yhdestä kohdasta ainakin
+	function other_horrors() {
+		dqb "AZATHOTH AND OTHER HORRORS"
+		${spc} /etc/default/rules.* /etc/iptables
+		${scm} 0400 /etc/iptables/*
+		${scm} 0550 /etc/iptables
+		${sco} -R root:root /etc/iptables
+		${scm} 0400 /etc/default/rules*
+		${scm} 0555 /etc/default
+		${sco} -R root:root /etc/default
+	}
+
+
 	dqb "FALLBACK"
 	dqb "${scm} may be a good idea now"
 	prevopt=""
