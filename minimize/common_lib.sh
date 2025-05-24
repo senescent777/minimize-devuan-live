@@ -233,7 +233,7 @@ function ppp3() {
 		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
 		echo "SHOULD REMOVE ${1} /sha512sums.txt"
 		echo "\"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
-		#exit 55	
+		exit 55	
 	fi
 }
 
@@ -257,7 +257,6 @@ function check_binaries() {
 	fi
 
 	if [ y"${ipt}" == "y" ] ; then
-		#VAIH:PREFIXin karsiminen
 		[ z"${1}" == "z" ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
@@ -279,8 +278,8 @@ function check_binaries() {
 		#csleep 3
 
 		ppp3 ${1}
-		pre_part3 ${1} #${dnsm} HUOM.23525:tekeekö jälkimmäinen param mitään?
-		pr4 ${1} #${dnsm}
+		pre_part3 ${1}
+		pr4 ${1}
 
 		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
 		other_horrors
@@ -430,8 +429,7 @@ function pre_enforce() {
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
 		csleep 1
-		chmod 0440 ${q}/meshuggah #scm
-
+		${scm} 0440 ${q}/meshuggah
 		${sco} root:root ${q}/meshuggah
 		${svm} ${q}/meshuggah /etc/sudoers.d
 
@@ -499,6 +497,7 @@ function e_v() {
 	csleep 1
 }
 
+#TODO:$PREFIX 2. parametriksi
 function e_h() {
 	dqb "e_h( ${1} )"
 	csleep 1
@@ -537,11 +536,9 @@ function e_final() {
 	local f
 	f=$(date +%F)
 
-	#HUOM.15525:interfaces kanssa kikkaiut kuten rules, tartteeko niihin liittyen tehdä tässä jotain?
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
-	#HUOM.120525:näitäkin voi kasautua liikaa?
 	#HUOM.22525:pitäisiköjän olla: a) spc -> svm b) linkitys ?
 	[ -f /etc/network/interfaces.${f} ] || ${spc} /etc/network/interfaces /etc/network/interfaces.${f}
 
@@ -551,7 +548,6 @@ function e_final() {
 		fi
 	fi
 
-	#wpasupplicant:in kanssa myös jotain säätöä, esim tällaista
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
 
@@ -685,7 +681,6 @@ function part1() {
 		fi
 	fi
 
-	#HUOM.20525:jatqssa blokki part1_5:teen?
 	local c
 	local g
 	g=$(date +%F)
