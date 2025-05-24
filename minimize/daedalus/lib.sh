@@ -119,6 +119,10 @@ function part2_pre() {
 #	csleep 1
 }
 
+function t2p() {
+	dqb "TODO"
+}
+
 check_binaries ${PREFIX}/${distro}
 check_binaries2
 
