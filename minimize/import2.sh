@@ -134,7 +134,7 @@ else #joutuukohan else-haaran muuttamaan jatkossa?
 	exit 56
 fi
 
-#HUOM.23525:jossain debug-tekstissä saattoi olla polut väärin, selvitä+korjaa jos toistuu (TODO)
+#HUOM.24525:polut vissiin korjattu
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
@@ -176,7 +176,7 @@ if [ ! -s /OLD.tar ] ; then
 fi
 
 dqb "b3f0r3 par51ng tha param5"
-csleep 2
+csleep 1
 
 #VAIH:a) pavucontrol-asetukset, missä? (1 arvaus olisi jo)
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
@@ -205,7 +205,7 @@ function common_part() {
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	csleep 2
+	csleep 1
 	${srat} -C / -xf ${1} #HUOM.22525:uutena -C
 	csleep 1
 	dqb "tar DONE"
@@ -243,7 +243,7 @@ case "${mode}" in
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 
 		${som} -o ro ${part} ${dir}
-		csleep 2
+		csleep 1
 		${som} | grep ${dir}
 
 		[ $? -eq 0 ] && echo "NEXT: $0 0 <source> [distro] (unpack AND install) | $0 1 <source> (just unpacks the archive)"
@@ -294,10 +294,10 @@ case "${mode}" in
 		fi
 
 		dqb "c_p_d0n3, NEXT: pp3()"
-		csleep 2
+		csleep 1
 	
 		dqb "d = ${d}"
-		csleep 3	
+		csleep 1	
 
 		part3 ${d} ${dnsm} #onkohan tuossa $d polussa jotain vikaa vikaa
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
