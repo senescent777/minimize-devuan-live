@@ -177,8 +177,8 @@ if [ x"${tig}" == "x" ] ; then
 fi
 
 if [ x"${mkt}" == "x" ] ; then
-	#HUOM. ei välttämättä ole molemmissa distroissa tuon nimistä pakettia
-	echo "sudo apt-get update;sudo apt-get install mktemp"
+	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
+	echo "sudo apt-get update;sudo apt-get install coreutils"
 	exit 8
 fi
 
@@ -447,12 +447,12 @@ function tp4() {
 		${shary} stubby
 	fi
 
-	dqb "${shary} git mktemp in secs"
+	dqb "${shary} git coreutils in secs"
 	csleep 1
 	${lftr} 
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
-	#${shary} mktemp #tämän kanssa jotain distro-spesifistä säätöä?
+	${shary} coreutils
 	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 zlib1g 
 	${shary} git-man git
 
@@ -585,7 +585,7 @@ function tp3() {
 	tig=$(sudo which git)
 
 	p=$(pwd)
-	q=$(mktemp -d)
+	q=$(mktemp -d) #TODO:${mkt}
 	cd ${q}
 	
 	[ ${debug} -eq 1 ] && pwd  
@@ -673,7 +673,7 @@ function tpu() {
 	csleep 2
 
 	#30425:kuseekohan tuossa jokin? wpasupplicantin poisto melkein johti xorgin poistoon...
-	udp6 #HUOM.24525:tähän se mktemp?
+	udp6
 
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ${2}
@@ -703,7 +703,7 @@ function tp5() {
 	csleep 2
 
 	local q
-	q=$(mktemp -d)
+	q=$(mktemp -d) #TODO:${mkt}
 	cd ${q}
 	[ $? -eq 0 ] || exit 77
 
