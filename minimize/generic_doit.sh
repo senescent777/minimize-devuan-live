@@ -56,7 +56,7 @@ dqb "mode= ${mode}"
 csleep 2
 
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
-[ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
+[ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro} #HUOM.25425:oliko tämän kanssa jotain?
 enforce_access ${n}
 
 part1 ${distro} 
