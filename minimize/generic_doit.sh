@@ -2,7 +2,7 @@
 
 mode=2
 distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
-d=~/Desktop/minimize/${distro} 
+d=~/Desktop/minimize/${distro} #alkuosa dirname:lla jatkossa?
 [ z"${distro}" == "z" ] && exit 6
 debug=0 #1
 
@@ -165,7 +165,7 @@ part3 ${d} ${dnsm}
 other_horrors
 
 #tai sitten käskytetään:import2 (TODO?)
-if [ -s ${PREFIX}/config.tar.bz2 ] ; then
+if [ -s ${PREFIX}/config.tar.bz2 ] ; then #prefix vai $d?
 	${srat} -C / -jxf ${PREFIX}/config.tar.bz2
 	#${NKVD} ${PREFIX}/config.tar.bz2 tämä saa olla toistaiseksi
 fi
@@ -199,9 +199,9 @@ jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
-${scm} 0555 ~/Desktop/minimize/changedns.sh
-${sco} root:root ~/Desktop/minimize/changedns.sh
-${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+${scm} 0555 ${PREFIX}/changedns.sh
+${sco} root:root ${PREFIX}/changedns.sh
+${odio} ${PREFIX}/changedns.sh ${dnsm} ${distro}
 ${sipt} -L
 csleep 2
 
@@ -215,4 +215,4 @@ if [ ${mode} -eq 2 ] ; then
  	exit 
 fi
 
-${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+${odio} ${PREFIX}/changedns.sh ${dnsm} ${distro}
