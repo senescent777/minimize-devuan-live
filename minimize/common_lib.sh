@@ -33,6 +33,9 @@ function init() {
 	NKVD=$(${odio} which shred)
 	NKVD="${NKVD} -fu "
 	PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+	sdi=$(${odio} which dpkg)
+	spd="${odio} ${sdi} -l " #käytössä?
+	sdi="${odio} ${sdi} -i "
 }
 
 init
@@ -309,7 +312,6 @@ function check_binaries() {
 		do ocs ${x}
 	done
 	
-	sdi=$(${odio} which dpkg)
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
 	sip=$(${odio} which ip)
@@ -331,8 +333,6 @@ function check_binaries2() {
 	ip6tr="${odio} ${ip6tr} "
 
 	sharpy="${odio} ${sag} remove --purge --yes "
-	spd="${odio} ${sdi} -l " #käytössä?
-	sdi="${odio} ${sdi} -i "
 
 	#HUOM. ${sag} VIIMEISENÄ
 	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
