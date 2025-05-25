@@ -219,7 +219,7 @@ function psqa() {
 	csleep 1
 }
 
-#HUOM.23525:jossain debug-tekstissä saattoi olla polut väärin, selvitä+korjaa jos toistuu
+#HUOM.23525:jossain debug-tekstissä saattoi olla polut väärin
 #"import2 0 /xxx/yyy -v" kautta tapahtui joten check_bin ja PREFIX tulisi tarkistaa että itä arvoja assvat
 #24525:saattoi löytyä syyllinen
 function ppp3() {
@@ -745,6 +745,7 @@ function part076() {
 	csleep 1
 }
 
+#dnsm parametriksi vai ei?
 function part2_5() {
 	#debug=1
 	dqb "PART2.5 ${1}"
@@ -851,6 +852,7 @@ function part3_4real() {
 	csleep 1
 }
 
+#HUOM.25525: mikä juttu tuon $2 kanssa? mihin tarv8taan?
 function part3() {
 	dqb "part3 ${1}"
 	csleep 1
@@ -883,6 +885,11 @@ function t2p_filler() {
 	${lftr}
 	${asy}
 	csleep 3
+}
+
+#yhteisiä osia daud ja chim t2p
+function t2pc() {
+	dqb "TODO: t2p_common()"
 }
 
 #HUOM.voisi -v käsitellä jo tässä
