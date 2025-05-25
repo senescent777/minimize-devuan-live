@@ -20,15 +20,10 @@ function parse_opts_1() {
 			debug=1
 		;;
 		*)
-			#if [ ${mode} -eq -2 ] ; then
-			#	mode=${1}
-			#else
-				if [ -d ${PREFIX}/${1} ] ; then
-					distro=${1}
-			#	else
-			#		file=${1}
-				fi
-			#fi
+			if [ -d ${PREFIX}/${1} ] ; then
+				distro=${1}
+		
+			fi
 
 			dqb "0th3r 0tps"
 		;;
@@ -91,4 +86,11 @@ fi
 
 t2p
 t2pf
-${whack} xfce4-session
+debug=1 #pois sittenq
+
+#tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
+if [ ${debug} -eq 1 ]; then
+	echo "${whack} xfce4-session"
+else
+	${whack} xfce4-session
+fi

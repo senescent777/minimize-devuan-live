@@ -233,7 +233,9 @@ function ppp3() {
 		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
 		echo "SHOULD REMOVE ${1} /sha512sums.txt"
 		echo "\"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
-		#exit 55 HUOM.24525:antaa olla kommenteissa toistaiseksi, ,esim. chimaeran tapauksessa ei välttis ole $distro:n alla .deb aluksi	
+		
+		#exit 55 HUOM.24525:antaa olla kommenteissa toistaiseksi, ,esim. chimaeran tapauksessa ei välttis ole $distro:n alla .deb aluksi
+		#... tosin alkutilanteessa tables pitäisi chimaerasta löytyä	
 	fi
 }
 
@@ -749,6 +751,8 @@ function part2_5() {
 	csleep 1
 
 	if [ ${1} -eq 1 ] ; then
+		${lftr}
+
 		for s in ${PART175_LIST} ; do
 			dqb "processing ${s}"
 			#csleep 1
@@ -757,9 +761,13 @@ function part2_5() {
 			csleep 1
 		done
 
+		${lftr} #pitäisikö laittaa distro==chimaera taakse näiden takominen
 		${sharpy} libblu* libcupsfilters* libgphoto* #tartteeko vielä?
-		${sharpy} blu*
+		${lftr}
+		${sharpy} blu* #pitäisi bluez poistua tällä
+		${lftr}
 		${sharpy} pkexec po* #jos järjestys merkitsee
+		${lftr}
 		${sharpy} python3-cups
 		${lftr}
 		csleep 1
@@ -776,6 +784,7 @@ function part2_5() {
 		esac
 	fi
 
+	${lftr}
 	csleep 1
 
 	if [ y"${ipt}" != "y" ] ; then
@@ -868,6 +877,12 @@ function t2pf() {
 	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
 	df
 	${odio} which dhclient; ${odio} which ifup; csleep 6
+}
+
+function t2p_filler() {
+	${lftr}
+	${asy}
+	csleep 3
 }
 
 #HUOM.voisi -v käsitellä jo tässä
