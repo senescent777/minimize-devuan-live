@@ -120,114 +120,120 @@ function part2_pre() {
 }
 
 function t2p() {
-	dqb "DOES NOT YET WORK PROPERLY"
+	t2pc
+	csleep 5
+
+	dqb "t2p()"
 	csleep 1
 
-	${sharpy} amd64-microcode at-spi2-core
+	#${sharpy} amd64-microcode at-spi2-core
 	${sharpy} atril* #daedaluksess poistui aiemmin
 	${lftr}
 	${sharpy} bc bluez #daed
-	${sharpy} bubblewrap #bluezin saisi aikaisemminkin pois, art2_5...
+	#${sharpy} bubblewrap #bluezin saisi aikaisemminkin pois, art2_5...
 	t2p_filler
 
-	${sharpy} coinor* cryptsetup*
-	t2p_filler
+	#${sharpy} coinor* cryptsetup*
+	#t2p_filler
 
 	#dconf,debconf off limits
-	${sharpy} debian-faq  dirmngr discover* doc-debian
-	t2p_filler
+	#${sharpy} debian-faq  dirmngr discover* doc-debian
+	#t2p_filler
 
-	${sharpy} docutils* dosfstools efibootmgr exfalso
-	t2p_filler
+	#${sharpy} docutils* dosfstools efibootmgr exfalso
+	#t2p_filler
 
-	${sharpy} exfat* fdisk
-	t2p_filler
-
-	${sharpy} ftp* gcr 
-	#HUOM. miten gidisk, löytyykö?
+#	${sharpy} exfat* fdisk
+#	t2p_filler
+#
+#	${sharpy} ftp* gcr 
+	#HUOM. miten gdisk, löytyykö?
 	${sharpy} ghostscript #ei daed
-	${sharpy} gimp-data gir*
-	t2p_filler
+#	${sharpy} gimp-data gir*
+#	t2p_filler
 
 	#gnome* , gpg* off limits , gnupg* ei löydy
 
 	${sharpy} gparted* #daud ei löydy
-	${sharpy} gpgsm gpg-agent gpg
+	#${sharpy} gpgsm gpg-agent gpg
 	t2p_filler
 	
 	#gsettings-desktop-schemas off limits
-	${sharpy} grub* 
+	#${sharpy} grub* 
 	${sharpy} gsasl-common #eilöydy d
 	${sharpy} gsfonts* #eilöydy
-	${sharpy} gstreamer*
+	#${sharpy} gstreamer*
 	t2p_filler
 
 	${sharpy} gvfs* #eilöydy
-	${sharpy} htop intel-microcode isolinux inetutils-telnet
+	#${sharpy} htop intel-microcode isolinux inetutils-telnet
 	t2p_filler
 	
 	#löytyykö chimaerasta iucode-tool?
 
-	${sharpy} libreoffice*
-	t2p_filler
+	#${sharpy} libreoffice*
+	#t2p_filler
 
 	#lib-jutut jos antaisi enimmäkseen olla rauhassa
 	#HUOM. jokin noista johtaa git:in poistoon (libsasl)
-	${sharpy} libgstreamer* libpoppler* libsane* #libsasl*
-	t2p_filler
+	#${sharpy} libgstreamer* libpoppler* libsane* #libsasl*
+	#t2p_filler
 	
 	#linux* , live* off limits
 	#lp-solve ei löytynyt?
-	${sharpy} lvm2 lynx* mail* 	
+	#${sharpy} lvm2 lynx* mail* 	
 	#${sharpy} mariadb-common #ei löytynyt d
-	t2p_filler
+	#t2p_filler
 
 	${sharpy} mdadm # ei d
-	${sharpy} mlocate modem*
+	#${sharpy} mlocate modem*
 	${sharpy} mobile* #ei d
 
 	t2p_filler
 
-	${sharpy} mtools mythes*
+	#${sharpy} mtools mythes*
 	${sharpy} mysql-common #ei d?
 	t2p_filler
 
-	${sharpy} netcat-traditional openssh*
+	#${sharpy} netcat-traditional openssh*
 	#ntfs-3g?
 	${sharpy} notification-daemon #ei löydy d
 	t2p_filler
 
 	${sharpy} orca packagekit* #ei löydy d
 	#{sharpy} p7zip ?
-	${sharpy} parted pavucontrol
+	#${sharpy} parted pavucontrol
 	t2p_filler
 
-	${sharpy} pciutils ppp procmail plocate #löytyykö plocate?
+	#${sharpy} pciutils ppp procmail plocate #löytyykö plocate?
 	${sharpy} pigz #ei löydy d
 	${sharpy} po* #ei löydy d
 	t2p_filler
 
 	#procps off limits
 	#löytyykö psmisc? entä rsync?
-	${sharpy} ristretto rpcbind 
+	#${sharpy} ristretto 
+	${sharpy} rpcbind #miten rsync?
 	${sharpy} sane-utils #ei löydy d
-	${sharpy} screen
+	#${sharpy} screen
 	t2p_filler
 
-	${sharpy} shim* 
+	#${sharpy} shim* 
 	${sharpy} squash* #löytyykö d?
-	${sharpy} speech* syslinux-common
+	#${sharpy} speech* syslinux-common
 	t2p_filler
 
 	#traceroute?
-	${sharpy} telnet tex* tumbler-common
+	${sharpy} telnet #tartteeko erikseen? olisi se inetutils-telnet myös
+	#${sharpy} tex* tumbler-common
 	t2p_filler
 
 	#upower? w3m? wget? xarchiver?
-	${sharpy} vim* xorriso yad xz-utils
+	#${sharpy} vim* 
+	#${sharpy} xorriso yad xz-utils
 	#xfce*,xorg* off limits
-
-	t2p_filler
+	#
+	#t2p_filler
 
 	dqb "D0N3"
 	csleep 1
