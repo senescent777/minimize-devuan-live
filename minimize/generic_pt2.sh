@@ -84,6 +84,7 @@ else
 	part2_5 1
 fi
 
+t2pc
 t2p
 t2pf
 #debug=1
