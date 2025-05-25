@@ -161,7 +161,7 @@ c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 
 part2_pre ${removepkgs}
-part2_5 ${removepkgs}
+part2_5 ${removepkgs} ${dnsm}
 
 #===================================================PART 3===========================================================
 message

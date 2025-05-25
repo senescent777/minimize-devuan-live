@@ -755,7 +755,7 @@ function part076() {
 #dnsm parametriksi vai ei?
 function part2_5() {
 	#debug=1
-	dqb "PART2.5 ${1}"
+	dqb "PART2.5 ${1} , ${2}"
 	csleep 1
 
 	if [ ${1} -eq 1 ] ; then
@@ -799,11 +799,11 @@ function part2_5() {
 		jules
 
 		if [ -s /etc/iptables/rules.v6.${dnsm} ] ; then
-			${ip6tr} /etc/iptables/rules.v6.${dnsm}
+			${ip6tr} /etc/iptables/rules.v6.${2} #${dnsm}
 		fi
 
 		if [ -s /etc/iptables/rules.v4.${dnsm} ] ; then
-			${iptr} /etc/iptables/rules.v4.${dnsm}
+			${iptr} /etc/iptables/rules.v4.${2} #${dnsm}
 		fi
 	fi
 
@@ -867,8 +867,8 @@ function part3() {
 	jules
 	ppp3 ${1}
 
-	pre_part3 ${1} ${2}
-	pr4 ${1} ${2}
+	pre_part3 ${1} #${2}
+	pr4 ${1} #${2}
 	part3_4real ${1}
 
 	other_horrors
@@ -962,7 +962,6 @@ function t2pf() {
 	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
 	${smr} -rf /usr/share/doc 
 	
-
 	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
 	df
 	${odio} which dhclient; ${odio} which ifup; csleep 6
