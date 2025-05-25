@@ -889,7 +889,74 @@ function t2p_filler() {
 
 #yhteisiä osia daud ja chim t2p
 function t2pc() {
-	dqb "TODO: t2p_common()"
+	dqb "VAIH: t2p_common()"
+	${sharpy} amd64-microcode at-spi2-core
+	t2p_filler
+
+	${sharpy} bubblewrap coinor* cryptsetup*
+	t2p_filler
+
+	${sharpy} debian-faq  dirmngr discover* doc-debian
+	t2p_filler
+
+	${sharpy} docutils* dosfstools efibootmgr exfalso
+	t2p_filler
+
+	${sharpy} exfatprogs fdisk ftp* gcr
+	t2p_filler
+
+	${sharpy} gimp-data gir*
+	t2p_filler
+
+	${sharpy} gpgsm gpg-agent gpg
+	t2p_filler
+
+	${sharpy} grub* 
+	${sharpy} gstreamer* #libgs poist alempana
+	t2p_filler
+
+	${sharpy} htop inetutils-telnet intel-microcode isolinux
+	t2p_filler
+
+	${sharpy} libreoffice*
+	t2p_filler
+
+	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
+	t2p_filler
+
+	${sharpy} lvm2 lynx* mail* #miten mariadb-common?
+	t2p_filler
+
+	${sharpy} mlocate modem*
+	${sharpy} mtools mythes*
+	t2p_filler
+
+	${sharpy} netcat-traditional openssh*
+	t2p_filler
+
+	${sharpy} parted pavucontrol
+	t2p_filler
+
+	${sharpy} ppp plocate pciutils procmail
+	t2p_filler
+
+	${sharpy} ristretto
+	${sharpy} screen
+	t2p_filler
+
+	${sharpy} shim*
+	${sharpy} speech* syslinux-common
+	t2p_filler
+
+	${sharpy} tex* tumbler*
+	t2p_filler
+
+	${sharpy} vim*
+	t2p_filler
+
+	${sharpy} xorriso yad xz-utils
+	#xfce*,xorg* off limits
+	t2p_filler
 }
 
 #HUOM.voisi -v käsitellä jo tässä
