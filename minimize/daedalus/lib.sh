@@ -19,15 +19,12 @@ function pre_part3() {
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb
-	#csleep 1
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb
-	#csleep 1
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables_*.deb
-	#csleep 1
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables-*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables-*.deb
@@ -53,7 +50,6 @@ function pr4() {
 	${odio} dpkg -i ${1}/libpam-modules_*.deb
 
 	${NKVD} ${1}/libpam-modules*
-	#csleep 1
 
 	${odio} dpkg -i ${1}/libpam*.deb
 	${odio} dpkg -i ${1}/perl-modules-*.deb
@@ -61,12 +57,10 @@ function pr4() {
 
 	${NKVD} ${1}/perl-modules-*.deb
 	${NKVD} ${1}/libperl*.deb
-	#csleep 1
 
 	${odio} dpkg -i ${1}/perl*.deb
 	${odio} dpkg -i ${1}/libdbus*.deb
 	${odio} dpkg -i ${1}/dbus*.deb
-	#csleep 1
 
 	${odio} dpkg -i ${1}/liberror-perl*.deb
 	${odio} dpkg -i ${1}/git*.deb
@@ -126,7 +120,7 @@ function part2_pre() {
 	dqb "dausd.PP2"
 }
 
-#TODO:squashfs-tools
+#TODO:squashfs-tools vai tartteeko vielä?
 #mitä xcvt tekee?
 function t2p() {
 	#debug=1
