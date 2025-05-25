@@ -696,7 +696,10 @@ function part1() {
 
 	local c
 	local g
+	local t
+
 	g=$(date +%F)
+	t=$(echo ${1}  | cut -d '/' -f 1) #jos tämä riittäisi toistaiseksi
 
 	#HUOM.20525:onkohan ao. ehto ok?
 	if [ -f /etc/apt/sources.list ] ; then
@@ -709,11 +712,11 @@ function part1() {
 	fi
 
 	#nyt varmaankin joutuu linkitysjutut kopsailemaan muuallekin vai joutuuko?
-	part1_5 ${1}
+	part1_5 ${t}
 
 	if [ ! -f /etc/apt/sources.list ] ; then
-		if [ -s /etc/apt/sources.list.${1} ] && [ -r /etc/apt/sources.list.${1} ] ; then
-			${slinky} /etc/apt/sources.list.${1} /etc/apt/sources.list
+		if [ -s /etc/apt/sources.list.${t} ] && [ -r /etc/apt/sources.list.${t} ] ; then
+			${slinky} /etc/apt/sources.list.${t} /etc/apt/sources.list
 		fi	
 	fi
 
@@ -726,7 +729,7 @@ function part1() {
 }
 
 function part076() {
-	dqb "PART076()"
+	dqb "FART076()"
 	csleep 1
 	local s
 	local t
@@ -734,7 +737,7 @@ function part076() {
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
 
-		for t in $(find /etc/init.d -name ${s}*) ; do
+		for t in $(find /etc/init.d -name ${s}* ) ; do
 			${odio} ${t} stop
 			csleep 1
 		done
@@ -752,7 +755,6 @@ function part076() {
 	csleep 1
 }
 
-#dnsm parametriksi vai ei?
 function part2_5() {
 	#debug=1
 	dqb "PART2.5 ${1} , ${2}"
@@ -813,7 +815,7 @@ function part2_5() {
 	fi
 
 	csleep 1
-	dqb "PART2.5 ${1} d0ne"
+	dqb "PART2.5 d0ne"
 	csleep 1
 }
 
