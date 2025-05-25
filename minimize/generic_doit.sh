@@ -17,7 +17,7 @@ else
 	exit 55
 fi
 
-function parse_opts_1() {
+function parse_opts_1() { #TODO:asettamaan $distro vai ei?
 	case "${1}" in
 		-v|--v)
 			debug=1
@@ -66,7 +66,7 @@ enforce_access ${n}
 
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
-#HUOM.25525:excaliburin kanssa sfinksin sfonksin/heikunkeikun-split, pitäisiköhän mode-tark tehdä jotenkin toisin jatkossa?
+#HUOM.25525:excaliburin kanssa sfinksin_sfonksin/heikunkeikun-split, pitäisiköhän mode-tark tehdä jotenkin toisin jatkossa?
 
 ${snt}
 csleep 1
@@ -173,7 +173,6 @@ other_horrors
 #tai sitten käskytetään:import2 (TODO?)
 if [ -s ${PREFIX}/config.tar.bz2 ] ; then #prefix vai $d?
 	${srat} -C / -jxf ${PREFIX}/config.tar.bz2
-	#${NKVD} ${PREFIX}/config.tar.bz2 tämä saa olla toistaiseksi
 fi
 
 ${NKVD} ${PREFIX}/config.tar #tämä vie turhaan tilaa, pois
