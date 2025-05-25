@@ -46,24 +46,24 @@ function pr4() {
 	csleep 1
 
 	#TODO:tähänkin psqa?
-	${odio} dpkg -i ${1}/libpam-modules-bin_*.deb
-	${odio} dpkg -i ${1}/libpam-modules_*.deb
+	${sdi} ${1}/libpam-modules-bin_*.deb
+	${sdi} ${1}/libpam-modules_*.deb
 
 	${NKVD} ${1}/libpam-modules*
 
-	${odio} dpkg -i ${1}/libpam*.deb
-	${odio} dpkg -i ${1}/perl-modules-*.deb
-	${odio} dpkg -i ${1}/libperl*.deb
+	${sdi} ${1}/libpam*.deb
+	${sdi} ${1}/perl-modules-*.deb
+	${sdi} ${1}/libperl*.deb
 
 	${NKVD} ${1}/perl-modules-*.deb
 	${NKVD} ${1}/libperl*.deb
 
-	${odio} dpkg -i ${1}/perl*.deb
-	${odio} dpkg -i ${1}/libdbus*.deb
-	${odio} dpkg -i ${1}/dbus*.deb
+	${sdi} ${1}/perl*.deb
+	${sdi} ${1}/libdbus*.deb
+	${sdi} ${1}/dbus*.deb
 
-	${odio} dpkg -i ${1}/liberror-perl*.deb
-	${odio} dpkg -i ${1}/git*.deb
+	${sdi} ${1}/liberror-perl*.deb
+	${sdi} ${1}/git*.deb
 
 	${NKVD} ${1}/git*.deb
 	${NKVD} ${1}/liberror-perl*.deb
@@ -120,7 +120,7 @@ function part2_pre() {
 }
 
 #TODO:squashfs-tools vai tartteeko vielä?
-#mitä xcvt tekee?
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xcvt=0.1.2-1
 function t2p() {
 	#debug=1
 	dqb "DAUD.T2P()"
