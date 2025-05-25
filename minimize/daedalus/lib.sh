@@ -4,6 +4,7 @@
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 #... joskohan --force-confold olisi se haettu juttu
 
+#HUOM. tarvitseeko 2. parametrin? ei kai
 function pre_part3() {
 	dqb "daud.pp3( ${1} , ${2} )"
 	csleep 1
@@ -17,22 +18,26 @@ function pre_part3() {
 	#HUOM.140525:toiminee jo jollain lailla, "no" siihen kysymykseen olisi kuitenkin kiva saada välitettyä dpkg:lle asti
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
-	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb  #${NKVD}
-	csleep 1
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb
+	#csleep 1
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
-	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb #${NKVD}
-	csleep 1
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb
+	#csleep 1
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables_*.deb
-	csleep 1
+	#csleep 1
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables-*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables-*.deb
-#pitäisi varmaan se chmod olla kanssa ensin, varm vuoksi
-#	${svm} /etc/iptables/rules.v4 /etc/iptables.rules.v4.$(date +%F)
-#	${svm} /etc/iptables/rules.v6 /etc/iptables.rules.v6.$(date +%F)
+
+	csleep 1
+
+	${scm} 0755 /etc/iptables
+	${svm} /etc/iptables/rules.v4 /etc/iptables.rules.v4.$(date +%F)
+	${svm} /etc/iptables/rules.v6 /etc/iptables.rules.v6.$(date +%F)
+	${scm} 0550 /etc/iptables	
 
 	dqb "pp3 d0n3"
 	csleep 1
@@ -48,7 +53,7 @@ function pr4() {
 	${odio} dpkg -i ${1}/libpam-modules_*.deb
 
 	${NKVD} ${1}/libpam-modules*
-	csleep 1
+	#csleep 1
 
 	${odio} dpkg -i ${1}/libpam*.deb
 	${odio} dpkg -i ${1}/perl-modules-*.deb
@@ -56,12 +61,12 @@ function pr4() {
 
 	${NKVD} ${1}/perl-modules-*.deb
 	${NKVD} ${1}/libperl*.deb
-	csleep 1
+	#csleep 1
 
 	${odio} dpkg -i ${1}/perl*.deb
 	${odio} dpkg -i ${1}/libdbus*.deb
 	${odio} dpkg -i ${1}/dbus*.deb
-	csleep 1
+	#csleep 1
 
 	${odio} dpkg -i ${1}/liberror-perl*.deb
 	${odio} dpkg -i ${1}/git*.deb
@@ -96,7 +101,7 @@ function udp6() {
 	
 	for s in ${PART175_LIST} ; do
 		dqb "processing ${s}"
-		csleep 1
+		#csleep 1
 
 		${smr} ${pkgdir}/${s}*
 		csleep 1
@@ -105,7 +110,7 @@ function udp6() {
 	case ${iface} in
 		wlan0)
 			dqb "NOT REMOVING WPASUPPLICANT"
-			csleep 2
+			csleep 1
 		;;
 		*)
 			${smr} ${pkgdir}/wpa*
@@ -121,16 +126,16 @@ function part2_pre() {
 }
 
 function t2p() {
-	debug=1
-	dqb "UNDER CONSTRUCTION"
+	#debug=1
+	#dqb "UNDER CONSTRUCTION"
 	csleep 1
 
 	#voisi kai chim kanssa yhteisiä viedä part2_5:seen
 	${sharpy} amd64-microcode at-spi2-core #HUOM.25525:atril ei löydy daedaluksesta
 	t2p_filler
 
-	#bluez ei löydy
-	${sharpy} bc bubblewrap coinor*
+	#bluez ei löydy, bc taisi poistua aiemmin
+	${sharpy} bubblewrap coinor*
 	t2p_filler
 
 	${sharpy} cryptsetup*
@@ -155,10 +160,13 @@ function t2p() {
 	t2p_filler
 
 	#gsasl-common, gsfonts, gvfs ei löydy
-	${sharpy} grub* gsettings* gstreamer*
+	${sharpy} grub* 
+	${sharpy} gsettings* #uskaltaako poistaa chimaerassa?
+	${sharpy} gstreamer*
 	t2p_filler
 
-	${sharpy} htop inetutils-telnet intel-microcode isolinux iucode-tool
+	${sharpy} htop inetutils-telnet intel-microcode isolinux
+	${sharpy} iucode-tool #löytyykö chimaerasta?
 	t2p_filler
 
 	${sharpy} libreoffice*
@@ -172,12 +180,16 @@ function t2p() {
 	${sharpy} lvm2 lynx* mail* #mariadb-common ei löytynyt
 	t2p_filler
 
+	#lp-solve? mysql-common?
+
 	#mawk off limits, mdadm ei löytynyt, mokutil ei, mobile ei, mutt ei, mysql ei
-	${sharpy} mlocate modem* mtools mythes*
+	${sharpy} mlocate modem* 
+	${sharpy} mtools mythes*
 	t2p_filler
 
 	#node* ei löydy, notification* ei löydy, orca ei, os-prober ei
-	${sharpy} netcat-traditional ntfs-3g openssh*
+	${sharpy} netcat-traditional openssh*
+	${sharpy} ntfs-3g
 	t2p_filler
 
 	#pigz ei löydy, packagekit ei löydy
@@ -196,9 +208,11 @@ function t2p() {
 	#quodlibet ei löydy, refracta* ei
 
 	${sharpy} ristretto rsync
+	#löytyykö rpcbind?
 	t2p_filler
 
 	#sane-utils ei löydy
+	#löytyykö squash?
 	${sharpy} screen shim* speech* syslinux*
 	t2p_filler
 
