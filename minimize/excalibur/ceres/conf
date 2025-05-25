@@ -1,0 +1,12 @@
+iface=eth0 
+enforce=1
+debug=0
+pkgdir=/var/cache/apt/archives
+dir=/some_dir
+dnsm=0
+pkgsrc=repository.tld
+part0=12341234
+removepkgs=1
+LCF666=fi_FI.UTF-8 #tarvitsiko näitä kaikkia?
+changepw=0
+loose=1 #uutena 21525
