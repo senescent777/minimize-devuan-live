@@ -83,22 +83,21 @@ function udp6() {
 	dqb "daud.lib.UPDP-6"
 	csleep 1
 
-	${smr} ${pkgdir}/libx11-xcb1* #NKVD?
-	${smr} ${pkgdir}/nfs*
-	${smr} ${pkgdir}/rpc*
-	${smr} ${pkgdir}/python3.11*
-	${smr} ${pkgdir}/xserver-xorg-core*
-	${smr} ${pkgdir}/xserver-xorg-legacy*
-	${smr} ${pkgdir}/libgtk-3-bin*
-	${smr} ${pkgdir}/libpython3.11*
-	${smr} ${pkgdir}/librsvg2*
+	${NKVD} ${pkgdir}/libx11-xcb1*
+	${NKVD} ${pkgdir}/nfs*
+	${NKVD} ${pkgdir}/rpc*
+	${NKVD} ${pkgdir}/python3.11*
+	${NKVD} ${pkgdir}/xserver-xorg-core*
+	${NKVD} ${pkgdir}/xserver-xorg-legacy*
+	${NKVD} ${pkgdir}/libgtk-3-bin*
+	${NKVD} ${pkgdir}/libpython3.11*
+	${NKVD} ${pkgdir}/librsvg2*
 	
 	for s in ${PART175_LIST} ; do
-		dqb "processing ${s}"
-		#csleep 1
-
-		${smr} ${pkgdir}/${s}*
+		dqb "processing ${s} ..."
 		csleep 1
+
+		${NKVD} ${pkgdir}/${s}*
 	done
 
 	case ${iface} in
