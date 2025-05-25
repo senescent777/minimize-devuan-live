@@ -86,7 +86,7 @@ fi
 
 t2p
 t2pf
-debug=1 #pois sittenq
+#debug=1
 
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
 if [ ${debug} -eq 1 ]; then
