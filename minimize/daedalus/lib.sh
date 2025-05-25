@@ -30,7 +30,7 @@ function pre_part3() {
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables-*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables-*.deb
-#
+#pitäisi varmaan se chmod olla kanssa ensin, varm vuoksi
 #	${svm} /etc/iptables/rules.v4 /etc/iptables.rules.v4.$(date +%F)
 #	${svm} /etc/iptables/rules.v6 /etc/iptables.rules.v6.$(date +%F)
 
@@ -127,139 +127,96 @@ function t2p() {
 
 	#voisi kai chim kanssa yhteisiä viedä part2_5:seen
 	${sharpy} amd64-microcode at-spi2-core #HUOM.25525:atril ei löydy daedaluksesta
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#bluez ei löydy
 	${sharpy} bc bubblewrap coinor*
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	${sharpy} cryptsetup*
 	#doc-paketteja saattaisi vaikka tarvitakin mutta
 	${sharpy} debian-faq  dirmngr discover* doc-debian
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	${sharpy} docutils* dosfstools efibootmgr exfalso
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#exfatprogs, tarvitseeko?
 	${sharpy} exfatprogs fdisk ftp* gcr
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#gdisk, ghostscript, gnupg* ei löydy
 	${sharpy} gimp-data gir*
 	#gpg* voi poistaa liikaa
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#gparted, gpg-wks* ei löydy, gpgconf EI poistoon
 	${sharpy} gpg-agent gpgsm gpg
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#gsasl-common, gsfonts, gvfs ei löydy
 	${sharpy} grub* gsettings* gstreamer*
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	${sharpy} htop inetutils-telnet intel-microcode isolinux iucode-tool
-	${lftr}
-	${asy}
-	csleep 3
-	
+	t2p_filler
+
 	${sharpy} libreoffice*
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#jos lib* jättäisi enimmäkseeen rauhaan
 	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#linux* , live* off limits
 	${sharpy} lvm2 lynx* mail* #mariadb-common ei löytynyt
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#mawk off limits, mdadm ei löytynyt, mokutil ei, mobile ei, mutt ei, mysql ei
 	${sharpy} mlocate modem* mtools mythes*
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#node* ei löydy, notification* ei löydy, orca ei, os-prober ei
 	${sharpy} netcat-traditional ntfs-3g openssh*
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#pigz ei löydy, packagekit ei löydy
 	${sharpy} p7zip parted pavucontrol
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#pinentry ei, po* ei
 	${sharpy} ppp plocate pciutils procmail
-	${lftr}
-	${asy}
-	csleep 3
-	
+	t2p_filler
+
 	#procps off limits
 	${sharpy} psmisc
+	t2p_filler
 
 	#python* parempi jättää rauhaan
 	#quodlibet ei löydy, refracta* ei
 
 	${sharpy} ristretto rsync
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#sane-utils ei löydy
 	${sharpy} screen shim* speech* syslinux*
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#telnet e löydy
 	${sharpy} tex* tumbler* traceroute
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#udisks2 ei löydy, uno ei löydy, ure ei
 	${sharpy} upower vim*
-	${lftr}
-	${asy}
-	csleep 3
-	
+	t2p_filler
+
 	${sharpy} w3m wget
 	#xfce*,xorg* off limits, xfburn ei löydy
 	${sharpy} xorriso xarchiver
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	${sharpy} yad xz-utils
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	dqb "D0N3"
 	csleep 1
