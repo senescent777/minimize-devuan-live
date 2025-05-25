@@ -86,6 +86,7 @@ case $# in
 	;;
 esac
 
+distro=$(echo $distro  | cut -d '/' -f 1)
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 csleep 1
