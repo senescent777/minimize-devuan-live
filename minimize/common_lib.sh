@@ -236,7 +236,7 @@ function ppp3() {
 		echo "SHOULD REMOVE ${1} /sha512sums.txt"
 		echo "\"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
 		
-		#cut jatkossa
+		#cut jatkossa, erityisesti koska $distro-jutut (TODO)
 		${scm} a-x ${PREFIX}/common_lib.sh 
 		
 		#exit 55 HUOM.24525:antaa olla kommenteissa toistaiseksi, ,esim. chimaeran tapauksessa ei välttis ole $distro:n alla .deb aluksi
@@ -362,6 +362,8 @@ function mangle_s() {
 
 	[ y"${1}" == "y" ] && exit 44
 	[ -x ${1} ] || exit 55
+
+	#HUOM.26525:pitäisiköhän olla jotain lisätarkistuksia $2 ja $3 kanssa?
 	[ y"${2}" == "y" ] && exit 43
 	[ -f ${2} ] || exit 54
 
@@ -437,6 +439,7 @@ function pre_enforce() {
 	if [ -s ${q}/meshuggah ] ; then
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
 		csleep 1
+
 		${scm} 0440 ${q}/meshuggah
 		${sco} root:root ${q}/meshuggah
 		${svm} ${q}/meshuggah /etc/sudoers.d
@@ -450,7 +453,7 @@ function pre_enforce() {
 	c4=$(grep -c ${part0} /etc/fstab)
 
 	if [ ${c4} -lt 1 ] ; then
-		#HUOM. pitäisi kai karsia edellinen rivi millä $dir
+		#HUOM. pitäisi kai karsia edellinen rivi millä $dir?
 		${scm} a+w /etc/fstab
 		${odio} echo "/dev/disk/by-uuid/${part0} ${dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		${scm} a-w /etc/fstab
