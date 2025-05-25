@@ -1,10 +1,14 @@
 #!/bin/bash
 
 mode=2
+#HUOM.25525:excalibur/ceres-tapauksessa saa tuolla moden oletusarvolla äksän/slimin/whåtever sek8isin, jos selvittäisi miksi
 distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 d=~/Desktop/minimize/${distro} #alkuosa dirname:lla jatkossa?
 [ z"${distro}" == "z" ] && exit 6
 debug=0 #1
+
+#echo $d
+#sleep 5
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
@@ -29,9 +33,8 @@ function parse_opts_2() {
 }
 
 . ~/Desktop/minimize/common_lib.sh
-echo $?
-csleep 3
-#HUOM.23525:pitäisiköhän tässä kohtaa jo keskeyttää suoritus jos includointi ei onnistu?
+[ $? -gt 0 ] && exit 56
+sleep 3
 
 #https://linuxopsys.com/use-dollar-at-in-bash-scripting
 #https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
@@ -61,6 +64,7 @@ enforce_access ${n}
 
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
+#HUOM.25525:excaliburin kanssa sfinksin sfonksin/heikunkeikun-split, pitäisiköhän mode-tark tehdä jotenkin toisin jatkossa?
 
 ${snt}
 csleep 1

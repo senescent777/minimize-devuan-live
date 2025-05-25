@@ -203,6 +203,7 @@ function pre1() {
 		enforce_access ${n}
 		csleep 1
 
+		#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
 		local ortsac
 		ortsac=$(echo ${1} | cut -d '/' -f 6)
 
@@ -229,6 +230,7 @@ function pre2() {
 
 	local ortsac
 	local ledif
+#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
 
 	ortsac=$(echo ${1} | cut -d '/' -f 6)
 	ledif=$(echo ${1} | cut -d '/' -f 1-5 )
@@ -400,6 +402,7 @@ function tp4() {
 	local tcdd
 	local t2
 
+	#HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia
 	tcdd=$(cat /etc/devuan_version)
 	t2=$(echo ${2} | cut -d '/' -f 6)
 	
@@ -504,6 +507,8 @@ function tp2() {
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
 
+	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
+
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
 	csleep 2
@@ -582,7 +587,7 @@ function tp3() {
 
 	local p
 	local q	
-	tig=$(sudo which git)
+	tig=$(${odio} which git) #voisi alustaa jossain aiempana
 
 	p=$(pwd)
 	q=$(${mkt} -d)
@@ -624,6 +629,8 @@ function tp3() {
 	#HUOM.14525.4:tp3 ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
 	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? 
 	# (ao. rivi tp2() jatkossa?)
+
+	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
 
 	if [ -f /etc/apt/sources.list ] ; then
 		local c

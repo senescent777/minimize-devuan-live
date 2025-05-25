@@ -55,6 +55,8 @@ else #joutuukohan else-haaran muuttamaan jatkossa?
 	exit 56
 fi
 
+#TODO:josko tarvittaessa jyräämään konftdston debug-asetus
+
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
@@ -73,22 +75,36 @@ echo "distro=${distro}"
 echo "removepkgs=${removepkgs}"
 sleep 2
 
-dqb "a-e"
+#HUOM.25525:vaikutti sikäli toimivalta t2pc() että systeemi toimintakuntoinen vielä ajon jälkeen && df näytti sopivahkoa lukemaa
 csleep 2
-#exit
+#HUOM.25525.2:koita nyt kuitenkin uudestaan, ei hyvältä näyttänyt viimeksi, ajettiinko t2pc() edes?
 
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
 	part2_pre 1
+	[ $? -gt 0 ] && exit
+	
 	part2_5 1
+	[ $? -gt 0 ] && exit
 fi
 
+#jos ao. fktiot kommentoitu jemmaan syistä ni pysäyttäisikö suorituksen?
 t2pc
-t2p
-t2pf
-#debug=1
+[ $? -gt 0 ] && exit
 
+t2p
+[ $? -gt 0 ] && exit
+
+t2pf
+[ $? -gt 0 ] && exit
+
+${asy} #varm. vuoksi
+
+#debug=1
+csleep 5 #t2pf kyllä sisälsä csleep
+
+#excaliburin kanssa ei tämäkään tainnut toimia ihan toivotulla tavalla
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
 if [ ${debug} -eq 1 ]; then
 	echo "${whack} xfce4-session"

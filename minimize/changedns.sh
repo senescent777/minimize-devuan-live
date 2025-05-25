@@ -255,14 +255,14 @@ function clouds_post() {
 		${sco} root:root ${f}
 	done
 
-	${scm} 0755 /etc/dhcp
+	${scm} 0555 /etc/dhcp
 
 	for f in $(find /sbin -type f -name 'dhclient*') ; do
 		${scm} 0555 ${f}
 		${sco} root:root ${f}
 	done
 
-	${scm} 0755 /sbin
+	${scm} 0555 /sbin
 	p3r1m3tr	
 	
 	for f in $(find /etc/network -type f -name 'interface*') ; do
@@ -270,6 +270,7 @@ function clouds_post() {
 		${sco} root:root ${f}
 	done
 
+	${scm} 0555 /etc/network
 	csleep 1
 
 	if [ ${debug} -eq 1 ] ; then
@@ -295,7 +296,7 @@ function clouds_case0_1() {
 	if [ -s  /etc/resolv.conf ] ; then
 		for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do dda_snd ${s} ; done	
 	else
-		dqb "NO RESOLV.CONF FOUND, HAVE TO USE CONF"
+		dqb "NO RESOLV.CONF FOUND, HAVE TO USE ALT CONF"
 		csleep 1
 			
 		if [ z"${dsn}" != "z" ] ; then
@@ -383,7 +384,8 @@ clouds_pre ${mode}
 [ -f /etc/dhcp/dhclient.conf.${mode} ] && ${slinky} /etc/dhcp/dhclient.conf.${mode} /etc/dhcp/dhclient.conf
 [ -f /sbin/dhclient-script.${mode} ] && ${spc} /sbin/dhclient-script.${mode} /sbin/dhclient-script
 
-#HUOM.15525:iface olisi parempi idea kuin distro mutta joutuisi includoimaan conf
+#HUOM.25525.1:mitenköhän tämä kohta pitäisi mennä?
+#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
 [ -f /etc/network/interfaces.${distro} ] && ${slinky} /etc/network/interfaces.${distro} /etc/network/interfaces
 
 case ${mode} in 

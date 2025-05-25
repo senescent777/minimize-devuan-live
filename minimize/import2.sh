@@ -91,6 +91,7 @@ else
 		if [ $? -eq 0 ] ; then
 			csleep 1
 
+			#TODO:josko tekemään nuo oikeasti
 			echo "${odio} dpkg -i ./lib*.deb"
 			echo "${odio} rm ./lib*.deb"
 			echo "${odio} dpkg -i ./*.deb"
@@ -225,6 +226,7 @@ function common_part() {
 	csleep 1
 	dqb "tar DONE"
 
+	#HUOM.25525:josko cut parempi, syystä excalibur/ceres
 	if [ -x ${2}/../common_lib.sh ] ; then
 		enforce_access ${n}
 		dqb "running changedns.sh maY be necessary now to fix some things"
@@ -309,12 +311,9 @@ case "${mode}" in
 		fi
 
 		dqb "c_p_d0n3, NEXT: pp3()"
-		csleep 1
-	#
-	#	dqb "d = ${d}"
-	#	csleep 1	
+		csleep 1	
 
-		part3 ${d} ${dnsm} #onkohan tuossa $d polussa jotain vikaa vikaa
+		part3 ${d} ${dnsm}
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 		csleep 1
 
@@ -322,7 +321,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#TODO:voisi olla config.tar purq samassa casessa		
+		#TODO:voisi olla config.tar purq samassa casessa...Jotenin		
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 1

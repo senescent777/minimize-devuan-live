@@ -41,44 +41,44 @@ init
 #https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
 #https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
 #jos nyt olisi tarpeeksi jyrkkää
-
-function init2 {
-	local c
-	local d
-	d=0
-
-	dqb "common_lib.INIT.2"
-	csleep 3
-
-	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
-	[ ${c} -gt 0 ] && exit 111
-	c=$(find /etc -name 'iptab*' -type d -not -user 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 112
-	c=$(find /etc -name 'iptab*' -type d -not -group 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 113
-	c=$(find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
-	[ ${c} -gt 0 ] && exit 114
-	c=$(find /etc -name 'rules.v*' -type f -not -user 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 115
-	c=$(find /etc -name 'rules.v*' -type f -not -group 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 116
-	 
-	c=$(find /etc -name 'sudoers*' -type d -perm /o+w,o+r,o+x | wc -l)
-	[ ${c} -gt 0 ] && exit 117
-	c=$(find /etc -name 'sudoers*' -type d -not -user 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 118
-	c=$(find /etc -name 'sudoers*' -type d -not -group 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 119
-	c=$(find /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
-	[ ${c} -gt 0 ] && exit 120
-	c=$(find /etc/sudoers.d -type f -not -user 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 121
-	c=$(find /etc/sudoers.d -type f -not -group 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 122
-
-	csleep 2
-}
-
+#
+#function init2 {
+#	local c
+#	local d
+#	d=0
+#
+#	dqb "common_lib.INIT.2"
+#	csleep 3
+#
+#	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
+#	[ ${c} -gt 0 ] && exit 111
+#	c=$(find /etc -name 'iptab*' -type d -not -user 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 112
+#	c=$(find /etc -name 'iptab*' -type d -not -group 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 113
+#	c=$(find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
+#	[ ${c} -gt 0 ] && exit 114
+#	c=$(find /etc -name 'rules.v*' -type f -not -user 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 115
+#	c=$(find /etc -name 'rules.v*' -type f -not -group 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 116
+#	 
+#	c=$(find /etc -name 'sudoers*' -type d -perm /o+w,o+r,o+x | wc -l)
+#	[ ${c} -gt 0 ] && exit 117
+#	c=$(find /etc -name 'sudoers*' -type d -not -user 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 118
+#	c=$(find /etc -name 'sudoers*' -type d -not -group 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 119
+#	c=$(find /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
+#	[ ${c} -gt 0 ] && exit 120
+#	c=$(find /etc/sudoers.d -type f -not -user 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 121
+#	c=$(find /etc/sudoers.d -type f -not -group 0 | wc -l)
+#	[ ${c} -gt 0 ] && exit 122
+#
+#	csleep 2
+#}
+#
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -138,10 +138,10 @@ function other_horrors() {
 fix_sudo
 other_horrors
 
-#HUOM.21525.2:tarkistuksia yksinkertaisempi vain pakottaa oikeudet ja omistajat jokatap 
-if [ ! -v loose ] ; then
-	init2
-fi
+##HUOM.21525.2:tarkistuksia yksinkertaisempi vain pakottaa oikeudet ja omistajat jokatap 
+#if [ ! -v loose ] ; then
+#	init2
+#fi
 
 [ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 csleep 2
@@ -178,9 +178,11 @@ function jules() {
 
 function message() {
 	echo "INSTALLING NEW PACKAGES IN x SECS"
-	csleep 2
-	echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES";sleep 1
-	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS";sleep 1
+	sleep 1
+	echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES"
+	sleep 1
+	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS"
+	sleep 1
 }
 
 function ocs() {
@@ -219,9 +221,6 @@ function psqa() {
 	csleep 1
 }
 
-#HUOM.23525:jossain debug-tekstissä saattoi olla polut väärin
-#"import2 0 /xxx/yyy -v" kautta tapahtui joten check_bin ja PREFIX tulisi tarkistaa että itä arvoja assvat
-#24525:saattoi löytyä syyllinen
 function ppp3() {
 	dqb "ppp3 ${1}"
 	csleep 3
@@ -233,6 +232,9 @@ function ppp3() {
 		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
 		echo "SHOULD REMOVE ${1} /sha512sums.txt"
 		echo "\"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
+		
+		#cut jatkossa
+		${scm} a-x ${PREFIX}/common_lib.sh 
 		
 		#exit 55 HUOM.24525:antaa olla kommenteissa toistaiseksi, ,esim. chimaeran tapauksessa ei välttis ole $distro:n alla .deb aluksi
 		#... tosin alkutilanteessa tables pitäisi chimaerasta löytyä	
@@ -296,12 +298,14 @@ function check_binaries() {
 	sifu=$(${odio} which ifup)
 	sifd=$(${odio} which ifdown)
 
-	CB_LIST1="/sbin/halt /sbin/reboot /usr/bin/which ${sifu} ${sifd} "
+	#xcalibur-testien älk muutox
+	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd} "
 	dqb "second half of c_bin_1"
 	csleep 1
 
 	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
-	for x in iptables ip6tables iptables-restore ip6tables-restore ifup ifdown apt-get apt ip netstat dpkg tar mount umount dhclient sha512sum #kilinwittu.sh
+	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
+	for x in iptables ip6tables iptables-restore ip6tables-restore ifup ifdown apt-get apt ip netstat dpkg tar mount umount sha512sum dhclient # kilinwittu.sh
 		do ocs ${x}
 	done
 	
@@ -353,6 +357,7 @@ function check_binaries2() {
 }
 
 function mangle_s() {
+	dqb "mangle_s ( ${1} , ${2}, ${3} ) " #kaarisulkeet edelleen perseestä
 	csleep 1
 
 	[ y"${1}" == "y" ] && exit 44
@@ -585,6 +590,7 @@ function enforce_access() {
 	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
+#HUOM.25525:cut tähän tai kutsivaan koodiin koska xcalibur/ceres
 function part1_5() {
 	dqb "part1_5()"
 	csleep 1
@@ -651,6 +657,7 @@ function part1_5() {
 	csleep 1
 }
 
+#HUOM.25525:xcalibur/ceres-jutun takia tähän joutuisi laittamaan cut mukaan
 function part1() {
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
 	#jos jokin näistä kolmesta hoitaisi homman...
@@ -821,6 +828,7 @@ function part3_4real() {
 
 	#HUOM.230325: jospa ei tässä varmistella sdi:n kanssa, tulee vain nalkutusta
 	#sitäpaItsi check_binaries() : in pitäisi hoitaa asia
+
 	dqb "22"
 	csleep 1
 	psqa ${1}
@@ -852,7 +860,7 @@ function part3_4real() {
 	csleep 1
 }
 
-#HUOM.25525: mikä juttu tuon $2 kanssa? mihin tarv8taan?
+#HUOM.25525: mikä juttu olikaan tuon $2 kanssa? mihin tarv8taan?
 function part3() {
 	dqb "part3 ${1}"
 	csleep 1
@@ -864,21 +872,6 @@ function part3() {
 	part3_4real ${1}
 
 	other_horrors
-}
-
-function t2pf() {
-	${NKVD} ${pkgdir}/*.deb
-	${NKVD} ${pkgdir}/*.bin 
-	${NKVD} ${d}/*.deb 
-	${NKVD} /tmp/*.tar
-	${smr} -rf /tmp/tmp.*
-
-	${smr} -rf /usr/share/doc 
-	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
-
-	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
-	df
-	${odio} which dhclient; ${odio} which ifup; csleep 6
 }
 
 function t2p_filler() {
@@ -896,7 +889,7 @@ function t2pc() {
 	${sharpy} bubblewrap coinor* cryptsetup*
 	t2p_filler
 
-	${sharpy} debian-faq  dirmngr discover* doc-debian
+	${sharpy} debian-faq dirmngr discover* doc-debian
 	t2p_filler
 
 	${sharpy} docutils* dosfstools efibootmgr exfalso
@@ -957,6 +950,22 @@ function t2pc() {
 	${sharpy} xorriso yad xz-utils
 	#xfce*,xorg* off limits
 	t2p_filler
+}
+
+function t2pf() {
+	${NKVD} ${pkgdir}/*.deb
+	${NKVD} ${pkgdir}/*.bin 
+	${NKVD} ${d}/*.deb 
+	${NKVD} /tmp/*.tar
+	${smr} -rf /tmp/tmp.*
+
+	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
+	${smr} -rf /usr/share/doc 
+	
+
+	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
+	df
+	${odio} which dhclient; ${odio} which ifup; csleep 6
 }
 
 #HUOM.voisi -v käsitellä jo tässä

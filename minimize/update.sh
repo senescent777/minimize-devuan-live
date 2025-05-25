@@ -11,7 +11,7 @@ if [ z"${distro}" != "z" ] ; then
 
 		if  [ -v dir ] && [ -d ${dir} ] ; then
 			v=$(grep ${dir} /proc/mounts | wc -l)
-			u=1 #tdstojärj paskoontumisem välttämiseksi
+			u=1 #tdstojärj paskoontumiseN välttämiseksi
 
 			if [ ${v} -lt 1 ] ; then
 				echo "HAVE TO MOUNT";sleep 1			
@@ -83,7 +83,7 @@ if [ -f ${tgt} ] ; then
 		${scm} 0444 /etc/default/rules*
 		sleep 2
 				
-		for f in $(find /etc -name 'rules*') ; do
+		for f in $(find /etc -name 'rules*') ; do #type f mukaan?
 			if [ -s ${f} ] && [ -r ${f} ] ; then
 				process_entry ${tgt} ${f}
 			fi
