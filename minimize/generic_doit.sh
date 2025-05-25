@@ -28,6 +28,8 @@ function parse_opts_1() {
 	esac
 }
 
+distro=$(echo ${distro} | cut -d '/' -f 1)
+
 function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
