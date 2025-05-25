@@ -151,7 +151,7 @@ function t2p() {
 	${asy}
 	csleep 3
 
-	${sharpy} ftp gcr ghostscript gimp-data gir*
+	${sharpy} ftp* gcr ghostscript gimp-data gir*
 	${lftr}
 	${asy}
 	csleep 3
@@ -170,6 +170,7 @@ function t2p() {
 	csleep 3
 
 	${sharpy} gvfs* #jljellä?
+	#inetutils-telnet mukaan?
 	${sharpy} htop intel-microcode isolinux
 	${lftr}
 	${asy}
@@ -181,13 +182,14 @@ function t2p() {
 	csleep 3
 
 	#lib-jutut jos antaisi enimmäkseen olla rauhassa
-	#HUOM. jokin noista johtaa git:in poistoon
+	#HUOM. jokin noista johtaa git:in poistoon (libsasl)
 	${sharpy} libgstreamer* libpoppler* libsane* libsasl*
 	${lftr}
 	${asy}
 	csleep 3
 	
 	#linux* , live* off limits
+	#lp-solve ei löytynyt?
 	${sharpy} lvm2 lynx* mail* mariadb-common
 	${lftr}
 	${asy}
@@ -208,6 +210,7 @@ function t2p() {
 	${asy}
 	csleep 3
 
+	#pigz, p7zip ?
 	${sharpy} orca packagekit* parted pavucontrol
 	${lftr}
 	${asy}
@@ -231,6 +234,7 @@ function t2p() {
 	${asy}
 	csleep 3
 
+	#traceroute?
 	${sharpy} telnet tex* tumbler-common
 	${lftr}
 	${asy}
