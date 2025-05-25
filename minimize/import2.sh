@@ -130,6 +130,7 @@ else
 fi
 
 [ -z ${distro} ] && exit 6
+distro=$(echo ${distro} | cut -d '/' -f 1) #missä kohtaa?
 
 dqb "mode=${mode}"
 dqb "distro=${distro}"
