@@ -314,7 +314,7 @@ case "${mode}" in
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
 
-		part3 ${d} ${dnsm}
+		part3 ${d} #${dnsm} tartteeko 2. param vai ei?
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 		csleep 1
 
@@ -322,7 +322,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#TODO:voisi olla config.tar purq samassa casessa...Jotenin		
+		#TODO:voisi olla config.tar purq samassa casessa...JotenKin		
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 1
