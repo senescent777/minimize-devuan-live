@@ -594,11 +594,16 @@ function enforce_access() {
 function part1_5() {
 	dqb "part1_5()"
 	csleep 1
+	local t
 
-	if [ ! -s /etc/apt/sources.list.${1} ] ; then
+	#g=$(date +%F)
+	t=$(echo ${1} | cut -d '/' -f 1) #jos tämä riittäisi toistaiseksi
+
+	if [ ! -s /etc/apt/sources.list.${t} ] ; then
 		#if [ z"${pkgsrc}" != "z" ] ; then
-			#if [ -d ${PREFIX}/${1} ] ; then
+			#if [ -d ${PREFIX}/${t} ] ; then
 			#
+
 		if [ ! -s /etc/apt/sources.list.tmp ] ; then
 			#HUOM. mitä jos onkin s.list.$1 olemassa mutta s.list pitäisi vaihtaa?
 				
@@ -607,16 +612,16 @@ function part1_5() {
 			csleep 1
 
 			h=$(mktemp -d)
-			#touch ${h}/sources.list.${1}
+			#touch ${h}/sources.list.${t}
 			touch ${h}/sources.list.tmp
 
-			#for x in ${1} ${1}-updates ${1}-security ; do
-			#	echo "deb https://${pkgsrc}/merged ${x} main" >> ${h}/sources.list.${1}
+			#for x in ${t} ${t}-updates ${t}-security ; do
+			#	echo "deb https://${pkgsrc}/merged ${x} main" >> ${h}/sources.list.${t}
 			for x in DISTRO DISTRO-updates DISTRO-security ; do
 				echo "deb https://REPOSITORY/merged ${x} main" >> ${h}/sources.list.tmp
 			done
 
-			#${svm} ${h}/sources.list.${1} /etc/apt/
+			#${svm} ${h}/sources.list.${t} /etc/apt/
 			${svm} ${h}/sources.list.tmp /etc/apt
 		fi
 		#fi
@@ -625,12 +630,12 @@ function part1_5() {
 	dqb "p1.5.2()"
 	csleep 1
 
-	if [ ! -s /etc/apt/sources.list.${1} ] ; then
+	if [ ! -s /etc/apt/sources.list.${t} ] ; then
 		if [ -s /etc/apt/sources.list.tmp ] ; then
 			#HUOM.22525:vaikuttaisi jopa toimivan, seur forWardointi sh:lle
 			local tdmc
 	
-			tdmc="sed -i 's/DISTRO/${1}/g'"
+			tdmc="sed -i 's/DISTRO/${t}/g'"
 			echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
 			csleep 1
 
@@ -641,7 +646,7 @@ function part1_5() {
 				csleep 1
 			fi
 	
-			echo "${odio} mv /etc/apt/sources.list.tmp /etc/apt/sources.list.${1}" | bash -s
+			echo "${odio} mv /etc/apt/sources.list.tmp /etc/apt/sources.list.${t}" | bash -s
 			csleep 1
 
 			dqb "finally"
@@ -699,7 +704,7 @@ function part1() {
 	local t
 
 	g=$(date +%F)
-	t=$(echo ${1}  | cut -d '/' -f 1) #jos tämä riittäisi toistaiseksi
+	t=$(echo ${1} | cut -d '/' -f 1) #jos tämä riittäisi toistaiseksi
 
 	#HUOM.20525:onkohan ao. ehto ok?
 	if [ -f /etc/apt/sources.list ] ; then
