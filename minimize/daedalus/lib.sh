@@ -89,7 +89,7 @@ function udp6() {
 	dqb "daud.lib.UPDP-6"
 	csleep 1
 
-	${smr} ${pkgdir}/libx11-xcb1*
+	${smr} ${pkgdir}/libx11-xcb1* #NKVD?
 	${smr} ${pkgdir}/nfs*
 	${smr} ${pkgdir}/rpc*
 	${smr} ${pkgdir}/python3.11*
@@ -121,84 +121,58 @@ function udp6() {
 	csleep 1
 }
 
+#tarpeellinen fktio?
 function part2_pre() {
 	dqb "dausd.PP2"
 }
 
+#TODO:squashfs-tools
+#mitä xcvt tekee?
 function t2p() {
 	#debug=1
-	#dqb "UNDER CONSTRUCTION"
+	dqb "DAUD.T2P()"
 	csleep 1
 
-	#voisi kai chim kanssa yhteisiä viedä part2_5:seen
-	${sharpy} amd64-microcode at-spi2-core #HUOM.25525:atril ei löydy daedaluksesta
-	t2p_filler
+	#voisi kai chim kanssa yhteisiä viedä part2_5:seen`?
+	#HUOM.25525:atril ei löydy daedaluksesta
 
 	#bluez ei löydy, bc taisi poistua aiemmin
-	${sharpy} bubblewrap coinor*
-	t2p_filler
 
-	${sharpy} cryptsetup*
 	#doc-paketteja saattaisi vaikka tarvitakin mutta
-	${sharpy} debian-faq  dirmngr discover* doc-debian
-	t2p_filler
-
-	${sharpy} docutils* dosfstools efibootmgr exfalso
-	t2p_filler
 
 	#exfatprogs, tarvitseeko?
-	${sharpy} exfatprogs fdisk ftp* gcr
-	t2p_filler
 
 	#gdisk, ghostscript, gnupg* ei löydy
-	${sharpy} gimp-data gir*
 	#gpg* voi poistaa liikaa
-	t2p_filler
 
 	#gparted, gpg-wks* ei löydy, gpgconf EI poistoon
-	${sharpy} gpg-agent gpgsm gpg
-	t2p_filler
 
 	#gsasl-common, gsfonts, gvfs ei löydy
-	${sharpy} grub* 
+	${sharpy} arch-test
 	${sharpy} gsettings* #uskaltaako poistaa chimaerassa?
-	${sharpy} gstreamer*
 	t2p_filler
 
-	${sharpy} htop inetutils-telnet intel-microcode isolinux
 	${sharpy} iucode-tool #löytyykö chimaerasta?
 	t2p_filler
 
-	${sharpy} libreoffice*
-	t2p_filler
-
 	#jos lib* jättäisi enimmäkseeen rauhaan
-	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
-	t2p_filler
 
 	#linux* , live* off limits
-	${sharpy} lvm2 lynx* mail* #mariadb-common ei löytynyt
-	t2p_filler
+	#mariadb-common ei löytynyt
 
 	#lp-solve? mysql-common?
 
 	#mawk off limits, mdadm ei löytynyt, mokutil ei, mobile ei, mutt ei, mysql ei
-	${sharpy} mlocate modem* 
-	${sharpy} mtools mythes*
-	t2p_filler
 
 	#node* ei löydy, notification* ei löydy, orca ei, os-prober ei
-	${sharpy} netcat-traditional openssh*
 	${sharpy} ntfs-3g
 	t2p_filler
 
 	#pigz ei löydy, packagekit ei löydy
-	${sharpy} p7zip parted pavucontrol
+	${sharpy} p7zip
 	t2p_filler
 
 	#pinentry ei, po* ei
-	${sharpy} ppp plocate pciutils procmail
-	t2p_filler
 
 	#procps off limits
 	${sharpy} psmisc
@@ -207,29 +181,24 @@ function t2p() {
 	#python* parempi jättää rauhaan
 	#quodlibet ei löydy, refracta* ei
 
-	${sharpy} ristretto rsync
+	${sharpy} rsync
 	#löytyykö rpcbind?
 	t2p_filler
 
 	#sane-utils ei löydy
 	#löytyykö squash?
-	${sharpy} screen shim* speech* syslinux*
-	t2p_filler
 
 	#telnet e löydy
-	${sharpy} tex* tumbler* traceroute
+	${sharpy} traceroute
 	t2p_filler
 
 	#udisks2 ei löydy, uno ei löydy, ure ei
-	${sharpy} upower vim*
+	${sharpy} upower 
 	t2p_filler
 
 	${sharpy} w3m wget
 	#xfce*,xorg* off limits, xfburn ei löydy
-	${sharpy} xorriso xarchiver
-	t2p_filler
-
-	${sharpy} yad xz-utils
+	${sharpy} xarchiver
 	t2p_filler
 
 	dqb "D0N3"
