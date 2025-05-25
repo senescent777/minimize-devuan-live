@@ -77,6 +77,7 @@ else
 	}
 
 	#HUOM.23525:vaikuttaisi toimivan tarkistus "leikki-fktiossa"
+	#TODO:testaa
 	function part3() {
 		dqb "imp32.part3( ${1} ${2} )"
 		csleep 1
@@ -91,11 +92,10 @@ else
 		if [ $? -eq 0 ] ; then
 			csleep 1
 
-			#TODO:josko tekemään nuo oikeasti
-			echo "${odio} dpkg -i ./lib*.deb"
-			echo "${odio} rm ./lib*.deb"
-			echo "${odio} dpkg -i ./*.deb"
-			echo "${odio} rm ./*.deb"
+			${odio} dpkg -i ./lib*.deb
+			${odio} rm ./lib*.deb
+			${odio} dpkg -i ./*.deb
+			${odio} rm ./*.deb
 
 			dqb "U MAY NOW ${scm} a+x ${1}/../common_lib.sh"
 		fi
