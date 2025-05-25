@@ -171,8 +171,8 @@ function jules() {
 
 	[ -h /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
 	[ -L /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6 #mikä ero, L vs h ?
+	
 	csleep 2
-
 	other_horrors
 
 	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables

@@ -2,7 +2,7 @@
 debug=0 #1
 tgtfile=""
 distro=$(cat /etc/devuan_version) #HUOM.23525:tarpeellinen tässä nykyään?
-PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd
+PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd #tai dirname?
 mode=-2
 loose=1
 
@@ -117,6 +117,9 @@ else
 	dqb "chmod may be a good idea now"
 fi
 
+#tässä vai vielä aiemmin?
+distro=$(echo ${distro} | cut -d '/' -f 1)
+
 [ -z ${distro} ] && exit 6
 d=${PREFIX}/${distro}
 
@@ -203,7 +206,7 @@ function pre1() {
 		enforce_access ${n}
 		csleep 1
 
-		#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
+		#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres (TODO:testaa)
 		local ortsac
 		ortsac=$(echo ${1} | cut -d '/' -f 6)
 
@@ -507,7 +510,7 @@ function tp2() {
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
 
-	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
+	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres ? (TODO:testaa miten on)
 
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
@@ -576,7 +579,7 @@ function tp2() {
 
 #HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
 #dnsm 2. parametriksi... eiku ei, $2 onkin jo käytössä ja tarttisi sen cut-jekun
-function tp3() {
+function tp3() { #TODO:testaa
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
 	[ y"${1}" == "y" ] && exit 1
@@ -659,7 +662,7 @@ function tp3() {
 	csleep 2
 }
 
-function tpu() {
+function tpu() { #TODO:testaa
 	#debug=1	
 	#HUOM:0/1/old/new ei liity
 	dqb "tpu ${1}, ${2}"
