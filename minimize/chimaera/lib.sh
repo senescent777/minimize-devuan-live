@@ -1,6 +1,6 @@
 #=================================================PART 0=====================================
 #
-#VAIH:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
+#TEHTY?:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 #... joskohan --force-confold olisi se haettu juttu
 #HUOM.23525:voisi jaksaa chimaera-tapauksenkin testatatata taas
@@ -126,127 +126,82 @@ function t2p() {
 	${sharpy} amd64-microcode at-spi2-core atril*
 	${lftr}
 	${sharpy} bc bluez bubblewrap #bluezin saisi aikaisemminkin pois, åart2_5...
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	${sharpy} coinor* cryptsetup*
-	${lftr}
-	${asy}
-	csleep 3
-	
+	t2p_filler
+
 	#dconf,debconf off limits
 	${sharpy} debian-faq  dirmngr discover* doc-debian
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	${sharpy} docutils* dosfstools efibootmgr exfalso
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
-	${sharpy} exfat* fdisk 
-	${lftr}
-	${asy}
-	csleep 3
+	${sharpy} exfat* fdisk
+	t2p_filler
 
 	${sharpy} ftp* gcr ghostscript gimp-data gir*
-	${lftr}
-	${asy}
-	csleep 3
-	
+	t2p_filler
+
 	#gnome* , gpg* off limits , gnupg* ei löydy
 
 	${sharpy} gparted* gpgsm gpg-agent gpg
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 	
 	#gsettings-desktop-schemas off limits
 	${sharpy} grub* gsasl-common gsfonts* gstreamer*
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	${sharpy} gvfs* #jljellä?
-	#inetutils-telnet mukaan?
-	${sharpy} htop intel-microcode isolinux
-	${lftr}
-	${asy}
-	csleep 3
+	${sharpy} htop intel-microcode isolinux inetutils-telnet
+	t2p_filler
 	
 	${sharpy} libreoffice*
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#lib-jutut jos antaisi enimmäkseen olla rauhassa
 	#HUOM. jokin noista johtaa git:in poistoon (libsasl)
 	${sharpy} libgstreamer* libpoppler* libsane* libsasl*
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 	
 	#linux* , live* off limits
 	#lp-solve ei löytynyt?
 	${sharpy} lvm2 lynx* mail* mariadb-common
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	${sharpy} mdadm mlocate mobile* modem*
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	${sharpy} mtools mysql-common mythes*
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	${sharpy} netcat-traditional notification-daemon openssh*
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#pigz, p7zip ?
 	${sharpy} orca packagekit* parted pavucontrol
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
-	#TODO:openssh
-
-	${sharpy} pciutils pigz po* ppp
-	${lftr}
-	${asy}
-	csleep 3
+	${sharpy} openssh pciutils pigz po* ppp
+	t2p_filler
 
 	#procps off limits
 	${sharpy} procmail ristretto rpcbind sane-utils screen
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	${sharpy} shim* squash* speech* syslinux-common
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	#traceroute?
 	${sharpy} telnet tex* tumbler-common
-	${lftr}
-	${asy}
-	csleep 3
+	t2p_filler
 
 	${sharpy} vim* xorriso yad xz-utils
 	#xfce*,xorg* off limits
 
-	${lftr}
-	${asy}
-	csleep 3
-	
+	t2p_filler
+
 	dqb "D0N3"
 	csleep 1
 } 
