@@ -229,8 +229,11 @@ function common_part() {
 	csleep 1
 	dqb "tar DONE"
 
-	#HUOM.25525:josko cut parempi, syystä excalibur/ceres (TODO)
-	if [ -x ${2}/../common_lib.sh ] ; then
+	local t
+	t=$(echo ${2} | cut -d '/' -f 1-5)
+
+	#HUOM.25525:josko cut parempi, syystä excalibur/ceres (VAIH)
+	if [ -x ${t}/common_lib.sh ] ; then
 		enforce_access ${n}
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	fi
