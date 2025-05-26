@@ -124,7 +124,6 @@ function part2_pre() {
 	dqb "dausd.PP2"
 }
 
-#TODO:squashfs-tools vai tartteeko vielä?
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xcvt=0.1.2-1
 function t2p() {
 	debug=1
@@ -179,7 +178,7 @@ function t2p() {
 	#python* parempi jättää rauhaan
 	#quodlibet ei löydy, refracta* ei
 
-	${sharpy} rsync
+	${sharpy} rsync squashfs-tools
 	#löytyykö rpcbind?
 	t2p_filler
 
