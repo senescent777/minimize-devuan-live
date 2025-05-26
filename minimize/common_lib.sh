@@ -603,35 +603,23 @@ function part1_5() {
 	csleep 1
 	local t
 
-	#g=$(date +%F)
 	t=$(echo ${1} | cut -d '/' -f 1) #jos tämä riittäisi toistaiseksi
 
 	if [ ! -s /etc/apt/sources.list.${t} ] ; then
-		#if [ z"${pkgsrc}" != "z" ] ; then
-			#if [ -d ${PREFIX}/${t} ] ; then
-			#
-
-		if [ ! -s /etc/apt/sources.list.tmp ] ; then
-			#HUOM. mitä jos onkin s.list.$1 olemassa mutta s.list pitäisi vaihtaa?
-				
+		if [ ! -s /etc/apt/sources.list.tmp ] ; then	
 			local h
 			dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
 			csleep 1
 
 			h=$(mktemp -d)
-			#touch ${h}/sources.list.${t}
 			touch ${h}/sources.list.tmp
 
-			#for x in ${t} ${t}-updates ${t}-security ; do
-			#	echo "deb https://${pkgsrc}/merged ${x} main" >> ${h}/sources.list.${t}
 			for x in DISTRO DISTRO-updates DISTRO-security ; do
 				echo "deb https://REPOSITORY/merged ${x} main" >> ${h}/sources.list.tmp
 			done
 
-			#${svm} ${h}/sources.list.${t} /etc/apt/
 			${svm} ${h}/sources.list.tmp /etc/apt
 		fi
-		#fi
 	fi
 
 	dqb "p1.5.2()"
@@ -673,17 +661,6 @@ function part1_5() {
 function part1() {
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
 	#jos jokin näistä kolmesta hoitaisi homman...
-
-#	${sifd} ${iface} #siirretty -> part076
-#	${sifd} -a
-#	[ ${debug} -eq 1 ] && /sbin/ifconfig;sleep 2
-#
-#	dqb "${sip} link set ${iface} down"
-#	${sip} link set ${iface} down
-#	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
-#	csleep 1
-#	
-#	${odio} sysctl -p #/etc/sysctl.conf
 
 	if [ y"${ipt}" == "y" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
@@ -941,8 +918,7 @@ function t2pc() {
 	${sharpy} gpgsm gpg-agent gpg
 	t2p_filler
 
-	${sharpy} grub* 
-	${sharpy} gstreamer* #libgs poist alempana
+	${sharpy} grub* gstreamer* #libgs poist alempana
 	t2p_filler
 
 	${sharpy} htop inetutils-telnet intel-microcode isolinux
@@ -957,8 +933,7 @@ function t2pc() {
 	${sharpy} lvm2 lynx* mail* #miten mariadb-common?
 	t2p_filler
 
-	${sharpy} mlocate modem*
-	${sharpy} mtools mythes*
+	${sharpy} mlocate modem* mtools mythes*
 	t2p_filler
 
 	${sharpy} netcat-traditional openssh*
@@ -970,12 +945,10 @@ function t2pc() {
 	${sharpy} ppp plocate pciutils procmail
 	t2p_filler
 
-	${sharpy} ristretto
-	${sharpy} screen
+	${sharpy} ristretto screen
 	t2p_filler
 
-	${sharpy} shim*
-	${sharpy} speech* syslinux-common
+	${sharpy} shim* speech* syslinux-common
 	t2p_filler
 
 	${sharpy} tex* tumbler*
