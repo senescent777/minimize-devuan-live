@@ -97,7 +97,7 @@ function pr4() {
 	csleep 1
 }
 
-#TODO:pkgdir sijaan $1
+#VAIH:pkgdir sijaan $1
 function udp6() {
 	dqb "daud.lib.UPDP-6"
 	csleep 1
@@ -118,13 +118,13 @@ function udp6() {
 	${NKVD} ${1}/libcrypt*
 	${NKVD} ${1}/libdevmapper*
 	${NKVD} ${1}/libsoup*
-
-	for s in ${PART175_LIST} ; do #TODO:kutsuvaan koodiin moinen?
-		dqb "processing ${s} ..."
-		csleep 1
-
-		${NKVD} ${pkgdir}/${s}*
-	done
+#
+#	for s in ${PART175_LIST} ; do 
+#		dqb "processing ${s} ..."
+#		csleep 1
+#
+#		${NKVD} ${1}/${s}*
+#	done
 
 	case ${iface} in
 		wlan0)
@@ -132,7 +132,7 @@ function udp6() {
 			csleep 1
 		;;
 		*)
-			${smr} ${pkgdir}/wpa*
+			${smr} ${1}/wpa*
 		;;
 	esac
 
