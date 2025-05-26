@@ -5,6 +5,7 @@
 #... joskohan --force-confold olisi se haettu juttu
 #HUOM.24525: jnkn verra n testailtu
 
+#HUOM.26525:tähän samantap muutoksia kuin daedaluksen vastaavaan?
 function pre_part3() {
 	dqb "ch1m.pp3( ${1} , ${2} )"
 	csleep 1
@@ -85,23 +86,23 @@ function udp6() {
 	dqb "ch1m.lib.UPDP-6"
 	csleep 2
 
-	${NKVD} ${pkgdir}/libx11-xcb1*
-	${NKVD} ${pkgdir}/nfs*
-	${NKVD} ${pkgdir}/rpc*
-	${NKVD} ${pkgdir}/python3.11*
-	${NKVD} ${pkgdir}/xserver-xorg-core*
-	${NKVD} ${pkgdir}/xserver-xorg-legacy*
-	${NKVD} ${pkgdir}/libgtk-3-bin*
-	${NKVD} ${pkgdir}/libpython3.11*
-	${NKVD} ${pkgdir}/librsvg2*
-	
-	for s in ${PART175_LIST} ; do
-		dqb "processing ${s}"
-		csleep 1
-
-		${NKVD} ${pkgdir}/${s}*
-		csleep 1
-	done
+	${NKVD} ${1}/libx11-xcb1*
+	${NKVD} ${1}/nfs*
+	${NKVD} ${1}/rpc*
+	${NKVD} ${1}/python3.11*
+	${NKVD} ${1}/xserver-xorg-core*
+	${NKVD} ${1}/xserver-xorg-legacy*
+	${NKVD} ${1}/libgtk-3-bin*
+	${NKVD} ${1}/libpython3.11*
+	${NKVD} ${1}/librsvg2*
+#	
+#	for s in ${PART175_LIST} ; do
+#		dqb "processing ${s}"
+#		csleep 1
+#
+#		${NKVD} ${1}/${s}*
+#		csleep 1
+#	done
 
 	case ${iface} in
 		wlan0)
@@ -109,7 +110,7 @@ function udp6() {
 			csleep 6
 		;;
 		*)
-			${NKVD} ${pkgdir}/wpa*
+			${NKVD} ${1}/wpa*
 		;;
 	esac
 
