@@ -5,7 +5,7 @@
 #... joskohan --force-confold olisi se haettu juttu
 
 #HUOM. tarvitseeko 2. parametrin? ei kai
-#TODO:josko niin päin että ladataan rulekset ensin ja sitten asennetaan persistentit? onnistuisiko välttää cp:n takominen?
+#VAIH:josko niin päin että ladataan rulekset ensin ja sitten asennetaan persistentit? onnistuisiko välttää cp:n takominen?
 function pre_part3() {
 	dqb "daud.pp3( ${1} , ${2} )"
 	csleep 1
@@ -28,9 +28,19 @@ function pre_part3() {
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables_*.deb
+	csleep 5
 
 	#tähän se ipt-restore?
+	local s
+	local t
+	
+	s=$(${odio} which iptables-restore)
+	t=$(${odio} which ip6tables-restore)
 
+	${odio} ${s} /etc/iptables/rules.v4.${dnsm}
+	${odio} ${t} /etc/iptables/rules.v6.${dnsm}
+
+	csleep 5
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb
