@@ -682,8 +682,7 @@ function tpu() { #TODO:testaa
 	echo $?
 	csleep 2
 
-	#30425:kuseekohan tuossa jokin? wpasupplicantin poisto melkein johti xorgin poistoon...
-	udp6
+	udp6 ${pkgdir}
 
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ${2}
