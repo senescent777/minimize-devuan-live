@@ -19,10 +19,6 @@ function pre_part3() {
 	#HUOM.24525:vaikuttaisi toimivan vähän eri tavalla sääntjen tallennuksen sihteen q daedalus
 	#löytyi rules.v4 minkä sisältönä kaikkiin ketjuihin DROP (no vähän patrempi qu ACCEPT)
 
-	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
-	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb
-	#csleep 2
-
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb
 	#csleep 2
@@ -30,14 +26,34 @@ function pre_part3() {
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables_*.deb
 	#csleep 2
+	
+	csleep 5
+	${scm} 0755 /etc/iptables
+
+	local s
+	local t
+	
+	s=$(${odio} which iptables-restore)
+	t=$(${odio} which ip6tables-restore)
+
+	${odio} ${s} /etc/iptables/rules.v4.${dnsm}
+	${odio} ${t} /etc/iptables/rules.v6.${dnsm}
+
+	csleep 5
+
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb
+	#csleep 2
+
+	#kuinkahan tarpeellinen netfilter-pers oikeastaan on?
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables-*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables-*.deb
 	csleep 1
 
-	${scm} 0755 /etc/iptables
-	${svm} /etc/iptables/rules.v4 /etc/iptables.rules.v4.$(date +%F)
-	${svm} /etc/iptables/rules.v6 /etc/iptables.rules.v6.$(date +%F)
+	#${scm} 0755 /etc/iptables
+	#${svm} /etc/iptables/rules.v4 /etc/iptables.rules.v4.$(date +%F)
+	#${svm} /etc/iptables/rules.v6 /etc/iptables.rules.v6.$(date +%F)
 	${scm} 0550 /etc/iptables
 
 	dqb "pp3 d0n3"
@@ -127,7 +143,7 @@ function udp6() {
 #}
 #
 function t2p() {
-	#t2pc #jatkossa kutsiva koodi ajamaan tämän
+	#t2pc #jatkossa kutsUva koodi ajamaan tämän
 	csleep 5
 
 	dqb "t2p()"
