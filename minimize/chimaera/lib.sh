@@ -44,31 +44,32 @@ function pre_part3() {
 	csleep 2
 }
 
+#jokin dpkg/apt-jekku kutsuvassa koodissa voisi ajaa saman asian, ehkä
 function pr4() {
 	dqb "ch1m.pr4( ${1} , ${2} )"
 	csleep 3
 
-	${odio} dpkg -i ${1}/libpam-modules-bin_*.deb
-	${odio} dpkg -i ${1}/libpam-modules_*.deb
+	${sdi} ${1}/libpam-modules-bin_*.deb
+	${sdi} ${1}/libpam-modules_*.deb
 
 	${NKVD} ${1}/libpam-modules*
 	csleep 1
 
-	${odio} dpkg -i ${1}/libpam*.deb
-	${odio} dpkg -i ${1}/perl-modules-*.deb
-	${odio} dpkg -i ${1}/libperl*.deb
+	${sdi} ${1}/libpam*.deb
+	${sdi} ${1}/perl-modules-*.deb
+	${sdi} ${1}/libperl*.deb
 
 	${NKVD} ${1}/perl-modules-*.deb
 	${NKVD} ${1}/libperl*.deb
 	csleep 1
 
-	${odio} dpkg -i ${1}/perl*.deb
-	${odio} dpkg -i ${1}/libdbus*.deb
-	${odio} dpkg -i ${1}/dbus*.deb
+	${sdi} ${1}/perl*.deb
+	${sdi} ${1}/libdbus*.deb
+	${sdi} ${1}/dbus*.deb
 	csleep 1
 
-	${odio} dpkg -i ${1}/liberror-perl*.deb
-	${odio} dpkg -i ${1}/git*.deb
+	${sdi} ${1}/liberror-perl*.deb
+	${sdi} ${1}/git*.deb
 
 	${NKVD} ${1}/git*.deb
 	${NKVD} ${1}/liberror-perl*.deb
@@ -86,6 +87,7 @@ function udp6() {
 	dqb "ch1m.lib.UPDP-6"
 	csleep 2
 
+	#mahd. yhteisiä osia voisi siirtää
 	${NKVD} ${1}/libx11-xcb1*
 	${NKVD} ${1}/nfs*
 	${NKVD} ${1}/rpc*
