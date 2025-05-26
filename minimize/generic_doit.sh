@@ -7,9 +7,6 @@ d=~/Desktop/minimize/${distro} #alkuosa dirname:lla jatkossa?
 [ z"${distro}" == "z" ] && exit 6
 debug=0 #1
 
-#echo $d
-#sleep 5
-
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
 else
@@ -66,31 +63,22 @@ csleep 2
 
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce 
-#${n} ${distro} #HUOM.25425:oliko tuon pre_e:n kanssa jotain?
 
-#HUOM.26525: excalibur-testejä varten tämän disablointi tai ainakin e_fktioista jotkut pois pelistä
 enforce_access ${n} ${PREFIX}
 
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
-#HUOM.25525:excaliburin kanssa sfinksin_sfonksin/heikunkeikun-split, pitäisiköhän mode-tark tehdä jotenkin toisin jatkossa?
 
 ${snt}
 csleep 1
 
-#jotain perusteellisempia testejä chimaeran kanssa sitten mikäli jksaa sitä kirjautumisongelmaa (josko selvittelisi korjaamista?)
-#23525: $0 -v 0 toimii, $0 -v toimii, pt2 kun fiksaa parsetuksen, list175 juttujen kanssa vaikeuksia poistaa pak(conf syynä)
-#25525:import2/export2 - testauksia, vissiin onnistuu viedä ja tuoda 
 #===================================================PART 2===================================
-
-#HUOM. välillä mode=0 - testi (22525 viimeksi)
 
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 1
-	
-	#ennen vai jälkeen "dpkg reconfig"-blokin tämä?
+
 	if [ -s /etc/default/locale.tmp ] ; then
 		. /etc/default/locale.tmp
 
@@ -103,7 +91,6 @@ function el_loco() {
 		${scm} a+w /etc/default/locale
 		csleep 1
 
-		#export2 ja update sisältää nykyään rajauksen tdstonimiin tähän liittyen
 		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
 		cat /etc/default/locale
 		csleep 1
@@ -120,7 +107,6 @@ function el_loco() {
 		${odio} locale-gen #oli aiemmin ennen if-blokkia
 	fi
 
-	#joskohan kutsuvassa koodissa -v - tark riittäisi toistaiseksi
 	if [ ${2} -lt 1 ] && [ ${debug} -eq 1 ] ; then
 		ls -las /etc/default/lo*
 		csleep 1
@@ -135,7 +121,6 @@ c13=0
 [ ${mode} -eq 1 ] && c14=1
 
 if [ -v LCF666 ] ; then
-	#HUOM.16525:vissiin urputti kska lcf666 puuttuu konffista, palautettu
 	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
 else
 	echo "555"
@@ -163,16 +148,13 @@ if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
 		dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
 	fi
 
-	exit #varm. vuoksi kesk. suor. jos salakala tyritty
+	exit
 fi
 
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 
-#HUOM.26525:nököjään mennään part2_5seen kun mja oikeassa arvossa
-#part2_pre ${removepkgs}
 part2_5 ${removepkgs} ${dnsm}
-#exit
 
 #===================================================PART 3===========================================================
 message
