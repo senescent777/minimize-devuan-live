@@ -51,70 +51,67 @@ if [ -f ${tgt} ] ; then
 	sleep 3
 
 	read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
+	[ "${confirm}" != "Y" ] && exit 
+
+	function process_entry() {
+		${tcmd} -f ${1} -rv ${2}
+	}
+
+	${spc} ${tgt} ${tgt}.OLD #vaiko mv?
+	sleep 2
+
+	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
+	for f in $(find ${PREFIX}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
+	for f in $(find ${PREFIX}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
+	for f in $(find ${PREFIX}/ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
 	
-	[ "${confirm}" != "Y" ] && exit #; then
+	#tavoitteena locale-juttujen lisäksi localtime mukaan
+	for f in $(find /etc -type f -name 'locale*') ; do
+		if [ -s ${f} ] && [ -r ${f} ] ; then
+			process_entry ${tgt} ${f}
+		fi
+	done
 
+	#jos git:n kanssa menisi ni $prefix alaiset voisi commitoida suoraan?
+	#sen sijaan /e alaiset?pitäisikö kasata johonkin pakettiin ja se commitoida?
 
-		function process_entry() {
-			${tcmd} -f ${1} -rv ${2}
-		}
+	#tuossa yllä find ilman tiukempaa name-rajausta vetäisi ylimääräisiä mukaan, toisaalta /e/localtime on linkki
+	process_entry ${tgt} /etc/timezone
+	process_entry ${tgt} /etc/localtime
 
-		${spc} ${tgt} ${tgt}.OLD #vaiko mv?
-		sleep 2
+	#firefoxin käännösasetukset pikemminkin export2:n hommia 
 
-		#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
-		for f in $(find ${PREFIX}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
-		for f in $(find ${PREFIX}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
-		for f in $(find ${PREFIX}/ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
-	
-		#tavoitteena locale-juttujen lisäksi localtime mukaan
-		for f in $(find /etc -type f -name 'locale*') ; do
-			if [ -s ${f} ] && [ -r ${f} ] ; then
-				process_entry ${tgt} ${f}
-			fi
-		done
-
-		#jos git:n kanssa menisi ni $prefix alaiset voisi commitoida suoraan?
-		#sen sijaan /e alaiset?pitäisikö kasata johonkin pakettiin ja se commitoida?
-
-		#tuossa yllä find ilman tiukempaa name-rajausta vetäisi ylimääräisiä mukaan, toisaalta /e/localtime on linkki
-		process_entry ${tgt} /etc/timezone
-		process_entry ${tgt} /etc/localtime
-
-		#firefoxin käännösasetukset pikemminkin export2:n hommia 
-
-		${scm} 0755 /etc/iptables
-		${scm} 0444 /etc/iptables/*
-		${scm} 0444 /etc/default/rules*
-		sleep 2
+	${scm} 0755 /etc/iptables
+	${scm} 0444 /etc/iptables/*
+	${scm} 0444 /etc/default/rules*
+	sleep 2
 				
-		for f in $(find /etc -name 'rules*') ; do #type f mukaan?
-			if [ -s ${f} ] && [ -r ${f} ] ; then
-				process_entry ${tgt} ${f}
-			fi
-		done #JOSKO NYT SKEOILU VÄHENISI PRKL
+	for f in $(find /etc -name 'rules*') ; do #type f mukaan?
+		if [ -s ${f} ] && [ -r ${f} ] ; then
+			process_entry ${tgt} ${f}
+		fi
+	done #JOSKO NYT SKEOILU VÄHENISI PRKL
 
-		#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
-		for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
+	#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
+	for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
 
-		sleep 2
-		${scm} 0400 /etc/default/rules*
-		${scm} 0400 /etc/iptables/*
-		${scm} 0550 /etc/iptables
-		sleep 2
+	sleep 2
+	${scm} 0400 /etc/default/rules*
+	${scm} 0400 /etc/iptables/*
+	${scm} 0550 /etc/iptables
+	sleep 2
 
-		#sleep 3
+	#HUOM.saattaa urputtaa $tgt polusta riippuen
+	#HUOM.2:miten toimii omegan ajon jälkeen?
 
-		#HUOM.saattaa urputtaa $tgt polusta riippuen
-		sudo touch ${tgt}.sha
-		${scm} 0666 ${tgt}.sha
-		${sco} $(whoami):$(whoami) ${tgt}.sha
-		sha512sum ${tgt} > ${tgt}.sha
-		sha512sum -c ${tgt}.sha
+	sudo touch ${tgt}.sha
+	${scm} 0666 ${tgt}.sha
+	${sco} $(whoami):$(whoami) ${tgt}.sha
+	sha512sum ${tgt} > ${tgt}.sha
+	sha512sum -c ${tgt}.sha
  	
-		echo "DONE UPDATING"
-		sleep 2
-	#fi
+	echo "DONE UPDATING"
+	sleep 2
 else	
 	exit 1
 fi
