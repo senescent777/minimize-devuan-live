@@ -80,16 +80,24 @@ function pr4() {
 	${NKVD} ${1}/liberror-perl*.deb
 	csleep 1
 
-	#TODO:libdevmappwr-juttuja? tai mitä olikaan
-
 	${NKVD} ${1}/libpam*
 	${NKVD} ${1}/libperl*
 	${NKVD} ${1}/libdbus*
 	${NKVD} ${1}/dbus*
 	${NKVD} ${1}/perl*
+	
+	#VAIH:libdevmappwr-juttuja? tai mitä olikaan
+	${NKVD} ${1}/xz*
+	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
+	${NKVD} ${1}/libcrypt*
+	${NKVD} ${1}/libdevmapper*
+	${NKVD} ${1}/libsoup*
+	
+
 	csleep 1
 }
 
+#TODO:pkgdir sijaan $1
 function udp6() {
 	dqb "daud.lib.UPDP-6"
 	csleep 1
@@ -105,6 +113,12 @@ function udp6() {
 	${NKVD} ${pkgdir}/libpython3.11*
 	${NKVD} ${pkgdir}/librsvg2*
 	
+	${NKVD} ${1}/xz*
+	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
+	${NKVD} ${1}/libcrypt*
+	${NKVD} ${1}/libdevmapper*
+	${NKVD} ${1}/libsoup*
+
 	for s in ${PART175_LIST} ; do #TODO:kutsuvaan koodiin moinen?
 		dqb "processing ${s} ..."
 		csleep 1
