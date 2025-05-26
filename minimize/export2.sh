@@ -117,7 +117,7 @@ else
 	dqb "chmod may be a good idea now"
 fi
 
-#tässä vai vielä aiemmin?
+#tässä vai vielä aiemmin? excalib tapauksessa voi mennä jopa pieleen noin
 distro=$(echo ${distro} | cut -d '/' -f 1)
 
 [ -z ${distro} ] && exit 6
@@ -152,7 +152,7 @@ else
 		dqb "exp32.UPD6()"
 	}
 
-	check_binaries ${PREFIX}/${distro}
+	check_binaries ${PREFIX}/${distro} #HUOM.26525:voi tietyssä tapauksessa mennä pieleen koska x
 	check_binaries2
 fi
 
@@ -233,7 +233,7 @@ function pre2() {
 
 	local ortsac
 	local ledif
-#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
+	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
 
 	ortsac=$(echo ${1} | cut -d '/' -f 6)
 	ledif=$(echo ${1} | cut -d '/' -f 1-5 )
@@ -484,7 +484,7 @@ function tp4() {
 		pwd
 		csleep 1
 
-		${NKVD} ${2}/*.deb	#pitäisikö tässä olla se polku ukana?
+		${NKVD} ${2}/*.deb	#pitäisikö tässä olla se polkum ukana?
 		csleep 1		
 		${svm} ${pkgdir}/*.deb ${2}
 		rmt ${1} ${2}
@@ -578,7 +578,7 @@ function tp2() {
 
 #HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
 #dnsm 2. parametriksi... eiku ei, $2 onkin jo käytössä ja tarttisi sen cut-jekun
-function tp3() { #TODO:testaa
+function tp3() { #TODO:testaa, ensiksi tämä
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
 	[ y"${1}" == "y" ] && exit 1
