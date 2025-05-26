@@ -92,7 +92,7 @@ else
 	#HUOM.23525:josko tässä kohtaa pakotus riittäisi
 	function other_horrors() {
 		dqb "AZATHOTH AND OTHER HORRORS"
-		${spc} /etc/default/rules.* /etc/iptables
+		#${spc} /etc/default/rules.* /etc/iptables #tartteeko tuota enää 27525?
 		${scm} 0400 /etc/iptables/*
 		${scm} 0550 /etc/iptables
 		${sco} -R root:root /etc/iptables

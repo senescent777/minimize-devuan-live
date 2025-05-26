@@ -52,6 +52,7 @@ mode=${1}
 #
 #init2
 
+#HUOM.27525:pitäisiköhän tehdä viimeaikaisiin tables-muutoksiin liittyen jotain ? (d->lib->pre_part3() niinq)
 function p3r1m3tr() {
 	cp /etc/default/rules.* /etc/iptables
 	#[ -s /etc/iptables/rules.v4.] or exit 666

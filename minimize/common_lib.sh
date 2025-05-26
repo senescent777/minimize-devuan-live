@@ -130,7 +130,7 @@ function fix_sudo() {
 
 function other_horrors() {	
 	dqb "other_horrors()"
-	${spc} /etc/default/rules.* /etc/iptables #jatkossa ehdollinen nkopsaus?
+	#${spc} /etc/default/rules.* /etc/iptables #jatkossa ehdollinen nkopsaus?
 	echo $?	
 
 	${scm} 0400 /etc/iptables/*
@@ -167,6 +167,7 @@ function jules() {
 	dqb "V8"
 	csleep 2
 
+	#TODO:linkityksen poistot pois jatkossa?
 	#HUOM.linkityksen purku vaatisi kai w-oikeudet hmistoon
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/default/rules*
@@ -174,7 +175,7 @@ function jules() {
 
 	#HUOM.23535:cp aiheutti nalkutusta
 	#jatkoss ehdollinen kopsaus?
-	cp /etc/default/rules.* /etc/iptables
+	#cp /etc/default/rules.* /etc/iptables
 
 	[ -h /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
 	[ -L /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6 #mikä ero, L vs h ?
@@ -830,11 +831,11 @@ function part2_5() {
 		jules
 
 		if [ -s /etc/iptables/rules.v6.${2} ] ; then
-			${ip6tr} /etc/iptables/rules.v6.${2} #${dnsm}
+			${ip6tr} /etc/iptables/rules.v6.${2}
 		fi
 
 		if [ -s /etc/iptables/rules.v4.${2} ] ; then
-			${iptr} /etc/iptables/rules.v4.${2} #${dnsm}
+			${iptr} /etc/iptables/rules.v4.${2}
 		fi
 	fi
 

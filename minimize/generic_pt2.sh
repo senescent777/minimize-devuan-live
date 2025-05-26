@@ -107,6 +107,7 @@ t2pf
 ${asy} #varm. vuoksi
 
 #debug=1
+${scm} a-wx ${0}
 csleep 5 #t2pf kyllä sisältää csleep
 
 #excaliburin kanssa ei tämäkään tainnut toimia ihan toivotulla tavalla
