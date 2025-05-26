@@ -88,6 +88,7 @@ function udp6() {
 	dqb "daud.lib.UPDP-6"
 	csleep 1
 
+	#aiheuttavat nalkutusta
 	${NKVD} ${pkgdir}/libx11-xcb1*
 	${NKVD} ${pkgdir}/nfs*
 	${NKVD} ${pkgdir}/rpc*
@@ -98,7 +99,7 @@ function udp6() {
 	${NKVD} ${pkgdir}/libpython3.11*
 	${NKVD} ${pkgdir}/librsvg2*
 	
-	for s in ${PART175_LIST} ; do
+	for s in ${PART175_LIST} ; do #TODO:kutsuvaan koodiin moinen?
 		dqb "processing ${s} ..."
 		csleep 1
 
@@ -118,12 +119,12 @@ function udp6() {
 	dqb "D0NE"
 	csleep 1
 }
-
-#tarpeellinen fktio?
-function part2_pre() {
-	dqb "dausd.PP2"
-}
-
+#
+##tarpeellinen fktio?
+#function part2_pre() {
+#	dqb "dausd.PP2"
+#}
+#
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xcvt=0.1.2-1
 function t2p() {
 	debug=1
@@ -132,16 +133,11 @@ function t2p() {
 
 	#voisi kai chim kanssa yhteisiä viedä part2_5:seen`?
 	#HUOM.25525:atril ei löydy daedaluksesta
-
 	#bluez ei löydy, bc taisi poistua aiemmin
-
 	#doc-paketteja saattaisi vaikka tarvitakin mutta
-
 	#exfatprogs, tarvitseeko?
-
 	#gdisk, ghostscript, gnupg* ei löydy
 	#gpg* voi poistaa liikaa
-
 	#gparted, gpg-wks* ei löydy, gpgconf EI poistoon
 
 	#gsasl-common, gsfonts, gvfs ei löydy
@@ -153,12 +149,9 @@ function t2p() {
 	t2p_filler
 
 	#jos lib* jättäisi enimmäkseeen rauhaan
-
 	#linux* , live* off limits
 	#mariadb-common ei löytynyt
-
 	#lp-solve? mysql-common?
-
 	#mawk off limits, mdadm ei löytynyt, mokutil ei, mobile ei, mutt ei, mysql ei
 
 	#node* ei löydy, notification* ei löydy, orca ei, os-prober ei
@@ -170,8 +163,8 @@ function t2p() {
 	t2p_filler
 
 	#pinentry ei, po* ei
-
 	#procps off limits
+
 	${sharpy} psmisc
 	t2p_filler
 
