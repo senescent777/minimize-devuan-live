@@ -691,6 +691,16 @@ function tpu() { #TODO:testaa
 		${NKVD} ${pkgdir}/${s}*
 	done
 
+	case ${iface} in
+		wlan0)
+			dqb "NOT REMOVING WPASUPPLICANT"
+			csleep 6
+		;;
+		*)
+			${NKVD} ${pkgdir}/wpa*
+		;;
+	esac
+
 	udp6 ${pkgdir}
 
 	dqb "UTP PT 3"
