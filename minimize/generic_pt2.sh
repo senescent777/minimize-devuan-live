@@ -80,6 +80,8 @@ csleep 2
 #HUOM.25525.2:koita nyt kuitenkin uudestaan, ei hyvältä näyttänyt viimeksi, ajettiinko t2pc() edes?
 #HUOM.26525:nyt klo 20 tienoilla kun kokeilin niin näyttäisi toimivan taas
 
+#miten muuten ne cut-jutut? tarvitseeko tässä?
+
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else

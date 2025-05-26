@@ -202,7 +202,7 @@ csleep 1
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
 
 #glorified "tar -x" this function is - Yoda
-#TODO:enrofce():n muutosten sivuvaikutukset
+#vaikuttaisi toimivan enforce()-muutoksen jälkeenkin
 function common_part() {
 	debug=1
 
@@ -236,7 +236,7 @@ function common_part() {
 
 	#HUOM.25525:josko cut parempi, syystä excalibur/ceres (VAIH)
 	if [ -x ${t}/common_lib.sh ] ; then
-		enforce_access ${n} ${PREFIX}
+		enforce_access ${n} ${PREFIX} #$t jatkossa?
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	fi
 

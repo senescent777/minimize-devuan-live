@@ -30,8 +30,10 @@ function init() {
 	snt=$(${odio} which netstat)
 	snt="${odio} ${snt} -tulpan "
 	smr=$(${odio} which rm)
+	smr="${odio} ${smr} "
 	NKVD=$(${odio} which shred)
 	NKVD="${NKVD} -fu "
+	NKVD="${odio} ${NKVD} "
 	PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
 	sdi=$(${odio} which dpkg)
 	spd="${odio} ${sdi} -l " #käytössä?
@@ -40,6 +42,7 @@ function init() {
 	sifu=$(${odio} which ifup)
 	sifd=$(${odio} which ifdown)
 	sip=$(${odio} which ip)
+	sip="${odio} ${sip} "
 }
 
 init
@@ -228,7 +231,6 @@ function psqa() {
 	csleep 1
 }
 
-#VAIH:testaapa jatkossa se reitti että tuhotaan se sha512sums (no silti täytyy se .deb-pakeitit sisltävä tar purkaa että pääsee jatkamaan)
 function ppp3() {
 	dqb "ppp3 ${1}"
 	csleep 3
@@ -283,8 +285,8 @@ function check_binaries() {
 
 		if [ -s ${1}/e.tar ] ; then
 			${odio} ${srat} -C / -xf ${1}/e.tar
-			${odio} ${NKVD} ${1}/e.tar  #jompikumpi hoitaa
-			${odio} ${smr} ${1}/e.tar
+			${NKVD} ${1}/e.tar  #jompikumpi hoitaa
+			${smr} ${1}/e.tar
 		fi
 
 		#HUOM.21525:olisikohan niin simppeli juttu että dpkg seuraa linkkiä ja nollaa tdston mihin linkki osoittaa?
@@ -340,13 +342,12 @@ function check_binaries2() {
 	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
 	sag_u="${odio} ${sag} update "
 	sag="${odio} ${sag} "
-	sip="${odio} ${sip} "
 	sa="${odio} ${sa} "
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
-	smr="${odio} ${smr} "
+	
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
-	NKVD="${odio} ${NKVD} "
+	
 	srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
 	fib="${odio} ${sa} --fix-broken install "
@@ -572,7 +573,6 @@ function e_final() {
 	csleep 1
 }
 
-#VAIH:kutsuva koodi tuomaan param $2 kanssa?
 function enforce_access() {
 	dqb " enforce_access( ${1} , ${2})"
 	csleep 1
@@ -886,10 +886,9 @@ function part3_4real() {
 		exit 67
 	fi
 
-	#VAIH:testaa miten tämän kanssa toimii
 	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
-
 	csleep 1
+
 	dqb "part3_4real( ${1} ) DONE"
 	csleep 1
 }
