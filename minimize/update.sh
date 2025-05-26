@@ -46,10 +46,15 @@ echo "PARAMS CHECKED"
 sleep 1
 
 if [ -f ${tgt} ] ; then
-	read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
 	#HUOM. pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
+	${tcmd} -tf ${1} | grep '.deb'
+	sleep 3
 
-	if [ "${confirm}" == "Y" ] ; then
+	read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
+	
+	[ "${confirm}" != "Y" ] && exit #; then
+
+
 		function process_entry() {
 			${tcmd} -f ${1} -rv ${2}
 		}
@@ -109,7 +114,7 @@ if [ -f ${tgt} ] ; then
  	
 		echo "DONE UPDATING"
 		sleep 2
-	fi
+	#fi
 else	
 	exit 1
 fi

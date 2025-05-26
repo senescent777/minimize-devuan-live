@@ -18,7 +18,7 @@ function init() {
 	sah6=$(which sha512sum)
 	distro=$(cat /etc/devuan_version)
 	n=$(whoami)
-	PREFIX=~/Desktop/minimize #SDAATANAN TUNARI(T)
+	PREFIX=~/Desktop/minimize #josko dirname:lla jatkossa?
 	slinky=$(${odio} which ln)
 	slinky="${odio} ${slinky} -s "
 	spc=$(${odio} which cp)
@@ -137,7 +137,7 @@ function other_horrors() {
 	csleep 2
 }
 
-#HUOM.21525:menee päällekkäin e_ - juttujen toiminnallsiuuden kanssa nmä 2 , voisi yhdistää
+#HUOM.21525:menee päällekkäin e_ - juttujen toiminnallISuuden kanssa nmä 2 , voisi yhdistää, tai siis
 fix_sudo
 other_horrors
 
@@ -224,20 +224,23 @@ function psqa() {
 	csleep 1
 }
 
+#TODO:testaapa jatkossa se reitti että tuhotaan se sha512sums
 function ppp3() {
 	dqb "ppp3 ${1}"
 	csleep 3
 
 	local c
+	local d
+
 	c=$(find ${1} -type f -name '*.deb' | wc -l) #oli:ls -las ip*.deb
+	d=$(echo ${1}  | cut -d '/' -f 1-5)
 
 	if [ ${c} -lt 1 ] ; then
 		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
 		echo "SHOULD REMOVE ${1} /sha512sums.txt"
 		echo "\"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
 		
-		#cut jatkossa, erityisesti koska $distro-jutut (TODO)
-		${scm} a-x ${PREFIX}/common_lib.sh 
+		${scm} a-x ${d}/common_lib.sh 
 		
 		#exit 55 HUOM.24525:antaa olla kommenteissa toistaiseksi, ,esim. chimaeran tapauksessa ei välttis ole $distro:n alla .deb aluksi
 		#... tosin alkutilanteessa tables pitäisi chimaerasta löytyä	
@@ -764,13 +767,15 @@ function part076() {
 }
 
 function part2_5() {
-	#debug=1
-	dqb "PART2.5 ${1} , ${2}"
-	csleep 1
+	debug=1
+	dqb "PART2.5.1 ${1} , ${2}"
+	csleep 3
 
 	if [ ${1} -eq 1 ] ; then
+		dqb "HGHGUYFLIHLYGLUYROI"
 		${lftr}
-
+		csleep 3
+		
 		for s in ${PART175_LIST} ; do
 			dqb "processing ${s}"
 			#csleep 1
@@ -802,17 +807,20 @@ function part2_5() {
 		esac
 	fi
 
+	dqb "PART2.5.2 ${1} , ${2}"
+	csleep 3
+
 	${lftr}
 	csleep 1
 
 	if [ y"${ipt}" != "y" ] ; then
 		jules
 
-		if [ -s /etc/iptables/rules.v6.${dnsm} ] ; then
+		if [ -s /etc/iptables/rules.v6.${2} ] ; then
 			${ip6tr} /etc/iptables/rules.v6.${2} #${dnsm}
 		fi
 
-		if [ -s /etc/iptables/rules.v4.${dnsm} ] ; then
+		if [ -s /etc/iptables/rules.v4.${2} ] ; then
 			${iptr} /etc/iptables/rules.v4.${2} #${dnsm}
 		fi
 	fi
@@ -865,12 +873,14 @@ function part3_4real() {
 		exit 67
 	fi
 
+	#TODO:onnistuneen asentelun päätteeksi sha512sums poisto
 	csleep 1
 	dqb "part3_4real( ${1} ) DONE"
 	csleep 1
 }
 
 #HUOM.25525: mikä juttu olikaan tuon $2 kanssa? mihin tarv8taan?
+#HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
 function part3() {
 	dqb "part3 ${1}"
 	csleep 1
@@ -892,7 +902,10 @@ function t2p_filler() {
 
 #yhteisiä osia daud ja chim t2p
 function t2pc() {
-	dqb "VAIH: t2p_common()"
+	debug=1
+	dqb "common_lib.t2p_common()"
+	csleep 3
+
 	${sharpy} amd64-microcode at-spi2-core
 	t2p_filler
 
@@ -963,6 +976,10 @@ function t2pc() {
 }
 
 function t2pf() {
+	debug=1
+	dqb "common_lib.T2P.FINAL()"
+	csleep 3
+
 	${NKVD} ${pkgdir}/*.deb
 	${NKVD} ${pkgdir}/*.bin 
 	${NKVD} ${d}/*.deb 

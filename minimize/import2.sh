@@ -44,6 +44,7 @@ function parse_opts_2() {
 if [ -x ${PREFIX}/common_lib.sh ] ; then
 	. ${PREFIX}/common_lib.sh
 else
+	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston"
 	srat="sudo /bin/tar" #which mukaan?
 	som="sudo /bin/mount"
 	uom="sudo /bin/umount"
@@ -77,28 +78,29 @@ else
 	}
 
 	#HUOM.23525:vaikuttaisi toimivan tarkistus "leikki-fktiossa"
-	#TODO:testaa
+	#HUOM.26525:tämä versio part3:sesta sikäli turha että common_lib urputtaa koska sha512sums muttei deb
 	function part3() {
 		dqb "imp32.part3( ${1} ${2} )"
-		csleep 1
-
-		dqb "cd ${1}"
-		cd ${1}
-		csleep 1
-
-		dqb "${sah6} -c ./sha512sums.txt"
-		${sah6} -c ./sha512sums.txt
-
-		if [ $? -eq 0 ] ; then
-			csleep 1
-
-			${odio} dpkg -i ./lib*.deb
-			${odio} rm ./lib*.deb
-			${odio} dpkg -i ./*.deb
-			${odio} rm ./*.deb
-
-			dqb "U MAY NOW ${scm} a+x ${1}/../common_lib.sh"
-		fi
+#		csleep 1
+#
+#		dqb "cd ${1}"
+#		cd ${1}
+#		csleep 1
+#
+#		dqb "${sah6} -c ./sha512sums.txt"
+#		${sah6} -c ./sha512sums.txt
+#
+#		if [ $? -eq 0 ] ; then
+#			csleep 1
+#
+#			${odio} dpkg -i ./lib*.deb
+#			${NKVD} ./lib*.deb
+#			${odio} dpkg -i ./*.deb
+#			${NKVD} ./*.deb
+#
+#			${NKVD}  ./sha512sums.txt
+#			dqb "U MAY NOW ${scm} a+x ${1}/../common_lib.sh"
+#		fi
 	}
 
 	function ppp3() {
@@ -130,7 +132,7 @@ else
 fi
 
 [ -z ${distro} ] && exit 6
-distro=$(echo ${distro} | cut -d '/' -f 1) #missä kohtaa?
+distro=$(echo ${distro} | cut -d '/' -f 1) #missä kohtaa tämä pitäisi tehdä?
 
 dqb "mode=${mode}"
 dqb "distro=${distro}"
@@ -227,7 +229,7 @@ function common_part() {
 	csleep 1
 	dqb "tar DONE"
 
-	#HUOM.25525:josko cut parempi, syystä excalibur/ceres
+	#HUOM.25525:josko cut parempi, syystä excalibur/ceres (TODO)
 	if [ -x ${2}/../common_lib.sh ] ; then
 		enforce_access ${n}
 		dqb "running changedns.sh maY be necessary now to fix some things"
@@ -254,6 +256,7 @@ function common_part() {
 
 case "${mode}" in
 	-1) #jatkossa jokim fiksumpi kuin -1
+		#TODO:muutoksia wrapper.sh liittyen?
 		#HUOM.23525:vaikuttaisi jo toimivan imp2 ilmankin common_lib
 		#(no sitq huvittaa niin voi koklata s.e. kirjastot kopsattu uudelle nimelle)
 

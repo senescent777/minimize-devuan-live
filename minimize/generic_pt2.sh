@@ -1,7 +1,7 @@
 #!/bin/bash
 debug=0 #1
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
-PREFIX=~/Desktop/minimize
+PREFIX=~/Desktop/minimize #dirname?
 loose=1
 
 function dqb() {
@@ -82,6 +82,7 @@ csleep 2
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
+	#HUOM.26525:näytti siltä että p2_5 ei joko ajettu g_doit toimesta tai se ei toiminut toivotulla tavalla
 	part2_pre 1
 	[ $? -gt 0 ] && exit
 	
@@ -89,9 +90,11 @@ else
 	[ $? -gt 0 ] && exit
 fi
 
-#jos ao. fktiot kommentoitu jemmaan syistä ni pysäyttäisikö suorituksen?
+#HUOM.25525:jos ao. fktiot kommentoitu jemmaan syistä ni pysäyttäisikö suorituksen?
+#HUOM.26525:nyt sitten debug päälle jotta selviää mihin pysähtyy
+
 t2pc
-[ $? -gt 0 ] && exit
+#[ $? -gt 0 ] && exit #tähän tökkää?
 
 t2p
 [ $? -gt 0 ] && exit
@@ -102,7 +105,7 @@ t2pf
 ${asy} #varm. vuoksi
 
 #debug=1
-csleep 5 #t2pf kyllä sisälsä csleep
+csleep 5 #t2pf kyllä sisältää csleep
 
 #excaliburin kanssa ei tämäkään tainnut toimia ihan toivotulla tavalla
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd

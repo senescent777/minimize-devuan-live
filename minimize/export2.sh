@@ -378,9 +378,8 @@ function rmt() {
 	dqb "rmt d0n3"
 }
 
-#HUOM.24525:lienee turhaa kikkailua niitä chimaeran paketteja yrittää daedaluksella vetää
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
-
+#HUOM.26525:apg-get sisältää vivun "-t" , mitä se tekee Devuanin tapauksessa? pitääkö sources.list sorkkia liittyen?
 function tp4() {
 	debug=1
 	dqb "tp4 ${1} , ${2} "
