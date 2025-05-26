@@ -36,6 +36,10 @@ function init() {
 	sdi=$(${odio} which dpkg)
 	spd="${odio} ${sdi} -l " #käytössä?
 	sdi="${odio} ${sdi} -i "
+	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
+	sifu=$(${odio} which ifup)
+	sifd=$(${odio} which ifdown)
+	sip=$(${odio} which ip)
 }
 
 init
@@ -224,7 +228,7 @@ function psqa() {
 	csleep 1
 }
 
-#TODO:testaapa jatkossa se reitti että tuhotaan se sha512sums
+#VAIH:testaapa jatkossa se reitti että tuhotaan se sha512sums (no silti täytyy se .deb-pakeitit sisltävä tar purkaa että pääsee jatkamaan)
 function ppp3() {
 	dqb "ppp3 ${1}"
 	csleep 3
@@ -300,10 +304,6 @@ function check_binaries() {
 		ip6tr=$(${odio} which ip6tables-restore)
 	fi
 
-	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
-	sifu=$(${odio} which ifup)
-	sifd=$(${odio} which ifdown)
-
 	#xcalibur-testien älk muutox
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd} "
 	dqb "second half of c_bin_1"
@@ -317,7 +317,6 @@ function check_binaries() {
 	
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
-	sip=$(${odio} which ip)
 	som=$(${odio} which mount)
 	uom=$(${odio} which umount)
 
@@ -453,7 +452,7 @@ function pre_enforce() {
 	fi
 
 	local c4
-	c4=$(grep -c ${part0} /etc/fstab)
+	c4=$(grep -c ${dir} /etc/fstab) #aiemmin grepattiin $part0:lla, sitäpaitsi grep -c saattaa pykiä, wc -l varmempi EHK
 
 	if [ ${c4} -lt 1 ] ; then
 		#HUOM. pitäisi kai karsia edellinen rivi millä $dir?
@@ -473,6 +472,8 @@ function mangle2() {
 		${sco} root:root ${1}
 	fi
 }
+
+#HUOM.26525:saattaa olla että jokin näistä e_fktioista sössii äksään kirjautumisen excaliburissa tai sitten ei. Usual suspects.
 
 function e_e() {
 	dqb "e_e()"	
@@ -571,9 +572,9 @@ function e_final() {
 	csleep 1
 }
 
-#TODO:kutsuva koodi tuomaan param $2 kanssa?
+#VAIH:kutsuva koodi tuomaan param $2 kanssa?
 function enforce_access() {
-	dqb " enforce_access( ${1})"
+	dqb " enforce_access( ${1} , ${2})"
 	csleep 1
 	dqb "changing /sbin , /etc and /var 4 real"
 
@@ -588,7 +589,7 @@ function enforce_access() {
 	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
-	e_h ${1} ${PREFIX}
+	e_h ${1} ${2} #PREFIX}
 	e_final
 
 	jules
@@ -596,7 +597,7 @@ function enforce_access() {
 	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
-#HUOM.25525:cut tähän tai kutsivaan koodiin koska xcalibur/ceres
+#HUOM.25525:cut tähän tai kutsUvaan koodiin koska xcalibur/ceres
 function part1_5() {
 	dqb "part1_5()"
 	csleep 1
@@ -673,16 +674,16 @@ function part1() {
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
 	#jos jokin näistä kolmesta hoitaisi homman...
 
-	${sifd} ${iface}
-	${sifd} -a
-	[ ${debug} -eq 1 ] && /sbin/ifconfig;sleep 2
-
-	dqb "${sip} link set ${iface} down"
-	${sip} link set ${iface} down
-	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
-	csleep 1
-	
-	${odio} sysctl -p #/etc/sysctl.conf
+#	${sifd} ${iface} #siirretty -> part076
+#	${sifd} -a
+#	[ ${debug} -eq 1 ] && /sbin/ifconfig;sleep 2
+#
+#	dqb "${sip} link set ${iface} down"
+#	${sip} link set ${iface} down
+#	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+#	csleep 1
+#	
+#	${odio} sysctl -p #/etc/sysctl.conf
 
 	if [ y"${ipt}" == "y" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
@@ -742,6 +743,18 @@ function part1() {
 function part076() {
 	dqb "FART076()"
 	csleep 1
+
+	${sifd} ${iface}
+	${sifd} -a
+	[ ${debug} -eq 1 ] && /sbin/ifconfig;sleep 2
+
+	dqb "${sip} link set ${iface} down"
+	${sip} link set ${iface} down
+	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+	csleep 1
+	
+	${odio} sysctl -p #/etc/sysctl.conf
+
 	local s
 	local t
 

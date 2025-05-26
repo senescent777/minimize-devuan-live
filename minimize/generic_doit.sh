@@ -65,8 +65,11 @@ dqb "mode= ${mode}"
 csleep 2
 
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
-[ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro} #HUOM.25425:oliko tämän kanssa jotain?
-enforce_access ${n} #HUOM.26525: excalibur-testejä varten tämän disablointi tai ainakin e_fktioista jotkut pois pelistä
+[ ${enforce} -eq 1 ] && pre_enforce 
+#${n} ${distro} #HUOM.25425:oliko tuon pre_e:n kanssa jotain?
+
+#HUOM.26525: excalibur-testejä varten tämän disablointi tai ainakin e_fktioista jotkut pois pelistä
+enforce_access ${n} ${PREFIX}
 
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
@@ -166,9 +169,10 @@ fi
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 
-#HUOM.26525:tarvitsisi selvittää että ajetaanko noita kahta (TODO)
+#HUOM.26525:nököjään mennään part2_5seen kun mja oikeassa arvossa
 part2_pre ${removepkgs}
 part2_5 ${removepkgs} ${dnsm}
+#exit
 
 #===================================================PART 3===========================================================
 message

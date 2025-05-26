@@ -189,6 +189,7 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 2
 
+#TODO:enrofce():n muutosten sivuvaikutukset
 function pre1() {
 	debug=1
 	dqb "pre1( ${1} )"
@@ -203,7 +204,7 @@ function pre1() {
 		dqb "5TNA"
 
 		n=$(whoami)
-		enforce_access ${n}
+		enforce_access ${n} ${PREFIX}
 		csleep 1
 
 		#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres (TODO:testaa)

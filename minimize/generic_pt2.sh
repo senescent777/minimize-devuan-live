@@ -50,7 +50,7 @@ sleep 5
 
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
-else #joutuukohan else-haaran muuttamaan jatkossa?
+else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
 	echo "CONF MISSING"
 	exit 56
 fi
@@ -78,11 +78,11 @@ sleep 2
 #HUOM.25525:vaikutti sikäli toimivalta t2pc() että systeemi toimintakuntoinen vielä ajon jälkeen && df näytti sopivahkoa lukemaa
 csleep 2
 #HUOM.25525.2:koita nyt kuitenkin uudestaan, ei hyvältä näyttänyt viimeksi, ajettiinko t2pc() edes?
+#HUOM.26525:nyt klo 20 tienoilla kun kokeilin niin näyttäisi toimivan taas
 
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	#HUOM.26525:näytti siltä että p2_5 ei joko ajettu g_doit toimesta tai se ei toiminut toivotulla tavalla
 	part2_pre 1
 	[ $? -gt 0 ] && exit
 	
