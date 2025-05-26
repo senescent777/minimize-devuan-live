@@ -17,13 +17,17 @@ else
 	exit 55
 fi
 
-function parse_opts_1() { #TODO:asettamaan $distro vai ei?
+function parse_opts_1() { #VAIH:kokeeksi asettamaan $distro 
 	case "${1}" in
 		-v|--v)
 			debug=1
 		;;
 		*)
-			mode=${1}
+			if [ -d ~/Desktop/minimize/${1} ] ; then
+				distro=${1}
+			else
+				mode=${1}
+			fi
 		;;
 	esac
 }
