@@ -20,16 +20,22 @@ function pre_part3() {
 	#HUOM.140525:toiminee jo jollain lailla, "no" siihen kysymykseen olisi kuitenkin kiva saada välitettyä dpkg:lle asti
 	#HUOM.26525:jotain nalkutusta oli asentelujen yhteydess eli oikeuksia pitäisi kai loiventaa (TODO)
 
-	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
-	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables=1.8.9-2
+	#HUOM.26525:ylempänä mainittuun ideaan liittyen asentamisen järjestystä tulisi muuttaa, selvitä onnistuuko (VAIH)
 
-	#HUOM.26525:ylempänä mainittuun ideaan liittyen asentamisen järjestystä tulisi muuttaa, selvitä onnistuuko (TODO)
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables_*.deb
 
+	#tähän se ipt-restore?
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables-persistent=1.0.20
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables-*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables-*.deb
 
