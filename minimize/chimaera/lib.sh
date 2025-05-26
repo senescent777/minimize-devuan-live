@@ -103,16 +103,16 @@ function udp6() {
 #		${NKVD} ${1}/${s}*
 #		csleep 1
 #	done
-
-	case ${iface} in
-		wlan0)
-			dqb "NOT REMOVING WPASUPPLICANT"
-			csleep 6
-		;;
-		*)
-			${NKVD} ${1}/wpa*
-		;;
-	esac
+#
+#	case ${iface} in
+#		wlan0)
+#			dqb "NOT REMOVING WPASUPPLICANT"
+#			csleep 6
+#		;;
+#		*)
+#			${NKVD} ${1}/wpa*
+#		;;
+#	esac
 
 	dqb "D0NE"
 	csleep 4
