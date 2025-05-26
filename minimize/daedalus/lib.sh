@@ -93,7 +93,6 @@ function pr4() {
 	${NKVD} ${1}/libdevmapper*
 	${NKVD} ${1}/libsoup*
 	
-
 	csleep 1
 }
 
@@ -125,16 +124,16 @@ function udp6() {
 #
 #		${NKVD} ${1}/${s}*
 #	done
-
-	case ${iface} in
-		wlan0)
-			dqb "NOT REMOVING WPASUPPLICANT"
-			csleep 1
-		;;
-		*)
-			${smr} ${1}/wpa*
-		;;
-	esac
+#
+#	case ${iface} in
+#		wlan0)
+#			dqb "NOT REMOVING WPASUPPLICANT"
+#			csleep 1
+#		;;
+#		*)
+#			${smr} ${1}/wpa*
+#		;;
+#	esac
 
 	dqb "D0NE"
 	csleep 1
