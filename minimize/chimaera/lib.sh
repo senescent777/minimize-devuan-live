@@ -116,13 +116,13 @@ function udp6() {
 	dqb "D0NE"
 	csleep 4
 }
-
-#tarpeellinen fktio?
-function part2_pre() {
-	dqb "c.PP2"
-	csleep 1
-}
-
+#
+##tarpeellinen fktio?
+#function part2_pre() {
+#	dqb "c.PP2"
+#	csleep 1
+#}
+#
 function t2p() {
 	#t2pc #jatkossa kutsiva koodi ajamaan tämän
 	csleep 5
