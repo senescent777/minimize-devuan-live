@@ -102,16 +102,16 @@ function udp6() {
 	dqb "daud.lib.UPDP-6"
 	csleep 1
 
-	#aiheuttavat nalkutusta
-	${NKVD} ${pkgdir}/libx11-xcb1*
-	${NKVD} ${pkgdir}/nfs*
-	${NKVD} ${pkgdir}/rpc*
-	${NKVD} ${pkgdir}/python3.11*
-	${NKVD} ${pkgdir}/xserver-xorg-core*
-	${NKVD} ${pkgdir}/xserver-xorg-legacy*
-	${NKVD} ${pkgdir}/libgtk-3-bin*
-	${NKVD} ${pkgdir}/libpython3.11*
-	${NKVD} ${pkgdir}/librsvg2*
+	#aiheuttavat nalkutusta (tai miten lienee nykyään?)
+	${NKVD} ${1}/libx11-xcb1*
+	${NKVD} ${1}/nfs*
+	${NKVD} ${1}/rpc*
+	${NKVD} ${1}/python3.11*
+	${NKVD} ${1}/xserver-xorg-core*
+	${NKVD} ${1}/xserver-xorg-legacy*
+	${NKVD} ${1}/libgtk-3-bin*
+	${NKVD} ${1}/libpython3.11*
+	${NKVD} ${1}/librsvg2*
 	
 	${NKVD} ${1}/xz*
 	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
