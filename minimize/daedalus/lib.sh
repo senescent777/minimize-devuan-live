@@ -5,6 +5,7 @@
 #... joskohan --force-confold olisi se haettu juttu
 
 #HUOM. tarvitseeko 2. parametrin? ei kai
+#TODO:josko niin päin että ladataan rulekset ensin ja sitten asennetaan persistentit? onnistuisiko välttää cp:n takominen?
 function pre_part3() {
 	dqb "daud.pp3( ${1} , ${2} )"
 	csleep 1
@@ -15,11 +16,14 @@ function pre_part3() {
 
 	csleep 1
 	psqa ${1} #HUOM.22525:varm. vuoksi pp3 kutsuvaan koodiin tämä?
+	
 	#HUOM.140525:toiminee jo jollain lailla, "no" siihen kysymykseen olisi kuitenkin kiva saada välitettyä dpkg:lle asti
+	#HUOM.26525:jotain nalkutusta oli asentelujen yhteydess eli oikeuksia pitäisi kai loiventaa (TODO)
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb
 
+	#HUOM.26525:ylempänä mainittuun ideaan liittyen asentamisen järjestystä tulisi muuttaa, selvitä onnistuuko (TODO)
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb
 
@@ -41,6 +45,7 @@ function pre_part3() {
 }
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
+#HUOM.26525:2. parametri, tartteeko moista?
 function pr4() {
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
@@ -122,9 +127,9 @@ function part2_pre() {
 #TODO:squashfs-tools vai tartteeko vielä?
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xcvt=0.1.2-1
 function t2p() {
-	#debug=1
+	debug=1
 	dqb "DAUD.T2P()"
-	csleep 1
+	csleep 3
 
 	#voisi kai chim kanssa yhteisiä viedä part2_5:seen`?
 	#HUOM.25525:atril ei löydy daedaluksesta
@@ -158,7 +163,7 @@ function t2p() {
 	#mawk off limits, mdadm ei löytynyt, mokutil ei, mobile ei, mutt ei, mysql ei
 
 	#node* ei löydy, notification* ei löydy, orca ei, os-prober ei
-	${sharpy} ntfs-3g
+	${sharpy} ntfs-3g #tilassa rc
 	t2p_filler
 
 	#pigz ei löydy, packagekit ei löydy
