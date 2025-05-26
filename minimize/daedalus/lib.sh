@@ -28,9 +28,10 @@ function pre_part3() {
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables_*.deb
+	
 	csleep 5
+	${scm} 0755 /etc/iptables
 
-	#tähän se ipt-restore?
 	local s
 	local t
 	
@@ -50,14 +51,21 @@ function pre_part3() {
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables-*.deb
 
 	csleep 1
-
-	${scm} 0755 /etc/iptables
-	${svm} /etc/iptables/rules.v4 /etc/iptables.rules.v4.$(date +%F)
-	${svm} /etc/iptables/rules.v6 /etc/iptables.rules.v6.$(date +%F)
+#	${svm} /etc/iptables/rules.v4 /etc/iptables.rules.v4.$(date +%F)
+#	${svm} /etc/iptables/rules.v6 /etc/iptables.rules.v6.$(date +%F)
 	${scm} 0550 /etc/iptables	
 
 	dqb "pp3 d0n3"
 	csleep 1
+}
+
+function c5p() {
+	#VAIH:libdevmappwr-juttuja? tai mitä olikaan
+	${NKVD} ${1}/xz*
+	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
+	${NKVD} ${1}/libcrypt*
+	${NKVD} ${1}/libdevmapper*
+	${NKVD} ${1}/libsoup*
 }
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
@@ -96,13 +104,7 @@ function pr4() {
 	${NKVD} ${1}/dbus*
 	${NKVD} ${1}/perl*
 	
-	#VAIH:libdevmappwr-juttuja? tai mitä olikaan
-	${NKVD} ${1}/xz*
-	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
-	${NKVD} ${1}/libcrypt*
-	${NKVD} ${1}/libdevmapper*
-	${NKVD} ${1}/libsoup*
-	
+	c5p ${1}
 	csleep 1
 }
 
@@ -122,11 +124,7 @@ function udp6() {
 	${NKVD} ${1}/libpython3.11*
 	${NKVD} ${1}/librsvg2*
 	
-	${NKVD} ${1}/xz*
-	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
-	${NKVD} ${1}/libcrypt*
-	${NKVD} ${1}/libdevmapper*
-	${NKVD} ${1}/libsoup*
+	c5p ${1}
 #
 #	for s in ${PART175_LIST} ; do 
 #		dqb "processing ${s} ..."
