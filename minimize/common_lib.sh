@@ -167,20 +167,19 @@ function jules() {
 	dqb "V8"
 	csleep 2
 
-	#TODO:linkityksen poistot pois jatkossa?
-	#HUOM.linkityksen purku vaatisi kai w-oikeudet hmistoon
-	${scm} 0755 /etc/iptables
-	${scm} 0444 /etc/default/rules*
-	csleep 2
-
-	#HUOM.23535:cp aiheutti nalkutusta
-	#jatkoss ehdollinen kopsaus?
-	#cp /etc/default/rules.* /etc/iptables
-
-	[ -h /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
-	[ -L /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6 #mikä ero, L vs h ?
-	
-	csleep 2
+#
+#	${scm} 0755 /etc/iptables
+#	${scm} 0444 /etc/default/rules*
+#	csleep 2
+#
+#	#HUOM.23535:cp aiheutti nalkutusta
+#	#jatkoss ehdollinen kopsaus?
+#	#cp /etc/default/rules.* /etc/iptables
+#
+#	[ -h /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
+#	[ -L /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6 #mikä ero, L vs h ?
+#	
+#	csleep 2
 	other_horrors
 
 	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
