@@ -682,6 +682,15 @@ function tpu() { #TODO:testaa
 	echo $?
 	csleep 2
 
+	local s
+
+	for s in ${PART175_LIST} ; do 
+		dqb "processing ${s} ..."
+		csleep 1
+
+		${NKVD} ${pkgdir}/${s}*
+	done
+
 	udp6 ${pkgdir}
 
 	dqb "UTP PT 3"
