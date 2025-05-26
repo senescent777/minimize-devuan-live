@@ -233,7 +233,7 @@ function ppp3() {
 	local d
 
 	c=$(find ${1} -type f -name '*.deb' | wc -l) #oli:ls -las ip*.deb
-	d=$(echo ${1}  | cut -d '/' -f 1-5)
+	d=$(echo ${1} | cut -d '/' -f 1-5)
 
 	if [ ${c} -lt 1 ] ; then
 		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
@@ -873,7 +873,9 @@ function part3_4real() {
 		exit 67
 	fi
 
-	#TODO:onnistuneen asentelun päätteeksi sha512sums poisto
+	#VAIH:testaa miten tämän kanssa toimii
+	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
+
 	csleep 1
 	dqb "part3_4real( ${1} ) DONE"
 	csleep 1
