@@ -104,35 +104,11 @@ function udp6() {
 	${NKVD} ${1}/libgtk-3-bin*
 	${NKVD} ${1}/libpython3.11*
 	${NKVD} ${1}/librsvg2*
-#	
-#	for s in ${PART175_LIST} ; do
-#		dqb "processing ${s}"
-#		csleep 1
-#
-#		${NKVD} ${1}/${s}*
-#		csleep 1
-#	done
-#
-#	case ${iface} in
-#		wlan0)
-#			dqb "NOT REMOVING WPASUPPLICANT"
-#			csleep 6
-#		;;
-#		*)
-#			${NKVD} ${1}/wpa*
-#		;;
-#	esac
 
 	dqb "D0NE"
 	csleep 4
 }
-#
-##tarpeellinen fktio?
-#function part2_pre() {
-#	dqb "c.PP2"
-#	csleep 1
-#}
-#
+
 function t2p() {
 	#t2pc #jatkossa kutsUva koodi ajamaan tämän
 	csleep 5
