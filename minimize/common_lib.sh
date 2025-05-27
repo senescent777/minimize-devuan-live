@@ -724,13 +724,19 @@ function part076() {
 	dqb "FART076()"
 	csleep 1
 
-	#/e/n/interfaces pitäisi sorkkia kuntoon ettei sifd valittaisi, esim "ln -s"
+	#VAIH:/e/n/interfaces pitäisi sorkkia kuntoon ettei sifd valittaisi, esim "ln -s"
+	#TODO:$distro parametriksi jatkossa?
+	if [ ! -f /etc/network/interfaces ] ; then
+		dqb "LINKS-1-2-3"
+		${slinky} /etc/network/interfaces.${distro} /etc/network/interfaces
+		csleep 1
+	fi
+
 	${odio} ${sifd} ${iface}
 	csleep 1
 	${odio} ${sifd} -a
 	csleep 1
 
-	#VAIH:ifconfig:in kanssa muutoksia exc johtien (ei ole enää /sbin aklla tuo)
 	[ ${debug} -eq 1 ] && ${sifc};sleep 2
 
 	dqb "${sip} link set ${iface} down"

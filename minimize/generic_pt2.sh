@@ -81,7 +81,8 @@ csleep 2
 #HUOM.26525:nyt klo 20 tienoilla kun kokeilin niin näyttäisi toimivan taas
 
 #miten muuten ne cut-jutut? tarvitseeko tässä?
-
+#HUOM.27525:tapauksessa excalibur g_pt2 yritti poistaa xserver-common, xserver-xorg-legacy sekä kernelin
+#... eli jotenkin pitäisi rajoittaa tuhoa (TODO)
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
