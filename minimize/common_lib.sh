@@ -994,7 +994,7 @@ function t2pc() {
 	${sharpy} vim*
 	t2p_filler
 
-	${sharpy} xorriso yad xz-utils
+	${sharpy} xorriso yad xz-utils xfburn xarchiver
 	#xfce*,xorg* off limits
 	t2p_filler
 }
