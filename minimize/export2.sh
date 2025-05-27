@@ -1,7 +1,7 @@
 #!/bin/bash
 debug=0 #1
 tgtfile=""
-distro=$(cat /etc/devuan_version) #HUOM.23525:tarpeellinen tässä nykyään?
+distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.23525:tarpeellinen tässä nykyään?
 PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd #tai dirname?
 mode=-2
 loose=1
@@ -118,7 +118,7 @@ else
 fi
 
 #tässä vai vielä aiemmin? excalib tapauksessa voi mennä jopa pieleen noin
-distro=$(echo ${distro} | cut -d '/' -f 1)
+#distro=$(echo ${distro} | cut -d '/' -f 1)
 
 [ -z ${distro} ] && exit 6
 d=${PREFIX}/${distro}
