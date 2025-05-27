@@ -57,7 +57,6 @@ function pre_part3() {
 }
 
 function c5p() {
-	#VAIH:libdevmappwr-juttuja? tai mitä olikaan
 	${NKVD} ${1}/xz*
 	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
 	${NKVD} ${1}/libcrypt*
@@ -105,7 +104,6 @@ function pr4() {
 	csleep 1
 }
 
-#VAIH:pkgdir sijaan $1
 function udp6() {
 	dqb "daud.lib.UPDP-6"
 	csleep 1
@@ -122,33 +120,11 @@ function udp6() {
 	${NKVD} ${1}/librsvg2*
 	
 	c5p ${1}
-#
-#	for s in ${PART175_LIST} ; do 
-#		dqb "processing ${s} ..."
-#		csleep 1
-#
-#		${NKVD} ${1}/${s}*
-#	done
-#
-#	case ${iface} in
-#		wlan0)
-#			dqb "NOT REMOVING WPASUPPLICANT"
-#			csleep 1
-#		;;
-#		*)
-#			${smr} ${1}/wpa*
-#		;;
-#	esac
 
 	dqb "D0NE"
 	csleep 1
 }
-#
-##tarpeellinen fktio?
-#function part2_pre() {
-#	dqb "dausd.PP2"
-#}
-#
+
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xcvt=0.1.2-1
 function t2p() {
 	debug=1
@@ -212,7 +188,7 @@ function t2p() {
 
 	${sharpy} w3m wget
 	#xfce*,xorg* off limits, xfburn ei löydy
-	${sharpy} xarchiver
+	#${sharpy} xarchiver
 	t2p_filler
 
 	dqb "D0N3"
