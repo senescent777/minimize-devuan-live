@@ -35,6 +35,7 @@ sco=$(which chown)
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
+		#TODO:mount/umount tämän jekun kautta jatkossa
 		tcmd="sudo ${tcmd} "
 		spc="sudo ${spc} "
 		scm="sudo ${scm} "
