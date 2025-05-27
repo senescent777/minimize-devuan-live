@@ -75,21 +75,12 @@ echo "distro=${distro}"
 echo "removepkgs=${removepkgs}"
 sleep 2
 
-#HUOM.25525:vaikutti sikäli toimivalta t2pc() että systeemi toimintakuntoinen vielä ajon jälkeen && df näytti sopivahkoa lukemaa
 csleep 2
-#HUOM.25525.2:koita nyt kuitenkin uudestaan, ei hyvältä näyttänyt viimeksi, ajettiinko t2pc() edes?
-#HUOM.26525:nyt klo 20 tienoilla kun kokeilin niin näyttäisi toimivan taas
-
 #miten muuten ne cut-jutut? tarvitseeko tässä?
-#HUOM.27525:tapauksessa excalibur g_pt2 yritti poistaa xserver-common, xserver-xorg-legacy sekä kernelin
-#... eli jotenkin pitäisi rajoittaa tuhoa (VAIH)
 
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-#	part2_pre 1 turha nykyään?
-#	[ $? -gt 0 ] && exit
-#	
 	part2_5 1
 	[ $? -gt 0 ] && exit
 fi
@@ -110,9 +101,8 @@ ${asy} #varm. vuoksi
 
 #debug=1
 ${scm} a-wx ${0}
-csleep 5 #t2pf kyllä sisältää csleep
+csleep 5
 
-#excaliburin kanssa ei tämäkään tainnut toimia ihan toivotulla tavalla
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
 if [ ${debug} -eq 1 ]; then
 	echo "${whack} xfce4-session"
