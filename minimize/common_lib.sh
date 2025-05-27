@@ -34,7 +34,10 @@ function init() {
 	NKVD=$(${odio} which shred)
 	NKVD="${NKVD} -fu "
 	NKVD="${odio} ${NKVD} "
-	PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+
+	#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+	PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby ntp" #ntp jemmaan?
+
 	sdi=$(${odio} which dpkg)
 	spd="${odio} ${sdi} -l " #käytössä?
 	sdi="${odio} ${sdi} -i "
@@ -813,8 +816,10 @@ function part2_5() {
 		${lftr} #pitäisikö laittaa distro==chimaera taakse näiden takominen
 		${sharpy} libblu* libcupsfilters* libgphoto* #tartteeko vielä?
 		${lftr}
-		${sharpy} blu* #pitäisi bluez poistua tällä
-		${lftr}
+
+#		${sharpy} blu* #pitäisi bluez poistua tällä
+#		${lftr}
+
 		${sharpy} pkexec po* #jos järjestys merkitsee
 		${lftr}
 		${sharpy} python3-cups
