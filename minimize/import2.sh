@@ -326,7 +326,7 @@ case "${mode}" in
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
 
-		part3 ${d} #${dnsm} tartteeko 2. param vai ei?
+		part3 ${d} ${dnsm}
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 		csleep 1
 

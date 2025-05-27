@@ -294,7 +294,7 @@ function check_binaries() {
 		#csleep 3
 
 		ppp3 ${1}
-		pre_part3 ${1}
+		pre_part3 ${1} ${dnsm}
 		pr4 ${1}
 
 		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
@@ -841,6 +841,7 @@ function part2_5() {
 
 	if [ y"${ipt}" != "y" ] ; then
 		jules
+		#HUOM. saattaa toimia ilman .$2 koska tables-kikkailuja laitettu uusiksi 26525
 
 		if [ -s /etc/iptables/rules.v6.${2} ] ; then
 			${ip6tr} /etc/iptables/rules.v6.${2}
@@ -914,7 +915,7 @@ function part3() {
 	jules
 	ppp3 ${1}
 
-	pre_part3 ${1} #${2}
+	pre_part3 ${1} ${dnsm} #jatkossa dnsm->2
 	pr4 ${1} #${2}
 	part3_4real ${1}
 
