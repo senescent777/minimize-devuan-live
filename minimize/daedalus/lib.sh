@@ -18,7 +18,6 @@ function pre_part3() {
 	psqa ${1} #HUOM.22525:varm. vuoksi pp3 kutsuvaan koodiin tämä?
 	
 	#HUOM.140525:toiminee jo jollain lailla, "no" siihen kysymykseen olisi kuitenkin kiva saada välitettyä dpkg:lle asti
-	#HUOM.26525:jotain nalkutusta oli asentelujen yhteydess eli oikeuksia pitäisi kai loiventaa (TODO)
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables=1.8.9-2
 	#HUOM.26525:ylempänä mainittuun ideaan liittyen asentamisen järjestystä tulisi muuttaa, selvitä onnistuuko (VAIH)
