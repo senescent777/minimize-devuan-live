@@ -629,13 +629,13 @@ function part1_5() {
 
 			${svm} ${h}/sources.list.tmp /etc/apt
 		fi
-	fi
+	#fi
 
 	dqb "p1.5.2()"
 	csleep 1
 
-	if [ ! -s /etc/apt/sources.list.${t} ] ; then
-		if [ -s /etc/apt/sources.list.tmp ] ; then
+	#if [ ! -s /etc/apt/sources.list.${t} ] ; then
+		#if [ -s /etc/apt/sources.list.tmp ] ; then
 			#HUOM.22525:vaikuttaisi jopa toimivan, seur forWardointi sh:lle
 			local tdmc
 	
@@ -655,7 +655,7 @@ function part1_5() {
 
 			dqb "finally"
 			csleep 1
-		fi
+		#fi
 	fi
 
 	${sco} -R root:root /etc/apt
