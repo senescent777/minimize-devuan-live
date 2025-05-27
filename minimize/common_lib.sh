@@ -306,7 +306,7 @@ function check_binaries() {
 		ip6tr=$(${odio} which ip6tables-restore)
 	fi
 
-	#xcalibur-testien älk muutox
+	#xcalibur-testien älk muutox (halt ja reboot silleen niinqu turhia jos eivät toimi)
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd} "
 	dqb "second half of c_bin_1"
 	csleep 1

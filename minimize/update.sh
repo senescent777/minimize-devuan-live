@@ -2,7 +2,29 @@
 distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 u=0
 v=0
+
 PREFIX=~/Desktop/minimize
+tgt=${1}
+tcmd=$(which tar)
+spc=$(which cp)
+scm=$(which chmod)
+sco=$(which chown)
+som=$(which mount)
+uom=$(which umount)
+
+if [ $# -gt 1 ] ; then
+	if [ ${2} -eq 1 ] ; then
+		tcmd="sudo ${tcmd} "
+		spc="sudo ${spc} "
+		scm="sudo ${scm} "
+		sco="sudo ${sco} "
+		som="sudo ${som} "
+		uom="sudo ${uom} "
+	fi
+fi
+
+echo "PARAMS CHECKED"
+sleep 1
 
 if [ z"${distro}" != "z" ] ; then
 	if [ -s ${PREFIX}/${distro}/conf ] ; then
@@ -15,36 +37,18 @@ if [ z"${distro}" != "z" ] ; then
 
 			if [ ${v} -lt 1 ] ; then
 				echo "HAVE TO MOUNT";sleep 1			
-				mount ${dir}
+				${som} ${dir}
 		
 				if [ $? -eq 0 ] ; then
 					sleep 5
 				fi
 			fi
 		else
-			echo "${dir} NOT DOUNF"; sleep 1		
+			echo "${dir} N0T DOUNF"; sleep 1		
 		fi
 	fi
 fi
 
-tgt=${1}
-tcmd=$(which tar)
-spc=$(which cp)
-scm=$(which chmod)
-sco=$(which chown)
-
-if [ $# -gt 1 ] ; then
-	if [ ${2} -eq 1 ] ; then
-		#TODO:mount/umount tämän jekun kautta jatkossa
-		tcmd="sudo ${tcmd} "
-		spc="sudo ${spc} "
-		scm="sudo ${scm} "
-		sco="sudo ${sco} "
-	fi
-fi
-
-echo "PARAMS CHECKED"
-sleep 1
 
 if [ -f ${tgt} ] ; then
 	#HUOM. pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
@@ -57,6 +61,8 @@ if [ -f ${tgt} ] ; then
 	function process_entry() {
 		${tcmd} -f ${1} -rv ${2}
 	}
+
+	#update,export2 :mikä ero?
 
 	${spc} ${tgt} ${tgt}.OLD #vaiko mv?
 	sleep 2
@@ -122,10 +128,9 @@ sleep 3
 
 if [ ${u} -eq 1 ] ; then	
 	echo "WILL UMOUNT SOON";sleep 1
-	umount ${dir}
+	${uom} ${dir}
 	sleep 5
 fi
 
-#ettei unohtuisi umount
 echo "LEST WE FORGET:"
 grep ${dir} /proc/mounts
