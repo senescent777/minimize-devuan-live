@@ -49,7 +49,7 @@ function t2p() {
 	t2p_filler
 
 	#mitä tekee luit? entä libngtcp2? ocl-icd-jotain ?
-	${sharpy} libgstreamer* libgssapi* lm-sensors 
+	${sharpy} libgstreamer* libgssapi* lm-sensors ocl-icd*
 	t2p_filler
 
 	${sharpy} mc* mythes* os-prober rsync
