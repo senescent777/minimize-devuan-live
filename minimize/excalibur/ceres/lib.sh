@@ -1,6 +1,6 @@
 #koitetaanpa jyrätä tämä aiempi määrittely (ntp kusi)
 #TODO:ntp:n siirtäminen distro-spesifisiin fktioihin?
-PART175_LIST="avahi bluetooth cups exim4 nfs network mdadm"
+PART175_LIST="avahi blue cups exim4 nfs network mdadm"
 
 function pre_part3() {
 	dqb "xc.pp3( ${1} , ${2} )"
