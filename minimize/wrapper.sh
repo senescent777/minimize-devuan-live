@@ -23,7 +23,7 @@ case ${1} in
 	;;
 	import)
 		${d}/import2.sh -1
-		[ $? -gt 0 ] && exit 45 HUOM. jos on jo valmiiksi mountattu ni turha exit
+		[ $? -gt 0 ] && exit 45 #HUOM. jos on jo valmiiksi mountattu ni turha exit
 		read -p "source?" sorsa
 
 		${d}/import2.sh 0 ${sorsa}
