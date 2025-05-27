@@ -1,17 +1,14 @@
 #=================================================PART 0=====================================
-#
-#TEHTY?:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
-#... joskohan --force-confold olisi se haettu juttu
-#HUOM.24525: jnkn verra n testailtu
 
-#HUOM.26525:tähän samantap muutoksia kuin daedaluksen vastaavaan?
 function pre_part3() {
 	dqb "ch1m.pp3( ${1} , ${2} )"
 	csleep 1
 
 	[ y"${1}" == "y" ] && exit	
 	[ -d ${1} ] || exit
+	[ -z ${2} ] && exit
+
 	dqb "pp3.2"
 	csleep 1
 
@@ -21,29 +18,27 @@ function pre_part3() {
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb
-	#csleep 2
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables_*.deb
-	#csleep 2
 	
 	csleep 5
 	${scm} 0755 /etc/iptables
 
 	local s
 	local t
-	
+	local u
+
 	s=$(${odio} which iptables-restore)
 	t=$(${odio} which ip6tables-restore)
+	u=${2}
 
-	${odio} ${s} /etc/iptables/rules.v4.${dnsm}
-	${odio} ${t} /etc/iptables/rules.v6.${dnsm}
-
+	${odio} ${s} /etc/iptables/rules.v4.${u} #dnsm}
+	${odio} ${t} /etc/iptables/rules.v6.${u} #dnsm}
 	csleep 5
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb
-	#csleep 2
 
 	#kuinkahan tarpeellinen netfilter-pers oikeastaan on?
 
@@ -51,11 +46,7 @@ function pre_part3() {
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables-*.deb
 	csleep 1
 
-	#${scm} 0755 /etc/iptables
-	#${svm} /etc/iptables/rules.v4 /etc/iptables.rules.v4.$(date +%F)
-	#${svm} /etc/iptables/rules.v6 /etc/iptables.rules.v6.$(date +%F)
 	${scm} 0550 /etc/iptables
-
 	dqb "pp3 d0n3"
 	csleep 2
 }
