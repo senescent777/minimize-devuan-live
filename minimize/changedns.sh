@@ -87,7 +87,7 @@ case $# in
 	;;
 esac
 
-distro=$(echo ${distro} | cut -d '/' -f 1)
+#distro=$(echo ${distro} | cut -d '/' -f 1) vissiin ei näin
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 csleep 1
@@ -192,7 +192,6 @@ function clouds_pp1() {
 		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHIOLE TRYINMG TO REMOVE DHCLIENT-SCRIPT"
 	fi
 	
-	#jatkossa tietebkub parametrina distri...tai iface ... whåtever
 	if [ -h /etc/network/interfaces ] ; then
 		${smr} /etc/network/interfaces
 	else
@@ -273,6 +272,7 @@ function clouds_post() {
 	done
 
 	${scm} 0555 /etc/network
+	${sco} root:root /etc/network 
 	csleep 1
 
 	if [ ${debug} -eq 1 ] ; then
@@ -388,7 +388,8 @@ clouds_pre ${mode}
 
 #HUOM.25525.1:mitenköhän tämä kohta pitäisi mennä?
 #HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
-[ -f /etc/network/interfaces.${distro} ] && ${slinky} /etc/network/interfaces.${distro} /etc/network/interfaces
+t=$(echo ${distro} | cut -d '/' -f 1)
+[ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 
 case ${mode} in 
 	0)

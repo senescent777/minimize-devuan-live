@@ -29,7 +29,7 @@ function parse_opts_1() { #VAIH:kokeeksi asettamaan $distro
 	esac
 }
 
-distro=$(echo ${distro} | cut -d '/' -f 1)
+#distro=$(echo ${distro} | cut -d '/' -f 1) HUOM.27525:ei toimi näin
 
 function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
@@ -46,7 +46,7 @@ sleep 3
 dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
-part076
+part076 ${distro}
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -63,8 +63,7 @@ csleep 2
 
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce 
-
-enforce_access ${n} ${PREFIX}
+enforce_access ${n} ${PREFIX} #TODO:tämä kokeeksi pois pelistä xcalib kanssa
 
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
@@ -130,6 +129,9 @@ csleep 2
 [ ${c13} -lt 1 ] && c14=1
 el_loco ${c14} ${c13}
 
+#HUOM.27525:excaliburin kanssa oletus-modella leipoi kiinni, koita jos ykköseen stoppaamalla ei leivo
+#HUOM.27525.2:mode ykkösellä myös leipoi kiinni. Part1 vaiko xfce:n lahtaaminen?
+
 if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
 	dqb "R (in 2 secs)"
 	csleep 2
@@ -151,9 +153,19 @@ if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
 	exit
 fi
 
+#HUOM.27525:c14 menee nollaksi tapauksessa exc
+#HUOM.2:pitäisikö huomioida myös e.tar tuossa alla jotenkin?
+
+#HUOM.27525.3:part2_5 aiheuttama oheisvahinko pitäisi minimoida exc tapauksessa
+#apt --fix-broken/avahi*n poisto/väärän_distron_pakettein_asennus liikaa? viimeisin kai
+#... tuota varten viritys xcalib/cer/lib.sh:ssa
+
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 
+dqb "part2_5 ${removepkgs} ${dnsm}"
+csleep 3
+#exit #ecxal-tapauksessa jos stoppaisi tässäKIN 
 part2_5 ${removepkgs} ${dnsm}
 
 #===================================================PART 3===========================================================

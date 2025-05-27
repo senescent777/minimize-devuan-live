@@ -27,6 +27,7 @@ function parse_opts_1() {
 			if [ ${mode} -eq -2 ] ; then
 				mode=${1}
 			else
+				#VAIH:testaa miten distron asettelu, esim excaliburin kanssa (mode 3:lla kai paremmin onnistuisi testaiöut kuin mode 0)
 				if [ -d ${PREFIX}/${1} ] ; then
 					distro=${1}
 				else

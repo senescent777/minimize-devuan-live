@@ -492,6 +492,9 @@ function e_e() {
 	${sco} -R root:root /etc #-R liikaa?
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
 
+	${scm} 0555 /etc/network
+	${sco} root:root /etc/network
+
 	dqb "e_e d0n3"
 	csleep 1
 }
@@ -560,7 +563,8 @@ function e_final() {
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
 	#HUOM.22525:pitäisiköjän olla: a) spc -> svm b) linkitys ?
-	[ -f /etc/network/interfaces.${f} ] || ${spc} /etc/network/interfaces /etc/network/interfaces.${f}
+	#HUOM. 27525:samaa tehdään toisaalla
+	#[ -f /etc/network/interfaces.${f} ] || ${spc} /etc/network/interfaces /etc/network/interfaces.${f}
 
 	if [ -h /etc/resolv.conf ] ; then
 		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
@@ -660,8 +664,13 @@ function part1_5() {
 }
 
 #HUOM.25525:xcalibur/ceres-jutun takia tähän joutuisi laittamaan cut mukaan
+#HUOM.27525:paskooko tämä myös excaliburin kanssa äksään kirjautumisen?
 function part1() {
+	dqb "PART1( ${1} )"
+	csleep 3
+
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
+	csleep 1
 	#jos jokin näistä kolmesta hoitaisi homman...
 
 	if [ y"${ipt}" == "y" ] ; then
@@ -721,16 +730,30 @@ function part1() {
 
 #HUOM.27525:ifdownin kanssa oli valitusta, sudo mukaan
 function part076() {
-	dqb "FART076()"
+	dqb "FART076( ${1})"
 	csleep 1
 
-	#VAIH:/e/n/interfaces pitäisi sorkkia kuntoon ettei sifd valittaisi, esim "ln -s"
-	#TODO:$distro parametriksi jatkossa?
-	if [ ! -f /etc/network/interfaces ] ; then
+	${scm} 0755 /etc/network
+	${sco} root:root /etc/network
+
+	#linkkien nimiin ei tarvitse päiväystä
+	if [ -f /etc/network/interfaces ] ; then
+		if [ ! -h /etc/network/interfaces ] ; then
+			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
+		fi
+	fi
+
+	local t
+	t=$(echo ${1} | cut -d '/' -f 1)
+
+	if [ -f /etc/network/interfaces.${t} ] ; then
 		dqb "LINKS-1-2-3"
-		${slinky} /etc/network/interfaces.${distro} /etc/network/interfaces
+		${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 		csleep 1
 	fi
+
+	${scm} 0555 /etc/network
+	csleep 1
 
 	${odio} ${sifd} ${iface}
 	csleep 1
@@ -745,9 +768,7 @@ function part076() {
 	csleep 1
 	
 	${odio} sysctl -p #/etc/sysctl.conf
-
 	local s
-	local t
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
@@ -778,6 +799,7 @@ function part2_5() {
 	if [ ${1} -eq 1 ] ; then
 		dqb "HGHGUYFLIHLYGLUYROI"
 		${lftr}
+		${fib} #uutena 27525, xcalibur...
 		csleep 3
 		
 		for s in ${PART175_LIST} ; do

@@ -82,13 +82,14 @@ csleep 2
 
 #miten muuten ne cut-jutut? tarvitseeko tässä?
 #HUOM.27525:tapauksessa excalibur g_pt2 yritti poistaa xserver-common, xserver-xorg-legacy sekä kernelin
-#... eli jotenkin pitäisi rajoittaa tuhoa (TODO)
+#... eli jotenkin pitäisi rajoittaa tuhoa (VAIH)
+
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	part2_pre 1
-	[ $? -gt 0 ] && exit
-	
+#	part2_pre 1 turha nykyään?
+#	[ $? -gt 0 ] && exit
+#	
 	part2_5 1
 	[ $? -gt 0 ] && exit
 fi
