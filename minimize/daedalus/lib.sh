@@ -4,8 +4,7 @@
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 #... joskohan --force-confold olisi se haettu juttu
 
-#HUOM. tarvitseeko 2. parametrin? ei kai
-#VAIH:josko niin päin että ladataan rulekset ensin ja sitten asennetaan persistentit? onnistuisiko välttää cp:n takominen?
+#HUOM. tarvitseeko 2. parametrin? nyt (270525) tietysti $dnsm ettei liikaa glob. mjia (TODO)
 function pre_part3() {
 	dqb "daud.pp3( ${1} , ${2} )"
 	csleep 1
@@ -18,9 +17,7 @@ function pre_part3() {
 	psqa ${1} #HUOM.22525:varm. vuoksi pp3 kutsuvaan koodiin tämä?
 	
 	#HUOM.140525:toiminee jo jollain lailla, "no" siihen kysymykseen olisi kuitenkin kiva saada välitettyä dpkg:lle asti
-
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables=1.8.9-2
-	#HUOM.26525:ylempänä mainittuun ideaan liittyen asentamisen järjestystä tulisi muuttaa, selvitä onnistuuko (VAIH)
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb
