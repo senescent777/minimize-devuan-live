@@ -37,13 +37,6 @@ function udp6() {
 	#TODO
 }
 
-#HUOM.27525:debug tuntui määräävän, ajetaanko esim. part2_5 , toivottavasti ei toistu
-function part2_pre() {
-	debug=1
-	dqb "xc.PP2"
-	#TODO
-}
-
 #joskohan näiden jälkeen on excalibur vielä hengissä?
 function t2p() {
 	debug=1
@@ -63,9 +56,6 @@ function t2p() {
 	t2p_filler
 
 	${sharpy} squashfs-tools upower w3m wget
-	t2p_filler
-
-	${sharpy} xarchiver xfburn xorriso xz-utils #TODO:näitä sinne t2pc():hen jos ei...
 	t2p_filler
 
 	dqb "XC.T2PC.DONE"
