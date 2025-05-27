@@ -111,7 +111,7 @@ else
 	function other_horrors() {
 		dqb "AZATHOTH AND OTHER HORRORS"
 		#HUOM. /e/i tarvitsisi kirjoitusokeude että onnaa
-		${spc} /etc/default/rules.* /etc/iptables
+		#${spc} /etc/default/rules.* /etc/iptables #takaisin jos pykii 
 		${scm} 0400 /etc/iptables/*
 		${scm} 0550 /etc/iptables
 		${sco} -R root:root /etc/iptables
@@ -261,16 +261,19 @@ function common_part() {
 
 case "${mode}" in
 	-1) #jatkossa jokim fiksumpi kuin -1
-		#TODO:muutoksia wrapper.sh liittyen?
+		#VAIH:muutoksia wrapper.sh liittyen?
 		#HUOM.23525:vaikuttaisi jo toimivan imp2 ilmankin common_lib
 		#(no sitq huvittaa niin voi koklata s.e. kirjastot kopsattu uudelle nimelle)
 
 		part=/dev/disk/by-uuid/${part0}		
 		[ -b ${part} ] || dqb "no such thing as ${part}"
+		c=$(grep -c ${dir} /proc/mounts)
 
-		${som} -o ro ${part} ${dir}
-		csleep 1
-		${som} | grep ${dir}
+		if [ ${c} -lt 1 ] ; then
+			${som} -o ro ${part} ${dir}
+			csleep 1
+			${som} | grep ${dir}
+		fi
 
 		[ $? -eq 0 ] && echo "NEXT: $0 0 <source> [distro] (unpack AND install) | $0 1 <source> (just unpacks the archive)"
 	;;

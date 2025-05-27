@@ -313,7 +313,7 @@ function check_binaries() {
 
 	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
 	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
-	for x in iptables ip6tables iptables-restore ip6tables-restore ifup ifdown apt-get apt ip netstat dpkg tar mount umount sha512sum dhclient # kilinwittu.sh
+	for x in iptables ip6tables iptables-restore ip6tables-restore ifup ifdown apt-get apt ip netstat dpkg tar mount umount sha512sum # dhclient kilinwittu.sh
 		do ocs ${x}
 	done
 	
@@ -321,6 +321,7 @@ function check_binaries() {
 	sa=$(${odio} which apt)
 	som=$(${odio} which mount)
 	uom=$(${odio} which umount)
+	sifc=$(${odio} which ifconfig)
 
 	dqb "b1nar135 0k"
 	csleep 1
@@ -548,6 +549,7 @@ function e_h() {
 	csleep 1
 }
 
+#/e/n/i ja excalibur, pitäisikö tehdä jotain?
 function e_final() {
 	dqb "e_final()"
 	csleep 1
@@ -717,13 +719,19 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE (i have Tourettes)"
 }
 
+#HUOM.27525:ifdownin kanssa oli valitusta, sudo mukaan
 function part076() {
 	dqb "FART076()"
 	csleep 1
 
-	${sifd} ${iface}
-	${sifd} -a
-	[ ${debug} -eq 1 ] && /sbin/ifconfig;sleep 2
+	#/e/n/interfaces pitäisi sorkkia kuntoon ettei sifd valittaisi, esim "ln -s"
+	${odio} ${sifd} ${iface}
+	csleep 1
+	${odio} ${sifd} -a
+	csleep 1
+
+	#VAIH:ifconfig:in kanssa muutoksia exc johtien (ei ole enää /sbin aklla tuo)
+	[ ${debug} -eq 1 ] && ${sifc};sleep 2
 
 	dqb "${sip} link set ${iface} down"
 	${sip} link set ${iface} down
