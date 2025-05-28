@@ -421,7 +421,7 @@ function tp4() {
 	tcdd=$(cat /etc/devuan_version)
 	t2=$(echo ${2} | cut -d '/' -f 6)
 	
-	if [ ${tcdd} != ${t2} ] ; then
+	if [ ${tcdd} != ${t2} ] ; then #20525:mnnee vissiin vahingossa tähän?
 		dqb "XXX"
 		csleep 1
 		shary="${odio} ${sag} install --download-only "
@@ -432,24 +432,28 @@ function tp4() {
 	${asy}
 	csleep 1
 
+	#TODO:jos sen debian.ethz.ch huomioisi jtnkin
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
+	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
+	${shary} iptables #se ympäristömuuttuja-jekku tähän vai ei?
+	${shary} iptables-persistent init-system-helpers netfilter-persistent
+	#https://pkgs.org tai https://debian.ethz.ch myös olemassa
+
+	#actually necessary
+	pre2 ${2}
+	other_horrors
+
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
-	
+	#HUOM.28525:nalkutus alkoi jo tässä (siis ennenq libip4tc2-blokki siirretty)
+
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
 	${shary} libaudit1 libselinux1 #libpam0g #libpam-modules zlib1g #libpam kanssa oli nalkutusta 080525
 
 	${shary} man-db sudo
 	message
 	jules
-
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
-	${shary} iptables #se ympäristömuuttuja-jekku tähän vai ei?
-	${shary} iptables-persistent init-system-helpers netfilter-persistent
-
-	#actually necessary
-	pre2 ${2}
-	other_horrors
 
 	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8

@@ -51,7 +51,7 @@ fi
 
 
 if [ -f ${tgt} ] ; then
-	#HUOM. pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
+	#pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
 	${tcmd} -tf ${1} | grep '.deb'
 	sleep 3
 
@@ -104,11 +104,13 @@ if [ -f ${tgt} ] ; then
 	${scm} 0550 /etc/iptables
 	sleep 2
 
+	#pitäisi kai tehdä jotain että tuoreimmat muutokset /e/n ja /e/a menevät tar:iin asti? typojen korjaus olisi hyvä alku
+
 	#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
 	for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
 
 	#uutena 28525
-	for f in $(find /etc/apt-type f -name 'sources*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
+	for f in $(find /etc/apt -type f -name 'sources*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
 	sleep 2
 
 	#HUOM.saattaa urputtaa $tgt polusta riippuen

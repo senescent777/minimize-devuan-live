@@ -610,7 +610,8 @@ function enforce_access() {
 
 #HUOM.25525:cut tähän tai kutsUvaan koodiin koska xcalibur/ceres
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
-#https://github.com/topics/sources-list
+#myös https://github.com/topics/sources-list
+#TODO:debian.ethz.ch voisi jotenkin huomioida
 function part1_5() {
 	dqb "part1_5( ${1} )"
 	csleep 1
@@ -636,8 +637,8 @@ function part1_5() {
 		fi
 	#fi
 
-	dqb "p1.5.2()"
-	csleep 1
+		dqb "p1.5.2()"
+		csleep 1
 
 	#if [ ! -s /etc/apt/sources.list.${t} ] ; then
 		#if [ -s /etc/apt/sources.list.tmp ] ; then
@@ -943,80 +944,84 @@ function t2p_filler() {
 }
 
 #yhteisiä osia daud ja chim t2p
+#HUOM.28525:mikä poistaa libgtk3:sen xcaliburissa? se pitäisi estää 
 function t2pc() {
 	debug=1
 	dqb "common_lib.t2p_common()"
 	csleep 3
 
-	${sharpy} amd64-microcode at-spi2-core
+	${sharpy} amd64-microcode at-spi2-core #ei
 	t2p_filler
 
-	${sharpy} bubblewrap coinor* cryptsetup*
+	${sharpy} bubblewrap coinor* cryptsetup* #ei
 	t2p_filler
 
-	${sharpy} debian-faq dirmngr discover* doc-debian
+	${sharpy} debian-faq dirmngr discover* doc-debian #ei
 	t2p_filler
 
 	#miten dmsetup ja libdevmapper?
 
-	${sharpy} docutils* dosfstools efibootmgr exfalso
+	${sharpy} docutils* dosfstools efibootmgr exfalso #ei
 	t2p_filler
 
 	#tikkujen kanssa paska tdstojärjestelmä exfat
-	${sharpy} exfatprogs fdisk ftp* gcr
+	${sharpy} exfatprogs fdisk ftp* gcr #ei
 	t2p_filler
 
-	${sharpy} gimp-data gir*
+	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
 	t2p_filler
 
-	${sharpy} gpgsm gpg-agent gpg
+	${sharpy} gpgsm gpg-agent gpg #ei poistu lingtk3?
 	t2p_filler
 
 	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta kun xcalibur
 	#${sharpy} grub* 
-	${sharpy} gstreamer* #libgs poist alempana
+	${sharpy} gstreamer* #libgs poist alempana #libgtk3 ei poistu
 	t2p_filler
 
-	${sharpy} htop inetutils-telnet intel-microcode isolinux
+	${sharpy} htop inetutils-telnet intel-microcode isolinux #ei poista libgtk3
 	t2p_filler
 
-	${sharpy} libreoffice*
+	${sharpy} libreoffice* #ei poist libgtk3
 	t2p_filler
 
+	#xcaliburissa ao. paketteja ei tässä vaiheesas jäljellä?
 	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
 	t2p_filler
 
-	${sharpy} lvm2 lynx* mail* #miten mariadb-common?
+	${sharpy} lvm2 lynx* mail* #miten mariadb-common? #lingtk3 ei poistu
 	t2p_filler
 
+	#excalibur ei sisällä?
 	${sharpy} mlocate modem* mtools mythes*
 	t2p_filler
 
-	${sharpy} netcat-traditional openssh*
+	${sharpy} netcat-traditional openssh* #ei poista libgtk3
 	t2p_filler
 
-	${sharpy} parted pavucontrol
+	${sharpy} parted pavucontrol #libgtk3 ei poistu, libgtk4 kyllä
 	t2p_filler
 
-	${sharpy} ppp plocate pciutils procmail
+	${sharpy} ppp plocate pciutils procmail #libgtk3 ei poistu
 	t2p_filler
 
-	${sharpy} ristretto screen
+	${sharpy} ristretto screen #libgtk3 ei poistu
 	t2p_filler
 
-	${sharpy} shim* speech* syslinux-common
+	${sharpy} shim* speech* syslinux-common #libgtk3 ei poistu
 	t2p_filler
 
-	${sharpy} tex* tumbler*
+	${sharpy} tex* tumbler* #libgtk3 ei poistu
 	t2p_filler
 
-	${sharpy} vim*
+	${sharpy} vim* #libgtk3 ei poistu
 	t2p_filler
 
 	#miten nämä? poistuuko?
-	${sharpy} xorriso yad xz-utils xfburn xarchiver
+	${sharpy} xorriso xz-utils xfburn xarchiver # yad ei ole kaikissa distr
 	#xfce*,xorg* off limits
 	t2p_filler
+	#poistuiko tässäkään:libgtk3?	
 
 	dpkg -l x*
 	csleep 3
