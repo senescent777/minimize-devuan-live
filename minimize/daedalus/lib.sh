@@ -37,8 +37,8 @@ function pre_part3() {
 	t=$(${odio} which ip6tables-restore)
 	u=${2} #ei sitä echo-cut-jekkua tämän kanssa, ainakaan vielä (jokin tr sen sijaan...)
 
-	${odio} ${s} /etc/iptables/rules.v4.${u} #dnsm}
-	${odio} ${t} /etc/iptables/rules.v6.${u} #dnsm}
+	${odio} ${s} /etc/iptables/rules.v4.${u}
+	${odio} ${t} /etc/iptables/rules.v6.${u}
 
 	csleep 3
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
