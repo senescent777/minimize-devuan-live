@@ -40,5 +40,8 @@ case ${1} in
 	;;
 	pw)
 		${d}/generic_doit.sh 1
-	;;	
+	;;
+	*)
+		echo "$0 [cmd]"
+	;;
 esac
