@@ -108,7 +108,7 @@ function udp6() {
 	dqb "daud.lib.UPDP-6"
 	csleep 1
 
-	#aiheuttavat nalkutusta (tai miten lienee nykyään?)
+	#aiheuttavat nalkutusta (tai miten lienee nykyään? jos kokeilisi)
 	${NKVD} ${1}/libx11-xcb1*
 	${NKVD} ${1}/nfs*
 	${NKVD} ${1}/rpc*
@@ -142,6 +142,7 @@ function t2p() {
 
 	#gsasl-common, gsfonts, gvfs ei löydy
 	${sharpy} arch-test
+	${sharpy} grub* #HUOM.28525:syystä excalibur prujattu tähän
 	${sharpy} gsettings* #uskaltaako poistaa chimaerassa?
 	t2p_filler
 
