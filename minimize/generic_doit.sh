@@ -1,8 +1,12 @@
 #!/bin/bash
 
 mode=2
-distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
-d=~/Desktop/minimize/${distro} 
+#HUOM.28525:excalibur/ceres-tapauksessa saa jo mode=0 äksän/slimin/whåtever sek8isin, jos selvittäisi miksi
+#tar:in purku ei vielä riitä
+
+distro=$(cat /etc/devuan_version)
+dirname $0
+d=~/Desktop/minimize/${distro} #alkuosa dirname:lla jatkossa?
 [ z"${distro}" == "z" ] && exit 6
 debug=0 #1
 
@@ -19,7 +23,11 @@ function parse_opts_1() {
 			debug=1
 		;;
 		*)
-			mode=${1}
+			if [ -d ~/Desktop/minimize/${1} ] ; then
+				distro=${1}
+			else
+				mode=${1}
+			fi
 		;;
 	esac
 }
@@ -28,7 +36,17 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-. ~/Desktop/minimize/common_lib.sh
+#pitäisiköhän tässä olla tarkistukset, -d, -x ?
+if [ -d ~/Desktop/minimize ] && [ -x  ~/Desktop/minimize/common_lib.sh ] ; then 
+	. ~/Desktop/minimize/common_lib.sh
+else
+	echo "NO COMMON L1B AVA1LABL3"
+	exit 55
+fi
+
+[ $? -gt 0 ] && exit 56
+sleep 3
+
 #https://linuxopsys.com/use-dollar-at-in-bash-scripting
 #https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
 
@@ -36,11 +54,11 @@ function parse_opts_2() {
 dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
-part076
-#exit
+part076 ${distro}
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
+	#HUOM.22525:tap mode=0 pitäisi kutsua check_binaries ja sitä kautta pakottaa tablesin asennus... puuttuuko .deb?
 else
 	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING"
 	exit 111
@@ -49,38 +67,25 @@ fi
 #==================================PART 1============================================================
 
 dqb "mode= ${mode}"
-csleep 5
+csleep 2
 
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
-[ ${enforce} -eq 1 ] && pre_enforce ${n} ${distro}
-enforce_access ${n}
+[ ${enforce} -eq 1 ] && pre_enforce 
+enforce_access ${n} ${PREFIX} #HUOM.28525:menisi vähän pieleen jo part076 kohdalla kun xcalib
 
-#VAIH:tarttisikohan jotain tehdä sources.list suhteen? no testaapa part1 ainakin
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
 
-${snt} #HUOM.14525:oli tässä ennen: part175
-csleep 3
+${snt}
+csleep 1
 
-#jotain perusteellisempia testejä chimaeran kanssa sitten mikäli jksaa sitä kirjautumisongelmaa (josko selvittelisi korjaamista?)
 #===================================================PART 2===================================
 
-c14=0
-c13=0
-[ ${mode} -eq 1 ] && c14=1
-
-if [ -v LCF666 ] ; then
-	#HUOM.16525:vissiin urputti kska lcf666 puuttuu konffista, palautettu
-	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
-else
-	echo "555"
-fi
-
+#jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
-	csleep 3
-	
-	#ennen vai jälkeen "dpkg reconfig"-blokin tämä?
+	csleep 1
+
 	if [ -s /etc/default/locale.tmp ] ; then
 		. /etc/default/locale.tmp
 
@@ -91,72 +96,55 @@ function el_loco() {
 
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
-		csleep 3
+		csleep 1
 
-		#/e/d/l voi kasvaa isoksikin näin...
 		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
 		cat /etc/default/locale
-		csleep 3
+		csleep 1
 
 		cat /etc/timezone
-		csleep 3
-
+		csleep 1
 		${scm} a-w /etc/default/locale
-
-		#kuuluuko debian-johdannaisilla kalustoon tämä? pitäisikö luoda ensin?
-		echo " stuff > /etc/locale.conf"
-
-		if [ ! -s  /etc/locale.conf ] ; then
-			${odio} touch /etc/locale.conf
-		fi
-
-		${scm} a+w /etc/locale.conf
-		csleep 3
-		
-		grep LC_TIME /etc/default/locale >> /etc/locale.conf
-
-		csleep 3
-		${scm} a-w /etc/locale.conf
-		cat /etc/locale.conf
-		csleep 3
 	fi
 
-	#VAIH:pitäisi kai varmistaa että lokaalit on luotu ennenq ottaa käyttöön? locale-gen... (joko jo?)
-	${odio} locale-gen
-
-	#joskohan tarkistus pois jatkossa?
-	if [ ${1} -gt 0 ] ; then #HUOM.9525: /e/d/l kopsailu ei välttämättä riitä, josko /e/timezone mukaan kanssa?
-		#client-side session_expiration_checks can be a PITA
+	if [ ${1} -gt 0 ] ; then
 		${odio} dpkg-reconfigure locales
-		
-		#suattaapi olla olematta tuo --oprio tuolla koennolla tuatanoinnii vuan mitenkä ympäristömuuttuja vaikuttaa?
-		#ekalla yrityksellä ei toivottua lopputulosta myöskään pelkällä ympäristömjalla vaikka ncurses-vaihe ohitettiinkin		
 		${odio} dpkg-reconfigure tzdata
+	else
+		${odio} locale-gen #oli aiemmin ennen if-blokkia
 	fi
 
-	#joskohan kutsuvassa koodissa -v - tark riittäisi toistaiseksi
-	if [ ${2} -lt 1 ]; then
+	if [ ${2} -lt 1 ] && [ ${debug} -eq 1 ] ; then
 		ls -las /etc/default/lo*
-		csleep 3
+		csleep 1
 	fi
 
 	dqb "DN03"
-	csleep 2
+	csleep 1
 }
 
-csleep 6
+c14=0
+c13=0
+[ ${mode} -eq 1 ] && c14=1
+
+if [ -v LCF666 ] ; then
+	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
+else
+	echo "555"
+fi
+
+csleep 2
 [ ${c13} -lt 1 ] && c14=1
 el_loco ${c14} ${c13}
 
 if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
-	dqb "R (in 3 secs)"
-	csleep 3
+	dqb "R (in 2 secs)"
+	csleep 2
 	${odio} passwd
 
-	#miksi tähän ei mennä? vai mennäänkö? ilmeinen syy?
 	if [ $? -eq 0 ] ; then
-		dqb "L (in 3 secs)"
-		csleep 3
+		dqb "L (in 2 secs)"
+		csleep 2
 		passwd
 	fi
 
@@ -167,63 +155,68 @@ if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
 		dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
 	fi
 
-	exit #varm. vuoksi kesk. suor. jos salakala tyritty
+	exit
 fi
+
+#HUOM.2:pitäisikö huomioida myös e.tar tuossa alla jotenkin?
 
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
-
-part2_pre ${removepkgs}
-#part2 ${removepkgs} #takaisin jos 2_5 pykii
-part2_5 ${removepkgs}
+part2_5 ${removepkgs} ${dnsm}
 
 #===================================================PART 3===========================================================
-message #voi muuttua turhaksi jatkossa
+message
 part3 ${d} ${dnsm}
-[ -s ~/Desktop/minimize/xfce.tar ] && ${srat} -C / -xf ~/Desktop/minimize/xfce.tar
-csleep 5
+other_horrors
 
-#tai sitten käskytetään:import2 (jatkossa -> part3_post ?)
+if [ -s ${PREFIX}/config.tar.bz2 ] ; then #prefix vai $d?
+	${srat} -C / -jxf ${PREFIX}/config.tar.bz2
+fi
+
+${NKVD} ${PREFIX}/config.tar
+csleep 2
+
+#tai sitten käskytetään:import2 (TODO?)
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	. ~/Desktop/minimize/profs.sh
 
 	q=$(mktemp -d)
-	dqb "${srat} -C ${q} ... 1n 3 s3c5s"
-	csleep 3
+	dqb "${srat} -C ${q} ... 1n 1 s3c5s"
+	csleep 1
 	tgt=~/Desktop/minimize/fediverse.tar
 
 	if [ -s ${tgt} ] ; then	
 		${srat} -C ${q} -xvf ${tgt}
 
 		dqb "${srat} d0me"
-		csleep 3
+		csleep 1
 
 		imp_prof esr ${n} ${q}
 	else
 		dqb "NO SUCH THING AS ${tgt}"
 	fi
 
-	csleep 3
+	csleep 1
 fi
 
 jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
-${scm} 0555 ~/Desktop/minimize/changedns.sh
-${sco} root:root ~/Desktop/minimize/changedns.sh
-${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+${scm} 0555 ${PREFIX}/changedns.sh
+${sco} root:root ${PREFIX}/changedns.sh
+${odio} ${PREFIX}/changedns.sh ${dnsm} ${distro}
 ${sipt} -L
-csleep 6
+csleep 2
 
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
 
 if [ ${mode} -eq 2 ] ; then
 	echo "time to ${sifu} ${iface} or whåtever"
-	csleep 2
+	csleep 1
 	${whack} xfce4-session
  	exit 
 fi
 
-${odio} ~/Desktop/minimize/changedns.sh ${dnsm} ${distro}
+${odio} ${PREFIX}/changedns.sh ${dnsm} ${distro}

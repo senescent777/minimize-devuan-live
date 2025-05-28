@@ -1,11 +1,10 @@
 #!/bin/bash
 
-#debug=1
 odio=$(which sudo)
-smr=$(sudo which rm)
+smr=$(${odio} which rm)
 smr="${odio} ${smr} "
 
-whack=$(sudo which pkill)
+whack=$(${odio} which pkill)
 whack="${whack} --signal 9 "
 svm=$(${odio} which mv)
 svm="${odio} ${svm}"

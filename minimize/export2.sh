@@ -1,9 +1,10 @@
 #!/bin/bash
 debug=0 #1
 tgtfile=""
-distro=$(cat /etc/devuan_version) #tarpeellinen tässä
-PREFIX=~/Desktop/minimize #käyttöön+komftdstoon jos mahd
+distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa
+PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd #tai dirname?
 mode=-2
+loose=1 #turha nykyään
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -12,27 +13,6 @@ function dqb() {
 function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
-
-function usage() {
-	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
-	echo "$0 3 <tgtfile> [distro] [-v]: makes the main pkg (old way)"
-	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
-	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
-	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \${PREFIX}/\${distro}"
-	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
-	echo "$0 q <> [] [] archives firefox settings"				
-	echo "$0 -h: shows this message about usage"	
-}
-
-[ -z ${distro} ] && exit 6
-d=${PREFIX}/${distro}
-
-if [ -d ${d} ] && [ -s ${d}/conf ]; then
-	. ${d}/conf
-else
-	echo "CONFIG MISSING" #; exit 55
-	pkgdir=/var/cache/apt/archives
-fi
 
 function parse_opts_1() {
 	case "${1}" in
@@ -60,6 +40,8 @@ function parse_opts_2() {
 if [ -x ${PREFIX}/common_lib.sh ] ; then
 	. ${PREFIX}/common_lib.sh
 else
+	#HUOM.23525:oleellisempaa että import2 toimii tarvittaessa ilman common_lib
+	#"lelukirjasto" saattaa toimia sen varren että "$0 4 ..." onnistuu	
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
 	uom="sudo /bin/umount"
@@ -69,6 +51,9 @@ else
 
 	#jos näillä lähtisi aiNAKin case q toimimaan
 	n=$(whoami)
+	sah6=$(${odio} which sha512sum)
+	smr="${odio} which rm"
+	smr="${odio} ${smr}"
 
 	function check_binaries() {
 		dqb "exp2.ch3ck_b1nar135( ${1} )"
@@ -90,17 +75,62 @@ else
 		dqb "exp32.part3()"
 	}
 
-	#TODO;tähän sitten se common_lib.init2 tai sit ei
+	function part1_5() {
+		dqb "exp32.p15()"
+	}
+
+	function message() {
+		dqb "exp32.message()"
+	}
+
+	function jules() {
+		dqb "exp32.jules()"
+	}
+
+	#HUOM.23525:josko tässä kohtaa pakotus riittäisi
+	function other_horrors() {
+		dqb "AZATHOTH AND OTHER HORRORS"
+		#${spc} /etc/default/rules.* /etc/iptables #tartteeko tuota enää 27525?
+
+		${scm} 0400 /etc/iptables/*
+		${scm} 0550 /etc/iptables
+		${sco} -R root:root /etc/iptables
+		${scm} 0400 /etc/default/rules*
+		${scm} 0555 /etc/default
+		${sco} -R root:root /etc/default
+	}
+
+	function ppp3() {
+		dqb "exp32.ppp3()"
+	}
+
+	prevopt=""
+
+	for opt in $@ ; do
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
+
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
 fi
 
+[ -z ${distro} ] && exit 6
+d=${PREFIX}/${distro}
+
 dqb "mode= ${mode}"
 dqb "distro=${distro}"
 dqb "file=${tgtfile}"
-csleep 6
+csleep 3
 
-#HUOM.14525:pitäisiköhän testata ao. else-haara?
+if [ -s ${d}/conf ] ; then
+	. ${d}/conf
+else #joutuukohan else-haaran muuttamaan jatkossa?
+	echo "CONF MISSING"
+	exit 55
+fi
+
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
@@ -114,16 +144,30 @@ else
 		dqb "exp2.pre_part3 ${1} ${2} "
 	}
 
-	check_binaries ${distro}
+	function udp6() {
+		dqb "exp32.UPD6()"
+	}
+
+	check_binaries ${PREFIX}/${distro} #HUOM.26525:voi tietyssä tapauksessa mennä pieleen koska x
 	check_binaries2
 fi
+
+function usage() {
+	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
+	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
+	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
+	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
+	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \${PREFIX}/\${distro}"
+	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
+	echo "$0 q <> [] [] archives firefox settings"				
+	echo "$0 -h: shows this message about usage"	
+}
 
 dqb "tar = ${srat} "
 ${scm} 0555 ${PREFIX}/changedns.sh
 ${sco} root:root ${PREFIX}/changedns.sh
-
-tig=$(sudo which git)
-mkt=$(sudo which mktemp)
+tig=$(${odio} which git)
+mkt=$(${odio} which mktemp)
 
 if [ x"${tig}" == "x" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
@@ -132,34 +176,39 @@ if [ x"${tig}" == "x" ] ; then
 fi
 
 if [ x"${mkt}" == "x" ] ; then
-	#HUOM. ei välttämättä ole molemmissa distroissa tuon nimistä pakettia
-	echo "sudo apt-get update;sudo apt-get install mktemp"
+	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
+	echo "sudo apt-get update;sudo apt-get install coreutils"
 	exit 8
 fi
 
 ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
-csleep 4
+csleep 2
 
+#VAIH:enrofce():n muutosten sivuvaikutukset
 function pre1() {
-	[ x"${1}" == "z" ] && exit 666
+	debug=1
+	dqb "pre1( ${1} )"
+	#[ x"${1}" == "z" ] && exit 666
+	csleep 6
 
 	${sco} -Rv _apt:root ${pkgdir}/partial/
 	${scm} -Rv 700 ${pkgdir}/partial/
-	csleep 4
+	csleep 2
 
 	if [ -d ${1} ] ; then
 		dqb "5TNA"
 
 		n=$(whoami)
-		enforce_access ${n}
-		csleep 2
+		enforce_access ${n} ${PREFIX} #voisiko prefix:in poistaa jatkossa? $1 tilalle?
+		csleep 1
 
+		#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres (TODO:testaa)
 		local ortsac
 		ortsac=$(echo ${1} | cut -d '/' -f 6)
 
-		#HUOM.14525:yritetään tässä muuttaa sources.list s.e. toisen distron pakettien lataus onnistuu
-		#erikseen sitten se, mikä sources menee arkistoon ja millä nimellä
+		${scm} 0755 /etc/apt
+		${scm} a+w /etc/apt/sources.list*
 
 		if [ -s /etc/apt/sources.list.${ortsac} ] ; then
 			${smr} /etc/apt/sources.list #vähän jyrkkää mutta
@@ -168,8 +217,18 @@ function pre1() {
 			part1_5 ${ortsac}
 		fi
 
-		${slinky} /etc/apt/sources.list.${ortsac} /etc/apt/sources.list
-		csleep 2
+		if [ -f /etc/apt/sources.list.${ortsac} ] && [ -s /etc/apt/sources.list.${ortsac} ] && [ -r /etc/apt/sources.list.${ortsac} ] ; then 
+			[ -h /etc/apt/sources.list ] && ${smr} /etc/apt/sources.list
+			csleep 1
+			${slinky} /etc/apt/sources.list.${ortsac} /etc/apt/sources.list
+		fi
+
+		${scm} -R a-w /etc/apt
+		${scm} 0555 /etc/apt
+		${sco} root:root /etc/apt
+
+		[ ${debug} -eq 1 ] && ls -las /etc/apt/sources.list*		
+		csleep 4
 	else
 		echo "P.V.HH"
 		exit 111
@@ -183,6 +242,7 @@ function pre2() {
 
 	local ortsac
 	local ledif
+	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
 
 	ortsac=$(echo ${1} | cut -d '/' -f 6)
 	ledif=$(echo ${1} | cut -d '/' -f 1-5 )
@@ -190,24 +250,24 @@ function pre2() {
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
 		${odio} ${ledif}/changedns.sh ${dnsm} ${ortsac}
-		csleep 4
+		csleep 2
 
 		${sifu} ${iface}
 		[ ${debug} -eq 1 ] && /sbin/ifconfig
-		csleep 4
+		csleep 2
 
 		${sco} -Rv _apt:root ${pkgdir}/partial/
 		${scm} -Rv 700 ${pkgdir}/partial/
 
 		${sag_u}
-		csleep 4
+		csleep 2
 	else
 		echo "P.V.HH"
 		exit 111
 	fi
 
 	echo "PRE 2DONE"
-	sleep 4
+	sleep 2
 }
 
 function tpq() {
@@ -216,8 +276,11 @@ function tpq() {
 	dqb "paramz 0k"
 	csleep 1
 
-	${srat} -cf ${1}/xfce.tar ${1}/../../.config/xfce4/xfconf/xfce-perchannel-xml
-	csleep 2
+	local t
+	t=$(echo ${1} | cut -d '/' -f 1,2,3)
+	#HUOM.23525:pakkaus mukaan kuten näkyy, vie suht paljon tilaa silloinq ei .deb mukana
+	${srat} -jcf ${1}/config.tar.bz2 ${t}/.config/xfce4/xfconf/xfce-perchannel-xml ${t}/.config/pulse /etc/pulse
+	csleep 1
 
 	if [ -x ${1}/profs.sh ] ; then
 		dqb "DE PROFUNDIS"
@@ -228,7 +291,7 @@ function tpq() {
 		dqb "1nT0 TH3 M0RB1D R31CH"	
 	fi
 
-	csleep 5
+	csleep 2
 }
 
 function tp1() {
@@ -236,11 +299,11 @@ function tp1() {
 	dqb "tp1 ${1} , ${2} "
 	[ z"${1}" == "z" ] && exit
 	dqb "params_ok"
-	csleep 3
+	csleep 1
 
 	if [ -d ${2} ] ; then
 		dqb "cleaning up ${2} "
-		csleep 3
+		csleep 1
 		${NKVD} ${2}/*.deb
 		dqb "d0nm3"
 	fi
@@ -256,56 +319,81 @@ function tp1() {
 
 	if [ ${debug} -eq 1 ] ; then
 		ls -las ${ledif}
-		sleep 5
+		sleep 2
 	fi
 
 	${srat} -rvf ${1} ${ledif} /home/stubby 	
 	dqb "tp1 d0n3"
-	csleep 3
+	csleep 1
 }
 
+#HUOM.23525:josko nyt vähän fiksummin toimisi
 function rmt() {
-	#debug=1
+	debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
-	[ z"${1}" == "z" ] && exit 1
-	[ -s ${1} ] || exit 2
+#	[ z"${1}" == "z" ] && exit 1 #23525:mikä tässä nyt qsee?
+#	[ -s ${1} ] || exit 2
 
 	[ z"${2}" == "z" ] && exit 11
 	[ -d ${2} ] || exit 22
 
 	dqb "paramz_ok"
-	csleep 3
+	csleep 1
+
+	p=$(pwd)
+	csleep 1
+
+	if [ -f ${2}/sha512sums.txt ] ; then
+		dqb "rem0v1ng pr3v1oisu shasums"
+		csleep 1
+
+		${NKVD} ${2}/sha512sums.txt
+	else
+		dqb "JGFIGFIYT"
+	fi
+
+	csleep 1
+	local c
+	c=$(find ${2} -type f -name '*.deb' | wc -l)
+
+	if [ ${c} -lt 1 ] ; then
+		echo "TH3R3 1S N0 F15H"
+		exit 55
+	fi
+
+	dqb "KJHGOUYFIYT"
+	csleep 1
 
 	${scm} 0444 ${2}/*.deb
-	p=$(pwd)
+	touch ${2}/sha512sums.txt
+
+	chown $(whoami):$(whoami) ${2}/sha512sums.txt
+	chmod 0644 ${2}/sha512sums.txt
+	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
 
 	cd ${2}
-	[ -f ./sha512sums.txt ] && ${NKVD} ./sha512sums.txt
-	csleep 2
-
-	touch ./sha512sums.txt
-	chown $(whoami):$(whoami) ./sha512sums.txt
-	chmod 0644 ./sha512sums.txt
-	[ ${debug} -eq 1 ] && ls -las sha*;sleep 6
+	echo $?
 
 	${sah6} ./*.deb > ./sha512sums.txt
-	csleep 2
+	csleep 1
 	psqa .
 
+	cd ${p}
 	${srat} -rf ${1} ${2}/*.deb ${2}/sha512sums.txt
 	csleep 1
-	cd ${p}
-
+	
 	dqb "rmt d0n3"
 }
 
+#https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
+#HUOM.26525:apg-get sisältää vivun "-t" , mitä se tekee Devuanin tapauksessa? pitääkö sources.list sorkkia liittyen?
 function tp4() {
 	debug=1
 	dqb "tp4 ${1} , ${2} "
 
-	[ z"${1}" == "z" ] && exit 1
-	[ -s ${1} ] || exit 2
+#	[ z"${1}" == "z" ] && exit 1 #mikä juttu näissä on?
+#	[ -s ${1} ] || exit 2
 	
 	dqb "DEMI-SEC"
 	csleep 1
@@ -314,34 +402,55 @@ function tp4() {
 	[ -d ${2} ] || exit 22
 
 	dqb "paramz_ok"
-	csleep 3
+	csleep 1
 
 	if [ z"${pkgdir}" != "z" ] ; then
 		${NKVD} ${pkgdir}/*.deb
 		dqb "SHREDDED HUMANS"
 	fi
+	
+	local tcdd
+	local t2
+
+	#HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia
+	tcdd=$(cat /etc/devuan_version)
+	t2=$(echo ${2} | cut -d '/' -f 6)
+	
+	if [ ${tcdd} != ${t2} ] ; then
+		dqb "XXX"
+		csleep 1
+		shary="${odio} ${sag} install --download-only "
+	fi
 
 	dqb "EDIBLE AUTOPSY"
 	${fib}
 	${asy}
-	csleep 3
+	csleep 1
+
+	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
+	${shary} nft #jatkossa udp6:sessa?
+
+	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
+	${shary} iptables #mitä ymp. mja - jekkuja tähän oli ajateltu?
+	${shary} iptables-persistent init-system-helpers netfilter-persistent
+	#https://pkgs.org tai https://debian.ethz.ch myös olemassa
+
+	#actually necessary
+	pre2 ${2}
+	other_horrors
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
-	
+	#HUOM.28525:nalkutus alkoi jo tässä (siis ennenq libip4tc2-blokki siirretty)
+
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
 	${shary} libaudit1 libselinux1 #libpam0g #libpam-modules zlib1g #libpam kanssa oli nalkutusta 080525
 
 	${shary} man-db sudo
 	message
-
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
-	${shary} iptables #se ympäristömuuttuja-jekku tähän vai ei?
-	${shary} iptables-persistent init-system-helpers netfilter-persistent
-
-	#actually necessary
-	pre2 ${2}
+	jules
 
 	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
@@ -357,42 +466,46 @@ function tp4() {
 		${shary} stubby
 	fi
 
-	dqb "${shary} git mktemp in 4 secs"
-	csleep 3
+	dqb "${shary} git coreutils in secs"
+	csleep 1
 	${lftr} 
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
-	#${shary} mktemp #tämän kanssa jotain distro-spesifistä säätöä?
+	${shary} coreutils
 	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 zlib1g 
 	${shary} git-man git
 
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
-	csleep 3
+	csleep 1
 	${lftr}
 
 	case ${iface} in
 		wlan0)
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-			#toivottavasti ei libdbus sotke mitään ${shary} libdbus-1-3 toistaiseksi jemmaan 280425
+			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
 
 			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3 adduser
 			${shary} wpasupplicant
 		;;
 		*)
 			dqb "not pulling wpasuplicant"
-			csleep 4
+			csleep 2
 		;;
 	esac
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
-	if [ -d ${2} ] ; then 
-		${NKVD} *.deb	
+	if [ -d ${2} ] ; then
+		pwd
+		csleep 1
+
+		${NKVD} ${2}/*.deb
+		csleep 1		
 		${svm} ${pkgdir}/*.deb ${2}
 		rmt ${1} ${2}
 	fi
 
 	dqb "tp4 donew"
-	csleep 3
+	csleep 1
 }
 
 #koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
@@ -404,48 +517,47 @@ function tp2() {
 	[ -s ${1} ] || exit 2
 
 	dqb "params_ok"
-	csleep 5
+	csleep 2
 
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
 
-	for f in $(find /etc -type f -name 'interfaces*') ; do ${srat} -rvf ${1} ${f} ; done
+	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres ? (TODO:testaa miten on)
+
+	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
-	csleep 6
+	csleep 2
 
-	#TOIMISIKO JO? PITÄISI KAI VARMISTAA ETTÄ 0-PITUISIA EI TULE MUKAAN (VAI VIELÄKÖ SKRIPTIt PASKOVAT?)
-
-	for f in $(find /etc -type f -name 'rules*') ; do
+	for f in $(find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
 		else
 			echo "SUURI HIRVIKYRPÄ ${f} "
 			echo "5H0ULD exit 666"
+			sleep 1
 		fi
 	done
 
 	echo $?
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule | less
-	sleep 6
+	sleep 2
 
 	dqb "JUST BEFORE LOCALES"
 	sleep 1
 
-	${srat} -rvf ${1} /etc/timezone 
-	for f in $(find /etc -type f -name 'locale*') ; do ${srat} -rvf ${1} ${f} ; done
+	${srat} -rvf ${1} /etc/timezone /etc/localtime 
+	#HUOM.22525:tuossa alla locale->local niin saisi localtime:n mukaan mutta -type f
+	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 
 	echo $?
-	sleep 5
+	sleep 2
 
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local | less
-	csleep 5
+	csleep 2
+	other_horrors
 
-	${scm} -R 0400 /etc/iptables/*
-	${scm} 0400 /etc/default/rules*
-	${scm} 0550 /etc/iptables
-	csleep 6
-
+	#HUOM.23525:tähän tökkäsi kun mode=4 && a-x common
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		echo "/E/IPTABLES sdhgfsdhgf"
 		exit 112
@@ -467,45 +579,44 @@ function tp2() {
 	fi
 
 	if [ ${dnsm} -eq 1 ] ; then
-		local f;for f in $(find /etc -type f -name 'stubby*') ; do ${srat} -rf ${1} ${f} ; done
-		for f in $(find /etc -type f -name 'dns*') ; do ${srat} -rf ${1} ${f} ; done
+		local f;for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
+		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 	fi
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 
 	dqb "tp2 done"
-	csleep 5
+	csleep 2
 }
 
-#VAIH:tarttisikohan jotain tehdä sources.list suhteen? avainsana "http:" voisi laukaista toiminnan
-#c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l) , kts. part1 nykyään
-#josko joka tdstoa varten oma fktio?
-function tp3() {
+#HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
+#dnsm 2. parametriksi... eiku ei, $2 onkin jo käytössä ja tarttisi sen cut-jekun
+function tp3() { #TODO:testaa, ensiksi tämä
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
 
 	dqb "paramz_0k"
-	csleep 5
+	csleep 2
 
 	local p
 	local q	
-	tig=$(sudo which git)
+	tig=$(${odio} which git) #voisi alustaa jossain aiempana
 
 	p=$(pwd)
-	q=$(mktemp -d)
+	q=$(${mkt} -d)
 	cd ${q}
 	
 	[ ${debug} -eq 1 ] && pwd  
-	csleep 5
+	csleep 2
 	${tig} clone https://github.com/senescent777/more_scripts.git
 
 	[ $? -eq 0 ] || exit 66
 	
 	dqb "TP3 PT2"
-	csleep 5
+	csleep 2
 	cd more_scripts/misc
 
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
@@ -535,6 +646,8 @@ function tp3() {
 	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? 
 	# (ao. rivi tp2() jatkossa?)
 
+	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
+
 	if [ -f /etc/apt/sources.list ] ; then
 		local c
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
@@ -544,7 +657,6 @@ function tp3() {
  			${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
 		fi
 	fi
-
 
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
@@ -560,10 +672,10 @@ function tp3() {
 	echo $?
 	cd ${p}
 	dqb "tp3 done"
-	csleep 6
+	csleep 2
 }
 
-function tpu() {
+function tpu() { #TODO:testaa
 	#debug=1	
 	#HUOM:0/1/old/new ei liity
 	dqb "tpu ${1}, ${2}"
@@ -575,21 +687,40 @@ function tpu() {
 	dqb "params_ok"
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
-	${NKVD} ${pkgdir}/*.deb #toimiiko tuo NKVD vai ei?
+	${NKVD} ${pkgdir}/*.deb
 	dqb "TUP PART 2"
 
-	${fib} #iiutena 205.25
+	${fib} #uutena 205.25
 	${sag} upgrade -u
 	echo $?
-	csleep 5
+	csleep 2
 
-	#30425:kuseekohan tuossa jokin? wpasupplicantin poisto melkein johti xorgin poistoon...
-	udp6
+	local s
+
+	for s in ${PART175_LIST} ; do 
+		dqb "processing ${s} ..."
+		csleep 1
+
+		${NKVD} ${pkgdir}/${s}*
+	done
+
+	case ${iface} in
+		wlan0)
+			dqb "NOT REMOVING WPASUPPLICANT"
+			csleep 6
+		;;
+		*)
+			${NKVD} ${pkgdir}/wpa*
+		;;
+	esac
+
+	udp6 ${pkgdir}
 
 	dqb "UTP PT 3"
 	${svm} ${pkgdir}/*.deb ${2}
 	${odio} touch ${2}/tim3stamp
-	$csm} a+w  ${2}/tim3stamp
+	${scm} 0644 ${2}/tim3stamp
+	${sco} $(whoami):$(whoami) ${2}/tim3stamp
 
 	date > ${2}/tim3stamp
 	${srat} -cf ${1} ${2}/tim3stamp
@@ -610,16 +741,16 @@ function tp5() {
 	[ -d ${2} ] || exit 97
  
 	dqb "params ok"
-	csleep 5
+	csleep 2
 
 	local q
-	q=$(mktemp -d)
+	q=$(${mkt} -d)
 	cd ${q}
 	[ $? -eq 0 ] || exit 77
 
 	${tig} clone https://github.com/senescent777/more_scripts.git
 	[ $? -eq 0 ] || exit 99
-
+	
 	#HUOM:{old,new} -> {0,1} ei liity
 	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
 	mv more_scripts/profs/profs* ${2}
@@ -632,14 +763,12 @@ function tp5() {
 
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
-csleep 6
+csleep 2
 pre1 ${d}
 
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
 case ${mode} in
-
 	0|4) #erikseen vielä case missä tp3 skipataan?
-
 		pre1 ${d}
 		pre2 ${d}
 
@@ -649,13 +778,14 @@ case ${mode} in
 		dd if=/dev/random bs=6 count=1 > ./rnd
 
 		${srat} -cvf ${tgtfile} ./rnd
-		tp3 ${tgtfile} ${distro}
+		tp3 ${tgtfile} ${distro} #voisiko käyttää $d?
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		${srat} -cvf ${d}/e.tar ./rnd
 		[ ${mode} -eq 0 ] && tp4 ${d}/e.tar ${d}
 		${sifd} ${iface}
 
+		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä
 		tp1 ${tgtfile} ${d}
 		pre1 ${d}
 		tp2 ${tgtfile}
@@ -663,17 +793,15 @@ case ${mode} in
 	1|u|upgrade)
 		pre2 ${d}
 		tpu ${tgtfile} ${d}
-
 	;;
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
 		pre2 ${d}
-		tp5 ${tgtfile} ${PREFIX}
+		tp5 ${tgtfile} ${PREFIX} #PREFIX vähemmäLLe jatkossa?
 	;;
 	e)
 		pre2 ${d}
 		tp4 ${tgtfile} ${d}
-
 	;;
 	f)
 		rmt ${tgtfile} ${d}
@@ -683,7 +811,7 @@ case ${mode} in
 		${sifd} ${iface}
 
 		tpq ${PREFIX}
-		${srat} -cf ${tgtfile} ${PREFIX}/xfce.tar ${PREFIX}/fediverse.tar
+		${srat} -cf ${tgtfile} ${PREFIX}/config.tar.bz2 ${PREFIX}/fediverse.tar
 	;;
 	-h)
 		usage
@@ -695,7 +823,12 @@ case ${mode} in
 esac
 
 if [ -s ${tgtfile} ] ; then
+	${odio} touch ${tgtfile}.sha
+	${sco} $(whoami):$(whoami) ${tgtfile}.sha
+	${scm} 0644 ${tgtfile}.sha
+
 	${sah6} ${tgtfile} > ${tgtfile}.sha
 	${sah6} -c ${tgtfile}.sha
+
 	echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
 fi

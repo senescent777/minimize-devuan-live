@@ -23,8 +23,7 @@ mode=${1}
 
 #function init2 {
 #	local c
-##TODO:jospa vain hakkaisi tässä tuettyjen tdstojen/hmistojen oikeudet kohdalleen ja täts it
-#
+
 #	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
 #	[ ${c} -gt 0 ] && exit 111
 #	c=$(find /etc -name 'iptab*' -type d -not -user 0 | wc -l)
@@ -54,13 +53,19 @@ mode=${1}
 #
 #init2
 
-#sleep 5 #TODO:tästä mallia muihinkin skripteihin
-chmod 0400 /etc/iptables/*
-chmod 0550 /etc/iptables
-chown -R root:root /etc/iptables
-chmod 0400 /etc/default/rules*
-chown -R root:root /etc/default
-sleep 5
+function p3r1m3tr() {
+	#cp /etc/default/rules.* /etc/iptables
+	#[ -s /etc/iptables/rules.v4.] or exit 666
+
+	chmod 0400 /etc/iptables/*
+	chmod 0550 /etc/iptables
+	chown -R root:root /etc/iptables
+	chmod 0400 /etc/default/rules*
+	chown -R root:root /etc/default
+	sleep 2
+}
+
+p3r1m3tr
 		
 case $# in
 	1)
@@ -82,9 +87,10 @@ case $# in
 	;;
 esac
 
+#distro=$(echo ${distro} | cut -d '/' -f 1) vissiin ei näin
 dqb "mode=${mode}"
 dqb "distro=${distro}"
-csleep 2
+csleep 1
 
 #HUOM. jos tarttee ni näille main distrosta riippuvainen fktioiden esittely 
 #(toiv ei tarvitse)
@@ -166,17 +172,19 @@ function ns4() {
 
 function clouds_pp1() {
 	dqb "#c.pp.1  ( ${1} )"
-	#TODO:linkkiys-tarkistuksia
+	local f
 
-	if [ -s /etc/resolv.conf.1 ] || [ -s /etc/resolv.conf.0 ] ; then 
-		${smr} /etc/resolv.conf
-		[ $? -gt 0 ] && echo "FAILURE TO COMPLY WHILE TRYING TO REMOVE RESOLV.CONF"
-	fi
-
-	if [ -s /etc/dhcp/dhclient.conf.1 ] || [ -s /etc/dhcp/dhclient.conf.0 ] ; then 
-		${smr} /etc/dhcp/dhclient.conf
-		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHILÖE TRYING TO REMOVE DHCLIENT.CONF"
-	fi
+	for f in /etc/resolv.conf /etc/dhcp/dhclient.conf ; do
+		if [ -h ${f} ] ; then #mikä ero -L nähden?
+			if [ -s ${f}.1 ] || [ -s ${f}.0 ] ; then #riittäisikö nämä tark?
+				${smr} ${f}
+				[ $? -gt 0 ] && dqb "FAILURE TO COMPLY WHILE TRYING TO REMOVE ${f}"
+			fi
+		else
+			dqb "NOt A SHARk... link: ${f}"
+			${svm} ${f} ${f}.OLD
+		fi
+	done
 
 	#HUOM.17525:mikähän tätäkin tdstoa vaivaa? varmaan pp2 pykiminen sotkenut
 	if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 	
@@ -184,7 +192,6 @@ function clouds_pp1() {
 		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHIOLE TRYINMG TO REMOVE DHCLIENT-SCRIPT"
 	fi
 	
-	#jatkossa tietebkub parametrina distri...tai iface ... whåtever
 	if [ -h /etc/network/interfaces ] ; then
 		${smr} /etc/network/interfaces
 	else
@@ -199,20 +206,12 @@ function clouds_pp3() {
 	csleep 1
 	dqb "# c.pp.3 a.k.a RELOADING TBLZ RULEZ ${1}"
 	csleep 1
-
-	cp /etc/default/rules.* /etc/iptables
-
-	chmod 0400 /etc/iptables/*
-	chmod 0550 /etc/iptables
-	chown -R root:root /etc/iptables
-	chmod 0400 /etc/default/rules*
-	chown -R root:root /etc/default
-	sleep 5
+	p3r1m3tr
 
 	#HUOM.160325:lisätty uutena varm. vuoksi
 	${iptr} /etc/iptables/rules.v4.${1}
 	${ip6tr} /etc/iptables/rules.v6.${1}
-	csleep 2
+	csleep 1
 
 	#tässä oikea paikka tables-muutoksille vai ei?
 	${ipt} -F b
@@ -232,7 +231,7 @@ function clouds_pre() {
 
 	clouds_pp1
 	csleep 1
-	#clouds_pp2 ${1} #tätäkö ei kutsuta? ja silti menee rules votuiksi?
+	#clouds_pp2 ${1} #vissiin common_lib.change_bin1:stä löytyy syy miksi rules.v$x.$y tyhjenee
 	clouds_pp3 ${1}
 	csleep 1
 
@@ -242,39 +241,44 @@ function clouds_pre() {
 function clouds_post() {
 	dqb "cdns.clouds_post() "
 	dqb "scm= ${scm}"
-	dqb "sco = ${sco}"
-	csleep 5
+	dqb "sco =${sco}"
 
-	${scm} 0444 /etc/resolv.conf*
-	${sco} root:root /etc/resolv.conf*
+	csleep 1
+	local f
 
-	${scm} 0444 /etc/dhcp/dhclient*
-	${sco} root:root /etc/dhcp/dhclient*
-	${scm} 0755 /etc/dhcp
+	for f in $(find /etc -type f -name 'resolv.conf*') ; do
+		${scm} 0444 ${f}
+		${sco} root:root ${f}
+	done
+	
+	for f in $(find /etc -type f -name 'dhclient*') ; do
+		${scm} 0444 ${f}
+		${sco} root:root ${f}
+	done
 
-	${scm} 0555 /sbin/dhclient*
-	${sco} root:root /sbin/dhclient*
-	${scm} 0755 /sbin
+	${scm} 0555 /etc/dhcp
 
-	cp /etc/default/rules.* /etc/iptables
+	for f in $(find /sbin -type f -name 'dhclient*') ; do
+		${scm} 0555 ${f}
+		${sco} root:root ${f}
+	done
 
-	chmod 0400 /etc/iptables/*
-	chmod 0550 /etc/iptables
-	chown -R root:root /etc/iptables
-	chmod 0400 /etc/default/rules*
-	chown -R root:root /etc/default
-	sleep 5
+	${scm} 0555 /sbin
+	p3r1m3tr	
+	
+	for f in $(find /etc/network -type f -name 'interface*') ; do
+		${scm} 0444 ${f}
+		${sco} root:root ${f}
+	done
 
-	#jotenkin näin (find -type f myös keksitty)
-	${sco} -R root:root /etc/network/interfaces*
-	${scm} 0444 /etc/network/interfaces
-	${scm} 0444 /etc/network/interfaces.*
-	csleep 2
+	${scm} 0555 /etc/network
+	${sco} root:root /etc/network 
+	csleep 1
 
 	if [ ${debug} -eq 1 ] ; then
 		${ipt} -L  #
 		${ip6t} -L #parempi ajaa vain jos löytyy
-		csleep 3 #
+		csleep 1 #
 	fi #
 
 	dqb "d0n3"
@@ -294,7 +298,7 @@ function clouds_case0_1() {
 	if [ -s  /etc/resolv.conf ] ; then
 		for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do dda_snd ${s} ; done	
 	else
-		dqb "NO RESOLV.CONF FOUND, HAVE TO USE CONF"
+		dqb "NO RESOLV.CONF FOUND, HAVE TO USE ALT CONF"
 		csleep 1
 			
 		if [ z"${dsn}" != "z" ] ; then
@@ -319,27 +323,26 @@ function clouds_case1_1() {
 function clouds_case0_2() {
 	/etc/init.d/dnsmasq stop
 	/etc/init.d/ntpsec stop
-	csleep 3
+	csleep 1
 	${whack} dnsmasq*
 	${whack} ntp*
 }
 
 function clouds_case1_2() {
-	
-	echo "dns";sleep 2
+	echo "dns";sleep 1
 	/etc/init.d/dnsmasq restart
 	pgrep dnsmasq
 
 #HUOM.270325:tästä eteenpäin vaatinee pientä laittoa
 #ensinnäkin dnsmasq pitäisi saada taas vastaamaan pyyntöihin ja sitten muut jutut
-#	echo "stu";sleep 2
+#	echo "stu";sleep 1
 #	${whack} stubby* #090325: pitäisiköhän tämä muuttaa?
-#	sleep 3	
+#	sleep 1
 #			
 #	[ -f /run/stubby.pid ] || sudo touch /run/stubby.pid
 #	${sco} devuan:devuan /run/stubby.pid #$n
 #	${scm} 0644 /run/stubby.pid 
-#	sleep 3
+#	sleep 1
 #
 #	su devuan -c '/usr/bin/stubby -C /home/stubby/.stubby.yml -g'
 #	pgrep stubby
@@ -375,12 +378,18 @@ function clouds_case1() {
 
 #====================================================================
 clouds_pre ${mode}
+
+#HUOM.22525:linkittyykö resolv.conf tässä vai ei?
 [ -f /etc/resolv.conf.${mode} ] && ${slinky} /etc/resolv.conf.${mode} /etc/resolv.conf
+[ ${debug} -eq 1 ] && ls -las /etc/resolv*;sleep 2
+
 [ -f /etc/dhcp/dhclient.conf.${mode} ] && ${slinky} /etc/dhcp/dhclient.conf.${mode} /etc/dhcp/dhclient.conf
 [ -f /sbin/dhclient-script.${mode} ] && ${spc} /sbin/dhclient-script.${mode} /sbin/dhclient-script
 
-#HUOM.15525:iface olisi parempi idea kuin distro mutta joutuisi includoimaan conf
-[ -f /etc/network/interfaces.${distro} ] && ${slinky} /etc/network/interfaces.${distro} /etc/network/interfaces
+#HUOM.25525.1:mitenköhän tämä kohta pitäisi mennä?
+#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
+t=$(echo ${distro} | cut -d '/' -f 1) #tr mukaan kanssa?
+[ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 
 case ${mode} in 
 	0)

@@ -23,6 +23,7 @@ case ${1} in
 	;;
 	import)
 		${d}/import2.sh -1
+		[ $? -gt 0 ] && exit 45 #HUOM. jos on jo valmiiksi mountattu ni turha exit
 		read -p "source?" sorsa
 
 		${d}/import2.sh 0 ${sorsa}
@@ -35,9 +36,12 @@ case ${1} in
 		${d}/generic_doit.sh
 	;;
 	pt2)
-		${d}/${distro}/pt2.sh
+		${d}/generic_pt2.sh -v
 	;;
 	pw)
 		${d}/generic_doit.sh 1
-	;;	
+	;;
+	*)
+		echo "$0 [cmd]"
+	;;
 esac

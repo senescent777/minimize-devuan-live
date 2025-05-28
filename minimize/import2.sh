@@ -4,10 +4,11 @@ file=""
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 dir=/mnt
 part0=ABCD-1234
-PREFIX=~/Desktop/minimize
+PREFIX=~/Desktop/minimize #dirname?
 mode=-2
+loose=1
 
-#HUOM.21525:uudet tark siirretty tdstoon common_lib
+#TODO:modatun kiekon squashfs:lle mukaan tämä ja demerde_toi
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -16,17 +17,6 @@ function dqb() {
 function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
-
-[ -z ${distro} ] && exit 6
-
-dqb "mode=${mode}"
-dqb "distro=${distro}"
-dqb "file=${file}"
-d=${PREFIX}/${distro}
-
-if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-	. ${d}/conf
-fi
 
 function parse_opts_1() {
 	case "${1}" in
@@ -37,6 +27,7 @@ function parse_opts_1() {
 			if [ ${mode} -eq -2 ] ; then
 				mode=${1}
 			else
+				#VAIH:testaa miten distron asettelu, esim excaliburin kanssa (mode 3:lla kai paremmin onnistuisi testaiöut kuin mode 0)
 				if [ -d ${PREFIX}/${1} ] ; then
 					distro=${1}
 				else
@@ -51,27 +42,25 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-function usage() {
-	echo "TODO"
-}
-
-if [ -x ${PREFIX}/common_lib.sh ] ; then
+if [ -x ${PREFIX}/common_lib.sh ] ; then #dirname?
 	. ${PREFIX}/common_lib.sh
 else
-	srat="sudo /bin/tar"
+	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston"
+	srat="sudo /bin/tar" #which mukaan?
 	som="sudo /bin/mount"
 	uom="sudo /bin/umount"
 	scm="sudo /bin/chmod"
 	sco="sudo /bin/chown"
 	odio=$(which sudo)
 
-	#jos näillä lähtisi aikankin case q toimimaan
+	#jos näillä lähtisi aiNAKin case q toimimaan
 	n=$(whoami)
 	smr=$(${odio} which rm)
 	NKVD=$(${odio} which shred)
 	NKVD="${NKVD} -fu "
 	whack=$(${odio} which pkill)
 	whack="${odio} ${whack} --signal 9 "
+	sah6=$(${odio} which sha512sum)
 
 	function check_binaries() {
 		dqb "imp2.ch3ck_b1nar135( \${1} )"
@@ -89,14 +78,66 @@ else
 		dqb "imp32.enf_acc()"
 	}
 
+	#HUOM.23525:vaikuttaisi toimivan tarkistus "leikki-fktiossa"
+	#HUOM.26525:tämä versio part3:sesta sikäli turha että common_lib urputtaa koska sha512sums muttei deb
 	function part3() {
-		dqb "imp32.part3()"
+		dqb "NOT SUPPORTED"
+	}
+
+	function ppp3() {
+		dqb "imp32.ppp3()"
+	}
+
+	#kutsutaanko tätä? no yhdestä kohdasta ainakin
+	function other_horrors() {
+		dqb "AZATHOTH AND OTHER HORRORS"
+
+		#HUOM. /e/i tarvitsisi kirjoitusokeude että onnaa
+		#${spc} /etc/default/rules.* /etc/iptables #takaisin jos pykii 
+	
+		${scm} 0400 /etc/iptables/*
+		${scm} 0550 /etc/iptables
+		${sco} -R root:root /etc/iptables
+		${scm} 0400 /etc/default/rules*
+		${scm} 0555 /etc/default
+		${sco} -R root:root /etc/default
 	}
 
 	#TODO;tähän sitten se common_lib.init2?
 	dqb "FALLBACK"
-	dqb "chmod may be a good idea now"
+	dqb "${scm} may be a good idea now"
+	prevopt=""
+
+	for opt in $@ ; do
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
 fi
+
+[ -z ${distro} ] && exit 6
+
+dqb "mode=${mode}"
+dqb "distro=${distro}"
+dqb "file=${file}"
+d=${PREFIX}/${distro} #dirname?
+mkt=$(${odio} which mktemp)
+
+if [ x"${mkt}" == "x" ] ; then
+	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
+	echo "sudo apt-get update;sudo apt-get install coreutils"
+	exit 8
+fi
+
+if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+	. ${d}/conf
+else #joutuukohan else-haaran muuttamaan jatkossa?
+	echo "CONF ( ${d}/conf ) MISSING"
+	exit 56
+fi
+
+#HUOM.24525:polut vissiin korjattu
+echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -114,9 +155,9 @@ else
 		dqb "imp2.pre_part3( \${1} \${2})"
 	}
 
-	check_binaries ${distro}
+	check_binaries ${d}
 	echo $?
-	[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia?
+	[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia? ei kai enää
 	
 	csleep 1
 
@@ -124,6 +165,10 @@ else
 	[ $? -eq 0 ] || exit 8
 	csleep 1
 fi
+
+function usage() {
+	echo "${0} [mode] [tgtfile] <distro> <debug> "
+}
 
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
@@ -133,9 +178,13 @@ if [ ! -s /OLD.tar ] ; then
 fi
 
 dqb "b3f0r3 par51ng tha param5"
-csleep 5
+csleep 1
+
+#VAIH:a) pavucontrol-asetukset, missä? (1 arvaus olisi jo)
+#b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
 
 #glorified "tar -x" this function is - Yoda
+#uuden enf_acc-muutoksen takia joutuisi uudelleen testaamaan
 function common_part() {
 	debug=1
 
@@ -148,40 +197,46 @@ function common_part() {
 	dqb "paramz_0k"
 
 	cd /
-	#TODO:sha-tarkistus toimimaan, polun kanssa on juttuja
 	dqb "DEBUG:${srat} -xf ${1} "
-	csleep 2
+	csleep 1
 	
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
-		${sah6} -c ${1}.sha
-		csleep 10
+		cat ${1}.sha
+		${sah6} ${1}
+	else
+		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	${srat} -xf ${1}
-	csleep 2
+	csleep 1
+	${srat} -C / -xf ${1} #HUOM.22525:uutena -C
+	csleep 1
 	dqb "tar DONE"
 
-	if [ -x ${2}/../common_lib.sh ] ; then
-		enforce_access ${n}
+	local t
+	t=$(echo ${2} | cut -d '/' -f 1-5)
+
+	if [ -x ${t}/common_lib.sh ] ; then
+		enforce_access ${n} ${t} #${PREFIX} 
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	fi
 
-	csleep 3
+	csleep 1
 	
 	if [ -d ${2} ] ; then 
 		dqb "HAIL UKK"
 
+		#vissiinkin tässä kohtaa common_lib taas käyttöön EIKU
 		${scm} 0755 ${2}
 		${scm} a+x ${2}/*.sh
 		${scm} 0444 ${2}/conf*
 		${scm} 0444 ${2}/*.deb
 
-		csleep 3
+		csleep 1
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las ${2}
-	csleep 3
+	csleep 1
 	dqb "ALL DONE"
 }
 
@@ -189,16 +244,19 @@ case "${mode}" in
 	-1) #jatkossa jokim fiksumpi kuin -1
 		part=/dev/disk/by-uuid/${part0}		
 		[ -b ${part} ] || dqb "no such thing as ${part}"
+		c=$(grep -c ${dir} /proc/mounts)
 
-		${som} -o ro ${part} ${dir}
-		csleep 5
-		${som} | grep ${dir}
+		if [ ${c} -lt 1 ] ; then
+			${som} -o ro ${part} ${dir}
+			csleep 1
+			${som} | grep ${dir}
+		fi
 
 		[ $? -eq 0 ] && echo "NEXT: $0 0 <source> [distro] (unpack AND install) | $0 1 <source> (just unpacks the archive)"
 	;;
 	2)
 		${uom} ${dir}
-		csleep 3
+		csleep 1
 		${som} | grep ${dir}
 
 		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh (maybe)"
@@ -207,29 +265,29 @@ case "${mode}" in
 		[ x"${file}" == "x" ] && exit 44
 		[ -s ${file} ] || exit 55
 
-		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
+		read -p "U R ABT TO EXTRACT ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ]  || exit 33
 		common_part ${file} ${d}
 
-		csleep 3
+		csleep 1
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	0|3)
 		dqb "ZER0 S0UND"
-		csleep 2
+		csleep 1
 
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
-		csleep 2
+		csleep 1
 
 		[ -s ${file} ] || exit 66
 		dqb "${file} IJ"
-		csleep 2
+		csleep 1
 
 		[ z"{distro}" == "z" ] && exit 77
 		dqb " ${3} ${distro} MN"
-		csleep 2
+		csleep 1
 
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
@@ -242,31 +300,33 @@ case "${mode}" in
 		fi
 
 		dqb "c_p_d0n3, NEXT: pp3()"
-		csleep 6
+		csleep 1	
 
 		part3 ${d} ${dnsm}
-		csleep 2
+		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
+		csleep 1
 
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
+		#TODO:voisi olla config.tar purq samassa casessa...JotenKin		
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
-		csleep 2
+		csleep 1
 
 		[ -s ${file} ] || exit 66
 		dqb "${file} IJ"
-		csleep 2
+		csleep 1
 
-		if [ -x ${PREFIX}/profs.sh ] ; then
+		if [ -x ${PREFIX}/profs.sh ] ; then #TODO: ${PREFIX} pois jatqssa?
 			. ${PREFIX}/profs.sh
 			[ $? -gt 0 ] && exit 33
 			
 			dqb "INCLUDE OK"
-			csleep 3
+			csleep 1
 
-			q=$(mktemp -d)
+			q=$(${mkt} -d)
 			${srat} -C ${q} -xvf ${file}
 			imp_prof esr ${n} ${q}
 		else
@@ -281,5 +341,10 @@ case "${mode}" in
 	;;
 esac
 
-chmod 0755 $0
+#ettei umount unohdu
+echo "REMEMBER 2 UNM0UNT TH3S3:"
+grep ${part} /proc/mounts
+grep ${dir} /proc/mounts
+
+${scm} 0755 $0
 #HUOM. tämän olisi kuvakkeen kanssa tarkoitus mennä jatkossa filesystem.squashfs sisälle
