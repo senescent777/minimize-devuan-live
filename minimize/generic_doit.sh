@@ -162,9 +162,6 @@ fi
 
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
-
-#dqb "part2_5 ${removepkgs} ${dnsm}"
-#csleep 3
 part2_5 ${removepkgs} ${dnsm}
 
 #===================================================PART 3===========================================================

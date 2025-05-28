@@ -54,44 +54,7 @@ init
 #https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
 #https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
 #jos nyt olisi tarpeeksi jyrkkää
-#
-#function init2 {
-#	local c
-#	local d
-#	d=0
-#
-#	dqb "common_lib.INIT.2"
-#	csleep 3
-#
-#	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
-#	[ ${c} -gt 0 ] && exit 111
-#	c=$(find /etc -name 'iptab*' -type d -not -user 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 112
-#	c=$(find /etc -name 'iptab*' -type d -not -group 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 113
-#	c=$(find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
-#	[ ${c} -gt 0 ] && exit 114
-#	c=$(find /etc -name 'rules.v*' -type f -not -user 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 115
-#	c=$(find /etc -name 'rules.v*' -type f -not -group 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 116
-#	 
-#	c=$(find /etc -name 'sudoers*' -type d -perm /o+w,o+r,o+x | wc -l)
-#	[ ${c} -gt 0 ] && exit 117
-#	c=$(find /etc -name 'sudoers*' -type d -not -user 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 118
-#	c=$(find /etc -name 'sudoers*' -type d -not -group 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 119
-#	c=$(find /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
-#	[ ${c} -gt 0 ] && exit 120
-#	c=$(find /etc/sudoers.d -type f -not -user 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 121
-#	c=$(find /etc/sudoers.d -type f -not -group 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 122
-#
-#	csleep 2
-#}
-#
+
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -151,38 +114,15 @@ function other_horrors() {
 fix_sudo
 other_horrors
 
-##HUOM.21525.2:tarkistuksia yksinkertaisempi vain pakottaa oikeudet ja omistajat jokatap 
-#if [ ! -v loose ] ; then
-#	init2
-#fi
-
 [ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 csleep 2
 
-#EI SITTEN PERKELE ALETA KIKKAILLA /ETC/IPTABLES/RULES KANSSA
-#ESIM. PASKOJEN TIKKUJEN KANSSA TULEE TÄYSI SIRKUS 666
-# (JA SITTEN ON NE OIKEUDETKIN MITKÄ VOIVAT OLLA PÄIN VITTUA)
-#LISÄKSI PAKETTIIN VOI TULLA KAIKENLAISTA YLIMÄÄRÄISTÄ PASKAA SOTKEMAAN JOS EI OLE TARKKA
-#... tai muut syyt
 function jules() {
 	#HUOM.21525:tällaisella sisällöllä fktio turhahko koska other_horrors
 	dqb "LE BIG MAC"
 	dqb "V8"
 	csleep 2
 
-#
-#	${scm} 0755 /etc/iptables
-#	${scm} 0444 /etc/default/rules*
-#	csleep 2
-#
-#	#HUOM.23535:cp aiheutti nalkutusta
-#	#jatkoss ehdollinen kopsaus?
-#	#cp /etc/default/rules.* /etc/iptables
-#
-#	[ -h /etc/iptables/rules.v4 ] && ${smr} /etc/iptables/rules.v4
-#	[ -L /etc/iptables/rules.v6 ] && ${smr} /etc/iptables/rules.v6 #mikä ero, L vs h ?
-#	
-#	csleep 2
 	other_horrors
 
 	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
@@ -295,7 +235,6 @@ function check_binaries() {
 
 		#HUOM.21525:olisikohan niin simppeli juttu että dpkg seuraa linkkiä ja nollaa tdston mihin linkki osoittaa?
 		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
-		#csleep 3
 
 		ppp3 ${1}
 		pre_part3 ${1} ${dnsm}
@@ -332,7 +271,6 @@ function check_binaries() {
 }
 
 function check_binaries2() {
-#	debug=1
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2()"
 	csleep 1
 
@@ -567,10 +505,6 @@ function e_final() {
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
-	#HUOM.22525:pitäisiköjän olla: a) spc -> svm b) linkitys ?
-	#HUOM. 27525:samaa tehdään toisaalla
-	#[ -f /etc/network/interfaces.${f} ] || ${spc} /etc/network/interfaces /etc/network/interfaces.${f}
-
 	if [ -h /etc/resolv.conf ] ; then
 		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
 			${smr} /etc/resolv.conf
@@ -635,13 +569,10 @@ function part1_5() {
 
 			${svm} ${h}/sources.list.tmp /etc/apt
 		fi
-	#fi
 
 		dqb "p1.5.2()"
 		csleep 1
 
-	#if [ ! -s /etc/apt/sources.list.${t} ] ; then
-		#if [ -s /etc/apt/sources.list.tmp ] ; then
 			#HUOM.22525:vaikuttaisi jopa toimivan, seur forWardointi sh:lle
 			local tdmc
 	
@@ -661,7 +592,7 @@ function part1_5() {
 
 			dqb "finally"
 			csleep 1
-		#fi
+		
 	fi
 
 	${sco} -R root:root /etc/apt
@@ -838,9 +769,6 @@ function part2_5() {
 		${sharpy} libblu* libcupsfilters* libgphoto* #tartteeko vielä?
 		${lftr}
 
-#		${sharpy} blu* #pitäisi bluez poistua nykyään part175_list kautta
-#		${lftr}
-
 		${sharpy} pkexec po* #jos järjestys merkitsee
 		${lftr}
 		${sharpy} python3-cups
@@ -936,13 +864,13 @@ function part3_4real() {
 #HUOM.25525: mikä juttu olikaan tuon $2 kanssa? mihin tarv8taan?
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
 function part3() {
-	dqb "part3 ${1}"
+	dqb "part3 ${1} ${2}"
 	csleep 1
 	jules
 	ppp3 ${1}
 
-	pre_part3 ${1} ${dnsm} #jatkossa dnsm->2
-	pr4 ${1} #${2}
+	pre_part3 ${1} ${2} #jatkossa dnsm->2
+	pr4 ${1}
 	part3_4real ${1}
 
 	other_horrors
@@ -961,78 +889,76 @@ function t2pc() {
 	dqb "common_lib.t2p_common()"
 	csleep 3
 
-	${sharpy} amd64-microcode at-spi2-core #ei
+	${sharpy} amd64-microcode at-spi2-core
 	t2p_filler
 
-	${sharpy} bubblewrap coinor* cryptsetup* #ei
+	${sharpy} bubblewrap coinor* cryptsetup*
 	t2p_filler
 
-	${sharpy} debian-faq dirmngr discover* doc-debian #ei
+	${sharpy} debian-faq dirmngr discover* doc-debian
 	t2p_filler
 
 	#miten dmsetup ja libdevmapper?
-
-	${sharpy} docutils* dosfstools efibootmgr exfalso #ei
+	${sharpy} docutils* dosfstools efibootmgr exfalso
 	t2p_filler
 
 	#tikkujen kanssa paska tdstojärjestelmä exfat
-	${sharpy} exfatprogs fdisk ftp* gcr #ei
+	${sharpy} exfatprogs fdisk ftp* gcr
 	t2p_filler
 
 	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
 	t2p_filler
 
-	${sharpy} gpgsm gpg-agent gpg #ei poistu lingtk3?
+	${sharpy} gpgsm gpg-agent gpg
 	t2p_filler
 
 	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta kun xcalibur
 	#${sharpy} grub* 
-	${sharpy} gstreamer* #libgs poist alempana #libgtk3 ei poistu
+	${sharpy} gstreamer* #libgs poist alempana
 	t2p_filler
 
-	${sharpy} htop inetutils-telnet intel-microcode isolinux #ei poista libgtk3
+	${sharpy} htop inetutils-telnet intel-microcode isolinux
 	t2p_filler
 
-	${sharpy} libreoffice* #ei poist libgtk3
+	${sharpy} libreoffice*
 	t2p_filler
 
 	#xcaliburissa ao. paketteja ei tässä vaiheesas jäljellä?
 	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
 	t2p_filler
 
-	${sharpy} lvm2 lynx* mail* #miten mariadb-common? #lingtk3 ei poistu
+	${sharpy} lvm2 lynx* mail* #miten mariadb-common?
 	t2p_filler
 
 	#excalibur ei sisällä?
 	${sharpy} mlocate modem* mtools mythes*
 	t2p_filler
 
-	${sharpy} netcat-traditional openssh* #ei poista libgtk3
+	${sharpy} netcat-traditional openssh*
 	t2p_filler
 
 	${sharpy} parted pavucontrol #libgtk3 ei poistu, libgtk4 kyllä
 	t2p_filler
 
-	${sharpy} ppp plocate pciutils procmail #libgtk3 ei poistu
+	${sharpy} ppp plocate pciutils procmail
 	t2p_filler
 
-	${sharpy} ristretto screen #libgtk3 ei poistu
+	${sharpy} ristretto screen
 	t2p_filler
 
-	${sharpy} shim* speech* syslinux-common #libgtk3 ei poistu
+	${sharpy} shim* speech* syslinux-common
 	t2p_filler
 
-	${sharpy} tex* tumbler* #libgtk3 ei poistu
+	${sharpy} tex* tumbler*
 	t2p_filler
 
-	${sharpy} vim* #libgtk3 ei poistu
+	${sharpy} vim*
 	t2p_filler
 
 	#miten nämä? poistuuko?
 	${sharpy} xorriso xz-utils xfburn xarchiver # yad ei ole kaikissa distr
 	#xfce*,xorg* off limits
 	t2p_filler
-	#poistuiko tässäkään:libgtk3?	
 
 	dpkg -l x*
 	csleep 3
