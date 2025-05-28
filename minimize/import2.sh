@@ -4,7 +4,7 @@ file=""
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 dir=/mnt
 part0=ABCD-1234
-PREFIX=~/Desktop/minimize
+PREFIX=~/Desktop/minimize #dirname?
 mode=-2
 loose=1
 
@@ -81,7 +81,7 @@ else
 	#HUOM.23525:vaikuttaisi toimivan tarkistus "leikki-fktiossa"
 	#HUOM.26525:tämä versio part3:sesta sikäli turha että common_lib urputtaa koska sha512sums muttei deb
 	function part3() {
-		dqb "imp32.part3( ${1} ${2} )"
+		dqb "NOT SUPPORTED"
 #		csleep 1
 #
 #		dqb "cd ${1}"
@@ -111,8 +111,10 @@ else
 	#kutsutaanko tätä? no yhdestä kohdasta ainakin
 	function other_horrors() {
 		dqb "AZATHOTH AND OTHER HORRORS"
+
 		#HUOM. /e/i tarvitsisi kirjoitusokeude että onnaa
 		#${spc} /etc/default/rules.* /etc/iptables #takaisin jos pykii 
+	
 		${scm} 0400 /etc/iptables/*
 		${scm} 0550 /etc/iptables
 		${sco} -R root:root /etc/iptables
@@ -235,7 +237,6 @@ function common_part() {
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-5)
 
-	#HUOM.25525:josko cut parempi, syystä excalibur/ceres (VAIH)
 	if [ -x ${t}/common_lib.sh ] ; then
 		enforce_access ${n} ${PREFIX} #$t jatkossa?
 		dqb "running changedns.sh maY be necessary now to fix some things"
@@ -262,10 +263,6 @@ function common_part() {
 
 case "${mode}" in
 	-1) #jatkossa jokim fiksumpi kuin -1
-		#VAIH:muutoksia wrapper.sh liittyen?
-		#HUOM.23525:vaikuttaisi jo toimivan imp2 ilmankin common_lib
-		#(no sitq huvittaa niin voi koklata s.e. kirjastot kopsattu uudelle nimelle)
-
 		part=/dev/disk/by-uuid/${part0}		
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 		c=$(grep -c ${dir} /proc/mounts)

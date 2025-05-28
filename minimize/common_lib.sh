@@ -36,7 +36,7 @@ function init() {
 	NKVD="${odio} ${NKVD} "
 
 	#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
-	PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby ntp" #ntp jemmaan?
+	PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
 
 	sdi=$(${odio} which dpkg)
 	spd="${odio} ${sdi} -l " #käytössä?
@@ -610,6 +610,7 @@ function enforce_access() {
 
 #HUOM.25525:cut tähän tai kutsUvaan koodiin koska xcalibur/ceres
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
+#https://github.com/topics/sources-list
 function part1_5() {
 	dqb "part1_5( ${1} )"
 	csleep 1
