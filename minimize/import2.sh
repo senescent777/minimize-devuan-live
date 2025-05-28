@@ -42,7 +42,7 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-if [ -x ${PREFIX}/common_lib.sh ] ; then
+if [ -x ${PREFIX}/common_lib.sh ] ; then #dirname?
 	. ${PREFIX}/common_lib.sh
 else
 	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston"
@@ -136,12 +136,12 @@ else
 fi
 
 [ -z ${distro} ] && exit 6
-distro=$(echo ${distro} | cut -d '/' -f 1) #missä kohtaa tämä pitäisi tehdä?
+#distro=$(echo ${distro} | cut -d '/' -f 1) #missä kohtaa tämä pitäisi tehdä?
 
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "file=${file}"
-d=${PREFIX}/${distro}
+d=${PREFIX}/${distro} #dirname?
 mkt=$(${odio} which mktemp)
 
 if [ x"${mkt}" == "x" ] ; then
@@ -153,7 +153,7 @@ fi
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
 else #joutuukohan else-haaran muuttamaan jatkossa?
-	echo "CONF MISSING"
+	echo "CONF ( ${d}/conf ) MISSING"
 	exit 56
 fi
 
@@ -176,7 +176,7 @@ else
 		dqb "imp2.pre_part3( \${1} \${2})"
 	}
 
-	check_binaries ${PREFIX}/${distro}
+	check_binaries ${d} #${PREFIX}/${distro}
 	echo $?
 	[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia? ei kai enää
 	
@@ -238,7 +238,7 @@ function common_part() {
 	t=$(echo ${2} | cut -d '/' -f 1-5)
 
 	if [ -x ${t}/common_lib.sh ] ; then
-		enforce_access ${n} ${PREFIX} #$t jatkossa?
+		enforce_access ${n} ${t} #${PREFIX} 
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	fi
 
@@ -286,7 +286,7 @@ case "${mode}" in
 		[ x"${file}" == "x" ] && exit 44
 		[ -s ${file} ] || exit 55
 
-		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
+		read -p "U R ABT TO EXTRACT ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ]  || exit 33
 		common_part ${file} ${d}
 
@@ -340,7 +340,7 @@ case "${mode}" in
 		dqb "${file} IJ"
 		csleep 1
 
-		if [ -x ${PREFIX}/profs.sh ] ; then
+		if [ -x ${PREFIX}/profs.sh ] ; then #TODO: ${PREFIX} pois jatqssa
 			. ${PREFIX}/profs.sh
 			[ $? -gt 0 ] && exit 33
 			

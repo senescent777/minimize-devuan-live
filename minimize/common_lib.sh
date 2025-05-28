@@ -675,8 +675,51 @@ function part1_5() {
 	csleep 1
 }
 
+#oli aiemmin osa part1:stä
+function dis() {
+	dqb "CHAMBERS OF DIS"
+	csleep 1
+	
+	#jos jokin näistä kolmesta hoitaisi homman...
+	${scm} 0755 /etc/network
+	${sco} root:root /etc/network
+
+	#linkkien nimiin ei tarvitse päiväystä
+	if [ -f /etc/network/interfaces ] ; then
+		if [ ! -h /etc/network/interfaces ] ; then
+			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
+		fi
+	fi
+
+	local t
+	t=$(echo ${1} | cut -d '/' -f 1)
+
+	if [ -f /etc/network/interfaces.${t} ] ; then
+		dqb "LINKS-1-2-3"
+		${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
+		csleep 1
+	fi
+
+	${scm} 0555 /etc/network
+	csleep 1
+
+	${odio} ${sifd} ${iface}
+	csleep 1
+	${odio} ${sifd} -a
+	csleep 1
+
+	[ ${debug} -eq 1 ] && ${sifc};sleep 2
+
+	dqb "${sip} link set ${iface} down"
+	${sip} link set ${iface} down
+	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+	csleep 1
+	
+	${odio} sysctl -p #/etc/sysctl.conf
+}
+
 #HUOM.25525:xcalibur/ceres-jutun takia tähän joutuisi laittamaan cut mukaan
-#HUOM.27525:paskooko tämä myös excaliburin kanssa äksään kirjautumisen?
+#HUOM.27525:paskooko tämä myös excaliburin kanssa äksään kirjautumisen? ehkä se se 076 kuitenkin
 
 function part1() {
 	dqb "PART1( ${1} )"
@@ -684,7 +727,6 @@ function part1() {
 
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
 	csleep 1
-	#jos jokin näistä kolmesta hoitaisi homman...
 
 	if [ y"${ipt}" == "y" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
@@ -742,45 +784,13 @@ function part1() {
 }
 
 #HUOM.27525:ifdownin kanssa oli valitusta, sudo mukaan
+#HUOM.28525:ntp pitäisi nyt sammuttaa eri tavalla q aiemmin (TODO)
 function part076() {
 	dqb "FART076( ${1})"
 	csleep 1
 
-	${scm} 0755 /etc/network
-	${sco} root:root /etc/network
-
-	#linkkien nimiin ei tarvitse päiväystä
-	if [ -f /etc/network/interfaces ] ; then
-		if [ ! -h /etc/network/interfaces ] ; then
-			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
-		fi
-	fi
-
-	local t
-	t=$(echo ${1} | cut -d '/' -f 1)
-
-	if [ -f /etc/network/interfaces.${t} ] ; then
-		dqb "LINKS-1-2-3"
-		${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
-		csleep 1
-	fi
-
-	${scm} 0555 /etc/network
-	csleep 1
-
-	${odio} ${sifd} ${iface}
-	csleep 1
-	${odio} ${sifd} -a
-	csleep 1
-
-	[ ${debug} -eq 1 ] && ${sifc};sleep 2
-
-	dqb "${sip} link set ${iface} down"
-	${sip} link set ${iface} down
-	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
-	csleep 1
-	
-	${odio} sysctl -p #/etc/sysctl.conf
+	#VAIH:verkkoyhteyden sammuttelu omaksi fktioksi jatkossa
+	dis
 	local s
 
 	for s in ${PART175_LIST} ; do
@@ -791,7 +801,8 @@ function part076() {
 			csleep 1
 		done
 
-		#${whack} ${s}* #HUOM.28525:tilap. jemmaan jotta EHKÄ selviäisi mikä sössii excaliburin äksän
+		#HUOM.28525:ao. rivi ei vissiin sössi asioita, syyllinen saattaa löytyä ylempää
+		${whack} ${s}*
 	done
 
 	dqb "alm0st d0n3"

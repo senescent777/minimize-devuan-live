@@ -1,7 +1,7 @@
 #!/bin/bash
 debug=0 #1
 tgtfile=""
-distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.23525:tarpeellinen tässä nykyään?
+distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa
 PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd #tai dirname?
 mode=-2
 loose=1
@@ -158,7 +158,7 @@ fi
 
 function usage() {
 	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
-	echo "$0 3 <tgtfile> [distro] [-v]: makes the main pkg (old way)"
+	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
 	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
 	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
 	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \${PREFIX}/\${distro}"
@@ -421,7 +421,7 @@ function tp4() {
 	tcdd=$(cat /etc/devuan_version)
 	t2=$(echo ${2} | cut -d '/' -f 6)
 	
-	if [ ${tcdd} != ${t2} ] ; then #20525:mnnee vissiin vahingossa tähän?
+	if [ ${tcdd} != ${t2} ] ; then
 		dqb "XXX"
 		csleep 1
 		shary="${odio} ${sag} install --download-only "
@@ -432,11 +432,13 @@ function tp4() {
 	${asy}
 	csleep 1
 
-	#TODO:jos sen debian.ethz.ch huomioisi jtnkin
+	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
+	${shary} nft #jatkossa udp6:sessa?
+
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
-	${shary} iptables #se ympäristömuuttuja-jekku tähän vai ei?
+	${shary} iptables #mitä ymp. mja - jekkuja tähän oli ajateltu?
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 	#https://pkgs.org tai https://debian.ethz.ch myös olemassa
 
@@ -485,7 +487,7 @@ function tp4() {
 	case ${iface} in
 		wlan0)
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-			#toivottavasti ei libdbus sotke mitään ${shary} libdbus-1-3 toistaiseksi jemmaan 280425
+			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
 
 			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3 adduser
 			${shary} wpasupplicant
@@ -501,7 +503,7 @@ function tp4() {
 		pwd
 		csleep 1
 
-		${NKVD} ${2}/*.deb	#pitäisikö tässä olla se polkum ukana?
+		${NKVD} ${2}/*.deb
 		csleep 1		
 		${svm} ${pkgdir}/*.deb ${2}
 		rmt ${1} ${2}
@@ -800,7 +802,7 @@ case ${mode} in
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
 		pre2 ${d}
-		tp5 ${tgtfile} ${PREFIX}
+		tp5 ${tgtfile} ${PREFIX} #PREFIX vähemmäkke jatkossa?
 	;;
 	e)
 		pre2 ${d}
