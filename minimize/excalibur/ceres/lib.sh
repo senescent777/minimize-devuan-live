@@ -2,6 +2,7 @@
 #TODO:ntp:n siirtäminen distro-spesifisiin fktioihin?
 PART175_LIST="avahi blue cups exim4 nfs network mdadm"
 
+#TODO:ne xcalib omat paketit asentaen koska: "iptables: Failed to initialize nft: Protocol not supported"
 function pre_part3() {
 	dqb "xc.pp3( ${1} , ${2} )"
 	csleep 1
@@ -20,7 +21,7 @@ function pre_part3() {
 	sudo rm ~/Desktop/minimize/daedalus/iptables_*.deb
 	csleep 1
 
-	#...kunnes saa export2 toimimaan
+	#näin mennään kunnes saa export2 toimimaan
 	dqb "xc.pp3.d0n3()"
 	csleep 1
 }
@@ -38,27 +39,32 @@ function udp6() {
 }
 
 #joskohan näiden jälkeen on excalibur vielä hengissä?
+#HUOM.28525.1:hengissä, mutta vähän liikaa leikattuna vissiin
+#tämmöistäkin tuli:"ERROR: ld.so: object 'libgtk3-nocsd.so.0' from LD_PRELOAD cannot be preloaded "
+#kokeeksi kommentoidaan jlkimmäinen puoli, ainakin osa, jotta selviäisi missä kosahtaa
 function t2p() {
 	debug=1
 
-	dqb "VAIH"
+	dqb "XC.T2P (VAIH)"
 	${sharpy} arch-test debootstrap dmsetup dracut-install
 	t2p_filler
 
-	${sharpy} fuse3 gir* grub* gsettings* gstreamer*
+	#HUOM.28525:a) grubiin liitt. nalkutukset b) ainakin osa noista pitäisi poistua jo aiemmin
+	${sharpy} fuse3 gir* gsettings* gstreamer* # grub*
 	t2p_filler
 
-	#mitä tekee luit? entä libngtcp2? ocl-icd-jotain ?
+#	#mitä tekee luit? entä libngtcp2? ocl-icd-jotain ?
+#HUOM.28525.2:sallitaan seuraavaksi l-juttujen poisto
 	${sharpy} libgstreamer* libgssapi* lm-sensors ocl-icd*
 	t2p_filler
 
-	${sharpy} mc* mythes* os-prober rsync
-	t2p_filler
-
-	${sharpy} squashfs-tools upower w3m wget
-	t2p_filler
-
-	dqb "XC.T2PC.DONE"
+#	${sharpy} mc* mythes* os-prober rsync
+#	t2p_filler
+#
+#	${sharpy} squashfs-tools upower w3m wget
+#	t2p_filler
+#
+	dqb "XC.T2P.DONE"
 	csleep 1
 }
 
