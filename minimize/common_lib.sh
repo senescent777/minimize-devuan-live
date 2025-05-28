@@ -609,8 +609,9 @@ function enforce_access() {
 }
 
 #HUOM.25525:cut tähän tai kutsUvaan koodiin koska xcalibur/ceres
+#tavoitetila dokumentoituna: https://www.devuan.org/os/packages
 function part1_5() {
-	dqb "part1_5()"
+	dqb "part1_5( ${1} )"
 	csleep 1
 	local t
 
@@ -670,6 +671,7 @@ function part1_5() {
 
 #HUOM.25525:xcalibur/ceres-jutun takia tähän joutuisi laittamaan cut mukaan
 #HUOM.27525:paskooko tämä myös excaliburin kanssa äksään kirjautumisen?
+
 function part1() {
 	dqb "PART1( ${1} )"
 	csleep 3
@@ -819,7 +821,7 @@ function part2_5() {
 		${sharpy} libblu* libcupsfilters* libgphoto* #tartteeko vielä?
 		${lftr}
 
-#		${sharpy} blu* #pitäisi bluez poistua tällä
+#		${sharpy} blu* #pitäisi bluez poistua nykyään part175_list kautta
 #		${lftr}
 
 		${sharpy} pkexec po* #jos järjestys merkitsee
