@@ -1,27 +1,44 @@
 #koitetaanpa jyrätä tämä aiempi määrittely (ntp kusi)
-#TODO:ntp:n siirtäminen distro-spesifisiin fktioihin?
+#VAIH:ntp:n siirtäminen distro-spesifisiin fktioihin?
 PART175_LIST="avahi blue cups exim4 nfs network mdadm"
 
-#TODO:ne xcalib omat paketit asentaen koska: "iptables: Failed to initialize nft: Protocol not supported"
+function efk() {
+	${sdi} ${1} #$@ pikemminkin
+	[ $? -eq 0 ] && ${smr} ${1}
+}
+
+#VAIH:ne xcalib omat paketit asentaen koska: "iptables: Failed to initialize nft: Protocol not supported"
 function pre_part3() {
 	dqb "xc.pp3( ${1} , ${2} )"
 	csleep 1
 
-	#VAIH
-	sudo dpkg -i ~/Desktop/minimize/daedalus/libip*.deb
-	sudo rm ~/Desktop/minimize/daedalus/libip*.deb
+
+#	sudo dpkg -i ~/Desktop/minimize/daedalus/libip*.deb
+#	sudo rm ~/Desktop/minimize/daedalus/libip*.deb
+#	csleep 1
+#
+#	sudo dpkg -i ~/Desktop/minimize/daedalus/libxtables12_1.8.9-2_amd64.deb 
+#	sudo rm ~/Desktop/minimize/daedalus/libxtables12_1.8.9-2_amd64.deb 
+#	csleep 1
+#
+#	sudo dpkg -i ~/Desktop/minimize/daedalus/iptables_*.deb
+#	sudo rm ~/Desktop/minimize/daedalus/iptables_*.deb
+#	csleep 1
+#
+#	#näin mennään kunnes saa export2 toimimaan tai siis...
+
+	sudo dpkg -i ${1}/libip*.deb
+	[ $? -eq 0 ] && sudo rm {1}/libip*.deb
 	csleep 1
 
-	#TODO:se efk()
-	sudo dpkg -i ~/Desktop/minimize/daedalus/libxtables12_1.8.9-2_amd64.deb 
-	sudo rm ~/Desktop/minimize/daedalus/libxtables12_1.8.9-2_amd64.deb 
+	sudo dpkg -i ${1}/libxtables12_1.8.9-2_amd64.deb 
+	[ $? -eq 0 ] && sudo rm ${1}/libxtables12_1.8.9-2_amd64.deb 
 	csleep 1
 
-	sudo dpkg -i ~/Desktop/minimize/daedalus/iptables_*.deb
-	sudo rm ~/Desktop/minimize/daedalus/iptables_*.deb
+	sudo dpkg -i ${1}/iptables_*.deb 
+	[ $? -eq 0 ] && sudo rm ${1}/iptables_*.deb
 	csleep 1
 
-	#näin mennään kunnes saa export2 toimimaan
 	dqb "xc.pp3.d0n3()"
 	csleep 1
 }
