@@ -119,20 +119,18 @@ function t2p() {
 	${sharpy} atril* #daedaluksess poistui aiemmin
 	${lftr}
 	${sharpy} bc bluez #daed
-	#bluezin saisi aikaisemminkin pois, art2_5...
 	t2p_filler
 
 	#dconf,debconf off limits
-
 	#HUOM. miten gdisk, löytyykö?
 	${sharpy} ghostscript #ei daed
 
 	#gnome* , gpg* off limits , gnupg* ei löydy
-
 	${sharpy} gparted* #daud ei löydy
 	t2p_filler
 	
 	#gsettings-desktop-schemas off limits
+	${sharpy} grub* #HUOM.28525:syystä excalibur prujattu tähän
 	${sharpy} gsasl-common #eilöydy d
 	${sharpy} gsfonts* #eilöydy
 	t2p_filler
