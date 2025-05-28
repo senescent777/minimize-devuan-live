@@ -8,6 +8,9 @@ function efk() {
 }
 
 #VAIH:ne xcalib omat paketit asentaen koska: "iptables: Failed to initialize nft: Protocol not supported"
+#https://superuser.com/questions/1480986/iptables-1-8-2-failed-to-initialize-nft-protocol-not-supported
+#https://hatchjs.com/iptables-1-8-7-failed-to-initialize-nft-protocol-not-supported/
+#elikkäs update-alternatives vaikka kokeillen ensin
 function pre_part3() {
 	dqb "xc.pp3( ${1} , ${2} )"
 	csleep 1
@@ -27,7 +30,7 @@ function pre_part3() {
 #	#näin mennään kunnes saa export2 toimimaan tai siis...
 
 	#jatkossa ne ympäristömjat ja muut leikit
-	#... tai vielä tärkempi ensin: SELVITÄ ONKO IPTABLES EDES MUODISSA TÄLLÄ VIIKOLLA VAI MITÄ VITTUA
+	#... tai vielä tärkempi ensin: SELVITÄ ONKO IPTABLES EDES MUODISSA TÄLLÄ VIIKOLLA VAI MITÄ VITTUA?
 	#koskapa "iptables: Failed to initialize nft: Protocol not supported"
 	
 	sudo dpkg -i ${1}/libip*.deb
@@ -43,6 +46,10 @@ function pre_part3() {
 	[ $? -eq 0 ] && sudo rm ${1}/libnftnl*.deb
 	csleep 1
  
+	sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
+	sudo update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
+	#vissiin tuo ei riitä, jotain muutakin yarttis tehrä
+
 	sudo dpkg -i ${1}/iptables_*.deb 
 	[ $? -eq 0 ] && sudo rm ${1}/iptables_*.deb
 	csleep 1
@@ -63,11 +70,6 @@ function udp6() {
 	#TODO
 }
 
-#joskohan näiden jälkeen on excalibur vielä hengissä?
-#HUOM.28525.1:hengissä, mutta vähän liikaa leikattuna vissiin
-#tämmöistäkin tuli:"ERROR: ld.so: object 'libgtk3-nocsd.so.0' from LD_PRELOAD cannot be preloaded "
-#toisella yrittämällä edelleen, joko eka rivi tai t2pc()
-#... josko yrittäisi estää pak. libgtk3 poistumisen t2pc():ssä
 function t2p() {
 	debug=1
 
