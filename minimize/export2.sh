@@ -4,9 +4,7 @@ tgtfile=""
 distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa
 PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd #tai dirname?
 mode=-2
-loose=1
-
-#ehkä joutuu tässä vielä includoimaan $distro/conf
+loose=1 #turha nykyään
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -93,6 +91,7 @@ else
 	function other_horrors() {
 		dqb "AZATHOTH AND OTHER HORRORS"
 		#${spc} /etc/default/rules.* /etc/iptables #tartteeko tuota enää 27525?
+
 		${scm} 0400 /etc/iptables/*
 		${scm} 0550 /etc/iptables
 		${sco} -R root:root /etc/iptables
@@ -116,9 +115,6 @@ else
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
 fi
-
-#tässä vai vielä aiemmin? excalib tapauksessa voi mennä jopa pieleen noin
-#distro=$(echo ${distro} | cut -d '/' -f 1)
 
 [ -z ${distro} ] && exit 6
 d=${PREFIX}/${distro}
@@ -204,7 +200,7 @@ function pre1() {
 		dqb "5TNA"
 
 		n=$(whoami)
-		enforce_access ${n} ${PREFIX}
+		enforce_access ${n} ${PREFIX} #voisiko prefix:in poistaa jatkossa? $1 tilalle?
 		csleep 1
 
 		#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres (TODO:testaa)
@@ -332,7 +328,6 @@ function tp1() {
 }
 
 #HUOM.23525:josko nyt vähän fiksummin toimisi
-#testattu "$0 0" uloste 24525, muuten kai toimi mutta pt2
 function rmt() {
 	debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
@@ -802,7 +797,7 @@ case ${mode} in
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
 		pre2 ${d}
-		tp5 ${tgtfile} ${PREFIX} #PREFIX vähemmäkke jatkossa?
+		tp5 ${tgtfile} ${PREFIX} #PREFIX vähemmäLLe jatkossa?
 	;;
 	e)
 		pre2 ${d}

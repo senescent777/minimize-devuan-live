@@ -456,7 +456,7 @@ function e_v() {
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
 
-	dqb "V0N D00m"
+	dqb "V1C.V0N.D00m"
 	csleep 1
 }
 
@@ -534,7 +534,7 @@ function enforce_access() {
 	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
-	e_h ${1} ${2} #PREFIX}
+	e_h ${1} ${2}
 	e_final
 
 	jules
@@ -545,7 +545,7 @@ function enforce_access() {
 #HUOM.25525:cut tähän tai kutsUvaan koodiin koska xcalibur/ceres
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
 #myös https://github.com/topics/sources-list
-#TODO:debian.ethz.ch voisi jotenkin huomioida
+#TODO:debian.ethz.ch voisi jotenkin huomioida?
 function part1_5() {
 	dqb "part1_5( ${1} )"
 	csleep 1
@@ -861,7 +861,6 @@ function part3_4real() {
 	csleep 1
 }
 
-#HUOM.25525: mikä juttu olikaan tuon $2 kanssa? mihin tarv8taan?
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
 function part3() {
 	dqb "part3 ${1} ${2}"
@@ -869,7 +868,9 @@ function part3() {
 	jules
 	ppp3 ${1}
 
-	pre_part3 ${1} ${2} #jatkossa dnsm->2
+	#TODO:pp3 jatkossa mankeloimaan $2 jos ei tämä fktio sitä tee
+	pre_part3 ${1} ${2}
+
 	pr4 ${1}
 	part3_4real ${1}
 

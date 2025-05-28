@@ -82,26 +82,6 @@ else
 	#HUOM.26525:tämä versio part3:sesta sikäli turha että common_lib urputtaa koska sha512sums muttei deb
 	function part3() {
 		dqb "NOT SUPPORTED"
-#		csleep 1
-#
-#		dqb "cd ${1}"
-#		cd ${1}
-#		csleep 1
-#
-#		dqb "${sah6} -c ./sha512sums.txt"
-#		${sah6} -c ./sha512sums.txt
-#
-#		if [ $? -eq 0 ] ; then
-#			csleep 1
-#
-#			${odio} dpkg -i ./lib*.deb
-#			${NKVD} ./lib*.deb
-#			${odio} dpkg -i ./*.deb
-#			${NKVD} ./*.deb
-#
-#			${NKVD}  ./sha512sums.txt
-#			dqb "U MAY NOW ${scm} a+x ${1}/../common_lib.sh"
-#		fi
 	}
 
 	function ppp3() {
@@ -136,7 +116,6 @@ else
 fi
 
 [ -z ${distro} ] && exit 6
-#distro=$(echo ${distro} | cut -d '/' -f 1) #missä kohtaa tämä pitäisi tehdä?
 
 dqb "mode=${mode}"
 dqb "distro=${distro}"
@@ -176,7 +155,7 @@ else
 		dqb "imp2.pre_part3( \${1} \${2})"
 	}
 
-	check_binaries ${d} #${PREFIX}/${distro}
+	check_binaries ${d}
 	echo $?
 	[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia? ei kai enää
 	
@@ -205,7 +184,7 @@ csleep 1
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
 
 #glorified "tar -x" this function is - Yoda
-#vaikuttaisi toimivan enforce()-muutoksen jälkeenkin
+#uuden enf_acc-muutoksen takia joutuisi uudelleen testaamaan
 function common_part() {
 	debug=1
 
@@ -340,7 +319,7 @@ case "${mode}" in
 		dqb "${file} IJ"
 		csleep 1
 
-		if [ -x ${PREFIX}/profs.sh ] ; then #TODO: ${PREFIX} pois jatqssa
+		if [ -x ${PREFIX}/profs.sh ] ; then #TODO: ${PREFIX} pois jatqssa?
 			. ${PREFIX}/profs.sh
 			[ $? -gt 0 ] && exit 33
 			
