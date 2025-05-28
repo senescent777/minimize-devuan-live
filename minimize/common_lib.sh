@@ -295,12 +295,13 @@ function check_binaries2() {
 	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
 	sag_u="${odio} ${sag} update "
 	sag="${odio} ${sag} "
+
 	sa="${odio} ${sa} "
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
 	
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
-	
+
 	srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
 	fib="${odio} ${sa} --fix-broken install "
@@ -433,6 +434,7 @@ function e_e() {
 	dqb "e_e()"	
 	csleep 1
 	fix_sudo
+
 	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
 
 	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do

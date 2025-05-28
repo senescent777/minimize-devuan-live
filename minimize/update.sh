@@ -121,6 +121,7 @@ if [ -f ${tgt} ] ; then
 	${sco} $(whoami):$(whoami) ${tgt}.sha
 	sha512sum ${tgt} > ${tgt}.sha
 	sha512sum -c ${tgt}.sha
+
  	
 	echo "DONE UPDATING"
 	sleep 2
@@ -139,3 +140,4 @@ fi
 
 echo "LEST WE FORGET:"
 grep ${dir} /proc/mounts
+

@@ -23,6 +23,7 @@ mode=${1}
 
 #function init2 {
 #	local c
+
 #	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
 #	[ ${c} -gt 0 ] && exit 111
 #	c=$(find /etc -name 'iptab*' -type d -not -user 0 | wc -l)

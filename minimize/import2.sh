@@ -103,7 +103,7 @@ else
 		${sco} -R root:root /etc/default
 	}
 
-
+	#TODO;tähän sitten se common_lib.init2?
 	dqb "FALLBACK"
 	dqb "${scm} may be a good idea now"
 	prevopt=""
