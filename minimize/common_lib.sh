@@ -965,8 +965,8 @@ function t2pc() {
 	${sharpy} gpgsm gpg-agent gpg
 	t2p_filler
 
-	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta
-	${sharpy} grub* 
+	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta kun xcalibur
+	#${sharpy} grub* 
 	${sharpy} gstreamer* #libgs poist alempana
 	t2p_filler
 

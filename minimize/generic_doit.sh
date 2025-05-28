@@ -71,7 +71,7 @@ csleep 2
 
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce 
-enforce_access ${n} ${PREFIX} #HUOM.28525:menisi vähän pieleen jo part076 kohdalla 
+enforce_access ${n} ${PREFIX} #HUOM.28525:menisi vähän pieleen jo part076 kohdalla kun xcalib
 
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
