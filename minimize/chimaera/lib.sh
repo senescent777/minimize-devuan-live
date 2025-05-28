@@ -1,6 +1,7 @@
 #=================================================PART 0=====================================
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
+#katkossa tlbs-asentelu -> common_lib?
 function pre_part3() {
 	dqb "ch1m.pp3( ${1} , ${2} )"
 	csleep 1
@@ -31,10 +32,10 @@ function pre_part3() {
 
 	s=$(${odio} which iptables-restore)
 	t=$(${odio} which ip6tables-restore)
-	u=${2}
+	u=${2} #tr-jekku jatkossa
 
-	${odio} ${s} /etc/iptables/rules.v4.${u} #dnsm}
-	${odio} ${t} /etc/iptables/rules.v6.${u} #dnsm}
+	${odio} ${s} /etc/iptables/rules.v4.${u}
+	${odio} ${t} /etc/iptables/rules.v6.${u}
 	csleep 5
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
