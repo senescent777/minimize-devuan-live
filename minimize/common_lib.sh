@@ -1060,6 +1060,16 @@ function t2pf() {
 	${odio} which dhclient; ${odio} which ifup; csleep 6
 }
 
+function efk() {
+	${sdi} ${1} #$@ pikemminkin
+	[ $? -eq 0 ] && ${smr} ${1}
+}
+
+#tähän tablesin asentelu jatkossa?
+funtion common_tbls() {
+	dqb "UNDER CONSTRUCTION"
+}
+
 #HUOM.voisi -v käsitellä jo tässä
 function gpo() {
 	dqb "GPO"
