@@ -156,6 +156,7 @@ function t2p() {
 	#mawk off limits, mdadm ei löytynyt, mokutil ei, mobile ei, mutt ei, mysql ei
 
 	#node* ei löydy, notification* ei löydy, orca ei, os-prober ei
+	${sharpy} ntp* #HUOM.280525:excalibur-syistä siirretty tähän
 	${sharpy} ntfs-3g #tilassa rc
 	t2p_filler
 
