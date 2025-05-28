@@ -615,6 +615,7 @@ function part1_5() {
 	csleep 1
 	local t
 
+	#HUOM.28525:pitäisiköhän tilap. sallia /e/a sorkinta tässä?
 	t=$(echo ${1} | cut -d '/' -f 1) #jos tämä riittäisi toistaiseksi
 
 	if [ ! -s /etc/apt/sources.list.${t} ] ; then
@@ -721,7 +722,7 @@ function part1() {
 		fi
 	fi
 
-	#nyt varmaankin joutuu linkitysjutut kopsailemaan muuallekin vai joutuuko?
+	#nyt varmaankin joutuu linkitysjutut kopsailemaan muuallekin vai joutuuko? no joutuu
 	part1_5 ${t}
 
 	if [ ! -f /etc/apt/sources.list ] ; then

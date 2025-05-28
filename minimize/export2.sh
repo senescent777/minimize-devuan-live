@@ -189,7 +189,7 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 2
 
-#TODO:enrofce():n muutosten sivuvaikutukset
+#VAIH:enrofce():n muutosten sivuvaikutukset
 function pre1() {
 	debug=1
 	dqb "pre1( ${1} )"
@@ -211,6 +211,9 @@ function pre1() {
 		local ortsac
 		ortsac=$(echo ${1} | cut -d '/' -f 6)
 
+		${scm} 0755 /etc/apt
+		${scm} a+w /etc/apt/sources.list*
+
 		if [ -s /etc/apt/sources.list.${ortsac} ] ; then
 			${smr} /etc/apt/sources.list #vähän jyrkkää mutta
 		else
@@ -218,9 +221,18 @@ function pre1() {
 			part1_5 ${ortsac}
 		fi
 
-		${slinky} /etc/apt/sources.list.${ortsac} /etc/apt/sources.list
+		if [ -f /etc/apt/sources.list.${ortsac} ] && [ -s /etc/apt/sources.list.${ortsac} ] && [ -r /etc/apt/sources.list.${ortsac} ] ; then 
+			[ -h /etc/apt/sources.list ] && ${smr} /etc/apt/sources.list
+			csleep 1
+			${slinky} /etc/apt/sources.list.${ortsac} /etc/apt/sources.list
+		fi
+
+		${scm} -R a-w /etc/apt
+		${scm} 0555 /etc/apt
+		${sco} root:root /etc/apt
+
 		[ ${debug} -eq 1 ] && ls -las /etc/apt/sources.list*		
-		csleep 6
+		csleep 4
 	else
 		echo "P.V.HH"
 		exit 111
