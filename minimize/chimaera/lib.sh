@@ -154,6 +154,7 @@ function t2p() {
 	t2p_filler
 
 	#ntfs-3g?
+	${sharpy} ntp* #HUOM.28525:syystä excalibur prujattu tähän	
 	${sharpy} notification-daemon #ei löydy d
 	t2p_filler
 
