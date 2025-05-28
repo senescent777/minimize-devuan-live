@@ -665,6 +665,9 @@ function part1_5() {
 	#tarkempaa sertiä tulisi findin kanssa
 	${scm} -R a-w /etc/apt/
 
+	[ ${debug} -eq 1 ] && ls -las /etc/apt
+	csleep 3
+
 	dqb "p1.5 done"
 	csleep 1
 }
