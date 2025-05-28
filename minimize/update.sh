@@ -99,13 +99,16 @@ if [ -f ${tgt} ] ; then
 		fi
 	done #JOSKO NYT SKEOILU VÄHENISI PRKL
 
-	#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
-	for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
-
-	sleep 2
 	${scm} 0400 /etc/default/rules*
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
+	sleep 2
+
+	#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
+	for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
+
+	#uutena 28525
+	for f in $(find /etc/apt-type f -name 'sources*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
 	sleep 2
 
 	#HUOM.saattaa urputtaa $tgt polusta riippuen
