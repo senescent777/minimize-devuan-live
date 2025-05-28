@@ -1,8 +1,11 @@
 #!/bin/bash
 
 mode=2
-#HUOM.25525:excalibur/ceres-tapauksessa saa tuolla moden oletusarvolla äksän/slimin/whåtever sek8isin, jos selvittäisi miksi
-distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
+#HUOM.28525:excalibur/ceres-tapauksessa saa jo mode=0 äksän/slimin/whåtever sek8isin, jos selvittäisi miksi
+#tar:in purku ei vielä riitä
+
+distro=$(cat /etc/devuan_version)
+dirname $0
 d=~/Desktop/minimize/${distro} #alkuosa dirname:lla jatkossa?
 [ z"${distro}" == "z" ] && exit 6
 debug=0 #1
@@ -14,7 +17,7 @@ else
 	exit 55
 fi
 
-function parse_opts_1() { #VAIH:kokeeksi asettamaan $distro 
+function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
 			debug=1
@@ -29,13 +32,18 @@ function parse_opts_1() { #VAIH:kokeeksi asettamaan $distro
 	esac
 }
 
-#distro=$(echo ${distro} | cut -d '/' -f 1) HUOM.27525:ei toimi näin
-
 function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-. ~/Desktop/minimize/common_lib.sh
+#pitäisiköhän tässä olla tarkistukset, -d, -x ?
+if [ -d ~/Desktop/minimize ] && [ -x  ~/Desktop/minimize/common_lib.sh ] ; then 
+	. ~/Desktop/minimize/common_lib.sh
+else
+	echo "NO COMMON L1B AVA1LABL3"
+	exit 55
+fi
+
 [ $? -gt 0 ] && exit 56
 sleep 3
 
@@ -63,7 +71,7 @@ csleep 2
 
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce 
-enforce_access ${n} ${PREFIX} #TODO:tämä kokeeksi pois pelistä xcalib kanssa
+enforce_access ${n} ${PREFIX} #HUOM.28525:menisi vähän pieleen jo part076 kohdalla 
 
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
@@ -129,9 +137,6 @@ csleep 2
 [ ${c13} -lt 1 ] && c14=1
 el_loco ${c14} ${c13}
 
-#HUOM.27525:excaliburin kanssa oletus-modella leipoi kiinni, koita jos ykköseen stoppaamalla ei leivo
-#HUOM.27525.2:mode ykkösellä myös leipoi kiinni. Part1 vaiko xfce:n lahtaaminen?
-
 if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
 	dqb "R (in 2 secs)"
 	csleep 2
@@ -153,19 +158,13 @@ if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
 	exit
 fi
 
-#HUOM.27525:c14 menee nollaksi tapauksessa exc
 #HUOM.2:pitäisikö huomioida myös e.tar tuossa alla jotenkin?
-
-#HUOM.27525.3:part2_5 aiheuttama oheisvahinko pitäisi minimoida exc tapauksessa
-#apt --fix-broken/avahi*n poisto/väärän_distron_pakettein_asennus liikaa? viimeisin kai
-#... tuota varten viritys xcalib/cer/lib.sh:ssa
 
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 
-dqb "part2_5 ${removepkgs} ${dnsm}"
-csleep 3
-#exit #ecxal-tapauksessa jos stoppaisi tässäKIN 
+#dqb "part2_5 ${removepkgs} ${dnsm}"
+#csleep 3
 part2_5 ${removepkgs} ${dnsm}
 
 #===================================================PART 3===========================================================
@@ -173,7 +172,6 @@ message
 part3 ${d} ${dnsm}
 other_horrors
 
-#tai sitten käskytetään:import2 (TODO?)
 if [ -s ${PREFIX}/config.tar.bz2 ] ; then #prefix vai $d?
 	${srat} -C / -jxf ${PREFIX}/config.tar.bz2
 fi
@@ -181,6 +179,7 @@ fi
 ${NKVD} ${PREFIX}/config.tar
 csleep 2
 
+#tai sitten käskytetään:import2 (TODO?)
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
 	. ~/Desktop/minimize/profs.sh
 

@@ -249,6 +249,7 @@ function ppp3() {
 		echo "SHOULD REMOVE ${1} /sha512sums.txt"
 		echo "\"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
 		
+		#pitäis ikai huomioida että scm voi aiheuttaa sivuvaikutuksia myöhemmin
 		${scm} a-x ${d}/common_lib.sh 
 		
 		#exit 55 HUOM.24525:antaa olla kommenteissa toistaiseksi, ,esim. chimaeran tapauksessa ei välttis ole $distro:n alla .deb aluksi
@@ -496,7 +497,8 @@ function e_e() {
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
 
 	${scm} 0555 /etc/network
-	${sco} root:root /etc/network
+	${scm} 0444 /etc/network/*
+	${sco} root:root /etc/network #turha koska ylempänä
 
 	dqb "e_e d0n3"
 	csleep 1
@@ -516,7 +518,7 @@ function e_v() {
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
 
-	dqb "VAN DAMME"
+	dqb "V0N D00m"
 	csleep 1
 }
 
@@ -781,14 +783,14 @@ function part076() {
 			csleep 1
 		done
 
-		${whack} ${s}* #oli pgrep aiemmin
+		#${whack} ${s}* #HUOM.28525:tilap. jemmaan jotta EHKÄ selviäisi mikä sössii excaliburin äksän
 	done
 
 	dqb "alm0st d0n3"
 	csleep 1
 
 	${whack} nm-applet
-	${snt} #ei välttis toimi jos ennen check_bin kutsutaan
+	${snt}
 
 	dqb "P.176 DONE"
 	csleep 1
@@ -948,9 +950,12 @@ function t2pc() {
 	${sharpy} debian-faq dirmngr discover* doc-debian
 	t2p_filler
 
+	#miten dmsetup ja libdevmapper?
+
 	${sharpy} docutils* dosfstools efibootmgr exfalso
 	t2p_filler
 
+	#tikkujen kanssa paska tdstojärjestelmä exfat
 	${sharpy} exfatprogs fdisk ftp* gcr
 	t2p_filler
 
@@ -960,7 +965,9 @@ function t2pc() {
 	${sharpy} gpgsm gpg-agent gpg
 	t2p_filler
 
-	${sharpy} grub* gstreamer* #libgs poist alempana
+	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta
+	${sharpy} grub* 
+	${sharpy} gstreamer* #libgs poist alempana
 	t2p_filler
 
 	${sharpy} htop inetutils-telnet intel-microcode isolinux
@@ -999,9 +1006,16 @@ function t2pc() {
 	${sharpy} vim*
 	t2p_filler
 
+	#miten nämä? poistuuko?
 	${sharpy} xorriso yad xz-utils xfburn xarchiver
 	#xfce*,xorg* off limits
 	t2p_filler
+
+	dpkg -l x*
+	csleep 3
+
+	dqb "clib.T2PC.DONE"
+	csleep 1
 }
 
 function t2pf() {
