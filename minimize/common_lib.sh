@@ -197,6 +197,16 @@ function ppp3() {
 	fi
 }
 
+#function efk() {
+#	${sdi} ${1} #$@ pikemminkin
+#	[ $? -eq 0 ] && ${smr} ${1}
+#}
+#
+##tähän tablesin asentelu jatkossa?
+#function common_tbls() {
+#	dqb "UNDER CONSTRUCTION"
+#}
+
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135(${1} )"
 	csleep 1
@@ -355,7 +365,7 @@ function dinf() {
 	#exit
 }
 
-#HUOM.24525:annettiinko tälle 2. parametria? käytetäänkö edes ekaa nkyään?
+#HUOM.24525:annettiinko tälle 2. parametria? käytetäänkö edes ekaa nkyään? TODO:tee jotain
 function pre_enforce() {
 	dqb "common_lib.pre_enforce( ${1} , ${2} )"
 	local q
@@ -432,8 +442,8 @@ function e_e() {
 	other_horrors
 	${scm} 0755 /etc
 	${sco} -R root:root /etc #-R liikaa?
-	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
 
+	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
 	${scm} 0555 /etc/network
 	${scm} 0444 /etc/network/*
 	${sco} root:root /etc/network #turha koska ylempänä
@@ -473,6 +483,7 @@ function e_h() {
 		csleep 1
 	fi
 
+	#HUOM.28525:p.o $1/$2 jatkossa tai ainakin tarkistaa että $2 sis $1
 	[ -d ${2} ] || exit 99
 	local f
 	dqb " e h PT 2"
@@ -542,10 +553,11 @@ function enforce_access() {
 	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
-#HUOM.25525:cut tähän tai kutsUvaan koodiin koska xcalibur/ceres
+#HUOM.25525:cut ao fktioon tai kutsUvaan koodiin koska xcalibur/ceres
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
 #myös https://github.com/topics/sources-list
-#TODO:debian.ethz.ch voisi jotenkin huomioida?
+
+#debian.ethz.ch voisi jotenkin huomioida?
 function part1_5() {
 	dqb "part1_5( ${1} )"
 	csleep 1
@@ -573,26 +585,24 @@ function part1_5() {
 		dqb "p1.5.2()"
 		csleep 1
 
-			#HUOM.22525:vaikuttaisi jopa toimivan, seur forWardointi sh:lle
-			local tdmc
+		#HUOM.22525:vaikuttaisi jopa toimivan, seur forWardointi sh:lle
+		local tdmc
 	
-			tdmc="sed -i 's/DISTRO/${t}/g'"
+		tdmc="sed -i 's/DISTRO/${t}/g'"
+		echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
+		csleep 1
+
+		if [ ! -z ${pkgsrc} ] ; then
+			tdmc="sed -i 's/REPOSITORY/${pkgsrc}/g'"
 			echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
 			csleep 1
-
-			#HUOM.23525:samaan tap voisi sen pakettipalvelimenkin vaihtaa
-			if [ ! -z ${pkgsrc} ] ; then
-				tdmc="sed -i 's/REPOSITORY/${pkgsrc}/g'"
-				echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
-				csleep 1
-			fi
+		fi
 	
-			echo "${odio} mv /etc/apt/sources.list.tmp /etc/apt/sources.list.${t}" | bash -s
-			csleep 1
+		echo "${odio} mv /etc/apt/sources.list.tmp /etc/apt/sources.list.${t}" | bash -s
+		csleep 1
 
-			dqb "finally"
-			csleep 1
-		
+		dqb "finally"
+		csleep 1
 	fi
 
 	${sco} -R root:root /etc/apt
@@ -647,6 +657,36 @@ function dis() {
 	csleep 1
 	
 	${odio} sysctl -p #/etc/sysctl.conf
+}
+
+#HUOM.28525:ntp pitäisi nyt sammuttaa eri tavalla q aiemmin (TODO)
+function part076() {
+	dqb "FART076( ${1})"
+	csleep 1
+
+	dis
+	local s
+
+	for s in ${PART175_LIST} ; do
+		dqb ${s}
+
+		for t in $(find /etc/init.d -name ${s}* ) ; do
+			${odio} ${t} stop
+			csleep 1
+		done
+
+		#HUOM.28525:ao. rivi ei vissiin sössi asioita, syyllinen saattaa löytyä ylempää
+		${whack} ${s}*
+	done
+
+	dqb "alm0st d0n3"
+	csleep 1
+
+	${whack} nm-applet
+	${snt}
+
+	dqb "P.176 DONE"
+	csleep 1
 }
 
 #HUOM.25525:xcalibur/ceres-jutun takia tähän joutuisi laittamaan cut mukaan
@@ -714,38 +754,6 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE (i have Tourettes)"
 }
 
-#HUOM.27525:ifdownin kanssa oli valitusta, sudo mukaan
-#HUOM.28525:ntp pitäisi nyt sammuttaa eri tavalla q aiemmin (TODO)
-function part076() {
-	dqb "FART076( ${1})"
-	csleep 1
-
-	#VAIH:verkkoyhteyden sammuttelu omaksi fktioksi jatkossa
-	dis
-	local s
-
-	for s in ${PART175_LIST} ; do
-		dqb ${s}
-
-		for t in $(find /etc/init.d -name ${s}* ) ; do
-			${odio} ${t} stop
-			csleep 1
-		done
-
-		#HUOM.28525:ao. rivi ei vissiin sössi asioita, syyllinen saattaa löytyä ylempää
-		${whack} ${s}*
-	done
-
-	dqb "alm0st d0n3"
-	csleep 1
-
-	${whack} nm-applet
-	${snt}
-
-	dqb "P.176 DONE"
-	csleep 1
-}
-
 function part2_5() {
 	debug=1
 	dqb "PART2.5.1 ${1} , ${2}"
@@ -769,7 +777,7 @@ function part2_5() {
 		${sharpy} libblu* libcupsfilters* libgphoto* #tartteeko vielä?
 		${lftr}
 
-		${sharpy} pkexec po* #jos järjestys merkitsee
+		${sharpy} pkexec po*
 		${lftr}
 		${sharpy} python3-cups
 		${lftr}
@@ -825,9 +833,6 @@ function part3_4real() {
 	csleep 1
 	[ -d ${1} ] || exit 2
 
-	#HUOM.230325: jospa ei tässä varmistella sdi:n kanssa, tulee vain nalkutusta
-	#sitäpaItsi check_binaries() : in pitäisi hoitaa asia
-
 	dqb "22"
 	csleep 1
 	psqa ${1}
@@ -873,128 +878,7 @@ function part3() {
 
 	pr4 ${1}
 	part3_4real ${1}
-
 	other_horrors
-}
-
-function t2p_filler() {
-	${lftr}
-	${asy}
-	csleep 3
-}
-
-#yhteisiä osia daud ja chim t2p
-#HUOM.28525:mikä poistaa libgtk3:sen xcaliburissa? se pitäisi estää 
-function t2pc() {
-	debug=1
-	dqb "common_lib.t2p_common()"
-	csleep 3
-
-	${sharpy} amd64-microcode at-spi2-core
-	t2p_filler
-
-	${sharpy} bubblewrap coinor* cryptsetup*
-	t2p_filler
-
-	${sharpy} debian-faq dirmngr discover* doc-debian
-	t2p_filler
-
-	#miten dmsetup ja libdevmapper?
-	${sharpy} docutils* dosfstools efibootmgr exfalso
-	t2p_filler
-
-	#tikkujen kanssa paska tdstojärjestelmä exfat
-	${sharpy} exfatprogs fdisk ftp* gcr
-	t2p_filler
-
-	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
-	t2p_filler
-
-	${sharpy} gpgsm gpg-agent gpg
-	t2p_filler
-
-	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta kun xcalibur
-	#${sharpy} grub* 
-	${sharpy} gstreamer* #libgs poist alempana
-	t2p_filler
-
-	${sharpy} htop inetutils-telnet intel-microcode isolinux
-	t2p_filler
-
-	${sharpy} libreoffice*
-	t2p_filler
-
-	#xcaliburissa ao. paketteja ei tässä vaiheesas jäljellä?
-	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
-	t2p_filler
-
-	${sharpy} lvm2 lynx* mail* #miten mariadb-common?
-	t2p_filler
-
-	#excalibur ei sisällä?
-	${sharpy} mlocate modem* mtools mythes*
-	t2p_filler
-
-	${sharpy} netcat-traditional openssh*
-	t2p_filler
-
-	${sharpy} parted pavucontrol #libgtk3 ei poistu, libgtk4 kyllä
-	t2p_filler
-
-	${sharpy} ppp plocate pciutils procmail
-	t2p_filler
-
-	${sharpy} ristretto screen
-	t2p_filler
-
-	${sharpy} shim* speech* syslinux-common
-	t2p_filler
-
-	${sharpy} tex* tumbler*
-	t2p_filler
-
-	${sharpy} vim*
-	t2p_filler
-
-	#miten nämä? poistuuko?
-	${sharpy} xorriso xz-utils xfburn xarchiver # yad ei ole kaikissa distr
-	#xfce*,xorg* off limits
-	t2p_filler
-
-	dpkg -l x*
-	csleep 3
-
-	dqb "clib.T2PC.DONE"
-	csleep 1
-}
-
-function t2pf() {
-	debug=1
-	dqb "common_lib.T2P.FINAL()"
-	csleep 3
-
-	${NKVD} ${pkgdir}/*.deb
-	${NKVD} ${pkgdir}/*.bin 
-	${NKVD} ${d}/*.deb 
-	${NKVD} /tmp/*.tar
-	${smr} -rf /tmp/tmp.*
-
-	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
-	${smr} -rf /usr/share/doc 
-	
-	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
-	df
-	${odio} which dhclient; ${odio} which ifup; csleep 6
-}
-
-function efk() {
-	${sdi} ${1} #$@ pikemminkin
-	[ $? -eq 0 ] && ${smr} ${1}
-}
-
-#tähän tablesin asentelu jatkossa?
-funtion common_tbls() {
-	dqb "UNDER CONSTRUCTION"
 }
 
 #HUOM.voisi -v käsitellä jo tässä
