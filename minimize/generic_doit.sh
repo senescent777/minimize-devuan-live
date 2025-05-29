@@ -160,6 +160,8 @@ fi
 
 #HUOM.2:pitäisikö huomioida myös e.tar tuossa alla jotenkin?
 
+pre_part2
+
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 part2_5 ${removepkgs} ${dnsm}
