@@ -672,7 +672,7 @@ function dis() {
 	dqb "DONE"
 }
 
-#HUOM.28525:ntp pitäisi nyt sammuttaa eri tavalla q aiemmin (TODO?)
+#HUOM.29525:ntp sammutetaan nyt lib.pre_part2-reittiä koska excalibur
 function part076() {
 	dqb "FART076( ${1})"
 	csleep 1
@@ -886,8 +886,11 @@ function part3() {
 	jules
 	ppp3 ${1}
 
-	#TODO:pp3 jatkossa mankeloimaan $2 jos ei tämä fktio sitä tee
-	pre_part3 ${1} ${2}
+	#VAIH:pp3 jatkossa mankeloimaan $2 jos ei tämä fktio sitä tee
+	local d2
+	d2=$(echo ${2} | tr -d -c )
+
+	pre_part3 ${1} ${d2}
 
 	pr4 ${1}
 	part3_4real ${1}
