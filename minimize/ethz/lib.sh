@@ -8,6 +8,16 @@
 function pre_part3() {
 	dqb "ethz.pp3( ${1} , ${2} )"
 	csleep 1
+
+#	[ y"${1}" == "y" ] && exit	
+#	[ -d ${1} ] || exit
+#	[ -z ${2} ] && exit
+
+	#tr-jekku myös tähän fktioon?
+	#local d2
+	#d2=$(echo ${2} | tr -d -c 0-9)
+
+
 	dqb "ethz.pp3.d0n3()"
 	csleep 1
 }
