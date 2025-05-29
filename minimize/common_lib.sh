@@ -50,10 +50,8 @@ function init() {
 
 init
 
-#HUOM.22525:josko nyt 0750 voisi mennä läpi kun taviksena ajellaan
 #https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
 #https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
-#jos nyt olisi tarpeeksi jyrkkää
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -96,8 +94,6 @@ function fix_sudo() {
 
 function other_horrors() {	
 	dqb "other_horrors()"
-	#${spc} /etc/default/rules.* /etc/iptables #jatkossa ehdollinen nkopsaus?
-	echo $?	
 
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
@@ -106,21 +102,20 @@ function other_horrors() {
 	${scm} 0555 /etc/default
 	${sco} -R root:root /etc/default
 
-	dqb "other_horrors() DONE"
+	dqb " DONE"
 	csleep 2
 }
 
-#HUOM.21525:menee päällekkäin e_ - juttujen toiminnallISuuden kanssa nmä 2 , voisi yhdistää, tai siis
 fix_sudo
 other_horrors
 
-[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
-csleep 2
+#[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
+#csleep 2
 
 function jules() {
-	#HUOM.21525:tällaisella sisällöllä fktio turhahko koska other_horrors
 	dqb "LE BIG MAC"
-	dqb "V8"
+	#dqb "V8" #josko kommentoituna takaisin se cp
+	#${spc} /etc/default/rules.* /etc/iptables
 	csleep 2
 
 	other_horrors
@@ -152,7 +147,6 @@ function ocs() {
 	fi
 }
 
-#HUOM.23525:jossain kantsisi poistaa sha512sums.t jos ei ole .deb hakemistossa
 function psqa() {
 	dqb "QUASB (THE BURNING) ${1}"
 
@@ -244,13 +238,14 @@ function check_binaries() {
 		fi
 
 		#HUOM.21525:olisikohan niin simppeli juttu että dpkg seuraa linkkiä ja nollaa tdston mihin linkki osoittaa?
-		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
+		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
 
+		#common_tbls korvaamaan
 		ppp3 ${1}
 		pre_part3 ${1} ${dnsm}
 		pr4 ${1}
 
-		[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
+		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
 		other_horrors
 
 		ipt=$(${odio} which iptables)
@@ -295,13 +290,12 @@ function check_binaries2() {
 	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
 	sag_u="${odio} ${sag} update "
 	sag="${odio} ${sag} "
-
 	sa="${odio} ${sa} "
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
 	
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
-
+	
 	srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
 	fib="${odio} ${sa} --fix-broken install "
@@ -406,6 +400,7 @@ function pre_enforce() {
 		#saavuttaakohan tuolla nollauksella mitään? kuitenkin alustetaan
 	fi
 
+	#TODO:grep -c wttuun, ei toimi toivotulla tavalla
 	local c4
 	c4=$(grep -c ${dir} /etc/fstab) #aiemmin grepattiin $part0:lla, sitäpaitsi grep -c saattaa pykiä, wc -l varmempi EHK
 
@@ -428,13 +423,10 @@ function mangle2() {
 	fi
 }
 
-#HUOM.26525:saattaa olla että jokin näistä e_fktioista sössii äksään kirjautumisen excaliburissa tai sitten ei. Usual suspects.
-
 function e_e() {
 	dqb "e_e()"	
 	csleep 1
 	fix_sudo
-
 	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
 
 	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
@@ -620,18 +612,24 @@ function part1_5() {
 
 #oli aiemmin osa part1:stä
 function dis() {
-	dqb "CHAMBERS OF DIS"
+	dqb "CHAMBERS OF DIS( ${1} ) "
+	[ -z ${1} ] && exit 44
 	csleep 1
 	
-	#jos jokin näistä kolmesta hoitaisi homman...
 	${scm} 0755 /etc/network
-	${sco} root:root /etc/network
+	${sco} -R root:root /etc/network
+	${scm} a+r /etc/network/*
 
 	#linkkien nimiin ei tarvitse päiväystä
 	if [ -f /etc/network/interfaces ] ; then
 		if [ ! -h /etc/network/interfaces ] ; then
 			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
+		else
+			#${smr} /etc/network/interfaces
+			dqb " /e/n/i n0t a l1nk"
 		fi
+	else
+		dqb "/e/n/i n0t f0und"
 	fi
 
 	local t
@@ -640,17 +638,25 @@ function dis() {
 	if [ -f /etc/network/interfaces.${t} ] ; then
 		dqb "LINKS-1-2-3"
 		${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
+		echo $?		
 		csleep 1
+	else
+		dqb "N0 \$UCH TH1NG A5 /etc/network/interfaces.${t}"
 	fi
 
 	${scm} 0555 /etc/network
-	csleep 1
+	[  ${debug} -eq 1 ] && ls -las /etc/network
+	csleep 2
+
+	#jos jokin näistä kolmesta hoitaisi homman...
+	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin (eka ei, toinen kyllä, kolmas ei, sysctl ei)
 
 	${odio} ${sifd} ${iface}
 	csleep 1
-	${odio} ${sifd} -a
-	csleep 1
 
+#	${odio} ${sifd} -a
+#	csleep 1
+#
 	[ ${debug} -eq 1 ] && ${sifc};sleep 2
 
 	dqb "${sip} link set ${iface} down"
@@ -659,14 +665,16 @@ function dis() {
 	csleep 1
 	
 	${odio} sysctl -p #/etc/sysctl.conf
+	csleep 1
+	dqb "DONE"
 }
 
-#HUOM.28525:ntp pitäisi nyt sammuttaa eri tavalla q aiemmin (TODO)
+#HUOM.28525:ntp pitäisi nyt sammuttaa eri tavalla q aiemmin (TODO?)
 function part076() {
 	dqb "FART076( ${1})"
 	csleep 1
 
-	dis
+	dis ${1}
 	local s
 
 	for s in ${PART175_LIST} ; do
