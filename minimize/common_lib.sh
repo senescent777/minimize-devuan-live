@@ -357,9 +357,9 @@ function dinf() {
 	#exit
 }
 
-#HUOM.24525:annettiinko tälle 2. parametria? käytetäänkö edes ekaa nkyään? TODO:tee jotain
+#HUOM.29525:ei tarvitse parametreja tämä
 function pre_enforce() {
-	dqb "common_lib.pre_enforce( ${1} , ${2} )"
+	dqb "common_lib.pre_enforce()"
 	local q
 	local f
 
