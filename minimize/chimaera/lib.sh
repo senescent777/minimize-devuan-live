@@ -10,13 +10,14 @@ function pre_part3() {
 	[ -d ${1} ] || exit
 	[ -z ${2} ] && exit
 
+	#tr-jekku myös tähän fktioon?
+	local d2
+	d2=$(echo ${2} | tr -d -c 0-9)
+
 	dqb "pp3.2"
 	csleep 1
-
 	psqa ${1}
-	#HUOM.24525:vaikuttaisi toimivan vähän eri tavalla sääntjen tallennuksen sihteen q daedalus
-	#löytyi rules.v4 minkä sisältönä kaikkiin ketjuihin DROP (no vähän patrempi qu ACCEPT)
-
+	
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb
 
@@ -28,14 +29,14 @@ function pre_part3() {
 
 	local s
 	local t
-	local u
+	#local u
 
 	s=$(${odio} which iptables-restore)
 	t=$(${odio} which ip6tables-restore)
-	u=${2} #tr-jekku jatkossa
+	#u=${2} #tr-jekku jatkossa
 
-	${odio} ${s} /etc/iptables/rules.v4.${u}
-	${odio} ${t} /etc/iptables/rules.v6.${u}
+	${odio} ${s} /etc/iptables/rules.v4.${d2}
+	${odio} ${t} /etc/iptables/rules.v6.${d2}
 	csleep 5
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
