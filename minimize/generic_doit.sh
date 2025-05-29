@@ -40,7 +40,7 @@ function parse_opts_2() {
 if [ -d ~/Desktop/minimize ] && [ -x  ~/Desktop/minimize/common_lib.sh ] ; then 
 	. ~/Desktop/minimize/common_lib.sh
 else
-	echo "NO COMMON L1B AVA1LABL3"
+	echo "NO COMMON L1B AVA1LABL3 OR EXECUTABLE"
 	exit 55
 fi
 
@@ -60,7 +60,7 @@ if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 	#HUOM.22525:tap mode=0 pitäisi kutsua check_binaries ja sitä kautta pakottaa tablesin asennus... puuttuuko .deb?
 else
-	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING"
+	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING OR NOT EXECUTABLE"
 	exit 111
 fi
 
@@ -71,7 +71,7 @@ csleep 2
 
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce 
-enforce_access ${n} ${PREFIX} #HUOM.28525:menisi vähän pieleen jo part076 kohdalla kun xcalib
+enforce_access ${n} ${PREFIX}
 
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
@@ -159,7 +159,6 @@ if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
 fi
 
 #HUOM.2:pitäisikö huomioida myös e.tar tuossa alla jotenkin?
-
 pre_part2
 
 c14=$(find ${d} -name '*.deb' | wc -l)

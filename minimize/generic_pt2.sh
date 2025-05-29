@@ -44,7 +44,7 @@ fi
 [ -z ${distro} ] && exit 6
 d=${PREFIX}/${distro}
 
-echo "BEFORE CNF"
+dqb "BEFORE CNF"
 echo "dbig= ${debug}"
 sleep 5
 
@@ -60,8 +60,8 @@ fi
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	echo $?
-	dqb "NO LIB"
+	dqb $?
+	echo "NO LIB"
 	exit 67
 fi
 
@@ -69,10 +69,10 @@ ${scm} 0555 ${PREFIX}/changedns.sh
 ${sco} root:root ${PREFIX}/changedns.sh
 ${fib}
 
-echo "d=${d}"
+dqb "d=${d}"
 echo "debug=${debug}"
-echo "distro=${distro}"
-echo "removepkgs=${removepkgs}"
+dqb "distro=${distro}"
+dqb "removepkgs=${removepkgs}"
 sleep 2
 
 csleep 2

@@ -888,10 +888,9 @@ function part3() {
 
 	#VAIH:pp3 jatkossa mankeloimaan $2 jos ei tämä fktio sitä tee
 	local d2
-	d2=$(echo ${2} | tr -d -c )
+	d2=$(echo ${2} | tr -d -c 0-9)
 
 	pre_part3 ${1} ${d2}
-
 	pr4 ${1}
 	part3_4real ${1}
 	other_horrors

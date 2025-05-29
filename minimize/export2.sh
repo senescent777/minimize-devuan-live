@@ -386,6 +386,20 @@ function rmt() {
 	dqb "rmt d0n3"
 }
 
+function tlb() {
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
+	${shary} nft #jatkossa udp6:sessa?
+
+	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
+	${shary} iptables #mitä ymp. mja - jekkuja tähän oli ajateltu?
+	${shary} iptables-persistent init-system-helpers netfilter-persistent
+	#https://pkgs.org tai https://debian.ethz.ch myös olemassa
+
+	#actually necessary
+	pre2 ${2}
+	other_horrors
+}
+
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 #HUOM.26525:apg-get sisältää vivun "-t" , mitä se tekee Devuanin tapauksessa? pitääkö sources.list sorkkia liittyen?
 function tp4() {
@@ -428,18 +442,7 @@ function tp4() {
 	csleep 1
 
 	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
-
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-	${shary} nft #jatkossa udp6:sessa?
-
-	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
-	${shary} iptables #mitä ymp. mja - jekkuja tähän oli ajateltu?
-	${shary} iptables-persistent init-system-helpers netfilter-persistent
-	#https://pkgs.org tai https://debian.ethz.ch myös olemassa
-
-	#actually necessary
-	pre2 ${2}
-	other_horrors
+	tlb
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
@@ -661,6 +664,8 @@ function tp3() { #TODO:testaa, ensiksi tämä
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	# (ao. rivi tp2() jatkossa?)
+
+	#TODO:cut-jekku tähän?
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${2}
 
 	${sco} -R root:root ./etc
@@ -767,7 +772,7 @@ csleep 2
 pre1 ${d}
 
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
-#TODO:uusi case ja vaikka fktio samantien pelkästään iptablesin pakettien hakua varten
+#VAIH:uusi case ja vaikka fktio samantien pelkästään iptablesin pakettien hakua varten
 case ${mode} in
 	0|4) #erikseen vielä case missä tp3 skipataan?
 		pre1 ${d}
@@ -813,6 +818,12 @@ case ${mode} in
 
 		tpq ${PREFIX}
 		${srat} -cf ${tgtfile} ${PREFIX}/config.tar.bz2 ${PREFIX}/fediverse.tar
+	;;
+	t)
+		pre2 ${d}
+		tlb
+		${svm} ${pkgdir}/*.deb ${d}
+		rmt ${tgtfile} ${d}
 	;;
 	-h)
 		usage

@@ -78,7 +78,6 @@ else
 		dqb "imp32.enf_acc()"
 	}
 
-	#HUOM.23525:vaikuttaisi toimivan tarkistus "leikki-fktiossa"
 	#HUOM.26525:tämä versio part3:sesta sikäli turha että common_lib urputtaa koska sha512sums muttei deb
 	function part3() {
 		dqb "NOT SUPPORTED"
@@ -103,7 +102,7 @@ else
 		${sco} -R root:root /etc/default
 	}
 
-	#TODO;tähän sitten se common_lib.init2?
+
 	dqb "FALLBACK"
 	dqb "${scm} may be a good idea now"
 	prevopt=""
@@ -136,7 +135,6 @@ else #joutuukohan else-haaran muuttamaan jatkossa?
 	exit 56
 fi
 
-#HUOM.24525:polut vissiin korjattu
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
@@ -146,7 +144,6 @@ else
 	dqb "NO LIB"
 	csleep 1
 
-	#HUOM.18525:ao. 2 fktiota voisi esitellä pikemminkin sittenq lib puuttuu
 	function pr4() {
 		dqb "imp2.pr4 (\${1} \${2})" 
 	}
@@ -155,10 +152,9 @@ else
 		dqb "imp2.pre_part3( \${1} \${2})"
 	}
 
-	check_binaries ${d}
+	check_binaries ${d} #parametrit kunnossq?
 	echo $?
-	[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia? ei kai enää
-	
+	[ $? -eq 0 ] || exit 7
 	csleep 1
 
 	check_binaries2
@@ -184,7 +180,6 @@ csleep 1
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
 
 #glorified "tar -x" this function is - Yoda
-#uuden enf_acc-muutoksen takia joutuisi uudelleen testaamaan
 function common_part() {
 	debug=1
 
