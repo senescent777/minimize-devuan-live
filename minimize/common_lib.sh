@@ -397,9 +397,15 @@ function pre_enforce() {
 		#saavuttaakohan tuolla nollauksella mitään? kuitenkin alustetaan
 	fi
 
-	#TODO:grep -c wttuun, ei toimi toivotulla tavalla
 	local c4
-	c4=$(grep -c ${dir} /etc/fstab) #aiemmin grepattiin $part0:lla, sitäpaitsi grep -c saattaa pykiä, wc -l varmempi EHK
+	c4=0
+	
+	if [ -v dir ] ; then
+		c4=$(grep ${dir} /etc/fstab | wc -l) #aiemmin grepattiin $part0:lla, wc -l varmempi EHKä
+	else
+		echo "NO SUCH THING AS \$dir"
+		exit 99
+	fi
 
 	if [ ${c4} -lt 1 ] ; then
 		#HUOM. pitäisi kai karsia edellinen rivi millä $dir?
