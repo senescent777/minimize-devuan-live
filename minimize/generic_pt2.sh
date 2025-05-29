@@ -94,10 +94,12 @@ function t2p_filler() {
 }
 
 #yhteisiä osia daud ja chim t2p
-#HUOM.28525:mikä poistaa libgtk3:sen xcaliburissa? se pitäisi estää 
 function t2pc() {
 	debug=1
 	dqb "common_lib.t2p_common()"
+	csleep 3
+
+	${fib} #uutena 29525, xcalibur...
 	csleep 3
 
 	${sharpy} amd64-microcode at-spi2-core

@@ -148,7 +148,7 @@ else
 		dqb "exp32.UPD6()"
 	}
 
-	#tässä sktiptissä oleellista välittää $d part3:lle asti c_b välityksellä?
+	#onko tässä sktiptissä oleellista välittää $d part3:lle asti c_b välityksellä?
 	check_binaries ${d}
 	check_binaries2
 fi
@@ -186,7 +186,6 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 2
 
-#VAIH:enrofce():n muutosten sivuvaikutukset
 function pre1() {
 	debug=1
 	dqb "pre1( ${1} )"
@@ -204,6 +203,7 @@ function pre1() {
 		local ortsac
 		local lefid
 
+		#tr vielä?
 		ortsac=$(echo ${1} | cut -d '/' -f 6)
 		lefid=$(echo ${1} | cut -d '/' -f 1-5)
 
@@ -243,12 +243,13 @@ function pre1() {
 
 function pre2() {
 	debug=1
-	dqb "pre2 ${1}, ${2} " #WTIN KAARISULKEET STNA
+	dqb "pre2 ${1}, ${2} #WTIN KAARISULKEET STNA" 
 	[ x"${1}" == "z" ] && exit 666
 
 	local ortsac
 	local ledif
-	
+
+	#tr vielä?
 	ortsac=$(echo ${1} | cut -d '/' -f 6)
 	ledif=$(echo ${1} | cut -d '/' -f 1-5 )
 
@@ -282,7 +283,9 @@ function tpq() {
 	csleep 1
 
 	local t
+	#tr vielä?
 	t=$(echo ${1} | cut -d '/' -f 1,2,3)
+
 	#HUOM.23525:pakkaus mukaan kuten näkyy, config.tar vie .deb jälkeen melkeinpä eniten tilaa 
 	${srat} -jcf ${1}/config.tar.bz2 ${t}/.config/xfce4/xfconf/xfce-perchannel-xml ${t}/.config/pulse /etc/pulse
 	csleep 1
@@ -314,7 +317,8 @@ function tp1() {
 	fi
 
 	local ledif
-	ledif=$(echo ${2} | cut -d '/' -f 1-5 )
+	ledif=$(echo ${2} | cut -d '/' -f 1-5 ) #tr vielä?
+
 	#p.itäisiköhän olla jokin tarkistus tässä?
 
 	if [ ${enforce} -eq 1 ] && [ -d ${ledif} ] ; then
@@ -403,10 +407,17 @@ fi
 
 function tlb() {
 	debug=1
-	dqb "x2.tlb()"
+	dqb "x2.tlb( ${1} ; ${2} )"
 	csleep 4
 
+	if [ z"${pkgdir}" != "z" ] ; then
+		dqb "SHREDDED HUMANS"
+		csleep 1
+		${NKVD} ${pkgdir}/*.deb
+	fi
+
 	dqb "EDIBLE AUTOPSY"
+	csleep 1
 	${fib}
 	${asy}
 	csleep 3
@@ -424,7 +435,7 @@ function tlb() {
 	csleep 6
 
 	#actually necessary
-	pre2 ${2}
+	pre2 ${1}
 	other_horrors
 
 	dqb "x2.tlb.done"
@@ -432,12 +443,14 @@ function tlb() {
 
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 #HUOM.26525:apg-get sisältää vivun "-t" , mitä se tekee Devuanin tapauksessa? pitääkö sources.list sorkkia liittyen?
+#... ei oikein lähtenyt -t:llä ethz kanssa ekalla yrotyksellä 29525
+#sen sijaan kun sources-list:iin vaihtoi stable-> testing ni jotain alkoi tapahtua
 function tp4() {
 	debug=1
 	dqb "tp4 ${1} , ${2} "
 
 #	[ z"${1}" == "z" ] && exit 1 #mikä juttu näissä on?
-#	[ -s ${1} ] || exit 2
+	[ -s ${1} ] || exit 2
 	
 	dqb "DEMI-SEC"
 	csleep 1
@@ -447,19 +460,9 @@ function tp4() {
 
 	dqb "paramz_ok"
 	csleep 1
-
-	if [ z"${pkgdir}" != "z" ] ; then
-		${NKVD} ${pkgdir}/*.deb
-		dqb "SHREDDED HUMANS"
-	fi
 	
-	#local tcdd
-	#local t2
-
-
-
 	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
-	tlb
+	tlb ${2}
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
@@ -682,7 +685,7 @@ function tp3() { #TODO:testaa, ensiksi tämä
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	# (ao. rivi tp2() jatkossa?)
 
-	#TODO:cut-jekku tähän?
+	#TODO:cut-jekku tähän? tr myös?
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${2}
 
 	${sco} -R root:root ./etc
@@ -719,7 +722,7 @@ function tpu() { #TODO:testaa
 
 	local s
 
-	for s in ${PART175_LIST} ; do 
+	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä...
 		dqb "processing ${s} ..."
 		csleep 1
 
@@ -838,7 +841,8 @@ case ${mode} in
 	;;
 	t)
 		pre2 ${d}
-		tlb
+		${NKVD} ${d}/*.deb
+		tlb ${d}
 		${svm} ${pkgdir}/*.deb ${d}
 		rmt ${tgtfile} ${d}
 	;;

@@ -23,7 +23,6 @@ mode=${1}
 
 #function init2 {
 #	local c
-
 #	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
 #	[ ${c} -gt 0 ] && exit 111
 #	c=$(find /etc -name 'iptab*' -type d -not -user 0 | wc -l)
@@ -87,7 +86,6 @@ case $# in
 	;;
 esac
 
-#distro=$(echo ${distro} | cut -d '/' -f 1) vissiin ei näin
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 csleep 1
@@ -123,7 +121,8 @@ function dda_snd() {
 	${ipt} -A b -p udp -m udp -s ${1} --sport 53 -j ACCEPT 
 	${ipt} -A e -p udp -m udp -d ${1} --dport 53 -j ACCEPT
 }
-
+#TODO: 2 yo. gktioon param mankelointi
+#==============================================================
 #HUOM.220624:stubbyn asentumisen ja käynnistymisen kannalta sleep saattaa olla tarpeen
 function ns2() {
 	[ y"${1}" == "y" ] && exit 154
@@ -146,6 +145,7 @@ function ns2() {
 	csleep 3
 }
 
+#ns-fktioihinkin jotain param mankelointia mikäli ottaa käyttöön
 function ns4() {
 	dqb "ns4( ${1} )"
 
@@ -170,6 +170,7 @@ function ns4() {
 	sleep 5
 }
 
+#HUOM.29525:$1, annetaanko sitä? käytetäänkö?
 function clouds_pp1() {
 	dqb "#c.pp.1  ( ${1} )"
 	local f
@@ -209,6 +210,8 @@ function clouds_pp3() {
 	p3r1m3tr
 
 	#HUOM.160325:lisätty uutena varm. vuoksi
+	#TODO:"tr $1 -dc 0-9 $1" mukaan
+
 	${iptr} /etc/iptables/rules.v4.${1}
 	${ip6tr} /etc/iptables/rules.v6.${1}
 	csleep 1
@@ -225,6 +228,7 @@ function clouds_pp3() {
 	dqb "...done"
 }
 
+#HUOM.29525:tekeekö 2. parametrilla mitään tämä? annetaanko moista?
 function clouds_pre() {
 	dqb "cdns.clouds_pre( ${1}, ${2} )"
 	csleep 1
@@ -388,7 +392,7 @@ clouds_pre ${mode}
 
 #HUOM.25525.1:mitenköhän tämä kohta pitäisi mennä?
 #HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
-t=$(echo ${distro} | cut -d '/' -f 1) #tr mukaan kanssa?
+t=$(echo ${distro} | cut -d '/' -f 1) #TODO:tr -dc a-z mukaan kanssa?
 [ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 
 case ${mode} in 

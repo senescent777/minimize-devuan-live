@@ -468,8 +468,9 @@ function e_v() {
 }
 
 function e_h() {
+	debug=1
 	dqb "e_h( ${1} , ${2} )"
-	csleep 1
+	csleep 5
 
 	${sco} root:root /home
 	${scm} 0755 /home
@@ -528,7 +529,7 @@ function e_final() {
 
 function enforce_access() {
 	dqb " enforce_access( ${1} , ${2})"
-	csleep 1
+	csleep 10
 	dqb "changing /sbin , /etc and /var 4 real"
 
 	e_e
@@ -886,7 +887,6 @@ function part3() {
 	jules
 	ppp3 ${1}
 
-	#VAIH:pp3 jatkossa mankeloimaan $2 jos ei tämä fktio sitä tee
 	local d2
 	d2=$(echo ${2} | tr -d -c 0-9)
 

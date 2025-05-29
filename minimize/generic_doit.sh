@@ -17,6 +17,8 @@ else
 	exit 55
 fi
 
+#HUOM.29525:testaa asfdasfd.tar ja uudempi sen tables-jutun varalta
+
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
