@@ -817,7 +817,9 @@ function part2_5() {
 
 	if [ y"${ipt}" != "y" ] ; then
 		jules
+
 		#HUOM. saattaa toimia ilman .$2 koska tables-kikkailuja laitettu uusiksi 26525
+		#HUOM.2. josko kuitenkin mankeloisi $2
 
 		if [ -s /etc/iptables/rules.v6.${2} ] ; then
 			${ip6tr} /etc/iptables/rules.v6.${2}

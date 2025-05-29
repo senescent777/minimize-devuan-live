@@ -210,10 +210,12 @@ function clouds_pp3() {
 	p3r1m3tr
 
 	#HUOM.160325:lisätty uutena varm. vuoksi
-	#TODO:"tr $1 -dc 0-9 $1" mukaan
+	#VAIH:"tr $1 -dc 0-9 $1" mukaan
+	local p
+	p=$(echo ${1} | tr -d -c 0-9)
 
-	${iptr} /etc/iptables/rules.v4.${1}
-	${ip6tr} /etc/iptables/rules.v6.${1}
+	${iptr} /etc/iptables/rules.v4.${p}
+	${ip6tr} /etc/iptables/rules.v6.${p}
 	csleep 1
 
 	#tässä oikea paikka tables-muutoksille vai ei?
@@ -392,7 +394,7 @@ clouds_pre ${mode}
 
 #HUOM.25525.1:mitenköhän tämä kohta pitäisi mennä?
 #HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
-t=$(echo ${distro} | cut -d '/' -f 1) #TODO:tr -dc a-z mukaan kanssa?
+t=$(echo ${distro} | cut -d '/' -f 1 | tr -d -c a-z) #VAIH:tr -dc a-z mukaan kanssa?
 [ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 
 case ${mode} in 
