@@ -188,8 +188,8 @@ function t2p() {
 	csleep 1
 } 
 
-pre_part2() {
-	dqb "daud.pre_part2()"
+function pre_part2() {
+	dqb "ch1m.pre_part2()"
 	csleep 1
 
 	${odio} /etc/init.d/ntpd stop
