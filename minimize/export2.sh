@@ -685,8 +685,10 @@ function tp3() { #TODO:testaa, ensiksi tämä
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	# (ao. rivi tp2() jatkossa?)
 
-	#TODO:cut-jekku tähän? tr myös?
-	${spc} /etc/network/interfaces ./etc/network/interfaces.${2}
+	#VAIH:cut-jekku tähän? tr myös?
+	local p
+	p=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
+	${spc} /etc/network/interfaces ./etc/network/interfaces.${p}
 
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
