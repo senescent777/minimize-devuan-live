@@ -134,7 +134,7 @@ fi
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	echo "L1B M1SSING"
+	echo "L1B M1SS1NG 0R N0T 3X3CUT4BL3"
 
 	function pr4() {
 		dqb "exp2.pr4 ${1} ${2} " 
@@ -148,7 +148,8 @@ else
 		dqb "exp32.UPD6()"
 	}
 
-	check_binaries ${PREFIX}/${distro} #HUOM.26525:voi tietyssä tapauksessa mennä pieleen koska x
+	#tässä sktiptissä oleellista välittää $d part3:lle asti c_b välityksellä?
+	check_binaries ${d} #PREFIX}/${distro} #HUOM.26525:voi tietyssä tapauksessa mennä pieleen koska x
 	check_binaries2
 fi
 
@@ -190,7 +191,7 @@ function pre1() {
 	debug=1
 	dqb "pre1( ${1} )"
 	#[ x"${1}" == "z" ] && exit 666
-	csleep 6
+	csleep 10
 
 	${sco} -Rv _apt:root ${pkgdir}/partial/
 	${scm} -Rv 700 ${pkgdir}/partial/
@@ -198,15 +199,20 @@ function pre1() {
 
 	if [ -d ${1} ] ; then
 		dqb "5TNA"
-
 		n=$(whoami)
-		enforce_access ${n} ${1} #PREFIX} #VAIH:voisiko prefix:in poistaa jatkossa? $1 tilalle?
+			
+		local ortsac
+		local lefid
+
+		ortsac=$(echo ${1} | cut -d '/' -f 6)
+		lefid=$(echo ${1} | cut -d '/' -f 1-5)
+
+		enforce_access ${n} ${lefid} 
 		csleep 1
 
-		#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres (TODO:testaa)
-		local ortsac
-		ortsac=$(echo ${1} | cut -d '/' -f 6)
-
+		dqb "3NF0RC1NG D0N3"
+		csleep 1
+	
 		${scm} 0755 /etc/apt
 		${scm} a+w /etc/apt/sources.list*
 
@@ -242,8 +248,7 @@ function pre2() {
 
 	local ortsac
 	local ledif
-	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
-
+	
 	ortsac=$(echo ${1} | cut -d '/' -f 6)
 	ledif=$(echo ${1} | cut -d '/' -f 1-5 )
 
@@ -253,7 +258,7 @@ function pre2() {
 		csleep 2
 
 		${sifu} ${iface}
-		[ ${debug} -eq 1 ] && /sbin/ifconfig
+		[ ${debug} -eq 1 ] && ${sifc}
 		csleep 2
 
 		${sco} -Rv _apt:root ${pkgdir}/partial/
@@ -278,7 +283,7 @@ function tpq() {
 
 	local t
 	t=$(echo ${1} | cut -d '/' -f 1,2,3)
-	#HUOM.23525:pakkaus mukaan kuten näkyy, vie suht paljon tilaa silloinq ei .deb mukana
+	#HUOM.23525:pakkaus mukaan kuten näkyy, config.tar vie .deb jälkeen melkeinpä eniten tilaa 
 	${srat} -jcf ${1}/config.tar.bz2 ${t}/.config/xfce4/xfconf/xfce-perchannel-xml ${t}/.config/pulse /etc/pulse
 	csleep 1
 
@@ -386,7 +391,26 @@ function rmt() {
 	dqb "rmt d0n3"
 }
 
+#HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia
+tcdd=$(cat /etc/devuan_version)
+t2=$(echo ${d} | cut -d '/' -f 6) #tai suoraan $distro?
+	
+if [ ${tcdd} != ${t2} ] ; then
+	dqb "XXX"
+	csleep 1
+	shary="${odio} ${sag} install --download-only "
+fi
+
 function tlb() {
+	debug=1
+	dqb "x2.tlb()"
+	csleep 4
+
+	dqb "EDIBLE AUTOPSY"
+	${fib}
+	${asy}
+	csleep 3
+
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
 	${shary} nft #jatkossa udp6:sessa?
 
@@ -395,9 +419,15 @@ function tlb() {
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 	#https://pkgs.org tai https://debian.ethz.ch myös olemassa
 
+	dqb "x2.tlb.part2"
+	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
+	csleep 6
+
 	#actually necessary
 	pre2 ${2}
 	other_horrors
+
+	dqb "x2.tlb.done"
 }
 
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
@@ -423,23 +453,10 @@ function tp4() {
 		dqb "SHREDDED HUMANS"
 	fi
 	
-	local tcdd
-	local t2
+	#local tcdd
+	#local t2
 
-	#HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia
-	tcdd=$(cat /etc/devuan_version)
-	t2=$(echo ${2} | cut -d '/' -f 6)
-	
-	if [ ${tcdd} != ${t2} ] ; then
-		dqb "XXX"
-		csleep 1
-		shary="${odio} ${sag} install --download-only "
-	fi
 
-	dqb "EDIBLE AUTOPSY"
-	${fib}
-	${asy}
-	csleep 1
 
 	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
 	tlb
