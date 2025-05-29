@@ -188,5 +188,14 @@ function t2p() {
 	csleep 1
 } 
 
+pre_part2() {
+	dqb "daud.pre_part2()"
+	csleep 1
+
+	${odio} /etc/init.d/ntpd stop
+	#$sharpy ntp* jo aiempana
+}
+
+
 check_binaries ${PREFIX}/${distro}
 check_binaries2
