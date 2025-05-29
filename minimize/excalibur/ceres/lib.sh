@@ -6,6 +6,13 @@
 function pre_part3() {
 	dqb "xc.pp3( ${1} , ${2} )"
 	csleep 1
+	[ y"${1}" == "y" ] && exit	
+	[ -d ${1} ] || exit
+	[ -z ${2} ] && exit
+
+	#tr-jekku myös tähän fktioon?
+	#local d2
+	#d2=$(echo ${2} | tr -d -c 0-9)
 
 	#jatkossa ne ympäristömjat ja muut leikit
 	#... tai vielä tärkempi ensin: SELVITÄ ONKO IPTABLES EDES MUODISSA TÄLLÄ VIIKOLLA VAI MITÄ VITTUA?
