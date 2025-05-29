@@ -149,7 +149,7 @@ else
 	}
 
 	#tässä sktiptissä oleellista välittää $d part3:lle asti c_b välityksellä?
-	check_binaries ${d} #PREFIX}/${distro} #HUOM.26525:voi tietyssä tapauksessa mennä pieleen koska x
+	check_binaries ${d}
 	check_binaries2
 fi
 
@@ -398,7 +398,7 @@ t2=$(echo ${d} | cut -d '/' -f 6) #tai suoraan $distro?
 if [ ${tcdd} != ${t2} ] ; then
 	dqb "XXX"
 	csleep 1
-	shary="${odio} ${sag} install --download-only "
+	#shary="${odio} ${sag} install --download-only "
 fi
 
 function tlb() {
