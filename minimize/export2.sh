@@ -200,7 +200,7 @@ function pre1() {
 		dqb "5TNA"
 
 		n=$(whoami)
-		enforce_access ${n} ${PREFIX} #TODO:voisiko prefix:in poistaa jatkossa? $1 tilalle?
+		enforce_access ${n} ${1} #PREFIX} #VAIH:voisiko prefix:in poistaa jatkossa? $1 tilalle?
 		csleep 1
 
 		#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres (TODO:testaa)
