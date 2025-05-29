@@ -1,7 +1,7 @@
 #VAIH:ne xcalib omat paketit asentaen koska: "iptables: Failed to initialize nft: Protocol not supported"
 #https://superuser.com/questions/1480986/iptables-1-8-2-failed-to-initialize-nft-protocol-not-supported
 #https://hatchjs.com/iptables-1-8-7-failed-to-initialize-nft-protocol-not-supported/
-#elikkäs update-alternatives vaikka kokeillen ensin
+#update-alternatives ei tunnu riittävän, kokeillaanpa TAAS sitä debian.ethz.ch:n testing - juttua
 
 function pre_part3() {
 	dqb "xc.pp3( ${1} , ${2} )"
@@ -33,7 +33,7 @@ function pre_part3() {
  
 	sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
 	sudo update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
-	#vissiin tuo ei riitä, jotain muutakin yarttis tehrä
+	#vissiin tuo ei riitä, jotain muutakin tarttis tehrä
 
 	sudo dpkg -i ${1}/iptables_*.deb 
 	[ $? -eq 0 ] && sudo rm ${1}/iptables_*.deb
