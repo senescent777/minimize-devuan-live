@@ -77,5 +77,10 @@ function t2p() {
 	csleep 1
 }
 
+function pre_part2() {
+	dqb "XC.pre_part2()"
+	csleep 1
+}
+
 check_binaries ${PREFIX}/${distro}
 check_binaries2
