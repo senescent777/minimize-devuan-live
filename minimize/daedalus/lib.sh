@@ -13,7 +13,6 @@ function pre_part3() {
 	[ -d ${1} ] || exit
 	[ -z ${2} ] && exit
 
-	#tr-jekku myös tähän fktioon?
 	local d2
 	d2=$(echo ${2} | tr -d -c 0-9)
 
@@ -35,12 +34,10 @@ function pre_part3() {
 
 	local s
 	local t
-	#local u
 
 	s=$(${odio} which iptables-restore)
 	t=$(${odio} which ip6tables-restore)
-	#u=${2} #ei sitä echo-cut-jekkua tämän kanssa, ainakaan vielä (jokin tr sen sijaan...)
-
+	
 	${odio} ${s} /etc/iptables/rules.v4.${d2}
 	${odio} ${t} /etc/iptables/rules.v6.${d2}
 
@@ -61,6 +58,8 @@ function pre_part3() {
 }
 
 function c5p() {
+	#TODO:-d $1 - tark
+
 	${NKVD} ${1}/xz*
 	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
 	${NKVD} ${1}/libcrypt*
@@ -74,6 +73,7 @@ function pr4() {
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
 
+	#TODO:-d $1 - tark
 	#TODO:tähänkin psqa?
 	${sdi} ${1}/libpam-modules-bin_*.deb
 	${sdi} ${1}/libpam-modules_*.deb
