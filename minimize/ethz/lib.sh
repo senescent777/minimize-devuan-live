@@ -1,9 +1,9 @@
-
-
-function efk() {
-	${sdi} ${1} #$@ pikemminkin
-	[ $? -eq 0 ] && ${smr} ${1}
-}
+#
+#
+#function efk() {
+#	${sdi} ${1} #$@ pikemminkin
+#	[ $? -eq 0 ] && ${smr} ${1}
+#}
 
 function pre_part3() {
 	dqb "ethz.pp3( ${1} , ${2} )"
