@@ -200,7 +200,7 @@ function pre1() {
 		dqb "5TNA"
 
 		n=$(whoami)
-		enforce_access ${n} ${PREFIX} #voisiko prefix:in poistaa jatkossa? $1 tilalle?
+		enforce_access ${n} ${PREFIX} #TODO:voisiko prefix:in poistaa jatkossa? $1 tilalle?
 		csleep 1
 
 		#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres (TODO:testaa)
@@ -767,6 +767,7 @@ csleep 2
 pre1 ${d}
 
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
+#TODO:uusi case ja vaikka fktio samantien pelkästään iptablesin pakettien hakua varten
 case ${mode} in
 	0|4) #erikseen vielä case missä tp3 skipataan?
 		pre1 ${d}
