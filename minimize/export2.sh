@@ -4,7 +4,7 @@ tgtfile=""
 distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa
 PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd #tai dirname?
 mode=-2
-loose=1 #turha nykyään
+#loose=1 #turha nykyään
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -134,7 +134,7 @@ fi
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	echo "L1B M1SS1NG 0R N0T 3X3CUT4BL3"
+	echo "NOT (L1B AVA1LABL3 AND 3X3CUT4BL3)"
 
 	function pr4() {
 		dqb "exp2.pr4 ${1} ${2} " 
@@ -203,9 +203,8 @@ function pre1() {
 		local ortsac
 		local lefid
 
-		#tr vielä?
 		ortsac=$(echo ${1} | cut -d '/' -f 6)
-		lefid=$(echo ${1} | cut -d '/' -f 1-5)
+		lefid=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
 
 		enforce_access ${n} ${lefid} 
 		csleep 1
@@ -251,7 +250,7 @@ function pre2() {
 
 	#tr vielä?
 	ortsac=$(echo ${1} | cut -d '/' -f 6)
-	ledif=$(echo ${1} | cut -d '/' -f 1-5 )
+	ledif=$(echo ${1} | cut -d '/' -f 1-5  | tr -d -c a-zA-Z/)
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
@@ -283,8 +282,7 @@ function tpq() {
 	csleep 1
 
 	local t
-	#tr vielä?
-	t=$(echo ${1} | cut -d '/' -f 1,2,3)
+	t=$(echo ${1} | cut -d '/' -f 1,2,3 | tr -d -c a-zA-Z/)
 
 	#HUOM.23525:pakkaus mukaan kuten näkyy, config.tar vie .deb jälkeen melkeinpä eniten tilaa 
 	${srat} -jcf ${1}/config.tar.bz2 ${t}/.config/xfce4/xfconf/xfce-perchannel-xml ${t}/.config/pulse /etc/pulse
@@ -317,7 +315,7 @@ function tp1() {
 	fi
 
 	local ledif
-	ledif=$(echo ${2} | cut -d '/' -f 1-5) #  | tr -d -c a-z/) 
+	ledif=$(echo ${2} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/) 
 	#p.itäisiköhän olla jokin tarkistus tässä alla? -d lisäksi?
 
 	if [ ${enforce} -eq 1 ] && [ -d ${ledif} ] ; then
@@ -396,7 +394,7 @@ function rmt() {
 
 #HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia
 tcdd=$(cat /etc/devuan_version)
-t2=$(echo ${d} | cut -d '/' -f 6) #tai suoraan $distro?
+t2=$(echo ${d} | cut -d '/' -f 6 | tr -d -c a-zA-Z/) #tai suoraan $distro?
 	
 if [ ${tcdd} != ${t2} ] ; then
 	dqb "XXX"
@@ -424,7 +422,7 @@ function tlb() {
 	csleep 3
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-	#${shary} nft #jatkossa udp6:sessa tjsp?
+	${shary} nftables #jatkossa udp6:sessa tjsp?
 
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 	${shary} iptables #mitä ymp. mja - jekkuja tähän oli ajateltu?
@@ -686,7 +684,7 @@ function tp3() { #TODO:testaa, ensiksi tämä
 	# (ao. rivi tp2() jatkossa?)
 
 	local p
-	p=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
+	p=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${p}
 
 	${sco} -R root:root ./etc

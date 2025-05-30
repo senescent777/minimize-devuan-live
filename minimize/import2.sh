@@ -6,7 +6,7 @@ dir=/mnt
 part0=ABCD-1234
 PREFIX=~/Desktop/minimize #dirname?
 mode=-2
-loose=1
+#loose=1
 
 #TODO:modatun kiekon squashfs:lle mukaan tämä ja demerde_toi
 
@@ -204,15 +204,15 @@ function common_part() {
 	fi
 
 	csleep 1
-	${srat} -C / -xf ${1} #HUOM.22525:uutena -C
+	${srat} -C / -xf ${1}
 	csleep 1
 	dqb "tar DONE"
 
 	local t
-	t=$(echo ${2} | cut -d '/' -f 1-5)
+	t=$(echo ${2} | cut -d '/' -f 1-5) #tr mukaan?
 
 	if [ -x ${t}/common_lib.sh ] ; then
-		enforce_access ${n} ${t} #${PREFIX} 
+		enforce_access ${n} ${t} 
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	fi
 

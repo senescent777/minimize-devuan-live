@@ -2,7 +2,7 @@
 debug=0 #1
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 PREFIX=~/Desktop/minimize #dirname?
-loose=1
+#loose=1
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -61,7 +61,7 @@ if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
 	dqb $?
-	echo "NO LIB"
+	echo "NOT (LIB AVAILABLE AND ECXUTABL3)"
 	exit 67
 fi
 
