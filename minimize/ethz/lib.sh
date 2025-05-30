@@ -1,10 +1,3 @@
-#
-#
-#function efk() {
-#	${sdi} ${1} #$@ pikemminkin
-#	[ $? -eq 0 ] && ${smr} ${1}
-#}
-
 function pre_part3() {
 	dqb "ethz.pp3( ${1} , ${2} )"
 	csleep 1
@@ -47,7 +40,7 @@ function pre_part2() {
 	csleep 1
 
 	#${odio} /etc/init.d/ntpd stop
-	#$sharpy ntp* jo aiempana
+	#$sharpy ntp* jo aiempana?
 }
 
 check_binaries ${PREFIX}/${distro}
