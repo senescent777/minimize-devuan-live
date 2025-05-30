@@ -699,8 +699,8 @@ function tp3() { #TODO:testaa, ensiksi tämä
 	csleep 2
 }
 
-function tpu() { #TODO:testaa
-	#debug=1	
+function tpu() { #VAIH:testaa
+	debug=1	
 	#HUOM:0/1/old/new ei liity
 	dqb "tpu ${1}, ${2}"
 
@@ -719,14 +719,14 @@ function tpu() { #TODO:testaa
 	echo $?
 	csleep 2
 
-	local s
-
-	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä...
-		dqb "processing ${s} ..."
-		csleep 1
-
-		${NKVD} ${pkgdir}/${s}*
-	done
+#	local s
+#
+#	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä...
+#		dqb "processing ${s} ..."
+#		csleep 1
+#
+#		${NKVD} ${pkgdir}/${s}*
+#	done
 
 	case ${iface} in
 		wlan0)
