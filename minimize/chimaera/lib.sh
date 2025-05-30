@@ -10,7 +10,6 @@ function pre_part3() {
 	[ -d ${1} ] || exit
 	[ -z ${2} ] && exit
 
-	#tr-jekku myös tähän fktioon?
 	local d2
 	d2=$(echo ${2} | tr -d -c 0-9)
 
@@ -29,11 +28,9 @@ function pre_part3() {
 
 	local s
 	local t
-	#local u
 
 	s=$(${odio} which iptables-restore)
 	t=$(${odio} which ip6tables-restore)
-	#u=${2} #tr-jekku jatkossa
 
 	${odio} ${s} /etc/iptables/rules.v4.${d2}
 	${odio} ${t} /etc/iptables/rules.v6.${d2}
@@ -97,6 +94,7 @@ function udp6() {
 	csleep 2
 
 	#mahd. yhteisiä osia voisi siirtää
+	#HUOM.30525:pitäisikö nämäkin kahlata läpi uudestaan? että mitä niille tekee niinqu
 	${NKVD} ${1}/libx11-xcb1*
 	${NKVD} ${1}/nfs*
 	${NKVD} ${1}/rpc*
@@ -112,7 +110,6 @@ function udp6() {
 }
 
 function t2p() {
-	#t2pc #jatkossa kutsUva koodi ajamaan tämän
 	csleep 5
 
 	dqb "t2p()"
@@ -141,9 +138,7 @@ function t2p() {
 	t2p_filler
 	
 	#löytyykö chimaerasta iucode-tool?
-
 	#lib-jutut jos antaisi enimmäkseen olla rauhassa
-	
 	#linux* , live* off limits
 	#lp-solve ei löytynyt?	
 	#${sharpy} mariadb-common #ei löytynyt d
