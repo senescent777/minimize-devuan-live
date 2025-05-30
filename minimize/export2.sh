@@ -317,9 +317,8 @@ function tp1() {
 	fi
 
 	local ledif
-	ledif=$(echo ${2} | cut -d '/' -f 1-5 ) #tr vielä?
-
-	#p.itäisiköhän olla jokin tarkistus tässä?
+	ledif=$(echo ${2} | cut -d '/' -f 1-5) #  | tr -d -c a-z/) 
+	#p.itäisiköhän olla jokin tarkistus tässä alla? -d lisäksi?
 
 	if [ ${enforce} -eq 1 ] && [ -d ${ledif} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
@@ -342,7 +341,7 @@ function rmt() {
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
 #	[ z"${1}" == "z" ] && exit 1 #23525:mikä tässä nyt qsee?
-#	[ -s ${1} ] || exit 2
+	[ -s ${1} ] || exit 2
 
 	[ z"${2}" == "z" ] && exit 11
 	[ -d ${2} ] || exit 22
@@ -405,6 +404,8 @@ if [ ${tcdd} != ${t2} ] ; then
 	#shary="${odio} ${sag} install --download-only "
 fi
 
+#HUOM.jos ei lähde debian testingin kanssa lataUtumaan niin sitten olisi vielä unstable
+#... myös excalibur uudemman kerran mutta tiedä siitäkin
 function tlb() {
 	debug=1
 	dqb "x2.tlb( ${1} ; ${2} )"
@@ -423,7 +424,7 @@ function tlb() {
 	csleep 3
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-	${shary} nft #jatkossa udp6:sessa?
+	#${shary} nft #jatkossa udp6:sessa tjsp?
 
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 	${shary} iptables #mitä ymp. mja - jekkuja tähän oli ajateltu?
@@ -442,8 +443,9 @@ function tlb() {
 }
 
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
+
 #HUOM.26525:apg-get sisältää vivun "-t" , mitä se tekee Devuanin tapauksessa? pitääkö sources.list sorkkia liittyen?
-#... ei oikein lähtenyt -t:llä ethz kanssa ekalla yrotyksellä 29525
+#... ei oikein lähtenyt -t:llä ethz kanssa ekalla yrItyksellä 29525
 #sen sijaan kun sources-list:iin vaihtoi stable-> testing ni jotain alkoi tapahtua
 function tp4() {
 	debug=1
@@ -545,8 +547,6 @@ function tp2() {
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
-
-	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres ? (TODO:testaa miten on)
 
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
@@ -681,11 +681,10 @@ function tp3() { #TODO:testaa, ensiksi tämä
 		fi
 	fi
 
-	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
+	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	# (ao. rivi tp2() jatkossa?)
 
-	#VAIH:cut-jekku tähän? tr myös?
 	local p
 	p=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${p}
@@ -794,7 +793,6 @@ csleep 2
 pre1 ${d}
 
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
-#VAIH:uusi case ja vaikka fktio samantien pelkästään iptablesin pakettien hakua varten
 case ${mode} in
 	0|4) #erikseen vielä case missä tp3 skipataan?
 		pre1 ${d}
@@ -809,7 +807,7 @@ case ${mode} in
 		tp3 ${tgtfile} ${distro} #voisiko käyttää $d?
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
-		${srat} -cvf ${d}/e.tar ./rnd
+		${srat} -cvf ${d}/e.tar #./rnd tarvitseeko random-kuraa 2 kertaan?
 		[ ${mode} -eq 0 ] && tp4 ${d}/e.tar ${d}
 		${sifd} ${iface}
 
