@@ -4,7 +4,7 @@
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 #... joskohan --force-confold olisi se haettu juttu
 
-#HUOM. tarvitseeko 2. parametrin? nyt (270525) tietysti $dnsm ettei liikaa glob. mjia (VAIH)
+#HUOM. tarvitseeko 2. parametrin? nyt (270525) tietysti $dnsm ettei liikaa glob. mjia
 function pre_part3() {
 	dqb "daud.pp3( ${1} , ${2} )"
 	csleep 1
@@ -58,13 +58,20 @@ function pre_part3() {
 }
 
 function c5p() {
-	#TODO:-d $1 - tark
+	dqb "CCCP( ${1} , ${2} )"
+	csleep 1
+	[ -d ${1} ] || exit 66
+	dqb "paramz 0k"
+	csleep 1
 
 	${NKVD} ${1}/xz*
 	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
 	${NKVD} ${1}/libcrypt*
 	${NKVD} ${1}/libdevmapper*
 	${NKVD} ${1}/libsoup*
+
+	dqb "...is over"
+	csleep 1
 }
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
@@ -72,8 +79,9 @@ function c5p() {
 function pr4() {
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
+	[ -d ${1} ] || exit 66
+	dqb "paramz 0k"
 
-	#TODO:-d $1 - tark
 	#TODO:tähänkin psqa?
 	${sdi} ${1}/libpam-modules-bin_*.deb
 	${sdi} ${1}/libpam-modules_*.deb
@@ -111,17 +119,22 @@ function pr4() {
 function udp6() {
 	dqb "daud.lib.UPDP-6"
 	csleep 1
+	[ -d ${1} ] || exit 66
+	dqb "paramz 0k"
+	csleep 1
 
 	#aiheuttavat nalkutusta (tai miten lienee nykyään? jos kokeilisi)
-	${NKVD} ${1}/libx11-xcb1*
-	${NKVD} ${1}/nfs*
-	${NKVD} ${1}/rpc*
-	${NKVD} ${1}/python3.11*
-	${NKVD} ${1}/xserver-xorg-core*
-	${NKVD} ${1}/xserver-xorg-legacy*
-	${NKVD} ${1}/libgtk-3-bin*
-	${NKVD} ${1}/libpython3.11*
-	${NKVD} ${1}/librsvg2*
+#	${NKVD} ${1}/libx11-xcb1* #HUOM.30525:tämä nyt erityisesti aiheuttaa härdelliä, tarttisko tehrä jotain?
+#HUOM.tuon poisto poistaa äksän ja xfce:n joten purge ei optio
+
+#	${NKVD} ${1}/nfs*
+#	${NKVD} ${1}/rpc*
+#	${NKVD} ${1}/python3.11*
+#	${NKVD} ${1}/xserver-xorg-core*
+#	${NKVD} ${1}/xserver-xorg-legacy*
+#	${NKVD} ${1}/libgtk-3-bin*
+#	${NKVD} ${1}/libpython3.11*
+#	${NKVD} ${1}/librsvg2*
 	
 	c5p ${1}
 
@@ -207,6 +220,7 @@ function pre_part2() {
 
 	${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
+	dqb "d0n3"
 }
 
 check_binaries ${PREFIX}/${distro}
