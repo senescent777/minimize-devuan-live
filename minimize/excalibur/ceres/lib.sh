@@ -1,7 +1,7 @@
 #VAIH:ne xcalib omat paketit asentaen koska: "iptables: Failed to initialize nft: Protocol not supported"
 #https://superuser.com/questions/1480986/iptables-1-8-2-failed-to-initialize-nft-protocol-not-supported
 #https://hatchjs.com/iptables-1-8-7-failed-to-initialize-nft-protocol-not-supported/
-#update-alternatives ei tunnu riittävän, kokeillaanpa TAAS sitä debian.ethz.ch:n testing - juttua
+#update-alternatives ei tunnu riittävän, kokeillaanpa TAAS sitä debian.ethz.ch:n testing - juttua (no ei sekään oikein)
 
 function pre_part3() {
 	dqb "xc.pp3( ${1} , ${2} )"
