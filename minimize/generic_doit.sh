@@ -1,9 +1,7 @@
 #!/bin/bash
 
 mode=2
-#HUOM.28525:excalibur/ceres-tapauksessa saa jo mode=0 äksän/slimin/whåtever sek8isin, jos selvittäisi miksi
-#tar:in purku ei vielä riitä
-
+#tuo 28525 asia selvitetty, sitten toinen
 distro=$(cat /etc/devuan_version)
 dirname $0
 d=~/Desktop/minimize/${distro} #alkuosa dirname:lla jatkossa?
@@ -18,6 +16,14 @@ else
 fi
 
 #HUOM.29525:testaa asfdasfd.tar ja uudempi sen tables-jutun varalta
+#zxcv:lib ok, base-files+initscripts+sysvinit-core väärää versiota, tables puuttuu
+#fasd6:libs ok, muut muuten ok mutta base-fileksen kohdalla nalkutus, !tables 
+#fasd5:libs ok, !tables, samantap q zxcv
+
+#asd4:lib ok, iptbl-pers kohdalla nalqtus
+#"iptables: Failed to initialize nft: Protocol not supported"
+#"iptables v1.8.11 (legacy): can't initialize iptables table `filter': Table does not exist (do you need to insmod?)
+#Perhaps iptables or your kernel needs to be upgraded."
 
 function parse_opts_1() {
 	case "${1}" in
