@@ -4,7 +4,6 @@ tgtfile=""
 distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa
 PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd #tai dirname?
 mode=-2
-#loose=1 #turha nykyään
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -189,7 +188,7 @@ csleep 2
 function pre1() {
 	debug=1
 	dqb "pre1( ${1} )"
-	#[ x"${1}" == "z" ] && exit 666
+	[ -z ${1} ] && exit 666 #vika löytyi niinqu
 	csleep 10
 
 	${sco} -Rv _apt:root ${pkgdir}/partial/
@@ -243,7 +242,7 @@ function pre1() {
 function pre2() {
 	debug=1
 	dqb "pre2 ${1}, ${2} #WTIN KAARISULKEET STNA" 
-	[ x"${1}" == "z" ] && exit 666
+	[ -z ${1} ] && exit 666
 
 	local ortsac
 	local ledif
@@ -303,7 +302,7 @@ function tpq() {
 function tp1() {
 	#debug=1
 	dqb "tp1 ${1} , ${2} "
-	[ z"${1}" == "z" ] && exit
+	[ -z ${1} ] && exit
 	dqb "params_ok"
 	csleep 1
 
@@ -338,10 +337,10 @@ function rmt() {
 	debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
-#	[ z"${1}" == "z" ] && exit 1 #23525:mikä tässä nyt qsee?
+	[ -z ${1} ] && exit 1 
 	[ -s ${1} ] || exit 2
 
-	[ z"${2}" == "z" ] && exit 11
+	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 
 	dqb "paramz_ok"
@@ -392,14 +391,14 @@ function rmt() {
 	dqb "rmt d0n3"
 }
 
-#HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia
+#HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia, tuskin menee qten alla
 tcdd=$(cat /etc/devuan_version)
 t2=$(echo ${d} | cut -d '/' -f 6 | tr -d -c a-zA-Z/) #tai suoraan $distro?
 	
 if [ ${tcdd} != ${t2} ] ; then
 	dqb "XXX"
 	csleep 1
-	#shary="${odio} ${sag} install --download-only "
+	shary="${odio} ${sag} install --download-only " #HUOM.30525:josko vielä viimeisen kerran koklaisi tätä
 fi
 
 #HUOM.jos ei lähde debian testingin kanssa lataUtumaan niin sitten olisi vielä unstable
@@ -449,13 +448,13 @@ function tp4() {
 	debug=1
 	dqb "tp4 ${1} , ${2} "
 
-#	[ z"${1}" == "z" ] && exit 1 #mikä juttu näissä on?
+	[ -z ${1} ] && exit 1 #mikä juttu näissä on?
 	[ -s ${1} ] || exit 2
 	
 	dqb "DEMI-SEC"
 	csleep 1
 
-	[ z"${2}" == "z" ] && exit 11
+	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 
 	dqb "paramz_ok"
@@ -536,7 +535,8 @@ function tp4() {
 function tp2() {
 	debug=1
 	dqb "tp2 ${1} ${2}"
-	[ y"${1}" == "y" ] && exit 1
+
+	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
 
 	dqb "params_ok"
@@ -616,7 +616,8 @@ function tp2() {
 function tp3() { #TODO:testaa, ensiksi tämä
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
-	[ y"${1}" == "y" ] && exit 1
+
+	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
 
 	dqb "paramz_0k"
@@ -704,9 +705,9 @@ function tpu() { #VAIH:testaa
 	#HUOM:0/1/old/new ei liity
 	dqb "tpu ${1}, ${2}"
 
-	[ y"${1}" == "y" ] && exit 1
+	[ -z ${1} ] && exit 1
 	[ -s ${1} ] && mv ${1} ${1}.OLD
-	[ z"${2}" == "z" ] && exit 11
+	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 	dqb "params_ok"
 
@@ -719,14 +720,14 @@ function tpu() { #VAIH:testaa
 	echo $?
 	csleep 2
 
-#	local s
-#
-#	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä...
-#		dqb "processing ${s} ..."
-#		csleep 1
-#
-#		${NKVD} ${pkgdir}/${s}*
-#	done
+	local s
+
+	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä... EIKU
+		dqb "processing ${s} ..."
+		csleep 1
+
+		${NKVD} ${pkgdir}/${s}*
+	done
 
 	case ${iface} in
 		wlan0)
@@ -760,7 +761,7 @@ function tp5() {
 	#debug=1
 
 	dqb "tp5 ${1} ${2}"
-	[ z"${1}" == "z" ] && exit 99
+	[ -z ${1} ] && exit 99
 	[ -s ${1} ] || exit 98
 	[ -d ${2} ] || exit 97
  

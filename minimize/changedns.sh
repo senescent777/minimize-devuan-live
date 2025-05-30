@@ -112,16 +112,24 @@ dqb "when in trouble, \"sudo chmod 0755  \*.sh ;sudo chmod 0755 \${distro}; sudo
 #==============================================================
 function tod_dda() { 
 	dqb "tod_dda(${1}) "
-	${ipt} -A b -p tcp --sport 853 -s ${1} -j c
-	${ipt} -A e -p tcp --dport 853 -d ${1} -j f
+
+	local t
+	t=$(echo ${1} | tr -d -c 0-9.)
+
+	${ipt} -A b -p tcp --sport 853 -s ${t} -j c
+	${ipt} -A e -p tcp --dport 853 -d ${t} -j f
 }
 
 function dda_snd() {
 	dqb "dda_snd( ${1})"
-	${ipt} -A b -p udp -m udp -s ${1} --sport 53 -j ACCEPT 
-	${ipt} -A e -p udp -m udp -d ${1} --dport 53 -j ACCEPT
+
+	local t
+	t=$(echo ${1} | tr -d -c 0-9.)
+
+	${ipt} -A b -p udp -m udp -s ${t} --sport 53 -j ACCEPT 
+	${ipt} -A e -p udp -m udp -d ${t} --dport 53 -j ACCEPT
 }
-#TODO: 2 yo. gktioon param mankelointi
+#VAIH: 2 yo. gktioon param mankelointi
 #==============================================================
 #HUOM.220624:stubbyn asentumisen ja käynnistymisen kannalta sleep saattaa olla tarpeen
 function ns2() {
@@ -170,7 +178,7 @@ function ns4() {
 	sleep 5
 }
 
-#HUOM.29525:$1, annetaanko sitä? käytetäänkö?
+#HUOM.29525:$1, annetaanko sitä? käytetäänkö? No Ei
 function clouds_pp1() {
 	dqb "#c.pp.1  ( ${1} )"
 	local f
