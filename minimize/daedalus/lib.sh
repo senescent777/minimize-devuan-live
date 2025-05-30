@@ -70,6 +70,10 @@ function c5p() {
 	${NKVD} ${1}/libdevmapper*
 	${NKVD} ${1}/libsoup*
 
+	${NKVD} ${1}/xserver* #HUOM.31525:nalkutusta, pois
+	${NKVD} ${1}/libgtk-3* 
+	${NKVD} ${1}/librsvg*
+
 	dqb "...is over"
 	csleep 1
 }
@@ -81,6 +85,77 @@ function pr4() {
 	csleep 1
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
+
+	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
+	${sdi} ${1}/gcc-12*.deb
+	${sdi} ${1}/libc6_2.36-9+deb12u10_amd64.deb  ${1}/libgcc-s1_12.2.0-14+deb12u1_amd64.deb 
+	${sdi} ${1}/libstdc*.deb
+	${sdi} ${1}/libglib*.deb ${1}/libmount*.deb ${1}/libblk*.deb
+	${sdi} ${1}/lilbwebp*.deb
+	${sdi} ${1}/libtiff*.deb ${1}/liblzma5*.deb
+	${sdi} ${1}/libgnutls*.deb ${1}/libtasn*.deb
+	${sdi} ${1}/libssl3*.deb ${1}/libk*.deb ${1}/libgss*
+	${sdi} ${1}/libcups* ${1}/libavahi* ${1}/libdbus*
+	${sdi} ${1}/libx11-6*
+	${sdi} ${1}/libcap2*
+	${sdi} ${1}/libcurl* ${1}/libnghttp*
+	${sdi} ${1}/libdav*
+	${sdi} ${1}/libeudev*
+	${sdi} ${1}/libfdisk* libuuid* #mihin näitä tarvittiin?
+	${sdi} ${1}/libfreetype*
+	${sdi} ${1}/libgnutls*
+	${sdi} ${1}/libisl*
+	${sdi} ${1}/libltd*
+	${sdi} ${1}/libmpg*
+	${sdi} ${1}/libnf*
+	${sdi} ${1}/libnss* ${1}/libsqlite*
+	${sdi} ${1}/libopen*  ${1}/libpolkit-gobject-* 
+	${sdi} ${1}/libpython3.11-*
+	${sdi} ${1}/libav* ${1}/libsw*
+	#${sdi} ${1}/libvte*.deb
+
+	csleep 1
+
+	${NKVD} ${1}/gcc-12*.deb
+	${NKVD} ${1}/libgcc*.deb
+	${NKVD} ${1}/libc6*
+	${NKVD} ${1}/libstdc*.deb
+	${NKVD} ${1}/libglib*.deb
+	${NKVD} ${1}/libmount*.deb
+	${NKVD} ${1}/libblk*
+	${NKVD} ${1}/libtiff*.deb
+	${NKVD} ${1}/liblzma5*.deb
+	${NKVD} ${1}/libgnutls*.deb 
+	${NKVD} ${1}/libtasn*.deb
+	${NKVD} ${1}/libssl3*.deb 
+	${NKVD} ${1}/libk*.deb 
+	${NKVD} ${1}/libgss*
+	${NKVD} ${1}/libcups* 
+	${NKVD} ${1}/libavahi* 
+	${NKVD} ${1}/libdbus*
+	${NKVD} ${1}/libx11-6*
+	${NKVD} ${1}/libcap2*
+	${NKVD} ${1}/libcurl* 
+	${NKVD} ${1}/libnghttp*
+	${NKVD} ${1}/libdav*
+	${NKVD} ${1}/libeudev*
+	${NKVD} ${1}/libfreetype*
+	${NKVD} ${1}/libgnutls*
+	${NKVD} ${1}/libisl*
+	${NKVD} ${1}/libltd*
+	${NKVD} ${1}/libmpg*
+	${NKVD} ${1}/libnss*
+	${NKVD} ${1}/libsqlite*
+	${NKVD} ${1}/libopen*
+	${NKVD} ${1}/libpolkit-gobject-* #voisiko näitä poistaa?
+	${NKVD} ${1}/libpython3.11-*
+	${NKVD} ${1}/libsw*
+	${NKVD} ${1}/libav*
+	#${NKVD} ${1}/libvte*.deb
+	
+	csleep 1	
+
+	#HUOM.31525:vituttava määrä asentelua librsvg2 kanssa edelleen
 
 	#TODO:tähänkin psqa?
 	${sdi} ${1}/libpam-modules-bin_*.deb
@@ -96,7 +171,7 @@ function pr4() {
 	${NKVD} ${1}/libperl*.deb
 
 	${sdi} ${1}/perl*.deb
-	${sdi} ${1}/libdbus*.deb
+	#${sdi} ${1}/libdbus*.deb
 	${sdi} ${1}/dbus*.deb
 
 	${sdi} ${1}/liberror-perl*.deb
@@ -108,7 +183,7 @@ function pr4() {
 
 	${NKVD} ${1}/libpam*
 	${NKVD} ${1}/libperl*
-	${NKVD} ${1}/libdbus*
+	#${NKVD} ${1}/libdbus*
 	${NKVD} ${1}/dbus*
 	${NKVD} ${1}/perl*
 	
