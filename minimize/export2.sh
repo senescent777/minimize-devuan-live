@@ -454,6 +454,9 @@ function tlb() {
 
 		${shary} nftables #excalibur-spesifisiä?
 		${shary} isc-dhcp-client isc-dhcp-common
+
+		${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8
+		${shary} wpasupplicant
 	fi
 
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
@@ -481,6 +484,7 @@ function tlb() {
 #sen sijaan kun sources-list:iin vaihtoi stable-> testing ni jotain alkoi tapahtua
 
 #HUOM.31525:pienin vaiva saada tables excaliburiin toimimaan saattaa olla hakea tables-paketit excailburilla
+#...sikäli mikäli dhclient ja wpasupplicant sun muut löytyvät
 
 function tp4() { #TODO:tämäkin pitäisi testata, erityisesti koska tlb()
 	debug=1
@@ -539,6 +543,7 @@ function tp4() { #TODO:tämäkin pitäisi testata, erityisesti koska tlb()
 	csleep 1
 	${lftr}
 
+	#erilliseksi fktioksi tämä?
 	case ${iface} in
 		wlan0)
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
@@ -624,7 +629,8 @@ function tp2() { #HUOM.31525:olisikohan kunnossa tämä?
 
 	case ${iface} in
 		wlan0)
-			${srat} -rf ${1} /etc/wpa*
+			#tartteekokokoko ko hakemostoa?
+			${srat} -rf ${1} /etc/wpa/wpa_supplicant.conf
 		;;
 		*)
 			dqb "non-wlan"
