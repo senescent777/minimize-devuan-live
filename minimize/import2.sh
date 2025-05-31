@@ -145,12 +145,12 @@ else
 	csleep 1
 
 	function pr4() {
-		dqb "imp2.pr4 (\${1} \${2})" 
+		dqb "imp2.pr4 (\${1})" 
 	}
 
-	function pre_part3() {
-		dqb "imp2.pre_part3( \${1} \${2})"
-	}
+	#function pre_part3() {
+	#	dqb "imp2.pre_part3( \${1} \${2})"
+	#}
 
 	check_binaries ${d} #parametrit kunnossq?
 	echo $?
@@ -210,6 +210,7 @@ function common_part() {
 
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-5) #tr mukaan?
+	#TODO:varmista että tästä eteenpäin toimii
 
 	if [ -x ${t}/common_lib.sh ] ; then
 		enforce_access ${n} ${t} 
@@ -218,14 +219,14 @@ function common_part() {
 
 	csleep 1
 	
-	if [ -d ${2} ] ; then 
+	if [ -d ${t} ] ; then #-d ${2}
 		dqb "HAIL UKK"
 
 		#vissiinkin tässä kohtaa common_lib taas käyttöön EIKU
-		${scm} 0755 ${2}
-		${scm} a+x ${2}/*.sh
-		${scm} 0444 ${2}/conf*
-		${scm} 0444 ${2}/*.deb
+		${scm} 0755 ${t}
+		${scm} a+x ${t}/*.sh
+		${scm} 0444 ${t}/conf*
+		${scm} 0444 ${t}/*.deb
 
 		csleep 1
 	fi
@@ -297,7 +298,7 @@ case "${mode}" in
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
 
-		part3 ${d} ${dnsm}
+		part3 ${d} ${dnsm} #VAIH:testaa että toimii
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 		csleep 1
 

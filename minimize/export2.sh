@@ -136,12 +136,12 @@ else
 	echo "NOT (L1B AVA1LABL3 AND 3X3CUT4BL3)"
 
 	function pr4() {
-		dqb "exp2.pr4 ${1} ${2} " 
+		dqb "exp2.pr4 ${1} " 
 	}
-
-	function pre_part3() {
-		dqb "exp2.pre_part3 ${1} ${2} "
-	}
+#
+#	function pre_part3() {
+#		dqb "exp2.pre_part3 ${1} ${2} "
+#	}
 
 	function udp6() {
 		dqb "exp32.UPD6()"

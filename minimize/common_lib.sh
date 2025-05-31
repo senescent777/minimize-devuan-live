@@ -195,7 +195,8 @@ function efk() {
 
 #tähän tablesin asentelu jatkossa?
 function common_tbls() {
-	dqb "UNDER CONSTRUCTION"
+	dqb "COMMON TABLESD"
+	csleep 3
 
 	[ y"${1}" == "y" ] && exit	
 	[ -d ${1} ] || exit
@@ -204,7 +205,7 @@ function common_tbls() {
 	local d2
 	d2=$(echo ${2} | tr -d -c 0-9)
 
-	dqb "pp3.2"
+	dqb "PARAMS_OK"
 	csleep 1
 	psqa ${1}
 
@@ -248,7 +249,7 @@ function common_tbls() {
 	csleep 1
 	${scm} 0550 /etc/iptables	
 
-	dqb "common_lib.pp3 d0n3"
+	dqb "common_tblz d0n3"
 	csleep 1
 }
 
@@ -293,7 +294,8 @@ function check_binaries() {
 
 		#common_tbls korvaamaan
 		ppp3 ${1}
-		pre_part3 ${1} ${dnsm}
+		#pre_part3
+		common_tbls ${1} ${dnsm}
 		pr4 ${1}
 
 		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
@@ -942,7 +944,9 @@ function part3() {
 	local d2
 	d2=$(echo ${2} | tr -d -c 0-9)
 
-	pre_part3 ${1} ${d2}
+	#pre_part3 ${1} ${d2}
+	common_tbls ${1} ${d2}
+
 	pr4 ${1}
 	part3_4real ${1}
 	other_horrors
