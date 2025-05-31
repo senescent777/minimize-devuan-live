@@ -49,10 +49,17 @@ function cp5() {
 	${NKVD} ${1}/libmount*
 	${NKVD} ${1}/libfdisk*
 	${NKVD} ${1}/libblkid*
+	${NKVD} ${1}/libsmartcols*
+	${NKVD} ${1}/liblastlog* #poistuuko?
+	${NKVD} ${1}/libuuid*
 	${NKVD} ${1}/eject*
 	${NKVD} ${1}/mount*
-	${NKVD} ${1}/util-linux*
+	${NKVD} ${1}/util-linux* #poistuuko?
 	${NKVD} ${1}/base-files*
+	${NKVD} ${1}/fdisk*
+	${NKVD} ${1}/bsdextrautils*
+	${NKVD} ${1}/uuid*
+	${NKVD} ${1}/rfkill*
 
 	csleep 1
 }
@@ -61,7 +68,7 @@ function pr4() {
 	dqb "xc.pr4( ${1} , ${2} )"
 	csleep 1
 
-	cp5
+	cp5 ${1}
 	#VAIH
 
 	dqb "...done"
@@ -72,7 +79,7 @@ function udp6() {
 	dqb "xc.lib.UPDP-6"
 	csleep 1
 
-	cp5
+	cp5 ${1}
 
 	dqb "...done"
 	csleep 1
@@ -82,13 +89,20 @@ function t2p() {
 	debug=1
 
 	dqb "XC.T2P (VAIH)"
+	
+	#31525 lisäyksiä (util-linux ei uskalla poistaa, miten nuo muut?)
+	#${sharpy} libsmartcols1 libuuid1 liblastlog2-2
+	${sharpy} bsdextrautils*  # util-linux
+	${sharpy} rfkill uuid-runtime
+	t2p_filler	
+
 	${sharpy} arch-test debootstrap #eipä poistunut aiemmin
 #	${sharpy} dmsetup dracut-install aiheuttaa ongelmia
 	t2p_filler
 
 	#HUOM.28525:a) grubiin liitt. nalkutukset b) ainakin osa noista pitäisi poistua jo aiemmin
 	${sharpy} fuse3 gir* gsettings* gstreamer* # grub*
-	t2p_filler #ei poista lingtk3?
+	t2p_filler #ei poista libgtk3?
 
 #	#mitä tekee luit? entä libngtcp2? ocl-icd-jotain ?
 #HUOM.28525.3:tässä poistunee libgtk3, miten estää? libgssapi pois listasta?
