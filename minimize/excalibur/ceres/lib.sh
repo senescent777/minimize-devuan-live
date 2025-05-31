@@ -1,7 +1,6 @@
 #VAIH:ne xcalib omat paketit asentaen koska: "iptables: Failed to initialize nft: Protocol not supported"
 #https://superuser.com/questions/1480986/iptables-1-8-2-failed-to-initialize-nft-protocol-not-supported
 #https://hatchjs.com/iptables-1-8-7-failed-to-initialize-nft-protocol-not-supported/
-#update-alternatives ei tunnu riittävän, kokeillaanpa TAAS sitä debian.ethz.ch:n testing - juttua (no ei sekään oikein)
 
 #function pre_part3() {
 #	dqb "xc.pp3( ${1} , ${2} )"
@@ -43,16 +42,40 @@
 #	csleep 1
 #}
 
+function cp5() {
+	dqb "7391"
+
+	#31525:näistä tuli nalqtus
+	${NKVD} ${1}/libmount*
+	${NKVD} ${1}/libfdisk*
+	${NKVD} ${1}/libblkid*
+	${NKVD} ${1}/eject*
+	${NKVD} ${1}/mount*
+	${NKVD} ${1}/util-linux*
+	${NKVD} ${1}/base-files*
+
+	csleep 1
+}
+
 function pr4() {
 	dqb "xc.pr4( ${1} , ${2} )"
 	csleep 1
-	#TODO
+
+	cp5
+	#VAIH
+
+	dqb "...done"
+	csleep 1
 }
 
 function udp6() {
 	dqb "xc.lib.UPDP-6"
 	csleep 1
-	#TODO
+
+	cp5
+
+	dqb "...done"
+	csleep 1
 }
 
 function t2p() {
@@ -68,7 +91,7 @@ function t2p() {
 	t2p_filler #ei poista lingtk3?
 
 #	#mitä tekee luit? entä libngtcp2? ocl-icd-jotain ?
-#HUOM.28525.3:tässä poistunee lingtk3, miten estää? libgssapi pois listasta?
+#HUOM.28525.3:tässä poistunee libgtk3, miten estää? libgssapi pois listasta?
 
 	${sharpy} libgstreamer* lm-sensors ocl-icd*
 	#${sharpy} libgssapi*
