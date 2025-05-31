@@ -199,7 +199,7 @@ function pre1() { #HUOM.31525:lienee kunnossa
 		local ortsac
 		local lefid
 
-		ortsac=$(echo ${1} | cut -d '/' -f 6) | tr -d -c a-z) #tr uutena 1625
+		ortsac=$(echo ${1} | cut -d '/' -f 6 | tr -d -c a-z) #tr uutena 1625
 		lefid=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
 
 		enforce_access ${n} ${lefid} 
@@ -402,6 +402,25 @@ fi
 #HUOM.31525:josqo sen sdfsdf1 testaisi kuiteskin nytq $shary vaihdettu oletusarvosta
 # (pitäisiköhän ethz knssa vielä?)
 
+function asw() {
+	#VAIH:erilliseksi fktioksi tämä?
+	case ${iface} in
+		wlan0)
+			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
+			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
+
+			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3 adduser
+			${shary} wpasupplicant
+		;;
+		*)
+			dqb "not pulling wpasuplicant"
+			csleep 2
+		;;
+	esac
+
+	${shary} isc-dhcp-client isc-dhcp-common
+}
+
 function tlb() {
 	debug=1
 	dqb "x2.tlb( ${1} ; ${2} )"
@@ -434,29 +453,26 @@ function tlb() {
 	#distro-spesifinen osuus -> lib jatkossa (esim. tpc7)
 	if [ ${cc} -gt 0 ] || [ ${cc2} -gt 0 ] ; then
 		dqb "6.12....27"
-		csleep 5
-	
-		#${shary} linux-modules-6.12.27-amd64 #31525 uutena
-
-		#nopeasti lähimpiä vastineita:
-		#https://packages.debian.org/trixie/linux-image-6.12.27-amd64 miten tämä?
-		#https://debian.ethz.ch/debian/pool/main/l/linux-signed-amd64/linux-image-cloud-amd64_6.12.27-1_amd64.deb
-		#wget/curl jos ei muuten
-
-		local fname
-		fname=linux-image-6.12.27-amd64
-
-		${odio} touch ${pkgdir}/${fname} #seur rivit toistuvat usein, fktioksi?
-		${scm} 0644 ${pkgdir}/${fname}
-		${sco} $(whoami):$(whoami) ${pkgdir}/${fname}
-		
-		curl -o ${pkgdir}/${fname} https://packages.debian.org/trixie/${fname}
-
-		${shary} nftables #excalibur-spesifisiä?
-		${shary} isc-dhcp-client isc-dhcp-common
-
-		${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8
-		${shary} wpasupplicant
+#		csleep 5
+#	
+#		#${shary} linux-modules-6.12.27-amd64 #31525 uutena
+#
+#		#nopeasti lähimpiä vastineita:
+#		#https://packages.debian.org/trixie/linux-image-6.12.27-amd64 miten tämä?
+#		#https://debian.ethz.ch/debian/pool/main/l/linux-signed-amd64/linux-image-cloud-amd64_6.12.27-1_amd64.deb
+#		#wget/curl jos ei muuten
+#
+#		local fname
+#		fname=linux-image-6.12.27-amd64
+#
+#		${odio} touch ${pkgdir}/${fname} #seur rivit toistuvat usein, fktioksi?
+#		${scm} 0644 ${pkgdir}/${fname}
+#		${sco} $(whoami):$(whoami) ${pkgdir}/${fname}
+#		
+#		curl -o ${pkgdir}/${fname} https://packages.debian.org/trixie/${fname}
+#
+		#${shary} nftables #excalibur-spesifisiä?
+		asw #jatkossa "if cc"-blokin uplkop tämä
 	fi
 
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
@@ -543,20 +559,7 @@ function tp4() { #TODO:tämäkin pitäisi testata, erityisesti koska tlb()
 	csleep 1
 	${lftr}
 
-	#erilliseksi fktioksi tämä?
-	case ${iface} in
-		wlan0)
-			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
-
-			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3 adduser
-			${shary} wpasupplicant
-		;;
-		*)
-			dqb "not pulling wpasuplicant"
-			csleep 2
-		;;
-	esac
+	asw
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
 	if [ -d ${2} ] ; then
