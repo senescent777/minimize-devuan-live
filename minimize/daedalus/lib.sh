@@ -72,7 +72,7 @@ function c5p() {
 
 	${NKVD} ${1}/xserver* #HUOM.31525:nalkutusta, pois toistaiseksi
 	${NKVD} ${1}/libgtk-3* 
-	${NKVD} ${1}/librsvg*
+	${NKVD} ${1}/librsvg* #eniten nalkutusta vissiin tästä, jos koittaisi uudestaan josqs
 
 	dqb "...is over"
 	csleep 1
@@ -101,7 +101,7 @@ function pr4() {
 	${sdi} ${1}/libcurl* ${1}/libnghttp*
 	${sdi} ${1}/libdav*
 	${sdi} ${1}/libeudev*
-	${sdi} ${1}/libfdisk* libuuid* #mihin näitä tarvittiin?
+	${sdi} ${1}/libfdisk* ${1}/libuuid* #mihin näitä tarvittiin?
 	${sdi} ${1}/libfreetype*
 	${sdi} ${1}/libgnutls*
 	${sdi} ${1}/libisl*
@@ -109,7 +109,7 @@ function pr4() {
 	${sdi} ${1}/libmpg*
 	${sdi} ${1}/libnf*
 	${sdi} ${1}/libnss* ${1}/libsqlite*
-	${sdi} ${1}/libopen*  ${1}/libpolkit-gobject-* 
+	${sdi} ${1}/libopen* ${1}/libpolkit-gobject-* 
 	${sdi} ${1}/libpython3.11-*
 	${sdi} ${1}/libav* ${1}/libsw*
 	#${sdi} ${1}/libvte*.deb
@@ -159,7 +159,6 @@ function pr4() {
 	#TODO:tähänkin psqa?
 	${sdi} ${1}/libpam-modules-bin_*.deb
 	${sdi} ${1}/libpam-modules_*.deb
-
 	${NKVD} ${1}/libpam-modules*
 
 	${sdi} ${1}/libpam*.deb
