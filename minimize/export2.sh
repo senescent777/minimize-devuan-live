@@ -431,7 +431,7 @@ function tlb() {
 	#https://pkgs.org/download/linux-image-6.12.27-amd64 ... joskohan ethz kautta
 	#... tarkistus tosin uusiksi, josko sinne tcdd-blokkiin ylemmäs?
 	
-	#distro-spesifinen osuus -> lib jatkossa
+	#distro-spesifinen osuus -> lib jatkossa (esim. tpc7)
 	if [ ${cc} -gt 0 ] || [ ${cc2} -gt 0 ] ; then
 		dqb "6.12....27"
 		csleep 5
@@ -441,6 +441,7 @@ function tlb() {
 		#nopeasti lähimpiä vastineita:
 		#https://packages.debian.org/trixie/linux-image-6.12.27-amd64 miten tämä?
 		#https://debian.ethz.ch/debian/pool/main/l/linux-signed-amd64/linux-image-cloud-amd64_6.12.27-1_amd64.deb
+		#wget/curl jos ei muuten
 
 		${shary} nftables #excalibur-spesifisiä?
 		${shary} isc-dhcp-client isc-dhcp-common
@@ -453,6 +454,9 @@ function tlb() {
 	dqb "x2.tlb.part2"
 	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
 	csleep 6
+
+	#uutena 31525
+	udp6 ${pkgdir}
 
 	#actually necessary
 	pre2 ${1}
@@ -557,7 +561,7 @@ function tp4() { #TODO:tämäkin pitäisi testata, erityisesti koska tlb()
 
 #koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
 #HUOM.20525:joskohan locale- ja rules- juttuja varten uusi fktio? vääntöä tuntuu riittävän nimittäin
-function tp2() {
+function tp2() { #HUOM.31525:olisikohan kunnossa tämä?
 	debug=1
 	dqb "tp2 ${1} ${2}"
 
@@ -831,11 +835,11 @@ case ${mode} in
 		tp3 ${tgtfile} ${distro} #voisiko käyttää $d?
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
-		${srat} -cvf ${d}/e.tar #./rnd tarvitseeko random-kuraa 2 kertaan?
+		${srat} -cvf ${d}/e.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
 		[ ${mode} -eq 0 ] && tp4 ${d}/e.tar ${d}
 		${sifd} ${iface}
 
-		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä
+		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
 		tp1 ${tgtfile} ${d}
 		pre1 ${d}
 		tp2 ${tgtfile}

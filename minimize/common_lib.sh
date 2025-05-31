@@ -210,11 +210,11 @@ function common_tbls() {
 
 	#31525 uutena, josko tällä modulit kohdalleen
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/linux-modules*.deb
-	[ $? -eq 0 ] && ${NKVD} -f ${1}/linux-modules*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/linux-modules*.deb
 	[ $? -eq 0 ] && ${odio} modprobe nft #tässä vai vähän alempana?
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
-	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
 
 	${odio} dpkg -i ${1}/libxtables*.deb 
 	[ $? -eq 0 ] && ${NKVD} ${1}/libxtables*.deb 
@@ -225,7 +225,7 @@ function common_tbls() {
 	csleep 1
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
-	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables_*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
 	
 	csleep 3
 	${scm} 0755 /etc/iptables
@@ -248,11 +248,11 @@ function common_tbls() {
 	csleep 5
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
-	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables-persistent=1.0.20
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables-*.deb
-	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables-*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/iptables-*.deb
 
 	csleep 1
 	${scm} 0550 /etc/iptables	
@@ -302,7 +302,7 @@ function check_binaries() {
 
 		#common_tbls korvaamaan
 		ppp3 ${1}
-		#pre_part3
+		
 		common_tbls ${1} ${dnsm}
 		pr4 ${1}
 
@@ -355,7 +355,7 @@ function check_binaries2() {
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
 	
-	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
+	lftr="${smr} -rf /run/live/medium/live/initrd.img* " #distro-kohtainen jatkossa
 	
 	srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
@@ -363,7 +363,6 @@ function check_binaries2() {
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
 	
-	#HUOM. ei alustetttu tämmöstä dch="${odio} ${dch}"
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
@@ -548,6 +547,7 @@ function e_h() {
 	#HUOM.28525:p.o $1/$2 jatkossa tai ainakin tarkistaa että $2 sis $1
 	[ -d ${2} ] || exit 99
 	local f
+
 	dqb " e h PT 2"
 	csleep 2
 	${scm} 0755 ${2}
@@ -626,7 +626,7 @@ function part1_5() {
 	local t
 
 	#HUOM.28525:pitäisiköhän tilap. sallia /e/a sorkinta tässä?
-	t=$(echo ${1} | cut -d '/' -f 1) #jos tämä riittäisi toistaiseksi
+	t=$(echo ${1} | cut -d '/' -f 1) #-dc a-z ?
 
 	if [ ! -s /etc/apt/sources.list.${t} ] ; then
 		if [ ! -s /etc/apt/sources.list.tmp ] ; then	
@@ -800,9 +800,8 @@ function part1() {
 	local t
 
 	g=$(date +%F)
-	t=$(echo ${1} | cut -d '/' -f 1) #tr va i ei? riippuee fktiosta part1_5
+	t=$(echo ${1} | cut -d '/' -f 1 | tr -dc a-z) 
 
-	#HUOM.20525:onkohan ao. ehto ok?
 	if [ -f /etc/apt/sources.list ] ; then
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
 
@@ -954,8 +953,6 @@ function part3() {
 
 	local d2
 	d2=$(echo ${2} | tr -d -c 0-9)
-
-	#pre_part3 ${1} ${d2}
 	common_tbls ${1} ${d2}
 
 	pr4 ${1}
