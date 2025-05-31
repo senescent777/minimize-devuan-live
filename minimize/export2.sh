@@ -443,7 +443,7 @@ function tlb() {
 		#https://debian.ethz.ch/debian/pool/main/l/linux-signed-amd64/linux-image-cloud-amd64_6.12.27-1_amd64.deb
 
 		${shary} nftables #excalibur-spesifisiä?
-		${shary} dhcpcd	dhcpcd-base
+		${shary} isc-dhcp-client isc-dhcp-common
 	fi
 
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
