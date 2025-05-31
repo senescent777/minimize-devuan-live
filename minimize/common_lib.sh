@@ -193,7 +193,6 @@ function efk() {
 	[ $? -eq 0 ] && ${smr} ${1}
 }
 
-#tähän tablesin asentelu jatkossa?
 function common_tbls() {
 	dqb "COMMON TABLESD"
 	csleep 3
@@ -208,6 +207,11 @@ function common_tbls() {
 	dqb "PARAMS_OK"
 	csleep 1
 	psqa ${1}
+
+	#31525 uutena, josko tällä modulit kohdalleen
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/linux-modules*.deb
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/linux-modules*.deb
+	[ $? -eq 0 ] && ${odio} modprobe nft #tässä vai vähän alempana?
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb
@@ -234,6 +238,10 @@ function common_tbls() {
 
 	s=$(${odio} which iptables-restore)
 	t=$(${odio} which ip6tables-restore)
+
+	#HUOM.31525:olisikohan moduleista kiinni että tässä tökkää?
+	#edelleen: "iptables v1.8.11 (legacy): can't initialize iptables table `filter': Table does not exist (do you need to insmod?"
+	#modprobe nft -> FATAL: Module nftables not found in directory /lib/modules/6.12.27-amd64
 
 	${odio} ${s} /etc/iptables/rules.v4.${d2}
 	${odio} ${t} /etc/iptables/rules.v6.${d2}

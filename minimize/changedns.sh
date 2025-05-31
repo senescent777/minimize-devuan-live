@@ -107,6 +107,7 @@ ip6t=$(sudo which ip6tables)
 iptr=$(sudo which iptables-restore)
 ip6tr=$(sudo which ip6tables-restore)
 
+sudo modprobe nft #distro-tark taakse vai ei?
 dqb "when in trouble, \"sudo chmod 0755  \*.sh ;sudo chmod 0755 \${distro}; sudo chmod 0755 \${distro}/ \*.sh; sudo chmod 0644 \${distro}/conf\" may help "
 
 #==============================================================
@@ -129,11 +130,11 @@ function dda_snd() {
 	${ipt} -A b -p udp -m udp -s ${t} --sport 53 -j ACCEPT 
 	${ipt} -A e -p udp -m udp -d ${t} --dport 53 -j ACCEPT
 }
-#VAIH: 2 yo. gktioon param mankelointi
+
 #==============================================================
 #HUOM.220624:stubbyn asentumisen ja käynnistymisen kannalta sleep saattaa olla tarpeen
 function ns2() {
-	[ y"${1}" == "y" ] && exit 154
+	[ y"${1}" == "y" ] && exit 145
 	dqb "ns2( ${1} )"
 	${scm} u+w /home
 	csleep 3

@@ -185,7 +185,7 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 2
 
-function pre1() {
+function pre1() { #HUOM.31525:lienee kunnossa?
 	debug=1
 	dqb "pre1( ${1} )"
 	[ -z ${1} ] && exit 666 #vika löytyi niinqu
@@ -332,11 +332,11 @@ function tp1() {
 }
 
 #HUOM.23525:josko nyt vähän fiksummin toimisi
-function rmt() { #HUOM.31525:toiminee mutta varmista(TODO)
+function rmt() { #HUOM.31525:toiminee mutta varmista(VAIH)
 	debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
-	[ -z ${1} ] && exit 1 
+	[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
 	[ -s ${1} ] || exit 2
 
 	[ -z ${2} ] && exit 11
@@ -397,14 +397,18 @@ t2=$(echo ${d} | cut -d '/' -f 6 | tr -d -c a-zA-Z/) #tai suoraan $distro?
 if [ ${tcdd} != ${t2} ] ; then
 	dqb "XXX"
 	csleep 1
-	shary="${odio} ${sag} install --download-only " #HUOM.30525:josko vielä viimeisen kerran koklaisi tätä
+	shary="${sag} install --download-only " #HUOM.30525:josko vielä viimeisen kerran koklaisi tätä
 fi
 
 #HUOM.jos ei lähde debian testingin kanssa lataUtumaan niin sitten olisi vielä unstable
 #... myös excalibur uudemman kerran mutta tiedä siitäkin
+#HUOM.31525:josqo sen sdfsdf1 testaisi kuiteskin nytq $shary vaihdettu oletusarvosta
+# (pitäisiköhän ethz knssa vielä?)
 function tlb() {
 	debug=1
 	dqb "x2.tlb( ${1} ; ${2} )"
+	csleep 2
+	dqb "\$shary= ${shary}"
 	csleep 4
 
 	if [ z"${pkgdir}" != "z" ] ; then
@@ -420,7 +424,17 @@ function tlb() {
 	csleep 3
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-	${shary} nftables #jatkossa udp6:sessa tjsp?
+
+	local cc
+	cc=$(echo ${distro} | grep excalibur | wc -l)
+
+	if [ ${cc} -gt 0 ] ; then
+		dqb "6.12....27"
+		csleep 5
+	
+		${shary} linux-modules-6.12.27-amd64 #31525 uutena, distro-tark taakse jatkossa(VAIH)
+		${shary} nftables #excalibur-spesifisiä?	
+	fi
 
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 	${shary} iptables #mitä ymp. mja - jekkuja tähän oli ajateltu?

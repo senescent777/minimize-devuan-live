@@ -28,11 +28,11 @@ fi
 #https://superuser.com/questions/1480986/iptables-1-8-2-failed-to-initialize-nft-protocol-not-supported
 #sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
 #https://hatchjs.com/iptables-1-8-7-failed-to-initialize-nft-protocol-not-supported/
-#(modprobe nft)
+
 #https://serverfault.com/questions/1028682/iptables-kernel-module-missing-after-upgrade-from-ubuntu-18-04-20-04
 #reconfig iptables/sudo apt-get install --reinstall linux-modules-xxxx
 
-#HUOM.export2:sessa haraa vastaan: base-files ja libx11-xcb1 ei oikein pakettien haku etene
+#HUOM.export2:sessa haraa vastaan: base-files ja libx11-xcb1 , niin ei oikein pakettien haku etene...edennyt
 
 function parse_opts_1() {
 	case "${1}" in
