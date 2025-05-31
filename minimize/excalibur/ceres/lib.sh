@@ -3,45 +3,45 @@
 #https://hatchjs.com/iptables-1-8-7-failed-to-initialize-nft-protocol-not-supported/
 #update-alternatives ei tunnu riittävän, kokeillaanpa TAAS sitä debian.ethz.ch:n testing - juttua (no ei sekään oikein)
 
-function pre_part3() {
-	dqb "xc.pp3( ${1} , ${2} )"
-	csleep 1
-	[ y"${1}" == "y" ] && exit	
-	[ -d ${1} ] || exit
-	[ -z ${2} ] && exit
-
-	#tr-jekku myös tähän fktioon?
-	#local d2
-	#d2=$(echo ${2} | tr -d -c 0-9)
-
-	#jatkossa ne ympäristömjat ja muut leikit
-	#... tai vielä tärkempi ensin: SELVITÄ ONKO IPTABLES EDES MUODISSA TÄLLÄ VIIKOLLA VAI MITÄ VITTUA?
-	#koskapa "iptables: Failed to initialize nft: Protocol not supported"
-	
-	sudo dpkg -i ${1}/libip*.deb
-	[ $? -eq 0 ] && sudo rm ${1}/libip*.deb
-	csleep 1
-
-	sudo dpkg -i ${1}/libxtables12_1.8.9-2_amd64.deb 
-	[ $? -eq 0 ] && sudo rm ${1}/libxtables12_1.8.9-2_amd64.deb 
-	csleep 1
-
-	#libnftnl, siitä tuli valitusta, asentaako vai poistaako?
-	sudo dpkg -i ${1}/libnftnl*.deb 
-	[ $? -eq 0 ] && sudo rm ${1}/libnftnl*.deb
-	csleep 1
- 
-	sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
-	sudo update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
-	#vissiin tuo ei riitä, jotain muutakin tarttis tehrä
-
-	sudo dpkg -i ${1}/iptables_*.deb 
-	[ $? -eq 0 ] && sudo rm ${1}/iptables_*.deb
-	csleep 1
-
-	dqb "xc.pp3.d0n3()"
-	csleep 1
-}
+#function pre_part3() {
+#	dqb "xc.pp3( ${1} , ${2} )"
+#	csleep 1
+#	[ y"${1}" == "y" ] && exit	
+#	[ -d ${1} ] || exit
+#	[ -z ${2} ] && exit
+#
+#	#tr-jekku myös tähän fktioon?
+#	#local d2
+#	#d2=$(echo ${2} | tr -d -c 0-9)
+#
+#	#jatkossa ne ympäristömjat ja muut leikit
+#	#... tai vielä tärkempi ensin: SELVITÄ ONKO IPTABLES EDES MUODISSA TÄLLÄ VIIKOLLA VAI MITÄ VITTUA?
+#	#koskapa "iptables: Failed to initialize nft: Protocol not supported"
+#	
+#	sudo dpkg -i ${1}/libip*.deb
+#	[ $? -eq 0 ] && sudo rm ${1}/libip*.deb
+#	csleep 1
+#
+#	sudo dpkg -i ${1}/libxtables12_1.8.9-2_amd64.deb 
+#	[ $? -eq 0 ] && sudo rm ${1}/libxtables12_1.8.9-2_amd64.deb 
+#	csleep 1
+#
+#	#libnftnl, siitä tuli valitusta, asentaako vai poistaako?
+#	sudo dpkg -i ${1}/libnftnl*.deb 
+#	[ $? -eq 0 ] && sudo rm ${1}/libnftnl*.deb
+#	csleep 1
+# 
+#	sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
+#	sudo update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
+#	#vissiin tuo ei riitä, jotain muutakin tarttis tehrä
+#
+#	sudo dpkg -i ${1}/iptables_*.deb 
+#	[ $? -eq 0 ] && sudo rm ${1}/iptables_*.deb
+#	csleep 1
+#
+#	dqb "xc.pp3.d0n3()"
+#	csleep 1
+#}
 
 function pr4() {
 	dqb "xc.pr4( ${1} , ${2} )"
