@@ -431,19 +431,24 @@ function tlb() {
 	#https://pkgs.org/download/linux-image-6.12.27-amd64 ... joskohan ethz kautta
 	#... tarkistus tosin uusiksi, josko sinne tcdd-blokkiin ylemmäs?
 	
+	#distro-spesifinen osuus -> lib jatkossa
 	if [ ${cc} -gt 0 ] || [ ${cc2} -gt 0 ] ; then
 		dqb "6.12....27"
 		csleep 5
 	
 		${shary} linux-modules-6.12.27-amd64 #31525 uutena
+
+		#nopeasti lähimpiä vastineita:
+		#https://packages.debian.org/trixie/linux-image-6.12.27-amd64 miten tämä?
+		#https://debian.ethz.ch/debian/pool/main/l/linux-signed-amd64/linux-image-cloud-amd64_6.12.27-1_amd64.deb
+
 		${shary} nftables #excalibur-spesifisiä?
-		${shary} dhcpcd	#tarkista vielä nimi
+		${shary} dhcpcd	dhcpcd-base
 	fi
 
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 	${shary} iptables #mitä ymp. mja - jekkuja tähän oli ajateltu?
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
-	#https://pkgs.org tai https://debian.ethz.ch myös olemassa
 
 	dqb "x2.tlb.part2"
 	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
