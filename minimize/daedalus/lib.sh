@@ -70,7 +70,7 @@ function c5p() {
 	${NKVD} ${1}/libdevmapper*
 	${NKVD} ${1}/libsoup*
 
-	${NKVD} ${1}/xserver* #HUOM.31525:nalkutusta, pois
+	${NKVD} ${1}/xserver* #HUOM.31525:nalkutusta, pois toistaiseksi
 	${NKVD} ${1}/libgtk-3* 
 	${NKVD} ${1}/librsvg*
 
@@ -154,7 +154,6 @@ function pr4() {
 	#${NKVD} ${1}/libvte*.deb
 	
 	csleep 1	
-
 	#HUOM.31525:vituttava määrä asentelua librsvg2 kanssa edelleen
 
 	#TODO:tähänkin psqa?
@@ -198,21 +197,11 @@ function udp6() {
 	dqb "paramz 0k"
 	csleep 1
 
-	#aiheuttavat nalkutusta (tai miten lienee nykyään? jos kokeilisi)
+	#nalqtusta aiheuttavat paketit nykyään:kts. c5p()
 #	${NKVD} ${1}/libx11-xcb1* #HUOM.30525:tämä nyt erityisesti aiheuttaa härdelliä, tarttisko tehrä jotain?
-#HUOM.tuon poisto poistaa äksän ja xfce:n joten purge ei optio
-
-#	${NKVD} ${1}/nfs*
-#	${NKVD} ${1}/rpc*
-#	${NKVD} ${1}/python3.11*
-#	${NKVD} ${1}/xserver-xorg-core*
-#	${NKVD} ${1}/xserver-xorg-legacy*
-#	${NKVD} ${1}/libgtk-3-bin*
-#	${NKVD} ${1}/libpython3.11*
-#	${NKVD} ${1}/librsvg2*
+#HUOM.tuon poisto poistaa äksän ja xfce:n joten ei
 	
 	c5p ${1}
-
 	dqb "D0NE"
 	csleep 1
 }
@@ -289,12 +278,20 @@ function t2p() {
 	csleep 1
 }
 
+#josko kuitenkin ntp takaisin listaan?
 function pre_part2() {
 	dqb "daud.pre_part2()"
-	csleep 1
+	csleep 6
 
-	${odio} /etc/init.d/ntpd stop
+	#${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
+
+	for f in $(find /etc/init.d -type f -name 'ntp*') ; do 
+		${odio} ${f} stop
+		csleep 1
+	done
+
+	csleep 6
 	dqb "d0n3"
 }
 
