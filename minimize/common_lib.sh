@@ -216,8 +216,8 @@ function common_tbls() {
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb
 
-	${odio} dpkg -i ${1}/libxtables12_1.8.9-2_amd64.deb 
-	[ $? -eq 0 ] && ${NKVD} ${1}/libxtables12_1.8.9-2_amd64.deb 
+	${odio} dpkg -i ${1}/libxtables*.deb 
+	[ $? -eq 0 ] && ${NKVD} ${1}/libxtables*.deb 
 	csleep 1
 
 	${odio} dpkg -i ${1}/libnftnl*.deb 
@@ -701,7 +701,7 @@ function dis() {
 	fi
 
 	local t
-	t=$(echo ${1} | cut -d '/' -f 1) #tr mukaan?
+	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
 
 	if [ -f /etc/network/interfaces.${t} ] ; then
 		dqb "LINKS-1-2-3"
@@ -800,7 +800,7 @@ function part1() {
 	local t
 
 	g=$(date +%F)
-	t=$(echo ${1} | cut -d '/' -f 1) #tr va i ei?
+	t=$(echo ${1} | cut -d '/' -f 1) #tr va i ei? riippuee fktiosta part1_5
 
 	#HUOM.20525:onkohan ao. ehto ok?
 	if [ -f /etc/apt/sources.list ] ; then
@@ -879,14 +879,17 @@ function part2_5() {
 		jules
 
 		#HUOM. saattaa toimia ilman .$2 koska tables-kikkailuja laitettu uusiksi 26525
-		#HUOM.2. josko kuitenkin mankeloisi $2 (TODO)
+		#HUOM.2. josko kuitenkin mankeloisi $2 (VAIH)
 
-		if [ -s /etc/iptables/rules.v6.${2} ] ; then
-			${ip6tr} /etc/iptables/rules.v6.${2}
+		local t
+		t=$(echo ${2} | tr -d -c 0-9)
+
+		if [ -s /etc/iptables/rules.v6.${t} ] ; then
+			${ip6tr} /etc/iptables/rules.v6.${t}
 		fi
 
-		if [ -s /etc/iptables/rules.v4.${2} ] ; then
-			${iptr} /etc/iptables/rules.v4.${2}
+		if [ -s /etc/iptables/rules.v4.${t} ] ; then
+			${iptr} /etc/iptables/rules.v4.${t}
 		fi
 	fi
 

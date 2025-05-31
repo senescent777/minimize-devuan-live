@@ -41,6 +41,7 @@ if [ -x ${PREFIX}/common_lib.sh ] ; then
 else
 	#HUOM.23525:oleellisempaa että import2 toimii tarvittaessa ilman common_lib
 	#"lelukirjasto" saattaa toimia sen varren että "$0 4 ..." onnistuu	
+	
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
 	uom="sudo /bin/umount"
@@ -138,10 +139,6 @@ else
 	function pr4() {
 		dqb "exp2.pr4 ${1} " 
 	}
-#
-#	function pre_part3() {
-#		dqb "exp2.pre_part3 ${1} ${2} "
-#	}
 
 	function udp6() {
 		dqb "exp32.UPD6()"
@@ -185,7 +182,7 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 2
 
-function pre1() { #HUOM.31525:lienee kunnossa?
+function pre1() { #HUOM.31525:lienee kunnossa
 	debug=1
 	dqb "pre1( ${1} )"
 	[ -z ${1} ] && exit 666 #vika löytyi niinqu
@@ -239,7 +236,7 @@ function pre1() { #HUOM.31525:lienee kunnossa?
 	fi
 }
 
-function pre2() { #HUOM.31525:toiminee mutta varmista(TODO)
+function pre2() { #HUOM.31525:toiminee
 	debug=1
 	dqb "pre2 ${1}, ${2} #WTIN KAARISULKEET STNA" 
 	[ -z ${1} ] && exit 666
@@ -248,7 +245,7 @@ function pre2() { #HUOM.31525:toiminee mutta varmista(TODO)
 	local ledif
 
 	ortsac=$(echo ${1} | cut -d '/' -f 6)
-	ledif=$(echo ${1} | cut -d '/' -f 1-5  | tr -d -c a-zA-Z/)
+	ledif=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
@@ -298,7 +295,7 @@ function tpq() { #HUOM.viimeksi 31525 testattu että tekee tarin
 	csleep 2
 }
 
-function tp1() {
+function tp1() { #VAIH:test 31525
 	#debug=1
 	dqb "tp1 ${1} , ${2} "
 	[ -z ${1} ] && exit
@@ -397,13 +394,14 @@ t2=$(echo ${d} | cut -d '/' -f 6 | tr -d -c a-zA-Z/) #tai suoraan $distro?
 if [ ${tcdd} != ${t2} ] ; then
 	dqb "XXX"
 	csleep 1
-	shary="${sag} install --download-only " #HUOM.30525:josko vielä viimeisen kerran koklaisi tätä
+	shary="${sag} install --download-only "
 fi
 
 #HUOM.jos ei lähde debian testingin kanssa lataUtumaan niin sitten olisi vielä unstable
 #... myös excalibur uudemman kerran mutta tiedä siitäkin
 #HUOM.31525:josqo sen sdfsdf1 testaisi kuiteskin nytq $shary vaihdettu oletusarvosta
 # (pitäisiköhän ethz knssa vielä?)
+
 function tlb() {
 	debug=1
 	dqb "x2.tlb( ${1} ; ${2} )"
@@ -424,16 +422,22 @@ function tlb() {
 	csleep 3
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-
 	local cc
-	cc=$(echo ${distro} | grep excalibur | wc -l)
+	local cc2
 
-	if [ ${cc} -gt 0 ] ; then
+	cc=$(echo ${distro} | grep excalibur | wc -l)
+	cc2=$(echo ${distro} | grep ethz | wc -l)
+
+	#https://pkgs.org/download/linux-image-6.12.27-amd64 ... joskohan ethz kautta
+	#... tarkistus tosin uusiksi, josko sinne tcdd-blokkiin ylemmäs?
+	
+	if [ ${cc} -gt 0 ] || [ ${cc2} -gt 0 ] ; then
 		dqb "6.12....27"
 		csleep 5
 	
-		${shary} linux-modules-6.12.27-amd64 #31525 uutena, distro-tark taakse jatkossa(VAIH)
-		${shary} nftables #excalibur-spesifisiä?	
+		${shary} linux-modules-6.12.27-amd64 #31525 uutena
+		${shary} nftables #excalibur-spesifisiä?
+		${shary} dhcpcd	#tarkista vielä nimi
 	fi
 
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
@@ -457,7 +461,10 @@ function tlb() {
 #HUOM.26525:apg-get sisältää vivun "-t" , mitä se tekee Devuanin tapauksessa? pitääkö sources.list sorkkia liittyen?
 #... ei oikein lähtenyt -t:llä ethz kanssa ekalla yrItyksellä 29525
 #sen sijaan kun sources-list:iin vaihtoi stable-> testing ni jotain alkoi tapahtua
-function tp4() {
+
+#HUOM.31525:pienin vaiva saada tables excaliburiin toimimaan saattaa olla hakea tables-paketit excailburilla
+
+function tp4() { #TODO:tämäkin pitäisi testata, erityisesti koska tlb()
 	debug=1
 	dqb "tp4 ${1} , ${2} "
 
@@ -626,7 +633,7 @@ function tp2() {
 
 #HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
 #dnsm 2. parametriksi... eiku ei, $2 onkin jo käytössä ja tarttisi sen cut-jekun
-function tp3() { #TODO:testaa, ensiksi tämä
+function tp3() { #31525:vaikuttaisi tulevan jutut mukana
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
 
