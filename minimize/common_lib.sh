@@ -196,6 +196,60 @@ function efk() {
 #tähän tablesin asentelu jatkossa?
 function common_tbls() {
 	dqb "UNDER CONSTRUCTION"
+
+	[ y"${1}" == "y" ] && exit	
+	[ -d ${1} ] || exit
+	[ -z ${2} ] && exit
+
+	local d2
+	d2=$(echo ${2} | tr -d -c 0-9)
+
+	dqb "pp3.2"
+	csleep 1
+	psqa ${1}
+
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb
+
+	${odio} dpkg -i ${1}/libxtables12_1.8.9-2_amd64.deb 
+	[ $? -eq 0 ] && ${NKVD} ${1}/libxtables12_1.8.9-2_amd64.deb 
+	csleep 1
+
+	${odio} dpkg -i ${1}/libnftnl*.deb 
+	[ $? -eq 0 ] && ${NKVD} ${1}/libnftnl*.deb
+	csleep 1
+
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables_*.deb
+	
+	csleep 3
+	${scm} 0755 /etc/iptables
+
+	${odio} update-alternatives --set iptables /usr/sbin/iptables-legacy
+	${odio} update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
+	
+	local s
+	local t
+
+	s=$(${odio} which iptables-restore)
+	t=$(${odio} which ip6tables-restore)
+
+	${odio} ${s} /etc/iptables/rules.v4.${d2}
+	${odio} ${t} /etc/iptables/rules.v6.${d2}
+	csleep 5
+
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables-persistent=1.0.20
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables-*.deb
+	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables-*.deb
+
+	csleep 1
+	${scm} 0550 /etc/iptables	
+
+	dqb "common_lib.pp3 d0n3"
+	csleep 1
 }
 
 function check_binaries() {
@@ -637,7 +691,7 @@ function dis() {
 	fi
 
 	local t
-	t=$(echo ${1} | cut -d '/' -f 1)
+	t=$(echo ${1} | cut -d '/' -f 1) #tr mukaan?
 
 	if [ -f /etc/network/interfaces.${t} ] ; then
 		dqb "LINKS-1-2-3"
@@ -703,9 +757,6 @@ function part076() {
 	csleep 1
 }
 
-#HUOM.25525:xcalibur/ceres-jutun takia tähän joutuisi laittamaan cut mukaan
-#HUOM.27525:paskooko tämä myös excaliburin kanssa äksään kirjautumisen? ehkä se se 076 kuitenkin
-
 function part1() {
 	dqb "PART1( ${1} )"
 	csleep 3
@@ -739,7 +790,7 @@ function part1() {
 	local t
 
 	g=$(date +%F)
-	t=$(echo ${1} | cut -d '/' -f 1) #jos tämä riittäisi toistaiseksi
+	t=$(echo ${1} | cut -d '/' -f 1) #tr va i ei?
 
 	#HUOM.20525:onkohan ao. ehto ok?
 	if [ -f /etc/apt/sources.list ] ; then
@@ -751,7 +802,6 @@ function part1() {
 		fi
 	fi
 
-	#nyt varmaankin joutuu linkitysjutut kopsailemaan muuallekin vai joutuuko? no joutuu
 	part1_5 ${t}
 
 	if [ ! -f /etc/apt/sources.list ] ; then
@@ -819,7 +869,7 @@ function part2_5() {
 		jules
 
 		#HUOM. saattaa toimia ilman .$2 koska tables-kikkailuja laitettu uusiksi 26525
-		#HUOM.2. josko kuitenkin mankeloisi $2
+		#HUOM.2. josko kuitenkin mankeloisi $2 (TODO)
 
 		if [ -s /etc/iptables/rules.v6.${2} ] ; then
 			${ip6tr} /etc/iptables/rules.v6.${2}
