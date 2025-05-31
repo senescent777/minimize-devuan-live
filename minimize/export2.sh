@@ -199,7 +199,7 @@ function pre1() { #HUOM.31525:lienee kunnossa
 		local ortsac
 		local lefid
 
-		ortsac=$(echo ${1} | cut -d '/' -f 6)
+		ortsac=$(echo ${1} | cut -d '/' -f 6) | tr -d -c a-z) #tr uutena 1625
 		lefid=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
 
 		enforce_access ${n} ${lefid} 
@@ -436,12 +436,21 @@ function tlb() {
 		dqb "6.12....27"
 		csleep 5
 	
-		${shary} linux-modules-6.12.27-amd64 #31525 uutena
+		#${shary} linux-modules-6.12.27-amd64 #31525 uutena
 
 		#nopeasti lähimpiä vastineita:
 		#https://packages.debian.org/trixie/linux-image-6.12.27-amd64 miten tämä?
 		#https://debian.ethz.ch/debian/pool/main/l/linux-signed-amd64/linux-image-cloud-amd64_6.12.27-1_amd64.deb
 		#wget/curl jos ei muuten
+
+		local fname
+		fname=linux-image-6.12.27-amd64
+
+		${odio} touch ${pkgdir}/${fname} #seur rivit toistuvat usein, fktioksi?
+		${scm} 0644 ${pkgdir}/${fname}
+		${sco} $(whoami):$(whoami) ${pkgdir}/${fname}
+		
+		curl -o ${pkgdir}/${fname} https://packages.debian.org/trixie/${fname}
 
 		${shary} nftables #excalibur-spesifisiä?
 		${shary} isc-dhcp-client isc-dhcp-common
