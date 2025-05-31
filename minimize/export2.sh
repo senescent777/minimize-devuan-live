@@ -239,7 +239,7 @@ function pre1() {
 	fi
 }
 
-function pre2() {
+function pre2() { #HUOM.31525:toiminee mutta varmista(TODO)
 	debug=1
 	dqb "pre2 ${1}, ${2} #WTIN KAARISULKEET STNA" 
 	[ -z ${1} ] && exit 666
@@ -247,7 +247,6 @@ function pre2() {
 	local ortsac
 	local ledif
 
-	#tr vielä?
 	ortsac=$(echo ${1} | cut -d '/' -f 6)
 	ledif=$(echo ${1} | cut -d '/' -f 1-5  | tr -d -c a-zA-Z/)
 
@@ -274,7 +273,7 @@ function pre2() {
 	sleep 2
 }
 
-function tpq() {
+function tpq() { #HUOM.viimeksi 31525 testattu että tekee tarin
 	dqb "tpq ${1} ${2}"
 	[ -d ${1} ] || exit 22
 	dqb "paramz 0k"
@@ -333,7 +332,7 @@ function tp1() {
 }
 
 #HUOM.23525:josko nyt vähän fiksummin toimisi
-function rmt() {
+function rmt() { #HUOM.31525:toiminee mutta varmista(TODO)
 	debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
@@ -700,7 +699,7 @@ function tp3() { #TODO:testaa, ensiksi tämä
 	csleep 2
 }
 
-function tpu() { #VAIH:testaa
+function tpu() { #VAIH:testaa (30525 vaikutti toimivan)
 	debug=1	
 	#HUOM:0/1/old/new ei liity
 	dqb "tpu ${1}, ${2}"
@@ -757,7 +756,7 @@ function tpu() { #VAIH:testaa
 
 #TODO:-v tekemään jotain hyödyllistä
 
-function tp5() {
+function tp5() { #HUOM.viimeksi testattu 31525, tekee tarin tai siis
 	#debug=1
 
 	dqb "tp5 ${1} ${2}"
