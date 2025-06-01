@@ -300,9 +300,7 @@ function check_binaries() {
 		#HUOM.21525:olisikohan niin simppeli juttu että dpkg seuraa linkkiä ja nollaa tdston mihin linkki osoittaa?
 		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
 
-		#common_tbls korvaamaan
 		ppp3 ${1}
-		
 		common_tbls ${1} ${dnsm}
 		pr4 ${1}
 
@@ -316,7 +314,7 @@ function check_binaries() {
 	fi
 
 	#xcalibur-testien älk muutox (halt ja reboot silleen niinqu turhia jos eivät toimi)
-	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd} "
+	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
 	csleep 1
 
@@ -380,18 +378,35 @@ function mangle_s() {
 
 	${scm} 0555 ${1}
 	${sco} root:root ${1}
+#
+#	local s
+#	local n2
+#
+#	if [ y"${3}" == "y" ] ; then
+#		n2=$(whoami)
+#	else
+#		n2=${3}
+#	fi
+#
+#	s=$(sha256sum ${1})
+#	echo "${n2} localhost=NOPASSWD: sha256: ${s} " >> ${2}
+#Tässä tavoitteena tehdä mahd vaikeasti helppo asia tai sitten excaliburiin liittyvät sorkkimiset aiheuttaneet sivuvaikutuksia. Monivalintakysymys.
 
-	local s
-	local n2
+	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
+	echo -n " " >> ${2}
+	echo -n "localhost=NOPASSWD:" >> ${2}
+	echo -n " " >> ${2}
+	echo -n "sha256:" >> ${2}
+	echo -n " " >> ${2}
 
-	if [ y"${3}" == "y" ] ; then
-		n2=$(whoami)
-	else
-		n2=${3}
-	fi
+	local p
+	p=$(sha256sum ${1} | cut -d ' ' -f 1 | tr -dc a-f0-9)
 
-	s=$(sha256sum ${1})
-	echo "${n2} localhost=NOPASSWD: sha256: ${s} " >> ${2}
+	echo -n ${p} >> ${2}
+	echo -n " " >> ${2}
+	echo -n ${1} | tr -dc a-z0-9/. >> ${2} #
+	
+	echo -e "\n" >> ${2} #menisikö näin?
 }
 
 function dinf() {

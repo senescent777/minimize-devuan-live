@@ -402,7 +402,7 @@ fi
 #HUOM.31525:josqo sen sdfsdf1 testaisi kuiteskin nytq $shary vaihdettu oletusarvosta
 # (pitäisiköhän ethz knssa vielä?)
 
-function asw() {
+function aswasw() {
 	#VAIH:erilliseksi fktioksi tämä?
 	case ${iface} in
 		wlan0)
@@ -471,10 +471,10 @@ function tlb() {
 #		
 #		curl -o ${pkgdir}/${fname} https://packages.debian.org/trixie/${fname}
 #
-		#${shary} nftables #excalibur-spesifisiä?
-		asw #jatkossa "if cc"-blokin uplkop tämä
+#		#${shary} nftables #excalibur-spesifisiä?		
 	fi
 
+	aswasw #jatkossa "if cc"-blokin uplkop tämä
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 	${shary} iptables #mitä ymp. mja - jekkuja tähän oli ajateltu?
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
@@ -559,7 +559,7 @@ function tp4() { #TODO:tämäkin pitäisi testata, erityisesti koska tlb()
 	csleep 1
 	${lftr}
 
-	asw
+	#aswasw
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
 	if [ -d ${2} ] ; then
