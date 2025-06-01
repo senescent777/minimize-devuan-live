@@ -296,7 +296,6 @@ function tpq() { #HUOM.viimeksi 31525 testattu että tekee tarin
 }
 
 function tp1() { #VAIH:test 31525
-	#debug=1
 	dqb "tp1 ${1} , ${2} "
 	[ -z ${1} ] && exit
 	dqb "params_ok"
@@ -329,7 +328,7 @@ function tp1() { #VAIH:test 31525
 }
 
 #HUOM.23525:josko nyt vähän fiksummin toimisi
-function rmt() { #HUOM.31525:toiminee mutta varmista(VAIH)
+function rmt() { #HUOM.31525:toiminee
 	debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
@@ -403,7 +402,6 @@ fi
 # (pitäisiköhän ethz knssa vielä?)
 
 function aswasw() {
-	#VAIH:erilliseksi fktioksi tämä?
 	case ${iface} in
 		wlan0)
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
@@ -502,7 +500,7 @@ function tlb() {
 #HUOM.31525:pienin vaiva saada tables excaliburiin toimimaan saattaa olla hakea tables-paketit excailburilla
 #...sikäli mikäli dhclient ja wpasupplicant sun muut löytyvät
 
-function tp4() { #TODO:tämäkin pitäisi testata, erityisesti koska tlb()
+function tp4() { #020625:toimii
 	debug=1
 	dqb "tp4 ${1} , ${2} "
 
@@ -526,8 +524,7 @@ function tp4() { #TODO:tämäkin pitäisi testata, erityisesti koska tlb()
 	#HUOM.28525:nalkutus alkoi jo tässä (siis ennenq libip4tc2-blokki siirretty)
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
-	${shary} libaudit1 libselinux1 #libpam0g #libpam-modules zlib1g #libpam kanssa oli nalkutusta 080525
-
+	${shary} libaudit1 libselinux1
 	${shary} man-db sudo
 	message
 	jules
