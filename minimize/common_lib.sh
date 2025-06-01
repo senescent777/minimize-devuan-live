@@ -406,7 +406,7 @@ function mangle_s() {
 
 	echo -n ${p} >> ${2}
 	echo -n " " >> ${2}
-	echo -n ${1} | tr -dc a-z0-9/. >> ${2} #
+	echo -n ${1} | tr -dc a-zA-Z0-9/. >> ${2} #
 	
 	echo -e "\n" >> ${2} #menisikö näin?
 }
