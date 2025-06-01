@@ -114,6 +114,7 @@ function t2p() {
 	${sharpy} rfkill uuid-runtime
 	t2p_filler	
 
+
 	${sharpy} arch-test debootstrap #eipä poistunut aiemmin
 #	${sharpy} dmsetup dracut-install aiheuttaa ongelmia
 	t2p_filler
@@ -124,6 +125,7 @@ function t2p() {
 
 #	#mitä tekee luit? entä libngtcp2? ocl-icd-jotain ?
 #HUOM.28525.3:tässä poistunee libgtk3, miten estää? libgssapi pois listasta?
+
 
 	${sharpy} libgstreamer* lm-sensors ocl-icd*
 	#${sharpy} libgssapi*

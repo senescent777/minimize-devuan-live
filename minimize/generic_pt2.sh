@@ -43,8 +43,8 @@ fi
 
 [ -z ${distro} ] && exit 6
 d=${PREFIX}/${distro}
-
 dqb "BEFORE CNF"
+
 echo "dbig= ${debug}"
 sleep 5
 
@@ -62,6 +62,7 @@ if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 else
 	dqb $?
 	echo "NOT (LIB AVAILABLE AND ECXUTABL3)"
+
 	exit 67
 fi
 
@@ -73,6 +74,7 @@ dqb "d=${d}"
 echo "debug=${debug}"
 dqb "distro=${distro}"
 dqb "removepkgs=${removepkgs}"
+
 sleep 2
 
 csleep 2
@@ -94,6 +96,7 @@ function t2p_filler() {
 }
 
 #yhteisiä osia daud ja chim t2p
+
 function t2pc() {
 	debug=1
 	dqb "common_lib.t2p_common()"

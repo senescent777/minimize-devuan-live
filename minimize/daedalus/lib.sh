@@ -80,6 +80,7 @@ function c5p() {
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
+
 function pr4() {
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1

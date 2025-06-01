@@ -2,6 +2,7 @@
 
 mode=2
 #tuo 28525 asia selvitetty, sitten toinen
+
 distro=$(cat /etc/devuan_version)
 dirname $0
 d=~/Desktop/minimize/${distro} #alkuosa dirname:lla jatkossa?
@@ -89,7 +90,6 @@ csleep 2
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce 
 enforce_access ${n} ${PREFIX}
-
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
 
