@@ -399,6 +399,8 @@ function mangle_s() {
 	echo -n "sha256:" >> ${2}
 	echo -n " " >> ${2}
 
+#https://github.com/senescent777/some_scripts/blob/main/skripts/export/common_funcs.sh.export , slaughter0 olisi myös 1 idea
+
 	local p
 	p=$(sha256sum ${1} | cut -d ' ' -f 1 | tr -dc a-f0-9)
 
