@@ -2,7 +2,6 @@
 debug=0 #1
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 PREFIX=~/Desktop/minimize #dirname?
-#loose=1
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -43,8 +42,8 @@ fi
 
 [ -z ${distro} ] && exit 6
 d=${PREFIX}/${distro}
-dqb "BEFORE CNF"
 
+dqb "BEFORE CNF"
 echo "dbig= ${debug}"
 sleep 5
 
@@ -62,7 +61,6 @@ if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 else
 	dqb $?
 	echo "NOT (LIB AVAILABLE AND ECXUTABL3)"
-
 	exit 67
 fi
 
@@ -74,7 +72,6 @@ dqb "d=${d}"
 echo "debug=${debug}"
 dqb "distro=${distro}"
 dqb "removepkgs=${removepkgs}"
-
 sleep 2
 
 csleep 2
@@ -88,7 +85,7 @@ else
 fi
 
 #====================================================================
-#ao 3 t2p-fktiota voisivat tietenkin sijaita myös g_pt2:sessa
+
 function t2p_filler() {
 	${lftr}
 	${asy}
@@ -96,7 +93,6 @@ function t2p_filler() {
 }
 
 #yhteisiä osia daud ja chim t2p
-
 function t2pc() {
 	debug=1
 	dqb "common_lib.t2p_common()"
