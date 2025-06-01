@@ -6,7 +6,7 @@ dir=/mnt
 part0=ABCD-1234
 PREFIX=~/Desktop/minimize #dirname?
 mode=-2
-loose=1
+#loose=1
 
 #TODO:modatun kiekon squashfs:lle mukaan tämä ja demerde_toi
 
@@ -78,7 +78,6 @@ else
 		dqb "imp32.enf_acc()"
 	}
 
-	#HUOM.23525:vaikuttaisi toimivan tarkistus "leikki-fktiossa"
 	#HUOM.26525:tämä versio part3:sesta sikäli turha että common_lib urputtaa koska sha512sums muttei deb
 	function part3() {
 		dqb "NOT SUPPORTED"
@@ -103,7 +102,7 @@ else
 		${sco} -R root:root /etc/default
 	}
 
-	#TODO;tähän sitten se common_lib.init2?
+
 	dqb "FALLBACK"
 	dqb "${scm} may be a good idea now"
 	prevopt=""
@@ -136,7 +135,6 @@ else #joutuukohan else-haaran muuttamaan jatkossa?
 	exit 56
 fi
 
-#HUOM.24525:polut vissiin korjattu
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
@@ -146,19 +144,18 @@ else
 	dqb "NO LIB"
 	csleep 1
 
-	#HUOM.18525:ao. 2 fktiota voisi esitellä pikemminkin sittenq lib puuttuu
 	function pr4() {
-		dqb "imp2.pr4 (\${1} \${2})" 
+		dqb "imp2.pr4 (\${1})" 
 	}
 
-	function pre_part3() {
-		dqb "imp2.pre_part3( \${1} \${2})"
-	}
+	#function pre_part3() {
+	#	dqb "imp2.pre_part3( \${1} \${2})"
+	#}
 
-	check_binaries ${d}
+	check_binaries ${d} #parametrit kunnossq?
 	echo $?
-	[ $? -eq 0 ] || exit 7 #kosahtaako fix_sudon takia? ei kai enää
-	
+	[ $? -eq 0 ] || exit 7
+
 	csleep 1
 
 	check_binaries2
@@ -209,29 +206,30 @@ function common_part() {
 	fi
 
 	csleep 1
-	${srat} -C / -xf ${1} #HUOM.22525:uutena -C
+	${srat} -C / -xf ${1}
+
 	csleep 1
 	dqb "tar DONE"
 
 	local t
-	t=$(echo ${2} | cut -d '/' -f 1-5)
+	t=$(echo ${2} | cut -d '/' -f 1-5) #tr mukaan?
+	#TODO:varmista että tästä eteenpäin toimii
 
 	if [ -x ${t}/common_lib.sh ] ; then
-		enforce_access ${n} ${t} #${PREFIX} 
+		enforce_access ${n} ${t} 
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	fi
 
 	csleep 1
 	
-	if [ -d ${2} ] ; then 
+	if [ -d ${t} ] ; then #-d ${2}
 		dqb "HAIL UKK"
 
 		#vissiinkin tässä kohtaa common_lib taas käyttöön EIKU
-		${scm} 0755 ${2}
-		${scm} a+x ${2}/*.sh
-		${scm} 0444 ${2}/conf*
-		${scm} 0444 ${2}/*.deb
-
+		${scm} 0755 ${t}
+		${scm} a+x ${t}/*.sh
+		${scm} 0444 ${t}/conf*
+		${scm} 0444 ${t}/*.deb
 		csleep 1
 	fi
 
@@ -301,8 +299,8 @@ case "${mode}" in
 
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
-
-		part3 ${d} ${dnsm}
+    
+		part3 ${d} ${dnsm} #VAIH:testaa että toimii
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 		csleep 1
 

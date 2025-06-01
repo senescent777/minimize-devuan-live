@@ -2,7 +2,7 @@
 debug=0 #1
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 PREFIX=~/Desktop/minimize #dirname?
-loose=1
+#loose=1
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -43,8 +43,8 @@ fi
 
 [ -z ${distro} ] && exit 6
 d=${PREFIX}/${distro}
+dqb "BEFORE CNF"
 
-echo "BEFORE CNF"
 echo "dbig= ${debug}"
 sleep 5
 
@@ -60,8 +60,9 @@ fi
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	echo $?
-	dqb "NO LIB"
+	dqb $?
+	echo "NOT (LIB AVAILABLE AND ECXUTABL3)"
+
 	exit 67
 fi
 
@@ -69,10 +70,11 @@ ${scm} 0555 ${PREFIX}/changedns.sh
 ${sco} root:root ${PREFIX}/changedns.sh
 ${fib}
 
-echo "d=${d}"
+dqb "d=${d}"
 echo "debug=${debug}"
-echo "distro=${distro}"
-echo "removepkgs=${removepkgs}"
+dqb "distro=${distro}"
+dqb "removepkgs=${removepkgs}"
+
 sleep 2
 
 csleep 2
@@ -94,10 +96,13 @@ function t2p_filler() {
 }
 
 #yhteisiä osia daud ja chim t2p
-#HUOM.28525:mikä poistaa libgtk3:sen xcaliburissa? se pitäisi estää 
+
 function t2pc() {
 	debug=1
 	dqb "common_lib.t2p_common()"
+	csleep 3
+
+	${fib} #uutena 29525, xcalibur...
 	csleep 3
 
 	${sharpy} amd64-microcode at-spi2-core

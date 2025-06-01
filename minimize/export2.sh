@@ -42,6 +42,7 @@ if [ -x ${PREFIX}/common_lib.sh ] ; then
 else
 	#HUOM.23525:oleellisempaa että import2 toimii tarvittaessa ilman common_lib
 	#"lelukirjasto" saattaa toimia sen varren että "$0 4 ..." onnistuu	
+
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
 	uom="sudo /bin/umount"
@@ -134,21 +135,19 @@ fi
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	echo "L1B M1SSING"
+	echo "NOT (L1B AVA1LABL3 AND 3X3CUT4BL3)"
 
 	function pr4() {
-		dqb "exp2.pr4 ${1} ${2} " 
-	}
-
-	function pre_part3() {
-		dqb "exp2.pre_part3 ${1} ${2} "
+		dqb "exp2.pr4 ${1} " 
 	}
 
 	function udp6() {
 		dqb "exp32.UPD6()"
 	}
 
-	check_binaries ${PREFIX}/${distro} #HUOM.26525:voi tietyssä tapauksessa mennä pieleen koska x
+	#onko tässä sktiptissä oleellista välittää $d part3:lle asti c_b välityksellä?
+	check_binaries ${d}
+
 	check_binaries2
 fi
 
@@ -185,12 +184,11 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 2
 
-#VAIH:enrofce():n muutosten sivuvaikutukset
-function pre1() {
+function pre1() { #HUOM.31525:lienee kunnossa
 	debug=1
 	dqb "pre1( ${1} )"
-	#[ x"${1}" == "z" ] && exit 666
-	csleep 6
+	[ -z ${1} ] && exit 666 #vika löytyi niinqu
+	csleep 10
 
 	${sco} -Rv _apt:root ${pkgdir}/partial/
 	${scm} -Rv 700 ${pkgdir}/partial/
@@ -198,15 +196,20 @@ function pre1() {
 
 	if [ -d ${1} ] ; then
 		dqb "5TNA"
-
 		n=$(whoami)
-		enforce_access ${n} ${PREFIX} #voisiko prefix:in poistaa jatkossa? $1 tilalle?
+
+		local ortsac
+		local lefid
+
+		ortsac=$(echo ${1} | cut -d '/' -f 6 | tr -d -c a-z) #tr uutena 1625
+		lefid=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
+
+		enforce_access ${n} ${lefid} 
 		csleep 1
 
-		#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres (TODO:testaa)
-		local ortsac
-		ortsac=$(echo ${1} | cut -d '/' -f 6)
-
+		dqb "3NF0RC1NG D0N3"
+		csleep 1
+	
 		${scm} 0755 /etc/apt
 		${scm} a+w /etc/apt/sources.list*
 
@@ -235,17 +238,17 @@ function pre1() {
 	fi
 }
 
-function pre2() {
+function pre2() { #HUOM.31525:toiminee
 	debug=1
-	dqb "pre2 ${1}, ${2} " #WTIN KAARISULKEET STNA
-	[ x"${1}" == "z" ] && exit 666
+	dqb "pre2 ${1}, ${2} #WTIN KAARISULKEET STNA" 
+	[ -z ${1} ] && exit 666
 
 	local ortsac
 	local ledif
 	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
 
 	ortsac=$(echo ${1} | cut -d '/' -f 6)
-	ledif=$(echo ${1} | cut -d '/' -f 1-5 )
+	ledif=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
@@ -253,7 +256,8 @@ function pre2() {
 		csleep 2
 
 		${sifu} ${iface}
-		[ ${debug} -eq 1 ] && /sbin/ifconfig
+		[ ${debug} -eq 1 ] && ${sifc}
+
 		csleep 2
 
 		${sco} -Rv _apt:root ${pkgdir}/partial/
@@ -270,15 +274,17 @@ function pre2() {
 	sleep 2
 }
 
-function tpq() {
+function tpq() { #HUOM.viimeksi 31525 testattu että tekee tarin
 	dqb "tpq ${1} ${2}"
 	[ -d ${1} ] || exit 22
 	dqb "paramz 0k"
 	csleep 1
 
 	local t
-	t=$(echo ${1} | cut -d '/' -f 1,2,3)
-	#HUOM.23525:pakkaus mukaan kuten näkyy, vie suht paljon tilaa silloinq ei .deb mukana
+	t=$(echo ${1} | cut -d '/' -f 1,2,3 | tr -d -c a-zA-Z/)
+
+	#HUOM.23525:pakkaus mukaan kuten näkyy, config.tar vie .deb jälkeen melkeinpä eniten tilaa 
+
 	${srat} -jcf ${1}/config.tar.bz2 ${t}/.config/xfce4/xfconf/xfce-perchannel-xml ${t}/.config/pulse /etc/pulse
 	csleep 1
 
@@ -294,10 +300,9 @@ function tpq() {
 	csleep 2
 }
 
-function tp1() {
-	#debug=1
+function tp1() { #VAIH:test 31525
 	dqb "tp1 ${1} , ${2} "
-	[ z"${1}" == "z" ] && exit
+	[ -z ${1} ] && exit
 	dqb "params_ok"
 	csleep 1
 
@@ -309,8 +314,8 @@ function tp1() {
 	fi
 
 	local ledif
-	ledif=$(echo ${2} | cut -d '/' -f 1-5 )
-	#p.itäisiköhän olla jokin tarkistus tässä?
+	ledif=$(echo ${2} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/) 
+	#p.itäisiköhän olla jokin tarkistus tässä alla? -d lisäksi?
 
 	if [ ${enforce} -eq 1 ] && [ -d ${ledif} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
@@ -328,14 +333,15 @@ function tp1() {
 }
 
 #HUOM.23525:josko nyt vähän fiksummin toimisi
-function rmt() {
+
+function rmt() { #HUOM.31525:toiminee
 	debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
-#	[ z"${1}" == "z" ] && exit 1 #23525:mikä tässä nyt qsee?
-#	[ -s ${1} ] || exit 2
+	[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
+	[ -s ${1} ] || exit 2
 
-	[ z"${2}" == "z" ] && exit 11
+	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 
 	dqb "paramz_ok"
@@ -386,27 +392,50 @@ function rmt() {
 	dqb "rmt d0n3"
 }
 
-#https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
-#HUOM.26525:apg-get sisältää vivun "-t" , mitä se tekee Devuanin tapauksessa? pitääkö sources.list sorkkia liittyen?
-function tp4() {
-	debug=1
-	dqb "tp4 ${1} , ${2} "
-
-#	[ z"${1}" == "z" ] && exit 1 #mikä juttu näissä on?
-#	[ -s ${1} ] || exit 2
+#HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia, tuskin menee qten alla
+tcdd=$(cat /etc/devuan_version)
+t2=$(echo ${d} | cut -d '/' -f 6 | tr -d -c a-zA-Z/) #tai suoraan $distro?
 	
-	dqb "DEMI-SEC"
+if [ ${tcdd} != ${t2} ] ; then
+	dqb "XXX"
 	csleep 1
+	shary="${sag} install --download-only "
+fi
 
-	[ z"${2}" == "z" ] && exit 11
-	[ -d ${2} ] || exit 22
+#HUOM.jos ei lähde debian testingin kanssa lataUtumaan niin sitten olisi vielä unstable
+#... myös excalibur uudemman kerran mutta tiedä siitäkin
+#HUOM.31525:josqo sen sdfsdf1 testaisi kuiteskin nytq $shary vaihdettu oletusarvosta
+# (pitäisiköhän ethz knssa vielä?)
 
-	dqb "paramz_ok"
-	csleep 1
+function aswasw() {
+	case ${iface} in
+		wlan0)
+			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
+			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
+
+			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3 adduser
+			${shary} wpasupplicant
+		;;
+		*)
+			dqb "not pulling wpasuplicant"
+			csleep 2
+		;;
+	esac
+
+	${shary} isc-dhcp-client isc-dhcp-common
+}
+
+function tlb() {
+	debug=1
+	dqb "x2.tlb( ${1} ; ${2} )"
+	csleep 2
+	dqb "\$shary= ${shary}"
+	csleep 4
 
 	if [ z"${pkgdir}" != "z" ] ; then
-		${NKVD} ${pkgdir}/*.deb
 		dqb "SHREDDED HUMANS"
+		csleep 1
+		${NKVD} ${pkgdir}/*.deb
 	fi
 	
 	local tcdd
@@ -423,32 +452,104 @@ function tp4() {
 	fi
 
 	dqb "EDIBLE AUTOPSY"
+	csleep 1
 	${fib}
 	${asy}
-	csleep 1
 
-	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
+	csleep 3
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-	${shary} nft #jatkossa udp6:sessa?
+	local cc
+	local cc2
+
+	cc=$(echo ${distro} | grep excalibur | wc -l)
+	cc2=$(echo ${distro} | grep ethz | wc -l)
+
+	#https://pkgs.org/download/linux-image-6.12.27-amd64 ... joskohan ethz kautta
+	#... tarkistus tosin uusiksi, josko sinne tcdd-blokkiin ylemmäs?
+	
+	#distro-spesifinen osuus -> lib jatkossa (esim. tpc7)
+	if [ ${cc} -gt 0 ] || [ ${cc2} -gt 0 ] ; then
+		dqb "6.12....27"
+#		csleep 5
+#	
+#		#${shary} linux-modules-6.12.27-amd64 #31525 uutena
+#
+#		#nopeasti lähimpiä vastineita:
+#		#https://packages.debian.org/trixie/linux-image-6.12.27-amd64 miten tämä?
+#		#https://debian.ethz.ch/debian/pool/main/l/linux-signed-amd64/linux-image-cloud-amd64_6.12.27-1_amd64.deb
+#		#wget/curl jos ei muuten
+#
+#		local fname
+#		fname=linux-image-6.12.27-amd64
+#
+#		${odio} touch ${pkgdir}/${fname} #seur rivit toistuvat usein, fktioksi?
+#		${scm} 0644 ${pkgdir}/${fname}
+#		${sco} $(whoami):$(whoami) ${pkgdir}/${fname}
+#		
+#		curl -o ${pkgdir}/${fname} https://packages.debian.org/trixie/${fname}
+#
+#		#${shary} nftables #excalibur-spesifisiä?		
+	fi
+
+	aswasw #jatkossa "if cc"-blokin uplkop tämä
 
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 	${shary} iptables #mitä ymp. mja - jekkuja tähän oli ajateltu?
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 	#https://pkgs.org tai https://debian.ethz.ch myös olemassa
 
+	dqb "x2.tlb.part2"
+	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
+	csleep 6
+
+	#uutena 31525
+	udp6 ${pkgdir}
+
 	#actually necessary
-	pre2 ${2}
+
+	pre2 ${1}
 	other_horrors
+
+	dqb "x2.tlb.done"
+}
+
+#https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
+
+#HUOM.26525:apg-get sisältää vivun "-t" , mitä se tekee Devuanin tapauksessa? pitääkö sources.list sorkkia liittyen?
+#... ei oikein lähtenyt -t:llä ethz kanssa ekalla yrItyksellä 29525
+#sen sijaan kun sources-list:iin vaihtoi stable-> testing ni jotain alkoi tapahtua
+
+#HUOM.31525:pienin vaiva saada tables excaliburiin toimimaan saattaa olla hakea tables-paketit excailburilla
+#...sikäli mikäli dhclient ja wpasupplicant sun muut löytyvät
+
+function tp4() { #020625:toimii
+	debug=1
+	dqb "tp4 ${1} , ${2} "
+
+	[ -z ${1} ] && exit 1 #mikä juttu näissä on?
+	[ -s ${1} ] || exit 2
+	
+	dqb "DEMI-SEC"
+	csleep 1
+
+	[ -z ${2} ] && exit 11
+	[ -d ${2} ] || exit 22
+
+	dqb "paramz_ok"
+	csleep 1
+	
+	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
+	tlb ${2}
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
 	#HUOM.28525:nalkutus alkoi jo tässä (siis ennenq libip4tc2-blokki siirretty)
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
-	${shary} libaudit1 libselinux1 #libpam0g #libpam-modules zlib1g #libpam kanssa oli nalkutusta 080525
-
+	${shary} libaudit1 libselinux1
 	${shary} man-db sudo
+  
 	message
 	jules
 
@@ -479,19 +580,7 @@ function tp4() {
 	csleep 1
 	${lftr}
 
-	case ${iface} in
-		wlan0)
-			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
-
-			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3 adduser
-			${shary} wpasupplicant
-		;;
-		*)
-			dqb "not pulling wpasuplicant"
-			csleep 2
-		;;
-	esac
+	#aswasw
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
 	if [ -d ${2} ] ; then
@@ -510,10 +599,11 @@ function tp4() {
 
 #koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
 #HUOM.20525:joskohan locale- ja rules- juttuja varten uusi fktio? vääntöä tuntuu riittävän nimittäin
-function tp2() {
+function tp2() { #HUOM.31525:olisikohan kunnossa tämä?
 	debug=1
 	dqb "tp2 ${1} ${2}"
-	[ y"${1}" == "y" ] && exit 1
+
+	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
 
 	dqb "params_ok"
@@ -522,8 +612,6 @@ function tp2() {
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
-
-	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres ? (TODO:testaa miten on)
 
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
@@ -565,7 +653,8 @@ function tp2() {
 
 	case ${iface} in
 		wlan0)
-			${srat} -rf ${1} /etc/wpa*
+			#tartteekokokoko ko hakemostoa?
+			${srat} -rf ${1} /etc/wpa/wpa_supplicant.conf
 		;;
 		*)
 			dqb "non-wlan"
@@ -592,10 +681,12 @@ function tp2() {
 
 #HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
 #dnsm 2. parametriksi... eiku ei, $2 onkin jo käytössä ja tarttisi sen cut-jekun
-function tp3() { #TODO:testaa, ensiksi tämä
+
+function tp3() { #31525:vaikuttaisi tulevan jutut mukana
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
-	[ y"${1}" == "y" ] && exit 1
+
+	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
 
 	dqb "paramz_0k"
@@ -658,10 +749,13 @@ function tp3() { #TODO:testaa, ensiksi tämä
 		fi
 	fi
 
-	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp #ehkä pois jatqssa (echo "sed" > bash -s saattaisi toimia)
+	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	# (ao. rivi tp2() jatkossa?)
-	${spc} /etc/network/interfaces ./etc/network/interfaces.${2}
+
+	local p
+	p=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+	${spc} /etc/network/interfaces ./etc/network/interfaces.${p}
 
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
@@ -675,14 +769,15 @@ function tp3() { #TODO:testaa, ensiksi tämä
 	csleep 2
 }
 
-function tpu() { #TODO:testaa
-	#debug=1	
+function tpu() { #VAIH:testaa (30525 vaikutti toimivan)
+	debug=1	
+
 	#HUOM:0/1/old/new ei liity
 	dqb "tpu ${1}, ${2}"
 
-	[ y"${1}" == "y" ] && exit 1
+	[ -z ${1} ] && exit 1
 	[ -s ${1} ] && mv ${1} ${1}.OLD
-	[ z"${2}" == "z" ] && exit 11
+	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 	dqb "params_ok"
 
@@ -697,7 +792,7 @@ function tpu() { #TODO:testaa
 
 	local s
 
-	for s in ${PART175_LIST} ; do 
+	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä... EIKU
 		dqb "processing ${s} ..."
 		csleep 1
 
@@ -732,11 +827,11 @@ function tpu() { #TODO:testaa
 
 #TODO:-v tekemään jotain hyödyllistä
 
-function tp5() {
+function tp5() { #HUOM.viimeksi testattu 31525, tekee tarin tai siis
 	#debug=1
 
 	dqb "tp5 ${1} ${2}"
-	[ z"${1}" == "z" ] && exit 99
+	[ -z ${1} ] && exit 99
 	[ -s ${1} ] || exit 98
 	[ -d ${2} ] || exit 97
  
@@ -781,11 +876,12 @@ case ${mode} in
 		tp3 ${tgtfile} ${distro} #voisiko käyttää $d?
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
-		${srat} -cvf ${d}/e.tar ./rnd
+		${srat} -cvf ${d}/e.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
 		[ ${mode} -eq 0 ] && tp4 ${d}/e.tar ${d}
 		${sifd} ${iface}
 
-		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä
+		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
+
 		tp1 ${tgtfile} ${d}
 		pre1 ${d}
 		tp2 ${tgtfile}
@@ -812,6 +908,13 @@ case ${mode} in
 
 		tpq ${PREFIX}
 		${srat} -cf ${tgtfile} ${PREFIX}/config.tar.bz2 ${PREFIX}/fediverse.tar
+	;;
+	t)
+		pre2 ${d}
+		${NKVD} ${d}/*.deb
+		tlb ${d}
+		${svm} ${pkgdir}/*.deb ${d}
+		rmt ${tgtfile} ${d}
 	;;
 	-h)
 		usage

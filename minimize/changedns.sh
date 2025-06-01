@@ -109,24 +109,34 @@ ip6t=$(sudo which ip6tables)
 iptr=$(sudo which iptables-restore)
 ip6tr=$(sudo which ip6tables-restore)
 
+sudo modprobe nft #distro-tark taakse vai ei?
 dqb "when in trouble, \"sudo chmod 0755  \*.sh ;sudo chmod 0755 \${distro}; sudo chmod 0755 \${distro}/ \*.sh; sudo chmod 0644 \${distro}/conf\" may help "
 
 #==============================================================
 function tod_dda() { 
 	dqb "tod_dda(${1}) "
-	${ipt} -A b -p tcp --sport 853 -s ${1} -j c
-	${ipt} -A e -p tcp --dport 853 -d ${1} -j f
+
+	local t
+	t=$(echo ${1} | tr -d -c 0-9.)
+
+	${ipt} -A b -p tcp --sport 853 -s ${t} -j c
+	${ipt} -A e -p tcp --dport 853 -d ${t} -j f
 }
 
 function dda_snd() {
 	dqb "dda_snd( ${1})"
-	${ipt} -A b -p udp -m udp -s ${1} --sport 53 -j ACCEPT 
-	${ipt} -A e -p udp -m udp -d ${1} --dport 53 -j ACCEPT
+
+	local t
+	t=$(echo ${1} | tr -d -c 0-9.)
+
+	${ipt} -A b -p udp -m udp -s ${t} --sport 53 -j ACCEPT 
+	${ipt} -A e -p udp -m udp -d ${t} --dport 53 -j ACCEPT
 }
 
+#==============================================================
 #HUOM.220624:stubbyn asentumisen ja käynnistymisen kannalta sleep saattaa olla tarpeen
 function ns2() {
-	[ y"${1}" == "y" ] && exit 154
+	[ y"${1}" == "y" ] && exit 145
 	dqb "ns2( ${1} )"
 	${scm} u+w /home
 	csleep 3
@@ -146,6 +156,7 @@ function ns2() {
 	csleep 3
 }
 
+#ns-fktioihinkin jotain param mankelointia mikäli ottaa käyttöön
 function ns4() {
 	dqb "ns4( ${1} )"
 
@@ -170,6 +181,7 @@ function ns4() {
 	sleep 5
 }
 
+#HUOM.29525:$1, annetaanko sitä? käytetäänkö? No Ei
 function clouds_pp1() {
 	dqb "#c.pp.1  ( ${1} )"
 	local f
@@ -209,8 +221,14 @@ function clouds_pp3() {
 	p3r1m3tr
 
 	#HUOM.160325:lisätty uutena varm. vuoksi
-	${iptr} /etc/iptables/rules.v4.${1}
-	${ip6tr} /etc/iptables/rules.v6.${1}
+
+	#VAIH:"tr $1 -dc 0-9 $1" mukaan
+	local p
+	p=$(echo ${1} | tr -d -c 0-9)
+
+	${iptr} /etc/iptables/rules.v4.${p}
+	${ip6tr} /etc/iptables/rules.v6.${p}
+
 	csleep 1
 
 	#tässä oikea paikka tables-muutoksille vai ei?
@@ -225,6 +243,7 @@ function clouds_pp3() {
 	dqb "...done"
 }
 
+#HUOM.29525:tekeekö 2. parametrilla mitään tämä? annetaanko moista?
 function clouds_pre() {
 	dqb "cdns.clouds_pre( ${1}, ${2} )"
 	csleep 1
@@ -388,7 +407,9 @@ clouds_pre ${mode}
 
 #HUOM.25525.1:mitenköhän tämä kohta pitäisi mennä?
 #HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
-t=$(echo ${distro} | cut -d '/' -f 1) #tr mukaan kanssa?
+
+t=$(echo ${distro} | cut -d '/' -f 1 | tr -d -c a-z) #VAIH:tr -dc a-z mukaan kanssa?
+
 [ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 
 case ${mode} in 

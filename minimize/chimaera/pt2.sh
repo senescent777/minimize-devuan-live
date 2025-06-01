@@ -1,6 +1,5 @@
-##!/bin/bash
+###!/bin/bash
 #d=$(dirname $0)
-#kommentteihin siksi aikaa että g_pt2 toiminta saatu testattua
 #[ -s ${d}/conf ] && . ${d}/conf
 #
 #function parse_opts_1() {
@@ -22,6 +21,12 @@
 #${sco} root:root ~/Desktop/minimize/changedns.sh
 #${fib}
 #
+##if [ $# -gt 0 ] ; then  
+##	if [ "${1}" == "-v" ] ; then
+##		debug=1
+##	fi
+##fi
+##
 #dqb "a-e"
 #csleep 5
 #
@@ -32,15 +37,17 @@
 #	part2_5 1 #HUOM.15425: oli part2 1
 #fi
 #
-##HUOM.24525:poistamatta jäi: htop, inetutils-telnet, libgssapi, lynx*, lvm2, mythes-en-us, openssh-client, refracta*, syslinux*, isolinux
-##, telnet, tex*, upower, vim* , xorriso
-##jotain tarttis tehrä
-#
 ##libgutls-dane, aiheuttaako härdelliä jos poistaa? ei näköjään
 #
 ##HUOM. ao. rivillä 2. viimeisessä syystä vain core
 #${sharpy} amd64-microcode iucode-tool arch-test at-spi2-core 
 #${sharpy} bubblewrap atril* coinor* cryptsetup* debootstrap
+#
+##HUOM.23525:poistettavien listaa pystyisi ehkä säätämään vielä, dpkg -l
+#
+#${asy} 
+#${lftr}
+#csleep 5
 #${sharpy} dmidecode discover* dirmngr #tuleekohan viimeisestä ongelma? vissiin ei
 #${sharpy} doc-debian docutils* efibootmgr exfalso 
 #${sharpy} fdisk ftp* gdisk gcr
@@ -72,6 +79,7 @@
 ##lib-paketteihin ei yleisessä tapauksessa kande koskea eikä live-
 ##libgssapi-krb5 tarpeellinen?
 ##HUOM! PAKETIT procps, mtools JA mawk JÄTETTÄVÄ RAUHAAN!!! (tai mtools ehkä uskaltaa kun o muitsa poistettu ensin)
+#
 ##HUOM.15525:uutena libcolor, näytti poistavan liikaa joten jemmaan
 ##${sharpy} libcolor* 
 ##csleep 5
@@ -86,6 +94,11 @@
 #${sharpy} mlocate mokutil mariadb-common mysql-common
 #${sharpy} netcat-traditional openssh* os-prober #orca saattaa poistua jo aiemmin
 #${sharpy} nfs-common rpcbind
+#
+#csleep 5
+#dqb "p"
+#csleep 5
+#
 #${sharpy} ppp procmail ristretto screen
 #${sharpy} pkexec po* refracta* squashfs-tools
 #
@@ -93,11 +106,13 @@
 #${lftr}
 #csleep 5
 #
-##VAIH:, python3*, , voisiko niitä karsia?
+##HUOM.15525 vaikuttaisi toimivan, ajon jälkeen x toimii edelleen
 #${sharpy} samba* system-config* telnet tex* 
-#${sharpy} syslinux* mythes isolinux libgssapi-krb5-2
-#${sharpy} uno* ure* upower vim* # udisks* saattaa poistua jo aiemmin
 #
+##VAIH:, python3*, , voisiko niitä karsia?
+#${sharpy} syslinux* mythes isolinux libgssapi-krb5-2
+#
+#${sharpy} uno* ure* upower vim* # udisks* saattaa poistua jo aiemmin
 #${asy} 
 #${lftr}
 #csleep 5
@@ -106,9 +121,8 @@
 #csleep 5
 #${sharpy} xorriso xfburn
 #${asy} 
-#${lftr}
-#t2pf
 #
+#${lftr}
 ##${NKVD} ${pkgdir}/*.deb
 ##${NKVD} ${pkgdir}/*.bin 
 ##${NKVD} ${d}/*.deb 
@@ -117,11 +131,14 @@
 ##${smr} /usr/share/doc #rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
 ###squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
 ##df
-##${odio} which dhclient; ${odio} which ifup; csleep 3
+##${odio} which dhclient; ${odio} which ifup; csleep 6
 #
-#dqb "${scm} a-wx $0 in 3 secs "
-#csleep 3
+#t2pf
+#
+#dqb "${scm} a-wx $0 in 6 secs "
+#csleep 6
 #${scm} a-wx $0 
 #
 ##whack xfce so that the ui is reset
-#${whack} xfce4-session
+${whack} xfce4-session
+

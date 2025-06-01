@@ -1,8 +1,7 @@
 #!/bin/bash
 
 mode=2
-#HUOM.28525:excalibur/ceres-tapauksessa saa jo mode=0 äksän/slimin/whåtever sek8isin, jos selvittäisi miksi
-#tar:in purku ei vielä riitä
+#tuo 28525 asia selvitetty, sitten toinen
 
 distro=$(cat /etc/devuan_version)
 dirname $0
@@ -16,6 +15,25 @@ else
 	echo "CONFIG MISSING"
 	exit 55
 fi
+
+#HUOM.29525:testaa asfdasfd.tar ja uudempi sen tables-jutun varalta
+#zxcv:lib ok, base-files+initscripts+sysvinit-core väärää versiota, tables puuttuu
+#fasd6:libs ok, muut muuten ok mutta base-fileksen kohdalla nalkutus, !tables 
+#fasd5:libs ok, !tables, samantap q zxcv
+
+#asd4:lib ok, iptbl-pers kohdalla nalqtus
+#"iptables: Failed to initialize nft: Protocol not supported"
+#"iptables v1.8.11 (legacy): can't initialize iptables table `filter': Table does not exist (do you need to insmod?)
+#Perhaps iptables or your kernel needs to be upgraded."
+
+#https://superuser.com/questions/1480986/iptables-1-8-2-failed-to-initialize-nft-protocol-not-supported
+#sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
+#https://hatchjs.com/iptables-1-8-7-failed-to-initialize-nft-protocol-not-supported/
+
+#https://serverfault.com/questions/1028682/iptables-kernel-module-missing-after-upgrade-from-ubuntu-18-04-20-04
+#reconfig iptables/sudo apt-get install --reinstall linux-modules-xxxx
+
+#HUOM.export2:sessa haraa vastaan: base-files ja libx11-xcb1 , niin ei oikein pakettien haku etene...edennyt
 
 function parse_opts_1() {
 	case "${1}" in
@@ -40,7 +58,7 @@ function parse_opts_2() {
 if [ -d ~/Desktop/minimize ] && [ -x  ~/Desktop/minimize/common_lib.sh ] ; then 
 	. ~/Desktop/minimize/common_lib.sh
 else
-	echo "NO COMMON L1B AVA1LABL3"
+	echo "NO COMMON L1B (AVA1LABL3 AND 3XECUTABL3)"
 	exit 55
 fi
 
@@ -60,7 +78,7 @@ if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 	#HUOM.22525:tap mode=0 pitäisi kutsua check_binaries ja sitä kautta pakottaa tablesin asennus... puuttuuko .deb?
 else
-	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING"
+	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING OR NOT EXECUTABLE"
 	exit 111
 fi
 
@@ -71,8 +89,7 @@ csleep 2
 
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce 
-enforce_access ${n} ${PREFIX} #HUOM.28525:menisi vähän pieleen jo part076 kohdalla kun xcalib
-
+enforce_access ${n} ${PREFIX}
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
 
@@ -159,6 +176,7 @@ if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
 fi
 
 #HUOM.2:pitäisikö huomioida myös e.tar tuossa alla jotenkin?
+pre_part2
 
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0

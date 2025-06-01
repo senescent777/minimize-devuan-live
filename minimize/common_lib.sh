@@ -109,9 +109,6 @@ function other_horrors() {
 fix_sudo
 other_horrors
 
-#[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
-#csleep 2
-
 function jules() {
 	dqb "LE BIG MAC"
 	#dqb "V8" #josko kommentoituna takaisin se cp
@@ -191,6 +188,79 @@ function ppp3() {
 	fi
 }
 
+function efk() {
+	${sdi} ${1} #$@ pikemminkin
+	[ $? -eq 0 ] && ${smr} ${1}
+}
+
+function common_tbls() {
+	dqb "COMMON TABLESD"
+	csleep 3
+
+	[ y"${1}" == "y" ] && exit	
+	[ -d ${1} ] || exit
+	[ -z ${2} ] && exit
+
+	local d2
+	d2=$(echo ${2} | tr -d -c 0-9)
+
+	dqb "PARAMS_OK"
+	csleep 1
+	psqa ${1}
+
+	#31525 uutena, josko tällä modulit kohdalleen
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/linux-modules*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/linux-modules*.deb
+	[ $? -eq 0 ] && ${odio} modprobe nft #tässä vai vähän alempana?
+
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
+
+	${odio} dpkg -i ${1}/libxtables*.deb 
+	[ $? -eq 0 ] && ${NKVD} ${1}/libxtables*.deb 
+	csleep 1
+
+	${odio} dpkg -i ${1}/libnftnl*.deb 
+	[ $? -eq 0 ] && ${NKVD} ${1}/libnftnl*.deb
+	csleep 1
+
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
+	
+	csleep 3
+	${scm} 0755 /etc/iptables
+
+	${odio} update-alternatives --set iptables /usr/sbin/iptables-legacy
+	${odio} update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
+	
+	local s
+	local t
+
+	s=$(${odio} which iptables-restore)
+	t=$(${odio} which ip6tables-restore)
+
+	#HUOM.31525:olisikohan moduleista kiinni että tässä tökkää?
+	#edelleen: "iptables v1.8.11 (legacy): can't initialize iptables table `filter': Table does not exist (do you need to insmod?"
+	#modprobe nft -> FATAL: Module nftables not found in directory /lib/modules/6.12.27-amd64
+
+	${odio} ${s} /etc/iptables/rules.v4.${d2}
+	${odio} ${t} /etc/iptables/rules.v6.${d2}
+	csleep 5
+
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables-persistent=1.0.20
+	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables-*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/iptables-*.deb
+
+	csleep 1
+	${scm} 0550 /etc/iptables	
+
+	dqb "common_tblz d0n3"
+	csleep 1
+}
+
 #function efk() {
 #	${sdi} ${1} #$@ pikemminkin
 #	[ $? -eq 0 ] && ${smr} ${1}
@@ -240,9 +310,8 @@ function check_binaries() {
 		#HUOM.21525:olisikohan niin simppeli juttu että dpkg seuraa linkkiä ja nollaa tdston mihin linkki osoittaa?
 		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
 
-		#common_tbls korvaamaan
 		ppp3 ${1}
-		pre_part3 ${1} ${dnsm}
+		common_tbls ${1} ${dnsm}
 		pr4 ${1}
 
 		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
@@ -255,13 +324,14 @@ function check_binaries() {
 	fi
 
 	#xcalibur-testien älk muutox (halt ja reboot silleen niinqu turhia jos eivät toimi)
-	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd} "
+	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
 	csleep 1
 
 	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
 	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
-	for x in iptables ip6tables iptables-restore ip6tables-restore ifup ifdown apt-get apt ip netstat dpkg tar mount umount sha512sum # dhclient kilinwittu.sh
+
+	for x in iptables ip6tables iptables-restore ip6tables-restore ifup ifdown apt-get apt ip netstat dpkg tar mount umount sha512sum dhclient # kilinwittu.sh
 		do ocs ${x}
 	done
 	
@@ -293,16 +363,15 @@ function check_binaries2() {
 	sa="${odio} ${sa} "
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
-	
-	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
-	
+
+	lftr="${smr} -rf /run/live/medium/live/initrd.img* " #distro-kohtainen jatkossa
+
 	srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
 	fib="${odio} ${sa} --fix-broken install "
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
 	
-	#HUOM. ei alustetttu tämmöstä dch="${odio} ${dch}"
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
@@ -320,18 +389,37 @@ function mangle_s() {
 
 	${scm} 0555 ${1}
 	${sco} root:root ${1}
+#
+#	local s
+#	local n2
+#
+#	if [ y"${3}" == "y" ] ; then
+#		n2=$(whoami)
+#	else
+#		n2=${3}
+#	fi
+#
+#	s=$(sha256sum ${1})
+#	echo "${n2} localhost=NOPASSWD: sha256: ${s} " >> ${2}
+#Tässä tavoitteena tehdä mahd vaikeasti helppo asia tai sitten excaliburiin liittyvät sorkkimiset aiheuttaneet sivuvaikutuksia. Monivalintakysymys.
 
-	local s
-	local n2
+	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
+	echo -n " " >> ${2}
+	echo -n "localhost=NOPASSWD:" >> ${2}
+	echo -n " " >> ${2}
+	echo -n "sha256:" >> ${2}
+	echo -n " " >> ${2}
 
-	if [ y"${3}" == "y" ] ; then
-		n2=$(whoami)
-	else
-		n2=${3}
-	fi
+#https://github.com/senescent777/some_scripts/blob/main/skripts/export/common_funcs.sh.export , slaughter0 olisi myös 1 idea
 
-	s=$(sha256sum ${1})
-	echo "${n2} localhost=NOPASSWD: sha256: ${s} " >> ${2}
+	local p
+	p=$(sha256sum ${1} | cut -d ' ' -f 1 | tr -dc a-f0-9)
+
+	echo -n ${p} >> ${2}
+	echo -n " " >> ${2}
+	echo -n ${1} | tr -dc a-zA-Z0-9/. >> ${2} #
+	
+	echo -e "\n" >> ${2} #menisikö näin?
 }
 
 function dinf() {
@@ -360,9 +448,9 @@ function dinf() {
 	#exit
 }
 
-#HUOM.24525:annettiinko tälle 2. parametria? käytetäänkö edes ekaa nkyään? TODO:tee jotain
+#HUOM.29525:ei tarvitse parametreja tämä
 function pre_enforce() {
-	dqb "common_lib.pre_enforce( ${1} , ${2} )"
+	dqb "common_lib.pre_enforce()"
 	local q
 	local f
 
@@ -400,9 +488,16 @@ function pre_enforce() {
 		#saavuttaakohan tuolla nollauksella mitään? kuitenkin alustetaan
 	fi
 
-	#TODO:grep -c wttuun, ei toimi toivotulla tavalla
 	local c4
-	c4=$(grep -c ${dir} /etc/fstab) #aiemmin grepattiin $part0:lla, sitäpaitsi grep -c saattaa pykiä, wc -l varmempi EHK
+	c4=0
+	
+	if [ -v dir ] ; then
+		c4=$(grep ${dir} /etc/fstab | wc -l) #aiemmin grepattiin $part0:lla, wc -l varmempi EHKä
+	else
+		echo "NO SUCH THING AS \$dir"
+		exit 99
+	fi
+
 
 	if [ ${c4} -lt 1 ] ; then
 		#HUOM. pitäisi kai karsia edellinen rivi millä $dir?
@@ -465,8 +560,11 @@ function e_v() {
 }
 
 function e_h() {
+
+	debug=1
 	dqb "e_h( ${1} , ${2} )"
-	csleep 1
+	csleep 5
+
 
 	${sco} root:root /home
 	${scm} 0755 /home
@@ -480,9 +578,11 @@ function e_h() {
 	#HUOM.28525:p.o $1/$2 jatkossa tai ainakin tarkistaa että $2 sis $1
 	[ -d ${2} ] || exit 99
 	local f
+
 	dqb " e h PT 2"
 	csleep 2
 	${scm} 0755 ${2}
+
 
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
@@ -525,7 +625,8 @@ function e_final() {
 
 function enforce_access() {
 	dqb " enforce_access( ${1} , ${2})"
-	csleep 1
+	csleep 10
+
 	dqb "changing /sbin , /etc and /var 4 real"
 
 	e_e
@@ -558,7 +659,7 @@ function part1_5() {
 	local t
 
 	#HUOM.28525:pitäisiköhän tilap. sallia /e/a sorkinta tässä?
-	t=$(echo ${1} | cut -d '/' -f 1) #jos tämä riittäisi toistaiseksi
+	t=$(echo ${1} | cut -d '/' -f 1) #-dc a-z ?
 
 	if [ ! -s /etc/apt/sources.list.${t} ] ; then
 		if [ ! -s /etc/apt/sources.list.tmp ] ; then	
@@ -633,7 +734,8 @@ function dis() {
 	fi
 
 	local t
-	t=$(echo ${1} | cut -d '/' -f 1)
+	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+
 
 	if [ -f /etc/network/interfaces.${t} ] ; then
 		dqb "LINKS-1-2-3"
@@ -669,7 +771,9 @@ function dis() {
 	dqb "DONE"
 }
 
-#HUOM.28525:ntp pitäisi nyt sammuttaa eri tavalla q aiemmin (TODO?)
+
+#HUOM.29525:ntp sammutetaan nyt lib.pre_part2-reittiä koska excalibur
+
 function part076() {
 	dqb "FART076( ${1})"
 	csleep 1
@@ -698,9 +802,6 @@ function part076() {
 	dqb "P.176 DONE"
 	csleep 1
 }
-
-#HUOM.25525:xcalibur/ceres-jutun takia tähän joutuisi laittamaan cut mukaan
-#HUOM.27525:paskooko tämä myös excaliburin kanssa äksään kirjautumisen? ehkä se se 076 kuitenkin
 
 function part1() {
 	dqb "PART1( ${1} )"
@@ -735,9 +836,8 @@ function part1() {
 	local t
 
 	g=$(date +%F)
-	t=$(echo ${1} | cut -d '/' -f 1) #jos tämä riittäisi toistaiseksi
+	t=$(echo ${1} | cut -d '/' -f 1 | tr -dc a-z) 
 
-	#HUOM.20525:onkohan ao. ehto ok?
 	if [ -f /etc/apt/sources.list ] ; then
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
 
@@ -747,7 +847,6 @@ function part1() {
 		fi
 	fi
 
-	#nyt varmaankin joutuu linkitysjutut kopsailemaan muuallekin vai joutuuko? no joutuu
 	part1_5 ${t}
 
 	if [ ! -f /etc/apt/sources.list ] ; then
@@ -813,14 +912,19 @@ function part2_5() {
 
 	if [ y"${ipt}" != "y" ] ; then
 		jules
-		#HUOM. saattaa toimia ilman .$2 koska tables-kikkailuja laitettu uusiksi 26525
 
-		if [ -s /etc/iptables/rules.v6.${2} ] ; then
-			${ip6tr} /etc/iptables/rules.v6.${2}
+		#HUOM. saattaa toimia ilman .$2 koska tables-kikkailuja laitettu uusiksi 26525
+		#HUOM.2. josko kuitenkin mankeloisi $2 (VAIH)
+
+		local t
+		t=$(echo ${2} | tr -d -c 0-9)
+
+		if [ -s /etc/iptables/rules.v6.${t} ] ; then
+			${ip6tr} /etc/iptables/rules.v6.${t}
 		fi
 
-		if [ -s /etc/iptables/rules.v4.${2} ] ; then
-			${iptr} /etc/iptables/rules.v4.${2}
+		if [ -s /etc/iptables/rules.v4.${t} ] ; then
+			${iptr} /etc/iptables/rules.v4.${t}
 		fi
 	fi
 
@@ -883,8 +987,9 @@ function part3() {
 	jules
 	ppp3 ${1}
 
-	#TODO:pp3 jatkossa mankeloimaan $2 jos ei tämä fktio sitä tee
-	pre_part3 ${1} ${2}
+	local d2
+	d2=$(echo ${2} | tr -d -c 0-9)
+	common_tbls ${1} ${d2}
 
 	pr4 ${1}
 	part3_4real ${1}
