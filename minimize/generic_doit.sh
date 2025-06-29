@@ -45,7 +45,7 @@ else
 fi
 
 [ $? -gt 0 ] && exit 56
-sleep 3
+sleep 1
 
 #=====================================PART0=========================================================
 dqb "b3f0r3 p.076"
@@ -64,7 +64,7 @@ fi
 #==================================PART 1============================================================
 
 dqb "mode= ${mode}"
-csleep 2
+csleep 1
 
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce 
@@ -130,18 +130,18 @@ else
 	echo "555"
 fi
 
-csleep 2
+csleep 1
 [ ${c13} -lt 1 ] && c14=1
 el_loco ${c14} ${c13}
 
 if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
 	dqb "R (in 2 secs)"
-	csleep 2
+	csleep 1
 	${odio} passwd
 
 	if [ $? -eq 0 ] ; then
 		dqb "L (in 2 secs)"
-		csleep 2
+		csleep 1
 		passwd
 	fi
 
@@ -172,7 +172,7 @@ if [ -s ${PREFIX}/config.tar.bz2 ] ; then #prefix vai $d?
 fi
 
 ${NKVD} ${PREFIX}/config.tar
-csleep 2
+csleep 1
 
 #tai sitten käskytetään:import2 (TODO?)
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
@@ -205,7 +205,7 @@ ${scm} 0555 ${PREFIX}/changedns.sh
 ${sco} root:root ${PREFIX}/changedns.sh
 ${odio} ${PREFIX}/changedns.sh ${dnsm} ${distro}
 ${sipt} -L
-csleep 2
+csleep 1
 
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================

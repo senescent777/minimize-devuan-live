@@ -40,7 +40,7 @@ if [ z"${distro}" != "z" ] ; then
 				${som} ${dir}
 		
 				if [ $? -eq 0 ] ; then
-					sleep 5
+					sleep 2
 				fi
 			fi
 		else
@@ -53,7 +53,7 @@ fi
 if [ -f ${tgt} ] ; then
 	#pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
 	${tcmd} -tf ${1} | grep '.deb'
-	sleep 3
+	sleep 1
 
 	read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
 	[ "${confirm}" != "Y" ] && exit 
@@ -65,7 +65,7 @@ if [ -f ${tgt} ] ; then
 	#update,export2 :mikä ero?
 
 	${spc} ${tgt} ${tgt}.OLD #vaiko mv?
-	sleep 2
+	sleep 1
 
 	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
 	for f in $(find ${PREFIX}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
@@ -91,7 +91,7 @@ if [ -f ${tgt} ] ; then
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/iptables/*
 	${scm} 0444 /etc/default/rules*
-	sleep 2
+	sleep 1
 				
 	for f in $(find /etc -name 'rules*') ; do #type f mukaan?
 		if [ -s ${f} ] && [ -r ${f} ] ; then
@@ -102,16 +102,15 @@ if [ -f ${tgt} ] ; then
 	${scm} 0400 /etc/default/rules*
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
-	sleep 2
+	sleep 1
 
 	#pitäisi kai tehdä jotain että tuoreimmat muutokset /e/n ja /e/a menevät tar:iin asti? typojen korjaus olisi hyvä alku
 
 	#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
 	for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
 
-	#uutena 28525
 	for f in $(find /etc/apt -type f -name 'sources*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
-	sleep 2
+	sleep 1
 
 	#HUOM.saattaa urputtaa $tgt polusta riippuen
 	#HUOM.2:miten toimii omegan ajon jälkeen?
@@ -121,23 +120,21 @@ if [ -f ${tgt} ] ; then
 	${sco} $(whoami):$(whoami) ${tgt}.sha
 	sha512sum ${tgt} > ${tgt}.sha
 	sha512sum -c ${tgt}.sha
-
  	
 	echo "DONE UPDATING"
-	sleep 2
+	sleep 1
 else	
 	exit 1
 fi
 
 ls -las ${tgt}
-sleep 3
+sleep 1
 
 if [ ${u} -eq 1 ] ; then	
 	echo "WILL UMOUNT SOON";sleep 1
 	${uom} ${dir}
-	sleep 5
+	sleep 2
 fi
 
 echo "LEST WE FORGET:"
 grep ${dir} /proc/mounts
-
