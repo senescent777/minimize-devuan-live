@@ -6,7 +6,6 @@ dir=/mnt
 part0=ABCD-1234
 PREFIX=~/Desktop/minimize #dirname?
 mode=-2
-#loose=1
 
 #TODO:modatun kiekon squashfs:lle mukaan tämä ja demerde_toi
 
@@ -148,14 +147,9 @@ else
 		dqb "imp2.pr4 (\${1})" 
 	}
 
-	#function pre_part3() {
-	#	dqb "imp2.pre_part3( \${1} \${2})"
-	#}
-
 	check_binaries ${d} #parametrit kunnossq?
 	echo $?
 	[ $? -eq 0 ] || exit 7
-
 	csleep 1
 
 	check_binaries2
@@ -181,7 +175,6 @@ csleep 1
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
 
 #glorified "tar -x" this function is - Yoda
-#uuden enf_acc-muutoksen takia joutuisi uudelleen testaamaan
 function common_part() {
 	debug=1
 
@@ -207,7 +200,6 @@ function common_part() {
 
 	csleep 1
 	${srat} -C / -xf ${1}
-
 	csleep 1
 	dqb "tar DONE"
 
@@ -230,6 +222,7 @@ function common_part() {
 		${scm} a+x ${t}/*.sh
 		${scm} 0444 ${t}/conf*
 		${scm} 0444 ${t}/*.deb
+
 		csleep 1
 	fi
 
@@ -299,7 +292,7 @@ case "${mode}" in
 
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
-    
+
 		part3 ${d} ${dnsm} #VAIH:testaa että toimii
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 		csleep 1

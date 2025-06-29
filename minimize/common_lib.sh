@@ -261,16 +261,6 @@ function common_tbls() {
 	csleep 1
 }
 
-#function efk() {
-#	${sdi} ${1} #$@ pikemminkin
-#	[ $? -eq 0 ] && ${smr} ${1}
-#}
-#
-##tähän tablesin asentelu jatkossa?
-#function common_tbls() {
-#	dqb "UNDER CONSTRUCTION"
-#}
-
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135(${1} )"
 	csleep 1
@@ -330,7 +320,6 @@ function check_binaries() {
 
 	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
 	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
-
 	for x in iptables ip6tables iptables-restore ip6tables-restore ifup ifdown apt-get apt ip netstat dpkg tar mount umount sha512sum dhclient # kilinwittu.sh
 		do ocs ${x}
 	done
@@ -363,9 +352,9 @@ function check_binaries2() {
 	sa="${odio} ${sa} "
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
-
+	
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* " #distro-kohtainen jatkossa
-
+	
 	srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
 	fib="${odio} ${sa} --fix-broken install "
@@ -498,7 +487,6 @@ function pre_enforce() {
 		exit 99
 	fi
 
-
 	if [ ${c4} -lt 1 ] ; then
 		#HUOM. pitäisi kai karsia edellinen rivi millä $dir?
 		${scm} a+w /etc/fstab
@@ -560,11 +548,9 @@ function e_v() {
 }
 
 function e_h() {
-
 	debug=1
 	dqb "e_h( ${1} , ${2} )"
 	csleep 5
-
 
 	${sco} root:root /home
 	${scm} 0755 /home
@@ -582,7 +568,6 @@ function e_h() {
 	dqb " e h PT 2"
 	csleep 2
 	${scm} 0755 ${2}
-
 
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
@@ -626,7 +611,6 @@ function e_final() {
 function enforce_access() {
 	dqb " enforce_access( ${1} , ${2})"
 	csleep 10
-
 	dqb "changing /sbin , /etc and /var 4 real"
 
 	e_e
@@ -680,7 +664,6 @@ function part1_5() {
 		dqb "p1.5.2()"
 		csleep 1
 
-		#HUOM.22525:vaikuttaisi jopa toimivan, seur forWardointi sh:lle
 		local tdmc
 	
 		tdmc="sed -i 's/DISTRO/${t}/g'"
@@ -736,7 +719,6 @@ function dis() {
 	local t
 	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
 
-
 	if [ -f /etc/network/interfaces.${t} ] ; then
 		dqb "LINKS-1-2-3"
 		${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
@@ -771,9 +753,7 @@ function dis() {
 	dqb "DONE"
 }
 
-
 #HUOM.29525:ntp sammutetaan nyt lib.pre_part2-reittiä koska excalibur
-
 function part076() {
 	dqb "FART076( ${1})"
 	csleep 1

@@ -4,7 +4,6 @@ tgtfile=""
 distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa
 PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd #tai dirname?
 mode=-2
-loose=1 #turha nykyään
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -42,7 +41,7 @@ if [ -x ${PREFIX}/common_lib.sh ] ; then
 else
 	#HUOM.23525:oleellisempaa että import2 toimii tarvittaessa ilman common_lib
 	#"lelukirjasto" saattaa toimia sen varren että "$0 4 ..." onnistuu	
-
+	
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
 	uom="sudo /bin/umount"
@@ -147,7 +146,6 @@ else
 
 	#onko tässä sktiptissä oleellista välittää $d part3:lle asti c_b välityksellä?
 	check_binaries ${d}
-
 	check_binaries2
 fi
 
@@ -197,7 +195,7 @@ function pre1() { #HUOM.31525:lienee kunnossa
 	if [ -d ${1} ] ; then
 		dqb "5TNA"
 		n=$(whoami)
-
+			
 		local ortsac
 		local lefid
 
@@ -245,7 +243,6 @@ function pre2() { #HUOM.31525:toiminee
 
 	local ortsac
 	local ledif
-	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
 
 	ortsac=$(echo ${1} | cut -d '/' -f 6)
 	ledif=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
@@ -257,7 +254,6 @@ function pre2() { #HUOM.31525:toiminee
 
 		${sifu} ${iface}
 		[ ${debug} -eq 1 ] && ${sifc}
-
 		csleep 2
 
 		${sco} -Rv _apt:root ${pkgdir}/partial/
@@ -284,7 +280,6 @@ function tpq() { #HUOM.viimeksi 31525 testattu että tekee tarin
 	t=$(echo ${1} | cut -d '/' -f 1,2,3 | tr -d -c a-zA-Z/)
 
 	#HUOM.23525:pakkaus mukaan kuten näkyy, config.tar vie .deb jälkeen melkeinpä eniten tilaa 
-
 	${srat} -jcf ${1}/config.tar.bz2 ${t}/.config/xfce4/xfconf/xfce-perchannel-xml ${t}/.config/pulse /etc/pulse
 	csleep 1
 
@@ -333,7 +328,6 @@ function tp1() { #VAIH:test 31525
 }
 
 #HUOM.23525:josko nyt vähän fiksummin toimisi
-
 function rmt() { #HUOM.31525:toiminee
 	debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
@@ -402,11 +396,6 @@ if [ ${tcdd} != ${t2} ] ; then
 	shary="${sag} install --download-only "
 fi
 
-#HUOM.jos ei lähde debian testingin kanssa lataUtumaan niin sitten olisi vielä unstable
-#... myös excalibur uudemman kerran mutta tiedä siitäkin
-#HUOM.31525:josqo sen sdfsdf1 testaisi kuiteskin nytq $shary vaihdettu oletusarvosta
-# (pitäisiköhän ethz knssa vielä?)
-
 function aswasw() {
 	case ${iface} in
 		wlan0)
@@ -437,25 +426,11 @@ function tlb() {
 		csleep 1
 		${NKVD} ${pkgdir}/*.deb
 	fi
-	
-	local tcdd
-	local t2
-
-	#HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia
-	tcdd=$(cat /etc/devuan_version)
-	t2=$(echo ${2} | cut -d '/' -f 6)
-	
-	if [ ${tcdd} != ${t2} ] ; then
-		dqb "XXX"
-		csleep 1
-		shary="${odio} ${sag} install --download-only "
-	fi
 
 	dqb "EDIBLE AUTOPSY"
 	csleep 1
 	${fib}
 	${asy}
-
 	csleep 3
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
@@ -493,11 +468,9 @@ function tlb() {
 	fi
 
 	aswasw #jatkossa "if cc"-blokin uplkop tämä
-
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 	${shary} iptables #mitä ymp. mja - jekkuja tähän oli ajateltu?
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
-	#https://pkgs.org tai https://debian.ethz.ch myös olemassa
 
 	dqb "x2.tlb.part2"
 	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
@@ -507,21 +480,11 @@ function tlb() {
 	udp6 ${pkgdir}
 
 	#actually necessary
-
 	pre2 ${1}
 	other_horrors
 
 	dqb "x2.tlb.done"
 }
-
-#https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
-
-#HUOM.26525:apg-get sisältää vivun "-t" , mitä se tekee Devuanin tapauksessa? pitääkö sources.list sorkkia liittyen?
-#... ei oikein lähtenyt -t:llä ethz kanssa ekalla yrItyksellä 29525
-#sen sijaan kun sources-list:iin vaihtoi stable-> testing ni jotain alkoi tapahtua
-
-#HUOM.31525:pienin vaiva saada tables excaliburiin toimimaan saattaa olla hakea tables-paketit excailburilla
-#...sikäli mikäli dhclient ja wpasupplicant sun muut löytyvät
 
 function tp4() { #020625:toimii
 	debug=1
@@ -549,7 +512,6 @@ function tp4() { #020625:toimii
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
 	${shary} libaudit1 libselinux1
 	${shary} man-db sudo
-  
 	message
 	jules
 
@@ -681,7 +643,6 @@ function tp2() { #HUOM.31525:olisikohan kunnossa tämä?
 
 #HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
 #dnsm 2. parametriksi... eiku ei, $2 onkin jo käytössä ja tarttisi sen cut-jekun
-
 function tp3() { #31525:vaikuttaisi tulevan jutut mukana
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
@@ -771,7 +732,6 @@ function tp3() { #31525:vaikuttaisi tulevan jutut mukana
 
 function tpu() { #VAIH:testaa (30525 vaikutti toimivan)
 	debug=1	
-
 	#HUOM:0/1/old/new ei liity
 	dqb "tpu ${1}, ${2}"
 
@@ -881,7 +841,6 @@ case ${mode} in
 		${sifd} ${iface}
 
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
-
 		tp1 ${tgtfile} ${d}
 		pre1 ${d}
 		tp2 ${tgtfile}
