@@ -3,7 +3,7 @@
 #jokin dpkg/apt-jekku kutsuvassa koodissa voisi ajaa saman asian, ehkä
 function pr4() {
 	dqb "ch1m.pr4( ${1} , ${2} )"
-	csleep 3
+	csleep 1
 
 	${sdi} ${1}/libpam-modules-bin_*.deb
 	${sdi} ${1}/libpam-modules_*.deb
@@ -41,7 +41,7 @@ function pr4() {
 
 function udp6() {
 	dqb "ch1m.lib.UPDP-6"
-	csleep 2
+	csleep 1
 
 	#mahd. yhteisiä osia voisi siirtää
 	#HUOM.30525:pitäisikö nämäkin kahlata läpi uudestaan? että mitä niille tekee niinqu
@@ -56,11 +56,11 @@ function udp6() {
 	${NKVD} ${1}/librsvg2*
 
 	dqb "D0NE"
-	csleep 4
+	csleep 1
 }
 
 function t2p() {
-	csleep 5
+	csleep 1
 
 	dqb "t2p()"
 	csleep 1
