@@ -150,9 +150,9 @@ function udp6() {
 
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xcvt=0.1.2-1
 function t2p() {
-	debug=1
+	#debug=1
 	dqb "DAUD.T2P()"
-	csleep 3
+	csleep 1
 
 	#voisi kai chim kanssa yhteisiä viedä part2_5:seen`?
 	#HUOM.25525:atril ei löydy daedaluksesta
@@ -223,7 +223,7 @@ function t2p() {
 #josko kuitenkin ntp takaisin listaan?
 function pre_part2() {
 	dqb "daud.pre_part2()"
-	csleep 6
+	csleep 1
 
 	#${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
@@ -233,7 +233,7 @@ function pre_part2() {
 		csleep 1
 	done
 
-	csleep 6
+	csleep 1
 	dqb "d0n3"
 }
 
