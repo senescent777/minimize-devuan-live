@@ -1,12 +1,11 @@
 #!/bin/bash
-debug=0 #1
+debug=0
 file=""
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 dir=/mnt
 part0=ABCD-1234
 PREFIX=~/Desktop/minimize #dirname?
 mode=-2
-#loose=1
 
 #TODO:modatun kiekon squashfs:lle mukaan tämä ja demerde_toi
 
@@ -181,7 +180,7 @@ csleep 1
 
 #glorified "tar -x" this function is - Yoda
 function common_part() {
-	debug=1
+	#debug=1
 
 	dqb "common_part( ${1}, ${2})"
 	[ y"${1}" == "y" ] && exit 1
