@@ -48,9 +48,9 @@ cd ${q}
 
 ${tig} clone https://github.com/senescent777/minimize-devuan-live
 cd minimize-devuan-live
-[ ${debug} -eq 1 ] && ls -laRs;sleep 6
+[ ${debug} -eq 1 ] && ls -laRs;sleep 3
 
-[ -d ~/Desktop/minimize ] || mkdir ~/Desktop/minimize;sleep 6
+[ -d ~/Desktop/minimize ] || mkdir ~/Desktop/minimize;sleep 3
 
 #if [ -d ~/Desktop/minimize ] ; then
 	#lototaan aiemman sisällön kanssa vaikka näin
@@ -61,7 +61,7 @@ cd minimize-devuan-live
 		rm ~/Desktop/minimize/*
 	fi
 
-	csleep 6
+	csleep 3
 	mv minimize/* ~/Desktop/minimize
 #fi
 
