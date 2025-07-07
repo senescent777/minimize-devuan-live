@@ -5,7 +5,7 @@ distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkoss
 PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd #tai dirname?
 mode=-2
 
-#TODO.8725:varm että wpa_supplicnabt-conf tulee mukaan tarvottaessa
+#VAIH:varm että wpa_supplicnabt-conf tulee mukaan tarvottaessa
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -619,8 +619,10 @@ function tp2() { #HUOM.8725:olisikohan kunnossa tämä?
 
 	case ${iface} in
 		wlan0)
-			#tartteekokokoko ko hakemostoa?
-			${srat} -rf ${1} /etc/wpa/wpa_supplicant.conf
+			echo "APW";sleep 6
+			${srat} -rvf ${1} /etc/wpa/wpa_supplicant.conf
+			${srat} -tf  ${1} | grep wpa
+			sleep 6
 		;;
 		*)
 			dqb "non-wlan"
