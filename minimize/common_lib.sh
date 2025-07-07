@@ -88,7 +88,7 @@ function fix_sudo() {
 	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 
 	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
-	csleep 2
+	csleep 1
 	dqb "fix_sud0.d0n3"
 }
 
@@ -103,7 +103,7 @@ function other_horrors() {
 	${sco} -R root:root /etc/default
 
 	dqb " DONE"
-	csleep 2
+	csleep 1
 }
 
 fix_sudo
@@ -113,12 +113,12 @@ function jules() {
 	dqb "LE BIG MAC"
 	#dqb "V8" #josko kommentoituna takaisin se cp
 	#${spc} /etc/default/rules.* /etc/iptables
-	csleep 2
+	csleep 1
 
 	other_horrors
 
 	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
-	csleep 2
+	csleep 1
 }
 
 function message() {
@@ -152,7 +152,7 @@ function psqa() {
 		cd ${1}
 
 		#dpkg -V #HUOM.11525:toistaiseksi jemmaan
-		#sleep 2
+		#sleep 1
 
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
@@ -167,7 +167,7 @@ function psqa() {
 
 function ppp3() {
 	dqb "ppp3 ${1}"
-	csleep 3
+	csleep 1
 
 	local c
 	local d
@@ -195,7 +195,7 @@ function efk() {
 
 function common_tbls() {
 	dqb "COMMON TABLESD"
-	csleep 3
+	csleep 1
 
 	[ y"${1}" == "y" ] && exit	
 	[ -d ${1} ] || exit
@@ -227,7 +227,7 @@ function common_tbls() {
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
 	
-	csleep 3
+	csleep 1
 	${scm} 0755 /etc/iptables
 
 	${odio} update-alternatives --set iptables /usr/sbin/iptables-legacy
@@ -245,7 +245,7 @@ function common_tbls() {
 
 	${odio} ${s} /etc/iptables/rules.v4.${d2}
 	${odio} ${t} /etc/iptables/rules.v6.${d2}
-	csleep 5
+	csleep 1
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
@@ -298,13 +298,13 @@ function check_binaries() {
 		fi
 
 		#HUOM.21525:olisikohan niin simppeli juttu että dpkg seuraa linkkiä ja nollaa tdston mihin linkki osoittaa?
-		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
+		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 1
 
 		ppp3 ${1}
 		common_tbls ${1} ${dnsm}
 		pr4 ${1}
 
-		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 3
+		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 1
 		other_horrors
 
 		ipt=$(${odio} which iptables)
@@ -531,7 +531,7 @@ function e_e() {
 
 function e_v() {
 	dqb "e_v()"
-	csleep 1
+	#csleep 1
 
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
@@ -548,9 +548,9 @@ function e_v() {
 }
 
 function e_h() {
-	debug=1
+	#debug=1
 	dqb "e_h( ${1} , ${2} )"
-	csleep 5
+	csleep 2
 
 	${sco} root:root /home
 	${scm} 0755 /home
@@ -566,7 +566,7 @@ function e_h() {
 	local f
 
 	dqb " e h PT 2"
-	csleep 2
+	csleep 1
 	${scm} 0755 ${2}
 
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
@@ -610,7 +610,7 @@ function e_final() {
 
 function enforce_access() {
 	dqb " enforce_access( ${1} , ${2})"
-	csleep 10
+	csleep 5
 	dqb "changing /sbin , /etc and /var 4 real"
 
 	e_e
@@ -628,7 +628,7 @@ function enforce_access() {
 	e_final
 
 	jules
-	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 3
+	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
@@ -689,7 +689,7 @@ function part1_5() {
 	${scm} -R a-w /etc/apt/
 
 	[ ${debug} -eq 1 ] && ls -las /etc/apt
-	csleep 3
+	csleep 1
 
 	dqb "p1.5 done"
 	csleep 1
@@ -731,7 +731,7 @@ function dis() {
 
 	${scm} 0555 /etc/network
 	[  ${debug} -eq 1 ] && ls -las /etc/network
-	csleep 2
+	csleep 1
 
 	#jos jokin näistä kolmesta hoitaisi homman...
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin (eka ei, toinen kyllä, kolmas ei, sysctl ei)
@@ -742,7 +742,7 @@ function dis() {
 #	${odio} ${sifd} -a
 #	csleep 1
 #
-	[ ${debug} -eq 1 ] && ${sifc};sleep 2
+	[ ${debug} -eq 1 ] && ${sifc};sleep 1
 
 	dqb "${sip} link set ${iface} down"
 	${sip} link set ${iface} down
@@ -786,7 +786,7 @@ function part076() {
 
 function part1() {
 	dqb "PART1( ${1} )"
-	csleep 3
+	csleep 1
 
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
 	csleep 1
@@ -808,7 +808,7 @@ function part1() {
 			${ipt} -L #
 			dqb "V6.b"; csleep 1
 			${ip6t} -L # -x mukaan?
-			csleep 2
+			csleep 1
 		fi
 	fi
 
@@ -824,7 +824,7 @@ function part1() {
 
 		if [ ${c} -gt 0 ] ; then 
 			${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
-			csleep 2
+			csleep 1
 		fi
 	fi
 
@@ -845,15 +845,15 @@ function part1() {
 }
 
 function part2_5() {
-	debug=1
+	#debug=1
 	dqb "PART2.5.1 ${1} , ${2}"
-	csleep 3
+	csleep 1
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "HGHGUYFLIHLYGLUYROI"
 		${lftr}
 		${fib} #uutena 27525, xcalibur...
-		csleep 3
+		csleep 1
 		
 		for s in ${PART175_LIST} ; do
 			dqb "processing ${s}"
@@ -886,7 +886,7 @@ function part2_5() {
 	fi
 
 	dqb "PART2.5.2 ${1} , ${2}"
-	csleep 3
+	csleep 1
 
 	${lftr}
 	csleep 1
@@ -911,7 +911,7 @@ function part2_5() {
 
 	if [ ${debug} -eq 1 ] ; then
 		${snt}
-		sleep 2
+		sleep 1
 	fi
 
 	csleep 1
