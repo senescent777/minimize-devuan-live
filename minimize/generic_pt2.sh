@@ -1,8 +1,7 @@
 #!/bin/bash
-debug=0 #1
+debug=0
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 PREFIX=~/Desktop/minimize #dirname?
-#loose=1
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -46,7 +45,7 @@ d=${PREFIX}/${distro}
 
 dqb "BEFORE CNF"
 echo "dbig= ${debug}"
-sleep 5
+sleep 1
 
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
@@ -73,10 +72,8 @@ dqb "d=${d}"
 echo "debug=${debug}"
 dqb "distro=${distro}"
 dqb "removepkgs=${removepkgs}"
-sleep 2
-
-csleep 2
-#miten muuten ne cut-jutut? tarvitseeko tässä?
+sleep 1
+csleep 1
 
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
@@ -90,17 +87,17 @@ fi
 function t2p_filler() {
 	${lftr}
 	${asy}
-	csleep 3
+	csleep 1
 }
 
 #yhteisiä osia daud ja chim t2p
 function t2pc() {
-	debug=1
+	#debug=1
 	dqb "common_lib.t2p_common()"
-	csleep 3
+	csleep 1
 
 	${fib} #uutena 29525, xcalibur...
-	csleep 3
+	csleep 1
 
 	${sharpy} amd64-microcode at-spi2-core
 	t2p_filler
@@ -174,16 +171,16 @@ function t2pc() {
 	t2p_filler
 
 	dpkg -l x*
-	csleep 3
+	csleep 1
 
 	dqb "clib.T2PC.DONE"
 	csleep 1
 }
 
 function t2pf() {
-	debug=1
+	#debug=1
 	dqb "common_lib.T2P.FINAL()"
-	csleep 3
+	csleep 1
 
 	${NKVD} ${pkgdir}/*.deb
 	${NKVD} ${pkgdir}/*.bin 
@@ -196,7 +193,7 @@ function t2pf() {
 	
 	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
 	df
-	${odio} which dhclient; ${odio} which ifup; csleep 6
+	${odio} which dhclient; ${odio} which ifup; csleep 3
 }
 #====================================================================
 #HUOM.25525:jos ao. fktiot kommentoitu jemmaan syistä ni pysäyttäisikö suorituksen?
@@ -215,7 +212,7 @@ ${asy} #varm. vuoksi
 
 #debug=1
 ${scm} a-wx ${0}
-csleep 5
+csleep 2
 
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
 if [ ${debug} -eq 1 ]; then
