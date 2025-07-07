@@ -1,6 +1,55 @@
 #=================================================PART 0=====================================
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
+#katkossa tlbs-asentelu -> common_lib?
+#function pre_part3() {
+#	dqb "ch1m.pp3( ${1} , ${2} )"
+#	csleep 1
+#
+#	[ y"${1}" == "y" ] && exit	
+#	[ -d ${1} ] || exit
+#	[ -z ${2} ] && exit
+#
+#	local d2
+#	d2=$(echo ${2} | tr -d -c 0-9)
+#
+#	dqb "pp3.2"
+#	csleep 1
+#	psqa ${1}
+#	
+#	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
+#	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb
+#
+#	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
+#	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables_*.deb
+#	
+#	csleep 5
+#	${scm} 0755 /etc/iptables
+#
+#	local s
+#	local t
+#
+#	s=$(${odio} which iptables-restore)
+#	t=$(${odio} which ip6tables-restore)
+#
+#	${odio} ${s} /etc/iptables/rules.v4.${d2}
+#	${odio} ${t} /etc/iptables/rules.v6.${d2}
+#	csleep 5
+#
+#	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
+#	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb
+#
+#	#kuinkahan tarpeellinen netfilter-pers oikeastaan on?
+#
+#	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables-*.deb
+#	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables-*.deb
+#	csleep 1
+#
+#	${scm} 0550 /etc/iptables
+#	dqb "pp3 d0n3"
+#	csleep 2
+#}
+
 #jokin dpkg/apt-jekku kutsuvassa koodissa voisi ajaa saman asian, ehkä
 function pr4() {
 	dqb "ch1m.pr4( ${1} , ${2} )"

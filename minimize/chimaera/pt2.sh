@@ -48,6 +48,7 @@
 #${asy} 
 #${lftr}
 #csleep 5
+#
 #${sharpy} dmidecode discover* dirmngr #tuleekohan viimeisestä ongelma? vissiin ei
 #${sharpy} doc-debian docutils* efibootmgr exfalso 
 #${sharpy} fdisk ftp* gdisk gcr
@@ -141,4 +142,3 @@
 #
 ##whack xfce so that the ui is reset
 ${whack} xfce4-session
-
