@@ -6,6 +6,7 @@ dir=/mnt
 part0=ABCD-1234
 PREFIX=~/Desktop/minimize #dirname?
 mode=-2
+#loose=1
 
 #TODO:modatun kiekon squashfs:lle mukaan tämä ja demerde_toi
 
@@ -146,6 +147,10 @@ else
 	function pr4() {
 		dqb "imp2.pr4 (\${1})" 
 	}
+
+	#function pre_part3() {
+	#	dqb "imp2.pre_part3( \${1} \${2})"
+	#}
 
 	check_binaries ${d} #parametrit kunnossq?
 	echo $?

@@ -378,8 +378,19 @@ function mangle_s() {
 
 	${scm} 0555 ${1}
 	${sco} root:root ${1}
-
-	#Tässä tavoitteena tehdä mahd vaikeasti helppo asia tai sitten excaliburiin liittyvät sorkkimiset aiheuttaneet sivuvaikutuksia. Monivalintakysymys.
+#
+#	local s
+#	local n2
+#
+#	if [ y"${3}" == "y" ] ; then
+#		n2=$(whoami)
+#	else
+#		n2=${3}
+#	fi
+#
+#	s=$(sha256sum ${1})
+#	echo "${n2} localhost=NOPASSWD: sha256: ${s} " >> ${2}
+#Tässä tavoitteena tehdä mahd vaikeasti helppo asia tai sitten excaliburiin liittyvät sorkkimiset aiheuttaneet sivuvaikutuksia. Monivalintakysymys.
 
 	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
 	echo -n " " >> ${2}
@@ -388,7 +399,7 @@ function mangle_s() {
 	echo -n "sha256:" >> ${2}
 	echo -n " " >> ${2}
 
-	#https://github.com/senescent777/some_scripts/blob/main/skripts/export/common_funcs.sh.export , slaughter0 olisi myös 1 idea
+#https://github.com/senescent777/some_scripts/blob/main/skripts/export/common_funcs.sh.export , slaughter0 olisi myös 1 idea
 
 	local p
 	p=$(sha256sum ${1} | cut -d ' ' -f 1 | tr -dc a-f0-9)

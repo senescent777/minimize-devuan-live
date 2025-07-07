@@ -396,6 +396,11 @@ if [ ${tcdd} != ${t2} ] ; then
 	shary="${sag} install --download-only "
 fi
 
+#HUOM.jos ei lähde debian testingin kanssa lataUtumaan niin sitten olisi vielä unstable
+#... myös excalibur uudemman kerran mutta tiedä siitäkin
+#HUOM.31525:josqo sen sdfsdf1 testaisi kuiteskin nytq $shary vaihdettu oletusarvosta
+# (pitäisiköhän ethz knssa vielä?)
+
 function aswasw() {
 	case ${iface} in
 		wlan0)
@@ -488,6 +493,13 @@ function tlb() {
 
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 
+#HUOM.26525:apg-get sisältää vivun "-t" , mitä se tekee Devuanin tapauksessa? pitääkö sources.list sorkkia liittyen?
+#... ei oikein lähtenyt -t:llä ethz kanssa ekalla yrItyksellä 29525
+#sen sijaan kun sources-list:iin vaihtoi stable-> testing ni jotain alkoi tapahtua
+
+#HUOM.31525:pienin vaiva saada tables excaliburiin toimimaan saattaa olla hakea tables-paketit excailburilla
+#...sikäli mikäli dhclient ja wpasupplicant sun muut löytyvät
+
 function tp4() { #020625:toimii
 	debug=1
 	dqb "tp4 ${1} , ${2} "
@@ -543,6 +555,8 @@ function tp4() { #020625:toimii
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
 	csleep 1
 	${lftr}
+
+	#aswasw
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
 	if [ -d ${2} ] ; then

@@ -2,6 +2,7 @@
 debug=0 #1
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 PREFIX=~/Desktop/minimize #dirname?
+#loose=1
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -85,7 +86,7 @@ else
 fi
 
 #====================================================================
-
+#ao 3 t2p-fktiota voisivat tietenkin sijaita myös g_pt2:sessa
 function t2p_filler() {
 	${lftr}
 	${asy}
