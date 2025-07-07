@@ -61,7 +61,7 @@ function p3r1m3tr() {
 	chown -R root:root /etc/iptables
 	chmod 0400 /etc/default/rules*
 	chown -R root:root /etc/default
-	sleep 2
+	sleep 1
 }
 
 p3r1m3tr
@@ -137,21 +137,21 @@ function ns2() {
 	[ y"${1}" == "y" ] && exit 145
 	dqb "ns2( ${1} )"
 	${scm} u+w /home
-	csleep 3
+	csleep 1
 
 	/usr/sbin/userdel ${1}
-	sleep 3
+	sleep 1
 
 	adduser --system ${1}
-	sleep 3
+	sleep 1
 
 	${scm} go-w /home
 	${sco} -R ${1}:65534 /home/${1}/ #HUOM.280125: tässä saattaa mennä metsään ... tai sitten se /r/s.pid
 	dqb "d0n3"
-	csleep 4	
+	csleep 1	
 
 	[ ${debug} -eq 1 ]  && ls -las /home
-	csleep 3
+	csleep 1
 }
 
 #ns-fktioihinkin jotain param mankelointia mikäli ottaa käyttöön
@@ -164,19 +164,19 @@ function ns4() {
 	${sco} ${1}:65534 /run/${1}.pid
 	${scm} u-w /run
 
-	sleep 5
+	sleep 1
 	${whack} ${1}* #saattaa joutua muuttamaan vielä
-	sleep 5
+	sleep 2
 
 	dqb "starting ${1} in 5 secs"
 
-	sleep 5
+	sleep 2
 	${odio} -u ${1} ${1} -g #antaa nyt tämän olla näin toistaiseksi(25.3.25)
 	echo $?
 
 	sleep 1
 	pgrep stubby*
-	sleep 5
+	sleep 2
 }
 
 #HUOM.29525:$1, annetaanko sitä? käytetäänkö? No Ei
