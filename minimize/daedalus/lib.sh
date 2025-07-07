@@ -4,59 +4,6 @@
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 #... joskohan --force-confold olisi se haettu juttu
 
-#HUOM. tarvitseeko 2. parametrin? nyt (270525) tietysti $dnsm ettei liikaa glob. mjia
-#function pre_part3() {
-#	dqb "daud.pp3( ${1} , ${2} )"
-#	csleep 1
-#
-#	[ y"${1}" == "y" ] && exit	
-#	[ -d ${1} ] || exit
-#	[ -z ${2} ] && exit
-#
-#	local d2
-#	d2=$(echo ${2} | tr -d -c 0-9)
-#
-#	dqb "pp3.2"
-#	csleep 1
-#	psqa ${1} #HUOM.22525:varm. vuoksi pp3 kutsuvaan koodiin tämä?
-#	
-#	#HUOM.140525:toiminee jo jollain lailla, "no" siihen kysymykseen olisi kuitenkin kiva saada välitettyä dpkg:lle asti
-#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables=1.8.9-2
-#
-#	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
-#	[ $? -eq 0 ] && ${NKVD} -f ${1}/libip*.deb
-#
-#	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
-#	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables_*.deb
-#	
-#	csleep 3
-#	${scm} 0755 /etc/iptables
-#
-#	local s
-#	local t
-#
-#	s=$(${odio} which iptables-restore)
-#	t=$(${odio} which ip6tables-restore)
-#	
-#	${odio} ${s} /etc/iptables/rules.v4.${d2}
-#	${odio} ${t} /etc/iptables/rules.v6.${d2}
-#
-#	csleep 3
-#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-#	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
-#	[ $? -eq 0 ] && ${NKVD} -f ${1}/netfilter-persistent*.deb
-#
-#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables-persistent=1.0.20
-#	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables-*.deb
-#	[ $? -eq 0 ] && ${NKVD} -f ${1}/iptables-*.deb
-#
-#	csleep 1
-#	${scm} 0550 /etc/iptables	
-#
-#	dqb "pp3 d0n3"
-#	csleep 1
-#}
-
 function c5p() {
 	dqb "CCCP( ${1} , ${2} )"
 	csleep 1
@@ -207,9 +154,9 @@ function udp6() {
 
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xcvt=0.1.2-1
 function t2p() {
-	debug=1
+	#debug=1
 	dqb "DAUD.T2P()"
-	csleep 3
+	csleep 1
 
 	#voisi kai chim kanssa yhteisiä viedä part2_5:seen`?
 	#HUOM.25525:atril ei löydy daedaluksesta
@@ -280,7 +227,7 @@ function t2p() {
 #josko kuitenkin ntp takaisin listaan?
 function pre_part2() {
 	dqb "daud.pre_part2()"
-	csleep 6
+	csleep 2
 
 	#${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
@@ -290,7 +237,7 @@ function pre_part2() {
 		csleep 1
 	done
 
-	csleep 6
+	csleep 2
 	dqb "d0n3"
 }
 
