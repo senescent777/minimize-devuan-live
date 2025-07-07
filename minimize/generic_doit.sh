@@ -6,7 +6,7 @@ distro=$(cat /etc/devuan_version)
 dirname $0
 d=~/Desktop/minimize/${distro} #alkuosa dirname:lla jatkossa?
 [ z"${distro}" == "z" ] && exit 6
-debug=0 #1
+debug=0
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
@@ -14,25 +14,6 @@ else
 	echo "CONFIG MISSING"
 	exit 55
 fi
-
-#HUOM.29525:testaa asfdasfd.tar ja uudempi sen tables-jutun varalta
-#zxcv:lib ok, base-files+initscripts+sysvinit-core väärää versiota, tables puuttuu
-#fasd6:libs ok, muut muuten ok mutta base-fileksen kohdalla nalkutus, !tables 
-#fasd5:libs ok, !tables, samantap q zxcv
-
-#asd4:lib ok, iptbl-pers kohdalla nalqtus
-#"iptables: Failed to initialize nft: Protocol not supported"
-#"iptables v1.8.11 (legacy): can't initialize iptables table `filter': Table does not exist (do you need to insmod?)
-#Perhaps iptables or your kernel needs to be upgraded."
-
-#https://superuser.com/questions/1480986/iptables-1-8-2-failed-to-initialize-nft-protocol-not-supported
-#sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
-#https://hatchjs.com/iptables-1-8-7-failed-to-initialize-nft-protocol-not-supported/
-
-#https://serverfault.com/questions/1028682/iptables-kernel-module-missing-after-upgrade-from-ubuntu-18-04-20-04
-#reconfig iptables/sudo apt-get install --reinstall linux-modules-xxxx
-
-#HUOM.export2:sessa haraa vastaan: base-files ja libx11-xcb1 , niin ei oikein pakettien haku etene...edennyt
 
 function parse_opts_1() {
 	case "${1}" in
@@ -62,7 +43,7 @@ else
 fi
 
 [ $? -gt 0 ] && exit 56
-sleep 3
+sleep 1
 
 #https://linuxopsys.com/use-dollar-at-in-bash-scripting
 #https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
@@ -84,7 +65,7 @@ fi
 #==================================PART 1============================================================
 
 dqb "mode= ${mode}"
-csleep 2
+csleep 1
 
 #HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
 [ ${enforce} -eq 1 ] && pre_enforce 
@@ -150,18 +131,18 @@ else
 	echo "555"
 fi
 
-csleep 2
+csleep 1
 [ ${c13} -lt 1 ] && c14=1
 el_loco ${c14} ${c13}
 
 if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
 	dqb "R (in 2 secs)"
-	csleep 2
+	csleep 1
 	${odio} passwd
 
 	if [ $? -eq 0 ] ; then
 		dqb "L (in 2 secs)"
-		csleep 2
+		csleep 1
 		passwd
 	fi
 
@@ -192,7 +173,7 @@ if [ -s ${PREFIX}/config.tar.bz2 ] ; then #prefix vai $d?
 fi
 
 ${NKVD} ${PREFIX}/config.tar
-csleep 2
+csleep 1
 
 #tai sitten käskytetään:import2 (TODO?)
 if [ -x ~/Desktop/minimize/profs.sh ] ; then
@@ -225,7 +206,7 @@ ${scm} 0555 ${PREFIX}/changedns.sh
 ${sco} root:root ${PREFIX}/changedns.sh
 ${odio} ${PREFIX}/changedns.sh ${dnsm} ${distro}
 ${sipt} -L
-csleep 2
+csleep 1
 
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
