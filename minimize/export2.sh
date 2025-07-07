@@ -5,6 +5,8 @@ distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkoss
 PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd #tai dirname?
 mode=-2
 
+#TODO.8725:varm että wpa_supplicnabt-conf tulee mukaan tarvottaessa
+
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -122,7 +124,7 @@ d=${PREFIX}/${distro}
 dqb "mode= ${mode}"
 dqb "distro=${distro}"
 dqb "file=${tgtfile}"
-csleep 3
+csleep 2
 
 if [ -s ${d}/conf ] ; then
 	. ${d}/conf
@@ -180,17 +182,17 @@ fi
 
 ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
-csleep 2
+csleep 1
 
-function pre1() { #HUOM.31525:lienee kunnossa
-	debug=1
+function pre1() { #HUOM.8725:lienee kunnossa
+	#debug=1
 	dqb "pre1( ${1} )"
 	[ -z ${1} ] && exit 666 #vika löytyi niinqu
-	csleep 10
+	csleep 5
 
 	${sco} -Rv _apt:root ${pkgdir}/partial/
 	${scm} -Rv 700 ${pkgdir}/partial/
-	csleep 2
+	csleep 1
 
 	if [ -d ${1} ] ; then
 		dqb "5TNA"
@@ -229,15 +231,15 @@ function pre1() { #HUOM.31525:lienee kunnossa
 		${sco} root:root /etc/apt
 
 		[ ${debug} -eq 1 ] && ls -las /etc/apt/sources.list*		
-		csleep 4
+		csleep 2
 	else
 		echo "P.V.HH"
 		exit 111
 	fi
 }
 
-function pre2() { #HUOM.31525:toiminee
-	debug=1
+function pre2() { #HUOM.8725:toiminee
+	#debug=1
 	dqb "pre2 ${1}, ${2} #WTIN KAARISULKEET STNA" 
 	[ -z ${1} ] && exit 666
 
@@ -250,17 +252,17 @@ function pre2() { #HUOM.31525:toiminee
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
 		${odio} ${ledif}/changedns.sh ${dnsm} ${ortsac}
-		csleep 2
+		csleep 1
 
 		${sifu} ${iface}
 		[ ${debug} -eq 1 ] && ${sifc}
-		csleep 2
+		csleep 1
 
 		${sco} -Rv _apt:root ${pkgdir}/partial/
 		${scm} -Rv 700 ${pkgdir}/partial/
 
 		${sag_u}
-		csleep 2
+		csleep 1
 	else
 		echo "P.V.HH"
 		exit 111
@@ -270,7 +272,7 @@ function pre2() { #HUOM.31525:toiminee
 	sleep 2
 }
 
-function tpq() { #HUOM.viimeksi 31525 testattu että tekee tarin
+function tpq() { #HUOM.viimeksi 8725 testattu? että tekee tarin
 	dqb "tpq ${1} ${2}"
 	[ -d ${1} ] || exit 22
 	dqb "paramz 0k"
@@ -292,10 +294,10 @@ function tpq() { #HUOM.viimeksi 31525 testattu että tekee tarin
 		dqb "1nT0 TH3 M0RB1D R31CH"	
 	fi
 
-	csleep 2
+	csleep 1
 }
 
-function tp1() { #VAIH:test 31525
+function tp1() { #8725 toimii?
 	dqb "tp1 ${1} , ${2} "
 	[ -z ${1} ] && exit
 	dqb "params_ok"
@@ -328,8 +330,8 @@ function tp1() { #VAIH:test 31525
 }
 
 #HUOM.23525:josko nyt vähän fiksummin toimisi
-function rmt() { #HUOM.31525:toiminee
-	debug=1
+function rmt() { #HUOM.8725:toiminee
+	#debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
 	[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
@@ -396,11 +398,6 @@ if [ ${tcdd} != ${t2} ] ; then
 	shary="${sag} install --download-only "
 fi
 
-#HUOM.jos ei lähde debian testingin kanssa lataUtumaan niin sitten olisi vielä unstable
-#... myös excalibur uudemman kerran mutta tiedä siitäkin
-#HUOM.31525:josqo sen sdfsdf1 testaisi kuiteskin nytq $shary vaihdettu oletusarvosta
-# (pitäisiköhän ethz knssa vielä?)
-
 function aswasw() {
 	case ${iface} in
 		wlan0)
@@ -412,7 +409,7 @@ function aswasw() {
 		;;
 		*)
 			dqb "not pulling wpasuplicant"
-			csleep 2
+			csleep 1
 		;;
 	esac
 
@@ -420,11 +417,11 @@ function aswasw() {
 }
 
 function tlb() {
-	debug=1
+	#debug=1
 	dqb "x2.tlb( ${1} ; ${2} )"
-	csleep 2
+	csleep 1
 	dqb "\$shary= ${shary}"
-	csleep 4
+	csleep 2
 
 	if [ z"${pkgdir}" != "z" ] ; then
 		dqb "SHREDDED HUMANS"
@@ -436,7 +433,7 @@ function tlb() {
 	csleep 1
 	${fib}
 	${asy}
-	csleep 3
+	csleep 1
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
 	local cc
@@ -451,7 +448,7 @@ function tlb() {
 	#distro-spesifinen osuus -> lib jatkossa (esim. tpc7)
 	if [ ${cc} -gt 0 ] || [ ${cc2} -gt 0 ] ; then
 		dqb "6.12....27"
-#		csleep 5
+#		csleep 2
 #	
 #		#${shary} linux-modules-6.12.27-amd64 #31525 uutena
 #
@@ -479,7 +476,7 @@ function tlb() {
 
 	dqb "x2.tlb.part2"
 	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
-	csleep 6
+	csleep 2
 
 	#uutena 31525
 	udp6 ${pkgdir}
@@ -493,15 +490,8 @@ function tlb() {
 
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 
-#HUOM.26525:apg-get sisältää vivun "-t" , mitä se tekee Devuanin tapauksessa? pitääkö sources.list sorkkia liittyen?
-#... ei oikein lähtenyt -t:llä ethz kanssa ekalla yrItyksellä 29525
-#sen sijaan kun sources-list:iin vaihtoi stable-> testing ni jotain alkoi tapahtua
-
-#HUOM.31525:pienin vaiva saada tables excaliburiin toimimaan saattaa olla hakea tables-paketit excailburilla
-#...sikäli mikäli dhclient ja wpasupplicant sun muut löytyvät
-
-function tp4() { #020625:toimii
-	debug=1
+function tp4() { #toimii ed 8725 (?)
+	#debug=1
 	dqb "tp4 ${1} , ${2} "
 
 	[ -z ${1} ] && exit 1 #mikä juttu näissä on?
@@ -575,15 +565,15 @@ function tp4() { #020625:toimii
 
 #koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
 #HUOM.20525:joskohan locale- ja rules- juttuja varten uusi fktio? vääntöä tuntuu riittävän nimittäin
-function tp2() { #HUOM.31525:olisikohan kunnossa tämä?
-	debug=1
+function tp2() { #HUOM.8725:olisikohan kunnossa tämä?
+	#debug=1
 	dqb "tp2 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
 
 	dqb "params_ok"
-	csleep 2
+	csleep 1
 
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
@@ -591,7 +581,7 @@ function tp2() { #HUOM.31525:olisikohan kunnossa tämä?
 
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
-	csleep 2
+	csleep 1
 
 	for f in $(find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
@@ -615,10 +605,10 @@ function tp2() { #HUOM.31525:olisikohan kunnossa tämä?
 	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 
 	echo $?
-	sleep 2
+	sleep 1
 
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local | less
-	csleep 2
+	csleep 1
 	other_horrors
 
 	#HUOM.23525:tähän tökkäsi kun mode=4 && a-x common
@@ -652,12 +642,12 @@ function tp2() { #HUOM.31525:olisikohan kunnossa tämä?
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 
 	dqb "tp2 done"
-	csleep 2
+	csleep 1
 }
 
 #HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
 #dnsm 2. parametriksi... eiku ei, $2 onkin jo käytössä ja tarttisi sen cut-jekun
-function tp3() { #31525:vaikuttaisi tulevan jutut mukana
+function tp3() { #8725:vaikuttaisi tulevan jutut mukana (?)
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
 
@@ -665,7 +655,7 @@ function tp3() { #31525:vaikuttaisi tulevan jutut mukana
 	[ -s ${1} ] || exit 2
 
 	dqb "paramz_0k"
-	csleep 2
+	csleep 1
 
 	local p
 	local q	
@@ -676,13 +666,13 @@ function tp3() { #31525:vaikuttaisi tulevan jutut mukana
 	cd ${q}
 	
 	[ ${debug} -eq 1 ] && pwd  
-	csleep 2
+	csleep 1
 	${tig} clone https://github.com/senescent777/more_scripts.git
 
 	[ $? -eq 0 ] || exit 66
 	
 	dqb "TP3 PT2"
-	csleep 2
+	csleep 1
 	cd more_scripts/misc
 
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
@@ -741,11 +731,11 @@ function tp3() { #31525:vaikuttaisi tulevan jutut mukana
 	echo $?
 	cd ${p}
 	dqb "tp3 done"
-	csleep 2
+	csleep 1
 }
 
-function tpu() { #VAIH:testaa (30525 vaikutti toimivan)
-	debug=1	
+function tpu() { #8725:toiminee
+	#debug=1	
 	#HUOM:0/1/old/new ei liity
 	dqb "tpu ${1}, ${2}"
 
@@ -762,7 +752,7 @@ function tpu() { #VAIH:testaa (30525 vaikutti toimivan)
 	${fib} #uutena 205.25
 	${sag} upgrade -u
 	echo $?
-	csleep 2
+	csleep 1
 
 	local s
 
@@ -776,7 +766,7 @@ function tpu() { #VAIH:testaa (30525 vaikutti toimivan)
 	case ${iface} in
 		wlan0)
 			dqb "NOT REMOVING WPASUPPLICANT"
-			csleep 6
+			csleep 1
 		;;
 		*)
 			${NKVD} ${pkgdir}/wpa*
@@ -801,7 +791,7 @@ function tpu() { #VAIH:testaa (30525 vaikutti toimivan)
 
 #TODO:-v tekemään jotain hyödyllistä
 
-function tp5() { #HUOM.viimeksi testattu 31525, tekee tarin tai siis
+function tp5() { #8725 toiminee
 	#debug=1
 
 	dqb "tp5 ${1} ${2}"
@@ -810,7 +800,7 @@ function tp5() { #HUOM.viimeksi testattu 31525, tekee tarin tai siis
 	[ -d ${2} ] || exit 97
  
 	dqb "params ok"
-	csleep 2
+	csleep 1
 
 	local q
 	q=$(${mkt} -d)
@@ -832,7 +822,7 @@ function tp5() { #HUOM.viimeksi testattu 31525, tekee tarin tai siis
 
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
-csleep 2
+csleep 1
 pre1 ${d}
 
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
