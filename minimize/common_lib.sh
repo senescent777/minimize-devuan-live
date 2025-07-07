@@ -895,7 +895,6 @@ function part2_5() {
 		jules
 
 		#HUOM. saattaa toimia ilman .$2 koska tables-kikkailuja laitettu uusiksi 26525
-		#HUOM.2. josko kuitenkin mankeloisi $2 (VAIH)
 
 		local t
 		t=$(echo ${2} | tr -d -c 0-9)
