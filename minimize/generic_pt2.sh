@@ -166,7 +166,10 @@ function t2pc() {
 	t2p_filler
 
 	#miten nämä? poistuuko?
-	${sharpy} xorriso xz-utils xfburn xarchiver # yad ei ole kaikissa distr
+	${sharpy} xorriso 
+	t2p_filler
+
+	${sharpy} xz-utils xfburn xarchiver # yad ei ole kaikissa distr
 	#xfce*,xorg* off limits
 	t2p_filler
 
@@ -208,11 +211,40 @@ t2p
 t2pf
 [ $? -gt 0 ] && exit
 
+echo "KARTHAGO EST DELENDAM"
+sleep 6
+
+#JOKO JO PERKELE POISTUISI?
+${sharpy} xorriso*
 ${asy} #varm. vuoksi
+sleep 2
+
+${sharpy} xorriso*
+${asy} #varm. vuoksi
+sleep 2
+
+${sharpy} xorriso*
+${asy} #varm. vuoksi
+sleep 2
+
+${sharpy} xz-utils
+${asy} #varm. vuoksi
+sleep 2
+ 
+${sharpy} xfburn 
+${asy} #varm. vuoksi
+sleep 2
+
+${sharpy} xarchiver 
+${asy} #varm. vuoksi
+sleep 2
 
 #debug=1
 ${scm} a-wx ${0}
 csleep 2
+
+echo "BELLvM C0NTRA HUMAN1TAT3M"
+sleep 6
 
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
 if [ ${debug} -eq 1 ]; then
