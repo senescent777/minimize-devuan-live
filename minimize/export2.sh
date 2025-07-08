@@ -5,7 +5,7 @@ distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkoss
 PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd #tai dirname?
 mode=-2
 
-#VAIH:varm että wpa_supplicnabt-conf tulee mukaan tarvottaessa
+#HUOM.8725.1:joskohan wpa_supplicant.conf kanssa asiat kunnossa
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -42,7 +42,7 @@ if [ -x ${PREFIX}/common_lib.sh ] ; then
 	. ${PREFIX}/common_lib.sh
 else
 	#HUOM.23525:oleellisempaa että import2 toimii tarvittaessa ilman common_lib
-	#"lelukirjasto" saattaa toimia sen varren että "$0 4 ..." onnistuu	
+	#"lelukirjasto" saattaa toimia sen vErrAn että "$0 4 ..." onnistuu	
 	
 	srat="sudo /bin/tar"
 	som="sudo /bin/mount"
@@ -619,10 +619,10 @@ function tp2() { #HUOM.8725:olisikohan kunnossa tämä?
 
 	case ${iface} in
 		wlan0)
-			echo "APW";sleep 6
-			${srat} -rvf ${1} /etc/wpa/wpa_supplicant.conf
+			[ ${debug} -eq 1 ] && echo "APW";sleep 3
+			${srat} -rvf ${1} /etc/wpa_supplicant/*.conf
 			${srat} -tf  ${1} | grep wpa
-			sleep 6
+			csleep 3
 		;;
 		*)
 			dqb "non-wlan"
@@ -776,8 +776,8 @@ function tpu() { #8725:toiminee
 	esac
 
 	udp6 ${pkgdir}
-
 	dqb "UTP PT 3"
+
 	${svm} ${pkgdir}/*.deb ${2}
 	${odio} touch ${2}/tim3stamp
 	${scm} 0644 ${2}/tim3stamp
@@ -791,7 +791,7 @@ function tpu() { #8725:toiminee
 	dqb "SIELUNV1H0LL1N3N"
 }
 
-#TODO:-v tekemään jotain hyödyllistä
+#TODO:-v tekemään jotain hyödyllistä (miten tilanne 8725 ja sen jälk?)
 
 function tp5() { #8725 toiminee
 	#debug=1
