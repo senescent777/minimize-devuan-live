@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0
+debug=1
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 PREFIX=~/Desktop/minimize #dirname?
 
@@ -55,6 +55,7 @@ else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
 fi
 
 #TODO:josko tarvittaessa jyräämään konftdston debug-asetus
+debug=1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -83,7 +84,7 @@ else
 fi
 
 #====================================================================
-#ao 3 t2p-fktiota voisivat tietenkin sijaita myös g_pt2:sessa
+
 function t2p_filler() {
 	${lftr}
 	${asy}
