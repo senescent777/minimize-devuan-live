@@ -8,6 +8,8 @@ d=~/Desktop/minimize/${distro} #alkuosa dirname:lla jatkossa?
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 
+#TODO:siinä uudessa testausympäristössä, seölvitä&korjaa kiukuttelut
+
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
 else
