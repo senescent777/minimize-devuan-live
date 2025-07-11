@@ -976,6 +976,16 @@ function part3() {
 	other_horrors
 }
 
+#function slaughter0() {
+#	local fn2
+#	local ts2
+#
+#	fn2=$(echo $1 | awk '{print $1}') 
+#	ts2=$(sha512sum ${fn2})
+#
+#	echo ${ts2} | awk '{print $1,$2}' >> ${2}
+#}
+
 #HUOM.voisi -v käsitellä jo tässä
 function gpo() {
 	dqb "GPO"

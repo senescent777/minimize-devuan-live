@@ -27,6 +27,7 @@ function c5p() {
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
+#HUOM.10725:oliko vielä jtain asentelujuttuja?
 function pr4() {
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
@@ -35,7 +36,7 @@ function pr4() {
 
 	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
 	${sdi} ${1}/gcc-12*.deb
-	${sdi} ${1}/libc6_2.36-9+deb12u10_amd64.deb  ${1}/libgcc-s1_12.2.0-14+deb12u1_amd64.deb 
+	${sdi} ${1}/libc6_2.36-9+deb12u10_amd64.deb ${1}/libgcc-s1_12.2.0-14+deb12u1_amd64.deb 
 	${sdi} ${1}/libstdc*.deb
 	${sdi} ${1}/libglib*.deb ${1}/libmount*.deb ${1}/libblk*.deb
 	${sdi} ${1}/lilbwebp*.deb

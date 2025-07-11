@@ -8,6 +8,7 @@ PREFIX=~/Desktop/minimize #dirname?
 mode=-2
 
 #TODO:modatun kiekon squashfs:lle mukaan tämä ja demerde_toi
+#TODO:pitäisikö vielä minimoida latensseja tästä skriptistä ja sen käyttämistä?
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -254,7 +255,7 @@ case "${mode}" in
 		csleep 1
 		${som} | grep ${dir}
 
-		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh (maybe)"
+		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh (maybe) | sleep \$delay;ifup \$iface;changedns (if necessary)"
 	;;
 	1)
 		[ x"${file}" == "x" ] && exit 44
