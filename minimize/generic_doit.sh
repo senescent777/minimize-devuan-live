@@ -8,11 +8,8 @@ d=~/Desktop/minimize/${distro} #alkuosa dirname:lla jatkossa?
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 
-#VAIH:siinä uudessa testausympäristössä, seölvitä&korjaa kiukuttelut
-#... ilmeisetsi q tables-asiat kunnossa, ainakin $0 0 toimii
-#mode 1 ja 2 vaikuttaisi myös toimivan kuten g_pt2
-#mutta miten sittenq tables puuttuu?
-#12.72.25
+#HUOM.13725:vissiin uudessa ympäristössä generic_x-skripti toimivat (kun tarvittavat paketit saatavilla)
+#vielä päästävä selvyyteen export2,import2 toiminnasta (TODO)
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf

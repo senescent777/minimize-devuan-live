@@ -248,8 +248,6 @@ echo "BELLvM C0NTRA HUMAN1TAT3M"
 sleep 6
 
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
-if [ ${debug} -eq 1 ]; then
-	echo "${whack} xfce4-session"
-else
-	${whack} xfce4-session
-fi
+dqb "${whack} xfce4-session 1n 3 s3c5"
+sleep 3
+${whack} xfce4-session
