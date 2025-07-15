@@ -8,6 +8,10 @@ d=~/Desktop/minimize/${distro} #alkuosa dirname:lla jatkossa?
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 
+#HUOM.13725:vissiin uudessa ympäristössä generic_x-skripti toimivat (kun tarvittavat paketit saatavilla)
+#vielä päästävä selvyyteen export2,import2 toiminnasta (VAIH)
+#export2.sh uloste vaikutti toimican ainaskin
+
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
 else
