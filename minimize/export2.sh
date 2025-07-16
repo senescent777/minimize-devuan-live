@@ -1,7 +1,7 @@
 #!/bin/bash
 debug=0 #1
 tgtfile=""
-distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa
+distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa?
 PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd #tai dirname?
 mode=-2
 
@@ -158,7 +158,8 @@ function usage() {
 	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
 	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \${PREFIX}/\${distro}"
 	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
-	echo "$0 q <> [] [] archives firefox settings"				
+	echo "$0 q <> [] [] archives firefox settings"
+	echo "$0 t ... option for ipTables"			
 	echo "$0 -h: shows this message about usage"	
 }
 

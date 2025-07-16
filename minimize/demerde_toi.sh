@@ -6,8 +6,7 @@ branch=""
 
 #VAIH:jos mahd ni git hakemaan vaihToehtoisen oksan? man-sivuja pitäisi taas kahlata niin maan perkeleesti ja tasaiseenm
 #TODO:mktemp-kikkailut pois, plain old git clone tilalle ja täts it
-#TODO:tämäkin modatun kiekon squashfs sisälle
-#n=$(whoami)
+#VAIH:tämäkin modatun kiekon squashfs sisälle (aluksi modattuun .iso:on)
 
 if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
 	. ~/Desktop/minimize/common_lib.sh #HUOM. tarvitsiko tästä jota9in?
@@ -56,6 +55,7 @@ cd minimize-devuan-live
 	#lototaan aiemman sisällön kanssa vaikka näin
 	if [ ! -d ~/Desktop/minimize.OLD ] ; then
 		mkdir ~/Desktop/minimize.OLD
+		#TODO:jopspa conf-tiedostot jättäisi siirtelemättä
 		mv ~/Desktop/minimize/* ~/Desktop/minimize.OLD
 	else
 		rm ~/Desktop/minimize/*
@@ -63,6 +63,7 @@ cd minimize-devuan-live
 
 	csleep 3
 	mv minimize/* ~/Desktop/minimize
+	#TODO:boot ja isolinux myös
 #fi
 
 if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
