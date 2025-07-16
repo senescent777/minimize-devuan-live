@@ -239,8 +239,8 @@ function pre1() { #HUOM.8725:lienee kunnossa
 	fi
 }
 
-function pre2() { #HUOM.8725:toiminee
-	#debug=1
+function pre2() { #HUOM.8725:toiminee?
+	debug=1
 	dqb "pre2 ${1}, ${2} #WTIN KAARISULKEET STNA" 
 	[ -z ${1} ] && exit 666
 
@@ -331,12 +331,12 @@ function tp1() { #8725 toimii?
 }
 
 #HUOM.23525:josko nyt vähän fiksummin toimisi
-function rmt() { #HUOM.8725:toiminee
-	#debug=1
+function rmt() { #HUOM.16725:toiminee muuten mutta param tark vähn pykii
+	debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
-	[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
-	[ -s ${1} ] || exit 2
+	#[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
+	#[ -s ${1} ] || exit 2
 
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
@@ -495,8 +495,8 @@ function tp4() { #toimii ed 8725 (?)
 	#debug=1
 	dqb "tp4 ${1} , ${2} "
 
-	[ -z ${1} ] && exit 1 #mikä juttu näissä on?
-	[ -s ${1} ] || exit 2
+	#[ -z ${1} ] && exit 1 #mikä juttu näissä on?
+	#[ -s ${1} ] || exit 2 #jotainn pykimistä 16725
 	
 	dqb "DEMI-SEC"
 	csleep 1
@@ -828,6 +828,7 @@ dqb "tar= ${srat}"
 csleep 1
 pre1 ${d}
 
+#HUOM.nelosen ja e:n kanssa testit menossa 16725
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
 case ${mode} in
 	0|4) #erikseen vielä case missä tp3 skipataan?
