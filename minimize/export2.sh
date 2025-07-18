@@ -472,7 +472,9 @@ function tlb() {
 
 	aswasw #jatkossa "if cc"-blokin uplkop tämä
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
-	${shary} iptables #mitä ymp. mja - jekkuja tähän oli ajateltu?
+
+	#18725:toimiikohan se debian_interactive-jekku tässä? dpkg!=apt
+	${shary} iptables
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 
 	dqb "x2.tlb.part2"
@@ -828,7 +830,7 @@ dqb "tar= ${srat}"
 csleep 1
 pre1 ${d}
 
-#HUOM.nelosen ja e:n kanssa testit menossa 16725
+#18725:skriptin case:t 0/4/e kai toimibat, muiden testaus myös
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
 case ${mode} in
 	0|4) #erikseen vielä case missä tp3 skipataan?
