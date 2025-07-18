@@ -18,8 +18,8 @@ function c5p() {
 	${NKVD} ${1}/libsoup*
 
 	${NKVD} ${1}/xserver* #HUOM.31525:nalkutusta, pois toistaiseksi
-	${NKVD} ${1}/libgtk-3* 
-	${NKVD} ${1}/librsvg* #eniten nalkutusta vissiin tästä, jos koittaisi uudestaan josqs
+	#${NKVD} ${1}/libgtk-3* 
+	#${NKVD} ${1}/librsvg* #eniten nalkutusta vissiin tästä, jos koittaisi uudestaan josqs
 
 	dqb "...is over"
 	csleep 1
