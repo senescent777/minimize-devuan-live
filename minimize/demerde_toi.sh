@@ -54,6 +54,11 @@ q=$(${mkt} -d)
 cd ${q}
 
 ${tig} clone https://github.com/senescent777/minimize-devuan-live
+[ $? -eq 0]  || exit
+
+dqb "TGI KO"
+csleep 2
+
 cd minimize-devuan-live
 [ ${debug} -eq 1 ] && ls -laRs;sleep 3
 
