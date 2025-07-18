@@ -85,7 +85,7 @@ for f in $(find ~/Desktop/minimize -type f -name '*.desktop') ; do rm ${f} ; don
 dqb "RM D0N3"
 csleep 2
 
-mv minimize/* ~/Desktop/minimize
+cp minimize/* ~/Desktop/minimize #cp toiminee paremminq mv
 mv isolinux ~/Desktop/
 mv boot  ~/Desktop/
 deb "D0N3 M0V1NG"
