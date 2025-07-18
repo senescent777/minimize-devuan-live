@@ -34,6 +34,7 @@ if [ x"${mkt}" == "x" ] ; then
 	exit 7
 fi
 
+#parametrie nkäsittely voisi mennä fiksumminkin
 if [ $# -gt 0 ] ; then
 	dqb "params_ok"
 
@@ -65,13 +66,13 @@ cd minimize-devuan-live
 
 #qsee vai ei?
 if [ ! -s  ~/Desktop/minimize.OLD.tar ] ; then 
-	${srat} -cvf ~/Desktop/minimize.OLD.tar ~/Desktop/minimize
+	tar -cvf ~/Desktop/minimize.OLD.tar ~/Desktop/minimize
 else
 	dqb "minimize.OLD.tar exists"		
 fi
 	
-for f in $(find ~/Desktop/minimize -type f -name '*.sh') ; do ${smr} ${f} ; done
-for f in $(find ~/Desktop/minimize -type f -name '*.desktop') ; do ${smr} ${f} ; done
+for f in $(find ~/Desktop/minimize -type f -name '*.sh') ; do rm ${f} ; done
+for f in $(find ~/Desktop/minimize -type f -name '*.desktop') ; do rm ${f} ; done
 
 csleep 2
 mv minimize/* ~/Desktop/minimize
