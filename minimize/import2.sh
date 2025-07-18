@@ -7,7 +7,7 @@ part0=ABCD-1234
 PREFIX=~/Desktop/minimize #dirname?
 mode=-2
 
-#TODO:modatun kiekon squashfs:lle mukaan tämä ja demerde_toi
+#VAIH:modatun kiekon squashfs:lle mukaan tämä ja demerde_toi (aulksi .iso:lle ja sitten)
 #TODO:pitäisikö vielä minimoida latensseja tästä skriptistä ja sen käyttämistä?
 
 function dqb() {
@@ -210,7 +210,7 @@ function common_part() {
 
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-5) #tr mukaan?
-	#TODO:varmista että tästä eteenpäin toimii
+	#18725:vissiin toimii jollain lailla tämä fktio
 
 	if [ -x ${t}/common_lib.sh ] ; then
 		enforce_access ${n} ${t} 
@@ -270,6 +270,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	0|3)
+		#18725:toiminee case:t 0-3 jollain tavalla
 		dqb "ZER0 S0UND"
 		csleep 1
 
