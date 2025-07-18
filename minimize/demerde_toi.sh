@@ -54,37 +54,28 @@ q=$(${mkt} -d)
 cd ${q}
 
 ${tig} clone https://github.com/senescent777/minimize-devuan-live.git
-[ $? -eq 0] || exit
+[ $? -gt 0] && exit #onko tässä jokin juttu?
 
 dqb "TGI KO"
 csleep 2
 
 cd minimize-devuan-live
 [ ${debug} -eq 1 ] && ls -laRs;sleep 3
-
 [ -d ~/Desktop/minimize ] || mkdir ~/Desktop/minimize;sleep 3
 
-#if [ -d ~/Desktop/minimize ] ; then
-	#lototaan aiemman sisällön kanssa vaikka näin
-	#if [ ! -d ~/Desktop/minimize.OLD ] ; then
+#qsee vai ei?
+if [ ! -s  ~/Desktop/minimize.OLD.tar ] ; then 
+	${srat} -cvf ~/Desktop/minimize.OLD.tar ~/Desktop/minimize
+else
+	dqb "minimize.OLD.tar exists"		
+fi
+	
+for f in $(find ~/Desktop/minimize -type f -name '*.sh') ; do ${smr} ${f} ; done
+for f in $(find ~/Desktop/minimize -type f -name '*.desktop') ; do ${smr} ${f} ; done
 
-	if [ ! -s  ~/Desktop/minimize.OLD.tar ] ; then  
-		#mkdir ~/Desktop/minimize.OLD
-		${srat} -cvf ~/Desktop/minimize.OLD.tar ~/Desktop/minimize		
-	fi
-
-		#VAIH:jopspa conf-tiedostot jättäisi siirtelemättä
-		#mv ~/Desktop/minimize/* ~/Desktop/minimize.OLD
-		for f in $(find . -type f -name '*.sh') ; do ${smr} ${f} ; done
-		for f in $(find . -type f -name '*.desktop') ; do ${smr} ${f} ; done
-	#else
-	#	rm ~/Desktop/minimize/*
-	#fi
-
-	csleep 3
-	mv minimize/* ~/Desktop/minimize
-	#TODO:boot ja isolinux myös
-#fi
+csleep 2
+mv minimize/* ~/Desktop/minimize
+#TODO:boot ja isolinux myös
 
 if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
 	. ~/Desktop/minimize/common_lib.sh
