@@ -446,33 +446,16 @@ function tlb() {
 	#https://pkgs.org/download/linux-image-6.12.27-amd64 ... joskohan ethz kautta
 	#... tarkistus tosin uusiksi, josko sinne tcdd-blokkiin ylemmäs?
 	
-	#distro-spesifinen osuus -> lib jatkossa (esim. tpc7)
-	if [ ${cc} -gt 0 ] || [ ${cc2} -gt 0 ] ; then
-		dqb "6.12....27"
-#		csleep 2
-#	
-#		#${shary} linux-modules-6.12.27-amd64 #31525 uutena
-#
-#		#nopeasti lähimpiä vastineita:
-#		#https://packages.debian.org/trixie/linux-image-6.12.27-amd64 miten tämä?
-#		#https://debian.ethz.ch/debian/pool/main/l/linux-signed-amd64/linux-image-cloud-amd64_6.12.27-1_amd64.deb
-#		#wget/curl jos ei muuten
-#
-#		local fname
-#		fname=linux-image-6.12.27-amd64
-#
-#		${odio} touch ${pkgdir}/${fname} #seur rivit toistuvat usein, fktioksi?
-#		${scm} 0644 ${pkgdir}/${fname}
-#		${sco} $(whoami):$(whoami) ${pkgdir}/${fname}
-#		
-#		curl -o ${pkgdir}/${fname} https://packages.debian.org/trixie/${fname}
-#
-#		#${shary} nftables #excalibur-spesifisiä?		
-	fi
+	#distro-spesifinen osuus -> lib jatkossa (esim. tpc7) (VAIH)
+#	if [ ${cc} -gt 0 ] || [ ${cc2} -gt 0 ] ; then
+		tpc7	
+#	fi
 
 	aswasw #jatkossa "if cc"-blokin uplkop tämä
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
-	${shary} iptables #mitä ymp. mja - jekkuja tähän oli ajateltu?
+
+	#18725:toimiikohan se debian_interactive-jekku tässä? dpkg!=apt
+	${shary} iptables
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 
 	dqb "x2.tlb.part2"
@@ -828,7 +811,7 @@ dqb "tar= ${srat}"
 csleep 1
 pre1 ${d}
 
-#HUOM.nelosen ja e:n kanssa testit menossa 16725
+#18725:skriptin case:t 0/4/e kai toimibat, muiden testaus myös
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
 case ${mode} in
 	0|4) #erikseen vielä case missä tp3 skipataan?
