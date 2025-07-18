@@ -299,7 +299,7 @@ case "${mode}" in
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
 
-		part3 ${d} ${dnsm} #VAIH:testaa että toimii
+		part3 ${d} ${dnsm} #18725:part3 toiminee
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 		csleep 1
 
