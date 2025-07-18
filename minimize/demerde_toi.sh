@@ -54,6 +54,9 @@ dqb "branch=${branch}"
 q=$(${mkt} -d)
 cd ${q}
 
+dqb "BFROE tig"
+csleep 2
+
 ${tig} clone https://github.com/senescent777/minimize-devuan-live.git
 [ $? -gt 0] && exit #onko tässä jokin juttu?
 
@@ -64,6 +67,9 @@ cd minimize-devuan-live
 [ ${debug} -eq 1 ] && ls -laRs;sleep 3
 [ -d ~/Desktop/minimize ] || mkdir ~/Desktop/minimize;sleep 3
 
+dqb "mkdir d00n3"
+csleep 2
+
 #qsee vai ei?
 if [ ! -s  ~/Desktop/minimize.OLD.tar ] ; then 
 	tar -cvf ~/Desktop/minimize.OLD.tar ~/Desktop/minimize
@@ -71,12 +77,19 @@ else
 	dqb "minimize.OLD.tar exists"		
 fi
 	
+dqb "tar done"
+csleep 2
+
 for f in $(find ~/Desktop/minimize -type f -name '*.sh') ; do rm ${f} ; done
 for f in $(find ~/Desktop/minimize -type f -name '*.desktop') ; do rm ${f} ; done
-
+dqb "RM D0N3"
 csleep 2
+
 mv minimize/* ~/Desktop/minimize
-#TODO:boot ja isolinux myös
+mv isolinux ~/Desktop/
+mv boot  ~/Desktop/
+deb "D0N3 M0V1NG"
+csleep 2
 
 if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
 	. ~/Desktop/minimize/common_lib.sh
