@@ -8,6 +8,14 @@ branch=""
 #TODO:mktemp-kikkailut pois, plain old git clone tilalle ja täts it
 #VAIH:tämäkin modatun kiekon squashfs sisälle (aluksi modattuun .iso:on)
 
+function parse_opts_1() {
+	dqb "p1"
+}
+
+function parse_opts_2() {
+	dqb "p2"
+}
+
 if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
 	. ~/Desktop/minimize/common_lib.sh #HUOM. tarvitsiko tästä jota9in?
 fi
@@ -57,7 +65,7 @@ cd minimize-devuan-live
 
 	if [ ! -s  ~/Desktop/minimize.OLD.tar ] ; then  
 		#mkdir ~/Desktop/minimize.OLD
-		${srat} ~/Desktop/minimize.OLD.tar ~/Desktop/minimize		
+		${srat} -cvf ~/Desktop/minimize.OLD.tar ~/Desktop/minimize		
 	fi
 
 		#VAIH:jopspa conf-tiedostot jättäisi siirtelemättä
