@@ -446,7 +446,7 @@ function tlb() {
 	#https://pkgs.org/download/linux-image-6.12.27-amd64 ... joskohan ethz kautta
 	#... tarkistus tosin uusiksi, josko sinne tcdd-blokkiin ylemmäs?
 	
-	#distro-spesifinen osuus -> lib jatkossa (esim. tpc7)
+	#distro-spesifinen osuus -> lib jatkossa (esim. tpc7) (TODO)
 	if [ ${cc} -gt 0 ] || [ ${cc2} -gt 0 ] ; then
 		dqb "6.12....27"
 #		csleep 2
