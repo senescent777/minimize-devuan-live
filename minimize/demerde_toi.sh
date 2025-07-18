@@ -53,13 +53,20 @@ cd minimize-devuan-live
 
 #if [ -d ~/Desktop/minimize ] ; then
 	#lototaan aiemman sisällön kanssa vaikka näin
-	if [ ! -d ~/Desktop/minimize.OLD ] ; then
-		mkdir ~/Desktop/minimize.OLD
-		#TODO:jopspa conf-tiedostot jättäisi siirtelemättä
-		mv ~/Desktop/minimize/* ~/Desktop/minimize.OLD
-	else
-		rm ~/Desktop/minimize/*
+	#if [ ! -d ~/Desktop/minimize.OLD ] ; then
+
+	if [ ! -s  ~/Desktop/minimize.OLD.tar ] ; then  
+		#mkdir ~/Desktop/minimize.OLD
+		${srat} ~/Desktop/minimize.OLD.tar ~/Desktop/minimize		
 	fi
+
+		#VAIH:jopspa conf-tiedostot jättäisi siirtelemättä
+		#mv ~/Desktop/minimize/* ~/Desktop/minimize.OLD
+		for f in $(find . -type f -name '*.sh') ; do ${smr} ${f} ; done
+		for f in $(find . -type f -name '*.desktop') ; do ${smr} ${f} ; done
+	#else
+	#	rm ~/Desktop/minimize/*
+	#fi
 
 	csleep 3
 	mv minimize/* ~/Desktop/minimize
