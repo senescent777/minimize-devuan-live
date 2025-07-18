@@ -104,5 +104,27 @@ function pre_part2() {
 	csleep 1
 }
 
+function tpc7() {
+	dqb "6.12....27"
+	csleep 2
+	
+	#${shary} linux-modules-6.12.27-amd64 #31525 uutena
+
+	#nopeasti lähimpiä vastineita:
+	#https://packages.debian.org/trixie/linux-image-6.12.27-amd64 miten tämä?
+	#https://debian.ethz.ch/debian/pool/main/l/linux-signed-amd64/linux-image-cloud-amd64_6.12.27-1_amd64.deb
+	#wget/curl jos ei muuten
+
+	local fname
+	fname=linux-image-6.12.27-amd64
+
+	${odio} touch ${pkgdir}/${fname} #seur rivit toistuvat usein, fktioksi?
+	${scm} 0644 ${pkgdir}/${fname}
+	${sco} $(whoami):$(whoami) ${pkgdir}/${fname}
+		
+	curl -o ${pkgdir}/${fname} https://packages.debian.org/trixie/${fname}
+	#${shary} nftables #excalibur-spesifisiä?	
+}
+
 check_binaries ${PREFIX}/${distro}
 check_binaries2
