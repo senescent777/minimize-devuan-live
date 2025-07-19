@@ -6,24 +6,25 @@ function cp5() {
 	dqb "7391"
 
 	#31525:näistä tuli nalqtus
-	${NKVD} ${1}/libmount*
-	${NKVD} ${1}/libfdisk*
-	${NKVD} ${1}/libblkid*
-	${NKVD} ${1}/libsmartcols*
-	${NKVD} ${1}/liblastlog* #poistuuko?
-	${NKVD} ${1}/libuuid*
-	${NKVD} ${1}/eject*
-	${NKVD} ${1}/mount*
-	${NKVD} ${1}/util-linux* #poistuuko?
-	${NKVD} ${1}/base-files*
-	${NKVD} ${1}/fdisk*
-	${NKVD} ${1}/bsdextrautils*
-	${NKVD} ${1}/uuid*
-	${NKVD} ${1}/rfkill*
+	#${NKVD} ${1}/libmount*
+	#${NKVD} ${1}/libfdisk*
+	#${NKVD} ${1}/libblkid*
+	#${NKVD} ${1}/libsmartcols*
+	#${NKVD} ${1}/liblastlog* #poistuuko?
+	#${NKVD} ${1}/libuuid*
+	#${NKVD} ${1}/eject*
+	#${NKVD} ${1}/mount*
+	#${NKVD} ${1}/util-linux* #poistuuko?
+	#${NKVD} ${1}/base-files*
+	#${NKVD} ${1}/fdisk*
+	#${NKVD} ${1}/bsdextrautils*
+	#${NKVD} ${1}/uuid*
+	#${NKVD} ${1}/rfkill*
 
 	csleep 1
 }
 
+#TODO:efk
 function pr4() {
 	debug=1
 	dqb "xc.pr4( ${1} , ${2} )"
