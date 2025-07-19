@@ -208,6 +208,7 @@ function t2pf() {
 t2pc
 #[ $? -gt 0 ] && exit #tähän tökkää?
 
+#TODO:tähän keskimmäiseen xorriso:n yms. jyräykset (eli $dostro/lib)
 t2p
 [ $? -gt 0 ] && exit
 

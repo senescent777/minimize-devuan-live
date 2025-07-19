@@ -698,6 +698,9 @@ function tp3() { #8725:vaikuttaisi tulevan jutut mukana (?)
 
 	local p
 	p=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+	pwd
+	dqb "p=${p}"
+	csleep 2
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${p}
 
 	${sco} -R root:root ./etc
@@ -707,12 +710,13 @@ function tp3() { #8725:vaikuttaisi tulevan jutut mukana (?)
 	${srat} -rvf ${1} ./etc ./sbin 
 
 	echo $?
+	#HUOM.19725:qseeko tässä jokin?
 	cd ${p}
 	dqb "tp3 done"
 	csleep 1
 }
 
-function tpu() { #8725:toiminee
+function tpu() { #8725:toiminee (uusi testaus menossa 19725)
 	#debug=1	
 	#HUOM:0/1/old/new ei liity
 	dqb "tpu ${1}, ${2}"

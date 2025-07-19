@@ -2,6 +2,7 @@
 
 mode=2
 #TODO:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja $PREFIX täytyisi muuttaa
+#TODO:g_doit viskomaan icons-hmiston sisällön ~/Desktop alle
 distro=$(cat /etc/devuan_version)
 dirname $0
 d=~/Desktop/minimize/${distro} #alkuosa dirname:lla jatkossa?
