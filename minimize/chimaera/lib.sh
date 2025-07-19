@@ -143,6 +143,9 @@ function pre_part2() {
 	#$sharpy ntp* jo aiempana
 }
 
+function tpc7() {
+	dqb "c.tpc7 UNDER CONSTRUCTION"
+}
 
 check_binaries ${PREFIX}/${distro}
 check_binaries2
