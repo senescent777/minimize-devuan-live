@@ -20,7 +20,7 @@ function init() {
 	n=$(whoami)
 	#TODO:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja $PREFIX täytyisi muuttaa
 
-	PREFIX=~/Desktop/minimize #josko dirname:lla jatkossa?
+	#PREFIX=~/Desktop/minimize #josko dirname:lla jatkossa?
 	slinky=$(${odio} which ln)
 	slinky="${odio} ${slinky} -s "
 	spc=$(${odio} which cp)
@@ -172,7 +172,7 @@ function ppp3() {
 	csleep 1
 
 	local c
-	local d
+	local d #TODO:nimeä uudestaan varm. vuoksi tämä ja c
 
 	c=$(find ${1} -type f -name '*.deb' | wc -l) #oli:ls -las ip*.deb
 	d=$(echo ${1} | cut -d '/' -f 1-5)
@@ -277,15 +277,15 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	if [ -x ${PREFIX}/tar-wrapper.sh ] ; then 
-		dqb "TODO: tar-wrapper.sh"
-	else
-		srat=$(${odio} which tar)
-		
-		if [ ${debug} -eq 1 ] ; then
-			srat="${srat} -v "
-		fi
-	fi
+	#if [ -x ${PREFIX}/tar-wrapper.sh ] ; then #TODO
+	#	dqb "TODO: tar-wrapper.sh"
+	#else
+	#	srat=$(${odio} which tar)
+	#	
+	#	if [ ${debug} -eq 1 ] ; then
+	#		srat="${srat} -v "
+	#	fi
+	#fi
 
 	if [ y"${ipt}" == "y" ] ; then
 		[ z"${1}" == "z" ] && exit 99
@@ -460,7 +460,7 @@ function pre_enforce() {
 
 	[ -f ${q}/meshuggah ] || exit 33
 	dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
-	mangle_s ${PREFIX}/changedns.sh ${q}/meshuggah
+	#mangle_s ${PREFIX}/changedns.sh ${q}/meshuggah TODO
 	csleep 1
 
 	dqb "LETf HOUTRE JOINED IN DARKN355"
@@ -636,10 +636,9 @@ function enforce_access() {
 
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
-	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
-#HUOM.25525:cut ao fktioon tai kutsUvaan koodiin koska xcalibur/ceres
+#HUOM.25525:cut ao fktioon tai kutsUvaan koodiin koska xcalibur/ceres?
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
 #myös https://github.com/topics/sources-list
 
@@ -704,7 +703,7 @@ function part1_5() {
 
 #oli aiemmin osa part1:stä
 function dis() {
-	dqb "CHAMBERS OF DIS( ${1} ) "
+	dqb "CHAMBERS OF 5HA0 L1N( ${1} ) "
 	[ -z ${1} ] && exit 44
 	csleep 1
 	
@@ -756,7 +755,7 @@ function dis() {
 	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 	csleep 1
 	
-	${odio} sysctl -p #/etc/sysctl.conf
+	${odio} sysctl -p #mitä tuo tekikään?
 	csleep 1
 	dqb "DONE"
 }
