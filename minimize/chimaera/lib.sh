@@ -145,5 +145,5 @@ function tpc7() {
 	dqb "c.tpc7 UNDER CONSTRUCTION"
 }
 
-check_binaries ${PREFIX}/${distro}
+check_binaries ${PREFIX}/${distro} #TODO:PREFIX kanssa jotain koska chroot env
 check_binaries2
