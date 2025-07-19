@@ -11,15 +11,34 @@ function c5p() {
 	dqb "paramz 0k"
 	csleep 1
 
-	${NKVD} ${1}/xz*
-	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
-	${NKVD} ${1}/libcrypt*
-	${NKVD} ${1}/libdevmapper*
-	${NKVD} ${1}/libsoup*
+	#TODO:josko poistaisi ao. paketit jossain? t2p()? no g_pt2 poistaa 2 ekaa jo valmiiksi
+	${NKVD} ${1}/xz* #t2p() poistaa
 
-	${NKVD} ${1}/xserver* #HUOM.31525:nalkutusta, pois toistaiseksi
-	#${NKVD} ${1}/libgtk-3* 
-	#${NKVD} ${1}/librsvg* #eniten nalkutusta vissiin tästä, jos koittaisi uudestaan josqs
+	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
+	#g_pt2 poistaa cryptsetup-pakettei
+	
+	${NKVD} ${1}/libcrypt* #ei uskalla poistaa
+	${NKVD} ${1}/libdevmapper* #ei ole sannettuna noita (tilanne 19725)
+	${NKVD} ${1}/libsoup* #eiole
+
+	${NKVD} ${1}/xserver* #HUOM.31525:nalkutusta, pois toistaiseksi (ja aptin kautta ei tod poisteta)
+	
+	# libgtk-3-bin depends on libgtk-3-0 (>= 3.24.38-2~deb12u3); however:
+  	#Version of libgtk-3-0:amd64 on system is 3.24.37-2.
+	${NKVD} ${1}/libgtk-3-bin* #HUOM.19725:edelleen nalqttaa
+	#HUOM.libgtk-3-paketteja ei uskalla poistaa aptilla, liikaa oheisvah
+
+	# librsvg2-common:amd64 depends on librsvg2-2 (= 2.54.7+dfsg-1~deb12u1); however:
+	#  Version of librsvg2-2:amd64 on system is 2.54.5+dfsg-1.
+	#
+	#dpkg: error processing package librsvg2-common:amd64 (--install):
+	# dependency problems - leaving unconfigured
+	#Processing triggers for libgdk-pixbuf-2.0-0:amd64 (2.42.10+dfsg-1+b1) ...
+	#Errors were encountered while processing:
+	# librsvg2-common:amd64
+
+	${NKVD} ${1}/librsvg* #eniten nalkutusta vissiin tästä, jos koittaisi uudestaan josqs
+	#HUOM.19725:librsvg2 poistaa jnkn verran pak, mm task-desktop, task-xfce-desktop
 
 	dqb "...is over"
 	csleep 1
@@ -27,14 +46,17 @@ function c5p() {
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
-#HUOM.10725:oliko vielä jtain asentelujuttuja?
+
 function pr4() {
+	debug=1
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 
+	#TODO:efk()
 	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
+
 	${sdi} ${1}/gcc-12*.deb
 	${sdi} ${1}/libc6_2.36-9+deb12u10_amd64.deb ${1}/libgcc-s1_12.2.0-14+deb12u1_amd64.deb 
 	${sdi} ${1}/libstdc*.deb
@@ -46,7 +68,7 @@ function pr4() {
 	${sdi} ${1}/libcups* ${1}/libavahi* ${1}/libdbus*
 	${sdi} ${1}/libx11-6*
 	${sdi} ${1}/libcap2*
-	${sdi} ${1}/libcurl* ${1}/libnghttp*
+	${sdi} ${1}/libcurl* ${1}/libnghttp* #mihin näitä tarvittiin?
 	${sdi} ${1}/libdav*
 	${sdi} ${1}/libeudev*
 	${sdi} ${1}/libfdisk* ${1}/libuuid* #mihin näitä tarvittiin?
@@ -60,8 +82,10 @@ function pr4() {
 	${sdi} ${1}/libopen* ${1}/libpolkit-gobject-* 
 	${sdi} ${1}/libpython3.11-*
 	${sdi} ${1}/libav* ${1}/libsw*
-	#${sdi} ${1}/libvte*.deb
+	csleep 1
 
+	dqb "LIBVTE"
+	${sdi} ${1}/libvte*.deb #TODO:miten tämän kanssa nykyään
 	csleep 1
 
 	${NKVD} ${1}/gcc-12*.deb
@@ -99,9 +123,11 @@ function pr4() {
 	${NKVD} ${1}/libpython3.11-*
 	${NKVD} ${1}/libsw*
 	${NKVD} ${1}/libav*
-	#${NKVD} ${1}/libvte*.deb
-	
+	csleep 1
+
+	${NKVD} ${1}/libvte*.deb	
 	csleep 1	
+
 	#HUOM.31525:vituttava määrä asentelua librsvg2 kanssa edelleen
 
 	#TODO:tähänkin psqa?
@@ -223,6 +249,38 @@ function t2p() {
 
 	dqb "D0N3"
 	csleep 1
+
+	echo "KARTHAGO EST DELENDAM"
+	csleep 6
+
+	#JOKO JO PERKELE POISTUISI?
+	${sharpy} xorriso*
+	${asy} #varm. vuoksi
+	csleep 2
+
+	${sharpy} xorriso*
+	${asy} #varm. vuoksi
+	csleep 2
+
+	${sharpy} xorriso*
+	${asy} #varm. vuoksi
+	csleep 2
+
+	${sharpy} xz-utils #xz* jatkossa?
+	${asy} #varm. vuoksi
+	csleep 2
+ 
+	${sharpy} xfburn 
+	${asy} #varm. vuoksi
+	sleep 2
+
+	${sharpy} xarchiver 
+	${asy} #varm. vuoksi
+	sleep 2
+
+	#debug=1
+	${scm} a-wx ${0}
+	csleep 2
 }
 
 #josko kuitenkin ntp takaisin listaan?
