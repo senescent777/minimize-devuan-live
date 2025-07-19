@@ -1,9 +1,9 @@
 #!/bin/bash
 debug=1
 #TODO:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja $PREFIX täytyisi muuttaa
-#TODO:juttuja pakettien poisteluihin liittyen (daed/lib.sh)
+#TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh)
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
-PREFIX=~/Desktop/minimize #dirname?
+#PREFIX=~/Desktop/minimize #dirname?
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -21,10 +21,10 @@ function parse_opts_1() {
 			debug=1
 		;;
 		*)
-			if [ -d ${PREFIX}/${1} ] ; then
-				distro=${1}
-		
-			fi
+			#if [ -d ${PREFIX}/${1} ] ; then
+			#	distro=${1}
+		#
+		#	fi
 
 			dqb "0th3r 0tps"
 		;;
@@ -35,43 +35,43 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-if [ -x ${PREFIX}/common_lib.sh ] ; then
-	. ${PREFIX}/common_lib.sh
-else
-	echo "NO COMMON LIB"
-	exit 89
-fi
+#if [ -x ${PREFIX}/common_lib.sh ] ; then
+#	. ${PREFIX}/common_lib.sh
+#else
+#	echo "NO COMMON LIB"
+#	exit 89
+#fi
 
 [ -z ${distro} ] && exit 6
-d=${PREFIX}/${distro}
+#d=${PREFIX}/${distro}
 
 dqb "BEFORE CNF"
 echo "dbig= ${debug}"
 sleep 1
 
-if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-	. ${d}/conf
-else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
-	echo "CONF MISSING"
-	exit 56
-fi
+#if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+#	. ${d}/conf
+#else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
+#	echo "CONF MISSING"
+#	exit 56
+#fi
 
-#TODO:josko tarvittaessa jyräämään konftdston debug-asetus
+#TODO:josko tarvittaessa jyräämään konftdston debug-asetus tai siis mahd aikaisessa vaiheessa debug päälle oli ideana?
 debug=1
-
-if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-	. ${d}/lib.sh
-else
-	dqb $?
-	echo "NOT (LIB AVAILABLE AND ECXUTABL3)"
-	exit 67
-fi
-
-${scm} 0555 ${PREFIX}/changedns.sh
-${sco} root:root ${PREFIX}/changedns.sh
+#
+#if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+#	. ${d}/lib.sh
+#else
+#	dqb $?
+#	echo "NOT (LIB AVAILABLE AND ECXUTABL3)"
+#	exit 67
+#fi
+#
+#${scm} 0555 ${PREFIX}/changedns.sh
+#${sco} root:root ${PREFIX}/changedns.sh
 ${fib}
 
-dqb "d=${d}"
+#dqb "d=${d}"
 echo "debug=${debug}"
 dqb "distro=${distro}"
 dqb "removepkgs=${removepkgs}"
@@ -193,7 +193,7 @@ function t2pf() {
 
 	${NKVD} ${pkgdir}/*.deb
 	${NKVD} ${pkgdir}/*.bin 
-	${NKVD} ${d}/*.deb 
+	#${NKVD} ${d}/*.deb 
 	${NKVD} /tmp/*.tar
 	${smr} -rf /tmp/tmp.*
 
@@ -217,8 +217,6 @@ t2p
 
 t2pf
 [ $? -gt 0 ] && exit
-
-
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
 sleep 6
