@@ -127,5 +127,5 @@ function tpc7() {
 	#${shary} nftables #excalibur-spesifisiä?	
 }
 
-check_binaries ${PREFIX}/${distro}
+check_binaries ${PREFIX}/${distro} #TODO:prefixin kanssa ehkä jotain
 check_binaries2
