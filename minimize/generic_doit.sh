@@ -1,16 +1,16 @@
 #!/bin/bash
 
 mode=2
-#tuo 28525 asia selvitetty, sitten toinen
+#TODO:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja $PREFIX täytyisi muuttaa
 distro=$(cat /etc/devuan_version)
 dirname $0
 d=~/Desktop/minimize/${distro} #alkuosa dirname:lla jatkossa?
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 
-#HUOM.13725:vissiin uudessa ympäristössä generic_x-skripti toimivat (kun tarvittavat paketit saatavilla)
-#vielä päästävä selvyyteen export2,import2 toiminnasta (VAIH)
-#export2.sh uloste vaikutti toimican ainaskin
+#HUOM.19725:vissiin uudessa ympäristössä generic_x-skripti toimivat (kun tarvittavat paketit saatavilla)
+#export2.sh uloste vaikutti toimiVan ainaskin
+#import2.sh myös toimi riittävästi silloinq paketit puuttuivat
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
