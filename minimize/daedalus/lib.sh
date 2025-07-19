@@ -65,12 +65,12 @@ function pr4() {
 	efk ${1}/libstdc*.deb
 	efk ${1}/libglib*.deb ${1}/libmount*.deb ${1}/libblk*.deb
 	
-	efk ${1}/lilbwebp*.deb #TODO:KVG menikö nimi oikein?
-	efk ${1}/libtiff*.deb ${1}/liblzma5*.deb #apt tarttee jlkimmäisen
-	efk ${1}/libgnutls*.deb ${1}/libtasn*.deb #apt tarttee 1. mainittua
+	efk ${1}/lilbwebp*.deb #menikö nimi oikein?
+	efk ${1}/libtiff*.deb ${1}/liblzma5*.deb
+	efk ${1}/libgnutls*.deb ${1}/libtasn*.deb
 
 	efk ${1}/libssl3*.deb ${1}/libk*.deb ${1}/libgss*
-	efk ${1}/libcups* ${1}/libavahi* ${1}/libdbus* #tartteeko 2 ekaa asentaa? voisik sen sijaan poistaa? TODO:selvitä?
+	efk ${1}/libcups* ${1}/libavahi* ${1}/libdbus* #tartteeko 2 ekaa asentaa? voisik sen sijaan poistaa?
 	efk ${1}/libx11-6*
 
 	efk ${1}/libcap2*
