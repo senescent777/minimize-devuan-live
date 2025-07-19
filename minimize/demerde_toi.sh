@@ -8,9 +8,17 @@ branch=""
 #TODO:mktemp-kikkailut pois, plain old git clone tilalle ja täts it
 #VAIH:tämäkin modatun kiekon squashfs sisälle (aluksi modattuun .iso:on)
 
-if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
-	. ~/Desktop/minimize/common_lib.sh #HUOM. tarvitsiko tästä jota9in?
-fi
+function parse_opts_1() {
+	dqb "p1"
+}
+
+function parse_opts_2() {
+	dqb "p2"
+}
+
+#if [ -x ~/Desktop/minimize/common_lib.sh ] ; then #TODO:includointi jatkossa toisin
+#	. ~/Desktop/minimize/common_lib.sh #HUOM. tarvitsiko tästä jota9in?
+#fi
 
 #tig ja mkt alustukset jatkossa check_binaries():iin? no mkt ehkä
 tig=$(sudo which git)
@@ -26,6 +34,7 @@ if [ x"${mkt}" == "x" ] ; then
 	exit 7
 fi
 
+#parametrie nkäsittely voisi mennä fiksumminkin
 if [ $# -gt 0 ] ; then
 	dqb "params_ok"
 
@@ -45,48 +54,65 @@ dqb "branch=${branch}"
 q=$(${mkt} -d)
 cd ${q}
 
-${tig} clone https://github.com/senescent777/minimize-devuan-live
+dqb "BFROE tig"
+csleep 2
+
+${tig} clone https://github.com/senescent777/minimize-devuan-live.git
+[ $? -gt 0] && exit #onko tässä jokin juttu?
+
+dqb "TGI KO"
+csleep 2
+
 cd minimize-devuan-live
 [ ${debug} -eq 1 ] && ls -laRs;sleep 3
+#[ -d ~/Desktop/minimize ] || mkdir ~/Desktop/minimize;sleep 3 #TODO:uusiksi t kohta
 
-[ -d ~/Desktop/minimize ] || mkdir ~/Desktop/minimize;sleep 3
+dqb "mkdir d00n3"
+csleep 2
 
-#if [ -d ~/Desktop/minimize ] ; then
-	#lototaan aiemman sisällön kanssa vaikka näin
-	if [ ! -d ~/Desktop/minimize.OLD ] ; then
-		mkdir ~/Desktop/minimize.OLD
-		#TODO:jopspa conf-tiedostot jättäisi siirtelemättä
-		mv ~/Desktop/minimize/* ~/Desktop/minimize.OLD
-	else
-		rm ~/Desktop/minimize/*
-	fi
-
-	csleep 3
-	mv minimize/* ~/Desktop/minimize
-	#TODO:boot ja isolinux myös
+#qsee vai ei?
+#if [ ! -s  ~/Desktop/minimize.OLD.tar ] ; then TODO:uusiksi tää blokki
+#	tar -cvf ~/Desktop/minimize.OLD.tar ~/Desktop/minimize
+#else
+#	dqb "minimize.OLD.tar exists"		
 #fi
-
-if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
-	. ~/Desktop/minimize/common_lib.sh
-	enforce_access ${n}
-else
-	${sco} 0:0 /
-	${scm} 0755 /
-	${sco} 0:0 /home
-	${scm} 0755 /home
-
-	${sco} -R ${n}:${n} ~ 
-	${scm} -R a-wx ~/Desktop/minimize
-	${scm} 0755 ~/Desktop/minimize 
-
-	for t in $(find ~/Desktop/minimize -type d) ; do ${scm} 0755 ${t}; done
-	for t in $(find ~/Desktop/minimize -type f -name '*.sh') ; do ${scm} 0755 ${t}; done
-	for t in $(find ~/Desktop/minimize -type f -name 'conf*') ; do ${scm} 0444 ${t}; done
-	for t in $(find ~/Desktop/minimize -type f -name '*.deb') ; do ${scm} 0444 ${t}; done
 	
-	${sco} 0:0 ~/Desktop/minimize/changedns.sh
-	${scm} 0555 ~/Desktop/minimize/changedns.sh
-fi
+dqb "tar done"
+csleep 2
 
-cd ~/Desktop/minimize
+#TODO:uusix ao. 2 riviä
+#for f in $(find ~/Desktop/minimize -type f -name '*.sh') ; do rm ${f} ; done
+#for f in $(find ~/Desktop/minimize -type f -name '*.desktop') ; do rm ${f} ; done
+dqb "RM D0N3"
+csleep 2
+
+#cp minimize/* ~/Desktop/minimize #cp toiminee paremminq mv TODO
+#mv isolinux ~/Desktop/
+#mv boot  ~/Desktop/
+deb "D0N3 M0V1NG"
+csleep 2
+
+#if [ -x ~/Desktop/minimize/common_lib.sh ] ; then
+#	. ~/Desktop/minimize/common_lib.sh
+#	enforce_access ${n}
+#else
+#	${sco} 0:0 /
+#	${scm} 0755 /
+#	${sco} 0:0 /home
+#	${scm} 0755 /home
+#
+#	${sco} -R ${n}:${n} ~ 
+#	${scm} -R a-wx ~/Desktop/minimize
+#	${scm} 0755 ~/Desktop/minimize 
+#
+#	for t in $(find ~/Desktop/minimize -type d) ; do ${scm} 0755 ${t}; done
+#	for t in $(find ~/Desktop/minimize -type f -name '*.sh') ; do ${scm} 0755 ${t}; done
+#	for t in $(find ~/Desktop/minimize -type f -name 'conf*') ; do ${scm} 0444 ${t}; done
+#	for t in $(find ~/Desktop/minimize -type f -name '*.deb') ; do ${scm} 0444 ${t}; done
+#	
+#	${sco} 0:0 ~/Desktop/minimize/changedns.sh
+#	${scm} 0555 ~/Desktop/minimize/changedns.sh
+#fi
+#
+#cd ~/Desktop/minimize
 echo "./export2.sh 0 /tmp/vomit.tar \${distro}"
