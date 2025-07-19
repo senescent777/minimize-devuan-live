@@ -191,8 +191,10 @@ function ppp3() {
 }
 
 function efk() {
-	${sdi} ${1} #$@ pikemminkin
-	[ $? -eq 0 ] && ${smr} ${1}
+	dqb "efk( $@)"
+	${sdi} $@ #$@ pikemminkin
+	[ $? -eq 0 ] && ${NKVD} $@ #nkvd jatkossa?
+	csleep 1
 }
 
 function common_tbls() {
@@ -214,16 +216,19 @@ function common_tbls() {
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/linux-modules*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/linux-modules*.deb
 	[ $? -eq 0 ] && ${odio} modprobe nft #tässä vai vähän alempana?
+	#HUOM.olisikohan yo .jutut distro-spesifisiä jossain määrin?
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
 
-	${odio} dpkg -i ${1}/libxtables*.deb 
-	[ $? -eq 0 ] && ${NKVD} ${1}/libxtables*.deb 
+	#VAIH:efk()
+	efk ${1}/libxtables*.deb 
+	#[ $? -eq 0 ] && ${NKVD} ${1}/libxtables*.deb 
 	csleep 1
 
-	${odio} dpkg -i ${1}/libnftnl*.deb 
-	[ $? -eq 0 ] && ${NKVD} ${1}/libnftnl*.deb
+	#VAIH:efk()
+	efk ${1}/libnftnl*.deb 
+	#[ $? -eq 0 ] && ${NKVD} ${1}/libnftnl*.deb
 	csleep 1
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb

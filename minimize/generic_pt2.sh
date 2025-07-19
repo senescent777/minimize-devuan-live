@@ -1,7 +1,7 @@
 #!/bin/bash
 debug=1
 #TODO:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja $PREFIX täytyisi muuttaa
-
+#TODO:juttuja pakettien poisteluihin liittyen (daed/lib.sh)
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 PREFIX=~/Desktop/minimize #dirname?
 
@@ -111,9 +111,12 @@ function t2pc() {
 	${sharpy} debian-faq dirmngr discover* doc-debian
 	t2p_filler
 
-	#miten dmsetup ja libdevmapper?
+	#TODO:miten daedaluksessa dmsetup ja libdevmapper? milloin poistuikaan?
 	${sharpy} docutils* dosfstools efibootmgr exfalso
 	t2p_filler
+
+	#TODO:milloin daed kanssa poistui libsouåp?
+	#TODO:se librsvg-juttu daedaluksen kanssa?
 
 	#tikkujen kanssa paska tdstojärjestelmä exfat
 	${sharpy} exfatprogs fdisk gcr ftp*
