@@ -4,7 +4,7 @@ file=""
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 dir=/mnt
 part0=ABCD-1234
-PREFIX=~/Desktop/minimize #dirname?
+PREFIX=~/Desktop/minimize #dirname? #TODO:muutox chroot-ymp varten
 mode=-2
 
 #VAIH:modatun kiekon squashfs:lle mukaan tämä ja demerde_toi (aulksi .iso:lle ja sitten)
@@ -42,7 +42,7 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-if [ -x ${PREFIX}/common_lib.sh ] ; then #dirname?
+if [ -x ${PREFIX}/common_lib.sh ] ; then #dirname? #TODO:muutox chroot varten
 	. ${PREFIX}/common_lib.sh
 else
 	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston"
@@ -102,7 +102,6 @@ else
 		${sco} -R root:root /etc/default
 	}
 
-
 	dqb "FALLBACK"
 	dqb "${scm} may be a good idea now"
 	prevopt=""
@@ -119,7 +118,7 @@ fi
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "file=${file}"
-d=${PREFIX}/${distro} #dirname?
+d=${PREFIX}/${distro} #dirname? #
 mkt=$(${odio} which mktemp)
 
 if [ x"${mkt}" == "x" ] ; then

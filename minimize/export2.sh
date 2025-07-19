@@ -2,7 +2,7 @@
 debug=0 #1
 tgtfile=""
 distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa?
-PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd #tai dirname?
+PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd #tai dirname? #TODO
 mode=-2
 
 #HUOM.8725.1:joskohan wpa_supplicant.conf kanssa asiat kunnossa
@@ -24,7 +24,7 @@ function parse_opts_1() {
 			if [ ${mode} -eq -2 ] ; then
 				mode=${1}
 			else
-				if [ -d ${PREFIX}/${1} ] ; then
+				if [ -d ${PREFIX}/${1} ] ; then #TODO
 					distro=${1}
 				else
 					tgtfile=${1}
@@ -38,88 +38,88 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-if [ -x ${PREFIX}/common_lib.sh ] ; then
+if [ -x ${PREFIX}/common_lib.sh ] ; then #TODO
 	. ${PREFIX}/common_lib.sh
-else
-	#HUOM.23525:oleellisempaa että import2 toimii tarvittaessa ilman common_lib
-	#"lelukirjasto" saattaa toimia sen vErrAn että "$0 4 ..." onnistuu	
-	
-	srat="sudo /bin/tar"
-	som="sudo /bin/mount"
-	uom="sudo /bin/umount"
-	scm="sudo /bin/chmod"
-	sco="sudo /bin/chown"
-	odio=$(which sudo)
-
-	#jos näillä lähtisi aiNAKin case q toimimaan
-	n=$(whoami)
-	sah6=$(${odio} which sha512sum)
-	smr="${odio} which rm"
-	smr="${odio} ${smr}"
-
-	function check_binaries() {
-		dqb "exp2.ch3ck_b1nar135( ${1} )"
-	}
-
-	function check_binaries2() {
-		dqb "exp2.ch3ck_b1nar135_2( ${1} )"
-	}
-
-	function fix_sudo() {
-		dqb "exp32.fix.sudo"
-	}
-
-	function enforce_access() {
-		dqb "exp32.enf_acc()"
-	}
-
-	function part3() {
-		dqb "exp32.part3()"
-	}
-
-	function part1_5() {
-		dqb "exp32.p15()"
-	}
-
-	function message() {
-		dqb "exp32.message()"
-	}
-
-	function jules() {
-		dqb "exp32.jules()"
-	}
-
-	#HUOM.23525:josko tässä kohtaa pakotus riittäisi
-	function other_horrors() {
-		dqb "AZATHOTH AND OTHER HORRORS"
-		#${spc} /etc/default/rules.* /etc/iptables #tartteeko tuota enää 27525?
-
-		${scm} 0400 /etc/iptables/*
-		${scm} 0550 /etc/iptables
-		${sco} -R root:root /etc/iptables
-		${scm} 0400 /etc/default/rules*
-		${scm} 0555 /etc/default
-		${sco} -R root:root /etc/default
-	}
-
-	function ppp3() {
-		dqb "exp32.ppp3()"
-	}
-
-	prevopt=""
-
-	for opt in $@ ; do
-		parse_opts_1 ${opt}
-		parse_opts_2 ${prevopt} ${opt}
-		prevopt=${opt}
-	done
-
-	dqb "FALLBACK"
-	dqb "chmod may be a good idea now"
+#else
+#	#HUOM.23525:oleellisempaa että import2 toimii tarvittaessa ilman common_lib
+#	#"lelukirjasto" saattaa toimia sen vErrAn että "$0 4 ..." onnistuu	
+#	
+#	srat="sudo /bin/tar"
+#	som="sudo /bin/mount"
+#	uom="sudo /bin/umount"
+#	scm="sudo /bin/chmod"
+#	sco="sudo /bin/chown"
+#	odio=$(which sudo)
+#
+#	#jos näillä lähtisi aiNAKin case q toimimaan
+#	n=$(whoami)
+#	sah6=$(${odio} which sha512sum)
+#	smr="${odio} which rm"
+#	smr="${odio} ${smr}"
+#
+#	function check_binaries() {
+#		dqb "exp2.ch3ck_b1nar135( ${1} )"
+#	}
+#
+#	function check_binaries2() {
+#		dqb "exp2.ch3ck_b1nar135_2( ${1} )"
+##	}
+#
+#	function fix_sudo() {
+#		dqb "exp32.fix.sudo"
+#	}
+#
+#	function enforce_access() {
+#		dqb "exp32.enf_acc()"
+#	}
+#
+#	function part3() {
+#		dqb "exp32.part3()"
+#	}
+#
+#	function part1_5() {
+#		dqb "exp32.p15()"
+#	}
+#
+#	function message() {
+#		dqb "exp32.message()"
+#	}
+#
+#	function jules() {
+#		dqb "exp32.jules()"
+#	}
+#
+#	#HUOM.23525:josko tässä kohtaa pakotus riittäisi
+#	function other_horrors() {
+#		dqb "AZATHOTH AND OTHER HORRORS"
+#		#${spc} /etc/default/rules.* /etc/iptables #tartteeko tuota enää 27525?
+#
+#		${scm} 0400 /etc/iptables/*
+#		${scm} 0550 /etc/iptables
+#		${sco} -R root:root /etc/iptables
+#		${scm} 0400 /etc/default/rules*
+#		${scm} 0555 /etc/default
+#		${sco} -R root:root /etc/default
+#	}
+#
+#	function ppp3() {
+#		dqb "exp32.ppp3()"
+#	}
+#
+#	prevopt=""
+#
+#	for opt in $@ ; do
+#		parse_opts_1 ${opt}
+#		parse_opts_2 ${prevopt} ${opt}
+#		prevopt=${opt}
+#	done
+#
+#	dqb "FALLBACK"
+#	dqb "chmod may be a good idea now"
 fi
 
 [ -z ${distro} ] && exit 6
-d=${PREFIX}/${distro}
+d=${PREFIX}/${distro} #TODO
 
 dqb "mode= ${mode}"
 dqb "distro=${distro}"
@@ -156,7 +156,7 @@ function usage() {
 	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
 	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
 	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
-	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \${PREFIX}/\${distro}"
+	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \${PREFIX}/\${distro}" #TODO
 	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
 	echo "$0 q <> [] [] archives firefox settings"
 	echo "$0 t ... option for ipTables"			
@@ -164,8 +164,8 @@ function usage() {
 }
 
 dqb "tar = ${srat} "
-${scm} 0555 ${PREFIX}/changedns.sh
-${sco} root:root ${PREFIX}/changedns.sh
+${scm} 0555 ${PREFIX}/changedns.sh #TODO
+${sco} root:root ${PREFIX}/changedns.sh #TODO
 tig=$(${odio} which git)
 mkt=$(${odio} which mktemp)
 
@@ -839,7 +839,7 @@ case ${mode} in
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
 		pre2 ${d}
-		tp5 ${tgtfile} ${PREFIX} #PREFIX vähemmäLLe jatkossa?
+		tp5 ${tgtfile} ${PREFIX} #PREFIX vähemmäLLe jatkossa? #TODO
 	;;
 	e)
 		pre2 ${d}
@@ -852,8 +852,8 @@ case ${mode} in
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 
-		tpq ${PREFIX}
-		${srat} -cf ${tgtfile} ${PREFIX}/config.tar.bz2 ${PREFIX}/fediverse.tar
+		tpq ${PREFIX} #TODO
+		${srat} -cf ${tgtfile} ${PREFIX}/config.tar.bz2 ${PREFIX}/fediverse.tar #TODO
 	;;
 	t)
 		pre2 ${d}
