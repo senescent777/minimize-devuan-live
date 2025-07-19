@@ -17,7 +17,7 @@ function c5p() {
 	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
 	#g_pt2 poistaa cryptsetup-pakettei
 	
-	${NKVD} ${1}/libcrypt* #ei uskalla poistaa
+	${NKVD} ${1}/libcrypt* #ei uskalla poistaa aptilla
 	${NKVD} ${1}/libdevmapper* #ei ole sannettuna noita (tilanne 19725)
 	${NKVD} ${1}/libsoup* #eiole
 
@@ -54,110 +54,120 @@ function pr4() {
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 
-	#TODO:efk()
+	#VAIH:efk()
 	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
 
-	${sdi} ${1}/gcc-12*.deb
-	${sdi} ${1}/libc6_2.36-9+deb12u10_amd64.deb ${1}/libgcc-s1_12.2.0-14+deb12u1_amd64.deb 
-	${sdi} ${1}/libstdc*.deb
-	${sdi} ${1}/libglib*.deb ${1}/libmount*.deb ${1}/libblk*.deb
-	${sdi} ${1}/lilbwebp*.deb
-	${sdi} ${1}/libtiff*.deb ${1}/liblzma5*.deb
-	${sdi} ${1}/libgnutls*.deb ${1}/libtasn*.deb
-	${sdi} ${1}/libssl3*.deb ${1}/libk*.deb ${1}/libgss*
-	${sdi} ${1}/libcups* ${1}/libavahi* ${1}/libdbus*
-	${sdi} ${1}/libx11-6*
-	${sdi} ${1}/libcap2*
-	${sdi} ${1}/libcurl* ${1}/libnghttp* #mihin näitä tarvittiin?
-	${sdi} ${1}/libdav*
-	${sdi} ${1}/libeudev*
-	${sdi} ${1}/libfdisk* ${1}/libuuid* #mihin näitä tarvittiin?
-	${sdi} ${1}/libfreetype*
-	${sdi} ${1}/libgnutls*
-	${sdi} ${1}/libisl*
-	${sdi} ${1}/libltd*
-	${sdi} ${1}/libmpg*
-	${sdi} ${1}/libnf*
-	${sdi} ${1}/libnss* ${1}/libsqlite*
-	${sdi} ${1}/libopen* ${1}/libpolkit-gobject-* 
-	${sdi} ${1}/libpython3.11-*
-	${sdi} ${1}/libav* ${1}/libsw*
+	#${sdi} ${1}/gcc-12*.deb
+	efk ${1}/gcc-12*.deb
+
+	#tarteeko olla noin tarkka nimestä?
+	efk ${1}/libc6_2.36-9+deb12u10_amd64.deb ${1}/libgcc-s1_12.2.0-14+deb12u1_amd64.deb 
+	efk ${1}/libstdc*.deb
+	efk ${1}/libglib*.deb ${1}/libmount*.deb ${1}/libblk*.deb
+	
+	efk ${1}/lilbwebp*.deb #TODO:KVG menikö nimi oikein?
+	efk ${1}/libtiff*.deb ${1}/liblzma5*.deb #apt tarttee jlkimmäisen
+	efk ${1}/libgnutls*.deb ${1}/libtasn*.deb #apt tarttee 1. mainittua
+
+	efk ${1}/libssl3*.deb ${1}/libk*.deb ${1}/libgss*
+	efk ${1}/libcups* ${1}/libavahi* ${1}/libdbus* #tartteeko 2 ekaa asentaa? voisik sen sijaan poistaa? TODO:selvitä?
+	efk ${1}/libx11-6*
+
+	efk ${1}/libcap2*
+	efk ${1}/libcurl* ${1}/libnghttp* #mihin näitä tarvittiin?
+	efk ${1}/libdav* #tai tätä?
+
+	efk ${1}/libeudev*
+	efk ${1}/libfdisk* ${1}/libuuid* #mihin näitä tarvittiin?
+	efk ${1}/libfreetype*
+	#${sdi} ${1}/libgnutls* #asennettiin jo aiemmin
+
+	efk ${1}/libisl*
+	efk ${1}/libltd*
+	efk ${1}/libmpg*
+
+	efk ${1}/libnf*
+	efk ${1}/libnss* ${1}/libsqlite*
+	efk ${1}/libopen* ${1}/libpolkit-gobject-* #jälkimm pak pios?
+
+	efk ${1}/libpython3.11-*
+	efk ${1}/libav* ${1}/libsw*
 	csleep 1
 
 	dqb "LIBVTE"
-	${sdi} ${1}/libvte*.deb #TODO:miten tämän kanssa nykyään
+	efk ${1}/libvte*.deb #VAIH:selv miten tämän kanssa nykyään?
 	csleep 1
 
-	${NKVD} ${1}/gcc-12*.deb
-	${NKVD} ${1}/libgcc*.deb
-	${NKVD} ${1}/libc6*
-	${NKVD} ${1}/libstdc*.deb
-	${NKVD} ${1}/libglib*.deb
-	${NKVD} ${1}/libmount*.deb
-	${NKVD} ${1}/libblk*
-	${NKVD} ${1}/libtiff*.deb
-	${NKVD} ${1}/liblzma5*.deb
-	${NKVD} ${1}/libgnutls*.deb 
-	${NKVD} ${1}/libtasn*.deb
-	${NKVD} ${1}/libssl3*.deb 
-	${NKVD} ${1}/libk*.deb 
-	${NKVD} ${1}/libgss*
-	${NKVD} ${1}/libcups* 
-	${NKVD} ${1}/libavahi* 
-	${NKVD} ${1}/libdbus*
-	${NKVD} ${1}/libx11-6*
-	${NKVD} ${1}/libcap2*
-	${NKVD} ${1}/libcurl* 
-	${NKVD} ${1}/libnghttp*
-	${NKVD} ${1}/libdav*
-	${NKVD} ${1}/libeudev*
-	${NKVD} ${1}/libfreetype*
-	${NKVD} ${1}/libgnutls*
-	${NKVD} ${1}/libisl*
-	${NKVD} ${1}/libltd*
-	${NKVD} ${1}/libmpg*
-	${NKVD} ${1}/libnss*
-	${NKVD} ${1}/libsqlite*
-	${NKVD} ${1}/libopen*
-	${NKVD} ${1}/libpolkit-gobject-* #voisiko näitä poistaa?
-	${NKVD} ${1}/libpython3.11-*
-	${NKVD} ${1}/libsw*
-	${NKVD} ${1}/libav*
+	#${NKVD} ${1}/gcc-12*.deb
+	#${NKVD} ${1}/libgcc*.deb
+	#${NKVD} ${1}/libc6*
+	#${NKVD} ${1}/libstdc*.deb
+	#${NKVD} ${1}/libglib*.deb
+	#${NKVD} ${1}/libmount*.deb
+	#${NKVD} ${1}/libblk*
+	#${NKVD} ${1}/libtiff*.deb
+	#${NKVD} ${1}/liblzma5*.deb
+	#${NKVD} ${1}/libgnutls*.deb 
+	#${NKVD} ${1}/libtasn*.deb
+	#${NKVD} ${1}/libssl3*.deb 
+	#${NKVD} ${1}/libk*.deb 
+	#${NKVD} ${1}/libgss*
+	#${NKVD} ${1}/libcups* 
+	#${NKVD} ${1}/libavahi* 
+	#${NKVD} ${1}/libdbus*
+	#${NKVD} ${1}/libx11-6*
+	#${NKVD} ${1}/libcap2*
+	#${NKVD} ${1}/libcurl* 
+	#${NKVD} ${1}/libnghttp*
+	#${NKVD} ${1}/libdav*
+	#${NKVD} ${1}/libeudev*
+	#${NKVD} ${1}/libfreetype*
+	#${NKVD} ${1}/libgnutls*
+	#${NKVD} ${1}/libisl*
+	#${NKVD} ${1}/libltd*
+	#${NKVD} ${1}/libmpg*
+	#${NKVD} ${1}/libnss*
+	#${NKVD} ${1}/libsqlite*
+	#${NKVD} ${1}/libopen*
+	#${NKVD} ${1}/libpolkit-gobject-* #voisiko näitä poistaa?
+	#${NKVD} ${1}/libpython3.11-*
+	#${NKVD} ${1}/libsw*
+	#${NKVD} ${1}/libav*
 	csleep 1
 
-	${NKVD} ${1}/libvte*.deb	
-	csleep 1	
+	#${NKVD} ${1}/libvte*.deb	
+	#csleep 1	
 
 	#HUOM.31525:vituttava määrä asentelua librsvg2 kanssa edelleen
 
 	#TODO:tähänkin psqa?
-	${sdi} ${1}/libpam-modules-bin_*.deb
-	${sdi} ${1}/libpam-modules_*.deb
-	${NKVD} ${1}/libpam-modules*
+	efk ${1}/libpam-modules-bin_*.deb
+	efk ${1}/libpam-modules_*.deb
+	${NKVD} ${1}/libpam-modules* #tartteeko enää?
 
-	${sdi} ${1}/libpam*.deb
-	${sdi} ${1}/perl-modules-*.deb
-	${sdi} ${1}/libperl*.deb
+	efk ${1}/libpam*.deb
+	efk ${1}/perl-modules-*.deb
+	efk ${1}/libperl*.deb
 
-	${NKVD} ${1}/perl-modules-*.deb
-	${NKVD} ${1}/libperl*.deb
+	#${NKVD} ${1}/perl-modules-*.deb
+	#${NKVD} ${1}/libperl*.deb
 
-	${sdi} ${1}/perl*.deb
-	#${sdi} ${1}/libdbus*.deb
-	${sdi} ${1}/dbus*.deb
+	efk ${1}/perl*.deb
+	#${sdi} ${1}/libdbus*.deb #jo aiemmin
+	efk ${1}/dbus*.deb
 
-	${sdi} ${1}/liberror-perl*.deb
-	${sdi} ${1}/git*.deb
+	efk ${1}/liberror-perl*.deb
+	efk ${1}/git*.deb
 
-	${NKVD} ${1}/git*.deb
-	${NKVD} ${1}/liberror-perl*.deb
+	#${NKVD} ${1}/git*.deb
+	#${NKVD} ${1}/liberror-perl*.deb
 	csleep 1
 
-	${NKVD} ${1}/libpam*
-	${NKVD} ${1}/libperl*
+	#${NKVD} ${1}/libpam*
+	#${NKVD} ${1}/libperl*
 	#${NKVD} ${1}/libdbus*
-	${NKVD} ${1}/dbus*
-	${NKVD} ${1}/perl*
+	#${NKVD} ${1}/dbus*
+	#${NKVD} ${1}/perl*
 	
 	c5p ${1}
 	csleep 1
@@ -266,7 +276,7 @@ function t2p() {
 	${asy} #varm. vuoksi
 	csleep 2
 
-	${sharpy} xz-utils #xz* jatkossa?
+	${sharpy} xz* #jatkossa?
 	${asy} #varm. vuoksi
 	csleep 2
  
