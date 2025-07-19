@@ -6,37 +6,35 @@ function pr4() {
 	dqb "ch1m.pr4( ${1} , ${2} )"
 	csleep 1
 
-	${sdi} ${1}/libpam-modules-bin_*.deb
-	${sdi} ${1}/libpam-modules_*.deb
-
+	efk ${1}/libpam-modules-bin_*.deb
+	efk ${1}/libpam-modules_*.deb
 	${NKVD} ${1}/libpam-modules*
 	csleep 1
 
-	${sdi} ${1}/libpam*.deb
-	${sdi} ${1}/perl-modules-*.deb
-	${sdi} ${1}/libperl*.deb
+	efk ${1}/libpam*.deb
+	efk ${1}/perl-modules-*.deb
+	efk ${1}/libperl*.deb
 
-	${NKVD} ${1}/perl-modules-*.deb
-	${NKVD} ${1}/libperl*.deb
+	#${NKVD} ${1}/perl-modules-*.deb
+	#${NKVD} ${1}/libperl*.deb
 	csleep 1
 
-	${sdi} ${1}/perl*.deb
-	${sdi} ${1}/libdbus*.deb
-	${sdi} ${1}/dbus*.deb
+	efk ${1}/perl*.deb
+	efk ${1}/libdbus*.deb
+	efk ${1}/dbus*.deb
 	csleep 1
 
-	${sdi} ${1}/liberror-perl*.deb
-	${sdi} ${1}/git*.deb
-
-	${NKVD} ${1}/git*.deb
-	${NKVD} ${1}/liberror-perl*.deb
+	efk ${1}/liberror-perl*.deb
+	efk ${1}/git*.deb
+	#${NKVD} ${1}/git*.deb
+	#${NKVD} ${1}/liberror-perl*.deb
 	csleep 1
 
-	${NKVD} ${1}/libpam*
-	${NKVD} ${1}/libperl*
-	${NKVD} ${1}/libdbus*
-	${NKVD} ${1}/dbus*
-	${NKVD} ${1}/perl*
+	#${NKVD} ${1}/libpam*
+	#${NKVD} ${1}/libperl*
+	#${NKVD} ${1}/libdbus*
+	#${NKVD} ${1}/dbus*
+	#${NKVD} ${1}/perl*
 	csleep 1
 }
 
@@ -45,16 +43,16 @@ function udp6() {
 	csleep 1
 
 	#mahd. yhteisiä osia voisi siirtää
-	#HUOM.30525:pitäisikö nämäkin kahlata läpi uudestaan? että mitä niille tekee niinqu
-	${NKVD} ${1}/libx11-xcb1*
-	${NKVD} ${1}/nfs*
-	${NKVD} ${1}/rpc*
-	${NKVD} ${1}/python3.11*
-	${NKVD} ${1}/xserver-xorg-core*
-	${NKVD} ${1}/xserver-xorg-legacy*
-	${NKVD} ${1}/libgtk-3-bin*
-	${NKVD} ${1}/libpython3.11*
-	${NKVD} ${1}/librsvg2*
+	#VAIH:pitäisikö nämäkin kahlata läpi uudestaan? että mitä niille tekee niinqu
+	#${NKVD} ${1}/libx11-xcb1*
+	#${NKVD} ${1}/nfs*
+	#${NKVD} ${1}/rpc*
+	#${NKVD} ${1}/python3.11*
+	#${NKVD} ${1}/xserver-xorg-core*
+	#${NKVD} ${1}/xserver-xorg-legacy*
+	#${NKVD} ${1}/libgtk-3-bin*
+	#${NKVD} ${1}/libpython3.11*
+	#${NKVD} ${1}/librsvg2*
 
 	dqb "D0NE"
 	csleep 1
