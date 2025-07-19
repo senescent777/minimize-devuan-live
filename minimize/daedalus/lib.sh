@@ -314,7 +314,7 @@ function tpc7() {
 	dqb "d.prc7 UNDER CONSTRUCTION"
 }
 
-check_binaries ${PREFIX}/${distro}
+check_binaries ${PREFIX}/${distro} #TODO:tämän asettamisessa se chroot_env huomiointi
 check_binaries2
 
 
