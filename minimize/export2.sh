@@ -437,19 +437,11 @@ function tlb() {
 	csleep 1
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-	local cc
-	local cc2
-
-	cc=$(echo ${distro} | grep excalibur | wc -l)
-	cc2=$(echo ${distro} | grep ethz | wc -l)
 
 	#https://pkgs.org/download/linux-image-6.12.27-amd64 ... joskohan ethz kautta
 	#... tarkistus tosin uusiksi, josko sinne tcdd-blokkiin ylemmäs?
 	
-	#distro-spesifinen osuus -> lib jatkossa (esim. tpc7) (VAIH)
-#	if [ ${cc} -gt 0 ] || [ ${cc2} -gt 0 ] ; then
-		tpc7	
-#	fi
+	tpc7	
 
 	aswasw #jatkossa "if cc"-blokin uplkop tämä
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
