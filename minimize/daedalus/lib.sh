@@ -242,6 +242,10 @@ function pre_part2() {
 	dqb "d0n3"
 }
 
+function tpc7() {
+	dqb "d.prc7 UNDER CONSTRUCTION"
+}
+
 check_binaries ${PREFIX}/${distro}
 check_binaries2
 
