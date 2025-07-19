@@ -116,7 +116,7 @@ function t2pc() {
 	t2p_filler
 
 	#tikkujen kanssa paska tdstojärjestelmä exfat
-	${sharpy} exfatprogs fdisk ftp* gcr
+	${sharpy} exfatprogs fdisk gcr ftp*
 	t2p_filler
 
 	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
@@ -208,44 +208,14 @@ function t2pf() {
 t2pc
 #[ $? -gt 0 ] && exit #tähän tökkää?
 
-#TODO:tähän keskimmäiseen xorriso:n yms. jyräykset (eli $dostro/lib)
+#VAIH:tähän keskimmäiseen xorriso:n yms. jyräykset (eli $dostro/lib)
 t2p
 [ $? -gt 0 ] && exit
 
 t2pf
 [ $? -gt 0 ] && exit
 
-echo "KARTHAGO EST DELENDAM"
-sleep 6
 
-#JOKO JO PERKELE POISTUISI?
-${sharpy} xorriso*
-${asy} #varm. vuoksi
-sleep 2
-
-${sharpy} xorriso*
-${asy} #varm. vuoksi
-sleep 2
-
-${sharpy} xorriso*
-${asy} #varm. vuoksi
-sleep 2
-
-${sharpy} xz-utils
-${asy} #varm. vuoksi
-sleep 2
- 
-${sharpy} xfburn 
-${asy} #varm. vuoksi
-sleep 2
-
-${sharpy} xarchiver 
-${asy} #varm. vuoksi
-sleep 2
-
-#debug=1
-${scm} a-wx ${0}
-csleep 2
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
 sleep 6

@@ -2,7 +2,7 @@
 
 mode=2
 #TODO:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja $PREFIX täytyisi muuttaa
-#TODO:g_doit viskomaan icons-hmiston sisällön ~/Desktop alle
+
 distro=$(cat /etc/devuan_version)
 dirname $0
 d=~/Desktop/minimize/${distro} #alkuosa dirname:lla jatkossa?
@@ -81,7 +81,8 @@ part1 ${distro}
 
 ${snt}
 csleep 1
-
+#VAIH:g_doit viskomaan icons-hmiston sisällön ~/Desktop alle
+${svm} ~/Desktop/minimize/1c0ns/*.desktop ~/Desktop
 #===================================================PART 2===================================
 
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions

@@ -181,7 +181,7 @@ csleep 1
 
 #glorified "tar -x" this function is - Yoda
 function common_part() {
-	#debug=1
+	debug=1
 
 	dqb "common_part( ${1}, ${2})"
 	[ y"${1}" == "y" ] && exit 1
@@ -215,6 +215,8 @@ function common_part() {
 	if [ -x ${t}/common_lib.sh ] ; then
 		enforce_access ${n} ${t} 
 		dqb "running changedns.sh maY be necessary now to fix some things"
+	else
+		dqb "n s t as ${t}/common_lib.sh "	
 	fi
 
 	csleep 1
@@ -299,7 +301,7 @@ case "${mode}" in
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
 
-		part3 ${d} ${dnsm} #VAIH:testaa että toimii
+		part3 ${d} ${dnsm} #18725:part3 toiminee
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 		csleep 1
 
