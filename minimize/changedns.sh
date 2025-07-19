@@ -19,7 +19,7 @@ function csleep() {
 
 #HUOM.jatkossa ehkä parempi että komentorivioptioilla ei aktivoida debugia
 mode=${1}
-[ -d ~/Desktop/minimize/${2} ] && distro=${2}
+[ -d ~/Desktop/minimize/${2} ] && distro=${2} #TODO:ehkä muutos tähän
 
 #function init2 {
 #	local c
@@ -114,6 +114,7 @@ dqb "when in trouble, \"sudo chmod 0755  \*.sh ;sudo chmod 0755 \${distro}; sudo
 function tod_dda() { 
 	dqb "tod_dda(${1}) "
 
+	#TODO:jos vielä typistäisi max 15 merkkiin tuossa alla
 	local t
 	t=$(echo ${1} | tr -d -c 0-9.)
 
@@ -218,8 +219,6 @@ function clouds_pp3() {
 	csleep 1
 	p3r1m3tr
 
-	#HUOM.160325:lisätty uutena varm. vuoksi
-	#VAIH:"tr $1 -dc 0-9 $1" mukaan
 	local p
 	p=$(echo ${1} | tr -d -c 0-9)
 
@@ -403,7 +402,7 @@ clouds_pre ${mode}
 
 #HUOM.25525.1:mitenköhän tämä kohta pitäisi mennä?
 #HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
-t=$(echo ${distro} | cut -d '/' -f 1 | tr -d -c a-z) #VAIH:tr -dc a-z mukaan kanssa?
+t=$(echo ${distro} | cut -d '/' -f 1 | tr -d -c a-z)
 [ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 
 case ${mode} in 
