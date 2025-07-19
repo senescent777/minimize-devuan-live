@@ -4,7 +4,7 @@ file=""
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 dir=/mnt
 part0=ABCD-1234
-PREFIX=~/Desktop/minimize #dirname? #TODO:muutox chroot-ymp varten
+#PREFIX=~/Desktop/minimize #dirname? #TODO:muutox chroot-ymp varten
 mode=-2
 
 #VAIH:modatun kiekon squashfs:lle mukaan tämä ja demerde_toi (aulksi .iso:lle ja sitten)
@@ -28,11 +28,11 @@ function parse_opts_1() {
 				mode=${1}
 			else
 				#VAIH:testaa miten distron asettelu, esim excaliburin kanssa (mode 3:lla kai paremmin onnistuisi testaiöut kuin mode 0)
-				if [ -d ${PREFIX}/${1} ] ; then
-					distro=${1}
-				else
-					file=${1}
-				fi
+				#if [ -d ${PREFIX}/${1} ] ; then
+				#	distro=${1}
+				#else
+				#	file=${1}
+				#fi
 			fi
 		;;
 	esac
@@ -42,83 +42,83 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-if [ -x ${PREFIX}/common_lib.sh ] ; then #dirname? #TODO:muutox chroot varten
-	. ${PREFIX}/common_lib.sh
-else
-	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston"
-	srat="sudo /bin/tar" #which mukaan?
-	som="sudo /bin/mount"
-	uom="sudo /bin/umount"
-	scm="sudo /bin/chmod"
-	sco="sudo /bin/chown"
-	odio=$(which sudo)
-
-	#jos näillä lähtisi aiNAKin case q toimimaan
-	n=$(whoami)
-	smr=$(${odio} which rm)
-	NKVD=$(${odio} which shred)
-	NKVD="${NKVD} -fu "
-	whack=$(${odio} which pkill)
-	whack="${odio} ${whack} --signal 9 "
-	sah6=$(${odio} which sha512sum)
-
-	function check_binaries() {
-		dqb "imp2.ch3ck_b1nar135( \${1} )"
-	}
-
-	function check_binaries2() {
-		dqb "imp2.ch3ck_b1nar135_2( \${1} )"
-	}
-
-	function fix_sudo() {
-		dqb "imp32.fix.sudo"
-	}
-
-	function enforce_access() {
-		dqb "imp32.enf_acc()"
-	}
-
-	#HUOM.26525:tämä versio part3:sesta sikäli turha että common_lib urputtaa koska sha512sums muttei deb
-	function part3() {
-		dqb "NOT SUPPORTED"
-	}
-
-	function ppp3() {
-		dqb "imp32.ppp3()"
-	}
-
-	#kutsutaanko tätä? no yhdestä kohdasta ainakin
-	function other_horrors() {
-		dqb "AZATHOTH AND OTHER HORRORS"
-
-		#HUOM. /e/i tarvitsisi kirjoitusokeude että onnaa
-		#${spc} /etc/default/rules.* /etc/iptables #takaisin jos pykii 
-	
-		${scm} 0400 /etc/iptables/*
-		${scm} 0550 /etc/iptables
-		${sco} -R root:root /etc/iptables
-		${scm} 0400 /etc/default/rules*
-		${scm} 0555 /etc/default
-		${sco} -R root:root /etc/default
-	}
-
-	dqb "FALLBACK"
-	dqb "${scm} may be a good idea now"
-	prevopt=""
-
-	for opt in $@ ; do
-		parse_opts_1 ${opt}
-		parse_opts_2 ${prevopt} ${opt}
-		prevopt=${opt}
-	done
-fi
+#if [ -x ${PREFIX}/common_lib.sh ] ; then #dirname? #TODO:muutox chroot varten
+#	. ${PREFIX}/common_lib.sh
+#else
+#	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston"
+#	srat="sudo /bin/tar" #which mukaan?
+#	som="sudo /bin/mount"
+#	uom="sudo /bin/umount"
+#	scm="sudo /bin/chmod"
+#	sco="sudo /bin/chown"
+#	odio=$(which sudo)
+#
+#	#jos näillä lähtisi aiNAKin case q toimimaan
+#	n=$(whoami)
+#	smr=$(${odio} which rm)
+#	NKVD=$(${odio} which shred)
+#	NKVD="${NKVD} -fu "
+#	whack=$(${odio} which pkill)
+#	whack="${odio} ${whack} --signal 9 "
+#	sah6=$(${odio} which sha512sum)
+#
+#	function check_binaries() {
+#		dqb "imp2.ch3ck_b1nar135( \${1} )"
+#	}
+#
+#	function check_binaries2() {
+#		dqb "imp2.ch3ck_b1nar135_2( \${1} )"
+#	}
+#
+#	function fix_sudo() {
+#		dqb "imp32.fix.sudo"
+#	}
+#
+#	function enforce_access() {
+#		dqb "imp32.enf_acc()"
+#	}
+#
+#	#HUOM.26525:tämä versio part3:sesta sikäli turha että common_lib urputtaa koska sha512sums muttei deb
+#	function part3() {
+#		dqb "NOT SUPPORTED"
+#	}
+#
+#	function ppp3() {
+#		dqb "imp32.ppp3()"
+#	}
+#
+#	#kutsutaanko tätä? no yhdestä kohdasta ainakin
+#	function other_horrors() {
+#		dqb "AZATHOTH AND OTHER HORRORS"
+#
+#		#HUOM. /e/i tarvitsisi kirjoitusokeude että onnaa
+#		#${spc} /etc/default/rules.* /etc/iptables #takaisin jos pykii 
+#	
+#		${scm} 0400 /etc/iptables/*
+#		${scm} 0550 /etc/iptables
+#		${sco} -R root:root /etc/iptables
+#		${scm} 0400 /etc/default/rules*
+#		${scm} 0555 /etc/default
+#		${sco} -R root:root /etc/default
+#	}
+#
+#	dqb "FALLBACK"
+#	dqb "${scm} may be a good idea now"
+#	prevopt=""
+#
+#	for opt in $@ ; do
+#		parse_opts_1 ${opt}
+#		parse_opts_2 ${prevopt} ${opt}
+#		prevopt=${opt}
+#	done
+#fi
 
 [ -z ${distro} ] && exit 6
 
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "file=${file}"
-d=${PREFIX}/${distro} #dirname? #
+#d=${PREFIX}/${distro} #dirname? #
 mkt=$(${odio} which mktemp)
 
 if [ x"${mkt}" == "x" ] ; then
@@ -126,40 +126,40 @@ if [ x"${mkt}" == "x" ] ; then
 	echo "sudo apt-get update;sudo apt-get install coreutils"
 	exit 8
 fi
-
-if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-	. ${d}/conf
-else #joutuukohan else-haaran muuttamaan jatkossa?
-	echo "CONF ( ${d}/conf ) MISSING"
-	exit 56
-fi
+#
+#if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+#	. ${d}/conf
+#else #joutuukohan else-haaran muuttamaan jatkossa?
+#	echo "CONF ( ${d}/conf ) MISSING"
+#	exit 56
+#fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 
-if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-	. ${d}/lib.sh
-else
-	echo $?
-	dqb "NO LIB"
-	csleep 1
-
-	function pr4() {
-		dqb "imp2.pr4 (\${1})" 
-	}
-
-	#function pre_part3() {
-	#	dqb "imp2.pre_part3( \${1} \${2})"
-	#}
-
-	check_binaries ${d} #parametrit kunnossq?
-	echo $?
-	[ $? -eq 0 ] || exit 7
-	csleep 1
-
-	check_binaries2
-	[ $? -eq 0 ] || exit 8
-	csleep 1
-fi
+#if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+#	. ${d}/lib.sh
+#else
+#	echo $?
+#	dqb "NO LIB"
+#	csleep 1
+#
+#	function pr4() {
+#		dqb "imp2.pr4 (\${1})" 
+#	}
+#
+#	#function pre_part3() {
+#	#	dqb "imp2.pre_part3( \${1} \${2})"
+#	#}
+#
+#	check_binaries ${d} #parametrit kunnossq?
+#	echo $?
+#	[ $? -eq 0 ] || exit 7
+#	csleep 1
+#
+#	check_binaries2
+#	[ $? -eq 0 ] || exit 8
+#	csleep 1
+#fi
 
 function usage() {
 	echo "${0} [mode] [tgtfile] <distro> <debug> "
@@ -168,9 +168,9 @@ function usage() {
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
 
-if [ ! -s /OLD.tar ] ; then 
-	${srat} -cf /OLD.tar /etc /sbin /home/stubby /home/devuan/Desktop
-fi
+#if [ ! -s /OLD.tar ] ; then 
+#	${srat} -cf /OLD.tar /etc /sbin /home/stubby /home/devuan/Desktop
+#fi
 
 dqb "b3f0r3 par51ng tha param5"
 csleep 1
@@ -264,7 +264,7 @@ case "${mode}" in
 
 		read -p "U R ABT TO EXTRACT ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ]  || exit 33
-		common_part ${file} ${d}
+		#common_part ${file} ${d}
 
 		csleep 1
 		cd ${olddir}
@@ -289,18 +289,18 @@ case "${mode}" in
 
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
-		common_part ${file} ${d}
+		#common_part ${file} ${d}
 
 		if [ ${1} -eq 0 ] ; then
-			if [ -s ${d}/e.tar ] ; then
-				common_part ${d}/e.tar ${d}
-			fi
+			#if [ -s ${d}/e.tar ] ; then
+			#	common_part ${d}/e.tar ${d}
+			#fi
 		fi
 
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
 
-		part3 ${d} ${dnsm} #18725:part3 toiminee
+		#part3 ${d} ${dnsm} #18725:part3 toiminee
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 		csleep 1
 
@@ -317,19 +317,19 @@ case "${mode}" in
 		dqb "${file} IJ"
 		csleep 1
 
-		if [ -x ${PREFIX}/profs.sh ] ; then #TODO: ${PREFIX} pois jatqssa?
-			. ${PREFIX}/profs.sh
-			[ $? -gt 0 ] && exit 33
-			
-			dqb "INCLUDE OK"
-			csleep 1
-
-			q=$(${mkt} -d)
-			${srat} -C ${q} -xvf ${file}
-			imp_prof esr ${n} ${q}
-		else
-			dqb "CANNOT INCLUDE PROFS.HS"
-		fi
+		#if [ -x ${PREFIX}/profs.sh ] ; then #TODO: ${PREFIX} pois jatqssa?
+		#	. ${PREFIX}/profs.sh
+		#	[ $? -gt 0 ] && exit 33
+		#	
+		#	dqb "INCLUDE OK"
+		#	csleep 1
+#
+#			q=$(${mkt} -d)
+#			${srat} -C ${q} -xvf ${file}
+#			imp_prof esr ${n} ${q}
+#		else
+#			dqb "CANNOT INCLUDE PROFS.HS"
+#		fi
 	;;
 	-h)
 		usage
