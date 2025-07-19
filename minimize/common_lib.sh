@@ -19,6 +19,7 @@ function init() {
 	distro=$(cat /etc/devuan_version)
 	n=$(whoami)
 	#TODO:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja $PREFIX täytyisi muuttaa
+	#TODO:jos vaikka yrittäisi includoida ~/$n.conf ja sit jotain
 
 	#PREFIX=~/Desktop/minimize #josko dirname:lla jatkossa?
 	slinky=$(${odio} which ln)
