@@ -3,7 +3,7 @@ distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 u=0
 v=0
 
-PREFIX=~/Desktop/minimize
+#PREFIX=~/Desktop/minimize TODO:muutoksia (tosin chroot-ympäristössä ei niin oennaista)
 tgt=${1}
 tcmd=$(which tar)
 spc=$(which cp)
@@ -27,8 +27,8 @@ echo "PARAMS CHECKED"
 sleep 1
 
 if [ z"${distro}" != "z" ] ; then
-	if [ -s ${PREFIX}/${distro}/conf ] ; then
-		. ${PREFIX}/${distro}/conf
+	#if [ -s ${PREFIX}/${distro}/conf ] ; then
+	#	. ${PREFIX}/${distro}/conf
 		echo "CNF F0UND"; sleep 1
 
 		if  [ -v dir ] && [ -d ${dir} ] ; then
@@ -46,7 +46,7 @@ if [ z"${distro}" != "z" ] ; then
 		else
 			echo "${dir} N0T DOUNF"; sleep 1		
 		fi
-	fi
+	#fi
 fi
 
 
@@ -68,9 +68,9 @@ if [ -f ${tgt} ] ; then
 	sleep 2
 
 	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
-	for f in $(find ${PREFIX}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
-	for f in $(find ${PREFIX}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
-	for f in $(find ${PREFIX}/ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
+	#for f in $(find ${PREFIX}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
+	#for f in $(find ${PREFIX}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
+	#for f in $(find ${PREFIX}/ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
 	
 	#tavoitteena locale-juttujen lisäksi localtime mukaan
 	for f in $(find /etc -type f -name 'locale*') ; do
