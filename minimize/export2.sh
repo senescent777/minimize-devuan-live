@@ -717,9 +717,8 @@ function tp3() { #8725:vaikuttaisi tulevan jutut mukana (?)
 	csleep 1
 }
 
-function tpu() { #8725:toiminee (uusi testaus menossa 19725)
-	#debug=1	
-	#HUOM:0/1/old/new ei liity
+function tpu() { #HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakentamisen suhteen
+	#-.. tai sitten viimeaikaiset kikkailut paskoneet part3/pr4/ppp3/whåtever
 	dqb "tpu ${1}, ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -846,9 +845,9 @@ case ${mode} in
 		#pre2 ${d}
 		#tp4 ${tgtfile} ${d}
 	;;
-	f)
+#	f)
 		#rmt ${tgtfile} ${d} #HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
-	;;
+#	;;
 	q)
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}

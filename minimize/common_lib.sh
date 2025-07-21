@@ -972,6 +972,7 @@ function part3_4real() {
 	csleep 1
 }
 
+#TODO:tämän ja kutsuttujen fktioiden debug, saattaa olla jotain 
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
 function part3() {
 	dqb "part3 ${1} ${2}"

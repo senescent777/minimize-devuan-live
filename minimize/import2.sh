@@ -32,7 +32,7 @@ function parse_opts_1() {
 				mode=${1}
 			else
 				#VAIH:testaa miten distron asettelu, esim excaliburin kanssa (mode 3:lla kai paremmin onnistuisi testaiLut kuin mode 0)
-				if [ -d ${d}/${1} ] ; then
+				if [ -d ${d0}/${1} ] ; then
 					distro=${1}
 				else
 					file=${1}
@@ -271,14 +271,17 @@ case "${mode}" in
 
 		read -p "U R ABT TO EXTRACT ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ]  || exit 33
-		#common_part ${file} ${d}
+		common_part ${file} ${d}
 
 		csleep 1
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	0|3)
-		#18725:toiminee case:t 0-3 jollain tavalla
+		#HUOM.21725:saattaa olla nyt jotain ongelmaa tässä case:ssa
+		#... tai sitten export2:n tpu():n viimeisimmässä ulosteessa
+		#kun kerta joillain paketeilla purq+asennus onnaa
+
 		dqb "ZER0 S0UND"
 		csleep 1
 
@@ -296,18 +299,18 @@ case "${mode}" in
 
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
-		#common_part ${file} ${d}
+		common_part ${file} ${d}
 
 		if [ ${1} -eq 0 ] ; then
-			#if [ -s ${d}/e.tar ] ; then
-			#	common_part ${d}/e.tar ${d}
-			#fi
+			if [ -s ${d}/e.tar ] ; then
+				common_part ${d}/e.tar ${d}
+			fi
 		fi
 
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
 
-		#part3 ${d} ${dnsm} #18725:part3 toiminee
+		part3 ${d} ${dnsm} #HUOM.21725:tämän toiminta pitäisi selvittää
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 		csleep 1
 
@@ -324,7 +327,7 @@ case "${mode}" in
 		dqb "${file} IJ"
 		csleep 1
 
-		if [ -x ${d0}/profs.sh ] ; then #VAIH: ${PREFIX} pois jatqssa?
+		if [ -x ${d0}/profs.sh ] ; then
 			. ${d0}/profs.sh
 			[ $? -gt 0 ] && exit 33
 			
