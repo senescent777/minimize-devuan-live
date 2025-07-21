@@ -1,24 +1,22 @@
 #!/bin/bash
 
 mode=2
-#TODO:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja $PREFIX täytyisi muuttaa
-
 distro=$(cat /etc/devuan_version)
-dirname $0
-#d=~/Desktop/minimize/${distro} #alkuosa dirname:lla jatkossa?
+d0=$(dirname $0)
+echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
 debug=0
+d=${d0}/${distro}
 
-#HUOM.19725:vissiin uudessa ympäristössä generic_x-skripti toimivat (kun tarvittavat paketit saatavilla)
-#export2.sh uloste vaikutti toimiVan ainaskin
-#import2.sh myös toimi riittävästi silloinq paketit puuttuivat
+#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja $PREFIX täytyisi muuttaa
+#... jokin else-haara tuohon alle
 
-#if [ -d ${d} ] && [ -s ${d}/conf ]; then
-#	. ${d}/conf
-#else
-#	echo "CONFIG MISSING"
-#	exit 55
-#fi
+if [ -d ${d} ] && [ -s ${d}/conf ]; then
+	. ${d}/conf
+else
+	echo "CONFIG MISSING"
+	exit 55
+fi
 
 function parse_opts_1() {
 	case "${1}" in
@@ -26,11 +24,11 @@ function parse_opts_1() {
 			debug=1
 		;;
 		*)
-			#if [ -d ~/Desktop/minimize/${1} ] ; then
-			#	distro=${1}
-			#else
-			#	mode=${1}
-			#fi
+			if [ -d ${d0}/${1} ] ; then
+				distro=${1}
+			else
+				mode=${1}
+			fi
 		;;
 	esac
 }
@@ -39,13 +37,13 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#pitäisiköhän tässä olla tarkistukset, -d, -x ?
-#if [ -d ~/Desktop/minimize ] && [ -x  ~/Desktop/minimize/common_lib.sh ] ; then 
-#	. ~/Desktop/minimize/common_lib.sh
-#else
-#	echo "NO COMMON L1B (AVA1LABL3 AND 3XECUTABL3)"
-#	exit 55
-#fi
+if [ -x ${d0}/common_lib.sh ] ; then
+	. ${d0}/common_lib.sh
+else
+	[ ${debug} -gt 0 ] && ls -las ${d0}
+	echo "NO COMMON L1B (AVA1LABL3 AND 3XECUTABL3)"
+	exit 55
+fi
 
 [ $? -gt 0 ] && exit 56
 sleep 1
@@ -57,32 +55,37 @@ sleep 1
 dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
-#part076 ${distro}
-#
-#if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-#	. ${d}/lib.sh
-#	#HUOM.22525:tap mode=0 pitäisi kutsua check_binaries ja sitä kautta pakottaa tablesin asennus... puuttuuko .deb?
-#else
-#	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING OR NOT EXECUTABLE"
-#	exit 111
-#fi
+part076 ${distro}
+
+if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+	. ${d}/lib.sh
+else
+	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING OR NOT EXECUTABLE"
+	exit 111
+fi
 
 #==================================PART 1============================================================
 
 dqb "mode= ${mode}"
 csleep 1
 
-#HUOM.13525:pre_e:tä tarttisi ajaa vain kerran, jossain voisi huomioida /e/s.d/m olemassaolon
-[ ${enforce} -eq 1 ] && pre_enforce 
-#enforce_access ${n} ${PREFIX}
+#HUOM.21725:laitettu konfissa enforce nollaksi jotta ei jäädä junnamaan sudo-juttujen kanssa
+if [ ! -s /etc/sudoers.d/meshuggah ] ; then
+	if [ ${enforce} -eq 1 ] ; then
+		pre_enforce #${d0}
+	fi
+fi
 
+enforce_access ${n} ${d0}
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
 
 ${snt}
 csleep 1
-#VAIH:g_doit viskomaan icons-hmiston sisällön ~/Desktop alle
-#${svm} ~/Desktop/minimize/1c0ns/*.desktop ~/Desktop
+
+dqb "${svm} ${d0}/1c0ns/*.desktop ~/Desktop"
+csleep 1
+${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #===================================================PART 2===================================
 
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
@@ -162,7 +165,7 @@ if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
 	exit
 fi
 
-#HUOM.2:pitäisikö huomioida myös e.tar tuossa alla jotenkin?
+#HUOM.2:pitäisikö huomioida myös e.tar tuossa alla jotenkin? ja miksi?
 pre_part2
 
 #c14=$(find ${d} -name '*.deb' | wc -l)

@@ -16,12 +16,12 @@ function init() {
 	
 	#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
 	sah6=$(which sha512sum)
-	distro=$(cat /etc/devuan_version)
+	#distro=$(cat /etc/devuan_version) #TODO:asetus ehdolla -v distro vaikkapa
 	n=$(whoami)
-	#TODO:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja $PREFIX täytyisi muuttaa
+	#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja  täytyisi muuttaa
 	#TODO:jos vaikka yrittäisi includoida ~/$n.conf ja sit jotain
 
-	#PREFIX=~/Desktop/minimize #josko dirname:lla jatkossa?
+
 	slinky=$(${odio} which ln)
 	slinky="${odio} ${slinky} -s "
 	spc=$(${odio} which cp)
@@ -278,15 +278,15 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	#if [ -x ${PREFIX}/tar-wrapper.sh ] ; then #TODO
-	#	dqb "TODO: tar-wrapper.sh"
-	#else
-	#	srat=$(${odio} which tar)
-	#	
-	#	if [ ${debug} -eq 1 ] ; then
-	#		srat="${srat} -v "
-	#	fi
-	#fi
+	if [ -x ${1}/../tar-wrapper.sh ] ; then 
+		dqb "TODO: tar-wrapper.sh"
+	else
+		srat=$(${odio} which tar)
+		
+		if [ ${debug} -eq 1 ] ; then
+			srat="${srat} -v "
+		fi
+	fi
 
 	if [ y"${ipt}" == "y" ] ; then
 		[ z"${1}" == "z" ] && exit 99
@@ -299,6 +299,7 @@ function check_binaries() {
 		echo "SHOULD INSTALL IPTABLES"
 		jules
 
+		#HUOM.olisikohan sittenkin suhteelliset  polut tar:in sisällä helpompia?
 		if [ -s ${1}/e.tar ] ; then
 			${odio} ${srat} -C / -xf ${1}/e.tar
 			${NKVD} ${1}/e.tar  #jompikumpi hoitaa
@@ -446,10 +447,13 @@ function dinf() {
 }
 
 #HUOM.29525:ei tarvitse parametreja tämä
+#...paitsi ehkä sudoersin mankelointiin, absoluuttiset polut oltava
 function pre_enforce() {
-	dqb "common_lib.pre_enforce()"
+	debug=1
+	dqb "common_lib.pre_enforce( ${1} )"
 	local q
 	local f
+	#[ -f ${1}/changedns.sh ] || exit 99
 
 	q=$(mktemp -d)
 	dqb "sudo touch ${q}/meshuggah in 3 secs"
@@ -461,7 +465,8 @@ function pre_enforce() {
 
 	[ -f ${q}/meshuggah ] || exit 33
 	dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
-	#mangle_s ${PREFIX}/changedns.sh ${q}/meshuggah TODO
+	#nopea ratkaisu (josko sittenkin /opt/bin alle takaisin)
+	mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah
 	csleep 1
 
 	dqb "LETf HOUTRE JOINED IN DARKN355"
@@ -827,7 +832,7 @@ function part1() {
 	t=$(echo ${1} | cut -d '/' -f 1 | tr -dc a-z) 
 
 	if [ -f /etc/apt/sources.list ] ; then
-		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
+		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:' | wc -l)
 
 		if [ ${c} -gt 0 ] ; then 
 			${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}

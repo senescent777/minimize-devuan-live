@@ -1,9 +1,14 @@
 #!/bin/bash
-debug=1
-#TODO:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja $PREFIX täytyisi muuttaa
+#debug=1
+#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja $PREFIX täytyisi muuttaa
 #TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh)
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
-#PREFIX=~/Desktop/minimize #dirname?
+
+d0=$(dirname $0)
+echo "d0=${d0}"
+[ z"${distro}" == "z" ] && exit 6
+debug=0
+d=${d0}/${distro}
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -21,10 +26,10 @@ function parse_opts_1() {
 			debug=1
 		;;
 		*)
-			#if [ -d ${PREFIX}/${1} ] ; then
-			#	distro=${1}
-		#
-		#	fi
+			if [ -d ${d0}/${1} ] ; then
+				distro=${1}
+		
+			fi
 
 			dqb "0th3r 0tps"
 		;;
@@ -35,40 +40,40 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#if [ -x ${PREFIX}/common_lib.sh ] ; then
-#	. ${PREFIX}/common_lib.sh
-#else
-#	echo "NO COMMON LIB"
-#	exit 89
-#fi
+#TODO:kenties tähän whoami-testi?
+if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+	. ${d}/conf
+else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
+	echo "CONF MISSING"
+	exit 56
+fi
 
+if [ -x ${d0}/common_lib.sh ] ; then
+	. ${d0}/common_lib.sh
+else
+	echo "NO COMMON LIB"
+	exit 89
+fi
+
+#HUOM.21725:nököjään kirjaston puuttuminen ei menoa haittaa, jatkuu urputuksella
 [ -z ${distro} ] && exit 6
-#d=${PREFIX}/${distro}
 
 dqb "BEFORE CNF"
 echo "dbig= ${debug}"
 sleep 1
 
-#if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-#	. ${d}/conf
-#else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
-#	echo "CONF MISSING"
-#	exit 56
-#fi
-
 #TODO:josko tarvittaessa jyräämään konftdston debug-asetus tai siis mahd aikaisessa vaiheessa debug päälle oli ideana?
-debug=1
-#
-#if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-#	. ${d}/lib.sh
-#else
-#	dqb $?
-#	echo "NOT (LIB AVAILABLE AND ECXUTABL3)"
-#	exit 67
-#fi
-#
-#${scm} 0555 ${PREFIX}/changedns.sh
-#${sco} root:root ${PREFIX}/changedns.sh
+
+if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+	. ${d}/lib.sh
+else
+	dqb $?
+	echo "NOT (LIB AVAILABLE AND ECXUTABL3)"
+	exit 67
+fi
+
+${scm} 0555 ${d0}/changedns.sh
+${sco} root:root ${d0}/changedns.sh
 ${fib}
 
 #dqb "d=${d}"
@@ -193,7 +198,7 @@ function t2pf() {
 
 	${NKVD} ${pkgdir}/*.deb
 	${NKVD} ${pkgdir}/*.bin 
-	#${NKVD} ${d}/*.deb 
+	${NKVD} ${1}/*.deb 
 	${NKVD} /tmp/*.tar
 	${smr} -rf /tmp/tmp.*
 
@@ -209,13 +214,13 @@ function t2pf() {
 #HUOM.26525:nyt sitten debug päälle jotta selviää mihin pysähtyy
 
 t2pc
-#[ $? -gt 0 ] && exit #tähän tökkää?
+[ $? -gt 0 ] && exit #tähän tökkää?
 
 #VAIH:tähän keskimmäiseen xorriso:n yms. jyräykset (eli $dostro/lib)
 t2p
 [ $? -gt 0 ] && exit
 
-t2pf
+t2pf ${1}
 [ $? -gt 0 ] && exit
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
