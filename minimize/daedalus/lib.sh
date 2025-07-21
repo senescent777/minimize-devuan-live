@@ -11,12 +11,12 @@ function c5p() {
 	dqb "paramz 0k"
 	csleep 1
 
-	#TODO:josko poistaisi ao. paketit jossain? t2p()? no g_pt2 poistaa 2 ekaa jo valmiiksi
 	${NKVD} ${1}/xz* #t2p() poistaa
 
 	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
 	#g_pt2 poistaa cryptsetup-pakettei
 	
+	#tästä eteenpäin jos selvittäisi noiden pakettien tilanteen, piostuuko jossain jnkn sivuvakutuksebna?
 	${NKVD} ${1}/libcrypt* #ei uskalla poistaa aptilla
 	${NKVD} ${1}/libdevmapper* #ei ole sannettuna noita (tilanne 19725)
 	${NKVD} ${1}/libsoup* #eiole
@@ -54,10 +54,8 @@ function pr4() {
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 
-	#VAIH:efk()
-	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
 
-	#${sdi} ${1}/gcc-12*.deb
+	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
 	efk ${1}/gcc-12*.deb
 
 	#tarteeko olla noin tarkka nimestä?
@@ -80,7 +78,6 @@ function pr4() {
 	efk ${1}/libeudev*
 	efk ${1}/libfdisk* ${1}/libuuid* #mihin näitä tarvittiin?
 	efk ${1}/libfreetype*
-	#${sdi} ${1}/libgnutls* #asennettiin jo aiemmin
 
 	efk ${1}/libisl*
 	efk ${1}/libltd*
@@ -98,46 +95,6 @@ function pr4() {
 	efk ${1}/libvte*.deb #VAIH:selv miten tämän kanssa nykyään?
 	csleep 1
 
-	#${NKVD} ${1}/gcc-12*.deb
-	#${NKVD} ${1}/libgcc*.deb
-	#${NKVD} ${1}/libc6*
-	#${NKVD} ${1}/libstdc*.deb
-	#${NKVD} ${1}/libglib*.deb
-	#${NKVD} ${1}/libmount*.deb
-	#${NKVD} ${1}/libblk*
-	#${NKVD} ${1}/libtiff*.deb
-	#${NKVD} ${1}/liblzma5*.deb
-	#${NKVD} ${1}/libgnutls*.deb 
-	#${NKVD} ${1}/libtasn*.deb
-	#${NKVD} ${1}/libssl3*.deb 
-	#${NKVD} ${1}/libk*.deb 
-	#${NKVD} ${1}/libgss*
-	#${NKVD} ${1}/libcups* 
-	#${NKVD} ${1}/libavahi* 
-	#${NKVD} ${1}/libdbus*
-	#${NKVD} ${1}/libx11-6*
-	#${NKVD} ${1}/libcap2*
-	#${NKVD} ${1}/libcurl* 
-	#${NKVD} ${1}/libnghttp*
-	#${NKVD} ${1}/libdav*
-	#${NKVD} ${1}/libeudev*
-	#${NKVD} ${1}/libfreetype*
-	#${NKVD} ${1}/libgnutls*
-	#${NKVD} ${1}/libisl*
-	#${NKVD} ${1}/libltd*
-	#${NKVD} ${1}/libmpg*
-	#${NKVD} ${1}/libnss*
-	#${NKVD} ${1}/libsqlite*
-	#${NKVD} ${1}/libopen*
-	#${NKVD} ${1}/libpolkit-gobject-* #voisiko näitä poistaa?
-	#${NKVD} ${1}/libpython3.11-*
-	#${NKVD} ${1}/libsw*
-	#${NKVD} ${1}/libav*
-	csleep 1
-
-	#${NKVD} ${1}/libvte*.deb	
-	#csleep 1	
-
 	#HUOM.31525:vituttava määrä asentelua librsvg2 kanssa edelleen
 
 	#TODO:tähänkin psqa?
@@ -149,25 +106,12 @@ function pr4() {
 	efk ${1}/perl-modules-*.deb
 	efk ${1}/libperl*.deb
 
-	#${NKVD} ${1}/perl-modules-*.deb
-	#${NKVD} ${1}/libperl*.deb
-
 	efk ${1}/perl*.deb
-	#${sdi} ${1}/libdbus*.deb #jo aiemmin
 	efk ${1}/dbus*.deb
 
 	efk ${1}/liberror-perl*.deb
 	efk ${1}/git*.deb
-
-	#${NKVD} ${1}/git*.deb
-	#${NKVD} ${1}/liberror-perl*.deb
 	csleep 1
-
-	#${NKVD} ${1}/libpam*
-	#${NKVD} ${1}/libperl*
-	#${NKVD} ${1}/libdbus*
-	#${NKVD} ${1}/dbus*
-	#${NKVD} ${1}/perl*
 	
 	c5p ${1}
 	csleep 1
@@ -182,7 +126,7 @@ function udp6() {
 
 	#nalqtusta aiheuttavat paketit nykyään:kts. c5p()
 #	${NKVD} ${1}/libx11-xcb1* #HUOM.30525:tämä nyt erityisesti aiheuttaa härdelliä, tarttisko tehrä jotain?
-#HUOM.tuon poisto poistaa äksän ja xfce:n joten ei
+#HUOM.tuon poisto(aptilla) poistaa äksän ja xfce:n joten ei
 	
 	c5p ${1}
 	dqb "D0NE"
@@ -314,7 +258,8 @@ function tpc7() {
 	dqb "d.prc7 UNDER CONSTRUCTION"
 }
 
-check_binaries ${PREFIX}/${distro} #TODO:tämän asettamisessa se chroot_env huomiointi
+check_binaries ${d}
+#VAIH:tämän asettamisessa se chroot_env huomiointi
 check_binaries2
 
 
