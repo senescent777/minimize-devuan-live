@@ -331,6 +331,7 @@ function tp1() { #8725 toimii?
 }
 
 #HUOM.23525:josko nyt vähän fiksummin toimisi
+#TODO:deb-paketteja sisältävien arkistojen rakentamisen muuttaminen, polku pois
 function rmt() { #HUOM.16725:toiminee muuten mutta param tark vähn pykii
 	debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
