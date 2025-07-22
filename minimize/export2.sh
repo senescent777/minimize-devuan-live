@@ -169,8 +169,16 @@ function usage() {
 }
 
 dqb "tar = ${srat} "
-${scm} 0555 ${d0}/changedns.sh #TODO:jatkossa /opt/bin alla?
-${sco} root:root ${d0}/changedns.sh
+#${scm} 0555 ${d0}/changedns.sh #VAIH:jatkossa /opt/bin alla?
+#${sco} root:root ${d0}/changedns.sh
+
+for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
+	${scm} 0555 ${x}
+	${sco} root:root ${x}
+	${odio} ${x}/changedns.sh ${dnsm} ${distro}
+	#[ -x $x ] && exit for 
+done
+
  
 tig=$(${odio} which git)
 mkt=$(${odio} which mktemp)

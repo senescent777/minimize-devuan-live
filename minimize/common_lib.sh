@@ -1,72 +1,3 @@
-function init() {
-	odio=$(which sudo)
-	[ y"${odio}" == "y" ] && exit 99 
-	[ -x ${odio} ] || exit 100
-	
-	sco=$(sudo which chown)
-	[ y"${sco}" == "y" ] && exit 98
-	[ -x ${sco} ] || exit 97
-	
-	scm=$(sudo which chmod)
-	[ y"${scm}" == "y" ] && exit 96
-	[ -x ${scm} ] || exit 95
-	
-	sco="${odio} ${sco} "
-	scm="${odio} ${scm} "	
-	#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
-	sah6=$(${odio} which sha512sum)
-
-	slinky=$(${odio} which ln)
-	slinky="${odio} ${slinky} -s "
-	spc=$(${odio} which cp)
-	svm=$(${odio} which mv)
-	svm="${odio} ${svm} "
-	spc="${odio} ${spc} "
-	whack=$(${odio} which pkill)
-	whack="${odio} ${whack} --signal 9 "
-	snt=$(${odio} which netstat)
-	snt="${odio} ${snt} -tulpan "
-	smr=$(${odio} which rm)
-	smr="${odio} ${smr} "
-	NKVD=$(${odio} which shred)
-	NKVD="${NKVD} -fu "
-	NKVD="${odio} ${NKVD} "
-
-	#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
-	PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
-
-	sdi=$(${odio} which dpkg)
-	spd="${odio} ${sdi} -l "
-	sdi="${odio} ${sdi} -i "
-
-	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
-
-	sifu=$(${odio} which ifup)
-	sifd=$(${odio} which ifdown)
-	sip=$(${odio} which ip)
-	sip="${odio} ${sip} "
-
-	if [ -v distro ] ; then 
-		dqb "DUSTRO OK"
-	else
-		distro=$(cat /etc/devuan_version)
-	fi
-
-	if [ -v n ] ; then
-		dqb "n OK"
-	else
-		n=$(whoami)
-	fi
-
-	#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja  täytyisi muuttaa
-	#TODO:jos vaikka yrittäisi includoida ~/$n.conf ja sit jotain
-}
-
-init
-
-#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
-#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
-
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -75,51 +6,132 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-function fix_sudo() {
-	dqb "fix_sud0.pt0"
+if [ -f /.chroot ] ; then
+	odio=""
+	#TODO:tähän sitten jotain
+else
+	function init() {
+		#TODO:näille main muutoksia sitä chroot-ymp varten
+		#... kun ei kannatakaan sudottaa kaikkea noin vain
 
-	${sco} -R 0:0 /etc/sudoers.d
-	${scm} 0440 /etc/sudoers.d/*
-	${sco} -R 0:0 /etc/sudo*
-	${scm} -R a-w /etc/sudo*
+		#...josko nuo odio-sco.-rivit se olennaisin osuus? muut vosi olla if-blokin jälkeen?
+		odio=$(which sudo)
+		[ y"${odio}" == "y" ] && exit 99 
+		[ -x ${odio} ] || exit 100
+		
+		sco=$(sudo which chown)
+		[ y"${sco}" == "y" ] && exit 98
+		[ -x ${sco} ] || exit 97
+		
+		scm=$(sudo which chmod)
+		[ y"${scm}" == "y" ] && exit 96
+		[ -x ${scm} ] || exit 95
+		
+		sco="${odio} ${sco} "
+		scm="${odio} ${scm} "	
+		#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
+		sah6=$(${odio} which sha512sum)
+	
+		slinky=$(${odio} which ln)
+		slinky="${odio} ${slinky} -s "
+		spc=$(${odio} which cp)
+		svm=$(${odio} which mv)
+		svm="${odio} ${svm} "
+		spc="${odio} ${spc} "
+		whack=$(${odio} which pkill)
+		whack="${odio} ${whack} --signal 9 "
+		snt=$(${odio} which netstat)
+		snt="${odio} ${snt} -tulpan "
+		smr=$(${odio} which rm)
+		smr="${odio} ${smr} "
+		NKVD=$(${odio} which shred)
+		NKVD="${NKVD} -fu "
+		NKVD="${odio} ${NKVD} "
+	
+		#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+		PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
 
-	dqb "POT. DANGEROUS PT 1"
+		sdi=$(${odio} which dpkg)
+		spd="${odio} ${sdi} -l "
+		sdi="${odio} ${sdi} -i "
 
-	if [ -d /usr/lib/sudo ] ; then #onko moista daedaluksessa?
-		${sco} 0:0 /usr/lib/sudo/*
-		${scm} -R a-w /usr/lib/sudo/*
-		${scm} 0444 /usr/lib/sudo/sudoers.so
-	fi
+		#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
 
-	dqb "fix_sud0.pt1"
-	${scm} 0750 /etc/sudoers.d
-	${scm} 0440 /etc/sudoers.d/*
+		sifu=$(${odio} which ifup)
+		sifd=$(${odio} which ifdown)
+		sip=$(${odio} which ip)
+		sip="${odio} ${sip} "
 
-	#dqb "POT. DANGEROUS PT 2"
-	#HUOM.250325:onkohan tarkoitus että nämä komennot laittavat sudon epäkuntoon vai ei?
-	#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-	#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+		#HUOM.22725:nämä 2 if-blokkia cheoot-testin ulkopuolelle?
+		if [ -v distro ] ; then 
+			dqb "DUSTRO OK"
+		else
+			distro=$(cat /etc/devuan_version)
+		fi
 
-	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
-	csleep 1
-	dqb "fix_sud0.d0n3"
-}
+		if [ -v n ] ; then
+			dqb "n OK"
+		else
+			n=$(whoami)
+		fi
 
-function other_horrors() {	
-	dqb "other_horrors()"
+		#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja  täytyisi muuttaa
+		#TODO:jos vaikka yrittäisi includoida ~/$n.conf ja sit jotain
+	}
 
-	${scm} 0400 /etc/iptables/*
-	${scm} 0550 /etc/iptables
-	${sco} -R root:root /etc/iptables
-	${scm} 0400 /etc/default/rules*
-	${scm} 0555 /etc/default
-	${sco} -R root:root /etc/default
+	#HUOM.22725:olisikohan kätevää includoida toisen init():in sisältävä lib jos /.chroot olemassa?
 
-	dqb " DONE"
-	csleep 1
-}
 
+	#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
+	#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
+
+	function fix_sudo() {
+		dqb "fix_sud0.pt0"
+
+		${sco} -R 0:0 /etc/sudoers.d
+		${scm} 0440 /etc/sudoers.d/*
+		${sco} -R 0:0 /etc/sudo*
+		${scm} -R a-w /etc/sudo*
+
+		dqb "POT. DANGEROUS PT 1"
+
+		if [ -d /usr/lib/sudo ] ; then #onko moista daedaluksessa?
+			${sco} 0:0 /usr/lib/sudo/*
+			${scm} -R a-w /usr/lib/sudo/*
+			${scm} 0444 /usr/lib/sudo/sudoers.so
+		fi
+
+		dqb "fix_sud0.pt1"
+		${scm} 0750 /etc/sudoers.d
+		${scm} 0440 /etc/sudoers.d/*
+
+		#dqb "POT. DANGEROUS PT 2"
+		#HUOM.250325:onkohan tarkoitus että nämä komennot laittavat sudon epäkuntoon vai ei?
+		#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+		#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+		#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+	
+		[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
+		csleep 1
+		dqb "fix_sud0.d0n3"
+	}
+
+	function other_horrors() {	
+		dqb "other_horrors()"
+
+		${scm} 0400 /etc/iptables/*
+		${scm} 0550 /etc/iptables
+		${sco} -R root:root /etc/iptables
+		${scm} 0400 /etc/default/rules*
+		${scm} 0555 /etc/default
+		${sco} -R root:root /etc/default
+
+		dqb " DONE"
+		csleep 1
+	}
+fi
+
+init
 fix_sudo
 other_horrors
 
@@ -214,6 +226,7 @@ function efk() {
 }
 
 function common_tbls() {
+	debug=1
 	dqb "COMMON TABLESD"
 	csleep 1
 
@@ -310,10 +323,10 @@ function check_binaries() {
 		echo "SHOULD INSTALL IPTABLES"
 		jules
 
-		#HUOM.olisikohan sittenkin suhteelliset  polut tar:in sisällä helpompia?
+		#HUOM.olisikohan sittenkin suhteelliset polut tar:in sisällä helpompia?
 		if [ -s ${1}/e.tar ] ; then
 			${odio} ${srat} -C / -xf ${1}/e.tar
-			${NKVD} ${1}/e.tar  #jompikumpi hoitaa
+			${NKVD} ${1}/e.tar #jompikumpi hoitaa
 			${smr} ${1}/e.tar
 		fi
 
@@ -476,8 +489,10 @@ function pre_enforce() {
 
 	[ -f ${q}/meshuggah ] || exit 33
 	dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
-	#nopea ratkaisu (josko sittenkin /opt/bin alle takaisin)
-	mangle_s ~/Desktop/minimize/changedns.sh ${q}/meshuggah
+
+	[ -d /opt/bin ] || ${odio} mkdir /opt/bin
+	[ -f ~/Desktop/minimize/changedns.sh ] && ${svm} ~/Desktop/minimize/changedns.sh /opt/bin
+	mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 	csleep 1
 
 	dqb "LETf HOUTRE JOINED IN DARKN355"
@@ -942,6 +957,7 @@ function part2_5() {
 }
 
 function part3_4real() {
+	debug=1
 	dqb "part3_4real( ${1} )"
 	csleep 1
 
@@ -986,6 +1002,7 @@ function part3_4real() {
 #TODO:tämän ja kutsuttujen fktioiden debug, saattaa olla jotain 
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
 function part3() {
+	debug=1
 	dqb "part3 ${1} ${2}"
 	csleep 1
 	jules

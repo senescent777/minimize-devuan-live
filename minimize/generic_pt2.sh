@@ -72,8 +72,15 @@ else
 	exit 67
 fi
 
-${scm} 0555 ${d0}/changedns.sh
-${sco} root:root ${d0}/changedns.sh
+for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
+	${scm} 0555 ${x}
+	${sco} root:root ${x}
+	${odio} ${x}/changedns.sh ${dnsm} ${distro}
+	#[ -x $x ] && exit for 
+done
+
+#${scm} 0555 ${d0}/changedns.sh
+#${sco} root:root ${d0}/changedns.sh
 ${fib}
 
 #dqb "d=${d}"
@@ -137,6 +144,8 @@ function t2pc() {
 	#${sharpy} grub* 
 	${sharpy} gstreamer* #libgs poist alempana
 	t2p_filler
+
+	#HUOM.22725:näillä main libsoup poistuu?
 
 	${sharpy} htop inetutils-telnet intel-microcode isolinux
 	t2p_filler

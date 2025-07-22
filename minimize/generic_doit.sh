@@ -71,14 +71,25 @@ dqb "mode= ${mode}"
 csleep 1
 
 #HUOM.21725:laitettu konfissa enforce nollaksi jotta ei jäädä junnamaan sudo-juttujen kanssa
-if [ ! -s /etc/sudoers.d/meshuggah ] ; then
+if [ -s /etc/sudoers.d/meshuggah ] || [ -f /.chroot ] ; then
+	dqb "BYPASSING pre_enforce()"
+	csleep 3
+else 
 	if [ ${enforce} -eq 1 ] ; then
 		pre_enforce #${d0}
 	fi
 fi
 
-#TODO:jnkn konfiguraatio-option taakse e_acc koska chroot-jutut
-enforce_access ${n} ${d0}
+#VAIH:jnkn konfiguraatio-option taakse e_acc koska chroot-jutut
+#...tartteekohan ruota veto:a enää?
+if [ -v veto ] || [ -f /.chroot ] ; then
+	dqb "BYPASSING enforce_access()"
+	csleep 3
+else 
+	enforce_access ${n} ${d0}
+fi
+
+csleep 3
 
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
@@ -188,13 +199,13 @@ ${NKVD} ${d0}/config.tar
 csleep 1
 
 #tai sitten käskytetään:import2 (TODO?)
-#if [ -x ~/Desktop/minimize/profs.sh ] ; then
-#	. ~/Desktop/minimize/profs.sh
+if [ -x ${d0}/profs.sh ] ; then
+	. ${d0}/profs.sh
 
 	q=$(mktemp -d)
 	dqb "${srat} -C ${q} ... 1n 1 s3c5s"
 	csleep 1
-	#tgt=~/Desktop/minimize/fediverse.tar
+	tgt=${d0}/fediverse.tar #VAIH:jotain tarttis edelleen tehdä tälle
 
 	if [ -s ${tgt} ] ; then	
 		${srat} -C ${q} -xvf ${tgt}
@@ -203,21 +214,22 @@ csleep 1
 		csleep 1
 
 		imp_prof esr ${n} ${q}
-	else
 		dqb "NO SUCH THING AS ${tgt}"
 	fi
 
 	csleep 1
-#fi
+fi
 
 jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
-#TODO:se /o/b - jutska
-${scm} 0555 ${d0}/changedns.sh
-${sco} root:root ${d0}/changedns.sh
-${odio} ${d0}/changedns.sh ${dnsm} ${distro}
+for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
+	${scm} 0555 ${x}
+	${sco} root:root ${x}
+	${odio} ${x} ${dnsm} ${distro}
+	#[ -x $x ] && exit for 
+done
 
 ${sipt} -L
 csleep 1
@@ -232,4 +244,4 @@ if [ ${mode} -eq 2 ] ; then
  	exit 
 fi
 
-${odio} ${d0}/changedns.sh ${dnsm} ${distro}
+#${odio} ${d0}/changedns.sh ${dnsm} ${distro} roistaiseksi jemmaan
