@@ -1,9 +1,9 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=do_it
+Name=changedns (NEW)
 Comment=
-Exec=/home/devuan/Desktop/minimize/wrapper.sh doit -v
+Exec=sudo /opt/bin/changedns.sh 0 -v
 Icon=
 Path=
 Terminal=true
