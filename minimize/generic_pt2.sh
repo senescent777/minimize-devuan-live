@@ -1,10 +1,11 @@
 #!/bin/bash
-#debug=1
+
 #VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja $PREFIX täytyisi muuttaa
 #TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh)
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 
-d0=$(dirname $0)
+#d0=$(dirname $0) #josko pwd?
+d0=$(pwd)
 echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
 debug=0
@@ -184,7 +185,7 @@ function t2pc() {
 	#xfce*,xorg* off limits
 	t2p_filler
 
-	dpkg -l x*
+	[ ${debug} -gt 0 ] && ${spd} x*
 	csleep 1
 
 	dqb "clib.T2PC.DONE"
@@ -209,6 +210,7 @@ function t2pf() {
 	df
 	${odio} which dhclient; ${odio} which ifup; csleep 3
 }
+
 #====================================================================
 #HUOM.25525:jos ao. fktiot kommentoitu jemmaan syistä ni pysäyttäisikö suorituksen?
 #HUOM.26525:nyt sitten debug päälle jotta selviää mihin pysähtyy

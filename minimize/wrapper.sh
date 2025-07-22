@@ -1,7 +1,9 @@
 #!/bin/bash
 distro=$(cat /etc/devuan_version)
 
-d=$(dirname $0) # HUOM tämä skripti ei välttämttä oleellinen chroot-ymp kannaltaq
+#d=$(dirname $0) # HUOM tämä skripti ei välttämttä oleellinen chroot-ymp kannaltaq
+#pwd dirnamen tilalle?
+d=$(pwd)
 
 if [ -s ${d}/${distro}/conf ] ; then
 	. ${d}/${distro}/conf

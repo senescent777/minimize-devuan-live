@@ -2,7 +2,7 @@
 
 mode=2
 distro=$(cat /etc/devuan_version)
-d0=$(dirname $0)
+d0=$(pwd) #dirname $0)
 echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
 debug=0

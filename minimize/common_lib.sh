@@ -12,15 +12,9 @@ function init() {
 	[ -x ${scm} ] || exit 95
 	
 	sco="${odio} ${sco} "
-	scm="${odio} ${scm} "
-	
+	scm="${odio} ${scm} "	
 	#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
-	sah6=$(which sha512sum)
-	#distro=$(cat /etc/devuan_version) #TODO:asetus ehdolla -v distro vaikkapa
-	n=$(whoami)
-	#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja  täytyisi muuttaa
-	#TODO:jos vaikka yrittäisi includoida ~/$n.conf ja sit jotain
-
+	sah6=$(${odio} which sha512sum)
 
 	slinky=$(${odio} which ln)
 	slinky="${odio} ${slinky} -s "
@@ -42,13 +36,30 @@ function init() {
 	PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
 
 	sdi=$(${odio} which dpkg)
-	spd="${odio} ${sdi} -l " #käytössä?
+	spd="${odio} ${sdi} -l "
 	sdi="${odio} ${sdi} -i "
+
 	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
+
 	sifu=$(${odio} which ifup)
 	sifd=$(${odio} which ifdown)
 	sip=$(${odio} which ip)
 	sip="${odio} ${sip} "
+
+	if [ -v distro ] ; then 
+		dqb "DUSTRO OK"
+	else
+		distro=$(cat /etc/devuan_version)
+	fi
+
+	if [ -v n ] ; then
+		dqb "n OK"
+	else
+		n=$(whoami)
+	fi
+
+	#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja  täytyisi muuttaa
+	#TODO:jos vaikka yrittäisi includoida ~/$n.conf ja sit jotain
 }
 
 init
@@ -172,21 +183,25 @@ function ppp3() {
 	dqb "ppp3 ${1}"
 	csleep 1
 
-	local c
-	local d #TODO:nimeä uudestaan varm. vuoksi tämä ja c
+	local q
+	local r 
 
-	c=$(find ${1} -type f -name '*.deb' | wc -l) #oli:ls -las ip*.deb
-	d=$(echo ${1} | cut -d '/' -f 1-5)
+	pwd
+	dqb "find ${1} -type f -name ' * .deb ' "
+	csleep 3
 
-	if [ ${c} -lt 1 ] ; then
+	q=$(find ${1} -type f -name '*.deb' | wc -l) #oli:ls -las ip*.deb
+	r=$(echo ${1} | cut -d '/' -f 1-5)
+
+	if [ ${q} -lt 1 ] ; then
 		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
 		echo "SHOULD REMOVE ${1} /sha512sums.txt"
 		echo "\"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
 		
 		#pitäis ikai huomioida että scm voi aiheuttaa sivuvaikutuksia myöhemmin
-		${scm} a-x ${d}/common_lib.sh 
+		${scm} a-x ${r}/common_lib.sh 
 		
-		#exit 55 HUOM.24525:antaa olla kommenteissa toistaiseksi, ,esim. chimaeran tapauksessa ei välttis ole $distro:n alla .deb aluksi
+		exit 55 #HUOM.24525:antaa olla kommenteissa toistaiseksi, ,esim. chimaeran tapauksessa ei välttis ole $distro:n alla .deb aluksi
 		#... tosin alkutilanteessa tables pitäisi chimaerasta löytyä	
 	fi
 }
@@ -222,14 +237,10 @@ function common_tbls() {
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
 
-	#VAIH:efk()
-	efk ${1}/libxtables*.deb 
-	#[ $? -eq 0 ] && ${NKVD} ${1}/libxtables*.deb 
+	efk ${1}/libxtables*.deb
 	csleep 1
 
-	#VAIH:efk()
 	efk ${1}/libnftnl*.deb 
-	#[ $? -eq 0 ] && ${NKVD} ${1}/libnftnl*.deb
 	csleep 1
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
@@ -1000,6 +1011,7 @@ function part3() {
 #}
 
 #HUOM.voisi -v käsitellä jo tässä
+#-h myös
 function gpo() {
 	dqb "GPO"
 	#getopt olisi myös keksitty

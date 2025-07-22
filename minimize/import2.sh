@@ -6,7 +6,9 @@ dir=/mnt
 part0=ABCD-1234
 
 mode=-2
-d0=$(dirname $0)
+#d0=$(dirname $0)
+d0=$(pwd)
+
 echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
@@ -225,7 +227,7 @@ function common_part() {
 		dqb "n s t as ${t}/common_lib.sh "	
 	fi
 
-	csleep 1
+	csleep 3
 	
 	if [ -d ${t} ] ; then #-d ${2}
 		dqb "HAIL UKK"
@@ -299,14 +301,20 @@ case "${mode}" in
 
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
-		common_part ${file} ${d}
+		common_part ${file} ${d} #voi tietyst mennä mettään tuon $d/common_lib kanssa
+		csleep 5
+
+		#sen yhden tar:in kanssa pitäisi selvittää mikä kusee
 
 		if [ ${1} -eq 0 ] ; then
 			if [ -s ${d}/e.tar ] ; then
 				common_part ${d}/e.tar ${d}
+			else
+				dqb " ${d}/e.tar CANNOT BE FOUND"
 			fi
 		fi
-
+		
+		csleep 5
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
 

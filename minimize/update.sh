@@ -5,7 +5,7 @@ v=0
 
 d0=$(dirname $0)
 echo "d0=${d0}"
-[ z"${distro}" == "z" ] && exit 6
+#[ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
 
 tgt=${1}
@@ -53,7 +53,6 @@ if [ z"${distro}" != "z" ] ; then
 	fi
 fi
 
-
 if [ -f ${tgt} ] ; then
 	#pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
 	${tcmd} -tf ${1} | grep '.deb'
@@ -72,9 +71,12 @@ if [ -f ${tgt} ] ; then
 	sleep 2
 
 	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
-	for f in $(find ${d0}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
-	for f in $(find ${d0}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
-	for f in $(find ${d0}/ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
+	#HUOM.21725;onkohan nytkään hyvä? jos kuitenkin selvittäisi sen oikean polun dirnamen sijaan? miten?
+	p=$(pwd)
+
+	for f in $(find ${p}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
+	for f in $(find ${p}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
+	for f in $(find ${p}/ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
 	
 	#tavoitteena locale-juttujen lisäksi localtime mukaan
 	for f in $(find /etc -type f -name 'locale*') ; do

@@ -1,9 +1,11 @@
 #!/bin/bash
 debug=0 #1
-tgtfile=""
 distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa?
-#PREFIX=~/Desktop/minimize #käyttöön+konftdstoon jos mahd #tai dirname? #TODO
+d0=$(pwd)
+echo "d0= ${d0}"
+
 mode=-2
+tgtfile=""
 
 #HUOM.8725.1:joskohan wpa_supplicant.conf kanssa asiat kunnossa
 
@@ -24,11 +26,11 @@ function parse_opts_1() {
 			if [ ${mode} -eq -2 ] ; then
 				mode=${1}
 			else
-				#if [ -d ${PREFIX}/${1} ] ; then #TODO
-				#	distro=${1}
-				#else
-				#	tgtfile=${1}
-				#fi
+				if [ -d ${d}/${1} ] ; then 
+					distro=${1}
+				else
+					tgtfile=${1}
+				fi
 			fi
 		;;
 	esac
@@ -38,9 +40,19 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#if [ -x ${PREFIX}/common_lib.sh ] ; then #TODO
-#	. ${PREFIX}/common_lib.sh
-##else
+#parsetuksen knssa menee jännäksi jos conf pitää lkadata ennen vommon-vofd
+d=${d0}/${distro}
+
+if [ -s ${d}/conf ] ; then
+	. ${d}/conf
+else #joutuukohan else-haaran muuttamaan jatkossa?
+	echo "CONF MISSING"
+	exit 55
+fi
+
+if [ -x ${d0}/common_lib.sh ] ; then 
+	. ${d0}/common_lib.sh
+else
 ##	#HUOM.23525:oleellisempaa että import2 toimii tarvittaessa ilman common_lib
 ##	#"lelukirjasto" saattaa toimia sen vErrAn että "$0 4 ..." onnistuu	
 ##	
@@ -113,28 +125,21 @@ function parse_opts_2() {
 ##		parse_opts_2 ${prevopt} ${opt}
 ##		prevopt=${opt}
 ##	done
-##
-##	dqb "FALLBACK"
-##	dqb "chmod may be a good idea now"
-#fi
+
+	dqb "FALLBACK"
+	dqb "chmod may be a good idea now"
+fi
 
 [ -z ${distro} ] && exit 6
-#d=${PREFIX}/${distro} #TODO
+d=${d0}/${distro}
 
 dqb "mode= ${mode}"
 dqb "distro=${distro}"
 dqb "file=${tgtfile}"
 csleep 2
 
-#if [ -s ${d}/conf ] ; then
-#	. ${d}/conf
-#else #joutuukohan else-haaran muuttamaan jatkossa?
-#	echo "CONF MISSING"
-#	exit 55
-#fi
-#
-#if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-#	. ${d}/lib.sh
+if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+	. ${d}/lib.sh
 #else
 #	echo "NOT (L1B AVA1LABL3 AND 3X3CUT4BL3)"
 #
@@ -149,14 +154,14 @@ csleep 2
 #	#onko tässä sktiptissä oleellista välittää $d part3:lle asti c_b välityksellä?
 #	check_binaries ${d}
 #	check_binaries2
-#fi
+fi
 
 function usage() {
 	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
 	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
 	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
 	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
-	#echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \${PREFIX}/\${distro}" #TODO
+	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \$ {d0} /\${distro}" 
 	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
 	echo "$0 q <> [] [] archives firefox settings"
 	echo "$0 t ... option for ipTables"			
@@ -164,8 +169,9 @@ function usage() {
 }
 
 dqb "tar = ${srat} "
-#${scm} 0555 ${PREFIX}/changedns.sh #TODO
-#${sco} root:root ${PREFIX}/changedns.sh #TODO
+${scm} 0555 ${d0}/changedns.sh #TODO:jatkossa /opt/bin alla?
+${sco} root:root ${d0}/changedns.sh
+ 
 tig=$(${odio} which git)
 mkt=$(${odio} which mktemp)
 
@@ -202,7 +208,7 @@ function pre1() { #HUOM.8725:lienee kunnossa
 		local ortsac
 		local lefid
 
-		ortsac=$(echo ${1} | cut -d '/' -f 6 | tr -d -c a-z) #tr uutena 1625
+		ortsac=$(echo ${1} | cut -d '/' -f 6 | tr -d -c a-z)
 		lefid=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
 
 		enforce_access ${n} ${lefid} 
@@ -298,7 +304,9 @@ function tpq() { #HUOM.viimeksi 8725 testattu? että tekee tarin
 	csleep 1
 }
 
-function tp1() { #8725 toimii?
+function tp1() { #saisiko taas toimimaan vai ei?
+	debug=1
+
 	dqb "tp1 ${1} , ${2} "
 	[ -z ${1} ] && exit
 	dqb "params_ok"
@@ -315,6 +323,9 @@ function tp1() { #8725 toimii?
 	ledif=$(echo ${2} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/) 
 	#p.itäisiköhän olla jokin tarkistus tässä alla? -d lisäksi?
 
+	dqb "lefid =  ${ledif}  "
+	csleep 3
+
 	if [ ${enforce} -eq 1 ] && [ -d ${ledif} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		tpq ${ledif}
@@ -324,6 +335,10 @@ function tp1() { #8725 toimii?
 		ls -las ${ledif}
 		sleep 2
 	fi
+
+	#kun polkua leikellään ni saattaa mennä P.V.H.H
+	dqb "${srat} -rvf ${1} ${ledif} /home/stubby "
+	csleep 2
 
 	${srat} -rvf ${1} ${ledif} /home/stubby 	
 	dqb "tp1 d0n3"
@@ -392,7 +407,7 @@ function rmt() { #HUOM.16725:toiminee muuten mutta param tark vähn pykii
 
 #HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia, tuskin menee qten alla
 tcdd=$(cat /etc/devuan_version)
-#t2=$(echo ${d} | cut -d '/' -f 6 | tr -d -c a-zA-Z/) #tai suoraan $distro?
+t2=$(echo ${d} | cut -d '/' -f 6 | tr -d -c a-zA-Z/) #tai suoraan $distro?
 	
 if [ ${tcdd} != ${t2} ] ; then
 	dqb "XXX"
@@ -627,7 +642,7 @@ function tp2() { #HUOM.8725:olisikohan kunnossa tämä?
 #HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
 #dnsm 2. parametriksi... eiku ei, $2 onkin jo käytössä ja tarttisi sen cut-jekun
 function tp3() { #8725:vaikuttaisi tulevan jutut mukana (?)
-	#debug=1 #antaa olla vielä
+	debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -646,6 +661,7 @@ function tp3() { #8725:vaikuttaisi tulevan jutut mukana (?)
 	
 	[ ${debug} -eq 1 ] && pwd  
 	csleep 1
+
 	${tig} clone https://github.com/senescent777/more_scripts.git
 
 	[ $? -eq 0 ] || exit 66
@@ -653,6 +669,8 @@ function tp3() { #8725:vaikuttaisi tulevan jutut mukana (?)
 	dqb "TP3 PT2"
 	csleep 1
 	cd more_scripts/misc
+	echo $?
+	csleep 1
 
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm}
@@ -700,6 +718,7 @@ function tp3() { #8725:vaikuttaisi tulevan jutut mukana (?)
 	local p
 	p=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
 	pwd
+
 	dqb "p=${p}"
 	csleep 2
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${p}
@@ -713,6 +732,7 @@ function tp3() { #8725:vaikuttaisi tulevan jutut mukana (?)
 	echo $?
 	#HUOM.19725:qseeko tässä jokin?
 	cd ${p}
+
 	dqb "tp3 done"
 	csleep 1
 }
@@ -817,10 +837,10 @@ case ${mode} in
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
 		${scm} 0644 ./rnd
-		dd if=/dev/random bs=6 count=1 > ./rnd
+		dd if=/dev/random bs=12 count=1 > ./rnd
 
 		${srat} -cvf ${tgtfile} ./rnd
-		#tp3 ${tgtfile} ${distro} #voisiko käyttää $d?
+		#tp3 ${tgtfile} ${distro} TODO;takaisin käyttöön josqs
 
 		#[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		#${srat} -cvf ${d}/e.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
@@ -828,7 +848,7 @@ case ${mode} in
 		${sifd} ${iface}
 
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
-		#tp1 ${tgtfile} ${d}
+		tp1 ${tgtfile} ${d}
 		#pre1 ${d}
 		tp2 ${tgtfile}
 	;;
@@ -839,11 +859,11 @@ case ${mode} in
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
 		#pre2 ${d}
-		#tp5 ${tgtfile} ${PREFIX} #PREFIX vähemmäLLe jatkossa? #TODO
+		tp5 ${tgtfile} ${d0} 
 	;;
 	e)
 		#pre2 ${d}
-		#tp4 ${tgtfile} ${d}
+		tp4 ${tgtfile} ${d}
 	;;
 #	f)
 		#rmt ${tgtfile} ${d} #HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
@@ -852,8 +872,8 @@ case ${mode} in
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 
-		#tpq ${PREFIX} #TODO
-		#${srat} -cf ${tgtfile} ${PREFIX}/config.tar.bz2 ${PREFIX}/fediverse.tar #TODO
+		tpq ${d0} 
+		${srat} -cf ${tgtfile} ${d0}/config.tar.bz2 ${d0}/fediverse.tar
 	;;
 	t)
 		#pre2 ${d}
