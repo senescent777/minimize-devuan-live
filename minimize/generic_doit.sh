@@ -171,20 +171,20 @@ fi
 #HUOM.2:pitäisikö huomioida myös e.tar tuossa alla jotenkin? ja miksi?
 pre_part2
 
-#c14=$(find ${d} -name '*.deb' | wc -l)
+c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 part2_5 ${removepkgs} ${dnsm}
 
 #===================================================PART 3===========================================================
 message
-#part3 ${d} ${dnsm}
+part3 ${d} ${dnsm}
 other_horrors
 
-if [ -s ${PREFIX}/config.tar.bz2 ] ; then #prefix vai $d?
-	${srat} -C / -jxf ${PREFIX}/config.tar.bz2
+if [ -s ${d0}/config.tar.bz2 ] ; then #prefix vai $d?
+	${srat} -C / -jxf ${d0}/config.tar.bz2
 fi
 
-#${NKVD} ${PREFIX}/config.tar
+${NKVD} ${d0}/config.tar
 csleep 1
 
 #tai sitten käskytetään:import2 (TODO?)
@@ -213,10 +213,12 @@ csleep 1
 jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
-#
-#${scm} 0555 ${PREFIX}/changedns.sh
-#${sco} root:root ${PREFIX}/changedns.sh
-#${odio} ${PREFIX}/changedns.sh ${dnsm} ${distro}
+
+#TODO:se /o/b - jutska
+${scm} 0555 ${d0}/changedns.sh
+${sco} root:root ${d0}/changedns.sh
+${odio} ${d0}/changedns.sh ${dnsm} ${distro}
+
 ${sipt} -L
 csleep 1
 
@@ -230,4 +232,4 @@ if [ ${mode} -eq 2 ] ; then
  	exit 
 fi
 
-#${odio} ${PREFIX}/changedns.sh ${dnsm} ${distro}
+${odio} ${d0}/changedns.sh ${dnsm} ${distro}
