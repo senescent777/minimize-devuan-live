@@ -82,6 +82,8 @@ fi
 
 #VAIH:jnkn konfiguraatio-option taakse e_acc koska chroot-jutut
 #...tartteekohan ruota veto:a enää?
+#HUOM. jälkimm ehto voisi mennä toisinkin, esim /r/l/m/p olemassaolo
+
 if [ -v veto ] || [ -f /.chroot ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 3

@@ -26,65 +26,12 @@ else
 		scm=$(sudo which chmod)
 		[ y"${scm}" == "y" ] && exit 96
 		[ -x ${scm} ] || exit 95
-		
-		sco="${odio} ${sco} "
-		scm="${odio} ${scm} "	
-		#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
-		sah6=$(${odio} which sha512sum)
-	
-		slinky=$(${odio} which ln)
-		slinky="${odio} ${slinky} -s "
-		spc=$(${odio} which cp)
-		svm=$(${odio} which mv)
-		svm="${odio} ${svm} "
-		spc="${odio} ${spc} "
-		whack=$(${odio} which pkill)
-		whack="${odio} ${whack} --signal 9 "
-		snt=$(${odio} which netstat)
-		snt="${odio} ${snt} -tulpan "
-		smr=$(${odio} which rm)
-		smr="${odio} ${smr} "
-		NKVD=$(${odio} which shred)
-		NKVD="${NKVD} -fu "
-		NKVD="${odio} ${NKVD} "
-	
-		#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
-		PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
-
-		sdi=$(${odio} which dpkg)
-		spd="${odio} ${sdi} -l "
-		sdi="${odio} ${sdi} -i "
-
-		#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
-
-		sifu=$(${odio} which ifup)
-		sifd=$(${odio} which ifdown)
-		sip=$(${odio} which ip)
-		sip="${odio} ${sip} "
-
-		#HUOM.22725:nämä 2 if-blokkia cheoot-testin ulkopuolelle?
-		if [ -v distro ] ; then 
-			dqb "DUSTRO OK"
-		else
-			distro=$(cat /etc/devuan_version)
-		fi
-
-		if [ -v n ] ; then
-			dqb "n OK"
-		else
-			n=$(whoami)
-		fi
-
-		#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja  täytyisi muuttaa
-		#TODO:jos vaikka yrittäisi includoida ~/$n.conf ja sit jotain
 	}
-
-	#HUOM.22725:olisikohan kätevää includoida toisen init():in sisältävä lib jos /.chroot olemassa?
-
 
 	#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
 	#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
 
+	#nämä 2 fktiota mielellään ulos if-blokista jatkossa
 	function fix_sudo() {
 		dqb "fix_sud0.pt0"
 
@@ -132,6 +79,57 @@ else
 fi
 
 init
+
+sco="${odio} ${sco} "
+scm="${odio} ${scm} "	
+#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
+sah6=$(${odio} which sha512sum)
+	
+slinky=$(${odio} which ln)
+slinky="${odio} ${slinky} -s "
+spc=$(${odio} which cp)
+svm=$(${odio} which mv)
+svm="${odio} ${svm} "
+spc="${odio} ${spc} "
+whack=$(${odio} which pkill)
+whack="${odio} ${whack} --signal 9 "
+snt=$(${odio} which netstat)
+snt="${odio} ${snt} -tulpan "
+smr=$(${odio} which rm)	
+smr="${odio} ${smr} "
+
+NKVD=$(${odio} which shred)
+NKVD="${NKVD} -fu "
+NKVD="${odio} ${NKVD} "
+	
+#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
+
+sdi=$(${odio} which dpkg)
+spd="${odio} ${sdi} -l "
+sdi="${odio} ${sdi} -i "
+
+sifu=$(${odio} which ifup)
+sifd=$(${odio} which ifdown)
+sip=$(${odio} which ip)
+sip="${odio} ${sip} "
+
+#HUOM.22725:nämä 2 if-blokkia cheoot-testin ulkopuolelle?
+if [ -v distro ] ; then 
+	dqb "DUSTRO OK"
+else
+	distro=$(cat /etc/devuan_version)
+fi
+
+if [ -v n ] ; then
+	dqb "n OK"
+else
+	n=$(whoami)
+fi
+
+#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja  täytyisi muuttaa
+#TODO:jos vaikka yrittäisi includoida ~/$n.conf ja sit jotain
+
 fix_sudo
 other_horrors
 
