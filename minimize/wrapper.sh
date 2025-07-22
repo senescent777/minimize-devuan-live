@@ -1,8 +1,7 @@
 #!/bin/bash
 distro=$(cat /etc/devuan_version)
 
-#d=$(dirname $0) # HUOM tämä skripti ei välttämttä oleellinen chroot-ymp kannaltaq
-#pwd dirnamen tilalle?
+# HUOM tämä skripti ei välttämttä oleellinen chroot-ymp kannaltaq
 d=$(pwd)
 
 if [ -s ${d}/${distro}/conf ] ; then
@@ -35,15 +34,15 @@ case ${1} in
 		sleep 2
 		${d}/import2.sh 2
 	;;
-#	doit)
-#		${d}/generic_doit.sh
-#	;;
-#	pt2)
-#		${d}/generic_pt2.sh -v
-#	;;
-#	pw)
-#		${d}/generic_doit.sh 1
-#	;;
+	doit)
+		${d}/generic_doit.sh
+	;;
+	pt2)
+		${d}/generic_pt2.sh -v
+	;;
+	pw)
+		${d}/generic_doit.sh 1
+	;;
 	*)
 		echo "$0 [cmd]"
 	;;
