@@ -2,13 +2,13 @@
 
 mode=2
 distro=$(cat /etc/devuan_version)
-d0=$(pwd) #dirname $0)
+d0=$(pwd)
 echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro}
 
-#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja $PREFIX täytyisi muuttaa
+#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d täytyisi muuttaa
 #... jokin else-haara tuohon alle
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
@@ -26,6 +26,7 @@ function parse_opts_1() {
 		*)
 			if [ -d ${d0}/${1} ] ; then
 				distro=${1}
+				#HUOM.22725:tässä voisi ladata uudestaan conf?
 			else
 				mode=${1}
 			fi
@@ -76,14 +77,16 @@ if [ ! -s /etc/sudoers.d/meshuggah ] ; then
 	fi
 fi
 
+#TODO:jnkn konfiguraatio-option taakse e_acc koska chroot-jutut
 enforce_access ${n} ${d0}
+
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
 
 ${snt}
 csleep 1
 
-dqb "${svm} ${d0}/1c0ns/*.desktop ~/Desktop"
+dqb "${svm} ${d0}/1c0ns/ * .desktop ~/Desktop"
 csleep 1
 ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #===================================================PART 2===================================
