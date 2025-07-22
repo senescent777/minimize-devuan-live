@@ -11,15 +11,34 @@ function c5p() {
 	dqb "paramz 0k"
 	csleep 1
 
-	${NKVD} ${1}/xz*
-	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
-	${NKVD} ${1}/libcrypt*
-	${NKVD} ${1}/libdevmapper*
-	${NKVD} ${1}/libsoup*
+	${NKVD} ${1}/xz* #t2p() poistaa
 
-	${NKVD} ${1}/xserver* #HUOM.31525:nalkutusta, pois toistaiseksi
-	${NKVD} ${1}/libgtk-3* 
+	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
+	#g_pt2 poistaa cryptsetup-pakettei
+	
+	#tästä eteenpäin jos selvittäisi noiden pakettien tilanteen, piostuuko jossain jnkn sivuvakutuksebna?
+	${NKVD} ${1}/libcrypt* #ei uskalla poistaa aptilla
+	${NKVD} ${1}/libdevmapper* #ei ole sannettuna noita (tilanne 19725)
+	${NKVD} ${1}/libsoup* #eiole
+
+	${NKVD} ${1}/xserver* #HUOM.31525:nalkutusta, pois toistaiseksi (ja aptin kautta ei tod poisteta)
+	
+	# libgtk-3-bin depends on libgtk-3-0 (>= 3.24.38-2~deb12u3); however:
+  	#Version of libgtk-3-0:amd64 on system is 3.24.37-2.
+	${NKVD} ${1}/libgtk-3-bin* #HUOM.19725:edelleen nalqttaa
+	#HUOM.libgtk-3-paketteja ei uskalla poistaa aptilla, liikaa oheisvah
+
+	# librsvg2-common:amd64 depends on librsvg2-2 (= 2.54.7+dfsg-1~deb12u1); however:
+	#  Version of librsvg2-2:amd64 on system is 2.54.5+dfsg-1.
+	#
+	#dpkg: error processing package librsvg2-common:amd64 (--install):
+	# dependency problems - leaving unconfigured
+	#Processing triggers for libgdk-pixbuf-2.0-0:amd64 (2.42.10+dfsg-1+b1) ...
+	#Errors were encountered while processing:
+	# librsvg2-common:amd64
+
 	${NKVD} ${1}/librsvg* #eniten nalkutusta vissiin tästä, jos koittaisi uudestaan josqs
+	#HUOM.19725:librsvg2 poistaa jnkn verran pak, mm task-desktop, task-xfce-desktop
 
 	dqb "...is over"
 	csleep 1
@@ -27,111 +46,71 @@ function c5p() {
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
-#HUOM.10725:oliko vielä jtain asentelujuttuja?
+#HUOM.21725:pitäisiköhän tätä sorkkia? kun sen yhden päivityspaketin kanssa ongelma
 function pr4() {
+	debug=1
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 
 	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
-	${sdi} ${1}/gcc-12*.deb
-	${sdi} ${1}/libc6_2.36-9+deb12u10_amd64.deb ${1}/libgcc-s1_12.2.0-14+deb12u1_amd64.deb 
-	${sdi} ${1}/libstdc*.deb
-	${sdi} ${1}/libglib*.deb ${1}/libmount*.deb ${1}/libblk*.deb
-	${sdi} ${1}/lilbwebp*.deb
-	${sdi} ${1}/libtiff*.deb ${1}/liblzma5*.deb
-	${sdi} ${1}/libgnutls*.deb ${1}/libtasn*.deb
-	${sdi} ${1}/libssl3*.deb ${1}/libk*.deb ${1}/libgss*
-	${sdi} ${1}/libcups* ${1}/libavahi* ${1}/libdbus*
-	${sdi} ${1}/libx11-6*
-	${sdi} ${1}/libcap2*
-	${sdi} ${1}/libcurl* ${1}/libnghttp*
-	${sdi} ${1}/libdav*
-	${sdi} ${1}/libeudev*
-	${sdi} ${1}/libfdisk* ${1}/libuuid* #mihin näitä tarvittiin?
-	${sdi} ${1}/libfreetype*
-	${sdi} ${1}/libgnutls*
-	${sdi} ${1}/libisl*
-	${sdi} ${1}/libltd*
-	${sdi} ${1}/libmpg*
-	${sdi} ${1}/libnf*
-	${sdi} ${1}/libnss* ${1}/libsqlite*
-	${sdi} ${1}/libopen* ${1}/libpolkit-gobject-* 
-	${sdi} ${1}/libpython3.11-*
-	${sdi} ${1}/libav* ${1}/libsw*
-	#${sdi} ${1}/libvte*.deb
+	efk ${1}/gcc-12*.deb
 
+	#tarteeko olla noin tarkka nimestä?
+	efk ${1}/libc6_2.36-9+deb12u10_amd64.deb ${1}/libgcc-s1_12.2.0-14+deb12u1_amd64.deb 
+	efk ${1}/libstdc*.deb
+	efk ${1}/libglib*.deb ${1}/libmount*.deb ${1}/libblk*.deb
+	
+	efk ${1}/lilbwebp*.deb #menikö nimi oikein?
+	efk ${1}/libtiff*.deb ${1}/liblzma5*.deb
+	efk ${1}/libgnutls*.deb ${1}/libtasn*.deb
+
+	efk ${1}/libssl3*.deb ${1}/libk*.deb ${1}/libgss*
+	efk ${1}/libcups* ${1}/libavahi* ${1}/libdbus* #tartteeko 2 ekaa asentaa? voisik sen sijaan poistaa?
+	efk ${1}/libx11-6*
+
+	efk ${1}/libcap2*
+	efk ${1}/libcurl* ${1}/libnghttp* #mihin näitä tarvittiin?
+	efk ${1}/libdav* #tai tätä?
+
+	efk ${1}/libeudev*
+	efk ${1}/libfdisk* ${1}/libuuid* #mihin näitä tarvittiin?
+	efk ${1}/libfreetype*
+
+	efk ${1}/libisl*
+	efk ${1}/libltd*
+	efk ${1}/libmpg*
+
+	efk ${1}/libnf*
+	efk ${1}/libnss* ${1}/libsqlite*
+	efk ${1}/libopen* ${1}/libpolkit-gobject-* #jälkimm pak pios?
+
+	efk ${1}/libpython3.11-*
+	efk ${1}/libav* ${1}/libsw*
 	csleep 1
 
-	${NKVD} ${1}/gcc-12*.deb
-	${NKVD} ${1}/libgcc*.deb
-	${NKVD} ${1}/libc6*
-	${NKVD} ${1}/libstdc*.deb
-	${NKVD} ${1}/libglib*.deb
-	${NKVD} ${1}/libmount*.deb
-	${NKVD} ${1}/libblk*
-	${NKVD} ${1}/libtiff*.deb
-	${NKVD} ${1}/liblzma5*.deb
-	${NKVD} ${1}/libgnutls*.deb 
-	${NKVD} ${1}/libtasn*.deb
-	${NKVD} ${1}/libssl3*.deb 
-	${NKVD} ${1}/libk*.deb 
-	${NKVD} ${1}/libgss*
-	${NKVD} ${1}/libcups* 
-	${NKVD} ${1}/libavahi* 
-	${NKVD} ${1}/libdbus*
-	${NKVD} ${1}/libx11-6*
-	${NKVD} ${1}/libcap2*
-	${NKVD} ${1}/libcurl* 
-	${NKVD} ${1}/libnghttp*
-	${NKVD} ${1}/libdav*
-	${NKVD} ${1}/libeudev*
-	${NKVD} ${1}/libfreetype*
-	${NKVD} ${1}/libgnutls*
-	${NKVD} ${1}/libisl*
-	${NKVD} ${1}/libltd*
-	${NKVD} ${1}/libmpg*
-	${NKVD} ${1}/libnss*
-	${NKVD} ${1}/libsqlite*
-	${NKVD} ${1}/libopen*
-	${NKVD} ${1}/libpolkit-gobject-* #voisiko näitä poistaa?
-	${NKVD} ${1}/libpython3.11-*
-	${NKVD} ${1}/libsw*
-	${NKVD} ${1}/libav*
-	#${NKVD} ${1}/libvte*.deb
-	
-	csleep 1	
+	dqb "LIBVTE"
+	efk ${1}/libvte*.deb #VAIH:selv miten tämän kanssa nykyään?
+	csleep 1
+
 	#HUOM.31525:vituttava määrä asentelua librsvg2 kanssa edelleen
 
 	#TODO:tähänkin psqa?
-	${sdi} ${1}/libpam-modules-bin_*.deb
-	${sdi} ${1}/libpam-modules_*.deb
-	${NKVD} ${1}/libpam-modules*
+	efk ${1}/libpam-modules-bin_*.deb
+	efk ${1}/libpam-modules_*.deb
+	${NKVD} ${1}/libpam-modules* #tartteeko enää?
 
-	${sdi} ${1}/libpam*.deb
-	${sdi} ${1}/perl-modules-*.deb
-	${sdi} ${1}/libperl*.deb
+	efk ${1}/libpam*.deb
+	efk ${1}/perl-modules-*.deb
+	efk ${1}/libperl*.deb
 
-	${NKVD} ${1}/perl-modules-*.deb
-	${NKVD} ${1}/libperl*.deb
+	efk ${1}/perl*.deb
+	efk ${1}/dbus*.deb
 
-	${sdi} ${1}/perl*.deb
-	#${sdi} ${1}/libdbus*.deb
-	${sdi} ${1}/dbus*.deb
-
-	${sdi} ${1}/liberror-perl*.deb
-	${sdi} ${1}/git*.deb
-
-	${NKVD} ${1}/git*.deb
-	${NKVD} ${1}/liberror-perl*.deb
+	efk ${1}/liberror-perl*.deb
+	efk ${1}/git*.deb
 	csleep 1
-
-	${NKVD} ${1}/libpam*
-	${NKVD} ${1}/libperl*
-	#${NKVD} ${1}/libdbus*
-	${NKVD} ${1}/dbus*
-	${NKVD} ${1}/perl*
 	
 	c5p ${1}
 	csleep 1
@@ -146,7 +125,7 @@ function udp6() {
 
 	#nalqtusta aiheuttavat paketit nykyään:kts. c5p()
 #	${NKVD} ${1}/libx11-xcb1* #HUOM.30525:tämä nyt erityisesti aiheuttaa härdelliä, tarttisko tehrä jotain?
-#HUOM.tuon poisto poistaa äksän ja xfce:n joten ei
+#HUOM.tuon poisto(aptilla) poistaa äksän ja xfce:n joten ei
 	
 	c5p ${1}
 	dqb "D0NE"
@@ -223,6 +202,38 @@ function t2p() {
 
 	dqb "D0N3"
 	csleep 1
+
+	echo "KARTHAGO EST DELENDAM"
+	csleep 6
+
+	#JOKO JO PERKELE POISTUISI?
+	${sharpy} xorriso*
+	${asy} #varm. vuoksi
+	csleep 2
+
+	${sharpy} xorriso*
+	${asy} #varm. vuoksi
+	csleep 2
+
+	${sharpy} xorriso*
+	${asy} #varm. vuoksi
+	csleep 2
+
+	${sharpy} xz* #jatkossa?
+	${asy} #varm. vuoksi
+	csleep 2
+ 
+	${sharpy} xfburn 
+	${asy} #varm. vuoksi
+	sleep 2
+
+	${sharpy} xarchiver 
+	${asy} #varm. vuoksi
+	sleep 2
+
+	#debug=1
+	${scm} a-wx ${0}
+	csleep 2
 }
 
 #josko kuitenkin ntp takaisin listaan?
@@ -242,7 +253,12 @@ function pre_part2() {
 	dqb "d0n3"
 }
 
-check_binaries ${PREFIX}/${distro}
+function tpc7() {
+	dqb "d.prc7 UNDER CONSTRUCTION"
+}
+
+check_binaries ${d}
+#VAIH:tämän asettamisessa se chroot_env huomiointi
 check_binaries2
 
 
