@@ -1,10 +1,9 @@
 #!/bin/bash
 
-#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja $PREFIX täytyisi muuttaa
+#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d täytyisi muuttaa
 #TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh)
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 
-#d0=$(dirname $0) #josko pwd?
 d0=$(pwd)
 echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
