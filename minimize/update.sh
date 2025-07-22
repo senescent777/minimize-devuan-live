@@ -3,7 +3,11 @@ distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 u=0
 v=0
 
-PREFIX=~/Desktop/minimize
+d0=$(dirname $0)
+echo "d0=${d0}"
+#[ z"${distro}" == "z" ] && exit 6
+d=${d0}/${distro}
+
 tgt=${1}
 tcmd=$(which tar)
 spc=$(which cp)
@@ -27,8 +31,8 @@ echo "PARAMS CHECKED"
 sleep 1
 
 if [ z"${distro}" != "z" ] ; then
-	if [ -s ${PREFIX}/${distro}/conf ] ; then
-		. ${PREFIX}/${distro}/conf
+	if [ -s ${d}/conf ] ; then
+		. ${d}/conf
 		echo "CNF F0UND"; sleep 1
 
 		if  [ -v dir ] && [ -d ${dir} ] ; then
@@ -49,7 +53,6 @@ if [ z"${distro}" != "z" ] ; then
 	fi
 fi
 
-
 if [ -f ${tgt} ] ; then
 	#pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
 	${tcmd} -tf ${1} | grep '.deb'
@@ -68,9 +71,12 @@ if [ -f ${tgt} ] ; then
 	sleep 2
 
 	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
-	for f in $(find ${PREFIX}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
-	for f in $(find ${PREFIX}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
-	for f in $(find ${PREFIX}/ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
+	#HUOM.21725;onkohan nytkään hyvä? jos kuitenkin selvittäisi sen oikean polun dirnamen sijaan? miten?
+	p=$(pwd)
+
+	for f in $(find ${p}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
+	for f in $(find ${p}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
+	for f in $(find ${p}/ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
 	
 	#tavoitteena locale-juttujen lisäksi localtime mukaan
 	for f in $(find /etc -type f -name 'locale*') ; do
@@ -79,7 +85,7 @@ if [ -f ${tgt} ] ; then
 		fi
 	done
 
-	#jos git:n kanssa menisi ni $prefix alaiset voisi commitoida suoraan?
+	#jos git:n kanssa menisi ni  alaiset voisi commitoida suoraan?
 	#sen sijaan /e alaiset?pitäisikö kasata johonkin pakettiin ja se commitoida?
 
 	#tuossa yllä find ilman tiukempaa name-rajausta vetäisi ylimääräisiä mukaan, toisaalta /e/localtime on linkki
@@ -119,7 +125,9 @@ if [ -f ${tgt} ] ; then
 	sudo touch ${tgt}.sha
 	${scm} 0666 ${tgt}.sha
 	${sco} $(whoami):$(whoami) ${tgt}.sha
+
 	sha512sum ${tgt} > ${tgt}.sha
+	sleep 2
 	sha512sum -c ${tgt}.sha
  	
 	echo "DONE UPDATING"

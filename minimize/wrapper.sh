@@ -1,6 +1,8 @@
 #!/bin/bash
 distro=$(cat /etc/devuan_version)
-d=$(dirname $0)
+
+# HUOM tämä skripti ei välttämttä oleellinen chroot-ymp kannaltaq
+d=$(pwd)
 
 if [ -s ${d}/${distro}/conf ] ; then
 	. ${d}/${distro}/conf
@@ -9,12 +11,12 @@ else
 fi
 
 case ${1} in
-	merde)
-		${d}/demerde_toi.sh main		
-	;;
-	cdns)		
-		sudo ${d}/changedns.sh ${dnsm}
-	;;
+#	merde)
+#		${d}/demerde_toi.sh main		
+#	;;
+#	cdns)		
+#		sudo ${d}/changedns.sh ${dnsm}
+#	;;
 	ifup)
 		sudo /sbin/ifup ${iface}
 	;;
