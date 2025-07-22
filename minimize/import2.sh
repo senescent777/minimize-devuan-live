@@ -1,12 +1,11 @@
 #!/bin/bash
 debug=0
 file=""
-distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
+distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi (leikeltynä vai ei?)
 dir=/mnt
 part0=ABCD-1234
 
 mode=-2
-#d0=$(dirname $0)
 d0=$(pwd)
 
 echo "d0=${d0}"
