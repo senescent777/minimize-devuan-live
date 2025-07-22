@@ -40,7 +40,7 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#parsetuksen knssa menee jännäksi jos conf pitää lkadata ennen vommon-vofd
+#parsetuksen knssa menee jännäksi jos conf pitää lkadata ennen common_lib (no paerse_opts:iin tiettty)
 d=${d0}/${distro}
 
 if [ -s ${d}/conf ] ; then
@@ -825,14 +825,14 @@ function tp5() { #8725 toiminee
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
-#pre1 ${d}
+pre1 ${d}
 
 #18725:skriptin case:t 0/4/e kai toimibat, muiden testaus myös
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
 case ${mode} in
 	0|4) #erikseen vielä case missä tp3 skipataan?
-		#pre1 ${d}
-		#pre2 ${d}
+		pre1 ${d}
+		pre2 ${d}
 
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
@@ -840,34 +840,34 @@ case ${mode} in
 		dd if=/dev/random bs=12 count=1 > ./rnd
 
 		${srat} -cvf ${tgtfile} ./rnd
-		#tp3 ${tgtfile} ${distro} TODO;takaisin käyttöön josqs
+		tp3 ${tgtfile} ${distro} # TODO;takaisin käyttöön josqs
 
-		#[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
-		#${srat} -cvf ${d}/e.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
-		#[ ${mode} -eq 0 ] && tp4 ${d}/e.tar ${d}
+		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
+		${srat} -cvf ${d}/e.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
+		[ ${mode} -eq 0 ] && tp4 ${d}/e.tar ${d}
 		${sifd} ${iface}
 
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
 		tp1 ${tgtfile} ${d}
-		#pre1 ${d}
+		pre1 ${d}
 		tp2 ${tgtfile}
 	;;
 	1|u|upgrade)
-		#pre2 ${d}
-		#tpu ${tgtfile} ${d}
+		pre2 ${d}
+		tpu ${tgtfile} ${d}
 	;;
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
-		#pre2 ${d}
+		pre2 ${d}
 		tp5 ${tgtfile} ${d0} 
 	;;
 	e)
-		#pre2 ${d}
+		pre2 ${d}
 		tp4 ${tgtfile} ${d}
 	;;
-#	f)
-		#rmt ${tgtfile} ${d} #HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
-#	;;
+	f)
+		rmt ${tgtfile} ${d} #HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
+	;;
 	q)
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
@@ -876,11 +876,11 @@ case ${mode} in
 		${srat} -cf ${tgtfile} ${d0}/config.tar.bz2 ${d0}/fediverse.tar
 	;;
 	t)
-		#pre2 ${d}
-		#${NKVD} ${d}/*.deb
-		#tlb ${d}
-		#${svm} ${pkgdir}/*.deb ${d}
-		#rmt ${tgtfile} ${d}
+		pre2 ${d}
+		${NKVD} ${d}/*.deb
+		tlb ${d}
+		${svm} ${pkgdir}/*.deb ${d}
+		rmt ${tgtfile} ${d}
 	;;
 	-h)
 		usage
