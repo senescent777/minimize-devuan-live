@@ -214,6 +214,9 @@ function t2pf() {
 	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
 	${smr} -rf /usr/share/doc 
 	
+	#uusi ominaisuus 230725
+	#for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
+
 	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
 	df
 	${odio} which dhclient; ${odio} which ifup; csleep 3

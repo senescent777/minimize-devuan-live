@@ -55,7 +55,7 @@ else #joutuukohan else-haaran muuttamaan jatkossa?
 	exit 56
 fi
 
-if [ -x ${d0}/common_lib.sh ] ; then #dirname? #TODO:muutox chroot varten
+if [ -x ${d0}/common_lib.sh ] ; then #dirname? #VAIH:muutox chroot varten
 	. ${d0}/common_lib.sh
 else
 	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston"
@@ -176,9 +176,9 @@ function usage() {
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
 
-#if [ ! -s /OLD.tar ] ; then 
-#	${srat} -cf /OLD.tar /etc /sbin /home/stubby /home/devuan/Desktop
-#fi
+if [ ! -s /OLD.tar ] ; then 
+	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
+fi
 
 dqb "b3f0r3 par51ng tha param5"
 csleep 1
@@ -211,7 +211,7 @@ function common_part() {
 	fi
 
 	csleep 1
-	${srat} -C / -xf ${1}
+	${srat} -C / -xf ${1} #HUOM.23725:C-option voisi josqs jyrätä
 	csleep 1
 	dqb "tar DONE"
 
@@ -303,7 +303,7 @@ case "${mode}" in
 		common_part ${file} ${d} #voi tietyst mennä mettään tuon $d/common_lib kanssa
 		csleep 5
 
-		#sen yhden tar:in kanssa pitäisi selvittää mikä kusee
+		#sen yhden tar:in kanssa pitäisi selvittää mikä kusee (vai kuseeko vielä 23.7.25?)
 
 		if [ ${1} -eq 0 ] ; then
 			if [ -s ${d}/e.tar ] ; then

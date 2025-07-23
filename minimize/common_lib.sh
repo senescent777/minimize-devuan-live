@@ -11,10 +11,12 @@ if [ -f /.chroot ] ; then
 	#TODO:tähän sitten jotain
 else
 	function init() {
-		#TODO:näille main muutoksia sitä chroot-ymp varten
+		#VAIH:näille main muutoksia sitä chroot-ymp varten
 		#... kun ei kannatakaan sudottaa kaikkea noin vain
 
 		#...josko nuo odio-sco.-rivit se olennaisin osuus? muut vosi olla if-blokin jälkeen?
+		#... squ.ash -j ja 2. param? 
+
 		odio=$(which sudo)
 		[ y"${odio}" == "y" ] && exit 99 
 		[ -x ${odio} ] || exit 100
@@ -84,6 +86,8 @@ sco="${odio} ${sco} "
 scm="${odio} ${scm} "	
 #HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
 sah6=$(${odio} which sha512sum)
+
+#TODO:/var/log siivoaminen johonkin sopivaan kohtaan, esim g_pt2 ja squ.ash case b
 	
 slinky=$(${odio} which ln)
 slinky="${odio} ${slinky} -s "
@@ -114,7 +118,6 @@ sifd=$(${odio} which ifdown)
 sip=$(${odio} which ip)
 sip="${odio} ${sip} "
 
-#HUOM.22725:nämä 2 if-blokkia cheoot-testin ulkopuolelle?
 if [ -v distro ] ; then 
 	dqb "DUSTRO OK"
 else
@@ -128,8 +131,6 @@ else
 fi
 
 #VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja  täytyisi muuttaa
-#TODO:jos vaikka yrittäisi includoida ~/$n.conf ja sit jotain
-
 fix_sudo
 other_horrors
 
