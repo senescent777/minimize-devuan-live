@@ -76,12 +76,10 @@ if [ -s /etc/sudoers.d/meshuggah ] || [ -f /.chroot ] ; then
 	csleep 3
 else 
 	if [ ${enforce} -eq 1 ] ; then
-		pre_enforce #${d0}
+		pre_enforce #${d0} testaa nyt tääkin kohta
 	fi
 fi
 
-#VAIH:jnkn konfiguraatio-option taakse e_acc koska chroot-jutut
-#...tartteekohan ruota veto:a enää?
 #HUOM. jälkimm ehto voisi mennä toisinkin, esim /r/l/m/p olemassaolo
 
 if [ -v veto ] || [ -f /.chroot ] ; then
@@ -92,7 +90,6 @@ else
 fi
 
 csleep 3
-
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
 
@@ -193,7 +190,7 @@ message
 part3 ${d} ${dnsm}
 other_horrors
 
-if [ -s ${d0}/config.tar.bz2 ] ; then #prefix vai $d?
+if [ -s ${d0}/config.tar.bz2 ] ; then
 	${srat} -C / -jxf ${d0}/config.tar.bz2
 fi
 
@@ -207,7 +204,7 @@ if [ -x ${d0}/profs.sh ] ; then
 	q=$(mktemp -d)
 	dqb "${srat} -C ${q} ... 1n 1 s3c5s"
 	csleep 1
-	tgt=${d0}/fediverse.tar #VAIH:jotain tarttis edelleen tehdä tälle
+	tgt=${d0}/fediverse.tar #VAIH:jotain tarttis edelleen tehdä tälle?
 
 	if [ -s ${tgt} ] ; then	
 		${srat} -C ${q} -xvf ${tgt}
