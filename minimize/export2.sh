@@ -310,7 +310,7 @@ function tpq() { #HUOM.24725:tämän casen output vaikuttaa järkevältä, lisä
 	cd ${2}
 }
 
-#VAIH:tässä jos sanoisi 3. parametrina minne siirrytään cd:llä ennenq ajaa tar
+#HUOM.25725:josko nyt toimisi tarpeeksi jyvin tp1()
 function tp1() { 
 	debug=1
 
@@ -339,7 +339,7 @@ function tp1() {
 
 	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		tpq ~ ${d0} #TODO:gloib muutt mäkeen
+		tpq ~ ${2}/.. #2. param oli aiemmin $d0
 	else
 		dqb "PUIG DESTROYER"
 	fi
@@ -351,12 +351,12 @@ function tp1() {
 #	#TODO:keksittävä fiksumpi ratkaisu? ${d0}:n polusta 4 vikaa osaa?
 #
 #	if [ -d ${3} ] ; then
-#		cd ${3}
+#		cd ${3}q
 #		dqb "DO SOMTHING"
 #		dqb "rm ${2}/e.tar"
 #		dqb "${srat} --exclude='*.deb' -rvf ${1} ./home/stubby ./home/devuan/Desktop/minimize
 #	else
-#		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${d0} #globaalit wttuun tästäkin
+		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${d0} #globaalit wttuun tästäkin
 #	fi
 #
 	dqb "tp1 d0n3"
@@ -848,7 +848,7 @@ pre1 ${d} ${distro}
 #18725:skriptin case:t 0/4/e kai toimibat, muiden testaus myös
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
 case ${mode} in
-	0|4) #erikseen vielä case missä tp3 skipataan?
+	0|4) #HUOM.25725:sopisi nyt toimia case 4:n , 0 vielä testaamatta
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		pre1 ${d} ${distro}
 		pre2 ${d} ${distro}
