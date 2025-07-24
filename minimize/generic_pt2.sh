@@ -1,7 +1,14 @@
 #!/bin/bash
-debug=1
+
+#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d täytyisi muuttaa
+#TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh)
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
-PREFIX=~/Desktop/minimize #dirname?
+
+d0=$(pwd)
+echo "d0=${d0}"
+[ z"${distro}" == "z" ] && exit 6
+debug=0
+d=${d0}/${distro}
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -19,7 +26,7 @@ function parse_opts_1() {
 			debug=1
 		;;
 		*)
-			if [ -d ${PREFIX}/${1} ] ; then
+			if [ -d ${d0}/${1} ] ; then
 				distro=${1}
 		
 			fi
@@ -33,20 +40,7 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-if [ -x ${PREFIX}/common_lib.sh ] ; then
-	. ${PREFIX}/common_lib.sh
-else
-	echo "NO COMMON LIB"
-	exit 89
-fi
-
-[ -z ${distro} ] && exit 6
-d=${PREFIX}/${distro}
-
-dqb "BEFORE CNF"
-echo "dbig= ${debug}"
-sleep 1
-
+#TODO:kenties tähän whoami-testi?
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
 else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
@@ -54,8 +48,21 @@ else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
 	exit 56
 fi
 
-#TODO:josko tarvittaessa jyräämään konftdston debug-asetus
-debug=1
+if [ -x ${d0}/common_lib.sh ] ; then
+	. ${d0}/common_lib.sh
+else
+	echo "NO COMMON LIB"
+	exit 89
+fi
+
+#HUOM.21725:nököjään kirjaston puuttuminen ei menoa haittaa, jatkuu urputuksella
+[ -z ${distro} ] && exit 6
+
+dqb "BEFORE CNF"
+echo "dbig= ${debug}"
+sleep 1
+
+#TODO:josko tarvittaessa jyräämään konftdston debug-asetus tai siis mahd aikaisessa vaiheessa debug päälle oli ideana?
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -65,11 +72,18 @@ else
 	exit 67
 fi
 
-${scm} 0555 ${PREFIX}/changedns.sh
-${sco} root:root ${PREFIX}/changedns.sh
+for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
+	${scm} 0555 ${x}
+	${sco} root:root ${x}
+	${odio} ${x} ${dnsm} ${distro}
+	#[ -x $x ] && exit for 
+done
+
+#${scm} 0555 ${d0}/changedns.sh
+#${sco} root:root ${d0}/changedns.sh
 ${fib}
 
-dqb "d=${d}"
+#dqb "d=${d}"
 echo "debug=${debug}"
 dqb "distro=${distro}"
 dqb "removepkgs=${removepkgs}"
@@ -109,12 +123,15 @@ function t2pc() {
 	${sharpy} debian-faq dirmngr discover* doc-debian
 	t2p_filler
 
-	#miten dmsetup ja libdevmapper?
+	#TODO:miten daedaluksessa dmsetup ja libdevmapper? milloin poistuikaan?
 	${sharpy} docutils* dosfstools efibootmgr exfalso
 	t2p_filler
 
+	#TODO:milloin daed kanssa poistui libsouåp?
+	#TODO:se librsvg-juttu daedaluksen kanssa?
+
 	#tikkujen kanssa paska tdstojärjestelmä exfat
-	${sharpy} exfatprogs fdisk ftp* gcr
+	${sharpy} exfatprogs fdisk gcr ftp*
 	t2p_filler
 
 	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
@@ -127,6 +144,8 @@ function t2pc() {
 	#${sharpy} grub* 
 	${sharpy} gstreamer* #libgs poist alempana
 	t2p_filler
+
+	#HUOM.22725:näillä main libsoup poistuu?
 
 	${sharpy} htop inetutils-telnet intel-microcode isolinux
 	t2p_filler
@@ -174,7 +193,7 @@ function t2pc() {
 	#xfce*,xorg* off limits
 	t2p_filler
 
-	dpkg -l x*
+	[ ${debug} -gt 0 ] && ${spd} x*
 	csleep 1
 
 	dqb "clib.T2PC.DONE"
@@ -188,61 +207,34 @@ function t2pf() {
 
 	${NKVD} ${pkgdir}/*.deb
 	${NKVD} ${pkgdir}/*.bin 
-	${NKVD} ${d}/*.deb 
+	${NKVD} ${1}/*.deb 
 	${NKVD} /tmp/*.tar
 	${smr} -rf /tmp/tmp.*
 
 	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
 	${smr} -rf /usr/share/doc 
 	
+	#uusi ominaisuus 230725
+	for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
+
 	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
 	df
 	${odio} which dhclient; ${odio} which ifup; csleep 3
 }
+
 #====================================================================
 #HUOM.25525:jos ao. fktiot kommentoitu jemmaan syistä ni pysäyttäisikö suorituksen?
 #HUOM.26525:nyt sitten debug päälle jotta selviää mihin pysähtyy
 
 t2pc
-#[ $? -gt 0 ] && exit #tähän tökkää?
+[ $? -gt 0 ] && exit #tähän tökkää?
 
+#VAIH:tähän keskimmäiseen xorriso:n yms. jyräykset (eli $dostro/lib)
 t2p
 [ $? -gt 0 ] && exit
 
-t2pf
+t2pf ${1}
 [ $? -gt 0 ] && exit
-
-echo "KARTHAGO EST DELENDAM"
-sleep 6
-
-#JOKO JO PERKELE POISTUISI?
-${sharpy} xorriso*
-${asy} #varm. vuoksi
-sleep 2
-
-${sharpy} xorriso*
-${asy} #varm. vuoksi
-sleep 2
-
-${sharpy} xorriso*
-${asy} #varm. vuoksi
-sleep 2
-
-${sharpy} xz-utils
-${asy} #varm. vuoksi
-sleep 2
- 
-${sharpy} xfburn 
-${asy} #varm. vuoksi
-sleep 2
-
-${sharpy} xarchiver 
-${asy} #varm. vuoksi
-sleep 2
-
-#debug=1
-${scm} a-wx ${0}
-csleep 2
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
 sleep 6
