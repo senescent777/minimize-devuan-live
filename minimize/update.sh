@@ -69,7 +69,9 @@ if [ -f ${tgt} ] ; then
 
 	${spc} ${tgt} ${tgt}.OLD #vaiko mv?
 	sleep 2
+	process_entry ${tgt} /opt/bin/changedns.sh
 
+	#TODO:$p liittyvää kikkailua kohta
 	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
 	#HUOM.21725;onkohan nytkään hyvä? jos kuitenkin selvittäisi sen oikean polun dirnamen sijaan? miten?
 	p=$(pwd)
