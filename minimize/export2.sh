@@ -334,6 +334,8 @@ function tp1() { #saisiko taas toimimaan vai ei?
 		dqb "FGPIEURHPEIURH"
 	fi
 
+	#lototaan vaikka tässä uuden sijannin skriptin lisäys
+	${srat} -rvf ${1} /opt/bin/changedns.sh
 	[ -d ${3} ] && cd ${3}
 
 	for x in ./home/stubby ~ ; do
