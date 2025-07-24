@@ -811,7 +811,7 @@ function tpu() { #HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakent
 
 #TODO:-v tekemään jotain hyödyllistä (miten tilanne 8725 ja sen jälk?)
 
-function tp5() { #8725 toiminee
+function tp5() { #HUOM.25725:testattava seuraavaksi miten fktio n ulosteet toimivat
 	debug=1
 
 	dqb "tp5 ${1} ${2}"
@@ -825,6 +825,7 @@ function tp5() { #8725 toiminee
 	local q
 	q=$(${mkt} -d)
 	cd ${q}
+
 	[ $? -eq 0 ] || exit 77
 
 	${tig} clone https://github.com/senescent777/more_scripts.git
@@ -876,6 +877,9 @@ case ${mode} in
 		tpu ${tgtfile} ${d}
 	;;
 	p)
+		#VAIH
+		[ z"${tgtfile}" == "z" ] && exit 99 
+
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
 		pre2 ${d} ${distro}
 		tp5 ${tgtfile} ${d0} 
