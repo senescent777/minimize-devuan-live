@@ -309,32 +309,6 @@ function tpq() { #HUOM.viimeksi 8725 testattu? että tekee tarin
 	fi
 
 	cd ${2}
-
-#	local t
-#	t=$(echo ${1} | cut -d '/' -f 1,2,3 | tr -d -c a-zA-Z/)
-#
-#	#HUOM.23525:pakkaus mukaan kuten näkyy, config.tar vie .deb jälkeen melkeinpä eniten tilaa 
-#	dqb " -jcf ${1}/config.tar.bz2 ${t}/.config"
-#	csleep 1	
-#	#${srat} -jcf ${1}/config.tar.bz2 ${t}/.config/xfce4/xfconf/xfce-perchannel-xml ${t}/.config/pulse /etc/pulse
-#	${srat} -cf ${1}/config.tar /etc/pulse
-#
-#	local p
-#	p=$(pwd)
-#
-#	${srat} -cf ${p}/config.tar .config/xfce4/xfconf/xfce-perchannel-xml .config/pulse 
-#	csleep 1
-#
-#	#TODO:tässä joutuu vileä kikkailenaam
-#	if [ -x ${1}/profs.sh ] ; then
-#		dqb "DE PROFUNDIS"
-#			
-##		exp_prof ${1}/fediverse.tar default-esr
-#	else
-#		dqb "1nT0 TH3 M0RB1D R31CH"	
-#	fi
-#
-#	csleep 1
 }
 
 #VAIH:tässä jos sanoisi 3. parametrina minne siirrytään cd:llä ennenq ajaa tar
