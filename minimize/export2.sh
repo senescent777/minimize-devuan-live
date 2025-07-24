@@ -327,13 +327,6 @@ function tp1() { #saisiko taas toimimaan vai ei?
 		dqb "d0nm3"
 	fi
 
-#	local ledif
-#	ledif=$(echo ${2} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/) 
-#	#p.itäisiköhän olla jokin tarkistus tässä alla? -d lisäksi?
-#
-#	dqb "lefid =  ${ledif}  "
-#	csleep 3
-
 	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		tpq ~ ${d0} #gloib muutt mäkeen
@@ -341,18 +334,8 @@ function tp1() { #saisiko taas toimimaan vai ei?
 		dqb "FGPIEURHPEIURH"
 	fi
 
-#	if [ ${debug} -eq 1 ] ; then
-#		ls -las ${ledif}
-#		sleep 2
-#	fi
-#
-#	#kun polkua leikellään ni saattaa mennä P.V.H.H
-#	dqb "${srat} -rvf ${1} #${ledif} /home/stubby "
-#	csleep 2
-#
-#	${srat} -rvf ${1} #${ledif} /home/stubby 
-
 	cd ${3}
+	#TODO:vähän joutaisi tarkentaa kyllä
 	${srat} -rvf ${1} ./home
 	
 	dqb "tp1 d0n3"
