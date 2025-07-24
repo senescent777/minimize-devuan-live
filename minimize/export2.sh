@@ -201,7 +201,7 @@ csleep 1
 
 function pre1() { #VAIH
 	debug=1
-	dqb "pre1( ${1} )"
+	dqb "pre1( ${1}  ${2} )"
 	[ -z ${1} ] && exit 666 #vika löytyi niinqu
 	csleep 5
 
@@ -214,7 +214,7 @@ function pre1() { #VAIH
 		n=$(whoami)
 			
 		local ortsac
-		local lefid
+		#local lefid
 
 		#VAIH:näille main muutoksia
 		#ortsac=$(echo ${1} | cut -d '/' -f 6 | tr -d -c a-z)
@@ -480,9 +480,10 @@ function tlb() { #VAIH
 }
 
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
+#HUOM.25725:joskohan jakaisi tämän skriptin 2 osaan, fktio-kirjasto se uusi osa
 
-function tp4() { #toimii ed 8725 (?)
-	#debug=1
+function tp4() { #HUOM.24725:fktion output vaikuttaa sopicvlta, jatkotestaus josqs
+	debug=1
 	dqb "tp4 ${1} , ${2} "
 
 	#[ -z ${1} ] && exit 1 #mikä juttu näissä on?
@@ -839,7 +840,7 @@ case ${mode} in
 		dd if=/dev/random bs=12 count=1 > ./rnd
 
 		${srat} -cvf ${tgtfile} ./rnd
-		tp3 ${tgtfile} ${distro} # TODO;takaisin käyttöön josqs
+		tp3 ${tgtfile} ${distro} 
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		${srat} -cvf ${d}/e.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
@@ -860,7 +861,7 @@ case ${mode} in
 		pre2 ${d} ${distro}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)
+	e)  #HUOM.24725:fktion output vaikuttaa sopicvlta, jatkotestaus josqs
 		pre2 ${d} ${distro}
 		tp4 ${tgtfile} ${d}
 	;;
