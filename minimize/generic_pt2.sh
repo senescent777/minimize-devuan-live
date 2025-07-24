@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d täytyisi muuttaa
+#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, g_pt2 taitaa jo toimia
 #TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh)
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 
@@ -79,11 +79,7 @@ for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	#[ -x $x ] && exit for 
 done
 
-#${scm} 0555 ${d0}/changedns.sh
-#${sco} root:root ${d0}/changedns.sh
 ${fib}
-
-#dqb "d=${d}"
 echo "debug=${debug}"
 dqb "distro=${distro}"
 dqb "removepkgs=${removepkgs}"
