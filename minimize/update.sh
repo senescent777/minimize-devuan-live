@@ -70,9 +70,10 @@ if [ -f ${tgt} ] ; then
 	${spc} ${tgt} ${tgt}.OLD #vaiko mv?
 	sleep 2
 	process_entry ${tgt} /opt/bin/changedns.sh
+	sleep 2
 
-	if [ -d ${basedir} ] ; then
-		cd ${basedir}
+	if [ -v asdgasdg ] && [ -d ${asdgasdg} ] ; then
+		cd ${asdgasdg}
 		p="."
 	else
 		echo "SOMTHING ELSE"
