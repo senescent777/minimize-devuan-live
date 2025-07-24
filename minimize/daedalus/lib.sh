@@ -253,6 +253,10 @@ function pre_part2() {
 	dqb "d0n3"
 }
 
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
+#https://pkgs.org/download/linux-image-6.12.27-amd64 ... joskohan ethz kautta
+#... tarkistus tosin uusiksi, josko sinne tcdd-blokkiin ylemmäs?
+
 function tpc7() {
 	dqb "d.prc7 UNDER CONSTRUCTION"
 }
