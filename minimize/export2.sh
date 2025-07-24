@@ -288,7 +288,8 @@ function pre2() { #HUOM.24625:testattava
 	sleep 2
 }
 
-function tpq() { #HUOM.viimeksi 8725 testattu? että tekee tarin
+function tpq() { #HUOM.24725:tämän casen output vaikuttaa järkevältä, lisää testejä myöhemmin
+		
 	debug=1
 	dqb "tpq ${1} ${2}"
 	[ -d ${1} ] || exit 22
@@ -865,7 +866,7 @@ case ${mode} in
 	f)
 		rmt ${tgtfile} ${d} #HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-	q)
+	q) #HUOM.24725:tämän casen output vaikuttaa järkevältä, lisää testejä myöhemmin
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 	
@@ -879,7 +880,7 @@ case ${mode} in
 		pwd
 		csleep 1
 
-		for f in $(find ~ -type f -name config.tar.bz2 -or -name fediverse.tar) ; do
+		for f in $(find . -type f -name config.tar.bz2 -or -name fediverse.tar) ; do
 			${srat} -rvf ${tgtfile} ${f}
 		done
 		
@@ -893,7 +894,7 @@ case ${mode} in
 		${svm} ${pkgdir}/*.deb ${d}
 		rmt ${tgtfile} ${d}
 	;;
-	-h)
+	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata
 		usage
 	;;
 	*)
