@@ -46,7 +46,7 @@ function c5p() {
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
-#HUOM.21725:pitäisiköhän tätä sorkkia? kun sen yhden päivityspaketin kanssa ongelma
+#HUOM.21725:pitäisiköhän tätä sorkkia? kun sen yhden päivityspaketin kanssa ongelma (olisikohan jo korjautunut 24725 mennessä?)
 function pr4() {
 	debug=1
 	dqb "daud.pr4( ${1} , ${2} )"
@@ -54,6 +54,7 @@ function pr4() {
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 
+	#HUOM. tuo ao. ekf-rivistö(ennen libpam) tarpeen vain päivityspaketin kanssa, jospa erilliseen fktioon? 
 	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
 	efk ${1}/gcc-12*.deb
 
