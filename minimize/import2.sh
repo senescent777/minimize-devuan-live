@@ -11,8 +11,6 @@ d0=$(pwd)
 echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
-
-#VAIH:modatun kiekon squashfs:lle mukaan tämä ja demerde_toi (aulksi .iso:lle ja sitten)
 #TODO:pitäisikö vielä minimoida latensseja tästä skriptistä ja sen käyttämistä?
 
 function dqb() {
@@ -55,7 +53,8 @@ else #joutuukohan else-haaran muuttamaan jatkossa?
 	exit 56
 fi
 
-if [ -x ${d0}/common_lib.sh ] ; then #dirname? #VAIH:muutox chroot varten
+if [ -x ${d0}/common_lib.sh ] ; then #VAIH:muutox chroot varten?
+	#... saattaa olla että sq-chroot:in sisällä ei tarvitsekaan:import2.sh
 	. ${d0}/common_lib.sh
 else
 	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston"
@@ -139,8 +138,6 @@ if [ x"${mkt}" == "x" ] ; then
 	echo "sudo apt-get update;sudo apt-get install coreutils"
 	exit 8
 fi
-#
-
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 
@@ -211,7 +208,7 @@ function common_part() {
 	fi
 
 	csleep 1
-	${srat} -C / -xf ${1} #HUOM.23725:C-option voisi josqs jyrätä
+	${srat} -C / -xf ${1} #HUOM.23725:C-option voisi josqs jyrätä?
 	csleep 1
 	dqb "tar DONE"
 
@@ -228,7 +225,7 @@ function common_part() {
 
 	csleep 3
 	
-	if [ -d ${t} ] ; then #-d ${2}
+	if [ -d ${t} ] ; then
 		dqb "HAIL UKK"
 
 		#vissiinkin tässä kohtaa common_lib taas käyttöön EIKU
