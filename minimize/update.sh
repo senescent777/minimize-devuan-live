@@ -71,10 +71,15 @@ if [ -f ${tgt} ] ; then
 	sleep 2
 	process_entry ${tgt} /opt/bin/changedns.sh
 
-	#TODO:$p liittyvää kikkailua kohta
+	if [ -d ${basedir} ] ; then
+		cd ${basedir}
+		p="."
+	else
+		echo "SOMTHING ELSE"
+		p=$(pwd)
+	fi
+
 	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
-	#HUOM.21725;onkohan nytkään hyvä? jos kuitenkin selvittäisi sen oikean polun dirnamen sijaan? miten?
-	p=$(pwd)
 
 	for f in $(find ${p}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
 	for f in $(find ${p}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
