@@ -334,10 +334,12 @@ function tp1() { #saisiko taas toimimaan vai ei?
 		dqb "FGPIEURHPEIURH"
 	fi
 
-	cd ${3}
-	#TODO:vähän joutaisi tarkentaa kyllä
-	${srat} -rvf ${1} ./home
-	
+	[ -d ${3} ] && cd ${3}
+
+	for x in ./home/stubby ~ ; do
+		${srat} -rvf ${1} ${x}
+	done
+
 	dqb "tp1 d0n3"
 	csleep 1
 }
