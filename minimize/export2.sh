@@ -199,8 +199,8 @@ csleep 1
 #HUOM. ei kovin oleellista ajella tätä skriptiä squashfs-cgrootin siäsllä
 #mutta olisi hyvä voida testailla sq-chrootin ulkopuolella
 
-function pre1() { #HUOM.24825:tesrarrava uudestaan
-	#debug=1
+function pre1() { #VAIH
+	debug=1
 	dqb "pre1( ${1} )"
 	[ -z ${1} ] && exit 666 #vika löytyi niinqu
 	csleep 5
@@ -216,11 +216,12 @@ function pre1() { #HUOM.24825:tesrarrava uudestaan
 		local ortsac
 		local lefid
 
-		#TODO:näille main muutoksia
+		#VAIH:näille main muutoksia
 		#ortsac=$(echo ${1} | cut -d '/' -f 6 | tr -d -c a-z)
 		#lefid=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
+		#enforce_access ${n} ${lefid} tilapäisesti jemmaan 240725
 
-		enforce_access ${n} ${lefid} 
+		ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
 		csleep 1
 
 		dqb "3NF0RC1NG D0N3"
@@ -254,16 +255,13 @@ function pre1() { #HUOM.24825:tesrarrava uudestaan
 	fi
 }
 
-function pre2() { #HUOM.24625:testattava
+function pre2() { #VAIH
 	debug=1
 	dqb "pre2 ${1}, ${2} #WTIN KAARISULKEET STNA" 
-	[ -z ${1} ] && exit 666
-
+	[ -z ${1} ] && exit 66
+	[ -z ${2} ] && exit 67
 	local ortsac
-	local ledif
-
-	ortsac=$(echo ${1} | cut -d '/' -f 6) #tämänkin knssa voi mennä jännäksi
-	#ledif=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
+	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
@@ -347,9 +345,7 @@ function tp1() { #saisiko taas toimimaan vai ei?
 	csleep 1
 }
 
-#HUOM.23525:josko nyt vähän fiksummin toimisi
-#VAIH:deb-paketteja sisältävien arkistojen rakentamisen muuttaminen, polku pois
-#... tai jos sanoisi osan sitä polkua mihin siirrytään
+#TODO:sen testaaminen miten import/part3() syö tämän fktion outputtia
 function rmt() { #HUOM.16725:toiminee muuten mutta param tark vähn pykii
 	debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
@@ -402,7 +398,6 @@ function rmt() { #HUOM.16725:toiminee muuten mutta param tark vähn pykii
 	csleep 1
 	psqa .
 
-	# #VAIH:cd wttuun tuosta, alle $2 -> . ?
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt
 	csleep 1
 	cd ${p}
@@ -420,7 +415,10 @@ if [ ${tcdd} != ${t2} ] ; then
 fi
 
 function aswasw() {
-	case ${iface} in #TODO:iface tämän fktion parametrtiksi
+	dqb " aswasw( ${1})"
+	csleep 1
+
+	case ${1} in #VAIH
 		wlan0)
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
 			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
@@ -435,9 +433,12 @@ function aswasw() {
 	esac
 
 	${shary} isc-dhcp-client isc-dhcp-common
+	dqb " aswasw( ${1}) DONE"
+	csleep 1
+
 }
 
-function tlb() { #TODO:tämäkin fkti oottamaan ifacen parametriksi?
+function tlb() { #VAIH
 	#debug=1
 	dqb "x2.tlb( ${1} ; ${2} )"
 	csleep 1
@@ -457,7 +458,7 @@ function tlb() { #TODO:tämäkin fkti oottamaan ifacen parametriksi?
 	csleep 1
 
 	tpc7	
-	aswaswc ${iface}
+	aswasw ${2} #iface}
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 
 	#18725:toimiikohan se debian_interactive-jekku tässä? dpkg!=apt
@@ -472,7 +473,7 @@ function tlb() { #TODO:tämäkin fkti oottamaan ifacen parametriksi?
 	udp6 ${pkgdir}
 
 	#actually necessary
-	pre2 ${1}
+	pre2 ${1} ${distro}
 	other_horrors
 
 	dqb "x2.tlb.done"
@@ -497,7 +498,7 @@ function tp4() { #toimii ed 8725 (?)
 	csleep 1
 	
 	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
-	tlb ${2}
+	tlb ${2} ${iface}
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
@@ -823,14 +824,14 @@ function tp5() { #8725 toiminee
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
-pre1 ${d}
+pre1 ${d} ${distro}
 
 #18725:skriptin case:t 0/4/e kai toimibat, muiden testaus myös
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
 case ${mode} in
 	0|4) #erikseen vielä case missä tp3 skipataan?
-		pre1 ${d}
-		pre2 ${d}
+		pre1 ${d} ${distro}
+		pre2 ${d} ${distro}
 
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
@@ -846,24 +847,24 @@ case ${mode} in
 		${sifd} ${iface}
 
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
-		tp1 ${tgtfile} ,/${distro}
-		pre1 ${d}
+		tp1 ${tgtfile} ./${distro}
+		pre1 ${d} ${distro}
 		tp2 ${tgtfile}
 	;;
 	1|u|upgrade)
-		pre2 ${d}
+		pre2 ${d} ${distro}
 		tpu ${tgtfile} ${d}
 	;;
 	p)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
-		pre2 ${d}
+		pre2 ${d} ${distro}
 		tp5 ${tgtfile} ${d0} 
 	;;
 	e)
-		pre2 ${d}
+		pre2 ${d} ${distro}
 		tp4 ${tgtfile} ${d}
 	;;
-	f)
+	f)  #HUOM.24725:output vaikuttaa järkevältä, vielä testaa miten import2 suhtautuu
 		rmt ${tgtfile} ${d} #HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
 	q) #HUOM.24725:tämän casen output vaikuttaa järkevältä, lisää testejä myöhemmin
@@ -887,10 +888,10 @@ case ${mode} in
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
-	t)
-		pre2 ${d}
+	t) #HUOM.24725:output vaikuttaa järkevältä, vielä testaa miten import2 suhtautuu
+		pre2 ${d} ${distro}
 		${NKVD} ${d}/*.deb
-		tlb ${d}
+		tlb ${d} ${iface}
 		${svm} ${pkgdir}/*.deb ${d}
 		rmt ${tgtfile} ${d}
 	;;
