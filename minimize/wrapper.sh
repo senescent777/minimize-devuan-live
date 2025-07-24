@@ -14,9 +14,9 @@ case ${1} in
 #	merde)
 #		${d}/demerde_toi.sh main		
 #	;;
-#	cdns)		
-#		sudo ${d}/changedns.sh ${dnsm}
-#	;;
+	cdns)		
+		sudo /opt/bin/changedns.sh ${dnsm}
+	;;
 	ifup)
 		sudo /sbin/ifup ${iface}
 	;;
