@@ -101,8 +101,6 @@ sco="${odio} ${sco} "
 scm="${odio} ${scm} "	
 #HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
 sah6=$(${odio} which sha512sum)
-
-#VAIH:/var/log siivoaminen johonkin sopivaan kohtaan, esim g_pt2 ja squ.ash case b
 	
 slinky=$(${odio} which ln)
 slinky="${odio} ${slinky} -s "
@@ -235,7 +233,7 @@ function ppp3() {
 function efk() {
 	dqb "efk( $@)"
 	${sdi} $@ #$@ pikemminkin
-	[ $? -eq 0 ] && ${NKVD} $@ #nkvd jatkossa?
+	[ $? -eq 0 ] && ${NKVD} $@
 	csleep 1
 }
 
@@ -508,6 +506,7 @@ function pre_enforce() {
 
 	[ -d /opt/bin ] || ${odio} mkdir /opt/bin
 	#HUOM. ao riville tarttisi tehdä jotain, EHKÄ
+	#TODO:uuden sijainnin huomiointi muuallakin, esim. export ja update
 	[ -f ~/Desktop/minimize/changedns.sh ] && ${svm} ~/Desktop/minimize/changedns.sh /opt/bin
 	mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 	csleep 1
@@ -634,6 +633,7 @@ function e_h() {
 	dqb "F1ND D0N3"
 	csleep 1
 
+	#TODO:ao. kohta uusiksi
 	${scm} 0555 ${2}/changedns.sh
 	${sco} root:root ${2}/changedns.sh
 
@@ -1034,15 +1034,15 @@ function part3() {
 	other_horrors
 }
 
-#function slaughter0() {
-#	local fn2
-#	local ts2
-#
-#	fn2=$(echo $1 | awk '{print $1}') 
-#	ts2=$(sha512sum ${fn2})
-#
-#	echo ${ts2} | awk '{print $1,$2}' >> ${2}
-#}
+function slaughter0() {
+	local fn2
+	local ts2
+
+	fn2=$(echo $1 | awk '{print $1}') 
+	ts2=$(sha512sum ${fn2})
+
+	echo ${ts2} | awk '{print $1,$2}' >> ${2}
+}
 
 #HUOM.voisi -v käsitellä jo tässä
 #-h myös
