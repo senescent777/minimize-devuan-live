@@ -319,34 +319,46 @@ function tp1() {
 	dqb "params_ok"
 	csleep 1
 
+	pwd
+	csleep 1
+
 	if [ -d ${2} ] ; then #toimiiko tmä kohta?
 		dqb "cleaning up ${2} "
 		csleep 1
+
 		${NKVD} ${2}/*.deb
+		${NKVD} ${2}/*.tar
+		${NKVD} ${2}/sha512sums.txt
+
 		dqb "d0nm3"
+	else
+		dqb "NO SUCH DIR ${2}"
 	fi
+
+	csleep 1
 
 	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		tpq ~ ${d0} #TODO:gloib muutt mäkeen
 	else
-		dqb "FGPIEURHPEIURH"
+		dqb "PUIG DESTROYER"
 	fi
 
+	csleep 1
 	#lototaan vaikka tässä uuden sijannin skriptin lisäys
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 	
-	#TODO:keksittävä fiksumpi ratkaisu? ${d0}:n polusta 4 vikaa osaa?
-
-	if [ -d ${3} ] ; then
-		cd ${3}
-		dqb "DO SOMTHING"
-		dqb "rm ${2}/e.tar"
-		dqb "${srat} --exclude='*.deb' -rvf ${1} ./home/stubby ./home/devuan/Desktop/minimize
-	else
-		
-	fi
-
+#	#TODO:keksittävä fiksumpi ratkaisu? ${d0}:n polusta 4 vikaa osaa?
+#
+#	if [ -d ${3} ] ; then
+#		cd ${3}
+#		dqb "DO SOMTHING"
+#		dqb "rm ${2}/e.tar"
+#		dqb "${srat} --exclude='*.deb' -rvf ${1} ./home/stubby ./home/devuan/Desktop/minimize
+#	else
+#		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${d0} #globaalit wttuun tästäkin
+#	fi
+#
 	dqb "tp1 d0n3"
 	csleep 1
 }
@@ -721,13 +733,13 @@ function tp3() { #VAIH
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	# (ao. rivi tp2() jatkossa?)
 
-	local p
-	p=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+	local r
+	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
 	pwd
 
-	dqb "p=${p}"
+	dqb "r=${r}"
 	csleep 2
-	${spc} /etc/network/interfaces ./etc/network/interfaces.${p}
+	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
 
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
@@ -736,9 +748,9 @@ function tp3() { #VAIH
 	${srat} -rvf ${1} ./etc ./sbin 
 
 	echo $?
-	#HUOM.19725:qseeko tässä jokin?
-	#cd ${p}
-
+	#HUOM.19725:qseeko tässä jokin? ei kai enää
+	cd ${p}
+	pwd
 	dqb "tp3 done"
 	csleep 1
 }
@@ -855,7 +867,7 @@ case ${mode} in
 		${sifd} ${iface}
 
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
-		tp1 ${tgtfile} ./${distro} #/
+		tp1 ${tgtfile} ${d} #/
 		pre1 ${d} ${distro}
 		tp2 ${tgtfile}
 	;;
