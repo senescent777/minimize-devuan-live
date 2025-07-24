@@ -311,15 +311,15 @@ function tpq() { #HUOM.24725:tämän casen output vaikuttaa järkevältä, lisä
 }
 
 #VAIH:tässä jos sanoisi 3. parametrina minne siirrytään cd:llä ennenq ajaa tar
-function tp1() { #saisiko taas toimimaan vai ei?
+function tp1() { 
 	debug=1
 
-	dqb "tp1 ${1} , ${2} "
+	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
 	dqb "params_ok"
 	csleep 1
 
-	if [ -d ${2} ] ; then
+	if [ -d ${2} ] ; then #toimiiko tmä kohta?
 		dqb "cleaning up ${2} "
 		csleep 1
 		${NKVD} ${2}/*.deb
@@ -328,18 +328,24 @@ function tp1() { #saisiko taas toimimaan vai ei?
 
 	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		tpq ~ ${d0} #gloib muutt mäkeen
+		tpq ~ ${d0} #TODO:gloib muutt mäkeen
 	else
 		dqb "FGPIEURHPEIURH"
 	fi
 
 	#lototaan vaikka tässä uuden sijannin skriptin lisäys
 	${srat} -rvf ${1} /opt/bin/changedns.sh
-	[ -d ${3} ] && cd ${3}
+	
+	#TODO:keksittävä fiksumpi ratkaisu? ${d0}:n polusta 4 vikaa osaa?
 
-	for x in ./home/stubby ~ ; do
-		${srat} -rvf ${1} ${x}
-	done
+	if [ -d ${3} ] ; then
+		cd ${3}
+		dqb "DO SOMTHING"
+		dqb "rm ${2}/e.tar"
+		dqb "${srat} --exclude='*.deb' -rvf ${1} ./home/stubby ./home/devuan/Desktop/minimize
+	else
+		
+	fi
 
 	dqb "tp1 d0n3"
 	csleep 1
@@ -641,7 +647,7 @@ function tp2() { #HUOM.8725:olisikohan kunnossa tämä?
 
 #HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
 #dnsm 2. parametriksi... eiku ei, $2 onkin jo käytössä ja tarttisi sen cut-jekun
-function tp3() { #8725:vaikuttaisi tulevan jutut mukana (?)
+function tp3() { #VAIH
 	debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
 
@@ -731,7 +737,7 @@ function tp3() { #8725:vaikuttaisi tulevan jutut mukana (?)
 
 	echo $?
 	#HUOM.19725:qseeko tässä jokin?
-	cd ${p}
+	#cd ${p}
 
 	dqb "tp3 done"
 	csleep 1
@@ -831,14 +837,15 @@ pre1 ${d} ${distro}
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
 case ${mode} in
 	0|4) #erikseen vielä case missä tp3 skipataan?
+		[ z"${tgtfile}" == "z" ] && exit 99 
 		pre1 ${d} ${distro}
 		pre2 ${d} ${distro}
 
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
 		${scm} 0644 ./rnd
-		dd if=/dev/random bs=12 count=1 > ./rnd
 
+		dd if=/dev/random bs=12 count=1 > ./rnd
 		${srat} -cvf ${tgtfile} ./rnd
 		tp3 ${tgtfile} ${distro} 
 
@@ -848,7 +855,7 @@ case ${mode} in
 		${sifd} ${iface}
 
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
-		tp1 ${tgtfile} ./${distro}
+		tp1 ${tgtfile} ./${distro} #/
 		pre1 ${d} ${distro}
 		tp2 ${tgtfile}
 	;;
