@@ -9,7 +9,6 @@ echo "d0=${d0}"
 
 #VAIH:jos mahd ni git hakemaan vaihToehtoisen oksan? man-sivuja pitäisi taas kahlata niin maan perkeleesti ja tasaiseenm
 #TODO:mktemp-kikkailut pois, plain old git clone tilalle ja täts it
-#VAIH:tämäkin modatun kiekon squashfs sisälle (aluksi modattuun .iso:on)
 
 function parse_opts_1() {
 	dqb "p1"
@@ -83,6 +82,7 @@ fi
 dqb "tar done"
 csleep 2
 
+#joutuisi oikeastaan muuttamaan mutta antaa olla koska x
 for f in $(find ${d0} -type f -name '*.sh') ; do rm ${f} ; done
 for f in $(find ${d0} -type f -name '*.desktop') ; do rm ${f} ; done
 
@@ -90,7 +90,7 @@ dqb "RM D0N3"
 csleep 2
 
 cp minimize/* ${d0}
-#mv isolinux ~/Desktop/
+#mv isolinux ~/Desktop/ #tarttisikohan näille tehdä jotain?
 #mv boot  ~/Desktop/
 deb "D0N3 M0V1NG"
 csleep 2
@@ -99,11 +99,11 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 	enforce_access ${n}
 else
-#	${sco} 0:0 /
-#	${scm} 0755 /
-#	${sco} 0:0 /home
-#	${scm} 0755 /home
-#
+	${sco} 0:0 /
+	${scm} 0755 /
+	${sco} 0:0 /home
+	${scm} 0755 /home
+
 	${sco} -R ${n}:${n} ~ 
 	${scm} -R a-wx ${d0}
 	${scm} 0755 ${d0} 
@@ -115,6 +115,9 @@ else
 	
 	${sco} 0:0 ${d0}/changedns.sh
 	${scm} 0555 ${d0}/changedns.sh
+
+	${sco} 0:0 /opt/bin/changedns.sh
+	${scm} 0555 /opt/bin/changedns.sh
 fi
 
 cd ${d0}
