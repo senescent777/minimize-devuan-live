@@ -75,7 +75,7 @@ fi
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
-	${odio} ${x}/changedns.sh ${dnsm} ${distro}
+	${odio} ${x} ${dnsm} ${distro}
 	#[ -x $x ] && exit for 
 done
 
@@ -215,7 +215,7 @@ function t2pf() {
 	${smr} -rf /usr/share/doc 
 	
 	#uusi ominaisuus 230725
-	#for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
+	for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
 
 	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
 	df

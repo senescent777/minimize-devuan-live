@@ -169,17 +169,14 @@ function usage() {
 }
 
 dqb "tar = ${srat} "
-#${scm} 0555 ${d0}/changedns.sh #VAIH:jatkossa /opt/bin alla?
-#${sco} root:root ${d0}/changedns.sh
 
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
-	${odio} ${x}/changedns.sh ${dnsm} ${distro}
+	${odio} ${x} ${dnsm} ${distro}
 	#[ -x $x ] && exit for 
 done
 
- 
 tig=$(${odio} which git)
 mkt=$(${odio} which mktemp)
 
@@ -199,7 +196,10 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 1
 
-function pre1() { #HUOM.8725:lienee kunnossa
+#HUOM. ei kovin oleellista ajella tätä skriptiä squashfs-cgrootin siäsllä
+#mutta olisi hyvä voida testailla sq-chrootin ulkopuolella
+
+function pre1() { #HUOM.24825:tesrarrava uudestaan
 	#debug=1
 	dqb "pre1( ${1} )"
 	[ -z ${1} ] && exit 666 #vika löytyi niinqu
@@ -216,8 +216,9 @@ function pre1() { #HUOM.8725:lienee kunnossa
 		local ortsac
 		local lefid
 
-		ortsac=$(echo ${1} | cut -d '/' -f 6 | tr -d -c a-z)
-		lefid=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
+		#TODO:näille main muutoksia
+		#ortsac=$(echo ${1} | cut -d '/' -f 6 | tr -d -c a-z)
+		#lefid=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
 
 		enforce_access ${n} ${lefid} 
 		csleep 1
@@ -253,7 +254,7 @@ function pre1() { #HUOM.8725:lienee kunnossa
 	fi
 }
 
-function pre2() { #HUOM.8725:toiminee?
+function pre2() { #HUOM.24625:testattava
 	debug=1
 	dqb "pre2 ${1}, ${2} #WTIN KAARISULKEET STNA" 
 	[ -z ${1} ] && exit 666
@@ -261,12 +262,12 @@ function pre2() { #HUOM.8725:toiminee?
 	local ortsac
 	local ledif
 
-	ortsac=$(echo ${1} | cut -d '/' -f 6)
-	ledif=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
+	ortsac=$(echo ${1} | cut -d '/' -f 6) #tämänkin knssa voi mennä jännäksi
+	#ledif=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
-		${odio} ${ledif}/changedns.sh ${dnsm} ${ortsac}
+		${odio} /opt/bin/changedns.sh ${dnsm} ${ortsac}
 		csleep 1
 
 		${sifu} ${iface}
@@ -288,30 +289,55 @@ function pre2() { #HUOM.8725:toiminee?
 }
 
 function tpq() { #HUOM.viimeksi 8725 testattu? että tekee tarin
+	debug=1
 	dqb "tpq ${1} ${2}"
 	[ -d ${1} ] || exit 22
+	[ -d ${1} ] || exit 23	
 	dqb "paramz 0k"
 	csleep 1
 
-	local t
-	t=$(echo ${1} | cut -d '/' -f 1,2,3 | tr -d -c a-zA-Z/)
+	cd ${1}
+	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml ./.config/pulse /etc/pulse
 
-	#HUOM.23525:pakkaus mukaan kuten näkyy, config.tar vie .deb jälkeen melkeinpä eniten tilaa 
-	${srat} -jcf ${1}/config.tar.bz2 ${t}/.config/xfce4/xfconf/xfce-perchannel-xml ${t}/.config/pulse /etc/pulse
-	csleep 1
-
-	if [ -x ${1}/profs.sh ] ; then
+	if [ -x ${2}/profs.sh ] ; then
 		dqb "DE PROFUNDIS"
-			
-		. ${1}/profs.sh
-		exp_prof ${1}/fediverse.tar default-esr
+		.  ${2}/profs.sh
+	
+		exp_prof ./fediverse.tar default-esr
 	else
 		dqb "1nT0 TH3 M0RB1D R31CH"	
 	fi
 
-	csleep 1
+	cd ${2}
+
+#	local t
+#	t=$(echo ${1} | cut -d '/' -f 1,2,3 | tr -d -c a-zA-Z/)
+#
+#	#HUOM.23525:pakkaus mukaan kuten näkyy, config.tar vie .deb jälkeen melkeinpä eniten tilaa 
+#	dqb " -jcf ${1}/config.tar.bz2 ${t}/.config"
+#	csleep 1	
+#	#${srat} -jcf ${1}/config.tar.bz2 ${t}/.config/xfce4/xfconf/xfce-perchannel-xml ${t}/.config/pulse /etc/pulse
+#	${srat} -cf ${1}/config.tar /etc/pulse
+#
+#	local p
+#	p=$(pwd)
+#
+#	${srat} -cf ${p}/config.tar .config/xfce4/xfconf/xfce-perchannel-xml .config/pulse 
+#	csleep 1
+#
+#	#TODO:tässä joutuu vileä kikkailenaam
+#	if [ -x ${1}/profs.sh ] ; then
+#		dqb "DE PROFUNDIS"
+#			
+##		exp_prof ${1}/fediverse.tar default-esr
+#	else
+#		dqb "1nT0 TH3 M0RB1D R31CH"	
+#	fi
+#
+#	csleep 1
 }
 
+#VAIH:tässä jos sanoisi 3. parametrina minne siirrytään cd:llä ennenq ajaa tar
 function tp1() { #saisiko taas toimimaan vai ei?
 	debug=1
 
@@ -327,34 +353,41 @@ function tp1() { #saisiko taas toimimaan vai ei?
 		dqb "d0nm3"
 	fi
 
-	local ledif
-	ledif=$(echo ${2} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/) 
-	#p.itäisiköhän olla jokin tarkistus tässä alla? -d lisäksi?
+#	local ledif
+#	ledif=$(echo ${2} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/) 
+#	#p.itäisiköhän olla jokin tarkistus tässä alla? -d lisäksi?
+#
+#	dqb "lefid =  ${ledif}  "
+#	csleep 3
 
-	dqb "lefid =  ${ledif}  "
-	csleep 3
-
-	if [ ${enforce} -eq 1 ] && [ -d ${ledif} ] ; then
+	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		tpq ${ledif}
+		tpq ~ ${d0} #gloib muutt mäkeen
+	else
+		dqb "FGPIEURHPEIURH"
 	fi
 
-	if [ ${debug} -eq 1 ] ; then
-		ls -las ${ledif}
-		sleep 2
-	fi
+#	if [ ${debug} -eq 1 ] ; then
+#		ls -las ${ledif}
+#		sleep 2
+#	fi
+#
+#	#kun polkua leikellään ni saattaa mennä P.V.H.H
+#	dqb "${srat} -rvf ${1} #${ledif} /home/stubby "
+#	csleep 2
+#
+#	${srat} -rvf ${1} #${ledif} /home/stubby 
 
-	#kun polkua leikellään ni saattaa mennä P.V.H.H
-	dqb "${srat} -rvf ${1} ${ledif} /home/stubby "
-	csleep 2
-
-	${srat} -rvf ${1} ${ledif} /home/stubby 	
+	cd ${3}
+	${srat} -rvf ${1} ./home
+	
 	dqb "tp1 d0n3"
 	csleep 1
 }
 
 #HUOM.23525:josko nyt vähän fiksummin toimisi
-#TODO:deb-paketteja sisältävien arkistojen rakentamisen muuttaminen, polku pois
+#VAIH:deb-paketteja sisältävien arkistojen rakentamisen muuttaminen, polku pois
+#... tai jos sanoisi osan sitä polkua mihin siirrytään
 function rmt() { #HUOM.16725:toiminee muuten mutta param tark vähn pykii
 	debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
@@ -370,6 +403,7 @@ function rmt() { #HUOM.16725:toiminee muuten mutta param tark vähn pykii
 
 	p=$(pwd)
 	csleep 1
+	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
 
 	if [ -f ${2}/sha512sums.txt ] ; then
 		dqb "rem0v1ng pr3v1oisu shasums"
@@ -406,10 +440,10 @@ function rmt() { #HUOM.16725:toiminee muuten mutta param tark vähn pykii
 	csleep 1
 	psqa .
 
-	cd ${p}
-	${srat} -rf ${1} ${2}/*.deb ${2}/sha512sums.txt
+	# #VAIH:cd wttuun tuosta, alle $2 -> . ?
+	${srat} -rf ${1} ./*.deb ./sha512sums.txt
 	csleep 1
-	
+	cd ${p}
 	dqb "rmt d0n3"
 }
 
@@ -424,7 +458,7 @@ if [ ${tcdd} != ${t2} ] ; then
 fi
 
 function aswasw() {
-	case ${iface} in
+	case ${iface} in #TODO:iface tämän fktion parametrtiksi
 		wlan0)
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
 			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
@@ -441,7 +475,7 @@ function aswasw() {
 	${shary} isc-dhcp-client isc-dhcp-common
 }
 
-function tlb() {
+function tlb() { #TODO:tämäkin fkti oottamaan ifacen parametriksi?
 	#debug=1
 	dqb "x2.tlb( ${1} ; ${2} )"
 	csleep 1
@@ -460,14 +494,8 @@ function tlb() {
 	${asy}
 	csleep 1
 
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-
-	#https://pkgs.org/download/linux-image-6.12.27-amd64 ... joskohan ethz kautta
-	#... tarkistus tosin uusiksi, josko sinne tcdd-blokkiin ylemmäs?
-	
 	tpc7	
-
-	aswasw #jatkossa "if cc"-blokin uplkop tämä
+	aswaswc ${iface}
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 
 	#18725:toimiikohan se debian_interactive-jekku tässä? dpkg!=apt
@@ -617,11 +645,11 @@ function tp2() { #HUOM.8725:olisikohan kunnossa tämä?
 		exit 112
 	fi
 
-	case ${iface} in
+	case ${iface} in #oface parametriksi?
 		wlan0)
 			[ ${debug} -eq 1 ] && echo "APW";sleep 3
 			${srat} -rvf ${1} /etc/wpa_supplicant/*.conf
-			${srat} -tf  ${1} | grep wpa
+			${srat} -tf ${1} | grep wpa
 			csleep 3
 		;;
 		*)
@@ -802,7 +830,7 @@ function tpu() { #HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakent
 #TODO:-v tekemään jotain hyödyllistä (miten tilanne 8725 ja sen jälk?)
 
 function tp5() { #8725 toiminee
-	#debug=1
+	debug=1
 
 	dqb "tp5 ${1} ${2}"
 	[ -z ${1} ] && exit 99
@@ -856,7 +884,7 @@ case ${mode} in
 		${sifd} ${iface}
 
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
-		tp1 ${tgtfile} ${d}
+		tp1 ${tgtfile} ,/${distro}
 		pre1 ${d}
 		tp2 ${tgtfile}
 	;;
@@ -879,9 +907,23 @@ case ${mode} in
 	q)
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
+	
+		tpq ~ ${d0}
+		cd ${d0}
+	
+		q=$(mktemp)
+		${srat} -cf ${tgtfile} ${q}
 
-		tpq ${d0} 
-		${srat} -cf ${tgtfile} ${d0}/config.tar.bz2 ${d0}/fediverse.tar
+		dqb "	OIJHPIOJGHO(YRI/&RE("
+		pwd
+		csleep 1
+
+		for f in $(find ~ -type f -name config.tar.bz2 -or -name fediverse.tar) ; do
+			${srat} -rvf ${tgtfile} ${f}
+		done
+		
+		dqb "CASE Q D0N3"
+		csleep 3
 	;;
 	t)
 		pre2 ${d}

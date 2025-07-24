@@ -8,9 +8,24 @@ function csleep() {
 
 if [ -f /.chroot ] ; then
 	odio=""
-	#TODO:tähän sitten jotain
+	#VAIH:tähän sitten jotain
+	debug=1
+
+	function itni() {
+		dqb "alt-itn1"
+		sco=$(which chown)
+		scm=$(which chmod)
+	}
+
+	function fix_sudo() {
+		dqb "alt.fix_sud0.pt0"
+	}
+
+	function other_horrors() {	
+		dqb "other_horrors() ASD ASDAS ASD"
+	}
 else
-	function init() {
+	function itni() {
 		#VAIH:näille main muutoksia sitä chroot-ymp varten
 		#... kun ei kannatakaan sudottaa kaikkea noin vain
 
@@ -80,14 +95,14 @@ else
 	}
 fi
 
-init
+itni
 
 sco="${odio} ${sco} "
 scm="${odio} ${scm} "	
 #HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
 sah6=$(${odio} which sha512sum)
 
-#TODO:/var/log siivoaminen johonkin sopivaan kohtaan, esim g_pt2 ja squ.ash case b
+#VAIH:/var/log siivoaminen johonkin sopivaan kohtaan, esim g_pt2 ja squ.ash case b
 	
 slinky=$(${odio} which ln)
 slinky="${odio} ${slinky} -s "
@@ -271,7 +286,7 @@ function common_tbls() {
 	t=$(${odio} which ip6tables-restore)
 
 	#HUOM.31525:olisikohan moduleista kiinni että tässä tökkää?
-	#edelleen: "iptables v1.8.11 (legacy): can't initialize iptables table `filter': Table does not exist (do you need to insmod?"
+	#edelleen: "iptables v1.8.11 (legacy): can't itniialize iptables table `filter': Table does not exist (do you need to insmod?"
 	#modprobe nft -> FATAL: Module nftables not found in directory /lib/modules/6.12.27-amd64
 
 	${odio} ${s} /etc/iptables/rules.v4.${d2}
@@ -311,7 +326,7 @@ function check_binaries() {
 		fi
 	fi
 
-	if [ y"${ipt}" == "y" ] ; then
+	if [ y"${ipt}" == "y" ] && [ ! -f /.chroot ] ; then
 		[ z"${1}" == "z" ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
@@ -352,9 +367,11 @@ function check_binaries() {
 
 	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
 	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
-	for x in iptables ip6tables iptables-restore ip6tables-restore ifup ifdown apt-get apt ip netstat dpkg tar mount umount sha512sum dhclient # kilinwittu.sh
-		do ocs ${x}
-	done
+
+	local y
+	y="ifup ifdown apt-get apt ip netstat dpkg tar mount umount sha512sum dhclient" # kilinwittu.sh	
+	[ -f /.chroot ] || y="iptables ip6tables iptables-restore ip6tables-restore ${y}"
+	for x in ${y} ; do ocs ${x} ; done
 	
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
@@ -490,6 +507,7 @@ function pre_enforce() {
 	dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 
 	[ -d /opt/bin ] || ${odio} mkdir /opt/bin
+	#HUOM. ao riville tarttisi tehdä jotain, EHKÄ
 	[ -f ~/Desktop/minimize/changedns.sh ] && ${svm} ~/Desktop/minimize/changedns.sh /opt/bin
 	mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 	csleep 1
