@@ -511,7 +511,7 @@ function tlb() { #VAIH
 
 function tp4() { #HUOM.24725:fktion output vaikuttaa sopicvlta, jatkotestaus josqs
 	debug=1
-	dqb "tp4 ${1} , ${2} "
+	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
 
 	#[ -z ${1} ] && exit 1 #mikä juttu näissä on?
 	#[ -s ${1} ] || exit 2 #jotainn pykimistä 16725
@@ -526,7 +526,7 @@ function tp4() { #HUOM.24725:fktion output vaikuttaa sopicvlta, jatkotestaus jos
 	csleep 1
 	
 	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
-	tlb ${2} ${iface} ${distro} #TODO:jatkossa nuo 2 viimeisintä parametreiksi
+	tlb ${2} ${4} ${3} #VAIH:jatkossa nuo 2 viimeisintä parametreiksi
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		

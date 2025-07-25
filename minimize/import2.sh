@@ -286,8 +286,6 @@ case "${mode}" in
 
 		#HUOM.mikä pointti tuolla 3:sella taas olikaan?
 
-		#TODO:lib.lucifer huomiointi
-
 		dqb "ZER0 S0UND"
 		csleep 1
 
@@ -315,7 +313,6 @@ case "${mode}" in
 		fi
 
 		csleep 5
-
 		#sen yhden tar:in kanssa pitäisi selvittää mikä kusee (vai kuseeko vielä 23.7.25?)
 
 		if [ ${1} -eq 0 ] ; then
@@ -325,7 +322,6 @@ case "${mode}" in
 				dqb " ${d}/e.tar CANNOT BE FOUND"
 
 				if [ -s ${d}/f.tar ] ; then
-					#dqb "common_part ${d}/f.tar ${d} (TODO)"
 					common_part ${d}/f.tar ${d} ${d} 				
 				fi
 			fi
