@@ -76,7 +76,7 @@ if [ -s /etc/sudoers.d/meshuggah ] || [ -f /.chroot ] ; then
 	csleep 3
 else 
 	if [ ${enforce} -eq 1 ] ; then
-		pre_enforce #${d0} testaa nyt tääkin kohta
+		pre_enforce ${d0}
 	fi
 fi
 

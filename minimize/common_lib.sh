@@ -203,7 +203,7 @@ function psqa() {
 	csleep 1
 }
 
-function ppp3() {
+function ppp3() { #jos nimeäisi uudestaan?
 	dqb "ppp3 ${1}"
 	csleep 1
 
@@ -214,7 +214,7 @@ function ppp3() {
 	dqb "find ${1} -type f -name ' * .deb ' "
 	csleep 3
 
-	q=$(find ${1} -type f -name '*.deb' | wc -l) #oli:ls -las ip*.deb
+	q=$(find ${1} -type f -name '*.deb' | wc -l)
 	r=$(echo ${1} | cut -d '/' -f 1-5)
 
 	if [ ${q} -lt 1 ] ; then
@@ -232,7 +232,7 @@ function ppp3() {
 
 function efk() {
 	dqb "efk( $@)"
-	${sdi} $@ #$@ pikemminkin
+	${sdi} $@
 	[ $? -eq 0 ] && ${NKVD} $@
 	csleep 1
 }
@@ -253,7 +253,7 @@ function common_tbls() {
 	csleep 1
 	psqa ${1}
 
-	#31525 uutena, josko tällä modulit kohdalleen
+	#31525 uutena, josko tällä modulit kohdalleen (jotain pientä laittoia kaipaisi vielä 2kk myöhemmin)
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/linux-modules*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/linux-modules*.deb
 	[ $? -eq 0 ] && ${odio} modprobe nft #tässä vai vähän alempana?
@@ -315,7 +315,7 @@ function check_binaries() {
 	ip6tr=$(${odio} which ip6tables-restore)
 
 	if [ -x ${1}/../tar-wrapper.sh ] ; then 
-		dqb "TODO: tar-wrapper.sh"
+		dqb "TODO: tar-wrapper.sh" #josko vähitellen?
 	else
 		srat=$(${odio} which tar)
 		
@@ -336,20 +336,25 @@ function check_binaries() {
 		jules
 
 		#HUOM.olisikohan sittenkin suhteelliset polut tar:in sisällä helpompia?
-		#TODO:ao. if-blokki uusiksi jatkossa
+		#VAIH:ao. if-blokki uusiksi jatkossa
 		if [ -s ${1}/e.tar ] ; then
 			${odio} ${srat} -C / -xf ${1}/e.tar
 			${NKVD} ${1}/e.tar #jompikumpi hoitaa
 			${smr} ${1}/e.tar
+		else
+			if [ -s ${1}/f.tar ] ; then
+				${odio} ${srat} -xf ${1}/e.tar
+				${NKVD} ${1}/f.tar
+			fi
 		fi
 
 		#HUOM.21525:olisikohan niin simppeli juttu että dpkg seuraa linkkiä ja nollaa tdston mihin linkki osoittaa?
 		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 1
-
 		#ppp3 ${1} HUOM.25725:jos riittäisi jatkossa common_tbls tablesin asennukseen
+		
 		common_tbls ${1} ${dnsm}
-		#pr4 ${1}
 
+		#pr4 ${1}
 		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 1
 		other_horrors
 
@@ -487,6 +492,7 @@ function dinf() {
 
 #HUOM.29525:ei tarvitse parametreja tämä
 #...paitsi ehkä sudoersin mankelointiin, absoluuttiset polut oltava
+#joskohan jatkossa kertoisi parametrilla changedns.sh sijainnin?
 function pre_enforce() {
 	debug=1
 	dqb "common_lib.pre_enforce( ${1} )"
@@ -507,8 +513,9 @@ function pre_enforce() {
 
 	[ -d /opt/bin ] || ${odio} mkdir /opt/bin
 	#HUOM. ao riville tarttisi tehdä jotain, EHKÄ
-	#TODO:uuden sijainnin huomiointi muuallakin, esim. export ja update
-	[ -f ~/Desktop/minimize/changedns.sh ] && ${svm} ~/Desktop/minimize/changedns.sh /opt/bin
+	#DONE:uuden sijainnin huomiointi muuallakin, esim. export ja update
+
+	[ -f ${1}/changedns.sh ] && ${svm} ${1}/changedns.sh /opt/bin
 	mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 	csleep 1
 
