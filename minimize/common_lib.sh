@@ -336,6 +336,7 @@ function check_binaries() {
 		jules
 
 		#HUOM.olisikohan sittenkin suhteelliset polut tar:in sisällä helpompia?
+		#TODO:ao. if-blokki uusiksi jatkossa
 		if [ -s ${1}/e.tar ] ; then
 			${odio} ${srat} -C / -xf ${1}/e.tar
 			${NKVD} ${1}/e.tar #jompikumpi hoitaa
@@ -345,9 +346,9 @@ function check_binaries() {
 		#HUOM.21525:olisikohan niin simppeli juttu että dpkg seuraa linkkiä ja nollaa tdston mihin linkki osoittaa?
 		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 1
 
-		ppp3 ${1}
+		#ppp3 ${1} HUOM.25725:jos riittäisi jatkossa common_tbls tablesin asennukseen
 		common_tbls ${1} ${dnsm}
-		pr4 ${1}
+		#pr4 ${1}
 
 		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 1
 		other_horrors
@@ -603,7 +604,7 @@ function e_v() {
 }
 
 function e_h() {
-	#debug=1
+	debug=1
 	dqb "e_h( ${1} , ${2} )"
 	csleep 2
 
