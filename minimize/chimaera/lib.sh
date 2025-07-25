@@ -15,8 +15,6 @@ function pr4() {
 	efk ${1}/perl-modules-*.deb
 	efk ${1}/libperl*.deb
 
-	#${NKVD} ${1}/perl-modules-*.deb
-	#${NKVD} ${1}/libperl*.deb
 	csleep 1
 
 	efk ${1}/perl*.deb
@@ -26,16 +24,11 @@ function pr4() {
 
 	efk ${1}/liberror-perl*.deb
 	efk ${1}/git*.deb
-	#${NKVD} ${1}/git*.deb
-	#${NKVD} ${1}/liberror-perl*.deb
 	csleep 1
+}
 
-	#${NKVD} ${1}/libpam*
-	#${NKVD} ${1}/libperl*
-	#${NKVD} ${1}/libdbus*
-	#${NKVD} ${1}/dbus*
-	#${NKVD} ${1}/perl*
-	csleep 1
+function reficul() {
+	dqb "UNDER CONSTRUCTION"
 }
 
 function udp6() {
