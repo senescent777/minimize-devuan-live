@@ -80,9 +80,9 @@ else
 	fi
 fi
 
-#HUOM. jälkimm ehto voisi mennä toisinkin, esim /r/l/m/p olemassaolo
+#HUOM. ehto voisi mennä toisinkin, esim /r/l/m/p olemassaolo
 
-if [ -v veto ] || [ -f /.chroot ] ; then
+if [ -f /.chroot ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 3
 else 
