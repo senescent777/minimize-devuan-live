@@ -45,6 +45,9 @@ function c5p() {
 }
 
 function reficul() {
+	dqb "NATTA5H3AD 0VERDR1V3 666!"
+	csleep 1
+
 	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
 	efk ${1}/gcc-12*.deb
 
@@ -85,6 +88,8 @@ function reficul() {
 	efk ${1}/libvte*.deb #VAIH:selv miten tämän kanssa nykyään?
 	csleep 1
 
+	#HUOM.31525:vituttava määrä asentelua librsvg2 kanssa edelleen
+	dqb "---------------------------------------------------"
 }
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
@@ -98,9 +103,8 @@ function pr4() {
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 
-	reficul
-	#HUOM.31525:vituttava määrä asentelua librsvg2 kanssa edelleen
-
+	#reficul #VAIH:jatkossa pois tästä fktiosta tää kutsu, vaikka common_lib.part3 jatkossa kutsumaan
+	
 	#TODO:tähänkin psqa?
 	efk ${1}/libpam-modules-bin_*.deb
 	efk ${1}/libpam-modules_*.deb
