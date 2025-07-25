@@ -213,17 +213,17 @@ function pre1() { #VAIH
 		dqb "5TNA"
 		n=$(whoami)
 			
-		local ortsac
-		
+		local ostrac
+		local lefid
 
 		#VAIH:näille main muutoksia
-		#ortsac=$(echo ${1} | cut -d '/' -f 6 | tr -d -c a-z)
-		#lefid=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
+		#ostrac=$(echo ${1} | cut -d '/' -f 6 | tr -d -c a-z)
+		#lefid=$(echo ${1} | tr -d -c a-zA-Z/) # | cut -d '/' -f 1-5)
 		#HUOM.25725:voi periaatteessa mennä metsään tuo $lefid josqs, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 
-		enforce_access ${n} ${lefid} TODO:takaisin käyttöön
+		enforce_access ${n} ${lefid} #VAIH:takaisin käyttöön
 
-		ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
+		ostrac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
 		csleep 1
 
 		dqb "3NF0RC1NG D0N3"
@@ -232,17 +232,17 @@ function pre1() { #VAIH
 		${scm} 0755 /etc/apt
 		${scm} a+w /etc/apt/sources.list*
 
-		if [ -s /etc/apt/sources.list.${ortsac} ] ; then
+		if [ -s /etc/apt/sources.list.${ostrac} ] ; then
 			${smr} /etc/apt/sources.list #vähän jyrkkää mutta
 		else
 			#HUOM.20525:joutunee laittamaan uusiksi tässä
-			part1_5 ${ortsac}
+			part1_5 ${ostrac}
 		fi
 
-		if [ -f /etc/apt/sources.list.${ortsac} ] && [ -s /etc/apt/sources.list.${ortsac} ] && [ -r /etc/apt/sources.list.${ortsac} ] ; then 
+		if [ -f /etc/apt/sources.list.${ostrac} ] && [ -s /etc/apt/sources.list.${ostrac} ] && [ -r /etc/apt/sources.list.${ostrac} ] ; then 
 			[ -h /etc/apt/sources.list ] && ${smr} /etc/apt/sources.list
 			csleep 1
-			${slinky} /etc/apt/sources.list.${ortsac} /etc/apt/sources.list
+			${slinky} /etc/apt/sources.list.${ostrac} /etc/apt/sources.list
 		fi
 
 		${scm} -R a-w /etc/apt
