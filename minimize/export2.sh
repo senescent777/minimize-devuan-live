@@ -498,7 +498,7 @@ function tlb() { #VAIH
 	udp6 ${pkgdir}
 
 	#actually necessary
-	pre2 ${1} ${distro} ${iface} #TODO:mielellään globaalit wttuun vielä josqs
+	pre2 ${1} ${distro} ${2} #TODO:mielellään globaalit wttuun vielä josqs
 	other_horrors
 
 	dqb "x2.tlb.done"
@@ -859,6 +859,7 @@ pre1 ${d} ${distro}
 #HUOM.20525:pitäisi kai mode:n kanssa suosia numeerisia arvoja koska urputukset
 case ${mode} in
 	0|4) #HUOM.25725:sopisi nyt toimia case 4:n , 0 vielä testaamatta
+	#testatattu 25725 vielä uudemman kerran case 4 koska muutokset, tekee aketin edelleen
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		pre1 ${d} ${distro}
 		pre2 ${d} ${distro} ${iface}
@@ -874,8 +875,10 @@ case ${mode} in
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 
+		dd if=/dev/random bs=12 count=1 > ./rnd
 		${srat} -cvf ${d}/f.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
-		[ ${mode} -eq 0 ] && tp4 ${d}/f.tar ${d} #HUOM.25725:vissiin oli tarkoituksellla f.tar
+		[ ${mode} -eq 0 ] && tp4 ${d}/f.tar ${d}
+		 #HUOM.25725:vissiin oli tarkoituksellla f.tar eikä e.tar, tuossa yllä
 		${sifd} ${iface}
 
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
@@ -884,11 +887,11 @@ case ${mode} in
 		pre1 ${d} ${distro}
 		tp2 ${tgtfile}
 	;;
-	1|u|upgrade)
+	1|u|upgrade) #HUOM.25725:alustavat testit vaiheessa, tar:in saa luotua
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface}
-		tup u"${tgtfile}" ${d} ${iface}
+		tup ${tgtfile} ${d} ${iface}
 	;;
 	p) #HUOM.25725:testattu, ainakin tekee paketin  
 		
