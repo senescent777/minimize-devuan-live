@@ -221,7 +221,7 @@ function pre1() { #VAIH
 		#lefid=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
 		#HUOM.25725:voi periaatteessa mennä metsään tuo $lefid josqs, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 
-		#enforce_access ${n} ${lefid} TODO:takaisin käyttöön
+		enforce_access ${n} ${lefid} TODO:takaisin käyttöön
 
 		ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
 		csleep 1
@@ -259,9 +259,12 @@ function pre1() { #VAIH
 
 function pre2() { #VAIH
 	debug=1
-	dqb "pre2 ${1}, ${2} #WTIN KAARISULKEET STNA" 
+	dqb "pre2 ${1}, ${2} , ${3} ...#WTIN KAARISULKEET STNA" 
+
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 67
+	[ -z ${3} ] && exit 68
+
 	local ortsac
 	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
 
@@ -270,7 +273,7 @@ function pre2() { #VAIH
 		${odio} /opt/bin/changedns.sh ${dnsm} ${ortsac}
 		csleep 1
 
-		${sifu} ${iface}
+		${sifu} ${3} #iface}
 		[ ${debug} -eq 1 ] && ${sifc}
 		csleep 1
 
@@ -324,7 +327,7 @@ function tp1() {
 	pwd
 	csleep 1
 
-	if [ -d ${2} ] ; then #toimiiko tmä kohta?
+	if [ -d ${2} ] ; then #TODO:erilliseksi fktioksi tämä blokki
 		dqb "cleaning up ${2} "
 		csleep 1
 
@@ -341,7 +344,7 @@ function tp1() {
 
 	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		tpq ~ ${2}/.. #2. param oli aiemmin $d0
+		tpq ~ ${2}/.. #HUOM.25725:toimiiko näin?
 	else
 		dqb "PUIG DESTROYER"
 	fi
@@ -478,7 +481,7 @@ function tlb() { #VAIH
 	csleep 1
 
 	tpc7	
-	aswasw ${2} #iface}
+	aswasw ${2}
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 
 	#18725:toimiikohan se debian_interactive-jekku tässä? dpkg!=apt
@@ -493,7 +496,7 @@ function tlb() { #VAIH
 	udp6 ${pkgdir}
 
 	#actually necessary
-	pre2 ${1} ${distro}
+	pre2 ${1} ${distro} ${iface} #TODO:iface parametriksi
 	other_horrors
 
 	dqb "x2.tlb.done"
@@ -856,7 +859,7 @@ case ${mode} in
 	0|4) #HUOM.25725:sopisi nyt toimia case 4:n , 0 vielä testaamatta
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		pre1 ${d} ${distro}
-		pre2 ${d} ${distro}
+		pre2 ${d} ${distro} ${iface}
 
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
@@ -881,7 +884,7 @@ case ${mode} in
 	1|u|upgrade)
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
-		pre2 ${d} ${distro}
+		pre2 ${d} ${distro} ${iface}
 		tpu u"${tgtfile}" ${d}
 	;;
 	p)
@@ -889,11 +892,11 @@ case ${mode} in
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
-		pre2 ${d} ${distro}
+		pre2 ${d} ${distro} ${iface}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.25725:testit menossa
-		pre2 ${d} ${distro}
+	e)  #HUOM.25725:testit menossa, tai vissiin jo toimii
+		pre2 ${d} ${distro} ${iface}
 		tp4 ${tgtfile} ${d}
 	;;
 	f)  #HUOM.24725:output vaikuttaa järkevältä, vielä testaa miten import2 suhtautuu
@@ -921,7 +924,7 @@ case ${mode} in
 		csleep 3
 	;;
 	t) #HUOM.24725:output vaikuttaa järkevältä, vielä testaa miten import2 suhtautuu
-		pre2 ${d} ${distro}
+		pre2 ${d} ${distro} ${iface}
 		${NKVD} ${d}/*.deb
 		tlb ${d} ${iface}
 		${svm} ${pkgdir}/*.deb ${d}

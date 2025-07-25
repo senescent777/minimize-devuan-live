@@ -606,7 +606,7 @@ function e_v() {
 	csleep 1
 }
 
-#TODO:siitä yhdstä kohtaa kommentointi pois (pre1())
+#VAIH:siitä yhdstä kohtaa kommentointi pois (pre1())
 function e_h() {
 	debug=1
 	dqb "e_h( ${1} , ${2} )"

@@ -366,9 +366,9 @@ case "${mode}" in
 			dqb "CANNOT INCLUDE PROFS.HS"
 		fi
 	;;
-	u)
-		echo "reficul (TODO)"
-	;;
+#	u)
+#		echo "reficul (TODO)"
+#	;;
 	-h)
 		usage
 	;;
