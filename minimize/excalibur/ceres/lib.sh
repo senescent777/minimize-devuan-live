@@ -28,7 +28,6 @@ function reficul() {
 	dqb "UNDER CONRSTRUCCTION"
 }
 
-#TODO:efk
 function pr4() {
 	debug=1
 	dqb "xc.pr4( ${1} , ${2} )"
@@ -38,8 +37,7 @@ function pr4() {
 	csleep 1
 	dqb "XC.PR4.PART2"
 
-	${sdi} ${1}/isc-dhcp-*.deb
-	[ $? -eq 0 ] && ${NKVD} ${1}/isc-dhcp-*.deb
+	efk ${1}/isc-dhcp-*.deb
 
 	dqb "...done"
 	csleep 1
@@ -131,5 +129,5 @@ function tpc7() {
 	#${shary} nftables #excalibur-spesifisiä?	
 }
 
-check_binaries ${PREFIX}/${distro} #TODO:prefixin kanssa ehkä jotain
+check_binaries ${d} 
 check_binaries2
