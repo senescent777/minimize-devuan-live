@@ -820,8 +820,7 @@ function tpu() { #HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakent
 
 #TODO:-v tekemään jotain hyödyllistä (miten tilanne 8725 ja sen jälk?)
 
-function tp5() { #HUOM.25725:testattava seuraavaksi miten fktio n ulosteet toimivat
-	debug=1
+function tp5() { #HUOM.25725:tekee paketin, testattava vielä onko sisältö järkevä
 
 	dqb "tp5 ${1} ${2}"
 	[ -z ${1} ] && exit 99
@@ -890,8 +889,8 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface}
 		tpu u"${tgtfile}" ${d}
 	;;
-	p)
-		#VAIH
+	p) #HUOM.25725:testattu, ainakin tekee paketin  
+		
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
