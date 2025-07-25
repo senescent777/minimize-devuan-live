@@ -998,6 +998,8 @@ function part3_4real() {
 
 	#HUOM. dpkg -R olisi myös keksitty
 	local f
+
+	#TODO:käskyttämään efk?
 	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
 
 	if [ $? -eq  0 ] ; then

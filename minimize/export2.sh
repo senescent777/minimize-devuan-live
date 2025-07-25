@@ -214,12 +214,13 @@ function pre1() { #VAIH
 		n=$(whoami)
 			
 		local ortsac
-		#local lefid
+		
 
 		#VAIH:näille main muutoksia
 		#ortsac=$(echo ${1} | cut -d '/' -f 6 | tr -d -c a-z)
 		#lefid=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
-		#enforce_access ${n} ${lefid} tilapäisesti jemmaan 240725
+
+		#enforce_access ${n} ${lefid} TODO:takaisin käyttöön
 
 		ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
 		csleep 1
@@ -863,8 +864,10 @@ case ${mode} in
 		tp3 ${tgtfile} ${distro} 
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
-		${srat} -cvf ${d}/e.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
-		[ ${mode} -eq 0 ] && tp4 ${d}/e.tar ${d}
+		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
+
+		${srat} -cvf ${d}/f.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
+		[ ${mode} -eq 0 ] && tp4 ${d}/f.tar ${d}
 		${sifd} ${iface}
 
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
@@ -873,8 +876,10 @@ case ${mode} in
 		tp2 ${tgtfile}
 	;;
 	1|u|upgrade)
+		[ z"${tgtfile}" == "z" ] && exit 99 
+
 		pre2 ${d} ${distro}
-		tpu ${tgtfile} ${d}
+		tpu u"${tgtfile}" ${d}
 	;;
 	p)
 		#VAIH
@@ -884,7 +889,7 @@ case ${mode} in
 		pre2 ${d} ${distro}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.24725:fktion output vaikuttaa sopicvlta, jatkotestaus josqs
+	e)  #HUOM.25725:testit menossa
 		pre2 ${d} ${distro}
 		tp4 ${tgtfile} ${d}
 	;;
