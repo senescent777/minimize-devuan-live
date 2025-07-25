@@ -44,17 +44,7 @@ function c5p() {
 	csleep 1
 }
 
-#HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
-#HUOM.26525:2. parametri, tartteeko moista?
-#HUOM.21725:pitäisiköhän tätä sorkkia? kun sen yhden päivityspaketin kanssa ongelma (olisikohan jo korjautunut 24725 mennessä?)
-function pr4() {
-	debug=1
-	dqb "daud.pr4( ${1} , ${2} )"
-	csleep 1
-	[ -d ${1} ] || exit 66
-	dqb "paramz 0k"
-
-	#HUOM. tuo ao. ekf-rivistö(ennen libpam) tarpeen vain päivityspaketin kanssa, jospa erilliseen fktioon? 
+function reficul() {
 	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
 	efk ${1}/gcc-12*.deb
 
@@ -95,6 +85,20 @@ function pr4() {
 	efk ${1}/libvte*.deb #VAIH:selv miten tämän kanssa nykyään?
 	csleep 1
 
+}
+
+#HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
+#HUOM.26525:2. parametri, tartteeko moista?
+#HUOM.21725:pitäisiköhän tätä sorkkia? kun sen yhden päivityspaketin kanssa ongelma (olisikohan jo korjautunut 24725 mennessä?)
+#VAIH:gcc-libvte käsittely erilliseen fktioon jatkossa
+function pr4() {
+	debug=1
+	dqb "daud.pr4( ${1} , ${2} )"
+	csleep 1
+	[ -d ${1} ] || exit 66
+	dqb "paramz 0k"
+
+	reficul
 	#HUOM.31525:vituttava määrä asentelua librsvg2 kanssa edelleen
 
 	#TODO:tähänkin psqa?
