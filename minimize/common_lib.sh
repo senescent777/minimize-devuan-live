@@ -616,7 +616,6 @@ function e_v() {
 	csleep 1
 }
 
-#VAIH:siitä yhdstä kohtaa kommentointi pois (pre1())
 function e_h() {
 	debug=1
 	dqb "e_h( ${1} , ${2} )"
@@ -990,50 +989,50 @@ function part2_5() {
 	csleep 1
 }
 
-function part3_4real() {
-	debug=1
-	dqb "part3_4real( ${1} )"
-	csleep 1
-
-	[ y"${1}" == "y" ] && exit 1 #mikähän tässäkin on?
-	dqb "11"
-	csleep 1
-	[ -d ${1} ] || exit 2
-
-	dqb "22"
-	csleep 1
-	psqa ${1}
-
-	#HUOM. dpkg -R olisi myös keksitty
-	local f
-
-	#TODO:käskyttämään efk?
-	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
-
-	if [ $? -eq  0 ] ; then
-		dqb "part3.1 ok"
-		csleep 1
-		${NKVD} ${1}/lib*.deb
-	else
-		exit 66
-	fi
-
-	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
-
-	if [ $? -eq  0 ] ; then
-		dqb "part3.2 ok"
-		csleep 1
-		${NKVD} ${1}/*.deb
-	else
-		exit 67
-	fi
-
-	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
-	csleep 1
-
-	dqb "part3_4real( ${1} ) DONE"
-	csleep 1
-}
+#function part3_4real() {
+#	debug=1
+#	dqb "part3_4real( ${1} )"
+#	csleep 1
+#
+#	[ y"${1}" == "y" ] && exit 1 #mikähän tässäkin on?
+#	dqb "11"
+#	csleep 1
+#	[ -d ${1} ] || exit 2
+#
+#	dqb "22"
+#	csleep 1
+#	psqa ${1}
+#
+#	#HUOM. dpkg -R olisi myös keksitty
+#	local f
+#
+#	#TODO:käskyttämään efk?
+#	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
+#
+#	if [ $? -eq  0 ] ; then
+#		dqb "part3.1 ok"
+#		csleep 1
+#		${NKVD} ${1}/lib*.deb
+#	else
+#		exit 66
+#	fi
+#
+#	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
+#
+#	if [ $? -eq  0 ] ; then
+#		dqb "part3.2 ok"
+#		csleep 1
+#		${NKVD} ${1}/*.deb
+#	else
+#		exit 67
+#	fi
+#
+#	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
+#	csleep 1
+#
+#	dqb "part3_4real( ${1} ) DONE"
+#	csleep 1
+#}
 
 #TODO:tämän ja kutsuttujen fktioiden debug, saattaa olla jotain 
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus

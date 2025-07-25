@@ -268,7 +268,7 @@ function pre2() { #VAIH
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
-		${odio} /opt/bin/changedns.sh ${dnsm} ${ortsac}
+		${odio} /opt/bin/changedns.sh ${dnsm} ${ortsac} #TODO	:dnsm paramtriksi
 		csleep 1
 
 		${sifu} ${3} #iface}
@@ -316,7 +316,7 @@ function tpq() { #HUOM.24725:tämän casen output vaikuttaa järkevältä, lisä
 function tp0() {
 	dqb "tp0 ${1} , ${2} , ${3}  "
 
-	if [ -d ${2} ] ; then #VAIH:erilliseksi fktioksi tämä blokki
+	if [ -d ${2} ] ; then
 		dqb "cleaning up ${2} "
 		csleep 1
 
@@ -443,7 +443,7 @@ function aswasw() {
 	dqb " aswasw( ${1})"
 	csleep 1
 
-	case ${1} in #VAIH
+	case ${1} in
 		wlan0)
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
 			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
@@ -654,7 +654,7 @@ function tp2() { #HUOM.8725:olisikohan kunnossa tämä?
 		${srat} -rf ${1} /etc/sudoers.d/meshuggah
 	fi
 
-	if [ ${dnsm} -eq 1 ] ; then
+	if [ ${dnsm} -eq 1 ] ; then #TODO:glob wtt
 		local f;for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 	fi
