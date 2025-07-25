@@ -24,6 +24,10 @@ function cp5() {
 	csleep 1
 }
 
+function reficul() {
+	dqb "UNDER CONRSTRUCCTION"
+}
+
 #TODO:efk
 function pr4() {
 	debug=1
