@@ -498,7 +498,7 @@ function tlb() { #VAIH
 	udp6 ${pkgdir}
 
 	#actually necessary
-	pre2 ${1} ${distro} ${iface} #TODO:iface parametriksi
+	pre2 ${1} ${distro} ${iface} #TODO:mielellään globaalit wttuun vielä josqs
 	other_horrors
 
 	dqb "x2.tlb.done"
@@ -762,14 +762,15 @@ function tp3() { #VAIH
 	csleep 1
 }
 
-function tpu() { #HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakentamisen suhteen
+function tup() { #HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakentamisen suhteen
 	#-.. tai sitten viimeaikaiset kikkailut paskoneet part3/pr4/ppp3/whåtever
-	dqb "tpu ${1}, ${2}"
+	dqb "tup ${1}, ${2}, ${3}"
 
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] && mv ${1} ${1}.OLD
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
+	[ -z ${3} ] && exit 44
 	dqb "params_ok"
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
@@ -790,7 +791,7 @@ function tpu() { #HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakent
 		${NKVD} ${pkgdir}/${s}*
 	done
 
-	case ${iface} in #TODO:iface parametriksi jatkossa
+	case ${3} in #VAIH:iface parametriksi jatkossa
 		wlan0)
 			dqb "NOT REMOVING WPASUPPLICANT"
 			csleep 1
@@ -887,7 +888,7 @@ case ${mode} in
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface}
-		tpu u"${tgtfile}" ${d}
+		tup u"${tgtfile}" ${d} ${iface}
 	;;
 	p) #HUOM.25725:testattu, ainakin tekee paketin  
 		
