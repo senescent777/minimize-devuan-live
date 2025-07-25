@@ -280,6 +280,8 @@ case "${mode}" in
 		#... tai sitten export2:n tpu():n viimeisimmässä ulosteessa
 		#kun kerta joillain paketeilla purq+asennus onnaa
 
+		#HUOM.mikä pointti tuolla 3:sella taas olikaan?
+
 		#TODO:lib.lucifer huomiointi
 
 		dqb "ZER0 S0UND"
@@ -350,6 +352,9 @@ case "${mode}" in
 		else
 			dqb "CANNOT INCLUDE PROFS.HS"
 		fi
+	;;
+	u)
+		echo "call lucifer (TODO)"
 	;;
 	-h)
 		usage

@@ -43,6 +43,10 @@ case ${1} in
 	pw)
 		${d}/generic_doit.sh 1
 	;;
+#	u)
+#		read -p "source?" sorsa
+#		${d}/import2.sh u ${sorsa}
+#	;;
 	*)
 		echo "$0 [cmd]"
 	;;
