@@ -216,10 +216,8 @@ function pre1() { #VAIH
 		local ostrac
 		local lefid
 
-		#VAIH:näille main muutoksia
-		#ostrac=$(echo ${1} | cut -d '/' -f 6 | tr -d -c a-z)
-		#lefid=$(echo ${1} | tr -d -c a-zA-Z/) # | cut -d '/' -f 1-5)
-		#HUOM.25725:voi periaatteessa mennä metsään tuo $lefid josqs, mutta tuleeko käytännössä sellaista tilannetta vastaan?
+		lefid=$(echo ${1} | tr -d -c a-zA-Z/) # | cut -d '/' -f 1-5)
+		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 
 		enforce_access ${n} ${lefid} #VAIH:takaisin käyttöön
 
@@ -372,7 +370,7 @@ function tp1() {
 	csleep 1
 }
 
-#TODO:sen testaaminen miten import/part3() syö tämän fktion outputtia
+#VAIH:sen testaaminen miten import/part3() syö tämän fktion outputtia
 function rmt() { #HUOM.16725:toiminee muuten mutta param tark vähn pykii
 	debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
