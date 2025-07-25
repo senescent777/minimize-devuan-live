@@ -214,7 +214,7 @@ function common_part() {
 
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-5) #tr mukaan?
-	#18725:vissiin toimii jollain lailla tämä fktio
+	#HUOM.25725:voi periaatteessa mennä metsään tuo $t josqs, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 
 	if [ -x ${t}/common_lib.sh ] ; then
 		enforce_access ${n} ${t} 

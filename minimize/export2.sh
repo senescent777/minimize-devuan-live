@@ -219,6 +219,7 @@ function pre1() { #VAIH
 		#VAIH:näille main muutoksia
 		#ortsac=$(echo ${1} | cut -d '/' -f 6 | tr -d -c a-z)
 		#lefid=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c a-zA-Z/)
+		#HUOM.25725:voi periaatteessa mennä metsään tuo $lefid josqs, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 
 		#enforce_access ${n} ${lefid} TODO:takaisin käyttöön
 
