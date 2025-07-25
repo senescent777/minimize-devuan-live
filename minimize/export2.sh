@@ -465,10 +465,12 @@ function aswasw() {
 
 function tlb() { #VAIH
 	#debug=1
-	dqb "x2.tlb( ${1} ; ${2} )"
+	dqb "x2.tlb( ${1} ; ${2}  ; ${3} )"
 	csleep 1
 	dqb "\$shary= ${shary}"
 	csleep 2
+
+	[ -z ${3} ] && exit 11
 
 	if [ z"${pkgdir}" != "z" ] ; then
 		dqb "SHREDDED HUMANS"
@@ -498,7 +500,7 @@ function tlb() { #VAIH
 	udp6 ${pkgdir}
 
 	#actually necessary
-	pre2 ${1} ${distro} ${2} #TODO:mielellään globaalit wttuun vielä josqs
+	pre2 ${1} ${3} ${2} #VAIH:mielellään globaalit wttuun vielä josqs
 	other_horrors
 
 	dqb "x2.tlb.done"
@@ -524,7 +526,7 @@ function tp4() { #HUOM.24725:fktion output vaikuttaa sopicvlta, jatkotestaus jos
 	csleep 1
 	
 	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
-	tlb ${2} ${iface}
+	tlb ${2} ${iface} ${distro} #TODO:jatkossa nuo 2 viimeisintä parametreiksi
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
@@ -877,7 +879,7 @@ case ${mode} in
 
 		dd if=/dev/random bs=12 count=1 > ./rnd
 		${srat} -cvf ${d}/f.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
-		[ ${mode} -eq 0 ] && tp4 ${d}/f.tar ${d}
+		[ ${mode} -eq 0 ] && tp4 ${d}/f.tar ${d} ${distro} ${iface}
 		 #HUOM.25725:vissiin oli tarkoituksellla f.tar eikä e.tar, tuossa yllä
 		${sifd} ${iface}
 
@@ -903,7 +905,7 @@ case ${mode} in
 	;;
 	e)  #HUOM.25725:testit menossa, tai vissiin jo toimii
 		pre2 ${d} ${distro} ${iface}
-		tp4 ${tgtfile} ${d}
+		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
 	f)  #HUOM.24725:output vaikuttaa järkevältä, vielä testaa miten import2 suhtautuu
 		rmt ${tgtfile} ${d} #HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
@@ -929,10 +931,10 @@ case ${mode} in
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
-	t) #HUOM.24725:output vaikuttaa järkevältä, vielä testaa miten import2 suhtautuu
+	t) #HUOM.25725: testattava uusiksi koska muutokset
 		pre2 ${d} ${distro} ${iface}
 		${NKVD} ${d}/*.deb
-		tlb ${d} ${iface}
+		tlb ${d} ${iface} ${distro}
 		${svm} ${pkgdir}/*.deb ${d}
 		rmt ${tgtfile} ${d}
 	;;
