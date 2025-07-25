@@ -203,17 +203,16 @@ function psqa() {
 	csleep 1
 }
 
-function ppp3() { #jos nimeäisi uudestaan?
-	dqb "ppp3 ${1}"
+function ppp3() { #TODO:jos nimeäisi uudestaan?
+	dqb "common_lib.ppp3 ${1}"
 	csleep 1
-
-	local q
-	local r 
-
 	pwd
 	dqb "find ${1} -type f -name ' * .deb ' "
 	csleep 3
 
+	local q
+	local r 
+	#HUOM.25725:näistä polun leikkelyistä voi tulla ongelma
 	q=$(find ${1} -type f -name '*.deb' | wc -l)
 	r=$(echo ${1} | cut -d '/' -f 1-5)
 
@@ -343,19 +342,16 @@ function check_binaries() {
 			${smr} ${1}/e.tar
 		else
 			if [ -s ${1}/f.tar ] ; then
+				#jos -c $1 kuitesnkin?
 				${odio} ${srat} -xf ${1}/f.tar
 				${NKVD} ${1}/f.tar
 			fi
 		fi
 
-		#HUOM.21525:olisikohan niin simppeli juttu että dpkg seuraa linkkiä ja nollaa tdston mihin linkki osoittaa?
-		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 1
-		#ppp3 ${1} HUOM.25725:jos riittäisi jatkossa common_tbls tablesin asennukseen
-		
+		ppp3 ${1} #HUOM.25725:tarvitaan
 		common_tbls ${1} ${dnsm}
 
 		#pr4 ${1}
-		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 1
 		other_horrors
 
 		ipt=$(${odio} which iptables)
@@ -1033,14 +1029,17 @@ function part3() {
 	debug=1
 	dqb "part3 ${1} ${2}"
 	csleep 1
+
 	jules
 	ppp3 ${1}
 
 	local d2
 	d2=$(echo ${2} | tr -d -c 0-9)
-	common_tbls ${1} ${d2}
+	common_tbls ${1} ${d2} #ehkei tätä tartte kutsua jatkossa koska c_lib.check_bin()
 
+	reficul ${1}
 	pr4 ${1}
+	
 	part3_4real ${1}
 	other_horrors
 }

@@ -785,13 +785,15 @@ function tpu() { #HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakent
 		${NKVD} ${pkgdir}/${s}*
 	done
 
-	case ${iface} in
+	case ${iface} in #TODO:iface parametriksi jatkossa
 		wlan0)
 			dqb "NOT REMOVING WPASUPPLICANT"
 			csleep 1
 		;;
 		*)
 			${NKVD} ${pkgdir}/wpa*
+			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
+			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
 		;;
 	esac
 

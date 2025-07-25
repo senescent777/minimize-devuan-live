@@ -90,9 +90,10 @@ else
 		dqb "imp32.enf_acc()"
 	}
 
-	#HUOM.26525:tämä versio part3:sesta sikäli turha että common_lib urputtaa koska sha512sums muttei deb
+	#HUOM.26525:tämä versio part3:sesta sikäli turha että common_lib urputtaa koska sha512sums muttei deb?
 	function part3() {
 		dqb "NOT SUPPORTED"
+		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount:in tapahtumaan silloin kun varsinainen instailu ei onnaa
 	}
 
 	function ppp3() {
@@ -187,12 +188,14 @@ csleep 1
 function common_part() {
 	debug=1
 
-	dqb "common_part( ${1}, ${2})"
+	dqb "common_part( ${1}, ${2}, ${3})"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
+	[ y"${3}" == "y" ] && exit 1
 
 	[ y"${2}" == "y" ] && exit 11
 	[ -d ${2} ] || exit 22
+	[ -d ${3} ] || exit 33
 	dqb "paramz_0k"
 
 	cd /
@@ -207,8 +210,9 @@ function common_part() {
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
+	#TODO:jatkossa voisi -C - option parametrin johtaa $2:sesta?
 	csleep 1
-	${srat} -C / -xf ${1} #HUOM.23725:C-option voisi josqs jyrätä?
+	${srat} -C ${3} -xf ${1} #HUOM.23725:C-option voisi josqs jyrätä?
 	csleep 1
 	dqb "tar DONE"
 
@@ -268,8 +272,8 @@ case "${mode}" in
 		[ -s ${file} ] || exit 55
 
 		read -p "U R ABT TO EXTRACT ${file} , SURE ABOUT THAT?" confirm
-		[ "${confirm}" == "Y" ]  || exit 33
-		common_part ${file} ${d}
+		[ "${confirm}" == "Y" ]  || exit 77
+		common_part ${file} ${d} /
 
 		csleep 1
 		cd ${olddir}
@@ -301,19 +305,28 @@ case "${mode}" in
 
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
-		common_part ${file} ${d} #voi tietyst mennä mettään tuon $d/common_lib kanssa
+
+		#HUOM. jokin export:in / import:in fktio oli sellainen minkä voisi pilkkoa useampaan osaan, mikähän mahtoi olla?
+
+		if [ ${1} -eq 0 ] ; then
+			common_part ${file} ${d} / #voi tietystI mennä mettään tuon $d/common_lib kanssa?
+		else
+			common_part ${file} ${d} ${d}
+		fi
+
 		csleep 5
 
 		#sen yhden tar:in kanssa pitäisi selvittää mikä kusee (vai kuseeko vielä 23.7.25?)
 
 		if [ ${1} -eq 0 ] ; then
 			if [ -s ${d}/e.tar ] ; then
-				common_part ${d}/e.tar ${d}
+				common_part ${d}/e.tar ${d} /
 			else
 				dqb " ${d}/e.tar CANNOT BE FOUND"
 
 				if [ -s ${d}/f.tar ] ; then
-					dqb "common_part ${d}/f.tar ${d} (TODO)"
+					#dqb "common_part ${d}/f.tar ${d} (TODO)"
+					common_part ${d}/f.tar ${d} ${d} 				
 				fi
 			fi
 		fi
@@ -354,7 +367,7 @@ case "${mode}" in
 		fi
 	;;
 	u)
-		echo "call lucifer (TODO)"
+		echo "reficul (TODO)"
 	;;
 	-h)
 		usage

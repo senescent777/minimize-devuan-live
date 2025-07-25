@@ -27,11 +27,12 @@ case ${1} in
 		${d}/import2.sh -1
 		[ $? -gt 0 ] && exit 45 #HUOM. jos on jo valmiiksi mountattu ni turha exit
 		read -p "source?" sorsa
+		sleep 2
 
 		${d}/import2.sh 0 ${sorsa}
 		echo $?
-		
 		sleep 2
+
 		${d}/import2.sh 2
 	;;
 	doit)
@@ -43,7 +44,7 @@ case ${1} in
 	pw)
 		${d}/generic_doit.sh 1
 	;;
-#	u)
+#	u) 25-7-25 : ans ny kattoo tmän kanssa mitä tekee
 #		read -p "source?" sorsa
 #		${d}/import2.sh u ${sorsa}
 #	;;
