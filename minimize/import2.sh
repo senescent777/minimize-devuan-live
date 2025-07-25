@@ -280,6 +280,8 @@ case "${mode}" in
 		#... tai sitten export2:n tpu():n viimeisimmässä ulosteessa
 		#kun kerta joillain paketeilla purq+asennus onnaa
 
+		#TODO:lib.lucifer huomiointi
+
 		dqb "ZER0 S0UND"
 		csleep 1
 
@@ -307,6 +309,10 @@ case "${mode}" in
 				common_part ${d}/e.tar ${d}
 			else
 				dqb " ${d}/e.tar CANNOT BE FOUND"
+
+				if [ -s ${d}/f.tar ] ; then
+					dqb "common_part ${d}/f.tar ${d} (TODO)"
+				fi
 			fi
 		fi
 		

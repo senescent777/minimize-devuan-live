@@ -343,7 +343,7 @@ function check_binaries() {
 			${smr} ${1}/e.tar
 		else
 			if [ -s ${1}/f.tar ] ; then
-				${odio} ${srat} -xf ${1}/e.tar
+				${odio} ${srat} -xf ${1}/f.tar
 				${NKVD} ${1}/f.tar
 			fi
 		fi
@@ -610,6 +610,7 @@ function e_v() {
 	csleep 1
 }
 
+#TODO:siitä yhdstä kohtaa kommentointi pois
 function e_h() {
 	debug=1
 	dqb "e_h( ${1} , ${2} )"
