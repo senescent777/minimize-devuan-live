@@ -40,7 +40,6 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#TODO:kenties tähän whoami-testi?
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
 else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?

@@ -315,19 +315,10 @@ function tpq() { #HUOM.24725:tämän casen output vaikuttaa järkevältä, lisä
 	cd ${2}
 }
 
-#HUOM.25725:josko nyt toimisi tarpeeksi jyvin tp1()
-function tp1() { 
-	debug=1
+function tp0() {
+	dqb "tp0 ${1} , ${2} , ${3}  "
 
-	dqb "tp1 ${1} , ${2} , ${3}  "
-	[ -z ${1} ] && exit
-	dqb "params_ok"
-	csleep 1
-
-	pwd
-	csleep 1
-
-	if [ -d ${2} ] ; then #TODO:erilliseksi fktioksi tämä blokki
+	if [ -d ${2} ] ; then #VAIH:erilliseksi fktioksi tämä blokki
 		dqb "cleaning up ${2} "
 		csleep 1
 
@@ -340,6 +331,19 @@ function tp1() {
 		dqb "NO SUCH DIR ${2}"
 	fi
 
+	csleep 1
+}
+
+#HUOM.25725:josko nyt toimisi tarpeeksi jyvin tp1()
+function tp1() { 
+	debug=1
+
+	dqb "tp1 ${1} , ${2} , ${3}  "
+	[ -z ${1} ] && exit
+	dqb "params_ok"
+	csleep 1
+
+	pwd
 	csleep 1
 
 	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then
@@ -873,10 +877,11 @@ case ${mode} in
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 
 		${srat} -cvf ${d}/f.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
-		[ ${mode} -eq 0 ] && tp4 ${d}/f.tar ${d}
+		[ ${mode} -eq 0 ] && tp4 ${d}/f.tar ${d} #HUOM.25725:vissiin oli tarkoituksellla f.tar
 		${sifd} ${iface}
 
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
+		tp0  ${tgtfile} ${d} 	
 		tp1 ${tgtfile} ${d} #/
 		pre1 ${d} ${distro}
 		tp2 ${tgtfile}

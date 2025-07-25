@@ -203,8 +203,8 @@ function psqa() {
 	csleep 1
 }
 
-function ppp3() { #TODO:jos nimeäisi uudestaan?
-	dqb "common_lib.ppp3 ${1}"
+function pre_part3_clib() { #VAIH:jos nimeäisi uudestaan?
+	dqb "pre_part3_clib ${1}"
 	csleep 1
 	pwd
 	dqb "find ${1} -type f -name ' * .deb ' "
@@ -224,8 +224,9 @@ function ppp3() { #TODO:jos nimeäisi uudestaan?
 		#pitäis ikai huomioida että scm voi aiheuttaa sivuvaikutuksia myöhemmin
 		${scm} a-x ${r}/common_lib.sh 
 		
-		exit 55 #HUOM.24525:antaa olla kommenteissa toistaiseksi, ,esim. chimaeran tapauksessa ei välttis ole $distro:n alla .deb aluksi
-		#... tosin alkutilanteessa tables pitäisi chimaerasta löytyä	
+		#exit 55
+		#... tosin alkutilanteessa tables pitäisi chimaerasta löytyä
+		#HUOM.25725:laitettu yaas exit jemmaan koska chimaeran tapauksessa ei välttis paketteja kotihak alla koska tables löytyy valimiiksi	
 	fi
 }
 
@@ -236,6 +237,7 @@ function efk() {
 	csleep 1
 }
 
+#HUOM.25725:chimaeran kanssa kosahti yablesin asennus, libnetfilter ja libnfnetlink liittyvät
 function common_tbls() {
 	debug=1
 	dqb "COMMON TABLESD"
@@ -257,6 +259,14 @@ function common_tbls() {
 	[ $? -eq 0 ] && ${NKVD} ${1}/linux-modules*.deb
 	[ $? -eq 0 ] && ${odio} modprobe nft #tässä vai vähän alempana?
 	#HUOM.olisikohan yo .jutut distro-spesifisiä jossain määrin?
+
+	#chimaera-spesifisiä seur 2, pois jos pykii
+	efk ${1}/libnfnet*.deb  #TARKKANA PRKL PAKETTIEN KANSSA
+	csleep 1
+
+	efk ${1}/libnetfilter*.deb
+	csleep 1
+	#/chim
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
@@ -348,7 +358,7 @@ function check_binaries() {
 			fi
 		fi
 
-		ppp3 ${1} #HUOM.25725:tarvitaan
+		pre_part3_clib ${1} #HUOM.25725:tarvitaan
 		common_tbls ${1} ${dnsm}
 
 		#pr4 ${1}
@@ -638,9 +648,11 @@ function e_h() {
 	dqb "F1ND D0N3"
 	csleep 1
 
-	#TODO:ao. kohta uusiksi
-	${scm} 0555 ${2}/changedns.sh
-	${sco} root:root ${2}/changedns.sh
+	#VAIH:ao. kohta uusiksi
+	for f in ${2} /opt/bin ; do
+		${scm} 0555 ${f}/changedns.sh
+		${sco} root:root ${f}/changedns.sh
+	done
 
 	dqb "e_h()"
 	csleep 1
@@ -1031,11 +1043,11 @@ function part3() {
 	csleep 1
 
 	jules
-	ppp3 ${1}
+	pre_part3_clib ${1}
 
-	local d2
-	d2=$(echo ${2} | tr -d -c 0-9)
-	common_tbls ${1} ${d2} #ehkei tätä tartte kutsua jatkossa koska c_lib.check_bin()
+	#local d2
+	#d2=$(echo ${2} | tr -d -c 0-9)
+	#common_tbls ${1} ${d2} ehkei tätä tartte kutsua jatkossa koska c_lib.check_bin()
 
 	reficul ${1}
 	pr4 ${1}
