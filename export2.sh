@@ -1,0 +1,634 @@
+#!/bin/bash
+debug=0 #1
+distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa?
+d0=$(pwd)
+echo "d0= ${d0}"
+
+mode=-2
+tgtfile=""
+
+#HUOM.8725.1:joskohan wpa_supplicant.conf kanssa asiat kunnossa
+
+function dqb() {
+	[ ${debug} -eq 1 ] && echo ${1}
+}
+
+function csleep() {
+	[ ${debug} -eq 1 ] && sleep ${1}
+}
+
+function parse_opts_1() {
+	case "${1}" in
+		-v|--v)
+			debug=1
+		;;
+		*)
+			if [ ${mode} -eq -2 ] ; then
+				mode=${1}
+			else
+				if [ -d ${d}/${1} ] ; then 
+					distro=${1}
+				else
+					tgtfile=${1}
+				fi
+			fi
+		;;
+	esac
+}
+
+function parse_opts_2() {
+	dqb "parseopts_2 ${1} ${2}"
+}
+
+#parsetuksen knssa menee jännäksi jos conf pitää lkadata ennen common_lib (no paerse_opts:iin tiettty)
+d=${d0}/${distro}
+
+if [ -s ${d}/conf ] ; then
+	. ${d}/conf
+else #joutuukohan else-haaran muuttamaan jatkossa?
+	echo "CONF MISSING"
+	exit 55
+fi
+
+if [ -x ${d0}/common_lib.sh ] ; then 
+	. ${d0}/common_lib.sh
+else
+##	#HUOM.23525:oleellisempaa että import2 toimii tarvittaessa ilman common_lib
+##	#"lelukirjasto" saattaa toimia sen vErrAn että "$0 4 ..." onnistuu	
+##	
+##	srat="sudo /bin/tar"
+##	som="sudo /bin/mount"
+##	uom="sudo /bin/umount"
+##	scm="sudo /bin/chmod"
+##	sco="sudo /bin/chown"
+##	odio=$(which sudo)
+##
+##	#jos näillä lähtisi aiNAKin case q toimimaan
+##	n=$(whoami)
+##	sah6=$(${odio} which sha512sum)
+##	smr="${odio} which rm"
+##	smr="${odio} ${smr}"
+##
+##	function check_binaries() {
+##		dqb "exp2.ch3ck_b1nar135 ${1} "
+##	}
+##
+##	function check_binaries2() {
+##		dqb "exp2.ch3ck_b1nar135_2 ${1} "
+###	}
+##
+##	function fix_sudo() {
+##		dqb "exp32.fix.sudo"
+##	}
+##
+##	function enforce_access() {
+##		dqb "exp32.enf_acc"
+##	}
+##
+##	function part3() {
+##		dqb "exp32.part3"
+##	}
+##
+##	function part1_5() {
+##		dqb "exp32.p15"
+##	}
+##
+##	function message() {
+##		dqb "exp32.message"
+##	}
+##
+##	function jules() {
+##		dqb "exp32.jules"
+##	}
+##
+##	#HUOM.23525:josko tässä kohtaa pakotus riittäisi
+##	function other_horrors() {
+##		dqb "AZATHOTH AND OTHER HORRORS"
+##		#${spc} /etc/default/rules.* /etc/iptables #tartteeko tuota enää 27525?
+##
+##		${scm} 0400 /etc/iptables/*
+##		${scm} 0550 /etc/iptables
+##		${sco} -R root:root /etc/iptables
+##		${scm} 0400 /etc/default/rules*
+##		${scm} 0555 /etc/default
+##		${sco} -R root:root /etc/default
+##	}
+##
+##	function ppp3() { #TODO:rename or not?
+##		dqb "exp32.ppp3"
+##	}
+##
+##	prevopt=""
+##
+##	for opt in $@ ; do
+##		parse_opts_1 ${opt}
+##		parse_opts_2 ${prevopt} ${opt}
+##		prevopt=${opt}
+##	done
+
+	dqb "FALLBACK"
+	dqb "chmod may be a good idea now"
+fi
+
+[ -z ${distro} ] && exit 6
+d=${d0}/${distro}
+
+dqb "mode= ${mode}"
+dqb "distro=${distro}"
+dqb "file=${tgtfile}"
+csleep 2
+
+if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+	. ${d}/lib.sh
+#else
+#	echo "NOT (L1B AVA1LABL3 AND 3X3CUT4BL3)"
+#
+#	function pr4() {
+#		dqb "exp2.pr4 ${1} " 
+#	}
+#
+#	function udp6() {
+#		dqb "exp32.UPD6()"
+#	}
+#
+#	#onko tässä sktiptissä oleellista välittää $d part3:lle asti c_b välityksellä?
+#	check_binaries ${d}
+#	check_binaries2
+fi
+
+function usage() {
+	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
+	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
+	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
+	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
+	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \$ {d0} /\${distro}" 
+	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
+	echo "$0 q <> [] [] archives firefox settings"
+	echo "$0 t ... option for ipTables"			
+	echo "$0 -h: shows this message about usage"	
+}
+
+dqb "tar = ${srat} "
+
+for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
+	${scm} 0555 ${x}
+	${sco} root:root ${x}
+	${odio} ${x} ${dnsm} ${distro}
+	#[ -x $x ] && exit for 
+done
+
+dqb "AFTER CANGEDNS"
+csleep 1
+
+tig=$(${odio} which git)
+mkt=$(${odio} which mktemp)
+
+if [ x"${tig}" == "x" ] ; then
+	#HUOM. kts alempaa mitä git tarvitsee
+	echo "sudo apt-get update;sudo apt-get install git"
+	exit 7
+fi
+
+if [ x"${mkt}" == "x" ] ; then
+	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
+	echo "sudo apt-get update;sudo apt-get install coreutils"
+	exit 8
+fi
+
+${sco} -Rv _apt:root ${pkgdir}/partial/
+${scm} -Rv 700 ${pkgdir}/partial/
+csleep 1
+
+#HUOM. ei kovin oleellista ajella tätä skriptiä squashfs-cgrootin siäsllä
+#mutta olisi hyvä voida testailla sq-chrootin ulkopuolella
+
+dqb "PRE0"
+csleep 1
+
+#HUOM.26726:jokin ei-niin-ilmeinen bugitus menossa, toiv wi ole common_lib.sh syynä
+#jhokatap aloitettu expo2 jakaminen osiin käytönnöin syistä
+
+if [ -x ${d0}/e22.sh ] ; then
+	echo "222"
+	.  ${d0}/e22.sh
+	sleep 2 
+fi
+
+
+#
+
+#
+
+#
+#HUOM.25725:josko nyt toimisi tarpeeksi jyvin tp1()
+
+#
+##VAIH:sen testaaminen miten import/part3() syö tämän fktion outputtia
+#function rmt() { #HUOM.16725:toiminee muuten mutta param tark vähn pykii
+#	debug=1
+#	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
+#
+#	#[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
+#	#[ -s ${1} ] || exit 2
+#
+#	[ -z ${2} ] && exit 11
+#	[ -d ${2} ] || exit 22
+#
+#	dqb "paramz_ok"
+#	csleep 1
+#
+#	p=$(pwd)
+#	csleep 1
+#	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
+#
+#	if [ -f ${2}/sha512sums.txt ] ; then
+#		dqb "rem0v1ng pr3v1oisu shasums"
+#		csleep 1
+#
+#		${NKVD} ${2}/sha512sums.txt
+#	else
+#		dqb "JGFIGFIYT"
+#	fi
+#
+#	csleep 1
+#	local c
+#	c=$(find ${2} -type f -name '*.deb' | wc -l)
+#
+#	if [ ${c} -lt 1 ] ; then
+#		echo "TH3R3 1S N0 F15H"
+#		exit 55
+#	fi
+#
+#	dqb "KJHGOUYFIYT"
+#	csleep 1
+#
+#	${scm} 0444 ${2}/*.deb
+#	touch ${2}/sha512sums.txt
+#
+#	chown $(whoami):$(whoami) ${2}/sha512sums.txt
+#	chmod 0644 ${2}/sha512sums.txt
+#	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+#
+#	cd ${2}
+#	echo $?
+#
+#	${sah6} ./*.deb > ./sha512sums.txt
+#	csleep 1
+#	psqa .
+#
+#	${srat} -rf ${1} ./*.deb ./sha512sums.txt
+#	csleep 1
+#	cd ${p}
+#	dqb "rmt d0n3"
+#}
+#
+##HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia, tuskin menee qten alla
+#tcdd=$(cat /etc/devuan_version)
+#t2=$(echo ${d} | cut -d '/' -f 6 | tr -d -c a-zA-Z/) #tai suoraan $distro?
+#	
+#if [ ${tcdd} != ${t2} ] ; then
+#	dqb "XXX"
+#	csleep 1
+#	shary="${sag} install --download-only "
+#fi
+#
+#function aswasw() { #TODO:pois komm sitq mahd, 26726 tilap jemmaan koska ulinaa
+#	dqb " aswasw ${1}"
+#	csleep 1
+#
+#	case ${1} in
+#		wlan0)
+#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
+#			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
+#
+#			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3 adduser
+#			${shary} wpasupplicant
+#		;;
+#		*)
+#			dqb "not pulling wpasuplicant"
+#			csleep 1
+#		;;
+#	esac
+#
+#	${shary} isc-dhcp-client isc-dhcp-common
+#	dqb " aswasw ${1} DONE"
+#	csleep 1
+#}
+#
+#function tlb() { #VAIH
+#	#debug=1
+#	dqb "x2.tlb ${1} , ${2}  , ${3} "
+#	csleep 1
+#	dqb "\$shary= ${shary}"
+#	csleep 2
+#
+#	[ -z ${3} ] && exit 11
+#
+#	if [ z"${pkgdir}" != "z" ] ; then
+#		dqb "SHREDDED HUMANS"
+#		csleep 1
+#		${NKVD} ${pkgdir}/*.deb
+#	fi
+#
+#	dqb "EDIBLE AUTOPSY"
+#	csleep 1
+#	${fib}
+#	${asy}
+#	csleep 1
+#
+#	tpc7	
+#	aswasw ${2}
+#	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
+#
+#	#18725:toimiikohan se debian_interactive-jekku tässä? dpkg!=apt
+#	${shary} iptables
+#	${shary} iptables-persistent init-system-helpers netfilter-persistent
+#
+#	dqb "x2.tlb.part2"
+#	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
+#	csleep 2
+#
+#	#uutena 31525
+#	udp6 ${pkgdir}
+#
+#	#actually necessary
+#	pre2 ${1} ${3} ${2} #VAIH:mielellään globaalit wttuun vielä josqs
+#	other_horrors
+#
+#	dqb "x2.tlb.done"
+#}
+##https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
+##HUOM.25725:joskohan jakaisi tämän skriptin 2 osaan, fktio-kirjasto se uusi osa
+#
+#function tp4() { #HUOM.24725:fktion output vaikuttaa sopicvlta, jatkotestaus josqs
+#	debug=1
+#	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
+#
+#	#[ -z ${1} ] && exit 1 #mikä juttu näissä on?
+#	#[ -s ${1} ] || exit 2 #jotainn pykimistä 16725
+#	
+#	dqb "DEMI-SEC"
+#	csleep 1
+#
+#	[ -z ${2} ] && exit 11
+#	[ -d ${2} ] || exit 22
+#
+#	dqb "paramz_ok"
+#	csleep 1
+#	
+#	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
+#	tlb ${2} ${4} ${3} #VAIH:jatkossa nuo 2 viimeisintä parametreiksi
+#
+#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
+#	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
+#	#HUOM.28525:nalkutus alkoi jo tässä (siis ennenq libip4tc2-blokki siirretty)
+#
+#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
+#	${shary} libaudit1 libselinux1
+#	${shary} man-db sudo
+#	message
+#	jules
+#
+#	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
+#		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
+#		${shary} runit-helper
+#		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
+#		${lftr} 
+#
+#		#josqs ntp-jututkin mukaan?
+#		[ $? -eq 0 ] || exit 3
+#
+#		${shary} libev4
+#		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan libc6 uudelleenas tässä?
+#		${shary} stubby
+#	fi
+#
+#	dqb "${shary} git coreutils in secs"
+#	csleep 1
+#	${lftr} 
+#
+#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
+#	${shary} coreutils
+#	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 zlib1g 
+#	${shary} git-man git
+#
+#	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
+#	csleep 1
+#	${lftr}
+#
+#	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
+#	if [ -d ${2} ] ; then
+#		pwd
+#		csleep 1
+#
+#		${NKVD} ${2}/*.deb
+#		csleep 1		
+#		${svm} ${pkgdir}/*.deb ${2}
+#		rmt ${1} ${2}
+#	fi
+#
+#	dqb "tp4 donew"
+#	csleep 1
+#}
+#
+#koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
+#HUOM.20525:joskohan locale- ja rules- juttuja varten uusi fktio? vääntöä tuntuu riittävän nimittäin
+
+#
+##HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
+##dnsm 2. parametriksi... eiku ei, $2 onkin jo käytössä ja tarttisi sen cut-jekun
+
+#
+#function tup() { #HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakentamisen suhteen
+#	#-.. tai sitten viimeaikaiset kikkailut paskoneet part3/pr4/ppp3/whåtever
+#	dqb "tup ${1}, ${2}, ${3}"
+#
+#	[ -z ${1} ] && exit 1
+#	[ -s ${1} ] && mv ${1} ${1}.OLD
+#	[ -z ${2} ] && exit 11
+#	[ -d ${2} ] || exit 22
+#	[ -z ${3} ] && exit 44
+#	dqb "params_ok"
+#
+#	#pitäisiköhän kohdehmistostakin poistaa paketit?
+#	${NKVD} ${pkgdir}/*.deb
+#	dqb "TUP PART 2"
+#
+#	${fib} #uutena 205.25
+#	${sag} upgrade -u
+#	echo $?
+#	csleep 1
+#
+#	local s
+#
+#	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä... EIKU
+#		dqb "processing ${s} ..."
+#		csleep 1
+#
+#		${NKVD} ${pkgdir}/${s}*
+#	done
+#
+#	case ${3} in #VAIH:iface parametriksi jatkossa
+#		wlan0)
+#			dqb "NOT REMOVING WPASUPPLICANT"
+#			csleep 1
+#		;;
+#		*)
+#			${NKVD} ${pkgdir}/wpa*
+#			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
+#			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
+#		;;
+#	esac
+#
+#	udp6 ${pkgdir}
+#	dqb "UTP PT 3"
+#
+#	${svm} ${pkgdir}/*.deb ${2}
+#	${odio} touch ${2}/tim3stamp
+#	${scm} 0644 ${2}/tim3stamp
+#	${sco} $(whoami):$(whoami) ${2}/tim3stamp
+#
+#	date > ${2}/tim3stamp
+#	${srat} -cf ${1} ${2}/tim3stamp
+#	rmt ${1} ${2}
+#
+#	${sifd} ${iface}
+#	dqb "SIELUNV1H0LL1N3N"
+#}
+#
+##TODO:-v tekemään jotain hyödyllistä (miten tilanne 8725 ja sen jälk?)
+#
+#function tp5() { #HUOM.25725:tekee paketin, testattava vielä onko sisältö järkevä
+#
+#	dqb "tp5 ${1} ${2}"
+#	[ -z ${1} ] && exit 99
+#	[ -s ${1} ] || exit 98
+#	[ -d ${2} ] || exit 97
+# 
+#	dqb "params ok"
+#	csleep 1
+#
+#	local q
+#	q=$(${mkt} -d)
+#	cd ${q}
+#
+#	[ $? -eq 0 ] || exit 77
+#
+#	${tig} clone https://github.com/senescent777/more_scripts.git
+#	[ $? -eq 0 ] || exit 99
+#	
+#	#HUOM:{old,new} -> {0,1} ei liity
+#	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
+#	mv more_scripts/profs/profs* ${2}
+#
+#	${scm} 0755 ${2}/profs*
+#	${srat} -rvf ${1} ${2}/profs*
+#
+#	dqb "AAMUNK01"
+#}
+
+dqb "mode= ${mode}"
+dqb "tar= ${srat}"
+csleep 1
+[ -v testdris ] || pre1 ${d} ${distro}
+
+case ${mode} in
+	0|4) #HUOM.25725:sopisi nyt toimia case 4:n , 0 vielä testaamatta
+		#testatattu 25725 vielä uudemman kerran case 4 koska muutokset, tekee aketin edelleen
+		
+		[ z"${tgtfile}" == "z" ] && exit 99 
+		[ -v testdris ] || pre1 ${d} ${distro}
+		[ -v testdris ] || pre2 ${d} ${distro} ${iface}
+
+		${odio} touch ./rnd
+		${sco} ${n}:${n} ./rnd
+		${scm} 0644 ./rnd
+
+		dd if=/dev/random bs=12 count=1 > ./rnd
+		${srat} -cvf ${tgtfile} ./rnd
+		[ -v testdris ] || tp3 ${tgtfile} ${distro}
+		
+		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
+		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
+
+		dd if=/dev/random bs=12 count=1 > ./rnd
+		${srat} -cvf ${d}/f.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
+		[ ${mode} -eq 0 ] && tp4 ${d}/f.tar ${d} ${distro} ${iface}
+		#HUOM.25725:vissiin oli tarkoituksellla f.tar eikä e.tar, tuossa yllä
+		${sifd} ${iface}
+
+		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
+		tp0 ${tgtfile} ${d} 	
+		tp1 ${tgtfile} ${d} ${testdris}
+		pre1 ${d} ${distro}
+
+		[ -d ${testdris} ] || tp2 ${tgtfile}
+	;;
+	1|u|upgrade) #HUOM.25725:alustavat testit vaiheessa, tar:in saa luotua
+		[ z"${tgtfile}" == "z" ] && exit 99 
+
+		pre2 ${d} ${distro} ${iface}
+		tup ${tgtfile} ${d} ${iface}
+	;;
+	p) #HUOM.25725:testattu, ainakin tekee paketin  
+		
+		[ z"${tgtfile}" == "z" ] && exit 99 
+
+		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
+		pre2 ${d} ${distro} ${iface}
+		tp5 ${tgtfile} ${d0} 
+	;;
+	e)  #HUOM.25725:testit menossa, tai vissiin jo toimii
+		pre2 ${d} ${distro} ${iface}
+		tp4 ${tgtfile} ${d} ${distro} ${iface}
+	;;
+	f)  #HUOM.24725:output vaikuttaa järkevältä, vielä testaa miten import2 suhtautuu
+		rmt ${tgtfile} ${d} #HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
+	;;
+	q) #HUOM.24725:tämän casen output vaikuttaa järkevältä, lisää testejä myöhemmin
+		[ z"${tgtfile}" == "z" ] && exit 99
+		${sifd} ${iface}
+	
+		tpq ~ ${d0}
+		cd ${d0}
+	
+		q=$(mktemp)
+		${srat} -cf ${tgtfile} ${q}
+
+		dqb "	OIJHPIOJGHOYRI&RE"
+		pwd
+		csleep 1
+
+		for f in $(find . -type f -name config.tar.bz2 -or -name fediverse.tar) ; do
+			${srat} -rvf ${tgtfile} ${f}
+		done
+		
+		dqb "CASE Q D0N3"
+		csleep 3
+	;;
+	t) #HUOM.25725: testattava uusiksi koska muutokset
+		pre2 ${d} ${distro} ${iface}
+		${NKVD} ${d}/*.deb
+		tlb ${d} ${iface} ${distro}
+		${svm} ${pkgdir}/*.deb ${d}
+		rmt ${tgtfile} ${d}
+	;;
+	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata
+		usage
+	;;
+	*)
+		echo "-h"
+		exit
+	;;
+esac
+
+if [ -s ${tgtfile} ] ; then
+	${odio} touch ${tgtfile}.sha
+	${sco} $(whoami):$(whoami) ${tgtfile}.sha
+	${scm} 0644 ${tgtfile}.sha
+
+	${sah6} ${tgtfile} > ${tgtfile}.sha
+	${sah6} -c ${tgtfile}.sha
+
+	echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
+fi
