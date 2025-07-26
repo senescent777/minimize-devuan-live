@@ -31,39 +31,40 @@ function pre1() { #TODO:tesatattva
 	fi
 }
 
-#function pre2() { #VAIH
-#	debug=1
-#	dqb "pre2 ${1}, ${2} , ${3} ...#WTIN KAARISULKEET STNA" 
-#
-#	[ -z ${1} ] && exit 66
-#	[ -z ${2} ] && exit 67
-#	[ -z ${3} ] && exit 68
-#
-#	local ortsac
-#	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
-#
-#	if [ -d ${1} ] ; then
-#		dqb "PRKL"
-#		${odio} /opt/bin/changedns.sh ${dnsm} ${ortsac} #TODO	:dnsm paramtriksi
-#		csleep 1
-#
-#		${sifu} ${3} #iface}
-#		[ ${debug} -eq 1 ] && ${sifc}
-#		csleep 1
-#
-#		${sco} -Rv _apt:root ${pkgdir}/partial/
-#		${scm} -Rv 700 ${pkgdir}/partial/
-#
-#		${sag_u}
-#		csleep 1
-#	else
-#		echo "P.V.HH"
-#		exit 111
-#	fi
-#
-#	echo "PRE 2DONE"
-#	sleep 2
-#}
+function pre2() { #VAIH
+	debug=1
+	dqb "pre2 ${1}, ${2} , ${3} ...#WTIN KAARISULKEET STNA" 
+
+	[ -z ${1} ] && exit 66
+	[ -z ${2} ] && exit 67
+	[ -z ${3} ] && exit 68
+
+	local ortsac
+	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
+	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
+
+	if [ -d ${1} ] ; then
+		dqb "PRKL"
+		${odio} /opt/bin/changedns.sh ${dnsm} ${ortsac} #TODO	:dnsm paramtriksi
+		csleep 1
+
+		${sifu} ${3} #iface}
+		[ ${debug} -eq 1 ] && ${sifc}
+		csleep 1
+
+		${sco} -Rv _apt:root ${pkgdir}/partial/
+		${scm} -Rv 700 ${pkgdir}/partial/
+
+		${sag_u}
+		csleep 1
+	else
+		echo "P.V.HH"
+		exit 111
+	fi
+
+	echo "PRE 2DONE"
+	sleep 2
+}
 
 function tp0() {
 	dqb "tp0 ${1} , ${2} , ${3}  "
