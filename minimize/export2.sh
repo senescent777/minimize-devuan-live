@@ -533,8 +533,7 @@ csleep 1
 [ -v testdris ] || pre1 ${d} ${distro}
 
 case ${mode} in
-	0|4) #HUOM.25725:sopisi nyt toimia case 4:n , 0 vielä testaamatta
-		#testatattu 25725 vielä uudemman kerran case 4 koska muutokset, tekee aketin edelleen
+	0|4) #HUOM.26725:testaa nämä case:t, nelosella tekee tar:in, sisällön mielekkyys varmistettava
 		
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		[ -v testdris ] || pre1 ${d} ${distro}
@@ -564,13 +563,13 @@ case ${mode} in
 
 		[ -d ${testdris} ] || tp2 ${tgtfile}
 	;;
-	1|u|upgrade) #HUOM.25725:alustavat testit vaiheessa, tar:in saa luotua
+	1|u|upgrade) #HUOM.26725:testaa uusiksi
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface}
 		tup ${tgtfile} ${d} ${iface}
 	;;
-	p) #HUOM.25725:testattu, ainakin tekee paketin  
+	p) #HUOM.26725:testaa uusiksi  
 		
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
@@ -578,14 +577,14 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.25725:testit menossa, tai vissiin jo toimii
+	e)  #HUOM.26725:testaa uusiksi
 		pre2 ${d} ${distro} ${iface}
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
-	f)  #HUOM.24725:output vaikuttaa järkevältä, vielä testaa miten import2 suhtautuu
+	f)  #HUOM.26725:testaa uusiksi
 		rmt ${tgtfile} ${d} #HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-	q) #HUOM.24725:tämän casen output vaikuttaa järkevältä, lisää testejä myöhemmin
+	q) #HUOM.26725:testaa uusiksi (tpq() kai toimii)
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 	
