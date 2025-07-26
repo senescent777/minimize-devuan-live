@@ -1,4 +1,4 @@
-function pre1() { #TODO:tesatattva
+function pre1() { #TODO:tesatattva, erit disto-parametrin vaikutukset
 	dqb "pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 666
 
@@ -150,7 +150,8 @@ function tp1() {
 
 		#mettään menee edelleen, uusiksi 
 		dqb "./home/stubby ./home/devuan/Desktop/minimize" #tässäkin oli virhe
-		${srat} --exclude='*.deb' --exclude='conf*' -rvf ${1} ${t} # 
+		${srat} --exclude='*.deb' --exclude='conf*' -rvf ${1} ${t} 
+		#erikseen pitäisi se conf.example lisätä 
 	else
 		dqb "B"
 		csleep 1
@@ -337,5 +338,201 @@ function tp3() { #VAIH
 	cd ${p}
 	pwd
 	dqb "tp3 done"
+	csleep 1
+}
+
+function aswasw() { #TODO:pois komm sitq mahd, 26726 tilap jemmaan koska ulinaa
+	dqb " aswasw ${1}"
+	csleep 1
+
+	case ${1} in
+		wlan0)
+			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
+			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
+
+			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3 adduser
+			${shary} wpasupplicant
+		;;
+		*)
+			dqb "not pulling wpasuplicant"
+			csleep 1
+		;;
+	esac
+
+	${shary} isc-dhcp-client isc-dhcp-common
+	dqb " aswasw ${1} DONE"
+	csleep 1
+}
+
+#VAIH:sen testaaminen miten import/part3() syö tämän fktion outputtia
+function rmt() { #HUOM.16725:toiminee muuten mutta param tark vähn pykii
+	debug=1
+	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
+
+	#[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
+	#[ -s ${1} ] || exit 2
+
+	[ -z ${2} ] && exit 11
+	[ -d ${2} ] || exit 22
+
+	dqb "paramz_ok"
+	csleep 1
+
+	p=$(pwd)
+	csleep 1
+	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
+
+	if [ -f ${2}/sha512sums.txt ] ; then
+		dqb "rem0v1ng pr3v1oisu shasums"
+		csleep 1
+
+		${NKVD} ${2}/sha512sums.txt
+	else
+		dqb "JGFIGFIYT"
+	fi
+
+	csleep 1
+	local c
+	c=$(find ${2} -type f -name '*.deb' | wc -l)
+
+	if [ ${c} -lt 1 ] ; then
+		echo "TH3R3 1S N0 F15H"
+		exit 55
+	fi
+
+	dqb "KJHGOUYFIYT"
+	csleep 1
+
+	${scm} 0444 ${2}/*.deb
+	touch ${2}/sha512sums.txt
+
+	chown $(whoami):$(whoami) ${2}/sha512sums.txt
+	chmod 0644 ${2}/sha512sums.txt
+	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+
+	cd ${2}
+	echo $?
+
+	${sah6} ./*.deb > ./sha512sums.txt
+	csleep 1
+	psqa .
+
+	${srat} -rf ${1} ./*.deb ./sha512sums.txt
+	csleep 1
+	cd ${p}
+	dqb "rmt d0n3"
+}
+
+function tlb() { #VAIH
+	#debug=1
+	dqb "x2.tlb ${1} , ${2}  , ${3} "
+	csleep 1
+	dqb "\$shary= ${shary}"
+	csleep 2
+
+	[ -z ${3} ] && exit 11
+
+	if [ z"${pkgdir}" != "z" ] ; then
+		dqb "SHREDDED HUMANS"
+		csleep 1
+		${NKVD} ${pkgdir}/*.deb
+	fi
+
+	dqb "EDIBLE AUTOPSY"
+	csleep 1
+	${fib}
+	${asy}
+	csleep 1
+
+	tpc7	
+	aswasw ${2}
+	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
+
+	#18725:toimiikohan se debian_interactive-jekku tässä? dpkg!=apt
+	${shary} iptables
+	${shary} iptables-persistent init-system-helpers netfilter-persistent
+
+	dqb "x2.tlb.part2"
+	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
+	csleep 2
+
+	#uutena 31525
+	udp6 ${pkgdir}
+
+	#actually necessary
+	pre2 ${1} ${3} ${2} #VAIH:mielellään globaalit wttuun vielä josqs
+	other_horrors
+
+	dqb "x2.tlb.done"
+}
+
+function tp4() { #HUOM.24725:fktion output vaikuttaa sopicvlta, jatkotestaus josqs
+	debug=1
+	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
+
+	#[ -z ${1} ] && exit 1 #mikä juttu näissä on?
+	#[ -s ${1} ] || exit 2 #jotainn pykimistä 16725
+	
+	dqb "DEMI-SEC"
+	csleep 1
+
+	[ -z ${2} ] && exit 11
+	[ -d ${2} ] || exit 22
+
+	dqb "paramz_ok"
+	csleep 1
+	
+	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
+	tlb ${2} ${4} ${3} #VAIH:jatkossa nuo 2 viimeisintä parametreiksi
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
+	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
+	#HUOM.28525:nalkutus alkoi jo tässä (siis ennenq libip4tc2-blokki siirretty)
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
+	${shary} libaudit1 libselinux1
+	${shary} man-db sudo
+	message
+	jules
+
+	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
+		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
+		${shary} runit-helper
+		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
+		${lftr} 
+
+		#josqs ntp-jututkin mukaan?
+		[ $? -eq 0 ] || exit 3
+
+		${shary} libev4
+		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan libc6 uudelleenas tässä?
+		${shary} stubby
+	fi
+
+	dqb "${shary} git coreutils in secs"
+	csleep 1
+	${lftr} 
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
+	${shary} coreutils
+	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 zlib1g 
+	${shary} git-man git
+
+	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
+	csleep 1
+	${lftr}
+
+	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
+	if [ -d ${2} ] ; then
+		pwd
+		csleep 1
+
+		${NKVD} ${2}/*.deb
+		csleep 1		
+		${svm} ${pkgdir}/*.deb ${2}
+		rmt ${1} ${2}
+	fi
+
+	dqb "tp4 donew"
 	csleep 1
 }
