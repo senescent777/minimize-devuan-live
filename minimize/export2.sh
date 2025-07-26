@@ -437,101 +437,7 @@ fi
 #
 ##HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
 ##dnsm 2. parametriksi... eiku ei, $2 onkin jo käytössä ja tarttisi sen cut-jekun
-#function tp3() { #VAIH
-#	debug=1 #antaa olla vielä
-#	dqb "tp3 ${1} ${2}"
-#
-#	[ -z ${1} ] && exit 1
-#	[ -s ${1} ] || exit 2
-#
-#	dqb "paramz_0k"
-#	csleep 1
-#
-#	local p
-#	local q	
-#	tig=$(${odio} which git) #voisi alustaa jossain aiempana
-#
-#	p=$(pwd)
-#	q=$(${mkt} -d)
-#	cd ${q}
-#	
-#	[ ${debug} -eq 1 ] && pwd  
-#	csleep 1
-#
-#	#voisi jollain ehdolla estää kloonauksen
-#	${tig} clone https://github.com/senescent777/more_scripts.git
-#	[ $? -eq 0 ] || exit 66
-#	
-#	dqb "TP3 PT2"
-#	csleep 1
-#	cd more_scripts/misc
-#	echo $?
-#	csleep 1
-#
-#	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
-#	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm}
-#
-#	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
-#		${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1	
-#	fi
-#
-#	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
-#	# (ao. rivi tp2() jatkossa?)	
-#	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm}
-#
-#	if [ ! -s ./etc/resolv.conf.1 ] ; then
-#		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
-#	fi
-#
-#	#HUOM.14525.3:ghubista löytyvä(.new) vastaa tilannetta dnsm=1
-#	# (ao. rivi tp2() jatkossa?)
-#	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm}
-#
-#	if [ ! -s ./sbin/dhclient-script.1 ] ; then
-#		  ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
-#	fi
-#	
-#	#HUOM.14525.4:tp3 ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
-#	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? 
-#	# (ao. rivi tp2() jatkossa?)
-#
-#	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
-#
-#	if [ -f /etc/apt/sources.list ] ; then
-#		local c
-#		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
-#
-#		#HUOM.20525:onkohan tuo ehto hyvä noin? pikemminkin https läsnäolo?
-#		if [ ${c} -lt 1 ] ; then
-# 			${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
-#		fi
-#	fi
-#
-#	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
-#	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
-#	# (ao. rivi tp2() jatkossa?)
-#
-#	local r
-#	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
-#	pwd
-#
-#	dqb "r=${r}"
-#	csleep 2
-#	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
-#
-#	${sco} -R root:root ./etc
-#	${scm} -R a-w ./etc
-#	${sco} -R root:root ./sbin 
-#	${scm} -R a-w ./sbin
-#	${srat} -rvf ${1} ./etc ./sbin 
-#
-#	echo $?
-#	#HUOM.19725:qseeko tässä jokin? ei kai enää
-#	cd ${p}
-#	pwd
-#	dqb "tp3 done"
-#	csleep 1
-#}
+
 #
 #function tup() { #HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakentamisen suhteen
 #	#-.. tai sitten viimeaikaiset kikkailut paskoneet part3/pr4/ppp3/whåtever
@@ -640,7 +546,7 @@ case ${mode} in
 
 		dd if=/dev/random bs=12 count=1 > ./rnd
 		${srat} -cvf ${tgtfile} ./rnd
-		[ -d ${testdris} ] || tp3 ${tgtfile} ${distro}
+		[ -v testdris ] || tp3 ${tgtfile} ${distro}
 		
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
