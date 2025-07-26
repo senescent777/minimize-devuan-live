@@ -536,3 +536,31 @@ function tp4() { #HUOM.24725:fktion output vaikuttaa sopicvlta, jatkotestaus jos
 	dqb "tp4 donew"
 	csleep 1
 }
+
+function tp5() { #HUOM.26725:testattava uusiksi
+	dqb "tp5 ${1} ${2}"
+	[ -z ${1} ] && exit 99
+	[ -s ${1} ] || exit 98
+	[ -d ${2} ] || exit 97
+ 
+	dqb "params ok"
+	csleep 1
+
+	local q
+	q=$(${mkt} -d)
+	cd ${q}
+
+	[ $? -eq 0 ] || exit 77
+
+	${tig} clone https://github.com/senescent777/more_scripts.git
+	[ $? -eq 0 ] || exit 99
+	
+	#HUOM:{old,new} -> {0,1} ei liity
+	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
+	mv more_scripts/profs/profs* ${2}
+
+	${scm} 0755 ${2}/profs*
+	${srat} -rvf ${1} ${2}/profs*
+
+	dqb "AAMUNK01"
+}
