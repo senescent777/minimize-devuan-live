@@ -131,7 +131,9 @@ function tp1() {
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 
 	#26726:tähän asti ok
+	local t
 
+	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
 	#jatkossa tar if-blokin jälkeen?
 	if [  z"${3}" != "z" ] ; then
 		dqb "A"
@@ -142,7 +144,7 @@ function tp1() {
 		csleep 3
 
 		#TODO:se fiksumpi tapa, voiSiko esim $2:sta leikata $3:n bashilla jotenkin käteväsri?
-		local t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 4,5,6,7)
+		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 4,5,6,7)
 		echo ${t}
 		#exit
 
@@ -152,8 +154,8 @@ function tp1() {
 	else
 		dqb "B"
 		csleep 1
-
-		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${2}/.. # ${d0} globaalit wttuun tästäkin
+		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
+		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t} # ${d0} globaalit wttuun tästäkin
 	fi
 
 	dqb "tp1 d0n3"
