@@ -203,7 +203,7 @@ function psqa() {
 	csleep 1
 }
 
-function pre_part3_clib() { #VAIH:jos nimeäisi uudestaan?
+function pre_part3_clib() {
 	dqb "pre_part3_clib ${1}"
 	csleep 1
 	pwd
@@ -212,6 +212,7 @@ function pre_part3_clib() { #VAIH:jos nimeäisi uudestaan?
 
 	local q
 	local r 
+
 	#HUOM.25725:näistä polun leikkelyistä voi tulla ongelma
 	q=$(find ${1} -type f -name '*.deb' | wc -l)
 	r=$(echo ${1} | cut -d '/' -f 1-5)
@@ -227,6 +228,8 @@ function pre_part3_clib() { #VAIH:jos nimeäisi uudestaan?
 		#exit 55
 		#... tosin alkutilanteessa tables pitäisi chimaerasta löytyä
 		#HUOM.25725:laitettu yaas exit jemmaan koska chimaeran tapauksessa ei välttis paketteja kotihak alla koska tables löytyy valimiiksi	
+	else
+		psqa ${1} #tai miten menikään
 	fi
 }
 
@@ -498,7 +501,7 @@ function dinf() {
 
 #HUOM.29525:ei tarvitse parametreja tämä
 #...paitsi ehkä sudoersin mankelointiin, absoluuttiset polut oltava
-#joskohan jatkossa kertoisi parametrilla changedns.sh sijainnin?
+
 function pre_enforce() {
 	debug=1
 	dqb "common_lib.pre_enforce( ${1} )"
@@ -647,7 +650,6 @@ function e_h() {
 	dqb "F1ND D0N3"
 	csleep 1
 
-	#VAIH:ao. kohta uusiksi
 	for f in ${2} /opt/bin ; do
 		${scm} 0555 ${f}/changedns.sh
 		${sco} root:root ${f}/changedns.sh
@@ -1006,7 +1008,7 @@ function part2_5() {
 #	#HUOM. dpkg -R olisi myös keksitty
 #	local f
 #
-#	#TODO:käskyttämään efk?
+#	#VAIH:käskyttämään efk?
 #	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
 #
 #	if [ $? -eq  0 ] ; then
@@ -1034,7 +1036,7 @@ function part2_5() {
 #	csleep 1
 #}
 
-#TODO:tämän ja kutsuttujen fktioiden debug, saattaa olla jotain 
+#TODO:tämän ja kutsuttujen fktioiden debug, saattaa olla jotain ?
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
 function part3() {
 	debug=1
@@ -1043,6 +1045,7 @@ function part3() {
 
 	jules
 	pre_part3_clib ${1}
+	csleep 1
 
 	#local d2
 	#d2=$(echo ${2} | tr -d -c 0-9)
@@ -1050,8 +1053,21 @@ function part3() {
 
 	reficul ${1}
 	pr4 ${1}
+	csleep 1	
+
+	#part3_4real ${1}
+	efk ${1}/lib*.deb
+	[ $? -eq 0 ] || exit 66
+
+	csleep 1
 	
-	part3_4real ${1}
+	efk ${1}/*.deb
+	[ $? -eq 0 ] || exit 67	
+	csleep 1
+
+	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
+	csleep 1
+
 	other_horrors
 }
 

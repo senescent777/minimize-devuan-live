@@ -72,7 +72,7 @@ if [ -f ${tgt} ] ; then
 	process_entry ${tgt} /opt/bin/changedns.sh
 	sleep 2
 
-	if [ -v asdgasdg ] && [ -d ${asdgasdg} ] ; then
+	if [ -v testdris ] && [ -d ${testdris} ] ; then
 		cd ${asdgasdg}
 		p="."
 	else
