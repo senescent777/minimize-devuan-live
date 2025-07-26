@@ -90,6 +90,7 @@ function reficul() {
 
 	#HUOM.31525:vituttava määrä asentelua librsvg2 kanssa edelleen
 	dqb "---------------------------------------------------"
+	csleep 5
 }
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
@@ -103,8 +104,6 @@ function pr4() {
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 
-	#reficul #VAIH:jatkossa pois tästä fktiosta tää kutsu, vaikka common_lib.part3 jatkossa kutsumaan
-	
 	#TODO:tähänkin psqa?
 	efk ${1}/libpam-modules-bin_*.deb
 	efk ${1}/libpam-modules_*.deb
@@ -271,7 +270,5 @@ function tpc7() {
 }
 
 check_binaries ${d}
-#VAIH:tämän asettamisessa se chroot_env huomiointi
+#VAIH:tämän asettamisessa se chroot_env huomiointi?
 check_binaries2
-
-
