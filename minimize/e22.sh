@@ -469,8 +469,7 @@ function tlb() { #VAIH
 	dqb "x2.tlb.done"
 }
 
-function tp4() { #HUOM.24725:fktion output vaikuttaa sopicvlta, jatkotestaus josqs
-	debug=1
+function tp4() { #TODO:ala vähitellen testata miten fktion output kelpaa
 	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
 
 	#[ -z ${1} ] && exit 1 #mikä juttu näissä on?

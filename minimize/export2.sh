@@ -308,7 +308,7 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.26725:testaa uusiksi (tekee jo tar:in, sisältö testattava)
+	e)  #HUOM.28725:testaa uusiksi (tekee jo tar:in, sisältö testattava(TODO))
 		pre2 ${d} ${distro} ${iface}
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
