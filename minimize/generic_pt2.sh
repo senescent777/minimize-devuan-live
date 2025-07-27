@@ -40,6 +40,15 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
+if [ -f /.chroot ] ; then
+	echo "UNDER THE GRAV3YARD"
+	sleep 2
+	tar -jxvf ${d0}/necros.tar.bz2
+
+	sleep 3
+	rm ${d0}/necros.tar.bz2
+fi
+
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
 else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
@@ -55,8 +64,9 @@ else
 fi
 
 #HUOM.21725:nököjään kirjaston puuttuminen ei menoa haittaa, jatkuu urputuksella
-[ -z ${distro} ] && exit 6
+#HUOM.27725:vieläkö toistuu?
 
+[ -z ${distro} ] && exit 6
 dqb "BEFORE CNF"
 echo "dbig= ${debug}"
 sleep 1
@@ -224,7 +234,6 @@ function t2pf() {
 t2pc
 [ $? -gt 0 ] && exit #tähän tökkää?
 
-#VAIH:tähän keskimmäiseen xorriso:n yms. jyräykset (eli $dostro/lib)
 t2p
 [ $? -gt 0 ] && exit
 

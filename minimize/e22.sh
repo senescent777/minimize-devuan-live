@@ -48,7 +48,7 @@ function pre2() { #VAIH
 		${odio} /opt/bin/changedns.sh ${dnsm} ${ortsac} #TODO	:dnsm paramtriksi
 		csleep 1
 
-		${sifu} ${3} #iface}
+		${sifu} ${3}
 		[ ${debug} -eq 1 ] && ${sifc}
 		csleep 1
 
@@ -66,7 +66,7 @@ function pre2() { #VAIH
 	sleep 2
 }
 
-function tp0() {
+function tp0() { #TODO:1 param riittäisi jatkossa
 	dqb "tp0 ${1} , ${2} , ${3}  "
 
 	if [ -d ${2} ] ; then
@@ -89,7 +89,7 @@ function tpq() { #HUOM.24725:tämän casen output vaikuttaa järkevältä, lisä
 	dqb "tpq ${1} ${2}"
 
 	[ -d ${1} ] || exit 22
-	[ -d ${1} ] || exit 23	
+	[ -d ${2} ] || exit 23	#pitäisikö mennä näin?
 
 	dqb "paramz 0k"
 	csleep 1
@@ -111,6 +111,8 @@ function tpq() { #HUOM.24725:tämän casen output vaikuttaa järkevältä, lisä
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
+	#TODO:2. param tark?
+
 	dqb "params_ok"
 	csleep 1
 	pwd
@@ -148,7 +150,7 @@ function tp1() {
 		echo ${t}
 		#exit
 
-		#mettään menee edelleen, uusiksi 
+		#TODO:vissiin jatkossa niin että tässä haarassa .example voi ottaa, conf* ei
 		dqb "./home/stubby ./home/devuan/Desktop/minimize" #tässäkin oli virhe
 		${srat} --exclude='*.deb' --exclude='conf*' -rvf ${1} ${t} 
 		#erikseen pitäisi se conf.example lisätä 
@@ -163,7 +165,7 @@ function tp1() {
 	csleep 1
 }
 
-function tp2() { #HUOM.26725:voisi TAAS testata
+function tp2() { #TODO:voisi TAAS testata
 	debug=1
 	dqb "tp2 ${1} ${2}"
 
@@ -199,6 +201,7 @@ function tp2() { #HUOM.26725:voisi TAAS testata
 	dqb "JUST BEFORE LOCALES"
 	sleep 1
 
+	#TODO:locale- ja timezone- jutut toisella tavalla, tp2() kutSuvaan koodiin vaikkapa?
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
 	#HUOM.22525:tuossa alla locale->local niin saisi localtime:n mukaan mutta -type f
 	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
@@ -216,7 +219,7 @@ function tp2() { #HUOM.26725:voisi TAAS testata
 		exit 112
 	fi
 
-	case ${iface} in #TODO:iface parametriksi?
+	case ${2} in #VAIH:iface parametriksi?
 		wlan0)
 			[ ${debug} -eq 1 ] && echo "APW";sleep 3
 			${srat} -rvf ${1} /etc/wpa_supplicant/*.conf
@@ -341,7 +344,7 @@ function tp3() { #VAIH
 	csleep 1
 }
 
-function aswasw() { #TODO:pois komm sitq mahd, 26726 tilap jemmaan koska ulinaa
+function aswasw() { #TODO:tesraus vähitellen
 	dqb " aswasw ${1}"
 	csleep 1
 

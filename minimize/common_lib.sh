@@ -8,7 +8,6 @@ function csleep() {
 
 if [ -f /.chroot ] ; then
 	odio=""
-	#VAIH:tähän sitten jotain
 	debug=1
 
 	function itni() {
@@ -16,22 +15,8 @@ if [ -f /.chroot ] ; then
 		sco=$(which chown)
 		scm=$(which chmod)
 	}
-
-	function fix_sudo() {
-		dqb "alt.fix_sud0.pt0"
-	}
-
-	function other_horrors() {	
-		dqb "other_horrors() ASD ASDAS ASD"
-	}
 else
 	function itni() {
-		#VAIH:näille main muutoksia sitä chroot-ymp varten
-		#... kun ei kannatakaan sudottaa kaikkea noin vain
-
-		#...josko nuo odio-sco.-rivit se olennaisin osuus? muut vosi olla if-blokin jälkeen?
-		#... squ.ash -j ja 2. param? 
-
 		odio=$(which sudo)
 		[ y"${odio}" == "y" ] && exit 99 
 		[ -x ${odio} ] || exit 100
@@ -47,55 +32,55 @@ else
 
 	#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
 	#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
-
-	#nämä 2 fktiota mielellään ulos if-blokista jatkossa
-	function fix_sudo() {
-		dqb "fix_sud0.pt0"
-
-		${sco} -R 0:0 /etc/sudoers.d
-		${scm} 0440 /etc/sudoers.d/*
-		${sco} -R 0:0 /etc/sudo*
-		${scm} -R a-w /etc/sudo*
-
-		dqb "POT. DANGEROUS PT 1"
-
-		if [ -d /usr/lib/sudo ] ; then #onko moista daedaluksessa?
-			${sco} 0:0 /usr/lib/sudo/*
-			${scm} -R a-w /usr/lib/sudo/*
-			${scm} 0444 /usr/lib/sudo/sudoers.so
-		fi
-
-		dqb "fix_sud0.pt1"
-		${scm} 0750 /etc/sudoers.d
-		${scm} 0440 /etc/sudoers.d/*
-
-		#dqb "POT. DANGEROUS PT 2"
-		#HUOM.250325:onkohan tarkoitus että nämä komennot laittavat sudon epäkuntoon vai ei?
-		#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-		#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-		#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-	
-		[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
-		csleep 1
-		dqb "fix_sud0.d0n3"
-	}
-
-	function other_horrors() {	
-		dqb "other_horrors()"
-
-		${scm} 0400 /etc/iptables/*
-		${scm} 0550 /etc/iptables
-		${sco} -R root:root /etc/iptables
-		${scm} 0400 /etc/default/rules*
-		${scm} 0555 /etc/default
-		${sco} -R root:root /etc/default
-
-		dqb " DONE"
-		csleep 1
-	}
 fi
 
 itni
+#HUOM.27725:nalkutus kenbties /o/b/changedns.sgh tjsp, ei vältt juuri fix_sudo
+
+function fix_sudo() {
+	dqb "fix_sud0.pt0"
+
+	${sco} -R 0:0 /etc/sudoers.d
+	${scm} 0440 /etc/sudoers.d/*
+	${sco} -R 0:0 /etc/sudo*
+	${scm} -R a-w /etc/sudo*
+
+	dqb "POT. DANGEROUS PT 1"
+
+	if [ -d /usr/lib/sudo ] ; then #onko moista daedaluksessa?
+		${sco} 0:0 /usr/lib/sudo/*
+		${scm} -R a-w /usr/lib/sudo/*
+		${scm} 0444 /usr/lib/sudo/sudoers.so
+	fi
+
+	dqb "fix_sud0.pt1"
+	${scm} 0750 /etc/sudoers.d
+	${scm} 0440 /etc/sudoers.d/*
+
+	#dqb "POT. DANGEROUS PT 2"
+	#HUOM.250325:onkohan tarkoitus että nämä komennot laittavat sudon epäkuntoon vai ei?
+	#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+	#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+	
+	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
+	csleep 1
+	dqb "fix_sud0.d0n3"
+}
+
+function other_horrors() {	
+	dqb "other_horrors()"
+
+	${scm} 0400 /etc/iptables/*
+	${scm} 0550 /etc/iptables
+	${sco} -R root:root /etc/iptables
+	${scm} 0400 /etc/default/rules*
+	${scm} 0555 /etc/default
+	${sco} -R root:root /etc/default
+
+	dqb " DONE"
+	csleep 1
+}
 
 sco="${odio} ${sco} "
 scm="${odio} ${scm} "	
@@ -143,7 +128,7 @@ else
 	n=$(whoami)
 fi
 
-#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d ja  täytyisi muuttaa
+#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, alkaisiko jo olla kunnossa?
 fix_sudo
 other_horrors
 

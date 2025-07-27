@@ -78,12 +78,15 @@ if [ -f ${tgt} ] ; then
 	else
 		echo "SOMTHING ELSE"
 		p=$(pwd)
+
+		#menisiköhän vaikka näin
+		for f in $(find ${p}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
 	fi
 
 	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
 
-	#TODO:conf*-kohtaan muutoksia
-	for f in $(find ${p}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
+	#VAIH:conf*-kohtaan muutoksia
+	for f in $(find ${p}/ -name '*.example') ; do process_entry ${tgt} ${f} ; done
 
 	for f in $(find ${p}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
 	for f in $(find ${p}/ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
@@ -111,12 +114,14 @@ if [ -f ${tgt} ] ; then
 	${scm} 0444 /etc/iptables/*
 	${scm} 0444 /etc/default/rules*
 	sleep 2
-				
-	for f in $(find /etc -name 'rules*') ; do #type f mukaan?
-		if [ -s ${f} ] && [ -r ${f} ] ; then
-			process_entry ${tgt} ${f}
-		fi
-	done #JOSKO NYT SKEOILU VÄHENISI PRKL
+	
+	#if [ ! -v testdris ] || [ ! -d ${testdris} ] ; then		
+		for f in $(find /etc -name 'rules*') ; do #type f mukaan?
+			if [ -s ${f} ] && [ -r ${f} ] ; then
+				process_entry ${tgt} ${f}
+			fi
+		done #JOSKO NYT SKEOILU VÄHENISI PRKL
+	#fi
 
 	${scm} 0400 /etc/default/rules*
 	${scm} 0400 /etc/iptables/*
@@ -126,12 +131,14 @@ if [ -f ${tgt} ] ; then
 	#pitäisi kai tehdä jotain että tuoreimmat muutokset /e/n ja /e/a menevät tar:iin asti? typojen korjaus olisi hyvä alku
 
 	#TODO:/e/n- ja /e/a-kohdat uusiksi jatkossa
-	#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
-	for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
+	#if [ ! -v testdris ] || [ ! -d ${testdris} ] ; then
+		#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
+		for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
 
-	#uutena 28525
-	for f in $(find /etc/apt -type f -name 'sources*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
-	sleep 2
+		#uutena 28525
+		for f in $(find /etc/apt -type f -name 'sources*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
+		sleep 2
+	#fi
 
 	#HUOM.saattaa urputtaa $tgt polusta riippuen
 	#HUOM.2:miten toimii omegan ajon jälkeen?

@@ -9,7 +9,16 @@ debug=0
 d=${d0}/${distro}
 
 #VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d täytyisi muuttaa
-#... jokin else-haara tuohon alle
+#... jokin else-haara tuohon alle vai ei?
+
+if [ -f /.chroot ] ; then
+	echo "UNDER THE GRAV3YARD"
+	sleep 2
+	tar -jxvf ${d0}/necros.tar.bz2
+
+	sleep 3
+	rm ${d0}/necros.tar.bz2
+fi
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
@@ -114,6 +123,8 @@ function el_loco() {
 		export LC_ALL
 	fi
 
+	#HUOM.27725:sq-chroot-ymp perl valittaa LANGIAGE ja ALL , voisi tehdä jotain
+
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
 		csleep 1
@@ -213,7 +224,7 @@ if [ -x ${d0}/profs.sh ] ; then
 		csleep 1
 
 		imp_prof esr ${n} ${q}
-		dqb "NO SUCH THING AS ${tgt}"
+		#dqb "NO SUCH THING AS ${tgt}" #tämän ilmoituksen fktio? pitäisikö olla else-haarassa?
 	fi
 
 	csleep 1

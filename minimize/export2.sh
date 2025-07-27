@@ -6,7 +6,6 @@ echo "d0= ${d0}"
 
 mode=-2
 tgtfile=""
-
 #HUOM.8725.1:joskohan wpa_supplicant.conf kanssa asiat kunnossa
 
 function dqb() {
@@ -262,11 +261,13 @@ dqb "tar= ${srat}"
 csleep 1
 [ -v testdris ] || pre1 ${d} ${distro}
 
+#TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
+
 case ${mode} in
 	0|4) #HUOM.26725:testaa nämä case:t, nelosella tekee tar:in, sisällön mielekkyys varmistettava
 		
 		[ z"${tgtfile}" == "z" ] && exit 99 
-		[ -v testdris ] || pre1 ${d} ${distro}
+		[ -v testdris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
 		[ -v testdris ] || pre2 ${d} ${distro} ${iface}
 
 		${odio} touch ./rnd
@@ -291,7 +292,7 @@ case ${mode} in
 		tp1 ${tgtfile} ${d} ${testdris}
 		pre1 ${d} ${distro}
 
-		[ -d ${testdris} ] || tp2 ${tgtfile}
+		[ -d ${testdris} ] || tp2 ${tgtfile} ${iface}
 	;;
 	1|u|upgrade) #HUOM.26725:testaa uusiksi
 		[ z"${tgtfile}" == "z" ] && exit 99 
@@ -341,6 +342,17 @@ case ${mode} in
 		tlb ${d} ${iface} ${distro}
 		${svm} ${pkgdir}/*.deb ${d}
 		rmt ${tgtfile} ${d}
+	;;
+	c) #uusi optio chroot-juttuja varten
+		[ z"${tgtfile}" == "z" ] && exit 99
+
+		cd ${d0}
+		q=$(mktemp)
+		${srat} -cvf ${tgtfile} ${q}
+
+		for f in $(find . -type f -name conf -or -name lib.sh) ; do ${srat} -rvf ${tgtfile} ${f} ; done
+		bzip2 ${tgtfile}
+		tgtfile="${tgtfile}".bz2 
 	;;
 	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata
 		usage

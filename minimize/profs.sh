@@ -2,7 +2,6 @@
 #csleep 6
 
 #lukkotiedostojen hävitys oli kanssa 1 juttu mikä piti uistaa tehdä...
-#TODO:pois tästä minimiza-hmiston alta, kuuluu toiseen repositoryyn
 
 function oldprof() {
 	dqb "cprof1 ${1} ${2}"

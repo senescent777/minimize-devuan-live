@@ -11,7 +11,7 @@ d0=$(pwd)
 echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
-#TODO:pitäisikö vielä minimoida latensseja tästä skriptistä ja sen käyttämistä?
+#pitäisikö vielä minimoida latensseja tästä skriptistä? ja sen käyttämistä?
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -45,6 +45,15 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
+if [ -f /.chroot ] ; then
+	echo "UNDER THE GRAV3YARD"
+	sleep 2
+
+	tar -jxvf ${d0}/necros.tar.bz2
+	sleep 3
+	rm ${d0}/necros.tar.bz2
+fi
+
 #HUOM.21725:oliko jotain erityistä syyt miksi conf cmmon_lib jälkeen? $distroon liittyvät kai, pitäisi miettiä, nyt näin
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
@@ -54,7 +63,7 @@ else #joutuukohan else-haaran muuttamaan jatkossa?
 fi
 
 if [ -x ${d0}/common_lib.sh ] ; then #VAIH:muutox chroot varten?
-	#... saattaa olla että sq-chroot:in sisällä ei tarvitsekaan:import2.sh
+	#... saattaa olla että sq-chroot:in sisällä ei tarvitsekaan:import2.sh mutta vägän kätevänou ehgkä
 	. ${d0}/common_lib.sh
 else
 	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston"
@@ -153,10 +162,6 @@ else
 		dqb "imp2.pr4 (\${1})" 
 	}
 
-	#function pre_part3() {
-	#	dqb "imp2.pre_part3( \${1} \${2})"
-	#}
-
 	check_binaries ${d} #parametrit kunnossq?
 	echo $?
 	[ $? -eq 0 ] || exit 7
@@ -174,8 +179,10 @@ function usage() {
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
 
-if [ ! -s /OLD.tar ] ; then 
-	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
+if [ ! -f /.chroot ] ; then
+	if [ ! -s /OLD.tar ] ; then 
+		${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
+	fi
 fi
 
 dqb "b3f0r3 par51ng tha param5"
@@ -305,7 +312,7 @@ case "${mode}" in
 		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
 
-		#HUOM. jokin export:in / import:in fktio oli sellainen minkä voisi pilkkoa useampaan osaan, mikähän mahtoi olla?
+		#HUOM. jokin export:in / import:in fktio oli sellainen minkä voisi pilkkoa useampaan osaan, mikähän mahtoi olla? tp1() kai
 
 		if [ ${1} -eq 0 ] ; then
 			common_part ${file} ${d} / #voi tietystI mennä mettään tuon $d/common_lib kanssa?
@@ -366,7 +373,7 @@ case "${mode}" in
 #	u)
 #		echo "reficul (TODO)"
 #	;;
-	-h)
+	-h) #HUOM.27725:ilman param kuuluisi kai keskeyttää suor mahd aik vaiheessa
 		usage
 	;;
 	*)
