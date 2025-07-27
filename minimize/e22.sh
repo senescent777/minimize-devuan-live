@@ -165,12 +165,12 @@ function tp1() {
 	csleep 1
 }
 
-function tp2() { #TODO:voisi TAAS testata
+function tp2() { #VAIH:voisi TAAS testata
 	debug=1
 	dqb "tp2 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
-	[ -s ${1} ] || exit 2
+	[ -z ${1} ] && exit 2
 
 	dqb "params_ok"
 	csleep 1

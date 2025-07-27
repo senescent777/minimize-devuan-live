@@ -264,8 +264,8 @@ csleep 1
 #TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
 
 case ${mode} in
-	0|4) #HUOM.26725:testaa nämä case:t, nelosella tekee tar:in, sisällön mielekkyys varmistettava
-		
+	0|4) #HUOM.27725:4 tekee edelleen tarin, vaan onko sisältö järkevä? let's find out
+
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		[ -v testdris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
 		[ -v testdris ] || pre2 ${d} ${distro} ${iface}
@@ -292,7 +292,7 @@ case ${mode} in
 		tp1 ${tgtfile} ${d} ${testdris}
 		pre1 ${d} ${distro}
 
-		[ -d ${testdris} ] || tp2 ${tgtfile} ${iface}
+		[ -v testdris ] || tp2 ${tgtfile} ${iface}
 	;;
 	1|u|upgrade) #HUOM.26725:testaa uusiksi
 		[ z"${tgtfile}" == "z" ] && exit 99 
