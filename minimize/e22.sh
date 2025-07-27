@@ -83,13 +83,12 @@ function tp0() { #TODO:1 param riittäisi jatkossa
 	csleep 1
 }
 
-#pois koemmenteista 26726.18 tienboilla, takaisin kommentteihin jos qsee
-function tpq() { #HUOM.24725:tämän casen output vaikuttaa järkevältä, lisää testejä myöhemmin		
+function tpq() { #VAIH:kts että fktion output järkevää		
 	debug=1
 	dqb "tpq ${1} ${2}"
 
-	[ -d ${1} ] || exit 22
-	[ -d ${2} ] || exit 23	#pitäisikö mennä näin?
+	#[ -d ${1} ] || exit 22
+	#[ -d ${2} ] || exit 23	#pitäisikö mennä näin?
 
 	dqb "paramz 0k"
 	csleep 1
@@ -539,10 +538,10 @@ function tp4() { #TODO:ala vähitellen testata miten fktion output kelpaa
 	csleep 1
 }
 
-function tp5() { #HUOM.26725:testattava uusiksi
+function tp5() { #HUOM.28725:testattava uusiksi fktion output, TODO
 	dqb "tp5 ${1} ${2}"
 	[ -z ${1} ] && exit 99
-	[ -s ${1} ] || exit 98
+	#[ -s ${1} ] || exit 98 tässä qsee?
 	[ -d ${2} ] || exit 97
  
 	dqb "params ok"

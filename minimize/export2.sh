@@ -300,7 +300,7 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface}
 		tup ${tgtfile} ${d} ${iface}
 	;;
-	p) #HUOM.26725:testaa uusiksi  (arkiston sisältö lähinnä)
+	p) #HUOM.28725:testaa uusiksi  (arkiston sisältö lähinnä, TODO)
 		
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
@@ -315,10 +315,11 @@ case ${mode} in
 	f)  #HUOM.26725:testaa uusiksi
 		rmt ${tgtfile} ${d} #HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-	q) #HUOM.26725:testaa uusiksi (tpq() kai toimii)
+	q) #VAIH:testaa uusiksi tpq() output, meneekö arkistoo nmitä pitää?
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 	
+		#HUOM.28725:roiskiiko väärään hakemistoon juttuja tpq()?
 		tpq ~ ${d0}
 		cd ${d0}
 	
@@ -329,7 +330,9 @@ case ${mode} in
 		pwd
 		csleep 1
 
-		for f in $(find . -type f -name config.tar.bz2 -or -name fediverse.tar) ; do
+		#TODO:pitäisi kai sanoa cd tässä
+
+		for f in $(find ~ -type f -name config.tar.bz2 -or -name fediverse.tar) ; do
 			${srat} -rvf ${tgtfile} ${f}
 		done
 		
