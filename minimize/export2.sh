@@ -223,64 +223,7 @@ fi
 #HUOM.25725:josko nyt toimisi tarpeeksi jyvin tp1()
 
 #
-##VAIH:sen testaaminen miten import/part3() syö tämän fktion outputtia
-#function rmt() { #HUOM.16725:toiminee muuten mutta param tark vähn pykii
-#	debug=1
-#	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
-#
-#	#[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
-#	#[ -s ${1} ] || exit 2
-#
-#	[ -z ${2} ] && exit 11
-#	[ -d ${2} ] || exit 22
-#
-#	dqb "paramz_ok"
-#	csleep 1
-#
-#	p=$(pwd)
-#	csleep 1
-#	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
-#
-#	if [ -f ${2}/sha512sums.txt ] ; then
-#		dqb "rem0v1ng pr3v1oisu shasums"
-#		csleep 1
-#
-#		${NKVD} ${2}/sha512sums.txt
-#	else
-#		dqb "JGFIGFIYT"
-#	fi
-#
-#	csleep 1
-#	local c
-#	c=$(find ${2} -type f -name '*.deb' | wc -l)
-#
-#	if [ ${c} -lt 1 ] ; then
-#		echo "TH3R3 1S N0 F15H"
-#		exit 55
-#	fi
-#
-#	dqb "KJHGOUYFIYT"
-#	csleep 1
-#
-#	${scm} 0444 ${2}/*.deb
-#	touch ${2}/sha512sums.txt
-#
-#	chown $(whoami):$(whoami) ${2}/sha512sums.txt
-#	chmod 0644 ${2}/sha512sums.txt
-#	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
-#
-#	cd ${2}
-#	echo $?
-#
-#	${sah6} ./*.deb > ./sha512sums.txt
-#	csleep 1
-#	psqa .
-#
-#	${srat} -rf ${1} ./*.deb ./sha512sums.txt
-#	csleep 1
-#	cd ${p}
-#	dqb "rmt d0n3"
-#}
+
 #
 ##HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia, tuskin menee qten alla
 #tcdd=$(cat /etc/devuan_version)
@@ -291,145 +234,14 @@ fi
 #	csleep 1
 #	shary="${sag} install --download-only "
 #fi
-#
-#function aswasw() { #TODO:pois komm sitq mahd, 26726 tilap jemmaan koska ulinaa
-#	dqb " aswasw ${1}"
-#	csleep 1
-#
-#	case ${1} in
-#		wlan0)
-#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-#			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
-#
-#			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3 adduser
-#			${shary} wpasupplicant
-#		;;
-#		*)
-#			dqb "not pulling wpasuplicant"
-#			csleep 1
-#		;;
-#	esac
-#
-#	${shary} isc-dhcp-client isc-dhcp-common
-#	dqb " aswasw ${1} DONE"
-#	csleep 1
-#}
-#
-#function tlb() { #VAIH
-#	#debug=1
-#	dqb "x2.tlb ${1} , ${2}  , ${3} "
-#	csleep 1
-#	dqb "\$shary= ${shary}"
-#	csleep 2
-#
-#	[ -z ${3} ] && exit 11
-#
-#	if [ z"${pkgdir}" != "z" ] ; then
-#		dqb "SHREDDED HUMANS"
-#		csleep 1
-#		${NKVD} ${pkgdir}/*.deb
-#	fi
-#
-#	dqb "EDIBLE AUTOPSY"
-#	csleep 1
-#	${fib}
-#	${asy}
-#	csleep 1
-#
-#	tpc7	
-#	aswasw ${2}
-#	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
-#
-#	#18725:toimiikohan se debian_interactive-jekku tässä? dpkg!=apt
-#	${shary} iptables
-#	${shary} iptables-persistent init-system-helpers netfilter-persistent
-#
-#	dqb "x2.tlb.part2"
-#	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
-#	csleep 2
-#
-#	#uutena 31525
-#	udp6 ${pkgdir}
-#
-#	#actually necessary
-#	pre2 ${1} ${3} ${2} #VAIH:mielellään globaalit wttuun vielä josqs
-#	other_horrors
-#
-#	dqb "x2.tlb.done"
-#}
+#TODO:t2-kikkailut jatkossa ennen e22?
+
+
+
 ##https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 ##HUOM.25725:joskohan jakaisi tämän skriptin 2 osaan, fktio-kirjasto se uusi osa
 #
-#function tp4() { #HUOM.24725:fktion output vaikuttaa sopicvlta, jatkotestaus josqs
-#	debug=1
-#	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
-#
-#	#[ -z ${1} ] && exit 1 #mikä juttu näissä on?
-#	#[ -s ${1} ] || exit 2 #jotainn pykimistä 16725
-#	
-#	dqb "DEMI-SEC"
-#	csleep 1
-#
-#	[ -z ${2} ] && exit 11
-#	[ -d ${2} ] || exit 22
-#
-#	dqb "paramz_ok"
-#	csleep 1
-#	
-#	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
-#	tlb ${2} ${4} ${3} #VAIH:jatkossa nuo 2 viimeisintä parametreiksi
-#
-#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
-#	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
-#	#HUOM.28525:nalkutus alkoi jo tässä (siis ennenq libip4tc2-blokki siirretty)
-#
-#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
-#	${shary} libaudit1 libselinux1
-#	${shary} man-db sudo
-#	message
-#	jules
-#
-#	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
-#		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
-#		${shary} runit-helper
-#		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
-#		${lftr} 
-#
-#		#josqs ntp-jututkin mukaan?
-#		[ $? -eq 0 ] || exit 3
-#
-#		${shary} libev4
-#		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan libc6 uudelleenas tässä?
-#		${shary} stubby
-#	fi
-#
-#	dqb "${shary} git coreutils in secs"
-#	csleep 1
-#	${lftr} 
-#
-#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
-#	${shary} coreutils
-#	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 zlib1g 
-#	${shary} git-man git
-#
-#	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
-#	csleep 1
-#	${lftr}
-#
-#	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
-#	if [ -d ${2} ] ; then
-#		pwd
-#		csleep 1
-#
-#		${NKVD} ${2}/*.deb
-#		csleep 1		
-#		${svm} ${pkgdir}/*.deb ${2}
-#		rmt ${1} ${2}
-#	fi
-#
-#	dqb "tp4 donew"
-#	csleep 1
-#}
+
 #
 #koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
 #HUOM.20525:joskohan locale- ja rules- juttuja varten uusi fktio? vääntöä tuntuu riittävän nimittäin
@@ -439,93 +251,11 @@ fi
 ##dnsm 2. parametriksi... eiku ei, $2 onkin jo käytössä ja tarttisi sen cut-jekun
 
 #
-#function tup() { #HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakentamisen suhteen
-#	#-.. tai sitten viimeaikaiset kikkailut paskoneet part3/pr4/ppp3/whåtever
-#	dqb "tup ${1}, ${2}, ${3}"
-#
-#	[ -z ${1} ] && exit 1
-#	[ -s ${1} ] && mv ${1} ${1}.OLD
-#	[ -z ${2} ] && exit 11
-#	[ -d ${2} ] || exit 22
-#	[ -z ${3} ] && exit 44
-#	dqb "params_ok"
-#
-#	#pitäisiköhän kohdehmistostakin poistaa paketit?
-#	${NKVD} ${pkgdir}/*.deb
-#	dqb "TUP PART 2"
-#
-#	${fib} #uutena 205.25
-#	${sag} upgrade -u
-#	echo $?
-#	csleep 1
-#
-#	local s
-#
-#	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä... EIKU
-#		dqb "processing ${s} ..."
-#		csleep 1
-#
-#		${NKVD} ${pkgdir}/${s}*
-#	done
-#
-#	case ${3} in #VAIH:iface parametriksi jatkossa
-#		wlan0)
-#			dqb "NOT REMOVING WPASUPPLICANT"
-#			csleep 1
-#		;;
-#		*)
-#			${NKVD} ${pkgdir}/wpa*
-#			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
-#			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
-#		;;
-#	esac
-#
-#	udp6 ${pkgdir}
-#	dqb "UTP PT 3"
-#
-#	${svm} ${pkgdir}/*.deb ${2}
-#	${odio} touch ${2}/tim3stamp
-#	${scm} 0644 ${2}/tim3stamp
-#	${sco} $(whoami):$(whoami) ${2}/tim3stamp
-#
-#	date > ${2}/tim3stamp
-#	${srat} -cf ${1} ${2}/tim3stamp
-#	rmt ${1} ${2}
-#
-#	${sifd} ${iface}
-#	dqb "SIELUNV1H0LL1N3N"
-#}
+
 #
 ##TODO:-v tekemään jotain hyödyllistä (miten tilanne 8725 ja sen jälk?)
 #
-#function tp5() { #HUOM.25725:tekee paketin, testattava vielä onko sisältö järkevä
-#
-#	dqb "tp5 ${1} ${2}"
-#	[ -z ${1} ] && exit 99
-#	[ -s ${1} ] || exit 98
-#	[ -d ${2} ] || exit 97
-# 
-#	dqb "params ok"
-#	csleep 1
-#
-#	local q
-#	q=$(${mkt} -d)
-#	cd ${q}
-#
-#	[ $? -eq 0 ] || exit 77
-#
-#	${tig} clone https://github.com/senescent777/more_scripts.git
-#	[ $? -eq 0 ] || exit 99
-#	
-#	#HUOM:{old,new} -> {0,1} ei liity
-#	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
-#	mv more_scripts/profs/profs* ${2}
-#
-#	${scm} 0755 ${2}/profs*
-#	${srat} -rvf ${1} ${2}/profs*
-#
-#	dqb "AAMUNK01"
-#}
+
 
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
@@ -569,7 +299,7 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface}
 		tup ${tgtfile} ${d} ${iface}
 	;;
-	p) #HUOM.26725:testaa uusiksi  
+	p) #HUOM.26725:testaa uusiksi  (arkiston sisältö lähinnä)
 		
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
@@ -577,7 +307,7 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.26725:testaa uusiksi
+	e)  #HUOM.26725:testaa uusiksi (tekee jo tar:in, sisältö testattava)
 		pre2 ${d} ${distro} ${iface}
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
