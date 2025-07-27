@@ -564,3 +564,60 @@ function tp5() { #HUOM.26725:testattava uusiksi
 
 	dqb "AAMUNK01"
 }
+
+function tup() { #HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakentamisen suhteen
+	#-.. tai sitten viimeaikaiset kikkailut paskoneet part3/pr4/ppp3/whåtever
+	dqb "tup ${1}, ${2}, ${3}"
+
+	[ -z ${1} ] && exit 1
+	[ -s ${1} ] && mv ${1} ${1}.OLD
+	[ -z ${2} ] && exit 11
+	[ -d ${2} ] || exit 22
+	[ -z ${3} ] && exit 44
+	dqb "params_ok"
+
+	#pitäisiköhän kohdehmistostakin poistaa paketit?
+	${NKVD} ${pkgdir}/*.deb
+	dqb "TUP PART 2"
+
+	${fib} #uutena 205.25
+	${sag} upgrade -u
+	echo $?
+	csleep 1
+
+	local s
+
+	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä... EIKU
+		dqb "processing ${s} ..."
+		csleep 1
+
+		${NKVD} ${pkgdir}/${s}*
+	done
+
+	case ${3} in #VAIH:iface parametriksi jatkossa
+		wlan0)
+			dqb "NOT REMOVING WPASUPPLICANT"
+			csleep 1
+		;;
+		*)
+			${NKVD} ${pkgdir}/wpa*
+			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
+			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
+		;;
+	esac
+
+	udp6 ${pkgdir}
+	dqb "UTP PT 3"
+
+	${svm} ${pkgdir}/*.deb ${2}
+	${odio} touch ${2}/tim3stamp
+	${scm} 0644 ${2}/tim3stamp
+	${sco} $(whoami):$(whoami) ${2}/tim3stamp
+
+	date > ${2}/tim3stamp
+	${srat} -cf ${1} ${2}/tim3stamp
+	rmt ${1} ${2}
+
+	${sifd} ${iface}
+	dqb "SIELUNV1H0LL1N3N"
+}

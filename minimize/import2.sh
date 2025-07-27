@@ -185,6 +185,7 @@ csleep 1
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
 
 #glorified "tar -x" this function is - Yoda
+#TODO:jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?
 function common_part() {
 	debug=1
 

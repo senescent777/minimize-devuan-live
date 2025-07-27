@@ -82,11 +82,14 @@ if [ -f ${tgt} ] ; then
 
 	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
 
+	#TODO:conf*-kohtaan muutoksia
 	for f in $(find ${p}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
+
 	for f in $(find ${p}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
 	for f in $(find ${p}/ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
 	
 	#tavoitteena locale-juttujen lisäksi localtime mukaan
+	#TODO:locale*-kohtaan ehkä muutoksia
 	for f in $(find /etc -type f -name 'locale*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			process_entry ${tgt} ${f}
@@ -97,11 +100,13 @@ if [ -f ${tgt} ] ; then
 	#sen sijaan /e alaiset?pitäisikö kasata johonkin pakettiin ja se commitoida?
 
 	#tuossa yllä find ilman tiukempaa name-rajausta vetäisi ylimääräisiä mukaan, toisaalta /e/localtime on linkki
+	#HUOM.27726:voisiko olla timezone/localtime kuten ennen vai ei?
 	process_entry ${tgt} /etc/timezone
 	process_entry ${tgt} /etc/localtime
 
 	#firefoxin käännösasetukset pikemminkin export2:n hommia 
 
+	#HUOM.27727:/e/i/tules-kohtaan muutoksia jatkossa vai ei?
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/iptables/*
 	${scm} 0444 /etc/default/rules*
@@ -120,6 +125,7 @@ if [ -f ${tgt} ] ; then
 
 	#pitäisi kai tehdä jotain että tuoreimmat muutokset /e/n ja /e/a menevät tar:iin asti? typojen korjaus olisi hyvä alku
 
+	#TODO:/e/n- ja /e/a-kohdat uusiksi jatkossa
 	#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
 	for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
 
