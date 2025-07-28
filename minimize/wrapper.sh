@@ -12,7 +12,7 @@ fi
 
 case ${1} in
 #	merde)
-#		${d}/demerde_toi.sh main		
+#		${d}/demerde_toi.sh main #tuokin skripti pitisi testata taas		
 #	;;
 	cdns)		
 		sudo /opt/bin/changedns.sh ${dnsm}
@@ -23,22 +23,25 @@ case ${1} in
 	ifdown)
 		sudo /sbin/ifdown ${iface}
 	;;
-	import)
+	import|import2)
 		${d}/import2.sh -1
 		[ $? -gt 0 ] && exit 45 #HUOM. jos on jo valmiiksi mountattu ni turha exit
 		read -p "source?" sorsa
 		sleep 2
 
-		${d}/import2.sh 0 ${sorsa}
+		#TODO:desktop-fileet muuttaen tähän liittyen
+		if [ "${1}" == "import" ] ; then
+			${d}/import2.sh 0 ${sorsa}
+			[ $? -eq 0 ] || echo "$0 import2 ?"
+			sleep 1
+		else
+			${d}/import2.sh 3 ${sorsa}
+		fi
+
 		echo $?
 		sleep 2
-
 		${d}/import2.sh 2
 	;;
-#	import2)
-#		#TODO:muuten sama q import, vain imp2:lle menevä 1. param muuttuu
-#		... tai voinee yhdistää import - casen kanssa
-#	;;
 	doit)
 		${d}/generic_doit.sh
 	;;
