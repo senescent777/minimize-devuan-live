@@ -85,36 +85,38 @@ function tp0() { #TODO:1 param riittäisi jatkossa
 
 	csleep 1
 }
-#
-#function tpq() { #VAIH:kts että fktion output järkevää		
-#	debug=1
-#	dqb "tpq ${1} ${2}"
-#
-#	#[ -d ${1} ] || exit 22
-#	#[ -d ${2} ] || exit 23	#pitäisikö mennä näin?
-#
-#	dqb "paramz 0k"
-#	csleep 1
-#	cd ${1}
-#
-#	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml ./.config/pulse /etc/pulse
-#
-#	if [ -x ${2}/profs.sh ] ; then
-#		dqb "DE PROFUNDIS"
-#		.  ${2}/profs.sh	
-#		exp_prof ./fediverse.tar default-esr
-#	else
-#		dqb "1nT0 TH3 M0RB1D R31CH"	
-#	fi
-#
-#	cd ${2}
-#}
+
+function tpq() { #VAIH:kts että fktion output järkevää		
+	debug=1
+	dqb "tpq ${1} ${2}"
+
+	#[ -d ${1} ] || exit 22
+	#[ -d ${2} ] || exit 23	#pitäisikö mennä näin?
+
+	dqb "paramz 0k"
+	csleep 1
+	cd ${1}
+
+	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml ./.config/pulse /etc/pulse
+
+	if [ -x ${2}/profs.sh ] ; then
+		dqb "DE PROFUNDIS"
+		.  ${2}/profs.sh	
+		exp_prof ./fediverse.tar default-esr
+	else
+		dqb "1nT0 TH3 M0RB1D R31CH"	
+	fi
+
+	cd ${2}
+}
 
 #HUOM.28725:testattu ennen tpq:n jemmaamista, toimi
+#... entä palauttamisen jälkeen?
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
 	#TODO:2. param tark?
+	csleep 1
 
 	dqb "params_ok"
 	csleep 1
@@ -125,7 +127,7 @@ function tp1() {
 
 	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		#tpq ~ ${2}/.. #HUOM.25725:toimiiko näin?
+		tpq ~ ${2}/.. #HUOM.25725:toimiiko näin?
 	else
 		dqb "PUIG DESTRÖYERR"
 	fi

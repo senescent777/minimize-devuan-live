@@ -17,6 +17,7 @@ function csleep() {
 }
 
 #TODO:tämä paska uusiksi
+#"$0 <mode> <file>  [distro] [-v]" olisi se perusidea
 function parse_opts_1() {
 	debug=1
 	dqb "patse_otps8( ${1}, ${2})"
@@ -95,7 +96,7 @@ for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	#[ -x $x ] && exit for 
 done
 
-dqb "AFTER CANGEDNS"
+dqb "AFTER GANGRENE SETS IN"
 csleep 1
 
 tig=$(${odio} which git)
@@ -204,30 +205,32 @@ case ${mode} in
 		rmt ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-#	q) #TODO:testaa uusiksi tpq() output, meneekö arkistoo nmitä pitää?
-#		[ z"${tgtfile}" == "z" ] && exit 99
-#		${sifd} ${iface}
-#	
-#		#HUOM.28725:roiskiiko väärään hakemistoon juttuja tpq()?
-#		tpq ~ ${d0}
-#		cd ${d0}
-#	
-#		q=$(mktemp)
-#		${srat} -cf ${tgtfile} ${q}
-#
-#		dqb "	OIJHPIOJGHOYRI&RE"
-#		pwd
-#		csleep 1
-#
-#		#TODO:pitäisi kai sanoa cd tässä
-#
-#		for f in $(find ~ -type f -name config.tar.bz2 -or -name fediverse.tar) ; do
-#			${srat} -rvf ${tgtfile} ${f}
-#		done
-#		
-#		dqb "CASE Q D0N3"
-#		csleep 3
-#	;;
+	q) #VAIH:testaa uusiksi tpq() output, meneekö arkistoo nmitä pitää?
+		[ z"${tgtfile}" == "z" ] && exit 99
+		#${sifd} ${iface} HUOM.28725:toistaiseksi jemmaan, takaisin josqs
+	
+		#HUOM.28725:roiskiiko väärään hakemistoon juttuja tpq()?
+		tpq ~ ${d0}
+		cd ${d0}
+		#HUOM.28725:puuttuvien fktioiden takia ei suoritusta näköjään keskeytetä	
+
+		q=$(mktemp)
+		${srat} -cf ${tgtfile} ${q}
+
+		dqb "	OIJHPIOJGHOYRI&RE"
+		[ ${debug} -eq 1 ] && pwd
+		csleep 1
+		
+		#TODO:pitäisi kai sanoa cd tässä
+
+		for f in $(find ~ -type f -name config.tar.bz2 -or -name fediverse.tar) ; do
+			${srat} -rvf ${tgtfile} ${f}
+		done
+
+		exit
+		dqb "CASE Q D0N3"
+		csleep 3
+	;;
 	t) #HUOM.28725:testattu, tekee tarin, sisältö vaikuttaa järkevältä
 		pre2 ${d} ${distro} ${iface}
 		${NKVD} ${d}/*.deb
