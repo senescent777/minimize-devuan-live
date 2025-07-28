@@ -28,7 +28,7 @@ function pr4() {
 }
 
 function reficul() {
-	dqb "UNDER CONSTRUCTION"
+	dqb "chim.reticul is UNDER CONSTRUCTION"
 }
 
 function udp6() {
