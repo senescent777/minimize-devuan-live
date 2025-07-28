@@ -168,7 +168,7 @@ function tp1() {
 	csleep 1
 }
 
-function tp2() { #VAIH:voisi TAAS testata
+function tp2() { HUOM.28725:#ok vai ei?
 	debug=1
 	dqb "tp2 ${1} ${2}"
 
@@ -222,7 +222,7 @@ function tp2() { #VAIH:voisi TAAS testata
 		exit 112
 	fi
 
-	case ${2} in #VAIH:iface parametriksi?
+	case ${2} in
 		wlan0)
 			[ ${debug} -eq 1 ] && echo "APW";sleep 3
 			${srat} -rvf ${1} /etc/wpa_supplicant/*.conf
@@ -604,7 +604,7 @@ function tup() { #HUOM.28725:toiminee
 		${NKVD} ${pkgdir}/${s}*
 	done
 
-	case ${3} in #VAIH:iface parametriksi jatkossa
+	case ${3} in
 		wlan0)
 			dqb "NOT REMOVING WPASUPPLICANT"
 			csleep 1

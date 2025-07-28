@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0 #1
+debug=1
 distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa?
 d0=$(pwd)
 echo "d0= ${d0}"
@@ -16,7 +16,9 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+#TODO:tämä paska uusiksi
 function parse_opts_1() {
+	debug=1
 	dqb "patse_otps8( ${1}, ${2})"
 
 	case "${1}" in
@@ -27,10 +29,16 @@ function parse_opts_1() {
 			if [ ${mode} -eq -2 ] ; then
 				mode=${1}
 			else
-				if [ -d ${d}/${1} ] ; then #HUOM.28725:saako jyrättyä sitä oletusasetusta?
-					distro=${1}
-				else
+				#if  ; then #HUOM.28725:saako jyrättyä sitä oletusasetusta?
+				#	
+				#else
+				#	
+				#fi
+
+				if [ "${tgtfile}" == "" ] ; then
 					tgtfile=${1}
+				else
+					[ -d ${d}/${1} ] && distro=${1}
 				fi
 			fi
 		;;
@@ -115,7 +123,6 @@ else
 ##		${sco} -R root:root /etc/default
 ##	}
 ##
-##	function ppp3() { #TODO:rename or not?
 ##		dqb "exp32.ppp3"
 ##	}
 ##
