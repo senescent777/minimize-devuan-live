@@ -1,5 +1,5 @@
 function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
-	# tosin disto-parametrin vaikutukset voisi testata (TODO)
+	# tosin disto-parametrin vaikutukset voisi testata (VAIH)
 
 	dqb "pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 666
@@ -572,8 +572,8 @@ function tp4() { #HUOM.28725:testattu, vaikuttaisi toimivan, ehkä perusteellise
 #	dqb "AAMUNK01"
 #}
 
-function tup() { #TODO:testaa kohta
-	#HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakentamisen suhteen
+function tup() { #HUOM.28725:toiminee
+	#HUOM.21725:tässä saattoi olla jotain ongelmaa paketin rakentamisen suhteen
 	#-.. tai sitten viimeaikaiset kikkailut paskoneet part3/pr4/ppp3/whåtever
 	dqb "tup ${1}, ${2}, ${3}"
 
@@ -587,6 +587,8 @@ function tup() { #TODO:testaa kohta
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
 	${NKVD} ${pkgdir}/*.deb
 	dqb "TUP PART 2"
+
+	#HUOM.28725:pitäisiköhän siivota ${2} ennenq ?
 
 	${fib} #uutena 205.25
 	${sag} upgrade -u
@@ -626,6 +628,6 @@ function tup() { #TODO:testaa kohta
 	${srat} -cf ${1} ${2}/tim3stamp
 	rmt ${1} ${2}
 
-	${sifd} ${iface}
+	${sifd} ${iface} #HUOM.voisi tehdä aikaisemminkin
 	dqb "SIELUNV1H0LL1N3N"
 }

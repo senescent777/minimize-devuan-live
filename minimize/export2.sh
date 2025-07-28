@@ -17,6 +17,8 @@ function csleep() {
 }
 
 function parse_opts_1() {
+	dqb "patse_otps8( ${1}, ${2})"
+
 	case "${1}" in
 		-v|--v)
 			debug=1
@@ -25,7 +27,7 @@ function parse_opts_1() {
 			if [ ${mode} -eq -2 ] ; then
 				mode=${1}
 			else
-				if [ -d ${d}/${1} ] ; then 
+				if [ -d ${d}/${1} ] ; then #HUOM.28725:saako jyrättyä sitä oletusasetusta?
 					distro=${1}
 				else
 					tgtfile=${1}
@@ -292,7 +294,7 @@ case ${mode} in
 
 		[ -v testdris ] || tp2 ${tgtfile} ${iface}
 	;;
-	1|u|upgrade) #TODO:testaa uusiksi kohta
+	1|u|upgrade) #HUOM.28725:toiminee
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface}
