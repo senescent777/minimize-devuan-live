@@ -35,6 +35,10 @@ case ${1} in
 
 		${d}/import2.sh 2
 	;;
+#	import2)
+#		#TODO:muuten sama q import, vain imp2:lle menevä 1. param muuttuu
+#		... tai voinee yhdistää import - casen kanssa
+#	;;
 	doit)
 		${d}/generic_doit.sh
 	;;

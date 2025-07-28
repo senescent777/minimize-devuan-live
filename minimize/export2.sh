@@ -300,14 +300,14 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface}
 		tup ${tgtfile} ${d} ${iface}
 	;;
-	p) #HUOM.28725:testaa uusiksi  (arkiston sisältö lähinnä, TODO)
-		
-		[ z"${tgtfile}" == "z" ] && exit 99 
-
-		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
-		pre2 ${d} ${distro} ${iface}
-		tp5 ${tgtfile} ${d0} 
-	;;
+#	p) #HUOM.28725:testaa uusiksi  (arkiston sisältö lähinnä, TODO)
+#		
+#		[ z"${tgtfile}" == "z" ] && exit 99 
+#
+#		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
+#		pre2 ${d} ${distro} ${iface}
+#		tp5 ${tgtfile} ${d0} 
+#	;;
 	e)  #HUOM.28725:testaa uusiksi (tekee jo tar:in, sisältö testattava(TODO))
 		pre2 ${d} ${distro} ${iface}
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
@@ -315,30 +315,30 @@ case ${mode} in
 	f)  #HUOM.26725:testaa uusiksi
 		rmt ${tgtfile} ${d} #HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-	q) #VAIH:testaa uusiksi tpq() output, meneekö arkistoo nmitä pitää?
-		[ z"${tgtfile}" == "z" ] && exit 99
-		${sifd} ${iface}
-	
-		#HUOM.28725:roiskiiko väärään hakemistoon juttuja tpq()?
-		tpq ~ ${d0}
-		cd ${d0}
-	
-		q=$(mktemp)
-		${srat} -cf ${tgtfile} ${q}
-
-		dqb "	OIJHPIOJGHOYRI&RE"
-		pwd
-		csleep 1
-
-		#TODO:pitäisi kai sanoa cd tässä
-
-		for f in $(find ~ -type f -name config.tar.bz2 -or -name fediverse.tar) ; do
-			${srat} -rvf ${tgtfile} ${f}
-		done
-		
-		dqb "CASE Q D0N3"
-		csleep 3
-	;;
+#	q) #VAIH:testaa uusiksi tpq() output, meneekö arkistoo nmitä pitää?
+#		[ z"${tgtfile}" == "z" ] && exit 99
+#		${sifd} ${iface}
+#	
+#		#HUOM.28725:roiskiiko väärään hakemistoon juttuja tpq()?
+#		tpq ~ ${d0}
+#		cd ${d0}
+#	
+#		q=$(mktemp)
+#		${srat} -cf ${tgtfile} ${q}
+#
+#		dqb "	OIJHPIOJGHOYRI&RE"
+#		pwd
+#		csleep 1
+#
+#		#TODO:pitäisi kai sanoa cd tässä
+#
+#		for f in $(find ~ -type f -name config.tar.bz2 -or -name fediverse.tar) ; do
+#			${srat} -rvf ${tgtfile} ${f}
+#		done
+#		
+#		dqb "CASE Q D0N3"
+#		csleep 3
+#	;;
 	t) #HUOM.25725: testattava uusiksi koska muutokset
 		pre2 ${d} ${distro} ${iface}
 		${NKVD} ${d}/*.deb

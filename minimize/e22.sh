@@ -82,30 +82,30 @@ function tp0() { #TODO:1 param riittäisi jatkossa
 
 	csleep 1
 }
-
-function tpq() { #VAIH:kts että fktion output järkevää		
-	debug=1
-	dqb "tpq ${1} ${2}"
-
-	#[ -d ${1} ] || exit 22
-	#[ -d ${2} ] || exit 23	#pitäisikö mennä näin?
-
-	dqb "paramz 0k"
-	csleep 1
-	cd ${1}
-
-	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml ./.config/pulse /etc/pulse
-
-	if [ -x ${2}/profs.sh ] ; then
-		dqb "DE PROFUNDIS"
-		.  ${2}/profs.sh	
-		exp_prof ./fediverse.tar default-esr
-	else
-		dqb "1nT0 TH3 M0RB1D R31CH"	
-	fi
-
-	cd ${2}
-}
+#
+#function tpq() { #VAIH:kts että fktion output järkevää		
+#	debug=1
+#	dqb "tpq ${1} ${2}"
+#
+#	#[ -d ${1} ] || exit 22
+#	#[ -d ${2} ] || exit 23	#pitäisikö mennä näin?
+#
+#	dqb "paramz 0k"
+#	csleep 1
+#	cd ${1}
+#
+#	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml ./.config/pulse /etc/pulse
+#
+#	if [ -x ${2}/profs.sh ] ; then
+#		dqb "DE PROFUNDIS"
+#		.  ${2}/profs.sh	
+#		exp_prof ./fediverse.tar default-esr
+#	else
+#		dqb "1nT0 TH3 M0RB1D R31CH"	
+#	fi
+#
+#	cd ${2}
+#}
 
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
@@ -121,7 +121,7 @@ function tp1() {
 
 	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		tpq ~ ${2}/.. #HUOM.25725:toimiiko näin?
+		#tpq ~ ${2}/.. #HUOM.25725:toimiiko näin?
 	else
 		dqb "PUIG DESTRÖYERR"
 	fi
@@ -537,34 +537,36 @@ function tp4() { #TODO:ala vähitellen testata miten fktion output kelpaa
 	dqb "tp4 donew"
 	csleep 1
 }
-
-function tp5() { #HUOM.28725:testattava uusiksi fktion output, TODO
-	dqb "tp5 ${1} ${2}"
-	[ -z ${1} ] && exit 99
-	#[ -s ${1} ] || exit 98 tässä qsee?
-	[ -d ${2} ] || exit 97
- 
-	dqb "params ok"
-	csleep 1
-
-	local q
-	q=$(${mkt} -d)
-	cd ${q}
-
-	[ $? -eq 0 ] || exit 77
-
-	${tig} clone https://github.com/senescent777/more_scripts.git
-	[ $? -eq 0 ] || exit 99
-	
-	#HUOM:{old,new} -> {0,1} ei liity
-	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
-	mv more_scripts/profs/profs* ${2}
-
-	${scm} 0755 ${2}/profs*
-	${srat} -rvf ${1} ${2}/profs*
-
-	dqb "AAMUNK01"
-}
+#
+#function tp5() { #HUOM.28725:testattava uusiksi fktion output, TODO
+#vaikuttaa toimivalta mutta toistaiseksi jemmassa kunnes varmistettu
+#
+#	dqb "tp5 ${1} ${2}"
+#	[ -z ${1} ] && exit 99
+#	#[ -s ${1} ] || exit 98 tässä qsee?
+#	[ -d ${2} ] || exit 97
+# 
+#	dqb "params ok"
+#	csleep 1
+#
+#	local q
+#	q=$(${mkt} -d)
+#	cd ${q}
+#
+#	[ $? -eq 0 ] || exit 77
+#
+#	${tig} clone https://github.com/senescent777/more_scripts.git
+#	[ $? -eq 0 ] || exit 99
+#	
+#	#HUOM:{old,new} -> {0,1} ei liity
+#	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
+#	mv more_scripts/profs/profs* ${2}
+#
+#	${scm} 0755 ${2}/profs*
+#	${srat} -rvf ${1} ${2}/profs*
+#
+#	dqb "AAMUNK01"
+#}
 
 function tup() { #HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakentamisen suhteen
 	#-.. tai sitten viimeaikaiset kikkailut paskoneet part3/pr4/ppp3/whåtever

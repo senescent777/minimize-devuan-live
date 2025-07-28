@@ -11,7 +11,11 @@ d0=$(pwd)
 echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
+
 #pitäisikö vielä minimoida latensseja tästä skriptistä? ja sen käyttämistä?
+#... optiota -v ei ole pakko käyttää, toisaalta
+
+#HUOM.28725:testailtu, vaikuttaisi toimivalta ainakin enimmäkseen (q myöhemmin)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -346,30 +350,30 @@ case "${mode}" in
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
-	q)
-		#TODO:voisi olla config.tar purq samassa casessa...JotenKin		
-		[ x"${file}" == "x" ] && exit 55
-		dqb "KL"
-		csleep 1
-
-		[ -s ${file} ] || exit 66
-		dqb "${file} IJ"
-		csleep 1
-
-		if [ -x ${d0}/profs.sh ] ; then
-			. ${d0}/profs.sh
-			[ $? -gt 0 ] && exit 33
-			
-			dqb "INCLUDE OK"
-			csleep 1
-
-			q=$(${mkt} -d)
-			${srat} -C ${q} -xvf ${file}
-			imp_prof esr ${n} ${q}
-		else
-			dqb "CANNOT INCLUDE PROFS.HS"
-		fi
-	;;
+#	q)
+#		#TODO:voisi olla config.tar purq samassa casessa...JotenKin		
+#		[ x"${file}" == "x" ] && exit 55
+#		dqb "KL"
+#		csleep 1
+#
+#		[ -s ${file} ] || exit 66
+#		dqb "${file} IJ"
+#		csleep 1
+#
+#		if [ -x ${d0}/profs.sh ] ; then
+#			. ${d0}/profs.sh
+#			[ $? -gt 0 ] && exit 33
+#			
+#			dqb "INCLUDE OK"
+#			csleep 1
+#
+#			q=$(${mkt} -d)
+#			${srat} -C ${q} -xvf ${file}
+#			imp_prof esr ${n} ${q}
+#		else
+#			dqb "CANNOT INCLUDE PROFS.HS"
+#		fi
+#	;;
 #	u)
 #		echo "reficul (TODO)"
 #	;;
