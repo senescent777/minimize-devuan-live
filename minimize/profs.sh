@@ -58,7 +58,7 @@ function findprof() {
 }
 
 function copy_to() {
-	debug=1
+	#debug=1
 	dqb "cprof13 ${1} ${2} ${3}"
 	csleep 3
 	

@@ -351,7 +351,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#VAIH:testaa toiminta
+		#VAIH:testaa toiminta TAAS
 
 		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan
 		#... pitäisi kai jatkossa testata että $file:n sisältä löytyy fediverse.tar(TODO) ... ja sit jotain		
@@ -366,6 +366,15 @@ case "${mode}" in
 		[ -s ${file} ] || exit 66
 		dqb "${file} IJ"
 		csleep 1
+		common_part ${file} ${d} /
+
+		if [ -s ~/config.tar.bz2 ] ; then
+			${srat} -C / -jxf ~/config.tar.bz2
+		else
+			${srat} -C / -jxf ${d0}/config.tar.bz2
+		fi
+
+		#file2=~/fediverse.tar
 
 		if [ -x ${d0}/profs.sh ] ; then
 			. ${d0}/profs.sh
@@ -375,7 +384,7 @@ case "${mode}" in
 			csleep 1
 
 			q=$(${mkt} -d)
-			${srat} -C ${q} -xvf ${file}
+			${srat} -C ${q} -xvf ~/fediverse.tar #${file2}
 
 			#ls -lasR ${q}
 			#csleep 5
