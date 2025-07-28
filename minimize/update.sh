@@ -83,7 +83,7 @@ if [ -f ${tgt} ] ; then
 		for f in $(find ${p}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
 
 		#lototaan vielä näin
-		for f in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do
+		for f in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
 	fi
 
 	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
