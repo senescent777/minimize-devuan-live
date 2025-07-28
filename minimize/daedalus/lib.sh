@@ -4,7 +4,7 @@
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 #... joskohan --force-confold olisi se haettu juttu
 
-function c5p() {
+function c5p() { #HUOM.28725:testattu, toiminee
 	dqb "CCCP( ${1} , ${2} )"
 	csleep 1
 	[ -d ${1} ] || exit 66
@@ -96,7 +96,7 @@ function reficul() {
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
 #HUOM.21725:pitäisiköhän tätä sorkkia? kun sen yhden päivityspaketin kanssa ongelma (olisikohan jo korjautunut 24725 mennessä?)
-#VAIH:gcc-libvte käsittely erilliseen fktioon jatkossa
+
 function pr4() {
 	debug=1
 	dqb "daud.pr4( ${1} , ${2} )"
@@ -124,7 +124,7 @@ function pr4() {
 	csleep 1
 }
 
-function udp6() {
+function udp6() { #HUOM.28725:testattu, toiminee
 	dqb "daud.lib.UPDP-6"
 	csleep 1
 	[ -d ${1} ] || exit 66
@@ -265,7 +265,7 @@ function pre_part2() {
 #https://pkgs.org/download/linux-image-6.12.27-amd64 ... joskohan ethz kautta
 #... tarkistus tosin uusiksi, josko sinne tcdd-blokkiin ylemmäs?
 
-function tpc7() {
+function tpc7() { #e22.sh kutsuu tätä nykyään
 	dqb "d.prc7 UNDER CONSTRUCTION"
 }
 
