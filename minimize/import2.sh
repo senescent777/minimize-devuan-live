@@ -351,8 +351,13 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#TODO:testaa toiminta
+		#VAIH:testaa toiminta
+
+		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan
+		#... pitäisi kai jatkossa testata että $file:n sisältä löytyy fediverse.tar(TODO) ... ja sit jotain		
+	
 		#TODO:voisi olla config.tar purq samassa casessa...JotenKin		
+		#... malliksi export2 q mutta käänteisesti
 
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
@@ -371,6 +376,10 @@ case "${mode}" in
 
 			q=$(${mkt} -d)
 			${srat} -C ${q} -xvf ${file}
+
+			#ls -lasR ${q}
+			#csleep 5
+
 			imp_prof esr ${n} ${q}
 		else
 			dqb "CANNOT INCLUDE PROFS.HS"

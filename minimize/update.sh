@@ -81,18 +81,28 @@ if [ -f ${tgt} ] ; then
 
 		#menisiköhän vaikka näin
 		for f in $(find ${p}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
+
+		#lototaan vielä näin
+		for f in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do
 	fi
 
 	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
-
-	#VAIH:conf*-kohtaan muutoksia
+	
 	for f in $(find ${p}/ -name '*.example') ; do process_entry ${tgt} ${f} ; done
-
 	for f in $(find ${p}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
-	for f in $(find ${p}/ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
+	
+	#VAIH:conf*-kohtaan muutoksia
+	#HUOM.28725:miten config.bz2 kanssa? vissiin jokeri '*.tar*' hoitaa senkin koska *tar.bz2*
+	#...paitsi että se polku (TODO)
+
+	for f in $(find ${p}/ -maxdepth 1 -type f -name '*.tar*') ; do
+		echo "PCROCESSING : ${f}"
+		process_entry ${tgt} ${f}
+		sleep 1
+	done
 	
 	#tavoitteena locale-juttujen lisäksi localtime mukaan
-	#TODO:locale*-kohtaan ehkä muutoksia
+	#TODO:locale*-kohtaan ehkä muutoksia?
 	for f in $(find /etc -type f -name 'locale*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			process_entry ${tgt} ${f}

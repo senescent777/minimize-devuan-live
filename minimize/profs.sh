@@ -70,11 +70,16 @@ function copy_to() {
 	findprof ${2} ${1}
 	tget=${result}
 
-	dqb "IN 3 SECONDS: sudo mv ${3}/* ${tget}"
+	dqb "IN 3 SECONDS: sudo mv ${3} / \* ${tget}"
 	csleep 3
 
 	local f
-	for f in $(find ${3} -type f -name '*.js*') ; do mv ${f} ${tget} ; done		
+	dqb "find ${3} -type f -name '*.js*'"
+
+	for f in $(find ${3} -type f -name '*.js*') ; do
+		dqb "mv ${f} ${tget} "
+		mv ${f} ${tget} 
+	done		
 	
 	if [ ${debug} -eq 1 ] ; then
 		echo "AFT3R MV";sleep 3
@@ -131,7 +136,7 @@ function imp_prof() {
 	csleep 2
 }
 
-#TODO:uusi versio oikeaan repositoryyn
+#VAIH:uusi versio oikeaan repositoryyn
 #HUOM.20525:toimiikohan findprof kuitebkaan?
 #HUOM.23535:se käännös-asetus-juttu?
 function exp_prof() {

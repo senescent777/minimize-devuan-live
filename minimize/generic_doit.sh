@@ -201,11 +201,13 @@ message
 part3 ${d} ${dnsm}
 other_horrors
 
-if [ -s ${d0}/config.tar.bz2 ] ; then
-	${srat} -C / -jxf ${d0}/config.tar.bz2
-fi
+#if  ; then
+[ -s ${d0}/config.tar.bz2 ] && ${srat} -C / -jxf ${d0}/config.tar.bz2
+[ -s ~/config.tar.bz2 ] && ${srat} -C / -jxf ~/config.tar.bz2
+csleep 1
 
-${NKVD} ${d0}/config.tar
+${NKVD} ${d0}/config.tar.bz2
+${NKVD} ~/config.tar.bz2
 csleep 1
 
 #tai sitten käskytetään:import2 (TODO?)
@@ -215,7 +217,10 @@ if [ -x ${d0}/profs.sh ] ; then
 	q=$(mktemp -d)
 	dqb "${srat} -C ${q} ... 1n 1 s3c5s"
 	csleep 1
-	tgt=${d0}/fediverse.tar #VAIH:jotain tarttis edelleen tehdä tälle?
+
+	#nytq alettu kikkailemaan tar:in sijainnilla niin tosiaankin voisi ulkoistaa import2:lle
+	#tgt=${d0}/fediverse.tar #VAIH:jotain tarttis edelleen tehdä tälle?
+	tgt=~/fediverse.tar
 
 	if [ -s ${tgt} ] ; then	
 		${srat} -C ${q} -xvf ${tgt}
