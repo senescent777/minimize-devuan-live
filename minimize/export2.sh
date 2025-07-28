@@ -207,7 +207,7 @@ case ${mode} in
 	;;
 	q) #VAIH:testaa uusiksi tpq() output, meneekö arkistoo nmitä pitää?
 		[ z"${tgtfile}" == "z" ] && exit 99
-		${sifd} ${iface} HUOM.28725:toistaiseksi jemmaan, takaisin josqs
+		${sifd} ${iface} #HUOM.28725:toistaiseksi jemmaan, takaisin josqs
 	
 		#HUOM.28725:roiskiiko väärään hakemistoon juttuja tpq()?
 		tpq ~ ${d0}
