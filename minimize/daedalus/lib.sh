@@ -11,7 +11,7 @@ function c5p() { #HUOM.28725:testattu, toiminee
 	dqb "paramz 0k"
 	csleep 1
 
-	${NKVD} ${1}/xz* #t2p() poistaa
+	${NKVD} ${1}/xz* #toisaalta t2p() poistaa
 
 	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
 	#g_pt2 poistaa cryptsetup-pakettei
@@ -270,5 +270,4 @@ function tpc7() { #e22.sh kutsuu tätä nykyään
 }
 
 check_binaries ${d}
-#VAIH:tämän asettamisessa se chroot_env huomiointi?
 check_binaries2
