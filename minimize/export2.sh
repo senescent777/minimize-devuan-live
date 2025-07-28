@@ -127,9 +127,9 @@ csleep 1
 #jhokatap aloitettu expo2 jakaminen osiin käytönnöin syistä
 
 if [ -x ${d0}/e22.sh ] ; then
-	echo "222"
+	dqb "222"
 	.  ${d0}/e22.sh
-	sleep 2 
+	csleep 2 
 fi
 
 ##HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia, tuskin menee qten alla
