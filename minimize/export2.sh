@@ -238,10 +238,8 @@ fi
 
 
 ##https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
-##HUOM.25725:joskohan jakaisi tämän skriptin 2 osaan, fktio-kirjasto se uusi osa
-#
 
-#
+
 #koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
 #HUOM.20525:joskohan locale- ja rules- juttuja varten uusi fktio? vääntöä tuntuu riittävän nimittäin
 
@@ -312,8 +310,9 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface}
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
-	f)  #TODO:testaa uusiksi
-		rmt ${tgtfile} ${d} #HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
+	f)  #HUOM.28725:testattu, toimii ainakin sen verran että tekee tarin minkä sisältä järkeväno loinen
+		rmt ${tgtfile} ${d}
+		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
 #	q) #TODO:testaa uusiksi tpq() output, meneekö arkistoo nmitä pitää?
 #		[ z"${tgtfile}" == "z" ] && exit 99
