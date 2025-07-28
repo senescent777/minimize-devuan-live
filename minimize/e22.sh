@@ -96,15 +96,19 @@ function tpq() { #VAIH:kts että fktion output järkevää
 	dqb "paramz 0k"
 	csleep 1
 	cd ${1}
-
 	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml ./.config/pulse /etc/pulse
 
 	if [ -x ${2}/profs.sh ] ; then
 		dqb "DE PROFUNDIS"
 		.  ${2}/profs.sh	
-		exp_prof ./fediverse.tar default-esr
+
+		#HUOM.28725:SOPISI NYT JONKIN AIKAA OLLA EKA PARAMETRI TUOLLEEN ETTÄ FKTION PARAM MUKANA
+		#... HARKITAAN MUUTTAMISTA SITTEN JOS OIKEASTI TARVETTA ILMENEE
+
+		exp_prof ${1}/fediverse.tar default-esr
 	else
-		dqb "1nT0 TH3 M0RB1D R31CH"	
+		dqb "export2 p \$file ; import2 1 $file  ?"
+		exit 24
 	fi
 
 	cd ${2}

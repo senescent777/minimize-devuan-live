@@ -207,7 +207,7 @@ case ${mode} in
 	;;
 	q) #VAIH:testaa uusiksi tpq() output, meneekö arkistoo nmitä pitää?
 		[ z"${tgtfile}" == "z" ] && exit 99
-		#${sifd} ${iface} HUOM.28725:toistaiseksi jemmaan, takaisin josqs
+		${sifd} ${iface} HUOM.28725:toistaiseksi jemmaan, takaisin josqs
 	
 		#HUOM.28725:roiskiiko väärään hakemistoon juttuja tpq()?
 		tpq ~ ${d0}
@@ -220,14 +220,11 @@ case ${mode} in
 		dqb "	OIJHPIOJGHOYRI&RE"
 		[ ${debug} -eq 1 ] && pwd
 		csleep 1
-		
-		#TODO:pitäisi kai sanoa cd tässä
 
 		for f in $(find ~ -type f -name config.tar.bz2 -or -name fediverse.tar) ; do
 			${srat} -rvf ${tgtfile} ${f}
 		done
 
-		exit
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
