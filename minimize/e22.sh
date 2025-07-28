@@ -541,36 +541,35 @@ function tp4() { #HUOM.28725:testattu, vaikuttaisi toimivan, ehkä perusteellise
 	dqb "tp4 donew"
 	csleep 1
 }
-#
-#function tp5() { #HUOM.28725:testattava uusiksi fktion output, TODO
-#vaikuttaa toimivalta mutta toistaiseksi jemmassa kunnes varmistettu
-#
-#	dqb "tp5 ${1} ${2}"
-#	[ -z ${1} ] && exit 99
-#	#[ -s ${1} ] || exit 98 tässä qsee?
-#	[ -d ${2} ] || exit 97
-# 
-#	dqb "params ok"
-#	csleep 1
-#
-#	local q
-#	q=$(${mkt} -d)
-#	cd ${q}
-#
-#	[ $? -eq 0 ] || exit 77
-#
-#	${tig} clone https://github.com/senescent777/more_scripts.git
-#	[ $? -eq 0 ] || exit 99
-#	
-#	#HUOM:{old,new} -> {0,1} ei liity
-#	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
-#	mv more_scripts/profs/profs* ${2}
-#
-#	${scm} 0755 ${2}/profs*
-#	${srat} -rvf ${1} ${2}/profs*
-#
-#	dqb "AAMUNK01"
-#}
+
+function tp5() { #VAIH:fktion toiminnan testaus
+	#TODO:jospa jatkossa hukkaisi sen polun arkistosta, $2...
+	dqb "tp5 ${1} ${2}"
+	[ -z ${1} ] && exit 99
+	#[ -s ${1} ] || exit 98 pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
+	[ -d ${2} ] || exit 97
+ 
+	dqb "params ok"
+	csleep 1
+
+	local q
+	q=$(${mkt} -d)
+	cd ${q} #antaa nyt cd:n olla toistaiseksi
+
+	[ $? -eq 0 ] || exit 77
+
+	${tig} clone https://github.com/senescent777/more_scripts.git
+	[ $? -eq 0 ] || exit 99
+	
+	#HUOM:{old,new} -> {0,1} ei liity
+	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
+	mv more_scripts/profs/profs* ${2}
+
+	${scm} 0755 ${2}/profs*
+	${srat} -rvf ${1} ${2}/profs*
+
+	dqb "AAMUNK01"
+}
 
 function tup() { #HUOM.28725:toiminee
 	#HUOM.21725:tässä saattoi olla jotain ongelmaa paketin rakentamisen suhteen

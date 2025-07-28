@@ -189,14 +189,13 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface}
 		tup ${tgtfile} ${d} ${iface}
 	;;
-#	p) #HUOM.28725:testaa uusiksi  (arkiston sisältö lähinnä, TODO)
-#		
-#		[ z"${tgtfile}" == "z" ] && exit 99 
-#
-#		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
-#		pre2 ${d} ${distro} ${iface}
-#		tp5 ${tgtfile} ${d0} 
-#	;;
+	p) #VAIH:testaus
+		[ z"${tgtfile}" == "z" ] && exit 99 
+
+		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
+		pre2 ${d} ${distro} ${iface}
+		tp5 ${tgtfile} ${d0} 
+	;;
 	e)  #HUOM.28725:tämän output toimii (nykyään import2 3 $file käsittelee)
 		pre2 ${d} ${distro} ${iface}
 		tp4 ${tgtfile} ${d} ${distro} ${iface}

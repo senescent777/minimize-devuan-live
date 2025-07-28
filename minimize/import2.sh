@@ -350,30 +350,31 @@ case "${mode}" in
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
-#	q)
-#		#TODO:voisi olla config.tar purq samassa casessa...JotenKin		
-#		[ x"${file}" == "x" ] && exit 55
-#		dqb "KL"
-#		csleep 1
-#
-#		[ -s ${file} ] || exit 66
-#		dqb "${file} IJ"
-#		csleep 1
-#
-#		if [ -x ${d0}/profs.sh ] ; then
-#			. ${d0}/profs.sh
-#			[ $? -gt 0 ] && exit 33
-#			
-#			dqb "INCLUDE OK"
-#			csleep 1
-#
+	q)
+		#TODO:voisi olla config.tar purq samassa casessa...JotenKin		
+		[ x"${file}" == "x" ] && exit 55
+		dqb "KL"
+		csleep 1
+
+		[ -s ${file} ] || exit 66
+		dqb "${file} IJ"
+		csleep 1
+
+		if [ -x ${d0}/profs.sh ] ; then
+			. ${d0}/profs.sh
+			[ $? -gt 0 ] && exit 33
+			
+			dqb "INCLUDE OK"
+			csleep 1
+
 #			q=$(${mkt} -d)
 #			${srat} -C ${q} -xvf ${file}
 #			imp_prof esr ${n} ${q}
-#		else
-#			dqb "CANNOT INCLUDE PROFS.HS"
-#		fi
-#	;;
+		else
+			dqb "CANNOT INCLUDE PROFS.HS"
+			dqb "$0 1 \$file ?"
+		fi
+	;;
 #	u)
 #		echo "reficul (TODO)"
 #	;;
