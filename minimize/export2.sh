@@ -29,11 +29,7 @@ function parse_opts_1() {
 			if [ ${mode} -eq -2 ] ; then
 				mode=${1}
 			else
-				#if  ; then #HUOM.28725:saako jyrättyä sitä oletusasetusta?
-				#	
-				#else
-				#	
-				#fi
+				#HUOM.28725:saako jyrättyä sitä oletusasetusta?
 
 				if [ "${tgtfile}" == "" ] ; then
 					tgtfile=${1}
@@ -62,78 +58,6 @@ fi
 if [ -x ${d0}/common_lib.sh ] ; then 
 	. ${d0}/common_lib.sh
 else
-##	#HUOM.23525:oleellisempaa että import2 toimii tarvittaessa ilman common_lib
-##	#"lelukirjasto" saattaa toimia sen vErrAn että "$0 4 ..." onnistuu	
-##	
-##	srat="sudo /bin/tar"
-##	som="sudo /bin/mount"
-##	uom="sudo /bin/umount"
-##	scm="sudo /bin/chmod"
-##	sco="sudo /bin/chown"
-##	odio=$(which sudo)
-##
-##	#jos näillä lähtisi aiNAKin case q toimimaan
-##	n=$(whoami)
-##	sah6=$(${odio} which sha512sum)
-##	smr="${odio} which rm"
-##	smr="${odio} ${smr}"
-##
-##	function check_binaries() {
-##		dqb "exp2.ch3ck_b1nar135 ${1} "
-##	}
-##
-##	function check_binaries2() {
-##		dqb "exp2.ch3ck_b1nar135_2 ${1} "
-###	}
-##
-##	function fix_sudo() {
-##		dqb "exp32.fix.sudo"
-##	}
-##
-##	function enforce_access() {
-##		dqb "exp32.enf_acc"
-##	}
-##
-##	function part3() {
-##		dqb "exp32.part3"
-##	}
-##
-##	function part1_5() {
-##		dqb "exp32.p15"
-##	}
-##
-##	function message() {
-##		dqb "exp32.message"
-##	}
-##
-##	function jules() {
-##		dqb "exp32.jules"
-##	}
-##
-##	#HUOM.23525:josko tässä kohtaa pakotus riittäisi
-##	function other_horrors() {
-##		dqb "AZATHOTH AND OTHER HORRORS"
-##		#${spc} /etc/default/rules.* /etc/iptables #tartteeko tuota enää 27525?
-##
-##		${scm} 0400 /etc/iptables/*
-##		${scm} 0550 /etc/iptables
-##		${sco} -R root:root /etc/iptables
-##		${scm} 0400 /etc/default/rules*
-##		${scm} 0555 /etc/default
-##		${sco} -R root:root /etc/default
-##	}
-##
-##		dqb "exp32.ppp3"
-##	}
-##
-##	prevopt=""
-##
-##	for opt in $@ ; do
-##		parse_opts_1 ${opt}
-##		parse_opts_2 ${prevopt} ${opt}
-##		prevopt=${opt}
-##	done
-
 	dqb "FALLBACK"
 	dqb "chmod may be a good idea now"
 fi
@@ -148,20 +72,6 @@ csleep 2
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
-#else
-#	echo "NOT (L1B AVA1LABL3 AND 3X3CUT4BL3)"
-#
-#	function pr4() {
-#		dqb "exp2.pr4 ${1} " 
-#	}
-#
-#	function udp6() {
-#		dqb "exp32.UPD6()"
-#	}
-#
-#	#onko tässä sktiptissä oleellista välittää $d part3:lle asti c_b välityksellä?
-#	check_binaries ${d}
-#	check_binaries2
 fi
 
 function usage() {
@@ -222,17 +132,6 @@ if [ -x ${d0}/e22.sh ] ; then
 	sleep 2 
 fi
 
-
-#
-
-#
-
-#
-#HUOM.25725:josko nyt toimisi tarpeeksi jyvin tp1()
-
-#
-
-#
 ##HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia, tuskin menee qten alla
 #tcdd=$(cat /etc/devuan_version)
 #t2=$(echo ${d} | cut -d '/' -f 6 | tr -d -c a-zA-Z/) #tai suoraan $distro?
@@ -244,24 +143,7 @@ fi
 #fi
 #TODO:t2-kikkailut jatkossa ennen e22?
 
-
-
 ##https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
-
-
-#koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
-#HUOM.20525:joskohan locale- ja rules- juttuja varten uusi fktio? vääntöä tuntuu riittävän nimittäin
-
-#
-##HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
-##dnsm 2. parametriksi... eiku ei, $2 onkin jo käytössä ja tarttisi sen cut-jekun
-
-#
-
-#
-##TODO:-v tekemään jotain hyödyllistä (miten tilanne 8725 ja sen jälk?)
-#
-
 
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
