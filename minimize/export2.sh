@@ -339,7 +339,7 @@ case ${mode} in
 #		dqb "CASE Q D0N3"
 #		csleep 3
 #	;;
-	t) #TODO:testaa
+	t) #HUOM.28725:testattu, tekee tarin, sisältö vaikuttaa järkevältä
 		pre2 ${d} ${distro} ${iface}
 		${NKVD} ${d}/*.deb
 		tlb ${d} ${iface} ${distro}

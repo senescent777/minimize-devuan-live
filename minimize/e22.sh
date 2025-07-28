@@ -347,7 +347,7 @@ function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
 	csleep 1
 }
 
-function aswasw() { #TODO:tesraus vähitellen
+function aswasw() { #HUOM.28725:testattu, toimii
 	dqb " aswasw ${1}"
 	csleep 1
 
@@ -370,9 +370,9 @@ function aswasw() { #TODO:tesraus vähitellen
 	csleep 1
 }
 
-#VAIH:sen testaaminen miten import/part3() syö tämän fktion outputtia
-function rmt() { #HUOM.16725:toiminee muuten mutta param tark vähn pykii
-	debug=1
+#HUOM.28725:testattu nopeasti, vaikuttaa toimivan
+function rmt() {
+	#debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
 	#[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
@@ -429,7 +429,7 @@ function rmt() { #HUOM.16725:toiminee muuten mutta param tark vähn pykii
 	dqb "rmt d0n3"
 }
 
-function tlb() { #VAIH
+function tlb() { #HUOM.28725:testattu, vaikuttaa toimivan
 	#debug=1
 	dqb "x2.tlb ${1} , ${2}  , ${3} "
 	csleep 1
