@@ -582,20 +582,25 @@ function tup() { #HUOM.28725:toiminee
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -z ${3} ] && exit 44
+
 	dqb "params_ok"
+	csleep 1
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
 	${NKVD} ${pkgdir}/*.deb
-	dqb "TUP PART 2"
-
-	#HUOM.28725:pitäisiköhän siivota ${2} ennenq ?
-
+	${NKVD} ${2}/*.deb
+	dqb "CLEANUP 1 AND 2 DONE, NEXT: apt-get upgrade"
+	csleep 1
+	
 	${fib} #uutena 205.25
 	${sag} upgrade -u
 	echo $?
 	csleep 1
 
 	${sifd} ${iface}
+	csleep 1
+	
+	dqb " ${iface} SHOULD BE DOWN BY NOW"
 	csleep 1
 	local s
 
@@ -620,6 +625,7 @@ function tup() { #HUOM.28725:toiminee
 
 	udp6 ${pkgdir}
 	dqb "UTP PT 3"
+	csleep 1
 
 	${svm} ${pkgdir}/*.deb ${2}
 	${odio} touch ${2}/tim3stamp
@@ -631,4 +637,5 @@ function tup() { #HUOM.28725:toiminee
 	rmt ${1} ${2}
 
 	dqb "SIELUNV1H0LL1N3N"
+	csleep 1
 }
