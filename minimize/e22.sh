@@ -1,4 +1,6 @@
-function pre1() { #TODO:tesatattva, erit disto-parametrin vaikutukset
+function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
+	# tosin disto-parametrin vaikutukset voisi testata (TODO)
+
 	dqb "pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 666
 
@@ -31,8 +33,8 @@ function pre1() { #TODO:tesatattva, erit disto-parametrin vaikutukset
 	fi
 }
 
-function pre2() { #VAIH
-	debug=1
+function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
+	#debug=1
 	dqb "pre2 ${1}, ${2} , ${3} ...#WTIN KAARISULKEET STNA" 
 
 	[ -z ${1} ] && exit 66
@@ -66,6 +68,7 @@ function pre2() { #VAIH
 	sleep 2
 }
 
+#HUOM.28725:vaikuttaisi toimivan
 function tp0() { #TODO:1 param riittäisi jatkossa
 	dqb "tp0 ${1} , ${2} , ${3}  "
 
@@ -107,6 +110,7 @@ function tp0() { #TODO:1 param riittäisi jatkossa
 #	cd ${2}
 #}
 
+#HUOM.28725:testattu ennen tpq:n jemmaamista, toimi
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
@@ -247,8 +251,8 @@ function tp2() { #VAIH:voisi TAAS testata
 	csleep 1
 }
 
-function tp3() { #VAIH
-	debug=1 #antaa olla vielä
+function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
+	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -468,7 +472,7 @@ function tlb() { #VAIH
 	dqb "x2.tlb.done"
 }
 
-function tp4() { #TODO:ala vähitellen testata miten fktion output kelpaa
+function tp4() { #HUOM.28725:testattu, vaikuttaisi toimivan, ehkä perusteellisempi selvittely myöhemmin
 	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
 
 	#[ -z ${1} ] && exit 1 #mikä juttu näissä on?
@@ -484,7 +488,7 @@ function tp4() { #TODO:ala vähitellen testata miten fktion output kelpaa
 	csleep 1
 	
 	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
-	tlb ${2} ${4} ${3} #VAIH:jatkossa nuo 2 viimeisintä parametreiksi
+	tlb ${2} ${4} ${3}
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
@@ -568,7 +572,8 @@ function tp4() { #TODO:ala vähitellen testata miten fktion output kelpaa
 #	dqb "AAMUNK01"
 #}
 
-function tup() { #HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakentamisen suhteen
+function tup() { #TODO:testaa kohta
+	#HUOM.21725:tässä saattaa olla jotain ongelmaa paketin rakentamisen suhteen
 	#-.. tai sitten viimeaikaiset kikkailut paskoneet part3/pr4/ppp3/whåtever
 	dqb "tup ${1}, ${2}, ${3}"
 

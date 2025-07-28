@@ -66,7 +66,7 @@ else #joutuukohan else-haaran muuttamaan jatkossa?
 	exit 56
 fi
 
-if [ -x ${d0}/common_lib.sh ] ; then #VAIH:muutox chroot varten?
+if [ -x ${d0}/common_lib.sh ] ; then #saattaa jo toimia chroot-ymp sisällä
 	#... saattaa olla että sq-chroot:in sisällä ei tarvitsekaan:import2.sh mutta vägän kätevänou ehgkä
 	. ${d0}/common_lib.sh
 else
@@ -290,7 +290,7 @@ case "${mode}" in
 		csleep 1
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
-	;;
+	;; #HUOM.nollaa edeltävät caset:ei ole sorkittu viime aikoina, pitäisi toimia ok
 	0|3)
 		#HUOM.21725:saattaa olla nyt jotain ongelmaa tässä case:ssa
 		#... tai sitten export2:n tpu():n viimeisimmässä ulosteessa

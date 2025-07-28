@@ -264,7 +264,7 @@ csleep 1
 #TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
 
 case ${mode} in
-	0|4) #HUOM.27725:4 tekee edelleen tarin, vaan onko sisältö järkevä? let's find out
+	0|4) #HUOM.28725:case 4 toimii, 0 voisi testata vielä
 
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		[ -v testdris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
@@ -294,7 +294,7 @@ case ${mode} in
 
 		[ -v testdris ] || tp2 ${tgtfile} ${iface}
 	;;
-	1|u|upgrade) #HUOM.26725:testaa uusiksi
+	1|u|upgrade) #TODO:testaa uusiksi kohta
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface}
@@ -308,14 +308,14 @@ case ${mode} in
 #		pre2 ${d} ${distro} ${iface}
 #		tp5 ${tgtfile} ${d0} 
 #	;;
-	e)  #HUOM.28725:testaa uusiksi (tekee jo tar:in, sisältö testattava(TODO))
+	e)  #HUOM.28725:tämän output toimii (nykyään import2 3 $file käsittelee)
 		pre2 ${d} ${distro} ${iface}
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
-	f)  #HUOM.26725:testaa uusiksi
+	f)  #TODO:testaa uusiksi
 		rmt ${tgtfile} ${d} #HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-#	q) #VAIH:testaa uusiksi tpq() output, meneekö arkistoo nmitä pitää?
+#	q) #TODO:testaa uusiksi tpq() output, meneekö arkistoo nmitä pitää?
 #		[ z"${tgtfile}" == "z" ] && exit 99
 #		${sifd} ${iface}
 #	
@@ -339,14 +339,14 @@ case ${mode} in
 #		dqb "CASE Q D0N3"
 #		csleep 3
 #	;;
-	t) #HUOM.25725: testattava uusiksi koska muutokset
+	t) #TODO:testaa
 		pre2 ${d} ${distro} ${iface}
 		${NKVD} ${d}/*.deb
 		tlb ${d} ${iface} ${distro}
 		${svm} ${pkgdir}/*.deb ${d}
 		rmt ${tgtfile} ${d}
 	;;
-	c) #uusi optio chroot-juttuja varten
+	c) #uusi optio chroot-juttuja varten, toiminee (27.7.25)
 		[ z"${tgtfile}" == "z" ] && exit 99
 
 		cd ${d0}
