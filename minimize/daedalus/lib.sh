@@ -40,6 +40,10 @@ function c5p() { #HUOM.28725:testattu, toiminee
 	${NKVD} ${1}/librsvg* #eniten nalkutusta vissiin tästä, jos koittaisi uudestaan josqs
 	#HUOM.19725:librsvg2 poistaa jnkn verran pak, mm task-desktop, task-xfce-desktop
 
+	#HUOM.28725:pitäisiköhän vim-paketit poistaa? g_pt2.t2pc() poistaa
+	${NKVD} ${1}/vim*
+	${NKVD} ${1}/libreoffice*
+
 	dqb "...is over"
 	csleep 1
 }
@@ -56,7 +60,11 @@ function reficul() {
 	efk ${1}/libstdc*.deb
 	efk ${1}/libglib*.deb ${1}/libmount*.deb ${1}/libblk*.deb
 	
-	efk ${1}/lilbwebp*.deb #menikö nimi oikein?
+	#efk ${1}/libwebp*.deb #menikö nimi oikein?
+	#myös:https://thehackernews.com/2023/09/new-libwebp-vulnerability-under-active.html
+	#tarttisko tehdä jotain vai ei?
+	#${NKVD} libwebp*.deb
+
 	efk ${1}/libtiff*.deb ${1}/liblzma5*.deb
 	efk ${1}/libgnutls*.deb ${1}/libtasn*.deb
 
@@ -98,7 +106,7 @@ function reficul() {
 #HUOM.21725:pitäisiköhän tätä sorkkia? kun sen yhden päivityspaketin kanssa ongelma (olisikohan jo korjautunut 24725 mennessä?)
 
 function pr4() {
-	debug=1
+	#debug=1 #josqs pois?
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
 	[ -d ${1} ] || exit 66
@@ -140,7 +148,8 @@ function udp6() { #HUOM.28725:testattu, toiminee
 	csleep 1
 }
 
-#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xcvt=0.1.2-1
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xcvt=0.1.2-1 (miten taas liittyi mihinkään?)
+
 function t2p() {
 	#debug=1
 	dqb "DAUD.T2P()"
