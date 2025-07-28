@@ -595,6 +595,8 @@ function tup() { #HUOM.28725:toiminee
 	echo $?
 	csleep 1
 
+	${sifd} ${iface}
+	csleep 1
 	local s
 
 	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä... EIKU
@@ -628,6 +630,5 @@ function tup() { #HUOM.28725:toiminee
 	${srat} -cf ${1} ${2}/tim3stamp
 	rmt ${1} ${2}
 
-	${sifd} ${iface} #HUOM.voisi tehdä aikaisemminkin
 	dqb "SIELUNV1H0LL1N3N"
 }
