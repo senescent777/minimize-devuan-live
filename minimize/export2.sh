@@ -3,7 +3,6 @@ debug=1
 distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa?
 d0=$(pwd)
 echo "d0= ${d0}"
-
 mode=-2
 tgtfile=""
 #HUOM.8725.1:joskohan wpa_supplicant.conf kanssa asiat kunnossa
@@ -16,7 +15,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#TODO:tämä paska uusiksi
+#TODO:tämä parsetus-paska uusiksi
 #"$0 <mode> <file>  [distro] [-v]" olisi se perusidea
 function parse_opts_1() {
 	debug=1
@@ -83,6 +82,7 @@ function usage() {
 	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \$ {d0} /\${distro}" 
 	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
 	echo "$0 q <> [] [] archives firefox settings"
+	#c?
 	echo "$0 t ... option for ipTables"			
 	echo "$0 -h: shows this message about usage"	
 }
@@ -184,13 +184,13 @@ case ${mode} in
 
 		[ -v testdris ] || tp2 ${tgtfile} ${iface}
 	;;
-	1|u|upgrade) #HUOM.28725:toiminee
+	1|u|upgrade) #HUOM.28725:tekee tarin ja sisältökin asentuu
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface}
 		tup ${tgtfile} ${d} ${iface}
 	;;
-	p) #VAIH:testaus
+	p) #HUOM.28725:toimii
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
@@ -205,11 +205,11 @@ case ${mode} in
 		rmt ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-	q) #VAIH:testaa uusiksi tpq() output, meneekö arkistoo nmitä pitää?
+	q) #HUOM.28725:toimii, luo tarin ja sisältökin nykyään oikeanlainen
 		[ z"${tgtfile}" == "z" ] && exit 99
-		${sifd} ${iface} #HUOM.28725:toistaiseksi jemmaan, takaisin josqs
-	
-		#HUOM.28725:roiskiiko väärään hakemistoon juttuja tpq()?
+		${sifd} ${iface}
+
+		#HUOM.28725:roiskiko väärään hakemistoon juttuja tpq()? toiv ei enää
 		tpq ~ ${d0}
 		cd ${d0}
 		#HUOM.28725:puuttuvien fktioiden takia ei suoritusta näköjään keskeytetä	

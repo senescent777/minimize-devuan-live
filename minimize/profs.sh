@@ -157,7 +157,7 @@ function exp_prof() {
 	${odio} touch ./rnd
 	${sco} ${n}:${n} ./rnd
 	${scm} 0644 ./rnd
-	dd if=/dev/random bs=6 count=1 > ./rnd
+	dd if=/dev/random bs=12 count=1 > ./rnd
 
 	${srat} -cvf ${1} ./rnd
 	for f in $(find . -name '*.js') ; do ${srat} -rf ${1} ${f} ; done

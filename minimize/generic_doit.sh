@@ -79,7 +79,6 @@ fi
 dqb "mode= ${mode}"
 csleep 1
 
-#HUOM.21725:laitettu konfissa enforce nollaksi jotta ei jäädä junnamaan sudo-juttujen kanssa
 if [ -s /etc/sudoers.d/meshuggah ] || [ -f /.chroot ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 3
@@ -123,7 +122,7 @@ function el_loco() {
 		export LC_ALL
 	fi
 
-	#HUOM.27725:sq-chroot-ymp perl valittaa LANGIAGE ja ALL , voisi tehdä jotain
+	#HUOM.27725:sq-chroot-ymp perl valittaa LANGUAGE ja ALL , voisi tehdä jotain
 
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
@@ -200,6 +199,10 @@ part2_5 ${removepkgs} ${dnsm}
 message
 part3 ${d} ${dnsm}
 other_horrors
+
+if [ -s ${d0}/ieuD ] ; then
+	${d0}/import2.sh q ${d0}/ieuD #-v
+fi
 
 ##if  ; then
 #[ -s ${d0}/config.tar.bz2 ] && ${srat} -C / -jxf ${d0}/config.tar.bz2

@@ -140,11 +140,9 @@ else
 fi
 
 [ -z ${distro} ] && exit 6
-
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "file=${file}"
-
 mkt=$(${odio} which mktemp)
 
 if [ x"${mkt}" == "x" ] ; then

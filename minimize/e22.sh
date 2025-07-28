@@ -1,5 +1,5 @@
 function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
-	# tosin disto-parametrin vaikutukset voisi testata (VAIH)
+	# tosin disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(TODO)
 
 	dqb "pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 666
@@ -21,7 +21,7 @@ function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) # | cut -d '/' -f 1-5)
 		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 	
-		enforce_access ${n} ${lefid} #qseeko tässä jokin???
+		enforce_access ${n} ${lefid} #jos jo toimisi
 
 		ostrac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
 		csleep 1
@@ -86,11 +86,11 @@ function tp0() { #TODO:1 param riittäisi jatkossa
 	csleep 1
 }
 
-function tpq() { #VAIH:kts että fktion output järkevää		
-	debug=1
+function tpq() { #HUOM.28725:toimii		
+	#debug=1
 	dqb "tpq ${1} ${2}"
 
-	#[ -d ${1} ] || exit 22
+	#[ -d ${1} ] || exit 22 uskaltaisiko jommankumman tarkistuksen laittaa takaisin?
 	#[ -d ${2} ] || exit 23	#pitäisikö mennä näin?
 
 	dqb "paramz 0k"
@@ -151,7 +151,7 @@ function tp1() {
 		csleep 1
 
 		cd ${3} #tässä oli virhe
-		${srat} --exclude='*.deb' -rvf  ${1} ./home/stubby
+		${srat} --exclude='*.deb' -rvf ${1} ./home/stubby
 		csleep 3
 
 		#TODO:se fiksumpi tapa, voiSiko esim $2:sta leikata $3:n bashilla jotenkin käteväsri?
@@ -159,7 +159,7 @@ function tp1() {
 		echo ${t}
 		#exit
 
-		#TODO:vissiin jatkossa niin että tässä haarassa .example voi ottaa, conf* ei
+		#TODO:vissiin jatkossa niin että tässä haarassa .example voi ottaa, conf* ei (update.sh liittyi)
 		dqb "./home/stubby ./home/devuan/Desktop/minimize" #tässäkin oli virhe
 		${srat} --exclude='*.deb' --exclude='conf*' -rvf ${1} ${t} 
 		#erikseen pitäisi se conf.example lisätä 
@@ -175,7 +175,7 @@ function tp1() {
 }
 
 function tp2() { HUOM.28725:#ok vai ei?
-	debug=1
+	debug=1 #pois?
 	dqb "tp2 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -548,7 +548,7 @@ function tp4() { #HUOM.28725:testattu, vaikuttaisi toimivan, ehkä perusteellise
 	csleep 1
 }
 
-function tp5() { #VAIH:fktion toiminnan testaus
+function tp5() { #HUOM.28725:toimii
 	#TODO:jospa jatkossa hukkaisi sen polun arkistosta, $2...
 	dqb "tp5 ${1} ${2}"
 	[ -z ${1} ] && exit 99

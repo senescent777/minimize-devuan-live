@@ -192,7 +192,7 @@ function pre_part3_clib() {
 	dqb "pre_part3_clib ${1}"
 	csleep 1
 	pwd
-	dqb "find ${1} -type f -name ' * .deb ' "
+	dqb "find ${1} -type f -name ' \* .deb ' " #auttaako \* tässä?
 	csleep 3
 
 	local q
@@ -210,11 +210,13 @@ function pre_part3_clib() {
 		#pitäis ikai huomioida että scm voi aiheuttaa sivuvaikutuksia myöhemmin
 		${scm} a-x ${r}/common_lib.sh 
 		
+		deb "NO EXIT 55 HERE, CHIMAERA..."
 		#exit 55
 		#... tosin alkutilanteessa tables pitäisi chimaerasta löytyä
 		#HUOM.25725:laitettu yaas exit jemmaan koska chimaeran tapauksessa ei välttis paketteja kotihak alla koska tables löytyy valimiiksi	
 	else
 		psqa ${1} #tai miten menikään
+		#yo. fktio voisi jatkossa sisältää allek.tark?
 	fi
 }
 
@@ -311,6 +313,7 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
+	#HUOM.28725:kenties helpompi olisi lisätä sha512sum allekirjoitus+sen tarkistus kuin kokonaan vivuta tar:in hommia esim. gpgtar:ille
 	if [ -x ${1}/../tar-wrapper.sh ] ; then 
 		dqb "TODO: tar-wrapper.sh" #josko vähitellen?
 	else
@@ -333,7 +336,7 @@ function check_binaries() {
 		jules
 
 		#HUOM.olisikohan sittenkin suhteelliset polut tar:in sisällä helpompia?
-		#VAIH:ao. if-blokki uusiksi jatkossa
+		
 		if [ -s ${1}/e.tar ] ; then
 			${odio} ${srat} -C / -xf ${1}/e.tar
 			${NKVD} ${1}/e.tar #jompikumpi hoitaa
@@ -348,8 +351,6 @@ function check_binaries() {
 
 		pre_part3_clib ${1} #HUOM.25725:tarvitaan
 		common_tbls ${1} ${dnsm}
-
-		#pr4 ${1}
 		other_horrors
 
 		ipt=$(${odio} which iptables)
@@ -488,7 +489,7 @@ function dinf() {
 #...paitsi ehkä sudoersin mankelointiin, absoluuttiset polut oltava
 
 function pre_enforce() {
-	debug=1
+	#debug=1 #liikaa tauhkaa, pois 28725
 	dqb "common_lib.pre_enforce( ${1} )"
 	local q
 	local f
@@ -605,7 +606,7 @@ function e_v() {
 }
 
 function e_h() {
-	debug=1
+	#debug=1 #HUOM.27825:debug ois, liikaa tauhkaa
 	dqb "e_h( ${1} , ${2} )"
 	csleep 2
 
@@ -1021,10 +1022,10 @@ function part2_5() {
 #	csleep 1
 #}
 
-#TODO:tämän ja kutsuttujen fktioiden debug, saattaa olla jotain ?
+#tämän ja kutsuttujen fktioiden debug, saattaa olla jotain ? 28725 vaikuttaisi toimivan ok nimittäin
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
 function part3() {
-	debug=1
+	debug=1 #jemmaan kohta(TODO)
 	dqb "part3 ${1} ${2}"
 	csleep 1
 
@@ -1032,18 +1033,12 @@ function part3() {
 	pre_part3_clib ${1}
 	csleep 1
 
-	#local d2
-	#d2=$(echo ${2} | tr -d -c 0-9)
-	#common_tbls ${1} ${d2} ehkei tätä tartte kutsua jatkossa koska c_lib.check_bin()
-
 	reficul ${1}
 	pr4 ${1}
 	csleep 1	
 
-	#part3_4real ${1}
 	efk ${1}/lib*.deb
 	[ $? -eq 0 ] || exit 66
-
 	csleep 1
 	
 	efk ${1}/*.deb
@@ -1052,7 +1047,6 @@ function part3() {
 
 	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
 	csleep 1
-
 	other_horrors
 }
 
