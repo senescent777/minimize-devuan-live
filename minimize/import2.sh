@@ -1,13 +1,13 @@
 #!/bin/bash
-debug=0
-file=""
+debug=1
+srcfile=""
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi (leikeltynä vai ei?)
 dir=/mnt
 part0=ABCD-1234
 mode=-2
 d0=$(pwd)
 
-echo "d0=${d0}"
+#echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
 
@@ -23,23 +23,29 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#TODO:parsetus uusiksi (tai onko tarpeen?)
+function usage() {
+	echo "${0} <mode> <srcfile>qqq [distro] [debug] "
+}
+
+if [ $# -gt 1 ] ; then
+	mode=${1}
+	srcfile=${2}
+else
+	usage
+	exit 1	
+fi
+
+#VAIH:parsetus uusiksi (tai onko tarpeen?)
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
 			debug=1
 		;;
 		*)
-#			if [ ${mode} -eq -2 ] ; then
-#				mode=${1}
-#			else
-#				#VAIH:testaa miten distron asettelu, esim excaliburin kanssa (mode 3:lla kai paremmin onnistuisi testaiLut kuin mode 0)
-#				if [ -d ${d0}/${1} ] ; then
-#					distro=${1}
-#				else
-#					file=${1}
-#				fi
-#			fi
+			if [ -d ${d0}/${1} ] ; then
+				distro=${1}
+				d=${d0}/${distro}
+			fi
 		;;
 	esac
 }
@@ -141,8 +147,9 @@ fi
 [ -z ${distro} ] && exit 6
 dqb "mode=${mode}"
 dqb "distro=${distro}"
-dqb "file=${file}"
+dqb "srcfile=${srcfile}"
 mkt=$(${odio} which mktemp)
+#exit
 
 if [ x"${mkt}" == "x" ] ; then
 	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
@@ -173,10 +180,6 @@ else
 	csleep 1
 fi
 
-function usage() {
-	echo "${0} [mode] [tgtfile] <distro> <debug> "
-}
-
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
 
@@ -195,7 +198,7 @@ csleep 1
 #glorified "tar -x" this function is - Yoda
 #TODO:jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?
 function common_part() {
-	debug=1
+	#debug=1
 
 	dqb "common_part( ${1}, ${2}, ${3})"
 	[ y"${1}" == "y" ] && exit 1
@@ -271,7 +274,7 @@ function tpr() {
 		csleep 1
 
 		q=$(${mkt} -d)
-		${srat} -C ${q} -xvf ~/fediverse.tar #${file2}
+		${srat} -C ${q} -xvf ~/fediverse.tar
 
 		#ls -lasR ${q}
 		#csleep 5
@@ -279,7 +282,7 @@ function tpr() {
 		imp_prof esr ${n} ${q}
 	else
 		dqb "CANNOT INCLUDE PROFS.HS"
-		dqb "$0 1 \$file ?"
+		dqb "$0 1 \$srcfile ?"
 	fi
 }
 
@@ -305,51 +308,44 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh (maybe) | sleep \$delay;ifup \$iface;changedns (if necessary)"
 	;;
 	1)
-		[ x"${file}" == "x" ] && exit 44
-		[ -s ${file} ] || exit 55
+		[ x"${srcfile}" == "x" ] && exit 44
+		[ -s ${srcfile} ] || exit 55
 
-		read -p "U R ABT TO EXTRACT ${file} , SURE ABOUT THAT?" confirm
+		read -p "U R ABT TO EXTRACT ${srcfile} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ]  || exit 77
-		common_part ${file} ${d} /
+		common_part ${srcfile} ${d} /
 
 		csleep 1
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;; #HUOM.nollaa edeltävät caset:ei ole sorkittu viime aikoina, pitäisi toimia ok
 	0|3)
-		#HUOM.21725:saattaa olla nyt jotain ongelmaa tässä case:ssa
-		#... tai sitten export2:n tpu():n viimeisimmässä ulosteessa
-		#kun kerta joillain paketeilla purq+asennus onnaa
-
 		#HUOM.mikä pointti tuolla 3:sella taas olikaan?
-
 		dqb "ZER0 S0UND"
 		csleep 1
 
-		[ x"${file}" == "x" ] && exit 55
+		[ x"${srcfile}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 1
 
-		[ -s ${file} ] || exit 66
-		dqb "${file} IJ"
+		[ -s ${srcfile} ] || exit 66
+		dqb "${srcfile} IJ"
 		csleep 1
 
 		[ z"{distro}" == "z" ] && exit 77
 		dqb " ${3} ${distro} MN"
 		csleep 1
 
-		read -p "U R ABT TO INSTALL ${file} , SURE ABOUT THAT?" confirm
+		read -p "U R ABT TO INSTALL ${srcfile} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
 
-		#HUOM. jokin export:in / import:in fktio oli sellainen minkä voisi pilkkoa useampaan osaan, mikähän mahtoi olla? tp1() kai
-
 		if [ ${1} -eq 0 ] ; then
-			common_part ${file} ${d} / #voi tietystI mennä mettään tuon $d/common_lib kanssa?
+			common_part ${srcfile} ${d} / #voi tietystI mennä mettään tuon $d/common_lib kanssa?
 		else
-			common_part ${file} ${d} ${d}
+			common_part ${srcfile} ${d} ${d}
 		fi
 
-		#TODO:jokin tarkistus tähän? että $file löytyi ha sen sau pirettua 
+		#TODO:jokin tarkistus tähän? että $srcfile löytyi ha sen sau pirettua 
 		csleep 5
 		#sen yhden tar:in kanssa pitäisi selvittää mikä kusee (vai kuseeko vielä 23.7.25?)
 
@@ -380,16 +376,16 @@ case "${mode}" in
 		#VAIH:testaa toiminta vielä kerran
 
 		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan, tai siis näin oli kunnes toiminta myyttyu
-		#... pitäisi kai jatkossa testata että $file:n sisältä löytyy fediverse.tar(TODO) ... ja sit jotain		
+		#... pitäisi kai jatkossa testata että $srcfile:n sisältä löytyy fediverse.tar(TODO) ... ja sit jotain		
 
-		[ x"${file}" == "x" ] && exit 55
+		[ x"${srcfile}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 1
 
-		[ -s ${file} ] || exit 66
-		dqb "${file} IJ"
+		[ -s ${srcfile} ] || exit 66
+		dqb "${srcfile} IJ"
 		csleep 1
-		common_part ${file} ${d} /
+		common_part ${srcfile} ${d} /
 
 		tpr
 	;;

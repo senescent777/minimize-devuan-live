@@ -15,10 +15,27 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+function usage() {
+	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
+	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
+	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
+	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
+	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \$ {d0} /\${distro}" 
+	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
+	echo "$0 q <> [] [] archives firefox settings"
+	#c?
+	echo "$0 t ... option for ipTables"			
+	echo "$0 -h: shows this message about usage"	
+}
+
 #VAIH:tämä parsetus-paska uusiksi
-mode=${1}
-tgtfile=${2}
-#saisiko parametreja poistettua?
+if [ $# -gt 1 ] ; then
+	mode=${1}
+	tgtfile=${2}
+else
+	usage
+	exit 1	
+fi
 
 #"$0 <mode> <file>  [distro] [-v]" olisi se perusidea
 function parse_opts_1() {
@@ -30,23 +47,17 @@ function parse_opts_1() {
 			debug=1
 		;;
 		*)
-#			if [ ${mode} -eq -2 ] ; then
-#				mode=${1}
-#			else
-#				#HUOM.28725:saako jyrättyä sitä oletusasetusta?
-#
-#				if [ "${tgtfile}" == "" ] ; then
-#					tgtfile=${1}
-#				else
-#					[ -d ${d}/${1} ] && distro=${1}
-#				fi
-#			fi
+			#menisiköhän näin?
+			if [ -d ${d}/${1} ] ; then
+				distro=${1}
+				d=${d0}/${distro}
+			fi
 		;;
 	esac
 }
 
 function parse_opts_2() {
-	#dqb "parseopts_2 ${1} ${2}"
+	dqb "parseopts_2 ${1} ${2}"
 }
 
 #parsetuksen knssa menee jännäksi jos conf pitää lkadata ennen common_lib (no paerse_opts:iin tiettty)
@@ -83,19 +94,6 @@ if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 else 
 	exít 57
 fi
-
-function usage() {
-	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
-	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
-	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
-	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
-	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \$ {d0} /\${distro}" 
-	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
-	echo "$0 q <> [] [] archives firefox settings"
-	#c?
-	echo "$0 t ... option for ipTables"			
-	echo "$0 -h: shows this message about usage"	
-}
 
 dqb "tar = ${srat} "
 
@@ -164,6 +162,7 @@ csleep 1
 [ -v testgris ] || pre1 ${d} ${distro}
 
 #TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
+#tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 
 case ${mode} in
 	0|4) #HUOM.28725:case 4 toimii, 0 voisi testata vielä
