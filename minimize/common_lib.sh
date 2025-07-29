@@ -210,7 +210,7 @@ function pre_part3_clib() {
 		#pitäis ikai huomioida että scm voi aiheuttaa sivuvaikutuksia myöhemmin
 		${scm} a-x ${r}/common_lib.sh 
 		
-		deb "NO EXIT 55 HERE, CHIMAERA..."
+		dqb "NO EXIT 55 HERE, CHIMAERA..."
 		#exit 55
 		#... tosin alkutilanteessa tables pitäisi chimaerasta löytyä
 		#HUOM.25725:laitettu yaas exit jemmaan koska chimaeran tapauksessa ei välttis paketteja kotihak alla koska tables löytyy valimiiksi	
