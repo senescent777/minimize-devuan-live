@@ -35,11 +35,12 @@ function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
 
 function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 	#debug=1
-	dqb "pre2 ${1}, ${2} , ${3} ...#WTIN KAARISULKEET STNA" 
+	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 67
 	[ -z ${3} ] && exit 68
+	[ -z ${4} ] && exit 68
 
 	local ortsac
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
@@ -47,7 +48,7 @@ function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
-		${odio} /opt/bin/changedns.sh ${dnsm} ${ortsac} #TODO	:dnsm paramtriksi
+		${odio} /opt/bin/changedns.sh ${4} ${ortsac} #VAIH	:dnsm paramtriksi
 		csleep 1
 
 		${sifu} ${3}
@@ -598,9 +599,13 @@ function tup() { #HUOM.28725:toiminee
 	csleep 1
 	
 	${fib} #uutena 205.25
+	csleep 1
 	
 	${sag} --no-install-recommends upgrade -u
 	echo $?
+	csleep 1
+
+	dqb "generic_pt2 may be necessary now"	
 	csleep 1
 
 	${sifd} ${iface}
