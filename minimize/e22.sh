@@ -120,7 +120,8 @@ function tpq() { #HUOM.28725:toimii
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
-	#TODO:2. param tark?
+	#VAIH:2. param tark?
+	[ -z ${2} ] && exit
 	csleep 1
 
 	dqb "params_ok"
