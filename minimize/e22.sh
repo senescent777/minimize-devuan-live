@@ -40,7 +40,7 @@ function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 67
 	[ -z ${3} ] && exit 68
-	[ -z ${4} ] && exit 68
+	[ -z ${4} ] && exit 69 #ei toiminutkaan (oli vielä 1 kohta mikä unohtui)
 
 	local ortsac
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
@@ -476,7 +476,7 @@ function tlb() { #HUOM.28725:testattu, vaikuttaa toimivan
 	udp6 ${pkgdir}
 
 	#actually necessary
-	pre2 ${1} ${3} ${2} #VAIH:mielellään globaalit wttuun vielä josqs
+	pre2 ${1} ${3} ${2} ${dnsm} #VAIH:mielellään globaalit wttuun vielä josqs
 	other_horrors
 
 	dqb "x2.tlb.done"
