@@ -31,6 +31,7 @@ function reficul() {
 	dqb "chim.reticul is UNDER CONSTRUCTION"
 }
 
+#HUOM.29725:katsotaanpa mitä tapahtuu kun nuo nkvd-rivit kommentoidaan pois
 function udp6() {
 	dqb "ch1m.lib.UPDP-6"
 	csleep 1
@@ -54,7 +55,7 @@ function udp6() {
 function t2p() {
 	csleep 1
 
-	dqb "t2p()"
+	dqb "chim.t2p()"
 	csleep 1
 
 	${sharpy} atril* #daedaluksess poistui aiemmin
