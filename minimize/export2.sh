@@ -189,7 +189,7 @@ case ${mode} in
 		${sifd} ${iface}
 
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
-		tp0 ${tgtfile} ${d} 	
+		tp0 ${d} 	
 		tp1 ${tgtfile} ${d} ${testgris}
 		pre1 ${d} ${distro}
 

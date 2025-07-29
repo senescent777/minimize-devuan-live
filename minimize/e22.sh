@@ -70,18 +70,18 @@ function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 }
 
 #HUOM.28725:vaikuttaisi toimivan
-function tp0() { #TODO:1 param riittäisi jatkossa
+function tp0() { #VAIH:1 param riittäisi jatkossa
 	dqb "tp0 ${1} , ${2} , ${3}  "
 
-	if [ -d ${2} ] ; then
-		dqb "cleaning up ${2} "
+	if [ -d ${1} ] ; then
+		dqb "cleaning up ${1} "
 		csleep 1
-		${NKVD} ${2}/*.deb
-		${NKVD} ${2}/*.tar
-		${NKVD} ${2}/sha512sums.txt
+		${NKVD} ${1}/*.deb
+		${NKVD} ${1}/*.tar
+		${NKVD} ${1}/sha512sums.txt
 		dqb "d0nm3"
 	else
-		dqb "NO SUCH DIR ${2}"
+		dqb "NO SUCH DIR ${1}"
 	fi
 
 	csleep 1
