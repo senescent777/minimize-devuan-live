@@ -495,13 +495,15 @@ function tlb() { #TODO:tarkista toiminta
 
 function tp4() { #TODO:tarkista toiminta
 	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
-	
-	dqb "DEMI-SEC"
+	#dqb "DEMI-SEC"
 	csleep 1
 
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
-	#TODO:lisää param tark
+	
+	[ -z ${1} ] && exit 11
+	[ -z ${3} ] && exit 11
+	[ -z ${4} ] && exit 11
 
 	dqb "paramz_ok"
 	csleep 1
