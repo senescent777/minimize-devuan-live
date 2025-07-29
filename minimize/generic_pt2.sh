@@ -1,8 +1,8 @@
 #!/bin/bash
-#TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh)
+#TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh) vielä tarpeen 29725?
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 d0=$(pwd)
-echo "d0=${d0}"
+#echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro}
