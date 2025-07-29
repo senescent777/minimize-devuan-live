@@ -18,8 +18,8 @@ function c5p() { #HUOM.28725:testattu, toiminee
 	
 	#tästä eteenpäin jos selvittäisi noiden pakettien tilanteen, piostuuko jossain jnkn sivuvakutuksebna?
 	${NKVD} ${1}/libcrypt* #ei uskalla poistaa aptilla
-	${NKVD} ${1}/libdevmapper* #ei ole sannettuna noita (tilanne 19725)
-	${NKVD} ${1}/libsoup* #eiole
+	#${NKVD} ${1}/libdevmapper* #ei ole sannettuna noita (tilanne 19725)
+	#${NKVD} ${1}/libsoup* #eiole
 
 	${NKVD} ${1}/xserver* #HUOM.31525:nalkutusta, pois toistaiseksi (ja aptin kautta ei tod poisteta)
 	
@@ -28,39 +28,10 @@ function c5p() { #HUOM.28725:testattu, toiminee
 	${NKVD} ${1}/libgtk-3-bin* #HUOM.19725:edelleen nalqttaa
 	#HUOM.libgtk-3-paketteja ei uskalla poistaa aptilla, liikaa oheisvah
 
-	# librsvg2-common:amd64 depends on librsvg2-2 (= 2.54.7+dfsg-1~deb12u1); however:
-	#  Version of librsvg2-2:amd64 on system is 2.54.5+dfsg-1.
-	#
-	#dpkg: error processing package librsvg2-common:amd64 (--install):
-	# dependency problems - leaving unconfigured
-	#Processing triggers for libgdk-pixbuf-2.0-0:amd64 (2.42.10+dfsg-1+b1) ...
-	#Errors were encountered while processing:
-	# librsvg2-common:amd64
-
 	${NKVD} ${1}/librsvg* #eniten nalkutusta vissiin tästä, jos koittaisi uudestaan josqs
 	#HUOM.19725:librsvg2 poistaa jnkn verran pak, mm task-desktop, task-xfce-desktop
 
-#	#näistä tyli nalkutusta sqush-cgrootin sisällä, uudempi g_py2-kierros paikallaan
-#	#HUOM.28725:pitäisiköhän vim-paketit poistaa? g_pt2.t2pc() poistaa
-#	${NKVD} ${1}/vim*
-#	${NKVD} ${1}/libreoffice*
-#
-#HUOM.29725:päivityspakettia rakennettaessa jokin kusi, korjaa (VAIH)
-#dpkg: dependency problems prevent configuration of libavif15:amd64:
-# libavif15:amd64 depends on libgav1-1 (>= 0.18.0); however:
-#  Package libgav1-1 is not installed.
-# libavif15:amd64 depends on libyuv0 (>= 0.0~git20221206); however:
-#  Package libyuv0 is not installed.
-#	${NKVD} ${1}/libavi*
-#
-#	${NKVD} ${1}/libgst* #g_pt2 oikeastaan...
-#	${NKVD} ${1}/gstreamer*
-#	${NKVD} ${1}/mutt*
-#
-#	${NKVD} ${1}/libwebkit*
-#	${NKVD} ${1}/libzbar0*
-
-	#päivityspakegtista pois nämä myös (TODO)
+	#päivityspakegtista pois nämä myös (TEHTY)
 	${NKVD} ${1}/libblock*
 	${NKVD} ${1}/debootstrap*
 	${NKVD} ${1}/libmagick*
