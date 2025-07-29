@@ -200,43 +200,9 @@ message
 part3 ${d} ${dnsm}
 other_horrors
 
-if [ -s ${d0}/ieuD ] ; then
+#if [ -s ${d0}/ieuD ] ; then
 	#${d0}/import2.sh q ${d0}/ieuD #-v
-	${d0}/import2.sh r ${d0}/ieuD 
-fi
-
-##if  ; then
-#[ -s ${d0}/config.tar.bz2 ] && ${srat} -C / -jxf ${d0}/config.tar.bz2
-#[ -s ~/config.tar.bz2 ] && ${srat} -C / -jxf ~/config.tar.bz2
-#csleep 1
-#
-#${NKVD} ${d0}/config.tar.bz2
-#${NKVD} ~/config.tar.bz2
-#csleep 1
-#
-##tai sitten käskytetään:import2 (VAIH)
-#if [ -x ${d0}/profs.sh ] ; then
-#	. ${d0}/profs.sh
-#
-#	q=$(mktemp -d)
-#	dqb "${srat} -C ${q} ... 1n 1 s3c5s"
-#	csleep 1
-#
-#	#nytq alettu kikkailemaan tar:in sijainnilla niin tosiaankin voisi ulkoistaa import2:lle
-#	#tgt=${d0}/fediverse.tar #VAIH:jotain tarttis edelleen tehdä tälle?
-#	tgt=~/fediverse.tar
-#
-#	if [ -s ${tgt} ] ; then	
-#		${srat} -C ${q} -xvf ${tgt}
-#
-#		dqb "${srat} d0me"
-#		csleep 1
-#
-#		imp_prof esr ${n} ${q}
-#		#dqb "NO SUCH THING AS ${tgt}" #tämän ilmoituksen fktio? pitäisikö olla else-haarassa?
-#	fi
-#
-#	csleep 1
+	${d0}/import2.sh r ${d0} -v #/ieuD 
 #fi
 
 jules

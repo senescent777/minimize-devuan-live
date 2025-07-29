@@ -258,27 +258,40 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
-#TODO:ottamaan parametreja jatkossa
+#VAIH:ottamaan parametreja jatkossa
 function tpr() {
+	dqb "UPIR ( ${1}, ${2})"
+	csleep 1
+
+	[ -z ${1} ] && exit 11
+	[ -d ${1} ] || exit 12
+
+	dqb "pars_ok"
+	csleep 1
+
 	if [ -s ~/config.tar.bz2 ] ; then
 		${srat} -C / -jxf ~/config.tar.bz2
 	else
-		${srat} -C / -jxf ${d0}/config.tar.bz2
+		${srat} -C / -jxf ${1}/config.tar.bz2
 	fi
 
-	if [ -x ${d0}/profs.sh ] ; then
-		. ${d0}/profs.sh
+	if [ -x ${1}/profs.sh ] ; then
+		. ${1}/profs.sh
 		[ $? -gt 0 ] && exit 33
 			
 		dqb "INCLUDE OK"
 		csleep 1
-
+		local q
 		q=$(${mkt} -d)
-		${srat} -C ${q} -xvf ~/fediverse.tar
+
+		if [ -s  ~/fediverse.tar ] ; then
+			${srat} -C ${q} -xvf ~/fediverse.tar
+		else
+			${srat} -C ${q} -xvf ${1}/fediverse.tar
+		fi
 
 		#ls -lasR ${q}
 		#csleep 5
-
 		imp_prof esr ${n} ${q}
 	else
 		dqb "CANNOT INCLUDE PROFS.HS"
@@ -387,10 +400,10 @@ case "${mode}" in
 		csleep 1
 		common_part ${srcfile} ${d} /
 
-		tpr
+		tpr ${d0}
 	;;
 	r)
-		tpr
+		tpr ${d0}
 	;;
 #	u)
 #		echo "reficul (TODO?)" ehkei päivityspakettien kanssa tartte suurempia kikkailuja
