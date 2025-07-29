@@ -4,7 +4,6 @@ file=""
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi (leikeltynä vai ei?)
 dir=/mnt
 part0=ABCD-1234
-
 mode=-2
 d0=$(pwd)
 
@@ -322,6 +321,7 @@ case "${mode}" in
 			common_part ${file} ${d} ${d}
 		fi
 
+		#TODO:jokin tarkistus tähän? että $file löytyi ha sen sau pirettua 
 		csleep 5
 		#sen yhden tar:in kanssa pitäisi selvittää mikä kusee (vai kuseeko vielä 23.7.25?)
 
@@ -351,11 +351,8 @@ case "${mode}" in
 	q)
 		#VAIH:testaa toiminta TAAS
 
-		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan
+		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan, tai siis näin oli kunnes toiminta myyttyu
 		#... pitäisi kai jatkossa testata että $file:n sisältä löytyy fediverse.tar(TODO) ... ja sit jotain		
-	
-		#TODO:voisi olla config.tar purq samassa casessa...JotenKin		
-		#... malliksi export2 q mutta käänteisesti
 
 		[ x"${file}" == "x" ] && exit 55
 		dqb "KL"
