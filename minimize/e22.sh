@@ -585,13 +585,14 @@ function tp5() { #HUOM.28725:toimii
 function tup() { #HUOM.28725:toiminee
 	#HUOM.21725:tässä saattoi olla jotain ongelmaa paketin rakentamisen suhteen
 	#-.. tai sitten viimeaikaiset kikkailut paskoneet part3/pr4/ppp3/whåtever
-	dqb "tup ${1}, ${2}, ${3}"
+	dqb "tup ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] && mv ${1} ${1}.OLD
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
-	[ -z ${3} ] && exit 44
+	[ -z ${3} ] && exit 33
+	[ -z ${4} ] && exit 55
 
 	dqb "params_ok"
 	csleep 1
@@ -605,6 +606,7 @@ function tup() { #HUOM.28725:toiminee
 	${fib} #uutena 205.25
 	csleep 1
 	
+	#--yes - vipu mukaan myös?
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 	csleep 1
@@ -612,10 +614,10 @@ function tup() { #HUOM.28725:toiminee
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1
 
-	${sifd} ${iface}
+	${sifd} ${3}
 	csleep 1
 	
-	dqb " ${iface} SHOULD BE DOWN BY NOW"
+	dqb " ${3} SHOULD BE DOWN BY NOW"
 	csleep 1
 	local s
 

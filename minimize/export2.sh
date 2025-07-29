@@ -193,11 +193,11 @@ case ${mode} in
 
 		[ -v testgris ] || tp2 ${tgtfile} ${iface}
 	;;
-	1|u|upgrade) #HUOM.28725:tekee tarin ja sisältökin asentuu (TODO:uusi testaus vielä josqs)
+	1|u|upgrade) #HUOM.28725:tekee tarin ja sisältökin asentuu (VAIH:uusi testaus vielä josqs)
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface} ${dnsm}
-		tup ${tgtfile} ${d} ${iface}
+		tup ${tgtfile} ${d} ${iface} ${dnsm}
 	;;
 	p) #HUOM.28725:toimii
 		[ z"${tgtfile}" == "z" ] && exit 99 
