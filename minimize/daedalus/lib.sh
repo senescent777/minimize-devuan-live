@@ -40,9 +40,25 @@ function c5p() { #HUOM.28725:testattu, toiminee
 	${NKVD} ${1}/librsvg* #eniten nalkutusta vissiin tästä, jos koittaisi uudestaan josqs
 	#HUOM.19725:librsvg2 poistaa jnkn verran pak, mm task-desktop, task-xfce-desktop
 
+	#näistä tyli nalkutusta sqush-cgrootin sisällä, uudempi g_py2-kierros paikallaan
 	#HUOM.28725:pitäisiköhän vim-paketit poistaa? g_pt2.t2pc() poistaa
 	${NKVD} ${1}/vim*
 	${NKVD} ${1}/libreoffice*
+
+#VAIH:
+#dpkg: dependency problems prevent configuration of libavif15:amd64:
+# libavif15:amd64 depends on libgav1-1 (>= 0.18.0); however:
+#  Package libgav1-1 is not installed.
+# libavif15:amd64 depends on libyuv0 (>= 0.0~git20221206); however:
+#  Package libyuv0 is not installed.
+	${NKVD} ${1}/libavi*
+
+	${NKVD} ${1}/libgst* #g_pt2 oikeastaan...
+	${NKVD} ${1}/gstreamer*
+	${NKVD} ${1}/mutt*
+
+	${NKVD} ${1}/libwebkit*
+	${NKVD} ${1}/libzbar0*
 
 	dqb "...is over"
 	csleep 1
@@ -112,7 +128,7 @@ function pr4() {
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 
-	#TODO:tähänkin psqa?
+	psqa ${1}
 	efk ${1}/libpam-modules-bin_*.deb
 	efk ${1}/libpam-modules_*.deb
 	${NKVD} ${1}/libpam-modules* #tartteeko enää?
@@ -140,7 +156,7 @@ function udp6() { #HUOM.28725:testattu, toiminee
 	csleep 1
 
 	#nalqtusta aiheuttavat paketit nykyään:kts. c5p()
-#	${NKVD} ${1}/libx11-xcb1* #HUOM.30525:tämä nyt erityisesti aiheuttaa härdelliä, tarttisko tehrä jotain?
+	${NKVD} ${1}/libx11-xcb1* #HUOM.30525:tämä nyt erityisesti aiheuttaa härdelliä, tarttisko tehrä jotain?
 #HUOM.tuon poisto(aptilla) poistaa äksän ja xfce:n joten ei
 	
 	c5p ${1}
