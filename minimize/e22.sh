@@ -447,7 +447,13 @@ function tlb() { #HUOM.28725:testattu, vaikuttaa toimivan
 	dqb "\$shary= ${shary}"
 	csleep 2
 
+	[ -z ${1} ] && exit 11
+	[ -z ${2} ] && exit 11
 	[ -z ${3} ] && exit 11
+	[ -z ${4} ] && exit 11
+
+	dqb "parx_ok"
+	csleep 3
 
 	if [ z"${pkgdir}" != "z" ] ; then
 		dqb "SHREDDED HUMANS"
@@ -461,7 +467,7 @@ function tlb() { #HUOM.28725:testattu, vaikuttaa toimivan
 	${asy}
 	csleep 1
 
-	tpc7	
+	tpc7	#tämän funktio oli? jotain excaliburiin liittyvää kai
 	aswasw ${2}
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 
@@ -477,7 +483,7 @@ function tlb() { #HUOM.28725:testattu, vaikuttaa toimivan
 	udp6 ${pkgdir}
 
 	#actually necessary
-	pre2 ${1} ${3} ${2} ${dnsm} #VAIH:mielellään globaalit wttuun vielä josqs
+	pre2 ${1} ${3} ${2} ${4}  #dnsm #VAIH:mielellään globaalit wttuun vielä josqs
 	other_horrors
 
 	dqb "x2.tlb.done"
