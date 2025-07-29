@@ -128,7 +128,7 @@ else
 	n=$(whoami)
 fi
 
-#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, alkaisiko jo olla kunnossa?
+#DONE?:generic_x - skriptit toimimaan cgroot-ympäristössä, alkaisiko jo olla kunnossa?
 fix_sudo
 other_horrors
 
@@ -978,7 +978,6 @@ function part2_5() {
 }
 
 #function part3_4real() {
-#	debug=1
 #	dqb "part3_4real( ${1} )"
 #	csleep 1
 #
@@ -994,7 +993,6 @@ function part2_5() {
 #	#HUOM. dpkg -R olisi myös keksitty
 #	local f
 #
-#	#VAIH:käskyttämään efk?
 #	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
 #
 #	if [ $? -eq  0 ] ; then
@@ -1025,7 +1023,7 @@ function part2_5() {
 #tämän ja kutsuttujen fktioiden debug, saattaa olla jotain ? 28725 vaikuttaisi toimivan ok nimittäin
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
 function part3() {
-	debug=1 #jemmaan kohta(TODO)
+	#debug=1 
 	dqb "part3 ${1} ${2}"
 	csleep 1
 
