@@ -28,7 +28,6 @@ function usage() {
 	echo "$0 -h: shows this message about usage"	
 }
 
-#VAIH:tämä parsetus-paska uusiksi
 if [ $# -gt 1 ] ; then
 	mode=${1}
 	tgtfile=${2}
@@ -39,7 +38,6 @@ fi
 
 #"$0 <mode> <file>  [distro] [-v]" olisi se perusidea
 function parse_opts_1() {
-#	debug=1
 	dqb "patse_otps8( ${1}, ${2})"
 
 	case "${1}" in

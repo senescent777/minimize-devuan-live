@@ -72,7 +72,7 @@ function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 }
 
 #HUOM.28725:vaikuttaisi toimivan
-function tp0() { #VAIH:1 param riittäisi jatkossa
+function tp0() {
 	dqb "tp0 ${1} , ${2} , ${3}  "
 
 	if [ -d ${1} ] ; then
@@ -119,10 +119,11 @@ function tpq() { #HUOM.28725:toimii
 
 #HUOM.28725:testattu ennen tpq:n jemmaamista, toimi
 #... entä palauttamisen jälkeen?
+#TODO:jospa VIELÄ KERRAN testaisi
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
-	#VAIH:2. param tark?
+	
 	[ -z ${2} ] && exit
 	csleep 1
 
