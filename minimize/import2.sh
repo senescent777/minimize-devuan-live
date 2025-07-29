@@ -13,7 +13,6 @@ d=${d0}/${distro}
 
 #pitäisikö vielä minimoida latensseja tästä skriptistä? ja sen käyttämistä?
 #... optiota -v ei ole pakko käyttää, toisaalta
-
 #HUOM.28725:testailtu, vaikuttaisi toimivalta ainakin enimmäkseen (q myöhemmin)
 
 function dqb() {
@@ -24,22 +23,23 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+#TODO:parsetus uusiksi
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
 			debug=1
 		;;
 		*)
-			if [ ${mode} -eq -2 ] ; then
-				mode=${1}
-			else
-				#VAIH:testaa miten distron asettelu, esim excaliburin kanssa (mode 3:lla kai paremmin onnistuisi testaiLut kuin mode 0)
-				if [ -d ${d0}/${1} ] ; then
-					distro=${1}
-				else
-					file=${1}
-				fi
-			fi
+#			if [ ${mode} -eq -2 ] ; then
+#				mode=${1}
+#			else
+#				#VAIH:testaa miten distron asettelu, esim excaliburin kanssa (mode 3:lla kai paremmin onnistuisi testaiLut kuin mode 0)
+#				if [ -d ${d0}/${1} ] ; then
+#					distro=${1}
+#				else
+#					file=${1}
+#				fi
+#			fi
 		;;
 	esac
 }
