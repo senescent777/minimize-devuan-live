@@ -31,13 +31,12 @@ function reficul() {
 	dqb "chim.reticul is UNDER CONSTRUCTION"
 }
 
-#HUOM.29725:katsotaanpa mitä tapahtuu kun nuo nkvd-rivit kommentoidaan pois
 function udp6() {
 	dqb "ch1m.lib.UPDP-6"
 	csleep 1
 
 	#mahd. yhteisiä osia voisi siirtää
-	#VAIH:pitäisikö nämäkin kahlata läpi uudestaan? että mitä niille tekee niinqu
+	#HUOM.29725:näköjään uskaltaa nuo jutut kommentoida piiloon ja silti toimii asennus imp2 kanssa
 	#${NKVD} ${1}/libx11-xcb1*
 	#${NKVD} ${1}/nfs*
 	#${NKVD} ${1}/rpc*
