@@ -163,7 +163,7 @@ csleep 1
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 
 case ${mode} in
-	0|4) #HUOM.28725:case 4 toimii, 0 voisi testata vielä
+	0|4) #TODO:tarkista toiminta, siis case 0 lähinnä
 
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		[ -v testgris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
@@ -193,7 +193,7 @@ case ${mode} in
 
 		[ -v testgris ] || tp2 ${tgtfile} ${iface}
 	;;
-	1|u|upgrade) #HUOM.28725:tekee tarin ja sisältökin asentuu (VAIH:uusi testaus vielä josqs)
+	1|u|upgrade) #HUOM.29725:ainakin chimaeran kanssa tup():in tekemät paketit kelpaavat
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface} ${dnsm}
@@ -206,7 +206,7 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.28725:tämän output toimii (nykyään import2 3 $file käsittelee)
+	e)  #TODO:tarkista toiminta
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
@@ -237,10 +237,10 @@ case ${mode} in
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
-	t) #HUOM.28725:testattu, tekee tarin, sisältö vaikuttaa järkevältä
+	t) #TODO:tarkista toiminta
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		${NKVD} ${d}/*.deb
-		tlb ${d} ${iface} ${distro}
+		tlb ${d} ${iface} ${distro} ${dnsm}
 		${svm} ${pkgdir}/*.deb ${d}
 		rmt ${tgtfile} ${d}
 	;;

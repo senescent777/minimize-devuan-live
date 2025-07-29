@@ -3,6 +3,7 @@ function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
 
 	dqb "pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 666
+	#TODO:tokan parametrin tarkistus
 
 	csleep 5
 	${sco} -Rv _apt:root ${pkgdir}/partial/
@@ -179,8 +180,8 @@ function tp1() {
 	csleep 1
 }
 
-function tp2() { HUOM.28725:#ok vai ei?
-	debug=1 #pois?
+function tp2() { #HUOM.30725:taitaa toimia
+	#debug=1 #pois?
 	dqb "tp2 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -440,17 +441,20 @@ function rmt() {
 	dqb "rmt d0n3"
 }
 
-function tlb() { #HUOM.28725:testattu, vaikuttaa toimivan
+#home/devuan/Desktop/minimize/chimaera/home/devuan/Desktop/minimize/chimaera/tim3stamp
+#kyseiselle polulle voisi tehdä jotain(TODO)
+
+function tlb() { #TODO:tarkista toiminta
 	#debug=1
-	dqb "x2.tlb ${1} , ${2}  , ${3} "
+	dqb "x2.tlb ${1} , ${2}  , ${3}  , ${4} "
 	csleep 1
 	dqb "\$shary= ${shary}"
 	csleep 2
 
 	[ -z ${1} ] && exit 11
-	[ -z ${2} ] && exit 11
-	[ -z ${3} ] && exit 11
-	[ -z ${4} ] && exit 11
+	[ -z ${2} ] && exit 12
+	[ -z ${3} ] && exit 13
+	[ -z ${4} ] && exit 14
 
 	dqb "parx_ok"
 	csleep 3
@@ -483,29 +487,27 @@ function tlb() { #HUOM.28725:testattu, vaikuttaa toimivan
 	udp6 ${pkgdir}
 
 	#actually necessary
-	pre2 ${1} ${3} ${2} ${4}  #dnsm #VAIH:mielellään globaalit wttuun vielä josqs
+	pre2 ${1} ${3} ${2} ${4} 
 	other_horrors
 
 	dqb "x2.tlb.done"
 }
 
-function tp4() { #HUOM.28725:testattu, vaikuttaisi toimivan, ehkä perusteellisempi selvittely myöhemmin
+function tp4() { #TODO:tarkista toiminta
 	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
-
-	#[ -z ${1} ] && exit 1 #mikä juttu näissä on?
-	#[ -s ${1} ] || exit 2 #jotainn pykimistä 16725
 	
 	dqb "DEMI-SEC"
 	csleep 1
 
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
+	#TODO:lisää param tark
 
 	dqb "paramz_ok"
 	csleep 1
 	
 	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
-	tlb ${2} ${4} ${3}
+	tlb ${2} ${4} ${3} ${dnsm} #TODO:glob muutt wtt
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
@@ -588,9 +590,7 @@ function tp5() { #HUOM.28725:toimii
 	dqb "AAMUNK01"
 }
 
-function tup() { #HUOM.28725:toiminee
-	#HUOM.21725:tässä saattoi olla jotain ongelmaa paketin rakentamisen suhteen
-	#-.. tai sitten viimeaikaiset kikkailut paskoneet part3/pr4/ppp3/whåtever
+function tup() { #TODO:testaa uusiksi, koska param tark
 	dqb "tup ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
