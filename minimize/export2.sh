@@ -195,7 +195,7 @@ case ${mode} in
 
 		[ -v testgris ] || tp2 ${tgtfile} ${iface}
 	;;
-	1|u|upgrade) #HUOM.28725:tekee tarin ja sisältökin asentuu
+	1|u|upgrade) #HUOM.28725:tekee tarin ja sisältökin asentuu (TODO:uusi testaus vielä josqs)
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface}
