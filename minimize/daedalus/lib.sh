@@ -45,21 +45,21 @@ function c5p() { #HUOM.28725:testattu, toiminee
 	${NKVD} ${1}/vim*
 	${NKVD} ${1}/libreoffice*
 
-#VAIH:
+#HUOM.29725:päivityspakettia rakennettaessa jokin kusi, korjaa (TODO)
 #dpkg: dependency problems prevent configuration of libavif15:amd64:
 # libavif15:amd64 depends on libgav1-1 (>= 0.18.0); however:
 #  Package libgav1-1 is not installed.
 # libavif15:amd64 depends on libyuv0 (>= 0.0~git20221206); however:
 #  Package libyuv0 is not installed.
-	${NKVD} ${1}/libavi*
-
-	${NKVD} ${1}/libgst* #g_pt2 oikeastaan...
-	${NKVD} ${1}/gstreamer*
-	${NKVD} ${1}/mutt*
-
-	${NKVD} ${1}/libwebkit*
-	${NKVD} ${1}/libzbar0*
-
+#	${NKVD} ${1}/libavi*
+#
+#	${NKVD} ${1}/libgst* #g_pt2 oikeastaan...
+#	${NKVD} ${1}/gstreamer*
+#	${NKVD} ${1}/mutt*
+#
+#	${NKVD} ${1}/libwebkit*
+#	${NKVD} ${1}/libzbar0*
+#
 	dqb "...is over"
 	csleep 1
 }
