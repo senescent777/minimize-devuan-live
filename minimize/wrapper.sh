@@ -29,7 +29,7 @@ case ${1} in
 		read -p "source?" sorsa
 		sleep 2
 
-		#TODO:desktop-fileet muuttaen tähän liittyen
+		#TEHTY:desktop-fileet muuttaen tähän liittyen
 		if [ "${1}" == "import" ] ; then
 			${d}/import2.sh 0 ${sorsa}
 			[ $? -eq 0 ] || echo "$0 import2 ?"

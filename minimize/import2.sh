@@ -24,10 +24,10 @@ function csleep() {
 }
 
 function usage() {
-	echo "${0} <mode> <srcfile>qqq [distro] [debug] "
+	echo "${0} <mode> <srcfile> [distro] [debug] "
 }
 
-if [ $# -gt 1 ] ; then
+if [ $# -gt 0 ] ; then
 	mode=${1}
 	srcfile=${2}
 else
