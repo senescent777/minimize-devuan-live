@@ -23,7 +23,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#TODO:parsetus uusiksi
+#TODO:parsetus uusiksi (tai onko tarpeen?)
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
@@ -255,6 +255,34 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
+#TODO:ottamaan parametreja jatkossa
+function tpr() {
+	if [ -s ~/config.tar.bz2 ] ; then
+		${srat} -C / -jxf ~/config.tar.bz2
+	else
+		${srat} -C / -jxf ${d0}/config.tar.bz2
+	fi
+
+	if [ -x ${d0}/profs.sh ] ; then
+		. ${d0}/profs.sh
+		[ $? -gt 0 ] && exit 33
+			
+		dqb "INCLUDE OK"
+		csleep 1
+
+		q=$(${mkt} -d)
+		${srat} -C ${q} -xvf ~/fediverse.tar #${file2}
+
+		#ls -lasR ${q}
+		#csleep 5
+
+		imp_prof esr ${n} ${q}
+	else
+		dqb "CANNOT INCLUDE PROFS.HS"
+		dqb "$0 1 \$file ?"
+	fi
+}
+
 case "${mode}" in
 	-1) #jatkossa jokim fiksumpi kuin -1
 		part=/dev/disk/by-uuid/${part0}		
@@ -349,7 +377,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#VAIH:testaa toiminta TAAS
+		#VAIH:testaa toiminta vielä kerran
 
 		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan, tai siis näin oli kunnes toiminta myyttyu
 		#... pitäisi kai jatkossa testata että $file:n sisältä löytyy fediverse.tar(TODO) ... ja sit jotain		
@@ -363,35 +391,13 @@ case "${mode}" in
 		csleep 1
 		common_part ${file} ${d} /
 
-		if [ -s ~/config.tar.bz2 ] ; then
-			${srat} -C / -jxf ~/config.tar.bz2
-		else
-			${srat} -C / -jxf ${d0}/config.tar.bz2
-		fi
-
-		#file2=~/fediverse.tar
-
-		if [ -x ${d0}/profs.sh ] ; then
-			. ${d0}/profs.sh
-			[ $? -gt 0 ] && exit 33
-			
-			dqb "INCLUDE OK"
-			csleep 1
-
-			q=$(${mkt} -d)
-			${srat} -C ${q} -xvf ~/fediverse.tar #${file2}
-
-			#ls -lasR ${q}
-			#csleep 5
-
-			imp_prof esr ${n} ${q}
-		else
-			dqb "CANNOT INCLUDE PROFS.HS"
-			dqb "$0 1 \$file ?"
-		fi
+		tpr
+	;;
+	r)
+		tpr
 	;;
 #	u)
-#		echo "reficul (TODO)"
+#		echo "reficul (TODO?)" ehkei päivityspakettien kanssa tartte suurempia kikkailuja
 #	;;
 	-h) #HUOM.27725:ilman param kuuluisi kai keskeyttää suor mahd aik vaiheessa
 		usage

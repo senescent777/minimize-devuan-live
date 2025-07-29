@@ -201,7 +201,8 @@ part3 ${d} ${dnsm}
 other_horrors
 
 if [ -s ${d0}/ieuD ] ; then
-	${d0}/import2.sh q ${d0}/ieuD #-v
+	#${d0}/import2.sh q ${d0}/ieuD #-v
+	${d0}/import2.sh r ${d0}/ieuD 
 fi
 
 ##if  ; then
