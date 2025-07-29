@@ -46,6 +46,8 @@ function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
 	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
 
+	#TODO: $4 kanssa jotain sorkkimista?
+
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
 		${odio} /opt/bin/changedns.sh ${4} ${ortsac}
