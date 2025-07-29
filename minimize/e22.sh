@@ -598,7 +598,8 @@ function tup() { #HUOM.28725:toiminee
 	csleep 1
 	
 	${fib} #uutena 205.25
-	${sag} upgrade -u
+	
+	${sag} --no-install-recommends upgrade -u
 	echo $?
 	csleep 1
 
