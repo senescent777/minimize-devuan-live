@@ -169,7 +169,7 @@ case ${mode} in
 
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		[ -v testgris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
-		[ -v testgris ] || pre2 ${d} ${distro} ${iface}
+		[ -v testgris ] || pre2 ${d} ${distro} ${iface} ${dnsm}
 
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
@@ -198,18 +198,18 @@ case ${mode} in
 	1|u|upgrade) #HUOM.28725:tekee tarin ja sisältökin asentuu (TODO:uusi testaus vielä josqs)
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
-		pre2 ${d} ${distro} ${iface}
+		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tup ${tgtfile} ${d} ${iface}
 	;;
 	p) #HUOM.28725:toimii
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
-		pre2 ${d} ${distro} ${iface}
+		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp5 ${tgtfile} ${d0} 
 	;;
 	e)  #HUOM.28725:tämän output toimii (nykyään import2 3 $file käsittelee)
-		pre2 ${d} ${distro} ${iface}
+		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
 	f)  #HUOM.28725:testattu, toimii ainakin sen verran että tekee tarin minkä sisältä järkeväno loinen
@@ -240,7 +240,7 @@ case ${mode} in
 		csleep 3
 	;;
 	t) #HUOM.28725:testattu, tekee tarin, sisältö vaikuttaa järkevältä
-		pre2 ${d} ${distro} ${iface}
+		pre2 ${d} ${distro} ${iface} ${dnsm}
 		${NKVD} ${d}/*.deb
 		tlb ${d} ${iface} ${distro}
 		${svm} ${pkgdir}/*.deb ${d}

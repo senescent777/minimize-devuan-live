@@ -48,7 +48,7 @@ function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
-		${odio} /opt/bin/changedns.sh ${4} ${ortsac} #VAIH	:dnsm paramtriksi
+		${odio} /opt/bin/changedns.sh ${4} ${ortsac}
 		csleep 1
 
 		${sifu} ${3}
