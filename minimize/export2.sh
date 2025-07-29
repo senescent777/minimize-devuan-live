@@ -15,10 +15,14 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#TODO:tämä parsetus-paska uusiksi
+#VAIH:tämä parsetus-paska uusiksi
+mode=${1}
+tgtfile=${2}
+#saisiko parametreja poistettua?
+
 #"$0 <mode> <file>  [distro] [-v]" olisi se perusidea
 function parse_opts_1() {
-	debug=1
+#	debug=1
 	dqb "patse_otps8( ${1}, ${2})"
 
 	case "${1}" in
@@ -26,23 +30,23 @@ function parse_opts_1() {
 			debug=1
 		;;
 		*)
-			if [ ${mode} -eq -2 ] ; then
-				mode=${1}
-			else
-				#HUOM.28725:saako jyrättyä sitä oletusasetusta?
-
-				if [ "${tgtfile}" == "" ] ; then
-					tgtfile=${1}
-				else
-					[ -d ${d}/${1} ] && distro=${1}
-				fi
-			fi
+#			if [ ${mode} -eq -2 ] ; then
+#				mode=${1}
+#			else
+#				#HUOM.28725:saako jyrättyä sitä oletusasetusta?
+#
+#				if [ "${tgtfile}" == "" ] ; then
+#					tgtfile=${1}
+#				else
+#					[ -d ${d}/${1} ] && distro=${1}
+#				fi
+#			fi
 		;;
 	esac
 }
 
 function parse_opts_2() {
-	dqb "parseopts_2 ${1} ${2}"
+	#dqb "parseopts_2 ${1} ${2}"
 }
 
 #parsetuksen knssa menee jännäksi jos conf pitää lkadata ennen common_lib (no paerse_opts:iin tiettty)
@@ -55,15 +59,19 @@ else #joutuukohan else-haaran muuttamaan jatkossa?
 	exit 55
 fi
 
+#exit
+
 if [ -x ${d0}/common_lib.sh ] ; then 
 	. ${d0}/common_lib.sh
 else
 	dqb "FALLBACK"
-	dqb "chmod may be a good idea now"
+	dqb "chmod +x ${d0}/common_lib.sh may be a good idea now"
+	exit 56 #HUOM.28725:toistaiseksi näin
 fi
 
 [ -z ${distro} ] && exit 6
 d=${d0}/${distro}
+#exit
 
 dqb "mode= ${mode}"
 dqb "distro=${distro}"
@@ -72,6 +80,8 @@ csleep 2
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
+else 
+	exít 57
 fi
 
 function usage() {
@@ -114,6 +124,8 @@ if [ x"${mkt}" == "x" ] ; then
 	exit 8
 fi
 
+dqb "${sco} -Rv _apt:root ${pkgdir}/partial"
+csleep 1
 ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 1
@@ -149,7 +161,7 @@ fi
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
-[ -v testdris ] || pre1 ${d} ${distro}
+[ -v testgris ] || pre1 ${d} ${distro}
 
 #TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
 
@@ -157,8 +169,8 @@ case ${mode} in
 	0|4) #HUOM.28725:case 4 toimii, 0 voisi testata vielä
 
 		[ z"${tgtfile}" == "z" ] && exit 99 
-		[ -v testdris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
-		[ -v testdris ] || pre2 ${d} ${distro} ${iface}
+		[ -v testgris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
+		[ -v testgris ] || pre2 ${d} ${distro} ${iface}
 
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
@@ -166,7 +178,7 @@ case ${mode} in
 
 		dd if=/dev/random bs=12 count=1 > ./rnd
 		${srat} -cvf ${tgtfile} ./rnd
-		[ -v testdris ] || tp3 ${tgtfile} ${distro}
+		[ -v testgris ] || tp3 ${tgtfile} ${distro}
 		
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
@@ -179,10 +191,10 @@ case ${mode} in
 
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
 		tp0 ${tgtfile} ${d} 	
-		tp1 ${tgtfile} ${d} ${testdris}
+		tp1 ${tgtfile} ${d} ${testgris}
 		pre1 ${d} ${distro}
 
-		[ -v testdris ] || tp2 ${tgtfile} ${iface}
+		[ -v testgris ] || tp2 ${tgtfile} ${iface}
 	;;
 	1|u|upgrade) #HUOM.28725:tekee tarin ja sisältökin asentuu
 		[ z"${tgtfile}" == "z" ] && exit 99 

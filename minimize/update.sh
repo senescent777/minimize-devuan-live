@@ -72,8 +72,8 @@ if [ -f ${tgt} ] ; then
 	process_entry ${tgt} /opt/bin/changedns.sh
 	sleep 2
 
-	if [ -v testdris ] && [ -d ${testdris} ] ; then
-		cd ${asdgasdg}
+	if [ -v testgris ] && [ -d ${testgris} ] ; then
+		cd ${testgris}
 		p="."
 	else
 		echo "SOMTHING ELSE"
@@ -87,7 +87,6 @@ if [ -f ${tgt} ] ; then
 	fi
 
 	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
-	
 	for f in $(find ${p}/ -name '*.example') ; do process_entry ${tgt} ${f} ; done
 	for f in $(find ${p}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
 	
@@ -125,7 +124,7 @@ if [ -f ${tgt} ] ; then
 	${scm} 0444 /etc/default/rules*
 	sleep 2
 	
-	#if [ ! -v testdris ] || [ ! -d ${testdris} ] ; then		
+	#if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then		
 		for f in $(find /etc -name 'rules*') ; do #type f mukaan?
 			if [ -s ${f} ] && [ -r ${f} ] ; then
 				process_entry ${tgt} ${f}
@@ -141,7 +140,7 @@ if [ -f ${tgt} ] ; then
 	#pitäisi kai tehdä jotain että tuoreimmat muutokset /e/n ja /e/a menevät tar:iin asti? typojen korjaus olisi hyvä alku
 
 	#TODO:/e/n- ja /e/a-kohdat uusiksi jatkossa
-	#if [ ! -v testdris ] || [ ! -d ${testdris} ] ; then
+	#if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then
 		#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
 		for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
 
