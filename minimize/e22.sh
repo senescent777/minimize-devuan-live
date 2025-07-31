@@ -444,7 +444,7 @@ function rmt() {
 #home/devuan/Desktop/minimize/chimaera/home/devuan/Desktop/minimize/chimaera/tim3stamp
 #kyseiselle polulle voisi tehdä jotain(TODO)
 
-function tlb() { #TODO:tarkista toiminta
+function tlb() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	#debug=1
 	dqb "x2.tlb ${1} , ${2}  , ${3}  , ${4} "
 	csleep 1
@@ -493,7 +493,8 @@ function tlb() { #TODO:tarkista toiminta
 	dqb "x2.tlb.done"
 }
 
-function tp4() { #TODO:tarkista toiminta
+#TODO:xz mäkeen paketista?
+function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
 	#dqb "DEMI-SEC"
 	csleep 1
@@ -548,12 +549,13 @@ function tp4() { #TODO:tarkista toiminta
 	csleep 1
 	${lftr}
 
-	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä
+	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä -24
+	#... myös gpgtar pitäisi ottaa haltuun
 	if [ -d ${2} ] ; then
 		pwd
 		csleep 1
 
-		${NKVD} ${2}/*.deb
+		${NKVD} ${2}/*.deb #parempi kuitenkin rmt:n jälkeen?
 		csleep 1		
 		${svm} ${pkgdir}/*.deb ${2}
 		rmt ${1} ${2}

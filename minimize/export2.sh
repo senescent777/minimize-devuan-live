@@ -206,7 +206,7 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #TODO:tarkista toiminta
+	e)  #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
