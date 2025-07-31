@@ -35,7 +35,7 @@ else
 	exit 1	
 fi
 
-#VAIH:parsetus uusiksi (tai onko tarpeen?)
+
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
@@ -225,6 +225,7 @@ function common_part() {
 	#TODO:jatkossa voisi -C - option parametrin johtaa $2:sesta?
 	csleep 1
 	${srat} -C ${3} -xf ${1} #HUOM.23725:C-option voisi josqs jyrätä?
+	[ $? -eq 0 ] || exit 35  
 	csleep 1
 	dqb "tar DONE"
 
@@ -351,6 +352,7 @@ case "${mode}" in
 
 		read -p "U R ABT TO INSTALL ${srcfile} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
+		[ -s ${srcfile} ]  || exit 34
 
 		if [ ${1} -eq 0 ] ; then
 			common_part ${srcfile} ${d} / #voi tietystI mennä mettään tuon $d/common_lib kanssa?
@@ -358,7 +360,7 @@ case "${mode}" in
 			common_part ${srcfile} ${d} ${d}
 		fi
 
-		#TODO:jokin tarkistus tähän? että $srcfile löytyi ha sen sau pirettua 
+		#VAIH:jokin tarkistus tähän? että $srcfile löytyi ha sen sau pirettua 
 		csleep 5
 		#sen yhden tar:in kanssa pitäisi selvittää mikä kusee (vai kuseeko vielä 23.7.25?)
 
@@ -408,7 +410,7 @@ case "${mode}" in
 #	u)
 #		echo "reficul (TODO?)" ehkei päivityspakettien kanssa tartte suurempia kikkailuja
 #	;;
-	-h) #HUOM.27725:ilman param kuuluisi kai keskeyttää suor mahd aik vaiheessa
+	-h) #HUOM.27725:ilman param kuuluisi kai keskeyttää suor mahd aik
 		usage
 	;;
 	*)
