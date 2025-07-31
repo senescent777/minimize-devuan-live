@@ -90,7 +90,7 @@ function tp0() {
 		dqb "cleaning up ${1} "
 		csleep 1
 		${NKVD} ${1}/*.deb
-		${NKVD} ${1}/*.tar
+		#${NKVD} ${1}/*.tar #saattaa sössiä exp2 0
 		${NKVD} ${1}/sha512sums.txt
 		dqb "d0nm3"
 	else
@@ -100,12 +100,15 @@ function tp0() {
 	csleep 1
 }
 
-function tpq() { #HUOM.28725:toimii		
-	#debug=1
+function tpq() { #VAIH:testaa uudestaan	
+	debug=1
 	dqb "tpq ${1} ${2}"
+	csleep 1
 
-	#[ -d ${1} ] || exit 22 uskaltaisiko jommankumman tarkistuksen laittaa takaisin?
-	#[ -d ${2} ] || exit 23	#pitäisikö mennä näin?
+	[ -z ${1} ] && exit 11
+	[ -z ${2} ] && exit 12
+	[ -d ${1} ] || exit 22 uskaltaisiko jommankumman tarkistuksen laittaa takaisin?
+	[ -d ${2} ] || exit 23	#pitäisikö mennä näin?
 
 	dqb "paramz 0k"
 	csleep 1
@@ -130,7 +133,7 @@ function tpq() { #HUOM.28725:toimii
 
 #HUOM.28725:testattu ennen tpq:n jemmaamista, toimi
 #... entä palauttamisen jälkeen?
-#TODO:jospa VIELÄ KERRAN testaisi
+#VAIH:jospa VIELÄ KERRAN testaisi
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
@@ -156,6 +159,9 @@ function tp1() {
 
 	csleep 1
 	${srat} -rvf ${1} /opt/bin/changedns.sh
+
+	#ennen if-blokkia ~ alta tar:it talteen? (TODO:jos find kanssa)
+	#${srat} -rvf ${1} ~/*.tar	
 
 	#26726:tähän asti ok
 	local t
@@ -183,6 +189,13 @@ function tp1() {
 		dqb "B"
 		csleep 1
 		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
+
+		dqb "${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
+		csleep 3
+		
+		#TODO:pitäisiköhän findilla hakea tar:ille ne .sh, .tar yms. ?
+		#... vai stokeekohan ecxldur asioita?
+
 		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t} # ${d0} globaalit wttuun tästäkin
 	fi
 
@@ -191,7 +204,7 @@ function tp1() {
 }
 
 function luca() {
-		echo $?
+	#$1 tarkistukset jatkossa	
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule | less
 	sleep 2
 
@@ -209,9 +222,9 @@ function luca() {
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local | less
 }
 
-function tp2() { #TODO	:testaa uusiksi koska x
+function tp2() { #VAIH	:testaa uusiksi koska x
 	debug=1 #pois?
-	dqb "tp2 ${1} ${2}"
+	dqb "tp2 ${1} ${2} ${3}"
 	csleep 1
 
 	[ -z ${1} ] && exit 1
@@ -242,7 +255,8 @@ function tp2() { #TODO	:testaa uusiksi koska x
 		fi
 	done
 
-	luca
+	echo $?
+	luca ${1}
 	csleep 1
 	other_horrors
 
@@ -455,6 +469,8 @@ function rmt() {
 	psqa .
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt
+
+	ls -las ${1} 
 	csleep 1
 	cd ${p}
 	dqb "rmt d0n3"
@@ -575,10 +591,11 @@ function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 		csleep 1
 		udp6 ${pkgdir} 		
 
-		${NKVD} ${2}/*.deb #parempi kuitenkin rmt:n jälkeen?
 		csleep 1		
 		${svm} ${pkgdir}/*.deb ${2}
 		rmt ${1} ${2}
+
+		#${NKVD} ${2}/*.deb #parempi kuitenkin rmt:n jälkeen?
 	fi
 
 	dqb "tp4 donew"

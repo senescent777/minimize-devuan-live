@@ -161,7 +161,7 @@ csleep 1
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 
 case ${mode} in
-	0|4) #TODO:tarkista toiminta, siis case 0 lähinnä
+	0|4) #VAIH:tarkista toiminta, siis case 0 lähinnä
 
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		[ -v testgris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
@@ -180,16 +180,31 @@ case ${mode} in
 
 		dd if=/dev/random bs=12 count=1 > ./rnd
 		${srat} -cvf ${d}/f.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
-		[ ${mode} -eq 0 ] && tp4 ${d}/f.tar ${d} ${distro} ${iface}
+
+		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
+		if [ ${mode} -eq 0 ] ; then
+			tp4 ${d}/f.tar ${d} ${distro} ${iface}
+
+			[ ${debug} -eq 1 ] && ls -las ${d}
+			csleep 5
+		fi
+
 		#HUOM.25725:vissiin oli tarkoituksellla f.tar eikä e.tar, tuossa yllä
 		${sifd} ${iface}
 
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
-		tp0 ${d} 	
+		tp0 ${d} 
+		[ ${debug} -eq 1 ] && ls -las ${d}
+		csleep 5
+ 	
 		tp1 ${tgtfile} ${d} ${testgris}
-		pre1 ${d} ${distro}
+		
+		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
+		csleep 4
+		${NKVD} ${d}/*.tar 
 
-		[ -v testgris ] || tp2 ${tgtfile} ${iface}
+		pre1 ${d} ${distro}
+		[ -v testgris ] || tp2 ${tgtfile} ${iface} ${dnsm}
 	;;
 	1|u|upgrade) #HUOM.29725:ainakin chimaeran kanssa tup():in tekemät paketit kelpaavat
 		[ z"${tgtfile}" == "z" ] && exit 99 
