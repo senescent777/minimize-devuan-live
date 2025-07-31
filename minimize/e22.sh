@@ -435,7 +435,10 @@ function rmt() {
 
 	dqb "paramz_ok"
 	csleep 1
+	local p
+	local c
 
+	c=$(find ${2} -type f -name '*.deb' | wc -l)
 	p=$(pwd)
 	csleep 1
 	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
@@ -450,8 +453,6 @@ function rmt() {
 	fi
 
 	csleep 1
-	local c
-	c=$(find ${2} -type f -name '*.deb' | wc -l)
 
 	if [ ${c} -lt 1 ] ; then
 		echo "TH3R3 1S N0 F15H"
@@ -463,7 +464,6 @@ function rmt() {
 
 	${scm} 0444 ${2}/*.deb
 	touch ${2}/sha512sums.txt
-
 	chown $(whoami):$(whoami) ${2}/sha512sums.txt
 	chmod 0644 ${2}/sha512sums.txt
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
@@ -474,17 +474,16 @@ function rmt() {
 	${sah6} ./*.deb > ./sha512sums.txt
 	csleep 1
 	psqa .
-
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt
 
-	ls -las ${1} 
+	[ ${debug} -eq 1 ] && ls -las ${1} 
 	csleep 1
 	cd ${p}
 	dqb "rmt d0n3"
 }
 
 #home/devuan/Desktop/minimize/chimaera/home/devuan/Desktop/minimize/chimaera/tim3stamp
-#kyseiselle polulle voisi tehdä jotain(TODO)
+#kyseiselle polulle voisi tehdä jotain, jos ilmenee vielä (TODO)
 
 function tlb() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	#debug=1
