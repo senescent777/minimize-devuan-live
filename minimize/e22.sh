@@ -2,8 +2,12 @@ function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
 	# tosin disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(TODO)
 
 	dqb "pre1 ${1}  ${2} "
-	[ -z ${1} ] && exit 666
-	#TODO:tokan parametrin tarkistus
+	[ -z ${1} ] && exit 66
+	[ -z ${2} ] && exit 66
+	#VAIH:tokan parametrin tarkistus, toiminee
+
+	csleep 4
+	dqb "pars.0k"
 
 	csleep 5
 	${sco} -Rv _apt:root ${pkgdir}/partial/
