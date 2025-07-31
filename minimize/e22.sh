@@ -493,7 +493,7 @@ function tlb() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	dqb "x2.tlb.done"
 }
 
-#TODO:xz mäkeen paketista? jospa kutsuisi udp6() uudestaan tässä
+#VAIH:xz mäkeen paketista? jospa kutsuisi udp6() uudestaan tässä
 function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
 	#dqb "DEMI-SEC"
@@ -554,6 +554,7 @@ function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	if [ -d ${2} ] ; then
 		pwd
 		csleep 1
+		udp6 ${pkgdir} 		
 
 		${NKVD} ${2}/*.deb #parempi kuitenkin rmt:n jälkeen?
 		csleep 1		
