@@ -237,7 +237,7 @@ case ${mode} in
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
-	t) #TODO:tarkista toiminta
+	t) #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		${NKVD} ${d}/*.deb
 		tlb ${d} ${iface} ${distro} ${dnsm}

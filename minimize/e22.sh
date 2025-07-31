@@ -493,7 +493,7 @@ function tlb() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	dqb "x2.tlb.done"
 }
 
-#TODO:xz mäkeen paketista?
+#TODO:xz mäkeen paketista? jospa kutsuisi udp6() uudestaan tässä
 function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
 	#dqb "DEMI-SEC"
