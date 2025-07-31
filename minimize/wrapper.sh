@@ -17,6 +17,7 @@ case ${1} in
 	cdns)		
 		sudo /opt/bin/changedns.sh ${dnsm}
 	;;
+
 	ifup)
 		sudo /sbin/ifup ${iface}
 	;;

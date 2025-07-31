@@ -1,10 +1,12 @@
 #!/bin/bash
+
 debug=1
 distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa?
 d0=$(pwd)
 echo "d0= ${d0}"
 mode=-2
 tgtfile=""
+
 #HUOM.8725.1:joskohan wpa_supplicant.conf kanssa asiat kunnossa
 
 function dqb() {
@@ -49,6 +51,7 @@ function parse_opts_1() {
 			if [ -d ${d}/${1} ] ; then
 				distro=${1}
 				d=${d0}/${distro}
+
 			fi
 		;;
 	esac
@@ -129,6 +132,7 @@ csleep 1
 dqb "PRE0"
 csleep 1
 
+
 #HUOM.26726:jokin ei-niin-ilmeinen bugitus menossa, toiv wi ole common_lib.sh syynä
 #jhokatap aloitettu expo2 jakaminen osiin käytönnöin syistä
 
@@ -137,6 +141,7 @@ if [ -x ${d0}/e22.sh ] ; then
 	.  ${d0}/e22.sh
 	csleep 2 
 fi
+
 
 ##HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia, tuskin menee qten alla
 #tcdd=$(cat /etc/devuan_version)
@@ -154,6 +159,7 @@ fi
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
+
 [ -v testgris ] || pre1 ${d} ${distro}
 
 #TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
@@ -167,13 +173,16 @@ case ${mode} in
 		[ -v testgris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
 		[ -v testgris ] || pre2 ${d} ${distro} ${iface} ${dnsm}
 
+
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
 		${scm} 0644 ./rnd
 
 		dd if=/dev/random bs=12 count=1 > ./rnd
 		${srat} -cvf ${tgtfile} ./rnd
+
 		[ -v testgris ] || tp3 ${tgtfile} ${distro}
+
 		
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
@@ -189,10 +198,12 @@ case ${mode} in
 			csleep 5
 		fi
 
+
 		#HUOM.25725:vissiin oli tarkoituksellla f.tar eikä e.tar, tuossa yllä
 		${sifd} ${iface}
 
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
+
 		tp0 ${d} 
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 5
@@ -230,6 +241,16 @@ case ${mode} in
 	q) #VAIH:testaus muutox jälk käynnissä 31725
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
+	
+		tpq ~ ${d0}
+		cd ${d0}
+	
+		q=$(mktemp)
+		${srat} -cf ${tgtfile} ${q}
+
+		dqb "	OIJHPIOJGHOYRI&RE"
+		pwd
+		csleep 1
 
 		#HUOM.28725:roiskiko väärään hakemistoon juttuja tpq()? toiv ei enää
 		tpq ~ ${d0}
@@ -272,6 +293,7 @@ case ${mode} in
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
 		tgtfile="${tgtfile}".bz3 #tarkpoituksella tämä pääte 
 	;;
+
 	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata
 		usage
 	;;

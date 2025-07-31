@@ -2,6 +2,7 @@
 #TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh) vielä tarpeen 29725?
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 d0=$(pwd)
+
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro}
@@ -61,6 +62,7 @@ fi
 
 #HUOM.21725:nököjään kirjaston puuttuminen ei menoa haittaa, jatkuu urputuksella
 #HUOM.27725:vieläkö toistuu?
+
 
 [ -z ${distro} ] && exit 6
 dqb "BEFORE CNF"
@@ -230,6 +232,7 @@ function t2pf() {
 t2pc
 [ $? -gt 0 ] && exit #tähän tökkää?
 
+#VAIH:tähän keskimmäiseen xorriso:n yms. jyräykset (eli $dostro/lib)
 t2p
 [ $? -gt 0 ] && exit
 

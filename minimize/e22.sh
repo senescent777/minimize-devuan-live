@@ -27,7 +27,6 @@ function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
 		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 	
 		enforce_access ${n} ${lefid} #jos jo toimisi
-
 		ostrac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
 		csleep 1
 		dqb "3NF0RC1NG D0N3"
@@ -43,9 +42,11 @@ function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
+
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 67
 	[ -z ${3} ] && exit 68
+
 	[ -z ${4} ] && exit 69 #josko nyt jo 31725 olisi kaikki kohdat, mistä kutsitaan, kunnossa
 	
 	dqb "pars.ok"	
@@ -65,6 +66,7 @@ function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 		csleep 1
 
 		${sifu} ${3}
+
 		[ ${debug} -eq 1 ] && ${sifc}
 		csleep 1
 
@@ -95,6 +97,7 @@ function tp0() {
 		dqb "d0nm3"
 	else
 		dqb "NO SUCH DIR ${1}"
+
 	fi
 
 	csleep 1
@@ -135,6 +138,7 @@ function tpq() { #HUOM-31725:testit menossa, sopisi tulla valmiiksi
 	else
 		dqb "export2 p \$file ; import2 1 $file  ?"
 		exit 24
+
 	fi
 
 	cd ${2}
@@ -180,7 +184,7 @@ function tp1() {
 	csleep 2
 
 	#26726:tähän asti ok
-	
+
 	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
 	#jatkossa tar if-blokin jälkeen?
 	if [  z"${3}" != "z" ] ; then
@@ -197,6 +201,7 @@ function tp1() {
 		#exit
 
 		#TODO:vissiin jatkossa niin että tässä haarassa .example voi ottaa, conf* ei (update.sh liittyi)
+
 		dqb "./home/stubby ./home/devuan/Desktop/minimize" #tässäkin oli virhe
 		${srat} --exclude='*.deb' --exclude='conf*' -rvf ${1} ${t} 
 		#erikseen pitäisi se conf.example lisätä 
@@ -212,6 +217,7 @@ function tp1() {
 		#... vai stokeekohan ecxldur asioita? ei kai
 
 		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
+
 	fi
 
 	dqb "tp1 d0n3"
@@ -305,6 +311,7 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 	else
 		dqb "n0 5tub"
+
 	fi
 
 	${srat} -rf ${1} /etc/init.d/net*
@@ -313,8 +320,10 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 	csleep 1
 }
 
+
 function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
 	#debug=1 #antaa olla vielä
+
 	dqb "tp3 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -486,8 +495,8 @@ function rmt() {
 	psqa .
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt
-
 	ls -las ${1} 
+
 	csleep 1
 	cd ${p}
 	dqb "rmt d0n3"
@@ -499,6 +508,7 @@ function rmt() {
 function tlb() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	#debug=1
 	dqb "x2.tlb ${1} , ${2}  , ${3}  , ${4} "
+
 	csleep 1
 	dqb "\$shary= ${shary}"
 	csleep 2
@@ -510,6 +520,7 @@ function tlb() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 
 	dqb "parx_ok"
 	csleep 3
+
 
 	if [ z"${pkgdir}" != "z" ] ; then
 		dqb "SHREDDED HUMANS"
@@ -541,14 +552,15 @@ function tlb() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	#actually necessary
 	pre2 ${1} ${3} ${2} ${4} 
 	other_horrors
-
 	dqb "x2.tlb.done"
 }
+
 
 #VAIH:xz mäkeen paketista? jospa kutsuisi udp6() uudestaan tässä
 function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
 	#dqb "DEMI-SEC"
+
 	csleep 1
 
 	[ -z ${2} ] && exit 11
@@ -557,6 +569,7 @@ function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	[ -z ${1} ] && exit 11
 	[ -z ${3} ] && exit 11
 	[ -z ${4} ] && exit 11
+
 
 	dqb "paramz_ok"
 	csleep 1
@@ -613,6 +626,7 @@ function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 		rmt ${1} ${2}
 
 		#${NKVD} ${2}/*.deb #parempi kuitenkin rmt:n jälkeen?
+
 	fi
 
 	dqb "tp4 donew"
@@ -624,6 +638,7 @@ function tp5() { #HUOM.28725:toimii
 	dqb "tp5 ${1} ${2}"
 	[ -z ${1} ] && exit 99
 	#[ -s ${1} ] || exit 98 pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
+
 	[ -d ${2} ] || exit 97
  
 	dqb "params ok"
@@ -631,8 +646,8 @@ function tp5() { #HUOM.28725:toimii
 
 	local q
 	q=$(${mkt} -d)
-	cd ${q} #antaa nyt cd:n olla toistaiseksi
 
+	cd ${q} #antaa nyt cd:n olla toistaiseksi
 	[ $? -eq 0 ] || exit 77
 
 	${tig} clone https://github.com/senescent777/more_scripts.git
@@ -648,6 +663,7 @@ function tp5() { #HUOM.28725:toimii
 	dqb "AAMUNK01"
 }
 
+
 function tup() { #TODO:testaa uusiksi, koska param tark
 	dqb "tup ${1}, ${2}, ${3}, ${4}"
 
@@ -655,6 +671,7 @@ function tup() { #TODO:testaa uusiksi, koska param tark
 	[ -s ${1} ] && mv ${1} ${1}.OLD
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
+
 	[ -z ${3} ] && exit 33
 	[ -z ${4} ] && exit 55
 
@@ -692,7 +709,9 @@ function tup() { #TODO:testaa uusiksi, koska param tark
 		${NKVD} ${pkgdir}/${s}*
 	done
 
+
 	case ${3} in
+
 		wlan0)
 			dqb "NOT REMOVING WPASUPPLICANT"
 			csleep 1
