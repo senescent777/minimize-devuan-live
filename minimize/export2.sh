@@ -6,6 +6,7 @@ echo "d0= ${d0}"
 mode=-2
 tgtfile=""
 #HUOM.8725.1:joskohan wpa_supplicant.conf kanssa asiat kunnossa
+#TODO:josko ne cross-distro-jutut vähitellen
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -73,7 +74,7 @@ if [ -x ${d0}/common_lib.sh ] ; then
 else
 	dqb "FALLBACK"
 	dqb "chmod +x ${d0}/common_lib.sh may be a good idea now"
-	exit 56 #HUOM.28725:toistaiseksi näin
+	exit 56
 fi
 
 [ -z ${distro} ] && exit 6
