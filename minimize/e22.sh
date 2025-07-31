@@ -209,21 +209,24 @@ function tp1() {
 }
 
 function luca() {
-	#TODO:$1 tarkistukset jatkossa	
-	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule | less
-	sleep 2
+	[ -z ${1} ] || exit 21
+	[ -s ${1} ] || exit 22
+	[ -r ${1} ] || exit 23
+
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule #| less
+	csleep 3
 
 	dqb "JUST BEFORE LOCALES"
 	sleep 1
 
 	#VAIH:locale- ja timezone- jutut toisella tavalla, tp2() kutSuvaan koodiin vaikkapa?
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
+
 	#HUOM.22525:tuossa alla locale->local niin saisi localtime:n mukaan mutta -type f
 	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 
 	echo $?
-	sleep 1
-
+	csleep 3
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local | less
 }
 
