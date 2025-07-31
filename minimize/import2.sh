@@ -259,7 +259,7 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
-#VAIH:ottamaan parametreja jatkossa
+#HUOM.31725:jos nyt jnkn aikaa riittäisi $1 parametrina
 function tpr() {
 	dqb "UPIR ( ${1}, ${2})"
 	csleep 1
@@ -291,8 +291,6 @@ function tpr() {
 			${srat} -C ${q} -xvf ${1}/fediverse.tar
 		fi
 
-		#ls -lasR ${q}
-		#csleep 5
 		imp_prof esr ${n} ${q}
 	else
 		dqb "CANNOT INCLUDE PROFS.HS"
