@@ -163,7 +163,7 @@ csleep 1
 
 case ${mode} in
 	0|4) #VAIH:tarkista toiminta, siis case 0 lähinnä
-
+	#TODO:tp2() , tp3() kanssa varmistus että wpa- jutut ja validi /e/n/i yilee perille asti
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		[ -v testgris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
 		[ -v testgris ] || pre2 ${d} ${distro} ${iface} ${dnsm}

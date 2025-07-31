@@ -140,6 +140,9 @@ function tpq() { #HUOM-31725:testit menossa, sopisi tulla valmiiksi
 	cd ${2}
 }
 
+
+#TODO:tp2() , tp3() kanssa varmistus että wpa- jutut ja validi /e/n/i yilee perille asti
+
 #HUOM.28725:testattu ennen tpq:n jemmaamista, toimi
 #... entä palauttamisen jälkeen?
 #HUOM.31725:testit käynnissä, sopisi tulla valmiiksi kanssa
@@ -188,7 +191,7 @@ function tp1() {
 
 		#TODO:vissiin jatkossa niin että tässä haarassa .example voi ottaa, conf* ei (update.sh liittyi)
 		dqb "./home/stubby ./home/devuan/Desktop/minimize"
-		${srat} --exclude='*.deb' --exclude='conf*' -rvf ${1} ${t} 
+		${srat} --exclude='*.deb' --exclude='conf*' --exclude='*.pdf' -rvf ${1} ${t} 
 		#erikseen pitäisi se conf.example lisätä 
 	else
 		#HUOM.oliko jotain poistohommia tp_x_fktioihin liittyen?
@@ -196,14 +199,17 @@ function tp1() {
 		csleep 1
 		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 
-		dqb "${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
+		dqb "${srat} --exclude='*.deb' --exclude='*.pdf' -rvf ${1} /home/stubby ${t} "
 		csleep 3
 		
 		#TODO:pitäisiköhän findilla hakea tar:ille ne .sh, .tar yms. ?
 		#... vai stokeekohan ecxldur asioita? ei kai
 
-		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
+		${srat} --exclude='*.deb' --exclude='*.pdf' -rvf ${1} /home/stubby ${t}
 	fi
+
+	for t in $(find -max-depth 1 ~ -type f -name '*.example') ; do ${srat} -rvf ${1} ${t} ; done  
+	csleep 2
 
 	dqb "tp1 d0n3"
 	csleep 1

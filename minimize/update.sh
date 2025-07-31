@@ -101,20 +101,21 @@ if [ -f ${tgt} ] ; then
 	done
 	
 	#tavoitteena locale-juttujen lisäksi localtime mukaan
-	#TODO:locale*-kohtaan ehkä muutoksia?
+	#TODO:locale*-kohtaan ehkä muutoksia? millaisia?
+
 	for f in $(find /etc -type f -name 'locale*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			process_entry ${tgt} ${f}
 		fi
 	done
 
-	#jos git:n kanssa menisi ni  alaiset voisi commitoida suoraan?
-	#sen sijaan /e alaiset?pitäisikö kasata johonkin pakettiin ja se commitoida?
-
 	#tuossa yllä find ilman tiukempaa name-rajausta vetäisi ylimääräisiä mukaan, toisaalta /e/localtime on linkki
 	#HUOM.27726:voisiko olla timezone/localtime kuten ennen vai ei?
 	process_entry ${tgt} /etc/timezone
 	process_entry ${tgt} /etc/localtime
+
+	#voi riertsti mennä metsään jos ei ole /etc ajan tsalle tätä skr ajaessa
+	#... eli pitäisi tuorein /etc oksentaa ensin juureen
 
 	#firefoxin käännösasetukset pikemminkin export2:n hommia 
 
@@ -124,13 +125,13 @@ if [ -f ${tgt} ] ; then
 	${scm} 0444 /etc/default/rules*
 	sleep 2
 	
-	#if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then		
+	if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then		
 		for f in $(find /etc -name 'rules*') ; do #type f mukaan?
 			if [ -s ${f} ] && [ -r ${f} ] ; then
 				process_entry ${tgt} ${f}
 			fi
 		done #JOSKO NYT SKEOILU VÄHENISI PRKL
-	#fi
+	fi
 
 	${scm} 0400 /etc/default/rules*
 	${scm} 0400 /etc/iptables/*
@@ -138,16 +139,16 @@ if [ -f ${tgt} ] ; then
 	sleep 2
 
 	#pitäisi kai tehdä jotain että tuoreimmat muutokset /e/n ja /e/a menevät tar:iin asti? typojen korjaus olisi hyvä alku
-
 	#TODO:/e/n- ja /e/a-kohdat uusiksi jatkossa
-	#if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then
+
+	if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then
 		#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
 		for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
 
 		#uutena 28525
 		for f in $(find /etc/apt -type f -name 'sources*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
 		sleep 2
-	#fi
+	fi
 
 	#HUOM.saattaa urputtaa $tgt polusta riippuen
 	#HUOM.2:miten toimii omegan ajon jälkeen?
