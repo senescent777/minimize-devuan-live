@@ -429,9 +429,6 @@ case "${mode}" in
 	r)
 		tpr ${d0}
 	;;
-#	u)
-#		echo "reficul (TODO?)" ehkei päivityspakettien kanssa tartte suurempia kikkailuja
-#	;;
 	-h) #HUOM.27725:ilman param kuuluisi kai keskeyttää suor mahd aik
 		usage
 	;;
