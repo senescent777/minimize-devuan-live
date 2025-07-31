@@ -439,4 +439,3 @@ grep ${part} /proc/mounts
 grep ${dir} /proc/mounts
 
 ${scm} 0755 $0
-#HUOM. tämän olisi kuvakkeen kanssa tarkoitus mennä jatkossa filesystem.squashfs sisälle
