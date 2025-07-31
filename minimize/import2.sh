@@ -6,8 +6,6 @@ dir=/mnt
 part0=ABCD-1234
 mode=-2
 d0=$(pwd)
-
-#echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
 
@@ -58,9 +56,9 @@ if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
 
-	tar -jxvf ${d0}/necros.tar.bz2
+	tar -jxvf ${d0}/necros.tar.bz3
 	sleep 3
-	rm ${d0}/necros.tar.bz2
+	rm ${d0}/necros.tar.bz3
 fi
 
 #HUOM.21725:oliko jotain erityistä syyt miksi conf cmmon_lib jälkeen? $distroon liittyvät kai, pitäisi miettiä, nyt näin

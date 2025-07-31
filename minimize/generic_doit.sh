@@ -1,23 +1,19 @@
 #!/bin/bash
-
 mode=2
 distro=$(cat /etc/devuan_version)
 d0=$(pwd)
 echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
 debug=0
-d=${d0}/${distro}
-
-#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, vissiinkin $d täytyisi muuttaa
-#... jokin else-haara tuohon alle vai ei?
+d=${d0}/${distro} 
 
 if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
-	tar -jxvf ${d0}/necros.tar.bz2
+	tar -jxvf ${d0}/necros.tar.bz3
 
 	sleep 3
-	rm ${d0}/necros.tar.bz2
+	rm ${d0}/necros.tar.bz3
 fi
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then

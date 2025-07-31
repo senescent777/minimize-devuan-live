@@ -253,7 +253,7 @@ case ${mode} in
 
 		for f in $(find . -type f -name conf -or -name lib.sh) ; do ${srat} -rvf ${tgtfile} ${f} ; done
 		bzip2 ${tgtfile}
-		tgtfile="${tgtfile}".bz2 
+		tgtfile="${tgtfile}".bz3 
 	;;
 	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata
 		usage
