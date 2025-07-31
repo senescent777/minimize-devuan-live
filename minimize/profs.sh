@@ -58,7 +58,7 @@ function findprof() {
 }
 
 function copy_to() {
-	debug=1
+	#debug=1
 	dqb "cprof13 ${1} ${2} ${3}"
 	csleep 3
 	
@@ -70,11 +70,16 @@ function copy_to() {
 	findprof ${2} ${1}
 	tget=${result}
 
-	dqb "IN 3 SECONDS: sudo mv ${3}/* ${tget}"
+	dqb "IN 3 SECONDS: sudo mv ${3} / \* ${tget}"
 	csleep 3
 
 	local f
-	for f in $(find ${3} -type f -name '*.js*') ; do mv ${f} ${tget} ; done		
+	dqb "find ${3} -type f -name '*.js*'"
+
+	for f in $(find ${3} -type f -name '*.js*') ; do
+		dqb "mv ${f} ${tget} "
+		mv ${f} ${tget} 
+	done		
 	
 	if [ ${debug} -eq 1 ] ; then
 		echo "AFT3R MV";sleep 3
@@ -131,13 +136,14 @@ function imp_prof() {
 	csleep 2
 }
 
+#VAIH:uusi versio oikeaan repositoryyn
 #HUOM.20525:toimiikohan findprof kuitebkaan?
 #HUOM.23535:se käännös-asetus-juttu?
 function exp_prof() {
 	dqb "exp_pros ${1} ${2}"
 
 	local tget
-	local p
+	local oldd
 	local f
 	csleep 2
 	
@@ -145,18 +151,18 @@ function exp_prof() {
 	tget=${result}
 	dqb "TG3T=${tget}"
 	csleep 5
-	p=$(pwd)
+	oldd=$(pwd)
 
 	cd ${tget}
 	${odio} touch ./rnd
 	${sco} ${n}:${n} ./rnd
 	${scm} 0644 ./rnd
-	dd if=/dev/random bs=6 count=1 > ./rnd
+	dd if=/dev/random bs=12 count=1 > ./rnd
 
 	${srat} -cvf ${1} ./rnd
 	for f in $(find . -name '*.js') ; do ${srat} -rf ${1} ${f} ; done
 	#*.js ja *.json kai oleellisimmat kalat
-	cd ${p}
+	cd ${oldd}
 
 	csleep 2
 	dqb "eprof.D03N"

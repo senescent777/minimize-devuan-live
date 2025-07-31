@@ -3,6 +3,13 @@ debug=0
 mode=-1
 distro=$(cat /etc/devuan_version)
 
+#HUOM.27725:tarpeellisia kikkailuja?
+if [ -f /.chroot ] ; then
+	odio=""
+else
+	odio=$(which sudo)
+fi
+
 chmod a-wx ./clouds*
 chown root:root ${0}
 chmod 0555 ${0}
@@ -19,7 +26,7 @@ function csleep() {
 
 #HUOM.jatkossa ehkä parempi että komentorivioptioilla ei aktivoida debugia
 mode=${1}
-[ -d ~/Desktop/minimize/${2} ] && distro=${2}
+[ -d ~/Desktop/minimize/${2} ] && distro=${2} #TODO:ehkä muutos tähän?
 
 #function init2 {
 #	local c
@@ -93,27 +100,28 @@ csleep 1
 #HUOM. jos tarttee ni näille main distrosta riippuvainen fktioiden esittely 
 #(toiv ei tarvitse)
 
-smr=$(sudo which rm)
-ipt=$(sudo which iptables)
-slinky=$(sudo which ln)
-spc=$(sudo which cp)
+smr=$(${odio} which rm)
+ipt=$(${odio} which iptables)
+slinky=$(${odio} which ln)
+spc=$(${odio} which cp)
 slinky="${slinky} -s "
-sco=$(sudo which chown)
-scm=$(sudo which chmod)	
-svm=$(sudo which mv)
+sco=$(${odio} which chown)
+scm=$(${odio} which chmod)	
+svm=$(${odio} which mv)
 
 #240325 lisäykset
-ip6t=$(sudo which ip6tables)
-iptr=$(sudo which iptables-restore)
-ip6tr=$(sudo which ip6tables-restore)
+ip6t=$(${odio} which ip6tables)
+iptr=$(${odio} which iptables-restore)
+ip6tr=$(${odio} which ip6tables-restore)
 
-sudo modprobe nft #distro-tark taakse vai ei?
-dqb "when in trouble, \"sudo chmod 0755  \*.sh ;sudo chmod 0755 \${distro}; sudo chmod 0755 \${distro}/ \*.sh; sudo chmod 0644 \${distro}/conf\" may help "
+${odio} modprobe nft #distro-tark taakse vai ei?
+dqb "when in trouble, \"${odio} chmod 0755  \*.sh ;${odio} chmod 0755 \${distro}; ${odio} chmod 0755 \${distro}/ \*.sh; ${odio} chmod 0644 \${distro}/conf\" may help "
 
 #==============================================================
 function tod_dda() { 
 	dqb "tod_dda(${1}) "
 
+	#TODO:jos vielä typistäisi max 15 merkkiin tuossa alla
 	local t
 	t=$(echo ${1} | tr -d -c 0-9.)
 
@@ -218,8 +226,6 @@ function clouds_pp3() {
 	csleep 1
 	p3r1m3tr
 
-	#HUOM.160325:lisätty uutena varm. vuoksi
-	#VAIH:"tr $1 -dc 0-9 $1" mukaan
 	local p
 	p=$(echo ${1} | tr -d -c 0-9)
 
@@ -354,8 +360,8 @@ function clouds_case1_2() {
 #	${whack} stubby* #090325: pitäisiköhän tämä muuttaa?
 #	sleep 1
 #			
-#	[ -f /run/stubby.pid ] || sudo touch /run/stubby.pid
-#	${sco} devuan:devuan /run/stubby.pid #$n
+#	[ -f /run/stubby.pid ] || ${odio} touch /run/stubby.pid
+#	${sco} ${n}:${n} /run/stubby.pid 
 #	${scm} 0644 /run/stubby.pid 
 #	sleep 1
 #
@@ -403,7 +409,7 @@ clouds_pre ${mode}
 
 #HUOM.25525.1:mitenköhän tämä kohta pitäisi mennä?
 #HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
-t=$(echo ${distro} | cut -d '/' -f 1 | tr -d -c a-z) #VAIH:tr -dc a-z mukaan kanssa?
+t=$(echo ${distro} | cut -d '/' -f 1 | tr -d -c a-z)
 [ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 
 case ${mode} in 

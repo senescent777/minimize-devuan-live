@@ -1,58 +1,3 @@
-function init() {
-	odio=$(which sudo)
-	[ y"${odio}" == "y" ] && exit 99 
-	[ -x ${odio} ] || exit 100
-	
-	sco=$(sudo which chown)
-	[ y"${sco}" == "y" ] && exit 98
-	[ -x ${sco} ] || exit 97
-	
-	scm=$(sudo which chmod)
-	[ y"${scm}" == "y" ] && exit 96
-	[ -x ${scm} ] || exit 95
-	
-	sco="${odio} ${sco} "
-	scm="${odio} ${scm} "
-	
-	#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
-	sah6=$(which sha512sum)
-	distro=$(cat /etc/devuan_version)
-	n=$(whoami)
-	PREFIX=~/Desktop/minimize #josko dirname:lla jatkossa?
-	slinky=$(${odio} which ln)
-	slinky="${odio} ${slinky} -s "
-	spc=$(${odio} which cp)
-	svm=$(${odio} which mv)
-	svm="${odio} ${svm} "
-	spc="${odio} ${spc} "
-	whack=$(${odio} which pkill)
-	whack="${odio} ${whack} --signal 9 "
-	snt=$(${odio} which netstat)
-	snt="${odio} ${snt} -tulpan "
-	smr=$(${odio} which rm)
-	smr="${odio} ${smr} "
-	NKVD=$(${odio} which shred)
-	NKVD="${NKVD} -fu "
-	NKVD="${odio} ${NKVD} "
-
-	#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
-	PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
-
-	sdi=$(${odio} which dpkg)
-	spd="${odio} ${sdi} -l " #käytössä?
-	sdi="${odio} ${sdi} -i "
-	#jospa sanoisi ipv6.disable=1 isolinuxille ni ei tarttisi tässä säätää
-	sifu=$(${odio} which ifup)
-	sifd=$(${odio} which ifdown)
-	sip=$(${odio} which ip)
-	sip="${odio} ${sip} "
-}
-
-init
-
-#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
-#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
-
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -60,6 +5,37 @@ function dqb() {
 function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
+
+if [ -f /.chroot ] ; then
+	odio=""
+	debug=1
+
+	function itni() {
+		dqb "alt-itn1"
+		sco=$(which chown)
+		scm=$(which chmod)
+	}
+else
+	function itni() {
+		odio=$(which sudo)
+		[ y"${odio}" == "y" ] && exit 99 
+		[ -x ${odio} ] || exit 100
+		
+		sco=$(sudo which chown)
+		[ y"${sco}" == "y" ] && exit 98
+		[ -x ${sco} ] || exit 97
+		
+		scm=$(sudo which chmod)
+		[ y"${scm}" == "y" ] && exit 96
+		[ -x ${scm} ] || exit 95
+	}
+
+	#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
+	#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
+fi
+
+itni
+#HUOM.27725:nalkutus kenbties /o/b/changedns.sgh tjsp, ei vältt juuri fix_sudo
 
 function fix_sudo() {
 	dqb "fix_sud0.pt0"
@@ -86,7 +62,7 @@ function fix_sudo() {
 	#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 	#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-
+	
 	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
 	csleep 1
 	dqb "fix_sud0.d0n3"
@@ -106,6 +82,53 @@ function other_horrors() {
 	csleep 1
 }
 
+sco="${odio} ${sco} "
+scm="${odio} ${scm} "	
+#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
+sah6=$(${odio} which sha512sum)
+	
+slinky=$(${odio} which ln)
+slinky="${odio} ${slinky} -s "
+spc=$(${odio} which cp)
+svm=$(${odio} which mv)
+svm="${odio} ${svm} "
+spc="${odio} ${spc} "
+whack=$(${odio} which pkill)
+whack="${odio} ${whack} --signal 9 "
+snt=$(${odio} which netstat)
+snt="${odio} ${snt} -tulpan "
+smr=$(${odio} which rm)	
+smr="${odio} ${smr} "
+
+NKVD=$(${odio} which shred)
+NKVD="${NKVD} -fu "
+NKVD="${odio} ${NKVD} "
+	
+#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
+
+sdi=$(${odio} which dpkg)
+spd="${odio} ${sdi} -l "
+sdi="${odio} ${sdi} -i "
+
+sifu=$(${odio} which ifup)
+sifd=$(${odio} which ifdown)
+sip=$(${odio} which ip)
+sip="${odio} ${sip} "
+
+if [ -v distro ] ; then 
+	dqb "DUSTRO OK"
+else
+	distro=$(cat /etc/devuan_version)
+fi
+
+if [ -v n ] ; then
+	dqb "n OK"
+else
+	n=$(whoami)
+fi
+
+#DONE?:generic_x - skriptit toimimaan cgroot-ympäristössä, alkaisiko jo olla kunnossa?
 fix_sudo
 other_horrors
 
@@ -165,35 +188,48 @@ function psqa() {
 	csleep 1
 }
 
-function ppp3() {
-	dqb "ppp3 ${1}"
+function pre_part3_clib() {
+	dqb "pre_part3_clib ${1}"
 	csleep 1
+	pwd
+	dqb "find ${1} -type f -name ' \* .deb ' " #auttaako \* tässä?
+	csleep 3
 
-	local c
-	local d
+	local q
+	local r 
 
-	c=$(find ${1} -type f -name '*.deb' | wc -l) #oli:ls -las ip*.deb
-	d=$(echo ${1} | cut -d '/' -f 1-5)
+	#HUOM.25725:näistä polun leikkelyistä voi tulla ongelma
+	q=$(find ${1} -type f -name '*.deb' | wc -l)
+	r=$(echo ${1} | cut -d '/' -f 1-5)
 
-	if [ ${c} -lt 1 ] ; then
+	if [ ${q} -lt 1 ] ; then
 		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
 		echo "SHOULD REMOVE ${1} /sha512sums.txt"
 		echo "\"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
 		
 		#pitäis ikai huomioida että scm voi aiheuttaa sivuvaikutuksia myöhemmin
-		${scm} a-x ${d}/common_lib.sh 
+		${scm} a-x ${r}/common_lib.sh 
 		
-		#exit 55 HUOM.24525:antaa olla kommenteissa toistaiseksi, ,esim. chimaeran tapauksessa ei välttis ole $distro:n alla .deb aluksi
-		#... tosin alkutilanteessa tables pitäisi chimaerasta löytyä	
+		dqb "NO EXIT 55 HERE, CHIMAERA..."
+		#exit 55
+		#... tosin alkutilanteessa tables pitäisi chimaerasta löytyä
+		#HUOM.25725:laitettu yaas exit jemmaan koska chimaeran tapauksessa ei välttis paketteja kotihak alla koska tables löytyy valimiiksi	
+	else
+		psqa ${1} #tai miten menikään
+		#yo. fktio voisi jatkossa sisältää allek.tark?
 	fi
 }
 
 function efk() {
-	${sdi} ${1} #$@ pikemminkin
-	[ $? -eq 0 ] && ${smr} ${1}
+	dqb "efk( $@)"
+	${sdi} $@
+	[ $? -eq 0 ] && ${NKVD} $@
+	csleep 1
 }
 
+#HUOM.25725:chimaeran kanssa kosahti yablesin asennus, libnetfilter ja libnfnetlink liittyvät
 function common_tbls() {
+	debug=1
 	dqb "COMMON TABLESD"
 	csleep 1
 
@@ -208,20 +244,27 @@ function common_tbls() {
 	csleep 1
 	psqa ${1}
 
-	#31525 uutena, josko tällä modulit kohdalleen
+	#31525 uutena, josko tällä modulit kohdalleen (jotain pientä laittoia kaipaisi vielä 2kk myöhemmin)
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/linux-modules*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/linux-modules*.deb
 	[ $? -eq 0 ] && ${odio} modprobe nft #tässä vai vähän alempana?
+	#HUOM.olisikohan yo .jutut distro-spesifisiä jossain määrin?
+
+	#chimaera-spesifisiä seur 2, pois jos pykii
+	efk ${1}/libnfnet*.deb  #TARKKANA PRKL PAKETTIEN KANSSA
+	csleep 1
+
+	efk ${1}/libnetfilter*.deb
+	csleep 1
+	#/chim
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
 
-	${odio} dpkg -i ${1}/libxtables*.deb 
-	[ $? -eq 0 ] && ${NKVD} ${1}/libxtables*.deb 
+	efk ${1}/libxtables*.deb
 	csleep 1
 
-	${odio} dpkg -i ${1}/libnftnl*.deb 
-	[ $? -eq 0 ] && ${NKVD} ${1}/libnftnl*.deb
+	efk ${1}/libnftnl*.deb 
 	csleep 1
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
@@ -240,7 +283,7 @@ function common_tbls() {
 	t=$(${odio} which ip6tables-restore)
 
 	#HUOM.31525:olisikohan moduleista kiinni että tässä tökkää?
-	#edelleen: "iptables v1.8.11 (legacy): can't initialize iptables table `filter': Table does not exist (do you need to insmod?"
+	#edelleen: "iptables v1.8.11 (legacy): can't itniialize iptables table `filter': Table does not exist (do you need to insmod?"
 	#modprobe nft -> FATAL: Module nftables not found in directory /lib/modules/6.12.27-amd64
 
 	${odio} ${s} /etc/iptables/rules.v4.${d2}
@@ -270,8 +313,9 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	if [ -x ${PREFIX}/tar-wrapper.sh ] ; then 
-		dqb "TODO: tar-wrapper.sh"
+	#HUOM.28725:kenties helpompi olisi lisätä sha512sum allekirjoitus+sen tarkistus kuin kokonaan vivuta tar:in hommia esim. gpgtar:ille
+	if [ -x ${1}/../tar-wrapper.sh ] ; then 
+		dqb "TODO: tar-wrapper.sh" #josko vähitellen?
 	else
 		srat=$(${odio} which tar)
 		
@@ -280,7 +324,7 @@ function check_binaries() {
 		fi
 	fi
 
-	if [ y"${ipt}" == "y" ] ; then
+	if [ y"${ipt}" == "y" ] && [ ! -f /.chroot ] ; then
 		[ z"${1}" == "z" ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
@@ -291,20 +335,22 @@ function check_binaries() {
 		echo "SHOULD INSTALL IPTABLES"
 		jules
 
+		#HUOM.olisikohan sittenkin suhteelliset polut tar:in sisällä helpompia?
+		
 		if [ -s ${1}/e.tar ] ; then
 			${odio} ${srat} -C / -xf ${1}/e.tar
-			${NKVD} ${1}/e.tar  #jompikumpi hoitaa
+			${NKVD} ${1}/e.tar #jompikumpi hoitaa
 			${smr} ${1}/e.tar
+		else
+			if [ -s ${1}/f.tar ] ; then
+				#jos -c $1 kuitesnkin?
+				${odio} ${srat} -xf ${1}/f.tar
+				${NKVD} ${1}/f.tar
+			fi
 		fi
 
-		#HUOM.21525:olisikohan niin simppeli juttu että dpkg seuraa linkkiä ja nollaa tdston mihin linkki osoittaa?
-		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 1
-
-		ppp3 ${1}
+		pre_part3_clib ${1} #HUOM.25725:tarvitaan
 		common_tbls ${1} ${dnsm}
-		pr4 ${1}
-
-		#[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables ;sleep 1
 		other_horrors
 
 		ipt=$(${odio} which iptables)
@@ -320,9 +366,11 @@ function check_binaries() {
 
 	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
 	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
-	for x in iptables ip6tables iptables-restore ip6tables-restore ifup ifdown apt-get apt ip netstat dpkg tar mount umount sha512sum dhclient # kilinwittu.sh
-		do ocs ${x}
-	done
+
+	local y
+	y="ifup ifdown apt-get apt ip netstat dpkg tar mount umount sha512sum dhclient" # kilinwittu.sh	
+	[ -f /.chroot ] || y="iptables ip6tables iptables-restore ip6tables-restore ${y}"
+	for x in ${y} ; do ocs ${x} ; done
 	
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
@@ -438,10 +486,14 @@ function dinf() {
 }
 
 #HUOM.29525:ei tarvitse parametreja tämä
+#...paitsi ehkä sudoersin mankelointiin, absoluuttiset polut oltava
+
 function pre_enforce() {
-	dqb "common_lib.pre_enforce()"
+	#debug=1 #liikaa tauhkaa, pois 28725
+	dqb "common_lib.pre_enforce( ${1} )"
 	local q
 	local f
+	#[ -f ${1}/changedns.sh ] || exit 99
 
 	q=$(mktemp -d)
 	dqb "sudo touch ${q}/meshuggah in 3 secs"
@@ -453,7 +505,13 @@ function pre_enforce() {
 
 	[ -f ${q}/meshuggah ] || exit 33
 	dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
-	mangle_s ${PREFIX}/changedns.sh ${q}/meshuggah
+
+	[ -d /opt/bin ] || ${odio} mkdir /opt/bin
+	#HUOM. ao riville tarttisi tehdä jotain, EHKÄ
+	#DONE:uuden sijainnin huomiointi muuallakin, esim. export ja update
+
+	[ -f ${1}/changedns.sh ] && ${svm} ${1}/changedns.sh /opt/bin
+	mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 	csleep 1
 
 	dqb "LETf HOUTRE JOINED IN DARKN355"
@@ -548,7 +606,7 @@ function e_v() {
 }
 
 function e_h() {
-	#debug=1
+	#debug=1 #HUOM.27825:debug ois, liikaa tauhkaa
 	dqb "e_h( ${1} , ${2} )"
 	csleep 2
 
@@ -578,8 +636,10 @@ function e_h() {
 	dqb "F1ND D0N3"
 	csleep 1
 
-	${scm} 0555 ${2}/changedns.sh
-	${sco} root:root ${2}/changedns.sh
+	for f in ${2} /opt/bin ; do
+		${scm} 0555 ${f}/changedns.sh
+		${sco} root:root ${f}/changedns.sh
+	done
 
 	dqb "e_h()"
 	csleep 1
@@ -629,10 +689,9 @@ function enforce_access() {
 
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
-	#VAIH:/e/d/grub-kikkailut tähän ? vai enemmän toisen projektin juttuja
 }
 
-#HUOM.25525:cut ao fktioon tai kutsUvaan koodiin koska xcalibur/ceres
+#HUOM.25525:cut ao fktioon tai kutsUvaan koodiin koska xcalibur/ceres?
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
 #myös https://github.com/topics/sources-list
 
@@ -697,7 +756,7 @@ function part1_5() {
 
 #oli aiemmin osa part1:stä
 function dis() {
-	dqb "CHAMBERS OF DIS( ${1} ) "
+	dqb "CHAMBERS OF 5HA0 L1N( ${1} ) "
 	[ -z ${1} ] && exit 44
 	csleep 1
 	
@@ -749,7 +808,7 @@ function dis() {
 	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 	csleep 1
 	
-	${odio} sysctl -p #/etc/sysctl.conf
+	${odio} sysctl -p #mitä tuo tekikään?
 	csleep 1
 	dqb "DONE"
 }
@@ -820,7 +879,7 @@ function part1() {
 	t=$(echo ${1} | cut -d '/' -f 1 | tr -dc a-z) 
 
 	if [ -f /etc/apt/sources.list ] ; then
-		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
+		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:' | wc -l)
 
 		if [ ${c} -gt 0 ] ; then 
 			${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
@@ -918,75 +977,89 @@ function part2_5() {
 	csleep 1
 }
 
-function part3_4real() {
-	dqb "part3_4real( ${1} )"
+#function part3_4real() {
+#	dqb "part3_4real( ${1} )"
+#	csleep 1
+#
+#	[ y"${1}" == "y" ] && exit 1 #mikähän tässäkin on?
+#	dqb "11"
+#	csleep 1
+#	[ -d ${1} ] || exit 2
+#
+#	dqb "22"
+#	csleep 1
+#	psqa ${1}
+#
+#	#HUOM. dpkg -R olisi myös keksitty
+#	local f
+#
+#	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
+#
+#	if [ $? -eq  0 ] ; then
+#		dqb "part3.1 ok"
+#		csleep 1
+#		${NKVD} ${1}/lib*.deb
+#	else
+#		exit 66
+#	fi
+#
+#	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
+#
+#	if [ $? -eq  0 ] ; then
+#		dqb "part3.2 ok"
+#		csleep 1
+#		${NKVD} ${1}/*.deb
+#	else
+#		exit 67
+#	fi
+#
+#	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
+#	csleep 1
+#
+#	dqb "part3_4real( ${1} ) DONE"
+#	csleep 1
+#}
+
+#tämän ja kutsuttujen fktioiden debug, saattaa olla jotain ? 28725 vaikuttaisi toimivan ok nimittäin
+#HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
+function part3() {
+	#debug=1 
+	dqb "part3 ${1} ${2}"
 	csleep 1
 
-	[ y"${1}" == "y" ] && exit 1 #mikähän tässäkin on?
-	dqb "11"
+	jules
+	pre_part3_clib ${1}
 	csleep 1
-	[ -d ${1} ] || exit 2
 
-	dqb "22"
+	reficul ${1}
+	pr4 ${1}
+	csleep 1	
+
+	efk ${1}/lib*.deb
+	[ $? -eq 0 ] || exit 66
 	csleep 1
-	psqa ${1}
-
-	#HUOM. dpkg -R olisi myös keksitty
-	local f
-	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
-
-	if [ $? -eq  0 ] ; then
-		dqb "part3.1 ok"
-		csleep 1
-		${NKVD} ${1}/lib*.deb
-	else
-		exit 66
-	fi
-
-	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
-
-	if [ $? -eq  0 ] ; then
-		dqb "part3.2 ok"
-		csleep 1
-		${NKVD} ${1}/*.deb
-	else
-		exit 67
-	fi
+	
+	efk ${1}/*.deb
+	[ $? -eq 0 ] || exit 67	
+	csleep 1
 
 	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
 	csleep 1
-
-	dqb "part3_4real( ${1} ) DONE"
-	csleep 1
-}
-
-#HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
-function part3() {
-	dqb "part3 ${1} ${2}"
-	csleep 1
-	jules
-	ppp3 ${1}
-
-	local d2
-	d2=$(echo ${2} | tr -d -c 0-9)
-	common_tbls ${1} ${d2}
-
-	pr4 ${1}
-	part3_4real ${1}
 	other_horrors
 }
 
-#function slaughter0() {
-#	local fn2
-#	local ts2
-#
-#	fn2=$(echo $1 | awk '{print $1}') 
-#	ts2=$(sha512sum ${fn2})
-#
-#	echo ${ts2} | awk '{print $1,$2}' >> ${2}
-#}
+function slaughter0() {
+	local fn2
+	local ts2
+
+	fn2=$(echo $1 | awk '{print $1}') 
+	ts2=$(sha512sum ${fn2})
+
+	echo ${ts2} | awk '{print $1,$2}' >> ${2}
+}
 
 #HUOM.voisi -v käsitellä jo tässä
+#-h myös
 function gpo() {
 	dqb "GPO"
 	#getopt olisi myös keksitty

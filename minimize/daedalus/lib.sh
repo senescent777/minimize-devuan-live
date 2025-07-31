@@ -4,22 +4,25 @@
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 #... joskohan --force-confold olisi se haettu juttu
 
-function c5p() {
+function c5p() { #VAIH:testaa toiminta
 	dqb "CCCP( ${1} , ${2} )"
 	csleep 1
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 	csleep 1
 
-	${NKVD} ${1}/xz* #t2p() poistaa
+	dqb "xz"
+	${NKVD} ${1}/xz* #toisaalta t2p() poistaa
+	ls -las ${1}/xz* 
+	csleep 3
 
 	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
 	#g_pt2 poistaa cryptsetup-pakettei
 	
 	#tästä eteenpäin jos selvittäisi noiden pakettien tilanteen, piostuuko jossain jnkn sivuvakutuksebna?
 	${NKVD} ${1}/libcrypt* #ei uskalla poistaa aptilla
-	${NKVD} ${1}/libdevmapper* #ei ole sannettuna noita (tilanne 19725)
-	${NKVD} ${1}/libsoup* #eiole
+	#${NKVD} ${1}/libdevmapper* #ei ole sannettuna noita (tilanne 19725)
+	#${NKVD} ${1}/libsoup* #eiole
 
 	${NKVD} ${1}/xserver* #HUOM.31525:nalkutusta, pois toistaiseksi (ja aptin kautta ei tod poisteta)
 	
@@ -28,31 +31,25 @@ function c5p() {
 	${NKVD} ${1}/libgtk-3-bin* #HUOM.19725:edelleen nalqttaa
 	#HUOM.libgtk-3-paketteja ei uskalla poistaa aptilla, liikaa oheisvah
 
-	# librsvg2-common:amd64 depends on librsvg2-2 (= 2.54.7+dfsg-1~deb12u1); however:
-	#  Version of librsvg2-2:amd64 on system is 2.54.5+dfsg-1.
-	#
-	#dpkg: error processing package librsvg2-common:amd64 (--install):
-	# dependency problems - leaving unconfigured
-	#Processing triggers for libgdk-pixbuf-2.0-0:amd64 (2.42.10+dfsg-1+b1) ...
-	#Errors were encountered while processing:
-	# librsvg2-common:amd64
-
 	${NKVD} ${1}/librsvg* #eniten nalkutusta vissiin tästä, jos koittaisi uudestaan josqs
 	#HUOM.19725:librsvg2 poistaa jnkn verran pak, mm task-desktop, task-xfce-desktop
+
+	#päivityspakegtista pois nämä myös (TEHTY)
+	${NKVD} ${1}/libblock*
+	${NKVD} ${1}/debootstrap*
+	${NKVD} ${1}/libmagick*
+	${NKVD} ${1}/libspa*
+	${NKVD} ${1}/libpipe*
+	${NKVD} ${1}/libespeak*
 
 	dqb "...is over"
 	csleep 1
 }
 
-#HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
-#HUOM.26525:2. parametri, tartteeko moista?
-#HUOM.21725:pitäisiköhän tätä sorkkia? kun sen yhden päivityspaketin kanssa ongelma (olisikohan jo korjautunut 24725 mennessä?)
-function pr4() {
-	debug=1
-	dqb "daud.pr4( ${1} , ${2} )"
+function reficul() {
+	dqb "NATTA5H3AD 0VERDR1V3 666!"
+
 	csleep 1
-	[ -d ${1} ] || exit 66
-	dqb "paramz 0k"
 
 	#HUOM. tuo ao. ekf-rivistö(ennen libpam) tarpeen vain päivityspaketin kanssa, jospa erilliseen fktioon? 
 	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
@@ -63,7 +60,11 @@ function pr4() {
 	efk ${1}/libstdc*.deb
 	efk ${1}/libglib*.deb ${1}/libmount*.deb ${1}/libblk*.deb
 	
-	efk ${1}/lilbwebp*.deb #menikö nimi oikein?
+	#efk ${1}/libwebp*.deb #menikö nimi oikein?
+	#myös:https://thehackernews.com/2023/09/new-libwebp-vulnerability-under-active.html
+	#tarttisko tehdä jotain vai ei?
+	#${NKVD} libwebp*.deb
+
 	efk ${1}/libtiff*.deb ${1}/liblzma5*.deb
 	efk ${1}/libgnutls*.deb ${1}/libtasn*.deb
 
@@ -96,8 +97,22 @@ function pr4() {
 	csleep 1
 
 	#HUOM.31525:vituttava määrä asentelua librsvg2 kanssa edelleen
+	dqb "---------------------------------------------------"
+	csleep 5
+}
 
-	#TODO:tähänkin psqa?
+#HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
+#HUOM.26525:2. parametri, tartteeko moista?
+#HUOM.21725:pitäisiköhän tätä sorkkia? kun sen yhden päivityspaketin kanssa ongelma (olisikohan jo korjautunut 24725 mennessä?)
+
+function pr4() {
+	#debug=1 #josqs pois?
+	dqb "daud.pr4( ${1} , ${2} )"
+	csleep 1
+	[ -d ${1} ] || exit 66
+	dqb "paramz 0k"
+
+	psqa ${1}
 	efk ${1}/libpam-modules-bin_*.deb
 	efk ${1}/libpam-modules_*.deb
 	${NKVD} ${1}/libpam-modules* #tartteeko enää?
@@ -117,7 +132,7 @@ function pr4() {
 	csleep 1
 }
 
-function udp6() {
+function udp6() { #HUOM.28725:testattu, toiminee
 	dqb "daud.lib.UPDP-6"
 	csleep 1
 	[ -d ${1} ] || exit 66
@@ -125,15 +140,17 @@ function udp6() {
 	csleep 1
 
 	#nalqtusta aiheuttavat paketit nykyään:kts. c5p()
-#	${NKVD} ${1}/libx11-xcb1* #HUOM.30525:tämä nyt erityisesti aiheuttaa härdelliä, tarttisko tehrä jotain?
-#HUOM.tuon poisto(aptilla) poistaa äksän ja xfce:n joten ei
-	
+
+	#${NKVD} ${1}/libx11-xcb1*
+	#HUOM.tuon poisto(aptilla) poistaa äksän ja xfce:n joten ei
+
 	c5p ${1}
 	dqb "D0NE"
 	csleep 1
 }
 
-#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xcvt=0.1.2-1
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xcvt=0.1.2-1 (miten taas liittyi mihinkään?)
+
 function t2p() {
 	#debug=1
 	dqb "DAUD.T2P()"
@@ -258,12 +275,9 @@ function pre_part2() {
 #https://pkgs.org/download/linux-image-6.12.27-amd64 ... joskohan ethz kautta
 #... tarkistus tosin uusiksi, josko sinne tcdd-blokkiin ylemmäs?
 
-function tpc7() {
+function tpc7() { #e22.sh kutsuu tätä nykyään
 	dqb "d.prc7 UNDER CONSTRUCTION"
 }
 
 check_binaries ${d}
-#VAIH:tämän asettamisessa se chroot_env huomiointi
 check_binaries2
-
-

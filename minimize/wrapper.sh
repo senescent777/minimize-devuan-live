@@ -12,25 +12,34 @@ fi
 
 case ${1} in
 #	merde)
-#		${d}/demerde_toi.sh main		
+#		${d}/demerde_toi.sh main #tuokin skripti pitisi testata taas		
 #	;;
-#	cdns)		
-#		sudo ${d}/changedns.sh ${dnsm}
-#	;;
+	cdns)		
+		sudo /opt/bin/changedns.sh ${dnsm}
+	;;
+
 	ifup)
 		sudo /sbin/ifup ${iface}
 	;;
 	ifdown)
 		sudo /sbin/ifdown ${iface}
 	;;
-	import)
+	import|import2)
 		${d}/import2.sh -1
 		[ $? -gt 0 ] && exit 45 #HUOM. jos on jo valmiiksi mountattu ni turha exit
 		read -p "source?" sorsa
+		sleep 2
 
-		${d}/import2.sh 0 ${sorsa}
+		#TEHTY:desktop-fileet muuttaen tähän liittyen
+		if [ "${1}" == "import" ] ; then
+			${d}/import2.sh 0 ${sorsa}
+			[ $? -eq 0 ] || echo "$0 import2 ?"
+			sleep 1
+		else
+			${d}/import2.sh 3 ${sorsa}
+		fi
+
 		echo $?
-		
 		sleep 2
 		${d}/import2.sh 2
 	;;
@@ -43,6 +52,10 @@ case ${1} in
 	pw)
 		${d}/generic_doit.sh 1
 	;;
+#	u) 25-7-25 : ans ny kattoo tmän kanssa mitä tekee
+#		read -p "source?" sorsa
+#		${d}/import2.sh u ${sorsa}
+#	;;
 	*)
 		echo "$0 [cmd]"
 	;;

@@ -1,9 +1,9 @@
 #!/bin/bash
-debug=0 #1
+
+debug=1
 distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa?
 d0=$(pwd)
 echo "d0= ${d0}"
-
 mode=-2
 tgtfile=""
 
@@ -17,20 +17,41 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+function usage() {
+	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
+	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
+	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
+	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
+	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \$ {d0} /\${distro}" 
+	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
+	echo "$0 q <> [] [] archives firefox settings"
+	#c?
+	echo "$0 t ... option for ipTables"			
+	echo "$0 -h: shows this message about usage"	
+}
+
+if [ $# -gt 1 ] ; then
+	mode=${1}
+	tgtfile=${2}
+else
+	usage
+	exit 1	
+fi
+
+#"$0 <mode> <file>  [distro] [-v]" olisi se perusidea
 function parse_opts_1() {
+	dqb "patse_otps8( ${1}, ${2})"
+
 	case "${1}" in
 		-v|--v)
 			debug=1
 		;;
 		*)
-			if [ ${mode} -eq -2 ] ; then
-				mode=${1}
-			else
-				if [ -d ${d}/${1} ] ; then 
-					distro=${1}
-				else
-					tgtfile=${1}
-				fi
+			#menisiköhän näin?
+			if [ -d ${d}/${1} ] ; then
+				distro=${1}
+				d=${d0}/${distro}
+
 			fi
 		;;
 	esac
@@ -53,81 +74,9 @@ fi
 if [ -x ${d0}/common_lib.sh ] ; then 
 	. ${d0}/common_lib.sh
 else
-##	#HUOM.23525:oleellisempaa että import2 toimii tarvittaessa ilman common_lib
-##	#"lelukirjasto" saattaa toimia sen vErrAn että "$0 4 ..." onnistuu	
-##	
-##	srat="sudo /bin/tar"
-##	som="sudo /bin/mount"
-##	uom="sudo /bin/umount"
-##	scm="sudo /bin/chmod"
-##	sco="sudo /bin/chown"
-##	odio=$(which sudo)
-##
-##	#jos näillä lähtisi aiNAKin case q toimimaan
-##	n=$(whoami)
-##	sah6=$(${odio} which sha512sum)
-##	smr="${odio} which rm"
-##	smr="${odio} ${smr}"
-##
-##	function check_binaries() {
-##		dqb "exp2.ch3ck_b1nar135 ${1} "
-##	}
-##
-##	function check_binaries2() {
-##		dqb "exp2.ch3ck_b1nar135_2 ${1} "
-###	}
-##
-##	function fix_sudo() {
-##		dqb "exp32.fix.sudo"
-##	}
-##
-##	function enforce_access() {
-##		dqb "exp32.enf_acc"
-##	}
-##
-##	function part3() {
-##		dqb "exp32.part3"
-##	}
-##
-##	function part1_5() {
-##		dqb "exp32.p15"
-##	}
-##
-##	function message() {
-##		dqb "exp32.message"
-##	}
-##
-##	function jules() {
-##		dqb "exp32.jules"
-##	}
-##
-##	#HUOM.23525:josko tässä kohtaa pakotus riittäisi
-##	function other_horrors() {
-##		dqb "AZATHOTH AND OTHER HORRORS"
-##		#${spc} /etc/default/rules.* /etc/iptables #tartteeko tuota enää 27525?
-##
-##		${scm} 0400 /etc/iptables/*
-##		${scm} 0550 /etc/iptables
-##		${sco} -R root:root /etc/iptables
-##		${scm} 0400 /etc/default/rules*
-##		${scm} 0555 /etc/default
-##		${sco} -R root:root /etc/default
-##	}
-##
-##	function ppp3() { #TODO:rename or not?
-##		dqb "exp32.ppp3"
-##	}
-##
-##	prevopt=""
-##
-##	for opt in $@ ; do
-##		parse_opts_1 ${opt}
-##		parse_opts_2 ${prevopt} ${opt}
-##		prevopt=${opt}
-##	done
-
 	dqb "FALLBACK"
-	dqb "chmod may be a good idea now"
+	dqb "chmod +x ${d0}/common_lib.sh may be a good idea now"
+	exit 56 #HUOM.28725:toistaiseksi näin
 fi
 
 [ -z ${distro} ] && exit 6
@@ -140,33 +89,9 @@ csleep 2
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
-#else
-#	echo "NOT (L1B AVA1LABL3 AND 3X3CUT4BL3)"
-#
-#	function pr4() {
-#		dqb "exp2.pr4 ${1} " 
-#	}
-#
-#	function udp6() {
-#		dqb "exp32.UPD6()"
-#	}
-#
-#	#onko tässä sktiptissä oleellista välittää $d part3:lle asti c_b välityksellä?
-#	check_binaries ${d}
-#	check_binaries2
+else 
+	exít 57
 fi
-
-function usage() {
-	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
-	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
-	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
-	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
-	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \$ {d0} /\${distro}" 
-	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
-	echo "$0 q <> [] [] archives firefox settings"
-	echo "$0 t ... option for ipTables"			
-	echo "$0 -h: shows this message about usage"	
-}
 
 dqb "tar = ${srat} "
 
@@ -177,7 +102,7 @@ for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	#[ -x $x ] && exit for 
 done
 
-dqb "AFTER CANGEDNS"
+dqb "AFTER GANGRENE SETS IN"
 csleep 1
 
 tig=$(${odio} which git)
@@ -195,6 +120,8 @@ if [ x"${mkt}" == "x" ] ; then
 	exit 8
 fi
 
+dqb "${sco} -Rv _apt:root ${pkgdir}/partial"
+csleep 1
 ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 1
@@ -205,26 +132,17 @@ csleep 1
 dqb "PRE0"
 csleep 1
 
+
 #HUOM.26726:jokin ei-niin-ilmeinen bugitus menossa, toiv wi ole common_lib.sh syynä
 #jhokatap aloitettu expo2 jakaminen osiin käytönnöin syistä
 
 if [ -x ${d0}/e22.sh ] ; then
-	echo "222"
+	dqb "222"
 	.  ${d0}/e22.sh
-	sleep 2 
+	csleep 2 
 fi
 
 
-#
-
-#
-
-#
-#HUOM.25725:josko nyt toimisi tarpeeksi jyvin tp1()
-
-#
-
-#
 ##HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia, tuskin menee qten alla
 #tcdd=$(cat /etc/devuan_version)
 #t2=$(echo ${d} | cut -d '/' -f 6 | tr -d -c a-zA-Z/) #tai suoraan $distro?
@@ -236,38 +154,25 @@ fi
 #fi
 #TODO:t2-kikkailut jatkossa ennen e22?
 
-
-
 ##https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
-##HUOM.25725:joskohan jakaisi tämän skriptin 2 osaan, fktio-kirjasto se uusi osa
-#
-
-#
-#koita päättää mitkä tdstot kopsataan missä fktiossa, interfaces ja sources.list nyt 2 paikassa
-#HUOM.20525:joskohan locale- ja rules- juttuja varten uusi fktio? vääntöä tuntuu riittävän nimittäin
-
-#
-##HUOM.23525: b) firefoxin käännösasetukset, pikemminkin profs.sh juttuja
-##dnsm 2. parametriksi... eiku ei, $2 onkin jo käytössä ja tarttisi sen cut-jekun
-
-#
-
-#
-##TODO:-v tekemään jotain hyödyllistä (miten tilanne 8725 ja sen jälk?)
-#
-
 
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
-[ -v testdris ] || pre1 ${d} ${distro}
+
+[ -v testgris ] || pre1 ${d} ${distro}
+
+#TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
+#... jos on jotain sivuvaikutuksia ni pikemminkin tdstoon e22.sh nykyään
+#tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 
 case ${mode} in
-	0|4) #HUOM.26725:testaa nämä case:t, nelosella tekee tar:in, sisällön mielekkyys varmistettava
-		
+	0|4) #VAIH:tarkista toiminta, siis case 0 lähinnä
+
 		[ z"${tgtfile}" == "z" ] && exit 99 
-		[ -v testdris ] || pre1 ${d} ${distro}
-		[ -v testdris ] || pre2 ${d} ${distro} ${iface}
+		[ -v testgris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
+		[ -v testgris ] || pre2 ${d} ${distro} ${iface} ${dnsm}
+
 
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
@@ -275,46 +180,65 @@ case ${mode} in
 
 		dd if=/dev/random bs=12 count=1 > ./rnd
 		${srat} -cvf ${tgtfile} ./rnd
-		[ -v testdris ] || tp3 ${tgtfile} ${distro}
+
+		[ -v testgris ] || tp3 ${tgtfile} ${distro}
+
 		
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 
 		dd if=/dev/random bs=12 count=1 > ./rnd
 		${srat} -cvf ${d}/f.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
-		[ ${mode} -eq 0 ] && tp4 ${d}/f.tar ${d} ${distro} ${iface}
+
+		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
+		if [ ${mode} -eq 0 ] ; then
+			tp4 ${d}/f.tar ${d} ${distro} ${iface}
+
+			[ ${debug} -eq 1 ] && ls -las ${d}
+			csleep 5
+		fi
+
+
 		#HUOM.25725:vissiin oli tarkoituksellla f.tar eikä e.tar, tuossa yllä
 		${sifd} ${iface}
 
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
-		tp0 ${tgtfile} ${d} 	
-		tp1 ${tgtfile} ${d} ${testdris}
-		pre1 ${d} ${distro}
 
-		[ -d ${testdris} ] || tp2 ${tgtfile}
+		tp0 ${d} 
+		[ ${debug} -eq 1 ] && ls -las ${d}
+		csleep 5
+ 	
+		tp1 ${tgtfile} ${d} ${testgris}
+		
+		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
+		csleep 4
+		${NKVD} ${d}/*.tar 
+
+		pre1 ${d} ${distro}
+		[ -v testgris ] || tp2 ${tgtfile} ${iface} ${dnsm}
 	;;
-	1|u|upgrade) #HUOM.26725:testaa uusiksi
+	1|u|upgrade) #HUOM.29725:ainakin chimaeran kanssa tup():in tekemät paketit kelpaavat
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
-		pre2 ${d} ${distro} ${iface}
-		tup ${tgtfile} ${d} ${iface}
+		pre2 ${d} ${distro} ${iface} ${dnsm}
+		tup ${tgtfile} ${d} ${iface} ${dnsm}
 	;;
-	p) #HUOM.26725:testaa uusiksi  (arkiston sisältö lähinnä)
-		
+	p) #HUOM.28725:toimii
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
-		pre2 ${d} ${distro} ${iface}
+		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.26725:testaa uusiksi (tekee jo tar:in, sisältö testattava)
-		pre2 ${d} ${distro} ${iface}
+	e)  #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
+		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
-	f)  #HUOM.26725:testaa uusiksi
-		rmt ${tgtfile} ${d} #HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
+	f)  #HUOM.28725:testattu, toimii ainakin sen verran että tekee tarin minkä sisältä järkeväno loinen
+		rmt ${tgtfile} ${d}
+		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-	q) #HUOM.26725:testaa uusiksi (tpq() kai toimii)
+	q) #VAIH:testaus muutox jälk käynnissä 31725
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 	
@@ -328,20 +252,48 @@ case ${mode} in
 		pwd
 		csleep 1
 
-		for f in $(find . -type f -name config.tar.bz2 -or -name fediverse.tar) ; do
+		#HUOM.28725:roiskiko väärään hakemistoon juttuja tpq()? toiv ei enää
+		tpq ~ ${d0}
+		#cd ${d0}
+		#HUOM.28725:puuttuvien fktioiden takia ei suoritusta näköjään keskeytetä	
+
+		q=$(mktemp)
+		${srat} -cf ${tgtfile} ${q}
+
+		dqb "	OIJHPIOJGHOYRI&RE"
+		[ ${debug} -eq 1 ] && pwd
+		csleep 1
+
+		cd ~
+
+		for f in $(find . -type f -name config.tar.bz2 -or -name fediverse.tar -or -name pulse.tar) ; do
 			${srat} -rvf ${tgtfile} ${f}
 		done
-		
+
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
-	t) #HUOM.25725: testattava uusiksi koska muutokset
-		pre2 ${d} ${distro} ${iface}
+	t) #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
+		pre2 ${d} ${distro} ${iface} ${dnsm}
 		${NKVD} ${d}/*.deb
-		tlb ${d} ${iface} ${distro}
+		tlb ${d} ${iface} ${distro} ${dnsm}
 		${svm} ${pkgdir}/*.deb ${d}
 		rmt ${tgtfile} ${d}
 	;;
+	c) #uusi optio chroot-juttuja varten, toiminee (27.7.25)
+		[ z"${tgtfile}" == "z" ] && exit 99
+
+		cd ${d0}
+		q=$(mktemp)
+		${srat} -cvf ${tgtfile} ${q}
+
+		for f in $(find . -type f -name conf -or -name lib.sh) ; do ${srat} -rvf ${tgtfile} ${f} ; done
+		bzip2 ${tgtfile}
+
+		mv ${tgtfile}.bz2 ${tgtfile}.bz3
+		tgtfile="${tgtfile}".bz3 #tarkpoituksella tämä pääte 
+	;;
+
 	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata
 		usage
 	;;

@@ -1,11 +1,8 @@
 #!/bin/bash
-
-#VAIH:generic_x - skriptit toimimaan cgroot-ympäristössä, g_pt2 taitaa jo toimia
-#TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh)
+#TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh) vielä tarpeen 29725?
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
-
 d0=$(pwd)
-echo "d0=${d0}"
+
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro}
@@ -40,7 +37,15 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#TODO:kenties tähän whoami-testi?
+if [ -f /.chroot ] ; then
+	echo "UNDER THE GRAV3YARD"
+	sleep 2
+	tar -jxvf ${d0}/necros.tar.bz3
+
+	sleep 3
+	rm ${d0}/necros.tar.bz3
+fi
+
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
 else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
@@ -56,8 +61,10 @@ else
 fi
 
 #HUOM.21725:nököjään kirjaston puuttuminen ei menoa haittaa, jatkuu urputuksella
-[ -z ${distro} ] && exit 6
+#HUOM.27725:vieläkö toistuu?
 
+
+[ -z ${distro} ] && exit 6
 dqb "BEFORE CNF"
 echo "dbig= ${debug}"
 sleep 1
