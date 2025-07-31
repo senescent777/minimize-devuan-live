@@ -422,14 +422,14 @@ function aswasw() { #HUOM.28725:testattu, toimii
 	csleep 1
 }
 
-#HUOM.28725:testattu nopeasti, vaikuttaa toimivan
+#TODO:testaa uusiksi
 function rmt() {
 	#debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
+	csleep 1
 
-	#[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
-	#[ -s ${1} ] || exit 2
-
+	[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
+	[ -s ${1} ] || exit 2
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 
