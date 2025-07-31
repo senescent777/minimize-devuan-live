@@ -210,11 +210,15 @@ function luca() {
 }
 
 function tp2() { #TODO	:testaa uusiksi koska x
-	#debug=1 #pois?
+	debug=1 #pois?
 	dqb "tp2 ${1} ${2}"
+	csleep 1
 
 	[ -z ${1} ] && exit 1
-	[ -z ${1} ] && exit 2
+	[ -z ${2} ] && exit 2
+	[ -z ${3} ] && exit 3
+	[ -s ${1} ] || exit 4
+	csleep 1
 
 	dqb "params_ok"
 	csleep 1
@@ -266,7 +270,8 @@ function tp2() { #TODO	:testaa uusiksi koska x
 		${srat} -rf ${1} /etc/sudoers.d/meshuggah
 	fi
 
-	if [ ${dnsm} -eq 1 ] ; then #TODO:glob wtt
+	#if [ ${dnsm #VAIH:glob wtt
+	if [ ${3} -eq 1 ] ; then
 		local f;for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 	fi
@@ -524,7 +529,7 @@ function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	csleep 1
 	
 	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
-	tlb ${2} ${4} ${3} ${dnsm} #TODO:glob muutt wtt
+	tlb ${2} ${4} ${3} ${dnsm} #TODO:glob muutt wtt?
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
