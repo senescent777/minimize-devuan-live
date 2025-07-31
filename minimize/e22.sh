@@ -177,20 +177,21 @@ function tp1() {
 		dqb "A"
 		csleep 1
 
-		cd ${3} #tässä oli virhe
+		cd ${3}
 		${srat} --exclude='*.deb' -rvf ${1} ./home/stubby
 		csleep 3
 
 		#TODO:se fiksumpi tapa, voiSiko esim $2:sta leikata $3:n bashilla jotenkin käteväsri?
 		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 4,5,6,7)
 		echo ${t}
-		#exit
+		csleep 1
 
 		#TODO:vissiin jatkossa niin että tässä haarassa .example voi ottaa, conf* ei (update.sh liittyi)
 		dqb "./home/stubby ./home/devuan/Desktop/minimize"
 		${srat} --exclude='*.deb' --exclude='conf*' -rvf ${1} ${t} 
 		#erikseen pitäisi se conf.example lisätä 
 	else
+		#HUOM.oliko jotain poistohommia tp_x_fktioihin liittyen?
 		dqb "B"
 		csleep 1
 		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
@@ -310,7 +311,7 @@ function tp3() { #TODO:testaa uusiksi?
 
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
-
+	#TODO:muidenkin kuin 1. param tark?
 	dqb "paramz_0k"
 	csleep 1
 
@@ -346,7 +347,7 @@ function tp3() { #TODO:testaa uusiksi?
 
 	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
 	# (ao. rivi tp2() jatkossa?)	
-	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm}
+	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm} #TODO:dnsm paramereiksi?
 
 	if [ ! -s ./etc/resolv.conf.1 ] ; then
 		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
@@ -512,7 +513,7 @@ function tlb() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	${asy}
 	csleep 1
 
-	tpc7	#tämän funktio oli? jotain excaliburiin liittyvää kai
+	tpc7	#tämän funktio oli?  excaliburiin liittyvää, tablesin kanssa tuntuu olevan täysi sirkus päällä
 	aswasw ${2}
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 
@@ -535,14 +536,12 @@ function tlb() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 }
 
 #VAIH:xz mäkeen paketista? jospa kutsuisi udp6() uudestaan tässä
-function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
+function tp4() { #TODO:tarkista toiminta
 	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
-	#dqb "DEMI-SEC"
 	csleep 1
 
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
-	
 	[ -z ${1} ] && exit 11
 	[ -z ${3} ] && exit 11
 	[ -z ${4} ] && exit 11
@@ -563,7 +562,7 @@ function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	message
 	jules
 
-	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
+	if [ ${dnsm} -eq 1 ] ; then #tuleeko jo parametrina? no ei
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
 		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
@@ -611,8 +610,10 @@ function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 function tp5() { #HUOM.28725:toimii
 	#TODO:jospa jatkossa hukkaisi sen polun arkistosta, $2...
 	dqb "tp5 ${1} ${2}"
+	csleep 1
+
 	[ -z ${1} ] && exit 99
-	#[ -s ${1} ] || exit 98 pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
+	[ -s ${1} ] || exit 98 pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
 	[ -d ${2} ] || exit 97
  
 	dqb "params ok"
@@ -621,7 +622,6 @@ function tp5() { #HUOM.28725:toimii
 	local q
 	q=$(${mkt} -d)
 	cd ${q} #antaa nyt cd:n olla toistaiseksi
-
 	[ $? -eq 0 ] || exit 77
 
 	${tig} clone https://github.com/senescent777/more_scripts.git
