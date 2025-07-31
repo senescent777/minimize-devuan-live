@@ -33,7 +33,6 @@ else
 	exit 1	
 fi
 
-
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
@@ -201,12 +200,14 @@ function common_part() {
 	dqb "common_part( ${1}, ${2}, ${3})"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
-	[ y"${3}" == "y" ] && exit 1
+	[ -r ${1} ] || exit 3
+	[ y"${3}" == "y" ] && exit 4
 
 	[ y"${2}" == "y" ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -d ${3} ] || exit 33
 	dqb "paramz_0k"
+	csleep 3
 
 	cd /
 	dqb "DEBUG:${srat} -xf ${1} "
@@ -223,7 +224,7 @@ function common_part() {
 	#TODO:jatkossa voisi -C - option parametrin johtaa $2:sesta?
 	csleep 1
 	${srat} -C ${3} -xf ${1} #HUOM.23725:C-option voisi josqs jyrätä?
-	[ $? -eq 0 ] || exit 35  
+	[ $? -eq 0 ] || exit 36
 	csleep 1
 	dqb "tar DONE"
 
@@ -268,11 +269,27 @@ function tpr() {
 	dqb "pars_ok"
 	csleep 1
 
-	if [ -s ~/config.tar.bz2 ] ; then
-		${srat} -C / -jxf ~/config.tar.bz2
+	dqb "CFG.TZE2 IN 1 SEC "
+	csleep 1
+
+	if [ -s ~/config.tar.bz2 ] ; then #josko vähän kätevämmin jatkossa?
+		${srat} -C ~ -jxf ~/config.tar.bz2
+		
 	else
-		${srat} -C / -jxf ${1}/config.tar.bz2
+		${srat} -C ~ -jxf ${1}/config.tar.bz2
 	fi
+
+	dqb "PULSE"
+	csleep 1
+
+	if [ -s ~/pulse.tar ] ; then
+		${srat} -C / -xvf ~/pulse.tar
+	else
+		${srat} -C / -xvf ${1}/pulse.tar
+	fi
+
+	dqb "PROFS?"
+	csleep 1
 
 	if [ -x ${1}/profs.sh ] ; then
 		. ${1}/profs.sh
@@ -294,6 +311,9 @@ function tpr() {
 		dqb "CANNOT INCLUDE PROFS.HS"
 		dqb "$0 1 \$srcfile ?"
 	fi
+
+	dqb "UP1R D0N3"
+	csleep 1
 }
 
 case "${mode}" in
@@ -325,6 +345,9 @@ case "${mode}" in
 		[ "${confirm}" == "Y" ]  || exit 77
 		common_part ${srcfile} ${d} /
 
+		#HUOM.sellainen ilmeinen juttu että joidenkn arkistojen tapauksessa .deb-paketit saatavat löyty
+ 		#juuresta
+
 		csleep 1
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
@@ -343,12 +366,13 @@ case "${mode}" in
 		csleep 1
 
 		[ z"{distro}" == "z" ] && exit 77
-		dqb " ${3} ${distro} MN"
+		dqb " ${3} ${distro} MN" #mikä pointti?
 		csleep 1
 
 		read -p "U R ABT TO INSTALL ${srcfile} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
 		[ -s ${srcfile} ]  || exit 34
+		[ -r ${srcfile} ]  || exit 35
 
 		if [ ${1} -eq 0 ] ; then
 			common_part ${srcfile} ${d} / #voi tietystI mennä mettään tuon $d/common_lib kanssa?
@@ -356,11 +380,10 @@ case "${mode}" in
 			common_part ${srcfile} ${d} ${d}
 		fi
 
-		#VAIH:jokin tarkistus tähän? että $srcfile löytyi ha sen sau pirettua 
-		csleep 5
-		#sen yhden tar:in kanssa pitäisi selvittää mikä kusee (vai kuseeko vielä 23.7.25?)
+		#VAIH:nyt prissa kohdassa tark että $srcfile löytyi ja sen sau purettua 
+		csleep 1
 
-		if [ ${1} -eq 0 ] ; then
+		if [ ${1} -eq 0 ] ; then #vähemmällä jos tekisi...
 			if [ -s ${d}/e.tar ] ; then
 				common_part ${d}/e.tar ${d} /
 			else
@@ -384,11 +407,12 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#VAIH:testaa toiminta vielä kerran
+		#HUOM.310725 viimeksi testattu, taitaa toimia
 
 		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan, tai siis näin oli kunnes toiminta myyttyu
-		#... pitäisi kai jatkossa testata että $srcfile:n sisältä löytyy fediverse.tar(VAIH) ... ja sit jotain		
+		#nykyään (31725) testataan että $srcfile:n sisältä löytyy fediverse.tar		
 
+		#VAIH:jatkossa hakemistopolku pois arkistosta + sivuvaikutukset
 		[ x"${srcfile}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 1
@@ -398,8 +422,8 @@ case "${mode}" in
 		csleep 1
 	
 		c=$(tar -tf ${srcfile} | grep fediverse.tar  | wc -l)
-		[ ${c} -gt 0 ]  || exit 77
-		common_part ${srcfile} ${d} /
+		[ ${c} -gt 0 ] || exit 77
+		common_part ${srcfile} ${d} ~ #/
 		tpr ${d0}
 	;;
 	r)

@@ -227,13 +227,13 @@ case ${mode} in
 		rmt ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-	q) #HUOM.28725:toimii, luo tarin ja sisältökin nykyään oikeanlainen
+	q) #VAIH:testaus muutox jälk käynnissä 31725
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 
 		#HUOM.28725:roiskiko väärään hakemistoon juttuja tpq()? toiv ei enää
 		tpq ~ ${d0}
-		cd ${d0}
+		#cd ${d0}
 		#HUOM.28725:puuttuvien fktioiden takia ei suoritusta näköjään keskeytetä	
 
 		q=$(mktemp)
@@ -243,7 +243,9 @@ case ${mode} in
 		[ ${debug} -eq 1 ] && pwd
 		csleep 1
 
-		for f in $(find ~ -type f -name config.tar.bz2 -or -name fediverse.tar) ; do
+		cd ~
+
+		for f in $(find . -type f -name config.tar.bz2 -or -name fediverse.tar -or -name pulse.tar) ; do
 			${srat} -rvf ${tgtfile} ${f}
 		done
 

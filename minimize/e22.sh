@@ -56,7 +56,7 @@ function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
 	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
-	par4=$(echo ${4}  | tr -d -c 0-9)
+	par4=$(echo ${4} | tr -d -c 0-9)
 	#VAIH: $4 kanssa jotain sorkkimista?
 
 	if [ -d ${1} ] ; then
@@ -100,20 +100,29 @@ function tp0() {
 	csleep 1
 }
 
-function tpq() { #VAIH:testaa uudestaan	
+function tpq() { #HUOM-31725:testit menossa, sopisi tulla valmiiksi	
 	debug=1
 	dqb "tpq ${1} ${2}"
 	csleep 1
 
 	[ -z ${1} ] && exit 11
 	[ -z ${2} ] && exit 12
-	[ -d ${1} ] || exit 22 uskaltaisiko jommankumman tarkistuksen laittaa takaisin?
-	[ -d ${2} ] || exit 23	#pitäisikö mennä näin?
+	[ -d ${1} ] || exit 22 #uskaltaisiko jommankumman tarkistuksen laittaa takaisin?
+	[ -d ${2} ] || exit 23 #pitäisikö mennä näin?
 
 	dqb "paramz 0k"
 	csleep 1
 	cd ${1}
-	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml ./.config/pulse /etc/pulse
+
+	dqb "CFG"
+	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml ./.config/pulse
+ 	csleep 1
+
+	dqb "PUL53"
+	#VAIH:jatkossa /etc/pulse mukaan jotenkin toisella tavalla (esm pulse.tar)
+	${srat} -cf ./pulse.tar /etc/pulse
+	csleep 1
+	dqb "PR0.F5"
 
 	if [ -x ${2}/profs.sh ] ; then
 		dqb "DE PROFUNDIS"
@@ -133,7 +142,7 @@ function tpq() { #VAIH:testaa uudestaan
 
 #HUOM.28725:testattu ennen tpq:n jemmaamista, toimi
 #... entä palauttamisen jälkeen?
-#VAIH:jospa VIELÄ KERRAN testaisi
+#HUOM.31725:testit käynnissä, sopisi tulla valmiiksi kanssa
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
@@ -159,13 +168,19 @@ function tp1() {
 
 	csleep 1
 	${srat} -rvf ${1} /opt/bin/changedns.sh
-
-	#ennen if-blokkia ~ alta tar:it talteen? (TODO:jos find kanssa)
-	#${srat} -rvf ${1} ~/*.tar	
-
-	#26726:tähän asti ok
 	local t
 
+	#ennen if-blokkia ~ alta tar:it talteen? (VAIH:jos find kanssa)
+	#${srat} -rvf ${1} ~/*.tar
+	#HUOM.saattaa vielä joutua muuttamaan ao. blokin koska x
+
+	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
+	csleep 2
+	for t in $(find -max-depth 1 ~ -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
+	csleep 2
+
+	#26726:tähän asti ok
+	
 	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
 	#jatkossa tar if-blokin jälkeen?
 	if [  z"${3}" != "z" ] ; then
@@ -194,9 +209,9 @@ function tp1() {
 		csleep 3
 		
 		#TODO:pitäisiköhän findilla hakea tar:ille ne .sh, .tar yms. ?
-		#... vai stokeekohan ecxldur asioita?
+		#... vai stokeekohan ecxldur asioita? ei kai
 
-		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t} # ${d0} globaalit wttuun tästäkin
+		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
 	fi
 
 	dqb "tp1 d0n3"
@@ -204,7 +219,7 @@ function tp1() {
 }
 
 function luca() {
-	#$1 tarkistukset jatkossa	
+	#TODO:$1 tarkistukset jatkossa	
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule | less
 	sleep 2
 
@@ -288,6 +303,8 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 	if [ ${3} -eq 1 ] ; then
 		local f;for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
+	else
+		dqb "n0 5tub"
 	fi
 
 	${srat} -rf ${1} /etc/init.d/net*
