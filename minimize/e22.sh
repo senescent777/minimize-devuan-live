@@ -190,7 +190,26 @@ function tp1() {
 	csleep 1
 }
 
-function tp2() { #HUOM.30725:taitaa toimia
+function luca() {
+		echo $?
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule | less
+	sleep 2
+
+	dqb "JUST BEFORE LOCALES"
+	sleep 1
+
+	#VAIH:locale- ja timezone- jutut toisella tavalla, tp2() kutSuvaan koodiin vaikkapa?
+	${srat} -rvf ${1} /etc/timezone /etc/localtime 
+	#HUOM.22525:tuossa alla locale->local niin saisi localtime:n mukaan mutta -type f
+	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
+
+	echo $?
+	sleep 1
+
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local | less
+}
+
+function tp2() { #TODO	:testaa uusiksi koska x
 	#debug=1 #pois?
 	dqb "tp2 ${1} ${2}"
 
@@ -219,22 +238,7 @@ function tp2() { #HUOM.30725:taitaa toimia
 		fi
 	done
 
-	echo $?
-	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule | less
-	sleep 2
-
-	dqb "JUST BEFORE LOCALES"
-	sleep 1
-
-	#TODO:locale- ja timezone- jutut toisella tavalla, tp2() kutSuvaan koodiin vaikkapa?
-	${srat} -rvf ${1} /etc/timezone /etc/localtime 
-	#HUOM.22525:tuossa alla locale->local niin saisi localtime:n mukaan mutta -type f
-	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
-
-	echo $?
-	sleep 1
-
-	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local | less
+	luca
 	csleep 1
 	other_horrors
 
