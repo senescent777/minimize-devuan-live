@@ -41,21 +41,27 @@ function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
 function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 	#debug=1
 	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
+	csleep 1
 
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 67
 	[ -z ${3} ] && exit 68
-	[ -z ${4} ] && exit 69 #ei toiminutkaan (oli vielä 1 kohta mikä unohtui)
+	[ -z ${4} ] && exit 69 #josko nyt jo 31725 olisi kaikki kohdat, mistä kutsitaan, kunnossa
+	
+	dqb "pars.ok"	
+	csleep 1
 
 	local ortsac
+	local par4
+
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
 	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
-
-	#TODO: $4 kanssa jotain sorkkimista?
+	par4=$(echo ${4}  | tr -d -c 0-9)
+	#VAIH: $4 kanssa jotain sorkkimista?
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
-		${odio} /opt/bin/changedns.sh ${4} ${ortsac}
+		${odio} /opt/bin/changedns.sh ${par4} ${ortsac}
 		csleep 1
 
 		${sifu} ${3}
