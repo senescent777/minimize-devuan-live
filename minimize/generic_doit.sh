@@ -99,8 +99,7 @@ part1 ${distro}
 
 ${snt}
 csleep 1
-
-dqb "${svm} ${d0}/1c0ns/ * .desktop ~/Desktop"
+dqb "${svm} ${d0}/1c0ns/ \* .desktop ~/Desktop"
 csleep 1
 ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #===================================================PART 2===================================
@@ -186,7 +185,6 @@ fi
 
 #HUOM.2:pitäisikö huomioida myös e.tar tuossa alla jotenkin? ja miksi?
 pre_part2
-
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 part2_5 ${removepkgs} ${dnsm}
@@ -196,10 +194,7 @@ message
 part3 ${d} ${dnsm}
 other_horrors
 
-#if [ -s ${d0}/ieuD ] ; then
-	#${d0}/import2.sh q ${d0}/ieuD #-v
-	${d0}/import2.sh r ${d0} -v #/ieuD 
-#fi
+${d0}/import2.sh r ${d0} -v
 
 jules
 ${asy}
@@ -214,7 +209,6 @@ done
 
 ${sipt} -L
 csleep 1
-
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
 
