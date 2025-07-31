@@ -243,7 +243,6 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 
 	dqb "params_ok"
 	csleep 1
-	#26726:tähän astu ok
 
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
@@ -292,7 +291,6 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 		${srat} -rf ${1} /etc/sudoers.d/meshuggah
 	fi
 
-	#if [ ${dnsm #VAIH:glob wtt
 	if [ ${3} -eq 1 ] ; then
 		local f;for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
@@ -306,7 +304,7 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 	csleep 1
 }
 
-function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
+function tp3() { #TODO:testaa uusiksi?
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
 
@@ -317,9 +315,11 @@ function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
 	csleep 1
 
 	local p
-	local q	
-	tig=$(${odio} which git) #voisi alustaa jossain aiempana
+	local q
+	local r
 
+	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+	tig=$(${odio} which git) #voisi alustaa jossain aiempana
 	p=$(pwd)
 	q=$(${mkt} -d)
 	cd ${q}
@@ -354,7 +354,7 @@ function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
 
 	#HUOM.14525.3:ghubista löytyvä(.new) vastaa tilannetta dnsm=1
 	# (ao. rivi tp2() jatkossa?)
-	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm}
+	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm} #TODO:glob wtt
 
 	if [ ! -s ./sbin/dhclient-script.1 ] ; then
 		  ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
@@ -380,10 +380,7 @@ function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	# (ao. rivi tp2() jatkossa?)
 
-	local r
-	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
 	pwd
-
 	dqb "r=${r}"
 	csleep 2
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
