@@ -72,7 +72,7 @@ if [ -x ${d0}/common_lib.sh ] ; then #saattaa jo toimia chroot-ymp sisällä
 	#... saattaa olla että sq-chroot:in sisällä ei tarvitsekaan:import2.sh mutta vägän kätevänou ehgkä
 	. ${d0}/common_lib.sh
 else
-	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston"
+	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston" tai sit ei
 	srat="sudo /bin/tar" #which mukaan?
 	som="sudo /bin/mount"
 	uom="sudo /bin/umount"
@@ -146,7 +146,6 @@ dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "srcfile=${srcfile}"
 mkt=$(${odio} which mktemp)
-#exit
 
 if [ x"${mkt}" == "x" ] ; then
 	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
@@ -408,11 +407,8 @@ case "${mode}" in
 	;;
 	q)
 		#HUOM.310725 viimeksi testattu, taitaa toimia
-
-		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan, tai siis näin oli kunnes toiminta myyttyu
-		#nykyään (31725) testataan että $srcfile:n sisältä löytyy fediverse.tar		
-
 		#VAIH:jatkossa hakemistopolku pois arkistosta + sivuvaikutukset
+		
 		[ x"${srcfile}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 1
@@ -423,7 +419,7 @@ case "${mode}" in
 	
 		c=$(tar -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
-		common_part ${srcfile} ${d} ~ #/
+		common_part ${srcfile} ${d} ~
 		tpr ${d0}
 	;;
 	r)
