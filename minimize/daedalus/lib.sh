@@ -4,14 +4,17 @@
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 #... joskohan --force-confold olisi se haettu juttu
 
-function c5p() { #HUOM.28725:testattu, toiminee
+function c5p() { #VAIH:testaa toiminta
 	dqb "CCCP( ${1} , ${2} )"
 	csleep 1
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 	csleep 1
 
+	dqb "xz"
 	${NKVD} ${1}/xz* #toisaalta t2p() poistaa
+	ls -las ${1}/xz* 
+	csleep 3
 
 	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
 	#g_pt2 poistaa cryptsetup-pakettei
