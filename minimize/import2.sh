@@ -389,7 +389,7 @@ case "${mode}" in
 		#VAIH:testaa toiminta vielä kerran
 
 		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan, tai siis näin oli kunnes toiminta myyttyu
-		#... pitäisi kai jatkossa testata että $srcfile:n sisältä löytyy fediverse.tar(TODO) ... ja sit jotain		
+		#... pitäisi kai jatkossa testata että $srcfile:n sisältä löytyy fediverse.tar(VAIH) ... ja sit jotain		
 
 		[ x"${srcfile}" == "x" ] && exit 55
 		dqb "KL"
@@ -398,8 +398,10 @@ case "${mode}" in
 		[ -s ${srcfile} ] || exit 66
 		dqb "${srcfile} IJ"
 		csleep 1
+	
+		c=$(tar -tf ${srcfile} | grep fediverse.tar  | wc -l)
+		[ ${c} -gt 0 ]  || exit 77
 		common_part ${srcfile} ${d} /
-
 		tpr ${d0}
 	;;
 	r)
