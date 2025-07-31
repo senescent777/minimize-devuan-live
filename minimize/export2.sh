@@ -68,8 +68,6 @@ else #joutuukohan else-haaran muuttamaan jatkossa?
 	exit 55
 fi
 
-#exit
-
 if [ -x ${d0}/common_lib.sh ] ; then 
 	. ${d0}/common_lib.sh
 else
@@ -80,7 +78,6 @@ fi
 
 [ -z ${distro} ] && exit 6
 d=${d0}/${distro}
-#exit
 
 dqb "mode= ${mode}"
 dqb "distro=${distro}"
@@ -160,6 +157,7 @@ csleep 1
 [ -v testgris ] || pre1 ${d} ${distro}
 
 #TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
+#... jos on jotain sivuvaikutuksia ni pikemminkin tdstoon e22.sh nykyään
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 
 case ${mode} in
