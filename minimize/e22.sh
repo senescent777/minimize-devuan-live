@@ -4,7 +4,7 @@ function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
 	dqb "pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 66
-	#VAIH:tokan parametrin tarkistus, toiminee
+	#TODO:selvitä mikä tokassa parametrissa ideana? mahdollistaa chimaeran/excaliburin pakettien haku daedaluksesta käsin?
 
 	csleep 4
 	dqb "pars.0k"
@@ -57,11 +57,11 @@ function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
 	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
 	par4=$(echo ${4} | tr -d -c 0-9)
-	#VAIH: $4 kanssa jotain sorkkimista?
+	#VAIH: $4 kanssa jotain sorkkimista? jos saisi vielä typistettyä
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
-		${odio} /opt/bin/changedns.sh ${par4} ${ortsac}
+		${odio} /opt/bin/changedns.sh ${par4} ${ortsac} -v
 		csleep 1
 
 		${sifu} ${3}
@@ -146,7 +146,6 @@ function tpq() { #HUOM-31725:testit menossa, sopisi tulla valmiiksi
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
-	
 	[ -z ${2} ] && exit
 	csleep 1
 
@@ -155,8 +154,6 @@ function tp1() {
 	pwd
 	csleep 1
 
-	#26726:tähän asti ok
-
 	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		tpq ~ ${2}/.. #HUOM.25725:toimiiko näin?
@@ -164,22 +161,15 @@ function tp1() {
 		dqb "PUIG DESTRÖYERR"
 	fi
 
-	#26726:tähän asti ok
-
 	csleep 1
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 	local t
 
-	#ennen if-blokkia ~ alta tar:it talteen? (VAIH:jos find kanssa)
-	#${srat} -rvf ${1} ~/*.tar
 	#HUOM.saattaa vielä joutua muuttamaan ao. blokin koska x
-
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 2
 	for t in $(find -max-depth 1 ~ -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
 	csleep 2
-
-	#26726:tähän asti ok
 	
 	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
 	#jatkossa tar if-blokin jälkeen?
@@ -197,7 +187,7 @@ function tp1() {
 		#exit
 
 		#TODO:vissiin jatkossa niin että tässä haarassa .example voi ottaa, conf* ei (update.sh liittyi)
-		dqb "./home/stubby ./home/devuan/Desktop/minimize" #tässäkin oli virhe
+		dqb "./home/stubby ./home/devuan/Desktop/minimize"
 		${srat} --exclude='*.deb' --exclude='conf*' -rvf ${1} ${t} 
 		#erikseen pitäisi se conf.example lisätä 
 	else
