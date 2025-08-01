@@ -42,11 +42,9 @@ function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
-
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 67
 	[ -z ${3} ] && exit 68
-
 	[ -z ${4} ] && exit 69 #josko nyt jo 31725 olisi kaikki kohdat, mistä kutsitaan, kunnossa
 	
 	dqb "pars.ok"	
@@ -62,11 +60,13 @@ function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 
 	if [ -d ${1} ] ; then
 		dqb "PRKL"
+
+		#kantsisi ehkä keskeyttää suoritus jos ei changedns saatavilla
 		${odio} /opt/bin/changedns.sh ${par4} ${ortsac}
+		echo $?
 		csleep 1
 
 		${sifu} ${3}
-
 		[ ${debug} -eq 1 ] && ${sifc}
 		csleep 1
 
