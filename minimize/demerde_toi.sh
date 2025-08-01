@@ -1,9 +1,7 @@
 #!/bin/bash
-
 #HUOM. näiden skriptien kanssa bash tulkkina aiheuttaa vähemmän nalkutusta kuin sh
 debug=0
 branch=""
-
 d0=$(pwd)
 echo "d0=${d0}"
 
@@ -60,7 +58,7 @@ dqb "BFROE tig"
 csleep 2
 
 ${tig} clone https://github.com/senescent777/minimize-devuan-live.git
-[ $? -gt 0] && exit #onko tässä jokin juttu?
+[ $? -gt 0 ] && exit
 
 dqb "TGI KO"
 csleep 2
@@ -82,7 +80,7 @@ fi
 dqb "tar done"
 csleep 2
 
-#joutuisi oikeastaan muuttamaan mutta antaa olla koska x
+#joutuisi oikeastaan muuttamaan? mutta antaa olla koska x
 for f in $(find ${d0} -type f -name '*.sh') ; do rm ${f} ; done
 for f in $(find ${d0} -type f -name '*.desktop') ; do rm ${f} ; done
 
@@ -92,7 +90,7 @@ csleep 2
 cp minimize/* ${d0}
 #mv isolinux ~/Desktop/ #tarttisikohan näille tehdä jotain?
 #mv boot  ~/Desktop/
-deb "D0N3 M0V1NG"
+dqb "D0N3 M0V1NG"
 csleep 2
 
 if [ -x ${d0}/common_lib.sh ] ; then
