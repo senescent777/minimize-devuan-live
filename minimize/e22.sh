@@ -223,8 +223,15 @@ function tp1() {
 }
 
 function luca() {
-	#TODO:$1 tarkistukset jatkossa	
-	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule | less
+	dqb "luca ( ${1})"
+	csleep 1
+	[ -z ${1} ] && exit 11
+	[ -s ${1} ] || exit 12
+
+	dqb "prs ok"
+	csleep 1
+
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule #| less
 	sleep 2
 
 	dqb "JUST BEFORE LOCALES"
@@ -238,7 +245,8 @@ function luca() {
 	echo $?
 	sleep 1
 
-	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local | less
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local #| less
+	sleep 3
 }
 
 function tp2() { #VAIH	:testaa uusiksi koska x
@@ -279,11 +287,17 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 	csleep 1
 	other_horrors
 
+	dqb "B3F0R3 TÖBX"
+	csleep 2
+
 	#HUOM.23525:tähän tökkäsi kun mode=4 && a-x common
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		echo "/E/IPTABLES sdhgfsdhgf"
 		exit 112
 	fi
+
+	dqb "WLAN-RELAT3D"	
+	csleep 2
 
 	case ${2} in
 		wlan0)
@@ -302,6 +316,9 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 	else
 		${srat} -rf ${1} /etc/sudoers.d/meshuggah
 	fi
+
+	dqb "DSN"
+	csleep 2
 
 	if [ ${3} -eq 1 ] ; then
 		local f;for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
@@ -509,7 +526,8 @@ function rmt() {
 #home/devuan/Desktop/minimize/chimaera/home/devuan/Desktop/minimize/chimaera/tim3stamp
 #kyseiselle polulle voisi tehdä jotain(TODO)
 
-function tlb() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
+function tlb() { #VAIH:tarkista toiminta jälleen kerran
+	#HUOM.MIKSI ASENTAA AVAHIN?
 	#debug=1
 	dqb "x2.tlb ${1} , ${2}  , ${3}  , ${4} "
 
@@ -524,7 +542,6 @@ function tlb() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 
 	dqb "parx_ok"
 	csleep 3
-
 
 	if [ z"${pkgdir}" != "z" ] ; then
 		dqb "SHREDDED HUMANS"
@@ -553,6 +570,11 @@ function tlb() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	#uutena 31525
 	udp6 ${pkgdir}
 
+	#TODO:part2_5() jatkossa, nyt jos riittäisi ao. 3 riviä
+	${sharpy} libavahi*
+	${NKVD} ${pkgdir}/libavahi*	
+	${asy}
+
 	#actually necessary
 	pre2 ${1} ${3} ${2} ${4} 
 	other_horrors
@@ -573,7 +595,6 @@ function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	[ -z ${1} ] && exit 11
 	[ -z ${3} ] && exit 11
 	[ -z ${4} ] && exit 11
-
 
 	dqb "paramz_ok"
 	csleep 1
@@ -617,6 +638,9 @@ function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
 	csleep 1
 	${lftr}
+	${sharpy} libavahi*
+	${NKVD} ${pkgdir}/libavahi*	
+	${asy}
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä -24
 	#... myös gpgtar pitäisi ottaa haltuun
@@ -624,7 +648,7 @@ function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 		pwd
 		csleep 1
 		udp6 ${pkgdir} 		
-
+		
 		csleep 1		
 		${svm} ${pkgdir}/*.deb ${2}
 		rmt ${1} ${2}
@@ -696,6 +720,13 @@ function tup() { #TODO:testaa uusiksi, koska param tark
 	echo $?
 	csleep 1
 
+	dqb "AVA.H1"
+	${sharpy} libavahi*
+	${NKVD} ${pkgdir}/libavahi*
+	
+	${asy}
+	csleep 1
+
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1
 
@@ -713,7 +744,8 @@ function tup() { #TODO:testaa uusiksi, koska param tark
 		${NKVD} ${pkgdir}/${s}*
 	done
 
-
+	#HUOM.part076() ja part2_5() on keksitty
+	
 	case ${3} in
 
 		wlan0)
