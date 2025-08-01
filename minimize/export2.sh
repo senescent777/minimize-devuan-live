@@ -163,7 +163,10 @@ csleep 1
 
 #TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
 #... jos on jotain sivuvaikutuksia ni pikemminkin tdstoon e22.sh nykyään
-#tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
+#tgtfile:n kanssa muitakin tarkistuksia qqkuin -z ?
+
+#VAIH:jospa jo tässä stoppaisi kun puuttuva /o/b/changedns
+[ -x /opt/bin/changedns.sh ] || exit 59
 
 case ${mode} in
 	0|4) #VAIH:tarkista toiminta, siis case 0 lähinnä
