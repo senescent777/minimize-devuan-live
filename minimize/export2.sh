@@ -132,16 +132,16 @@ csleep 1
 dqb "PRE0"
 csleep 1
 
-
 #HUOM.26726:jokin ei-niin-ilmeinen bugitus menossa, toiv wi ole common_lib.sh syynä
 #jhokatap aloitettu expo2 jakaminen osiin käytönnöin syistä
 
 if [ -x ${d0}/e22.sh ] ; then
 	dqb "222"
 	.  ${d0}/e22.sh
-	csleep 2 
+	csleep 2
+else
+	exit 58
 fi
-
 
 ##HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia, tuskin menee qten alla
 #tcdd=$(cat /etc/devuan_version)
@@ -159,7 +159,6 @@ fi
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
-
 [ -v testgris ] || pre1 ${d} ${distro}
 
 #TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
@@ -173,7 +172,6 @@ case ${mode} in
 		[ -v testgris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
 		[ -v testgris ] || pre2 ${d} ${distro} ${iface} ${dnsm}
 
-
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
 		${scm} 0644 ./rnd
@@ -182,8 +180,6 @@ case ${mode} in
 		${srat} -cvf ${tgtfile} ./rnd
 
 		[ -v testgris ] || tp3 ${tgtfile} ${distro}
-
-		
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 
@@ -198,10 +194,8 @@ case ${mode} in
 			csleep 5
 		fi
 
-
 		#HUOM.25725:vissiin oli tarkoituksellla f.tar eikä e.tar, tuossa yllä
 		${sifd} ${iface}
-
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
 
 		tp0 ${d} 
