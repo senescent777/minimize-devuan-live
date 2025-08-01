@@ -21,13 +21,13 @@ function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
 		echo "else"
 		dqb "5TNA"
 		
-		local ostrac
+		#local ostrac
 		local lefid
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) # | cut -d '/' -f 1-5)
 		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 	
 		enforce_access ${n} ${lefid} #jos jo toimisi
-		ostrac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
+		#ostrac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #tarpeellinen?
 		csleep 1
 		dqb "3NF0RC1NG D0N3"
 		
