@@ -661,6 +661,9 @@ function e_final() {
 		fi
 	fi
 
+	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
+	csleep 5 
+
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
 
