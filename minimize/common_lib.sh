@@ -336,16 +336,27 @@ function check_binaries() {
 		jules
 
 		#HUOM.olisikohan sittenkin suhteelliset polut tar:in sisällä helpompia?
-		
+		#... tai jopspa jatkossa roiskisi /tmp alle
+
 		if [ -s ${1}/e.tar ] ; then
 			${odio} ${srat} -C / -xf ${1}/e.tar
-			${NKVD} ${1}/e.tar #jompikumpi hoitaa
-			${smr} ${1}/e.tar
+			
+			if [ $? -eq 0 ] ; then
+				${NKVD} ${1}/e.tar #jompikumpi hoitaa
+				${smr} ${1}/e.tar
+			else
+				dqb "SMTHING WRONG W/ e.tar"
+			fi
 		else
 			if [ -s ${1}/f.tar ] ; then
 				#jos -c $1 kuitesnkin?
-				${odio} ${srat} -xf ${1}/f.tar
-				${NKVD} ${1}/f.tar
+				${odio} ${srat} -C ${1} -xf ${1}/f.tar
+
+				if [ $? -eq 0 ] ; then
+					${NKVD} ${1}/f.tar
+				else
+					dqb "SMTHING WRONG W/ f.tar"
+				fi
 			fi
 		fi
 

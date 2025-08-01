@@ -303,13 +303,11 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 		${srat} -rf ${1} /etc/sudoers.d/meshuggah
 	fi
 
-	#if [ ${dnsm #VAIH:glob wtt
 	if [ ${3} -eq 1 ] ; then
 		local f;for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 	else
 		dqb "n0 5tub"
-
 	fi
 
 	${srat} -rf ${1} /etc/init.d/net*
@@ -318,10 +316,8 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 	csleep 1
 }
 
-
-function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
+function tp3() { #HUOM.010825:vaikuttaisi toimivan, tämän jutut menivät arkistoon mutta tp2() ei, miksi?
 	#debug=1 #antaa olla vielä
-
 	dqb "tp3 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -332,13 +328,18 @@ function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
 
 	local p
 	local q	
+	local r
+
+	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+	[ ${debug} -eq 1 ] && pwd
+	dqb "r=${r}"
+	csleep 1
+
 	tig=$(${odio} which git) #voisi alustaa jossain aiempana
 
 	p=$(pwd)
 	q=$(${mkt} -d)
 	cd ${q}
-	
-	[ ${debug} -eq 1 ] && pwd  
 	csleep 1
 
 	#voisi jollain ehdolla estää kloonauksen
@@ -360,12 +361,16 @@ function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
 
 	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
 	# (ao. rivi tp2() jatkossa?)	
-	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm}
+	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm} #TODO.glob wtt
 
 	if [ ! -s ./etc/resolv.conf.1 ] ; then
 		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
 	fi
 
+	dqb "NIBS"
+	csleep 2
+
+	#HUOM.010825:/sbin-juttuja ei tullut mukaan
 	#HUOM.14525.3:ghubista löytyvä(.new) vastaa tilannetta dnsm=1
 	# (ao. rivi tp2() jatkossa?)
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm}
@@ -379,6 +384,10 @@ function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
 	# (ao. rivi tp2() jatkossa?)
 
 	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
+
+	#HUOM.010825:/e/a/sources.list ja /e/a/a.conf tuli mukaan
+	dqb "SOUCRES"
+	csleep 2
 
 	if [ -f /etc/apt/sources.list ] ; then
 		local c
@@ -394,11 +403,8 @@ function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	# (ao. rivi tp2() jatkossa?)
 
-	local r
-	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
-	pwd
-
-	dqb "r=${r}"
+	#HUOM.010825:/e/n/i tuli mukaan
+	dqb "1NT3RF"
 	csleep 2
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
 

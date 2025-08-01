@@ -163,16 +163,15 @@ csleep 1
 
 #TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
 #... jos on jotain sivuvaikutuksia ni pikemminkin tdstoon e22.sh nykyään
-#tgtfile:n kanssa muitakin tarkistuksia qqkuin -z ?
+#tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 
-#VAIH:jospa jo tässä stoppaisi kun puuttuva /o/b/changedns
 [ -x /opt/bin/changedns.sh ] || exit 59
 
 case ${mode} in
 	0|4) #VAIH:tarkista toiminta, siis case 0 lähinnä
 
 		[ z"${tgtfile}" == "z" ] && exit 99 
-		[ -v testgris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
+		#[ -v testgris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
 		[ -v testgris ] || pre2 ${d} ${distro} ${iface} ${dnsm}
 
 		${odio} touch ./rnd
@@ -183,6 +182,9 @@ case ${mode} in
 		${srat} -cvf ${tgtfile} ./rnd
 
 		[ -v testgris ] || tp3 ${tgtfile} ${distro}
+		dqb "TP3 DON3, next:rm some rchivies"
+		csleep 3
+
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 
@@ -212,6 +214,8 @@ case ${mode} in
 		${NKVD} ${d}/*.tar 
 
 		pre1 ${d} ${distro}
+		dqb "B3F0R3 RP2	"
+		csleep 5	
 		[ -v testgris ] || tp2 ${tgtfile} ${iface} ${dnsm}
 	;;
 	1|u|upgrade) #HUOM.29725:ainakin chimaeran kanssa tup():in tekemät paketit kelpaavat
