@@ -48,10 +48,8 @@ function c5p() { #VAIH:testaa toiminta
 
 function reficul() {
 	dqb "NATTA5H3AD 0VERDR1V3 666!"
-
 	csleep 1
 
-	#HUOM. tuo ao. ekf-rivistö(ennen libpam) tarpeen vain päivityspaketin kanssa, jospa erilliseen fktioon? 
 	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
 	efk ${1}/gcc-12*.deb
 
@@ -140,10 +138,9 @@ function udp6() { #HUOM.28725:testattu, toiminee
 	csleep 1
 
 	#nalqtusta aiheuttavat paketit nykyään:kts. c5p()
-
 	#${NKVD} ${1}/libx11-xcb1*
 	#HUOM.tuon poisto(aptilla) poistaa äksän ja xfce:n joten ei
-
+	
 	c5p ${1}
 	dqb "D0NE"
 	csleep 1
