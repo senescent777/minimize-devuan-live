@@ -37,7 +37,7 @@ function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
 	fi
 }
 
-function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
+function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten kai toimii
 	#debug=1
 	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
@@ -56,12 +56,10 @@ function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
 	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
 	par4=$(echo ${4} | tr -d -c 0-9)
-	#VAIH: $4 kanssa jotain sorkkimista?
 
-	if [ -d ${1} ] ; then
+	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then
 		dqb "PRKL"
 
-		#kantsisi ehkä keskeyttää suoritus jos ei changedns saatavilla
 		${odio} /opt/bin/changedns.sh ${par4} ${ortsac}
 		echo $?
 		csleep 1
