@@ -12,7 +12,7 @@ fi
 
 case ${1} in
 	merde)
-		${d}/demerde_toi.sh main #tuokin skripti pitisi testata taas		
+		${d}/demerde_toi.sh main #testattu 08/25 alussa, toimi silloin
 	;;
 	cdns)		
 		sudo /opt/bin/changedns.sh ${dnsm}
