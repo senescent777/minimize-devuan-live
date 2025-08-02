@@ -169,21 +169,21 @@ csleep 1
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 [ -x /opt/bin/changedns.sh ] || exit 59
 
+${odio} touch ./rnd
+${sco} ${n}:${n} ./rnd
+${scm} 0644 ./rnd
+dd if=/dev/random bs=12 count=1 > ./rnd
+${srat} -cvf ${tgtfile} ./rnd
+
 case ${mode} in
 	0|4) #HUOM.020825:0 TEKEE TOIMIVAN TAR:IN ELI EIPÄ SORKITA 666!!!
-		#... mod pientä kiukuttelua ifup kanssa
+		#... mod pientä kiukuttelua ifup kanssa (VAIH)
 		#... testgris-kikkailut roskikseen olisi 1 idea
 		#... case 4 kanssa toimi tällä viikolla
 
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		[ -v testgris ] || pre2 ${d} ${distro} ${iface} ${dnsm}
 
-		${odio} touch ./rnd
-		${sco} ${n}:${n} ./rnd
-		${scm} 0644 ./rnd
-		dd if=/dev/random bs=12 count=1 > ./rnd
-
-		${srat} -cvf ${tgtfile} ./rnd
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
@@ -284,7 +284,7 @@ case ${mode} in
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
-	t) #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
+	t) #VAIH:tarkista toiminta TAAS (020825 tekee tar:in, sisällön kelvollisuus vielä testaamatta)
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		${NKVD} ${d}/*.deb
 		tlb ${d} ${iface} ${distro} ${dnsm}

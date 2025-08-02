@@ -460,14 +460,14 @@ function aswasw() { #HUOM.28725:testattu, toimii
 	csleep 1
 }
 
-#TODO:testaa uudestaan, x 4 the sake of x
+#VAIH:testaa uudestaan, x 4 the sake of x
 function rmt() {
 	#debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
+	csleep 1
 
 	[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
 	[ -s ${1} ] || exit 2
-
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 
@@ -525,6 +525,8 @@ function rmt() {
 #kyseiselle polulle voisi tehdä jotain jos ilmestyy(TODO)
 
 function tlb() { #VAIH:tarkista toiminta jälleen kerran
+	#... oli python3.11 liittyvää nalqtusta ja vähän muutakin 020825	
+
 	#HUOM.MIKSI ASENTAA AVAHIN?
 	#debug=1
 	dqb "x2.tlb ${1} , ${2}  , ${3}  , ${4} "
