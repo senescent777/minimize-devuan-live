@@ -174,27 +174,27 @@ function tp1() {
 	for t in $(find -max-depth 1 ~ -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
 	csleep 2
 
-	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
-	#jatkossa tar if-blokin jälkeen?
-	if [  z"${3}" != "z" ] ; then
-		dqb "A"
-		csleep 1
-
-		cd ${3} #tässä oli virhe
-		${srat} --exclude='*.deb' -rvf ${1} ./home/stubby
-		csleep 3
-
-		#TODO:se fiksumpi tapa, voiSiko esim $2:sta leikata $3:n bashilla jotenkin käteväsri?
-		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 4,5,6,7)
-		echo ${t}
-		#exit
-
-		#TODO:vissiin jatkossa niin että tässä haarassa .example voi ottaa, conf* ei (update.sh liittyi)
-
-		dqb "./home/stubby ./home/devuan/Desktop/minimize" #tässäkin oli virhe
-		${srat} --exclude='*.deb' --exclude='conf*' -rvf ${1} ${t} 
-		#erikseen pitäisi se conf.example lisätä 
-	else
+#	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
+#	#jatkossa tar if-blokin jälkeen?
+#	if [  z"${3}" != "z" ] ; then
+#		dqb "A"
+#		csleep 1
+#
+#		cd ${3} #tässä oli virhe
+#		${srat} --exclude='*.deb' -rvf ${1} ./home/stubby
+#		csleep 3
+#
+#		#TODO:se fiksumpi tapa, voiSiko esim $2:sta leikata $3:n bashilla jotenkin käteväsri?
+#		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 4,5,6,7)
+#		echo ${t}
+#		#exit
+#
+#		#TODO:vissiin jatkossa niin että tässä haarassa .example voi ottaa, conf* ei (update.sh liittyi)
+#
+#		dqb "./home/stubby ./home/devuan/Desktop/minimize" #tässäkin oli virhe
+#		${srat} --exclude='*.deb' --exclude='conf*' -rvf ${1} ${t} 
+#		#erikseen pitäisi se conf.example lisätä 
+#	else
 		dqb "B"
 		csleep 1
 		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
@@ -206,8 +206,8 @@ function tp1() {
 		#... vai stokeekohan ecxldur asioita? ei kai
 
 		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
-	fi
-
+#	fi
+#
 	dqb "tp1 d0n3"
 	csleep 1
 }

@@ -9,6 +9,7 @@ tgtfile=""
 
 #HUOM.8725.1:joskohan wpa_supplicant.conf kanssa asiat kunnossa
 #HUOM.020825:jotain häikkää tuon kanssa taas, ei välttämättä juuri conf
+#HUOM.020825.2:jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -160,7 +161,7 @@ fi
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
-[ -v testgris ] || pre1 ${d} ${distro}
+pre1 ${d} ${distro} #[ -v testgris ] || 
 
 #TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
 #... jos on jotain sivuvaikutuksia ni pikemminkin tdstoon e22.sh nykyään
@@ -174,20 +175,21 @@ ${sco} ${n}:${n} ./rnd
 ${scm} 0644 ./rnd
 dd if=/dev/random bs=12 count=1 > ./rnd
 ${srat} -cvf ${tgtfile} ./rnd
+#TODO:exit jos pykii
 
 case ${mode} in
 	0|4) #HUOM.020825:0 TEKEE TOIMIVAN TAR:IN ELI EIPÄ SORKITA 666!!!
 		#... mod pientä kiukuttelua ifup kanssa (VAIH)
-		#... testgris-kikkailut roskikseen olisi 1 idea
+		#... testgris-kikkailut roskikseen olisi 1 idea (VAIH)
 		#... case 4 kanssa toimi tällä viikolla
 
 		[ z"${tgtfile}" == "z" ] && exit 99 
-		[ -v testgris ] || pre2 ${d} ${distro} ${iface} ${dnsm}
+		pre2 ${d} ${distro} ${iface} ${dnsm} #[ -v testgris ] || 
 
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
-		[ -v testgris ] || tp3 ${tgtfile} ${distro}
+		tp3 ${tgtfile} ${distro} #[ -v testgris ] || 
 		dqb "TP3 DON3, next:rm some rchivies"
 		csleep 3
 
@@ -217,7 +219,7 @@ case ${mode} in
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 5
  	
-		tp1 ${tgtfile} ${d} ${testgris}
+		tp1 ${tgtfile} ${d} #${testgris}
 		
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 4
@@ -226,7 +228,7 @@ case ${mode} in
 		pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 5	
-		[ -v testgris ] || tp2 ${tgtfile} ${iface} ${dnsm}
+		tp2 ${tgtfile} ${iface} ${dnsm} #[ -v testgris ] || 
 	;;
 	1|u|upgrade) #HUOM.29725:ainakin chimaeran kanssa tup():in tekemät paketit kelpaavat
 		[ z"${tgtfile}" == "z" ] && exit 99 

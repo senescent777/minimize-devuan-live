@@ -115,7 +115,7 @@ function t2pc() {
 	${fib} #uutena 29525, xcalibur...
 	csleep 1
 
-	${sharpy} amd64-microcode at-spi2-core
+	${sharpy} amd64-microcode at-spi2-core #toimmi systeemi ilmankin näitä mutta
 	t2p_filler
 
 	${sharpy} bubblewrap coinor* cryptsetup*
