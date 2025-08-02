@@ -143,7 +143,7 @@ function tpq() { #HUOM.020825:toimii
 	cd ${2}
 }
 
-#TODO:selv paskooko tämä ifup:in vai ei
+#VAIH:selv paskooko tämä ifup:in vai ei
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
@@ -166,9 +166,10 @@ function tp1() {
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 	local t
 
+	#HUOM.020825:ottaako mukaan vai ei?
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 2
-	for t in $(find -max-depth 1 ~ -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
+	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
 	csleep 2
 
 #	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
