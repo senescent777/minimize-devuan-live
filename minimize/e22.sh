@@ -654,7 +654,7 @@ function tp4() { #TODO:selviTä paskooko tämä ifup:in?
 }
 
 function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in
-	#TODO:jospa jatkossa hukkaisi sen polun arkistosta, $2...
+	#VAIH:jospa jatkossa hukkaisi sen polun arkistosta, $2...
 	dqb "tp5 ${1} ${2}"
 
 	[ -z ${1} ] && exit 99
@@ -678,7 +678,8 @@ function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in
 	mv more_scripts/profs/profs* ${2}
 
 	${scm} 0755 ${2}/profs*
-	${srat} -rvf ${1} ${2}/profs*
+	#${srat} -rvf ${1} ${2}/profs*
+	${srat} -C ${2} -rvf ${1}  ./profs.*
 
 	dqb "AAMUNK01"
 }
