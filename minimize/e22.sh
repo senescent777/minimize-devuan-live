@@ -336,6 +336,7 @@ function tp3() { #TODO:testaa uusiksi, mikä paskoo ifup:in, onko se tämä vai 
 
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
+	[ -z ${2} ] && exit 3
 
 	dqb "paramz_0k"
 	csleep 1
@@ -459,13 +460,13 @@ function aswasw() { #HUOM.28725:testattu, toimii
 	csleep 1
 }
 
-#HUOM.28725:testattu nopeasti, vaikuttaa toimivan
+#TODO:testaa uudestaan, x 4 the sake of x
 function rmt() {
 	#debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 
-	#[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
-	#[ -s ${1} ] || exit 2
+	[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
+	[ -s ${1} ] || exit 2
 
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
@@ -578,7 +579,7 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 	dqb "x2.tlb.done"
 }
 
-function tp4() { #TODO:selviyä paskooko tämä ifup:in?
+function tp4() { #TODO:selviTä paskooko tämä ifup:in?
 	dqb "tp4 ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 

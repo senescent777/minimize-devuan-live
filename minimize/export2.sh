@@ -172,18 +172,20 @@ csleep 1
 case ${mode} in
 	0|4) #HUOM.020825:0 TEKEE TOIMIVAN TAR:IN ELI EIPÄ SORKITA 666!!!
 		#... mod pientä kiukuttelua ifup kanssa
+		#... testgris-kikkailut roskikseen olisi 1 idea
 		#... case 4 kanssa toimi tällä viikolla
 
 		[ z"${tgtfile}" == "z" ] && exit 99 
-		#[ -v testgris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
 		[ -v testgris ] || pre2 ${d} ${distro} ${iface} ${dnsm}
 
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
 		${scm} 0644 ./rnd
-
 		dd if=/dev/random bs=12 count=1 > ./rnd
+
 		${srat} -cvf ${tgtfile} ./rnd
+		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
+		csleep 3
 
 		[ -v testgris ] || tp3 ${tgtfile} ${distro}
 		dqb "TP3 DON3, next:rm some rchivies"
@@ -192,8 +194,12 @@ case ${mode} in
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 
+		#HUOM.020825:miksi varten tar nollautui äkkiä?
+		dqb "srat= ${srat}"
+		csleep 5
+
 		dd if=/dev/random bs=12 count=1 > ./rnd
-		${srat} -cvf ${d}/f.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
+		${srat} -cvf ${d}/f.tar ./rnd
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then
@@ -215,7 +221,7 @@ case ${mode} in
 		
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 4
-		${NKVD} ${d}/*.tar 
+		${NKVD} ${d}/*.tar #tartteeko piostaa?
 
 		pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
