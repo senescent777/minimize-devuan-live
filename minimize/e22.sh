@@ -37,6 +37,8 @@ function pre1() {
 	fi
 }
 
+#HUOM.020825:jossain pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
+
 function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten kai toimii
 	#... pl mahdollisesti ifup liittyvät jutut (TODO)
 	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 

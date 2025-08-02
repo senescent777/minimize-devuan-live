@@ -595,6 +595,7 @@ function e_e() {
 	${sco} -R root:root /etc #-R liikaa?
 
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
+	#TODO:pitäisiköhän muuttaa ao. rivejä?
 	${scm} 0555 /etc/network
 	${scm} 0444 /etc/network/*
 	${sco} root:root /etc/network #turha koska ylempänä
@@ -683,6 +684,7 @@ function e_final() {
 	csleep 5 
 
 	#HUOM.020825:toiv ei pasko:ifup
+	#TODO:pitäisiköhän muuttaa ao. rivejä?
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
 

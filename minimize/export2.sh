@@ -97,6 +97,7 @@ fi
 
 dqb "tar = ${srat} "
 
+#TODO:suorituksen keskeytys aelmpaa näille main jos ei löydy tai -x
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
@@ -107,6 +108,7 @@ done
 dqb "AFTER GANGRENE SETS IN"
 csleep 1
 
+#TODO:"tar löytyy ja ajokelpoinen"-tarkistus voisi olla näillä main (tai common_lib kyllä...)
 tig=$(${odio} which git)
 mkt=$(${odio} which mktemp)
 
@@ -133,9 +135,6 @@ csleep 1
 
 dqb "PRE0"
 csleep 1
-
-#HUOM.26726:jokin ei-niin-ilmeinen bugitus menossa, toiv ei ole common_lib.sh syynä
-#jokatap aloitettu expo2 jakaminen osiin käytönnön syistä
 
 if [ -x ${d0}/e22.sh ] ; then
 	dqb "222"
@@ -182,10 +181,10 @@ dqb "AFTER TAR"
 csleep 1
 
 case ${mode} in
-	0|4) #HUOM.020825:0 TEKEE TOIMIVAN TAR:IN ELI EIPÄ SORKITA 666!!!
-		#... mod pientä kiukuttelua ifup kanssa (VAIH)
-		#... testgris-kikkailut roskikseen olisi 1 idea (VAIH)
-		#... case 4 kanssa toimi tällä viikolla
+	0|4) 
+		#... case 0 kanssa oli pientä kiukuttelua ifup kanssa (toivottavasti jo korjattu)
+		#... testgris-kikkailut roskikseen olisi 1 idea (tehty)
+		#... case 4 kanssa saatu uudestaan toimimaan 020825 (katso toistuuko)
 
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		pre2 ${d} ${distro} ${iface} ${dnsm} #[ -v testgris ] || 
