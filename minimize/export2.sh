@@ -91,7 +91,7 @@ csleep 2
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else 
-	exít 57
+	exit 57
 fi
 
 dqb "tar = ${srat} "
