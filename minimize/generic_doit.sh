@@ -63,7 +63,6 @@ dqb "mode= ${mode}"
 csleep 1
 part076 ${distro}
 
-#HUOM.010825:miksiköhän f.tar katosi? paska tar? paska tikku? paskaa rautaa? ei huomioitu virhetilannetta?
 #TODO:sitä pakettien purkua, voisi katsoa minne *.deb roiskitaan ja miksi
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
