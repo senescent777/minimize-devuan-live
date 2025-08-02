@@ -653,12 +653,12 @@ function tp4() { #TODO:selviTä paskooko tämä ifup:in?
 	csleep 1
 }
 
-function tp5() { #HUOM.28725:toimii
+function tp5() { #TODO:testaus uusiksi
 	#TODO:jospa jatkossa hukkaisi sen polun arkistosta, $2...
 	dqb "tp5 ${1} ${2}"
-	[ -z ${1} ] && exit 99
-	#[ -s ${1} ] || exit 98 pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
 
+	[ -z ${1} ] && exit 99
+	[ -s ${1} ] || exit 98 pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
 	[ -d ${2} ] || exit 97
  
 	dqb "params ok"
