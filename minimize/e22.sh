@@ -168,7 +168,6 @@ function tp1() {
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 	local t
 
-	#HUOM.020825:ottaako mukaan vai ei?
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 2
 	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
@@ -207,7 +206,7 @@ function tp1() {
 
 		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
 #	fi
-#
+#pidetääb tämä blokki vielä jemmassa
 	dqb "tp1 d0n3"
 	csleep 1
 }
@@ -286,13 +285,6 @@ function tp2() { #HUOM.020825:joko jo toimisi?
 
 	dqb "WLAN-RELAT3D"	
 	csleep 2
-
-	#HUOM.020825:
-	#wpa_supplicant: /sbin/wpa_supplicant daemon failed to start
-	#run-parts: /etc/network/if-pre-up.d/wpasupplicant exited with return code 1
-	#ifup: failed to bring up wlan0
-	#jos toistuu ni jotain tarttisi keksiä krjaukseksi (esim chmod)
-	#sudo find /etc -name '*wpa*'  | tar -rvf?
 
 	case ${2} in
 		wlan0)
@@ -460,7 +452,7 @@ function aswasw() { #HUOM.28725:testattu, toimii
 	csleep 1
 }
 
-#VAIH:testaa uudestaan, x 4 the sake of x
+#HUOM.020825:saattaa olla toimiva
 function rmt() {
 	#debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
@@ -570,10 +562,16 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 	#uutena 31525
 	udp6 ${pkgdir}
 
+	dqb "a.HAV1"
+	csleep 2
+
 	#VAIH:part2_5() jatkossa, nyt jos riittäisi ao. 3 riviä
-	#${sharpy} libavahi*
-	#${NKVD} ${pkgdir}/libavahi*	
-	#${asy}
+	${sharpy} libavahi*
+	${NKVD} ${pkgdir}/libavahi*	
+	${asy}
+
+	dqb "BEFORE PRE2"
+	csleep 2
 
 	#actually necessary
 	pre2 ${1} ${3} ${2} ${4} 
@@ -584,6 +582,7 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 function tp4() { #TODO:selviTä paskooko tämä ifup:in? ei välttämättä
 	#TODO:voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja
 	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
+
 	dqb "tp4 ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 
@@ -606,6 +605,7 @@ function tp4() { #TODO:selviTä paskooko tämä ifup:in? ei välttämättä
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
 	${shary} libaudit1 libselinux1
 	${shary} man-db sudo
+
 	message
 	jules
 
@@ -635,9 +635,16 @@ function tp4() { #TODO:selviTä paskooko tämä ifup:in? ei välttämättä
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
 	csleep 1
 	${lftr}
-#	${sharpy} libavahi* #ehkä takaisin josqs?
+
+	dqb "ANTI-AVAH1"
+	csleep 1
+
+	${sharpy} libavahi* 
 	${NKVD} ${pkgdir}/libavahi*	
-#	${asy}
+	${asy} #tämä vai tuo ylempi mikä mutkistaa asioita?
+
+	dqb "BEFORE UPD6"	
+	csleep 1
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä -24
 	#... myös gpgtar pitäisi ottaa haltuun
@@ -717,12 +724,12 @@ function tup() { #TODO:testaa uusiksi, koska param tark
 	echo $?
 	csleep 1
 
-#	dqb "AVA.H1" #josqs takaisin?
-#	${sharpy} libavahi*
-#	${NKVD} ${pkgdir}/libavahi*
-#	
-#	${asy}
-#	csleep 1
+	dqb "AVA.H1" #josqs takaisin?
+	${sharpy} libavahi*
+	${NKVD} ${pkgdir}/libavahi*
+	
+	${asy}
+	csleep 1
 
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1
