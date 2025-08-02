@@ -170,12 +170,16 @@ pre1 ${d} ${distro} #[ -v testgris ] ||
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 [ -x /opt/bin/changedns.sh ] || exit 59
 
+dqb "BEFORE TAR"
+csleep 1
 ${odio} touch ./rnd
 ${sco} ${n}:${n} ./rnd
 ${scm} 0644 ./rnd
 dd if=/dev/random bs=12 count=1 > ./rnd
 ${srat} -cvf ${tgtfile} ./rnd
-#TODO:exit jos pykii
+[ $? -gt 0 ] && exit 60
+dqb "AFTER TAR"
+csleep 1
 
 case ${mode} in
 	0|4) #HUOM.020825:0 TEKEE TOIMIVAN TAR:IN ELI EIPÄ SORKITA 666!!!
