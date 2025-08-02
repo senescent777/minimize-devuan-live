@@ -73,10 +73,10 @@ if [ -f ${tgt} ] ; then
 	process_entry ${tgt} /opt/bin/changedns.sh
 	sleep 2
 
-	if [ -v testgris ] && [ -d ${testgris} ] ; then
-		cd ${testgris}
-		p="."
-	else
+#	if [ -v testgris ] && [ -d ${testgris} ] ; then #toistaiseksi jemmaan 020825 (oliko jotain muutakin mitä piti jemmata?)
+#		cd ${testgris}
+#		p="."
+#	else
 		echo "SOMTHING ELSE"
 		p=$(pwd)
 
@@ -85,7 +85,7 @@ if [ -f ${tgt} ] ; then
 
 		#lototaan vielä näin
 		for f in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
-	fi
+#	fi
 
 	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
 	for f in $(find ${p}/ -name '*.example') ; do process_entry ${tgt} ${f} ; done
@@ -93,7 +93,7 @@ if [ -f ${tgt} ] ; then
 	
 	#VAIH:conf*-kohtaan muutoksia
 	#HUOM.28725:miten config.bz2 kanssa? vissiin jokeri '*.tar*' hoitaa senkin koska *tar.bz2*
-	#...paitsi että se polku (TODO)
+	#...paitsi että se polku? (TODO?)
 
 	for f in $(find ${p}/ -maxdepth 1 -type f -name '*.tar*') ; do
 		echo "PCROCESSING : ${f}"
@@ -140,7 +140,7 @@ if [ -f ${tgt} ] ; then
 
 	#pitäisi kai tehdä jotain että tuoreimmat muutokset /e/n ja /e/a menevät tar:iin asti? typojen korjaus olisi hyvä alku
 
-	#TODO:/e/n- ja /e/a-kohdat uusiksi jatkossa
+	#TODO:/e/n- ja /e/a-kohdat uusiksi jatkossa (liittyiköhän se luca?)
 	#if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then
 		#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
 		for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done

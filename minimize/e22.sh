@@ -1,6 +1,7 @@
-function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
+function pre1() {
 	# tosin disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(TODO)
 
+	#HUOM.020825:pitäisi kai selvittää mikä paskoo ifup:in, onko se tämä fktio vai jokin muu?
 	dqb "pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 66
@@ -21,25 +22,25 @@ function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
 		echo "else"
 		dqb "5TNA"
 		
-		#local ostrac
+
 		local lefid
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) # | cut -d '/' -f 1-5)
 		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 	
 		enforce_access ${n} ${lefid} #jos jo toimisi
-		#ostrac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #tarpeellinen?
 		csleep 1
 		dqb "3NF0RC1NG D0N3"
 		
-		##HUOM.020825:kommentteihin nuo tuosta alta?
-		#csleep 1
-		#${scm} 0755 /etc/apt
-		#${scm} a+w /etc/apt/sources.list*
+		csleep 1
+		${scm} 0755 /etc/apt
+		${scm} a+w /etc/apt/sources.list*
 	fi
 }
 
+#HUOM.020825:jossain pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
+
 function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten kai toimii
-	#debug=1
+	#... pl mahdollisesti ifup liittyvät jutut (TODO)
 	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
@@ -95,7 +96,7 @@ function tp0() {
 		dqb "cleaning up ${1} "
 		csleep 1
 		${NKVD} ${1}/*.deb
-		#${NKVD} ${1}/*.tar #saattaa sössiä exp2 0
+	
 		${NKVD} ${1}/sha512sums.txt
 		dqb "d0nm3"
 	else
@@ -106,8 +107,7 @@ function tp0() {
 	csleep 1
 }
 
-function tpq() { #HUOM.020825:toimii	
-	#debug=1
+function tpq() { #HUOM.020825:toimii
 	dqb "tpq ${1} ${2}"
 	csleep 1
 
@@ -140,13 +140,12 @@ function tpq() { #HUOM.020825:toimii
 	else
 		dqb "export2 p \$file ; import2 1 $file  ?"
 		exit 24
-
 	fi
 
 	cd ${2}
 }
 
-#HUOM.020825:jospa tämä nyt toimisi prkl
+#VAIH:selv paskooko tämä ifup:in vai ei
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
@@ -169,32 +168,33 @@ function tp1() {
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 	local t
 
+	#HUOM.020825:ottaako mukaan vai ei?
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 2
-	for t in $(find -max-depth 1 ~ -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
+	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
 	csleep 2
 
-	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
-	#jatkossa tar if-blokin jälkeen?
-	if [  z"${3}" != "z" ] ; then
-		dqb "A"
-		csleep 1
-
-		cd ${3} #tässä oli virhe
-		${srat} --exclude='*.deb' -rvf ${1} ./home/stubby
-		csleep 3
-
-		#TODO:se fiksumpi tapa, voiSiko esim $2:sta leikata $3:n bashilla jotenkin käteväsri?
-		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 4,5,6,7)
-		echo ${t}
-		#exit
-
-		#TODO:vissiin jatkossa niin että tässä haarassa .example voi ottaa, conf* ei (update.sh liittyi)
-
-		dqb "./home/stubby ./home/devuan/Desktop/minimize" #tässäkin oli virhe
-		${srat} --exclude='*.deb' --exclude='conf*' -rvf ${1} ${t} 
-		#erikseen pitäisi se conf.example lisätä 
-	else
+#	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
+#	#jatkossa tar if-blokin jälkeen?
+#	if [  z"${3}" != "z" ] ; then
+#		dqb "A"
+#		csleep 1
+#
+#		cd ${3} #tässä oli virhe
+#		${srat} --exclude='*.deb' -rvf ${1} ./home/stubby
+#		csleep 3
+#
+#		#TODO:se fiksumpi tapa, voiSiko esim $2:sta leikata $3:n bashilla jotenkin käteväsri?
+#		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 4,5,6,7)
+#		echo ${t}
+#		#exit
+#
+#		#TODO:vissiin jatkossa niin että tässä haarassa .example voi ottaa, conf* ei (update.sh liittyi)
+#
+#		dqb "./home/stubby ./home/devuan/Desktop/minimize" #tässäkin oli virhe
+#		${srat} --exclude='*.deb' --exclude='conf*' -rvf ${1} ${t} 
+#		#erikseen pitäisi se conf.example lisätä 
+#	else
 		dqb "B"
 		csleep 1
 		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
@@ -206,8 +206,8 @@ function tp1() {
 		#... vai stokeekohan ecxldur asioita? ei kai
 
 		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
-	fi
-
+#	fi
+#
 	dqb "tp1 d0n3"
 	csleep 1
 }
@@ -252,12 +252,11 @@ function tp2() { #HUOM.020825:joko jo toimisi?
 
 	dqb "params_ok"
 	csleep 1
-#
-#	#HUOM.020825:kommentteihin nuo tuosta alta?
-#	${scm} 0755 /etc/iptables
-#	${scm} 0444 /etc/iptables/rules*
-#	${scm} 0444 /etc/default/rules*
-#
+
+	${scm} 0755 /etc/iptables
+	${scm} 0444 /etc/iptables/rules*
+	${scm} 0444 /etc/default/rules*
+
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
 	csleep 1
@@ -332,12 +331,12 @@ function tp2() { #HUOM.020825:joko jo toimisi?
 	csleep 1
 }
 
-function tp3() { #HUOM.010825:vaikuttaisi toimivan, tämän jutut menivät arkistoon mutta tp2() kanssa oli pientä häikkää
-	#debug=1 #antaa olla vielä
+function tp3() { #TODO:testaa uusiksi, mikä paskoo ifup:in, onko se tämä vai ei?
 	dqb "tp3 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
+	[ -z ${2} ] && exit 3
 
 	dqb "paramz_0k"
 	csleep 1
@@ -420,15 +419,14 @@ function tp3() { #HUOM.010825:vaikuttaisi toimivan, tämän jutut menivät arkis
 	# (ao. rivi tp2() jatkossa?)
 
 	#HUOM.010825:/e/n/i tuli mukaan
-	#HUOM.020825:sco-scm-jutut jemmaan koska x?
 	dqb "1NT3RF"
 	csleep 2
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
-#
-#	${sco} -R root:root ./etc
-#	${scm} -R a-w ./etc
-#	${sco} -R root:root ./sbin 
-#	${scm} -R a-w ./sbin
+
+	${sco} -R root:root ./etc
+	${scm} -R a-w ./etc
+	${sco} -R root:root ./sbin 
+	${scm} -R a-w ./sbin
 	${srat} -rvf ${1} ./etc ./sbin 
 
 	echo $?
@@ -462,14 +460,14 @@ function aswasw() { #HUOM.28725:testattu, toimii
 	csleep 1
 }
 
-#HUOM.28725:testattu nopeasti, vaikuttaa toimivan
+#VAIH:testaa uudestaan, x 4 the sake of x
 function rmt() {
 	#debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
+	csleep 1
 
-	#[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
-	#[ -s ${1} ] || exit 2
-
+	[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
+	[ -s ${1} ] || exit 2
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 
@@ -527,6 +525,8 @@ function rmt() {
 #kyseiselle polulle voisi tehdä jotain jos ilmestyy(TODO)
 
 function tlb() { #VAIH:tarkista toiminta jälleen kerran
+	#... oli python3.11 liittyvää nalqtusta ja vähän muutakin 020825	
+
 	#HUOM.MIKSI ASENTAA AVAHIN?
 	#debug=1
 	dqb "x2.tlb ${1} , ${2}  , ${3}  , ${4} "
@@ -570,10 +570,10 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 	#uutena 31525
 	udp6 ${pkgdir}
 
-	#TODO:part2_5() jatkossa, nyt jos riittäisi ao. 3 riviä
-	${sharpy} libavahi*
-	${NKVD} ${pkgdir}/libavahi*	
-	${asy}
+	#VAIH:part2_5() jatkossa, nyt jos riittäisi ao. 3 riviä
+	#${sharpy} libavahi*
+	#${NKVD} ${pkgdir}/libavahi*	
+	#${asy}
 
 	#actually necessary
 	pre2 ${1} ${3} ${2} ${4} 
@@ -581,15 +581,14 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 	dqb "x2.tlb.done"
 }
 
-function tp4() { # (31725 näyttäisi tekevän tarin)
-	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
-	#dqb "DEMI-SEC"
-
+function tp4() { #TODO:selviTä paskooko tämä ifup:in? ei välttämättä
+	#TODO:voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja
+	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
+	dqb "tp4 ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
-	
 	[ -z ${1} ] && exit 11
 	[ -z ${3} ] && exit 11
 	[ -z ${4} ] && exit 11
@@ -636,9 +635,9 @@ function tp4() { # (31725 näyttäisi tekevän tarin)
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
 	csleep 1
 	${lftr}
-	${sharpy} libavahi*
+#	${sharpy} libavahi* #ehkä takaisin josqs?
 	${NKVD} ${pkgdir}/libavahi*	
-	${asy}
+#	${asy}
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä -24
 	#... myös gpgtar pitäisi ottaa haltuun
@@ -652,19 +651,18 @@ function tp4() { # (31725 näyttäisi tekevän tarin)
 		rmt ${1} ${2}
 		csleep 1
 
-		${NKVD} ${2}/*.deb #parempi kuitenkin rmt:n jälkeen?
+		${NKVD} ${2}/*.deb
 	fi
 
 	dqb "tp4 donew"
 	csleep 1
 }
 
-function tp5() { #HUOM.28725:toimii
-	#TODO:jospa jatkossa hukkaisi sen polun arkistosta, $2...
+function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in , myös polq hukattu
 	dqb "tp5 ${1} ${2}"
-	[ -z ${1} ] && exit 99
-	#[ -s ${1} ] || exit 98 pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
 
+	[ -z ${1} ] && exit 99
+	[ -s ${1} ] || exit 98 pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
 	[ -d ${2} ] || exit 97
  
 	dqb "params ok"
@@ -679,14 +677,15 @@ function tp5() { #HUOM.28725:toimii
 	${tig} clone https://github.com/senescent777/more_scripts.git
 	[ $? -eq 0 ] || exit 99
 	
-	#HUOM.020825: $2 ei pitäisi osoittaa /e tai /s alle?
 	#HUOM:{old,new} -> {0,1} ei liity
 	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
 	mv more_scripts/profs/profs* ${2}
 
 	${scm} 0755 ${2}/profs*
-	${srat} -rvf ${1} ${2}/profs*
+	cd ${2}	
+	${srat} -rvf ${1} ./profs.*
 
+	cd ${q}
 	dqb "AAMUNK01"
 }
 
@@ -718,12 +717,12 @@ function tup() { #TODO:testaa uusiksi, koska param tark
 	echo $?
 	csleep 1
 
-	dqb "AVA.H1"
-	${sharpy} libavahi*
-	${NKVD} ${pkgdir}/libavahi*
-	
-	${asy}
-	csleep 1
+#	dqb "AVA.H1" #josqs takaisin?
+#	${sharpy} libavahi*
+#	${NKVD} ${pkgdir}/libavahi*
+#	
+#	${asy}
+#	csleep 1
 
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1

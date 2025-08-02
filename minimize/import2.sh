@@ -119,16 +119,16 @@ else
 	#HUOM.020825:kommentoiti jemmaan debug-syistä?
 	function other_horrors() {
 		dqb "AZATHOTH AND OTHER HORRORS"
-#
-#		#HUOM. /e/i tarvitsisi kirjoitusokeude että onnaa
-#		#${spc} /etc/default/rules.* /etc/iptables #takaisin jos pykii 
-#	
-#		${scm} 0400 /etc/iptables/*
-#		${scm} 0550 /etc/iptables
-#		${sco} -R root:root /etc/iptables
-#		${scm} 0400 /etc/default/rules*
-#		${scm} 0555 /etc/default
-#		${sco} -R root:root /etc/default
+
+		#HUOM. /e/i tarvitsisi kirjoitusokeude että onnaa
+		#${spc} /etc/default/rules.* /etc/iptables #takaisin jos pykii 
+	
+		${scm} 0400 /etc/iptables/*
+		${scm} 0550 /etc/iptables
+		${sco} -R root:root /etc/iptables
+		${scm} 0400 /etc/default/rules*
+		${scm} 0555 /etc/default
+		${sco} -R root:root /etc/default
 	}
 
 	dqb "FALLBACK"
@@ -244,14 +244,14 @@ function common_part() {
 	
 	if [ -d ${t} ] ; then
 		dqb "HAIL UKK"
-#
-#		#vissiinkin tässä kohtaa common_lib taas käyttöön EIKU
-#		#HUOM.020825:tässä ei polkuna voine olla /etc/jotain		
-#		${scm} 0755 ${t}
-#		${scm} a+x ${t}/*.sh
-#		${scm} 0444 ${t}/conf*
-#		${scm} 0444 ${t}/*.deb
-#
+
+		#vissiinkin tässä kohtaa common_lib taas käyttöön EIKU
+		#HUOM.020825:tässä ei polkuna voine olla /etc/jotain		
+		${scm} 0755 ${t}
+		${scm} a+x ${t}/*.sh
+		${scm} 0444 ${t}/conf*
+		${scm} 0444 ${t}/*.deb
+
 		csleep 1
 	fi
 
@@ -384,7 +384,7 @@ case "${mode}" in
 			common_part ${srcfile} ${d} ${d}
 		fi
 
-		#VAIH:nyt prissa kohdassa tark että $srcfile löytyi ja sen sau purettua 
+		#VAIH:nyt prissa kohdassa tark että $srcfile löytyi ja sen sai purettua 
 		csleep 1
 
 		if [ ${1} -eq 0 ] ; then #vähemmällä jos tekisi...
@@ -413,7 +413,7 @@ case "${mode}" in
 	q)
 		#HUOM.020825:toimii
 
-		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan, tai siis näin oli kunnes toiminta myyttyu
+		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan, tai siis näin oli kunnes toiminta muuttui
 		#nykyään (31725) testataan että $srcfile:n sisältä löytyy fediverse.tar		
 
 		#VAIH:jatkossa hakemistopolku pois arkistosta + sivuvaikutukset

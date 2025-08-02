@@ -40,30 +40,30 @@ itni
 function fix_sudo() {
 	dqb "fix_sud0.pt0"
 
-#	${sco} -R 0:0 /etc/sudoers.d
-#	${scm} 0440 /etc/sudoers.d/*
-#	${sco} -R 0:0 /etc/sudo*
-#	${scm} -R a-w /etc/sudo*
-#
-#	dqb "POT. DANGEROUS PT 1"
-#
-#	if [ -d /usr/lib/sudo ] ; then #onko moista daedaluksessa?
-#		${sco} 0:0 /usr/lib/sudo/*
-#		${scm} -R a-w /usr/lib/sudo/*
-#		${scm} 0444 /usr/lib/sudo/sudoers.so
-#	fi
-#
-#	dqb "fix_sud0.pt1"
-#	${scm} 0750 /etc/sudoers.d
-#	${scm} 0440 /etc/sudoers.d/*
-#
-#	#dqb "POT. DANGEROUS PT 2"
-#	#HUOM.250325:onkohan tarkoitus että nämä komennot laittavat sudon epäkuntoon vai ei?
-#	#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-#	#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-#	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-#	
-#	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
+	${sco} -R 0:0 /etc/sudoers.d
+	${scm} 0440 /etc/sudoers.d/*
+	${sco} -R 0:0 /etc/sudo*
+	${scm} -R a-w /etc/sudo*
+
+	dqb "POT. DANGEROUS PT 1"
+
+	if [ -d /usr/lib/sudo ] ; then #onko moista daedaluksessa?
+		${sco} 0:0 /usr/lib/sudo/*
+		${scm} -R a-w /usr/lib/sudo/*
+		${scm} 0444 /usr/lib/sudo/sudoers.so
+	fi
+
+	dqb "fix_sud0.pt1"
+	${scm} 0750 /etc/sudoers.d
+	${scm} 0440 /etc/sudoers.d/*
+
+	#dqb "POT. DANGEROUS PT 2"
+	#HUOM.250325:onkohan tarkoitus että nämä komennot laittavat sudon epäkuntoon vai ei?
+	#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+	#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+	
+	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
 	csleep 1
 	dqb "fix_sud0.d0n3"
 }
@@ -71,13 +71,13 @@ function fix_sudo() {
 function other_horrors() {	
 	dqb "other_horrors()"
 
-#	#HUOM.020825:toivottavasti ei pasko:ifup
-#	${scm} 0400 /etc/iptables/*
-#	${scm} 0550 /etc/iptables
-#	${sco} -R root:root /etc/iptables
-#	${scm} 0400 /etc/default/rules*
-#	${scm} 0555 /etc/default
-#	${sco} -R root:root /etc/default
+	#HUOM.020825:toivottavasti ei pasko:ifup
+	${scm} 0400 /etc/iptables/*
+	${scm} 0550 /etc/iptables
+	${sco} -R root:root /etc/iptables
+	${scm} 0400 /etc/default/rules*
+	${scm} 0555 /etc/default
+	${sco} -R root:root /etc/default
 
 	dqb " DONE"
 	csleep 1
@@ -583,34 +583,35 @@ function mangle2() {
 function e_e() {
 	dqb "e_e()"	
 	csleep 1
-#	fix_sudo
-#	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
-#
-#	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
-#		mangle2 ${f}
-#	done
-#
-#	other_horrors
-#	${scm} 0755 /etc
-#	${sco} -R root:root /etc #-R liikaa?
-#
-#	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
-#	${scm} 0555 /etc/network
-#	${scm} 0444 /etc/network/*
-#	${sco} root:root /etc/network #turha koska ylempänä
-#
-#	dqb "e_e d0n3"
-#	csleep 1
+	fix_sudo
+	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
+
+	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
+		mangle2 ${f}
+	done
+
+	other_horrors
+	${scm} 0755 /etc
+	${sco} -R root:root /etc #-R liikaa?
+
+	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
+	#TODO:pitäisiköhän muuttaa ao. rivejä?
+	${scm} 0555 /etc/network
+	${scm} 0444 /etc/network/*
+	${sco} root:root /etc/network #turha koska ylempänä
+
+	dqb "e_e d0n3"
+	csleep 1
 }
 
 #HUOM.020825:toiv ei pasko ifup
 function e_v() {
 	dqb "e_v()"
 	#csleep 1
-#
-#	${sco} -R root:root /sbin
-#	${scm} -R 0755 /sbin
-#
+
+	${sco} -R root:root /sbin
+	${scm} -R 0755 /sbin
+
 	${sco} root:root /var
 	${scm} 0755 /var
 	${sco} root:staff /var/local
@@ -670,24 +671,25 @@ function e_final() {
 	local f
 	f=$(date +%F)
 
-#	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
-#	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
-#
-#	if [ -h /etc/resolv.conf ] ; then
-#		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
-#			${smr} /etc/resolv.conf
-#		fi
-#	fi
-#
-#	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-#	csleep 5 
-#
-#	#HUOM.020825:toiv ei pasko:ifup
-#	${sco} -R root:root /etc/wpa_supplicant
-#	${scm} -R a-w /etc/wpa_supplicant
-#
-#	dqb "e_final() D0N3"
-#	csleep 1
+	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
+	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
+
+	if [ -h /etc/resolv.conf ] ; then
+		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
+			${smr} /etc/resolv.conf
+		fi
+	fi
+
+	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
+	csleep 5 
+
+	#HUOM.020825:toiv ei pasko:ifup
+	#TODO:pitäisiköhän muuttaa ao. rivejä?
+	${sco} -R root:root /etc/wpa_supplicant
+	${scm} -R a-w /etc/wpa_supplicant
+
+	dqb "e_final() D0N3"
+	csleep 1
 }
 
 #HUOM.020825:toiv ei pasko ifup
@@ -695,22 +697,22 @@ function enforce_access() {
 	dqb " enforce_access( ${1} , ${2})"
 	csleep 5
 	dqb "changing /sbin , /etc and /var 4 real"
-#
-#	e_e
-#	e_v
-#
-#	${scm} 0755 /
-#	${sco} root:root /
-#
-#	${scm} 0777 /tmp
-#	#${scm} o+t /tmp
-#	${sco} root:root /tmp
-#
-#	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
-#	e_h ${1} ${2}
-#	e_final
-#
-#	jules
+
+	e_e
+	e_v
+
+	${scm} 0755 /
+	${sco} root:root /
+
+	${scm} 0777 /tmp
+	#${scm} o+t /tmp
+	${sco} root:root /tmp
+
+	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
+	e_h ${1} ${2}
+	e_final
+
+	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 }
 
@@ -727,51 +729,51 @@ function part1_5() {
 	#HUOM.28525:pitäisiköhän tilap. sallia /e/a sorkinta tässä?
 	t=$(echo ${1} | cut -d '/' -f 1) #-dc a-z ?
 
-#	if [ ! -s /etc/apt/sources.list.${t} ] ; then
-#		if [ ! -s /etc/apt/sources.list.tmp ] ; then	
-#			local h
-#			dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
-#			csleep 1
-#
-#			h=$(mktemp -d)
-#			touch ${h}/sources.list.tmp
-#
-#			for x in DISTRO DISTRO-updates DISTRO-security ; do
-#				echo "deb https://REPOSITORY/merged ${x} main" >> ${h}/sources.list.tmp
-#			done
-#
-#			${svm} ${h}/sources.list.tmp /etc/apt
-#		fi
-#
-#		dqb "p1.5.2()"
-#		csleep 1
-#
-#		#HUOM.22525:vaikuttaisi jopa toimivan, seur forWardointi sh:lle
-#		local tdmc
-#	
-#		tdmc="sed -i 's/DISTRO/${t}/g'"
-#		echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
-#		csleep 1
-#
-#		if [ ! -z ${pkgsrc} ] ; then
-#			tdmc="sed -i 's/REPOSITORY/${pkgsrc}/g'"
-#			echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
-#			csleep 1
-#		fi
-#	
-#		echo "${odio} mv /etc/apt/sources.list.tmp /etc/apt/sources.list.${t}" | bash -s
-#		csleep 1
-#
-#		dqb "finally"
-#		csleep 1
-#	fi
-#
-#	#HUOM.020825:toi ei pasko:ifup
-#	${sco} -R root:root /etc/apt
-#	#tarkempaa sertiä tulisi findin kanssa
-#	${scm} -R a-w /etc/apt/
-#
-#	[ ${debug} -eq 1 ] && ls -las /etc/apt
+	if [ ! -s /etc/apt/sources.list.${t} ] ; then
+		if [ ! -s /etc/apt/sources.list.tmp ] ; then	
+			local h
+			dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
+			csleep 1
+
+			h=$(mktemp -d)
+			touch ${h}/sources.list.tmp
+
+			for x in DISTRO DISTRO-updates DISTRO-security ; do
+				echo "deb https://REPOSITORY/merged ${x} main" >> ${h}/sources.list.tmp
+			done
+
+			${svm} ${h}/sources.list.tmp /etc/apt
+		fi
+
+		dqb "p1.5.2()"
+		csleep 1
+
+		#HUOM.22525:vaikuttaisi jopa toimivan, seur forWardointi sh:lle
+		local tdmc
+	
+		tdmc="sed -i 's/DISTRO/${t}/g'"
+		echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
+		csleep 1
+
+		if [ ! -z ${pkgsrc} ] ; then
+			tdmc="sed -i 's/REPOSITORY/${pkgsrc}/g'"
+			echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
+			csleep 1
+		fi
+	
+		echo "${odio} mv /etc/apt/sources.list.tmp /etc/apt/sources.list.${t}" | bash -s
+		csleep 1
+
+		dqb "finally"
+		csleep 1
+	fi
+
+	#HUOM.020825:toi ei pasko:ifup
+	${sco} -R root:root /etc/apt
+	#tarkempaa sertiä tulisi findin kanssa
+	${scm} -R a-w /etc/apt/
+
+	[ ${debug} -eq 1 ] && ls -las /etc/apt
 	csleep 1
 
 	dqb "p1.5 done"
@@ -784,50 +786,50 @@ function dis() {
 	[ -z ${1} ] && exit 44
 	csleep 1
 	
-#	#HUOM.020825:toiv ei pasko:ifup
-#	${scm} 0755 /etc/network
-#	${sco} -R root:root /etc/network
-#	${scm} a+r /etc/network/*
-#
-#	#linkkien nimiin ei tarvitse päiväystä
-#	if [ -f /etc/network/interfaces ] ; then
-#		if [ ! -h /etc/network/interfaces ] ; then
-#			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
-#		else
-#			#${smr} /etc/network/interfaces
-#			dqb " /e/n/i n0t a l1nk"
-#		fi
-#	else
-#		dqb "/e/n/i n0t f0und"
-#	fi
-#
-#	local t
-#	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
-#
-#	if [ -f /etc/network/interfaces.${t} ] ; then
-#		dqb "LINKS-1-2-3"
-#		${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
-#		echo $?		
-#		csleep 1
-#	else
-#		dqb "N0 \$UCH TH1NG A5 /etc/network/interfaces.${t}"
-#	fi
-#
-#	${scm} 0555 /etc/network
-#	[  ${debug} -eq 1 ] && ls -las /etc/network
+	#HUOM.020825:toiv ei pasko:ifup
+	${scm} 0755 /etc/network
+	${sco} -R root:root /etc/network
+	${scm} a+r /etc/network/*
+
+	#linkkien nimiin ei tarvitse päiväystä
+	if [ -f /etc/network/interfaces ] ; then
+		if [ ! -h /etc/network/interfaces ] ; then
+			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
+		else
+			#${smr} /etc/network/interfaces
+			dqb " /e/n/i n0t a l1nk"
+		fi
+	else
+		dqb "/e/n/i n0t f0und"
+	fi
+
+	local t
+	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+
+	if [ -f /etc/network/interfaces.${t} ] ; then
+		dqb "LINKS-1-2-3"
+		${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
+		echo $?		
+		csleep 1
+	else
+		dqb "N0 \$UCH TH1NG A5 /etc/network/interfaces.${t}"
+	fi
+
+	${scm} 0555 /etc/network
+	[  ${debug} -eq 1 ] && ls -las /etc/network
+	csleep 1
+
+	#jos jokin näistä kolmesta hoitaisi homman...
+	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin (eka ei, toinen kyllä, kolmas ei, sysctl ei)
+
+	${odio} ${sifd} ${iface}
+	csleep 1
+
+#	${odio} ${sifd} -a
 #	csleep 1
 #
-#	#jos jokin näistä kolmesta hoitaisi homman...
-#	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin (eka ei, toinen kyllä, kolmas ei, sysctl ei)
-#
-#	${odio} ${sifd} ${iface}
-#	csleep 1
-#
-##	${odio} ${sifd} -a
-##	csleep 1
-##
-#	[ ${debug} -eq 1 ] && ${sifc};sleep 1
-#
+	[ ${debug} -eq 1 ] && ${sifc};sleep 1
+
 	dqb "${sip} link set ${iface} down"
 	${sip} link set ${iface} down
 	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
@@ -848,7 +850,6 @@ function part076() {
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
-		#HUOM.020825:toiv ei aih sivuvaikiytuksia ifup kanssa
 
 		for t in $(find /etc/init.d -name ${s}* ) ; do
 			${odio} ${t} stop
@@ -903,30 +904,30 @@ function part1() {
 
 	g=$(date +%F)
 	t=$(echo ${1} | cut -d '/' -f 1 | tr -dc a-z) 
-#
-#	if [ -f /etc/apt/sources.list ] ; then
-#		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:' | wc -l)
-#
-#		if [ ${c} -gt 0 ] ; then 
-#			${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
-#			csleep 1
-#		fi
-#	fi
-#
-#	part1_5 ${t}
-#
-#	if [ ! -f /etc/apt/sources.list ] ; then
-#		if [ -s /etc/apt/sources.list.${t} ] && [ -r /etc/apt/sources.list.${t} ] ; then
-#			${slinky} /etc/apt/sources.list.${t} /etc/apt/sources.list
-#		fi	
-#	fi
-#
-#	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
-#	csleep 1
-#
-#	#HUOM.020825:toiv ei pasko:ifup
-#	${sco} -R root:root /etc/apt
-#	${scm} -R a-w /etc/apt/
+
+	if [ -f /etc/apt/sources.list ] ; then
+		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:' | wc -l)
+
+		if [ ${c} -gt 0 ] ; then 
+			${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
+			csleep 1
+		fi
+	fi
+
+	part1_5 ${t}
+
+	if [ ! -f /etc/apt/sources.list ] ; then
+		if [ -s /etc/apt/sources.list.${t} ] && [ -r /etc/apt/sources.list.${t} ] ; then
+			${slinky} /etc/apt/sources.list.${t} /etc/apt/sources.list
+		fi	
+	fi
+
+	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
+	csleep 1
+
+	#HUOM.020825:toiv ei pasko:ifup
+	${sco} -R root:root /etc/apt
+	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WHORE (i have Tourettes)"
 }
 

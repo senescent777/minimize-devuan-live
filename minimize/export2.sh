@@ -9,6 +9,7 @@ tgtfile=""
 
 #HUOM.8725.1:joskohan wpa_supplicant.conf kanssa asiat kunnossa
 #HUOM.020825:jotain häikkää tuon kanssa taas, ei välttämättä juuri conf
+#HUOM.020825.2:jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -91,11 +92,12 @@ csleep 2
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else 
-	exít 57
+	exit 57
 fi
 
 dqb "tar = ${srat} "
 
+#TODO:suorituksen keskeytys aelmpaa näille main jos ei löydy tai -x
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
@@ -106,6 +108,7 @@ done
 dqb "AFTER GANGRENE SETS IN"
 csleep 1
 
+#TODO:"tar löytyy ja ajokelpoinen"-tarkistus voisi olla näillä main (tai common_lib kyllä...)
 tig=$(${odio} which git)
 mkt=$(${odio} which mktemp)
 
@@ -133,9 +136,6 @@ csleep 1
 dqb "PRE0"
 csleep 1
 
-#HUOM.26726:jokin ei-niin-ilmeinen bugitus menossa, toiv ei ole common_lib.sh syynä
-#jokatap aloitettu expo2 jakaminen osiin käytönnön syistä
-
 if [ -x ${d0}/e22.sh ] ; then
 	dqb "222"
 	.  ${d0}/e22.sh
@@ -160,7 +160,7 @@ fi
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
-[ -v testgris ] || pre1 ${d} ${distro}
+pre1 ${d} ${distro} #[ -v testgris ] || 
 
 #TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
 #... jos on jotain sivuvaikutuksia ni pikemminkin tdstoon e22.sh nykyään
@@ -169,30 +169,42 @@ csleep 1
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 [ -x /opt/bin/changedns.sh ] || exit 59
 
+dqb "BEFORE TAR"
+csleep 1
+${odio} touch ./rnd
+${sco} ${n}:${n} ./rnd
+${scm} 0644 ./rnd
+dd if=/dev/random bs=12 count=1 > ./rnd
+${srat} -cvf ${tgtfile} ./rnd
+[ $? -gt 0 ] && exit 60
+dqb "AFTER TAR"
+csleep 1
+
 case ${mode} in
-	0|4) #HUOM.020825:0 TEKEE TOIMIVAN TAR:IN ELI EIPÄ SORKITA 666!!!
-		#... case 4 kanssa toimi tällä viikolla
+	0|4) 
+		#... case 0 kanssa oli pientä kiukuttelua ifup kanssa (toivottavasti jo korjattu)
+		#... testgris-kikkailut roskikseen olisi 1 idea (tehty)
+		#... case 4 kanssa saatu uudestaan toimimaan 020825 (katso toistuuko)
 
 		[ z"${tgtfile}" == "z" ] && exit 99 
-		#[ -v testgris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
-		[ -v testgris ] || pre2 ${d} ${distro} ${iface} ${dnsm}
+		pre2 ${d} ${distro} ${iface} ${dnsm} #[ -v testgris ] || 
 
-		${odio} touch ./rnd
-		${sco} ${n}:${n} ./rnd
-		${scm} 0644 ./rnd
+		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
+		csleep 3
 
-		dd if=/dev/random bs=12 count=1 > ./rnd
-		${srat} -cvf ${tgtfile} ./rnd
-
-		[ -v testgris ] || tp3 ${tgtfile} ${distro}
+		tp3 ${tgtfile} ${distro} #[ -v testgris ] || 
 		dqb "TP3 DON3, next:rm some rchivies"
 		csleep 3
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 
+		#HUOM.020825:miksi varten tar nollautui äkkiä?
+		dqb "srat= ${srat}"
+		csleep 5
+
 		dd if=/dev/random bs=12 count=1 > ./rnd
-		${srat} -cvf ${d}/f.tar ./rnd #tarvitseeko random-kuraa 2 kertaan?
+		${srat} -cvf ${d}/f.tar ./rnd
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then
@@ -210,16 +222,16 @@ case ${mode} in
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 5
  	
-		tp1 ${tgtfile} ${d} ${testgris}
+		tp1 ${tgtfile} ${d} #${testgris}
 		
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 4
-		${NKVD} ${d}/*.tar 
+		${NKVD} ${d}/*.tar #tartteeko piostaa?
 
 		pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 5	
-		[ -v testgris ] || tp2 ${tgtfile} ${iface} ${dnsm}
+		tp2 ${tgtfile} ${iface} ${dnsm} #[ -v testgris ] || 
 	;;
 	1|u|upgrade) #HUOM.29725:ainakin chimaeran kanssa tup():in tekemät paketit kelpaavat
 		[ z"${tgtfile}" == "z" ] && exit 99 
@@ -227,15 +239,16 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tup ${tgtfile} ${d} ${iface} ${dnsm}
 	;;
-	p) #HUOM.28725:toimii
+	p) #HUOM.020825:testattu sen verran että tekee tar:in (myös polku hukattu)
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
+	e)  #HUOM.020825:testattu sen verran että tekee tar:in 
 		pre2 ${d} ${distro} ${iface} ${dnsm}
+		#TODO:tp0 tähän väliin
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
 	f)  #HUOM.28725:testattu, toimii ainakin sen verran että tekee tarin minkä sisältä järkeväno loinen
@@ -277,7 +290,7 @@ case ${mode} in
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
-	t) #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
+	t) #VAIH:tarkista toiminta TAAS (020825 tekee tar:in, sisällön kelvollisuus vielä testaamatta)
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		${NKVD} ${d}/*.deb
 		tlb ${d} ${iface} ${distro} ${dnsm}
@@ -312,6 +325,7 @@ if [ -s ${tgtfile} ] ; then
 	${sco} $(whoami):$(whoami) ${tgtfile}.sha
 	${scm} 0644 ${tgtfile}.sha
 
+	#TODO:gpg-juttuja tähän?
 	${sah6} ${tgtfile} > ${tgtfile}.sha
 	${sah6} -c ${tgtfile}.sha
 

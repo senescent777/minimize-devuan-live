@@ -58,7 +58,7 @@ function findprof() {
 }
 
 function copy_to() {
-	#debug=1
+	debug=1
 	dqb "cprof13 ${1} ${2} ${3}"
 	csleep 3
 	
@@ -70,16 +70,11 @@ function copy_to() {
 	findprof ${2} ${1}
 	tget=${result}
 
-	dqb "IN 3 SECONDS: sudo mv ${3} / \* ${tget}"
+	dqb "IN 3 SECONDS: sudo mv ${3}/* ${tget}"
 	csleep 3
 
 	local f
-	dqb "find ${3} -type f -name '*.js*'"
-
-	for f in $(find ${3} -type f -name '*.js*') ; do
-		dqb "mv ${f} ${tget} "
-		mv ${f} ${tget} 
-	done		
+	for f in $(find ${3} -type f -name '*.js*') ; do mv ${f} ${tget} ; done		
 	
 	if [ ${debug} -eq 1 ] ; then
 		echo "AFT3R MV";sleep 3
@@ -157,7 +152,7 @@ function exp_prof() {
 	${odio} touch ./rnd
 	${sco} ${n}:${n} ./rnd
 	${scm} 0644 ./rnd
-	dd if=/dev/random bs=12 count=1 > ./rnd
+	dd if=/dev/random bs=6 count=1 > ./rnd
 
 	${srat} -cvf ${1} ./rnd
 	for f in $(find . -name '*.js') ; do ${srat} -rf ${1} ${f} ; done
