@@ -129,7 +129,6 @@ else
 	n=$(whoami)
 fi
 
-#DONE?:generic_x - skriptit toimimaan cgroot-ympäristössä, alkaisiko jo olla kunnossa?
 fix_sudo
 other_horrors
 
