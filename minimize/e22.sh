@@ -669,7 +669,7 @@ function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in , myös pol
 	dqb "tp5 ${1} ${2}"
 
 	[ -z ${1} ] && exit 99
-	[ -s ${1} ] || exit 98 pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
+	[ -s ${1} ] || exit 98 #pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
 	[ -d ${2} ] || exit 97
  
 	dqb "params ok"
