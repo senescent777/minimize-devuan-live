@@ -7,6 +7,7 @@ echo "d0=${d0}"
 
 #VAIH:jos mahd ni git hakemaan vaihToehtoisen oksan? man-sivuja pitäisi taas kahlata niin maan perkeleesti ja tasaiseenm
 #TODO:mktemp-kikkailut pois, plain old git clone tilalle ja täts it
+#HUOM.020825:jos tämä poistaa $distro/lib.sh niin korjattava ei-poistamaan
 
 function parse_opts_1() {
 	dqb "p1"
