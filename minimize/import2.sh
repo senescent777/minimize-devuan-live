@@ -116,6 +116,7 @@ else
 	}
 
 	#kutsutaanko tätä? no yhdestä kohdasta ainakin
+	#HUOM.020825:kommentoiti jemmaan debug-syistä?
 	function other_horrors() {
 		dqb "AZATHOTH AND OTHER HORRORS"
 
@@ -245,6 +246,7 @@ function common_part() {
 		dqb "HAIL UKK"
 
 		#vissiinkin tässä kohtaa common_lib taas käyttöön EIKU
+		#HUOM.020825:tässä ei polkuna voine olla /etc/jotain		
 		${scm} 0755 ${t}
 		${scm} a+x ${t}/*.sh
 		${scm} 0444 ${t}/conf*

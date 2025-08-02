@@ -36,7 +36,7 @@ fi
 
 itni
 #HUOM.27725:nalkutus kenbties /o/b/changedns.sgh tjsp, ei vältt juuri fix_sudo
-
+#HUOM.020825:toivottavasti ei pasko:ifup
 function fix_sudo() {
 	dqb "fix_sud0.pt0"
 
@@ -71,6 +71,7 @@ function fix_sudo() {
 function other_horrors() {	
 	dqb "other_horrors()"
 
+	#HUOM.020825:toivottavasti ei pasko:ifup
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
 	${sco} -R root:root /etc/iptables
@@ -227,7 +228,7 @@ function efk() {
 	csleep 1
 }
 
-#HUOM.25725:chimaeran kanssa kosahti yablesin asennus, libnetfilter ja libnfnetlink liittyvät
+#HUOM.25725:chimaeran kanssa kosahti tablesin asennus, libnetfilter ja libnfnetlink liittyivät asiaan
 function common_tbls() {
 	debug=1
 	dqb "COMMON TABLESD"
@@ -270,6 +271,7 @@ function common_tbls() {
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
 	
+	#HUOM.020825:toiv i pasq ifup
 	csleep 1
 	${scm} 0755 /etc/iptables
 
@@ -337,7 +339,8 @@ function check_binaries() {
 
 		#HUOM.olisikohan sittenkin suhteelliset polut tar:in sisällä helpompia?
 		#... tai jopspa jatkossa roiskisi /tmp alle
-
+		#HUOM.020825: toi v ei tässä alla paskota ifup:in toimintaa
+ 
 		if [ -s ${1}/e.tar ] ; then
 			${odio} ${srat} -C / -xf ${1}/e.tar
 			
@@ -424,6 +427,7 @@ function check_binaries2() {
 	csleep 1
 }
 
+#HUOM.020825:toivottavasgti ei pasko:ifup
 function mangle_s() {
 	dqb "mangle_s ( ${1} , ${2}, ${3} ) " #kaarisulkeet edelleen perseestä
 	csleep 1
@@ -498,6 +502,7 @@ function dinf() {
 
 #HUOM.29525:ei tarvitse parametreja tämä
 #...paitsi ehkä sudoersin mankelointiin, absoluuttiset polut oltava
+#HUOM.020825:toiv ei pasko:ifup
 
 function pre_enforce() {
 	#debug=1 #liikaa tauhkaa, pois 28725
@@ -518,9 +523,7 @@ function pre_enforce() {
 	dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 
 	[ -d /opt/bin ] || ${odio} mkdir /opt/bin
-	#HUOM. ao riville tarttisi tehdä jotain, EHKÄ
-	#DONE:uuden sijainnin huomiointi muuallakin, esim. export ja update
-
+	
 	[ -f ${1}/changedns.sh ] && ${svm} ${1}/changedns.sh /opt/bin
 	mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 	csleep 1
@@ -567,6 +570,7 @@ function pre_enforce() {
 	dqb "common_lib.pre_enforce d0n3"
 }
 
+#HUOM.020825:toivottavasti ei pasko:ifup
 function mangle2() {
 	if [ -f ${1} ] ; then
 		dqb "MANGLED ${1}"
@@ -575,6 +579,7 @@ function mangle2() {
 	fi
 }
 
+#HUOM.020825:toivottavasti ei pasko:ifup
 function e_e() {
 	dqb "e_e()"	
 	csleep 1
@@ -598,6 +603,7 @@ function e_e() {
 	csleep 1
 }
 
+#HUOM.020825:toiv ei pasko ifup
 function e_v() {
 	dqb "e_v()"
 	#csleep 1
@@ -616,6 +622,7 @@ function e_v() {
 	csleep 1
 }
 
+#HUOM.020825:toiv ei pasko:ifup
 function e_h() {
 	#debug=1 #HUOM.27825:debug ois, liikaa tauhkaa
 	dqb "e_h( ${1} , ${2} )"
@@ -675,6 +682,7 @@ function e_final() {
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 	csleep 5 
 
+	#HUOM.020825:toiv ei pasko:ifup
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
 
@@ -682,6 +690,7 @@ function e_final() {
 	csleep 1
 }
 
+#HUOM.020825:toiv ei pasko ifup
 function enforce_access() {
 	dqb " enforce_access( ${1} , ${2})"
 	csleep 5
@@ -757,6 +766,7 @@ function part1_5() {
 		csleep 1
 	fi
 
+	#HUOM.020825:toi ei pasko:ifup
 	${sco} -R root:root /etc/apt
 	#tarkempaa sertiä tulisi findin kanssa
 	${scm} -R a-w /etc/apt/
@@ -774,6 +784,7 @@ function dis() {
 	[ -z ${1} ] && exit 44
 	csleep 1
 	
+	#HUOM.020825:toiv ei pasko:ifup
 	${scm} 0755 /etc/network
 	${sco} -R root:root /etc/network
 	${scm} a+r /etc/network/*
@@ -912,11 +923,13 @@ function part1() {
 	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
 	csleep 1
 
+	#HUOM.020825:toiv ei pasko:ifup
 	${sco} -R root:root /etc/apt
 	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WHORE (i have Tourettes)"
 }
 
+#HUOM.020825:toiv ei sivuvaikutuuksena sössi ifup
 function part2_5() {
 	#debug=1
 	dqb "PART2.5.1 ${1} , ${2}"
@@ -1036,6 +1049,7 @@ function part2_5() {
 
 #tämän ja kutsuttujen fktioiden debug, saattaa olla jotain ? 28725 vaikuttaisi toimivan ok nimittäin
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
+#HUOM.020825:jos ei muuta keksi niin tämänkin joutuu tutkimaan että sössiikö ifup:in toiminnan vai ei
 function part3() {
 	#debug=1 
 	dqb "part3 ${1} ${2}"

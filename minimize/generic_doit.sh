@@ -121,7 +121,7 @@ function el_loco() {
 	fi
 
 	#HUOM.27725:sq-chroot-ymp perl valittaa LANGUAGE ja ALL , voisi tehdä jotain
-
+	#HUOM.020825:toivottavsti ei pasko ifup
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
 		csleep 1
