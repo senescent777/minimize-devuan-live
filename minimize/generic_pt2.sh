@@ -60,10 +60,8 @@ else
 	exit 89
 fi
 
-#HUOM.21725:nököjään kirjaston puuttuminen ei menoa haittaa, jatkuu urputuksella
+#HUOM.21725:näköjään kirjaston puuttuminen ei menoa haittaa, jatkuu urputuksella
 #HUOM.27725:vieläkö toistuu?
-
-
 [ -z ${distro} ] && exit 6
 dqb "BEFORE CNF"
 echo "dbig= ${debug}"

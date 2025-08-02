@@ -4,7 +4,7 @@ function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
 	dqb "pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 66
-	#VAIH:tokan parametrin tarkistus, toiminee
+	#VAIH:tokan parametrin(mihin tarvitsee?) tarkistus, toiminee
 
 	csleep 4
 	dqb "pars.0k"
@@ -57,6 +57,10 @@ function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten
 	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
 	par4=$(echo ${4} | tr -d -c 0-9)
 
+	#HUOM.020825:vähän enemmän sorkintaa tänne?
+	#/e/n alihakemistoihin +x ?
+	#/a/wpa kokonaan talteen? /e/n kokonaan talteen?
+
 	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then
 		dqb "PRKL"
 
@@ -101,8 +105,8 @@ function tp0() {
 	csleep 1
 }
 
-function tpq() { #HUOM-31725:testit menossa, sopisi tulla valmiiksi	
-	debug=1
+function tpq() { #HUOM.020825:toimii	
+	#debug=1
 	dqb "tpq ${1} ${2}"
 	csleep 1
 
@@ -120,7 +124,6 @@ function tpq() { #HUOM-31725:testit menossa, sopisi tulla valmiiksi
  	csleep 1
 
 	dqb "PUL53"
-	#VAIH:jatkossa /etc/pulse mukaan jotenkin toisella tavalla (esm pulse.tar)
 	${srat} -cf ./pulse.tar /etc/pulse
 	csleep 1
 	dqb "PR0.F5"
@@ -142,13 +145,10 @@ function tpq() { #HUOM-31725:testit menossa, sopisi tulla valmiiksi
 	cd ${2}
 }
 
-#HUOM.28725:testattu ennen tpq:n jemmaamista, toimi
-#... entä palauttamisen jälkeen?
-#HUOM.31725:testit käynnissä, sopisi tulla valmiiksi kanssa
+#HUOM.020825:jospa tämä nyt toimisi prkl
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
-	
 	[ -z ${2} ] && exit
 	csleep 1
 
@@ -157,8 +157,6 @@ function tp1() {
 	pwd
 	csleep 1
 
-	#26726:tähän asti ok
-
 	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		tpq ~ ${2}/.. #HUOM.25725:toimiiko näin?
@@ -166,22 +164,14 @@ function tp1() {
 		dqb "PUIG DESTRÖYERR"
 	fi
 
-	#26726:tähän asti ok
-
 	csleep 1
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 	local t
-
-	#ennen if-blokkia ~ alta tar:it talteen? (VAIH:jos find kanssa)
-	#${srat} -rvf ${1} ~/*.tar
-	#HUOM.saattaa vielä joutua muuttamaan ao. blokin koska x
 
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 2
 	for t in $(find -max-depth 1 ~ -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
 	csleep 2
-
-	#26726:tähän asti ok
 
 	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
 	#jatkossa tar if-blokin jälkeen?
@@ -211,11 +201,10 @@ function tp1() {
 		dqb "${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
 		csleep 3
 		
-		#TODO:pitäisiköhän findilla hakea tar:ille ne .sh, .tar yms. ?
+		#pitäisiköhän findilla hakea tar:ille ne .sh, .tar yms. ?
 		#... vai stokeekohan ecxldur asioita? ei kai
 
 		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
-
 	fi
 
 	dqb "tp1 d0n3"
@@ -249,8 +238,8 @@ function luca() {
 	sleep 3
 }
 
-function tp2() { #VAIH	:testaa uusiksi koska x
-	debug=1 #pois?
+function tp2() { #HUOM.020825:joko jo toimisi?
+	#debug=1 #pois?
 	dqb "tp2 ${1} ${2} ${3}"
 	csleep 1
 
@@ -262,7 +251,6 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 
 	dqb "params_ok"
 	csleep 1
-	#26726:tähän astu ok
 
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
@@ -290,7 +278,6 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 	dqb "B3F0R3 TÖBX"
 	csleep 2
 
-	#HUOM.23525:tähän tökkäsi kun mode=4 && a-x common
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		echo "/E/IPTABLES sdhgfsdhgf"
 		exit 112
@@ -299,8 +286,18 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 	dqb "WLAN-RELAT3D"	
 	csleep 2
 
+	#HUOM.020825:
+	#wpa_supplicant: /sbin/wpa_supplicant daemon failed to start
+	#run-parts: /etc/network/if-pre-up.d/wpasupplicant exited with return code 1
+	#ifup: failed to bring up wlan0
+	#jos toistuu ni jotain tarttisi keksiä krjaukseksi (esim chmod)
+	#sudo find /etc -name '*wpa*'  | tar -rvf?
+
 	case ${2} in
 		wlan0)
+			#tätä koko fktiota ei ajeta jos x ni ei ole ihan pakko kikkailla
+			#... tai miten lienee			
+
 			[ ${debug} -eq 1 ] && echo "APW";sleep 3
 			${srat} -rvf ${1} /etc/wpa_supplicant/*.conf
 			${srat} -tf ${1} | grep wpa
@@ -333,7 +330,7 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 	csleep 1
 }
 
-function tp3() { #HUOM.010825:vaikuttaisi toimivan, tämän jutut menivät arkistoon mutta tp2() ei, miksi?
+function tp3() { #HUOM.010825:vaikuttaisi toimivan, tämän jutut menivät arkistoon mutta tp2() kanssa oli pientä häikkää
 	#debug=1 #antaa olla vielä
 	dqb "tp3 ${1} ${2}"
 
@@ -384,7 +381,7 @@ function tp3() { #HUOM.010825:vaikuttaisi toimivan, tämän jutut menivät arkis
 		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
 	fi
 
-	dqb "NIBS"
+	dqb "N1B.5"
 	csleep 2
 
 	#HUOM.010825:/sbin-juttuja ei tullut mukaan
@@ -524,7 +521,7 @@ function rmt() {
 }
 
 #home/devuan/Desktop/minimize/chimaera/home/devuan/Desktop/minimize/chimaera/tim3stamp
-#kyseiselle polulle voisi tehdä jotain(TODO)
+#kyseiselle polulle voisi tehdä jotain jos ilmestyy(TODO)
 
 function tlb() { #VAIH:tarkista toiminta jälleen kerran
 	#HUOM.MIKSI ASENTAA AVAHIN?
@@ -581,9 +578,7 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 	dqb "x2.tlb.done"
 }
 
-
-#VAIH:xz mäkeen paketista? jospa kutsuisi udp6() uudestaan tässä
-function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
+function tp4() { # (31725 näyttäisi tekevän tarin)
 	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
 	#dqb "DEMI-SEC"
 
@@ -652,9 +647,9 @@ function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 		csleep 1		
 		${svm} ${pkgdir}/*.deb ${2}
 		rmt ${1} ${2}
+		csleep 1
 
-		#${NKVD} ${2}/*.deb #parempi kuitenkin rmt:n jälkeen?
-
+		${NKVD} ${2}/*.deb #parempi kuitenkin rmt:n jälkeen?
 	fi
 
 	dqb "tp4 donew"
@@ -690,7 +685,6 @@ function tp5() { #HUOM.28725:toimii
 
 	dqb "AAMUNK01"
 }
-
 
 function tup() { #TODO:testaa uusiksi, koska param tark
 	dqb "tup ${1}, ${2}, ${3}, ${4}"

@@ -8,6 +8,7 @@ mode=-2
 tgtfile=""
 
 #HUOM.8725.1:joskohan wpa_supplicant.conf kanssa asiat kunnossa
+#HUOM.020825:jotain häikkää tuon kanssa taas, ei välttämättä juuri conf
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -61,7 +62,7 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#parsetuksen knssa menee jännäksi jos conf pitää lkadata ennen common_lib (no paerse_opts:iin tiettty)
+#parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
 if [ -s ${d}/conf ] ; then
@@ -132,8 +133,8 @@ csleep 1
 dqb "PRE0"
 csleep 1
 
-#HUOM.26726:jokin ei-niin-ilmeinen bugitus menossa, toiv wi ole common_lib.sh syynä
-#jhokatap aloitettu expo2 jakaminen osiin käytönnöin syistä
+#HUOM.26726:jokin ei-niin-ilmeinen bugitus menossa, toiv ei ole common_lib.sh syynä
+#jokatap aloitettu expo2 jakaminen osiin käytönnön syistä
 
 if [ -x ${d0}/e22.sh ] ; then
 	dqb "222"
@@ -163,12 +164,14 @@ csleep 1
 
 #TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
 #... jos on jotain sivuvaikutuksia ni pikemminkin tdstoon e22.sh nykyään
-#tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
+#... onkohan vielä ajankohtainen?
 
+#tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 [ -x /opt/bin/changedns.sh ] || exit 59
 
 case ${mode} in
-	0|4) #VAIH:tarkista toiminta, siis case 0 lähinnä
+	0|4) #HUOM.020825:0 TEKEE TOIMIVAN TAR:IN ELI EIPÄ SORKITA 666!!!
+		#... case 4 kanssa toimi tällä viikolla
 
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		#[ -v testgris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
@@ -239,7 +242,7 @@ case ${mode} in
 		rmt ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-	q) #VAIH:testaus muutox jälk käynnissä 31725
+	q) #HUOM.020825:toimii
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 	
@@ -255,7 +258,7 @@ case ${mode} in
 
 		#HUOM.28725:roiskiko väärään hakemistoon juttuja tpq()? toiv ei enää
 		tpq ~ ${d0}
-		#cd ${d0}
+		
 		#HUOM.28725:puuttuvien fktioiden takia ei suoritusta näköjään keskeytetä	
 
 		q=$(mktemp)
