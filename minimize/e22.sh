@@ -653,7 +653,7 @@ function tp4() { #TODO:selviTä paskooko tämä ifup:in?
 	csleep 1
 }
 
-function tp5() { #TODO:testaus uusiksi
+function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in
 	#TODO:jospa jatkossa hukkaisi sen polun arkistosta, $2...
 	dqb "tp5 ${1} ${2}"
 

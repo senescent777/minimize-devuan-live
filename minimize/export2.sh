@@ -240,7 +240,7 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tup ${tgtfile} ${d} ${iface} ${dnsm}
 	;;
-	p) #HUOM.28725:toimii
+	p) #VAIH:test
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
