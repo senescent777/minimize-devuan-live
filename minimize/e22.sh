@@ -4,7 +4,7 @@ function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
 	dqb "pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 66
-	#VAIH:tokan parametrin tarkistus, toiminee
+	#VAIH:tokan parametrin(mihin tarvitsee?) tarkistus, toiminee
 
 	csleep 4
 	dqb "pars.0k"
@@ -21,32 +21,31 @@ function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
 		echo "else"
 		dqb "5TNA"
 		
-		local ostrac
+		#local ostrac
 		local lefid
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) # | cut -d '/' -f 1-5)
 		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 	
 		enforce_access ${n} ${lefid} #jos jo toimisi
-		ostrac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
+		#ostrac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #tarpeellinen?
 		csleep 1
 		dqb "3NF0RC1NG D0N3"
 		
-		csleep 1
-		${scm} 0755 /etc/apt
-		${scm} a+w /etc/apt/sources.list*
+		##HUOM.020825:kommentteihin nuo tuosta alta?
+		#csleep 1
+		#${scm} 0755 /etc/apt
+		#${scm} a+w /etc/apt/sources.list*
 	fi
 }
 
-function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
+function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten kai toimii
 	#debug=1
 	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
-
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 67
 	[ -z ${3} ] && exit 68
-
 	[ -z ${4} ] && exit 69 #josko nyt jo 31725 olisi kaikki kohdat, mistä kutsitaan, kunnossa
 	
 	dqb "pars.ok"	
@@ -58,15 +57,19 @@ function pre2() { #HUOM.28725:testattu nopeasti, vaikuttaa toimivalta
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
 	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
 	par4=$(echo ${4} | tr -d -c 0-9)
-	#VAIH: $4 kanssa jotain sorkkimista?
 
-	if [ -d ${1} ] ; then
+	#HUOM.020825:vähän enemmän sorkintaa tänne?
+	#/e/n alihakemistoihin +x ?
+	#/a/wpa kokonaan talteen? /e/n kokonaan talteen?
+
+	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then
 		dqb "PRKL"
+
 		${odio} /opt/bin/changedns.sh ${par4} ${ortsac}
+		echo $?
 		csleep 1
 
 		${sifu} ${3}
-
 		[ ${debug} -eq 1 ] && ${sifc}
 		csleep 1
 
@@ -103,8 +106,8 @@ function tp0() {
 	csleep 1
 }
 
-function tpq() { #HUOM-31725:testit menossa, sopisi tulla valmiiksi	
-	debug=1
+function tpq() { #HUOM.020825:toimii	
+	#debug=1
 	dqb "tpq ${1} ${2}"
 	csleep 1
 
@@ -122,7 +125,6 @@ function tpq() { #HUOM-31725:testit menossa, sopisi tulla valmiiksi
  	csleep 1
 
 	dqb "PUL53"
-	#VAIH:jatkossa /etc/pulse mukaan jotenkin toisella tavalla (esm pulse.tar)
 	${srat} -cf ./pulse.tar /etc/pulse
 	csleep 1
 	dqb "PR0.F5"
@@ -144,13 +146,10 @@ function tpq() { #HUOM-31725:testit menossa, sopisi tulla valmiiksi
 	cd ${2}
 }
 
-#HUOM.28725:testattu ennen tpq:n jemmaamista, toimi
-#... entä palauttamisen jälkeen?
-#HUOM.31725:testit käynnissä, sopisi tulla valmiiksi kanssa
+#HUOM.020825:jospa tämä nyt toimisi prkl
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
-	
 	[ -z ${2} ] && exit
 	csleep 1
 
@@ -159,8 +158,6 @@ function tp1() {
 	pwd
 	csleep 1
 
-	#26726:tähän asti ok
-
 	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		tpq ~ ${2}/.. #HUOM.25725:toimiiko näin?
@@ -168,22 +165,14 @@ function tp1() {
 		dqb "PUIG DESTRÖYERR"
 	fi
 
-	#26726:tähän asti ok
-
 	csleep 1
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 	local t
-
-	#ennen if-blokkia ~ alta tar:it talteen? (VAIH:jos find kanssa)
-	#${srat} -rvf ${1} ~/*.tar
-	#HUOM.saattaa vielä joutua muuttamaan ao. blokin koska x
 
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 2
 	for t in $(find -max-depth 1 ~ -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
 	csleep 2
-
-	#26726:tähän asti ok
 
 	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
 	#jatkossa tar if-blokin jälkeen?
@@ -213,11 +202,10 @@ function tp1() {
 		dqb "${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
 		csleep 3
 		
-		#TODO:pitäisiköhän findilla hakea tar:ille ne .sh, .tar yms. ?
+		#pitäisiköhän findilla hakea tar:ille ne .sh, .tar yms. ?
 		#... vai stokeekohan ecxldur asioita? ei kai
 
 		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
-
 	fi
 
 	dqb "tp1 d0n3"
@@ -225,8 +213,15 @@ function tp1() {
 }
 
 function luca() {
-	#TODO:$1 tarkistukset jatkossa	
-	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule | less
+	dqb "luca ( ${1})"
+	csleep 1
+	[ -z ${1} ] && exit 11
+	[ -s ${1} ] || exit 12
+
+	dqb "prs ok"
+	csleep 1
+
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule #| less
 	sleep 2
 
 	dqb "JUST BEFORE LOCALES"
@@ -240,11 +235,12 @@ function luca() {
 	echo $?
 	sleep 1
 
-	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local | less
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local #| less
+	sleep 3
 }
 
-function tp2() { #VAIH	:testaa uusiksi koska x
-	debug=1 #pois?
+function tp2() { #HUOM.020825:joko jo toimisi?
+	#debug=1 #pois?
 	dqb "tp2 ${1} ${2} ${3}"
 	csleep 1
 
@@ -256,12 +252,12 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 
 	dqb "params_ok"
 	csleep 1
-	#26726:tähän astu ok
-
-	${scm} 0755 /etc/iptables
-	${scm} 0444 /etc/iptables/rules*
-	${scm} 0444 /etc/default/rules*
-
+#
+#	#HUOM.020825:kommentteihin nuo tuosta alta?
+#	${scm} 0755 /etc/iptables
+#	${scm} 0444 /etc/iptables/rules*
+#	${scm} 0444 /etc/default/rules*
+#
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
 	csleep 1
@@ -281,14 +277,29 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 	csleep 1
 	other_horrors
 
-	#HUOM.23525:tähän tökkäsi kun mode=4 && a-x common
+	dqb "B3F0R3 TÖBX"
+	csleep 2
+
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		echo "/E/IPTABLES sdhgfsdhgf"
 		exit 112
 	fi
 
+	dqb "WLAN-RELAT3D"	
+	csleep 2
+
+	#HUOM.020825:
+	#wpa_supplicant: /sbin/wpa_supplicant daemon failed to start
+	#run-parts: /etc/network/if-pre-up.d/wpasupplicant exited with return code 1
+	#ifup: failed to bring up wlan0
+	#jos toistuu ni jotain tarttisi keksiä krjaukseksi (esim chmod)
+	#sudo find /etc -name '*wpa*'  | tar -rvf?
+
 	case ${2} in
 		wlan0)
+			#tätä koko fktiota ei ajeta jos x ni ei ole ihan pakko kikkailla
+			#... tai miten lienee			
+
 			[ ${debug} -eq 1 ] && echo "APW";sleep 3
 			${srat} -rvf ${1} /etc/wpa_supplicant/*.conf
 			${srat} -tf ${1} | grep wpa
@@ -305,13 +316,14 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 		${srat} -rf ${1} /etc/sudoers.d/meshuggah
 	fi
 
-	#if [ ${dnsm #VAIH:glob wtt
+	dqb "DSN"
+	csleep 2
+
 	if [ ${3} -eq 1 ] ; then
 		local f;for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 	else
 		dqb "n0 5tub"
-
 	fi
 
 	${srat} -rf ${1} /etc/init.d/net*
@@ -320,10 +332,8 @@ function tp2() { #VAIH	:testaa uusiksi koska x
 	csleep 1
 }
 
-
-function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
+function tp3() { #HUOM.010825:vaikuttaisi toimivan, tämän jutut menivät arkistoon mutta tp2() kanssa oli pientä häikkää
 	#debug=1 #antaa olla vielä
-
 	dqb "tp3 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -334,13 +344,18 @@ function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
 
 	local p
 	local q	
+	local r
+
+	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+	[ ${debug} -eq 1 ] && pwd
+	dqb "r=${r}"
+	csleep 1
+
 	tig=$(${odio} which git) #voisi alustaa jossain aiempana
 
 	p=$(pwd)
 	q=$(${mkt} -d)
 	cd ${q}
-	
-	[ ${debug} -eq 1 ] && pwd  
 	csleep 1
 
 	#voisi jollain ehdolla estää kloonauksen
@@ -362,12 +377,16 @@ function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
 
 	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
 	# (ao. rivi tp2() jatkossa?)	
-	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm}
+	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm} #TODO.glob wtt
 
 	if [ ! -s ./etc/resolv.conf.1 ] ; then
 		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
 	fi
 
+	dqb "N1B.5"
+	csleep 2
+
+	#HUOM.010825:/sbin-juttuja ei tullut mukaan
 	#HUOM.14525.3:ghubista löytyvä(.new) vastaa tilannetta dnsm=1
 	# (ao. rivi tp2() jatkossa?)
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm}
@@ -381,6 +400,10 @@ function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
 	# (ao. rivi tp2() jatkossa?)
 
 	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
+
+	#HUOM.010825:/e/a/sources.list ja /e/a/a.conf tuli mukaan
+	dqb "SOUCRES"
+	csleep 2
 
 	if [ -f /etc/apt/sources.list ] ; then
 		local c
@@ -396,18 +419,16 @@ function tp3() { #HUOM.28725:testattu, vaikuttaisi toimivalta
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	# (ao. rivi tp2() jatkossa?)
 
-	local r
-	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
-	pwd
-
-	dqb "r=${r}"
+	#HUOM.010825:/e/n/i tuli mukaan
+	#HUOM.020825:sco-scm-jutut jemmaan koska x?
+	dqb "1NT3RF"
 	csleep 2
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
-
-	${sco} -R root:root ./etc
-	${scm} -R a-w ./etc
-	${sco} -R root:root ./sbin 
-	${scm} -R a-w ./sbin
+#
+#	${sco} -R root:root ./etc
+#	${scm} -R a-w ./etc
+#	${sco} -R root:root ./sbin 
+#	${scm} -R a-w ./sbin
 	${srat} -rvf ${1} ./etc ./sbin 
 
 	echo $?
@@ -503,9 +524,10 @@ function rmt() {
 }
 
 #home/devuan/Desktop/minimize/chimaera/home/devuan/Desktop/minimize/chimaera/tim3stamp
-#kyseiselle polulle voisi tehdä jotain(TODO)
+#kyseiselle polulle voisi tehdä jotain jos ilmestyy(TODO)
 
-function tlb() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
+function tlb() { #VAIH:tarkista toiminta jälleen kerran
+	#HUOM.MIKSI ASENTAA AVAHIN?
 	#debug=1
 	dqb "x2.tlb ${1} , ${2}  , ${3}  , ${4} "
 
@@ -520,7 +542,6 @@ function tlb() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 
 	dqb "parx_ok"
 	csleep 3
-
 
 	if [ z"${pkgdir}" != "z" ] ; then
 		dqb "SHREDDED HUMANS"
@@ -549,15 +570,18 @@ function tlb() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	#uutena 31525
 	udp6 ${pkgdir}
 
+	#TODO:part2_5() jatkossa, nyt jos riittäisi ao. 3 riviä
+	${sharpy} libavahi*
+	${NKVD} ${pkgdir}/libavahi*	
+	${asy}
+
 	#actually necessary
 	pre2 ${1} ${3} ${2} ${4} 
 	other_horrors
 	dqb "x2.tlb.done"
 }
 
-
-#VAIH:xz mäkeen paketista? jospa kutsuisi udp6() uudestaan tässä
-function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
+function tp4() { # (31725 näyttäisi tekevän tarin)
 	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
 	#dqb "DEMI-SEC"
 
@@ -569,7 +593,6 @@ function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	[ -z ${1} ] && exit 11
 	[ -z ${3} ] && exit 11
 	[ -z ${4} ] && exit 11
-
 
 	dqb "paramz_ok"
 	csleep 1
@@ -613,6 +636,9 @@ function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
 	csleep 1
 	${lftr}
+	${sharpy} libavahi*
+	${NKVD} ${pkgdir}/libavahi*	
+	${asy}
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä -24
 	#... myös gpgtar pitäisi ottaa haltuun
@@ -620,13 +646,13 @@ function tp4() { #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
 		pwd
 		csleep 1
 		udp6 ${pkgdir} 		
-
+		
 		csleep 1		
 		${svm} ${pkgdir}/*.deb ${2}
 		rmt ${1} ${2}
+		csleep 1
 
-		#${NKVD} ${2}/*.deb #parempi kuitenkin rmt:n jälkeen?
-
+		${NKVD} ${2}/*.deb #parempi kuitenkin rmt:n jälkeen?
 	fi
 
 	dqb "tp4 donew"
@@ -653,6 +679,7 @@ function tp5() { #HUOM.28725:toimii
 	${tig} clone https://github.com/senescent777/more_scripts.git
 	[ $? -eq 0 ] || exit 99
 	
+	#HUOM.020825: $2 ei pitäisi osoittaa /e tai /s alle?
 	#HUOM:{old,new} -> {0,1} ei liity
 	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
 	mv more_scripts/profs/profs* ${2}
@@ -662,7 +689,6 @@ function tp5() { #HUOM.28725:toimii
 
 	dqb "AAMUNK01"
 }
-
 
 function tup() { #TODO:testaa uusiksi, koska param tark
 	dqb "tup ${1}, ${2}, ${3}, ${4}"
@@ -692,6 +718,13 @@ function tup() { #TODO:testaa uusiksi, koska param tark
 	echo $?
 	csleep 1
 
+	dqb "AVA.H1"
+	${sharpy} libavahi*
+	${NKVD} ${pkgdir}/libavahi*
+	
+	${asy}
+	csleep 1
+
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1
 
@@ -709,7 +742,8 @@ function tup() { #TODO:testaa uusiksi, koska param tark
 		${NKVD} ${pkgdir}/${s}*
 	done
 
-
+	#HUOM.part076() ja part2_5() on keksitty
+	
 	case ${3} in
 
 		wlan0)

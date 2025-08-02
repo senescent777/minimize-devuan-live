@@ -8,6 +8,7 @@ mode=-2
 tgtfile=""
 
 #HUOM.8725.1:joskohan wpa_supplicant.conf kanssa asiat kunnossa
+#HUOM.020825:jotain häikkää tuon kanssa taas, ei välttämättä juuri conf
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -61,7 +62,7 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#parsetuksen knssa menee jännäksi jos conf pitää lkadata ennen common_lib (no paerse_opts:iin tiettty)
+#parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
 if [ -s ${d}/conf ] ; then
@@ -132,16 +133,16 @@ csleep 1
 dqb "PRE0"
 csleep 1
 
-
-#HUOM.26726:jokin ei-niin-ilmeinen bugitus menossa, toiv wi ole common_lib.sh syynä
-#jhokatap aloitettu expo2 jakaminen osiin käytönnöin syistä
+#HUOM.26726:jokin ei-niin-ilmeinen bugitus menossa, toiv ei ole common_lib.sh syynä
+#jokatap aloitettu expo2 jakaminen osiin käytönnön syistä
 
 if [ -x ${d0}/e22.sh ] ; then
 	dqb "222"
 	.  ${d0}/e22.sh
-	csleep 2 
+	csleep 2
+else
+	exit 58
 fi
-
 
 ##HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia, tuskin menee qten alla
 #tcdd=$(cat /etc/devuan_version)
@@ -159,20 +160,22 @@ fi
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
-
 [ -v testgris ] || pre1 ${d} ${distro}
 
 #TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
 #... jos on jotain sivuvaikutuksia ni pikemminkin tdstoon e22.sh nykyään
+#... onkohan vielä ajankohtainen?
+
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
+[ -x /opt/bin/changedns.sh ] || exit 59
 
 case ${mode} in
-	0|4) #VAIH:tarkista toiminta, siis case 0 lähinnä
+	0|4) #HUOM.020825:0 TEKEE TOIMIVAN TAR:IN ELI EIPÄ SORKITA 666!!!
+		#... case 4 kanssa toimi tällä viikolla
 
 		[ z"${tgtfile}" == "z" ] && exit 99 
-		[ -v testgris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
+		#[ -v testgris ] || pre1 ${d} ${distro} #toinen ajokerta tarpeen?
 		[ -v testgris ] || pre2 ${d} ${distro} ${iface} ${dnsm}
-
 
 		${odio} touch ./rnd
 		${sco} ${n}:${n} ./rnd
@@ -182,8 +185,9 @@ case ${mode} in
 		${srat} -cvf ${tgtfile} ./rnd
 
 		[ -v testgris ] || tp3 ${tgtfile} ${distro}
+		dqb "TP3 DON3, next:rm some rchivies"
+		csleep 3
 
-		
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 
@@ -198,10 +202,8 @@ case ${mode} in
 			csleep 5
 		fi
 
-
 		#HUOM.25725:vissiin oli tarkoituksellla f.tar eikä e.tar, tuossa yllä
 		${sifd} ${iface}
-
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
 
 		tp0 ${d} 
@@ -215,6 +217,8 @@ case ${mode} in
 		${NKVD} ${d}/*.tar 
 
 		pre1 ${d} ${distro}
+		dqb "B3F0R3 RP2	"
+		csleep 5	
 		[ -v testgris ] || tp2 ${tgtfile} ${iface} ${dnsm}
 	;;
 	1|u|upgrade) #HUOM.29725:ainakin chimaeran kanssa tup():in tekemät paketit kelpaavat
@@ -238,7 +242,7 @@ case ${mode} in
 		rmt ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-	q) #VAIH:testaus muutox jälk käynnissä 31725
+	q) #HUOM.020825:toimii
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 	
@@ -254,7 +258,7 @@ case ${mode} in
 
 		#HUOM.28725:roiskiko väärään hakemistoon juttuja tpq()? toiv ei enää
 		tpq ~ ${d0}
-		#cd ${d0}
+		
 		#HUOM.28725:puuttuvien fktioiden takia ei suoritusta näköjään keskeytetä	
 
 		q=$(mktemp)

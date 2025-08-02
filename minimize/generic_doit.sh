@@ -2,7 +2,7 @@
 mode=2
 distro=$(cat /etc/devuan_version)
 d0=$(pwd)
-echo "d0=${d0}"
+#echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro} 
@@ -63,6 +63,9 @@ dqb "mode= ${mode}"
 csleep 1
 part076 ${distro}
 
+#HUOM.010825:miksiköhän f.tar katosi? paska tar? paska tikku? paskaa rautaa? ei huomioitu virhetilannetta?
+#TODO:sitä pakettien purkua, voisi katsoa minne *.deb roiskitaan ja miksi
+
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
@@ -118,7 +121,7 @@ function el_loco() {
 	fi
 
 	#HUOM.27725:sq-chroot-ymp perl valittaa LANGUAGE ja ALL , voisi tehdä jotain
-
+	#HUOM.020825:toivottavsti ei pasko ifup
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
 		csleep 1

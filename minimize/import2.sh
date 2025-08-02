@@ -116,18 +116,19 @@ else
 	}
 
 	#kutsutaanko tätä? no yhdestä kohdasta ainakin
+	#HUOM.020825:kommentoiti jemmaan debug-syistä?
 	function other_horrors() {
 		dqb "AZATHOTH AND OTHER HORRORS"
-
-		#HUOM. /e/i tarvitsisi kirjoitusokeude että onnaa
-		#${spc} /etc/default/rules.* /etc/iptables #takaisin jos pykii 
-	
-		${scm} 0400 /etc/iptables/*
-		${scm} 0550 /etc/iptables
-		${sco} -R root:root /etc/iptables
-		${scm} 0400 /etc/default/rules*
-		${scm} 0555 /etc/default
-		${sco} -R root:root /etc/default
+#
+#		#HUOM. /e/i tarvitsisi kirjoitusokeude että onnaa
+#		#${spc} /etc/default/rules.* /etc/iptables #takaisin jos pykii 
+#	
+#		${scm} 0400 /etc/iptables/*
+#		${scm} 0550 /etc/iptables
+#		${sco} -R root:root /etc/iptables
+#		${scm} 0400 /etc/default/rules*
+#		${scm} 0555 /etc/default
+#		${sco} -R root:root /etc/default
 	}
 
 	dqb "FALLBACK"
@@ -192,7 +193,7 @@ csleep 1
 #VAIH:a) pavucontrol-asetukset, missä? (1 arvaus olisi jo)
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
 
-#glorified "tar -x" this function is - Yoda
+#glorified "tar -x" this function is - Yoda (tähän jos niitä gpg-juttuja?)
 #TODO:jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?
 function common_part() {
 	#debug=1
@@ -243,13 +244,14 @@ function common_part() {
 	
 	if [ -d ${t} ] ; then
 		dqb "HAIL UKK"
-
-		#vissiinkin tässä kohtaa common_lib taas käyttöön EIKU
-		${scm} 0755 ${t}
-		${scm} a+x ${t}/*.sh
-		${scm} 0444 ${t}/conf*
-		${scm} 0444 ${t}/*.deb
-
+#
+#		#vissiinkin tässä kohtaa common_lib taas käyttöön EIKU
+#		#HUOM.020825:tässä ei polkuna voine olla /etc/jotain		
+#		${scm} 0755 ${t}
+#		${scm} a+x ${t}/*.sh
+#		${scm} 0444 ${t}/conf*
+#		${scm} 0444 ${t}/*.deb
+#
 		csleep 1
 	fi
 
@@ -316,8 +318,10 @@ function tpr() {
 	csleep 1
 }
 
+#HUOM.020825:näyttäisi roiskivan imp2 sitä sisältöä vähän minne sattuu, garbage in/garbage out?
+
 case "${mode}" in
-	-1) #jatkossa jokim fiksumpi kuin -1
+	-1) #jatkossa jokiN fiksumpi kuin -1
 		part=/dev/disk/by-uuid/${part0}		
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 		c=$(grep -c ${dir} /proc/mounts)
@@ -353,7 +357,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;; #HUOM.nollaa edeltävät caset:ei ole sorkittu viime aikoina, pitäisi toimia ok
 	0|3)
-		#HUOM.mikä pointti tuolla 3:sella taas olikaan?
+		#HUOM.mikä pointti tuolla 3:sella taas olikaan aiemmin?
 		dqb "ZER0 S0UND"
 		csleep 1
 
@@ -407,7 +411,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#HUOM.310725 viimeksi testattu, taitaa toimia
+		#HUOM.020825:toimii
 
 		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan, tai siis näin oli kunnes toiminta myyttyu
 		#nykyään (31725) testataan että $srcfile:n sisältä löytyy fediverse.tar		
@@ -423,15 +427,15 @@ case "${mode}" in
 	
 		c=$(tar -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
-		common_part ${srcfile} ${d} ~ #/
+		common_part ${srcfile} ${d} ~ 
 		tpr ${d0}
 	;;
 	r)
 		tpr ${d0}
 	;;
-#	u)
-#		echo "reficul (TODO?)" ehkei päivityspakettien kanssa tartte suurempia kikkailuja
-#	;;
+	k)	
+		echo "TODO" #sq-chroot-spesifistä jatkossa
+	;;
 	-h) #HUOM.27725:ilman param kuuluisi kai keskeyttää suor mahd aik
 		usage
 	;;
