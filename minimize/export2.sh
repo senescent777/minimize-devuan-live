@@ -246,8 +246,9 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #VAIH:tarkista toiminta (31725 näyttäisi tekevän tarin)
+	e)  #HUOM.020825:testattu sen verran että tekee tar:in 
 		pre2 ${d} ${distro} ${iface} ${dnsm}
+		#TODO:tp0 tähän väliin
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
 	f)  #HUOM.28725:testattu, toimii ainakin sen verran että tekee tarin minkä sisältä järkeväno loinen

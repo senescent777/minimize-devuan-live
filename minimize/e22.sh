@@ -581,7 +581,9 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 	dqb "x2.tlb.done"
 }
 
-function tp4() { #TODO:selviTä paskooko tämä ifup:in?
+function tp4() { #TODO:selviTä paskooko tämä ifup:in? ei välttämättä
+	#TODO:voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja
+	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
 	dqb "tp4 ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 
