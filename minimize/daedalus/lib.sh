@@ -258,7 +258,7 @@ function pre_part2() {
 
 	#${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
-	#020825:toivottavasti ei sivuvaikutuksena sössö ifup:in toimintaa
+	#020825:toivottavasti ei sivuvaikutuksena sössi ifup:in toimintaa
 
 	for f in $(find /etc/init.d -type f -name 'ntp*') ; do 
 		${odio} ${f} stop
