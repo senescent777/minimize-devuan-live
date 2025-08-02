@@ -22,13 +22,12 @@ function pre1() {
 		echo "else"
 		dqb "5TNA"
 		
-		#local ostrac
+
 		local lefid
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) # | cut -d '/' -f 1-5)
 		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 	
 		enforce_access ${n} ${lefid} #jos jo toimisi
-		#ostrac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #tarpeellinen?
 		csleep 1
 		dqb "3NF0RC1NG D0N3"
 		
@@ -95,7 +94,7 @@ function tp0() {
 		dqb "cleaning up ${1} "
 		csleep 1
 		${NKVD} ${1}/*.deb
-		#${NKVD} ${1}/*.tar #saattaa sössiä exp2 0
+	
 		${NKVD} ${1}/sha512sums.txt
 		dqb "d0nm3"
 	else
@@ -106,8 +105,7 @@ function tp0() {
 	csleep 1
 }
 
-function tpq() { #HUOM.020825:toimii	
-	#debug=1
+function tpq() { #HUOM.020825:toimii
 	dqb "tpq ${1} ${2}"
 	csleep 1
 
@@ -140,7 +138,6 @@ function tpq() { #HUOM.020825:toimii
 	else
 		dqb "export2 p \$file ; import2 1 $file  ?"
 		exit 24
-
 	fi
 
 	cd ${2}
