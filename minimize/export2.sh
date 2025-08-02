@@ -171,6 +171,7 @@ csleep 1
 
 case ${mode} in
 	0|4) #HUOM.020825:0 TEKEE TOIMIVAN TAR:IN ELI EIPÄ SORKITA 666!!!
+		#... mod pientä kiukuttelua ifup kanssa
 		#... case 4 kanssa toimi tällä viikolla
 
 		[ z"${tgtfile}" == "z" ] && exit 99 
@@ -312,6 +313,7 @@ if [ -s ${tgtfile} ] ; then
 	${sco} $(whoami):$(whoami) ${tgtfile}.sha
 	${scm} 0644 ${tgtfile}.sha
 
+	#TODO:gpg-juttuja tähän?
 	${sah6} ${tgtfile} > ${tgtfile}.sha
 	${sah6} -c ${tgtfile}.sha
 

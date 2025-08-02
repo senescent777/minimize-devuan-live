@@ -1,6 +1,7 @@
-function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
+function pre1() {
 	# tosin disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(TODO)
 
+	#HUOM.020825:pitäisi kai selvittää mikä paskoo ifup:in, onko se tämä fktio vai jokin muu?
 	dqb "pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 66
@@ -38,7 +39,7 @@ function pre1() { #HUOM.28725:testattu, vaikuttaa toimivalta
 }
 
 function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten kai toimii
-	#debug=1
+	#... pl mahdollisesti ifup liittyvät jutut (TODO)
 	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
@@ -145,7 +146,7 @@ function tpq() { #HUOM.020825:toimii
 	cd ${2}
 }
 
-#HUOM.020825:jospa tämä nyt toimisi prkl
+#TODO:selv paskooko tämä ifup:in vai ei
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
@@ -330,8 +331,7 @@ function tp2() { #HUOM.020825:joko jo toimisi?
 	csleep 1
 }
 
-function tp3() { #HUOM.010825:vaikuttaisi toimivan, tämän jutut menivät arkistoon mutta tp2() kanssa oli pientä häikkää
-	#debug=1 #antaa olla vielä
+function tp3() { #TODO:testaa uusiksi, mikä paskoo ifup:in, onko se tämä vai ei?
 	dqb "tp3 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -578,15 +578,12 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 	dqb "x2.tlb.done"
 }
 
-function tp4() { # (31725 näyttäisi tekevän tarin)
-	dqb "tp4 ${1} , ${2} , ${3}   , ${4} "
-	#dqb "DEMI-SEC"
-
+function tp4() { #TODO:selviyä paskooko tämä ifup:in?
+	dqb "tp4 ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
-	
 	[ -z ${1} ] && exit 11
 	[ -z ${3} ] && exit 11
 	[ -z ${4} ] && exit 11

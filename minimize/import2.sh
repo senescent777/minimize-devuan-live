@@ -384,7 +384,7 @@ case "${mode}" in
 			common_part ${srcfile} ${d} ${d}
 		fi
 
-		#VAIH:nyt prissa kohdassa tark että $srcfile löytyi ja sen sau purettua 
+		#VAIH:nyt prissa kohdassa tark että $srcfile löytyi ja sen sai purettua 
 		csleep 1
 
 		if [ ${1} -eq 0 ] ; then #vähemmällä jos tekisi...
@@ -413,7 +413,7 @@ case "${mode}" in
 	q)
 		#HUOM.020825:toimii
 
-		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan, tai siis näin oli kunnes toiminta myyttyu
+		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan, tai siis näin oli kunnes toiminta muuttui
 		#nykyään (31725) testataan että $srcfile:n sisältä löytyy fediverse.tar		
 
 		#VAIH:jatkossa hakemistopolku pois arkistosta + sivuvaikutukset
