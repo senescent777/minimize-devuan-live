@@ -48,10 +48,8 @@ function c5p() { #VAIH:testaa toiminta
 
 function reficul() {
 	dqb "NATTA5H3AD 0VERDR1V3 666!"
-
 	csleep 1
 
-	#HUOM. tuo ao. ekf-rivistö(ennen libpam) tarpeen vain päivityspaketin kanssa, jospa erilliseen fktioon? 
 	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
 	efk ${1}/gcc-12*.deb
 
@@ -140,10 +138,9 @@ function udp6() { #HUOM.28725:testattu, toiminee
 	csleep 1
 
 	#nalqtusta aiheuttavat paketit nykyään:kts. c5p()
-
 	#${NKVD} ${1}/libx11-xcb1*
 	#HUOM.tuon poisto(aptilla) poistaa äksän ja xfce:n joten ei
-
+	
 	c5p ${1}
 	dqb "D0NE"
 	csleep 1
@@ -261,6 +258,7 @@ function pre_part2() {
 
 	#${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
+	#020825:toivottavasti ei sivuvaikutuksena sössö ifup:in toimintaa
 
 	for f in $(find /etc/init.d -type f -name 'ntp*') ; do 
 		${odio} ${f} stop
@@ -279,5 +277,6 @@ function tpc7() { #e22.sh kutsuu tätä nykyään
 	dqb "d.prc7 UNDER CONSTRUCTION"
 }
 
+#HUOM.020825:toiv ei pasko ifup
 check_binaries ${d}
 check_binaries2
