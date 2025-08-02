@@ -233,10 +233,11 @@ case ${mode} in
 		csleep 5	
 		tp2 ${tgtfile} ${iface} ${dnsm} #[ -v testgris ] || 
 	;;
-	1|u|upgrade) #HUOM.29725:ainakin chimaeran kanssa tup():in tekemät paketit kelpaavat
+	1|u|upgrade) #TODO:testaa uusiksi
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface} ${dnsm}
+		tp0 ${d}
 		tup ${tgtfile} ${d} ${iface} ${dnsm}
 	;;
 	p) #HUOM.020825:testattu sen verran että tekee tar:in (myös polku hukattu)
@@ -246,9 +247,9 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.020825:testattu sen verran että tekee tar:in 
+	e)  #TODO:tstaa uusiksi
 		pre2 ${d} ${distro} ${iface} ${dnsm}
-		#TODO:tp0 tähän väliin
+		tp0 ${d}
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
 	f)  #HUOM.28725:testattu, toimii ainakin sen verran että tekee tarin minkä sisältä järkeväno loinen
