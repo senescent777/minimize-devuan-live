@@ -384,7 +384,6 @@ case "${mode}" in
 			common_part ${srcfile} ${d} ${d}
 		fi
 
-		#VAIH:nyt prissa kohdassa tark että $srcfile löytyi ja sen sai purettua 
 		csleep 1
 
 		if [ ${1} -eq 0 ] ; then #vähemmällä jos tekisi...
@@ -403,7 +402,8 @@ case "${mode}" in
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
 
-		part3 ${d} ${dnsm} #HUOM.21725:tämän toiminta pitäisi selvittää
+		#tarvitseeko part3 toimintaa selvittää juuri nyt vai ei?
+		part3 ${d} ${dnsm}
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 		csleep 1
 
@@ -411,12 +411,9 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#HUOM.020825:toimii
-
-		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan, tai siis näin oli kunnes toiminta muuttui
+		#TODO:jos TAAS testaisi että toimii
 		#nykyään (31725) testataan että $srcfile:n sisältä löytyy fediverse.tar		
 
-		#VAIH:jatkossa hakemistopolku pois arkistosta + sivuvaikutukset
 		[ x"${srcfile}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 1
@@ -434,7 +431,7 @@ case "${mode}" in
 		tpr ${d0}
 	;;
 	k)	
-		echo "TODO" #sq-chroot-spesifistä jatkossa
+		echo "TODO" #sq-chroot-spesifistä jatkossa, vähitellen
 	;;
 	-h) #HUOM.27725:ilman param kuuluisi kai keskeyttää suor mahd aik
 		usage
