@@ -567,10 +567,10 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 	#uutena 31525
 	udp6 ${pkgdir}
 
-	#TODO:part2_5() jatkossa, nyt jos riittäisi ao. 3 riviä
-	${sharpy} libavahi*
-	${NKVD} ${pkgdir}/libavahi*	
-	${asy}
+	#VAIH:part2_5() jatkossa, nyt jos riittäisi ao. 3 riviä
+	#${sharpy} libavahi*
+	#${NKVD} ${pkgdir}/libavahi*	
+	#${asy}
 
 	#actually necessary
 	pre2 ${1} ${3} ${2} ${4} 
@@ -630,9 +630,9 @@ function tp4() { #TODO:selviTä paskooko tämä ifup:in?
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
 	csleep 1
 	${lftr}
-	${sharpy} libavahi*
+#	${sharpy} libavahi* #ehkä takaisin josqs?
 	${NKVD} ${pkgdir}/libavahi*	
-	${asy}
+#	${asy}
 
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä -24
 	#... myös gpgtar pitäisi ottaa haltuun
@@ -646,7 +646,7 @@ function tp4() { #TODO:selviTä paskooko tämä ifup:in?
 		rmt ${1} ${2}
 		csleep 1
 
-		${NKVD} ${2}/*.deb #parempi kuitenkin rmt:n jälkeen?
+		${NKVD} ${2}/*.deb
 	fi
 
 	dqb "tp4 donew"
@@ -711,12 +711,12 @@ function tup() { #TODO:testaa uusiksi, koska param tark
 	echo $?
 	csleep 1
 
-	dqb "AVA.H1"
-	${sharpy} libavahi*
-	${NKVD} ${pkgdir}/libavahi*
-	
-	${asy}
-	csleep 1
+#	dqb "AVA.H1" #josqs takaisin?
+#	${sharpy} libavahi*
+#	${NKVD} ${pkgdir}/libavahi*
+#	
+#	${asy}
+#	csleep 1
 
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1
