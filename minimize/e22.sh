@@ -653,8 +653,7 @@ function tp4() { #TODO:selviTä paskooko tämä ifup:in?
 	csleep 1
 }
 
-function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in
-	#VAIH:jospa jatkossa hukkaisi sen polun arkistosta, $2...
+function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in , myös polq hukattu
 	dqb "tp5 ${1} ${2}"
 
 	[ -z ${1} ] && exit 99
@@ -678,9 +677,10 @@ function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in
 	mv more_scripts/profs/profs* ${2}
 
 	${scm} 0755 ${2}/profs*
-	#${srat} -rvf ${1} ${2}/profs*
-	${srat} -C ${2} -rvf ${1}  ./profs.*
+	cd ${2}	
+	${srat} -rvf ${1} ./profs.*
 
+	cd ${q}
 	dqb "AAMUNK01"
 }
 

@@ -240,7 +240,7 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tup ${tgtfile} ${d} ${iface} ${dnsm}
 	;;
-	p) #VAIH:test
+	p) #HUOM.020825:testattu sen verran että tekee tar:in (myös polku hukattu)
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
