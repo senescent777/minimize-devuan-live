@@ -160,11 +160,7 @@ fi
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
-pre1 ${d} ${distro} #[ -v testgris ] || 
-
-#TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
-#... jos on jotain sivuvaikutuksia ni pikemminkin tdstoon e22.sh nykyään
-#... onkohan vielä ajankohtainen?
+pre1 ${d} ${distro}
 
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 [ -x /opt/bin/changedns.sh ] || exit 59
