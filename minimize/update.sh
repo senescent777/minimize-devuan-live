@@ -4,9 +4,7 @@ u=0
 v=0
 
 d0=$(dirname $0)
-echo "d0=${d0}"
-#[ z"${distro}" == "z" ] && exit 6
-
+#echo "d0=${d0}"
 d=${d0}/${distro}
 
 tgt=${1}
