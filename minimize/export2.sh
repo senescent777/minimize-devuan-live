@@ -200,6 +200,7 @@ case ${mode} in
 
 		dd if=/dev/random bs=12 count=1 > ./rnd
 		${srat} -cvf ${d}/f.tar ./rnd
+		tp0 ${d} #VAIH:pitäisikö olla ennen tp4 ? 
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then
@@ -213,7 +214,6 @@ case ${mode} in
 		${sifd} ${iface}
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
 
-		tp0 ${d} #TODO:pitäisikö olla ennen tp4 ? 
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 5
  	
