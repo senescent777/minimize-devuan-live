@@ -2,7 +2,6 @@
 mode=2
 distro=$(cat /etc/devuan_version)
 d0=$(pwd)
-#echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro} 
@@ -62,9 +61,7 @@ dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
 part076 ${distro}
-
-#HUOM.010825:miksiköhän f.tar katosi? paska tar? paska tikku? paskaa rautaa? ei huomioitu virhetilannetta?
-#TODO:sitä pakettien purkua, voisi katsoa minne *.deb roiskitaan ja miksi
+#sitä pakettien purkua, voisi katsoa minne *.deb roiskitaan ja miksi (vielä ajankohtainen?)
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -196,7 +193,6 @@ part2_5 ${removepkgs} ${dnsm}
 message
 part3 ${d} ${dnsm}
 other_horrors
-
 ${d0}/import2.sh r ${d0} -v
 
 jules
