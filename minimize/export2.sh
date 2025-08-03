@@ -301,14 +301,14 @@ case ${mode} in
 		[ z"${tgtfile}" == "z" ] && exit 99
 
 		cd ${d0}
-		q=$(mktemp)
-		${srat} -cvf ${tgtfile} ${q}
+		#q=$(mktemp)
+		#${srat} -cvf ${tgtfile} ${q}
 
 		for f in $(find . -type f -name conf -or -name lib.sh) ; do ${srat} -rvf ${tgtfile} ${f} ; done
 		bzip2 ${tgtfile}
 
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
-		tgtfile="${tgtfile}".bz3 #tarkpoituksella tämä pääte 
+		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
 	;;
 
 	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata
