@@ -385,7 +385,6 @@ case "${mode}" in
 			common_part ${srcfile} ${d} ${d}
 		fi
 
-		#VAIH:nyt prissa kohdassa tark että $srcfile löytyi ja sen sai purettua 
 		csleep 1
 
 		if [ ${1} -eq 0 ] ; then #vähemmällä jos tekisi...
