@@ -33,10 +33,12 @@ function pre1() {
 		csleep 1
 		${scm} 0755 /etc/apt
 		${scm} a+w /etc/apt/sources.list*
+
+		part1 ${1}
 	fi
 }
 
-#TODO:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
+#VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
 
 function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten kai toimii
 	#... ifup toivottavasti toimii kanssa
