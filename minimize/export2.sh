@@ -262,8 +262,8 @@ case ${mode} in
 		tpq ~ ${d0}
 		cd ${d0}
 	
-		q=$(mktemp)
-		${srat} -cf ${tgtfile} ${q}
+		#q=$(mktemp)
+		#${srat} -cf ${tgtfile} ${q}
 
 		dqb "	OIJHPIOJGHOYRI&RE"
 		pwd
@@ -273,9 +273,8 @@ case ${mode} in
 		tpq ~ ${d0}
 		
 		#HUOM.28725:puuttuvien fktioiden takia ei suoritusta näköjään keskeytetä	
-
-		q=$(mktemp)
-		${srat} -cf ${tgtfile} ${q}
+		#q=$(mktemp)
+		#${srat} -cf ${tgtfile} ${q}
 
 		dqb "	OIJHPIOJGHOYRI&RE"
 		[ ${debug} -eq 1 ] && pwd
@@ -283,6 +282,7 @@ case ${mode} in
 
 		cd ~
 
+		#HUOM.voisi toisellakin tavalla tehdä, kts update.sh
 		for f in $(find . -type f -name config.tar.bz2 -or -name fediverse.tar -or -name pulse.tar) ; do
 			${srat} -rvf ${tgtfile} ${f}
 		done
@@ -292,7 +292,7 @@ case ${mode} in
 	;;
 	t) #VAIH:tarkista toiminta TAAS (020825 tekee tar:in, sisällön kelvollisuus vielä testaamatta)
 		pre2 ${d} ${distro} ${iface} ${dnsm}
-		${NKVD} ${d}/*.deb
+		${NKVD} ${d}/*.deb #olisi myös tp0
 		tlb ${d} ${iface} ${distro} ${dnsm}
 		${svm} ${pkgdir}/*.deb ${d}
 		rmt ${tgtfile} ${d}
