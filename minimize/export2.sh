@@ -199,7 +199,6 @@ case ${mode} in
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 
-		#HUOM.020825:miksi varten tar nollautui äkkiä?
 		dqb "srat= ${srat}"
 		csleep 5
 

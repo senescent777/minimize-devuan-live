@@ -22,7 +22,6 @@ function pre1() {
 		echo "else"
 		dqb "5TNA"
 		
-
 		local lefid
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) # | cut -d '/' -f 1-5)
 		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
@@ -90,7 +89,7 @@ function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten
 
 #HUOM.28725:vaikuttaisi toimivan
 function tp0() {
-	dqb "tp0 ${1} , ${2} , ${3}  "
+	dqb " ${1} , ${2} , ${3}  "
 
 	if [ -d ${1} ] ; then
 		dqb "cleaning up ${1} "
@@ -168,6 +167,7 @@ function tp1() {
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 	local t
 
+	#TODO:selvitä toimiiko näin sen yhden testiympäristön kanssa
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 2
 	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
@@ -204,6 +204,7 @@ function tp1() {
 		#pitäisiköhän findilla hakea tar:ille ne .sh, .tar yms. ?
 		#... vai stokeekohan ecxldur asioita? ei kai
 
+		#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan (ei kyllä pitäisi)
 		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
 #	fi
 #pidetääb tämä blokki vielä jemmassa

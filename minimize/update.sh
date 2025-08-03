@@ -95,14 +95,17 @@ if [ -f ${tgt} ] ; then
 	#HUOM.28725:miten config.bz2 kanssa? vissiin jokeri '*.tar*' hoitaa senkin koska *tar.bz2*
 	#...paitsi että se polku? (TODO?)
 
+	#HUOM.030825:tar-kohta tästä pois jatkossa koska ylempänä jo?
 	for f in $(find ${p}/ -maxdepth 1 -type f -name '*.tar*') ; do
 		echo "PCROCESSING : ${f}"
 		process_entry ${tgt} ${f}
 		sleep 1
 	done
 	
-	#tavoitteena locale-juttujen lisäksi localtime mukaan
-	#TODO:locale*-kohtaan ehkä muutoksia?
+	#HUOM.030825:localet ja timezone saavat olla kuten nyt?
+	#jos ei erikseen muuttele niin samat q pakettia purkaessa
+	#eikä juuressa sijaitsevien kanssa tartte kikkailla polun kanssa
+
 	for f in $(find /etc -type f -name 'locale*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			process_entry ${tgt} ${f}
