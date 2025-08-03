@@ -12,7 +12,7 @@ fi
 
 case ${1} in
 	merde)
-		${d}/demerde_toi.sh main #testattu 08/25 alussa, toimi silloin
+		${d}/demerde_toi.sh main
 	;;
 	cdns)		
 		sudo /opt/bin/changedns.sh ${dnsm}
@@ -30,7 +30,6 @@ case ${1} in
 		read -p "source?" sorsa
 		sleep 2
 
-		#TEHTY:desktop-fileet muuttaen tähän liittyen
 		if [ "${1}" == "import" ] ; then
 			${d}/import2.sh 0 ${sorsa}
 			[ $? -eq 0 ] || echo "$0 import2 ?"
