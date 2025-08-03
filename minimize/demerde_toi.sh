@@ -21,7 +21,6 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh #HUOM. tarvitsiko tästä jota9in?
 fi
 
-#tig ja mkt alustukset jatkossa check_binaries():iin? no mkt ehkä
 tig=$(sudo which git)
 
 if [ x"${tig}" == "x" ] ; then
