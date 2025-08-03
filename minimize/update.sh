@@ -73,7 +73,7 @@ if [ -f ${tgt} ] ; then
 	process_entry ${tgt} /opt/bin/changedns.sh
 	sleep 2
 
-	if [ -v testgris ] && [ -d ${testgris} ] ; then #toistaiseksi jemmaan 020825 (oliko jotain muutakin mitä piti jemmata?)
+	if [ -v testgris ] && [ -d ${testgris} ] ; then 
 		cd ${testgris}
 		p="."
 	else
@@ -88,19 +88,18 @@ if [ -f ${tgt} ] ; then
 	fi
 
 	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
+	dqb "find ${p}/ asd asd asd "
+	csleep 2
+
 	for f in $(find ${p}/ -name '*.example') ; do process_entry ${tgt} ${f} ; done
 	for f in $(find ${p}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
-	
-	#VAIH:conf*-kohtaan muutoksia
-	#HUOM.28725:miten config.bz2 kanssa? vissiin jokeri '*.tar*' hoitaa senkin koska *tar.bz2*
-	#...paitsi että se polku? (TODO?)
 
-	#HUOM.030825:tar-kohta tästä pois jatkossa koska ylempänä jo?
-	for f in $(find ${p}/ -maxdepth 1 -type f -name '*.tar*') ; do
-		echo "PCROCESSING : ${f}"
-		process_entry ${tgt} ${f}
-		sleep 1
-	done
+#	#HUOM.030825:tar-kohta tästä pois jatkossa koska ylempänä jo?
+#	for f in $(find ${p}/ -maxdepth 1 -type f -name '*.tar*') ; do
+#		echo "PCROCESSING : ${f}"
+#		process_entry ${tgt} ${f}
+#		sleep 1
+#	done
 	
 	#HUOM.030825:localet ja timezone saavat olla kuten nyt?
 	#jos ei erikseen muuttele niin samat q pakettia purkaessa
