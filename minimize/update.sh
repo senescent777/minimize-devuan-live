@@ -104,6 +104,7 @@ if [ -f ${tgt} ] ; then
 	#HUOM.030825:localet ja timezone saavat olla kuten nyt?
 	#jos ei erikseen muuttele niin samat q pakettia purkaessa
 	#eikä juuressa sijaitsevien kanssa tartte kikkailla polun kanssa
+	#/e sisältö voidaan tuupata takaisin arkistoon jos on siitä alunperin purettu, muuten voi tulla ongelmia
 
 	for f in $(find /etc -type f -name 'locale*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
