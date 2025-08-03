@@ -213,7 +213,7 @@ case ${mode} in
 		${sifd} ${iface}
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
 
-		tp0 ${d} 
+		tp0 ${d} #TODO:pitäisikö olla ennen tp4 ? 
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 5
  	

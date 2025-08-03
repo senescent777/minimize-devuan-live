@@ -36,18 +36,18 @@ function pre1() {
 	fi
 }
 
-#HUOM.020825:jossain pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
+#TODO:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
 
 function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten kai toimii
-	#... pl mahdollisesti ifup liittyvät jutut (TODO)
+	#... ifup toivottavasti toimii kanssa
 	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 67
 	[ -z ${3} ] && exit 68
-	[ -z ${4} ] && exit 69 #josko nyt jo 31725 olisi kaikki kohdat, mistä kutsitaan, kunnossa
-	
+	[ -z ${4} ] && exit 69
+
 	dqb "pars.ok"	
 	csleep 1
 
@@ -144,7 +144,7 @@ function tpq() { #HUOM.020825:toimii
 	cd ${2}
 }
 
-#VAIH:selv paskooko tämä ifup:in vai ei
+#030825:viimeksi ei paskonut ifup toimintaa
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
@@ -207,11 +207,12 @@ function tp1() {
 		#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan (ei kyllä pitäisi)
 		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
 #	fi
-#pidetääb tämä blokki vielä jemmassa
+#pidetään tämä blokki vielä jemmassa
 	dqb "tp1 d0n3"
 	csleep 1
 }
 
+#update.sh käyttämään tätä?
 function luca() {
 	dqb "luca ( ${1})"
 	csleep 1
@@ -221,13 +222,12 @@ function luca() {
 	dqb "prs ok"
 	csleep 1
 
-	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule #| less
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule
 	sleep 2
 
 	dqb "JUST BEFORE LOCALES"
 	sleep 1
 
-	#VAIH:locale- ja timezone- jutut toisella tavalla, tp2() kutSuvaan koodiin vaikkapa?
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
 	#HUOM.22525:tuossa alla locale->local niin saisi localtime:n mukaan mutta -type f
 	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
@@ -235,7 +235,7 @@ function luca() {
 	echo $?
 	sleep 1
 
-	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local #| less
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 	sleep 3
 }
 
@@ -324,7 +324,7 @@ function tp2() { #HUOM.020825:joko jo toimisi?
 	csleep 1
 }
 
-function tp3() { #TODO:testaa uusiksi, mikä paskoo ifup:in, onko se tämä vai ei?
+function tp3() { #030835:vielä tarpeellista testailla?
 	dqb "tp3 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -360,6 +360,7 @@ function tp3() { #TODO:testaa uusiksi, mikä paskoo ifup:in, onko se tämä vai 
 	echo $?
 	csleep 1
 
+	#TODO:$dnsm parametriksi?
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm}
 
@@ -369,7 +370,7 @@ function tp3() { #TODO:testaa uusiksi, mikä paskoo ifup:in, onko se tämä vai 
 
 	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
 	# (ao. rivi tp2() jatkossa?)	
-	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm} #TODO.glob wtt
+	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm}
 
 	if [ ! -s ./etc/resolv.conf.1 ] ; then
 		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
@@ -580,7 +581,7 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 	dqb "x2.tlb.done"
 }
 
-function tp4() { #TODO:selviTä paskooko tämä ifup:in? ei välttämättä
+function tp4() { #030825:tarvitseeko vielä selvitellä ifup-asiaa?
 	#TODO:voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja
 	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
 
@@ -725,7 +726,7 @@ function tup() { #TODO:testaa uusiksi, koska param tark
 	echo $?
 	csleep 1
 
-	dqb "AVA.H1" #josqs takaisin?
+	dqb "AVA.H1"
 	${sharpy} libavahi*
 	${NKVD} ${pkgdir}/libavahi*
 	
