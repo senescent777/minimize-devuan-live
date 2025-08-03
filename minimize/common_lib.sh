@@ -129,7 +129,6 @@ else
 	n=$(whoami)
 fi
 
-#DONE?:generic_x - skriptit toimimaan cgroot-ympäristössä, alkaisiko jo olla kunnossa?
 fix_sudo
 other_horrors
 
@@ -205,8 +204,8 @@ function pre_part3_clib() {
 
 	if [ ${q} -lt 1 ] ; then
 		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
-		echo "SHOULD REMOVE ${1} /sha512sums.txt"
-		echo "\"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
+		echo "SHOULD REMOVE ${1} / sha512sums.txt"
+		echo "\"${scm} a-x ${1} / .. / common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
 		
 		#pitäis ikai huomioida että scm voi aiheuttaa sivuvaikutuksia myöhemmin
 		${scm} a-x ${r}/common_lib.sh 
@@ -230,7 +229,7 @@ function efk() {
 
 #HUOM.25725:chimaeran kanssa kosahti tablesin asennus, libnetfilter ja libnfnetlink liittyivät asiaan
 function common_tbls() {
-	debug=1
+	#debug=1
 	dqb "COMMON TABLESD"
 	csleep 1
 
@@ -352,7 +351,6 @@ function check_binaries() {
 			fi
 		else
 			if [ -s ${1}/f.tar ] ; then
-				#jos -c $1 kuitesnkin?
 				${odio} ${srat} -C ${1} -xf ${1}/f.tar
 
 				if [ $? -eq 0 ] ; then
@@ -505,7 +503,6 @@ function dinf() {
 #HUOM.020825:toiv ei pasko:ifup
 
 function pre_enforce() {
-	#debug=1 #liikaa tauhkaa, pois 28725
 	dqb "common_lib.pre_enforce( ${1} )"
 	local q
 	local f
@@ -625,7 +622,6 @@ function e_v() {
 
 #HUOM.020825:toiv ei pasko:ifup
 function e_h() {
-	#debug=1 #HUOM.27825:debug ois, liikaa tauhkaa
 	dqb "e_h( ${1} , ${2} )"
 	csleep 2
 
@@ -933,7 +929,6 @@ function part1() {
 
 #HUOM.020825:toiv ei sivuvaikutuuksena sössi ifup
 function part2_5() {
-	#debug=1
 	dqb "PART2.5.1 ${1} , ${2}"
 	csleep 1
 
@@ -1006,52 +1001,9 @@ function part2_5() {
 	csleep 1
 }
 
-#function part3_4real() {
-#	dqb "part3_4real( ${1} )"
-#	csleep 1
-#
-#	[ y"${1}" == "y" ] && exit 1 #mikähän tässäkin on?
-#	dqb "11"
-#	csleep 1
-#	[ -d ${1} ] || exit 2
-#
-#	dqb "22"
-#	csleep 1
-#	psqa ${1}
-#
-#	#HUOM. dpkg -R olisi myös keksitty
-#	local f
-#
-#	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
-#
-#	if [ $? -eq  0 ] ; then
-#		dqb "part3.1 ok"
-#		csleep 1
-#		${NKVD} ${1}/lib*.deb
-#	else
-#		exit 66
-#	fi
-#
-#	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
-#
-#	if [ $? -eq  0 ] ; then
-#		dqb "part3.2 ok"
-#		csleep 1
-#		${NKVD} ${1}/*.deb
-#	else
-#		exit 67
-#	fi
-#
-#	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
-#	csleep 1
-#
-#	dqb "part3_4real( ${1} ) DONE"
-#	csleep 1
-#}
-
 #tämän ja kutsuttujen fktioiden debug, saattaa olla jotain ? 28725 vaikuttaisi toimivan ok nimittäin
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
-#HUOM.020825:jos ei muuta keksi niin tämänkin joutuu tutkimaan että sössiikö ifup:in toiminnan vai ei
+#HUOM.030825:ifup kunnossa?
 function part3() {
 	#debug=1 
 	dqb "part3 ${1} ${2}"
