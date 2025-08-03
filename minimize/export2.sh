@@ -160,11 +160,7 @@ fi
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
-pre1 ${d} ${distro} #[ -v testgris ] || 
-
-#TODO:update.sh liittyen oli jotain juttuja sen kanssa mitä otetaan /e alta mukaan, voisi katsoa
-#... jos on jotain sivuvaikutuksia ni pikemminkin tdstoon e22.sh nykyään
-#... onkohan vielä ajankohtainen?
+pre1 ${d} ${distro}
 
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 [ -x /opt/bin/changedns.sh ] || exit 59
@@ -183,23 +179,21 @@ csleep 1
 case ${mode} in
 	0|4) 
 		#... case 0 kanssa oli pientä kiukuttelua ifup kanssa (toivottavasti jo korjattu)
-		#... testgris-kikkailut roskikseen olisi 1 idea (tehty)
+	
 		#... case 4 kanssa saatu uudestaan toimimaan 020825 (katso toistuuko)
 
 		[ z"${tgtfile}" == "z" ] && exit 99 
-		pre2 ${d} ${distro} ${iface} ${dnsm} #[ -v testgris ] || 
-
+		pre2 ${d} ${distro} ${iface} ${dnsm}
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
-		csleep 3
+		csleep 2
 
-		tp3 ${tgtfile} ${distro} #[ -v testgris ] || 
+		tp3 ${tgtfile} ${distro}
 		dqb "TP3 DON3, next:rm some rchivies"
-		csleep 3
+		csleep 2
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 
-		#HUOM.020825:miksi varten tar nollautui äkkiä?
 		dqb "srat= ${srat}"
 		csleep 5
 
@@ -222,8 +216,7 @@ case ${mode} in
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 5
  	
-		tp1 ${tgtfile} ${d} #${testgris}
-		
+		tp1 ${tgtfile} ${d}
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 4
 		${NKVD} ${d}/*.tar #tartteeko piostaa?
@@ -231,7 +224,7 @@ case ${mode} in
 		pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 5	
-		tp2 ${tgtfile} ${iface} ${dnsm} #[ -v testgris ] || 
+		tp2 ${tgtfile} ${iface} ${dnsm} 
 	;;
 	1|u|upgrade) #HUOM.29725:ainakin chimaeran kanssa tup():in tekemät paketit kelpaavat
 		[ z"${tgtfile}" == "z" ] && exit 99 
@@ -262,7 +255,7 @@ case ${mode} in
 		tpq ~ ${d0}
 		cd ${d0}
 	
-		q=$(mktemp)
+		q=$(mktemp) #TODO:YLIm mktemp pois
 		${srat} -cf ${tgtfile} ${q}
 
 		dqb "	OIJHPIOJGHOYRI&RE"

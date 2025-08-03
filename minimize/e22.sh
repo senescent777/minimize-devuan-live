@@ -4,8 +4,7 @@ function pre1() {
 	#HUOM.020825:pitäisi kai selvittää mikä paskoo ifup:in, onko se tämä fktio vai jokin muu?
 	dqb "pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 66
-	[ -z ${2} ] && exit 66
-	#VAIH:tokan parametrin(mihin tarvitsee?) tarkistus, toiminee
+	[ -z ${2} ] && exit 67
 
 	csleep 4
 	dqb "pars.0k"
@@ -40,7 +39,6 @@ function pre1() {
 #HUOM.020825:jossain pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
 
 function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten kai toimii
-	#... pl mahdollisesti ifup liittyvät jutut (TODO)
 	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
@@ -113,7 +111,7 @@ function tpq() { #HUOM.020825:toimii
 
 	[ -z ${1} ] && exit 11
 	[ -z ${2} ] && exit 12
-	[ -d ${1} ] || exit 22 #uskaltaisiko jommankumman tarkistuksen laittaa takaisin?
+	[ -d ${1} ] || exit 22
 	[ -d ${2} ] || exit 23 #pitäisikö mennä näin?
 
 	dqb "paramz 0k"
@@ -145,7 +143,7 @@ function tpq() { #HUOM.020825:toimii
 	cd ${2}
 }
 
-#VAIH:selv paskooko tämä ifup:in vai ei
+#030825:ifup ok?
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
@@ -175,26 +173,7 @@ function tp1() {
 	csleep 2
 
 #	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
-#	#jatkossa tar if-blokin jälkeen?
-#	if [  z"${3}" != "z" ] ; then
-#		dqb "A"
-#		csleep 1
-#
-#		cd ${3} #tässä oli virhe
-#		${srat} --exclude='*.deb' -rvf ${1} ./home/stubby
-#		csleep 3
-#
-#		#TODO:se fiksumpi tapa, voiSiko esim $2:sta leikata $3:n bashilla jotenkin käteväsri?
-#		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 4,5,6,7)
-#		echo ${t}
-#		#exit
-#
-#		#TODO:vissiin jatkossa niin että tässä haarassa .example voi ottaa, conf* ei (update.sh liittyi)
-#
-#		dqb "./home/stubby ./home/devuan/Desktop/minimize" #tässäkin oli virhe
-#		${srat} --exclude='*.deb' --exclude='conf*' -rvf ${1} ${t} 
-#		#erikseen pitäisi se conf.example lisätä 
-#	else
+
 		dqb "B"
 		csleep 1
 		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
@@ -206,8 +185,7 @@ function tp1() {
 		#... vai stokeekohan ecxldur asioita? ei kai
 
 		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
-#	fi
-#
+
 	dqb "tp1 d0n3"
 	csleep 1
 }
@@ -227,7 +205,6 @@ function luca() {
 	dqb "JUST BEFORE LOCALES"
 	sleep 1
 
-	#VAIH:locale- ja timezone- jutut toisella tavalla, tp2() kutSuvaan koodiin vaikkapa?
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
 	#HUOM.22525:tuossa alla locale->local niin saisi localtime:n mukaan mutta -type f
 	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
@@ -239,8 +216,7 @@ function luca() {
 	sleep 3
 }
 
-function tp2() { #HUOM.020825:joko jo toimisi?
-	#debug=1 #pois?
+function tp2() { #HUOM.020825:joko jo toimisi
 	dqb "tp2 ${1} ${2} ${3}"
 	csleep 1
 
@@ -284,15 +260,9 @@ function tp2() { #HUOM.020825:joko jo toimisi?
 		exit 112
 	fi
 
-	dqb "WLAN-RELAT3D"	
+	dqb "WLAN-RELARD3D"	
 	csleep 2
-
-	#HUOM.020825:
-	#wpa_supplicant: /sbin/wpa_supplicant daemon failed to start
-	#run-parts: /etc/network/if-pre-up.d/wpasupplicant exited with return code 1
-	#ifup: failed to bring up wlan0
-	#jos toistuu ni jotain tarttisi keksiä krjaukseksi (esim chmod)
-	#sudo find /etc -name '*wpa*'  | tar -rvf?
+	#HUOM.030825:ifup jo kunnossa?
 
 	case ${2} in
 		wlan0)
@@ -331,7 +301,7 @@ function tp2() { #HUOM.020825:joko jo toimisi?
 	csleep 1
 }
 
-function tp3() { #TODO:testaa uusiksi, mikä paskoo ifup:in, onko se tämä vai ei?
+function tp3() { #030825:ifup jo kunnossa?
 	dqb "tp3 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -430,7 +400,7 @@ function tp3() { #TODO:testaa uusiksi, mikä paskoo ifup:in, onko se tämä vai 
 	${srat} -rvf ${1} ./etc ./sbin 
 
 	echo $?
-	#HUOM.19725:qseeko tässä jokin? ei kai enää
+
 	cd ${p}
 	pwd
 	dqb "tp3 done"
@@ -460,9 +430,8 @@ function aswasw() { #HUOM.28725:testattu, toimii
 	csleep 1
 }
 
-#VAIH:testaa uudestaan, x 4 the sake of x
+#030825:josqo jo toimisi
 function rmt() {
-	#debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
@@ -524,7 +493,7 @@ function rmt() {
 #home/devuan/Desktop/minimize/chimaera/home/devuan/Desktop/minimize/chimaera/tim3stamp
 #kyseiselle polulle voisi tehdä jotain jos ilmestyy(TODO)
 
-function tlb() { #VAIH:tarkista toiminta jälleen kerran
+function tlb() { #030825:ok?
 	#... oli python3.11 liittyvää nalqtusta ja vähän muutakin 020825	
 
 	#HUOM.MIKSI ASENTAA AVAHIN?
@@ -581,8 +550,8 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 	dqb "x2.tlb.done"
 }
 
-function tp4() { #TODO:selviTä paskooko tämä ifup:in? ei välttämättä
-	#TODO:voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja
+function tp4() { #030825:ifup jo ok?
+	#TODO:voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja (1 idea on)
 	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
 	dqb "tp4 ${1} , ${2} , ${3} , ${4} "
 	csleep 1
