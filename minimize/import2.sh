@@ -11,7 +11,8 @@ d=${d0}/${distro}
 
 #pitäisikö vielä minimoida latensseja tästä skriptistä? ja sen käyttämistä?
 #... optiota -v ei ole pakko käyttää, toisaalta
-#HUOM.28725:testailtu, vaikuttaisi toimivalta ainakin enimmäkseen (q myöhemmin)
+#HUOM.28725:testailtu, vaikuttaisi toimivalta ainakin enimmäkseen
+#TODO:päivityspaketin asenteluhommad, kts että menee niinq tarkoitus
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -349,7 +350,7 @@ case "${mode}" in
 		[ "${confirm}" == "Y" ]  || exit 77
 		common_part ${srcfile} ${d} /
 
-		#HUOM.sellainen ilmeinen juttu että joidenkn arkistojen tapauksessa .deb-paketit saatavat löyty
+		#HUOM.sellainen ilmeinen juttu että joidenkn arkistojen tapauksessa .deb-paketit saatTavat löytyÄ
  		#juuresta
 
 		csleep 1
