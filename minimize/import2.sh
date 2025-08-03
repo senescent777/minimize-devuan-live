@@ -430,8 +430,17 @@ case "${mode}" in
 	r)
 		tpr ${d0}
 	;;
-	k)	
-		echo "TODO" #sq-chroot-spesifistä jatkossa, vähitellen
+	k)	#VAIH
+		#... tähän liittyen pitää tietysti kopioida kohdehmistoon matsqut(TODO)
+		gg=$(${odio} which gpg)
+		ridk=${d}
+
+		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #/.chroot vielä?
+			for f in ${TARGET_Dkname1} ${TARGET_Dkname2} ; do # ${TARGET_Dkname1}.secret ${TARGET_Dkname2}.secret
+				echo "dbg: ${gg} --import ${ridk}/${f}"
+				${gg} --import ${ridk}/${f}
+			done
+		fi		
 	;;
 	-h) #HUOM.27725:ilman param kuuluisi kai keskeyttää suor mahd aik
 		usage

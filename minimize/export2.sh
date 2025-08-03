@@ -296,6 +296,8 @@ case ${mode} in
 	c) #uusi optio chroot-juttuja varten, toiminee (27.7.25)
 		[ z"${tgtfile}" == "z" ] && exit 99
 
+		#tähän se avainten lisäys vaiko erillinen case?
+
 		cd ${d0}
 		#q=$(mktemp)
 		#${srat} -cvf ${tgtfile} ${q}
