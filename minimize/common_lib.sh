@@ -35,6 +35,7 @@ else
 fi
 
 itni
+
 #HUOM.27725:nalkutus kenbties /o/b/changedns.sgh tjsp, ei vältt juuri fix_sudo
 #HUOM.020825:toivottavasti ei pasko:ifup
 function fix_sudo() {
@@ -189,8 +190,8 @@ function psqa() {
 	csleep 1
 }
 
-function pre_part3_clib() {
-	dqb "pre_part3_clib ${1}"
+function pre_part3_common() {
+	dqb "pre_part3_common ${1}"
 	csleep 1
 	pwd
 	dqb "find ${1} -type f -name ' \* .deb ' " #auttaako \* tässä?
@@ -205,7 +206,7 @@ function pre_part3_clib() {
 
 	if [ ${q} -lt 1 ] ; then
 		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
-		echo "SHOULD REMOVE ${1} / sha512sums.txt"
+		echo "SHOULD REMOVE ${1} / sha512sums.txt ?"
 		echo "\"${scm} a-x ${1} / .. / common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
 		
 		#pitäis ikai huomioida että scm voi aiheuttaa sivuvaikutuksia myöhemmin
@@ -225,6 +226,18 @@ function efk() {
 	dqb "efk( $@)"
 	${sdi} $@
 	[ $? -eq 0 ] && ${NKVD} $@
+	csleep 1
+}
+
+function efk2() {
+	dqb "efk2( $@)"
+
+	if [ -s ${1} ] && [ -r ${1} ] ; then
+		${odio} ${srat} -C ${2} -xf ${1} #/e.tar
+	else
+		dqb "WE NEED T0 TALK ABT ${1}"
+	fi	
+
 	csleep 1
 }
 
@@ -340,29 +353,33 @@ function check_binaries() {
 		#HUOM.olisikohan sittenkin suhteelliset polut tar:in sisällä helpompia?
 		#... tai jopspa jatkossa roiskisi /tmp alle
 		#HUOM.020825: toi v ei tässä alla paskota ifup:in toimintaa
+
+		#josko toimisi
+		efk2 ${1}/e.tar
+		efk2 ${1}/f.tar ${1}
  
-		if [ -s ${1}/e.tar ] ; then
-			${odio} ${srat} -C / -xf ${1}/e.tar
-			
-			if [ $? -eq 0 ] ; then
-				${NKVD} ${1}/e.tar #jompikumpi hoitaa
-				${smr} ${1}/e.tar
-			else
-				dqb "SMTHING WRONG W/ e.tar"
-			fi
-		else
-			if [ -s ${1}/f.tar ] ; then
-				${odio} ${srat} -C ${1} -xf ${1}/f.tar
+#		if [ -s ${1}/e.tar ] ; then #VAIH:jatkossa vähemmän mutkikkaasti? efk2()?
+#			${odio} ${srat} -C / -xf ${1}/e.tar
+#			
+#			if [ $? -eq 0 ] ; then
+#				${NKVD} ${1}/e.tar #jompikumpi hoitaa
+#				${smr} ${1}/e.tar
+#			else
+#				dqb "SMTHING WRONG W/ e.tar"
+#			fi
+#		else
+#			if [ -s ${1}/f.tar ] ; then
+#				${odio} ${srat} -C ${1} -xf ${1}/f.tar
+#
+#				if [ $? -eq 0 ] ; then
+#					${NKVD} ${1}/f.tar
+#				else
+#					dqb "SMTHING WRONG W/ f.tar"
+#				fi
+#			fi
+#		fi
 
-				if [ $? -eq 0 ] ; then
-					${NKVD} ${1}/f.tar
-				else
-					dqb "SMTHING WRONG W/ f.tar"
-				fi
-			fi
-		fi
-
-		pre_part3_clib ${1} #HUOM.25725:tarvitaan
+		pre_part3_common ${1} #HUOM.25725:tarvitaan
 		common_tbls ${1} ${dnsm}
 		other_horrors
 
@@ -1011,26 +1028,54 @@ function part3() {
 	csleep 1
 
 	jules
-	pre_part3_clib ${1}
+	pre_part3_common ${1}
 	csleep 1
 
 	reficul ${1}
 	pr4 ${1}
 	csleep 1	
 
-	#TODO:if-blokin sisälle seur 3 riviä, find...
-	efk ${1}/lib*.deb
-	[ $? -eq 0 ] || exit 66
+	dqb "LIBS"
 	csleep 1
 	
-	#TODO:if-blokin sisälle seur 3 riviä, find...
-	efk ${1}/*.deb
+	local c
+	c=$(find ${1} -type f -name 'lib*.deb' | wc -l)
+	#VAIH:if-blokin sisälle seur 3 riviä, find...
+
+	if [ ${c} -gt 0 ] ; then 
+		efk ${1}/lib*.deb
+	else
+		dqb "N0 L1B\$"
+	fi
+	
+	[ $? -eq 0 ] || exit 66
+	csleep 1	
+
+	dqb "THE REAL DEAL"
+	csleep 1
+
+	#VAIH:if-blokin sisälle seur 3 riviä, find...
+	c=$(find ${1} -type f -name '*.deb' | grep -v lib | wc -l)
+	dqb ${c}
+#	exit
+#
+#040825:härdelliä tässä vai ei?
+	if [ ${c} -gt 0 ] ; then 
+		efk ${1}/*.deb
+	else
+		dqb "N0 L1B\$"
+	fi
+
 	[ $? -eq 0 ] || exit 67	
+	csleep 1
+
+	dqb "AFTER"
 	csleep 1
 
 	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
 	csleep 1
 	other_horrors
+	dqb "P3 D0N3"
 }
 
 function slaughter0() {
