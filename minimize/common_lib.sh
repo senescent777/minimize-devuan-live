@@ -178,6 +178,7 @@ function psqa() {
 		#sleep 1
 
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
+		#TODO:mitä jos ei .deb $1 alla? jokin tarkistus kai johonkin
 		${sah6} -c sha512sums.txt --ignore-missing
 		[ $? -eq 0 ] || exit 94
 		cd ${p}
@@ -1017,10 +1018,12 @@ function part3() {
 	pr4 ${1}
 	csleep 1	
 
+	#TODO:if-blokin sisälle seur 3 riviä, find...
 	efk ${1}/lib*.deb
 	[ $? -eq 0 ] || exit 66
 	csleep 1
 	
+	#TODO:if-blokin sisälle seur 3 riviä, find...
 	efk ${1}/*.deb
 	[ $? -eq 0 ] || exit 67	
 	csleep 1
