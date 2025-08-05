@@ -180,6 +180,8 @@ function psqa() {
 
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		#TODO:mitä jos ei .deb $1 alla? jokin tarkistus kai johonkin
+		#... pp3c sisältää .deb-tark, common_tbls() ei, joten siihen ehkä muutoksia		
+
 		${sah6} -c sha512sums.txt --ignore-missing
 		[ $? -eq 0 ] || exit 94
 		cd ${p}
@@ -614,7 +616,7 @@ function e_e() {
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
 	#VAIH:pitäisiköhän muuttaa ao. rivejä?
 	#${scm} 0555 /etc/network
-	for f in $(find /etc/network -type d) ; do ${scm} 0555 ${scm}  ${f} ; done
+	for f in $(find /etc/network -type d) ; do ${scm} 0555 ${scm} ${f} ; done
 
 	#${scm} 0444 /etc/network/*
 	for f in $(find /etc/network -type f) ; do ${scm} 0444 ${f} ; done
@@ -704,9 +706,12 @@ function e_final() {
 	csleep 5 
 
 	#HUOM.020825:toiv ei pasko:ifup
-	#TODO:pitäisiköhän muuttaa ao. rivejä?
+	#VAIH:pitäisiköhän muuttaa ao. rivejä?
+
 	${sco} -R root:root /etc/wpa_supplicant
-	${scm} -R a-w /etc/wpa_supplicant
+	#${scm} -R a-w /etc/wpa_supplicant
+	for f in $(find /etc/wpa_supplicant -type f -name '*.sh') ; do ${scm} 0555 ${f} ; done
+	for f in $(find /etc/wpa_supplicant -type f -not -name '*.sh') ; do ${scm} 0444 ${f} ; done
 
 	dqb "e_final() D0N3"
 	csleep 1
