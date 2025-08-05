@@ -599,6 +599,8 @@ function e_e() {
 	dqb "e_e()"	
 	csleep 1
 	fix_sudo
+
+	local f
 	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
 
 	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
@@ -610,10 +612,14 @@ function e_e() {
 	${sco} -R root:root /etc #-R liikaa?
 
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
-	#TODO:pitäisiköhän muuttaa ao. rivejä?
-	${scm} 0555 /etc/network
-	${scm} 0444 /etc/network/*
-	${sco} root:root /etc/network #turha koska ylempänä
+	#VAIH:pitäisiköhän muuttaa ao. rivejä?
+	#${scm} 0555 /etc/network
+	for f in $(find /etc/network -type d) ; do ${scm} 0555 ${scm}  ${f} ; done
+
+	#${scm} 0444 /etc/network/*
+	for f in $(find /etc/network -type f) ; do ${scm} 0444 ${f} ; done
+
+	#${sco} root:root /etc/network #turha koska ylempänä
 
 	dqb "e_e d0n3"
 	csleep 1
