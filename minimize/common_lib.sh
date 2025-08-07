@@ -130,8 +130,8 @@ else
 	n=$(whoami)
 fi
 
-#fix_sudo
-#other_horrors
+fix_sudo
+other_horrors
 #
 #function jules() {
 #	dqb "LE BIG MAC"
@@ -235,7 +235,7 @@ function efk2() {
 	dqb "efk2( $@)"
 
 	if [ -s ${1} ] && [ -r ${1} ] ; then
-		${odio} ${srat} -C ${2} -xf ${1}
+		${odio} ${srat} -C ${2} -xf ${1} #/e.tar
 	else
 		dqb "WE NEED T0 TALK ABT ${1}"
 	fi	
@@ -350,7 +350,7 @@ function check_binaries() {
 		csleep 1
 
 		echo "SHOULD INSTALL IPTABLES"
-		#jules
+		jules
 
 		#HUOM.olisikohan sittenkin suhteelliset polut tar:in sisällä helpompia?
 		#... tai jopspa jatkossa roiskisi /tmp alle
@@ -359,31 +359,10 @@ function check_binaries() {
 		#josko toimisi
 		efk2 ${1}/e.tar
 		efk2 ${1}/f.tar ${1}
- 
-#		if [ -s ${1}/e.tar ] ; then #VAIH:jatkossa vähemmän mutkikkaasti? efk2()?
-#			${odio} ${srat} -C / -xf ${1}/e.tar
-#			
-#			if [ $? -eq 0 ] ; then
-#				${NKVD} ${1}/e.tar #jompikumpi hoitaa
-#				${smr} ${1}/e.tar
-#			else
-#				dqb "SMTHING WRONG W/ e.tar"
-#			fi
-#		else
-#			if [ -s ${1}/f.tar ] ; then
-#				${odio} ${srat} -C ${1} -xf ${1}/f.tar
-#
-#				if [ $? -eq 0 ] ; then
-#					${NKVD} ${1}/f.tar
-#				else
-#					dqb "SMTHING WRONG W/ f.tar"
-#				fi
-#			fi
-#		fi
 
 		pre_part3_common ${1} #HUOM.25725:tarvitaan
 		common_tbls ${1} ${dnsm}
-#		other_horrors
+		other_horrors
 
 		ipt=$(${odio} which iptables)
 		ip6t=$(${odio} which ip6tables)
@@ -402,7 +381,7 @@ function check_binaries() {
 	local y
 	y="ifup ifdown apt-get apt ip netstat dpkg tar mount umount sha512sum dhclient" # kilinwittu.sh	
 	[ -f /.chroot ] || y="iptables ip6tables iptables-restore ip6tables-restore ${y}"
-	#for x in ${y} ; do ocs ${x} ; done
+	for x in ${y} ; do ocs ${x} ; done
 	
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
@@ -457,21 +436,21 @@ function mangle_s() {
 	[ y"${2}" == "y" ] && exit 43
 	[ -f ${2} ] || exit 54
 
-#	${scm} 0555 ${1}
-#	${sco} root:root ${1}
-##
-##	local s
-##	local n2
-##
-##	if [ y"${3}" == "y" ] ; then
-##		n2=$(whoami)
-##	else
-##		n2=${3}
-##	fi
-##
-##	s=$(sha256sum ${1})
-##	echo "${n2} localhost=NOPASSWD: sha256: ${s} " >> ${2}
-##Tässä tavoitteena tehdä mahd vaikeasti helppo asia tai sitten excaliburiin liittyvät sorkkimiset aiheuttaneet sivuvaikutuksia. Monivalintakysymys.
+	${scm} 0555 ${1}
+	${sco} root:root ${1}
+#
+#	local s
+#	local n2
+#
+#	if [ y"${3}" == "y" ] ; then
+#		n2=$(whoami)
+#	else
+#		n2=${3}
+#	fi
+#
+#	s=$(sha256sum ${1})
+#	echo "${n2} localhost=NOPASSWD: sha256: ${s} " >> ${2}
+#Tässä tavoitteena tehdä mahd vaikeasti helppo asia tai sitten excaliburiin liittyvät sorkkimiset aiheuttaneet sivuvaikutuksia. Monivalintakysymys.
 
 	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
 	echo -n " " >> ${2}
@@ -722,22 +701,22 @@ function enforce_access() {
 	dqb " enforce_access( ${1} , ${2})"
 	csleep 5
 	dqb "changing /sbin , /etc and /var 4 real"
-#
-#	e_e
-#	e_v
-#
-#	${scm} 0755 /
-#	${sco} root:root /
-#
-#	${scm} 0777 /tmp
-#	#${scm} o+t /tmp
-#	${sco} root:root /tmp
-#
-#	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
-#	e_h ${1} ${2}
-#	e_final
-#
-#	#jules
+
+	e_e
+	e_v
+
+	${scm} 0755 /
+	${sco} root:root /
+
+	${scm} 0777 /tmp
+	#${scm} o+t /tmp
+	${sco} root:root /tmp
+
+	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
+	e_h ${1} ${2}
+	e_final
+
+	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 }
 
@@ -792,12 +771,12 @@ function part1_5() {
 		dqb "finally"
 		csleep 1
 	fi
-#
-#	#HUOM.050825:toi ei pasko:ifup tai sudo
-#	${sco} -R root:root /etc/apt
-#	#tarkempaa sertiä tulisi findin kanssa
-#	${scm} -R a-w /etc/apt/
-#
+
+	#HUOM.020825:toi ei pasko:ifup
+	${sco} -R root:root /etc/apt
+	#tarkempaa sertiä tulisi findin kanssa
+	${scm} -R a-w /etc/apt/
+
 	[ ${debug} -eq 1 ] && ls -las /etc/apt
 	csleep 1
 
@@ -1004,7 +983,7 @@ function part2_5() {
 	csleep 1
 
 	if [ y"${ipt}" != "y" ] ; then
-		#jules
+		jules
 
 		#HUOM. saattaa toimia ilman .$2 koska tables-kikkailuja laitettu uusiksi 26525
 
@@ -1038,7 +1017,7 @@ function part3() {
 	dqb "part3 ${1} ${2}"
 	csleep 1
 
-	#jules
+	jules
 	pre_part3_common ${1}
 	csleep 1
 
@@ -1085,7 +1064,7 @@ function part3() {
 
 	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
 	csleep 1
-	#other_horrors
+	other_horrors
 	dqb "P3 D0N3"
 }
 
