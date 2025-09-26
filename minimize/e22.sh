@@ -114,8 +114,8 @@ function tpq() { #HUOM.020825:toimii
 
 	[ -z ${1} ] && exit 11
 	[ -z ${2} ] && exit 12
-	[ -d ${1} ] || exit 22 #uskaltaisiko jommankumman tarkistuksen laittaa takaisin?
-	[ -d ${2} ] || exit 23 #pitäisikö mennä näin?
+	[ -d ${1} ] || exit 22
+	[ -d ${2} ] || exit 23
 
 	dqb "paramz 0k"
 	csleep 1
@@ -146,7 +146,6 @@ function tpq() { #HUOM.020825:toimii
 	cd ${2}
 }
 
-#030825:viimeksi ei paskonut ifup toimintaa
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
@@ -241,8 +240,7 @@ function luca() {
 	sleep 3
 }
 
-function tp2() { #HUOM.020825:joko jo toimisi?
-	#debug=1 #pois?
+function tp2() {
 	dqb "tp2 ${1} ${2} ${3}"
 	csleep 1
 
@@ -326,7 +324,7 @@ function tp2() { #HUOM.020825:joko jo toimisi?
 	csleep 1
 }
 
-function tp3() { #030835:vielä tarpeellista testailla?
+function tp3() {
 	dqb "tp3 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -426,7 +424,7 @@ function tp3() { #030835:vielä tarpeellista testailla?
 	${srat} -rvf ${1} ./etc ./sbin 
 
 	echo $?
-	#HUOM.19725:qseeko tässä jokin? ei kai enää
+	
 	cd ${p}
 	pwd
 	dqb "tp3 done"
@@ -456,13 +454,11 @@ function aswasw() { #HUOM.28725:testattu, toimii
 	csleep 1
 }
 
-#HUOM.020825:saattaa olla toimiva
 function rmt() {
-	#debug=1
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
-	[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
+	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
@@ -583,7 +579,7 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 	dqb "x2.tlb.done"
 }
 
-function tp4() { #030825:tarvitseeko vielä selvitellä ifup-asiaa?
+function tp4() {
 	#TODO:voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja
 	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
 
@@ -688,7 +684,6 @@ function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in , myös pol
 	${tig} clone https://github.com/senescent777/more_scripts.git
 	[ $? -eq 0 ] || exit 99
 	
-	#HUOM:{old,new} -> {0,1} ei liity
 	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
 	mv more_scripts/profs/profs* ${2}
 
@@ -700,7 +695,9 @@ function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in , myös pol
 	dqb "AAMUNK01"
 }
 
-function tup() { #TODO:testaa uusiksi, koska param tark
+function tup() { #VAIH:testaa uusiksi, koska param tark
+	#HUOM.26925:tämän casen kanssa saattaa olla jotain, imp2 kun yrittää asentaa luotua päivityspak ni nalqtti dbus-paketeista
+		
 	dqb "tup ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
@@ -767,7 +764,7 @@ function tup() { #TODO:testaa uusiksi, koska param tark
 		;;
 	esac
 
-	udp6 ${pkgdir}
+	udp6 ${pkgdir} #TODO:dbus-pakettein deletointi mjkaan tuohon?
 	dqb "UTP PT 3"
 	csleep 1
 

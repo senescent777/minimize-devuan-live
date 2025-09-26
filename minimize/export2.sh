@@ -7,8 +7,6 @@ echo "d0= ${d0}"
 mode=-2
 tgtfile=""
 
-#HUOM.8725.1:joskohan wpa_supplicant.conf kanssa asiat kunnossa
-#HUOM.020825:jotain häikkää tuon kanssa taas, ei välttämättä juuri conf
 #HUOM.020825.2:jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch
 
 function dqb() {
@@ -40,7 +38,7 @@ else
 	exit 1	
 fi
 
-#"$0 <mode> <file>  [distro] [-v]" olisi se perusidea
+#"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
 function parse_opts_1() {
 	dqb "patse_otps8( ${1}, ${2})"
 
@@ -53,7 +51,6 @@ function parse_opts_1() {
 			if [ -d ${d}/${1} ] ; then
 				distro=${1}
 				d=${d0}/${distro}
-
 			fi
 		;;
 	esac
@@ -178,17 +175,13 @@ csleep 1
 
 case ${mode} in
 	0|4) 
-		#... case 0 kanssa oli pientä kiukuttelua ifup kanssa (toivottavasti jo korjattu)
-		#... testgris-kikkailut roskikseen olisi 1 idea (tehty)
-		#... case 4 kanssa saatu uudestaan toimimaan 020825 (katso toistuuko)
-
 		[ z"${tgtfile}" == "z" ] && exit 99 
-		pre2 ${d} ${distro} ${iface} ${dnsm} #[ -v testgris ] || 
+		pre2 ${d} ${distro} ${iface} ${dnsm}
 
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
-		tp3 ${tgtfile} ${distro} #[ -v testgris ] || 
+		tp3 ${tgtfile} ${distro}
 		dqb "TP3 DON3, next:rm some rchivies"
 		csleep 3
 
@@ -217,8 +210,7 @@ case ${mode} in
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 5
  	
-		tp1 ${tgtfile} ${d} #${testgris}
-		
+		tp1 ${tgtfile} ${d}
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 4
 		${NKVD} ${d}/*.tar #tartteeko piostaa?
@@ -226,9 +218,10 @@ case ${mode} in
 		pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 5	
-		tp2 ${tgtfile} ${iface} ${dnsm} #[ -v testgris ] || 
+		tp2 ${tgtfile} ${iface} ${dnsm}
 	;;
-	1|u|upgrade) #TODO:testaa uusiksi
+	1|u|upgrade) #VAIH:testaa uusiksi
+		#HUOM.26925:tämän casen kanssa saattaa olla jotain, imp2 kun yrittää asentaa luotua päivityspak ni nalqtti dbus-paketeista
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface} ${dnsm}
@@ -242,7 +235,7 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #TODO:tstaa uusiksi
+	e)  #VAIH:tstaa uusiksi
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp0 ${d}
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
@@ -257,9 +250,6 @@ case ${mode} in
 	
 		tpq ~ ${d0}
 		cd ${d0}
-	
-		#q=$(mktemp)
-		#${srat} -cf ${tgtfile} ${q}
 
 		dqb "	OIJHPIOJGHOYRI&RE"
 		pwd
@@ -267,10 +257,6 @@ case ${mode} in
 
 		#HUOM.28725:roiskiko väärään hakemistoon juttuja tpq()? toiv ei enää
 		tpq ~ ${d0}
-		
-		#HUOM.28725:puuttuvien fktioiden takia ei suoritusta näköjään keskeytetä	
-		#q=$(mktemp)
-		#${srat} -cf ${tgtfile} ${q}
 
 		dqb "	OIJHPIOJGHOYRI&RE"
 		[ ${debug} -eq 1 ] && pwd
@@ -297,12 +283,11 @@ case ${mode} in
 		[ z"${tgtfile}" == "z" ] && exit 99
 
 		#tähän se avainten lisäys vaiko erillinen case?
-
 		cd ${d0}
-		#q=$(mktemp)
-		#${srat} -cvf ${tgtfile} ${q}
 
 		for f in $(find . -type f -name conf -or -name lib.sh) ; do ${srat} -rvf ${tgtfile} ${f} ; done
+		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} TARGET_Dkname1
+		[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} TARGET_Dkname2
 		bzip2 ${tgtfile}
 
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
@@ -323,9 +308,14 @@ if [ -s ${tgtfile} ] ; then
 	${sco} $(whoami):$(whoami) ${tgtfile}.sha
 	${scm} 0644 ${tgtfile}.sha
 
-	#TODO:gpg-juttuja tähän?
+	#VAIH:gpg-juttuja tähän?
 	${sah6} ${tgtfile} > ${tgtfile}.sha
 	${sah6} -c ${tgtfile}.sha
+
+	gg=$(${odio} which gpg)
+	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
+		${gg} -u ${CONF_kay1name} -sb ${tgtfile}.sha
+	fi
 
 	echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
 fi

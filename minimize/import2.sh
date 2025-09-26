@@ -349,7 +349,7 @@ case "${mode}" in
 		[ "${confirm}" == "Y" ]  || exit 77
 		common_part ${srcfile} ${d} /
 
-		#HUOM.sellainen ilmeinen juttu että joidenkn arkistojen tapauksessa .deb-paketit saatavat löyty
+		#HUOM.sellainen ilmeinen juttu että joidenkn arkistojen tapauksessa .deb-paketit saatttavat löyty
  		#juuresta
 
 		csleep 1
@@ -433,7 +433,7 @@ case "${mode}" in
 	k)	#VAIH
 		#... tähän liittyen pitää tietysti kopioida kohdehmistoon matsqut(TODO)
 		gg=$(${odio} which gpg)
-		ridk=${d}
+		ridk=${d0}
 
 		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #/.chroot vielä?
 			for f in ${TARGET_Dkname1} ${TARGET_Dkname2} ; do # ${TARGET_Dkname1}.secret ${TARGET_Dkname2}.secret
