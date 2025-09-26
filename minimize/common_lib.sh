@@ -64,7 +64,6 @@ function fix_sudo() {
 function other_horrors() {	
 	dqb "other_horrors()"
 
-	#HUOM.020825:toivottavasti ei pasko:ifup
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
 	${sco} -R root:root /etc/iptables
@@ -419,7 +418,6 @@ function check_binaries2() {
 	csleep 1
 }
 
-#HUOM.020825:toivottavasgti ei pasko:ifup
 function mangle_s() {
 	dqb "mangle_s ( ${1} , ${2}, ${3} ) " #kaarisulkeet edelleen perseestä
 	csleep 1
@@ -494,7 +492,6 @@ function dinf() {
 
 #HUOM.29525:ei tarvitse parametreja tämä
 #...paitsi ehkä sudoersin mankelointiin, absoluuttiset polut oltava
-#HUOM.020825:toiv ei pasko:ifup
 
 function pre_enforce() {
 	#debug=1 #liikaa tauhkaa, pois 28725
@@ -562,7 +559,6 @@ function pre_enforce() {
 	dqb "common_lib.pre_enforce d0n3"
 }
 
-#HUOM.020825:toivottavasti ei pasko:ifup
 function mangle2() {
 	if [ -f ${1} ] ; then
 		dqb "MANGLED ${1}"
@@ -571,7 +567,6 @@ function mangle2() {
 	fi
 }
 
-#HUOM.020825:toivottavasti ei pasko:ifup
 function e_e() {
 	dqb "e_e()"	
 	csleep 1
@@ -596,7 +591,6 @@ function e_e() {
 	csleep 1
 }
 
-#HUOM.020825:toiv ei pasko ifup
 function e_v() {
 	dqb "e_v()"
 	#csleep 1
@@ -615,7 +609,6 @@ function e_v() {
 	csleep 1
 }
 
-#HUOM.020825:toiv ei pasko:ifup
 function e_h() {
 	#debug=1 #HUOM.27825:debug ois, liikaa tauhkaa
 	dqb "e_h( ${1} , ${2} )"
@@ -684,7 +677,6 @@ function e_final() {
 	csleep 1
 }
 
-#HUOM.020825:toiv ei pasko ifup
 function enforce_access() {
 	dqb " enforce_access( ${1} , ${2})"
 	csleep 5
@@ -917,15 +909,12 @@ function part1() {
 	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
 	csleep 1
 
-	#HUOM.020825:toiv ei pasko:ifup
 	${sco} -R root:root /etc/apt
 	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WHORE (i have Tourettes)"
 }
 
-#HUOM.020825:toiv ei sivuvaikutuuksena sössi ifup
 function part2_5() {
-	#debug=1
 	dqb "PART2.5.1 ${1} , ${2}"
 	csleep 1
 
@@ -997,49 +986,6 @@ function part2_5() {
 	dqb "PART2.5 d0ne"
 	csleep 1
 }
-
-#function part3_4real() {
-#	dqb "part3_4real( ${1} )"
-#	csleep 1
-#
-#	[ y"${1}" == "y" ] && exit 1 #mikähän tässäkin on?
-#	dqb "11"
-#	csleep 1
-#	[ -d ${1} ] || exit 2
-#
-#	dqb "22"
-#	csleep 1
-#	psqa ${1}
-#
-#	#HUOM. dpkg -R olisi myös keksitty
-#	local f
-#
-#	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
-#
-#	if [ $? -eq  0 ] ; then
-#		dqb "part3.1 ok"
-#		csleep 1
-#		${NKVD} ${1}/lib*.deb
-#	else
-#		exit 66
-#	fi
-#
-#	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
-#
-#	if [ $? -eq  0 ] ; then
-#		dqb "part3.2 ok"
-#		csleep 1
-#		${NKVD} ${1}/*.deb
-#	else
-#		exit 67
-#	fi
-#
-#	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
-#	csleep 1
-#
-#	dqb "part3_4real( ${1} ) DONE"
-#	csleep 1
-#}
 
 #tämän ja kutsuttujen fktioiden debug, saattaa olla jotain ? 28725 vaikuttaisi toimivan ok nimittäin
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
