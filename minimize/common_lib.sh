@@ -61,19 +61,55 @@ function fix_sudo() {
 	dqb "fix_sud0.d0n3"
 }
 
-function other_horrors() {	
-	dqb "other_horrors()"
 
-	${scm} 0400 /etc/iptables/*
-	${scm} 0550 /etc/iptables
-	${sco} -R root:root /etc/iptables
-	${scm} 0400 /etc/default/rules*
-	${scm} 0555 /etc/default
-	${sco} -R root:root /etc/default
-
-	dqb " DONE"
-	csleep 1
-}
+#
+##HUOM.27725:nalkutus kenbties /o/b/changedns.sgh tjsp, ei vältt juuri fix_sudo
+##HUOM.050825:toivottavasti ei pasko:ifup tai sudo
+#function fix_sudo() {
+#	dqb "fix_sud0.pt0"
+#
+#	${sco} -R 0:0 /etc/sudoers.d
+#	${scm} 0440 /etc/sudoers.d/*
+#	${sco} -R 0:0 /etc/sudo*
+#	${scm} -R a-w /etc/sudo*
+#
+#	dqb "POT. DANGEROUS PT 1"
+#
+#	if [ -d /usr/lib/sudo ] ; then #onko moista daedaluksessa?
+#		${sco} 0:0 /usr/lib/sudo/*
+#		${scm} -R a-w /usr/lib/sudo/*
+#		${scm} 0444 /usr/lib/sudo/sudoers.so
+#	fi
+#
+#	dqb "fix_sud0.pt1"
+#	${scm} 0750 /etc/sudoers.d
+#	${scm} 0440 /etc/sudoers.d/*
+#
+#	#dqb "POT. DANGEROUS PT 2"
+#	#HUOM.250325:onkohan tarkoitus että nämä komennot laittavat sudon epäkuntoon vai ei?
+#	#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+#	#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+#	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
+#	
+#	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
+#	csleep 1
+#	dqb "fix_sud0.d0n3"
+#}
+#
+#function other_horrors() {	
+#	dqb "other_horrors()"
+#
+#	#HUOM.020825:toivottavasti ei pasko:ifup
+#	${scm} 0400 /etc/iptables/*
+#	${scm} 0550 /etc/iptables
+#	${sco} -R root:root /etc/iptables
+#	${scm} 0400 /etc/default/rules*
+#	${scm} 0555 /etc/default
+#	${sco} -R root:root /etc/default
+#
+#	dqb " DONE"
+#	csleep 1
+#}
 
 sco="${odio} ${sco} "
 scm="${odio} ${scm} "	
@@ -104,6 +140,37 @@ sdi=$(${odio} which dpkg)
 spd="${odio} ${sdi} -l "
 sdi="${odio} ${sdi} -i "
 
+
+sco="${odio} ${sco} "
+scm="${odio} ${scm} "	
+#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
+sah6=$(${odio} which sha512sum)
+	
+slinky=$(${odio} which ln)
+slinky="${odio} ${slinky} -s "
+spc=$(${odio} which cp)
+svm=$(${odio} which mv)
+svm="${odio} ${svm} "
+spc="${odio} ${spc} "
+whack=$(${odio} which pkill)
+whack="${odio} ${whack} --signal 9 "
+snt=$(${odio} which netstat)
+snt="${odio} ${snt} -tulpan "
+smr=$(${odio} which rm)	
+smr="${odio} ${smr} "
+
+NKVD=$(${odio} which shred)
+NKVD="${NKVD} -fu "
+NKVD="${odio} ${NKVD} "
+	
+#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
+
+sdi=$(${odio} which dpkg)
+spd="${odio} ${sdi} -l "
+sdi="${odio} ${sdi} -i "
+
+
 sifu=$(${odio} which ifup)
 sifd=$(${odio} which ifdown)
 sip=$(${odio} which ip)
@@ -124,17 +191,33 @@ fi
 fix_sudo
 other_horrors
 
-function jules() {
-	dqb "LE BIG MAC"
-	#dqb "V8" #josko kommentoituna takaisin se cp
-	#${spc} /etc/default/rules.* /etc/iptables
-	csleep 1
 
-	other_horrors
+if [ -v distro ] ; then 
+	dqb "DUSTRO OK"
+else
+	distro=$(cat /etc/devuan_version)
+fi
 
-	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
-	csleep 1
-}
+if [ -v n ] ; then
+	dqb "n OK"
+else
+	n=$(whoami)
+fi
+
+#fix_sudo
+#other_horrors
+#
+#function jules() {
+#	dqb "LE BIG MAC"
+#	#dqb "V8" #josko kommentoituna takaisin se cp
+#	#${spc} /etc/default/rules.* /etc/iptables
+#	csleep 1
+#
+#	other_horrors
+#
+#	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
+#	csleep 1
+#}
 
 function message() {
 	echo "INSTALLING NEW PACKAGES IN x SECS"
@@ -144,21 +227,21 @@ function message() {
 	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS"
 	sleep 1
 }
-
-function ocs() {
-	local tmp
-	tmp=$(${odio} which ${1})
-
-	if [ y"${tmp}" == "y" ] ; then
-		dqb "${1} NOT FOUND"
-		exit 69 #fiksummankin exit-koodin voisi keksiä
-	fi
-
-	if [ ! -x ${tmp} ] ; then
-		exit 77
-	fi
-}
-
+#
+#function ocs() {
+#	local tmp
+#	tmp=$(${odio} which ${1})
+#
+#	if [ y"${tmp}" == "y" ] ; then
+#		dqb "${1} NOT FOUND"
+#		exit 69 #fiksummankin exit-koodin voisi keksiä
+#	fi
+#
+#	if [ ! -x ${tmp} ] ; then
+#		exit 77
+#	fi
+#}
+#
 function psqa() {
 	dqb "QUASB (THE BURNING) ${1}"
 
@@ -170,6 +253,9 @@ function psqa() {
 		#sleep 1
 
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
+		#TODO:mitä jos ei .deb $1 alla? jokin tarkistus kai johonkin
+		#... pp3c sisältää .deb-tark, common_tbls() ei, joten siihen ehkä muutoksia		
+
 		${sah6} -c sha512sums.txt --ignore-missing
 		[ $? -eq 0 ] || exit 94
 		cd ${p}
@@ -182,6 +268,7 @@ function psqa() {
 
 function pre_part3_clib() {
 	dqb "pre_part3_clib ${1}"
+
 	csleep 1
 	pwd
 	dqb "find ${1} -type f -name ' \* .deb ' " #auttaako \* tässä?
@@ -196,8 +283,8 @@ function pre_part3_clib() {
 
 	if [ ${q} -lt 1 ] ; then
 		#HUOM.23525:kuuluisi varmaankin ohjeistaa kutsuvassa koodissa
-		echo "SHOULD REMOVE ${1} /sha512sums.txt"
-		echo "\"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
+		echo "SHOULD REMOVE ${1} / sha512sums.txt ?"
+		echo "\"${scm} a-x ${1} / .. / common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
 		
 		#pitäis ikai huomioida että scm voi aiheuttaa sivuvaikutuksia myöhemmin
 		${scm} a-x ${r}/common_lib.sh 
@@ -234,6 +321,7 @@ function efk2() {
 #HUOM.25725:chimaeran kanssa kosahti tablesin asennus, libnetfilter ja libnfnetlink liittyivät asiaan
 function common_tbls() {
 	debug=1
+
 	dqb "COMMON TABLESD"
 	csleep 1
 
@@ -338,7 +426,7 @@ function check_binaries() {
 		csleep 1
 
 		echo "SHOULD INSTALL IPTABLES"
-		jules
+		#jules
 
 		#HUOM.olisikohan sittenkin suhteelliset polut tar:in sisällä helpompia?
 		#... tai jopspa jatkossa roiskisi /tmp alle
@@ -373,6 +461,7 @@ function check_binaries() {
 		common_tbls ${1} ${dnsm}
 		other_horrors
 
+
 		ipt=$(${odio} which iptables)
 		ip6t=$(${odio} which ip6tables)
 		iptr=$(${odio} which iptables-restore)
@@ -380,7 +469,7 @@ function check_binaries() {
 	fi
 
 	#xcalibur-testien älk muutox (halt ja reboot silleen niinqu turhia jos eivät toimi)
-	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
+	#CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
 	csleep 1
 
@@ -391,7 +480,7 @@ function check_binaries() {
 	y="ifup ifdown apt-get apt ip netstat dpkg tar mount umount sha512sum dhclient" # kilinwittu.sh	
 	[ -f /.chroot ] || y="iptables ip6tables iptables-restore ip6tables-restore ${y}"
 	for x in ${y} ; do ocs ${x} ; done
-	
+
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
 	som=$(${odio} which mount)
@@ -433,50 +522,51 @@ function check_binaries2() {
 	csleep 1
 }
 
+#HUOM.020825:toivottavasgti ei pasko:ifup
 function mangle_s() {
 	dqb "mangle_s ( ${1} , ${2}, ${3} ) " #kaarisulkeet edelleen perseestä
-	csleep 1
-
-	[ y"${1}" == "y" ] && exit 44
-	[ -x ${1} ] || exit 55
-
-	#HUOM.26525:pitäisiköhän olla jotain lisätarkistuksia $2 ja $3 kanssa?
-	[ y"${2}" == "y" ] && exit 43
-	[ -f ${2} ] || exit 54
-
-	${scm} 0555 ${1}
-	${sco} root:root ${1}
+#	csleep 1
 #
-#	local s
-#	local n2
+#	[ y"${1}" == "y" ] && exit 44
+#	[ -x ${1} ] || exit 55
 #
-#	if [ y"${3}" == "y" ] ; then
-#		n2=$(whoami)
-#	else
-#		n2=${3}
-#	fi
+#	#HUOM.26525:pitäisiköhän olla jotain lisätarkistuksia $2 ja $3 kanssa?
+#	[ y"${2}" == "y" ] && exit 43
+#	[ -f ${2} ] || exit 54
 #
-#	s=$(sha256sum ${1})
-#	echo "${n2} localhost=NOPASSWD: sha256: ${s} " >> ${2}
-#Tässä tavoitteena tehdä mahd vaikeasti helppo asia tai sitten excaliburiin liittyvät sorkkimiset aiheuttaneet sivuvaikutuksia. Monivalintakysymys.
-
-	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
-	echo -n " " >> ${2}
-	echo -n "localhost=NOPASSWD:" >> ${2}
-	echo -n " " >> ${2}
-	echo -n "sha256:" >> ${2}
-	echo -n " " >> ${2}
-
-#https://github.com/senescent777/some_scripts/blob/main/skripts/export/common_funcs.sh.export , slaughter0 olisi myös 1 idea
-
-	local p
-	p=$(sha256sum ${1} | cut -d ' ' -f 1 | tr -dc a-f0-9)
-
-	echo -n ${p} >> ${2}
-	echo -n " " >> ${2}
-	echo -n ${1} | tr -dc a-zA-Z0-9/. >> ${2} #
-	
-	echo -e "\n" >> ${2} #menisikö näin?
+#	${scm} 0555 ${1}
+#	${sco} root:root ${1}
+##
+##	local s
+##	local n2
+##
+##	if [ y"${3}" == "y" ] ; then
+##		n2=$(whoami)
+##	else
+##		n2=${3}
+##	fi
+##
+##	s=$(sha256sum ${1})
+##	echo "${n2} localhost=NOPASSWD: sha256: ${s} " >> ${2}
+##Tässä tavoitteena tehdä mahd vaikeasti helppo asia tai sitten excaliburiin liittyvät sorkkimiset aiheuttaneet sivuvaikutuksia. Monivalintakysymys.
+#
+#	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
+#	echo -n " " >> ${2}
+#	echo -n "localhost=NOPASSWD:" >> ${2}
+#	echo -n " " >> ${2}
+#	echo -n "sha256:" >> ${2}
+#	echo -n " " >> ${2}
+#
+##https://github.com/senescent777/some_scripts/blob/main/skripts/export/common_funcs.sh.export , slaughter0 olisi myös 1 idea
+#
+#	local p
+#	p=$(sha256sum ${1} | cut -d ' ' -f 1 | tr -dc a-f0-9)
+#
+#	echo -n ${p} >> ${2}
+#	echo -n " " >> ${2}
+#	echo -n ${1} | tr -dc a-zA-Z0-9/. >> ${2} #
+#	
+#	echo -e "\n" >> ${2} #menisikö näin?
 }
 
 function dinf() {
@@ -510,6 +600,7 @@ function dinf() {
 
 function pre_enforce() {
 	#debug=1 #liikaa tauhkaa, pois 28725
+
 	dqb "common_lib.pre_enforce( ${1} )"
 	local q
 	local f
@@ -533,7 +624,7 @@ function pre_enforce() {
 	csleep 1
 
 	dqb "LETf HOUTRE JOINED IN DARKN355"
-	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
+	#for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
 	csleep 1
 
 	dqb "TRAN S1LVAN1AN HUGN3R"
@@ -548,9 +639,9 @@ function pre_enforce() {
 		${sco} root:root ${q}/meshuggah
 		${svm} ${q}/meshuggah /etc/sudoers.d
 
-		CB_LIST1=""
-		unset CB_LIST1
-		#saavuttaakohan tuolla nollauksella mitään? kuitenkin alustetaan
+	#	CB_LIST1=""
+	#	unset CB_LIST1
+	#	#saavuttaakohan tuolla nollauksella mitään? kuitenkin alustetaan
 	fi
 
 	local c4
@@ -573,6 +664,134 @@ function pre_enforce() {
 	csleep 1
 	dqb "common_lib.pre_enforce d0n3"
 }
+#
+##HUOM.050825:toivottavasti ei pasko:ifup tai sudo
+#function mangle2() {
+#	if [ -f ${1} ] ; then
+#		dqb "MANGLED ${1}"
+#		${scm} o-rwx ${1}
+#		${sco} root:root ${1}
+#	fi
+#}
+#
+##HUOM.020825:toivottavasti ei pasko:ifup
+#function e_e() {
+#	dqb "e_e()"	
+#	csleep 1
+#	fix_sudo
+#
+#	local f
+#	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
+#
+#	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
+#		mangle2 ${f}
+#	done
+#
+#	other_horrors
+#	${scm} 0755 /etc
+#	${sco} -R root:root /etc #-R liikaa?
+#
+#	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
+#	#VAIH:pitäisiköhän muuttaa ao. rivejä?
+#	#${scm} 0555 /etc/network
+#	for f in $(find /etc/network -type d) ; do ${scm} 0555 ${scm} ${f} ; done
+#
+#	#${scm} 0444 /etc/network/*
+#	for f in $(find /etc/network -type f) ; do ${scm} 0444 ${f} ; done
+#
+#	#${sco} root:root /etc/network #turha koska ylempänä
+#
+#	dqb "e_e d0n3"
+#	csleep 1
+#}
+#
+##HUOM.050825:toiv ei pasko ifup tai sudo
+#function e_v() {
+#	dqb "e_v()"
+#	#csleep 1
+#
+#	${sco} -R root:root /sbin
+#	${scm} -R 0755 /sbin
+#
+#	${sco} root:root /var
+#	${scm} 0755 /var
+#	${sco} root:staff /var/local
+#	${sco} root:mail /var/mail
+#	${sco} -R man:man /var/cache/man
+#	${scm} -R 0755 /var/cache/man
+#
+#	dqb "V1C.V0N.D00m"
+#	csleep 1
+#}
+#
+#function e_h() {
+#	dqb "e_h( ${1} , ${2} )"
+#	csleep 2
+#
+#	${sco} root:root /home
+#	${scm} 0755 /home
+#
+#	if [ y"${1}" != "y" ] ; then
+#		dqb "${sco} -R ${1}:${1} ~"
+#		${sco} -R ${1}:${1} ~
+#		csleep 1
+#	fi
+#
+#	#HUOM.28525:p.o $1/$2 jatkossa tai ainakin tarkistaa että $2 sis $1
+#	[ -d ${2} ] || exit 99
+#	local f
+#
+#	dqb " e h PT 2"
+#	csleep 1
+#	${scm} 0755 ${2}
+#
+#	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
+#	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
+#	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
+#	for f in $(find ${2} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
+#	for f in $(find ${2} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
+#
+#	dqb "F1ND D0N3"
+#	csleep 1
+#
+#	for f in ${2} /opt/bin ; do
+#		${scm} 0555 ${f}/changedns.sh
+#		${sco} root:root ${f}/changedns.sh
+#	done
+#
+#	dqb "e_h()"
+#	csleep 1
+#}
+#
+##/e/n/i ja excalibur, pitäisikö tehdä jotain?
+#function e_final() {
+#	dqb "e_final()"
+#	csleep 1
+#	local f
+#	f=$(date +%F)
+#
+#	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
+#	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
+#
+#	if [ -h /etc/resolv.conf ] ; then
+#		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
+#			${smr} /etc/resolv.conf
+#		fi
+#	fi
+#
+#	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
+#	csleep 5 
+#
+#	#VAIH:pitäisiköhän muuttaa ao. rivejä?
+#
+#	${sco} -R root:root /etc/wpa_supplicant
+#	#${scm} -R a-w /etc/wpa_supplicant
+#	for f in $(find /etc/wpa_supplicant -type f -name '*.sh') ; do ${scm} 0555 ${f} ; done
+#	for f in $(find /etc/wpa_supplicant -type f -not -name '*.sh') ; do ${scm} 0444 ${f} ; done
+#
+#	dqb "e_final() D0N3"
+#	csleep 1
+#}
 
 function mangle2() {
 	if [ -f ${1} ] ; then
@@ -692,26 +911,27 @@ function e_final() {
 	csleep 1
 }
 
+
 function enforce_access() {
 	dqb " enforce_access( ${1} , ${2})"
 	csleep 5
 	dqb "changing /sbin , /etc and /var 4 real"
-
-	e_e
-	e_v
-
-	${scm} 0755 /
-	${sco} root:root /
-
-	${scm} 0777 /tmp
-	#${scm} o+t /tmp
-	${sco} root:root /tmp
-
-	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
-	e_h ${1} ${2}
-	e_final
-
-	jules
+#
+#	e_e
+#	e_v
+#
+#	${scm} 0755 /
+#	${sco} root:root /
+#
+#	${scm} 0777 /tmp
+#	#${scm} o+t /tmp
+#	${sco} root:root /tmp
+#
+#	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
+#	e_h ${1} ${2}
+#	e_final
+#
+#	#jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 }
 
@@ -766,11 +986,12 @@ function part1_5() {
 		dqb "finally"
 		csleep 1
 	fi
-
+  
 	#HUOM.020825:toi ei pasko:ifup
 	${sco} -R root:root /etc/apt
 	#tarkempaa sertiä tulisi findin kanssa
 	${scm} -R a-w /etc/apt/
+
 
 	[ ${debug} -eq 1 ] && ls -las /etc/apt
 	csleep 1
@@ -924,11 +1145,13 @@ function part1() {
 	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
 	csleep 1
 
-	${sco} -R root:root /etc/apt
-	${scm} -R a-w /etc/apt/
+#
+#	${sco} -R root:root /etc/apt
+#	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WHORE (i have Tourettes)"
 }
 
+#HUOM.020825:toiv ei sivuvaikutuuksena sössi ifup
 function part2_5() {
 	dqb "PART2.5.1 ${1} , ${2}"
 	csleep 1
@@ -976,7 +1199,7 @@ function part2_5() {
 	csleep 1
 
 	if [ y"${ipt}" != "y" ] ; then
-		jules
+		#jules
 
 		#HUOM. saattaa toimia ilman .$2 koska tables-kikkailuja laitettu uusiksi 26525
 

@@ -6,7 +6,6 @@ d0=$(pwd)
 echo "d0= ${d0}"
 mode=-2
 tgtfile=""
-
 #HUOM.020825.2:jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch
 
 function dqb() {
@@ -207,6 +206,7 @@ case ${mode} in
 		${sifd} ${iface}
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
 
+		tp0 ${d} 
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 5
  	
@@ -226,6 +226,7 @@ case ${mode} in
 
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp0 ${d}
+
 		tup ${tgtfile} ${d} ${iface} ${dnsm}
 	;;
 	p) #HUOM.020825:testattu sen verran että tekee tar:in (myös polku hukattu)
@@ -238,6 +239,7 @@ case ${mode} in
 	e)  #VAIH:tstaa uusiksi
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp0 ${d}
+
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
 	f)  #HUOM.28725:testattu, toimii ainakin sen verran että tekee tarin minkä sisältä järkeväno loinen
@@ -251,12 +253,14 @@ case ${mode} in
 		tpq ~ ${d0}
 		cd ${d0}
 
+
 		dqb "	OIJHPIOJGHOYRI&RE"
 		pwd
 		csleep 1
 
 		#HUOM.28725:roiskiko väärään hakemistoon juttuja tpq()? toiv ei enää
 		tpq ~ ${d0}
+
 
 		dqb "	OIJHPIOJGHOYRI&RE"
 		[ ${debug} -eq 1 ] && pwd
@@ -265,6 +269,7 @@ case ${mode} in
 		cd ~
 
 		#HUOM.voisi toisellakin tavalla tehdä, kts update.sh
+
 		for f in $(find . -type f -name config.tar.bz2 -or -name fediverse.tar -or -name pulse.tar) ; do
 			${srat} -rvf ${tgtfile} ${f}
 		done
@@ -275,6 +280,7 @@ case ${mode} in
 	t) #VAIH:tarkista toiminta TAAS (020825 tekee tar:in, sisällön kelvollisuus vielä testaamatta)
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		${NKVD} ${d}/*.deb #olisi myös tp0
+
 		tlb ${d} ${iface} ${distro} ${dnsm}
 		${svm} ${pkgdir}/*.deb ${d}
 		rmt ${tgtfile} ${d}
@@ -309,6 +315,7 @@ if [ -s ${tgtfile} ] ; then
 	${scm} 0644 ${tgtfile}.sha
 
 	#VAIH:gpg-juttuja tähän?
+
 	${sah6} ${tgtfile} > ${tgtfile}.sha
 	${sah6} -c ${tgtfile}.sha
 
