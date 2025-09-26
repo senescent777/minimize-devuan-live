@@ -219,6 +219,18 @@ function efk() {
 	csleep 1
 }
 
+function efk2() {
+	dqb "efk2( $@)"
+
+	if [ -s ${1} ] && [ -r ${1} ] ; then
+		${odio} ${srat} -C ${2} -xf ${1}
+	else
+		dqb "WE NEED T0 TALK ABT ${1}"
+	fi	
+
+	csleep 1
+}
+
 #HUOM.25725:chimaeran kanssa kosahti tablesin asennus, libnetfilter ja libnfnetlink liittyivät asiaan
 function common_tbls() {
 	debug=1
@@ -330,29 +342,32 @@ function check_binaries() {
 
 		#HUOM.olisikohan sittenkin suhteelliset polut tar:in sisällä helpompia?
 		#... tai jopspa jatkossa roiskisi /tmp alle
-		#HUOM.020825: toi v ei tässä alla paskota ifup:in toimintaa
- 
-		if [ -s ${1}/e.tar ] ; then
-			${odio} ${srat} -C / -xf ${1}/e.tar
-			
-			if [ $? -eq 0 ] ; then
-				${NKVD} ${1}/e.tar #jompikumpi hoitaa
-				${smr} ${1}/e.tar
-			else
-				dqb "SMTHING WRONG W/ e.tar"
-			fi
-		else
-			if [ -s ${1}/f.tar ] ; then
-				#jos -c $1 kuitesnkin?
-				${odio} ${srat} -C ${1} -xf ${1}/f.tar
 
-				if [ $? -eq 0 ] ; then
-					${NKVD} ${1}/f.tar
-				else
-					dqb "SMTHING WRONG W/ f.tar"
-				fi
-			fi
-		fi
+ 
+#		if [ -s ${1}/e.tar ] ; then
+#			${odio} ${srat} -C / -xf ${1}/e.tar
+#			
+#			if [ $? -eq 0 ] ; then
+#				${NKVD} ${1}/e.tar #jompikumpi hoitaa
+#				${smr} ${1}/e.tar
+#			else
+#				dqb "SMTHING WRONG W/ e.tar"
+#			fi
+#		else
+#			if [ -s ${1}/f.tar ] ; then
+#				#jos -c $1 kuitesnkin?
+#				${odio} ${srat} -C ${1} -xf ${1}/f.tar
+#
+#				if [ $? -eq 0 ] ; then
+#					${NKVD} ${1}/f.tar
+#				else
+#					dqb "SMTHING WRONG W/ f.tar"
+#				fi
+#			fi
+#		fi
+
+		efk2 ${1}/e.tar
+		efk2 ${1}/f.tar ${1}
 
 		pre_part3_clib ${1} #HUOM.25725:tarvitaan
 		common_tbls ${1} ${dnsm}
@@ -919,7 +934,7 @@ function part2_5() {
 	csleep 1
 
 	if [ ${1} -eq 1 ] ; then
-		dqb "HGHGUYFLIHLYGLUYROI"
+		dqb "pHGHGUYFLIHLYGLUYROI mglwafh"
 		${lftr}
 		${fib} #uutena 27525, xcalibur...
 		csleep 1
