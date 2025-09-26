@@ -35,8 +35,7 @@ else
 fi
 
 itni
-#HUOM.27725:nalkutus kenbties /o/b/changedns.sgh tjsp, ei vältt juuri fix_sudo
-#HUOM.020825:toivottavasti ei pasko:ifup
+
 function fix_sudo() {
 	dqb "fix_sud0.pt0"
 
@@ -56,12 +55,6 @@ function fix_sudo() {
 	dqb "fix_sud0.pt1"
 	${scm} 0750 /etc/sudoers.d
 	${scm} 0440 /etc/sudoers.d/*
-
-	#dqb "POT. DANGEROUS PT 2"
-	#HUOM.250325:onkohan tarkoitus että nämä komennot laittavat sudon epäkuntoon vai ei?
-	#${sco} 0:0 /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-	#${scm} -R a-w /usr/bin/sudo* #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
-	#${scm} 4555 ./usr/bin/sudo #HUOM. LUE VITUN RUNKKARI MAN-SIVUT AJATUKSELLA ENNENQ KOSKET TÄHÄN!!!
 	
 	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
 	csleep 1
