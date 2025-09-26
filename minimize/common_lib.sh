@@ -35,6 +35,33 @@ else
 fi
 
 itni
+
+function fix_sudo() {
+	dqb "fix_sud0.pt0"
+
+	${sco} -R 0:0 /etc/sudoers.d
+	${scm} 0440 /etc/sudoers.d/*
+	${sco} -R 0:0 /etc/sudo*
+	${scm} -R a-w /etc/sudo*
+
+	dqb "POT. DANGEROUS PT 1"
+
+	if [ -d /usr/lib/sudo ] ; then #onko moista daedaluksessa?
+		${sco} 0:0 /usr/lib/sudo/*
+		${scm} -R a-w /usr/lib/sudo/*
+		${scm} 0444 /usr/lib/sudo/sudoers.so
+	fi
+
+	dqb "fix_sud0.pt1"
+	${scm} 0750 /etc/sudoers.d
+	${scm} 0440 /etc/sudoers.d/*
+	
+	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
+	csleep 1
+	dqb "fix_sud0.d0n3"
+}
+
+
 #
 ##HUOM.27725:nalkutus kenbties /o/b/changedns.sgh tjsp, ei vältt juuri fix_sudo
 ##HUOM.050825:toivottavasti ei pasko:ifup tai sudo
@@ -113,10 +140,57 @@ sdi=$(${odio} which dpkg)
 spd="${odio} ${sdi} -l "
 sdi="${odio} ${sdi} -i "
 
+
+sco="${odio} ${sco} "
+scm="${odio} ${scm} "	
+#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
+sah6=$(${odio} which sha512sum)
+	
+slinky=$(${odio} which ln)
+slinky="${odio} ${slinky} -s "
+spc=$(${odio} which cp)
+svm=$(${odio} which mv)
+svm="${odio} ${svm} "
+spc="${odio} ${spc} "
+whack=$(${odio} which pkill)
+whack="${odio} ${whack} --signal 9 "
+snt=$(${odio} which netstat)
+snt="${odio} ${snt} -tulpan "
+smr=$(${odio} which rm)	
+smr="${odio} ${smr} "
+
+NKVD=$(${odio} which shred)
+NKVD="${NKVD} -fu "
+NKVD="${odio} ${NKVD} "
+	
+#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
+
+sdi=$(${odio} which dpkg)
+spd="${odio} ${sdi} -l "
+sdi="${odio} ${sdi} -i "
+
+
 sifu=$(${odio} which ifup)
 sifd=$(${odio} which ifdown)
 sip=$(${odio} which ip)
 sip="${odio} ${sip} "
+
+if [ -v distro ] ; then 
+	dqb "DUSTRO OK"
+else
+	distro=$(cat /etc/devuan_version)
+fi
+
+if [ -v n ] ; then
+	dqb "n OK"
+else
+	n=$(whoami)
+fi
+
+fix_sudo
+other_horrors
+
 
 if [ -v distro ] ; then 
 	dqb "DUSTRO OK"
@@ -192,8 +266,9 @@ function psqa() {
 	csleep 1
 }
 
-function pre_part3_common() {
-	dqb "pre_part3_common ${1}"
+function pre_part3_clib() {
+	dqb "pre_part3_clib ${1}"
+
 	csleep 1
 	pwd
 	dqb "find ${1} -type f -name ' \* .deb ' " #auttaako \* tässä?
@@ -245,7 +320,8 @@ function efk2() {
 
 #HUOM.25725:chimaeran kanssa kosahti tablesin asennus, libnetfilter ja libnfnetlink liittyivät asiaan
 function common_tbls() {
-	#debug=1
+	debug=1
+
 	dqb "COMMON TABLESD"
 	csleep 1
 
@@ -354,15 +430,37 @@ function check_binaries() {
 
 		#HUOM.olisikohan sittenkin suhteelliset polut tar:in sisällä helpompia?
 		#... tai jopspa jatkossa roiskisi /tmp alle
-		#HUOM.020825: toi v ei tässä alla paskota ifup:in toimintaa
 
-		#josko toimisi
+ 
+#		if [ -s ${1}/e.tar ] ; then
+#			${odio} ${srat} -C / -xf ${1}/e.tar
+#			
+#			if [ $? -eq 0 ] ; then
+#				${NKVD} ${1}/e.tar #jompikumpi hoitaa
+#				${smr} ${1}/e.tar
+#			else
+#				dqb "SMTHING WRONG W/ e.tar"
+#			fi
+#		else
+#			if [ -s ${1}/f.tar ] ; then
+#				#jos -c $1 kuitesnkin?
+#				${odio} ${srat} -C ${1} -xf ${1}/f.tar
+#
+#				if [ $? -eq 0 ] ; then
+#					${NKVD} ${1}/f.tar
+#				else
+#					dqb "SMTHING WRONG W/ f.tar"
+#				fi
+#			fi
+#		fi
+
 		efk2 ${1}/e.tar
 		efk2 ${1}/f.tar ${1}
 
-		pre_part3_common ${1} #HUOM.25725:tarvitaan
+		pre_part3_clib ${1} #HUOM.25725:tarvitaan
 		common_tbls ${1} ${dnsm}
-		#other_horrors
+		other_horrors
+
 
 		ipt=$(${odio} which iptables)
 		ip6t=$(${odio} which ip6tables)
@@ -381,8 +479,8 @@ function check_binaries() {
 	local y
 	y="ifup ifdown apt-get apt ip netstat dpkg tar mount umount sha512sum dhclient" # kilinwittu.sh	
 	[ -f /.chroot ] || y="iptables ip6tables iptables-restore ip6tables-restore ${y}"
-	#for x in ${y} ; do ocs ${x} ; done
-	
+	for x in ${y} ; do ocs ${x} ; done
+
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
 	som=$(${odio} which mount)
@@ -499,9 +597,10 @@ function dinf() {
 
 #HUOM.29525:ei tarvitse parametreja tämä
 #...paitsi ehkä sudoersin mankelointiin, absoluuttiset polut oltava
-#HUOM.020825:toiv ei pasko:ifup
 
 function pre_enforce() {
+	#debug=1 #liikaa tauhkaa, pois 28725
+
 	dqb "common_lib.pre_enforce( ${1} )"
 	local q
 	local f
@@ -694,7 +793,125 @@ function pre_enforce() {
 #	csleep 1
 #}
 
-#HUOM.020825:toiv ei pasko ifup
+function mangle2() {
+	if [ -f ${1} ] ; then
+		dqb "MANGLED ${1}"
+		${scm} o-rwx ${1}
+		${sco} root:root ${1}
+	fi
+}
+
+function e_e() {
+	dqb "e_e()"	
+	csleep 1
+	fix_sudo
+	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
+
+	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
+		mangle2 ${f}
+	done
+
+	other_horrors
+	${scm} 0755 /etc
+	${sco} -R root:root /etc #-R liikaa?
+
+	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
+	#TODO:pitäisiköhän muuttaa ao. rivejä?
+	${scm} 0555 /etc/network
+	${scm} 0444 /etc/network/*
+	${sco} root:root /etc/network #turha koska ylempänä
+
+	dqb "e_e d0n3"
+	csleep 1
+}
+
+function e_v() {
+	dqb "e_v()"
+	#csleep 1
+
+	${sco} -R root:root /sbin
+	${scm} -R 0755 /sbin
+
+	${sco} root:root /var
+	${scm} 0755 /var
+	${sco} root:staff /var/local
+	${sco} root:mail /var/mail
+	${sco} -R man:man /var/cache/man
+	${scm} -R 0755 /var/cache/man
+
+	dqb "V1C.V0N.D00m"
+	csleep 1
+}
+
+function e_h() {
+	#debug=1 #HUOM.27825:debug ois, liikaa tauhkaa
+	dqb "e_h( ${1} , ${2} )"
+	csleep 2
+
+	${sco} root:root /home
+	${scm} 0755 /home
+
+	if [ y"${1}" != "y" ] ; then
+		dqb "${sco} -R ${1}:${1} ~"
+		${sco} -R ${1}:${1} ~
+		csleep 1
+	fi
+
+	#HUOM.28525:p.o $1/$2 jatkossa tai ainakin tarkistaa että $2 sis $1
+	[ -d ${2} ] || exit 99
+	local f
+
+	dqb " e h PT 2"
+	csleep 1
+	${scm} 0755 ${2}
+
+	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
+	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
+	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
+	for f in $(find ${2} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
+	for f in $(find ${2} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
+
+	dqb "F1ND D0N3"
+	csleep 1
+
+	for f in ${2} /opt/bin ; do
+		${scm} 0555 ${f}/changedns.sh
+		${sco} root:root ${f}/changedns.sh
+	done
+
+	dqb "e_h()"
+	csleep 1
+}
+
+#/e/n/i ja excalibur, pitäisikö tehdä jotain?
+function e_final() {
+	dqb "e_final()"
+	csleep 1
+	local f
+	f=$(date +%F)
+
+	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
+	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
+
+	if [ -h /etc/resolv.conf ] ; then
+		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
+			${smr} /etc/resolv.conf
+		fi
+	fi
+
+	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
+	csleep 5 
+
+	#HUOM.020825:toiv ei pasko:ifup
+	#TODO:pitäisiköhän muuttaa ao. rivejä?
+	${sco} -R root:root /etc/wpa_supplicant
+	${scm} -R a-w /etc/wpa_supplicant
+
+	dqb "e_final() D0N3"
+	csleep 1
+}
+
+
 function enforce_access() {
 	dqb " enforce_access( ${1} , ${2})"
 	csleep 5
@@ -769,11 +986,12 @@ function part1_5() {
 		dqb "finally"
 		csleep 1
 	fi
+  
+	#HUOM.020825:toi ei pasko:ifup
+	${sco} -R root:root /etc/apt
+	#tarkempaa sertiä tulisi findin kanssa
+	${scm} -R a-w /etc/apt/
 
-#toistaiseksi jemmassa
-#	${sco} -R root:root /etc/apt
-#	#tarkempaa sertiä tulisi findin kanssa
-#	${scm} -R a-w /etc/apt/
 
 	[ ${debug} -eq 1 ] && ls -las /etc/apt
 	csleep 1
@@ -939,7 +1157,7 @@ function part2_5() {
 	csleep 1
 
 	if [ ${1} -eq 1 ] ; then
-		dqb "HGHGUYFLIHLYGLUYROI"
+		dqb "pHGHGUYFLIHLYGLUYROI mglwafh"
 		${lftr}
 		${fib} #uutena 27525, xcalibur...
 		csleep 1
@@ -1009,61 +1227,31 @@ function part2_5() {
 
 #tämän ja kutsuttujen fktioiden debug, saattaa olla jotain ? 28725 vaikuttaisi toimivan ok nimittäin
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
-#HUOM.030825:ifup kunnossa?
+#HUOM.020825:jos ei muuta keksi niin tämänkin joutuu tutkimaan että sössiikö ifup:in toiminnan vai ei
 function part3() {
 	#debug=1 
 	dqb "part3 ${1} ${2}"
 	csleep 1
 
-	#jules
-	pre_part3_common ${1}
+	jules
+	pre_part3_clib ${1}
 	csleep 1
 
 	reficul ${1}
 	pr4 ${1}
 	csleep 1	
 
-	dqb "LIBS"
-	csleep 1
-	
-	local c
-	c=$(find ${1} -type f -name 'lib*.deb' | wc -l)
-	#VAIH:if-blokin sisälle seur 3 riviä, find...
-
-	if [ ${c} -gt 0 ] ; then 
-		efk ${1}/lib*.deb
-	else
-		dqb "N0 L1B\$"
-	fi
-	
+	efk ${1}/lib*.deb
 	[ $? -eq 0 ] || exit 66
-	csleep 1	
-
-	dqb "THE REAL DEAL"
 	csleep 1
-
-	#VAIH:if-blokin sisälle seur 3 riviä, find...
-	c=$(find ${1} -type f -name '*.deb' | grep -v lib | wc -l)
-	dqb ${c}
-#	exit
-#
-#040825:härdelliä tässä vai ei?
-	if [ ${c} -gt 0 ] ; then 
-		efk ${1}/*.deb
-	else
-		dqb "N0 L1B\$"
-	fi
-
+	
+	efk ${1}/*.deb
 	[ $? -eq 0 ] || exit 67	
-	csleep 1
-
-	dqb "AFTER"
 	csleep 1
 
 	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
 	csleep 1
-	#other_horrors
-	dqb "P3 D0N3"
+	other_horrors
 }
 
 function slaughter0() {

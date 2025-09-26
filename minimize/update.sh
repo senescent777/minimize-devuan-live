@@ -4,7 +4,9 @@ u=0
 v=0
 
 d0=$(dirname $0)
-#echo "d0=${d0}"
+echo "d0=${d0}"
+#[ z"${distro}" == "z" ] && exit 6
+
 d=${d0}/${distro}
 
 tgt=${1}
@@ -71,10 +73,10 @@ if [ -f ${tgt} ] ; then
 	process_entry ${tgt} /opt/bin/changedns.sh
 	sleep 2
 
-#	if [ -v testgris ] && [ -d ${testgris} ] ; then #toistaiseksi jemmaan 020825 (oliko jotain muutakin mitä piti jemmata?)
-#		cd ${testgris}
-#		p="."
-#	else
+	if [ -v testgris ] && [ -d ${testgris} ] ; then 
+		cd ${testgris}
+		p="."
+	else
 		echo "SOMTHING ELSE"
 		p=$(pwd)
 
@@ -83,24 +85,30 @@ if [ -f ${tgt} ] ; then
 
 		#lototaan vielä näin
 		for f in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
-#	fi
+	fi
 
 	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
+	dqb "find ${p}/ asd asd asd "
+	csleep 2
+
 	for f in $(find ${p}/ -name '*.example') ; do process_entry ${tgt} ${f} ; done
 	for f in $(find ${p}/ -name '*.sh') ; do process_entry ${tgt} ${f} ; done
-	
-	#VAIH:conf*-kohtaan muutoksia
-	#HUOM.28725:miten config.bz2 kanssa? vissiin jokeri '*.tar*' hoitaa senkin koska *tar.bz2*
-	#...paitsi että se polku? (TODO?)
 
-	for f in $(find ${p}/ -maxdepth 1 -type f -name '*.tar*') ; do
-		echo "PCROCESSING : ${f}"
-		process_entry ${tgt} ${f}
-		sleep 1
-	done
+#	#HUOM.030825:tar-kohta tästä pois jatkossa koska ylempänä jo?
+#	for f in $(find ${p}/ -maxdepth 1 -type f -name '*.tar*') ; do
+#		echo "PCROCESSING : ${f}"
+#		process_entry ${tgt} ${f}
+#		sleep 1
+#	done
 	
-	#tavoitteena locale-juttujen lisäksi localtime mukaan
-	#TODO:locale*-kohtaan ehkä muutoksia?
+	#HUOM.030825:localet ja timezone saavat olla kuten nyt?
+	#jos ei erikseen muuttele niin samat q pakettia purkaessa
+	#eikä juuressa sijaitsevien kanssa tartte kikkailla polun kanssa
+	#/e sisältö voidaan tuupata takaisin arkistoon jos on siitä alunperin purettu, muuten voi tulla ongelmia
+
+	#... pitäisiköhän miettiä mitä otetaan arkistoon ja missä tilanteessa?
+
+
 	for f in $(find /etc -type f -name 'locale*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			process_entry ${tgt} ${f}
@@ -123,13 +131,13 @@ if [ -f ${tgt} ] ; then
 	${scm} 0444 /etc/default/rules*
 	sleep 2
 	
-	#if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then		
+	if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then		
 		for f in $(find /etc -name 'rules*') ; do #type f mukaan?
 			if [ -s ${f} ] && [ -r ${f} ] ; then
 				process_entry ${tgt} ${f}
 			fi
 		done #JOSKO NYT SKEOILU VÄHENISI PRKL
-	#fi
+	fi
 
 	${scm} 0400 /etc/default/rules*
 	${scm} 0400 /etc/iptables/*
@@ -139,14 +147,15 @@ if [ -f ${tgt} ] ; then
 	#pitäisi kai tehdä jotain että tuoreimmat muutokset /e/n ja /e/a menevät tar:iin asti? typojen korjaus olisi hyvä alku
 
 	#TODO:/e/n- ja /e/a-kohdat uusiksi jatkossa (liittyiköhän se luca?)
-	#if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then
+	if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then
+
 		#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
 		for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
 
 		#uutena 28525
 		for f in $(find /etc/apt -type f -name 'sources*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
 		sleep 2
-	#fi
+	fi
 
 	#HUOM.saattaa urputtaa $tgt polusta riippuen
 	#HUOM.2:miten toimii omegan ajon jälkeen?

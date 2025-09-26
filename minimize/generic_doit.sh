@@ -2,6 +2,7 @@
 mode=2
 distro=$(cat /etc/devuan_version)
 d0=$(pwd)
+
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro} 
@@ -63,6 +64,8 @@ csleep 1
 part076 ${distro}
 #sitä pakettien purkua, voisi katsoa minne *.deb roiskitaan ja miksi (vielä ajankohtainen?)
 
+#TODO:sitä pakettien purkua, voisi katsoa minne *.deb roiskitaan ja miksi
+
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
@@ -92,6 +95,7 @@ if [ -f /.chroot ] ; then
 else 
 	enforce_access ${n} ${d0}
 fi
+
 
 csleep 3
 part1 ${distro} 
@@ -193,6 +197,7 @@ part2_5 ${removepkgs} ${dnsm}
 message
 part3 ${d} ${dnsm}
 other_horrors
+
 ${d0}/import2.sh r ${d0} -v
 
 jules

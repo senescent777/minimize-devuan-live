@@ -11,8 +11,7 @@ d=${d0}/${distro}
 
 #pitäisikö vielä minimoida latensseja tästä skriptistä? ja sen käyttämistä?
 #... optiota -v ei ole pakko käyttää, toisaalta
-#HUOM.28725:testailtu, vaikuttaisi toimivalta ainakin enimmäkseen
-#TODO:päivityspaketin asenteluhommad, kts että menee niinq tarkoitus
+#HUOM.28725:testailtu, vaikuttaisi toimivalta ainakin enimmäkseen (q myöhemmin)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -350,7 +349,8 @@ case "${mode}" in
 		[ "${confirm}" == "Y" ]  || exit 77
 		common_part ${srcfile} ${d} /
 
-		#HUOM.sellainen ilmeinen juttu että joidenkn arkistojen tapauksessa .deb-paketit saatTavat löytyÄ
+		#HUOM.sellainen ilmeinen juttu että joidenkn arkistojen tapauksessa .deb-paketit saatttavat löyty
+
  		#juuresta
 
 		csleep 1
@@ -403,7 +403,9 @@ case "${mode}" in
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
 
-		part3 ${d} ${dnsm} #HUOM.21725:tämän toiminta pitäisi selvittää
+		#tarvitseeko part3 toimintaa selvittää juuri nyt vai ei?
+		part3 ${d} ${dnsm}
+
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 		csleep 1
 
@@ -411,12 +413,9 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#HUOM.020825:toimii
-
-		#HUOM.vihjeeksi:parametrina olisi hyvä olla se fediverse.tar , missä sijaitseekaan, tai siis näin oli kunnes toiminta muuttui
+		#TODO:jos TAAS testaisi että toimii
 		#nykyään (31725) testataan että $srcfile:n sisältä löytyy fediverse.tar		
 
-		#VAIH:jatkossa hakemistopolku pois arkistosta + sivuvaikutukset
 		[ x"${srcfile}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 1
@@ -433,8 +432,18 @@ case "${mode}" in
 	r)
 		tpr ${d0}
 	;;
-	k)	
-		echo "TODO" #sq-chroot-spesifistä jatkossa
+	k)	#VAIH
+		#... tähän liittyen pitää tietysti kopioida kohdehmistoon matsqut(TODO)
+		gg=$(${odio} which gpg)
+		ridk=${d0}
+
+		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #/.chroot vielä?
+			for f in ${TARGET_Dkname1} ${TARGET_Dkname2} ; do # ${TARGET_Dkname1}.secret ${TARGET_Dkname2}.secret
+				echo "dbg: ${gg} --import ${ridk}/${f}"
+				${gg} --import ${ridk}/${f}
+			done
+		fi		
+
 	;;
 	-h) #HUOM.27725:ilman param kuuluisi kai keskeyttää suor mahd aik
 		usage

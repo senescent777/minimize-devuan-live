@@ -11,3 +11,10 @@ removepkgs=1
 changepw=0
 #HUOM.11525:locale-juttuja varten nykyään /e/d/l.tmp
 LCF666="<SAME_AS LC_TIME>"
+#
+CONF_kay1name=12341234
+CONF_kay1name=56785678
+TARGET_Dkname1=dk1 #<filename correllating to >
+TARGET_Dkname2=dk2 #<filename correllating to CONF_kayid2>
+TARGET_Dpubkf=${TARGET_DIGESTS_dir}/${TARGET_Dkname1}
+TARGET_Dpubkg=${TARGET_DIGESTS_dir}/${TARGET_Dkname2}

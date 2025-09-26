@@ -4,7 +4,9 @@ function pre1() {
 	#HUOM.020825:pitäisi kai selvittää mikä paskoo ifup:in, onko se tämä fktio vai jokin muu?
 	dqb "pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 66
-	[ -z ${2} ] && exit 67
+	[ -z ${2} ] && exit 66
+	#VAIH:tokan parametrin(mihin tarvitsee?) tarkistus, toiminee
+
 
 	csleep 4
 	dqb "pars.0k"
@@ -33,20 +35,24 @@ function pre1() {
 		csleep 1
 		${scm} 0755 /etc/apt
 		${scm} a+w /etc/apt/sources.list*
+
+		part1 ${1}
 	fi
 }
 
-#HUOM.020825:jossain pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
+#VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
 
 function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten kai toimii
+	#... ifup toivottavasti toimii kanssa
+
 	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 67
 	[ -z ${3} ] && exit 68
-	[ -z ${4} ] && exit 69 #josko nyt jo 31725 olisi kaikki kohdat, mistä kutsitaan, kunnossa
-	
+	[ -z ${4} ] && exit 69
+
 	dqb "pars.ok"	
 	csleep 1
 
@@ -88,7 +94,7 @@ function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten
 
 #HUOM.28725:vaikuttaisi toimivan
 function tp0() {
-	dqb "tp0 ${1} , ${2} , ${3}  "
+	dqb " ${1} , ${2} , ${3}  "
 
 	if [ -d ${1} ] ; then
 		dqb "cleaning up ${1} "
@@ -112,7 +118,7 @@ function tpq() { #HUOM.020825:toimii
 	[ -z ${1} ] && exit 11
 	[ -z ${2} ] && exit 12
 	[ -d ${1} ] || exit 22
-	[ -d ${2} ] || exit 23 #pitäisikö mennä näin?
+	[ -d ${2} ] || exit 23
 
 	dqb "paramz 0k"
 	csleep 1
@@ -166,17 +172,37 @@ function tp1() {
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 	local t
 
-	#HUOM.020825:ottaako mukaan vai ei?
+	#TODO:selvitä toimiiko näin sen yhden testiympäristön kanssa
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 2
 	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
-	csleep 2
+
 
 #	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
-
+#	#jatkossa tar if-blokin jälkeen?
+#	if [  z"${3}" != "z" ] ; then
+#		dqb "A"
+#		csleep 1
+#
+#		cd ${3} #tässä oli virhe
+#		${srat} --exclude='*.deb' -rvf ${1} ./home/stubby
+#		csleep 3
+#
+#		#TODO:se fiksumpi tapa, voiSiko esim $2:sta leikata $3:n bashilla jotenkin käteväsri?
+#		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 4,5,6,7)
+#		echo ${t}
+#		#exit
+#
+#		#TODO:vissiin jatkossa niin että tässä haarassa .example voi ottaa, conf* ei (update.sh liittyi)
+#
+#		dqb "./home/stubby ./home/devuan/Desktop/minimize" #tässäkin oli virhe
+#		${srat} --exclude='*.deb' --exclude='conf*' -rvf ${1} ${t} 
+#		#erikseen pitäisi se conf.example lisätä 
+#	else
 		dqb "B"
 		csleep 1
 		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
+
 
 		dqb "${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
 		csleep 3
@@ -184,11 +210,15 @@ function tp1() {
 		#pitäisiköhän findilla hakea tar:ille ne .sh, .tar yms. ?
 		#... vai stokeekohan ecxldur asioita? ei kai
 
+		#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan (ei kyllä pitäisi)
 		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
-
+#	fi
+#pidetään tämä blokki vielä jemmassa
 	dqb "tp1 d0n3"
 	csleep 1
 }
+
+#update.sh käyttämään tätä?
 
 function luca() {
 	dqb "luca ( ${1})"
@@ -199,7 +229,7 @@ function luca() {
 	dqb "prs ok"
 	csleep 1
 
-	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule #| less
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule
 	sleep 2
 
 	dqb "JUST BEFORE LOCALES"
@@ -212,11 +242,12 @@ function luca() {
 	echo $?
 	sleep 1
 
-	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local #| less
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 	sleep 3
 }
 
-function tp2() { #HUOM.020825:joko jo toimisi
+function tp2() {
+
 	dqb "tp2 ${1} ${2} ${3}"
 	csleep 1
 
@@ -260,9 +291,8 @@ function tp2() { #HUOM.020825:joko jo toimisi
 		exit 112
 	fi
 
-	dqb "WLAN-RELARD3D"	
+	dqb "WLAN-RELAT3D"	
 	csleep 2
-	#HUOM.030825:ifup jo kunnossa?
 
 	case ${2} in
 		wlan0)
@@ -301,7 +331,7 @@ function tp2() { #HUOM.020825:joko jo toimisi
 	csleep 1
 }
 
-function tp3() { #030825:ifup jo kunnossa?
+function tp3() {
 	dqb "tp3 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -337,6 +367,7 @@ function tp3() { #030825:ifup jo kunnossa?
 	echo $?
 	csleep 1
 
+	#TODO:$dnsm parametriksi?
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm}
 
@@ -430,12 +461,12 @@ function aswasw() { #HUOM.28725:testattu, toimii
 	csleep 1
 }
 
-#030825:josqo jo toimisi
+
 function rmt() {
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
-	[ -z ${1} ] && exit 1 #nämäkö kusevat edelleen?
+	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
@@ -493,7 +524,7 @@ function rmt() {
 #home/devuan/Desktop/minimize/chimaera/home/devuan/Desktop/minimize/chimaera/tim3stamp
 #kyseiselle polulle voisi tehdä jotain jos ilmestyy(TODO)
 
-function tlb() { #030825:ok?
+function tlb() { #VAIH:tarkista toiminta jälleen kerran
 	#... oli python3.11 liittyvää nalqtusta ja vähän muutakin 020825	
 
 	#HUOM.MIKSI ASENTAA AVAHIN?
@@ -539,10 +570,17 @@ function tlb() { #030825:ok?
 	#uutena 31525
 	udp6 ${pkgdir}
 
+	dqb "a.HAV1"
+	csleep 2
+
 	#VAIH:part2_5() jatkossa, nyt jos riittäisi ao. 3 riviä
-	#${sharpy} libavahi*
-	#${NKVD} ${pkgdir}/libavahi*	
-	#${asy}
+	${sharpy} libavahi*
+	${NKVD} ${pkgdir}/libavahi*	
+	${asy}
+
+	dqb "BEFORE PRE2"
+	csleep 2
+
 
 	#actually necessary
 	pre2 ${1} ${3} ${2} ${4} 
@@ -550,9 +588,10 @@ function tlb() { #030825:ok?
 	dqb "x2.tlb.done"
 }
 
-function tp4() { #030825:ifup jo ok?
-	#TODO:voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja (1 idea on)
+function tp4() {
+	#TODO:voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja
 	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
+
 	dqb "tp4 ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 
@@ -575,6 +614,7 @@ function tp4() { #030825:ifup jo ok?
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
 	${shary} libaudit1 libselinux1
 	${shary} man-db sudo
+
 	message
 	jules
 
@@ -608,6 +648,16 @@ function tp4() { #030825:ifup jo ok?
 	${NKVD} ${pkgdir}/libavahi*	
 #	${asy}
 
+	dqb "ANTI-AVAH1"
+	csleep 1
+
+	${sharpy} libavahi* 
+	${NKVD} ${pkgdir}/libavahi*	
+	${asy} #tämä vai tuo ylempi mikä mutkistaa asioita?
+
+	dqb "BEFORE UPD6"	
+	csleep 1
+
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä -24
 	#... myös gpgtar pitäisi ottaa haltuun
 	if [ -d ${2} ] ; then
@@ -631,7 +681,7 @@ function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in , myös pol
 	dqb "tp5 ${1} ${2}"
 
 	[ -z ${1} ] && exit 99
-	[ -s ${1} ] || exit 98 pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
+	[ -s ${1} ] || exit 98 #pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
 	[ -d ${2} ] || exit 97
  
 	dqb "params ok"
@@ -646,7 +696,6 @@ function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in , myös pol
 	${tig} clone https://github.com/senescent777/more_scripts.git
 	[ $? -eq 0 ] || exit 99
 	
-	#HUOM:{old,new} -> {0,1} ei liity
 	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
 	mv more_scripts/profs/profs* ${2}
 
@@ -658,7 +707,8 @@ function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in , myös pol
 	dqb "AAMUNK01"
 }
 
-function tup() { #TODO:testaa uusiksi, koska param tark
+function tup() { #VAIH:testaa uusiksi, koska param tark
+	#HUOM.26925:tämän casen kanssa saattaa olla jotain, imp2 kun yrittää asentaa luotua päivityspak ni nalqtti dbus-paketeista
 	dqb "tup ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
@@ -686,12 +736,12 @@ function tup() { #TODO:testaa uusiksi, koska param tark
 	echo $?
 	csleep 1
 
-#	dqb "AVA.H1" #josqs takaisin?
-#	${sharpy} libavahi*
-#	${NKVD} ${pkgdir}/libavahi*
-#	
-#	${asy}
-#	csleep 1
+	dqb "AVA.H1"
+	${sharpy} libavahi*
+	${NKVD} ${pkgdir}/libavahi*
+	
+	${asy}
+	csleep 1
 
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1
@@ -725,7 +775,7 @@ function tup() { #TODO:testaa uusiksi, koska param tark
 		;;
 	esac
 
-	udp6 ${pkgdir}
+	udp6 ${pkgdir} #TODO:dbus-pakettein deletointi mjkaan tuohon?
 	dqb "UTP PT 3"
 	csleep 1
 

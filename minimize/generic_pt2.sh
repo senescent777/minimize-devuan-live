@@ -2,6 +2,7 @@
 #TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh) vielä tarpeen 29725?
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 d0=$(pwd)
+
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro}

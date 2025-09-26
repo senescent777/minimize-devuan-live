@@ -6,9 +6,6 @@ d0=$(pwd)
 echo "d0= ${d0}"
 mode=-2
 tgtfile=""
-
-#HUOM.8725.1:joskohan wpa_supplicant.conf kanssa asiat kunnossa
-#HUOM.020825:jotain häikkää tuon kanssa taas, ei välttämättä juuri conf
 #HUOM.020825.2:jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch
 
 function dqb() {
@@ -40,7 +37,7 @@ else
 	exit 1	
 fi
 
-#"$0 <mode> <file>  [distro] [-v]" olisi se perusidea
+#"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
 function parse_opts_1() {
 	dqb "patse_otps8( ${1}, ${2})"
 
@@ -53,7 +50,6 @@ function parse_opts_1() {
 			if [ -d ${d}/${1} ] ; then
 				distro=${1}
 				d=${d0}/${distro}
-
 			fi
 		;;
 	esac
@@ -178,18 +174,15 @@ csleep 1
 
 case ${mode} in
 	0|4) 
-		#... case 0 kanssa oli pientä kiukuttelua ifup kanssa (toivottavasti jo korjattu)
-	
-		#... case 4 kanssa saatu uudestaan toimimaan 020825 (katso toistuuko)
-
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		pre2 ${d} ${distro} ${iface} ${dnsm}
+
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
-		csleep 2
+		csleep 3
 
 		tp3 ${tgtfile} ${distro}
 		dqb "TP3 DON3, next:rm some rchivies"
-		csleep 2
+		csleep 3
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
@@ -199,6 +192,7 @@ case ${mode} in
 
 		dd if=/dev/random bs=12 count=1 > ./rnd
 		${srat} -cvf ${d}/f.tar ./rnd
+		tp0 ${d} #VAIH:pitäisikö olla ennen tp4 ? 
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then
@@ -224,12 +218,15 @@ case ${mode} in
 		pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 5	
-		tp2 ${tgtfile} ${iface} ${dnsm} 
+		tp2 ${tgtfile} ${iface} ${dnsm}
 	;;
-	1|u|upgrade) #HUOM.29725:ainakin chimaeran kanssa tup():in tekemät paketit kelpaavat
+	1|u|upgrade) #VAIH:testaa uusiksi
+		#HUOM.26925:tämän casen kanssa saattaa olla jotain, imp2 kun yrittää asentaa luotua päivityspak ni nalqtti dbus-paketeista
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface} ${dnsm}
+		tp0 ${d}
+
 		tup ${tgtfile} ${d} ${iface} ${dnsm}
 	;;
 	p) #HUOM.020825:testattu sen verran että tekee tar:in (myös polku hukattu)
@@ -239,9 +236,10 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.020825:testattu sen verran että tekee tar:in 
+	e)  #VAIH:tstaa uusiksi
 		pre2 ${d} ${distro} ${iface} ${dnsm}
-		#TODO:tp0 tähän väliin
+		tp0 ${d}
+
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
 	f)  #HUOM.28725:testattu, toimii ainakin sen verran että tekee tarin minkä sisältä järkeväno loinen
@@ -254,9 +252,7 @@ case ${mode} in
 	
 		tpq ~ ${d0}
 		cd ${d0}
-	
-		q=$(mktemp) #TODO:YLIm mktemp pois
-		${srat} -cf ${tgtfile} ${q}
+
 
 		dqb "	OIJHPIOJGHOYRI&RE"
 		pwd
@@ -264,17 +260,15 @@ case ${mode} in
 
 		#HUOM.28725:roiskiko väärään hakemistoon juttuja tpq()? toiv ei enää
 		tpq ~ ${d0}
-		
-		#HUOM.28725:puuttuvien fktioiden takia ei suoritusta näköjään keskeytetä	
 
-		q=$(mktemp)
-		${srat} -cf ${tgtfile} ${q}
 
 		dqb "	OIJHPIOJGHOYRI&RE"
 		[ ${debug} -eq 1 ] && pwd
 		csleep 1
 
 		cd ~
+
+		#HUOM.voisi toisellakin tavalla tehdä, kts update.sh
 
 		for f in $(find . -type f -name config.tar.bz2 -or -name fediverse.tar -or -name pulse.tar) ; do
 			${srat} -rvf ${tgtfile} ${f}
@@ -285,7 +279,8 @@ case ${mode} in
 	;;
 	t) #VAIH:tarkista toiminta TAAS (020825 tekee tar:in, sisällön kelvollisuus vielä testaamatta)
 		pre2 ${d} ${distro} ${iface} ${dnsm}
-		${NKVD} ${d}/*.deb
+		${NKVD} ${d}/*.deb #olisi myös tp0
+
 		tlb ${d} ${iface} ${distro} ${dnsm}
 		${svm} ${pkgdir}/*.deb ${d}
 		rmt ${tgtfile} ${d}
@@ -293,15 +288,16 @@ case ${mode} in
 	c) #uusi optio chroot-juttuja varten, toiminee (27.7.25)
 		[ z"${tgtfile}" == "z" ] && exit 99
 
+		#tähän se avainten lisäys vaiko erillinen case?
 		cd ${d0}
-		q=$(mktemp)
-		${srat} -cvf ${tgtfile} ${q}
 
 		for f in $(find . -type f -name conf -or -name lib.sh) ; do ${srat} -rvf ${tgtfile} ${f} ; done
+		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} TARGET_Dkname1
+		[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} TARGET_Dkname2
 		bzip2 ${tgtfile}
 
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
-		tgtfile="${tgtfile}".bz3 #tarkpoituksella tämä pääte 
+		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
 	;;
 
 	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata
@@ -318,9 +314,15 @@ if [ -s ${tgtfile} ] ; then
 	${sco} $(whoami):$(whoami) ${tgtfile}.sha
 	${scm} 0644 ${tgtfile}.sha
 
-	#TODO:gpg-juttuja tähän?
+	#VAIH:gpg-juttuja tähän?
+
 	${sah6} ${tgtfile} > ${tgtfile}.sha
 	${sah6} -c ${tgtfile}.sha
+
+	gg=$(${odio} which gpg)
+	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
+		${gg} -u ${CONF_kay1name} -sb ${tgtfile}.sha
+	fi
 
 	echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
 fi

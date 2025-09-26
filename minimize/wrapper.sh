@@ -12,7 +12,7 @@ fi
 
 case ${1} in
 	merde)
-		${d}/demerde_toi.sh main
+		${d}/demerde_toi.sh main #tuokin skripti pitisi testata taas		
 	;;
 	cdns)		
 		sudo /opt/bin/changedns.sh ${dnsm}
@@ -29,6 +29,7 @@ case ${1} in
 		[ $? -gt 0 ] && exit 45 #HUOM. jos on jo valmiiksi mountattu ni turha exit
 		read -p "source?" sorsa
 		sleep 2
+		#TEHTY:desktop-fileet muuttaen tähän liittyen
 
 		if [ "${1}" == "import" ] ; then
 			${d}/import2.sh 0 ${sorsa}
