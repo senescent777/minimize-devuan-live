@@ -94,7 +94,7 @@ fi
 
 dqb "tar = ${srat} "
 
-#TODO:suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x
+#TODO:suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
@@ -174,7 +174,7 @@ dqb "AFTER TAR"
 csleep 1
 
 case ${mode} in
-	0|4) 
+	0|4) #TODO:case 0 testaus uusiksi 
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 
@@ -198,7 +198,7 @@ case ${mode} in
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then
 			tp4 ${d}/f.tar ${d} ${distro} ${iface}
-
+			tp0 ${d} #kuinka oleellinen?
 			[ ${debug} -eq 1 ] && ls -las ${d}
 			csleep 5
 		fi
