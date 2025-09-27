@@ -47,7 +47,7 @@ function c5p() { #VAIH:testaa toiminta
 }
 
 function reficul() {
-	dqb "NATTA5H3AD 0VERDR1V3 666!"
+	dqb "NATTA5H3AD öVERDR1V 666!"
 	csleep 1
 
 	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
@@ -68,6 +68,7 @@ function reficul() {
 
 	efk ${1}/libssl3*.deb ${1}/libk*.deb ${1}/libgss*
 	efk ${1}/libcups* ${1}/libavahi* ${1}/libdbus* #tartteeko 2 ekaa asentaa? voisik sen sijaan poistaa?
+	#TODO:pause tähän dbus-syistä?
 	efk ${1}/libx11-6*
 
 	efk ${1}/libcap2*
@@ -101,10 +102,8 @@ function reficul() {
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
-#HUOM.21725:pitäisiköhän tätä sorkkia? kun sen yhden päivityspaketin kanssa ongelma (olisikohan jo korjautunut 24725 mennessä?)
 
 function pr4() {
-	#debug=1 #josqs pois?
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
 	[ -d ${1} ] || exit 66
@@ -120,7 +119,9 @@ function pr4() {
 	efk ${1}/libperl*.deb
 
 	efk ${1}/perl*.deb
+	#TODO:efk ${1}/libdbus*.deb ?
 	efk ${1}/dbus*.deb
+	#TODO:pause tähän dbus-syistä?
 
 	efk ${1}/liberror-perl*.deb
 	efk ${1}/git*.deb
@@ -258,7 +259,7 @@ function pre_part2() {
 
 	#${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
-	#020825:toivottavasti ei sivuvaikutuksena sössö ifup:in toimintaa
+	#020825:toivottavasti ei sivuvaikutuksena sössi ifup:in toimintaa
 
 	for f in $(find /etc/init.d -type f -name 'ntp*') ; do 
 		${odio} ${f} stop
