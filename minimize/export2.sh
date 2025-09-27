@@ -127,7 +127,7 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 1
 
-#HUOM. ei kovin oleellista ajella tätä skriptiä squashfs-cgrootin siäsllä
+#HUOM. ei kovin oleellista ajella tätä skriptiä squashfs-cgrootin siSÄllä
 #mutta olisi hyvä voida testailla sq-chrootin ulkopuolella
 
 dqb "PRE0"
@@ -221,6 +221,7 @@ case ${mode} in
 		tp2 ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
 	1|u|upgrade) #VAIH:testaa uusiksi (masentelun kanssa jotain pientä häikkää 27925)
+		#... 28925 alkaisi 26925 luotu tar asentua ok, vielä uudemman oksennuksen testaus
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface} ${dnsm}
@@ -234,7 +235,7 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #VAIH:luodun tar:in testaus (27.9.25)
+	e)  #HUOM.28925:taitaa toimia tämän casen luoma tar
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp0 ${d}
 		tp4 ${tgtfile} ${d} ${distro} ${iface}

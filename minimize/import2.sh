@@ -318,8 +318,6 @@ function tpr() {
 	csleep 1
 }
 
-#HUOM.020825:näyttäisi roiskivan imp2 sitä sisältöä vähän minne sattuu, garbage in/garbage out?
-
 case "${mode}" in
 	-1) #jatkossa jokiN fiksumpi kuin -1
 		part=/dev/disk/by-uuid/${part0}		
