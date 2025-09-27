@@ -1,5 +1,6 @@
 #!/bin/bash
-debug=1
+#jotain oletuksia kunnes oikea konftdsto saatu lotottua
+debug=0 #1
 srcfile=""
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi (leikeltynä vai ei?)
 dir=/mnt
@@ -69,7 +70,7 @@ else #joutuukohan else-haaran muuttamaan jatkossa?
 fi
 
 if [ -x ${d0}/common_lib.sh ] ; then #saattaa jo toimia chroot-ymp sisällä
-	#... saattaa olla että sq-chroot:in sisällä ei tarvitsekaan:import2.sh mutta vägän kätevänou ehgkä
+	#... saattaa olla että sq-chroot:in sisällä ei tarvitsekaan:import2.sh mutta väHän kätevänPI ehgkä
 	. ${d0}/common_lib.sh
 else
 	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston"
@@ -116,7 +117,6 @@ else
 	}
 
 	#kutsutaanko tätä? no yhdestä kohdasta ainakin
-	#HUOM.020825:kommentoiti jemmaan debug-syistä?
 	function other_horrors() {
 		dqb "AZATHOTH AND OTHER HORRORS"
 
@@ -349,9 +349,6 @@ case "${mode}" in
 		[ "${confirm}" == "Y" ]  || exit 77
 		common_part ${srcfile} ${d} /
 
-		#HUOM.sellainen ilmeinen juttu että joidenkn arkistojen tapauksessa .deb-paketit saatttavat löyty
- 		#juuresta
-
 		csleep 1
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
@@ -386,7 +383,7 @@ case "${mode}" in
 
 		csleep 1
 
-		if [ ${1} -eq 0 ] ; then #vähemmällä jos tekisi... efk2?
+		if [ ${1} -eq 0 ] ; then #TODO:vähemmällä jos tekisi... efk2?
 			if [ -s ${d}/e.tar ] ; then
 				common_part ${d}/e.tar ${d} /
 			else
@@ -402,9 +399,8 @@ case "${mode}" in
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
 
-		#tarvitseeko part3 toimintaa selvittää juuri nyt vai ei?
 		part3 ${d} ${dnsm}
-		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
+		other_horrors
 		csleep 1
 
 		cd ${olddir}
