@@ -1,11 +1,9 @@
 function pre1() {
 	# tosin disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(TODO)
 
-	#HUOM.020825:pitäisi kai selvittää mikä paskoo ifup:in, onko se tämä fktio vai jokin muu?
 	dqb "pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 66
-	#VAIH:tokan parametrin(mihin tarvitsee?) tarkistus, toiminee
 
 	csleep 4
 	dqb "pars.0k"
@@ -330,6 +328,7 @@ function tp3() {
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
 	[ -z ${2} ] && exit 3
+	[ -z ${3} ] && exit 4
 
 	dqb "paramz_0k"
 	csleep 1
@@ -337,8 +336,10 @@ function tp3() {
 	local p
 	local q	
 	local r
+	local st
 
 	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+	st=$(echo ${3}  | tr -d -c 0-9)
 	[ ${debug} -eq 1 ] && pwd
 	dqb "r=${r}"
 	csleep 1
@@ -360,9 +361,10 @@ function tp3() {
 	echo $?
 	csleep 1
 
-	#TODO:$dnsm parametriksi?
+	#VAIH:$dnsm parametriksi
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
-	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm}
+	
+	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
 
 	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
 		${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1	
@@ -370,7 +372,7 @@ function tp3() {
 
 	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
 	# (ao. rivi tp2() jatkossa?)	
-	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm}
+	${spc} /etc/resolv.conf ./etc/resolv.conf.${st}
 
 	if [ ! -s ./etc/resolv.conf.1 ] ; then
 		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
@@ -382,7 +384,7 @@ function tp3() {
 	#HUOM.010825:/sbin-juttuja ei tullut mukaan
 	#HUOM.14525.3:ghubista löytyvä(.new) vastaa tilannetta dnsm=1
 	# (ao. rivi tp2() jatkossa?)
-	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm}
+	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${st}
 
 	if [ ! -s ./sbin/dhclient-script.1 ] ; then
 		  ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1

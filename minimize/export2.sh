@@ -181,7 +181,7 @@ case ${mode} in
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
-		tp3 ${tgtfile} ${distro}
+		tp3 ${tgtfile} ${distro} ${dnsm}
 		dqb "TP3 DON3, next:rm some rchivies"
 		csleep 3
 
