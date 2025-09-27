@@ -47,17 +47,21 @@ function c5p() { #VAIH:testaa toiminta
 }
 
 function reficul() {
-	dqb "NATTA5H3AD 0VERDR1V3 666!"
+	debug=1 #TODO:pois sittenq mahd
+	dqb "NATTA5H3AD öVERDR1V 666!"
 	csleep 1
 
 	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
 	efk ${1}/gcc-12*.deb
 
-	#tarteeko olla noin tarkka nimestä?
+	#HUOM.28925:toimiikohan tuolleen että useampi param samalla rivillä?
 	efk ${1}/libc6_2.36-9+deb12u10_amd64.deb ${1}/libgcc-s1_12.2.0-14+deb12u1_amd64.deb 
 	efk ${1}/libstdc*.deb
+	sleep 1
+
 	efk ${1}/libglib*.deb ${1}/libmount*.deb ${1}/libblk*.deb
-	
+	sleep 6
+
 	#efk ${1}/libwebp*.deb #menikö nimi oikein?
 	#myös:https://thehackernews.com/2023/09/new-libwebp-vulnerability-under-active.html
 	#tarttisko tehdä jotain vai ei?
@@ -67,15 +71,32 @@ function reficul() {
 	efk ${1}/libgnutls*.deb ${1}/libtasn*.deb
 
 	efk ${1}/libssl3*.deb ${1}/libk*.deb ${1}/libgss*
-	efk ${1}/libcups* ${1}/libavahi* ${1}/libdbus* #tartteeko 2 ekaa asentaa? voisik sen sijaan poistaa?
+	efk ${1}/libcups* ${1}/libavahi*
+
+	echo $?
+	sleep 5
+
+	efk ${1}/libdbus* #tartteeko 2 ekaa asentaa? voisik sen sijaan poistaa?
+
+	echo $?
+	sleep 5
+	dpkg -l libdbus*
+	sleep 10
+	echo "DBUS DONE, NEXT:libx11-6"
+	csleep 5
+
 	efk ${1}/libx11-6*
 
 	efk ${1}/libcap2*
-	efk ${1}/libcurl* ${1}/libnghttp* #mihin näitä tarvittiin?
-	efk ${1}/libdav* #tai tätä?
+
+	efk ${1}/libcurl* ${1}/libnghttp* 
+	efk ${1}/libdav* 
+	#HUOM.28925:libdav uskaltanee poistaa, pari muuta jos toistaiseksi jättäisi
 
 	efk ${1}/libeudev*
-	efk ${1}/libfdisk* ${1}/libuuid* #mihin näitä tarvittiin?
+	efk ${1}/libfdisk* ${1}/libuuid*
+	#HUOM.28925:libfdisk ehkö uskaltaa poistaa, e2fsprogs tarttee libuuid (e2 parempi olla poistamatta)
+
 	efk ${1}/libfreetype*
 
 	efk ${1}/libisl*
@@ -84,29 +105,31 @@ function reficul() {
 
 	efk ${1}/libnf*
 	efk ${1}/libnss* ${1}/libsqlite*
-	efk ${1}/libopen* ${1}/libpolkit-gobject-* #jälkimm pak pios?
+
+	efk ${1}/libopen* ${1}/libpolkit-gobject-*
+	#HUOM.28925:xfce4 tarvitse libpolkit-gobject joten ei kande poistaa
 
 	efk ${1}/libpython3.11-*
 	efk ${1}/libav* ${1}/libsw*
 	csleep 1
 
-	dqb "LIBVTE"
-	efk ${1}/libvte*.deb #VAIH:selv miten tämän kanssa nykyään?
-	csleep 1
+	#dqb "LIBVTE"
+	efk ${1}/libvte*.deb #HUOM.28926:xfce4-terminal tarvitsee tämän
+	#csleep 1
 
 	#HUOM.31525:vituttava määrä asentelua librsvg2 kanssa edelleen
-	dqb "---------------------------------------------------"
+	#dqb "---------------------------------------------------"
 	csleep 5
 }
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
-#HUOM.21725:pitäisiköhän tätä sorkkia? kun sen yhden päivityspaketin kanssa ongelma (olisikohan jo korjautunut 24725 mennessä?)
 
 function pr4() {
-	#debug=1 #josqs pois?
+	debug=1
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
+
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 
@@ -120,7 +143,17 @@ function pr4() {
 	efk ${1}/libperl*.deb
 
 	efk ${1}/perl*.deb
+
+	echo "B3F0R3 DBUS"
+	sleep 6
+
+	#TODO:efk ${1}/libdbus*.deb ?
 	efk ${1}/dbus*.deb
+	#VAIH:pause tähän dbus-syistä?
+	echo $?
+	sleep 5
+	echo "AFT3R DBU5"
+	sleep 6
 
 	efk ${1}/liberror-perl*.deb
 	efk ${1}/git*.deb
@@ -258,7 +291,6 @@ function pre_part2() {
 
 	#${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
-	#020825:toivottavasti ei sivuvaikutuksena sössö ifup:in toimintaa
 
 	for f in $(find /etc/init.d -type f -name 'ntp*') ; do 
 		${odio} ${f} stop
@@ -277,6 +309,5 @@ function tpc7() { #e22.sh kutsuu tätä nykyään
 	dqb "d.prc7 UNDER CONSTRUCTION"
 }
 
-#HUOM.020825:toiv ei pasko ifup
 check_binaries ${d}
 check_binaries2
