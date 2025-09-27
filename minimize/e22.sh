@@ -516,7 +516,7 @@ function rmt() {
 #home/devuan/Desktop/minimize/chimaera/home/devuan/Desktop/minimize/chimaera/tim3stamp
 #kyseiselle polulle voisi tehdä jotain jos ilmestyy(TODO)
 
-function tlb() { #VAIH:tarkista toiminta jälleen kerran
+function tlb() { #VAIH:tarkista toiminta jälleen kerran (ajankohtaista vielä 28925?)
 	#... oli python3.11 liittyvää nalqtusta ja vähän muutakin 020825	
 
 	#HUOM.MIKSI ASENTAA AVAHIN?
@@ -580,7 +580,7 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 }
 
 function tp4() {
-	#TODO:voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja
+	#TODO:voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja (vielä anakh 28925?)
 	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
 
 	dqb "tp4 ${1} , ${2} , ${3} , ${4} "
