@@ -7,7 +7,6 @@ function pre1() {
 	[ -z ${2} ] && exit 66
 	#VAIH:tokan parametrin(mihin tarvitsee?) tarkistus, toiminee
 
-
 	csleep 4
 	dqb "pars.0k"
 
@@ -23,7 +22,6 @@ function pre1() {
 		echo "else"
 		dqb "5TNA"
 		
-
 		local lefid
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) # | cut -d '/' -f 1-5)
 		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
@@ -44,7 +42,6 @@ function pre1() {
 
 function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten kai toimii
 	#... ifup toivottavasti toimii kanssa
-
 	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
@@ -149,7 +146,6 @@ function tpq() { #HUOM.020825:toimii
 	cd ${2}
 }
 
-#030825:ifup ok?
 function tp1() {
 	dqb "tp1 ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
@@ -176,7 +172,7 @@ function tp1() {
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 2
 	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
-
+	csleep 2
 
 #	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
 #	#jatkossa tar if-blokin jälkeen?
@@ -203,7 +199,6 @@ function tp1() {
 		csleep 1
 		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 
-
 		dqb "${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
 		csleep 3
 		
@@ -219,7 +214,6 @@ function tp1() {
 }
 
 #update.sh käyttämään tätä?
-
 function luca() {
 	dqb "luca ( ${1})"
 	csleep 1
@@ -247,7 +241,6 @@ function luca() {
 }
 
 function tp2() {
-
 	dqb "tp2 ${1} ${2} ${3}"
 	csleep 1
 
@@ -377,7 +370,7 @@ function tp3() {
 
 	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
 	# (ao. rivi tp2() jatkossa?)	
-	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm} #TODO.glob wtt
+	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm}
 
 	if [ ! -s ./etc/resolv.conf.1 ] ; then
 		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
@@ -431,7 +424,7 @@ function tp3() {
 	${srat} -rvf ${1} ./etc ./sbin 
 
 	echo $?
-
+	
 	cd ${p}
 	pwd
 	dqb "tp3 done"
@@ -460,7 +453,6 @@ function aswasw() { #HUOM.28725:testattu, toimii
 	dqb " aswasw ${1} DONE"
 	csleep 1
 }
-
 
 function rmt() {
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
@@ -581,7 +573,6 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 	dqb "BEFORE PRE2"
 	csleep 2
 
-
 	#actually necessary
 	pre2 ${1} ${3} ${2} ${4} 
 	other_horrors
@@ -644,9 +635,6 @@ function tp4() {
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
 	csleep 1
 	${lftr}
-#	${sharpy} libavahi* #ehkä takaisin josqs?
-	${NKVD} ${pkgdir}/libavahi*	
-#	${asy}
 
 	dqb "ANTI-AVAH1"
 	csleep 1
@@ -707,8 +695,9 @@ function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in , myös pol
 	dqb "AAMUNK01"
 }
 
-function tup() { #VAIH:testaa uusiksi, koska param tark
+function tup() { #VAIH:testaa uusiksi, koska param tark (työn alla 27925, toiv kohta valm)
 	#HUOM.26925:tämän casen kanssa saattaa olla jotain, imp2 kun yrittää asentaa luotua päivityspak ni nalqtti dbus-paketeista
+		
 	dqb "tup ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
@@ -731,7 +720,7 @@ function tup() { #VAIH:testaa uusiksi, koska param tark
 	${fib} #uutena 205.25
 	csleep 1
 	
-	#--yes - vipu mukaan myös?
+	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 	csleep 1
