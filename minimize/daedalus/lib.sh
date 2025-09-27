@@ -26,6 +26,7 @@ function c5p() { #VAIH:testaa toiminta
 
 	${NKVD} ${1}/xserver* #HUOM.31525:nalkutusta, pois toistaiseksi (ja aptin kautta ei tod poisteta)
 	
+	#TODO:libgtk-pakettien käsittely muutos, nykyisellään (28925) nalkUttaa:"ERROR: ld.so: object 'libgtk3-nocsd.so.0' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored."
 	# libgtk-3-bin depends on libgtk-3-0 (>= 3.24.38-2~deb12u3); however:
   	#Version of libgtk-3-0:amd64 on system is 3.24.37-2.
 	${NKVD} ${1}/libgtk-3-bin* #HUOM.19725:edelleen nalqttaa
