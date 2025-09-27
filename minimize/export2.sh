@@ -218,7 +218,7 @@ case ${mode} in
 		pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 5	
-		tp2 ${tgtfile} ${iface} ${dnsm}
+		tp2 ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
 	1|u|upgrade) #VAIH:testaa uusiksi (masentelun kanssa jotain pientä häikkää 27925)
 		[ z"${tgtfile}" == "z" ] && exit 99 

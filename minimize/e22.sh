@@ -155,7 +155,7 @@ function tp1() {
 	pwd
 	csleep 1
 
-	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then
+	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then #TODO:enforce parametriksi
 		dqb "FORCEFED BROKEN GLASS"
 		tpq ~ ${2}/.. #HUOM.25725:toimiiko näin?
 	else
@@ -239,13 +239,14 @@ function luca() {
 }
 
 function tp2() {
-	dqb "tp2 ${1} ${2} ${3}"
+	dqb "tp2 ${1} ${2} ${3} ${4}"
 	csleep 1
 
 	[ -z ${1} ] && exit 1
 	[ -z ${2} ] && exit 2
 	[ -z ${3} ] && exit 3
 	[ -s ${1} ] || exit 4
+	[ -z ${4} ] && exit 5
 	csleep 1
 
 	dqb "params_ok"
@@ -300,7 +301,11 @@ function tp2() {
 		;;
 	esac
 
-	if [ ${enforce} -eq 1 ] ; then #TODO:glob wtt?
+	#if [ ${enforce} -eq 1 ] ; then #VAIH:glob wtt?
+	local ef
+	ef=$(echo ${4} | tr -d -c 0-9)
+
+	if  [ ${ef} -eq 1 ] ; then
 		dqb "das asdd"
 	else
 		${srat} -rf ${1} /etc/sudoers.d/meshuggah
