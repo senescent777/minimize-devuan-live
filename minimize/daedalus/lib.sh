@@ -259,7 +259,6 @@ function pre_part2() {
 
 	#${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
-	#020825:toivottavasti ei sivuvaikutuksena sössi ifup:in toimintaa
 
 	for f in $(find /etc/init.d -type f -name 'ntp*') ; do 
 		${odio} ${f} stop
@@ -278,6 +277,5 @@ function tpc7() { #e22.sh kutsuu tätä nykyään
 	dqb "d.prc7 UNDER CONSTRUCTION"
 }
 
-#HUOM.020825:toiv ei pasko ifup
 check_binaries ${d}
 check_binaries2
