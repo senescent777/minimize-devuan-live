@@ -350,7 +350,6 @@ case "${mode}" in
 		common_part ${srcfile} ${d} /
 
 		#HUOM.sellainen ilmeinen juttu että joidenkn arkistojen tapauksessa .deb-paketit saatttavat löyty
-
  		#juuresta
 
 		csleep 1
@@ -387,7 +386,7 @@ case "${mode}" in
 
 		csleep 1
 
-		if [ ${1} -eq 0 ] ; then #vähemmällä jos tekisi...
+		if [ ${1} -eq 0 ] ; then #vähemmällä jos tekisi... efk2?
 			if [ -s ${d}/e.tar ] ; then
 				common_part ${d}/e.tar ${d} /
 			else
@@ -405,7 +404,6 @@ case "${mode}" in
 
 		#tarvitseeko part3 toimintaa selvittää juuri nyt vai ei?
 		part3 ${d} ${dnsm}
-
 		other_horrors #HUOM.21525:varm. vuoksi jos dpkg...
 		csleep 1
 
@@ -443,7 +441,6 @@ case "${mode}" in
 				${gg} --import ${ridk}/${f}
 			done
 		fi		
-
 	;;
 	-h) #HUOM.27725:ilman param kuuluisi kai keskeyttää suor mahd aik
 		usage

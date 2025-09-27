@@ -2,7 +2,7 @@
 mode=2
 distro=$(cat /etc/devuan_version)
 d0=$(pwd)
-
+#echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro} 
@@ -62,7 +62,6 @@ dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
 part076 ${distro}
-#sitä pakettien purkua, voisi katsoa minne *.deb roiskitaan ja miksi (vielä ajankohtainen?)
 
 #TODO:sitä pakettien purkua, voisi katsoa minne *.deb roiskitaan ja miksi
 
@@ -96,7 +95,6 @@ else
 	enforce_access ${n} ${d0}
 fi
 
-
 csleep 3
 part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
@@ -122,7 +120,7 @@ function el_loco() {
 	fi
 
 	#HUOM.27725:sq-chroot-ymp perl valittaa LANGUAGE ja ALL , voisi tehdä jotain
-	#HUOM.020825:toivottavsti ei pasko ifup
+	
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
 		csleep 1
