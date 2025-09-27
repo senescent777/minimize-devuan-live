@@ -1,11 +1,12 @@
 #!/bin/bash
-
-debug=1
+#jotain oletuksia kunnes oikea konftdsto saatu lotottua
+debug=0 #1
 distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa?
 d0=$(pwd)
 echo "d0= ${d0}"
 mode=-2
 tgtfile=""
+
 #HUOM.020825.2:jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch
 
 function dqb() {
@@ -93,7 +94,7 @@ fi
 
 dqb "tar = ${srat} "
 
-#TODO:suorituksen keskeytys aelmpaa näille main jos ei löydy tai -x
+#TODO:suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
@@ -206,7 +207,6 @@ case ${mode} in
 		${sifd} ${iface}
 		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
 
-		tp0 ${d} 
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 5
  	
@@ -220,13 +220,11 @@ case ${mode} in
 		csleep 5	
 		tp2 ${tgtfile} ${iface} ${dnsm}
 	;;
-	1|u|upgrade) #VAIH:testaa uusiksi
-		#HUOM.26925:tämän casen kanssa saattaa olla jotain, imp2 kun yrittää asentaa luotua päivityspak ni nalqtti dbus-paketeista
+	1|u|upgrade) #VAIH:testaa uusiksi (masentelun kanssa jotain pientä häikkää 27925)
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp0 ${d}
-
 		tup ${tgtfile} ${d} ${iface} ${dnsm}
 	;;
 	p) #HUOM.020825:testattu sen verran että tekee tar:in (myös polku hukattu)
@@ -236,10 +234,9 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #VAIH:tstaa uusiksi
+	e)  #VAIH:tstaa uusiksi (27.9.25)
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp0 ${d}
-
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
 	;;
 	f)  #HUOM.28725:testattu, toimii ainakin sen verran että tekee tarin minkä sisältä järkeväno loinen
@@ -253,14 +250,12 @@ case ${mode} in
 		tpq ~ ${d0}
 		cd ${d0}
 
-
 		dqb "	OIJHPIOJGHOYRI&RE"
 		pwd
 		csleep 1
 
 		#HUOM.28725:roiskiko väärään hakemistoon juttuja tpq()? toiv ei enää
 		tpq ~ ${d0}
-
 
 		dqb "	OIJHPIOJGHOYRI&RE"
 		[ ${debug} -eq 1 ] && pwd
@@ -269,7 +264,6 @@ case ${mode} in
 		cd ~
 
 		#HUOM.voisi toisellakin tavalla tehdä, kts update.sh
-
 		for f in $(find . -type f -name config.tar.bz2 -or -name fediverse.tar -or -name pulse.tar) ; do
 			${srat} -rvf ${tgtfile} ${f}
 		done
@@ -277,10 +271,9 @@ case ${mode} in
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
-	t) #VAIH:tarkista toiminta TAAS (020825 tekee tar:in, sisällön kelvollisuus vielä testaamatta)
+	t) #VAIH:tarkista toiminta TAAS (020825 tekee tar:in, sisällön kelvollisuus vielä testaamatta 27926)
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		${NKVD} ${d}/*.deb #olisi myös tp0
-
 		tlb ${d} ${iface} ${distro} ${dnsm}
 		${svm} ${pkgdir}/*.deb ${d}
 		rmt ${tgtfile} ${d}
@@ -315,7 +308,6 @@ if [ -s ${tgtfile} ] ; then
 	${scm} 0644 ${tgtfile}.sha
 
 	#VAIH:gpg-juttuja tähän?
-
 	${sah6} ${tgtfile} > ${tgtfile}.sha
 	${sah6} -c ${tgtfile}.sha
 
