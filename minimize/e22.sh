@@ -521,12 +521,16 @@ function rmt() {
 }
 
 #home/devuan/Desktop/minimize/chimaera/home/devuan/Desktop/minimize/chimaera/tim3stamp
-#kyseiselle polulle voisi tehdä jotain jos ilmestyy(TODO)
+#kyseiselle polulle voisi tehdä jotain jos ilmestyy (?)
 
-function tlb() { #VAIH:tarkista toiminta jälleen kerran (ajankohtaista vielä 28925?)
-	#... oli python3.11 liittyvää nalqtusta ja vähän muutakin 020825	
+function aval0n() {
+	dqb "${sharpy} libavahi* #saattaa sotkea "
+	dqb "${NKVD} ${pkgdir}/libavahi* "	
+}
 
-	#HUOM.MIKSI ASENTAA AVAHIN?
+function tlb() { #joskohan jo toimisi 28925?
+
+	#HUOM.28925:vieläkö asentaa avahin?
 	#debug=1
 	dqb "x2.tlb ${1} , ${2}  , ${3}  , ${4} "
 
@@ -569,12 +573,16 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran (ajankohtaista vielä 2
 	#uutena 31525
 	udp6 ${pkgdir}
 
-	dqb "a.HAV1"
-	csleep 2
+	#HUOM.28925.1:sotkeekohan liikaa libavahin poisto?
+	#dqb "a.HAV1"
+	#csleep 2
 	#mitenkähän pitäisi mennä?
-	${sharpy} libavahi*
-	${NKVD} ${pkgdir}/libavahi*	
-
+	#${sharpy} libavahi* #saattaa sotkea
+	#
+	#${NKVD} ${pkgdir}/libavahi*	
+	aval0n
+	
+	#HUOM.28925.2:onkohan hyvä idea tässä?
 	for s in ${PART175_LIST} ; do
 		${sharpy} ${s}*
 		${NKVD} ${pkgdir}/${s}*
@@ -592,7 +600,7 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran (ajankohtaista vielä 2
 }
 
 function tp4() {
-	#TODO:voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja (vielä anakh 28925?)
+	#voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja (vielä ajank 28925?)
 	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
 
 	dqb "tp4 ${1} , ${2} , ${3} , ${4} "
@@ -648,13 +656,13 @@ function tp4() {
 	csleep 1
 	${lftr}
 
-	dqb "ANTI-AVAH1"
-	csleep 1
-
-	${sharpy} libavahi* 
-	${NKVD} ${pkgdir}/libavahi*	
-	${asy} #tämä vai tuo ylempi mikä mutkistaa asioita?
-
+#	dqb "ANTI-AVAH1"
+#	csleep 1
+#
+#	${sharpy} libavahi* 
+#	${NKVD} ${pkgdir}/libavahi*	
+#	${asy} #tämä vai tuo ylempi mikä mutkistaa asioita?
+	aval0n
 	dqb "BEFORE UPD6"	
 	csleep 1
 
@@ -727,7 +735,7 @@ function tup() { #VAIH:testaa uusiksi, koska param tark (työn alla 27925, toiv 
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
 
-	#tekeekhän tp0 nukuään samat jutut q ao 2 riviä?
+	#tp0 $pkgdir;tp0 $2 jatkossa?
 	${NKVD} ${pkgdir}/*.deb
 	${NKVD} ${2}/*.deb
 
@@ -742,13 +750,13 @@ function tup() { #VAIH:testaa uusiksi, koska param tark (työn alla 27925, toiv 
 	echo $?
 	csleep 1
 
-	dqb "AVA.H1" #kuinkakun oleellinen?
-	${sharpy} libavahi*
-	${NKVD} ${pkgdir}/libavahi*
-	
-	${asy}
-	csleep 1
-
+#	dqb "AVA.H1" #kuinkakIn oleellinen?
+#	${sharpy} libavahi*
+#	${NKVD} ${pkgdir}/libavahi*
+#	
+#	${asy}
+#	csleep 1
+	aval0n
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1
 

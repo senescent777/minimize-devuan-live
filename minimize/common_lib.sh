@@ -975,7 +975,6 @@ function part2_5() {
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
 
 function part3() {
-	debug=1 #TODO:pakotus pois sittenq mahd
 	dqb "part3 ${1} ${2}"
 	csleep 1
 

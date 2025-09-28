@@ -105,7 +105,7 @@ done
 dqb "AFTER GANGRENE SETS IN"
 csleep 1
 
-#TODO:"tar löytyy ja ajokelpoinen"-tarkistus voisi olla näillä main (tai common_lib kyllä...)
+#HUOM.28925:"tar löytyy ja ajokelpoinen"-tarkistus tdstossa common_lib.sh, ocs()
 tig=$(${odio} which git)
 mkt=$(${odio} which mktemp)
 
