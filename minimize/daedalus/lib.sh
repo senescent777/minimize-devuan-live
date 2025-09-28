@@ -4,7 +4,7 @@
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 #... joskohan --force-confold olisi se haettu juttu
 
-function c5p() { #VAIH:testaa toiminta, uudestaan (289025)
+function c5p() { #joskohan jo toimisi (28925)
 	dqb "CCCP( ${1} , ${2} )"
 	csleep 1
 	[ -d ${1} ] || exit 66
@@ -30,7 +30,7 @@ function c5p() { #VAIH:testaa toiminta, uudestaan (289025)
 	csleep 1
 }
 
-function reficul() { #HUOM.28925:kohta valmis?
+function reficul() { #HUOM.28925: valmis?
 	dqb "NATTA5H3AD öVERDR1V 666!"
 
 	csleep 5
@@ -63,24 +63,13 @@ function reficul() { #HUOM.28925:kohta valmis?
 	efk ${1}/libpam-modules-bin_*.deb
 	efk ${1}/libpam-modules_*.deb
 
-
 #
 #	efk ${1}/libx11-6*
 #
 
-
 #	efk ${1}/libeudev*
 #	efk ${1}/libfdisk* ${1}/libuuid*
 #	#HUOM.28925:libfdisk ehkö uskaltaa poistaa, e2fsprogs tarttee libuuid (e2 parempi olla poistamatta)
-#
-#	efk ${1}/libfreetype*
-#
-#	efk ${1}/libisl*
-#	efk ${1}/libltd*
-#	efk ${1}/libmpg*
-#
-#	efk ${1}/libnf*
-#	efk ${1}/libnss* ${1}/libsqlite*
 
 #	efk ${1}/libopen* ${1}/libpolkit-gobject-*
 #	#HUOM.28925:xfce4 tarvitse libpolkit-gobject joten ei kande poistaa
@@ -94,7 +83,7 @@ function reficul() { #HUOM.28925:kohta valmis?
 
 function pr4() { #HUOM.28925:kohta valmis?
 	#HUOM.28925.2:tarpeellinen fktio jatkodda?
-	debug=1
+	#debug=1
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
 
@@ -111,8 +100,6 @@ function pr4() { #HUOM.28925:kohta valmis?
 #
 #	efk ${1}/perl*.deb
 #
-
-
 #
 #	efk ${1}/liberror-perl*.deb
 #	efk ${1}/git*.deb
