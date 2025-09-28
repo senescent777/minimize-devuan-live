@@ -60,8 +60,7 @@ else
 	exit 89
 fi
 
-#HUOM.21725:näköjään kirjaston puuttuminen ei menoa haittaa, jatkuu urputuksella
-#HUOM.27725:vieläkö toistuu?
+
 [ -z ${distro} ] && exit 6
 dqb "BEFORE CNF"
 echo "dbig= ${debug}"
@@ -124,11 +123,11 @@ function t2pc() {
 	${sharpy} debian-faq dirmngr discover* doc-debian
 	t2p_filler
 
-	#TODO:miten daedaluksessa dmsetup ja libdevmapper? milloin poistuikaan?
+	#HUOM.29925: daedaluksessa dmsetup ja libdevmapper? poistuvat jos poistuvat g_doit ajamisen jälkeen
 	${sharpy} docutils* dosfstools efibootmgr exfalso
 	t2p_filler
 
-	#TODO:milloin daed kanssa poistui libsouåp?
+	#HUOM.29925: daed kanssa poistuu hos poistuu libsouåp josqs g_doit jälkeen
 	#TODO:se librsvg-juttu daedaluksen kanssa? (mikä?)
 
 	#tikkujen kanssa paska tdstojärjestelmä exfat
