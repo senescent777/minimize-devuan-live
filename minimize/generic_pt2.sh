@@ -88,6 +88,7 @@ ${fib}
 echo "debug=${debug}"
 dqb "distro=${distro}"
 dqb "removepkgs=${removepkgs}"
+sleep 1
 csleep 1
 
 if [ ${removepkgs} -eq 1 ] ; then
@@ -114,7 +115,7 @@ function t2pc() {
 	${fib} #uutena 29525, xcalibur...
 	csleep 1
 
-	${sharpy} amd64-microcode at-spi2-core #toimmi systeemi ilmankin näitä mutta
+	${sharpy} amd64-microcode at-spi2-core #toimii systeemi ilmankin näitä mutta ?
 	t2p_filler
 
 	${sharpy} bubblewrap coinor* cryptsetup*
@@ -128,7 +129,7 @@ function t2pc() {
 	t2p_filler
 
 	#TODO:milloin daed kanssa poistui libsouåp?
-	#TODO:se librsvg-juttu daedaluksen kanssa?
+	#TODO:se librsvg-juttu daedaluksen kanssa? (mikä?)
 
 	#tikkujen kanssa paska tdstojärjestelmä exfat
 	${sharpy} exfatprogs fdisk gcr ftp*
@@ -212,6 +213,8 @@ function t2pf() {
 
 	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
 	${smr} -rf /usr/share/doc 
+	
+	#uusi ominaisuus 230725
 	for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
 
 	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
@@ -224,7 +227,7 @@ function t2pf() {
 #HUOM.26525:nyt sitten debug päälle jotta selviää mihin pysähtyy
 
 t2pc
-[ $? -gt 0 ] && exit
+[ $? -gt 0 ] && exit #tähän tökkää?
 
 t2p
 [ $? -gt 0 ] && exit

@@ -7,7 +7,7 @@ echo "d0= ${d0}"
 mode=-2
 tgtfile=""
 
-#HUOM.020825.2:jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch
+#jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch (vakka erillinen branch näitä varten)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -105,7 +105,7 @@ done
 dqb "AFTER GANGRENE SETS IN"
 csleep 1
 
-#TODO:"tar löytyy ja ajokelpoinen"-tarkistus voisi olla näillä main (tai common_lib kyllä...)
+#HUOM.28925:"tar löytyy ja ajokelpoinen"-tarkistus tdstossa common_lib.sh, ocs()
 tig=$(${odio} which git)
 mkt=$(${odio} which mktemp)
 
@@ -220,8 +220,7 @@ case ${mode} in
 		csleep 5	
 		tp2 ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #VAIH:testaa uusiksi (masentelun kanssa jotain pientä häikkää 27925)
-		#... 28925 alkaisi 26925 luotu tar asentua ok, vielä uudemman oksennuksen testaus
+	1|u|upgrade) #HUOM.28925:toimii?
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface} ${dnsm}

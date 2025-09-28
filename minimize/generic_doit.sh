@@ -63,8 +63,6 @@ dqb "mode= ${mode}"
 csleep 1
 part076 ${distro}
 
-#TODO:sitä pakettien purkua, voisi katsoa minne *.deb roiskitaan ja miksi
-
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else

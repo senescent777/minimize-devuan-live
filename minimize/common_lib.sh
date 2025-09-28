@@ -481,15 +481,10 @@ function dinf() {
 	#exit
 }
 
-#HUOM.29525:ei tarvitse parametreja tämä
-#...paitsi ehkä sudoersin mankelointiin, absoluuttiset polut oltava
-
 function pre_enforce() {
-	#debug=1 #liikaa tauhkaa, pois 28725
 	dqb "common_lib.pre_enforce( ${1} )"
 	local q
 	local f
-	#[ -f ${1}/changedns.sh ] || exit 99
 
 	q=$(mktemp -d)
 	dqb "sudo touch ${q}/meshuggah in 3 secs"
@@ -573,7 +568,8 @@ function e_e() {
 	${sco} -R root:root /etc #-R liikaa?
 
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
-	#TODO:pitäisiköhän muuttaa ao. rivejä?
+	#pitäisiköhän muuttaa ao. rivejä?
+
 	${scm} 0555 /etc/network
 	${scm} 0444 /etc/network/*
 	${sco} root:root /etc/network #turha koska ylempänä
@@ -657,8 +653,7 @@ function e_final() {
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 	csleep 5 
 
-	#HUOM.020825:toiv ei pasko:ifup
-	#TODO:pitäisiköhän muuttaa ao. rivejä?
+	#TODO:pitäisiköhän muuttaa ao. rivejä? miten?
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
 
@@ -789,7 +784,6 @@ function dis() {
 	[  ${debug} -eq 1 ] && ls -las /etc/network
 	csleep 1
 
-	#jos jokin näistä kolmesta hoitaisi homman...
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin (eka ei, toinen kyllä, kolmas ei, sysctl ei)
 
 	${odio} ${sifd} ${iface}
@@ -973,11 +967,9 @@ function part2_5() {
 	csleep 1
 }
 
-#tämän ja kutsuttujen fktioiden debug, saattaa olla jotain ? 28725 vaikuttaisi toimivan ok nimittäin
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
 
 function part3() {
-	debug=1 #TODO:pakotus pois sittenq mahd
 	dqb "part3 ${1} ${2}"
 	csleep 1
 

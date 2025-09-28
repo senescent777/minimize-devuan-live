@@ -301,7 +301,6 @@ function tp2() {
 		;;
 	esac
 
-	#if [ ${enforce} -eq 1 ] ; then #VAIH:glob wtt?
 	local ef
 	ef=$(echo ${4} | tr -d -c 0-9)
 
@@ -366,7 +365,6 @@ function tp3() {
 	echo $?
 	csleep 1
 
-	#VAIH:$dnsm parametriksi
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
 	
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
@@ -521,12 +519,16 @@ function rmt() {
 }
 
 #home/devuan/Desktop/minimize/chimaera/home/devuan/Desktop/minimize/chimaera/tim3stamp
-#kyseiselle polulle voisi tehdä jotain jos ilmestyy(TODO)
+#kyseiselle polulle voisi tehdä jotain jos ilmestyy (?)
 
-function tlb() { #VAIH:tarkista toiminta jälleen kerran (ajankohtaista vielä 28925?)
-	#... oli python3.11 liittyvää nalqtusta ja vähän muutakin 020825	
+function aval0n() {
+	dqb "${sharpy} libavahi* #saattaa sotkea "
+	dqb "${NKVD} ${pkgdir}/libavahi* "	
+}
 
-	#HUOM.MIKSI ASENTAA AVAHIN?
+function tlb() { #joskohan jo toimisi 28925?
+
+	#HUOM.28925:vieläkö asentaa avahin?
 	#debug=1
 	dqb "x2.tlb ${1} , ${2}  , ${3}  , ${4} "
 
@@ -569,12 +571,21 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran (ajankohtaista vielä 2
 	#uutena 31525
 	udp6 ${pkgdir}
 
-	dqb "a.HAV1"
-	csleep 2
+	#HUOM.28925.1:sotkeekohan liikaa libavahin poisto?
+	#dqb "a.HAV1"
+	#csleep 2
+	#mitenkähän pitäisi mennä?
+	#${sharpy} libavahi* #saattaa sotkea
+	#
+	#${NKVD} ${pkgdir}/libavahi*	
+	aval0n
+	
+	#HUOM.28925.2:onkohan hyvä idea tässä?
+	for s in ${PART175_LIST} ; do
+		${sharpy} ${s}*
+		${NKVD} ${pkgdir}/${s}*
+	done
 
-	#VAIH:part2_5() jatkossa, nyt jos riittäisi ao. 3 riviä
-	${sharpy} libavahi*
-	${NKVD} ${pkgdir}/libavahi*	
 	${asy}
 
 	dqb "BEFORE PRE2"
@@ -587,7 +598,7 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran (ajankohtaista vielä 2
 }
 
 function tp4() {
-	#TODO:voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja (vielä anakh 28925?)
+	#voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja (vielä ajank 28925?)
 	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
 
 	dqb "tp4 ${1} , ${2} , ${3} , ${4} "
@@ -643,13 +654,13 @@ function tp4() {
 	csleep 1
 	${lftr}
 
-	dqb "ANTI-AVAH1"
-	csleep 1
-
-	${sharpy} libavahi* 
-	${NKVD} ${pkgdir}/libavahi*	
-	${asy} #tämä vai tuo ylempi mikä mutkistaa asioita?
-
+#	dqb "ANTI-AVAH1"
+#	csleep 1
+#
+#	${sharpy} libavahi* 
+#	${NKVD} ${pkgdir}/libavahi*	
+#	${asy} #tämä vai tuo ylempi mikä mutkistaa asioita?
+	aval0n
 	dqb "BEFORE UPD6"	
 	csleep 1
 
@@ -660,6 +671,8 @@ function tp4() {
 		csleep 1
 		udp6 ${pkgdir} 		
 		
+		#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
+
 		csleep 1		
 		${svm} ${pkgdir}/*.deb ${2}
 		rmt ${1} ${2}
@@ -702,9 +715,8 @@ function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in , myös pol
 	dqb "AAMUNK01"
 }
 
-function tup() { #VAIH:testaa uusiksi, koska param tark (työn alla 27925, toiv kohta valm)
-	#HUOM.26925:tämän casen kanssa saattaa olla jotain, imp2 kun yrittää asentaa luotua päivityspak ni nalqtti dbus-paketeista
-		
+function tup() {
+	#HUOM.28925:jospa tämä fktio jo toimisi taas
 	dqb "tup ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
@@ -719,8 +731,11 @@ function tup() { #VAIH:testaa uusiksi, koska param tark (työn alla 27925, toiv 
 	csleep 1
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
+
+	#tp0 $pkgdir;tp0 $2 jatkossa?
 	${NKVD} ${pkgdir}/*.deb
 	${NKVD} ${2}/*.deb
+
 	dqb "CLEANUP 1 AND 2 DONE, NEXT: apt-get upgrade"
 	csleep 1
 	
@@ -732,13 +747,13 @@ function tup() { #VAIH:testaa uusiksi, koska param tark (työn alla 27925, toiv 
 	echo $?
 	csleep 1
 
-	dqb "AVA.H1"
-	${sharpy} libavahi*
-	${NKVD} ${pkgdir}/libavahi*
-	
-	${asy}
-	csleep 1
-
+#	dqb "AVA.H1" #kuinkakIn oleellinen?
+#	${sharpy} libavahi*
+#	${NKVD} ${pkgdir}/libavahi*
+#	
+#	${asy}
+#	csleep 1
+	aval0n
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1
 
@@ -771,7 +786,7 @@ function tup() { #VAIH:testaa uusiksi, koska param tark (työn alla 27925, toiv 
 		;;
 	esac
 
-	udp6 ${pkgdir} #TODO:dbus-pakettein deletointi mjkaan tuohon?
+	udp6 ${pkgdir}
 	dqb "UTP PT 3"
 	csleep 1
 
