@@ -481,14 +481,10 @@ function dinf() {
 	#exit
 }
 
-#HUOM.29525:ei tarvitse parametreja tämä
-#...paitsi ehkä sudoersin mankelointiin, absoluuttiset polut oltava
-
 function pre_enforce() {
 	dqb "common_lib.pre_enforce( ${1} )"
 	local q
 	local f
-	#[ -f ${1}/changedns.sh ] || exit 99
 
 	q=$(mktemp -d)
 	dqb "sudo touch ${q}/meshuggah in 3 secs"
@@ -657,8 +653,7 @@ function e_final() {
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 	csleep 5 
 
-	#HUOM.020825:toiv ei pasko:ifup
-	#TODO:pitäisiköhän muuttaa ao. rivejä?
+	#TODO:pitäisiköhän muuttaa ao. rivejä? miten?
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
 

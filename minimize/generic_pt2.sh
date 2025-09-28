@@ -129,7 +129,7 @@ function t2pc() {
 	t2p_filler
 
 	#TODO:milloin daed kanssa poistui libsouåp?
-	#TODO:se librsvg-juttu daedaluksen kanssa?
+	#TODO:se librsvg-juttu daedaluksen kanssa? (mikä?)
 
 	#tikkujen kanssa paska tdstojärjestelmä exfat
 	${sharpy} exfatprogs fdisk gcr ftp*
@@ -202,7 +202,6 @@ function t2pc() {
 }
 
 function t2pf() {
-	#debug=1
 	dqb "common_lib.T2P.FINAL()"
 	csleep 1
 
@@ -230,7 +229,6 @@ function t2pf() {
 t2pc
 [ $? -gt 0 ] && exit #tähän tökkää?
 
-#VAIH:tähän keskimmäiseen xorriso:n yms. jyräykset (eli $dostro/lib)
 t2p
 [ $? -gt 0 ] && exit
 

@@ -301,7 +301,6 @@ function tp2() {
 		;;
 	esac
 
-	#if [ ${enforce} -eq 1 ] ; then #VAIH:glob wtt?
 	local ef
 	ef=$(echo ${4} | tr -d -c 0-9)
 
@@ -366,7 +365,6 @@ function tp3() {
 	echo $?
 	csleep 1
 
-	#VAIH:$dnsm parametriksi
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
 	
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
@@ -717,9 +715,8 @@ function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in , myös pol
 	dqb "AAMUNK01"
 }
 
-function tup() { #VAIH:testaa uusiksi, koska param tark (työn alla 27925, toiv kohta valm)
-	#HUOM.26925:tämän casen kanssa saattaa olla jotain, imp2 kun yrittää asentaa luotua päivityspak ni nalqtti dbus-paketeista
-		
+function tup() {
+	#HUOM.28925:jospa tämä fktio jo toimisi taas
 	dqb "tup ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
