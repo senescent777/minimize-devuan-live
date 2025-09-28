@@ -21,79 +21,54 @@ function c5p() { #VAIH:testaa toiminta, uudestaan (289025)
 #	
 #	#tästä eteenpäin jos selvittäisi noiden pakettien tilanteen, piostuuko jossain jnkn sivuvakutuksebna?
 #	${NKVD} ${1}/libcrypt* #ei uskalla poistaa aptilla
-#	#${NKVD} ${1}/libdevmapper* #ei ole sannettuna noita (tilanne 19725)
+#	#${NKVD} ${1}/libdevmapper* #asennettuna 28925?
 #	#${NKVD} ${1}/libsoup* #eiole
-#
-#	${NKVD} ${1}/xserver* #HUOM.31525:nalkutusta, pois toistaiseksi (ja aptin kautta ei tod poisteta)
-#	
-#	#TODO:libgtk-pakettien käsittely muutos, nykyisellään (28925) nalkUttaa:"ERROR: ld.so: object 'libgtk3-nocsd.so.0' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored."
-#	# libgtk-3-bin depends on libgtk-3-0 (>= 3.24.38-2~deb12u3); however:
-# 	#Version of libgtk-3-0:amd64 on system is 3.24.37-2.
-#	${NKVD} ${1}/libgtk-3-bin* #HUOM.19725:edelleen nalqttaa
-#	#HUOM.libgtk-3-paketteja ei uskalla poistaa aptilla, liikaa oheisvah
-#
-#	${NKVD} ${1}/librsvg* #eniten nalkutusta vissiin tästä, jos koittaisi uudestaan josqs
-#	#HUOM.19725:librsvg2 poistaa jnkn verran pak, mm task-desktop, task-xfce-desktop
-#
-#	#päivityspakegtista pois nämä myös (TEHTY)
-#	${NKVD} ${1}/libblock*
-#	${NKVD} ${1}/debootstrap*
-#	${NKVD} ${1}/libmagick*
-#	${NKVD} ${1}/libspa*
-#	${NKVD} ${1}/libpipe*
-#	${NKVD} ${1}/libespeak*
-#
-#	dqb "...is over"
-#	csleep 1
+
+#	#HUOM.19725:librsvg2 poisto poistaa jnkn verran pak, mm task-desktop, task-xfce-desktop
+
+	dqb "...is over"
+	csleep 1
 }
 
-function reficul() { #VAIH:almost complete fucking rewrite
-	debug=1 #TODO:pois sittenq mahd
+function reficul() { #HUOM.28925:kohta valmis?
 	dqb "NATTA5H3AD öVERDR1V 666!"
-#	csleep 1
-#
-#	#HUOM.31525:listasta joutaisi vähän karsia loppupäästä
-#	efk ${1}/gcc-12*.deb
-#
+
+	csleep 5
+	efk ${1}/gcc-12*.deb ${1}/libgcc-s1*.deb
+	efk ${1}/perl-modules-*.deb
+	efk ${1}/libstdc*.deb
+	efk ${1}/librsvg2-2*.deb
+	efk ${1}/libicu*.deb
+	efk ${1}/libjxl*.deb
+
+	csleep 3
 #	#HUOM.28925:toimiikohan tuolleen että useampi param samalla rivillä?
-#	efk ${1}/libc6_2.36-9+deb12u10_amd64.deb ${1}/libgcc-s1_12.2.0-14+deb12u1_amd64.deb 
-#	efk ${1}/libstdc*.deb
-#	sleep 1
-#
-#	efk ${1}/libglib*.deb ${1}/libmount*.deb ${1}/libblk*.deb
-#	sleep 6
-#
-#	#efk ${1}/libwebp*.deb #menikö nimi oikein?
-#	#myös:https://thehackernews.com/2023/09/new-libwebp-vulnerability-under-active.html
-#	#tarttisko tehdä jotain vai ei?
-#	#${NKVD} libwebp*.deb
-#
-#	efk ${1}/libtiff*.deb ${1}/liblzma5*.deb
-#	efk ${1}/libgnutls*.deb ${1}/libtasn*.deb
-#
-#	efk ${1}/libssl3*.deb ${1}/libk*.deb ${1}/libgss*
-#	efk ${1}/libcups* ${1}/libavahi*
-#
-#	echo $?
-#	sleep 5
-#
-#	efk ${1}/libdbus* #tartteeko 2 ekaa asentaa? voisik sen sijaan poistaa?
-#
-#	echo $?
-#	sleep 5
-#	dpkg -l libdbus*
-#	sleep 10
-#	echo "DBUS DONE, NEXT:libx11-6"
-#	csleep 5
+	efk ${1}/libc6*.deb 
+	efk ${1}/libcap2_1*.deb
+	efk ${1}/libdbus*.deb
+
+	csleep 3
+	efk ${1}/libgdk-pixbuf2.0-common*.deb
+ 	efk ${1}/libgdk-pixbuf-2.0-0*.deb
+	efk ${1}/libcups*.deb ${1}/libavahi*.deb
+
+	csleep 5
+	efk ${1}/libglib2*.deb
+	efk ${1}/libgtk-3-0_*.deb
+	efk ${1}/libpython3.11-minimal*.deb #ohjeisvahinkona xfce4 jos poist
+	efk ${1}/liblzma5*.deb
+	efk ${1}/libext2fs2*.deb
+
+	csleep 5
+	efk ${1}/libpam-modules-bin_*.deb
+	efk ${1}/libpam-modules_*.deb
+
+
 #
 #	efk ${1}/libx11-6*
 #
-#	efk ${1}/libcap2*
-#
-#	efk ${1}/libcurl* ${1}/libnghttp* 
-#	efk ${1}/libdav* 
-#	#HUOM.28925:libdav uskaltanee poistaa, pari muuta jos toistaiseksi jättäisi
-#
+
+
 #	efk ${1}/libeudev*
 #	efk ${1}/libfdisk* ${1}/libuuid*
 #	#HUOM.28925:libfdisk ehkö uskaltaa poistaa, e2fsprogs tarttee libuuid (e2 parempi olla poistamatta)
@@ -106,27 +81,19 @@ function reficul() { #VAIH:almost complete fucking rewrite
 #
 #	efk ${1}/libnf*
 #	efk ${1}/libnss* ${1}/libsqlite*
-#
+
 #	efk ${1}/libopen* ${1}/libpolkit-gobject-*
 #	#HUOM.28925:xfce4 tarvitse libpolkit-gobject joten ei kande poistaa
-#
-#	efk ${1}/libpython3.11-*
-#	efk ${1}/libav* ${1}/libsw*
-#	csleep 1
-#
-#	#dqb "LIBVTE"
-#	efk ${1}/libvte*.deb #HUOM.28926:xfce4-terminal tarvitsee tämän
-#	#csleep 1
-#
-#	#HUOM.31525:vituttava määrä asentelua librsvg2 kanssa edelleen
-#	#dqb "---------------------------------------------------"
-#	csleep 5
+
+	dqb "REC1FUL D0N3"
+	csleep 5
 }
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
 
-function pr4() { #VAIH:almost complete fucking rewrite
+function pr4() { #HUOM.28925:kohta valmis?
+	#HUOM.28925.2:tarpeellinen fktio jatkodda?
 	debug=1
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
@@ -135,26 +102,17 @@ function pr4() { #VAIH:almost complete fucking rewrite
 	dqb "paramz 0k"
 
 	psqa ${1}
-#	efk ${1}/libpam-modules-bin_*.deb
-#	efk ${1}/libpam-modules_*.deb
+
 #	${NKVD} ${1}/libpam-modules* #tartteeko enää?
 #
 #	efk ${1}/libpam*.deb
-#	efk ${1}/perl-modules-*.deb
+#	
 #	efk ${1}/libperl*.deb
 #
 #	efk ${1}/perl*.deb
 #
-#	echo "B3F0R3 DBUS"
-#	sleep 6
-#
-#	#TODO:efk ${1}/libdbus*.deb ?
-#	efk ${1}/dbus*.deb
-#	#VAIH:pause tähän dbus-syistä?
-#	echo $?
-#	sleep 5
-#	echo "AFT3R DBU5"
-#	sleep 6
+
+
 #
 #	efk ${1}/liberror-perl*.deb
 #	efk ${1}/git*.deb
@@ -164,16 +122,13 @@ function pr4() { #VAIH:almost complete fucking rewrite
 	csleep 1
 }
 
+#tähän tai cp5() poistamaan libavahi?
 function udp6() { #HUOM.28725:testattu, toiminee
 	dqb "daud.lib.UPDP-6"
 	csleep 1
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 	csleep 1
-
-	#nalqtusta aiheuttavat paketit nykyään:kts. c5p()
-	#${NKVD} ${1}/libx11-xcb1*
-	#HUOM.tuon poisto(aptilla) poistaa äksän ja xfce:n joten ei
 	
 	c5p ${1}
 	dqb "D0NE"
@@ -182,7 +137,9 @@ function udp6() { #HUOM.28725:testattu, toiminee
 
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xcvt=0.1.2-1 (miten taas liittyi mihinkään?)
 
-function t2p() { #TODO	:libcurl-libdav vaiko ei?
+function t2p() { 
+	#libcurl-libdav vaiko ei? (libcurl tai libnghttp vie git:in, libdav ehkä uskaltaa )
+	#libavahi pois myös? (tulee kyllä oheisvahinkoa jos tekee)
 	#debug=1
 	dqb "DAUD.T2P()"
 	csleep 1
@@ -268,7 +225,7 @@ function t2p() { #TODO	:libcurl-libdav vaiko ei?
 	${asy} #varm. vuoksi
 	csleep 2
 
-	${sharpy} xz* #jatkossa?
+	${sharpy} xz*
 	${asy} #varm. vuoksi
 	csleep 2
  
@@ -280,7 +237,11 @@ function t2p() { #TODO	:libcurl-libdav vaiko ei?
 	${asy} #varm. vuoksi
 	sleep 2
 
-	#debug=1
+	#uutena
+	${sharpy} libdav*
+	${asy} #varm. vuoksi
+	sleep 2
+
 	${scm} a-wx ${0}
 	csleep 2
 }
