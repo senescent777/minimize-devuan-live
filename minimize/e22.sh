@@ -571,10 +571,15 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran (ajankohtaista vielä 2
 
 	dqb "a.HAV1"
 	csleep 2
-
-	#VAIH:part2_5() jatkossa, nyt jos riittäisi ao. 3 riviä
+	#mitenkähän pitäisi mennä?
 	${sharpy} libavahi*
 	${NKVD} ${pkgdir}/libavahi*	
+
+	for s in ${PART175_LIST} ; do
+		${sharpy} ${s}*
+		${NKVD} ${pkgdir}/${s}*
+	done
+
 	${asy}
 
 	dqb "BEFORE PRE2"
@@ -660,6 +665,8 @@ function tp4() {
 		csleep 1
 		udp6 ${pkgdir} 		
 		
+		#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
+
 		csleep 1		
 		${svm} ${pkgdir}/*.deb ${2}
 		rmt ${1} ${2}
@@ -719,8 +726,11 @@ function tup() { #VAIH:testaa uusiksi, koska param tark (työn alla 27925, toiv 
 	csleep 1
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
+
+	#tekeekhän tp0 nukuään samat jutut q ao 2 riviä?
 	${NKVD} ${pkgdir}/*.deb
 	${NKVD} ${2}/*.deb
+
 	dqb "CLEANUP 1 AND 2 DONE, NEXT: apt-get upgrade"
 	csleep 1
 	
@@ -732,7 +742,7 @@ function tup() { #VAIH:testaa uusiksi, koska param tark (työn alla 27925, toiv 
 	echo $?
 	csleep 1
 
-	dqb "AVA.H1"
+	dqb "AVA.H1" #kuinkakun oleellinen?
 	${sharpy} libavahi*
 	${NKVD} ${pkgdir}/libavahi*
 	
@@ -771,7 +781,7 @@ function tup() { #VAIH:testaa uusiksi, koska param tark (työn alla 27925, toiv 
 		;;
 	esac
 
-	udp6 ${pkgdir} #TODO:dbus-pakettein deletointi mjkaan tuohon?
+	udp6 ${pkgdir}
 	dqb "UTP PT 3"
 	csleep 1
 

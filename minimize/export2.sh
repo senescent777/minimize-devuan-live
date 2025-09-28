@@ -7,7 +7,7 @@ echo "d0= ${d0}"
 mode=-2
 tgtfile=""
 
-#HUOM.020825.2:jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch
+#HUOM.020825.2:jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch (vakka erillinen branch näitä varten)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
