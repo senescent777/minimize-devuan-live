@@ -10,6 +10,8 @@ d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
 
+#HUOM.28925:pitäisiköhän tämäkin tdsto pilkkoa kahtia? MVC siis...
+
 #pitäisikö vielä minimoida latensseja tästä skriptistä? ja sen käyttämistä?
 #... optiota -v ei ole pakko käyttää, toisaalta
 #HUOM.28725:testailtu, vaikuttaisi toimivalta ainakin enimmäkseen (q myöhemmin)
@@ -195,6 +197,7 @@ csleep 1
 
 #glorified "tar -x" this function is - Yoda (tähän jos niitä gpg-juttuja?)
 #jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?
+#tähän vaiko common_l/e22/export niin se tar allek tark?
 function common_part() {
 	#debug=1
 
@@ -397,6 +400,7 @@ case "${mode}" in
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
 
+		#TODO:näille main viimeistään allek. tark? vaiko sinne common_part?
 		part3 ${d} ${dnsm}
 		other_horrors
 		csleep 1
