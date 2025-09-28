@@ -39,7 +39,6 @@ function pre1() {
 #VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
 
 function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten kai toimii
-	#... ifup toivottavasti toimii kanssa
 	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
@@ -373,8 +372,6 @@ function tp3() {
 		${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1	
 	fi
 
-	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
-	# (ao. rivi tp2() jatkossa?)	
 	${spc} /etc/resolv.conf ./etc/resolv.conf.${st}
 
 	if [ ! -s ./etc/resolv.conf.1 ] ; then
@@ -384,9 +381,6 @@ function tp3() {
 	dqb "N1B.5"
 	csleep 2
 
-	#HUOM.010825:/sbin-juttuja ei tullut mukaan
-	#HUOM.14525.3:ghubista löytyvä(.new) vastaa tilannetta dnsm=1
-	# (ao. rivi tp2() jatkossa?)
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${st}
 
 	if [ ! -s ./sbin/dhclient-script.1 ] ; then
@@ -459,6 +453,7 @@ function aswasw() { #HUOM.28725:testattu, toimii
 	csleep 1
 }
 
+#HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisltävien .tar kanssa joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
 function rmt() {
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
@@ -529,7 +524,6 @@ function aval0n() {
 function tlb() { #joskohan jo toimisi 28925?
 
 	#HUOM.28925:vieläkö asentaa avahin?
-	#debug=1
 	dqb "x2.tlb ${1} , ${2}  , ${3}  , ${4} "
 
 	csleep 1
@@ -570,14 +564,6 @@ function tlb() { #joskohan jo toimisi 28925?
 
 	#uutena 31525
 	udp6 ${pkgdir}
-
-	#HUOM.28925.1:sotkeekohan liikaa libavahin poisto?
-	#dqb "a.HAV1"
-	#csleep 2
-	#mitenkähän pitäisi mennä?
-	#${sharpy} libavahi* #saattaa sotkea
-	#
-	#${NKVD} ${pkgdir}/libavahi*	
 	aval0n
 	
 	#HUOM.28925.2:onkohan hyvä idea tässä?
@@ -654,12 +640,6 @@ function tp4() {
 	csleep 1
 	${lftr}
 
-#	dqb "ANTI-AVAH1"
-#	csleep 1
-#
-#	${sharpy} libavahi* 
-#	${NKVD} ${pkgdir}/libavahi*	
-#	${asy} #tämä vai tuo ylempi mikä mutkistaa asioita?
 	aval0n
 	dqb "BEFORE UPD6"	
 	csleep 1
@@ -747,12 +727,6 @@ function tup() {
 	echo $?
 	csleep 1
 
-#	dqb "AVA.H1" #kuinkakIn oleellinen?
-#	${sharpy} libavahi*
-#	${NKVD} ${pkgdir}/libavahi*
-#	
-#	${asy}
-#	csleep 1
 	aval0n
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1

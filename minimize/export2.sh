@@ -174,7 +174,7 @@ dqb "AFTER TAR"
 csleep 1
 
 case ${mode} in
-	0|4) #TODO:case 0 testaus uusiksi 
+	0|4) #VAIH:case 0 testaus uusiksi 
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 
@@ -312,7 +312,9 @@ if [ -s ${tgtfile} ] ; then
 	${sah6} ${tgtfile} > ${tgtfile}.sha
 	${sah6} -c ${tgtfile}.sha
 
+	#TODO:pitäisi tämkin kokeilla, myös import2 kanssa että g tarkistaa
 	gg=$(${odio} which gpg)
+
 	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 		${gg} -u ${CONF_kay1name} -sb ${tgtfile}.sha
 	fi

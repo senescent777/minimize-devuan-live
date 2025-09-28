@@ -397,6 +397,7 @@ case "${mode}" in
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
 
+		#TODO:näille main viimeistään allek. tark? vaiko sinne common_part?
 		part3 ${d} ${dnsm}
 		other_horrors
 		csleep 1
