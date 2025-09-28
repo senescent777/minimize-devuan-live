@@ -94,7 +94,7 @@ fi
 
 dqb "tar = ${srat} "
 
-#TODO:suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
+#suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}

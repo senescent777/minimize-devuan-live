@@ -775,3 +775,133 @@ function e22_upgp() {
 	dqb "SIELUNV1H0LL1N3N"
 	csleep 1
 }
+
+
+#glorified "tar -x" this function is - Yoda (tähän jos niitä gpg-juttuja?)
+#jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?
+#tähän vaiko common_l/e22/export niin se tar allek tark?
+function common_part() {
+	#debug=1
+
+	dqb "common_part( ${1}, ${2}, ${3})"
+	[ y"${1}" == "y" ] && exit 1
+	[ -s ${1} ] || exit 2
+	[ -r ${1} ] || exit 3
+	[ y"${3}" == "y" ] && exit 4
+
+	[ y"${2}" == "y" ] && exit 11
+	[ -d ${2} ] || exit 22
+	[ -d ${3} ] || exit 33
+	dqb "paramz_0k"
+	csleep 3
+
+	cd /
+	dqb "DEBUG:${srat} -xf ${1} "
+	csleep 1
+	
+	if [ -s ${1}.sha ] ; then
+		dqb "KHAZAD-DUM"
+		cat ${1}.sha
+		${sah6} ${1}
+
+		#TODO:jos tähän se optionaalinenn gpg-tarkistus?
+		#VAIH:case:a edeltävät fktiomäärittelyt -> e22?
+	else
+		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
+	fi
+
+	#jatkossa voisi -C - option parametrin johtaa $2:sesta?
+	csleep 1
+	${srat} -C ${3} -xf ${1} #HUOM.23725:C-option voisi josqs jyrätä?
+	[ $? -eq 0 ] || exit 36
+	csleep 1
+	dqb "tar DONE"
+
+	local t
+	t=$(echo ${2} | cut -d '/' -f 1-5) #tr mukaan?
+	#HUOM.25725:voi periaatteessa mennä metsään tuo $t josqs, mutta tuleeko käytännössä sellaista tilannetta vastaan?
+
+	if [ -x ${t}/common_lib.sh ] ; then
+		enforce_access ${n} ${t} 
+		dqb "running changedns.sh maY be necessary now to fix some things"
+	else
+		dqb "n s t as ${t}/common_lib.sh "	
+	fi
+
+	csleep 3
+	
+	if [ -d ${t} ] ; then
+		dqb "HAIL UKK"
+
+		#vissiinkin tässä kohtaa common_lib taas käyttöön EIKU
+		#HUOM.020825:tässä ei polkuna voine olla /etc/jotain		
+		${scm} 0755 ${t}
+		${scm} a+x ${t}/*.sh
+		${scm} 0444 ${t}/conf*
+		${scm} 0444 ${t}/*.deb
+
+		csleep 1
+	fi
+
+	[ ${debug} -eq 1 ] && ls -las ${2}
+	csleep 1
+	dqb "ALL DONE"
+}
+
+#HUOM.31725:jos nyt jnkn aikaa riittäisi $1 parametrina
+function tpr() {
+	dqb "UPIR ( ${1}, ${2})"
+	csleep 1
+
+	[ -z ${1} ] && exit 11
+	[ -d ${1} ] || exit 12
+
+	dqb "pars_ok"
+	csleep 1
+
+	dqb "CFG.TZE2 IN 1 SEC "
+	csleep 1
+
+	if [ -s ~/config.tar.bz2 ] ; then #josko vähän kätevämmin jatkossa?
+		${srat} -C ~ -jxf ~/config.tar.bz2
+		
+	else
+		${srat} -C ~ -jxf ${1}/config.tar.bz2
+	fi
+
+	dqb "PULSE"
+	csleep 1
+
+	if [ -s ~/pulse.tar ] ; then
+		${srat} -C / -xvf ~/pulse.tar
+	else
+		${srat} -C / -xvf ${1}/pulse.tar
+	fi
+
+	dqb "PROFS?"
+	csleep 1
+
+	if [ -x ${1}/profs.sh ] ; then
+		. ${1}/profs.sh
+		[ $? -gt 0 ] && exit 33
+			
+		dqb "INCLUDE OK"
+		csleep 1
+		local q
+		q=$(${mkt} -d)
+
+		if [ -s  ~/fediverse.tar ] ; then
+			${srat} -C ${q} -xvf ~/fediverse.tar
+		else
+			${srat} -C ${q} -xvf ${1}/fediverse.tar
+		fi
+
+		imp_prof esr ${n} ${q}
+	else
+		dqb "CANNOT INCLUDE PROFS.HS"
+		dqb "$0 1 \$srcfile ?"
+	fi
+
+	dqb "UP1R D0N3"
+	csleep 1
+}
