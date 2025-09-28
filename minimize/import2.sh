@@ -221,6 +221,9 @@ function common_part() {
 		dqb "KHAZAD-DUM"
 		cat ${1}.sha
 		${sah6} ${1}
+
+		#TODO:jos tähän se optionaalinenn gpg-tarkistus?
+		#TODO:case:a edeltävät fktiomäärittelyt -> e22?
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
