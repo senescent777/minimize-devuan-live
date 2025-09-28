@@ -42,7 +42,7 @@ function reficul() { #HUOM.28925: valmis?
 	efk ${1}/libjxl*.deb
 
 	csleep 3
-#	#HUOM.28925:toimiikohan tuolleen että useampi param samalla rivillä?
+#	#HUOM.28925:toimiikohan tuolleen että useampi param samalla rivillä? ehkä
 	efk ${1}/libc6*.deb 
 	efk ${1}/libcap2_1*.deb
 	efk ${1}/libdbus*.deb
@@ -54,6 +54,7 @@ function reficul() { #HUOM.28925: valmis?
 
 	csleep 5
 	efk ${1}/libglib2*.deb
+	efk ${1}/libgtk-3-common*.deb #josko nyt loppuisi nalqtus?
 	efk ${1}/libgtk-3-0_*.deb
 	efk ${1}/libpython3.11-minimal*.deb #ohjeisvahinkona xfce4 jos poist
 	efk ${1}/liblzma5*.deb
@@ -62,10 +63,6 @@ function reficul() { #HUOM.28925: valmis?
 	csleep 5
 	efk ${1}/libpam-modules-bin_*.deb
 	efk ${1}/libpam-modules_*.deb
-
-#
-#	efk ${1}/libx11-6*
-#
 
 #	efk ${1}/libeudev*
 #	efk ${1}/libfdisk* ${1}/libuuid*
@@ -81,7 +78,7 @@ function reficul() { #HUOM.28925: valmis?
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
 
-function pr4() { #HUOM.28925:kohta valmis?
+function pr4() { #HUOM.28925:jospa jo ok
 	#HUOM.28925.2:tarpeellinen fktio jatkodda?
 	#debug=1
 	dqb "daud.pr4( ${1} , ${2} )"
