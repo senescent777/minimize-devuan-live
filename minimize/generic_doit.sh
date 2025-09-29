@@ -195,8 +195,8 @@ message
 part3 ${d} ${dnsm}
 other_horrors
 
-echo "BEFORE IMP2"
-sleep 10
+dqb "BEFORE IMP2"
+csleep 10
 ${d0}/import2.sh r ${d0} -v
 
 jules

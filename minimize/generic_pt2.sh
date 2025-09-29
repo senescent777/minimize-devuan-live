@@ -60,10 +60,9 @@ else
 	exit 89
 fi
 
-
 [ -z ${distro} ] && exit 6
 dqb "BEFORE CNF"
-echo "dbig= ${debug}"
+echo "dbig= ${debug}" # [  -v ] taakse?
 sleep 1
 
 #TODO:josko tarvittaessa jyräämään konftdston debug-asetus tai siis mahd aikaisessa vaiheessa debug päälle oli ideana?
