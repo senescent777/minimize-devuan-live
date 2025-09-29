@@ -59,6 +59,8 @@ function fix_sudo() {
 	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
 	csleep 1
 	dqb "fix_sud0.d0n3"
+
+	#HUOM.29925:pidetään nyt varm. vuoksi "ch m00d abcd \u5 R \ bin \ 5 ud0 *" poissa tstä
 }
 
 function other_horrors() {	
@@ -145,13 +147,14 @@ function message() {
 	sleep 1
 }
 
+#laajempaan käyttöön?
 function ocs() {
 	local tmp
 	tmp=$(${odio} which ${1})
 
 	if [ y"${tmp}" == "y" ] ; then
-		dqb "${1} NOT FOUND"
-		exit 69 #fiksummankin exit-koodin voisi keksiä
+		dqb "KAKKA-HÄTÄ ${1} "
+		exit 82
 	fi
 
 	if [ ! -x ${tmp} ] ; then
@@ -159,6 +162,7 @@ function ocs() {
 	fi
 }
 
+#laajempaan käyttöön?
 function psqa() {
 	dqb "QUASB (THE BURNING) ${1}"
 
@@ -180,6 +184,7 @@ function psqa() {
 	csleep 1
 }
 
+#jatkossa gg-tar mukaan jotenkin?
 function pre_part3_clib() {
 	dqb "pre_part3_clib ${1}"
 	csleep 1
@@ -212,12 +217,18 @@ function pre_part3_clib() {
 	fi
 }
 
-#HUOM.28925:toimiikohan toivotulla tavalla? vissiin pitäisi kirjoittaa uusiksi (TODO)
-function efk() {
-	dqb "efk( $@)"
+#HUOM.28925:toimiikohan toivotulla tavalla? vissiin pitäisi kirjoittaa uusiksi (VAIH)
+function efk1() {
+	dqb "efk1( $@)"
 	${sdi} $@
 	[ $? -eq 0 ] && ${NKVD} $@
 	csleep 1
+
+	#for x in $@ #jatkossa jtnkn näin
+	#for y in $(find -type f -name $x)
+	#$sdi $y
+	#done
+	#done
 }
 
 function efk2() {
@@ -255,20 +266,20 @@ function common_tbls() {
 	#HUOM.olisikohan yo .jutut distro-spesifisiä jossain määrin?
 
 	#chimaera-spesifisiä seur 2, pois jos pykii
-	efk ${1}/libnfnet*.deb  #TARKKANA PRKL PAKETTIEN KANSSA
+	efk1 ${1}/libnfnet*.deb  #TARKKANA PRKL PAKETTIEN KANSSA
 	csleep 1
 
-	efk ${1}/libnetfilter*.deb
+	efk1 ${1}/libnetfilter*.deb
 	csleep 1
 	#/chim
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
 
-	efk ${1}/libxtables*.deb
+	efk1 ${1}/libxtables*.deb
 	csleep 1
 
-	efk ${1}/libnftnl*.deb 
+	efk1 ${1}/libnftnl*.deb 
 	csleep 1
 
 	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
@@ -983,16 +994,38 @@ function part3() {
 	echo "4RP"
 	sleep 6
 
-	efk ${1}/lib*.deb
-	[ $? -eq 0 ] || echo "SHOULD exit 66"
-	csleep 1
+#	efk1 ${1}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
+#	[ $? -eq 0 ] || echo "SHOULD exit 66"
+#	csleep 1
+#
 
+#
+#	efk1 ${1}/*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
+#	[ $? -eq 0 ] || echo "SHOULD exit 67"	
+#	csleep 1
+
+	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
+
+	if [ $? -eq  0 ] ; then
+               dqb "part3.1 ok"
+               csleep 1
+               ${NKVD} ${1}/lib*.deb
+	else
+               exit 66
+	fi
+	
 	echo "LIBS DONE"
 	sleep 6
 
-	efk ${1}/*.deb
-	[ $? -eq 0 ] || echo "SHOULD exit 67"	
-	csleep 1
+	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
+	
+	if [ $? -eq  0 ] ; then
+		dqb "part3.2 ok"
+		csleep 1
+		${NKVD} ${1}/*.deb
+	else
+        	exit 67
+       	fi
 
 	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
 	csleep 1
