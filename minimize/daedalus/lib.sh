@@ -40,6 +40,7 @@ function reficul() { #HUOM.28925: valmis?
 	efk ${1}/gcc-12*.deb ${1}/libgcc-s1*.deb
 	efk ${1}/perl-modules-*.deb
 	efk ${1}/libstdc*.deb
+
 	efk ${1}/librsvg2-2*.deb
 	efk ${1}/libicu*.deb
 	efk ${1}/libjxl*.deb
@@ -84,6 +85,7 @@ function reficul() { #HUOM.28925: valmis?
 function pr4() { #HUOM.28925:jospa jo ok
 	#HUOM.28925.2:tarpeellinen fktio jatkodda?
 	#debug=1
+
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
 

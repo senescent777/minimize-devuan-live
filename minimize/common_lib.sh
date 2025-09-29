@@ -59,8 +59,8 @@ function fix_sudo() {
 	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
 	csleep 1
 	dqb "fix_sud0.d0n3"
-
 	#HUOM.29925:pidetään nyt varm. vuoksi "ch m00d abcd \u5 R \ bin \ 5 ud0 *" poissa tstä
+
 }
 
 function other_horrors() {	
@@ -493,6 +493,7 @@ function dinf() {
 }
 
 function pre_enforce() {
+	#debug=1 #liikaa tauhkaa, pois 28725
 	dqb "common_lib.pre_enforce( ${1} )"
 	local q
 	local f
@@ -580,7 +581,6 @@ function e_e() {
 
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
 	#pitäisiköhän muuttaa ao. rivejä?
-
 	${scm} 0555 /etc/network
 	${scm} 0444 /etc/network/*
 	${sco} root:root /etc/network #turha koska ylempänä

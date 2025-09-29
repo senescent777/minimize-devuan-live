@@ -39,6 +39,7 @@ function pre1() {
 #VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
 
 function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten kai toimii
+	#... ifup toivottavasti toimii kanssa
 	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
@@ -364,6 +365,7 @@ function tp3() {
 	echo $?
 	csleep 1
 
+	#TODO:$dnsm parametriksi?
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
 	
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
@@ -760,7 +762,7 @@ function tup() {
 		;;
 	esac
 
-	udp6 ${pkgdir}
+	udp6 ${pkgdir} #TODO:dbus-pakettein deletointi mjkaan tuohon?
 	dqb "UTP PT 3"
 	csleep 1
 
