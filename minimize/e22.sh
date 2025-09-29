@@ -780,6 +780,7 @@ function e22_upgp() {
 #glorified "tar -x" this function is - Yoda (tähän jos niitä gpg-juttuja?)
 #jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?
 #tähän vaiko common_l/e22/export niin se tar allek tark?
+#HUOM.29925:saattaa osoittautua huonoksi ideaksi imp2-> c_p siirto, takaisin?
 function common_part() {
 	#debug=1
 
@@ -812,6 +813,8 @@ function common_part() {
 
 	#jatkossa voisi -C - option parametrin johtaa $2:sesta?
 	csleep 1
+
+	#efk2 vai ei? ehkä ei koska stand_alone
 	${srat} -C ${3} -xf ${1} #HUOM.23725:C-option voisi josqs jyrätä?
 	[ $? -eq 0 ] || exit 36
 	csleep 1

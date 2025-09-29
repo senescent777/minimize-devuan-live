@@ -184,7 +184,8 @@ olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
 
 if [ ! -f /.chroot ] ; then
-	if [ ! -s /OLD.tar ] ; then 
+	if [ ! -s /OLD.tar ] ; then
+		#TODO:efk2 jatkossa? vaiko se wrapper mitä ei ole saanut aikaan? 
 		${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 	fi
 fi
