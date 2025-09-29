@@ -84,7 +84,6 @@ function reficul() {
 
 function pr4() {
 	#HUOM.29925:saattaa sittenkin olla tarpeellinen fktio koska X
-	#debug=1
 
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
@@ -92,7 +91,6 @@ function pr4() {
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 	psqa ${1}
-
 
 	#==============================================================
 	#libx11- yms. kirjatsojen masentelut takaisin tähän vai reficul?

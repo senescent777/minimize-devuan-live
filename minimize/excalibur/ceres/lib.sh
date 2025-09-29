@@ -2,6 +2,7 @@
 #https://superuser.com/questions/1480986/iptables-1-8-2-failed-to-initialize-nft-protocol-not-supported
 #https://hatchjs.com/iptables-1-8-7-failed-to-initialize-nft-protocol-not-supported/
 
+#TODO:testaaminen joku päivä?
 function cp5() {
 	dqb "7391"
 

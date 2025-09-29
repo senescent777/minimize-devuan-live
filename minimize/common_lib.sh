@@ -61,7 +61,7 @@ function fix_sudo() {
 	dqb "fix_sud0.d0n3"
 
 	#HUOM.29925:pidetään nyt varm. vuoksi "ch m00d abcd \u5 R \ bin \ 5 ud0 *" poissa tstä
-
+}
 
 function other_horrors() {	
 	dqb "other_horrors()"
@@ -232,7 +232,6 @@ function efk1() {
 	fi
 
 	csleep 3
-
 	#for x in $@ #jatkossa jtnkn näin
 	#for y in $(find -type f -name $x)
 	#$sdi $y
