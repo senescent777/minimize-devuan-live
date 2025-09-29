@@ -61,7 +61,7 @@ function fix_sudo() {
 	dqb "fix_sud0.d0n3"
 
 	#HUOM.29925:pidetään nyt varm. vuoksi "ch m00d abcd \u5 R \ bin \ 5 ud0 *" poissa tstä
-
+}
 
 function other_horrors() {	
 	dqb "other_horrors()"
@@ -1069,4 +1069,5 @@ function gpo() {
 }
 
 #https://stackoverflow.com/questions/16988427/calling-one-bash-script-from-another-script-passing-it-arguments-with-quotes-and
+
 gpo "$@"
