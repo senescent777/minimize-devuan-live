@@ -4,6 +4,9 @@
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 #... joskohan --force-confold olisi se haettu juttu
 
+#HUOM.29925:nalkutukset lib-paketeista tulivat näköjään takaisin kun part3:sessa korvattu ekf find_illa, jotain tarttisi tehrä asialle
+# (import2 3 $archive aiheuttajana) 
+
 function c5p() { #joskohan jo toimisi (28925)
 	dqb "CCCP( ${1} , ${2} )"
 	csleep 1
