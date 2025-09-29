@@ -63,8 +63,6 @@ dqb "mode= ${mode}"
 csleep 1
 part076 ${distro}
 
-#TODO:sitä pakettien purkua, voisi katsoa minne *.deb roiskitaan ja miksi
-
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
@@ -87,7 +85,7 @@ else
 fi
 
 #HUOM. ehto voisi mennä toisinkin, esim /r/l/m/p olemassaolo
-
+#HUOM.29925:chroot-ehto sittenkin e_a:han?
 if [ -f /.chroot ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 3
@@ -191,11 +189,14 @@ c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 part2_5 ${removepkgs} ${dnsm}
 
+#VAIH:näille main bugin korjaus, stoppaa masenteluvaiheessa jos ei -v annettu
 #===================================================PART 3===========================================================
 message
 part3 ${d} ${dnsm}
 other_horrors
 
+echo "BEFORE IMP2"
+sleep 10
 ${d0}/import2.sh r ${d0} -v
 
 jules

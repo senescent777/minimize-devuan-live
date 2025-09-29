@@ -1,11 +1,9 @@
 function pre1() {
 	# tosin disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(TODO)
 
-	#HUOM.020825:pitäisi kai selvittää mikä paskoo ifup:in, onko se tämä fktio vai jokin muu?
 	dqb "pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 66
-	#VAIH:tokan parametrin(mihin tarvitsee?) tarkistus, toiminee
 
 	csleep 4
 	dqb "pars.0k"
@@ -157,7 +155,7 @@ function tp1() {
 	pwd
 	csleep 1
 
-	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then
+	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then #TODO:enforce parametriksi
 		dqb "FORCEFED BROKEN GLASS"
 		tpq ~ ${2}/.. #HUOM.25725:toimiiko näin?
 	else
@@ -241,13 +239,14 @@ function luca() {
 }
 
 function tp2() {
-	dqb "tp2 ${1} ${2} ${3}"
+	dqb "tp2 ${1} ${2} ${3} ${4}"
 	csleep 1
 
 	[ -z ${1} ] && exit 1
 	[ -z ${2} ] && exit 2
 	[ -z ${3} ] && exit 3
 	[ -s ${1} ] || exit 4
+	[ -z ${4} ] && exit 5
 	csleep 1
 
 	dqb "params_ok"
@@ -302,7 +301,10 @@ function tp2() {
 		;;
 	esac
 
-	if [ ${enforce} -eq 1 ] ; then #TODO:glob wtt?
+	local ef
+	ef=$(echo ${4} | tr -d -c 0-9)
+
+	if  [ ${ef} -eq 1 ] ; then
 		dqb "das asdd"
 	else
 		${srat} -rf ${1} /etc/sudoers.d/meshuggah
@@ -330,6 +332,7 @@ function tp3() {
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
 	[ -z ${2} ] && exit 3
+	[ -z ${3} ] && exit 4
 
 	dqb "paramz_0k"
 	csleep 1
@@ -337,8 +340,10 @@ function tp3() {
 	local p
 	local q	
 	local r
+	local st
 
 	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+	st=$(echo ${3}  | tr -d -c 0-9)
 	[ ${debug} -eq 1 ] && pwd
 	dqb "r=${r}"
 	csleep 1
@@ -362,15 +367,14 @@ function tp3() {
 
 	#TODO:$dnsm parametriksi?
 	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
-	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${dnsm}
+	
+	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
 
 	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
 		${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1	
 	fi
 
-	#HUOM.14525.2:ghubista ei löydy resolv.conf, voisi lennosta tehdä sen .1 ja linkittää myös nimelle .new tmjsp
-	# (ao. rivi tp2() jatkossa?)	
-	${spc} /etc/resolv.conf ./etc/resolv.conf.${dnsm}
+	${spc} /etc/resolv.conf ./etc/resolv.conf.${st}
 
 	if [ ! -s ./etc/resolv.conf.1 ] ; then
 		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
@@ -379,10 +383,7 @@ function tp3() {
 	dqb "N1B.5"
 	csleep 2
 
-	#HUOM.010825:/sbin-juttuja ei tullut mukaan
-	#HUOM.14525.3:ghubista löytyvä(.new) vastaa tilannetta dnsm=1
-	# (ao. rivi tp2() jatkossa?)
-	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${dnsm}
+	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${st}
 
 	if [ ! -s ./sbin/dhclient-script.1 ] ; then
 		  ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
@@ -454,6 +455,7 @@ function aswasw() { #HUOM.28725:testattu, toimii
 	csleep 1
 }
 
+#HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisltävien .tar kanssa joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
 function rmt() {
 	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
@@ -514,13 +516,16 @@ function rmt() {
 }
 
 #home/devuan/Desktop/minimize/chimaera/home/devuan/Desktop/minimize/chimaera/tim3stamp
-#kyseiselle polulle voisi tehdä jotain jos ilmestyy(TODO)
+#kyseiselle polulle voisi tehdä jotain jos ilmestyy (?)
 
-function tlb() { #VAIH:tarkista toiminta jälleen kerran
-	#... oli python3.11 liittyvää nalqtusta ja vähän muutakin 020825	
+function aval0n() {
+	dqb "${sharpy} libavahi* #saattaa sotkea "
+	dqb "${NKVD} ${pkgdir}/libavahi* "	
+}
 
-	#HUOM.MIKSI ASENTAA AVAHIN?
-	#debug=1
+function tlb() { #joskohan jo toimisi 28925?
+
+	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.tlb ${1} , ${2}  , ${3}  , ${4} "
 
 	csleep 1
@@ -561,13 +566,14 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 
 	#uutena 31525
 	udp6 ${pkgdir}
+	aval0n
+	
+	#HUOM.28925.2:onkohan hyvä idea tässä?
+	for s in ${PART175_LIST} ; do
+		${sharpy} ${s}*
+		${NKVD} ${pkgdir}/${s}*
+	done
 
-	dqb "a.HAV1"
-	csleep 2
-
-	#VAIH:part2_5() jatkossa, nyt jos riittäisi ao. 3 riviä
-	${sharpy} libavahi*
-	${NKVD} ${pkgdir}/libavahi*	
 	${asy}
 
 	dqb "BEFORE PRE2"
@@ -580,7 +586,7 @@ function tlb() { #VAIH:tarkista toiminta jälleen kerran
 }
 
 function tp4() {
-	#TODO:voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja
+	#voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja (vielä ajank 28925?)
 	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
 
 	dqb "tp4 ${1} , ${2} , ${3} , ${4} "
@@ -636,13 +642,7 @@ function tp4() {
 	csleep 1
 	${lftr}
 
-	dqb "ANTI-AVAH1"
-	csleep 1
-
-	${sharpy} libavahi* 
-	${NKVD} ${pkgdir}/libavahi*	
-	${asy} #tämä vai tuo ylempi mikä mutkistaa asioita?
-
+	aval0n
 	dqb "BEFORE UPD6"	
 	csleep 1
 
@@ -653,6 +653,8 @@ function tp4() {
 		csleep 1
 		udp6 ${pkgdir} 		
 		
+		#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
+
 		csleep 1		
 		${svm} ${pkgdir}/*.deb ${2}
 		rmt ${1} ${2}
@@ -695,9 +697,8 @@ function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in , myös pol
 	dqb "AAMUNK01"
 }
 
-function tup() { #VAIH:testaa uusiksi, koska param tark
-	#HUOM.26925:tämän casen kanssa saattaa olla jotain, imp2 kun yrittää asentaa luotua päivityspak ni nalqtti dbus-paketeista
-		
+function tup() {
+	#HUOM.28925:jospa tämä fktio jo toimisi taas
 	dqb "tup ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
@@ -712,26 +713,23 @@ function tup() { #VAIH:testaa uusiksi, koska param tark
 	csleep 1
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
+
+	#tp0 $pkgdir;tp0 $2 jatkossa?
 	${NKVD} ${pkgdir}/*.deb
 	${NKVD} ${2}/*.deb
+
 	dqb "CLEANUP 1 AND 2 DONE, NEXT: apt-get upgrade"
 	csleep 1
 	
 	${fib} #uutena 205.25
 	csleep 1
 	
-	#--yes - vipu mukaan myös?
+	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 	csleep 1
 
-	dqb "AVA.H1"
-	${sharpy} libavahi*
-	${NKVD} ${pkgdir}/libavahi*
-	
-	${asy}
-	csleep 1
-
+	aval0n
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1
 

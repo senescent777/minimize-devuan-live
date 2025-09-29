@@ -194,7 +194,7 @@ csleep 1
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
 
 #glorified "tar -x" this function is - Yoda (tähän jos niitä gpg-juttuja?)
-#TODO:jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?
+#jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?
 function common_part() {
 	#debug=1
 
@@ -222,7 +222,7 @@ function common_part() {
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	#TODO:jatkossa voisi -C - option parametrin johtaa $2:sesta?
+	#jatkossa voisi -C - option parametrin johtaa $2:sesta?
 	csleep 1
 	${srat} -C ${3} -xf ${1} #HUOM.23725:C-option voisi josqs jyrätä?
 	[ $? -eq 0 ] || exit 36
@@ -318,8 +318,6 @@ function tpr() {
 	csleep 1
 }
 
-#HUOM.020825:näyttäisi roiskivan imp2 sitä sisältöä vähän minne sattuu, garbage in/garbage out?
-
 case "${mode}" in
 	-1) #jatkossa jokiN fiksumpi kuin -1
 		part=/dev/disk/by-uuid/${part0}		
@@ -399,6 +397,8 @@ case "${mode}" in
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
 
+		#TODO:näille main viimeistään allek. tark? vaiko sinne common_part?
+
 		part3 ${d} ${dnsm}
 		other_horrors
 		csleep 1
@@ -407,9 +407,8 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#TODO:jos TAAS testaisi että toimii
-		#nykyään (31725) testataan että $srcfile:n sisältä löytyy fediverse.tar		
-
+		#TODO:jos TAAS testaisi että toimii (wanha .mozilla mäkeen ja sit jotain)
+		
 		[ x"${srcfile}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 1

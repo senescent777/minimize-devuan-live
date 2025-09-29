@@ -7,7 +7,7 @@ echo "d0= ${d0}"
 mode=-2
 tgtfile=""
 
-#HUOM.020825.2:jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch
+#jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch (vakka erillinen branch näitä varten)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -94,7 +94,7 @@ fi
 
 dqb "tar = ${srat} "
 
-#TODO:suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x
+#TODO:suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
@@ -105,7 +105,7 @@ done
 dqb "AFTER GANGRENE SETS IN"
 csleep 1
 
-#TODO:"tar löytyy ja ajokelpoinen"-tarkistus voisi olla näillä main (tai common_lib kyllä...)
+#HUOM.28925:"tar löytyy ja ajokelpoinen"-tarkistus tdstossa common_lib.sh, ocs()
 tig=$(${odio} which git)
 mkt=$(${odio} which mktemp)
 
@@ -127,7 +127,7 @@ ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 1
 
-#HUOM. ei kovin oleellista ajella tätä skriptiä squashfs-cgrootin siäsllä
+#HUOM. ei kovin oleellista ajella tätä skriptiä squashfs-cgrootin siSÄllä
 #mutta olisi hyvä voida testailla sq-chrootin ulkopuolella
 
 dqb "PRE0"
@@ -174,14 +174,14 @@ dqb "AFTER TAR"
 csleep 1
 
 case ${mode} in
-	0|4) 
+	0|4) #VAIH:case 0 testaus uusiksi 
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
-		tp3 ${tgtfile} ${distro}
+		tp3 ${tgtfile} ${distro} ${dnsm}
 		dqb "TP3 DON3, next:rm some rchivies"
 		csleep 3
 
@@ -198,7 +198,7 @@ case ${mode} in
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then
 			tp4 ${d}/f.tar ${d} ${distro} ${iface}
-
+			tp0 ${d} #kuinka oleellinen?
 			[ ${debug} -eq 1 ] && ls -las ${d}
 			csleep 5
 		fi
@@ -218,9 +218,9 @@ case ${mode} in
 		pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 5	
-		tp2 ${tgtfile} ${iface} ${dnsm}
+		tp2 ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #VAIH:testaa uusiksi (masentelun kanssa jotain pientä häikkää 27925)
+	1|u|upgrade) #HUOM.28925:toimii?
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		pre2 ${d} ${distro} ${iface} ${dnsm}
@@ -234,7 +234,7 @@ case ${mode} in
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp5 ${tgtfile} ${d0} 
 	;;
-	e)  #VAIH:tstaa uusiksi (27.9.25)
+	e)  #HUOM.28925:taitaa toimia tämän casen luoma tar
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		tp0 ${d}
 		tp4 ${tgtfile} ${d} ${distro} ${iface}
@@ -271,9 +271,10 @@ case ${mode} in
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
-	t) #VAIH:tarkista toiminta TAAS (020825 tekee tar:in, sisällön kelvollisuus vielä testaamatta 27926)
+	t) #HUOM.27925:testattu, toimii tekemä tar
 		pre2 ${d} ${distro} ${iface} ${dnsm}
 		${NKVD} ${d}/*.deb #olisi myös tp0
+
 		tlb ${d} ${iface} ${distro} ${dnsm}
 		${svm} ${pkgdir}/*.deb ${d}
 		rmt ${tgtfile} ${d}
@@ -311,7 +312,9 @@ if [ -s ${tgtfile} ] ; then
 	${sah6} ${tgtfile} > ${tgtfile}.sha
 	${sah6} -c ${tgtfile}.sha
 
+	#TODO:pitäisi tämkin kokeilla, myös import2 kanssa että g tarkistaa
 	gg=$(${odio} which gpg)
+
 	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 		${gg} -u ${CONF_kay1name} -sb ${tgtfile}.sha
 	fi

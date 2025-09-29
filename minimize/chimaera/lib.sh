@@ -31,21 +31,10 @@ function reficul() {
 	dqb "chim.reticul is UNDER CONSTRUCTION"
 }
 
+#HUOM.28925:testaisiko josqs uudestaan tapaus chimaera? entä xcalibur?
 function udp6() {
 	dqb "ch1m.lib.UPDP-6"
 	csleep 1
-
-	#mahd. yhteisiä osia voisi siirtää
-	#HUOM.29725:näköjään uskaltaa nuo jutut kommentoida piiloon ja silti toimii asennus imp2 kanssa
-	#${NKVD} ${1}/libx11-xcb1*
-	#${NKVD} ${1}/nfs*
-	#${NKVD} ${1}/rpc*
-	#${NKVD} ${1}/python3.11*
-	#${NKVD} ${1}/xserver-xorg-core*
-	#${NKVD} ${1}/xserver-xorg-legacy*
-	#${NKVD} ${1}/libgtk-3-bin*
-	#${NKVD} ${1}/libpython3.11*
-	#${NKVD} ${1}/librsvg2*
 
 	dqb "D0NE"
 	csleep 1
