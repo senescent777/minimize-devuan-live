@@ -37,7 +37,7 @@ function pr4() {
 	csleep 1
 	dqb "XC.PR4.PART2"
 
-	efk ${1}/isc-dhcp-*.deb
+	efk1 ${1}/isc-dhcp-*.deb
 
 	dqb "...done"
 	csleep 1
@@ -54,6 +54,7 @@ function udp6() {
 }
 
 #jotain tämmöistä tähänn fktioon olisi tarkoitus tulla jatkossa
+#HUOM. tablesiin liittyviä säätöjä olisi parent-hmiston skripteissä (export2?)
 function tpc7() {
 	dqb "UNDER CONSTRUCTION"
 	#${shary} linux-modules-6.12.27-amd64 #31525 uutena
