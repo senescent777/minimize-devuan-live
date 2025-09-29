@@ -1,29 +1,30 @@
 #=================================================PART 0=====================================
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
+#TODO:chimaera-version toiminnnan testaus vähitellen koska syyt
 #jokin dpkg/apt-jekku kutsuvassa koodissa voisi ajaa saman asian, ehkä
 function pr4() {
 	dqb "ch1m.pr4( ${1} , ${2} )"
 	csleep 1
 
-	efk ${1}/libpam-modules-bin_*.deb
-	efk ${1}/libpam-modules_*.deb
+	efk1 ${1}/libpam-modules-bin_*.deb
+	efk1 ${1}/libpam-modules_*.deb
 	${NKVD} ${1}/libpam-modules*
 	csleep 1
 
-	efk ${1}/libpam*.deb
-	efk ${1}/perl-modules-*.deb
-	efk ${1}/libperl*.deb
+	efk1 ${1}/libpam*.deb
+	efk1 ${1}/perl-modules-*.deb
+	efk1 ${1}/libperl*.deb
 
 	csleep 1
 
-	efk ${1}/perl*.deb
-	efk ${1}/libdbus*.deb
-	efk ${1}/dbus*.deb
+	efk1 ${1}/perl*.deb
+	efk1 ${1}/libdbus*.deb
+	efk1 ${1}/dbus*.deb
 	csleep 1
 
-	efk ${1}/liberror-perl*.deb
-	efk ${1}/git*.deb
+	efk1 ${1}/liberror-perl*.deb
+	efk1 ${1}/git*.deb
 	csleep 1
 }
 
@@ -31,21 +32,10 @@ function reficul() {
 	dqb "chim.reticul is UNDER CONSTRUCTION"
 }
 
+#HUOM.28925:testaisiko josqs uudestaan tapaus chimaera? entä xcalibur?
 function udp6() {
 	dqb "ch1m.lib.UPDP-6"
 	csleep 1
-
-	#mahd. yhteisiä osia voisi siirtää
-	#HUOM.29725:näköjään uskaltaa nuo jutut kommentoida piiloon ja silti toimii asennus imp2 kanssa
-	#${NKVD} ${1}/libx11-xcb1*
-	#${NKVD} ${1}/nfs*
-	#${NKVD} ${1}/rpc*
-	#${NKVD} ${1}/python3.11*
-	#${NKVD} ${1}/xserver-xorg-core*
-	#${NKVD} ${1}/xserver-xorg-legacy*
-	#${NKVD} ${1}/libgtk-3-bin*
-	#${NKVD} ${1}/libpython3.11*
-	#${NKVD} ${1}/librsvg2*
 
 	dqb "D0NE"
 	csleep 1

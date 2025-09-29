@@ -12,7 +12,7 @@ fi
 
 case ${1} in
 	merde)
-		${d}/demerde_toi.sh main #tuokin skripti pitisi testata taas		
+		${d}/demerde_toi.sh main #testattu 08/25 alussa, toimi silloin
 	;;
 	cdns)		
 		sudo /opt/bin/changedns.sh ${dnsm}
@@ -27,9 +27,8 @@ case ${1} in
 	import|import2)
 		${d}/import2.sh -1
 		[ $? -gt 0 ] && exit 45 #HUOM. jos on jo valmiiksi mountattu ni turha exit
-		read -p "source?" sorsa
+		read -p "source?" sorsa #jokin tdston_valinta_dialogi olisi tietysti kiva...
 		sleep 2
-		#TEHTY:desktop-fileet muuttaen tähän liittyen
 
 		if [ "${1}" == "import" ] ; then
 			${d}/import2.sh 0 ${sorsa}
@@ -51,6 +50,9 @@ case ${1} in
 	;;
 	pw)
 		${d}/generic_doit.sh 1
+	;;
+	update)
+		echo "TODO:file_dialog+update.sh ?"
 	;;
 	*)
 		echo "$0 [cmd]"

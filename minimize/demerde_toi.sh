@@ -21,6 +21,7 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh #HUOM. tarvitsiko tästä jota9in?
 fi
 
+#tig ja mkt alustukset jatkossa check_binaries():iin? no mkt ehkä
 tig=$(sudo which git)
 
 if [ x"${tig}" == "x" ] ; then
@@ -57,6 +58,7 @@ cd ${q}
 dqb "BFROE tig"
 csleep 2
 
+#TODO:konftdstoon urlin alkuosa?
 ${tig} clone https://github.com/senescent777/minimize-devuan-live.git
 [ $? -gt 0 ] && exit
 

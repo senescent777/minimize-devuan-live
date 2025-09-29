@@ -85,7 +85,6 @@ function reficul() {
 function pr4() {
 	#HUOM.29925:saattaa sittenkin olla tarpeellinen fktio koska X
 
-	#debug=1
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
 

@@ -105,9 +105,9 @@ if [ -f ${tgt} ] ; then
 	#jos ei erikseen muuttele niin samat q pakettia purkaessa
 	#eikä juuressa sijaitsevien kanssa tartte kikkailla polun kanssa
 	#/e sisältö voidaan tuupata takaisin arkistoon jos on siitä alunperin purettu, muuten voi tulla ongelmia
+	#... tai mikä olikaan jutun juoni tuolloin?
 
 	#... pitäisiköhän miettiä mitä otetaan arkistoon ja missä tilanteessa?
-
 
 	for f in $(find /etc -type f -name 'locale*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
@@ -148,7 +148,6 @@ if [ -f ${tgt} ] ; then
 
 	#TODO:/e/n- ja /e/a-kohdat uusiksi jatkossa (liittyiköhän se luca?)
 	if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then
-
 		#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
 		for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
 
@@ -167,7 +166,7 @@ if [ -f ${tgt} ] ; then
 	sha512sum ${tgt} > ${tgt}.sha
 	sleep 2
 	sha512sum -c ${tgt}.sha
- 	
+ 	#HUOM.29925:tähän ei sitten gpg-kikkailua
 	echo "DONE UPDATING"
 	sleep 2
 else	
