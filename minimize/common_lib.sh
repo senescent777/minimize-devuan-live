@@ -212,7 +212,7 @@ function pre_part3_clib() {
 	fi
 }
 
-#HUOM.28925:toimiikohan toivotulla tavalla?
+#HUOM.28925:toimiikohan toivotulla tavalla? vissiin pitäisi kirjoittaa uusiksi (TODO)
 function efk() {
 	dqb "efk( $@)"
 	${sdi} $@
@@ -220,6 +220,7 @@ function efk() {
 	csleep 1
 }
 
+#TODO:jatkossa tähän sha- ja gpg- -tark (optionaalisena)? + käyttöön muihin tdstoihin?
 function efk2() {
 	dqb "efk2( $@)"
 
@@ -304,8 +305,8 @@ function common_tbls() {
 	csleep 1
 	${scm} 0550 /etc/iptables	
 
-	dqb "common_tblz d0n3"
-	csleep 1
+	echo "common_tblz d0n3"
+	csleep 10
 }
 
 function check_binaries() {
@@ -979,14 +980,19 @@ function part3() {
 
 	reficul ${1}
 	pr4 ${1}
-	csleep 1	
+
+	echo "4RP"
+	sleep 6
 
 	efk ${1}/lib*.deb
-	[ $? -eq 0 ] || exit 66
+	[ $? -eq 0 ] || echo "SHOULD exit 66"
 	csleep 1
-	
+
+	echo "LIBS DONE"
+	sleep 6
+
 	efk ${1}/*.deb
-	[ $? -eq 0 ] || exit 67	
+	[ $? -eq 0 ] || echo "SHOULD exit 67"	
 	csleep 1
 
 	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt

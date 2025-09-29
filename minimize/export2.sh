@@ -174,7 +174,7 @@ dqb "AFTER TAR"
 csleep 1
 
 case ${mode} in
-	0|4) #VAIH:case 0 testaus uusiksi 
+	0|4) #HUOM.29925:toimii 
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
@@ -220,7 +220,7 @@ case ${mode} in
 		csleep 5	
 		e22_etc2 ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #HUOM.28925:toimii?
+	1|u|upgrade) #HUOM.28925:toimii
 		#HUOM.29925:miten ne allekirjoitushommat sitten? 
 		#aluksi jos case e/t/u hyödyntämään gpg:tä (casen jälkeen onjo juttuja)
 		#... ja sitten käsipelillä allekirjoitus-jutskat arkistoon
@@ -248,6 +248,7 @@ case ${mode} in
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
 	q) #HUOM.020825:toimii
+	#TODO:jos siirtäisi e22:seen tmän casen sisältöä?
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 	
@@ -297,7 +298,12 @@ case ${mode} in
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
 		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
 	;;
-#TODO:uusi optio gpg-juttuj varten, kts pkginfo.devuan liittyen
+#VAIH:uusi optio gpg-juttuj varten, kts pkginfo.devuan liittyen
+	g)
+		echo "sudo apt-get update;sudo apt-get reinstall gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
+		echo "${svm} ${pkgdir}/*.deb ${d}"		
+		echo "$0 f \$tgtfile"	
+	;;
 	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata
 		usage
 	;;
@@ -312,7 +318,6 @@ if [ -s ${tgtfile} ] ; then
 	${sco} $(whoami):$(whoami) ${tgtfile}.sha
 	${scm} 0644 ${tgtfile}.sha
 
-	#VAIH:gpg-juttuja tähän?
 	${sah6} ${tgtfile} > ${tgtfile}.sha
 	${sah6} -c ${tgtfile}.sha
 
