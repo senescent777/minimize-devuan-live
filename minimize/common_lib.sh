@@ -59,9 +59,9 @@ function fix_sudo() {
 	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
 	csleep 1
 	dqb "fix_sud0.d0n3"
+
 	#HUOM.29925:pidetään nyt varm. vuoksi "ch m00d abcd \u5 R \ bin \ 5 ud0 *" poissa tstä
 
-}
 
 function other_horrors() {	
 	dqb "other_horrors()"
@@ -133,7 +133,6 @@ function jules() {
 	csleep 1
 
 	other_horrors
-
 	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 	csleep 1
 }
@@ -162,7 +161,8 @@ function ocs() {
 	fi
 }
 
-#laajempaan käyttöön?
+#laajempaan käyttöön? miksi?
+
 function psqa() {
 	dqb "QUASB (THE BURNING) ${1}"
 
@@ -184,11 +184,13 @@ function psqa() {
 	csleep 1
 }
 
-#jatkossa gg-tar mukaan jotenkin?
+#jatkossa gg-tarkistus mukaan jotenkin tähän? vaiko fktioon psqa?
+
 function pre_part3_clib() {
 	dqb "pre_part3_clib ${1}"
 	csleep 1
 	pwd
+
 	dqb "find ${1} -type f -name ' \* .deb ' " #auttaako \* tässä?
 	csleep 3
 
@@ -221,8 +223,15 @@ function pre_part3_clib() {
 function efk1() {
 	dqb "efk1( $@)"
 	${sdi} $@
-	[ $? -eq 0 ] && ${NKVD} $@
-	csleep 1
+
+	if [ $? -eq 0 ] ; then
+		${NKVD} $@
+		dqb "ÖK"
+	else
+		dqb $?
+	fi
+
+	csleep 3
 
 	#for x in $@ #jatkossa jtnkn näin
 	#for y in $(find -type f -name $x)
@@ -493,7 +502,6 @@ function dinf() {
 }
 
 function pre_enforce() {
-	#debug=1 #liikaa tauhkaa, pois 28725
 	dqb "common_lib.pre_enforce( ${1} )"
 	local q
 	local f
@@ -581,6 +589,7 @@ function e_e() {
 
 	#-R liikaa tässä alla 2 rivillä? nyt 240325 poistettu
 	#pitäisiköhän muuttaa ao. rivejä?
+
 	${scm} 0555 /etc/network
 	${scm} 0444 /etc/network/*
 	${sco} root:root /etc/network #turha koska ylempänä
@@ -991,8 +1000,8 @@ function part3() {
 	reficul ${1}
 	pr4 ${1}
 
-	echo "4RP"
-	sleep 6
+	dqb "4RP DONE"
+	csleep 6
 
 #	efk1 ${1}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
 #	[ $? -eq 0 ] || echo "SHOULD exit 66"
@@ -1014,8 +1023,8 @@ function part3() {
                exit 66
 	fi
 	
-	echo "LIBS DONE"
-	sleep 6
+	dqb "LIBS DONE"
+	csleep 6
 
 	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
 	

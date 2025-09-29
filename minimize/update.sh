@@ -148,7 +148,6 @@ if [ -f ${tgt} ] ; then
 
 	#TODO:/e/n- ja /e/a-kohdat uusiksi jatkossa (liittyiköhän se luca?)
 	if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then
-
 		#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
 		for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
 

@@ -1,29 +1,30 @@
 #=================================================PART 0=====================================
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
+#TODO:chimaera-version toiminnnan testaus vähitellen koska syyt
 #jokin dpkg/apt-jekku kutsuvassa koodissa voisi ajaa saman asian, ehkä
 function pr4() {
 	dqb "ch1m.pr4( ${1} , ${2} )"
 	csleep 1
 
-	efk ${1}/libpam-modules-bin_*.deb
-	efk ${1}/libpam-modules_*.deb
+	efk1 ${1}/libpam-modules-bin_*.deb
+	efk1 ${1}/libpam-modules_*.deb
 	${NKVD} ${1}/libpam-modules*
 	csleep 1
 
-	efk ${1}/libpam*.deb
-	efk ${1}/perl-modules-*.deb
-	efk ${1}/libperl*.deb
+	efk1 ${1}/libpam*.deb
+	efk1 ${1}/perl-modules-*.deb
+	efk1 ${1}/libperl*.deb
 
 	csleep 1
 
-	efk ${1}/perl*.deb
-	efk ${1}/libdbus*.deb
-	efk ${1}/dbus*.deb
+	efk1 ${1}/perl*.deb
+	efk1 ${1}/libdbus*.deb
+	efk1 ${1}/dbus*.deb
 	csleep 1
 
-	efk ${1}/liberror-perl*.deb
-	efk ${1}/git*.deb
+	efk1 ${1}/liberror-perl*.deb
+	efk1 ${1}/git*.deb
 	csleep 1
 }
 
