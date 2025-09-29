@@ -1,7 +1,7 @@
-function pre1() {
+function e22_pre1() {
 	# tosin disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(TODO)
 
-	dqb "pre1 ${1}  ${2} "
+	dqb "e22_pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 66
 	[ -z ${2} ] && exit 66
 
@@ -38,9 +38,8 @@ function pre1() {
 
 #VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
 
-function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten kai toimii
-	#... ifup toivottavasti toimii kanssa
-	dqb "pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
+function e22_pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten kai toimii
+	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
 	[ -z ${1} ] && exit 66
@@ -83,12 +82,12 @@ function pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten
 		exit 111
 	fi
 
-	echo "PRE 2DONE"
+	echo "e22_pre 2DONE"
 	sleep 2
 }
 
 #HUOM.28725:vaikuttaisi toimivan
-function tp0() {
+function e22_prepare() {
 	dqb " ${1} , ${2} , ${3}  "
 
 	if [ -d ${1} ] ; then
@@ -106,8 +105,8 @@ function tp0() {
 	csleep 1
 }
 
-function tpq() { #HUOM.020825:toimii
-	dqb "tpq ${1} ${2}"
+function e22_settings() { #HUOM.020825:toimii
+	dqb "e22_settings ${1} ${2}"
 	csleep 1
 
 	[ -z ${1} ] && exit 11
@@ -144,8 +143,8 @@ function tpq() { #HUOM.020825:toimii
 	cd ${2}
 }
 
-function tp1() {
-	dqb "tp1 ${1} , ${2} , ${3}  "
+function e22_home() {
+	dqb "e22_home ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
 	[ -z ${2} ] && exit
 	csleep 1
@@ -157,7 +156,7 @@ function tp1() {
 
 	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then #TODO:enforce parametriksi
 		dqb "FORCEFED BROKEN GLASS"
-		tpq ~ ${2}/.. #HUOM.25725:toimiiko näin?
+		e22_settings ~ ${2}/.. #HUOM.25725:toimiiko näin?
 	else
 		dqb "PUIG DESTRÖYERR"
 	fi
@@ -207,11 +206,11 @@ function tp1() {
 		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
 #	fi
 #pidetään tämä blokki vielä jemmassa
-	dqb "tp1 d0n3"
+	dqb "e22_home d0n3"
 	csleep 1
 }
 
-#update.sh käyttämään tätä?
+#update.sh käyttämään tätä? toistaiseksi privaatti fktio
 function luca() {
 	dqb "luca ( ${1})"
 	csleep 1
@@ -238,8 +237,8 @@ function luca() {
 	sleep 3
 }
 
-function tp2() {
-	dqb "tp2 ${1} ${2} ${3} ${4}"
+function e22_etc2() {
+	dqb "e22_etc2 ${1} ${2} ${3} ${4}"
 	csleep 1
 
 	[ -z ${1} ] && exit 1
@@ -322,12 +321,12 @@ function tp2() {
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
-	dqb "tp2 done"
+	dqb "e22_etc2 done"
 	csleep 1
 }
 
-function tp3() {
-	dqb "tp3 ${1} ${2}"
+function e22_etc1() {
+	dqb "e22_etc1 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
@@ -356,18 +355,16 @@ function tp3() {
 	csleep 1
 
 	#voisi jollain ehdolla estää kloonauksen
-	${tig} clone https://github.com/senescent777/more_scripts.git
+	${tig} clone https://github.com/senescent777/more_scripts.git #alkuosan voisi laittaa konftsdtoon
 	[ $? -eq 0 ] || exit 66
 	
-	dqb "TP3 PT2"
+	dqb "e22_etc1 PT2"
 	csleep 1
 	cd more_scripts/misc
 	echo $?
 	csleep 1
 
-	#TODO:$dnsm parametriksi?
-	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi tp2() jatkossa?)
-	
+	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi e22_etc2() jatkossa?)
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
 
 	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
@@ -389,9 +386,9 @@ function tp3() {
 		  ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
 	fi
 	
-	#HUOM.14525.4:tp3 ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
+	#HUOM.14525.4:e22_etc1 ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
 	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? 
-	# (ao. rivi tp2() jatkossa?)
+	# (ao. rivi e22_etc2() jatkossa?)
 
 	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
 
@@ -411,7 +408,7 @@ function tp3() {
 
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
-	# (ao. rivi tp2() jatkossa?)
+	# (ao. rivi e22_etc2() jatkossa?)
 
 	#HUOM.010825:/e/n/i tuli mukaan
 	dqb "1NT3RF"
@@ -428,11 +425,11 @@ function tp3() {
 	
 	cd ${p}
 	pwd
-	dqb "tp3 done"
+	dqb "e22_etc1 done"
 	csleep 1
 }
 
-function aswasw() { #HUOM.28725:testattu, toimii
+function aswasw() { #privatti fktio
 	dqb " aswasw ${1}"
 	csleep 1
 
@@ -455,9 +452,9 @@ function aswasw() { #HUOM.28725:testattu, toimii
 	csleep 1
 }
 
-#HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisltävien .tar kanssa joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-function rmt() {
-	dqb "rmt ${1}, ${2} " #WTUN TYPOT STNA111223456
+#HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
+function e22_arch() { #TODO:testaapa uusiksi, saattaa olla jotain (30925)
+	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
 	[ -z ${1} ] && exit 1
@@ -512,21 +509,21 @@ function rmt() {
 
 	csleep 1
 	cd ${p}
-	dqb "rmt d0n3"
+	dqb "e22_arch d0n3"
 }
 
 #home/devuan/Desktop/minimize/chimaera/home/devuan/Desktop/minimize/chimaera/tim3stamp
 #kyseiselle polulle voisi tehdä jotain jos ilmestyy (?)
 
-function aval0n() {
+function aval0n() { #prIvaattI
 	dqb "${sharpy} libavahi* #saattaa sotkea "
 	dqb "${NKVD} ${pkgdir}/libavahi* "	
 }
 
-function tlb() { #joskohan jo toimisi 28925?
+function e22_tblz() { #joskohan jo toimisi 28925?
 
 	#HUOM.28925:vieläkö asentaa avahin?
-	dqb "x2.tlb ${1} , ${2}  , ${3}  , ${4} "
+	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
 
 	csleep 1
 	dqb "\$shary= ${shary}"
@@ -560,7 +557,7 @@ function tlb() { #joskohan jo toimisi 28925?
 	${shary} iptables
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 
-	dqb "x2.tlb.part2"
+	dqb "x2.e22_tblz.part2"
 	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
 	csleep 2
 
@@ -576,20 +573,20 @@ function tlb() { #joskohan jo toimisi 28925?
 
 	${asy}
 
-	dqb "BEFORE PRE2"
+	dqb "BEFORE e22_pre2"
 	csleep 2
 
 	#actually necessary
-	pre2 ${1} ${3} ${2} ${4} 
+	e22_pre2 ${1} ${3} ${2} ${4} 
 	other_horrors
-	dqb "x2.tlb.done"
+	dqb "x2.e22_tblz.done"
 }
 
-function tp4() {
+function e22_pkgs() {
 	#voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja (vielä ajank 28925?)
 	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
 
-	dqb "tp4 ${1} , ${2} , ${3} , ${4} "
+	dqb "e22_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 
 	[ -z ${2} ] && exit 11
@@ -602,7 +599,7 @@ function tp4() {
 	csleep 1
 	
 	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
-	tlb ${2} ${4} ${3} ${dnsm} #TODO:glob muutt wtt?
+	e22_tblz ${2} ${4} ${3} ${dnsm} #TODO:glob muutt wtt?
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
@@ -657,18 +654,18 @@ function tp4() {
 
 		csleep 1		
 		${svm} ${pkgdir}/*.deb ${2}
-		rmt ${1} ${2}
+		e22_arch ${1} ${2}
 		csleep 1
 
 		${NKVD} ${2}/*.deb
 	fi
 
-	dqb "tp4 donew"
+	dqb "e22_pkgs donew"
 	csleep 1
 }
 
-function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in , myös polq hukattu
-	dqb "tp5 ${1} ${2}"
+function e22_settings2() { #HUOM.020825:testattu sen verran että tekee tar:in , myös polq hukattu
+	dqb "e22_settings2 ${1} ${2}"
 
 	[ -z ${1} ] && exit 99
 	[ -s ${1} ] || exit 98 #pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
@@ -697,9 +694,9 @@ function tp5() { #HUOM.020825:testattu sen verran että tekee tar:in , myös pol
 	dqb "AAMUNK01"
 }
 
-function tup() {
+function e22_upgp() {
 	#HUOM.28925:jospa tämä fktio jo toimisi taas
-	dqb "tup ${1}, ${2}, ${3}, ${4}"
+	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] && mv ${1} ${1}.OLD
@@ -714,7 +711,7 @@ function tup() {
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
 
-	#tp0 $pkgdir;tp0 $2 jatkossa?
+	#e22_prepare $pkgdir;e22_prepare $2 jatkossa?
 	${NKVD} ${pkgdir}/*.deb
 	${NKVD} ${2}/*.deb
 
@@ -762,7 +759,7 @@ function tup() {
 		;;
 	esac
 
-	udp6 ${pkgdir} #TODO:dbus-pakettein deletointi mjkaan tuohon?
+	udp6 ${pkgdir}
 	dqb "UTP PT 3"
 	csleep 1
 
@@ -773,7 +770,7 @@ function tup() {
 
 	date > ${2}/tim3stamp
 	${srat} -cf ${1} ${2}/tim3stamp
-	rmt ${1} ${2}
+	e22_arch ${1} ${2}
 
 	dqb "SIELUNV1H0LL1N3N"
 	csleep 1

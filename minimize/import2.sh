@@ -10,6 +10,8 @@ d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
 
+#HUOM.28925:pitäisiköhän tämäkin tdsto pilkkoa kahtia? MVC siis...
+
 #pitäisikö vielä minimoida latensseja tästä skriptistä? ja sen käyttämistä?
 #... optiota -v ei ole pakko käyttää, toisaalta
 #HUOM.28725:testailtu, vaikuttaisi toimivalta ainakin enimmäkseen (q myöhemmin)
@@ -182,7 +184,8 @@ olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
 
 if [ ! -f /.chroot ] ; then
-	if [ ! -s /OLD.tar ] ; then 
+	if [ ! -s /OLD.tar ] ; then
+		#TODO:efk2 jatkossa? vaiko se wrapper mitä ei ole saanut aikaan? 
 		${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 	fi
 fi
@@ -193,8 +196,11 @@ csleep 1
 #VAIH:a) pavucontrol-asetukset, missä? (1 arvaus olisi jo)
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
 
+
 #glorified "tar -x" this function is - Yoda (tähän jos niitä gpg-juttuja?)
 #jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?
+#tähän vaiko common_l/e22/export niin se tar allek tark?
+#HUOM.29925:saattaa osoittautua huonoksi ideaksi imp2-> c_p siirto, takaisin?
 function common_part() {
 	#debug=1
 
@@ -218,12 +224,17 @@ function common_part() {
 		dqb "KHAZAD-DUM"
 		cat ${1}.sha
 		${sah6} ${1}
+
+		#TODO:jos tähän se optionaalinenn gpg-tarkistus?
+		#VAIH:case:a edeltävät fktiomäärittelyt -> e22?
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
 	#jatkossa voisi -C - option parametrin johtaa $2:sesta?
 	csleep 1
+
+	#efk2 vai ei? ehkä ei koska stand_alone
 	${srat} -C ${3} -xf ${1} #HUOM.23725:C-option voisi josqs jyrätä?
 	[ $? -eq 0 ] || exit 36
 	csleep 1
@@ -271,7 +282,7 @@ function tpr() {
 	dqb "pars_ok"
 	csleep 1
 
-	dqb "CFG.TZE2 IN 1 SEC "
+	dqb "L\'ENG TZCHE "
 	csleep 1
 
 	if [ -s ~/config.tar.bz2 ] ; then #josko vähän kätevämmin jatkossa?
@@ -398,7 +409,6 @@ case "${mode}" in
 		csleep 1	
 
 		#TODO:näille main viimeistään allek. tark? vaiko sinne common_part?
-
 		part3 ${d} ${dnsm}
 		other_horrors
 		csleep 1
@@ -451,4 +461,4 @@ grep ${part} /proc/mounts
 grep ${dir} /proc/mounts
 
 ${scm} 0755 $0
-#HUOM. tämän olisi kuvakkeen kanssa tarkoitus mennä jatkossa filesystem.squashfs sisälle
+#HUOM.290925: tämän skriptin olisi kuvakkeen kanssa tarkoitus löytyä filesystem.squashfs sisältä
