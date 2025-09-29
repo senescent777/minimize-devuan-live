@@ -297,7 +297,7 @@ case ${mode} in
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
 		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
 	;;
-
+#TODO:uusi optio gpg-juttuj varten, kts pkginfo.devuan liittyen
 	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata
 		usage
 	;;
