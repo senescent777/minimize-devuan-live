@@ -4,6 +4,9 @@
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 #... joskohan --force-confold olisi se haettu juttu
 
+#HUOM.29925:nalkutukset lib-paketeista tulivat näköjään takaisin kun part3:sessa korvattu ekf find-jekulla, jotain tarttisi tehrä asialle
+# (import2 3 $archive aiheuttajana) 
+
 function c5p() { #joskohan jo toimisi (28925)
 	dqb "CCCP( ${1} , ${2} )"
 	csleep 1
@@ -30,48 +33,46 @@ function c5p() { #joskohan jo toimisi (28925)
 	csleep 1
 }
 
-function reficul() { #HUOM.28925: valmis?
+function reficul() {
+	#debug=1
 	dqb "NATTA5H3AD öVERDR1V 666!"
-
 	csleep 5
-	efk ${1}/gcc-12*.deb ${1}/libgcc-s1*.deb
-	efk ${1}/perl-modules-*.deb
-	efk ${1}/libstdc*.deb
-	efk ${1}/librsvg2-2*.deb
-	efk ${1}/libicu*.deb
-	efk ${1}/libjxl*.deb
+
+	efk1 ${1}/gcc-12*.deb ${1}/libgcc-s1*.deb
+	efk1 ${1}/perl-modules-*.deb
+	efk1 ${1}/libstdc*.deb
+	efk1 ${1}/librsvg2-2*.deb
+	efk1 ${1}/libicu*.deb
+	efk1 ${1}/libjxl*.deb
 
 	csleep 3
-#	#HUOM.28925:toimiikohan tuolleen että useampi param samalla rivillä?
-	efk ${1}/libc6*.deb 
-	efk ${1}/libcap2_1*.deb
-	efk ${1}/libdbus*.deb
+#	#HUOM.28925:toimiikohan tuolleen että useampi param samalla rivillä? ehkä
+	efk1 ${1}/libc6*.deb 
+	efk1 ${1}/libcap2_1*.deb
+	efk1 ${1}/libdbus*.deb
 
 	csleep 3
-	efk ${1}/libgdk-pixbuf2.0-common*.deb
- 	efk ${1}/libgdk-pixbuf-2.0-0*.deb
-	efk ${1}/libcups*.deb ${1}/libavahi*.deb
+	efk1 ${1}/libgdk-pixbuf2.0-common*.deb
+ 	efk1 ${1}/libgdk-pixbuf-2.0-0*.deb
+	efk1 ${1}/libcups*.deb ${1}/libavahi*.deb
 
 	csleep 5
-	efk ${1}/libglib2*.deb
-	efk ${1}/libgtk-3-0_*.deb
-	efk ${1}/libpython3.11-minimal*.deb #ohjeisvahinkona xfce4 jos poist
-	efk ${1}/liblzma5*.deb
-	efk ${1}/libext2fs2*.deb
+	efk1 ${1}/libglib2*.deb
+	efk1 ${1}/libgtk-3-common*.deb #josko nyt loppuisi nalqtus?
+	efk1 ${1}/libgtk-3-0_*.deb
+	efk1 ${1}/libpython3.11-minimal*.deb #ohjeisvahinkona xfce4 jos poist
+	efk1 ${1}/liblzma5*.deb
+	efk1 ${1}/libext2fs2*.deb
 
 	csleep 5
-	efk ${1}/libpam-modules-bin_*.deb
-	efk ${1}/libpam-modules_*.deb
+	efk1 ${1}/libpam-modules-bin_*.deb
+	efk1 ${1}/libpam-modules_*.deb
 
-#
-#	efk ${1}/libx11-6*
-#
-
-#	efk ${1}/libeudev*
-#	efk ${1}/libfdisk* ${1}/libuuid*
+#	efk1 ${1}/libeudev*
+#	efk1 ${1}/libfdisk* ${1}/libuuid*
 #	#HUOM.28925:libfdisk ehkö uskaltaa poistaa, e2fsprogs tarttee libuuid (e2 parempi olla poistamatta)
 
-#	efk ${1}/libopen* ${1}/libpolkit-gobject-*
+#	efk1 ${1}/libopen* ${1}/libpolkit-gobject-*
 #	#HUOM.28925:xfce4 tarvitse libpolkit-gobject joten ei kande poistaa
 
 	dqb "REC1FUL D0N3"
@@ -81,32 +82,44 @@ function reficul() { #HUOM.28925: valmis?
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
 
-function pr4() { #HUOM.28925:kohta valmis?
-	#HUOM.28925.2:tarpeellinen fktio jatkodda?
+function pr4() {
+	#HUOM.29925:saattaa sittenkin olla tarpeellinen fktio koska X
+
 	#debug=1
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
 
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
-
 	psqa ${1}
 
+	#==============================================================
+	#libx11- yms. kirjatsojen masentelut takaisin tähän vai reficul?
+	#HUOM.29925:osoittautui tarpeeLLIseksi palauttaa koska part3() muutokset
+	
+	efk1 ${1}/libx11-6*.deb
+	efk1 ${1}/xserver-common*.deb #TARKKANA PERKELE
+
+	#HUOM.30925:x-jutut mielekkäitä päivittää sq-chroot-ymp lähinnä
+	#äksän tappaminen desktop-live-ymp voi aiheuttaa härdelliä, login_manager ...
+	csleep 3
+	
+	efk1 ${1}/libx11-xcb1*.deb
+	efk1 ${1}/dbus-bin*.deb  ${1}/dbus-daemon*.deb ${1}/dbus-session-bus-common*.deb
+	#==============================================================
+
 #	${NKVD} ${1}/libpam-modules* #tartteeko enää?
+#	efk1 ${1}/libpam*.deb	
+#	efk1 ${1}/libperl*.deb
 #
-#	efk ${1}/libpam*.deb
-#	
-#	efk ${1}/libperl*.deb
+#	efk1 ${1}/perl*.deb
 #
-#	efk ${1}/perl*.deb
-#
-#
-#	efk ${1}/liberror-perl*.deb
-#	efk ${1}/git*.deb
+#	efk1 ${1}/liberror-perl*.deb
+#	efk1 ${1}/git*.deb
 #	csleep 1
 #	
 	c5p ${1}
-	csleep 1
+	csleep 2
 }
 
 #tähän tai cp5() poistamaan libavahi?
