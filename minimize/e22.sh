@@ -453,7 +453,7 @@ function aswasw() { #privatti fktio
 }
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-function e22_arch() {
+function e22_arch() { #TODO:testaapa uusiksi, saattaa olla jotain (30925)
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 

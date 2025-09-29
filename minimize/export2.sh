@@ -174,7 +174,7 @@ dqb "AFTER TAR"
 csleep 1
 
 case ${mode} in
-	0|4) #VAIH:case 0 testaus uusiksi 
+	0|4) #josko olisi ko 30925?
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
@@ -243,11 +243,12 @@ case ${mode} in
 		e22_prepare ${d}
 		e22_pkgs ${tgtfile} ${d} ${distro} ${iface}
 	;;
-	f)  #HUOM.28725:testattu, toimii ainakin sen verran että tekee tarin minkä sisältä järkeväno loinen
+	f)  #TODO:testaapa uusiksi, saattaa olla jotain (30925)
 		e22_arch ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
 	q) #HUOM.020825:toimii
+		#jos vähän roiskisi casen sisältöä -> e22 ?
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 	
@@ -297,7 +298,12 @@ case ${mode} in
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
 		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
 	;;
-#TODO:uusi optio gpg-juttuj varten, kts pkginfo.devuan liittyen
+	#VAIH:uusi optio gpg-juttuj varten, kts pkginfo.devuan liittyen
+	g)
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
+		echo "sudo apt-get update;sudo apt-get reinstall gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
+		echo "$0 f ${tgtfile} ${distro}"
+	;;
 	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata
 		usage
 	;;
