@@ -187,7 +187,7 @@ case ${mode} in
 		csleep 3
 
 		e22_etc1 ${tgtfile} ${distro} ${dnsm}
-		dqb "e22_etc1 DON3, next:rm some rchivies"
+		dqb "e22_etc1 DON3, next:rm some rchives"
 		csleep 3
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar

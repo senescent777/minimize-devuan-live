@@ -187,7 +187,7 @@ function e22_home() {
 	pwd
 	csleep 1
 
-	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then #VAIH:enforce parametriksi
+	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		e22_settings ~ ${2}/.. #HUOM.25725:toimiiko näin?
 	else
@@ -204,18 +204,18 @@ function e22_home() {
 	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
 	csleep 2
 
-		dqb "B"
-		csleep 1
-		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
+	dqb "B"
+	csleep 1
+	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 
-		dqb "${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
-		csleep 3
+	dqb "${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
+	csleep 3
 		
-		#pitäisiköhän findilla hakea tar:ille ne .sh, .tar yms. ?
-		#... vai stokeekohan ecxldur asioita? ei kai
+	#pitäisiköhän findilla hakea tar:ille ne .sh, .tar yms. ?
+	#... vai stokeekohan ecxldur asioita? ei kai
 
-		#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan (ei kyllä pitäisi)
-		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
+	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen?
+	${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
 
 	dqb "e22_home d0n3"
 	csleep 1
