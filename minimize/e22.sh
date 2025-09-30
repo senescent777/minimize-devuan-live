@@ -652,12 +652,14 @@ function e22_pkgs() {
 		
 		#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
 
+		#TODO;ao. blokki jonnekin muualle?
 		csleep 1		
 		${svm} ${pkgdir}/*.deb ${2}
 		e22_arch ${1} ${2}
 		csleep 1
 
-		${NKVD} ${2}/*.deb
+		#${NKVD} ${2}/*.deb
+		e22_prepare ${2}
 	fi
 
 	dqb "e22_pkgs donew"
@@ -711,9 +713,9 @@ function e22_upgp() {
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
 
-	#e22_prepare $pkgdir;e22_prepare $2 jatkossa?
-	${NKVD} ${pkgdir}/*.deb
-	${NKVD} ${2}/*.deb
+	e22_prepare ${pkgdir};e22_prepare ${2} # jatkossa?
+	#${NKVD} ${pkgdir}/*.deb
+	#${NKVD} ${2}/*.deb
 
 	dqb "CLEANUP 1 AND 2 DONE, NEXT: apt-get upgrade"
 	csleep 1

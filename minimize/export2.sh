@@ -193,7 +193,7 @@ case ${mode} in
 
 		dd if=/dev/random bs=12 count=1 > ./rnd
 		${srat} -cvf ${d}/f.tar ./rnd
-		e22_prepare ${d} #VAIH:pitäisikö olla ennen e22_pkgs ? 
+		e22_prepare ${d}
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then
@@ -278,8 +278,11 @@ case ${mode} in
 	;;
 	t) #HUOM.27925:testattu, toimi silloin tekemä tar (miten nyt?)
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
-		${NKVD} ${d}/*.deb #olisi myös e22_prepare
 
+		#${NKVD} ${d}/*.deb #olisi myös e22_prepare
+		e22_prepare ${d}
+		e22_prepare ${pkgdir}
+			
 		message
 		csleep 6
 
