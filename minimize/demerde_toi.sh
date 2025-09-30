@@ -89,8 +89,10 @@ for f in $(find ${d0} -type f -name '*.desktop') ; do rm ${f} ; done
 dqb "RM D0N3"
 csleep 2
 
-#TODO:alihmistojen sisältö tulisi kopsata kanssa
+#VAIH:alihmistojen sisältö tulisi kopsata kanssa
 cp minimize/* ${d0}
+for x in $(find . -name '*.sh') ; do echo "cp  $x PREFIX/$x" ; done
+for x in $(find . -name '*.desktop') ; do echo "cp  $x PREFIX/$x" ; done
 
 #mv isolinux ~/Desktop/ #tarttisikohan näille tehdä jotain?
 #mv boot  ~/Desktop/
