@@ -281,7 +281,7 @@ case ${mode} in
 		${NKVD} ${d}/*.deb #olisi myös e22_prepare
 
 		message
-		csleep 6message
+		csleep 6
 
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		${svm} ${pkgdir}/*.deb ${d}
