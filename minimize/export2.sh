@@ -177,7 +177,7 @@ dqb "AFTER TAR"
 csleep 1
 
 case ${mode} in
-	0|4) #josko olisi ko 30925?
+	0|4) #TODO:testaa uusiksi josqs
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
@@ -235,7 +235,7 @@ case ${mode} in
 		e22_prepare ${d}
 		e22_upgp ${tgtfile} ${d} ${iface} ${dnsm}
 	;;
-	p) #HUOM.020825:testattu sen verran että tekee tar:in (myös polku hukattu)
+	p) #HUOM.011025:testattu sen verran että tekee tar:in (myös polku hukattu)
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
