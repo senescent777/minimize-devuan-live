@@ -147,6 +147,7 @@ function e22_home() {
 	dqb "e22_home ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
 	[ -z ${2} ] && exit
+	[ -z ${3} ] && exit
 	csleep 1
 
 	dqb "params_ok"
@@ -154,7 +155,7 @@ function e22_home() {
 	pwd
 	csleep 1
 
-	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then #TODO:enforce parametriksi
+	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then #VAIH:enforce parametriksi
 		dqb "FORCEFED BROKEN GLASS"
 		e22_settings ~ ${2}/.. #HUOM.25725:toimiiko näin?
 	else
@@ -173,7 +174,7 @@ function e22_home() {
 
 #	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
 #	#jatkossa tar if-blokin jälkeen?
-#	if [  z"${3}" != "z" ] ; then
+#	if [  z"${4}" != "z" ] ; then
 #		dqb "A"
 #		csleep 1
 #
@@ -181,7 +182,7 @@ function e22_home() {
 #		${srat} --exclude='*.deb' -rvf ${1} ./home/stubby
 #		csleep 3
 #
-#		#TODO:se fiksumpi tapa, voiSiko esim $2:sta leikata $3:n bashilla jotenkin käteväsri?
+#		#TODO:se fiksumpi tapa, voiSiko esim $2:sta leikata $4:n bashilla jotenkin käteväsri?
 #		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 4,5,6,7)
 #		echo ${t}
 #		#exit
@@ -214,6 +215,7 @@ function e22_home() {
 function luca() {
 	dqb "luca ( ${1})"
 	csleep 1
+
 	[ -z ${1} ] && exit 11
 	[ -s ${1} ] || exit 12
 

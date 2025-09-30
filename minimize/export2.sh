@@ -211,7 +211,7 @@ case ${mode} in
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 5
  	
-		e22_home ${tgtfile} ${d}
+		e22_home ${tgtfile} ${d} ${enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 4
 		${NKVD} ${d}/*.tar #tartteeko piostaa?
