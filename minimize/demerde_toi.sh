@@ -7,7 +7,7 @@ echo "d0=${d0}"
 
 #VAIH:jos mahd ni git hakemaan vaihToehtoisen oksan? man-sivuja pitäisi taas kahlata niin maan perkeleesti ja tasaiseenm
 #TODO:mktemp-kikkailut pois, plain old git clone tilalle ja täts it ?
-#HUOM.020825:jos tämä poistaa $distro/lib.sh niin korjattava ei-poistamaan (vimmeisi oli pikemmnkin conf)
+#HUOM.020825:jos tämä poistaa $distro/lib.sh niin korjattava ei-poistamaan (vimmeisi oli pikemmnkin conf) (joskohan cp -r korjaisi)
 
 function parse_opts_1() {
 	dqb "p1"
@@ -58,7 +58,7 @@ cd ${q}
 dqb "BFROE tig"
 csleep 2
 
-#TODO:konftdstoon urlin alkuosa?
+#konftdstoon urlin alkuosa?
 ${tig} clone https://github.com/senescent777/minimize-devuan-live.git
 [ $? -gt 0 ] && exit
 
@@ -89,10 +89,10 @@ for f in $(find ${d0} -type f -name '*.desktop') ; do rm ${f} ; done
 dqb "RM D0N3"
 csleep 2
 
-#VAIH:alihmistojen sisältö tulisi kopsata kanssa
-cp minimize/* ${d0}
-for x in $(find . -name '*.sh') ; do echo "cp  $x PREFIX/$x" ; done
-for x in $(find . -name '*.desktop') ; do echo "cp  $x PREFIX/$x" ; done
+#LIIKAA KIKKAILUA ELI JOSKO JO VÄHITELLEN UUSIKSI TÄMÄ PASKA
+cp -r minimize/* ${d0}
+#for x in $(find . -name '*.sh') ; do echo "cp  $x PREFIX/$x" ; done
+#for x in $(find . -name '*.desktop') ; do echo "cp  $x PREFIX/$x" ; done
 
 #mv isolinux ~/Desktop/ #tarttisikohan näille tehdä jotain?
 #mv boot  ~/Desktop/
