@@ -568,7 +568,7 @@ function e22_vm() {
 	${svm} ${pkgdir}/*.deb ${1}
 }
 
-function e22_pkgs() {
+function e22_pkgs() { #TODO:testaile josqs että toimiiko
 	#voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja (vielä ajank 28925?)
 	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
 
@@ -583,10 +583,10 @@ function e22_pkgs() {
 
 	dqb "paramz_ok"
 	csleep 1
-	
-	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
-	#TODO:josko e22_t kutsuvaan koodiin?
-	e22_tblz ${2} ${4} ${3} ${dnsm} #TODO:glob muutt wtt?
+#	
+#	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
+#	#VAIH:josko e22_t kutsuvaan koodiin?
+#	e22_tblz ${2} ${4} ${3} ${dnsm} #VAIH:glob muutt wtt?
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
