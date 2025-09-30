@@ -599,6 +599,7 @@ function e22_pkgs() {
 	csleep 1
 	
 	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
+	#TODO:josko e22_t kutsuvaan koodiin?
 	e22_tblz ${2} ${4} ${3} ${dnsm} #TODO:glob muutt wtt?
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
