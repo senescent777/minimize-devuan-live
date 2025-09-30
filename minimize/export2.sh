@@ -280,6 +280,8 @@ case ${mode} in
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		${NKVD} ${d}/*.deb #olisi myös e22_prepare
 
+		#TODO:se urputus tablesista
+
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		${svm} ${pkgdir}/*.deb ${d}
 		e22_arch ${tgtfile} ${d}

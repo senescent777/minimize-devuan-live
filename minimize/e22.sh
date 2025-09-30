@@ -537,6 +537,7 @@ function e22_tblz() { #joskohan jo toimisi 28925?
 	dqb "parx_ok"
 	csleep 3
 
+	#TODO:tämä+seur blokki erilliseksi fktioksi?
 	if [ z"${pkgdir}" != "z" ] ; then
 		dqb "SHREDDED HUMANS"
 		csleep 1
@@ -763,11 +764,13 @@ function e22_upgp() {
 	dqb "UTP PT 3"
 	csleep 1
 
+	#TODO:tämäkin blokki toisaalle jatkossa?
 	${svm} ${pkgdir}/*.deb ${2}
 	${odio} touch ${2}/tim3stamp
 	${scm} 0644 ${2}/tim3stamp
 	${sco} $(whoami):$(whoami) ${2}/tim3stamp
 
+	#TODO:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp
 	date > ${2}/tim3stamp
 	${srat} -cf ${1} ${2}/tim3stamp
 	e22_arch ${1} ${2}
