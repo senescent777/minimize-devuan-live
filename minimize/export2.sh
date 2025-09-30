@@ -17,7 +17,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#TODO:ajan tasalle
+#VAIH:ajan tasalle
 function usage() {
 	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
 	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
@@ -27,6 +27,7 @@ function usage() {
 	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
 	echo "$0 q <> [] [] archives firefox settings"
 	#c?
+	echo "$0 g adds Gpg for signature checks"
 	echo "$0 t ... option for ipTables"			
 	echo "$0 -h: shows this message about usage"	
 }
