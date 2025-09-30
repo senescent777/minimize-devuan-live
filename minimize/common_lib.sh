@@ -147,7 +147,7 @@ function message() {
 }
 
 #laajempaan käyttöön?
-#tökkäsi johonkin 30925 , silloinq g_doit ajetty ilman -v, toistuuko?
+
 function ocs() {
 	local tmp
 	tmp=$(${odio} which ${1})

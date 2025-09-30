@@ -191,14 +191,12 @@ fi
 dqb "b3f0r3 par51ng tha param5"
 csleep 1
 
-#VAIH:a) pavucontrol-asetukset, missä? (1 arvaus olisi jo)
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
-
 
 #glorified "tar -x" this function is - Yoda (tähän jos niitä gpg-juttuja?)
 #jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?
 #tähän vaiko common_l/e22/export niin se tar allek tark?
-#HUOM.29925:saattaa osoittautua huonoksi ideaksi imp2-> c_p siirto, takaisin?
+
 function common_part() {
 	#debug=1
 
@@ -414,7 +412,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#TODO:jos TAAS testaisi että toimii (wanha .mozilla mäkeen ja sit jotain)
+		#VAIH:jos TAAS testaisi että toimii (wanha .mozilla mäkeen ja sit jotain)
 		
 		[ x"${srcfile}" == "x" ] && exit 55
 		dqb "KL"
