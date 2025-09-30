@@ -166,7 +166,7 @@ function e22_home() {
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 	local t
 
-	#TODO:selvitä toimiiko näin sen yhden testiympäristön kanssa
+	#TODO:selvitä toimiiko näin sen yhden testiympäristön kanssa (ajankohtaista vielä 30925?)
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 2
 	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
@@ -517,12 +517,13 @@ function e22_tblz() { #joskohan jo toimisi 28925?
 	dqb "parx_ok"
 	csleep 3
 
-	#TODO:tämä+seur blokki erilliseksi fktioksi? tai siis...
-	if [ z"${pkgdir}" != "z" ] ; then
-		dqb "SHREDDED HUMANS"
-		csleep 1
-		${NKVD} ${pkgdir}/*.deb
-	fi
+#	#VAIH:tämä+seur blokki erilliseksi fktioksi? tai siis...
+#	if [ z"${pkgdir}" != "z" ] ; then
+#		dqb "SHREDDED HUMANS"
+#		csleep 1
+#		${NKVD} ${pkgdir}/*.deb
+#	fi
+#josko toimisi ilmankin
 
 	dqb "EDIBLE AUTOPSY"
 	csleep 1
@@ -693,10 +694,7 @@ function e22_upgp() {
 	csleep 1
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
-
 	e22_prepare ${pkgdir};e22_prepare ${2} # jatkossa?
-	#${NKVD} ${pkgdir}/*.deb
-	#${NKVD} ${2}/*.deb
 
 	dqb "CLEANUP 1 AND 2 DONE, NEXT: apt-get upgrade"
 	csleep 1
