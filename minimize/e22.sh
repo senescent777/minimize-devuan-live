@@ -431,6 +431,32 @@ function aswasw() { #privatti fktio
 	dqb " aswasw ${1} DONE"
 	csleep 1
 }
+function e22_vm() {
+	csleep 1		
+	${svm} ${pkgdir}/*.deb ${1}
+}
+
+function aval0n() { #prIvaattI
+	dqb "${sharpy} libavahi* #saattaa sotkea "
+	dqb "${NKVD} ${pkgdir}/libavahi* "	
+}
+
+#vrt e22_vm()
+function e22_ts() {
+	dqb "e22_ts () ${1} ${2}"
+	csleep 6
+
+	${svm} ${pkgdir}/*.deb ${1}
+	${odio} touch ${1}/tim3stamp
+	${scm} 0644 ${1}/tim3stamp
+	${sco} $(whoami):$(whoami) ${1}/tim3stamp
+
+	#VAIH:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp
+	date > ${1}/tim3stamp
+
+	dqb "E22TS DONE"
+	csleep 4
+}
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
 function e22_arch() { #HUOM.30925:toimii
@@ -490,14 +516,6 @@ function e22_arch() { #HUOM.30925:toimii
 	csleep 1
 	cd ${p}
 	dqb "e22_arch d0n3"
-}
-
-#home/devuan/Desktop/minimize/chimaera/home/devuan/Desktop/minimize/chimaera/tim3stamp
-#kyseiselle polulle voisi tehdä jotain jos ilmestyy (?)
-
-function aval0n() { #prIvaattI
-	dqb "${sharpy} libavahi* #saattaa sotkea "
-	dqb "${NKVD} ${pkgdir}/libavahi* "	
 }
 
 function e22_tblz() { #TODO:testaa uusiksi
@@ -561,11 +579,6 @@ function e22_tblz() { #TODO:testaa uusiksi
 	e22_pre2 ${1} ${3} ${2} ${4} 
 	other_horrors
 	dqb "x2.e22_tblz.done"
-}
-
-function e22_vm() {
-	csleep 1		
-	${svm} ${pkgdir}/*.deb ${1}
 }
 
 function e22_pkgs() { #TODO:testaile josqs että toimiiko
@@ -682,23 +695,6 @@ function e22_settings2() { #HUOM.020825:testattu sen verran että tekee tar:in ,
 
 	cd ${q}
 	dqb "AAMUNK01"
-}
-
-#vrt e22_vm()
-function e22_ts() {
-	dqb "e22_ts () ${1} ${2}"
-	csleep 6
-
-	${svm} ${pkgdir}/*.deb ${1}
-	${odio} touch ${1}/tim3stamp
-	${scm} 0644 ${1}/tim3stamp
-	${sco} $(whoami):$(whoami) ${1}/tim3stamp
-
-	#VAIH:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp
-	date > ${1}/tim3stamp
-
-	dqb "E22TS DONE"
-	csleep 4
 }
 
 function e22_upgp() {

@@ -164,7 +164,7 @@ e22_pre1 ${d} ${distro}
 [ -x /opt/bin/changedns.sh ] || exit 59
 
 #HUOM.30925:ao blokin johdosta täytteiden lisääminen arkoistoihin saattaa olla turhaa
-#TODO:->e22
+#VAIH:->e22
 dqb "BEFORE TAR"
 csleep 1
 ${odio} touch ./rnd
