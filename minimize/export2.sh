@@ -224,7 +224,7 @@ case ${mode} in
 		csleep 5	
 		e22_etc2 ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #HUOM.28925:toimii?
+	1|u|upgrade) #TODO:testaa toiminta josqs
 		#HUOM.29925:miten ne allekirjoitushommat sitten? 
 		#aluksi jos case e/t/u hyödyntämään gpg:tä (casen jälkeen onjo juttuja)
 		#... ja sitten käsipelillä allekirjoitus-jutskat arkistoon
