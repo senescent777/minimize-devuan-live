@@ -17,6 +17,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+#TODO:ajan tasalle
 function usage() {
 	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
 	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
@@ -163,6 +164,7 @@ e22_pre1 ${d} ${distro}
 [ -x /opt/bin/changedns.sh ] || exit 59
 
 #HUOM.30925:ao blokin johdosta täytteiden lisääminen arkoistoihin saattaa olla turhaa
+#TODO:->e22
 dqb "BEFORE TAR"
 csleep 1
 ${odio} touch ./rnd
@@ -244,7 +246,7 @@ case ${mode} in
 		e22_prepare ${d}
 		e22_pkgs ${tgtfile} ${d} ${distro} ${iface}
 	;;
-	f)  #HUOM.30925:jospa toimii, mv puuttui kutsivasta koodista
+	f)  #HUOM.30925:jospa toimii, mv puuttui kutsivasta koodista yhdessä kohtaa
 		e22_arch ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
@@ -329,6 +331,7 @@ case ${mode} in
 	;;
 esac
 
+#TODO:-> e22?
 if [ -s ${tgtfile} ] ; then
 	${odio} touch ${tgtfile}.sha
 	${sco} $(whoami):$(whoami) ${tgtfile}.sha
