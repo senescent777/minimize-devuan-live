@@ -453,7 +453,7 @@ function aswasw() { #privatti fktio
 }
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-function e22_arch() { #TODO:testaapa uusiksi, saattaa olla jotain (30925)
+function e22_arch() { #HUOM.30925:toimii
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
@@ -537,7 +537,7 @@ function e22_tblz() { #joskohan jo toimisi 28925?
 	dqb "parx_ok"
 	csleep 3
 
-	#TODO:tämä+seur blokki erilliseksi fktioksi?
+	#TODO:tämä+seur blokki erilliseksi fktioksi? tai siis...
 	if [ z"${pkgdir}" != "z" ] ; then
 		dqb "SHREDDED HUMANS"
 		csleep 1

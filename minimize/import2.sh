@@ -381,8 +381,8 @@ case "${mode}" in
 
 		read -p "U R ABT TO INSTALL ${srcfile} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
-		[ -s ${srcfile} ]  || exit 34
-		[ -r ${srcfile} ]  || exit 35
+		[ -s ${srcfile} ] || exit 34
+		[ -r ${srcfile} ] || exit 35
 
 		if [ ${1} -eq 0 ] ; then
 			common_part ${srcfile} ${d} / #voi tietystI mennä mettään tuon $d/common_lib kanssa?

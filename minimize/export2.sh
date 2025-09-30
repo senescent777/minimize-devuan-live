@@ -162,6 +162,7 @@ e22_pre1 ${d} ${distro}
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 [ -x /opt/bin/changedns.sh ] || exit 59
 
+#HUOM.30925:ao blokin johdosta täytteiden lisääminen arkoistoihin saattaa olla turhaa
 dqb "BEFORE TAR"
 csleep 1
 ${odio} touch ./rnd
@@ -243,7 +244,7 @@ case ${mode} in
 		e22_prepare ${d}
 		e22_pkgs ${tgtfile} ${d} ${distro} ${iface}
 	;;
-	f)  #TODO:testaapa uusiksi, saattaa olla jotain (30925)
+	f)  #HUOM.30925:jospa toimii, mv puuttui kutsivasta koodista
 		e22_arch ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
@@ -276,7 +277,7 @@ case ${mode} in
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
-	t) #HUOM.27925:testattu, toimi silloin tekemä tar (miten nyt?)
+	t) #HUOM.30925:testattu että tekee tar:in
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 		#${NKVD} ${d}/*.deb #olisi myös e22_prepare
@@ -304,10 +305,19 @@ case ${mode} in
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
 		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
 	;;
-	#VAIH:uusi optio gpg-juttuj varten, kts pkginfo.devuan liittyen
+	#HUOM.30925:taitaa jo toimia
 	g)
+		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+
+		#${NKVD} ${d}/*.deb #olisi myös e22_prepare
+		e22_prepare ${d}
+		e22_prepare ${pkgdir}
+
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-		echo "sudo apt-get update;sudo apt-get reinstall gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
+		dqb "sudo apt-get update;sudo apt-get reinstall"
+		${shary} gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg
+		${svm} ${pkgdir}/*.deb ${d}
+
 		echo "$0 f ${tgtfile} ${distro}"
 	;;
 	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata
