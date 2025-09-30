@@ -279,10 +279,9 @@ case ${mode} in
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
-	t) #HUOM.30925:testattu että tekee tar:in
+	t) #HUOM.011025:testattu että tekee tar:in 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
-
-		#${NKVD} ${d}/*.deb #olisi myös e22_prepare
+		#nimeämistä voisi miettiä...
 		e22_prepare ${d}
 		e22_prepare ${pkgdir}
 			
@@ -290,7 +289,8 @@ case ${mode} in
 		csleep 6
 
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
-		${svm} ${pkgdir}/*.deb ${d}
+		#${svm} ${pkgdir}/*.deb ${d}
+		e22_ts ${d}
 		e22_arch ${tgtfile} ${d}
 	;;
 	c) #uusi optio chroot-juttuja varten, toiminee (27.7.25)

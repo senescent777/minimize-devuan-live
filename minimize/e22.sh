@@ -686,6 +686,9 @@ function e22_settings2() { #HUOM.020825:testattu sen verran että tekee tar:in ,
 
 #vrt e22_vm()
 function e22_ts() {
+	dqb "e22_ts () ${1} ${2}"
+	csleep 6
+
 	${svm} ${pkgdir}/*.deb ${1}
 	${odio} touch ${1}/tim3stamp
 	${scm} 0644 ${1}/tim3stamp
@@ -693,6 +696,9 @@ function e22_ts() {
 
 	#VAIH:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp
 	date > ${1}/tim3stamp
+
+	dqb "E22TS DONE"
+	csleep 4
 }
 
 function e22_upgp() {
