@@ -185,7 +185,6 @@ part=/dev/disk/by-uuid/${part0}
 
 if [ ! -f /.chroot ] ; then
 	if [ ! -s /OLD.tar ] ; then
-		#TODO:efk2 jatkossa? vaiko se wrapper mitä ei ole saanut aikaan? 
 		${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 	fi
 fi
@@ -391,7 +390,7 @@ case "${mode}" in
 
 		csleep 1
 
-		if [ ${1} -eq 0 ] ; then #TODO:vähemmällä jos tekisi... efk2?
+		if [ ${1} -eq 0 ] ; then #HUOM.30925:jospa antaisi efk2-kikkailujen olla toistaiseksi
 			if [ -s ${d}/e.tar ] ; then
 				common_part ${d}/e.tar ${d} /
 			else
