@@ -250,7 +250,7 @@ case ${mode} in
 		e22_arch ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-	q) #HUOM.020825:toimii
+	q) #HUOM.011025:tekee paketin
 		#jos vähän roiskisi casen sisältöä -> e22 ?
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
@@ -262,7 +262,7 @@ case ${mode} in
 		pwd
 		csleep 1
 
-		#HUOM.28725:roiskiko väärään hakemistoon juttuja e22_settings()? toiv ei enää
+		#HUOM.287tar 25:roiskiko väärään hakemistoon juttuja e22_settings()? toiv ei enää
 		e22_settings ~ ${d0}
 
 		dqb "	OIJHPIOJGHOYRI&RE"

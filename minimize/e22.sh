@@ -703,6 +703,7 @@ function e22_ts() {
 
 function e22_upgp() {
 	#HUOM.28925:jospa tämä fktio jo toimisi taas
+	#TODO:joskus taas testaus
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
