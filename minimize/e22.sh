@@ -563,6 +563,11 @@ function e22_tblz() { #joskohan jo toimisi 28925?
 	dqb "x2.e22_tblz.done"
 }
 
+function e22_vm() {
+	csleep 1		
+	${svm} ${pkgdir}/*.deb ${1}
+}
+
 function e22_pkgs() {
 	#voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja (vielä ajank 28925?)
 	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
@@ -634,13 +639,14 @@ function e22_pkgs() {
 		
 		#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
 
-		#TODO;ao. blokki jonnekin muualle?
-		csleep 1		
-		${svm} ${pkgdir}/*.deb ${2}
-		e22_arch ${1} ${2}
-		csleep 1
+		#VAIH:ao. blokki jonnekin muualle?
+		#csleep 1		
+		#${svm} ${pkgdir}/*.deb ${2}
+		e22_vm ${2}
 
-		#${NKVD} ${2}/*.deb
+		#e22_arch ${1} ${2}
+		#csleep 1
+
 		e22_prepare ${2}
 	fi
 
@@ -694,12 +700,11 @@ function e22_upgp() {
 	csleep 1
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
-	e22_prepare ${pkgdir};e22_prepare ${2} # jatkossa?
-
+	e22_prepare ${pkgdir};e22_prepare ${2}
 	dqb "CLEANUP 1 AND 2 DONE, NEXT: apt-get upgrade"
 	csleep 1
 	
-	${fib} #uutena 205.25
+	${fib}
 	csleep 1
 	
 	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta
