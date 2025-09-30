@@ -226,7 +226,6 @@ function common_part() {
 		${sah6} ${1}
 
 		#TODO:jos tähän se optionaalinenn gpg-tarkistus?
-		#VAIH:case:a edeltävät fktiomäärittelyt -> e22?
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
