@@ -684,6 +684,17 @@ function e22_settings2() { #HUOM.020825:testattu sen verran että tekee tar:in ,
 	dqb "AAMUNK01"
 }
 
+#vrt e22_vm()
+function e22_ts() {
+	${svm} ${pkgdir}/*.deb ${1}
+	${odio} touch ${1}/tim3stamp
+	${scm} 0644 ${1}/tim3stamp
+	${sco} $(whoami):$(whoami) ${1}/tim3stamp
+
+	#VAIH:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp
+	date > ${1}/tim3stamp
+}
+
 function e22_upgp() {
 	#HUOM.28925:jospa tämä fktio jo toimisi taas
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
@@ -749,14 +760,16 @@ function e22_upgp() {
 	dqb "UTP PT 3"
 	csleep 1
 
-	#TODO:tämäkin blokki toisaalle jatkossa?
-	${svm} ${pkgdir}/*.deb ${2}
-	${odio} touch ${2}/tim3stamp
-	${scm} 0644 ${2}/tim3stamp
-	${sco} $(whoami):$(whoami) ${2}/tim3stamp
+#	#VAIH:tämäkin blokki toisaalle jatkossa?
+#	${svm} ${pkgdir}/*.deb ${2}
+#	${odio} touch ${2}/tim3stamp
+#	${scm} 0644 ${2}/tim3stamp
+#	${sco} $(whoami):$(whoami) ${2}/tim3stamp
+#
+#	#VAIH:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp
+#	date > ${2}/tim3stamp
 
-	#TODO:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp
-	date > ${2}/tim3stamp
+	e22_ts ${2}
 	${srat} -cf ${1} ${2}/tim3stamp
 	e22_arch ${1} ${2}
 
