@@ -573,7 +573,6 @@ function e22_tblz() { #joskohan jo toimisi 28925?
 	done
 
 	${asy}
-
 	dqb "BEFORE e22_pre2"
 	csleep 2
 
