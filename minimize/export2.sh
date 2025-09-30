@@ -165,16 +165,17 @@ e22_pre1 ${d} ${distro}
 
 #HUOM.30925:ao blokin johdosta täytteiden lisääminen arkoistoihin saattaa olla turhaa
 #VAIH:->e22
-dqb "BEFORE TAR"
-csleep 1
-${odio} touch ./rnd
-${sco} ${n}:${n} ./rnd
-${scm} 0644 ./rnd
-dd if=/dev/random bs=12 count=1 > ./rnd
-${srat} -cvf ${tgtfile} ./rnd
-[ $? -gt 0 ] && exit 60
-dqb "AFTER TAR"
-csleep 1
+#dqb "BEFORE TAR"
+#csleep 1
+#${odio} touch ./rnd
+#${sco} ${n}:${n} ./rnd
+#${scm} 0644 ./rnd
+#dd if=/dev/random bs=12 count=1 > ./rnd
+#${srat} -cvf ${tgtfile} ./rnd
+#[ $? -gt 0 ] && exit 60
+#dqb "AFTER TAR"
+#csleep 1
+e22_hdr ${tgtfile}
 
 case ${mode} in
 	0|4) #TODO:testaa uusiksi josqs
@@ -334,22 +335,23 @@ case ${mode} in
 	;;
 esac
 
-#TODO:-> e22?
+#VAIH:-> e22?
 if [ -s ${tgtfile} ] ; then
-	${odio} touch ${tgtfile}.sha
-	${sco} $(whoami):$(whoami) ${tgtfile}.sha
-	${scm} 0644 ${tgtfile}.sha
-
-	#VAIH:gpg-juttuja tähän?
-	${sah6} ${tgtfile} > ${tgtfile}.sha
-	${sah6} -c ${tgtfile}.sha
-
-	#TODO:pitäisi tämkin kokeilla, myös import2 kanssa että g tarkistaa
-	gg=$(${odio} which gpg)
-
-	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-		${gg} -u ${CONF_kay1name} -sb ${tgtfile}.sha
-	fi
-
-	echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
+#	${odio} touch ${tgtfile}.sha
+#	${sco} $(whoami):$(whoami) ${tgtfile}.sha
+#	${scm} 0644 ${tgtfile}.sha
+#
+#	#VAIH:gpg-juttuja tähän?
+#	${sah6} ${tgtfile} > ${tgtfile}.sha
+#	${sah6} -c ${tgtfile}.sha
+#
+#	#TODO:pitäisi tämkin kokeilla, myös import2 kanssa että g tarkistaa
+#	gg=$(${odio} which gpg)
+#
+#	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
+#		${gg} -u ${CONF_kay1name} -sb ${tgtfile}.sha
+#	fi
+#
+#	echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
+	e22_ftr ${tgtfile}
 fi

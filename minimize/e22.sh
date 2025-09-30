@@ -1,3 +1,35 @@
+function e22_hdr() {
+	dqb "BEFORE TAR"
+	csleep 1
+	${odio} touch ./rnd
+	${sco} ${n}:${n} ./rnd
+	${scm} 0644 ./rnd
+	dd if=/dev/random bs=12 count=1 > ./rnd
+	${srat} -cvf ${1} ./rnd
+	[ $? -gt 0 ] && exit 60
+	dqb "AFTER TAR"
+	csleep 1
+}
+
+function e22_ftr() {
+	${odio} touch ${1}.sha
+	${sco} $(whoami):$(whoami) ${1}.sha
+	${scm} 0644 ${tgtfile}.sha
+
+	#VAIH:gpg-juttuja tähän?
+	${sah6} ${1} > ${1}.sha
+	${sah6} -c ${tgtfile}.sha
+
+	#TODO:pitäisi tämkin kokeilla, myös import2 kanssa että g tarkistaa
+	gg=$(${odio} which gpg)
+
+	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
+		${gg} -u ${CONF_kay1name} -sb ${1}.sha
+	fi
+
+	echo "cp ${1} \${tgt}; cp ${1}.sha \${tgt}" 
+}
+
 function e22_pre1() {
 	# tosin disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(TODO)
 
