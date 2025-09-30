@@ -147,6 +147,7 @@ function e22_home() {
 	dqb "e22_home ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
 	[ -z ${2} ] && exit
+	[ -z ${3} ] && exit
 	csleep 1
 
 	dqb "params_ok"
@@ -154,7 +155,7 @@ function e22_home() {
 	pwd
 	csleep 1
 
-	if [ ${enforce} -eq 1 ] && [ -d ${2} ] ; then #TODO:enforce parametriksi
+	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then #VAIH:enforce parametriksi
 		dqb "FORCEFED BROKEN GLASS"
 		e22_settings ~ ${2}/.. #HUOM.25725:toimiiko näin?
 	else
@@ -165,33 +166,12 @@ function e22_home() {
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 	local t
 
-	#TODO:selvitä toimiiko näin sen yhden testiympäristön kanssa
+	#TODO:selvitä toimiiko näin sen yhden testiympäristön kanssa (ajankohtaista vielä 30925?)
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 2
 	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
 	csleep 2
 
-#	#HUOM! $2/.. EI VAAN TOIMI!!! ÄLÄ SIIS  ITUN KYRPÄ KÄYTÄ SITÄ 666!!!!!
-#	#jatkossa tar if-blokin jälkeen?
-#	if [  z"${3}" != "z" ] ; then
-#		dqb "A"
-#		csleep 1
-#
-#		cd ${3} #tässä oli virhe
-#		${srat} --exclude='*.deb' -rvf ${1} ./home/stubby
-#		csleep 3
-#
-#		#TODO:se fiksumpi tapa, voiSiko esim $2:sta leikata $3:n bashilla jotenkin käteväsri?
-#		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 4,5,6,7)
-#		echo ${t}
-#		#exit
-#
-#		#TODO:vissiin jatkossa niin että tässä haarassa .example voi ottaa, conf* ei (update.sh liittyi)
-#
-#		dqb "./home/stubby ./home/devuan/Desktop/minimize" #tässäkin oli virhe
-#		${srat} --exclude='*.deb' --exclude='conf*' -rvf ${1} ${t} 
-#		#erikseen pitäisi se conf.example lisätä 
-#	else
 		dqb "B"
 		csleep 1
 		t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
@@ -204,8 +184,7 @@ function e22_home() {
 
 		#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan (ei kyllä pitäisi)
 		${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
-#	fi
-#pidetään tämä blokki vielä jemmassa
+
 	dqb "e22_home d0n3"
 	csleep 1
 }
@@ -214,6 +193,7 @@ function e22_home() {
 function luca() {
 	dqb "luca ( ${1})"
 	csleep 1
+
 	[ -z ${1} ] && exit 11
 	[ -s ${1} ] || exit 12
 
@@ -453,7 +433,7 @@ function aswasw() { #privatti fktio
 }
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-function e22_arch() { #TODO:testaapa uusiksi, saattaa olla jotain (30925)
+function e22_arch() { #HUOM.30925:toimii
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
@@ -520,7 +500,7 @@ function aval0n() { #prIvaattI
 	dqb "${NKVD} ${pkgdir}/libavahi* "	
 }
 
-function e22_tblz() { #joskohan jo toimisi 28925?
+function e22_tblz() { #TODO:testaa uusiksi
 
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
@@ -537,11 +517,13 @@ function e22_tblz() { #joskohan jo toimisi 28925?
 	dqb "parx_ok"
 	csleep 3
 
-	if [ z"${pkgdir}" != "z" ] ; then
-		dqb "SHREDDED HUMANS"
-		csleep 1
-		${NKVD} ${pkgdir}/*.deb
-	fi
+#	#VAIH:tämä+seur blokki erilliseksi fktioksi? tai siis...
+#	if [ z"${pkgdir}" != "z" ] ; then
+#		dqb "SHREDDED HUMANS"
+#		csleep 1
+#		${NKVD} ${pkgdir}/*.deb
+#	fi
+#josko toimisi ilmankin
 
 	dqb "EDIBLE AUTOPSY"
 	csleep 1
@@ -572,7 +554,6 @@ function e22_tblz() { #joskohan jo toimisi 28925?
 	done
 
 	${asy}
-
 	dqb "BEFORE e22_pre2"
 	csleep 2
 
@@ -582,7 +563,12 @@ function e22_tblz() { #joskohan jo toimisi 28925?
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_pkgs() {
+function e22_vm() {
+	csleep 1		
+	${svm} ${pkgdir}/*.deb ${1}
+}
+
+function e22_pkgs() { #TODO:testaile josqs että toimiiko
 	#voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja (vielä ajank 28925?)
 	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
 
@@ -597,9 +583,10 @@ function e22_pkgs() {
 
 	dqb "paramz_ok"
 	csleep 1
-	
-	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
-	e22_tblz ${2} ${4} ${3} ${dnsm} #TODO:glob muutt wtt?
+#	
+#	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
+#	#VAIH:josko e22_t kutsuvaan koodiin?
+#	e22_tblz ${2} ${4} ${3} ${dnsm} #VAIH:glob muutt wtt?
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
@@ -652,12 +639,15 @@ function e22_pkgs() {
 		
 		#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
 
-		csleep 1		
-		${svm} ${pkgdir}/*.deb ${2}
-		e22_arch ${1} ${2}
-		csleep 1
+		#VAIH:ao. blokki jonnekin muualle?
+		#csleep 1		
+		#${svm} ${pkgdir}/*.deb ${2}
+		e22_vm ${2}
 
-		${NKVD} ${2}/*.deb
+		#e22_arch ${1} ${2}
+		#csleep 1
+
+		e22_prepare ${2}
 	fi
 
 	dqb "e22_pkgs donew"
@@ -694,8 +684,26 @@ function e22_settings2() { #HUOM.020825:testattu sen verran että tekee tar:in ,
 	dqb "AAMUNK01"
 }
 
+#vrt e22_vm()
+function e22_ts() {
+	dqb "e22_ts () ${1} ${2}"
+	csleep 6
+
+	${svm} ${pkgdir}/*.deb ${1}
+	${odio} touch ${1}/tim3stamp
+	${scm} 0644 ${1}/tim3stamp
+	${sco} $(whoami):$(whoami) ${1}/tim3stamp
+
+	#VAIH:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp
+	date > ${1}/tim3stamp
+
+	dqb "E22TS DONE"
+	csleep 4
+}
+
 function e22_upgp() {
 	#HUOM.28925:jospa tämä fktio jo toimisi taas
+	#TODO:joskus taas testaus
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
@@ -710,15 +718,11 @@ function e22_upgp() {
 	csleep 1
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
-
-	#e22_prepare $pkgdir;e22_prepare $2 jatkossa?
-	${NKVD} ${pkgdir}/*.deb
-	${NKVD} ${2}/*.deb
-
+	e22_prepare ${pkgdir};e22_prepare ${2}
 	dqb "CLEANUP 1 AND 2 DONE, NEXT: apt-get upgrade"
 	csleep 1
 	
-	${fib} #uutena 205.25
+	${fib}
 	csleep 1
 	
 	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta
@@ -763,12 +767,16 @@ function e22_upgp() {
 	dqb "UTP PT 3"
 	csleep 1
 
-	${svm} ${pkgdir}/*.deb ${2}
-	${odio} touch ${2}/tim3stamp
-	${scm} 0644 ${2}/tim3stamp
-	${sco} $(whoami):$(whoami) ${2}/tim3stamp
+#	#VAIH:tämäkin blokki toisaalle jatkossa?
+#	${svm} ${pkgdir}/*.deb ${2}
+#	${odio} touch ${2}/tim3stamp
+#	${scm} 0644 ${2}/tim3stamp
+#	${sco} $(whoami):$(whoami) ${2}/tim3stamp
+#
+#	#VAIH:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp
+#	date > ${2}/tim3stamp
 
-	date > ${2}/tim3stamp
+	e22_ts ${2}
 	${srat} -cf ${1} ${2}/tim3stamp
 	e22_arch ${1} ${2}
 

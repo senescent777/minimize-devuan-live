@@ -10,11 +10,10 @@ d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
 
-#HUOM.28925:pitäisiköhän tämäkin tdsto pilkkoa kahtia? MVC siis...
+#HUOM.30935:jospa ei pilkkoisi ainakaan ihan vielä
 
 #pitäisikö vielä minimoida latensseja tästä skriptistä? ja sen käyttämistä?
 #... optiota -v ei ole pakko käyttää, toisaalta
-#HUOM.28725:testailtu, vaikuttaisi toimivalta ainakin enimmäkseen (q myöhemmin)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -185,7 +184,6 @@ part=/dev/disk/by-uuid/${part0}
 
 if [ ! -f /.chroot ] ; then
 	if [ ! -s /OLD.tar ] ; then
-		#TODO:efk2 jatkossa? vaiko se wrapper mitä ei ole saanut aikaan? 
 		${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 	fi
 fi
@@ -193,14 +191,12 @@ fi
 dqb "b3f0r3 par51ng tha param5"
 csleep 1
 
-#VAIH:a) pavucontrol-asetukset, missä? (1 arvaus olisi jo)
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
-
 
 #glorified "tar -x" this function is - Yoda (tähän jos niitä gpg-juttuja?)
 #jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?
 #tähän vaiko common_l/e22/export niin se tar allek tark?
-#HUOM.29925:saattaa osoittautua huonoksi ideaksi imp2-> c_p siirto, takaisin?
+
 function common_part() {
 	#debug=1
 
@@ -226,7 +222,6 @@ function common_part() {
 		${sah6} ${1}
 
 		#TODO:jos tähän se optionaalinenn gpg-tarkistus?
-		#VAIH:case:a edeltävät fktiomäärittelyt -> e22?
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
@@ -381,8 +376,8 @@ case "${mode}" in
 
 		read -p "U R ABT TO INSTALL ${srcfile} , SURE ABOUT THAT?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
-		[ -s ${srcfile} ]  || exit 34
-		[ -r ${srcfile} ]  || exit 35
+		[ -s ${srcfile} ] || exit 34
+		[ -r ${srcfile} ] || exit 35
 
 		if [ ${1} -eq 0 ] ; then
 			common_part ${srcfile} ${d} / #voi tietystI mennä mettään tuon $d/common_lib kanssa?
@@ -392,7 +387,7 @@ case "${mode}" in
 
 		csleep 1
 
-		if [ ${1} -eq 0 ] ; then #TODO:vähemmällä jos tekisi... efk2?
+		if [ ${1} -eq 0 ] ; then #HUOM.30925:jospa antaisi efk2-kikkailujen olla toistaiseksi
 			if [ -s ${d}/e.tar ] ; then
 				common_part ${d}/e.tar ${d} /
 			else
@@ -417,8 +412,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#TODO:jos TAAS testaisi että toimii (wanha .mozilla mäkeen ja sit jotain)
-		
+		#HUOM.30925:toiminee tämä case
 		[ x"${srcfile}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 1
