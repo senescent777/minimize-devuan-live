@@ -10,11 +10,10 @@ d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
 
-#HUOM.28925:pitäisiköhän tämäkin tdsto pilkkoa kahtia? MVC siis...
+#HUOM.30935:jospa ei pilkkoisi ainakaan ihan vielä
 
 #pitäisikö vielä minimoida latensseja tästä skriptistä? ja sen käyttämistä?
 #... optiota -v ei ole pakko käyttää, toisaalta
-#HUOM.28725:testailtu, vaikuttaisi toimivalta ainakin enimmäkseen (q myöhemmin)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
