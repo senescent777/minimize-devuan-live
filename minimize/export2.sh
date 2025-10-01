@@ -298,12 +298,16 @@ case ${mode} in
 		e22_ts ${d}
 		e22_arch ${tgtfile} ${d}
 	;;
-	c) #uusi optio chroot-juttuja varten, toiminee (27.7.25)
+	c) #uusi optio chroot-juttuja varten, vielä kenties pientä laittoa?
 		[ z"${tgtfile}" == "z" ] && exit 99
 
 		#tähän se avainten lisäys vaiko erillinen case?
 		cd ${d0}
 
+		#TODO:kasaamaan (e22 apufktion kanssa?) minimize-hmston alta .sh ja conf tuohon ao. arkistoon
+		#... mahd käyttöä sq-chroot-ymp kanssa
+		#TODO:chroot-ympäristössä tarvitsisi kikkailua conf kanssa, tuossa ymp eri asetukset q live-kiekolla
+	
 		for f in $(find . -type f -name conf -or -name lib.sh) ; do ${srat} -rvf ${tgtfile} ${f} ; done
 		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} TARGET_Dkname1
 		[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} TARGET_Dkname2
@@ -311,9 +315,13 @@ case ${mode} in
 
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
 		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
+
+		#TODO:se k3yz purq, ei automaagisesti mutta tarvittaessa
+		#... eli imp2 1 hoitanee, jos se riittäisi allek. av. kanssa että gpg --sb pääsee asiaan
 	;;
 	#HUOM.30925:taitaa jo toimia
 	g)
+		#TODO:jatkossa gpg-jutut tdstoon f.tar eli e2_pkgs muutettava
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 		#${NKVD} ${d}/*.deb #olisi myös e22_prepare

@@ -430,7 +430,7 @@ case "${mode}" in
 		tpr ${d0}
 	;;
 	k)	#VAIH
-		#... tähän liittyen pitää tietysti kopioida kohdehmistoon matsqut(TODO)
+		#... tähän liittyen pitää tietysti kopioida kohdehmistoon matsqut(necros.bz2 tätä varten)
 		gg=$(${odio} which gpg)
 		ridk=${d0}
 
@@ -439,7 +439,18 @@ case "${mode}" in
 				echo "dbg: ${gg} --import ${ridk}/${f}"
 				${gg} --import ${ridk}/${f}
 			done
-		fi		
+		fi
+
+		#VAIH:k3yz.t.bz2 purq? tai siis...
+		#TODO:samoin e22_ftr ajamaan gpg jos saatavilla ja sit jhotrain		
+
+		#TODO:uusimman modatun kiekon kanssa juttuja
+		#... ensiksi pitäisi f.tar purqaa m/$distro alle
+		#... sitten tikulta uusimmat skriptit purkaen
+		#... VASTA SEN JÄLKEEN pääsee ajamaan:g_doit
+		#näin siis 1.10.25 (jotain tarttis tehrä)
+
+		#TODO:huomioi myös lib.sh pak.as.fktiot, toimimaan chroot-ymp alaisuudessa
 	;;
 	-h) #HUOM.27725:ilman param kuuluisi kai keskeyttää suor mahd aik
 		usage
