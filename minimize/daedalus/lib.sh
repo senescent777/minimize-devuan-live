@@ -62,11 +62,17 @@ function reficul() {
 	efk1 ${1}/libgtk-3-0_*.deb
 	efk1 ${1}/libpython3.11-minimal*.deb #ohjeisvahinkona xfce4 jos poist
 	efk1 ${1}/liblzma5*.deb
+	csleep 5
+
 	efk1 ${1}/libext2fs2*.deb
 
 	csleep 5
 	efk1 ${1}/libpam-modules-bin_*.deb
 	efk1 ${1}/libpam-modules_*.deb
+	#uutena 011025
+	efk1 ${1}/libcurl3*.deb
+	efk1 ${1}/libkrb5*.deb
+	efk1 ${1}/libgss*.deb
 
 #	efk1 ${1}/libeudev*
 #	efk1 ${1}/libfdisk* ${1}/libuuid*
@@ -85,6 +91,7 @@ function reficul() {
 function pr4() {
 	#HUOM.29925:saattaa sittenkin olla tarpeellinen fktio koska X
 
+	#debug=1
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
 
@@ -107,15 +114,16 @@ function pr4() {
 	efk1 ${1}/dbus-bin*.deb  ${1}/dbus-daemon*.deb ${1}/dbus-session-bus-common*.deb
 	#==============================================================
 
-#	${NKVD} ${1}/libpam-modules* #tartteeko enää?
-#	efk1 ${1}/libpam*.deb	
-#	efk1 ${1}/libperl*.deb
-#
-#	efk1 ${1}/perl*.deb
-#
-#	efk1 ${1}/liberror-perl*.deb
-#	efk1 ${1}/git*.deb
-#	csleep 1
+#pois kommenteista 011025, joissain tilanteissa tarvtaan
+	${NKVD} ${1}/libpam-modules* #tartteeko enää?
+	efk1 ${1}/libpam*.deb	
+	efk1 ${1}/libperl*.deb
+
+	efk1 ${1}/perl*.deb
+
+	efk1 ${1}/liberror-perl*.deb
+	efk1 ${1}/git*.deb
+	csleep 1
 #	
 	c5p ${1}
 	csleep 2
