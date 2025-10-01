@@ -255,7 +255,7 @@ case ${mode} in
 		e22_arch ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-	q) #HUOM.011025:tekee paketin
+	q) #HUOM.011025:teki paketin
 		#jos vähän roiskisi casen sisältöä -> e22 ?
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
@@ -304,11 +304,14 @@ case ${mode} in
 		#tähän se avainten lisäys vaiko erillinen case?
 		cd ${d0}
 
-		#TODO:kasaamaan (e22 apufktion kanssa?) minimize-hmston alta .sh ja conf tuohon ao. arkistoon
+		#VAIH:kasaamaan (e22 apufktion kanssa?) minimize-hmston alta .sh ja conf tuohon ao. arkistoon
 		#... mahd käyttöä sq-chroot-ymp kanssa
-		#TODO:chroot-ympäristössä tarvitsisi kikkailua conf kanssa, tuossa ymp eri asetukset q live-kiekolla
+		#...miten ne avainjutut? vaihtoehtoinen conf?
+
+		#TODO:chroot-ympäristössä tarvitsisi kikkailua conf kanssa?
+		# tuossa ymp eri asetukset q live-kiekolla mutta toisaalta eri h mistotkin
 	
-		for f in $(find . -type f -name conf -or -name lib.sh) ; do ${srat} -rvf ${tgtfile} ${f} ; done
+		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done
 		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} TARGET_Dkname1
 		[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} TARGET_Dkname2
 		bzip2 ${tgtfile}
@@ -319,7 +322,7 @@ case ${mode} in
 		#TODO:se k3yz purq, ei automaagisesti mutta tarvittaessa
 		#... eli imp2 1 hoitanee, jos se riittäisi allek. av. kanssa että gpg --sb pääsee asiaan
 	;;
-	#HUOM.30925:taitaa jo toimia
+	#HUOM.30925:taitaa jo toimia (seur:toiminnallsiuuden siirto toiseen fktioon)
 	g)
 		#TODO:jatkossa gpg-jutut tdstoon f.tar eli e2_pkgs muutettava
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
