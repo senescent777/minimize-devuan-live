@@ -411,6 +411,7 @@ clouds_pre ${mode}
 #HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
 t=$(echo ${distro} | cut -d '/' -f 1 | tr -d -c a-z)
 [ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
+#TODO:tables-tarkistus tähän ni ei tartte "clouds_casex"-fktioissa
 
 case ${mode} in 
 	0)
