@@ -307,13 +307,15 @@ case ${mode} in
 		#VAIH:kasaamaan (e22 apufktion kanssa?) minimize-hmston alta .sh ja conf tuohon ao. arkistoon
 		#... mahd käyttöä sq-chroot-ymp kanssa
 		#...miten ne avainjutut? vaihtoehtoinen conf?
+		#alussa julk av vain tulevat Jostainja that's it, jatkossa squ.ash ja stage0 tekisivät jotain asian suhteen
 
 		#TODO:chroot-ympäristössä tarvitsisi kikkailua conf kanssa?
 		# tuossa ymp eri asetukset q live-kiekolla mutta toisaalta eri h mistotkin
 	
 		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done
-		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} TARGET_Dkname1
-		[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} TARGET_Dkname2
+		#TODO:T_DKNAME voisi jatkossa osoittaa esim /r/l/m/p/dgsts alle
+		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname1}
+		[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname2}
 		bzip2 ${tgtfile}
 
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
@@ -324,18 +326,18 @@ case ${mode} in
 	;;
 	#HUOM.30925:taitaa jo toimia (seur:toiminnallsiuuden siirto toiseen fktioon)
 	g)
-		#TODO:jatkossa gpg-jutut tdstoon f.tar eli e2_pkgs muutettava
-		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
-
-		#${NKVD} ${d}/*.deb #olisi myös e22_prepare
-		e22_prepare ${d}
-		e22_prepare ${pkgdir}
-
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-		dqb "sudo apt-get update;sudo apt-get reinstall"
-		${shary} gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg
-		${svm} ${pkgdir}/*.deb ${d}
-
+#		#TODO:jatkossa gpg-jutut tdstoon f.tar eli e2_pkgs muutettava?
+#		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+#
+#		#${NKVD} ${d}/*.deb #olisi myös e22_prepare
+#		e22_prepare ${d}
+#		e22_prepare ${pkgdir}
+#
+#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
+#		dqb "sudo apt-get update;sudo apt-get reinstall"
+		echo "${shary} gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
+#		${svm} ${pkgdir}/*.deb ${d}
+#
 		echo "$0 f ${tgtfile} ${distro}"
 	;;
 	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata

@@ -57,9 +57,9 @@ if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
 
-	tar -jxvf ${d0}/necros.tar.bz3
+	tar -jxvf ${d0}/nekros.tar.bz3
 	sleep 3
-	rm ${d0}/necros.tar.bz3
+	rm ${d0}/nekros.tar.bz3
 fi
 
 #HUOM.21725:oliko jotain erityistä syyt miksi conf cmmon_lib jälkeen? $distroon liittyvät kai, pitäisi miettiä, nyt näin
@@ -430,12 +430,13 @@ case "${mode}" in
 		tpr ${d0}
 	;;
 	k)	#VAIH
-		#... tähän liittyen pitää tietysti kopioida kohdehmistoon matsqut(necros.bz2 tätä varten)
+		#... tähän liittyen pitää tietysti kopioida kohdehmistoon matsqut(nekros.bz2 tätä varten)
 		gg=$(${odio} which gpg)
 		ridk=${d0}
 
 		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #/.chroot vielä?
-			for f in ${TARGET_Dkname1} ${TARGET_Dkname2} ; do # ${TARGET_Dkname1}.secret ${TARGET_Dkname2}.secret
+			#for f in ${TARGET_Dkname1} ${TARGET_Dkname2} ${TARGET_Dkname1}.secret ${TARGET_Dkname2}.secret
+			for f in ${TARGET_Dpubkf} ${TARGET_Dpubkg} ; do 			
 				echo "dbg: ${gg} --import ${ridk}/${f}"
 				${gg} --import ${ridk}/${f}
 			done
