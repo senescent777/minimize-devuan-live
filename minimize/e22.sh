@@ -214,6 +214,7 @@ function e22_home() {
 	#pitäisiköhän findilla hakea tar:ille ne .sh, .tar yms. ?
 	#... vai stokeekohan ecxldur asioita? ei kai
 
+	#HUOM.pitäisiköhän $1 hieman mankeloida? esim. samasta syystä kuin update.sh
 	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen?
 	${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
 
@@ -489,7 +490,7 @@ function e22_ts() {
 	${scm} 0644 ${1}/tim3stamp
 	${sco} $(whoami):$(whoami) ${1}/tim3stamp
 
-	#VAIH:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp ?
+	#VAIH:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp
 	date > ${1}/tim3stamp
 
 	dqb "E22TS DONE"
@@ -544,7 +545,6 @@ function e22_arch() { #HUOM.30925:toimii
 	cd ${2}
 	echo $?
 
-	#TODO:allekirjoitus-jutskat ?
 	${sah6} ./*.deb > ./sha512sums.txt
 	csleep 1
 	psqa .
@@ -691,7 +691,7 @@ function e22_pkgs() { #VAIH:testaile josqs että toimiiko
 		
 		#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
 
-		#VAIH:ao. blokki jonnekin muualle?
+		#VAIH:ao. blokki jonnekin muualle? kutsvaan koodiin?
 		#csleep 1		
 		#${svm} ${pkgdir}/*.deb ${2}
 		e22_vm ${2} #TODO:toinen fktio käyttöön

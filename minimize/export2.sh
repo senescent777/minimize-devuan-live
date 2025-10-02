@@ -17,7 +17,6 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#VAIH:ajan tasalle
 function usage() {
 	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
 	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
@@ -26,8 +25,8 @@ function usage() {
 	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \$ {d0} /\${distro}" 
 	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
 	echo "$0 q <> [] [] archives firefox settings"
-	#c?
-	echo "$0 g adds Gpg for signature checks"
+	echo "$0 c is sq-Chroot-env-related option"
+	echo "$0 g adds Gpg for signature checks, maybe?"
 	echo "$0 t ... option for ipTables"			
 	echo "$0 -h: shows this message about usage"	
 }
@@ -179,7 +178,7 @@ e22_pre1 ${d} ${distro}
 e22_hdr ${tgtfile}
 
 case ${mode} in
-	0|4) #VAIH:testaus
+	0|4) #HUOM.021025:toimi ainakin kerran case 0
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
@@ -196,6 +195,7 @@ case ${mode} in
 		dqb "srat= ${srat}"
 		csleep 5
 
+		#TODO:se hdr-fktio?
 		dd if=/dev/random bs=12 count=1 > ./rnd
 		${srat} -cvf ${d}/f.tar ./rnd
 		e22_prepare ${d}
@@ -220,7 +220,7 @@ case ${mode} in
 		e22_home ${tgtfile} ${d} ${enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 4
-		${NKVD} ${d}/*.tar #tartteeko piostaa?
+		${NKVD} ${d}/*.tar #tartteeko piostaa? oli se fktiokin
 
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
@@ -305,8 +305,6 @@ case ${mode} in
 		#tähän se avainten lisäys vaiko erillinen case?
 		cd ${d0}
 
-		#VAIH:kasaamaan (e22 apufktion kanssa?) minimize-hmston alta .sh ja conf tuohon ao. arkistoon
-		#... mahd käyttöä sq-chroot-ymp kanssa
 		#...miten ne avainjutut? vaihtoehtoinen conf?
 		#alussa julk av vain tulevat Jostainja that's it, jatkossa squ.ash ja stage0 tekisivät jotain asian suhteen
 
@@ -322,10 +320,10 @@ case ${mode} in
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
 		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
 
-		#TODO:se k3yz purq, ei automaagisesti mutta tarvittaessa
-		#... eli imp2 1 hoitanee, jos se riittäisi allek. av. kanssa että gpg --sb pääsee asiaan
+
+		#... eli imp2 1 hoitanee k3yz purq, jos se riittäisi allek. av. kanssa että gpg --sb pääsee asiaan
 	;;
-	#HUOM.30925:taitaa jo toimia (seur:toiminnallsiuuden siirto toiseen fktioon)
+	#HUOM.30925:taitaa jo toimia 
 	g)
 #		#TODO:jatkossa gpg-jutut tdstoon f.tar eli e2_pkgs muutettava?
 #		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
