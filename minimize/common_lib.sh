@@ -168,6 +168,7 @@ function psqa() {
 	dqb "QUASB (THE BURNING) ${1}"
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
+		#local p
 		p=$(pwd)
 		cd ${1}
 
@@ -177,6 +178,14 @@ function psqa() {
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
 		[ $? -eq 0 ] || exit 94
+
+		local gv
+		gv=$(${odio} which gpgv)
+
+		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
+			dqb "TODO: ${gv} --keyring \${TARGET_Dpubkf} ${1}.sha.sig ${1} "
+		fi
+
 		cd ${p}
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"

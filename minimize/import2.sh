@@ -221,7 +221,12 @@ function common_part() {
 		cat ${1}.sha
 		${sah6} ${1}
 
-		#TODO:jos tähän se optionaalinenn gpg-tarkistus?
+		local gv
+		gv=$(${odio} which gpgv)
+
+		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
+			dqb "TODO: ${gv} --keyring \${TARGET_Dpubkf} ${1}.sha.sig ${1} "
+		fi
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi

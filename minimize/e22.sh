@@ -534,6 +534,7 @@ function e22_arch() { #HUOM.30925:toimii
 	dqb "KJHGOUYFIYT"
 	csleep 1
 
+	#meneekö tässä alla päällekkäin muiden fktioiden kanssa?
 	${scm} 0444 ${2}/*.deb
 	touch ${2}/sha512sums.txt
 
@@ -546,7 +547,7 @@ function e22_arch() { #HUOM.30925:toimii
 
 	${sah6} ./*.deb > ./sha512sums.txt
 	csleep 1
-	psqa .
+	psqa . #eli common_lib fktio pitäisi sorkkia
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt
 	ls -las ${1} 
