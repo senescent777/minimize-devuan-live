@@ -88,6 +88,14 @@ function reficul() {
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
 
+#HUOM.021025:bind9 masentelut tähän vai reficul() ?
+
+#myös:
+#dpkg: dependency problems prevent configuration of live-boot-initramfs-tools:
+# live-boot-initramfs-tools depends on initramfs-tools; however:
+#  Package initramfs-tools is not configured yet.
+#
+
 function pr4() {
 	#HUOM.29925:saattaa sittenkin olla tarpeellinen fktio koska X
 
