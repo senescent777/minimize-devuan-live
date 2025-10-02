@@ -2,7 +2,7 @@
 #TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh) vielä tarpeen 29725?
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 d0=$(pwd)
-
+exit 666 #HUOM.021025:jokin saatttaa qsta tässä, siksi 
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro}
@@ -15,9 +15,10 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+#TODO:jokin mode-param mikä määrää mihin asti poistellaan
 function parse_opts_1() {
 	echo "popt_1( ${1} )"
-	
+
 	case ${1} in
 		-v|--v)
 			debug=1
@@ -25,13 +26,14 @@ function parse_opts_1() {
 		*)
 			if [ -d ${d0}/${1} ] ; then
 				distro=${1}
-		
 			fi
 
 			dqb "0th3r 0tps"
 		;;
 	esac
 }
+
+#HUOM.021025:initrafs-toolsin ja live-xxx-pakettien kanssa saattaa olla jotain härdellia, korjaa?
 
 function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
@@ -40,10 +42,10 @@ function parse_opts_2() {
 if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
-	tar -jxvf ${d0}/necros.tar.bz3
+	tar -jxvf ${d0}/nekros.tar.bz3
 
 	sleep 3
-	rm ${d0}/necros.tar.bz3
+	rm ${d0}/nekros.tar.bz3
 fi
 
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
@@ -127,7 +129,6 @@ function t2pc() {
 	t2p_filler
 
 	#HUOM.29925: daed kanssa poistuu hos poistuu libsouåp josqs g_doit jälkeen
-	#TODO:se librsvg-juttu daedaluksen kanssa? (mikä?)
 
 	#tikkujen kanssa paska tdstojärjestelmä exfat
 	${sharpy} exfatprogs fdisk gcr ftp*
@@ -136,8 +137,8 @@ function t2pc() {
 	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
 	t2p_filler
 
-	${sharpy} gpgsm gpg-agent gpg
-	t2p_filler
+	#${sharpy} gpgsm gpg-agent gpg #tulossa käyttöä näille ajtkossa
+	#t2p_filler
 
 	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta kun xcalibur
 	#${sharpy} grub* 
@@ -226,7 +227,7 @@ function t2pf() {
 
 t2pc
 [ $? -gt 0 ] && exit #tähän tökkää?
-
+#TODO:mode-kikkailut näille main?
 t2p
 [ $? -gt 0 ] && exit
 
