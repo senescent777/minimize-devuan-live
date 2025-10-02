@@ -175,6 +175,7 @@ e22_pre1 ${d} ${distro}
 #[ $? -gt 0 ] && exit 60
 #dqb "AFTER TAR"
 #csleep 1
+
 e22_hdr ${tgtfile}
 
 case ${mode} in
@@ -185,8 +186,8 @@ case ${mode} in
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
-		e22_etc1 ${tgtfile} ${distro} ${dnsm}
-		dqb "e22_etc1 DON3, next:rm some rchives"
+		e22_ext ${tgtfile} ${distro} ${dnsm}
+		dqb "e22_ext DON3, next:rm some rchives"
 		csleep 3
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar

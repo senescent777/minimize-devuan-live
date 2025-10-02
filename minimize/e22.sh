@@ -249,8 +249,8 @@ function luca() {
 	sleep 3
 }
 
-function e22_etc2() { 
-	dqb "e22_etc2 ${1} ${2} ${3} ${4}"
+function e22_elocal() { 
+	dqb "e22_elocal ${1} ${2} ${3} ${4}"
 	csleep 1
 
 	[ -z ${1} ] && exit 1
@@ -333,12 +333,12 @@ function e22_etc2() {
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
-	dqb "e22_etc2 done"
+	dqb "e22_elocal done"
 	csleep 1
 }
 
-function e22_etc1() { #TODO:nimeäminen TAAS
-	dqb "e22_etc1 ${1} ${2}"
+function e22_ext() {
+	dqb "e22_ext ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
@@ -370,13 +370,13 @@ function e22_etc1() { #TODO:nimeäminen TAAS
 	${tig} clone https://github.com/senescent777/more_scripts.git #alkuosan voisi laittaa konftsdtoon
 	[ $? -eq 0 ] || exit 66
 	
-	dqb "e22_etc1 PT2"
+	dqb "e22_ext PT2"
 	csleep 1
 	cd more_scripts/misc
 	echo $?
 	csleep 1
 
-	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi e22_etc2() jatkossa?)
+	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi e22_elocal() jatkossa?)
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
 
 	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
@@ -398,9 +398,9 @@ function e22_etc1() { #TODO:nimeäminen TAAS
 		  ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
 	fi
 	
-	#HUOM.14525.4:e22_etc1 ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
+	#HUOM.14525.4:e22_ext ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
 	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? 
-	# (ao. rivi e22_etc2() jatkossa?)
+	# (ao. rivi e22_elocal() jatkossa?)
 
 	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
 
@@ -420,7 +420,7 @@ function e22_etc1() { #TODO:nimeäminen TAAS
 
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
-	# (ao. rivi e22_etc2() jatkossa?)
+	# (ao. rivi e22_elocal() jatkossa?)
 
 	#HUOM.010825:/e/n/i tuli mukaan
 	dqb "1NT3RF"
@@ -437,7 +437,7 @@ function e22_etc1() { #TODO:nimeäminen TAAS
 	
 	cd ${p}
 	pwd
-	dqb "e22_etc1 done"
+	dqb "e22_ext done"
 	csleep 1
 }
 
