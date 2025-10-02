@@ -198,13 +198,13 @@ case ${mode} in
 		#TODO:se hdr-fktio?
 		dd if=/dev/random bs=12 count=1 > ./rnd
 		${srat} -cvf ${d}/f.tar ./rnd
-		e22_prepare ${d}
+		e22_cleanpkgs ${d}
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then #HUOM.021025:$d alta ei löytynyt tai ei vedetty mukaan, korjaa (TODO)
 			e22_tblz ${d} ${iface} ${distro} ${dnsm} #VAIH:parametrien kanssa pientä laittoa
 			e22_pkgs ${d}/f.tar ${d} ${dnsm}
-#			e22_prepare ${d} #kuinka oleellinen?
+#			e22_cleanpkgs ${d} #kuinka oleellinen?
 #
 			[ ${debug} -eq 1 ] && ls -las ${d}
 			csleep 5
@@ -235,7 +235,7 @@ case ${mode} in
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
-		e22_prepare ${d}
+		e22_cleanpkgs ${d}
 		e22_upgp ${tgtfile} ${d} ${iface} ${dnsm}
 	;;
 	p) #HUOM.011025:testattu sen verran että tekee tar:in (myös polku hukattu)
@@ -247,7 +247,7 @@ case ${mode} in
 	;;
 	e)  #TODO:testaa uusiksi josqs
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
-		e22_prepare ${d}
+		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm} #VAIH:parametrien kanssa pientä laittoa
 			
 		e22_pkgs ${tgtfile} ${d} ${dnsm}
@@ -288,8 +288,8 @@ case ${mode} in
 	t) #HUOM.011025:testattu että tekee tar:in 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		#nimeämistä voisi miettiä...
-		e22_prepare ${d}
-		e22_prepare ${pkgdir}
+		e22_cleanpkgs ${d}
+		e22_cleanpkgs ${pkgdir}
 			
 		message
 		csleep 6
@@ -328,9 +328,9 @@ case ${mode} in
 #		#TODO:jatkossa gpg-jutut tdstoon f.tar eli e2_pkgs muutettava?
 #		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 #
-#		#${NKVD} ${d}/*.deb #olisi myös e22_prepare
-#		e22_prepare ${d}
-#		e22_prepare ${pkgdir}
+#		#${NKVD} ${d}/*.deb #olisi myös e22_cleanpkgs
+#		e22_cleanpkgs ${d}
+#		e22_cleanpkgs ${pkgdir}
 #
 #		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 #		dqb "sudo apt-get update;sudo apt-get reinstall"
