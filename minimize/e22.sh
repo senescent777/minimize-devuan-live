@@ -613,7 +613,7 @@ function e22_tblz() { #VAIH:testaus
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_pkgs() { #TODO:testaile josqs että toimiiko
+function e22_pkgs() { #VAIH:testaile josqs että toimiiko
 	#voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja (vielä ajank 28925?)
 	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
 
@@ -624,7 +624,7 @@ function e22_pkgs() { #TODO:testaile josqs että toimiiko
 	[ -d ${2} ] || exit 22
 	[ -z ${1} ] && exit 11
 	[ -z ${3} ] && exit 11
-	[ -z ${4} ] && exit 11
+#	[ -z ${4} ] && exit 11
 
 	dqb "paramz_ok"
 	csleep 1
@@ -644,7 +644,7 @@ function e22_pkgs() { #TODO:testaile josqs että toimiiko
 	message
 	jules
 
-	if [ ${dnsm} -eq 1 ] ; then #josko komentorivioptioksi?
+	if [ ${3} -eq 1 ] ; then #josko komentorivioptioksi?
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
 		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils

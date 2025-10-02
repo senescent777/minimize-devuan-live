@@ -203,7 +203,7 @@ case ${mode} in
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then
 			e22_tblz ${d} ${iface} ${distro} ${dnsm} #VAIH:parametrien kanssa pientä laittoa
-			e22_pkgs ${d}/f.tar ${d} #${distro} #${iface}
+			e22_pkgs ${d}/f.tar ${d} ${dnsm}
 			e22_prepare ${d} #kuinka oleellinen?
 			[ ${debug} -eq 1 ] && ls -las ${d}
 			csleep 5
@@ -249,7 +249,7 @@ case ${mode} in
 		e22_prepare ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm} #VAIH:parametrien kanssa pientä laittoa
 			
-		e22_pkgs ${tgtfile} ${d} #${distro} #${iface}
+		e22_pkgs ${tgtfile} ${d} ${dnsm}
 	;;
 	f)  #HUOM.30925:jospa toimii, mv puuttui kutsivasta koodista yhdessä kohtaa
 		e22_arch ${tgtfile} ${d}
