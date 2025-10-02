@@ -6,6 +6,7 @@ exit 666 #HUOM.021025:jokin saatttaa qsta tässä, siksi
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro}
+mode=3
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -15,7 +16,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#TODO:jokin mode-param mikä määrää mihin asti poistellaan
+#VAIH:jokin mode-param mikä määrää mihin asti poistellaan
 function parse_opts_1() {
 	echo "popt_1( ${1} )"
 
@@ -26,6 +27,8 @@ function parse_opts_1() {
 		*)
 			if [ -d ${d0}/${1} ] ; then
 				distro=${1}
+			else 
+				mode=${1}
 			fi
 
 			dqb "0th3r 0tps"
@@ -227,12 +230,15 @@ function t2pf() {
 
 t2pc
 [ $? -gt 0 ] && exit #tähän tökkää?
-#TODO:mode-kikkailut näille main?
+[ ${mode} -eq 0 ] && exit
+
 t2p
 [ $? -gt 0 ] && exit
+[ ${mode} -eq 1 ] && exit
 
 t2pf ${1}
 [ $? -gt 0 ] && exit
+[ ${mode} -eq 2 ] && exit
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
 sleep 6
