@@ -16,11 +16,10 @@ function e22_ftr() {
 	${sco} $(whoami):$(whoami) ${1}.sha
 	${scm} 0644 ${tgtfile}.sha
 
-	#VAIH:gpg-juttuja tähän?
 	${sah6} ${1} > ${1}.sha
-	${sah6} -c ${tgtfile}.sha
+	${sah6} -c ${1}.sha
 
-	#TODO:pitäisi tämkin kokeilla, myös import2 kanssa että g tarkistaa
+	#VAIH:pitäisi tämkin kokeilla, myös import2 kanssa että g tarkistaa
 	gg=$(${odio} which gpg)
 
 	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then

@@ -354,17 +354,11 @@ if [ -s ${tgtfile} ] ; then
 #	${sco} $(whoami):$(whoami) ${tgtfile}.sha
 #	${scm} 0644 ${tgtfile}.sha
 #
-#	#VAIH:gpg-juttuja tähän?
+
 #	${sah6} ${tgtfile} > ${tgtfile}.sha
 #	${sah6} -c ${tgtfile}.sha
 #
-#	#TODO:pitäisi tämkin kokeilla, myös import2 kanssa että g tarkistaa
-#	gg=$(${odio} which gpg)
-#
-#	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-#		${gg} -u ${CONF_kay1name} -sb ${tgtfile}.sha
-#	fi
-#
-#	echo "cp ${tgtfile} \${tgt}; cp ${tgtfile}.sha \${tgt}" 
+
+
 	e22_ftr ${tgtfile}
 fi
