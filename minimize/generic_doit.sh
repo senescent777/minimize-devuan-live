@@ -24,6 +24,8 @@ else
 	exit 55
 fi
 
+#TODO:ffox-profiilin importointi, kts toimiiko se muutoksien jlk vai ei
+
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)

@@ -6,7 +6,7 @@ v=0
 d0=$(dirname $0)
 echo "d0=${d0}"
 #[ z"${distro}" == "z" ] && exit 6
-
+#TODO:tähän tai exp2 muutoksia siihen kehitysymp liittyen ?
 d=${d0}/${distro}
 
 tgt=${1}
@@ -73,7 +73,7 @@ if [ -f ${tgt} ] ; then
 	process_entry ${tgt} /opt/bin/changedns.sh
 	sleep 2
 
-	if [ -v testgris ] && [ -d ${testgris} ] ; then 
+	if [ -v testgris ] && [ -d ${testgris} ] ; then #vaatii sitten conf:iin muutoksia kanssa
 		cd ${testgris}
 		p="."
 	else
