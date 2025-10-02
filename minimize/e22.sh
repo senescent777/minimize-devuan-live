@@ -463,16 +463,17 @@ function aswasw() { #privatti fktio
 	dqb " aswasw ${1} DONE"
 	csleep 1
 }
-function e22_vm() { #toimiiko tämä?
-	dqb "e22_vm(${1})"
-	csleep 5
-		
-	${svm} ${pkgdir}/*.deb ${1}
-
-	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
-	dqb "E22_VM DONE"
-	csleep 5
-}
+#
+#function e22_vm() { #toimiiko tämä?
+#	dqb "e22_vm(${1})"
+#	csleep 5
+#		
+#	${svm} ${pkgdir}/*.deb ${1}
+#
+#
+#	dqb "E22_VM DONE"
+#	csleep 5
+#}
 
 function aval0n() { #prIvaattI
 	dqb "${sharpy} libavahi* #saattaa sotkea "
@@ -491,6 +492,7 @@ function e22_ts() {
 
 	#VAIH:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp
 	date > ${1}/tim3stamp
+	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 
 	dqb "E22TS DONE"
 	csleep 4
@@ -694,8 +696,8 @@ function e22_pkgs() { #VAIH:testaile josqs että toimiiko
 		#VAIH:ao. blokki jonnekin muualle? kutsvaan koodiin?
 		#csleep 1		
 		#${svm} ${pkgdir}/*.deb ${2}
-		e22_vm ${2} #TODO:toinen fktio käyttöön
 
+		e22_ts ${2}
 		e22_arch ${1} ${2}
 		csleep 1
 
