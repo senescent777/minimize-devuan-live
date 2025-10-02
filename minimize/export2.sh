@@ -225,7 +225,7 @@ case ${mode} in
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 5	
-		e22_etc2 ${tgtfile} ${iface} ${dnsm} ${enforce}
+		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
 	1|u|upgrade) #TODO:testaa toiminta josqs
 		#HUOM.29925:miten ne allekirjoitushommat sitten? 

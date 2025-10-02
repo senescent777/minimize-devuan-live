@@ -30,7 +30,7 @@ function e22_ftr() {
 }
 
 function e22_pre1() {
-	# tosin disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(TODO)
+	# tosin disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(TODO?)
 
 	dqb "e22_pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 66
@@ -118,7 +118,7 @@ function e22_pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, mu
 }
 
 #HUOM.28725:vaikuttaisi toimivan
-function e22_prepare() { #TODO:nimeäminen uudestaan
+function e22_cleanpkgs() {
 	dqb " ${1} , ${2} , ${3}  "
 
 	if [ -d ${1} ] ; then
@@ -249,7 +249,7 @@ function luca() {
 	sleep 3
 }
 
-function e22_etc2() { #TODO:nimeäminen TAAS
+function e22_etc2() { 
 	dqb "e22_etc2 ${1} ${2} ${3} ${4}"
 	csleep 1
 
@@ -699,7 +699,7 @@ function e22_pkgs() { #VAIH:testaile josqs että toimiiko
 		e22_arch ${1} ${2}
 		csleep 1
 
-		e22_prepare ${2}
+		e22_cleanpkgs ${2}
 	fi
 
 	dqb "e22_pkgs donew"
@@ -753,7 +753,7 @@ function e22_upgp() {
 	csleep 1
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
-	e22_prepare ${pkgdir};e22_prepare ${2}
+	e22_cleanpkgs ${pkgdir};e22_cleanpkgs ${2}
 	dqb "CLEANUP 1 AND 2 DONE, NEXT: apt-get upgrade"
 	csleep 1
 	
