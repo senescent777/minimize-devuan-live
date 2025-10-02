@@ -10,15 +10,16 @@ d=${d0}/${distro}
 if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
-	tar -jxvf ${d0}/necros.tar.bz3
+	tar -jxvf ${d0}/nekros.tar.bz3
 
 	sleep 3
-	rm ${d0}/necros.tar.bz3
+	rm ${d0}/nekros.tar.bz3
 fi
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
 else
+	#TODO:josqo chroot-tapauksessa yrittäisi $n.conf
 	echo "CONFIG MISSING"
 	exit 55
 fi

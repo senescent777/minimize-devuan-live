@@ -40,10 +40,10 @@ function parse_opts_2() {
 if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
-	tar -jxvf ${d0}/necros.tar.bz3
+	tar -jxvf ${d0}/nekros.tar.bz3
 
 	sleep 3
-	rm ${d0}/necros.tar.bz3
+	rm ${d0}/nekros.tar.bz3
 fi
 
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
@@ -126,9 +126,7 @@ function t2pc() {
 	${sharpy} docutils* dosfstools efibootmgr exfalso
 	t2p_filler
 
-
 	#HUOM.29925: daed kanssa poistuu hos poistuu libsouåp josqs g_doit jälkeen
-
 	#TODO:se librsvg-juttu daedaluksen kanssa? (mikä?)
 
 	#tikkujen kanssa paska tdstojärjestelmä exfat

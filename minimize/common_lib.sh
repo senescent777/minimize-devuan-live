@@ -6,6 +6,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+#HUOM.021025:näille main saattaa tulla muutox
 if [ -f /.chroot ] ; then
 	odio=""
 	debug=1
@@ -250,6 +251,13 @@ function efk2() {
 	csleep 1
 }
 
+#dpkg: dependency problems prevent configuration of libnl-route-3-200:amd64:
+# libnl-route-3-200:amd64 depends on libnl-3-200 (= 3.7.0-0.2+b1); however:
+#  Package libnl-3-200:amd64 is not installed.
+#
+#dpkg: error processing package libnl-route-3-200:amd64 (--install):
+# dependency problems - leaving unconfigured
+
 #HUOM.25725:chimaeran kanssa kosahti tablesin asennus, libnetfilter ja libnfnetlink liittyivät asiaan
 function common_tbls() {
 	dqb "COMMON TABLESD"
@@ -266,11 +274,12 @@ function common_tbls() {
 	csleep 1
 	psqa ${1}
 
-	#31525 uutena, josko tällä modulit kohdalleen (jotain pientä laittoa kaipaisi vielä 2kk myöhemmin?)
-	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/linux-modules*.deb
-	[ $? -eq 0 ] && ${NKVD} ${1}/linux-modules*.deb
-	[ $? -eq 0 ] && ${odio} modprobe nft #tässä vai vähän alempana?
-	#HUOM.olisikohan yo .jutut distro-spesifisiä jossain määrin?
+	##31525 uutena, josko tällä modulit kohdalleen (jotain pientä laittoa kaipaisi vielä 2kk myöhemmin?)
+	#${odio} DEBIAN_FRONTEND=noninteractive ${sdi} --force-confold -i ${1}/linux-modules*.deb
+	#[ $? -eq 0 ] && ${NKVD} ${1}/linux-modules*.deb
+	#[ $? -eq 0 ] && ${odio} modprobe nft #tässä vai vähän alempana?
+	##HUOM.olisikohan yo .jutut distro-spesifisiä jossain määrin?
+	##VAIH:josko nuo moduulijutut jemmaan? (021025:sitäpaitsi sq-chroot-ymp urputti komennosta dpkg)
 
 	#chimaera-spesifisiä seur 2, pois jos pykii
 	efk1 ${1}/libnfnet*.deb  #TARKKANA PRKL PAKETTIEN KANSSA
@@ -280,7 +289,7 @@ function common_tbls() {
 	csleep 1
 	#/chim
 
-	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/libip*.deb
+	${odio} DEBIAN_FRONTEND=noninteractive ${sdi} --force-confold -i ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
 
 	efk1 ${1}/libxtables*.deb
@@ -289,7 +298,7 @@ function common_tbls() {
 	efk1 ${1}/libnftnl*.deb 
 	csleep 1
 
-	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables_*.deb
+	${odio} DEBIAN_FRONTEND=noninteractive ${sdi} --force-confold -i ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
 	
 	csleep 1
@@ -312,11 +321,11 @@ function common_tbls() {
 	${odio} ${t} /etc/iptables/rules.v6.${d2}
 	csleep 1
 
-	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/netfilter-persistent*.deb
+	${odio} DEBIAN_FRONTEND=noninteractive ${sdi} --force-confold -i ${1}/netfilter-persistent*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables-persistent=1.0.20
-	${odio} DEBIAN_FRONTEND=noninteractive dpkg --force-confold -i ${1}/iptables-*.deb
+	${odio} DEBIAN_FRONTEND=noninteractive ${sdi} --force-confold -i ${1}/iptables-*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/iptables-*.deb
 
 	csleep 1
@@ -346,7 +355,7 @@ function check_binaries() {
 		fi
 	fi
 
-	if [ y"${ipt}" == "y" ] && [ ! -f /.chroot ] ; then
+	if [ y"${ipt}" == "y" ] ; then #&& [ ! -f /.chroot ] #kokeeksi vaihdettu näin 011025
 		[ z"${1}" == "z" ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
@@ -356,6 +365,7 @@ function check_binaries() {
 
 		echo "SHOULD INSTALL IPTABLES"
 		jules
+		sleep 6
 
 		#HUOM.olisikohan sittenkin suhteelliset polut tar:in sisällä helpompia?
 		#... tai jopspa jatkossa roiskisi /tmp alle
@@ -382,7 +392,7 @@ function check_binaries() {
 	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
 
 	local y
-	y="ifup ifdown apt-get apt ip netstat dpkg tar mount umount sha512sum dhclient" # kilinwittu.sh	
+	y="ifup ifdown apt-get apt ip netstat ${sdi} tar mount umount sha512sum dhclient" # kilinwittu.sh	
 	[ -f /.chroot ] || y="iptables ip6tables iptables-restore ip6tables-restore ${y}"
 	for x in ${y} ; do ocs ${x} ; done
 	
@@ -986,6 +996,9 @@ function part2_5() {
 }
 
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
+#pendency problems prevent configuration of bind9-dnsutils:
+# bind9-dnsutils depends on bind9-libs (= 1:9.18.33-1~deb12u2); however:
+#  Version of bind9-libs:amd64 on system is 1:9.18.16-1~deb12u1.
 
 function part3() {
 	dqb "part3 ${1} ${2}"
