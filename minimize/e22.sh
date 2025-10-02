@@ -550,7 +550,7 @@ function e22_arch() { #HUOM.30925:toimii
 	dqb "e22_arch d0n3"
 }
 
-function e22_tblz() { #TODO:testaa uusiksi
+function e22_tblz() { #VAIH:testaus
 
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
