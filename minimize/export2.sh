@@ -201,10 +201,11 @@ case ${mode} in
 		e22_prepare ${d}
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 0 ] ; then
+		if [ ${mode} -eq 0 ] ; then #HUOM.021025:$d alta ei löytynyt tai ei vedetty mukaan, korjaa (TODO)
 			e22_tblz ${d} ${iface} ${distro} ${dnsm} #VAIH:parametrien kanssa pientä laittoa
 			e22_pkgs ${d}/f.tar ${d} ${dnsm}
-			e22_prepare ${d} #kuinka oleellinen?
+#			e22_prepare ${d} #kuinka oleellinen?
+#
 			[ ${debug} -eq 1 ] && ls -las ${d}
 			csleep 5
 		fi

@@ -119,7 +119,7 @@ function e22_pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, mu
 }
 
 #HUOM.28725:vaikuttaisi toimivan
-function e22_prepare() {
+function e22_prepare() { #TODO:nimeäminen uudestaan
 	dqb " ${1} , ${2} , ${3}  "
 
 	if [ -d ${1} ] ; then
@@ -249,7 +249,7 @@ function luca() {
 	sleep 3
 }
 
-function e22_etc2() {
+function e22_etc2() { #TODO:nimeäminen TAAS
 	dqb "e22_etc2 ${1} ${2} ${3} ${4}"
 	csleep 1
 
@@ -337,7 +337,7 @@ function e22_etc2() {
 	csleep 1
 }
 
-function e22_etc1() {
+function e22_etc1() { #TODO:nimeäminen TAAS
 	dqb "e22_etc1 ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -463,9 +463,15 @@ function aswasw() { #privatti fktio
 	dqb " aswasw ${1} DONE"
 	csleep 1
 }
-function e22_vm() {
-	csleep 1		
+function e22_vm() { #toimiiko tämä?
+	dqb "e22_vm(${1})"
+	csleep 5
+		
 	${svm} ${pkgdir}/*.deb ${1}
+
+	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
+	dqb "E22_VM DONE"
+	csleep 5
 }
 
 function aval0n() { #prIvaattI
@@ -483,7 +489,7 @@ function e22_ts() {
 	${scm} 0644 ${1}/tim3stamp
 	${sco} $(whoami):$(whoami) ${1}/tim3stamp
 
-	#VAIH:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp
+	#VAIH:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp ?
 	date > ${1}/tim3stamp
 
 	dqb "E22TS DONE"
@@ -538,6 +544,7 @@ function e22_arch() { #HUOM.30925:toimii
 	cd ${2}
 	echo $?
 
+	#TODO:allekirjoitus-jutskat ?
 	${sah6} ./*.deb > ./sha512sums.txt
 	csleep 1
 	psqa .
@@ -687,10 +694,10 @@ function e22_pkgs() { #VAIH:testaile josqs että toimiiko
 		#VAIH:ao. blokki jonnekin muualle?
 		#csleep 1		
 		#${svm} ${pkgdir}/*.deb ${2}
-		e22_vm ${2}
+		e22_vm ${2} #TODO:toinen fktio käyttöön
 
-		#e22_arch ${1} ${2}
-		#csleep 1
+		e22_arch ${1} ${2}
+		csleep 1
 
 		e22_prepare ${2}
 	fi
