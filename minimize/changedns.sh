@@ -373,13 +373,13 @@ function clouds_case1_2() {
 function clouds_case0() {
 	dqb "cdns.clouds_case0()"
 
-	if [ y"${ipt}" == "y" ] ; then
-		dqb "SHOULD 1NSTALL TABL35"
-		exit 88
-	else
+#	if [ y"${ipt}" == "y" ] ; then
+#		dqb "SHOULD 1NSTALL TABL35"
+#		exit 88
+#	else
 		clouds_case0_0
 		clouds_case0_1
-	fi
+#	fi
 
 	clouds_case0_2
 }
@@ -387,12 +387,12 @@ function clouds_case0() {
 function clouds_case1() {
 	echo "WORK IN PROGRESS"
 
-	if [ y"${ipt}" == "y" ] ; then
-		echo "SHOULD 1NSTALL TABL35"
-	else
+#	if [ y"${ipt}" == "y" ] ; then
+#		echo "SHOULD 1NSTALL TABL35"
+#	else
 		clouds_case1_0
 		clouds_case1_1
-	fi
+#	fi
 
 	clouds_case1_2
 }
@@ -411,6 +411,7 @@ clouds_pre ${mode}
 #HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
 t=$(echo ${distro} | cut -d '/' -f 1 | tr -d -c a-z)
 [ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
+[ y"${ipt}" == "y" ] && exit 666
 
 case ${mode} in 
 	0)
