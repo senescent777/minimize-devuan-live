@@ -260,12 +260,23 @@ function efk2() {
 	csleep 1
 }
 
+#TODO:ao. nalqtuksen korjaus
 #dpkg: dependency problems prevent configuration of libnl-route-3-200:amd64:
 # libnl-route-3-200:amd64 depends on libnl-3-200 (= 3.7.0-0.2+b1); however:
 #  Package libnl-3-200:amd64 is not installed.
 #
 #dpkg: error processing package libnl-route-3-200:amd64 (--install):
 # dependency problems - leaving unconfigured
+
+function fromtend() {
+	local sdi2
+	sdi2=$(${odio} which dpkg)
+	dqb "FROMTEND"
+
+	if [ ! -f /.chroot ] ; then
+		${odio} DEBIAN_FRONTEND=noninteractive ${sdi2} --force-confold -i $@
+	fi
+}
 
 #HUOM.25725:chimaeran kanssa kosahti tablesin asennus, libnetfilter ja libnfnetlink liittyivät asiaan
 function common_tbls() {
@@ -284,7 +295,7 @@ function common_tbls() {
 	psqa ${1}
 
 	##31525 uutena, josko tällä modulit kohdalleen (jotain pientä laittoa kaipaisi vielä 2kk myöhemmin?)
-	#${odio} DEBIAN_FRONTEND=noninteractive ${sdi} --force-confold -i ${1}/linux-modules*.deb
+	#fromtend ${1}/linux-modules*.deb
 	#[ $? -eq 0 ] && ${NKVD} ${1}/linux-modules*.deb
 	#[ $? -eq 0 ] && ${odio} modprobe nft #tässä vai vähän alempana?
 	##HUOM.olisikohan yo .jutut distro-spesifisiä jossain määrin?
@@ -298,7 +309,7 @@ function common_tbls() {
 	csleep 1
 	#/chim
 
-	${odio} DEBIAN_FRONTEND=noninteractive ${sdi} --force-confold -i ${1}/libip*.deb
+	fromtend ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
 
 	efk1 ${1}/libxtables*.deb
@@ -307,7 +318,7 @@ function common_tbls() {
 	efk1 ${1}/libnftnl*.deb 
 	csleep 1
 
-	${odio} DEBIAN_FRONTEND=noninteractive ${sdi} --force-confold -i ${1}/iptables_*.deb
+	fromtend ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
 	
 	csleep 1
@@ -330,12 +341,12 @@ function common_tbls() {
 	${odio} ${t} /etc/iptables/rules.v6.${d2}
 	csleep 1
 
-	#TODO:fromtend-jekkua varten fktio koska urp
-	${odio} DEBIAN_FRONTEND=noninteractive ${sdi} --force-confold -i ${1}/netfilter-persistent*.deb
+	#VAIH:fromtend-jekkua varten fktio koska urp
+	fromtend ${1}/netfilter-persistent*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables-persistent=1.0.20
-	${odio} DEBIAN_FRONTEND=noninteractive ${sdi} --force-confold -i ${1}/iptables-*.deb
+	fromtend ${1}/iptables-*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/iptables-*.deb
 
 	csleep 1
