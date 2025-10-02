@@ -330,6 +330,7 @@ function common_tbls() {
 	${odio} ${t} /etc/iptables/rules.v6.${d2}
 	csleep 1
 
+	#TODO:fromtend-jekkua varten fktio koska urp
 	${odio} DEBIAN_FRONTEND=noninteractive ${sdi} --force-confold -i ${1}/netfilter-persistent*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
 
