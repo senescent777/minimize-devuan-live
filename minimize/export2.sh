@@ -309,7 +309,8 @@ case ${mode} in
 
 		#TODO:chroot-ympäristössä tarvitsisi kikkailua conf kanssa?
 		# tuossa ymp eri asetukset q live-kiekolla mutta toisaalta eri h mistotkin
-	
+		# ... jospa 	copy_conf()
+
 		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done
 		#T_DKNAME voisi jatkossa osoittaa esim /r/l/m/p/dgsts alle?
 		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname1}
