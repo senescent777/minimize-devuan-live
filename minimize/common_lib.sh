@@ -105,6 +105,7 @@ PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dn
 
 sdi=$(${odio} which dpkg)
 spd="${odio} ${sdi} -l "
+#TODO:näille main muutoksia, yo. mjien uudelleennimeäinen, ocs() ennen tähä blokkia+kutsu
 sdi="${odio} ${sdi} -i "
 
 sifu=$(${odio} which ifup)
@@ -148,17 +149,18 @@ function message() {
 }
 
 #laajempaan käyttöön?
-
+#HUOM.0301025:oli jotain urputusta riviltä 161
 function ocs() {
-	local tmp
-	tmp=$(${odio} which ${1})
+	dqb "ocs(${1} ) "
+	local tmp2
+	tmp2=$(${odio} which ${1})
 
-	if [ y"${tmp}" == "y" ] ; then
+	if [ y"${tmp2}" == "y" ] ; then
 		dqb "KAKKA-HÄTÄ ${1} "
 		exit 82
 	fi
 
-	if [ ! -x ${tmp} ] ; then
+	if [ ! -x ${tmp2} ] ; then
 		exit 77
 	fi
 }
@@ -183,7 +185,7 @@ function psqa() {
 		gv=$(${odio} which gpgv)
 
 		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-			dqb "TODO: ${gv} --keyring \${TARGET_Dpubkf} ${1}.sha.sig ${1} "
+			dqb "TODO: ${gv} --keyring \${TARGET_Dpubkf} ./sha512sums.sig ./sha512sums "
 		fi
 
 		cd ${p}
@@ -260,7 +262,7 @@ function efk2() {
 	csleep 1
 }
 
-#TODO:ao. nalqtuksen korjaus
+#VAIH:ao. nalqtuksen korjaus
 #dpkg: dependency problems prevent configuration of libnl-route-3-200:amd64:
 # libnl-route-3-200:amd64 depends on libnl-3-200 (= 3.7.0-0.2+b1); however:
 #  Package libnl-3-200:amd64 is not installed.
@@ -268,19 +270,20 @@ function efk2() {
 #dpkg: error processing package libnl-route-3-200:amd64 (--install):
 # dependency problems - leaving unconfigured
 
+#HUOM.031025:riippuvuusasia ehgjkä korjattu mutta dpkg saatava toimimaan taas
 function fromtend() {
 	local sdi2
 	sdi2=$(${odio} which dpkg)
-	dqb "FROMTEND"
+	dqb "FRöMTEND"
 
-	if [ ! -f /.chroot ] ; then
+#	if [ ! -f /.chroot ] ; then
 		${odio} DEBIAN_FRONTEND=noninteractive ${sdi2} --force-confold -i $@
-	fi
+#	fi
 }
 
 #HUOM.25725:chimaeran kanssa kosahti tablesin asennus, libnetfilter ja libnfnetlink liittyivät asiaan
 function common_tbls() {
-	dqb "COMMON TABLESD"
+	dqb "COMMON TABLESD ($1, $2)"
 	csleep 1
 
 	[ y"${1}" == "y" ] && exit	
@@ -318,6 +321,10 @@ function common_tbls() {
 	efk1 ${1}/libnftnl*.deb 
 	csleep 1
 
+	#uutena 031925 tämä linbl
+	efk1 ${1}/libnl-*.deb 
+	csleep 1
+
 	fromtend ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
 	
@@ -336,10 +343,12 @@ function common_tbls() {
 	#HUOM.31525:olisikohan moduleista kiinni että tässä tökkää?
 	#edelleen: "iptables v1.8.11 (legacy): can't itniialize iptables table `filter': Table does not exist (do you need to insmod?"
 	#modprobe nft -> FATAL: Module nftables not found in directory /lib/modules/6.12.27-amd64
-
-	${odio} ${s} /etc/iptables/rules.v4.${d2}
-	${odio} ${t} /etc/iptables/rules.v6.${d2}
-	csleep 1
+	
+	if [ ! -z ${d2} ] ; then
+		${odio} ${s} /etc/iptables/rules.v4.${d2}
+		${odio} ${t} /etc/iptables/rules.v6.${d2}
+		csleep 1
+	fi
 
 	#VAIH:fromtend-jekkua varten fktio koska urp
 	fromtend ${1}/netfilter-persistent*.deb
@@ -365,16 +374,16 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	#HUOM.28725:kenties helpompi olisi lisätä sha512sum allekirjoitus+sen tarkistus kuin kokonaan vivuta tar:in hommia esim. gpgtar:ille
-	if [ -x ${1}/../tar-wrapper.sh ] ; then 
-		dqb "TODO: tar-wrapper.sh" #josko vähitellen?
-	else
+#	#HUOM.28725:kenties helpompi olisi lisätä sha512sum allekirjoitus+sen tarkistus kuin kokonaan vivuta tar:in hommia esim. gpgtar:ille
+#	if [ -x ${1}/../tar-wrapper.sh ] ; then 
+#		dqb "TODO?: tar-wrapper.sh" #josko vähitellen?
+#	else
 		srat=$(${odio} which tar)
 		
 		if [ ${debug} -eq 1 ] ; then
 			srat="${srat} -v "
 		fi
-	fi
+#	fi
 
 	if [ y"${ipt}" == "y" ] ; then #&& [ ! -f /.chroot ] #kokeeksi vaihdettu näin 011025
 		[ z"${1}" == "z" ] && exit 99
@@ -413,6 +422,7 @@ function check_binaries() {
 	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
 
 	local y
+	#TODO:selvityä aiheuyuuko "-i" - urputus tuosta sdi:stä?
 	y="ifup ifdown apt-get apt ip netstat ${sdi} tar mount umount sha512sum dhclient" # kilinwittu.sh	
 	[ -f /.chroot ] || y="iptables ip6tables iptables-restore ip6tables-restore ${y}"
 	for x in ${y} ; do ocs ${x} ; done

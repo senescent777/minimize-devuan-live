@@ -176,7 +176,7 @@ e22_pre1 ${d} ${distro}
 #dqb "AFTER TAR"
 #csleep 1
 
-e22_hdr ${tgtfile}
+e22_hdr ${tgtfile} #tämö saattaa sitkea tapauksessa c
 
 case ${mode} in
 	0|4) #HUOM.021025:toimi ainakin kerran case 0
@@ -202,7 +202,7 @@ case ${mode} in
 		e22_cleanpkgs ${d}
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 0 ] ; then #HUOM.021025:$d alta ei löytynyt tai ei vedetty mukaan, korjaa (TODO)
+		if [ ${mode} -eq 0 ] ; then
 			e22_tblz ${d} ${iface} ${distro} ${dnsm} #VAIH:parametrien kanssa pientä laittoa
 			e22_pkgs ${d}/f.tar ${d} ${dnsm}
 #			e22_cleanpkgs ${d} #kuinka oleellinen?
@@ -246,14 +246,14 @@ case ${mode} in
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
-	e)  #TODO:testaa uusiksi josqs
+	e)  #TODO:testaa uusiksi lähiaikoina, tuleeko gog mukaan? siisi sittenq tietty blokki aktivoitu
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm} #VAIH:parametrien kanssa pientä laittoa
 			
 		e22_pkgs ${tgtfile} ${d} ${dnsm}
 	;;
-	f)  #HUOM.30925:jospa toimii, mv puuttui kutsivasta koodista yhdessä kohtaa
+	f)  #TODO:gpg-asioihin liittyen testaa että lisää arkistoon
 		e22_arch ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
@@ -288,7 +288,7 @@ case ${mode} in
 	;;
 	t) #HUOM.011025:testattu että tekee tar:in 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
-		#nimeämistä voisi miettiä...
+	
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
 			
@@ -296,11 +296,11 @@ case ${mode} in
 		csleep 6
 
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
-		#${svm} ${pkgdir}/*.deb ${d}
+		
 		e22_ts ${d}
 		e22_arch ${tgtfile} ${d}
 	;;
-	c) #uusi optio chroot-juttuja varten, vielä kenties pientä laittoa?
+	c) #uusi optio chroot-juttuja varten,melkein valmis käyttöön
 		[ z"${tgtfile}" == "z" ] && exit 99
 
 		#tähän se avainten lisäys vaiko erillinen case?
@@ -321,11 +321,11 @@ case ${mode} in
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
 		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
 
-
 		#... eli imp2 1 hoitanee k3yz purq, jos se riittäisi allek. av. kanssa että gpg --sb pääsee asiaan
 	;;
 	#HUOM.30925:taitaa jo toimia 
-	g)
+	g)  #TODO:gpg-asioihin liittyen testaa että lisää arkistoon
+	
 #		#TODO:jatkossa gpg-jutut tdstoon f.tar eli e2_pkgs muutettava?
 #		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 #
@@ -349,17 +349,13 @@ case ${mode} in
 	;;
 esac
 
-#VAIH:-> e22?
 if [ -s ${tgtfile} ] ; then
 #	${odio} touch ${tgtfile}.sha
 #	${sco} $(whoami):$(whoami) ${tgtfile}.sha
 #	${scm} 0644 ${tgtfile}.sha
 #
-
 #	${sah6} ${tgtfile} > ${tgtfile}.sha
 #	${sah6} -c ${tgtfile}.sha
-#
-
 
 	e22_ftr ${tgtfile}
 fi

@@ -476,8 +476,8 @@ function aswasw() { #privatti fktio
 #}
 
 function aval0n() { #prIvaattI
-	dqb "${sharpy} libavahi* #saattaa sotkea "
-	dqb "${NKVD} ${pkgdir}/libavahi* "	
+	dqb "${sharpy} libavahi* #saattaa sotkea ?"
+	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 }
 
 #vrt e22_vm()
@@ -560,7 +560,6 @@ function e22_arch() { #HUOM.30925:toimii
 }
 
 function e22_tblz() { #VAIH:testaus
-
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
 
@@ -575,14 +574,6 @@ function e22_tblz() { #VAIH:testaus
 
 	dqb "parx_ok"
 	csleep 3
-
-#	#VAIH:tämä+seur blokki erilliseksi fktioksi? tai siis...
-#	if [ z"${pkgdir}" != "z" ] ; then
-#		dqb "SHREDDED HUMANS"
-#		csleep 1
-#		${NKVD} ${pkgdir}/*.deb
-#	fi
-#josko toimisi ilmankin
 
 	dqb "EDIBLE AUTOPSY"
 	csleep 1
@@ -622,10 +613,9 @@ function e22_tblz() { #VAIH:testaus
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_pkgs() { #VAIH:testaile josqs että toimiiko
-	#voisi selvitellä miksi tulee tar:iin ylimääräisiä paketteja (vielä ajank 28925?)
-	#apt.conf.d asetuksia ei enää kunnioiteta/pakettien riippuvuudet muuttuneet/jäänyt hmistoon jämiä/jotainmuuta ?
-
+function e22_pkgs() { #TODO:varmista että gpg tulee mukaan nykyään
+	#TODO:uudelleennim, -> get_pkgs
+	#TODO:if [ -d ] - blokki kutsuvaan koodiin? 
 	dqb "e22_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 
@@ -633,17 +623,12 @@ function e22_pkgs() { #VAIH:testaile josqs että toimiiko
 	[ -d ${2} ] || exit 22
 	[ -z ${1} ] && exit 11
 	[ -z ${3} ] && exit 11
-#	[ -z ${4} ] && exit 11
 
 	dqb "paramz_ok"
 	csleep 1
-#	
-#	#jos sen debian.ethz.ch huomioisi jtnkin (muutenkin kuin uudella hmistolla?)
-#	#VAIH:josko e22_t kutsuvaan koodiin?
-#	e22_tblz ${2} ${4} ${3} ${dnsm} #VAIH:glob muutt wtt?
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
-	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf libc6 zlib1g		
+	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf #TODO:libc6 zlib1g		
 	#HUOM.28525:nalkutus alkoi jo tässä (siis ennenq libip4tc2-blokki siirretty)
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
@@ -673,9 +658,18 @@ function e22_pkgs() { #VAIH:testaile josqs että toimiiko
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
 	${shary} coreutils
-	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 zlib1g 
+	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 zlib1g #TODO:zlib1g vetäminen aiemmin?
 	${shary} git-man git
 
+#joskus tämäkin?
+#	if [ $SOME_CONFIG_OPTION ] ; then
+#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
+#		dqb "sudo apt-get update;sudo apt-get reinstall"
+#libreadline8 aiemmaksi? muutkin pak saattavat tarvita
+#		${shary} gpgconf libassuan0 libbz2-1.0 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 #libc6 jos aiemmin
+#		${shary} gpg #zlib1g jo aiemmin
+#	fi
+	
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
 	csleep 1
 	${lftr}
@@ -692,10 +686,6 @@ function e22_pkgs() { #VAIH:testaile josqs että toimiiko
 		udp6 ${pkgdir} 		
 		
 		#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
-
-		#VAIH:ao. blokki jonnekin muualle? kutsvaan koodiin?
-		#csleep 1		
-		#${svm} ${pkgdir}/*.deb ${2}
 
 		e22_ts ${2}
 		e22_arch ${1} ${2}
