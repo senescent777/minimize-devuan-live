@@ -162,24 +162,11 @@ e22_pre1 ${d} ${distro}
 
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 [ -x /opt/bin/changedns.sh ] || exit 59
-
-#HUOM.30925:ao blokin johdosta täytteiden lisääminen arkoistoihin saattaa olla turhaa
-#VAIH:->e22
-#dqb "BEFORE TAR"
-#csleep 1
-#${odio} touch ./rnd
-#${sco} ${n}:${n} ./rnd
-#${scm} 0644 ./rnd
-#dd if=/dev/random bs=12 count=1 > ./rnd
-#${srat} -cvf ${tgtfile} ./rnd
-#[ $? -gt 0 ] && exit 60
-#dqb "AFTER TAR"
-#csleep 1
-
 e22_hdr ${tgtfile} #tämö saattaa sitkea tapauksessa c
 
 case ${mode} in
 	0|4) #HUOM.021025:toimi ainakin kerran case 0
+	#041025 myös teki paketin, toimivuus varmistettava
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
@@ -353,12 +340,5 @@ case ${mode} in
 esac
 
 if [ -s ${tgtfile} ] ; then
-#	${odio} touch ${tgtfile}.sha
-#	${sco} $(whoami):$(whoami) ${tgtfile}.sha
-#	${scm} 0644 ${tgtfile}.sha
-#
-#	${sah6} ${tgtfile} > ${tgtfile}.sha
-#	${sah6} -c ${tgtfile}.sha
-
 	e22_ftr ${tgtfile}
 fi
