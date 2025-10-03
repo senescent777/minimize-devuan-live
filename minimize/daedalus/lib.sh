@@ -21,13 +21,17 @@ function c5p() { #joskohan jo toimisi (28925)
 #
 #	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
 #	#g_pt2 poistaa cryptsetup-pakettei
-#	
+#
 #	#tästä eteenpäin jos selvittäisi noiden pakettien tilanteen, piostuuko jossain jnkn sivuvakutuksebna?
 #	${NKVD} ${1}/libcrypt* #ei uskalla poistaa aptilla
 #	#${NKVD} ${1}/libdevmapper* #asennettuna 28925?
 #	#${NKVD} ${1}/libsoup* #eiole
 
 #	#HUOM.19725:librsvg2 poisto poistaa jnkn verran pak, mm task-desktop, task-xfce-desktop
+
+	#uutena 031025
+	${NKVD} ${1}/initramfs*
+	${NKVD} ${1}/live*
 
 	dqb "...is over"
 	csleep 1
