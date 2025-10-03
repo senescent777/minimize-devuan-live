@@ -683,12 +683,6 @@ function e22_get_pkgs() { #HUOM.041025:varmistettu että gpg tulee mukaan nykyä
 	dqb "BEFORE UPD6"	
 	csleep 1
 
-	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä -24
-	#... myös gpgtar pitäisi ottaa haltuun
-	if [ -d ${2} ] ; then
-		
-	fi
-
 	dqb "e22_get_pkgs donew"
 	csleep 1
 }
