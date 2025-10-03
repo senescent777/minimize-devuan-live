@@ -242,7 +242,7 @@ case ${mode} in
 			
 		e22_get_pkgs ${tgtfile} ${d} ${dnsm}
 	;;
-	f)  #TODO:gpg-asioihin liittyen testaa että lisää arkistoon
+	f)  #HUOM.041025:toimii
 		e22_arch ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
@@ -314,7 +314,7 @@ case ${mode} in
 		#... eli imp2 1 hoitanee k3yz purq, jos se riittäisi allek. av. kanssa että gpg --sb pääsee asiaan
 	;;
 	#HUOM.30925:taitaa jo toimia 
-	g)  #gpg-asioihin liittyen testaa että lisää arkistoon
+	g)  #gpg-asioihin liittyen testaa että lisää arkistoon?
 	
 #		#TODO:jatkossa gpg-jutut tdstoon f.tar eli e2_pkgs muutettava?
 #		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
@@ -323,13 +323,12 @@ case ${mode} in
 #		e22_cleanpkgs ${d}
 #		e22_cleanpkgs ${pkgdir}
 #
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-#		dqb "sudo apt-get update;sudo apt-get reinstall"
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
+		dqb "sudo apt-get update;sudo apt-get reinstall"
 
 		#TODO:kasaa rimpsu jhnkin muuttujaan ni ei tartte renkata
 		echo "${shary} gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
-#		${svm} ${pkgdir}/*.deb ${d}
-#
+		echo "${svm} ${pkgdir}/*.deb ${d}"
 		echo "$0 f ${tgtfile} ${distro}"
 	;;
 	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata

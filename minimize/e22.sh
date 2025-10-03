@@ -95,6 +95,7 @@ function e22_pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, mu
 	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then
 		dqb "PRKL"
 
+		#tuota skrptiä renkataan mutta silti dns pykii, miksi?
 		${odio} /opt/bin/changedns.sh ${par4} ${ortsac}
 		echo $?
 		csleep 1
