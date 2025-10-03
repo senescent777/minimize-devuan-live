@@ -183,9 +183,11 @@ case ${mode} in
 		dqb "srat= ${srat}"
 		csleep 5
 
-		#TODO:se hdr-fktio?
-		dd if=/dev/random bs=12 count=1 > ./rnd
-		${srat} -cvf ${d}/f.tar ./rnd
+		#VAIH:se hdr-fktio?
+		#dd if=/dev/random bs=12 count=1 > ./rnd
+		#${srat} -cvf ${d}/f.tar ./rnd
+
+		e22_hdr ${d}/f.tar
 		e22_cleanpkgs ${d}
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
@@ -312,7 +314,7 @@ case ${mode} in
 		#... eli imp2 1 hoitanee k3yz purq, jos se riittäisi allek. av. kanssa että gpg --sb pääsee asiaan
 	;;
 	#HUOM.30925:taitaa jo toimia 
-	g)  #TODO:gpg-asioihin liittyen testaa että lisää arkistoon
+	g)  #gpg-asioihin liittyen testaa että lisää arkistoon
 	
 #		#TODO:jatkossa gpg-jutut tdstoon f.tar eli e2_pkgs muutettava?
 #		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
