@@ -246,7 +246,7 @@ case ${mode} in
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
-	e)  #TODO:testaa uusiksi lähiaikoina, tuleeko gog mukaan? siisi sittenq tietty blokki aktivoitu
+	e)  #HUOM.041025:tekee paketin missä gpg-aiheiset .deb mukana
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm} #VAIH:parametrien kanssa pientä laittoa
@@ -336,6 +336,8 @@ case ${mode} in
 #
 #		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 #		dqb "sudo apt-get update;sudo apt-get reinstall"
+
+		#TODO:kasaa rimpsu jhnkin muuttujaan ni ei tartte renkata
 		echo "${shary} gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
 #		${svm} ${pkgdir}/*.deb ${d}
 #

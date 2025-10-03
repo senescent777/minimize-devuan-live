@@ -614,7 +614,9 @@ function e22_tblz() { #VAIH:testaus
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_pkgs() { #TODO:varmista että gpg tulee mukaan nykyään
+function e22_pkgs() { #HUOM.041025:varmistettu että gpg tulee mukaan nykyään
+	debug=1
+
 	#TODO:uudelleennim, -> get_pkgs
 	#TODO:if [ -d ] - blokki kutsuvaan koodiin? 
 	dqb "e22_pkgs ${1} , ${2} , ${3} , ${4} "
@@ -665,10 +667,12 @@ function e22_pkgs() { #TODO:varmista että gpg tulee mukaan nykyään
 #joskus tämäkin?
 #	if [ $SOME_CONFIG_OPTION ] ; then
 #		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-#		dqb "sudo apt-get update;sudo apt-get reinstall"
+		dqb "GOG"
 #libreadline8 aiemmaksi? muutkin pak saattavat tarvita
-#		${shary} gpgconf libassuan0 libbz2-1.0 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 #libc6 jos aiemmin
-#		${shary} gpg #zlib1g jo aiemmin
+		${shary} gpgconf libassuan0 libbz2-1.0 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 #libc6 jos aiemmin
+		${shary} gpg #zlib1g jo aiemmin
+		dqb "MAGOG"
+		csleep 5
 #	fi
 	
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"

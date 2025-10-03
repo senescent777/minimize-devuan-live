@@ -131,7 +131,7 @@ ocs dpkg
 sd0=$(${odio} which dpkg)
 unset sdi #tekeeko tämä jotain? kyl , kts check_bin() ,, "second half"
 echo "SFDSFDSFDSFDSFDSFDSFDSFDS"
-sleep 6
+sleep 3
 
 sifu=$(${odio} which ifup)
 sifd=$(${odio} which ifdown)
