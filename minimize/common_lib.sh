@@ -103,7 +103,7 @@ NKVD="${odio} ${NKVD} "
 #PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
 PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
 
-echo "#HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!"
+#HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!
 #sdi=$(${odio} which dpkg)
 #spd="${odio} ${sdi} -l " #jäänyt turhaksi muuten mutta g_pt2
 #sdi="${odio} ${sdi} -i "
@@ -308,13 +308,6 @@ function common_tbls() {
 	csleep 1
 	psqa ${1}
 
-	##31525 uutena, josko tällä modulit kohdalleen (jotain pientä laittoa kaipaisi vielä 2kk myöhemmin?)
-	#fromtend ${1}/linux-modules*.deb
-	#[ $? -eq 0 ] && ${NKVD} ${1}/linux-modules*.deb
-	#[ $? -eq 0 ] && ${odio} modprobe nft #tässä vai vähän alempana?
-	##HUOM.olisikohan yo .jutut distro-spesifisiä jossain määrin?
-	##VAIH:josko nuo moduulijutut jemmaan? (021025:sitäpaitsi sq-chroot-ymp urputti komennosta dpkg)
-
 	#chimaera-spesifisiä seur 2, pois jos pykii
 	efk1 ${1}/libnfnet*.deb  #TARKKANA PRKL PAKETTIEN KANSSA
 	csleep 1
@@ -351,10 +344,6 @@ function common_tbls() {
 	s=$(${odio} which iptables-restore)
 	t=$(${odio} which ip6tables-restore)
 
-	#HUOM.31525:olisikohan moduleista kiinni että tässä tökkää?
-	#edelleen: "iptables v1.8.11 (legacy): can't itniialize iptables table `filter': Table does not exist (do you need to insmod?"
-	#modprobe nft -> FATAL: Module nftables not found in directory /lib/modules/6.12.27-amd64
-	
 	if [ ! -z ${d2} ] ; then
 		${odio} ${s} /etc/iptables/rules.v4.${d2}
 		${odio} ${t} /etc/iptables/rules.v6.${d2}

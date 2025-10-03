@@ -422,7 +422,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#HUOM.30925:toiminee tämä case
+		#TODO:selvitä&korjaa tämä case
 		[ x"${srcfile}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 1

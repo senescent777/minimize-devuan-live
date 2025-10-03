@@ -699,7 +699,7 @@ function e22_pkgs() { #TODO:varmista että gpg tulee mukaan nykyään
 	csleep 1
 }
 
-function e22_settings2() { #HUOM.020825:testattu sen verran että tekee tar:in , myös polq hukattu
+function e22_settings2() { #HUOM.041025:testattu sen verran että tekee tar:in 
 	dqb "e22_settings2 ${1} ${2}"
 
 	[ -z ${1} ] && exit 99

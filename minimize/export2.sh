@@ -239,7 +239,7 @@ case ${mode} in
 		e22_cleanpkgs ${d}
 		e22_upgp ${tgtfile} ${d} ${iface} ${dnsm}
 	;;
-	p) #HUOM.011025:testattu sen verran että tekee tar:in (myös polku hukattu)
+	p) #HUOM.031025:tekee paketin missä profs.sh
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
@@ -257,7 +257,8 @@ case ${mode} in
 		e22_arch ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-	q) #HUOM.011025:teki paketin
+	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi?
+	q) #HUOM.031025:tekee paketin, siitä eteenpäin vähän auki
 		#jos vähän roiskisi casen sisältöä -> e22 ?
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
@@ -286,7 +287,7 @@ case ${mode} in
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
-	t) #HUOM.011025:testattu että tekee tar:in 
+	t) #HUOM.031025:testattu että tekee tar:in 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 	
 		e22_cleanpkgs ${d}
@@ -313,7 +314,7 @@ case ${mode} in
 		# tuossa ymp eri asetukset q live-kiekolla mutta toisaalta eri h mistotkin
 	
 		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done
-		#TODO:T_DKNAME voisi jatkossa osoittaa esim /r/l/m/p/dgsts alle
+		#T_DKNAME voisi jatkossa osoittaa esim /r/l/m/p/dgsts alle?
 		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname1}
 		[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname2}
 		bzip2 ${tgtfile}
