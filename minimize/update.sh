@@ -146,7 +146,7 @@ if [ -f ${tgt} ] ; then
 
 	#pitäisi kai tehdä jotain että tuoreimmat muutokset /e/n ja /e/a menevät tar:iin asti? typojen korjaus olisi hyvä alku
 
-	#TODO:/e/n- ja /e/a-kohdat uusiksi jatkossa (liittyiköhän se luca?)
+	#TODO:/e/n- ja /e/a-kohdat uusiksi jatkossa? (liittyiköhän se luca?)
 	if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then
 		#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
 		for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
@@ -156,8 +156,12 @@ if [ -f ${tgt} ] ; then
 		sleep 2
 	fi
 
+	#uutena 031025, siltä varalta että paska osuu tuulettimeem niinqu
+	for f in $(find  /etc/wpa_supplicant/ -type f) ; do process_entry ${tgt} ${f} ; done
+
 	#HUOM.saattaa urputtaa $tgt polusta riippuen
 	#HUOM.2:miten toimii omegan ajon jälkeen?
+	#HUOM.3:oli jotain urputusta näillä main 031025
 
 	sudo touch ${tgt}.sha
 	${scm} 0666 ${tgt}.sha
