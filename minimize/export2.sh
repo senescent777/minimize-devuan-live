@@ -204,7 +204,7 @@ case ${mode} in
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then
 			e22_tblz ${d} ${iface} ${distro} ${dnsm} #VAIH:parametrien kanssa pientä laittoa
-			e22_pkgs ${d}/f.tar ${d} ${dnsm}
+			e22_get_pkgs ${d}/f.tar ${d} ${dnsm}
 			e22_cleanpkgs ${d} #kuinka oleellinen?
 
 			[ ${debug} -eq 1 ] && ls -las ${d}
@@ -251,7 +251,7 @@ case ${mode} in
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm} #VAIH:parametrien kanssa pientä laittoa
 			
-		e22_pkgs ${tgtfile} ${d} ${dnsm}
+		e22_get_pkgs ${tgtfile} ${d} ${dnsm}
 	;;
 	f)  #TODO:gpg-asioihin liittyen testaa että lisää arkistoon
 		e22_arch ${tgtfile} ${d}

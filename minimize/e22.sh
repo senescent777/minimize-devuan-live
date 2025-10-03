@@ -614,12 +614,11 @@ function e22_tblz() { #VAIH:testaus
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_pkgs() { #HUOM.041025:varmistettu että gpg tulee mukaan nykyään
+function e22_get_pkgs() { #HUOM.041025:varmistettu että gpg tulee mukaan nykyään
 	debug=1
 
-	#TODO:uudelleennim, -> get_pkgs
 	#TODO:if [ -d ] - blokki kutsuvaan koodiin? 
-	dqb "e22_pkgs ${1} , ${2} , ${3} , ${4} "
+	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 
 	[ -z ${2} ] && exit 11
@@ -699,7 +698,7 @@ function e22_pkgs() { #HUOM.041025:varmistettu että gpg tulee mukaan nykyään
 		e22_cleanpkgs ${2}
 	fi
 
-	dqb "e22_pkgs donew"
+	dqb "e22_get_pkgs donew"
 	csleep 1
 }
 
