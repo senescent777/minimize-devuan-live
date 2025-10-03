@@ -35,7 +35,7 @@ function c5p() { #joskohan jo toimisi (28925)
 
 function reficul() {
 	#debug=1
-	dqb "NATTA5H3AD öVERDR1V 666!"
+	dqb "NATTA5H3AD öVERDR1V 666! (a.k.a pr4.libs ?)"
 	csleep 5
 
 	efk1 ${1}/gcc-12*.deb ${1}/libgcc-s1*.deb
@@ -266,7 +266,7 @@ function pre_part2() {
 	dqb "daud.pre_part2()"
 	csleep 2
 
-	#${odio} /etc/init.d/ntpd stop
+	${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
 
 	for f in $(find /etc/init.d -type f -name 'ntp*') ; do 
