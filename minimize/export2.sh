@@ -93,7 +93,7 @@ else
 	exit 57
 fi
 
-dqb "tar = ${srat} "
+dqb "tar = ${srat} " #HUOM.031025:tämän komennon kanssa saattaa tulla säätöä seuraavaksi
 
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
@@ -205,8 +205,8 @@ case ${mode} in
 		if [ ${mode} -eq 0 ] ; then
 			e22_tblz ${d} ${iface} ${distro} ${dnsm} #VAIH:parametrien kanssa pientä laittoa
 			e22_pkgs ${d}/f.tar ${d} ${dnsm}
-#			e22_cleanpkgs ${d} #kuinka oleellinen?
-#
+			e22_cleanpkgs ${d} #kuinka oleellinen?
+
 			[ ${debug} -eq 1 ] && ls -las ${d}
 			csleep 5
 		fi

@@ -103,10 +103,35 @@ NKVD="${odio} ${NKVD} "
 #PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
 PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
 
-sdi=$(${odio} which dpkg)
-spd="${odio} ${sdi} -l "
-#TODO:näille main muutoksia, yo. mjien uudelleennimeäinen, ocs() ennen tähä blokkia+kutsu
-sdi="${odio} ${sdi} -i "
+echo "#HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!"
+#sdi=$(${odio} which dpkg)
+#spd="${odio} ${sdi} -l " #jäänyt turhaksi muuten mutta g_pt2
+#sdi="${odio} ${sdi} -i "
+sleep 6
+
+#VAIH:näille main muutoksia, yo. mjien uudelleennimeäinen, ocs() ennen tähä blokkia+kutsu
+#laajempaan käyttöön?
+#HUOM.0301025:oli jotain urputusta riviltä 161
+function ocs() {
+	dqb "ocs(${1} ) "
+	local tmp2
+	tmp2=$(${odio} which ${1})
+
+	if [ y"${tmp2}" == "y" ] ; then
+		dqb "KAKKA-HÄTÄ ${1} "
+		exit 82
+	fi
+
+	if [ ! -x ${tmp2} ] ; then
+		exit 77
+	fi
+}
+
+ocs dpkg
+sd0=$(${odio} which dpkg)
+unset sdi #tekeeko tämä jotain? kyl , kts check_bin() ,, "second half"
+echo "SFDSFDSFDSFDSFDSFDSFDSFDS"
+sleep 6
 
 sifu=$(${odio} which ifup)
 sifd=$(${odio} which ifdown)
@@ -146,23 +171,6 @@ function message() {
 	sleep 1
 	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS"
 	sleep 1
-}
-
-#laajempaan käyttöön?
-#HUOM.0301025:oli jotain urputusta riviltä 161
-function ocs() {
-	dqb "ocs(${1} ) "
-	local tmp2
-	tmp2=$(${odio} which ${1})
-
-	if [ y"${tmp2}" == "y" ] ; then
-		dqb "KAKKA-HÄTÄ ${1} "
-		exit 82
-	fi
-
-	if [ ! -x ${tmp2} ] ; then
-		exit 77
-	fi
 }
 
 #laajempaan käyttöön? miksi?
@@ -253,6 +261,7 @@ function efk1() {
 function efk2() {
 	dqb "efk2( $@)"
 
+	#koita katsoa ettei käy: sudo sudo tar
 	if [ -s ${1} ] && [ -r ${1} ] ; then
 		${odio} ${srat} -C ${2} -xf ${1}
 	else
@@ -272,13 +281,15 @@ function efk2() {
 
 #HUOM.031025:riippuvuusasia ehgjkä korjattu mutta dpkg saatava toimimaan taas
 function fromtend() {
-	local sdi2
-	sdi2=$(${odio} which dpkg)
+#	local sdi2
+#	sdi2=$(${odio} which dpkg)
 	dqb "FRöMTEND"
 
 #	if [ ! -f /.chroot ] ; then
-		${odio} DEBIAN_FRONTEND=noninteractive ${sdi2} --force-confold -i $@
+		${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
 #	fi
+	
+	dqb "DNÖE"
 }
 
 #HUOM.25725:chimaeran kanssa kosahti tablesin asennus, libnetfilter ja libnfnetlink liittyivät asiaan
@@ -384,6 +395,17 @@ function check_binaries() {
 			srat="${srat} -v "
 		fi
 #	fi
+	
+	local y
+	debug=1
+
+	y="ifup ifdown apt-get apt ip netstat ${sd0} tar mount umount sha512sum dhclient" # kilinwittu.sh	
+	for x in ${y} ; do ocs ${x} ; done
+	dqb "JUST BEFORE"
+	csleep 6
+
+	spd="${sd0} -l " #jäänyt turhaksi muuten mutta g_pt2
+	sdi="${odio} ${sd0} -i "
 
 	if [ y"${ipt}" == "y" ] ; then #&& [ ! -f /.chroot ] #kokeeksi vaihdettu näin 011025
 		[ z"${1}" == "z" ] && exit 99
@@ -421,12 +443,15 @@ function check_binaries() {
 	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
 	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
 
-	local y
-	#TODO:selvityä aiheuyuuko "-i" - urputus tuosta sdi:stä?
-	y="ifup ifdown apt-get apt ip netstat ${sdi} tar mount umount sha512sum dhclient" # kilinwittu.sh	
-	[ -f /.chroot ] || y="iptables ip6tables iptables-restore ip6tables-restore ${y}"
-	for x in ${y} ; do ocs ${x} ; done
-	
+	#VAIH:selvityä aiheuyuuko "-i" - urputus tuosta sdi:stä?
+	#[ -v sdi ] || exit 666
+	[ -v sd0 ] || exit 666
+ 	[ -v sdi ] || exit 667
+
+	#[ -f /.chroot ] || y="${y}"
+	for x in iptables ip6tables iptables-restore ip6tables-restore  ; do ocs ${x} ; done
+	csleep 6
+
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
 	som=$(${odio} which mount)
@@ -440,6 +465,7 @@ function check_binaries() {
 function check_binaries2() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2()"
 	csleep 1
+	[ -v sd0 ] || exit 666 #sdi 
 
 	ipt="${odio} ${ipt} "
 	ip6t="${odio} ${ip6t} "
@@ -458,7 +484,7 @@ function check_binaries2() {
 	
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* " #distro-kohtainen jatkossa
 	
-	srat="${odio} ${srat} "
+	#srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
 	fib="${odio} ${sa} --fix-broken install "
 	som="${odio} ${som} "
@@ -540,6 +566,8 @@ function dinf() {
 	#exit
 }
 
+#HUOM:initramfs-tools ja live-boot, nämä paketit aiheuttavat ulinaa 031025
+
 function pre_enforce() {
 	dqb "common_lib.pre_enforce( ${1} )"
 	local q
@@ -555,7 +583,6 @@ function pre_enforce() {
 
 	[ -f ${q}/meshuggah ] || exit 33
 	dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
-
 	[ -d /opt/bin ] || ${odio} mkdir /opt/bin
 	
 	[ -f ${1}/changedns.sh ] && ${svm} ${1}/changedns.sh /opt/bin
@@ -1055,7 +1082,7 @@ function part3() {
 #	[ $? -eq 0 ] || echo "SHOULD exit 67"	
 #	csleep 1
 
-	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done
+	for f in $(find ${1} -name 'lib*.deb') ; do ${sdi} ${f} ; done #tilapäisesti jemmassa 031025
 
 	if [ $? -eq  0 ] ; then
                dqb "part3.1 ok"
@@ -1067,7 +1094,7 @@ function part3() {
 	
 	dqb "LIBS DONE"
 	csleep 6
-	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
+	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done #tilap jemm 031025
 	
 	if [ $? -eq  0 ] ; then
 		dqb "part3.2 ok"

@@ -302,8 +302,9 @@ function e22_elocal() {
 			#tätä koko fktiota ei ajeta jos x ni ei ole ihan pakko kikkailla
 			#... tai miten lienee			
 
-			[ ${debug} -eq 1 ] && echo "APW";sleep 3
-			${srat} -rvf ${1} /etc/wpa_supplicant/*.conf
+			dqb"APW"
+			csleep 3
+			${srat} -rvf ${1} /etc/wpa_supplicant #/*.conf
 			${srat} -tf ${1} | grep wpa
 			csleep 3
 		;;

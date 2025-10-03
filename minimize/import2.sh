@@ -74,6 +74,7 @@ if [ -x ${d0}/common_lib.sh ] ; then #saattaa jo toimia chroot-ymp sisällä
 	#... saattaa olla että sq-chroot:in sisällä ei tarvitsekaan:import2.sh mutta väHän kätevänPI ehgkä
 	. ${d0}/common_lib.sh
 else
+	#TODO:jospa testaisi miten tämä haara toimaa nykyään (031025)
 	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston"
 	srat="sudo /bin/tar" #which mukaan?
 	som="sudo /bin/mount"
@@ -181,10 +182,11 @@ fi
 
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
+#srat="${odio} ${srat}"
 
 if [ ! -f /.chroot ] ; then
 	if [ ! -s /OLD.tar ] ; then
-		${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
+		${odio} ${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 	fi
 fi
 
@@ -243,6 +245,9 @@ function common_part() {
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-5) #tr mukaan?
 	#HUOM.25725:voi periaatteessa mennä metsään tuo $t josqs, mutta tuleeko käytännössä sellaista tilannetta vastaan?
+
+	#HUOM.031025:omstajuuksia ja käyttöoikeuksia joutuu silti renkkaamaan
+	#... pitäisi varmaan kutsua e_acc aina
 
 	if [ -x ${t}/common_lib.sh ] ; then
 		enforce_access ${n} ${t} 
@@ -412,7 +417,7 @@ case "${mode}" in
 		part3 ${d} ${dnsm}
 		other_horrors
 		csleep 1
-
+		
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
