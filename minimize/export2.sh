@@ -194,8 +194,12 @@ case ${mode} in
 		if [ ${mode} -eq 0 ] ; then
 			e22_tblz ${d} ${iface} ${distro} ${dnsm} #VAIH:parametrien kanssa pientä laittoa
 			e22_get_pkgs ${d}/f.tar ${d} ${dnsm}
-			e22_cleanpkgs ${d} #kuinka oleellinen?
+	
+			if [ -d ${d} ] ; then
+				e22_dblock ${d}/f.tar ${d}
+			fi
 
+			e22_cleanpkgs ${d} #kuinka oleellinen?
 			[ ${debug} -eq 1 ] && ls -las ${d}
 			csleep 5
 		fi
@@ -235,12 +239,16 @@ case ${mode} in
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.041025:tekee paketin missä gpg-aiheiset .deb mukana
+	e)  #HUOM.041025:ainakin josqs teki paketin missä gpg-aiheiset .deb mukana
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm} #VAIH:parametrien kanssa pientä laittoa
 			
 		e22_get_pkgs ${tgtfile} ${d} ${dnsm}
+
+		if [ -d ${d} ] ; then
+			e22_dblock ${d}/f.tar ${d}
+		fi
 	;;
 	f)  #HUOM.041025:toimii
 		e22_arch ${tgtfile} ${d}

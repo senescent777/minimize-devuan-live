@@ -618,7 +618,7 @@ function e22_tblz() { #VAIH:testaus
 function e22_get_pkgs() { #HUOM.041025:varmistettu että gpg tulee mukaan nykyään
 	debug=1
 
-	#TODO:if [ -d ] - blokki kutsuvaan koodiin? 
+	#VAIH:if [ -d ] - blokki kutsuvaan koodiin? 
 	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 
@@ -686,21 +686,25 @@ function e22_get_pkgs() { #HUOM.041025:varmistettu että gpg tulee mukaan nykyä
 	#HUOM. jos aikoo gpg'n tuoda takaisin ni jotenkin fiksummin kuin aiempi häsläys kesällä -24
 	#... myös gpgtar pitäisi ottaa haltuun
 	if [ -d ${2} ] ; then
-		pwd
-		csleep 1
-		udp6 ${pkgdir} 		
 		
-		#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
-
-		e22_ts ${2}
-		e22_arch ${1} ${2}
-		csleep 1
-
-		e22_cleanpkgs ${2}
 	fi
 
 	dqb "e22_get_pkgs donew"
 	csleep 1
+}
+
+function e22_dblock() {
+	pwd
+	csleep 1
+	udp6 ${pkgdir} 		
+		
+	#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
+
+	e22_ts ${2}
+	e22_arch ${1} ${2}
+	csleep 1
+
+	e22_cleanpkgs ${2}
 }
 
 function e22_settings2() { #HUOM.041025:testattu sen verran että tekee tar:in 
