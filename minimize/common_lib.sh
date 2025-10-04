@@ -6,7 +6,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#HUOM.021025:näille main saattaa tulla muutox
+#HUOM.021025:näille main saattaa tulla muutox?
 if [ -f /.chroot ] ; then
 	odio=""
 	debug=1
@@ -82,7 +82,15 @@ sco="${odio} ${sco} "
 scm="${odio} ${scm} "	
 #HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
 sah6=$(${odio} which sha512sum)
+
+#TODO:sd0 ja srat alustukset näille main jatrkossa?
+#TODO:komentorivin parsetyukseen liittyviä juttujamyöskin olisi...
+# (ennen parse_opts määrittelyä olisi $distro/conf ja täts it, voinee sen chroot-jekun kyllä ennen)
+#... ja jotain matskua voisi siirtää riippuvista skripteistä kirjastoon?
 	
+
+#f_s ja o_h  kutsut jo tässä?
+
 slinky=$(${odio} which ln)
 slinky="${odio} ${slinky} -s "
 spc=$(${odio} which cp)
@@ -201,7 +209,7 @@ function psqa() {
 		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 			dqb "${gv} --keyring \${TARGET_Dpubkf} ./sha512sums.sig ./sha512sums in 3 secs"
 			csleep 3
-			${gv} --keyring \${TARGET_Dpubkf} ./sha512sums.sig ./sha512sums
+			${gv} --keyring ${TARGET_Dpubkf} ./sha512sums.sig ./sha512sums
 			csleep 3
 		fi
 
@@ -273,6 +281,7 @@ function efk2() {
 	#koita katsoa ettei käy: sudo sudo tar
 	if [ -s ${1} ] && [ -r ${1} ] ; then
 		${odio} ${srat} -C ${2} -xf ${1}
+		#HUOM.0421025:jatkossa se sd0-kikkailu tar:in kanssa myös?
 	else
 		dqb "WE NEED T0 TALK ABT ${1}"
 	fi	
@@ -280,31 +289,28 @@ function efk2() {
 	csleep 1
 }
 
-#VAIH:ao. nalqtuksen korjaus
-#dpkg: dependency problems prevent configuration of libnl-route-3-200:amd64:
-# libnl-route-3-200:amd64 depends on libnl-3-200 (= 3.7.0-0.2+b1); however:
-#  Package libnl-3-200:amd64 is not installed.
-#
-#dpkg: error processing package libnl-route-3-200:amd64 (--install):
-# dependency problems - leaving unconfigured
+#HUOM.041025:josqo libnl-asiat kunnossa jo
 
 #HUOM.031025:riippuvuusasia ehgjkä korjattu mutta dpkg saatava toimimaan taas
-#HUOM.041025:chroot.ympäristössä tietenkin se ympäristömja sudotuksern yht ongelma, keksisikö jotain
+#HUOM.041025:chroot.ympäristössä tietenkin se ympäristömja sudotuksern yht ongelma, keksisikö jotain (KVG)
 function fromtend() {
-	local sdi2
-	sdi2=$(${odio} which dpkg)
+#	local sdi2
+#	sdi2=$(${odio} which dpkg) #qsee?
 	dqb "FRöMTEND"
 
 	[ -v sd0 ] || exit 99
 	[ -z ${sd0} ] && exit 98
 	[ -x ${sd0} ] || exit 97
+
 #josko sd0 kohta...
-#	if [ ! -f /.chroot ] ; then
-		dqb "${odio} DEBIAN_FRONTEND=noninteractive ${sdi2} --force-confold -i $@"
-		${odio} DEBIAN_FRONTEND=noninteractive ${sdi2} --force-confold -i $@
-		csleep 3
-#	fi
-	
+	if [ ! -f /.chroot ] ; then
+		dqb "${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@"
+		${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
+	else #-haara tähän jos ei nalqtus lopu?
+		${odio} ${sd0} --force-confold -i $@
+	fi
+
+	csleep 3
 	dqb "DNÖE"
 }
 
@@ -413,7 +419,7 @@ function check_binaries() {
 	sdi="${odio} ${sd0} -i "
 
 	#HUOM.041025:chrot.ympäristössä fromtendin kanssa ongelma joten skipataan tblz asennus silloin
-	if [ y"${ipt}" == "y" ] && [ ! -f /.chroot ] ; then # #kokeeksi vaihdettu näin 041025
+	if [ y"${ipt}" == "y" ] ; then #  && [ ! -f /.chroot ]#KOITA NYT LOTOTA SE EHTO
 		[ z"${1}" == "z" ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
@@ -432,6 +438,7 @@ function check_binaries() {
 		efk2 ${1}/f.tar ${1}
 
 		pre_part3_clib ${1} #HUOM.25725:tarvitaan
+		[ -f /.chroot ] && message
 		common_tbls ${1} ${dnsm}
 		other_horrors
 
@@ -452,11 +459,12 @@ function check_binaries() {
 	#[ -v sdi ] || exit 666
 	[ -v sd0 ] || exit 666
  	[ -v sdi ] || exit 667
+	#TODO:-z vielä?
 
-	if [ ! -f /.chroot ] ; then #toiv tämä kikkailu pois 
+	#if [ ! -f /.chroot ] ; then #toiv tämä kikkailu pois 
 		for x in iptables ip6tables iptables-restore ip6tables-restore  ; do ocs ${x} ; done
 		csleep 6
-	fi
+	#fi
 
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
@@ -745,7 +753,7 @@ function e_final() {
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 	csleep 5 
 
-	#TODO:pitäisiköhän muuttaa ao. rivejä? miten?
+	#TODO:pitäisiköhän muuttaa ao. rivejä? miten? if-blokki ympärille?
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
 

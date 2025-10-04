@@ -35,6 +35,7 @@ else
 	exit 1	
 fi
 
+#HUOM.041025:debug.riippuvaisen käytöksen syy löytrynee töästä fktioata, ehkä
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
@@ -60,14 +61,18 @@ if [ -f /.chroot ] ; then
 	tar -jxvf ${d0}/nekros.tar.bz3
 	sleep 3
 	rm ${d0}/nekros.tar.bz3
+
+	echo "#TODO:jatkossa mv root.conf $distro/conf tjsp?"
 fi
 
 #HUOM.21725:oliko jotain erityistä syyt miksi conf cmmon_lib jälkeen? $distroon liittyvät kai, pitäisi miettiä, nyt näin
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
-else #joutuukohan else-haaran muuttamaan jatkossa?
-	echo "CONF ( ${d}/conf ) MISSING"
-	exit 56
+else
+#	echo "CONF ( ${d}/conf ) MISSING"
+#	exit 56
+	[ -s ${d0}/root.conf ] || exit 57
+	. ${d0}/root.conf 
 fi
 
 if [ -x ${d0}/common_lib.sh ] ; then #saattaa jo toimia chroot-ymp sisällä
@@ -237,6 +242,7 @@ function common_part() {
 	csleep 1
 
 	#efk2 vai ei? ehkä ei koska stand_alone
+	#... miten suodtus?
 	${srat} -C ${3} -xf ${1} #HUOM.23725:C-option voisi josqs jyrätä?
 	[ $? -eq 0 ] || exit 36
 	csleep 1
@@ -318,6 +324,7 @@ function tpr() {
 		local q
 		q=$(${mkt} -d)
 
+		#pitäisikö laittaa sudotus mukaan? no ei ehkä tpr() takia
 		if [ -s  ~/fediverse.tar ] ; then
 			${srat} -C ${q} -xvf ~/fediverse.tar
 		else

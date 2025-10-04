@@ -310,7 +310,7 @@ case ${mode} in
 		#...miten ne avainjutut? vaihtoehtoinen conf?
 		#alussa julk av vain tulevat Jostainja that's it, jatkossa squ.ash ja stage0 tekisivät jotain asian suhteen
 
-		#TODO:chroot-ympäristössä tarvitsisi kikkailua conf kanssa?
+		#chroot-ympäristössä tarvitsisi kikkailua conf kanssa?
 		# tuossa ymp eri asetukset q live-kiekolla mutta toisaalta eri h mistotkin
 		# ... jospa 	copy_conf()
 
@@ -319,8 +319,8 @@ case ${mode} in
 		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname1}
 		[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname2}
 		
-		#uutena
-		${srat} -rvf ${tgtfile} ./${n}.conf		
+		#sittebjkööb tarpeelkliubnebn?
+		#${srat} -rvf ${tgtfile} ./${n}.conf		
 		bzip2 ${tgtfile}
 
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3

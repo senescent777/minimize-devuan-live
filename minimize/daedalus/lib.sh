@@ -21,7 +21,7 @@ function c5p() { #joskohan jo toimisi (28925)
 #
 #	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
 #	#g_pt2 poistaa cryptsetup-pakettei
-#	
+#
 #	#tästä eteenpäin jos selvittäisi noiden pakettien tilanteen, piostuuko jossain jnkn sivuvakutuksebna?
 #	${NKVD} ${1}/libcrypt* #ei uskalla poistaa aptilla
 #	#${NKVD} ${1}/libdevmapper* #asennettuna 28925?
@@ -29,13 +29,19 @@ function c5p() { #joskohan jo toimisi (28925)
 
 #	#HUOM.19725:librsvg2 poisto poistaa jnkn verran pak, mm task-desktop, task-xfce-desktop
 
+	#uutena 031025, eivät aivan välttämättömiä ainakaan vielä
+	#ja jotain nalkutustakin oli
+
+	${NKVD} ${1}/initramfs*
+	${NKVD} ${1}/live*
+
 	dqb "...is over"
 	csleep 1
 }
 
 function reficul() {
 	#debug=1
-	dqb "NATTA5H3AD öVERDR1V 666!"
+	dqb "NATTA5H3AD öVERDR1V 666! (a.k.a pr4.libs ?)"
 	csleep 5
 
 	efk1 ${1}/gcc-12*.deb ${1}/libgcc-s1*.deb
@@ -62,15 +68,22 @@ function reficul() {
 	efk1 ${1}/libgtk-3-0_*.deb
 	efk1 ${1}/libpython3.11-minimal*.deb #ohjeisvahinkona xfce4 jos poist
 	efk1 ${1}/liblzma5*.deb
+	csleep 5
+
 	efk1 ${1}/libext2fs2*.deb
 
 	csleep 5
 	efk1 ${1}/libpam-modules-bin_*.deb
 	efk1 ${1}/libpam-modules_*.deb
 
+	#uutena 011025
+	efk1 ${1}/libcurl3*.deb
+	efk1 ${1}/libkrb5*.deb
+	efk1 ${1}/libgss*.deb
+
 #	efk1 ${1}/libeudev*
 #	efk1 ${1}/libfdisk* ${1}/libuuid*
-#	#HUOM.28925:libfdisk ehkö uskaltaa poistaa, e2fsprogs tarttee libuuid (e2 parempi olla poistamatta)
+#	#HUOM.28925:libfdisk ehkö uskaltaa poistaa($sharpy), e2fsprogs tarttee libuuid (e2 parempi olla poistamatta)
 
 #	efk1 ${1}/libopen* ${1}/libpolkit-gobject-*
 #	#HUOM.28925:xfce4 tarvitse libpolkit-gobject joten ei kande poistaa
@@ -82,9 +95,18 @@ function reficul() {
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
 
+#HUOM.021025:bind9 masentelut tähän vai reficul() ?
+
+#myös:
+#dpkg: dependency problems prevent configuration of live-boot-initramfs-tools:
+# live-boot-initramfs-tools depends on initramfs-tools; however:
+#  Package initramfs-tools is not configured yet.
+#
+
 function pr4() {
 	#HUOM.29925:saattaa sittenkin olla tarpeellinen fktio koska X
 
+	#debug=1
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
 
@@ -101,22 +123,30 @@ function pr4() {
 
 	#HUOM.30925:x-jutut mielekkäitä päivittää sq-chroot-ymp lähinnä
 	#äksän tappaminen desktop-live-ymp voi aiheuttaa härdelliä, login_manager ...
+	#... eli yo. rivejä cgroot-tark taakse (TODO?)
 	csleep 3
 	
 	efk1 ${1}/libx11-xcb1*.deb
 	efk1 ${1}/dbus-bin*.deb  ${1}/dbus-daemon*.deb ${1}/dbus-session-bus-common*.deb
 	#==============================================================
 
-#	${NKVD} ${1}/libpam-modules* #tartteeko enää?
-#	efk1 ${1}/libpam*.deb	
-#	efk1 ${1}/libperl*.deb
-#
-#	efk1 ${1}/perl*.deb
-#
-#	efk1 ${1}/liberror-perl*.deb
-#	efk1 ${1}/git*.deb
-#	csleep 1
-#	
+#pois kommenteista 011025, joissain tilanteissa tarvtaan
+	${NKVD} ${1}/libpam-modules* #tartteeko enää?
+	efk1 ${1}/libpam*.deb	
+	efk1 ${1}/libperl*.deb
+
+	efk1 ${1}/perl*.deb
+
+	efk1 ${1}/liberror-perl*.deb
+	efk1 ${1}/git*.deb
+	csleep 1
+
+	#uutena 042025
+	efk1 ${1}/bind9*.deb
+	efk1 ${1}/e2fsprogs*.deb
+	efk1 ${1}/eudev*.deb #tarvinnee kirjastot ensin?
+	csleep 1
+
 	c5p ${1}
 	csleep 2
 }
@@ -250,7 +280,7 @@ function pre_part2() {
 	dqb "daud.pre_part2()"
 	csleep 2
 
-	#${odio} /etc/init.d/ntpd stop
+	${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
 
 	for f in $(find /etc/init.d -type f -name 'ntp*') ; do 
