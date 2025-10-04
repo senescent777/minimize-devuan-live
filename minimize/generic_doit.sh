@@ -19,12 +19,17 @@ fi
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
 else
-	#TODO:josqo chroot-tapauksessa yrittäisi $n.conf
-	echo "CONFIG MISSING"
-	exit 55
+	[ -s ${d0}/root.conf ] || exit 55
+	. ${d0}/root.conf 
+
+	#VAIH:josqo chroot-tapauksessa yrittäisi $n.conf
+	#echo "CONFIG MISSING"
+	#exit 55
 fi
 
+#voisikohan yo. juttuja siirtää -> common_lib ?
 #TODO:ffox-profiilin importointi, kts toimiiko se muutoksien jlk vai ei
+#... ei välttämättä nimittäin
 
 function parse_opts_1() {
 	case "${1}" in

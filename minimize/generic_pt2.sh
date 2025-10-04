@@ -55,9 +55,14 @@ fi
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
 else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
-	echo "CONF MISSING"
-	exit 56
+#	echo "CONF MISSING"
+#	exit 56
+
+	[ -s ${d0}/root.conf ] || exit 56
+	. ${d0}/root.conf 
 fi
+
+#voisikohan yo. juttuja siirtää -> common_lib ?
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -93,9 +98,10 @@ echo "debug=${debug}"
 dqb "distro=${distro}"
 dqb "removepkgs=${removepkgs}"
 dqb "mode=${mode} "
+
 sleep 1
 csleep 1
-exit 666 #HUOM.021025:jokin saatttaa qsta tässä, siksi 
+#exit 666 #HUOM.021025:jokin saatttaa qsta tässä, siksi 
 
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
@@ -232,12 +238,12 @@ function t2pf() {
 #HUOM.26525:nyt sitten debug päälle jotta selviää mihin pysähtyy
 
 t2pc
-[ $? -gt 0 ] && exit #tähän tökkää?
+[ $? -gt 0 ] && exit
 [ ${mode} -eq 0 ] && exit
 
 t2p
 [ $? -gt 0 ] && exit
-[ ${mode} -eq 1 ] && exit
+[ ${mode} -eq 1 ] && exit #tähän tökkää?
 
 t2pf ${1}
 [ $? -gt 0 ] && exit
