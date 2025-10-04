@@ -161,8 +161,11 @@ csleep 1
 e22_pre1 ${d} ${distro}
 
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
-[ -x /opt/bin/changedns.sh ] || exit 59
-e22_hdr ${tgtfile} #tämö saattaa sitkea tapauksessa c
+pwd;sleep 6
+[ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59" #tilapäisesti jemmaan kunnes x
+#...saisiko jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain..
+
+e22_hdr ${tgtfile} #tämä saattaa sotkea tapauksessa c
 
 case ${mode} in
 	0|4) #HUOM.021025:toimi ainakin kerran case 0
@@ -315,6 +318,9 @@ case ${mode} in
 		#T_DKNAME voisi jatkossa osoittaa esim /r/l/m/p/dgsts alle?
 		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname1}
 		[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname2}
+		
+		#uutena
+		${srat} -rvf ${tgtfile} ./${n}.conf		
 		bzip2 ${tgtfile}
 
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3

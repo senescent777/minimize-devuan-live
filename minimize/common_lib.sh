@@ -127,8 +127,12 @@ function ocs() {
 	fi
 }
 
+#mitvit
 ocs dpkg
 sd0=$(${odio} which dpkg)
+[ -v sd0 ] || exit 78
+[ -z ${sd0} ] && exit 79
+
 unset sdi #tekeeko tämä jotain? kyl , kts check_bin() ,, "second half"
 echo "SFDSFDSFDSFDSFDSFDSFDSFDS"
 sleep 3
@@ -178,12 +182,14 @@ function psqa() {
 	dqb "QUASB (THE BURNING) ${1}"
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
-		#local p
+		local p
 		p=$(pwd)
 		cd ${1}
 
-		#dpkg -V #HUOM.11525:toistaiseksi jemmaan
-		#sleep 1
+		if [ -v SOME_CONFIG_OPT ] ; then	
+			dpkg -V #HUOM.11525:toistaiseksi jemmaan
+			sleep 1
+		fi
 
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
@@ -193,7 +199,10 @@ function psqa() {
 		gv=$(${odio} which gpgv)
 
 		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-			dqb "TODO: ${gv} --keyring \${TARGET_Dpubkf} ./sha512sums.sig ./sha512sums "
+			dqb "${gv} --keyring \${TARGET_Dpubkf} ./sha512sums.sig ./sha512sums in 3 secs"
+			csleep 3
+			${gv} --keyring \${TARGET_Dpubkf} ./sha512sums.sig ./sha512sums
+			csleep 3
 		fi
 
 		cd ${p}
@@ -280,13 +289,20 @@ function efk2() {
 # dependency problems - leaving unconfigured
 
 #HUOM.031025:riippuvuusasia ehgjkä korjattu mutta dpkg saatava toimimaan taas
+#HUOM.041025:chroot.ympäristössä tietenkin se ympäristömja sudotuksern yht ongelma, keksisikö jotain
 function fromtend() {
-#	local sdi2
-#	sdi2=$(${odio} which dpkg)
+	local sdi2
+	sdi2=$(${odio} which dpkg)
 	dqb "FRöMTEND"
 
+	[ -v sd0 ] || exit 99
+	[ -z ${sd0} ] && exit 98
+	[ -x ${sd0} ] || exit 97
+#josko sd0 kohta...
 #	if [ ! -f /.chroot ] ; then
-		${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
+		dqb "${odio} DEBIAN_FRONTEND=noninteractive ${sdi2} --force-confold -i $@"
+		${odio} DEBIAN_FRONTEND=noninteractive ${sdi2} --force-confold -i $@
+		csleep 3
 #	fi
 	
 	dqb "DNÖE"
@@ -396,7 +412,8 @@ function check_binaries() {
 	spd="${sd0} -l " #jäänyt turhaksi muuten mutta g_pt2
 	sdi="${odio} ${sd0} -i "
 
-	if [ y"${ipt}" == "y" ] ; then #&& [ ! -f /.chroot ] #kokeeksi vaihdettu näin 011025
+	#HUOM.041025:chrot.ympäristössä fromtendin kanssa ongelma joten skipataan tblz asennus silloin
+	if [ y"${ipt}" == "y" ] && [ ! -f /.chroot ] ; then # #kokeeksi vaihdettu näin 041025
 		[ z"${1}" == "z" ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
@@ -432,14 +449,14 @@ function check_binaries() {
 	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
 	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
 
-	#VAIH:selvityä aiheuyuuko "-i" - urputus tuosta sdi:stä?
 	#[ -v sdi ] || exit 666
 	[ -v sd0 ] || exit 666
  	[ -v sdi ] || exit 667
 
-	#[ -f /.chroot ] || y="${y}"
-	for x in iptables ip6tables iptables-restore ip6tables-restore  ; do ocs ${x} ; done
-	csleep 6
+	if [ ! -f /.chroot ] ; then #toiv tämä kikkailu pois 
+		for x in iptables ip6tables iptables-restore ip6tables-restore  ; do ocs ${x} ; done
+		csleep 6
+	fi
 
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
