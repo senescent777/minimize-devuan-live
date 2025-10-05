@@ -29,18 +29,23 @@ function c5p() { #joskohan jo toimisi (28925)
 
 #	#HUOM.19725:librsvg2 poisto poistaa jnkn verran pak, mm task-desktop, task-xfce-desktop
 
-	#uutena 031025
+	#uutena 031025, eivät aivan välttämättömiä ainakaan vielä
+	#ja jotain nalkutustakin oli
 	${NKVD} ${1}/initramfs*
 	${NKVD} ${1}/live*
+	#...varsinaisen poistamisen kanssa saattaa tulla ulinaa
 
 	dqb "...is over"
 	csleep 1
 }
 
+#TODO:param tark
 function reficul() {
 	#debug=1
 	dqb "NATTA5H3AD öVERDR1V 666! (a.k.a pr4.libs ?)"
 	csleep 5
+
+	c5p ${1}
 
 	efk1 ${1}/gcc-12*.deb ${1}/libgcc-s1*.deb
 	efk1 ${1}/perl-modules-*.deb
@@ -73,17 +78,21 @@ function reficul() {
 	csleep 5
 	efk1 ${1}/libpam-modules-bin_*.deb
 	efk1 ${1}/libpam-modules_*.deb
+
 	#uutena 011025
 	efk1 ${1}/libcurl3*.deb
 	efk1 ${1}/libkrb5*.deb
 	efk1 ${1}/libgss*.deb
 
-#	efk1 ${1}/libeudev*
+#	
 #	efk1 ${1}/libfdisk* ${1}/libuuid*
-#	#HUOM.28925:libfdisk ehkö uskaltaa poistaa, e2fsprogs tarttee libuuid (e2 parempi olla poistamatta)
+#	#HUOM.28925:libfdisk ehkö uskaltaa poistaa($sharpy), e2fsprogs tarttee libuuid (e2 parempi olla poistamatta)
 
 #	efk1 ${1}/libopen* ${1}/libpolkit-gobject-*
 #	#HUOM.28925:xfce4 tarvitse libpolkit-gobject joten ei kande poistaa
+
+	#061025 osoittautuio taropeelliseksi
+	efk1 ${1}/libeudev*
 
 	dqb "REC1FUL D0N3"
 	csleep 5
@@ -100,6 +109,9 @@ function reficul() {
 #  Package initramfs-tools is not configured yet.
 #
 
+#TODO:josko reficul/pr4/cp5 asetnamat/poistamat jutut erillisiin tdstoihin ja lib sitteb iteroisi
+
+#TODO:lib-juttuja > refriceul
 function pr4() {
 	#HUOM.29925:saattaa sittenkin olla tarpeellinen fktio koska X
 
@@ -111,6 +123,8 @@ function pr4() {
 	dqb "paramz 0k"
 	psqa ${1}
 
+	efk1 ${1}/eudev*.deb #HUOM.061025:tarvinnee kirjastot ensin , toisaalta ennen xserver-xorg-core 
+
 	#==============================================================
 	#libx11- yms. kirjatsojen masentelut takaisin tähän vai reficul?
 	#HUOM.29925:osoittautui tarpeeLLIseksi palauttaa koska part3() muutokset
@@ -120,6 +134,7 @@ function pr4() {
 
 	#HUOM.30925:x-jutut mielekkäitä päivittää sq-chroot-ymp lähinnä
 	#äksän tappaminen desktop-live-ymp voi aiheuttaa härdelliä, login_manager ...
+	#... eli yo. rivejä cgroot-tark taakse (TODO?)
 	csleep 3
 	
 	efk1 ${1}/libx11-xcb1*.deb
@@ -136,8 +151,14 @@ function pr4() {
 	efk1 ${1}/liberror-perl*.deb
 	efk1 ${1}/git*.deb
 	csleep 1
-#	
-	c5p ${1}
+
+	#uutena 042025
+	efk1 ${1}/bind9*.deb
+	efk1 ${1}/e2fsprogs*.deb
+
+	csleep 1
+
+	#c5p ${1} #HUOM.siirretty toiseen fktioon 061025
 	csleep 2
 }
 
