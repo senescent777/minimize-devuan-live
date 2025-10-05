@@ -123,7 +123,8 @@ else
 		dqb "imp32.ppp3()"
 	}
 
-	#kutsutaanko tätä? no yhdestä kohdasta ainakin
+	#kutsutaanko tätä? no yhdestä kohdasta ainakin 
+	#tarvitaanko?
 	function other_horrors() {
 		dqb "AZATHOTH AND OTHER HORRORS"
 
@@ -201,8 +202,16 @@ csleep 1
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
 
 #glorified "tar -x" this function is - Yoda (tähän jos niitä gpg-juttuja?)
-#jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?
-#tähän vaiko common_l/e22/export niin se tar allek tark?
+#HUOM.061025:"jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?" tätä ehkä vähän alettu huomioidfas
+
+#HUOM.061025:allekrijoitus-asioita alettu hiomoioida sekä imp2 että exp2
+
+#TODO:
+#- import2, common_part , -C - optio (common_lib disbled)
+#	kun purq /p/f.tar.bz2 ni menee juureen (ark sisällä ei hmistorakennetta)
+#	eli testattava ja toimittava havaintojen mukaan
+#	tar -jtf ja putken päähän cut -d / -f 1 , jos pelkkää pistettä ni...
+#	paitsi että timestamp voi sotkea grepataan listauksesta se ensin pois
 
 function common_part() {
 	#debug=1

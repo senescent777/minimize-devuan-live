@@ -369,6 +369,7 @@ function e22_ext() {
 	csleep 1
 
 	#voisi jollain ehdolla estää kloonauksen
+	#TODO:BASEURL käyttöömn
 	${tig} clone https://github.com/senescent777/more_scripts.git #alkuosan voisi laittaa konftsdtoon
 	[ $? -eq 0 ] || exit 66
 	
@@ -717,6 +718,7 @@ function e22_settings2() { #HUOM.041025:testattu sen verran että tekee tar:in
 	cd ${q} #antaa nyt cd:n olla toistaiseksi
 	[ $? -eq 0 ] || exit 77
 
+	#TODO:BASEURL
 	${tig} clone https://github.com/senescent777/more_scripts.git
 	[ $? -eq 0 ] || exit 99
 	
