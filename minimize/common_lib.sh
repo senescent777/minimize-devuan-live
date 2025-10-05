@@ -6,7 +6,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#HUOM.021025:näille main saattaa tulla muutox
+#HUOM.021025:näille main saattaa tulla muutox?
 if [ -f /.chroot ] ; then
 	odio=""
 	debug=1
@@ -82,7 +82,16 @@ sco="${odio} ${sco} "
 scm="${odio} ${scm} "	
 #HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
 sah6=$(${odio} which sha512sum)
+
+#TODO:sd0 ja srat alustukset näille main jatrkossa?
+#TODO:komentorivin parsetyukseen liittyviä juttujamyöskin olisi...
+# (ennen parse_opts määrittelyä olisi $distro/conf ja täts it, voinee sen chroot-jekun kyllä ennen)
+#... ja jotain matskua voisi siirtää riippuvista skripteistä kirjastoon?
 	
+#TODO:josqs sen $srat, $sah6 yms alustus uusiksi (jos jopa Python-tyylillä, $a[cmd]=$(which cmd) ?)
+
+#f_s ja o_h  kutsut jo tässä?
+
 slinky=$(${odio} which ln)
 slinky="${odio} ${slinky} -s "
 spc=$(${odio} which cp)
@@ -103,7 +112,7 @@ NKVD="${odio} ${NKVD} "
 #PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
 PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
 
-echo "#HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!"
+#HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!
 #sdi=$(${odio} which dpkg)
 #spd="${odio} ${sdi} -l " #jäänyt turhaksi muuten mutta g_pt2
 #sdi="${odio} ${sdi} -i "
@@ -127,11 +136,15 @@ function ocs() {
 	fi
 }
 
+#mitvit
 ocs dpkg
 sd0=$(${odio} which dpkg)
+[ -v sd0 ] || exit 78
+[ -z ${sd0} ] && exit 79
+
 unset sdi #tekeeko tämä jotain? kyl , kts check_bin() ,, "second half"
-echo "SFDSFDSFDSFDSFDSFDSFDSFDS"
-sleep 6
+#echo "SFDSFDSFDSFDSFDSFDSFDSFDS"
+#sleep 3
 
 sifu=$(${odio} which ifup)
 sifd=$(${odio} which ifdown)
@@ -178,12 +191,14 @@ function psqa() {
 	dqb "QUASB (THE BURNING) ${1}"
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
-		#local p
+		local p
 		p=$(pwd)
 		cd ${1}
 
-		#dpkg -V #HUOM.11525:toistaiseksi jemmaan
-		#sleep 1
+		if [ -v SOME_CONFIG_OPT ] ; then	
+			dpkg -V #HUOM.11525:toistaiseksi jemmaan
+			sleep 1
+		fi
 
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
@@ -193,7 +208,10 @@ function psqa() {
 		gv=$(${odio} which gpgv)
 
 		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-			dqb "TODO: ${gv} --keyring \${TARGET_Dpubkf} ./sha512sums.sig ./sha512sums "
+			dqb "${gv} --keyring \${TARGET_Dpubkf} ./sha512sums.sig ./sha512sums in 3 secs"
+			csleep 3
+			${gv} --keyring ${TARGET_Dpubkf} ./sha512sums.sig ./sha512sums
+			csleep 3
 		fi
 
 		cd ${p}
@@ -264,6 +282,7 @@ function efk2() {
 	#koita katsoa ettei käy: sudo sudo tar
 	if [ -s ${1} ] && [ -r ${1} ] ; then
 		${odio} ${srat} -C ${2} -xf ${1}
+		#HUOM.0421025:jatkossa se sd0-kikkailu tar:in kanssa myös?
 	else
 		dqb "WE NEED T0 TALK ABT ${1}"
 	fi	
@@ -271,24 +290,28 @@ function efk2() {
 	csleep 1
 }
 
-#VAIH:ao. nalqtuksen korjaus
-#dpkg: dependency problems prevent configuration of libnl-route-3-200:amd64:
-# libnl-route-3-200:amd64 depends on libnl-3-200 (= 3.7.0-0.2+b1); however:
-#  Package libnl-3-200:amd64 is not installed.
-#
-#dpkg: error processing package libnl-route-3-200:amd64 (--install):
-# dependency problems - leaving unconfigured
+#HUOM.041025:josqo libnl-asiat kunnossa jo
 
 #HUOM.031025:riippuvuusasia ehgjkä korjattu mutta dpkg saatava toimimaan taas
+#HUOM.041025:chroot.ympäristössä tietenkin se ympäristömja sudotuksern yht ongelma, keksisikö jotain (KVG)
 function fromtend() {
 #	local sdi2
-#	sdi2=$(${odio} which dpkg)
+#	sdi2=$(${odio} which dpkg) #qsee?
 	dqb "FRöMTEND"
 
-#	if [ ! -f /.chroot ] ; then
+	[ -v sd0 ] || exit 99
+	[ -z ${sd0} ] && exit 98
+	[ -x ${sd0} ] || exit 97
+
+#josko sd0 kohta...
+	if [ ! -f /.chroot ] ; then
+		dqb "${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@"
 		${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
-#	fi
-	
+	else #-haara tähän jos ei nalqtus lopu?
+		${odio} ${sd0} --force-confold -i $@
+	fi
+
+	csleep 3
 	dqb "DNÖE"
 }
 
@@ -307,13 +330,6 @@ function common_tbls() {
 	dqb "PARAMS_OK"
 	csleep 1
 	psqa ${1}
-
-	##31525 uutena, josko tällä modulit kohdalleen (jotain pientä laittoa kaipaisi vielä 2kk myöhemmin?)
-	#fromtend ${1}/linux-modules*.deb
-	#[ $? -eq 0 ] && ${NKVD} ${1}/linux-modules*.deb
-	#[ $? -eq 0 ] && ${odio} modprobe nft #tässä vai vähän alempana?
-	##HUOM.olisikohan yo .jutut distro-spesifisiä jossain määrin?
-	##VAIH:josko nuo moduulijutut jemmaan? (021025:sitäpaitsi sq-chroot-ymp urputti komennosta dpkg)
 
 	#chimaera-spesifisiä seur 2, pois jos pykii
 	efk1 ${1}/libnfnet*.deb  #TARKKANA PRKL PAKETTIEN KANSSA
@@ -351,10 +367,6 @@ function common_tbls() {
 	s=$(${odio} which iptables-restore)
 	t=$(${odio} which ip6tables-restore)
 
-	#HUOM.31525:olisikohan moduleista kiinni että tässä tökkää?
-	#edelleen: "iptables v1.8.11 (legacy): can't itniialize iptables table `filter': Table does not exist (do you need to insmod?"
-	#modprobe nft -> FATAL: Module nftables not found in directory /lib/modules/6.12.27-amd64
-	
 	if [ ! -z ${d2} ] ; then
 		${odio} ${s} /etc/iptables/rules.v4.${d2}
 		${odio} ${t} /etc/iptables/rules.v6.${d2}
@@ -407,7 +419,8 @@ function check_binaries() {
 	spd="${sd0} -l " #jäänyt turhaksi muuten mutta g_pt2
 	sdi="${odio} ${sd0} -i "
 
-	if [ y"${ipt}" == "y" ] ; then #&& [ ! -f /.chroot ] #kokeeksi vaihdettu näin 011025
+	#HUOM.041025:chrot.ympäristössä fromtendin kanssa ongelma joten skipataan tblz asennus silloin
+	if [ y"${ipt}" == "y" ] ; then #  && [ ! -f /.chroot ]#KOITA NYT LOTOTA SE EHTO
 		[ z"${1}" == "z" ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
@@ -426,6 +439,7 @@ function check_binaries() {
 		efk2 ${1}/f.tar ${1}
 
 		pre_part3_clib ${1} #HUOM.25725:tarvitaan
+		[ -f /.chroot ] && message
 		common_tbls ${1} ${dnsm}
 		other_horrors
 
@@ -443,14 +457,15 @@ function check_binaries() {
 	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
 	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
 
-	#VAIH:selvityä aiheuyuuko "-i" - urputus tuosta sdi:stä?
 	#[ -v sdi ] || exit 666
 	[ -v sd0 ] || exit 666
  	[ -v sdi ] || exit 667
+	#TODO:-z vielä?
 
-	#[ -f /.chroot ] || y="${y}"
-	for x in iptables ip6tables iptables-restore ip6tables-restore  ; do ocs ${x} ; done
-	csleep 6
+	#if [ ! -f /.chroot ] ; then #toiv tämä kikkailu pois 
+		for x in iptables ip6tables iptables-restore ip6tables-restore  ; do ocs ${x} ; done
+		csleep 6
+	#fi
 
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
@@ -739,7 +754,7 @@ function e_final() {
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 	csleep 5 
 
-	#TODO:pitäisiköhän muuttaa ao. rivejä? miten?
+	#TODO:pitäisiköhän muuttaa ao. rivejä? miten? if-blokki ympärille?
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
 

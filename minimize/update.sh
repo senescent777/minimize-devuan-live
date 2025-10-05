@@ -131,7 +131,7 @@ if [ -f ${tgt} ] ; then
 	${scm} 0444 /etc/default/rules*
 	sleep 2
 	
-	if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then		
+	if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then	#HUOM.061025:milloin viimeksi tätä blokkia testattu?	
 		for f in $(find /etc -name 'rules*') ; do #type f mukaan?
 			if [ -s ${f} ] && [ -r ${f} ] ; then
 				process_entry ${tgt} ${f}
