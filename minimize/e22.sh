@@ -606,8 +606,7 @@ function e22_tblz() { #VAIH:testaus
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_get_pkgs() { #HUOM.041025:varmistettu että gpg tulee mukaan nykyään
-	debug=1
+function e22_get_pkgs() { #TODO:testaa viimeaikaisten muutoksien jäljiltä
 
 	#VAIH:if [ -d ] - blokki kutsuvaan koodiin? 
 	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
@@ -622,7 +621,8 @@ function e22_get_pkgs() { #HUOM.041025:varmistettu että gpg tulee mukaan nykyä
 	csleep 1
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
-	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf #TODO:libc6 zlib1g		
+	${shary} libc6 zlib1g #moni pak tarttee nämä
+	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf 		
 	#HUOM.28525:nalkutus alkoi jo tässä (siis ennenq libip4tc2-blokki siirretty)
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
@@ -652,7 +652,7 @@ function e22_get_pkgs() { #HUOM.041025:varmistettu että gpg tulee mukaan nykyä
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
 	${shary} coreutils
-	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 zlib1g #TODO:zlib1g vetäminen aiemmin?
+	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0
 	${shary} git-man git
 
 #joskus tämäkin?
@@ -660,8 +660,8 @@ function e22_get_pkgs() { #HUOM.041025:varmistettu että gpg tulee mukaan nykyä
 #		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "GOG"
 #libreadline8 aiemmaksi? muutkin pak saattavat tarvita
-		${shary} gpgconf libassuan0 libbz2-1.0 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 #libc6 jos aiemmin
-		${shary} gpg #zlib1g jo aiemmin
+		${shary} gpgconf libassuan0 libbz2-1.0 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0
+		${shary} gpg
 		dqb "MAGOG"
 		csleep 5
 #	fi
