@@ -340,6 +340,8 @@ function e22_elocal() {
 	csleep 1
 }
 
+BASEURL="github.com/senescent777" #jatkossa -> conf
+
 function e22_ext() {
 	dqb "e22_ext ${1} ${2}"
 
@@ -370,8 +372,7 @@ function e22_ext() {
 	csleep 1
 
 	#voisi jollain ehdolla estää kloonauksen
-	#TODO:BASEURL käyttöömn
-	${tig} clone https://github.com/senescent777/more_scripts.git #alkuosan voisi laittaa konftsdtoon
+	${tig} clone https://${BASEURL}/more_scripts.git
 	[ $? -eq 0 ] || exit 66
 	
 	dqb "e22_ext PT2"
@@ -707,8 +708,7 @@ function e22_settings2() { #HUOM.041025:testattu sen verran että tekee tar:in
 	cd ${q} #antaa nyt cd:n olla toistaiseksi
 	[ $? -eq 0 ] || exit 77
 
-	#TODO:BASEURL
-	${tig} clone https://github.com/senescent777/more_scripts.git
+	${tig} clone https://${BASEURL}/more_scripts.git
 	[ $? -eq 0 ] || exit 99
 	
 	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
@@ -772,7 +772,6 @@ function e22_upgp() {
 	#HUOM.part076() ja part2_5() on keksitty
 	
 	case ${3} in
-
 		wlan0)
 			dqb "NOT REMOVING WPASUPPLICANT"
 			csleep 1
