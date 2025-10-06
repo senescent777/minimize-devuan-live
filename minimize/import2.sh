@@ -55,7 +55,7 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-if [ -f /.chroot ] ; then #TODO:tämmöiset jatkossa -> common_lib
+if [ -f /.chroot ] ; then #TODO:tämmöiset jatkossa -> common_lib ?
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
 
@@ -63,7 +63,7 @@ if [ -f /.chroot ] ; then #TODO:tämmöiset jatkossa -> common_lib
 	sleep 3
 	rm ${d0}/nekros.tar.bz3
 
-	echo "#TODO:jatkossa mv root.conf $distro/conf tjsp?"
+	mv root.conf $distro/conf
 fi
 
 #HUOM.21725:oliko jotain erityistä syyt miksi conf cmmon_lib jälkeen? $distroon liittyvät kai, pitäisi miettiä, nyt näin
@@ -222,6 +222,7 @@ csleep 1
 
 function common_part() {
 	dqb "common_part( ${1}, ${2}, ${3})"
+
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
 	[ -r ${1} ] || exit 3
@@ -230,19 +231,17 @@ function common_part() {
 	[ y"${2}" == "y" ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -d ${3} ] || exit 33
+
 	dqb "paramz_0k"
 	csleep 3
-
 	cd / #-C nykyään...
-	#dqb "DEBUG:${srat} -xf ${1} "
-	#csleep 1
 	
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
 		cat ${1}.sha
 		${sah6} ${1}
 
-		#TODO:tarkistus jos vähän toisella tavalla
+		#TODO:tarkistus jos vähän toisella tavalla (kts common_lib)
 		local gv
 		gv=$(${odio} which gpgv)
 
@@ -467,14 +466,13 @@ case "${mode}" in
 		ridk=${d0}
 
 		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #/.chroot vielä?
-			#for f in ${TARGET_Dkname1} ${TARGET_Dkname2} ${TARGET_Dkname1}.secret ${TARGET_Dkname2}.secret
 			for f in ${TARGET_Dpubkf} ${TARGET_Dpubkg} ; do 			
 				echo "dbg: ${gg} --import ${ridk}/${f}"
 				${gg} --import ${ridk}/${f}
 			done
 		fi
 
-		#TODO:samoin e22_ftr ajamaan gpg jos saatavilla ja sit jhotrain		
+		#VAIH:samoin e22_ftr ajamaan gpg jos saatavilla ja sit jhotrain		
 
 		#... ensiksi pitäisi f.tar purqaa m/$distro alle (imp2 osannee)
 		#... sitten tikulta uusimmat skriptit purkaen
