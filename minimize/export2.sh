@@ -158,6 +158,17 @@ fi
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
+
+#VAIH:2 peräkkäistä case:a jatkossa, ensimmäiseen ne missä ei tarvitse verkkoyhteyttä pystyttää
+#
+#case  ${mode} in
+#	f)
+#	q)
+#	c)
+#	g)
+#	h)
+#esac
+
 e22_pre1 ${d} ${distro}
 
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
@@ -167,7 +178,6 @@ pwd;sleep 6
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 
 e22_hdr ${tgtfile} #tämä saattaa sotkea tapauksessa c
-#TODO:2 peräkkäistä case:a jatkossa, ensimmäiseen ne missä ei tarvitse verkkoyhteyttä pystyttää
 
 case ${mode} in
 	0|4)
