@@ -1,20 +1,31 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
 		
-function e22_hdr() { #TODO:param tark
+function e22_hdr() { #VAIH:param tark
 	dqb "BEFORE TAR"
 	csleep 1
+	[ -z ${1} ] && exit 62
+
 	${odio} touch ./rnd
 	${sco} ${n}:${n} ./rnd
 	${scm} 0644 ./rnd
+
 	dd if=/dev/random bs=12 count=1 > ./rnd
 	${srat} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
+
 	dqb "AFTER TAR"
 	csleep 1
 }
 
-function e22_ftr() { #TODO:param tark
+function e22_ftr() { #VAIH:param tark
+	dqb "ess_ftr( ${1} )"
+	csleep 1
+
+	[ -z ${1} ] && exit 62
+ 	[ -s ${1} ] || exit 63
+	[ -r ${1} ] || exit 63
+
 	${odio} touch ${1}.sha
 	${sco} $(whoami):$(whoami) ${1}.sha
 	${scm} 0644 ${tgtfile}.sha
