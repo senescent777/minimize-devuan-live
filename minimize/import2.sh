@@ -256,7 +256,8 @@ function common_part() {
 	csleep 1
 
 	#HUOM.061025:-tf ilman sudotusta parempi?
-	${srat} -tf ${1} | grep -v tim3 | cut -d / -f 1
+	#... ao. rimpsun perusteella pitäisi sitten tehdä jotain
+	${srat} -tf ${1} | grep -v tim3 | cut -d / -f 1 | grep -v . | wc -l
 	csleep 10
 
 	dqb "NECKST:${srat} -C ${3} -xf ${1}"
@@ -388,6 +389,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;; #HUOM.nollaa edeltävät caset:ei ole sorkittu viime aikoina, pitäisi toimia ok
 	0|3)
+		#HUOM.071025:sen /pad/f.tar.bz2 kanssa imp2 3 parempi
 		#HUOM.mikä pointti tuolla 3:sella taas olikaan aiemmin?
 		dqb "ZER0 S0UND"
 		csleep 1

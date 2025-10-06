@@ -326,7 +326,6 @@ case ${mode} in
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "sudo apt-get update;sudo apt-get reinstall"
 
-		#VAIH:kasaa rimpsu jhnkin muuttujaan ni ei tartte renkata
 		echo "${shary} ${GI}"
 		echo "${svm} ${pkgdir}/*.deb ${d}"
 		echo "$0 f ${tgtfile} ${distro}"

@@ -455,7 +455,7 @@ function check_binaries() {
 	[ -v sd0 ] || exit 66
  	[ -v sdi ] || exit 67
 	[ -z ${sd0} ] && exit 68
-	[ -z ${sd1} ] && exit 69
+	[ -z ${sdi} ] && exit 69
 	
 	for x in iptables ip6tables iptables-restore ip6tables-restore  ; do ocs ${x} ; done
 	csleep 6
