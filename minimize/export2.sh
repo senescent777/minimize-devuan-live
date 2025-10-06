@@ -284,6 +284,7 @@ case ${mode} in
 		csleep 3
 	;;
 	t) #HUOM.031025:testattu että tekee tar:in 
+		#HUOM.061025:pitäisikö olla $tgtfile-tarkistus?
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
