@@ -58,8 +58,9 @@ cd ${q}
 dqb "BFROE tig"
 csleep 2
 
-#TODO:BASEURL käyttöön?
-${tig} clone https://github.com/senescent777/minimize-devuan-live.git
+#VAIH:BASEURL käyttöön?
+BASEURL="github.com/senescent777"
+${tig} clone https://${BASEURL}/minimize-devuan-live.git
 [ $? -gt 0 ] && exit
 
 dqb "TGI KO"
