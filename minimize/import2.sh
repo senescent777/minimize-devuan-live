@@ -220,7 +220,7 @@ csleep 1
 #TODO:allek. tar. ehkä toisin kuitenkin? ei luotettaisi /r/l/m/p sisältöön vaan /pad alta tai ~/.gnupg hödynt
 #TODO:$2 ja $3 käsittely uusiksi?
 
-function common_part() {
+function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 	dqb "common_part( ${1}, ${2}, ${3})"
 
 	[ y"${1}" == "y" ] && exit 1
@@ -308,6 +308,7 @@ function common_part() {
 
 #HUOM.31725:jos nyt jnkn aikaa riittäisi $1 parametrina
 #HUOM.061025:testattu, toimi silloin
+#HUOM.071025:nyt tuli mutka matkaan tar:in kanssa
 function tpr() {
 	dqb "UPIR ( ${1}, ${2})"
 	csleep 1

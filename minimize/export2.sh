@@ -243,7 +243,7 @@ case ${mode} in
 		e22_cleanpkgs ${d}
 		e22_upgp ${tgtfile} ${d} ${iface} ${dnsm}
 	;;
-	p) #HUOM.031025:tekee paketin missä profs.sh
+	p) #HUOM.071025:edelleen saa paketin aikaiseksi, toimibuus vielä varmistettava
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
@@ -266,7 +266,7 @@ case ${mode} in
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
 	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi? no esim. jos tar:ill väärä -C ni...
-	q) #josko jo toimisi 061025?
+	q) #HUOM.071025:tekee paketin
 		#jos vähän roiskisi casen sisältöä -> e22 ?
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
@@ -321,8 +321,7 @@ case ${mode} in
 
 		#... eli imp2 1 hoitanee k3yz purq, jos se riittäisi allek. av. kanssa että gpg --sb pääsee asiaan
 	;;
-	#HUOM.30925:taitaa jo toimia 
-	g)  
+	g)  #HUOM.067025:vaikuttaisi tulevan järkevää outputtia
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "sudo apt-get update;sudo apt-get reinstall"
 

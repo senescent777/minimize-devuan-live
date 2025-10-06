@@ -43,7 +43,7 @@ function e22_ftr() { #VAIH:param tark
 	echo "cp ${1} \${tgt}; cp ${1}.sha \${tgt}" 
 }
 
-function e22_pre1() {
+function e22_pre1() { #HUOM.071025:toiminee
 	# tosin disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
 
 	dqb "e22_pre1 ${1}  ${2} "
@@ -83,7 +83,7 @@ function e22_pre1() {
 
 #VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
 
-function e22_pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, muuten kai toimii
+function e22_pre2() { #HUOM.071025:taitaa toimia edelleen
 	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
@@ -488,7 +488,7 @@ function aval0n() { #prIvaattI
 	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 }
 
-#vrt e22_vm()
+#TODO:param tark
 function e22_ts() {
 	dqb "e22_ts () ${1} ${2}"
 	csleep 6
@@ -690,6 +690,7 @@ function e22_get_pkgs() { #TODO:testaa viimeaikaisten muutoksien jäljiltä
 }
 
 function e22_dblock() {
+	#TODO:param. tark.
 	pwd
 	csleep 1
 	udp6 ${pkgdir} 		
@@ -703,7 +704,7 @@ function e22_dblock() {
 	e22_cleanpkgs ${2}
 }
 
-function e22_settings2() { #TODO:testaa uusiksi 
+function e22_settings2() { #HUOM.071025: toimii
 	dqb "e22_settings2 ${1} ${2}"
 
 	[ -z ${1} ] && exit 99

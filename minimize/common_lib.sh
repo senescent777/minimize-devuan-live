@@ -732,7 +732,7 @@ function e_h() {
 
 #/e/n/i ja excalibur, pitäisikö tehdä jotain?
 function e_final() {
-	dqb "e_final()"
+	dqb "e_final( ${1} )"
 	csleep 1
 	local f
 	f=$(date +%F)
