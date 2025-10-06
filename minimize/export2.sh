@@ -250,11 +250,18 @@ case ${mode} in
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.041025:ainakin josqs teki paketin missä gpg-aiheiset .deb mukana
+	e)  #HUOM.071025:testaus VAIHeessa (vetää kyllä paketteja mutta nalkutusta)
+		#Errors were encountered while processing:
+		# eudev
+		# initramfs-tools
+		# xserver-xorg-core
+		# e2fsprogs
+		#-... nalkutuksen lisksi tekee kyllä $distro:n alle f.tar:in mutta $tgtfile:en asti ei f vielä mene		
+		# ... lisäksi pitäisi varmaankin lisätä f.tar $tgtile:en jossain kohtaa
+
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
-
 		e22_get_pkgs ${tgtfile} ${d} ${dnsm}
 
 		if [ -d ${d} ] ; then

@@ -41,6 +41,8 @@ function e22_ftr() { #VAIH:param tark
 	fi
 
 	echo "cp ${1} \${tgt}; cp ${1}.sha \${tgt}" 
+	dqb "ess_ftr( ${1} ) DONE"
+	csleep 1
 }
 
 function e22_pre1() { #HUOM.071025:toiminee
@@ -138,9 +140,12 @@ function e22_cleanpkgs() {
 	if [ -d ${1} ] ; then
 		dqb "cleaning up ${1} "
 		csleep 1
+
 		${NKVD} ${1}/*.deb
-	
 		${NKVD} ${1}/sha512sums.txt
+
+		ls -las  ${1}/*.deb
+		csleep 2
 		dqb "d0nm3"
 	else
 		dqb "NO SUCH DIR ${1}"
@@ -506,12 +511,12 @@ function e22_ts() {
 }
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-function e22_arch() { #HUOM.30925:toimii
+function e22_arch() { #TODO:testaa uusiksi, 071025 tökkäsi param tarkistuksiin
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
 	[ -z ${1} ] && exit 1
-	[ -s ${1} ] || exit 2
+#	[ -s ${1} ] || exit 2
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 
@@ -689,8 +694,10 @@ function e22_get_pkgs() { #TODO:testaa viimeaikaisten muutoksien jäljiltä
 	csleep 1
 }
 
-function e22_dblock() {
+function e22_dblock() { #VAIH:testaus (072015)
 	#TODO:param. tark.
+	dqb "e22_dblock( ${1}, ${2}, ${3})"
+
 	pwd
 	csleep 1
 	udp6 ${pkgdir} 		
@@ -702,6 +709,7 @@ function e22_dblock() {
 	csleep 1
 
 	e22_cleanpkgs ${2}
+	dqb "e22dblock DONE"
 }
 
 function e22_settings2() { #HUOM.071025: toimii
