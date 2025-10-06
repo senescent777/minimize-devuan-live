@@ -118,7 +118,6 @@ function e22_pre2() { #HUOM.010825: ei huomioitu puuttuvaa /o/b/changedns.sh, mu
 	sleep 2
 }
 
-#HUOM.28725:vaikuttaisi toimivan
 function e22_cleanpkgs() {
 	dqb " ${1} , ${2} , ${3}  "
 
@@ -177,7 +176,7 @@ function e22_settings() { #VAIH:testaus
 	cd ${2}
 }
 
-function e22_home() {
+function e22_home() { #TODO:testaus koska e22_settings() muutettu
 	dqb "e22_home ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit
 	[ -z ${2} ] && exit
@@ -446,7 +445,7 @@ function e22_ext() {
 	csleep 1
 }
 
-function aswasw() { #privatti fktio
+function aswasw() { #privaatti fktio
 	dqb " aswasw ${1}"
 	csleep 1
 
@@ -468,17 +467,6 @@ function aswasw() { #privatti fktio
 	dqb " aswasw ${1} DONE"
 	csleep 1
 }
-#
-#function e22_vm() { #toimiiko tämä?
-#	dqb "e22_vm(${1})"
-#	csleep 5
-#		
-#	${svm} ${pkgdir}/*.deb ${1}
-#
-#
-#	dqb "E22_VM DONE"
-#	csleep 5
-#}
 
 function aval0n() { #prIvaattI
 	dqb "${sharpy} libavahi* #saattaa sotkea ?"
@@ -495,7 +483,6 @@ function e22_ts() {
 	${scm} 0644 ${1}/tim3stamp
 	${sco} $(whoami):$(whoami) ${1}/tim3stamp
 
-	#VAIH:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp
 	date > ${1}/tim3stamp
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 
@@ -800,15 +787,6 @@ function e22_upgp() {
 	udp6 ${pkgdir}
 	dqb "UTP PT 3"
 	csleep 1
-
-#	#VAIH:tämäkin blokki toisaalle jatkossa?
-#	${svm} ${pkgdir}/*.deb ${2}
-#	${odio} touch ${2}/tim3stamp
-#	${scm} 0644 ${2}/tim3stamp
-#	${sco} $(whoami):$(whoami) ${2}/tim3stamp
-#
-#	#VAIH:josko tämä blokki exp2:sen switch...cse-rakenteeseeen tjsp
-#	date > ${2}/tim3stamp
 
 	e22_ts ${2}
 	${srat} -cf ${1} ${2}/tim3stamp

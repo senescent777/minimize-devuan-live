@@ -70,8 +70,6 @@ fi
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
 else
-#	echo "CONF ( ${d}/conf ) MISSING"
-#	exit 56
 	[ -s ${d0}/root.conf ] || exit 57
 	. ${d0}/root.conf 
 fi
@@ -218,16 +216,11 @@ csleep 1
 
 #TODO:.deb-pakettien pakkaus/purku vähän uusiksi? voisi olla ./$distro/ alla nuo
 #... ja "exp2 0", josko silloin tylysti vain .deb ha sha512sums tar:iin?
-
 #VAIH:ffox-profiilien yms. tauhkan pakkaus/purku, toimimaan taas (josko .tar sisällöstä kiinni)
 #TODO:allek. tar. ehkä toisin kuitenkin? ei luotettaisi /r/l/m/p sisältöön vaan /pad alta tai ~/.gnupg hödynt
-
-
 #TODO:$2 ja $3 käsittely uusiksi?
 
 function common_part() {
-	#debug=1
-
 	dqb "common_part( ${1}, ${2}, ${3})"
 	[ y"${1}" == "y" ] && exit 1
 	[ -s ${1} ] || exit 2
@@ -314,6 +307,7 @@ function common_part() {
 }
 
 #HUOM.31725:jos nyt jnkn aikaa riittäisi $1 parametrina
+#HUOM.061025:testattu, toimi silloin
 function tpr() {
 	dqb "UPIR ( ${1}, ${2})"
 	csleep 1
@@ -326,22 +320,6 @@ function tpr() {
 
 	dqb "L\'ENG TZCHE "
 	csleep 1
-
-#	if [ -s ~/config.tar.bz2 ] ; then #josko vähän kätevämmin jatkossa?
-#		${srat} -C ~ -jxf ~/config.tar.bz2
-#		
-#	else
-#		${srat} -C ~ -jxf ${1}/config.tar.bz2
-#	fi
-#
-#	dqb "PULSE"
-#	csleep 1
-#
-#	if [ -s ~/pulse.tar ] ; then
-#		${srat} -C / -xvf ~/pulse.tar
-#	else
-#		${srat} -C / -xvf ${1}/pulse.tar
-#	fi
 
 	#~ alta kalat pois jottei sotke jatkossa?
 	local t
@@ -458,7 +436,7 @@ case "${mode}" in
 		dqb "c_p_d0n3, NEXT: pp3()"
 		csleep 1	
 
-		#TODO:näille main viimeistään allek. tark? vaiko sinne common_part?
+		#HUOM.part3()->pre_part3()->psqa()
 		part3 ${d} ${dnsm}
 		other_horrors
 		csleep 1
@@ -466,8 +444,7 @@ case "${mode}" in
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
-	q)
-		#VAIH:selvitä&korjaa tämä case (tpr() lienee ok mutta $srcfile:ss ei välttämättä oikeanlaista sisältöä)
+	q) #HUOM.061025:josko toimisi
 		[ x"${srcfile}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 1
@@ -497,16 +474,11 @@ case "${mode}" in
 			done
 		fi
 
-		#VAIH:k3yz.t.bz2 purq? tai siis...
 		#TODO:samoin e22_ftr ajamaan gpg jos saatavilla ja sit jhotrain		
 
-		#VAIH:uusimman modatun kiekon kanssa juttuja
 		#... ensiksi pitäisi f.tar purqaa m/$distro alle (imp2 osannee)
 		#... sitten tikulta uusimmat skriptit purkaen
 		#... VASTA SEN JÄLKEEN pääsee ajamaan:g_doit
-		#näin siis 1.10.25 (jotain tarttis tehrä)
-
-		#VAIH:huomioi myös lib.sh pak.as.fktiot, toimimaan chroot-ymp alaisuudessa
 	;;
 	-h) #HUOM.27725:ilman param kuuluisi kai keskeyttää suor mahd aik
 		usage

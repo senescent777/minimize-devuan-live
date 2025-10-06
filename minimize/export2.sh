@@ -163,12 +163,14 @@ e22_pre1 ${d} ${distro}
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 pwd;sleep 6
 [ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59" #tilapäisesti jemmaan kunnes x
-#...saisiko jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain..
+#...saisiko jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 
 e22_hdr ${tgtfile} #tämä saattaa sotkea tapauksessa c
 
+TODO:2 peräkkäistä case:a jatkossa, ensimmäiseen ne missä ei tarvitse verkkoyhteyttä pystyttää
+
 case ${mode} in
-	0|4) #HUOM.021025:toimi ainakin kerran case 0
+	0|4)
 	#041025 myös teki paketin, toimivuus varmistettava
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
@@ -186,16 +188,12 @@ case ${mode} in
 		dqb "srat= ${srat}"
 		csleep 5
 
-		#VAIH:se hdr-fktio?
-		#dd if=/dev/random bs=12 count=1 > ./rnd
-		#${srat} -cvf ${d}/f.tar ./rnd
-
 		e22_hdr ${d}/f.tar
 		e22_cleanpkgs ${d}
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then
-			e22_tblz ${d} ${iface} ${distro} ${dnsm} #VAIH:parametrien kanssa pientä laittoa
+			e22_tblz ${d} ${iface} ${distro} ${dnsm}
 			e22_get_pkgs ${d}/f.tar ${d} ${dnsm}
 	
 			if [ -d ${d} ] ; then
@@ -245,8 +243,8 @@ case ${mode} in
 	e)  #HUOM.041025:ainakin josqs teki paketin missä gpg-aiheiset .deb mukana
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
-		e22_tblz ${d} ${iface} ${distro} ${dnsm} #VAIH:parametrien kanssa pientä laittoa
-			
+		e22_tblz ${d} ${iface} ${distro} ${dnsm}
+
 		e22_get_pkgs ${tgtfile} ${d} ${dnsm}
 
 		if [ -d ${d} ] ; then
@@ -257,7 +255,7 @@ case ${mode} in
 		e22_arch ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi?
+	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi? no esim. jos tar:ill väärä -C ni...
 	q) #josko jo toimisi 061025?
 		#jos vähän roiskisi casen sisältöä -> e22 ?
 		[ z"${tgtfile}" == "z" ] && exit 99
@@ -265,25 +263,6 @@ case ${mode} in
 	
 		#HUOM.061025.1:parempi tämän kanssa että tuotokset puretaan -C - optiolla
 		e22_settings ~ ${d0}
-#		cd ${d0}
-#
-#		dqb "	OIJHPIOJGHOYRI&RE"
-#		pwd
-#		csleep 1
-#
-#		#HUOM.287tar 25:roiskiko väärään hakemistoon juttuja e22_settings()? toiv ei enää
-#		e22_settings ~ ${d0} #HUOM.061025:miksi toisen kerrab?
-#
-#		dqb "	OIJHPIOJGHOYRI&RE"
-#		[ ${debug} -eq 1 ] && pwd
-#		csleep 1
-#
-#		cd ~
-#
-#		#HUOM.voisi toisellakin tavalla tehdä, kts update.sh
-#		for f in $(find . -type f -name config.tar.bz2 -or -name fediverse.tar -or -name pulse.tar) ; do
-#			
-#		done
 
 		#HUOM.061025.2:tässä ei ole ihan pakollista vetää ~ mukaan tdstoken polkuun mutta olkoon nyt näin toistaiseksi
 
@@ -293,8 +272,6 @@ case ${mode} in
 
 		dqb "CASE Q D0N3"
 		csleep 3
-
-	#	echo "TEMPORARILY OUT OF ORDER"
 	;;
 	t) #HUOM.031025:testattu että tekee tar:in 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
@@ -308,7 +285,7 @@ case ${mode} in
 		e22_ts ${d}
 		e22_arch ${tgtfile} ${d}
 	;;
-	c) #uusi optio chroot-juttuja varten,melkein valmis käyttöön
+	c) #uusi optio chroot-juttuja varten
 		[ z"${tgtfile}" == "z" ] && exit 99
 
 		#tähän se avainten lisäys vaiko erillinen case?
@@ -326,26 +303,15 @@ case ${mode} in
 		#T_DKNAME voisi jatkossa osoittaa esim /r/l/m/p/dgsts alle?
 		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname1}
 		[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname2}
-		
-		#sittebjkööb tarpeelkliubnebn?
-		#${srat} -rvf ${tgtfile} ./${n}.conf		
+			
 		bzip2 ${tgtfile}
-
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
 		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
 
 		#... eli imp2 1 hoitanee k3yz purq, jos se riittäisi allek. av. kanssa että gpg --sb pääsee asiaan
 	;;
 	#HUOM.30925:taitaa jo toimia 
-	g)  #gpg-asioihin liittyen testaa että lisää arkistoon?
-	
-#		#TODO:jatkossa gpg-jutut tdstoon f.tar eli e2_pkgs muutettava?
-#		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
-#
-#		#${NKVD} ${d}/*.deb #olisi myös e22_cleanpkgs
-#		e22_cleanpkgs ${d}
-#		e22_cleanpkgs ${pkgdir}
-#
+	g)  
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "sudo apt-get update;sudo apt-get reinstall"
 
