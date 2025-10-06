@@ -84,7 +84,7 @@ scm="${odio} ${scm} "
 sah6=$(${odio} which sha512sum)
 
 #TODO:sd0 ja srat alustukset näille main jatrkossa?
-#TODO:komentorivin parsetyukseen liittyviä juttujamyöskin olisi...
+#TODO:komentorivin parsetyukseen liittyviä juttujamyöskin olisi... (?)
 # (ennen parse_opts määrittelyä olisi $distro/conf ja täts it, voinee sen chroot-jekun kyllä ennen)
 #... ja jotain matskua voisi siirtää riippuvista skripteistä kirjastoon?
 	
@@ -143,8 +143,8 @@ sd0=$(${odio} which dpkg)
 [ -z ${sd0} ] && exit 79
 
 unset sdi #tekeeko tämä jotain? kyl , kts check_bin() ,, "second half"
-#echo "SFDSFDSFDSFDSFDSFDSFDSFDS"
-#sleep 3
+echo "SFDSFDSFDSFDSFDSFDSFDSFDS"
+sleep 3
 
 sifu=$(${odio} which ifup)
 sifd=$(${odio} which ifdown)
@@ -207,6 +207,11 @@ function psqa() {
 		local gv
 		gv=$(${odio} which gpgv)
 
+		#VAIH:josko sillä toisella tavalla tarkistus
+		#https://www.gnupg.org/documentation/manuals/gnupg24/gpg.1.html
+		#https://www.gnupg.org/documentation/manuals/gnupg24/gpgv.1.html
+		#$gg --verify tai $gv ilman --keyring ideana?
+
 		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 			dqb "${gv} --keyring \${TARGET_Dpubkf} ./sha512sums.sig ./sha512sums in 3 secs"
 			csleep 3
@@ -256,7 +261,6 @@ function pre_part3_clib() {
 	fi
 }
 
-#HUOM.28925:toimiikohan toivotulla tavalla? vissiin pitäisi kirjoittaa uusiksi (VAIH)
 function efk1() {
 	dqb "efk1( $@)"
 	${sdi} $@
@@ -290,20 +294,14 @@ function efk2() {
 	csleep 1
 }
 
-#HUOM.041025:josqo libnl-asiat kunnossa jo
-
-#HUOM.031025:riippuvuusasia ehgjkä korjattu mutta dpkg saatava toimimaan taas
 #HUOM.041025:chroot.ympäristössä tietenkin se ympäristömja sudotuksern yht ongelma, keksisikö jotain (KVG)
 function fromtend() {
-#	local sdi2
-#	sdi2=$(${odio} which dpkg) #qsee?
 	dqb "FRöMTEND"
 
 	[ -v sd0 ] || exit 99
 	[ -z ${sd0} ] && exit 98
 	[ -x ${sd0} ] || exit 97
 
-#josko sd0 kohta...
 	if [ ! -f /.chroot ] ; then
 		dqb "${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@"
 		${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
@@ -315,7 +313,6 @@ function fromtend() {
 	dqb "DNÖE"
 }
 
-#HUOM.25725:chimaeran kanssa kosahti tablesin asennus, libnetfilter ja libnfnetlink liittyivät asiaan
 function common_tbls() {
 	dqb "COMMON TABLESD ($1, $2)"
 	csleep 1
@@ -373,7 +370,6 @@ function common_tbls() {
 		csleep 1
 	fi
 
-	#VAIH:fromtend-jekkua varten fktio koska urp
 	fromtend ${1}/netfilter-persistent*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
 
@@ -399,7 +395,7 @@ function check_binaries() {
 
 #	#HUOM.28725:kenties helpompi olisi lisätä sha512sum allekirjoitus+sen tarkistus kuin kokonaan vivuta tar:in hommia esim. gpgtar:ille
 #	if [ -x ${1}/../tar-wrapper.sh ] ; then 
-#		dqb "TODO?: tar-wrapper.sh" #josko vähitellen?
+#		dqb " tar-wrapper.sh ?" #josko vähitellen?
 #	else
 		srat=$(${odio} which tar)
 		
@@ -419,7 +415,6 @@ function check_binaries() {
 	spd="${sd0} -l " #jäänyt turhaksi muuten mutta g_pt2
 	sdi="${odio} ${sd0} -i "
 
-	#HUOM.041025:chrot.ympäristössä fromtendin kanssa ongelma joten skipataan tblz asennus silloin
 	if [ y"${ipt}" == "y" ] ; then #  && [ ! -f /.chroot ]#KOITA NYT LOTOTA SE EHTO
 		[ z"${1}" == "z" ] && exit 99
 		dqb "-d ${1} existsts?"
@@ -457,16 +452,14 @@ function check_binaries() {
 	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
 	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
 
-	#[ -v sdi ] || exit 666
-	[ -v sd0 ] || exit 666
- 	[ -v sdi ] || exit 667
-	#TODO:-z vielä?
-
-	#if [ ! -f /.chroot ] ; then #toiv tämä kikkailu pois 
-		for x in iptables ip6tables iptables-restore ip6tables-restore  ; do ocs ${x} ; done
-		csleep 6
-	#fi
-
+	[ -v sd0 ] || exit 66
+ 	[ -v sdi ] || exit 67
+	[ -z ${sd0} ] && exit 68
+	[ -z ${sdi} ] && exit 69
+	
+	for x in iptables ip6tables iptables-restore ip6tables-restore  ; do ocs ${x} ; done
+	csleep 6
+	
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
 	som=$(${odio} which mount)
@@ -496,8 +489,10 @@ function check_binaries2() {
 	sa="${odio} ${sa} "
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
-	
-	lftr="${smr} -rf /run/live/medium/live/initrd.img* " #distro-kohtainen jatkossa
+
+	#HUOM.061025:aiheuttaakohan ao. rivi ongelmia initramfs-pakettein kanssa?	
+	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
+	#distro-kohtainen jatkossa
 	
 	#srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
@@ -543,7 +538,7 @@ function mangle_s() {
 	echo -n "sha256:" >> ${2}
 	echo -n " " >> ${2}
 
-#https://github.com/senescent777/some_scripts/blob/main/skripts/export/common_funcs.sh.export , slaughter0 olisi myös 1 idea
+	#slaughter0 olisi myös 1 idea
 
 	local p
 	p=$(sha256sum ${1} | cut -d ' ' -f 1 | tr -dc a-f0-9)
@@ -709,7 +704,7 @@ function e_h() {
 		csleep 1
 	fi
 
-	#HUOM.28525:p.o $1/$2 jatkossa tai ainakin tarkistaa että $2 sis $1
+	#HUOM.28525:p.o $1/$2 jatkossa tai ainakin tarkistaa että $2 sis $1?
 	[ -d ${2} ] || exit 99
 	local f
 
@@ -737,7 +732,7 @@ function e_h() {
 
 #/e/n/i ja excalibur, pitäisikö tehdä jotain?
 function e_final() {
-	dqb "e_final()"
+	dqb "e_final( ${1} )"
 	csleep 1
 	local f
 	f=$(date +%F)
@@ -754,9 +749,11 @@ function e_final() {
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 	csleep 5 
 
-	#TODO:pitäisiköhän muuttaa ao. rivejä? miten? if-blokki ympärille?
-	${sco} -R root:root /etc/wpa_supplicant
-	${scm} -R a-w /etc/wpa_supplicant
+	#VAIH:pitäisiköhän muuttaa ao. rivejä? miten? if-blokki ympärille?
+	#if $1{1} ... 
+		${sco} -R root:root /etc/wpa_supplicant
+		${scm} -R a-w /etc/wpa_supplicant
+	#fi
 
 	dqb "e_final() D0N3"
 	csleep 1
@@ -779,7 +776,7 @@ function enforce_access() {
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
 	e_h ${1} ${2}
-	e_final
+	e_final ${iface}
 
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
@@ -815,8 +812,6 @@ function part1_5() {
 
 		dqb "p1.5.2()"
 		csleep 1
-
-		#HUOM.22525:vaikuttaisi jopa toimivan, seur forWardointi sh:lle
 		local tdmc
 	
 		tdmc="sed -i 's/DISTRO/${t}/g'"
@@ -938,7 +933,6 @@ function part076() {
 function part1() {
 	dqb "PART1( ${1} )"
 	csleep 1
-
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
 	csleep 1
 
@@ -1000,7 +994,7 @@ function part2_5() {
 	csleep 1
 
 	if [ ${1} -eq 1 ] ; then
-		dqb "pHGHGUYFLIHLYGLUYROI mglwafh"
+		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."
 		${lftr}
 		${fib} #uutena 27525, xcalibur...
 		csleep 1
@@ -1069,9 +1063,6 @@ function part2_5() {
 }
 
 #HUOM.26525:alunperin tablesin asentamista varten, nykyään tehdään check_binaries() kautta sen asennus
-#pendency problems prevent configuration of bind9-dnsutils:
-# bind9-dnsutils depends on bind9-libs (= 1:9.18.33-1~deb12u2); however:
-#  Version of bind9-libs:amd64 on system is 1:9.18.16-1~deb12u1.
 
 function part3() {
 	dqb "part3 ${1} ${2}"
