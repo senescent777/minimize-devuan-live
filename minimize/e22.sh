@@ -134,7 +134,7 @@ function e22_pre2() { #HUOM.071025:taitaa toimia edelleen
 	sleep 2
 }
 
-function e22_cleanpkgs() {
+function e22_cleanpkgs() { #HUOM.071025:josko toimisi?
 	dqb " ${1} , ${2} , ${3}  "
 
 	if [ -d ${1} ] ; then
@@ -195,8 +195,10 @@ function e22_settings() { #VAIH:testaus
 	cd ${2}
 }
 
-function e22_home() { #TODO:testaus koska e22_settings() muutettu
+function e22_home() { #TODO:testaus mm. koska e22_settings() muutettu
 	dqb "e22_home ${1} , ${2} , ${3}  "
+	#HUOM-071025:töässä vai jossain muualla tarkoitus ottaa f.tar mukaan?
+
 	[ -z ${1} ] && exit
 	[ -z ${2} ] && exit
 	[ -z ${3} ] && exit
@@ -270,7 +272,7 @@ function luca() {
 	sleep 3
 }
 
-function e22_elocal() { 
+function e22_elocal() { #VAIH:testaus muutoksien jölkeen
 	dqb "e22_elocal ${1} ${2} ${3} ${4}"
 	csleep 1
 
@@ -361,7 +363,7 @@ function e22_elocal() {
 
 BASEURL="github.com/senescent777" #jatkossa -> conf
 
-function e22_ext() { #TODO:testaus
+function e22_ext() { #VAIH:testaus (071025)
 	dqb "e22_ext ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -696,6 +698,7 @@ function e22_get_pkgs() { #TODO:testaa viimeaikaisten muutoksien jäljiltä
 
 function e22_dblock() { #VAIH:testaus (072015)
 	#TODO:param. tark.
+	#HUOM.jossain pitäisi kai olla $rat -rvf $file f.tar (esim e22_a) , onko?
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	pwd

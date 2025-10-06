@@ -170,7 +170,6 @@ csleep 1
 #esac
 
 e22_pre1 ${d} ${distro}
-
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 pwd;sleep 6
 
@@ -181,7 +180,7 @@ e22_hdr ${tgtfile} #tämä saattaa sotkea tapauksessa c
 
 case ${mode} in
 	0|4)
-	#041025 myös teki paketin, toimivuus varmistettava
+	#VAIH:testaus (072015) , tekee paketin (toimivuus vielä auki)
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
@@ -257,8 +256,7 @@ case ${mode} in
 		# xserver-xorg-core
 		# e2fsprogs
 		#-... nalkutuksen lisksi tekee kyllä $distro:n alle f.tar:in mutta $tgtfile:en asti ei f vielä mene		
-		# ... lisäksi pitäisi varmaankin lisätä f.tar $tgtile:en jossain kohtaa
-
+		
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
