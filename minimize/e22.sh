@@ -1,4 +1,7 @@
-function e22_hdr() {
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
+GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
+		
+function e22_hdr() { #TODO:param tark
 	dqb "BEFORE TAR"
 	csleep 1
 	${odio} touch ./rnd
@@ -11,7 +14,7 @@ function e22_hdr() {
 	csleep 1
 }
 
-function e22_ftr() {
+function e22_ftr() { #TODO:param tark
 	${odio} touch ${1}.sha
 	${sco} $(whoami):$(whoami) ${1}.sha
 	${scm} 0644 ${tgtfile}.sha
@@ -342,7 +345,7 @@ function e22_elocal() {
 
 BASEURL="github.com/senescent777" #jatkossa -> conf
 
-function e22_ext() {
+function e22_ext() { #TODO:testaus
 	dqb "e22_ext ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -630,7 +633,7 @@ function e22_get_pkgs() { #TODO:testaa viimeaikaisten muutoksien jäljiltä
 	message
 	jules
 
-	if [ ${3} -eq 1 ] ; then #josko komentorivioptioksi?
+	if [ ${3} -eq 1 ] ; then
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
 		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
@@ -655,10 +658,9 @@ function e22_get_pkgs() { #TODO:testaa viimeaikaisten muutoksien jäljiltä
 
 #joskus tämäkin?
 #	if [ $SOME_CONFIG_OPTION ] ; then
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-		dqb "GOG"
+#		dqb "GOG"
 #libreadline8 aiemmaksi? muutkin pak saattavat tarvita
-		${shary} gpgconf libassuan0 libbz2-1.0 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0
+		${shary} ${GI}
 		${shary} gpg
 		dqb "MAGOG"
 		csleep 5
@@ -690,7 +692,7 @@ function e22_dblock() {
 	e22_cleanpkgs ${2}
 }
 
-function e22_settings2() { #HUOM.041025:testattu sen verran että tekee tar:in 
+function e22_settings2() { #TODO:testaa uusiksi 
 	dqb "e22_settings2 ${1} ${2}"
 
 	[ -z ${1} ] && exit 99

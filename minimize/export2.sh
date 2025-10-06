@@ -162,12 +162,12 @@ e22_pre1 ${d} ${distro}
 
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 pwd;sleep 6
+
 [ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59" #tilapäisesti jemmaan kunnes x
-#...saisiko jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
+#...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 
 e22_hdr ${tgtfile} #tämä saattaa sotkea tapauksessa c
-
-TODO:2 peräkkäistä case:a jatkossa, ensimmäiseen ne missä ei tarvitse verkkoyhteyttä pystyttää
+#TODO:2 peräkkäistä case:a jatkossa, ensimmäiseen ne missä ei tarvitse verkkoyhteyttä pystyttää
 
 case ${mode} in
 	0|4)
@@ -315,8 +315,8 @@ case ${mode} in
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "sudo apt-get update;sudo apt-get reinstall"
 
-		#TODO:kasaa rimpsu jhnkin muuttujaan ni ei tartte renkata
-		echo "${shary} gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
+		#VAIH:kasaa rimpsu jhnkin muuttujaan ni ei tartte renkata
+		echo "${shary} ${GI}"
 		echo "${svm} ${pkgdir}/*.deb ${d}"
 		echo "$0 f ${tgtfile} ${distro}"
 	;;
