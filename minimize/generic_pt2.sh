@@ -1,11 +1,12 @@
 #!/bin/bash
-#TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh) vielä tarpeen 29725?
+
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 d0=$(pwd)
 
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro}
+mode=0 #3 nollana kunnes saa bugit korjattua (gui qsee)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -15,9 +16,10 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+
 function parse_opts_1() {
 	echo "popt_1( ${1} )"
-	
+
 	case ${1} in
 		-v|--v)
 			debug=1
@@ -25,7 +27,8 @@ function parse_opts_1() {
 		*)
 			if [ -d ${d0}/${1} ] ; then
 				distro=${1}
-		
+			else 
+				mode=${1}
 			fi
 
 			dqb "0th3r 0tps"
@@ -33,25 +36,35 @@ function parse_opts_1() {
 	esac
 }
 
+#HUOM.021025:initramfs-toolsin ja live-xxx-pakettien kanssa saattaa olla jotain härdellia, korjaa?
+#... jos uuden .iso:n kanssa sama ni apt reinstall intramfs ja katsotaan mitä tapahtuu
+ 
 function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
+#HUOM.pitäisiköhän olla useampi tuommoinen bz3 mitä käsitellään?
 if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
-	tar -jxvf ${d0}/necros.tar.bz3
+	tar -jxvf ${d0}/nekros.tar.bz3
 
 	sleep 3
-	rm ${d0}/necros.tar.bz3
+	rm ${d0}/nekros.tar.bz3
 fi
 
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
 else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
-	echo "CONF MISSING"
-	exit 56
+#	echo "CONF MISSING"
+#	exit 56
+
+	[ -s ${d0}/root.conf ] || exit 56
+	. ${d0}/root.conf 
 fi
+
+#tässä välissä debug-mjan jyräys?
+#voisikohan yo. juttuja siirtää -> common_lib ?
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -64,8 +77,6 @@ fi
 dqb "BEFORE CNF"
 echo "dbig= ${debug}" # [  -v ] taakse?
 sleep 1
-
-#TODO:josko tarvittaessa jyräämään konftdston debug-asetus tai siis mahd aikaisessa vaiheessa debug päälle oli ideana?
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -86,8 +97,11 @@ ${fib}
 echo "debug=${debug}"
 dqb "distro=${distro}"
 dqb "removepkgs=${removepkgs}"
+dqb "mode=${mode} "
+
 sleep 1
 csleep 1
+#exit 666 #HUOM.021025:jokin saatttaa qsta tässä, siksi 
 
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
@@ -126,10 +140,7 @@ function t2pc() {
 	${sharpy} docutils* dosfstools efibootmgr exfalso
 	t2p_filler
 
-
 	#HUOM.29925: daed kanssa poistuu hos poistuu libsouåp josqs g_doit jälkeen
-
-	#TODO:se librsvg-juttu daedaluksen kanssa? (mikä?)
 
 	#tikkujen kanssa paska tdstojärjestelmä exfat
 	${sharpy} exfatprogs fdisk gcr ftp*
@@ -138,8 +149,8 @@ function t2pc() {
 	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
 	t2p_filler
 
-	${sharpy} gpgsm gpg-agent gpg
-	t2p_filler
+	#${sharpy} gpgsm gpg-agent gpg #tulossa käyttöä näille ajtkossa
+	#t2p_filler
 
 	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta kun xcalibur
 	#${sharpy} grub* 
@@ -227,13 +238,16 @@ function t2pf() {
 #HUOM.26525:nyt sitten debug päälle jotta selviää mihin pysähtyy
 
 t2pc
-[ $? -gt 0 ] && exit #tähän tökkää?
+[ $? -gt 0 ] && exit
+[ ${mode} -eq 0 ] && exit
 
 t2p
 [ $? -gt 0 ] && exit
+[ ${mode} -eq 1 ] && exit #tähän tökkää?
 
 t2pf ${1}
 [ $? -gt 0 ] && exit
+[ ${mode} -eq 2 ] && exit
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
 sleep 6
