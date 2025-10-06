@@ -84,7 +84,7 @@ scm="${odio} ${scm} "
 sah6=$(${odio} which sha512sum)
 
 #TODO:sd0 ja srat alustukset näille main jatrkossa?
-#TODO:komentorivin parsetyukseen liittyviä juttujamyöskin olisi...
+#TODO:komentorivin parsetyukseen liittyviä juttujamyöskin olisi... (?)
 # (ennen parse_opts määrittelyä olisi $distro/conf ja täts it, voinee sen chroot-jekun kyllä ennen)
 #... ja jotain matskua voisi siirtää riippuvista skripteistä kirjastoon?
 	
@@ -207,7 +207,11 @@ function psqa() {
 		local gv
 		gv=$(${odio} which gpgv)
 
-		#TODO:josko sillä toisella tavalla tarkistus
+		#VAIH:josko sillä toisella tavalla tarkistus
+		#https://www.gnupg.org/documentation/manuals/gnupg24/gpg.1.html
+		#https://www.gnupg.org/documentation/manuals/gnupg24/gpgv.1.html
+		#$gg --verify tai $gv ilman --keyring ideana?
+
 		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 			dqb "${gv} --keyring \${TARGET_Dpubkf} ./sha512sums.sig ./sha512sums in 3 secs"
 			csleep 3
@@ -450,8 +454,8 @@ function check_binaries() {
 
 	[ -v sd0 ] || exit 666
  	[ -v sdi ] || exit 667
-	#TODO:-z vielä?
-
+	[ -z ${sd0} ] && exit 666
+	[ -z ${sd1} ] && exit 666
 	
 	for x in iptables ip6tables iptables-restore ip6tables-restore  ; do ocs ${x} ; done
 	csleep 6
