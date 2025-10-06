@@ -240,15 +240,16 @@ function common_part() {
 	dqb "paramz_0k"
 	csleep 3
 
-	cd /
-	dqb "DEBUG:${srat} -xf ${1} "
-	csleep 1
+	cd / #-C nykyään...
+	#dqb "DEBUG:${srat} -xf ${1} "
+	#csleep 1
 	
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
 		cat ${1}.sha
 		${sah6} ${1}
 
+		#TODO:tarkistus jos vähän toisella tavalla
 		local gv
 		gv=$(${odio} which gpgv)
 
@@ -262,8 +263,10 @@ function common_part() {
 	#jatkossa voisi -C - option parametrin johtaa $2:sesta?
 	csleep 1
 
+	#HUOM.061025:-tf ilman sudotusta parempi?
 	${srat} -tf ${1} | grep -v tim3 | cut -d / -f 1
 	csleep 10
+
 	dqb "NECKST:${srat} -C ${3} -xf ${1}"
 	csleep 1
 
@@ -475,7 +478,7 @@ case "${mode}" in
 	
 		c=$(tar -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
-		common_part ${srcfile} ${d} ~ 
+		common_part ${srcfile} ${d} /  #~ 
 		tpr ${d0}
 	;;
 	r)

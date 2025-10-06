@@ -258,12 +258,13 @@ case ${mode} in
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
 	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi?
-	q) #VAIH
-#		#jos vähän roiskisi casen sisältöä -> e22 ?
-#		[ z"${tgtfile}" == "z" ] && exit 99
-#		${sifd} ${iface}
-#	
-#		e22_settings ~ ${d0}
+	q) #josko jo toimisi 061025?
+		#jos vähän roiskisi casen sisältöä -> e22 ?
+		[ z"${tgtfile}" == "z" ] && exit 99
+		${sifd} ${iface}
+	
+		#HUOM.061025.1:parempi tämän kanssa että tuotokset puretaan -C - optiolla
+		e22_settings ~ ${d0}
 #		cd ${d0}
 #
 #		dqb "	OIJHPIOJGHOYRI&RE"
@@ -281,16 +282,22 @@ case ${mode} in
 #
 #		#HUOM.voisi toisellakin tavalla tehdä, kts update.sh
 #		for f in $(find . -type f -name config.tar.bz2 -or -name fediverse.tar -or -name pulse.tar) ; do
-#			${srat} -rvf ${tgtfile} ${f}
+#			
 #		done
-#
-#		dqb "CASE Q D0N3"
-#		csleep 3
-		echo "TEMPORARILY OUT OF ORDER"
+
+		#HUOM.061025.2:tässä ei ole ihan pakollista vetää ~ mukaan tdstoken polkuun mutta olkoon nyt näin toistaiseksi
+
+		for f in $(find ~ -name '*.tar' -or -name '*.bz2') ; do
+			${srat} -rvf ${tgtfile} ${f}
+		done
+
+		dqb "CASE Q D0N3"
+		csleep 3
+
+	#	echo "TEMPORARILY OUT OF ORDER"
 	;;
 	t) #HUOM.031025:testattu että tekee tar:in 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
-	
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
 			
@@ -298,7 +305,6 @@ case ${mode} in
 		csleep 6
 
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
-		
 		e22_ts ${d}
 		e22_arch ${tgtfile} ${d}
 	;;

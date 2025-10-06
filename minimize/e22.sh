@@ -137,7 +137,7 @@ function e22_cleanpkgs() {
 	csleep 1
 }
 
-function e22_settings() { #HUOM.020825:toimii
+function e22_settings() { #VAIH:testaus
 	dqb "e22_settings ${1} ${2}"
 	csleep 1
 
@@ -159,6 +159,7 @@ function e22_settings() { #HUOM.020825:toimii
 	csleep 1
 	dqb "PR0.F5"
 
+	#josqo profs.sh sitten mukaan kanssa?
 	if [ -x ${2}/profs.sh ] ; then
 		dqb "DE PROFUNDIS"
 		.  ${2}/profs.sh	
@@ -166,7 +167,8 @@ function e22_settings() { #HUOM.020825:toimii
 		#HUOM.28725:SOPISI NYT JONKIN AIKAA OLLA EKA PARAMETRI TUOLLEEN ETTÄ FKTION PARAM MUKANA
 		#... HARKITAAN MUUTTAMISTA SITTEN JOS OIKEASTI TARVETTA ILMENEE
 
-		exp_prof ${1}/fediverse.tar default-esr
+		exp_prof ${1}/fediverse.tar default-esr	
+		#$1 ei ehkä pakko laittaa mykaan koska cd ylempänä
 	else
 		dqb "export2 p \$file ; import2 1 $file  ?"
 		exit 24
