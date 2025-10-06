@@ -1,5 +1,6 @@
 #!/bin/bash
 #jotain oletuksia kunnes oikea konftdsto saatu lotottua
+#... jokin conf-tdston prosessoiva fktio missä oletuksia?
 debug=0 #1
 srcfile=""
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi (leikeltynä vai ei?)
@@ -10,7 +11,7 @@ d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
 
-#HUOM.30935:jospa ei pilkkoisi ainakaan ihan vielä
+#HUOM.30925:jospa ei pilkkoisi tätä tdstoa ainakaan ihan vielä
 
 #pitäisikö vielä minimoida latensseja tästä skriptistä? ja sen käyttämistä?
 #... optiota -v ei ole pakko käyttää, toisaalta
@@ -35,7 +36,7 @@ else
 	exit 1	
 fi
 
-#HUOM.041025:debug.riippuvaisen käytöksen syy löytrynee töästä fktioata, ehkä
+#HUOM.041025:debug-riippuvaisen käytöksen syy löytynee tästä fktiosta, ehkä
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
@@ -54,7 +55,7 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-if [ -f /.chroot ] ; then
+if [ -f /.chroot ] ; then #TODO:tämmöiset jatkossa -> common_lib
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
 
@@ -79,8 +80,10 @@ if [ -x ${d0}/common_lib.sh ] ; then #saattaa jo toimia chroot-ymp sisällä
 	#... saattaa olla että sq-chroot:in sisällä ei tarvitsekaan:import2.sh mutta väHän kätevänPI ehgkä
 	. ${d0}/common_lib.sh
 else
-	#TODO:jospa testaisi miten tämä haara toimaa nykyään (031025)
-	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston"
+	#VAIH:jospa testaisi miten tämä haara toimaa nykyään (061025)
+	#... jotenkin kai
+
+	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston" ?
 	srat="sudo /bin/tar" #which mukaan?
 	som="sudo /bin/mount"
 	uom="sudo /bin/umount"
@@ -115,7 +118,7 @@ else
 
 	#HUOM.26525:tämä versio part3:sesta sikäli turha että common_lib urputtaa koska sha512sums muttei deb?
 	function part3() {
-		dqb "NOT SUPPORTED"
+		dqb "imp2.part3():NOT SUPPORTED"
 		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount:in tapahtumaan silloin kun varsinainen instailu ei onnaa
 	}
 
@@ -206,12 +209,21 @@ csleep 1
 
 #HUOM.061025:allekrijoitus-asioita alettu hiomoioida sekä imp2 että exp2
 
-#TODO:
+#VAIH:
 #- import2, common_part , -C - optio (common_lib disbled)
 #	kun purq /p/f.tar.bz2 ni menee juureen (ark sisällä ei hmistorakennetta)
 #	eli testattava ja toimittava havaintojen mukaan
 #	tar -jtf ja putken päähän cut -d / -f 1 , jos pelkkää pistettä ni...
 #	paitsi että timestamp voi sotkea grepataan listauksesta se ensin pois
+
+#TODO:.deb-pakettien pakkaus/purku vähän uusiksi? voisi olla ./$distro/ alla nuo
+#... ja "exp2 0", josko silloin tylysti vain .deb ha sha512sums tar:iin?
+
+#VAIH:ffox-profiilien yms. tauhkan pakkaus/purku, toimimaan taas (josko .tar sisällöstä kiinni)
+#TODO:allek. tar. ehkä toisin kuitenkin? ei luotettaisi /r/l/m/p sisältöön vaan /pad alta tai ~/.gnupg hödynt
+
+
+#TODO:$2 ja $3 käsittely uusiksi?
 
 function common_part() {
 	#debug=1
@@ -241,7 +253,7 @@ function common_part() {
 		gv=$(${odio} which gpgv)
 
 		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-			dqb "TODO: ${gv} --keyring \${TARGET_Dpubkf} ${1}.sha.sig ${1} "
+			dqb "TODO: ${gv} --keyring \${TARGET_Dpubkf} ${1}.sha.sig ${1} (tai vähän toisella tavalla oikeastaan)"
 		fi
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
@@ -250,10 +262,17 @@ function common_part() {
 	#jatkossa voisi -C - option parametrin johtaa $2:sesta?
 	csleep 1
 
+	${srat} -tf ${1} | grep -v tim3 | cut -d / -f 1
+	csleep 10
+	dqb "NECKST:${srat} -C ${3} -xf ${1}"
+	csleep 1
+
 	#efk2 vai ei? ehkä ei koska stand_alone
-	#... miten suodtus?
-	${srat} -C ${3} -xf ${1} #HUOM.23725:C-option voisi josqs jyrätä?
+	#... miten suodtus? siis --exclude mukaan kai
+
+	${srat} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36
+
 	csleep 1
 	dqb "tar DONE"
 
@@ -262,7 +281,7 @@ function common_part() {
 	#HUOM.25725:voi periaatteessa mennä metsään tuo $t josqs, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 
 	#HUOM.031025:omstajuuksia ja käyttöoikeuksia joutuu silti renkkaamaan
-	#... pitäisi varmaan kutsua e_acc aina
+	#... pitäisi varmaan kutsua e_acc aina tai siis...
 
 	if [ -x ${t}/common_lib.sh ] ; then
 		enforce_access ${n} ${t} 
@@ -305,26 +324,31 @@ function tpr() {
 	dqb "L\'ENG TZCHE "
 	csleep 1
 
-	if [ -s ~/config.tar.bz2 ] ; then #josko vähän kätevämmin jatkossa?
-		${srat} -C ~ -jxf ~/config.tar.bz2
-		
-	else
-		${srat} -C ~ -jxf ${1}/config.tar.bz2
-	fi
+#	if [ -s ~/config.tar.bz2 ] ; then #josko vähän kätevämmin jatkossa?
+#		${srat} -C ~ -jxf ~/config.tar.bz2
+#		
+#	else
+#		${srat} -C ~ -jxf ${1}/config.tar.bz2
+#	fi
+#
+#	dqb "PULSE"
+#	csleep 1
+#
+#	if [ -s ~/pulse.tar ] ; then
+#		${srat} -C / -xvf ~/pulse.tar
+#	else
+#		${srat} -C / -xvf ${1}/pulse.tar
+#	fi
 
-	dqb "PULSE"
-	csleep 1
-
-	if [ -s ~/pulse.tar ] ; then
-		${srat} -C / -xvf ~/pulse.tar
-	else
-		${srat} -C / -xvf ${1}/pulse.tar
-	fi
-
+	#~ alta kalat pois jottei sotke jatkossa?
+	local t
+	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} -C ~ -xvf ${t} ; done
+	for t in ${1}/pulse.tar ~/pulse.tar ; do ${srat} -C / -xvf ${t} ; done
 	dqb "PROFS?"
 	csleep 1
 
 	if [ -x ${1}/profs.sh ] ; then
+		#fktioiden importointia jos kokeilisi? man bash...
 		. ${1}/profs.sh
 		[ $? -gt 0 ] && exit 33
 			
@@ -405,6 +429,7 @@ case "${mode}" in
 		[ -s ${srcfile} ] || exit 34
 		[ -r ${srcfile} ] || exit 35
 
+		#HUOM.061025:pitäisiköhän tässä tutkia lähdetsdton sisältöä ennenq aletaan purkaa?
 		if [ ${1} -eq 0 ] ; then
 			common_part ${srcfile} ${d} / #voi tietystI mennä mettään tuon $d/common_lib kanssa?
 		else
@@ -423,6 +448,7 @@ case "${mode}" in
 					common_part ${d}/f.tar ${d} ${d} 				
 				fi
 			fi
+			#for t in ${d}/e.tar ... No Ei
 		fi
 		
 		csleep 5
@@ -438,7 +464,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#TODO:selvitä&korjaa tämä case
+		#VAIH:selvitä&korjaa tämä case (tpr() lienee ok mutta $srcfile:ss ei välttämättä oikeanlaista sisältöä)
 		[ x"${srcfile}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 1
@@ -471,13 +497,13 @@ case "${mode}" in
 		#VAIH:k3yz.t.bz2 purq? tai siis...
 		#TODO:samoin e22_ftr ajamaan gpg jos saatavilla ja sit jhotrain		
 
-		#TODO:uusimman modatun kiekon kanssa juttuja
-		#... ensiksi pitäisi f.tar purqaa m/$distro alle
+		#VAIH:uusimman modatun kiekon kanssa juttuja
+		#... ensiksi pitäisi f.tar purqaa m/$distro alle (imp2 osannee)
 		#... sitten tikulta uusimmat skriptit purkaen
 		#... VASTA SEN JÄLKEEN pääsee ajamaan:g_doit
 		#näin siis 1.10.25 (jotain tarttis tehrä)
 
-		#TODO:huomioi myös lib.sh pak.as.fktiot, toimimaan chroot-ymp alaisuudessa
+		#VAIH:huomioi myös lib.sh pak.as.fktiot, toimimaan chroot-ymp alaisuudessa
 	;;
 	-h) #HUOM.27725:ilman param kuuluisi kai keskeyttää suor mahd aik
 		usage

@@ -41,7 +41,7 @@ fi
 
 #"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
 function parse_opts_1() {
-	dqb "patse_otps8( ${1}, ${2})"
+	dqb "exp2.patse_otps8( ${1}, ${2})"
 
 	case "${1}" in
 		-v|--v)
@@ -258,34 +258,35 @@ case ${mode} in
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
 	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi?
-	q) #HUOM.031025:tekee paketin, siitä eteenpäin vähän auki
-		#jos vähän roiskisi casen sisältöä -> e22 ?
-		[ z"${tgtfile}" == "z" ] && exit 99
-		${sifd} ${iface}
-	
-		e22_settings ~ ${d0}
-		cd ${d0}
-
-		dqb "	OIJHPIOJGHOYRI&RE"
-		pwd
-		csleep 1
-
-		#HUOM.287tar 25:roiskiko väärään hakemistoon juttuja e22_settings()? toiv ei enää
-		e22_settings ~ ${d0}
-
-		dqb "	OIJHPIOJGHOYRI&RE"
-		[ ${debug} -eq 1 ] && pwd
-		csleep 1
-
-		cd ~
-
-		#HUOM.voisi toisellakin tavalla tehdä, kts update.sh
-		for f in $(find . -type f -name config.tar.bz2 -or -name fediverse.tar -or -name pulse.tar) ; do
-			${srat} -rvf ${tgtfile} ${f}
-		done
-
-		dqb "CASE Q D0N3"
-		csleep 3
+	q) #VAIH
+#		#jos vähän roiskisi casen sisältöä -> e22 ?
+#		[ z"${tgtfile}" == "z" ] && exit 99
+#		${sifd} ${iface}
+#	
+#		e22_settings ~ ${d0}
+#		cd ${d0}
+#
+#		dqb "	OIJHPIOJGHOYRI&RE"
+#		pwd
+#		csleep 1
+#
+#		#HUOM.287tar 25:roiskiko väärään hakemistoon juttuja e22_settings()? toiv ei enää
+#		e22_settings ~ ${d0} #HUOM.061025:miksi toisen kerrab?
+#
+#		dqb "	OIJHPIOJGHOYRI&RE"
+#		[ ${debug} -eq 1 ] && pwd
+#		csleep 1
+#
+#		cd ~
+#
+#		#HUOM.voisi toisellakin tavalla tehdä, kts update.sh
+#		for f in $(find . -type f -name config.tar.bz2 -or -name fediverse.tar -or -name pulse.tar) ; do
+#			${srat} -rvf ${tgtfile} ${f}
+#		done
+#
+#		dqb "CASE Q D0N3"
+#		csleep 3
+		echo "TEMPORARILY OUT OF ORDER"
 	;;
 	t) #HUOM.031025:testattu että tekee tar:in 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
@@ -314,6 +315,7 @@ case ${mode} in
 		# tuossa ymp eri asetukset q live-kiekolla mutta toisaalta eri h mistotkin
 		# ... jospa 	copy_conf()
 
+		#TODO:syksymmällä jotenkin toisin ao. blokki
 		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done
 		#T_DKNAME voisi jatkossa osoittaa esim /r/l/m/p/dgsts alle?
 		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname1}
