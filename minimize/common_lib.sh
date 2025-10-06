@@ -452,10 +452,10 @@ function check_binaries() {
 	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
 	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
 
-	[ -v sd0 ] || exit 666
- 	[ -v sdi ] || exit 667
-	[ -z ${sd0} ] && exit 666
-	[ -z ${sd1} ] && exit 666
+	[ -v sd0 ] || exit 66
+ 	[ -v sdi ] || exit 67
+	[ -z ${sd0} ] && exit 68
+	[ -z ${sd1} ] && exit 69
 	
 	for x in iptables ip6tables iptables-restore ip6tables-restore  ; do ocs ${x} ; done
 	csleep 6
@@ -749,9 +749,11 @@ function e_final() {
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 	csleep 5 
 
-	#TODO:pitäisiköhän muuttaa ao. rivejä? miten? if-blokki ympärille?
-	${sco} -R root:root /etc/wpa_supplicant
-	${scm} -R a-w /etc/wpa_supplicant
+	#VAIH:pitäisiköhän muuttaa ao. rivejä? miten? if-blokki ympärille?
+	#if $1{1} ... 
+		${sco} -R root:root /etc/wpa_supplicant
+		${scm} -R a-w /etc/wpa_supplicant
+	#fi
 
 	dqb "e_final() D0N3"
 	csleep 1
@@ -774,7 +776,7 @@ function enforce_access() {
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
 	e_h ${1} ${2}
-	e_final
+	e_final ${iface}
 
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
