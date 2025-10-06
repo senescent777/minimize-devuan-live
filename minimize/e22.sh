@@ -30,7 +30,7 @@ function e22_ftr() {
 }
 
 function e22_pre1() {
-	# tosin disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(TODO?)
+	# tosin disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
 
 	dqb "e22_pre1 ${1}  ${2} "
 	[ -z ${1} ] && exit 66
@@ -607,8 +607,6 @@ function e22_tblz() { #VAIH:testaus
 }
 
 function e22_get_pkgs() { #TODO:testaa viimeaikaisten muutoksien jäljiltä
-
-	#VAIH:if [ -d ] - blokki kutsuvaan koodiin? 
 	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 
