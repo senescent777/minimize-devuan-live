@@ -215,7 +215,7 @@ function psqa() {
 		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 			dqb "${gv} --keyring \${TARGET_Dpubkf} ./sha512sums.sig ./sha512sums in 3 secs"
 			csleep 3
-			${gv} --keyring ${TARGET_Dpubkf} ./sha512sums.sig ./sha512sums
+			${gv} ./sha512sums.sig ./sha512sums
 			csleep 3
 		fi
 
@@ -412,7 +412,6 @@ function check_binaries() {
 	dqb "JUST BEFORE"
 	csleep 6
 
-	spd="${sd0} -l " #jäänyt turhaksi muuten mutta g_pt2
 	sdi="${odio} ${sd0} -i "
 
 	if [ y"${ipt}" == "y" ] ; then #  && [ ! -f /.chroot ]#KOITA NYT LOTOTA SE EHTO
@@ -452,6 +451,7 @@ function check_binaries() {
 	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
 	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
 
+	#HUOM.071025:onko ao. testiblokissa jotain ongelmaa? bash valittaa
 	[ -v sd0 ] || exit 66
  	[ -v sdi ] || exit 67
 	[ -z ${sd0} ] && exit 68

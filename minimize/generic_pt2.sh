@@ -1,12 +1,12 @@
 #!/bin/bash
-#TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh) vielä tarpeen 29725?
+
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 d0=$(pwd)
 
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro}
-mode=3
+mode=0 #3 nollana kunnes saa bugit korjattua (gui qsee)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -16,7 +16,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#VAIH:jokin mode-param mikä määrää mihin asti poistellaan
+
 function parse_opts_1() {
 	echo "popt_1( ${1} )"
 
@@ -36,8 +36,9 @@ function parse_opts_1() {
 	esac
 }
 
-#HUOM.021025:initrafs-toolsin ja live-xxx-pakettien kanssa saattaa olla jotain härdellia, korjaa?
-
+#HUOM.021025:initramfs-toolsin ja live-xxx-pakettien kanssa saattaa olla jotain härdellia, korjaa?
+#... jos uuden .iso:n kanssa sama ni apt reinstall intramfs ja katsotaan mitä tapahtuu
+ 
 function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
@@ -62,6 +63,7 @@ else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
 	. ${d0}/root.conf 
 fi
 
+#tässä välissä debug-mjan jyräys?
 #voisikohan yo. juttuja siirtää -> common_lib ?
 
 if [ -x ${d0}/common_lib.sh ] ; then
@@ -75,8 +77,6 @@ fi
 dqb "BEFORE CNF"
 echo "dbig= ${debug}" # [  -v ] taakse?
 sleep 1
-
-#TODO:josko tarvittaessa jyräämään konftdston debug-asetus tai siis mahd aikaisessa vaiheessa debug päälle oli ideana?
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -165,7 +165,6 @@ function t2pc() {
 	${sharpy} libreoffice*
 	t2p_filler
 
-	#xcaliburissa ao. paketteja ei tässä vaiheesas jäljellä?
 	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
 	t2p_filler
 
@@ -205,6 +204,7 @@ function t2pc() {
 	#xfce*,xorg* off limits
 	t2p_filler
 
+	spd="${sd0} -l " #jäänyt turhaksi muuten mutta g_pt2
 	[ ${debug} -gt 0 ] && ${spd} x*
 	csleep 1
 
