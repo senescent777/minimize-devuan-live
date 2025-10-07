@@ -632,7 +632,7 @@ function e22_tblz() { #HUOM.071025:toimi ainakin kerran tänään
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_get_pkgs() { #TODO:testaa viimeaikaisten muutoksien jäljiltä
+function e22_get_pkgs() { #VAIH:testaa viimeaikaisten muutoksien jäljiltä
 	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 
@@ -702,8 +702,15 @@ function e22_get_pkgs() { #TODO:testaa viimeaikaisten muutoksien jäljiltä
 }
 
 function e22_dblock() { #VAIH:testaus (072015)
-	#TODO:param. tark.
+	#VAIH:param. tark.
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
+
+	[ -z ${1} ] && exit 13
+	[ -z ${2} ] && exit 11
+	[ -d ${2} ] || exit 22
+
+	dqb "PARAMS OK"
+	csleep 1
 
 	pwd
 	csleep 1
