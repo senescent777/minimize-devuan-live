@@ -208,6 +208,7 @@ case ${mode} in
 	
 			if [ -d ${d} ] ; then
 				e22_dblock ${d}/f.tar ${d}
+				${srat} -rvf ${tgtfile} ${d}/f.tar #tämäkö jäi puuttumaan?
 			fi
 
 			e22_cleanpkgs ${d} #kuinka oleellinen?
@@ -265,6 +266,7 @@ case ${mode} in
 
 		if [ -d ${d} ] ; then
 			e22_dblock ${d}/f.tar ${d}
+			${srat} -rvf ${tgtfile} ${d}/f.tar #tämäkö jäi puuttumaan?
 		fi
 	;;
 	f)  #HUOM.070125:toiminee (mod parametrien tarkistukset)

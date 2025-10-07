@@ -493,8 +493,8 @@ function aval0n() { #prIvaattI
 	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 }
 
-function e22_ts() {#HUOM.071025:toimii
-	dqb "e22_ts () ${1} ${2}" #mitä $2 tekee?
+function e22_ts() { #HUOM.071025:toimii
+	dqb "e22_ts () ${1} ${2}" #mitä $2 tekee? josko pkgdir
 	csleep 6
 
 	[ -z ${1} ] && exit 13
@@ -521,7 +521,7 @@ function e22_arch() { #HUOM.071025:toimi ainakin kerran tänään
 	csleep 1
 
 	[ -z ${1} ] && exit 1
-	[ -s ${1} ] || exit 2
+	#[ -s ${1} ] || exit 2 #HUOM.JOS TULLAAN e22_dblock() KAUTTA NIIN $1 VOI OLLA TYHJÄÄ TÄYNNÄ
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 
@@ -566,7 +566,7 @@ function e22_arch() { #HUOM.071025:toimi ainakin kerran tänään
 
 	${sah6} ./*.deb > ./sha512sums.txt
 	csleep 1
-	psqa . #eli common_lib fktio pitäisi sorkkia
+	psqa .
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt
 	ls -las ${1} 
@@ -632,6 +632,7 @@ function e22_tblz() { #HUOM.071025:toimi ainakin kerran tänään
 	dqb "x2.e22_tblz.done"
 }
 
+#HUOM.mihin tarvitsee arkiston nimeä? .deb tulisi löytyä $pkgdir alta
 function e22_get_pkgs() { #VAIH:testaa viimeaikaisten muutoksien jäljiltä
 	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
@@ -702,14 +703,13 @@ function e22_get_pkgs() { #VAIH:testaa viimeaikaisten muutoksien jäljiltä
 }
 
 function e22_dblock() { #VAIH:testaus (072015)
-	#VAIH:param. tark.
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 13
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 
-	dqb "PARAMS OK"
+	dqb "DBLOCK:PARAMS OK"
 	csleep 1
 
 	pwd
