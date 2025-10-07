@@ -14,6 +14,9 @@ function e22_hdr() { #HUOM.071025:taitaa toimia
 	${srat} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 
+	[ ${debug} -eq 1 ] && ls -las ${1}
+	csleep 3
+
 	dqb "AFTER TAR"
 	csleep 1
 }
@@ -508,12 +511,12 @@ function e22_ts() {
 }
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-function e22_arch() { #TODO:testaa uusiksi, 071025 tökkäsi param tarkistuksiin
+function e22_arch() { #HUOM.071025:toimi ainakin kerran tänään
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
 	[ -z ${1} ] && exit 1
-#	[ -s ${1} ] || exit 2
+	[ -s ${1} ] || exit 2
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 

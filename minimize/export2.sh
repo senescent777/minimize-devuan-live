@@ -267,7 +267,7 @@ case ${mode} in
 			e22_dblock ${d}/f.tar ${d}
 		fi
 	;;
-	f)  #TODO:testaa
+	f)  #HUOM.070125:toiminee (mod parametrien tarkistukset)
 		e22_arch ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
