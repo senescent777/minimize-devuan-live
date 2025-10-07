@@ -39,11 +39,16 @@ function c5p() { #joskohan jo toimisi (28925)
 	csleep 1
 }
 
-#TODO:param tark
+#VAIH:param tark
 function reficul() {
 	#debug=1
 	dqb "NATTA5H3AD öVERDR1V 666! (a.k.a pr4.libs ?)"
-	csleep 5
+	csleep 3
+
+	[ -z ${1} ] && exit 65	
+	[ -d ${1} ] || exit 66
+	dqb "paramz 0k"
+	csleep 3
 
 	c5p ${1}
 
@@ -84,7 +89,6 @@ function reficul() {
 	efk1 ${1}/libkrb5*.deb
 	efk1 ${1}/libgss*.deb
 
-#	
 #	efk1 ${1}/libfdisk* ${1}/libuuid*
 #	#HUOM.28925:libfdisk ehkö uskaltaa poistaa($sharpy), e2fsprogs tarttee libuuid (e2 parempi olla poistamatta)
 
