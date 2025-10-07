@@ -138,10 +138,29 @@ function pr4() {
 	csleep 3
 	
 	efk1 ${1}/libx11-xcb1*.deb
+
+	#TODO:chroot-tarkistuksen taakse dbus as? jokin niistä pak vaati reboot
 	efk1 ${1}/dbus-bin*.deb  ${1}/dbus-daemon*.deb ${1}/dbus-session-bus-common*.deb
+
+#	Unpacking xserver-xorg-core (2:21.1.7-3+deb12u10devuan1) over (2:21.1.7-3devuan1) ...
+#dpkg: dependency problems prevent configuration of xserver-xorg-core:
+# xserver-xorg-core depends on udev (>= 149); however:
+#  Package udev is not installed.
+#  Package eudev which provides udev is not configured yet.
+#elikkäs kts.
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=eudev=3.2.12-4+deb12u1
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=udev=1:3.2.9+devuan4 (depends:eudev)
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-common=2:21.1.7-3+deb12u10devuan1 (depends x11-common, xkb-data, x11-xkb-utils)
+#
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-xorg-core=2:21.1.7-3+deb12u9devuan1 
+#(Depends:
+#xserver-common (>= 2:21.1.7-3+deb12u10devuan1), keyboard-configuration, udev )
+#
+#ja toimintaa apina!
+
 	#==============================================================
 
-#pois kommenteista 011025, joissain tilanteissa tarvtaan
+#pois kommenteista 011025, joissain tilanteissa tarvitaan
 	${NKVD} ${1}/libpam-modules* #tartteeko enää?
 	efk1 ${1}/libpam*.deb	
 	efk1 ${1}/libperl*.deb
