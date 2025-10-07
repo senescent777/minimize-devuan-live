@@ -761,9 +761,13 @@ function e22_settings2() { #HUOM.071025: toimii
 	dqb "AAMUNK01"
 }
 
+#TODO:joskus taas testaus
+#TODO:
+#dpkg: dependency problems prevent configuration of live-boot-initramfs-tools:
+# live-boot-initramfs-tools depends on initramfs-tools; however:
+#  Package initramfs-tools is not configured yet.
+#tee tuolle jotain
 function e22_upgp() {
-	#HUOM.28925:jospa tämä fktio jo toimisi taas
-	#TODO:joskus taas testaus
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
