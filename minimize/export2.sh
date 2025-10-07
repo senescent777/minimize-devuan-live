@@ -238,8 +238,8 @@ case ${mode} in
 		#aluksi jos case e/t/u hyödyntämään gpg:tä (casen jälkeen onjo juttuja)
 		#... ja sitten käsipelillä allekirjoitus-jutskat arkistoon
 		#jonka jälkeen imp2 tai pikemminkin p_p_3_clib() tai psqa() tarkistamaan
+		
 		[ z"${tgtfile}" == "z" ] && exit 99 
-
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
 		e22_upgp ${tgtfile} ${d} ${iface} ${dnsm}
@@ -257,7 +257,7 @@ case ${mode} in
 		# initramfs-tools
 		# xserver-xorg-core
 		# e2fsprogs
-		#-... nalkutuksen lisksi tekee kyllä $distro:n alle f.tar:in mutta $tgtfile:en asti ei f vielä mene, korjaa (TODO)		
+		#nykyään nalqtuksen lisäksi lisää f.tar $tgtfile:en		
 		
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
@@ -266,7 +266,8 @@ case ${mode} in
 
 		if [ -d ${d} ] ; then
 			e22_dblock ${d}/f.tar ${d}
-			${srat} -rvf ${tgtfile} ${d}/f.tar #tämäkö jäi puuttumaan?
+			cd ${d}
+			${srat} -rvf ${tgtfile} ./f.tar #tämäkö jäi puuttumaan?
 		fi
 	;;
 	f)  #HUOM.070125:toiminee (mod parametrien tarkistukset)

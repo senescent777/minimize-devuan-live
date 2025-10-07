@@ -640,10 +640,11 @@ function e22_get_pkgs() { #VAIH:testaa viimeaikaisten muutoksien jäljiltä
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -z ${1} ] && exit 11
-	[ -z ${3} ] && exit 11
+	[ -z ${3} ] && exit 11 #HUOM.vain tämä param tarvitaan
 
 	dqb "paramz_ok"
 	csleep 1
+	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} libc6 zlib1g #moni pak tarttee nämä
@@ -710,6 +711,9 @@ function e22_dblock() { #VAIH:testaus (072015)
 	[ -d ${2} ] || exit 22
 
 	dqb "DBLOCK:PARAMS OK"
+	csleep 1
+
+	dqb "srat= ${srat}"
 	csleep 1
 
 	pwd
