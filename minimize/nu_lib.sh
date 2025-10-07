@@ -249,15 +249,12 @@ function efk2() {
 #===========================================================================
 #seur. pari, sdi, efk, psqa() ennen näitä
 function fromtend() {
-#	local sdi2
-#	sdi2=$(${odio} which dpkg) #qsee?
 	dqb "FRöMTEND"
 
 	[ -v sd0 ] || exit 99
 	[ -z ${sd0} ] && exit 98
 	[ -x ${sd0} ] || exit 97
 
-#josko sd0 kohta...
 	if [ ! -f /.chroot ] ; then
 		dqb "${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@"
 		${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
@@ -353,16 +350,11 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-#	#HUOM.28725:kenties helpompi olisi lisätä sha512sum allekirjoitus+sen tarkistus kuin kokonaan vivuta tar:in hommia esim. gpgtar:ille
-#	if [ -x ${1}/../tar-wrapper.sh ] ; then 
-#		dqb "TODO?: tar-wrapper.sh" #josko vähitellen?
-#	else
 		srat=$(${odio} which tar)
 		
 		if [ ${debug} -eq 1 ] ; then
 			srat="${srat} -v "
 		fi
-#	fi
 	
 	local y
 	debug=1
@@ -371,12 +363,10 @@ function check_binaries() {
 	for x in ${y} ; do ocs ${x} ; done
 	dqb "JUST BEFORE"
 	csleep 6
-
-	spd="${sd0} -l " #jäänyt turhaksi muuten mutta g_pt2
 	sdi="${odio} ${sd0} -i "
 
 	#HUOM.041025:chrot.ympäristössä fromtendin kanssa ongelma joten skipataan tblz asennus silloin
-	if [ y"${ipt}" == "y" ] ; then #  && [ ! -f /.chroot ]#KOITA NYT LOTOTA SE EHTO
+	if [ y"${ipt}" == "y" ] ; then
 		[ z"${1}" == "z" ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
@@ -387,9 +377,6 @@ function check_binaries() {
 		echo "SHOULD INSTALL IPTABLES"
 		jules
 		sleep 6
-
-		#HUOM.olisikohan sittenkin suhteelliset polut tar:in sisällä helpompia?
-		#... tai jopspa jatkossa roiskisi /tmp alle
 
 		efk2 ${1}/e.tar
 		efk2 ${1}/f.tar ${1}
@@ -410,19 +397,13 @@ function check_binaries() {
 	dqb "second half of c_bin_1"
 	csleep 1
 
-	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
-	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
-
-	#[ -v sdi ] || exit 666
 	[ -v sd0 ] || exit 666
  	[ -v sdi ] || exit 667
 	#TODO:-z vielä?
 
-	#if [ ! -f /.chroot ] ; then #toiv tämä kikkailu pois 
 		for x in iptables ip6tables iptables-restore ip6tables-restore  ; do ocs ${x} ; done
 		csleep 6
-	#fi
-
+	
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
 	som=$(${odio} which mount)

@@ -28,8 +28,9 @@ else
 fi
 
 #voisikohan yo. juttuja siirtää -> common_lib ?
-#TODO:ffox-profiilin importointi, kts toimiiko se muutoksien jlk vai ei
+#VAIH:ffox-profiilin importointi, kts toimiiko se muutoksien jlk vai ei
 #... ei välttämättä nimittäin
+#(vähän aikaa 061025 toimi)
 
 function parse_opts_1() {
 	case "${1}" in
@@ -197,7 +198,7 @@ c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 part2_5 ${removepkgs} ${dnsm}
 
-#VAIH:näille main bugin korjaus, stoppaa masenteluvaiheessa jos ei -v annettu
+#VAIH:näille main bugin korjaus, stoppaa masenteluvaiheessa jos ei -v annettu (vielä 071025?)
 #===================================================PART 3===========================================================
 message
 part3 ${d} ${dnsm}
