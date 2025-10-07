@@ -12,8 +12,6 @@ d0=$(pwd)
 d=${d0}/${distro}
 
 #HUOM.30925:jospa ei pilkkoisi tätä tdstoa ainakaan ihan vielä
-
-#pitäisikö vielä minimoida latensseja tästä skriptistä? ja sen käyttämistä?
 #... optiota -v ei ole pakko käyttää, toisaalta
 
 function dqb() {
@@ -59,11 +57,15 @@ if [ -f /.chroot ] ; then #TODO:tämmöiset jatkossa -> common_lib ?
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
 
-	#TODO:siirron lisäksi useamman .z3 purq , for f in ... tar -jxvf ; done
-	tar -jxvf ${d0}/nekros.tar.bz3
-	sleep 3
-	rm ${d0}/nekros.tar.bz3
+	#VAIH:siirron lisäksi useamman .z3 purq 
+	for f in $(find ${d0} -type f -name 'nekros?'.bz3) ; do
+		tar -jxvf ${f}
+		sleep 1
+		rm ${f}
+		sleep 1
+	done
 
+	sleep 1
 	mv root.conf ${distro}/conf
 fi
 
