@@ -1,7 +1,7 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
 		
-function e22_hdr() { #VAIH:param tark
+function e22_hdr() { #HUOM.071025:taitaa toimia
 	dqb "BEFORE TAR"
 	csleep 1
 	[ -z ${1} ] && exit 62
@@ -134,7 +134,7 @@ function e22_pre2() { #HUOM.071025:taitaa toimia edelleen
 	sleep 2
 }
 
-function e22_cleanpkgs() { #HUOM.071025:josko toimisi?
+function e22_cleanpkgs() { #HUOM.071025:taitaa toimia
 	dqb " ${1} , ${2} , ${3}  "
 
 	if [ -d ${1} ] ; then
@@ -195,10 +195,8 @@ function e22_settings() { #VAIH:testaus
 	cd ${2}
 }
 
-function e22_home() { #TODO:testaus mm. koska e22_settings() muutettu
+function e22_home() { #VAIH:testaus koska e22_settings() muutettu (josko toimisi jo?)
 	dqb "e22_home ${1} , ${2} , ${3}  "
-	#HUOM-071025:töässä vai jossain muualla tarkoitus ottaa f.tar mukaan?
-
 	[ -z ${1} ] && exit
 	[ -z ${2} ] && exit
 	[ -z ${3} ] && exit
@@ -272,7 +270,7 @@ function luca() {
 	sleep 3
 }
 
-function e22_elocal() { #VAIH:testaus muutoksien jölkeen
+function e22_elocal() { #HUOM.071025:taitaa toimia
 	dqb "e22_elocal ${1} ${2} ${3} ${4}"
 	csleep 1
 
@@ -363,7 +361,7 @@ function e22_elocal() { #VAIH:testaus muutoksien jölkeen
 
 BASEURL="github.com/senescent777" #jatkossa -> conf
 
-function e22_ext() { #VAIH:testaus (071025)
+function e22_ext() { #HUOM.071025:taitaa toimia
 	dqb "e22_ext ${1} ${2}"
 
 	[ -z ${1} ] && exit 1
@@ -698,7 +696,6 @@ function e22_get_pkgs() { #TODO:testaa viimeaikaisten muutoksien jäljiltä
 
 function e22_dblock() { #VAIH:testaus (072015)
 	#TODO:param. tark.
-	#HUOM.jossain pitäisi kai olla $rat -rvf $file f.tar (esim e22_a) , onko?
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	pwd

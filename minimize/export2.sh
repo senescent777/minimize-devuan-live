@@ -170,6 +170,7 @@ csleep 1
 #esac
 
 e22_pre1 ${d} ${distro}
+
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 pwd;sleep 6
 
@@ -180,7 +181,7 @@ e22_hdr ${tgtfile} #tämä saattaa sotkea tapauksessa c
 
 case ${mode} in
 	0|4)
-	#VAIH:testaus (072015) , tekee paketin (toimivuus vielä auki)
+	#VAIH:testaus (072015) , case 4 tekee paketin, toimiikin enimmäkseen
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
@@ -242,7 +243,7 @@ case ${mode} in
 		e22_cleanpkgs ${d}
 		e22_upgp ${tgtfile} ${d} ${iface} ${dnsm}
 	;;
-	p) #HUOM.071025:edelleen saa paketin aikaiseksi, toimibuus vielä varmistettava
+	p) #HUOM.071025:edelleen saa paketin aikaiseksi, toimibuus vielä varmistettava (TODO)
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
@@ -255,7 +256,7 @@ case ${mode} in
 		# initramfs-tools
 		# xserver-xorg-core
 		# e2fsprogs
-		#-... nalkutuksen lisksi tekee kyllä $distro:n alle f.tar:in mutta $tgtfile:en asti ei f vielä mene		
+		#-... nalkutuksen lisksi tekee kyllä $distro:n alle f.tar:in mutta $tgtfile:en asti ei f vielä mene, korjaa (TODO)		
 		
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
@@ -266,12 +267,12 @@ case ${mode} in
 			e22_dblock ${d}/f.tar ${d}
 		fi
 	;;
-	f)  #HUOM.041025:toimii
+	f)  #TODO:testaa
 		e22_arch ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
 	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi? no esim. jos tar:ill väärä -C ni...
-	q) #HUOM.071025:tekee paketin
+	q) #TODO:testaa ettö luotu pketti järkevä
 		#jos vähän roiskisi casen sisältöä -> e22 ?
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
@@ -288,8 +289,7 @@ case ${mode} in
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
-	t) #HUOM.031025:testattu että tekee tar:in 
-		#HUOM.061025:pitäisikö olla $tgtfile-tarkistus?
+	t) #TODO:jos testaisi uudestaan
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
@@ -326,7 +326,7 @@ case ${mode} in
 
 		#... eli imp2 1 hoitanee k3yz purq, jos se riittäisi allek. av. kanssa että gpg --sb pääsee asiaan
 	;;
-	g)  #HUOM.067025:vaikuttaisi tulevan järkevää outputtia
+	g)  #HUOM.061025:vaikuttaisi tulevan järkevää outputtia
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "sudo apt-get update;sudo apt-get reinstall"
 

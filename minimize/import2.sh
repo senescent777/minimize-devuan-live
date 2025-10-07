@@ -78,9 +78,6 @@ if [ -x ${d0}/common_lib.sh ] ; then #saattaa jo toimia chroot-ymp sisällä
 	#... saattaa olla että sq-chroot:in sisällä ei tarvitsekaan:import2.sh mutta väHän kätevänPI ehgkä
 	. ${d0}/common_lib.sh
 else
-	#VAIH:jospa testaisi miten tämä haara toimaa nykyään (061025)
-	#... jotenkin kai
-
 	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston" ?
 	srat="sudo /bin/tar" #which mukaan?
 	som="sudo /bin/mount"
@@ -241,12 +238,12 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 		cat ${1}.sha
 		${sah6} ${1}
 
-		#TODO:tarkistus jos vähän toisella tavalla (kts common_lib)
+		#VAIH:tarkistus jos vähän toisella tavalla (kts common_lib)
 		local gv
 		gv=$(${odio} which gpgv)
 
 		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-			dqb "TODO: ${gv} --keyring \${TARGET_Dpubkf} ${1}.sha.sig ${1} (tai vähän toisella tavalla oikeastaan)"
+			dqb "TODO: ${gv} ${1}.sha.sig ${1} (tai vähän toisella tavalla oikeastaan)"
 		fi
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
@@ -309,6 +306,7 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 #HUOM.31725:jos nyt jnkn aikaa riittäisi $1 parametrina
 #HUOM.061025:testattu, toimi silloin
 #HUOM.071025:nyt tuli mutka matkaan tar:in kanssa
+#TODO:se audio mixer k anssa toimimaan (pavucontrol poistunut (jep) vai pak kas/purq viallinen myös?)
 function tpr() {
 	dqb "UPIR ( ${1}, ${2})"
 	csleep 1
@@ -446,7 +444,7 @@ case "${mode}" in
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
-	q) #HUOM.061025:josko toimisi
+	q) #TODO:korjaa tämä case TAAS (common_part vaiko tpr ongelma?)
 		[ x"${srcfile}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 1
@@ -460,7 +458,7 @@ case "${mode}" in
 		common_part ${srcfile} ${d} /  #~ 
 		tpr ${d0}
 	;;
-	r)
+	r) #TODO:selvitä toimiiko
 		tpr ${d0}
 	;;
 	k)	#VAIH
