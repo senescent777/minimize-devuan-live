@@ -11,6 +11,7 @@ else
 fi
 
 #miten tämän vastaavuudet some_scripts/lib alaisten kanssa?
+#liittyy:https://github.com/senescent777/some_scripts/blob/main/lib/export/ui.sh.export
 
 case ${1} in
 	merde)
