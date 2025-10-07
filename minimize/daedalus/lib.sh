@@ -104,18 +104,16 @@ function reficul() {
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
-
 #HUOM.021025:bind9 masentelut tähän vai reficul() ?
-
+#
+#TODO:josko reficul/pr4/cp5 asetnamat/poistamat jutut erillisiin tdstoihin ja lib sitteb iteroisi
+#TODO:lib-juttuja > refriceul
+#
 #myös:
 #dpkg: dependency problems prevent configuration of live-boot-initramfs-tools:
 # live-boot-initramfs-tools depends on initramfs-tools; however:
 #  Package initramfs-tools is not configured yet.
 #
-
-#TODO:josko reficul/pr4/cp5 asetnamat/poistamat jutut erillisiin tdstoihin ja lib sitteb iteroisi
-
-#TODO:lib-juttuja > refriceul
 function pr4() {
 	#HUOM.29925:saattaa sittenkin olla tarpeellinen fktio koska X
 
@@ -126,41 +124,45 @@ function pr4() {
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 	psqa ${1}
-
-	efk1 ${1}/eudev*.deb #HUOM.061025:tarvinnee kirjastot ensin , toisaalta ennen xserver-xorg-core 
-
+	
 	#==============================================================
 	#libx11- yms. kirjatsojen masentelut takaisin tähän vai reficul?
 	#HUOM.29925:osoittautui tarpeeLLIseksi palauttaa koska part3() muutokset
 	
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libx11-6=2:1.8.4-2+deb12u2
+	efk1 ${1}/libxcb1*.deb
 	efk1 ${1}/libx11-6*.deb
-	efk1 ${1}/xserver-common*.deb #TARKKANA PERKELE
+
+	efk1 ${1}/libx11-xcb1*.deb
+
+	efk1 ${1}/eudev*.deb #HUOM.061025:tarvinnee kirjastot ensin , toisaalta ennen xserver-xorg-core 
+	efk1 ${1}/udev*.deb 
+	efk1 ${1}/xserver-common*.deb
+	efk1 ${1}/xserver-xorg-core*.deb 
 
 	#HUOM.30925:x-jutut mielekkäitä päivittää sq-chroot-ymp lähinnä
 	#äksän tappaminen desktop-live-ymp voi aiheuttaa härdelliä, login_manager ...
 	#... eli yo. rivejä cgroot-tark taakse (TODO?)
 	csleep 3
 	
-	efk1 ${1}/libx11-xcb1*.deb
-
 	#TODO:chroot-tarkistuksen taakse dbus as? jokin niistä pak vaati reboot
 	efk1 ${1}/dbus-bin*.deb  ${1}/dbus-daemon*.deb ${1}/dbus-session-bus-common*.deb
 
-#	Unpacking xserver-xorg-core (2:21.1.7-3+deb12u10devuan1) over (2:21.1.7-3devuan1) ...
-#dpkg: dependency problems prevent configuration of xserver-xorg-core:
-# xserver-xorg-core depends on udev (>= 149); however:
-#  Package udev is not installed.
-#  Package eudev which provides udev is not configured yet.
-#elikkäs kts.
-#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=eudev=3.2.12-4+deb12u1
-#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=udev=1:3.2.9+devuan4 (depends:eudev)
-#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-common=2:21.1.7-3+deb12u10devuan1 (depends x11-common, xkb-data, x11-xkb-utils)
-#
-#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-xorg-core=2:21.1.7-3+deb12u9devuan1 
-#(Depends:
-#xserver-common (>= 2:21.1.7-3+deb12u10devuan1), keyboard-configuration, udev )
-#
-#ja toimintaa apina!
+##	Unpacking xserver-xorg-core (2:21.1.7-3+deb12u10devuan1) over (2:21.1.7-3devuan1) ...
+##dpkg: dependency problems prevent configuration of xserver-xorg-core:
+## xserver-xorg-core depends on udev (>= 149); however:
+##  Package udev is not installed.
+##  Package eudev which provides udev is not configured yet.
+##elikkäs kts.
+##https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=eudev=3.2.12-4+deb12u1
+##https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=udev=1:3.2.9+devuan4 (depends:eudev)
+##https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-common=2:21.1.7-3+deb12u10devuan1 (depends x11-common, xkb-data, x11-xkb-utils)
+##
+##https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-xorg-core=2:21.1.7-3+deb12u9devuan1 
+##(Depends:
+##xserver-common (>= 2:21.1.7-3+deb12u10devuan1), keyboard-configuration, udev )
+##
+##ja toimintaa apina!
 
 	#==============================================================
 
@@ -168,7 +170,6 @@ function pr4() {
 	${NKVD} ${1}/libpam-modules* #tartteeko enää?
 	efk1 ${1}/libpam*.deb	
 	efk1 ${1}/libperl*.deb
-
 	efk1 ${1}/perl*.deb
 
 	efk1 ${1}/liberror-perl*.deb
@@ -178,7 +179,6 @@ function pr4() {
 	#uutena 042025
 	efk1 ${1}/bind9*.deb
 	efk1 ${1}/e2fsprogs*.deb
-
 	csleep 1
 
 	#c5p ${1} #HUOM.siirretty toiseen fktioon 061025
