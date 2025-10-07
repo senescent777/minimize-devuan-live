@@ -493,19 +493,24 @@ function aval0n() { #prIvaattI
 	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 }
 
-#TODO:param tark
-function e22_ts() {
-	dqb "e22_ts () ${1} ${2}"
+function e22_ts() {#HUOM.071025:toimii
+	dqb "e22_ts () ${1} ${2}" #mitä $2 tekee?
 	csleep 6
 
+	[ -z ${1} ] && exit 13
+	[ -d ${1} ] || exit 14 
+
+	dqb "NEXT:mv"
 	${svm} ${pkgdir}/*.deb ${1}
+	dqb $?
+	csleep 5
+
 	${odio} touch ${1}/tim3stamp
 	${scm} 0644 ${1}/tim3stamp
 	${sco} $(whoami):$(whoami) ${1}/tim3stamp
 
 	date > ${1}/tim3stamp
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
-
 	dqb "E22TS DONE"
 	csleep 4
 }
@@ -571,7 +576,7 @@ function e22_arch() { #HUOM.071025:toimi ainakin kerran tänään
 	dqb "e22_arch d0n3"
 }
 
-function e22_tblz() { #VAIH:testaus
+function e22_tblz() { #HUOM.071025:toimi ainakin kerran tänään
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
 
@@ -592,6 +597,8 @@ function e22_tblz() { #VAIH:testaus
 	${fib}
 	${asy}
 	csleep 1
+
+	#message() tähän?
 
 	tpc7	#tämän funktio oli? jotain excaliburiin liittyvää kai
 	aswasw ${2}

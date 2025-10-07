@@ -291,7 +291,7 @@ case ${mode} in
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
-	t) #TODO:jos testaisi uudestaan
+	t) #HUOM.071025:toimi ainakin kerran (tehdyn paketin validius erikseen)
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
