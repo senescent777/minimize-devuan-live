@@ -242,7 +242,7 @@ case ${mode} in
 		[ z"${tgtfile}" == "z" ] && exit 99 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
-		e22_upgp ${tgtfile} ${d} ${iface} ${dnsm}
+		e22_upgp ${tgtfile} ${d} ${iface} #${dnsm}
 	;;
 	p) #HUOM.071025:edelleen saa paketin aikaiseksi, toimibuus vielä varmistettava (TODO)
 		[ z"${tgtfile}" == "z" ] && exit 99 

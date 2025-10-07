@@ -633,7 +633,8 @@ function e22_tblz() { #HUOM.071025:toimi ainakin kerran tänään
 }
 
 #HUOM.mihin tarvitsee arkiston nimeä? .deb tulisi löytyä $pkgdir alta
-function e22_get_pkgs() { #VAIH:testaa viimeaikaisten muutoksien jäljiltä
+function e22_get_pkgs() { #HUOM.071025:jospa jo toimisi
+	#TODO:turhat parametrit pois
 	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 
@@ -771,13 +772,14 @@ function e22_upgp() {
 	[ -d ${2} ] || exit 22
 
 	[ -z ${3} ] && exit 33
-	[ -z ${4} ] && exit 55
+	[ -z ${4} ] && exit 55 #turha param
 
 	dqb "params_ok"
 	csleep 1
 
 	#pitäisiköhän kohdehmistostakin poistaa paketit?
-	e22_cleanpkgs ${pkgdir};e22_cleanpkgs ${2}
+	e22_cleanpkgs ${pkgdir}
+	e22_cleanpkgs ${2}
 	dqb "CLEANUP 1 AND 2 DONE, NEXT: apt-get upgrade"
 	csleep 1
 	
