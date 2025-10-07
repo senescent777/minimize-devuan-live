@@ -119,13 +119,12 @@ if [ -f ${tgt} ] ; then
 	#sen sijaan /e alaiset?pitäisikö kasata johonkin pakettiin ja se commitoida?
 
 	#tuossa yllä find ilman tiukempaa name-rajausta vetäisi ylimääräisiä mukaan, toisaalta /e/localtime on linkki
-	#HUOM.27726:voisiko olla timezone/localtime kuten ennen vai ei?
+
 	process_entry ${tgt} /etc/timezone
 	process_entry ${tgt} /etc/localtime
 
 	#firefoxin käännösasetukset pikemminkin export2:n hommia 
 
-	#HUOM.27727:/e/i/tules-kohtaan muutoksia jatkossa vai ei?
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/iptables/*
 	${scm} 0444 /etc/default/rules*
@@ -161,14 +160,20 @@ if [ -f ${tgt} ] ; then
 
 	#HUOM.saattaa urputtaa $tgt polusta riippuen
 	#HUOM.2:miten toimii omegan ajon jälkeen?
-	#HUOM.3:oli jotain urputusta näillä main 031025
+	#HUOM.3:oli jotain urputusta näillä main 031025(edelleen 071025?)
+
+	echo "sudo touch ${tgt}.sha"
+	sleep 3
 
 	sudo touch ${tgt}.sha
 	${scm} 0666 ${tgt}.sha
 	${sco} $(whoami):$(whoami) ${tgt}.sha
 
+	echo "sha512sum ${tgt} > ${tgt}.sha"
+	sleep 3
 	sha512sum ${tgt} > ${tgt}.sha
 	sleep 2
+
 	sha512sum -c ${tgt}.sha
  	#HUOM.29925:tähän ei sitten gpg-kikkailua
 	echo "DONE UPDATING"
