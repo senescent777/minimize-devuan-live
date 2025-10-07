@@ -272,7 +272,7 @@ case ${mode} in
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
 	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi? no esim. jos tar:ill väärä -C ni...
-	q) #TODO:testaa ettö luotu pketti järkevä
+	q) #HUOM.071025:sopisi nyt olla kunnossa tämä case (kunnes srat-juttuja taas sorkitaan)
 		#jos vähän roiskisi casen sisältöä -> e22 ?
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
@@ -281,6 +281,8 @@ case ${mode} in
 		e22_settings ~ ${d0}
 
 		#HUOM.061025.2:tässä ei ole ihan pakollista vetää ~ mukaan tdstoken polkuun mutta olkoon nyt näin toistaiseksi
+		#josko takaisin siihen että vain oikeasti tarpeelliset mukaan
+		#... ja profs.sh jos kuuluisi tarpeellisiin
 
 		for f in $(find ~ -name '*.tar' -or -name '*.bz2') ; do
 			${srat} -rvf ${tgtfile} ${f}
@@ -304,6 +306,7 @@ case ${mode} in
 	c) #uusi optio chroot-juttuja varten
 		[ z"${tgtfile}" == "z" ] && exit 99
 
+		#TODO:tähn tai toiseen caseen $3 tar_in --exclude-hommia varten?
 		#tähän se avainten lisäys vaiko erillinen case?
 		cd ${d0}
 

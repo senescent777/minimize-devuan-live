@@ -155,7 +155,7 @@ function e22_cleanpkgs() { #HUOM.071025:taitaa toimia
 	csleep 1
 }
 
-function e22_settings() { #VAIH:testaus
+function e22_settings() { #HUOM.071025:toimii toistaiseksi
 	dqb "e22_settings ${1} ${2}"
 	csleep 1
 
@@ -177,13 +177,10 @@ function e22_settings() { #VAIH:testaus
 	csleep 1
 	dqb "PR0.F5"
 
-	#josqo profs.sh sitten mukaan kanssa?
+	#profs.sh kätevämpi laittaa mukaan kutsuvassa koodissa
 	if [ -x ${2}/profs.sh ] ; then
 		dqb "DE PROFUNDIS"
 		.  ${2}/profs.sh	
-
-		#HUOM.28725:SOPISI NYT JONKIN AIKAA OLLA EKA PARAMETRI TUOLLEEN ETTÄ FKTION PARAM MUKANA
-		#... HARKITAAN MUUTTAMISTA SITTEN JOS OIKEASTI TARVETTA ILMENEE
 
 		exp_prof ${1}/fediverse.tar default-esr	
 		#$1 ei ehkä pakko laittaa mykaan koska cd ylempänä

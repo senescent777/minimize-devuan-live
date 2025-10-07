@@ -59,11 +59,12 @@ if [ -f /.chroot ] ; then #TODO:tämmöiset jatkossa -> common_lib ?
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
 
+	#TODO:siirron lisäksi useamman .z3 purq , for f in ... tar -jxvf ; done
 	tar -jxvf ${d0}/nekros.tar.bz3
 	sleep 3
 	rm ${d0}/nekros.tar.bz3
 
-	mv root.conf $distro/conf
+	mv root.conf ${distro}/conf
 fi
 
 #HUOM.21725:oliko jotain erityistä syyt miksi conf cmmon_lib jälkeen? $distroon liittyvät kai, pitäisi miettiä, nyt näin
@@ -165,6 +166,7 @@ echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
+	srat="${odio} ${srat}"
 else
 	echo $?
 	dqb "NO LIB"
@@ -186,11 +188,11 @@ fi
 
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
-#srat="${odio} ${srat}"
 
 if [ ! -f /.chroot ] ; then
 	if [ ! -s /OLD.tar ] ; then
-		${odio} ${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
+		#jotain exclude-juttuja voisi olla sikäli mikäli tuota oikeasti tarttee johonkin
+		${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 	fi
 fi
 
@@ -213,8 +215,8 @@ csleep 1
 
 #TODO:.deb-pakettien pakkaus/purku vähän uusiksi? voisi olla ./$distro/ alla nuo
 #... ja "exp2 0", josko silloin tylysti vain .deb ha sha512sums tar:iin?
-#VAIH:ffox-profiilien yms. tauhkan pakkaus/purku, toimimaan taas (josko .tar sisällöstä kiinni)
-#TODO:allek. tar. ehkä toisin kuitenkin? ei luotettaisi /r/l/m/p sisältöön vaan /pad alta tai ~/.gnupg hödynt
+#TEHTY?:ffox-profiilien yms. tauhkan pakkaus/purku, toimimaan taas (josko .tar sisällöstä kiinni)
+#VAIH:allek. tar. ehkä toisin kuitenkin? ei luotettaisi /r/l/m/p sisältöön vaan /pad alta tai ~/.gnupg hödynt
 #TODO:$2 ja $3 käsittely uusiksi?
 
 function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
@@ -304,8 +306,8 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 }
 
 #HUOM.31725:jos nyt jnkn aikaa riittäisi $1 parametrina
-#HUOM.061025:testattu, toimi silloin
-#HUOM.071025:nyt tuli mutka matkaan tar:in kanssa
+
+#HUOM.071025:nyt tuli mutka matkaan tar:in kanssa , josko taas timisi vähän aikaa
 #TODO:se audio mixer k anssa toimimaan (pavucontrol poistunut (jep) vai pak kas/purq viallinen myös?)
 function tpr() {
 	dqb "UPIR ( ${1}, ${2})"
@@ -317,12 +319,17 @@ function tpr() {
 	dqb "pars_ok"
 	csleep 1
 
+	#ne tar-kikkailut common_lib:iin vähitellen
 	dqb "L\'ENG TZCHE "
 	csleep 1
+	
+	dqb "stat= ${srat}"
+	csleep 3
 
 	#~ alta kalat pois jottei sotke jatkossa?
 	local t
 	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} -C ~ -xvf ${t} ; done
+	#echo $?
 	for t in ${1}/pulse.tar ~/pulse.tar ; do ${srat} -C / -xvf ${t} ; done
 	dqb "PROFS?"
 	csleep 1
@@ -337,7 +344,6 @@ function tpr() {
 		local q
 		q=$(${mkt} -d)
 
-		#pitäisikö laittaa sudotus mukaan? no ei ehkä tpr() takia
 		if [ -s  ~/fediverse.tar ] ; then
 			${srat} -C ${q} -xvf ~/fediverse.tar
 		else
@@ -389,7 +395,6 @@ case "${mode}" in
 	;; #HUOM.nollaa edeltävät caset:ei ole sorkittu viime aikoina, pitäisi toimia ok
 	0|3)
 		#HUOM.071025:sen /pad/f.tar.bz2 kanssa imp2 3 parempi
-		#HUOM.mikä pointti tuolla 3:sella taas olikaan aiemmin?
 		dqb "ZER0 S0UND"
 		csleep 1
 
@@ -444,7 +449,7 @@ case "${mode}" in
 		cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
-	q) #TODO:korjaa tämä case TAAS (common_part vaiko tpr ongelma?)
+	q) #HUOM.071025:josko nyt olisi taas kunnossa sen aikaa kunnes srat
 		[ x"${srcfile}" == "x" ] && exit 55
 		dqb "KL"
 		csleep 1
@@ -458,7 +463,7 @@ case "${mode}" in
 		common_part ${srcfile} ${d} /  #~ 
 		tpr ${d0}
 	;;
-	r) #TODO:selvitä toimiiko
+	r) #HUOM.071025:josko nyt olisi taas kunnossa sen aikaa kunnes srat
 		tpr ${d0}
 	;;
 	k)	#VAIH
