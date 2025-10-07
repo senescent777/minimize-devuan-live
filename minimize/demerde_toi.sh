@@ -66,7 +66,7 @@ csleep 2
 
 #VAIH:BASEURL käyttöön?
 BASEURL="github.com/senescent777"
-${tig} clone https://${BASEURL}/minimize-devuan-live.git
+${tig} clone https://${BASEURL}/minimize-devuan-live.git #--branch vielä mukaan
 [ $? -gt 0 ] && exit
 
 dqb "TGI KO"
@@ -97,8 +97,6 @@ dqb "RM D0N3"
 csleep 2
 
 cp minimize/* ${d0}
-#mv isolinux ~/Desktop/ #tarttisikohan näille tehdä jotain?
-#mv boot  ~/Desktop/
 dqb "D0N3 M0V1NG"
 csleep 2
 
