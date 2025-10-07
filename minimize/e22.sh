@@ -1,5 +1,5 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
+E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
 		
 function e22_hdr() { #HUOM.071025:taitaa toimia
 	dqb "BEFORE TAR"
@@ -686,7 +686,7 @@ function e22_get_pkgs() { #HUOM.071025:jospa jo toimisi
 #	if [ $SOME_CONFIG_OPTION ] ; then
 #		dqb "GOG"
 #libreadline8 aiemmaksi? muutkin pak saattavat tarvita
-		${shary} ${GI}
+		${shary} ${E22GI}
 		${shary} gpg
 		dqb "MAGOG"
 		csleep 5

@@ -160,23 +160,87 @@ dqb "tar= ${srat}"
 csleep 1
 
 #VAIH:2 peräkkäistä case:a jatkossa, ensimmäiseen ne missä ei tarvitse verkkoyhteyttä pystyttää
-#
-#case  ${mode} in
-#	f)
-#	q)
-#	c)
-#	g)
-#	h)
-#esac
+case ${mode} in
+	f)
+		[ z"${tgtfile}" == "z" ] && exit 99
+		#HUOM.070125:toiminee (mod parametrien tarkistukset)
+		e22_arch ${tgtfile} ${d}
+		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
+		e22_ftr ${tgtfile}
+		exit
+	;;
+	q)
+		#HUOM.071025:sopisi nyt olla kunnossa tämä case (kunnes srat-juttuja taas sorkitaan)
+		#jos vähän roiskisi casen sisältöä -> e22 ?
+		[ z"${tgtfile}" == "z" ] && exit 99
+		${sifd} ${iface}
+	
+		#HUOM.061025.1:parempi tämän kanssa että tuotokset puretaan -C - optiolla
+		e22_settings ~ ${d0}
+
+		#HUOM.061025.2:tässä ei ole ihan pakollista vetää ~ mukaan tdstoken polkuun mutta olkoon nyt näin toistaiseksi
+		#josko takaisin siihen että vain oikeasti tarpeelliset mukaan
+		#... ja profs.sh jos kuuluisi tarpeellisiin
+
+		for f in $(find ~ -name '*.tar' -or -name '*.bz2') ; do
+			${srat} -rvf ${tgtfile} ${f}
+		done
+
+		e22_ftr ${tgtfile}
+		dqb "CASE Q D0N3"
+		csleep 3
+		exit
+	;;
+	c)
+		#uusi optio chroot-juttuja varten
+		[ z"${tgtfile}" == "z" ] && exit 99
+
+		#TODO:tähn tai toiseen caseen $3 tar_in --exclude-hommia varten?
+		#tähän se avainten lisäys vaiko erillinen case?
+		cd ${d0}
+
+		#...miten ne avainjutut? vaihtoehtoinen conf?
+		#alussa julk av vain tulevat Jostainja that's it, jatkossa squ.ash ja stage0 tekisivät jotain asian suhteen
+
+		#chroot-ympäristössä tarvitsisi kikkailua conf kanssa?
+		# tuossa ymp eri asetukset q live-kiekolla mutta toisaalta eri h mistotkin
+		# ... jospa 	copy_conf()
+
+		#TODO:syksymmällä jotenkin toisin ao. blokki
+		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done
+		#T_DKNAME voisi jatkossa osoittaa esim /r/l/m/p/dgsts alle?
+		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname1}
+		[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname2}
+			
+		bzip2 ${tgtfile}
+		mv ${tgtfile}.bz2 ${tgtfile}.bz3
+		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
+
+		#... eli imp2 1 hoitanee k3yz purq, jos se riittäisi allek. av. kanssa että gpg --sb pääsee asiaan
+		e22_ftr ${tgtfile}
+		exit
+	;;
+	g)
+		#HUOM.061025:vaikuttaisi tulevan järkevää outputtia
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
+		dqb "sudo apt-get update;sudo apt-get reinstall"
+
+		echo "${shary} ${E22GI}"
+		echo "${svm} ${pkgdir}/*.deb ${d}"
+		echo "$0 f ${tgtfile} ${distro}"
+		exit 1
+	;;
+	-h)
+		usage
+	;;
+esac
 
 e22_pre1 ${d} ${distro}
-
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 pwd;sleep 6
 
 [ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59" #tilapäisesti jemmaan kunnes x
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
-
 e22_hdr ${tgtfile} #tämä saattaa sotkea tapauksessa c
 
 case ${mode} in
@@ -251,13 +315,13 @@ case ${mode} in
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.071025:testaus VAIHeessa (vetää kyllä paketteja mutta nalkutusta)
+	e)  #HUOM.071025:vetää kyllä paketteja mutta nalkutusta
 		#Errors were encountered while processing:
 		# eudev
 		# initramfs-tools
 		# xserver-xorg-core
 		# e2fsprogs
-		#nykyään nalqtuksen lisäksi lisää f.tar $tgtfile:en		
+		#nykyään nalqtuksen lisäksi lisää f.tar $tgtfile:en (paketin sisällön validius vielä selvitettävä)		
 		
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
@@ -270,30 +334,8 @@ case ${mode} in
 			${srat} -rvf ${tgtfile} ./f.tar #tämäkö jäi puuttumaan?
 		fi
 	;;
-	f)  #HUOM.070125:toiminee (mod parametrien tarkistukset)
-		e22_arch ${tgtfile} ${d}
-		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
-	;;
+	f)  ;;
 	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi? no esim. jos tar:ill väärä -C ni...
-	q) #HUOM.071025:sopisi nyt olla kunnossa tämä case (kunnes srat-juttuja taas sorkitaan)
-		#jos vähän roiskisi casen sisältöä -> e22 ?
-		[ z"${tgtfile}" == "z" ] && exit 99
-		${sifd} ${iface}
-	
-		#HUOM.061025.1:parempi tämän kanssa että tuotokset puretaan -C - optiolla
-		e22_settings ~ ${d0}
-
-		#HUOM.061025.2:tässä ei ole ihan pakollista vetää ~ mukaan tdstoken polkuun mutta olkoon nyt näin toistaiseksi
-		#josko takaisin siihen että vain oikeasti tarpeelliset mukaan
-		#... ja profs.sh jos kuuluisi tarpeellisiin
-
-		for f in $(find ~ -name '*.tar' -or -name '*.bz2') ; do
-			${srat} -rvf ${tgtfile} ${f}
-		done
-
-		dqb "CASE Q D0N3"
-		csleep 3
-	;;
 	t) #HUOM.071025:toimi ainakin kerran (tehdyn paketin validius erikseen)
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
@@ -305,43 +347,6 @@ case ${mode} in
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_ts ${d}
 		e22_arch ${tgtfile} ${d}
-	;;
-	c) #uusi optio chroot-juttuja varten
-		[ z"${tgtfile}" == "z" ] && exit 99
-
-		#TODO:tähn tai toiseen caseen $3 tar_in --exclude-hommia varten?
-		#tähän se avainten lisäys vaiko erillinen case?
-		cd ${d0}
-
-		#...miten ne avainjutut? vaihtoehtoinen conf?
-		#alussa julk av vain tulevat Jostainja that's it, jatkossa squ.ash ja stage0 tekisivät jotain asian suhteen
-
-		#chroot-ympäristössä tarvitsisi kikkailua conf kanssa?
-		# tuossa ymp eri asetukset q live-kiekolla mutta toisaalta eri h mistotkin
-		# ... jospa 	copy_conf()
-
-		#TODO:syksymmällä jotenkin toisin ao. blokki
-		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done
-		#T_DKNAME voisi jatkossa osoittaa esim /r/l/m/p/dgsts alle?
-		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname1}
-		[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname2}
-			
-		bzip2 ${tgtfile}
-		mv ${tgtfile}.bz2 ${tgtfile}.bz3
-		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
-
-		#... eli imp2 1 hoitanee k3yz purq, jos se riittäisi allek. av. kanssa että gpg --sb pääsee asiaan
-	;;
-	g)  #HUOM.061025:vaikuttaisi tulevan järkevää outputtia
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-		dqb "sudo apt-get update;sudo apt-get reinstall"
-
-		echo "${shary} ${GI}"
-		echo "${svm} ${pkgdir}/*.deb ${d}"
-		echo "$0 f ${tgtfile} ${distro}"
-	;;
-	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata
-		usage
 	;;
 	*)
 		echo "-h"
