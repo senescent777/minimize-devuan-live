@@ -243,7 +243,7 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 		gv=$(${odio} which gpgv)
 
 		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-			dqb "TODO: ${gv} ${1}.sha.sig ${1} (tai vähän toisella tavalla oikeastaan)"
+			dqb "TODO: ${gv} ${1}.sha.sig ${1} "
 		fi
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
