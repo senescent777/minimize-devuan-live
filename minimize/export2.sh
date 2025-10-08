@@ -322,7 +322,8 @@ case ${mode} in
 		# xserver-xorg-core
 		# e2fsprogs
 		#nykyään nalqtuksen lisäksi lisää f.tar $tgtfile:en (paketin sisällön validius vielä selvitettävä)		
-		
+		#yo. paketteihin liittyvää nalqtusta alettu minimoimaan 081025		
+
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}

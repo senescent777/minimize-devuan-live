@@ -82,7 +82,11 @@ if [ -x ${d0}/common_lib.sh ] ; then #saattaa jo toimia chroot-ymp sisällä
 	. ${d0}/common_lib.sh
 else
 	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston" ?
-	srat="sudo /bin/tar" #which mukaan?
+	#pientä laittoa vaatisi srat...
+	#if [ ! -f /.chroot ] ; then
+		srat="/bin/tar" #which mukaan?
+	#fi
+
 	som="sudo /bin/mount"
 	uom="sudo /bin/umount"
 	scm="sudo /bin/chmod"
@@ -158,17 +162,22 @@ dqb "srcfile=${srcfile}"
 mkt=$(${odio} which mktemp)
 #exit
 
-if [ x"${mkt}" == "x" ] ; then
-	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
-	echo "sudo apt-get update;sudo apt-get install coreutils"
-	exit 8
+if [ ! -f /.chroot ] ; then #0810245:toivottavasti tilapäienn ohitus
+	if [ x"${mkt}" == "x" ] ; then
+		#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
+		echo "sudo apt-get update;sudo apt-get install coreutils"
+		exit 8
+	fi
 fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
-	srat="${odio} ${srat}"
+
+	if [ ! -f /.chroot ] ; then
+		srat="${odio} ${srat}"
+	fi
 else
 	echo $?
 	dqb "NO LIB"
