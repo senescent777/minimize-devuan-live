@@ -230,7 +230,6 @@ function psqa() {
 }
 
 #jatkossa gg-tarkistus mukaan jotenkin tähän? vaiko fktioon psqa?
-
 function pre_part3_clib() {
 	dqb "pre_part3_clib ${1}"
 	csleep 1
@@ -408,7 +407,7 @@ function check_binaries() {
 #	fi
 	
 	local y
-	debug=1
+	#debug=1
 
 	y="ifup ifdown apt-get apt ip netstat ${sd0} tar mount umount sha512sum dhclient" # kilinwittu.sh	
 	for x in ${y} ; do ocs ${x} ; done
@@ -1103,8 +1102,7 @@ function part3() {
 	
 	dqb "LIBS DONE"
 	csleep 6
-
-	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
+	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done #tilap jemm 031025
 	
 	if [ $? -eq  0 ] ; then
 		dqb "part3.2 ok"
