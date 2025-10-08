@@ -230,6 +230,7 @@ function psqa() {
 }
 
 #jatkossa gg-tarkistus mukaan jotenkin tähän? vaiko fktioon psqa?
+
 function pre_part3_clib() {
 	dqb "pre_part3_clib ${1}"
 	csleep 1
@@ -1102,7 +1103,8 @@ function part3() {
 	
 	dqb "LIBS DONE"
 	csleep 6
-	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done #tilap jemm 031025
+
+	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
 	
 	if [ $? -eq  0 ] ; then
 		dqb "part3.2 ok"
