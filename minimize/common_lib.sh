@@ -212,8 +212,10 @@ function psqa() {
 		#https://www.gnupg.org/documentation/manuals/gnupg24/gpgv.1.html
 		#$gg --verify tai $gv ilman --keyring ideana?
 
+		#HUOM.rivillä 458 (tjsp) vissiin jokin ongelma
+
 		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-			dqb "${gv} --keyring \${TARGET_Dpubkf} ./sha512sums.sig ./sha512sums in 3 secs"
+			dqb "${gv} ./sha512sums.sig ./sha512sums in 3 secs" # --keyring \${TARGET_Dpubkf}
 			csleep 3
 			${gv} ./sha512sums.sig ./sha512sums
 			csleep 3
