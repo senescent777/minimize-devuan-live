@@ -21,7 +21,7 @@ function c5p() { #joskohan jo toimisi (28925)
 #
 #	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
 #	#g_pt2 poistaa cryptsetup-pakettei
-#	
+#
 #	#tästä eteenpäin jos selvittäisi noiden pakettien tilanteen, piostuuko jossain jnkn sivuvakutuksebna?
 #	${NKVD} ${1}/libcrypt* #ei uskalla poistaa aptilla
 #	#${NKVD} ${1}/libdevmapper* #asennettuna 28925?
@@ -29,14 +29,32 @@ function c5p() { #joskohan jo toimisi (28925)
 
 #	#HUOM.19725:librsvg2 poisto poistaa jnkn verran pak, mm task-desktop, task-xfce-desktop
 
+	#uutena 031025, eivät aivan välttämättömiä ainakaan vielä
+	#ja jotain nalkutustakin oli
+	${NKVD} ${1}/initramfs*
+	${NKVD} ${1}/live*
+	#...varsinaisen poistamisen kanssa saattaa tulla ulinaa
+
+	#TODO:eudev/udev/xserver - paketit mäkeen jos ei chroot-ympäristössä
+	#TODO.jatkossa tämä fktio poistaisi blacklistin mukaiset tdstot
+
 	dqb "...is over"
 	csleep 1
 }
 
+#VAIH:param tark
+#TODO:jatkossa tämä fktio lisäisi ensisijaisen whitelistin mukaiset paketit efk1:lla
 function reficul() {
 	#debug=1
-	dqb "NATTA5H3AD öVERDR1V 666!"
-	csleep 5
+	dqb "NATTA5H3AD öVERDR1V 666! (a.k.a pr4.libs ?)"
+	csleep 3
+
+	[ -z ${1} ] && exit 65	
+	[ -d ${1} ] || exit 66
+	dqb "paramz 0k"
+	csleep 3
+
+	c5p ${1}
 
 	efk1 ${1}/gcc-12*.deb ${1}/libgcc-s1*.deb
 	efk1 ${1}/perl-modules-*.deb
@@ -62,18 +80,33 @@ function reficul() {
 	efk1 ${1}/libgtk-3-0_*.deb
 	efk1 ${1}/libpython3.11-minimal*.deb #ohjeisvahinkona xfce4 jos poist
 	efk1 ${1}/liblzma5*.deb
+	csleep 5
+
 	efk1 ${1}/libext2fs2*.deb
 
 	csleep 5
 	efk1 ${1}/libpam-modules-bin_*.deb
 	efk1 ${1}/libpam-modules_*.deb
 
-#	efk1 ${1}/libeudev*
+	#uutena 011025
+	efk1 ${1}/libcurl3*.deb
+	efk1 ${1}/libkrb5*.deb
+	efk1 ${1}/libgss*.deb
+
 #	efk1 ${1}/libfdisk* ${1}/libuuid*
-#	#HUOM.28925:libfdisk ehkö uskaltaa poistaa, e2fsprogs tarttee libuuid (e2 parempi olla poistamatta)
+#	#HUOM.28925:libfdisk ehkö uskaltaa poistaa($sharpy), e2fsprogs tarttee libuuid (e2 parempi olla poistamatta)
 
 #	efk1 ${1}/libopen* ${1}/libpolkit-gobject-*
 #	#HUOM.28925:xfce4 tarvitse libpolkit-gobject joten ei kande poistaa
+
+	#061025 osoittautuio taropeelliseksi
+	efk1 ${1}/libeudev*
+
+	#081025
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libx11-6=2:1.8.4-2+deb12u2
+	efk1 ${1}/libxcb1*.deb
+	efk1 ${1}/libx11-6*.deb
+	efk1 ${1}/libx11-xcb1*.deb
 
 	dqb "REC1FUL D0N3"
 	csleep 5
@@ -81,45 +114,82 @@ function reficul() {
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
+#
+#TODO:josko reficul/pr4/cp5 asetnamat/poistamat jutut erillisiin tdstoihin ja lib sitteb iteroisi
+#VAIH:lib-juttuja > refriceul
+#
+#myös:
 
+#TODO:jatkossa tämä fktio lisäisi efk1:llä toissijaisen whitelistin mukaiset pak
 function pr4() {
 	#HUOM.29925:saattaa sittenkin olla tarpeellinen fktio koska X
-	#debug=1
 
+	#debug=1
 	dqb "daud.pr4( ${1} , ${2} )"
 	csleep 1
 
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 	psqa ${1}
-
-
+	
 	#==============================================================
 	#libx11- yms. kirjatsojen masentelut takaisin tähän vai reficul?
 	#HUOM.29925:osoittautui tarpeeLLIseksi palauttaa koska part3() muutokset
-	
-	efk1 ${1}/libx11-6*.deb
-	efk1 ${1}/xserver-common*.deb #TARKKANA PERKELE
+	#HUOM.081025:tässä oli libxcb1+pari muuta kirjastoa 
+
+	efk1 ${1}/eudev*.deb
+	efk1 ${1}/udev*.deb 
+	efk1 ${1}/xserver-common*.deb
+	efk1 ${1}/xserver-xorg-core*.deb 
+
+	#HUOM.081025.2:eudev tarvitsee /boot/vmlinuz johonkin joten jos se poistettu...
 
 	#HUOM.30925:x-jutut mielekkäitä päivittää sq-chroot-ymp lähinnä
 	#äksän tappaminen desktop-live-ymp voi aiheuttaa härdelliä, login_manager ...
+	#... eli yo. rivejä cgroot-tark taakse (TODO?)
 	csleep 3
 	
-	efk1 ${1}/libx11-xcb1*.deb
+	#TODO:chroot-tarkistuksen taakse dbus as? jokin niistä pak vaati reboot
 	efk1 ${1}/dbus-bin*.deb  ${1}/dbus-daemon*.deb ${1}/dbus-session-bus-common*.deb
+	#"A reboot is required to replace the running dbus-daemon."
+
+##	Unpacking xserver-xorg-core (2:21.1.7-3+deb12u10devuan1) over (2:21.1.7-3devuan1) ...
+##dpkg: dependency problems prevent configuration of xserver-xorg-core:
+## xserver-xorg-core depends on udev (>= 149); however:
+##  Package udev is not installed.
+##  Package eudev which provides udev is not configured yet.
+##elikkäs kts.
+##https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=eudev=3.2.12-4+deb12u1
+##https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=udev=1:3.2.9+devuan4 (depends:eudev)
+##https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-common=2:21.1.7-3+deb12u10devuan1 (depends x11-common, xkb-data, x11-xkb-utils)
+##
+##https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-xorg-core=2:21.1.7-3+deb12u9devuan1 
+##(Depends:
+##xserver-common (>= 2:21.1.7-3+deb12u10devuan1), keyboard-configuration, udev )
+##
+##ja toimintaa apina!
+
+	#HUOM.081025:live-ympäristössä edelleen nalkuttaa udev/eudev/xserver-xorg-core
+	#... joten chroot taakse
 	#==============================================================
 
-#	${NKVD} ${1}/libpam-modules* #tartteeko enää?
-#	efk1 ${1}/libpam*.deb	
-#	efk1 ${1}/libperl*.deb
-#
-#	efk1 ${1}/perl*.deb
-#
-#	efk1 ${1}/liberror-perl*.deb
-#	efk1 ${1}/git*.deb
-#	csleep 1
-#	
-	c5p ${1}
+	#pois kommenteista 011025, joissain tilanteissa tarvitaan
+	#TODO:seur 3 riviä -> reficul() ?
+	${NKVD} ${1}/libpam-modules* #tartteeko enää?
+	efk1 ${1}/libpam*.deb	
+	efk1 ${1}/libperl*.deb
+
+	efk1 ${1}/perl*.deb
+	efk1 ${1}/liberror-perl*.deb
+	efk1 ${1}/git*.deb
+	csleep 1
+
+	#uutena 042025
+	efk1 ${1}/bind9*.deb
+	efk1 ${1}/e2fsprogs*.deb
+	csleep 1
+
+	#c5p ${1} #HUOM.siirretty toiseen fktioon 061025
 	csleep 2
 }
 
@@ -252,7 +322,7 @@ function pre_part2() {
 	dqb "daud.pre_part2()"
 	csleep 2
 
-	#${odio} /etc/init.d/ntpd stop
+	${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
 
 	for f in $(find /etc/init.d -type f -name 'ntp*') ; do 

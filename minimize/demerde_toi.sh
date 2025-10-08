@@ -5,9 +5,16 @@ branch=""
 d0=$(pwd)
 echo "d0=${d0}"
 
-#VAIH:jos mahd ni git hakemaan vaihToehtoisen oksan? man-sivuja pitäisi taas kahlata niin maan perkeleesti ja tasaiseenm
-#TODO:mktemp-kikkailut pois, plain old git clone tilalle ja täts it ?
-#HUOM.020825:jos tämä poistaa $distro/lib.sh niin korjattava ei-poistamaan (vimmeisi oli pikemmnkin conf) (joskohan cp -r korjaisi)
+#TODO:mktemp-kikkailut pois, plain old git clone tilalle ja täts it
+#HUOM.020825:jos tämä poistaa $distro/lib.sh niin korjattava ei-poistamaan (vimmeisi oli pikemmnkin conf)
+
+function dqb() {
+	[ ${debug} -eq 1 ] && echo ${1}
+}
+
+function csleep() {
+	[ ${debug} -eq 1 ] && sleep ${1}
+}
 
 function parse_opts_1() {
 	dqb "p1"
@@ -18,7 +25,7 @@ function parse_opts_2() {
 }
 
 if [ -x ${d0}/common_lib.sh ] ; then
-	. ${d0}/common_lib.sh #HUOM. tarvitsiko tästä jota9in?
+	. ${d0}/common_lib.sh #mihin tätä tarvitaan nykyään?
 fi
 
 #tig ja mkt alustukset jatkossa check_binaries():iin? no mkt ehkä
@@ -51,16 +58,22 @@ else
 	exit 66
 fi
 
+if [ ! -z ${branch} ] ; then
+	branch="--branch ${branch} "
+fi
+
+#TODO:jatkossa tämä skripti toiseen hakemistoon
 dqb "branch=${branch}"
 q=$(${mkt} -d)
 cd ${q}
-
+[ ${debug} -eq 1 ] && pwd
 dqb "BFROE tig"
 csleep 2
 
-#konftdstoon urlin alkuosa?
-${tig} clone https://github.com/senescent777/minimize-devuan-live.git
+BASEURL="github.com/senescent777"
+${tig} clone ${branch} https://${BASEURL}/minimize-devuan-live.git 
 [ $? -gt 0 ] && exit
+#exit
 
 dqb "TGI KO"
 csleep 2
@@ -89,13 +102,7 @@ for f in $(find ${d0} -type f -name '*.desktop') ; do rm ${f} ; done
 dqb "RM D0N3"
 csleep 2
 
-#LIIKAA KIKKAILUA ELI JOSKO JO VÄHITELLEN UUSIKSI TÄMÄ PASKA
-cp -r minimize/* ${d0}
-#for x in $(find . -name '*.sh') ; do echo "cp  $x PREFIX/$x" ; done
-#for x in $(find . -name '*.desktop') ; do echo "cp  $x PREFIX/$x" ; done
-
-#mv isolinux ~/Desktop/ #tarttisikohan näille tehdä jotain?
-#mv boot  ~/Desktop/
+cp minimize/* ${d0}
 dqb "D0N3 M0V1NG"
 csleep 2
 

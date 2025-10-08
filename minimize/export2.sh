@@ -17,6 +17,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+#TODO:ajan tasalle
 function usage() {
 	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
 	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
@@ -94,7 +95,7 @@ fi
 
 dqb "tar = ${srat} "
 
-#TODO:suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
+#suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
@@ -130,7 +131,7 @@ csleep 1
 #HUOM. ei kovin oleellista ajella tätä skriptiä squashfs-cgrootin siSÄllä
 #mutta olisi hyvä voida testailla sq-chrootin ulkopuolella
 
-dqb "PRE0"
+dqb "e22_pre0"
 csleep 1
 
 if [ -x ${d0}/e22.sh ] ; then
@@ -157,11 +158,13 @@ fi
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
-pre1 ${d} ${distro}
+e22_pre1 ${d} ${distro}
 
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 [ -x /opt/bin/changedns.sh ] || exit 59
 
+#HUOM.30925:ao blokin johdosta täytteiden lisääminen arkoistoihin saattaa olla turhaa
+#TODO:->e22
 dqb "BEFORE TAR"
 csleep 1
 ${odio} touch ./rnd
@@ -174,15 +177,15 @@ dqb "AFTER TAR"
 csleep 1
 
 case ${mode} in
-	0|4) #VAIH:case 0 testaus uusiksi 
+	0|4) #TODO:testaa uusiksi josqs
 		[ z"${tgtfile}" == "z" ] && exit 99 
-		pre2 ${d} ${distro} ${iface} ${dnsm}
+		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
-		tp3 ${tgtfile} ${distro} ${dnsm}
-		dqb "TP3 DON3, next:rm some rchivies"
+		e22_etc1 ${tgtfile} ${distro} ${dnsm}
+		dqb "e22_etc1 DON3, next:rm some rchivies"
 		csleep 3
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
@@ -193,12 +196,13 @@ case ${mode} in
 
 		dd if=/dev/random bs=12 count=1 > ./rnd
 		${srat} -cvf ${d}/f.tar ./rnd
-		tp0 ${d} #VAIH:pitäisikö olla ennen tp4 ? 
+		e22_prepare ${d}
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then
-			tp4 ${d}/f.tar ${d} ${distro} ${iface}
-			tp0 ${d} #kuinka oleellinen?
+			e22_tblz ${d} ${iface} ${distro} #TODO:parametrien kanssa pientä laittoa
+			e22_pkgs ${d}/f.tar ${d} ${distro} ${iface}
+			e22_prepare ${d} #kuinka oleellinen?
 			[ ${debug} -eq 1 ] && ls -las ${d}
 			csleep 5
 		fi
@@ -210,52 +214,59 @@ case ${mode} in
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 5
  	
-		tp1 ${tgtfile} ${d}
+		e22_home ${tgtfile} ${d} ${enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 4
 		${NKVD} ${d}/*.tar #tartteeko piostaa?
 
-		pre1 ${d} ${distro}
+		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 5	
-		tp2 ${tgtfile} ${iface} ${dnsm} ${enforce}
+		e22_etc2 ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #HUOM.28925:toimii?
+	1|u|upgrade) #TODO:testaa toiminta josqs
+		#HUOM.29925:miten ne allekirjoitushommat sitten? 
+		#aluksi jos case e/t/u hyödyntämään gpg:tä (casen jälkeen onjo juttuja)
+		#... ja sitten käsipelillä allekirjoitus-jutskat arkistoon
+		#jonka jälkeen imp2 tai pikemminkin p_p_3_clib() tai psqa() tarkistamaan
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
-		pre2 ${d} ${distro} ${iface} ${dnsm}
-		tp0 ${d}
-		tup ${tgtfile} ${d} ${iface} ${dnsm}
+		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+		e22_prepare ${d}
+		e22_upgp ${tgtfile} ${d} ${iface} ${dnsm}
 	;;
-	p) #HUOM.020825:testattu sen verran että tekee tar:in (myös polku hukattu)
+	p) #HUOM.011025:testattu sen verran että tekee tar:in (myös polku hukattu)
 		[ z"${tgtfile}" == "z" ] && exit 99 
 
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
-		pre2 ${d} ${distro} ${iface} ${dnsm}
-		tp5 ${tgtfile} ${d0} 
+		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+		e22_settings2 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.28925:taitaa toimia tämän casen luoma tar
-		pre2 ${d} ${distro} ${iface} ${dnsm}
-		tp0 ${d}
-		tp4 ${tgtfile} ${d} ${distro} ${iface}
+	e)  #TODO:testaa uusiksi josqs
+		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+		e22_prepare ${d}
+		e22_tblz ${d} ${iface} ${distro} #TODO:parametrien kanssa pientä laittoa
+			
+		e22_pkgs ${tgtfile} ${d} ${distro} ${iface}
 	;;
-	f)  #HUOM.28725:testattu, toimii ainakin sen verran että tekee tarin minkä sisältä järkeväno loinen
-		rmt ${tgtfile} ${d}
+	f)  #HUOM.30925:jospa toimii, mv puuttui kutsivasta koodista yhdessä kohtaa
+		e22_arch ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 	;;
-	q) #HUOM.020825:toimii
+	q) #HUOM.011025:tekee paketin
+		#jos vähän roiskisi casen sisältöä -> e22 ?
 		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 	
-		tpq ~ ${d0}
+		e22_settings ~ ${d0}
 		cd ${d0}
 
 		dqb "	OIJHPIOJGHOYRI&RE"
 		pwd
 		csleep 1
 
-		#HUOM.28725:roiskiko väärään hakemistoon juttuja tpq()? toiv ei enää
-		tpq ~ ${d0}
+		#HUOM.287tar 25:roiskiko väärään hakemistoon juttuja e22_settings()? toiv ei enää
+		e22_settings ~ ${d0}
 
 		dqb "	OIJHPIOJGHOYRI&RE"
 		[ ${debug} -eq 1 ] && pwd
@@ -271,13 +282,19 @@ case ${mode} in
 		dqb "CASE Q D0N3"
 		csleep 3
 	;;
-	t) #HUOM.27925:testattu, toimii tekemä tar
-		pre2 ${d} ${distro} ${iface} ${dnsm}
-		${NKVD} ${d}/*.deb #olisi myös tp0
+	t) #HUOM.011025:testattu että tekee tar:in 
+		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+		#nimeämistä voisi miettiä...
+		e22_prepare ${d}
+		e22_prepare ${pkgdir}
+			
+		message
+		csleep 6
 
-		tlb ${d} ${iface} ${distro} ${dnsm}
-		${svm} ${pkgdir}/*.deb ${d}
-		rmt ${tgtfile} ${d}
+		e22_tblz ${d} ${iface} ${distro} ${dnsm}
+		#${svm} ${pkgdir}/*.deb ${d}
+		e22_ts ${d}
+		e22_arch ${tgtfile} ${d}
 	;;
 	c) #uusi optio chroot-juttuja varten, toiminee (27.7.25)
 		[ z"${tgtfile}" == "z" ] && exit 99
@@ -293,7 +310,21 @@ case ${mode} in
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
 		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
 	;;
+	#HUOM.30925:taitaa jo toimia
+	g)
+		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
+		#${NKVD} ${d}/*.deb #olisi myös e22_prepare
+		e22_prepare ${d}
+		e22_prepare ${pkgdir}
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
+		dqb "sudo apt-get update;sudo apt-get reinstall"
+		${shary} gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg
+		${svm} ${pkgdir}/*.deb ${d}
+
+		echo "$0 f ${tgtfile} ${distro}"
+	;;
 	-h) #HUOM.24725:tämä ja seur case lienevät ok, ei tartte just nyt testata
 		usage
 	;;
@@ -303,6 +334,7 @@ case ${mode} in
 	;;
 esac
 
+#TODO:-> e22?
 if [ -s ${tgtfile} ] ; then
 	${odio} touch ${tgtfile}.sha
 	${sco} $(whoami):$(whoami) ${tgtfile}.sha

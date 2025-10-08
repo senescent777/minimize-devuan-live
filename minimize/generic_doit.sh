@@ -9,22 +9,33 @@ d=${d0}/${distro}
 
 if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
-	sleep 2
-	tar -jxvf ${d0}/nekros.tar.bz3
+#VAIH:siirron lisäksi useamman .z3 purq 
+	for f in $(find ${d0} -type f -name 'nekros?'.bz3) ; do
+		tar -jxvf ${f}
+		sleep 1
+		rm ${f}
+		sleep 1
+	done
 
-	sleep 3
-	rm ${d0}/nekros.tar.bz3
+	sleep 1
+	mv root.conf ${d}/conf
 fi
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
 else
-	#TODO:josqo chroot-tapauksessa yrittäisi $n.conf
+#	[ -s ${d0}/root.conf ] || exit 55
+#	. ${d0}/root.conf 
+#
+#	#VAIH:josqo chroot-tapauksessa yrittäisi $n.conf
 	echo "CONFIG MISSING"
 	exit 55
 fi
 
-#TODO:ffox-profiilin importointi, kts toimiiko se muutoksien jlk vai ei
+#voisikohan yo. juttuja siirtää -> common_lib ?
+#VAIH:ffox-profiilin importointi, kts toimiiko se muutoksien jlk vai ei
+#... ei välttämättä nimittäin
+#(vähän aikaa 061025 toimi)
 
 function parse_opts_1() {
 	case "${1}" in
@@ -192,7 +203,7 @@ c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 part2_5 ${removepkgs} ${dnsm}
 
-#VAIH:näille main bugin korjaus, stoppaa masenteluvaiheessa jos ei -v annettu
+#VAIH:näille main bugin korjaus, stoppaa masenteluvaiheessa jos ei -v annettu (vielä 071025?)
 #===================================================PART 3===========================================================
 message
 part3 ${d} ${dnsm}

@@ -1,11 +1,12 @@
 #!/bin/bash
-#TODO:vielä juttuja pakettien poisteluihin liittyen? (daed/lib.sh) vielä tarpeen 29725?
+
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
 d0=$(pwd)
 #exit 666 #HUOM.021025:jokin saatttaa qsta tässä, siksi 
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro}
+mode=0 #3 nollana kunnes saa bugit korjattua (gui qsee)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -15,7 +16,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#TODO:jokin mode-param mikä määrää mihin asti poistellaan
+
 function parse_opts_1() {
 	echo "popt_1( ${1} )"
 
@@ -26,6 +27,8 @@ function parse_opts_1() {
 		*)
 			if [ -d ${d0}/${1} ] ; then
 				distro=${1}
+			else 
+				mode=${1}
 			fi
 
 			dqb "0th3r 0tps"
@@ -33,12 +36,14 @@ function parse_opts_1() {
 	esac
 }
 
-#HUOM.021025:initrafs-toolsin ja live-xxx-pakettien kanssa saattaa olla jotain härdellia, korjaa?
-
+#HUOM.021025:initramfs-toolsin ja live-xxx-pakettien kanssa saattaa olla jotain härdellia, korjaa?
+#... jos uuden .iso:n kanssa sama ni apt reinstall intramfs ja katsotaan mitä tapahtuu
+ 
 function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
+#HUOM.pitäisiköhän olla useampi tuommoinen bz3 mitä käsitellään?
 if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
@@ -51,9 +56,15 @@ fi
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
 else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
-	echo "CONF MISSING"
-	exit 56
+#	echo "CONF MISSING"
+#	exit 56
+
+	[ -s ${d0}/root.conf ] || exit 56
+	. ${d0}/root.conf 
 fi
+
+#tässä välissä debug-mjan jyräys?
+#voisikohan yo. juttuja siirtää -> common_lib ?
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -66,8 +77,6 @@ fi
 dqb "BEFORE CNF"
 echo "dbig= ${debug}" # [  -v ] taakse?
 sleep 1
-
-#TODO:josko tarvittaessa jyräämään konftdston debug-asetus tai siis mahd aikaisessa vaiheessa debug päälle oli ideana?
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -88,8 +97,11 @@ ${fib}
 echo "debug=${debug}"
 dqb "distro=${distro}"
 dqb "removepkgs=${removepkgs}"
+dqb "mode=${mode} "
+
 sleep 1
 csleep 1
+#exit 666 #HUOM.021025:jokin saatttaa qsta tässä, siksi 
 
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
@@ -153,7 +165,6 @@ function t2pc() {
 	${sharpy} libreoffice*
 	t2p_filler
 
-	#xcaliburissa ao. paketteja ei tässä vaiheesas jäljellä?
 	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
 	t2p_filler
 
@@ -193,6 +204,7 @@ function t2pc() {
 	#xfce*,xorg* off limits
 	t2p_filler
 
+	spd="${sd0} -l " #jäänyt turhaksi muuten mutta g_pt2
 	[ ${debug} -gt 0 ] && ${spd} x*
 	csleep 1
 
@@ -226,13 +238,16 @@ function t2pf() {
 #HUOM.26525:nyt sitten debug päälle jotta selviää mihin pysähtyy
 
 t2pc
-[ $? -gt 0 ] && exit #tähän tökkää?
-#TODO:mode-kikkailut näille main?
+[ $? -gt 0 ] && exit
+[ ${mode} -eq 0 ] && exit
+
 t2p
 [ $? -gt 0 ] && exit
+[ ${mode} -eq 1 ] && exit #tähän tökkää?
 
 t2pf ${1}
 [ $? -gt 0 ] && exit
+[ ${mode} -eq 2 ] && exit
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
 sleep 6

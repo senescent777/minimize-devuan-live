@@ -119,19 +119,18 @@ if [ -f ${tgt} ] ; then
 	#sen sijaan /e alaiset?pitäisikö kasata johonkin pakettiin ja se commitoida?
 
 	#tuossa yllä find ilman tiukempaa name-rajausta vetäisi ylimääräisiä mukaan, toisaalta /e/localtime on linkki
-	#HUOM.27726:voisiko olla timezone/localtime kuten ennen vai ei?
+
 	process_entry ${tgt} /etc/timezone
 	process_entry ${tgt} /etc/localtime
 
 	#firefoxin käännösasetukset pikemminkin export2:n hommia 
 
-	#HUOM.27727:/e/i/tules-kohtaan muutoksia jatkossa vai ei?
 	${scm} 0755 /etc/iptables
 	${scm} 0444 /etc/iptables/*
 	${scm} 0444 /etc/default/rules*
 	sleep 2
 	
-	if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then		
+	if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then	#HUOM.061025:milloin viimeksi tätä blokkia testattu?	
 		for f in $(find /etc -name 'rules*') ; do #type f mukaan?
 			if [ -s ${f} ] && [ -r ${f} ] ; then
 				process_entry ${tgt} ${f}
@@ -146,7 +145,7 @@ if [ -f ${tgt} ] ; then
 
 	#pitäisi kai tehdä jotain että tuoreimmat muutokset /e/n ja /e/a menevät tar:iin asti? typojen korjaus olisi hyvä alku
 
-	#TODO:/e/n- ja /e/a-kohdat uusiksi jatkossa (liittyiköhän se luca?)
+	#TODO:/e/n- ja /e/a-kohdat uusiksi jatkossa? (liittyiköhän se luca?)
 	if [ ! -v testgris ] || [ ! -d ${testgris} ] ; then
 		#HUOM.24525:distro-kohtainen /e/n/interfaces, onko järkee vai ei?
 		for f in $(find /etc/network -type f -name 'interface*' -and -not -name '*.202*') ; do process_entry ${tgt} ${f} ; done
@@ -156,15 +155,25 @@ if [ -f ${tgt} ] ; then
 		sleep 2
 	fi
 
+	#uutena 031025, siltä varalta että paska osuu tuulettimeem niinqu
+	for f in $(find  /etc/wpa_supplicant/ -type f) ; do process_entry ${tgt} ${f} ; done
+
 	#HUOM.saattaa urputtaa $tgt polusta riippuen
 	#HUOM.2:miten toimii omegan ajon jälkeen?
+	#HUOM.3:oli jotain urputusta näillä main 031025(edelleen 071025?)
+
+	echo "sudo touch ${tgt}.sha"
+	sleep 3
 
 	sudo touch ${tgt}.sha
 	${scm} 0666 ${tgt}.sha
 	${sco} $(whoami):$(whoami) ${tgt}.sha
 
+	echo "sha512sum ${tgt} > ${tgt}.sha"
+	sleep 3
 	sha512sum ${tgt} > ${tgt}.sha
 	sleep 2
+
 	sha512sum -c ${tgt}.sha
  	#HUOM.29925:tähän ei sitten gpg-kikkailua
 	echo "DONE UPDATING"
