@@ -9,22 +9,27 @@ d=${d0}/${distro}
 
 if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
-	sleep 2
-	tar -jxvf ${d0}/nekros.tar.bz3
+#VAIH:siirron lisäksi useamman .z3 purq 
+	for f in $(find ${d0} -type f -name 'nekros?'.bz3) ; do
+		tar -jxvf ${f}
+		sleep 1
+		rm ${f}
+		sleep 1
+	done
 
-	sleep 3
-	rm ${d0}/nekros.tar.bz3
+	sleep 1
+	mv root.conf ${d}/conf
 fi
 
 if [ -d ${d} ] && [ -s ${d}/conf ]; then
 	. ${d}/conf
 else
-	[ -s ${d0}/root.conf ] || exit 55
-	. ${d0}/root.conf 
-
-	#VAIH:josqo chroot-tapauksessa yrittäisi $n.conf
-	#echo "CONFIG MISSING"
-	#exit 55
+#	[ -s ${d0}/root.conf ] || exit 55
+#	. ${d0}/root.conf 
+#
+#	#VAIH:josqo chroot-tapauksessa yrittäisi $n.conf
+	echo "CONFIG MISSING"
+	exit 55
 fi
 
 #voisikohan yo. juttuja siirtää -> common_lib ?
