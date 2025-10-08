@@ -73,7 +73,7 @@ csleep 2
 BASEURL="github.com/senescent777"
 ${tig} clone ${branch} https://${BASEURL}/minimize-devuan-live.git 
 [ $? -gt 0 ] && exit
-exit
+#exit
 
 dqb "TGI KO"
 csleep 2
