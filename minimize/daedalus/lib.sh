@@ -35,11 +35,15 @@ function c5p() { #joskohan jo toimisi (28925)
 	${NKVD} ${1}/live*
 	#...varsinaisen poistamisen kanssa saattaa tulla ulinaa
 
+	#TODO:eudev/udev/xserver - paketit mäkeen jos ei chroot-ympäristössä
+	#TODO.jatkossa tämä fktio poistaisi blacklistin mukaiset tdstot
+
 	dqb "...is over"
 	csleep 1
 }
 
 #VAIH:param tark
+#TODO:jatkossa tämä fktio lisäisi ensisijaisen whitelistin mukaiset paketit efk1:lla
 function reficul() {
 	#debug=1
 	dqb "NATTA5H3AD öVERDR1V 666! (a.k.a pr4.libs ?)"
@@ -98,22 +102,25 @@ function reficul() {
 	#061025 osoittautuio taropeelliseksi
 	efk1 ${1}/libeudev*
 
+	#081025
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libx11-6=2:1.8.4-2+deb12u2
+	efk1 ${1}/libxcb1*.deb
+	efk1 ${1}/libx11-6*.deb
+	efk1 ${1}/libx11-xcb1*.deb
+
 	dqb "REC1FUL D0N3"
 	csleep 5
 }
 
 #HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
-#HUOM.021025:bind9 masentelut tähän vai reficul() ?
 #
 #TODO:josko reficul/pr4/cp5 asetnamat/poistamat jutut erillisiin tdstoihin ja lib sitteb iteroisi
-#TODO:lib-juttuja > refriceul
+#VAIH:lib-juttuja > refriceul
 #
 #myös:
-#dpkg: dependency problems prevent configuration of live-boot-initramfs-tools:
-# live-boot-initramfs-tools depends on initramfs-tools; however:
-#  Package initramfs-tools is not configured yet.
-#
+
+#TODO:jatkossa tämä fktio lisäisi efk1:llä toissijaisen whitelistin mukaiset pak
 function pr4() {
 	#HUOM.29925:saattaa sittenkin olla tarpeellinen fktio koska X
 
@@ -128,17 +135,14 @@ function pr4() {
 	#==============================================================
 	#libx11- yms. kirjatsojen masentelut takaisin tähän vai reficul?
 	#HUOM.29925:osoittautui tarpeeLLIseksi palauttaa koska part3() muutokset
-	
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libx11-6=2:1.8.4-2+deb12u2
-	efk1 ${1}/libxcb1*.deb
-	efk1 ${1}/libx11-6*.deb
+	#HUOM.081025:tässä oli libxcb1+pari muuta kirjastoa 
 
-	efk1 ${1}/libx11-xcb1*.deb
-
-	efk1 ${1}/eudev*.deb #HUOM.061025:tarvinnee kirjastot ensin , toisaalta ennen xserver-xorg-core 
+	efk1 ${1}/eudev*.deb
 	efk1 ${1}/udev*.deb 
 	efk1 ${1}/xserver-common*.deb
 	efk1 ${1}/xserver-xorg-core*.deb 
+
+	#HUOM.081025.2:eudev tarvitsee /boot/vmlinuz johonkin joten jos se poistettu...
 
 	#HUOM.30925:x-jutut mielekkäitä päivittää sq-chroot-ymp lähinnä
 	#äksän tappaminen desktop-live-ymp voi aiheuttaa härdelliä, login_manager ...
@@ -147,6 +151,7 @@ function pr4() {
 	
 	#TODO:chroot-tarkistuksen taakse dbus as? jokin niistä pak vaati reboot
 	efk1 ${1}/dbus-bin*.deb  ${1}/dbus-daemon*.deb ${1}/dbus-session-bus-common*.deb
+	#"A reboot is required to replace the running dbus-daemon."
 
 ##	Unpacking xserver-xorg-core (2:21.1.7-3+deb12u10devuan1) over (2:21.1.7-3devuan1) ...
 ##dpkg: dependency problems prevent configuration of xserver-xorg-core:
@@ -164,14 +169,17 @@ function pr4() {
 ##
 ##ja toimintaa apina!
 
+	#HUOM.081025:live-ympäristössä edelleen nalkuttaa udev/eudev/xserver-xorg-core
+	#... joten chroot taakse
 	#==============================================================
 
-#pois kommenteista 011025, joissain tilanteissa tarvitaan
+	#pois kommenteista 011025, joissain tilanteissa tarvitaan
+	#TODO:seur 3 riviä -> reficul() ?
 	${NKVD} ${1}/libpam-modules* #tartteeko enää?
 	efk1 ${1}/libpam*.deb	
 	efk1 ${1}/libperl*.deb
-	efk1 ${1}/perl*.deb
 
+	efk1 ${1}/perl*.deb
 	efk1 ${1}/liberror-perl*.deb
 	efk1 ${1}/git*.deb
 	csleep 1
