@@ -35,14 +35,13 @@ function c5p() { #joskohan jo toimisi (28925)
 	${NKVD} ${1}/live*
 	#...varsinaisen poistamisen kanssa saattaa tulla ulinaa
 
-	#TODO:eudev/udev/xserver - paketit mäkeen jos ei chroot-ympäristössä
-	#TODO.jatkossa tämä fktio poistaisi blacklistin mukaiset tdstot
+	#VAIH:eudev/udev/xserver - paketit mäkeen jos ei chroot-ympäristössä ?
+	#TODO:jatkossa tämä fktio poistaisi blacklistin(taimikäonkaan poliittisesti korrekti termi) mukaiset tdstot
 
 	dqb "...is over"
 	csleep 1
 }
 
-#VAIH:param tark
 #TODO:jatkossa tämä fktio lisäisi ensisijaisen whitelistin mukaiset paketit efk1:lla
 function reficul() {
 	#debug=1
@@ -95,11 +94,10 @@ function reficul() {
 
 #	efk1 ${1}/libfdisk* ${1}/libuuid*
 #	#HUOM.28925:libfdisk ehkö uskaltaa poistaa($sharpy), e2fsprogs tarttee libuuid (e2 parempi olla poistamatta)
-
 #	efk1 ${1}/libopen* ${1}/libpolkit-gobject-*
 #	#HUOM.28925:xfce4 tarvitse libpolkit-gobject joten ei kande poistaa
 
-	#061025 osoittautuio taropeelliseksi
+	#061025 osoittautui taropeelliseksi
 	efk1 ${1}/libeudev*
 
 	#081025
@@ -107,6 +105,11 @@ function reficul() {
 	efk1 ${1}/libxcb1*.deb
 	efk1 ${1}/libx11-6*.deb
 	efk1 ${1}/libx11-xcb1*.deb
+
+	#HUOM.081025:oli aiemmin pr4():ssä juuri ennen "efk1 perl*.deb"-riviä, takaisin jos pykuu
+	${NKVD} ${1}/libpam-modules* #tartteeko enää?
+	efk1 ${1}/libpam*.deb	
+	efk1 ${1}/libperl*.deb
 
 	dqb "REC1FUL D0N3"
 	csleep 5
@@ -116,10 +119,7 @@ function reficul() {
 #HUOM.26525:2. parametri, tartteeko moista?
 #
 #TODO:josko reficul/pr4/cp5 asetnamat/poistamat jutut erillisiin tdstoihin ja lib sitteb iteroisi
-#VAIH:lib-juttuja > refriceul
 #
-#myös:
-
 #TODO:jatkossa tämä fktio lisäisi efk1:llä toissijaisen whitelistin mukaiset pak
 function pr4() {
 	#HUOM.29925:saattaa sittenkin olla tarpeellinen fktio koska X
@@ -136,23 +136,32 @@ function pr4() {
 	#libx11- yms. kirjatsojen masentelut takaisin tähän vai reficul?
 	#HUOM.29925:osoittautui tarpeeLLIseksi palauttaa koska part3() muutokset
 	#HUOM.081025:tässä oli libxcb1+pari muuta kirjastoa 
-
-	efk1 ${1}/eudev*.deb
-	efk1 ${1}/udev*.deb 
-	efk1 ${1}/xserver-common*.deb
-	efk1 ${1}/xserver-xorg-core*.deb 
-
 	#HUOM.081025.2:eudev tarvitsee /boot/vmlinuz johonkin joten jos se poistettu...
 
 	#HUOM.30925:x-jutut mielekkäitä päivittää sq-chroot-ymp lähinnä
 	#äksän tappaminen desktop-live-ymp voi aiheuttaa härdelliä, login_manager ...
-	#... eli yo. rivejä cgroot-tark taakse (TODO?)
+	#... eli yo. rivejä cgroot-tark taakse (VAIH)
+
+	if [ -f /.chroot ] ; then
+		efk1 ${1}/eudev*.deb
+		efk1 ${1}/udev*.deb 
+		efk1 ${1}/xserver-common*.deb
+		efk1 ${1}/xserver-xorg-core*.deb 
+
+		efk1 ${1}/dbus-bin*.deb  ${1}/dbus-daemon*.deb ${1}/dbus-session-bus-common*.deb
+		#"A reboot is required to replace the running dbus-daemon."
+	else
+		#c5p() ?
+		${NKVD} ${1}/eudev*.deb
+		${NKVD} ${1}/udev*.deb
+		${NKVD} ${1}/xserver-common*.deb
+		${NKVD} ${1}/xserver-xorg-core*.deb
+		${NKVD} ${1}/dbus-bin*.deb
+		${NKVD} ${1}/dbus-daemon*.deb	
+	fi
+
 	csleep 3
 	
-	#TODO:chroot-tarkistuksen taakse dbus as? jokin niistä pak vaati reboot
-	efk1 ${1}/dbus-bin*.deb  ${1}/dbus-daemon*.deb ${1}/dbus-session-bus-common*.deb
-	#"A reboot is required to replace the running dbus-daemon."
-
 ##	Unpacking xserver-xorg-core (2:21.1.7-3+deb12u10devuan1) over (2:21.1.7-3devuan1) ...
 ##dpkg: dependency problems prevent configuration of xserver-xorg-core:
 ## xserver-xorg-core depends on udev (>= 149); however:
@@ -166,18 +175,7 @@ function pr4() {
 ##https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-xorg-core=2:21.1.7-3+deb12u9devuan1 
 ##(Depends:
 ##xserver-common (>= 2:21.1.7-3+deb12u10devuan1), keyboard-configuration, udev )
-##
-##ja toimintaa apina!
-
-	#HUOM.081025:live-ympäristössä edelleen nalkuttaa udev/eudev/xserver-xorg-core
-	#... joten chroot taakse
 	#==============================================================
-
-	#pois kommenteista 011025, joissain tilanteissa tarvitaan
-	#TODO:seur 3 riviä -> reficul() ?
-	${NKVD} ${1}/libpam-modules* #tartteeko enää?
-	efk1 ${1}/libpam*.deb	
-	efk1 ${1}/libperl*.deb
 
 	efk1 ${1}/perl*.deb
 	efk1 ${1}/liberror-perl*.deb
@@ -194,7 +192,9 @@ function pr4() {
 }
 
 #tähän tai cp5() poistamaan libavahi?
-function udp6() { #HUOM.28725:testattu, toiminee
+#HUOM.28725:testattu, toiminee
+#jatkossa fktioihin cp5() ja udp6() muutoksia? sq-chroot liittyenm tjsp
+function udp6() {
 	dqb "daud.lib.UPDP-6"
 	csleep 1
 	[ -d ${1} ] || exit 66
@@ -336,7 +336,7 @@ function pre_part2() {
 
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
 #https://pkgs.org/download/linux-image-6.12.27-amd64 ... joskohan ethz kautta
-#... tarkistus tosin uusiksi, josko sinne tcdd-blokkiin ylemmäs?
+#... tarkistus tosin uusiksi, josko sinne tcdd-blokkiin(?) ylemmäs?
 
 function tpc7() { #e22.sh kutsuu tätä nykyään
 	dqb "d.prc7 UNDER CONSTRUCTION"
