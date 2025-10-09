@@ -211,10 +211,8 @@ dqb "b3f0r3 par51ng tha param5"
 csleep 1
 
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
-
 #glorified "tar -x" this function is - Yoda (tähän jos niitä gpg-juttuja?)
 #HUOM.061025:"jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?" tätä ehkä vähän alettu huomioidfas
-
 #HUOM.061025:allekrijoitus-asioita alettu hiomoioida sekä imp2 että exp2
 
 #VAIH:
@@ -226,7 +224,6 @@ csleep 1
 
 #TODO:.deb-pakettien pakkaus/purku vähän uusiksi? voisi olla ./$distro/ alla nuo
 #... ja "exp2 0", josko silloin tylysti vain .deb ha sha512sums tar:iin?
-#TEHTY?:ffox-profiilien yms. tauhkan pakkaus/purku, toimimaan taas (josko .tar sisällöstä kiinni)
 #VAIH:allek. tar. ehkä toisin kuitenkin? ei luotettaisi /r/l/m/p sisältöön vaan /pad alta tai ~/.gnupg hödynt
 #TODO:$2 ja $3 käsittely uusiksi?
 
@@ -274,9 +271,9 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 	csleep 1
 
 	#efk2 vai ei? ehkä ei koska stand_alone
-	#... miten suodtus? siis --exclude mukaan kai
+	#... miten suodtus? siis --exclude mukaan kai (TODO)
 
-	${srat} -C ${3} -xf ${1}
+	${srat} -C ${3} -xf ${1} #JOKO JO --EXCLUDE?
 	[ $? -eq 0 ] || exit 36
 
 	csleep 1
@@ -339,7 +336,7 @@ function tpr() {
 
 	#~ alta kalat pois jottei sotke jatkossa?
 	local t
-	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} -C ~ -xvf ${t} ; done
+	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} -C ~ -xvf ${t} ; done #HUOM.091025:ei tarvinne tähän: --exclude ?
 	#echo $?
 	for t in ${1}/pulse.tar ~/pulse.tar ; do ${srat} -C / -xvf ${t} ; done
 	dqb "PROFS?"

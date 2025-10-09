@@ -183,7 +183,7 @@ case ${mode} in
 		#... ja profs.sh jos kuuluisi tarpeellisiin
 
 		for f in $(find ~ -name '*.tar' -or -name '*.bz2') ; do
-			${srat} -rvf ${tgtfile} ${f}
+			${srat} -rvf ${tgtfile} ${f} #HUOM.091025:tähän ai tarvinne --exclude
 		done
 
 		e22_ftr ${tgtfile}
@@ -196,18 +196,10 @@ case ${mode} in
 		[ z"${tgtfile}" == "z" ] && exit 99
 
 		#TODO:tähn tai toiseen caseen $3 tar_in --exclude-hommia varten?
-		#tähän se avainten lisäys vaiko erillinen case?
 		cd ${d0}
 
-		#...miten ne avainjutut? vaihtoehtoinen conf?
-		#alussa julk av vain tulevat Jostainja that's it, jatkossa squ.ash ja stage0 tekisivät jotain asian suhteen
-
-		#chroot-ympäristössä tarvitsisi kikkailua conf kanssa?
-		# tuossa ymp eri asetukset q live-kiekolla mutta toisaalta eri h mistotkin
-		# ... jospa 	copy_conf()
-
 		#TODO:syksymmällä jotenkin toisin ao. blokki
-		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done
+		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude
 		#T_DKNAME voisi jatkossa osoittaa esim /r/l/m/p/dgsts alle?
 		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname1}
 		[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname2}
@@ -243,6 +235,7 @@ pwd;sleep 6
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 e22_hdr ${tgtfile} #tämä saattaa sotkea tapauksessa c
 
+#TODO:yhteisiä juttuja tähän	
 case ${mode} in
 	0|4)
 	#VAIH:testaus (072015) , case 4 tekee paketin, toimiikin enimmäkseen
@@ -317,12 +310,11 @@ case ${mode} in
 	;;
 	e)  #HUOM.071025:vetää kyllä paketteja mutta nalkutusta
 		#Errors were encountered while processing:
-		# eudev
 		# initramfs-tools
-		# xserver-xorg-core
 		# e2fsprogs
-		#nykyään nalqtuksen lisäksi lisää f.tar $tgtfile:en (paketin sisällön validius vielä selvitettävä)		
-		#yo. paketteihin liittyvää nalqtusta alettu minimoimaan 081025		
+		#...jokohan jo 091025 olisi poistunut?
+
+		#nykyään nalqtuksen lisäksi lisää f.tar $tgtfile:en (paketin sisällön validius vielä selvitettävä)			
 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
@@ -335,7 +327,6 @@ case ${mode} in
 			${srat} -rvf ${tgtfile} ./f.tar #tämäkö jäi puuttumaan?
 		fi
 	;;
-	f)  ;;
 	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi? no esim. jos tar:ill väärä -C ni...
 	t) #HUOM.071025:toimi ainakin kerran (tehdyn paketin validius erikseen)
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}

@@ -11,7 +11,7 @@ function e22_hdr() { #HUOM.071025:taitaa toimia
 	${scm} 0644 ./rnd
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
-	${srat} -cvf ${1} ./rnd
+	${srat} -cvf ${1} ./rnd #TODO:muistettava afrsia purq-vaiheessa
 	[ $? -gt 0 ] && exit 60
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
@@ -228,11 +228,9 @@ function e22_home() { #VAIH:testaus koska e22_settings() muutettu (josko toimisi
 	csleep 1
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 
+	#TODO:--exclude?
 	dqb "${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
 	csleep 3
-		
-	#pitäisiköhän findilla hakea tar:ille ne .sh, .tar yms. ?
-	#... vai stokeekohan ecxldur asioita? ei kai
 
 	#HUOM.pitäisiköhän $1 hieman mankeloida? esim. samasta syystä kuin update.sh
 	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen?
@@ -455,7 +453,7 @@ function e22_ext() { #HUOM.071025:taitaa toimia
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
 	${scm} -R a-w ./sbin
-	${srat} -rvf ${1} ./etc ./sbin 
+	${srat} -rvf ${1} ./etc ./sbin #näissä ei kai turgaa tauhkaa
 
 	echo $?
 	
@@ -832,7 +830,7 @@ function e22_upgp() {
 	csleep 1
 
 	e22_ts ${2}
-	${srat} -cf ${1} ${2}/tim3stamp
+	${srat} -cf ${1} ${2}/tim3stamp #TODO:muistettava karsiap urkuvaiheessa
 	e22_arch ${1} ${2}
 
 	dqb "SIELUNV1H0LL1N3N"
