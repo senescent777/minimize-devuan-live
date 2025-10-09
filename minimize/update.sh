@@ -161,6 +161,7 @@ if [ -f ${tgt} ] ; then
 	#HUOM.saattaa urputtaa $tgt polusta riippuen
 	#HUOM.2:miten toimii omegan ajon jälkeen?
 	#HUOM.3:oli jotain urputusta näillä main 031025(edelleen 071025?)
+	#HUOM.4.:pqska tikku vai paskooko tämä skripti arkistoja? (091025)
 
 	echo "sudo touch ${tgt}.sha"
 	sleep 3
