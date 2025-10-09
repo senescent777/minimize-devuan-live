@@ -151,6 +151,9 @@ sifd=$(${odio} which ifdown)
 sip=$(${odio} which ip)
 sip="${odio} ${sip} "
 
+#TODO:gg-xi esittelyt prujaten? (common_lib.sh)
+#TODO:sca,smd p rujaus?
+
 if [ -v distro ] ; then 
 	dqb "DUSTRO OK"
 else
@@ -230,7 +233,6 @@ function psqa() {
 }
 
 #jatkossa gg-tarkistus mukaan jotenkin tähän? vaiko fktioon psqa?
-
 function pre_part3_clib() {
 	dqb "pre_part3_clib ${1}"
 	csleep 1
@@ -386,6 +388,8 @@ function common_tbls() {
 	echo "common_tblz d0n3"
 	csleep 10
 }
+
+#TODO:jatkossa daed/lib mainitut listojen prosessoinnit tässä tdstossa
 
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135(${1} )"
@@ -1103,8 +1107,7 @@ function part3() {
 	
 	dqb "LIBS DONE"
 	csleep 6
-
-	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
+	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done #tilap jemm 031025
 	
 	if [ $? -eq  0 ] ; then
 		dqb "part3.2 ok"

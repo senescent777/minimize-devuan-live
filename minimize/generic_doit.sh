@@ -211,7 +211,9 @@ other_horrors
 
 dqb "BEFORE IMP2"
 csleep 10
-${d0}/import2.sh r ${d0} -v
+if [ ! -f /.chroot ] ; then
+	${d0}/import2.sh r ${d0} -v
+gi
 
 jules
 ${asy}
