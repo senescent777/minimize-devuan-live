@@ -44,11 +44,14 @@ fi
 
 dqb "BFROE tig"
 csleep 2
+#TODO:jälkimmäinen osa
 ${tig} clone ${branch} https://${BASEURL}/minimize-devuan-live.git
 [ $? -gt 0 ] && exit
 
 dqb "TGI KO"
 csleep 2
+
+echo "mv minimize-devuan-live/* ."
 echo "JA SIT JOTAIN (TODO)"
 
 #if [ -x ${d0}/common_lib.sh ] ; then
