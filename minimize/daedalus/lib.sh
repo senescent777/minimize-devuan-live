@@ -1,8 +1,7 @@
 #=================================================PART 0=====================================
 
-#TEHTY:man dpkg, man apt, josqo saisi pakotettua sen vastauksen... tai ensin https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
+#https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
-#... joskohan --force-confold olisi se haettu juttu
 
 #HUOM.29925:nalkutukset lib-paketeista tulivat näköjään takaisin kun part3:sessa korvattu ekf find-jekulla, jotain tarttisi tehrä asialle
 # (import2 3 $archive aiheuttajana) 
@@ -115,7 +114,6 @@ function reficul() {
 	csleep 5
 }
 
-#HUOM.19525:pitäisiköhän tässäkin olla se debian_froNtend-juttu? ehkä ei ole pakko
 #HUOM.26525:2. parametri, tartteeko moista?
 #
 #TODO:josko reficul/pr4/cp5 asetnamat/poistamat jutut erillisiin tdstoihin ja lib sitteb iteroisi
@@ -135,14 +133,18 @@ function pr4() {
 	#==============================================================
 	#libx11- yms. kirjatsojen masentelut takaisin tähän vai reficul?
 	#HUOM.29925:osoittautui tarpeeLLIseksi palauttaa koska part3() muutokset
-	#HUOM.081025:tässä oli libxcb1+pari muuta kirjastoa 
 	#HUOM.081025.2:eudev tarvitsee /boot/vmlinuz johonkin joten jos se poistettu...
 
 	#HUOM.30925:x-jutut mielekkäitä päivittää sq-chroot-ymp lähinnä
 	#äksän tappaminen desktop-live-ymp voi aiheuttaa härdelliä, login_manager ...
-	#... eli yo. rivejä cgroot-tark taakse (VAIH)
+	#... eli yo. rivejä cgroot-tark taakse (DONE)
 
 	if [ -f /.chroot ] ; then
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=eudev=3.2.12-4+deb12u1
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=udev=1:3.2.9+devuan4 (depends:eudev)
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-common=2:21.1.7-3+deb12u10devuan1 (depends x11-common, xkb-data, x11-xkb-utils)
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-xorg-core=2:21.1.7-3+deb12u9devuan1 
+
 		efk1 ${1}/eudev*.deb
 		efk1 ${1}/udev*.deb 
 		efk1 ${1}/xserver-common*.deb
@@ -162,19 +164,6 @@ function pr4() {
 
 	csleep 3
 	
-##	Unpacking xserver-xorg-core (2:21.1.7-3+deb12u10devuan1) over (2:21.1.7-3devuan1) ...
-##dpkg: dependency problems prevent configuration of xserver-xorg-core:
-## xserver-xorg-core depends on udev (>= 149); however:
-##  Package udev is not installed.
-##  Package eudev which provides udev is not configured yet.
-##elikkäs kts.
-##https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=eudev=3.2.12-4+deb12u1
-##https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=udev=1:3.2.9+devuan4 (depends:eudev)
-##https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-common=2:21.1.7-3+deb12u10devuan1 (depends x11-common, xkb-data, x11-xkb-utils)
-##
-##https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-xorg-core=2:21.1.7-3+deb12u9devuan1 
-##(Depends:
-##xserver-common (>= 2:21.1.7-3+deb12u10devuan1), keyboard-configuration, udev )
 	#==============================================================
 
 	efk1 ${1}/perl*.deb
@@ -182,7 +171,7 @@ function pr4() {
 	efk1 ${1}/git*.deb
 	csleep 1
 
-	#uutena 042025
+	#uutena 041025
 	efk1 ${1}/bind9*.deb
 	efk1 ${1}/e2fsprogs*.deb
 	csleep 1
@@ -205,8 +194,6 @@ function udp6() {
 	dqb "D0NE"
 	csleep 1
 }
-
-#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xcvt=0.1.2-1 (miten taas liittyi mihinkään?)
 
 function t2p() { 
 	#libcurl-libdav vaiko ei? (libcurl tai libnghttp vie git:in, libdav ehkä uskaltaa )
