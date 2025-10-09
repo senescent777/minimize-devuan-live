@@ -10,6 +10,7 @@ mode=-2
 d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
+tpx="--exclude tim3stamp --exclude rnd"
 
 #HUOM.30925:jospa ei pilkkoisi tätä tdstoa ainakaan ihan vielä
 #... optiota -v ei ole pakko käyttää, toisaalta
@@ -69,6 +70,7 @@ if [ -f /.chroot ] ; then #TODO:tämmöiset jatkossa -> common_lib ?
 	mv root.conf ${distro}/conf
 fi
 
+#TODO:JATKOSSA JOS ENSIN YRITTÄISI $n.conf JA MIKÄLI EI LÖYDY NI $d.conf JA JOS EI SITTENKÄÄN NI EXIT
 #HUOM.21725:oliko jotain erityistä syyt miksi conf cmmon_lib jälkeen? $distroon liittyvät kai, pitäisi miettiä, nyt näin
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
@@ -267,13 +269,13 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 	${srat} -tf ${1} | grep -v tim3 | cut -d / -f 1 | grep -v . | wc -l
 	csleep 10
 
-	dqb "NECKST:${srat} -C ${3} -xf ${1}"
+	dqb "NECKST:${srat} ${tpx} -C ${3} -xf ${1}"
 	csleep 1
 
 	#efk2 vai ei? ehkä ei koska stand_alone
 	#... miten suodtus? siis --exclude mukaan kai (TODO)
 
-	${srat} -C ${3} -xf ${1} #JOKO JO --EXCLUDE?
+	${srat} -C ${3} ${tpx} -xf ${1} #JOKO JO --EXCLUDE?
 	[ $? -eq 0 ] || exit 36
 
 	csleep 1

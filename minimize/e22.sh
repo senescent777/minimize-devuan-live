@@ -11,7 +11,7 @@ function e22_hdr() { #HUOM.071025:taitaa toimia
 	${scm} 0644 ./rnd
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
-	${srat} -cvf ${1} ./rnd #TODO:muistettava afrsia purq-vaiheessa
+	${srat} -cvf ${1} ./rnd #VAIH:muistettava afrsia purq-vaiheessa
 	[ $? -gt 0 ] && exit 60
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
@@ -228,13 +228,13 @@ function e22_home() { #VAIH:testaus koska e22_settings() muutettu (josko toimisi
 	csleep 1
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 
-	#TODO:--exclude?
-	dqb "${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
+	#VAIH:--exclude?
+	dqb "${srat} ${tpx} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
 	csleep 3
 
 	#HUOM.pitäisiköhän $1 hieman mankeloida? esim. samasta syystä kuin update.sh
 	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen?
-	${srat} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
+	${srat} ${tpx} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
 
 	dqb "e22_home d0n3"
 	csleep 1
@@ -702,7 +702,7 @@ function e22_get_pkgs() { #HUOM.071025:jospa jo toimisi
 	csleep 1
 }
 
-function e22_dblock() { #VAIH:testaus (072015)
+function e22_dblock() { #VAIH:testaus (071015)
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 13
@@ -830,7 +830,7 @@ function e22_upgp() {
 	csleep 1
 
 	e22_ts ${2}
-	${srat} -cf ${1} ${2}/tim3stamp #TODO:muistettava karsiap urkuvaiheessa
+	${srat} -cf ${1} ${2}/tim3stamp #VAIH:muistettava karsiap urkuvaiheessa
 	e22_arch ${1} ${2}
 
 	dqb "SIELUNV1H0LL1N3N"

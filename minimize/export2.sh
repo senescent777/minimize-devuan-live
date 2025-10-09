@@ -6,6 +6,7 @@ d0=$(pwd)
 echo "d0= ${d0}"
 mode=-2
 tgtfile=""
+tpx="--exclude tim3stamp --exclude rnd" #TODO:ajtkossa varmaankin konftdstossa
 
 #jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch (vakka erillinen branch näitä varten)
 
