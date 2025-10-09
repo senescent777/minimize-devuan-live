@@ -5,8 +5,13 @@ d0=$(pwd)
 echo "d0=${d0}"
 BASEURL="github.com/senescent777"
 
-function dqb() {}
-function csleep() {}
+function dqb() {
+	[ ${debug} -eq 1 ] && echo ${1}
+}
+
+function csleep() {
+	[ ${debug} -eq 1 ] && sleep ${1}
+}
 
 if [ $# -gt 0 ] ; then
 	dqb "params_ok"
@@ -23,7 +28,7 @@ else
 	exit 66
 fi
 
-if [ ! -z $[branch} ] ; then
+if [ ! -z ${branch} ] ; then
 	branch="--branch ${2}"
 fi
 
