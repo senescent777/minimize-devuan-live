@@ -64,6 +64,7 @@ function parse_opts_2() {
 
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
+#TODO:konftdston kanssssa lisäsäätöä?
 
 if [ -s ${d}/conf ] ; then
 	. ${d}/conf

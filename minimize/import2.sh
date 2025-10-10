@@ -66,15 +66,15 @@ if [ -f /.chroot ] ; then #TODO:tämmöiset jatkossa -> common_lib ?
 		sleep 1
 	done
 
-	sleep 1
-	mv root.conf ${distro}/conf
+	#sleep 1
+	#[ -d ${d} ] && mv $(whoami).conf ${d}/conf pois?
 fi
 
 #TODO:JATKOSSA JOS ENSIN YRITTÄISI $n.conf JA MIKÄLI EI LÖYDY NI $d.conf JA JOS EI SITTENKÄÄN NI EXIT
 #HUOM.21725:oliko jotain erityistä syyt miksi conf cmmon_lib jälkeen? $distroon liittyvät kai, pitäisi miettiä, nyt näin
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
-else
+else #jatkossa tästä tulisi päähaara?
 	[ -s ${d0}/root.conf ] || exit 57
 	. ${d0}/root.conf 
 fi
@@ -202,6 +202,7 @@ fi
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
 
+#deMOrgan
 if [ ! -f /.chroot ] ; then
 	if [ ! -s /OLD.tar ] ; then
 		#jotain exclude-juttuja voisi olla sikäli mikäli tuota oikeasti tarttee johonkin
