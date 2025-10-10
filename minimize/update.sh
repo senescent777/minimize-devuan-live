@@ -32,6 +32,7 @@ echo "PARAMS CHECKED"
 sleep 1
 
 if [ z"${distro}" != "z" ] ; then
+	#HUOM.101025:konftdstojen kanssa tullut muutoksia, pitäisikö hiomioida?
 	if [ -s ${d}/conf ] ; then
 		. ${d}/conf
 		echo "CNF F0UND"; sleep 1
@@ -73,6 +74,7 @@ if [ -f ${tgt} ] ; then
 	process_entry ${tgt} /opt/bin/changedns.sh
 	sleep 2
 
+	#HUOM.101025:tai jos $(whoami),conf ?
 	if [ -v testgris ] && [ -d ${testgris} ] ; then #vaatii sitten conf:iin muutoksia kanssa
 		cd ${testgris}
 		p="."

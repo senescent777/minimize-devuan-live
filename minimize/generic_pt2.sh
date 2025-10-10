@@ -43,24 +43,25 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#HUOM.pitäisiköhän olla useampi tuommoinen bz3 mitä käsitellään?
+#TODO:if-blokki uusiksi, kts muut skriptit
 if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
 	tar -jxvf ${d0}/nekros.tar.bz3
 
 	sleep 3
-	rm ${d0}/nekros.tar.bz3
+	rm ${d0}/nekros.tar.bz3 
 fi
 
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+	#HUOM.101025:tömnö olisi jatkossa else-haara?
 	. ${d}/conf
 else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
 #	echo "CONF MISSING"
 #	exit 56
 
-	[ -s ${d0}/root.conf ] || exit 56
-	. ${d0}/root.conf 
+	[ -s ${d0}/$(whoami).conf ] || exit 56
+	. ${d0}/$(whoami).conf 
 fi
 
 #tässä välissä debug-mjan jyräys?
@@ -106,7 +107,7 @@ csleep 1
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	part2_5 1
+	part2_5 1 ${dnsm} $[iface}
 	[ $? -gt 0 ] && exit
 fi
 

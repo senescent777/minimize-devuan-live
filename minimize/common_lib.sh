@@ -151,8 +151,18 @@ sifd=$(${odio} which ifdown)
 sip=$(${odio} which ip)
 sip="${odio} ${sip} "
 
-#TODO:gg-xi esittelyt prujaten? (common_lib.sh)
-#TODO:sca,smd p rujaus?
+#================================================
+#VAIH:gg-xi esittelyt prujaten? (common_lib.sh)
+#VAIH:sca,smd p rujaus?
+#gg=$(${odio} which gpg)
+#gv=$(${odio} which gpgv)
+#gi=$(${odio} which genisoimage)
+#gmk=$(${odio} which grub-mkrescue)
+#xi=$(${odio} which xorriso)
+#tarttisko tälle tehdä jotain?
+#sca=$(${odio} which chattr)
+#sca="${odio} ${sca}"
+#================================================
 
 if [ -v distro ] ; then 
 	dqb "DUSTRO OK"
@@ -584,7 +594,7 @@ function dinf() {
 }
 
 #HUOM:initramfs-tools ja live-boot, nämä paketit aiheuttavat ulinaa 031025
-
+#VAIH:kehitysymp hyldyntämään tätä fktiotas
 function pre_enforce() {
 	dqb "common_lib.pre_enforce( ${1} )"
 	local q
@@ -597,15 +607,20 @@ function pre_enforce() {
 	touch ${q}/meshuggah
 	[ ${debug} -eq 1 ] && ls -las ${q}
 	csleep 1
-
 	[ -f ${q}/meshuggah ] || exit 33
-	dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
-	[ -d /opt/bin ] || ${odio} mkdir /opt/bin
-	
-	[ -f ${1}/changedns.sh ] && ${svm} ${1}/changedns.sh /opt/bin
-	mangle_s /opt/bin/changedns.sh ${q}/meshuggah
-	csleep 1
 
+	#this condition is subjekjct to change
+	if [ ! -s ${d0}/$(whoami).conf ] ; then
+		dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
+		[ -d /opt/bin ] || ${odio} mkdir /opt/bin
+	
+		#KOITA NYT PRKL SAADA x-OIKEUDET PÄÄLLE 
+		[ -f ${1}/changedns.sh ] && ${svm} ${1}/changedns.sh /opt/bin
+		mangle_s /opt/bin/changedns.sh ${q}/meshuggah
+		csleep 1
+	fi
+
+	#TODO:tähän jtnkn niitä kehitysymp sudotuksia, listan esittely vaihtoehtoisessa konftdstossa jos mahd
 	dqb "LETf HOUTRE JOINED IN DARKN355"
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
 	csleep 1
@@ -634,20 +649,25 @@ function pre_enforce() {
 		c4=$(grep ${dir} /etc/fstab | wc -l) #aiemmin grepattiin $part0:lla, wc -l varmempi EHKä
 	else
 		echo "NO SUCH THING AS \$dir"
-		exit 99
+		exit 99 #tartteekohan ihan exit kuitenkaan...
 	fi
 
 	if [ ${c4} -lt 1 ] ; then
+		dqb "MUTILATE1NG /E/F-STAB"
+		csleep 5
+
 		#HUOM. pitäisi kai karsia edellinen rivi millä $dir?
 		${scm} a+w /etc/fstab
 		${odio} echo "/dev/disk/by-uuid/${part0} ${dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+		${odio} echo "#/dev/disk/by-uuid/${part1} ${dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		${scm} a-w /etc/fstab
 	fi
 
-	csleep 1
+	csleep 5
 	dqb "common_lib.pre_enforce d0n3"
 }
 
+#rivi 475 tjsp. mikä siinä on?
 function mangle2() {
 	if [ -f ${1} ] ; then
 		dqb "MANGLED ${1}"
@@ -996,8 +1016,14 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE (i have Tourettes)"
 }
 
-function part2_5() {
-	dqb "PART2.5.1 ${1} , ${2}"
+function part2_5() { #VAIH:$iface parametriksi?
+	dqb "PART2.5.1 ${1} , ${2} , ${3}"
+	csleep 1
+
+	[ -z ${1} ] && exit 55
+	[ -z ${2} ] && exit 56
+	[ -z ${3} ] && exit 57
+	dqb "PARS_OK"
 	csleep 1
 
 	if [ ${1} -eq 1 ] ; then
@@ -1014,6 +1040,8 @@ function part2_5() {
 			csleep 1
 		done
 
+		#TODO:initramfs- ja live- paketeista urputusta, pois kokonaan?
+
 		${lftr} #pitäisikö laittaa distro==chimaera taakse näiden takominen?
 		${sharpy} libblu* libcupsfilters* libgphoto* #tartteeko vielä?
 		${lftr}
@@ -1024,7 +1052,7 @@ function part2_5() {
 		${lftr}
 		csleep 1
 
-		case ${iface} in
+		case ${iface} in #${3} jatkossa?
 			wlan0)
 				dqb "NOT REMOVING WPASUPPLICANT"
 				csleep 1

@@ -9,7 +9,9 @@ d=${d0}/${distro}
 
 if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
-#VAIH:siirron lisäksi useamman .z3 purq 
+	#VAIH:siirron lisäksi useamman .z3 purq
+	#HUOM.101025:jospa jatkossa riittäisi että import2 tekee purq-hommat
+
 	for f in $(find ${d0} -type f -name 'nekros?'.bz3) ; do
 		tar -jxvf ${f}
 		sleep 1
@@ -18,24 +20,28 @@ if [ -f /.chroot ] ; then
 	done
 
 	sleep 1
-	mv root.conf ${d}/conf
+	#mv root.conf ${d}/conf tarpeellinen?
 fi
 
-if [ -d ${d} ] && [ -s ${d}/conf ]; then
-	. ${d}/conf
+#HUOM091025:ao. blkin saattaa joutua vielä muuttamaan tyo.blokin takis
+#... tai päintoisin
+
+if [ -s ${d0}/$(whoami).conf ] ; then
+	echo "FDSFDSFDS";sleep 5
+	. ${d0}/$(whoami).conf 
 else
-#	[ -s ${d0}/root.conf ] || exit 55
-#	. ${d0}/root.conf 
-#
-#	#VAIH:josqo chroot-tapauksessa yrittäisi $n.conf
-	echo "CONFIG MISSING"
-	exit 55
+	echo "7654765476547";sleep 6
+
+	if [ -d ${d} ] && [ -s ${d}/conf ]; then
+		. ${d}/conf
+	else
+		echo "CONFIG MISSING"
+		exit 55
+	fi
 fi
 
 #voisikohan yo. juttuja siirtää -> common_lib ?
-#VAIH:ffox-profiilin importointi, kts toimiiko se muutoksien jlk vai ei
-#... ei välttämättä nimittäin
-#(vähän aikaa 061025 toimi)
+#ffox-profiilin importointi (josko jo 091025 toimisi?)
 
 function parse_opts_1() {
 	case "${1}" in
@@ -89,13 +95,11 @@ fi
 dqb "mode= ${mode}"
 csleep 1
 
-if [ -s /etc/sudoers.d/meshuggah ] || [ -f /.chroot ] ; then
+if [ -s /etc/sudoers.d/meshuggah ] || [ -f /.chroot ] || [ ${enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 3
 else 
-	if [ ${enforce} -eq 1 ] ; then
-		pre_enforce ${d0}
-	fi
+	pre_enforce ${d0}
 fi
 
 #HUOM. ehto voisi mennä toisinkin, esim /r/l/m/p olemassaolo
@@ -201,7 +205,7 @@ fi
 pre_part2
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
-part2_5 ${removepkgs} ${dnsm}
+part2_5 ${removepkgs} ${dnsm} ${iface}
 
 #VAIH:näille main bugin korjaus, stoppaa masenteluvaiheessa jos ei -v annettu (vielä 071025?)
 #===================================================PART 3===========================================================
@@ -213,7 +217,7 @@ dqb "BEFORE IMP2"
 csleep 10
 if [ ! -f /.chroot ] ; then
 	${d0}/import2.sh r ${d0} -v
-gi
+fi
 
 jules
 ${asy}

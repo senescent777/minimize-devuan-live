@@ -10,6 +10,7 @@ mode=-2
 d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
+tpx="--exclude tim3stamp --exclude rnd"
 
 #HUOM.30925:jospa ei pilkkoisi tätä tdstoa ainakaan ihan vielä
 #... optiota -v ei ole pakko käyttää, toisaalta
@@ -65,14 +66,15 @@ if [ -f /.chroot ] ; then #TODO:tämmöiset jatkossa -> common_lib ?
 		sleep 1
 	done
 
-	sleep 1
-	mv root.conf ${distro}/conf
+	#sleep 1
+	#[ -d ${d} ] && mv $(whoami).conf ${d}/conf pois?
 fi
 
+#TODO:JATKOSSA JOS ENSIN YRITTÄISI $n.conf JA MIKÄLI EI LÖYDY NI $d.conf JA JOS EI SITTENKÄÄN NI EXIT
 #HUOM.21725:oliko jotain erityistä syyt miksi conf cmmon_lib jälkeen? $distroon liittyvät kai, pitäisi miettiä, nyt näin
 if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 	. ${d}/conf
-else
+else #jatkossa tästä tulisi päähaara?
 	[ -s ${d0}/root.conf ] || exit 57
 	. ${d0}/root.conf 
 fi
@@ -200,6 +202,7 @@ fi
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
 
+#deMOrgan
 if [ ! -f /.chroot ] ; then
 	if [ ! -s /OLD.tar ] ; then
 		#jotain exclude-juttuja voisi olla sikäli mikäli tuota oikeasti tarttee johonkin
@@ -211,10 +214,8 @@ dqb "b3f0r3 par51ng tha param5"
 csleep 1
 
 #b) firefoxin käännösasetukset, missä? (jokin .json varmaan)
-
 #glorified "tar -x" this function is - Yoda (tähän jos niitä gpg-juttuja?)
 #HUOM.061025:"jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?" tätä ehkä vähän alettu huomioidfas
-
 #HUOM.061025:allekrijoitus-asioita alettu hiomoioida sekä imp2 että exp2
 
 #VAIH:
@@ -226,7 +227,6 @@ csleep 1
 
 #TODO:.deb-pakettien pakkaus/purku vähän uusiksi? voisi olla ./$distro/ alla nuo
 #... ja "exp2 0", josko silloin tylysti vain .deb ha sha512sums tar:iin?
-#TEHTY?:ffox-profiilien yms. tauhkan pakkaus/purku, toimimaan taas (josko .tar sisällöstä kiinni)
 #VAIH:allek. tar. ehkä toisin kuitenkin? ei luotettaisi /r/l/m/p sisältöön vaan /pad alta tai ~/.gnupg hödynt
 #TODO:$2 ja $3 käsittely uusiksi?
 
@@ -270,13 +270,13 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 	${srat} -tf ${1} | grep -v tim3 | cut -d / -f 1 | grep -v . | wc -l
 	csleep 10
 
-	dqb "NECKST:${srat} -C ${3} -xf ${1}"
+	dqb "NECKST:${srat} ${tpx} -C ${3} -xf ${1}"
 	csleep 1
 
 	#efk2 vai ei? ehkä ei koska stand_alone
-	#... miten suodtus? siis --exclude mukaan kai
+	#... miten suodtus? siis --exclude mukaan kai (TODO)
 
-	${srat} -C ${3} -xf ${1}
+	${srat} -C ${3} ${tpx} -xf ${1} #JOKO JO --EXCLUDE?
 	[ $? -eq 0 ] || exit 36
 
 	csleep 1
@@ -339,7 +339,7 @@ function tpr() {
 
 	#~ alta kalat pois jottei sotke jatkossa?
 	local t
-	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} -C ~ -xvf ${t} ; done
+	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} -C ~ -xvf ${t} ; done #HUOM.091025:ei tarvinne tähän: --exclude ?
 	#echo $?
 	for t in ${1}/pulse.tar ~/pulse.tar ; do ${srat} -C / -xvf ${t} ; done
 	dqb "PROFS?"
