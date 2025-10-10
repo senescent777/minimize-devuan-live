@@ -7,37 +7,26 @@ d0=$(pwd)
 debug=0
 d=${d0}/${distro} 
 
-if [ -f /.chroot ] ; then
+if [ -f /.chroot ] ; then #tätä ei tarttisi joka skriptin ajaa oiekastaan
 	echo "UNDER THE GRAV3YARD"
-	#VAIH:siirron lisäksi useamman .z3 purq
-	#HUOM.101025:jospa jatkossa riittäisi että import2 tekee purq-hommat
-
+	
 	for f in $(find ${d0} -type f -name 'nekros?'.bz3) ; do
 		tar -jxvf ${f}
 		sleep 1
 		rm ${f}
 		sleep 1
 	done
-
-	sleep 1
-	#mv root.conf ${d}/conf tarpeellinen?
 fi
 
-#HUOM091025:ao. blkin saattaa joutua vielä muuttamaan tyo.blokin takis
-#... tai päintoisin
-
 if [ -s ${d0}/$(whoami).conf ] ; then
-	echo "ALT.C0NF1G";sleep 5
-	. ${d0}/$(whoami).conf 
+	echo "ALT.C0NF1G"
+	. ${d0}/$(whoami).conf
 else
-	#echo "7654765476547";sleep 6
-
-	if [ -d ${d} ] && [ -s ${d}/conf ]; then
+	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 		. ${d}/conf
 	else
-		echo "CONFIG MISSING"
-		exit 55
-	fi
+	 	exit 57
+	fi	
 fi
 
 #voisikohan yo. juttuja siirtää -> common_lib ?

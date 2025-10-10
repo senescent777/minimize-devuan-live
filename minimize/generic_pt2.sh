@@ -43,25 +43,28 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#TODO:if-blokki uusiksi, kts muut skriptit
+#VAIH:if-blokki uusiksi, kts muut skriptit
 if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
-	tar -jxvf ${d0}/nekros.tar.bz3
 
-	sleep 3
-	rm ${d0}/nekros.tar.bz3 
+	for f in $(find ${d0} -type f -name 'nekros?'.bz3) ; do
+		tar -jxvf ${f}
+		sleep 1
+		rm ${f}
+		sleep 1
+	done
 fi
 
-if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-	#HUOM.101025:tömnö olisi jatkossa else-haara?
-	. ${d}/conf
-else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
-#	echo "CONF MISSING"
-#	exit 56
-
-	[ -s ${d0}/$(whoami).conf ] || exit 56
-	. ${d0}/$(whoami).conf 
+if [ -s ${d0}/$(whoami).conf ] ; then
+	echo "ALT.C0NF1G"
+	. ${d0}/$(whoami).conf
+else
+	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+		. ${d}/conf
+	else
+	 	exit 57
+	fi	
 fi
 
 #tässä välissä debug-mjan jyräys?

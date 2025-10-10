@@ -58,25 +58,26 @@ if [ -f /.chroot ] ; then #TODO:tämmöiset jatkossa -> common_lib ?
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
 
-	#VAIH:siirron lisäksi useamman .z3 purq 
 	for f in $(find ${d0} -type f -name 'nekros?'.bz3) ; do
 		tar -jxvf ${f}
 		sleep 1
 		rm ${f}
 		sleep 1
 	done
-
-	#sleep 1
-	#[ -d ${d} ] && mv $(whoami).conf ${d}/conf pois?
 fi
 
-#TODO:JATKOSSA JOS ENSIN YRITTÄISI $n.conf JA MIKÄLI EI LÖYDY NI $d.conf JA JOS EI SITTENKÄÄN NI EXIT
+#VAIH:JATKOSSA JOS ENSIN YRITTÄISI $n.conf JA MIKÄLI EI LÖYDY NI $d.conf JA JOS EI SITTENKÄÄN NI EXIT
 #HUOM.21725:oliko jotain erityistä syyt miksi conf cmmon_lib jälkeen? $distroon liittyvät kai, pitäisi miettiä, nyt näin
-if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-	. ${d}/conf
-else #jatkossa tästä tulisi päähaara?
-	[ -s ${d0}/root.conf ] || exit 57
-	. ${d0}/root.conf 
+
+if [ -s ${d0}/$(whoami).conf ] ; then
+	echo "ALT.C0NF1G"
+	. ${d0}/$(whoami).conf
+else
+	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+		. ${d}/conf
+	else
+	 	exit 57
+	fi	
 fi
 
 if [ -x ${d0}/common_lib.sh ] ; then #saattaa jo toimia chroot-ymp sisällä
@@ -164,7 +165,8 @@ dqb "srcfile=${srcfile}"
 mkt=$(${odio} which mktemp)
 #exit
 
-if [ ! -f /.chroot ] ; then #0810245:toivottavasti tilapäienn ohitus
+#deMorgan?
+if [ ! -f /.chroot ] ; then #0810245:toivottavasti tilapäinen ohitus
 	if [ x"${mkt}" == "x" ] ; then
 		#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
 		echo "sudo apt-get update;sudo apt-get install coreutils"
