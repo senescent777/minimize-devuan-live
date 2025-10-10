@@ -64,13 +64,17 @@ function parse_opts_2() {
 
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
-#TODO:konftdston kanssssa lisäsäätöä?
+#VAIH:konftdston kanssssa lisäsäätöä?
 
-if [ -s ${d}/conf ] ; then
-	. ${d}/conf
-else #joutuukohan else-haaran muuttamaan jatkossa?
-	echo "CONF MISSING"
-	exit 55
+if [ -s ${d0}/$(whoami).conf ] ; then
+	echo "ALT.C0NF1G"
+	. ${d0}/$(whoami).conf
+else
+	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+		. ${d}/conf
+	else
+	 	exit 57
+	fi	
 fi
 
 if [ -x ${d0}/common_lib.sh ] ; then 
