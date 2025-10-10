@@ -107,7 +107,7 @@ csleep 1
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	part2_5 1 ${dnsm} $[iface}
+	part2_5 1 ${dnsm} ${iface}
 	[ $? -gt 0 ] && exit
 fi
 
