@@ -10,6 +10,7 @@ function csleep() {
 if [ -f /.chroot ] ; then
 	odio=""
 	debug=1
+	#TODO:tähän se bz3-prkaminen jatkossa?
 
 	function itni() {
 		dqb "alt-itn1"
