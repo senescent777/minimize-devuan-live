@@ -6,6 +6,7 @@
 #HUOM.29925:nalkutukset lib-paketeista tulivat näköjään takaisin kun part3:sessa korvattu ekf find-jekulla, jotain tarttisi tehrä asialle
 # (import2 3 $archive aiheuttajana) 
 
+#iface-riippuvainen pakettien poisto, kts part2_5()
 function c5p() { #joskohan jo toimisi (28925)
 	dqb "CCCP( ${1} , ${2} )"
 	csleep 1
