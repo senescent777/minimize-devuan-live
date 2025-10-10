@@ -1023,11 +1023,13 @@ function part2_5() { #VAIH:$iface parametriksi?
 	[ -z ${1} ] && exit 55
 	[ -z ${2} ] && exit 56
 	[ -z ${3} ] && exit 57
+
 	dqb "PARS_OK"
 	csleep 1
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."
+
 		${lftr}
 		${fib} #uutena 27525, xcalibur...
 		csleep 1
@@ -1052,7 +1054,7 @@ function part2_5() { #VAIH:$iface parametriksi?
 		${lftr}
 		csleep 1
 
-		case ${iface} in #${3} jatkossa?
+		case ${3} in
 			wlan0)
 				dqb "NOT REMOVING WPASUPPLICANT"
 				csleep 1
