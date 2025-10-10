@@ -27,10 +27,10 @@ fi
 #... tai päintoisin
 
 if [ -s ${d0}/$(whoami).conf ] ; then
-	echo "FDSFDSFDS";sleep 5
+	echo "ALT.C0NF1G";sleep 5
 	. ${d0}/$(whoami).conf 
 else
-	echo "7654765476547";sleep 6
+	#echo "7654765476547";sleep 6
 
 	if [ -d ${d} ] && [ -s ${d}/conf ]; then
 		. ${d}/conf
