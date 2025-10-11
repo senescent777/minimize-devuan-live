@@ -8,6 +8,7 @@ echo "d0=${d0}"
 #[ z"${distro}" == "z" ] && exit 6
 #TODO:tähän tai exp2 muutoksia siihen kehitysymp liittyen ?
 d=${d0}/${distro}
+exit 666 #HUOM.111025:p.ois exit isttenq keksinyt mikä vikana
 
 tgt=${1}
 tcmd=$(which tar)

@@ -1,6 +1,7 @@
 #!/bin/bash
 #jotain oletuksia kunnes oikea konftdsto saatu lotottua
 #... jokin conf-tdston prosessoiva fktio missä oletuksia?
+
 debug=0 #1
 srcfile=""
 distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi (leikeltynä vai ei?)
@@ -14,6 +15,11 @@ tpx="--exclude tim3stamp --exclude rnd"
 
 #HUOM.30925:jospa ei pilkkoisi tätä tdstoa ainakaan ihan vielä
 #... optiota -v ei ole pakko käyttää, toisaalta
+
+
+#HUOM.111025:viimeksi muokatuilla .iso-tiedostoilla kokeillessa kävi ilmi että testailu rikkoo äksään kirjautumisen TAAS
+#1 ratkaisu olisi dumpata se slim+xfce , minimal_live+startx kehiin niiqu
+#toinen taas se että oletetaan aiheuttajaksi se 1 tar+koitetaan korjata
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -166,12 +172,15 @@ mkt=$(${odio} which mktemp)
 #exit
 
 #deMorgan?
-if [ ! -f /.chroot ] ; then #0810245:toivottavasti tilapäinen ohitus
-	if [ x"${mkt}" == "x" ] ; then
+#if [ ! -f /.chroot ] ; then #0810245:toivottavasti tilapäinen ohitus
+#	if [ x"${mkt}" == "x" ] ; then
+if [-f /.chroot ] || [ -x ${mkt} ] ; then
+	dqb "MTK"
+else
 		#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
 		echo "sudo apt-get update;sudo apt-get install coreutils"
 		exit 8
-	fi
+#	fi
 fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
@@ -205,11 +214,14 @@ olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
 
 #deMOrgan
-if [ ! -f /.chroot ] ; then
-	if [ ! -s /OLD.tar ] ; then
+#if [ ! -f /.chroot ] ; then
+#	if [ ! -s /OLD.tar ] ; then
+if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
+	dqb "OLD.TAR OK"
+else
 		#jotain exclude-juttuja voisi olla sikäli mikäli tuota oikeasti tarttee johonkin
 		${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
-	fi
+#	fi
 fi
 
 dqb "b3f0r3 par51ng tha param5"
@@ -253,12 +265,12 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 		cat ${1}.sha
 		${sah6} ${1}
 
-		#VAIH:tarkistus jos vähän toisella tavalla (kts common_lib)
 		local gv
-		gv=$(${odio} which gpgv)
+		gv=$(${odio} which #gpg) gpgv)
 
 		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-			dqb "TODO: ${gv} ${1}.sha.sig ${1} "
+			dqb "VAIH: ${gv} --verify ${1}.sha.sig ${1} "
+			${gv} --verify ${1}.sha.sig ${1}
 		fi
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
@@ -276,9 +288,7 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 	csleep 1
 
 	#efk2 vai ei? ehkä ei koska stand_alone
-	#... miten suodtus? siis --exclude mukaan kai (TODO)
-
-	${srat} -C ${3} ${tpx} -xf ${1} #JOKO JO --EXCLUDE?
+	${srat} -C ${3} ${tpx} -xf ${1}
 	[ $? -eq 0 ] || exit 36
 
 	csleep 1
@@ -292,7 +302,7 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 	#... pitäisi varmaan kutsua e_acc aina tai siis...
 
 	if [ -x ${t}/common_lib.sh ] ; then
-		enforce_access ${n} ${t} 
+		#enforce_access ${n} ${t} HUOM.111025:kokeeksi jemmaan koska äksän kiukuttelut TAAS
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	else
 		dqb "n s t as ${t}/common_lib.sh "	
@@ -374,7 +384,7 @@ function tpr() {
 }
 
 case "${mode}" in
-	-1) #jatkossa jokiN fiksumpi kuin -1
+	-1) #jatkossa jokiN fiksumpi kuin -1?
 		part=/dev/disk/by-uuid/${part0}		
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 		c=$(grep -c ${dir} /proc/mounts)
@@ -385,7 +395,7 @@ case "${mode}" in
 			${som} | grep ${dir}
 		fi
 
-		[ $? -eq 0 ] && echo "NEXT: $0 0 <source> [distro] (unpack AND install) | $0 1 <source> (just unpacks the archive)"
+		[ $? -eq 0 ] && echo "NEXT: $0 0 <source> [distro] (unpack AND install) | $0 1 <source> (just unpacks the archive) | $0 3 ..."
 	;;
 	2)
 		${uom} ${dir}
@@ -473,13 +483,14 @@ case "${mode}" in
 	
 		c=$(tar -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
-		common_part ${srcfile} ${d} /  #~ 
+		common_part ${srcfile} ${d} /
 		tpr ${d0}
 	;;
 	r) #HUOM.071025:josko nyt olisi taas kunnossa sen aikaa kunnes srat
 		tpr ${d0}
 	;;
 	k)	#VAIH
+		#TÄMÄNTR VÄHITELLEN JA LIITTYWÄT
 		#... tähän liittyen pitää tietysti kopioida kohdehmistoon matsqut(nekros.bz2 tätä varten)
 		gg=$(${odio} which gpg)
 		ridk=${d0}

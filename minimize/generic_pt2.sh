@@ -38,12 +38,14 @@ function parse_opts_1() {
 
 #HUOM.021025:initramfs-toolsin ja live-xxx-pakettien kanssa saattaa olla jotain härdellia, korjaa?
 #... jos uuden .iso:n kanssa sama ni apt reinstall intramfs ja katsotaan mitä tapahtuu
- 
+
+#edelleen 101025 se ettei uskalla nollaa suurempaa mode:a
+#initramfs-nalqtuksen kanssa 1 idea (kts lftr)
+
 function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#VAIH:if-blokki uusiksi, kts muut skriptit
 if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
@@ -117,7 +119,7 @@ fi
 #====================================================================
 
 function t2p_filler() {
-	${lftr}
+	${lftr} #siirto c_lib:stä tähän tdstoon? tai part2_5 käyttää
 	${asy}
 	csleep 1
 }

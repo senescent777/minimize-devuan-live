@@ -84,12 +84,12 @@ scm="${odio} ${scm} "
 #HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
 sah6=$(${odio} which sha512sum)
 
-#TODO:sd0 ja srat alustukset näille main jatrkossa?
+#VAIH:sd0 ja srat alustukset näille main jatrkossa?
 #TODO:komentorivin parsetyukseen liittyviä juttujamyöskin olisi... (?)
 # (ennen parse_opts määrittelyä olisi $distro/conf ja täts it, voinee sen chroot-jekun kyllä ennen)
 #... ja jotain matskua voisi siirtää riippuvista skripteistä kirjastoon?
 	
-#TODO:josqs sen $srat, $sah6 yms alustus uusiksi (jos jopa Python-tyylillä, $a[cmd]=$(which cmd) ?)
+#VAIH:josqs sen $srat, $sah6 yms alustus uusiksi (jos jopa Python-tyylillä, $a[cmd]=$(which cmd) ?)
 
 #f_s ja o_h  kutsut jo tässä?
 
@@ -153,16 +153,14 @@ sip=$(${odio} which ip)
 sip="${odio} ${sip} "
 
 #================================================
-#VAIH:gg-xi esittelyt prujaten? (common_lib.sh)
-#VAIH:sca,smd p rujaus?
-#gg=$(${odio} which gpg)
-#gv=$(${odio} which gpgv)
-#gi=$(${odio} which genisoimage)
-#gmk=$(${odio} which grub-mkrescue)
-#xi=$(${odio} which xorriso)
-#tarttisko tälle tehdä jotain?
-#sca=$(${odio} which chattr)
-#sca="${odio} ${sca}"
+gg=$(${odio} which gpg)
+gv=$(${odio} which gpgv)
+gi=$(${odio} which genisoimage)
+gmk=$(${odio} which grub-mkrescue)
+xi=$(${odio} which xorriso)
+tarttisko tälle tehdä jotain?
+sca=$(${odio} which chattr)
+sca="${odio} ${sca}"
 #================================================
 
 if [ -v distro ] ; then 
@@ -229,9 +227,13 @@ function psqa() {
 		#HUOM.rivillä 458 (tjsp) vissiin jokin ongelma
 
 		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-			dqb "${gv} ./sha512sums.sig ./sha512sums in 3 secs" # --keyring \${TARGET_Dpubkf}
+			#dqb "${gv} ./sha512sums.sig ./sha512sums in 3 secs" # --keyring \${TARGET_Dpubkf}
+			dqb "${gg} --verify  ./sha512sums.sig "			
+
 			csleep 3
-			${gv} ./sha512sums.sig ./sha512sums
+			#${gv} ./sha512sums.sig ./sha512sums
+			${gg} --verify  ./sha512sums.sig
+
 			csleep 3
 		fi
 
@@ -415,7 +417,7 @@ function check_binaries() {
 #	if [ -x ${1}/../tar-wrapper.sh ] ; then 
 #		dqb " tar-wrapper.sh ?" #josko vähitellen?
 #	else
-		srat=$(${odio} which tar)
+#		srat=$(${odio} which tar)
 		
 		if [ ${debug} -eq 1 ] ; then
 			srat="${srat} -v "
@@ -432,7 +434,7 @@ function check_binaries() {
 
 	sdi="${odio} ${sd0} -i "
 
-	if [ y"${ipt}" == "y" ] ; then #  && [ ! -f /.chroot ]#KOITA NYT LOTOTA SE EHTO
+	if [ y"${ipt}" == "y" ] ; then
 		[ z"${1}" == "z" ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
@@ -509,8 +511,9 @@ function check_binaries2() {
 	sifd="${odio} ${sifd} "
 
 	#HUOM.061025:aiheuttaakohan ao. rivi ongelmia initramfs-pakettein kanssa?	
-	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
+	lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 
 	#distro-kohtainen jatkossa
+	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	
 	#srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
@@ -1043,9 +1046,10 @@ function part2_5() { #VAIH:$iface parametriksi?
 			csleep 1
 		done
 
-		#TODO:initramfs- ja live- paketeista urputusta, pois kokonaan?
-
+		#initramfs- ja live- paketeista urputusta, pois kokonaan vai mitenkä?
 		${lftr} #pitäisikö laittaa distro==chimaera taakse näiden takominen?
+		#HUOM.101025:lftr muutettu juurikin tuosta initramfs-nalkutus-syystä
+
 		${sharpy} libblu* libcupsfilters* libgphoto* #tartteeko vielä?
 		${lftr}
 
