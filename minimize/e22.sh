@@ -11,7 +11,7 @@ function e22_hdr() { #HUOM.071025:taitaa toimia
 	${scm} 0644 ./rnd
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
-	${srat} -cvf ${1} ./rnd #VAIH:muistettava afrsia purq-vaiheessa
+	${srat} -cvf ${1} ./rnd #HUOM.111025:nyt on jo se --exclude jossain
 	[ $? -gt 0 ] && exit 60
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
@@ -228,13 +228,13 @@ function e22_home() { #VAIH:testaus koska e22_settings() muutettu (josko toimisi
 	csleep 1
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 
-	#VAIH:--exclude?
 	dqb "${srat} ${tpx} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
 	csleep 3
 
 	#HUOM.pitäisiköhän $1 hieman mankeloida? esim. samasta syystä kuin update.sh
 	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen?
-	${srat} ${tpx} --exclude='*.deb' -rvf ${1} /home/stubby ${t}
+	#HUOM.111025:$n.conf saattaa sotkea
+	${srat} ${tpx} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 
 	dqb "e22_home d0n3"
 	csleep 1

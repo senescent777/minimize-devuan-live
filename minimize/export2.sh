@@ -99,6 +99,7 @@ else
 	exit 57
 fi
 
+#TODO:imp2/exp2/e22/update erilliseen alihakemistoon jatkossa?
 dqb "tar = ${srat} " #HUOM.031025:tämän komennon kanssa saattaa tulla säätöä seuraavaksi
 
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
@@ -203,7 +204,6 @@ case ${mode} in
 		#... tai ei niin olennainen koska findin kanssa mennään
 		cd ${d0}
 
-		#VAIH:syksymmällä jotenkin toisin ao. blokki? nekros.tz3 ?
 		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude
 		
 		#T_DKNAME voisi jatkossa osoittaa esim /r/l/m/p/dgsts alle?
