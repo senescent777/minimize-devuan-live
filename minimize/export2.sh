@@ -164,11 +164,10 @@ fi
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
+[ z"${tgtfile}" == "z" ] && exit 99
 
-#VAIH:2 peräkkäistä case:a jatkossa, ensimmäiseen ne missä ei tarvitse verkkoyhteyttä pystyttää
 case ${mode} in
-	f)
-		[ z"${tgtfile}" == "z" ] && exit 99
+	f)		
 		#HUOM.070125:toiminee (mod parametrien tarkistukset)
 		e22_arch ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
@@ -178,7 +177,6 @@ case ${mode} in
 	q)
 		#HUOM.071025:sopisi nyt olla kunnossa tämä case (kunnes srat-juttuja taas sorkitaan)
 		#jos vähän roiskisi casen sisältöä -> e22 ?
-		[ z"${tgtfile}" == "z" ] && exit 99
 		${sifd} ${iface}
 	
 		#HUOM.061025.1:parempi tämän kanssa että tuotokset puretaan -C - optiolla
@@ -188,6 +186,7 @@ case ${mode} in
 		#josko takaisin siihen että vain oikeasti tarpeelliset mukaan
 		#... ja profs.sh jos kuuluisi tarpeellisiin
 
+		#tössö ai se maxdepth mukaan...
 		for f in $(find ~ -name '*.tar' -or -name '*.bz2') ; do
 			${srat} -rvf ${tgtfile} ${f} #HUOM.091025:tähän ai tarvinne --exclude
 		done
@@ -199,16 +198,17 @@ case ${mode} in
 	;;
 	c)
 		#uusi optio chroot-juttuja varten
-		[ z"${tgtfile}" == "z" ] && exit 99
 
-		#TODO:tähn tai toiseen caseen $3 tar_in --exclude-hommia varten?
+		#tähn tai toiseen caseen $3 tar_in --exclude-hommia varten?
+		#... tai ei niin olennainen koska findin kanssa mennään
 		cd ${d0}
 
-		#TODO:syksymmällä jotenkin toisin ao. blokki
+		#VAIH:syksymmällä jotenkin toisin ao. blokki? nekros.tz3 ?
 		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude
+		
 		#T_DKNAME voisi jatkossa osoittaa esim /r/l/m/p/dgsts alle?
-		[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname1}
-		[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname2}
+		#[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname1}
+		#[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname2}
 			
 		bzip2 ${tgtfile}
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
@@ -241,11 +241,11 @@ pwd;sleep 6
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 e22_hdr ${tgtfile} #tämä saattaa sotkea tapauksessa c
 
-#TODO:yhteisiä juttuja tähän	
+#VAIH:yhteisiä juttuja tähän	
 case ${mode} in
 	0|4)
-	#VAIH:testaus (072015) , case 4 tekee paketin, toimiikin enimmäkseen
-		[ z"${tgtfile}" == "z" ] && exit 99 
+	#VAIH:testaus (071015) , case 4 tekee paketin, toimiikin enimmäkseen
+		#[ z"${tgtfile}" == "z" ] && exit 99 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
@@ -302,13 +302,13 @@ case ${mode} in
 		#... ja sitten käsipelillä allekirjoitus-jutskat arkistoon
 		#jonka jälkeen imp2 tai pikemminkin p_p_3_clib() tai psqa() tarkistamaan
 		
-		[ z"${tgtfile}" == "z" ] && exit 99 
+		#[ z"${tgtfile}" == "z" ] && exit 99 
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
 		e22_upgp ${tgtfile} ${d} ${iface} #${dnsm}
 	;;
 	p) #HUOM.071025:edelleen saa paketin aikaiseksi, toimibuus vielä varmistettava (TODO)
-		[ z"${tgtfile}" == "z" ] && exit 99 
+		#[ z"${tgtfile}" == "z" ] && exit 99 
 
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
 		e22_pre2 ${d} ${distro} ${iface} ${dnsm}
