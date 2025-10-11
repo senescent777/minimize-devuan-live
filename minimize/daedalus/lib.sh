@@ -31,11 +31,11 @@ function c5p() { #joskohan jo toimisi (28925)
 
 	#uutena 031025, eivät aivan välttämättömiä ainakaan vielä
 	#ja jotain nalkutustakin oli
-	${NKVD} ${1}/initramfs*
-	${NKVD} ${1}/live*
+	#${NKVD} ${1}/initramfs*
+	#${NKVD} ${1}/live*
 	#...varsinaisen poistamisen kanssa saattaa tulla ulinaa
+	#HUOM.111025:kokeeksi nuo 2 yo. riviä kommentteihin, lftr muutox liittyvät
 
-	#VAIH:eudev/udev/xserver - paketit mäkeen jos ei chroot-ympäristössä ?
 	#TODO:jatkossa tämä fktio poistaisi blacklistin(taimikäonkaan poliittisesti korrekti termi) mukaiset tdstot
 
 	dqb "...is over"
@@ -82,8 +82,8 @@ function reficul() {
 	csleep 5
 
 	efk1 ${1}/libext2fs2*.deb
-
 	csleep 5
+
 	efk1 ${1}/libpam-modules-bin_*.deb
 	efk1 ${1}/libpam-modules_*.deb
 
@@ -118,7 +118,7 @@ function reficul() {
 #HUOM.26525:2. parametri, tartteeko moista?
 #
 #TODO:josko reficul/pr4/cp5 asetnamat/poistamat jutut erillisiin tdstoihin ja lib sitteb iteroisi
-#
+#grep efk1 $0 tai grep NKVD ... olisi noille listoille jokin lähtökohta
 #TODO:jatkossa tämä fktio lisäisi efk1:llä toissijaisen whitelistin mukaiset pak
 function pr4() {
 	#HUOM.29925:saattaa sittenkin olla tarpeellinen fktio koska X
@@ -182,7 +182,6 @@ function pr4() {
 }
 
 #tähän tai cp5() poistamaan libavahi?
-#HUOM.28725:testattu, toiminee
 #jatkossa fktioihin cp5() ja udp6() muutoksia? sq-chroot liittyenm tjsp
 function udp6() {
 	dqb "daud.lib.UPDP-6"
@@ -268,7 +267,7 @@ function t2p() {
 	dqb "D0N3"
 	csleep 1
 
-	echo "KARTHAGO EST DELENDAM"
+	echo "DERTHAGO 3ST KALENDAM"
 	csleep 6
 
 	#JOKO JO PERKELE POISTUISI?
