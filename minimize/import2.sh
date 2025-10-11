@@ -11,7 +11,7 @@ mode=-2
 d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
-tpx="--exclude tim3stamp --exclude rnd"
+tpx="--exclude tim3stamp --exclude rnd" #konftsdtoon vähietllen
 
 #HUOM.30925:jospa ei pilkkoisi tätä tdstoa ainakaan ihan vielä
 #... optiota -v ei ole pakko käyttää, toisaalta
@@ -91,7 +91,7 @@ if [ -x ${d0}/common_lib.sh ] ; then #saattaa jo toimia chroot-ymp sisällä
 	. ${d0}/common_lib.sh
 else
 	#HUOM. demerde_toi.sh tekisi vähän turhaksi tämän "minikirjaston" ?
-	#pientä laittoa vaatisi srat...
+	#pientä laittoa vaatisi srat... $odio mukaan mikäli ei in_chroot
 	#if [ ! -f /.chroot ] ; then
 		srat="/bin/tar" #which mukaan?
 	#fi
@@ -174,7 +174,8 @@ mkt=$(${odio} which mktemp)
 #deMorgan?
 #if [ ! -f /.chroot ] ; then #0810245:toivottavasti tilapäinen ohitus
 #	if [ x"${mkt}" == "x" ] ; then
-if [-f /.chroot ] || [ -x ${mkt} ] ; then
+
+if [ -f /.chroot ] || [ -x ${mkt} ] ; then
 	dqb "MTK"
 else
 		#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
@@ -188,9 +189,9 @@ echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 
-	if [ ! -f /.chroot ] ; then
-		srat="${odio} ${srat}"
-	fi
+	#if [ ! -f /.chroot ] ; then #koitetaan nyt lotota jtnkn
+	#	srat="${odio} ${srat}"
+	#fi
 else
 	echo $?
 	dqb "NO LIB"
@@ -212,6 +213,7 @@ fi
 
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
+ocs tar
 
 #deMOrgan
 #if [ ! -f /.chroot ] ; then
@@ -266,9 +268,9 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 		${sah6} ${1}
 
 		local gv
-		gv=$(${odio} which #gpg) gpgv)
+		gv=$(${odio} which gpg) #gpgv)
 
-		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
+		if [ -x ${gv} ] ; then #&& [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ]
 			dqb "VAIH: ${gv} --verify ${1}.sha.sig ${1} "
 			${gv} --verify ${1}.sha.sig ${1}
 		fi

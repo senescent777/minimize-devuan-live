@@ -147,6 +147,12 @@ unset sdi #tekeeko tämä jotain? kyl , kts check_bin() ,, "second half"
 echo "SFDSFDSFDSFDSFDSFDSFDSFDS"
 sleep 3
 
+ocs tar
+unset sr0
+sr0=$(${odio} which tar)
+[ -v sr0 ] || exit 80
+[ -z ${sd0} ] && exit 81
+
 sifu=$(${odio} which ifup)
 sifd=$(${odio} which ifdown)
 sip=$(${odio} which ip)
@@ -303,7 +309,7 @@ function efk2() {
 
 	#koita katsoa ettei käy: sudo sudo tar
 	if [ -s ${1} ] && [ -r ${1} ] ; then
-		${odio} ${srat} -C ${2} -xf ${1}
+		${odio} ${sr0} -C ${2} -xf ${1}
 		#HUOM.0421025:jatkossa se sd0-kikkailu tar:in kanssa myös?
 	else
 		dqb "WE NEED T0 TALK ABT ${1}"
@@ -417,21 +423,24 @@ function check_binaries() {
 #	if [ -x ${1}/../tar-wrapper.sh ] ; then 
 #		dqb " tar-wrapper.sh ?" #josko vähitellen?
 #	else
-#		srat=$(${odio} which tar)
 		
-		if [ ${debug} -eq 1 ] ; then
-			srat="${srat} -v "
-		fi
 #	fi
 	
 	local y
 	debug=1
 
-	y="ifup ifdown apt-get apt ip netstat ${sd0} tar mount umount sha512sum dhclient" # kilinwittu.sh	
+	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum dhclient" # kilinwittu.sh	
 	for x in ${y} ; do ocs ${x} ; done
 	dqb "JUST BEFORE"
 	csleep 6
 
+	[ -v sr0 ] || exit 102
+	srat=${sr0}
+		
+	if [ ${debug} -eq 1 ] ; then
+		srat="${srat} -v "
+	fi
+	
 	sdi="${odio} ${sd0} -i "
 
 	if [ y"${ipt}" == "y" ] ; then
@@ -514,8 +523,10 @@ function check_binaries2() {
 	lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 
 	#distro-kohtainen jatkossa
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
-	
-	#srat="${odio} ${srat} "
+	#cp: error writing '/run/live/medium/live/initrd.img.new': No space left on device
+
+
+	srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
 	fib="${odio} ${sa} --fix-broken install "
 	som="${odio} ${som} "
