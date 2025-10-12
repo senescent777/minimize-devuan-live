@@ -88,7 +88,7 @@ read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
 #
 #	#update,export2 :mikä ero?
 
-	${spc} ${tgt} ${tgt}.OLD #vaiko mv?
+	${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 	sleep 2
 
 	echo " process_entry ${tgt} /opt/bin/changedns.sh"
@@ -96,13 +96,16 @@ read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
 	sleep 2
 
 	#==========================================
-	#VAIH:ao.blokki vähän myöehhemm'ksi jatkossa
+	#VAIH:ao.blokki vähän myöehhemm'ksi jatkossa?
 	t=$(pwd)
 
-	#/bin/tar: Unexpected EOF in archive
+	#"/bin/tar: Unexpected EOF in archive" aiheuttanut ngelmia viimeaikoina
 
+	
 	if [ -v testgris ] ; then
 		cd ${testgris}
+		#TODO:jatkossa array=$(find) + "for f in array"-iterointi if-blokin jälkeen
+
 		for f in $(find . -type f -name '*.sh') ; do
 			echo "${tcmd} -rvf ${tgt} ${f}"
 			sleep 1
@@ -110,9 +113,23 @@ read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
 			${tcmd} -rvf ${tgt} ${f} 
 		done
 	else
-		find ${t} -type f -name '*.sh'
+		for f in $(find ${t} -type f -name '*.sh') ; do
+			echo "${tcmd} -rvf ${tgt} ${f}"
+			sleep 1
+ 
+			${tcmd} -rvf ${tgt} ${f} 
+		done
+
+		
+		for f in $(find ${t} -type f -name 'conf*') ; do
+			echo "${tcmd} -rvf ${tgt} ${f}"
+			sleep 1
+ 
+			${tcmd} -rvf ${tgt} ${f} 
+		done
 	fi
 
+	for f in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
 	cd ${t}
 	#===================================
 
@@ -128,7 +145,7 @@ read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
 #		for f in $(find ${p}/ -name 'conf*') ; do process_entry ${tgt} ${f} ; done
 #
 #		#lototaan vielä näin
-#		for f in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do process_entry ${tgt} ${f} ; done
+#		
 #	fi
 #
 #	#HUOM.21525:mItenkähän tuo -uv -rv sijaan?
