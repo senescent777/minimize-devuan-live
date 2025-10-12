@@ -4,14 +4,9 @@ branch=""
 d0=$(pwd)
 echo "d0=${d0}"
 BASEURL="github.com/senescent777"
-
-function dqb() {
-	[ ${debug} -eq 1 ] && echo ${1}
-}
-
-function csleep() {
-	[ ${debug} -eq 1 ] && sleep ${1}
-}
+PT2=minimize-devuan-live
+function dqb() {}
+function csleep() {}
 
 if [ $# -gt 0 ] ; then
 	dqb "params_ok"
@@ -28,7 +23,7 @@ else
 	exit 66
 fi
 
-if [ ! -z ${branch} ] ; then
+if [ ! -z $[branch} ] ; then
 	branch="--branch ${2}"
 fi
 
@@ -44,14 +39,11 @@ fi
 
 dqb "BFROE tig"
 csleep 2
-#TODO:jälkimmäinen osa
-${tig} clone ${branch} https://${BASEURL}/minimize-devuan-live.git
+${tig} clone ${branch} https://${BASEURL}/${PT2}.git
 [ $? -gt 0 ] && exit
 
 dqb "TGI KO"
 csleep 2
-
-echo "mv minimize-devuan-live/* ."
 echo "JA SIT JOTAIN (TODO)"
 
 #if [ -x ${d0}/common_lib.sh ] ; then
