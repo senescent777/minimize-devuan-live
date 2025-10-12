@@ -25,6 +25,7 @@ else
 	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 		. ${d}/conf
 	else
+		echo "NO CONF"
 	 	exit 57
 	fi	
 fi
@@ -231,4 +232,4 @@ if [ ${mode} -eq 2 ] ; then
  	exit 
 fi
 
-#${odio} ${d0}/changedns.sh ${dnsm} ${distro} roistaiseksi jemmaan
+#${odio} ${d0}/changedns.sh ${dnsm} ${distro} röistaiseksi jennaan

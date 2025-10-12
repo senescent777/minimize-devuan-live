@@ -72,11 +72,11 @@ if [ -f /.chroot ] ; then #TODO:tämmöiset jatkossa -> common_lib ?
 	done
 fi
 
-#VAIH:JATKOSSA JOS ENSIN YRITTÄISI $n.conf JA MIKÄLI EI LÖYDY NI $d.conf JA JOS EI SITTENKÄÄN NI EXIT
 #HUOM.21725:oliko jotain erityistä syyt miksi conf cmmon_lib jälkeen? $distroon liittyvät kai, pitäisi miettiä, nyt näin
 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
+	sleep 5
 	. ${d0}/$(whoami).conf
 else
 	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
@@ -171,7 +171,7 @@ dqb "srcfile=${srcfile}"
 mkt=$(${odio} which mktemp)
 #exit
 
-#deMorgan?
+#deMorgan
 #if [ ! -f /.chroot ] ; then #0810245:toivottavasti tilapäinen ohitus
 #	if [ x"${mkt}" == "x" ] ; then
 
@@ -243,7 +243,7 @@ csleep 1
 
 #TODO:.deb-pakettien pakkaus/purku vähän uusiksi? voisi olla ./$distro/ alla nuo
 #... ja "exp2 0", josko silloin tylysti vain .deb ha sha512sums tar:iin?
-#VAIH:allek. tar. ehkä toisin kuitenkin? ei luotettaisi /r/l/m/p sisältöön vaan /pad alta tai ~/.gnupg hödynt
+
 #TODO:$2 ja $3 käsittely uusiksi?
 
 function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
@@ -271,7 +271,7 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 		gv=$(${odio} which gpg) #gpgv)
 
 		if [ -x ${gv} ] ; then #&& [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ]
-			dqb "VAIH: ${gv} --verify ${1}.sha.sig ${1} "
+			dqb " ${gv} --verify ${1}.sha.sig ${1} "
 			${gv} --verify ${1}.sha.sig ${1}
 		fi
 	else
@@ -304,7 +304,8 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 	#... pitäisi varmaan kutsua e_acc aina tai siis...
 
 	if [ -x ${t}/common_lib.sh ] ; then
-		#enforce_access ${n} ${t} HUOM.111025:kokeeksi jemmaan koska äksän kiukuttelut TAAS
+		enforce_access ${n} ${t} 
+		#HUOM.111025:oli kokeeksi laitettu jemmaan e_a koska äksän kiukuttelut TAAS
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	else
 		dqb "n s t as ${t}/common_lib.sh "	
@@ -491,9 +492,8 @@ case "${mode}" in
 	r) #HUOM.071025:josko nyt olisi taas kunnossa sen aikaa kunnes srat
 		tpr ${d0}
 	;;
-	k)	#VAIH
-		#TÄMÄNTR VÄHITELLEN JA LIITTYWÄT
-		#... tähän liittyen pitää tietysti kopioida kohdehmistoon matsqut(nekros.bz2 tätä varten)
+	k)	#111025:josko kohta valmis?
+	
 		gg=$(${odio} which gpg)
 		ridk=${d0}
 

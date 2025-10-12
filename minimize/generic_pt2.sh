@@ -210,6 +210,11 @@ function t2pc() {
 	#xfce*,xorg* off limits
 	t2p_filler
 
+	#uutena 111025
+	${sharpy} bluez mutt rpcbind nfs-common
+	${sharpy} dmsetup
+	t2p_filler
+
 	spd="${sd0} -l " #jäänyt turhaksi muuten mutta g_pt2
 	[ ${debug} -gt 0 ] && ${spd} x*
 	csleep 1
