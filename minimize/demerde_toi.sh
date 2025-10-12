@@ -91,32 +91,32 @@ csleep 2
 
 cp minimize/* ${d0}
 dqb "D0N3 M0V1NG"
-#csleep 2
-#
-#if [ -x ${d0}/common_lib.sh ] ; then
-#	. ${d0}/common_lib.sh
-#	enforce_access ${n}
-#else
-#	${sco} 0:0 /
-#	${scm} 0755 /
-#	${sco} 0:0 /home
-#	${scm} 0755 /home
-#
-#	${sco} -R ${n}:${n} ~ 
-#	${scm} -R a-wx ${d0}
-#	${scm} 0755 ${d0} 
-#
-#	for t in $(find ${d0} -type d) ; do ${scm} 0755 ${t}; done
-#	for t in $(find ${d0} -type f -name '*.sh') ; do ${scm} 0755 ${t}; done
-#	for t in $(find ${d0} -type f -name 'conf*') ; do ${scm} 0444 ${t}; done
-#	for t in $(find ${d0} -type f -name '*.deb') ; do ${scm} 0444 ${t}; done
-#	
-#	${sco} 0:0 ${d0}/changedns.sh
-#	${scm} 0555 ${d0}/changedns.sh
-#
-#	${sco} 0:0 /opt/bin/changedns.sh
-#	${scm} 0555 /opt/bin/changedns.sh
-#fi
-#
-#cd ${d0}
-#echo "./export2.sh 0 /tmp/vomit.tar \${distro}"
+csleep 2
+
+if [ -x ${d0}/common_lib.sh ] ; then
+	. ${d0}/common_lib.sh
+	enforce_access ${n}
+else
+	${sco} 0:0 /
+	${scm} 0755 /
+	${sco} 0:0 /home
+	${scm} 0755 /home
+
+	${sco} -R ${n}:${n} ~ 
+	${scm} -R a-wx ${d0}
+	${scm} 0755 ${d0} 
+
+	for t in $(find ${d0} -type d) ; do ${scm} 0755 ${t}; done
+	for t in $(find ${d0} -type f -name '*.sh') ; do ${scm} 0755 ${t}; done
+	for t in $(find ${d0} -type f -name 'conf*') ; do ${scm} 0444 ${t}; done
+	for t in $(find ${d0} -type f -name '*.deb') ; do ${scm} 0444 ${t}; done
+	
+	${sco} 0:0 ${d0}/changedns.sh
+	${scm} 0555 ${d0}/changedns.sh
+
+	${sco} 0:0 /opt/bin/changedns.sh
+	${scm} 0555 /opt/bin/changedns.sh
+fi
+
+cd ${d0}
+echo "./export2.sh 0 /tmp/vomit.tar \${distro}"
