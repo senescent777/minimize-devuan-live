@@ -18,6 +18,8 @@ function c5p() { #joskohan jo toimisi (28925)
 	dqb "paramz 0k"
 	csleep 1
 
+	local p
+	local q
 	p=$(pwd)
 	cd ${1}
 	
@@ -44,7 +46,13 @@ function c5p() { #joskohan jo toimisi (28925)
 	#HUOM.111025:kokeeksi nuo 2 yo. riviä kommentteihin, lftr muutox liittyvät
 
 	#VAIH:jatkossa tämä fktio poistaisi blacklistin(taimikäonkaan poliittisesti korrekti termi) mukaiset tdstot
-	for q in $(cat reject_pkgs) ; do echo "sfk1 $q" ; done
+	if [ ! -f /.chroot ] ; then
+		echo "REJECTING PKGS"
+		sleep 3
+		for q in $(grep -v '#' reject_pkgs) ; do ${NKVD} ${q} ; done
+		echo "DONE REJECTINF"
+		sleep 3
+	fi
 
 	cd ${p}
 	dqb "...is over"
@@ -63,65 +71,83 @@ function reficul() {
 	csleep 3
 
 	c5p ${1}
-
+	local p
+	local q
 	p=$(pwd)
 	cd ${1}
 
-	efk1 gcc-12*.deb libgcc-s1*.deb
-	efk1 perl-modules-*.deb
-	efk1 libstdc*.deb
-	efk1 librsvg2-2*.deb
-	efk1 libicu*.deb
-	efk1 libjxl*.deb
+	efk1 gcc-12*.deb libgcc-s1*.deb #jatkossa toisin
 
+#	efk1 perl-modules-*.deb
+#
+#	efk1 libstdc*.deb
+#	efk1 librsvg2-2*.deb
+#	efk1 libicu*.deb
+#	efk1 libjxl*.deb
+#
 	csleep 3
 #	#HUOM.28925:toimiikohan tuolleen että useampi param samalla rivillä? ehkä
-	efk1 libc6*.deb 
-	efk1 libcap2_1*.deb
-	efk1 libdbus*.deb
-
-	csleep 3
-	efk1 libgdk-pixbuf2.0-common*.deb
- 	efk1 libgdk-pixbuf-2.0-0*.deb
+#	efk1 libc6*.deb 
+#	efk1 libcap2_1*.deb
+#	efk1 libdbus*.deb
+#
+#	csleep 3
+#	efk1 libgdk-pixbuf2.0-common*.deb
+# 	efk1 libgdk-pixbuf-2.0-0*.deb
 	efk1 libcups*.deb libavahi*.deb
 
 	csleep 5
-	efk1 libglib2*.deb
-	efk1 libgtk-3-common*.deb #josko nyt loppuisi nalqtus?
-	efk1 libgtk-3-0_*.deb
-	efk1 libpython3.11-minimal*.deb #ohjeisvahinkona xfce4 jos poist
-	efk1 liblzma5*.deb
-	csleep 5
+#	efk1 libglib2*.deb
+#	efk1 libgtk-3-common*.deb
+#	efk1 libgtk-3-0_*.deb
+#
+#	efk1 libpython3.11-minimal*.deb
+# #ohjeisvahinkona xfce4 jos poist
+#
+#	efk1 liblzma5*.deb
+#	csleep 5
+#
+#	efk1 libext2fs2*.deb
+#	csleep 5
+#
+#	efk1 libpam-modules-bin_*.deb
+#	efk1 libpam-modules_*.deb
+#
+#	#uutena 011025
+#	efk1 libcurl3*.deb
+#	efk1 libkrb5*.deb
+#	efk1 libgss*.deb
+#.
+#dpkg: dependency problems prevent configuration of libkrb5-3:amd64:
+# libkrb5-3:amd64 depends on libkrb5support0 (= 1.20.1-2+deb12u4); however:
+#  Version of libkrb5support0:amd64 on system is 1.20.1-2.
+#dpkg: dependency problems prevent configuration of libgssapi-krb5-2:amd64:
+# libgssapi-krb5-2:amd64 depends on libkrb5-3 (= 1.20.1-2+deb12u4); however:
+#  Package libkrb5-3:amd64 is not configured yet.
 
-	efk1 libext2fs2*.deb
-	csleep 5
-
-	efk1 libpam-modules-bin_*.deb
-	efk1 libpam-modules_*.deb
-
-	#uutena 011025
-	efk1 libcurl3*.deb
-	efk1 libkrb5*.deb
-	efk1 libgss*.deb
-
-#	efk1 libfdisk* libuuid*
+	efk1 libfdisk* libuuid*
 #	#HUOM.28925:libfdisk ehkö uskaltaa poistaa($sharpy), e2fsprogs tarttee libuuid (e2 parempi olla poistamatta)
-#	efk1 libopen* libpolkit-gobject-*
+	efk1 libopen* libpolkit-gobject-*
 #	#HUOM.28925:xfce4 tarvitse libpolkit-gobject joten ei kande poistaa
+#
+#	#061025 osoittautui tarpeelliseksi
+#	efk1 libeudev*
+#
+#	#081025
+#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libx11-6=2:1.8.4-2+deb12u2
+#	efk1 libxcb1*.deb
+#	efk1 libx11-6*.deb
+#	efk1 libx11-xcb1*.deb
+#
+#	#HUOM.081025:oli aiemmin pr4():ssä juuri ennen "efk1 perl*.deb"-riviä, takaisin jos pykuu
+	
+#	efk1 libpam*.deb	
+#	efk1 libperl*.deb
 
-	#061025 osoittautui tarpeelliseksi
-	efk1 libeudev*
-
-	#081025
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libx11-6=2:1.8.4-2+deb12u2
-	efk1 libxcb1*.deb
-	efk1 libx11-6*.deb
-	efk1 libx11-xcb1*.deb
-
-	#HUOM.081025:oli aiemmin pr4():ssä juuri ennen "efk1 perl*.deb"-riviä, takaisin jos pykuu
-	${NKVD} libpam-modules* #tartteeko enää?
-	efk1 libpam*.deb	
-	efk1 libperl*.deb
+	for q in $(grep -v '#' accept_pkgs_1) ; do efk1 ${q} ; done
+	${NKVD} libpam-modules* #c5p() ? 
+	echo "SDHGSKJDHGFSODHGSU"
+	sleep 3
 
 	cd ${p}
 	dqb "REC1FUL D0N3"
@@ -144,6 +170,8 @@ function pr4() {
 	dqb "paramz 0k"
 	psqa ${1}
 
+	local p
+	local q
 	p=$(pwd)
 	cd ${1}
 	
@@ -156,41 +184,70 @@ function pr4() {
 	#äksän tappaminen desktop-live-ymp voi aiheuttaa härdelliä, login_manager ...
 	#... eli yo. rivejä cgroot-tark taakse (DONE)
 
+	for q in $(grep -v '#' accept_pkgs_2) ; do efk1 ${q} ; done
+
 	if [ -f /.chroot ] ; then
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=eudev=3.2.12-4+deb12u1
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=udev=1:3.2.9+devuan4 (depends:eudev)
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-common=2:21.1.7-3+deb12u10devuan1 (depends x11-common, xkb-data, x11-xkb-utils)
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-xorg-core=2:21.1.7-3+deb12u9devuan1 
-
-		efk1 eudev*.deb
-		efk1 udev*.deb 
-		efk1 xserver-common*.deb
-		efk1 xserver-xorg-core*.deb 
-
+#
+#		efk1 eudev*.deb
+#		efk1 udev*.deb 
+#		efk1 xserver-common*.deb
+#		efk1 xserver-xorg-core*.deb 
+#
 		efk1 dbus-bin*.deb  dbus-daemon*.deb dbus-session-bus-common*.deb
 		#"A reboot is required to replace the running dbus-daemon."
-	else
-		#c5p() ?
-		${NKVD} eudev*.deb
-		${NKVD} udev*.deb
-		${NKVD} xserver-common*.deb
-		${NKVD} xserver-xorg-core*.deb
-		${NKVD} dbus-bin*.deb
-		${NKVD} dbus-daemon*.deb	
+#	else
+#		#c5p() ?
+#		${NKVD} eudev*.deb
+#		${NKVD} udev*.deb
+#		${NKVD} xserver-common*.deb HUOM.1212025:kts vieläkö xserver-valituksia tulee?
+#		${NKVD} xserver-xorg-core*.deb
+#		${NKVD} dbus-bin*.deb
+#		${NKVD} dbus-daemon*.deb	
 	fi
 
 	csleep 3
 	
 	#==============================================================
+#Unpacking perl (5.36.0-7+deb12u3) over (5.36.0-7) ...
+#dpkg: dependency problems prevent configuration of perl:
+# perl depends on perl-base (= 5.36.0-7+deb12u3); however:
+#  Version of perl-base on system is 5.36.0-7.
+#
+#dpkg: error processing package perl (--install):
+# dependency problems - leaving unconfigured
+#Processing triggers for man-db (2.11.2-2) ...
+#Errors were encountered while processing:
+# perl
+#1
+#
+#	efk1 perl*.deb
+#	efk1 liberror-perl*.deb #HUOM.121025:tuleekohan tässä härdelliä?
+#	efk1 git*.deb
+#	csleep 1
+#
+#	#uutena 041025
+#	efk1 bind9*.deb
 
-	efk1 perl*.deb
-	efk1 liberror-perl*.deb
-	efk1 git*.deb
-	csleep 1
+#Unpacking bind9-dnsutils (1:9.18.33-1~deb12u2) over (1:9.18.16-1~deb12u1) ...
+#dpkg: dependency problems prevent configuration of bind9-dnsutils:
+# bind9-dnsutils depends on bind9-libs (= 1:9.18.33-1~deb12u2); however:
+#  Version of bind9-libs:amd64 on system is 1:9.18.16-1~deb12u1.
+# bind9-dnsutils depends on libkrb5-3 (>= 1.6.dfsg.2); however:
+#  Package libkrb5-3:amd64 is not configured yet.
+#
+#dpkg: error processing package bind9-dnsutils (--install):
+# dependency problems - leaving unconfigured
+#Processing triggers for man-db (2.11.2-2) ...
+#Errors were encountered while processing:
+# bind9-dnsutils
+#1
 
-	#uutena 041025
-	efk1 bind9*.deb
-	efk1 e2fsprogs*.deb
+
+#	efk1 e2fsprogs*.deb
 	csleep 1
 
 	#c5p ${1} #HUOM.siirretty toiseen fktioon 061025

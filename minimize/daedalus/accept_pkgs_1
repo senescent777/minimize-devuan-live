@@ -1,4 +1,5 @@
 gcc-12*.deb
+perl-modules-*.deb
 libstdc*.deb
 librsvg2-2*.deb
 libicu*.deb
@@ -10,7 +11,9 @@ libgdk-pixbuf2.0-common*.deb
 libgdk-pixbuf-2.0-0*.deb
 libcups*.deb
 libglib2*.deb
+libgtk-3-common*.deb
 libgtk-3-0_*.deb
+libpython3.11-minimal*.deb
 liblzma5*.deb
 libext2fs2*.deb
 libpam-modules-bin_*.deb
@@ -18,7 +21,7 @@ libpam-modules_*.deb
 libcurl3*.deb
 libkrb5*.deb
 libgss*.deb
-libeudev*
+libeudev*.deb
 libxcb1*.deb
 libx11-6*.deb
 libx11-xcb1*.deb

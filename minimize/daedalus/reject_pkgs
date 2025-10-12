@@ -4,3 +4,5 @@ xserver-common*.deb
 xserver-xorg-core*.deb
 dbus-bin*.deb
 dbus-daemon*.deb
+initramfs*.deb
+live*.deb
