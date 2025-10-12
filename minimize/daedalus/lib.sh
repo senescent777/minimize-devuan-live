@@ -6,10 +6,9 @@
 #HUOM.29925:nalkutukset lib-paketeista tulivat näköjään takaisin kun part3:sessa korvattu ekf find-jekulla, jotain tarttisi tehrä asialle
 # (import2 3 $archive aiheuttajana) 
 
-#grep -v '#' daedalus/lib.sh | grep NKVD | $smthng > reject_pkgs
-#grep -v '#' daedalus/lib.sh | grep efk1 | grep lib | $smthng > accept_pkgs_1
-#grep -v '#' daedalus/lib.sh | grep efk1 | grep -v lib | $smthng > accept_pkgs_2
-
+#grep -v '#' daedalus/lib.sh | grep NKVD | awk '{print $2}' > reject_pkgs
+#grep -v '#' daedalus/lib.sh | grep efk1 | grep lib | awk '{print $2}' > accept_pkgs_1
+#grep -v '#' daedalus/lib.sh | grep efk1 | grep -v lib | awk '{print $2}' > accept_pkgs_2
 
 #iface-riippuvainen pakettien poisto, kts part2_5()
 function c5p() { #joskohan jo toimisi (28925)

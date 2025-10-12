@@ -1,0 +1,10 @@
+perl-modules-*.deb
+eudev*.deb
+udev*.deb
+xserver-common*.deb
+xserver-xorg-core*.deb
+dbus-bin*.deb
+perl*.deb
+git*.deb
+bind9*.deb
+e2fsprogs*.deb
