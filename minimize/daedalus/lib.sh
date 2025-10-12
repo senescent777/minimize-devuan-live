@@ -44,6 +44,7 @@ function c5p() { #joskohan jo toimisi (28925)
 	#HUOM.111025:kokeeksi nuo 2 yo. riviä kommentteihin, lftr muutox liittyvät
 
 	#VAIH:jatkossa tämä fktio poistaisi blacklistin(taimikäonkaan poliittisesti korrekti termi) mukaiset tdstot
+	for q in $(cat reject_pkgs) ; do echo "sfk1 $q" ; done
 
 	cd ${p}
 	dqb "...is over"
