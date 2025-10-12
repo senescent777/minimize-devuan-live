@@ -13,36 +13,40 @@ function c5p() { #joskohan jo toimisi (28925)
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 	csleep 1
-#
+
+	p=$(pwd)
+	cd ${1}
+	
 #	dqb "xz"
-#	${NKVD} ${1}/xz* #toisaalta t2p() poistaa
-#	ls -las ${1}/xz* 
+#	${NKVD} xz* #toisaalta t2p() poistaa
+#	ls -las xz* 
 #	csleep 3
 #
-#	${NKVD} ${1}/cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
+#	${NKVD} cryptsetup* #jos alkaa leikkiä encrypted-lvm-on-raid5-leikkejä niin sitten pois tämä rivi
 #	#g_pt2 poistaa cryptsetup-pakettei
 #
 #	#tästä eteenpäin jos selvittäisi noiden pakettien tilanteen, piostuuko jossain jnkn sivuvakutuksebna?
-#	${NKVD} ${1}/libcrypt* #ei uskalla poistaa aptilla
-#	#${NKVD} ${1}/libdevmapper* #asennettuna 28925?
-#	#${NKVD} ${1}/libsoup* #eiole
+#	${NKVD} libcrypt* #ei uskalla poistaa aptilla
+#	#${NKVD} libdevmapper* #asennettuna 28925?
+#	#${NKVD} libsoup* #eiole
 
 #	#HUOM.19725:librsvg2 poisto poistaa jnkn verran pak, mm task-desktop, task-xfce-desktop
 
 	#uutena 031025, eivät aivan välttämättömiä ainakaan vielä
 	#ja jotain nalkutustakin oli
-	#${NKVD} ${1}/initramfs*
-	#${NKVD} ${1}/live*
+	#${NKVD} initramfs*
+	#${NKVD} live*
 	#...varsinaisen poistamisen kanssa saattaa tulla ulinaa
 	#HUOM.111025:kokeeksi nuo 2 yo. riviä kommentteihin, lftr muutox liittyvät
 
-	#TODO:jatkossa tämä fktio poistaisi blacklistin(taimikäonkaan poliittisesti korrekti termi) mukaiset tdstot
+	#VAIH:jatkossa tämä fktio poistaisi blacklistin(taimikäonkaan poliittisesti korrekti termi) mukaiset tdstot
 
+	cd ${p}
 	dqb "...is over"
 	csleep 1
 }
 
-#TODO:jatkossa tämä fktio lisäisi ensisijaisen whitelistin mukaiset paketit efk1:lla
+#VAIH:jatkossa tämä fktio lisäisi ensisijaisen whitelistin mukaiset paketit efk1:lla
 function reficul() {
 	#debug=1
 	dqb "NATTA5H3AD öVERDR1V 666! (a.k.a pr4.libs ?)"
@@ -55,71 +59,75 @@ function reficul() {
 
 	c5p ${1}
 
-	efk1 ${1}/gcc-12*.deb ${1}/libgcc-s1*.deb
-	efk1 ${1}/perl-modules-*.deb
-	efk1 ${1}/libstdc*.deb
-	efk1 ${1}/librsvg2-2*.deb
-	efk1 ${1}/libicu*.deb
-	efk1 ${1}/libjxl*.deb
+	p=$(pwd)
+	cd ${1}
+
+	efk1 gcc-12*.deb libgcc-s1*.deb
+	efk1 perl-modules-*.deb
+	efk1 libstdc*.deb
+	efk1 librsvg2-2*.deb
+	efk1 libicu*.deb
+	efk1 libjxl*.deb
 
 	csleep 3
 #	#HUOM.28925:toimiikohan tuolleen että useampi param samalla rivillä? ehkä
-	efk1 ${1}/libc6*.deb 
-	efk1 ${1}/libcap2_1*.deb
-	efk1 ${1}/libdbus*.deb
+	efk1 libc6*.deb 
+	efk1 libcap2_1*.deb
+	efk1 libdbus*.deb
 
 	csleep 3
-	efk1 ${1}/libgdk-pixbuf2.0-common*.deb
- 	efk1 ${1}/libgdk-pixbuf-2.0-0*.deb
-	efk1 ${1}/libcups*.deb ${1}/libavahi*.deb
+	efk1 libgdk-pixbuf2.0-common*.deb
+ 	efk1 libgdk-pixbuf-2.0-0*.deb
+	efk1 libcups*.deb libavahi*.deb
 
 	csleep 5
-	efk1 ${1}/libglib2*.deb
-	efk1 ${1}/libgtk-3-common*.deb #josko nyt loppuisi nalqtus?
-	efk1 ${1}/libgtk-3-0_*.deb
-	efk1 ${1}/libpython3.11-minimal*.deb #ohjeisvahinkona xfce4 jos poist
-	efk1 ${1}/liblzma5*.deb
+	efk1 libglib2*.deb
+	efk1 libgtk-3-common*.deb #josko nyt loppuisi nalqtus?
+	efk1 libgtk-3-0_*.deb
+	efk1 libpython3.11-minimal*.deb #ohjeisvahinkona xfce4 jos poist
+	efk1 liblzma5*.deb
 	csleep 5
 
-	efk1 ${1}/libext2fs2*.deb
+	efk1 libext2fs2*.deb
 	csleep 5
 
-	efk1 ${1}/libpam-modules-bin_*.deb
-	efk1 ${1}/libpam-modules_*.deb
+	efk1 libpam-modules-bin_*.deb
+	efk1 libpam-modules_*.deb
 
 	#uutena 011025
-	efk1 ${1}/libcurl3*.deb
-	efk1 ${1}/libkrb5*.deb
-	efk1 ${1}/libgss*.deb
+	efk1 libcurl3*.deb
+	efk1 libkrb5*.deb
+	efk1 libgss*.deb
 
-#	efk1 ${1}/libfdisk* ${1}/libuuid*
+#	efk1 libfdisk* libuuid*
 #	#HUOM.28925:libfdisk ehkö uskaltaa poistaa($sharpy), e2fsprogs tarttee libuuid (e2 parempi olla poistamatta)
-#	efk1 ${1}/libopen* ${1}/libpolkit-gobject-*
+#	efk1 libopen* libpolkit-gobject-*
 #	#HUOM.28925:xfce4 tarvitse libpolkit-gobject joten ei kande poistaa
 
-	#061025 osoittautui taropeelliseksi
-	efk1 ${1}/libeudev*
+	#061025 osoittautui tarpeelliseksi
+	efk1 libeudev*
 
 	#081025
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libx11-6=2:1.8.4-2+deb12u2
-	efk1 ${1}/libxcb1*.deb
-	efk1 ${1}/libx11-6*.deb
-	efk1 ${1}/libx11-xcb1*.deb
+	efk1 libxcb1*.deb
+	efk1 libx11-6*.deb
+	efk1 libx11-xcb1*.deb
 
 	#HUOM.081025:oli aiemmin pr4():ssä juuri ennen "efk1 perl*.deb"-riviä, takaisin jos pykuu
-	${NKVD} ${1}/libpam-modules* #tartteeko enää?
-	efk1 ${1}/libpam*.deb	
-	efk1 ${1}/libperl*.deb
+	${NKVD} libpam-modules* #tartteeko enää?
+	efk1 libpam*.deb	
+	efk1 libperl*.deb
 
+	cd ${p}
 	dqb "REC1FUL D0N3"
 	csleep 5
 }
 
 #HUOM.26525:2. parametri, tartteeko moista?
 #
-#TODO:josko reficul/pr4/cp5 asetnamat/poistamat jutut erillisiin tdstoihin ja lib sitteb iteroisi
+#VAIH:josko reficul/pr4/cp5 asetnamat/poistamat jutut erillisiin tdstoihin ja lib sitteb iteroisi
 #grep efk1 $0 tai grep NKVD ... olisi noille listoille jokin lähtökohta
-#TODO:jatkossa tämä fktio lisäisi efk1:llä toissijaisen whitelistin mukaiset pak
+#VAIH:jatkossa tämä fktio lisäisi efk1:llä toissijaisen whitelistin mukaiset pak
 function pr4() {
 	#HUOM.29925:saattaa sittenkin olla tarpeellinen fktio koska X
 
@@ -130,6 +138,9 @@ function pr4() {
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 	psqa ${1}
+
+	p=$(pwd)
+	cd ${1}
 	
 	#==============================================================
 	#libx11- yms. kirjatsojen masentelut takaisin tähän vai reficul?
@@ -146,39 +157,40 @@ function pr4() {
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-common=2:21.1.7-3+deb12u10devuan1 (depends x11-common, xkb-data, x11-xkb-utils)
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-xorg-core=2:21.1.7-3+deb12u9devuan1 
 
-		efk1 ${1}/eudev*.deb
-		efk1 ${1}/udev*.deb 
-		efk1 ${1}/xserver-common*.deb
-		efk1 ${1}/xserver-xorg-core*.deb 
+		efk1 eudev*.deb
+		efk1 udev*.deb 
+		efk1 xserver-common*.deb
+		efk1 xserver-xorg-core*.deb 
 
-		efk1 ${1}/dbus-bin*.deb  ${1}/dbus-daemon*.deb ${1}/dbus-session-bus-common*.deb
+		efk1 dbus-bin*.deb  dbus-daemon*.deb dbus-session-bus-common*.deb
 		#"A reboot is required to replace the running dbus-daemon."
 	else
 		#c5p() ?
-		${NKVD} ${1}/eudev*.deb
-		${NKVD} ${1}/udev*.deb
-		${NKVD} ${1}/xserver-common*.deb
-		${NKVD} ${1}/xserver-xorg-core*.deb
-		${NKVD} ${1}/dbus-bin*.deb
-		${NKVD} ${1}/dbus-daemon*.deb	
+		${NKVD} eudev*.deb
+		${NKVD} udev*.deb
+		${NKVD} xserver-common*.deb
+		${NKVD} xserver-xorg-core*.deb
+		${NKVD} dbus-bin*.deb
+		${NKVD} dbus-daemon*.deb	
 	fi
 
 	csleep 3
 	
 	#==============================================================
 
-	efk1 ${1}/perl*.deb
-	efk1 ${1}/liberror-perl*.deb
-	efk1 ${1}/git*.deb
+	efk1 perl*.deb
+	efk1 liberror-perl*.deb
+	efk1 git*.deb
 	csleep 1
 
 	#uutena 041025
-	efk1 ${1}/bind9*.deb
-	efk1 ${1}/e2fsprogs*.deb
+	efk1 bind9*.deb
+	efk1 e2fsprogs*.deb
 	csleep 1
 
 	#c5p ${1} #HUOM.siirretty toiseen fktioon 061025
 	csleep 2
+	cd ${p}
 }
 
 #tähän tai cp5() poistamaan libavahi?
@@ -195,6 +207,7 @@ function udp6() {
 	csleep 1
 }
 
+#TODO:jokin listahommeli tätäkin varten?
 function t2p() { 
 	#libcurl-libdav vaiko ei? (libcurl tai libnghttp vie git:in, libdav ehkä uskaltaa )
 	#libavahi pois myös? (tulee kyllä oheisvahinkoa jos tekee)
