@@ -5,14 +5,7 @@ branch=""
 d0=$(pwd)
 echo "d0=${d0}"
 
-#VAIH:jos mahd ni git hakemaan vaihToehtoisen oksan? man-sivuja pitäisi taas kahlata niin maan perkeleesti ja tasaiseenm
-#git clone <repo> <directory>
-#git clone --branch <tag> <repo>
-#git branch --remotes
-#https://git-scm.com/docs/git-clone
-#tulisivat kai kyseeseen
-
-#TODO:mktemp-kikkailut pois, plain old git clone tilalle ja täts it
+#TODO:mktemp-kikkailut pois, plain old git clone tilalle ja täts it (?)
 #HUOM.020825:jos tämä poistaa $distro/lib.sh niin korjattava ei-poistamaan (vimmeisi oli pikemmnkin conf)
 
 function parse_opts_1() {
@@ -65,13 +58,14 @@ dqb "BFROE tig"
 csleep 2
 
 BASEURL="github.com/senescent777"
-${tig} clone https://${BASEURL}/minimize-devuan-live.git #--branch vielä mukaan
+PT2=minimize-devuan-live
+${tig} clone ${branch} https://${BASEURL}/${PT2}.git
 [ $? -gt 0 ] && exit
 
 dqb "TGI KO"
 csleep 2
 
-cd minimize-devuan-live
+cd ${PT2}
 [ ${debug} -eq 1 ] && ls -laRs;sleep 3
 [ -d ${d0} ] || mkdir ${d0};sleep 3
 
@@ -97,32 +91,32 @@ csleep 2
 
 cp minimize/* ${d0}
 dqb "D0N3 M0V1NG"
-csleep 2
-
-if [ -x ${d0}/common_lib.sh ] ; then
-	. ${d0}/common_lib.sh
-	enforce_access ${n}
-else
-	${sco} 0:0 /
-	${scm} 0755 /
-	${sco} 0:0 /home
-	${scm} 0755 /home
-
-	${sco} -R ${n}:${n} ~ 
-	${scm} -R a-wx ${d0}
-	${scm} 0755 ${d0} 
-
-	for t in $(find ${d0} -type d) ; do ${scm} 0755 ${t}; done
-	for t in $(find ${d0} -type f -name '*.sh') ; do ${scm} 0755 ${t}; done
-	for t in $(find ${d0} -type f -name 'conf*') ; do ${scm} 0444 ${t}; done
-	for t in $(find ${d0} -type f -name '*.deb') ; do ${scm} 0444 ${t}; done
-	
-	${sco} 0:0 ${d0}/changedns.sh
-	${scm} 0555 ${d0}/changedns.sh
-
-	${sco} 0:0 /opt/bin/changedns.sh
-	${scm} 0555 /opt/bin/changedns.sh
-fi
-
-cd ${d0}
-echo "./export2.sh 0 /tmp/vomit.tar \${distro}"
+#csleep 2
+#
+#if [ -x ${d0}/common_lib.sh ] ; then
+#	. ${d0}/common_lib.sh
+#	enforce_access ${n}
+#else
+#	${sco} 0:0 /
+#	${scm} 0755 /
+#	${sco} 0:0 /home
+#	${scm} 0755 /home
+#
+#	${sco} -R ${n}:${n} ~ 
+#	${scm} -R a-wx ${d0}
+#	${scm} 0755 ${d0} 
+#
+#	for t in $(find ${d0} -type d) ; do ${scm} 0755 ${t}; done
+#	for t in $(find ${d0} -type f -name '*.sh') ; do ${scm} 0755 ${t}; done
+#	for t in $(find ${d0} -type f -name 'conf*') ; do ${scm} 0444 ${t}; done
+#	for t in $(find ${d0} -type f -name '*.deb') ; do ${scm} 0444 ${t}; done
+#	
+#	${sco} 0:0 ${d0}/changedns.sh
+#	${scm} 0555 ${d0}/changedns.sh
+#
+#	${sco} 0:0 /opt/bin/changedns.sh
+#	${scm} 0555 /opt/bin/changedns.sh
+#fi
+#
+#cd ${d0}
+#echo "./export2.sh 0 /tmp/vomit.tar \${distro}"
