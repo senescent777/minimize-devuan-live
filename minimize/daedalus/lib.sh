@@ -46,9 +46,16 @@ function c5p() { #joskohan jo toimisi (28925)
 	#HUOM.111025:kokeeksi nuo 2 yo. riviä kommentteihin, lftr muutox liittyvät
 
 	if [ ! -f /.chroot ] ; then
-		echo "REJECTING PKGS"
+		echo "REJECTING PKGS from dir:"
+		pwd
 		sleep 3
-		for q in $(grep -v '#' reject_pkgs) ; do ${NKVD} ${q} ; done
+
+		for q in $(grep -v '#' reject_pkgs) ; do 
+			echo "${NKVD} ${q}"
+			${NKVD} ${q}
+			sleep 1
+		done
+
 		echo "DONE REJECTINF"
 		sleep 3
 	fi
