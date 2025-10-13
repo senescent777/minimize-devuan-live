@@ -18,7 +18,7 @@
 - demerde_toi.sh
 	can be used to install the most recent version of this project into a running live distro
 
-- $distro/pt2.sh removes little more packages.
+- generic_pt2.sh removes little more packages.
   If you want even lighter filesystem.squashfs
 	https://github.com/senescent777/some_scripts/blob/main/skripts/export/squ.ash.export can be used to make that .squashfs from / - partition
 
@@ -27,7 +27,7 @@
 
 - changedns.sh
   	If there's problem with DNS, this script may fix that. 
-	It can be used to change the network configuration to use plain-old-DNS and that's all folks.
+	It can be used to change the network configuration to use plain-old-DNS... and that's all folks.
   There is something going on with Daedalus/stubby/dnsmasq that i have to figure out
 
 	
