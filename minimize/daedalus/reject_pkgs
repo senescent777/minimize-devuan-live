@@ -1,8 +1,11 @@
 eudev*.deb
 udev*.deb
-xserver-common*.deb
-xserver-xorg-core*.deb
-dbus-bin*.deb
-dbus-daemon*.deb
+#xserver-common*.deb
+#xserver-xorg-core*.deb
+xserver*.deb
+#dbus-bin*.deb
+#dbus-daemon*.deb
+dbus*.deb
 initramfs*.deb
 live*.deb
+e2fsprogs*.deb

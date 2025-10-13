@@ -13,10 +13,10 @@
 #iface-riippuvainen pakettien poisto, kts part2_5()
 function c5p() { #joskohan jo toimisi (28925)
 	dqb "CCCP( ${1} , ${2} )"
-	csleep 1
+	csleep 3
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
-	csleep 1
+	csleep 3
 
 	local p
 	local q
@@ -45,7 +45,6 @@ function c5p() { #joskohan jo toimisi (28925)
 	#...varsinaisen poistamisen kanssa saattaa tulla ulinaa
 	#HUOM.111025:kokeeksi nuo 2 yo. riviä kommentteihin, lftr muutox liittyvät
 
-	#VAIH:jatkossa tämä fktio poistaisi blacklistin(taimikäonkaan poliittisesti korrekti termi) mukaiset tdstot
 	if [ ! -f /.chroot ] ; then
 		echo "REJECTING PKGS"
 		sleep 3
@@ -56,7 +55,7 @@ function c5p() { #joskohan jo toimisi (28925)
 
 	cd ${p}
 	dqb "...is over"
-	csleep 1
+	csleep 3
 }
 
 #VAIH:jatkossa tämä fktio lisäisi ensisijaisen whitelistin mukaiset paketit efk1:lla
@@ -76,8 +75,8 @@ function reficul() {
 	p=$(pwd)
 	cd ${1}
 
-	efk1 gcc-12*.deb libgcc-s1*.deb #jatkossa toisin
-
+#	efk1 gcc-12*.deb libgcc-s1*.deb #jatkossa toisin
+#
 #	efk1 perl-modules-*.deb
 #
 #	efk1 libstdc*.deb
@@ -85,7 +84,7 @@ function reficul() {
 #	efk1 libicu*.deb
 #	efk1 libjxl*.deb
 #
-	csleep 3
+#	csleep 3
 #	#HUOM.28925:toimiikohan tuolleen että useampi param samalla rivillä? ehkä
 #	efk1 libc6*.deb 
 #	efk1 libcap2_1*.deb
@@ -94,9 +93,9 @@ function reficul() {
 #	csleep 3
 #	efk1 libgdk-pixbuf2.0-common*.deb
 # 	efk1 libgdk-pixbuf-2.0-0*.deb
-	efk1 libcups*.deb libavahi*.deb
-
-	csleep 5
+#	efk1 libcups*.deb libavahi*.deb
+#
+#	csleep 5
 #	efk1 libglib2*.deb
 #	efk1 libgtk-3-common*.deb
 #	efk1 libgtk-3-0_*.deb
@@ -124,10 +123,10 @@ function reficul() {
 #dpkg: dependency problems prevent configuration of libgssapi-krb5-2:amd64:
 # libgssapi-krb5-2:amd64 depends on libkrb5-3 (= 1.20.1-2+deb12u4); however:
 #  Package libkrb5-3:amd64 is not configured yet.
-
-	efk1 libfdisk* libuuid*
+#
+#	efk1 libfdisk* libuuid*
 #	#HUOM.28925:libfdisk ehkö uskaltaa poistaa($sharpy), e2fsprogs tarttee libuuid (e2 parempi olla poistamatta)
-	efk1 libopen* libpolkit-gobject-*
+#	efk1 libopen* libpolkit-gobject-*
 #	#HUOM.28925:xfce4 tarvitse libpolkit-gobject joten ei kande poistaa
 #
 #	#061025 osoittautui tarpeelliseksi
@@ -140,7 +139,7 @@ function reficul() {
 #	efk1 libx11-xcb1*.deb
 #
 #	#HUOM.081025:oli aiemmin pr4():ssä juuri ennen "efk1 perl*.deb"-riviä, takaisin jos pykuu
-	
+#	
 #	efk1 libpam*.deb	
 #	efk1 libperl*.deb
 
@@ -187,18 +186,20 @@ function pr4() {
 	for q in $(grep -v '#' accept_pkgs_2) ; do efk1 ${q} ; done
 
 	if [ -f /.chroot ] ; then
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=eudev=3.2.12-4+deb12u1
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=udev=1:3.2.9+devuan4 (depends:eudev)
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-common=2:21.1.7-3+deb12u10devuan1 (depends x11-common, xkb-data, x11-xkb-utils)
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-xorg-core=2:21.1.7-3+deb12u9devuan1 
+		dqb "under a FUNeral M00N"
+
+#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=eudev=3.2.12-4+deb12u1
+#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=udev=1:3.2.9+devuan4 (depends:eudev)
+#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-common=2:21.1.7-3+deb12u10devuan1 (depends x11-common, xkb-data, x11-xkb-utils)
+#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=xserver-xorg-core=2:21.1.7-3+deb12u9devuan1 
 #
 #		efk1 eudev*.deb
 #		efk1 udev*.deb 
 #		efk1 xserver-common*.deb
 #		efk1 xserver-xorg-core*.deb 
 #
-		efk1 dbus-bin*.deb  dbus-daemon*.deb dbus-session-bus-common*.deb
-		#"A reboot is required to replace the running dbus-daemon."
+#		efk1 dbus-bin*.deb  dbus-daemon*.deb dbus-session-bus-common*.deb
+#		#"A reboot is required to replace the running dbus-daemon."
 #	else
 #		#c5p() ?
 #		${NKVD} eudev*.deb
@@ -245,7 +246,6 @@ function pr4() {
 #Errors were encountered while processing:
 # bind9-dnsutils
 #1
-
 
 #	efk1 e2fsprogs*.deb
 	csleep 1

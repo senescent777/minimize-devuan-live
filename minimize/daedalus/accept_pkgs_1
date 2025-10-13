@@ -1,4 +1,4 @@
-gcc-12*.deb
+gcc-12*.deb libgcc-s1*.deb 
 perl-modules-*.deb
 libstdc*.deb
 librsvg2-2*.deb
@@ -9,7 +9,7 @@ libcap2_1*.deb
 libdbus*.deb
 libgdk-pixbuf2.0-common*.deb
 libgdk-pixbuf-2.0-0*.deb
-libcups*.deb
+libcups*.deb libavahi*.deb
 libglib2*.deb
 libgtk-3-common*.deb
 libgtk-3-0_*.deb
@@ -19,8 +19,11 @@ libext2fs2*.deb
 libpam-modules-bin_*.deb
 libpam-modules_*.deb
 libcurl3*.deb
+libkrb5support0*.deb
 libkrb5*.deb
 libgss*.deb
+libfdisk* libuuid*
+libopen* libpolkit-gobject-*
 libeudev*.deb
 libxcb1*.deb
 libx11-6*.deb
