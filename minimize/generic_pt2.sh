@@ -130,6 +130,9 @@ function t2pc() {
 	dqb "common_lib.t2p_common()"
 	csleep 1
 
+	dqb "shar_py = ${sharpy} ;"
+	csleep 5
+
 	${fib} #uutena 29525, xcalibur...
 	csleep 1
 
@@ -210,7 +213,7 @@ function t2pc() {
 	#xfce*,xorg* off limits
 	t2p_filler
 
-	#uutena 111025
+	#uutena 111025 (jatkossa -> lib.sh)
 	${sharpy} bluez mutt rpcbind nfs-common
 	${sharpy} dmsetup
 	t2p_filler

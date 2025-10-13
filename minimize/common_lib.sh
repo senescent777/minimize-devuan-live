@@ -225,11 +225,8 @@ function psqa() {
 		local gv
 		gv=$(${odio} which gpgv)
 
-		#VAIH:josko sillä toisella tavalla tarkistus
 		#https://www.gnupg.org/documentation/manuals/gnupg24/gpg.1.html
 		#https://www.gnupg.org/documentation/manuals/gnupg24/gpgv.1.html
-		#$gg --verify tai $gv ilman --keyring ideana?
-
 		#HUOM.rivillä 458 (tjsp) vissiin jokin ongelma
 
 		if [ -x ${gv} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
@@ -408,7 +405,46 @@ function common_tbls() {
 	csleep 10
 }
 
-#TODO:jatkossa daed/lib mainitut listojen prosessoinnit tässä tdstossa
+#VAIH:jatkossa daed/lib mainitut listojen prosessoinnit tässä tdstossa
+function clib5p() {
+	[ -d ${1} ] || exit 66
+	
+		local p
+	local q
+	p=$(pwd)
+	cd ${1}
+
+#for q in $(grep -v '#' reject_pkgs) ; do ${NKVD} ${q} ; done
+		csleep 2
+	cd ${p}
+}
+function clibpr4() {
+	[ -d ${1} ] || exit 66
+	
+		local p
+	local q
+	p=$(pwd)
+	cd ${1}
+
+#for q in $(grep -v '#' accept_pkgs_1) ; do efk1 ${q} ; done
+	
+		csleep 2
+	cd ${p}
+}
+
+function clibpr3() {
+	[ -d ${1} ] || exit 66
+	
+		local p
+	local q
+	p=$(pwd)
+	cd ${1}
+
+#for q in $(grep -v '#' accept_pkgs_2) ; do efk1 ${q} ; done
+	
+		csleep 2
+	cd ${p}
+}
 
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135(${1} )"
@@ -486,6 +522,10 @@ function check_binaries() {
 	[ -z ${sd0} ] && exit 68
 	[ -z ${sdi} ] && exit 69
 	
+	dqb "sd0= ${sd0} "
+	dqb "sdi= ${sdi} "
+	csleep 6
+
 	for x in iptables ip6tables iptables-restore ip6tables-restore  ; do ocs ${x} ; done
 	csleep 6
 	
@@ -525,7 +565,6 @@ function check_binaries2() {
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing '/run/live/medium/live/initrd.img.new': No space left on device
 
-
 	srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
 	fib="${odio} ${sa} --fix-broken install "
@@ -544,7 +583,7 @@ function mangle_s() {
 	[ -x ${1} ] || exit 55
 
 	#HUOM.26525:pitäisiköhän olla jotain lisätarkistuksia $2 ja $3 kanssa?
-	[ y"${2}" == "y" ] && exit 43
+	[ y"${2}" == "y" ] && exit 45
 	[ -f ${2} ] || exit 54
 
 	${scm} 0555 ${1}
@@ -608,15 +647,14 @@ function dinf() {
 	#exit
 }
 
-#HUOM:initramfs-tools ja live-boot, nämä paketit aiheuttavat ulinaa 031025
-#VAIH:kehitysymp hyldyntämään tätä fktiotas
+#HUOM:initramfs-tools ja live-boot, nämä paketit aiheuttivat ulinaa 031025
 function pre_enforce() {
 	dqb "common_lib.pre_enforce( ${1} )"
 	local q
 	local f
 
 	q=$(mktemp -d)
-	dqb "sudo touch ${q}/meshuggah in 3 secs"
+	dqb "touch ${q}/meshuggah in 3 secs"
 	csleep 1
 
 	touch ${q}/meshuggah
@@ -668,7 +706,7 @@ function pre_enforce() {
 	fi
 
 	if [ ${c4} -lt 1 ] ; then
-		dqb "MUTILATE1NG /E/F-STAB"
+		dqb "MUTILAT31NG /E/F-STAB"
 		csleep 5
 
 		#HUOM. pitäisi kai karsia edellinen rivi millä $dir?
@@ -856,6 +894,7 @@ function part1_5() {
 		csleep 1
 		local tdmc
 	
+		#HUOM.121125:tartteeko sudottaa? vosi tehd tsinkin
 		tdmc="sed -i 's/DISTRO/${t}/g'"
 		echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
 		csleep 1
@@ -1031,7 +1070,7 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE (i have Tourettes)"
 }
 
-function part2_5() { #VAIH:$iface parametriksi?
+function part2_5() {
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
 	csleep 1
 
