@@ -1,27 +1,23 @@
-#!/bin/bash
+
 #distro=$(cat /etc/devuan_version) #voisi olla komentoriviparametrikin jatkossa?
 #u=0
 #v=0
 #
 
-d0=$(pwd)
+
 echo "KIRJOITA TÄMÄ PASKA UUSIKSI 666!!!"
 echo "ODOTELLESSA export2 c SAA HOITAA HOMMAN"
 #VAIH:tähän tai exp2 muutoksia siihen kehitysymp liittyen ?
 exit 666 #HUOM.111025:p.ois exit isttenq keksinyt mikä vikana
 #
-#tgt=${1}
-#tcmd=$(which tar)
-#spc=$(which cp)
+
+
 #scm=$(which chmod)
 #sco=$(which chown)
 #som=$(which mount)
 #uom=$(which umount)
 #
-#if [ $# -gt 1 ] ; then
-#	if [ ${2} -eq 1 ] ; then
-#		tcmd="sudo ${tcmd} "
-#		spc="sudo ${spc} "
+
 ##		scm="sudo ${scm} "
 ##		sco="sudo ${sco} "
 ##		som="sudo ${som} "
@@ -29,20 +25,9 @@ exit 666 #HUOM.111025:p.ois exit isttenq keksinyt mikä vikana
 #	fi
 #fi
 #
-#[ -z ${tgt} ] && exit 1
-#[ -s ${tgt} ] || exit 2
-#echo "PARAMS CHECKED"
-#sleep 1
+
 #
-#if [ -s ${d0}/$(whoami).conf ] ; then
-#	echo "ALT.C0NF1G"
-#	. ${d0}/$(whoami).conf
-#else
-#	if [ -s ${d0}/../$(whoami).conf ] ; then
-#		echo "ALT.C0NF1G3"
-#		. ${d0}/../$(whoami).conf
-#	fi
-#fi
+
 #
 ##TODO:tämä blokki roskikseen jatkossa
 ##if [ z"${distro}" != "z" ] ; then
@@ -75,21 +60,11 @@ exit 666 #HUOM.111025:p.ois exit isttenq keksinyt mikä vikana
 #	echo "TGT M1SS1NG"
 #fi
 #
-##pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
-#${tcmd} -tf ${1} | grep '.deb'
-#sleep 3
+
 #
-#read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
-#[ "${confirm}" != "Y" ] && exit 
+
 #
-##	function process_entry() {
-##		${tcmd} -f ${1} -rv ${2}
-##	}
-##
-##	#update,export2 :mikä ero?
-#
-#	${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
-#	sleep 2
+
 #
 #	echo " process_entry ${tgt} /opt/bin/changedns.sh"
 #	${tcmd} -f ${tgt} -rv /opt/bin/changedns.sh
@@ -100,13 +75,12 @@ exit 666 #HUOM.111025:p.ois exit isttenq keksinyt mikä vikana
 #JA KOPiOiDA SITTEN MUUALLE, TARVITTAESSA ROOTTINA
 #	#==========================================
 #	#VAIH:ao.blokki vähän myöehhemm'ksi jatkossa?
-#	t=$(pwd)
+
 #
 #	#"/bin/tar: Unexpected EOF in archive" aiheuttanut ngelmia viimeaikoina
 #
 #	
-#	if [ -v testgris ] ; then
-#		cd ${testgris}
+
 #		#TODO:jatkossa array=$(find) + "for f in array"-iterointi if-blokin jälkeen
 #
 #		for f in $(find . -type f -name '*.sh') ; do
