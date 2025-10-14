@@ -7,9 +7,6 @@ echo "d0= ${d0}"
 mode=-2
 tgtfile=""
 
-tpx="--exclude tim3stamp --exclude rnd" #VAIH:ajtkossa varmaankin konftdstossa
-#-gnupg, $n.conf ja .chroot mukaan ainakin(TODO)
-
 #jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch (vakka erillinen branch näitä varten)
 
 function dqb() {
@@ -100,9 +97,7 @@ else
 	exit 57
 fi
 
-#VAIH:imp2/exp2/e22/update erilliseen alihakemistoon jatkossa?
-dqb "tar = ${srat} " #HUOM.031025:tämän komennon kanssa saattaa tulla säätöä seuraavaksi
-
+dqb "tar = ${srat} "
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
@@ -142,7 +137,6 @@ csleep 1
 dqb "e22_pre0"
 csleep 1
 
-#if [ -x ${d0}/e22.sh ] ; then
 if [ -x $(dirname $0)/e22.sh ] ; then
 	dqb "222"
 	.  $(dirname $0)/e22.sh
@@ -207,7 +201,7 @@ case ${mode} in
 		cd ${d0}
 
 		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
-		#VAIH:accpt_pkgs ja reject_pkgs mukaan	?
+		
 		for f in $(find . -type f -name '*_pkgs*')  ; do ${srat} -rvf ${tgtfile} ${f} ; done
 		#HUOM:.chroot yms. alussa mainittu pois --exclude:n kanssa jos tulee muutakin kuin .sh
 
@@ -244,10 +238,11 @@ pwd;sleep 6
 
 [ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59" #tilapäisesti jemmaan kunnes x
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
+
 e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+#VAIH:yhteisiä juttuja tähän
 
-#VAIH:yhteisiä juttuja tähän	
 case ${mode} in
 	0|4)
 	#VAIH:testaus (071015) , case 4 tekee paketin, toimiikin enimmäkseen

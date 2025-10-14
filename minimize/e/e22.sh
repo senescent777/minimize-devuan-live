@@ -1,5 +1,8 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
+
+tpx="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg " #VAIH:ajtkossa varmaankin konftdstossa
+# --exclude $(whoami).conf
 		
 function e22_hdr() { #HUOM.071025:taitaa toimia
 	dqb "BEFORE TAR"
@@ -29,6 +32,8 @@ function e22_ftr() {
  	[ -s ${1} ] || exit 63
 	[ -r ${1} ] || exit 63
 
+	#TODO:cd-pwd-kikkailua jotta "shasums -c $file"
+
 	${odio} touch ${1}.sha
 	${sco} $(whoami):$(whoami) ${1}.sha
 	${scm} 0644 ${tgtfile}.sha
@@ -36,14 +41,14 @@ function e22_ftr() {
 	${sah6} ${1} > ${1}.sha
 	${sah6} -c ${1}.sha
 
-	#VAIH:pitäisi tämkin kokeilla, myös import2 kanssa että g tarkistaa
+	echo "#VAIH:pitäisi tämäkin kokeilla, lähinnä s.e. import2 tarkistaa"
 	gg=$(${odio} which gpg)
 
 	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 		${gg} -u ${CONF_kay1name} -sb ${1}.sha
 	fi
 
-	echo "cp ${1} \${tgt}; cp ${1}.sha \${tgt}" 
+	echo "cp ${1} \${tgt}; cp ${1}.* \${tgt}" 
 	dqb "ess_ftr( ${1} ) DONE"
 	csleep 1
 }
@@ -109,12 +114,12 @@ function e22_pre2() { #HUOM.071025:taitaa toimia edelleen
 
 	#HUOM.020825:vähän enemmän sorkintaa tänne?
 	#/e/n alihakemistoihin +x ?
-	#/a/wpa kokonaan talteen? /e/n kokonaan talteen?
+	#/e/wpa kokonaan talteen? /e/n kokonaan talteen?
 
 	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then
 		dqb "PRKL"
 
-		#tuota skrptiä renkataan mutta silti dns pykii, miksi?
+		#tuota skrptiä renkataan mutta silti dns pykii, miksi? vielä ongelma 141025?
 		${odio} /opt/bin/changedns.sh ${par4} ${ortsac}
 		echo $?
 		csleep 1
@@ -233,7 +238,7 @@ function e22_home() { #VAIH:testaus koska e22_settings() muutettu (josko toimisi
 
 	#HUOM.pitäisiköhän $1 hieman mankeloida? esim. samasta syystä kuin update.sh
 	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen?
-	#HUOM.111025:$n.conf saattaa sotkea
+	#HUOM.111025:$n.conf saattaa sotkea piatsi että $tpx
 	${srat} ${tpx} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 
 	dqb "e22_home d0n3"
@@ -519,7 +524,7 @@ function e22_arch() { #HUOM.071025:toimi ainakin kerran tänään
 	csleep 1
 
 	[ -z ${1} ] && exit 1
-	#[ -s ${1} ] || exit 2 #HUOM.JOS TULLAAN e22_dblock() KAUTTA NIIN $1 VOI OLLA TYHJÄÄ TÄYNNÄ
+	#[ -s ${1} ] || exit 2 #HUOM.JOS TULLAAN e22_dblock() KAUTTA NIIN $1 VOI OLLA TYHJÄÄ TÄYNNÄ tai siis
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 
@@ -563,6 +568,13 @@ function e22_arch() { #HUOM.071025:toimi ainakin kerran tänään
 	echo $?
 
 	${sah6} ./*.deb > ./sha512sums.txt
+
+	#VAIH:ne listat mukaan sumsiin
+	for f in $(find . -type f -name '*_pkgs*')  ; do 
+		${sah6} ${f} >> ./sha512sums.txt
+		${srat} -rf ${1} ${f} 
+	 done
+	
 	csleep 1
 	psqa .
 
@@ -691,6 +703,8 @@ function e22_get_pkgs() { #HUOM.071025:jospa jo toimisi
 	csleep 1
 	${lftr}
 
+	#HUOM.141025:$iface-riippuvaista pakettien poistoa mukaan?
+
 	aval0n
 	dqb "BEFORE UPD6"	
 	csleep 1
@@ -757,11 +771,11 @@ function e22_settings2() { #HUOM.071025: toimii
 }
 
 #TODO:joskus taas testaus
-#VAIH:
+
 #dpkg: dependency problems prevent configuration of live-boot-initramfs-tools:
 # live-boot-initramfs-tools depends on initramfs-tools; however:
 #  Package initramfs-tools is not configured yet.
-#tee tuolle jotain
+#tee tuolle jotain (esim. lib.cp5())
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
@@ -827,7 +841,7 @@ function e22_upgp() {
 	csleep 1
 
 	e22_ts ${2}
-	${srat} -cf ${1} ${2}/tim3stamp #VAIH:muistettava karsiap urkuvaiheessa
+	${srat} -cf ${1} ${2}/tim3stamp
 	e22_arch ${1} ${2}
 
 	dqb "SIELUNV1H0LL1N3N"
