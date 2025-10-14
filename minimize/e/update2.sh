@@ -2,6 +2,7 @@
 d0=$(pwd)
 tcmd=$(which tar)
 spc=$(which cp)
+n=$(whoami)
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
@@ -47,13 +48,20 @@ if [ -v testgris ] && [ -d ${testgris} ] ; then
 	cd ${testgris}
 
 	#-C olisi myös keksitty
-	#exclude voisi olla myös hyvä
-	#miten se -u ?
+	#exclude voisi olla myös hyvä (else-haarassa on jo)
+	#miten se -u ? (ekalla yrityksellä else-haarassa ei oikein toiminut toiv tavalla)
 
 	#nalqtus jos /etc yai /opt puuttuu paketista?
 	for f in $(${tcmd} -tf ${tgt}) ; do
 		${tcmd} -rvf ${tgt} ${f}
 	done
 else
-	echo "TODO:else-branch"
+	echo "VAIH:else-branch"
+	cd /
+
+	for f in $(${tcmd} -tf ${tgt} | grep -v '${n}.conf'  | grep -v .chroot) ; do
+		if [ -f ${f} ] ; then #josko nyt
+			${tcmd} -uvf ${tgt} ${f}
+		fi
+	done
 fi

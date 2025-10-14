@@ -6,7 +6,9 @@ d0=$(pwd)
 echo "d0= ${d0}"
 mode=-2
 tgtfile=""
+
 tpx="--exclude tim3stamp --exclude rnd" #VAIH:ajtkossa varmaankin konftdstossa
+#-gnupg, $n.conf ja .chroot mukaan ainakin(TODO)
 
 #jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch (vakka erillinen branch näitä varten)
 
@@ -64,7 +66,6 @@ function parse_opts_2() {
 
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
-#VAIH:konftdston kanssssa lisäsäätöä?
 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
@@ -205,8 +206,11 @@ case ${mode} in
 		#... tai ei niin olennainen koska findin kanssa mennään
 		cd ${d0}
 
-		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude
-		
+		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
+		#VAIH:accpt_pkgs ja reject_pkgs mukaan	?
+		for f in $(find . -type f -name '*_pkgs*')  ; do ${srat} -rvf ${tgtfile} ${f} ; done
+		#HUOM:.chroot yms. alussa mainittu pois --exclude:n kanssa jos tulee muutakin kuin .sh
+
 		#T_DKNAME voisi jatkossa osoittaa esim /r/l/m/p/dgsts alle?
 		#[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname1}
 		#[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname2}
