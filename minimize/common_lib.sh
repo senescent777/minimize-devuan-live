@@ -84,7 +84,7 @@ scm="${odio} ${scm} "
 #HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
 sah6=$(${odio} which sha512sum)
 
-#VAIH:sd0 ja srat alustukset näille main jatrkossa?
+#VAIH:sd0 ja srat alustukset näille main jatkossa?
 #TODO:komentorivin parsetyukseen liittyviä juttujamyöskin olisi... (?)
 # (ennen parse_opts määrittelyä olisi $distro/conf ja täts it, voinee sen chroot-jekun kyllä ennen)
 #... ja jotain matskua voisi siirtää riippuvista skripteistä kirjastoon?
@@ -119,8 +119,6 @@ PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dn
 #sdi="${odio} ${sdi} -i "
 sleep 6
 
-#VAIH:näille main muutoksia, yo. mjien uudelleennimeäinen, ocs() ennen tähä blokkia+kutsu
-#laajempaan käyttöön?
 #HUOM.0301025:oli jotain urputusta riviltä 161
 function ocs() {
 	dqb "ocs(${1} ) "
@@ -144,14 +142,14 @@ sd0=$(${odio} which dpkg)
 [ -z ${sd0} ] && exit 79
 
 unset sdi #tekeeko tämä jotain? kyl , kts check_bin() ,, "second half"
-echo "SFDSFDSFDSFDSFDSFDSFDSFDS"
-sleep 3
+dqb "SFDSFDSFDSFDSFDSFDSFDSFDS"
+csleep 3
 
 ocs tar
 unset sr0
 sr0=$(${odio} which tar)
 [ -v sr0 ] || exit 80
-[ -z ${sd0} ] && exit 81
+[ -z ${sr0} ] && exit 81 #sr0 bai sd0?
 
 sifu=$(${odio} which ifup)
 sifd=$(${odio} which ifdown)
@@ -164,7 +162,8 @@ gv=$(${odio} which gpgv)
 gi=$(${odio} which genisoimage)
 gmk=$(${odio} which grub-mkrescue)
 xi=$(${odio} which xorriso)
-tarttisko tälle tehdä jotain?
+
+#tarttisko tälle tehdä jotain?
 sca=$(${odio} which chattr)
 sca="${odio} ${sca}"
 #================================================
@@ -307,7 +306,6 @@ function efk2() {
 	#koita katsoa ettei käy: sudo sudo tar
 	if [ -s ${1} ] && [ -r ${1} ] ; then
 		${odio} ${sr0} -C ${2} -xf ${1}
-		#HUOM.0421025:jatkossa se sd0-kikkailu tar:in kanssa myös?
 	else
 		dqb "WE NEED T0 TALK ABT ${1}"
 	fi	
@@ -516,11 +514,10 @@ function check_binaries() {
 	#HUOM.14525:listan 6 ekaa voi poistaa jos tulee ongelmia
 	#HUOM.25525:dhclient siirretty tilapäisesti ulos listasta excalibur-testien vuoksi, ehkä josqs takaisin
 
-	#HUOM.071025:onko ao. testiblokissa jotain ongelmaa? bash valittaa
 	[ -v sd0 ] || exit 66
  	[ -v sdi ] || exit 67
 	[ -z ${sd0} ] && exit 68
-	[ -z ${sdi} ] && exit 69
+	#[ -z ${sdi} ] && exit 69 #tästäkö nalkuttaa?
 	
 	dqb "sd0= ${sd0} "
 	dqb "sdi= ${sdi} "
@@ -749,6 +746,11 @@ function e_e() {
 	${scm} 0555 /etc/network
 	${scm} 0444 /etc/network/*
 	${sco} root:root /etc/network #turha koska ylempänä
+
+	#131025 uutena
+	for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
+	dqb "e_e d0n3"
+	csleep 1
 
 	dqb "e_e d0n3"
 	csleep 1

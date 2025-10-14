@@ -493,7 +493,8 @@ case "${mode}" in
 		tpr ${d0}
 	;;
 	k)	#111025:josko kohta valmis?
-	
+		#HUOM.131025:tarvitseekohan sorkkia vielä? miten ~/.gnupg? kiekolle ei ainakaan	
+
 		gg=$(${odio} which gpg)
 		ridk=${d0}
 
