@@ -46,17 +46,17 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-if [ -f /.chroot ] ; then
-	echo "UNDER THE GRAV3YARD"
-	sleep 2
-
-	for f in $(find ${d0} -type f -name 'nekros?'.bz3) ; do
-		tar -jxvf ${f}
-		sleep 1
-		rm ${f}
-		sleep 1
-	done
-fi
+#if [ -f /.chroot ] ; then
+#	echo "UNDER THE GRAV3YARD"
+#	sleep 2
+#
+#	for f in $(find ${d0} -type f -name 'nekros?'.bz3) ; do
+#		tar -jxvf ${f}
+#		sleep 1
+#		rm ${f}
+#		sleep 1
+#	done
+#fi
 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
