@@ -9,6 +9,8 @@ libcap2_1*.deb
 libdbus*.deb
 libgdk-pixbuf2.0-common*.deb
 libgdk-pixbuf-2.0-0*.deb
+libavahi-common-data*.deb
+libavahi-common*.deb
 libcups*.deb libavahi*.deb
 libglib2*.deb
 libgtk-3-common*.deb

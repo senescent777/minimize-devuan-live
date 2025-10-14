@@ -276,7 +276,7 @@ function udp6() {
 	csleep 1
 }
 
-#TODO:jokin listahommeli tätäkin varten?
+#jokin listahommeli tätäkin varten?
 function t2p() { 
 	#libcurl-libdav vaiko ei? (libcurl tai libnghttp vie git:in, libdav ehkä uskaltaa )
 	#libavahi pois myös? (tulee kyllä oheisvahinkoa jos tekee)
@@ -286,12 +286,18 @@ function t2p() {
 
 	#voisi kai chim kanssa yhteisiä viedä part2_5:seen`?
 	#HUOM.25525:atril ei löydy daedaluksesta
-	#bluez ei löydy, bc taisi poistua aiemmin
+	#bluez ei löydy, bc taisi poistua aiemmin (ellei jokin kuse)
 	#doc-paketteja saattaisi vaikka tarvitakin mutta
 	#exfatprogs, tarvitseeko?
 	#gdisk, ghostscript, gnupg* ei löydy
 	#gpg* voi poistaa liikaa
 	#gparted, gpg-wks* ei löydy, gpgconf EI poistoon
+
+	#uutena 111025 
+	${sharpy} bluez mutt rpcbind nfs-common
+	${sharpy} dmsetup
+	t2p_filler
+	csleep 5
 
 	#gsasl-common, gsfonts, gvfs ei löydy
 	${sharpy} arch-test

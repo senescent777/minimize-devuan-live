@@ -1,0 +1,15 @@
+iface=wlan0
+enforce=1 #pitäisikö muuttaa?
+debug=0
+pkgdir=/var/cache/apt/archives
+dir=/media
+#dir2=???
+dnsm=0
+pkgsrc=pkgmaster.devuan.org #/e/a/sources.list 
+part0=05df0348-00f4-4abc-b7a2-e9bc023e9a99
+#part1=???
+removepkgs=1
+#dsn="INSERT LIST OF DNS/DOT SERVERS HERE"
+changepw=0
+#HUOM.11525:locale-juttuja varten nykyään /e/d/l.tmp
+#LCF666="<SAME_AS LC_TIME>"
