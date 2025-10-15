@@ -7,17 +7,6 @@ d0=$(pwd)
 debug=0
 d=${d0}/${distro} 
 
-#if [ -f /.chroot ] ; then #tätä ei tarttisi joka skriptin ajaa oiekastaan
-#	echo "UNDER THE GRAV3YARD"
-#	
-#	for f in $(find ${d0} -type f -name 'nekros?'.bz3) ; do
-#		tar -jxvf ${f}
-#		sleep 1
-#		rm ${f}
-#		sleep 1
-#	done
-#fi
-
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -205,6 +194,7 @@ other_horrors
 
 dqb "BEFORE IMP2"
 csleep 10
+
 if [ ! -f /.chroot ] ; then
 	${d0}/import2.sh r ${d0} -v
 fi

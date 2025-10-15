@@ -46,18 +46,6 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#if [ -f /.chroot ] ; then
-#	echo "UNDER THE GRAV3YARD"
-#	sleep 2
-#
-#	for f in $(find ${d0} -type f -name 'nekros?'.bz3) ; do
-#		tar -jxvf ${f}
-#		sleep 1
-#		rm ${f}
-#		sleep 1
-#	done
-#fi
-
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -157,9 +145,6 @@ function t2pc() {
 
 	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
 	t2p_filler
-
-	#${sharpy} gpgsm gpg-agent gpg #tulossa käyttöä näille ajtkossa
-	#t2p_filler
 
 	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta kun xcalibur
 	#${sharpy} grub* 
