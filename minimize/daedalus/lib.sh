@@ -3,9 +3,9 @@
 #https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
-#iface-riippuvainen pakettien poisto, kts part2_5
-function c5p() {
-	dqb "CCCP ${1} , ${2} "
+#iface-riippuvainen pakettien poisto, kts part2_5()
+function c5p() { #joskohan jo toimisi (28925)
+	dqb "CCCP( ${1} , ${2} )"
 	csleep 3
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
@@ -53,7 +53,7 @@ function reficul() {
 
 	for q in $(grep -v '#' accept_pkgs_1) ; do efk1 ${q} ; done
 	${NKVD} libpam-modules*
-	#c5p ? 
+	#c5p() ? 
 
 	echo "SDHGSKJDHGFSODHGSU"
 	sleep 3
@@ -76,7 +76,6 @@ function pr4() {
 	p=$(pwd)
 	cd ${1}
 	
-
 	for q in $(grep -v '#' accept_pkgs_2) ; do efk1 ${q} ; done
 
 	if [ -f /.chroot ] ; then
@@ -102,11 +101,6 @@ function udp6() {
 function t2p() {
 	dqb "DAUD.T2P"
 	csleep 1
-
-	${sharpy} bluez mutt rpcbind nfs-common
-	${sharpy} dmsetup
-	t2p_filler
-	csleep 5
 
 	${sharpy} arch-test
 	${sharpy} grub*
@@ -168,19 +162,22 @@ function t2p() {
 	${asy}
 	sleep 2
 
+	#uutena
 	${sharpy} libdav*
-	${asy}
+	${asy} #varm. vuoksi
 	sleep 2
 
 	${scm} a-wx ${0}
 	csleep 2
 }
 
+#josko kuitenkin ntp takaisin listaan?
 function pre_part2() {
-	dqb "daud.pre_part2"
+	dqb "daud.pre_part2()"
 	csleep 2
 
 	${odio} /etc/init.d/ntpd stop
+	#$sharpy ntp* jo aiempana
 
 	for f in $(find /etc/init.d -type f -name 'ntp*') ; do 
 		${odio} ${f} stop
@@ -191,7 +188,11 @@ function pre_part2() {
 	dqb "d0n3"
 }
 
-function tpc7() {
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
+#https://pkgs.org/download/linux-image-6.12.27-amd64 ... joskohan ethz kautta
+#... tarkistus tosin uusiksi, josko sinne tcdd-blokkiin(?) ylemmäs?
+
+function tpc7() { #e22.sh kutsuu tätä nykyään
 	dqb "d.prc7 UNDER CONSTRUCTION"
 }
 
