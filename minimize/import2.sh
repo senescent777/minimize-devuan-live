@@ -464,10 +464,10 @@ esac
 cd ${olddir}
 #ettei umount unohdu 
 
-if [ -v part ] || [ -v dir ] ; then #jos !-z kanssa...
+if [ -v part ] || [ -v dir ] ; then
 	echo "REMEMBER 2 UNM0UNT TH3S3:"
-	grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan
-	grep ${dir} /proc/mounts
+	[ -z ${part} ] || grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan
+	[ -z ${dir} ] || grep ${dir} /proc/mounts
 fi
 
 ${scm} 0755 $0
