@@ -19,9 +19,6 @@ else
 	fi	
 fi
 
-#voisikohan yo. juttuja siirtää -> common_lib ?
-#ffox-profiilin importointi (josko jo 091025 toimisi?)
-
 function parse_opts_1() {
 	case "${1}" in
 		-v|--v)
@@ -29,9 +26,7 @@ function parse_opts_1() {
 		;;
 		*)
 			if [ -d ${d0}/${1} ] ; then
-				distro=${1}
-				#HUOM.22725:tässä voisi ladata uudestaan conf?
-			else
+				distro=${1}else
 				mode=${1}
 			fi
 		;;
@@ -81,8 +76,6 @@ else
 	pre_enforce ${d0}
 fi
 
-#HUOM. ehto voisi mennä toisinkin, esim /r/l/m/p olemassaolo
-#HUOM.29925:chroot-ehto sittenkin e_a:han?
 if [ -f /.chroot ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 3
@@ -133,7 +126,7 @@ function el_loco() {
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
 	else
-		${odio} locale-gen #oli aiemmin ennen if-blokkia
+		${odio} locale-gen
 	fi
 
 	if [ ${2} -lt 1 ] && [ ${debug} -eq 1 ] ; then
@@ -180,13 +173,12 @@ if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
 	exit
 fi
 
-#HUOM.2:pitäisikö huomioida myös e.tar tuossa alla jotenkin? ja miksi?
 pre_part2
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 part2_5 ${removepkgs} ${dnsm} ${iface}
 
-#VAIH:näille main bugin korjaus, stoppaa masenteluvaiheessa jos ei -v annettu (vielä 071025?)
+#VAIH:näille main bugin korjaus, stoppaa masenteluvaiheessa jos ei -v annettu (vielä 161025?)
 #===================================================PART 3===========================================================
 message
 part3 ${d} ${dnsm}

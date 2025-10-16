@@ -1,6 +1,5 @@
 #!/bin/bash
-
-distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
+distro=$(cat /etc/devuan_version)
 d0=$(pwd)
 
 [ z"${distro}" == "z" ] && exit 6
@@ -15,7 +14,6 @@ function dqb() {
 function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
-
 
 function parse_opts_1() {
 	echo "popt_1( ${1} )"
@@ -36,11 +34,7 @@ function parse_opts_1() {
 	esac
 }
 
-#HUOM.021025:initramfs-toolsin ja live-xxx-pakettien kanssa saattaa olla jotain härdellia, korjaa?
-#... jos uuden .iso:n kanssa sama ni apt reinstall intramfs ja katsotaan mitä tapahtuu
-
 #edelleen 101025 se ettei uskalla nollaa suurempaa mode:a
-#initramfs-nalqtuksen kanssa 1 idea (kts lftr)
 
 function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
@@ -57,9 +51,6 @@ else
 	fi	
 fi
 
-#tässä välissä debug-mjan jyräys?
-#voisikohan yo. juttuja siirtää -> common_lib ?
-
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -69,7 +60,7 @@ fi
 
 [ -z ${distro} ] && exit 6
 dqb "BEFORE CNF"
-echo "dbig= ${debug}" # [  -v ] taakse?
+echo "dbig= ${debug}"
 sleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
@@ -95,7 +86,6 @@ dqb "mode=${mode} "
 
 sleep 1
 csleep 1
-#exit 666 #HUOM.021025:jokin saatttaa qsta tässä, siksi 
 
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
@@ -123,6 +113,12 @@ function t2pc() {
 
 	${fib} #uutena 29525, xcalibur...
 	csleep 1
+
+	#takaisin 161026
+	${sharpy} bluez mutt rpcbind nfs-common
+	${sharpy} dmsetup
+	t2p_filler
+	csleep 5
 
 	${sharpy} amd64-microcode at-spi2-core #toimii systeemi ilmankin näitä mutta ?
 	t2p_filler
