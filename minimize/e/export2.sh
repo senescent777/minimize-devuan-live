@@ -99,6 +99,7 @@ fi
 
 dqb "tar = ${srat} "
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
+
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
@@ -110,16 +111,16 @@ dqb "AFTER GANGRENE SETS IN"
 csleep 1
 
 #HUOM.28925:"tar löytyy ja ajokelpoinen"-tarkistus tdstossa common_lib.sh, ocs()
-tig=$(${odio} which git)
-mkt=$(${odio} which mktemp)
+#
+#
 
-if [ x"${tig}" == "x" ] ; then
+if [ -z "${tig}" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
 	echo "sudo apt-get update;sudo apt-get install git"
 	exit 7
 fi
 
-if [ x"${mkt}" == "x" ] ; then
+if [ -z "${mkt}" ] ; then
 	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
 	echo "sudo apt-get update;sudo apt-get install coreutils"
 	exit 8
@@ -161,7 +162,7 @@ fi
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
-[ z"${tgtfile}" == "z" ] && exit 99
+[ -z "${tgtfile}" ] && exit 99
 
 case ${mode} in
 	f)		
@@ -183,7 +184,7 @@ case ${mode} in
 		#josko takaisin siihen että vain oikeasti tarpeelliset mukaan
 		#... ja profs.sh jos kuuluisi tarpeellisiin
 
-		#tössö ai se maxdepth mukaan...
+		#täss se maxdepth mukaan...
 		for f in $(find ~ -name '*.tar' -or -name '*.bz2') ; do
 			${srat} -rvf ${tgtfile} ${f} #HUOM.091025:tähän ai tarvinne --exclude
 		done
@@ -201,7 +202,6 @@ case ${mode} in
 		cd ${d0}
 
 		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
-		
 		for f in $(find . -type f -name '*_pkgs*')  ; do ${srat} -rvf ${tgtfile} ${f} ; done
 		#HUOM:.chroot yms. alussa mainittu pois --exclude:n kanssa jos tulee muutakin kuin .sh
 

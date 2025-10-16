@@ -30,24 +30,28 @@ function e22_ftr() {
 
 	[ -z ${1} ] && exit 62
  	[ -s ${1} ] || exit 63
-	[ -r ${1} ] || exit 63
-
-	#TODO:cd-pwd-kikkailua jotta "shasums -c $file"
+	[ -r ${1} ] || exit 64
 
 	${odio} touch ${1}.sha
 	${sco} $(whoami):$(whoami) ${1}.sha
 	${scm} 0644 ${tgtfile}.sha
 
-	${sah6} ${1} > ${1}.sha
-	${sah6} -c ${1}.sha
+	local p
+	local q
 
-	echo "#VAIH:pitäisi tämäkin kokeilla, lähinnä s.e. import2 tarkistaa"
-	gg=$(${odio} which gpg)
+	p=$(pwd)
+	q=$(basename ${1})
+	cd $(dirname ${1})
+
+	${sah6} ${q} > ${q}.sha
+	${sah6} -c ${q}.sha
+	gg=$(${odio} which gpg) #jatkossa common_libn
 
 	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-		${gg} -u ${CONF_kay1name} -sb ${1}.sha
+		${gg} -u ${CONF_kay1name} -sb ${q}.sha
 	fi
 
+	cd ${p}
 	echo "cp ${1} \${tgt}; cp ${1}.* \${tgt}" 
 	dqb "ess_ftr( ${1} ) DONE"
 	csleep 1
@@ -566,10 +570,8 @@ function e22_arch() { #HUOM.071025:toimi ainakin kerran tänään
 
 	cd ${2}
 	echo $?
-
 	${sah6} ./*.deb > ./sha512sums.txt
 
-	#VAIH:ne listat mukaan sumsiin
 	for f in $(find . -type f -name '*_pkgs*')  ; do 
 		${sah6} ${f} >> ./sha512sums.txt
 		${srat} -rf ${1} ${f} 
@@ -644,11 +646,10 @@ function e22_tblz() { #HUOM.071025:toimi ainakin kerran tänään
 
 #HUOM.mihin tarvitsee arkiston nimeä? .deb tulisi löytyä $pkgdir alta
 function e22_get_pkgs() { #HUOM.071025:jospa jo toimisi
-	#VAIH:turhat parametrit pois
 	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 	
-	[ -z ${1} ] && exit 11 #HUOM.vain tämä param tarvitaan
+	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
 
 	dqb "paramz_ok"
 	csleep 1
