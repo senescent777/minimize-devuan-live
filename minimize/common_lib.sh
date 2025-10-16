@@ -6,7 +6,6 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#HUOM.021025:näille main saattaa tulla muutox?
 if [ -f /.chroot ] ; then
 	odio=""
 	debug=1
@@ -213,7 +212,7 @@ function psqa() {
 		cd ${1}
 
 		if [ -v SOME_CONFIG_OPT ] ; then	
-			dpkg -V #HUOM.11525:toistaiseksi jemmaan
+			dpkg -V
 			sleep 1
 		fi
 
@@ -235,9 +234,7 @@ function psqa() {
 			pwd
 			csleep 3
 
-			#${gv} ./sha512sums.sig ./sha512sums
 			${gg} --verify ./sha512sums.sig
-
 			csleep 3
 		fi
 
@@ -313,6 +310,7 @@ function clib5p() {
 	csleep 2
 	cd ${p}
 }
+
 function clibpr4() {
 	[ -d ${1} ] || exit 66
 	
@@ -326,6 +324,7 @@ function clibpr4() {
 	csleep 2
 	cd ${p}
 }
+
 function clibpr3() {
 	[ -d ${1} ] || exit 66
 	
@@ -339,6 +338,7 @@ function clibpr3() {
 		csleep 2
 	cd ${p}
 }
+
 #HUOM.041025:chroot.ympäristössä tietenkin se ympäristömja sudotuksern yht ongelma, keksisikö jotain (KVG)
 function fromtend() {
 	dqb "FRöMTEND"
@@ -358,7 +358,7 @@ function fromtend() {
 	dqb "DNÖE"
 }
 
-#sillä toisella tyylillä tämä masentelu jatkossa?
+#sillä toisella tyylillä tämä masentelu jatkossa? for ... in ... ?
 function common_tbls() {
 	dqb "COMMON TABLESD $1, $2"
 	csleep 1
@@ -374,13 +374,11 @@ function common_tbls() {
 	csleep 1
 	psqa ${1}
 
-	#chimaera-spesifisiä seur 2, pois jos pykii
-	efk1 ${1}/libnfnet*.deb  #TARKKANA PRKL PAKETTIEN KANSSA
+	efk1 ${1}/libnfnet*.deb
 	csleep 1
 
 	efk1 ${1}/libnetfilter*.deb
 	csleep 1
-	#/chim
 
 	fromtend ${1}/libip*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
@@ -392,7 +390,7 @@ function common_tbls() {
 	csleep 1
 
 	#uutena 031925 tämä linbl
-	efk1 ${1}/libnl-3-200*.deb #hukattu tämä rivi?
+	efk1 ${1}/libnl-3-200*.deb
 	csleep 3
 	efk1 ${1}/libnl-route*.deb 
 	csleep 3
@@ -460,7 +458,7 @@ function check_binaries() {
 	
 	sdi="${odio} ${sd0} -i "
 
-	#josko -z ?
+	#TODO:josko -z ?
 	if [ y"${ipt}" == "y" ] ; then
 		[ z"${1}" == "z" ] && exit 99
 		dqb "-d ${1} existsts?"
@@ -532,7 +530,7 @@ function check_binaries2() {
 	sifd="${odio} ${sifd} "
 
 	lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 
-	#distro-kohtainen jatkossa
+
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing '/run/live/medium/live/initrd.img.new': No space left on device
 
@@ -611,7 +609,7 @@ function pre_enforce() {
 
 		mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 		csleep 1
-	else #taasko jokin typo?
+	else 
 		local row
 	
 		for row in ${CB_LIST2} ; do
@@ -621,7 +619,6 @@ function pre_enforce() {
 
 	#VAIH:tähän jtnkn niitä kehitysymp sudotuksia, listan esittely vaihtoehtoisessa konftdstossa jos mahd
 	dqb "LETf HOUTRE JOINED IN DARKN355"
-
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
 	csleep 1
 
@@ -665,7 +662,7 @@ function pre_enforce() {
 }
 
 #161025:pitänee palauttaa e_fktiot siinä toivossa että korjaavat kirjautumisongelman
-#vaihteeksi paska .tar
+#vaihteeksi paska .tar?
 
 function mangle2() { #mikä tätä käyttää nykyään? pl e_fktiot siis...
 	if [ -f ${1} ] ; then
@@ -695,6 +692,7 @@ function e_e() {
 	dqb "e_e d0n3"
 	csleep 1
 }
+
 function e_v() {
 	dqb "e_v"
 	${sco} -R root:root /sbin
@@ -708,6 +706,7 @@ function e_v() {
 	dqb "V1C.V0N.D00m"
 	csleep 1
 }
+
 function e_h() {
 	dqb "e_h ${1} , ${2} "
 	csleep 2
@@ -819,7 +818,7 @@ function part1_5() {
 		csleep 1
 		local tdmc
 	
-		#HUOM.121125:tartteeko sudottaa? vosi tehd tsinkin
+		#HUOM.121025:tartteeko sudottaa? vosi tehd tsinkin(TODO)
 		tdmc="sed -i 's/DISTRO/${t}/g'"
 		echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
 		csleep 1
@@ -838,7 +837,6 @@ function part1_5() {
 	fi
 
 	${sco} -R root:root /etc/apt
-	#tarkempaa sertiä tulisi findin kanssa
 	${scm} -R a-w /etc/apt/
 
 	[ ${debug} -eq 1 ] && ls -las /etc/apt
@@ -903,7 +901,7 @@ function part076() {
 	dis ${1}
 	local s
 
-	for s in ${PART175_LIST} ; do #VAIH:takaisin ASAP
+	for s in ${PART175_LIST} ; do
 		dqb ${s}
 
 		for t in $(find /etc/init.d -name ${s}* ) ; do
@@ -922,7 +920,7 @@ function part076() {
 	csleep 1
 }
 
-function part1() { #VAIH:takaisin ASAP
+function part1() {
 	dqb "PART1 ${1} "
 	csleep 1
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
@@ -1000,11 +998,11 @@ function part2_5() {
 		${fib}
 		csleep 1
 		
-#		for s in ${PART175_LIST} ; do #TODO:takaisin ASAP
-#			dqb "processing ${s}"
-#			${sharpy} ${s}*
-#			csleep 1
-#		done
+		for s in ${PART175_LIST} ; do
+			dqb "processing ${s}"
+			${sharpy} ${s}*
+			csleep 1
+		done
 
 		${lftr}
 		${sharpy} libblu* libcupsfilters* libgphoto*
@@ -1066,6 +1064,7 @@ function part3() {
 	pr4 ${1}
 	dqb "4RP DONE"
 	csleep 6
+
 #	efk1 ${1}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
 #	[ $? -eq 0 ] || echo "SHOULD exit 66"
 #	csleep 1
@@ -1109,6 +1108,7 @@ function slaughter0() {
 	ts2=$(sha512sum ${fn2})
 	echo ${ts2} | awk '{print $1,$2}' >> ${2}
 }
+
 function gpo() {
 	dqb "GPO"
 	local prevopt
@@ -1121,5 +1121,6 @@ function gpo() {
 		prevopt=${opt}
 	done
 }
+
 #https://stackoverflow.com/questions/16988427/calling-one-bash-script-from-another-script-passing-it-arguments-with-quotes-and
 gpo "$@"
