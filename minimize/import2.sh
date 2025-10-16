@@ -12,7 +12,7 @@ d0=$(pwd)
 d=${d0}/${distro}
 
 #TARGET:DOPTS vai mikä olikaan?
-tpx="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg " #konftsdtoon vähietllen
+tpx="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ " #konftsdtoon vähietllen
 #... tai mitä tässä tap ptäisi purkaa ja mitä ei?
 
 #HUOM.30925:jospa ei pilkkoisi tätä tdstoa ainakaan ihan vielä
@@ -60,24 +60,25 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#if [ -f /.chroot ] ; then #VAIH:tämmöiset jatkossa -> common_lib ?
-#	echo "UNDER THE GRAV3YARD"
-#	sleep 2
-#
-#	#HUOM.141025:oikeastaan pitäisi tarkistaa ennen purkua
-#	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
-#		tar -jxvf ${f}
-#		sleep 1
-#		rm ${f}
-#		sleep 1
-#	done
-#
-#	#HUOM.141025:ei vielä toimi kunnolla chrootin alla jos common_lib poissa pelistä
-#	#ainakin $odio tulisi jyrätä tässä blokissa 
-#
-#	#1. yrityksellä "$0 1 $file" johti bad_signature-valituksiin joten lisää pitäisi iteroida 
-#	#myös "gpg: can't open './sha512sums.sig': No such file or directory"
-#fi
+if [ -f /.chroot ] ; then #HUOM.171025:tömö vlokki kunnossa?
+	echo "UNDER THE GRAV3YARD"
+	sleep 2
+
+	#HUOM.141025:oikeastaan pitäisi tarkistaa ennen purkua
+	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
+		tar -jxvf ${f}
+		sleep 1
+		rm ${f}
+		sleep 1
+	done
+
+	#HUOM.141025:ei vielä toimi kunnolla chrootin alla jos common_lib poissa pelistä
+	#ainakin $odio tulisi jyrätä tässä blokissa 
+
+	#1. yrityksellä "$0 1 $file" johti bad_signature-valituksiin joten lisää pitäisi iteroida 
+	#myös "gpg: can't open './sha512sums.sig': No such file or directory"
+	#2. yrityksellä jo onnistui "gpg --verify". Sitq vielä sha512 -c saisi taas... 
+fi
 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
@@ -92,7 +93,6 @@ else
 fi
 
 if [ -x ${d0}/common_lib.sh ] ; then
-	#... saattaa olla että sq-chroot:in sisällä ei tarvitsekaan:import2.sh mutta väHän kätevänPI ehgkä
 	. ${d0}/common_lib.sh
 else
 	#HUOM.151025:tässä haarassa jokin qsee?
@@ -102,7 +102,7 @@ else
 	uom="sudo /bin/umount"
 	scm="sudo /bin/chmod"
 #	sco="sudo /bin/chown"
-#	odio=$(which sudo)
+#	odio=$(which sudo) #chroot-ynmp tulee nalqtusta tästä
 #
 #	#jos näillä lähtisi aiNAKin case q toimimaan
 #	n=$(whoami)
@@ -112,8 +112,8 @@ else
 #
 #	whack=$(${odio} which pkill)
 #	whack="${odio} ${whack} --signal 9 " #P.V.H.H
-#	sah6=$(${odio} which sha512sum)
-#
+	sah6=$(${odio} which sha512sum)
+
 	function check_binaries() {
 		dqb "imp2.ch3ck_b1nar135 \${1} "
 	}
@@ -146,7 +146,10 @@ else
 		dqb "AZATHOTH AND OTHER HORRORS"
 	}
 
-#TODO:ocs()
+	function ocs() {
+		$(${odio} which ${1})
+		csleep 1
+	}
 
 	dqb "FALLBACK"
 	dqb "${scm} may be a good idea now"
@@ -198,22 +201,22 @@ part=/dev/disk/by-uuid/${part0}
 #ocs tar
 
 #deMOrgan
-#if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
-#	dqb "OLD.TAR OK"
-#else
-#	#jotain exclude-juttuja voisi olla sikäli mikäli tuota oikeasti tarttee johonkin
-#	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
-#fi
+if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
+	dqb "OLD.TAR OK"
+else
+	#jotain exclude-juttuja voisi olla sikäli mikäli tuota oikeasti tarttee johonkin
+	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
+fi
 
-function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
+function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
-	[ y"${1}" == "y" ] && exit 1
+	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 2 #HUOM.151025:osa tarkistuksista voi olla redundantteja
 	[ -r ${1} ] || exit 3
-	[ y"${3}" == "y" ] && exit 4
+	[ -z "${3}" ] && exit 4
 
-	[ y"${2}" == "y" ] && exit 11
+	[ -z "${2}"  ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -d ${3} ] || exit 33
 
@@ -224,23 +227,26 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
 
-		#TODO:mielellään sah6 -c $1.sha jatkossa
+		#VAIH:mielellään sah6 -c $1.sha jatkossa
+		#... muuten kyllä mutta chroot-ympäristön kanssa vielä ulinaa
+
 		cat ${1}.sha
-		${sah6} ${1}
+		${sah6} -c ${1}
+		csleep 3
 
 		local gg
-		gg=$(${odio} which gpg) #tarpeen esitellä tässä?
+		gg=$(${odio} which gpg) #jatkossa vommon_lib
 
-		if [ -x ${gg} ] ; then #&& [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ]
+		if [ -x ${gg} ] ; then
 			dqb " ${gg} --verify ${1}.sha.sig "
-			${gg} --verify ${1}.sha.sig #${1}
+			${gg} --verify ${1}.sha.sig
 		fi
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
 	csleep 1
-	dqb "NECKST:${srat} ${tpx} -C ${3} -xf ${1}"
+	dqb "NECKST:${srat} ${tpx} -C ${3} -xf ${1}" #TODO:pitäisi selvittää toimiiko --exclude kuten pitää
 	csleep 1
 
 	${srat} -C ${3} ${tpx} -xf ${1}
@@ -278,6 +284,7 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 
 #HUOM.141025:mikä idea $2 kanssa?
 #TODO:se audio mixer k anssa toimimaan / pavucontrol poistunut / jep / vai pak kas/purq viallinen myös?
+#vaikkapa pkginfo.devuan.org katsoen mitä pavucontrl travitsee
 function tpr() {
 	dqb "UPIR  ${1}, ${2}"
 	csleep 1
@@ -293,8 +300,8 @@ function tpr() {
 
 	local t
 	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} ${tpx} -C ~ -xvf ${t} ; done
-
 	for t in ${1}/pulse.tar ~/pulse.tar ; do ${srat} ${tpx} -C / -xvf ${t} ; done
+
 	dqb "PROFS?"
 	csleep 1
 
@@ -324,9 +331,8 @@ function tpr() {
 	csleep 1
 }
 
-#TODO:/o/b ja /e/ipt mukaan arkistoon
 case "${mode}" in
-	-1) #jatkossa jokiN fiksumpi kuin -1?
+	-1) 
 		part=/dev/disk/by-uuid/${part0}		
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 		c=$(grep -c ${dir} /proc/mounts)
@@ -348,11 +354,12 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh maybe | sleep \$delay;ifup \$iface;changedns if necessary"
 		#mode=-3
 	;;
-	r) #HUOM.071025:josko nyt olisi taas kunnossa sen aikaa kunnes srat
+	r)
+		#TODO:toimiiko tämä vielä/taas?
 		tpr ${d0}
 		#mode=-3
 	;;
-	-h) #HUOM.27725:ilman param kuuluisi kai keskeyttää suor mahd aik
+	-h)
 		usage
 		#mode=-3
 		exit
@@ -384,16 +391,14 @@ dqb "srcfile=${srcfile}"
 csleep 6
 
 case "${mode}" in
-#	1) #Todnäk toimii tämä case 1619025
-#		common_part ${srcfile} ${d} /
-#
-#		csleep 1
-#		[ $? -eq 0 ] && echo "NEXT: $0 2"
-#	;; #HUOM.nollaa edeltävät caset:ei ole sorkittu viime aikoina, pitäisi toimia ok
+	1) #Todnäk toimii tämä case 1619025
+		common_part ${srcfile} ${d} /
+		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
+		csleep 1
+	;; 
 	0|3)
 		echo "ZER0 S0UND"
 		csleep 1
-
 		dqb " ${3} ${distro} MN" #mikä pointti?
 		csleep 1
 
@@ -430,29 +435,29 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q) 
-		#HUOM.161025:toimiiko tämä vilä/taas?
+		#TODO:toimiiko tämä vielä/taas?
 
 		c=$(tar -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
 		common_part ${srcfile} ${d} /
 		tpr ${d0}
 	;;
-#	k)	
-#		[ -d ${srcfile} ] || exit 22
-#
-#		dqb "KLM"
-#		gg=$(${odio} which gpg)
-#		ridk=${srcfile}
-#
-#		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #/.chroot vielä?
-#			dqb "NOP"
-#		
-#			for f in ${TARGET_Dkname1} ${TARGET_Dkname2} ; do 			
-#				dqb "dbg: ${gg} --import ${ridk}/${f}"
-#				${gg} --import ${ridk}/${f}
-#			done
-#		fi	
-#	;;
+	k)	
+		[ -d ${srcfile} ] || exit 22
+
+		dqb "KLM"
+		gg=$(${odio} which gpg) #vommon_lib
+		ridk=${srcfile}
+
+		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #/.chroot vielä?
+			dqb "NOP"
+		
+			for f in ${TARGET_Dkname1} ${TARGET_Dkname2} ; do 			
+				dqb "dbg: ${gg} --import ${ridk}/${f}"
+				${gg} --import ${ridk}/${f}
+			done
+		fi	
+	;;
 	-3)
 		echo "do_Nothing()"
 	;;

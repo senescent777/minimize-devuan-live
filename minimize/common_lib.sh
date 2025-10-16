@@ -89,8 +89,8 @@ sco="${odio} ${sco} "
 scm="${odio} ${scm} "	
 
 #VAIH:sd0 ja srat alustukset näille main jatkossa?
-#TODO:komentorivin parsetyukseen liittyviä juttujamyöskin olisi... esim?
-# ennen parse_opts määrittelyä olisi $distro/conf ja täts it, voinee sen chroot-jekun kyllä ennen
+#komentorivin parsetyukseen liittyviä juttujamyöskin olisi... esim?
+
 #... ja jotain matskua voisi siirtää riippuvista skripteistä kirjastoon?
 	
 fix_sudo
@@ -167,9 +167,12 @@ gv=$(${odio} which gpgv)
 gi=$(${odio} which genisoimage)
 gmk=$(${odio} which grub-mkrescue)
 xi=$(${odio} which xorriso)
-
+#smd=(${odio} which mkdir) #käyttöön?
 sca=$(${odio} which chattr)
 sca="${odio} ${sca}"
+mkt="${odio} which mktemp"
+tig=$(${odio} which git)
+gg=$(${odio} which gpg)
 
 if [ -v distro ] ; then 
 	dqb "DUSTRO OK"
@@ -335,7 +338,7 @@ function clibpr3() {
 
 	#for q in $(grep -v '#' accept_pkgs_2) ; do efk1 ${q} ; done
 	
-		csleep 2
+	csleep 2
 	cd ${p}
 }
 
@@ -442,14 +445,15 @@ function check_binaries() {
 	ip6tr=$(${odio} which ip6tables-restore)
 	
 	local y
-	debug=1
+	#debug=1
 
-	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum dhclient" # kilinwittu.sh	
+	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum dhclient mkdir mktemp" # kilinwittu.sh	
 	for x in ${y} ; do ocs ${x} ; done
 	dqb "JUST BEFORE"
 	csleep 6
 
 	[ -v sr0 ] || exit 102
+	[ -v ipt ] || exit 103
 	srat=${sr0}
 		
 	if [ ${debug} -eq 1 ] ; then
@@ -458,9 +462,11 @@ function check_binaries() {
 	
 	sdi="${odio} ${sd0} -i "
 
-	#TODO:josko -z ?
-	if [ y"${ipt}" == "y" ] ; then
-		[ z"${1}" == "z" ] && exit 99
+	#VAIH:josko -z ?
+	#if [ y"${ipt}" == "y" ] ; then
+
+	if [ -z ${ipt} ] ; then
+		[ -z ${1} ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
 
@@ -539,7 +545,7 @@ function check_binaries2() {
 	fib="${odio} ${sa} --fix-broken install "
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
-	
+	#smd=(${odio} ${smd}) #käyttöön?
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
@@ -589,7 +595,8 @@ function pre_enforce() {
 	local q
 	local f
 
-	q=$(mktemp -d)
+	[ -v mkt ] || exit 99
+	q=$(mktemp -d) #sittenkin nöäin
 	dqb "touch ${q}/meshuggah in 3 secs"
 
 	csleep 1
@@ -599,25 +606,21 @@ function pre_enforce() {
 	csleep 1
 	[ -f ${q}/meshuggah ] || exit 33
 
-	if [ ! -s ${d0}/$(whoami).conf ] ; then
+	if [ ! -s ${d0}/$(whoami).conf ] ; then #TODO:ehto toisin, glb mjia...
 		dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 
 		[ -d /opt/bin ] || ${odio} mkdir /opt/bin
 		#smd?
 
 		[ -f ${1}/changedns.sh ] && ${svm} ${1}/changedns.sh /opt/bin
-
 		mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 		csleep 1
 	else 
-		local row
-	
-		for row in ${CB_LIST2} ; do
-			echo "$(whoami) localhost=NOPASSWD: ${row}" >> ${q}/meshuggah
-		done
+		if [ -v CB_LIST2 ] ; then
+			echo "$(whoami) localhost=NOPASSWD: ${CB_LIST2} " >> ${q}/meshuggah
+		fi
 	fi
 
-	#VAIH:tähän jtnkn niitä kehitysymp sudotuksia, listan esittely vaihtoehtoisessa konftdstossa jos mahd
 	dqb "LETf HOUTRE JOINED IN DARKN355"
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
 	csleep 1
@@ -797,39 +800,53 @@ function part1_5() {
 	dqb "part1_5 ${1} "
 	csleep 1
 	local t
-	t=$(echo ${1} | cut -d '/' -f 1)
+	t=$(echo ${1} | cut -d '/' -f 1) #nose tr?
 
 	if [ ! -s /etc/apt/sources.list.${t} ] ; then
+		dqb "S3RV1CE F0R A VCANT C0FF§1N"
+		[ -v mkt ] || exit 99
+		[ -z "${mkt}" ] && exit 98
+
+		local h
+		h=$(mktemp -d) 
+		[ $? -eq 0 ] || exit 97
+
+		dqb "MTKK"
+		csleep 1
+
 		if [ ! -s /etc/apt/sources.list.tmp ] ; then	
-			local h
 			dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
 			csleep 1
-			h=$(mktemp -d) #$mkt olisi
 			touch ${h}/sources.list.tmp
 
 			for x in DISTRO DISTRO-updates DISTRO-security ; do
 				echo "deb https://REPOSITORY/merged ${x} main" >> ${h}/sources.list.tmp
 			done
-
-			${svm} ${h}/sources.list.tmp /etc/apt
+		else
+			${svm} /etc/apt/sources.list.tmp ${h}
+			${sco} ${n}:${n} ${h}/sources.list.tmp
+			${scm} 0644 ${h}/sources.list.tmp
 		fi
 
 		dqb "p1.5.2"
 		csleep 1
 		local tdmc
 	
-		#HUOM.121025:tartteeko sudottaa? vosi tehd tsinkin(TODO)
+		#HUOM.121025:tartteeko sudottaa? vosi tehd tsinkin(VAIH)
 		tdmc="sed -i 's/DISTRO/${t}/g'"
-		echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
+		echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 		csleep 1
 
-		if [ ! -z ${pkgsrc} ] ; then
+		if [ ! -z ${pkgsrc} ] ; then #CONF_pkgsrc?
 			tdmc="sed -i 's/REPOSITORY/${pkgsrc}/g'"
-			echo "${odio} ${tdmc} /etc/apt/sources.list.tmp" | bash -s
+			echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 			csleep 1
 		fi
 	
-		echo "${odio} mv /etc/apt/sources.list.tmp /etc/apt/sources.list.${t}" | bash -s
+		${svm} ${h}/sources.list.tmp /etc/apt/sources.list.${t}
+
+		#turhaa kikkailua
+		#echo "${odio} mv /etc/apt/sources.list.tmp /etc/apt" | bash -s
 		csleep 1
 
 		dqb "finally"
@@ -987,7 +1004,7 @@ function part2_5() {
 
 	[ -z ${1} ] && exit 55
 	[ -z ${2} ] && exit 56
-	[ -z ${3} ] && exit 57
+	#[ -z ${3} ] && exit 57 tareellinen param suttenkään?
 
 	dqb "PARS_OK"
 	csleep 1

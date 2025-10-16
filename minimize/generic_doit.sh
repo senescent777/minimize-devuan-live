@@ -4,7 +4,7 @@ distro=$(cat /etc/devuan_version)
 d0=$(pwd)
 #echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
-debug=0
+debug=0 #1
 d=${d0}/${distro} 
 
 if [ -s ${d0}/$(whoami).conf ] ; then
@@ -20,13 +20,18 @@ else
 fi
 
 function parse_opts_1() {
+	dqb "parseopts_2 ${1} ${2}"
+
 	case "${1}" in
-		-v|--v)
+		-v|--v) #tämä vähitellen -> GPO()
 			debug=1
 		;;
 		*)
+			#onkohan hyvä näin?
+
 			if [ -d ${d0}/${1} ] ; then
-				distro=${1}else
+				distro=${1}
+			else
 				mode=${1}
 			fi
 		;;
@@ -67,7 +72,9 @@ fi
 #==================================PART 1============================================================
 
 dqb "mode= ${mode}"
-csleep 1
+dqb "debug= ${debug}"
+#csleep 10
+#exit
 
 if [ -s /etc/sudoers.d/meshuggah ] || [ -f /.chroot ] || [ ${enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
@@ -178,7 +185,7 @@ c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 part2_5 ${removepkgs} ${dnsm} ${iface}
 
-#VAIH:näille main bugin korjaus, stoppaa masenteluvaiheessa jos ei -v annettu (vielä 161025?)
+#still a halting problem around here?
 #===================================================PART 3===========================================================
 message
 part3 ${d} ${dnsm}
