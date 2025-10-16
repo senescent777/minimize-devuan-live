@@ -357,6 +357,7 @@ function fromtend() {
 	csleep 3
 	dqb "DNÖE"
 }
+
 #sillä toisella tyylillä tämä masentelu jatkossa?
 function common_tbls() {
 	dqb "COMMON TABLESD $1, $2"
@@ -432,6 +433,7 @@ function common_tbls() {
 	echo "common_tblz d0n3"
 	csleep 10
 }
+
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135 ${1} "
 	csleep 1
@@ -440,13 +442,6 @@ function check_binaries() {
 	ip6t=$(${odio} which ip6tables)
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
-
-#	#HUOM.28725:kenties helpompi olisi lisätä sha512sum allekirjoitus+sen tarkistus kuin kokonaan vivuta tar:in hommia esim. gpgtar:ille
-#	if [ -x ${1}/../tar-wrapper.sh ] ; then 
-#		dqb " tar-wrapper.sh ?" #josko vähitellen?
-#	else
-		
-#	fi
 	
 	local y
 	debug=1
@@ -465,6 +460,7 @@ function check_binaries() {
 	
 	sdi="${odio} ${sd0} -i "
 
+	#josko -z ?
 	if [ y"${ipt}" == "y" ] ; then
 		[ z"${1}" == "z" ] && exit 99
 		dqb "-d ${1} existsts?"
@@ -515,6 +511,7 @@ function check_binaries() {
 	dqb "b1nar135 0k"
 	csleep 1
 }
+
 function check_binaries2() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2"
 	csleep 1
@@ -548,6 +545,8 @@ function check_binaries2() {
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
+
+#161025:olisiko tässä typoja? vai jossain aiemmin? vaikuttaisi toimivan nyt
 function mangle_s() {
 	dqb "mangle_s  ${1} , ${2}, ${3}  "
 	csleep 1
@@ -561,19 +560,22 @@ function mangle_s() {
 
 	${scm} 0555 ${1}
 	${sco} root:root ${1}
+
 	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
-	echo -n " " >> ${2}
-	echo -n "localhost=NOPASSWD:" >> ${2}
-	echo -n " " >> ${2}
-	echo -n "sha256:" >> ${2}
-	echo -n " " >> ${2}
+	echo -n " localhost=NOPASSWD:" >> ${2}
+	echo -n " sha256: " >> ${2}
+
 	local p
 	p=$(sha256sum ${1} | cut -d ' ' -f 1 | tr -dc a-f0-9)
+
 	echo -n ${p} >> ${2}
 	echo -n " " >> ${2}
 	echo -n ${1} | tr -dc a-zA-Z0-9/. >> ${2}
 	echo -e "\n" >> ${2}
 }
+
+#161025:olisiko tässä typoja? vai jossain aiemmin?
+#...toisaalta sen dhclient-kikkailun voisi palauttaa
 function dinf() {
 	local g
 
@@ -581,29 +583,48 @@ function dinf() {
 		dqb ${g}
 	done
 }
+
+#161025:olisiko tässä typoja? vai jossain aiemmin? ilman tätä fktiota g_xxx tuntuisivat toimivan
 function pre_enforce() {
 	dqb "common_lib.pre_enforce ${1} "
+
 	local q
 	local f
+
 	q=$(mktemp -d)
 	dqb "touch ${q}/meshuggah in 3 secs"
+
 	csleep 1
 	touch ${q}/meshuggah
+
 	[ ${debug} -eq 1 ] && ls -las ${q}
 	csleep 1
 	[ -f ${q}/meshuggah ] || exit 33
+
 	if [ ! -s ${d0}/$(whoami).conf ] ; then
 		dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
+
 		[ -d /opt/bin ] || ${odio} mkdir /opt/bin
+		#smd?
+
 		[ -f ${1}/changedns.sh ] && ${svm} ${1}/changedns.sh /opt/bin
+
 		mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 		csleep 1
+	else #taasko jokin typo?
+		local row
+	
+		for row in ${CB_LIST2} ; do
+			echo "$(whoami) localhost=NOPASSWD: ${row}" >> ${q}/meshuggah
+		done
 	fi
 
-	#TODO:tähän jtnkn niitä kehitysymp sudotuksia, listan esittely vaihtoehtoisessa konftdstossa jos mahd
+	#VAIH:tähän jtnkn niitä kehitysymp sudotuksia, listan esittely vaihtoehtoisessa konftdstossa jos mahd
 	dqb "LETf HOUTRE JOINED IN DARKN355"
+
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
 	csleep 1
+
 	dqb "TRAN S1LVAN1AN HUGN3R"
 	dinf ${q}/meshuggah
 	csleep 1
@@ -617,7 +638,8 @@ function pre_enforce() {
 		${svm} ${q}/meshuggah /etc/sudoers.d
 
 		CB_LIST1=""
-		unset CB_LIST1fi
+		unset CB_LIST1
+	fi
 
 	local c4
 	c4=0
@@ -641,13 +663,18 @@ function pre_enforce() {
 	csleep 5
 	dqb "common_lib.pre_enforce d0n3"
 }
-function mangle2() {
+
+#161025:pitänee palauttaa e_fktiot siinä toivossa että korjaavat kirjautumisongelman
+#vaihteeksi paska .tar
+
+function mangle2() { #mikä tätä käyttää nykyään? pl e_fktiot siis...
 	if [ -f ${1} ] ; then
 		dqb "MANGLED ${1}"
 		${scm} o-rwx ${1}
 		${sco} root:root ${1}
 	fi
 }
+
 function e_e() {
 	dqb "e_e"	
 	csleep 1
@@ -698,11 +725,13 @@ function e_h() {
 	dqb " e h PT 2"
 	csleep 1
 	${scm} 0755 ${2}
+
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
 	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
 	for f in $(find ${2} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
+
 	dqb "F1ND D0N3"
 	csleep 1
 
@@ -714,6 +743,7 @@ function e_h() {
 	dqb "e_h"
 	csleep 1
 }
+
 function e_final() {
 	dqb "e_final ${1} "
 	csleep 1
@@ -736,6 +766,8 @@ function e_final() {
 	dqb "e_final D0N3"
 	csleep 1
 }
+ 
+#161025:olisiko tässä typoja? vai jossain aiemmin?
 function enforce_access() {
 	dqb " enforce_access ${1} , ${2}"
 	csleep 5
@@ -758,8 +790,10 @@ function enforce_access() {
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 }
+
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
 #myös https://github.com/topics/sources-list
+
 function part1_5() {
 	dqb "part1_5 ${1} "
 	csleep 1
@@ -771,7 +805,7 @@ function part1_5() {
 			local h
 			dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
 			csleep 1
-			h=$(mktemp -d)
+			h=$(mktemp -d) #$mkt olisi
 			touch ${h}/sources.list.tmp
 
 			for x in DISTRO DISTRO-updates DISTRO-security ; do
@@ -813,6 +847,7 @@ function part1_5() {
 	dqb "p1.5 done"
 	csleep 1
 }
+
 function dis() {
 	dqb "CHAMBERS OF 5HA0 L1N ${1}"
 	[ -z ${1} ] && exit 44
@@ -867,7 +902,8 @@ function part076() {
 	csleep 1
 	dis ${1}
 	local s
-	for s in ${PART175_LIST} ; do
+
+	for s in ${PART175_LIST} ; do #VAIH:takaisin ASAP
 		dqb ${s}
 
 		for t in $(find /etc/init.d -name ${s}* ) ; do
@@ -885,13 +921,15 @@ function part076() {
 	dqb "P.176 DONE"
 	csleep 1
 }
-function part1() {
+
+function part1() { #VAIH:takaisin ASAP
 	dqb "PART1 ${1} "
 	csleep 1
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
 	csleep 1
+	[ -v ipt ] || exit 666
 
-	if [ y"${ipt}" == "y" ] ; then
+	if [ -z "${ipt}" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
 		for t in INPUT OUTPUT FORWARD ; do
@@ -915,6 +953,7 @@ function part1() {
 	local c
 	local g
 	local t
+
 	g=$(date +%F)
 	t=$(echo ${1} | cut -d '/' -f 1 | tr -dc a-z) 
 
@@ -942,25 +981,30 @@ function part1() {
 	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WHORE"
 }
+
+#161025:olisiko tässä typoja? vai jossain aiemmin?
 function part2_5() {
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
 	csleep 1
+
 	[ -z ${1} ] && exit 55
 	[ -z ${2} ] && exit 56
 	[ -z ${3} ] && exit 57
+
 	dqb "PARS_OK"
 	csleep 1
+
 	if [ ${1} -eq 1 ] ; then
 		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."
 		${lftr}
 		${fib}
 		csleep 1
 		
-		for s in ${PART175_LIST} ; do
-			dqb "processing ${s}"
-			${sharpy} ${s}*
-			csleep 1
-		done
+#		for s in ${PART175_LIST} ; do #TODO:takaisin ASAP
+#			dqb "processing ${s}"
+#			${sharpy} ${s}*
+#			csleep 1
+#		done
 
 		${lftr}
 		${sharpy} libblu* libcupsfilters* libgphoto*
@@ -1011,6 +1055,7 @@ function part2_5() {
 	dqb "PART2.5 d0ne"
 	csleep 1
 }
+
 function part3() {
 	dqb "part3 ${1} ${2}"
 	csleep 1

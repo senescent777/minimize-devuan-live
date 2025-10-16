@@ -196,7 +196,7 @@ dqb "BEFORE IMP2"
 csleep 10
 
 if [ ! -f /.chroot ] ; then
-	${d0}/import2.sh r ${d0} -v
+	${d0}/import2.sh r #${d0} -v #2. ja 3. param. turhia?
 fi
 
 jules
