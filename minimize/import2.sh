@@ -405,19 +405,19 @@ case "${mode}" in
 
 		csleep 1
 
-#TODO:ao.blokki takaisn kommenteistA ASAP
-#		if [ ${1} -eq 0 ] ; then #HUOM.30925:jospa antaisi efk2-kikkailujen olla toistaiseksi
-#			if [ -s ${d}/e.tar ] ; then
-#				common_part ${d}/e.tar ${d} /
-#			else
-#				dqb " ${d}/e.tar CANNOT BE FOUND"
-#
-#				if [ -s ${d}/f.tar ] ; then
-#					common_part ${d}/f.tar ${d} ${d} 				
-#				fi
-#			fi
-#			#for t in ${d}/e.tar ... No Ei
-#		fi
+		if [ ${1} -eq 0 ] ; then
+			#HUOM.30925:jospa antaisi efk2-kikkailujen olla toistaiseksi
+			if [ -s ${d}/e.tar ] ; then
+				common_part ${d}/e.tar ${d} /
+			else
+				dqb " ${d}/e.tar CANNOT BE FOUND"
+
+				if [ -s ${d}/f.tar ] ; then
+					common_part ${d}/f.tar ${d} ${d} 				
+				fi
+			fi
+			#for t in ${d}/e.tar ... No Ei
+		fi
 		
 		csleep 5
 		dqb "c_p_d0n3, NEXT: pp3"
