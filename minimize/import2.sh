@@ -4,8 +4,6 @@ debug=1
 srcfile=""
 
 distro=$(cat /etc/devuan_version)
-#tämä dtsro tarvitaan toistaiseksi, leikeltynä vai ei?
-
 dir=/mnt
 part0=ABCD-1234
 mode=-2
@@ -17,12 +15,11 @@ d=${d0}/${distro}
 tpx="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg " #konftsdtoon vähietllen
 #... tai mitä tässä tap ptäisi purkaa ja mitä ei?
 
-##HUOM.30925:jospa ei pilkkoisi tätä tdstoa ainakaan ihan vielä
-##... optiota -v ei ole pakko käyttää, toisaalta
-#
-##HUOM.111025:viimeksi muokatuilla .iso-tiedostoilla kokeillessa kävi ilmi että testailu rikkoo äksään kirjautumisen TAAS
-##1 ratkaisu olisi dumpata se slim+xfce , minimal_live+startx kehiin niiqu
-##toinen taas se että oletetaan aiheuttajaksi se 1 tar+koitetaan korjata
+#HUOM.30925:jospa ei pilkkoisi tätä tdstoa ainakaan ihan vielä
+
+#HUOM.111025:viimeksi muokatuilla .iso-tiedostoilla kokeillessa kävi ilmi että testailu rikkoo äksään kirjautumisen TAAS
+#1 ratkaisu olisi dumpata se slim+xfce , minimal_live+startx kehiin niiqu
+#toinen taas se että oletetaan aiheuttajaksi se 1 tar+koitetaan korjata
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -81,8 +78,6 @@ function parse_opts_2() {
 #	#1. yrityksellä "$0 1 $file" johti bad_signature-valituksiin joten lisää pitäisi iteroida 
 #	#myös "gpg: can't open './sha512sums.sig': No such file or directory"
 #fi
-#
-#HUOM.21725:oliko jotain erityistä syyt miksi conf cmmon_lib jälkeen? $distroon liittyvät kai, pitäisi miettiä, nyt näin
 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
@@ -96,7 +91,7 @@ else
 	fi	
 fi
 
-if [ -x ${d0}/common_lib.sh ] ; then #saattaa jo toimia chroot-ymp sisällä
+if [ -x ${d0}/common_lib.sh ] ; then
 	#... saattaa olla että sq-chroot:in sisällä ei tarvitsekaan:import2.sh mutta väHän kätevänPI ehgkä
 	. ${d0}/common_lib.sh
 else
@@ -149,16 +144,6 @@ else
 #	#tarvitaanko?
 	function other_horrors() {
 		dqb "AZATHOTH AND OTHER HORRORS"
-#
-#		#HUOM. /e/i tarvitsisi kirjoitusokeude että onnaa
-#		#${spc} /etc/default/rules.* /etc/iptables #takaisin jos pykii 
-#	
-#		${scm} 0400 /etc/iptables/*
-#		${scm} 0550 /etc/iptables
-#		${sco} -R root:root /etc/iptables
-#		${scm} 0400 /etc/default/rules*
-#		${scm} 0555 /etc/default
-#		${sco} -R root:root /etc/default
 	}
 
 #TODO:ocs()
@@ -176,13 +161,11 @@ fi
 
 [ -z ${distro} ] && exit 6
 mkt=$(${odio} which mktemp) #else-haaraan ylempänä tämä
-#exit
 
 #deMorgan
 if [ -f /.chroot ] || [ -x ${mkt} ] ; then
 	dqb "MTK"
 else
-	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
 	echo "sudo apt-get update;sudo apt-get install coreutils"
 	exit 8
 fi
@@ -200,7 +183,7 @@ else
 		dqb "imp2.pr4 \${1}" 
 	}
 
-	check_binaries ${d} #parametrit kunnossq?
+	check_binaries ${d}
 	echo $?
 	[ $? -eq 0 ] || exit 7
 	csleep 1
@@ -214,32 +197,13 @@ olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
 #ocs tar
 
-##deMOrgan
+#deMOrgan
 #if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
 #	dqb "OLD.TAR OK"
 #else
 #	#jotain exclude-juttuja voisi olla sikäli mikäli tuota oikeasti tarttee johonkin
 #	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 #fi
-#
-#dqb "b3f0r3 par51ng tha param5"
-#csleep 1
-#
-##b) firefoxin käännösasetukset, missä? jokin .json varmaan...
-##glorified "tar -x" this function is - Yoda , tähän jos niitä gpg-juttuja?
-##HUOM.061025:"jos ei jatkossa purkaisi kaikkea paketin sisältä kaikissa tilanteissa?" tätä ehkä vähän alettu huomioidfas
-##HUOM.061025:allekrijoitus-asioita alettu hiomoioida sekä imp2 että exp2
-#
-##- import2, common_part , -C - optio common_lib disbled
-##	kun purq /p/f.tar.bz2 ni menee juureen , ark sisällä ei hmistorakennetta
-##	eli testattava ja toimittava havaintojen mukaan
-##	tar -jtf ja putken päähän cut -d / -f 1 , jos pelkkää pistettä ni...
-##	paitsi että timestamp voi sotkea grepataan listauksesta se ensin pois
-#
-##TODO:.deb-pakettien pakkaus/purku vähän uusiksi? voisi olla ./$distro/ alla nuo
-##... ja "exp2 0", josko silloin tylysti vain .deb ha sha512sums tar:iin?
-#
-##TODO:$2 ja $3 käsittely uusiksi?
 
 function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 	dqb "common_part ${1}, ${2}, ${3}"
@@ -255,9 +219,9 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 
 	dqb "paramz_0k"
 	csleep 3
-	cd / #-C nykyään...
-	
-	if [ -s ${1}.sha ] ; then #VAIH:tämä blokki takaisin kommenteista ASAP
+	cd /
+
+	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
 
 		#TODO:mielellään sah6 -c $1.sha jatkossa
@@ -275,36 +239,20 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	#jatkossa voisi -C - option parametrin johtaa $2:sesta?
 	csleep 1
-
-	#HUOM.061025:-tf ilman sudotusta parempi?
-	#... ao. rimpsun perusteella pitäisi sitten tehdä jotain
-	#${srat} -tf ${1} | grep -v tim3 | cut -d / -f 1 | grep -v . | wc -l
-	#csleep 10
-
 	dqb "NECKST:${srat} ${tpx} -C ${3} -xf ${1}"
 	csleep 1
 
-	#efk2 vai ei? ehkä ei koska stand_alone
 	${srat} -C ${3} ${tpx} -xf ${1}
 	[ $? -eq 0 ] || exit 36
 
 	csleep 1
 	dqb "tar DONE"
-
-	#VAIH:ao. blokki takaisin kommenteista ASAP
 	local t
-	t=$(echo ${2} | cut -d '/' -f 1-5) #tr mukaan?
-	#HUOM.25725:voi periaatteessa mennä metsään tuo $t josqs, mutta tuleeko käytännössä sellaista tilannetta vastaan?
-
-	#HUOM.031025:omstajuuksia ja käyttöoikeuksia joutuu silti renkkaamaan
-	#... pitäisi varmaan kutsua e_acc aina tai siis...
+	t=$(echo ${2} | cut -d '/' -f 1-5)
 
 	if [ -x ${t}/common_lib.sh ] ; then
 		enforce_access ${n} ${t} 
-
-		#HUOM.111025:oli kokeeksi laitettu jemmaan e_a koska äksän kiukuttelut TAAS
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	else
 		dqb "n s t as ${t}/common_lib.sh "	
@@ -312,11 +260,9 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 
 	csleep 3
 	
-	if [ -d ${t} ] ; then #VAIH:pois kommenteista
+	if [ -d ${t} ] ; then
 		dqb "HAIL UKK"
-
-		#vissiinkin tässä kohtaa common_lib taas käyttöön EIKU
-		#HUOM.020825:tässä ei polkuna voine olla /etc/jotain		
+	
 		${scm} 0755 ${t}
 		${scm} a+x ${t}/*.sh
 		${scm} 0444 ${t}/conf*
@@ -331,7 +277,6 @@ function common_part() { #HUOM.071025:tuli mutka matkaan imp2 q kanssa
 }
 
 #HUOM.141025:mikä idea $2 kanssa?
-#HUOM.071025:nyt tuli mutka matkaan tar:in kanssa , josko taas timisi vähän aikaa
 #TODO:se audio mixer k anssa toimimaan / pavucontrol poistunut / jep / vai pak kas/purq viallinen myös?
 function tpr() {
 	dqb "UPIR  ${1}, ${2}"
@@ -346,12 +291,8 @@ function tpr() {
 	dqb "stat= ${srat}"
 	csleep 3
 
-	#~ alta kalat pois jottei sotke jatkossa?
 	local t
 	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} ${tpx} -C ~ -xvf ${t} ; done
-
-	#HUOM.091025:ei tarvinne tähän: --exclude ?
-	#echo $?
 
 	for t in ${1}/pulse.tar ~/pulse.tar ; do ${srat} ${tpx} -C / -xvf ${t} ; done
 	dqb "PROFS?"
@@ -383,7 +324,6 @@ function tpr() {
 	csleep 1
 }
 
-#VAIH:jatkossa 2 eri case:a kuten exp2
 #TODO:/o/b ja /e/ipt mukaan arkistoon
 case "${mode}" in
 	-1) #jatkossa jokiN fiksumpi kuin -1?
@@ -445,28 +385,18 @@ csleep 6
 
 case "${mode}" in
 #	1) #Todnäk toimii tämä case 1619025
-#		
-#
 #		common_part ${srcfile} ${d} /
 #
 #		csleep 1
 #		[ $? -eq 0 ] && echo "NEXT: $0 2"
 #	;; #HUOM.nollaa edeltävät caset:ei ole sorkittu viime aikoina, pitäisi toimia ok
 	0|3)
-		#HUOM.071025:sen /pad/f.tar.bz2 kanssa imp2 3 parempi
 		echo "ZER0 S0UND"
 		csleep 1
 
-		#[ z"{distro}" == "z" ] && exit 77 #tehdään jo aiemminkin
 		dqb " ${3} ${distro} MN" #mikä pointti?
 		csleep 1
 
-		#read -p "U R ABT TO INSTALL ${srcfile} , SURE ABOUT THAT?" confirm
-		#[ "${confirm}" == "Y" ] || exit 33
-		#[ -s ${srcfile} ] || exit 34
-		#[ -r ${srcfile} ] || exit 35
-
-		#HUOM.061025:pitäisiköhän tässä tutkia lähdetsdton sisältöä ennenq aletaan purkaa?
 		if [ ${1} -eq 0 ] ; then
 			common_part ${srcfile} ${d} / #voi tietystI mennä mettään tuon $d/common_lib kanssa?
 		else
@@ -493,23 +423,13 @@ case "${mode}" in
 		dqb "c_p_d0n3, NEXT: pp3"
 		csleep 1	
 
-		#HUOM.part3->pre_part3->psqa
 		part3 ${d} ${dnsm}
 		other_horrors
 		csleep 1
 		
-		#cd ${olddir}
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
-	q) #HUOM.071025:josko nyt olisi taas kunnossa sen aikaa kunnes srat
-		#[ x"${srcfile}" == "x" ] && exit 55
-		#dqb "KL"
-		#csleep 1
-
-		#[ -s ${srcfile} ] || exit 66
-		#dqb "${srcfile} IJ"
-		#csleep 1
-	
+	q) 
 		#HUOM.161025:toimiiko tämä vilä/taas?
 
 		c=$(tar -tf ${srcfile} | grep fediverse.tar  | wc -l)
@@ -532,10 +452,6 @@ case "${mode}" in
 #				${gg} --import ${ridk}/${f}
 #			done
 #		fi	
-#
-#		#... ensiksi pitäisi f.tar purqaa m/$distro alle ,imp2 osannee
-#		#... sitten tikulta uusimmat skriptit purkaen
-#		#... VASTA SEN JÄLKEEN pääsee ajamaan:g_doit
 #	;;
 	-3)
 		echo "do_Nothing()"
