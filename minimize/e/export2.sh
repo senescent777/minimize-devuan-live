@@ -109,10 +109,7 @@ done
 
 dqb "AFTER GANGRENE SETS IN"
 csleep 1
-
 #HUOM.28925:"tar löytyy ja ajokelpoinen"-tarkistus tdstossa common_lib.sh, ocs()
-#
-#
 
 if [ -z "${tig}" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
@@ -163,6 +160,7 @@ dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
 [ -z "${tgtfile}" ] && exit 99
+[ -z "${srat}" ] && exit 666
 
 case ${mode} in
 	f)		
@@ -195,25 +193,14 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#uusi optio chroot-juttuja varten
-
-		#tähn tai toiseen caseen $3 tar_in --exclude-hommia varten?
-		#... tai ei niin olennainen koska findin kanssa mennään
 		cd ${d0}
-
 		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
 		for f in $(find . -type f -name '*_pkgs*')  ; do ${srat} -rvf ${tgtfile} ${f} ; done
-		#HUOM:.chroot yms. alussa mainittu pois --exclude:n kanssa jos tulee muutakin kuin .sh
-
-		#T_DKNAME voisi jatkossa osoittaa esim /r/l/m/p/dgsts alle?
-		#[ -v TARGET_Dkname1 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname1}
-		#[ -v TARGET_Dkname2 ] && ${srat} -rvf ${tgtfile} ${TARGET_Dkname2}
-			
+				
 		bzip2 ${tgtfile}
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
 		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
 
-		#... eli imp2 1 hoitanee k3yz purq, jos se riittäisi allek. av. kanssa että gpg --sb pääsee asiaan
 		e22_ftr ${tgtfile}
 		exit
 	;;

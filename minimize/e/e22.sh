@@ -43,7 +43,7 @@ function e22_ftr() {
 	q=$(basename ${1})
 	cd $(dirname ${1})
 
-	${sah6} ${q} > ${q}.sha
+	${sah6} ./${q} > ${q}.sha #jos "./" auttaisi
 	${sah6} -c ${q}.sha
 	gg=$(${odio} which gpg) #jatkossa common_libn
 
