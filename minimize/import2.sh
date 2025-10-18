@@ -147,7 +147,7 @@ else
 	}
 
 	function ocs() {
-		$(${odio} which ${1})
+		${odio} which ${1}
 		csleep 1
 	}
 
@@ -198,7 +198,10 @@ fi
 
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
-#ocs tar
+ocs tar
+srat=$(${odio} which tar) #JOKO NYT PRKL
+[ -z "{srat}" ] && exit 666
+dqb "LHP"
 
 #deMOrgan
 if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
@@ -354,8 +357,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh maybe | sleep \$delay;ifup \$iface;changedns if necessary"
 		#mode=-3
 	;;
-	r)
-		#TODO:toimiiko tämä vielä/taas?
+	r) #HUOM.071025:josko nyt olisi taas kunnossa sen aikaa kunnes srat
 		tpr ${d0}
 		#mode=-3
 	;;
@@ -435,7 +437,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q) 
-		#TODO:toimiiko tämä vielä/taas?
+		#HUOM.161025:toimiiko tämä vielä/taas?
 
 		c=$(tar -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77

@@ -223,8 +223,8 @@ function psqa() {
 		${sah6} -c sha512sums.txt --ignore-missing
 		[ $? -eq 0 ] || exit 94
 
-		local gg
-		gg=$(${odio} which gpg)
+		#local gg
+		#gg=$(${odio} which gpg)
 
 		#https://www.gnupg.org/documentation/manuals/gnupg24/gpg.1.html
 		#https://www.gnupg.org/documentation/manuals/gnupg24/gpgv.1.html
@@ -300,47 +300,42 @@ function efk2() {
 	csleep 1
 }
 
+#HUOM.171025:qseeko näissä jokin?
 #VAIH:jatkossa daed/lib mainitut listojen prosessoinnit tässä tdstossa
 function clib5p() {
+	dqb "clib5p( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
-	
+	[ -z ${2} ] && exit 67
+
 	local p
 	local q
 	p=$(pwd)
 	cd ${1}
 
-	#for q in $(grep -v '#' reject_pkgs) ; do ${NKVD} ${q} ; done
+	for q in $(grep -v '#' ${2}) ; do ${NKVD} ${q} ; done
+	
 	csleep 2
 	cd ${p}
+	dqb "REJECTNG DONE"
 }
 
-function clibpr4() {
+function clibpre() {
+	dqb "clib5p.re( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
-	
+	[ -z ${2} ] && exit 67
+
 	local p
 	local q
 	p=$(pwd)
 	cd ${1}
 
-	#for q in $(grep -v '#' accept_pkgs_1) ; do efk1 ${q} ; done
+	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
 	
 	csleep 2
 	cd ${p}
+	dqb "ERBIL ASBUC"
 }
 
-function clibpr3() {
-	[ -d ${1} ] || exit 66
-	
-	local p
-	local q
-	p=$(pwd)
-	cd ${1}
-
-	#for q in $(grep -v '#' accept_pkgs_2) ; do efk1 ${q} ; done
-	
-	csleep 2
-	cd ${p}
-}
 
 #HUOM.041025:chroot.ympäristössä tietenkin se ympäristömja sudotuksern yht ongelma, keksisikö jotain (KVG)
 function fromtend() {
@@ -445,12 +440,10 @@ function check_binaries() {
 	ip6tr=$(${odio} which ip6tables-restore)
 	
 	local y
-	#debug=1
-
 	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum dhclient mkdir mktemp" # kilinwittu.sh	
 	for x in ${y} ; do ocs ${x} ; done
 	dqb "JUST BEFORE"
-	csleep 6
+	csleep 4
 
 	[ -v sr0 ] || exit 102
 	[ -v ipt ] || exit 103
@@ -462,10 +455,7 @@ function check_binaries() {
 	
 	sdi="${odio} ${sd0} -i "
 
-	#VAIH:josko -z ?
-	#if [ y"${ipt}" == "y" ] ; then
-
-	if [ -z ${ipt} ] ; then
+	if [ -z "${ipt}" ] ; then
 		[ -z ${1} ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
@@ -606,7 +596,7 @@ function pre_enforce() {
 	csleep 1
 	[ -f ${q}/meshuggah ] || exit 33
 
-	if [ ! -s ${d0}/$(whoami).conf ] ; then #TODO:ehto toisin, glb mjia...
+	if [ ! -v testgris ] ; then #VAIH:ehto toisin, glb mjia...
 		dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 
 		[ -d /opt/bin ] || ${odio} mkdir /opt/bin
@@ -912,6 +902,7 @@ function dis() {
 	csleep 1
 	dqb "DONE"
 }
+
 function part076() {
 	dqb "FART076 ${1}"
 	csleep 1
@@ -1074,13 +1065,16 @@ function part2_5() {
 function part3() {
 	dqb "part3 ${1} ${2}"
 	csleep 1
+
 	jules
 	pre_part3_clib ${1}
 	csleep 1
-	reficul ${1}
-	pr4 ${1}
+	clib5p ${1} reject_pkgs
+	clibpre ${1} accept_pkgs1
+	clibpre ${1} accept_pkgs2
+
 	dqb "4RP DONE"
-	csleep 6
+	csleep 3
 
 #	efk1 ${1}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
 #	[ $? -eq 0 ] || echo "SHOULD exit 66"
@@ -1118,6 +1112,7 @@ function part3() {
 	csleep 1
 	other_horrors
 }
+
 function slaughter0() {
 	local fn2
 	local ts2
