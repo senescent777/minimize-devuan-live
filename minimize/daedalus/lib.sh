@@ -85,7 +85,7 @@
 #	csleep 3
 #	cd ${p}
 #}
-#
+
 function udp6() {
 	dqb "daud.lib.UPDP-6"
 	csleep 1
@@ -93,7 +93,9 @@ function udp6() {
 	dqb "paramz 0k"
 	csleep 1
 	
-	c5p ${1}
+	#c5p ${1}
+	clib5p ${1} reject_pkgs
+
 	dqb "D0NE"
 	csleep 1
 }
