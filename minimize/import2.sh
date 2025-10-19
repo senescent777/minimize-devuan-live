@@ -95,23 +95,24 @@ fi
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#HUOM.151025:tässä haarassa jokin qsee?
+	#HUOM.151025:tässä haarassa jokin qsee? koita selvittää mikä (TODO)
 	srat="/bin/tar" #which mukaan?
 	debug=1
+
 	som="sudo /bin/mount"
 	uom="sudo /bin/umount"
 	scm="sudo /bin/chmod"
-#	sco="sudo /bin/chown"
-#	odio=$(which sudo) #chroot-ynmp tulee nalqtusta tästä
-#
-#	#jos näillä lähtisi aiNAKin case q toimimaan
-#	n=$(whoami)
-#	smr=$(${odio} which rm)
-#	NKVD=$(${odio} which shred)
-#	NKVD="${NKVD} -fu "
-#
-#	whack=$(${odio} which pkill)
-#	whack="${odio} ${whack} --signal 9 " #P.V.H.H
+	sco="sudo /bin/chown"
+	odio=$(which sudo) #chroot-ynmp tulee nalqtusta tästä
+
+	#jos näillä lähtisi aiNAKin case q toimimaan
+	n=$(whoami)
+	smr=$(${odio} which rm)
+	NKVD=$(${odio} which shred)
+	NKVD="${NKVD} -fu "
+
+	whack=$(${odio} which pkill)
+	whack="${odio} ${whack} --signal 9 " #P.V.H.H
 	sah6=$(${odio} which sha512sum)
 
 	function check_binaries() {
@@ -121,10 +122,10 @@ else
 	function check_binaries2() {
 		dqb "imp2.ch3ck_b1nar135_2 \${1} "
 	}
-#
-#	function fix_sudo() {
-#		dqb "imp32.fix.sudo"
-#	}
+
+	function fix_sudo() {
+		dqb "imp32.fix.sudo"
+	}
 
 	function enforce_access() {
 		dqb "imp32.enf_acc"
@@ -136,12 +137,12 @@ else
 		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount:in tapahtumaan silloin kun varsinainen instailu ei onnaa
 	}
 
-#	function ppp3() {
-#		dqb "imp32.ppp3"
-#	}
-#
-#	#kutsutaanko tätä? no yhdestä kohdasta ainakin 
-#	#tarvitaanko?
+	function ppp3() {
+		dqb "imp32.ppp3"
+	}
+
+	#kutsutaanko tätä? no yhdestä kohdasta ainakin 
+	#tarvitaanko?
 	function other_horrors() {
 		dqb "AZATHOTH AND OTHER HORRORS"
 	}
@@ -318,6 +319,7 @@ function tpr() {
 		local q
 		q=$(${mkt} -d)
 
+		#jatkossa kutsuvaan koodiin tämä if-blokki?
 		if [ -s ~/fediverse.tar ] ; then
 			${srat} ${tpx} -C ${q} -xvf ~/fediverse.tar
 		else
@@ -357,10 +359,6 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh maybe | sleep \$delay;ifup \$iface;changedns if necessary"
 		#mode=-3
 	;;
-	r) #HUOM.071025:josko nyt olisi taas kunnossa sen aikaa kunnes srat
-		tpr ${d0}
-		#mode=-3
-	;;
 	-h)
 		usage
 		#mode=-3
@@ -369,7 +367,7 @@ case "${mode}" in
 esac
 
 #debug=1
-[ x"${srcfile}" == "x" ] && exit 44
+[ -z "${srcfile}" ] && exit 44
 
 if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
 	dqb "SD"
@@ -378,7 +376,7 @@ else
 	exit 55
 fi
 
-[ -r ${srcfile} ] || exit 35 #tulisi stopata tässä jos mode==r
+[ -r ${srcfile} ] || exit 35
 
 if [ "${mode}" == "-3" ] || [ "${mode}" == "r" ] ; then
 	dqb "asia kunnossa"
@@ -393,6 +391,10 @@ dqb "srcfile=${srcfile}"
 csleep 6
 
 case "${mode}" in
+	r)
+		[ -d ${srcfile} ] || exit 22
+		tpr ${srcfile} #d0 pois ni voisi siirtää alempaan case:en
+	;;
 	1) #Todnäk toimii tämä case 1619025
 		common_part ${srcfile} ${d} /
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"

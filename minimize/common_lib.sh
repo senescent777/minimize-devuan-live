@@ -305,7 +305,11 @@ function efk2() {
 function clib5p() {
 	dqb "clib5p( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
-	[ -z ${2} ] && exit 67
+	[ -z "${2}" ] && exit 67
+	[ -s ${1}/${2} ] || exit 69
+
+	dqb "WILL START REJECTING PIGS NOW"
+	csleep 1
 
 	local p
 	local q
@@ -321,8 +325,16 @@ function clib5p() {
 
 function clibpre() {
 	dqb "clib5p.re( ${1}  , ${2}) "
-	[ -d ${1} ] || exit 66
-	[ -z ${2} ] && exit 67
+	[ -d ${1} ] || exit 96
+	[ -z "${2}" ] && exit 67
+	[ -s ${1}/${2} ] || exit 69 #-r vielä?
+
+	dqb "PARANMS OK"
+	csleep 1
+
+	dqb "#ASDFASDFASDF"
+	efk1 ${1}/libc6*.deb ${1}/libgcc-s1*.deb ${1}/gcc*.deb
+	csleep 4
 
 	local p
 	local q
@@ -333,7 +345,7 @@ function clibpre() {
 	
 	csleep 2
 	cd ${p}
-	dqb "ERBIL ASBUC"
+	dqb "ERB1L A$$UCKfgh"
 }
 
 
@@ -1069,9 +1081,14 @@ function part3() {
 	jules
 	pre_part3_clib ${1}
 	csleep 1
-	clib5p ${1} reject_pkgs
-	clibpre ${1} accept_pkgs1
-	clibpre ${1} accept_pkgs2
+
+	#jatkossa jos jotenkin toisin?
+	if [ ! -f /.chroot ] ; then
+		clib5p ${1} reject_pkgs
+	fi
+
+	clibpre ${1} accept_pkgs_1
+	clibpre ${1} accept_pkgs_2
 
 	dqb "4RP DONE"
 	csleep 3

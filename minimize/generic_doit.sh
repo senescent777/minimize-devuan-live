@@ -70,7 +70,6 @@ else
 fi
 
 #==================================PART 1============================================================
-
 dqb "mode= ${mode}"
 dqb "debug= ${debug}"
 #csleep 10
@@ -99,8 +98,8 @@ csleep 1
 dqb "${svm} ${d0}/1c0ns/ \* .desktop ~/Desktop"
 csleep 1
 ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
-#===================================================PART 2===================================
 
+#===================================================PART 2===================================
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
@@ -195,7 +194,7 @@ dqb "BEFORE IMP2"
 csleep 10
 
 if [ ! -f /.chroot ] ; then
-	${d0}/import2.sh r #${d0} -v #2. ja 3. param. turhia?
+	${d0}/import2.sh r ${d0} -v #2. ja 3. param. turhia?
 fi
 
 jules
