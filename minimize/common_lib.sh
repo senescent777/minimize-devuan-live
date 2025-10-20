@@ -301,7 +301,6 @@ function efk2() {
 }
 
 #HUOM.171025:qseeko näissä jokin?
-#VAIH:jatkossa daed/lib mainitut listojen prosessoinnit tässä tdstossa
 function clib5p() {
 	dqb "clib5p( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
@@ -345,7 +344,7 @@ function clibpre() {
 	
 	csleep 2
 	cd ${p}
-	dqb "ERB1L A$$UCKfgh"
+	dqb "ERB1L A\$\$UCKfgh"
 }
 
 
@@ -665,9 +664,6 @@ function pre_enforce() {
 	csleep 5
 	dqb "common_lib.pre_enforce d0n3"
 }
-
-#161025:pitänee palauttaa e_fktiot siinä toivossa että korjaavat kirjautumisongelman
-#vaihteeksi paska .tar?
 
 function mangle2() { #mikä tätä käyttää nykyään? pl e_fktiot siis...
 	if [ -f ${1} ] ; then
