@@ -1,16 +1,15 @@
-libc6*.deb libgcc-s1*.deb 
-gcc-12*.deb
+libc6*.deb libgcc-s1*.deb gcc-12*.deb
 perl-base*.deb
 perl-modules-*.deb
 libstdc*.deb
 libicu*.deb
-libjxl*.deb
+#libjxl*.deb
 libcap2_1*.deb
 libdbus*.deb
 libblkid1*.deb
 libfdisk1*.deb
 libmount1*.deb
-libglib2*.deb6
+libglib2*.deb
 libtiff*.deb
 libxcb1*.deb
 libx11-6*.deb
@@ -30,10 +29,10 @@ libpython3.11-minimal*.deb
 libpython3.11-stdlib*.deb
 liblzma5*.deb
 libext2fs2*.deb
-libpam0g*.deb
-libpam-modules-bin*.deb
-libpam-modules_*.deb
-libcurl3*.deb
+#libpam0g*.deb
+#libpam-modules-bin*.deb
+#libpam-modules_*.deb
+#libcurl3*.deb
 libcom-err2*.deb
 libkrb5support0*.deb
 libkrb5*.deb
@@ -44,12 +43,13 @@ libuuid*
 libopen* 
 libpolkit-gobject-*
 libeudev*.deb
-libpam*.deb
+#libpam*.deb #kts mikä näissä on
 libperl*.deb
 liberror-perl*.deb
 libuv1*.deb
 libnghttp2*.deb
 libxml*.deb
+libvte-2.91-common*.deb
 libvte*.deb
 libmpg123-0*.deb
 libpolkit-gobject-elogind-1-0 *.deb

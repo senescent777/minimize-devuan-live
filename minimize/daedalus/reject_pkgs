@@ -9,3 +9,8 @@ dbus*.deb
 initramfs*.deb
 live*.deb
 e2fsprogs*.deb
+#loppuu toistaiseksi se nalkutus prkl (TODO:selvitä mistä jää kiinni niden kanssa)
+bind*
+dnsutils*
+libpam*
+python*
