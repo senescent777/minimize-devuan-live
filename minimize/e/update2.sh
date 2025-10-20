@@ -51,12 +51,8 @@ if [ -v testgris ] && [ -d ${testgris} ] ; then
 	#exclude voisi olla myös hyvä (else-haarassa on jo)
 	#miten se -u ? (ekalla yrityksellä else-haarassa ei oikein toiminut toiv tavalla)
 
-#	#nalqtus jos /etc yai /opt puuttuu paketista?
-#	for f in $(${tcmd} -tf ${tgt}) ; do
-#		${tcmd} -rvf ${tgt} ${f}
-#	done
+	#nalqtus jos /etc yai /opt puuttuu paketista?
 else
-	echo "VAIH:else-branch"
 	cd /
 fi
 
