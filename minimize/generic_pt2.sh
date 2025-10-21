@@ -1,8 +1,7 @@
 #!/bin/bash
-
-distro=$(cat /etc/devuan_version) #tämä tarvitaan toistaiseksi
+distro=$(cat /etc/devuan_version)
 d0=$(pwd)
-#exit 666 #HUOM.021025:jokin saatttaa qsta tässä, siksi 
+
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro}
@@ -15,7 +14,6 @@ function dqb() {
 function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
-
 
 function parse_opts_1() {
 	echo "popt_1( ${1} )"
@@ -36,35 +34,22 @@ function parse_opts_1() {
 	esac
 }
 
-#HUOM.021025:initramfs-toolsin ja live-xxx-pakettien kanssa saattaa olla jotain härdellia, korjaa?
-#... jos uuden .iso:n kanssa sama ni apt reinstall intramfs ja katsotaan mitä tapahtuu
- 
+#edelleen 101025 se ettei uskalla nollaa suurempaa mode:a
+
 function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#HUOM.pitäisiköhän olla useampi tuommoinen bz3 mitä käsitellään?
-if [ -f /.chroot ] ; then
-	echo "UNDER THE GRAV3YARD"
-	sleep 2
-	tar -jxvf ${d0}/nekros.tar.bz3
-
-	sleep 3
-	rm ${d0}/nekros.tar.bz3
+if [ -s ${d0}/$(whoami).conf ] ; then
+	echo "ALT.C0NF1G"
+	. ${d0}/$(whoami).conf
+else
+	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+		. ${d}/conf
+	else
+	 	exit 57
+	fi	
 fi
-
-if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-	. ${d}/conf
-else #joutuukohan else-haaran muuttamaan jatkossa? ja jos niin miten?
-#	echo "CONF MISSING"
-#	exit 56
-
-	[ -s ${d0}/root.conf ] || exit 56
-	. ${d0}/root.conf 
-fi
-
-#tässä välissä debug-mjan jyräys?
-#voisikohan yo. juttuja siirtää -> common_lib ?
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -75,8 +60,8 @@ fi
 
 [ -z ${distro} ] && exit 6
 dqb "BEFORE CNF"
-echo "dbig= ${debug}" # [  -v ] taakse?
-sleep 1
+#echo "dbig= ${debug}"
+#sleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -94,26 +79,25 @@ for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 done
 
 ${fib}
-echo "debug=${debug}"
+#echo "debug=${debug}"
 dqb "distro=${distro}"
 dqb "removepkgs=${removepkgs}"
 dqb "mode=${mode} "
 
 sleep 1
 csleep 1
-#exit 666 #HUOM.021025:jokin saatttaa qsta tässä, siksi 
 
 if [ ${removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	part2_5 1
+	part2_5 1 ${dnsm} ${iface}
 	[ $? -gt 0 ] && exit
 fi
 
 #====================================================================
 
 function t2p_filler() {
-	${lftr}
+	${lftr} #siirto c_lib:stä tähän tdstoon? tai part2_5 käyttää
 	${asy}
 	csleep 1
 }
@@ -124,8 +108,17 @@ function t2pc() {
 	dqb "common_lib.t2p_common()"
 	csleep 1
 
+	dqb "shar_py = ${sharpy} ;"
+	csleep 5
+
 	${fib} #uutena 29525, xcalibur...
 	csleep 1
+
+	#takaisin 161026
+	${sharpy} bluez mutt rpcbind nfs-common
+	${sharpy} dmsetup
+	t2p_filler
+	csleep 5
 
 	${sharpy} amd64-microcode at-spi2-core #toimii systeemi ilmankin näitä mutta ?
 	t2p_filler
@@ -148,9 +141,6 @@ function t2pc() {
 
 	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
 	t2p_filler
-
-	#${sharpy} gpgsm gpg-agent gpg #tulossa käyttöä näille ajtkossa
-	#t2p_filler
 
 	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta kun xcalibur
 	#${sharpy} grub* 
@@ -234,9 +224,6 @@ function t2pf() {
 }
 
 #====================================================================
-#HUOM.25525:jos ao. fktiot kommentoitu jemmaan syistä ni pysäyttäisikö suorituksen?
-#HUOM.26525:nyt sitten debug päälle jotta selviää mihin pysähtyy
-
 t2pc
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 0 ] && exit

@@ -4,48 +4,33 @@ distro=$(cat /etc/devuan_version)
 d0=$(pwd)
 #echo "d0=${d0}"
 [ z"${distro}" == "z" ] && exit 6
-debug=0
+debug=0 #1
 d=${d0}/${distro} 
 
-if [ -f /.chroot ] ; then
-	echo "UNDER THE GRAV3YARD"
-#VAIH:siirron lisäksi useamman .z3 purq 
-	for f in $(find ${d0} -type f -name 'nekros?'.bz3) ; do
-		tar -jxvf ${f}
-		sleep 1
-		rm ${f}
-		sleep 1
-	done
-
-	sleep 1
-	mv root.conf ${d}/conf
-fi
-
-if [ -d ${d} ] && [ -s ${d}/conf ]; then
-	. ${d}/conf
+if [ -s ${d0}/$(whoami).conf ] ; then
+	echo "ALT.C0NF1G"
+	. ${d0}/$(whoami).conf
 else
-#	[ -s ${d0}/root.conf ] || exit 55
-#	. ${d0}/root.conf 
-#
-#	#VAIH:josqo chroot-tapauksessa yrittäisi $n.conf
-	echo "CONFIG MISSING"
-	exit 55
+	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+		. ${d}/conf
+	else
+		echo "NO CONF"
+	 	exit 57
+	fi	
 fi
-
-#voisikohan yo. juttuja siirtää -> common_lib ?
-#VAIH:ffox-profiilin importointi, kts toimiiko se muutoksien jlk vai ei
-#... ei välttämättä nimittäin
-#(vähän aikaa 061025 toimi)
 
 function parse_opts_1() {
+	dqb "parseopts_2 ${1} ${2}"
+
 	case "${1}" in
-		-v|--v)
+		-v|--v) #tämä vähitellen -> GPO()
 			debug=1
 		;;
 		*)
+			#onkohan hyvä näin?
+
 			if [ -d ${d0}/${1} ] ; then
 				distro=${1}
-				#HUOM.22725:tässä voisi ladata uudestaan conf?
 			else
 				mode=${1}
 			fi
@@ -85,21 +70,18 @@ else
 fi
 
 #==================================PART 1============================================================
-
 dqb "mode= ${mode}"
-csleep 1
+dqb "debug= ${debug}"
 
-if [ -s /etc/sudoers.d/meshuggah ] || [ -f /.chroot ] ; then
+#exit
+
+if [ -s /etc/sudoers.d/meshuggah ] || [ -f /.chroot ] || [ ${enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 3
 else 
-	if [ ${enforce} -eq 1 ] ; then
-		pre_enforce ${d0}
-	fi
+	pre_enforce ${d0}
 fi
 
-#HUOM. ehto voisi mennä toisinkin, esim /r/l/m/p olemassaolo
-#HUOM.29925:chroot-ehto sittenkin e_a:han?
 if [ -f /.chroot ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 3
@@ -116,8 +98,8 @@ csleep 1
 dqb "${svm} ${d0}/1c0ns/ \* .desktop ~/Desktop"
 csleep 1
 ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
-#===================================================PART 2===================================
 
+#===================================================PART 2===================================
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
@@ -150,7 +132,7 @@ function el_loco() {
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
 	else
-		${odio} locale-gen #oli aiemmin ennen if-blokkia
+		${odio} locale-gen
 	fi
 
 	if [ ${2} -lt 1 ] && [ ${debug} -eq 1 ] ; then
@@ -197,13 +179,12 @@ if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
 	exit
 fi
 
-#HUOM.2:pitäisikö huomioida myös e.tar tuossa alla jotenkin? ja miksi?
 pre_part2
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
-part2_5 ${removepkgs} ${dnsm}
+part2_5 ${removepkgs} ${dnsm} ${iface}
 
-#VAIH:näille main bugin korjaus, stoppaa masenteluvaiheessa jos ei -v annettu (vielä 071025?)
+#still a halting problem around here?
 #===================================================PART 3===========================================================
 message
 part3 ${d} ${dnsm}
@@ -211,7 +192,10 @@ other_horrors
 
 dqb "BEFORE IMP2"
 csleep 10
-${d0}/import2.sh r ${d0} -v
+
+if [ ! -f /.chroot ] ; then
+	${d0}/import2.sh r ${d0} -v #2. ja 3. param. turhia?
+fi
 
 jules
 ${asy}
@@ -236,4 +220,4 @@ if [ ${mode} -eq 2 ] ; then
  	exit 
 fi
 
-#${odio} ${d0}/changedns.sh ${dnsm} ${distro} roistaiseksi jemmaan
+#${odio} ${d0}/changedns.sh ${dnsm} ${distro} röistaiseksi jennaan
