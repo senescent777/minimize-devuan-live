@@ -8,7 +8,7 @@
 
 -----------------------------------------------------------
 
-- export2.sh can be used to make a tar ($archive)  out of this project with 0 as first param. 
+- e/export2.sh can be used to make a tar ($archive)  out of this project with 0 as first param. 
 	On the other hand 1 as first param makes an upgrade-package for dpkg to install
 
 - import2.sh 
@@ -17,6 +17,7 @@
 
 - demerde_toi.sh
 	can be used to install the most recent version of this project into a running live distro
+	(supposed to be replaced with merd2.sh some day)
 
 - generic_pt2.sh removes little more packages.
   If you want even lighter filesystem.squashfs
@@ -27,7 +28,7 @@
 
 - changedns.sh
   	If there's problem with DNS, this script may fix that. 
-	It can be used to change the network configuration to use plain-old-DNS... and that's all folks.
+	It can be used to change the network configuration to use plain-old-DNS... and that's all, folks.
   There is something going on with Daedalus/stubby/dnsmasq that i have to figure out
 
 	
