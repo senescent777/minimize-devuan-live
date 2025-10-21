@@ -1,6 +1,5 @@
 #!/bin/bash
-#HUOM.151025:kuseeko tämä tdsto vai common_lib vaiko $dustro/lib ?
-debug=1
+debug=0 #1
 srcfile=""
 
 distro=$(cat /etc/devuan_version)

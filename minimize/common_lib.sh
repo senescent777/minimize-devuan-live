@@ -589,7 +589,6 @@ function dinf() {
 	done
 }
 
-#161025:olisiko tässä typoja? vai jossain aiemmin? ilman tätä fktiota g_xxx tuntuisivat toimivan
 function pre_enforce() {
 	dqb "common_lib.pre_enforce ${1} "
 

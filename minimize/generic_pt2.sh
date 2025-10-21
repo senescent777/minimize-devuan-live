@@ -60,8 +60,8 @@ fi
 
 [ -z ${distro} ] && exit 6
 dqb "BEFORE CNF"
-echo "dbig= ${debug}"
-sleep 1
+#echo "dbig= ${debug}"
+#sleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -79,7 +79,7 @@ for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 done
 
 ${fib}
-echo "debug=${debug}"
+#echo "debug=${debug}"
 dqb "distro=${distro}"
 dqb "removepkgs=${removepkgs}"
 dqb "mode=${mode} "
@@ -224,9 +224,6 @@ function t2pf() {
 }
 
 #====================================================================
-#HUOM.25525:jos ao. fktiot kommentoitu jemmaan syistä ni pysäyttäisikö suorituksen?
-#HUOM.26525:nyt sitten debug päälle jotta selviää mihin pysähtyy
-
 t2pc
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 0 ] && exit
