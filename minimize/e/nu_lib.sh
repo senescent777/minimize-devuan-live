@@ -357,7 +357,7 @@ function check_binaries() {
 		fi
 	
 	local y
-	debug=1
+	#debug=1
 
 	y="ifup ifdown apt-get apt ip netstat ${sd0} tar mount umount sha512sum dhclient" # kilinwittu.sh	
 	for x in ${y} ; do ocs ${x} ; done

@@ -3,7 +3,7 @@
 debug=0 #1
 distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa?
 d0=$(pwd)
-echo "d0= ${d0}"
+#echo "d0= ${d0}"
 mode=-2
 tgtfile=""
 
