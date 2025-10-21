@@ -15,9 +15,8 @@
 	is a shortcut for installing more recent version of this project into a running live distro
 	it can also be used to install upgrades to .deb packages
 
-- demerde_toi.sh
-	can be used to install the most recent version of this project into a running live distro
-	(supposed to be replaced with merd2.sh some day)
+- merd2.sh
+  is some day supposed to fetch the most recent version of this project from github
 
 - generic_pt2.sh removes little more packages.
   If you want even lighter filesystem.squashfs
