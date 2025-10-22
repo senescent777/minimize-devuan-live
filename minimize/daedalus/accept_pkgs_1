@@ -3,7 +3,7 @@ perl-base*.deb
 perl-modules-*.deb
 libstdc*.deb
 libicu*.deb
-#libjxl*.deb
+#libjxl*.deb #eilöydy?
 libcap2_1*.deb
 libdbus*.deb
 libblkid1*.deb
@@ -29,10 +29,9 @@ libpython3.11-minimal*.deb
 libpython3.11-stdlib*.deb
 liblzma5*.deb
 libext2fs2*.deb
-#libpam0g*.deb
-#libpam-modules-bin*.deb
-#libpam-modules_*.deb
-#libcurl3*.deb
+#libaudit tulisi löytyä
+libpam0g*.deb
+#libcurl3*.deb eilöydy?
 libcom-err2*.deb
 libkrb5support0*.deb
 libkrb5*.deb
@@ -43,7 +42,6 @@ libuuid*
 libopen* 
 libpolkit-gobject-*
 libeudev*.deb
-#libpam*.deb #kts mikä näissä on
 libperl*.deb
 liberror-perl*.deb
 libuv1*.deb
@@ -54,4 +52,30 @@ libvte*.deb
 libmpg123-0*.deb
 libpolkit-gobject-elogind-1-0 *.deb
 libpolkit-gobject-consolekit-1-0*.deb
-
+#libfstrm0 pitäisi löytyä ennestään
+libgssapi-krb5*.deb
+#libjemalloc2 pitäisi löytyä ennestään
+#libjson-c5 pitäisi löytyä ennestään
+libkrb5-3*.deb
+#liblmdb0 pitäisi löytyä ennestään
+#libmaxminddb0 pitäisi
+libnghttp2-14*.deb
+#libprotobuf-c1*.deb pit
+libxml2*.deb
+#zlib1g poitäisi
+libcrypt1*.deb
+bind9-libs*.deb
+#libedit2 pitäisi
+#libidn2 pitäisi
+#elogind tulisi
+#libelogind-compat tulisi
+#libdb5
+libselinux1*.deb
+#debconf pitäisi löytyä
+libpam-modules-bin*.deb
+libpam-modules_*.deb
+libpam-runtime*.deb
+libpam-elogind*.deb
+#linexpat tulisi
+libpython3.11-minimal*.deb
+libpython3.11-stdlib*.deb
