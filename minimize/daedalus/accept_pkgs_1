@@ -50,7 +50,7 @@ libxml*.deb
 libvte-2.91-common*.deb
 libvte*.deb
 libmpg123-0*.deb
-libpolkit-gobject-elogind-1-0 *.deb
+libpolkit-gobject-elogind-1-0*.deb
 libpolkit-gobject-consolekit-1-0*.deb
 #libfstrm0 pitäisi löytyä ennestään
 libgssapi-krb5*.deb
