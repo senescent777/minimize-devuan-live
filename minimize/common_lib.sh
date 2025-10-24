@@ -88,9 +88,7 @@ function other_horrors() {
 sco="${odio} ${sco} "
 scm="${odio} ${scm} "	
 
-#VAIH:sd0 ja srat alustukset näille main jatkossa?
 #komentorivin parsetyukseen liittyviä juttujamyöskin olisi... esim?
-
 #... ja jotain matskua voisi siirtää riippuvista skripteistä kirjastoon?
 	
 fix_sudo
@@ -167,7 +165,7 @@ gv=$(${odio} which gpgv)
 gi=$(${odio} which genisoimage)
 gmk=$(${odio} which grub-mkrescue)
 xi=$(${odio} which xorriso)
-#smd=(${odio} which mkdir) #käyttöön?
+smd=(${odio} which mkdir) #käyttöön?
 sca=$(${odio} which chattr)
 sca="${odio} ${sca}"
 mkt="${odio} which mktemp"
@@ -458,6 +456,7 @@ function check_binaries() {
 
 	[ -v sr0 ] || exit 102
 	[ -v ipt ] || exit 103
+	[ -v smd ] || exit 104
 	srat=${sr0}
 		
 	if [ ${debug} -eq 1 ] ; then
@@ -537,7 +536,6 @@ function check_binaries2() {
 	sifd="${odio} ${sifd} "
 
 	lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 
-
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing '/run/live/medium/live/initrd.img.new': No space left on device
 
@@ -546,12 +544,11 @@ function check_binaries2() {
 	fib="${odio} ${sa} --fix-broken install "
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
-	#smd=(${odio} ${smd}) #käyttöön?
+	smd="${odio} ${smd}" #käyttöön
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
 
-#161025:olisiko tässä typoja? vai jossain aiemmin? vaikuttaisi toimivan nyt
 function mangle_s() {
 	dqb "mangle_s  ${1} , ${2}, ${3}  "
 	csleep 1
@@ -579,7 +576,6 @@ function mangle_s() {
 	echo -e "\n" >> ${2}
 }
 
-#161025:olisiko tässä typoja? vai jossain aiemmin?
 #...toisaalta sen dhclient-kikkailun voisi palauttaa
 function dinf() {
 	local g
@@ -606,13 +602,22 @@ function pre_enforce() {
 	csleep 1
 	[ -f ${q}/meshuggah ] || exit 33
 
-	if [ ! -v testgris ] ; then #VAIH:ehto toisin, glb mjia...
+	if [ ! -v testgris ] ; then
 		dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 
-		[ -d /opt/bin ] || ${odio} mkdir /opt/bin
-		#smd?
+		if [ ! -d /opt/bin ] ; then
+			dqb "FSDFSDFSD"
+			${smd} /opt/bin
+			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
+		fi
 
-		[ -f ${1}/changedns.sh ] && ${svm} ${1}/changedns.sh /opt/bin
+		if [ -f ${1}/changedns.sh ] ; then
+			dqb "SÖSSÖN SÖSSÖN"
+			${svm} ${1}/changedns.sh /opt/bin
+		fi
+
+		${scm} 0555 /opt/bin/changedns.sh
+		${sco} 0:0 /opt/bin/changedns.sh
 		mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 		csleep 1
 	else 
@@ -703,7 +708,7 @@ function e_v() {
 	${sco} root:mail /var/mail
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
-	dqb "V1C.V0N.D00m"
+	dqb "V1C.THE.V33P"
 	csleep 1
 }
 
@@ -829,7 +834,6 @@ function part1_5() {
 		csleep 1
 		local tdmc
 	
-		#HUOM.121025:tartteeko sudottaa? vosi tehd tsinkin(VAIH)
 		tdmc="sed -i 's/DISTRO/${t}/g'"
 		echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 		csleep 1
@@ -841,7 +845,6 @@ function part1_5() {
 		fi
 	
 		${svm} ${h}/sources.list.tmp /etc/apt/sources.list.${t}
-
 		#turhaa kikkailua
 		#echo "${odio} mv /etc/apt/sources.list.tmp /etc/apt" | bash -s
 		csleep 1
