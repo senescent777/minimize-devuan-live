@@ -228,14 +228,10 @@ pwd;sleep 6
 
 e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
-#VAIH:yhteisiä juttuja tähän
 
 case ${mode} in
 	0|4)
-	#VAIH:testaus (071015) , case 4 tekee paketin, toimiikin enimmäkseen
-		#[ z"${tgtfile}" == "z" ] && exit 99 
-		#e22_pre2 ${d} ${distro} ${iface} ${dnsm}
-
+		#VAIH:testaus (071015) , case 4 tekee paketin, toimiikin enimmäkseen
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
@@ -284,30 +280,16 @@ case ${mode} in
 		csleep 5	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #TODO:testaa toiminta josqs
-		#HUOM.29925:miten ne allekirjoitushommat sitten? 
-		#aluksi jos case e/t/u hyödyntämään gpg:tä (casen jälkeen onjo juttuja)
-		#... ja sitten käsipelillä allekirjoitus-jutskat arkistoon
-		#jonka jälkeen imp2 tai pikemminkin p_p_3_clib() tai psqa() tarkistamaan
-		
-		#[ z"${tgtfile}" == "z" ] && exit 99 
-		#e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+	1|u|upgrade) #VAIH:testaa toiminta josqs
 		e22_cleanpkgs ${d}
-		e22_upgp ${tgtfile} ${d} ${iface} #${dnsm}
+		e22_upgp ${tgtfile} ${d} ${iface}
 	;;
 	p) #HUOM.071025:edelleen saa paketin aikaiseksi, toimibuus vielä varmistettava (TODO)
-		#[ z"${tgtfile}" == "z" ] && exit 99 
-
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
 		#e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.071025:vetää kyllä paketteja mutta nalkutusta
-		#Errors were encountered while processing:
-		# initramfs-tools
-		# e2fsprogs
-		#...jokohan jo 091025 olisi poistunut?
-
+	e)  
 		#nykyään nalqtuksen lisäksi lisää f.tar $tgtfile:en (paketin sisällön validius vielä selvitettävä)			
 
 		#e22_pre2 ${d} ${distro} ${iface} ${dnsm}

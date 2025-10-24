@@ -771,12 +771,7 @@ function e22_settings2() { #HUOM.071025: toimii
 	dqb "AAMUNK01"
 }
 
-#TODO:joskus taas testaus
-
-#dpkg: dependency problems prevent configuration of live-boot-initramfs-tools:
-# live-boot-initramfs-tools depends on initramfs-tools; however:
-#  Package initramfs-tools is not configured yet.
-#tee tuolle jotain (esim. lib.cp5())
+#VAIH:joskus taas testaus
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
@@ -786,7 +781,7 @@ function e22_upgp() {
 	[ -d ${2} ] || exit 22
 
 	[ -z ${3} ] && exit 33
-	[ -z ${4} ] && exit 55 #turha param
+	#[ -z ${4} ] && exit 55 #turha param
 
 	dqb "params_ok"
 	csleep 1
@@ -805,6 +800,9 @@ function e22_upgp() {
 	echo $?
 	csleep 1
 
+	[ ${debug} -eq 1 ] && ls -las ${pkgdir}/*.deb
+	csleep 1
+
 	aval0n
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1
@@ -812,7 +810,7 @@ function e22_upgp() {
 	${sifd} ${3}
 	csleep 1
 	
-	dqb " ${3} SHOULD BE DOWN BY NOW"
+	dqb " ${3} SHOULD BE Dbtl 1n turq"
 	csleep 1
 	local s
 
@@ -824,6 +822,8 @@ function e22_upgp() {
 	done
 
 	#HUOM.part076() ja part2_5() on keksitty
+	[ ${debug} -eq 1 ] && ls -las ${pkgdir}/*.deb
+	csleep 1
 	
 	case ${3} in
 		wlan0)
@@ -837,7 +837,13 @@ function e22_upgp() {
 		;;
 	esac
 
-	udp6 ${pkgdir}
+	udp6 ${2}
+#	dqb "4FT3R UPD6"
+#	csleep 1
+#	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
+#	csleep 1
+#	[ ${debug} -eq 1 ] && ls -las ${pkgdir}/*.deb
+#	csleep 1
 	dqb "UTP PT 3"
 	csleep 1
 
