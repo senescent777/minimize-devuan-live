@@ -11,7 +11,7 @@ d0=$(pwd)
 d=${d0}/${distro}
 
 #TARGET:DOPTS vai mikä olikaan?
-tpx="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ " #konftsdtoon vähietllen
+#TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ " #konftsdtoon vähietllen
 #... tai mitä tässä tap ptäisi purkaa ja mitä ei?
 
 #HUOM.30925:jospa ei pilkkoisi tätä tdstoa ainakaan ihan vielä
@@ -249,10 +249,10 @@ function common_part() {
 	fi
 
 	csleep 1
-	dqb "NECKST:${srat} ${tpx} -C ${3} -xf ${1}" #TODO:pitäisi selvittää toimiiko --exclude kuten pitää
+	dqb "NECKST:${srat} ${TARGET_TPX} -C ${3} -xf ${1}" #TODO:pitäisi selvittää toimiiko --exclude kuten pitää
 	csleep 1
 
-	${srat} -C ${3} ${tpx} -xf ${1}
+	${srat} -C ${3} ${TARGET_TPX} -xf ${1}
 	[ $? -eq 0 ] || exit 36
 
 	csleep 1
@@ -302,8 +302,8 @@ function tpr() {
 	csleep 3
 
 	local t
-	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} ${tpx} -C ~ -xvf ${t} ; done
-	for t in ${1}/pulse.tar ~/pulse.tar ; do ${srat} ${tpx} -C / -xvf ${t} ; done
+	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} ${TARGET_TPX} -C ~ -xvf ${t} ; done
+	for t in ${1}/pulse.tar ~/pulse.tar ; do ${srat} ${TARGET_TPX} -C / -xvf ${t} ; done
 
 	dqb "PROFS?"
 	csleep 1
@@ -320,9 +320,9 @@ function tpr() {
 
 		#jatkossa kutsuvaan koodiin tämä if-blokki?
 		if [ -s ~/fediverse.tar ] ; then
-			${srat} ${tpx} -C ${q} -xvf ~/fediverse.tar
+			${srat} ${TARGET_TPX} -C ${q} -xvf ~/fediverse.tar
 		else
-			${srat} ${tpx} -C ${q} -xvf ${1}/fediverse.tar
+			${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/fediverse.tar
 		fi
 
 		imp_prof esr ${n} ${q}
