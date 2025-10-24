@@ -4,7 +4,7 @@
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
 function udp6() {
-	dqb "daud.lib.UPDP-6"
+	dqb "daud.lib.UPDP-6 ${1}"
 	csleep 1
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
