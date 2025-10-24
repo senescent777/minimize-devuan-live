@@ -5,27 +5,27 @@
 #jokin dpkg/apt-jekku kutsuvassa koodissa voisi ajaa saman asian, ehkä
 function pr4() {
 	dqb "ch1m.pr4( ${1} , ${2} )"
-	csleep 1
+#	csleep 1
+#
+#	efk1 ${1}/libpam-modules-bin_*.deb
+#	efk1 ${1}/libpam-modules_*.deb
+#	${NKVD} ${1}/libpam-modules*
+#	csleep 1
 
-	efk1 ${1}/libpam-modules-bin_*.deb
-	efk1 ${1}/libpam-modules_*.deb
-	${NKVD} ${1}/libpam-modules*
-	csleep 1
+#	efk1 ${1}/libpam*.deb
+#	efk1 ${1}/perl-modules-*.deb
+#	efk1 ${1}/libperl*.deb
 
-	efk1 ${1}/libpam*.deb
-	efk1 ${1}/perl-modules-*.deb
-	efk1 ${1}/libperl*.deb
+#	csleep 1
 
-	csleep 1
+#	efk1 ${1}/perl*.deb
+#	efk1 ${1}/libdbus*.deb
+#	efk1 ${1}/dbus*.deb
+#	csleep 1
 
-	efk1 ${1}/perl*.deb
-	efk1 ${1}/libdbus*.deb
-	efk1 ${1}/dbus*.deb
-	csleep 1
-
-	efk1 ${1}/liberror-perl*.deb
-	efk1 ${1}/git*.deb
-	csleep 1
+#	efk1 ${1}/liberror-perl*.deb
+#	efk1 ${1}/git*.deb
+#	csleep 1
 }
 
 function reficul() {
