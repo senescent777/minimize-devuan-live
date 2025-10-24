@@ -1,7 +1,7 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
 
-tpx="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg " #VAIH:ajtkossa varmaankin konftdstossa
+#TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg " #VAIH:ajtkossa varmaankin konftdstossa
 # --exclude $(whoami).conf
 		
 function e22_hdr() { #HUOM.071025:taitaa toimia
@@ -237,13 +237,13 @@ function e22_home() { #VAIH:testaus koska e22_settings() muutettu (josko toimisi
 	csleep 1
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 
-	dqb "${srat} ${tpx} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
+	dqb "${srat} ${TARGET_TPX} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
 	csleep 3
 
 	#HUOM.pitäisiköhän $1 hieman mankeloida? esim. samasta syystä kuin update.sh
 	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen?
-	#HUOM.111025:$n.conf saattaa sotkea piatsi että $tpx
-	${srat} ${tpx} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
+	#HUOM.111025:$n.conf saattaa sotkea piatsi että $TARGET_TPX
+	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 
 	dqb "e22_home d0n3"
 	csleep 1
