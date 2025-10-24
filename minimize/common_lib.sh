@@ -250,7 +250,7 @@ function psqa() {
 function pre_part3_clib() {
 	dqb "pre_part3_clib ${1}"
 	csleep 1
-	pwd
+	[ ${debug} -eq 1 ] && pwd
 
 	dqb "find ${1} -type f -name \* .deb"
 	csleep 3
@@ -298,12 +298,11 @@ function efk2() {
 	csleep 1
 }
 
-#HUOM.171025:qseeko näissä jokin?
 function clib5p() {
 	dqb "clib5p( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
 	[ -z "${2}" ] && exit 67
-	[ -s ${1}/${2} ] || exit 69
+	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE" 
 
 	dqb "WILL START REJECTING PIGS NOW"
 	csleep 1
@@ -324,7 +323,7 @@ function clibpre() {
 	dqb "clib5p.re( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 96
 	[ -z "${2}" ] && exit 67
-	[ -s ${1}/${2} ] || exit 69 #-r vielä?
+	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE" 
 
 	dqb "PARANMS OK"
 	csleep 1
