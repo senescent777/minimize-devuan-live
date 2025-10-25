@@ -2,25 +2,25 @@
 #https://superuser.com/questions/1480986/iptables-1-8-2-failed-to-initialize-nft-protocol-not-supported
 #https://hatchjs.com/iptables-1-8-7-failed-to-initialize-nft-protocol-not-supported/
 
-#TODO:testaaminen joku päivä?
+#VAIH:testaaminen joku päivä?
 function cp5() {
 	dqb "7391"
 
 	#31525:näistä tuli nalqtus
-	#${NKVD} ${1}/libmount*
-	#${NKVD} ${1}/libfdisk*
-	#${NKVD} ${1}/libblkid*
-	#${NKVD} ${1}/libsmartcols*
-	#${NKVD} ${1}/liblastlog* #poistuuko?
-	#${NKVD} ${1}/libuuid*
-	#${NKVD} ${1}/eject*
-	#${NKVD} ${1}/mount*
-	#${NKVD} ${1}/util-linux* #poistuuko?
-	#${NKVD} ${1}/base-files*
-	#${NKVD} ${1}/fdisk*
-	#${NKVD} ${1}/bsdextrautils*
-	#${NKVD} ${1}/uuid*
-	#${NKVD} ${1}/rfkill*
+	
+	#${NKVD} ${1}/
+	#${NKVD} ${1}/
+	#${NKVD} ${1}/
+	#${NKVD} ${1}/ #poistuuko?
+	#${NKVD} ${1}/
+	#${NKVD} ${1}/
+	#${NKVD} ${1}/
+	#${NKVD} ${1}/ #poistuuko?
+	#${NKVD} ${1}/
+	#${NKVD} ${1}/
+	#${NKVD} ${1}/
+	#${NKVD} ${1}/
+	#${NKVD} ${1}/
 
 	csleep 1
 }
@@ -30,16 +30,16 @@ function reficul() {
 }
 
 function pr4() {
-	debug=1
+#	debug=1
 	dqb "xc.pr4( ${1} , ${2} )"
-	csleep 1
-
-	cp5 ${1}
-	csleep 1
-	dqb "XC.PR4.PART2"
-
-	efk1 ${1}/isc-dhcp-*.deb
-
+#	csleep 1
+#
+#	cp5 ${1}
+#	csleep 1
+#	dqb "XC.PR4.PART2"
+#
+#	efk1 ${1}/
+#
 	dqb "...done"
 	csleep 1
 }
@@ -48,7 +48,8 @@ function udp6() {
 	dqb "xc.lib.UPDP-6"
 	csleep 1
 
-	cp5 ${1}
+	#cp5 
+	clib5p ${1}
 
 	dqb "...done"
 	csleep 1
@@ -70,7 +71,7 @@ function tpc7() {
 }
 
 function t2p() {
-	debug=1
+	#debug=1
 	dqb "XC.T2P"
 	
 	#31525 lisäyksiä (util-linux ei uskalla poistaa, miten nuo muut?)
