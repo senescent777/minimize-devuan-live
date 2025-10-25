@@ -148,6 +148,7 @@ NKVD="${odio} ${NKVD} "
 	
 #PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
 PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
+#HUOM.excalibur ei sisällä:dnsmasq,stubby
 
 #HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!
 #sdi=$(${odio} which dpkg)
@@ -337,6 +338,9 @@ function clibpre() {
 	p=$(pwd)
 	cd ${1}
 
+	dqb "4 REALZ"
+	csleep 1
+
 	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
 	
 	csleep 2
@@ -379,6 +383,10 @@ function common_tbls() {
 	dqb "PARAMS_OK"
 	csleep 1
 	psqa ${1}
+
+	#uutena 251025 sysystö excakubuyr/ceres, pois jos qsee
+	efk1 ${1}/isc-dhcp*.deb
+	csleep 10
 
 	efk1 ${1}/libnfnet*.deb
 	csleep 1
@@ -448,7 +456,8 @@ function check_binaries() {
 	ip6tr=$(${odio} which ip6tables-restore)
 	
 	local y
-	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum dhclient mkdir mktemp" # kilinwittu.sh	
+	#251025:excalibur-syistä dhclient tilapäisesti ulos listasta...tai siis alemmas
+	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh	
 	for x in ${y} ; do ocs ${x} ; done
 	dqb "JUST BEFORE"
 	csleep 4
@@ -502,7 +511,7 @@ function check_binaries() {
 	dqb "sdi= ${sdi} "
 	csleep 6
 
-	for x in iptables ip6tables iptables-restore ip6tables-restore  ; do ocs ${x} ; done
+	for x in iptables ip6tables iptables-restore ip6tables-restore dhclient ; do ocs ${x} ; done
 	csleep 6
 	
 	sag=$(${odio} which apt-get)
@@ -997,7 +1006,6 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE"
 }
 
-#161025:olisiko tässä typoja? vai jossain aiemmin?
 function part2_5() {
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
 	csleep 1
