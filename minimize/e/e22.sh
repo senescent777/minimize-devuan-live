@@ -156,7 +156,7 @@ function e22_cleanpkgs() { #HUOM.071025:taitaa toimia
 		${NKVD} ${1}/*.deb
 		${NKVD} ${1}/sha512sums.txt
 
-		ls -las  ${1}/*.deb
+		ls -las ${1}/*.deb
 		csleep 2
 		dqb "d0nm3"
 	else
@@ -326,10 +326,7 @@ function e22_elocal() { #HUOM.071025:taitaa toimia
 	csleep 2
 
 	case ${2} in
-		wlan0)
-			#tätä koko fktiota ei ajeta jos x ni ei ole ihan pakko kikkailla
-			#... tai miten lienee			
-
+		wlan0)		
 			dqb "APW"
 			csleep 3
 			${srat} -rvf ${1} /etc/wpa_supplicant #/*.conf
@@ -366,7 +363,7 @@ function e22_elocal() { #HUOM.071025:taitaa toimia
 	csleep 1
 }
 
-BASEURL="github.com/senescent777" #jatkossa -> conf
+BASEURL="github.com/senescent777" #jatkossa -> conf (TODO)
 
 function e22_ext() { #HUOM.071025:taitaa toimia
 	dqb "e22_ext ${1} ${2}"
@@ -390,7 +387,7 @@ function e22_ext() { #HUOM.071025:taitaa toimia
 	dqb "r=${r}"
 	csleep 1
 
-	tig=$(${odio} which git) #voisi alustaa jossain aiempana
+	tig=$(${odio} which git) #voisi alustaa jossain aiempana (common_lib?)
 
 	p=$(pwd)
 	q=$(${mkt} -d)
@@ -523,6 +520,7 @@ function e22_ts() { #HUOM.071025:toimii
 }
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
+#TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk
 function e22_arch() { #HUOM.071025:toimi ainakin kerran tänään
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
@@ -596,7 +594,8 @@ function e22_tblz() { #HUOM.071025:toimi ainakin kerran tänään
 	dqb "\$shary= ${shary}"
 	csleep 2
 
-	[ -z ${1} ] && exit 11
+	#tarkistukset jotenkin toisin jatkossa? (TODO)
+	[ -z ${1} ] && exit 11 #-d ainakin lisäksi
 	[ -z ${2} ] && exit 12
 	[ -z ${3} ] && exit 13
 	[ -z ${4} ] && exit 14
@@ -624,9 +623,8 @@ function e22_tblz() { #HUOM.071025:toimi ainakin kerran tänään
 	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
 	csleep 2
 
-	#uutena 31525
-	udp6 ${pkgdir}
-	aval0n
+	udp6 ${1}
+	aval0n #tarpeellinen?
 	
 	#HUOM.28925.2:onkohan hyvä idea tässä?
 	for s in ${PART175_LIST} ; do
@@ -648,7 +646,6 @@ function e22_tblz() { #HUOM.071025:toimi ainakin kerran tänään
 function e22_get_pkgs() { #HUOM.071025:jospa jo toimisi
 	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
-	
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
 
 	dqb "paramz_ok"
@@ -667,7 +664,7 @@ function e22_get_pkgs() { #HUOM.071025:jospa jo toimisi
 	message
 	jules
 
-	if [ ${3} -eq 1 ] ; then
+	if [ ${1} -eq 1 ] ; then #VAIH:jotain tähän liittyen
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
 		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
@@ -717,6 +714,7 @@ function e22_get_pkgs() { #HUOM.071025:jospa jo toimisi
 function e22_dblock() { #VAIH:testaus (071015)
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
+	#mitenköhän tarkistusten kanssa? $1 kanssa vielä jotain? (TODO)
 	[ -z ${1} ] && exit 13
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
@@ -729,8 +727,8 @@ function e22_dblock() { #VAIH:testaus (071015)
 
 	pwd
 	csleep 1
-	udp6 ${pkgdir} 		
-		
+	udp6 ${2} 
+
 	#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
 
 	e22_ts ${2}
@@ -771,7 +769,7 @@ function e22_settings2() { #HUOM.071025: toimii
 	dqb "AAMUNK01"
 }
 
-#VAIH:joskus taas testaus
+#VAIH:joskus taas testaus (241025 tieboilla ei vielä...)
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
@@ -838,12 +836,6 @@ function e22_upgp() {
 	esac
 
 	udp6 ${2}
-#	dqb "4FT3R UPD6"
-#	csleep 1
-#	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
-#	csleep 1
-#	[ ${debug} -eq 1 ] && ls -las ${pkgdir}/*.deb
-#	csleep 1
 	dqb "UTP PT 3"
 	csleep 1
 

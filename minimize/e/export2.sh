@@ -164,7 +164,8 @@ csleep 1
 
 case ${mode} in
 	f)		
-		#HUOM.070125:toiminee (mod parametrien tarkistukset)
+		#...koita muistaa śaada aikaiseksi se sha512sums.sig  kanssa josqs(TODO)
+		#HUOM.070125:toiminee (mod parametrien tarkistukset?)
 		e22_arch ${tgtfile} ${d}
 		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 		e22_ftr ${tgtfile}
@@ -182,7 +183,7 @@ case ${mode} in
 		#josko takaisin siihen että vain oikeasti tarpeelliset mukaan
 		#... ja profs.sh jos kuuluisi tarpeellisiin
 
-		#täss se maxdepth mukaan...
+		#tässä se maxdepth mukaan...
 		for f in $(find ~ -name '*.tar' -or -name '*.bz2') ; do
 			${srat} -rvf ${tgtfile} ${f} #HUOM.091025:tähän ai tarvinne --exclude
 		done
@@ -193,6 +194,7 @@ case ${mode} in
 		exit
 	;;
 	c)
+		#HUOM. 271025: e-hmistoa ei tarvinne ottaa mukaan sq-chroot-ymp varten
 		cd ${d0}
 		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
 		for f in $(find . -type f -name '*_pkgs*')  ; do ${srat} -rvf ${tgtfile} ${f} ; done
@@ -231,7 +233,7 @@ e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
 	0|4)
-		#VAIH:testaus (071015) , case 4 tekee paketin, toimiikin enimmäkseen
+		#VAIH:testaus (071025) , case 4 tekee paketin, toimiikin enimmäkseen
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
@@ -280,19 +282,16 @@ case ${mode} in
 		csleep 5	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #VAIH:testaa toiminta josqs
+	1|u|upgrade) #VAIH:testaa toiminta josqs (241025 tienoilla ei ihan vielä lähtenyt loikkimaan, klesa kipeenä)
 		e22_cleanpkgs ${d}
 		e22_upgp ${tgtfile} ${d} ${iface}
 	;;
 	p) #HUOM.071025:edelleen saa paketin aikaiseksi, toimibuus vielä varmistettava (TODO)
 		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
-		#e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
 	e)  
 		#nykyään nalqtuksen lisäksi lisää f.tar $tgtfile:en (paketin sisällön validius vielä selvitettävä)			
-
-		#e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_get_pkgs ${dnsm}
@@ -305,7 +304,6 @@ case ${mode} in
 	;;
 	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi? no esim. jos tar:ill väärä -C ni...
 	t) #HUOM.071025:toimi ainakin kerran (tehdyn paketin validius erikseen)
-		#e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
 			
