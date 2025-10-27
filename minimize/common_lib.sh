@@ -374,9 +374,9 @@ function common_tbls() {
 	dqb "COMMON TABLESD $1, $2"
 	csleep 1
 
-	[ y"${1}" == "y" ] && exit 22	
-	[ -d ${1} ] || exit 44
-	[ -z ${2} ] && exit 88
+	[ y"${1}" == "y" ] && exit 45	
+	[ -d ${1} ] || exit 67
+	[ -z ${2} ] && exit 89
 
 	local d2
 	d2=$(echo ${2} | tr -d -c 0-9)
