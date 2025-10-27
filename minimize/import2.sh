@@ -35,9 +35,6 @@ function usage() {
 if [ $# -gt 0 ] ; then
 	mode=${1}
 	srcfile=${2}
-#else
-#	usage
-#	exit 1	
 fi
 
 #HUOM.041025:debug-riippuvaisen käytöksen syy löytynee tästä fktiosta, ehkä
@@ -59,7 +56,7 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-if [ -f /.chroot ] ; then #HUOM.171025:tömö vlokki kunnossa?
+if [ -f /.chroot ] ; then #HUOM.171025:tämä blokki kunnossa?
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
 
@@ -70,13 +67,6 @@ if [ -f /.chroot ] ; then #HUOM.171025:tömö vlokki kunnossa?
 		rm ${f}
 		sleep 1
 	done
-
-	#HUOM.141025:ei vielä toimi kunnolla chrootin alla jos common_lib poissa pelistä
-	#ainakin $odio tulisi jyrätä tässä blokissa 
-
-	#1. yrityksellä "$0 1 $file" johti bad_signature-valituksiin joten lisää pitäisi iteroida 
-	#myös "gpg: can't open './sha512sums.sig': No such file or directory"
-	#2. yrityksellä jo onnistui "gpg --verify". Sitq vielä sha512 -c saisi taas... 
 fi
 
 if [ -s ${d0}/$(whoami).conf ] ; then
@@ -231,7 +221,7 @@ function common_part() {
 		dqb "KHAZAD-DUM"
 
 		#VAIH:mielellään sah6 -c $1.sha jatkossa
-		#... muuten kyllä mutta chroot-ympäristön kanssa vielä ulinaa
+		#... muuten kyllä mutta chroot-ympäristön kanssa vielä ulinaa?
 
 		cat ${1}.sha
 		${sah6} -c ${1}
@@ -462,7 +452,7 @@ case "${mode}" in
 		fi	
 	;;
 	-3)
-		echo "do_Nothing()"
+		dqb "do_Nothing()"
 	;;
 	*)
 		echo "-h"

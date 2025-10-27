@@ -229,6 +229,7 @@ function psqa() {
 		#https://www.gnupg.org/documentation/manuals/gnupg24/gpgv.1.html
 		
 		#HUOM.ao.blokin testausta varten sitten "export2 e ..."
+		#(kys tuotiokseen pitäisi se .sig saada mukaan myös)
 		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 			dqb "${gg} --verify ./sha512sums.sig "			
 			csleep 3
@@ -373,9 +374,9 @@ function common_tbls() {
 	dqb "COMMON TABLESD $1, $2"
 	csleep 1
 
-	[ y"${1}" == "y" ] && exit	
-	[ -d ${1} ] || exit
-	[ -z ${2} ] && exit
+	[ y"${1}" == "y" ] && exit 22	
+	[ -d ${1} ] || exit 44
+	[ -z ${2} ] && exit 88
 
 	local d2
 	d2=$(echo ${2} | tr -d -c 0-9)
@@ -1091,6 +1092,8 @@ function part3() {
 	if [ ! -f /.chroot ] ; then
 		clib5p ${1} reject_pkgs
 	fi
+
+	#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taåauksessa daed , jotain jos tekisi 
 
 	clibpre ${1} accept_pkgs_1
 	clibpre ${1} accept_pkgs_2
