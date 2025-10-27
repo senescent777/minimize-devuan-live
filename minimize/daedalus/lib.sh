@@ -3,7 +3,7 @@
 #https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
-function udp6() {
+function udp6() { #on käytössä
 	dqb "daud.lib.UPDP-6 ${1}"
 	csleep 1
 	[ -d ${1} ] || exit 66
@@ -17,7 +17,7 @@ function udp6() {
 	csleep 1
 }
 
-function t2p() {
+function t2p() { #on käytössä
 	dqb "DAUD.T2P"
 	csleep 1
 
@@ -91,7 +91,7 @@ function t2p() {
 }
 
 #josko kuitenkin ntp takaisin listaan?
-function pre_part2() {
+function pre_part2() { #käytrössä
 	dqb "daud.pre_part2()"
 	csleep 2
 

@@ -4,6 +4,7 @@ udev*.deb
 xserver-common*.deb
 xserver-xorg-core*.deb
 dbus-bin*.deb
+#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taåauksessa daed , jotain jos tekisi 
 dbus-daemon*.deb dbus-session-bus-common*.deb
 perl-base*.deb
 perl*.deb
