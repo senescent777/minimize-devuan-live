@@ -24,7 +24,7 @@ function e22_hdr() { #HUOM.071025:taitaa toimia
 	csleep 1
 }
 
-function e22_ftr() {
+function e22_ftr() { #281025:vissiin toimii
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -167,7 +167,7 @@ function e22_cleanpkgs() { #HUOM.071025:taitaa toimia
 	csleep 1
 }
 
-function e22_settings() { #HUOM.071025:toimii toistaiseksi
+function e22_settings() { #HUOM.281025:toimii toistaiseksi
 	dqb "e22_settings ${1} ${2}"
 	csleep 1
 
@@ -363,7 +363,8 @@ function e22_elocal() { #HUOM.071025:taitaa toimia
 	csleep 1
 }
 
-BASEURL="github.com/senescent777" #jatkossa -> conf (TODO)
+#BASEURL="github.com/senescent777" #jatkossa -> conf (VAIH)
+[ -v BASEURL ] || exit 6
 
 function e22_ext() { #HUOM.071025:taitaa toimia
 	dqb "e22_ext ${1} ${2}"
@@ -388,9 +389,11 @@ function e22_ext() { #HUOM.071025:taitaa toimia
 	csleep 1
 
 	tig=$(${odio} which git) #voisi alustaa jossain aiempana (common_lib?)
-
 	p=$(pwd)
-	q=$(${mkt} -d)
+
+	#q=$(${mkt} -d) #ei vaan toimi näin?
+	q=$(mktemp -d)
+
 	cd ${q}
 	csleep 1
 
@@ -521,7 +524,7 @@ function e22_ts() { #HUOM.071025:toimii
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
 #TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk
-function e22_arch() { #HUOM.071025:toimi ainakin kerran tänään
+function e22_arch() { #HUOM.281025:toimi ainakin kerran tänään
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
@@ -739,7 +742,7 @@ function e22_dblock() { #VAIH:testaus (071015)
 	dqb "e22dblock DONE"
 }
 
-function e22_settings2() { #HUOM.071025: toimii
+function e22_settings2() { #HUOM.281025: toimii paitsi mktemp?
 	dqb "e22_settings2 ${1} ${2}"
 
 	[ -z ${1} ] && exit 99
@@ -750,7 +753,8 @@ function e22_settings2() { #HUOM.071025: toimii
 	csleep 1
 
 	local q
-	q=$(${mkt} -d)
+	#q=$(${mkt} -d) #ei näin
+	q=$(mktemp -d)
 
 	cd ${q} #antaa nyt cd:n olla toistaiseksi
 	[ $? -eq 0 ] || exit 77
