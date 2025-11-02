@@ -160,7 +160,7 @@ dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
 [ -z "${tgtfile}" ] && exit 99
-[ -z "${srat}" ] && exit 666
+[ -z "${srat}" ] && exit 66
 
 case ${mode} in
 	f) #HUOM.281025:testattu että tekee paketin ($? != 0 ?)		
@@ -171,19 +171,14 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#HUOM.281025:edelleen tekee paketin
+		#HUOM.021125:
 		${sifd} ${iface}
-	
-		#HUOM.061025.1:parempi tämän kanssa että tuotokset puretaan -C - optiolla
 		e22_settings ~ ${d0}
 
-		#HUOM.061025.2:tässä ei ole ihan pakollista vetää ~ mukaan tdstoJen polkuun mutta olkoon nyt näin toistaiseksi
 		#josko takaisin siihen että vain oikeasti tarpeelliset mukaan(TODO)
-		#... ja profs.sh jos kuuluisi tarpeellisiin
 
-		#tässä se maxdepth mukaan...
 		for f in $(find ~ -maxdepth 1 -name '*.tar' -or -name '*.bz2' -or -name 'profs.sh') ; do
-			${srat} -rvf ${tgtfile} ${f} #HUOM.091025:tähän ai tarvinne --exclude
+			${srat} -rvf ${tgtfile} ${f} #--exclude vai ei?
 		done
 
 		e22_ftr ${tgtfile}
@@ -231,7 +226,7 @@ e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
 	0|4)
-		#VAIH:testaus (281025) , case 4 tekee paketin, toimii:?
+		#VAIH:testaus (281025) , case 4 tekee paketin, toimii:jep
 		#case 0 taas:tekee paketin missä enemmäm sisältöä, toimii:?
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
@@ -285,8 +280,7 @@ case ${mode} in
 		e22_cleanpkgs ${d}
 		e22_upgp ${tgtfile} ${d} ${iface}
 	;;
-	p) #HUOM.281025:edelleen saa paketin aikaiseksi, toimivuus vielä varmistettava (TODO)
-		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
+	p) 
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
 	e)  #HUOM.281025:edelleen tekee paketin
