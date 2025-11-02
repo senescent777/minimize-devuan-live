@@ -514,7 +514,6 @@ function e22_ts() { #HUOM.021125:toimii?
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
 #TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk
-#TODO:update.sh ja demerde_toi.sh pois jatkossa
 
 function e22_arch() { #021125:vissiin toimii
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
