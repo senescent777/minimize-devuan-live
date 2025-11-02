@@ -163,7 +163,7 @@ csleep 1
 [ -z "${srat}" ] && exit 66
 
 case ${mode} in
-	f) #HUOM.281025:testattu että tekee paketin ($? != 0 ?)		
+	f) #021125:toimii vai ei?		
 		#...koita muistaa śaada aikaiseksi se sha512sums.sig  kanssa josqs(TODO)
 		
 		e22_arch ${tgtfile} ${d}
@@ -171,7 +171,7 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#HUOM.021125:
+		#HUOM.021125:tekee paketin
 		${sifd} ${iface}
 		e22_settings ~ ${d0}
 
@@ -187,7 +187,7 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#HUOM. 281025:tekee paketin
+		#HUOM. 021125:tekee paketin
 		cd ${d0}
 		for f in $(find . -type f -name '*.sh' | grep -v 'e/') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
 		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/')  ; do ${srat} -rvf ${tgtfile} ${f} ; done
@@ -200,7 +200,7 @@ case ${mode} in
 		exit
 	;;
 	g)
-		#HUOM.281025:vaikuttaisi tulevan järkevää outputtia pl. ehkä reinstall sellaisenaan 
+		#HUOM.021125:vaikuttaisi tulevan järkevää outputtia pl. ehkä reinstall sellaisenaan 
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "sudo apt-get update;sudo apt-get reinstall"
 
@@ -282,7 +282,7 @@ case ${mode} in
 		e22_cleanpkgs ${d}
 		e22_upgp ${tgtfile} ${d} ${iface}
 	;;
-	p) 
+	p) #HUOM. 021125:tekee paketin
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
 	e)  #HUOM.021125:tekee edelleen paketin			

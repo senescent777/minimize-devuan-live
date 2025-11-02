@@ -21,7 +21,7 @@ function e22_hdr() { #HUOM.021125:toimii?
 	csleep 1
 }
 
-function e22_ftr() { #281025:vissiin toimii
+function e22_ftr() { #021125:tekee paketin
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -53,7 +53,7 @@ function e22_ftr() { #281025:vissiin toimii
 	csleep 1
 }
 
-function e22_pre1() { #HUOM.021125:
+function e22_pre1() { #HUOM.021125:toimii?
 	#disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
 
 	dqb "e22_pre1 ${1}  ${2} "
@@ -93,7 +93,7 @@ function e22_pre1() { #HUOM.021125:
 
 #VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
 
-function e22_pre2() { #HUOM.071025:taitaa toimia edelleen
+function e22_pre2() { #HUOM.021125;toimii?
 	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
@@ -200,7 +200,7 @@ function e22_settings() { #HUOM.021125:toimii toistaiseksi?
 	cd ${2}
 }
 
-function e22_home() { #VAIH:testaus koska e22_settings() muutettu (josko toimisi jo 021125?)
+function e22_home() { #021125:taitaa toimia
 	dqb "e22_home ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit 67 #VAIH:-s myös?
 	[ -s ${1} ] || exit 68
@@ -245,8 +245,8 @@ function e22_home() { #VAIH:testaus koska e22_settings() muutettu (josko toimisi
 	csleep 1
 }
 
-#update.sh käyttämään tätä? toistaiseksi privaatti fktio
-function luca() {
+#toistaiseksi privaatti fktio
+function luca() { #021125:suattaapi olla niinnii että toimii vuan saattaapi ettei
 	dqb "luca ( ${1})"
 	csleep 1
 
@@ -459,6 +459,7 @@ function e22_ext() { #HUOM.021125:vissiin toimii edelleen
 	csleep 1
 }
 
+#021125:toimii?
 function aswasw() { #privaatti fktio
 	dqb " aswasw ${1}"
 	[ -z "${1}" ] && exit 56
@@ -488,7 +489,7 @@ function aswasw() { #privaatti fktio
 #	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 #}
 
-function e22_ts() { #HUOM.021125:
+function e22_ts() { #HUOM.021125:toimii?
 	dqb "e22_ts () ${1} ${2}" #van1 param piyäisi olla tällä - Yoda
 	csleep 3
 
