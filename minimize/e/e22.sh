@@ -200,7 +200,7 @@ function e22_settings() { #HUOM.021125:toimii toistaiseksi?
 	cd ${2}
 }
 
-function e22_home() { #VAIH:testaus koska e22_settings() muutettu (josko toimisi jo?)
+function e22_home() { #VAIH:testaus koska e22_settings() muutettu (josko toimisi jo 021125?)
 	dqb "e22_home ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit 67 #VAIH:-s myös?
 	[ -s ${1} ] || exit 68
@@ -211,7 +211,7 @@ function e22_home() { #VAIH:testaus koska e22_settings() muutettu (josko toimisi
 
 	dqb "params_ok"
 	csleep 1
-	pwd
+	[ ${debug} -eq 1 ] && pwd
 	csleep 1
 
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
@@ -251,8 +251,8 @@ function luca() {
 	csleep 1
 
 	[ -z ${1} ] && exit 11
-	[ -s ${1} ] || exit 12 #VAIH:kirj.oikeuden tarkistus?
-	[ -w ${1} ] || exit 13 
+	[ -s ${1} ] || exit 12
+	#[ -w ${1} ] || exit 13  #VAIH:kirj.oikeuden tarkistus?
 
 	dqb "prs ok"
 	csleep 1
@@ -271,15 +271,16 @@ function luca() {
 
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 	sleep 3
+	dqb "loca done"
 }
 
-function e22_elocal() { #HUOM.021125:
+function e22_elocal() { #021125:vissiin toimii
 	dqb "e22_elocal ${1} ${2} ${3} ${4}"
 	csleep 1
 
 	[ -z ${1} ] && exit 1
-	[ -s ${1} ] || exit 4 #VAIH:kirj.oik.tark. myös?
-	[ -w ${1} ] || exit 6 
+	[ -s ${1} ] || exit 4 
+	#[ -w ${1} ] || exit 9 #VAIH:kirj.oik.tark. myös?
 
 	[ -z ${2} ] && exit 2
 	[ -z ${3} ] && exit 3	
@@ -340,7 +341,7 @@ function e22_elocal() { #HUOM.021125:
 	ef=$(echo ${4} | tr -d -c 0-9)
 
 	if  [ ${ef} -eq 1 ] ; then
-		dqb "das asdd"
+		dqb "Das Asdd"
 	else
 		${srat} -rf ${1} /etc/sudoers.d/meshuggah
 	fi
@@ -363,12 +364,12 @@ function e22_elocal() { #HUOM.021125:
 
 [ -v BASEURL ] || exit 6
 
-function e22_ext() { #HUOM.021125:
-	dqb "e22_ext ${1} ${2}"
+function e22_ext() { #HUOM.021125:vissiin toimii edelleen
+	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
-	[ -s ${1} ] || exit 2 #VAIH:kirj.oik.tark. myös?
-	[ -w ${1} ] || exit 6
+	[ -s ${1} ] || exit 2
+	#[ -w ${1} ] || exit 6 #VAIH:kirj.oik.tark. myös?
 	[ -z ${2} ] && exit 3
 	[ -z ${3} ] && exit 4
 
@@ -513,16 +514,18 @@ function e22_ts() { #HUOM.021125:
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
 #TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk
 #TODO:update.sh ja demerde_toi.sh pois jatkossa
-function e22_arch() { #HUOM.281025:toimi ainakin kerran tänään
+
+function e22_arch() {
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
-	[ -z ${1} ] && exit 1 #VAIH:kirj.oik.tark?
+	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2 
-	[ -w ${1} ] || exit 33
+	#[ -w ${1} ] || exit 33 #VAIH:kirj.oik.tark?
 
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
+	[ -w ${2} ] || exit 44
 
 	dqb "paramz_ok"
 	csleep 1
@@ -704,16 +707,17 @@ function e22_get_pkgs() { #HUOM.071025:jospa jo toimisi
 	csleep 1
 }
 
-function e22_dblock() { #VAIH:testaus uusiksi (021125)
+function e22_dblock() { #VAIH:testaus uusiksi (021125) , vissiibn toimii
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	#mitenköhän tarkistusten kanssa? $1 kanssa vielä jotain? (VAIH)
-	[ -z ${1} ] && exit 13 #-s ja -w ?
-	[ -s ${1} ] || exit 14
-	[ -w ${1} ] || exit 15
+	[ -z ${1} ] && exit 14 #-s ja -w ?
+	[ -s ${1} ] || exit 15
+	#[ -w ${1} ] || exit 16
 
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
+	[ -w ${2} ] || exit 23
 
 	dqb "DBLOCK:PARAMS OK"
 	csleep 1
@@ -735,7 +739,7 @@ function e22_dblock() { #VAIH:testaus uusiksi (021125)
 	dqb "e22dblock DONE"
 }
 
-function e22_settings2() { #HUOM.021025:tekee paketin
+function e22_settings2() { #HUOM.021125:tekee paketin, sisältö ehkä ok
 	dqb "e22_settings2 ${1} ${2}"
 
 	[ -z ${1} ] && exit 99

@@ -228,6 +228,8 @@ case ${mode} in
 	0|4)
 		#VAIH:testaus (281025) , case 4 tekee paketin, toimii:jep
 		#case 0 taas:tekee paketin missä enemmäm sisältöä, toimii:?
+		#... nökäjään f.tar meni pakettiin 2 kertaa, 1 riittäisi
+
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
@@ -251,7 +253,7 @@ case ${mode} in
 	
 			if [ -d ${d} ] ; then
 				e22_dblock ${d}/f.tar ${d}
-				${srat} -rvf ${tgtfile} ${d}/f.tar #tämäkö jäi puuttumaan?
+				#${srat} -rvf ${tgtfile} ${d}/f.tar #tämäkö jäi puuttumaan?
 			fi
 
 			e22_cleanpkgs ${d} #kuinka oleellinen?
@@ -292,7 +294,7 @@ case ${mode} in
 		if [ -d ${d} ] ; then
 			e22_dblock ${d}/f.tar ${d}
 			cd ${d}
-			${srat} -rvf ${tgtfile} ./f.tar #tämäkö jäi puuttumaan?
+			#${srat} -rvf ${tgtfile} ./f.tar #tämäkö jäi puuttumaan?
 		fi
 	;;
 	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi? no esim. jos tar:ill väärä -C ni...
