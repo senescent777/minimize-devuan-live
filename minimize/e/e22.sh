@@ -1,7 +1,7 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
 		
-function e22_hdr() { #HUOM.071025:taitaa toimia
+function e22_hdr() { #HUOM.021125:toimii?
 	dqb "BEFORE TAR"
 	csleep 1
 	[ -z ${1} ] && exit 62
@@ -141,7 +141,7 @@ function e22_pre2() { #HUOM.071025:taitaa toimia edelleen
 	sleep 2
 }
 
-function e22_cleanpkgs() { #HUOM.071025:taitaa toimia 
+function e22_cleanpkgs() { #HUOM.021125:taitaa toimia 
 	dqb " ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
 	[ -z "${1}" ] && exit 56
 
@@ -238,7 +238,7 @@ function e22_home() { #VAIH:testaus koska e22_settings() muutettu (josko toimisi
 	dqb "${srat} ${TARGET_TPX} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
 	csleep 3
 
-	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen?
+	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen? ehk
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 
 	dqb "e22_home d0n3"
@@ -515,7 +515,7 @@ function e22_ts() { #HUOM.021125:
 #TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk
 #TODO:update.sh ja demerde_toi.sh pois jatkossa
 
-function e22_arch() {
+function e22_arch() { #021125:vissiin toimii
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
@@ -576,14 +576,14 @@ function e22_arch() {
 	psqa .
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt
-	ls -las ${1} 
+	[ ${debug} -eq 1 ] && ls -las ${1} 
 
 	csleep 1
 	cd ${p}
 	dqb "e22_arch d0n3"
 }
 
-function e22_tblz() { #
+function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisältöä
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
 
@@ -641,7 +641,7 @@ function e22_tblz() { #
 }
 
 #HUOM.mihin tarvitsee arkiston nimeä? .deb tulisi löytyä $pkgdir alta
-function e22_get_pkgs() { #HUOM.071025:jospa jo toimisi
+function e22_get_pkgs() { #HUOM.021125:josko toimisi?
 	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
@@ -712,7 +712,7 @@ function e22_dblock() { #VAIH:testaus uusiksi (021125) , vissiibn toimii
 
 	#mitenköhän tarkistusten kanssa? $1 kanssa vielä jotain? (VAIH)
 	[ -z ${1} ] && exit 14 #-s ja -w ?
-	[ -s ${1} ] || exit 15
+	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes
 	#[ -w ${1} ] || exit 16
 
 	[ -z ${2} ] && exit 11
@@ -725,7 +725,7 @@ function e22_dblock() { #VAIH:testaus uusiksi (021125) , vissiibn toimii
 	dqb "srat= ${srat}"
 	csleep 1
 
-	pwd
+	[ ${debug} -eq 1 ] && pwd
 	csleep 1
 	udp6 ${2} 
 

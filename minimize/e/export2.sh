@@ -285,20 +285,20 @@ case ${mode} in
 	p) 
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.281025:edelleen tekee paketin
-					
+	e)  #HUOM.021125:tekee edelleen paketin			
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_get_pkgs ${dnsm}
 
 		if [ -d ${d} ] ; then
+			e22_hdr ${d}/f.tar
 			e22_dblock ${d}/f.tar ${d}
 			cd ${d}
-			#${srat} -rvf ${tgtfile} ./f.tar #tämäkö jäi puuttumaan?
+			${srat} -rvf ${tgtfile} ./f.tar #tämäkö jäi puuttumaan?
 		fi
 	;;
 	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi? no esim. jos tar:ill väärä -C ni...
-	t) #HUOM.281025:tekee paketin
+	t) #HUOM.021125:edelleen tekee paketin missä toivottavaa sisältöä
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
 			
