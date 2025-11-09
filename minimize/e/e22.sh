@@ -1,11 +1,8 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
-
-tpx="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg " #VAIH:ajtkossa varmaankin konftdstossa
-# --exclude $(whoami).conf
 		
-function e22_hdr() { #HUOM.071025:taitaa toimia
-	dqb "BEFORE TAR"
+function e22_hdr() { #HUOM.021125:toimii?
+	dqb "e22hdr():BEFORE "
 	csleep 1
 	[ -z ${1} ] && exit 62
 
@@ -20,11 +17,11 @@ function e22_hdr() { #HUOM.071025:taitaa toimia
 	[ ${debug} -eq 1 ] && ls -las ${1}
 	csleep 3
 
-	dqb "AFTER TAR"
+	dqb "e22hdr():AFTER th3 WAR"
 	csleep 1
 }
 
-function e22_ftr() {
+function e22_ftr() { #021125:tekee paketin
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -45,7 +42,6 @@ function e22_ftr() {
 
 	${sah6} ./${q} > ${q}.sha #jos "./" auttaisi
 	${sah6} -c ${q}.sha
-	gg=$(${odio} which gpg) #jatkossa common_libn
 
 	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 		${gg} -u ${CONF_kay1name} -sb ${q}.sha
@@ -57,11 +53,11 @@ function e22_ftr() {
 	csleep 1
 }
 
-function e22_pre1() { #HUOM.071025:toiminee
-	# tosin disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
+function e22_pre1() { #HUOM.021125:toimii?
+	#disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
 
 	dqb "e22_pre1 ${1}  ${2} "
-	[ -z ${1} ] && exit 66
+	[ -z ${1} ] && exit 65 #-d- testi olikin jo alempana
 	[ -z ${2} ] && exit 66
 
 	csleep 4
@@ -97,11 +93,11 @@ function e22_pre1() { #HUOM.071025:toiminee
 
 #VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
 
-function e22_pre2() { #HUOM.071025:taitaa toimia edelleen
+function e22_pre2() { #HUOM.021125;toimii?
 	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
-	[ -z ${1} ] && exit 66
+	[ -z ${1} ] && exit 66 #HUOM. -d oli jo
 	[ -z ${2} ] && exit 67
 	[ -z ${3} ] && exit 68
 	[ -z ${4} ] && exit 69
@@ -123,7 +119,6 @@ function e22_pre2() { #HUOM.071025:taitaa toimia edelleen
 	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then
 		dqb "PRKL"
 
-		#tuota skrptiä renkataan mutta silti dns pykii, miksi? vielä ongelma 141025?
 		${odio} /opt/bin/changedns.sh ${par4} ${ortsac}
 		echo $?
 		csleep 1
@@ -146,8 +141,9 @@ function e22_pre2() { #HUOM.071025:taitaa toimia edelleen
 	sleep 2
 }
 
-function e22_cleanpkgs() { #HUOM.071025:taitaa toimia
-	dqb " ${1} , ${2} , ${3}  "
+function e22_cleanpkgs() { #HUOM.021125:taitaa toimia 
+	dqb " ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
+	[ -z "${1}" ] && exit 56
 
 	if [ -d ${1} ] ; then
 		dqb "cleaning up ${1} "
@@ -156,7 +152,7 @@ function e22_cleanpkgs() { #HUOM.071025:taitaa toimia
 		${NKVD} ${1}/*.deb
 		${NKVD} ${1}/sha512sums.txt
 
-		ls -las  ${1}/*.deb
+		ls -las ${1}/*.deb
 		csleep 2
 		dqb "d0nm3"
 	else
@@ -167,13 +163,13 @@ function e22_cleanpkgs() { #HUOM.071025:taitaa toimia
 	csleep 1
 }
 
-function e22_settings() { #HUOM.071025:toimii toistaiseksi
+function e22_settings() { #HUOM.021125:toimii toistaiseksi?
 	dqb "e22_settings ${1} ${2}"
 	csleep 1
 
 	[ -z ${1} ] && exit 11
 	[ -z ${2} ] && exit 12
-	[ -d ${1} ] || exit 22
+	[ -d ${1} ] || exit 22 #meneeköhän oikein? vissiin
 	[ -d ${2} ] || exit 23
 
 	dqb "paramz 0k"
@@ -204,16 +200,18 @@ function e22_settings() { #HUOM.071025:toimii toistaiseksi
 	cd ${2}
 }
 
-function e22_home() { #VAIH:testaus koska e22_settings() muutettu (josko toimisi jo?)
+function e22_home() { #021125:taitaa toimia
 	dqb "e22_home ${1} , ${2} , ${3}  "
-	[ -z ${1} ] && exit
-	[ -z ${2} ] && exit
-	[ -z ${3} ] && exit
+	[ -z ${1} ] && exit 67
+	[ -s ${1} ] || exit 68
+	[ -z ${2} ] && exit 69
+	[ -d ${2} ] || exit 70
+	[ -z ${3} ] && exit 71
 	csleep 1
 
 	dqb "params_ok"
 	csleep 1
-	pwd
+	[ ${debug} -eq 1 ] && pwd
 	csleep 1
 
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
@@ -237,25 +235,24 @@ function e22_home() { #VAIH:testaus koska e22_settings() muutettu (josko toimisi
 	csleep 1
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 
-	dqb "${srat} ${tpx} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
+	dqb "${srat} ${TARGET_TPX} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
 	csleep 3
 
-	#HUOM.pitäisiköhän $1 hieman mankeloida? esim. samasta syystä kuin update.sh
-	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen?
-	#HUOM.111025:$n.conf saattaa sotkea piatsi että $tpx
-	${srat} ${tpx} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
+	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen? ehk
+	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 
 	dqb "e22_home d0n3"
 	csleep 1
 }
 
-#update.sh käyttämään tätä? toistaiseksi privaatti fktio
-function luca() {
+#toistaiseksi privaatti fktio
+function luca() { #021125:suattaapi olla niinnii että toimii vuan saattaapi ettei
 	dqb "luca ( ${1})"
 	csleep 1
 
 	[ -z ${1} ] && exit 11
 	[ -s ${1} ] || exit 12
+	#[ -w ${1} ] || exit 13  #VAIH:kirj.oikeuden tarkistus?
 
 	dqb "prs ok"
 	csleep 1
@@ -267,7 +264,6 @@ function luca() {
 	sleep 1
 
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
-	#HUOM.22525:tuossa alla locale->local niin saisi localtime:n mukaan mutta -type f
 	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 
 	echo $?
@@ -275,16 +271,19 @@ function luca() {
 
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 	sleep 3
+	dqb "loca done"
 }
 
-function e22_elocal() { #HUOM.071025:taitaa toimia
+function e22_elocal() { #021125:vissiin toimii
 	dqb "e22_elocal ${1} ${2} ${3} ${4}"
 	csleep 1
 
 	[ -z ${1} ] && exit 1
+	[ -s ${1} ] || exit 4 
+	#[ -w ${1} ] || exit 9 #VAIH:kirj.oik.tark. myös?
+
 	[ -z ${2} ] && exit 2
-	[ -z ${3} ] && exit 3
-	[ -s ${1} ] || exit 4
+	[ -z ${3} ] && exit 3	
 	[ -z ${4} ] && exit 5
 	csleep 1
 
@@ -326,10 +325,7 @@ function e22_elocal() { #HUOM.071025:taitaa toimia
 	csleep 2
 
 	case ${2} in
-		wlan0)
-			#tätä koko fktiota ei ajeta jos x ni ei ole ihan pakko kikkailla
-			#... tai miten lienee			
-
+		wlan0)		
 			dqb "APW"
 			csleep 3
 			${srat} -rvf ${1} /etc/wpa_supplicant #/*.conf
@@ -345,7 +341,7 @@ function e22_elocal() { #HUOM.071025:taitaa toimia
 	ef=$(echo ${4} | tr -d -c 0-9)
 
 	if  [ ${ef} -eq 1 ] ; then
-		dqb "das asdd"
+		dqb "Das Asdd"
 	else
 		${srat} -rf ${1} /etc/sudoers.d/meshuggah
 	fi
@@ -366,13 +362,14 @@ function e22_elocal() { #HUOM.071025:taitaa toimia
 	csleep 1
 }
 
-BASEURL="github.com/senescent777" #jatkossa -> conf
+[ -v BASEURL ] || exit 6
 
-function e22_ext() { #HUOM.071025:taitaa toimia
-	dqb "e22_ext ${1} ${2}"
+function e22_ext() { #HUOM.021125:vissiin toimii edelleen
+	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
+	#[ -w ${1} ] || exit 6 
 	[ -z ${2} ] && exit 3
 	[ -z ${3} ] && exit 4
 
@@ -387,17 +384,19 @@ function e22_ext() { #HUOM.071025:taitaa toimia
 	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
 	st=$(echo ${3}  | tr -d -c 0-9)
 	[ ${debug} -eq 1 ] && pwd
+
 	dqb "r=${r}"
 	csleep 1
 
-	tig=$(${odio} which git) #voisi alustaa jossain aiempana
-
 	p=$(pwd)
-	q=$(${mkt} -d)
+
+	#q=$(${mkt} -d) #ei vaan toimi näin?
+	q=$(mktemp -d)
+
 	cd ${q}
 	csleep 1
 
-	#voisi jollain ehdolla estää kloonauksen
+	#voisi jollain ehdolla estää kloonauksen?
 	${tig} clone https://${BASEURL}/more_scripts.git
 	[ $? -eq 0 ] || exit 66
 	
@@ -407,7 +406,6 @@ function e22_ext() { #HUOM.071025:taitaa toimia
 	echo $?
 	csleep 1
 
-	#HUOM.14525:ghubista löytyy conf.new mikä vastaisi dnsm=1 (ao. rivi e22_elocal() jatkossa?)
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
 
 	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
@@ -422,20 +420,12 @@ function e22_ext() { #HUOM.071025:taitaa toimia
 
 	dqb "N1B.5"
 	csleep 2
-
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${st}
 
 	if [ ! -s ./sbin/dhclient-script.1 ] ; then
 		  ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
 	fi
 	
-	#HUOM.14525.4:e22_ext ajetaan ennenq lisätään tar:iin ~/D/minim tai paikallisen koneen /e
-	#HUOM.sources.list kanssa voisi mennä samantap idealla kuin yllä? 
-	# (ao. rivi e22_elocal() jatkossa?)
-
-	#HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
-
-	#HUOM.010825:/e/a/sources.list ja /e/a/a.conf tuli mukaan
 	dqb "SOUCRES"
 	csleep 2
 
@@ -443,7 +433,6 @@ function e22_ext() { #HUOM.071025:taitaa toimia
 		local c
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
 
-		#HUOM.20525:onkohan tuo ehto hyvä noin? pikemminkin https läsnäolo?
 		if [ ${c} -lt 1 ] ; then
  			${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
 		fi
@@ -451,9 +440,7 @@ function e22_ext() { #HUOM.071025:taitaa toimia
 
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
-	# (ao. rivi e22_elocal() jatkossa?)
 
-	#HUOM.010825:/e/n/i tuli mukaan
 	dqb "1NT3RF"
 	csleep 2
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
@@ -472,8 +459,10 @@ function e22_ext() { #HUOM.071025:taitaa toimia
 	csleep 1
 }
 
+#021125:toimii?
 function aswasw() { #privaatti fktio
 	dqb " aswasw ${1}"
+	[ -z "${1}" ] && exit 56
 	csleep 1
 
 	case ${1} in
@@ -494,23 +483,24 @@ function aswasw() { #privaatti fktio
 	dqb " aswasw ${1} DONE"
 	csleep 1
 }
+#
+#function aval0n() { #prIvaattI
+#	dqb "${sharpy} libavahi* #saattaa sotkea ?"
+#	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
+#}
 
-function aval0n() { #prIvaattI
-	dqb "${sharpy} libavahi* #saattaa sotkea ?"
-	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
-}
-
-function e22_ts() { #HUOM.071025:toimii
-	dqb "e22_ts () ${1} ${2}" #mitä $2 tekee? josko pkgdir
-	csleep 6
+function e22_ts() { #HUOM.021125:toimii?
+	dqb "e22_ts () ${1} ${2}" #van1 param piyäisi olla tällä - Yoda
+	csleep 3
 
 	[ -z ${1} ] && exit 13
-	[ -d ${1} ] || exit 14 
+	[ -d ${1} ] || exit 14 #hmistossa hyvä olla kirj.oik.
+	[ -w ${1} ] || exit 15 
 
 	dqb "NEXT:mv"
 	${svm} ${pkgdir}/*.deb ${1}
 	dqb $?
-	csleep 5
+	csleep 2
 
 	${odio} touch ${1}/tim3stamp
 	${scm} 0644 ${1}/tim3stamp
@@ -523,14 +513,19 @@ function e22_ts() { #HUOM.071025:toimii
 }
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-function e22_arch() { #HUOM.071025:toimi ainakin kerran tänään
+#TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk
+
+function e22_arch() { #021125:vissiin toimii
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
 	[ -z ${1} ] && exit 1
-	#[ -s ${1} ] || exit 2 #HUOM.JOS TULLAAN e22_dblock() KAUTTA NIIN $1 VOI OLLA TYHJÄÄ TÄYNNÄ tai siis
+	[ -s ${1} ] || exit 2 
+	#[ -w ${1} ] || exit 33
+
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
+	[ -w ${2} ] || exit 44
 
 	dqb "paramz_ok"
 	csleep 1
@@ -581,14 +576,14 @@ function e22_arch() { #HUOM.071025:toimi ainakin kerran tänään
 	psqa .
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt
-	ls -las ${1} 
+	[ ${debug} -eq 1 ] && ls -las ${1} 
 
 	csleep 1
 	cd ${p}
 	dqb "e22_arch d0n3"
 }
 
-function e22_tblz() { #HUOM.071025:toimi ainakin kerran tänään
+function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisältöä
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
 
@@ -596,7 +591,10 @@ function e22_tblz() { #HUOM.071025:toimi ainakin kerran tänään
 	dqb "\$shary= ${shary}"
 	csleep 2
 
+	#tarkistukset jotenkin toisin jatkossa? 
 	[ -z ${1} ] && exit 11
+	[ -d ${1} ] || exit 15 
+
 	[ -z ${2} ] && exit 12
 	[ -z ${3} ] && exit 13
 	[ -z ${4} ] && exit 14
@@ -616,7 +614,6 @@ function e22_tblz() { #HUOM.071025:toimi ainakin kerran tänään
 	aswasw ${2}
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 
-	#18725:toimiikohan se debian_interactive-jekku tässä? dpkg!=apt
 	${shary} iptables
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 
@@ -624,9 +621,8 @@ function e22_tblz() { #HUOM.071025:toimi ainakin kerran tänään
 	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
 	csleep 2
 
-	#uutena 31525
-	udp6 ${pkgdir}
-	aval0n
+	udp6 ${1}
+	#aval0n #tarpeellinen?
 	
 	#HUOM.28925.2:onkohan hyvä idea tässä?
 	for s in ${PART175_LIST} ; do
@@ -645,10 +641,9 @@ function e22_tblz() { #HUOM.071025:toimi ainakin kerran tänään
 }
 
 #HUOM.mihin tarvitsee arkiston nimeä? .deb tulisi löytyä $pkgdir alta
-function e22_get_pkgs() { #HUOM.071025:jospa jo toimisi
+function e22_get_pkgs() { #HUOM.021125:josko toimisi?
 	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
-	
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
 
 	dqb "paramz_ok"
@@ -667,7 +662,7 @@ function e22_get_pkgs() { #HUOM.071025:jospa jo toimisi
 	message
 	jules
 
-	if [ ${3} -eq 1 ] ; then
+	if [ ${1} -eq 1 ] ; then #VAIH:jotain tähän liittyen?
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
 		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
@@ -704,9 +699,7 @@ function e22_get_pkgs() { #HUOM.071025:jospa jo toimisi
 	csleep 1
 	${lftr}
 
-	#HUOM.141025:$iface-riippuvaista pakettien poistoa mukaan?
-
-	aval0n
+	#aval0n
 	dqb "BEFORE UPD6"	
 	csleep 1
 
@@ -714,12 +707,16 @@ function e22_get_pkgs() { #HUOM.071025:jospa jo toimisi
 	csleep 1
 }
 
-function e22_dblock() { #VAIH:testaus (071015)
+function e22_dblock() {
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
-	[ -z ${1} ] && exit 13
+	[ -z ${1} ] && exit 14
+	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes
+	#[ -w ${1} ] || exit 16 #ei näin?
+
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
+	[ -w ${2} ] || exit 23
 
 	dqb "DBLOCK:PARAMS OK"
 	csleep 1
@@ -727,10 +724,10 @@ function e22_dblock() { #VAIH:testaus (071015)
 	dqb "srat= ${srat}"
 	csleep 1
 
-	pwd
+	[ ${debug} -eq 1 ] && pwd
 	csleep 1
-	udp6 ${pkgdir} 		
-		
+	udp6 ${2} 
+
 	#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
 
 	e22_ts ${2}
@@ -741,18 +738,23 @@ function e22_dblock() { #VAIH:testaus (071015)
 	dqb "e22dblock DONE"
 }
 
-function e22_settings2() { #HUOM.071025: toimii
+function e22_settings2() { #HUOM.021125:tekee paketin, sisältö ehkä ok
 	dqb "e22_settings2 ${1} ${2}"
 
 	[ -z ${1} ] && exit 99
 	[ -s ${1} ] || exit 98 #pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
-	[ -d ${2} ] || exit 97
- 
+	#[ -w ${1} ] || exit 97 #VAIH:kirj.oik, ei ihan vielä 
+
+	[ -z ${2} ] && exit 96
+	[ -d ${2} ] || exit 95
+	[ -w ${2} ] || exit 94
+	
 	dqb "params ok"
 	csleep 1
 
 	local q
-	q=$(${mkt} -d)
+	#q=$(${mkt} -d) #ei näin?
+	q=$(mktemp -d)
 
 	cd ${q} #antaa nyt cd:n olla toistaiseksi
 	[ $? -eq 0 ] || exit 77
@@ -771,27 +773,21 @@ function e22_settings2() { #HUOM.071025: toimii
 	dqb "AAMUNK01"
 }
 
-#TODO:joskus taas testaus
-
-#dpkg: dependency problems prevent configuration of live-boot-initramfs-tools:
-# live-boot-initramfs-tools depends on initramfs-tools; however:
-#  Package initramfs-tools is not configured yet.
-#tee tuolle jotain (esim. lib.cp5())
+#081125:tekee paketin, asentuukin enimmäkseen (pientä nalkutusta vielä)
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
-	[ -z ${1} ] && exit 1
+	[ -z ${1} ] && exit 1 
+	#[ -w ${1} ] || exit 44 #TODO: man bash taas
 	[ -s ${1} ] && mv ${1} ${1}.OLD
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 
 	[ -z ${3} ] && exit 33
-	[ -z ${4} ] && exit 55 #turha param
 
 	dqb "params_ok"
 	csleep 1
 
-	#pitäisiköhän kohdehmistostakin poistaa paketit?
 	e22_cleanpkgs ${pkgdir}
 	e22_cleanpkgs ${2}
 	dqb "CLEANUP 1 AND 2 DONE, NEXT: apt-get upgrade"
@@ -805,14 +801,17 @@ function e22_upgp() {
 	echo $?
 	csleep 1
 
-	aval0n
+	[ ${debug} -eq 1 ] && ls -las ${pkgdir}/*.deb
+	csleep 1
+
+	#aval0n #käyttöön vai ei?
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1
 
 	${sifd} ${3}
 	csleep 1
 	
-	dqb " ${3} SHOULD BE DOWN BY NOW"
+	dqb " ${3} SHOULD BE Dbtl 1n turq"
 	csleep 1
 	local s
 
@@ -824,6 +823,8 @@ function e22_upgp() {
 	done
 
 	#HUOM.part076() ja part2_5() on keksitty
+	[ ${debug} -eq 1 ] && ls -las ${pkgdir}/*.deb
+	csleep 1
 	
 	case ${3} in
 		wlan0)
@@ -837,7 +838,7 @@ function e22_upgp() {
 		;;
 	esac
 
-	udp6 ${pkgdir}
+	udp6 ${2}
 	dqb "UTP PT 3"
 	csleep 1
 

@@ -1,6 +1,10 @@
 libc6*.deb libgcc-s1*.deb gcc-12*.deb
+# libicu72:amd64 depends on libgcc-s1 (>= 3.0); however..
+# libxml2:amd64 depends on libicu72 (>= 72.1~rc-1~); however:
 perl-base*.deb
 perl-modules-*.deb
+#firefox-esr depends on libstdc++6 (>= 12); however...
+#mitähän tuo stdc++ taas tarvitsi?
 libstdc*.deb
 libicu*.deb
 #libjxl*.deb #eilöydy?
@@ -16,6 +20,10 @@ libx11-6*.deb
 libx11-xcb1*.deb
 libgdk-pixbuf2.0-common*.deb
 libgdk-pixbuf-2.0-0*.deb
+#limxlm* vai libxml2 erikseen?
+libxml*.deb
+#librsvg2-2:amd64 depends on libgcc-s1 (>= 4.2); however:
+#librsvg2-2:amd64 depends on libxml2 (>= 2.9.0); however:
 librsvg2-2*.deb
 librsvg2-common*.deb
 libavahi-common-data*.deb
@@ -46,7 +54,13 @@ libperl*.deb
 liberror-perl*.deb
 libuv1*.deb
 libnghttp2*.deb
-libxml*.deb
+#libvte-2.91-0:amd64 depends on libgcc-s1 (>= 3.0); however:
+#  Package libgcc-s1:amd64 is not configured yet.
+# libvte-2.91-0:amd64 depends on libicu72 (>= 72.1~rc-1~); however:
+#  Package libicu72:amd64 is not configured yet.
+# libvte-2.91-0:amd64 depends on libstdc++6 (>= 11); however:
+#  Package libstdc++6:amd64 is not configured yet.
+#
 libvte-2.91-common*.deb
 libvte*.deb
 libmpg123-0*.deb
@@ -61,6 +75,8 @@ libkrb5-3*.deb
 #libmaxminddb0 pitäisi
 libnghttp2-14*.deb
 #libprotobuf-c1*.deb pit
+#HUOM.081125:libxml2 ennen bind9-l , ei vielä riitä
+#myös:xscreensaver depends on libxml2 (>= 2.7.4); however...
 libxml2*.deb
 #zlib1g poitäisi
 libcrypt1*.deb

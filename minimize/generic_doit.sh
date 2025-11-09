@@ -182,6 +182,7 @@ fi
 pre_part2
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
+#251025:p2-5 ja excalibur eivät aiheuttane yhdessä suurta katsatrofia, g_pt2 asia erikseen
 part2_5 ${removepkgs} ${dnsm} ${iface}
 
 #still a halting problem around here?

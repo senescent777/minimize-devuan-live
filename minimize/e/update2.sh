@@ -48,9 +48,6 @@ if [ -v testgris ] && [ -d ${testgris} ] ; then
 	cd ${testgris}
 
 	#-C olisi myös keksitty
-	#exclude voisi olla myös hyvä (else-haarassa on jo)
-	#miten se -u ? (ekalla yrityksellä else-haarassa ei oikein toiminut toiv tavalla)
-
 	#nalqtus jos /etc yai /opt puuttuu paketista?
 else
 	cd /

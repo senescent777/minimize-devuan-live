@@ -10,15 +10,7 @@ d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
 
-#TARGET:DOPTS vai mikä olikaan?
-tpx="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ " #konftsdtoon vähietllen
-#... tai mitä tässä tap ptäisi purkaa ja mitä ei?
-
 #HUOM.30925:jospa ei pilkkoisi tätä tdstoa ainakaan ihan vielä
-
-#HUOM.111025:viimeksi muokatuilla .iso-tiedostoilla kokeillessa kävi ilmi että testailu rikkoo äksään kirjautumisen TAAS
-#1 ratkaisu olisi dumpata se slim+xfce , minimal_live+startx kehiin niiqu
-#toinen taas se että oletetaan aiheuttajaksi se 1 tar+koitetaan korjata
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -35,9 +27,6 @@ function usage() {
 if [ $# -gt 0 ] ; then
 	mode=${1}
 	srcfile=${2}
-#else
-#	usage
-#	exit 1	
 fi
 
 #HUOM.041025:debug-riippuvaisen käytöksen syy löytynee tästä fktiosta, ehkä
@@ -59,7 +48,7 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-if [ -f /.chroot ] ; then #HUOM.171025:tömö vlokki kunnossa?
+if [ -f /.chroot ] ; then #HUOM.171025:tämä blokki kunnossa?
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
 
@@ -70,13 +59,6 @@ if [ -f /.chroot ] ; then #HUOM.171025:tömö vlokki kunnossa?
 		rm ${f}
 		sleep 1
 	done
-
-	#HUOM.141025:ei vielä toimi kunnolla chrootin alla jos common_lib poissa pelistä
-	#ainakin $odio tulisi jyrätä tässä blokissa 
-
-	#1. yrityksellä "$0 1 $file" johti bad_signature-valituksiin joten lisää pitäisi iteroida 
-	#myös "gpg: can't open './sha512sums.sig': No such file or directory"
-	#2. yrityksellä jo onnistui "gpg --verify". Sitq vielä sha512 -c saisi taas... 
 fi
 
 if [ -s ${d0}/$(whoami).conf ] ; then
@@ -113,6 +95,7 @@ else
 	whack=$(${odio} which pkill)
 	whack="${odio} ${whack} --signal 9 " #P.V.H.H
 	sah6=$(${odio} which sha512sum)
+	mkt=$(which mktemp) #arpoo arpoo
 
 	function check_binaries() {
 		dqb "imp2.ch3ck_b1nar135 \${1} "
@@ -163,7 +146,10 @@ else
 fi
 
 [ -z ${distro} ] && exit 6
-mkt=$(${odio} which mktemp) #else-haaraan ylempänä tämä
+[ -v mkt ] || exit 7
+[ -z "${mkt}" ] && exit 9
+echo "mkt= ${mkt} "
+sleep 6
 
 #deMorgan
 if [ -f /.chroot ] || [ -x ${mkt} ] ; then
@@ -230,15 +216,9 @@ function common_part() {
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
 
-		#VAIH:mielellään sah6 -c $1.sha jatkossa
-		#... muuten kyllä mutta chroot-ympäristön kanssa vielä ulinaa
-
 		cat ${1}.sha
 		${sah6} -c ${1}
 		csleep 3
-
-		local gg
-		gg=$(${odio} which gpg) #jatkossa vommon_lib
 
 		if [ -x ${gg} ] ; then
 			dqb " ${gg} --verify ${1}.sha.sig "
@@ -249,10 +229,10 @@ function common_part() {
 	fi
 
 	csleep 1
-	dqb "NECKST:${srat} ${tpx} -C ${3} -xf ${1}" #TODO:pitäisi selvittää toimiiko --exclude kuten pitää
+	dqb "NECKST:${srat} ${TARGET_TPX} -C ${3} -xf ${1}" #TODO:pitäisi selvittää toimiiko --exclude kuten pitää
 	csleep 1
 
-	${srat} -C ${3} ${tpx} -xf ${1}
+	${srat} -C ${3} ${TARGET_TPX} -xf ${1}
 	[ $? -eq 0 ] || exit 36
 
 	csleep 1
@@ -302,8 +282,8 @@ function tpr() {
 	csleep 3
 
 	local t
-	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} ${tpx} -C ~ -xvf ${t} ; done
-	for t in ${1}/pulse.tar ~/pulse.tar ; do ${srat} ${tpx} -C / -xvf ${t} ; done
+	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} ${TARGET_TPX} -C ~ -xvf ${t} ; done
+	for t in ${1}/pulse.tar ~/pulse.tar ; do ${srat} ${TARGET_TPX} -C / -xvf ${t} ; done
 
 	dqb "PROFS?"
 	csleep 1
@@ -316,13 +296,13 @@ function tpr() {
 		dqb "INCLUDE OK"
 		csleep 1
 		local q
-		q=$(${mkt} -d)
+		q=$(mktemp -d)
 
 		#jatkossa kutsuvaan koodiin tämä if-blokki?
 		if [ -s ~/fediverse.tar ] ; then
-			${srat} ${tpx} -C ${q} -xvf ~/fediverse.tar
+			${srat} ${TARGET_TPX} -C ${q} -xvf ~/fediverse.tar
 		else
-			${srat} ${tpx} -C ${q} -xvf ${1}/fediverse.tar
+			${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/fediverse.tar
 		fi
 
 		imp_prof esr ${n} ${q}
@@ -392,7 +372,7 @@ csleep 6
 case "${mode}" in
 	r)
 		[ -d ${srcfile} ] || exit 22
-		tpr ${srcfile} #d0 pois ni voisi siirtää alempaan case:en
+		tpr ${srcfile} #d0 pois ni voisi siirtää alempaan case:en?
 	;;
 	1) #Todnäk toimii tämä case 1619025
 		common_part ${srcfile} ${d} /
@@ -449,7 +429,6 @@ case "${mode}" in
 		[ -d ${srcfile} ] || exit 22
 
 		dqb "KLM"
-		gg=$(${odio} which gpg) #vommon_lib
 		ridk=${srcfile}
 
 		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #/.chroot vielä?
@@ -462,7 +441,7 @@ case "${mode}" in
 		fi	
 	;;
 	-3)
-		echo "do_Nothing()"
+		dqb "do_Nothing()"
 	;;
 	*)
 		echo "-h"

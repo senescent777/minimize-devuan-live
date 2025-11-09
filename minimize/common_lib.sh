@@ -88,9 +88,7 @@ function other_horrors() {
 sco="${odio} ${sco} "
 scm="${odio} ${scm} "	
 
-#VAIH:sd0 ja srat alustukset näille main jatkossa?
 #komentorivin parsetyukseen liittyviä juttujamyöskin olisi... esim?
-
 #... ja jotain matskua voisi siirtää riippuvista skripteistä kirjastoon?
 	
 fix_sudo
@@ -150,6 +148,7 @@ NKVD="${odio} ${NKVD} "
 	
 #PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
 PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
+#HUOM.excalibur ei sisällä:dnsmasq,stubby
 
 #HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!
 #sdi=$(${odio} which dpkg)
@@ -162,15 +161,15 @@ sifd=$(${odio} which ifdown)
 sip=$(${odio} which ip)
 sip="${odio} ${sip} "
 
-gg=$(${odio} which gpg)
+#gg=$(${odio} which gpg)
 gv=$(${odio} which gpgv)
-gi=$(${odio} which genisoimage)
-gmk=$(${odio} which grub-mkrescue)
-xi=$(${odio} which xorriso)
-#smd=(${odio} which mkdir) #käyttöön?
+#gi=$(${odio} which genisoimage)
+#gmk=$(${odio} which grub-mkrescue)
+#xi=$(${odio} which xorriso)
+smd=$(${odio} which mkdir)
 sca=$(${odio} which chattr)
 sca="${odio} ${sca}"
-mkt="${odio} which mktemp"
+mkt=$(${odio} which mktemp)
 tig=$(${odio} which git)
 gg=$(${odio} which gpg)
 
@@ -230,6 +229,7 @@ function psqa() {
 		#https://www.gnupg.org/documentation/manuals/gnupg24/gpgv.1.html
 		
 		#HUOM.ao.blokin testausta varten sitten "export2 e ..."
+		#(kys tuotiokseen pitäisi se .sig saada mukaan myös)
 		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 			dqb "${gg} --verify ./sha512sums.sig "			
 			csleep 3
@@ -252,7 +252,7 @@ function psqa() {
 function pre_part3_clib() {
 	dqb "pre_part3_clib ${1}"
 	csleep 1
-	pwd
+	[ ${debug} -eq 1 ] && pwd
 
 	dqb "find ${1} -type f -name \* .deb"
 	csleep 3
@@ -285,7 +285,7 @@ function efk1() {
 		dqb $?
 	fi
 
-	csleep 3
+	csleep 1
 }
 
 function efk2() {
@@ -300,12 +300,11 @@ function efk2() {
 	csleep 1
 }
 
-#HUOM.171025:qseeko näissä jokin?
 function clib5p() {
 	dqb "clib5p( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
 	[ -z "${2}" ] && exit 67
-	[ -s ${1}/${2} ] || exit 69
+	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE" 
 
 	dqb "WILL START REJECTING PIGS NOW"
 	csleep 1
@@ -326,12 +325,13 @@ function clibpre() {
 	dqb "clib5p.re( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 96
 	[ -z "${2}" ] && exit 67
-	[ -s ${1}/${2} ] || exit 69 #-r vielä?
+	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE" 
 
 	dqb "PARANMS OK"
 	csleep 1
 
 	dqb "#ASDFASDFASDF"
+	#saattaa joutua jatkossa muuttamaan ao. riviä
 	efk1 ${1}/libc6*.deb ${1}/libgcc-s1*.deb ${1}/gcc*.deb
 	csleep 4
 
@@ -340,11 +340,14 @@ function clibpre() {
 	p=$(pwd)
 	cd ${1}
 
+	dqb "4 REALZ"
+	csleep 1
+
 	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
 	
 	csleep 2
 	cd ${p}
-	dqb "ERB1L A\$\$UCKfgh"
+	dqb "qERB1L A\$\$UCKfgh"
 }
 
 
@@ -372,9 +375,9 @@ function common_tbls() {
 	dqb "COMMON TABLESD $1, $2"
 	csleep 1
 
-	[ y"${1}" == "y" ] && exit	
-	[ -d ${1} ] || exit
-	[ -z ${2} ] && exit
+	[ y"${1}" == "y" ] && exit 33	
+	[ -d ${1} ] || exit 45
+	[ -z ${2} ] && exit 67
 
 	local d2
 	d2=$(echo ${2} | tr -d -c 0-9)
@@ -382,6 +385,10 @@ function common_tbls() {
 	dqb "PARAMS_OK"
 	csleep 1
 	psqa ${1}
+
+	#uutena 251025 sysystö excakubuyr/ceres, pois jos qsee
+	efk1 ${1}/isc-dhcp*.deb
+	csleep 10
 
 	efk1 ${1}/libnfnet*.deb
 	csleep 1
@@ -451,13 +458,15 @@ function check_binaries() {
 	ip6tr=$(${odio} which ip6tables-restore)
 	
 	local y
-	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum dhclient mkdir mktemp" # kilinwittu.sh	
+	#251025:excalibur-syistä dhclient tilapäisesti ulos listasta...tai siis alemmas
+	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh	
 	for x in ${y} ; do ocs ${x} ; done
 	dqb "JUST BEFORE"
 	csleep 4
 
 	[ -v sr0 ] || exit 102
 	[ -v ipt ] || exit 103
+	[ -v smd ] || exit 104
 	srat=${sr0}
 		
 	if [ ${debug} -eq 1 ] ; then
@@ -504,7 +513,7 @@ function check_binaries() {
 	dqb "sdi= ${sdi} "
 	csleep 6
 
-	for x in iptables ip6tables iptables-restore ip6tables-restore  ; do ocs ${x} ; done
+	for x in iptables ip6tables iptables-restore ip6tables-restore dhclient ; do ocs ${x} ; done
 	csleep 6
 	
 	sag=$(${odio} which apt-get)
@@ -537,7 +546,6 @@ function check_binaries2() {
 	sifd="${odio} ${sifd} "
 
 	lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 
-
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing '/run/live/medium/live/initrd.img.new': No space left on device
 
@@ -546,12 +554,11 @@ function check_binaries2() {
 	fib="${odio} ${sa} --fix-broken install "
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
-	#smd=(${odio} ${smd}) #käyttöön?
+	smd="${odio} ${smd}" #käyttöön
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
 
-#161025:olisiko tässä typoja? vai jossain aiemmin? vaikuttaisi toimivan nyt
 function mangle_s() {
 	dqb "mangle_s  ${1} , ${2}, ${3}  "
 	csleep 1
@@ -579,7 +586,6 @@ function mangle_s() {
 	echo -e "\n" >> ${2}
 }
 
-#161025:olisiko tässä typoja? vai jossain aiemmin?
 #...toisaalta sen dhclient-kikkailun voisi palauttaa
 function dinf() {
 	local g
@@ -606,13 +612,22 @@ function pre_enforce() {
 	csleep 1
 	[ -f ${q}/meshuggah ] || exit 33
 
-	if [ ! -v testgris ] ; then #VAIH:ehto toisin, glb mjia...
+	if [ ! -v testgris ] ; then
 		dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 
-		[ -d /opt/bin ] || ${odio} mkdir /opt/bin
-		#smd?
+		if [ ! -d /opt/bin ] ; then
+			dqb "FSDFSDFSD"
+			${smd} /opt/bin
+			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
+		fi
 
-		[ -f ${1}/changedns.sh ] && ${svm} ${1}/changedns.sh /opt/bin
+		if [ -f ${1}/changedns.sh ] ; then
+			dqb "SÖSSÖN SÖSSÖN"
+			${svm} ${1}/changedns.sh /opt/bin
+		fi
+
+		${scm} 0555 /opt/bin/changedns.sh
+		${sco} 0:0 /opt/bin/changedns.sh
 		mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 		csleep 1
 	else 
@@ -703,7 +718,7 @@ function e_v() {
 	${sco} root:mail /var/mail
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
-	dqb "V1C.V0N.D00m"
+	dqb "V1C.THE.V33P"
 	csleep 1
 }
 
@@ -766,7 +781,6 @@ function e_final() {
 	csleep 1
 }
  
-#161025:olisiko tässä typoja? vai jossain aiemmin?
 function enforce_access() {
 	dqb " enforce_access ${1} , ${2}"
 	csleep 5
@@ -829,7 +843,6 @@ function part1_5() {
 		csleep 1
 		local tdmc
 	
-		#HUOM.121025:tartteeko sudottaa? vosi tehd tsinkin(VAIH)
 		tdmc="sed -i 's/DISTRO/${t}/g'"
 		echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 		csleep 1
@@ -841,7 +854,6 @@ function part1_5() {
 		fi
 	
 		${svm} ${h}/sources.list.tmp /etc/apt/sources.list.${t}
-
 		#turhaa kikkailua
 		#echo "${odio} mv /etc/apt/sources.list.tmp /etc/apt" | bash -s
 		csleep 1
@@ -862,8 +874,9 @@ function part1_5() {
 
 function dis() {
 	dqb "CHAMBERS OF 5HA0 L1N ${1}"
-	[ -z ${1} ] && exit 44
+	[ -z "${1}" ] && exit 44
 	csleep 1
+
 	${scm} 0755 /etc/network
 	${sco} -R root:root /etc/network
 	${scm} a+r /etc/network/*
@@ -904,10 +917,12 @@ function dis() {
 	dqb "${sip} link set ${iface} down"
 	${sip} link set ${iface} down
 	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+
 	csleep 1
 	${odio} sysctl -p
 	csleep 1
-	dqb "DONE"
+
+	dqb "5HAD0W 0F TH3 B3A5T D0N3"
 }
 
 function part076() {
@@ -995,7 +1010,6 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE"
 }
 
-#161025:olisiko tässä typoja? vai jossain aiemmin?
 function part2_5() {
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
 	csleep 1
@@ -1082,6 +1096,8 @@ function part3() {
 		clib5p ${1} reject_pkgs
 	fi
 
+	#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taåauksessa daed , jotain jos tekisi 
+
 	clibpre ${1} accept_pkgs_1
 	clibpre ${1} accept_pkgs_2
 
@@ -1091,8 +1107,6 @@ function part3() {
 #	efk1 ${1}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
 #	[ $? -eq 0 ] || echo "SHOULD exit 66"
 #	csleep 1
-#
-#
 #
 #	efk1 ${1}/*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
 #	[ $? -eq 0 ] || echo "SHOULD exit 67"	
@@ -1133,6 +1147,7 @@ function slaughter0() {
 	echo ${ts2} | awk '{print $1,$2}' >> ${2}
 }
 
+#TODO:-h,-v vähitellen?
 function gpo() {
 	dqb "GPO"
 	local prevopt

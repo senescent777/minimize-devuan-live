@@ -1,0 +1,10 @@
+libpam-modules-bin_*.deb
+libpam-modules_*.deb
+libpam*.deb
+perl-modules-*.deb
+libperl*.deb
+perl*.deb
+libdbus*.deb
+dbus*.deb
+liberror-perl*.deb
+git*.deb

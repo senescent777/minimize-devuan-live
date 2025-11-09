@@ -7,8 +7,6 @@ d0=$(pwd)
 mode=-2
 tgtfile=""
 
-#jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch (vakka erillinen branch näitä varten)
-
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -154,37 +152,31 @@ fi
 #fi
 #TODO:t2-kikkailut jatkossa ennen e22?
 
-##https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
+#https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
 [ -z "${tgtfile}" ] && exit 99
-[ -z "${srat}" ] && exit 666
+[ -z "${srat}" ] && exit 66
 
 case ${mode} in
-	f)		
-		#HUOM.070125:toiminee (mod parametrien tarkistukset)
+	f) #021125:toimii vai ei?		
+		#...koita muistaa śaada aikaiseksi se sha512sums.sig  kanssa josqs(TODO)
+		
 		e22_arch ${tgtfile} ${d}
-		#HUOM. ei kai oleellista päästä ajelemaan tätä skriptiä chroootin sisällä, generic ja import2 olennaisempia
 		e22_ftr ${tgtfile}
 		exit
 	;;
 	q)
-		#HUOM.071025:sopisi nyt olla kunnossa tämä case (kunnes srat-juttuja taas sorkitaan)
-		#jos vähän roiskisi casen sisältöä -> e22 ?
+		#HUOM.021125:tekee paketin
 		${sifd} ${iface}
-	
-		#HUOM.061025.1:parempi tämän kanssa että tuotokset puretaan -C - optiolla
 		e22_settings ~ ${d0}
 
-		#HUOM.061025.2:tässä ei ole ihan pakollista vetää ~ mukaan tdstoken polkuun mutta olkoon nyt näin toistaiseksi
-		#josko takaisin siihen että vain oikeasti tarpeelliset mukaan
-		#... ja profs.sh jos kuuluisi tarpeellisiin
+		#josko takaisin siihen että vain oikeasti tarpeelliset mukaan(TODO)
 
-		#täss se maxdepth mukaan...
-		for f in $(find ~ -name '*.tar' -or -name '*.bz2') ; do
-			${srat} -rvf ${tgtfile} ${f} #HUOM.091025:tähän ai tarvinne --exclude
+		for f in $(find ~ -maxdepth 1 -name '*.tar' -or -name '*.bz2' -or -name 'profs.sh') ; do
+			${srat} -rvf ${tgtfile} ${f} #--exclude vai ei?
 		done
 
 		e22_ftr ${tgtfile}
@@ -193,9 +185,10 @@ case ${mode} in
 		exit
 	;;
 	c)
+		#HUOM. 021125:tekee paketin
 		cd ${d0}
-		for f in $(find . -type f -name '*.sh') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
-		for f in $(find . -type f -name '*_pkgs*')  ; do ${srat} -rvf ${tgtfile} ${f} ; done
+		for f in $(find . -type f -name '*.sh' | grep -v 'e/') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
+		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/')  ; do ${srat} -rvf ${tgtfile} ${f} ; done
 				
 		bzip2 ${tgtfile}
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
@@ -205,7 +198,7 @@ case ${mode} in
 		exit
 	;;
 	g)
-		#HUOM.061025:vaikuttaisi tulevan järkevää outputtia
+		#HUOM.021125:vaikuttaisi tulevan järkevää outputtia pl. ehkä reinstall sellaisenaan 
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "sudo apt-get update;sudo apt-get reinstall"
 
@@ -221,20 +214,19 @@ esac
 
 e22_pre1 ${d} ${distro}
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
-pwd;sleep 6
+[ ${debug} -eq 1 ] && pwd;sleep 6
 
 [ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59" #tilapäisesti jemmaan kunnes x
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 
 e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
-#VAIH:yhteisiä juttuja tähän
 
 case ${mode} in
 	0|4)
-	#VAIH:testaus (071015) , case 4 tekee paketin, toimiikin enimmäkseen
-		#[ z"${tgtfile}" == "z" ] && exit 99 
-		#e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+		#VAIH:testaus (281025) , case 4 tekee paketin, toimii:jep
+		#case 0 taas:tekee paketin missä enemmäm sisältöä, toimii:?
+		#... nökäjään f.tar meni pakettiin 2 kertaa, 1 riittäisi
 
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
@@ -259,7 +251,7 @@ case ${mode} in
 	
 			if [ -d ${d} ] ; then
 				e22_dblock ${d}/f.tar ${d}
-				${srat} -rvf ${tgtfile} ${d}/f.tar #tämäkö jäi puuttumaan?
+				#${srat} -rvf ${tgtfile} ${d}/f.tar #tämäkö jäi puuttumaan?
 			fi
 
 			e22_cleanpkgs ${d} #kuinka oleellinen?
@@ -284,46 +276,27 @@ case ${mode} in
 		csleep 5	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #TODO:testaa toiminta josqs
-		#HUOM.29925:miten ne allekirjoitushommat sitten? 
-		#aluksi jos case e/t/u hyödyntämään gpg:tä (casen jälkeen onjo juttuja)
-		#... ja sitten käsipelillä allekirjoitus-jutskat arkistoon
-		#jonka jälkeen imp2 tai pikemminkin p_p_3_clib() tai psqa() tarkistamaan
-		
-		#[ z"${tgtfile}" == "z" ] && exit 99 
-		#e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+	1|u|upgrade) #VAIH:testaa toiminta josqs (81125 paketin teko jo onnistuu, asebtanminenkin melkein)
 		e22_cleanpkgs ${d}
-		e22_upgp ${tgtfile} ${d} ${iface} #${dnsm}
+		e22_upgp ${tgtfile} ${d} ${iface}
 	;;
-	p) #HUOM.071025:edelleen saa paketin aikaiseksi, toimibuus vielä varmistettava (TODO)
-		#[ z"${tgtfile}" == "z" ] && exit 99 
-
-		#HUOM.240325:tämä+seur case toimivat, niissä on vain semmoinen juttu(kts. S.Lopakka:Marras)
-		#e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+	p) #HUOM. 021125:tekee paketin
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.071025:vetää kyllä paketteja mutta nalkutusta
-		#Errors were encountered while processing:
-		# initramfs-tools
-		# e2fsprogs
-		#...jokohan jo 091025 olisi poistunut?
-
-		#nykyään nalqtuksen lisäksi lisää f.tar $tgtfile:en (paketin sisällön validius vielä selvitettävä)			
-
-		#e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+	e)  #HUOM.021125:tekee edelleen paketin			
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_get_pkgs ${dnsm}
 
 		if [ -d ${d} ] ; then
+			e22_hdr ${d}/f.tar
 			e22_dblock ${d}/f.tar ${d}
 			cd ${d}
 			${srat} -rvf ${tgtfile} ./f.tar #tämäkö jäi puuttumaan?
 		fi
 	;;
 	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi? no esim. jos tar:ill väärä -C ni...
-	t) #HUOM.071025:toimi ainakin kerran (tehdyn paketin validius erikseen)
-		#e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+	t) #HUOM.021125:edelleen tekee paketin missä toivottavaa sisältöä
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
 			
@@ -334,7 +307,7 @@ case ${mode} in
 		e22_ts ${d}
 		e22_arch ${tgtfile} ${d}
 	;;
-	*)
+	*) #281025:tämäkin toiminee
 		echo "-h"
 		exit
 	;;
