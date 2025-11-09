@@ -10,15 +10,7 @@ d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
 
-#TARGET:DOPTS vai mikä olikaan?
-#TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ " #konftsdtoon vähietllen
-#... tai mitä tässä tap ptäisi purkaa ja mitä ei?
-
 #HUOM.30925:jospa ei pilkkoisi tätä tdstoa ainakaan ihan vielä
-
-#HUOM.111025:viimeksi muokatuilla .iso-tiedostoilla kokeillessa kävi ilmi että testailu rikkoo äksään kirjautumisen TAAS
-#1 ratkaisu olisi dumpata se slim+xfce , minimal_live+startx kehiin niiqu
-#toinen taas se että oletetaan aiheuttajaksi se 1 tar+koitetaan korjata
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -103,6 +95,7 @@ else
 	whack=$(${odio} which pkill)
 	whack="${odio} ${whack} --signal 9 " #P.V.H.H
 	sah6=$(${odio} which sha512sum)
+	mkt=$(which mktemp) #arpoo arpoo
 
 	function check_binaries() {
 		dqb "imp2.ch3ck_b1nar135 \${1} "
@@ -153,7 +146,10 @@ else
 fi
 
 [ -z ${distro} ] && exit 6
-mkt=$(${odio} which mktemp) #else-haaraan ylempänä tämä
+[ -v mkt ] || exit 7
+[ -z "${mkt}" ] && exit 9
+echo "mkt= ${mkt} "
+sleep 6
 
 #deMorgan
 if [ -f /.chroot ] || [ -x ${mkt} ] ; then
@@ -220,15 +216,9 @@ function common_part() {
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
 
-		#VAIH:mielellään sah6 -c $1.sha jatkossa
-		#... muuten kyllä mutta chroot-ympäristön kanssa vielä ulinaa?
-
 		cat ${1}.sha
 		${sah6} -c ${1}
 		csleep 3
-
-		local gg
-		gg=$(${odio} which gpg) #jatkossa vommon_lib
 
 		if [ -x ${gg} ] ; then
 			dqb " ${gg} --verify ${1}.sha.sig "
@@ -306,7 +296,7 @@ function tpr() {
 		dqb "INCLUDE OK"
 		csleep 1
 		local q
-		q=$(${mkt} -d)
+		q=$(mktemp -d)
 
 		#jatkossa kutsuvaan koodiin tämä if-blokki?
 		if [ -s ~/fediverse.tar ] ; then
@@ -382,7 +372,7 @@ csleep 6
 case "${mode}" in
 	r)
 		[ -d ${srcfile} ] || exit 22
-		tpr ${srcfile} #d0 pois ni voisi siirtää alempaan case:en
+		tpr ${srcfile} #d0 pois ni voisi siirtää alempaan case:en?
 	;;
 	1) #Todnäk toimii tämä case 1619025
 		common_part ${srcfile} ${d} /
@@ -439,7 +429,6 @@ case "${mode}" in
 		[ -d ${srcfile} ] || exit 22
 
 		dqb "KLM"
-		gg=$(${odio} which gpg) #vommon_lib
 		ridk=${srcfile}
 
 		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #/.chroot vielä?

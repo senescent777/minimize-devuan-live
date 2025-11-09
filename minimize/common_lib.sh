@@ -161,15 +161,15 @@ sifd=$(${odio} which ifdown)
 sip=$(${odio} which ip)
 sip="${odio} ${sip} "
 
-gg=$(${odio} which gpg)
+#gg=$(${odio} which gpg)
 gv=$(${odio} which gpgv)
-gi=$(${odio} which genisoimage)
-gmk=$(${odio} which grub-mkrescue)
-xi=$(${odio} which xorriso)
+#gi=$(${odio} which genisoimage)
+#gmk=$(${odio} which grub-mkrescue)
+#xi=$(${odio} which xorriso)
 smd=$(${odio} which mkdir)
 sca=$(${odio} which chattr)
 sca="${odio} ${sca}"
-mkt="${odio} which mktemp"
+mkt=$(${odio} which mktemp)
 tig=$(${odio} which git)
 gg=$(${odio} which gpg)
 
@@ -285,7 +285,7 @@ function efk1() {
 		dqb $?
 	fi
 
-	csleep 3
+	csleep 1
 }
 
 function efk2() {
@@ -331,6 +331,7 @@ function clibpre() {
 	csleep 1
 
 	dqb "#ASDFASDFASDF"
+	#saattaa joutua jatkossa muuttamaan ao. riviä
 	efk1 ${1}/libc6*.deb ${1}/libgcc-s1*.deb ${1}/gcc*.deb
 	csleep 4
 
@@ -346,7 +347,7 @@ function clibpre() {
 	
 	csleep 2
 	cd ${p}
-	dqb "ERB1L A\$\$UCKfgh"
+	dqb "qERB1L A\$\$UCKfgh"
 }
 
 
@@ -374,9 +375,9 @@ function common_tbls() {
 	dqb "COMMON TABLESD $1, $2"
 	csleep 1
 
-	[ y"${1}" == "y" ] && exit 45	
-	[ -d ${1} ] || exit 67
-	[ -z ${2} ] && exit 89
+	[ y"${1}" == "y" ] && exit 33	
+	[ -d ${1} ] || exit 45
+	[ -z ${2} ] && exit 67
 
 	local d2
 	d2=$(echo ${2} | tr -d -c 0-9)
@@ -780,7 +781,6 @@ function e_final() {
 	csleep 1
 }
  
-#161025:olisiko tässä typoja? vai jossain aiemmin?
 function enforce_access() {
 	dqb " enforce_access ${1} , ${2}"
 	csleep 5
@@ -874,8 +874,9 @@ function part1_5() {
 
 function dis() {
 	dqb "CHAMBERS OF 5HA0 L1N ${1}"
-	[ -z ${1} ] && exit 44
+	[ -z "${1}" ] && exit 44
 	csleep 1
+
 	${scm} 0755 /etc/network
 	${sco} -R root:root /etc/network
 	${scm} a+r /etc/network/*
@@ -916,10 +917,12 @@ function dis() {
 	dqb "${sip} link set ${iface} down"
 	${sip} link set ${iface} down
 	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+
 	csleep 1
 	${odio} sysctl -p
 	csleep 1
-	dqb "DONE"
+
+	dqb "5HAD0W 0F TH3 B3A5T D0N3"
 }
 
 function part076() {
@@ -1105,8 +1108,6 @@ function part3() {
 #	[ $? -eq 0 ] || echo "SHOULD exit 66"
 #	csleep 1
 #
-#
-#
 #	efk1 ${1}/*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
 #	[ $? -eq 0 ] || echo "SHOULD exit 67"	
 #	csleep 1
@@ -1146,6 +1147,7 @@ function slaughter0() {
 	echo ${ts2} | awk '{print $1,$2}' >> ${2}
 }
 
+#TODO:-h,-v vähitellen?
 function gpo() {
 	dqb "GPO"
 	local prevopt
