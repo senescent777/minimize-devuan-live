@@ -4,13 +4,16 @@ udev*.deb
 xserver-common*.deb
 xserver-xorg-core*.deb
 dbus-bin*.deb
-#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taåauksessa daed , jotain jos tekisi 
+#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä dbus taåauksessa daed , jotain jos tekisi 
 dbus-daemon*.deb dbus-session-bus-common*.deb
 perl-base*.deb
 perl*.deb
 git*.deb
+#HUOM.uusimman päivityspak kanssa bind9-dnsutils auheuttaa nalqtusta, bind9-host ja bind9-lkibs liittynevät
 #bind9-libs*.deb
 bind9-host*.deb
 bind9-dns*.deb
+dnsutils*.deb
 e2fsprogs*.deb
 python3.11-minimal*.deb
+#HUOM.081125:bind9-dnsutils ennen dnsutils
