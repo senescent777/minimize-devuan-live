@@ -7,8 +7,6 @@ d0=$(pwd)
 mode=-2
 tgtfile=""
 
-#jospa kirjoittaisi uusiksi nuo exp2/imp2/e22-paskat fråm scratch (vakka erillinen branch näitä varten)
-
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -154,7 +152,7 @@ fi
 #fi
 #TODO:t2-kikkailut jatkossa ennen e22?
 
-##https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
+#https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
@@ -216,7 +214,7 @@ esac
 
 e22_pre1 ${d} ${distro}
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
-pwd;sleep 6
+[ ${debug} -eq 1 ] && pwd;sleep 6
 
 [ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59" #tilapäisesti jemmaan kunnes x
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
@@ -278,7 +276,7 @@ case ${mode} in
 		csleep 5	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #VAIH:testaa toiminta josqs (241025 tienoilla ei ihan vielä lähtenyt loikkimaan, klesa kipeenä)
+	1|u|upgrade) #VAIH:testaa toiminta josqs (81125 paketin teko jo onnistuu, asebtanminenkin melkein)
 		e22_cleanpkgs ${d}
 		e22_upgp ${tgtfile} ${d} ${iface}
 	;;

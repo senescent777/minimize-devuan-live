@@ -2,7 +2,7 @@
 E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
 		
 function e22_hdr() { #HUOM.021125:toimii?
-	dqb "BEFORE TAR"
+	dqb "e22hdr():BEFORE "
 	csleep 1
 	[ -z ${1} ] && exit 62
 
@@ -17,7 +17,7 @@ function e22_hdr() { #HUOM.021125:toimii?
 	[ ${debug} -eq 1 ] && ls -las ${1}
 	csleep 3
 
-	dqb "AFTER TAR"
+	dqb "e22hdr():AFTER th3 WAR"
 	csleep 1
 }
 
@@ -202,9 +202,9 @@ function e22_settings() { #HUOM.021125:toimii toistaiseksi?
 
 function e22_home() { #021125:taitaa toimia
 	dqb "e22_home ${1} , ${2} , ${3}  "
-	[ -z ${1} ] && exit 67 #VAIH:-s myös?
+	[ -z ${1} ] && exit 67
 	[ -s ${1} ] || exit 68
-	[ -z ${2} ] && exit 69 #VAIH:-d kanssa?
+	[ -z ${2} ] && exit 69
 	[ -d ${2} ] || exit 70
 	[ -z ${3} ] && exit 71
 	csleep 1
@@ -369,7 +369,7 @@ function e22_ext() { #HUOM.021125:vissiin toimii edelleen
 
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2
-	#[ -w ${1} ] || exit 6 #VAIH:kirj.oik.tark. myös?
+	#[ -w ${1} ] || exit 6 
 	[ -z ${2} ] && exit 3
 	[ -z ${3} ] && exit 4
 
@@ -521,7 +521,7 @@ function e22_arch() { #021125:vissiin toimii
 
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 2 
-	#[ -w ${1} ] || exit 33 #VAIH:kirj.oik.tark?
+	#[ -w ${1} ] || exit 33
 
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
@@ -592,7 +592,7 @@ function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisält�
 	csleep 2
 
 	#tarkistukset jotenkin toisin jatkossa? 
-	[ -z ${1} ] && exit 11 #-d ainakin lisäksi(VAIH)
+	[ -z ${1} ] && exit 11
 	[ -d ${1} ] || exit 15 
 
 	[ -z ${2} ] && exit 12
@@ -707,13 +707,12 @@ function e22_get_pkgs() { #HUOM.021125:josko toimisi?
 	csleep 1
 }
 
-function e22_dblock() { #VAIH:testaus uusiksi (021125) , vissiibn toimii
+function e22_dblock() {
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
-	#mitenköhän tarkistusten kanssa? $1 kanssa vielä jotain? (VAIH)
-	[ -z ${1} ] && exit 14 #-s ja -w ?
+	[ -z ${1} ] && exit 14
 	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes
-	#[ -w ${1} ] || exit 16
+	#[ -w ${1} ] || exit 16 #ei näin?
 
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
@@ -747,7 +746,7 @@ function e22_settings2() { #HUOM.021125:tekee paketin, sisältö ehkä ok
 	#[ -w ${1} ] || exit 97 #VAIH:kirj.oik, ei ihan vielä 
 
 	[ -z ${2} ] && exit 96
-	[ -d ${2} ] || exit 95 #VAIH:-z myös?
+	[ -d ${2} ] || exit 95
 	[ -w ${2} ] || exit 94
 	
 	dqb "params ok"
@@ -774,12 +773,12 @@ function e22_settings2() { #HUOM.021125:tekee paketin, sisältö ehkä ok
 	dqb "AAMUNK01"
 }
 
-#VAIH:joskus taas testaus (241025 tieboilla ei vielä...)
+#081125:tekee paketin, asentuukin enimmäkseen (pientä nalkutusta vielä)
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1 
-	[ -w ${1} ] || exit 44
+	#[ -w ${1} ] || exit 44 #TODO: man bash taas
 	[ -s ${1} ] && mv ${1} ${1}.OLD
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
@@ -789,7 +788,6 @@ function e22_upgp() {
 	dqb "params_ok"
 	csleep 1
 
-	#pitäisiköhän kohdehmistostakin poistaa paketit?
 	e22_cleanpkgs ${pkgdir}
 	e22_cleanpkgs ${2}
 	dqb "CLEANUP 1 AND 2 DONE, NEXT: apt-get upgrade"
