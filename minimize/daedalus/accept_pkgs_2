@@ -9,8 +9,9 @@ dbus-daemon*.deb dbus-session-bus-common*.deb
 perl-base*.deb
 perl*.deb
 git*.deb
-#bind9-libs*.deb
+#bind9-libs*.deb #lähteekö asentumaan vai ei?
 bind9-host*.deb
 bind9-dns*.deb
+dnsutils*.deb
 e2fsprogs*.deb
 python3.11-minimal*.deb
