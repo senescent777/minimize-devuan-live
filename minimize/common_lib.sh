@@ -331,10 +331,21 @@ function clibpre() {
 	csleep 1
 
 	dqb "#ASDFASDFASDF"
+
 	#saattaa joutua jatkossa muuttamaan ao. riviä
-	efk1 ${1}/libc6*.deb ${1}/libgcc-s1*.deb ${1}/gcc*.deb
+	#edelleen 121125 jotain pientä nalkutusta nimittäin
+	#pitäisiköhän se libicu kanssa siirtää tähän...
+
+	efk1 ${1}/libc6*.deb ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
 	csleep 4
 
+	dqb "ZXC,MNBZXC,MNBZXCMNBVZXC"
+
+	efk1 ${1}/libicu*.deb ${1}/libxml*.deb
+	csleep 6
+
+	dqb "LOREMIPSUM-.LOREM1PSUM.LOREMIPSUM"
+	csleep 5
 	local p
 	local q
 	p=$(pwd)
@@ -345,7 +356,7 @@ function clibpre() {
 
 	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
 	
-	csleep 2
+	csleep 10
 	cd ${p}
 	dqb "qERB1L A\$\$UCKfgh"
 }
@@ -1096,7 +1107,7 @@ function part3() {
 		clib5p ${1} reject_pkgs
 	fi
 
-	#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taåauksessa daed , jotain jos tekisi 
+	#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taåauksessa daed , jotain jos tekisi dbus
 
 	clibpre ${1} accept_pkgs_1
 	clibpre ${1} accept_pkgs_2
@@ -1145,6 +1156,13 @@ function slaughter0() {
 	fn2=$(echo $1 | awk '{print $1}') 
 	ts2=$(sha512sum ${fn2})
 	echo ${ts2} | awk '{print $1,$2}' >> ${2}
+}
+
+function fasdfasd() {
+	dqb "SUN LIIRUM SUN LAARUM ${1}"
+	touch ${1}
+	chown $(whoami):$(whoami) ${1}
+	chmod 0644 ${1}
 }
 
 #TODO:-h,-v vähitellen?
