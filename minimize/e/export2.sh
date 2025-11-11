@@ -161,8 +161,8 @@ csleep 1
 [ -z "${srat}" ] && exit 66
 
 case ${mode} in
-	f) #021125:toimii vai ei?		
-		#...koita muistaa śaada aikaiseksi se sha512sums.sig  kanssa josqs(TODO)
+	f) #121125:uudelleenpakkaus toimii nykyään		
+		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(TODO)
 		
 		e22_arch ${tgtfile} ${d}
 		e22_ftr ${tgtfile}
