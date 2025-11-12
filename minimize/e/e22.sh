@@ -137,7 +137,7 @@ function e22_pre2() { #HUOM.021125;toimii?
 }
 
 function e22_cleanpkgs() { #HUOM.021125:taitaa toimia 
-	dqb " ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
+	dqb "e22_cleanpkgs ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
 	[ -z "${1}" ] && exit 56
 
 	if [ -d ${1} ] ; then
@@ -155,10 +155,11 @@ function e22_cleanpkgs() { #HUOM.021125:taitaa toimia
 
 	fi
 
+	dqb "e22_cleanpkgs D0N3"
 	csleep 1
 }
 
-function e22_settings() { #HUOM.021125:toimii toistaiseksi?
+function e22_settings() { #HUOM.121125:toimii toistaiseksi?
 	dqb "e22_settings ${1} ${2}"
 	csleep 1
 
@@ -193,9 +194,11 @@ function e22_settings() { #HUOM.021125:toimii toistaiseksi?
 	fi
 
 	cd ${2}
+	dqb "e22_settings ${1} ${2} DONE"
+	csleep 1
 }
 
-function e22_home() { #021125:taitaa toimia
+function e22_home() { #121125:toimii ehdolla profs.sh löytyy
 	dqb "e22_home ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit 67
 	[ -s ${1} ] || exit 68
@@ -217,7 +220,7 @@ function e22_home() { #021125:taitaa toimia
 	fi
 
 	csleep 1
-	${srat} -rvf ${1} /opt/bin/changedns.sh
+	${srat} -rvf ${1} /opt/bin/changedns.sh #TODO:merd2.sh mukaan myös
 	local t
 
 	#121125;onko olennaista saada e22_home() toimimaan kehitysymp? myös update2 keksitty
@@ -358,7 +361,7 @@ function e22_elocal() { #021125:vissiin toimii
 
 [ -v BASEURL ] || exit 6
 
-function e22_ext() { #HUOM.021125:vissiin toimii edelleen
+function e22_ext() { #HUOM.121125:
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
