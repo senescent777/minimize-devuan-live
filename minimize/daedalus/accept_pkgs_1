@@ -1,4 +1,4 @@
-#libc6*.deb gcc-12*.deb libgcc-s1*.deb #parempi olisi jos nämä saisi tätä kautta
+libc6*.deb libgcc-s1*.deb gcc-12*.deb
 perl-base*.deb
 perl-modules-*.deb
 libstdc*.deb

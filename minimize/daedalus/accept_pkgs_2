@@ -12,6 +12,5 @@ git*.deb
 #bind9-libs*.deb
 bind9-host*.deb
 bind9-dns*.deb
-dnsutils*.deb
 e2fsprogs*.deb
 python3.11-minimal*.deb
