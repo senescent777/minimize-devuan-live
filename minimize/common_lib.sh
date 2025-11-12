@@ -330,13 +330,16 @@ function clibpre() {
 	dqb "PARANMS OK"
 	csleep 1
 
-	dqb "#ASDFASDFASDF"
+	#dqb "#ASDFASDFASDF"
 
-	#saattaa joutua jatkossa muuttamaan ao. riviä
-	#edelleen 121125 jotain pientä nalkutusta nimittäin
-	#pitäisiköhän se libicu kanssa siirtää tähän...
-
-	efk1 ${1}/libc6*.deb ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
+	efk1 ${1}/libc6*.deb 
+	csleep 4
+	efk1 ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
+	csleep 4
+	efk1 ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
+	csleep 4
+	#JOKO JO PERKELE
+	efk1 ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
 	csleep 4
 
 	dqb "ZXC,MNBZXC,MNBZXCMNBVZXC"
@@ -353,7 +356,7 @@ function clibpre() {
 
 	dqb "4 REALZ"
 	csleep 1
-
+	#näillä main nalqtus ligbgcc-s1-aiheesta, miksi?
 	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
 	
 	csleep 10
@@ -1165,7 +1168,7 @@ function fasdfasd() {
 	chmod 0644 ${1}
 }
 
-#TODO:-h,-v vähitellen?
+#VAIH:-h,-v vähitellen?
 function gpo() {
 	dqb "GPO"
 	local prevopt
@@ -1173,6 +1176,12 @@ function gpo() {
 	prevopt=""
 
 	for opt in $@ ; do
+#		case ${opt} in	jospa prujaisi toisesta reposta	
+#		-v|--v)
+#			debug=1
+#		;;
+#		esac
+#
 		parse_opts_1 ${opt}
 		parse_opts_2 ${prevopt} ${opt}
 		prevopt=${opt}

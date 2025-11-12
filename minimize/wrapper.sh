@@ -33,6 +33,12 @@ case ${1} in
 		read -p "source?" sorsa #jokin tdston_valinta_dialogi olisi tietysti kiva...
 		sleep 2
 
+		#https://duckduckgo.com/?q=how+to+make+file+selection+d8ialog+with+ncurses&ia=web
+		#https://unix.stackexchange.com/questions/70793/curses-based-program-for-selection-item-from-the-list
+		#https://github.com/thenamankumar/ncurses-cheatsheet?tab=readme-ov-file
+		#https://linuxconfig.org/how-to-use-ncurses-widgets-in-shell-scripts-on-linux
+		#https://invisible-island.net/dialog/manpage/dialog.pdf
+
 		if [ "${1}" == "import" ] ; then
 			${d}/import2.sh 0 ${sorsa}
 			[ $? -eq 0 ] || echo "$0 import2 ?"

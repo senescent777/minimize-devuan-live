@@ -5,7 +5,7 @@ d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro}
-mode=0 #3 nollana kunnes saa bugit korjattua (gui qsee)
+mode=0 #3 nollana kunnes saa bugit korjattua (gui qsee) (joskohan jo 121125 voi si muuttaa takaisin?)
 #HUOM.251025:myös excaliburin kanssa se on nimenomaan mode 3 mikä qsee guin?
 
 function dqb() {
