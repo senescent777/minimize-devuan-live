@@ -1,8 +1,7 @@
-#libc6*.deb libgcc-s1*.deb gcc-12*.deb clibpre() ...
+#libc6*.deb gcc-12*.deb libgcc-s1*.deb #parempi olisi jos nämä saisi tätä kautta
 perl-base*.deb
 perl-modules-*.deb
 libstdc*.deb
-#ASENTUUKO LIBIcU VAU EI?
 libicu*.deb
 #libjxl*.deb #eilöydy?
 libcap2_1*.deb
@@ -38,7 +37,7 @@ libkrb5support0*.deb
 libkrb5*.deb
 libgss*.deb
 libcurl4*.deb
-#libfdisk* löytyykö?
+libfdisk*
 libuuid*
 libopen* 
 libpolkit-gobject-*
@@ -62,7 +61,7 @@ libkrb5-3*.deb
 #libmaxminddb0 pitäisi
 libnghttp2-14*.deb
 #libprotobuf-c1*.deb pit
-#libxml2*.deb kakkosen asennus erikseen vai ei?
+libxml2*.deb
 #zlib1g poitäisi
 libcrypt1*.deb
 bind9-libs*.deb
