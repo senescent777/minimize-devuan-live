@@ -224,10 +224,7 @@ e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
 	0|4)
-		#VAIH:testaus (281025) , case 4 tekee paketin, toimii:jep
-		#case 0 taas:tekee paketin missä enemmäm sisältöä, toimii:?
-		#... nökäjään f.tar meni pakettiin 2 kertaa, 1 riittäisi
-
+		#121125:nämä caset tekevät toimivan paketin (tosin f,tar sisällön asentuminen ei vielä testattu)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
@@ -251,7 +248,6 @@ case ${mode} in
 	
 			if [ -d ${d} ] ; then
 				e22_dblock ${d}/f.tar ${d}
-				#${srat} -rvf ${tgtfile} ${d}/f.tar #tämäkö jäi puuttumaan?
 			fi
 
 			e22_cleanpkgs ${d} #kuinka oleellinen?
@@ -259,10 +255,7 @@ case ${mode} in
 			csleep 5
 		fi
 
-		#HUOM.25725:vissiin oli tarkoituksellla f.tar eikä e.tar, tuossa yllä
 		${sifd} ${iface}
-		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
-
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 5
  	
@@ -276,7 +269,7 @@ case ${mode} in
 		csleep 5	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #VAIH:testaa toiminta josqs (81125 paketin teko jo onnistuu, asebtanminenkin melkein)
+	1|u|upgrade) #121125:toimii nyt testatusti jollain lailla
 		e22_cleanpkgs ${d}
 		e22_upgp ${tgtfile} ${d} ${iface}
 	;;
@@ -295,7 +288,6 @@ case ${mode} in
 			${srat} -rvf ${tgtfile} ./f.tar #tämäkö jäi puuttumaan?
 		fi
 	;;
-	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi? no esim. jos tar:ill väärä -C ni...
 	t) #HUOM.021125:edelleen tekee paketin missä toivottavaa sisältöä
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}

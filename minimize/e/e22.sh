@@ -6,9 +6,6 @@ function e22_hdr() { #HUOM.121125:toimii?
 	csleep 1
 	[ -z ${1} ] && exit 62
 
-#	${odio} touch ./rnd
-#	${sco} ${n}:${n} ./rnd
-#	${scm} 0644 ./rnd
 	fasdfasd ./rnd
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
@@ -30,12 +27,7 @@ function e22_ftr() { #121125:
  	[ -s ${1} ] || exit 63
 	[ -r ${1} ] || exit 64
 
-#	#seur 3. riviä varten se fktio josqs?
-#	${odio} touch ${1}.sha
-#	${sco} $(whoami):$(whoami) ${1}.sha
 	fasdfasd ${1}.sha
-#	${scm} 0644 ${tgtfile}.sha
-
 	local p
 	local q
 
@@ -255,22 +247,21 @@ function luca() { #021125:suattaapi olla niinnii että toimii vuan saattaapi ett
 
 	[ -z ${1} ] && exit 11
 	[ -s ${1} ] || exit 12
-	#[ -w ${1} ] || exit 13  #VAIH:kirj.oikeuden tarkistus?
-
+	#[ -w ${1} ] || exit 13
 	dqb "prs ok"
 	csleep 1
 
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule
-	sleep 2
+	csleep 2
 
 	dqb "JUST BEFORE LOCALES"
-	sleep 1
+	csleep 1
 
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
 	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 
 	echo $?
-	sleep 1
+	csleep 1
 
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 	sleep 3
@@ -283,7 +274,7 @@ function e22_elocal() { #021125:vissiin toimii
 
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 4 
-	#[ -w ${1} ] || exit 9 #VAIH:kirj.oik.tark. myös?
+	#[ -w ${1} ] || exit 9
 
 	[ -z ${2} ] && exit 2
 	[ -z ${3} ] && exit 3	
@@ -504,20 +495,17 @@ function e22_ts() { #HUOM.121125:
 	${svm} ${pkgdir}/*.deb ${1}
 	dqb $?
 	csleep 2
-#
-#	${odio} touch ${1}/tim3stamp
-#	${scm} 0644 ${1}/tim3stamp
-#	${sco} $(whoami):$(whoami) ${1}/tim3stamp
-	fasdfasd  ${1}/tim3stamp
 
+	fasdfasd  ${1}/tim3stamp
 	date > ${1}/tim3stamp
+
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 	dqb "E22TS DONE"
 	csleep 4
 }
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-#TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk
+#TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk?
 
 function e22_arch() { #121125:uudelleenpakkaus toimii nykyään
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
@@ -561,10 +549,6 @@ function e22_arch() { #121125:uudelleenpakkaus toimii nykyään
 
 	#meneekö tässä alla päällekkäin muiden fktioiden kanssa?
 	${scm} 0444 ${2}/*.deb
-#	touch ${2}/sha512sums.txt
-#
-#	chown $(whoami):$(whoami) ${2}/sha512sums.txt
-#	chmod 0644 ${2}/sha512sums.txt
 	fasdfasd ${2}/sha512sums.txt
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
 
@@ -596,7 +580,6 @@ function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisält�
 	dqb "\$shary= ${shary}"
 	csleep 2
 
-	#tarkistukset jotenkin toisin jatkossa? 
 	[ -z ${1} ] && exit 11
 	[ -d ${1} ] || exit 15 
 
@@ -645,7 +628,6 @@ function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisält�
 	dqb "x2.e22_tblz.done"
 }
 
-#HUOM.mihin tarvitsee arkiston nimeä? .deb tulisi löytyä $pkgdir alta
 function e22_get_pkgs() { #HUOM.021125:josko toimisi?
 	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
@@ -667,7 +649,7 @@ function e22_get_pkgs() { #HUOM.021125:josko toimisi?
 	message
 	jules
 
-	if [ ${1} -eq 1 ] ; then #VAIH:jotain tähän liittyen?
+	if [ ${1} -eq 1 ] ; then
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
 		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
@@ -712,7 +694,7 @@ function e22_get_pkgs() { #HUOM.021125:josko toimisi?
 	csleep 1
 }
 
-function e22_dblock() {
+function e22_dblock() { #121125:tekee paketin?
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14
