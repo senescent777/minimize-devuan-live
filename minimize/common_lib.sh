@@ -325,23 +325,23 @@ function clibpre() {
 
 	dqb "PARANMS OK"
 	csleep 1
-
-	#dqb "#ASDFASDFASDF"
-
-	efk1 ${1}/libc6*.deb 
-	csleep 4
-	efk1 ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
-	csleep 4
-	efk1 ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
-	csleep 4
-	#JOKO JO PERKELE
-	efk1 ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
-	csleep 4
-
-	dqb "ZXC,MNBZXC,MNBZXCMNBVZXC"
-
-	efk1 ${1}/libicu*.deb ${1}/libxml*.deb
-	csleep 6
+#
+#	#dqb "#ASDFASDFASDF"
+#
+#	efk1 ${1}/libc6*.deb 
+#	csleep 4
+#	efk1 ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
+#	csleep 4
+#	efk1 ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
+#	csleep 4
+#	#JOKO JO PERKELE
+#	efk1 ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
+#	csleep 4
+#
+#	dqb "ZXC,MNBZXC,MNBZXCMNBVZXC"
+#
+#	efk1 ${1}/libicu*.deb ${1}/libxml*.deb
+#	csleep 6
 
 	dqb "LOREMIPSUM-.LOREM1PSUM.LOREMIPSUM.LIPSUU"
 	csleep 5
