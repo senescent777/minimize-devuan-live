@@ -9,7 +9,7 @@ function udp6() { #on käytössä
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 	csleep 1
-	
+
 	#c5p ${1}
 	clib5p ${1} reject_pkgs
 
@@ -17,38 +17,39 @@ function udp6() { #on käytössä
 	csleep 1
 }
 
+#121125:sotkeeko tämä fktio jotain? se lingtk3-nosdc...
 function t2p() { #on käytössä
 	dqb "DAUD.T2P"
 	csleep 1
 
 	${sharpy} arch-test
 	${sharpy} grub*
-	${sharpy} gsettings*
+	${sharpy} gsettings* #tähän asti ok?
 	t2p_filler
 
 	${sharpy} iucode-tool
 	t2p_filler
 
-	${sharpy} ntp*
+	${sharpy} ntp* #121125:tässä base-passwd- ja init-valitusta
 	${sharpy} ntfs-3g
 	t2p_filler
 
 	${sharpy} p7zip
 	t2p_filler
 
-	${sharpy} psmisc
+	${sharpy} psmisc #tästä tuli initramfs-valitus
 	t2p_filler
 
-	${sharpy} rsync squashfs-tools
+	${sharpy} rsync squashfs-tools #eiole?
 	t2p_filler
 
-	${sharpy} traceroute
+	${sharpy} traceroute #eiole?
 	t2p_filler
 
-	${sharpy} upower 
+	${sharpy} upower #tästä tuli initramfs-valitus
 	t2p_filler
 
-	${sharpy} w3m wget
+	${sharpy} w3m wget #eiole?
 	t2p_filler
 
 	dqb "D0N3"
@@ -57,34 +58,34 @@ function t2p() { #on käytössä
 	echo "DERTHAGO 3ST KALENDAM"
 	csleep 6
 
-	${sharpy} xorriso*
-	${asy}
+	${sharpy} xorriso* #eiole?
+	${asy} #initramfs...
 	csleep 2
 
 	${sharpy} xorriso*
 	${asy}
 	csleep 2
 
-	${sharpy} xorriso*
-	${asy}
-	csleep 2
-
-	${sharpy} xz*
+#	${sharpy} xorriso*
+#	${asy}
+#	csleep 2
+#
+	${sharpy} xz* #initramfs
 	${asy}
 	csleep 2
  
-	${sharpy} xfburn 
+	${sharpy} xfburn  #eiole
 	${asy}
 	sleep 2
 
-	${sharpy} xarchiver 
+	${sharpy} xarchiver #¤eiole+initranmfs
 	${asy}
 	sleep 2
 
 	#uutena
-	${sharpy} libdav*
-	${asy} #varm. vuoksi
-	sleep 2
+	#${sharpy} libdav* #121125:tämä näyttää poistavan paljon tapauksessa daed, ehkä jopa liikaa
+	#${asy} #varm. vuoksi
+	#sleep 2
 
 	${scm} a-wx ${0}
 	csleep 2
