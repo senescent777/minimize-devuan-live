@@ -265,11 +265,10 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
-#HUOM.141025:mikä idea $2 kanssa?
-#TODO:se audio mixer k anssa toimimaan / pavucontrol poistunut / jep / vai pak kas/purq viallinen myös?
+#VAIH:se audio mixer k anssa toimimaan / pavucontrol poistunut / jep / vai pak kas/purq viallinen myös?
 #vaikkapa pkginfo.devuan.org katsoen mitä pavucontrl travitsee
 function tpr() {
-	dqb "UPIR  ${1}, ${2}"
+	dqb "UPIR  ${1}" #tulisi kai olla vain 1 param tälle fktiolle
 	csleep 1
 
 	[ -z ${1} ] && exit 11
