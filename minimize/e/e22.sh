@@ -482,7 +482,7 @@ function aswasw() { #privaatti fktio
 	csleep 1
 }
 #
-#function aval0n() { #prIvaattI
+#function aval0n() { #prIvaattI, toikmimaan+käyttöön?
 #	dqb "${sharpy} libavahi* #saattaa sotkea ?"
 #	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 #}
