@@ -220,7 +220,8 @@ function e22_home() { #121125:toimii ehdolla profs.sh löytyy
 	fi
 
 	csleep 1
-	${srat} -rvf ${1} /opt/bin/changedns.sh #TODO:merd2.sh mukaan myös
+	${srat} -rvf ${1} /opt/bin/changedns.sh
+	for t in $(find ~ -type f -name 'merd2.sh') ; do ${srat} -rvf ${1} ${t} ; done  
 	local t
 
 	#121125;onko olennaista saada e22_home() toimimaan kehitysymp? myös update2 keksitty
@@ -583,7 +584,6 @@ function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisält�
 	dqb "\$shary= ${shary}"
 	csleep 2
 
-	#tarkistukset jotenkin toisin jatkossa? 
 	[ -z ${1} ] && exit 11
 	[ -d ${1} ] || exit 15 
 
