@@ -89,12 +89,11 @@ sco="${odio} ${sco} "
 scm="${odio} ${scm} "	
 
 #komentorivin parsetyukseen liittyviä juttujamyöskin olisi... esim?
-#... ja jotain matskua voisi siirtää riippuvista skripteistä kirjastoon?
+#... ja jotain matskua voisi siirtää riippuvista skripteistä kirjastoon? mitä?
 	
 fix_sudo
 other_horrors
 
-#HUOM.0301025:oli jotain urputusta riviltä 161 ,josko jo kunnossa?
 function ocs() {
 	dqb "ocs ${1}  "
 	local tmp2
@@ -222,19 +221,16 @@ function psqa() {
 		${sah6} -c sha512sums.txt --ignore-missing
 		[ $? -eq 0 ] || exit 94
 
-		#local gg
-		#gg=$(${odio} which gpg)
-
 		#https://www.gnupg.org/documentation/manuals/gnupg24/gpg.1.html
 		#https://www.gnupg.org/documentation/manuals/gnupg24/gpgv.1.html
 		
 		#HUOM.ao.blokin testausta varten sitten "export2 e ..."
-		#(kys tuotiokseen pitäisi se .sig saada mukaan myös)
+		#(kys tuotokseen pitäisi se .sig saada mukaan myös)
 		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 			dqb "${gg} --verify ./sha512sums.sig "			
 			csleep 3
 
-			pwd
+			[ ${debug} -eq 1 ] && pwd
 			csleep 3
 
 			${gg} --verify ./sha512sums.sig
@@ -288,7 +284,7 @@ function efk1() {
 	csleep 1
 }
 
-function efk2() {
+function efk2() { #jotain kautta tätäkin kai kutsuttiin
 	dqb "efk2 $"
 
 	if [ -s ${1} ] && [ -r ${1} ] ; then
@@ -347,7 +343,7 @@ function clibpre() {
 	efk1 ${1}/libicu*.deb ${1}/libxml*.deb
 	csleep 6
 
-	dqb "LOREMIPSUM-.LOREM1PSUM.LOREMIPSUM"
+	dqb "LOREMIPSUM-.LOREM1PSUM.LOREMIPSUM.LIPSUU"
 	csleep 5
 	local p
 	local q
@@ -356,7 +352,7 @@ function clibpre() {
 
 	dqb "4 REALZ"
 	csleep 1
-	#näillä main nalqtus ligbgcc-s1-aiheesta, miksi?
+	#näillä main oli nalqtus ligbgcc-s1-aiheesta, vielä?
 	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
 	
 	csleep 10
@@ -551,10 +547,11 @@ function check_binaries2() {
 
 	sharpy="${odio} ${sag} remove --purge --yes "
 
-	#HUOM. ${sag} VIIMEISENÄ
+	#HUOM. ${sag} VIIMEISENÄ tai siis ao- kolmikosta
 	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
 	sag_u="${odio} ${sag} update "
 	sag="${odio} ${sag} "
+
 	sa="${odio} ${sa} "
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
@@ -580,7 +577,7 @@ function mangle_s() {
 	[ y"${1}" == "y" ] && exit 44
 	[ -x ${1} ] || exit 55
 
-	#HUOM.26525:pitäisiköhän olla jotain lisätarkistuksia $2 ja $3 kanssa?
+	#HUOM.26525:pitäisiköhän olla jotain lisätarkistuksia $2 kanssa nyk lisäöksi?
 	[ y"${2}" == "y" ] && exit 45
 	[ -f ${2} ] || exit 54
 
@@ -650,7 +647,7 @@ function pre_enforce() {
 		fi
 	fi
 
-	dqb "LETf HOUTRE JOINED IN DARKN355"
+	dqb "LETf HOUTRE JOINED IN L0CH N355"
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
 	csleep 1
 
@@ -695,7 +692,7 @@ function pre_enforce() {
 
 function mangle2() { #mikä tätä käyttää nykyään? pl e_fktiot siis...
 	if [ -f ${1} ] ; then
-		dqb "MANGLED ${1}"
+		dqb "MANGLED ${1} BEYOND RECO"
 		${scm} o-rwx ${1}
 		${sco} root:root ${1}
 	fi
@@ -849,6 +846,7 @@ function part1_5() {
 			done
 		else
 			${svm} /etc/apt/sources.list.tmp ${h}
+			#fasdfasd() ? ehkä ei
 			${sco} ${n}:${n} ${h}/sources.list.tmp
 			${scm} 0644 ${h}/sources.list.tmp
 		fi
@@ -868,8 +866,6 @@ function part1_5() {
 		fi
 	
 		${svm} ${h}/sources.list.tmp /etc/apt/sources.list.${t}
-		#turhaa kikkailua
-		#echo "${odio} mv /etc/apt/sources.list.tmp /etc/apt" | bash -s
 		csleep 1
 
 		dqb "finally"
@@ -1030,7 +1026,6 @@ function part2_5() {
 
 	[ -z ${1} ] && exit 55
 	[ -z ${2} ] && exit 56
-	#[ -z ${3} ] && exit 57 tareellinen param suttenkään?
 
 	dqb "PARS_OK"
 	csleep 1
@@ -1153,7 +1148,7 @@ function part3() {
 	other_horrors
 }
 
-function slaughter0() {
+function slaughter0() { #käytössä?
 	local fn2
 	local ts2
 	fn2=$(echo $1 | awk '{print $1}') 
