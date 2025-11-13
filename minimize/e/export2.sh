@@ -224,7 +224,9 @@ e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
 	0|4)
-		#121125:nämä caset tekevät toimivan paketin (tosin f,tar sisällön asentuminen ei vielä testattu)
+		#121125:nämä caset tekevät toimivan paketin
+		#, myös f.tar paketit asentuivat eneimmäkseen, joistain tuli nalkutusta
+
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
@@ -243,6 +245,7 @@ case ${mode} in
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then
+			#HUOM.121125:2 seuraavaa fktiota, onko niiden kanssa jotain ongelmaa vaiko ei?
 			e22_tblz ${d} ${iface} ${distro} ${dnsm}
 			e22_get_pkgs ${dnsm}
 	
@@ -262,7 +265,7 @@ case ${mode} in
 		e22_home ${tgtfile} ${d} ${enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 4
-		${NKVD} ${d}/*.tar #tartteeko piostaa? oli se fktiokin
+		${NKVD} ${d}/*.tar #oli se fktiokin
 
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"

@@ -4,7 +4,7 @@ E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline
 function e22_hdr() { #HUOM.121125:toimii?
 	dqb "e22hdr():BEFORE "
 	csleep 1
-	[ -z ${1} ] && exit 62
+	[ -z ${1} ] && exit 61
 
 	fasdfasd ./rnd
 
@@ -19,7 +19,7 @@ function e22_hdr() { #HUOM.121125:toimii?
 	csleep 1
 }
 
-function e22_ftr() { #121125:
+function e22_ftr() { #121125:HUOM.121125:toimii?
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -35,7 +35,7 @@ function e22_ftr() { #121125:
 	q=$(basename ${1})
 	cd $(dirname ${1})
 
-	${sah6} ./${q} > ${q}.sha #jos "./" auttaisi
+	${sah6} ./${q} > ${q}.sha
 	${sah6} -c ${q}.sha
 
 	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
@@ -44,7 +44,7 @@ function e22_ftr() { #121125:
 
 	cd ${p}
 	echo "cp ${1} \${tgt}; cp ${1}.* \${tgt}" 
-	dqb "SHISSHUGA ALL A55A"
+	dqb "ASSAN VESSAN KASSA"
 	csleep 1
 }
 
@@ -361,7 +361,7 @@ function e22_elocal() { #021125:vissiin toimii
 
 [ -v BASEURL ] || exit 6
 
-function e22_ext() { #HUOM.121125:
+function e22_ext() { #HUOM.121125:toimii?
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
@@ -446,7 +446,7 @@ function e22_ext() { #HUOM.121125:
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
 	${scm} -R a-w ./sbin
-	${srat} -rvf ${1} ./etc ./sbin #näissä ei kai turgaa tauhkaa
+	${srat} -rvf ${1} ./etc ./sbin #jälkimmäinen hmisto enää ?
 
 	echo $?
 	
@@ -486,7 +486,7 @@ function aswasw() { #privaatti fktio
 #	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 #}
 
-function e22_ts() { #HUOM.121125:
+function e22_ts() { #HUOM.121125:toimii?
 	dqb "e22_ts () ${1} ${2}" #van1 param piyäisi olla tällä - Yoda
 	csleep 3
 
@@ -631,7 +631,7 @@ function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisält�
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_get_pkgs() { #HUOM.021125:josko toimisi?
+function e22_get_pkgs() { #HUOM.021125:josko toimisi
 	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
@@ -697,7 +697,7 @@ function e22_get_pkgs() { #HUOM.021125:josko toimisi?
 	csleep 1
 }
 
-function e22_dblock() { #121125:tekee paketin?
+function e22_dblock() { #121125:tekee paketin
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14
@@ -733,7 +733,7 @@ function e22_settings2() { #HUOM.021125:tekee paketin, sisältö ehkä ok
 
 	[ -z ${1} ] && exit 99
 	[ -s ${1} ] || exit 98 #pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
-	#[ -w ${1} ] || exit 97 #VAIH:kirj.oik, ei ihan vielä 
+	#[ -w ${1} ] || exit 97
 
 	[ -z ${2} ] && exit 96
 	[ -d ${2} ] || exit 95
@@ -763,7 +763,7 @@ function e22_settings2() { #HUOM.021125:tekee paketin, sisältö ehkä ok
 	dqb "AAMUNK01"
 }
 
-#081125:tekee paketin, asentuukin enimmäkseen (pientä nalkutusta vielä)
+#081125:tekee paketin, asentuukin enimmäkseen (jokohabn jo nalqtus poistettu 121125?)
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
