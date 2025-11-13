@@ -25,7 +25,8 @@ function usage() {
 	echo "$0 q <> [] [] archives firefox settings"
 	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
-	echo "$0 t ... option for ipTables"			
+	echo "$0 t ... option for ipTables"	
+	echo "$0 å ... somehow related 2 pavcontrol (TODO)"		
 	echo "$0 -h: shows this message about usage"	
 }
 
@@ -200,12 +201,22 @@ case ${mode} in
 	g)
 		#HUOM.021125:vaikuttaisi tulevan järkevää outputtia pl. ehkä reinstall sellaisenaan 
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-		dqb "sudo apt-get update;sudo apt-get reinstall"
+		dqb "sudo apt-get update"
 
 		echo "${shary} ${E22GI}"
 		echo "${svm} ${pkgdir}/*.deb ${d}"
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
+	;;
+	å)
+		dqb "${sag_u}"
+		#muut jos löytyisi jo
+		echo "${shary} libatkmm libcanberra-gtk3-0 libcanberra0 libglib2.0-0 libglibmm-2.4-1v5 libgtk-3-0 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5"
+		echo "${shary} pavucontrol"
+		echo "${svm} ${pkgdir}/*.deb ${d}"
+		echo "$0 f ${tgtfile} ${distro}"
+		exit 1
+		
 	;;
 	-h)
 		usage
