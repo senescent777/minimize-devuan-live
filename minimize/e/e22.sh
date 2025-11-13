@@ -583,6 +583,7 @@ function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisält�
 	dqb "\$shary= ${shary}"
 	csleep 2
 
+	#tarkistukset jotenkin toisin jatkossa? 
 	[ -z ${1} ] && exit 11
 	[ -d ${1} ] || exit 15 
 
