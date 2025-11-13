@@ -1,14 +1,12 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
 		
-function e22_hdr() { #HUOM.021125:toimii?
+function e22_hdr() { #HUOM.121125:toimii?
 	dqb "e22hdr():BEFORE "
 	csleep 1
-	[ -z ${1} ] && exit 62
+	[ -z ${1} ] && exit 61
 
-	${odio} touch ./rnd
-	${sco} ${n}:${n} ./rnd
-	${scm} 0644 ./rnd
+	fasdfasd ./rnd
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
 	${srat} -cvf ${1} ./rnd #HUOM.111025:nyt on jo se --exclude jossain
@@ -21,7 +19,7 @@ function e22_hdr() { #HUOM.021125:toimii?
 	csleep 1
 }
 
-function e22_ftr() { #021125:tekee paketin
+function e22_ftr() { #121125:HUOM.121125:toimii?
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -29,10 +27,7 @@ function e22_ftr() { #021125:tekee paketin
  	[ -s ${1} ] || exit 63
 	[ -r ${1} ] || exit 64
 
-	${odio} touch ${1}.sha
-	${sco} $(whoami):$(whoami) ${1}.sha
-	${scm} 0644 ${tgtfile}.sha
-
+	fasdfasd ${1}.sha
 	local p
 	local q
 
@@ -40,7 +35,7 @@ function e22_ftr() { #021125:tekee paketin
 	q=$(basename ${1})
 	cd $(dirname ${1})
 
-	${sah6} ./${q} > ${q}.sha #jos "./" auttaisi
+	${sah6} ./${q} > ${q}.sha
 	${sah6} -c ${q}.sha
 
 	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
@@ -49,7 +44,7 @@ function e22_ftr() { #021125:tekee paketin
 
 	cd ${p}
 	echo "cp ${1} \${tgt}; cp ${1}.* \${tgt}" 
-	dqb "ess_ftr( ${1} ) DONE"
+	dqb "ASSAN VESSAN KASSA"
 	csleep 1
 }
 
@@ -142,7 +137,7 @@ function e22_pre2() { #HUOM.021125;toimii?
 }
 
 function e22_cleanpkgs() { #HUOM.021125:taitaa toimia 
-	dqb " ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
+	dqb "e22_cleanpkgs ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
 	[ -z "${1}" ] && exit 56
 
 	if [ -d ${1} ] ; then
@@ -160,10 +155,11 @@ function e22_cleanpkgs() { #HUOM.021125:taitaa toimia
 
 	fi
 
+	dqb "e22_cleanpkgs D0N3"
 	csleep 1
 }
 
-function e22_settings() { #HUOM.021125:toimii toistaiseksi?
+function e22_settings() { #HUOM.121125:toimii toistaiseksi?
 	dqb "e22_settings ${1} ${2}"
 	csleep 1
 
@@ -198,9 +194,11 @@ function e22_settings() { #HUOM.021125:toimii toistaiseksi?
 	fi
 
 	cd ${2}
+	dqb "e22_settings ${1} ${2} DONE"
+	csleep 1
 }
 
-function e22_home() { #021125:taitaa toimia
+function e22_home() { #121125:toimii ehdolla profs.sh löytyy
 	dqb "e22_home ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit 67
 	[ -s ${1} ] || exit 68
@@ -222,10 +220,10 @@ function e22_home() { #021125:taitaa toimia
 	fi
 
 	csleep 1
-	${srat} -rvf ${1} /opt/bin/changedns.sh
+	${srat} -rvf ${1} /opt/bin/changedns.sh #TODO:merd2.sh mukaan myös
 	local t
 
-	#TODO:selvitä toimiiko näin sen yhden testiympäristön kanssa (ajankohtaista vielä 30925?)
+	#121125;onko olennaista saada e22_home() toimimaan kehitysymp? myös update2 keksitty
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 2
 	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
@@ -252,22 +250,21 @@ function luca() { #021125:suattaapi olla niinnii että toimii vuan saattaapi ett
 
 	[ -z ${1} ] && exit 11
 	[ -s ${1} ] || exit 12
-	#[ -w ${1} ] || exit 13  #VAIH:kirj.oikeuden tarkistus?
-
+	#[ -w ${1} ] || exit 13
 	dqb "prs ok"
 	csleep 1
 
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule
-	sleep 2
+	csleep 2
 
 	dqb "JUST BEFORE LOCALES"
-	sleep 1
+	csleep 1
 
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
 	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 
 	echo $?
-	sleep 1
+	csleep 1
 
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 	sleep 3
@@ -280,7 +277,7 @@ function e22_elocal() { #021125:vissiin toimii
 
 	[ -z ${1} ] && exit 1
 	[ -s ${1} ] || exit 4 
-	#[ -w ${1} ] || exit 9 #VAIH:kirj.oik.tark. myös?
+	#[ -w ${1} ] || exit 9
 
 	[ -z ${2} ] && exit 2
 	[ -z ${3} ] && exit 3	
@@ -364,7 +361,7 @@ function e22_elocal() { #021125:vissiin toimii
 
 [ -v BASEURL ] || exit 6
 
-function e22_ext() { #HUOM.021125:vissiin toimii edelleen
+function e22_ext() { #HUOM.121125:toimii?
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
@@ -449,7 +446,7 @@ function e22_ext() { #HUOM.021125:vissiin toimii edelleen
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
 	${scm} -R a-w ./sbin
-	${srat} -rvf ${1} ./etc ./sbin #näissä ei kai turgaa tauhkaa
+	${srat} -rvf ${1} ./etc ./sbin #jälkimmäinen hmisto enää ?
 
 	echo $?
 	
@@ -489,7 +486,7 @@ function aswasw() { #privaatti fktio
 #	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 #}
 
-function e22_ts() { #HUOM.021125:toimii?
+function e22_ts() { #HUOM.121125:toimii?
 	dqb "e22_ts () ${1} ${2}" #van1 param piyäisi olla tällä - Yoda
 	csleep 3
 
@@ -502,25 +499,23 @@ function e22_ts() { #HUOM.021125:toimii?
 	dqb $?
 	csleep 2
 
-	${odio} touch ${1}/tim3stamp
-	${scm} 0644 ${1}/tim3stamp
-	${sco} $(whoami):$(whoami) ${1}/tim3stamp
-
+	fasdfasd  ${1}/tim3stamp
 	date > ${1}/tim3stamp
+
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 	dqb "E22TS DONE"
 	csleep 4
 }
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-#TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk
+#TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk?
 
-function e22_arch() { #021125:vissiin toimii
+function e22_arch() { #121125:uudelleenpakkaus toimii nykyään
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
 	[ -z ${1} ] && exit 1
-	[ -s ${1} ] || exit 2 
+	#[ -s ${1} ] || exit 2 #kutsuvaan joodiin e22_hdr() vai ei? toiatsiaseksi näin (121125)
 	#[ -w ${1} ] || exit 33
 
 	[ -z ${2} ] && exit 11
@@ -557,10 +552,7 @@ function e22_arch() { #021125:vissiin toimii
 
 	#meneekö tässä alla päällekkäin muiden fktioiden kanssa?
 	${scm} 0444 ${2}/*.deb
-	touch ${2}/sha512sums.txt
-
-	chown $(whoami):$(whoami) ${2}/sha512sums.txt
-	chmod 0644 ${2}/sha512sums.txt
+	fasdfasd ${2}/sha512sums.txt
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
 
 	cd ${2}
@@ -640,8 +632,7 @@ function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisält�
 	dqb "x2.e22_tblz.done"
 }
 
-#HUOM.mihin tarvitsee arkiston nimeä? .deb tulisi löytyä $pkgdir alta
-function e22_get_pkgs() { #HUOM.021125:josko toimisi?
+function e22_get_pkgs() { #HUOM.021125:josko toimisi
 	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
@@ -662,7 +653,7 @@ function e22_get_pkgs() { #HUOM.021125:josko toimisi?
 	message
 	jules
 
-	if [ ${1} -eq 1 ] ; then #VAIH:jotain tähän liittyen?
+	if [ ${1} -eq 1 ] ; then
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
 		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
@@ -707,7 +698,7 @@ function e22_get_pkgs() { #HUOM.021125:josko toimisi?
 	csleep 1
 }
 
-function e22_dblock() {
+function e22_dblock() { #121125:tekee paketin
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14
@@ -743,7 +734,7 @@ function e22_settings2() { #HUOM.021125:tekee paketin, sisältö ehkä ok
 
 	[ -z ${1} ] && exit 99
 	[ -s ${1} ] || exit 98 #pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
-	#[ -w ${1} ] || exit 97 #VAIH:kirj.oik, ei ihan vielä 
+	#[ -w ${1} ] || exit 97
 
 	[ -z ${2} ] && exit 96
 	[ -d ${2} ] || exit 95
@@ -773,12 +764,12 @@ function e22_settings2() { #HUOM.021125:tekee paketin, sisältö ehkä ok
 	dqb "AAMUNK01"
 }
 
-#081125:tekee paketin, asentuukin enimmäkseen (pientä nalkutusta vielä)
+#081125:tekee paketin, asentuukin enimmäkseen (jokohabn jo nalqtus poistettu 121125?)
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1 
-	#[ -w ${1} ] || exit 44 #TODO: man bash taas
+	#[ -w ${1} ] || exit 44 #TODO: man bash taas?
 	[ -s ${1} ] && mv ${1} ${1}.OLD
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22

@@ -5,7 +5,14 @@ d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro}
-mode=0 #3 nollana kunnes saa bugit korjattua (gui qsee)
+
+mode=3 #0 
+#HUOM.121125:edelleen kusee x/slim/xfce jos mennään kolmosella, entä 2?
+#, no sen kanssa tuli "ERROR: ld.so: object 'libgtk3-nocsd.so.0' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored."
+#ilmeisesti päivityspaketin asentelu, sq-chroot-ympäristössä, korjaa tilanteen koska x
+#(jospa koittaisi keksiä korjauksen)
+#entä 1? no senkin kanssa tulee libgtk3-nalqtus (libdav saattaa liittyä)
+
 #HUOM.251025:myös excaliburin kanssa se on nimenomaan mode 3 mikä qsee guin?
 
 function dqb() {
@@ -35,7 +42,7 @@ function parse_opts_1() {
 	esac
 }
 
-#edelleen 101025 se ettei uskalla nollaa suurempaa mode:a
+#edelleen 101025 se ettei uskalla nollaa suurempaa mode:a (syyllistä haetaan)
 
 function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
@@ -98,6 +105,7 @@ fi
 #====================================================================
 
 function t2p_filler() {
+	dqb "FILLER"
 	${lftr} #siirto c_lib:stä tähän tdstoon? tai part2_5 käyttää
 	${asy}
 	csleep 1
@@ -204,16 +212,16 @@ function t2pc() {
 }
 
 function t2pf() {
-	dqb "common_lib.T2P.FINAL()"
+	dqb "common_lib.T2P.FINAL( ${1} )"
 	csleep 1
 
 	${NKVD} ${pkgdir}/*.deb
 	${NKVD} ${pkgdir}/*.bin 
-	${NKVD} ${1}/*.deb 
+	[ -d ${1} ] && ${NKVD} ${1}/*.deb 
 	${NKVD} /tmp/*.tar
 	${smr} -rf /tmp/tmp.*
 
-	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut)
+	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut) (no testaappa taas)
 	${smr} -rf /usr/share/doc 
 	
 	#uusi ominaisuus 230725
@@ -233,7 +241,7 @@ t2p
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 1 ] && exit #tähän tökkää?
 
-t2pf ${1}
+t2pf ${d} #pitäisi kai jolla $d
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 2 ] && exit
 
@@ -243,4 +251,4 @@ sleep 6
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
 dqb "${whack} xfce4-session 1n 3 s3c5"
 sleep 3
-${whack} xfce4-session
+${whack} xfce4-session #toimiiko tämä?

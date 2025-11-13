@@ -161,8 +161,8 @@ csleep 1
 [ -z "${srat}" ] && exit 66
 
 case ${mode} in
-	f) #021125:toimii vai ei?		
-		#...koita muistaa śaada aikaiseksi se sha512sums.sig  kanssa josqs(TODO)
+	f) #121125:uudelleenpakkaus toimii nykyään		
+		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(TODO)
 		
 		e22_arch ${tgtfile} ${d}
 		e22_ftr ${tgtfile}
@@ -224,9 +224,8 @@ e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
 	0|4)
-		#VAIH:testaus (281025) , case 4 tekee paketin, toimii:jep
-		#case 0 taas:tekee paketin missä enemmäm sisältöä, toimii:?
-		#... nökäjään f.tar meni pakettiin 2 kertaa, 1 riittäisi
+		#121125:nämä caset tekevät toimivan paketin
+		#, myös f.tar paketit asentuivat eneimmäkseen, joistain tuli nalkutusta
 
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
@@ -246,12 +245,12 @@ case ${mode} in
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then
+			#HUOM.121125:2 seuraavaa fktiota, onko niiden kanssa jotain ongelmaa vaiko ei?
 			e22_tblz ${d} ${iface} ${distro} ${dnsm}
 			e22_get_pkgs ${dnsm}
 	
 			if [ -d ${d} ] ; then
 				e22_dblock ${d}/f.tar ${d}
-				#${srat} -rvf ${tgtfile} ${d}/f.tar #tämäkö jäi puuttumaan?
 			fi
 
 			e22_cleanpkgs ${d} #kuinka oleellinen?
@@ -259,24 +258,21 @@ case ${mode} in
 			csleep 5
 		fi
 
-		#HUOM.25725:vissiin oli tarkoituksellla f.tar eikä e.tar, tuossa yllä
 		${sifd} ${iface}
-		#HUOM.22525: pitäisi kai reagoida siihen että e.tar enimmäkseen tyhjä?
-
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 5
  	
 		e22_home ${tgtfile} ${d} ${enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 4
-		${NKVD} ${d}/*.tar #tartteeko piostaa? oli se fktiokin
+		${NKVD} ${d}/*.tar #oli se fktiokin
 
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 5	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #VAIH:testaa toiminta josqs (81125 paketin teko jo onnistuu, asebtanminenkin melkein)
+	1|u|upgrade) #121125:toimii nyt testatusti jollain lailla
 		e22_cleanpkgs ${d}
 		e22_upgp ${tgtfile} ${d} ${iface}
 	;;
@@ -295,7 +291,6 @@ case ${mode} in
 			${srat} -rvf ${tgtfile} ./f.tar #tämäkö jäi puuttumaan?
 		fi
 	;;
-	#HUOM.joitain exp2 optioita ajellessa $d alle ilmestyy ylimääräisiä hakemistoja, miksi? no esim. jos tar:ill väärä -C ni...
 	t) #HUOM.021125:edelleen tekee paketin missä toivottavaa sisältöä
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
