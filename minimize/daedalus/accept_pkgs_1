@@ -1,13 +1,13 @@
-libc6*.deb 
-gcc*.deb libgcc-s1*.deb
-libicu*.deb libxml*.deb
-#josko nyt kuitenkin näin toimisi
+libc6*.deb gcc-12*.deb
 perl-base*.deb
+libgcc-s1*.deb
 perl-modules-*.deb
 libstdc*.deb
-libicu*.deb
 libcap2_1*.deb
+libicu*.deb
 libdbus*.deb
+libxml*.deb
+#JOKO JO PRKL ALKAISI TOIMIA 666!!!
 libblkid1*.deb
 libfdisk1*.deb
 libmount1*.deb
@@ -46,7 +46,6 @@ libperl*.deb
 liberror-perl*.deb
 libuv1*.deb
 libnghttp2*.deb
-libxml*.deb
 libvte-2.91-common*.deb
 libvte*.deb
 libmpg123-0*.deb

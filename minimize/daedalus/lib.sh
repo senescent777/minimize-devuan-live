@@ -64,10 +64,6 @@ function t2p() { #on käytössä
 	${asy}
 	csleep 2
 
-#	${sharpy} xorriso*
-#	${asy}
-#	csleep 2
-#
 	${sharpy} xz* #initramfs
 	${asy}
 	csleep 2
@@ -80,8 +76,8 @@ function t2p() { #on käytössä
 	${asy}
 	sleep 2
 
-	#uutena
 	#${sharpy} libdav* #121125:tämä näyttää poistavan paljon tapauksessa daed, ehkä jopa liikaa
+	#ÄLÄ SIIS WTUN PÖSILÖ POISTA libdav-PAKETTEJA ELLEI KIINNOSTA SELVITELLÄ "ERROR: ld.so: object 'libgtk3-nocsd.so.0' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored."-NALKUTUSTA
 	#${asy} #varm. vuoksi
 	#sleep 2
 
