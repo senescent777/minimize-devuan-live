@@ -6,7 +6,7 @@ d0=$(pwd)
 debug=0
 d=${d0}/${distro}
 
-mode=0 
+mode=3 #0 
 #HUOM.121125:edelleen kusee x/slim/xfce jos mennään kolmosella, entä 2?
 #, no sen kanssa tuli "ERROR: ld.so: object 'libgtk3-nocsd.so.0' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored."
 #ilmeisesti päivityspaketin asentelu, sq-chroot-ympäristössä, korjaa tilanteen koska x

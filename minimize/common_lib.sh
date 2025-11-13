@@ -846,7 +846,6 @@ function part1_5() {
 			done
 		else
 			${svm} /etc/apt/sources.list.tmp ${h}
-			#fasdfasd() ? ehkä ei
 			${sco} ${n}:${n} ${h}/sources.list.tmp
 			${scm} 0644 ${h}/sources.list.tmp
 		fi
