@@ -53,6 +53,9 @@ else
 	cd /
 fi
 
+#HUOM.131125:vaikutti siltä että -uvf ei sittenkään toimisi aivan toivotulla tavalla, aina saa renkata d/accept*
+#... tarkemmin ajatellen päivityspaketin sisältö syynä (tee jotain)
+
 for f in $(${tcmd} -tf ${tgt} | grep -v '${n}.conf'  | grep -v .chroot) ; do
 	if [ -f ${f} ] ; then #josko nyt
 		${tcmd} -uvf ${tgt} ${f}
