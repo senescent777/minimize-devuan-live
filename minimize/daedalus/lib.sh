@@ -10,9 +10,7 @@ function udp6() { #on käytössä
 	dqb "paramz 0k"
 	csleep 1
 
-	#c5p ${1}
 	clib5p ${1} reject_pkgs
-
 	dqb "D0NE"
 	csleep 1
 }
