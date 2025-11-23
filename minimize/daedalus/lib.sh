@@ -30,7 +30,7 @@ function t2p() { #on käytössä
 	${sharpy} iucode-tool
 	t2p_filler
 
-	${sharpy} ntp* #121125:tässä base-passwd- ja init-valitusta. vierlä 231125?
+	${sharpy} ntp* #121125:tässä base-passwd- ja init-valitusta. vielä 231125?
 	${sharpy} ntfs-3g
 	t2p_filler
 
