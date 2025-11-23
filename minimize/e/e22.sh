@@ -512,7 +512,7 @@ function e22_ts() { #HUOM.121125:toimii?
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
 #TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk?
 
-function e22_arch() { #121125:uudelleenpakkaus toimii nykyään
+function e22_arch() { #231125:uudelleenpakkaus toimii nykyään paitsi että saattaa rikkoa slim:in (jotain tehtävissä?)
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
@@ -765,7 +765,7 @@ function e22_settings2() { #HUOM.021125:tekee paketin, sisältö ehkä ok
 	dqb "AAMUNK01"
 }
 
-#081125:tekee paketin, asentuukin enimmäkseen (jokohabn jo nalqtus poistettu 121125?)
+#231125:tekee paketin, asentuukin enimmäkseen , nalkutus saattoi poistua mutta pieni ongelma slimin kanssa?
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
@@ -788,7 +788,7 @@ function e22_upgp() {
 	${fib}
 	csleep 1
 	
-	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta
+	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta, onko?
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 	csleep 1

@@ -26,7 +26,7 @@ function usage() {
 	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
 	echo "$0 t ... option for ipTables"	
-	echo "$0 å ... somehow related 2 pavcontrol (TODO)"		
+	echo "$0 å ... somehow related 2 pavucontrol (TODO)"		
 	echo "$0 -h: shows this message about usage"	
 }
 
@@ -162,7 +162,7 @@ csleep 1
 [ -z "${srat}" ] && exit 66
 
 case ${mode} in
-	f) #121125:uudelleenpakkaus toimii nykyään		
+	f) #231125:uudelleenpakkaus toimii nykyään, paitsi että saattaa rikkoa slim:in		
 		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(TODO)
 		
 		e22_arch ${tgtfile} ${d}
@@ -237,7 +237,7 @@ e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 case ${mode} in
 	0|4)
 		#121125:nämä caset tekevät toimivan paketin
-		#, myös f.tar paketit asentuivat eneimmäkseen, joistain tuli nalkutusta
+		#, myös f.tar paketit asentuivat eneimmäkseen, joistain tuli nalkutusta (ei kai rnää 231125)
 
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
