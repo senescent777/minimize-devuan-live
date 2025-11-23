@@ -265,12 +265,9 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
-#VAIH:se audio mixer k anssa toimimaan / pavucontrol poistunut / jep / vai pak kas/purq viallinen myös?
-#vaikkapa pkginfo.devuan.org katsoen mitä pavucontrl travitsee
-#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=pavucontrol=5.0-2&eXtra=87.95.55.42
-#
-#libatkmm-1.6-1v5 (>= 2.28.2), libc6 (>= 2.14), libcanberra-gtk3-0 (>= 0.25), libcanberra0 (>= 0.16), libgcc-s1 (>= 3.0), libglib2.0-0 (>= 2.16.0), libglibmm-2.4-1v5 (>= 2.64.2), libgtk-3-0 (>= 3.0.0), libgtkmm-3.0-1v5 (>= 3.24.5), libjson-glib-1.0-0 (>= 1.5.2), libpulse-mainloop-glib0 (>= 15), libpulse0 (>= 15), libsigc++-2.0-0v5 (>= 2.2.0), libstdc++6 (>= 5.2)
+#pavucontol:iin liittyy "exp2 å"
 
+#TODO:ffox 147
 function tpr() {
 	dqb "UPIR  ${1}" #tulisi kai olla vain 1 param tälle fktiolle
 	csleep 1
@@ -348,7 +345,6 @@ case "${mode}" in
 	;;
 esac
 
-#debug=1
 [ -z "${srcfile}" ] && exit 44
 
 if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
@@ -375,9 +371,9 @@ csleep 6
 case "${mode}" in
 	r)
 		[ -d ${srcfile} ] || exit 22
-		tpr ${srcfile} #d0 pois ni voisi siirtää alempaan case:en?
+		tpr ${srcfile}
 	;;
-	1) #Todnäk toimii tämä case 1619025
+	1) #vissiin toimii 
 		common_part ${srcfile} ${d} /
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
@@ -421,7 +417,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q) 
-		#HUOM.161025:toimiiko tämä vielä/taas?
+		#toimiiko tämä vielä/taas? ffox versio 147 saattaa tuoda muutoksia
 
 		c=$(tar -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
@@ -430,7 +426,6 @@ case "${mode}" in
 	;;
 	k)	
 		[ -d ${srcfile} ] || exit 22
-
 		dqb "KLM"
 		ridk=${srcfile}
 
@@ -456,7 +451,7 @@ cd ${olddir}
 
 if [ -v part ] || [ -v dir ] ; then
 	echo "REMEMBER 2 UNM0UNT TH3S3:"
-	[ -z ${part} ] || grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan
+	[ -z ${part} ] || grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan?
 	[ -z ${dir} ] || grep ${dir} /proc/mounts
 fi
 

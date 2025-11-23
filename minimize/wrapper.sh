@@ -1,7 +1,7 @@
 #!/bin/bash
 distro=$(cat /etc/devuan_version)
 
-# HUOM tämä skripti ei välttämttä oleellinen chroot-ymp kannaltaq
+#HUOM. tämä skripti ei välttämttä oleellinen chroot-ympäristön kannalta
 d=$(pwd)
 
 if [ -s ${d}/${distro}/conf ] ; then
@@ -17,9 +17,10 @@ gol=$(which dialog)
 [ -x ${gol} ] || echo "apt-get install dialog?"
 
 case ${1} in
-	merde)
-		${d}/demerde_toi.sh main #testattu 08/25 alussa, toimi silloin
-	;;
+	#merde)
+	#	${d}/demerde_toi.sh main #testattu 08/25 alussa, toimi silloin
+	#;;
+	#TODO:merd2
 	cdns)		
 		sudo /opt/bin/changedns.sh ${dnsm}
 	;;
