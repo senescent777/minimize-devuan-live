@@ -1,6 +1,6 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
-		
+
 function e22_hdr() { #HUOM.121125:toimii?
 	dqb "e22hdr():BEFORE "
 	csleep 1
@@ -69,15 +69,15 @@ function e22_pre1() { #HUOM.021125:toimii?
 	else
 		echo "else"
 		dqb "5TNA"
-		
+
 		local lefid
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) # | cut -d '/' -f 1-5)
 		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
-	
+
 		enforce_access ${n} ${lefid} #jos jo toimisi
 		csleep 1
 		dqb "3NF0RC1NG D0N3"
-		
+
 		csleep 1
 		${scm} 0755 /etc/apt
 		${scm} a+w /etc/apt/sources.list*
@@ -159,7 +159,7 @@ function e22_cleanpkgs() { #HUOM.021125:taitaa toimia
 	csleep 1
 }
 
-#TODO:ffox 147?
+#TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory 
 function e22_settings() { #HUOM.121125:toimii toistaiseksi?
 	dqb "e22_settings ${1} ${2}"
 	csleep 1
