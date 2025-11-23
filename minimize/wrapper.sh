@@ -14,11 +14,16 @@ fi
 #liittyy:https://github.com/senescent777/some_scripts/blob/main/lib/export/ui.sh.export
 
 gol=$(which dialog)
-[ -x ${gol} ] || echo "apt-get install dialog?"
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=dialog=1.3-20230209-1&eXtra=87.95.53.103
+[ -x ${gol} ] || echo "apt-get install libtinfo6 libncursesw6 debianutils dialog"
 
 case ${1} in
 	merde)
-		${d}/../m3rd2.sh ${2} ${3}	
+		if [ -x ${d}/../merd2.sh ] ; then
+			${d}/../merd2.sh ${2} ${3}
+		else
+			echo "N0 5H1T 5H3RL0CK"
+		fi
 	;;
 	#VAIH:merd2
 	cdns)		
