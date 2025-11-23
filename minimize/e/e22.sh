@@ -765,7 +765,7 @@ function e22_settings2() { #HUOM.021125:tekee paketin, sisältö ehkä ok
 	dqb "AAMUNK01"
 }
 
-#231125:tekee paketin, asentuukin enimmäkseen , nalkutus saattoi poistua mutta pieni ongelma slimin kanssa?
+#231125:tekee paketin, asentuukin enimmäkseen , nalkutus saattoi poistua mutta pieni ongelma slimin kanssa
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
@@ -834,8 +834,10 @@ function e22_upgp() {
 	dqb "UTP PT 3"
 	csleep 1
 
+	#TODO:ts-arch kutsuvaan joodiin?
 	e22_ts ${2}
 	${srat} -cf ${1} ${2}/tim3stamp
+	#TODO:enforce_access() tähän?
 	e22_arch ${1} ${2}
 
 	dqb "SIELUNV1H0LL1N3N"

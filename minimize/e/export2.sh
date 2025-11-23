@@ -26,7 +26,7 @@ function usage() {
 	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
 	echo "$0 t ... option for ipTables"	
-	echo "$0 å ... somehow related 2 pavucontrol (TODO)"		
+	echo "$0 å ... somehow related 2 pavucontrol " #VAIH		
 	echo "$0 -h: shows this message about usage"	
 }
 
@@ -164,7 +164,8 @@ csleep 1
 case ${mode} in
 	f) #231125:uudelleenpakkaus toimii nykyään, paitsi että saattaa rikkoa slim:in		
 		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(TODO)
-		
+		#pitäisiköhän ajaa enforce_access() juuri ennenq e22_a()?		
+
 		e22_arch ${tgtfile} ${d}
 		e22_ftr ${tgtfile}
 		exit
