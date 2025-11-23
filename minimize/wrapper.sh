@@ -39,7 +39,12 @@ case ${1} in
 	import|import2)
 		${d}/import2.sh -1
 		#[ $? -gt 0 ] && exit 45 #HUOM. jos on jo valmiiksi mountattu ni turha exit
-		read -p "source?" sorsa #jokin tdston_valinta_dialogi olisi tietysti kiva...
+
+		#if [ -x ${gol} ] ; then
+		#else
+			read -p "source?" sorsa
+		#fi
+
 		sleep 2
 
 		#https://duckduckgo.com/?q=how+to+make+file+selection+d8ialog+with+ncurses&ia=web
