@@ -170,8 +170,9 @@ function t2pc() {
 	${sharpy} netcat-traditional openssh*
 	t2p_filler
 
-	#TODO:pavucontrol poist peruutus?
-	${sharpy} parted pavucontrol #libgtk3 ei poistu, libgtk4 kyllä
+	#VAIH:pavucontrol poist peruutus?
+	${sharpy} parted #pavucontrol saattaa löytyä käyttöä
+	#libgtk3 ei poistu, libgtk4 kyllä
 	t2p_filler
 
 	${sharpy} ppp plocate pciutils procmail

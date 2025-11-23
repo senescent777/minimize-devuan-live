@@ -412,6 +412,15 @@ case "${mode}" in
 
 		part3 ${d} ${dnsm}
 		other_horrors
+
+		#HUOM.231125:kutsutaan e_a() uudestaan jotta päivityspaketti ei rikkoisi:slim
+		local t
+		t=$(echo ${d} | cut -d '/' -f 1-5)
+	
+		if [ -x ${t}/common_lib.sh ] ; then
+			enforce_access ${n} ${t} 
+		fi
+		#
 		csleep 1
 		
 		[ $? -eq 0 ] && echo "NEXT: $0 2"

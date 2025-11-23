@@ -183,6 +183,7 @@ fi
 pre_part2
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
+
 #251025:p2-5 ja excalibur eivät aiheuttane yhdessä suurta katsatrofia, g_pt2 asia erikseen
 part2_5 ${removepkgs} ${dnsm} ${iface}
 
@@ -203,6 +204,7 @@ jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
+#HUOM.231125;MIKSI COMMON_LIB.SH AJO-OIKEUS POISTUU?
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}

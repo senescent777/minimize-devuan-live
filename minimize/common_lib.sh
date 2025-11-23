@@ -692,7 +692,7 @@ function pre_enforce() {
 
 function mangle2() { #mikä tätä käyttää nykyään? pl e_fktiot siis...
 	if [ -f ${1} ] ; then
-		dqb "MANGLED ${1} BEYOND RECO"
+		dqb "MANGLED ${1} BEYOND RECQG"
 		${scm} o-rwx ${1}
 		${sco} root:root ${1}
 	fi
@@ -804,7 +804,7 @@ function enforce_access() {
 	${sco} root:root /
 
 	${scm} 0777 /tmp
-	#${scm} o+t /tmp
+	#${scm} o+t /tmp #takaisin?
 	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
