@@ -75,7 +75,9 @@ case ${1} in
 		${d}/generic_doit.sh 1
 	;;
 	update)
-		echo "TODO:file_dialog+update2.sh ?"
+		#VAIH:file_dialog+update2.sh
+		t=$(${gol} --fselect ${dir} 20 20)
+		echo "update2.sh ${t} 1 ?"
 	;;
 	*)
 		echo "$0 [cmd]"
