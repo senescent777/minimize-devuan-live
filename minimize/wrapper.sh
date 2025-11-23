@@ -76,7 +76,7 @@ case ${1} in
 	;;
 	update)
 		#VAIH:file_dialog+update2.sh
-		t=$(${gol} --fselect ${dir} 20 20)
+		t=$(${gol} --fselect ${dir} 20 20) #vissiin ei näin?
 		echo "update2.sh ${t} 1 ?"
 	;;
 	*)

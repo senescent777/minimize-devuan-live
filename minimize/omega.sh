@@ -14,8 +14,10 @@ if [ $# -gt 0 ] ; then
 	mode=${1}
 fi
 
-#131125;kiukuttelua edelleen slim:in kanssa, ei liittyne g_pt2seen kuitenkaan
+#131125;kiukuttelua edelleen slim:in kanssa, ei liittyne g_pt2seen kuitenkaan?
 #TODO:jos mahd ni iteroi mode:t läpi&&selvitä lokeista mikä slimin kanssa qsee, tällä kertaa
+#g_doit ja g_pt2, rikkoo slimin vai ei? vaiko päivityspak?
+#... jos ei muuta keksi ni slim pois kiekolta? tai pikemminkin minimal livecd pohjaksi?
 
 [ ${mode} -gt 1 ] && ${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev devuan 
 [ ${mode} -gt 2 ] && ${smr} /etc/sudoers.d/live

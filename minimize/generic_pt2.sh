@@ -103,6 +103,7 @@ function t2p_filler() {
 	csleep 1
 }
 
+#TODO:jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
 function t2pc() {
 	#debug=1
@@ -169,6 +170,7 @@ function t2pc() {
 	${sharpy} netcat-traditional openssh*
 	t2p_filler
 
+	#TODO:pavucontrol poist peruutus?
 	${sharpy} parted pavucontrol #libgtk3 ei poistu, libgtk4 kyllä
 	t2p_filler
 
