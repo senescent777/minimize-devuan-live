@@ -17,10 +17,10 @@ gol=$(which dialog)
 [ -x ${gol} ] || echo "apt-get install dialog?"
 
 case ${1} in
-	#merde)
-	#	${d}/demerde_toi.sh main #testattu 08/25 alussa, toimi silloin
-	#;;
-	#TODO:merd2
+	merde)
+		${d}/../m3rd2.sh ${2} ${3}	
+	;;
+	#VAIH:merd2
 	cdns)		
 		sudo /opt/bin/changedns.sh ${dnsm}
 	;;
