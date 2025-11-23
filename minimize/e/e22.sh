@@ -159,6 +159,7 @@ function e22_cleanpkgs() { #HUOM.021125:taitaa toimia
 	csleep 1
 }
 
+#TODO:ffox 147?
 function e22_settings() { #HUOM.121125:toimii toistaiseksi?
 	dqb "e22_settings ${1} ${2}"
 	csleep 1

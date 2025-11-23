@@ -171,6 +171,7 @@ case ${mode} in
 	;;
 	q)
 		#HUOM.021125:tekee paketin
+		#TODO:ffox 147 muutokset
 		${sifd} ${iface}
 		e22_settings ~ ${d0}
 
