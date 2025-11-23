@@ -3,6 +3,8 @@
 #https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
+#TODO:voisi jatkossa pitää x-oiukeudet common:lib.sh:ssa ettei tarttisi renkata (enemmänkin g_doit asioita)
+
 function udp6() { #on käytössä
 	dqb "daud.lib.UPDP-6 ${1}"
 	csleep 1
@@ -15,7 +17,7 @@ function udp6() { #on käytössä
 	csleep 1
 }
 
-#121125:sotkeeko tämä fktio jotain? se lingtk3-nosdc...
+#clib5p-tyylillä jatkossa tämänkin fktion hommat?
 function t2p() { #on käytössä
 	dqb "DAUD.T2P"
 	csleep 1
@@ -28,7 +30,7 @@ function t2p() { #on käytössä
 	${sharpy} iucode-tool
 	t2p_filler
 
-	${sharpy} ntp* #121125:tässä base-passwd- ja init-valitusta
+	${sharpy} ntp* #121125:tässä base-passwd- ja init-valitusta. vierlä 231125?
 	${sharpy} ntfs-3g
 	t2p_filler
 
@@ -85,7 +87,7 @@ function t2p() { #on käytössä
 	csleep 2
 }
 
-#josko kuitenkin ntp takaisin listaan?
+#josko kuitenkin ntp takaisin part2_5_listaan?
 function pre_part2() { #käytrössä
 	dqb "daud.pre_part2()"
 	csleep 2
