@@ -163,10 +163,9 @@ csleep 1
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
-	f) #231125:uudelleenpakkaus toimii nykyään, paitsi että saattaa rikkoa slim:in		
+	f) 	#241125:joskohan nykyään jo toimisi
 		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(TODO)
-		#VAIH:pitäisiköhän ajaa enforce_access() juuri ennenq e22_a()?	
-	
+		
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 		e22_ftr ${tgtfile}
@@ -203,7 +202,7 @@ case ${mode} in
 		exit
 	;;
 	g)
-		#HUOM.021125:vaikuttaisi tulevan järkevää outputtia pl. ehkä reinstall sellaisenaan 
+		#HUOM.021125:vaikuttaisi tulevan järkevää outputtia 
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "sudo apt-get update"
 
@@ -212,7 +211,7 @@ case ${mode} in
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
 	;;
-	å) #241125:oksentaa toimivia komentoja, luodun arkiston toimivuus vielä selvitettävä w/import2
+	å) #241125:testattu, oksentaa toimivia komentoja, lisäksi:
 	#1. libgtkmm ja libpangomm  riippuvuuksineen aiheutti nalkutusta, pitäisi niitä listoja päivittää vissiin + riippuvuuksien kanssa vielä iterointia
 	#2. "$0 f" tekemä paketti ei paskonut:slim
  
@@ -242,10 +241,7 @@ e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
 	0|4)
-		#121125:nämä caset tekevät toimivan paketin
-		#, myös f.tar paketit asentuivat eneimmäkseen, joistain tuli nalkutusta (ei kai rnää 231125)
-		#TODO:testaapa tämäkin uudestaan koska x
-
+		#241125:case 4 tekee toimivan paketin
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
@@ -266,7 +262,7 @@ case ${mode} in
 		if [ ${mode} -eq 0 ] ; then
 			#HUOM.121125:2 seuraavaa fktiota, onko niiden kanssa jotain ongelmaa vaiko ei?
 			e22_tblz ${d} ${iface} ${distro} ${dnsm}
-			e22_get_pkgs ${dnsm}
+			e22_other_pkgs ${dnsm}
 	
 			if [ -d ${d} ] ; then
 				#enf_scc ulos d-blokista vai ei?
@@ -299,12 +295,12 @@ case ${mode} in
 	p) #HUOM. 021125:tekee paketin
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
-	e)  #VAIH:testaa uudestaan koska x, siis miten tuorein oksennus asentuu
+	e)
 		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
 		
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
-		e22_get_pkgs ${dnsm}
+		e22_other_pkgs ${dnsm}
 
 		if [ -d ${d} ] ; then
 			e22_hdr ${d}/f.tar
@@ -313,8 +309,9 @@ case ${mode} in
 			${srat} -rvf ${tgtfile} ./f.tar #tämäkö jäi puuttumaan?
 		fi
 	;;
-	t) #VAIH:e_a() - jutut, miten tuorein oksennus masentuu
+	t) 
 		#241125 ensimmäisellä yrityksellä ei saanut aikaiseksi .deb-pak sis tar, uusi yritys kohta
+		#toisella syntyi jo toimiva pak
 
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
@@ -324,6 +321,8 @@ case ${mode} in
 
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_ts ${d}
+
+		t=$(echo ${d} | cut -d '/' -f 1-5) #josko nyt?
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 	;;

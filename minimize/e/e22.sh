@@ -38,6 +38,7 @@ function e22_ftr() { #121125:HUOM.121125:toimii?
 	${sah6} ./${q} > ${q}.sha
 	${sah6} -c ${q}.sha
 
+	#riittävät tarkistukset?
 	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 		${gg} -u ${CONF_kay1name} -sb ${q}.sha
 	fi
@@ -218,7 +219,7 @@ function e22_home() { #121125:toimii ehdolla profs.sh löytyy
 		dqb "FORCEFED BROKEN GLASS"
 		e22_settings ~ ${2}/.. #HUOM.25725:toimiiko näin?
 	else
-		dqb "PUIG DESTRÖYERR"
+		dqb "PUIG DESTRÖYERR b666"
 	fi
 
 	csleep 1
@@ -226,7 +227,7 @@ function e22_home() { #121125:toimii ehdolla profs.sh löytyy
 	for t in $(find ~ -type f -name 'merd2.sh') ; do ${srat} -rvf ${1} ${t} ; done  
 	local t
 
-	#121125;onko olennaista saada e22_home() toimimaan kehitysymp? myös update2 keksitty
+	#121125:onko olennaista saada e22_home() toimimaan kehitysymp? myös update2 keksitty
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 2
 	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
@@ -502,7 +503,7 @@ function e22_ts() { #HUOM.121125:toimii?
 	dqb $?
 	csleep 2
 
-	fasdfasd  ${1}/tim3stamp
+	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
 
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
@@ -510,10 +511,10 @@ function e22_ts() { #HUOM.121125:toimii?
 	csleep 4
 }
 
-#HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
+#HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
 #TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk?
 
-function e22_arch() { #231125:uudelleenpakkaus toimii nykyään paitsi että saattaa rikkoa slim:in (jotain tehtävissä?)
+function e22_arch() { #241125:uudelleenpakkaus toimii nykyään paitsi että saattaa rikkoa slim:in (toivottavasti ei enää)
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
@@ -603,11 +604,10 @@ function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisält�
 	csleep 1
 
 	#message() tähän?
-
-	tpc7	#tämän funktio oli? jotain excaliburiin liittyvää kai
+	tpc7	#tämän funktio oli? jotain excaliburiin liittyvää
 	aswasw ${2}
-	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 
+	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 	${shary} iptables
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 
@@ -634,8 +634,8 @@ function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisält�
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_get_pkgs() { #HUOM.021125:josko toimisi
-	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
+function e22_other_pkgs() { #HUOM.021125:josko toimisi
+	dqb "e22_other_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
 
@@ -646,7 +646,6 @@ function e22_get_pkgs() { #HUOM.021125:josko toimisi
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} libc6 zlib1g #moni pak tarttee nämä
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf 		
-	#HUOM.28525:nalkutus alkoi jo tässä (siis ennenq libip4tc2-blokki siirretty)
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
 	${shary} libaudit1 libselinux1
@@ -696,11 +695,11 @@ function e22_get_pkgs() { #HUOM.021125:josko toimisi
 	dqb "BEFORE UPD6"	
 	csleep 1
 
-	dqb "e22_get_pkgs donew"
+	dqb "e22_other_pkgs donew"
 	csleep 1
 }
 
-function e22_dblock() { #VAIH:testaa uusiksi, oksennuksen toimivuus noimittäin
+function e22_dblock() { #241125:josko toimisi
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14
@@ -843,7 +842,10 @@ function e22_upgp() {
 	#TODO:ts-arch kutsuvaan joodiin?
 	e22_ts ${2}
 	${srat} -cf ${1} ${2}/tim3stamp
-	#VAIH:enforce_access() tähän?
+
+	local t
+	t=$(echo ${2} | cut -d '/' -f 1-5)
+	
 	enforce_access ${n} ${t}
 	e22_arch ${1} ${2}
 

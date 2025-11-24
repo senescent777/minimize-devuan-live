@@ -73,12 +73,12 @@ else
 	fi	
 fi
 
-#241125 tienoilla oli ongelmaa common>_lib.sh:n käyttöoik kanssa, toiv ei toistu
+#241125 tienoilla oli ongelmaa common_lib.sh:n käyttöoik kanssa, toiv ei toistu
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#HUOM.151025:tässä haarassa jokin qsee? koita selvittää mikä (TODO)
+	#tässä haarassa vielä ongelmia?
 	srat="/bin/tar" #which mukaan?
 	debug=1
 
@@ -115,7 +115,6 @@ else
 		dqb "imp32.enf_acc"
 	}
 
-	#HUOM.26525:tämä versio part3:sesta sikäli turha että common_lib urputtaa koska sha512sums muttei deb?
 	function part3() {
 		dqb "imp2.part3 :NOT SUPPORTED"
 		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount:in tapahtumaan silloin kun varsinainen instailu ei onnaa
@@ -199,12 +198,12 @@ else
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
-#TODO:debug:ia raskaalla kädellä koskapa oli jotain nalkutusta päivityspak kanssa
+#TODO:debug:ia raskaalla kädellä koskapa oli jotain nalkutusta päivityspak kanssa?
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
 	[ -z "${1}" ] && exit 1
-	[ -s ${1} ] || exit 2 #HUOM.151025:osa tarkistuksista voi olla redundantteja
+	[ -s ${1} ] || exit 2
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
 
@@ -220,7 +219,7 @@ function common_part() {
 		dqb "KHAZAD-DUM"
 
 		cat ${1}.sha
-		${sah6} -c ${1} #TODO:ignore-mussung
+		${sah6} ${1}
 		csleep 3
 
 		if [ -v gg ] ; then
@@ -260,7 +259,7 @@ function common_part() {
 		dqb "HAIL UKK"
 	
 		${scm} 0755 ${t}
-		${scm} a+x ${t}/*.sh
+		${scm} 0555 ${t}/*.sh #aiemmin a+x
 		${scm} 0444 ${t}/conf*
 		${scm} 0444 ${t}/*.deb
 
