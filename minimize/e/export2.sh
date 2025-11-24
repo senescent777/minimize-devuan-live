@@ -216,9 +216,49 @@ case ${mode} in
 	#2. "$0 f" tekemä paketti ei paskonut:slim
  
 		dqb "${sag_u}"
+
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libstdc++6=12.2.0-14+deb12u1&eXtra=176.93.249.62
+		# Depends:gcc-12-base (= 12.2.0-14+deb12u1), libc6 (>= 2.36), libgcc-s1 (>= 4.2)
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libsigc++-2.0-0v5=2.12.0-1&eXtra=176.93.249.62
+		# Depends:libc6 (>= 2.4), libgcc-s1 (>= 3.0), libstdc++6 (>= 4.6)
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpulse0=16.1+dfsg1-2+b1&eXtra=176.93.249.62
+		# Depends:libasyncns0 (>= 0.3), libc6 (>= 2.34), libdbus-1-3 (>= 1.9.14), libsndfile1 (>= 1.0.20), libsystemd0, libx11-6, libx11-xcb1 (>= 2:1.8.1), libxcb1
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpulse-mainloop-glib0=16.1+dfsg1-2+b1&eXtra=176.93.249.62
+		# Depends:libc6 (>= 2.4), libglib2.0-0 (>= 2.28.0), libpulse0 (= 16.1+dfsg1-2+b1)
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libjson-glib-1.0-0=1.6.6-1&eXtra=176.93.249.62
+		# Depends:libjson-glib-1.0-common (>= 1.6.6-1), libc6 (>= 2.4), libglib2.0-0 (>= 2.55.2)
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libgtkmm-3.0-1v5=3.24.7-1&eXtra=176.93.249.62
+		# Depends:libatkmm-1.6-1v5 (>= 2.28.3), libc6 (>= 2.14), libcairomm-1.0-1v5 (>= 1.14.3), libgcc-s1 (>= 3.0), libgdk-pixbuf-2.0-0 (>= 2.35.5), libglib2.0-0 (>= 2.41.1), libglibmm-2.4-1v5 (>= 2.66.4), libgtk-3-0 (>= 3.24.0), libpangomm-1.4-1v5 (>= 2.46.2), libsigc++-2.0-0v5 (>= 2.6.1), libstdc++6 (>= 5.2)
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libgtk-3-0=3.24.38-2~deb12u3&eXtra=176.93.249.62
+		# Depends:<isompi läjä>
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libglibmm-2.4-1v5=2.66.5-2&eXtra=176.93.249.62
+		# Depends:libc6 (>= 2.32), libgcc-s1 (>= 3.0), libglib2.0-0 (>= 2.61.2), libsigc++-2.0-0v5 (>= 2.9.1), libstdc++6 (>= 11)
 		
-		echo "${shary} libpangomm-1.4-1v5 libcairomm-1.0-1v5 libglibmm-2.4-1v5 libatkmm-1.6-1v5 libcanberra-gtk3-0 libcanberra0 libglib2.0-0 libgtk-3-0 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5"
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libglib2.0-0=2.74.6-2+deb12u7&eXtra=176.93.249.62
+		# Depends:libc6 (>= 2.34), libffi8 (>= 3.4), libmount1 (>= 2.35.2-7~), libpcre2-8-0 (>= 10.22), libselinux1 (>= 3.1~), zlib1g (>= 1:1.2.2)
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcanberra0=0.30-10
+		# Depends:libasound2 (>= 1.0.16), libc6 (>= 2.33), libltdl7 (>= 2.4.7), libtdb1 (>= 1.2.7+git20101214), libvorbisfile3 (>= 1.1.2), sound-theme-freedesktop
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcanberra-gtk3-0=0.30-10&eXtra=176.93.249.62
+		# Depends:libc6 (>= 2.4), libcanberra0 (>= 0.12), libglib2.0-0 (>= 2.12.0), libgtk-3-0 (>= 3.0.0), libx11-6
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libatkmm-1.6-1v5=2.28.3-1&eXtra=176.93.249.62
+		# Depends:libatk1.0-0 (>= 2.12.0), libc6 (>= 2.4), libgcc-s1 (>= 3.0), libglib2.0-0 (>= 2.33.14), libglibmm-2.4-1v5 (>= 2.66.4), libsigc++-2.0-0v5 (>= 2.2.0), libstdc++6 (>= 4.1.1)
+
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=pavucontrol=5.0-2&eXtra=176.93.249.62
+		echo "${shary} libpangomm-1.4-1v5 libcairomm-1.0-1v5 libglibmm-2.4-1v5 libatkmm-1.6-1v5 libcanberra-gtk3-0 libcanberra0 libglib2.0-0 libgtk-3-0 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5 libstdc++6 "
 		echo "${shary} pavucontrol"
+
 		echo "${svm} ${pkgdir}/*.deb ${d}"
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
@@ -305,7 +345,7 @@ case ${mode} in
 	e)
 		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
 		#VAIH:jotenkin kätevästi muodostetun pkaetin purq&asennus (import2 pikemminkin?)
-		#eli uudemman kerran muodostetutun paketin teataus
+		#eli uudemman kerran muodostetutun paketin teStaus
 
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}

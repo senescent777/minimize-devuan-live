@@ -771,7 +771,7 @@ function e22_settings2() { #HUOM.021125:tekee paketin, sisältö ehkä ok
 }
 
 #231125:tekee paketin, asentuukin enimmäkseen , nalkutus saattoi poistua mutta pieni ongelma slimin kanssa
-#VAIH:testaa uusicksi
+#VAIH:testaa uusicksi TAAS
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
