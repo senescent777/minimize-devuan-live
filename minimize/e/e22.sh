@@ -146,6 +146,7 @@ function e22_cleanpkgs() { #HUOM.021125:taitaa toimia
 
 		${NKVD} ${1}/*.deb
 		${NKVD} ${1}/sha512sums.txt
+		#entä ne listat?
 
 		ls -las ${1}/*.deb
 		csleep 2
@@ -699,7 +700,7 @@ function e22_get_pkgs() { #HUOM.021125:josko toimisi
 	csleep 1
 }
 
-function e22_dblock() { #121125:tekee paketin
+function e22_dblock() { #VAIH:testaa uusiksi, oksennuksen toimivuus noimittäin
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14
@@ -721,8 +722,12 @@ function e22_dblock() { #121125:tekee paketin
 	udp6 ${2} 
 
 	#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
+	
+	local t
+	t=$(echo ${2} | cut -d '/' -f 1-5)
 
 	e22_ts ${2}
+	enforce_access ${n} ${t}
 	e22_arch ${1} ${2}
 	csleep 1
 
@@ -766,6 +771,7 @@ function e22_settings2() { #HUOM.021125:tekee paketin, sisältö ehkä ok
 }
 
 #231125:tekee paketin, asentuukin enimmäkseen , nalkutus saattoi poistua mutta pieni ongelma slimin kanssa
+#TODO:testaa uusicksi
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
@@ -837,7 +843,8 @@ function e22_upgp() {
 	#TODO:ts-arch kutsuvaan joodiin?
 	e22_ts ${2}
 	${srat} -cf ${1} ${2}/tim3stamp
-	#TODO:enforce_access() tähän?
+	#VAIH:enforce_access() tähän?
+	enforce_access ${n} ${t}
 	e22_arch ${1} ${2}
 
 	dqb "SIELUNV1H0LL1N3N"

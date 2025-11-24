@@ -160,12 +160,14 @@ dqb "tar= ${srat}"
 csleep 1
 [ -z "${tgtfile}" ] && exit 99
 [ -z "${srat}" ] && exit 66
+t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
 	f) #231125:uudelleenpakkaus toimii nykyään, paitsi että saattaa rikkoa slim:in		
 		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(TODO)
-		#pitäisiköhän ajaa enforce_access() juuri ennenq e22_a()?		
-
+		#VAIH:pitäisiköhän ajaa enforce_access() juuri ennenq e22_a()?	
+	
+		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 		e22_ftr ${tgtfile}
 		exit
@@ -210,10 +212,13 @@ case ${mode} in
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
 	;;
-	å)
+	å) #241125:oksentaa toimivia komentoja, luodun arkiston toimivuus vielä selvitettävä w/import2
+	#1. libgtkmm ja libpangomm  riippuvuuksineen aiheutti nalkutusta, pitäisi niitä listoja päivittää vissiin + riippuvuuksien kanssa vielä iterointia
+	#2. "$0 f" tekemä paketti ei paskonut:slim
+ 
 		dqb "${sag_u}"
-		#muut jos löytyisi jo
-		echo "${shary} libatkmm libcanberra-gtk3-0 libcanberra0 libglib2.0-0 libglibmm-2.4-1v5 libgtk-3-0 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5"
+		
+		echo "${shary} libpangomm-1.4-1v5 libcairomm-1.0-1v5 libglibmm-2.4-1v5 libatkmm-1.6-1v5 libcanberra-gtk3-0 libcanberra0 libglib2.0-0 libgtk-3-0 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5"
 		echo "${shary} pavucontrol"
 		echo "${svm} ${pkgdir}/*.deb ${d}"
 		echo "$0 f ${tgtfile} ${distro}"
@@ -239,6 +244,7 @@ case ${mode} in
 	0|4)
 		#121125:nämä caset tekevät toimivan paketin
 		#, myös f.tar paketit asentuivat eneimmäkseen, joistain tuli nalkutusta (ei kai rnää 231125)
+		#TODO:testaapa tämäkin uudestaan koska x
 
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
@@ -263,6 +269,7 @@ case ${mode} in
 			e22_get_pkgs ${dnsm}
 	
 			if [ -d ${d} ] ; then
+				#enf_scc ulos d-blokista vai ei?
 				e22_dblock ${d}/f.tar ${d}
 			fi
 
@@ -285,14 +292,16 @@ case ${mode} in
 		csleep 5	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #121125:toimii nyt testatusti jollain lailla
+	1|u|upgrade) #TODO:testaapa uusicksi
 		e22_cleanpkgs ${d}
 		e22_upgp ${tgtfile} ${d} ${iface}
 	;;
 	p) #HUOM. 021125:tekee paketin
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.021125:tekee edelleen paketin			
+	e)  #VAIH:testaa uudestaan koska x, siis miten tuorein oksennus asentuu
+		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
+		
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_get_pkgs ${dnsm}
@@ -304,7 +313,9 @@ case ${mode} in
 			${srat} -rvf ${tgtfile} ./f.tar #tämäkö jäi puuttumaan?
 		fi
 	;;
-	t) #HUOM.021125:edelleen tekee paketin missä toivottavaa sisältöä
+	t) #VAIH:e_a() - jutut, miten tuorein oksennus masentuu
+		#241125 ensimmäisellä yrityksellä ei saanut aikaiseksi .deb-pak sis tar, uusi yritys kohta
+
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
 			
@@ -313,6 +324,7 @@ case ${mode} in
 
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_ts ${d}
+		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 	;;
 	*) #281025:tämäkin toiminee
