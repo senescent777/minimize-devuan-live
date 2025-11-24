@@ -25,11 +25,9 @@ case ${1} in
 			echo "N0 5H1T 5H3RL0CK"
 		fi
 	;;
-	#VAIH:merd2
 	cdns)		
 		sudo /opt/bin/changedns.sh ${dnsm}
 	;;
-
 	ifup)
 		sudo /sbin/ifup ${iface}
 	;;

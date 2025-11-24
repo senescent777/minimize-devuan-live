@@ -241,7 +241,7 @@ e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
 	0|4)
-		#241125:case 4 tekee toimivan paketin
+		#241125:case 4 tekee toimivan paketin (entä 0?)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
@@ -288,25 +288,37 @@ case ${mode} in
 		csleep 5	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #TODO:testaapa uusicksi
-		e22_cleanpkgs ${d}
+	1|u|upgrade) #VAIH:testaapa uusicksi TAAAS
+		#e22_cleanpkgs ${d} #tarpeellinen?
 		e22_upgp ${tgtfile} ${d} ${iface}
+
+		e22_ts ${d}
+		${srat} -cf ${1} ${d}/tim3stamp
+		t=$(echo ${d} | cut -d '/' -f 1-5)
+	
+		enforce_access ${n} ${t}
+		e22_arch ${tgtfile} ${d}
 	;;
 	p) #HUOM. 021125:tekee paketin
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
 	e)
 		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
-		
+		#VAIH:jotenkin kätevästi muodostetun pkaetin purq&asennus (import2 pikemminkin?)
+		#eli uudemman kerran muodostetutun paketin teataus
+
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_other_pkgs ${dnsm}
 
 		if [ -d ${d} ] ; then
-			e22_hdr ${d}/f.tar
-			e22_dblock ${d}/f.tar ${d}
-			cd ${d}
-			${srat} -rvf ${tgtfile} ./f.tar #tämäkö jäi puuttumaan?
+			#$d/f,tar -> $tggile?
+
+			e22_hdr ${tgtfile} #${d}/f.tar
+			e22_dblock ${tgtfile} ${d}  #${d}/f.tar ${d}
+
+			#cd ${d}
+			#${srat} -rvf  ./f.tar #tämäkö jäi puuttumaan?
 		fi
 	;;
 	t) 

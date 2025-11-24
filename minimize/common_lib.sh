@@ -245,6 +245,7 @@ function psqa() {
 	csleep 1
 }
 
+#TODO:josko nimeäisi uudestaan?
 function pre_part3_clib() {
 	dqb "pre_part3_clib ${1}"
 	csleep 1
@@ -804,7 +805,7 @@ function enforce_access() {
 	${sco} root:root /
 
 	${scm} 0777 /tmp
-	#${scm} o+t /tmp #takaisin?
+	${scm} o+t /tmp #251125:kokeeksi takaisin jos auttaisi slimin kiukuttelun kanssa
 	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat

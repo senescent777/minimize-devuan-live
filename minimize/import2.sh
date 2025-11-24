@@ -420,9 +420,12 @@ case "${mode}" in
 		#HUOM.231125:kutsutaan e_a() uudestaan jotta päivityspaketti ei rikkoisi:slim
 		#local t
 		t=$(echo ${d} | cut -d '/' -f 1-5)
-	
+		${scm} 0555 ${t}/common_lib.sh #251125:uutena tämä		
+
 		if [ -x ${t}/common_lib.sh ] ; then
-			enforce_access ${n} ${t} 
+			enforce_access ${n} ${t}
+		else
+			echo "N0 SUCH TH1NG AS  ${t}/common_lib.sh "
 		fi
 		#
 		csleep 1

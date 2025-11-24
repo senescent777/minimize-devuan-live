@@ -563,10 +563,11 @@ function e22_arch() { #241125:uudelleenpakkaus toimii nykyään paitsi että saa
 	echo $?
 	${sah6} ./*.deb > ./sha512sums.txt
 
+	#pitäisiköhän miettiä tämä kohta uusiksi?
 	for f in $(find . -type f -name '*_pkgs*')  ; do 
 		${sah6} ${f} >> ./sha512sums.txt
 		${srat} -rf ${1} ${f} 
-	 done
+	done
 	
 	csleep 1
 	psqa .
@@ -604,7 +605,7 @@ function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisält�
 	csleep 1
 
 	#message() tähän?
-	tpc7	#tämän funktio oli? jotain excaliburiin liittyvää
+	tpc7	#jotain excaliburiin liittyvää
 	aswasw ${2}
 
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
@@ -727,7 +728,7 @@ function e22_dblock() { #241125:josko toimisi
 
 	e22_ts ${2}
 	enforce_access ${n} ${t}
-	e22_arch ${1} ${2}
+	e22_arch ${1} ${2} #josko voisi siirtää jatkossa kustvunaan?
 	csleep 1
 
 	e22_cleanpkgs ${2}
@@ -770,7 +771,7 @@ function e22_settings2() { #HUOM.021125:tekee paketin, sisältö ehkä ok
 }
 
 #231125:tekee paketin, asentuukin enimmäkseen , nalkutus saattoi poistua mutta pieni ongelma slimin kanssa
-#TODO:testaa uusicksi
+#VAIH:testaa uusicksi
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
@@ -787,7 +788,7 @@ function e22_upgp() {
 
 	e22_cleanpkgs ${pkgdir}
 	e22_cleanpkgs ${2}
-	dqb "CLEANUP 1 AND 2 DONE, NEXT: apt-get upgrade"
+	dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 	csleep 1
 	
 	${fib}
@@ -836,18 +837,8 @@ function e22_upgp() {
 	esac
 
 	udp6 ${2}
-	dqb "UTP PT 3"
+	#dqb "UTP PT 3"
 	csleep 1
-
-	#TODO:ts-arch kutsuvaan joodiin?
-	e22_ts ${2}
-	${srat} -cf ${1} ${2}/tim3stamp
-
-	local t
-	t=$(echo ${2} | cut -d '/' -f 1-5)
-	
-	enforce_access ${n} ${t}
-	e22_arch ${1} ${2}
 
 	dqb "SIELUNV1H0LL1N3N"
 	csleep 1

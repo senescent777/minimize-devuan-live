@@ -14,8 +14,7 @@ if [ $# -gt 0 ] ; then
 	mode=${1}
 fi
 
-#TODO:jos mahd ni iteroi mode:t läpi&&selvitä lokeista mikä slimin kanssa qsee, tällä kertaa
-#vissiin päivityspak kusee asioita EDELLEEN, TODO:kokeeksi enforce_a() johonkin sop kohtaan
+#251125:edelleen päivityspak ajamisesta seuraa "login command failed", onkohan kyse jostain muustaq hmistojen käyttöoik?
 #... jos ei muuta keksi ni slim pois kiekolta? tai pikemminkin minimal livecd pohjaksi?
 
 [ ${mode} -gt 1 ] && ${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev devuan 
