@@ -73,6 +73,8 @@ else
 	fi	
 fi
 
+#241125 tienoilla oli ongelmaa common>_lib.sh:n käyttöoik kanssa, toiv ei toistu
+
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -126,7 +128,7 @@ else
 	#kutsutaanko tätä? no yhdestä kohdasta ainakin 
 	#tarvitaanko?
 	function other_horrors() {
-		dqb "AZATHOTH AND OTHER HORRORS"
+		dqb "AZATH0TH AND OTHER H0RR0RR55"
 	}
 
 	function ocs() {
@@ -197,6 +199,7 @@ else
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
+#TODO:debug:ia raskaalla kädellä koskapa oli jotain nalkutusta päivityspak kanssa
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
@@ -217,20 +220,24 @@ function common_part() {
 		dqb "KHAZAD-DUM"
 
 		cat ${1}.sha
-		${sah6} -c ${1}
+		${sah6} -c ${1} #TODO:ignore-mussung
 		csleep 3
 
-		if [ -x ${gg} ] ; then
-			dqb " ${gg} --verify ${1}.sha.sig "
-			${gg} --verify ${1}.sha.sig
+		if [ -v gg ] ; then
+			if [ ! -z ${gg} ] ; then
+				if [ -x ${gg} ] ; then
+					dqb " ${gg} --verify ${1}.sha.sig "
+					${gg} --verify ${1}.sha.sig
+				fi
+			fi
 		fi
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	csleep 1
+	csleep 10
 	dqb "NECKST:${srat} ${TARGET_TPX} -C ${3} -xf ${1}" #TODO:pitäisi selvittää toimiiko --exclude kuten pitää
-	csleep 1
+	csleep 10
 
 	${srat} -C ${3} ${TARGET_TPX} -xf ${1}
 	[ $? -eq 0 ] || exit 36
@@ -264,8 +271,6 @@ function common_part() {
 	csleep 1
 	dqb "ALL DONE"
 }
-
-#pavucontol:iin liittyy "exp2 å"
 
 #TODO:ffox 147
 function tpr() {
@@ -392,7 +397,7 @@ case "${mode}" in
 
 		csleep 1
 
-		if [ ${1} -eq 0 ] ; then
+		if [ ${1} -eq 0 ] ; then #tarpeellinen tarkistus nykyään?
 			#HUOM.30925:jospa antaisi efk2-kikkailujen olla toistaiseksi
 			if [ -s ${d}/e.tar ] ; then
 				common_part ${d}/e.tar ${d} /
@@ -414,7 +419,7 @@ case "${mode}" in
 		other_horrors
 
 		#HUOM.231125:kutsutaan e_a() uudestaan jotta päivityspaketti ei rikkoisi:slim
-		local t
+		#local t
 		t=$(echo ${d} | cut -d '/' -f 1-5)
 	
 		if [ -x ${t}/common_lib.sh ] ; then
