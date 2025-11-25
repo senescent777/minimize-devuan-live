@@ -48,7 +48,7 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-if [ -f /.chroot ] ; then #HUOM.171025:tämä blokki kunnossa?
+if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
 
@@ -73,10 +73,12 @@ else
 	fi	
 fi
 
+#241125 tienoilla oli ongelmaa common_lib.sh:n käyttöoik kanssa, toiv ei toistu
+
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#HUOM.151025:tässä haarassa jokin qsee? koita selvittää mikä (TODO)
+	#tässä haarassa vielä ongelmia?
 	srat="/bin/tar" #which mukaan?
 	debug=1
 
@@ -113,7 +115,6 @@ else
 		dqb "imp32.enf_acc"
 	}
 
-	#HUOM.26525:tämä versio part3:sesta sikäli turha että common_lib urputtaa koska sha512sums muttei deb?
 	function part3() {
 		dqb "imp2.part3 :NOT SUPPORTED"
 		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount:in tapahtumaan silloin kun varsinainen instailu ei onnaa
@@ -126,7 +127,7 @@ else
 	#kutsutaanko tätä? no yhdestä kohdasta ainakin 
 	#tarvitaanko?
 	function other_horrors() {
-		dqb "AZATHOTH AND OTHER HORRORS"
+		dqb "AZATH0TH AND OTHER H0RR0RR55"
 	}
 
 	function ocs() {
@@ -197,11 +198,12 @@ else
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
+#251125:päivityspak härdellit eivät liittyne tar:in purkamiseen
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
 	[ -z "${1}" ] && exit 1
-	[ -s ${1} ] || exit 2 #HUOM.151025:osa tarkistuksista voi olla redundantteja
+	[ -s ${1} ] || exit 2
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
 
@@ -217,20 +219,25 @@ function common_part() {
 		dqb "KHAZAD-DUM"
 
 		cat ${1}.sha
-		${sah6} -c ${1}
+		${sah6} ${1}
 		csleep 3
 
-		if [ -x ${gg} ] ; then
-			dqb " ${gg} --verify ${1}.sha.sig "
-			${gg} --verify ${1}.sha.sig
+		#VAIH:-s .sig kanssa
+		if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
+			if [ ! -z ${gg} ] ; then
+				if [ -x ${gg} ] ; then
+					dqb " ${gg} --verify ${1}.sha.sig "
+					${gg} --verify ${1}.sha.sig
+				fi
+			fi
 		fi
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	csleep 1
+	csleep 10
 	dqb "NECKST:${srat} ${TARGET_TPX} -C ${3} -xf ${1}" #TODO:pitäisi selvittää toimiiko --exclude kuten pitää
-	csleep 1
+	csleep 10
 
 	${srat} -C ${3} ${TARGET_TPX} -xf ${1}
 	[ $? -eq 0 ] || exit 36
@@ -253,7 +260,7 @@ function common_part() {
 		dqb "HAIL UKK"
 	
 		${scm} 0755 ${t}
-		${scm} a+x ${t}/*.sh
+		${scm} 0555 ${t}/*.sh #aiemmin a+x
 		${scm} 0444 ${t}/conf*
 		${scm} 0444 ${t}/*.deb
 
@@ -265,11 +272,9 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
-#HUOM.141025:mikä idea $2 kanssa?
-#TODO:se audio mixer k anssa toimimaan / pavucontrol poistunut / jep / vai pak kas/purq viallinen myös?
-#vaikkapa pkginfo.devuan.org katsoen mitä pavucontrl travitsee
+#TODO:ffox 147
 function tpr() {
-	dqb "UPIR  ${1}, ${2}"
+	dqb "UPIR  ${1}" #tulisi kai olla vain 1 param tälle fktiolle
 	csleep 1
 
 	[ -z ${1} ] && exit 11
@@ -345,7 +350,6 @@ case "${mode}" in
 	;;
 esac
 
-#debug=1
 [ -z "${srcfile}" ] && exit 44
 
 if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
@@ -370,16 +374,16 @@ dqb "srcfile=${srcfile}"
 csleep 6
 
 case "${mode}" in
-	r)
+	r) #vissiin toimii 
 		[ -d ${srcfile} ] || exit 22
-		tpr ${srcfile} #d0 pois ni voisi siirtää alempaan case:en?
+		tpr ${srcfile}
 	;;
-	1) #Todnäk toimii tämä case 1619025
+	1) #vissiin toimii 
 		common_part ${srcfile} ${d} /
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
-	0|3)
+	0|3) #vissiin toimii 
 		echo "ZER0 S0UND"
 		csleep 1
 		dqb " ${3} ${distro} MN" #mikä pointti?
@@ -393,7 +397,7 @@ case "${mode}" in
 
 		csleep 1
 
-		if [ ${1} -eq 0 ] ; then
+		if [ ${1} -eq 0 ] ; then #tarpeellinen tarkistus nykyään?
 			#HUOM.30925:jospa antaisi efk2-kikkailujen olla toistaiseksi
 			if [ -s ${d}/e.tar ] ; then
 				common_part ${d}/e.tar ${d} /
@@ -413,21 +417,32 @@ case "${mode}" in
 
 		part3 ${d} ${dnsm}
 		other_horrors
+
+		#HUOM.231125:kutsutaan e_a() uudestaan jotta päivityspaketti ei rikkoisi:slim (tosin syy jossain muualla)
+
+		t=$(echo ${d} | cut -d '/' -f 1-5)
+		${scm} 0555 ${t}/common_lib.sh #251125:uutena tämä		
+
+		if [ -x ${t}/common_lib.sh ] ; then
+			enforce_access ${n} ${t}
+		else
+			echo "N0 SUCH TH1NG AS  ${t}/common_lib.sh "
+		fi
+		#
+
 		csleep 1
-		
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q) 
-		#HUOM.161025:toimiiko tämä vielä/taas?
+		#toimiiko tämä vielä/taas? ffox versio 147 saattaa tuoda muutoksia
 
 		c=$(tar -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
 		common_part ${srcfile} ${d} /
 		tpr ${d0}
 	;;
-	k)	
+	k)	#milloin viimeksi testettu? lokakuussa josqs?
 		[ -d ${srcfile} ] || exit 22
-
 		dqb "KLM"
 		ridk=${srcfile}
 
@@ -453,9 +468,9 @@ cd ${olddir}
 
 if [ -v part ] || [ -v dir ] ; then
 	echo "REMEMBER 2 UNM0UNT TH3S3:"
-	[ -z ${part} ] || grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan
+	[ -z ${part} ] || grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan?
 	[ -z ${dir} ] || grep ${dir} /proc/mounts
 fi
 
 ${scm} 0755 $0
-#HUOM.290925: tämän skriptin olisi kuvakkeen kanssa tarkoitus löytyä filesystem.squashfs sisältä
+#HUOM.290925: tämän skriptin olisi kuvakkeen kanssa tarkoitus löytyä filesystem.squashfs sisältä (no löytyykö?)

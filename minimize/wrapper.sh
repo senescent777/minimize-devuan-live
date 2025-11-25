@@ -1,7 +1,7 @@
 #!/bin/bash
 distro=$(cat /etc/devuan_version)
 
-# HUOM tämä skripti ei välttämttä oleellinen chroot-ymp kannaltaq
+#HUOM. tämä skripti ei välttämttä oleellinen chroot-ympäristön kannalta
 d=$(pwd)
 
 if [ -s ${d}/${distro}/conf ] ; then
@@ -14,16 +14,20 @@ fi
 #liittyy:https://github.com/senescent777/some_scripts/blob/main/lib/export/ui.sh.export
 
 gol=$(which dialog)
-[ -x ${gol} ] || echo "apt-get install dialog?"
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=dialog=1.3-20230209-1&eXtra=87.95.53.103
+[ -x ${gol} ] || echo "apt-get install libtinfo6 libncursesw6 debianutils dialog"
 
 case ${1} in
 	merde)
-		${d}/demerde_toi.sh main #testattu 08/25 alussa, toimi silloin
+		if [ -x ${d}/../merd2.sh ] ; then
+			${d}/../merd2.sh ${2} ${3}
+		else
+			echo "N0 5H1T 5H3RL0CK"
+		fi
 	;;
 	cdns)		
 		sudo /opt/bin/changedns.sh ${dnsm}
 	;;
-
 	ifup)
 		sudo /sbin/ifup ${iface}
 	;;
@@ -33,7 +37,12 @@ case ${1} in
 	import|import2)
 		${d}/import2.sh -1
 		#[ $? -gt 0 ] && exit 45 #HUOM. jos on jo valmiiksi mountattu ni turha exit
-		read -p "source?" sorsa #jokin tdston_valinta_dialogi olisi tietysti kiva...
+
+		#if [ -x ${gol} ] ; then
+		#else
+			read -p "source?" sorsa
+		#fi
+
 		sleep 2
 
 		#https://duckduckgo.com/?q=how+to+make+file+selection+d8ialog+with+ncurses&ia=web
@@ -64,7 +73,9 @@ case ${1} in
 		${d}/generic_doit.sh 1
 	;;
 	update)
-		echo "TODO:file_dialog+update2.sh ?"
+		#VAIH:file_dialog+update2.sh
+		t=$(${gol} --fselect ${dir} 20 20) #vissiin ei näin?
+		echo "update2.sh ${t} 1 ?"
 	;;
 	*)
 		echo "$0 [cmd]"

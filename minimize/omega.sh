@@ -14,7 +14,9 @@ if [ $# -gt 0 ] ; then
 	mode=${1}
 fi
 
-#131125;kiukuttelua edelleen slim:in kanssa, ei liittyne g_pt2seen kuitenkaan
+#251125:edelleen päivityspak ajamisesta seuraa "login command failed", onkohan kyse jostain muustaq hmistojen käyttöoik?
+#... jos ei muuta keksi ni slim pois kiekolta? tai pikemminkin minimal livecd pohjaksi?
+
 [ ${mode} -gt 1 ] && ${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev devuan 
 [ ${mode} -gt 2 ] && ${smr} /etc/sudoers.d/live
 [ ${mode} -gt 3 ] && ${svm} /etc/sudoers_new /etc/sudoers #miten yämä toimii nykyään?

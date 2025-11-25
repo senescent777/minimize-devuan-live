@@ -245,8 +245,9 @@ function psqa() {
 	csleep 1
 }
 
-function pre_part3_clib() {
-	dqb "pre_part3_clib ${1}"
+
+function common_pp3() {
+	dqb "common_pp3 ${1}"
 	csleep 1
 	[ ${debug} -eq 1 ] && pwd
 
@@ -326,23 +327,6 @@ function clibpre() {
 	dqb "PARANMS OK"
 	csleep 1
 
-	#dqb "#ASDFASDFASDF"
-
-	efk1 ${1}/libc6*.deb 
-	csleep 4
-	efk1 ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
-	csleep 4
-	efk1 ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
-	csleep 4
-	#JOKO JO PERKELE
-	efk1 ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
-	csleep 4
-
-	dqb "ZXC,MNBZXC,MNBZXCMNBVZXC"
-
-	efk1 ${1}/libicu*.deb ${1}/libxml*.deb
-	csleep 6
-
 	dqb "LOREMIPSUM-.LOREM1PSUM.LOREMIPSUM.LIPSUU"
 	csleep 5
 	local p
@@ -357,7 +341,7 @@ function clibpre() {
 	
 	csleep 10
 	cd ${p}
-	dqb "qERB1L A\$\$UCKfgh"
+	dqb "lAmPl1gHt3R D03N"
 }
 
 
@@ -500,7 +484,7 @@ function check_binaries() {
 		efk2 ${1}/e.tar
 		efk2 ${1}/f.tar ${1}
 
-		pre_part3_clib ${1}
+		common_pp3 ${1}
 		[ -f /.chroot ] && message
 		common_tbls ${1} ${dnsm}
 		other_horrors
@@ -692,7 +676,7 @@ function pre_enforce() {
 
 function mangle2() { #mikä tätä käyttää nykyään? pl e_fktiot siis...
 	if [ -f ${1} ] ; then
-		dqb "MANGLED ${1} BEYOND RECO"
+		dqb "MANGLED ${1} BEYOND RECQG"
 		${scm} o-rwx ${1}
 		${sco} root:root ${1}
 	fi
@@ -804,7 +788,7 @@ function enforce_access() {
 	${sco} root:root /
 
 	${scm} 0777 /tmp
-	#${scm} o+t /tmp
+	${scm} o+t /tmp #251125:kokeeksi takaisin jos auttaisi slimin kiukuttelun kanssa
 	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
@@ -1096,7 +1080,7 @@ function part3() {
 	csleep 1
 
 	jules
-	pre_part3_clib ${1}
+	common_pp3 ${1}
 	csleep 1
 
 	#jatkossa jos jotenkin toisin?
@@ -1107,7 +1091,21 @@ function part3() {
 	#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taåauksessa daed , jotain jos tekisi dbus
 
 	clibpre ${1} accept_pkgs_1
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=slim=1.4.0-0devuan2&eXtra=87.95.120.70
+	# Depends:
+	#dbus, debconf (>= 1.2.9) | debconf-2.0, default-logind | logind | consolekit, x11-xserver-utils, libc6 (>= 2.34), libgcc-s1 (>= 3.0), libjpeg62-turbo (>= 1.3.1), libpam0g (>= 0.99.7.1), libpng16-16 (>= 1.6.2-1), libstdc++6 (>= 5.2), libx11-6, libxext6, libxft2 (>> 2.1.1), libxmu6 (>= 2:1.1.3), libxrandr2 (>= 2:1.2.99.3)
+	#saattaa harata vastaan:dbus , debconf? , libgcc-s1, libpam0g, libx11-6
+
+	#https://bbs.archlinux.org/viewtopic.php?id=112224 ?
+	#https://dev1galaxy.org/viewtopic.php?id=2158
+
+	#josko lxdm tai xdm vaikka tilalle?
+	dqb "TODO:${sharpy} slim;${shary} lxdm"
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=lxdm=0.5.3-4&eXtra=176.93.242.93
+
 	clibpre ${1} accept_pkgs_2
+	#exit #HUOM.pois kommenteista sitq testaa päivityspak
 
 	dqb "4RP DONE"
 	csleep 3

@@ -4,6 +4,8 @@ tcmd=$(which tar)
 spc=$(which cp)
 n=$(whoami)
 
+#voisikohan käyttää muidenin pakettien päivittelyyn kuin vain sen yhden?
+
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
 		tcmd="sudo ${tcmd} "
@@ -52,6 +54,9 @@ if [ -v testgris ] && [ -d ${testgris} ] ; then
 else
 	cd /
 fi
+
+#HUOM.131125:vaikutti siltä että -uvf ei sittenkään toimisi aivan toivotulla tavalla, aina saa renkata d/accept*
+#... tarkemmin ajatellen päivityspaketin sisältö syynä (tee jotain)
 
 for f in $(${tcmd} -tf ${tgt} | grep -v '${n}.conf'  | grep -v .chroot) ; do
 	if [ -f ${f} ] ; then #josko nyt

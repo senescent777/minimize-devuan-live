@@ -6,14 +6,8 @@ d0=$(pwd)
 debug=0
 d=${d0}/${distro}
 
-mode=3 #0 
-#HUOM.121125:edelleen kusee x/slim/xfce jos mennään kolmosella, entä 2?
-#, no sen kanssa tuli "ERROR: ld.so: object 'libgtk3-nocsd.so.0' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored."
-#ilmeisesti päivityspaketin asentelu, sq-chroot-ympäristössä, korjaa tilanteen koska x
-#(jospa koittaisi keksiä korjauksen)
-#entä 1? no senkin kanssa tulee libgtk3-nalqtus (libdav saattaa liittyä)
-
-#HUOM.251025:myös excaliburin kanssa se on nimenomaan mode 3 mikä qsee guin?
+mode=3
+#HUOM.251025:myös excaliburin kanssa se on nimenomaan mode 3 mikä qsee guin? vielä?
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -41,8 +35,6 @@ function parse_opts_1() {
 		;;
 	esac
 }
-
-#edelleen 101025 se ettei uskalla nollaa suurempaa mode:a (syyllistä haetaan)
 
 function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
@@ -106,11 +98,12 @@ fi
 
 function t2p_filler() {
 	dqb "FILLER"
-	${lftr} #siirto c_lib:stä tähän tdstoon? tai part2_5 käyttää
+	${lftr} #siirto c_lib:stä tähän tdstoon? tai part2_5 käyttää?
 	${asy}
 	csleep 1
 }
 
+#TODO:jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
 function t2pc() {
 	#debug=1
@@ -177,7 +170,9 @@ function t2pc() {
 	${sharpy} netcat-traditional openssh*
 	t2p_filler
 
-	${sharpy} parted pavucontrol #libgtk3 ei poistu, libgtk4 kyllä
+	#VAIH:pavucontrol poist peruutus?
+	${sharpy} parted #pavucontrol saattaa löytyä käyttöä
+	#libgtk3 ei poistu, libgtk4 kyllä
 	t2p_filler
 
 	${sharpy} ppp plocate pciutils procmail
@@ -202,6 +197,8 @@ function t2pc() {
 	${sharpy} xz-utils xfburn xarchiver # yad ei ole kaikissa distr
 	#xfce*,xorg* off limits
 	t2p_filler
+
+	dqb "TODO:  ${sharpy} slim;t2p_filler()*" #251125:seur. mergen jälkeen
 
 	spd="${sd0} -l " #jäänyt turhaksi muuten mutta g_pt2
 	[ ${debug} -gt 0 ] && ${spd} x*

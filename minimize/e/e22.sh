@@ -1,6 +1,6 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
-		
+
 function e22_hdr() { #HUOM.121125:toimii?
 	dqb "e22hdr():BEFORE "
 	csleep 1
@@ -38,6 +38,7 @@ function e22_ftr() { #121125:HUOM.121125:toimii?
 	${sah6} ./${q} > ${q}.sha
 	${sah6} -c ${q}.sha
 
+	#riittävät tarkistukset?
 	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 		${gg} -u ${CONF_kay1name} -sb ${q}.sha
 	fi
@@ -69,15 +70,15 @@ function e22_pre1() { #HUOM.021125:toimii?
 	else
 		echo "else"
 		dqb "5TNA"
-		
+
 		local lefid
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) # | cut -d '/' -f 1-5)
 		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
-	
+
 		enforce_access ${n} ${lefid} #jos jo toimisi
 		csleep 1
 		dqb "3NF0RC1NG D0N3"
-		
+
 		csleep 1
 		${scm} 0755 /etc/apt
 		${scm} a+w /etc/apt/sources.list*
@@ -146,6 +147,7 @@ function e22_cleanpkgs() { #HUOM.021125:taitaa toimia
 
 		${NKVD} ${1}/*.deb
 		${NKVD} ${1}/sha512sums.txt
+		#entä ne listat?
 
 		ls -las ${1}/*.deb
 		csleep 2
@@ -159,6 +161,7 @@ function e22_cleanpkgs() { #HUOM.021125:taitaa toimia
 	csleep 1
 }
 
+#TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory 
 function e22_settings() { #HUOM.121125:toimii toistaiseksi?
 	dqb "e22_settings ${1} ${2}"
 	csleep 1
@@ -216,14 +219,15 @@ function e22_home() { #121125:toimii ehdolla profs.sh löytyy
 		dqb "FORCEFED BROKEN GLASS"
 		e22_settings ~ ${2}/.. #HUOM.25725:toimiiko näin?
 	else
-		dqb "PUIG DESTRÖYERR"
+		dqb "PUIG DESTRÖYERR b666"
 	fi
 
 	csleep 1
-	${srat} -rvf ${1} /opt/bin/changedns.sh #TODO:merd2.sh mukaan myös
+	${srat} -rvf ${1} /opt/bin/changedns.sh
+	for t in $(find ~ -type f -name 'merd2.sh') ; do ${srat} -rvf ${1} ${t} ; done  
 	local t
 
-	#121125;onko olennaista saada e22_home() toimimaan kehitysymp? myös update2 keksitty
+	#121125:onko olennaista saada e22_home() toimimaan kehitysymp? myös update2 keksitty
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 2
 	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
@@ -481,7 +485,7 @@ function aswasw() { #privaatti fktio
 	csleep 1
 }
 #
-#function aval0n() { #prIvaattI
+#function aval0n() { #prIvaattI, toikmimaan+käyttöön?
 #	dqb "${sharpy} libavahi* #saattaa sotkea ?"
 #	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 #}
@@ -499,7 +503,7 @@ function e22_ts() { #HUOM.121125:toimii?
 	dqb $?
 	csleep 2
 
-	fasdfasd  ${1}/tim3stamp
+	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
 
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
@@ -507,15 +511,15 @@ function e22_ts() { #HUOM.121125:toimii?
 	csleep 4
 }
 
-#HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jölkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
+#HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
 #TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk?
 
-function e22_arch() { #121125:uudelleenpakkaus toimii nykyään
+function e22_arch() { #251125:uudelleenpakkaus toimii nykyään, slim rikkoutuu muista syistä 
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
 	[ -z ${1} ] && exit 1
-	#[ -s ${1} ] || exit 2 #kutsuvaan joodiin e22_hdr() vai ei? toiatsiaseksi näin (121125)
+	#[ -s ${1} ] || exit 2 #kutsuvaan joodiin e22_hdr() vai ei? toiSTAIseksi näin
 	#[ -w ${1} ] || exit 33
 
 	[ -z ${2} ] && exit 11
@@ -559,10 +563,11 @@ function e22_arch() { #121125:uudelleenpakkaus toimii nykyään
 	echo $?
 	${sah6} ./*.deb > ./sha512sums.txt
 
+	#pitäisiköhän miettiä tämä kohta uusiksi?
 	for f in $(find . -type f -name '*_pkgs*')  ; do 
 		${sah6} ${f} >> ./sha512sums.txt
 		${srat} -rf ${1} ${f} 
-	 done
+	done
 	
 	csleep 1
 	psqa .
@@ -583,7 +588,6 @@ function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisält�
 	dqb "\$shary= ${shary}"
 	csleep 2
 
-	#tarkistukset jotenkin toisin jatkossa? 
 	[ -z ${1} ] && exit 11
 	[ -d ${1} ] || exit 15 
 
@@ -601,11 +605,10 @@ function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisält�
 	csleep 1
 
 	#message() tähän?
-
-	tpc7	#tämän funktio oli? jotain excaliburiin liittyvää kai
+	tpc7	#jotain excaliburiin liittyvää
 	aswasw ${2}
-	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 
+	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 	${shary} iptables
 	${shary} iptables-persistent init-system-helpers netfilter-persistent
 
@@ -632,8 +635,8 @@ function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisält�
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_get_pkgs() { #HUOM.021125:josko toimisi
-	dqb "e22_get_pkgs ${1} , ${2} , ${3} , ${4} "
+function e22_other_pkgs() { #TODO:testaus uudestaan josqs
+	dqb "e22_other_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
 
@@ -644,7 +647,6 @@ function e22_get_pkgs() { #HUOM.021125:josko toimisi
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} libc6 zlib1g #moni pak tarttee nämä
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf 		
-	#HUOM.28525:nalkutus alkoi jo tässä (siis ennenq libip4tc2-blokki siirretty)
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
 	${shary} libaudit1 libselinux1
@@ -688,17 +690,20 @@ function e22_get_pkgs() { #HUOM.021125:josko toimisi
 	
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
 	csleep 1
+
+	dqb "TODO: ${shary} lxdm + deps" #TODO:sittenq merge hoidettu
+	#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
 	${lftr}
 
 	#aval0n
-	dqb "BEFORE UPD6"	
+	dqb "BEFORE UPD6" #kutsutaabko tuota?	
 	csleep 1
 
-	dqb "e22_get_pkgs donew"
+	dqb "e22_other_pkgs donew"
 	csleep 1
 }
 
-function e22_dblock() { #121125:tekee paketin
+function e22_dblock() { #241125:josko toimisi
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14
@@ -720,9 +725,13 @@ function e22_dblock() { #121125:tekee paketin
 	udp6 ${2} 
 
 	#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
+	
+	local t
+	t=$(echo ${2} | cut -d '/' -f 1-5)
 
 	e22_ts ${2}
-	e22_arch ${1} ${2}
+	enforce_access ${n} ${t}
+	e22_arch ${1} ${2} #josko voisi siirtää jatkossa kuTSUVnaan?
 	csleep 1
 
 	e22_cleanpkgs ${2}
@@ -764,7 +773,8 @@ function e22_settings2() { #HUOM.021125:tekee paketin, sisältö ehkä ok
 	dqb "AAMUNK01"
 }
 
-#081125:tekee paketin, asentuukin enimmäkseen (jokohabn jo nalqtus poistettu 121125?)
+#231125:tekee paketin, asentuukin enimmäkseen , nalkutus saattoi poistua mutta pieni ongelma slimin kanssa
+#VAIH:testaa uusicksi TAAS
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
@@ -781,13 +791,13 @@ function e22_upgp() {
 
 	e22_cleanpkgs ${pkgdir}
 	e22_cleanpkgs ${2}
-	dqb "CLEANUP 1 AND 2 DONE, NEXT: apt-get upgrade"
+	dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 	csleep 1
 	
 	${fib}
 	csleep 1
 	
-	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta
+	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta, onko?
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 	csleep 1
@@ -830,12 +840,8 @@ function e22_upgp() {
 	esac
 
 	udp6 ${2}
-	dqb "UTP PT 3"
+	#dqb "UTP PT 3"
 	csleep 1
-
-	e22_ts ${2}
-	${srat} -cf ${1} ${2}/tim3stamp
-	e22_arch ${1} ${2}
 
 	dqb "SIELUNV1H0LL1N3N"
 	csleep 1

@@ -3,6 +3,8 @@
 #https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
+#TODO:voisi jatkossa pitää x-oiukeudet common:lib.sh:ssa ettei tarttisi renkata (enemmänkin g_doit asioita)
+
 function udp6() { #on käytössä
 	dqb "daud.lib.UPDP-6 ${1}"
 	csleep 1
@@ -10,14 +12,12 @@ function udp6() { #on käytössä
 	dqb "paramz 0k"
 	csleep 1
 
-	#c5p ${1}
 	clib5p ${1} reject_pkgs
-
 	dqb "D0NE"
 	csleep 1
 }
 
-#121125:sotkeeko tämä fktio jotain? se lingtk3-nosdc...
+#clib5p-tyylillä jatkossa tämänkin fktion hommat?
 function t2p() { #on käytössä
 	dqb "DAUD.T2P"
 	csleep 1
@@ -30,7 +30,7 @@ function t2p() { #on käytössä
 	${sharpy} iucode-tool
 	t2p_filler
 
-	${sharpy} ntp* #121125:tässä base-passwd- ja init-valitusta
+	${sharpy} ntp* #121125:tässä base-passwd- ja init-valitusta. vielä 231125?
 	${sharpy} ntfs-3g
 	t2p_filler
 
@@ -66,10 +66,6 @@ function t2p() { #on käytössä
 	${asy}
 	csleep 2
 
-#	${sharpy} xorriso*
-#	${asy}
-#	csleep 2
-#
 	${sharpy} xz* #initramfs
 	${asy}
 	csleep 2
@@ -82,8 +78,8 @@ function t2p() { #on käytössä
 	${asy}
 	sleep 2
 
-	#uutena
 	#${sharpy} libdav* #121125:tämä näyttää poistavan paljon tapauksessa daed, ehkä jopa liikaa
+	#ÄLÄ SIIS WTUN PÖSILÖ POISTA libdav-PAKETTEJA ELLEI KIINNOSTA SELVITELLÄ "ERROR: ld.so: object 'libgtk3-nocsd.so.0' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored."-NALKUTUSTA
 	#${asy} #varm. vuoksi
 	#sleep 2
 
@@ -91,7 +87,7 @@ function t2p() { #on käytössä
 	csleep 2
 }
 
-#josko kuitenkin ntp takaisin listaan?
+#josko kuitenkin ntp takaisin part2_5_listaan?
 function pre_part2() { #käytrössä
 	dqb "daud.pre_part2()"
 	csleep 2

@@ -25,7 +25,8 @@ function usage() {
 	echo "$0 q <> [] [] archives firefox settings"
 	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
-	echo "$0 t ... option for ipTables"			
+	echo "$0 t ... option for ipTables"	
+	echo "$0 å ... somehow related 2 pavucontrol "	
 	echo "$0 -h: shows this message about usage"	
 }
 
@@ -159,17 +160,21 @@ dqb "tar= ${srat}"
 csleep 1
 [ -z "${tgtfile}" ] && exit 99
 [ -z "${srat}" ] && exit 66
+t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
-	f) #121125:uudelleenpakkaus toimii nykyään		
+	f) 	#241125:joskohan nykyään jo toimisi
 		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(TODO)
-		
+		#251125:saisiko pakotettua alemman case:n kanssa toimimaan?		
+
+		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 		e22_ftr ${tgtfile}
 		exit
 	;;
 	q)
 		#HUOM.021125:tekee paketin
+		#TODO:ffox 147 muutokset
 		${sifd} ${iface}
 		e22_settings ~ ${d0}
 
@@ -198,11 +203,57 @@ case ${mode} in
 		exit
 	;;
 	g)
-		#HUOM.021125:vaikuttaisi tulevan järkevää outputtia pl. ehkä reinstall sellaisenaan 
+		#HUOM.021125:vaikuttaisi tulevan järkevää outputtia 
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-		dqb "sudo apt-get update;sudo apt-get reinstall"
+		dqb "sudo apt-get update"
 
 		echo "${shary} ${E22GI}"
+		echo "${svm} ${pkgdir}/*.deb ${d}"
+		echo "$0 f ${tgtfile} ${distro}"
+		exit 1
+	;;
+	å) #241125:testattu, oksentaa toimivia komentoja, lisäksi:
+	#1. libgtkmm ja libpangomm  riippuvuuksineen aiheutti nalkutusta, pitäisi niitä listoja päivittää vissiin + riippuvuuksien kanssa vielä iterointia
+	#2. "$0 f" tekemä paketti ei paskonut:slim
+
+	#251125:pavu taisi asentua(tosin "establishing connection") + nalkutusta paketeista: libpolkit, libsystemd
+ 
+	dqb "#TODO:alsaan siirtyminen?"
+
+		dqb "${sag_u}"
+
+		#VAIH:alta juttuja -> accrpt_pjgs
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpulse0=16.1+dfsg1-2+b1&eXtra=176.93.249.62
+		# Depends:libdbus-1-3 (>= 1.9.14), 
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libgtkmm-3.0-1v5=3.24.7-1&eXtra=176.93.249.62
+		# Depends:     #VAIH:näiden riippuvuudet
+		
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libglib2.0-0=2.74.6-2+deb12u7&eXtra=176.93.249.62
+		# Depends:  (>= 3.4),  -8-0 (>= 10.22)
+		
+			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libatkmm-1.6-1v5=2.28.3-1&eXtra=87.95.120.70
+			#libtk1, libglibmm, libsigc++ lähinnä
+
+			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcairomm-1.0-1v5=1.14.4-2&eXtra=87.95.120.70
+			#libcairo2 , libsigc lähinnä
+			
+			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpangomm-1.4-1v5=2.46.3-1
+			#libcairomm , libglibmm , libpangocairo, libsigc++
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcanberra0=0.30-10
+		# Depends: (>= 1.0.16),  (>= 2.4.7),  (>= 1.2.7+git20101214),  (>= 1.1.2)
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcanberra-gtk3-0=0.30-10&eXtra=176.93.249.62
+		# Depends:  (>= 0.12)
+
+		echo "${shary} libatk1.0-0 libasound2 libltdl7 libtdb1 libvorbisfile3 libatkmm-1.6-1v5 libcairomm-1.0-1v5 libpangomm-1.4-1v5 libjson-glib-1.0-common libasyncns0 libsndfile1 libsystemd0"
+
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=pavucontrol=5.0-2&eXtra=176.93.249.62
+		echo "${shary} libatkmm-1.6-1v5 libcanberra-gtk3-0 libcanberra0 libglibmm-2.4-1v5 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5 "
+		echo "${shary} pavucontrol"
+
 		echo "${svm} ${pkgdir}/*.deb ${d}"
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
@@ -224,9 +275,7 @@ e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
 	0|4)
-		#121125:nämä caset tekevät toimivan paketin
-		#, myös f.tar paketit asentuivat eneimmäkseen, joistain tuli nalkutusta
-
+		#241125:case 4 tekee toimivan paketin (entä 0?)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
@@ -236,7 +285,6 @@ case ${mode} in
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
-
 		dqb "srat= ${srat}"
 		csleep 5
 
@@ -247,9 +295,10 @@ case ${mode} in
 		if [ ${mode} -eq 0 ] ; then
 			#HUOM.121125:2 seuraavaa fktiota, onko niiden kanssa jotain ongelmaa vaiko ei?
 			e22_tblz ${d} ${iface} ${distro} ${dnsm}
-			e22_get_pkgs ${dnsm}
+			e22_other_pkgs ${dnsm}
 	
 			if [ -d ${d} ] ; then
+				#enf_scc ulos d-blokista vai ei?
 				e22_dblock ${d}/f.tar ${d}
 			fi
 
@@ -272,26 +321,38 @@ case ${mode} in
 		csleep 5	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #121125:toimii nyt testatusti jollain lailla
-		e22_cleanpkgs ${d}
+	1|u|upgrade) #VAIH:testaapa uusicksi TAAAS
+		#251125:näyttää tosiaan siltä että päivityspaketin purkaminen itsessään ei riko slimiä, sisällön asentaminen sen sijaan...
 		e22_upgp ${tgtfile} ${d} ${iface}
+
+		e22_ts ${d}
+		${srat} -cf ${1} ${d}/tim3stamp
+		t=$(echo ${d} | cut -d '/' -f 1-5)
+	
+		enforce_access ${n} ${t}
+		e22_arch ${tgtfile} ${d}
 	;;
 	p) #HUOM. 021125:tekee paketin
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
-	e)  #HUOM.021125:tekee edelleen paketin			
+	e)
+		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
+		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
+		#TODO:vielä kerran testaus koska e22_h komm poid
+
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
-		e22_get_pkgs ${dnsm}
+		e22_other_pkgs ${dnsm}
 
 		if [ -d ${d} ] ; then
-			e22_hdr ${d}/f.tar
-			e22_dblock ${d}/f.tar ${d}
-			cd ${d}
-			${srat} -rvf ${tgtfile} ./f.tar #tämäkö jäi puuttumaan?
+			#e22_hdr ${tgtfile} #tarpeellinen nykyään?
+			e22_dblock ${tgtfile} ${d}
 		fi
 	;;
-	t) #HUOM.021125:edelleen tekee paketin missä toivottavaa sisältöä
+	t) 
+		#241125 ensimmäisellä yrityksellä ei saanut aikaiseksi .deb-pak sis tar, uusi yritys kohta
+		#toisella syntyi jo toimiva pak
+
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
 			
@@ -300,6 +361,9 @@ case ${mode} in
 
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_ts ${d}
+
+		t=$(echo ${d} | cut -d '/' -f 1-5) #josko nyt?
+		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 	;;
 	*) #281025:tämäkin toiminee

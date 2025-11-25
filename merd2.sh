@@ -4,7 +4,6 @@ branch=""
 d0=$(pwd)
 echo "d0=${d0}"
 BASEURL="github.com/senescent777"
-#VAIH:MUUTOKSET TAKAISIN PRKL TAAS!!!!!
 PT2=minimize-devuan-live
 
 function dqb() {
@@ -49,4 +48,7 @@ ${tig} clone ${branch} https://${BASEURL}/${PT2}.git
 
 dqb "TGI KO"
 csleep 2
-echo "JA SIT JOTAIN (TODO)"
+echo "mv minimize minimize.OLD"
+echo "mv ${PT2}/* ."
+echo "[ -x minimize/common_lib.sh ] && . minimize/common_lib.sh"
+echo "[ -x minimize/common_lib.sh ] && enforce_access \${n} \${t} "
