@@ -255,6 +255,7 @@ case ${mode} in
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libatkmm-1.6-1v5=2.28.3-1&eXtra=176.93.249.62
 		# Depends:libatk1.0-0 (>= 2.12.0)
 
+		echo "${shary} libatk1.0-0 libasound2 libltdl7 libtdb1 libvorbisfile3 libatkmm-1.6-1v5 libcairomm-1.0-1v5 libpangomm-1.4-1v5 libjson-glib-1.0-common libasyncns0 libsndfile1 libsystemd0"
 
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=pavucontrol=5.0-2&eXtra=176.93.249.62
 		echo "${shary} libatkmm-1.6-1v5 libcanberra-gtk3-0 libcanberra0 libglibmm-2.4-1v5 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5 "
