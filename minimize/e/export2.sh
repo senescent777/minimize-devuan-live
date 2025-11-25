@@ -257,7 +257,7 @@ case ${mode} in
 
 
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=pavucontrol=5.0-2&eXtra=176.93.249.62
-		echo "${shary} #TODO:jutut takaisin "
+		echo "${shary} libatkmm-1.6-1v5 libcanberra-gtk3-0 libcanberra0 libglibmm-2.4-1v5 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5 "
 		echo "${shary} pavucontrol"
 
 		echo "${svm} ${pkgdir}/*.deb ${d}"
