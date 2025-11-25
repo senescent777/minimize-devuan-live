@@ -26,7 +26,7 @@ function usage() {
 	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
 	echo "$0 t ... option for ipTables"	
-	echo "$0 å ... somehow related 2 pavucontrol " #VAIH		
+	echo "$0 å ... somehow related 2 pavucontrol "	
 	echo "$0 -h: shows this message about usage"	
 }
 
@@ -216,7 +216,7 @@ case ${mode} in
 	#1. libgtkmm ja libpangomm  riippuvuuksineen aiheutti nalkutusta, pitäisi niitä listoja päivittää vissiin + riippuvuuksien kanssa vielä iterointia
 	#2. "$0 f" tekemä paketti ei paskonut:slim
 
-	#251125:nalkutusta paketeista: libpolkit, libsystemd
+	#251125:pavu taisi asentua(tosin "establishing connection") + nalkutusta paketeista: libpolkit, libsystemd
  
 	dqb "#TODO:alsaan siirtyminen?"
 
@@ -322,7 +322,7 @@ case ${mode} in
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
 	1|u|upgrade) #VAIH:testaapa uusicksi TAAAS
-		#251125:näyttää tosiaan siltä että poäivityspaketin purkaminen itsessään ei riko slimiä, sisällön asentaminen sen sijaan...
+		#251125:näyttää tosiaan siltä että päivityspaketin purkaminen itsessään ei riko slimiä, sisällön asentaminen sen sijaan...
 		e22_upgp ${tgtfile} ${d} ${iface}
 
 		e22_ts ${d}
@@ -338,6 +338,7 @@ case ${mode} in
 	e)
 		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
 		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
+		#TODO:vielä kerran testaus koska e22_h komm poid
 
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
