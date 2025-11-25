@@ -218,42 +218,36 @@ case ${mode} in
 		dqb "${sag_u}"
 
 
-		#TODO:alta juttuja -> accrpt_pjgs
+		#VAIH:alta juttuja -> accrpt_pjgs
 	
-
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libsigc++-2.0-0v5=2.12.0-1&eXtra=176.93.249.62
 	
 
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpulse0=16.1+dfsg1-2+b1&eXtra=176.93.249.62
-		# Depends:libasyncns0 (>= 0.3), libdbus-1-3 (>= 1.9.14), libsndfile1 (>= 1.0.20), libsystemd0
-
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpulse-mainloop-glib0=16.1+dfsg1-2+b1&eXtra=176.93.249.62
-		# Depends:  libpulse0 (= 16.1+dfsg1-2+b1)
-
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libjson-glib-1.0-0=1.6.6-1&eXtra=176.93.249.62
-		# Depends:libjson-glib-1.0-common (>= 1.6.6-1)
-
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libglibmm-2.4-1v5=2.66.5-2&eXtra=176.93.249.62
-	
+		# Depends:libdbus-1-3 (>= 1.9.14), 
 
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libgtkmm-3.0-1v5=3.24.7-1&eXtra=176.93.249.62
-		# Depends:libatkmm-1.6-1v5 (>= 2.28.3), libcairomm-1.0-1v5 (>= 1.14.3),    libpangomm-1.4-1v5 (>= 2.46.2) #TODO:näiden riippuvuudet
-
-		
-
+		# Depends:     #VAIH:näiden riippuvuudet
 		
 		
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libglib2.0-0=2.74.6-2+deb12u7&eXtra=176.93.249.62
-		# Depends: libffi8 (>= 3.4),  libpcre2-8-0 (>= 10.22)
+		# Depends:  (>= 3.4),  -8-0 (>= 10.22)
+		
+			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libatkmm-1.6-1v5=2.28.3-1&eXtra=87.95.120.70
+			#libtk1, libglibmm, libsigc++ lähinnä
+
+			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcairomm-1.0-1v5=1.14.4-2&eXtra=87.95.120.70
+			#libcairo2 , libsigc lähinnä
+			
+			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpangomm-1.4-1v5=2.46.3-1
+			#libcairomm , libglibmm , libpangocairo, libsigc++
 
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcanberra0=0.30-10
-		# Depends:libasound2 (>= 1.0.16),  libltdl7 (>= 2.4.7), libtdb1 (>= 1.2.7+git20101214), libvorbisfile3 (>= 1.1.2)
+		# Depends: (>= 1.0.16),  (>= 2.4.7),  (>= 1.2.7+git20101214),  (>= 1.1.2)
 
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcanberra-gtk3-0=0.30-10&eXtra=176.93.249.62
-		# Depends: libcanberra0 (>= 0.12)
+		# Depends:  (>= 0.12)
 
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libatkmm-1.6-1v5=2.28.3-1&eXtra=176.93.249.62
-		# Depends:libatk1.0-0 (>= 2.12.0)
+	
 
 		echo "${shary} libatk1.0-0 libasound2 libltdl7 libtdb1 libvorbisfile3 libatkmm-1.6-1v5 libcairomm-1.0-1v5 libpangomm-1.4-1v5 libjson-glib-1.0-common libasyncns0 libsndfile1 libsystemd0"
 
