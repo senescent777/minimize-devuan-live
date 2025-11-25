@@ -728,7 +728,7 @@ function e22_dblock() { #241125:josko toimisi
 
 	e22_ts ${2}
 	enforce_access ${n} ${t}
-	e22_arch ${1} ${2} #josko voisi siirtää jatkossa kustvunaan?
+	e22_arch ${1} ${2} #josko voisi siirtää jatkossa kuTSUVnaan?
 	csleep 1
 
 	e22_cleanpkgs ${2}

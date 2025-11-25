@@ -48,7 +48,7 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-if [ -f /.chroot ] ; then #HUOM.171025:tämä blokki kunnossa?
+if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
 
@@ -198,7 +198,7 @@ else
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
-#TODO:debug:ia raskaalla kädellä koskapa oli jotain nalkutusta päivityspak kanssa?
+#251125:päivityspak härdellit eivät liittyne tar:in purkamiseen
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
@@ -222,6 +222,7 @@ function common_part() {
 		${sah6} ${1}
 		csleep 3
 
+		#-s .sig kanssa
 		if [ -v gg ] ; then
 			if [ ! -z ${gg} ] ; then
 				if [ -x ${gg} ] ; then
@@ -373,7 +374,7 @@ dqb "srcfile=${srcfile}"
 csleep 6
 
 case "${mode}" in
-	r)
+	r) #vissiin toimii 
 		[ -d ${srcfile} ] || exit 22
 		tpr ${srcfile}
 	;;
@@ -382,7 +383,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
-	0|3)
+	0|3) #vissiin toimii 
 		echo "ZER0 S0UND"
 		csleep 1
 		dqb " ${3} ${distro} MN" #mikä pointti?
@@ -417,8 +418,8 @@ case "${mode}" in
 		part3 ${d} ${dnsm}
 		other_horrors
 
-		#HUOM.231125:kutsutaan e_a() uudestaan jotta päivityspaketti ei rikkoisi:slim
-		#local t
+		#HUOM.231125:kutsutaan e_a() uudestaan jotta päivityspaketti ei rikkoisi:slim (tosin syy jossain muualla)
+
 		t=$(echo ${d} | cut -d '/' -f 1-5)
 		${scm} 0555 ${t}/common_lib.sh #251125:uutena tämä		
 
@@ -440,7 +441,7 @@ case "${mode}" in
 		common_part ${srcfile} ${d} /
 		tpr ${d0}
 	;;
-	k)	
+	k)	#milloin viimeksi testettu?
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
 		ridk=${srcfile}

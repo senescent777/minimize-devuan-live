@@ -4,6 +4,8 @@ tcmd=$(which tar)
 spc=$(which cp)
 n=$(whoami)
 
+#voisikohan käyttää muidenin pakettien päivittelyyn kuin vain sen yhden?
+
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
 		tcmd="sudo ${tcmd} "

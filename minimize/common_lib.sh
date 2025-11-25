@@ -245,9 +245,9 @@ function psqa() {
 	csleep 1
 }
 
-#TODO:josko nimeäisi uudestaan?
-function pre_part3_clib() {
-	dqb "pre_part3_clib ${1}"
+
+function common_pp3() {
+	dqb "common_pp3 ${1}"
 	csleep 1
 	[ ${debug} -eq 1 ] && pwd
 
@@ -326,23 +326,6 @@ function clibpre() {
 
 	dqb "PARANMS OK"
 	csleep 1
-#
-#	#dqb "#ASDFASDFASDF"
-#
-#	efk1 ${1}/libc6*.deb 
-#	csleep 4
-#	efk1 ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
-#	csleep 4
-#	efk1 ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
-#	csleep 4
-#	#JOKO JO PERKELE
-#	efk1 ${1}/gcc*.deb ${1}/libgcc-s1*.deb 
-#	csleep 4
-#
-#	dqb "ZXC,MNBZXC,MNBZXCMNBVZXC"
-#
-#	efk1 ${1}/libicu*.deb ${1}/libxml*.deb
-#	csleep 6
 
 	dqb "LOREMIPSUM-.LOREM1PSUM.LOREMIPSUM.LIPSUU"
 	csleep 5
@@ -358,7 +341,7 @@ function clibpre() {
 	
 	csleep 10
 	cd ${p}
-	dqb "qERB1L A\$\$UCKfgh"
+	dqb "lAmPl1gHt3R D03N"
 }
 
 
@@ -501,7 +484,7 @@ function check_binaries() {
 		efk2 ${1}/e.tar
 		efk2 ${1}/f.tar ${1}
 
-		pre_part3_clib ${1}
+		common_pp3 ${1}
 		[ -f /.chroot ] && message
 		common_tbls ${1} ${dnsm}
 		other_horrors
@@ -1092,12 +1075,13 @@ function part2_5() {
 	csleep 1
 }
 
+#VAIH:selvItys missä kohtaa päivityspak kusee slim-asiat
 function part3() {
 	dqb "part3 ${1} ${2}"
 	csleep 1
 
 	jules
-	pre_part3_clib ${1}
+	common_pp3 ${1}
 	csleep 1
 
 	#jatkossa jos jotenkin toisin?
@@ -1106,9 +1090,13 @@ function part3() {
 	fi
 
 	#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taåauksessa daed , jotain jos tekisi dbus
+	#exit #täSSä kohtaa ei vielä kuse?
 
-	clibpre ${1} accept_pkgs_1
+	clibpre ${1} accept_pkgs_1 #HUOM.251125:tässä kohtaa jo menee slim vituiksi, olisi hyvö selvittää miksi
+	#exit #HUOM.pois kommenteista sitq testaa päivityspak
+
 	clibpre ${1} accept_pkgs_2
+	#exit #HUOM.pois kommenteista sitq testaa päivityspak
 
 	dqb "4RP DONE"
 	csleep 3
