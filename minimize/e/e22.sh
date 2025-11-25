@@ -635,7 +635,7 @@ function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisält�
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_other_pkgs() { #HUOM.021125:josko toimisi
+function e22_other_pkgs() { #TODO:testaus uudestaan josqs
 	dqb "e22_other_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
@@ -690,10 +690,12 @@ function e22_other_pkgs() { #HUOM.021125:josko toimisi
 	
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
 	csleep 1
+
+	dqb "TODO: ${shary} lxdm + deps" #TODO:sittenq merge hoidettu
 	${lftr}
 
 	#aval0n
-	dqb "BEFORE UPD6"	
+	dqb "BEFORE UPD6" #kutsutaabko tuota?	
 	csleep 1
 
 	dqb "e22_other_pkgs donew"

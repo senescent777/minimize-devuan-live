@@ -222,8 +222,8 @@ function common_part() {
 		${sah6} ${1}
 		csleep 3
 
-		#-s .sig kanssa
-		if [ -v gg ] ; then
+		#VAIH:-s .sig kanssa
+		if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
 			if [ ! -z ${gg} ] ; then
 				if [ -x ${gg} ] ; then
 					dqb " ${gg} --verify ${1}.sha.sig "
@@ -429,8 +429,8 @@ case "${mode}" in
 			echo "N0 SUCH TH1NG AS  ${t}/common_lib.sh "
 		fi
 		#
+
 		csleep 1
-		
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q) 
@@ -441,7 +441,7 @@ case "${mode}" in
 		common_part ${srcfile} ${d} /
 		tpr ${d0}
 	;;
-	k)	#milloin viimeksi testettu?
+	k)	#milloin viimeksi testettu? lokakuussa josqs?
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
 		ridk=${srcfile}
@@ -473,4 +473,4 @@ if [ -v part ] || [ -v dir ] ; then
 fi
 
 ${scm} 0755 $0
-#HUOM.290925: tämän skriptin olisi kuvakkeen kanssa tarkoitus löytyä filesystem.squashfs sisältä
+#HUOM.290925: tämän skriptin olisi kuvakkeen kanssa tarkoitus löytyä filesystem.squashfs sisältä (no löytyykö?)

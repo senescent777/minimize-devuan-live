@@ -165,7 +165,8 @@ t=$(echo ${d} | cut -d '/' -f 1-5)
 case ${mode} in
 	f) 	#241125:joskohan nykyään jo toimisi
 		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(TODO)
-		
+		#251125:saisiko pakotettua alemman case:n kanssa toimimaan?		
+
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 		e22_ftr ${tgtfile}
@@ -214,20 +215,20 @@ case ${mode} in
 	å) #241125:testattu, oksentaa toimivia komentoja, lisäksi:
 	#1. libgtkmm ja libpangomm  riippuvuuksineen aiheutti nalkutusta, pitäisi niitä listoja päivittää vissiin + riippuvuuksien kanssa vielä iterointia
 	#2. "$0 f" tekemä paketti ei paskonut:slim
+
+	#251125:nalkutusta paketeista: libpolkit, libsystemd
  
+	dqb "#TODO:alsaan siirtyminen?"
+
 		dqb "${sag_u}"
 
-
 		#VAIH:alta juttuja -> accrpt_pjgs
-	
-	
 
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpulse0=16.1+dfsg1-2+b1&eXtra=176.93.249.62
 		# Depends:libdbus-1-3 (>= 1.9.14), 
 
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libgtkmm-3.0-1v5=3.24.7-1&eXtra=176.93.249.62
 		# Depends:     #VAIH:näiden riippuvuudet
-		
 		
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libglib2.0-0=2.74.6-2+deb12u7&eXtra=176.93.249.62
 		# Depends:  (>= 3.4),  -8-0 (>= 10.22)
@@ -247,8 +248,6 @@ case ${mode} in
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcanberra-gtk3-0=0.30-10&eXtra=176.93.249.62
 		# Depends:  (>= 0.12)
 
-	
-
 		echo "${shary} libatk1.0-0 libasound2 libltdl7 libtdb1 libvorbisfile3 libatkmm-1.6-1v5 libcairomm-1.0-1v5 libpangomm-1.4-1v5 libjson-glib-1.0-common libasyncns0 libsndfile1 libsystemd0"
 
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=pavucontrol=5.0-2&eXtra=176.93.249.62
@@ -258,7 +257,6 @@ case ${mode} in
 		echo "${svm} ${pkgdir}/*.deb ${d}"
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
-		
 	;;
 	-h)
 		usage
@@ -287,7 +285,6 @@ case ${mode} in
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
-
 		dqb "srat= ${srat}"
 		csleep 5
 
@@ -347,7 +344,7 @@ case ${mode} in
 		e22_other_pkgs ${dnsm}
 
 		if [ -d ${d} ] ; then
-			e22_hdr ${tgtfile}
+			#e22_hdr ${tgtfile} #tarpeellinen nykyään?
 			e22_dblock ${tgtfile} ${d}
 		fi
 	;;

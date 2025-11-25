@@ -1075,7 +1075,6 @@ function part2_5() {
 	csleep 1
 }
 
-#VAIH:selvItys missä kohtaa päivityspak kusee slim-asiat
 function part3() {
 	dqb "part3 ${1} ${2}"
 	csleep 1
@@ -1090,10 +1089,8 @@ function part3() {
 	fi
 
 	#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taåauksessa daed , jotain jos tekisi dbus
-	#exit #täSSä kohtaa ei vielä kuse?
 
-	clibpre ${1} accept_pkgs_1 #HUOM.251125:tässä kohtaa jo menee slim vituiksi, olisi hyvö selvittää miksi
-	#exit #HUOM.pois kommenteista sitq testaa päivityspak
+	clibpre ${1} accept_pkgs_1
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=slim=1.4.0-0devuan2&eXtra=87.95.120.70
 	# Depends:
@@ -1104,6 +1101,7 @@ function part3() {
 	#https://dev1galaxy.org/viewtopic.php?id=2158
 
 	#josko lxdm tai xdm vaikka tilalle?
+	dqb "TODO:${sharpy} slim;{shary} lxdm"
 
 	clibpre ${1} accept_pkgs_2
 	#exit #HUOM.pois kommenteista sitq testaa päivityspak
