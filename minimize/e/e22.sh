@@ -514,12 +514,12 @@ function e22_ts() { #HUOM.121125:toimii?
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
 #TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk?
 
-function e22_arch() { #241125:uudelleenpakkaus toimii nykyään paitsi että saattaa rikkoa slim:in (toivottavasti ei enää)
+function e22_arch() { #251125:uudelleenpakkaus toimii nykyään, slim rikkoutuu muista syistä 
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
 	[ -z ${1} ] && exit 1
-	#[ -s ${1} ] || exit 2 #kutsuvaan joodiin e22_hdr() vai ei? toiatsiaseksi näin (121125)
+	#[ -s ${1} ] || exit 2 #kutsuvaan joodiin e22_hdr() vai ei? toiSTAIseksi näin
 	#[ -w ${1} ] || exit 33
 
 	[ -z ${2} ] && exit 11
@@ -692,6 +692,7 @@ function e22_other_pkgs() { #TODO:testaus uudestaan josqs
 	csleep 1
 
 	dqb "TODO: ${shary} lxdm + deps" #TODO:sittenq merge hoidettu
+	#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
 	${lftr}
 
 	#aval0n

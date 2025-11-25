@@ -1101,7 +1101,8 @@ function part3() {
 	#https://dev1galaxy.org/viewtopic.php?id=2158
 
 	#josko lxdm tai xdm vaikka tilalle?
-	dqb "TODO:${sharpy} slim;{shary} lxdm"
+	dqb "TODO:${sharpy} slim;${shary} lxdm"
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=lxdm=0.5.3-4&eXtra=176.93.242.93
 
 	clibpre ${1} accept_pkgs_2
 	#exit #HUOM.pois kommenteista sitq testaa päivityspak
