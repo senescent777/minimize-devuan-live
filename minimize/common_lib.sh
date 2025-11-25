@@ -336,7 +336,7 @@ function clibpre() {
 
 	dqb "4 REALZ"
 	csleep 1
-	#näillä main oli nalqtus ligbgcc-s1-aiheesta, vielä?
+
 	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
 	
 	csleep 10
@@ -1094,6 +1094,16 @@ function part3() {
 
 	clibpre ${1} accept_pkgs_1 #HUOM.251125:tässä kohtaa jo menee slim vituiksi, olisi hyvö selvittää miksi
 	#exit #HUOM.pois kommenteista sitq testaa päivityspak
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=slim=1.4.0-0devuan2&eXtra=87.95.120.70
+	# Depends:
+	#dbus, debconf (>= 1.2.9) | debconf-2.0, default-logind | logind | consolekit, x11-xserver-utils, libc6 (>= 2.34), libgcc-s1 (>= 3.0), libjpeg62-turbo (>= 1.3.1), libpam0g (>= 0.99.7.1), libpng16-16 (>= 1.6.2-1), libstdc++6 (>= 5.2), libx11-6, libxext6, libxft2 (>> 2.1.1), libxmu6 (>= 2:1.1.3), libxrandr2 (>= 2:1.2.99.3)
+	#saattaa harata vastaan:dbus , debconf? , libgcc-s1, libpam0g, libx11-6
+
+	#https://bbs.archlinux.org/viewtopic.php?id=112224 ?
+	#https://dev1galaxy.org/viewtopic.php?id=2158
+
+	#josko lxdm tai xdm vaikka tilalle?
 
 	clibpre ${1} accept_pkgs_2
 	#exit #HUOM.pois kommenteista sitq testaa päivityspak
