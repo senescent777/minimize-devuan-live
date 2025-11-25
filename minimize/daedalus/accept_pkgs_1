@@ -64,3 +64,22 @@ libpam-runtime*.deb
 libpam-elogind*.deb
 libpython3.11-minimal*.deb
 libpython3.11-stdlib*.deb
+#uutena 251125
+libatk1.0-0*.deb
+libsigc++*.deb
+libpulse0*.deb
+libjson-glib-1.0-common*.deb
+libglibmm-*.deb
+libasyncns0*.deb 
+libsndfile1*.deb
+libsystemd0*.deb
+libatkmm*.deb
+libcairomm-*.deb
+libpangomm-*.deb
+libffi8*.deb
+libpcre2*.deb
+libasound2*.deb
+libltdl7*.deb
+libtdb1*.deb
+libvorbisfile3*-deb
+libcanberra0*-deb
