@@ -155,7 +155,7 @@ else
 fi
 
 csleep 1
-#TODO:el_locon tai c13/c14 kanssa jokin ongelma, korjaa
+#TODO:el_locon tai c13/c14 kanssa jokin ongelma?, korjaa jos ed
 [ ${c13} -lt 1 ] && c14=1
 el_loco ${c14} ${c13}
 
@@ -184,10 +184,7 @@ pre_part2
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
 
-#251025:p2-5 ja excalibur eivät aiheuttane yhdessä suurta katsatrofia, g_pt2 asia erikseen
 part2_5 ${removepkgs} ${dnsm} ${iface}
-
-#still a halting problem around here?
 #===================================================PART 3===========================================================
 message
 part3 ${d} ${dnsm}

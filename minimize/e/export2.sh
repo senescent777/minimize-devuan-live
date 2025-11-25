@@ -164,8 +164,9 @@ t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
 	f) 	#241125:joskohan nykyään jo toimisi
-		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(TODO)
+		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(VAIH)
 		#251125:saisiko pakotettua alemman case:n kanssa toimimaan?		
+		#TODO:testaa uusiksi, se uudelleenpaqqm siis sittenq avaimet asennettu
 
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
@@ -190,7 +191,7 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#HUOM. 021125:tekee paketin
+		#VAIH:testaa uusiksi
 		cd ${d0}
 		for f in $(find . -type f -name '*.sh' | grep -v 'e/') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
 		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/')  ; do ${srat} -rvf ${tgtfile} ${f} ; done
@@ -274,8 +275,10 @@ e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
-	0|4)
-		#241125:case 4 tekee toimivan paketin (entä 0?)
+	0|4) #TODO:d26:seen tuorein merd2 mukaan jotta saa kehitysymp sisälle kanssa
+	#tai siis case 0:n testaus kohtapuoliin paristakin syystä
+
+		#241125:case 4 tekee toimivan paketin
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
@@ -338,7 +341,7 @@ case ${mode} in
 	e)
 		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
 		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
-		#TODO:vielä kerran testaus koska e22_h komm poid
+		#TODO:vielä kerran testaus koska esim e22_hdr komm poid
 
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
@@ -352,6 +355,7 @@ case ${mode} in
 	t) 
 		#241125 ensimmäisellä yrityksellä ei saanut aikaiseksi .deb-pak sis tar, uusi yritys kohta
 		#toisella syntyi jo toimiva pak
+		#TODO:testaa uusiksi
 
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}

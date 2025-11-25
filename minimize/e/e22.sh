@@ -19,7 +19,7 @@ function e22_hdr() { #HUOM.121125:toimii?
 	csleep 1
 }
 
-function e22_ftr() { #121125:HUOM.121125:toimii?
+function e22_ftr() { #TODO:vähitellen testaus
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -201,7 +201,7 @@ function e22_settings() { #HUOM.121125:toimii toistaiseksi?
 	csleep 1
 }
 
-function e22_home() { #121125:toimii ehdolla profs.sh löytyy
+function e22_home() { #TODO:testaa uusiksi (eli tuleeko uusin merd2 mukaan)
 	dqb "e22_home ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit 67
 	[ -s ${1} ] || exit 68
@@ -363,7 +363,7 @@ function e22_elocal() { #021125:vissiin toimii
 	csleep 1
 }
 
-[ -v BASEURL ] || exit 6
+[ -v BASEURL ] || exit 6 #261125:tilapäisesti pois pelistä, jokin ohitus kehiutysymmp varten tai oikeasti korjaaminen olisi suotavaa
 
 function e22_ext() { #HUOM.121125:toimii?
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
@@ -514,7 +514,9 @@ function e22_ts() { #HUOM.121125:toimii?
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
 #TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk?
 
-function e22_arch() { #251125:uudelleenpakkaus toimii nykyään, slim rikkoutuu muista syistä 
+function e22_arch() { #251125:uudelleenpakkaus toimii nykyään, slim rikkoutuu muista syistä
+	#TODO:se uudelleenpakkaus sittenq abaimet asebbettu (kts KEHITTELY.TXT liittyen)
+
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
@@ -574,6 +576,11 @@ function e22_arch() { #251125:uudelleenpakkaus toimii nykyään, slim rikkoutuu 
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt
 	[ ${debug} -eq 1 ] && ls -las ${1} 
+	#VAIH:gpg -u mukaan
+
+	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
+		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
+	fi
 
 	csleep 1
 	cd ${p}
@@ -691,8 +698,10 @@ function e22_other_pkgs() { #TODO:testaus uudestaan josqs
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
 	csleep 1
 
-	dqb "TODO: ${shary} lxdm + deps" #TODO:sittenq merge hoidettu
+	#VAIH:lxde
 	#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
+	${shary} debconf libcairo2 libgtk2 libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines x11-utils  lxdm 
+	
 	${lftr}
 
 	#aval0n
@@ -703,7 +712,7 @@ function e22_other_pkgs() { #TODO:testaus uudestaan josqs
 	csleep 1
 }
 
-function e22_dblock() { #241125:josko toimisi
+function e22_dblock() { #TODO:testaa uusiksi
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14

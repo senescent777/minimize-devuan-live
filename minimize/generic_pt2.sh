@@ -170,7 +170,7 @@ function t2pc() {
 	${sharpy} netcat-traditional openssh*
 	t2p_filler
 
-	#VAIH:pavucontrol poist peruutus?
+	#ei eksplisiittistä pavucontrol:in poistoa, oheisvahinkona saattaa mennä edelleen
 	${sharpy} parted #pavucontrol saattaa löytyä käyttöä
 	#libgtk3 ei poistu, libgtk4 kyllä
 	t2p_filler
@@ -198,7 +198,9 @@ function t2pc() {
 	#xfce*,xorg* off limits
 	t2p_filler
 
-	dqb "TODO:  ${sharpy} slim;t2p_filler()*" #251125:seur. mergen jälkeen
+	#251125 uutena
+	${sharpy} slim* 
+	t2p_filler
 
 	spd="${sd0} -l " #jäänyt turhaksi muuten mutta g_pt2
 	[ ${debug} -gt 0 ] && ${spd} x*

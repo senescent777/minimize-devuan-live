@@ -336,12 +336,12 @@ function clibpre() {
 
 	dqb "4 REALZ"
 	csleep 1
-	#näillä main oli nalqtus ligbgcc-s1-aiheesta, vielä?
+
 	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
 	
 	csleep 10
 	cd ${p}
-	dqb "lAmPl1gHt3R D03N"
+	dqb "lAmPl1gHt3R WaZ H3e3"
 }
 
 
@@ -380,7 +380,7 @@ function common_tbls() {
 	csleep 1
 	psqa ${1}
 
-	#uutena 251025 sysystö excakubuyr/ceres, pois jos qsee
+	#uutena 251025 sysystö excaÖIBUR/ceres, pois jos qsee
 	efk1 ${1}/isc-dhcp*.deb
 	csleep 10
 
@@ -399,7 +399,6 @@ function common_tbls() {
 	efk1 ${1}/libnftnl*.deb 
 	csleep 1
 
-	#uutena 031925 tämä linbl
 	efk1 ${1}/libnl-3-200*.deb
 	csleep 3
 	efk1 ${1}/libnl-route*.deb 
@@ -1100,10 +1099,8 @@ function part3() {
 	#https://bbs.archlinux.org/viewtopic.php?id=112224 ?
 	#https://dev1galaxy.org/viewtopic.php?id=2158
 
-	#josko lxdm tai xdm vaikka tilalle?
-	dqb "TODO:${sharpy} slim;${shary} lxdm"
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=lxdm=0.5.3-4&eXtra=176.93.242.93
-
+	#VAIH:josko lxdm tai xdm vaikka tilalle?
+	
 	clibpre ${1} accept_pkgs_2
 	#exit #HUOM.pois kommenteista sitq testaa päivityspak
 
