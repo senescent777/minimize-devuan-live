@@ -336,7 +336,7 @@ function clibpre() {
 
 	dqb "4 REALZ"
 	csleep 1
-
+	#näillä main oli nalqtus ligbgcc-s1-aiheesta, vielä?
 	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
 	
 	csleep 10
