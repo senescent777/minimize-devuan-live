@@ -277,9 +277,8 @@ e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
-	0|4) #VAIH:case 0:n ulostuksen testaus, SFSGSW (261125)
-
-		#241125:case 4 tekee toimivan paketin
+	0|4) #261125:case 0 teki silloin toimivan paketin
+		#241125:case 4 tekei toimivan paketin (miten nykyään?)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
