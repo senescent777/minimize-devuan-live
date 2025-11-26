@@ -137,7 +137,7 @@ function e22_pre2() { #HUOM.261125;toimii?
 	sleep 2
 }
 
-function e22_cleanpkgs() { #HUOM.021125:taitaa toimia 
+function e22_cleanpkgs() { #HUOM.261125:taitaa toimia 
 	dqb "e22_cleanpkgs ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
 	[ -z "${1}" ] && exit 56
 
@@ -176,7 +176,7 @@ function e22_settings() { #HUOM.261125:toimii toistaiseksi?
 	cd ${1}
 
 	dqb "CFG"
-	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml ./.config/pulse
+	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml #./.config/pulse
  	csleep 1
 
 #	dqb "PUL53" WTTUUN PULSE JATKOSSA JOS MAHD
@@ -201,7 +201,7 @@ function e22_settings() { #HUOM.261125:toimii toistaiseksi?
 	csleep 1
 }
 
-function e22_home() { #VAIH:testaa uusiksi (eli tuleeko uusin merd2 mukaan:jep)
+function e22_home() { #261125:lienee ok, merd2 tulee mukaan, accept/reject-jutut myös
 	dqb "e22_home ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit 67
 	[ -s ${1} ] || exit 68
@@ -240,7 +240,7 @@ function e22_home() { #VAIH:testaa uusiksi (eli tuleeko uusin merd2 mukaan:jep)
 	csleep 3
 
 	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen? ehk
-	#TODO:varmista myös että distro/{accept,reject} vedetään mukaan, nimenomaan tässä fktiossa	
+	#DONE?:varmista myös että distro/{accept,reject} vedetään mukaan, nimenomaan tässä fktiossa	
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 
 	dqb "e22_home d0n3"

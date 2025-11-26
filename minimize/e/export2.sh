@@ -26,7 +26,7 @@ function usage() {
 	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
 	echo "$0 t ... option for ipTables"	
-	echo "$0 å ... somehow related 2 pavucontrol "	
+	#echo "$0 å ... somehow related 2 pavucontrol "	
 	echo "$0 -h: shows this message about usage"	
 }
 
@@ -214,50 +214,50 @@ case ${mode} in
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
 	;;
-	å) #241125:testattu, oksentaa toimivia komentoja, lisäksi:
-	#1. libgtkmm ja libpangomm  riippuvuuksineen aiheutti nalkutusta, pitäisi niitä listoja päivittää vissiin + riippuvuuksien kanssa vielä iterointia
-	#2. "$0 f" tekemä paketti ei paskonut:slim
-
-	#251125:pavu taisi asentua(tosin "establishing connection") + nalkutusta paketeista: libpolkit, libsystemd
- 
-	dqb "#TODO:alsaan siirtyminen?"
-
-		dqb "${sag_u}"
-
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpulse0=16.1+dfsg1-2+b1&eXtra=176.93.249.62
-		# Depends:libdbus-1-3 (>= 1.9.14), 
-
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libgtkmm-3.0-1v5=3.24.7-1&eXtra=176.93.249.62
-		# Depends:     #VAIH:näiden riippuvuudet
-		
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libglib2.0-0=2.74.6-2+deb12u7&eXtra=176.93.249.62
-		# Depends:  (>= 3.4),  -8-0 (>= 10.22)
-		
-			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libatkmm-1.6-1v5=2.28.3-1&eXtra=87.95.120.70
-			#libtk1, libglibmm, libsigc++ lähinnä
-
-			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcairomm-1.0-1v5=1.14.4-2&eXtra=87.95.120.70
-			#libcairo2 , libsigc lähinnä
-			
-			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpangomm-1.4-1v5=2.46.3-1
-			#libcairomm , libglibmm , libpangocairo, libsigc++
-
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcanberra0=0.30-10
-		# Depends: (>= 1.0.16),  (>= 2.4.7),  (>= 1.2.7+git20101214),  (>= 1.1.2)
-
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcanberra-gtk3-0=0.30-10&eXtra=176.93.249.62
-		# Depends:  (>= 0.12)
-
-		echo "${shary} libatk1.0-0 libasound2 libltdl7 libtdb1 libvorbisfile3 libatkmm-1.6-1v5 libcairomm-1.0-1v5 libpangomm-1.4-1v5 libjson-glib-1.0-common libasyncns0 libsndfile1 libsystemd0"
-
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=pavucontrol=5.0-2&eXtra=176.93.249.62
-		echo "${shary} libatkmm-1.6-1v5 libcanberra-gtk3-0 libcanberra0 libglibmm-2.4-1v5 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5 "
-		echo "${shary} pavucontrol"
-
-		echo "${svm} ${pkgdir}/*.deb ${d}"
-		echo "$0 f ${tgtfile} ${distro}"
-		exit 1
-	;;
+#	å) #241125:testattu, oksentaa toimivia komentoja, lisäksi:
+#	#1. libgtkmm ja libpangomm  riippuvuuksineen aiheutti nalkutusta, pitäisi niitä listoja päivittää vissiin + riippuvuuksien kanssa vielä iterointia
+#	#2. "$0 f" tekemä paketti ei paskonut:slim
+#
+#	#251125:pavu taisi asentua(tosin "establishing connection") + nalkutusta paketeista: libpolkit, libsystemd
+#
+#	dqb "#TODO:alsaan siirtyminen?"
+#
+#		dqb "${sag_u}"
+#
+#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpulse0=16.1+dfsg1-2+b1&eXtra=176.93.249.62
+#		# Depends:libdbus-1-3 (>= 1.9.14), 
+#
+#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libgtkmm-3.0-1v5=3.24.7-1&eXtra=176.93.249.62
+#		# Depends:     #VAIH:näiden riippuvuudet
+#		
+#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libglib2.0-0=2.74.6-2+deb12u7&eXtra=176.93.249.62
+#		# Depends:  (>= 3.4),  -8-0 (>= 10.22)
+#		
+#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libatkmm-1.6-1v5=2.28.3-1&eXtra=87.95.120.70
+#			#libtk1, libglibmm, libsigc++ lähinnä
+#
+#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcairomm-1.0-1v5=1.14.4-2&eXtra=87.95.120.70
+#			#libcairo2 , libsigc lähinnä
+#			
+#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpangomm-1.4-1v5=2.46.3-1
+#			#libcairomm , libglibmm , libpangocairo, libsigc++
+#
+#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcanberra0=0.30-10
+#		# Depends: (>= 1.0.16),  (>= 2.4.7),  (>= 1.2.7+git20101214),  (>= 1.1.2)
+#
+#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcanberra-gtk3-0=0.30-10&eXtra=176.93.249.62
+#		# Depends:  (>= 0.12)
+#
+#		echo "${shary} libatk1.0-0 libasound2 libltdl7 libtdb1 libvorbisfile3 libatkmm-1.6-1v5 libcairomm-1.0-1v5 libpangomm-1.4-1v5 libjson-glib-1.0-common libasyncns0 libsndfile1 libsystemd0"
+#
+#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=pavucontrol=5.0-2&eXtra=176.93.249.62
+#		echo "${shary} libatkmm-1.6-1v5 libcanberra-gtk3-0 libcanberra0 libglibmm-2.4-1v5 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5 "
+#		echo "${shary} pavucontrol"
+#
+#		echo "${svm} ${pkgdir}/*.deb ${d}"
+#		echo "$0 f ${tgtfile} ${distro}"
+#		exit 1
+#	;;
 	-h)
 		usage
 	;;
