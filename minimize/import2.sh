@@ -389,7 +389,7 @@ case "${mode}" in
 	#TODO:uusi case, vähän niinqu case 0 ja 3 yhdistettynä (tai jos erilliset import3 ja export3?)
 	#... vaiko "imp2 0" purkamaan mitä "exp2 0" pakkaa? arpoo arpoo
 	
-	0|3) #vissiin toimii 
+	0|3) #261125:vissiin toimii (case 3 nimittäin, entä 0?)
 		echo "ZER0 S0UND"
 		csleep 1
 		dqb " ${3} ${distro} MN" #mikä pointti?
