@@ -176,13 +176,9 @@ function e22_settings() { #HUOM.261125:toimii toistaiseksi?
 	cd ${1}
 
 	dqb "CFG"
-	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml #./.config/pulse
- 	csleep 1
+	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml 
 
-#	dqb "PUL53" WTTUUN PULSE JATKOSSA JOS MAHD
-#	${srat} -cf ./pulse.tar /etc/pulse
-#	csleep 1
-#	dqb "PR0.F5"
+	dqb "PR0.F5"
 
 	#profs.sh kätevämpi laittaa mukaan kutsuvassa koodissa
 	if [ -x ${2}/profs.sh ] ; then

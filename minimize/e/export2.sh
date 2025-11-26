@@ -175,12 +175,13 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#HUOM.021125:tekee paketin , todo:TESTAA UUSIKSI
+		#HUOM.261125:tekee edelleen paketin
 		#ffox 147 muutokset enemmän profs.sh asia
 		${sifd} ${iface}
 		e22_settings ~ ${d0}
 
-		#josko takaisin siihen että vain oikeasti tarpeelliset mukaan(TODO)
+		#TODO:josko takaisin siihen että vain oikeasti tarpeelliset mukaan
+		#...esim pulse.tar voisi excludoida
 
 		for f in $(find ~ -maxdepth 1 -name '*.tar' -or -name '*.bz2' -or -name 'profs.sh') ; do
 			${srat} -rvf ${tgtfile} ${f} #--exclude vai ei?
@@ -205,7 +206,7 @@ case ${mode} in
 		exit
 	;;
 	g)
-		#HUOM.021125:vaikuttaisi tulevan järkevää outputtia 
+		#HUOM.261125;testettu että komennoilla saa paketin aikaan
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "sudo apt-get update"
 
