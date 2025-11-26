@@ -1,7 +1,7 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
 
-function e22_hdr() { #HUOM.121125:toimii?
+function e22_hdr() { #261125:toimii
 	dqb "e22hdr():BEFORE "
 	csleep 1
 	[ -z ${1} ] && exit 61
@@ -19,7 +19,7 @@ function e22_hdr() { #HUOM.121125:toimii?
 	csleep 1
 }
 
-function e22_ftr() { #TODO:vähitellen testaus
+function e22_ftr() { #VAIH:vähitellen testaus
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -89,7 +89,7 @@ function e22_pre1() { #HUOM.021125:toimii?
 
 #VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
 
-function e22_pre2() { #HUOM.021125;toimii?
+function e22_pre2() { #HUOM.261125;toimii?
 	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
@@ -201,7 +201,7 @@ function e22_settings() { #HUOM.121125:toimii toistaiseksi?
 	csleep 1
 }
 
-function e22_home() { #TODO:testaa uusiksi (eli tuleeko uusin merd2 mukaan)
+function e22_home() { #VAIH:testaa uusiksi (eli tuleeko uusin merd2 mukaan)
 	dqb "e22_home ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit 67
 	[ -s ${1} ] || exit 68
@@ -275,7 +275,7 @@ function luca() { #021125:suattaapi olla niinnii että toimii vuan saattaapi ett
 	dqb "loca done"
 }
 
-function e22_elocal() { #021125:vissiin toimii
+function e22_elocal() { #261125: toimii
 	dqb "e22_elocal ${1} ${2} ${3} ${4}"
 	csleep 1
 
@@ -365,7 +365,7 @@ function e22_elocal() { #021125:vissiin toimii
 
 [ -v BASEURL ] || exit 6 #261125:tilapäisesti pois pelistä, jokin ohitus kehiutysymmp varten tai oikeasti korjaaminen olisi suotavaa
 
-function e22_ext() { #HUOM.121125:toimii?
+function e22_ext() { #HUOM.261125:toimii?
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
@@ -490,7 +490,7 @@ function aswasw() { #privaatti fktio
 #	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 #}
 
-function e22_ts() { #HUOM.121125:toimii?
+function e22_ts() { #HUOM.261125:toimii
 	dqb "e22_ts () ${1} ${2}" #van1 param piyäisi olla tällä - Yoda
 	csleep 3
 
@@ -587,7 +587,7 @@ function e22_arch() { #251125:uudelleenpakkaus toimii nykyään, slim rikkoutuu 
 	dqb "e22_arch d0n3"
 }
 
-function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisältöä
+function e22_tblz() { #261125:edelleen tekee paketin missä toivottavaa sisältöä
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
 
@@ -642,7 +642,7 @@ function e22_tblz() { #021125:edelleen tekee paketin missä toivottavaa sisält�
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_other_pkgs() { #TODO:testaus uudestaan josqs
+function e22_other_pkgs() { #VAIH:testaus uudestaan josqs
 	dqb "e22_other_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
@@ -696,23 +696,24 @@ function e22_other_pkgs() { #TODO:testaus uudestaan josqs
 #	fi
 	
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
-	csleep 1
+	csleep 10
 
-	#VAIH:lxde
+	#VAIH:lxdm, tuleeko mukaan? (pitäisi kai ohittaa kyselyt dm:n shteen)
 	#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
-	${shary} debconf libcairo2 libgtk2 libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines x11-utils  lxdm 
-	
+	${shary} debconf libcairo2 libgtk2 libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines x11-utils 
+	${shary} lxdm 	
+
 	${lftr}
 
 	#aval0n
 	dqb "BEFORE UPD6" #kutsutaabko tuota?	
-	csleep 1
+	csleep 10
 
 	dqb "e22_other_pkgs donew"
 	csleep 1
 }
 
-function e22_dblock() { #TODO:testaa uusiksi
+function e22_dblock() { #VAIH:testaa uusiksi
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14

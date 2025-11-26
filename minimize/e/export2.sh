@@ -275,7 +275,7 @@ e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
-	0|4) #TODO:d26:seen tuorein merd2 mukaan jotta saa kehitysymp sisälle kanssa
+	0|4) #VAIH:d26:seen tuorein merd2 mukaan jotta saa kehitysymp sisälle kanssa
 	#tai siis case 0:n testaus kohtapuoliin paristakin syystä
 
 		#241125:case 4 tekee toimivan paketin
@@ -296,7 +296,6 @@ case ${mode} in
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then
-			#HUOM.121125:2 seuraavaa fktiota, onko niiden kanssa jotain ongelmaa vaiko ei?
 			e22_tblz ${d} ${iface} ${distro} ${dnsm}
 			e22_other_pkgs ${dnsm}
 	
