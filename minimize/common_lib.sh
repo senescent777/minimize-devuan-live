@@ -481,6 +481,7 @@ function check_binaries() {
 		jules
 		sleep 2
 
+		#TODO:ef-purq erilliseksi fktioksi?
 		efk2 ${1}/e.tar
 		efk2 ${1}/f.tar ${1}
 

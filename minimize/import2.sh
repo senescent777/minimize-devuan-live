@@ -323,6 +323,7 @@ function tpr() {
 	csleep 1
 }
 
+#261125:eka case-blokki taitaa toimia
 case "${mode}" in
 	-1) 
 		part=/dev/disk/by-uuid/${part0}		
@@ -377,11 +378,11 @@ dqb "srcfile=${srcfile}"
 csleep 6
 
 case "${mode}" in
-	r) #vissiin toimii 
+	r) #vissiin toimii (261125)
 		[ -d ${srcfile} ] || exit 22
 		tpr ${srcfile}
 	;;
-	1) #vissiin toimii
+	1) #vissiin toimii (261125)
 		common_part ${srcfile} ${d} /
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
@@ -389,7 +390,8 @@ case "${mode}" in
 	#uusi case, vähän niinqu case 0 ja 3 yhdistettynä (tai jos erilliset import3 ja export3?)
 	#... vaiko "imp2 0" purkamaan mitä "exp2 0" pakkaa? arpoo arpoo
 	
-	0|3) #261125:vissiin toimii (case 3 nimittäin, entä 0?)
+	0|3) #261125:vissiin toimii (case 3 nimittäin)
+		#TODO:selvitä, toimiiko case 0 
 		echo "ZER0 S0UND"
 		csleep 1
 		dqb " ${3} ${distro} MN" #mikä pointti?
@@ -441,14 +443,14 @@ case "${mode}" in
 	;;
 	q) 
 		#toimiiko tämä vielä/taas? ffox versio 147 saattaa tuoda muutoksia
-		#milloin viimeksi testettu? 
+		#milloin viimeksi testettu? (TODO)
 
 		c=$(tar -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
 		common_part ${srcfile} ${d} /
 		tpr ${d0}
 	;;
-	k)	#milloin viimeksi testettu? lokakuussa josqs?
+	k)	#milloin viimeksi testettu? lokakuussa josqs? (TODO)
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
 		ridk=${srcfile}

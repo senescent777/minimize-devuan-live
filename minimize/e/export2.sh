@@ -252,7 +252,7 @@ e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
 	0|4) #261125:case 0 teki silloin toimivan paketin
-		#241125:case 4 tekei toimivan paketin (miten nykyään?)
+		#241125:case 4 teki toimivan paketin (miten nykyään?)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
@@ -297,7 +297,7 @@ case ${mode} in
 		csleep 5	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #VAIH:testaapa uusicksi TAAAS
+	1|u|upgrade) #261125:tämän casen luoman arkiston sisältämät paketit asentuivat
 		#251125:näyttää tosiaan siltä että päivityspaketin purkaminen itsessään ei riko slimiä, sisällön asentaminen sen sijaan...
 		e22_upgp ${tgtfile} ${d} ${iface}
 
