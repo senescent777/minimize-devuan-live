@@ -180,10 +180,12 @@ case ${mode} in
 		${sifd} ${iface}
 		e22_settings ~ ${d0}
 
-		#TODO:josko takaisin siihen että vain oikeasti tarpeelliset mukaan
+		#VAIH:josko takaisin siihen että vain oikeasti tarpeelliset mukaan
 		#...esim pulse.tar voisi excludoida
 
-		for f in $(find ~ -maxdepth 1 -name '*.tar' -or -name '*.bz2' -or -name 'profs.sh') ; do
+		#mikä olikaan syy että q on tässä ekassa case:ssa? pl siis että turha apt-renkkaus
+
+		for f in $(find ~ -maxdepth 1 -name '*.tar' -or -name '*.bz2' -or -name 'profs.sh' | grep -v pulse) ; do
 			${srat} -rvf ${tgtfile} ${f} #--exclude vai ei?
 		done
 
@@ -360,6 +362,7 @@ case ${mode} in
 		message
 		csleep 6
 
+		#TODO:e22_gt käyttöön sitten josqs?
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_ts ${d}
 

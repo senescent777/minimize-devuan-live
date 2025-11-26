@@ -379,7 +379,6 @@ function e22_ext() { #HUOM.261125:toimii
 	local r
 	local st
 
-
 	dqb "r=${r}"
 	csleep 1
 
@@ -606,6 +605,7 @@ function e22_tblz() { #261125:edelleen tekee paketin missä toivottavaa sisält�
 	tpc7	#jotain excaliburiin liittyvää
 	aswasw ${2}
 
+	#TODO:e22gi-tyyppiseen jutskaan tuo ao. rimpsu (osa as2w:n jutuista myös)
 	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
 	${shary} iptables
 	${shary} iptables-persistent init-system-helpers netfilter-persistent

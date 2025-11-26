@@ -329,8 +329,10 @@ function clibpre() {
 
 	dqb "LOREMIPSUM-.LOREM1PSUM.LOREMIPSUM.LIPSUU"
 	csleep 5
+
 	local p
 	local q
+
 	p=$(pwd)
 	cd ${1}
 
@@ -339,11 +341,10 @@ function clibpre() {
 
 	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
 	
-	csleep 10
+	csleep 5
 	cd ${p}
-	dqb "lAmPl1gHt3R WaZ H3r3"
+	dqb "BlArN3eY C0Ck!!!"
 }
-
 
 #HUOM.041025:chroot.ympäristössä tietenkin se ympäristömja sudotuksern yht ongelma, keksisikö jotain (KVG)
 function fromtend() {
@@ -1092,6 +1093,7 @@ function part2_5() {
 	csleep 1
 }
 
+#vs import2 case 3
 function part3() {
 	dqb "part3 ${1} ${2}"
 	csleep 1

@@ -207,7 +207,7 @@ function t2pc() {
 	[ ${debug} -gt 0 ] && ${spd} x*
 	csleep 1
 
-	dqb "clib.T2PC.DONE"
+	dqb "gpt2.T2PC.DONE"
 	csleep 1
 }
 
@@ -246,7 +246,7 @@ t2pf ${d}
 [ ${mode} -eq 2 ] && exit
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
-cleep 3
+csleep 3
 ${scm} 0555 ${d0}/common_lib.sh #JOKO JO LOPPUISI PURPATUS PRKL
 
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd

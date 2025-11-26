@@ -199,6 +199,7 @@ else
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
+#import2 vs g_doit , mikä ero?
 #251125:päivityspak härdellit eivät liittyne tar:in purkamiseen
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
