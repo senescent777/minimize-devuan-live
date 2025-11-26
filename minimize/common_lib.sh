@@ -341,7 +341,7 @@ function clibpre() {
 	
 	csleep 10
 	cd ${p}
-	dqb "lAmPl1gHt3R WaZ H3e3"
+	dqb "lAmPl1gHt3R WaZ H3r3"
 }
 
 
@@ -455,7 +455,7 @@ function check_binaries() {
 	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh	
 	for x in ${y} ; do ocs ${x} ; done
 	dqb "JUST BEFORE"
-	csleep 4
+	csleep 1
 
 	[ -v sr0 ] || exit 102
 	[ -v ipt ] || exit 103
@@ -478,7 +478,7 @@ function check_binaries() {
 
 		echo "SHOULD INSTALL IPTABLES"
 		jules
-		sleep 6
+		sleep 2
 
 		efk2 ${1}/e.tar
 		efk2 ${1}/f.tar ${1}
@@ -504,10 +504,10 @@ function check_binaries() {
 	
 	dqb "sd0= ${sd0} "
 	dqb "sdi= ${sdi} "
-	csleep 6
+	csleep 2
 
 	for x in iptables ip6tables iptables-restore ip6tables-restore dhclient ; do ocs ${x} ; done
-	csleep 6
+	csleep 2
 	
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
@@ -652,7 +652,8 @@ function pre_enforce() {
 
 	local c4
 	c4=0
-	
+	csleep 5
+
 	if [ -v dir ] ; then
 		c4=$(grep ${dir} /etc/fstab | wc -l)
 	else
@@ -660,13 +661,21 @@ function pre_enforce() {
 		exit 99
 	fi
 
+	csleep 5
+
+	#HUOM.261125:qsiko jotain näillä main? mitä conf sanoo? entä c4? typot ainakin hyvä pitää minimissä
 	if [ ${c4} -lt 1 ] ; then
 		dqb "MUTILAT31NG /E/F-STAB"
 		csleep 5
+
 		${scm} a+w /etc/fstab
 		${odio} echo "/dev/disk/by-uuid/${part0} ${dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		${odio} echo "#/dev/disk/by-uuid/${part1} ${dir2} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		${scm} a-w /etc/fstab
+
+		csleep 5
+		[ ${debug} -eq 1 ] && cat /etc/fstab
+		csleep 5
 	fi
 
 	csleep 5
@@ -808,7 +817,7 @@ function part1_5() {
 	t=$(echo ${1} | cut -d '/' -f 1) #nose tr?
 
 	if [ ! -s /etc/apt/sources.list.${t} ] ; then
-		dqb "S3RV1CE F0R A VCANT C0FF§1N"
+		dqb "S3RV1CE F0R A VCANT C0FF1N"
 		[ -v mkt ] || exit 99
 		[ -z "${mkt}" ] && exit 98
 
@@ -829,6 +838,7 @@ function part1_5() {
 			done
 		else
 			${svm} /etc/apt/sources.list.tmp ${h}
+			#kts. fasdfasd()
 			${sco} ${n}:${n} ${h}/sources.list.tmp
 			${scm} 0644 ${h}/sources.list.tmp
 		fi
@@ -925,6 +935,7 @@ function part076() {
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
+		#HUOM.261125:saisiko tällä tyylillä myös slimin sammutettua?
 
 		for t in $(find /etc/init.d -name ${s}* ) ; do
 			${odio} ${t} stop
@@ -1018,7 +1029,7 @@ function part2_5() {
 		${fib}
 		csleep 1
 		
-		for s in ${PART175_LIST} ; do
+		for s in ${PART175_LIST} ; do #TODO:slim mukaan listaan jatkossa?
 			dqb "processing ${s}"
 			${sharpy} ${s}*
 			csleep 1

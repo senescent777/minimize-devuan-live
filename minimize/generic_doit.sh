@@ -211,6 +211,7 @@ done
 
 ${sipt} -L
 csleep 1
+${scm} 0555 ${d0}/common_lib.sh #JOKO JO LOPPUISI PURPATUS PRKL
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
 

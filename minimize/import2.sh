@@ -74,7 +74,8 @@ else
 fi
 
 #241125 tienoilla oli ongelmaa common_lib.sh:n käyttöoik kanssa, toiv ei toistu
-
+#261125:tässä tai common_lib.sh:ssa latenssien vähientäminen, tapauyksetr "$0 -1" ja "$0 2" (VAIH)
+ 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -212,7 +213,7 @@ function common_part() {
 	[ -d ${3} ] || exit 33
 
 	dqb "paramz_0k"
-	csleep 3
+	csleep 1
 	cd /
 
 	if [ -s ${1}.sha ] ; then
@@ -235,9 +236,9 @@ function common_part() {
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	csleep 10
+	csleep 6
 	dqb "NECKST:${srat} ${TARGET_TPX} -C ${3} -xf ${1}" #TODO:pitäisi selvittää toimiiko --exclude kuten pitää
-	csleep 10
+	csleep 6
 
 	${srat} -C ${3} ${TARGET_TPX} -xf ${1}
 	[ $? -eq 0 ] || exit 36
@@ -254,7 +255,7 @@ function common_part() {
 		dqb "n s t as ${t}/common_lib.sh "	
 	fi
 
-	csleep 3
+	csleep 2
 	
 	if [ -d ${t} ] ; then
 		dqb "HAIL UKK"
@@ -272,7 +273,7 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
-#TODO:ffox 147
+#TODO:ffox 147 (oikeastaan profs tulisi muuttaa)
 function tpr() {
 	dqb "UPIR  ${1}" #tulisi kai olla vain 1 param tälle fktiolle
 	csleep 1
@@ -284,11 +285,12 @@ function tpr() {
 	csleep 1
 
 	dqb "stat= ${srat}"
-	csleep 3
+	csleep 2
 
 	local t
+	#T_TPX tulisi sisältää pulse jatkossa?
 	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} ${TARGET_TPX} -C ~ -xvf ${t} ; done
-	for t in ${1}/pulse.tar ~/pulse.tar ; do ${srat} ${TARGET_TPX} -C / -xvf ${t} ; done
+	#for t in ${1}/pulse.tar ~/pulse.tar ; do ${srat} ${TARGET_TPX} -C / -xvf ${t} ; done PULSE WTTUUN JATKOSSA
 
 	dqb "PROFS?"
 	csleep 1
@@ -383,6 +385,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
+	#TODO:uusi case, vähän niinqu case 0 ja 3 yhdistettynä (tai jos erilliset import3 ja export3?)
 	0|3) #vissiin toimii 
 		echo "ZER0 S0UND"
 		csleep 1

@@ -170,8 +170,8 @@ function t2pc() {
 	${sharpy} netcat-traditional openssh*
 	t2p_filler
 
-	#ei eksplisiittistä pavucontrol:in poistoa, oheisvahinkona saattaa mennä edelleen
-	${sharpy} parted #pavucontrol saattaa löytyä käyttöä
+	#ei eksplisiittistä pavucontrol:in poistoa, oheisvahinkona saattaa mennä edelleen tai aivan sama
+	${sharpy} parted pavucontrol #saattaa löytyä käyttöä (rai sitr eu)
 	#libgtk3 ei poistu, libgtk4 kyllä
 	t2p_filler
 
@@ -198,7 +198,8 @@ function t2pc() {
 	#xfce*,xorg* off limits
 	t2p_filler
 
-	#251125 uutena
+	#251125 uutena (pitäisi vissiin dpkg-reconfigure tjsp jotta saa slimin syrjäytettyä live-ympäristössä)
+	#TODO:chroot-tark taakse?	
 	${sharpy} slim* 
 	t2p_filler
 
@@ -240,12 +241,13 @@ t2p
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 1 ] && exit #tähän tökkää?
 
-t2pf ${d} #pitäisi kai jolla $d
+t2pf ${d}
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 2 ] && exit
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
-sleep 6
+cleep 3
+${scm} 0555 ${d0}/common_lib.sh #JOKO JO LOPPUISI PURPATUS PRKL
 
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
 dqb "${whack} xfce4-session 1n 3 s3c5"

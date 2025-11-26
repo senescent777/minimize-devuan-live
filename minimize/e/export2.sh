@@ -166,7 +166,8 @@ case ${mode} in
 	f) 	#241125:joskohan nykyään jo toimisi
 		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(VAIH)
 		#251125:saisiko pakotettua alemman case:n kanssa toimimaan?		
-		#TODO:testaa uusiksi, se uudelleenpaqqm siis sittenq avaimet asennettu
+		#TODO:testaa uusiksi, se uudelleenpaqq, siis sittenq avaimet asennettu(MUISTA PRKL ASENTAA!!!)
+		#VAIH:accept/reject-käsittely uusiksi prkl, jospa tämä case ei niitä tdstoja vetäisi mukana jatkossa
 
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
@@ -223,8 +224,6 @@ case ${mode} in
 
 		dqb "${sag_u}"
 
-		#VAIH:alta juttuja -> accrpt_pjgs
-
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpulse0=16.1+dfsg1-2+b1&eXtra=176.93.249.62
 		# Depends:libdbus-1-3 (>= 1.9.14), 
 
@@ -275,8 +274,7 @@ e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
-	0|4) #VAIH:d26:seen tuorein merd2 mukaan jotta saa kehitysymp sisälle kanssa
-	#tai siis case 0:n testaus kohtapuoliin paristakin syystä
+	0|4) #VAIH:case 0:n ulostuksen testaus, SFSGSW (261125)
 
 		#241125:case 4 tekee toimivan paketin
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 

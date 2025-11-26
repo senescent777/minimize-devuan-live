@@ -87,7 +87,7 @@ function e22_pre1() { #HUOM.021125:toimii?
 	fi
 }
 
-#VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen
+#VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen (olisiko jo 261125?)
 
 function e22_pre2() { #HUOM.261125;toimii?
 	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
@@ -161,8 +161,8 @@ function e22_cleanpkgs() { #HUOM.021125:taitaa toimia
 	csleep 1
 }
 
-#TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory 
-function e22_settings() { #HUOM.121125:toimii toistaiseksi?
+#TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  , muutokset oikeastaan tdstpn profs.sh
+function e22_settings() { #HUOM.261125:toimii toistaiseksi?
 	dqb "e22_settings ${1} ${2}"
 	csleep 1
 
@@ -179,10 +179,10 @@ function e22_settings() { #HUOM.121125:toimii toistaiseksi?
 	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml ./.config/pulse
  	csleep 1
 
-	dqb "PUL53"
-	${srat} -cf ./pulse.tar /etc/pulse
-	csleep 1
-	dqb "PR0.F5"
+#	dqb "PUL53" WTTUUN PULSE JATKOSSA JOS MAHD
+#	${srat} -cf ./pulse.tar /etc/pulse
+#	csleep 1
+#	dqb "PR0.F5"
 
 	#profs.sh kätevämpi laittaa mukaan kutsuvassa koodissa
 	if [ -x ${2}/profs.sh ] ; then
@@ -201,7 +201,7 @@ function e22_settings() { #HUOM.121125:toimii toistaiseksi?
 	csleep 1
 }
 
-function e22_home() { #VAIH:testaa uusiksi (eli tuleeko uusin merd2 mukaan)
+function e22_home() { #VAIH:testaa uusiksi (eli tuleeko uusin merd2 mukaan:jep)
 	dqb "e22_home ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit 67
 	[ -s ${1} ] || exit 68
@@ -227,7 +227,6 @@ function e22_home() { #VAIH:testaa uusiksi (eli tuleeko uusin merd2 mukaan)
 	for t in $(find ~ -type f -name 'merd2.sh') ; do ${srat} -rvf ${1} ${t} ; done  
 	local t
 
-	#121125:onko olennaista saada e22_home() toimimaan kehitysymp? myös update2 keksitty
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 2
 	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
@@ -241,6 +240,7 @@ function e22_home() { #VAIH:testaa uusiksi (eli tuleeko uusin merd2 mukaan)
 	csleep 3
 
 	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen? ehk
+	#TODO:varmista myös että distro/{accept,reject} vedetään mukaan, nimenomaan tässä fktiossa	
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 
 	dqb "e22_home d0n3"
@@ -363,7 +363,8 @@ function e22_elocal() { #261125: toimii
 	csleep 1
 }
 
-[ -v BASEURL ] || exit 6 #261125:tilapäisesti pois pelistä, jokin ohitus kehiutysymmp varten tai oikeasti korjaaminen olisi suotavaa
+[ -v BASEURL ] || exit 6 
+#261125:yo. tarq tilapäisesti pois pelistä, jokin ohitus kehitysymp varten tai oikeasti korjaaminen:tehty
 
 function e22_ext() { #HUOM.261125:toimii?
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
@@ -382,9 +383,6 @@ function e22_ext() { #HUOM.261125:toimii?
 	local r
 	local st
 
-	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
-	st=$(echo ${3}  | tr -d -c 0-9)
-	[ ${debug} -eq 1 ] && pwd
 
 	dqb "r=${r}"
 	csleep 1
@@ -393,6 +391,9 @@ function e22_ext() { #HUOM.261125:toimii?
 
 	#q=$(${mkt} -d) #ei vaan toimi näin?
 	q=$(mktemp -d)
+	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+	st=$(echo ${3} | tr -d -c 0-9)
+	[ ${debug} -eq 1 ] && pwd
 
 	cd ${q}
 	csleep 1
@@ -516,6 +517,7 @@ function e22_ts() { #HUOM.261125:toimii
 
 function e22_arch() { #251125:uudelleenpakkaus toimii nykyään, slim rikkoutuu muista syistä
 	#TODO:se uudelleenpakkaus sittenq abaimet asebbettu (kts KEHITTELY.TXT liittyen)
+	#VAIH:accept/reject-käsittely uusiksi prkl
 
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
@@ -565,11 +567,11 @@ function e22_arch() { #251125:uudelleenpakkaus toimii nykyään, slim rikkoutuu 
 	echo $?
 	${sah6} ./*.deb > ./sha512sums.txt
 
-	#pitäisiköhän miettiä tämä kohta uusiksi?
-	for f in $(find . -type f -name '*_pkgs*')  ; do 
-		${sah6} ${f} >> ./sha512sums.txt
-		${srat} -rf ${1} ${f} 
-	done
+	#pitäisiköhän miettiä tämä kohta uusiksi? vissiin
+	#for f in $(find . -type f -name '*_pkgs*')  ; do 
+	#	${sah6} ${f} >> ./sha512sums.txt
+	#	${srat} -rf ${1} ${f} 
+	#done
 	
 	csleep 1
 	psqa .
@@ -642,7 +644,7 @@ function e22_tblz() { #261125:edelleen tekee paketin missä toivottavaa sisält�
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_other_pkgs() { #VAIH:testaus uudestaan josqs
+function e22_other_pkgs() { #261125:lienee ok
 	dqb "e22_other_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
@@ -698,8 +700,10 @@ function e22_other_pkgs() { #VAIH:testaus uudestaan josqs
 	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
 	csleep 10
 
-	#VAIH:lxdm, tuleeko mukaan? (pitäisi kai ohittaa kyselyt dm:n shteen)
+	#DONE:lxdm, tuleeko mukaan? jep, asennuksessa nalqtus aiheesta gtk2-engines-pixbuf joten accept_pkgs soprkkien
+	#(pitäisi kai ohittaa kyselyt dm:n shteen)
 	#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
+
 	${shary} debconf libcairo2 libgtk2 libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines x11-utils 
 	${shary} lxdm 	
 
@@ -741,7 +745,7 @@ function e22_dblock() { #VAIH:testaa uusiksi
 
 	e22_ts ${2}
 	enforce_access ${n} ${t}
-	e22_arch ${1} ${2} #josko voisi siirtää jatkossa kuTSUVnaan?
+	e22_arch ${1} ${2} #josko voisi siirtää jatkossa kuTSUVaan?
 	csleep 1
 
 	e22_cleanpkgs ${2}
