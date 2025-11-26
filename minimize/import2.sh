@@ -381,12 +381,12 @@ case "${mode}" in
 		[ -d ${srcfile} ] || exit 22
 		tpr ${srcfile}
 	;;
-	1) #vissiin toimii 
+	1) #vissiin toimii
 		common_part ${srcfile} ${d} /
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
-	#TODO:uusi case, vähän niinqu case 0 ja 3 yhdistettynä (tai jos erilliset import3 ja export3?)
+	#uusi case, vähän niinqu case 0 ja 3 yhdistettynä (tai jos erilliset import3 ja export3?)
 	#... vaiko "imp2 0" purkamaan mitä "exp2 0" pakkaa? arpoo arpoo
 	
 	0|3) #261125:vissiin toimii (case 3 nimittäin, entä 0?)
@@ -441,6 +441,7 @@ case "${mode}" in
 	;;
 	q) 
 		#toimiiko tämä vielä/taas? ffox versio 147 saattaa tuoda muutoksia
+		#milloin viimeksi testettu? 
 
 		c=$(tar -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
