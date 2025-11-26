@@ -1,9 +1,7 @@
 #!/bin/bash
-#jotain oletuksia kunnes oikea konftdsto saatu lotottua
-debug=0 #1
-distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa?
+debug=0
+distro=$(cat /etc/devuan_version | cut -d '/' -f 1)
 d0=$(pwd)
-#echo "d0= ${d0}"
 mode=-2
 tgtfile=""
 
@@ -26,7 +24,6 @@ function usage() {
 	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
 	echo "$0 t ... option for ipTables"	
-	#echo "$0 å ... somehow related 2 pavucontrol "	
 	echo "$0 -h: shows this message about usage"	
 }
 
@@ -38,7 +35,6 @@ else
 	exit 1	
 fi
 
-#"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
 function parse_opts_1() {
 	dqb "exp2.patse_otps8( ${1}, ${2})"
 
@@ -47,7 +43,6 @@ function parse_opts_1() {
 			debug=1
 		;;
 		*)
-			#menisiköhän näin?
 			if [ -d ${d}/${1} ] ; then
 				distro=${1}
 				d=${d0}/${distro}
@@ -60,7 +55,6 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-#parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
 if [ -s ${d0}/$(whoami).conf ] ; then
@@ -79,7 +73,7 @@ if [ -x ${d0}/common_lib.sh ] ; then
 else
 	dqb "FALLBACK"
 	dqb "chmod +x ${d0}/common_lib.sh may be a good idea now"
-	exit 56 #HUOM.28725:toistaiseksi näin
+	exit 56
 fi
 
 [ -z ${distro} ] && exit 6
@@ -97,27 +91,22 @@ else
 fi
 
 dqb "tar = ${srat} "
-#suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
 	${odio} ${x} ${dnsm} ${distro}
-	#[ -x $x ] && exit for 
 done
 
 dqb "AFTER GANGRENE SETS IN"
 csleep 1
-#HUOM.28925:"tar löytyy ja ajokelpoinen"-tarkistus tdstossa common_lib.sh, ocs()
 
 if [ -z "${tig}" ] ; then
-	#HUOM. kts alempaa mitä git tarvitsee
 	echo "sudo apt-get update;sudo apt-get install git"
 	exit 7
 fi
 
 if [ -z "${mkt}" ] ; then
-	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
 	echo "sudo apt-get update;sudo apt-get install coreutils"
 	exit 8
 fi
@@ -127,9 +116,6 @@ csleep 1
 ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
 csleep 1
-
-#HUOM. ei kovin oleellista ajella tätä skriptiä squashfs-cgrootin siSÄllä
-#mutta olisi hyvä voida testailla sq-chrootin ulkopuolella
 
 dqb "e22_pre0"
 csleep 1
@@ -142,19 +128,6 @@ else
 	exit 58
 fi
 
-##HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia, tuskin menee qten alla
-#tcdd=$(cat /etc/devuan_version)
-#t2=$(echo ${d} | cut -d '/' -f 6 | tr -d -c a-zA-Z/) #tai suoraan $distro?
-#	
-#if [ ${tcdd} != ${t2} ] ; then
-#	dqb "XXX"
-#	csleep 1
-#	shary="${sag} install --download-only "
-#fi
-#TODO:t2-kikkailut jatkossa ennen e22?
-
-#https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
-
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
@@ -163,27 +136,18 @@ csleep 1
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
-	f) 	#241125:joskohan nykyään jo toimisi
-		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(VAIH)
-		#251125:saisiko pakotettua alemman case:n kanssa toimimaan?		
-		#TODO:testaa uusiksi, se uudelleenpaqq, siis sittenq avaimet asennettu(MUISTA PRKL ASENTAA!!!)
-		#VAIH:accept/reject-käsittely uusiksi prkl, jospa tämä case ei niitä tdstoja vetäisi mukana jatkossa
-
+	f) 
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 		e22_ftr ${tgtfile}
 		exit
 	;;
 	q)
-		#HUOM.021125:tekee paketin
-		#TODO:ffox 147 muutokset
 		${sifd} ${iface}
 		e22_settings ~ ${d0}
 
-		#josko takaisin siihen että vain oikeasti tarpeelliset mukaan(TODO)
-
 		for f in $(find ~ -maxdepth 1 -name '*.tar' -or -name '*.bz2' -or -name 'profs.sh') ; do
-			${srat} -rvf ${tgtfile} ${f} #--exclude vai ei?
+			${srat} -rvf ${tgtfile} ${f}
 		done
 
 		e22_ftr ${tgtfile}
@@ -192,21 +156,18 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#VAIH:testaa uusiksi
 		cd ${d0}
-		for f in $(find . -type f -name '*.sh' | grep -v 'e/') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
+		for f in $(find . -type f -name '*.sh' | grep -v 'e/') ; do ${srat} -rvf ${tgtfile} ${f} ; done
 		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/')  ; do ${srat} -rvf ${tgtfile} ${f} ; done
 				
 		bzip2 ${tgtfile}
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
-		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
+		tgtfile="${tgtfile}".bz3
 
 		e22_ftr ${tgtfile}
 		exit
 	;;
 	g)
-		#HUOM.021125:vaikuttaisi tulevan järkevää outputtia 
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "sudo apt-get update"
 
 		echo "${shary} ${E22GI}"
@@ -214,69 +175,19 @@ case ${mode} in
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
 	;;
-#	å) #241125:testattu, oksentaa toimivia komentoja, lisäksi:
-#	#1. libgtkmm ja libpangomm  riippuvuuksineen aiheutti nalkutusta, pitäisi niitä listoja päivittää vissiin + riippuvuuksien kanssa vielä iterointia
-#	#2. "$0 f" tekemä paketti ei paskonut:slim
-#
-#	#251125:pavu taisi asentua(tosin "establishing connection") + nalkutusta paketeista: libpolkit, libsystemd
-#
-#	dqb "#TODO:alsaan siirtyminen?"
-#
-#		dqb "${sag_u}"
-#
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpulse0=16.1+dfsg1-2+b1&eXtra=176.93.249.62
-#		# Depends:libdbus-1-3 (>= 1.9.14), 
-#
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libgtkmm-3.0-1v5=3.24.7-1&eXtra=176.93.249.62
-#		# Depends:     #VAIH:näiden riippuvuudet
-#		
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libglib2.0-0=2.74.6-2+deb12u7&eXtra=176.93.249.62
-#		# Depends:  (>= 3.4),  -8-0 (>= 10.22)
-#		
-#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libatkmm-1.6-1v5=2.28.3-1&eXtra=87.95.120.70
-#			#libtk1, libglibmm, libsigc++ lähinnä
-#
-#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcairomm-1.0-1v5=1.14.4-2&eXtra=87.95.120.70
-#			#libcairo2 , libsigc lähinnä
-#			
-#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpangomm-1.4-1v5=2.46.3-1
-#			#libcairomm , libglibmm , libpangocairo, libsigc++
-#
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcanberra0=0.30-10
-#		# Depends: (>= 1.0.16),  (>= 2.4.7),  (>= 1.2.7+git20101214),  (>= 1.1.2)
-#
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcanberra-gtk3-0=0.30-10&eXtra=176.93.249.62
-#		# Depends:  (>= 0.12)
-#
-#		echo "${shary} libatk1.0-0 libasound2 libltdl7 libtdb1 libvorbisfile3 libatkmm-1.6-1v5 libcairomm-1.0-1v5 libpangomm-1.4-1v5 libjson-glib-1.0-common libasyncns0 libsndfile1 libsystemd0"
-#
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=pavucontrol=5.0-2&eXtra=176.93.249.62
-#		echo "${shary} libatkmm-1.6-1v5 libcanberra-gtk3-0 libcanberra0 libglibmm-2.4-1v5 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5 "
-#		echo "${shary} pavucontrol"
-#
-#		echo "${svm} ${pkgdir}/*.deb ${d}"
-#		echo "$0 f ${tgtfile} ${distro}"
-#		exit 1
-#	;;
 	-h)
 		usage
 	;;
 esac
 
 e22_pre1 ${d} ${distro}
-#tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 [ ${debug} -eq 1 ] && pwd;sleep 6
-
-[ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59" #tilapäisesti jemmaan kunnes x
-#...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
-
+[ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59"
 e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
-	0|4) #VAIH:case 0:n ulostuksen testaus, SFSGSW (261125)
-
-		#241125:case 4 tekee toimivan paketin
+	0|4) 
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
@@ -292,17 +203,15 @@ case ${mode} in
 		e22_hdr ${d}/f.tar
 		e22_cleanpkgs ${d}
 
-		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 0 ] ; then
 			e22_tblz ${d} ${iface} ${distro} ${dnsm}
 			e22_other_pkgs ${dnsm}
 	
 			if [ -d ${d} ] ; then
-				#enf_scc ulos d-blokista vai ei?
 				e22_dblock ${d}/f.tar ${d}
 			fi
 
-			e22_cleanpkgs ${d} #kuinka oleellinen?
+			e22_cleanpkgs ${d}
 			[ ${debug} -eq 1 ] && ls -las ${d}
 			csleep 5
 		fi
@@ -314,15 +223,13 @@ case ${mode} in
 		e22_home ${tgtfile} ${d} ${enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 4
-		${NKVD} ${d}/*.tar #oli se fktiokin
-
+		${NKVD} ${d}/*.tar
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 5	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #VAIH:testaapa uusicksi TAAAS
-		#251125:näyttää tosiaan siltä että päivityspaketin purkaminen itsessään ei riko slimiä, sisällön asentaminen sen sijaan...
+	1|u|upgrade)
 		e22_upgp ${tgtfile} ${d} ${iface}
 
 		e22_ts ${d}
@@ -332,28 +239,19 @@ case ${mode} in
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 	;;
-	p) #HUOM. 021125:tekee paketin
+	p) 
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
 	e)
-		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
-		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
-		#TODO:vielä kerran testaus koska esim e22_hdr komm poid
-
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_other_pkgs ${dnsm}
 
 		if [ -d ${d} ] ; then
-			#e22_hdr ${tgtfile} #tarpeellinen nykyään?
 			e22_dblock ${tgtfile} ${d}
 		fi
 	;;
 	t) 
-		#241125 ensimmäisellä yrityksellä ei saanut aikaiseksi .deb-pak sis tar, uusi yritys kohta
-		#toisella syntyi jo toimiva pak
-		#TODO:testaa uusiksi
-
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
 			
@@ -363,11 +261,11 @@ case ${mode} in
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_ts ${d}
 
-		t=$(echo ${d} | cut -d '/' -f 1-5) #josko nyt?
+		t=$(echo ${d} | cut -d '/' -f 1-5)
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 	;;
-	*) #281025:tämäkin toiminee
+	*) 
 		echo "-h"
 		exit
 	;;
