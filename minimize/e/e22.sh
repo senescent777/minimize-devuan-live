@@ -638,7 +638,7 @@ function e22_tblz() { #261125:edelleen tekee paketin missä toivottavaa sisält�
 }
 
 #TODO:ntp-jutut takaisin josqs?
-function e22_other_pkgs() { #261125:ok muuten mutta lxdm?
+function e22_other_pkgs() { #261125:ok nykyään
 	dqb "e22_other_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
@@ -681,35 +681,29 @@ function e22_other_pkgs() { #261125:ok muuten mutta lxdm?
 	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0
 	${shary} git-man git
 
-#joskus tämäkin?
-#	if [ $SOME_CONFIG_OPTION ] ; then
-#		dqb "GOG"
 #libreadline8 aiemmaksi? muutkin pak saattavat tarvita
 		${shary} ${E22GI}
 		${shary} gpg
 		dqb "MAGOG"
 		csleep 5
-#	fi
 	
-	[ $? -eq 0 ] && dqb "TOMB OF THE MUTILATED"
+	[ $? -eq 0 ] && dqb "TYBE 0F THE R3S1NATTED"
 	csleep 10
 
-	#DONE:lxdm, tuleeko mukaan? jep, asennuksessa nalqtus aiheesta gtk2-engines-pixbuf joten accept_pkgs soprkkien
 	#(pitäisi kai ohittaa kyselyt dm:n shteen)
 	#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
 
-	#HUOM.-261125:onko tässä alla tyritty jotain? , libgtk- ja gtk2-eng - valituksia oli
 	${shary} debconf libcairo2 libgtk2.0-0
-	csleep 3
+	csleep 1
 	${shary} libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines  
-	csleep 3
+	csleep 1
 	${shary} x11-utils lxdm 	
-	csleep 3
+	csleep 1
 	${lftr}
 
 	#aval0n
 	dqb "BEFORE UPD6" #kutsutaabko tuota?	
-	csleep 10
+	csleep 3
 
 	dqb "e22_other_pkgs donew"
 	csleep 1

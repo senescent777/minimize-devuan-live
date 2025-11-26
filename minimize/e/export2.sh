@@ -175,8 +175,8 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#HUOM.021125:tekee paketin
-		#TODO:ffox 147 muutokset
+		#HUOM.021125:tekee paketin , todo:TESTAA UUSIKSI
+		#ffox 147 muutokset enemmän profs.sh asia
 		${sifd} ${iface}
 		e22_settings ~ ${d0}
 
@@ -210,7 +210,7 @@ case ${mode} in
 		dqb "sudo apt-get update"
 
 		echo "${shary} ${E22GI}"
-		echo "${svm} ${pkgdir}/*.deb ${d}"
+		echo "${svm} ${pkgdir}/*.deb ${d}" #oli se e22_ts() kanssa
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
 	;;
@@ -338,7 +338,7 @@ case ${mode} in
 	e)
 		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
 		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
-		#VAIH:vielä kerran testaus koska esim e22_hdr komm poid /alkaa olla jankohtainen)
+		#261125:toimii edelleen vaikka e22_hdr() karsittu
 
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
