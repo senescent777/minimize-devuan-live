@@ -19,7 +19,7 @@ function e22_hdr() { #261125:toimii
 	csleep 1
 }
 
-function e22_ftr() { #VAIH:vähitellen testaus
+function e22_ftr() { #261125:toimii
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -461,7 +461,7 @@ function e22_ext() { #HUOM.261125:toimii
 	csleep 1
 }
 
-#021125:toimii?
+#261125:toimii?
 function aswasw() { #privaatti fktio
 	dqb " aswasw ${1}"
 	[ -z "${1}" ] && exit 56
@@ -637,7 +637,8 @@ function e22_tblz() { #261125:edelleen tekee paketin missä toivottavaa sisält�
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_other_pkgs() { #261125:ok muuten mutta lxdm...
+#TODO:ntp-jutut takaisin josqs?
+function e22_other_pkgs() { #261125:ok muuten mutta lxdm?
 	dqb "e22_other_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
@@ -749,7 +750,7 @@ function e22_dblock() { #261125:toimii
 	dqb "e22dblock DONE"
 }
 
-function e22_settings2() { #HUOM.021125:tekee paketin, sisältö ehkä ok
+function e22_settings2() { #HUOM.261125:tekee paketin
 	dqb "e22_settings2 ${1} ${2}"
 
 	[ -z ${1} ] && exit 99

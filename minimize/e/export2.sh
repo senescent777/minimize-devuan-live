@@ -332,27 +332,26 @@ case ${mode} in
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 	;;
-	p) #HUOM. 021125:tekee paketin
+	p) #HUOM. 261125:tekee paketin
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
 	e)
 		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
 		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
-		#TODO:vielä kerran testaus koska esim e22_hdr komm poid /alkaa olla jankohtainen)
+		#VAIH:vielä kerran testaus koska esim e22_hdr komm poid /alkaa olla jankohtainen)
 
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_other_pkgs ${dnsm}
 
 		if [ -d ${d} ] ; then
-			#e22_hdr ${tgtfile} #tarpeellinen nykyään?
 			e22_dblock ${tgtfile} ${d}
 		fi
 	;;
 	t) 
 		#241125 ensimmäisellä yrityksellä ei saanut aikaiseksi .deb-pak sis tar, uusi yritys kohta
 		#toisella syntyi jo toimiva pak
-		#TODO:testaa uusiksi
+		#261125:teki paketin, toimivuus kai testattava
 
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
