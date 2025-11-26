@@ -225,32 +225,6 @@ case ${mode} in
 #
 #	dqb "#TODO:alsaan siirtyminen?"
 #
-#		dqb "${sag_u}"
-#
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpulse0=16.1+dfsg1-2+b1&eXtra=176.93.249.62
-#		# Depends:libdbus-1-3 (>= 1.9.14), 
-#
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libgtkmm-3.0-1v5=3.24.7-1&eXtra=176.93.249.62
-#		# Depends:     #VAIH:näiden riippuvuudet
-#		
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libglib2.0-0=2.74.6-2+deb12u7&eXtra=176.93.249.62
-#		# Depends:  (>= 3.4),  -8-0 (>= 10.22)
-#		
-#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libatkmm-1.6-1v5=2.28.3-1&eXtra=87.95.120.70
-#			#libtk1, libglibmm, libsigc++ lähinnä
-#
-#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcairomm-1.0-1v5=1.14.4-2&eXtra=87.95.120.70
-#			#libcairo2 , libsigc lähinnä
-#			
-#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpangomm-1.4-1v5=2.46.3-1
-#			#libcairomm , libglibmm , libpangocairo, libsigc++
-#
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcanberra0=0.30-10
-#		# Depends: (>= 1.0.16),  (>= 2.4.7),  (>= 1.2.7+git20101214),  (>= 1.1.2)
-#
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcanberra-gtk3-0=0.30-10&eXtra=176.93.249.62
-#		# Depends:  (>= 0.12)
-#
 #		echo "${shary} libatk1.0-0 libasound2 libltdl7 libtdb1 libvorbisfile3 libatkmm-1.6-1v5 libcairomm-1.0-1v5 libpangomm-1.4-1v5 libjson-glib-1.0-common libasyncns0 libsndfile1 libsystemd0"
 #
 #		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=pavucontrol=5.0-2&eXtra=176.93.249.62
