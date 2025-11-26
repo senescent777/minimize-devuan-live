@@ -188,6 +188,7 @@ part2_5 ${removepkgs} ${dnsm} ${iface}
 #===================================================PART 3===========================================================
 message
 #261125:pitäisikö purkaa e.tar/f.tar juuri ennen ao. kutsua? tau ulkoistus -> import2?
+dqb "TODO:cefgh( ${d} ) ?"
 part3 ${d} ${dnsm}
 other_horrors
 

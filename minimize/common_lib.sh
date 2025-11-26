@@ -442,6 +442,11 @@ function common_tbls() {
 	csleep 10
 }
 
+function cefgh() {
+	efk2 ${1}/e.tar
+	efk2 ${1}/f.tar ${1}
+}
+
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135 ${1} "
 	csleep 1
@@ -481,9 +486,10 @@ function check_binaries() {
 		jules
 		sleep 2
 
-		#TODO:ef-purq erilliseksi fktioksi?
-		efk2 ${1}/e.tar
-		efk2 ${1}/f.tar ${1}
+		#VAIH:ef-purq erilliseksi fktioksi?
+		#efk2 ${1}/e.tar
+		#efk2 ${1}/f.tar ${1}
+		cefgh ${1}
 
 		common_pp3 ${1}
 		[ -f /.chroot ] && message

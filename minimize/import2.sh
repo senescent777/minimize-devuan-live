@@ -100,6 +100,10 @@ else
 	sah6=$(${odio} which sha512sum)
 	mkt=$(which mktemp) #arpoo arpoo
 
+	function cefgh() {
+		dqb "imp2.cefgh \${1} "
+	}
+
 	function check_binaries() {
 		dqb "imp2.ch3ck_b1nar135 \${1} "
 	}
@@ -121,7 +125,7 @@ else
 		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount:in tapahtumaan silloin kun varsinainen instailu ei onnaa
 	}
 
-	function ppp3() {
+	function ppp3() { #onko tällaista enää?
 		dqb "imp32.ppp3"
 	}
 
@@ -406,17 +410,19 @@ case "${mode}" in
 		csleep 1
 
 		if [ ${1} -eq 0 ] ; then #tarpeellinen tarkistus nykyään?
-			#HUOM.30925:jospa antaisi efk2-kikkailujen olla toistaiseksi
-			if [ -s ${d}/e.tar ] ; then
-				common_part ${d}/e.tar ${d} /
-			else
-				dqb " ${d}/e.tar CANNOT BE FOUND"
+#			#HUOM.30925:jospa antaisi efk2-kikkailujen olla toistaiseksi
+#			if [ -s ${d}/e.tar ] ; then
+#				common_part ${d}/e.tar ${d} /
+#			else
+#				dqb " ${d}/e.tar CANNOT BE FOUND"
+#
+			#	if [ -s ${d}/f.tar ] ; then
+			#		common_part ${d}/f.tar ${d} ${d} 				
+			#	fi
+			#fi
+			##for t in ${d}/e.tar ... No Ei
 
-				if [ -s ${d}/f.tar ] ; then
-					common_part ${d}/f.tar ${d} ${d} 				
-				fi
-			fi
-			#for t in ${d}/e.tar ... No Ei
+			dqb "TODO:cefgh( ${d} ) ?"
 		fi
 		
 		csleep 5
