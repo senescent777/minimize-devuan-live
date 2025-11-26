@@ -167,7 +167,7 @@ case ${mode} in
 		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(VAIH)
 		#251125:saisiko pakotettua alemman case:n kanssa toimimaan?		
 		#TODO:testaa uusiksi, se uudelleenpaqq, siis sittenq avaimet asennettu(MUISTA PRKL ASENTAA!!!)
-		#DONE?:accept/reject-käsittely uusiksi prkl, jospa tämä case ei niitä tdstoja vetäisi mukana jatkossa
+		#VAIH:accept/reject-käsittely uusiksi prkl, jospa tämä case ei niitä tdstoja vetäisi mukana jatkossa
 
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
@@ -338,7 +338,7 @@ case ${mode} in
 	e)
 		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
 		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
-		#TODO:vielä kerran testaus koska esim e22_hdr komm poid /alkaa olla jankohtainen)
+		#TODO:vielä kerran testaus koska esim e22_hdr komm poid
 
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}

@@ -49,7 +49,7 @@ function e22_ftr() { #VAIH:vähitellen testaus
 	csleep 1
 }
 
-function e22_pre1() { #HUOM.021125:toimii?
+function e22_pre1() { #HUOM.261125:toimii?
 	#disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
 
 	dqb "e22_pre1 ${1}  ${2} "
@@ -89,7 +89,7 @@ function e22_pre1() { #HUOM.021125:toimii?
 
 #VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen (olisiko jo 261125?)
 
-function e22_pre2() { #HUOM.261125;toimii?
+function e22_pre2() { #HUOM.261125;toimii
 	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
@@ -137,7 +137,7 @@ function e22_pre2() { #HUOM.261125;toimii?
 	sleep 2
 }
 
-function e22_cleanpkgs() { #HUOM.261125:taitaa toimia 
+function e22_cleanpkgs() { #HUOM.261125:toimii 
 	dqb "e22_cleanpkgs ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
 	[ -z "${1}" ] && exit 56
 
@@ -248,7 +248,7 @@ function e22_home() { #261125:lienee ok, merd2 tulee mukaan, accept/reject-jutut
 }
 
 #toistaiseksi privaatti fktio
-function luca() { #021125:suattaapi olla niinnii että toimii vuan saattaapi ettei
+function luca() { #261125:toimii?
 	dqb "luca ( ${1})"
 	csleep 1
 
@@ -366,7 +366,7 @@ function e22_elocal() { #261125: toimii
 [ -v BASEURL ] || exit 6 
 #261125:yo. tarq tilapäisesti pois pelistä, jokin ohitus kehitysymp varten tai oikeasti korjaaminen:tehty
 
-function e22_ext() { #HUOM.261125:toimii?
+function e22_ext() { #HUOM.261125:toimii
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
@@ -515,9 +515,8 @@ function e22_ts() { #HUOM.261125:toimii
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
 #TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk?
 
-function e22_arch() { #251125:uudelleenpakkaus toimii nykyään, slim rikkoutuu muista syistä
-	#TODO:se uudelleenpakkaus sittenq abaimet asebbettu (kts KEHITTELY.TXT liittyen)
-	#VAIH:accept/reject-käsittely uusiksi prkl
+function e22_arch() { #261125:uudelleenpakkaus toimii nykyään, slim rikkoutuu ei-uskonnollisista syistä
+	#TODO:se uudelleenpakkaus sittenq avaimet aseNNettu (kts KEHITTELY.TXT liittyen)
 
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
@@ -558,7 +557,6 @@ function e22_arch() { #251125:uudelleenpakkaus toimii nykyään, slim rikkoutuu 
 	dqb "KJHGOUYFIYT"
 	csleep 1
 
-	#meneekö tässä alla päällekkäin muiden fktioiden kanssa?
 	${scm} 0444 ${2}/*.deb
 	fasdfasd ${2}/sha512sums.txt
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
@@ -566,12 +564,6 @@ function e22_arch() { #251125:uudelleenpakkaus toimii nykyään, slim rikkoutuu 
 	cd ${2}
 	echo $?
 	${sah6} ./*.deb > ./sha512sums.txt
-
-	#pitäisiköhän miettiä tämä kohta uusiksi? vissiin
-	#for f in $(find . -type f -name '*_pkgs*')  ; do 
-	#	${sah6} ${f} >> ./sha512sums.txt
-	#	${srat} -rf ${1} ${f} 
-	#done
 	
 	csleep 1
 	psqa .
@@ -582,6 +574,7 @@ function e22_arch() { #251125:uudelleenpakkaus toimii nykyään, slim rikkoutuu 
 
 	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
+		#TODO:.sig kanssa mukaan pakettiin
 	fi
 
 	csleep 1
@@ -644,7 +637,7 @@ function e22_tblz() { #261125:edelleen tekee paketin missä toivottavaa sisält�
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_other_pkgs() { #261125:lienee ok
+function e22_other_pkgs() { #261125:ok muuten mutta lxdm...
 	dqb "e22_other_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
@@ -704,9 +697,13 @@ function e22_other_pkgs() { #261125:lienee ok
 	#(pitäisi kai ohittaa kyselyt dm:n shteen)
 	#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
 
-	${shary} debconf libcairo2 libgtk2 libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines x11-utils 
-	${shary} lxdm 	
-
+	#HUOM.-261125:onko tässä alla tyritty jotain? , libgtk- ja gtk2-eng - valituksia oli
+	${shary} debconf libcairo2 libgtk2.0-0
+	csleep 3
+	${shary} libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines  
+	csleep 3
+	${shary} x11-utils lxdm 	
+	csleep 3
 	${lftr}
 
 	#aval0n
@@ -717,7 +714,7 @@ function e22_other_pkgs() { #261125:lienee ok
 	csleep 1
 }
 
-function e22_dblock() { #VAIH:testaa uusiksi
+function e22_dblock() { #261125:toimii
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14

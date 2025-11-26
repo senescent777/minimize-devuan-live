@@ -120,7 +120,7 @@ function el_loco() {
 		csleep 1
 
 		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
-		cat /etc/default/locale
+		tail -n 10 /etc/default/locale #jos riittäisi
 		csleep 1
 
 		cat /etc/timezone

@@ -663,7 +663,7 @@ function pre_enforce() {
 
 	csleep 5
 
-	#HUOM.261125:qsiko jotain näillä main? mitä conf sanoo? entä c4? typot ainakin hyvä pitää minimissä
+	#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
 	if [ ${c4} -lt 1 ] ; then
 		dqb "MUTILAT31NG /E/F-STAB"
 		csleep 5
@@ -805,6 +805,13 @@ function enforce_access() {
 
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
+}
+
+function fasdfasd() {
+	dqb "SUN LIIRUM SUN LAARUM ${1}"
+	touch ${1}
+	chown $(whoami):$(whoami) ${1}
+	chmod 0644 ${1}
 }
 
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
@@ -1159,13 +1166,6 @@ function slaughter0() { #käytössä?
 	fn2=$(echo $1 | awk '{print $1}') 
 	ts2=$(sha512sum ${fn2})
 	echo ${ts2} | awk '{print $1,$2}' >> ${2}
-}
-
-function fasdfasd() {
-	dqb "SUN LIIRUM SUN LAARUM ${1}"
-	touch ${1}
-	chown $(whoami):$(whoami) ${1}
-	chmod 0644 ${1}
 }
 
 #VAIH:-h,-v vähitellen?
