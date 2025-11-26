@@ -386,6 +386,8 @@ case "${mode}" in
 		csleep 1
 	;; 
 	#TODO:uusi case, vähän niinqu case 0 ja 3 yhdistettynä (tai jos erilliset import3 ja export3?)
+	#... vaiko "imp2 0" purkamaan mitä "exp2 0" pakkaa? arpoo arpoo
+	
 	0|3) #vissiin toimii 
 		echo "ZER0 S0UND"
 		csleep 1
