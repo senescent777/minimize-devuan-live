@@ -5,3 +5,4 @@ dbus*.deb
 initramfs*.deb
 live*.deb
 e2fsprogs*.deb
+#TODO:mielellään slim Vittuun jatkossa 666!

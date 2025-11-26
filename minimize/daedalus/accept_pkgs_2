@@ -1,17 +1,26 @@
-perl-modules-*.deb #påitäiasi jo aiemmin
+#
+perl-modules-*.deb
+#pitäisi jo aiemmin
+#
 eudev*.deb
 udev*.deb
 xserver-common*.deb
 xserver-xorg-core*.deb
+#
+#mielellään dbus Vittuun jatkossa 666!!!
 dbus-bin*.deb
-#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taåauksessa daed , jotain jos tekisi 
 dbus-daemon*.deb dbus-session-bus-common*.deb
-perl-base*.deb #b #påitäiasi jo aiemmin
+#
+perl-base*.deb
+#pitäisi jo aiemmin
+#
 perl*.deb
 git*.deb
 bind9-host*.deb
 bind9-dns*.deb
 dnsutils*.deb
-#JOKO JO PRKL ALKAISI TOIMIA
 e2fsprogs*.deb
 python3.11-minimal*.deb
+#
+#uutena 261125
+gtk2-engines-pixbuf*.deb
