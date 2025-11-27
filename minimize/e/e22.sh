@@ -695,6 +695,9 @@ function e22_other_pkgs() { #261125:ok nykyään
 	csleep 1
 	${shary} x11-utils lxdm 	
 	csleep 1
+
+	dqb "TODO: ${shary} lxdm + deps" #TODO:sittenq merge hoidettu
+	#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
 	${lftr}
 
 	#aval0n

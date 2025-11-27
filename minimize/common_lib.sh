@@ -1151,6 +1151,7 @@ function part3() {
 
 	#VAIH:josko lxdm tai xdm vaikka, slimin tilalle?
 	clibpre ${1} accept_pkgs_2
+	#exit #HUOM.pois kommenteista sitq testaa päivityspak
 
 	dqb "g4RP D0NE"
 	csleep 3
