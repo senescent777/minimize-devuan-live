@@ -402,7 +402,7 @@ case "${mode}" in
 	#... vaiko "imp2 0" purkamaan mitä "exp2 0" pakkaa? arpoo arpoo
 	
 	0|3) #261125:toimii, case 3 nimittäin
-		#TODO:selvitä, toimiiko case 0? (tai tarvitaanko nollaa edes?)
+		#VAIH:selvitä, toimiiko case 0? (tai tarvitaanko nollaa edes?)
 		echo "ZER0 S0UND"
 		csleep 1
 		dqb " ${3} ${distro} MN" #mikä pointti?
@@ -410,6 +410,8 @@ case "${mode}" in
 
 		if [ ${1} -eq 0 ] ; then
 			common_part ${srcfile} ${d} / #voi tietystI mennä mettään tuon $d/common_lib kanssa?
+			dqb "WHAT R U DOING???"
+			exit 99
 		else
 			common_part ${srcfile} ${d} ${d}
 		fi
