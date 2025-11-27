@@ -158,7 +158,7 @@ else
 fi
 
 csleep 1
-#TODO:el_locon tai c13/c14 kanssa jokin ongelma?, korjaa jos ed elleen?
+#TODO:el_locon tai c13/c14 kanssa jokin ongelma?, korjaa jos ed elleen? LCF666 saattaa liittyä
 [ ${c13} -lt 1 ] && c14=1
 el_loco ${c14} ${c13}
 
