@@ -8,7 +8,7 @@ function csleep() {
 
 if [ -f /.chroot ] ; then
 	odio=""
-	debug=1
+	#debug=1
 
 	function itni() {
 		dqb "alt-itn1"
@@ -25,6 +25,8 @@ if [ -f /.chroot ] ; then
 	done
 else
 	function itni() {
+		dqb "ITN1-2"
+
 		odio=$(which sudo)
 		[ y"${odio}" == "y" ] && exit 99 
 		[ -x ${odio} ] || exit 100
@@ -87,9 +89,6 @@ function other_horrors() {
 
 sco="${odio} ${sco} "
 scm="${odio} ${scm} "	
-
-#komentorivin parsetyukseen liittyviä juttujamyöskin olisi... esim?
-#... ja jotain matskua voisi siirtää riippuvista skripteistä kirjastoon? mitä?
 	
 fix_sudo
 other_horrors
@@ -146,14 +145,15 @@ NKVD="${NKVD} -fu "
 NKVD="${odio} ${NKVD} "
 	
 #PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
-PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby slim" # ntp" ntp jemmaan 28525 #slim kokeeksi
+PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" 
+# ntp" ntp jemmaan 28525 #slim kokeeksi mukaan listaan 271125, hiiri lakkasi toimimasta
 #HUOM.excalibur ei sisällä:dnsmasq,stubby
 
 #HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!
 #sdi=$(${odio} which dpkg)
 #spd="${odio} ${sdi} -l " #jäänyt turhaksi muuten mutta g_pt2
 #sdi="${odio} ${sdi} -i "
-csleep 6
+csleep 3
 
 sifu=$(${odio} which ifup)
 sifd=$(${odio} which ifdown)
@@ -224,8 +224,9 @@ function psqa() {
 		#https://www.gnupg.org/documentation/manuals/gnupg24/gpg.1.html
 		#https://www.gnupg.org/documentation/manuals/gnupg24/gpgv.1.html
 		
-		#HUOM.ao.blokin testausta varten sitten "export2 e ..."
+		#HUOM.ao.blokin testausta varten sitten "export2 e ..." ?
 		#(kys tuotokseen pitäisi se .sig saada mukaan myös)
+		#TODO:muista testata tämäkin sq-chroot-ymp
 		if [ -s ./sha512sums.txt.sig ] ; then
 			if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 				dqb "${gg} --verify ./sha512sums.txt.sig "			
@@ -389,7 +390,7 @@ function common_tbls() {
 	csleep 1
 	psqa ${1}
 
-	#uutena 251025 sysystö excaÖIBUR/ceres, pois jos qsee
+	#uutena 251025 sysystö excaLIBUR/ceres, pois jos qsee
 	efk1 ${1}/isc-dhcp*.deb
 	csleep 5
 
@@ -517,10 +518,10 @@ function check_binaries() {
 	
 	dqb "sd0= ${sd0} "
 	dqb "sdi= ${sdi} "
-	csleep 2
+	csleep 1
 
 	for x in iptables ip6tables iptables-restore ip6tables-restore dhclient ; do ocs ${x} ; done
-	csleep 2
+	csleep 1
 	
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
@@ -763,8 +764,8 @@ function e_h() {
 	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} 0555 ${f} ; done
 
 	#271125:tuo 2. find-rivi ylempänä tekee nämä 2 tarpeettomiksi oikeastaan
-	for f in $(find ${2} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
-	for f in $(find ${2} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
+	#for f in $(find ${2} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
+	#for f in $(find ${2} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
 
 	dqb "F1ND D0N3"
 	csleep 1
@@ -794,7 +795,7 @@ function e_final() {
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-	csleep 5
+	csleep 3
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
 	dqb "e_final D0N3"
@@ -803,7 +804,7 @@ function e_final() {
  
 function enforce_access() {
 	dqb " enforce_access ${1} , ${2}"
-	csleep 5
+	csleep 3
 	dqb "changing /sbin , /etc and /var 4 real"
 
 	e_e
@@ -959,7 +960,7 @@ function part076() {
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
-		#HUOM.261125:saisiko tällä tyylillä myös slimin sammutettua?
+		#HUOM.271125:saisiko tällä tyylillä myös slimin sammutettua? saa, mutta...
 
 		for t in $(find /etc/init.d -name ${s}* ) ; do
 			${odio} ${t} stop
@@ -1053,7 +1054,7 @@ function part2_5() {
 		${fib}
 		csleep 1
 		
-		for s in ${PART175_LIST} ; do #VAIH:slim mukaan listaan jatkossa?
+		for s in ${PART175_LIST} ; do #271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa
 			dqb "processing ${s}"
 			${sharpy} ${s}*
 			csleep 1
@@ -1206,13 +1207,18 @@ function gpo() {
 	local opt
 	prevopt=""
 
+	if [ $# -lt 1 ] ; then
+		echo "$0 -h" #VAIH:exit jos ei param
+		exit
+	fi
+
 	for opt in $@ ; do
-#		case ${opt} in	jospa prujaisi toisesta reposta	
-#		-v|--v)
-#			debug=1
-#		;;
-#		esac
-#
+		case ${opt} in	
+			-v|--v)
+				debug=1
+			;;
+		esac
+
 		parse_opts_1 ${opt}
 		parse_opts_2 ${prevopt} ${opt}
 		prevopt=${opt}

@@ -19,7 +19,7 @@ function e22_hdr() { #261125:toimii
 	csleep 1
 }
 
-function e22_ftr() { #261125:toimii
+function e22_ftr() { #271125:toimii, allekrijoituskin qhan av asennettu (install_keys uusi optio)
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -41,6 +41,9 @@ function e22_ftr() { #261125:toimii
 	#riittävät tarkistukset?
 	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 		${gg} -u ${CONF_kay1name} -sb ${q}.sha
+		csleep 1
+		${gg} --verify ${q}.sha.sig
+		csleep 1
 	fi
 
 	cd ${p}
@@ -508,16 +511,16 @@ function e22_ts() { #HUOM.261125:toimii
 }
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-#TODO:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk?
+#VAIH:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk?
 
 function e22_arch() { #261125:uudelleenpakkaus toimii nykyään, slim rikkoutuu ei-uskonnollisista syistä
-	#TODO:se uudelleenpakkaus sittenq avaimet aseNNettu (kts KEHITTELY.TXT liittyen)
+	#VAIH:se uudelleenpakkaus sittenq avaimet aseNNettu (kts. install_keys.bash uusi optio)
 
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
 
 	[ -z ${1} ] && exit 1
-	#[ -s ${1} ] || exit 2 #kutsuvaan joodiin e22_hdr() vai ei? toiSTAIseksi näin
+	#[ -s ${1} ] || exit 2 #kutsuvaan koodiin e22_hdr() vai ei? toiSTAIseksi näin
 	#[ -w ${1} ] || exit 33
 
 	[ -z ${2} ] && exit 11

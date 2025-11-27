@@ -73,9 +73,6 @@ else
 	fi	
 fi
 
-#241125 tienoilla oli ongelmaa common_lib.sh:n käyttöoik kanssa, toiv ei toistu
-#DONE?:tässä tai common_lib.sh:ssa latenssien vähientäminen, tapauyksetr "$0 -1" ja "$0 2" 
- 
 #TODO:testaa miten else-haara toimii, smalla jos srat-ongelman alempana voisi
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -202,6 +199,7 @@ if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
 else
 	#jotain exclude-juttuja voisi olla sikäli mikäli tuota oikeasti tarttee johonkin
 	#271125:oli jotain urputusta, korjaa jos mahd 
+	#... myls chroot-tarkistus EIKY kehitysympäristö
 	dqb "srat= ${srat}"
 	csleep 6
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
@@ -398,9 +396,6 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
-	#uusi case, vähän niinqu case 0 ja 3 yhdistettynä (tai jos erilliset import3 ja export3?)
-	#... vaiko "imp2 0" purkamaan mitä "exp2 0" pakkaa? arpoo arpoo
-	
 	0|3) #261125:toimii, case 3 nimittäin
 		#VAIH:selvitä, toimiiko case 0? (tai tarvitaanko nollaa edes?)
 		echo "ZER0 S0UND"
