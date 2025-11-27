@@ -146,7 +146,7 @@ NKVD="${NKVD} -fu "
 NKVD="${odio} ${NKVD} "
 	
 #PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
-PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
+PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby slim" # ntp" ntp jemmaan 28525 #slim kokeeksi
 #HUOM.excalibur ei sisällä:dnsmasq,stubby
 
 #HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!
@@ -1052,7 +1052,7 @@ function part2_5() {
 		${fib}
 		csleep 1
 		
-		for s in ${PART175_LIST} ; do #TODO:slim mukaan listaan jatkossa?
+		for s in ${PART175_LIST} ; do #VAIH:slim mukaan listaan jatkossa?
 			dqb "processing ${s}"
 			${sharpy} ${s}*
 			csleep 1
