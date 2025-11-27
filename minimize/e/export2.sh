@@ -252,8 +252,12 @@ e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
-	#TODO:johdonmukaisuuden vuoksi 3|4) jatkossa
-	0|4) #261125:case 0 teki silloin toimivan paketin
+	#VAIH:johdonmukaisuuden vuoksi 3|4) jatkossa
+	0)
+		echo "NOT SUPPORTED ANYMORE"
+		exit 99
+	;;
+	3|4) #261125:case 0 teki silloin toimivan paketin
 		#241125:case 4 teki toimivan paketin (miten nykyään?)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
@@ -271,7 +275,7 @@ case ${mode} in
 		e22_cleanpkgs ${d}
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 0 ] ; then
+		if [ ${mode} -eq 3 ] ; then
 			e22_tblz ${d} ${iface} ${distro} ${dnsm}
 			e22_other_pkgs ${dnsm}
 	
