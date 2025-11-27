@@ -226,16 +226,17 @@ function psqa() {
 		
 		#HUOM.ao.blokin testausta varten sitten "export2 e ..."
 		#(kys tuotokseen pitäisi se .sig saada mukaan myös)
-		#TODO:-s
-		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-			dqb "${gg} --verify ./sha512sums.txt.sig "			
-			csleep 3
+		if [ -s ./sha512sums.txt.sig ] ; then
+			if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
+				dqb "${gg} --verify ./sha512sums.txt.sig "			
+				csleep 3
 
-			[ ${debug} -eq 1 ] && pwd
-			csleep 3
+				[ ${debug} -eq 1 ] && pwd
+				csleep 3
 
-			${gg} --verify ./sha512sums.txt.sig
-			csleep 3
+				${gg} --verify ./sha512sums.txt.sig
+				csleep 3
+			fi
 		fi
 
 		cd ${p}
