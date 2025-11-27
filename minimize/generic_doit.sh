@@ -190,9 +190,6 @@ part2_5 ${removepkgs} ${dnsm} ${iface}
 
 #===================================================PART 3===========================================================
 message
-#261125:pitäisikö purkaa e.tar/f.tar juuri ennen ao. kutsua? tau ulkoistus -> import2?
-#cefgh ${d} #VAIH:tämä -> part3 (kuitsnkin s.e. jnkn ehdon takana, ei automaag)
-
 part3 ${d}
 other_horrors
 

@@ -1116,7 +1116,6 @@ function part2_5() {
 #https://dev1galaxy.org/viewtopic.php?id=2158
 #
 #part3() vs import2 case 3 ,. what's the difference?
-#VAIH:kutsuvasta koodista 2. param pois, ekaankin tarkistuksia?
 function part3() {
 	dqb "part3 ${1} , ${2}"
 	csleep 1
@@ -1151,7 +1150,6 @@ function part3() {
 
 	#VAIH:josko lxdm tai xdm vaikka, slimin tilalle?
 	clibpre ${1} accept_pkgs_2
-	#exit #HUOM.pois kommenteista sitq testaa päivityspak
 
 	dqb "g4RP D0NE"
 	csleep 3
