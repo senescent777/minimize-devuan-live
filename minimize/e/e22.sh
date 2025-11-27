@@ -563,14 +563,13 @@ function e22_arch() { #261125:uudelleenpakkaus toimii nykyään, slim rikkoutuu 
 	csleep 1
 	psqa .
 
-	${srat} -rf ${1} ./*.deb ./sha512sums.txt
-	[ ${debug} -eq 1 ] && ls -las ${1} 
-	#VAIH:gpg -u mukaan
-
 	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
-		#TODO:.sig kanssa mukaan pakettiin
+	
 	fi
+
+	${srat} -rf ${1} ./*.deb ./sha512sums.txt
+	[ ${debug} -eq 1 ] && ls -las ${1} 
 
 	csleep 1
 	cd ${p}
@@ -695,9 +694,6 @@ function e22_other_pkgs() { #261125:ok nykyään
 	csleep 1
 	${shary} x11-utils lxdm 	
 	csleep 1
-
-	dqb "TODO: ${shary} lxdm + deps" #TODO:sittenq merge hoidettu
-	#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
 	${lftr}
 
 	#aval0n
