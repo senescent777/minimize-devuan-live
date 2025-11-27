@@ -174,10 +174,10 @@ else
 	echo $?
 	dqb "NO LIB"
 	csleep 1
-
-	function pr4() {
-		dqb "imp2.pr4 \${1}" 
-	}
+#
+#	function pr4() {
+#		dqb "imp2.pr4 \${1}" 
+#	}
 
 	check_binaries ${d}
 	echo $?
