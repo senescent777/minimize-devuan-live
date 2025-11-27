@@ -101,6 +101,9 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 
 #===================================================PART 2===================================
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
+
+#271125_/etc/default/locale.tmp: line 1: warning: setlocale: LC_TIME: cannot change locale (fi_FI.UTF-8): No such file or directory
+
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 1
@@ -155,7 +158,7 @@ else
 fi
 
 csleep 1
-#TODO:el_locon tai c13/c14 kanssa jokin ongelma?, korjaa jos ed
+#TODO:el_locon tai c13/c14 kanssa jokin ongelma?, korjaa jos ed elleen?
 [ ${c13} -lt 1 ] && c14=1
 el_loco ${c14} ${c13}
 
@@ -183,13 +186,14 @@ fi
 pre_part2
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || removepkgs=0
-
 part2_5 ${removepkgs} ${dnsm} ${iface}
+
 #===================================================PART 3===========================================================
 message
 #261125:pitäisikö purkaa e.tar/f.tar juuri ennen ao. kutsua? tau ulkoistus -> import2?
-dqb "TODO:cefgh( ${d} ) ?"
-part3 ${d} ${dnsm}
+#cefgh ${d} #VAIH:tämä -> part3 (kuitsnkin s.e. jnkn ehdon takana, ei automaag)
+
+part3 ${d}
 other_horrors
 
 dqb "BEFORE IMP2"

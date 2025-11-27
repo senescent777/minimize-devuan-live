@@ -226,14 +226,15 @@ function psqa() {
 		
 		#HUOM.ao.blokin testausta varten sitten "export2 e ..."
 		#(kys tuotokseen pitäisi se .sig saada mukaan myös)
+		#TODO:-s
 		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-			dqb "${gg} --verify ./sha512sums.sig "			
+			dqb "${gg} --verify ./sha512sums.txt.sig "			
 			csleep 3
 
 			[ ${debug} -eq 1 ] && pwd
 			csleep 3
 
-			${gg} --verify ./sha512sums.sig
+			${gg} --verify ./sha512sums.txt.sig
 			csleep 3
 		fi
 
@@ -245,11 +246,15 @@ function psqa() {
 	csleep 1
 }
 
-
 function common_pp3() {
 	dqb "common_pp3 ${1}"
 	csleep 1
+
+	#kutsutaan useammasta paikkaa joten varm vuoksi
+	[ -z ${1} ] && exit 99
+	[ -d ${1} ] || exit 101
 	[ ${debug} -eq 1 ] && pwd
+	csleep 1
 
 	dqb "find ${1} -type f -name \* .deb"
 	csleep 3
@@ -286,7 +291,7 @@ function efk1() {
 }
 
 function efk2() { #jotain kautta tätäkin kai kutsuttiin
-	dqb "efk2 $"
+	dqb "efk2 ${1}"
 
 	if [ -s ${1} ] && [ -r ${1} ] ; then
 		${odio} ${sr0} -C ${2} -xf ${1}
@@ -297,13 +302,14 @@ function efk2() { #jotain kautta tätäkin kai kutsuttiin
 	csleep 1
 }
 
+#clib5p ja clibpre pystyisi yhdistämään
 function clib5p() {
 	dqb "clib5p( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
 	[ -z "${2}" ] && exit 67
 	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE" 
 
-	dqb "WILL START REJECTING PIGS NOW"
+	dqb "WILL START REJECTING P1GS NOW"
 	csleep 1
 
 	local p
@@ -343,10 +349,10 @@ function clibpre() {
 	
 	csleep 5
 	cd ${p}
-	dqb "BlArN3eY C0Ck!!!"
+	dqb "BlAnR3eY C0kCCC!!!"
 }
 
-#HUOM.041025:chroot.ympäristössä tietenkin se ympäristömja sudotuksern yht ongelma, keksisikö jotain (KVG)
+#HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksern yht ongelma, keksisikö jotain (KVG)
 function fromtend() {
 	dqb "FRöMTEND"
 
@@ -383,7 +389,7 @@ function common_tbls() {
 
 	#uutena 251025 sysystö excaÖIBUR/ceres, pois jos qsee
 	efk1 ${1}/isc-dhcp*.deb
-	csleep 10
+	csleep 5
 
 	efk1 ${1}/libnfnet*.deb
 	csleep 1
@@ -486,9 +492,6 @@ function check_binaries() {
 		jules
 		sleep 2
 
-		#VAIH:ef-purq erilliseksi fktioksi?
-		#efk2 ${1}/e.tar
-		#efk2 ${1}/f.tar ${1}
 		cefgh ${1}
 
 		common_pp3 ${1}
@@ -753,7 +756,11 @@ function e_h() {
 
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
-	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
+
+	#271125:josko kuitenkin 0555?
+	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} 0555 ${f} ; done
+
+	#271125:tuo 2. find-rivi ylempänä tekee nämä 2 tarpeettomiksi oikeastaan
 	for f in $(find ${2} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
 	for f in $(find ${2} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
 
@@ -1100,10 +1107,35 @@ function part2_5() {
 	csleep 1
 }
 
-#vs import2 case 3
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=slim=1.4.0-0devuan2&eXtra=87.95.120.70
+# Depends:
+#dbus, debconf (>= 1.2.9) | debconf-2.0, default-logind | logind | consolekit, x11-xserver-utils, libc6 (>= 2.34), libgcc-s1 (>= 3.0), libjpeg62-turbo (>= 1.3.1), libpam0g (>= 0.99.7.1), libpng16-16 (>= 1.6.2-1), libstdc++6 (>= 5.2), libx11-6, libxext6, libxft2 (>> 2.1.1), libxmu6 (>= 2:1.1.3), libxrandr2 (>= 2:1.2.99.3)
+#saattaa harata vastaan:dbus , debconf? , libgcc-s1, libpam0g, libx11-6
+#
+#https://bbs.archlinux.org/viewtopic.php?id=112224 ?
+#https://dev1galaxy.org/viewtopic.php?id=2158
+#
+#part3() vs import2 case 3 ,. what's the difference?
+#VAIH:kutsuvasta koodista 2. param pois, ekaankin tarkistuksia?
 function part3() {
-	dqb "part3 ${1} ${2}"
+	dqb "part3 ${1} , ${2}"
 	csleep 1
+
+	[ -z ${1} ] && exit 99
+	[ -d ${1} ] || exit 101
+	dqb "PARAMS_OK"
+	csleep 1
+
+	#271125:uutena tämä blokki, pois jos qsee
+	local c15
+	c15=$(find ${1} -type f -name '*.deb' | wc -l)
+
+	if [ ${c15} -lt 1 ] ; then
+		cefgh ${1}
+	fi
+
+	csleep 3
+	#
 
 	jules
 	common_pp3 ${1}
@@ -1114,24 +1146,13 @@ function part3() {
 		clib5p ${1} reject_pkgs
 	fi
 
-	#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taåauksessa daed , jotain jos tekisi dbus
-
+	#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taPauksessa daed , jotain jos tekisi dbus
 	clibpre ${1} accept_pkgs_1
 
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=slim=1.4.0-0devuan2&eXtra=87.95.120.70
-	# Depends:
-	#dbus, debconf (>= 1.2.9) | debconf-2.0, default-logind | logind | consolekit, x11-xserver-utils, libc6 (>= 2.34), libgcc-s1 (>= 3.0), libjpeg62-turbo (>= 1.3.1), libpam0g (>= 0.99.7.1), libpng16-16 (>= 1.6.2-1), libstdc++6 (>= 5.2), libx11-6, libxext6, libxft2 (>> 2.1.1), libxmu6 (>= 2:1.1.3), libxrandr2 (>= 2:1.2.99.3)
-	#saattaa harata vastaan:dbus , debconf? , libgcc-s1, libpam0g, libx11-6
-
-	#https://bbs.archlinux.org/viewtopic.php?id=112224 ?
-	#https://dev1galaxy.org/viewtopic.php?id=2158
-
-	#VAIH:josko lxdm tai xdm vaikka tilalle?
-	
+	#VAIH:josko lxdm tai xdm vaikka, slimin tilalle?
 	clibpre ${1} accept_pkgs_2
-	#exit #HUOM.pois kommenteista sitq testaa päivityspak
 
-	dqb "4RP DONE"
+	dqb "g4RP D0NE"
 	csleep 3
 
 #	efk1 ${1}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666

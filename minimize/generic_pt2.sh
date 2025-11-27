@@ -203,6 +203,8 @@ function t2pc() {
 	${sharpy} slim* 
 	t2p_filler
 
+	#271125:pitäisiköhän myös isc-dhclient hukata jollain ehdolla?
+
 	spd="${sd0} -l " #jäänyt turhaksi muuten mutta g_pt2
 	[ ${debug} -gt 0 ] && ${spd} x*
 	csleep 1

@@ -176,14 +176,15 @@ case ${mode} in
 	;;
 	q)
 		#HUOM.261125:tekee edelleen paketin
-		#ffox 147 muutokset enemmän profs.sh asia
+		#271125:paketti sisälsi silloin validia sisältöä
+		#btw. ffox 147 muutokset enemmän profs.sh asia
+
 		${sifd} ${iface}
 		e22_settings ~ ${d0}
 
 		#VAIH:josko takaisin siihen että vain oikeasti tarpeelliset mukaan
 		#...esim pulse.tar voisi excludoida
-
-		#mikä olikaan syy että q on tässä ekassa case:ssa? pl siis että turha apt-renkkaus
+		#btw. mikä olikaan syy että q on tässä ekassa case:ssa? pl siis että turha apt-renkkaus
 
 		for f in $(find ~ -maxdepth 1 -name '*.tar' -or -name '*.bz2' -or -name 'profs.sh' | grep -v pulse) ; do
 			${srat} -rvf ${tgtfile} ${f} #--exclude vai ei?
@@ -208,7 +209,7 @@ case ${mode} in
 		exit
 	;;
 	g)
-		#HUOM.261125;testettu että komennoilla saa paketin aikaan
+		#HUOM.261125:testAttu että komennoilla saa paketin aikaan
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "sudo apt-get update"
 
@@ -251,6 +252,7 @@ e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
+	#TODO:johdonmukaisuuden vuoksi 3|4) jatkossa
 	0|4) #261125:case 0 teki silloin toimivan paketin
 		#241125:case 4 teki toimivan paketin (miten nykyään?)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 

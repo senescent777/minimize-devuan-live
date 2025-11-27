@@ -74,8 +74,9 @@ else
 fi
 
 #241125 tienoilla oli ongelmaa common_lib.sh:n käyttöoik kanssa, toiv ei toistu
-#261125:tässä tai common_lib.sh:ssa latenssien vähientäminen, tapauyksetr "$0 -1" ja "$0 2" (VAIH)
+#DONE?:tässä tai common_lib.sh:ssa latenssien vähientäminen, tapauyksetr "$0 -1" ja "$0 2" 
  
+#TODO:testaa miten else-haara toimii, smalla jos srat-ongelman alempana voisi
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -99,10 +100,10 @@ else
 	whack="${odio} ${whack} --signal 9 " #P.V.H.H
 	sah6=$(${odio} which sha512sum)
 	mkt=$(which mktemp) #arpoo arpoo
-
-	function cefgh() {
-		dqb "imp2.cefgh \${1} "
-	}
+#
+#	function cefgh() { #tartteekohan tätä tässä kuitenkaan?
+#		dqb "imp2.cefgh \${1} "
+#	}
 
 	function check_binaries() {
 		dqb "imp2.ch3ck_b1nar135 \${1} "
@@ -124,10 +125,10 @@ else
 		dqb "imp2.part3 :NOT SUPPORTED"
 		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount:in tapahtumaan silloin kun varsinainen instailu ei onnaa
 	}
-
-	function ppp3() { #onko tällaista enää?
-		dqb "imp32.ppp3"
-	}
+#
+#	function ppp3() { #onko tällaista enää?
+#		dqb "imp32.ppp3"
+#	}
 
 	#kutsutaanko tätä? no yhdestä kohdasta ainakin 
 	#tarvitaanko?
@@ -200,7 +201,11 @@ if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
 	dqb "OLD.TAR OK"
 else
 	#jotain exclude-juttuja voisi olla sikäli mikäli tuota oikeasti tarttee johonkin
+	#271125:oli jotain urputusta, korjaa jos mahd 
+	dqb "srat= ${srat}"
+	csleep 6
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
+	csleep 4
 fi
 
 #import2 vs g_doit , mikä ero?
@@ -221,6 +226,7 @@ function common_part() {
 	csleep 1
 	cd /
 
+	#kts. common_lib.psqa()
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
 
@@ -241,9 +247,9 @@ function common_part() {
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	csleep 6
-	dqb "NECKST:${srat} ${TARGET_TPX} -C ${3} -xf ${1}" #TODO:pitäisi selvittää toimiiko --exclude kuten pitää
-	csleep 6
+	csleep 3
+	dqb "NECKST:${srat} ${TARGET_TPX} -C ${3} -xf ${1}" #TODO:pitäisi varmistaa, toimiiko --exclude kuten pitää
+	csleep 3
 
 	${srat} -C ${3} ${TARGET_TPX} -xf ${1}
 	[ $? -eq 0 ] || exit 36
@@ -278,7 +284,7 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
-#TODO:ffox 147 (oikeastaan profs tulisi muuttaa)
+#TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 function tpr() {
 	dqb "UPIR  ${1}" #tulisi kai olla vain 1 param tälle fktiolle
 	csleep 1
@@ -301,7 +307,7 @@ function tpr() {
 	csleep 1
 
 	if [ -x ${1}/profs.sh ] ; then
-		#fktioiden importointia jos kokeilisi? man bash...
+		#fktioiden {imp,exp}ortointia jos kokeilisi? man bash...
 		. ${1}/profs.sh
 		[ $? -gt 0 ] && exit 33
 			
@@ -327,7 +333,7 @@ function tpr() {
 	csleep 1
 }
 
-#261125:eka case-blokki taitaa toimia
+#261125:eka case-blokki toimii
 case "${mode}" in
 	-1) 
 		part=/dev/disk/by-uuid/${part0}		
@@ -382,11 +388,12 @@ dqb "srcfile=${srcfile}"
 csleep 6
 
 case "${mode}" in
-	r) #vissiin toimii (261125)
+	r) # toimii (261125)
+	#kutsutaan muuten g_doit kautta
 		[ -d ${srcfile} ] || exit 22
 		tpr ${srcfile}
 	;;
-	1) #vissiin toimii (261125)
+	1) # toimii (261125)
 		common_part ${srcfile} ${d} /
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
@@ -394,8 +401,8 @@ case "${mode}" in
 	#uusi case, vähän niinqu case 0 ja 3 yhdistettynä (tai jos erilliset import3 ja export3?)
 	#... vaiko "imp2 0" purkamaan mitä "exp2 0" pakkaa? arpoo arpoo
 	
-	0|3) #261125:vissiin toimii (case 3 nimittäin)
-		#TODO:selvitä, toimiiko case 0 
+	0|3) #261125:toimii, case 3 nimittäin
+		#TODO:selvitä, toimiiko case 0? (tai tarvitaanko nollaa edes?)
 		echo "ZER0 S0UND"
 		csleep 1
 		dqb " ${3} ${distro} MN" #mikä pointti?
@@ -409,27 +416,27 @@ case "${mode}" in
 
 		csleep 1
 
-		if [ ${1} -eq 0 ] ; then #tarpeellinen tarkistus nykyään?
+#		if [ ${1} -eq 0 ] ; then #tarpeellinen tarkistus nykyään?
 #			#HUOM.30925:jospa antaisi efk2-kikkailujen olla toistaiseksi
 #			if [ -s ${d}/e.tar ] ; then
 #				common_part ${d}/e.tar ${d} /
 #			else
 #				dqb " ${d}/e.tar CANNOT BE FOUND"
 #
-			#	if [ -s ${d}/f.tar ] ; then
-			#		common_part ${d}/f.tar ${d} ${d} 				
-			#	fi
-			#fi
-			##for t in ${d}/e.tar ... No Ei
-
-			dqb "TODO:cefgh( ${d} ) ?"
-		fi
+#				if [ -s ${d}/f.tar ] ; then
+#					common_part ${d}/f.tar ${d} ${d} 				
+#				fi
+#			fi
+#			#for t in ${d}/e.tar ... No Ei
+#
+#			dqb "VAIH:cefgh( ${d} ) ?"
+#		fi
 		
 		csleep 5
 		dqb "c_p_d0n3, NEXT: pp3"
 		csleep 1	
 
-		part3 ${d} ${dnsm}
+		part3 ${d}
 		other_horrors
 
 		#HUOM.231125:kutsutaan e_a() uudestaan jotta päivityspaketti ei rikkoisi:slim (tosin syy jossain muualla)
@@ -448,15 +455,15 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q) 
-		#toimiiko tämä vielä/taas? ffox versio 147 saattaa tuoda muutoksia
-		#milloin viimeksi testettu? (TODO)
+		#testattu viimeksi 271125:toimi silloin
+		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(tar -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
 		common_part ${srcfile} ${d} /
 		tpr ${d0}
 	;;
-	k)	#milloin viimeksi testettu? lokakuussa josqs? (TODO)
+	k)	#milloin viimeksi testattu? lokakuussa josqs? (TODO)
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
 		ridk=${srcfile}
