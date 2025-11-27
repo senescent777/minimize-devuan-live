@@ -234,7 +234,7 @@ function common_part() {
 		${sah6} ${1}
 		csleep 3
 
-		#VAIH:-s .sig kanssa
+		#TODO:tESTAA
 		if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
 			if [ ! -z ${gg} ] ; then
 				if [ -x ${gg} ] ; then
@@ -429,7 +429,6 @@ case "${mode}" in
 #			fi
 #			#for t in ${d}/e.tar ... No Ei
 #
-#			dqb "VAIH:cefgh( ${d} ) ?"
 #		fi
 		
 		csleep 5
