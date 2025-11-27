@@ -226,14 +226,15 @@ function psqa() {
 		
 		#HUOM.ao.blokin testausta varten sitten "export2 e ..."
 		#(kys tuotokseen pitäisi se .sig saada mukaan myös)
+		#TODO:-s
 		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-			dqb "${gg} --verify ./sha512sums.sig "			
+			dqb "${gg} --verify ./sha512sums.txt.sig "			
 			csleep 3
 
 			[ ${debug} -eq 1 ] && pwd
 			csleep 3
 
-			${gg} --verify ./sha512sums.sig
+			${gg} --verify ./sha512sums.txt.sig
 			csleep 3
 		fi
 
@@ -245,11 +246,15 @@ function psqa() {
 	csleep 1
 }
 
-
 function common_pp3() {
 	dqb "common_pp3 ${1}"
 	csleep 1
+
+	#kutsutaan useammasta paikkaa joten varm vuoksi
+	[ -z ${1} ] && exit 99
+	[ -d ${1} ] || exit 101
 	[ ${debug} -eq 1 ] && pwd
+	csleep 1
 
 	dqb "find ${1} -type f -name \* .deb"
 	csleep 3
@@ -286,7 +291,7 @@ function efk1() {
 }
 
 function efk2() { #jotain kautta tätäkin kai kutsuttiin
-	dqb "efk2 $"
+	dqb "efk2 ${1}"
 
 	if [ -s ${1} ] && [ -r ${1} ] ; then
 		${odio} ${sr0} -C ${2} -xf ${1}
@@ -297,13 +302,14 @@ function efk2() { #jotain kautta tätäkin kai kutsuttiin
 	csleep 1
 }
 
+#clib5p ja clibpre pystyisi yhdistämään
 function clib5p() {
 	dqb "clib5p( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
 	[ -z "${2}" ] && exit 67
 	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE" 
 
-	dqb "WILL START REJECTING PIGS NOW"
+	dqb "WILL START REJECTING P1GS NOW"
 	csleep 1
 
 	local p
@@ -329,23 +335,24 @@ function clibpre() {
 
 	dqb "LOREMIPSUM-.LOREM1PSUM.LOREMIPSUM.LIPSUU"
 	csleep 5
+
 	local p
 	local q
+
 	p=$(pwd)
 	cd ${1}
 
 	dqb "4 REALZ"
 	csleep 1
-	#näillä main oli nalqtus ligbgcc-s1-aiheesta, vielä?
+
 	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
 	
-	csleep 10
+	csleep 5
 	cd ${p}
-	dqb "lAmPl1gHt3R D03N"
+	dqb "BlAnR3eY C0kCCC!!!"
 }
 
-
-#HUOM.041025:chroot.ympäristössä tietenkin se ympäristömja sudotuksern yht ongelma, keksisikö jotain (KVG)
+#HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksern yht ongelma, keksisikö jotain (KVG)
 function fromtend() {
 	dqb "FRöMTEND"
 
@@ -380,9 +387,9 @@ function common_tbls() {
 	csleep 1
 	psqa ${1}
 
-	#uutena 251025 sysystö excakubuyr/ceres, pois jos qsee
+	#uutena 251025 sysystö excaÖIBUR/ceres, pois jos qsee
 	efk1 ${1}/isc-dhcp*.deb
-	csleep 10
+	csleep 5
 
 	efk1 ${1}/libnfnet*.deb
 	csleep 1
@@ -399,7 +406,6 @@ function common_tbls() {
 	efk1 ${1}/libnftnl*.deb 
 	csleep 1
 
-	#uutena 031925 tämä linbl
 	efk1 ${1}/libnl-3-200*.deb
 	csleep 3
 	efk1 ${1}/libnl-route*.deb 
@@ -442,6 +448,11 @@ function common_tbls() {
 	csleep 10
 }
 
+function cefgh() {
+	efk2 ${1}/e.tar
+	efk2 ${1}/f.tar ${1}
+}
+
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135 ${1} "
 	csleep 1
@@ -456,7 +467,7 @@ function check_binaries() {
 	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh	
 	for x in ${y} ; do ocs ${x} ; done
 	dqb "JUST BEFORE"
-	csleep 4
+	csleep 1
 
 	[ -v sr0 ] || exit 102
 	[ -v ipt ] || exit 103
@@ -479,10 +490,9 @@ function check_binaries() {
 
 		echo "SHOULD INSTALL IPTABLES"
 		jules
-		sleep 6
+		sleep 2
 
-		efk2 ${1}/e.tar
-		efk2 ${1}/f.tar ${1}
+		cefgh ${1}
 
 		common_pp3 ${1}
 		[ -f /.chroot ] && message
@@ -505,10 +515,10 @@ function check_binaries() {
 	
 	dqb "sd0= ${sd0} "
 	dqb "sdi= ${sdi} "
-	csleep 6
+	csleep 2
 
 	for x in iptables ip6tables iptables-restore ip6tables-restore dhclient ; do ocs ${x} ; done
-	csleep 6
+	csleep 2
 	
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
@@ -653,7 +663,8 @@ function pre_enforce() {
 
 	local c4
 	c4=0
-	
+	csleep 5
+
 	if [ -v dir ] ; then
 		c4=$(grep ${dir} /etc/fstab | wc -l)
 	else
@@ -661,13 +672,21 @@ function pre_enforce() {
 		exit 99
 	fi
 
+	csleep 5
+
+	#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
 	if [ ${c4} -lt 1 ] ; then
 		dqb "MUTILAT31NG /E/F-STAB"
 		csleep 5
+
 		${scm} a+w /etc/fstab
 		${odio} echo "/dev/disk/by-uuid/${part0} ${dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		${odio} echo "#/dev/disk/by-uuid/${part1} ${dir2} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		${scm} a-w /etc/fstab
+
+		csleep 5
+		[ ${debug} -eq 1 ] && cat /etc/fstab
+		csleep 5
 	fi
 
 	csleep 5
@@ -737,7 +756,11 @@ function e_h() {
 
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
-	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} 0755 ${f} ; done
+
+	#271125:josko kuitenkin 0555?
+	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} 0555 ${f} ; done
+
+	#271125:tuo 2. find-rivi ylempänä tekee nämä 2 tarpeettomiksi oikeastaan
 	for f in $(find ${2} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
 	for f in $(find ${2} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
 
@@ -799,6 +822,13 @@ function enforce_access() {
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 }
 
+function fasdfasd() {
+	dqb "SUN LIIRUM SUN LAARUM ${1}"
+	touch ${1}
+	chown $(whoami):$(whoami) ${1}
+	chmod 0644 ${1}
+}
+
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
 #myös https://github.com/topics/sources-list
 
@@ -809,7 +839,7 @@ function part1_5() {
 	t=$(echo ${1} | cut -d '/' -f 1) #nose tr?
 
 	if [ ! -s /etc/apt/sources.list.${t} ] ; then
-		dqb "S3RV1CE F0R A VCANT C0FF§1N"
+		dqb "S3RV1CE F0R A VCANT C0FF1N"
 		[ -v mkt ] || exit 99
 		[ -z "${mkt}" ] && exit 98
 
@@ -830,6 +860,7 @@ function part1_5() {
 			done
 		else
 			${svm} /etc/apt/sources.list.tmp ${h}
+			#kts. fasdfasd()
 			${sco} ${n}:${n} ${h}/sources.list.tmp
 			${scm} 0644 ${h}/sources.list.tmp
 		fi
@@ -926,6 +957,7 @@ function part076() {
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
+		#HUOM.261125:saisiko tällä tyylillä myös slimin sammutettua?
 
 		for t in $(find /etc/init.d -name ${s}* ) ; do
 			${odio} ${t} stop
@@ -1019,7 +1051,7 @@ function part2_5() {
 		${fib}
 		csleep 1
 		
-		for s in ${PART175_LIST} ; do
+		for s in ${PART175_LIST} ; do #TODO:slim mukaan listaan jatkossa?
 			dqb "processing ${s}"
 			${sharpy} ${s}*
 			csleep 1
@@ -1075,9 +1107,35 @@ function part2_5() {
 	csleep 1
 }
 
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=slim=1.4.0-0devuan2&eXtra=87.95.120.70
+# Depends:
+#dbus, debconf (>= 1.2.9) | debconf-2.0, default-logind | logind | consolekit, x11-xserver-utils, libc6 (>= 2.34), libgcc-s1 (>= 3.0), libjpeg62-turbo (>= 1.3.1), libpam0g (>= 0.99.7.1), libpng16-16 (>= 1.6.2-1), libstdc++6 (>= 5.2), libx11-6, libxext6, libxft2 (>> 2.1.1), libxmu6 (>= 2:1.1.3), libxrandr2 (>= 2:1.2.99.3)
+#saattaa harata vastaan:dbus , debconf? , libgcc-s1, libpam0g, libx11-6
+#
+#https://bbs.archlinux.org/viewtopic.php?id=112224 ?
+#https://dev1galaxy.org/viewtopic.php?id=2158
+#
+#part3() vs import2 case 3 ,. what's the difference?
+#VAIH:kutsuvasta koodista 2. param pois, ekaankin tarkistuksia?
 function part3() {
-	dqb "part3 ${1} ${2}"
+	dqb "part3 ${1} , ${2}"
 	csleep 1
+
+	[ -z ${1} ] && exit 99
+	[ -d ${1} ] || exit 101
+	dqb "PARAMS_OK"
+	csleep 1
+
+	#271125:uutena tämä blokki, pois jos qsee
+	local c15
+	c15=$(find ${1} -type f -name '*.deb' | wc -l)
+
+	if [ ${c15} -lt 1 ] ; then
+		cefgh ${1}
+	fi
+
+	csleep 3
+	#
 
 	jules
 	common_pp3 ${1}
@@ -1088,26 +1146,14 @@ function part3() {
 		clib5p ${1} reject_pkgs
 	fi
 
-	#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taåauksessa daed , jotain jos tekisi dbus
-
+	#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taPauksessa daed , jotain jos tekisi dbus
 	clibpre ${1} accept_pkgs_1
 
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=slim=1.4.0-0devuan2&eXtra=87.95.120.70
-	# Depends:
-	#dbus, debconf (>= 1.2.9) | debconf-2.0, default-logind | logind | consolekit, x11-xserver-utils, libc6 (>= 2.34), libgcc-s1 (>= 3.0), libjpeg62-turbo (>= 1.3.1), libpam0g (>= 0.99.7.1), libpng16-16 (>= 1.6.2-1), libstdc++6 (>= 5.2), libx11-6, libxext6, libxft2 (>> 2.1.1), libxmu6 (>= 2:1.1.3), libxrandr2 (>= 2:1.2.99.3)
-	#saattaa harata vastaan:dbus , debconf? , libgcc-s1, libpam0g, libx11-6
-
-	#https://bbs.archlinux.org/viewtopic.php?id=112224 ?
-	#https://dev1galaxy.org/viewtopic.php?id=2158
-
-	#josko lxdm tai xdm vaikka tilalle?
-	dqb "TODO:${sharpy} slim;${shary} lxdm"
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=lxdm=0.5.3-4&eXtra=176.93.242.93
-
+	#VAIH:josko lxdm tai xdm vaikka, slimin tilalle?
 	clibpre ${1} accept_pkgs_2
 	#exit #HUOM.pois kommenteista sitq testaa päivityspak
 
-	dqb "4RP DONE"
+	dqb "g4RP D0NE"
 	csleep 3
 
 #	efk1 ${1}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
@@ -1151,13 +1197,6 @@ function slaughter0() { #käytössä?
 	fn2=$(echo $1 | awk '{print $1}') 
 	ts2=$(sha512sum ${fn2})
 	echo ${ts2} | awk '{print $1,$2}' >> ${2}
-}
-
-function fasdfasd() {
-	dqb "SUN LIIRUM SUN LAARUM ${1}"
-	touch ${1}
-	chown $(whoami):$(whoami) ${1}
-	chmod 0644 ${1}
 }
 
 #VAIH:-h,-v vähitellen?
