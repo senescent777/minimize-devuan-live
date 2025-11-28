@@ -25,7 +25,7 @@ if [ $# -gt 0 ] ; then
 		[ "${2}" == "-v" ] && debug=1
 	fi
 else
-	echo "${0} [-v] [branch] | ${0} [branch] [-v]"
+	echo "${0} [-v] <branch> | ${0} <branch> [-v]"
 	exit 66
 fi
 
