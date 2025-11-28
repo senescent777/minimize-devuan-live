@@ -7,7 +7,7 @@ debug=0
 d=${d0}/${distro}
 
 mode=3
-#HUOM.251025:myös excaliburin kanssa se on nimenomaan mode 3 mikä qsee guin? vielä?
+#HUOM.251025:myös excaliburin kanssa se on nimenomaan mode 3 mikä qsee guin? vielä 271125?
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -60,8 +60,6 @@ fi
 
 [ -z ${distro} ] && exit 6
 dqb "BEFORE CNF"
-#echo "dbig= ${debug}"
-#sleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -98,25 +96,23 @@ fi
 
 function t2p_filler() {
 	dqb "FILLER"
-	${lftr} #siirto c_lib:stä tähän tdstoon? tai part2_5 käyttää?
+	${lftr}
 	${asy}
 	csleep 1
 }
 
-#TODO:jatkossa t2p() ja t2pc() listoja prosessoimalla?
+#jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
 function t2pc() {
-	#debug=1
 	dqb "common_lib.t2p_common()"
 	csleep 1
 
 	dqb "shar_py = ${sharpy} ;"
 	csleep 5
 
-	${fib} #uutena 29525, xcalibur...
+	${fib}
 	csleep 1
 
-	#takaisin 161026
 	${sharpy} bluez mutt rpcbind nfs-common
 	${sharpy} dmsetup
 	t2p_filler
@@ -135,8 +131,6 @@ function t2pc() {
 	${sharpy} docutils* dosfstools efibootmgr exfalso
 	t2p_filler
 
-	#HUOM.29925: daed kanssa poistuu hos poistuu libsouåp josqs g_doit jälkeen
-
 	#tikkujen kanssa paska tdstojärjestelmä exfat
 	${sharpy} exfatprogs fdisk gcr ftp*
 	t2p_filler
@@ -148,8 +142,6 @@ function t2pc() {
 	#${sharpy} grub* 
 	${sharpy} gstreamer* #libgs poist alempana
 	t2p_filler
-
-	#HUOM.22725:näillä main libsoup poistuu?
 
 	${sharpy} htop inetutils-telnet intel-microcode isolinux
 	t2p_filler
@@ -170,8 +162,7 @@ function t2pc() {
 	${sharpy} netcat-traditional openssh*
 	t2p_filler
 
-	#ei eksplisiittistä pavucontrol:in poistoa, oheisvahinkona saattaa mennä edelleen tai aivan sama
-	${sharpy} parted pavucontrol #saattaa löytyä käyttöä (rai sitr eu)
+	${sharpy} parted pavucontrol
 	#libgtk3 ei poistu, libgtk4 kyllä
 	t2p_filler
 
@@ -190,7 +181,6 @@ function t2pc() {
 	${sharpy} vim*
 	t2p_filler
 
-	#miten nämä? poistuuko?
 	${sharpy} xorriso 
 	t2p_filler
 
@@ -199,13 +189,15 @@ function t2pc() {
 	t2p_filler
 
 	#251125 uutena (pitäisi vissiin dpkg-reconfigure tjsp jotta saa slimin syrjäytettyä live-ympäristössä)
-	#TODO:chroot-tark taakse?	
-	${sharpy} slim* 
-	t2p_filler
+	#VAIH:chroot-tark taakse?
+	if [ -f /.chroot ] ; then	
+		${sharpy} slim*
+		#271125:pitäisiköhän myös isc-dhclient hukata jollain ehdolla?
+		${sharpy} isc-dhcp*
+		t2p_filler
+	fi
 
-	#271125:pitäisiköhän myös isc-dhclient hukata jollain ehdolla?
-
-	spd="${sd0} -l " #jäänyt turhaksi muuten mutta g_pt2
+	spd="${sd0} -l "
 	[ ${debug} -gt 0 ] && ${spd} x*
 	csleep 1
 
@@ -226,10 +218,7 @@ function t2pf() {
 	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut) (no testaappa taas)
 	${smr} -rf /usr/share/doc 
 	
-	#uusi ominaisuus 230725
 	for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
-
-	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
 	df
 	${odio} which dhclient; ${odio} which ifup; csleep 3
 }
@@ -241,7 +230,7 @@ t2pc
 
 t2p
 [ $? -gt 0 ] && exit
-[ ${mode} -eq 1 ] && exit #tähän tökkää?
+[ ${mode} -eq 1 ] && exit
 
 t2pf ${d}
 [ $? -gt 0 ] && exit
@@ -249,7 +238,7 @@ t2pf ${d}
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
 csleep 3
-${scm} 0555 ${d0}/common_lib.sh #JOKO JO LOPPUISI PURPATUS PRKL
+${scm} 0555 ${d0}/common_lib.sh 
 
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
 dqb "${whack} xfce4-session 1n 3 s3c5"

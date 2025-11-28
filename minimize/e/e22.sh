@@ -538,7 +538,7 @@ function e22_arch() { #261125:uudelleenpakkaus toimii nykyään, slim rikkoutuu 
 		dqb "rem0v1ng pr3v1oisu shasums"
 		csleep 1
 
-		${NKVD} ${2}/sha512sums.txt
+		${NKVD} ${2}/sha512sums.txt*
 	else
 		dqb "JGFIGFIYT"
 	fi
@@ -566,12 +566,15 @@ function e22_arch() { #261125:uudelleenpakkaus toimii nykyään, slim rikkoutuu 
 	csleep 1
 	psqa .
 
-	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
+	#tämä ennen pasq() ?
+	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #jälkimmäinen ohto jatkossa "-v CONF_xxx"
+		dqb "GGU"
+		csleep 1
 		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
-	
+		dqb "GHATS"
 	fi
 
-	${srat} -rf ${1} ./*.deb ./sha512sums.txt
+	${srat} -rf ${1} ./*.deb ./sha512sums.txt ./sha512sums.txt.sig
 	[ ${debug} -eq 1 ] && ls -las ${1} 
 
 	csleep 1

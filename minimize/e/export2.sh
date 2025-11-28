@@ -196,7 +196,9 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#VAIH:testaa uusiksi
+		#VAIH:testaa uusiksi (tekee paketin, purkautuukin mutta sisällön kanssa vielä jotain pientä mistä sq-chr-ympoärist nalqttaa 271125)
+		#HUOM.olisi hyvä olemassa sellainen bz3 tai bz2 missä julk av (ellei sitten jtnkn toisin)		
+		
 		cd ${d0}
 		for f in $(find . -type f -name '*.sh' | grep -v 'e/') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
 		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/')  ; do ${srat} -rvf ${tgtfile} ${f} ; done
