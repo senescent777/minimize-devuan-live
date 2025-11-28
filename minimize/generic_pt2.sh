@@ -189,7 +189,7 @@ function t2pc() {
 	t2p_filler
 
 	#251125 uutena (pitäisi vissiin dpkg-reconfigure tjsp jotta saa slimin syrjäytettyä live-ympäristössä)
-	#VAIH:chroot-tark taakse?
+	
 	if [ -f /.chroot ] ; then	
 		${sharpy} slim*
 		#271125:pitäisiköhän myös isc-dhclient hukata jollain ehdolla?

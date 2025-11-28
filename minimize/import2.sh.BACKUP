@@ -73,10 +73,14 @@ else
 	fi	
 fi
 
+#241125 tienoilla oli ongelmaa common_lib.sh:n käyttöoik kanssa, toiv ei toistu
+#DONE?:tässä tai common_lib.sh:ssa latenssien vähientäminen, tapauyksetr "$0 -1" ja "$0 2" 
+ 
+#TODO:testaa miten else-haara toimii, smalla jos srat-ongelman alempana voisi
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#281125;tässä haarassa vielä ongelmia? josko aluksi kommentteihin kokonaan?
+	#tässä haarassa vielä ongelmia?
 	srat="/bin/tar" #which mukaan?
 	debug=1
 
@@ -171,7 +175,6 @@ else
 	dqb "NO LIB"
 	csleep 1
 
-	#281125:uskaltaako poistaa vai ei?
 	function pr4() {
 		dqb "imp2.pr4 \${1}" 
 	}
@@ -188,12 +191,9 @@ fi
 
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
-
-#281125:qseeko srat:in sorkkiminen tämän skriptin?
 ocs tar
 srat=$(${odio} which tar) #JOKO NYT PRKL
-
-[ -z "{srat}" ] && exit 66 #281125:varm. vuyoksi paluukoodi muutettu
+[ -z "{srat}" ] && exit 666
 dqb "LHP"
 
 #deMOrgan
@@ -202,7 +202,6 @@ if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
 else
 	#jotain exclude-juttuja voisi olla sikäli mikäli tuota oikeasti tarttee johonkin
 	#271125:oli jotain urputusta, korjaa jos mahd 
-	#281125:qseeko else-haarassa jokin?
 	dqb "srat= ${srat}"
 	csleep 6
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
@@ -235,7 +234,7 @@ function common_part() {
 		${sah6} ${1}
 		csleep 3
 
-		#291125:testaus sq-chroot-ymp onnistui ainakin kerran
+		#VAIH:-s .sig kanssa
 		if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
 			if [ ! -z ${gg} ] ; then
 				if [ -x ${gg} ] ; then
@@ -401,6 +400,7 @@ case "${mode}" in
 	;; 
 	#uusi case, vähän niinqu case 0 ja 3 yhdistettynä (tai jos erilliset import3 ja export3?)
 	#... vaiko "imp2 0" purkamaan mitä "exp2 0" pakkaa? arpoo arpoo
+	
 	0|3) #261125:toimii, case 3 nimittäin
 		#TODO:selvitä, toimiiko case 0? (tai tarvitaanko nollaa edes?)
 		echo "ZER0 S0UND"
@@ -408,10 +408,8 @@ case "${mode}" in
 		dqb " ${3} ${distro} MN" #mikä pointti?
 		csleep 1
 
-		#281125:sudob ja tarin kanssa riittää kusta ja paskaa ainakin sq-chroot-ympäristössä
 		if [ ${1} -eq 0 ] ; then
 			common_part ${srcfile} ${d} / #voi tietystI mennä mettään tuon $d/common_lib kanssa?
-			#281125:tässä ne lisäricir kusivat asioita?
 		else
 			common_part ${srcfile} ${d} ${d}
 		fi
@@ -465,7 +463,7 @@ case "${mode}" in
 		common_part ${srcfile} ${d} /
 		tpr ${d0}
 	;;
-	k)	#291125:taisi toimia tuo importointi ainakin kerran sq-chroot-ympäristössä 
+	k)	#milloin viimeksi testattu? lokakuussa josqs? (TODO)
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
 		ridk=${srcfile}

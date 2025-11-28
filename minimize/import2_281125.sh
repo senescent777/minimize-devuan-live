@@ -73,8 +73,6 @@ else
 	fi	
 fi
 
-#281125:onko näillä mailn jotain omgelmaa?
-#VAIH:testaa miten else-haara toimii, smalla jos srat-ongelman alempana voisi
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 #else
