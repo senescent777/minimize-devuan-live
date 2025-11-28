@@ -19,9 +19,10 @@ git*.deb
 bind9-host*.deb
 bind9-dns*.deb
 dnsutils*.deb
-#JOKO JO PRKL ALKAISI TOIMIA
 e2fsprogs*.deb
 python3.11-minimal*.deb
 #
-#uutena 261125
+#uutena 261125, lienee ok
 gtk2-engines-pixbuf*.deb
+#uutena 271125
+gpgconf*.deb
