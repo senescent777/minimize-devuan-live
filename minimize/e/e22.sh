@@ -100,55 +100,55 @@ function e22_pre1() { #HUOM.261125:toimii?
 
 #VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen (olisiko jo 261125?)
 #...note to self: oli varmaankin cross-distrp-syistä, ehkä jossain vaiheessa jos sitä juttua teatsisi uudestaan
-#
-#function e22_pre2() { #HUOM.261125;toimii
-#	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
-#	csleep 1
-#
-#	[ -z ${1} ] && exit 66 #HUOM. -d oli jo
-#	[ -z ${2} ] && exit 67
-#	[ -z ${3} ] && exit 68
-#	[ -z ${4} ] && exit 69
-#
-#	dqb "pars.ok"	
-#	csleep 1
-#
-#	local ortsac
-#	local par4
-#
-#	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
-#	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
-#	par4=$(echo ${4} | tr -d -c 0-9)
-#
-#	#HUOM.020825:vähän enemmän sorkintaa tänne?
-#	#/e/n alihakemistoihin +x ?
-#	#/e/wpa kokonaan talteen? /e/n kokonaan talteen?
-#
-#	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then #NYT JOSPRKL BUGI LÖYTYI??? ei vissiin ainoa
-#		dqb "PRKL"
-#
-#		${odio} /opt/bin/changedns.sh ${par4} ${ortsac}
-#		echo $?
-#		csleep 1
-#
-#		${sifu} ${3}
-#		[ ${debug} -eq 1 ] && ${sifc}
-#		csleep 1
-#
-#		${sco} -Rv _apt:root ${pkgdir}/partial/
-#		${scm} -Rv 700 ${pkgdir}/partial/
-#
-#		${sag_u}
-#		csleep 1
-#	else
-#		echo "P.V.HH"
-#		exit 111
-#	fi
-#
-#	echo "e22_pre 2DONE"
-#	sleep 2
-#}
-#
+
+function e22_pre2() { #HUOM.261125;toimii
+	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
+	csleep 1
+
+	[ -z ${1} ] && exit 66 #HUOM. -d oli jo
+	[ -z ${2} ] && exit 67
+	[ -z ${3} ] && exit 68
+	[ -z ${4} ] && exit 69
+
+	dqb "pars.ok"	
+	csleep 1
+
+	local ortsac
+	local par4
+
+	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
+	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
+	par4=$(echo ${4} | tr -d -c 0-9)
+
+	#HUOM.020825:vähän enemmän sorkintaa tänne?
+	#/e/n alihakemistoihin +x ?
+	#/e/wpa kokonaan talteen? /e/n kokonaan talteen?
+
+	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then #NYT JOSPRKL BUGI LÖYTYI??? ei vissiin ainoa
+		dqb "PRKL"
+
+		${odio} /opt/bin/changedns.sh ${par4} ${ortsac}
+		echo $?
+		csleep 1
+
+		${sifu} ${3}
+		[ ${debug} -eq 1 ] && ${sifc}
+		csleep 1
+
+		${sco} -Rv _apt:root ${pkgdir}/partial/
+		${scm} -Rv 700 ${pkgdir}/partial/
+
+		${sag_u}
+		csleep 1
+	else
+		echo "P.V.HH"
+		exit 111
+	fi
+
+	echo "e22_pre 2DONE"
+	sleep 2
+}
+
 #function e22_cleanpkgs() { #HUOM.291125:
 #	dqb "e22_cleanpkgs ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
 #	[ -z "${1}" ] && exit 56
@@ -760,7 +760,8 @@ function e22_dblock() { #261125:toimii
 	dqb "e22dblock DONE"
 }
 
-function e22_settings2() { #HUOM.261125:tekee paketin
+#nimeämistä pitäisi taas miettiä...
+function e22_settings2() { #HUOM.291125;tekee paketin
 	dqb "e22_settings2 ${1} ${2}"
 
 	[ -z ${1} ] && exit 99

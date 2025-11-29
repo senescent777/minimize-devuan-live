@@ -317,9 +317,9 @@ case ${mode} in
 #		enforce_access ${n} ${t}
 #		e22_arch ${tgtfile} ${d}
 #	;;
-#	p) #HUOM. 261125:tekee paketin
-#		e22_settings2 ${tgtfile} ${d0} 
-#	;;
+	p) #HUOM.291125;
+		e22_settings2 ${tgtfile} ${d0} 
+	;;
 #	e)
 #		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
 #		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
