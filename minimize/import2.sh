@@ -52,9 +52,10 @@ if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 2
 
-	#HUOM.141025:oikeastaan pitäisi tarkistaa ennen purkua
-	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
-		tar -jxvf ${f}
+	#HUOM.141025:files should be checked bedore eztraxting
+	for f in $(find ${d0} -type f -name 'nekros?'. .bz3) ; do
+		#TODO:tähän jotain
+
 		sleep 1
 		rm ${f}
 		sleep 1
@@ -73,79 +74,12 @@ else
 	fi	
 fi
 
-if [ -x ${d0}/common_lib.sh ] ; then
+if [ -x ${d0}/common_lib.sh ] ; then #TODO:jatkosäädöt jos niin että ensiksi takaisin pelitttämään sq-chrootin kanssa
 	. ${d0}/common_lib.sh
 else
-	#281125;tässä haarassa vielä ongelmia? josko aluksi kommentteihin kokonaan?
-	srat="/bin/tar" #which mukaan?
 	debug=1
-
-	som="sudo /bin/mount"
-	uom="sudo /bin/umount"
-	scm="sudo /bin/chmod"
-	sco="sudo /bin/chown"
-	odio=$(which sudo) #chroot-ynmp tulee nalqtusta tästä
-
-	#jos näillä lähtisi aiNAKin case q toimimaan
-	n=$(whoami)
-	smr=$(${odio} which rm)
-	NKVD=$(${odio} which shred)
-	NKVD="${NKVD} -fu "
-
-	whack=$(${odio} which pkill)
-	whack="${odio} ${whack} --signal 9 " #P.V.H.H
-	sah6=$(${odio} which sha512sum)
-	mkt=$(which mktemp) #arpoo arpoo
-#
-#	function cefgh() { #tartteekohan tätä tässä kuitenkaan?
-#		dqb "imp2.cefgh \${1} "
-#	}
-
-	function check_binaries() {
-		dqb "imp2.ch3ck_b1nar135 \${1} "
-	}
-
-	function check_binaries2() {
-		dqb "imp2.ch3ck_b1nar135_2 \${1} "
-	}
-
-	function fix_sudo() {
-		dqb "imp32.fix.sudo"
-	}
-
-	function enforce_access() {
-		dqb "imp32.enf_acc"
-	}
-
-	function part3() {
-		dqb "imp2.part3 :NOT SUPPORTED"
-		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount:in tapahtumaan silloin kun varsinainen instailu ei onnaa
-	}
-#
-#	function ppp3() { #onko tällaista enää?
-#		dqb "imp32.ppp3"
-#	}
-
-	#kutsutaanko tätä? no yhdestä kohdasta ainakin 
-	#tarvitaanko?
-	function other_horrors() {
-		dqb "AZATH0TH AND OTHER H0RR0RR55"
-	}
-
-	function ocs() {
-		${odio} which ${1}
-		csleep 1
-	}
-
 	dqb "FALLBACK"
-	dqb "${scm} may be a good idea now"
-	prevopt=""
-
-	for opt in $@ ; do
-		parse_opts_1 ${opt}
-		parse_opts_2 ${prevopt} ${opt}
-		prevopt=${opt}
-	done
+	#TODO:tähän jotain
 fi
 
 [ -z ${distro} ] && exit 6
@@ -189,28 +123,22 @@ fi
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
 
-#281125:qseeko srat:in sorkkiminen tämän skriptin?
-ocs tar
-srat=$(${odio} which tar) #JOKO NYT PRKL
 
-[ -z "{srat}" ] && exit 66 #281125:varm. vuyoksi paluukoodi muutettu
 dqb "LHP"
 
 #deMOrgan
-if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
-	dqb "OLD.TAR OK"
+if [ -f /.chroot ] || [ -s  ] ; then
+	dqb "OLD. OK"
 else
-	#jotain exclude-juttuja voisi olla sikäli mikäli tuota oikeasti tarttee johonkin
+	#jotain exclude-juttuja voisi olla sikäli mikäli tuota oikeasti johonkin
 	#271125:oli jotain urputusta, korjaa jos mahd 
 	#281125:qseeko else-haarassa jokin?
-	dqb "srat= ${srat}"
-	csleep 6
-	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
-	csleep 4
+
+	#TODO:jotain tähän
 fi
 
 #import2 vs g_doit , mikä ero?
-#251125:päivityspak härdellit eivät liittyne tar:in purkamiseen
+
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
@@ -249,14 +177,15 @@ function common_part() {
 	fi
 
 	csleep 3
-	dqb "NECKST:${srat} ${TARGET_TPX} -C ${3} -xf ${1}" #TODO:pitäisi varmistaa, toimiiko --exclude kuten pitää
+	#TODO:tähän jotain
 	csleep 3
 
-	${srat} -C ${3} ${TARGET_TPX} -xf ${1}
+	#TODO:tähän jotain
+
 	[ $? -eq 0 ] || exit 36
 
 	csleep 1
-	dqb "tar DONE"
+
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-5)
 
@@ -296,14 +225,11 @@ function tpr() {
 	dqb "pars_ok"
 	csleep 1
 
-	dqb "stat= ${srat}"
+	
 	csleep 2
 
 	local t
-	#T_TPX tulisi sisältää pulse jatkossa?
-	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} ${TARGET_TPX} -C ~ -xvf ${t} ; done
-	#for t in ${1}/pulse.tar ~/pulse.tar ; do ${srat} ${TARGET_TPX} -C / -xvf ${t} ; done PULSE WTTUUN JATKOSSA
-
+	#TODO:tähän jotain
 	dqb "PROFS?"
 	csleep 1
 
@@ -318,11 +244,7 @@ function tpr() {
 		q=$(mktemp -d)
 
 		#jatkossa kutsuvaan koodiin tämä if-blokki?
-		if [ -s ~/fediverse.tar ] ; then
-			${srat} ${TARGET_TPX} -C ${q} -xvf ~/fediverse.tar
-		else
-			${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/fediverse.tar
-		fi
+		#TODO:tähän jotain
 
 		imp_prof esr ${n} ${q}
 	else
@@ -402,13 +324,13 @@ case "${mode}" in
 	#uusi case, vähän niinqu case 0 ja 3 yhdistettynä (tai jos erilliset import3 ja export3?)
 	#... vaiko "imp2 0" purkamaan mitä "exp2 0" pakkaa? arpoo arpoo
 	0|3) #261125:toimii, case 3 nimittäin
-		#TODO:selvitä, toimiiko case 0? (tai tarvitaanko nollaa edes?)
+		#TODO:selvitä, toimiiko case 0? jnpp
 		echo "ZER0 S0UND"
 		csleep 1
 		dqb " ${3} ${distro} MN" #mikä pointti?
 		csleep 1
 
-		#281125:sudob ja tarin kanssa riittää kusta ja paskaa ainakin sq-chroot-ympäristössä
+		#281125:s:n ja t:n kanssa riittää kusta ja paskaa ainakin sq-chroot-ympäristössä
 		if [ ${1} -eq 0 ] ; then
 			common_part ${srcfile} ${d} / #voi tietystI mennä mettään tuon $d/common_lib kanssa?
 			#281125:tässä ne lisäricir kusivat asioita?
@@ -418,21 +340,7 @@ case "${mode}" in
 
 		csleep 1
 
-#		if [ ${1} -eq 0 ] ; then #tarpeellinen tarkistus nykyään?
-#			#HUOM.30925:jospa antaisi efk2-kikkailujen olla toistaiseksi
-#			if [ -s ${d}/e.tar ] ; then
-#				common_part ${d}/e.tar ${d} /
-#			else
-#				dqb " ${d}/e.tar CANNOT BE FOUND"
-#
-#				if [ -s ${d}/f.tar ] ; then
-#					common_part ${d}/f.tar ${d} ${d} 				
-#				fi
-#			fi
-#			#for t in ${d}/e.tar ... No Ei
-#
-#			dqb "VAIH:cefgh( ${d} ) ?"
-#		fi
+#HUOM.291125:tässä oli blokki (kommentoitu)
 		
 		csleep 5
 		dqb "c_p_d0n3, NEXT: pp3"
@@ -442,7 +350,7 @@ case "${mode}" in
 		other_horrors
 
 		#HUOM.231125:kutsutaan e_a() uudestaan jotta päivityspaketti ei rikkoisi:slim (tosin syy jossain muualla)
-
+	#TODO:TOINEN e_a() POIS?
 		t=$(echo ${d} | cut -d '/' -f 1-5)
 		${scm} 0555 ${t}/common_lib.sh #251125:uutena tämä		
 
@@ -460,7 +368,7 @@ case "${mode}" in
 		#testattu viimeksi 271125:toimi silloin
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
-		c=$(tar -tf ${srcfile} | grep fediverse.tar  | wc -l)
+		#TODO:rässä oli jotain
 		[ ${c} -gt 0 ] || exit 77
 		common_part ${srcfile} ${d} /
 		tpr ${d0}
@@ -470,10 +378,10 @@ case "${mode}" in
 		dqb "KLM"
 		ridk=${srcfile}
 
-		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #/.chroot vielä?
+		if [ -x ${gg} ] && [ -v ] && [ -v  ] ; then #TODO:ehtoihin /.chroot vielä?
 			dqb "NOP"
 		
-			for f in ${TARGET_Dkname1} ${TARGET_Dkname2} ; do 			
+			for f in  ; do 	#TODO:tähän jotain		
 				dqb "dbg: ${gg} --import ${ridk}/${f}"
 				${gg} --import ${ridk}/${f}
 			done
@@ -497,4 +405,4 @@ if [ -v part ] || [ -v dir ] ; then
 fi
 
 ${scm} 0755 $0
-#HUOM.290925: tämän skriptin olisi kuvakkeen kanssa tarkoitus löytyä filesystem.squashfs sisältä (no löytyykö?)
+#HUOM.290925: tämän skriptin pitäisi kuvakkeen kanssa löytyä filesystem.squashfs sisältä (no löytyykö?)
