@@ -174,7 +174,7 @@ function e22_pre1() { #HUOM.261125:toimii?
 #}
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  , muutokset oikeastaan tdstpn profs.sh
-function e22_settings() { #HUOM.261125:toimii toistaiseksi?
+function e22_settings() { #HUOM.291125:tekee paketin
 	dqb "e22_settings ${1} ${2}"
 	csleep 1
 

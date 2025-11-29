@@ -175,8 +175,7 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#HUOM.261125:tekee edelleen paketin
-		#2?1125:thety paketti sisälsi silloin validia sisältöä
+		#291125:thety paketti sisälsi silloin validia sisältöä
 		#btw. ffox 147 muutokset enemmän profs.sh asia
 
 		${sifd} ${iface}
