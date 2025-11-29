@@ -251,10 +251,8 @@ function e22_home() { #261125:lienee ok, merd2 tulee mukaan, accept/reject-jutut
 
 	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen? ehk
 	#DONE?:varmista myös että distro/{accept,reject} vedetään mukaan, nimenomaan tässä fktiossa
-	#TODO:sha+allekIRjoitus, _pkgs-jutuille? vaiko e22_a() tekemään sen?
-	
-	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 
+	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 	dqb "e22_home d0n3"
 	csleep 1
 }
@@ -577,7 +575,10 @@ function e22_arch() { #VAIH:testaus lähiaikoina uusiksi, 291125 tienoilla pient
 	cd ${2}
 	echo $?
 	${sah6} ./*.deb > ./sha512sums.txt
-	#TODO:tähän ne _pkgs mukaan sums:iin ?	
+
+	#VAIH:tähän ne _pkgs mukaan sums:iin ?	
+	${sah6} ./reject_pkgs >> ./sha512sums.txt
+	${sah6} ./accept_pkgs_? >> ./sha512sums.txt
 	csleep 1
 
 	#tämä ennen pasq() ?
