@@ -784,7 +784,7 @@ function e_h() {
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
 
-	#271125:josko kuitenkin 0555?
+	#291125:josko kuitenkin 0555? paitsi että sittenq tarttee muokata
 	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} 0555 ${f} ; done
 
 	#271125:tuo 2. find-rivi ylempänä tekee nämä 2 tarpeettomiksi oikeastaan

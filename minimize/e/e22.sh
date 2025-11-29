@@ -149,29 +149,29 @@ function e22_pre2() { #HUOM.261125;toimii
 	sleep 2
 }
 
-#function e22_cleanpkgs() { #HUOM.291125:
-#	dqb "e22_cleanpkgs ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
-#	[ -z "${1}" ] && exit 56
-#
-#	if [ -d ${1} ] ; then
-#		dqb "cleaning up ${1} "
-#		csleep 1
-#
-#		${NKVD} ${1}/*.deb
-#		${NKVD} ${1}/sha512sums.txt
-#		#entä ne listat?
-#
-#		ls -las ${1}/*.deb
-#		csleep 2
-#		dqb "d0nm3"
-#	else
-#		dqb "NO SUCH DIR ${1}"
-#
-#	fi
-#
-#	dqb "e22_cleanpkgs D0N3"
-#	csleep 1
-#}
+function e22_cleanpkgs() { #HUOM.291125:
+	dqb "e22_cleanpkgs ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
+	[ -z "${1}" ] && exit 56
+
+	if [ -d ${1} ] ; then
+		dqb "cleaning up ${1} "
+		csleep 1
+
+		${NKVD} ${1}/*.deb
+		${NKVD} ${1}/sha512sums.txt
+		#entä ne listat?
+
+		ls -las ${1}/*.deb
+		csleep 2
+		dqb "d0nm3"
+	else
+		dqb "NO SUCH DIR ${1}"
+
+	fi
+
+	dqb "e22_cleanpkgs D0N3"
+	csleep 1
+}
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  , muutokset oikeastaan tdstpn profs.sh
 function e22_settings() { #HUOM.291125:tekee paketin

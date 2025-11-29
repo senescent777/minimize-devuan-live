@@ -346,22 +346,22 @@ case ${mode} in
 #			e22_dblock ${tgtfile} ${d}
 #		fi
 #	;;
-#	t) 
-#		#TODO:vissiin testattava uusiksi koska urputusra näiltä main (291125)
-#		e22_cleanpkgs ${d}
-#		e22_cleanpkgs ${pkgdir}
-#			
-#		message
-#		csleep 3
-#
+	t) 
+		#291125;palautus vaiheessa
+		e22_cleanpkgs ${d}
+		e22_cleanpkgs ${pkgdir}
+			
+		message
+		csleep 3
+
 #		#TODO:e22_gt käyttöön sitten josqs?
 #		e22_tblz ${d} ${iface} ${distro} ${dnsm}
-#		e22_ts ${d}
-#
-#		t=$(echo ${d} | cut -d '/' -f 1-5)
-#		enforce_access ${n} ${t}
-#		e22_arch ${tgtfile} ${d}
-#	;;
+		e22_ts ${d}
+
+		t=$(echo ${d} | cut -d '/' -f 1-5)
+		enforce_access ${n} ${t}
+		e22_arch ${tgtfile} ${d}
+	;;
 	*) #281025:tämäkin toiminee
 		echo "-h"
 		exit
