@@ -354,8 +354,8 @@ case ${mode} in
 		message
 		csleep 3
 
-#		#TODO:e22_gt käyttöön sitten josqs?
-#		e22_tblz ${d} ${iface} ${distro} ${dnsm}
+#		#VAIH:e22_gt käyttöön sitten josqs?
+		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_ts ${d}
 
 		t=$(echo ${d} | cut -d '/' -f 1-5)

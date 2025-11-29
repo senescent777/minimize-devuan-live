@@ -1,7 +1,9 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
 
-function e22_hdr() { #261125:toimii
+function e22_hdr() { #TODO:yestaa uusiksi
+	#291125:"exp2 c" kanssa pelkkä tar vaikutti paremmalta, muidern tapauksien kanssa taas ei, keksisikö jotain?
+
 	dqb "e22hdr():BEFORE "
 	csleep 1
 	[ -z ${1} ] && exit 61
@@ -499,35 +501,35 @@ function aswasw() { #privaatti fktio
 #	dqb "${sharpy} libavahi* #saattaa sotkea ?"
 #	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 #}
-#
-#function e22_ts() { #HUOM.291125:
-#	dqb "e22_ts () ${1} ${2}" #van1 param piyäisi olla tällä - Yoda
-#	csleep 3
-#
-#	[ -z ${1} ] && exit 13
-#	[ -d ${1} ] || exit 14 #hmistossa hyvä olla kirj.oik.
-#	[ -w ${1} ] || exit 15 
-#
-#	dqb "NEXT:mv"
-#	${svm} ${pkgdir}/*.deb ${1}
-#	dqb $?
-#	csleep 2
-#
-#	fasdfasd ${1}/tim3stamp
-#	date > ${1}/tim3stamp
-#
-#	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
-#	dqb "E22TS DONE"
-#	csleep 4
-#}
+
+function e22_ts() { #HUOM.291125:
+	dqb "e22_ts () ${1} ${2}" #van1 param piyäisi olla tällä - Yoda
+	csleep 3
+
+	[ -z ${1} ] && exit 13
+	[ -d ${1} ] || exit 14 #hmistossa hyvä olla kirj.oik.
+	[ -w ${1} ] || exit 15 
+
+	dqb "NEXT:mv"
+	${svm} ${pkgdir}/*.deb ${1}
+	dqb $?
+	csleep 2
+
+	fasdfasd ${1}/tim3stamp
+	date > ${1}/tim3stamp
+
+	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
+	dqb "E22TS DONE"
+	csleep 4
+}
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
 #VAIH:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk? 291125 taisi tulla jokun uusi jurrty testattavaksi, muuten olisi jo OK
+#... se _pkgs* - jutska vielä
 
-function e22_arch() { #291125:tekee paketin
+function e22_arch() { #VAIH:testaus lähiaikoina uusiksi, 291125 tienoilla pientä häikkää (toistuuko?)
 	#261125:uudelleenpakkaus toimi, slim rikkoutui ei-uskonnollisista syistä (Fingerpori)
 	#DONE:se uudelleenpakkaus sittenq avaimet aseNNettu (kts. liittyen: install_keys.bash uusi optio)
-	#TODO:testaus lähiaikoina uusiksi?
 
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
@@ -589,6 +591,10 @@ function e22_arch() { #291125:tekee paketin
 	csleep 1
 	psqa .
 
+	#HUOM.291125:tässä alla tar:in kanssa qsee jokin
+	dqb "srat= ${srat}"
+	csleep 5
+
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt ./sha512sums.txt.sig
 	[ ${debug} -eq 1 ] && ls -las ${1} 
 
@@ -596,62 +602,66 @@ function e22_arch() { #291125:tekee paketin
 	cd ${p}
 	dqb "e22_arch d0n3"
 }
-#
-#function e22_tblz() { #291125:pitäisikö TAAS testata??? (TODO)
-#	#HUOM.28925:vieläkö asentaa avahin?
-#	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
-#
-#	csleep 1
-#	dqb "\$shary= ${shary}"
-#	csleep 2
-#
-#	[ -z ${1} ] && exit 11
-#	[ -d ${1} ] || exit 15 
-#
-#	[ -z ${2} ] && exit 12
-#	[ -z ${3} ] && exit 13
-#	[ -z ${4} ] && exit 14
-#
-#	dqb "parx_ok"
-#	csleep 3
-#
-#	dqb "EDIBLE AUTOPSY"
-#	csleep 1
-#	${fib}
-#	${asy}
-#	csleep 1
-#
-#	#message() tähän?
-#	tpc7	#jotain excaliburiin liittyvää
-#	aswasw ${2}
-#
-#	#TODO:e22gi-tyyppiseen jutskaan tuo ao. rimpsu (osa as2w:n jutuista myös)
-#	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
-#	${shary} iptables
-#	${shary} iptables-persistent init-system-helpers netfilter-persistent
-#
-#	dqb "x2.e22_tblz.part2"
-#	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
-#	csleep 2
-#
-#	udp6 ${1}
-#	#aval0n #tarpeellinen?
-#	
-#	#HUOM.28925.2:onkohan hyvä idea tässä?
-#	for s in ${PART175_LIST} ; do
-#		${sharpy} ${s}*
-#		${NKVD} ${pkgdir}/${s}*
-#	done
-#
-#	${asy}
-#	dqb "BEFORE e22_pre2"
-#	csleep 2
-#
-#	#actually necessary
-#	e22_pre2 ${1} ${3} ${2} ${4} 
-#	other_horrors
-#	dqb "x2.e22_tblz.done"
-#}
+
+function e22_tblz() { #291125:pitäisikö TAAS testata??? (VAIH)
+	#HUOM.28925:vieläkö asentaa avahin?
+	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
+
+	csleep 1
+	dqb "\$shary= ${shary}"
+	csleep 2
+
+	[ -z ${1} ] && exit 11
+	[ -d ${1} ] || exit 15 
+
+	[ -z ${2} ] && exit 12
+	[ -z ${3} ] && exit 13
+	[ -z ${4} ] && exit 14
+
+	dqb "parx_ok"
+	csleep 3
+
+	dqb "EDIBLE AUTOPSY"
+	csleep 1
+	${fib}
+	${asy}
+	csleep 1
+
+	#message() tähän?
+	tpc7	#jotain excaliburiin liittyvää
+	aswasw ${2}
+	
+	E22_GT="libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11"
+	E22_GT="${E22_GT} iptables"
+	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
+
+	#VAIH:e22gi-tyyppiseen jutskaan tuo ao. rimpsu (osa as2w:n jutuista myös)
+	#${shary} 
+	#${shary} 
+	${shary} ${E22_GT} 
+
+	dqb "x2.e22_tblz.part2"
+	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
+	csleep 2
+
+	udp6 ${1}
+	#aval0n #tarpeellinen?
+	
+	#HUOM.28925.2:onkohan hyvä idea tässä?
+	for s in ${PART175_LIST} ; do
+		${sharpy} ${s}*
+		${NKVD} ${pkgdir}/${s}*
+	done
+
+	${asy}
+	dqb "BEFORE e22_pre2"
+	csleep 2
+
+	#actually necessary
+	e22_pre2 ${1} ${3} ${2} ${4} 
+	other_horrors
+	dqb "x2.e22_tblz.done"
+}
 
 #TODO:ntp-jutut takaisin josqs?
 function e22_other_pkgs() { #261125:ok nykyään
