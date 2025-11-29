@@ -163,7 +163,7 @@ csleep 1
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
-	f) 	#241125:joskohan nykyään jo toimisi
+	f) 	#291125:joskohan nykyään jo toimisi
 		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(VAIH)
 		#251125:saisiko pakotettua alemman case:n kanssa toimimaan?		
 		#VAIH:testaa uusiksi, se uudelleenpaqq, siis sittenq avaimet asennettu(MUISTA PRKL ASENTAA!!!)
@@ -210,16 +210,16 @@ case ${mode} in
 #		e22_ftr ${tgtfile}
 #		exit
 #	;;
-#	g)
-#		#HUOM.261125:testAttu että komennoilla saa paketin aikaan
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-#		dqb "sudo apt-get update"
-#
-#		echo "${shary} ${E22GI}"
-#		echo "${svm} ${pkgdir}/*.deb ${d}" #oli se e22_ts() kanssa
-#		echo "$0 f ${tgtfile} ${distro}"
-#		exit 1
-#	;;
+	g)
+		#HUOM.291125:
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
+		dqb "${sag_u} | ${fib} when necessary " 
+
+		echo "${shary} ${E22GI}"
+		echo "${svm} ${pkgdir}/*.deb ${d}" #oli se e22_ts() kanssa
+		echo "$0 f ${tgtfile} ${distro}"
+		exit 1
+	;;
 #	å) #241125:testattu, oksentaa toimivia komentoja, lisäksi:
 #	#1. libgtkmm ja libpangomm  riippuvuuksineen aiheutti nalkutusta, pitäisi niitä listoja päivittää vissiin + riippuvuuksien kanssa vielä iterointia
 #	#2. "$0 f" tekemä paketti ei paskonut:slim
@@ -317,7 +317,7 @@ case ${mode} in
 #		enforce_access ${n} ${t}
 #		e22_arch ${tgtfile} ${d}
 #	;;
-	p) #HUOM.291125;
+	p) #HUOM.291125;tekee pak
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
 #	e)

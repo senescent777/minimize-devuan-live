@@ -19,7 +19,7 @@ function e22_hdr() { #261125:toimii
 	csleep 1
 }
 
-function e22_ftr() { #271125:toimii, allekIRjoituskin qhan av asennettu (install_keys uusi optio)
+function e22_ftr() { #291125:toiumii toistaiseksi
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -520,82 +520,82 @@ function aswasw() { #privaatti fktio
 #	dqb "E22TS DONE"
 #	csleep 4
 #}
-#
-##HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-##VAIH:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk? 291125 taisi tulla jokun uusi jurrty testattavaksi, muuten olisi jo OK
-#
-#function e22_arch() { #TODO:testaa uusiksi koska urputus (291125)
-#	#261125:uudelleenpakkaus toimi, slim rikkoutui ei-uskonnollisista syistä (Fingerpori)
-#	#DONE:se uudelleenpakkaus sittenq avaimet aseNNettu (kts. liittyen: install_keys.bash uusi optio)
-#	#TODO:testaus lähiaikoina uusiksi?
-#
-#	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
-#	csleep 1
-#
-#	[ -z ${1} ] && exit 1
-#	#[ -s ${1} ] || exit 2 #kutsuvaan koodiin e22_hdr() vai ei? toiSTAIseksi näin
-#	#[ -w ${1} ] || exit 33
-#
-#	[ -z ${2} ] && exit 11
-#	[ -d ${2} ] || exit 22
-#	[ -w ${2} ] || exit 44
-#
-#	dqb "paramz_ok"
-#	csleep 1
-#
-#	p=$(pwd)
-#	csleep 1
-#	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
-#
-#	if [ -f ${2}/sha512sums.txt ] ; then
-#		dqb "rem0v1ng pr3v1oisu shasums"
-#		csleep 1
-#
-#		${NKVD} ${2}/sha512sums.txt*
-#	else
-#		dqb "JGFIGFIYT"
-#	fi
-#
-#	csleep 1
-#	local c
-#	c=$(find ${2} -type f -name '*.deb' | wc -l)
-#
-#	if [ ${c} -lt 1 ] ; then
-#		echo "TH3R3 1S N0 F15H"
-#		exit 55
-#	fi
-#
-#	dqb "KJHGOUYFIYT"
-#	csleep 1
-#
-#	${scm} 0444 ${2}/*.deb
-#	fasdfasd ${2}/sha512sums.txt
-#	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
-#
-#	cd ${2}
-#	echo $?
-#	${sah6} ./*.deb > ./sha512sums.txt
-#	#TODO:tähän ne _pkgs mukaan sums:iin ?	
-#	csleep 1
-#
-#	#tämä ennen pasq() ?
-#	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #jälkimmäinen ohto jatkossa "-v CONF_xxx"
-#		dqb "GGU"
-#		csleep 1
-#		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
-#		dqb "GHATS"
-#	fi
-#
-#	csleep 1
-#	psqa .
-#
-#	${srat} -rf ${1} ./*.deb ./sha512sums.txt ./sha512sums.txt.sig
-#	[ ${debug} -eq 1 ] && ls -las ${1} 
-#
-#	csleep 1
-#	cd ${p}
-#	dqb "e22_arch d0n3"
-#}
+
+#HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
+#VAIH:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk? 291125 taisi tulla jokun uusi jurrty testattavaksi, muuten olisi jo OK
+
+function e22_arch() { #291125:tekee paketin
+	#261125:uudelleenpakkaus toimi, slim rikkoutui ei-uskonnollisista syistä (Fingerpori)
+	#DONE:se uudelleenpakkaus sittenq avaimet aseNNettu (kts. liittyen: install_keys.bash uusi optio)
+	#TODO:testaus lähiaikoina uusiksi?
+
+	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
+	csleep 1
+
+	[ -z ${1} ] && exit 1
+	#[ -s ${1} ] || exit 2 #kutsuvaan koodiin e22_hdr() vai ei? toiSTAIseksi näin
+	#[ -w ${1} ] || exit 33
+
+	[ -z ${2} ] && exit 11
+	[ -d ${2} ] || exit 22
+	[ -w ${2} ] || exit 44
+
+	dqb "paramz_ok"
+	csleep 1
+
+	p=$(pwd)
+	csleep 1
+	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
+
+	if [ -f ${2}/sha512sums.txt ] ; then
+		dqb "rem0v1ng pr3v1oisu shasums"
+		csleep 1
+
+		${NKVD} ${2}/sha512sums.txt*
+	else
+		dqb "JGFIGFIYT"
+	fi
+
+	csleep 1
+	local c
+	c=$(find ${2} -type f -name '*.deb' | wc -l)
+
+	if [ ${c} -lt 1 ] ; then
+		echo "TH3R3 1S N0 F15H"
+		exit 55
+	fi
+
+	dqb "KJHGOUYFIYT"
+	csleep 1
+
+	${scm} 0444 ${2}/*.deb
+	fasdfasd ${2}/sha512sums.txt
+	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+
+	cd ${2}
+	echo $?
+	${sah6} ./*.deb > ./sha512sums.txt
+	#TODO:tähän ne _pkgs mukaan sums:iin ?	
+	csleep 1
+
+	#tämä ennen pasq() ?
+	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #jälkimmäinen ohto jatkossa "-v CONF_xxx"
+		dqb "GGU"
+		csleep 1
+		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
+		dqb "GHATS"
+	fi
+
+	csleep 1
+	psqa .
+
+	${srat} -rf ${1} ./*.deb ./sha512sums.txt ./sha512sums.txt.sig
+	[ ${debug} -eq 1 ] && ls -las ${1} 
+
+	csleep 1
+	cd ${p}
+	dqb "e22_arch d0n3"
+}
 #
 #function e22_tblz() { #291125:pitäisikö TAAS testata??? (TODO)
 #	#HUOM.28925:vieläkö asentaa avahin?
