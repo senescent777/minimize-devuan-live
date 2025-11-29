@@ -31,6 +31,7 @@ else
 		[ y"${odio}" == "y" ] && exit 99 
 		[ -x ${odio} ] || exit 100
 		
+		#291125:uskaltaisikoyhan nämä siirtää ulos fktiosta, if-blokin jälkeen ?
 		sco=$(sudo which chown)
 		[ y"${sco}" == "y" ] && exit 98
 		[ -x ${sco} ] || exit 97
@@ -108,6 +109,7 @@ function ocs() {
 	fi
 }
 
+#function check_bin_0() ?
 ocs sha512sum
 #HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
 sah6=$(${odio} which sha512sum)
@@ -183,6 +185,7 @@ if [ -v n ] ; then
 else
 	n=$(whoami)
 fi
+#/function
 
 function jules() {
 	dqb "LE BIG MAC"
@@ -204,6 +207,7 @@ function message() {
 	sleep 1
 }
 
+#TODO:testaustarkoituksissa kiekolle asti ne juk av? kiekkoa luodessa siis .bz2 sinne v-hmistoon missä pub_keys...
 function psqa() {
 	dqb "Q ${1}"
 	csleep 3
@@ -244,7 +248,7 @@ function psqa() {
 				csleep 2
 
 				${gg} --verify ./sha512sums.txt.sig
-				[ $? -eq 0 ] || dqb "TODO:imp2 k !!!!!"				
+				[ $? -eq 0 ] || dqb "SHOULD imp2 k \$dir !!!"				
 				csleep 2
 			fi
 		fi
@@ -313,6 +317,9 @@ function efk2() { #jotain kautta tätäkin kai kutsuttiin
 	csleep 1
 }
 
+#291125:clib-fktioita kustuvaan koodiin tarkistus että _pkkgs-jutut täsmäävät tuuvisteisiin ja allek? 
+#... tai siis jos e22_a() ottaisi mukaan shasums:iin...
+#
 #clib5p ja clibpre pystyisi yhdistämään
 function clib5p() {
 	dqb "clib5p( ${1}  , ${2}) "
