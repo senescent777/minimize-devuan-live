@@ -176,7 +176,7 @@ case ${mode} in
 	;;
 	q)
 		#HUOM.261125:tekee edelleen paketin
-		#271125:paketti sisälsi silloin validia sisältöä
+		#2?1125:thety paketti sisälsi silloin validia sisältöä
 		#btw. ffox 147 muutokset enemmän profs.sh asia
 
 		${sifd} ${iface}
@@ -334,21 +334,18 @@ case ${mode} in
 		fi
 	;;
 	t) 
-		#241125 ensimmäisellä yrityksellä ei saanut aikaiseksi .deb-pak sis tar, uusi yritys kohta
-		#toisella syntyi jo toimiva pak
-		#261125:teki paketin, toimivuus kai testattava
-
+		#TODO:vissiin testattava uusiksi koska urputusra näiltä main (291125)
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
 			
 		message
-		csleep 6
+		csleep 3
 
 		#TODO:e22_gt käyttöön sitten josqs?
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_ts ${d}
 
-		t=$(echo ${d} | cut -d '/' -f 1-5) #josko nyt?
+		t=$(echo ${d} | cut -d '/' -f 1-5)
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 	;;

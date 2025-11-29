@@ -53,7 +53,6 @@ if [ -f /.chroot ] ; then
 
 	#HUOM.141025:them files should be checked before eztraxting
 	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
-		#VAIH:tähän jotain (olisikohan jo ok 291125?)
 		tar -jxvf ${f}
 		sleep 1
 		
@@ -157,7 +156,7 @@ else
 	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE"
 fi
 
-#291125:josko toimisi sq-chroot-ympoäristössä, sen ulkpuolella:
+#291125:josko toimisi sq-chroot-ympoäristössä, sen ulkpuolella:vissiin
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
@@ -234,7 +233,7 @@ function common_part() {
 }
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#291125:vähän testailtu sq-chr-ympäristössä, siellä vielä kiukutteli mutta miten ulkpuolella?
+#291125:vähän testailtu sq-chr-ympäristössä, siellä vielä kiukutteli mutta miten ulkpuolella? (TODO)
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
@@ -337,17 +336,17 @@ dqb "srcfile=${srcfile}"
 csleep 3
 
 case "${mode}" in
-	r) # toimi 261125 (testaapa uudestaan, TODO)
+	r) # toimi 261125, tais toimia myös 291125 (testaapa uudestaan, TODO)
 	#kutsutaan muuten g_doit kautta
 		[ -d ${srcfile} ] || exit 22
 		tpr ${srcfile}
 	;;
-	1) # toimi 261125 (testaapa uudestaan)
+	1) # toimi 261125 (testaapa uudestaan, TODO)
 		common_part ${srcfile} ${d} /
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
-	0|3) #291125:case 3 toimii jo sq-chr-ynp kanssa, luulisin
+	0|3) #291125:case 3 toimii jo sq-chr-ynp kanssa, luulisin että live-ymp myös
 		#TODO:selvitä, toimiiko case 0? jnpp
 		echo "ZER0 S0UND"
 		csleep 1
@@ -376,17 +375,16 @@ case "${mode}" in
 	;;
 	q)
 		#291125:testattu alustavasti sq-chr-ympoäöristlssö missä kiukutrteluya
-		#TODO:testaa uusiksi live.ympäristlssö
+		#TODO:testaa uusiksi live.ympäristössö sittenq exp2 kiukuttelut hoidettu
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
-		#VAIH:rässä oli jotain
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
 		common_part ${srcfile} ${d} /
 		tpr ${d0}
 	;;
 	k)
-		#291125:toimii sq-chroot alla
+		#291125:toimii sq-chroot alla (TODO:testaa live-ymp kanssa?)
 		dqb "# . / import2.sh k / pad -v"
 
 		[ -d ${srcfile} ] || exit 22

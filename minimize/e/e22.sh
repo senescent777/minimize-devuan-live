@@ -148,29 +148,29 @@ function e22_pre2() { #HUOM.261125;toimii
 	sleep 2
 }
 
-function e22_cleanpkgs() { #HUOM.261125:toimii 
-	dqb "e22_cleanpkgs ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
-	[ -z "${1}" ] && exit 56
-
-	if [ -d ${1} ] ; then
-		dqb "cleaning up ${1} "
-		csleep 1
-
-		${NKVD} ${1}/*.deb
-		${NKVD} ${1}/sha512sums.txt
-		#entä ne listat?
-
-		ls -las ${1}/*.deb
-		csleep 2
-		dqb "d0nm3"
-	else
-		dqb "NO SUCH DIR ${1}"
-
-	fi
-
-	dqb "e22_cleanpkgs D0N3"
-	csleep 1
-}
+#function e22_cleanpkgs() { #HUOM.291125:
+#	dqb "e22_cleanpkgs ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
+#	[ -z "${1}" ] && exit 56
+#
+#	if [ -d ${1} ] ; then
+#		dqb "cleaning up ${1} "
+#		csleep 1
+#
+#		${NKVD} ${1}/*.deb
+#		${NKVD} ${1}/sha512sums.txt
+#		#entä ne listat?
+#
+#		ls -las ${1}/*.deb
+#		csleep 2
+#		dqb "d0nm3"
+#	else
+#		dqb "NO SUCH DIR ${1}"
+#
+#	fi
+#
+#	dqb "e22_cleanpkgs D0N3"
+#	csleep 1
+#}
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  , muutokset oikeastaan tdstpn profs.sh
 function e22_settings() { #HUOM.261125:toimii toistaiseksi?
@@ -498,158 +498,159 @@ function aswasw() { #privaatti fktio
 #	dqb "${sharpy} libavahi* #saattaa sotkea ?"
 #	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 #}
-
-function e22_ts() { #HUOM.261125:toimii
-	dqb "e22_ts () ${1} ${2}" #van1 param piyäisi olla tällä - Yoda
-	csleep 3
-
-	[ -z ${1} ] && exit 13
-	[ -d ${1} ] || exit 14 #hmistossa hyvä olla kirj.oik.
-	[ -w ${1} ] || exit 15 
-
-	dqb "NEXT:mv"
-	${svm} ${pkgdir}/*.deb ${1}
-	dqb $?
-	csleep 2
-
-	fasdfasd ${1}/tim3stamp
-	date > ${1}/tim3stamp
-
-	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
-	dqb "E22TS DONE"
-	csleep 4
-}
-
-#HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-#VAIH:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk?
-
-function e22_arch() { #261125:uudelleenpakkaus toimii nykyään, slim rikkoutuu ei-uskonnollisista syistä
-	#DONE:se uudelleenpakkaus sittenq avaimet aseNNettu (kts. liittyen: install_keys.bash uusi optio)
-	#TODO:testaus lähiaikoina uusiksi?
-
-	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
-	csleep 1
-
-	[ -z ${1} ] && exit 1
-	#[ -s ${1} ] || exit 2 #kutsuvaan koodiin e22_hdr() vai ei? toiSTAIseksi näin
-	#[ -w ${1} ] || exit 33
-
-	[ -z ${2} ] && exit 11
-	[ -d ${2} ] || exit 22
-	[ -w ${2} ] || exit 44
-
-	dqb "paramz_ok"
-	csleep 1
-
-	p=$(pwd)
-	csleep 1
-	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
-
-	if [ -f ${2}/sha512sums.txt ] ; then
-		dqb "rem0v1ng pr3v1oisu shasums"
-		csleep 1
-
-		${NKVD} ${2}/sha512sums.txt*
-	else
-		dqb "JGFIGFIYT"
-	fi
-
-	csleep 1
-	local c
-	c=$(find ${2} -type f -name '*.deb' | wc -l)
-
-	if [ ${c} -lt 1 ] ; then
-		echo "TH3R3 1S N0 F15H"
-		exit 55
-	fi
-
-	dqb "KJHGOUYFIYT"
-	csleep 1
-
-	${scm} 0444 ${2}/*.deb
-	fasdfasd ${2}/sha512sums.txt
-	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
-
-	cd ${2}
-	echo $?
-	${sah6} ./*.deb > ./sha512sums.txt
-	#TODO:tähän ne _pkgs mukaan sums:iin ?	
-	csleep 1
-
-	#tämä ennen pasq() ?
-	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #jälkimmäinen ohto jatkossa "-v CONF_xxx"
-		dqb "GGU"
-		csleep 1
-		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
-		dqb "GHATS"
-	fi
-
-	csleep 1
-	psqa .
-
-	${srat} -rf ${1} ./*.deb ./sha512sums.txt ./sha512sums.txt.sig
-	[ ${debug} -eq 1 ] && ls -las ${1} 
-
-	csleep 1
-	cd ${p}
-	dqb "e22_arch d0n3"
-}
-
-function e22_tblz() { #261125:edelleen tekee paketin missä toivottavaa sisältöä
-	#HUOM.28925:vieläkö asentaa avahin?
-	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
-
-	csleep 1
-	dqb "\$shary= ${shary}"
-	csleep 2
-
-	[ -z ${1} ] && exit 11
-	[ -d ${1} ] || exit 15 
-
-	[ -z ${2} ] && exit 12
-	[ -z ${3} ] && exit 13
-	[ -z ${4} ] && exit 14
-
-	dqb "parx_ok"
-	csleep 3
-
-	dqb "EDIBLE AUTOPSY"
-	csleep 1
-	${fib}
-	${asy}
-	csleep 1
-
-	#message() tähän?
-	tpc7	#jotain excaliburiin liittyvää
-	aswasw ${2}
-
-	#TODO:e22gi-tyyppiseen jutskaan tuo ao. rimpsu (osa as2w:n jutuista myös)
-	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
-	${shary} iptables
-	${shary} iptables-persistent init-system-helpers netfilter-persistent
-
-	dqb "x2.e22_tblz.part2"
-	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
-	csleep 2
-
-	udp6 ${1}
-	#aval0n #tarpeellinen?
-	
-	#HUOM.28925.2:onkohan hyvä idea tässä?
-	for s in ${PART175_LIST} ; do
-		${sharpy} ${s}*
-		${NKVD} ${pkgdir}/${s}*
-	done
-
-	${asy}
-	dqb "BEFORE e22_pre2"
-	csleep 2
-
-	#actually necessary
-	e22_pre2 ${1} ${3} ${2} ${4} 
-	other_horrors
-	dqb "x2.e22_tblz.done"
-}
+#
+#function e22_ts() { #HUOM.291125:
+#	dqb "e22_ts () ${1} ${2}" #van1 param piyäisi olla tällä - Yoda
+#	csleep 3
+#
+#	[ -z ${1} ] && exit 13
+#	[ -d ${1} ] || exit 14 #hmistossa hyvä olla kirj.oik.
+#	[ -w ${1} ] || exit 15 
+#
+#	dqb "NEXT:mv"
+#	${svm} ${pkgdir}/*.deb ${1}
+#	dqb $?
+#	csleep 2
+#
+#	fasdfasd ${1}/tim3stamp
+#	date > ${1}/tim3stamp
+#
+#	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
+#	dqb "E22TS DONE"
+#	csleep 4
+#}
+#
+##HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
+##VAIH:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk? 291125 taisi tulla jokun uusi jurrty testattavaksi, muuten olisi jo OK
+#
+#function e22_arch() { #TODO:testaa uusiksi koska urputus (291125)
+#	#261125:uudelleenpakkaus toimi, slim rikkoutui ei-uskonnollisista syistä (Fingerpori)
+#	#DONE:se uudelleenpakkaus sittenq avaimet aseNNettu (kts. liittyen: install_keys.bash uusi optio)
+#	#TODO:testaus lähiaikoina uusiksi?
+#
+#	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
+#	csleep 1
+#
+#	[ -z ${1} ] && exit 1
+#	#[ -s ${1} ] || exit 2 #kutsuvaan koodiin e22_hdr() vai ei? toiSTAIseksi näin
+#	#[ -w ${1} ] || exit 33
+#
+#	[ -z ${2} ] && exit 11
+#	[ -d ${2} ] || exit 22
+#	[ -w ${2} ] || exit 44
+#
+#	dqb "paramz_ok"
+#	csleep 1
+#
+#	p=$(pwd)
+#	csleep 1
+#	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
+#
+#	if [ -f ${2}/sha512sums.txt ] ; then
+#		dqb "rem0v1ng pr3v1oisu shasums"
+#		csleep 1
+#
+#		${NKVD} ${2}/sha512sums.txt*
+#	else
+#		dqb "JGFIGFIYT"
+#	fi
+#
+#	csleep 1
+#	local c
+#	c=$(find ${2} -type f -name '*.deb' | wc -l)
+#
+#	if [ ${c} -lt 1 ] ; then
+#		echo "TH3R3 1S N0 F15H"
+#		exit 55
+#	fi
+#
+#	dqb "KJHGOUYFIYT"
+#	csleep 1
+#
+#	${scm} 0444 ${2}/*.deb
+#	fasdfasd ${2}/sha512sums.txt
+#	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+#
+#	cd ${2}
+#	echo $?
+#	${sah6} ./*.deb > ./sha512sums.txt
+#	#TODO:tähän ne _pkgs mukaan sums:iin ?	
+#	csleep 1
+#
+#	#tämä ennen pasq() ?
+#	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #jälkimmäinen ohto jatkossa "-v CONF_xxx"
+#		dqb "GGU"
+#		csleep 1
+#		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
+#		dqb "GHATS"
+#	fi
+#
+#	csleep 1
+#	psqa .
+#
+#	${srat} -rf ${1} ./*.deb ./sha512sums.txt ./sha512sums.txt.sig
+#	[ ${debug} -eq 1 ] && ls -las ${1} 
+#
+#	csleep 1
+#	cd ${p}
+#	dqb "e22_arch d0n3"
+#}
+#
+#function e22_tblz() { #291125:pitäisikö TAAS testata??? (TODO)
+#	#HUOM.28925:vieläkö asentaa avahin?
+#	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
+#
+#	csleep 1
+#	dqb "\$shary= ${shary}"
+#	csleep 2
+#
+#	[ -z ${1} ] && exit 11
+#	[ -d ${1} ] || exit 15 
+#
+#	[ -z ${2} ] && exit 12
+#	[ -z ${3} ] && exit 13
+#	[ -z ${4} ] && exit 14
+#
+#	dqb "parx_ok"
+#	csleep 3
+#
+#	dqb "EDIBLE AUTOPSY"
+#	csleep 1
+#	${fib}
+#	${asy}
+#	csleep 1
+#
+#	#message() tähän?
+#	tpc7	#jotain excaliburiin liittyvää
+#	aswasw ${2}
+#
+#	#TODO:e22gi-tyyppiseen jutskaan tuo ao. rimpsu (osa as2w:n jutuista myös)
+#	${shary} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11
+#	${shary} iptables
+#	${shary} iptables-persistent init-system-helpers netfilter-persistent
+#
+#	dqb "x2.e22_tblz.part2"
+#	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
+#	csleep 2
+#
+#	udp6 ${1}
+#	#aval0n #tarpeellinen?
+#	
+#	#HUOM.28925.2:onkohan hyvä idea tässä?
+#	for s in ${PART175_LIST} ; do
+#		${sharpy} ${s}*
+#		${NKVD} ${pkgdir}/${s}*
+#	done
+#
+#	${asy}
+#	dqb "BEFORE e22_pre2"
+#	csleep 2
+#
+#	#actually necessary
+#	e22_pre2 ${1} ${3} ${2} ${4} 
+#	other_horrors
+#	dqb "x2.e22_tblz.done"
+#}
 
 #TODO:ntp-jutut takaisin josqs?
 function e22_other_pkgs() { #261125:ok nykyään
