@@ -31,6 +31,7 @@ else
 		[ y"${odio}" == "y" ] && exit 99 
 		[ -x ${odio} ] || exit 100
 		
+		#291125:uskaltaisikoyhan nämä siirtää ulos fktiosta, if-blokin jälkeen ?
 		sco=$(sudo which chown)
 		[ y"${sco}" == "y" ] && exit 98
 		[ -x ${sco} ] || exit 97
@@ -108,81 +109,85 @@ function ocs() {
 	fi
 }
 
-ocs sha512sum
-#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
-sah6=$(${odio} which sha512sum)
+function check_bin_0() {
+	ocs sha512sum
+	#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
+	sah6=$(${odio} which sha512sum)
 
-ocs dpkg
-sd0=$(${odio} which dpkg)
-[ -v sd0 ] || exit 78
-[ -z ${sd0} ] && exit 79
-
-unset sdi #tekeeko tämä jotain? kyl , kts check_bin ,, "second half"
-dqb "SFDSFDSFDSFDSFDSFDSFDSFDS"
-csleep 3
-
-ocs tar
-unset sr0
-sr0=$(${odio} which tar)
-[ -v sr0 ] || exit 80
-[ -z ${sr0} ] && exit 81 #sr0 bai sd0?
-
-slinky=$(${odio} which ln)
-slinky="${odio} ${slinky} -s "
-spc=$(${odio} which cp)
-svm=$(${odio} which mv)
-svm="${odio} ${svm} "
-spc="${odio} ${spc} "
-whack=$(${odio} which pkill)
-whack="${odio} ${whack} --signal 9 "
-snt=$(${odio} which netstat)
-snt="${odio} ${snt} -tulpan "
-smr=$(${odio} which rm)	
-smr="${odio} ${smr} "
-
-NKVD=$(${odio} which shred)
-NKVD="${NKVD} -fu "
-NKVD="${odio} ${NKVD} "
+	ocs dpkg
+	sd0=$(${odio} which dpkg)
+	[ -v sd0 ] || exit 78
+	[ -z ${sd0} ] && exit 79
 	
-#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
-PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" 
-# ntp" ntp jemmaan 28525 #slim kokeeksi mukaan listaan 271125, hiiri lakkasi toimimasta
-#HUOM.excalibur ei sisällä:dnsmasq,stubby
+	unset sdi #tekeeko tämä jotain? kyl , kts check_bin ,, "second half"
+	dqb "SFDSFDSFDSFDSFDSFDSFDSFDS"
+	csleep 3
 
-#HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!
-#sdi=$(${odio} which dpkg)
-#spd="${odio} ${sdi} -l " #jäänyt turhaksi muuten mutta g_pt2
-#sdi="${odio} ${sdi} -i "
-csleep 3
+	ocs tar
+	unset sr0
+	sr0=$(${odio} which tar)
+	[ -v sr0 ] || exit 80
+	[ -z ${sr0} ] && exit 81 #sr0 bai sd0?
 
-sifu=$(${odio} which ifup)
-sifd=$(${odio} which ifdown)
-sip=$(${odio} which ip)
-sip="${odio} ${sip} "
+	slinky=$(${odio} which ln)
+	slinky="${odio} ${slinky} -s "
+	spc=$(${odio} which cp)
+	svm=$(${odio} which mv)
+	svm="${odio} ${svm} "
+	spc="${odio} ${spc} "
+	whack=$(${odio} which pkill)
+	whack="${odio} ${whack} --signal 9 "
+	snt=$(${odio} which netstat)
+	snt="${odio} ${snt} -tulpan "
+	smr=$(${odio} which rm)	
+	smr="${odio} ${smr} "
 
-#gg=$(${odio} which gpg)
-gv=$(${odio} which gpgv)
-#gi=$(${odio} which genisoimage)
-#gmk=$(${odio} which grub-mkrescue)
-#xi=$(${odio} which xorriso)
-smd=$(${odio} which mkdir)
-sca=$(${odio} which chattr)
-sca="${odio} ${sca}"
-mkt=$(${odio} which mktemp)
-tig=$(${odio} which git)
-gg=$(${odio} which gpg)
+	NKVD=$(${odio} which shred)
+	NKVD="${NKVD} -fu "
+	NKVD="${odio} ${NKVD} "
+	
+	#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
+	PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" 
+	# ntp" ntp jemmaan 28525 #slim kokeeksi mukaan listaan 271125, hiiri lakkasi toimimasta
+	#HUOM.excalibur ei sisällä:dnsmasq,stubby
 
-if [ -v distro ] ; then 
-	dqb "DUSTRO OK"
-else
-	distro=$(cat /etc/devuan_version)
-fi
+	#HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!
+	#sdi=$(${odio} which dpkg)
+	#spd="${odio} ${sdi} -l " #jäänyt turhaksi muuten mutta g_pt2
+	#sdi="${odio} ${sdi} -i "
+	csleep 3
 
-if [ -v n ] ; then
-	dqb "n OK"
-else
-	n=$(whoami)
-fi
+	sifu=$(${odio} which ifup)
+	sifd=$(${odio} which ifdown)
+	sip=$(${odio} which ip)
+	sip="${odio} ${sip} "
+
+	#gg=$(${odio} which gpg)
+	gv=$(${odio} which gpgv)
+	#gi=$(${odio} which genisoimage)
+	#gmk=$(${odio} which grub-mkrescue)
+	#xi=$(${odio} which xorriso)
+	smd=$(${odio} which mkdir)
+	sca=$(${odio} which chattr)
+	sca="${odio} ${sca}"
+	mkt=$(${odio} which mktemp)
+	tig=$(${odio} which git)
+	gg=$(${odio} which gpg)
+
+	if [ -v distro ] ; then 
+		dqb "DUSTRO OK"
+	else
+		distro=$(cat /etc/devuan_version)
+	fi
+
+	if [ -v n ] ; then
+		dqb "n OK"
+	else
+		n=$(whoami)
+	fi
+}
+
+check_bin_0
 
 function jules() {
 	dqb "LE BIG MAC"
@@ -204,6 +209,7 @@ function message() {
 	sleep 1
 }
 
+#TODO:testaustarkoituksissa kiekolle asti ne juk av? kiekkoa luodessa siis .bz2 sinne v-hmistoon missä pub_keys...
 function psqa() {
 	dqb "Q ${1}"
 	csleep 3
@@ -244,7 +250,7 @@ function psqa() {
 				csleep 2
 
 				${gg} --verify ./sha512sums.txt.sig
-				[ $? -eq 0 ] || dqb "TODO:imp2 k !!!!!"				
+				[ $? -eq 0 ] || dqb "SHOULD imp2 k \$dir !!!"				
 				csleep 2
 			fi
 		fi
@@ -313,6 +319,9 @@ function efk2() { #jotain kautta tätäkin kai kutsuttiin
 	csleep 1
 }
 
+#291125:clib-fktioita kustuvaan koodiin tarkistus että _pkkgs-jutut täsmäävät tuuvisteisiin ja allek? 
+#... tai siis jos e22_a() ottaisi mukaan shasums:iin...
+#
 #clib5p ja clibpre pystyisi yhdistämään
 function clib5p() {
 	dqb "clib5p( ${1}  , ${2}) "
@@ -486,14 +495,16 @@ function check_binaries() {
 	[ -v sr0 ] || exit 102
 	[ -v ipt ] || exit 103
 	[ -v smd ] || exit 104
+
 	srat=${sr0}
-		
+	sdi="${odio} ${sd0} -i "	
+
 	if [ ${debug} -eq 1 ] ; then
 		srat="${srat} -v "
 	fi
 	
-	sdi="${odio} ${sd0} -i "
-
+	
+	#TODO:jatkooksi gpg-jutut, Jotenkin ?
 	if [ -z "${ipt}" ] ; then
 		[ -z ${1} ] && exit 99
 		dqb "-d ${1} existsts?"
