@@ -60,6 +60,8 @@ sleep 1
 dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
+
+#291125:ni3mämistä jos vähän miettisi ao. ja 2_5 suhteen ?
 part076 ${distro}
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
@@ -190,11 +192,13 @@ part2_5 ${removepkgs} ${dnsm} ${iface}
 
 #===================================================PART 3===========================================================
 message
+
+#291125:kokeeksi käskyttämään "imp2 3" tässä kohtaa?
 part3 ${d}
 other_horrors
 
 dqb "BEFORE IMP2"
-csleep 10
+csleep 5
 
 if [ ! -f /.chroot ] ; then
 	${d0}/import2.sh r ${d0} -v #2. ja 3. param. turhia?
