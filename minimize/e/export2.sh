@@ -195,32 +195,32 @@ case ${mode} in
 		csleep 3
 		exit
 	;;
-	c)
-		#VAIH:testaa uusiksi (tekee paketin, purkautuukin, alkaisikohan olla 291125 aikana sisältö kunnossa?)
-		#HUOM:olisi hyvä olemassa sellainen bz3 tai bz2 missä julk av (ellei sitten jtnkn toisin)		
-		#HUOM.2:nuo _pkgs  jutut olisi hyvä saada tarkistuksen alaiseksi, kuitenkin s.e. eivät tulisi sotkemaan asioita		
-
-		cd ${d0}
-		for f in $(find . -type f -name '*.sh' | grep -v 'e/' | grep -v 'olds/') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
-		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/' | grep -v 'olds/)  ; do ${srat} -rvf ${tgtfile} ${f} ; done
-				
-		bzip2 ${tgtfile}
-		mv ${tgtfile}.bz2 ${tgtfile}.bz3
-		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
-
-		e22_ftr ${tgtfile}
-		exit
-	;;
-	g)
-		#HUOM.261125:testAttu että komennoilla saa paketin aikaan
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-		dqb "sudo apt-get update"
-
-		echo "${shary} ${E22GI}"
-		echo "${svm} ${pkgdir}/*.deb ${d}" #oli se e22_ts() kanssa
-		echo "$0 f ${tgtfile} ${distro}"
-		exit 1
-	;;
+#	c) #291125:TÄSSÄKÖ SE BUGI ON PRKL???
+#		#VAIH:testaa uusiksi (tekee paketin, purkautuukin, alkaisikohan olla 291125 aikana sisältö kunnossa?)
+#		#HUOM:olisi hyvä olemassa sellainen bz3 tai bz2 missä julk av (ellei sitten jtnkn toisin)		
+#		#HUOM.2:nuo _pkgs  jutut olisi hyvä saada tarkistuksen alaiseksi, kuitenkin s.e. eivät tulisi sotkemaan asioita		
+#
+#		cd ${d0}
+#		for f in $(find . -type f -name '*.sh' | grep -v 'e/' | grep -v 'olds/') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
+#		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/' | grep -v 'olds/)  ; do ${srat} -rvf ${tgtfile} ${f} ; done
+#				
+#		bzip2 ${tgtfile}
+#		mv ${tgtfile}.bz2 ${tgtfile}.bz3
+#		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
+#
+#		e22_ftr ${tgtfile}
+#		exit
+#	;;
+#	g)
+#		#HUOM.261125:testAttu että komennoilla saa paketin aikaan
+#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
+#		dqb "sudo apt-get update"
+#
+#		echo "${shary} ${E22GI}"
+#		echo "${svm} ${pkgdir}/*.deb ${d}" #oli se e22_ts() kanssa
+#		echo "$0 f ${tgtfile} ${distro}"
+#		exit 1
+#	;;
 #	å) #241125:testattu, oksentaa toimivia komentoja, lisäksi:
 #	#1. libgtkmm ja libpangomm  riippuvuuksineen aiheutti nalkutusta, pitäisi niitä listoja päivittää vissiin + riippuvuuksien kanssa vielä iterointia
 #	#2. "$0 f" tekemä paketti ei paskonut:slim
@@ -248,107 +248,108 @@ e22_pre1 ${d} ${distro}
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
-[ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59" #tilapäisesti jemmaan kunnes x
+#291125:voiko sen exitin jo laittaa takaiusin vai ei?
+[ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59"
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 
 e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
-	#VAIH:johdonmukaisuuden vuoksi 3|4) jatkossa
-	0)
-		echo "NOT SUPPORTED ANYMORE"
-		exit 99
-	;;
-	3|4) #261125:case 0 teki silloin toimivan paketin
-		#291125:case 4 teki toimivan paketin 
-		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
-		csleep 3
-
-		e22_ext ${tgtfile} ${distro} ${dnsm}
-		dqb "e22_ext DON3, next:rm some rchives"
-		csleep 3
-
-		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
-		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
-		dqb "srat= ${srat}"
-		csleep 5
-
-		e22_hdr ${d}/f.tar
-		e22_cleanpkgs ${d}
-
-		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 3 ] ; then
-			e22_tblz ${d} ${iface} ${distro} ${dnsm}
-			e22_other_pkgs ${dnsm}
-	
-			if [ -d ${d} ] ; then
-				#enf_scc ulos d-blokista vai ei?
-				e22_dblock ${d}/f.tar ${d}
-			fi
-
-			e22_cleanpkgs ${d} #kuinka oleellinen?
-			[ ${debug} -eq 1 ] && ls -las ${d}
-			csleep 5
-		fi
-
-		${sifd} ${iface}
-		[ ${debug} -eq 1 ] && ls -las ${d}
-		csleep 5
- 	
-		e22_home ${tgtfile} ${d} ${enforce} 
-		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
-		csleep 4
-		${NKVD} ${d}/*.tar #oli se fktiokin
-
-		e22_pre1 ${d} ${distro}
-		dqb "B3F0R3 RP2	"
-		csleep 5	
-		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
-	;;
-	1|u|upgrade) #261125:tämän casen luoman arkiston sisältämät paketit asentuivat
-		#251125:näyttää tosiaan siltä että päivityspaketin purkaminen itsessään ei riko slimiä, sisällön asentaminen sen sijaan...
-		e22_upgp ${tgtfile} ${d} ${iface}
-
-		e22_ts ${d}
-		${srat} -cf ${1} ${d}/tim3stamp
-		t=$(echo ${d} | cut -d '/' -f 1-5)
-	
-		enforce_access ${n} ${t}
-		e22_arch ${tgtfile} ${d}
-	;;
-	p) #HUOM. 261125:tekee paketin
-		e22_settings2 ${tgtfile} ${d0} 
-	;;
-	e)
-		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
-		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
-		#261125:toimii edelleen vaikka e22_hdr() karsittu
-
-		e22_cleanpkgs ${d}
-		e22_tblz ${d} ${iface} ${distro} ${dnsm}
-		e22_other_pkgs ${dnsm}
-
-		if [ -d ${d} ] ; then
-			e22_dblock ${tgtfile} ${d}
-		fi
-	;;
-	t) 
-		#TODO:vissiin testattava uusiksi koska urputusra näiltä main (291125)
-		e22_cleanpkgs ${d}
-		e22_cleanpkgs ${pkgdir}
-			
-		message
-		csleep 3
-
-		#TODO:e22_gt käyttöön sitten josqs?
-		e22_tblz ${d} ${iface} ${distro} ${dnsm}
-		e22_ts ${d}
-
-		t=$(echo ${d} | cut -d '/' -f 1-5)
-		enforce_access ${n} ${t}
-		e22_arch ${tgtfile} ${d}
-	;;
+#	#VAIH:johdonmukaisuuden vuoksi 3|4) jatkossa (imp2/exp2)
+#	0)
+#		echo "NOT SUPPORTED ANYMORE"
+#		exit 99
+#	;;
+#	3|4) #261125:case 0 teki silloin toimivan paketin
+#		#291125:case 4 teki toimivan paketin 
+#		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
+#		csleep 3
+#
+#		e22_ext ${tgtfile} ${distro} ${dnsm}
+#		dqb "e22_ext DON3, next:rm some rchives"
+#		csleep 3
+#
+#		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
+#		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
+#		dqb "srat= ${srat}"
+#		csleep 5
+#
+#		e22_hdr ${d}/f.tar
+#		e22_cleanpkgs ${d}
+#
+#		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
+#		if [ ${mode} -eq 3 ] ; then
+#			e22_tblz ${d} ${iface} ${distro} ${dnsm}
+#			e22_other_pkgs ${dnsm}
+#	
+#			if [ -d ${d} ] ; then
+#				#enf_scc ulos d-blokista vai ei?
+#				e22_dblock ${d}/f.tar ${d}
+#			fi
+#
+#			e22_cleanpkgs ${d} #kuinka oleellinen?
+#			[ ${debug} -eq 1 ] && ls -las ${d}
+#			csleep 5
+#		fi
+#
+#		${sifd} ${iface}
+#		[ ${debug} -eq 1 ] && ls -las ${d}
+#		csleep 5
+# 	
+#		e22_home ${tgtfile} ${d} ${enforce} 
+#		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
+#		csleep 4
+#		${NKVD} ${d}/*.tar #oli se fktiokin
+#
+#		e22_pre1 ${d} ${distro}
+#		dqb "B3F0R3 RP2	"
+#		csleep 5	
+#		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
+#	;;
+#	1|u|upgrade) #261125:tämän casen luoman arkiston sisältämät paketit asentuivat
+#		#251125:näyttää tosiaan siltä että päivityspaketin purkaminen itsessään ei riko slimiä, sisällön asentaminen sen sijaan...
+#		e22_upgp ${tgtfile} ${d} ${iface}
+#
+#		e22_ts ${d}
+#		${srat} -cf ${1} ${d}/tim3stamp
+#		t=$(echo ${d} | cut -d '/' -f 1-5)
+#	
+#		enforce_access ${n} ${t}
+#		e22_arch ${tgtfile} ${d}
+#	;;
+#	p) #HUOM. 261125:tekee paketin
+#		e22_settings2 ${tgtfile} ${d0} 
+#	;;
+#	e)
+#		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
+#		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
+#		#261125:toimii edelleen vaikka e22_hdr() karsittu
+#
+#		e22_cleanpkgs ${d}
+#		e22_tblz ${d} ${iface} ${distro} ${dnsm}
+#		e22_other_pkgs ${dnsm}
+#
+#		if [ -d ${d} ] ; then
+#			e22_dblock ${tgtfile} ${d}
+#		fi
+#	;;
+#	t) 
+#		#TODO:vissiin testattava uusiksi koska urputusra näiltä main (291125)
+#		e22_cleanpkgs ${d}
+#		e22_cleanpkgs ${pkgdir}
+#			
+#		message
+#		csleep 3
+#
+#		#TODO:e22_gt käyttöön sitten josqs?
+#		e22_tblz ${d} ${iface} ${distro} ${dnsm}
+#		e22_ts ${d}
+#
+#		t=$(echo ${d} | cut -d '/' -f 1-5)
+#		enforce_access ${n} ${t}
+#		e22_arch ${tgtfile} ${d}
+#	;;
 	*) #281025:tämäkin toiminee
 		echo "-h"
 		exit

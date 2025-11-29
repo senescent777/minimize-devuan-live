@@ -142,9 +142,8 @@ fi
 
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${part0}
-dqb "LQG"
+dqb "L0G"
 
-#VAIH:näille main kai kuuluisi laittaa jotain
 ocs tar
 dqb "srat= ${srat}"
 csleep 1
@@ -198,7 +197,6 @@ function common_part() {
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 	csleep 3
 
-	#VAIH:tähän jotain
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36
 
@@ -233,7 +231,7 @@ function common_part() {
 }
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#291125:vähän testailtu sq-chr-ympäristössä, siellä vielä kiukutteli mutta miten ulkpuolella? (TODO)
+#291125:vähän testailtu sq-chr-ympäristössä, siellä vielä kiukutteli mutta miten ulkpuolella? (VAIH)
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
@@ -336,8 +334,7 @@ dqb "srcfile=${srcfile}"
 csleep 3
 
 case "${mode}" in
-	r) # toimi 261125, tais toimia myös 291125 (testaapa uudestaan, TODO)
-	#kutsutaan muuten g_doit kautta
+	r) #291125:toimii, ainakin g_doit kautta mentynä
 		[ -d ${srcfile} ] || exit 22
 		tpr ${srcfile}
 	;;
@@ -374,8 +371,8 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#291125:testattu alustavasti sq-chr-ympoäöristlssö missä kiukutrteluya
-		#TODO:testaa uusiksi live.ympäristössö sittenq exp2 kiukuttelut hoidettu
+		#291125:testattu alustavasti sq-chr-ympäristössä missä kiukutelua
+		#291125.2:klytyi tikulta paketti testausta varten, sen kanssa toimi tämä case
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
