@@ -194,24 +194,37 @@ case ${mode} in
 		csleep 3
 		exit
 	;;
-#	c) #291125:TÄSSÄKÖ SE BUGI ON PRKL???
-#		#VAIH:testaa uusiksi (tekee paketin, purkautuukin, alkaisikohan olla 291125 aikana sisältö kunnossa?)
-#		#HUOM:olisi hyvä olemassa sellainen bz3 tai bz2 missä julk av (ellei sitten jtnkn toisin)		
-#		#HUOM.2:nuo _pkgs  jutut olisi hyvä saada tarkistuksen alaiseksi, kuitenkin s.e. eivät tulisi sotkemaan asioita		
-#
-#		cd ${d0}
-#		for f in $(find . -type f -name '*.sh' | grep -v 'e/' | grep -v 'olds/') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
-#		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/' | grep -v 'olds/)  ; do ${srat} -rvf ${tgtfile} ${f} ; done
-#				
-#		bzip2 ${tgtfile}
-#		mv ${tgtfile}.bz2 ${tgtfile}.bz3
-#		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
-#
-#		e22_ftr ${tgtfile}
-#		exit
-#	;;
+	c) #VAIH
+		#VAIH:testaa uusiksi (tekee paketin, purkautuukin, alkaisikohan olla 291125 aikana sisältö kunnossa?)
+		#HUOM:olisi hyvä olemassa sellainen bz3 tai bz2 missä julk av (ellei sitten jtnkn toisin)		
+		#HUOM.2:nuo _pkgs  jutut olisi hyvä saada tarkistuksen alaiseksi, kuitenkin s.e. eivät tulisi sotkemaan asioita		
+
+		cd ${d0}
+		#JOKO JO ALKAISI OMISTAJAT ASETTUMAAN
+		e22_hdr ${tgtfile}
+		fasdfasd ${tgtfile}
+
+		#find-komentoja pystynee kai hinkkaaman vielä
+
+		for f in $(find . -type f -name '*.sh' | grep -v 'e/' | grep -v 'olds/') ; do 
+			tar -rvf ${tgtfile} ${f}
+		done #tähän ei tarvinne --exclude?
+
+		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/' | grep -v 'olds/')  ; do 
+			tar -rvf ${tgtfile} ${f}
+		done
+				
+		#HUOM.291125:tästä tuli jotain nalkutusta
+		bzip2 ${tgtfile}
+
+		${svm} ${tgtfile}.bz2 ${tgtfile}.bz3
+		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
+
+		e22_ftr ${tgtfile}
+		exit
+	;;
 	g)
-		#HUOM.291125:
+		#HUOM.291125:edelleen antaa kom,ennot joilla saa paketin aikaiskesi
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "${sag_u} | ${fib} when necessary " 
 

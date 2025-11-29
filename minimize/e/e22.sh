@@ -9,7 +9,7 @@ function e22_hdr() { #261125:toimii
 	fasdfasd ./rnd
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
-	${srat} -cvf ${1} ./rnd #HUOM.111025:nyt on jo se --exclude jossain
+	tar -cvf ${1} ./rnd #HUOM.111025:nyt on jo se --exclude jossain
 	[ $? -gt 0 ] && exit 60
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
