@@ -268,11 +268,11 @@ e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
-#	#VAIH:johdonmukaisuuden vuoksi 3|4) jatkossa (imp2/exp2)
-#	0)
-#		echo "NOT SUPPORTED ANYMORE"
-#		exit 99
-#	;;
+	#VAIH:johdonmukaisuuden vuoksi 3|4) jatkossa (imp2/exp2)
+	0)
+		echo "NOT SUPPORTED ANYMORE"
+		exit 99
+	;;
 #	3|4) #261125:case 0 teki silloin toimivan paketin
 #		#291125:case 4 teki toimivan paketin 
 #		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
