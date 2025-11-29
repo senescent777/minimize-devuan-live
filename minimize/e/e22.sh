@@ -19,7 +19,7 @@ function e22_hdr() { #261125:toimii
 	csleep 1
 }
 
-function e22_ftr() { #271125:toimii, allekrijoituskin qhan av asennettu (install_keys uusi optio)
+function e22_ftr() { #271125:toimii, allekIRjoituskin qhan av asennettu (install_keys uusi optio)
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -39,11 +39,19 @@ function e22_ftr() { #271125:toimii, allekrijoituskin qhan av asennettu (install
 	${sah6} -c ${q}.sha
 
 	#riittävät tarkistukset?
-	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-		${gg} -u ${CONF_kay1name} -sb ${q}.sha
-		csleep 1
-		${gg} --verify ${q}.sha.sig
-		csleep 1
+	if [ -x ${gg} ] ; then
+		if [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] && [ -v CONF_kay1name ] ; then #TODO:se karray käyttöön jatkossa?
+			${gg} -u ${CONF_kay1name} -sb ${q}.sha
+			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS?"
+			csleep 1
+
+			${gg} --verify ${q}.sha.sig
+			csleep 1
+		else
+			dqb "NO KEYS"
+		fi
+	else
+		dqb "SHOULD INSTALL GPG"
 	fi
 
 	cd ${p}
@@ -239,7 +247,9 @@ function e22_home() { #261125:lienee ok, merd2 tulee mukaan, accept/reject-jutut
 	csleep 3
 
 	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen? ehk
-	#DONE?:varmista myös että distro/{accept,reject} vedetään mukaan, nimenomaan tässä fktiossa	
+	#DONE?:varmista myös että distro/{accept,reject} vedetään mukaan, nimenomaan tässä fktiossa
+	#TODO:sha+allekIRjoitus, _pkgs-jutuille? vaiko e22_a() tekemään sen?
+	
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 
 	dqb "e22_home d0n3"
@@ -514,7 +524,8 @@ function e22_ts() { #HUOM.261125:toimii
 #VAIH:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk?
 
 function e22_arch() { #261125:uudelleenpakkaus toimii nykyään, slim rikkoutuu ei-uskonnollisista syistä
-	#VAIH:se uudelleenpakkaus sittenq avaimet aseNNettu (kts. install_keys.bash uusi optio)
+	#DONE:se uudelleenpakkaus sittenq avaimet aseNNettu (kts. liittyen: install_keys.bash uusi optio)
+	#TODO:testaus lähiaikoina uusiksi?
 
 	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
 	csleep 1
@@ -562,9 +573,8 @@ function e22_arch() { #261125:uudelleenpakkaus toimii nykyään, slim rikkoutuu 
 	cd ${2}
 	echo $?
 	${sah6} ./*.deb > ./sha512sums.txt
-	
+	#TODO:tähän ne _pkgs mukaan sums:iin ?	
 	csleep 1
-	psqa .
 
 	#tämä ennen pasq() ?
 	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #jälkimmäinen ohto jatkossa "-v CONF_xxx"
@@ -573,6 +583,9 @@ function e22_arch() { #261125:uudelleenpakkaus toimii nykyään, slim rikkoutuu 
 		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
 		dqb "GHATS"
 	fi
+
+	csleep 1
+	psqa .
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt ./sha512sums.txt.sig
 	[ ${debug} -eq 1 ] && ls -las ${1} 

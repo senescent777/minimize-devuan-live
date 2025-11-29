@@ -196,12 +196,13 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#VAIH:testaa uusiksi (tekee paketin, purkautuukin mutta sisällön kanssa vielä jotain pientä mistä sq-chr-ympoärist nalqttaa 271125)
-		#HUOM.olisi hyvä olemassa sellainen bz3 tai bz2 missä julk av (ellei sitten jtnkn toisin)		
-		
+		#VAIH:testaa uusiksi (tekee paketin, purkautuukin, alkaisikohan olla 291125 aikana sisältö kunnossa?)
+		#HUOM:olisi hyvä olemassa sellainen bz3 tai bz2 missä julk av (ellei sitten jtnkn toisin)		
+		#HUOM.2:nuo _pkgs  jutut olisi hyvä saada tarkistuksen alaiseksi, kuitenkin s.e. eivät tulisi sotkemaan asioita		
+
 		cd ${d0}
-		for f in $(find . -type f -name '*.sh' | grep -v 'e/') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
-		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/')  ; do ${srat} -rvf ${tgtfile} ${f} ; done
+		for f in $(find . -type f -name '*.sh' | grep -v 'e/' | grep -v 'olds/') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
+		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/' | grep -v 'olds/)  ; do ${srat} -rvf ${tgtfile} ${f} ; done
 				
 		bzip2 ${tgtfile}
 		mv ${tgtfile}.bz2 ${tgtfile}.bz3
@@ -260,7 +261,7 @@ case ${mode} in
 		exit 99
 	;;
 	3|4) #261125:case 0 teki silloin toimivan paketin
-		#241125:case 4 teki toimivan paketin (miten nykyään?)
+		#291125:case 4 teki toimivan paketin 
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 3
 
