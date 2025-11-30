@@ -470,7 +470,7 @@ function e22_ext() { #HUOM.261125:toimii
 	csleep 1
 }
 
-#261125:toimii?
+#TODO:tulisi testata uusiksi koska x
 function aswasw() { #privaatti fktio
 	dqb " aswasw ${1}"
 	[ -z "${1}" ] && exit 56
@@ -490,7 +490,7 @@ function aswasw() { #privaatti fktio
 		;;
 	esac
 
-	${shary} isc-dhcp-client isc-dhcp-common
+	#${shary} 
 	dqb " aswasw ${1} DONE"
 	csleep 1
 }
@@ -635,8 +635,8 @@ function e22_tblz() { #301125:jospa jo toimisi muutoksien jälkeen
 	E22_GT="libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11"
 	E22_GT="${E22_GT} iptables"
 	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
-
-	#(TODO:osa as2w:n jutuista myös -> e22gt?)
+	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
+	#VAIH:osa as2w:n jutuista myös -> e22gt?
 	${shary} ${E22_GT} 
 
 	dqb "x2.e22_tblz.part2"
