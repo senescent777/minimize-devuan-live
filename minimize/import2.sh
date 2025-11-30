@@ -73,12 +73,13 @@ else
 	fi	
 fi
 
+#TODO;yhdistelmä live-ymp+common_lib pois pelistä
 if [ -x ${d0}/common_lib.sh ] ; then #VAIH:jatkosäädöt jos niin että ensiksi takaisin pelitttämään sq-chrootin kanssa (tai imp2 k chr EIKU)
 	. ${d0}/common_lib.sh
 else
 	debug=1
 	dqb "FALLBACK"
-	#VAIH:tähän jotain
+
 	mkt=$(which mktemp)
 
 	function check_binaries() {
@@ -134,10 +135,13 @@ echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	#TODO:tämäkin haara testattava
 	echo $?
 	dqb "NO LIB"
 	csleep 1
+
+	#TODO:exit jos ongelmia ao. juttujen kanssa
+	check_binaries
+	check_binaries2
 fi
 
 olddir=$(pwd)
@@ -231,7 +235,7 @@ function common_part() {
 }
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#291125:vähän testailtu sq-chr-ympäristössä, siellä vielä kiukutteli mutta miten ulkpuolella? (VAIH)
+#301125:live-ympäristössä toimi, aiemmin oli chroot:in alla kiukuttelua
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
@@ -352,6 +356,8 @@ case "${mode}" in
 
 		#281125:s:n ja t:n kanssa riittää kusta ja paskaa ainakin sq-chroot-ympäristössä
 		if [ ${1} -eq 0 ] ; then
+			dqb "DEPRECATED"
+			csleep 10
 			common_part ${srcfile} ${d} /
 		else
 			common_part ${srcfile} ${d} ${d}
@@ -373,6 +379,8 @@ case "${mode}" in
 	q)
 		#291125:testattu alustavasti sq-chr-ympäristössä missä kiukutelua
 		#291125.2:klytyi tikulta paketti testausta varten, sen kanssa toimi tämä case
+		#301125:live-ympäristössä testaus, taitaa toimia		
+
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)

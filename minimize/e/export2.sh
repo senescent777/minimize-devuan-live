@@ -175,7 +175,7 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#291125:thety paketti sisälsi silloin validia sisältöä
+		#301125:teki paketin missä toimivaa sisältöä
 		#btw. ffox 147 muutokset enemmän profs.sh asia
 
 		${sifd} ${iface}
@@ -186,7 +186,7 @@ case ${mode} in
 		#btw. mikä olikaan syy että q on tässä ekassa case:ssa? pl siis että turha apt-renkkaus
 
 		for f in $(find ~ -maxdepth 1 -name '*.tar' -or -name '*.bz2' -or -name 'profs.sh' | grep -v pulse) ; do
-			${srat} -rvf ${tgtfile} ${f} #--exclude vai ei?
+			${srat} -rvf ${tgtfile} ${f}
 		done
 
 		e22_ftr ${tgtfile}
@@ -200,8 +200,7 @@ case ${mode} in
 		#kiukuttelu saattoi liittyä /tmp-hakemistoon tai sitten ei (ehkä mktemp -d auttaa?)
 
 		#HUOM:olisi hyvä olemassa sellainen bz3 tai bz2 missä julk av (ellei sitten jtnkn toisin)		
-		#HUOM.2:nuo _pkgs  jutut olisi hyvä saada tarkistuksen alaiseksi, kuitenkin s.e. eivät tulisi sotkemaan asioita		
-
+	
 		cd ${d0}
 		#JOKO JO ALKAISI OMISTAJAT ASETTUMAAN
 		e22_hdr ${tgtfile}
@@ -279,7 +278,7 @@ case ${mode} in
 		exit 99
 	;;
 	3|4) #261125:case 0 teki silloin toimivan paketin /nykyään case 3, josqs uusi testaus)
-		#301125:case 4 tekee paketin, sisällön toimivuus vielä
+		#301125:case 4 tekee paketin, sisältö toiminee
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 

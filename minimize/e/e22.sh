@@ -175,7 +175,7 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 }
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  , muutokset oikeastaan tdstpn profs.sh
-function e22_settings() { #HUOM.301125:tekee paketin
+function e22_settings() { #HUOM.301125:tekee paketin, sisältö:
 	dqb "e22_settings ${1} ${2}"
 	csleep 1
 
@@ -210,7 +210,7 @@ function e22_settings() { #HUOM.301125:tekee paketin
 	csleep 1
 }
 
-function e22_home() { #301125:
+function e22_home() { #301125:taitaa toimia taas/edelleen
 	#261125:lienee ok, merd2 tulee mukaan, accept/reject-jutut myös
 	dqb "e22_home ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit 67
@@ -372,7 +372,6 @@ function e22_elocal() { #301125:tehnee paketin ok
 }
 
 [ -v BASEURL ] || exit 6 
-#261125:yo. tarq tilapäisesti pois pelistä, jokin ohitus kehitysymp varten tai oikeasti korjaaminen:tehty
 
 function e22_ext() { #301125:toimii 
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
@@ -577,12 +576,11 @@ function e22_arch() { #301125:osannee tehdä paketin, pieni testailu voisi kuite
 	echo $?
 	${sah6} ./*.deb > ./sha512sums.txt
 
-	dqb "KUKKO KIEKUU"	
+	dqb "KUKK0 K1EQ 666"	
 	${sah6} ./reject_pkgs >> ./sha512sums.txt
 	${sah6} ./accept_pkgs_? >> ./sha512sums.txt
 	csleep 1
 
-	#tämä ennen pasq() ?
 	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #jälkimmäinen ohto jatkossa "-v CONF_xxx"
 		dqb "GGU"
 		csleep 1
@@ -637,7 +635,7 @@ function e22_tblz() { #301125:jospa jo toimisi muutoksien jälkeen
 	E22_GT="${E22_GT} iptables"
 	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
 	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
-	#VAIH:osa as2w:n jutuista myös -> e22gt?
+
 	${shary} ${E22_GT} 
 
 	dqb "x2.e22_tblz.part2"
@@ -735,7 +733,7 @@ function e22_other_pkgs() { #301125:tekee paketin, sisällön toimivuus vielä t
 	csleep 1
 }
 
-function e22_dblock() { #301125;
+function e22_dblock() { #TODO:toimivuuden testaus josqs
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14
