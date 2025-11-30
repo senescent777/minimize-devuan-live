@@ -151,7 +151,7 @@ function e22_pre2() { #HUOM.261125;toimii
 	sleep 2
 }
 
-function e22_cleanpkgs() { #HUOM.291125:
+function e22_cleanpkgs() { #HUOM.301125:toimii
 	dqb "e22_cleanpkgs ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
 	[ -z "${1}" ] && exit 56
 
@@ -663,7 +663,7 @@ function e22_tblz() { #301125:jospa jo toimisi muutoksien jälkeen
 }
 
 #TODO:ntp-jutut takaisin josqs?
-function e22_other_pkgs() { #261125:ok nykyään
+function e22_other_pkgs() { #301125:tekee paketin, sisällön toimivuus vielä testattava
 	dqb "e22_other_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
@@ -706,14 +706,14 @@ function e22_other_pkgs() { #261125:ok nykyään
 	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0
 	${shary} git-man git
 
-#libreadline8 aiemmaksi? muutkin pak saattavat tarvita
-		${shary} ${E22GI}
-		${shary} gpg
-		dqb "MAGOG"
-		csleep 5
+	#libreadline8 aiemmaksi? muutkin pak saattavat tarvita
+	${shary} ${E22GI}
+	${shary} gpg
+	dqb "MAGOG"
+	csleep 3
 	
-	[ $? -eq 0 ] && dqb "TYBE 0F THE R3S1NATTED"
-	csleep 10
+	[ $? -eq 0 ] && dqb "TYBE 0F THE R3S1NATED"
+	csleep 4
 
 	#(pitäisi kai ohittaa kyselyt dm:n shteen)
 	#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
@@ -734,7 +734,7 @@ function e22_other_pkgs() { #261125:ok nykyään
 	csleep 1
 }
 
-function e22_dblock() { #261125:toimii
+function e22_dblock() { #301125;
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14
@@ -762,7 +762,7 @@ function e22_dblock() { #261125:toimii
 
 	e22_ts ${2}
 	enforce_access ${n} ${t}
-	e22_arch ${1} ${2} #josko voisi siirtää jatkossa kuTSUVaan?
+	e22_arch ${1} ${2}
 	csleep 1
 
 	e22_cleanpkgs ${2}

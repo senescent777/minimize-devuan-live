@@ -338,21 +338,22 @@ case ${mode} in
 	p) #HUOM.291125;tekee pak
 		e22_settings2 ${tgtfile} ${d0} 
 	;;
-#	e)
-#		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
-#		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
-#		#261125:toimii edelleen vaikka e22_hdr() karsittu
-#
-#		e22_cleanpkgs ${d}
-#		e22_tblz ${d} ${iface} ${distro} ${dnsm}
-#		e22_other_pkgs ${dnsm}
-#
-#		if [ -d ${d} ] ; then
-#			e22_dblock ${tgtfile} ${d}
-#		fi
-#	;;
+	e)
+		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
+		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
+		#261125:toimii edelleen vaikka e22_hdr() karsittu
+		#301125:tekee paketin, sisällön toimivuus vielä testattava		
+
+		e22_cleanpkgs ${d}
+		e22_tblz ${d} ${iface} ${distro} ${dnsm}
+		e22_other_pkgs ${dnsm}
+
+		if [ -d ${d} ] ; then
+			e22_dblock ${tgtfile} ${d}
+		fi
+	;;
 	t) 
-		#301125:tekee paketin, toimivuus vielä testattava
+		#301125:tekee paketin, siisällön toimivuus vielä testattava
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
 			
