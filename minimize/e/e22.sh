@@ -11,7 +11,7 @@ function e22_hdr() { #TODO:yestaa uusiksi
 	fasdfasd ./rnd
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
-	tar -cvf ${1} ./rnd #HUOM.111025:nyt on jo se --exclude jossain
+	${srat} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
@@ -21,7 +21,7 @@ function e22_hdr() { #TODO:yestaa uusiksi
 	csleep 1
 }
 
-function e22_ftr() { #291125:toiumii toistaiseksi
+function e22_ftr() { #291125:toimii toistaiseksi
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 

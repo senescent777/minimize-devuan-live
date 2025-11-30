@@ -194,8 +194,11 @@ case ${mode} in
 		csleep 3
 		exit
 	;;
-	c) #VAIH
-		#VAIH:testaa uusiksi (tekee paketin, purkautuukin, alkaisikohan olla 291125 aikana sisältö kunnossa?)
+	c)
+		#301125:teki paketin jo eilen, sisältö ehkä ok, live-ymoöristössä pientä kiukuttelua mikä toivottavasti jo ohi 
+		#sisällön kunto ei tämän casen asia oikeastaan
+		#kiukuttelu saattoi liittyä /tmp-hakemistoon tai sitten ei
+
 		#HUOM:olisi hyvä olemassa sellainen bz3 tai bz2 missä julk av (ellei sitten jtnkn toisin)		
 		#HUOM.2:nuo _pkgs  jutut olisi hyvä saada tarkistuksen alaiseksi, kuitenkin s.e. eivät tulisi sotkemaan asioita		
 
@@ -203,6 +206,9 @@ case ${mode} in
 		#JOKO JO ALKAISI OMISTAJAT ASETTUMAAN
 		e22_hdr ${tgtfile}
 		fasdfasd ${tgtfile}
+		fasdfasd ${tgtfile}.bz3
+		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
+		#exit
 
 		#find-komentoja pystynee kai hinkkaaman vielä
 
@@ -214,13 +220,12 @@ case ${mode} in
 			tar -rvf ${tgtfile} ${f}
 		done
 				
-		#HUOM.291125:tästä tuli jotain nalkutusta
-		bzip2 ${tgtfile}
+		#HUOM.291125:tästä tuli jotain nalkutusta, joskohan jo 301125 kunnossa?
+		bzip2 -c ${tgtfile} > ${tgtfile}.bz3
 
-		${svm} ${tgtfile}.bz2 ${tgtfile}.bz3
-		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
-
-		e22_ftr ${tgtfile}
+		#${svm} ${tgtfile}.bz2 ${tgtfile}.bz3
+		#tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
+		e22_ftr ${tgtfile}.bz3
 		exit
 	;;
 	g)
