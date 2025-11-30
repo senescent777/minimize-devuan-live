@@ -850,11 +850,14 @@ function enforce_access() {
 }
 
 function fasdfasd() {
-	#pitäisikö olla ne $scm-jutut?
+	#pitäisikö olla ne $scm-jutut? laitetaan nyt varnm vuoksi 301125
+	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
+	[ -z ${1} ] && exit 99
+
 	dqb "SUN LIIRUM SUN LAARUM ${1}"
-	touch ${1}
-	chown $(whoami):$(whoami) ${1}
-	chmod 0644 ${1}
+	${odio} touch ${1}
+	${sco} $(whoami):$(whoami) ${1}
+	${scm} 0644 ${1}
 }
 
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
