@@ -166,8 +166,8 @@ case ${mode} in
 	f) 	#291125:joskohan nykyään jo toimisi
 		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(VAIH)
 		#251125:saisiko pakotettua alemman case:n kanssa toimimaan?		
-		#VAIH:testaa uusiksi, se uudelleenpaqq, siis sittenq avaimet asennettu(MUISTA PRKL ASENTAA!!!)
 		#DONE?:accept/reject-käsittely uusiksi prkl, jospa tämä case ei niitä tdstoja vetäisi mukana jatkossa
+		#TODO:se uudelleenpakkaus-testi testiympäristössä
 
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
@@ -195,7 +195,7 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#301125:teki paketin jo eilen, sisältö ehkä ok, live-ymoöristössä pientä kiukuttelua mikä toivottavasti jo ohi 
+		#301125:teki paketin jo eilen, sisältö ehkä ok, live-ympäristössä pientä kiukuttelua mikä toivottavasti jo ohi 
 		#sisällön kunto ei tämän casen asia oikeastaan
 		#kiukuttelu saattoi liittyä /tmp-hakemistoon tai sitten ei
 
@@ -229,9 +229,9 @@ case ${mode} in
 		exit
 	;;
 	g)
-		#HUOM.291125:edelleen antaa kom,ennot joilla saa paketin aikaiskesi
+		#HUOM.291125:edelleen antaa komennot joilla saa paketin aikaiskesi
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-		dqb "${sag_u} | ${fib} when necessary " 
+		dqb "${sag_u} | ${fib} , when necessary " 
 
 		echo "${shary} ${E22GI}"
 		echo "${svm} ${pkgdir}/*.deb ${d}" #oli se e22_ts() kanssa
@@ -273,7 +273,7 @@ e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 
 case ${mode} in
-	#VAIH:johdonmukaisuuden vuoksi 3|4) jatkossa (imp2/exp2)
+	#johdonmukaisuuden vuoksi 3|4) jatkossa (imp2/exp2)
 	0)
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
