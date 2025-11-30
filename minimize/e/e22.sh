@@ -525,7 +525,7 @@ function e22_ts() { #HUOM.291125:
 #VAIH:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk? 291125 taisi tulla jokun uusi jurrty testattavaksi, muuten olisi jo OK
 #... se _pkgs* - jutska vielä
 
-function e22_arch() { #VAIH:testaus lähiaikoina uusiksi, 291125 tienoilla pientä häikkää (toistuuko?)
+function e22_arch() { #301125:osannee tehdä paketin, pieni testailu voisi kuitenkin olla hyväksi miten sisöllön kanssa
 	#261125:uudelleenpakkaus toimi, slim rikkoutui ei-uskonnollisista syistä (Fingerpori)
 	#DONE:se uudelleenpakkaus sittenq avaimet aseNNettu (kts. liittyen: install_keys.bash uusi optio)
 
@@ -576,7 +576,7 @@ function e22_arch() { #VAIH:testaus lähiaikoina uusiksi, 291125 tienoilla pient
 	echo $?
 	${sah6} ./*.deb > ./sha512sums.txt
 
-	#VAIH:tähän ne _pkgs mukaan sums:iin ?	
+	dqb "KUKKO KIEKUU"	
 	${sah6} ./reject_pkgs >> ./sha512sums.txt
 	${sah6} ./accept_pkgs_? >> ./sha512sums.txt
 	csleep 1
@@ -594,7 +594,7 @@ function e22_arch() { #VAIH:testaus lähiaikoina uusiksi, 291125 tienoilla pient
 
 	#HUOM.291125:tässä alla tar:in kanssa qsee jokin
 	dqb "srat= ${srat}"
-	csleep 5
+	csleep 1
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt ./sha512sums.txt.sig
 	[ ${debug} -eq 1 ] && ls -las ${1} 
@@ -604,7 +604,7 @@ function e22_arch() { #VAIH:testaus lähiaikoina uusiksi, 291125 tienoilla pient
 	dqb "e22_arch d0n3"
 }
 
-function e22_tblz() { #291125:pitäisikö TAAS testata??? (VAIH)
+function e22_tblz() { #301125:jospa jo toimisi muutoksien jälkeen
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
 
@@ -636,9 +636,7 @@ function e22_tblz() { #291125:pitäisikö TAAS testata??? (VAIH)
 	E22_GT="${E22_GT} iptables"
 	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
 
-	#VAIH:e22gi-tyyppiseen jutskaan tuo ao. rimpsu (osa as2w:n jutuista myös)
-	#${shary} 
-	#${shary} 
+	#(TODO:osa as2w:n jutuista myös -> e22gt?)
 	${shary} ${E22_GT} 
 
 	dqb "x2.e22_tblz.part2"

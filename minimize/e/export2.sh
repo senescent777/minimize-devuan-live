@@ -167,7 +167,7 @@ case ${mode} in
 		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(VAIH)
 		#251125:saisiko pakotettua alemman case:n kanssa toimimaan?		
 		#DONE?:accept/reject-käsittely uusiksi prkl, jospa tämä case ei niitä tdstoja vetäisi mukana jatkossa
-		#TODO:se uudelleenpakkaus-testi testiympäristössä
+		#TODO:se uudelleenpakkaus-testi (kehitysympäristössä koska x)
 
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
@@ -197,7 +197,7 @@ case ${mode} in
 	c)
 		#301125:teki paketin jo eilen, sisältö ehkä ok, live-ympäristössä pientä kiukuttelua mikä toivottavasti jo ohi 
 		#sisällön kunto ei tämän casen asia oikeastaan
-		#kiukuttelu saattoi liittyä /tmp-hakemistoon tai sitten ei
+		#kiukuttelu saattoi liittyä /tmp-hakemistoon tai sitten ei (ehkä mktemp -d auttaa?)
 
 		#HUOM:olisi hyvä olemassa sellainen bz3 tai bz2 missä julk av (ellei sitten jtnkn toisin)		
 		#HUOM.2:nuo _pkgs  jutut olisi hyvä saada tarkistuksen alaiseksi, kuitenkin s.e. eivät tulisi sotkemaan asioita		
@@ -265,7 +265,7 @@ e22_pre1 ${d} ${distro}
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
-#291125:voiko sen exitin jo laittaa takaiusin vai ei?
+#291125:voiko sen exitin jo laittaa takaisin vai ei?
 [ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59"
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 
@@ -352,14 +352,13 @@ case ${mode} in
 #		fi
 #	;;
 	t) 
-		#291125;palautus vaiheessa
+		#301125:tekee paketin, toimivuus vielä testattava
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
 			
 		message
 		csleep 3
 
-#		#VAIH:e22_gt käyttöön sitten josqs?
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_ts ${d}
 
