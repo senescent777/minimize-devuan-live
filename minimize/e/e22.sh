@@ -1,9 +1,7 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
 
-function e22_hdr() { #TODO:yestaa uusiksi
-	#291125:"exp2 c" kanssa pelkkä tar vaikutti paremmalta, muidern tapauksien kanssa taas ei, keksisikö jotain?
-
+function e22_hdr() { #301125;toimii
 	dqb "e22hdr():BEFORE "
 	csleep 1
 	[ -z ${1} ] && exit 61
@@ -14,6 +12,7 @@ function e22_hdr() { #TODO:yestaa uusiksi
 	${srat} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 
+	#fasdfasd $1 kanssa myös?
 	[ ${debug} -eq 1 ] && ls -las ${1}
 	csleep 3
 
@@ -176,7 +175,7 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 }
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  , muutokset oikeastaan tdstpn profs.sh
-function e22_settings() { #HUOM.291125:tekee paketin
+function e22_settings() { #HUOM.301125:tekee paketin
 	dqb "e22_settings ${1} ${2}"
 	csleep 1
 
@@ -211,7 +210,8 @@ function e22_settings() { #HUOM.291125:tekee paketin
 	csleep 1
 }
 
-function e22_home() { #261125:lienee ok, merd2 tulee mukaan, accept/reject-jutut myös
+function e22_home() { #301125:
+	#261125:lienee ok, merd2 tulee mukaan, accept/reject-jutut myös
 	dqb "e22_home ${1} , ${2} , ${3}  "
 	[ -z ${1} ] && exit 67
 	[ -s ${1} ] || exit 68
@@ -238,19 +238,16 @@ function e22_home() { #261125:lienee ok, merd2 tulee mukaan, accept/reject-jutut
 	local t
 
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
-	csleep 2
-	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*') ; do ${srat} -rvf ${1} ${t} ; done  
-	csleep 2
+	csleep 1
+	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*' | grep -v pulse) ; do ${srat} -rvf ${1} ${t} ; done  
+	csleep 1
 
 	dqb "B"
 	csleep 1
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 
 	dqb "${srat} ${TARGET_TPX} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
-	csleep 3
-
-	#TODO:varmista nyt vielä käytännössä ettei mene $distron alta tar:it 2 kertaan? ajankogtainen? ehk
-	#DONE?:varmista myös että distro/{accept,reject} vedetään mukaan, nimenomaan tässä fktiossa
+	csleep 1
 
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 	dqb "e22_home d0n3"
@@ -258,7 +255,7 @@ function e22_home() { #261125:lienee ok, merd2 tulee mukaan, accept/reject-jutut
 }
 
 #toistaiseksi privaatti fktio
-function luca() { #261125:toimii?
+function luca() { #301125:taitaa toimia
 	dqb "luca ( ${1})"
 	csleep 1
 
@@ -285,7 +282,7 @@ function luca() { #261125:toimii?
 	dqb "loca done"
 }
 
-function e22_elocal() { #261125: toimii
+function e22_elocal() { #301125:tehnee paketin ok
 	dqb "e22_elocal ${1} ${2} ${3} ${4}"
 	csleep 1
 
@@ -327,6 +324,7 @@ function e22_elocal() { #261125: toimii
 	dqb "B3F0R3 TÖBX"
 	csleep 2
 
+	#mikä järki tässä vaiheessa keskeyttää?
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		echo "/E/IPTABLES sdhgfsdhgf"
 		exit 112
@@ -376,7 +374,7 @@ function e22_elocal() { #261125: toimii
 [ -v BASEURL ] || exit 6 
 #261125:yo. tarq tilapäisesti pois pelistä, jokin ohitus kehitysymp varten tai oikeasti korjaaminen:tehty
 
-function e22_ext() { #HUOM.261125:toimii
+function e22_ext() { #301125:toimii 
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
@@ -393,9 +391,8 @@ function e22_ext() { #HUOM.261125:toimii
 	local r
 	local st
 
-	dqb "r=${r}"
+	dqb "r= ${r}" #pointti?
 	csleep 1
-
 	p=$(pwd)
 
 	#q=$(${mkt} -d) #ei vaan toimi näin?
@@ -430,15 +427,19 @@ function e22_ext() { #HUOM.261125:toimii
 	fi
 
 	dqb "N1B.5"
-	csleep 2
+	csleep 1
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${st}
 
 	if [ ! -s ./sbin/dhclient-script.1 ] ; then
-		  ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
+		 ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
+		ls -las ./sbin
+		csleep 5
+	else
+		dqb "./sbin/dhclient-script.1 EXISTS"
 	fi
 	
 	dqb "SOUCRES"
-	csleep 2
+	csleep 1
 
 	if [ -f /etc/apt/sources.list ] ; then
 		local c
@@ -453,19 +454,19 @@ function e22_ext() { #HUOM.261125:toimii
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 
 	dqb "1NT3RF"
-	csleep 2
+	csleep 1
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
 
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
 	${scm} -R a-w ./sbin
-	${srat} -rvf ${1} ./etc ./sbin #jälkimmäinen hmisto enää ?
+	${srat} -rvf ${1} ./etc  #./sbin jälkimmäinen hmisto josqs takaisin vai ei?
 
 	echo $?
 	
 	cd ${p}
-	pwd
+	[ ${debug} -eq 1 ] && pwd
 	dqb "e22_ext done"
 	csleep 1
 }
@@ -770,7 +771,7 @@ function e22_dblock() { #301125;
 }
 
 #nimeämistä pitäisi taas miettiä...
-function e22_settings2() { #HUOM.291125;tekee paketin
+function e22_settings2() { #HUOM.301125;tekee paketin tai siis
 	dqb "e22_settings2 ${1} ${2}"
 
 	[ -z ${1} ] && exit 99

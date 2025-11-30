@@ -278,52 +278,52 @@ case ${mode} in
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
-#	3|4) #261125:case 0 teki silloin toimivan paketin
-#		#291125:case 4 teki toimivan paketin 
-#		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
-#		csleep 3
-#
-#		e22_ext ${tgtfile} ${distro} ${dnsm}
-#		dqb "e22_ext DON3, next:rm some rchives"
-#		csleep 3
-#
-#		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
-#		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
-#		dqb "srat= ${srat}"
-#		csleep 5
-#
-#		e22_hdr ${d}/f.tar
-#		e22_cleanpkgs ${d}
-#
-#		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-#		if [ ${mode} -eq 3 ] ; then
-#			e22_tblz ${d} ${iface} ${distro} ${dnsm}
-#			e22_other_pkgs ${dnsm}
-#	
-#			if [ -d ${d} ] ; then
-#				#enf_scc ulos d-blokista vai ei?
-#				e22_dblock ${d}/f.tar ${d}
-#			fi
-#
-#			e22_cleanpkgs ${d} #kuinka oleellinen?
-#			[ ${debug} -eq 1 ] && ls -las ${d}
-#			csleep 5
-#		fi
-#
-#		${sifd} ${iface}
-#		[ ${debug} -eq 1 ] && ls -las ${d}
-#		csleep 5
-# 	
-#		e22_home ${tgtfile} ${d} ${enforce} 
-#		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
-#		csleep 4
-#		${NKVD} ${d}/*.tar #oli se fktiokin
-#
-#		e22_pre1 ${d} ${distro}
-#		dqb "B3F0R3 RP2	"
-#		csleep 5	
-#		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
-#	;;
+	3|4) #261125:case 0 teki silloin toimivan paketin /nykyään case 3, josqs uusi testaus)
+		#301125:case 4 tekee paketin, sisällön toimivuus vielä
+		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
+		csleep 2
+
+		e22_ext ${tgtfile} ${distro} ${dnsm}
+		dqb "e22_ext DON3, next:rm some rchives"
+		csleep 2
+
+		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
+		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
+		dqb "srat= ${srat}"
+		csleep 2
+
+		e22_hdr ${d}/f.tar
+		e22_cleanpkgs ${d}
+
+		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
+		if [ ${mode} -eq 3 ] ; then
+			e22_tblz ${d} ${iface} ${distro} ${dnsm}
+			e22_other_pkgs ${dnsm}
+	
+			if [ -d ${d} ] ; then
+				#enf_scc ulos d-blokista vai ei?
+				e22_dblock ${d}/f.tar ${d}
+			fi
+
+			e22_cleanpkgs ${d} #kuinka oleellinen?
+			[ ${debug} -eq 1 ] && ls -las ${d}
+			csleep 2
+		fi
+
+		${sifd} ${iface}
+		[ ${debug} -eq 1 ] && ls -las ${d}
+		csleep 2
+ 	
+		e22_home ${tgtfile} ${d} ${enforce} 
+		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
+		csleep 2
+		${NKVD} ${d}/*.tar #oli se fktiokin
+
+		e22_pre1 ${d} ${distro}
+		dqb "B3F0R3 RP2	"
+		csleep 2	
+		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
+	;;
 #	1|u|upgrade) #261125:tämän casen luoman arkiston sisältämät paketit asentuivat
 #		#251125:näyttää tosiaan siltä että päivityspaketin purkaminen itsessään ei riko slimiä, sisällön asentaminen sen sijaan...
 #		e22_upgp ${tgtfile} ${d} ${iface}
@@ -353,7 +353,7 @@ case ${mode} in
 		fi
 	;;
 	t) 
-		#301125:tekee paketin, siisällön toimivuus vielä testattava
+		#301125:tekee paketin, sisällön toimivuus vielä testattava
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
 			
