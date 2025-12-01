@@ -12,7 +12,7 @@ if [ -f /.chroot ] ; then
 
 	function itni() {
 		dqb "alt-itn1"
-		sco=$(which chown)
+		sco=$(which chown) #toimii vai ei?
 		scm=$(which chmod)
 	}
 
@@ -30,13 +30,16 @@ else
 		odio=$(which sudo)
 		[ y"${odio}" == "y" ] && exit 99 
 		[ -x ${odio} ] || exit 100
-		
-		#291125:uskaltaisikoyhan nämä siirtää ulos fktiosta, if-blokin jälkeen ?
-		sco=$(sudo which chown)
+	
+		dqb "ITN1-2-2"	
+		#VAIH:uskaltaisikoyhan nämä siirtää ulos fktiosta, if-blokin jälkeen ? 
+		#no silleen ehkä että saa sen sudon mukaan $sco-juttuihin
+
+		sco=$(${odio} which chown)
 		[ y"${sco}" == "y" ] && exit 98
 		[ -x ${sco} ] || exit 97
 		
-		scm=$(sudo which chmod)
+		scm=$(${odio} which chmod)
 		[ y"${scm}" == "y" ] && exit 96
 		[ -x ${scm} ] || exit 95
 	}
@@ -49,6 +52,10 @@ itni
 
 function fix_sudo() {
 	dqb "fix_sud0.pt0"
+
+	
+
+	dqb "f_s_PART2"
 
 	${sco} -R 0:0 /etc/sudoers.d
 	${scm} 0440 /etc/sudoers.d/*
@@ -394,7 +401,7 @@ function fromtend() {
 
 #sillä toisella tyylillä tämä masentelu jatkossa? for ... in ... ?
 #tämän tulisi kai olla privaatti fktio
-#281125:aiheuttaako tämä sen sq-chrootin kusemisen? ei kai
+#TODO:tähän se gpg.instaus kanssa?
 function common_tbls() {
 	dqb "COMMON TABLESD $1, $2"
 	csleep 1
@@ -430,11 +437,11 @@ function common_tbls() {
 	csleep 1
 
 	efk1 ${1}/libnl-3-200*.deb
-	csleep 3
+	csleep 1
 	efk1 ${1}/libnl-route*.deb 
-	csleep 3
+	csleep 1
 	efk1 ${1}/libnl-*.deb 
-	csleep 3
+	csleep 1
 
 	fromtend ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
@@ -472,6 +479,8 @@ function common_tbls() {
 }
 
 function cefgh() {
+	[ -z ${1} ] && exit 66
+	[ -d ${1} ] || exit 67
 	efk2 ${1}/e.tar
 	efk2 ${1}/f.tar ${1}
 }
@@ -505,7 +514,7 @@ function check_binaries() {
 	
 	
 	#TODO:jatkooksi gpg-jutut, Jotenkin ?
-	if [ -z "${ipt}" ] ; then
+	if [ -z "${ipt}" ] ; then # || -z ${gg}
 		[ -z ${1} ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
@@ -634,7 +643,7 @@ function pre_enforce() {
 	local f
 
 	[ -v mkt ] || exit 99
-	q=$(mktemp -d) #sittenkin nöäin
+	q=$(mktemp -d) #sittenkin näin
 	dqb "touch ${q}/meshuggah in 3 secs"
 
 	csleep 1
@@ -787,10 +796,6 @@ function e_h() {
 	#291125:josko kuitenkin 0555? paitsi että sittenq tarttee muokata (to state the obvious)
 	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} 0555 ${f} ; done
 
-	#271125:tuo 2. find-rivi ylempänä tekee nämä 2 tarpeettomiksi oikeastaan
-	#for f in $(find ${2} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
-	#for f in $(find ${2} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
-
 	dqb "F1ND D0N3"
 	csleep 1
 
@@ -838,7 +843,7 @@ function enforce_access() {
 	${sco} root:root /
 
 	${scm} 0777 /tmp
-	${scm} o+t /tmp #251125:kokeeksi takaisin jos auttaisi slimin kiukuttelun kanssa
+	${scm} o+t /tmp
 	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
@@ -855,6 +860,10 @@ function fasdfasd() {
 	[ -z ${1} ] && exit 99
 
 	dqb "SUN LIIRUM SUN LAARUM ${1}"
+	dqb "sco= ${sco}"
+	dqb $(whoami)
+	csleep 1
+
 	${odio} touch ${1}
 	${sco} $(whoami):$(whoami) ${1}
 	${scm} 0644 ${1}
@@ -1209,7 +1218,6 @@ function part3() {
 	#dpkg: dependency problems prevent configuration of gpg:
 	# gpg depends on gpgconf (= 2.2.40-1.1+deb12u1); however:
   	#Version of gpgconf on system is 2.2.40-1.1.
-	#VAIH:tee jotain asialle
 
 	dqb "LIBS DONE"
 	csleep 3

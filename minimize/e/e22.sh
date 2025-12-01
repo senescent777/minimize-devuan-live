@@ -1,18 +1,19 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
 
-function e22_hdr() { #301125;toimii
+function e22_hdr() { #301125;toimii (livr-ymp)
 	dqb "e22hdr():BEFORE "
 	csleep 1
 	[ -z ${1} ] && exit 61
 
 	fasdfasd ./rnd
+	fasdfasd ${1} #kanssa myös?
+	csleep 1
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
 	${srat} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
-
-	#fasdfasd $1 kanssa myös?
+	
 	[ ${debug} -eq 1 ] && ls -las ${1}
 	csleep 3
 
@@ -20,7 +21,7 @@ function e22_hdr() { #301125;toimii
 	csleep 1
 }
 
-function e22_ftr() { #291125:toimii toistaiseksi
+function e22_ftr() { #301125:toimii toistaiseksi
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -41,7 +42,8 @@ function e22_ftr() { #291125:toimii toistaiseksi
 
 	#riittävät tarkistukset?
 	if [ -x ${gg} ] ; then
-		if [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] && [ -v CONF_kay1name ] ; then #TODO:se karray käyttöön jatkossa?
+		#if [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] &&  #VAIH:se karray käyttöön jatkossa?
+		if [ -v CONF_kay1name ] ; then
 			${gg} -u ${CONF_kay1name} -sb ${q}.sha
 			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS?"
 			csleep 1

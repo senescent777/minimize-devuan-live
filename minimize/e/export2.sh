@@ -164,10 +164,11 @@ t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
 	f) 	#291125:joskohan nykyään jo toimisi
-		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(VAIH)
+		#...josko jo 011225 alkaisi jolla sha512sums.txt.sig mukana
+
 		#251125:saisiko pakotettua alemman case:n kanssa toimimaan?		
-		#DONE?:accept/reject-käsittely uusiksi prkl, jospa tämä case ei niitä tdstoja vetäisi mukana jatkossa
-		#TODO:se uudelleenpakkaus-testi (kehitysympäristössä koska x)
+		#DONE:accept/reject-käsittely uusiksi prkl, jospa tämä case ei niitä tdstoja vetäisi mukana jatkossa
+		#011225:olisikohan se uudelleenpakkaustesti kohta?
 
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
@@ -199,24 +200,26 @@ case ${mode} in
 		#sisällön kunto ei tämän casen asia oikeastaan
 		#kiukuttelu saattoi liittyä /tmp-hakemistoon tai sitten ei (ehkä mktemp -d auttaa?)
 
-		#HUOM:olisi hyvä olemassa sellainen bz3 tai bz2 missä julk av (ellei sitten jtnkn toisin)		
-	
+		#TODO:jospa suoraan tar -jcvf ni ei tartte 2 tdston kanssa säätää	
 		cd ${d0}
-		#JOKO JO ALKAISI OMISTAJAT ASETTUMAAN
+	
 		e22_hdr ${tgtfile}
 		fasdfasd ${tgtfile}
 		fasdfasd ${tgtfile}.bz3
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		#exit
 
+		tcmd=$(which tar)
+		[ -v testgris ] && tcmd=${srat}
+
 		#find-komentoja pystynee kai hinkkaaman vielä
 
 		for f in $(find . -type f -name '*.sh' | grep -v 'e/' | grep -v 'olds/') ; do 
-			tar -rvf ${tgtfile} ${f}
-		done #tähän ei tarvinne --exclude?
+			${tcmd} -rvf ${tgtfile} ${f}
+		done
 
 		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/' | grep -v 'olds/')  ; do 
-			tar -rvf ${tgtfile} ${f}
+			${tcmd} -rvf ${tgtfile} ${f}
 		done
 				
 		#HUOM.291125:tästä tuli jotain nalkutusta, joskohan jo 301125 kunnossa?

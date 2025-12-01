@@ -73,7 +73,7 @@ else
 	fi	
 fi
 
-#TODO;yhdistelmä live-ymp+common_lib pois pelistä
+#TODO:testaa yhdistelmä live-ymp+common_lib pois pelistä
 if [ -x ${d0}/common_lib.sh ] ; then #VAIH:jatkosäädöt jos niin että ensiksi takaisin pelitttämään sq-chrootin kanssa (tai imp2 k chr EIKU)
 	. ${d0}/common_lib.sh
 else
@@ -100,6 +100,7 @@ else
 	scm="${odio} /bin/chmod"
 	sah6=$(${odio} which sha512sum)
 	srat=$(${odio} which tar) #"/bin/tar"
+	gg=$(${odio} which gpg)
 
 	function part3() {
 		dqb "imp2.part3 :NOT SUPPORTED"
@@ -349,6 +350,8 @@ case "${mode}" in
 	;; 
 	0|3) #291125:case 3 toimii jo sq-chr-ynp kanssa, luulisin että live-ymp myös
 		#TODO:selvitä, toimiiko case 0? jnpp
+		#011225 oli kiukuttelua sq-chr-ymp, kts toistuuko
+
 		echo "ZER0 S0UND"
 		csleep 1
 		dqb " ${3} ${distro} MN"
@@ -389,7 +392,7 @@ case "${mode}" in
 		tpr ${d0}
 	;;
 	k)
-		#291125:toimii sq-chroot alla (TODO:testaa live-ymp kanssa?)
+		#291125:toimii sq-chroot alla (VAIH:testaa live-ymp kanssa, toimii qhan conf)
 		dqb "# . / import2.sh k / pad -v"
 
 		[ -d ${srcfile} ] || exit 22
@@ -405,6 +408,9 @@ case "${mode}" in
 					dqb "dbg: ${gg} --import ${ridk}/${k}"
 					${gg} --import ${ridk}/${k}
 				done
+
+				[ ${debug} -eq 1 ] && ${gg} --list-keys
+				csleep 5
 			fi
 		fi	
 	;;
