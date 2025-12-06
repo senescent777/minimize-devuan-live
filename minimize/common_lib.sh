@@ -401,7 +401,7 @@ function fromtend() {
 
 #sillä toisella tyylillä tämä masentelu jatkossa? for ... in ... ?
 #tämän tulisi kai olla privaatti fktio
-#TODO:tähän se gpg.instaus kanssa?
+#281125:aiheuttaako tämä sen sq-chrootin kusemisen? ei kai
 function common_tbls() {
 	dqb "COMMON TABLESD $1, $2"
 	csleep 1
@@ -437,11 +437,11 @@ function common_tbls() {
 	csleep 1
 
 	efk1 ${1}/libnl-3-200*.deb
-	csleep 1
+	csleep 3
 	efk1 ${1}/libnl-route*.deb 
-	csleep 1
+	csleep 3
 	efk1 ${1}/libnl-*.deb 
-	csleep 1
+	csleep 3
 
 	fromtend ${1}/iptables_*.deb
 	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
@@ -479,8 +479,6 @@ function common_tbls() {
 }
 
 function cefgh() {
-	[ -z ${1} ] && exit 66
-	[ -d ${1} ] || exit 67
 	efk2 ${1}/e.tar
 	efk2 ${1}/f.tar ${1}
 }
@@ -514,7 +512,7 @@ function check_binaries() {
 	
 	
 	#TODO:jatkooksi gpg-jutut, Jotenkin ?
-	if [ -z "${ipt}" ] ; then # || -z ${gg}
+	if [ -z "${ipt}" ] ; then
 		[ -z ${1} ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
@@ -643,7 +641,7 @@ function pre_enforce() {
 	local f
 
 	[ -v mkt ] || exit 99
-	q=$(mktemp -d) #sittenkin näin
+	q=$(mktemp -d) #sittenkin nöäin
 	dqb "touch ${q}/meshuggah in 3 secs"
 
 	csleep 1
@@ -796,6 +794,10 @@ function e_h() {
 	#291125:josko kuitenkin 0555? paitsi että sittenq tarttee muokata (to state the obvious)
 	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} 0555 ${f} ; done
 
+	#271125:tuo 2. find-rivi ylempänä tekee nämä 2 tarpeettomiksi oikeastaan
+	#for f in $(find ${2} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
+	#for f in $(find ${2} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
+
 	dqb "F1ND D0N3"
 	csleep 1
 
@@ -843,7 +845,7 @@ function enforce_access() {
 	${sco} root:root /
 
 	${scm} 0777 /tmp
-	${scm} o+t /tmp
+	${scm} o+t /tmp #251125:kokeeksi takaisin jos auttaisi slimin kiukuttelun kanssa
 	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
@@ -1218,6 +1220,7 @@ function part3() {
 	#dpkg: dependency problems prevent configuration of gpg:
 	# gpg depends on gpgconf (= 2.2.40-1.1+deb12u1); however:
   	#Version of gpgconf on system is 2.2.40-1.1.
+	#VAIH:tee jotain asialle
 
 	dqb "LIBS DONE"
 	csleep 3

@@ -74,7 +74,7 @@ else
 fi
 
 #TODO:testaa yhdistelmä live-ymp+common_lib pois pelistä
-if [ -x ${d0}/common_lib.sh ] ; then #VAIH:jatkosäädöt jos niin että ensiksi takaisin pelitttämään sq-chrootin kanssa (tai imp2 k chr EIKU)
+if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	debug=1
@@ -160,7 +160,7 @@ else
 	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE"
 fi
 
-#291125:josko toimisi sq-chroot-ympoäristössä, sen ulkpuolella:vissiin
+#291125:josko toimisi sq-chroot-ympoäristössä, sen ulkopuolella:vissiin
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
@@ -246,8 +246,6 @@ function tpr() {
 
 	dqb "pars_ok"
 	csleep 1
-
-	#csleep 2
 
 	local t
 	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} ${TARGET_TPX} -C ~ -xvf ${t} ; done

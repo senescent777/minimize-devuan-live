@@ -1,7 +1,7 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
 
-function e22_hdr() { #301125;toimii (livr-ymp)
+function e22_hdr() { #301125;toimii (live-ymp)
 	dqb "e22hdr():BEFORE "
 	csleep 1
 	[ -z ${1} ] && exit 61
@@ -102,7 +102,7 @@ function e22_pre1() { #HUOM.261125:toimii?
 }
 
 #VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen (olisiko jo 261125?)
-#...note to self: oli varmaankin cross-distrp-syistä, ehkä jossain vaiheessa jos sitä juttua teatsisi uudestaan
+#...note to self: oli varmaankin cross-distro-syistä, ehkä jossain vaiheessa jos sitä juttua teatsisi uudestaan
 
 function e22_pre2() { #HUOM.261125;toimii
 	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
@@ -497,7 +497,7 @@ function aswasw() { #privaatti fktio
 	csleep 1
 }
 #
-#function aval0n() { #prIvaattI, toikmimaan+käyttöön?
+#function aval0n() { #prIvaattI, toimimaan+käyttöön?
 #	dqb "${sharpy} libavahi* #saattaa sotkea ?"
 #	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 #}
