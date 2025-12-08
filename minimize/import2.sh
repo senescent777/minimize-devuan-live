@@ -63,7 +63,7 @@ fi
 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
-	sleep 5
+	sleep 3
 	. ${d0}/$(whoami).conf
 else
 	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
@@ -79,7 +79,6 @@ if [ -x ${d0}/common_lib.sh ] ; then
 else
 	debug=1
 	dqb "FALLBACK"
-
 	mkt=$(which mktemp)
 
 	function check_binaries() {
@@ -160,7 +159,7 @@ else
 	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE"
 fi
 
-#291125:josko toimisi sq-chroot-ympoäristössä, sen ulkopuolella:vissiin
+#291125:josko toimisi sq-chroot-ympäristössä, sen ulkopuolella:vissiin
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
@@ -200,7 +199,7 @@ function common_part() {
 
 	csleep 3
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
-	csleep 3
+	csleep 2
 
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36
@@ -217,7 +216,7 @@ function common_part() {
 		dqb "n s t as ${t}/common_lib.sh "	
 	fi
 
-	csleep 2
+	csleep 1
 	
 	if [ -d ${t} ] ; then
 		dqb "HAIL UKK"
@@ -367,7 +366,6 @@ case "${mode}" in
 		csleep 1
 		#HUOM.291125:tässä oli blokki (kommentoitu)
 		
-		csleep 5
 		dqb "c_p_d0n3, NEXT: pp3"
 		csleep 1	
 
@@ -390,7 +388,7 @@ case "${mode}" in
 		tpr ${d0}
 	;;
 	k)
-		#291125:toimii sq-chroot alla (VAIH:testaa live-ymp kanssa, toimii qhan conf)
+		#291125:toimii sq-chroot alla (DONE?:testaa live-ymp kanssa, toimii qhan conf?)
 		dqb "# . / import2.sh k / pad -v"
 
 		[ -d ${srcfile} ] || exit 22
@@ -400,9 +398,9 @@ case "${mode}" in
 		if [ ! -z ${gg} ] ; then #-v vielä?
 			if [ -x ${gg} ] ; then
 				dqb "NOP"
-				karray="${TARGET_Dkname1} ${TARGET_Dkname2}" #TODO:jatkossa ihan konftdstoon tämä
+				#karray="${TARGET_Dkname1} ${TARGET_Dkname2}" #VAIH:jatkossa ihan konftdstoon tämä
 			
-				for k in ${karray} ; do
+				for k in ${TARGET_Dkarray} ; do
 					dqb "dbg: ${gg} --import ${ridk}/${k}"
 					${gg} --import ${ridk}/${k}
 				done

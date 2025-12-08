@@ -215,6 +215,7 @@ function e22_settings() { #HUOM.301125:tekee paketin, sisältö:
 function e22_home() { #301125:taitaa toimia taas/edelleen
 	#261125:lienee ok, merd2 tulee mukaan, accept/reject-jutut myös
 	dqb "e22_home ${1} , ${2} , ${3}  "
+
 	[ -z ${1} ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z ${2} ] && exit 69
@@ -252,6 +253,12 @@ function e22_home() { #301125:taitaa toimia taas/edelleen
 	csleep 1
 
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
+	csleep 3
+
+	dqb "Xorg -config ~/xorg.conf ?"
+	csleep 1
+	${srat} -rvf ${1} ~/xorg.conf #tössö vai settings:issä ?
+
 	dqb "e22_home d0n3"
 	csleep 1
 }
@@ -502,8 +509,8 @@ function aswasw() { #privaatti fktio
 #	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 #}
 
-function e22_ts() { #HUOM.291125:
-	dqb "e22_ts () ${1} ${2}" #van1 param piyäisi olla tällä - Yoda
+function e22_ts() { #HUOM.081225:jos toimisi jo?
+	dqb "e22_ts () ${1} ${2}" #van1 param pitäisi olla tällä - Yoda
 	csleep 3
 
 	[ -z ${1} ] && exit 13
@@ -524,10 +531,11 @@ function e22_ts() { #HUOM.291125:
 }
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-#VAIH:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk? 291125 taisi tulla jokun uusi jurrty testattavaksi, muuten olisi jo OK
+#DONE?:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk? 291125 taisi tulla jokun uusi jurrty testattavaksi, muuten olisi jo OK
 #... se _pkgs* - jutska vielä
 
-function e22_arch() { #301125:osannee tehdä paketin, pieni testailu voisi kuitenkin olla hyväksi miten sisöllön kanssa
+#TODO:testaa uusiksi (kehitysymp)
+function e22_arch() { #301125:osannee tehdä paketin, pieni testailu voisi kuitenkin olla hyväksi miten sisällön kanssa
 	#261125:uudelleenpakkaus toimi, slim rikkoutui ei-uskonnollisista syistä (Fingerpori)
 	#DONE:se uudelleenpakkaus sittenq avaimet aseNNettu (kts. liittyen: install_keys.bash uusi optio)
 
@@ -583,7 +591,7 @@ function e22_arch() { #301125:osannee tehdä paketin, pieni testailu voisi kuite
 	${sah6} ./accept_pkgs_? >> ./sha512sums.txt
 	csleep 1
 
-	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then #jälkimmäinen ohto jatkossa "-v CONF_xxx"
+	if [ -x ${gg} ] && [ -v CONF_kay1name ]  ; then #jälkimmäinen ohto jatkossa "-v CONF_xxx"
 		dqb "GGU"
 		csleep 1
 		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
@@ -770,9 +778,8 @@ function e22_dblock() { #TODO:toimivuuden testaus josqs
 	dqb "e22dblock DONE"
 }
 
-#nimeämistä pitäisi taas miettiä...
-function e22_settings2() { #HUOM.301125;tekee paketin tai siis
-	dqb "e22_settings2 ${1} ${2}"
+function e22_profs() { #HUOM.301125;tekee paketin tai siis
+	dqb "e22_profs ${1} ${2}"
 
 	[ -z ${1} ] && exit 99
 	[ -s ${1} ] || exit 98 #pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
@@ -806,8 +813,8 @@ function e22_settings2() { #HUOM.301125;tekee paketin tai siis
 	dqb "AAMUNK01"
 }
 
-#231125:tekee paketin, asentuukin enimmäkseen , nalkutus saattoi poistua mutta pieni ongelma slimin kanssa
 #261125:taitaa toimia (pl slim)
+#TODO:testaus TAAS
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 

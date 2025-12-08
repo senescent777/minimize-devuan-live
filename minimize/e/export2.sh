@@ -210,9 +210,9 @@ case ${mode} in
 		#exit
 
 		tcmd=$(which tar)
-		[ -v testgris ] && tcmd=${srat}
+		[ -v testgris ] && tcmd=${srat} #071225;testgris- ja .chroot sijaan vain 1 muuttuja jatkossa`
 
-		#find-komentoja pystynee kai hinkkaaman vielä
+		#find-komentoja pystynee kai hinkkaamaan vielä
 
 		for f in $(find . -type f -name '*.sh' | grep -v 'e/' | grep -v 'olds/') ; do 
 			${tcmd} -rvf ${tgtfile} ${f}
@@ -287,12 +287,12 @@ case ${mode} in
 
 		e22_ext ${tgtfile} ${distro} ${dnsm}
 		dqb "e22_ext DON3, next:rm some rchives"
-		csleep 2
+		csleep 1
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 		dqb "srat= ${srat}"
-		csleep 2
+		csleep 1
 
 		e22_hdr ${d}/f.tar
 		e22_cleanpkgs ${d}
@@ -309,36 +309,37 @@ case ${mode} in
 
 			e22_cleanpkgs ${d} #kuinka oleellinen?
 			[ ${debug} -eq 1 ] && ls -las ${d}
-			csleep 2
+			csleep 1
 		fi
 
 		${sifd} ${iface}
 		[ ${debug} -eq 1 ] && ls -las ${d}
-		csleep 2
+		csleep 1
  	
 		e22_home ${tgtfile} ${d} ${enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
-		csleep 2
+		csleep 1
 		${NKVD} ${d}/*.tar #oli se fktiokin
 
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
-		csleep 2	
+		csleep 1	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-#	1|u|upgrade) #261125:tämän casen luoman arkiston sisältämät paketit asentuivat
-#		#251125:näyttää tosiaan siltä että päivityspaketin purkaminen itsessään ei riko slimiä, sisällön asentaminen sen sijaan...
-#		e22_upgp ${tgtfile} ${d} ${iface}
-#
-#		e22_ts ${d}
-#		${srat} -cf ${1} ${d}/tim3stamp
-#		t=$(echo ${d} | cut -d '/' -f 1-5)
-#	
-#		enforce_access ${n} ${t}
-#		e22_arch ${tgtfile} ${d}
-#	;;
+#VAIH:tämäkin taas
+	1|u|upgrade) #261125:tämän casen luoman arkiston sisältämät paketit asentuivat
+		#251125:näyttää tosiaan siltä että päivityspaketin purkaminen itsessään ei riko slimiä, sisällön asentaminen sen sijaan...
+		e22_upgp ${tgtfile} ${d} ${iface}
+
+		e22_ts ${d}
+		${srat} -cf ${1} ${d}/tim3stamp
+		t=$(echo ${d} | cut -d '/' -f 1-5)
+	
+		enforce_access ${n} ${t}
+		e22_arch ${tgtfile} ${d}
+	;;
 	p) #HUOM.291125;tekee pak
-		e22_settings2 ${tgtfile} ${d0} 
+		e22_profs ${tgtfile} ${d0} 
 	;;
 	e)
 		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
