@@ -1,7 +1,9 @@
 #https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
 
-function e22_hdr() { #301125;toimii (live-ymp)
+function e22_hdr() { #081225:toimiikohan sittenkään? live.ympäristössä tuli nalq kun suoraan /tmp alle yritti
+	#... olikohan se chmod o+t virge?
+
 	dqb "e22hdr():BEFORE "
 	csleep 1
 	[ -z ${1} ] && exit 61
@@ -11,6 +13,9 @@ function e22_hdr() { #301125;toimii (live-ymp)
 	csleep 1
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
+	dqb "srat= ${srat}"
+	csleep 5
+
 	${srat} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 	
@@ -517,10 +522,10 @@ function e22_ts() { #HUOM.081225:jos toimisi jo?
 	[ -d ${1} ] || exit 14 #hmistossa hyvä olla kirj.oik.
 	[ -w ${1} ] || exit 15 
 
-	dqb "NEXT:mv"
+	dqb "NEXT:mv ${pkgdir}/*.deb ${1}"
 	${svm} ${pkgdir}/*.deb ${1}
 	dqb $?
-	csleep 2
+	csleep 20
 
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
@@ -591,7 +596,8 @@ function e22_arch() { #301125:osannee tehdä paketin, pieni testailu voisi kuite
 	${sah6} ./accept_pkgs_? >> ./sha512sums.txt
 	csleep 1
 
-	if [ -x ${gg} ] && [ -v CONF_kay1name ]  ; then #jälkimmäinen ohto jatkossa "-v CONF_xxx"
+	#alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious
+	if [ -x ${gg} ] && [ -v CONF_kay1name ] ; then
 		dqb "GGU"
 		csleep 1
 		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
@@ -813,8 +819,7 @@ function e22_profs() { #HUOM.301125;tekee paketin tai siis
 	dqb "AAMUNK01"
 }
 
-#261125:taitaa toimia (pl slim)
-#TODO:testaus TAAS
+#VAIH:testaus TAAS (081225)
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
@@ -827,8 +832,9 @@ function e22_upgp() {
 	[ -z ${3} ] && exit 33
 
 	dqb "params_ok"
-	csleep 1
+	csleep 10
 
+	#TODO:kutsuvaan koodiin cleanpkgs
 	e22_cleanpkgs ${pkgdir}
 	e22_cleanpkgs ${2}
 	dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
@@ -839,11 +845,11 @@ function e22_upgp() {
 	
 	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta, onko?
 	${sag} --no-install-recommends upgrade -u
-	echo $?
+	echo $? #HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
 	csleep 1
 
 	[ ${debug} -eq 1 ] && ls -las ${pkgdir}/*.deb
-	csleep 1
+	csleep 10
 
 	#aval0n #käyttöön vai ei?
 	dqb "generic_pt2 may be necessary now"	
@@ -879,7 +885,10 @@ function e22_upgp() {
 		;;
 	esac
 
-	udp6 ${2}
+	#VAIH:selvitä, toimiiko udp6() oikein, 081225 osoittautui olevan jotain härdelliä
+	#... pitäisiköhän olla $pkgdir sittenkin?
+	
+	udp6 ${pkgdir} #${2}
 	#dqb "UTP PT 3"
 	csleep 1
 

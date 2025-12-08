@@ -326,7 +326,7 @@ case ${mode} in
 		csleep 1	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-#VAIH:tämäkin taas
+	#VAIH:tämäkin taas (081225)
 	1|u|upgrade) #261125:tämän casen luoman arkiston sisältämät paketit asentuivat
 		#251125:näyttää tosiaan siltä että päivityspaketin purkaminen itsessään ei riko slimiä, sisällön asentaminen sen sijaan...
 		e22_upgp ${tgtfile} ${d} ${iface}
