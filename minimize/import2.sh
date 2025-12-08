@@ -182,12 +182,13 @@ function common_part() {
 
 		cat ${1}.sha
 		${sah6} ${1}
-		csleep 3
+		csleep 2
 
 		#291125:testaus sq-chroot-ymp onnistui ainakin kerran
 		if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
 			if [ ! -z ${gg} ] ; then
 				if [ -x ${gg} ] ; then
+					#081225:julk av olemassaolo, pitäisikö tarkistaa tässä?
 					dqb " ${gg} --verify ${1}.sha.sig "
 					${gg} --verify ${1}.sha.sig
 				fi
@@ -197,7 +198,7 @@ function common_part() {
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	csleep 3
+	csleep 2
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 	csleep 2
 
@@ -254,7 +255,7 @@ function tpr() {
 	csleep 1
 
 	if [ -x ${1}/profs.sh ] ; then
-		#fktioiden {imp,exp}ortointia jos kokeilisi? man bash...
+		#fktioiden {im,ex}portointia jos kokeilisi? man bash...
 		. ${1}/profs.sh
 		[ $? -gt 0 ] && exit 33
 			
@@ -298,6 +299,10 @@ case "${mode}" in
 		#remember:to_umount olisi hyvä muistuttaa kyitenkin
 	;;
 	2)
+		#081225:toimiiko oikein kun "$0 2 -v" ?
+		dqb "T=-1 K (Eugen K.)"
+		csleep 1
+
 		${uom} ${dir}
 		csleep 1
 		${som} | grep ${dir}
@@ -333,7 +338,7 @@ fi
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "srcfile=${srcfile}"
-csleep 3
+csleep 2
 
 case "${mode}" in
 	r) #291125:toimii, ainakin g_doit kautta mentynä

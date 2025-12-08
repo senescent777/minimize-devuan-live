@@ -230,12 +230,13 @@ function message() {
 #081225:seuraavaksi selvitykseen tämä, e_xxx, part3() , enfo_jutut ok
 function psqa() {
 	dqb "Q ${1}"
-	csleep 2
+	csleep 1
 	[ -z ${1} ] && exit 55
 
+	#081225:pitäisi kai ensin .sig, sitten .sha mutta nyt näin
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		dqb "R ${1}"		
-		csleep 3
+		csleep 2
 
 		local p
 		p=$(pwd)
@@ -258,19 +259,18 @@ function psqa() {
 		#291125:sq-chroot-ympäristössä vaikuttaisi toimivan ao. blokki
 		if [ -s ./sha512sums.txt.sig ] ; then
 			dqb "S(${1})"
-			csleep 2
+			csleep 1
 
 			if [ -x ${gg} ] && [ -v TARGET_Dkarray ] ; then
-				#[ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
 				dqb "${gg} --verify ./sha512sums.txt.sig "
-				csleep 2
+				csleep 1
 
 				[ ${debug} -eq 1 ] && pwd
-				csleep 2
+				csleep 1
 
 				${gg} --verify ./sha512sums.txt.sig
 				[ $? -eq 0 ] || dqb "SHOULD imp2 k \$dir !!!"				
-				csleep 2
+				csleep 1
 			fi
 		fi
 
@@ -282,6 +282,7 @@ function psqa() {
 	csleep 2
 }
 
+#not-that-necessary-wrapper-for-psqa()
 function common_pp3() {
 	dqb "common_pp3 ${1}"
 	csleep 1
@@ -304,7 +305,7 @@ function common_pp3() {
 	if [ ${q} -lt 1 ] ; then
 		echo "SHOULD REMOVE ${1} /sha512sums.txt"
 		echo "\"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
-		${scm} a-x ${r}/common_lib.sh 
+		${scm} a-x ${r}/common_lib.sh #tämä lienee se syy miksi myöhemmin pitää renkata...
 		
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
@@ -532,32 +533,36 @@ function check_binaries() {
 		srat="${srat} -v "
 	fi
 
-#081225:kuseeko tuossa ao. blokissa jokin?	
-#	#VAIH:tuo gg
-#	if [ -z "${ipt}" ] || [ -z "$[gg}"] ; then
-#		[ -z ${1} ] && exit 99
-#		dqb "-d ${1} existsts?"
-#		[ -d ${1} ] || exit 101
-#
-#		dqb "params_ok"
-#		csleep 1
-#
-#		echo "SHOULD INSTALL IPTABLES"
-#		jules
-#		sleep 2
-#
-#		cefgh ${1}
-#
-#		common_pp3 ${1}
-#		[ -f /.chroot ] && message
-#		common_tbls ${1} ${dnsm}
-#		other_horrors
-#
-#		ipt=$(${odio} which iptables)
-#		ip6t=$(${odio} which ip6tables)
-#		iptr=$(${odio} which iptables-restore)
-#		ip6tr=$(${odio} which ip6tables-restore)
-#	fi
+	#081225:kuseeko tuossa ao. blokissa jokin? jälkimm ehto ainakin	kusi
+
+	if [ -z "${ipt}" ] ; then # || 
+		[ -z ${1} ] && exit 99
+		dqb "-d ${1} existsts?"
+		[ -d ${1} ] || exit 101
+
+		dqb "params_ok"
+		csleep 1
+
+		echo "SHOULD INSTALL IPTABLES"
+		jules
+		sleep 1
+
+		cefgh ${1}
+
+		common_pp3 ${1}
+		[ -f /.chroot ] && message
+		common_tbls ${1} ${dnsm}
+		other_horrors
+
+		ipt=$(${odio} which iptables)
+		ip6t=$(${odio} which ip6tables)
+		iptr=$(${odio} which iptables-restore)
+		ip6tr=$(${odio} which ip6tables-restore)
+	fi
+
+	#VAIH:tuo gg
+	[ -z "${gg}" ] && dqb "SHOULD INSTALL gpg AROUND HERE"
+	csleep 1
 
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
@@ -1021,6 +1026,7 @@ function dis() {
 }
 
 function part076() {
+	#081225:pitäisiköhän param tarkistaa?
 	dqb "FART076 ${1}"
 	csleep 1
 	dis ${1}

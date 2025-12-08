@@ -108,7 +108,7 @@ function t2pc() {
 	csleep 1
 
 	dqb "shar_py = ${sharpy} ;"
-	csleep 5
+	csleep 2
 
 	${fib}
 	csleep 1
@@ -116,7 +116,7 @@ function t2pc() {
 	${sharpy} bluez mutt rpcbind nfs-common
 	${sharpy} dmsetup
 	t2p_filler
-	csleep 5
+	csleep 2
 
 	${sharpy} amd64-microcode at-spi2-core #toimii systeemi ilmankin näitä mutta ?
 	t2p_filler
@@ -190,11 +190,19 @@ function t2pc() {
 
 	#251125 uutena (pitäisi vissiin dpkg-reconfigure tjsp jotta saa slimin syrjäytettyä live-ympäristössä)
 	
-	if [ -f /.chroot ] ; then	
+	if [ -f /.chroot ] ; then #071225;pitäisikö tälle egdolle tehdä jotain? sen uuden .iso:n kanssa kun sitä temppuilua
 		${sharpy} slim*
-		#271125:pitäisiköhän myös isc-dhclient hukata jollain ehdolla?
+
+		#nopeampi boottaus niinqu
 		${sharpy} isc-dhcp*
+
+		${sharpy} seat* #uutena 071225
 		t2p_filler
+
+		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
+		dqb "dpkg-reconfigure lxdm?"
+		dqb "Xorg -config ? "
+		csleep 5
 	fi
 
 	spd="${sd0} -l "
