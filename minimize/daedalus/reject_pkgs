@@ -6,3 +6,6 @@ initramfs*.deb
 live*.deb
 e2fsprogs*.deb
 #TODO:mielellään slim Vittuun jatkossa 666!
+#seatd*.deb
+#081225:poistamisen sijaan pitäisi selvittää miten äksän libseat-valitukset taas korjattiinkaan
+#... pienempi vääntö&huuto kenties minimal_liven kanssa
