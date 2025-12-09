@@ -325,9 +325,9 @@ case ${mode} in
 		csleep 1	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	#VAIH:tämäkin taas (081225)
+	#091225:tekee paketin, sisällön kelpoisuus selvitettävä
 	1|u|upgrade)
-		e22_cleanpkgs ${pkgdir}
+		e22_cleanpkgs ${CONF_pkgdir}
 		e22_cleanpkgs ${d}
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1

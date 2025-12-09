@@ -820,7 +820,7 @@ function e22_profs() { #HUOM.301125;tekee paketin tai siis
 	dqb "AAMUNK01"
 }
 
-#VAIH:testaus TAAS (081225)
+#091225:testattu että tekee paketin
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
@@ -858,7 +858,7 @@ function e22_upgp() {
 	local s
 
 	[ -v CONF_pkgdir ] || exit 99
-	#tämnänkaltainen bplokki oli jossain muuallakin?
+	#tämnänkaltainen blokki oli jossain muuallakin?
 	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä... EIKU
 		dqb "processing ${s} ..."
 		csleep 1
