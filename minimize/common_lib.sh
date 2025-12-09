@@ -534,7 +534,7 @@ function check_binaries() {
 
 	#081225:kuseeko tuossa ao. blokissa jokin? jälkimm ehto ainakin	kusi
 
-	if [ -z "${ipt}" ] ; then # || 
+	if [ -z "${ipt}" ] ; then
 		[ -z ${1} ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
@@ -546,9 +546,10 @@ function check_binaries() {
 		jules
 		sleep 1
 
+		#TODO:näitä kutsuen jos puuttuu (tables TAI gpg)
 		cefgh ${1}
-
 		common_pp3 ${1}
+
 		[ -f /.chroot ] && message
 		common_tbls ${1} ${dnsm}
 		other_horrors
