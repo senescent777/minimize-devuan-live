@@ -568,6 +568,7 @@ function check_binaries() {
 		dqb "SHOULD INSTALL gpg AROUND HERE"
 		csleep 1
 		#Depends: gpgconf (= 2.2.40-1.1), libassuan0 (>= 2.5.0), libbz2-1.0, libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42), libreadline8 (>= 6.0), libsqlite3-0 (>= 3.7.15), zlib1g (>= 1:1.1.4)
+		dqb "NEXT: ${sdi}  ${E22GI} or smthing "
 	fi
 
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
