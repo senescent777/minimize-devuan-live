@@ -1,8 +1,8 @@
-#jatkossa pkgd -> CONF_pkgd
+#jatkossa pkgd -> CONF_pkgd konftdstossa
 [ -v CONF_pkgdir ] || CONF_pkgdir=${pkgdir}
 
-function e22_hdr() { #081225:toimiikohan sittenkään? live-ympäristössä tuli nalq kun suoraan /tmp alle yritti
-	#... olikohan se chmod o+t /tmp virge? ehgkä
+function e22_hdr() {
+	#091225:toiminee sillä ehdolla että EI tätä ennen sano "chmod o+t /tmp"
 
 	dqb "e22hdr():BEFORE "
 	csleep 1
@@ -66,8 +66,7 @@ function e22_ftr() { #091125:josko se uudelleenpakkaus-testi taas kehitysymp (TO
 	dqb "ASSAN VESSAN KASSA"
 	csleep 1
 }
-
-function e22_pre1() { #HUOM.261125:toimii?
+function e22_pre1() { #091225:
 	#disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
 
 	dqb "e22_pre1 ${1}  ${2} "
@@ -78,8 +77,8 @@ function e22_pre1() { #HUOM.261125:toimii?
 	dqb "pars.0k"
 
 	csleep 2
-	${sco} -Rv _apt:root ${pkgdir}/partial/
-	${scm} -Rv 700 ${pkgdir}/partial/
+	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+	${scm} -Rv 700 ${CONF_pkgdir}/partial/
 	csleep 1
 
 	if [ ! -d ${1} ] ; then
@@ -111,7 +110,7 @@ function e22_pre1() { #HUOM.261125:toimii?
 #VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen (olisiko jo 261125?)
 #...note to self: oli varmaankin cross-distro-syistä, ehkä jossain vaiheessa jos sitä juttua teatsisi uudestaan
 
-function e22_pre2() { #HUOM.261125;toimii
+function e22_pre2() { #091225:
 	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
@@ -145,8 +144,8 @@ function e22_pre2() { #HUOM.261125;toimii
 		[ ${debug} -eq 1 ] && ${sifc}
 		csleep 1
 
-		${sco} -Rv _apt:root ${pkgdir}/partial/
-		${scm} -Rv 700 ${pkgdir}/partial/
+		${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+		${scm} -Rv 700 ${CONF_pkgdir}/partial/
 
 		${sag_u}
 		csleep 1
@@ -388,7 +387,7 @@ function e22_elocal() { #301125:tehnee paketin ok
 
 [ -v BASEURL ] || exit 6 
 
-function e22_ext() { #301125:toimii 
+function e22_ext() { #091225: 
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
@@ -405,7 +404,6 @@ function e22_ext() { #301125:toimii
 	local r
 	local st
 
-	dqb "r= ${r}" #pointti?
 	csleep 1
 	p=$(pwd)
 
@@ -511,7 +509,7 @@ function aswasw() { #privaatti fktio
 #
 #function aval0n() { #prIvaattI, toimimaan+käyttöön?
 #	dqb "${sharpy} libavahi* #saattaa sotkea ?"
-#	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
+#	dqb "${NKVD} ${CONF_pkgdir}/libavahi* ?"	
 #}
 
 function e22_ts() { #091225:jos vaikka toimisi
@@ -522,9 +520,9 @@ function e22_ts() { #091225:jos vaikka toimisi
 	[ -d ${1} ] || exit 14 #hmistossa hyvä olla kirj.oik.
 	[ -w ${1} ] || exit 15 
 
-	dqb "NEXT:mv ${pkgdir}/*.deb ${1}"
+	dqb "NEXT:mv ${CONF_pkgdir}/*.deb ${1}"
 	csleep 10
-	${svm} ${pkgdir}/*.deb ${1}
+	${svm} ${CONF_pkgdir}/*.deb ${1}
 	dqb $?
 	csleep 10
 
