@@ -3,14 +3,24 @@
 #https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
-#TODO:voisi jatkossa pitää x-oiukeudet common:lib.sh:ssa ettei tarttisi renkata (enemmänkin g_doit asioita)
+#301125:common_lib.sh x-oikeudet lienevät nyt kunnossa?
 
 function udp6() { #on käytössä
 	dqb "daud.lib.UPDP-6 ${1}"
 	csleep 1
+
+	#jokin syy muksi ei -z ?
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 	csleep 1
+
+	dqb "${1} :"
+	ls -las ${1}/*.deb | wc -l
+	csleep 3
+
+	dqb "${pkgdir} :"
+	ls -las ${pkgdir}/*.deb | wc -l
+	csleep 3
 
 	clib5p ${1} reject_pkgs
 	dqb "D0NE"
@@ -88,7 +98,7 @@ function t2p() { #on käytössä
 }
 
 #josko kuitenkin ntp takaisin part2_5_listaan?
-function pre_part2() { #käytrössä
+function pre_part2() { #käytössä
 	dqb "daud.pre_part2()"
 	csleep 2
 
