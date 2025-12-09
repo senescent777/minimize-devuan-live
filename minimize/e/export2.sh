@@ -88,7 +88,7 @@ d=${d0}/${distro}
 dqb "mode= ${mode}"
 dqb "distro=${distro}"
 dqb "file=${tgtfile}"
-csleep 2
+csleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -210,7 +210,7 @@ case ${mode} in
 		#exit
 
 		tcmd=$(which tar)
-		[ -v testgris ] && tcmd=${srat} #071225;testgris- ja .chroot sijaan vain 1 muuttuja jatkossa`
+		[ -v testgris ] && tcmd=${srat} #071225;testgris- ja .chroot sijaan vain 1 muuttuja jatkossa?
 
 		#find-komentoja pystynee kai hinkkaamaan vielä
 
@@ -281,8 +281,7 @@ case ${mode} in
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
-	3|4) #261125:case 0 teki silloin toimivan paketin /nykyään case 3, josqs uusi testaus)
-		#301125:case 4 tekee paketin, sisältö toiminee
+	3|4) #TODO:testaa TAAS (091225)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
@@ -345,7 +344,7 @@ case ${mode} in
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 	;;
-	p) #HUOM.291125;tekee pak
+	p) #HUOM.291125:tekee pak
 		e22_profs ${tgtfile} ${d0} 
 	;;
 	e)
@@ -353,6 +352,7 @@ case ${mode} in
 		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
 		#261125:toimii edelleen vaikka e22_hdr() karsittu
 		#301125:tekee paketin, sisällön toimivuus vielä testattava		
+		#VAIH:testaa taas (091225)
 
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
@@ -363,12 +363,12 @@ case ${mode} in
 		fi
 	;;
 	t) 
-		#301125:tekee paketin, sisällön toimivuus vielä testattava
+		#VAIH:testaa taas (091225) , siis siäsllön toimivuus myös (paketin tekee jo)
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
 			
 		message
-		csleep 3
+		csleep 2
 
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_ts ${d}

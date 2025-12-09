@@ -1,8 +1,8 @@
-#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
+#jatkossa pkgd -> CONF_pkgd
+[ -v CONF_pkgdir ] || CONF_pkgdir=${pkgdir}
 
 function e22_hdr() { #081225:toimiikohan sittenkään? live.ympäristössä tuli nalq kun suoraan /tmp alle yritti
-	#... olikohan se chmod o+t virge?
+	#... olikohan se chmod o+t virge? ehgkä
 
 	dqb "e22hdr():BEFORE "
 	csleep 1
@@ -14,19 +14,19 @@ function e22_hdr() { #081225:toimiikohan sittenkään? live.ympäristössä tuli
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
 	dqb "srat= ${srat}"
-	csleep 5
+	csleep 2
 
 	${srat} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 	
 	[ ${debug} -eq 1 ] && ls -las ${1}
-	csleep 3
+	csleep 2
 
 	dqb "e22hdr():AFTER th3 WAR"
 	csleep 1
 }
 
-function e22_ftr() { #301125:toimii toistaiseksi
+function e22_ftr() { #091125:josko se uudelleenpakkaus-testi taas kehitysymp (TODO)
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -47,7 +47,6 @@ function e22_ftr() { #301125:toimii toistaiseksi
 
 	#riittävät tarkistukset?
 	if [ -x ${gg} ] ; then
-		#if [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] &&  #VAIH:se karray käyttöön jatkossa?
 		if [ -v CONF_kay1name ] ; then
 			${gg} -u ${CONF_kay1name} -sb ${q}.sha
 			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS?"
@@ -75,10 +74,10 @@ function e22_pre1() { #HUOM.261125:toimii?
 	[ -z ${1} ] && exit 65 #-d- testi olikin jo alempana
 	[ -z ${2} ] && exit 66
 
-	csleep 4
+	csleep 2
 	dqb "pars.0k"
 
-	csleep 5
+	csleep 2
 	${sco} -Rv _apt:root ${pkgdir}/partial/
 	${scm} -Rv 700 ${pkgdir}/partial/
 	csleep 1
@@ -104,6 +103,9 @@ function e22_pre1() { #HUOM.261125:toimii?
 
 		part1 ${1}
 	fi
+
+	dqb "per1 d0n3"
+	csleep 1
 }
 
 #VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen (olisiko jo 261125?)
@@ -153,8 +155,8 @@ function e22_pre2() { #HUOM.261125;toimii
 		exit 111
 	fi
 
-	echo "e22_pre 2DONE"
-	sleep 2
+	dqb "e22_pre 2DONE"
+	csleep 1
 }
 
 function e22_cleanpkgs() { #HUOM.301125:toimii
@@ -197,7 +199,6 @@ function e22_settings() { #HUOM.301125:tekee paketin, sisältö:
 
 	dqb "CFG"
 	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml 
-
 	dqb "PR0.F5"
 
 	#profs.sh kätevämpi laittaa mukaan kutsuvassa koodissa
@@ -258,11 +259,11 @@ function e22_home() { #301125:taitaa toimia taas/edelleen
 	csleep 1
 
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
-	csleep 3
+	csleep 2
 
 	dqb "Xorg -config ~/xorg.conf ?"
 	csleep 1
-	${srat} -rvf ${1} ~/xorg.conf #tössö vai settings:issä ?
+	${srat} -rvf ${1} ~/xorg.conf #tässä vai settings:issä ?
 
 	dqb "e22_home d0n3"
 	csleep 1
@@ -292,7 +293,7 @@ function luca() { #301125:taitaa toimia
 	csleep 1
 
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
-	sleep 3
+	csleep 2
 	dqb "loca done"
 }
 
@@ -446,7 +447,7 @@ function e22_ext() { #301125:toimii
 	if [ ! -s ./sbin/dhclient-script.1 ] ; then
 		 ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
 		ls -las ./sbin
-		csleep 5
+		csleep 3
 	else
 		dqb "./sbin/dhclient-script.1 EXISTS"
 	fi
@@ -484,7 +485,7 @@ function e22_ext() { #301125:toimii
 	csleep 1
 }
 
-#TODO:tulisi testata uusiksi koska x
+#091225:toimii
 function aswasw() { #privaatti fktio
 	dqb " aswasw ${1}"
 	[ -z "${1}" ] && exit 56
@@ -504,7 +505,6 @@ function aswasw() { #privaatti fktio
 		;;
 	esac
 
-	#${shary} 
 	dqb " aswasw ${1} DONE"
 	csleep 1
 }
@@ -514,25 +514,29 @@ function aswasw() { #privaatti fktio
 #	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 #}
 
-function e22_ts() { #HUOM.081225:jos toimisi jo?
+function e22_ts() { #VAIH:tstaus TAS (91225)
 	dqb "e22_ts () ${1} ${2}" #van1 param pitäisi olla tällä - Yoda
-	csleep 3
+	csleep 2
 
 	[ -z ${1} ] && exit 13
 	[ -d ${1} ] || exit 14 #hmistossa hyvä olla kirj.oik.
 	[ -w ${1} ] || exit 15 
 
 	dqb "NEXT:mv ${pkgdir}/*.deb ${1}"
+	csleep 10
 	${svm} ${pkgdir}/*.deb ${1}
 	dqb $?
-	csleep 20
+	csleep 10
 
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
 
+	udp6 ${1} #jos menisi näin
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
+	csleep 10
+
 	dqb "E22TS DONE"
-	csleep 4
+	csleep 2
 }
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
@@ -619,7 +623,8 @@ function e22_arch() { #301125:osannee tehdä paketin, pieni testailu voisi kuite
 	dqb "e22_arch d0n3"
 }
 
-function e22_tblz() { #301125:jospa jo toimisi muutoksien jälkeen
+#VAIH:udp6()-kutsu pikemminkin e22_ts() aikana
+function e22_tblz() { #VAIH:testaa TAAS (091225)
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
 
@@ -635,7 +640,7 @@ function e22_tblz() { #301125:jospa jo toimisi muutoksien jälkeen
 	[ -z ${4} ] && exit 14
 
 	dqb "parx_ok"
-	csleep 3
+	csleep 2
 
 	dqb "EDIBLE AUTOPSY"
 	csleep 1
@@ -658,7 +663,7 @@ function e22_tblz() { #301125:jospa jo toimisi muutoksien jälkeen
 	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
 	csleep 2
 
-	udp6 ${1} #081225:joutuukohan muuttamaan?
+	#udp6 ${CONF_pkgdir} #${1} #081225:joutuukohan muuttamaan?
 	#aval0n #tarpeellinen?
 	
 	#HUOM.28925.2:onkohan hyvä idea tässä?
@@ -725,10 +730,10 @@ function e22_other_pkgs() { #301125:tekee paketin, sisällön toimivuus vielä t
 	${shary} ${E22GI}
 	${shary} gpg
 	dqb "MAGOG"
-	csleep 3
+	csleep 2
 	
 	[ $? -eq 0 ] && dqb "TYBE 0F THE R3S1NATED"
-	csleep 4
+	csleep 2
 
 	#(pitäisi kai ohittaa kyselyt dm:n shteen)
 	#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
@@ -743,13 +748,13 @@ function e22_other_pkgs() { #301125:tekee paketin, sisällön toimivuus vielä t
 
 	#aval0n
 	dqb "BEFORE UPD6" #kutsutaabko tuota?	
-	csleep 3
+	csleep 2
 
 	dqb "e22_other_pkgs donew"
 	csleep 1
 }
 
-function e22_dblock() { #TODO:toimivuuden testaus josqs
+function e22_dblock() { #VAIH:toimivuuden testaus vähitellen (091225)
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14
@@ -768,7 +773,7 @@ function e22_dblock() { #TODO:toimivuuden testaus josqs
 
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
-	udp6 ${2} #081225:joutunee muuttamaan kohta (TODO)
+	#udp6 ${CONF_pkgdir} #${2} #081225:joutunee muuttamaan kohta (VAIH)
 
 	#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
 	
@@ -882,7 +887,7 @@ function e22_upgp() {
 	#VAIH:selvitä, toimiiko udp6() oikein, 081225 osoittautui olevan jotain härdelliä
 	#... pitäisiköhän olla $pkgdir sittenkin?
 	
-	udp6 ${pkgdir} #${2}
+	#udp6 ${CONF_pkgdir} #${2}
 	#dqb "UTP PT 3"
 	csleep 1
 

@@ -197,13 +197,13 @@ function check_bin_0() {
 
 check_bin_0
 
-#function slaughter0() { #käytössä?
-#	local fn2
-#	local ts2
-#	fn2=$(echo $1 | awk '{print $1}') 
-#	ts2=$(${sah6} ${fn2}) #sha512sum 
-#	echo ${ts2} | awk '{print $1,$2}' >> ${2}
-#}
+function slaughter0() { #käytössä?
+	local fn2
+	local ts2
+	fn2=$(echo $1 | awk '{print $1}') 
+	ts2=$(${sah6} ${fn2}) #sha512sum 
+	echo ${ts2} | awk '{print $1,$2}' >> ${2}
+}
 
 
 function jules() {
@@ -339,8 +339,8 @@ function efk2() { #jotain kautta tätäkin kai kutsuttiin
 	csleep 1
 }
 
-#291125:clib-fktioita kustuvaan koodiin tarkistus että _pkkgs-jutut täsmäävät tuuvisteisiin ja allek? 
-#... tai siis jos e22_a() ottaisi mukaan shasums:iin...
+#291125:clib-fktioita kuTSuvaan koodiin tarkistus että _pkgs-jutut täsmäävät tIIvisteisiin ja allek? 
+#... tai siis jos e22_a() ottaisi mukaan shasums:iin... olisikohan jo?
 #
 #clib5p ja clibpre pystyisi yhdistämään
 function clib5p() {
@@ -408,13 +408,13 @@ function fromtend() {
 		${odio} ${sd0} --force-confold -i $@
 	fi
 
-	csleep 3
+	csleep 2
 	dqb "DNÖE"
 }
 
 #sillä toisella tyylillä tämä masentelu jatkossa? for ... in ... ?
 #tämän tulisi kai olla privaatti fktio
-
+#091225:jospa vaikka sq-chr-ympäristössä testaisi toimimman (TODO)
 #function common_tbls() {
 #	dqb "COMMON TABLESD $1, $2"
 #	csleep 1
@@ -490,8 +490,6 @@ function fromtend() {
 #	${scm} 0550 /etc/iptables	
 #
 #	#gpg vielä tähän?
-#	#Depends: gpgconf (= 2.2.40-1.1), libassuan0 (>= 2.5.0), libbz2-1.0, libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42), libreadline8 (>= 6.0), libsqlite3-0 (>= 3.7.15), zlib1g (>= 1:1.1.4)
-#
 #
 #	echo "common_tblz d0n3"
 #	csleep 1
@@ -560,9 +558,16 @@ function check_binaries() {
 		ip6tr=$(${odio} which ip6tables-restore)
 	fi
 
+	#091225 siirretty tdstodts a/e22.sh, katsotaan toimiiko näin?
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
+	E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
+
 	#VAIH:tuo gg
-	[ -z "${gg}" ] && dqb "SHOULD INSTALL gpg AROUND HERE"
-	csleep 1
+	if [ -z "${gg}" ] ; then
+		dqb "SHOULD INSTALL gpg AROUND HERE"
+		csleep 1
+		#Depends: gpgconf (= 2.2.40-1.1), libassuan0 (>= 2.5.0), libbz2-1.0, libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42), libreadline8 (>= 6.0), libsqlite3-0 (>= 3.7.15), zlib1g (>= 1:1.1.4)
+	fi
 
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
@@ -768,7 +773,7 @@ function pre_enforce() {
 		csleep 2
 	fi
 
-	csleep 2
+	csleep 1
 	dqb "common_lib.pre_enforce d0n3"
 }
 
@@ -1195,7 +1200,7 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 #
 ##part3() vs import2 case 3 ,. what's the difference?
 #
-#081225:part3() vissiin kunnossa, common_p3 ja pasq kanssa selvitettävä
+#091225:part3() vissiin kunnossa, common_p3 ja pasq kanssa selvitetty
 function part3() {
 	dqb "part3 ${1} , ${2}"
 	csleep 1

@@ -49,7 +49,7 @@ function parse_opts_2() {
 
 if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
-	sleep 2
+	sleep 1
 
 	#HUOM.141025:them files should be checked before eztraxting
 	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
@@ -63,7 +63,7 @@ fi
 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
-	sleep 3
+	sleep 2
 	. ${d0}/$(whoami).conf
 else
 	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
@@ -121,7 +121,7 @@ fi
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
 echo "mkt= ${mkt} "
-csleep 6
+csleep 3
 
 if [ -f /.chroot ] || [ -x ${mkt} ] ; then
 	dqb "MTK"
@@ -284,6 +284,7 @@ function tpr() {
 #261125:eka case-blokki toimii
 case "${mode}" in
 	-1) 
+		# "$0 -1 -v" , miten toimii?
 		part=/dev/disk/by-uuid/${part0}		
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 		c=$(grep -c ${dir} /proc/mounts)
@@ -338,7 +339,7 @@ fi
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "srcfile=${srcfile}"
-csleep 2
+csleep 1
 
 case "${mode}" in
 	r) #291125:toimii, ainakin g_doit kautta mentynä
@@ -403,15 +404,14 @@ case "${mode}" in
 		if [ ! -z ${gg} ] ; then #-v vielä?
 			if [ -x ${gg} ] ; then
 				dqb "NOP"
-				#karray="${TARGET_Dkname1} ${TARGET_Dkname2}" #VAIH:jatkossa ihan konftdstoon tämä
-			
+				
 				for k in ${TARGET_Dkarray} ; do
 					dqb "dbg: ${gg} --import ${ridk}/${k}"
 					${gg} --import ${ridk}/${k}
 				done
 
 				[ ${debug} -eq 1 ] && ${gg} --list-keys
-				csleep 5
+				csleep 3
 			fi
 		fi	
 	;;
