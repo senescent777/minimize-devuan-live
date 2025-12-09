@@ -3,7 +3,6 @@
 debug=0 #1
 distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa?
 d0=$(pwd)
-#echo "d0= ${d0}"
 mode=-2
 tgtfile=""
 
@@ -328,8 +327,6 @@ case ${mode} in
 	;;
 	#VAIH:tämäkin taas (081225)
 	1|u|upgrade)
-
-		#VAIH:kutsuvaan koodiin cleanpkgs
 		e22_cleanpkgs ${pkgdir}
 		e22_cleanpkgs ${d}
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
@@ -352,7 +349,7 @@ case ${mode} in
 		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
 		#261125:toimii edelleen vaikka e22_hdr() karsittu
 		#301125:tekee paketin, sisällön toimivuus vielä testattava		
-		#VAIH:testaa taas (091225)
+		#091225:tekee paketin, sisältökin asentuu
 
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
@@ -363,7 +360,7 @@ case ${mode} in
 		fi
 	;;
 	t) 
-		#VAIH:testaa taas (091225) , siis siäsllön toimivuus myös (paketin tekee jo)
+		#091225:tekee paketin, sisältökin asentuu
 		e22_cleanpkgs ${d}
 		e22_cleanpkgs ${pkgdir}
 			

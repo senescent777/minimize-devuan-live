@@ -415,6 +415,7 @@ function fromtend() {
 #sillä toisella tyylillä tämä masentelu jatkossa? for ... in ... ?
 #tämän tulisi kai olla privaatti fktio
 #091225:jospa vaikka sq-chr-ympäristössä testaisi toimimman (TODO)
+#P.S. this function created to avoid a chicken-and-egg-situation
 #function common_tbls() {
 #	dqb "COMMON TABLESD $1, $2"
 #	csleep 1

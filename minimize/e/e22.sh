@@ -1,8 +1,8 @@
 #jatkossa pkgd -> CONF_pkgd
 [ -v CONF_pkgdir ] || CONF_pkgdir=${pkgdir}
 
-function e22_hdr() { #081225:toimiikohan sittenkään? live.ympäristössä tuli nalq kun suoraan /tmp alle yritti
-	#... olikohan se chmod o+t virge? ehgkä
+function e22_hdr() { #081225:toimiikohan sittenkään? live-ympäristössä tuli nalq kun suoraan /tmp alle yritti
+	#... olikohan se chmod o+t /tmp virge? ehgkä
 
 	dqb "e22hdr():BEFORE "
 	csleep 1
@@ -218,7 +218,7 @@ function e22_settings() { #HUOM.301125:tekee paketin, sisältö:
 	csleep 1
 }
 
-function e22_home() { #301125:taitaa toimia taas/edelleen
+function e22_home() { #TODO:testailu josqs
 	#261125:lienee ok, merd2 tulee mukaan, accept/reject-jutut myös
 	dqb "e22_home ${1} , ${2} , ${3}  "
 
@@ -514,7 +514,7 @@ function aswasw() { #privaatti fktio
 #	dqb "${NKVD} ${pkgdir}/libavahi* ?"	
 #}
 
-function e22_ts() { #VAIH:tstaus TAS (91225)
+function e22_ts() { #091225:jos vaikka toimisi
 	dqb "e22_ts () ${1} ${2}" #van1 param pitäisi olla tällä - Yoda
 	csleep 2
 
@@ -531,7 +531,7 @@ function e22_ts() { #VAIH:tstaus TAS (91225)
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
 
-	udp6 ${1} #jos menisi näin
+	udp6 ${1}
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 	csleep 10
 
@@ -623,8 +623,7 @@ function e22_arch() { #301125:osannee tehdä paketin, pieni testailu voisi kuite
 	dqb "e22_arch d0n3"
 }
 
-#VAIH:udp6()-kutsu pikemminkin e22_ts() aikana
-function e22_tblz() { #VAIH:testaa TAAS (091225)
+function e22_tblz() { #091225 toimi ainakin kerran
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
 
@@ -660,16 +659,15 @@ function e22_tblz() { #VAIH:testaa TAAS (091225)
 	${shary} ${E22_GT} 
 
 	dqb "x2.e22_tblz.part2"
-	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
+	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 2
 
-	#udp6 ${CONF_pkgdir} #${1} #081225:joutuukohan muuttamaan?
 	#aval0n #tarpeellinen?
 	
 	#HUOM.28925.2:onkohan hyvä idea tässä?
 	for s in ${PART175_LIST} ; do
 		${sharpy} ${s}*
-		${NKVD} ${pkgdir}/${s}*
+		${NKVD} ${CONF_pkgdir}/${s}*
 	done
 
 	${asy}
@@ -732,8 +730,8 @@ function e22_other_pkgs() { #301125:tekee paketin, sisällön toimivuus vielä t
 	dqb "MAGOG"
 	csleep 2
 	
-	[ $? -eq 0 ] && dqb "TYBE 0F THE R3S1NATED"
-	csleep 2
+	#[ $? -eq 0 ] && dqb "TuBE 0F THE R3S0NATED"
+	#csleep 2
 
 	#(pitäisi kai ohittaa kyselyt dm:n shteen)
 	#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
@@ -747,7 +745,7 @@ function e22_other_pkgs() { #301125:tekee paketin, sisällön toimivuus vielä t
 	${lftr}
 
 	#aval0n
-	dqb "BEFORE UPD6" #kutsutaabko tuota?	
+	#dqb "BEFORE UPD6" #kutsutaabko tuota?	ei ainakaan tössö fktyiossa
 	csleep 2
 
 	dqb "e22_other_pkgs donew"
@@ -773,8 +771,6 @@ function e22_dblock() { #VAIH:toimivuuden testaus vähitellen (091225)
 
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
-	#udp6 ${CONF_pkgdir} #${2} #081225:joutunee muuttamaan kohta (VAIH)
-
 	#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
 	
 	local t
@@ -847,7 +843,7 @@ function e22_upgp() {
 	echo $? #HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
 	csleep 1
 
-	[ ${debug} -eq 1 ] && ls -las ${pkgdir}/*.deb
+	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb
 	csleep 10
 
 	#aval0n #käyttöön vai ei?
@@ -861,15 +857,18 @@ function e22_upgp() {
 	csleep 1
 	local s
 
+	[ -v CONF_pkgdir ] || exit 99
+	#tämnänkaltainen bplokki oli jossain muuallakin?
 	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä... EIKU
 		dqb "processing ${s} ..."
 		csleep 1
 
-		${NKVD} ${pkgdir}/${s}*
+		#-v ennen silmukkaa?
+		${NKVD} ${CONF_pkgdir}/${s}*
 	done
 
 	#HUOM.part076() ja part2_5() on keksitty
-	[ ${debug} -eq 1 ] && ls -las ${pkgdir}/*.deb
+	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb
 	csleep 1
 	
 	case ${3} in
@@ -878,19 +877,13 @@ function e22_upgp() {
 			csleep 1
 		;;
 		*)
-			${NKVD} ${pkgdir}/wpa*
+			${NKVD} ${CONF_pkgdir}/wpa*
 			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
 			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
 		;;
 	esac
 
-	#VAIH:selvitä, toimiiko udp6() oikein, 081225 osoittautui olevan jotain härdelliä
-	#... pitäisiköhän olla $pkgdir sittenkin?
-	
-	#udp6 ${CONF_pkgdir} #${2}
-	#dqb "UTP PT 3"
 	csleep 1
-
 	dqb "SIELUNV1H0LL1N3N"
 	csleep 1
 }
