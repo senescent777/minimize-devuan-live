@@ -893,7 +893,7 @@ function enforce_access() {
 	${sco} root:root /
 
 	${scm} 0777 /tmp
-	${scm} o+t /tmp
+	${scm} o+w /tmp #081225:+t pois koska "exp2 u"
 	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat

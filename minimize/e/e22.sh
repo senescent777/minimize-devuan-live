@@ -658,7 +658,7 @@ function e22_tblz() { #301125:jospa jo toimisi muutoksien jälkeen
 	[ ${debug} -eq 1 ] && ls -las ${pkgdir}
 	csleep 2
 
-	udp6 ${1}
+	udp6 ${1} #081225:joutuukohan muuttamaan?
 	#aval0n #tarpeellinen?
 	
 	#HUOM.28925.2:onkohan hyvä idea tässä?
@@ -768,7 +768,7 @@ function e22_dblock() { #TODO:toimivuuden testaus josqs
 
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
-	udp6 ${2} 
+	udp6 ${2} #081225:joutunee muuttamaan kohta (TODO)
 
 	#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
 	
@@ -833,12 +833,6 @@ function e22_upgp() {
 
 	dqb "params_ok"
 	csleep 10
-
-	#TODO:kutsuvaan koodiin cleanpkgs
-	e22_cleanpkgs ${pkgdir}
-	e22_cleanpkgs ${2}
-	dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
-	csleep 1
 	
 	${fib}
 	csleep 1

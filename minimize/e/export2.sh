@@ -273,6 +273,7 @@ e22_pre1 ${d} ${distro}
 
 e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+#TODO:cleanpkgs-jutut tähän jatkossa?
 
 case ${mode} in
 	#johdonmukaisuuden vuoksi 3|4) jatkossa (imp2/exp2)
@@ -327,8 +328,14 @@ case ${mode} in
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
 	#VAIH:tämäkin taas (081225)
-	1|u|upgrade) #261125:tämän casen luoman arkiston sisältämät paketit asentuivat
-		#251125:näyttää tosiaan siltä että päivityspaketin purkaminen itsessään ei riko slimiä, sisällön asentaminen sen sijaan...
+	1|u|upgrade)
+
+		#VAIH:kutsuvaan koodiin cleanpkgs
+		e22_cleanpkgs ${pkgdir}
+		e22_cleanpkgs ${d}
+		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
+		csleep 1
+
 		e22_upgp ${tgtfile} ${d} ${iface}
 
 		e22_ts ${d}
