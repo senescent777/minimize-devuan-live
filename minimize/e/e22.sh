@@ -679,7 +679,7 @@ function e22_tblz() { #091225 toimi ainakin kerran
 }
 
 #TODO:ntp-jutut takaisin josqs?
-function e22_other_pkgs() { #301125:tekee paketin, sisällön toimivuus vielä testattava
+function e22_other_pkgs() { #091225:
 	dqb "e22_other_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
@@ -750,7 +750,7 @@ function e22_other_pkgs() { #301125:tekee paketin, sisällön toimivuus vielä t
 	csleep 1
 }
 
-function e22_dblock() { #VAIH:toimivuuden testaus vähitellen (091225)
+function e22_dblock() { #091225:
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14

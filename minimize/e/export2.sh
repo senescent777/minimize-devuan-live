@@ -209,7 +209,7 @@ case ${mode} in
 		#exit
 
 		tcmd=$(which tar)
-		[ -v testgris ] && tcmd=${srat} #071225;testgris- ja .chroot sijaan vain 1 muuttuja jatkossa?
+		[ -v testgris ] && tcmd=${srat} #071225:testgris- ja .chroot sijaan vain 1 muuttuja jatkossa?
 
 		#find-komentoja pystynee kai hinkkaamaan vielä
 
@@ -280,7 +280,7 @@ case ${mode} in
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
-	3|4) #TODO:testaa TAAS (091225)
+	3|4) #VAIH:testaa TAAS (091225)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
