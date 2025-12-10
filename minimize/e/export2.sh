@@ -171,7 +171,7 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#101225:kuseeko tässä jokin vai ei? TODO:selvitä
+		#101225:toimii (ainakin 1 kerran)
 		${sifd} ${iface}
 		e22_settings ~ ${d0}
 

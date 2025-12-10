@@ -73,7 +73,7 @@ else
 	fi	
 fi
 
-#TODO:testaa yhdistelmä live-ymp+common_lib pois pelistä
+#TODO:testaa yhdistelmä live-ymp+common_lib pois pelistä ($0 1 asdf.gh aluksi)
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -343,7 +343,7 @@ dqb "srcfile=${srcfile}"
 csleep 1
 
 case "${mode}" in
-	r) #TODO:korjaa (jos vikaa)
+	r) #101225:toimii vai ei?
 		[ -d ${srcfile} ] || exit 22
 		tpr ${srcfile}
 	;;
@@ -383,7 +383,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#011225:profiilin import tätä kautta toimii		
+		#101225:toimii	(ainakin 1 kerran)	
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)

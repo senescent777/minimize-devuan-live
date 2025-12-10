@@ -184,7 +184,7 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 }
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  , muutokset oikeastaan tdstpn profs.sh
-function e22_settings() { #TODO:korjaa
+function e22_settings() { #VAIH:selvitä tarvitseekokoko rjata
 	dqb "e22_settings ${1} ${2}"
 	csleep 1
 
