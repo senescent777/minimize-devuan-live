@@ -175,7 +175,7 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#TODO:korjaa
+		#VAIH:korjaa (tai siis prof export tässä vissiin toimii mutta)
 		${sifd} ${iface}
 		e22_settings ~ ${d0}
 

@@ -200,6 +200,7 @@ other_horrors
 dqb "BEFORE IMP2"
 csleep 5
 
+#TODO:testaa että toimii tämä kohta
 if [ ! -f /.chroot ] ; then
 	${d0}/import2.sh r ${d0} -v #2. ja 3. param. turhia?
 fi

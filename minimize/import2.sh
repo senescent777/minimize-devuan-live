@@ -236,7 +236,7 @@ function common_part() {
 }
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#TODO:korjaa jos rikki, 101225 tienoilla ei fox-profiili
+#VAIH:korjaa jos rikki, 101225 tienoilla ei fox-profiili (kuseekohan g_doit kautta vaiko exp2:ssa vika?)
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
@@ -342,7 +342,7 @@ dqb "srcfile=${srcfile}"
 csleep 1
 
 case "${mode}" in
-	r) #TODO:korjaa
+	r) #TODO:korjaa (jos vikaa)
 		[ -d ${srcfile} ] || exit 22
 		tpr ${srcfile}
 	;;
@@ -382,7 +382,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#TODO:testaa jälleen		
+		#011225:profiilin import tätä kautta toimii		
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
