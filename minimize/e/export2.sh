@@ -224,13 +224,13 @@ case ${mode} in
 		exit
 	;;
 	g)
-		#HUOM.291125:edelleen antaa komennot joilla saa paketin aikaiskesi
+		#TODO:testaa miten oksennus toimii
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "${sag_u} | ${fib} , when necessary " 
 
 		echo "${shary} ${E22GI}"
-		#TODO:CONF_pkgdir
-		echo "${svm} ${pkgdir}/*.deb ${d}" #oli se e22_ts() kanssa
+	
+		echo "${svm} ${CONF_pkgdir}/*.deb ${d}" #oli se e22_ts() kanssa
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
 	;;
