@@ -26,12 +26,13 @@ function usage() {
 
 if [ $# -gt 0 ] ; then
 	mode=${1}
+	#TODO: [ -f ${1} ]
 	srcfile=${2}
 fi
 
 function parse_opts_1() {
 	case "${1}" in
-		-v|--v) #101225:voisikohan jo gpo() hoitaa tämän vivun?
+		-v|--v) #101225:voisikohan jo gpo() hoitaa tämän vivun? kts g_doit
 			debug=1
 		;;
 		*)

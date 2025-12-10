@@ -22,7 +22,7 @@ fi
 function parse_opts_1() {
 	dqb "parseopts_2 ${1} ${2}"
 
-#	case "${1}" in
+#	case
 #		-v|--v) #tämä vähitellen -> GPO() (joko jo 101225?)
 #			debug=1
 #		;;
@@ -32,10 +32,17 @@ function parse_opts_1() {
 			if [ -d ${d0}/${1} ] ; then
 				distro=${1}
 			else
-				mode=${1}
+				case  "${1}" in
+					0|1|2)
+						mode=${1}
+					;;
+					*)
+						dqb "invalid param"
+					;;
+				esac
 			fi
-		;;
-#	esac
+#		;;
+#	
 }
 
 function parse_opts_2() {
@@ -61,7 +68,7 @@ dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
 
-#291125:ni3mämistä jos vähän miettisi ao. ja 2_5 suhteen ?
+#291125:nimeämistä jos vähän miettisi ao. ja 2_5 suhteen ?
 part076 ${distro}
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
@@ -102,6 +109,8 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 
 #===================================================PART 2===================================
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
+#TAI vielä parempi?:kts devuanin alsa-ohjeet
+#
 #271125_/etc/default/locale.tmp: line 1: warning: setlocale: LC_TIME: cannot change locale (fi_FI.UTF-8): No such file or directory
 
 function el_loco() {
@@ -121,6 +130,8 @@ function el_loco() {
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
 		csleep 1
+
+		#TODO:jos grep -v '#' kuitenkin
 		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
 
 		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
@@ -131,13 +142,16 @@ function el_loco() {
 		csleep 1
 		${scm} a-w /etc/default/locale
 	fi
-
+	
 	if [ ${1} -gt 0 ] ; then
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
 	else
 		${odio} locale-gen
 	fi
+
+	#101225:pitäisikö jotain tehdä vielä että nuo sorkitut lokaaliasetukset saa voimaan?
+	#TODO:LC_xxx mjien exportointi jokatap?
 
 	if [ ${2} -lt 1 ] && [ ${debug} -eq 1 ] ; then
 		ls -las /etc/default/lo*

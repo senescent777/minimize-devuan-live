@@ -53,7 +53,7 @@ itni
 function fix_sudo() {
 	dqb "fix_sud0.pt0"
 
-	dqb "f_s_PART2"
+	#dqb "f_s_PART2"
 
 	${sco} -R 0:0 /etc/sudoers.d
 	${scm} 0440 /etc/sudoers.d/*
@@ -605,6 +605,7 @@ function check_binaries() {
 	csleep 1
 }
 
+#TODO:vaikka tässä se /e/d/locale sourcettaminen? liittyy:el_loco()
 function check_binaries2() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2"
 	csleep 1
@@ -691,7 +692,6 @@ function fasdfasd() {
 	${scm} 0644 ${1}
 }
 
-#081225:vissiin enforce-jutut kunnossa, seur e_jutut
 function pre_enforce() {
 	dqb "common_lib.pre_enforce ${1} "
 
@@ -704,7 +704,6 @@ function pre_enforce() {
 
 	csleep 1
 	fasdfasd ${q}/meshuggah
-	#touch 
 
 	[ ${debug} -eq 1 ] && ls -las ${q}
 	csleep 1
@@ -746,8 +745,10 @@ function pre_enforce() {
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
 		csleep 1
 
+		#101225:tarpeeksi yleinen että fktioksi asti?
 		${scm} 0440 ${q}/meshuggah
 		${sco} root:root ${q}/meshuggah
+
 		${svm} ${q}/meshuggah /etc/sudoers.d
 
 		CB_LIST1=""
@@ -787,7 +788,8 @@ function pre_enforce() {
 }
 
 function mangle2() {
-	#[ -z ] ?
+	[ -z  ${1} ] && exit 99
+
 	if [ -f ${1} ] ; then
 		dqb "MANGLED ${1} BEYOND RECQG"
 		${scm} o-rwx ${1}
@@ -795,7 +797,7 @@ function mangle2() {
 	fi
 }
 
-#081225:e_jfktiot saattavat olla kunnossa (tai sit ei)
+#081225:e_fktiot saattavat olla kunnossa (tai sit ei)
 function e_e() {
 	dqb "e_e"	
 	csleep 1
@@ -1220,7 +1222,6 @@ function part3() {
 	dqb "PARAMS_OK"
 	csleep 1
 
-	#271125:uutena tämä blokki, pois jos qsee
 	local c15
 	c15=$(find ${1} -type f -name '*.deb' | wc -l)
 
@@ -1229,7 +1230,6 @@ function part3() {
 	fi
 
 	csleep 1
-	#
 
 	jules
 	common_pp3 ${1}

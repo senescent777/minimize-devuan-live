@@ -1,7 +1,7 @@
 iface=
 enforce=
 debug=0
-pkgdir=/var/cache/apt/archives
+pkgdir=/var/cache/apt/archives #jatkossa nimenä CONF_pkgdir
 dir=/media
 dnsm=0
 pkgsrc= #tämän idea olikaan? no sources.list tietenkin

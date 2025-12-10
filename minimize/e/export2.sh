@@ -31,6 +31,7 @@ function usage() {
 
 if [ $# -gt 1 ] ; then
 	mode=${1}
+	#TODO: [ -f ${1} ]
 	tgtfile=${2}
 else
 	usage
@@ -42,7 +43,7 @@ function parse_opts_1() {
 	dqb "exp2.patse_otps8( ${1}, ${2})"
 
 	case "${1}" in
-		-v|--v) #101225:voisikohan jo gpo() hoitaa tämän vivun?
+		-v|--v) #101225:voisikohan jo gpo() hoitaa tämän vivun? #kts g_doit
 			debug=1
 		;;
 		*)
