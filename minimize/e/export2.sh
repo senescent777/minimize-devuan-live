@@ -343,11 +343,7 @@ case ${mode} in
 	p) #TODO:testaa
 		e22_profs ${tgtfile} ${d0} 
 	;;
-	e)
-		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
-		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
-		#261125:toimii edelleen vaikka e22_hdr() karsittu
-		#301125:tekee paketin, sisällön toimivuus vielä testattava		
+	e)		
 		#091225:tekee paketin, sisältökin asentuu
 
 		e22_cleanpkgs ${d}
