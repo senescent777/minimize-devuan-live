@@ -109,57 +109,57 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 
 #===================================================PART 2===================================
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
-#TAI vielä parempi?:kts devuanin alsa-ohjeet
+#TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
 #
 #271125_/etc/default/locale.tmp: line 1: warning: setlocale: LC_TIME: cannot change locale (fi_FI.UTF-8): No such file or directory
 
 function el_loco() {
-	dqb "MI LOCO ${1} , ${2}"
-	csleep 1
-
-	if [ -s /etc/default/locale.tmp ] ; then
-		. /etc/default/locale.tmp
-
-		export LC_TIME
-		export LANGUAGE
-		export LC_ALL
-	fi
-
-	#HUOM.27725:sq-chroot-ymp perl valittaa LANGUAGE ja ALL , voisi tehdä jotain (vielä opngelma?)
-	
-	if [ ${2} -lt 1 ]; then
-		${scm} a+w /etc/default/locale
-		csleep 1
-
-		#TODO:jos grep -v '#' kuitenkin
-		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
-
-		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
-		#jos riittäisi 10 riviä
-		csleep 1
-
-		cat /etc/timezone
-		csleep 1
-		${scm} a-w /etc/default/locale
-	fi
-	
-	if [ ${1} -gt 0 ] ; then
-		${odio} dpkg-reconfigure locales
-		${odio} dpkg-reconfigure tzdata
-	else
-		${odio} locale-gen
-	fi
-
-	#101225:pitäisikö jotain tehdä vielä että nuo sorkitut lokaaliasetukset saa voimaan?
-	#TODO:LC_xxx mjien exportointi jokatap?
-
-	if [ ${2} -lt 1 ] && [ ${debug} -eq 1 ] ; then
-		ls -las /etc/default/lo*
-		csleep 1
-	fi
-
-	dqb "DN03"
-	csleep 1
+#	dqb "MI LOCO ${1} , ${2}"
+#	csleep 1
+#
+#	if [ -s /etc/default/locale.tmp ] ; then
+#		. /etc/default/locale.tmp
+#
+#		export LC_TIME
+#		export LANGUAGE
+#		export LC_ALL
+#	fi
+#
+#	#HUOM.27725:sq-chroot-ymp perl valittaa LANGUAGE ja ALL , voisi tehdä jotain (vielä opngelma?)
+#	
+#	if [ ${2} -lt 1 ]; then
+#		${scm} a+w /etc/default/locale
+#		csleep 1
+#
+#		#TODO:jos grep -v '#' kuitenkin
+#		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
+#
+#		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
+#		#jos riittäisi 10 riviä
+#		csleep 1
+#
+#		cat /etc/timezone
+#		csleep 1
+#		${scm} a-w /etc/default/locale
+#	fi
+#	
+#	if [ ${1} -gt 0 ] ; then
+#		${odio} dpkg-reconfigure locales
+#		${odio} dpkg-reconfigure tzdata
+#	else
+#		${odio} locale-gen
+#	fi
+#
+#	#101225:pitäisikö jotain tehdä vielä että nuo sorkitut lokaaliasetukset saa voimaan?
+#	#TODO:LC_xxx mjien exportointi jokatap?
+#
+#	if [ ${2} -lt 1 ] && [ ${debug} -eq 1 ] ; then
+#		ls -las /etc/default/lo*
+#		csleep 1
+#	fi
+#
+#	dqb "DN03"
+#	csleep 1
 }
 
 c14=0
