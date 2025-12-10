@@ -361,7 +361,7 @@ case ${mode} in
 	t) 
 		#091225:tekee paketin, sisältökin asentuu
 		e22_cleanpkgs ${d}
-		e22_cleanpkgs ${pkgdir} #TODO:CONF_pkgdir
+		e22_cleanpkgs ${CONF_pkgdir}
 			
 		message
 		csleep 2
