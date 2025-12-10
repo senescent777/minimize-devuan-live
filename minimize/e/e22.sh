@@ -208,6 +208,8 @@ function e22_settings() { #VAIH:selvitä tarvitseekokoko rjata
 
 		exp_prof ${1}/fediverse.tar default-esr	
 		#$1 ei ehkä pakko laittaa mykaan koska cd ylempänä
+
+		[ -s ${1}/fediverse.tar ] || exit 32
 	else
 		dqb "export2 p \$file ; import2 1 $file  ?"
 		exit 24
@@ -241,14 +243,19 @@ function e22_home() { #091225:testailu saattoi onnistua, paitsi krmtiords ffox-p
 		dqb "PUIG DESTRÖYERR b666"
 	fi
 
+	local t
 	csleep 1
+
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 	for t in $(find ~ -type f -name 'merd2.sh') ; do ${srat} -rvf ${1} ${t} ; done  
-	local t
-
+	
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 1
 	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*' | grep -v pulse) ; do ${srat} -rvf ${1} ${t} ; done  
+	csleep 1
+
+	t=$(${srat} -tf ${1} | grep fediverse.tar | wc -l)
+	[ ${t} -lt 1 ] && exit 72
 	csleep 1
 
 	dqb "B"
@@ -263,7 +270,7 @@ function e22_home() { #091225:testailu saattoi onnistua, paitsi krmtiords ffox-p
 
 	dqb "Xorg -config ~/xorg.conf ?"
 	csleep 10
-	${srat} -rvf ${1} ~/xorg.conf #tässä vai settings:issä ?
+	${srat} -rvf ${1} ~/xorg.conf #tässä vai settings:issä ? -f taakse jokatap
 
 	dqb "e22_home d0n3"
 	csleep 1

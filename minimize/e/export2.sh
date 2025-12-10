@@ -317,6 +317,9 @@ case ${mode} in
 		csleep 1
 		${NKVD} ${d}/*.tar #oli se fktiokin
 
+		${srat} -tf ${tgtfile} | grep fediverse
+		csleep 10
+
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 1	
