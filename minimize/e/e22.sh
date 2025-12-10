@@ -196,7 +196,7 @@ function e22_settings() { #VAIH:selvitä tarvitseekokoko rjata
 
 	[ -z ${1} ] && exit 11
 	[ -z ${2} ] && exit 12
-	[ -d ${1} ] || exit 22 #meneeköhän oikein? vissiin
+	[ -d ${1} ] || exit 22
 	[ -d ${2} ] || exit 23
 
 	dqb "paramz 0k"
@@ -226,7 +226,7 @@ function e22_settings() { #VAIH:selvitä tarvitseekokoko rjata
 	csleep 1
 }
 
-function e22_home() { #091225:testailu saattoi onnistua, paitsi krmtiords ffox-prof TODO:korjaa
+function e22_home() { #091225:testailu saattoi onnistua, paitsi  ffox-prof TODO:korjaa jos vikaa
 	#261125:lienee ok, merd2 tulee mukaan, accept/reject-jutut myös
 	dqb "e22_home ${1} , ${2} , ${3}  "
 
@@ -789,7 +789,7 @@ function e22_dblock() { #091225:taitaa toimia
 	t=$(echo ${2} | cut -d '/' -f 1-5)
 
 	e22_ts ${2}
-	enforce_access ${n} ${t}
+	enforce_access ${n} ${t} #tarpeellinen nykyään?
 	e22_arch ${1} ${2}
 	csleep 1
 

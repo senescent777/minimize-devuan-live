@@ -29,7 +29,7 @@ function usage() {
 	echo "$0 -h: shows this message about usage"	
 }
 
-#TODO:jos muuttaisi blokin koskapa gpo() nykyään
+#TODO:jos muuttaisi blokin koskapa gpo() nykyään (-h kanssa voisi tehdä toisinkin)
 if [ $# -gt 1 ] ; then
 	mode=${1}
 	[ -f ${1} ] && exit 99
@@ -124,9 +124,6 @@ if [ -z "${mkt}" ] ; then
 	exit 8
 fi
 
-#HUOM. ei kovin oleellista ajella tätä skriptiä squashfs-cgrootin siSÄllä
-#mutta olisi hyvä voida testailla sq-chrootin ulkopuolella
-
 dqb "e22_pre0"
 csleep 1
 
@@ -186,11 +183,9 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#301125:teki paketin jo eilen, sisältö ehkä ok, live-ympäristössä pientä kiukuttelua mikä toivottavasti jo ohi 
-		#sisällön kunto ei tämän casen asia oikeastaan
-		#kiukuttelu saattoi liittyä /tmp-hakemistoon tai sitten ei (ehkä mktemp -d auttaa?)
-
-		#TODO:jospa suoraan tar -jcvf ni ei tartte 2 tdston kanssa säätää	
+		#101225:edelleen tekee paketin (mod /tmp-hmiston  kiukuttelut)
+		#TODO:jospa suoraan tar -jcvf ni ei tartte 2 tdston kanssa säätää
+		#... samassa yhteydessä find-jutut laitettava uusiksi	
 		cd ${d0}
 	
 		e22_hdr ${tgtfile}
@@ -201,8 +196,6 @@ case ${mode} in
 
 		tcmd=$(which tar)
 		[ -v testgris ] && tcmd=${srat} #071225:testgris- ja .chroot sijaan vain 1 muuttuja jatkossa?
-
-		#find-komentoja pystynee kai hinkkaamaan vielä
 
 		for f in $(find . -type f -name '*.sh' | grep -v 'e/' | grep -v 'olds/') ; do 
 			${tcmd} -rvf ${tgtfile} ${f}
@@ -264,7 +257,7 @@ e22_pre1 ${d} ${distro}
 
 e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
-#VAIH:cleanpkgs-jutut tähän jatkossa?
+
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
@@ -274,7 +267,7 @@ case ${mode} in
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
-	3|4) #091225:case 3 tekee toimivan paketin ... paitsi että ffox prof (TODO:korjaa?)
+	3|4) #091225:case 3 tekee toimivan paketin ... paitsi että ffox prof kanssa jotain tilap? ongelmaa
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
@@ -284,11 +277,10 @@ case ${mode} in
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
+		
 		dqb "srat= ${srat}"
 		csleep 1
-
 		e22_hdr ${d}/f.tar
-		#e22_cleanpkgs ${d}
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
@@ -296,7 +288,6 @@ case ${mode} in
 			e22_other_pkgs ${dnsm}
 	
 			if [ -d ${d} ] ; then
-				#enf_scc ulos d-blokista vai ei?
 				e22_dblock ${d}/f.tar ${d}
 			fi
 
@@ -324,8 +315,6 @@ case ${mode} in
 	;;
 	#091225:teki paketin, sisällön kelpoisuus selvitettävä
 	1|u|upgrade)
-		#e22_cleanpkgs ${CONF_pkgdir}
-		#e22_cleanpkgs ${d}
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
 
@@ -342,9 +331,7 @@ case ${mode} in
 		e22_profs ${tgtfile} ${d0} 
 	;;
 	e)		
-		#091225:teki paketin, sisältökin asentui
-
-		#e22_cleanpkgs ${d}
+		#101225:teki paketin, sisältökin asentui 091225
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_other_pkgs ${dnsm}
 
@@ -353,10 +340,7 @@ case ${mode} in
 		fi
 	;;
 	t) 
-		#091225:teki paketin, sisältökin asentui
-		#e22_cleanpkgs ${d}
-		#e22_cleanpkgs ${CONF_pkgdir}
-			
+		#101225:teki paketin, sisältökin asentui 091225
 		message
 		csleep 2
 
