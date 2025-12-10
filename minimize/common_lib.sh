@@ -392,6 +392,8 @@ function clibpre() {
 }
 
 #HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (TODO)
+#... export xxx tai sitten man sudo taas
+#
 #... sen lxdm:n asennuksen kanssa jos saisi kysymyKsen ohituksen niin olisi hyvä kanssa
 function fromtend() {
 	dqb "FRöMTEND"
@@ -570,12 +572,12 @@ function check_binaries() {
 		#Depends: gpgconf (= 2.2.40-1.1), libassuan0 (>= 2.5.0), libbz2-1.0, libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42), libreadline8 (>= 6.0), libsqlite3-0 (>= 3.7.15), zlib1g (>= 1:1.1.4)
 		#dqb "NEXT: ${sdi}   or smthing "
 
-		#cefgh ${1}
-		#common_pp3 ${1}
-		#for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
+		cefgh ${1}
+		common_pp3 ${1}
+		for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
 
-		#gg=$(${odio} which gpg)
-		#gv=$(${odio} which gpgv)
+		gg=$(${odio} which gpg)
+		gv=$(${odio} which gpgv)
 	fi
 
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
