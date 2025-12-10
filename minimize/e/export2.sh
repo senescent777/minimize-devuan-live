@@ -340,7 +340,7 @@ case ${mode} in
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 	;;
-	p) #TODO:testaa
+	p) #091225:tekee paketin missä validia sisältöä, kai
 		e22_profs ${tgtfile} ${d0} 
 	;;
 	e)		
