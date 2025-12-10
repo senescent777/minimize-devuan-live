@@ -163,7 +163,7 @@ csleep 1
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
-	f) 	#291125:joskohan nykyään jo toimisi
+	f) 	#101225:tekee edelleen paketin
 		
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
@@ -224,7 +224,7 @@ case ${mode} in
 		exit
 	;;
 	g)
-		#TODO:testaa miten oksennus toimii
+		#101225:ulostuksilla saa paketin aikaiseksi edelleen
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "${sag_u} | ${fib} , when necessary " 
 
@@ -277,7 +277,7 @@ case ${mode} in
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
-	3|4) #091225:case 3 tekee toimivan paketin ... paitsi että ffox prof (TODO:korjaa)
+	3|4) #091225:case 3 tekee toimivan paketin ... paitsi että ffox prof (TODO:korjaa?)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 

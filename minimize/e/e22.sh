@@ -784,7 +784,7 @@ function e22_dblock() { #091225:taitaa toimia
 	dqb "e22dblock DONE"
 }
 
-function e22_profs() { #091225:tekee paketin missä validia sisältöä, kai
+function e22_profs() { #091225:tekee paketin missä validia sisältöä, kai (pitäisiköhän taas nimet uudestaan?)
 	dqb "e22_profs ${1} ${2}"
 
 	[ -z ${1} ] && exit 99
