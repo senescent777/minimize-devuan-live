@@ -29,11 +29,13 @@ function usage() {
 	echo "$0 -h: shows this message about usage"	
 }
 
+#TODO:jos muuttaisi blokin koskapa gpo() nykyään
 if [ $# -gt 1 ] ; then
 	mode=${1}
 	#TODO: [ -f ${1} ]
 	tgtfile=${2}
 else
+	#echo "$0 -h"
 	usage
 	exit 1	
 fi
@@ -121,12 +123,6 @@ if [ -z "${mkt}" ] ; then
 	echo "sudo apt-get update;sudo apt-get install coreutils"
 	exit 8
 fi
-
-dqb "${sco} -Rv _apt:root ${CONF_pkgdir}/partial"
-csleep 1
-${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-${scm} -Rv 700 ${CONF_pkgdir}/partial/
-csleep 1
 
 #HUOM. ei kovin oleellista ajella tätä skriptiä squashfs-cgrootin siSÄllä
 #mutta olisi hyvä voida testailla sq-chrootin ulkopuolella

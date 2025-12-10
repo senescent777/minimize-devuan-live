@@ -1,6 +1,12 @@
 #jatkossa pkgd -> CONF_pkgd konftdstossa
 [ -v CONF_pkgdir ] || CONF_pkgdir=${pkgdir}
 
+dqb "${sco} -Rv _apt:root ${CONF_pkgdir}/partial"
+csleep 1
+${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+${scm} -Rv 700 ${CONF_pkgdir}/partial/
+csleep 1
+
 function e22_hdr() {
 	#091225:toiminee sillä ehdolla että EI tätä ennen sano "chmod o+t /tmp"
 
