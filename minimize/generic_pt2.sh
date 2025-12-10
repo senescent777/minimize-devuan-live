@@ -20,20 +20,33 @@ function csleep() {
 function parse_opts_1() {
 	echo "popt_1( ${1} )"
 
-	case ${1} in
-		-v|--v)
-			debug=1
-		;;
-		*)
-			if [ -d ${d0}/${1} ] ; then
-				distro=${1}
-			else 
-				mode=${1}
-			fi
+#	case ${1} in
+#		-v|--v)
+#			debug=1
+#		;;
+#		*)
+#			if [ -d ${d0}/${1} ] ; then
+#				distro=${1}
+#			else 
+#				mode=${1}
+#			fi
+#
+#			dqb "0th3r 0tps"
+#		;;
+#	esac
 
-			dqb "0th3r 0tps"
-		;;
-	esac
+	if [ -d ${d0}/${1} ] ; then
+		distro=${1}
+	else
+		case  "${1}" in
+			0|1|2|3) #varsinainen numeerisuustarkistus parempi
+				mode=${1}
+			;;
+			*)
+				dqb "invalid param"
+			;;
+		esac
+	fi
 }
 
 function parse_opts_2() {

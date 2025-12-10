@@ -127,8 +127,6 @@ function check_bin_0() {
 	[ -z ${sd0} ] && exit 79
 	
 	unset sdi #tekeeko tämä jotain? kyl , kts check_bin ,, "second half"
-	#dqb "SFDSFDSFDSFDSFDSFDSFDSFDS"
-	#csleep 3
 
 	ocs tar
 	unset sr0
@@ -232,7 +230,29 @@ function psqa() {
 	csleep 1
 	[ -z ${1} ] && exit 55
 
-	#081225:pitäisi kai ensin .sig, sitten .sha mutta nyt näin
+	#https://www.gnupg.org/documentation/manuals/gnupg24/gpg.1.html
+	#https://www.gnupg.org/documentation/manuals/gnupg24/gpgv.1.html
+		
+	#HUOM.ao.blokin testausta varten sitten "export2 e ..." ?
+	#(kys tuotokseen pitäisi se .sig saada mukaan myös)
+	#291125:sq-chroot-ympäristössä vaikuttaisi toimivan ao. blokki
+	if [ -s ./sha512sums.txt.sig ] ; then
+		dqb "S(${1})"
+		csleep 1
+
+		if [ -x ${gg} ] && [ -v TARGET_Dkarray ] ; then
+			dqb "${gg} --verify ./sha512sums.txt.sig "
+			csleep 1
+
+			[ ${debug} -eq 1 ] && pwd
+			csleep 1
+
+			${gg} --verify ./sha512sums.txt.sig
+			[ $? -eq 0 ] || dqb "SHOULD imp2 k \$dir !!!"				
+			csleep 1
+		fi
+	fi
+
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		dqb "R ${1}"		
 		csleep 2
@@ -250,28 +270,7 @@ function psqa() {
 		${sah6} -c sha512sums.txt --ignore-missing
 		[ $? -eq 0 ] || exit 94
 
-		#https://www.gnupg.org/documentation/manuals/gnupg24/gpg.1.html
-		#https://www.gnupg.org/documentation/manuals/gnupg24/gpgv.1.html
-		
-		#HUOM.ao.blokin testausta varten sitten "export2 e ..." ?
-		#(kys tuotokseen pitäisi se .sig saada mukaan myös)
-		#291125:sq-chroot-ympäristössä vaikuttaisi toimivan ao. blokki
-		if [ -s ./sha512sums.txt.sig ] ; then
-			dqb "S(${1})"
-			csleep 1
 
-			if [ -x ${gg} ] && [ -v TARGET_Dkarray ] ; then
-				dqb "${gg} --verify ./sha512sums.txt.sig "
-				csleep 1
-
-				[ ${debug} -eq 1 ] && pwd
-				csleep 1
-
-				${gg} --verify ./sha512sums.txt.sig
-				[ $? -eq 0 ] || dqb "SHOULD imp2 k \$dir !!!"				
-				csleep 1
-			fi
-		fi
 
 		cd ${p}
 	else
@@ -373,7 +372,7 @@ function clibpre() {
 	csleep 1
 
 	dqb "LOREMIPSUM-.LOREM1PSUM.LOREMIPSUM.LIPSUU"
-	csleep 5
+	csleep 3
 
 	local p
 	local q
@@ -386,7 +385,7 @@ function clibpre() {
 
 	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
 	
-	csleep 5
+	csleep 3
 	cd ${p}
 	dqb "BlAnR3eY C0kCCC!!!"
 }
@@ -498,7 +497,6 @@ function fromtend() {
 #	csleep 1
 #}
 
-#081225:palautettu kommenteista psqa/c_pp3 jälkeen
 function cefgh() {
 	[ -z ${1} ] && exit 66
 	[ -d ${1} ] || exit 67
@@ -534,8 +532,6 @@ function check_binaries() {
 		srat="${srat} -v "
 	fi
 
-	#081225:kuseeko tuossa ao. blokissa jokin? jälkimm ehto ainakin	kusi
-
 	if [ -z "${ipt}" ] ; then
 		[ -z ${1} ] && exit 99
 		dqb "-d ${1} existsts?"
@@ -564,14 +560,12 @@ function check_binaries() {
 
 	#091225 siirretty tdstodts a/e22.sh, katsotaan toimiiko näin?
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-	E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
+	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
 	#VAIH:tuo gg
 	if [ -z "${gg}" ] ; then
 		dqb "SHOULD INSTALL gpg AROUND HERE"
 		csleep 1
-		#Depends: gpgconf (= 2.2.40-1.1), libassuan0 (>= 2.5.0), libbz2-1.0, libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42), libreadline8 (>= 6.0), libsqlite3-0 (>= 3.7.15), zlib1g (>= 1:1.1.4)
-		#dqb "NEXT: ${sdi}   or smthing "
 
 		cefgh ${1}
 		common_pp3 ${1}
@@ -608,7 +602,7 @@ function check_binaries() {
 	csleep 1
 }
 
-#TODO:vaikka tässä se /e/d/locale sourcettaminen? liittyy:el_loco()
+#VAIH:vaikka tässä se /e/d/locale sourcettaminen? liittyy:el_loco()
 function check_binaries2() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2"
 	csleep 1
@@ -640,6 +634,21 @@ function check_binaries2() {
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
 	smd="${odio} ${smd}" #käyttöön
+
+	dqb "new part" #uusi blokki pois jos qsee (101225)
+	#... vai pitäisikö olla jossain aiemmin jo? (test w/ sq-chroot?)
+
+	#näin ei varmaan saisi tehdä mutta
+	if [ -s /etc/default/locale.tmp ] ; then
+		. /etc/default/locale.tmp
+	else
+		. /etc/default/locale 
+	fi
+
+	export LC_TIME
+	export LANGUAGE
+	export LC_ALL
+	#/uusi_blokki
 
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
@@ -693,6 +702,19 @@ function fasdfasd() {
 	${odio} touch ${1}
 	${sco} $(whoami):$(whoami) ${1}
 	${scm} 0644 ${1}
+}
+
+#olisiko jokin palikka jo aiemmin?
+function reqwreqw() {
+	dqb "rewqreqw(${1} )"
+	[ -z ${1} ] && exit 99
+	[ -f ${1} ] && exit 100
+	
+	csleep 1
+	${sco} 0:0 ${1}
+	${scm} a-w ${1}
+
+	dqb "rewqreqw(${1} ) DONE"
 }
 
 function pre_enforce() {

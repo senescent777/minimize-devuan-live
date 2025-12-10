@@ -20,29 +20,20 @@ else
 fi
 
 function parse_opts_1() {
-	dqb "parseopts_2 ${1} ${2}"
+	dqb "parseopts_1 ${1} ${2}"
 
-#	case
-#		-v|--v) #tämä vähitellen -> GPO() (joko jo 101225?)
-#			debug=1
-#		;;
-#		*)
-			#onkohan hyvä näin?
-
-			if [ -d ${d0}/${1} ] ; then
-				distro=${1}
-			else
-				case  "${1}" in
-					0|1|2)
-						mode=${1}
-					;;
-					*)
-						dqb "invalid param"
-					;;
-				esac
-			fi
-#		;;
-#	
+	if [ -d ${d0}/${1} ] ; then
+		distro=${1}
+	else
+		case  "${1}" in
+			0|1|2) #varsinainen numeerisuustarkistus parempi
+				mode=${1}
+			;;
+			*)
+				dqb "invalid param"
+			;;
+		esac
+	fi
 }
 
 function parse_opts_2() {
@@ -114,10 +105,11 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #271125_/etc/default/locale.tmp: line 1: warning: setlocale: LC_TIME: cannot change locale (fi_FI.UTF-8): No such file or directory
 
 function el_loco() {
-#	dqb "MI LOCO ${1} , ${2}"
-#	csleep 1
-#
-#	if [ -s /etc/default/locale.tmp ] ; then
+	echo "CLOSED FOR REPAIRS: "
+	dqb "MI LOCO ${1} , ${2}"
+	csleep 1
+#TODO:seur blokin sisälle?
+#	if [ -s /etc/default/locale.tmp ] ; then #101225:nyk check_bin_2() ...
 #		. /etc/default/locale.tmp
 #
 #		export LC_TIME
@@ -127,32 +119,39 @@ function el_loco() {
 #
 #	#HUOM.27725:sq-chroot-ymp perl valittaa LANGUAGE ja ALL , voisi tehdä jotain (vielä opngelma?)
 #	
-#	if [ ${2} -lt 1 ]; then
-#		${scm} a+w /etc/default/locale
-#		csleep 1
-#
-#		#TODO:jos grep -v '#' kuitenkin
-#		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
-#
-#		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
-#		#jos riittäisi 10 riviä
-#		csleep 1
-#
-#		cat /etc/timezone
-#		csleep 1
-#		${scm} a-w /etc/default/locale
-#	fi
-#	
-#	if [ ${1} -gt 0 ] ; then
-#		${odio} dpkg-reconfigure locales
-#		${odio} dpkg-reconfigure tzdata
-#	else
-#		${odio} locale-gen
-#	fi
-#
-#	#101225:pitäisikö jotain tehdä vielä että nuo sorkitut lokaaliasetukset saa voimaan?
-#	#TODO:LC_xxx mjien exportointi jokatap?
-#
+	if [ ${2} -lt 1 ]; then #onkohan tässä blokissa pointtia? mitä jos l.tmp ei löydy vai LCF666 ai asetettu?
+		fasdfasd /etc/default/locale
+		csleep 1
+
+		#VAIH:jos grep -v '#' kuitenkin
+		${odio} grep -v '#' /etc/default/locale.tmp >> /etc/default/locale
+
+		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
+		#jos riittäisi 10 riviä
+		csleep 1
+
+		cat /etc/timezone
+		csleep 1
+		reqwreqw /etc/default/locale
+	fi
+	
+	if [ ${1} -gt 0 ] ; then
+		${odio} dpkg-reconfigure locales
+		${odio} dpkg-reconfigure tzdata
+	else
+		${odio} locale-gen
+	fi
+
+	#101225:pitäisikö jotain tehdä vielä että nuo sorkitut lokaaliasetukset saa voimaan?
+	#VAIH:LC_xxx mjien exportointi jokatap?
+	if [ -s /etc/default/locale ] ; then
+		. /etc/default/locale
+
+		export LC_TIME
+		export LANGUAGE
+		export LC_ALL
+	fi
+
 #	if [ ${2} -lt 1 ] && [ ${debug} -eq 1 ] ; then
 #		ls -las /etc/default/lo*
 #		csleep 1
@@ -173,7 +172,7 @@ else
 fi
 
 csleep 1
-#TODO:el_locon tai c13/c14 kanssa jokin ongelma?, korjaa jos ed elleen? LCF666 saattaa liittyä
+#VAIH:el_locon tai c13/c14 kanssa jokin ongelma?, korjaa jos ed elleen? LCF666 saattaa liittyä
 [ ${c13} -lt 1 ] && c14=1
 el_loco ${c14} ${c13}
 
@@ -192,7 +191,7 @@ if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
 		${whack} xfce4-session
 		#HUOM. tässä ei tartte jos myöhemmin joka tap
 	else
-		dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
+		dqb "SHOULD NAG ABOUT HAMMAD HERE"
 	fi
 
 	exit
