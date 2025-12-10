@@ -26,12 +26,13 @@ function usage() {
 
 if [ $# -gt 0 ] ; then
 	mode=${1}
+	#TODO: [ -f ${1} ]
 	srcfile=${2}
 fi
 
 function parse_opts_1() {
 	case "${1}" in
-		-v|--v)
+		-v|--v) #101225:voisikohan jo gpo() hoitaa tämän vivun? kts g_doit
 			debug=1
 		;;
 		*)
@@ -73,7 +74,7 @@ else
 	fi	
 fi
 
-#TODO:testaa yhdistelmä live-ymp+common_lib pois pelistä
+#TODO:testaa yhdistelmä live-ymp+common_lib pois pelistä ($0 1 asdf.gh aluksi)
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -236,7 +237,8 @@ function common_part() {
 }
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#TODO:korjaa jos rikki, 101225 tienoilla ei fox-profiili
+#VAIH:korjaa jos rikki, 101225 tienoilla ei fox-profiili (kuseekohan g_doit kautta vaiko exp2:ssa vika?)
+#... toinen yritys 101225 niin profiilin import onnistui, ongelma pikemminkin exp2 puolella?
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
@@ -342,7 +344,7 @@ dqb "srcfile=${srcfile}"
 csleep 1
 
 case "${mode}" in
-	r) #TODO:korjaa
+	r) #101225:toimii vai ei?
 		[ -d ${srcfile} ] || exit 22
 		tpr ${srcfile}
 	;;
@@ -382,7 +384,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#TODO:testaa jälleen		
+		#101225:toimii	(ainakin 1 kerran)	
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
