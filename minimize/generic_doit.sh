@@ -118,7 +118,7 @@ function el_loco() {
 		export LC_ALL
 	fi
 
-	#HUOM.27725:sq-chroot-ymp perl valittaa LANGUAGE ja ALL , voisi tehdä jotain
+	#HUOM.27725:sq-chroot-ymp perl valittaa LANGUAGE ja ALL , voisi tehdä jotain (vielä opngelma?)
 	
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale

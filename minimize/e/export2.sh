@@ -3,7 +3,6 @@
 debug=0 #1
 distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa?
 d0=$(pwd)
-#echo "d0= ${d0}"
 mode=-2
 tgtfile=""
 
@@ -88,7 +87,7 @@ d=${d0}/${distro}
 dqb "mode= ${mode}"
 dqb "distro=${distro}"
 dqb "file=${tgtfile}"
-csleep 2
+csleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -122,7 +121,7 @@ if [ -z "${mkt}" ] ; then
 	exit 8
 fi
 
-dqb "${sco} -Rv _apt:root ${pkgdir}/partial"
+dqb "${sco} -Rv _apt:root ${pkgdir}/partial" #TODO:CONF_pkgdir
 csleep 1
 ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
@@ -158,16 +157,17 @@ fi
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
+
 [ -z "${tgtfile}" ] && exit 99
 [ -z "${srat}" ] && exit 66
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
-	f) 	#241125:joskohan nykyään jo toimisi
-		#...koita muistaa śaada aikaiseksi se sha512sums.sig kanssa josqs(VAIH)
+	f) 	#291125:joskohan nykyään jo toimisi
+		#...josko jo 011225 alkaisi jolla sha512sums.txt.sig mukana
+
 		#251125:saisiko pakotettua alemman case:n kanssa toimimaan?		
-		#VAIH:testaa uusiksi, se uudelleenpaqq, siis sittenq avaimet asennettu(MUISTA PRKL ASENTAA!!!)
-		#DONE?:accept/reject-käsittely uusiksi prkl, jospa tämä case ei niitä tdstoja vetäisi mukana jatkossa
+		#DONE:accept/reject-käsittely uusiksi prkl, jospa tämä case ei niitä tdstoja vetäisi mukana jatkossa
 
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
@@ -175,10 +175,7 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#HUOM.261125:tekee edelleen paketin
-		#271125:paketti sisälsi silloin validia sisältöä
-		#btw. ffox 147 muutokset enemmän profs.sh asia
-
+		#TODO:korjaa
 		${sifd} ${iface}
 		e22_settings ~ ${d0}
 
@@ -187,7 +184,7 @@ case ${mode} in
 		#btw. mikä olikaan syy että q on tässä ekassa case:ssa? pl siis että turha apt-renkkaus
 
 		for f in $(find ~ -maxdepth 1 -name '*.tar' -or -name '*.bz2' -or -name 'profs.sh' | grep -v pulse) ; do
-			${srat} -rvf ${tgtfile} ${f} #--exclude vai ei?
+			${srat} -rvf ${tgtfile} ${f}
 		done
 
 		e22_ftr ${tgtfile}
@@ -196,26 +193,47 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#VAIH:testaa uusiksi (tekee paketin, purkautuukin mutta sisällön kanssa vielä jotain pientä mistä sq-chr-ympoärist nalqttaa 271125)
-		#HUOM.olisi hyvä olemassa sellainen bz3 tai bz2 missä julk av (ellei sitten jtnkn toisin)		
-		
-		cd ${d0}
-		for f in $(find . -type f -name '*.sh' | grep -v 'e/') ; do ${srat} -rvf ${tgtfile} ${f} ; done #tähän ei tarvinne --exclude?
-		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/')  ; do ${srat} -rvf ${tgtfile} ${f} ; done
-				
-		bzip2 ${tgtfile}
-		mv ${tgtfile}.bz2 ${tgtfile}.bz3
-		tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
+		#301125:teki paketin jo eilen, sisältö ehkä ok, live-ympäristössä pientä kiukuttelua mikä toivottavasti jo ohi 
+		#sisällön kunto ei tämän casen asia oikeastaan
+		#kiukuttelu saattoi liittyä /tmp-hakemistoon tai sitten ei (ehkä mktemp -d auttaa?)
 
-		e22_ftr ${tgtfile}
+		#TODO:jospa suoraan tar -jcvf ni ei tartte 2 tdston kanssa säätää	
+		cd ${d0}
+	
+		e22_hdr ${tgtfile}
+		fasdfasd ${tgtfile}
+		fasdfasd ${tgtfile}.bz3
+		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
+		#exit
+
+		tcmd=$(which tar)
+		[ -v testgris ] && tcmd=${srat} #071225:testgris- ja .chroot sijaan vain 1 muuttuja jatkossa?
+
+		#find-komentoja pystynee kai hinkkaamaan vielä
+
+		for f in $(find . -type f -name '*.sh' | grep -v 'e/' | grep -v 'olds/') ; do 
+			${tcmd} -rvf ${tgtfile} ${f}
+		done
+
+		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/' | grep -v 'olds/')  ; do 
+			${tcmd} -rvf ${tgtfile} ${f}
+		done
+				
+		#HUOM.291125:tästä tuli jotain nalkutusta, joskohan jo 301125 kunnossa?
+		bzip2 -c ${tgtfile} > ${tgtfile}.bz3
+
+		#${svm} ${tgtfile}.bz2 ${tgtfile}.bz3
+		#tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
+		e22_ftr ${tgtfile}.bz3
 		exit
 	;;
 	g)
-		#HUOM.261125:testAttu että komennoilla saa paketin aikaan
+		#HUOM.291125:edelleen antaa komennot joilla saa paketin aikaiskesi
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-		dqb "sudo apt-get update"
+		dqb "${sag_u} | ${fib} , when necessary " 
 
 		echo "${shary} ${E22GI}"
+		#TODO:CONF_pkgdir
 		echo "${svm} ${pkgdir}/*.deb ${d}" #oli se e22_ts() kanssa
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
@@ -234,7 +252,7 @@ case ${mode} in
 #		echo "${shary} libatkmm-1.6-1v5 libcanberra-gtk3-0 libcanberra0 libglibmm-2.4-1v5 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5 "
 #		echo "${shary} pavucontrol"
 #
-#		echo "${svm} ${pkgdir}/*.deb ${d}"
+#		echo "${svm} ${CONF_pkgdir}/*.deb ${d}"
 #		echo "$0 f ${tgtfile} ${distro}"
 #		exit 1
 #	;;
@@ -247,31 +265,32 @@ e22_pre1 ${d} ${distro}
 #tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
-[ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59" #tilapäisesti jemmaan kunnes x
+#291125:voiko sen exitin jo laittaa takaisin vai ei?
+[ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59"
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 
 e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+#TODO:cleanpkgs-jutut tähän jatkossa?
 
 case ${mode} in
-	#VAIH:johdonmukaisuuden vuoksi 3|4) jatkossa
+	#johdonmukaisuuden vuoksi 3|4) jatkossa (imp2/exp2)
 	0)
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
-	3|4) #261125:case 0 teki silloin toimivan paketin
-		#241125:case 4 teki toimivan paketin (miten nykyään?)
+	3|4) #091225:case 3 tekee toimivan paketin ... paitsi että ffox prof (TODO:korjaa)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
-		csleep 3
+		csleep 2
 
 		e22_ext ${tgtfile} ${distro} ${dnsm}
 		dqb "e22_ext DON3, next:rm some rchives"
-		csleep 3
+		csleep 1
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 		dqb "srat= ${srat}"
-		csleep 5
+		csleep 1
 
 		e22_hdr ${d}/f.tar
 		e22_cleanpkgs ${d}
@@ -288,25 +307,30 @@ case ${mode} in
 
 			e22_cleanpkgs ${d} #kuinka oleellinen?
 			[ ${debug} -eq 1 ] && ls -las ${d}
-			csleep 5
+			csleep 1
 		fi
 
 		${sifd} ${iface}
 		[ ${debug} -eq 1 ] && ls -las ${d}
-		csleep 5
+		csleep 1
  	
 		e22_home ${tgtfile} ${d} ${enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
-		csleep 4
+		csleep 1
 		${NKVD} ${d}/*.tar #oli se fktiokin
 
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
-		csleep 5	
+		csleep 1	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	1|u|upgrade) #261125:tämän casen luoman arkiston sisältämät paketit asentuivat
-		#251125:näyttää tosiaan siltä että päivityspaketin purkaminen itsessään ei riko slimiä, sisällön asentaminen sen sijaan...
+	#091225:tekee paketin, sisällön kelpoisuus selvitettävä
+	1|u|upgrade)
+		e22_cleanpkgs ${CONF_pkgdir}
+		e22_cleanpkgs ${d}
+		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
+		csleep 1
+
 		e22_upgp ${tgtfile} ${d} ${iface}
 
 		e22_ts ${d}
@@ -316,13 +340,15 @@ case ${mode} in
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 	;;
-	p) #HUOM. 261125:tekee paketin
-		e22_settings2 ${tgtfile} ${d0} 
+	p) #TODO:testaa
+		e22_profs ${tgtfile} ${d0} 
 	;;
 	e)
 		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
 		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
 		#261125:toimii edelleen vaikka e22_hdr() karsittu
+		#301125:tekee paketin, sisällön toimivuus vielä testattava		
+		#091225:tekee paketin, sisältökin asentuu
 
 		e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
@@ -333,21 +359,17 @@ case ${mode} in
 		fi
 	;;
 	t) 
-		#241125 ensimmäisellä yrityksellä ei saanut aikaiseksi .deb-pak sis tar, uusi yritys kohta
-		#toisella syntyi jo toimiva pak
-		#261125:teki paketin, toimivuus kai testattava
-
+		#091225:tekee paketin, sisältökin asentuu
 		e22_cleanpkgs ${d}
-		e22_cleanpkgs ${pkgdir}
+		e22_cleanpkgs ${pkgdir} #TODO:CONF_pkgdir
 			
 		message
-		csleep 6
+		csleep 2
 
-		#TODO:e22_gt käyttöön sitten josqs?
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_ts ${d}
 
-		t=$(echo ${d} | cut -d '/' -f 1-5) #josko nyt?
+		t=$(echo ${d} | cut -d '/' -f 1-5)
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 	;;
