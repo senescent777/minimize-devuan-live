@@ -32,7 +32,7 @@ function usage() {
 #TODO:jos muuttaisi blokin koskapa gpo() nykyään
 if [ $# -gt 1 ] ; then
 	mode=${1}
-	#TODO: [ -f ${1} ]
+	[ -f ${1} ] && exit 99
 	tgtfile=${2}
 else
 	#echo "$0 -h"

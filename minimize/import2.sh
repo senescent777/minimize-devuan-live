@@ -26,7 +26,7 @@ function usage() {
 
 if [ $# -gt 0 ] ; then
 	mode=${1}
-	#TODO: [ -f ${1} ]
+	[ -f ${1} ] && exit 99
 	srcfile=${2}
 fi
 
