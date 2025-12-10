@@ -226,7 +226,7 @@ function message() {
 }
 
 #VAIH:testaustarkoituksissa kiekolle asti ne julk av? kiekkoa luodessa siis .bz2 sinne v-hmistoon missä pub_keys...
-#081225:seuraavaksi selvitykseen tämä, e_xxx, part3() , enfo_jutut ok
+
 function psqa() {
 	dqb "Q ${1}"
 	csleep 1
@@ -393,6 +393,7 @@ function clibpre() {
 
 #HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (TODO)
 #... export xxx tai sitten man sudo taas
+#https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
 #
 #... sen lxdm:n asennuksen kanssa jos saisi kysymyKsen ohituksen niin olisi hyvä kanssa
 function fromtend() {
