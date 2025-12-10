@@ -267,7 +267,9 @@ e22_pre1 ${d} ${distro}
 
 e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
-#TODO:cleanpkgs-jutut tähän jatkossa?
+#VAIH:cleanpkgs-jutut tähän jatkossa?
+e22_cleanpkgs ${d}
+e22_cleanpkgs ${CONF_pkgdir}
 
 case ${mode} in
 	#johdonmukaisuuden vuoksi 3|4) jatkossa (imp2/exp2)
@@ -289,7 +291,7 @@ case ${mode} in
 		csleep 1
 
 		e22_hdr ${d}/f.tar
-		e22_cleanpkgs ${d}
+		#e22_cleanpkgs ${d}
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
@@ -320,16 +322,16 @@ case ${mode} in
 		csleep 1	
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	#091225:tekee paketin, sisällön kelpoisuus selvitettävä
+	#091225:teki paketin, sisällön kelpoisuus selvitettävä
 	1|u|upgrade)
-		e22_cleanpkgs ${CONF_pkgdir}
-		e22_cleanpkgs ${d}
+		#e22_cleanpkgs ${CONF_pkgdir}
+		#e22_cleanpkgs ${d}
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
 
 		e22_upgp ${tgtfile} ${d} ${iface}
-
 		e22_ts ${d}
+
 		${srat} -cf ${1} ${d}/tim3stamp
 		t=$(echo ${d} | cut -d '/' -f 1-5)
 	
@@ -340,9 +342,9 @@ case ${mode} in
 		e22_profs ${tgtfile} ${d0} 
 	;;
 	e)		
-		#091225:tekee paketin, sisältökin asentuu
+		#091225:teki paketin, sisältökin asentui
 
-		e22_cleanpkgs ${d}
+		#e22_cleanpkgs ${d}
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_other_pkgs ${dnsm}
 
@@ -351,9 +353,9 @@ case ${mode} in
 		fi
 	;;
 	t) 
-		#091225:tekee paketin, sisältökin asentuu
-		e22_cleanpkgs ${d}
-		e22_cleanpkgs ${CONF_pkgdir}
+		#091225:teki paketin, sisältökin asentui
+		#e22_cleanpkgs ${d}
+		#e22_cleanpkgs ${CONF_pkgdir}
 			
 		message
 		csleep 2
