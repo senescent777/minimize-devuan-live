@@ -169,8 +169,6 @@ function check_bin_0() {
 	sip=$(${odio} which ip)
 	sip="${odio} ${sip} "
 
-	gv=$(${odio} which gpgv)
-
 	#gi=$(${odio} which genisoimage)
 	#gmk=$(${odio} which grub-mkrescue)
 	#xi=$(${odio} which xorriso)
@@ -181,6 +179,7 @@ function check_bin_0() {
 	mkt=$(${odio} which mktemp)
 	tig=$(${odio} which git)
 	gg=$(${odio} which gpg)
+	gv=$(${odio} which gpgv)
 
 	if [ -v distro ] ; then 
 		dqb "DUSTRO OK"
@@ -546,7 +545,7 @@ function check_binaries() {
 		jules
 		sleep 1
 
-		#TODO:näitä kutsuen jos puuttuu (tables TAI gpg)
+		#näitä kutsuen jos puuttuu (tables TAI gpg) ? tai siis ulos if-blokista ja ?
 		cefgh ${1}
 		common_pp3 ${1}
 
@@ -569,8 +568,14 @@ function check_binaries() {
 		dqb "SHOULD INSTALL gpg AROUND HERE"
 		csleep 1
 		#Depends: gpgconf (= 2.2.40-1.1), libassuan0 (>= 2.5.0), libbz2-1.0, libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42), libreadline8 (>= 6.0), libsqlite3-0 (>= 3.7.15), zlib1g (>= 1:1.1.4)
-		dqb "NEXT: ${sdi}  ${E22GI} or smthing "
-		#TODO:g_juttujen asettely kanss
+		#dqb "NEXT: ${sdi}   or smthing "
+
+		#cefgh ${1}
+		#common_pp3 ${1}
+		#for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
+
+		#gg=$(${odio} which gpg)
+		#gv=$(${odio} which gpgv)
 	fi
 
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"

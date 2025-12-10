@@ -66,7 +66,8 @@ function e22_ftr() { #091125:josko se uudelleenpakkaus-testi taas kehitysymp (TO
 	dqb "ASSAN VESSAN KASSA"
 	csleep 1
 }
-function e22_pre1() { #091225:
+
+function e22_pre1() { #091225:vissiin toimii koska "exp2 3"
 	#disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
 
 	dqb "e22_pre1 ${1}  ${2} "
@@ -110,7 +111,7 @@ function e22_pre1() { #091225:
 #VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen (olisiko jo 261125?)
 #...note to self: oli varmaankin cross-distro-syistä, ehkä jossain vaiheessa jos sitä juttua teatsisi uudestaan
 
-function e22_pre2() { #091225:
+function e22_pre2() { #091225:vissiin toimii koska "exp2 3"
 	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
@@ -183,7 +184,7 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 }
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  , muutokset oikeastaan tdstpn profs.sh
-function e22_settings() { #HUOM.301125:tekee paketin, sisältö:
+function e22_settings() { #TODO:korjaa
 	dqb "e22_settings ${1} ${2}"
 	csleep 1
 
@@ -217,7 +218,7 @@ function e22_settings() { #HUOM.301125:tekee paketin, sisältö:
 	csleep 1
 }
 
-function e22_home() { #TODO:testailu josqs
+function e22_home() { #091225:testailu saattoi onnistua, paitsi krmtiords ffox-prof TODO:korjaa
 	#261125:lienee ok, merd2 tulee mukaan, accept/reject-jutut myös
 	dqb "e22_home ${1} , ${2} , ${3}  "
 
@@ -261,7 +262,7 @@ function e22_home() { #TODO:testailu josqs
 	csleep 2
 
 	dqb "Xorg -config ~/xorg.conf ?"
-	csleep 1
+	csleep 10
 	${srat} -rvf ${1} ~/xorg.conf #tässä vai settings:issä ?
 
 	dqb "e22_home d0n3"
@@ -296,7 +297,7 @@ function luca() { #301125:taitaa toimia
 	dqb "loca done"
 }
 
-function e22_elocal() { #301125:tehnee paketin ok
+function e22_elocal() { #091225:tehnee paketin ok
 	dqb "e22_elocal ${1} ${2} ${3} ${4}"
 	csleep 1
 
@@ -387,7 +388,7 @@ function e22_elocal() { #301125:tehnee paketin ok
 
 [ -v BASEURL ] || exit 6 
 
-function e22_ext() { #091225: 
+function e22_ext() { #091225:taitaa toimia
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
@@ -679,7 +680,7 @@ function e22_tblz() { #091225 toimi ainakin kerran
 }
 
 #TODO:ntp-jutut takaisin josqs?
-function e22_other_pkgs() { #091225:
+function e22_other_pkgs() { #091225:taitaa toimia
 	dqb "e22_other_pkgs ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
@@ -750,7 +751,7 @@ function e22_other_pkgs() { #091225:
 	csleep 1
 }
 
-function e22_dblock() { #091225:
+function e22_dblock() { #091225:taitaa toimia
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14
@@ -783,7 +784,7 @@ function e22_dblock() { #091225:
 	dqb "e22dblock DONE"
 }
 
-function e22_profs() { #HUOM.301125;tekee paketin tai siis
+function e22_profs() { #TODO:testaus uusicksi
 	dqb "e22_profs ${1} ${2}"
 
 	[ -z ${1} ] && exit 99

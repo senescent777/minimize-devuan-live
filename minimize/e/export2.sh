@@ -121,7 +121,7 @@ if [ -z "${mkt}" ] ; then
 	exit 8
 fi
 
-dqb "${sco} -Rv _apt:root ${pkgdir}/partial"
+dqb "${sco} -Rv _apt:root ${pkgdir}/partial" #TODO:CONF_pkgdir
 csleep 1
 ${sco} -Rv _apt:root ${pkgdir}/partial/
 ${scm} -Rv 700 ${pkgdir}/partial/
@@ -157,6 +157,7 @@ fi
 dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
+
 [ -z "${tgtfile}" ] && exit 99
 [ -z "${srat}" ] && exit 66
 t=$(echo ${d} | cut -d '/' -f 1-5)
@@ -167,7 +168,6 @@ case ${mode} in
 
 		#251125:saisiko pakotettua alemman case:n kanssa toimimaan?		
 		#DONE:accept/reject-käsittely uusiksi prkl, jospa tämä case ei niitä tdstoja vetäisi mukana jatkossa
-		#011225:olisikohan se uudelleenpakkaustesti kohta?
 
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
@@ -175,9 +175,7 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#301125:teki paketin missä toimivaa sisältöä
-		#btw. ffox 147 muutokset enemmän profs.sh asia
-
+		#TODO:korjaa
 		${sifd} ${iface}
 		e22_settings ~ ${d0}
 
@@ -235,6 +233,7 @@ case ${mode} in
 		dqb "${sag_u} | ${fib} , when necessary " 
 
 		echo "${shary} ${E22GI}"
+		#TODO:CONF_pkgdir
 		echo "${svm} ${pkgdir}/*.deb ${d}" #oli se e22_ts() kanssa
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
@@ -253,7 +252,7 @@ case ${mode} in
 #		echo "${shary} libatkmm-1.6-1v5 libcanberra-gtk3-0 libcanberra0 libglibmm-2.4-1v5 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5 "
 #		echo "${shary} pavucontrol"
 #
-#		echo "${svm} ${pkgdir}/*.deb ${d}"
+#		echo "${svm} ${CONF_pkgdir}/*.deb ${d}"
 #		echo "$0 f ${tgtfile} ${distro}"
 #		exit 1
 #	;;
@@ -280,7 +279,7 @@ case ${mode} in
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
-	3|4) #VAIH:testaa TAAS (091225)
+	3|4) #091225:case 3 tekee toimivan paketin ... paitsi että ffox prof (TODO:korjaa)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
@@ -341,7 +340,7 @@ case ${mode} in
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 	;;
-	p) #HUOM.291125:tekee pak
+	p) #TODO:testaa
 		e22_profs ${tgtfile} ${d0} 
 	;;
 	e)
@@ -362,7 +361,7 @@ case ${mode} in
 	t) 
 		#091225:tekee paketin, sisältökin asentuu
 		e22_cleanpkgs ${d}
-		e22_cleanpkgs ${pkgdir}
+		e22_cleanpkgs ${pkgdir} #TODO:CONF_pkgdir
 			
 		message
 		csleep 2

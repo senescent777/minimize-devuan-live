@@ -236,7 +236,7 @@ function common_part() {
 }
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#301125:live-ympäristössä toimi, aiemmin oli chroot:in alla kiukuttelua
+#TODO:korjaa jos rikki, 101225 tienoilla ei fox-profiili
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
@@ -342,7 +342,7 @@ dqb "srcfile=${srcfile}"
 csleep 1
 
 case "${mode}" in
-	r) #291125:toimii, ainakin g_doit kautta mentynä
+	r) #TODO:korjaa
 		[ -d ${srcfile} ] || exit 22
 		tpr ${srcfile}
 	;;
@@ -382,10 +382,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#291125:testattu alustavasti sq-chr-ympäristössä missä kiukutelua
-		#291125.2:klytyi tikulta paketti testausta varten, sen kanssa toimi tämä case
-		#301125:live-ympäristössä testaus, taitaa toimia		
-
+		#TODO:testaa jälleen		
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
