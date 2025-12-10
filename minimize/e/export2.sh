@@ -121,10 +121,10 @@ if [ -z "${mkt}" ] ; then
 	exit 8
 fi
 
-dqb "${sco} -Rv _apt:root ${pkgdir}/partial" #TODO:CONF_pkgdir
+dqb "${sco} -Rv _apt:root ${CONF_pkgdir}/partial"
 csleep 1
-${sco} -Rv _apt:root ${pkgdir}/partial/
-${scm} -Rv 700 ${pkgdir}/partial/
+${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+${scm} -Rv 700 ${CONF_pkgdir}/partial/
 csleep 1
 
 #HUOM. ei kovin oleellista ajella tätä skriptiä squashfs-cgrootin siSÄllä
