@@ -42,7 +42,7 @@ function parse_opts_1() {
 	dqb "exp2.patse_otps8( ${1}, ${2})"
 
 	case "${1}" in
-		-v|--v)
+		-v|--v) #101225:voisikohan jo gpo() hoitaa tämän vivun?
 			debug=1
 		;;
 		*)
@@ -171,7 +171,7 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#VAIH:korjaa (tai siis prof export tässä vissiin toimii mutta)
+		#101225:kuseeko tässä jokin vai ei? TODO:selvitä
 		${sifd} ${iface}
 		e22_settings ~ ${d0}
 

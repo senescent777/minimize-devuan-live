@@ -31,7 +31,7 @@ fi
 
 function parse_opts_1() {
 	case "${1}" in
-		-v|--v)
+		-v|--v) #101225:voisikohan jo gpo() hoitaa tämän vivun?
 			debug=1
 		;;
 		*)
@@ -237,6 +237,7 @@ function common_part() {
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #VAIH:korjaa jos rikki, 101225 tienoilla ei fox-profiili (kuseekohan g_doit kautta vaiko exp2:ssa vika?)
+#... toinen yritys 101225 niin profiilin import onnistui, ongelma pikemminkin exp2 puolella?
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1

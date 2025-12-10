@@ -26,7 +26,7 @@ function e22_hdr() {
 	csleep 1
 }
 
-function e22_ftr() { #091125:josko se uudelleenpakkaus-testi taas kehitysymp (TODO)
+function e22_ftr() { #091225:josko se uudelleenpakkaus-testi taas kehitysymp (TODO)
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 

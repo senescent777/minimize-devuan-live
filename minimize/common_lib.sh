@@ -391,7 +391,7 @@ function clibpre() {
 	dqb "BlAnR3eY C0kCCC!!!"
 }
 
-##HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksern yht ongelma, keksisikö jotain (TODO)
+#HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksern yht ongelma, keksisikö jotain (TODO)
 #... sen lxdm:n asennuksen kanssa jos saisi kysymyKsen ohituksen niin olisi hyvä kanssa
 function fromtend() {
 	dqb "FRöMTEND"

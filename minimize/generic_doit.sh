@@ -22,11 +22,11 @@ fi
 function parse_opts_1() {
 	dqb "parseopts_2 ${1} ${2}"
 
-	case "${1}" in
-		-v|--v) #tämä vähitellen -> GPO()
-			debug=1
-		;;
-		*)
+#	case "${1}" in
+#		-v|--v) #tämä vähitellen -> GPO() (joko jo 101225?)
+#			debug=1
+#		;;
+#		*)
 			#onkohan hyvä näin?
 
 			if [ -d ${d0}/${1} ] ; then
@@ -35,7 +35,7 @@ function parse_opts_1() {
 				mode=${1}
 			fi
 		;;
-	esac
+#	esac
 }
 
 function parse_opts_2() {
@@ -74,7 +74,6 @@ fi
 #==================================PART 1============================================================
 dqb "mode= ${mode}"
 dqb "debug= ${debug}"
-
 #exit
 
 if [ -s /etc/sudoers.d/meshuggah ] || [ -f /.chroot ] || [ ${enforce} -eq 0 ] ; then
@@ -103,7 +102,6 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 
 #===================================================PART 2===================================
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
-
 #271125_/etc/default/locale.tmp: line 1: warning: setlocale: LC_TIME: cannot change locale (fi_FI.UTF-8): No such file or directory
 
 function el_loco() {
@@ -123,9 +121,10 @@ function el_loco() {
 	if [ ${2} -lt 1 ]; then
 		${scm} a+w /etc/default/locale
 		csleep 1
-
 		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
-		tail -n 10 /etc/default/locale #jos riittäisi
+
+		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
+		#jos riittäisi 10 riviä
 		csleep 1
 
 		cat /etc/timezone
@@ -200,7 +199,7 @@ other_horrors
 dqb "BEFORE IMP2"
 csleep 5
 
-#TODO:testaa että toimii tämä kohta
+#101225:toimi ainakin kerran, jospa tilaäinen ongelma exp2 puolella?
 if [ ! -f /.chroot ] ; then
 	${d0}/import2.sh r ${d0} -v #2. ja 3. param. turhia?
 fi
@@ -209,7 +208,7 @@ jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
-#HUOM.231125;MIKSI COMMON_LIB.SH AJO-OIKEUS POISTUU?
+#101225;suattaapi olla että common_lib.sh ajo-oikeuden poistaja löytyi vuan suattaapi ettei
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
