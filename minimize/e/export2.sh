@@ -164,11 +164,7 @@ t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
 	f) 	#291125:joskohan nykyään jo toimisi
-		#...josko jo 011225 alkaisi jolla sha512sums.txt.sig mukana
-
-		#251125:saisiko pakotettua alemman case:n kanssa toimimaan?		
-		#DONE:accept/reject-käsittely uusiksi prkl, jospa tämä case ei niitä tdstoja vetäisi mukana jatkossa
-
+		
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 		e22_ftr ${tgtfile}
