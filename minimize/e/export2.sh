@@ -44,18 +44,18 @@ fi
 function parse_opts_1() {
 	dqb "exp2.patse_otps8( ${1}, ${2})"
 
-	case "${1}" in
-		-v|--v) #101225:voisikohan jo gpo() hoitaa tämän vivun? #kts g_doit
-			debug=1
-		;;
-		*)
-			#menisiköhän näin?
+#	case "${1}" in
+#		-v|--v) #101225:voisikohan jo gpo() hoitaa tämän vivun? #kts g_doit
+#			debug=1
+#		;;
+#		*)
+#			#menisiköhän näin?
 			if [ -d ${d}/${1} ] ; then
 				distro=${1}
 				d=${d0}/${distro}
 			fi
-		;;
-	esac
+#		;;
+#	esac
 }
 
 function parse_opts_2() {
@@ -157,7 +157,7 @@ csleep 1
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
-	f) 	#101225:tekee edelleen paketin
+	f) 	#111225:toiminee tuo uudelleenpakkaus? sha meni jo oikein, sig vielä
 		
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}

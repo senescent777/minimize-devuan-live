@@ -296,9 +296,10 @@ function luca() { #301125:taitaa toimia
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule
 	csleep 2
 
-	dqb "JUST BEFORE LOCALES"
+	dqb "JUST BEFOREs LOCALES"
 	csleep 1
 
+	#localtime taisi olla linkki, siksi erikseen
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
 	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 
@@ -364,10 +365,10 @@ function e22_elocal() { #091225:tehnee paketin ok
 	case ${2} in
 		wlan0)		
 			dqb "APW"
-			csleep 3
-			${srat} -rvf ${1} /etc/wpa_supplicant #/*.conf
+			csleep 1
+			${srat} -rvf ${1} /etc/wpa_supplicant #parempi vetää koko hmisto
 			${srat} -tf ${1} | grep wpa
-			csleep 3
+			csleep 2
 		;;
 		*)
 			dqb "non-wlan"
@@ -555,7 +556,7 @@ function e22_ts() { #091225:jos vaikka toimisi
 #DONE?:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk? 291125 taisi tulla jokun uusi jurrty testattavaksi, muuten olisi jo OK
 #... se _pkgs* - jutska vielä
 
-#TODO:testaa uusiksi (kehitysymp)
+#VAIH:testaa uusiksi (kehitysymp)
 function e22_arch() { #301125:osannee tehdä paketin, pieni testailu voisi kuitenkin olla hyväksi miten sisällön kanssa
 	#261125:uudelleenpakkaus toimi, slim rikkoutui ei-uskonnollisista syistä (Fingerpori)
 	#DONE:se uudelleenpakkaus sittenq avaimet aseNNettu (kts. liittyen: install_keys.bash uusi optio)
@@ -662,12 +663,8 @@ function e22_tblz() { #091225 toimi ainakin kerran
 	#message() tähän?
 	tpc7	#jotain excaliburiin liittyvää
 	aswasw ${2}
-	
-	E22_GT="libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11"
-	E22_GT="${E22_GT} iptables"
-	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
-	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
 
+	#kts check_binaries()
 	${shary} ${E22_GT} 
 
 	dqb "x2.e22_tblz.part2"

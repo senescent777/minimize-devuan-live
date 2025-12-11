@@ -99,6 +99,7 @@ scm="${odio} ${scm} "
 fix_sudo
 other_horrors
 
+#HUOM.111225:toimiiko oikein sq-chroot-ympäristössä?
 function ocs() {
 	dqb "ocs ${1}  "
 	local tmp2
@@ -202,7 +203,6 @@ function slaughter0() { #käytössä?
 	echo ${ts2} | awk '{print $1,$2}' >> ${2}
 }
 
-
 function jules() {
 	dqb "LE BIG MAC"
 	#dqb "V8" #josko kommentoituna takaisin se cp
@@ -224,6 +224,7 @@ function message() {
 }
 
 #VAIH:testaustarkoituksissa kiekolle asti ne julk av? kiekkoa luodessa siis .bz2 sinne v-hmistoon missä pub_keys...
+#olisikohan jo 111225 mennessä anakin jllain kieklla
 
 function psqa() {
 	dqb "Q ${1}"
@@ -250,6 +251,8 @@ function psqa() {
 			${gg} --verify ./sha512sums.txt.sig
 			[ $? -eq 0 ] || dqb "SHOULD imp2 k \$dir !!!"				
 			csleep 1
+		else
+			dqb "COULD NOT VERIFY SIGNATURES"
 		fi
 	fi
 
@@ -269,8 +272,6 @@ function psqa() {
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
 		[ $? -eq 0 ] || exit 94
-
-
 
 		cd ${p}
 	else
@@ -413,89 +414,94 @@ function fromtend() {
 	dqb "DNÖE"
 }
 
-#sillä toisella tyylillä tämä masentelu jatkossa? for ... in ... ?
 #tämän tulisi kai olla privaatti fktio
-#091225:jospa vaikka sq-chr-ympäristössä testaisi toimimman (TODO)
+#
+#sillä toisella tyylillä tämä masentelu jatkossa? for ... in ... ?
+#nykyään vosi kai E22-mjilla iteroida suurimman osab tarv paketeista
+#
+#091225:jospa vaikka sq-chr-ympäristössä testaisi toimiNNan (VAIH)
+#111225:ensimmäisellä yrityksellä epäselvää josko juuri siinä ympäristössä tätä fktiota kutsutaan
+#... mutta kehitysymp kanssa toimii, luulisin
+#TODO:selvitä toimivatko g_jutut sqrootissa lainkaan tällä hetkellä
+#
 #P.S. this function created to avoid a chicken-and-egg-situation
-#function common_tbls() {
-#	dqb "COMMON TABLESD $1, $2"
-#	csleep 1
-#
-#	[ y"${1}" == "y" ] && exit 33	
-#	[ -d ${1} ] || exit 45
-#	[ -z ${2} ] && exit 67
-#
-#	local d2
-#	d2=$(echo ${2} | tr -d -c 0-9)
-#
-#	dqb "PARAMS_OK"
-#	csleep 1
-#	psqa ${1}
-#
-#	#uutena 251025 sysystö excaLIBUR/ceres, pois jos qsee
-#	efk1 ${1}/isc-dhcp*.deb
-#	csleep 1
-#
-#	efk1 ${1}/libnfnet*.deb
-#	csleep 1
-#
-#	efk1 ${1}/libnetfilter*.deb
-#	csleep 1
-#
-#	fromtend ${1}/libip*.deb
-#	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
-#
-#	efk1 ${1}/libxtables*.deb
-#	csleep 1
-#
-#	efk1 ${1}/libnftnl*.deb 
-#	csleep 1
-#
-#	efk1 ${1}/libnl-3-200*.deb
-#	csleep 1
-#
-#	efk1 ${1}/libnl-route*.deb 
-#	csleep 1
-#
-#	efk1 ${1}/libnl-*.deb 
-#	csleep 1
-#
-#	fromtend ${1}/iptables_*.deb
-#	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
-#	
-#	csleep 1
-#	${scm} 0755 /etc/iptables
-#
-#	${odio} update-alternatives --set iptables /usr/sbin/iptables-legacy
-#	${odio} update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
-#	
-#	local s
-#	local t
-#
-#	s=$(${odio} which iptables-restore)
-#	t=$(${odio} which ip6tables-restore)
-#
-#	if [ ! -z ${d2} ] ; then
-#		${odio} ${s} /etc/iptables/rules.v4.${d2}
-#		${odio} ${t} /etc/iptables/rules.v6.${d2}
-#		csleep 1
-#	fi
-#
-#	fromtend ${1}/netfilter-persistent*.deb
-#	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
-#
-#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables-persistent=1.0.20
-#	fromtend ${1}/iptables-*.deb
-#	[ $? -eq 0 ] && ${NKVD} ${1}/iptables-*.deb
-#
-#	csleep 1
-#	${scm} 0550 /etc/iptables	
-#
-#	#gpg vielä tähän?
-#
-#	echo "common_tblz d0n3"
-#	csleep 1
-#}
+function common_tbls() {
+	dqb "COMMON TABLESD $1, $2"
+	csleep 1
+
+	[ y"${1}" == "y" ] && exit 33	
+	[ -d ${1} ] || exit 45
+	[ -z ${2} ] && exit 67
+
+	local d2
+	d2=$(echo ${2} | tr -d -c 0-9)
+
+	dqb "PARAMS_OK"
+	csleep 1
+	psqa ${1}
+
+	#uutena 251025 syystä excaLIBUR/ceres, pois jos qsee
+	efk1 ${1}/isc-dhcp*.deb
+	csleep 1
+
+	efk1 ${1}/libnfnet*.deb
+	csleep 1
+
+	efk1 ${1}/libnetfilter*.deb
+	csleep 1
+
+	fromtend ${1}/libip*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
+
+	efk1 ${1}/libxtables*.deb
+	csleep 1
+
+	efk1 ${1}/libnftnl*.deb 
+	csleep 1
+
+	efk1 ${1}/libnl-3-200*.deb
+	csleep 1
+
+	efk1 ${1}/libnl-route*.deb 
+	csleep 1
+
+	efk1 ${1}/libnl-*.deb 
+	csleep 1
+
+	fromtend ${1}/iptables_*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
+	
+	csleep 1
+	${scm} 0755 /etc/iptables
+
+	${odio} update-alternatives --set iptables /usr/sbin/iptables-legacy
+	${odio} update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
+	
+	local s
+	local t
+
+	s=$(${odio} which iptables-restore)
+	t=$(${odio} which ip6tables-restore)
+
+	if [ ! -z ${d2} ] ; then
+		${odio} ${s} /etc/iptables/rules.v4.${d2}
+		${odio} ${t} /etc/iptables/rules.v6.${d2}
+		csleep 1
+	fi
+
+	fromtend ${1}/netfilter-persistent*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables-persistent=1.0.20
+	fromtend ${1}/iptables-*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/iptables-*.deb
+
+	csleep 1
+	${scm} 0550 /etc/iptables	
+
+	echo "common_tblz d0n3"
+	csleep 1
+}
 
 function cefgh() {
 	[ -z ${1} ] && exit 66
@@ -532,7 +538,17 @@ function check_binaries() {
 		srat="${srat} -v "
 	fi
 
-	if [ -z "${ipt}" ] ; then
+	#091225 siirretty tdstost a/e22.sh, katsotaan toimiiko näin?
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
+	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
+
+	E22_GT="libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11"
+	E22_GT="${E22_GT} iptables"
+	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
+	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
+
+	#HUOM.111225:mennäänkö tähän sq-chr-ymp.äristössä?
+	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 		[ -z ${1} ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
@@ -540,39 +556,35 @@ function check_binaries() {
 		dqb "params_ok"
 		csleep 1
 
-		echo "SHOULD INSTALL IPTABLES"
-		jules
-		sleep 1
-
 		#näitä kutsuen jos puuttuu (tables TAI gpg) ? tai siis ulos if-blokista ja ?
 		cefgh ${1}
 		common_pp3 ${1}
 
-		[ -f /.chroot ] && message
-		common_tbls ${1} ${dnsm}
-		other_horrors
+		if [ -z "${ipt}" ] ; then
+			echo "SHOULD INSTALL IPTABLES"
+			jules
+			sleep 1
 
-		ipt=$(${odio} which iptables)
-		ip6t=$(${odio} which ip6tables)
-		iptr=$(${odio} which iptables-restore)
-		ip6tr=$(${odio} which ip6tables-restore)
-	fi
+			[ -f /.chroot ] && message
+			common_tbls ${1} ${dnsm}
+			other_horrors
 
-	#091225 siirretty tdstodts a/e22.sh, katsotaan toimiiko näin?
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
+			ipt=$(${odio} which iptables)
+			ip6t=$(${odio} which ip6tables)
+			iptr=$(${odio} which iptables-restore)
+			ip6tr=$(${odio} which ip6tables-restore)
+		fi
 
-	#VAIH:tuo gg
-	if [ -z "${gg}" ] ; then
-		dqb "SHOULD INSTALL gpg AROUND HERE"
-		csleep 1
+		#VAIH:tuo gg
+		if [ -z "${gg}" ] ; then
+			dqb "SHOULD INSTALL gpg AROUND HERE"
+			csleep 1
 
-		cefgh ${1}
-		common_pp3 ${1}
-		for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
+			for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
 
-		gg=$(${odio} which gpg)
-		gv=$(${odio} which gpgv)
+			gg=$(${odio} which gpg)
+			gv=$(${odio} which gpgv)
+		fi
 	fi
 
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
@@ -602,7 +614,6 @@ function check_binaries() {
 	csleep 1
 }
 
-#VAIH:vaikka tässä se /e/d/locale sourcettaminen? liittyy:el_loco()
 function check_binaries2() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2"
 	csleep 1
@@ -708,7 +719,7 @@ function fasdfasd() {
 function reqwreqw() {
 	dqb "rewqreqw(${1} )"
 	[ -z ${1} ] && exit 99
-	[ -f ${1} ] && exit 100
+	#[ -f ${1} ] && exit 100 #takaisn josqs
 	
 	csleep 1
 	${sco} 0:0 ${1}
@@ -770,7 +781,7 @@ function pre_enforce() {
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
 		csleep 1
 
-		#101225:tarpeeksi yleinen että fktioksi asti?
+		#111225:tarpeeksi yleinen että fktioksi asti? kts ykempää jokatap
 		${scm} 0440 ${q}/meshuggah
 		${sco} root:root ${q}/meshuggah
 

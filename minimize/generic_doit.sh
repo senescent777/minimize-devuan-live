@@ -102,14 +102,16 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 #TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
 #
-#271125_/etc/default/locale.tmp: line 1: warning: setlocale: LC_TIME: cannot change locale (fi_FI.UTF-8): No such file or directory
+#271125:/etc/default/locale.tmp: line 1: warning: setlocale: LC_TIME: cannot change locale (fi_FI.UTF-8): No such file or directory
+#saisiko tuota valitusta pois tuossa alla
 
 function el_loco() {
 	echo "CLOSED FOR REPAIRS: "
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 1
-#TODO:seur blokin sisälle?
-#	if [ -s /etc/default/locale.tmp ] ; then #101225:nyk check_bin_2() ...
+
+#seur blokin sisälle vai ei? nykyään on se check_bin_2()
+#	if [ -s /etc/default/locale.tmp ] ; then 
 #		. /etc/default/locale.tmp
 #
 #		export LC_TIME
@@ -117,7 +119,7 @@ function el_loco() {
 #		export LC_ALL
 #	fi
 #
-#	#HUOM.27725:sq-chroot-ymp perl valittaa LANGUAGE ja ALL , voisi tehdä jotain (vielä opngelma?)
+#	#HUOM.27725:sq-chroot-ymp perl valittaa LANGUAGE ja ALL , voisi tehdä jotain (vielä ongelma 111225?)
 #	
 	if [ ${2} -lt 1 ]; then #onkohan tässä blokissa pointtia? mitä jos l.tmp ei löydy vai LCF666 ai asetettu?
 		fasdfasd /etc/default/locale
@@ -125,6 +127,7 @@ function el_loco() {
 
 		#VAIH:jos grep -v '#' kuitenkin
 		${odio} grep -v '#' /etc/default/locale.tmp >> /etc/default/locale
+		[ $? -eq 0 ] && ${smr} /etc/default/locale.tmp #uutena, pois jos ongelmia
 
 		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
 		#jos riittäisi 10 riviä

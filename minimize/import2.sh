@@ -132,6 +132,8 @@ else
 fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
+#111225;ulompi gpg-tarkistus sujuu jo live-ymp, miten sisempi? tehdäänkö sitä?
+#111225.2,:live-ymp ja ffox-prof exp/imp, toimiiko? jep
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -180,21 +182,27 @@ function common_part() {
 	#kts. common_lib.psqa()
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
+		dqb "gg= ${gg}"
 
 		cat ${1}.sha
 		${sah6} ${1}
 		csleep 2
 
-		#291125:testaus sq-chroot-ymp onnistui ainakin kerran
+		#291125:testaus sq-chroot-ymp onnistui ainakin kerran, miten live?
 		if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
+			dqb "A"
 			if [ ! -z ${gg} ] ; then
+				dqb "B"
 				if [ -x ${gg} ] ; then
+					dqb "C"
 					#081225:julk av olemassaolo, pitäisikö tarkistaa tässä?
 					dqb " ${gg} --verify ${1}.sha.sig "
 					${gg} --verify ${1}.sha.sig
 				fi
 			fi
 		fi
+
+		csleep 3
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
