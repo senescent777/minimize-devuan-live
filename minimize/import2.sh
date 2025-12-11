@@ -188,7 +188,11 @@ function common_part() {
 		${sah6} ${1}
 		csleep 2
 
-		#291125:testaus sq-chroot-ymp onnistui ainakin kerran, miten live?
+		#291125:testaus sq-chroot-ymp onnistui ainakin kerran
+		# miten live? "no pub key" 111225 (korjaus tehty kanssa)
+
+		#TODO:gg-jutut ennen sah6
+		#TODO:näille main urputusta jos ei .sig tarkistus onnistu
 		if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
 			dqb "A"
 			if [ ! -z ${gg} ] ; then
@@ -352,7 +356,7 @@ dqb "srcfile=${srcfile}"
 csleep 1
 
 case "${mode}" in
-	r) #101225:toimii vai ei?
+	r) #101225:toimii vai ei? 
 		[ -d ${srcfile} ] || exit 22
 		tpr ${srcfile}
 	;;
@@ -401,17 +405,18 @@ case "${mode}" in
 		tpr ${d0}
 	;;
 	k)
-		#291125:toimii sq-chroot alla (DONE?:testaa live-ymp kanssa, toimii qhan conf?)
+		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
 		dqb "# . / import2.sh k / pad -v"
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
 		ridk=${srcfile}
 
-		if [ ! -z ${gg} ] ; then #-v vielä?
-			if [ -x ${gg} ] ; then
+		if [ -v gg ] && [ -v TARGET_Dkarray ] ; then
+			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then #menisikö näin
 				dqb "NOP"
 				
+				#TODO:jatkossa jos julkisilla avaimilla olisi jokin pääte	
 				for k in ${TARGET_Dkarray} ; do
 					dqb "dbg: ${gg} --import ${ridk}/${k}"
 					${gg} --import ${ridk}/${k}
@@ -420,6 +425,8 @@ case "${mode}" in
 				[ ${debug} -eq 1 ] && ${gg} --list-keys
 				csleep 3
 			fi
+		else
+			dqb "NO-GO-.THEOREM"
 		fi	
 	;;
 	-3)

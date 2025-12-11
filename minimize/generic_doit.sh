@@ -7,6 +7,7 @@ d0=$(pwd)
 debug=0 #1
 d=${d0}/${distro} 
 
+#TODO:LC-jutut jos sanoisi jo konftdstossa 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf

@@ -203,13 +203,13 @@ function t2pc() {
 
 	#251125 uutena (pitäisi vissiin dpkg-reconfigure tjsp jotta saa slimin syrjäytettyä live-ympäristössä)
 	
-	if [ -f /.chroot ] ; then #071225;pitäisikö tälle egdolle tehdä jotain? sen uuden .iso:n kanssa kun sitä temppuilua
-		${sharpy} slim*
+	if [ -f /.chroot ] ; then #071225:pitäisikö tälle egdolle tehdä jotain? sen uuden .iso:n kanssa kun sitä temppuilua
+		dqb "SHOULD ${sharpy} slim*"
 
 		#nopeampi boottaus niinqu
-		${sharpy} isc-dhcp*
+		dqb "SHOULD ${sharpy} isc-dhcp*"
 
-		${sharpy} seat* #uutena 071225
+		dqb "SHOULD ${sharpy} seat* ?" #tuli uutena 071225, muttei näin vaan...
 		t2p_filler
 
 		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa

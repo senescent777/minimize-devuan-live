@@ -115,6 +115,7 @@ function ocs() {
 	fi
 }
 
+#TODO:josko jo tässä tai aiemmin, se LC-juttujen export (sittenq konftsdtoon saatu LC-jutut)
 function check_bin_0() {
 	dqb "check_bin_0"
 
@@ -230,14 +231,12 @@ function psqa() {
 	dqb "Q ${1}"
 	csleep 1
 	[ -z ${1} ] && exit 55
+	# -d kanssa ?
 
-	#https://www.gnupg.org/documentation/manuals/gnupg24/gpg.1.html
-	#https://www.gnupg.org/documentation/manuals/gnupg24/gpgv.1.html
-		
-	#HUOM.ao.blokin testausta varten sitten "export2 e ..." ?
-	#(kys tuotokseen pitäisi se .sig saada mukaan myös)
-	#291125:sq-chroot-ympäristössä vaikuttaisi toimivan ao. blokki
-	if [ -s ./sha512sums.txt.sig ] ; then
+	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
+	csleep 2
+
+	if [ -s ${1}/sha512sums.txt.sig ] ; then
 		dqb "S(${1})"
 		csleep 1
 
@@ -248,13 +247,17 @@ function psqa() {
 			[ ${debug} -eq 1 ] && pwd
 			csleep 1
 
-			${gg} --verify ./sha512sums.txt.sig
+			${gg} --verify ${1}/sha512sums.txt.sig
 			[ $? -eq 0 ] || dqb "SHOULD imp2 k \$dir !!!"				
 			csleep 1
 		else
 			dqb "COULD NOT VERIFY SIGNATURES"
 		fi
+	else
+		dqb "NO .txt.sig AVAILABLE"
 	fi
+
+	csleep 5
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		dqb "R ${1}"		

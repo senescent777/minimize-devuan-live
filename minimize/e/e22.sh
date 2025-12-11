@@ -32,7 +32,7 @@ function e22_hdr() {
 	csleep 1
 }
 
-function e22_ftr() { #091225:josko se uudelleenpakkaus-testi taas kehitysymp (TODO)
+function e22_ftr() { #111225:josko se uudelleenpakkaus-testi taas kehitysymp (VAIH)
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -480,7 +480,7 @@ function e22_ext() { #091225:taitaa toimia
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 
-	dqb "1NT3RF"
+	dqb "1N.T3RF"
 	csleep 1
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
 
@@ -556,17 +556,14 @@ function e22_ts() { #091225:jos vaikka toimisi
 #DONE?:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk? 291125 taisi tulla jokun uusi jurrty testattavaksi, muuten olisi jo OK
 #... se _pkgs* - jutska vielä
 
-#VAIH:testaa uusiksi (kehitysymp)
-function e22_arch() { #301125:osannee tehdä paketin, pieni testailu voisi kuitenkin olla hyväksi miten sisällön kanssa
-	#261125:uudelleenpakkaus toimi, slim rikkoutui ei-uskonnollisista syistä (Fingerpori)
-	#DONE:se uudelleenpakkaus sittenq avaimet aseNNettu (kts. liittyen: install_keys.bash uusi optio)
-
-	dqb "e22_arch ${1}, ${2} " #WTUN TYPOT STNA111223456
+#TODO:testaa TAAS uusiksi (kehitysymp)
+function e22_arch() { 
+	dqb "e22_arch ${1}, ${2} " 
 	csleep 1
 
 	[ -z ${1} ] && exit 1
-	#[ -s ${1} ] || exit 2 #kutsuvaan koodiin e22_hdr() vai ei? toiSTAIseksi näin
-	#[ -w ${1} ] || exit 33
+	[ -s ${1} ] || exit 2 #kutsuvaan koodiin e22_hdr() vai ei? toiSTAIseksi näin
+	[ -w ${1} ] || exit 33
 
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
@@ -619,6 +616,10 @@ function e22_arch() { #301125:osannee tehdä paketin, pieni testailu voisi kuite
 		csleep 1
 		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
 		dqb "GHATS"
+	else
+		dqb "1. ${gg}"
+		dqb "2. ${CONF_kay1name}"
+		csleep 9	
 	fi
 
 	csleep 1
@@ -631,7 +632,7 @@ function e22_arch() { #301125:osannee tehdä paketin, pieni testailu voisi kuite
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt ./sha512sums.txt.sig
 	[ ${debug} -eq 1 ] && ls -las ${1} 
 
-	csleep 1
+	csleep 10
 	cd ${p}
 	dqb "e22_arch d0n3"
 }
