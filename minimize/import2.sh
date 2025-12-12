@@ -50,7 +50,6 @@ if [ -f /.chroot ] ; then
 	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
 		tar -jxvf ${f}
 		sleep 1
-		
 		rm ${f}
 		sleep 1
 	done
@@ -69,14 +68,17 @@ else
 fi
 
 #VAIH:testaa yhdistelmä live-ymp+common_lib pois pelistä 
-#aloiteltu 121225 "$0 k" , toiminee seur "$0 1" (päivityspak?)
+#aloiteltu 121225 "$0 k" , toiminee 
+#seur "$0 1" (päivityspak?) sen kanssa pientä laittoa vielä (josko jo)
+#-1 ja 2 OK
+#... siinä ne oleellisimmat tapaukset
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	debug=1
 	dqb "FALLBACK"
-	mkt=$(which mktemp)
 
+	#nbämä 2 juuri ennen part3(), mjien alustuksen jölkeen?
 	function check_binaries() {
 		dqb "imp2.check1"
 	}
@@ -92,16 +94,25 @@ else
 		odio=$(which sudo)
 	fi
 
-	scm="${odio} /bin/chmod"
+	mkt=$(which mktemp)
+	scm="${odio} /bin/chmod" #which chmod jatkossa?
 	sah6=$(${odio} which sha512sum)
-	srat=$(${odio} which tar) #"/bin/tar"
+	srat=$(${odio} which tar)
 	gg=$(${odio} which gpg)
+	som=$(${odio} which mount)
+	uom=$(${odio} which umount)
+
+	#VAIH:jatkossa odion:n ymppääminen mkt-uom tähän , paikallisten check_bin() - fktioiden kautta?
+	#... se sqriit-ymp myls testattava sen jälkeen että miten toimii siellä
+	som="${odio} ${som}"
+	uom="${odio} ${uom}"
+	srat="${odio} ${srat}"
 
 	function part3() {
 		dqb "imp2.part3 :NOT SUPPORTED"
 		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount
 	}
-	
+
 	function other_horrors() {
 		dqb "AZATH0TH AND OTHER H0RR0RR55.6"
 	}
@@ -174,11 +185,10 @@ function common_part() {
 	csleep 1
 	cd /
 
-	local r
-	r=1
-
-	#VAIH:gg-jutut ennen sah6
-	#VAIH:näille main urputusta jos ei .sig tarkistus onnistu
+#	local r
+#	r=10
+#
+	#VAIH:näille main urputusta jos ei .sig tarkistus onnistu (jtnkn toisin kuitenkin)
 	if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
 		dqb "A"
 
@@ -195,7 +205,7 @@ function common_part() {
 		fi
 	fi
 
-	[ ${r} -eq 0 ] || exit ${r}
+#	[ ${r} -eq 0 ] || exit ${r}
 	csleep 3
 
 	#kts. common_lib.psqa()
@@ -209,8 +219,6 @@ function common_part() {
 
 		#291125:testaus sq-chroot-ymp onnistui ainakin kerran
 		# miten live? "no pub key" 111225 (korjaus tehty kanssa)
-
-
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
@@ -231,14 +239,14 @@ function common_part() {
 		enforce_access ${n} ${t} 
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	else
-		dqb "n s t as ${t}/common_lib.sh "	
+		dqb "n s t as ${t}/common_lib.sh "
 	fi
 
 	csleep 1
-	
+
 	if [ -d ${t} ] ; then
 		dqb "HAIL UKK"
-	
+
 		${scm} 0755 ${t}
 		${scm} 0555 ${t}/*.sh
 		${scm} 0444 ${t}/conf*
@@ -275,7 +283,7 @@ function tpr() {
 		#fktioiden {im,ex}portointia jos kokeilisi? man bash...
 		. ${1}/profs.sh
 		[ $? -gt 0 ] && exit 33
-			
+
 		dqb "INCLUDE OK"
 		csleep 1
 		local q
@@ -302,7 +310,7 @@ function tpr() {
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii?
-		part=/dev/disk/by-uuid/${part0}		
+		part=/dev/disk/by-uuid/${part0}
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 		c=$(grep -c ${dir} /proc/mounts)
 
@@ -370,7 +378,7 @@ case "${mode}" in
 	;; 
 	0|3) #121225:case 3 toimii edelleen, luulisin
 		#TODO:selvitä, toimiiko case 0? jnpp
-		
+
 		echo "ZER0 S0UND"
 		csleep 1
 		dqb " ${3} ${distro} MN"
@@ -386,7 +394,7 @@ case "${mode}" in
 
 		csleep 1
 		dqb "c_p_d0n3, NEXT: pp3"
-		csleep 1	
+		csleep 1
 
 		part3 ${d}
 		other_horrors
@@ -395,7 +403,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#101225:toimii	(ainakin 1 kerran)	
+		#101225:toimii	(ainakin 1 kerran)
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
@@ -414,8 +422,8 @@ case "${mode}" in
 		if [ -v gg ] && [ -v TARGET_Dkarray ] ; then
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then #menisikö näin
 				dqb "NOP"
-				
-				#TODO:jatkossa jos julkisilla avaimilla olisi jokin pääte	
+
+				#TODO:jatkossa jos julkisilla avaimilla olisi jokin pääte
 				for k in ${TARGET_Dkarray} ; do
 					dqb "dbg: ${gg} --import ${ridk}/${k}"
 					${gg} --import ${ridk}/${k}
@@ -426,7 +434,7 @@ case "${mode}" in
 			fi
 		else
 			dqb "NO-GO-.THEOREM"
-		fi	
+		fi
 	;;
 	-3)
 		dqb "do_Nothing()"

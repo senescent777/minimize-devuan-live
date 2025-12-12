@@ -19,14 +19,14 @@ function usage() {
 	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
 	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
 	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
-	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \$ {d0} /\${distro}" 
+	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \$ {d0} /\${distro}"
 	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
 	echo "$0 q <> [] [] archives firefox settings"
 	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
-	echo "$0 t ... option for ipTables"	
-	#echo "$0 å ... somehow related 2 pavucontrol "	
-	echo "$0 -h: shows this message about usage"	
+	echo "$0 t ... option for ipTables"
+	#echo "$0 å ... somehow related 2 pavucontrol"
+	echo "$0 -h: shows this message about usage"
 }
 
 #TODO:jos muuttaisi blokin koskapa gpo() nykyään (-h kanssa voisi tehdä toisinkin)
@@ -150,10 +150,10 @@ t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
 	f) 	#111225:toiminee tuo uudelleenpakkaus? sha meni jo oikein, sig vielä
-		#josko jo 121225 alkaisi onnistua myös sq-chr-ymp varteb		
+		#josko jo 121225 alkaisi onnistua myös sq-chr-ymp varteb
 
 		enforce_access ${n} ${t}
-		#e22_hdr() tähän vaiei?
+		#e22_hdr() tähän vielä?
 		e22_arch ${tgtfile} ${d}
 		e22_ftr ${tgtfile}
 		exit
@@ -179,9 +179,9 @@ case ${mode} in
 	c)
 		#101225:edelleen tekee paketin (mod /tmp-hmiston  kiukuttelut)
 		#TODO:jospa suoraan tar -jcvf ni ei tartte 2 tdston kanssa säätää
-		#... samassa yhteydessä find-jutut laitettava uusiksi	
+		#... samassa yhteydessä find-jutut laitettava uusiksi
 		cd ${d0}
-	
+
 		e22_hdr ${tgtfile}
 		fasdfasd ${tgtfile}
 		fasdfasd ${tgtfile}.bz3
@@ -198,7 +198,7 @@ case ${mode} in
 		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/' | grep -v 'olds/')  ; do 
 			${tcmd} -rvf ${tgtfile} ${f}
 		done
-				
+
 		#HUOM.291125:tästä tuli jotain nalkutusta, joskohan jo 301125 kunnossa?
 		bzip2 -c ${tgtfile} > ${tgtfile}.bz3
 
@@ -213,7 +213,7 @@ case ${mode} in
 		dqb "${sag_u} | ${fib} , when necessary " 
 
 		echo "${shary} ${E22GI}"
-	
+
 		echo "${svm} ${CONF_pkgdir}/*.deb ${d}" #oli se e22_ts() kanssa
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
@@ -261,7 +261,7 @@ case ${mode} in
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
-	3|4) #091225:case 3 tekee toimivan paketin
+	3|4) #091225:case 3 tekee toimivan paketin, ainakin kerran teki
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
@@ -271,7 +271,7 @@ case ${mode} in
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
-		
+
 		dqb "srat= ${srat}"
 		csleep 1
 		e22_hdr ${d}/f.tar
@@ -280,7 +280,7 @@ case ${mode} in
 		if [ ${mode} -eq 3 ] ; then
 			e22_tblz ${d} ${iface} ${distro} ${dnsm}
 			e22_other_pkgs ${dnsm}
-	
+
 			if [ -d ${d} ] ; then
 				e22_dblock ${d}/f.tar ${d}
 			fi
@@ -293,7 +293,7 @@ case ${mode} in
 		${sifd} ${iface}
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 1
- 	
+
 		e22_home ${tgtfile} ${d} ${enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 1
@@ -304,7 +304,7 @@ case ${mode} in
 
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
-		csleep 1	
+		csleep 1
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
 	#091225:teki paketin, sisällön kelpoisuus selvitettävä
@@ -317,14 +317,13 @@ case ${mode} in
 
 		${srat} -cf ${1} ${d}/tim3stamp
 		t=$(echo ${d} | cut -d '/' -f 1-5)
-	
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 	;;
 	p) #091225:tekee paketin missä validia sisältöä, kai
 		e22_profs ${tgtfile} ${d0} 
 	;;
-	e)		
+	e)
 		#101225:teki paketin, sisältökin asentui 091225
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_other_pkgs ${dnsm}
