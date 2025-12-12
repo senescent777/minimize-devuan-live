@@ -230,8 +230,8 @@ function t2pf() {
 	dqb "common_lib.T2P.FINAL( ${1} )"
 	csleep 1
 
-	${NKVD} ${pkgdir}/*.deb
-	${NKVD} ${pkgdir}/*.bin 
+	${NKVD} ${CONF_pkgdir}/*.deb
+	${NKVD} ${CONF_pkgdir}/*.bin 
 	[ -d ${1} ] && ${NKVD} ${1}/*.deb 
 	${NKVD} /tmp/*.tar
 	${smr} -rf /tmp/tmp.*

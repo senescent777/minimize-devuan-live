@@ -31,17 +31,17 @@ if [ $# -gt 0 ] ; then
 fi
 
 function parse_opts_1() {
-	case "${1}" in
-		-v|--v) #101225:voisikohan jo gpo() hoitaa tämän vivun? kts g_doit
-			debug=1
-		;;
-		*)
+#	case "${1}" in
+#		-v|--v) #101225:voisikohan jo gpo() hoitaa tämän vivun? kts g_doit
+#			debug=1
+#		;;
+#		*)
 			if [ -d ${d0}/${1} ] ; then
 				distro=${1}
 				d=${d0}/${distro}
 			fi
-		;;
-	esac
+#		;;
+#	esac
 }
 
 function parse_opts_2() {
@@ -52,7 +52,7 @@ if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
 
-	#HUOM.141025:them files should be checked before eztraxting
+	#HUOM.141025:them files should be checked before eXtraCting
 	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
 		tar -jxvf ${f}
 		sleep 1
@@ -74,7 +74,8 @@ else
 	fi	
 fi
 
-#TODO:testaa yhdistelmä live-ymp+common_lib pois pelistä ($0 1 asdf.gh aluksi)
+#VAIH:testaa yhdistelmä live-ymp+common_lib pois pelistä 
+#aloiteltu 121225 "$0 k" , toiminee seur "$0 1" (päivityspak?)
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -132,7 +133,7 @@ else
 fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
-#111225;ulompi gpg-tarkistus sujuu jo live-ymp, miten sisempi? tehdäänkö sitä?
+#121225:ulompi gpg-tarkistus sujuu jo live-ymp, miten sisempi? tehdäänkö sitä? nykyään joo
 #111225.2,:live-ymp ja ffox-prof exp/imp, toimiiko? jep
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
@@ -179,6 +180,30 @@ function common_part() {
 	csleep 1
 	cd /
 
+	local r
+	r=1
+
+	#VAIH:gg-jutut ennen sah6
+	#VAIH:näille main urputusta jos ei .sig tarkistus onnistu
+	if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
+		dqb "A"
+
+		if [ ! -z ${gg} ] ; then #sen array:n olamessaolon testi tähän?
+			dqb "B"
+
+			if [ -x ${gg} ] ; then
+				dqb "C"
+
+				dqb " ${gg} --verify ${1}.sha.sig "
+				${gg} --verify ${1}.sha.sig
+				r=$?
+			fi
+		fi
+	fi
+
+	[ ${r} -eq 0 ] || exit ${r}
+	csleep 3
+
 	#kts. common_lib.psqa()
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
@@ -191,22 +216,7 @@ function common_part() {
 		#291125:testaus sq-chroot-ymp onnistui ainakin kerran
 		# miten live? "no pub key" 111225 (korjaus tehty kanssa)
 
-		#TODO:gg-jutut ennen sah6
-		#TODO:näille main urputusta jos ei .sig tarkistus onnistu
-		if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
-			dqb "A"
-			if [ ! -z ${gg} ] ; then
-				dqb "B"
-				if [ -x ${gg} ] ; then
-					dqb "C"
-					#081225:julk av olemassaolo, pitäisikö tarkistaa tässä?
-					dqb " ${gg} --verify ${1}.sha.sig "
-					${gg} --verify ${1}.sha.sig
-				fi
-			fi
-		fi
 
-		csleep 3
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
@@ -249,8 +259,7 @@ function common_part() {
 }
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#VAIH:korjaa jos rikki, 101225 tienoilla ei fox-profiili (kuseekohan g_doit kautta vaiko exp2:ssa vika?)
-#... toinen yritys 101225 niin profiilin import onnistui, ongelma pikemminkin exp2 puolella?
+#121225Lprofiiliasiat jko/tsaa kunnossa?
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
@@ -356,7 +365,7 @@ dqb "srcfile=${srcfile}"
 csleep 1
 
 case "${mode}" in
-	r) #101225:toimii vai ei? 
+	r) #121225:jospa jo toimisi 
 		[ -d ${srcfile} ] || exit 22
 		tpr ${srcfile}
 	;;
@@ -365,16 +374,14 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
-	0|3) #291125:case 3 toimii jo sq-chr-ynp kanssa, luulisin että live-ymp myös
+	0|3) #121225:case 3 toimii edelleen, luulisin
 		#TODO:selvitä, toimiiko case 0? jnpp
-		#011225 oli kiukuttelua sq-chr-ymp, kts toistuuko
-
+		
 		echo "ZER0 S0UND"
 		csleep 1
 		dqb " ${3} ${distro} MN"
 		csleep 1
 
-		#281125:s:n ja t:n kanssa riittää kusta ja paskaa ainakin sq-chroot-ympäristössä
 		if [ ${1} -eq 0 ] ; then
 			dqb "DEPRECATED"
 			csleep 10
@@ -384,8 +391,6 @@ case "${mode}" in
 		fi
 
 		csleep 1
-		#HUOM.291125:tässä oli blokki (kommentoitu)
-		
 		dqb "c_p_d0n3, NEXT: pp3"
 		csleep 1	
 
@@ -406,7 +411,7 @@ case "${mode}" in
 	;;
 	k)
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
-		dqb "# . / import2.sh k / pad -v"
+		dqb "# . \ import2.sh k \ pad -v"
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"

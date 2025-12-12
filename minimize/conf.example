@@ -3,31 +3,43 @@ enforce=
 debug=0
 dir=/media
 dnsm=0
+#
+#pkgs
+CONF_pkgdir=/var/cache/apt/archives
+CONF_pkgsrc= #tämän idea olikaan? no sources.list tietenkin
+#/pkgs
+#
 part0=ABCD-1234-XXXX
 removepkgs=1
 #dsn="INSERT LIST OF DNS/DOT SERVERS HERE"
 changepw=0
 #
-pkgsrc= #tämän idea olikaan? no sources.list tietenkin
-pkgdir=/var/cache/apt/archives #jatkossa nimenä CONF_pkgdir
-#
-#HUOM.11525:locale-juttuja varten nykyään /e/d/l.tmp tai siis
+#loka
+#HUOM.11525:locale-juttuja varten nykyään /e/d/l.tmp
 LCF666="SAME_AS LC_TIME"
-LANG=
-LC_TIME=
-LANGUAGE=
-LC_ALL=
+LANG=en_US.UTF-8
+LC_TIME=fi_FI.UTF-8
+LANGUAGE=en_US.UTF-8
+LC_ALL=en_US.UTF-8
+#/loka
 #
 BASEURL="github.com/senescent777/"
-testgris=/SMTH1NG #jatkossa toisin, jos mahd
+#testgris ja .chroot voisi korvata yhdellä mjalla
+testgris=/SMTH1NG
 #
-CONF_kay1name=KAYEBACDS
-CONF_kay2name=KAYEFGH
-TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ "
-TARGET_Dkname1=d1k
-TARGET_Dkname2=t1t
+#krypto
+#nimeäimnen jos loogisemmin? pubk und ksk ?
+CONF_kay1name=KAYEABCD
+CONF_kay2name=KAYEFGHI
+TARGET_Dkname1=
+TARGET_Dkname2=
 TARGET_Dpubkf=${TARGET_DIGESTS_dir}/${TARGET_Dkname1}
 TARGET_Dpubkg=${TARGET_DIGESTS_dir}/${TARGET_Dkname2}
 TARGET_Dkarray="${TARGET_Dkname1} ${TARGET_Dkname2}"
+#/kyrpto
 #
+TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ "
+#
+#sudo-juttuja
 CB_LIST2="/bin/rm CONF_TMPIR/*"
+#TODO:mkcnffile ajan tasalle (mitentaas liittyikään?)

@@ -6,6 +6,8 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+#TODO:tämän tiedoston siirto toiseen repositoryyn koska syyt (siis siihen samaan missä profs.sh)
+
 if [ -f /.chroot ] ; then
 	odio=""
 	#debug=1
@@ -115,7 +117,8 @@ function ocs() {
 	fi
 }
 
-#TODO:josko jo tässä tai aiemmin, se LC-juttujen export (sittenq konftsdtoon saatu LC-jutut)
+#VAIH:josko jo tässä tai aiemmin, se LC-juttujen export (sittenq konftsdtoon saatu LC-jutut)
+#... miten aikainen asettaminen muuten vaikuttaa el_loco():on ?
 function check_bin_0() {
 	dqb "check_bin_0"
 
@@ -192,6 +195,12 @@ function check_bin_0() {
 	else
 		n=$(whoami)
 	fi
+
+	#-v taakse bämä?
+	export LC_TIME
+	export LANGUAGE
+	export LC_ALL
+	export LANG
 }
 
 check_bin_0
@@ -223,9 +232,6 @@ function message() {
 	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS"
 	sleep 1
 }
-
-#VAIH:testaustarkoituksissa kiekolle asti ne julk av? kiekkoa luodessa siis .bz2 sinne v-hmistoon missä pub_keys...
-#olisikohan jo 111225 mennessä anakin jllain kieklla
 
 function psqa() {
 	dqb "Q ${1}"
@@ -394,7 +400,7 @@ function clibpre() {
 	dqb "BlAnR3eY C0kCCC!!!"
 }
 
-#HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (TODO)
+#HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (VAIH)
 #... export xxx tai sitten man sudo taas
 #https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
 #
@@ -422,10 +428,8 @@ function fromtend() {
 #sillä toisella tyylillä tämä masentelu jatkossa? for ... in ... ?
 #nykyään vosi kai E22-mjilla iteroida suurimman osab tarv paketeista
 #
-#091225:jospa vaikka sq-chr-ympäristössä testaisi toimiNNan (VAIH)
 #111225:ensimmäisellä yrityksellä epäselvää josko juuri siinä ympäristössä tätä fktiota kutsutaan
 #... mutta kehitysymp kanssa toimii, luulisin
-#TODO:selvitä toimivatko g_jutut sqrootissa lainkaan tällä hetkellä
 #
 #P.S. this function created to avoid a chicken-and-egg-situation
 function common_tbls() {
@@ -578,7 +582,6 @@ function check_binaries() {
 			ip6tr=$(${odio} which ip6tables-restore)
 		fi
 
-		#VAIH:tuo gg
 		if [ -z "${gg}" ] ; then
 			dqb "SHOULD INSTALL gpg AROUND HERE"
 			csleep 1
@@ -649,20 +652,17 @@ function check_binaries2() {
 	uom="${odio} ${uom} "
 	smd="${odio} ${smd}" #käyttöön
 
-	dqb "new part" #uusi blokki pois jos qsee (101225)
-	#... vai pitäisikö olla jossain aiemmin jo? (test w/ sq-chroot?)
-
-	#näin ei varmaan saisi tehdä mutta
-	if [ -s /etc/default/locale.tmp ] ; then
-		. /etc/default/locale.tmp
-	else
-		. /etc/default/locale 
-	fi
-
-	export LC_TIME
-	export LANGUAGE
-	export LC_ALL
-	#/uusi_blokki
+#	dqb "new part" #uusi blokki pois jos qsee (101225)
+#	#... vai pitäisikö olla jossain aiemmin jo? (test w/ sq-chroot?)
+#
+##	#näin ei varmaan saisi tehdä mutta (sittenkin jos konftsdtoon)
+##	if [ -s /etc/default/locale.tmp ] ; then
+##		. /etc/default/locale.tmp
+##	else
+##		. /etc/default/locale 
+##	fi
+#
+#	#/uusi_blokki
 
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
@@ -1003,8 +1003,8 @@ function part1_5() {
 		echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 		csleep 1
 
-		if [ ! -z ${pkgsrc} ] ; then #CONF_pkgsrc?
-			tdmc="sed -i 's/REPOSITORY/${pkgsrc}/g'"
+		if [ ! -z ${CONF_pkgsrc} ] ; then
+			tdmc="sed -i 's/REPOSITORY/${CONF_pkgsrc}/g'"
 			echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 			csleep 1
 		fi
@@ -1331,16 +1331,21 @@ function gpo() {
 	local opt
 	prevopt=""
 
+	#121225:miten g_jutut nykyään tämän kanssa?
 	if [ $# -lt 1 ] ; then
 		echo "$0 -h"
-		exit
+		#exit
 	fi
 
 	for opt in $@ ; do
+		#VAIH:-h,usage() ?
 		case ${opt} in	
 			-v|--v)
 				debug=1
 			;;
+			#-h|--h)
+			#	usage
+			#;;
 		esac
 
 		parse_opts_1 ${opt}

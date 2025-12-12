@@ -44,18 +44,10 @@ fi
 function parse_opts_1() {
 	dqb "exp2.patse_otps8( ${1}, ${2})"
 
-#	case "${1}" in
-#		-v|--v) #101225:voisikohan jo gpo() hoitaa tämän vivun? #kts g_doit
-#			debug=1
-#		;;
-#		*)
-#			#menisiköhän näin?
-			if [ -d ${d}/${1} ] ; then
-				distro=${1}
-				d=${d0}/${distro}
-			fi
-#		;;
-#	esac
+	if [ -d ${d}/${1} ] ; then
+		distro=${1}
+		d=${d0}/${distro}
+	fi
 }
 
 function parse_opts_2() {
@@ -158,8 +150,10 @@ t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
 	f) 	#111225:toiminee tuo uudelleenpakkaus? sha meni jo oikein, sig vielä
-		
+		#josko jo 121225 alkaisi onnistua myös sq-chr-ymp varteb		
+
 		enforce_access ${n} ${t}
+		#e22_hdr() tähän vaiei?
 		e22_arch ${tgtfile} ${d}
 		e22_ftr ${tgtfile}
 		exit
@@ -267,7 +261,7 @@ case ${mode} in
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
-	3|4) #091225:case 3 tekee toimivan paketin ... paitsi että ffox prof kanssa jotain tilap? ongelmaa
+	3|4) #091225:case 3 tekee toimivan paketin
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 

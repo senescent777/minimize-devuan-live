@@ -7,7 +7,7 @@ d0=$(pwd)
 debug=0 #1
 d=${d0}/${distro} 
 
-#TODO:LC-jutut jos sanoisi jo konftdstossa 
+#VAIH:LC-jutut jos sanoisi jo konftdstossa 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -126,6 +126,7 @@ function el_loco() {
 		fasdfasd /etc/default/locale
 		csleep 1
 
+		#TODO:jatkossa joa echolla nuo jutut?
 		#VAIH:jos grep -v '#' kuitenkin
 		${odio} grep -v '#' /etc/default/locale.tmp >> /etc/default/locale
 		[ $? -eq 0 ] && ${smr} /etc/default/locale.tmp #uutena, pois jos ongelmia
@@ -168,7 +169,7 @@ function el_loco() {
 c14=0
 c13=0
 [ ${mode} -eq 1 ] && c14=1
-
+#TODO:c13 ja c14 asetuksen ehdot uusiksi, vaikka "env | grep {LA,LC}"?
 if [ -v LCF666 ] ; then
 	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
 else

@@ -1,5 +1,5 @@
 #jatkossa pkgd -> CONF_pkgd konftdstossa
-[ -v CONF_pkgdir ] || CONF_pkgdir=${pkgdir}
+#[ -v CONF_pkgdir ] || CONF_pkgdir=${pkgdir}
 
 dqb "${sco} -Rv _apt:root ${CONF_pkgdir}/partial"
 csleep 1
@@ -32,7 +32,7 @@ function e22_hdr() {
 	csleep 1
 }
 
-function e22_ftr() { #111225:josko se uudelleenpakkaus-testi taas kehitysymp (VAIH)
+function e22_ftr() { #121225:vissiin toimii
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -115,7 +115,7 @@ function e22_pre1() { #091225:vissiin toimii koska "exp2 3"
 }
 
 #VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen (olisiko jo 261125?)
-#...note to self: oli varmaankin cross-distro-syistä, ehkä jossain vaiheessa jos sitä juttua teatsisi uudestaan
+#...note to self: oli varmaankin cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 
 function e22_pre2() { #091225:vissiin toimii koska "exp2 3"
 	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
@@ -174,7 +174,7 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 		csleep 1
 
 		${NKVD} ${1}/*.deb
-		${NKVD} ${1}/sha512sums.txt
+		${NKVD} ${1}/sha512sums.txt*
 		#entä ne listat?
 
 		ls -las ${1}/*.deb
@@ -190,7 +190,7 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 }
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  , muutokset oikeastaan tdstpn profs.sh
-function e22_settings() { #VAIH:selvitä tarvitseekokoko rjata
+function e22_settings() {
 	dqb "e22_settings ${1} ${2}"
 	csleep 1
 
@@ -226,8 +226,7 @@ function e22_settings() { #VAIH:selvitä tarvitseekokoko rjata
 	csleep 1
 }
 
-function e22_home() { #091225:testailu saattoi onnistua, paitsi  ffox-prof TODO:korjaa jos vikaa
-	#261125:lienee ok, merd2 tulee mukaan, accept/reject-jutut myös
+function e22_home() { #121225:profiiliasiat jo kunnossa?
 	dqb "e22_home ${1} , ${2} , ${3}  "
 
 	[ -z ${1} ] && exit 67
@@ -353,7 +352,7 @@ function e22_elocal() { #091225:tehnee paketin ok
 	dqb "B3F0R3 TÖBX"
 	csleep 2
 
-	#mikä järki tässä vaiheessa keskeyttää?
+	#mikä järki tässä keskeyttää suoritus?
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		echo "/E/IPTABLES sdhgfsdhgf"
 		exit 112
@@ -556,14 +555,14 @@ function e22_ts() { #091225:jos vaikka toimisi
 #DONE?:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk? 291125 taisi tulla jokun uusi jurrty testattavaksi, muuten olisi jo OK
 #... se _pkgs* - jutska vielä
 
-#TODO:testaa TAAS uusiksi (kehitysymp)
+# (vissiin ok jo 121225)
 function e22_arch() { 
 	dqb "e22_arch ${1}, ${2} " 
 	csleep 1
 
 	[ -z ${1} ] && exit 1
-	[ -s ${1} ] || exit 2 #kutsuvaan koodiin e22_hdr() vai ei? toiSTAIseksi näin
-	[ -w ${1} ] || exit 33
+	#[ -s ${1} ] || exit 2 #antaa nyt olla kommenteissa
+	#[ -w ${1} ] || exit 33 #josko man bash...
 
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
@@ -605,7 +604,7 @@ function e22_arch() {
 	echo $?
 	${sah6} ./*.deb > ./sha512sums.txt
 
-	dqb "KUKK0 K1EQ 666"	
+	dqb "KUKK0 K1EQ 666"
 	${sah6} ./reject_pkgs >> ./sha512sums.txt
 	${sah6} ./accept_pkgs_? >> ./sha512sums.txt
 	csleep 1
