@@ -20,26 +20,11 @@ function csleep() {
 function parse_opts_1() {
 	echo "popt_1( ${1} )"
 
-#	case ${1} in
-#		-v|--v)
-#			debug=1
-#		;;
-#		*)
-#			if [ -d ${d0}/${1} ] ; then
-#				distro=${1}
-#			else 
-#				mode=${1}
-#			fi
-#
-#			dqb "0th3r 0tps"
-#		;;
-#	esac
-
 	if [ -d ${d0}/${1} ] ; then
 		distro=${1}
 	else
 		case  "${1}" in
-			0|1|2|3) #varsinainen numeerisuustarkistus parempi
+			0|1|2|3) #varsinainen numeerisuustarkistus olisi parempi
 				mode=${1}
 			;;
 			*)
@@ -201,16 +186,16 @@ function t2pc() {
 	#xfce*,xorg* off limits
 	t2p_filler
 
-	#251125 uutena (pitäisi vissiin dpkg-reconfigure tjsp jotta saa slimin syrjäytettyä live-ympäristössä)
+	#121225:pitäisi se validi xorg.conf ennenq dumppaa:slim
 	
-	if [ -f /.chroot ] ; then #071225:pitäisikö tälle egdolle tehdä jotain? sen uuden .iso:n kanssa kun sitä temppuilua
+	if [ -f /.chroot ] ; then #071225:pitäisikö tälle ehdolle tehdä jotain? sen uuden .iso:n kanssa kun sitä temppuilua
 		dqb "SHOULD ${sharpy} slim*"
 
 		#nopeampi boottaus niinqu
 		dqb "SHOULD ${sharpy} isc-dhcp*"
 
 		dqb "SHOULD ${sharpy} seat* ?" #tuli uutena 071225, muttei näin vaan...
-		t2p_filler
+		dqb "t2p_filler()"
 
 		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
 		dqb "dpkg-reconfigure lxdm?"

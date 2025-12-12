@@ -32,6 +32,8 @@ function e22_hdr() {
 	csleep 1
 }
 
+#HUOM.121225:edelleenkin wanha reject_pkgs jyrää uuden, voisiko jtain tehdä?
+
 function e22_ftr() { #121225:vissiin toimii
 	dqb "ess_ftr( ${1} )"
 	csleep 1
@@ -61,7 +63,7 @@ function e22_ftr() { #121225:vissiin toimii
 			${gg} --verify ${q}.sha.sig
 			csleep 1
 		else
-			dqb "NO KEYS<+"
+			dqb "NO KEYS?"
 		fi
 	else
 		dqb "SHOULD INSTALL GPG"
@@ -114,8 +116,7 @@ function e22_pre1() { #091225:vissiin toimii koska "exp2 3"
 	csleep 1
 }
 
-#VAIH:jossain näillä main pitäisi kutsua part1() tai part1_5() jotta sen sources.list:in saisi kohdalleen (olisiko jo 261125?)
-#...note to self: oli varmaankin cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
+#...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 
 function e22_pre2() { #091225:vissiin toimii koska "exp2 3"
 	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
@@ -213,7 +214,7 @@ function e22_settings() {
 		.  ${2}/profs.sh
 
 		exp_prof ${1}/fediverse.tar default-esr	
-		#$1 ei ehkä pakko laittaa mykaan koska cd ylempänä
+		#$1 ei ehkä pakko laittaa mukaan koska cd ylempänä
 
 		[ -s ${1}/fediverse.tar ] || exit 32
 	else
@@ -273,10 +274,11 @@ function e22_home() { #121225:profiiliasiat jo kunnossa?
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 	csleep 2
 
-	dqb "Xorg -config ~/xorg.conf ?"
-	csleep 10
-	#josko finnd:in kautta?
-	${srat} -rvf ${1} ~/xorg.conf #tässä vai settings:issä ? -f taakse jokatap
+	dqb "AUTOMAGICAL CONFIGURATION IS A DISEASE"
+#	dqb "Xorg -config ~/xorg.conf ?"
+#	csleep 10
+#	#josko finnd:in kautta?
+#	${srat} -rvf ${1} ~/xorg.conf #tässä vai settings:issä ? -f taakse jokatap
 
 	dqb "e22_home d0n3"
 	csleep 1
@@ -353,7 +355,7 @@ function e22_elocal() { #091225:tehnee paketin ok
 	dqb "B3F0R3 TÖBX"
 	csleep 2
 
-	#mikä järki tässä keskeyttää suoritus?
+	#mikä järki juuri tässä keskeyttää suoritus?
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		echo "/E/IPTABLES sdhgfsdhgf"
 		exit 112
@@ -560,7 +562,7 @@ function e22_ts() { #091225:jos vaikka toimisi
 #DONE?:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk? 291125 taisi tulla jokun uusi jurrty testattavaksi, muuten olisi jo OK
 #... se _pkgs* - jutska vielä
 
-# (vissiin ok jo 121225)
+#vissiin ok jo 121225 paitsi ehkä accetp/rejct
 function e22_arch() { 
 	dqb "e22_arch ${1}, ${2} " 
 	csleep 1
@@ -629,7 +631,7 @@ function e22_arch() {
 	csleep 1
 	psqa .
 
-	#HUOM.291125:tässä alla tar:in kanssa qsee jokin
+	#121225;tar kanbssa edelleen ongelmia?
 	dqb "srat= ${srat}"
 	csleep 1
 
@@ -744,7 +746,7 @@ function e22_other_pkgs() { #091225:taitaa toimia
 	dqb "MAGOG"
 	csleep 2
 
-	#[ $? -eq 0 ] && dqb "TuBE 0F THE R3S0NATED"
+	#[ $? -eq 0 ] && dqb "luBE 0F THE R3S0NATED"
 	#csleep 2
 
 #121225:jatkossa jokin apufktio dm:n asennusta varten ja mja konftdstoon, nyt näin (TODO:uudelleenpakk soveltuviin pak s.e. lxdm poissa)

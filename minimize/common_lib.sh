@@ -117,7 +117,6 @@ function ocs() {
 	fi
 }
 
-#VAIH:josko jo tässä tai aiemmin, se LC-juttujen export (sittenq konftsdtoon saatu LC-jutut)
 #... miten aikainen asettaminen muuten vaikuttaa el_loco():on ?
 function check_bin_0() {
 	dqb "check_bin_0"
@@ -196,7 +195,7 @@ function check_bin_0() {
 		n=$(whoami)
 	fi
 
-	#-v taakse bämä?
+	#-v taakse nämä?
 	export LC_TIME
 	export LANGUAGE
 	export LC_ALL
@@ -347,9 +346,6 @@ function efk2() { #jotain kautta tätäkin kai kutsuttiin (cefgh nykyään)
 	csleep 1
 }
 
-#291125:clib-fktioita kuTSuvaan koodiin tarkistus että _pkgs-jutut täsmäävät tIIvisteisiin ja allek? 
-#... tai siis jos e22_a() ottaisi mukaan shasums:iin... olisikohan jo?
-#
 #clib5p ja clibpre pystyisi yhdistämään
 function clib5p() {
 	dqb "clib5p( ${1}  , ${2}) "
@@ -426,10 +422,10 @@ function fromtend() {
 #tämän tulisi kai olla privaatti fktio
 #
 #sillä toisella tyylillä tämä masentelu jatkossa? for ... in ... ?
-#nykyään vosi kai E22-mjilla iteroida suurimman osab tarv paketeista
+#nykyään voisi kai E22-mjilla iteroida suurimman osan tarv paketeista
 #
-#111225:ensimmäisellä yrityksellä epäselvää josko juuri siinä ympäristössä tätä fktiota kutsutaan
-#... mutta kehitysymp kanssa toimii, luulisin
+#111225:ensimmäisellä yrityksellä epäselvää josko juuri siinä ympäristössä missä tätä fktiota kutsutaan
+#... mutta kehitysymp kanssa toimii, luulisin , livenä myös121225 ainakin kerran
 #
 #P.S. this function created to avoid a chicken-and-egg-situation
 function common_tbls() {
@@ -563,7 +559,6 @@ function check_binaries() {
 		dqb "params_ok"
 		csleep 1
 
-		#näitä kutsuen jos puuttuu (tables TAI gpg) ? tai siis ulos if-blokista ja ?
 		cefgh ${1}
 		common_pp3 ${1}
 
@@ -632,7 +627,7 @@ function check_binaries2() {
 
 	sharpy="${odio} ${sag} remove --purge --yes "
 
-	#HUOM. ${sag} VIIMEISENÄ tai siis ao- kolmikosta
+	#HUOM. ${sag} oltava VIIMEISENÄ tai siis ao. kolmikosta
 	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
 	sag_u="${odio} ${sag} update "
 	sag="${odio} ${sag} "
@@ -663,7 +658,7 @@ function mangle_s() {
 	[ y"${1}" == "y" ] && exit 44
 	[ -x ${1} ] || exit 55
 
-	#HUOM.26525:pitäisiköhän olla jotain lisätarkistuksia $2 kanssa nyk lisäöksi?
+	#HUOM.26525:pitäisiköhän olla jotain lisätarkistuksia $2 kanssa nyk lisäksi?
 	[ y"${2}" == "y" ] && exit 45
 	[ -f ${2} ] || exit 54
 
@@ -683,7 +678,7 @@ function mangle_s() {
 	echo -e "\n" >> ${2}
 }
 
-#...toisaalta sen dhclient-kikkailun voisi palauttaa
+#...toisaalta sen dhclient-kikkailun voisi palauttaa (TODO)
 function dinf() {
 	local g
 
@@ -736,7 +731,7 @@ function pre_enforce() {
 	csleep 1
 	[ -f ${q}/meshuggah ] || exit 33
 
-	if [ ! -v testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahjd)
+	if [ ! -v testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
 		dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 
 		if [ ! -d /opt/bin ] ; then
@@ -772,7 +767,7 @@ function pre_enforce() {
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
 		csleep 1
 
-		#111225:tarpeeksi yleinen että fktioksi asti? kts ykempää jokatap
+		#111225:tarpeeksi yleinen että fktioksi asti? kts ylempää jokatap
 		${scm} 0440 ${q}/meshuggah
 		${sco} root:root ${q}/meshuggah
 
@@ -824,7 +819,6 @@ function mangle2() {
 	fi
 }
 
-#081225:e_fktiot saattavat olla kunnossa (tai sit ei)
 function e_e() {
 	dqb "e_e"	
 	csleep 1
@@ -1069,7 +1063,7 @@ function dis() {
 }
 
 function part076() {
-	#081225:pitäisiköhän param tarkistaa?
+	#081225:pitäisiköhän param tarkistaa? (	TODO)
 	dqb "FART076 ${1}"
 	csleep 1
 	dis ${1}
@@ -1095,7 +1089,6 @@ function part076() {
 	csleep 1
 }
 
-#271125:iptables aiheutti nalq sq-chroot-ymp
 function part1() {
 	dqb "PART1 ${1} "
 	csleep 1
@@ -1172,7 +1165,7 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		${fib}
 		csleep 1
 		
-		for s in ${PART175_LIST} ; do #271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa
+		for s in ${PART175_LIST} ; do #271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa, toimiva konf äksään löydettävä (TODO)
 			dqb "processing ${s}"
 			${sharpy} ${s}*
 			csleep 1
@@ -1238,7 +1231,6 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 #
 ##part3() vs import2 case 3 ,. what's the difference?
 #
-#091225:part3() vissiin kunnossa, common_p3 ja pasq kanssa selvitetty
 function part3() {
 	dqb "part3 ${1} , ${2}"
 	csleep 1
@@ -1267,9 +1259,7 @@ function part3() {
 		clib5p ${1} reject_pkgs
 	#fi
 
-	#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taPauksessa daed , jotain jos tekisi dbus
 	clibpre ${1} accept_pkgs_1
-
 	#josko lxdm tai xdm vaikka, slimin tilalle?
 	clibpre ${1} accept_pkgs_2
 
@@ -1293,8 +1283,6 @@ function part3() {
 	else
                exit 66
 	fi
-	
-	#271125:sq-chr-ymnp urputti paketista gpgconf (lienee jo kunnossa)
 
 	dqb "LIBS DONE"
 	csleep 1
@@ -1331,9 +1319,9 @@ function gpo() {
 			-v|--v)
 				debug=1
 			;;
-			#-h|--h)
-			#	usage
-			#;;
+			-h|--h)
+				usage
+			;;
 		esac
 
 		parse_opts_1 ${opt}

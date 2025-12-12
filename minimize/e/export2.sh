@@ -6,6 +6,8 @@ d0=$(pwd)
 mode=-2
 tgtfile=""
 
+#HUOM.121225:edelleenkin wanha reject_pkgs jyrää uuden, voisiko jtain tehdä?
+
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }

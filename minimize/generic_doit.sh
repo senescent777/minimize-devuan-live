@@ -7,7 +7,6 @@ d0=$(pwd)
 debug=0 #1
 d=${d0}/${distro} 
 
-#VAIH:LC-jutut jos sanoisi jo konftdstossa 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -102,26 +101,12 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #===================================================PART 2===================================
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 #TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
-#
-#271125:/etc/default/locale.tmp: line 1: warning: setlocale: LC_TIME: cannot change locale (fi_FI.UTF-8): No such file or directory
-#saisiko tuota valitusta pois tuossa alla
 
 function el_loco() {
 	echo "CLOSED FOR REPAIRS: "
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 1
 
-#seur blokin sisälle vai ei? nykyään on se check_bin_2()
-#	if [ -s /etc/default/locale.tmp ] ; then 
-#		. /etc/default/locale.tmp
-#
-#		export LC_TIME
-#		export LANGUAGE
-#		export LC_ALL
-#	fi
-#
-#	#HUOM.27725:sq-chroot-ymp perl valittaa LANGUAGE ja ALL , voisi tehdä jotain (vielä ongelma 111225?)
-#	
 	if [ ${2} -lt 1 ]; then #onkohan tässä blokissa pointtia? mitä jos l.tmp ei löydy vai LCF666 ai asetettu?
 		fasdfasd /etc/default/locale
 		csleep 1
@@ -148,22 +133,14 @@ function el_loco() {
 	fi
 
 	#101225:pitäisikö jotain tehdä vielä että nuo sorkitut lokaaliasetukset saa voimaan?
-	#VAIH:LC_xxx mjien exportointi jokatap?
-	if [ -s /etc/default/locale ] ; then
+	
+	if [ -s /etc/default/locale ] ; then #miten tämän pitää mennä?
 		. /etc/default/locale
 
 		export LC_TIME
 		export LANGUAGE
 		export LC_ALL
 	fi
-
-#	if [ ${2} -lt 1 ] && [ ${debug} -eq 1 ] ; then
-#		ls -las /etc/default/lo*
-#		csleep 1
-#	fi
-#
-#	dqb "DN03"
-#	csleep 1
 }
 
 c14=0
@@ -219,14 +196,14 @@ csleep 5
 
 #101225:toimi ainakin kerran, jospa tilaäinen ongelma exp2 puolella?
 if [ ! -f /.chroot ] ; then
-	${d0}/import2.sh r ${d0} -v #2. ja 3. param. turhia?
+	${d0}/import2.sh r ${d0} -v
+	#2. ja 3. param. turhia?
 fi
 
 jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
-#101225;suattaapi olla että common_lib.sh ajo-oikeuden poistaja löytyi vuan suattaapi ettei
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}

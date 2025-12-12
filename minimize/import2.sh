@@ -10,6 +10,8 @@ d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
 
+#HUOM.121225:edelleenkin wanha reject_pkgs jyrää uuden, voisiko jtain tehdä?
+
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -78,7 +80,7 @@ else
 	debug=1
 	dqb "FALLBACK"
 
-	#nbämä 2 juuri ennen part3(), mjien alustuksen jölkeen?
+	#nbämä 2 juuri ennen part3(), mjien alustuksen jälkeen?
 	function check_binaries() {
 		dqb "imp2.check1"
 	}
@@ -103,7 +105,7 @@ else
 	uom=$(${odio} which umount)
 
 	#VAIH:jatkossa odion:n ymppääminen mkt-uom tähän , paikallisten check_bin() - fktioiden kautta?
-	#... se sqriit-ymp myls testattava sen jälkeen että miten toimii siellä
+	#... se sqr00t-ymp myls testattava sen jälkeen että miten toimii siellä
 	som="${odio} ${som}"
 	uom="${odio} ${uom}"
 	srat="${odio} ${srat}"
@@ -128,7 +130,7 @@ fi
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
 echo "mkt= ${mkt} "
-csleep 3
+csleep 2
 
 if [ -f /.chroot ] || [ -x ${mkt} ] ; then
 	dqb "MTK"
@@ -168,7 +170,6 @@ else
 	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE"
 fi
 
-#291125:josko toimisi sq-chroot-ympäristössä, sen ulkopuolella:vissiin
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
@@ -216,9 +217,6 @@ function common_part() {
 		cat ${1}.sha
 		${sah6} ${1}
 		csleep 2
-
-		#291125:testaus sq-chroot-ymp onnistui ainakin kerran
-		# miten live? "no pub key" 111225 (korjaus tehty kanssa)
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
@@ -261,7 +259,7 @@ function common_part() {
 }
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#121225Lprofiiliasiat jko/tsaa kunnossa?
+#12122:profiiliasiat jko/tsaa kunnossa?
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
@@ -322,7 +320,7 @@ case "${mode}" in
 
 		[ $? -eq 0 ] && echo "NEXT: $0 0 <source> [distro] unpack AND install | $0 1 <source> just unpacks the archive | $0 3 ..."
 		#mode=-3
-		#remember:to_umount olisi hyvä muistuttaa kyitenkin
+		#remember:to_umount olisi hyvä muistuttaa kuitenkin
 	;;
 	2)
 		#081225:toimiiko oikein kun "$0 2 -v" ?
@@ -371,7 +369,7 @@ case "${mode}" in
 		[ -d ${srcfile} ] || exit 22
 		tpr ${srcfile}
 	;;
-	1) # toimi 261125 (testaapa uudestaan, TODO)
+	1) #121225;testailtru, vissiin toimii
 		common_part ${srcfile} ${d} /
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
