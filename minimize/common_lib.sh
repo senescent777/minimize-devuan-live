@@ -6,6 +6,8 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+#TODO:tämän tiedoston siirto toiseen repositoryyn koska syyt (siis siihen samaan missä profs.sh)
+
 if [ -f /.chroot ] ; then
 	odio=""
 	#debug=1
@@ -99,6 +101,7 @@ scm="${odio} ${scm} "
 fix_sudo
 other_horrors
 
+#HUOM.111225:toimiiko oikein sq-chroot-ympäristössä?
 function ocs() {
 	dqb "ocs ${1}  "
 	local tmp2
@@ -114,6 +117,7 @@ function ocs() {
 	fi
 }
 
+#... miten aikainen asettaminen muuten vaikuttaa el_loco():on ?
 function check_bin_0() {
 	dqb "check_bin_0"
 
@@ -127,8 +131,6 @@ function check_bin_0() {
 	[ -z ${sd0} ] && exit 79
 	
 	unset sdi #tekeeko tämä jotain? kyl , kts check_bin ,, "second half"
-	#dqb "SFDSFDSFDSFDSFDSFDSFDSFDS"
-	#csleep 3
 
 	ocs tar
 	unset sr0
@@ -192,6 +194,12 @@ function check_bin_0() {
 	else
 		n=$(whoami)
 	fi
+
+	#-v taakse nämä?
+	export LC_TIME
+	export LANGUAGE
+	export LC_ALL
+	export LANG
 }
 
 check_bin_0
@@ -203,7 +211,6 @@ function slaughter0() { #käytössä?
 	ts2=$(${sah6} ${fn2}) #sha512sum 
 	echo ${ts2} | awk '{print $1,$2}' >> ${2}
 }
-
 
 function jules() {
 	dqb "LE BIG MAC"
@@ -225,14 +232,38 @@ function message() {
 	sleep 1
 }
 
-#VAIH:testaustarkoituksissa kiekolle asti ne julk av? kiekkoa luodessa siis .bz2 sinne v-hmistoon missä pub_keys...
-#081225:seuraavaksi selvitykseen tämä, e_xxx, part3() , enfo_jutut ok
 function psqa() {
 	dqb "Q ${1}"
 	csleep 1
 	[ -z ${1} ] && exit 55
+	# -d kanssa ?
 
-	#081225:pitäisi kai ensin .sig, sitten .sha mutta nyt näin
+	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
+	csleep 2
+
+	if [ -s ${1}/sha512sums.txt.sig ] ; then
+		dqb "S(${1})"
+		csleep 1
+
+		if [ -x ${gg} ] && [ -v TARGET_Dkarray ] ; then
+			dqb "${gg} --verify ./sha512sums.txt.sig "
+			csleep 1
+
+			[ ${debug} -eq 1 ] && pwd
+			csleep 1
+
+			${gg} --verify ${1}/sha512sums.txt.sig
+			[ $? -eq 0 ] || dqb "SHOULD imp2 k \$dir !!!"				
+			csleep 1
+		else
+			dqb "COULD NOT VERIFY SIGNATURES"
+		fi
+	else
+		dqb "NO .txt.sig AVAILABLE"
+	fi
+
+	csleep 5
+
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		dqb "R ${1}"		
 		csleep 2
@@ -249,29 +280,6 @@ function psqa() {
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
 		[ $? -eq 0 ] || exit 94
-
-		#https://www.gnupg.org/documentation/manuals/gnupg24/gpg.1.html
-		#https://www.gnupg.org/documentation/manuals/gnupg24/gpgv.1.html
-		
-		#HUOM.ao.blokin testausta varten sitten "export2 e ..." ?
-		#(kys tuotokseen pitäisi se .sig saada mukaan myös)
-		#291125:sq-chroot-ympäristössä vaikuttaisi toimivan ao. blokki
-		if [ -s ./sha512sums.txt.sig ] ; then
-			dqb "S(${1})"
-			csleep 1
-
-			if [ -x ${gg} ] && [ -v TARGET_Dkarray ] ; then
-				dqb "${gg} --verify ./sha512sums.txt.sig "
-				csleep 1
-
-				[ ${debug} -eq 1 ] && pwd
-				csleep 1
-
-				${gg} --verify ./sha512sums.txt.sig
-				[ $? -eq 0 ] || dqb "SHOULD imp2 k \$dir !!!"				
-				csleep 1
-			fi
-		fi
 
 		cd ${p}
 	else
@@ -338,9 +346,6 @@ function efk2() { #jotain kautta tätäkin kai kutsuttiin (cefgh nykyään)
 	csleep 1
 }
 
-#291125:clib-fktioita kuTSuvaan koodiin tarkistus että _pkgs-jutut täsmäävät tIIvisteisiin ja allek? 
-#... tai siis jos e22_a() ottaisi mukaan shasums:iin... olisikohan jo?
-#
 #clib5p ja clibpre pystyisi yhdistämään
 function clib5p() {
 	dqb "clib5p( ${1}  , ${2}) "
@@ -373,7 +378,7 @@ function clibpre() {
 	csleep 1
 
 	dqb "LOREMIPSUM-.LOREM1PSUM.LOREMIPSUM.LIPSUU"
-	csleep 5
+	csleep 3
 
 	local p
 	local q
@@ -386,12 +391,15 @@ function clibpre() {
 
 	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
 	
-	csleep 5
+	csleep 3
 	cd ${p}
 	dqb "BlAnR3eY C0kCCC!!!"
 }
 
-#HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (TODO)
+#HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (VAIH)
+#... export xxx tai sitten man sudo taas
+#https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
+#
 #... sen lxdm:n asennuksen kanssa jos saisi kysymyKsen ohituksen niin olisi hyvä kanssa
 function fromtend() {
 	dqb "FRöMTEND"
@@ -411,91 +419,93 @@ function fromtend() {
 	dqb "DNÖE"
 }
 
-#sillä toisella tyylillä tämä masentelu jatkossa? for ... in ... ?
 #tämän tulisi kai olla privaatti fktio
-#091225:jospa vaikka sq-chr-ympäristössä testaisi toimimman (TODO)
+#
+#sillä toisella tyylillä tämä masentelu jatkossa? for ... in ... ?
+#nykyään voisi kai E22-mjilla iteroida suurimman osan tarv paketeista
+#
+#111225:ensimmäisellä yrityksellä epäselvää josko juuri siinä ympäristössä missä tätä fktiota kutsutaan
+#... mutta kehitysymp kanssa toimii, luulisin , livenä myös121225 ainakin kerran
+#
 #P.S. this function created to avoid a chicken-and-egg-situation
-#function common_tbls() {
-#	dqb "COMMON TABLESD $1, $2"
-#	csleep 1
-#
-#	[ y"${1}" == "y" ] && exit 33	
-#	[ -d ${1} ] || exit 45
-#	[ -z ${2} ] && exit 67
-#
-#	local d2
-#	d2=$(echo ${2} | tr -d -c 0-9)
-#
-#	dqb "PARAMS_OK"
-#	csleep 1
-#	psqa ${1}
-#
-#	#uutena 251025 sysystö excaLIBUR/ceres, pois jos qsee
-#	efk1 ${1}/isc-dhcp*.deb
-#	csleep 1
-#
-#	efk1 ${1}/libnfnet*.deb
-#	csleep 1
-#
-#	efk1 ${1}/libnetfilter*.deb
-#	csleep 1
-#
-#	fromtend ${1}/libip*.deb
-#	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
-#
-#	efk1 ${1}/libxtables*.deb
-#	csleep 1
-#
-#	efk1 ${1}/libnftnl*.deb 
-#	csleep 1
-#
-#	efk1 ${1}/libnl-3-200*.deb
-#	csleep 1
-#
-#	efk1 ${1}/libnl-route*.deb 
-#	csleep 1
-#
-#	efk1 ${1}/libnl-*.deb 
-#	csleep 1
-#
-#	fromtend ${1}/iptables_*.deb
-#	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
-#	
-#	csleep 1
-#	${scm} 0755 /etc/iptables
-#
-#	${odio} update-alternatives --set iptables /usr/sbin/iptables-legacy
-#	${odio} update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
-#	
-#	local s
-#	local t
-#
-#	s=$(${odio} which iptables-restore)
-#	t=$(${odio} which ip6tables-restore)
-#
-#	if [ ! -z ${d2} ] ; then
-#		${odio} ${s} /etc/iptables/rules.v4.${d2}
-#		${odio} ${t} /etc/iptables/rules.v6.${d2}
-#		csleep 1
-#	fi
-#
-#	fromtend ${1}/netfilter-persistent*.deb
-#	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
-#
-#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables-persistent=1.0.20
-#	fromtend ${1}/iptables-*.deb
-#	[ $? -eq 0 ] && ${NKVD} ${1}/iptables-*.deb
-#
-#	csleep 1
-#	${scm} 0550 /etc/iptables	
-#
-#	#gpg vielä tähän?
-#
-#	echo "common_tblz d0n3"
-#	csleep 1
-#}
+function common_tbls() {
+	dqb "COMMON TABLESD $1, $2"
+	csleep 1
 
-#081225:palautettu kommenteista psqa/c_pp3 jälkeen
+	[ y"${1}" == "y" ] && exit 33	
+	[ -d ${1} ] || exit 45
+	[ -z ${2} ] && exit 67
+
+	local d2
+	d2=$(echo ${2} | tr -d -c 0-9)
+
+	dqb "PARAMS_OK"
+	csleep 1
+	psqa ${1}
+
+	#uutena 251025 syystä excaLIBUR/ceres, pois jos qsee
+	efk1 ${1}/isc-dhcp*.deb
+	csleep 1
+
+	efk1 ${1}/libnfnet*.deb
+	csleep 1
+
+	efk1 ${1}/libnetfilter*.deb
+	csleep 1
+
+	fromtend ${1}/libip*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
+
+	efk1 ${1}/libxtables*.deb
+	csleep 1
+
+	efk1 ${1}/libnftnl*.deb 
+	csleep 1
+
+	efk1 ${1}/libnl-3-200*.deb
+	csleep 1
+
+	efk1 ${1}/libnl-route*.deb 
+	csleep 1
+
+	efk1 ${1}/libnl-*.deb 
+	csleep 1
+
+	fromtend ${1}/iptables_*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
+	
+	csleep 1
+	${scm} 0755 /etc/iptables
+
+	${odio} update-alternatives --set iptables /usr/sbin/iptables-legacy
+	${odio} update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
+	
+	local s
+	local t
+
+	s=$(${odio} which iptables-restore)
+	t=$(${odio} which ip6tables-restore)
+
+	if [ ! -z ${d2} ] ; then
+		${odio} ${s} /etc/iptables/rules.v4.${d2}
+		${odio} ${t} /etc/iptables/rules.v6.${d2}
+		csleep 1
+	fi
+
+	fromtend ${1}/netfilter-persistent*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables-persistent=1.0.20
+	fromtend ${1}/iptables-*.deb
+	[ $? -eq 0 ] && ${NKVD} ${1}/iptables-*.deb
+
+	csleep 1
+	${scm} 0550 /etc/iptables	
+
+	echo "common_tblz d0n3"
+	csleep 1
+}
+
 function cefgh() {
 	[ -z ${1} ] && exit 66
 	[ -d ${1} ] || exit 67
@@ -531,9 +541,17 @@ function check_binaries() {
 		srat="${srat} -v "
 	fi
 
-	#081225:kuseeko tuossa ao. blokissa jokin? jälkimm ehto ainakin	kusi
+	#091225 siirretty tdstost a/e22.sh, katsotaan toimiiko näin?
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
+	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
-	if [ -z "${ipt}" ] ; then
+	E22_GT="libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11"
+	E22_GT="${E22_GT} iptables"
+	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
+	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
+
+	#HUOM.111225:mennäänkö tähän sq-chr-ymp.äristössä?
+	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 		[ -z ${1} ] && exit 99
 		dqb "-d ${1} existsts?"
 		[ -d ${1} ] || exit 101
@@ -541,41 +559,33 @@ function check_binaries() {
 		dqb "params_ok"
 		csleep 1
 
-		echo "SHOULD INSTALL IPTABLES"
-		jules
-		sleep 1
-
-		#näitä kutsuen jos puuttuu (tables TAI gpg) ? tai siis ulos if-blokista ja ?
 		cefgh ${1}
 		common_pp3 ${1}
 
-		[ -f /.chroot ] && message
-		common_tbls ${1} ${dnsm}
-		other_horrors
+		if [ -z "${ipt}" ] ; then
+			echo "SHOULD INSTALL IPTABLES"
+			jules
+			sleep 1
 
-		ipt=$(${odio} which iptables)
-		ip6t=$(${odio} which ip6tables)
-		iptr=$(${odio} which iptables-restore)
-		ip6tr=$(${odio} which ip6tables-restore)
-	fi
+			[ -f /.chroot ] && message
+			common_tbls ${1} ${dnsm}
+			other_horrors
 
-	#091225 siirretty tdstodts a/e22.sh, katsotaan toimiiko näin?
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-	E22GI="gpgconf libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 zlib1g gpg"
+			ipt=$(${odio} which iptables)
+			ip6t=$(${odio} which ip6tables)
+			iptr=$(${odio} which iptables-restore)
+			ip6tr=$(${odio} which ip6tables-restore)
+		fi
 
-	#VAIH:tuo gg
-	if [ -z "${gg}" ] ; then
-		dqb "SHOULD INSTALL gpg AROUND HERE"
-		csleep 1
-		#Depends: gpgconf (= 2.2.40-1.1), libassuan0 (>= 2.5.0), libbz2-1.0, libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42), libreadline8 (>= 6.0), libsqlite3-0 (>= 3.7.15), zlib1g (>= 1:1.1.4)
-		#dqb "NEXT: ${sdi}   or smthing "
+		if [ -z "${gg}" ] ; then
+			dqb "SHOULD INSTALL gpg AROUND HERE"
+			csleep 1
 
-		#cefgh ${1}
-		#common_pp3 ${1}
-		#for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
+			for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
 
-		#gg=$(${odio} which gpg)
-		#gv=$(${odio} which gpgv)
+			gg=$(${odio} which gpg)
+			gv=$(${odio} which gpgv)
+		fi
 	fi
 
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
@@ -605,7 +615,6 @@ function check_binaries() {
 	csleep 1
 }
 
-#TODO:vaikka tässä se /e/d/locale sourcettaminen? liittyy:el_loco()
 function check_binaries2() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2"
 	csleep 1
@@ -618,7 +627,7 @@ function check_binaries2() {
 
 	sharpy="${odio} ${sag} remove --purge --yes "
 
-	#HUOM. ${sag} VIIMEISENÄ tai siis ao- kolmikosta
+	#HUOM. ${sag} oltava VIIMEISENÄ tai siis ao. kolmikosta
 	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
 	sag_u="${odio} ${sag} update "
 	sag="${odio} ${sag} "
@@ -649,7 +658,7 @@ function mangle_s() {
 	[ y"${1}" == "y" ] && exit 44
 	[ -x ${1} ] || exit 55
 
-	#HUOM.26525:pitäisiköhän olla jotain lisätarkistuksia $2 kanssa nyk lisäöksi?
+	#HUOM.26525:pitäisiköhän olla jotain lisätarkistuksia $2 kanssa nyk lisäksi?
 	[ y"${2}" == "y" ] && exit 45
 	[ -f ${2} ] || exit 54
 
@@ -669,7 +678,7 @@ function mangle_s() {
 	echo -e "\n" >> ${2}
 }
 
-#...toisaalta sen dhclient-kikkailun voisi palauttaa
+#...toisaalta sen dhclient-kikkailun voisi palauttaa (TODO)
 function dinf() {
 	local g
 
@@ -692,6 +701,19 @@ function fasdfasd() {
 	${scm} 0644 ${1}
 }
 
+#olisiko jokin palikka jo aiemmin?
+function reqwreqw() {
+	dqb "rewqreqw(${1} )"
+	[ -z ${1} ] && exit 99
+	#[ -f ${1} ] && exit 100 #takaisn josqs
+	
+	csleep 1
+	${sco} 0:0 ${1}
+	${scm} a-w ${1}
+
+	dqb "rewqreqw(${1} ) DONE"
+}
+
 function pre_enforce() {
 	dqb "common_lib.pre_enforce ${1} "
 
@@ -709,7 +731,7 @@ function pre_enforce() {
 	csleep 1
 	[ -f ${q}/meshuggah ] || exit 33
 
-	if [ ! -v testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahjd)
+	if [ ! -v testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
 		dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 
 		if [ ! -d /opt/bin ] ; then
@@ -745,7 +767,7 @@ function pre_enforce() {
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
 		csleep 1
 
-		#101225:tarpeeksi yleinen että fktioksi asti?
+		#111225:tarpeeksi yleinen että fktioksi asti? kts ylempää jokatap
 		${scm} 0440 ${q}/meshuggah
 		${sco} root:root ${q}/meshuggah
 
@@ -797,7 +819,6 @@ function mangle2() {
 	fi
 }
 
-#081225:e_fktiot saattavat olla kunnossa (tai sit ei)
 function e_e() {
 	dqb "e_e"	
 	csleep 1
@@ -964,8 +985,8 @@ function part1_5() {
 		echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 		csleep 1
 
-		if [ ! -z ${pkgsrc} ] ; then #CONF_pkgsrc?
-			tdmc="sed -i 's/REPOSITORY/${pkgsrc}/g'"
+		if [ ! -z ${CONF_pkgsrc} ] ; then
+			tdmc="sed -i 's/REPOSITORY/${CONF_pkgsrc}/g'"
 			echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 			csleep 1
 		fi
@@ -1042,7 +1063,7 @@ function dis() {
 }
 
 function part076() {
-	#081225:pitäisiköhän param tarkistaa?
+	#081225:pitäisiköhän param tarkistaa? (	TODO)
 	dqb "FART076 ${1}"
 	csleep 1
 	dis ${1}
@@ -1068,7 +1089,6 @@ function part076() {
 	csleep 1
 }
 
-#271125:iptables aiheutti nalq sq-chroot-ymp
 function part1() {
 	dqb "PART1 ${1} "
 	csleep 1
@@ -1145,7 +1165,7 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		${fib}
 		csleep 1
 		
-		for s in ${PART175_LIST} ; do #271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa
+		for s in ${PART175_LIST} ; do #271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa, toimiva konf äksään löydettävä (TODO)
 			dqb "processing ${s}"
 			${sharpy} ${s}*
 			csleep 1
@@ -1211,7 +1231,6 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 #
 ##part3() vs import2 case 3 ,. what's the difference?
 #
-#091225:part3() vissiin kunnossa, common_p3 ja pasq kanssa selvitetty
 function part3() {
 	dqb "part3 ${1} , ${2}"
 	csleep 1
@@ -1240,9 +1259,7 @@ function part3() {
 		clib5p ${1} reject_pkgs
 	#fi
 
-	#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taPauksessa daed , jotain jos tekisi dbus
 	clibpre ${1} accept_pkgs_1
-
 	#josko lxdm tai xdm vaikka, slimin tilalle?
 	clibpre ${1} accept_pkgs_2
 
@@ -1266,8 +1283,6 @@ function part3() {
 	else
                exit 66
 	fi
-	
-	#271125:sq-chr-ymnp urputti paketista gpgconf (lienee jo kunnossa)
 
 	dqb "LIBS DONE"
 	csleep 1
@@ -1292,15 +1307,20 @@ function gpo() {
 	local opt
 	prevopt=""
 
+	#121225:miten g_jutut nykyään tämän kanssa?
 	if [ $# -lt 1 ] ; then
 		echo "$0 -h"
-		exit
+		#exit
 	fi
 
 	for opt in $@ ; do
+		#VAIH:-h,usage() ?
 		case ${opt} in	
 			-v|--v)
 				debug=1
+			;;
+			-h|--h)
+				usage
 			;;
 		esac
 
