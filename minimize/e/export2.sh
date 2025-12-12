@@ -151,8 +151,7 @@ csleep 1
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
-	f) 	#111225:toiminee tuo uudelleenpakkaus? sha meni jo oikein, sig vielä
-		#josko jo 121225 alkaisi onnistua myös sq-chr-ymp varteb
+	f) 	#121225:uudelleenpakk kai muuten mutta jos vielä varm vbuoksi karsisi lxdm:n ?
 
 		enforce_access ${n} ${t}
 		#e22_hdr() tähän vielä?

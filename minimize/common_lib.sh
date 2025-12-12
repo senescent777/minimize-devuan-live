@@ -346,7 +346,7 @@ function efk2() { #jotain kautta tätäkin kai kutsuttiin (cefgh nykyään)
 	csleep 1
 }
 
-#clib5p ja clibpre pystyisi yhdistämään
+#clib5p ja clibpre pystyisi yhdistämään ... sittenq varmistanut että tämä paska toimii
 function clib5p() {
 	dqb "clib5p( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
@@ -359,9 +359,19 @@ function clib5p() {
 	local p
 	local q
 	p=$(pwd)
-	cd ${1}
 
-	for q in $(grep -v '#' ${2}) ; do ${NKVD} ${q} ; done
+	cd ${1}
+	pwd
+
+	#121225:poistaako tuo ne pakeitit vai ei? lxdm...
+	#TODO:find:illä kuiteskin
+	for q in $(grep -v '#' ${2}) ; do
+		${NKVD} ${q}
+
+		csleep 1
+		[ ${debug} -eq 1 ] && ls -las ${q} | wc -l
+		csleep 1
+	done
 	
 	csleep 2
 	cd ${p}

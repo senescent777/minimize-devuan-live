@@ -188,13 +188,16 @@ function t2pc() {
 
 	#121225:pitäisi se validi xorg.conf ennenq dumppaa:slim
 	
-	if [ -f /.chroot ] ; then #071225:pitäisikö tälle ehdolle tehdä jotain? sen uuden .iso:n kanssa kun sitä temppuilua
+	#071225:pitäisikö tälle ehdolle tehdä jotain? sen uuden .iso:n kanssa kun sitä temppuilua
+	if [ -f /.chroot ] ; then
 		dqb "SHOULD ${sharpy} slim*"
 
 		#nopeampi boottaus niinqu
+		#... pikemminkin KVG "how to skip dhcp on boot" tjsp
 		dqb "SHOULD ${sharpy} isc-dhcp*"
 
-		dqb "SHOULD ${sharpy} seat* ?" #tuli uutena 071225, muttei näin vaan...
+		#tuli uutena 071225, muttei näin vaan...
+		dqb "SHOULD ${sharpy} seat* ?"
 		dqb "t2p_filler()"
 
 		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa

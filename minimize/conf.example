@@ -1,18 +1,18 @@
 iface=
 enforce=
 debug=0
-dir=/media
 dnsm=0
+#dsn="INSERT LIST OF DNS/DOT SERVERS HERE"
+changepw=0
 #
 #pkgs
 CONF_pkgdir=/var/cache/apt/archives
 CONF_pkgsrc= #tämän idea olikaan? no sources.list tietenkin
+removepkgs=1 #seur. tämän nimeäminen uudestaan
 #/pkgs
 #
+dir=/media
 part0=ABCD-1234-XXXX
-removepkgs=1
-#dsn="INSERT LIST OF DNS/DOT SERVERS HERE"
-changepw=0
 #
 #loka
 #HUOM.11525:locale-juttuja varten nykyään /e/d/l.tmp
@@ -43,3 +43,5 @@ TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg
 #sudo-juttuja
 CB_LIST2="/bin/rm CONF_TMPIR/*"
 #TODO:mkcnffile ajan tasalle (mitentaas liittyikään?)
+#
+CONF_dm=slim

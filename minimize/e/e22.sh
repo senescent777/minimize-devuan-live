@@ -275,10 +275,12 @@ function e22_home() { #121225:profiiliasiat jo kunnossa?
 	csleep 2
 
 	dqb "AUTOMAGICAL CONFIGURATION IS A DISEASE"
+
 #	dqb "Xorg -config ~/xorg.conf ?"
 #	csleep 10
 #	#josko finnd:in kautta?
 #	${srat} -rvf ${1} ~/xorg.conf #tässä vai settings:issä ? -f taakse jokatap
+#paska hiiri? paska oletuskonf? bugista softaa?
 
 	dqb "e22_home d0n3"
 	csleep 1
@@ -559,10 +561,12 @@ function e22_ts() { #091225:jos vaikka toimisi
 }
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-#DONE?:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk? 291125 taisi tulla jokun uusi jurrty testattavaksi, muuten olisi jo OK
-#... se _pkgs* - jutska vielä
+#DONE?:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk? 291125 taisi tulla jokun uusi juttty testattavaksi, muuten olisi jo OK
+#... se _pkgs* - jutska vielä , pitäisikö nimenomaan vetää se tuorein versio kuitenkin arkistoon?
 
 #vissiin ok jo 121225 paitsi ehkä accetp/rejct
+#121225:uudelleenpakk kai muuten mutta jos vielä varm vbuoksi karsisi lxdm:n ?
+
 function e22_arch() { 
 	dqb "e22_arch ${1}, ${2} " 
 	csleep 1
@@ -612,6 +616,7 @@ function e22_arch() {
 	${sah6} ./*.deb > ./sha512sums.txt
 
 	dqb "KUKK0 K1EQ 666"
+	#tässä voi tulla ongelma?
 	${sah6} ./reject_pkgs >> ./sha512sums.txt
 	${sah6} ./accept_pkgs_? >> ./sha512sums.txt
 	csleep 1
@@ -631,7 +636,7 @@ function e22_arch() {
 	csleep 1
 	psqa .
 
-	#121225;tar kanbssa edelleen ongelmia?
+	#121225:tar kanssa edelleen ongelmia?
 	dqb "srat= ${srat}"
 	csleep 1
 
@@ -696,11 +701,35 @@ function e22_tblz() { #091225 toimi ainakin kerran
 	dqb "x2.e22_tblz.done"
 }
 
+function e22_dm() {
+	[ -z "${1}" ] && exit 11
+
+	case ${1} in
+		lxdm)
+			#VAIH:jatkossa jokin apufktio dm:n asennusta varten ja mja konftdstoon, nyt näin (TODO:uudelleenpakk soveltuviin pak s.e. lxdm poissa)
+			#(pitäisi kai ohittaa kyselyt dm:n shteen)
+			#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
+
+			${shary} debconf libcairo2 libgtk2.0-0
+			csleep 1
+			${shary} libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
+			csleep 1
+			${shary} x11-utils lxdm 
+			csleep 1
+		;;
+		*)
+			dqb "sl1m?"
+		;;
+	esac
+}
+
 #TODO:ntp-jutut takaisin josqs?
-function e22_other_pkgs() { #091225:taitaa toimia
-	dqb "e22_other_pkgs ${1} , ${2} , ${3} , ${4} "
+#121225:tällä fkytiolla tulisi olla vain 1 param (vöib muuttua kyllä)
+#091225:taitaa toimia
+function e22_other_pkgs() { 
+	dqb "e22_other_pkgs ${1} ,  "
 	csleep 1
-	[ -z "${1}" ] && exit 11 #HUOM.vain tämä param tarvitaan
+	[ -z "${1}" ] && exit 11
 
 	dqb "paramz_ok"
 	csleep 1
@@ -746,20 +775,12 @@ function e22_other_pkgs() { #091225:taitaa toimia
 	dqb "MAGOG"
 	csleep 2
 
-	#[ $? -eq 0 ] && dqb "luBE 0F THE R3S0NATED"
-	#csleep 2
+	[ $? -eq 0 ] && dqb "luBE 0F THE R3S0NATED"
+	csleep 2
 
-#121225:jatkossa jokin apufktio dm:n asennusta varten ja mja konftdstoon, nyt näin (TODO:uudelleenpakk soveltuviin pak s.e. lxdm poissa)
-#	#(pitäisi kai ohittaa kyselyt dm:n shteen)
-#	#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
-#
-#	${shary} debconf libcairo2 libgtk2.0-0
-#	csleep 1
-#	${shary} libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
-#	csleep 1
-#	${shary} x11-utils lxdm 
-#	csleep 1
-#	${lftr}
+	[ -v CONF_dm ] || exit 77
+	e22_dm CONF_dm
+	${lftr}
 
 	#aval0n
 	#dqb "BEFORE UPD6" #kutsutaabko tuota?	ei ainakaan tössö fktyiossa
