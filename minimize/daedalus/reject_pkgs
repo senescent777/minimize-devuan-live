@@ -5,9 +5,9 @@ dbus*.deb
 initramfs*.deb
 live*.deb
 e2fsprogs*.deb
-#TODO:mielellään slim Vittuun jatkossa 666!
-#081225:seatd:n poistamisen sijaan pitäisi selvittää miten *äksän libseat*-valitukset taas korjattiinkaan
-#... pienempi vääntö&huuto kenties minimal_liven kanssa (tarttisi alkaa tehdä)
+#VAIH:mielellään slim Vittuun jatkossa 666!
+#seatd*.deb
+#081225:poistamisen sijaan pitäisi selvittää miten *äksän libseat-valitukset* taas korjattiinkaan
+#... pienempi vääntö&huuto kenties minimal_liven kanssa (ala suorittaa)
 lxdm*.deb
-#121225:lxdm pysyy poissa kunnes äksän saa taas toimimaan sen kanssa
-
+#131225:TAAS wttuun lxdm kunnes

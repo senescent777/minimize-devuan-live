@@ -15,11 +15,11 @@ function udp6() { #on käytössä
 	csleep 1
 
 	dqb "${1} :"
-	ls -las ${1}/*.deb | wc -l
+	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb | wc -l
 	csleep 3
 
 	dqb "${pkgdir} :"
-	ls -las ${pkgdir}/*.deb | wc -l
+	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb | wc -l
 	csleep 3
 
 	clib5p ${1} reject_pkgs
