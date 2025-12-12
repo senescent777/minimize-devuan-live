@@ -31,17 +31,11 @@ if [ $# -gt 0 ] ; then
 fi
 
 function parse_opts_1() {
-#	case "${1}" in
-#		-v|--v) #101225:voisikohan jo gpo() hoitaa tämän vivun? kts g_doit
-#			debug=1
-#		;;
-#		*)
-			if [ -d ${d0}/${1} ] ; then
-				distro=${1}
-				d=${d0}/${distro}
-			fi
-#		;;
-#	esac
+	if [ -d ${d0}/${1} ] ; then
+		distro=${1}
+		d=${d0}/${distro}
+	fi
+
 }
 
 function parse_opts_2() {

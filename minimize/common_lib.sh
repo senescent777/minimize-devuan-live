@@ -652,18 +652,6 @@ function check_binaries2() {
 	uom="${odio} ${uom} "
 	smd="${odio} ${smd}" #käyttöön
 
-#	dqb "new part" #uusi blokki pois jos qsee (101225)
-#	#... vai pitäisikö olla jossain aiemmin jo? (test w/ sq-chroot?)
-#
-##	#näin ei varmaan saisi tehdä mutta (sittenkin jos konftsdtoon)
-##	if [ -s /etc/default/locale.tmp ] ; then
-##		. /etc/default/locale.tmp
-##	else
-##		. /etc/default/locale 
-##	fi
-#
-#	#/uusi_blokki
-
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
