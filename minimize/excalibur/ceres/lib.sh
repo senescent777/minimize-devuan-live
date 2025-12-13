@@ -58,17 +58,18 @@ function pre_part2() {
 }
 
 function tpc7() {
-	dqb "6.12....27"
+	dqb "6.12....27 ?"
 	csleep 2
 
 	local fname
 	fname=linux-image-6.12.27-amd64
 
-	${odio} touch ${pkgdir}/${fname} #seur rivit toistuvat usein, fktioksi?
-	${scm} 0644 ${pkgdir}/${fname}
-	${sco} $(whoami):$(whoami) ${pkgdir}/${fname}
-		
-	curl -o ${pkgdir}/${fname} https://packages.debian.org/trixie/${fname}
+	#${odio} touch ${CONF_pkgdir}/${fname}
+	#${scm} 0644 ${CONF_pkgdir}/${fname}
+	#${sco} $(whoami):$(whoami) ${CONF_pkgdir}/${fname}
+	fasdfasd ${CONF_pkgdir}/${fname}	
+	
+	curl -o ${CONF_pkgdir}/${fname} https://packages.debian.org/trixie/${fname}
 	#${shary} nftables #excalibur-spesifisiä?	
 }
 
