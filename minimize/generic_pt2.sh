@@ -101,6 +101,7 @@ function t2p_filler() {
 
 #jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
+#TODO:pkgs_drop hyödyntäminen jatkossa
 function t2pc() {
 	dqb "common_lib.t2p_common()"
 	csleep 1
@@ -237,6 +238,7 @@ t2pc
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 0 ] && exit
 
+#TODO:$d/pkgs_drop hyödyntäminen jatkossa
 t2p
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 1 ] && exit
