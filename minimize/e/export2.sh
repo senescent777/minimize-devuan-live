@@ -75,7 +75,8 @@ if [ -x ${d0}/common_lib.sh ] ; then
 else
 	dqb "FALLBACK"
 	dqb "chmod +x ${d0}/common_lib.sh may be a good idea now"
-	exit 56 #HUOM.28725:toistaiseksi näin
+	exit 56
+	#HUOM.28725:toistaiseksi näin
 fi
 
 [ -z ${distro} ] && exit 6
@@ -151,7 +152,9 @@ csleep 1
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
-	f) 	#121225:uudelleenpakk kai muuten mutta jos vielä varm vbuoksi karsisi lxdm:n ?
+	f) 	#131225:uudelleenpakk kai ok nykyään
+		#... tai siis erillinen case tai skripti sitä varten? 
+		#... tämä vain pakkaisi kerran, muuttamatta sisältöä tjsp
 
 		enforce_access ${n} ${t}
 		#e22_hdr() tähän vielä?
@@ -256,14 +259,16 @@ e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
-#TODO:pitäisiköhän taas joitain tapauksia testata uudstaan?
 case ${mode} in
 	#johdonmukaisuuden vuoksi 3|4) jatkossa (imp2/exp2)
 	0)
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
-	3|4) #091225:case 3 tekee toimivan paketin, ainakin kerran teki
+	3|4) 
+	#091225:case 3 tekee toimivan paketin, ainakin kerran teki
+	#131225 case 4:tekee paketin, toimiikin jnkn verran
+	#TODO:SELVITÄ NYT PRKL SE PROFIILIJUTTU, MIKSEI TULE MUKAAN 666!!!!
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
@@ -311,7 +316,8 @@ case ${mode} in
 	;;
 	#091225:teki paketin, sisällön kelpoisuus selvitettävä
 	#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)	
-	#... syynä e liene lxdm tai x11-utils koska reject_pkgs	
+	#... syynä ei liene lxdm tai x11-utils koska reject_pkgs
+	#TODO:josqs uusi testaus	
 	1|u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
@@ -328,7 +334,7 @@ case ${mode} in
 		e22_profs ${tgtfile} ${d0} 
 	;;
 	e)
-		#101225:teki paketin, sisältökin asentui 091225
+		#131225:teki paketin, sisältökin asentui , tosin valitti:libassuan0
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		e22_other_pkgs ${dnsm}
 

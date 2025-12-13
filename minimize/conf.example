@@ -8,11 +8,11 @@ changepw=0
 #pkgs
 CONF_pkgdir=/var/cache/apt/archives
 CONF_pkgsrc= #tämän idea olikaan? no sources.list tietenkin
-removepkgs=1 #seur. tämän nimeäminen uudestaan
+CONF_removepkgs=1 #seur. tämän nimeäminen uudestaan
 #/pkgs
 #
-dir=/media
-part0=ABCD-1234-XXXX
+CONF_dir=/media
+CONF_part0=ABCD-1234-XXXX
 #
 #loka
 #HUOM.11525:locale-juttuja varten nykyään /e/d/l.tmp

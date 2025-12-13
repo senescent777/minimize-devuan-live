@@ -259,51 +259,52 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
-#TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#12122:profiiliasiat jko/tsaa kunnossa?
-function tpr() {
-	dqb "UPIR  ${1}"
-	csleep 1
-
-	[ -z ${1} ] && exit 11
-	[ -d ${1} ] || exit 12
-
-	dqb "pars_ok"
-	csleep 1
-
-	local t
-	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} ${TARGET_TPX} -C ~ -xvf ${t} ; done
-	[ $? -eq 0 ] || exit
-
-	dqb "PROFS?"
-	csleep 1
-
-	if [ -x ${1}/profs.sh ] ; then
-		#fktioiden {im,ex}portointia jos kokeilisi? man bash...
-		. ${1}/profs.sh
-		[ $? -gt 0 ] && exit 33
-
-		dqb "INCLUDE OK"
-		csleep 1
-		local q
-		q=$(mktemp -d)
-
-		#jatkossa kutsuvaan koodiin tämä if-blokki? mitenkä että?
-		if [ -s ~/fediverse.tar ] ; then
-			${srat} ${TARGET_TPX} -C ${q} -xvf ~/fediverse.tar
-		else
-			${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/fediverse.tar
-		fi
-
-		imp_prof esr ${n} ${q}
-	else
-		dqb "CANNOT INCLUDE PROFS.HS"
-		dqb "$0 1 \$srcfile ?"
-	fi
-
-	dqb "UP1R D0N3"
-	csleep 1
-}
+##TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
+##13122:profiiliasiat jko/tsaa kunnossa? muuten kai mutta sen paketin kanssa jotain (VAIH)
+#function tpr() {
+#	dqb "UPIR  ${1}"
+#	csleep 1
+#
+#	[ -z ${1} ] && exit 11
+#	[ -d ${1} ] || exit 12
+#
+#	dqb "pars_ok"
+#	csleep 1
+#
+#	local t
+#	#jälkimmäinen .bz2 pois listasta?
+#	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} ${TARGET_TPX} -C ~ -xvf ${t} ; done
+#	[ $? -eq 0 ] || exit
+#
+#	dqb "PROFS?"
+#	csleep 1
+#
+#	if [ -x ${1}/profs.sh ] ; then
+#		#fktioiden {im,ex}portointia jos kokeilisi? man bash...
+#		. ${1}/profs.sh
+#		[ $? -gt 0 ] && exit 33
+#
+#		dqb "INCLUDE OK"
+#		csleep 1
+#		local q
+#		q=$(mktemp -d)
+#
+#		#131225:ensimmäinen haara mikä tässä sotkee? pois debug-syistä
+#		#if [ -s ~/fediverse.tar ] ; then
+#		#	${srat} ${TARGET_TPX} -C ${q} -xvf ~/fediverse.tar
+#		#else
+#			${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/fediverse.tar
+#		#fi
+#
+#		imp_prof esr ${n} ${q}
+#	else
+#		dqb "CANNOT INCLUDE PROFS.HS"
+#		dqb "$0 1 \$srcfile ?"
+#	fi
+#
+#	dqb "UP1R D0N3"
+#	csleep 1
+#}
 
 #261125:eka case-blokki toimii
 case "${mode}" in

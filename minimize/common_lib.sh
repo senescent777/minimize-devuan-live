@@ -237,7 +237,8 @@ function psqa() {
 	dqb "Q ${1}"
 	csleep 1
 	[ -z ${1} ] && exit 55
-	#TODO: -d kanssa ?
+	#VAIH: -d kanssa ?
+	[ -z ${1} ] || exit 54
 
 	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
 	csleep 1
@@ -281,10 +282,11 @@ function psqa() {
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
 
-		dqb "#TODO:YMPÄRÖIVÄ IF-BLOKKI POIS HETI KUN MAHD"
-		if [ ${debug} -eq 0 ] ; then
+		#131225:josko kokeiltu tarpeeksi
+		#if [ ${debug} -eq 0 ] ; then
 			[ $? -eq 0 ] || exit 94
-		fi
+			#TODO:jos ei tarkistus täsmää ni ehdottamaan "exp2 f" ?
+		#fi
 
 		cd ${p}
 	else
@@ -351,6 +353,8 @@ function efk2() { #jotain kautta tätäkin kai kutsuttiin (cefgh nykyään)
 	csleep 1
 }
 
+#TODO:voisi nimetä uudestaan
+#TODO:lisäksi clibpre():n toiminnallisuuden ymppääminen
 function clib5p() {
 	dqb "clib5p( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
@@ -388,7 +392,7 @@ function clib5p() {
 	#exit 66
 }
 
-##clib5p ja clibpre pystyisi yhdistämään ... EHKÄ josqs
+#clib5p ja clibpre pystyisi yhdistämään ... EHKÄ josqs
 
 function clibpre() {
 	dqb "clib5p.re( ${1}  , ${2}) "
@@ -590,6 +594,7 @@ function check_binaries() {
 			sleep 1
 
 			[ -f /.chroot ] && message
+			#TODO:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
 			common_tbls ${1} ${dnsm}
 			other_horrors
 

@@ -151,7 +151,7 @@ c13=0
 
 #==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
 if [ -v LCF666 ] ; then
-	c13=$(grep -v '#' /etc/default/locale | grep -c ${LCF666})
+	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
 	#c13=$(env | grep LC_TIME | grep -c ${LCF666})
 else
 	echo "555"
@@ -201,7 +201,7 @@ csleep 5
 
 #101225:toimi ainakin kerran, jospa tilaäinen ongelma exp2 puolella?
 if [ ! -f /.chroot ] ; then
-	${d0}/import2.sh r ${d0} -v
+	#${d0}/import2.sh r ${d0} -v TODO:UUSIKSI TÄMÄ PASKA
 	#2. ja 3. param. turhia?
 fi
 

@@ -101,16 +101,28 @@ function t2p_filler() {
 
 #jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
-#TODO:pkgs_drop hyödyntäminen jatkossa
+#VAIH:pkgs_drop hyödyntäminen jatkossa, $d0 parametriksi
 function t2pc() {
-	dqb "common_lib.t2p_common()"
+	dqb "common_lib.t2p_common( ${1})"
 	csleep 1
+
+	[ -z ${1} ] && exit 99
+	[ -d ${1} ] || exit 98
 
 	dqb "shar_py = ${sharpy} ;"
 	csleep 2
 
 	${fib}
 	csleep 1
+
+#	#131225:aiheuttaa oheisvahinkoa, ei voida vielä käyttää ennenq selvitetty missä menee pieleen
+#	local f
+#	for f in $(grep -v '#' ${1}/pkgs_drop | head -n 10) ; do
+#		dqb "sharpy ${f} \*"
+#		csleep 1
+#		${sharpy} ${f}*
+#		csleep 1
+#	done
 
 	${sharpy} bluez mutt rpcbind nfs-common
 	${sharpy} dmsetup
@@ -188,8 +200,9 @@ function t2pc() {
 	t2p_filler
 
 	#121225:pitäisi se validi xorg.conf ennenq dumppaa:slim
-	
+
 	#071225:pitäisikö tälle ehdolle tehdä jotain? sen uuden .iso:n kanssa kun sitä temppuilua
+
 	if [ -f /.chroot ] ; then
 		dqb "SHOULD ${sharpy} slim*"
 
@@ -234,7 +247,7 @@ function t2pf() {
 }
 
 #====================================================================
-t2pc
+t2pc ${d0}
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 0 ] && exit
 

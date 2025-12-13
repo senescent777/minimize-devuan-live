@@ -190,44 +190,56 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 	csleep 1
 }
 
-#TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  , muutokset oikeastaan tdstpn profs.sh
-function e22_settings() {
-	dqb "e22_settings ${1} ${2}"
-	csleep 1
+##TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
+##muutokset oikeastaan tdstoon profs.sh
+##VAIH:TAASKO slevittäen että toimiiko
+#function e22_settings() {
+#	dqb "e22_settings ${1} ${2}"
+#	csleep 1
+#
+#	[ -z ${1} ] && exit 11
+#	[ -z ${2} ] && exit 12
+#	[ -d ${1} ] || exit 22
+#	[ -d ${2} ] || exit 23
+#
+#	dqb "paramz 0k"
+#	csleep 1
+#	cd ${1} #TODO:cd pois, alla $1/config.ta.bz2
+#
+#	dqb "CFG"
+#	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml 
+#	dqb "PR0.F5"
+#
+#	#profs.sh kätevämpi laittaa mukaan kutsuvassa koodissa
+#	if [ -x ${2}/profs.sh ] ; then
+#		dqb "DE PROFUNDIS"
+#		.  ${2}/profs.sh
+#
+#		exp_prof ${1}/fediverse.tar default-esr	
+#		#$1 ei ehkä pakko laittaa mukaan koska cd ylempänä
+#		
+#		csleep 1
+#		dqb "SOME BASIC TESTS w/  ${1}/fediverse.tar "
+#		csleep 2
+#
+#		[ -s ${1}/fediverse.tar ] || exit 32
+#		local t
+#		t=$(tar -tf ${1}/fediverse.tar | grep prefs.js | wc -l)
+#		[ ${t} -lt 1 ] && exit 27
+#		csleep 10
+#
+#		dqb "TSTS DONE"
+#	else
+#		dqb "export2 p \$file ; import2 1 $file  ?"
+#		exit 24
+#	fi
+#
+#	cd ${2}
+#	dqb "e22_settings ${1} ${2} DONE"
+#	csleep 1
+#}
 
-	[ -z ${1} ] && exit 11
-	[ -z ${2} ] && exit 12
-	[ -d ${1} ] || exit 22
-	[ -d ${2} ] || exit 23
-
-	dqb "paramz 0k"
-	csleep 1
-	cd ${1}
-
-	dqb "CFG"
-	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml 
-	dqb "PR0.F5"
-
-	#profs.sh kätevämpi laittaa mukaan kutsuvassa koodissa
-	if [ -x ${2}/profs.sh ] ; then
-		dqb "DE PROFUNDIS"
-		.  ${2}/profs.sh
-
-		exp_prof ${1}/fediverse.tar default-esr	
-		#$1 ei ehkä pakko laittaa mukaan koska cd ylempänä
-
-		[ -s ${1}/fediverse.tar ] || exit 32
-	else
-		dqb "export2 p \$file ; import2 1 $file  ?"
-		exit 24
-	fi
-
-	cd ${2}
-	dqb "e22_settings ${1} ${2} DONE"
-	csleep 1
-}
-
-function e22_home() { #121225:profiiliasiat jo kunnossa?
+function e22_home() { #131225:profiiliasiat jo kunnossa vai ei?
 	dqb "e22_home ${1} , ${2} , ${3}  "
 
 	[ -z ${1} ] && exit 67
@@ -244,7 +256,8 @@ function e22_home() { #121225:profiiliasiat jo kunnossa?
 
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		e22_settings ~ ${2}/.. #HUOM.25725:toimiiko näin?
+		e22_settings ~ ${2}/..
+		#TODO:josko jakaisi fktion kahtia
 	else
 		dqb "PUIG DESTRÖYERR b666"
 	fi
@@ -255,14 +268,16 @@ function e22_home() { #121225:profiiliasiat jo kunnossa?
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 	for t in $(find ~ -type f -name 'merd2.sh') ; do ${srat} -rvf ${1} ${t} ; done
 
+	#TODO:wttuun tämnä blokki kohta, ehkä seur myös
 	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
 	csleep 1
 	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*' | grep -v pulse) ; do ${srat} -rvf ${1} ${t} ; done  
 	csleep 1
 
+	#131225:tuleeko mukaan vai ei? toimiiko sisältö vai ei?
 	t=$(${srat} -tf ${1} | grep fediverse.tar | wc -l)
 	[ ${t} -lt 1 ] && exit 72
-	csleep 1
+	csleep 100
 
 	dqb "B"
 	csleep 1
@@ -275,12 +290,8 @@ function e22_home() { #121225:profiiliasiat jo kunnossa?
 	csleep 2
 
 	dqb "AUTOMAGICAL CONFIGURATION IS A DISEASE"
-
 #	dqb "Xorg -config ~/xorg.conf ?"
-#	csleep 10
-#	#josko finnd:in kautta?
-#	${srat} -rvf ${1} ~/xorg.conf #tässä vai settings:issä ? -f taakse jokatap
-#paska hiiri? paska oletuskonf? bugista softaa?
+	csleep 10
 
 	dqb "e22_home d0n3"
 	csleep 1
@@ -619,6 +630,7 @@ function e22_arch() {
 	#tässä voi tulla ongelma?
 	${sah6} ./reject_pkgs >> ./sha512sums.txt
 	${sah6} ./accept_pkgs_? >> ./sha512sums.txt
+	${sah6} ./pkgs_drop >> ./sha512sums.txt
 	csleep 1
 
 	#alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious
@@ -706,8 +718,6 @@ function e22_dm() {
 
 	case ${1} in
 		lxdm)
-			#VAIH:jatkossa jokin apufktio dm:n asennusta varten ja mja konftdstoon, nyt näin (TODO:uudelleenpakk soveltuviin pak s.e. lxdm poissa)
-			#(pitäisi kai ohittaa kyselyt dm:n shteen)
 			#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
 
 			${shary} debconf libcairo2 libgtk2.0-0
@@ -724,7 +734,7 @@ function e22_dm() {
 }
 
 #TODO:ntp-jutut takaisin josqs?
-#121225:tällä fkytiolla tulisi olla vain 1 param (vöib muuttua kyllä)
+#121225:tällä fktiolla tulisi olla vain 1 param qnnes
 #091225:taitaa toimia
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  "
@@ -769,11 +779,11 @@ function e22_other_pkgs() {
 	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0
 	${shary} git-man git
 
+	dqb "MAGOG"
+
 	#libreadline8 aiemmaksi? muutkin pak saattavat tarvita
 	${shary} ${E22GI}
 	${shary} gpg
-	dqb "MAGOG"
-	csleep 2
 
 	[ $? -eq 0 ] && dqb "luBE 0F THE R3S0NATED"
 	csleep 2
@@ -782,9 +792,10 @@ function e22_other_pkgs() {
 	[ -v CONF_dm ] || exit 77
 	e22_dm CONF_dm
 	${lftr}
+	csleep 2
 
 	#aval0n
-	#dqb "BEFORE UPD6" #kutsutaabko tuota?	ei ainakaan tössö fktyiossa
+	#dqb "BEFORE UPD6" #kutsutaabko tuota?	ts() qtsuu
 	csleep 2
 
 	dqb "e22_other_pkgs donew"
