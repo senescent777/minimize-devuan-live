@@ -284,8 +284,13 @@ function psqa() {
 
 		#131225:josko kokeiltu tarpeeksi
 		#if [ ${debug} -eq 0 ] ; then
-			[ $? -eq 0 ] || exit 94
-			#TODO:jos ei tarkistus täsmää ni ehdottamaan "exp2 f" ?
+			if [ $? -eq 0 ] ; then
+				dqb "KO"
+			else
+				dqb "export2 f ?"
+				exit 94
+				#VAIH:jos ei tarkistus täsmää ni ehdottamaan "exp2 f" ?
+			fi
 		#fi
 
 		cd ${p}
