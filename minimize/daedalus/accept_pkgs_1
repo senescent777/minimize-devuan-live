@@ -1,3 +1,4 @@
+#131225;sisältöön muutoksia sikälimikäli common_lib.clib5p()
 libc6*.deb gcc-12*.deb
 perl-base*.deb
 libgcc-s1*.deb
@@ -63,8 +64,9 @@ libpam-runtime*.deb
 libpam-elogind*.deb
 libpython3.11-minimal*.deb
 libpython3.11-stdlib*.deb
+libassuan0*.deb
 #
-#uutena 251125 (ehkä kuitenkin pois libatk-libcanb)
+#uutena 251125 (ehkä kuitenkin pois libatk-libcanb) (pavumixer saattoi liittyä)
 #libatk1.0-0*.deb
 #libsigc++*.deb
 #libpulse0*.deb

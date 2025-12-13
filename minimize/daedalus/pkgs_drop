@@ -1,6 +1,6 @@
 arch-test
 grub
-gsettings*
+gsettings
 iucode-tool
 ntp
 #121125:tässä base-passwd- ja init-valitusta. vielä 231125?

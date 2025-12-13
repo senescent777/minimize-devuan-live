@@ -5,11 +5,10 @@ dbus
 initramfs
 live
 e2fsprogs
+#
 #VAIH:mielellään slim Vittuun jatkossa 666!
 #seatd
 #081225:poistamisen sijaan pitäisi selvittää miten *äksän libseat-valitukset* taas korjattiinkaan
 #... pienempi vääntö&huuto kenties minimal_liven kanssa (ala suorittaa)
-lxdm
-x11-utils
-#131225:TAAS wttuun lxdm kunnes
-#riittäisikö nuo 2 pak ylempänä poistaa että slim pysyy ehjänä? 
+#lxdm
+#x11-utils
