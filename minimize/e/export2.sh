@@ -165,13 +165,18 @@ case ${mode} in
 	q)
 		#101225:toimii (ainakin 1 kerran)
 		${sifd} ${iface}
-		e22_settings ~ ${d0}
 
-		#VAIH:josko takaisin siihen että vain oikeasti tarpeelliset mukaan
-		#...esim pulse.tar voisi excludoida
-		#btw. mikä olikaan syy että q on tässä ekassa case:ssa? pl siis että turha apt-renkkaus
+		#141225:tgtfile voisi oikeastaan mennä config1:selle parametriksi jatkossa
+		e22_config1 ~
+		${srat} -rvf ${tgtfile} ~/config.tar.bz2
+		dqb $?
+		csleep 5
 
-		for f in $(find ~ -maxdepth 1 -name '*.tar' -or -name '*.bz2' -or -name 'profs.sh' | grep -v pulse) ; do
+		#tdstonimi parametriksi jatkossa
+		e22_settings ${d0}
+		#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
+
+		for f in $(find ${d0} -maxdepth 1 -name 'fediverse.tar' -or -name 'profs.sh' | grep -v pulse) ; do
 			${srat} -rvf ${tgtfile} ${f}
 		done
 

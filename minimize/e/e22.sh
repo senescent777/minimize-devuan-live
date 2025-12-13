@@ -190,54 +190,66 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 	csleep 1
 }
 
-##TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
-##muutokset oikeastaan tdstoon profs.sh
-##VAIH:TAASKO slevittäen että toimiiko
-#function e22_settings() {
-#	dqb "e22_settings ${1} ${2}"
-#	csleep 1
+function e22_config1() {
+	[ -z ${1} ] && exit 11
+	[ -d ${1} ] || exit 22
+
+	dqb "CFG"
+	local p
+	p=$(pwd)
+
+	cd ${1} #tar:issa olisi myös -C , josko sitä käyttämään jatkossa
+	tar -jcf config.tar.bz2 .config/xfce4/xfconf/xfce-perchannel-xml 
+
+	csleep 1
+	[ -s config.tar.bz2 ] || exit 99
+	
+	cd ${p}
+	dqb "CDONE"
+}
+
+#TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
+#nuo muutokset oikeastaan tdstoon profs.sh
 #
-#	[ -z ${1} ] && exit 11
-#	[ -z ${2} ] && exit 12
-#	[ -d ${1} ] || exit 22
-#	[ -d ${2} ] || exit 23
-#
-#	dqb "paramz 0k"
-#	csleep 1
-#	cd ${1} #TODO:cd pois, alla $1/config.ta.bz2
-#
-#	dqb "CFG"
-#	${srat} -jcf ./config.tar.bz2 ./.config/xfce4/xfconf/xfce-perchannel-xml 
-#	dqb "PR0.F5"
-#
-#	#profs.sh kätevämpi laittaa mukaan kutsuvassa koodissa
-#	if [ -x ${2}/profs.sh ] ; then
-#		dqb "DE PROFUNDIS"
-#		.  ${2}/profs.sh
-#
-#		exp_prof ${1}/fediverse.tar default-esr	
-#		#$1 ei ehkä pakko laittaa mukaan koska cd ylempänä
-#		
-#		csleep 1
-#		dqb "SOME BASIC TESTS w/  ${1}/fediverse.tar "
-#		csleep 2
-#
-#		[ -s ${1}/fediverse.tar ] || exit 32
-#		local t
-#		t=$(tar -tf ${1}/fediverse.tar | grep prefs.js | wc -l)
-#		[ ${t} -lt 1 ] && exit 27
-#		csleep 10
-#
-#		dqb "TSTS DONE"
-#	else
-#		dqb "export2 p \$file ; import2 1 $file  ?"
-#		exit 24
-#	fi
-#
-#	cd ${2}
-#	dqb "e22_settings ${1} ${2} DONE"
-#	csleep 1
-#}
+#VAIH:TAASKO selvittäen että toimiiko tai siis
+
+function e22_settings() {
+	dqb "e22_settings ${1},  ${2}"
+	csleep 1
+
+	[ -z ${1} ] && exit 11
+	[ -d ${1} ] || exit 22
+
+	dqb "paramz 0k, next:"
+	csleep 1
+	dqb "PR0.F5"
+
+	#profs.sh kätevämpi laittaa mukaan kutsuvassa koodissa
+	if [ ! -x ${1}/profs.sh ] ; then
+		dqb "chmod +x ${1}/profs.sh | export2 p \$file ; import2 1 \$file  ?"
+		exit 24
+	fi
+
+	dqb "DE PROFUNDIS"
+	.  ${1}/profs.sh
+	exp_prof ${1}/fediverse.tar default-esr	
+		
+	csleep 1
+	dqb "SOME BASIC TESTS w/  ${1}/fediverse.tar "
+	csleep 2
+
+	[ -s ${1}/fediverse.tar ] || exit 32
+	local t
+	t=$(tar -tf ${1}/fediverse.tar | grep prefs.js | wc -l)
+	[ ${t} -lt 1 ] && exit 27
+	csleep 10
+
+	dqb "TSTS DONE"
+	csleep 1
+
+	dqb "e22_settings ${1} , ${2} DONE"
+	csleep 1
+}
 
 function e22_home() { #131225:profiiliasiat jo kunnossa vai ei?
 	dqb "e22_home ${1} , ${2} , ${3}  "
@@ -256,8 +268,9 @@ function e22_home() { #131225:profiiliasiat jo kunnossa vai ei?
 
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		e22_settings ~ ${2}/..
-		#TODO:josko jakaisi fktion kahtia
+		e22_config1 ~ 
+		e22_settings ${2}/..
+		#VAIH:josko jakaisi fktion kahtia
 	else
 		dqb "PUIG DESTRÖYERR b666"
 	fi
