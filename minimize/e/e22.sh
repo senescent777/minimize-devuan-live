@@ -199,6 +199,7 @@ function e22_config1() {
 	p=$(pwd)
 
 	cd ${1} #tar:issa olisi myös -C , josko sitä käyttämään jatkossa
+	[ -f config.tar.bz2 ] && mv config.tar.bz2 config.tar.bz2.ÅLD
 	tar -jcf config.tar.bz2 .config/xfce4/xfconf/xfce-perchannel-xml 
 
 	csleep 1
@@ -232,6 +233,7 @@ function e22_settings() {
 
 	dqb "DE PROFUNDIS"
 	.  ${1}/profs.sh
+	[ -f ${1}/fediverse.tar ] && mv ${1}/fediverse.tar ${1}/fediverse.tar.ÅLD
 	exp_prof ${1}/fediverse.tar default-esr	
 		
 	csleep 1

@@ -261,50 +261,44 @@ function common_part() {
 
 ##TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 ##13122:profiiliasiat jko/tsaa kunnossa? muuten kai mutta sen paketin kanssa jotain (VAIH)
-#function tpr() {
-#	dqb "UPIR  ${1}"
-#	csleep 1
-#
-#	[ -z ${1} ] && exit 11
-#	[ -d ${1} ] || exit 12
-#
-#	dqb "pars_ok"
-#	csleep 1
-#
-#	local t
-#	#jälkimmäinen .bz2 pois listasta?
-#	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} ${TARGET_TPX} -C ~ -xvf ${t} ; done
-#	[ $? -eq 0 ] || exit
-#
-#	dqb "PROFS?"
-#	csleep 1
-#
-#	if [ -x ${1}/profs.sh ] ; then
-#		#fktioiden {im,ex}portointia jos kokeilisi? man bash...
-#		. ${1}/profs.sh
-#		[ $? -gt 0 ] && exit 33
-#
-#		dqb "INCLUDE OK"
-#		csleep 1
-#		local q
-#		q=$(mktemp -d)
-#
-#		#131225:ensimmäinen haara mikä tässä sotkee? pois debug-syistä
-#		#if [ -s ~/fediverse.tar ] ; then
-#		#	${srat} ${TARGET_TPX} -C ${q} -xvf ~/fediverse.tar
-#		#else
-#			${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/fediverse.tar
-#		#fi
-#
-#		imp_prof esr ${n} ${q}
-#	else
-#		dqb "CANNOT INCLUDE PROFS.HS"
-#		dqb "$0 1 \$srcfile ?"
-#	fi
-#
-#	dqb "UP1R D0N3"
-#	csleep 1
-#}
+function tpr() {
+	dqb "UPIR  ${1}"
+	csleep 1
+
+	[ -z ${1} ] && exit 11
+	[ -d ${1} ] || exit 12
+	[ -s ${1}/fediverse.tar ] || exit 13
+	[ -r ${1}/fediverse.tar ] || exit 14
+
+	dqb "pars_ok"
+	csleep 1
+
+	if [ ! -x ${1}/profs.sh ] ; then
+		dqb "CANNOT INCLUDE PROFS.HS"
+		dqb "$0 1 \$srcfile | chmod +x profs.sh ?"
+		exit 25
+	fi
+
+	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
+	. ${1}/profs.sh
+	[ $? -gt 0 ] && exit 33
+
+	dqb "INCLUDE OK"
+	csleep 1
+	local q
+	q=$(mktemp -d)
+
+	#jos vielä härdelliä niin keskeytetään jos ei fediversestä löydä prefs.js
+	${srat} -tf ${1}/fediverse.tar
+	csleep 10
+	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/fediverse.tar
+
+
+	imp_prof esr ${n} ${q}
+
+	dqb "UP1R D0N3"
+	csleep 1
+}
 
 #261125:eka case-blokki toimii
 case "${mode}" in
@@ -367,8 +361,9 @@ dqb "srcfile=${srcfile}"
 csleep 1
 
 case "${mode}" in
-	r) #121225:jospa jo toimisi 
+	r) #141225:testattava taas
 		[ -d ${srcfile} ] || exit 22
+		${srat} -C ~ -jxf ~/config.tar.bz2
 		tpr ${srcfile}
 	;;
 	1) #121225;testailtru, vissiin toimii
@@ -404,12 +399,15 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
 	q)
-		#101225:toimii	(ainakin 1 kerran)
+		#141225:josko taas toimisi?
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
 		common_part ${srcfile} ${d} /
+
+		#kai tuo ocnfig voisi suoraan $d0 alla...
+		${srat} -C ~ -jxf ~/config.tar.bz2
 		tpr ${d0}
 	;;
 	k)

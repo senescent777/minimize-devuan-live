@@ -358,10 +358,10 @@ function efk2() { #jotain kautta tätäkin kai kutsuttiin (cefgh nykyään)
 	csleep 1
 }
 
-#TODO:voisi nimetä uudestaan
+#VAIH:voisi nimetä uudestaan
 #TODO:lisäksi clibpre():n toiminnallisuuden ymppääminen
-function clib5p() {
-	dqb "clib5p( ${1}  , ${2}) "
+function common_lib_tool() {
+	dqb "common_lib_tool( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
 	[ -z "${2}" ] && exit 67
 	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE"
@@ -397,10 +397,10 @@ function clib5p() {
 	#exit 66
 }
 
-#clib5p ja clibpre pystyisi yhdistämään ... EHKÄ josqs
+#common_lib_tool ja clibpre pystyisi yhdistämään ... EHKÄ josqs
 
 function clibpre() {
-	dqb "clib5p.re( ${1}  , ${2}) "
+	dqb "common_lib_tool.re( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 96
 	[ -z "${2}" ] && exit 67
 	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE" 
@@ -1298,7 +1298,7 @@ function part3() {
 
 	#jatkossa jos jotenkin toisin? ehto ympäriltä kommentteihin vai ei?
 	#if [ ! -f /.chroot ] ; then #HUOM.071225 ehto kommentteihin koska y
-		clib5p ${1} reject_pkgs
+		common_lib_tool ${1} reject_pkgs
 	#fi
 
 	clibpre ${1} accept_pkgs_1
