@@ -310,7 +310,8 @@ case ${mode} in
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
 	#091225:teki paketin, sisällön kelpoisuus selvitettävä
-	#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)		
+	#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)	
+	#... syynä e liene lxdm tai x11-utils koska reject_pkgs	
 	1|u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1

@@ -107,15 +107,17 @@ function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 1
 
-	if [ ${2} -lt 1 ]; then #onkohan tässä blokissa pointtia? mitä jos l.tmp ei löydy vai LCF666 ai asetettu?
+	if [ ${2} -lt 1 ] ; then #tämä blokki konffaamisen jälkeen+toiminaat?
 		fasdfasd /etc/default/locale
 		csleep 1
 
-		#TODO:jatkossa joa echolla nuo jutut?
-		#VAIH:jos grep -v '#' kuitenkin
-		${odio} grep -v '#' /etc/default/locale.tmp >> /etc/default/locale
-		[ $? -eq 0 ] && ${smr} /etc/default/locale.tmp #uutena, pois jos ongelmia
+		#menisikö vaikka näin?
+		#env | grep LC >> /etc/default/locale
+		#env | grep LA >> /etc/default/locale
 
+		#${odio} grep -v '#' /etc/default/locale.tmp >> /etc/default/locale
+		#[ $? -eq 0 ] && ${smr} /etc/default/locale.tmp #uutena, pois jos ongelmia
+		
 		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
 		#jos riittäisi 10 riviä
 		csleep 1
@@ -134,29 +136,32 @@ function el_loco() {
 
 	#101225:pitäisikö jotain tehdä vielä että nuo sorkitut lokaaliasetukset saa voimaan?
 	
-	if [ -s /etc/default/locale ] ; then #miten tämän pitää mennä?
-		. /etc/default/locale
-
+#	if [ -s /etc/default/locale ] ; then #miten tämän pitää mennä?
+#		. /etc/default/locale #tämä pis jtkossa?
+#
 		export LC_TIME
 		export LANGUAGE
 		export LC_ALL
-	fi
+#	fi
 }
 
 c14=0
 c13=0
 [ ${mode} -eq 1 ] && c14=1
-#TODO:c13 ja c14 asetuksen ehdot uusiksi, vaikka "env | grep {LA,LC}"?
+
+#==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
 if [ -v LCF666 ] ; then
-	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
+	c13=$(grep -v '#' /etc/default/locale | grep -c ${LCF666})
+	#c13=$(env | grep LC_TIME | grep -c ${LCF666})
 else
 	echo "555"
 fi
 
 csleep 1
-#VAIH:el_locon tai c13/c14 kanssa jokin ongelma?, korjaa jos ed elleen? LCF666 saattaa liittyä
+
 [ ${c13} -lt 1 ] && c14=1
-el_loco ${c14} ${c13}
+el_loco ${c14} 1 #${c13}
+#=========================================================================================
 
 if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
 	dqb "R (in 2 secs)"
