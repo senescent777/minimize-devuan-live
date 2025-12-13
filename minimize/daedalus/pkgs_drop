@@ -1,0 +1,28 @@
+arch-test
+grub
+gsettings*
+iucode-tool
+ntp
+#121125:tässä base-passwd- ja init-valitusta. vielä 231125?
+ntfs-3g
+p7zip
+psmisc
+#tästä tuli initramfs-valitus
+rsync squashfs-tools
+#eiole?
+traceroute
+#eiole?
+upower
+#tästä tuli initramfs-valitus
+w3m wget
+#eiole?
+xorriso
+#eiole?
+xorriso
+xz*
+#initramfs
+xfburn
+xarchiver
+#eiole+initranmfs
+#libdav* #121125:tämä näyttää poistavan paljon tapauksessa daed, ehkä jopa liikaa
+# ntp* jo aiempana
