@@ -388,36 +388,7 @@ function clib5p() {
 	#exit 66
 }
 
-##clib5p ja clibpre pystyisi yhdistämään ... sittenq varmistanut että tämä paska toimii EHKÄ
-#
-
-#
-##	local p
-
-##	p=$(pwd)
-##
-##	cd ${1}
-##	pwd
-#
-#	#121225:poistaako tuo ne pakeitit vai ei? lxdm...
-
-#	
-#		#
-#	
-#		for r in $(fin ${1} -name $[q})	; do
-#			
-#			${NKVD} ${q}
-#		done
-#		
-#		csleep 1
-#		 ls -las ${q} | wc -l
-#		csleep 1
-#	done
-#	
-#	
-#	csleep 2
-##	cd ${p}
-#}
+##clib5p ja clibpre pystyisi yhdistämään ... EHKÄ josqs
 
 function clibpre() {
 	dqb "clib5p.re( ${1}  , ${2}) "

@@ -256,6 +256,7 @@ e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
+#TODO:pitäisiköhän taas joitain tapauksia testata uudstaan?
 case ${mode} in
 	#johdonmukaisuuden vuoksi 3|4) jatkossa (imp2/exp2)
 	0)
