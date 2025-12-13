@@ -74,6 +74,7 @@ fi
 #seur "$0 1" (päivityspak?) sen kanssa pientä laittoa vielä (josko jo)
 #-1 ja 2 OK
 #... siinä ne oleellisimmat tapaukset
+
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -375,6 +376,7 @@ case "${mode}" in
 		csleep 1
 	;; 
 	0|3) #121225:case 3 toimii edelleen, luulisin
+		#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)
 		#TODO:selvitä, toimiiko case 0? jnpp
 
 		echo "ZER0 S0UND"

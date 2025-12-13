@@ -309,6 +309,7 @@ case ${mode} in
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
 	#091225:teki paketin, sisällön kelpoisuus selvitettävä
+	#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)		
 	1|u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
@@ -316,7 +317,7 @@ case ${mode} in
 		e22_upgp ${tgtfile} ${d} ${iface}
 		e22_ts ${d}
 
-		${srat} -cf ${1} ${d}/tim3stamp
+		${srat} -cf ${1} ${d}/tim3stamp #tarvitseeko tätä nykyään?
 		t=$(echo ${d} | cut -d '/' -f 1-5)
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}

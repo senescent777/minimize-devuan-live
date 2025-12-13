@@ -778,6 +778,7 @@ function e22_other_pkgs() {
 	[ $? -eq 0 ] && dqb "luBE 0F THE R3S0NATED"
 	csleep 2
 
+	#TODO:jatkossa parametriksi C_dm
 	[ -v CONF_dm ] || exit 77
 	e22_dm CONF_dm
 	${lftr}

@@ -117,7 +117,7 @@ function ocs() {
 	fi
 }
 
-#... miten aikainen asettaminen muuten vaikuttaa el_loco():on ?
+#... miten (LC_juttujen) aikainen asettaminen muuten vaikuttaa el_loco():on ?
 function check_bin_0() {
 	dqb "check_bin_0"
 
@@ -152,8 +152,9 @@ function check_bin_0() {
 	smr="${odio} ${smr} "
 
 	NKVD=$(${odio} which shred)
-	NKVD="${NKVD} -fu "
-	NKVD="${odio} ${NKVD} "
+	[ -z ${NKVD} ] && exit 37
+	#NKVD="-fu "
+	NKVD="${odio} ${NKVD} -fu "
 	
 	#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
 	PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" 
@@ -236,10 +237,10 @@ function psqa() {
 	dqb "Q ${1}"
 	csleep 1
 	[ -z ${1} ] && exit 55
-	# -d kanssa ?
+	#TODO: -d kanssa ?
 
 	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
-	csleep 2
+	csleep 1
 
 	if [ -s ${1}/sha512sums.txt.sig ] ; then
 		dqb "S(${1})"
@@ -262,11 +263,11 @@ function psqa() {
 		dqb "NO .txt.sig AVAILABLE"
 	fi
 
-	csleep 5
+	csleep 2
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		dqb "R ${1}"		
-		csleep 2
+		csleep 1
 
 		local p
 		p=$(pwd)
@@ -279,7 +280,11 @@ function psqa() {
 
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
-		[ $? -eq 0 ] || exit 94
+
+		dqb "#TODO:YMPÄRÖIVÄ IF-BLOKKI POIS HETI KUN MAHD"
+		if [ ${debug} -eq 0 ] ; then
+			[ $? -eq 0 ] || exit 94
+		fi
 
 		cd ${p}
 	else
@@ -346,37 +351,73 @@ function efk2() { #jotain kautta tätäkin kai kutsuttiin (cefgh nykyään)
 	csleep 1
 }
 
-#clib5p ja clibpre pystyisi yhdistämään ... sittenq varmistanut että tämä paska toimii
 function clib5p() {
 	dqb "clib5p( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
 	[ -z "${2}" ] && exit 67
-	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE" 
-
+	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE"
+ 
 	dqb "WILL START REJECTING P1GS NOW"
+	#dqb "NKVD: ${NKVD}"
 	csleep 1
 
-	local p
 	local q
-	p=$(pwd)
+	local r
+	local s
 
-	cd ${1}
-	pwd
+	for q in $(grep -v '#' ${1}/${2}) ; do
+		dqb "outer; ${q}"
 
-	#121225:poistaako tuo ne pakeitit vai ei? lxdm...
-	#TODO:find:illä kuiteskin
-	for q in $(grep -v '#' ${2}) ; do
-		${NKVD} ${q}
+		#jatk r pois?
+		r=$(find ${1} -type f -name "${q}*.deb" )
+		#dqb "r= ${r}"
 
-		csleep 1
-		[ ${debug} -eq 1 ] && ls -las ${q} | wc -l
-		csleep 1
+		for s in ${r} ; do
+			dqb "inner: ${NKVD} ${s}"
+			csleep 1
+			${NKVD} ${s}
+			csleep 1
+		done
+
+		if [ ${debug} -eq 1 ] ; then
+			ls -las ${1}/${q}* | wc -l
+		fi
 	done
-	
-	csleep 2
-	cd ${p}
+
 	dqb "REJECTNG DONE"
+	#exit 66
 }
+
+##clib5p ja clibpre pystyisi yhdistämään ... sittenq varmistanut että tämä paska toimii EHKÄ
+#
+
+#
+##	local p
+
+##	p=$(pwd)
+##
+##	cd ${1}
+##	pwd
+#
+#	#121225:poistaako tuo ne pakeitit vai ei? lxdm...
+
+#	
+#		#
+#	
+#		for r in $(fin ${1} -name $[q})	; do
+#			
+#			${NKVD} ${q}
+#		done
+#		
+#		csleep 1
+#		 ls -las ${q} | wc -l
+#		csleep 1
+#	done
+#	
+#	
+#	csleep 2
+##	cd ${p}
+#}
 
 function clibpre() {
 	dqb "clib5p.re( ${1}  , ${2}) "
@@ -890,8 +931,16 @@ function e_h() {
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
 
 	#291125:josko kuitenkin 0555? paitsi että sittenq tarttee muokata (to state the obvious)
-	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} 0555 ${f} ; done
+	#... jatkossa debug-riippuvaista että 755 vai 555 ?	
+	local m
 
+	if [ ${debug} -gt 0 ] ; then
+		m=0755
+	else
+		m=0555
+	fi
+
+	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} ${m} ${f} ; done
 	dqb "F1ND D0N3"
 	csleep 1
 
@@ -1073,8 +1122,9 @@ function dis() {
 }
 
 function part076() {
-	#081225:pitäisiköhän param tarkistaa? (	TODO)
 	dqb "FART076 ${1}"
+	[ -z ${1} ] && exit 76
+
 	csleep 1
 	dis ${1}
 	local s
@@ -1175,7 +1225,8 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		${fib}
 		csleep 1
 		
-		for s in ${PART175_LIST} ; do #271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa, toimiva konf äksään löydettävä (TODO)
+		for s in ${PART175_LIST} ; do 
+			#271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa, toimiva konf äksään löydettävä (TODO)
 			dqb "processing ${s}"
 			${sharpy} ${s}*
 			csleep 1
@@ -1324,7 +1375,6 @@ function gpo() {
 	fi
 
 	for opt in $@ ; do
-		#VAIH:-h,usage() ?
 		case ${opt} in	
 			-v|--v)
 				debug=1
