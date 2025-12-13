@@ -1,13 +1,15 @@
-eudev*.deb
-udev*.deb
-xserver*.deb
-dbus*.deb
-initramfs*.deb
-live*.deb
-e2fsprogs*.deb
+eudev
+udev
+xserver
+dbus
+initramfs
+live
+e2fsprogs
 #VAIH:mielellään slim Vittuun jatkossa 666!
-#seatd*.deb
+#seatd
 #081225:poistamisen sijaan pitäisi selvittää miten *äksän libseat-valitukset* taas korjattiinkaan
 #... pienempi vääntö&huuto kenties minimal_liven kanssa (ala suorittaa)
-lxdm*.deb
+lxdm
+x11-utils
 #131225:TAAS wttuun lxdm kunnes
+#riittäisikö nuo 2 pak ylempänä poistaa että slim pysyy ehjänä? 
