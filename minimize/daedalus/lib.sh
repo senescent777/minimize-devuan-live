@@ -22,12 +22,12 @@ function udp6() { #on käytössä
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb | wc -l
 	csleep 3
 
-	clib5p ${1} reject_pkgs
+	common_lib_tool ${1} reject_pkgs
 	dqb "D0NE"
 	csleep 1
 }
 
-#clib5p-tyylillä jatkossa tämänkin fktion hommat?
+#common_lib_tool-tyylillä jatkossa tämänkin fktion hommat? kts g_pt2
 function t2p() { #on käytössä
 	dqb "DAUD.T2P"
 	csleep 1
