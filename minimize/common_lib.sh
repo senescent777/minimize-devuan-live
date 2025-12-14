@@ -710,13 +710,29 @@ function mangle_s() {
 	echo -e "\n" >> ${2}
 }
 
-#...toisaalta sen dhclient-kikkailun voisi palauttaa (TODO)
+#...toisaalta sen dhclient-kikkailun voisi palauttaa (VAIH)
 function dinf() {
 	local g
+	#local frist
+	#frist=1
 
 	for g in $(sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq) ; do
 		dqb ${g}
+
+		#if [ ${frist} -eq 1 ] ; then 
+		#frist=0
+		#else
+		#echo -n "," >> ${1}
+		#fi
+		#
+		#echo -n "sha256:${f}" >> ${1}
 	done
+
+	#echo -n "$(whoami) localhost=NOPASSWD: " >> ${1}
+
+	#echo " /sbin/dhclient-script " >> ${1}
+	#cat ${1}
+	#exit
 }
 
 function fasdfasd() {
