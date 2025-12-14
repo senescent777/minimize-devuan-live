@@ -199,9 +199,10 @@ other_horrors
 dqb "BEFORE IMP2"
 csleep 5
 
-#101225:toimi ainakin kerran, jospa tilaäinen ongelma exp2 puolella?
+#141225:mitäjos common_lib ei ajokelpoinen? osaako imp2 toimia oikein silloin?
 if [ ! -f /.chroot ] ; then
-	${d0}/import2.sh r ${d0} #-v VAIH:UUSIKSI TÄMÄ PASKA
+	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} "
+	${d0}/import2.sh r ${d0} -v
 	#2. ja 3. param. turhia?
 fi
 

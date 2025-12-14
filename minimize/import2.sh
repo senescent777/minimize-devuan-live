@@ -74,6 +74,7 @@ fi
 #seur "$0 1" (päivityspak?) sen kanssa pientä laittoa vielä (josko jo)
 #-1 ja 2 OK
 #... siinä ne oleellisimmat tapaukset
+#141225:q ja r eivät toimi kunnolla tällöin
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -260,7 +261,7 @@ function common_part() {
 }
 
 ##TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-##13122:profiiliasiat jko/tsaa kunnossa? muuten kai mutta sen paketin kanssa jotain (VAIH)
+#141222:profiilin importoinnin ongelmien syy saattaut selvitä, tietty tap lkukuunottamatta ao. fktio toimii ok
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
@@ -288,13 +289,19 @@ function tpr() {
 	local q
 	q=$(mktemp -d)
 
+	dqb "JUST BEFOIRE TAR"
 	#jos vielä härdelliä niin keskeytetään jos ei fediversestä löydä prefs.js
 	${srat} -tf ${1}/fediverse.tar
-	csleep 10
+	csleep 5
 	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/fediverse.tar
+	echo $?
+	csleep 5
 
+	dqb "JUST BEFORE impo_prof"
+	csleep 1
 
 	imp_prof esr ${n} ${q}
+	csleep 1
 
 	dqb "UP1R D0N3"
 	csleep 1
