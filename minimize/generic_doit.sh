@@ -186,8 +186,8 @@ fi
 
 pre_part2
 c14=$(find ${d} -name '*.deb' | wc -l)
-[ ${c14} -gt 0 ] || removepkgs=0
-part2_5 ${removepkgs} ${dnsm} ${iface}
+[ ${c14} -gt 0 ] || CONF_removepkgs=0
+part2_5 ${CONF_removepkgs} ${dnsm} ${iface}
 
 #===================================================PART 3===========================================================
 message

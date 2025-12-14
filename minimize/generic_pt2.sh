@@ -77,13 +77,13 @@ done
 ${fib}
 #echo "debug=${debug}"
 dqb "distro=${distro}"
-dqb "removepkgs=${removepkgs}"
+dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 
 sleep 1
 csleep 1
 
-if [ ${removepkgs} -eq 1 ] ; then
+if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
 	part2_5 1 ${dnsm} ${iface}
