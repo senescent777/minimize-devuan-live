@@ -237,8 +237,7 @@ function psqa() {
 	dqb "Q ${1}"
 	csleep 1
 	[ -z ${1} ] && exit 55
-	#VAIH: -d kanssa ?
-	[ -z ${1} ] || exit 54
+	[ -d ${1} ] || exit 54
 
 	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
 	csleep 1
@@ -289,7 +288,6 @@ function psqa() {
 			else
 				dqb "export2 f ?"
 				exit 94
-				#VAIH:jos ei tarkistus täsmää ni ehdottamaan "exp2 f" ?
 			fi
 		#fi
 
@@ -358,7 +356,6 @@ function efk2() { #jotain kautta tätäkin kai kutsuttiin (cefgh nykyään)
 	csleep 1
 }
 
-#VAIH:voisi nimetä uudestaan
 #TODO:lisäksi clibpre():n toiminnallisuuden ymppääminen
 function common_lib_tool() {
 	dqb "common_lib_tool( ${1}  , ${2}) "
@@ -710,7 +707,6 @@ function mangle_s() {
 	echo -e "\n" >> ${2}
 }
 
-#...toisaalta sen dhclient-kikkailun voisi palauttaa (VAIH)
 function dinf() {
 	local g
 	#local frist
