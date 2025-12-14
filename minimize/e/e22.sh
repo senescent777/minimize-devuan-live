@@ -268,9 +268,11 @@ function e22_home() { #141225:profiiliasiat vaihgeessa
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
 
+	#141225:if-lauseen pointti nykyään?
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
-		e22_config1 ~ 
+		e22_config1 ~
+		${smr} ~/fediverse.tar
 		e22_settings ${2}/..
 		#VAIH:josko jakaisi fktion kahtia
 	else
@@ -279,20 +281,20 @@ function e22_home() { #141225:profiiliasiat vaihgeessa
 
 	local t
 	csleep 1
-
 	${srat} -rvf ${1} /opt/bin/changedns.sh
-	for t in $(find ~ -type f -name 'merd2.sh') ; do ${srat} -rvf ${1} ${t} ; done
 
-#	#VAIH:wttuun tämnä blokki kohta, ehkä seur myös
-#	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
-#	csleep 1
-#	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*' | grep -v pulse) ; do ${srat} -rvf ${1} ${t} ; done  
-#	csleep 1
-#
-#	#131225:tuleeko mukaan vai ei? toimiiko sisältö vai ei?
-#	t=$(${srat} -tf ${1} | grep fediverse.tar | wc -l)
-#	[ ${t} -lt 1 ] && exit 72
-#	csleep 100
+	#maxdepth mukaan vai ei?
+	for t in $(find ~ -type f -name 'merd2.sh' -or -name config.tar.bz2) ; do
+		${srat} -rvf ${1} ${t}
+	done
+
+	${srat} -rvf ${1} ${2}/../fediverse.tar	
+	csleep 5
+
+	#131225:tuleeko mukaan vai ei? toimiiko sisältö vai ei?
+	t=$(${srat} -tf ${1} | grep fediverse.tar | wc -l)
+	[ ${t} -lt 1 ] && exit 72
+	csleep 10
 
 	dqb "B"
 	csleep 1

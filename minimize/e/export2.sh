@@ -169,8 +169,12 @@ case ${mode} in
 		#141225:tgtfile voisi oikeastaan mennä config1:selle parametriksi jatkossa
 		e22_config1 ~
 		${srat} -rvf ${tgtfile} ~/config.tar.bz2
+
 		dqb $?
-		csleep 5
+		csleep 4
+
+		${smr} ~/fediverse.tar
+		csleep 1
 
 		#tdstonimi parametriksi jatkossa
 		e22_settings ${d0}
@@ -273,7 +277,7 @@ case ${mode} in
 	3|4) 
 	#091225:case 3 tekee toimivan paketin, ainakin kerran teki
 	#131225 case 4:tekee paketin, toimiikin jnkn verran
-	#TODO:SELVITÄ NYT PRKL SE PROFIILIJUTTU, MIKSEI TULE MUKAAN 666!!!!
+	#VAIH:SELVITÄ NYT PRKL SE PROFIILIJUTTU, MIKSEI TULE MUKAAN 666!!!!
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
