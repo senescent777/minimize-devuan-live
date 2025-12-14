@@ -825,10 +825,10 @@ function pre_enforce() {
 	c4=0
 	csleep 1
 
-	if [ -v dir ] ; then
-		c4=$(grep ${dir} /etc/fstab | wc -l)
+	if [ -v CONF_dir ] ; then
+		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
 	else
-		echo "NO SUCH THING AS \$dir"
+		echo "NO SUCH THING AS \$CONF_dir"
 		exit 99
 	fi
 
@@ -840,8 +840,8 @@ function pre_enforce() {
 		csleep 2
 
 		${scm} a+w /etc/fstab
-		${odio} echo "/dev/disk/by-uuid/${part0} ${dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
-		${odio} echo "#/dev/disk/by-uuid/${part1} ${dir2} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+		${odio} echo "#/dev/disk/by-uuid/${part1} ${CONF_dir2} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		${scm} a-w /etc/fstab
 
 		csleep 2

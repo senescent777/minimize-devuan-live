@@ -3,8 +3,8 @@ debug=0
 srcfile=""
 
 distro=$(cat /etc/devuan_version)
-dir=/mnt
-part0=ABCD-1234
+CONF_dir=/media
+CONF_part0=ABCD-1234
 mode=-2
 d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
@@ -158,7 +158,7 @@ else
 fi
 
 olddir=$(pwd)
-part=/dev/disk/by-uuid/${part0}
+part=/dev/disk/by-uuid/${CONF_part0}
 dqb "L0G"
 
 ocs tar
@@ -311,14 +311,14 @@ function tpr() {
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii?
-		part=/dev/disk/by-uuid/${part0}
+		part=/dev/disk/by-uuid/${CONF_part0}
 		[ -b ${part} ] || dqb "no such thing as ${part}"
-		c=$(grep -c ${dir} /proc/mounts)
+		c=$(grep -c ${CONF_dir} /proc/mounts)
 
 		if [ ${c} -lt 1 ] ; then
-			${som} -o ro ${part} ${dir}
+			${som} -o ro ${part} ${CONF_dir}
 			csleep 1
-			${som} | grep ${dir}
+			${som} | grep ${CONF_dir}
 		fi
 
 		[ $? -eq 0 ] && echo "NEXT: $0 0 <source> [distro] unpack AND install | $0 1 <source> just unpacks the archive | $0 3 ..."
@@ -330,9 +330,9 @@ case "${mode}" in
 		dqb "T=-1 K (Eugen K.)"
 		csleep 1
 
-		${uom} ${dir}
+		${uom} ${CONF_dir}
 		csleep 1
-		${som} | grep ${dir}
+		${som} | grep ${CONF_dir}
 
 		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh maybe | sleep \$delay;ifup \$iface;changedns if necessary"
 		#mode=-3
@@ -453,10 +453,10 @@ esac
 cd ${olddir}
 #ettei umount unohdu 
 
-if [ -v part ] || [ -v dir ] ; then
+if [ -v part ] || [ -v CONF_dir ] ; then
 	echo "REMEMBER 2 UNM0UNT TH3S3:"
 	[ -z ${part} ] || grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan?
-	[ -z ${dir} ] || grep ${dir} /proc/mounts
+	[ -z ${CONF_dir} ] || grep ${CONF_dir} /proc/mounts
 fi
 
 ${scm} 0755 $0
