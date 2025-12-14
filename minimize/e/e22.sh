@@ -253,7 +253,7 @@ function e22_settings() {
 	csleep 1
 }
 
-function e22_home() { #131225:profiiliasiat jo kunnossa vai ei?
+function e22_home() { #141225:profiiliasiat vaihgeessa
 	dqb "e22_home ${1} , ${2} , ${3}  "
 
 	[ -z ${1} ] && exit 67
@@ -283,16 +283,16 @@ function e22_home() { #131225:profiiliasiat jo kunnossa vai ei?
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 	for t in $(find ~ -type f -name 'merd2.sh') ; do ${srat} -rvf ${1} ${t} ; done
 
-	#TODO:wttuun tämnä blokki kohta, ehkä seur myös
-	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
-	csleep 1
-	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*' | grep -v pulse) ; do ${srat} -rvf ${1} ${t} ; done  
-	csleep 1
-
-	#131225:tuleeko mukaan vai ei? toimiiko sisältö vai ei?
-	t=$(${srat} -tf ${1} | grep fediverse.tar | wc -l)
-	[ ${t} -lt 1 ] && exit 72
-	csleep 100
+#	#VAIH:wttuun tämnä blokki kohta, ehkä seur myös
+#	dqb "find -max-depth 1 ~ -type f -name '*.tar*'"
+#	csleep 1
+#	for t in $(find ~ -maxdepth 1 -type f -name '*.tar*' | grep -v pulse) ; do ${srat} -rvf ${1} ${t} ; done  
+#	csleep 1
+#
+#	#131225:tuleeko mukaan vai ei? toimiiko sisältö vai ei?
+#	t=$(${srat} -tf ${1} | grep fediverse.tar | wc -l)
+#	[ ${t} -lt 1 ] && exit 72
+#	csleep 100
 
 	dqb "B"
 	csleep 1
