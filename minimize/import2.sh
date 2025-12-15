@@ -11,6 +11,7 @@ d0=$(pwd)
 d=${d0}/${distro}
 
 #HUOM.121225:edelleenkin wanha reject_pkgs jyrää uuden, voisiko jtain tehdä?
+#TODO:muista kopsata tikulle/kiekoille se uudempi päivityspak jotta testit
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -75,21 +76,13 @@ fi
 #-1 ja 2 OK
 #... siinä ne oleellisimmat tapaukset
 #141225:q ja r eivät toimi kunnolla tällöin
+#3 toimi sqroot-ympäristösäs ok pl ilmeinen
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	debug=1
 	dqb "FALLBACK"
-
-	#nbämä 2 juuri ennen part3(), mjien alustuksen jälkeen?
-	function check_binaries() {
-		dqb "imp2.check1"
-	}
-
-	function check_binaries2() {
-		dqb "imp2.check2"
-	}
 
 	if [ -f /.chroot ] ; then
 		odio=""
@@ -106,11 +99,19 @@ else
 	som=$(${odio} which mount)
 	uom=$(${odio} which umount)
 
+	function check_binaries() {
+		dqb "imp2.check1"
+	}
+
 	#VAIH:jatkossa odion:n ymppääminen mkt-uom tähän , paikallisten check_bin() - fktioiden kautta?
 	#... se sqr00t-ymp myls testattava sen jälkeen että miten toimii siellä
 	som="${odio} ${som}"
 	uom="${odio} ${uom}"
 	srat="${odio} ${srat}"
+
+	function check_binaries2() {
+		dqb "imp2.check2"
+	}
 
 	function part3() {
 		dqb "imp2.part3 :NOT SUPPORTED"
@@ -260,8 +261,9 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
-##TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
+#TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #141222:profiilin importoinnin ongelmien syy saattaut selvitä, tietty tap lkukuunottamatta ao. fktio toimii ok
+#olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
@@ -277,31 +279,38 @@ function tpr() {
 	if [ ! -x ${1}/profs.sh ] ; then
 		dqb "CANNOT INCLUDE PROFS.HS"
 		dqb "$0 1 \$srcfile | chmod +x profs.sh ?"
-		exit 25
+		exit 15
 	fi
 
 	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
 	. ${1}/profs.sh
-	[ $? -gt 0 ] && exit 33
+	[ $? -gt 0 ] && exit 16
 
 	dqb "INCLUDE OK"
 	csleep 1
+
 	local q
+	local r
 	q=$(mktemp -d)
+	[ $? -gt 0 ] && exit 17
 
 	dqb "JUST BEFOIRE TAR"
 	#jos vielä härdelliä niin keskeytetään jos ei fediversestä löydä prefs.js
-	${srat} -tf ${1}/fediverse.tar
+	r=$(${srat} -tf ${1}/fediverse.tar | grep prefs.js | wc -l)
+	[ ${r} -gt 0 ] || exit 18
 	csleep 5
+
 	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/fediverse.tar
-	echo $?
+	[ $? -gt 0 ] && exit 19
 	csleep 5
 
 	dqb "JUST BEFORE impo_prof"
-	csleep 1
+	csleep 5
 
+	#täössökö menee pieleen? vissiin
 	imp_prof esr ${n} ${q}
-	csleep 1
+	dqb $?
+	csleep 5
 
 	dqb "UP1R D0N3"
 	csleep 1
@@ -368,17 +377,13 @@ dqb "srcfile=${srcfile}"
 csleep 1
 
 case "${mode}" in
-	r) #141225:testattava taas
-		[ -d ${srcfile} ] || exit 22
-		${srat} -C ~ -jxf ~/config.tar.bz2
-		tpr ${srcfile}
-	;;
-	1) #121225;testailtru, vissiin toimii
+	1) #151225:toimii
+	#TODO:jos CONF_testgris asetettu ni / tilalle, tai siinä on kyllä juttuja... chroot (kehitysymp) parempi
 		common_part ${srcfile} ${d} /
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
-	0|3) #121225:case 3 toimii edelleen, luulisin
+	0|3) #151225:case 3 toimii edelleen, myös sqroot alla
 		#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)
 		#TODO:selvitä, toimiiko case 0? jnpp
 
@@ -405,8 +410,13 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
+	r) #141225:muuten ok mutta x
+		[ -d ${srcfile} ] || exit 22
+		${srat} -C ~ -jxf ~/config.tar.bz2
+		tpr ${srcfile}
+	;;
 	q)
-		#141225:josko taas toimisi?
+		#141225:josko taas toimisi
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
@@ -418,8 +428,11 @@ case "${mode}" in
 		tpr ${d0}
 	;;
 	k)
+		#151225:toimii
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
 		dqb "# . \ import2.sh k \ pad -v"
+
+		#TODO:sqroot alta pad-hmiston siivoilu?
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"

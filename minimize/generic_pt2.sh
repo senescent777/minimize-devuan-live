@@ -83,6 +83,7 @@ dqb "mode=${mode} "
 sleep 1
 csleep 1
 
+#151225:sqroot alla osasi poistella paketteja tämä skripti
 if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
@@ -201,7 +202,7 @@ function t2pc() {
 
 	#121225:pitäisi se validi xorg.conf ennenq dumppaa:slim
 
-	#071225:pitäisikö tälle ehdolle tehdä jotain? sen uuden .iso:n kanssa kun sitä temppuilua
+	#071225:pitäisikö tälle ehdolle tehdä jotain?  uuden .iso:n kanssa kun sitä temppuilua
 
 	if [ -f /.chroot ] ; then
 		dqb "SHOULD ${sharpy} slim*"

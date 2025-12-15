@@ -108,16 +108,14 @@ function el_loco() {
 	csleep 1
 
 	if [ ${2} -lt 1 ] ; then #tämä blokki konffaamisen jälkeen+toiminaat?
+		#${svm} /etc/default/locale /etc/default/locale.ÅLD		
 		fasdfasd /etc/default/locale
 		csleep 1
 
 		#menisikö vaikka näin?
 		#env | grep LC >> /etc/default/locale
 		#env | grep LA >> /etc/default/locale
-
-		#${odio} grep -v '#' /etc/default/locale.tmp >> /etc/default/locale
-		#[ $? -eq 0 ] && ${smr} /etc/default/locale.tmp #uutena, pois jos ongelmia
-		
+	
 		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
 		#jos riittäisi 10 riviä
 		csleep 1
@@ -142,6 +140,12 @@ function el_loco() {
 		export LC_TIME
 		export LANGUAGE
 		export LC_ALL
+
+		if [ ${debug} -gt 0 ] ; then
+			env | grep LC
+			env | grep LA
+			csleep 5
+		fi
 #	fi
 }
 
@@ -160,10 +164,10 @@ fi
 csleep 1
 
 [ ${c13} -lt 1 ] && c14=1
-el_loco ${c14} 1 #${c13}
+el_loco ${c14} 1 #${c13} #joko jo c13 takaisin?
 #=========================================================================================
 
-if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
+if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then 
 	dqb "R (in 2 secs)"
 	csleep 1
 	${odio} passwd
@@ -201,8 +205,9 @@ csleep 5
 
 #141225:mitäjos common_lib ei ajokelpoinen? osaako imp2 toimia oikein silloin?
 if [ ! -f /.chroot ] ; then
-	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} "
-	${d0}/import2.sh r ${d0} -v
+	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
+	${scm} 0555 ${d0}/common_lib.sh #toistaiseksi tässä kunnes... Jotain
+	${d0}/import2.sh r ${d0} #-v
 	#2. ja 3. param. turhia?
 fi
 

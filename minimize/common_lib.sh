@@ -53,7 +53,7 @@ fi
 itni
 
 function fix_sudo() {
-	dqb "fix_sud0.pt0"
+	dqb "common_lib.fix_sud0.pt0"
 
 	#dqb "f_s_PART2"
 
@@ -246,7 +246,12 @@ function psqa() {
 		dqb "S(${1})"
 		csleep 1
 
-		if [ -x ${gg} ] && [ -v TARGET_Dkarray ] ; then
+		[ -v gg ] || dqb "CANN0T BER1FY S1GNATUR3S.1"
+		[ -z ${gg} ] && dqb "CANN0T BER1FY S1GNATUR3S.2"
+		#[ -x ${gg} ] || dqb "CANN0T BER1FY S1GNATUR3S.3"			
+		csleep 1
+
+		if [ -x ${gg} ] && [ -v TARGET_Dkarray ] ; then #jälk ehto ulompaan if-blokkiin?
 			dqb "${gg} --verify ./sha512sums.txt.sig "
 			csleep 1
 
@@ -284,7 +289,7 @@ function psqa() {
 		#131225:josko kokeiltu tarpeeksi
 		#if [ ${debug} -eq 0 ] ; then
 			if [ $? -eq 0 ] ; then
-				dqb "KO"
+				dqb "Q.KO"
 			else
 				dqb "export2 f ?"
 				exit 94
@@ -503,7 +508,7 @@ function common_tbls() {
 	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
 	
 	csleep 1
-	${scm} 0755 /etc/iptables
+	${scm} 0755 /etc/iptables 
 
 	${odio} update-alternatives --set iptables /usr/sbin/iptables-legacy
 	${odio} update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
@@ -578,7 +583,8 @@ function check_binaries() {
 	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
 	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
 
-	#HUOM.111225:mennäänkö tähän sq-chr-ymp.äristössä?
+	#HUOM.111225:mennäänkö tähän sq-chr-ymp.äristössä? TODO:testaa taas
+	#HUOM.141225:josko kiekolle mukaan gpg, tämän if-blokin takia
 	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 		[ -z ${1} ] && exit 99
 		dqb "-d ${1} existsts?"
@@ -674,7 +680,7 @@ function check_binaries2() {
 	fib="${odio} ${sa} --fix-broken install "
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
-	smd="${odio} ${smd}" #käyttöön
+	smd="${odio} ${smd}"
 
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
@@ -775,7 +781,7 @@ function pre_enforce() {
 	csleep 1
 	[ -f ${q}/meshuggah ] || exit 33
 
-	if [ ! -v testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
+	if [ ! -v CONF_testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
 		dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 
 		if [ ! -d /opt/bin ] ; then
@@ -794,6 +800,7 @@ function pre_enforce() {
 		mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 		csleep 1
 	else 
+		#141225:voi tulla turhaksi jatkossa tämä else-haara
 		if [ -v CB_LIST2 ] ; then
 			echo "$(whoami) localhost=NOPASSWD: ${CB_LIST2} " >> ${q}/meshuggah
 		fi
@@ -841,7 +848,7 @@ function pre_enforce() {
 
 		${scm} a+w /etc/fstab
 		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
-		${odio} echo "#/dev/disk/by-uuid/${part1} ${CONF_dir2} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+		${odio} echo "#/dev/disk/by-uuid/${CONF_part1} ${CONF_dir2} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		${scm} a-w /etc/fstab
 
 		csleep 2
@@ -1219,7 +1226,11 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		csleep 1
 		
 		for s in ${PART175_LIST} ; do 
-			#271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa, toimiva konf äksään löydettävä (TODO)
+			#271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa, toimiva konf äksään löydettävä (VAIH)
+			#151225 taisi äksä taas toimia joten uudemman kerran vääntämään
+			dqb "#CONF_dm:n vaihto + "exp2 e" uudestaan ja åaketin asentelu sqroot sisälle jnpp"
+			csleep 4
+		
 			dqb "processing ${s}"
 			${sharpy} ${s}*
 			csleep 1

@@ -211,8 +211,6 @@ function e22_config1() {
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 #nuo muutokset oikeastaan tdstoon profs.sh
-#
-#VAIH:TAASKO selvittäen että toimiiko tai siis
 
 function e22_settings() {
 	dqb "e22_settings ${1},  ${2}"
@@ -253,7 +251,7 @@ function e22_settings() {
 	csleep 1
 }
 
-function e22_home() { #141225:profiiliasiat vaihgeessa
+function e22_home() { #151225:josko prof.asiat taas tilap. kunn.
 	dqb "e22_home ${1} , ${2} , ${3}  "
 
 	[ -z ${1} ] && exit 67
@@ -274,7 +272,6 @@ function e22_home() { #141225:profiiliasiat vaihgeessa
 		e22_config1 ~
 		${smr} ~/fediverse.tar
 		e22_settings ${2}/..
-		#VAIH:josko jakaisi fktion kahtia
 	else
 		dqb "PUIG DESTRÖYERR b666"
 	fi
@@ -291,7 +288,6 @@ function e22_home() { #141225:profiiliasiat vaihgeessa
 	${srat} -rvf ${1} ${2}/../fediverse.tar	
 	csleep 5
 
-	#131225:tuleeko mukaan vai ei? toimiiko sisältö vai ei?
 	t=$(${srat} -tf ${1} | grep fediverse.tar | wc -l)
 	[ ${t} -lt 1 ] && exit 72
 	csleep 10
@@ -307,7 +303,8 @@ function e22_home() { #141225:profiiliasiat vaihgeessa
 	csleep 2
 
 	dqb "AUTOMAGICAL CONFIGURATION IS A DISEASE"
-#	dqb "Xorg -config ~/xorg.conf ?"
+	dqb "Xorg -config ~/xorg.conf TODO?"
+	for f in $(find / -type f -name 'xorg.conf*') ; do ${srat} -rvf ${1} ${f} ; done 	
 	csleep 10
 
 	dqb "e22_home d0n3"
@@ -430,7 +427,7 @@ function e22_elocal() { #091225:tehnee paketin ok
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 
-	dqb "TODO: find / -type f -name 'xorg.xonf*' + tar -rvf ${1} ..."
+	#tässä se äksän konffi mukaan vai e22_home():ssa?
 
 	dqb "e22_elocal done"
 	csleep 1

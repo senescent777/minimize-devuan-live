@@ -3,7 +3,7 @@ enforce=
 debug=0
 dnsm=0
 #dsn="INSERT LIST OF DNS/DOT SERVERS HERE"
-changepw=0
+CONF_changepw=0
 #
 #pkgs
 CONF_pkgdir=/var/cache/apt/archives
@@ -24,8 +24,8 @@ LC_ALL=en_US.UTF-8
 #/loka
 #
 BASEURL="github.com/senescent777/"
-#testgris ja .chroot voisi korvata yhdellä mjalla
-testgris=/SMTH1NG
+#CONF_testgris ja .chroot voisi korvata yhdellä mjalla?
+CONF_testgris=/SMTH1NG
 #
 #krypto
 #nimeäimnen jos loogisemmin? pubk und ksk ?

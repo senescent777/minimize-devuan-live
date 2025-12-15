@@ -190,33 +190,41 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#101225:edelleen tekee paketin (mod /tmp-hmiston  kiukuttelut)
-		#TODO:jospa suoraan tar -jcvf ni ei tartte 2 tdston kanssa säätää
-		#... samassa yhteydessä find-jutut laitettava uusiksi
+		#151225:testailu vaiheessa
+#		#101225:edelleen tekee paketin (mod /tmp-hmiston  kiukuttelut)
+#		#VAIH:jospa suoraan tar -jcvf ni ei tartte 2 tdston kanssa säätää
+#		#... samassa yhteydessä find-jutut laitettava uusiksi
 		cd ${d0}
+#
+#		e22_hdr ${tgtfile}.bz3 #juuei
+#		fasdfasd ${tgtfile}
 
-		e22_hdr ${tgtfile}
-		fasdfasd ${tgtfile}
+#		#exit
+#
+#		tcmd=$(which tar)
+#		[ -v CONF_testgris ] && tcmd=${srat} #071225:CONF_testgris- ja .chroot sijaan vain 1 muuttuja jatkossa?
+#
+#		| grep -v 'e/' | grep -v 'olds/') ; do 
+#			${tcmd} -rvf ${tgtfile} ${f}
+#		done
+#
+#		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/' | grep -v 'olds/')  ; do 
+#			${tcmd} -rvf ${tgtfile} ${f}
+#		done
+#
+#		#HUOM.291125:tästä tuli jotain nalkutusta, joskohan jo 301125 kunnossa?
+#		bzip2 -c ${tgtfile} > ${tgtfile}.bz3
+#
+#		#${svm} ${tgtfile}.bz2 ${tgtfile}.bz3
+#		#tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte
+
 		fasdfasd ${tgtfile}.bz3
-		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
-		#exit
+		[ ${debug} -eq 1 ] && ls -las ${tgtfile}*
+		
+		#tuota tdstojen nimeämistä voisi muuttaa jatkossa
+		#josko findin jutut listaan ja tar:ille -T , jatkossa?
+		${srat} -jcvf ${tgtfile}.bz3 ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
 
-		tcmd=$(which tar)
-		[ -v testgris ] && tcmd=${srat} #071225:testgris- ja .chroot sijaan vain 1 muuttuja jatkossa?
-
-		for f in $(find . -type f -name '*.sh' | grep -v 'e/' | grep -v 'olds/') ; do 
-			${tcmd} -rvf ${tgtfile} ${f}
-		done
-
-		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/' | grep -v 'olds/')  ; do 
-			${tcmd} -rvf ${tgtfile} ${f}
-		done
-
-		#HUOM.291125:tästä tuli jotain nalkutusta, joskohan jo 301125 kunnossa?
-		bzip2 -c ${tgtfile} > ${tgtfile}.bz3
-
-		#${svm} ${tgtfile}.bz2 ${tgtfile}.bz3
-		#tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
 		e22_ftr ${tgtfile}.bz3
 		exit
 	;;
@@ -275,9 +283,9 @@ case ${mode} in
 		exit 99
 	;;
 	3|4) 
-	#091225:case 3 tekee toimivan paketin, ainakin kerran teki
-	#131225 case 4:tekee paketin, toimiikin jnkn verran
-	#VAIH:SELVITÄ NYT PRKL SE PROFIILIJUTTU, MIKSEI TULE MUKAAN 666!!!!
+		#091225:case 3 tekee toimivan paketin, ainakin kerran teki
+		#131225 case 4:tekee paketin, toimiikin jnkn verran
+	
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
