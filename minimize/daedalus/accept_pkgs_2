@@ -2,6 +2,7 @@
 perl-modules-*.deb
 #pitäisi jo aiemmin
 #
+#nämä 4 tuosta alta kommentteihn ?
 eudev*.deb
 udev*.deb
 xserver-common*.deb
@@ -15,7 +16,11 @@ perl-base*.deb
 #pitäisi jo aiemmin
 #
 perl*.deb
+#
+#161225:jostain syystä tuo g-man tänään aiuheutti
+git-man*.deb
 git*.deb
+#
 bind9-host*.deb
 bind9-dns*.deb
 dnsutils*.deb

@@ -10,5 +10,6 @@ e2fsprogs
 #seatd
 #081225:poistamisen sijaan pitäisi selvittää miten *äksän libseat-valitukset* taas korjattiinkaan
 #... pienempi vääntö&huuto kenties minimal_liven kanssa (ala suorittaa)
-#lxdm
-#x11-utils
+lxdm
+x11-utils
+#pitäisi selvittää käsipelillä, ilman skriptejä, mitä paketteja käytännössä tarvitaan
