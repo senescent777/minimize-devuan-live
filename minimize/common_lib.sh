@@ -620,7 +620,7 @@ function check_binaries() {
 			#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
 			
 			#common_tbls ${1} ${CONF_dnsm}
-			for p in ${E22GT} ; do efk1 ${1}/${p}*.deb ; done
+			for p in ${E22_GT} ; do efk1 ${1}/${p}*.deb ; done
 			other_horrors
 
 			ipt=$(${odio} which iptables)
