@@ -57,6 +57,8 @@ function fix_sudo() {
 
 	#dqb "f_s_PART2"
 
+	#dqb "f_s_PART2"
+
 	${sco} -R 0:0 /etc/sudoers.d
 	${scm} 0440 /etc/sudoers.d/*
 	${sco} -R 0:0 /etc/sudo*
@@ -766,6 +768,33 @@ function reqwreqw() {
 	dqb "rewqreqw(${1} ) DONE"
 }
 
+function fasdfasd() {
+	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
+	[ -z ${1} ] && exit 99
+
+	dqb "SUN LIIRUM SUN LAARUM ${1}"
+	dqb "sco= ${sco}"
+	dqb $(whoami)
+	csleep 1
+
+	${odio} touch ${1}
+	${sco} $(whoami):$(whoami) ${1}
+	${scm} 0644 ${1}
+}
+
+#olisiko jokin palikka jo aiemmin?
+function reqwreqw() {
+	dqb "rewqreqw(${1} )"
+	[ -z ${1} ] && exit 99
+	#[ -f ${1} ] && exit 100 #takaisn josqs
+	
+	csleep 1
+	${sco} 0:0 ${1}
+	${scm} a-w ${1}
+
+	dqb "rewqreqw(${1} ) DONE"
+}
+
 function pre_enforce() {
 	dqb "common_lib.pre_enforce ${1} "
 
@@ -1124,6 +1153,7 @@ function dis() {
 }
 
 function part076() {
+	#081225:pitäisiköhän param tarkistaa? (	TODO)
 	dqb "FART076 ${1}"
 	[ -z ${1} ] && exit 76
 
@@ -1381,6 +1411,7 @@ function gpo() {
 	fi
 
 	for opt in $@ ; do
+		#VAIH:-h,usage() ?
 		case ${opt} in	
 			-v|--v)
 				debug=1

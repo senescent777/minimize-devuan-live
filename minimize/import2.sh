@@ -53,6 +53,7 @@ if [ -f /.chroot ] ; then
 	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
 		tar -jxvf ${f}
 		sleep 1
+		
 		rm ${f}
 		sleep 1
 	done

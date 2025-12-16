@@ -272,6 +272,7 @@ e22_pre1 ${d} ${distro}
 
 e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+#TODO:cleanpkgs-jutut tähän jatkossa?
 
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}

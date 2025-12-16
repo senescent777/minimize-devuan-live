@@ -25,6 +25,9 @@ function e22_hdr() {
 	${srat} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 
+	${srat} -cvf ${1} ./rnd
+	[ $? -gt 0 ] && exit 60
+	
 	[ ${debug} -eq 1 ] && ls -las ${1}
 	csleep 2
 
@@ -141,7 +144,7 @@ function e22_pre2() { #091225:vissiin toimii koska "exp2 3"
 	#/e/n alihakemistoihin +x ?
 	#/e/wpa kokonaan talteen? /e/n kokonaan talteen?
 
-	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then
+	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then #NYT JOSPRKL BUGI LÖYTYI??? ei vissiin ainoa
 		dqb "PRKL"
 
 		${odio} /opt/bin/changedns.sh ${par4} ${ortsac}
@@ -704,6 +707,11 @@ function e22_tblz() { #091225 toimi ainakin kerran
 	#message() tähän?
 	tpc7	#jotain excaliburiin liittyvää
 	aswasw ${2}
+	
+	E22_GT="libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11"
+	E22_GT="${E22_GT} iptables"
+	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
+	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
 
 	#kts check_binaries()
 	${shary} ${E22_GT} 
