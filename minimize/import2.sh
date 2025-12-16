@@ -53,7 +53,6 @@ if [ -f /.chroot ] ; then
 	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
 		tar -jxvf ${f}
 		sleep 1
-		
 		rm ${f}
 		sleep 1
 	done
@@ -79,6 +78,7 @@ fi
 #141225:q ja r eivät toimi kunnolla tällöin
 #3 toimi sqroot-ympäristösäs ok, pl ilmeinen puute
 
+#TODO:jos ei muuten ala bugi löytyä ni chmod a-x common_lib ja sit jotain
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -166,7 +166,7 @@ dqb "L0G"
 
 ocs tar
 dqb "srat= ${srat}"
-csleep 1
+csleep 10
 dqb "LHP"
 
 if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
@@ -175,6 +175,7 @@ else
 	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE"
 fi
 
+#TODO:debug (jkokun qsee 161225
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
@@ -191,18 +192,19 @@ function common_part() {
 	csleep 1
 	cd /
 
-#	local r
-#	r=0
-#
+	local r
+	r=0
+
 	#VAIH:näille main urputusta jos ei .sig tarkistus onnistu (jtnkn toisin kuitenkin)
 	if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
-		#dqb "A"
+		dqb "A"
 
-		if [ ! -z ${gg} ] ; then #sen array:n olamessaolon testi tähän?
-			#dqb "B"
+		#sen array:n olamessaolon testi tähän?
+		if [ ! -z ${gg} ] ; then
+			dqb "B"
 
 			if [ -x ${gg} ] ; then
-				#dqb "C"
+				dqb "C"
 
 				dqb " ${gg} --verify ${1}.sha.sig "
 				${gg} --verify ${1}.sha.sig
@@ -211,7 +213,7 @@ function common_part() {
 		fi
 	fi
 
-#	[ ${r} -eq 0 ] || exit ${r}
+	[ ${r} -eq 0 ] || exit ${r}
 	csleep 3
 
 	#kts. common_lib.psqa()
@@ -226,10 +228,11 @@ function common_part() {
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	csleep 2
+	dqb "srat= ${srat}"	
+	csleep 10
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
+	
 	csleep 2
-
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36
 
@@ -436,22 +439,15 @@ case "${mode}" in
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
 		dqb "# . \ import2.sh k \ pad -v"
 
-		#TODO:sqroot alta pad-hmiston siivoilu?
+		#sqroot alta pad-hmiston siivoilu? ei tämän skriptin asioita
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
-		#ridk=${srcfile}
 
-		if [ -v gg ]  ; then #&& [ -v TARGET_Dkarray ]
-			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then #menisikö näin
+		if [ -v gg ]  ; then
+			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 				dqb "NOP"
 				csleep 1
-
-				#VAIH:jatkossa jos julkisilla avaimilla olisi jokin pääte
-				#for k in ${TARGET_Dkarray} ; do
-				#	dqb "dbg: ${gg} --import ${ridk}/${k}"
-				#	${gg} --import ${ridk}/${k}
-				#done
 
 				dqb "${gg} --import ${srcfile}/*.gpg soon"
 				csleep 1

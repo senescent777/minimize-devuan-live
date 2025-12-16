@@ -6,7 +6,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#TODO:tämän tiedoston siirto toiseen repositoryyn koska syyt (siis siihen samaan missä profs.sh)
+#TODO:tämän tiedoston siirto toiseen repositoryyn koska syyt? (siis siihen samaan missä profs.sh)
 
 if [ -f /.chroot ] ; then
 	odio=""
@@ -57,8 +57,6 @@ function fix_sudo() {
 
 	#dqb "f_s_PART2"
 
-	#dqb "f_s_PART2"
-
 	${sco} -R 0:0 /etc/sudoers.d
 	${scm} 0440 /etc/sudoers.d/*
 	${sco} -R 0:0 /etc/sudo*
@@ -83,6 +81,7 @@ function fix_sudo() {
 	#HUOM.29925:pidetään nyt varm. vuoksi "ch m00d abcd \u5 R \ bin \ 5 ud0 *" poissa tstä
 }
 
+#TODO:debug
 function other_horrors() {	
 	dqb "other_horrors"
 
@@ -103,6 +102,7 @@ scm="${odio} ${scm} "
 fix_sudo
 other_horrors
 
+#TODO:debug
 #HUOM.111225:toimiiko oikein sq-chroot-ympäristössä?
 function ocs() {
 	dqb "ocs ${1}  "
@@ -119,6 +119,7 @@ function ocs() {
 	fi
 }
 
+#TODO:debug
 #... miten (LC_juttujen) aikainen asettaminen muuten vaikuttaa el_loco():on ?
 function check_bin_0() {
 	dqb "check_bin_0"
@@ -231,78 +232,87 @@ function message() {
 	sleep 1
 }
 
-function psqa() {
-	dqb "Q ${1}"
-	csleep 1
-	[ -z ${1} ] && exit 55
-	[ -d ${1} ] || exit 54
-
-	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
-	csleep 1
-
-	if [ -s ${1}/sha512sums.txt.sig ] ; then
-		dqb "S(${1})"
-		csleep 1
-
-		[ -v gg ] || dqb "CANN0T BER1FY S1GNATUR3S.1"
-		[ -z ${gg} ] && dqb "CANN0T BER1FY S1GNATUR3S.2"
-		#[ -x ${gg} ] || dqb "CANN0T BER1FY S1GNATUR3S.3"			
-		csleep 1
-
-		if [ -x ${gg} ] ; then # && [ -v TARGET_Dkarray ] jälk ehto ulompaan if-blokkiin?
-			dqb "${gg} --verify ./sha512sums.txt.sig "
-			csleep 1
-
-			[ ${debug} -eq 1 ] && pwd
-			csleep 1
-
-			${gg} --verify ${1}/sha512sums.txt.sig
-			[ $? -eq 0 ] || dqb "SHOULD imp2 k \$dir !!!"				
-			csleep 1
-		else
-			dqb "COULD NOT VERIFY SIGNATURES"
-		fi
-	else
-		dqb "NO .txt.sig AVAILABLE"
-	fi
-
-	csleep 2
-
-	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
-		dqb "R ${1}"		
-		csleep 1
-
-		local p
-		p=$(pwd)
-		cd ${1}
-
-		if [ -v SOME_CONFIG_OPT ] ; then	
-			dpkg -V
-			sleep 1
-		fi
-
-		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
-		${sah6} -c sha512sums.txt --ignore-missing
-
-		#131225:josko kokeiltu tarpeeksi
-		#if [ ${debug} -eq 0 ] ; then
-			if [ $? -eq 0 ] ; then
-				dqb "Q.KO"
-			else
-				dqb "export2 f ?"
-				exit 94
-			fi
-		#fi
-
-		cd ${p}
-	else
-		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
-	fi
-
-	csleep 2
-}
+#161225:tämäkö se qsee?
+#function psqa() {
+#	dqb "Q ${1}"
+#	csleep 1
+#	[ -z ${1} ] && exit 55
+#	[ -d ${1} ] || exit 54
+#
+#	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
+#	csleep 1
+#
+#	if [ -s ${1}/sha512sums.txt.sig ] ; then
+#		dqb "S(${1})"
+#		csleep 1
+#
+#		[ -v gg ] || dqb "CANN0T BER1FY S1GNATUR3S.1"
+#		[ -z ${gg} ] && dqb "CANN0T BER1FY S1GNATUR3S.2"
+#		#[ -x ${gg} ] || dqb "CANN0T BER1FY S1GNATUR3S.3"			
+#		csleep 1
+#
+#		if [ -x ${gg} ] ; then #pitäisikö testata dgdts-hmiston sisltöä tai .gnupg?
+#			dqb "${gg} --verify ./sha512sums.txt.sig "
+#			csleep 1
+#
+#			[ ${debug} -eq 1 ] && pwd
+#			csleep 1
+#			${gg} --verify ${1}/sha512sums.txt.sig
+#			#jos taas lukisi sen manuaalin			
+#
+#			if [ $? -eq 0 ]
+#				dqb "KÖ"				
+#			else
+#				dqb "SHOULD imp2 k \$dir !!!"
+#				exit 93
+#			fi
+#				
+#			csleep 1
+#		else
+#			dqb "COULD NOT VERIFY SIGNATURES"
+#		fi
+#	else
+#		dqb "NO .txt.sig AVAILABLE"
+#	fi
+#
+#	csleep 2
+#
+#	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
+#		dqb "R ${1}"		
+#		csleep 1
+#
+#		local p
+#		p=$(pwd)
+#		cd ${1}
+#
+#		if [ -v SOME_CONFIG_OPT ] ; then	
+#			dpkg -V
+#			sleep 1
+#		fi
+#
+#		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
+#		${sah6} -c sha512sums.txt --ignore-missing
+#
+#		#131225:josko kokeiltu tarpeeksi
+#		#if [ ${debug} -eq 0 ] ; then
+#			if [ $? -eq 0 ] ; then
+#				dqb "Q.KO"
+#			else
+#				dqb "export2 f ?"
+#				exit 94
+#			fi
+#		#fi
+#
+#		cd ${p}
+#	else
+#		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
+#	fi
+#
+#	csleep 2
+#}
 
 #not-that-necessary-wrapper-for-psqa()
+#TODO:debug
 function common_pp3() {
 	dqb "common_pp3 ${1}"
 	csleep 1
@@ -333,6 +343,7 @@ function common_pp3() {
 	fi
 }
 
+#TODO:debug
 function efk1() {
 	dqb "efk1 $@"
 	${sdi} $@
@@ -459,84 +470,87 @@ function fromtend() {
 #... mutta kehitysymp kanssa toimii, luulisin , livenä myös121225 ainakin kerran
 #
 #P.S. this function created to avoid a chicken-and-egg-situation
-function common_tbls() {
-	dqb "COMMON TABLESD $1, $2"
-	csleep 1
+#
+#TODO:debug
+#function common_tbls() {
+#	dqb "COMMON TABLESD $1, $2"
+#	csleep 1
+#
+#	[ y"${1}" == "y" ] && exit 33	
+#	[ -d ${1} ] || exit 45
+#	[ -z ${2} ] && exit 67
+#
+#	local d2
+#	d2=$(echo ${2} | tr -d -c 0-9)
+#
+#	dqb "PARAMS_OK"
+#	csleep 1
+#	psqa ${1}
+#
+#	#uutena 251025 syystä excaLIBUR/ceres, pois jos qsee
+#	efk1 ${1}/isc-dhcp*.deb
+#	csleep 1
+#
+#	efk1 ${1}/libnfnet*.deb
+#	csleep 1
+#
+#	efk1 ${1}/libnetfilter*.deb
+#	csleep 1
+#
+#	fromtend ${1}/libip*.deb
+#	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
+#
+#	efk1 ${1}/libxtables*.deb
+#	csleep 1
+#
+#	efk1 ${1}/libnftnl*.deb 
+#	csleep 1
+#
+#	efk1 ${1}/libnl-3-200*.deb
+#	csleep 1
+#
+#	efk1 ${1}/libnl-route*.deb 
+#	csleep 1
+#
+#	efk1 ${1}/libnl-*.deb 
+#	csleep 1
+#
+#	fromtend ${1}/iptables_*.deb
+#	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
+#	
+#	csleep 1
+#	${scm} 0755 /etc/iptables 
+#
+#	${odio} update-alternatives --set iptables /usr/sbin/iptables-legacy
+#	${odio} update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
+#	
+#	local s
+#	local t
+#
+#	s=$(${odio} which iptables-restore)
+#	t=$(${odio} which ip6tables-restore)
+#
+#	if [ ! -z ${d2} ] ; then
+#		${odio} ${s} /etc/iptables/rules.v4.${d2}
+#		${odio} ${t} /etc/iptables/rules.v6.${d2}
+#		csleep 1
+#	fi
+#
+#	fromtend ${1}/netfilter-persistent*.deb
+#	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
+#
+#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables-persistent=1.0.20
+#	fromtend ${1}/iptables-*.deb
+#	[ $? -eq 0 ] && ${NKVD} ${1}/iptables-*.deb
+#
+#	csleep 1
+#	${scm} 0550 /etc/iptables	
+#
+#	echo "common_tblz d0n3"
+#	csleep 1
+#}
 
-	[ y"${1}" == "y" ] && exit 33	
-	[ -d ${1} ] || exit 45
-	[ -z ${2} ] && exit 67
-
-	local d2
-	d2=$(echo ${2} | tr -d -c 0-9)
-
-	dqb "PARAMS_OK"
-	csleep 1
-	psqa ${1}
-
-	#uutena 251025 syystä excaLIBUR/ceres, pois jos qsee
-	efk1 ${1}/isc-dhcp*.deb
-	csleep 1
-
-	efk1 ${1}/libnfnet*.deb
-	csleep 1
-
-	efk1 ${1}/libnetfilter*.deb
-	csleep 1
-
-	fromtend ${1}/libip*.deb
-	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
-
-	efk1 ${1}/libxtables*.deb
-	csleep 1
-
-	efk1 ${1}/libnftnl*.deb 
-	csleep 1
-
-	efk1 ${1}/libnl-3-200*.deb
-	csleep 1
-
-	efk1 ${1}/libnl-route*.deb 
-	csleep 1
-
-	efk1 ${1}/libnl-*.deb 
-	csleep 1
-
-	fromtend ${1}/iptables_*.deb
-	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
-	
-	csleep 1
-	${scm} 0755 /etc/iptables 
-
-	${odio} update-alternatives --set iptables /usr/sbin/iptables-legacy
-	${odio} update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
-	
-	local s
-	local t
-
-	s=$(${odio} which iptables-restore)
-	t=$(${odio} which ip6tables-restore)
-
-	if [ ! -z ${d2} ] ; then
-		${odio} ${s} /etc/iptables/rules.v4.${d2}
-		${odio} ${t} /etc/iptables/rules.v6.${d2}
-		csleep 1
-	fi
-
-	fromtend ${1}/netfilter-persistent*.deb
-	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
-
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables-persistent=1.0.20
-	fromtend ${1}/iptables-*.deb
-	[ $? -eq 0 ] && ${NKVD} ${1}/iptables-*.deb
-
-	csleep 1
-	${scm} 0550 /etc/iptables	
-
-	echo "common_tblz d0n3"
-	csleep 1
-}
-
+#TODO:debug
 function cefgh() {
 	[ -z ${1} ] && exit 66
 	[ -d ${1} ] || exit 67
@@ -545,6 +559,7 @@ function cefgh() {
 	efk2 ${1}/f.tar ${1}
 }
 
+#TODO:debug
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135 ${1} "
 	csleep 1
@@ -581,7 +596,7 @@ function check_binaries() {
 	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
 	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
 
-	#HUOM.111225:mennäänkö tähän sq-chr-ymp.äristössä? 
+	#HUOM.111225:mennäänkö tähän sq-chr-ymp.äristössä? nykyään joo
 	#VAIH:testaa taas
 	#HUOM.141225:josko kiekolle mukaan gpg, ao. if-blokin takia
 
@@ -654,6 +669,7 @@ function check_binaries() {
 	csleep 1
 }
 
+#TODO:debug
 function check_binaries2() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2"
 	csleep 1
@@ -739,33 +755,6 @@ function dinf() {
 	#echo " /sbin/dhclient-script " >> ${1}
 	#cat ${1}
 	#exit
-}
-
-function fasdfasd() {
-	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
-	[ -z ${1} ] && exit 99
-
-	dqb "SUN LIIRUM SUN LAARUM ${1}"
-	dqb "sco= ${sco}"
-	dqb $(whoami)
-	csleep 1
-
-	${odio} touch ${1}
-	${sco} $(whoami):$(whoami) ${1}
-	${scm} 0644 ${1}
-}
-
-#olisiko jokin palikka jo aiemmin?
-function reqwreqw() {
-	dqb "rewqreqw(${1} )"
-	[ -z ${1} ] && exit 99
-	#[ -f ${1} ] && exit 100 #takaisn josqs
-	
-	csleep 1
-	${sco} 0:0 ${1}
-	${scm} a-w ${1}
-
-	dqb "rewqreqw(${1} ) DONE"
 }
 
 function fasdfasd() {
@@ -1153,7 +1142,6 @@ function dis() {
 }
 
 function part076() {
-	#081225:pitäisiköhän param tarkistaa? (	TODO)
 	dqb "FART076 ${1}"
 	[ -z ${1} ] && exit 76
 
@@ -1411,7 +1399,6 @@ function gpo() {
 	fi
 
 	for opt in $@ ; do
-		#VAIH:-h,usage() ?
 		case ${opt} in	
 			-v|--v)
 				debug=1

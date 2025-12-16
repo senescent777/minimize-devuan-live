@@ -1,6 +1,3 @@
-#jatkossa pkgd -> CONF_pkgd konftdstossa
-#[ -v CONF_pkgdir ] || CONF_pkgdir=${pkgdir}
-
 dqb "${sco} -Rv _apt:root ${CONF_pkgdir}/partial"
 csleep 1
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
@@ -25,9 +22,6 @@ function e22_hdr() {
 	${srat} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 
-	${srat} -cvf ${1} ./rnd
-	[ $? -gt 0 ] && exit 60
-	
 	[ ${debug} -eq 1 ] && ls -las ${1}
 	csleep 2
 
@@ -144,7 +138,7 @@ function e22_pre2() { #091225:vissiin toimii koska "exp2 3"
 	#/e/n alihakemistoihin +x ?
 	#/e/wpa kokonaan talteen? /e/n kokonaan talteen?
 
-	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then #NYT JOSPRKL BUGI LÖYTYI??? ei vissiin ainoa
+	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then
 		dqb "PRKL"
 
 		${odio} /opt/bin/changedns.sh ${par4} ${ortsac}
@@ -707,11 +701,6 @@ function e22_tblz() { #091225 toimi ainakin kerran
 	#message() tähän?
 	tpc7	#jotain excaliburiin liittyvää
 	aswasw ${2}
-	
-	E22_GT="libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11"
-	E22_GT="${E22_GT} iptables"
-	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
-	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
 
 	#kts check_binaries()
 	${shary} ${E22_GT} 
@@ -761,7 +750,6 @@ function e22_dm() {
 }
 
 #TODO:ntp-jutut takaisin josqs?
-#151225:tällä fktiolla tulisi olla vain 1 param qnnes 2
 #091225:taitaa toimia
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  "
@@ -862,7 +850,7 @@ function e22_dblock() { #091225:taitaa toimia
 	dqb "e22dblock DONE"
 }
 
-function e22_profs() { #091225:tekee paketin missä validia sisältöä, kai (pitäisiköhän taas nimet uudestaan?)
+function e22_profs() { #091225:tekee paketin missä validia sisältöä, kai (pitäisiköhän taas nimet fktio uudestn?)
 	dqb "e22_profs ${1} ${2}"
 
 	[ -z ${1} ] && exit 99
@@ -917,7 +905,8 @@ function e22_upgp() {
 	
 	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta, onko?
 	${sag} --no-install-recommends upgrade -u
-	echo $? #HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
+	echo $?
+	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
 	csleep 1
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb

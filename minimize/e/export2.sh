@@ -192,41 +192,18 @@ case ${mode} in
 	c)
 		#TODO:suoraan tgtfile eik tgtfile.bz3
 		#151225:testailu vaiheessa (tauhkat voisi jo pois)
-#		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
+		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
 		cd ${d0}
-#
-#		e22_hdr ${tgtfile}.bz3 #juuei
-#		fasdfasd ${tgtfile}
-
-#		#exit
-#
-#		tcmd=$(which tar)
-#		[ -v CONF_testgris ] && tcmd=${srat} #071225:CONF_testgris- ja .chroot sijaan vain 1 muuttuja jatkossa?
-#
-#		| grep -v 'e/' | grep -v 'olds/') ; do 
-#			${tcmd} -rvf ${tgtfile} ${f}
-#		done
-#
-#		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/' | grep -v 'olds/')  ; do 
-#			${tcmd} -rvf ${tgtfile} ${f}
-#		done
-#
-#		#HUOM.291125:tästä tuli jotain nalkutusta, joskohan jo 301125 kunnossa?
-#		bzip2 -c ${tgtfile} > ${tgtfile}.bz3
-#
-#		#${svm} ${tgtfile}.bz2 ${tgtfile}.bz3
-#		#tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte
 
 		fasdfasd ${tgtfile}.bz3
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}*
 		
 		#tuota tdstojen nimeämistä voisi muuttaa jatkossa:kreikan meri/meri kreikan
-		#josko findin jutut listaan ja tar:ille -T , jatkossa?
+		#josko findin jutut listaan ja tar:ille -T , jatkossa? toimii näinkin kyllä
 		${srat} -jcvf ${tgtfile}.bz3 ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
 
 		e22_ftr ${tgtfile}.bz3
 		exit
-		#VAIH:install_keys.bash liittyen muutoksia exp2 ja imp2
 	;;
 	g)
 		#101225:ulostuksilla saa paketin aikaiseksi edelleen
@@ -235,7 +212,8 @@ case ${mode} in
 
 		echo "${shary} ${E22GI}"
 
-		echo "${svm} ${CONF_pkgdir}/*.deb ${d}" #oli se e22_ts() kanssa
+		echo "${svm} ${CONF_pkgdir}/*.deb ${d}"
+		#oli se e22_ts() kanssa
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
 	;;
@@ -272,7 +250,6 @@ e22_pre1 ${d} ${distro}
 
 e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
-#TODO:cleanpkgs-jutut tähän jatkossa?
 
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
@@ -352,7 +329,9 @@ case ${mode} in
 		e22_profs ${tgtfile} ${d0} 
 	;;
 	e)
-		#151225:tekee paketin, sisältö:
+		#151225:tekee paketin, sisältö:lxdm kanssa ongelmaa edelleen
+		#TODO:koita korjata riippuvuudet
+
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		[ -v CONF_dm ] || exit 77
 		e22_other_pkgs ${dnsm} ${CONF_dm}
