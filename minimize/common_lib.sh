@@ -172,10 +172,6 @@ function check_bin_0() {
 	sip=$(${odio} which ip)
 	sip="${odio} ${sip} "
 
-	#gi=$(${odio} which genisoimage)
-	#gmk=$(${odio} which grub-mkrescue)
-	#xi=$(${odio} which xorriso)
-
 	smd=$(${odio} which mkdir)
 	sca=$(${odio} which chattr)
 	sca="${odio} ${sca}"
@@ -251,7 +247,7 @@ function psqa() {
 		#[ -x ${gg} ] || dqb "CANN0T BER1FY S1GNATUR3S.3"			
 		csleep 1
 
-		if [ -x ${gg} ] && [ -v TARGET_Dkarray ] ; then #jälk ehto ulompaan if-blokkiin?
+		if [ -x ${gg} ] ; then # && [ -v TARGET_Dkarray ] jälk ehto ulompaan if-blokkiin?
 			dqb "${gg} --verify ./sha512sums.txt.sig "
 			csleep 1
 
@@ -583,8 +579,10 @@ function check_binaries() {
 	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
 	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
 
-	#HUOM.111225:mennäänkö tähän sq-chr-ymp.äristössä? TODO:testaa taas
-	#HUOM.141225:josko kiekolle mukaan gpg, tämän if-blokin takia
+	#HUOM.111225:mennäänkö tähän sq-chr-ymp.äristössä? 
+	#VAIH:testaa taas
+	#HUOM.141225:josko kiekolle mukaan gpg, ao. if-blokin takia
+
 	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 		[ -z ${1} ] && exit 99
 		dqb "-d ${1} existsts?"
@@ -602,8 +600,10 @@ function check_binaries() {
 			sleep 1
 
 			[ -f /.chroot ] && message
-			#TODO:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
-			common_tbls ${1} ${dnsm}
+			#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
+			
+			#common_tbls ${1} ${CONF_dnsm}
+			for p in ${E22GT} ; do efk1 ${1}/${p}*.deb ; done
 			other_horrors
 
 			ipt=$(${odio} which iptables)
@@ -642,6 +642,8 @@ function check_binaries() {
 	
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
+
+	#151225:pitäisikö sittenkin alustaa check_bin_0():ssa ainakin 2 seuraavaa?
 	som=$(${odio} which mount)
 	uom=$(${odio} which umount)
 	sifc=$(${odio} which ifconfig)
@@ -1228,7 +1230,7 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		for s in ${PART175_LIST} ; do 
 			#271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa, toimiva konf äksään löydettävä (VAIH)
 			#151225 taisi äksä taas toimia joten uudemman kerran vääntämään
-			dqb "#CONF_dm:n vaihto + "exp2 e" uudestaan ja åaketin asentelu sqroot sisälle jnpp"
+			dqb "#CONF_dm:n vai hto + "exp2 e" uudestaan ja åaketin asentelu sqroot sisälle jnpp"
 			csleep 4
 		
 			dqb "processing ${s}"

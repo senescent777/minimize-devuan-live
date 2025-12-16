@@ -70,7 +70,7 @@ fi
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
-	${odio} ${x} ${dnsm} ${distro}
+	${odio} ${x} ${CONF_dnsm} ${distro}
 	#[ -x $x ] && exit for 
 done
 
@@ -87,7 +87,7 @@ csleep 1
 if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	part2_5 1 ${dnsm} ${iface}
+	part2_5 1 ${CONF_dnsm} ${iface}
 	[ $? -gt 0 ] && exit
 fi
 

@@ -76,7 +76,7 @@ fi
 #-1 ja 2 OK
 #... siinä ne oleellisimmat tapaukset
 #141225:q ja r eivät toimi kunnolla tällöin
-#3 toimi sqroot-ympäristösäs ok pl ilmeinen
+#3 toimi sqroot-ympäristösäs ok, pl ilmeinen puute
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -90,27 +90,28 @@ else
 		#chroot-ynmp tulee nalqtusta tästä
 		odio=$(which sudo)
 	fi
-
-	mkt=$(which mktemp)
-	scm="${odio} /bin/chmod" #which chmod jatkossa?
-	sah6=$(${odio} which sha512sum)
-	srat=$(${odio} which tar)
-	gg=$(${odio} which gpg)
-	som=$(${odio} which mount)
-	uom=$(${odio} which umount)
-
+	
 	function check_binaries() {
 		dqb "imp2.check1"
+
+		mkt=$(which mktemp)
+		scm="${odio} which chmod" 
+		sah6=$(${odio} which sha512sum)
+		srat=$(${odio} which tar)
+		gg=$(${odio} which gpg)
+		som=$(${odio} which mount)
+		uom=$(${odio} which umount)
 	}
 
 	#VAIH:jatkossa odion:n ymppääminen mkt-uom tähän , paikallisten check_bin() - fktioiden kautta?
-	#... se sqr00t-ymp myls testattava sen jälkeen että miten toimii siellä
-	som="${odio} ${som}"
-	uom="${odio} ${uom}"
-	srat="${odio} ${srat}"
+	#... se sqr00t-ymp myös testattava sen jälkeen että miten toimii siellä
 
 	function check_binaries2() {
 		dqb "imp2.check2"
+	
+		som="${odio} ${som}"
+		uom="${odio} ${uom}"
+		srat="${odio} ${srat}"
 	}
 
 	function part3() {
@@ -190,17 +191,17 @@ function common_part() {
 	cd /
 
 #	local r
-#	r=10
+#	r=0
 #
 	#VAIH:näille main urputusta jos ei .sig tarkistus onnistu (jtnkn toisin kuitenkin)
 	if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
-		dqb "A"
+		#dqb "A"
 
 		if [ ! -z ${gg} ] ; then #sen array:n olamessaolon testi tähän?
-			dqb "B"
+			#dqb "B"
 
 			if [ -x ${gg} ] ; then
-				dqb "C"
+				#dqb "C"
 
 				dqb " ${gg} --verify ${1}.sha.sig "
 				${gg} --verify ${1}.sha.sig
@@ -428,7 +429,9 @@ case "${mode}" in
 		tpr ${d0}
 	;;
 	k)
-		#151225:toimii
+		#VAIH:install_keys.bash liittyen muutoksia exp2 ja imp2
+	
+		#161225:toimii, sq-root-ymp ainakin
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
 		dqb "# . \ import2.sh k \ pad -v"
 
@@ -436,17 +439,24 @@ case "${mode}" in
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
-		ridk=${srcfile}
+		#ridk=${srcfile}
 
-		if [ -v gg ] && [ -v TARGET_Dkarray ] ; then
+		if [ -v gg ]  ; then #&& [ -v TARGET_Dkarray ]
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then #menisikö näin
 				dqb "NOP"
+				csleep 1
 
-				#TODO:jatkossa jos julkisilla avaimilla olisi jokin pääte
-				for k in ${TARGET_Dkarray} ; do
-					dqb "dbg: ${gg} --import ${ridk}/${k}"
-					${gg} --import ${ridk}/${k}
-				done
+				#VAIH:jatkossa jos julkisilla avaimilla olisi jokin pääte
+				#for k in ${TARGET_Dkarray} ; do
+				#	dqb "dbg: ${gg} --import ${ridk}/${k}"
+				#	${gg} --import ${ridk}/${k}
+				#done
+
+				dqb "${gg} --import ${srcfile}/*.gpg soon"
+				csleep 1
+
+				${gg} --import ${srcfile}/*.gpg
+				csleep 1
 
 				[ ${debug} -eq 1 ] && ${gg} --list-keys
 				csleep 3

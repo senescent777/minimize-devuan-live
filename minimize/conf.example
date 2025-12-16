@@ -1,14 +1,14 @@
 iface=
 enforce=
 debug=0
-dnsm=0
+CONF_dnsm=0
 #dsn="INSERT LIST OF DNS/DOT SERVERS HERE"
 CONF_changepw=0
 #
 #pkgs
 CONF_pkgdir=/var/cache/apt/archives
 CONF_pkgsrc= #tämän idea olikaan? no sources.list tietenkin
-CONF_removepkgs=1 #seur. tämän nimeäminen uudestaan
+CONF_removepkgs=1
 #/pkgs
 #
 CONF_dir=/media
@@ -29,19 +29,19 @@ CONF_testgris=/SMTH1NG
 #
 #krypto
 #nimeäimnen jos loogisemmin? pubk und ksk ?
-CONF_kay1name=KAYEABCD
-CONF_kay2name=KAYEFGHI
-TARGET_Dkname1=
-TARGET_Dkname2=
-TARGET_Dpubkf=${TARGET_DIGESTS_dir}/${TARGET_Dkname1}
-TARGET_Dpubkg=${TARGET_DIGESTS_dir}/${TARGET_Dkname2}
-TARGET_Dkarray="${TARGET_Dkname1} ${TARGET_Dkname2}"
+CONF_pubk=KAYEABCD
+CONF_ksk=KAYEFGHI
+#
+#TARGET_Dkname1=
+#TARGET_Dkname2=
+#TARGET_Dpubkf=${TARGET_DIGESTS_dir}/${TARGET_Dkname1}
+#TARGET_Dpubkg=${TARGET_DIGESTS_dir}/${TARGET_Dkname2}
+#TARGET_Dkarray="${TARGET_Dkname1} ${TARGET_Dkname2}"
 #/kyrpto
 #
 TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ "
 #
 #sudo-juttuja
-CB_LIST2="/bin/rm CONF_TMPIR/*"
-#TODO:mkcnffile ajan tasalle (mitentaas liittyikään?)
+CB_LIST2="/bin/rm ${CONF_TMPIR}/*"
 #
 CONF_dm=slim

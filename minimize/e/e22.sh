@@ -55,8 +55,8 @@ function e22_ftr() { #121225:vissiin toimii
 
 	#riittävät tarkistukset?
 	if [ -x ${gg} ] ; then
-		if [ -v CONF_kay1name ] ; then
-			${gg} -u ${CONF_kay1name} -sb ${q}.sha
+		if [ -v CONF_pubk ] ; then
+			${gg} -u ${CONF_pubk} -sb ${q}.sha
 			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
 			csleep 1
 
@@ -190,6 +190,7 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 	csleep 1
 }
 
+#VAIH:jos sitten tämän kautta mukaan se äksän konf (tdston sisällön lottoaminen taas jossain muualla)
 function e22_config1() {
 	[ -z ${1} ] && exit 11
 	[ -d ${1} ] || exit 22
@@ -198,9 +199,11 @@ function e22_config1() {
 	local p
 	p=$(pwd)
 
-	cd ${1} #tar:issa olisi myös -C , josko sitä käyttämään jatkossa
+	cd ${1} 
+	#tar:issa olisi myös -C , josko sitä käyttämään jatkossa
+
 	[ -f config.tar.bz2 ] && mv config.tar.bz2 config.tar.bz2.ÅLD
-	tar -jcf config.tar.bz2 .config/xfce4/xfconf/xfce-perchannel-xml 
+	tar -jcf config.tar.bz2 .config/xfce4/xfconf/xfce-perchannel-xml ./xorg.conf*
 
 	csleep 1
 	[ -s config.tar.bz2 ] || exit 99
@@ -304,7 +307,7 @@ function e22_home() { #151225:josko prof.asiat taas tilap. kunn.
 
 	dqb "AUTOMAGICAL CONFIGURATION IS A DISEASE"
 	dqb "Xorg -config ~/xorg.conf TODO?"
-	for f in $(find / -type f -name 'xorg.conf*') ; do ${srat} -rvf ${1} ${f} ; done 	
+	#for f in $(find / -type f -name 'xorg.conf*') ; do ${srat} -rvf ${1} ${f} ; done 	
 	csleep 10
 
 	dqb "e22_home d0n3"
@@ -648,14 +651,14 @@ function e22_arch() {
 	csleep 1
 
 	#alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious
-	if [ -x ${gg} ] && [ -v CONF_kay1name ] ; then
+	if [ -x ${gg} ] && [ -v CONF_pubk ] ; then
 		dqb "GGU"
 		csleep 1
-		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
+		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt
 		dqb "GHATS"
 	else
 		dqb "1. ${gg}"
-		dqb "2. ${CONF_kay1name}"
+		dqb "2. ${CONF_pubk}"
 		csleep 9
 	fi
 
@@ -732,9 +735,11 @@ function e22_dm() {
 
 	case ${1} in
 		lxdm)
+			#VAIH:SELVITÄ PRKL NUO RIIPPUVUUDET ETTEI TAAS JÄÄ JUNNAAMAAN
+			#... vissiin libgtk2-paketit tökkäävät, eli niiden kenssa selvittelyä			
 			#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
 
-			${shary} debconf libcairo2 libgtk2.0-0
+			${shary} debconf libcairo2 libgtk2.0-common libgtk2.0-0
 			csleep 1
 			${shary} libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
 			csleep 1
@@ -748,12 +753,14 @@ function e22_dm() {
 }
 
 #TODO:ntp-jutut takaisin josqs?
-#121225:tällä fktiolla tulisi olla vain 1 param qnnes
+#151225:tällä fktiolla tulisi olla vain 1 param qnnes 2
 #091225:taitaa toimia
 function e22_other_pkgs() { 
-	dqb "e22_other_pkgs ${1} ,  "
+	dqb "e22_other_pkgs ${1} ,  ${2}  "
 	csleep 1
+
 	[ -z "${1}" ] && exit 11
+	[ -z "${2}" ] && exit 12
 
 	dqb "paramz_ok"
 	csleep 1
@@ -801,10 +808,8 @@ function e22_other_pkgs() {
 
 	[ $? -eq 0 ] && dqb "luBE 0F THE R3S0NATED"
 	csleep 2
-
-	#TODO:jatkossa parametriksi C_dm
-	[ -v CONF_dm ] || exit 77
-	e22_dm CONF_dm
+	
+	e22_dm ${2}
 	${lftr}
 	csleep 2
 

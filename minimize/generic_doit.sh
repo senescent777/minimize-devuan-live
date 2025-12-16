@@ -143,7 +143,7 @@ function el_loco() {
 
 		if [ ${debug} -gt 0 ] ; then
 			env | grep LC
-			env | grep LA
+			env | grep LAN
 			csleep 5
 		fi
 #	fi
@@ -191,7 +191,7 @@ fi
 pre_part2
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || CONF_removepkgs=0
-part2_5 ${CONF_removepkgs} ${dnsm} ${iface}
+part2_5 ${CONF_removepkgs} ${CONF_dnsm} ${iface}
 
 #===================================================PART 3===========================================================
 message
@@ -218,7 +218,7 @@ dqb "GR1DN BELIALAS KYE"
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
-	${odio} ${x} ${dnsm} ${distro}
+	${odio} ${x} ${CONF_dnsm} ${distro}
 	#[ -x $x ] && exit for 
 done
 
@@ -235,4 +235,4 @@ if [ ${mode} -eq 2 ] ; then
  	exit 
 fi
 
-#${odio} ${d0}/changedns.sh ${dnsm} ${distro} röistaiseksi jennaan
+#${odio} ${d0}/changedns.sh ${CONF_dnsm} ${distro} röistaiseksi jennaan

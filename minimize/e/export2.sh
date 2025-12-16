@@ -152,7 +152,7 @@ csleep 1
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
-	f) 	#131225:uudelleenpakk kai ok nykyään
+	f) 	#151225:uudelleenpakk kai ok nykyään
 		#... tai siis erillinen case tai skripti sitä varten? 
 		#... tämä vain pakkaisi kerran, muuttamatta sisältöä tjsp
 
@@ -190,10 +190,9 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#151225:testailu vaiheessa
-#		#101225:edelleen tekee paketin (mod /tmp-hmiston  kiukuttelut)
-#		#VAIH:jospa suoraan tar -jcvf ni ei tartte 2 tdston kanssa säätää
-#		#... samassa yhteydessä find-jutut laitettava uusiksi
+		#TODO:suoraan tgtfile eik tgtfile.bz3
+		#151225:testailu vaiheessa (tauhkat voisi jo pois)
+#		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
 		cd ${d0}
 #
 #		e22_hdr ${tgtfile}.bz3 #juuei
@@ -221,12 +220,13 @@ case ${mode} in
 		fasdfasd ${tgtfile}.bz3
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}*
 		
-		#tuota tdstojen nimeämistä voisi muuttaa jatkossa
+		#tuota tdstojen nimeämistä voisi muuttaa jatkossa:kreikan meri/meri kreikan
 		#josko findin jutut listaan ja tar:ille -T , jatkossa?
 		${srat} -jcvf ${tgtfile}.bz3 ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
 
 		e22_ftr ${tgtfile}.bz3
 		exit
+		#VAIH:install_keys.bash liittyen muutoksia exp2 ja imp2
 	;;
 	g)
 		#101225:ulostuksilla saa paketin aikaiseksi edelleen
@@ -303,7 +303,7 @@ case ${mode} in
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
 			e22_tblz ${d} ${iface} ${distro} ${dnsm}
-			e22_other_pkgs ${dnsm}
+			e22_other_pkgs ${dnsm} ${CONF_dm}
 
 			if [ -d ${d} ] ; then
 				e22_dblock ${d}/f.tar ${d}
@@ -351,9 +351,10 @@ case ${mode} in
 		e22_profs ${tgtfile} ${d0} 
 	;;
 	e)
-		#131225:teki paketin, sisältökin asentui , tosin valitti:libassuan0
+		#151225:tekee paketin, sisältö:
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
-		e22_other_pkgs ${dnsm}
+		[ -v CONF_dm ] || exit 77
+		e22_other_pkgs ${dnsm} ${CONF_dm}
 
 		if [ -d ${d} ] ; then
 			e22_dblock ${tgtfile} ${d}
