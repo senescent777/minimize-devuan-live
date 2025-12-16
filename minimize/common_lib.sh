@@ -53,7 +53,9 @@ fi
 itni
 
 function fix_sudo() {
-	dqb "fix_sud0.pt0"
+	dqb "common_lib.fix_sud0.pt0"
+
+	#dqb "f_s_PART2"
 
 	#dqb "f_s_PART2"
 
@@ -117,7 +119,7 @@ function ocs() {
 	fi
 }
 
-#... miten aikainen asettaminen muuten vaikuttaa el_loco():on ?
+#... miten (LC_juttujen) aikainen asettaminen muuten vaikuttaa el_loco():on ?
 function check_bin_0() {
 	dqb "check_bin_0"
 
@@ -152,8 +154,9 @@ function check_bin_0() {
 	smr="${odio} ${smr} "
 
 	NKVD=$(${odio} which shred)
-	NKVD="${NKVD} -fu "
-	NKVD="${odio} ${NKVD} "
+	[ -z ${NKVD} ] && exit 37
+	#NKVD="-fu "
+	NKVD="${odio} ${NKVD} -fu "
 	
 	#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
 	PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" 
@@ -170,10 +173,6 @@ function check_bin_0() {
 	sifd=$(${odio} which ifdown)
 	sip=$(${odio} which ip)
 	sip="${odio} ${sip} "
-
-	#gi=$(${odio} which genisoimage)
-	#gmk=$(${odio} which grub-mkrescue)
-	#xi=$(${odio} which xorriso)
 
 	smd=$(${odio} which mkdir)
 	sca=$(${odio} which chattr)
@@ -236,16 +235,21 @@ function psqa() {
 	dqb "Q ${1}"
 	csleep 1
 	[ -z ${1} ] && exit 55
-	# -d kanssa ?
+	[ -d ${1} ] || exit 54
 
 	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
-	csleep 2
+	csleep 1
 
 	if [ -s ${1}/sha512sums.txt.sig ] ; then
 		dqb "S(${1})"
 		csleep 1
 
-		if [ -x ${gg} ] && [ -v TARGET_Dkarray ] ; then
+		[ -v gg ] || dqb "CANN0T BER1FY S1GNATUR3S.1"
+		[ -z ${gg} ] && dqb "CANN0T BER1FY S1GNATUR3S.2"
+		#[ -x ${gg} ] || dqb "CANN0T BER1FY S1GNATUR3S.3"			
+		csleep 1
+
+		if [ -x ${gg} ] ; then # && [ -v TARGET_Dkarray ] jälk ehto ulompaan if-blokkiin?
 			dqb "${gg} --verify ./sha512sums.txt.sig "
 			csleep 1
 
@@ -262,11 +266,11 @@ function psqa() {
 		dqb "NO .txt.sig AVAILABLE"
 	fi
 
-	csleep 5
+	csleep 2
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		dqb "R ${1}"		
-		csleep 2
+		csleep 1
 
 		local p
 		p=$(pwd)
@@ -279,7 +283,16 @@ function psqa() {
 
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
-		[ $? -eq 0 ] || exit 94
+
+		#131225:josko kokeiltu tarpeeksi
+		#if [ ${debug} -eq 0 ] ; then
+			if [ $? -eq 0 ] ; then
+				dqb "Q.KO"
+			else
+				dqb "export2 f ?"
+				exit 94
+			fi
+		#fi
 
 		cd ${p}
 	else
@@ -346,30 +359,48 @@ function efk2() { #jotain kautta tätäkin kai kutsuttiin (cefgh nykyään)
 	csleep 1
 }
 
-#clib5p ja clibpre pystyisi yhdistämään
-function clib5p() {
-	dqb "clib5p( ${1}  , ${2}) "
+#TODO:lisäksi clibpre():n toiminnallisuuden ymppääminen
+function common_lib_tool() {
+	dqb "common_lib_tool( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
 	[ -z "${2}" ] && exit 67
-	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE" 
-
+	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE"
+ 
 	dqb "WILL START REJECTING P1GS NOW"
+	#dqb "NKVD: ${NKVD}"
 	csleep 1
 
-	local p
 	local q
-	p=$(pwd)
-	cd ${1}
+	local r
+	local s
 
-	for q in $(grep -v '#' ${2}) ; do ${NKVD} ${q} ; done
-	
-	csleep 2
-	cd ${p}
+	for q in $(grep -v '#' ${1}/${2}) ; do
+		dqb "outer; ${q}"
+
+		#jatk r pois?
+		r=$(find ${1} -type f -name "${q}*.deb" )
+		#dqb "r= ${r}"
+
+		for s in ${r} ; do
+			dqb "inner: ${NKVD} ${s}"
+			csleep 1
+			${NKVD} ${s}
+			csleep 1
+		done
+
+		if [ ${debug} -eq 1 ] ; then
+			ls -las ${1}/${q}* | wc -l
+		fi
+	done
+
 	dqb "REJECTNG DONE"
+	#exit 66
 }
 
+#common_lib_tool ja clibpre pystyisi yhdistämään ... EHKÄ josqs
+
 function clibpre() {
-	dqb "clib5p.re( ${1}  , ${2}) "
+	dqb "common_lib_tool.re( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 96
 	[ -z "${2}" ] && exit 67
 	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE" 
@@ -475,7 +506,7 @@ function common_tbls() {
 	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
 	
 	csleep 1
-	${scm} 0755 /etc/iptables
+	${scm} 0755 /etc/iptables 
 
 	${odio} update-alternatives --set iptables /usr/sbin/iptables-legacy
 	${odio} update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
@@ -550,7 +581,10 @@ function check_binaries() {
 	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
 	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
 
-	#HUOM.111225:mennäänkö tähän sq-chr-ymp.äristössä?
+	#HUOM.111225:mennäänkö tähän sq-chr-ymp.äristössä? 
+	#VAIH:testaa taas
+	#HUOM.141225:josko kiekolle mukaan gpg, ao. if-blokin takia
+
 	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 		[ -z ${1} ] && exit 99
 		dqb "-d ${1} existsts?"
@@ -568,7 +602,10 @@ function check_binaries() {
 			sleep 1
 
 			[ -f /.chroot ] && message
-			common_tbls ${1} ${dnsm}
+			#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
+			
+			#common_tbls ${1} ${CONF_dnsm}
+			for p in ${E22GT} ; do efk1 ${1}/${p}*.deb ; done
 			other_horrors
 
 			ipt=$(${odio} which iptables)
@@ -607,6 +644,8 @@ function check_binaries() {
 	
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
+
+	#151225:pitäisikö sittenkin alustaa check_bin_0():ssa ainakin 2 seuraavaa?
 	som=$(${odio} which mount)
 	uom=$(${odio} which umount)
 	sifc=$(${odio} which ifconfig)
@@ -645,7 +684,7 @@ function check_binaries2() {
 	fib="${odio} ${sa} --fix-broken install "
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
-	smd="${odio} ${smd}" #käyttöön
+	smd="${odio} ${smd}"
 
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
@@ -678,13 +717,55 @@ function mangle_s() {
 	echo -e "\n" >> ${2}
 }
 
-#...toisaalta sen dhclient-kikkailun voisi palauttaa (TODO)
 function dinf() {
 	local g
+	#local frist
+	#frist=1
 
 	for g in $(sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq) ; do
 		dqb ${g}
+
+		#if [ ${frist} -eq 1 ] ; then 
+		#frist=0
+		#else
+		#echo -n "," >> ${1}
+		#fi
+		#
+		#echo -n "sha256:${f}" >> ${1}
 	done
+
+	#echo -n "$(whoami) localhost=NOPASSWD: " >> ${1}
+
+	#echo " /sbin/dhclient-script " >> ${1}
+	#cat ${1}
+	#exit
+}
+
+function fasdfasd() {
+	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
+	[ -z ${1} ] && exit 99
+
+	dqb "SUN LIIRUM SUN LAARUM ${1}"
+	dqb "sco= ${sco}"
+	dqb $(whoami)
+	csleep 1
+
+	${odio} touch ${1}
+	${sco} $(whoami):$(whoami) ${1}
+	${scm} 0644 ${1}
+}
+
+#olisiko jokin palikka jo aiemmin?
+function reqwreqw() {
+	dqb "rewqreqw(${1} )"
+	[ -z ${1} ] && exit 99
+	#[ -f ${1} ] && exit 100 #takaisn josqs
+	
+	csleep 1
+	${sco} 0:0 ${1}
+	${scm} a-w ${1}
+
+	dqb "rewqreqw(${1} ) DONE"
 }
 
 function fasdfasd() {
@@ -731,7 +812,7 @@ function pre_enforce() {
 	csleep 1
 	[ -f ${q}/meshuggah ] || exit 33
 
-	if [ ! -v testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
+	if [ ! -v CONF_testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
 		dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 
 		if [ ! -d /opt/bin ] ; then
@@ -750,6 +831,7 @@ function pre_enforce() {
 		mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 		csleep 1
 	else 
+		#141225:voi tulla turhaksi jatkossa tämä else-haara
 		if [ -v CB_LIST2 ] ; then
 			echo "$(whoami) localhost=NOPASSWD: ${CB_LIST2} " >> ${q}/meshuggah
 		fi
@@ -781,10 +863,10 @@ function pre_enforce() {
 	c4=0
 	csleep 1
 
-	if [ -v dir ] ; then
-		c4=$(grep ${dir} /etc/fstab | wc -l)
+	if [ -v CONF_dir ] ; then
+		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
 	else
-		echo "NO SUCH THING AS \$dir"
+		echo "NO SUCH THING AS \$CONF_dir"
 		exit 99
 	fi
 
@@ -796,8 +878,8 @@ function pre_enforce() {
 		csleep 2
 
 		${scm} a+w /etc/fstab
-		${odio} echo "/dev/disk/by-uuid/${part0} ${dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
-		${odio} echo "#/dev/disk/by-uuid/${part1} ${dir2} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+		${odio} echo "#/dev/disk/by-uuid/${CONF_part1} ${CONF_dir2} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		${scm} a-w /etc/fstab
 
 		csleep 2
@@ -880,8 +962,16 @@ function e_h() {
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
 
 	#291125:josko kuitenkin 0555? paitsi että sittenq tarttee muokata (to state the obvious)
-	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} 0555 ${f} ; done
+	#... jatkossa debug-riippuvaista että 755 vai 555 ?	
+	local m
 
+	if [ ${debug} -gt 0 ] ; then
+		m=0755
+	else
+		m=0555
+	fi
+
+	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} ${m} ${f} ; done
 	dqb "F1ND D0N3"
 	csleep 1
 
@@ -1065,6 +1155,8 @@ function dis() {
 function part076() {
 	#081225:pitäisiköhän param tarkistaa? (	TODO)
 	dqb "FART076 ${1}"
+	[ -z ${1} ] && exit 76
+
 	csleep 1
 	dis ${1}
 	local s
@@ -1165,7 +1257,12 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		${fib}
 		csleep 1
 		
-		for s in ${PART175_LIST} ; do #271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa, toimiva konf äksään löydettävä (TODO)
+		for s in ${PART175_LIST} ; do 
+			#271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa, toimiva konf äksään löydettävä (VAIH)
+			#151225 taisi äksä taas toimia joten uudemman kerran vääntämään
+			dqb "#CONF_dm:n vai hto + "exp2 e" uudestaan ja åaketin asentelu sqroot sisälle jnpp"
+			csleep 4
+		
 			dqb "processing ${s}"
 			${sharpy} ${s}*
 			csleep 1
@@ -1256,7 +1353,7 @@ function part3() {
 
 	#jatkossa jos jotenkin toisin? ehto ympäriltä kommentteihin vai ei?
 	#if [ ! -f /.chroot ] ; then #HUOM.071225 ehto kommentteihin koska y
-		clib5p ${1} reject_pkgs
+		common_lib_tool ${1} reject_pkgs
 	#fi
 
 	clibpre ${1} accept_pkgs_1

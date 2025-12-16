@@ -46,8 +46,9 @@ ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 sleep 2
 t=$(pwd)
 
-if [ -v testgris ] && [ -d ${testgris} ] ; then
-	cd ${testgris}
+if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
+	echo "YLIULIULI"
+	cd ${CONF_testgris}
 
 	#-C olisi myös keksitty
 	#nalqtus jos /etc yai /opt puuttuu paketista?

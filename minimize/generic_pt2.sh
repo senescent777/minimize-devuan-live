@@ -20,20 +20,18 @@ function csleep() {
 function parse_opts_1() {
 	echo "popt_1( ${1} )"
 
-	case ${1} in
-		-v|--v)
-			debug=1
-		;;
-		*)
-			if [ -d ${d0}/${1} ] ; then
-				distro=${1}
-			else 
+	if [ -d ${d0}/${1} ] ; then
+		distro=${1}
+	else
+		case  "${1}" in
+			0|1|2|3) #varsinainen numeerisuustarkistus olisi parempi
 				mode=${1}
-			fi
-
-			dqb "0th3r 0tps"
-		;;
-	esac
+			;;
+			*)
+				dqb "invalid param"
+			;;
+		esac
+	fi
 }
 
 function parse_opts_2() {
@@ -72,23 +70,24 @@ fi
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
-	${odio} ${x} ${dnsm} ${distro}
+	${odio} ${x} ${CONF_dnsm} ${distro}
 	#[ -x $x ] && exit for 
 done
 
 ${fib}
 #echo "debug=${debug}"
 dqb "distro=${distro}"
-dqb "removepkgs=${removepkgs}"
+dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 
 sleep 1
 csleep 1
 
-if [ ${removepkgs} -eq 1 ] ; then
+#151225:sqroot alla osasi poistella paketteja tämä skripti
+if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	part2_5 1 ${dnsm} ${iface}
+	part2_5 1 ${CONF_dnsm} ${iface}
 	[ $? -gt 0 ] && exit
 fi
 
@@ -103,15 +102,28 @@ function t2p_filler() {
 
 #jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
+#VAIH:pkgs_drop hyödyntäminen jatkossa, $d0 parametriksi
 function t2pc() {
-	dqb "common_lib.t2p_common()"
+	dqb "common_lib.t2p_common( ${1})"
 	csleep 1
+
+	[ -z ${1} ] && exit 99
+	[ -d ${1} ] || exit 98
 
 	dqb "shar_py = ${sharpy} ;"
 	csleep 2
 
 	${fib}
 	csleep 1
+
+#	#131225:aiheuttaa oheisvahinkoa, ei voida vielä käyttää ennenq selvitetty missä menee pieleen
+#	local f
+#	for f in $(grep -v '#' ${1}/pkgs_drop | head -n 10) ; do
+#		dqb "sharpy ${f} \*"
+#		csleep 1
+#		${sharpy} ${f}*
+#		csleep 1
+#	done
 
 	${sharpy} bluez mutt rpcbind nfs-common
 	${sharpy} dmsetup
@@ -188,16 +200,20 @@ function t2pc() {
 	#xfce*,xorg* off limits
 	t2p_filler
 
-	#251125 uutena (pitäisi vissiin dpkg-reconfigure tjsp jotta saa slimin syrjäytettyä live-ympäristössä)
-	
-	if [ -f /.chroot ] ; then #071225;pitäisikö tälle egdolle tehdä jotain? sen uuden .iso:n kanssa kun sitä temppuilua
-		${sharpy} slim*
+	#121225:pitäisi se validi xorg.conf ennenq dumppaa:slim
+
+	#071225:pitäisikö tälle ehdolle tehdä jotain?  uuden .iso:n kanssa kun sitä temppuilua
+
+	if [ -f /.chroot ] ; then
+		dqb "SHOULD ${sharpy} slim*"
 
 		#nopeampi boottaus niinqu
-		${sharpy} isc-dhcp*
+		#... pikemminkin KVG "how to skip dhcp on boot" tjsp
+		dqb "SHOULD ${sharpy} isc-dhcp*"
 
-		${sharpy} seat* #uutena 071225
-		t2p_filler
+		#tuli uutena 071225, muttei näin vaan...
+		dqb "SHOULD ${sharpy} seat* ?"
+		dqb "t2p_filler()"
 
 		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
 		dqb "dpkg-reconfigure lxdm?"
@@ -217,8 +233,8 @@ function t2pf() {
 	dqb "common_lib.T2P.FINAL( ${1} )"
 	csleep 1
 
-	${NKVD} ${pkgdir}/*.deb
-	${NKVD} ${pkgdir}/*.bin 
+	${NKVD} ${CONF_pkgdir}/*.deb
+	${NKVD} ${CONF_pkgdir}/*.bin 
 	[ -d ${1} ] && ${NKVD} ${1}/*.deb 
 	${NKVD} /tmp/*.tar
 	${smr} -rf /tmp/tmp.*
@@ -232,10 +248,11 @@ function t2pf() {
 }
 
 #====================================================================
-t2pc
+t2pc ${d0}
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 0 ] && exit
 
+#TODO:$d/pkgs_drop hyödyntäminen jatkossa
 t2p
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 1 ] && exit

@@ -20,29 +20,20 @@ else
 fi
 
 function parse_opts_1() {
-	dqb "parseopts_2 ${1} ${2}"
+	dqb "parseopts_1 ${1} ${2}"
 
-#	case
-#		-v|--v) #tämä vähitellen -> GPO() (joko jo 101225?)
-#			debug=1
-#		;;
-#		*)
-			#onkohan hyvä näin?
-
-			if [ -d ${d0}/${1} ] ; then
-				distro=${1}
-			else
-				case  "${1}" in
-					0|1|2)
-						mode=${1}
-					;;
-					*)
-						dqb "invalid param"
-					;;
-				esac
-			fi
-#		;;
-#	
+	if [ -d ${d0}/${1} ] ; then
+		distro=${1}
+	else
+		case  "${1}" in
+			0|1|2) #varsinainen numeerisuustarkistus parempi
+				mode=${1}
+			;;
+			*)
+				dqb "invalid param"
+			;;
+		esac
+	fi
 }
 
 function parse_opts_2() {
@@ -109,38 +100,29 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 
 #===================================================PART 2===================================
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
-#TAI vielä parempi?:kts devuanin alsa-ohjeet
-#
-#271125_/etc/default/locale.tmp: line 1: warning: setlocale: LC_TIME: cannot change locale (fi_FI.UTF-8): No such file or directory
+#TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
 
 function el_loco() {
+	echo "CLOSED FOR REPAIRS: "
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 1
 
-	if [ -s /etc/default/locale.tmp ] ; then
-		. /etc/default/locale.tmp
-
-		export LC_TIME
-		export LANGUAGE
-		export LC_ALL
-	fi
-
-	#HUOM.27725:sq-chroot-ymp perl valittaa LANGUAGE ja ALL , voisi tehdä jotain (vielä opngelma?)
-	
-	if [ ${2} -lt 1 ]; then
-		${scm} a+w /etc/default/locale
+	if [ ${2} -lt 1 ] ; then #tämä blokki konffaamisen jälkeen+toiminaat?
+		#${svm} /etc/default/locale /etc/default/locale.ÅLD		
+		fasdfasd /etc/default/locale
 		csleep 1
 
-		#TODO:jos grep -v '#' kuitenkin
-		${odio} cat /etc/default/locale.tmp >> /etc/default/locale
-
+		#menisikö vaikka näin?
+		#env | grep LC >> /etc/default/locale
+		#env | grep LA >> /etc/default/locale
+	
 		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
 		#jos riittäisi 10 riviä
 		csleep 1
 
 		cat /etc/timezone
 		csleep 1
-		${scm} a-w /etc/default/locale
+		reqwreqw /etc/default/locale
 	fi
 	
 	if [ ${1} -gt 0 ] ; then
@@ -151,33 +133,41 @@ function el_loco() {
 	fi
 
 	#101225:pitäisikö jotain tehdä vielä että nuo sorkitut lokaaliasetukset saa voimaan?
-	#TODO:LC_xxx mjien exportointi jokatap?
+	
+#	if [ -s /etc/default/locale ] ; then #miten tämän pitää mennä?
+#		. /etc/default/locale #tämä pis jtkossa?
+#
+		export LC_TIME
+		export LANGUAGE
+		export LC_ALL
 
-	if [ ${2} -lt 1 ] && [ ${debug} -eq 1 ] ; then
-		ls -las /etc/default/lo*
-		csleep 1
-	fi
-
-	dqb "DN03"
-	csleep 1
+		if [ ${debug} -gt 0 ] ; then
+			env | grep LC
+			env | grep LAN
+			csleep 5
+		fi
+#	fi
 }
 
 c14=0
 c13=0
 [ ${mode} -eq 1 ] && c14=1
 
+#==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
 if [ -v LCF666 ] ; then
 	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
+	#c13=$(env | grep LC_TIME | grep -c ${LCF666})
 else
 	echo "555"
 fi
 
 csleep 1
-#TODO:el_locon tai c13/c14 kanssa jokin ongelma?, korjaa jos ed elleen? LCF666 saattaa liittyä
-[ ${c13} -lt 1 ] && c14=1
-el_loco ${c14} ${c13}
 
-if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then 
+[ ${c13} -lt 1 ] && c14=1
+el_loco ${c14} 1 #${c13} #joko jo c13 takaisin?
+#=========================================================================================
+
+if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then 
 	dqb "R (in 2 secs)"
 	csleep 1
 	${odio} passwd
@@ -192,7 +182,7 @@ if [ ${mode} -eq 1 ] || [ ${changepw} -eq 1 ] ; then
 		${whack} xfce4-session
 		#HUOM. tässä ei tartte jos myöhemmin joka tap
 	else
-		dqb "SHOULD NAG ABOUT WRONG PASSWD HERE"
+		dqb "SHOULD NAG ABOUT HAMMAD HERE"
 	fi
 
 	exit
@@ -200,8 +190,8 @@ fi
 
 pre_part2
 c14=$(find ${d} -name '*.deb' | wc -l)
-[ ${c14} -gt 0 ] || removepkgs=0
-part2_5 ${removepkgs} ${dnsm} ${iface}
+[ ${c14} -gt 0 ] || CONF_removepkgs=0
+part2_5 ${CONF_removepkgs} ${CONF_dnsm} ${iface}
 
 #===================================================PART 3===========================================================
 message
@@ -213,20 +203,22 @@ other_horrors
 dqb "BEFORE IMP2"
 csleep 5
 
-#101225:toimi ainakin kerran, jospa tilaäinen ongelma exp2 puolella?
+#141225:mitäjos common_lib ei ajokelpoinen? osaako imp2 toimia oikein silloin?
 if [ ! -f /.chroot ] ; then
-	${d0}/import2.sh r ${d0} -v #2. ja 3. param. turhia?
+	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
+	${scm} 0555 ${d0}/common_lib.sh #toistaiseksi tässä kunnes... Jotain
+	${d0}/import2.sh r ${d0} #-v
+	#2. ja 3. param. turhia?
 fi
 
 jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
-#101225;suattaapi olla että common_lib.sh ajo-oikeuden poistaja löytyi vuan suattaapi ettei
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
-	${odio} ${x} ${dnsm} ${distro}
+	${odio} ${x} ${CONF_dnsm} ${distro}
 	#[ -x $x ] && exit for 
 done
 
@@ -243,4 +235,4 @@ if [ ${mode} -eq 2 ] ; then
  	exit 
 fi
 
-#${odio} ${d0}/changedns.sh ${dnsm} ${distro} röistaiseksi jennaan
+#${odio} ${d0}/changedns.sh ${CONF_dnsm} ${distro} röistaiseksi jennaan

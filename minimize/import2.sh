@@ -3,12 +3,15 @@ debug=0
 srcfile=""
 
 distro=$(cat /etc/devuan_version)
-dir=/mnt
-part0=ABCD-1234
+CONF_dir=/media
+CONF_part0=ABCD-1234
 mode=-2
 d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
+
+#HUOM.121225:edelleenkin wanha reject_pkgs jyrää uuden, voisiko jtain tehdä?
+#TODO:muista kopsata tikulle/kiekoille se uudempi päivityspak jotta testit
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -26,22 +29,16 @@ function usage() {
 
 if [ $# -gt 0 ] ; then
 	mode=${1}
-	#TODO: [ -f ${1} ]
+	[ -f ${1} ] && exit 99
 	srcfile=${2}
 fi
 
 function parse_opts_1() {
-	case "${1}" in
-		-v|--v) #101225:voisikohan jo gpo() hoitaa tämän vivun? kts g_doit
-			debug=1
-		;;
-		*)
-			if [ -d ${d0}/${1} ] ; then
-				distro=${1}
-				d=${d0}/${distro}
-			fi
-		;;
-	esac
+	if [ -d ${d0}/${1} ] ; then
+		distro=${1}
+		d=${d0}/${distro}
+	fi
+
 }
 
 function parse_opts_2() {
@@ -52,7 +49,7 @@ if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
 
-	#HUOM.141025:them files should be checked before eztraxting
+	#HUOM.141025:them files should be checked before eXtraCting
 	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
 		tar -jxvf ${f}
 		sleep 1
@@ -74,21 +71,19 @@ else
 	fi	
 fi
 
-#TODO:testaa yhdistelmä live-ymp+common_lib pois pelistä ($0 1 asdf.gh aluksi)
+#VAIH:testaa yhdistelmä live-ymp+common_lib pois pelistä 
+#aloiteltu 121225 "$0 k" , toiminee 
+#seur "$0 1" (päivityspak?) sen kanssa pientä laittoa vielä (josko jo)
+#-1 ja 2 OK
+#... siinä ne oleellisimmat tapaukset
+#141225:q ja r eivät toimi kunnolla tällöin
+#3 toimi sqroot-ympäristösäs ok, pl ilmeinen puute
+
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	debug=1
 	dqb "FALLBACK"
-	mkt=$(which mktemp)
-
-	function check_binaries() {
-		dqb "imp2.check1"
-	}
-
-	function check_binaries2() {
-		dqb "imp2.check2"
-	}
 
 	if [ -f /.chroot ] ; then
 		odio=""
@@ -96,17 +91,35 @@ else
 		#chroot-ynmp tulee nalqtusta tästä
 		odio=$(which sudo)
 	fi
+	
+	function check_binaries() {
+		dqb "imp2.check1"
 
-	scm="${odio} /bin/chmod"
-	sah6=$(${odio} which sha512sum)
-	srat=$(${odio} which tar) #"/bin/tar"
-	gg=$(${odio} which gpg)
+		mkt=$(which mktemp)
+		scm="${odio} which chmod" 
+		sah6=$(${odio} which sha512sum)
+		srat=$(${odio} which tar)
+		gg=$(${odio} which gpg)
+		som=$(${odio} which mount)
+		uom=$(${odio} which umount)
+	}
+
+	#VAIH:jatkossa odion:n ymppääminen mkt-uom tähän , paikallisten check_bin() - fktioiden kautta?
+	#... se sqr00t-ymp myös testattava sen jälkeen että miten toimii siellä
+
+	function check_binaries2() {
+		dqb "imp2.check2"
+	
+		som="${odio} ${som}"
+		uom="${odio} ${uom}"
+		srat="${odio} ${srat}"
+	}
 
 	function part3() {
 		dqb "imp2.part3 :NOT SUPPORTED"
 		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount
 	}
-	
+
 	function other_horrors() {
 		dqb "AZATH0TH AND OTHER H0RR0RR55.6"
 	}
@@ -122,7 +135,7 @@ fi
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
 echo "mkt= ${mkt} "
-csleep 3
+csleep 2
 
 if [ -f /.chroot ] || [ -x ${mkt} ] ; then
 	dqb "MTK"
@@ -132,6 +145,8 @@ else
 fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
+#121225:ulompi gpg-tarkistus sujuu jo live-ymp, miten sisempi? tehdäänkö sitä? nykyään joo
+#111225.2,:live-ymp ja ffox-prof exp/imp, toimiiko? jep
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -146,7 +161,7 @@ else
 fi
 
 olddir=$(pwd)
-part=/dev/disk/by-uuid/${part0}
+part=/dev/disk/by-uuid/${CONF_part0}
 dqb "L0G"
 
 ocs tar
@@ -160,7 +175,6 @@ else
 	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE"
 fi
 
-#291125:josko toimisi sq-chroot-ympäristössä, sen ulkopuolella:vissiin
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
@@ -177,24 +191,37 @@ function common_part() {
 	csleep 1
 	cd /
 
+#	local r
+#	r=0
+#
+	#VAIH:näille main urputusta jos ei .sig tarkistus onnistu (jtnkn toisin kuitenkin)
+	if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
+		#dqb "A"
+
+		if [ ! -z ${gg} ] ; then #sen array:n olamessaolon testi tähän?
+			#dqb "B"
+
+			if [ -x ${gg} ] ; then
+				#dqb "C"
+
+				dqb " ${gg} --verify ${1}.sha.sig "
+				${gg} --verify ${1}.sha.sig
+				r=$?
+			fi
+		fi
+	fi
+
+#	[ ${r} -eq 0 ] || exit ${r}
+	csleep 3
+
 	#kts. common_lib.psqa()
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
+		dqb "gg= ${gg}"
 
 		cat ${1}.sha
 		${sah6} ${1}
 		csleep 2
-
-		#291125:testaus sq-chroot-ymp onnistui ainakin kerran
-		if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
-			if [ ! -z ${gg} ] ; then
-				if [ -x ${gg} ] ; then
-					#081225:julk av olemassaolo, pitäisikö tarkistaa tässä?
-					dqb " ${gg} --verify ${1}.sha.sig "
-					${gg} --verify ${1}.sha.sig
-				fi
-			fi
-		fi
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
@@ -215,14 +242,14 @@ function common_part() {
 		enforce_access ${n} ${t} 
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	else
-		dqb "n s t as ${t}/common_lib.sh "	
+		dqb "n s t as ${t}/common_lib.sh "
 	fi
 
 	csleep 1
-	
+
 	if [ -d ${t} ] ; then
 		dqb "HAIL UKK"
-	
+
 		${scm} 0755 ${t}
 		${scm} 0555 ${t}/*.sh
 		${scm} 0444 ${t}/conf*
@@ -237,47 +264,55 @@ function common_part() {
 }
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#VAIH:korjaa jos rikki, 101225 tienoilla ei fox-profiili (kuseekohan g_doit kautta vaiko exp2:ssa vika?)
-#... toinen yritys 101225 niin profiilin import onnistui, ongelma pikemminkin exp2 puolella?
+#141222:profiilin importoinnin ongelmien syy saattaut selvitä, tietty tap lkukuunottamatta ao. fktio toimii ok
+#olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
 
 	[ -z ${1} ] && exit 11
 	[ -d ${1} ] || exit 12
+	[ -s ${1}/fediverse.tar ] || exit 13
+	[ -r ${1}/fediverse.tar ] || exit 14
 
 	dqb "pars_ok"
 	csleep 1
 
-	local t
-	for t in ${1}/config.tar.bz2 ~/config.tar.bz2 ; do ${srat} ${TARGET_TPX} -C ~ -xvf ${t} ; done
-	[ $? -eq 0 ] || exit
+	if [ ! -x ${1}/profs.sh ] ; then
+		dqb "CANNOT INCLUDE PROFS.HS"
+		dqb "$0 1 \$srcfile | chmod +x profs.sh ?"
+		exit 15
+	fi
 
-	dqb "PROFS?"
+	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
+	. ${1}/profs.sh
+	[ $? -gt 0 ] && exit 16
+
+	dqb "INCLUDE OK"
 	csleep 1
 
-	if [ -x ${1}/profs.sh ] ; then
-		#fktioiden {im,ex}portointia jos kokeilisi? man bash...
-		. ${1}/profs.sh
-		[ $? -gt 0 ] && exit 33
-			
-		dqb "INCLUDE OK"
-		csleep 1
-		local q
-		q=$(mktemp -d)
+	local q
+	local r
+	q=$(mktemp -d)
+	[ $? -gt 0 ] && exit 17
 
-		#jatkossa kutsuvaan koodiin tämä if-blokki? mitenkä että?
-		if [ -s ~/fediverse.tar ] ; then
-			${srat} ${TARGET_TPX} -C ${q} -xvf ~/fediverse.tar
-		else
-			${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/fediverse.tar
-		fi
+	dqb "JUST BEFOIRE TAR"
+	#jos vielä härdelliä niin keskeytetään jos ei fediversestä löydä prefs.js
+	r=$(${srat} -tf ${1}/fediverse.tar | grep prefs.js | wc -l)
+	[ ${r} -gt 0 ] || exit 18
+	csleep 5
 
-		imp_prof esr ${n} ${q}
-	else
-		dqb "CANNOT INCLUDE PROFS.HS"
-		dqb "$0 1 \$srcfile ?"
-	fi
+	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/fediverse.tar
+	[ $? -gt 0 ] && exit 19
+	csleep 5
+
+	dqb "JUST BEFORE impo_prof"
+	csleep 5
+
+	#täössökö menee pieleen? vissiin
+	imp_prof esr ${n} ${q}
+	dqb $?
+	csleep 5
 
 	dqb "UP1R D0N3"
 	csleep 1
@@ -287,28 +322,28 @@ function tpr() {
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii?
-		part=/dev/disk/by-uuid/${part0}		
+		part=/dev/disk/by-uuid/${CONF_part0}
 		[ -b ${part} ] || dqb "no such thing as ${part}"
-		c=$(grep -c ${dir} /proc/mounts)
+		c=$(grep -c ${CONF_dir} /proc/mounts)
 
 		if [ ${c} -lt 1 ] ; then
-			${som} -o ro ${part} ${dir}
+			${som} -o ro ${part} ${CONF_dir}
 			csleep 1
-			${som} | grep ${dir}
+			${som} | grep ${CONF_dir}
 		fi
 
 		[ $? -eq 0 ] && echo "NEXT: $0 0 <source> [distro] unpack AND install | $0 1 <source> just unpacks the archive | $0 3 ..."
 		#mode=-3
-		#remember:to_umount olisi hyvä muistuttaa kyitenkin
+		#remember:to_umount olisi hyvä muistuttaa kuitenkin
 	;;
 	2)
 		#081225:toimiiko oikein kun "$0 2 -v" ?
 		dqb "T=-1 K (Eugen K.)"
 		csleep 1
 
-		${uom} ${dir}
+		${uom} ${CONF_dir}
 		csleep 1
-		${som} | grep ${dir}
+		${som} | grep ${CONF_dir}
 
 		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh maybe | sleep \$delay;ifup \$iface;changedns if necessary"
 		#mode=-3
@@ -344,25 +379,21 @@ dqb "srcfile=${srcfile}"
 csleep 1
 
 case "${mode}" in
-	r) #101225:toimii vai ei?
-		[ -d ${srcfile} ] || exit 22
-		tpr ${srcfile}
-	;;
-	1) # toimi 261125 (testaapa uudestaan, TODO)
+	1) #151225:toimii
+	#TODO:jos CONF_testgris asetettu ni / tilalle, tai siinä on kyllä juttuja... chroot (kehitysymp) parempi
 		common_part ${srcfile} ${d} /
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
-	0|3) #291125:case 3 toimii jo sq-chr-ynp kanssa, luulisin että live-ymp myös
+	0|3) #151225:case 3 toimii edelleen, myös sqroot alla
+		#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)
 		#TODO:selvitä, toimiiko case 0? jnpp
-		#011225 oli kiukuttelua sq-chr-ymp, kts toistuuko
 
 		echo "ZER0 S0UND"
 		csleep 1
 		dqb " ${3} ${distro} MN"
 		csleep 1
 
-		#281125:s:n ja t:n kanssa riittää kusta ja paskaa ainakin sq-chroot-ympäristössä
 		if [ ${1} -eq 0 ] ; then
 			dqb "DEPRECATED"
 			csleep 10
@@ -372,10 +403,8 @@ case "${mode}" in
 		fi
 
 		csleep 1
-		#HUOM.291125:tässä oli blokki (kommentoitu)
-		
 		dqb "c_p_d0n3, NEXT: pp3"
-		csleep 1	
+		csleep 1
 
 		part3 ${d}
 		other_horrors
@@ -383,36 +412,59 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
+	r) #141225:muuten ok mutta x
+		[ -d ${srcfile} ] || exit 22
+		${srat} -C ~ -jxf ~/config.tar.bz2
+		tpr ${srcfile}
+	;;
 	q)
-		#101225:toimii	(ainakin 1 kerran)	
+		#141225:josko taas toimisi
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
 		common_part ${srcfile} ${d} /
+
+		#kai tuo ocnfig voisi suoraan $d0 alla...
+		${srat} -C ~ -jxf ~/config.tar.bz2
 		tpr ${d0}
 	;;
 	k)
-		#291125:toimii sq-chroot alla (DONE?:testaa live-ymp kanssa, toimii qhan conf?)
-		dqb "# . / import2.sh k / pad -v"
+		#VAIH:install_keys.bash liittyen muutoksia exp2 ja imp2
+	
+		#161225:toimii, sq-root-ymp ainakin
+		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
+		dqb "# . \ import2.sh k \ pad -v"
+
+		#TODO:sqroot alta pad-hmiston siivoilu?
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
-		ridk=${srcfile}
+		#ridk=${srcfile}
 
-		if [ ! -z ${gg} ] ; then #-v vielä?
-			if [ -x ${gg} ] ; then
+		if [ -v gg ]  ; then #&& [ -v TARGET_Dkarray ]
+			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then #menisikö näin
 				dqb "NOP"
-				
-				for k in ${TARGET_Dkarray} ; do
-					dqb "dbg: ${gg} --import ${ridk}/${k}"
-					${gg} --import ${ridk}/${k}
-				done
+				csleep 1
+
+				#VAIH:jatkossa jos julkisilla avaimilla olisi jokin pääte
+				#for k in ${TARGET_Dkarray} ; do
+				#	dqb "dbg: ${gg} --import ${ridk}/${k}"
+				#	${gg} --import ${ridk}/${k}
+				#done
+
+				dqb "${gg} --import ${srcfile}/*.gpg soon"
+				csleep 1
+
+				${gg} --import ${srcfile}/*.gpg
+				csleep 1
 
 				[ ${debug} -eq 1 ] && ${gg} --list-keys
 				csleep 3
 			fi
-		fi	
+		else
+			dqb "NO-GO-.THEOREM"
+		fi
 	;;
 	-3)
 		dqb "do_Nothing()"
@@ -425,10 +477,10 @@ esac
 cd ${olddir}
 #ettei umount unohdu 
 
-if [ -v part ] || [ -v dir ] ; then
+if [ -v part ] || [ -v CONF_dir ] ; then
 	echo "REMEMBER 2 UNM0UNT TH3S3:"
 	[ -z ${part} ] || grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan?
-	[ -z ${dir} ] || grep ${dir} /proc/mounts
+	[ -z ${CONF_dir} ] || grep ${CONF_dir} /proc/mounts
 fi
 
 ${scm} 0755 $0

@@ -22,9 +22,21 @@ librsvg2-common*.deb
 libavahi-common-data*.deb
 libavahi-common*.deb
 libcups*.deb
+#
+#voisiko tämän poistaa?
 libavahi*.deb
+#
 libgtk-3-common*.deb
 libgtk-3-0_*.deb
+#
+#lxdm tarttee, mutta riittävätkö nämä?
+libgtk2.0-common*.deb
+libgtk2.0-0*.deb
+# libgtk2.0-0 : Depends: libgtk2.0-common but it is not installable
+#               Recommends: libgail-common but it is not installable
+#               Recommends: libgtk2.0-bin but it is not installable
+#
+#
 libssl3*.deb
 libpython3.11-minimal*.deb
 libpython3.11-stdlib*.deb
@@ -63,10 +75,14 @@ libpam-runtime*.deb
 libpam-elogind*.deb
 libpython3.11-minimal*.deb
 libpython3.11-stdlib*.deb
+libassuan0*.deb
 #
-#uutena 251125 (ehkä kuitenkin pois libatk-libcanb)
-#libatk1.0-0*.deb
-#libsigc++*.deb
+#tartteeko lxdm joitain ao. aketeista?
+#
+libatk1.0-0*.deb
+libsigc++*.deb
+#
+#
 #libpulse0*.deb
 #libjson-glib-1.0-common*.deb
 #libglibmm-*.deb
@@ -82,4 +98,4 @@ libpython3.11-stdlib*.deb
 #libltdl7*.deb
 #libtdb1*.deb
 #libvorbisfile3*-deb
-#libcanberra0*-deb
+libcanberra0*-deb

@@ -6,6 +6,8 @@ d0=$(pwd)
 mode=-2
 tgtfile=""
 
+#HUOM.121225:edelleenkin wanha reject_pkgs jyrää uuden, voisiko jtain tehdä?
+
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -19,20 +21,23 @@ function usage() {
 	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
 	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
 	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
-	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \$ {d0} /\${distro}" 
+	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \$ {d0} /\${distro}"
 	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
 	echo "$0 q <> [] [] archives firefox settings"
 	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
-	echo "$0 t ... option for ipTables"	
-	#echo "$0 å ... somehow related 2 pavucontrol "	
-	echo "$0 -h: shows this message about usage"	
+	echo "$0 t ... option for ipTables"
+	#echo "$0 å ... somehow related 2 pavucontrol"
+	echo "$0 -h: shows this message about usage"
 }
 
+#TODO:jos muuttaisi blokin koskapa gpo() nykyään (-h kanssa voisi tehdä toisinkin)
 if [ $# -gt 1 ] ; then
 	mode=${1}
+	[ -f ${1} ] && exit 99
 	tgtfile=${2}
 else
+	#echo "$0 -h"
 	usage
 	exit 1	
 fi
@@ -41,18 +46,10 @@ fi
 function parse_opts_1() {
 	dqb "exp2.patse_otps8( ${1}, ${2})"
 
-	case "${1}" in
-		-v|--v)
-			debug=1
-		;;
-		*)
-			#menisiköhän näin?
-			if [ -d ${d}/${1} ] ; then
-				distro=${1}
-				d=${d0}/${distro}
-			fi
-		;;
-	esac
+	if [ -d ${d}/${1} ] ; then
+		distro=${1}
+		d=${d0}/${distro}
+	fi
 }
 
 function parse_opts_2() {
@@ -78,7 +75,8 @@ if [ -x ${d0}/common_lib.sh ] ; then
 else
 	dqb "FALLBACK"
 	dqb "chmod +x ${d0}/common_lib.sh may be a good idea now"
-	exit 56 #HUOM.28725:toistaiseksi näin
+	exit 56
+	#HUOM.28725:toistaiseksi näin
 fi
 
 [ -z ${distro} ] && exit 6
@@ -121,15 +119,6 @@ if [ -z "${mkt}" ] ; then
 	exit 8
 fi
 
-dqb "${sco} -Rv _apt:root ${pkgdir}/partial" #TODO:CONF_pkgdir
-csleep 1
-${sco} -Rv _apt:root ${pkgdir}/partial/
-${scm} -Rv 700 ${pkgdir}/partial/
-csleep 1
-
-#HUOM. ei kovin oleellista ajella tätä skriptiä squashfs-cgrootin siSÄllä
-#mutta olisi hyvä voida testailla sq-chrootin ulkopuolella
-
 dqb "e22_pre0"
 csleep 1
 
@@ -163,27 +152,35 @@ csleep 1
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
-	f) 	#291125:joskohan nykyään jo toimisi
-		#...josko jo 011225 alkaisi jolla sha512sums.txt.sig mukana
-
-		#251125:saisiko pakotettua alemman case:n kanssa toimimaan?		
-		#DONE:accept/reject-käsittely uusiksi prkl, jospa tämä case ei niitä tdstoja vetäisi mukana jatkossa
+	f) 	#151225:uudelleenpakk kai ok nykyään
+		#... tai siis erillinen case tai skripti sitä varten? 
+		#... tämä vain pakkaisi kerran, muuttamatta sisältöä tjsp
 
 		enforce_access ${n} ${t}
+		#e22_hdr() tähän vielä?
 		e22_arch ${tgtfile} ${d}
 		e22_ftr ${tgtfile}
 		exit
 	;;
 	q)
-		#TODO:korjaa
+		#101225:toimii (ainakin 1 kerran)
 		${sifd} ${iface}
-		e22_settings ~ ${d0}
 
-		#VAIH:josko takaisin siihen että vain oikeasti tarpeelliset mukaan
-		#...esim pulse.tar voisi excludoida
-		#btw. mikä olikaan syy että q on tässä ekassa case:ssa? pl siis että turha apt-renkkaus
+		#141225:tgtfile voisi oikeastaan mennä config1:selle parametriksi jatkossa
+		e22_config1 ~
+		${srat} -rvf ${tgtfile} ~/config.tar.bz2
 
-		for f in $(find ~ -maxdepth 1 -name '*.tar' -or -name '*.bz2' -or -name 'profs.sh' | grep -v pulse) ; do
+		dqb $?
+		csleep 4
+
+		${smr} ~/fediverse.tar
+		csleep 1
+
+		#tdstonimi parametriksi jatkossa
+		e22_settings ${d0}
+		#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
+
+		for f in $(find ${d0} -maxdepth 1 -name 'fediverse.tar' -or -name 'profs.sh' | grep -v pulse) ; do
 			${srat} -rvf ${tgtfile} ${f}
 		done
 
@@ -193,48 +190,52 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#301125:teki paketin jo eilen, sisältö ehkä ok, live-ympäristössä pientä kiukuttelua mikä toivottavasti jo ohi 
-		#sisällön kunto ei tämän casen asia oikeastaan
-		#kiukuttelu saattoi liittyä /tmp-hakemistoon tai sitten ei (ehkä mktemp -d auttaa?)
-
-		#TODO:jospa suoraan tar -jcvf ni ei tartte 2 tdston kanssa säätää	
+		#TODO:suoraan tgtfile eik tgtfile.bz3
+		#151225:testailu vaiheessa (tauhkat voisi jo pois)
+#		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
 		cd ${d0}
-	
-		e22_hdr ${tgtfile}
-		fasdfasd ${tgtfile}
+#
+#		e22_hdr ${tgtfile}.bz3 #juuei
+#		fasdfasd ${tgtfile}
+
+#		#exit
+#
+#		tcmd=$(which tar)
+#		[ -v CONF_testgris ] && tcmd=${srat} #071225:CONF_testgris- ja .chroot sijaan vain 1 muuttuja jatkossa?
+#
+#		| grep -v 'e/' | grep -v 'olds/') ; do 
+#			${tcmd} -rvf ${tgtfile} ${f}
+#		done
+#
+#		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/' | grep -v 'olds/')  ; do 
+#			${tcmd} -rvf ${tgtfile} ${f}
+#		done
+#
+#		#HUOM.291125:tästä tuli jotain nalkutusta, joskohan jo 301125 kunnossa?
+#		bzip2 -c ${tgtfile} > ${tgtfile}.bz3
+#
+#		#${svm} ${tgtfile}.bz2 ${tgtfile}.bz3
+#		#tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte
+
 		fasdfasd ${tgtfile}.bz3
-		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
-		#exit
+		[ ${debug} -eq 1 ] && ls -las ${tgtfile}*
+		
+		#tuota tdstojen nimeämistä voisi muuttaa jatkossa:kreikan meri/meri kreikan
+		#josko findin jutut listaan ja tar:ille -T , jatkossa?
+		${srat} -jcvf ${tgtfile}.bz3 ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
 
-		tcmd=$(which tar)
-		[ -v testgris ] && tcmd=${srat} #071225:testgris- ja .chroot sijaan vain 1 muuttuja jatkossa?
-
-		#find-komentoja pystynee kai hinkkaamaan vielä
-
-		for f in $(find . -type f -name '*.sh' | grep -v 'e/' | grep -v 'olds/') ; do 
-			${tcmd} -rvf ${tgtfile} ${f}
-		done
-
-		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/' | grep -v 'olds/')  ; do 
-			${tcmd} -rvf ${tgtfile} ${f}
-		done
-				
-		#HUOM.291125:tästä tuli jotain nalkutusta, joskohan jo 301125 kunnossa?
-		bzip2 -c ${tgtfile} > ${tgtfile}.bz3
-
-		#${svm} ${tgtfile}.bz2 ${tgtfile}.bz3
-		#tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte 
 		e22_ftr ${tgtfile}.bz3
 		exit
+		#VAIH:install_keys.bash liittyen muutoksia exp2 ja imp2
 	;;
 	g)
-		#HUOM.291125:edelleen antaa komennot joilla saa paketin aikaiskesi
+		#101225:ulostuksilla saa paketin aikaiseksi edelleen
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "${sag_u} | ${fib} , when necessary " 
 
 		echo "${shary} ${E22GI}"
-		#TODO:CONF_pkgdir
-		echo "${svm} ${pkgdir}/*.deb ${d}" #oli se e22_ts() kanssa
+
+		echo "${svm} ${CONF_pkgdir}/*.deb ${d}" #oli se e22_ts() kanssa
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
 	;;
@@ -273,13 +274,19 @@ e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${iface} ${dnsm}
 #TODO:cleanpkgs-jutut tähän jatkossa?
 
+e22_cleanpkgs ${d}
+e22_cleanpkgs ${CONF_pkgdir}
+
 case ${mode} in
 	#johdonmukaisuuden vuoksi 3|4) jatkossa (imp2/exp2)
 	0)
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
-	3|4) #091225:case 3 tekee toimivan paketin ... paitsi että ffox prof (TODO:korjaa)
+	3|4) 
+		#091225:case 3 tekee toimivan paketin, ainakin kerran teki
+		#131225 case 4:tekee paketin, toimiikin jnkn verran
+	
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
@@ -289,19 +296,17 @@ case ${mode} in
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
+
 		dqb "srat= ${srat}"
 		csleep 1
-
 		e22_hdr ${d}/f.tar
-		e22_cleanpkgs ${d}
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
 			e22_tblz ${d} ${iface} ${distro} ${dnsm}
-			e22_other_pkgs ${dnsm}
-	
+			e22_other_pkgs ${dnsm} ${CONF_dm}
+
 			if [ -d ${d} ] ; then
-				#enf_scc ulos d-blokista vai ei?
 				e22_dblock ${d}/f.tar ${d}
 			fi
 
@@ -313,56 +318,51 @@ case ${mode} in
 		${sifd} ${iface}
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 1
- 	
+
 		e22_home ${tgtfile} ${d} ${enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 1
 		${NKVD} ${d}/*.tar #oli se fktiokin
 
+		${srat} -tf ${tgtfile} | grep fediverse
+		csleep 10
+
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
-		csleep 1	
+		csleep 1
 		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
 	;;
-	#091225:tekee paketin, sisällön kelpoisuus selvitettävä
+	#091225:teki paketin, sisällön kelpoisuus selvitettävä
+	#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)	
+	#... syynä ei liene lxdm tai x11-utils koska reject_pkgs
+	#TODO:josqs uusi testaus	
 	1|u|upgrade)
-		e22_cleanpkgs ${CONF_pkgdir}
-		e22_cleanpkgs ${d}
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
 
 		e22_upgp ${tgtfile} ${d} ${iface}
-
 		e22_ts ${d}
-		${srat} -cf ${1} ${d}/tim3stamp
+
+		${srat} -cf ${1} ${d}/tim3stamp #tarvitseeko tätä nykyään?
 		t=$(echo ${d} | cut -d '/' -f 1-5)
-	
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 	;;
-	p) #TODO:testaa
+	p) #091225:tekee paketin missä validia sisältöä, kai
 		e22_profs ${tgtfile} ${d0} 
 	;;
 	e)
-		#241125 testattu sen verran että slim ei mennyt rikki ja .deb-pak vissiin asentuivat
-		#251125:uudistettukin versio näyttää ulostavan toimivan paketin
-		#261125:toimii edelleen vaikka e22_hdr() karsittu
-		#301125:tekee paketin, sisällön toimivuus vielä testattava		
-		#091225:tekee paketin, sisältökin asentuu
-
-		e22_cleanpkgs ${d}
+		#151225:tekee paketin, sisältö:
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
-		e22_other_pkgs ${dnsm}
+		[ -v CONF_dm ] || exit 77
+		e22_other_pkgs ${dnsm} ${CONF_dm}
 
 		if [ -d ${d} ] ; then
 			e22_dblock ${tgtfile} ${d}
 		fi
 	;;
 	t) 
-		#091225:tekee paketin, sisältökin asentuu
-		e22_cleanpkgs ${d}
-		e22_cleanpkgs ${pkgdir} #TODO:CONF_pkgdir
-			
+		#101225:teki paketin, sisältökin asentui 091225
 		message
 		csleep 2
 
