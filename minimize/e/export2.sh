@@ -152,6 +152,15 @@ csleep 1
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
+	rp)
+		dqb "VAIH:repackaging previously created archive"
+		echo "tar --exclude sha512sums* -C {d} -xvf ${tgtfile}"
+		echo "mv ${tgtfile} ${tgtfile}.OLD"
+		echo "???"
+		echo "$0 f ${tgtfile}"
+		echo "profit"
+		exit
+	;;
 	f) 	#151225:uudelleenpakk kai ok nykyään
 		#... tai siis erillinen case tai skripti sitä varten? 
 		#... tämä vain pakkaisi kerran, muuttamatta sisältöä tjsp
@@ -330,7 +339,7 @@ case ${mode} in
 	;;
 	e)
 		#151225:tekee paketin, sisältö:lxdm kanssa ongelmaa edelleen
-		#TODO:koita korjata riippuvuudet
+		#VAIH:koita korjata riippuvuudet
 
 		e22_tblz ${d} ${iface} ${distro} ${dnsm}
 		[ -v CONF_dm ] || exit 77

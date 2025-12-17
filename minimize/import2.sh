@@ -24,13 +24,14 @@ function csleep() {
 function usage() {
 	echo "${0} <mode> <srcfile> [distro] [debug] "
 	echo "when mode=k , this imports PUBLIC_KEYS , u have to import private keys another way!!!"
-	echo "\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
+	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
+#parsetusta uusittu 171225 $2 osalta, muutoksen peruutus jos qsee
 if [ $# -gt 0 ] ; then
 	mode=${1}
 	[ -f ${1} ] && exit 99
-	srcfile=${2}
+	[ "${2}" == "-v" ] || srcfile=${2}
 fi
 
 function parse_opts_1() {
@@ -50,6 +51,8 @@ if [ -f /.chroot ] ; then
 	sleep 1
 
 	#HUOM.141025:them files should be checked before eXtraCting
+	#gpgtar jos mahd, muuten normi-tar
+
 	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
 		tar -jxvf ${f}
 		sleep 1
@@ -76,9 +79,9 @@ fi
 #-1 ja 2 OK
 #... siinä ne oleellisimmat tapaukset
 #141225:q ja r eivät toimi kunnolla tällöin
-#3 toimi sqroot-ympäristösäs ok, pl ilmeinen puute
+#3 toimi sqroot-ympäristössä ok, pl ilmeinen puute
 
-#TODO:jos ei muuten ala bugi löytyä ni chmod a-x common_lib ja sit jotain
+#VAIH:jos ei muuten ala bugi löytyä ni chmod a-x common_lib ja sit jotain
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -98,7 +101,10 @@ else
 		mkt=$(which mktemp)
 		scm="${odio} which chmod" 
 		sah6=$(${odio} which sha512sum)
+
 		srat=$(${odio} which tar)
+		#eXit jos srat ei
+
 		gg=$(${odio} which gpg)
 		som=$(${odio} which mount)
 		uom=$(${odio} which umount)
@@ -135,6 +141,10 @@ fi
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
 echo "mkt= ${mkt} "
+
+[ -v srat ] || exit 8
+[ -z "${srat}" ] && exit 10
+echo "srat= ${srat} "
 csleep 2
 
 if [ -f /.chroot ] || [ -x ${mkt} ] ; then
@@ -146,7 +156,7 @@ fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 #121225:ulompi gpg-tarkistus sujuu jo live-ymp, miten sisempi? tehdäänkö sitä? nykyään joo
-#111225.2,:live-ymp ja ffox-prof exp/imp, toimiiko? jep
+#111225.2:live-ymp ja ffox-prof exp/imp, toimiiko? jep
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -166,7 +176,7 @@ dqb "L0G"
 
 ocs tar
 dqb "srat= ${srat}"
-csleep 10
+csleep 3
 dqb "LHP"
 
 if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
@@ -175,7 +185,12 @@ else
 	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE"
 fi
 
-#TODO:debug (jkokun qsee 161225
+ocs tar
+dqb "srat= ${srat}"
+csleep 3
+dqb "Lpg"
+
+#VAIH:debug (jkin qsi 161225, syy saattoi löytyä 171225)
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
@@ -195,7 +210,6 @@ function common_part() {
 	local r
 	r=0
 
-	#VAIH:näille main urputusta jos ei .sig tarkistus onnistu (jtnkn toisin kuitenkin)
 	if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
 		dqb "A"
 
@@ -213,7 +227,7 @@ function common_part() {
 		fi
 	fi
 
-	[ ${r} -eq 0 ] || exit ${r}
+	[ ${r} -eq 0 ] || exit ${r} #voiso olla if-blokin sisälläkin
 	csleep 3
 
 	#kts. common_lib.psqa()
@@ -228,8 +242,8 @@ function common_part() {
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	dqb "srat= ${srat}"	
-	csleep 10
+	dqb "srat= ${srat}"	#tai ocs() 
+	csleep 3
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 	
 	csleep 2
@@ -266,9 +280,15 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
+ocs tar
+dqb "srat= ${srat}"
+csleep 3
+dqb "HPL"
+
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #141222:profiilin importoinnin ongelmien syy saattaut selvitä, tietty tap lkukuunottamatta ao. fktio toimii ok
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
+#
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
@@ -303,19 +323,19 @@ function tpr() {
 	#jos vielä härdelliä niin keskeytetään jos ei fediversestä löydä prefs.js
 	r=$(${srat} -tf ${1}/fediverse.tar | grep prefs.js | wc -l)
 	[ ${r} -gt 0 ] || exit 18
-	csleep 5
+	csleep 3
 
 	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/fediverse.tar
 	[ $? -gt 0 ] && exit 19
-	csleep 5
+	csleep 3
 
 	dqb "JUST BEFORE impo_prof"
-	csleep 5
+	csleep 3
 
 	#täössökö menee pieleen? vissiin
 	imp_prof esr ${n} ${q}
 	dqb $?
-	csleep 5
+	csleep 3
 
 	dqb "UP1R D0N3"
 	csleep 1

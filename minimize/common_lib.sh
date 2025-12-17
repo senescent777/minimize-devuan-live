@@ -7,6 +7,7 @@ function csleep() {
 }
 
 #TODO:tämän tiedoston siirto toiseen repositoryyn koska syyt? (siis siihen samaan missä profs.sh)
+debug=1 #joskus vielä tämä pois tästä
 
 if [ -f /.chroot ] ; then
 	odio=""
@@ -14,11 +15,11 @@ if [ -f /.chroot ] ; then
 
 	function itni() {
 		dqb "alt-itn1"
-		sco=$(which chown) #toimii vai ei?
-		scm=$(which chmod)
+		#sco=$(which chown) #toimii vai ei?
+		#scm=$(which chmod)
 	}
 
-	#HUOM.141025:oikeastaan pitäisi tarkistaa ennen purkua
+	#HUOM.141025:oikeastaan pitäisi tarkistaa ennen purkua, gpgtar jos löytyy, normi-tar muuten
 	for f in $(find $(pwd) -type f -name 'nekros?'.tar.bz3) ; do
 		tar -jxvf ${f}
 		sleep 1
@@ -33,17 +34,8 @@ else
 		[ y"${odio}" == "y" ] && exit 99 
 		[ -x ${odio} ] || exit 100
 	
-		dqb "ITN1-2-2"	
-		#VAIH:uskaltaisikohan nämä siirtää ulos fktiosta, if-blokin jälkeen ? 
-		#no silleen ehkä että saa sen sudon mukaan $sco-juttuihin
+		#dqb "ITN1-2-2"	
 
-		sco=$(${odio} which chown)
-		[ y"${sco}" == "y" ] && exit 98
-		[ -x ${sco} ] || exit 97
-		
-		scm=$(${odio} which chmod)
-		[ y"${scm}" == "y" ] && exit 96
-		[ -x ${scm} ] || exit 95
 	}
 
 	#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
@@ -54,8 +46,18 @@ itni
 
 function fix_sudo() {
 	dqb "common_lib.fix_sud0.pt0"
+	
+	sco=$(${odio} which chown)
+	[ y"${sco}" == "y" ] && exit 98
+	[ -x ${sco} ] || exit 97
+		
+	scm=$(${odio} which chmod)
+	[ y"${scm}" == "y" ] && exit 96
+	[ -x ${scm} ] || exit 95
 
-	#dqb "f_s_PART2"
+	dqb "f_s_PART2"
+	sco="${odio} ${sco} "
+	scm="${odio} ${scm} "	
 
 	${sco} -R 0:0 /etc/sudoers.d
 	${scm} 0440 /etc/sudoers.d/*
@@ -70,7 +72,7 @@ function fix_sudo() {
 		${scm} 0444 /usr/lib/sudo/sudoers.so
 	fi
 
-	dqb "fix_sud0.pt1"
+	dqb "fix_sud0.pt"
 	${scm} 0750 /etc/sudoers.d
 	${scm} 0440 /etc/sudoers.d/*
 	
@@ -81,7 +83,6 @@ function fix_sudo() {
 	#HUOM.29925:pidetään nyt varm. vuoksi "ch m00d abcd \u5 R \ bin \ 5 ud0 *" poissa tstä
 }
 
-#TODO:debug
 function other_horrors() {	
 	dqb "other_horrors"
 
@@ -95,14 +96,10 @@ function other_horrors() {
 	dqb " DONE"
 	csleep 1
 }
-
-sco="${odio} ${sco} "
-scm="${odio} ${scm} "	
 	
 fix_sudo
 other_horrors
 
-#TODO:debug
 #HUOM.111225:toimiiko oikein sq-chroot-ympäristössä?
 function ocs() {
 	dqb "ocs ${1}  "
@@ -119,34 +116,56 @@ function ocs() {
 	fi
 }
 
-#TODO:debug
+#VAIH:debug
 #... miten (LC_juttujen) aikainen asettaminen muuten vaikuttaa el_loco():on ?
 function check_bin_0() {
 	dqb "check_bin_0"
+	csleep 1
 
+	dqb "cb1"
 	ocs sha512sum
+	ocs dpkg
+	ocs tar
+	ocs shred
+	csleep 1
+
+	dqb "cb2"
+	unset sdi #tekeeko tämä jotain? kyl , kts check_bin ,, "second half"
+	unset sr0
+	unset srat
+	unset sah6
+	unset NKVD
+	csleep 1
+
+	dqb "cb3"
 	#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
 	sah6=$(${odio} which sha512sum)
 
-	ocs dpkg
+	#sdi-jutut myös tänne?
 	sd0=$(${odio} which dpkg)
 	[ -v sd0 ] || exit 78
 	[ -z ${sd0} ] && exit 79
-	
-	unset sdi #tekeeko tämä jotain? kyl , kts check_bin ,, "second half"
 
-	ocs tar
-	unset sr0
 	sr0=$(${odio} which tar)
 	[ -v sr0 ] || exit 80
-	[ -z ${sr0} ] && exit 81 #sr0 bai sd0?
+	[ -z ${sr0} ] && exit 81
+	
+	srat=${sr0}
+	
+	#tämä kuitenkin myöhempänä?	
+	if [ ${debug} -eq 1 ] ; then
+		srat="${srat} -v "
+	fi
+
+	csleep 1
+	dqb "cb4"
 
 	slinky=$(${odio} which ln)
 	slinky="${odio} ${slinky} -s "
 	spc=$(${odio} which cp)
 	svm=$(${odio} which mv)
 	svm="${odio} ${svm} "
-	spc="${odio} ${spc} "
+	spc="${odio} ${spc} " #tämmöisten kanssa tarkkana sitten koska check_bin_2
 	whack=$(${odio} which pkill)
 	whack="${odio} ${whack} --signal 9 "
 	snt=$(${odio} which netstat)
@@ -156,11 +175,11 @@ function check_bin_0() {
 
 	NKVD=$(${odio} which shred)
 	[ -z ${NKVD} ] && exit 37
-	#NKVD="-fu "
 	NKVD="${odio} ${NKVD} -fu "
 	
 	#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
 	PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" 
+
 	# ntp" ntp jemmaan 28525 #slim kokeeksi mukaan listaan 271125, hiiri lakkasi toimimasta
 	#HUOM.excalibur ei sisällä:dnsmasq,stubby
 
@@ -200,6 +219,9 @@ function check_bin_0() {
 	export LANGUAGE
 	export LC_ALL
 	export LANG
+
+	csleep 1
+	dqb "cb0 done"
 }
 
 check_bin_0
@@ -207,8 +229,9 @@ check_bin_0
 function slaughter0() { #käytössä?
 	local fn2
 	local ts2
+
 	fn2=$(echo $1 | awk '{print $1}') 
-	ts2=$(${sah6} ${fn2}) #sha512sum 
+	ts2=$(${sah6} ${fn2})
 	echo ${ts2} | awk '{print $1,$2}' >> ${2}
 }
 
@@ -233,57 +256,60 @@ function message() {
 }
 
 #161225:tämäkö se qsee?
-#function psqa() {
-#	dqb "Q ${1}"
-#	csleep 1
-#	[ -z ${1} ] && exit 55
-#	[ -d ${1} ] || exit 54
-#
-#	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
-#	csleep 1
-#
-#	if [ -s ${1}/sha512sums.txt.sig ] ; then
-#		dqb "S(${1})"
-#		csleep 1
-#
+function psqa() {
+	dqb "Q ${1}"
+	csleep 1
+
+	[ -z ${1} ] && exit 55
+	[ -d ${1} ] || exit 54
+	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
+	csleep 1
+
+	#HUOM.171225:isommat blokkien sisällöt jos ulkoistaisi omiin fktioihinsa?
+
+	if [ -s ${1}/sha512sums.txt.sig ] ; then
+		dqb "S( ${1} )"
+		csleep 1
+
 #		[ -v gg ] || dqb "CANN0T BER1FY S1GNATUR3S.1"
 #		[ -z ${gg} ] && dqb "CANN0T BER1FY S1GNATUR3S.2"
 #		#[ -x ${gg} ] || dqb "CANN0T BER1FY S1GNATUR3S.3"			
 #		csleep 1
 #
-#		if [ -x ${gg} ] ; then #pitäisikö testata dgdts-hmiston sisltöä tai .gnupg?
-#			dqb "${gg} --verify ./sha512sums.txt.sig "
-#			csleep 1
+		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg?
+		if [ -x ${gg} ] ; then
+			dqb "${gg} --verify ./sha512sums.txt.sig "
+			csleep 1
 #
 #			[ ${debug} -eq 1 ] && pwd
 #			csleep 1
-#			${gg} --verify ${1}/sha512sums.txt.sig
-#			#jos taas lukisi sen manuaalin			
+			${gg} --verify ${1}/sha512sums.txt.sig
+
+#			#btw, jos taas lukisi tuon softan manuaalin			
 #
-#			if [ $? -eq 0 ]
-#				dqb "KÖ"				
-#			else
-#				dqb "SHOULD imp2 k \$dir !!!"
-#				exit 93
-#			fi
+			if [ $? -eq 0 ] ; then #tässäkö se bugi oli?
+				dqb "KÖ"
+			else
+				dqb "SHOULD imp2 k \$dir !!!"
+				exit 93
+			fi
 #				
 #			csleep 1
-#		else
-#			dqb "COULD NOT VERIFY SIGNATURES"
-#		fi
-#	else
-#		dqb "NO .txt.sig AVAILABLE"
-#	fi
-#
-#	csleep 2
-#
-#	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
-#		dqb "R ${1}"		
-#		csleep 1
-#
-#		local p
-#		p=$(pwd)
-#		cd ${1}
+		else
+			dqb "COULD NOT VERIFY SIGNATURES"
+		fi
+	else
+		dqb "BERIYA MADE .txt.sig DISAPPEAR"
+	fi
+
+	csleep 2
+
+	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
+		dqb "R ${1} "
+		csleep 1
+		local p
+		p=$(pwd)
+		cd ${1}
 #
 #		if [ -v SOME_CONFIG_OPT ] ; then	
 #			dpkg -V
@@ -291,28 +317,31 @@ function message() {
 #		fi
 #
 #		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
-#		${sah6} -c sha512sums.txt --ignore-missing
-#
+		
+		${sah6} -c sha512sums.txt --ignore-missing
+
 #		#131225:josko kokeiltu tarpeeksi
 #		#if [ ${debug} -eq 0 ] ; then
-#			if [ $? -eq 0 ] ; then
-#				dqb "Q.KO"
-#			else
-#				dqb "export2 f ?"
-#				exit 94
-#			fi
+			
+			if [ $? -eq 0 ] ; then
+				dqb "Q.KO"
+			else
+				dqb "export2 f ?"
+				exit 94
+			fi
+
 #		#fi
 #
-#		cd ${p}
-#	else
-#		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
-#	fi
-#
-#	csleep 2
-#}
+		cd ${p}
+	else
+		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
+	fi
+
+	csleep 2
+}
 
 #not-that-necessary-wrapper-for-psqa()
-#TODO:debug
+#VAIH:debug
 function common_pp3() {
 	dqb "common_pp3 ${1}"
 	csleep 1
@@ -333,17 +362,17 @@ function common_pp3() {
 	r=$(echo ${1} | cut -d '/' -f 1-5)
 
 	if [ ${q} -lt 1 ] ; then
-		echo "SHOULD REMOVE ${1} /sha512sums.txt"
-		echo "\"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
-		${scm} a-x ${r}/common_lib.sh #tämä lienee se syy miksi myöhemmin pitää renkata...
-		
+		echo "SHOULD REMOVE ${1} / sha512sums . t x t"
+		echo "ibcovation \"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
+
+		#tämä lienee se syy miksi myöhemmin pitää renkata...
+		${scm} a-x ${r}/common_lib.sh
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
 	fi
 }
 
-#TODO:debug
 function efk1() {
 	dqb "efk1 $@"
 	${sdi} $@
@@ -370,24 +399,23 @@ function efk2() { #jotain kautta tätäkin kai kutsuttiin (cefgh nykyään)
 	csleep 1
 }
 
-#TODO:lisäksi clibpre():n toiminnallisuuden ymppääminen
+#VAIH:lisäksi clibpre():n toiminnallisuuden ymppääminen
 function common_lib_tool() {
 	dqb "common_lib_tool( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
 	[ -z "${2}" ] && exit 67
 	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE"
- 
+	
 	dqb "WILL START REJECTING P1GS NOW"
 	#dqb "NKVD: ${NKVD}"
 	csleep 1
-
+	
 	local q
 	local r
 	local s
-
+	
 	for q in $(grep -v '#' ${1}/${2}) ; do
 		dqb "outer; ${q}"
-
 		#jatk r pois?
 		r=$(find ${1} -type f -name "${q}*.deb" )
 		#dqb "r= ${r}"
@@ -398,14 +426,13 @@ function common_lib_tool() {
 			${NKVD} ${s}
 			csleep 1
 		done
-
+		
 		if [ ${debug} -eq 1 ] ; then
 			ls -las ${1}/${q}* | wc -l
 		fi
 	done
 
 	dqb "REJECTNG DONE"
-	#exit 66
 }
 
 #common_lib_tool ja clibpre pystyisi yhdistämään ... EHKÄ josqs
@@ -471,7 +498,7 @@ function fromtend() {
 #
 #P.S. this function created to avoid a chicken-and-egg-situation
 #
-#TODO:debug
+#VAIH:debug
 #function common_tbls() {
 #	dqb "COMMON TABLESD $1, $2"
 #	csleep 1
@@ -550,7 +577,7 @@ function fromtend() {
 #	csleep 1
 #}
 
-#TODO:debug
+#VAIH:debug
 function cefgh() {
 	[ -z ${1} ] && exit 66
 	[ -d ${1} ] || exit 67
@@ -559,7 +586,7 @@ function cefgh() {
 	efk2 ${1}/f.tar ${1}
 }
 
-#TODO:debug
+#VAIH:debug
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135 ${1} "
 	csleep 1
@@ -580,13 +607,7 @@ function check_binaries() {
 	[ -v ipt ] || exit 103
 	[ -v smd ] || exit 104
 
-	srat=${sr0}
-	sdi="${odio} ${sd0} -i "	
-
-	if [ ${debug} -eq 1 ] ; then
-		srat="${srat} -v "
-	fi
-
+	sdi="${odio} ${sd0} -i "
 	#091225 siirretty tdstost a/e22.sh, katsotaan toimiiko näin?
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
@@ -600,45 +621,45 @@ function check_binaries() {
 	#VAIH:testaa taas
 	#HUOM.141225:josko kiekolle mukaan gpg, ao. if-blokin takia
 
-	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
-		[ -z ${1} ] && exit 99
-		dqb "-d ${1} existsts?"
-		[ -d ${1} ] || exit 101
-
-		dqb "params_ok"
-		csleep 1
-
-		cefgh ${1}
-		common_pp3 ${1}
-
-		if [ -z "${ipt}" ] ; then
-			echo "SHOULD INSTALL IPTABLES"
-			jules
-			sleep 1
-
-			[ -f /.chroot ] && message
-			#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
-			
-			#common_tbls ${1} ${CONF_dnsm}
-			for p in ${E22_GT} ; do efk1 ${1}/${p}*.deb ; done
-			other_horrors
-
-			ipt=$(${odio} which iptables)
-			ip6t=$(${odio} which ip6tables)
-			iptr=$(${odio} which iptables-restore)
-			ip6tr=$(${odio} which ip6tables-restore)
-		fi
-
-		if [ -z "${gg}" ] ; then
-			dqb "SHOULD INSTALL gpg AROUND HERE"
-			csleep 1
-
-			for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
-
-			gg=$(${odio} which gpg)
-			gv=$(${odio} which gpgv)
-		fi
-	fi
+#	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
+#		[ -z ${1} ] && exit 99
+#		dqb "-d ${1} existsts?"
+#		[ -d ${1} ] || exit 101
+#
+#		dqb "params_ok"
+#		csleep 1
+#
+#		cefgh ${1}
+#		common_pp3 ${1}
+#
+#		if [ -z "${ipt}" ] ; then
+#			echo "SHOULD INSTALL IPTABLES"
+#			jules
+#			sleep 1
+#
+#			[ -f /.chroot ] && message
+#			#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
+#			
+#			#common_tbls ${1} ${CONF_dnsm}
+#			for p in ${E22_GT} ; do efk1 ${1}/${p}*.deb ; done
+#			other_horrors
+#
+#			ipt=$(${odio} which iptables)
+#			ip6t=$(${odio} which ip6tables)
+#			iptr=$(${odio} which iptables-restore)
+#			ip6tr=$(${odio} which ip6tables-restore)
+#		fi
+#
+#		if [ -z "${gg}" ] ; then
+#			dqb "SHOULD INSTALL gpg AROUND HERE"
+#			csleep 1
+#
+#			for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
+#
+#			gg=$(${odio} which gpg)
+#			gv=$(${odio} which gpgv)
+#		fi
+#	fi
 
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
@@ -646,7 +667,7 @@ function check_binaries() {
 
 	[ -v sd0 ] || exit 66
  	[ -v sdi ] || exit 67
-	[ -z ${sd0} ] && exit 68
+	[ -z "${sd0}" ] && exit 68
 	
 	dqb "sd0= ${sd0} "
 	dqb "sdi= ${sdi} "
@@ -669,7 +690,6 @@ function check_binaries() {
 	csleep 1
 }
 
-#TODO:debug
 function check_binaries2() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2"
 	csleep 1
@@ -1306,7 +1326,7 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	csleep 1
 }
 
-#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=slim=1.4.0-0devuan2&eXtra=87.95.120.70
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=slim=1.4.0-0devuan
 # Depends:
 #dbus, debconf (>= 1.2.9) | debconf-2.0, default-logind | logind | consolekit, x11-xserver-utils, libc6 (>= 2.34), libgcc-s1 (>= 3.0), libjpeg62-turbo (>= 1.3.1), libpam0g (>= 0.99.7.1), libpng16-16 (>= 1.6.2-1), libstdc++6 (>= 5.2), libx11-6, libxext6, libxft2 (>> 2.1.1), libxmu6 (>= 2:1.1.3), libxrandr2 (>= 2:1.2.99.3)
 #saattaa harata vastaan:dbus , debconf? , libgcc-s1, libpam0g, libx11-6
@@ -1325,7 +1345,6 @@ function part3() {
 
 	dqb "PARAMS_OK"
 	csleep 1
-
 	local c15
 	c15=$(find ${1} -type f -name '*.deb' | wc -l)
 
@@ -1334,13 +1353,12 @@ function part3() {
 	fi
 
 	csleep 1
-
 	jules
 	common_pp3 ${1}
 	csleep 1
 
-	#jatkossa jos jotenkin toisin? ehto ympäriltä kommentteihin vai ei?
-	#if [ ! -f /.chroot ] ; then #HUOM.071225 ehto kommentteihin koska y
+	#HUOM.071225 ehto kommentteihin koska y
+	#if [ ! -f /.chroot ] ; then
 		common_lib_tool ${1} reject_pkgs
 	#fi
 
@@ -1381,7 +1399,7 @@ function part3() {
 	       	exit 67
      	fi
 
-	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
+	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt*
 	csleep 1
 	other_horrors
 }

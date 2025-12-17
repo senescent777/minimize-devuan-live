@@ -281,8 +281,6 @@ function e22_home() { #151225:josko prof.asiat taas tilap. kunn.
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 
 	#maxdepth mukaan vai ei?
-	#HUOM.171225:onko hyvä kun osassa (arkistoon menevistä) tdstoista on tuo ~ mukana polussa ja osassa taas ei?
-
 	for t in $(find ~ -type f -name 'merd2.sh' -or -name config.tar.bz2) ; do
 		${srat} -rvf ${1} ${t}
 	done
@@ -304,10 +302,9 @@ function e22_home() { #151225:josko prof.asiat taas tilap. kunn.
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 	csleep 2
 
-	dqb "AUTOMAGICAL CONFIGURATION IS A DISEASE  x 199 - Bart S."
+	dqb "AUTOMAGICAL CONFIGURATION IS A DISEASE"
 	dqb "Xorg -config ~/xorg.conf TODO?"
-	dqb "find / -type f -name 'xorg.conf*' ,,, ?"
-	#for f in $() ; do ${srat} -rvf ${1} ${f} ; done 	
+	#for f in $(find / -type f -name 'xorg.conf*') ; do ${srat} -rvf ${1} ${f} ; done 	
 	csleep 10
 
 	dqb "e22_home d0n3"
@@ -735,21 +732,107 @@ function e22_dm() {
 
 	case ${1} in
 		lxdm)
-			#TODO:MUISTA MUOKATA SE ACCEPT_PKGS1 + ERITYISESTI SHASUMS&&SIG AJAN TASALLE!!!
+			#VAIH:SELVITÄ PRKL NUO RIIPPUVUUDET ETTEI TAAS JÄÄ JUNNAAMAAN
+			#... vissiin libgtk2-paketit tökkäävät, eli niiden kenssa selvittelyä			
+			
+			#mitä debtree tekee?
+			#============================================================================================================================================
 
+			#0.
+
+			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=lxdm=0.5.3-4
+			# Depends:
+			#debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
+
+			#1.
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=debconf=1.5.82
+				#Depends: - 
+
+				#libc6:don't look any further
+
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libcairo2=1.16.0-7
+				#Depends:
+									
+
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libgdk-pixbuf-2.0-0=2.42.10+dfsg-1+deb12u3
+				# Depends:
+				#libgdk-pixbuf2.0-common (>= 2.42.10+dfsg-1+deb12u3), shared-mime-info, libc6 (>= 2.34), libglib2.0-0 (>= 2.59.0), libjpeg62-turbo (>= 1.3.1), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.0.3)
+
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libglib2.0-0=2.74.6-2+deb12u7
+				# Depends:
+				#libc6 (>= 2.34), libffi8 (>= 3.4), libmount1 (>= 2.35.2-7~), libpcre2-8-0 (>= 10.22), libselinux1 (>= 3.1~), zlib1g (>= 1:1.2.2)
+
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libgtk2.0-0=2.24.33-2+deb12u1
+				#Depends:
+				#
+	
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpam0g=1.5.2-6+deb12u1
+				# Depends:
+				#libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), debconf (>= 0.5) | debconf-2.0
+	
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpango-1.0-0=1.50.12+ds-1
+				# Depends:
+				#
+	
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpangocairo-1.0-0=1.50.12+ds-1
+				# Depends:
+				#libc6 (>= 2.4), libcairo2 (>= 1.12.10), libfontconfig1 (>= 2.13.0), libglib2.0-0 (>= 2.62.0), libharfbuzz0b (>= 2.6.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1)
+	
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libx11-6=2:1.8.4-2+deb12u2
+				# Depends:
+				#libc6 (>= 2.34), libxcb1 (>= 1.11.1), libx11-data
+	
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libxcb1=1.15-1
+				# Depends:
+				#libc6 (>= 2.14), libxau6 (>= 1:1.0.9), libxdmcp6
+
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gtk2-engines-pixbuf=2.24.33-2+deb12u1
+				#Depends:
+				#
+
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iso-codes=4.15.0-1
+				#bo deps?
+
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpam-modules=1.5.2-6+deb12u1
+				# Pre-Depends:
+				#libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), libcrypt1 (>= 1:4.3.0), libdb5.3, libpam0g (>= 1.4.1), libselinux1 (>= 3.1~), debconf (>= 0.5) | debconf-2.0, libpam-modules-bin (= 1.5.2-6+deb12u1)
+	
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=libpam-runtime=1.5.2-6+deb12u
+				# Depends:
+				#debconf (>= 0.5) | debconf-2.0, debconf (>= 1.5.19) | cdebconf, libpam-modules (>= 1.0.1-6)
+			
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=librsvg2-common=2.54.7+dfsg-1~deb12u1
+				# Depends:
+				#librsvg2-2 (= 2.54.7+dfsg-1~deb12u1), libgdk-pixbuf-2.0-0 (>= 2.23.5-2), libglib2.0-0 (>= 2.50.0)
+
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=lsb-base=11.6
+				# Depends:
+				#sysvinit-utils (>= 3.05-4~)
+
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=x11-utils=7.7+5
+				# Depends:
+				#libc6 (>= 2.15), libfontconfig1 (>= 2.12.6), libfontenc1, libgl1, libx11-6, libx11-xcb1 (>= 2:1.6.9), libxaw7, libxcb-shape0, libxcb1 (>= 1.6), libxcomposite1 (>= 1:0.3-1), libxext6, libxft2 (>> 2.1.1), libxi6, libxinerama1, libxkbfile1, libxmu6, libxmuu1, libxrandr2 (>= 2:1.2.0), libxrender1, libxt6 (>= 1:1.1.0), libxtst6, libxv1, libxxf86dga1, libxxf86vm1
+
+				#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gtk2-engines=1:2.20.2-5+b1
+				# Depends:
+				#
+
+
+			#2.
+
+
+					#libgtk2.0-common, libatk1.0-0 (>= 1.32.0), libc6 (>= 2.34), libcairo2 (>= 1.6.4-6.1), libcups2 (>= 1.6.0), libfontconfig1 (>= 2.12.6), libgdk-pixbuf-2.0-0 (>= 2.22.1), libglib2.0-0 (>= 2.41.1), libpango-1.0-0 (>= 1.28.3), libpangocairo-1.0-0 (>= 1.28.3), libpangoft2-1.0-0 (>= 1.28.3), libx11-6 (>= 2:1.4.99.1), libxcomposite1 (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxi6, libxinerama1 (>= 2:1.1.4), libxrandr2 (>= 2:1.5.0), libxrender1, adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
+					#libc6 (>= 2.14), libcairo2 (>= 1.6.4-6.1), libgdk-pixbuf-2.0-0 (>= 2.22.1), libglib2.0-0 (>= 2.27.3
+					##libc6 (>= 2.4), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.37.3)
+			#============================================================================================================================================
 
 			#libcairo2:libc6 (>= 2.35), 
 			TODO?:libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.9.1), libpixman-1-0 (>= 0.30.0), libpng16-16 (>= 1.6.2-1), libx11-6, libxcb-render0, libxcb-shm0, libxcb1 (>= 1.6), libxext6, libxrender1, zlib1g 
 			#libgtk2.0-common:?
-			#libgtk2.0-0:libgtk2.0-common,
-
-			#VAIH:libatk1.0-0 (>= 1.32.0), 
-			${shary} libatk1.0-0 
-
+			#libgtk2.0-0:libgtk2.0-common, 
+			#TODO:?libatk1.0-0 (>= 1.32.0), 
 			#libc6 (>= 2.34), libcairo2 (>= 1.6.4-6.1), 
 			#TODO:?libcups2 (>= 1.6.0), libfontconfig1 (>= 2.12.6), 
-			#(jos aikoo dbusista eroon ni libcups2 ei hyvä idea)
-			
 			#libgdk-pixbuf-2.0-0 (>= 2.22.1), libglib2.0-0 (>= 2.41.1), 
 			#libpango-1.0-0 (>= 1.28.3), libpangocairo-1.0-0 (>= 1.28.3), libpangoft2-1.0-0 (>= 1.28.3), libx11-6 (>= 2:1.4.99.1), libxcomposite1 (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxi6, libxinerama1 (>= 2:1.1.4), libxrandr2 (>= 2:1.5.0), libxrender1, adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
 
@@ -759,18 +842,13 @@ function e22_dm() {
 
 			#libpango-1.0-0:fontconfig (>= 2.13.0), 
 			#libc6 (>= 2.14), 
-			#VAIH:libfribidi0 (>= 1.0.6),
+			#TODO?:libfribidi0 (>= 1.0.6),
 			# libglib2.0-0 (>= 2.67.3),
-
-			#VAIH: libharfbuzz0b (>= 5.1.0), libthai0 (>= 0.1.25)
-			${shary} libfribidi0 libharfbuzz0b libthai0 
-
-			#VAIH: libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.37.3)	
-			${shary} libgdk-pixbuf-2.0-0 libglib2.0-0 libglib2.0-0
+			#TODO?: libharfbuzz0b (>= 5.1.0), libthai0 (>= 0.1.25)
 
 			#gtk2-engines-pixbuf:libc6 (>= 2.14), libcairo2 (>= 1.6.4-6.1), libgdk-pixbuf-2.0-0 (>= 2.22.1), libglib2.0-0 (>= 2.27.3
 			#gtk2-engines:libc6 (>= 2.4), libcairo2 (>= 1.2.4),
-		
+			#TODO?: libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.37.3)	
 
 			${shary} libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
 			csleep 1
