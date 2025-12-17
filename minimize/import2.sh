@@ -27,10 +27,11 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
+#parsetusta uusittu 171225 $2 osalta, muutoksen peruutus jos qsee
 if [ $# -gt 0 ] ; then
 	mode=${1}
 	[ -f ${1} ] && exit 99
-	srcfile=${2}
+	[ "${2}" == "-v" ] || srcfile=${2}
 fi
 
 function parse_opts_1() {
@@ -50,6 +51,8 @@ if [ -f /.chroot ] ; then
 	sleep 1
 
 	#HUOM.141025:them files should be checked before eXtraCting
+	#gpgtar jos mahd, muuten normi-tar
+
 	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
 		tar -jxvf ${f}
 		sleep 1
@@ -78,7 +81,7 @@ fi
 #141225:q ja r eivät toimi kunnolla tällöin
 #3 toimi sqroot-ympäristössä ok, pl ilmeinen puute
 
-#TODO:jos ei muuten ala bugi löytyä ni chmod a-x common_lib ja sit jotain
+#VAIH:jos ei muuten ala bugi löytyä ni chmod a-x common_lib ja sit jotain
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -153,7 +156,7 @@ fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 #121225:ulompi gpg-tarkistus sujuu jo live-ymp, miten sisempi? tehdäänkö sitä? nykyään joo
-#111225.2,:live-ymp ja ffox-prof exp/imp, toimiiko? jep
+#111225.2:live-ymp ja ffox-prof exp/imp, toimiiko? jep
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -207,7 +210,6 @@ function common_part() {
 	local r
 	r=0
 
-	#VAIH:näille main urputusta jos ei .sig tarkistus onnistu (jtnkn toisin kuitenkin)
 	if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
 		dqb "A"
 
@@ -225,7 +227,7 @@ function common_part() {
 		fi
 	fi
 
-	[ ${r} -eq 0 ] || exit ${r}
+	[ ${r} -eq 0 ] || exit ${r} #voiso olla if-blokin sisälläkin
 	csleep 3
 
 	#kts. common_lib.psqa()
@@ -286,6 +288,7 @@ dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #141222:profiilin importoinnin ongelmien syy saattaut selvitä, tietty tap lkukuunottamatta ao. fktio toimii ok
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
+#
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
