@@ -739,7 +739,7 @@ function e22_dm() {
 
 
 			#libcairo2:libc6 (>= 2.35), 
-			TODO?:libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.9.1), libpixman-1-0 (>= 0.30.0), libpng16-16 (>= 1.6.2-1), libx11-6, libxcb-render0, libxcb-shm0, libxcb1 (>= 1.6), libxext6, libxrender1, zlib1g 
+			#TODO?:libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.9.1), libpixman-1-0 (>= 0.30.0), libpng16-16 (>= 1.6.2-1), libx11-6, libxcb-render0, libxcb-shm0, libxcb1 (>= 1.6), libxext6, libxrender1, zlib1g 
 			#libgtk2.0-common:?
 			#libgtk2.0-0:libgtk2.0-common,
 
@@ -771,11 +771,11 @@ function e22_dm() {
 			#gtk2-engines-pixbuf:libc6 (>= 2.14), libcairo2 (>= 1.6.4-6.1), libgdk-pixbuf-2.0-0 (>= 2.22.1), libglib2.0-0 (>= 2.27.3
 			#gtk2-engines:libc6 (>= 2.4), libcairo2 (>= 1.2.4),
 		
-
 			${shary} libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
 			csleep 1
+
 			${shary} x11-utils lxdm 
-			csleep 1+
+			csleep 1
 		;;
 		*)
 			dqb "sl1m?"
