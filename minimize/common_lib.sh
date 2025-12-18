@@ -15,8 +15,7 @@ if [ -f /.chroot ] ; then
 
 	function itni() {
 		dqb "alt-itn1"
-		#sco=$(which chown) #toimii vai ei?
-		#scm=$(which chmod)
+		
 	}
 
 	#HUOM.141025:oikeastaan pitäisi tarkistaa ennen purkua, gpgtar jos löytyy, normi-tar muuten
@@ -116,7 +115,6 @@ function ocs() {
 	fi
 }
 
-#VAIH:debug
 #... miten (LC_juttujen) aikainen asettaminen muuten vaikuttaa el_loco():on ?
 function check_bin_0() {
 	dqb "check_bin_0"
@@ -255,7 +253,6 @@ function message() {
 	sleep 1
 }
 
-#161225:tämäkö se qsee?
 function psqa() {
 	dqb "Q ${1}"
 	csleep 1
@@ -271,30 +268,22 @@ function psqa() {
 		dqb "S( ${1} )"
 		csleep 1
 
-#		[ -v gg ] || dqb "CANN0T BER1FY S1GNATUR3S.1"
-#		[ -z ${gg} ] && dqb "CANN0T BER1FY S1GNATUR3S.2"
-#		#[ -x ${gg} ] || dqb "CANN0T BER1FY S1GNATUR3S.3"			
-#		csleep 1
-#
 		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg?
 		if [ -x ${gg} ] ; then
 			dqb "${gg} --verify ./sha512sums.txt.sig "
 			csleep 1
-#
-#			[ ${debug} -eq 1 ] && pwd
-#			csleep 1
-			${gg} --verify ${1}/sha512sums.txt.sig
 
-#			#btw, jos taas lukisi tuon softan manuaalin			
-#
+			${gg} --verify ${1}/sha512sums.txt.sig
+			#btw, jos taas lukisi tuon softan manuaalin			
+
 			if [ $? -eq 0 ] ; then #tässäkö se bugi oli?
 				dqb "KÖ"
 			else
 				dqb "SHOULD imp2 k \$dir !!!"
 				exit 93
 			fi
-#				
-#			csleep 1
+				
+			csleep 1
 		else
 			dqb "COULD NOT VERIFY SIGNATURES"
 		fi
@@ -341,7 +330,6 @@ function psqa() {
 }
 
 #not-that-necessary-wrapper-for-psqa()
-#VAIH:debug
 function common_pp3() {
 	dqb "common_pp3 ${1}"
 	csleep 1
@@ -465,29 +453,29 @@ function clibpre() {
 	dqb "BlAnR3eY C0kCCC!!!"
 }
 
-#HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (VAIH)
-#... export xxx tai sitten man sudo taas
-#https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
+##HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (VAIH)
+##... export xxx tai sitten man sudo taas
+##https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
+##
+##... sen lxdm:n asennuksen kanssa jos saisi kysymyKsen ohituksen niin olisi hyvä kanssa
+#function fromtend() {
+#	dqb "FRöMTEND"
 #
-#... sen lxdm:n asennuksen kanssa jos saisi kysymyKsen ohituksen niin olisi hyvä kanssa
-function fromtend() {
-	dqb "FRöMTEND"
-
-	[ -v sd0 ] || exit 99
-	[ -z ${sd0} ] && exit 98
-	[ -x ${sd0} ] || exit 97
-
-	if [ ! -f /.chroot ] ; then
-		dqb "${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@"
-		${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
-	else
-		${odio} ${sd0} --force-confold -i $@
-	fi
-
-	csleep 2
-	dqb "DNÖE"
-}
-
+#	[ -v sd0 ] || exit 99
+#	[ -z ${sd0} ] && exit 98
+#	[ -x ${sd0} ] || exit 97
+#
+#	if [ ! -f /.chroot ] ; then
+#		dqb "${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@"
+#		${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
+#	else
+#		${odio} ${sd0} --force-confold -i $@
+#	fi
+#
+#	csleep 2
+#	dqb "DNÖE"
+#}
+#
 #tämän tulisi kai olla privaatti fktio
 #
 #sillä toisella tyylillä tämä masentelu jatkossa? for ... in ... ?
@@ -577,7 +565,6 @@ function fromtend() {
 #	csleep 1
 #}
 
-#VAIH:debug
 function cefgh() {
 	[ -z ${1} ] && exit 66
 	[ -d ${1} ] || exit 67
@@ -621,45 +608,46 @@ function check_binaries() {
 	#VAIH:testaa taas
 	#HUOM.141225:josko kiekolle mukaan gpg, ao. if-blokin takia
 
-#	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
-#		[ -z ${1} ] && exit 99
-#		dqb "-d ${1} existsts?"
-#		[ -d ${1} ] || exit 101
-#
-#		dqb "params_ok"
-#		csleep 1
-#
-#		cefgh ${1}
-#		common_pp3 ${1}
-#
-#		if [ -z "${ipt}" ] ; then
-#			echo "SHOULD INSTALL IPTABLES"
-#			jules
-#			sleep 1
-#
-#			[ -f /.chroot ] && message
-#			#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
-#			
-#			#common_tbls ${1} ${CONF_dnsm}
-#			for p in ${E22_GT} ; do efk1 ${1}/${p}*.deb ; done
-#			other_horrors
-#
-#			ipt=$(${odio} which iptables)
-#			ip6t=$(${odio} which ip6tables)
-#			iptr=$(${odio} which iptables-restore)
-#			ip6tr=$(${odio} which ip6tables-restore)
-#		fi
-#
-#		if [ -z "${gg}" ] ; then
-#			dqb "SHOULD INSTALL gpg AROUND HERE"
-#			csleep 1
-#
-#			for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
-#
-#			gg=$(${odio} which gpg)
-#			gv=$(${odio} which gpgv)
-#		fi
-#	fi
+	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
+		[ -z ${1} ] && exit 99
+		dqb "-d ${1} existsts?"
+		[ -d ${1} ] || exit 101
+
+		dqb "params_ok"
+		csleep 1
+
+		cefgh ${1}
+		common_pp3 ${1}
+
+		if [ -z "${ipt}" ] ; then
+			echo "SHOULD INSTALL IPTABLES"
+			jules
+			sleep 1
+
+			[ -f /.chroot ] && message
+			#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
+			
+			#common_tbls ${1} ${CONF_dnsm}
+			for p in ${E22_GT} ; do efk1 ${1}/${p}*.deb ; done
+			other_horrors
+
+			ipt=$(${odio} which iptables)
+			ip6t=$(${odio} which ip6tables)
+			iptr=$(${odio} which iptables-restore)
+			ip6tr=$(${odio} which ip6tables-restore)
+		fi
+
+		#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3()
+		if [ -z "${gg}" ] ; then
+			dqb "SHOULD INSTALL gpg AROUND HERE"
+			csleep 1
+
+			for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
+
+			gg=$(${odio} which gpg)
+			gv=$(${odio} which gpgv)
+		fi
+	fi
 
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
@@ -795,7 +783,7 @@ function fasdfasd() {
 function reqwreqw() {
 	dqb "rewqreqw(${1} )"
 	[ -z ${1} ] && exit 99
-	#[ -f ${1} ] && exit 100 #takaisn josqs
+	#[ -f ${1} ] && exit 100 #takaisn josqs? miksi?
 	
 	csleep 1
 	${sco} 0:0 ${1}
