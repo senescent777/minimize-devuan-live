@@ -103,7 +103,7 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
 
 function el_loco() {
-	echo "CLOSED FOR REPAIRS: "
+	#181225;toimiiko kuten pitää vi ei?
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 1
 
