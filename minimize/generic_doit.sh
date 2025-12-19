@@ -74,7 +74,7 @@ dqb "mode= ${mode}"
 dqb "debug= ${debug}"
 #exit
 
-if [ -s /etc/sudoers.d/meshuggah ] || [ -f /.chroot ] || [ ${enforce} -eq 0 ] ; then
+if [ -s /etc/sudoers.d/meshuggah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 3
 else 
@@ -112,7 +112,7 @@ function el_loco() {
 		fasdfasd /etc/default/locale
 		csleep 1
 
-		#menisikö vaikka näin?
+		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
 		#env | grep LC >> /etc/default/locale
 		#env | grep LA >> /etc/default/locale
 	
@@ -135,7 +135,7 @@ function el_loco() {
 	#101225:pitäisikö jotain tehdä vielä että nuo sorkitut lokaaliasetukset saa voimaan?
 	
 #	if [ -s /etc/default/locale ] ; then #miten tämän pitää mennä?
-#		. /etc/default/locale #tämä pis jtkossa?
+#		. /etc/default/locale #tämä pOis jAtkossa?
 #
 		export LC_TIME
 		export LANGUAGE
@@ -191,7 +191,7 @@ fi
 pre_part2
 c14=$(find ${d} -name '*.deb' | wc -l)
 [ ${c14} -gt 0 ] || CONF_removepkgs=0
-part2_5 ${CONF_removepkgs} ${CONF_dnsm} ${iface}
+part2_5 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 
 #===================================================PART 3===========================================================
 message
@@ -229,7 +229,7 @@ ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
 
 if [ ${mode} -eq 2 ] ; then
-	echo "time to ${sifu} ${iface} or whåtever"
+	echo "time to ${sifu} ${CONF_iface} or whåtever"
 	csleep 1
 	${whack} xfce4-session
  	exit 

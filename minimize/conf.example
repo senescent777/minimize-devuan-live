@@ -1,5 +1,5 @@
-iface=
-enforce=
+CONF_iface=iface
+CONF_enforce="0 or 1"
 debug=0
 CONF_dnsm=0
 #dsn="INSERT LIST OF DNS/DOT SERVERS HERE"
@@ -34,7 +34,7 @@ CONF_ksk=KAYEFGHI
 #
 TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ "
 #
-#sudo-juttuja
-CB_LIST2="/bin/rm ${CONF_TMPIR}/*"
+#sudo-juttuja (jatkossa toisin)
+#CB_LIST2="/bin/rm ${CONF_tmpdir}/*"
 #
 CONF_dm=slim

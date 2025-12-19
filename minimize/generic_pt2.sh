@@ -87,7 +87,7 @@ csleep 1
 if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	part2_5 1 ${CONF_dnsm} ${iface}
+	part2_5 1 ${CONF_dnsm} ${CONF_iface}
 	[ $? -gt 0 ] && exit
 fi
 
