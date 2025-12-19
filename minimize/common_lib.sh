@@ -1039,7 +1039,7 @@ function enforce_access() {
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
 	e_h ${1} ${2}
-	e_final ${iface}
+	e_final ${CONF_iface}
 
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
@@ -1150,15 +1150,15 @@ function dis() {
 	csleep 1
 
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
-	${odio} ${sifd} ${iface}
+	${odio} ${sifd} ${CONF_iface}
 	csleep 1
 
 #	${odio} ${sifd} -a
 #	csleep 1
 
 	[ ${debug} -eq 1 ] && ${sifc};sleep 1
-	dqb "${sip} link set ${iface} down"
-	${sip} link set ${iface} down
+	dqb "${sip} link set ${CONF_iface} down"
+	${sip} link set ${CONF_iface} down
 	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 
 	csleep 1

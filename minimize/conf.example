@@ -34,7 +34,7 @@ CONF_ksk=KAYEFGHI
 #
 TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ "
 #
-#sudo-juttuja
-CB_LIST2="/bin/rm ${CONF_TMPIR}/*"
+#sudo-juttuja (jatkossa toisin)
+#CB_LIST2="/bin/rm ${CONF_tmpdir}/*"
 #
 CONF_dm=slim
