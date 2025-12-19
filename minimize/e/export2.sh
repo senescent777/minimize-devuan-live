@@ -99,7 +99,7 @@ dqb "tar = ${srat} "
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
-	${odio} ${x} ${dnsm} ${distro}
+	${odio} ${x} ${CONF_dnsm} ${distro}
 	#[ -x $x ] && exit for 
 done
 
@@ -258,7 +258,7 @@ e22_pre1 ${d} ${distro}
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 
 e22_hdr ${tgtfile}
-e22_pre2 ${d} ${distro} ${iface} ${dnsm}
+e22_pre2 ${d} ${distro} ${iface} ${CONF_dnsm}
 
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
@@ -276,7 +276,7 @@ case ${mode} in
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
-		e22_ext ${tgtfile} ${distro} ${dnsm}
+		e22_ext ${tgtfile} ${distro} ${CONF_dnsm}
 		dqb "e22_ext DON3, next:rm some rchives"
 		csleep 1
 
@@ -289,8 +289,8 @@ case ${mode} in
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
-			e22_tblz ${d} ${iface} ${distro} ${dnsm}
-			e22_other_pkgs ${dnsm} ${CONF_dm}
+			e22_tblz ${d} ${iface} ${distro} ${CONF_dnsm}
+			e22_other_pkgs ${CONF_dnsm} ${CONF_dm}
 
 			if [ -d ${d} ] ; then
 				e22_dblock ${d}/f.tar ${d}
@@ -316,7 +316,7 @@ case ${mode} in
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 1
-		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
+		e22_elocal ${tgtfile} ${iface} ${CONF_dnsm} ${enforce}
 	;;
 	#091225:teki paketin, sisällön kelpoisuus selvitettävä
 	#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)	
@@ -341,9 +341,9 @@ case ${mode} in
 		#151225:tekee paketin, sisältö:lxdm kanssa ongelmaa edelleen
 		#VAIH:koita korjata riippuvuudet
 
-		e22_tblz ${d} ${iface} ${distro} ${dnsm}
+		e22_tblz ${d} ${iface} ${distro} ${CONF_dnsm}
 		[ -v CONF_dm ] || exit 77
-		e22_other_pkgs ${dnsm} ${CONF_dm}
+		e22_other_pkgs ${CONF_dnsm} ${CONF_dm}
 
 		if [ -d ${d} ] ; then
 			e22_dblock ${tgtfile} ${d}
@@ -354,7 +354,7 @@ case ${mode} in
 		message
 		csleep 2
 
-		e22_tblz ${d} ${iface} ${distro} ${dnsm}
+		e22_tblz ${d} ${iface} ${distro} ${CONF_dnsm}
 		e22_ts ${d}
 
 		t=$(echo ${d} | cut -d '/' -f 1-5)
