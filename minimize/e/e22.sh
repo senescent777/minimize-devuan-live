@@ -735,19 +735,14 @@ function e22_dm() {
 
 	case ${1} in
 		lxdm)
-			#TODO:MUISTA MUOKATA SE ACCEPT_PKGS1 + ERITYISESTI SHASUMS&&SIG AJAN TASALLE!!!
-
-
+			#VAIH:MUISTA MUOKATA SE ACCEPT_PKGS1 + ERITYISESTI SHASUMS&&SIG AJAN TASALLE!!!
 			#libcairo2:libc6 (>= 2.35), 
-			#TODO?:libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.9.1), libpixman-1-0 (>= 0.30.0), libpng16-16 (>= 1.6.2-1), libx11-6, libxcb-render0, libxcb-shm0, libxcb1 (>= 1.6), libxext6, libxrender1, zlib1g 
-			#libgtk2.0-common:?
-			#libgtk2.0-0:libgtk2.0-common,
-
+			#VAIH:(>= 2.12.6),  (>= 2.9.1),  (>= 0.30.0), libpng16-16 (>= 1.6.2-1), libx11-6, libxcb-render0, libxcb-shm0, libxcb1 (>= 1.6), libxext6, libxrender1
+		
 			#VAIH:libatk1.0-0 (>= 1.32.0), 
-			${shary} libatk1.0-0 
+			${shary} libatk1.0-0 libfontconfig1 libfreetype6 libpixman-1-0
 
-			#libc6 (>= 2.34), libcairo2 (>= 1.6.4-6.1), 
-			#TODO:?libcups2 (>= 1.6.0), libfontconfig1 (>= 2.12.6), 
+			#TODO:?libcups2 (>= 1.6.0), 
 			#(jos aikoo dbusista eroon ni libcups2 ei hyvä idea)
 			
 			#libgdk-pixbuf-2.0-0 (>= 2.22.1), libglib2.0-0 (>= 2.41.1), 
@@ -758,18 +753,12 @@ function e22_dm() {
 			csleep 1
 
 			#libpango-1.0-0:fontconfig (>= 2.13.0), 
-			#libc6 (>= 2.14), 
-			#VAIH:libfribidi0 (>= 1.0.6),
-			# libglib2.0-0 (>= 2.67.3),
-
-			#VAIH: libharfbuzz0b (>= 5.1.0), libthai0 (>= 0.1.25)
+	
 			${shary} libfribidi0 libharfbuzz0b libthai0 
+			${shary} libgdk-pixbuf-2.0-0 libglib2.0-data libglib2.0-0
 
-			#VAIH: libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.37.3)	
-			${shary} libgdk-pixbuf-2.0-0 libglib2.0-0 libglib2.0-0
-
-			#gtk2-engines-pixbuf:libc6 (>= 2.14), libcairo2 (>= 1.6.4-6.1), libgdk-pixbuf-2.0-0 (>= 2.22.1), libglib2.0-0 (>= 2.27.3
-			#gtk2-engines:libc6 (>= 2.4), libcairo2 (>= 1.2.4),
+			#gtk2-engines-pixbuf:libcairo2 (>= 1.6.4-6.1), (>= 2.22.1), 
+			#gtk2-engines:libcairo2 (>= 1.2.4),
 		
 			${shary} libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
 			csleep 1

@@ -199,19 +199,19 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#TODO:suoraan tgtfile eik tgtfile.bz3
-		#151225:testailu vaiheessa (tauhkat voisi jo pois)
+´
 		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
+		#181225 viimeksi onnistui paketin muodostus (sisäötöä ei vielä testattu)
+		
 		cd ${d0}
-
-		fasdfasd ${tgtfile}.bz3
+		fasdfasd ${tgtfile} #.bz3
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}*
 		
 		#tuota tdstojen nimeämistä voisi muuttaa jatkossa:kreikan meri/meri kreikan
 		#josko findin jutut listaan ja tar:ille -T , jatkossa? toimii näinkin kyllä
-		${srat} -jcvf ${tgtfile}.bz3 ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
+		${srat} -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
 
-		e22_ftr ${tgtfile}.bz3
+		e22_ftr ${tgtfile} #.bz3
 		exit
 	;;
 	g)
