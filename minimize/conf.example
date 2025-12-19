@@ -28,15 +28,8 @@ BASEURL="github.com/senescent777/"
 CONF_testgris=/SMTH1NG
 #
 #krypto
-#nimeäimnen jos loogisemmin? pubk und ksk ?
 CONF_pubk=KAYEABCD
 CONF_ksk=KAYEFGHI
-#
-#TARGET_Dkname1=
-#TARGET_Dkname2=
-#TARGET_Dpubkf=${TARGET_DIGESTS_dir}/${TARGET_Dkname1}
-#TARGET_Dpubkg=${TARGET_DIGESTS_dir}/${TARGET_Dkname2}
-#TARGET_Dkarray="${TARGET_Dkname1} ${TARGET_Dkname2}"
 #/kyrpto
 #
 TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ "

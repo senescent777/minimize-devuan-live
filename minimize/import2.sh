@@ -190,7 +190,6 @@ dqb "srat= ${srat}"
 csleep 3
 dqb "Lpg"
 
-#VAIH:debug (jkin qsi 161225, syy saattoi löytyä 171225)
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
@@ -453,8 +452,6 @@ case "${mode}" in
 		tpr ${d0}
 	;;
 	k)
-		#VAIH:install_keys.bash liittyen muutoksia exp2 ja imp2
-	
 		#161225:toimii, sq-root-ymp ainakin
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
 		dqb "# . \ import2.sh k \ pad -v"
@@ -463,8 +460,10 @@ case "${mode}" in
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
+		#jonnekin sitten vastaavasti $gg --export ?
+		#... ja avanten allekirjoittamiseen oli muuten omakin optio
 
-		if [ -v gg ]  ; then
+		if [ -v gg ] ; then
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 				dqb "NOP"
 				csleep 1

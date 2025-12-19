@@ -6,8 +6,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#TODO:tämän tiedoston siirto toiseen repositoryyn koska syyt? (siis siihen samaan missä profs.sh)
-debug=1 #joskus vielä tämä pois tästä
+#TODO:tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn koska syyt? (siis siihen samaan missä profs.sh)
 
 if [ -f /.chroot ] ; then
 	odio=""
@@ -15,7 +14,6 @@ if [ -f /.chroot ] ; then
 
 	function itni() {
 		dqb "alt-itn1"
-		
 	}
 
 	#HUOM.141025:oikeastaan pitäisi tarkistaa ennen purkua, gpgtar jos löytyy, normi-tar muuten
@@ -143,11 +141,13 @@ function check_bin_0() {
 	sd0=$(${odio} which dpkg)
 	[ -v sd0 ] || exit 78
 	[ -z ${sd0} ] && exit 79
+	#-x vielä?
 
 	sr0=$(${odio} which tar)
 	[ -v sr0 ] || exit 80
 	[ -z ${sr0} ] && exit 81
-	
+	#-x vielä?
+
 	srat=${sr0}
 	
 	#tämä kuitenkin myöhempänä?	
@@ -257,8 +257,8 @@ function psqa() {
 	dqb "Q ${1}"
 	csleep 1
 
-	[ -z ${1} ] && exit 55
-	[ -d ${1} ] || exit 54
+	[ -z ${1} ] && exit 97
+	[ -d ${1} ] || exit 96
 	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
 	csleep 1
 
@@ -268,19 +268,19 @@ function psqa() {
 		dqb "S( ${1} )"
 		csleep 1
 
-		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg?
+		#TODO:"-z" - tark takaisib?
+
+		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubrink.kbx yli 32 tavua?
 		if [ -x ${gg} ] ; then
 			dqb "${gg} --verify ./sha512sums.txt.sig "
 			csleep 1
-
 			${gg} --verify ${1}/sha512sums.txt.sig
-			#btw, jos taas lukisi tuon softan manuaalin			
-
+					
 			if [ $? -eq 0 ] ; then #tässäkö se bugi oli?
 				dqb "KÖ"
 			else
 				dqb "SHOULD imp2 k \$dir !!!"
-				exit 93
+				exit 95
 			fi
 				
 			csleep 1
@@ -288,7 +288,7 @@ function psqa() {
 			dqb "COULD NOT VERIFY SIGNATURES"
 		fi
 	else
-		dqb "BERIYA MADE .txt.sig DISAPPEAR"
+		dqb "Лаврентий Берия MADE .txt.sig DISAPPEAR"
 	fi
 
 	csleep 2
@@ -299,31 +299,29 @@ function psqa() {
 		local p
 		p=$(pwd)
 		cd ${1}
-#
+
 #		if [ -v SOME_CONFIG_OPT ] ; then	
 #			dpkg -V
 #			sleep 1
 #		fi
-#
-#		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
-		
+
+		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?		
 		${sah6} -c sha512sums.txt --ignore-missing
 
 #		#131225:josko kokeiltu tarpeeksi
-#		#if [ ${debug} -eq 0 ] ; then
-			
+#		#if [ ${debug} -eq 0 ] ; then		
 			if [ $? -eq 0 ] ; then
 				dqb "Q.KO"
 			else
 				dqb "export2 f ?"
 				exit 94
 			fi
-
 #		#fi
-#
+
 		cd ${p}
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
+		exit 93
 	fi
 
 	csleep 2
@@ -395,7 +393,6 @@ function common_lib_tool() {
 	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE"
 	
 	dqb "WILL START REJECTING P1GS NOW"
-	#dqb "NKVD: ${NKVD}"
 	csleep 1
 	
 	local q
@@ -573,9 +570,8 @@ function cefgh() {
 	efk2 ${1}/f.tar ${1}
 }
 
-#VAIH:debug
 function check_binaries() {
-	dqb "c0mm0n_lib.ch3ck_b1nar135 ${1} "
+	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ) "
 	csleep 1
 
 	ipt=$(${odio} which iptables)
@@ -587,12 +583,13 @@ function check_binaries() {
 	#251025:excalibur-syistä dhclient tilapäisesti ulos listasta...tai siis alemmas
 	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh	
 	for x in ${y} ; do ocs ${x} ; done
-	dqb "JUST BEFORE"
+	dqb "JUST BEFORE EE2G"
 	csleep 1
 
-	[ -v sr0 ] || exit 102
-	[ -v ipt ] || exit 103
-	[ -v smd ] || exit 104
+#	#181225;josko jo pois nuo 3 riviä alta?
+#	[ -v sr0 ] || exit 102
+#	[ -v ipt ] || exit 103
+#	[ -v smd ] || exit 104
 
 	sdi="${odio} ${sd0} -i "
 	#091225 siirretty tdstost a/e22.sh, katsotaan toimiiko näin?
@@ -607,63 +604,81 @@ function check_binaries() {
 	#HUOM.111225:mennäänkö tähän sq-chr-ymp.äristössä? nykyään joo
 	#VAIH:testaa taas
 	#HUOM.141225:josko kiekolle mukaan gpg, ao. if-blokin takia
+	dqb "JUST BEFORE cefgh()"
+	
+	if [ ! -v CONF_testgris ] ; then
+		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
+			[ -z ${1} ] && exit 99
+			dqb "-d ${1} existsts?"
+			[ -d ${1} ] || exit 101
 
-	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
-		[ -z ${1} ] && exit 99
-		dqb "-d ${1} existsts?"
-		[ -d ${1} ] || exit 101
-
-		dqb "params_ok"
-		csleep 1
-
-		cefgh ${1}
-		common_pp3 ${1}
-
-		if [ -z "${ipt}" ] ; then
-			echo "SHOULD INSTALL IPTABLES"
-			jules
-			sleep 1
-
-			[ -f /.chroot ] && message
-			#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
-			
-			#common_tbls ${1} ${CONF_dnsm}
-			for p in ${E22_GT} ; do efk1 ${1}/${p}*.deb ; done
-			other_horrors
-
-			ipt=$(${odio} which iptables)
-			ip6t=$(${odio} which ip6tables)
-			iptr=$(${odio} which iptables-restore)
-			ip6tr=$(${odio} which ip6tables-restore)
-		fi
-
-		#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3()
-		if [ -z "${gg}" ] ; then
-			dqb "SHOULD INSTALL gpg AROUND HERE"
+			dqb "params_ok"
 			csleep 1
 
-			for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
+			cefgh ${1}
+			common_pp3 ${1}
 
-			gg=$(${odio} which gpg)
-			gv=$(${odio} which gpgv)
+			#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
+			if [ -z "${gg}" ] ; then
+				dqb "SHOULD INSTALL gpg AROUND HERE"
+				csleep 1
+	
+				for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
+				csleep 1
+
+				gg=$(${odio} which gpg)
+				gv=$(${odio} which gpgv)
+				csleep 1
+
+				common_pp3 ${1}
+			fi
+
+			if [ -z "${ipt}" ] ; then
+				echo "SHOULD INSTALL IPTABLES"
+				jules
+				sleep 1
+	
+				[ -f /.chroot ] && message
+				#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
+			
+				#191225:sqrootissa tällaista:
+				#dpkg: regarding .../iptables-persistent_1.0.20_all.deb containing iptables-persistent, pre-dependency problem:
+				#iptables-persistent pre-depends on iptables
+				#iptables is not installed.
+				#... tarttisikohan jotain tehdä? acccept_2 hoitamaan?
+
+				#common_tbls ${1} ${CONF_dnsm}
+				for p in ${E22_GT} ; do efk1 ${1}/${p}*.deb ; done
+				other_horrors
+
+				ipt=$(${odio} which iptables)
+				ip6t=$(${odio} which ip6tables)
+				iptr=$(${odio} which iptables-restore)
+				ip6tr=$(${odio} which ip6tables-restore)
+			fi
 		fi
+	
+		#181225:lisätty tämmöinen kikkailu kehitysymp varten ettei jumitu heti alkuunsa
+		#jos tämä jatkossa jusr ennen CB_LIST
+	
+		for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
 	fi
-
+	
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
 	csleep 1
 
-	[ -v sd0 ] || exit 66
- 	[ -v sdi ] || exit 67
-	[ -z "${sd0}" ] && exit 68
-	
-	dqb "sd0= ${sd0} "
-	dqb "sdi= ${sdi} "
-	csleep 1
+	#181225;josko jo pois nuo 3 riviö alta?
+#	[ -v sd0 ] || exit 66
+# 	[ -v sdi ] || exit 67
+#	[ -z "${sd0}" ] && exit 68
+#	
+#	dqb "sd0= ${sd0} "
+#	dqb "sdi= ${sdi} "
+#	csleep 1
 
-	for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
 	#kts g_pt2 liittyen
-	[ ! -f /.chroot ] && ocs dhclient
+	[ -f /.chroot ] || ocs dhclient
 	csleep 1
 	
 	sag=$(${odio} which apt-get)
@@ -827,11 +842,12 @@ function pre_enforce() {
 		${sco} 0:0 /opt/bin/changedns.sh
 		mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 		csleep 1
-	else 
+	#else 
 		#141225:voi tulla turhaksi jatkossa tämä else-haara
-		if [ -v CB_LIST2 ] ; then
-			echo "$(whoami) localhost=NOPASSWD: ${CB_LIST2} " >> ${q}/meshuggah
-		fi
+		#TODO:jospa jatkossa init1.bash tekisi ihan oman tdston /e/s.d alle
+		#if [ -v CB_LIST2 ] ; then
+		#	echo "$(whoami) localhost=NOPASSWD: ${CB_LIST2} " >> ${q}/meshuggah
+		#fi
 	fi
 
 	dqb "LETf HOUTRE JOINED IN L0CH N355"
@@ -847,8 +863,9 @@ function pre_enforce() {
 		csleep 1
 
 		#111225:tarpeeksi yleinen että fktioksi asti? kts ylempää jokatap
+		reqwreqw ${q}/meshuggah
 		${scm} 0440 ${q}/meshuggah
-		${sco} root:root ${q}/meshuggah
+		#${sco} root:root ${q}/meshuggah
 
 		${svm} ${q}/meshuggah /etc/sudoers.d
 
@@ -1060,8 +1077,10 @@ function part1_5() {
 		else
 			${svm} /etc/apt/sources.list.tmp ${h}
 			#kts. fasdfasd()
-			${sco} ${n}:${n} ${h}/sources.list.tmp
-			${scm} 0644 ${h}/sources.list.tmp
+			#${sco} ${n}:${n} ${h}/sources.list.tmp
+			#${scm} 0644 ${h}/sources.list.tmp
+			
+			fasdfasd  ${h}/sources.list.tmp
 		fi
 
 		dqb "p1.5.2"
@@ -1411,6 +1430,7 @@ function gpo() {
 			;;
 			-h|--h)
 				usage
+				exit #181225:sen toisen repon juttuja. Kandeeko laittaa tätä?
 			;;
 		esac
 
