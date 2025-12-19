@@ -32,10 +32,15 @@ libgtk-3-0_*.deb
 #lxdm tarttee, mutta riittävätkö nämä?
 libgtk2.0-common*.deb
 libgtk2.0-0*.deb
+#tuo bin tarpeen?
+libgtk2.0-bin*.deb
+#
 # libgtk2.0-0 : Depends: libgtk2.0-common but it is not installable
 #               Recommends: libgail-common but it is not installable
 #               Recommends: libgtk2.0-bin but it is not installable
 #
+libgtk-3-common*.deb
+libgtk-3-0*.deb
 #
 libssl3*.deb
 libpython3.11-minimal*.deb
