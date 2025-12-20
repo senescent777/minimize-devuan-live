@@ -751,8 +751,11 @@ function e22_dm() {
 			${shary} libpangocairo-1.0-0 libpangoft2-1.0-0 libx11-6 
 			csleep 5
 
+			${shary} libdeflate0*.debliblerc4*.deb libtiff6
+			csleep 5
+
 			#HUOM.201225:libgdk, libgtk- pakettien riippuvuuksiA joutunee selvittämään ja kasaamaan tänne
-			${shary} libtiff6 libgdk-pixbuf2.0-common libgdk-pixbuf-2.0-0
+			${shary} libgdk-pixbuf2.0-common libgdk-pixbuf-2.0-0
 			csleep 5
 			
 			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
