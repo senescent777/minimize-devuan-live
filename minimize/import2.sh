@@ -213,7 +213,7 @@ function common_part() {
 		dqb "gg= ${gg}"
 
 		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemasaolon sijaan
-		if [ ! -z ${gg} ]  && [ -x ${gg} ] ; then
+		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 			dqb "B"
 
 			if [ -x ${gg} ] ; then

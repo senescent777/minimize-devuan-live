@@ -263,14 +263,14 @@ function psqa() {
 
 	#HUOM.171225:isommat blokkien sisällöt jos ulkoistaisi omiin fktioihinsa?
 
-	if [ -s ${1}/sha512sums.txt.sig ] ; then
+	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then
 		dqb "S( ${1} )"
 		csleep 1
 
-		#TODO:"-z gg" - tark takaisib?
+		#VAIH:"-z gg" - tark takaisib? tai miteb siellä import2:sessa menikään
 
 		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubring.kbx yli 32 tavua?
-		if [ -x ${gg} ] ; then
+		if [ ! -z ${gg} ] && [ -x ${gg} ] ; then
 			dqb "${gg} --verify ./sha512sums.txt.sig "
 			csleep 1
 			${gg} --verify ${1}/sha512sums.txt.sig
