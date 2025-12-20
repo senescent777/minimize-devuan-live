@@ -6,8 +6,6 @@ d0=$(pwd)
 mode=-2
 tgtfile=""
 
-#HUOM.121225:edelleenkin wanha reject_pkgs jyrää uuden, voisiko jtain tehdä?
-
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -152,7 +150,9 @@ csleep 1
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
-	rp)
+	rp) #201225:parempi idea:metadata-paketti? shasums,sig,accept,reject sisältönä , 2 ekaa johdettu jostain olemassaolevan paketin .deb
+	#-uvf olisi myls keksitty
+	
 		dqb "VAIH:repackaging previously created archive"
 		echo "tar --exclude sha512sums* -C {d} -xvf ${tgtfile}"
 		echo "mv ${tgtfile} ${tgtfile}.OLD"
@@ -161,12 +161,12 @@ case ${mode} in
 		echo "profit"
 		exit
 	;;
-	f) 	#151225:uudelleenpakk kai ok nykyään
+	f) 	#201225:tekee paketin, sisältö:
 		#... tai siis erillinen case tai skripti sitä varten? 
 		#... tämä vain pakkaisi kerran, muuttamatta sisältöä tjsp
 
 		enforce_access ${n} ${t}
-		#e22_hdr() tähän vielä?
+		e22_hdr ${tgtfile}
 		e22_arch ${tgtfile} ${d}
 		e22_ftr ${tgtfile}
 		exit
@@ -199,19 +199,19 @@ case ${mode} in
 		exit
 	;;
 	c)
-´
+		#201225:laati paketin, sisältö:
 		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
-		#181225 viimeksi onnistui paketin muodostus (sisäötöä ei vielä testattu)
 		
 		cd ${d0}
-		fasdfasd ${tgtfile} #.bz3
+		fasdfasd ${tgtfile}
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}*
+		csleep 2
 		
 		#tuota tdstojen nimeämistä voisi muuttaa jatkossa:kreikan meri/meri kreikan
 		#josko findin jutut listaan ja tar:ille -T , jatkossa? toimii näinkin kyllä
-		${srat} -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
+		${srat} --exclude '*merd*' -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
 
-		e22_ftr ${tgtfile} #.bz3
+		e22_ftr ${tgtfile}
 		exit
 	;;
 	g)
@@ -305,7 +305,7 @@ case ${mode} in
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 1
 
-		e22_home ${tgtfile} ${d} ${enforce} 
+		e22_home ${tgtfile} ${d} ${CONF_enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 1
 		${NKVD} ${d}/*.tar #oli se fktiokin
@@ -316,7 +316,7 @@ case ${mode} in
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 1
-		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${enforce}
+		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
 	;;
 	#091225:teki paketin, sisällön kelpoisuus selvitettävä
 	#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)	

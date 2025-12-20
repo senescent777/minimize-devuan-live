@@ -736,35 +736,41 @@ function e22_dm() {
 	case ${1} in
 		lxdm)
 			#VAIH:MUISTA MUOKATA SE ACCEPT_PKGS1 + ERITYISESTI SHASUMS&&SIG AJAN TASALLE!!!
-			#libcairo2:libc6 (>= 2.35), 
-			#VAIH:(>= 2.12.6),  (>= 2.9.1),  (>= 0.30.0), libpng16-16 (>= 1.6.2-1), libx11-6, libxcb-render0, libxcb-shm0, libxcb1 (>= 1.6), libxext6, libxrender1
 		
-			#VAIH:libatk1.0-0 (>= 1.32.0), 
+			#VAIH:(>= 2.12.6),  (>= 2.9.1),  (>= 0.30.0), libpng16-16 (>= 1.6.2-1),  (>= 1.6), libxext6, libxrender1
+			${shary} libxcb-render0 libxcb-shm0 libxcb1
+			csleep 5
+			
 			${shary} libatk1.0-0 libfontconfig1 libfreetype6 libpixman-1-0
-
+			csleep 5
+			
 			#TODO:?libcups2 (>= 1.6.0), 
 			#(jos aikoo dbusista eroon ni libcups2 ei hyvä idea)
 			
-			#libgdk-pixbuf-2.0-0 (>= 2.22.1), libglib2.0-0 (>= 2.41.1), 
-			#libpango-1.0-0 (>= 1.28.3), libpangocairo-1.0-0 (>= 1.28.3), libpangoft2-1.0-0 (>= 1.28.3), libx11-6 (>= 2:1.4.99.1), libxcomposite1 (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxi6, libxinerama1 (>= 2:1.1.4), libxrandr2 (>= 2:1.5.0), libxrender1, adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
+			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1), libxcomposite1 (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxi6, libxinerama1 (>= 2:1.1.4), libxrandr2 (>= 2:1.5.0), libxrender1, adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
+			${shary} libpangocairo-1.0-0 libpangoft2-1.0-0 libx11-6 
+			csleep 5
 
+			#HUOM.201225:libgdk, libgtk- pakettien riippuvuuksiA joutunee selvittämään ja kasaamaan tänne
+			${shary} libtiff6 libgdk-pixbuf2.0-common libgdk-pixbuf-2.0-0
+			csleep 5
+			
 			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
 			${shary} debconf libcairo2 libgtk2.0-common libgtk2.0-0
-			csleep 1
-
-			#libpango-1.0-0:fontconfig (>= 2.13.0), 
+			csleep 5
 	
-			${shary} libfribidi0 libharfbuzz0b libthai0 
-			${shary} libgdk-pixbuf-2.0-0 libglib2.0-data libglib2.0-0
-
-			#gtk2-engines-pixbuf:libcairo2 (>= 1.6.4-6.1), (>= 2.22.1), 
-			#gtk2-engines:libcairo2 (>= 1.2.4),
+			#gdk ennen gtk?
+			${shary} libfribidi0 libharfbuzz0b libthai0
+			csleep 5
+			
+			${shary} libglib2.0-data libglib2.0-0
+			csleep 5
 		
-			${shary} libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
-			csleep 1
+			${shary} fontconfig libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
+			csleep 5
 
 			${shary} x11-utils lxdm 
-			csleep 1
+			csleep 5
 		;;
 		*)
 			dqb "sl1m?"
@@ -828,6 +834,7 @@ function e22_other_pkgs() {
 	[ $? -eq 0 ] && dqb "luBE 0F THE R3S0NATED"
 	csleep 2
 	
+	#TODO:jos lukaisi debian referencen pitkäsatä aikaa, että löytyisikö jotain jekkua paketinhallinnan kanssa? ettei tarvitse kikkailla initramfs:n ja muutaman paketin kanssa
 	e22_dm ${2}
 	${lftr}
 	csleep 2
@@ -947,6 +954,7 @@ function e22_upgp() {
 	local s
 
 	[ -v CONF_pkgdir ] || exit 99
+	
 	#tämnänkaltainen blokki oli jossain muuallakin?
 	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä... EIKU
 		dqb "processing ${s} ..."
