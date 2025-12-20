@@ -1,3 +1,4 @@
+#201225:varmaankin tulisi kirjoittaa uusiksi tämä+accept2m lkibc6-libz11.xcb pohjana ja loput iteroiden
 libc6*.deb gcc-12*.deb
 perl-base*.deb
 libgcc-s1*.deb
