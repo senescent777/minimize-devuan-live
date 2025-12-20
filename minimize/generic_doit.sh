@@ -190,7 +190,7 @@ fi
 
 pre_part2
 c14=$(find ${d} -name '*.deb' | wc -l)
-[ ${c14} -gt 0 ] || CONF_removepkgs=0
+[ ${c14} -gt 0 ] || CONF_removepkgs=0 #ei näin vaan?
 part2_5 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 
 #===================================================PART 3===========================================================
