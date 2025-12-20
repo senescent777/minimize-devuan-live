@@ -4,12 +4,13 @@
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
 #301125:common_lib.sh x-oikeudet lienevät nyt kunnossa?
+#161225:buygijahti koskemaan tätkin tdstoa?
 
 function udp6() { #on käytössä
 	dqb "daud.lib.UPDP-6 ${1}"
 	csleep 1
 
-	#jokin syy muksi ei -z ?
+	#jokin syy miksi ei -z ?
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 	csleep 1

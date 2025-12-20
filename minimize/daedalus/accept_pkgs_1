@@ -15,32 +15,47 @@ libtiff*.deb
 libxcb1*.deb
 libx11-6*.deb
 libx11-xcb1*.deb
+#
+#191225:onko näiden kanssa jokin juttu? pitäisikö koko tdston sisältö lotota uusiksi?
+libdeflate0*.deb
+liblerc4*.deb
+libtiff6*.deb
 libgdk-pixbuf2.0-common*.deb
 libgdk-pixbuf-2.0-0*.deb
+libgdk-pixbuf-2.0-bin*.deb
+#myös xscreensaver ja firefox tarttee libgdk:n
+#
+#libgdk ennen librsvg, sama cairo/pango-juttujen kanssa
+libcairo*.deb
+libpango*.deb
+libpangocairo*.deb
 librsvg2-2*.deb
 librsvg2-common*.deb
+#
 libavahi-common-data*.deb
 libavahi-common*.deb
+libavahi*.deb
+#avahi-client ennen cups
 libcups*.deb
 #
 #voisiko tämän poistaa?
 libavahi*.deb
 #
-libgtk-3-common*.deb
-libgtk-3-0_*.deb
+#oliko tuo gtk3 tarpeen? jokatap gtk3 tarttee dconf ja libcups
+#gtk-update-icon-cache*.deb
+#dconf-gsettings-backend*.deb
+#libgtk-3-common*.deb
+#libgtk-3-0_*.deb
 #
 #lxdm tarttee, mutta riittävätkö nämä?
 libgtk2.0-common*.deb
 libgtk2.0-0*.deb
 #tuo bin tarpeen?
-libgtk2.0-bin*.deb
+#libgtk2.0-bin*.deb
 #
-# libgtk2.0-0 : Depends: libgtk2.0-common but it is not installable
-#               Recommends: libgail-common but it is not installable
-#               Recommends: libgtk2.0-bin but it is not installable
-#
-libgtk-3-common*.deb
-libgtk-3-0*.deb
+#jos gtk3 tarttee ni kaikkien muidne jälkeen n varminta
+#libgtk-3-common*.deb
+#libgtk-3-0*.deb
 #
 libssl3*.deb
 libpython3.11-minimal*.deb
@@ -62,8 +77,12 @@ libperl*.deb
 liberror-perl*.deb
 libuv1*.deb
 libnghttp2*.deb
+#
+#vte jälkeen atk:n ja gtk3:n jölkeen
+libatk1.0-0*.deb
 libvte-2.91-common*.deb
 libvte*.deb
+#
 libmpg123-0*.deb
 libpolkit-gobject-elogind-1-0*.deb
 libpolkit-gobject-consolekit-1-0*.deb
@@ -84,15 +103,22 @@ libassuan0*.deb
 #
 #tartteeko lxdm joitain ao. aketeista?
 #
-libatk1.0-0*.deb
 libsigc++*.deb
-#
 #
 #libpulse0*.deb
 #libjson-glib-1.0-common*.deb
 #libglibmm-*.deb
-#libasyncns0*.deb 
-#libsndfile1*.deb
+#libasyncns0*.deb
+#
+#libsndfile:n tarvitsi mikä?
+libvorbisenc*.deb
+libvorbis0*.deb
+libopus0*.deb
+libogg0*.deb
+libmp3lame*.deb
+libflac12*.deb
+libsndfile1*.deb
+#
 #libsystemd0*.deb
 #libatkmm*.deb
 #libcairomm-*.deb
@@ -102,5 +128,19 @@ libsigc++*.deb
 #libasound2*.deb
 #libltdl7*.deb
 #libtdb1*.deb
-#libvorbisfile3*-deb
-libcanberra0*-deb
+#libvorbisfile3*.deb
+#libcanberra0*.deb #tartteeko?
+#
+#uutena 191225, tables
+libip4tc2*.deb
+libip6tc2*.deb
+libxtables12*.deb
+netbase*.deb
+libmnl0*.deb
+libnetfilter-conntrack3*.deb
+libnfnetlink0*.deb
+libnftnl11*.deb
+#
+#firefox
+libnspr4*.deb
+libnss3*.deb

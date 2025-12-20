@@ -3,14 +3,14 @@ perl-modules-*.deb
 #pitäisi jo aiemmin
 #
 #nämä 4 tuosta alta kommentteihn ?
-eudev*.deb
-udev*.deb
-xserver-common*.deb
-xserver-xorg-core*.deb
+#eudev*.deb
+#udev*.deb
+#xserver-common*.deb
+#xserver-xorg-core*.deb
 #
 #mielellään dbus Vittuun jatkossa 666!!!
-dbus-bin*.deb
-dbus-daemon*.deb dbus-session-bus-common*.deb
+#dbus-bin*.deb
+#dbus-daemon*.deb dbus-session-bus-common*.deb
 #
 perl-base*.deb
 #pitäisi jo aiemmin
@@ -31,3 +31,6 @@ python3.11-minimal*.deb
 gtk2-engines-pixbuf*.deb
 #uutena 271125
 gpgconf*.deb
+#
+#uutena 191225, kts jos muita E22_GT:n juttuja tarttee
+iptables_*.deb
