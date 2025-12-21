@@ -269,15 +269,14 @@ e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
-#TODO:jospa varm vuoksi kaikki caset testiin taas
+#VAIH:jospa varm vuoksi kaikki caset testiin taas
 case ${mode} in
 	0)
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
 	3|4) 
-		#091225:case 3 tekee toimivan paketin, ainakin kerran teki
-		#131225 case 4:tekee paketin, toimiikin jnkn verran
+		#TODO:tämän casen testaus uusiksi
 	
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
@@ -345,7 +344,7 @@ case ${mode} in
 	;;
 		#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia
 	e)
-		#151225:tekee paketin, sisältö:lxdm kanssa ongelmaa edelleen
+		#211225:tekee paketin, sisältö:
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm} #${CONF_dm}
 
@@ -366,6 +365,7 @@ case ${mode} in
 		e22_arch ${tgtfile} ${d}
 	;;
 	l)
+		#211225;tekee paketin , sisältö:
 		#VAIH:koita korjata riippuvuudet, testaa myös
 		[ -v CONF_dm ] || exit 77
 

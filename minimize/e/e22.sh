@@ -739,6 +739,7 @@ function e22_tblz() { #091225 toimi ainakin kerran
 	dqb "x2.e22_tblz.done"
 }
 
+#VAIH:toiminnan testaus (21.12.25)
 function e22_dm() {
 	[ -z "${1}" ] && exit 11
 
@@ -753,8 +754,7 @@ function e22_dm() {
 			${shary} libatk1.0-0 libfontconfig1 libfreetype6 libpixman-1-0
 			csleep 5
 			
-			#TODO?:libcups2 (>= 1.6.0), 
-			#(jos aikoo dbusista eroon ni libcups2 ei hyvä idea)
+			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
 			
 			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1), libxcomposite1 (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxi6, libxinerama1 (>= 2:1.1.4), libxrandr2 (>= 2:1.5.0), libxrender1, adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
 			${shary} libpangocairo-1.0-0 libpangoft2-1.0-0 libx11-6 
@@ -791,7 +791,7 @@ function e22_dm() {
 }
 
 #TODO:ntp-jutut takaisin josqs?
-#TODO:testaa uusicksi
+#VAIH:testaa uusicksi
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  "
 	csleep 1
@@ -806,10 +806,18 @@ function e22_other_pkgs() {
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} libc6 zlib1g libreadline8 #moni pak tarttee nämä
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf
+	csleep 2
+
+	#VIIMEAIKAISTEN NALKUTUSTEN TAKIA 2012265 (pitäisikö olla juuri libc6 jälkeen?)
+	${shary} perl-modules libperl perl-base	
+	${shary} libpam-modules-bin libperl5.36 libpython3.11-minimal libpython3.11-stdlib
+	${shary} libgtk-3-common libgtk-3-0 libgtk-3-bin #firefox ja xscreensaver (upg() asioita ?)
+	csleep 2
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
 	${shary} libaudit1 libselinux1
 	${shary} man-db sudo
+	csleep 2
 
 	message
 	jules
@@ -845,12 +853,6 @@ function e22_other_pkgs() {
 
 	[ $? -eq 0 ] && dqb "luBE 0F THE R3S0NATED"
 	csleep 2
-
-	#VIIMEAIKAISTEN NALKUTUSTEN TAKIA 2012265 (pitäisikö olla juuri libc6 jälkeen?)
-	${shary} perl-modules libperl perl-base	
-	${shary} libpam-modules-bin libperl5.36 libpython3.11-minimal libpython3.11-stdlib
-	${shary} libgtk-3-common libgtk-3-0 libgtk-3-bin #firefox ja xscreensaver (upg() asioita ?)
-	csleep 2
 	
 	#TODO:jos lukaisi debian referencen pitkästä aikaa, että löytyisikö jotain jekkua paketinhallinnan kanssa? ettei tarvitse kikkailla initramfs:n ja muutaman paketin kanssa
 	${lftr}
@@ -878,8 +880,8 @@ function e22_dblock() { #091225:taitaa toimia
 	dqb "DBLOCK:PARAMS OK"
 	csleep 1
 
-	dqb "srat= ${srat}"
-	csleep 1
+	#dqb "srat= ${srat}" #tartteeko enää?
+	#csleep 1
 
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
