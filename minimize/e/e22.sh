@@ -187,7 +187,7 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 	csleep 1
 }
 
-#VAIH:jos sitten tämän kautta mukaan se äksän konf (tdston sisällön lottoaminen taas jossain muualla)
+#VAIH:jos sitten tämän kautta mukaan se äksän konf (kys tdston sisällön lottoaminen taas jossain muualla)
 function e22_config1() {
 	[ -z ${1} ] && exit 11
 	[ -d ${1} ] || exit 22
@@ -306,8 +306,9 @@ function e22_home() { #151225:josko prof.asiat taas tilap. kunn.
 
 	dqb "AUTOMAGICAL CONFIGURATION IS A DISEASE  x 199 - Bart S."
 	dqb "Xorg -config ~/xorg.conf TODO?"
-	dqb "find / -type f -name 'xorg.conf*' ,,, ?"
-	#for f in $() ; do ${srat} -rvf ${1} ${f} ; done 	
+	dqb "find /' ,,, ?"
+	
+	for f in $(find ~  -type f -name 'xorg.conf*') ; do ${srat} -rvf ${1} ${f} ; done 	
 	csleep 10
 
 	dqb "e22_home d0n3"
@@ -343,7 +344,7 @@ function luca() { #301125:taitaa toimia
 	dqb "loca done"
 }
 
-function e22_elocal() { #091225:tehnee paketin ok
+function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225)
 	dqb "e22_elocal ${1} ${2} ${3} ${4}"
 	csleep 1
 
@@ -354,6 +355,8 @@ function e22_elocal() { #091225:tehnee paketin ok
 	[ -z ${2} ] && exit 2
 	[ -z ${3} ] && exit 3	
 	[ -z ${4} ] && exit 5
+	
+	[ -z ${5} ] && exit 11
 	csleep 1
 
 	dqb "params_ok"
@@ -419,9 +422,10 @@ function e22_elocal() { #091225:tehnee paketin ok
 
 	dqb "DSN"
 	csleep 2
-
+	local f
+	
 	if [ ${3} -eq 1 ] ; then #-gt 0 ?
-		local f;for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
+		for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 	else
 		dqb "n0 5tub"
@@ -429,9 +433,19 @@ function e22_elocal() { #091225:tehnee paketin ok
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
+	csleep 5
+	
+	for f in $(find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
+		${srat} -rvf ${1} ${f}
+	done
+	
+	csleep 5
+	
+	for f in $(find /etc -type f -name '${5}*' -and -not -name '*.202*') ; do
+		${srat} -rvf ${1} ${f}
+	done
 
-	#tässä se äksän konffi mukaan vai e22_home():ssa?
-
+	csleep 5
 	dqb "e22_elocal done"
 	csleep 1
 }
@@ -545,7 +559,7 @@ function aswasw() { #privaatti fktio
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
 			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
 
-			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3 adduser
+			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
 			${shary} wpasupplicant
 		;;
 		*)
@@ -589,11 +603,6 @@ function e22_ts() { #091225:jos vaikka toimisi
 }
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-#DONE?:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk? 291125 taisi tulla jokun uusi juttty testattavaksi, muuten olisi jo OK
-#... se _pkgs* - jutska vielä , pitäisikö nimenomaan vetää se tuorein versio kuitenkin arkistoon?
-
-#vissiin ok jo 121225 paitsi ehkä accetp/rejct
-#121225:uudelleenpakk kai muuten mutta jos vielä varm vbuoksi karsisi lxdm:n ?
 
 function e22_arch() { 
 	dqb "e22_arch ${1}, ${2} " 
@@ -665,9 +674,9 @@ function e22_arch() {
 	csleep 1
 	psqa .
 
-	#121225:tar kanssa edelleen ongelmia?
-	dqb "srat= ${srat}"
-	csleep 1
+#	#121225:tar kanssa edelleen ongelmia?
+#	dqb "srat= ${srat}"
+#	csleep 1
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt ./sha512sums.txt.sig
 	[ ${debug} -eq 1 ] && ls -las ${1} 
@@ -735,7 +744,7 @@ function e22_dm() {
 
 	case ${1} in
 		lxdm)
-			#VAIH:MUISTA MUOKATA SE ACCEPT_PKGS1 + ERITYISESTI SHASUMS&&SIG AJAN TASALLE!!!
+			#"exp2 rp" on nykyään keksitty
 		
 			#VAIH:(>= 2.12.6),  (>= 2.9.1),  (>= 0.30.0), libpng16-16 (>= 1.6.2-1),  (>= 1.6), libxext6, libxrender1
 			${shary} libxcb-render0 libxcb-shm0 libxcb1
@@ -744,7 +753,7 @@ function e22_dm() {
 			${shary} libatk1.0-0 libfontconfig1 libfreetype6 libpixman-1-0
 			csleep 5
 			
-			#TODO:?libcups2 (>= 1.6.0), 
+			#TODO?:libcups2 (>= 1.6.0), 
 			#(jos aikoo dbusista eroon ni libcups2 ei hyvä idea)
 			
 			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1), libxcomposite1 (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxi6, libxinerama1 (>= 2:1.1.4), libxrandr2 (>= 2:1.5.0), libxrender1, adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
@@ -782,20 +791,20 @@ function e22_dm() {
 }
 
 #TODO:ntp-jutut takaisin josqs?
-#091225:taitaa toimia
+#TODO:testaa uusicksi
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  "
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
-	[ -z "${2}" ] && exit 12
+	#[ -z "${2}" ] && exit 12 #onko toista param?
 
 	dqb "paramz_ok"
 	csleep 1
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
-	${shary} libc6 zlib1g #moni pak tarttee nämä
+	${shary} libc6 zlib1g libreadline8 #moni pak tarttee nämä
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
@@ -828,17 +837,22 @@ function e22_other_pkgs() {
 	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0
 	${shary} git-man git
 
-	dqb "MAGOG"
+	dqb "MåGOG"
 
-	#libreadline8 aiemmaksi? muutkin pak saattavat tarvita
+	# aiemmaksi? muutkin pak saattavat tarvita
 	${shary} ${E22GI}
 	${shary} gpg
 
 	[ $? -eq 0 ] && dqb "luBE 0F THE R3S0NATED"
 	csleep 2
+
+	#VIIMEAIKAISTEN NALKUTUSTEN TAKIA 2012265 (pitäisikö olla juuri libc6 jälkeen?)
+	${shary} perl-modules libperl perl-base	
+	${shary} libpam-modules-bin libperl5.36 libpython3.11-minimal libpython3.11-stdlib
+	${shary} libgtk-3-common libgtk-3-0 libgtk-3-bin #firefox ja xscreensaver (upg() asioita ?)
+	csleep 2
 	
-	#TODO:jos lukaisi debian referencen pitkäsatä aikaa, että löytyisikö jotain jekkua paketinhallinnan kanssa? ettei tarvitse kikkailla initramfs:n ja muutaman paketin kanssa
-	e22_dm ${2}
+	#TODO:jos lukaisi debian referencen pitkästä aikaa, että löytyisikö jotain jekkua paketinhallinnan kanssa? ettei tarvitse kikkailla initramfs:n ja muutaman paketin kanssa
 	${lftr}
 	csleep 2
 

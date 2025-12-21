@@ -154,11 +154,17 @@ case ${mode} in
 	#-uvf olisi myls keksitty
 	
 		dqb "VAIH:repackaging previously created archive"
-		echo "tar --exclude sha512sums* -C {d} -xvf ${tgtfile}"
-		echo "mv ${tgtfile} ${tgtfile}.OLD"
-		echo "???"
+		e22_cleanpkgs ${d}
+		
+		${smr} ${d}/f.tar
+		${srat} --exclude sha512sums* -C ${d} -xvf ${tgtfile}
+		[ $? -eq 0 ] && ${svm} ${tgtfile} ${tgtfile}.OLD
+		
+		#saattaisi riittää että puretaan sha512sums,txt, poistetaan siitä rivit mikä ei .deb , lisätään kyseisten tiedostojen uudemmat versiot listaan ja allekirjoitetaan, lopuksi uudet tdstot -rv:llä mukaan tariin ja ftr()
+		
+		echo "#???"
 		echo "$0 f ${tgtfile}"
-		echo "profit"
+		echo "#profit"
 		exit
 	;;
 	f) 	#201225:tekee paketin, sisältö:
@@ -263,8 +269,8 @@ e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
+#TODO:jospa varm vuoksi kaikki caset testiin taas
 case ${mode} in
-	#johdonmukaisuuden vuoksi 3|4) jatkossa (imp2/exp2)
 	0)
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
@@ -316,7 +322,7 @@ case ${mode} in
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 1
-		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
+		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
 	#091225:teki paketin, sisällön kelpoisuus selvitettävä
 	#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)	
@@ -337,13 +343,11 @@ case ${mode} in
 	p) #091225:tekee paketin missä validia sisältöä, kai
 		e22_profs ${tgtfile} ${d0} 
 	;;
+		#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia
 	e)
 		#151225:tekee paketin, sisältö:lxdm kanssa ongelmaa edelleen
-		#VAIH:koita korjata riippuvuudet
-
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-		[ -v CONF_dm ] || exit 77
-		e22_other_pkgs ${CONF_dnsm} ${CONF_dm}
+		e22_other_pkgs ${CONF_dnsm} #${CONF_dm}
 
 		if [ -d ${d} ] ; then
 			e22_dblock ${tgtfile} ${d}
@@ -355,10 +359,18 @@ case ${mode} in
 		csleep 2
 
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-		e22_ts ${d}
+		e22_ts ${d} #dblock vai ts?
 
 		t=$(echo ${d} | cut -d '/' -f 1-5)
 		enforce_access ${n} ${t}
+		e22_arch ${tgtfile} ${d}
+	;;
+	l)
+		#VAIH:koita korjata riippuvuudet, testaa myös
+		[ -v CONF_dm ] || exit 77
+
+		e22_dm ${CONF_dm}
+		e22_ts ${d} #dblock vai ts?
 		e22_arch ${tgtfile} ${d}
 	;;
 	*) #281025:tämäkin toiminee
