@@ -32,7 +32,6 @@ else
 		[ -x ${odio} ] || exit 100
 	
 		#dqb "ITN1-2-2"	
-
 	}
 
 	#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
@@ -264,14 +263,14 @@ function psqa() {
 
 	#HUOM.171225:isommat blokkien sisällöt jos ulkoistaisi omiin fktioihinsa?
 
-	if [ -s ${1}/sha512sums.txt.sig ] ; then
+	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then
 		dqb "S( ${1} )"
 		csleep 1
 
-		#TODO:"-z" - tark takaisib?
+		#VAIH:"-z gg" - tark takaisib? tai miteb siellä import2:sessa menikään
 
-		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubrink.kbx yli 32 tavua?
-		if [ -x ${gg} ] ; then
+		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubring.kbx yli 32 tavua?
+		if [ ! -z ${gg} ] && [ -x ${gg} ] ; then
 			dqb "${gg} --verify ./sha512sums.txt.sig "
 			csleep 1
 			${gg} --verify ${1}/sha512sums.txt.sig
@@ -300,23 +299,15 @@ function psqa() {
 		p=$(pwd)
 		cd ${1}
 
-#		if [ -v SOME_CONFIG_OPT ] ; then	
-#			dpkg -V
-#			sleep 1
-#		fi
-
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?		
 		${sah6} -c sha512sums.txt --ignore-missing
-
-#		#131225:josko kokeiltu tarpeeksi
-#		#if [ ${debug} -eq 0 ] ; then		
+	
 			if [ $? -eq 0 ] ; then
 				dqb "Q.KO"
 			else
 				dqb "export2 f ?"
 				exit 94
 			fi
-#		#fi
 
 		cd ${p}
 	else
@@ -403,7 +394,6 @@ function common_lib_tool() {
 		dqb "outer; ${q}"
 		#jatk r pois?
 		r=$(find ${1} -type f -name "${q}*.deb" )
-		#dqb "r= ${r}"
 
 		for s in ${r} ; do
 			dqb "inner: ${NKVD} ${s}"
@@ -483,7 +473,6 @@ function clibpre() {
 #
 #P.S. this function created to avoid a chicken-and-egg-situation
 #
-#VAIH:debug
 #function common_tbls() {
 #	dqb "COMMON TABLESD $1, $2"
 #	csleep 1
@@ -586,28 +575,33 @@ function check_binaries() {
 	dqb "JUST BEFORE EE2G"
 	csleep 1
 
-#	#181225;josko jo pois nuo 3 riviä alta?
-#	[ -v sr0 ] || exit 102
-#	[ -v ipt ] || exit 103
-#	[ -v smd ] || exit 104
-
 	sdi="${odio} ${sd0} -i "
-	#091225 siirretty tdstost a/e22.sh, katsotaan toimiiko näin?
+	
+	#091225 siirretty tdstost ae/e22.sh, katsotaan toimiiko näin?
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
-	E22_GT="libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11"
+	#201225:jospa se common_tbls() vielä , prujaa sieltä jos ei ala sujua
+	E22_GT="libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
+	E22_GU="${E22_GT} iptables_ init-system-helpers netfilter-persistent iptables-persistent"
+
 	E22_GT="${E22_GT} iptables"
 	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
+	E22_GU="${E22_GU} nftables iptables-persistent init-system-helpers netfilter-persistent"
+	
 	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
-
+	E22_GU="${E22_GU} isc-dhcp-client isc-dhcp-common"
+	
 	#HUOM.111225:mennäänkö tähän sq-chr-ymp.äristössä? nykyään joo
 	#VAIH:testaa taas
 	#HUOM.141225:josko kiekolle mukaan gpg, ao. if-blokin takia
 	dqb "JUST BEFORE cefgh()"
 	
-	if [ ! -v CONF_testgris ] ; then
+	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
+		dqb "aa"
 		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
+			#201225:common_lib ajo-oik pois? jos ei tables asennus sqrootissa onnaa niinqu?
+			dqb "bbb"
 			[ -z ${1} ] && exit 99
 			dqb "-d ${1} existsts?"
 			[ -d ${1} ] || exit 101
@@ -641,14 +635,10 @@ function check_binaries() {
 				[ -f /.chroot ] && message
 				#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
 			
-				#191225:sqrootissa tällaista:
-				#dpkg: regarding .../iptables-persistent_1.0.20_all.deb containing iptables-persistent, pre-dependency problem:
-				#iptables-persistent pre-depends on iptables
-				#iptables is not installed.
-				#... tarttisikohan jotain tehdä? acccept_2 hoitamaan?
+				#201225:josko alkaisi kohta onnata tablesin asennus sqrootissa?
 
 				#common_tbls ${1} ${CONF_dnsm}
-				for p in ${E22_GT} ; do efk1 ${1}/${p}*.deb ; done
+				for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
 				other_horrors
 
 				ipt=$(${odio} which iptables)
@@ -658,24 +648,13 @@ function check_binaries() {
 			fi
 		fi
 	
-		#181225:lisätty tämmöinen kikkailu kehitysymp varten ettei jumitu heti alkuunsa
-		#jos tämä jatkossa jusr ennen CB_LIST
-	
+		#181225:lisätty tämmöinen kikkailu kehitysymp varten ettei jumitu heti alkuunsa	
 		for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
 	fi
 	
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
 	csleep 1
-
-	#181225;josko jo pois nuo 3 riviö alta?
-#	[ -v sd0 ] || exit 66
-# 	[ -v sdi ] || exit 67
-#	[ -z "${sd0}" ] && exit 68
-#	
-#	dqb "sd0= ${sd0} "
-#	dqb "sdi= ${sdi} "
-#	csleep 1
 
 	#kts g_pt2 liittyen
 	[ -f /.chroot ] || ocs dhclient
@@ -842,12 +821,6 @@ function pre_enforce() {
 		${sco} 0:0 /opt/bin/changedns.sh
 		mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 		csleep 1
-	#else 
-		#141225:voi tulla turhaksi jatkossa tämä else-haara
-		#TODO:jospa jatkossa init1.bash tekisi ihan oman tdston /e/s.d alle
-		#if [ -v CB_LIST2 ] ; then
-		#	echo "$(whoami) localhost=NOPASSWD: ${CB_LIST2} " >> ${q}/meshuggah
-		#fi
 	fi
 
 	dqb "LETf HOUTRE JOINED IN L0CH N355"
@@ -862,11 +835,8 @@ function pre_enforce() {
 		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
 		csleep 1
 
-		#111225:tarpeeksi yleinen että fktioksi asti? kts ylempää jokatap
 		reqwreqw ${q}/meshuggah
 		${scm} 0440 ${q}/meshuggah
-		#${sco} root:root ${q}/meshuggah
-
 		${svm} ${q}/meshuggah /etc/sudoers.d
 
 		CB_LIST1=""
@@ -1091,8 +1061,8 @@ function part1_5() {
 		echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 		csleep 1
 
-		if [ ! -z ${CONF_pkgsrc} ] ; then
-			tdmc="sed -i 's/REPOSITORY/${CONF_pkgsrc}/g'"
+		if [ ! -z ${CONF_pkgsrv} ] ; then
+			tdmc="sed -i 's/REPOSITORY/${CONF_pkgsrv}/g'"
 			echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 			csleep 1
 		fi
@@ -1150,17 +1120,22 @@ function dis() {
 	csleep 1
 
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
-	${odio} ${sifd} ${CONF_iface}
-	csleep 1
+	if [ -v CONF_iface ] ; then
+		if [ ! -z "${CONF_iface}" ] ; then
+			${odio} ${sifd} ${CONF_iface}
+			csleep 1
+	
+		#	${odio} ${sifd} -a
+			csleep 1
 
-#	${odio} ${sifd} -a
-#	csleep 1
-
-	[ ${debug} -eq 1 ] && ${sifc};sleep 1
-	dqb "${sip} link set ${CONF_iface} down"
-	${sip} link set ${CONF_iface} down
-	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
-
+			[ ${debug} -eq 1 ] && ${sifc};sleep 1
+			dqb "${sip} link set ${CONF_iface} down"
+	
+			${sip} link set ${CONF_iface} down
+			[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+		fi
+	fi
+	
 	csleep 1
 	${odio} sysctl -p
 	csleep 1
@@ -1206,22 +1181,24 @@ function part1() {
 	if [ -z "${ipt}" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		for t in INPUT OUTPUT FORWARD ; do
-			${ipt} -P ${t} DROP
-			dqb "V6"; csleep 1
+		if [ -x ${ipt} ] ; then #pitäisikö vielä varrata:$[odio} =
+			for t in INPUT OUTPUT FORWARD ; do
+				${ipt} -P ${t} DROP
+				dqb "V6"; csleep 1
 
-			${ip6t} -P ${t} DROP
-			${ip6t} -F ${t}
-		done
+				${ip6t} -P ${t} DROP
+				${ip6t} -F ${t}
+			done
 
-		for t in INPUT OUTPUT FORWARD b c e f ; do ${ipt} -F ${t} ; done
+			for t in INPUT OUTPUT FORWARD b c e f ; do ${ipt} -F ${t} ; done
 	
-		if [ ${debug} -eq 1 ] ; then
-			${ipt} -L
-			dqb "V6.b"; csleep 1
-			${ip6t} -L
-			csleep 1
-		fi
+			if [ ${debug} -eq 1 ] ; then
+				${ipt} -L
+				dqb "V6.b"; csleep 1
+				${ip6t} -L
+				csleep 1
+			fi
+		fi	
 	fi
 
 	local c

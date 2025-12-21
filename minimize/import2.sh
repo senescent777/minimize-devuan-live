@@ -11,7 +11,7 @@ d0=$(pwd)
 d=${d0}/${distro}
 
 #HUOM.121225:edelleenkin wanha reject_pkgs jyrää uuden, voisiko jtain tehdä?
-#TODO:muista kopsata tikulle/kiekoille se uudempi päivityspak jotta testit
+#VAIH:muista kopsata tikulle/kiekoille se uudempi päivityspak jotta testit
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -73,7 +73,7 @@ else
 	fi	
 fi
 
-#VAIH:testaa yhdistelmä live-ymp+common_lib pois pelistä 
+#testailua yhdistelmä live-ymp+common_lib pois pelistä 
 #aloiteltu 121225 "$0 k" , toiminee 
 #seur "$0 1" (päivityspak?) sen kanssa pientä laittoa vielä (josko jo)
 #-1 ja 2 OK
@@ -81,7 +81,6 @@ fi
 #141225:q ja r eivät toimi kunnolla tällöin
 #3 toimi sqroot-ympäristössä ok, pl ilmeinen puute
 
-#VAIH:jos ei muuten ala bugi löytyä ni chmod a-x common_lib ja sit jotain
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -95,11 +94,14 @@ else
 		odio=$(which sudo)
 	fi
 	
+	#TODO:sqrootissa import2.sh toimitaan jtnkn kätevämmin
+	#... tai siis lottoa ne komennot millä kätevimmin saa siellä asiat hoidettua	
+		
 	function check_binaries() {
 		dqb "imp2.check1"
 
-		mkt=$(which mktemp)
-		scm="${odio} which chmod" 
+		mkt=$(${odio} which mktemp)
+		scm=$(${odio} which chmod)
 		sah6=$(${odio} which sha512sum)
 
 		srat=$(${odio} which tar)
@@ -109,9 +111,6 @@ else
 		som=$(${odio} which mount)
 		uom=$(${odio} which umount)
 	}
-
-	#VAIH:jatkossa odion:n ymppääminen mkt-uom tähän , paikallisten check_bin() - fktioiden kautta?
-	#... se sqr00t-ymp myös testattava sen jälkeen että miten toimii siellä
 
 	function check_binaries2() {
 		dqb "imp2.check2"
@@ -123,7 +122,7 @@ else
 
 	function part3() {
 		dqb "imp2.part3 :NOT SUPPORTED"
-		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount
+		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount?
 	}
 
 	function other_horrors() {
@@ -138,13 +137,6 @@ else
 fi
 
 [ -z ${distro} ] && exit 6
-[ -v mkt ] || exit 7
-[ -z "${mkt}" ] && exit 9
-echo "mkt= ${mkt} "
-
-[ -v srat ] || exit 8
-[ -z "${srat}" ] && exit 10
-echo "srat= ${srat} "
 csleep 2
 
 if [ -f /.chroot ] || [ -x ${mkt} ] ; then
@@ -170,6 +162,15 @@ else
 	check_binaries2
 fi
 
+#HUOM.201225:jutut sitten siirretty mylhemmäksi koska sqrootin kanssa ongelmia, to state the obvious
+[ -v mkt ] || exit 7
+[ -z "${mkt}" ] && exit 9
+echo "mkt= ${mkt} "
+
+[ -v srat ] || exit 8
+[ -z "${srat}" ] && exit 10
+echo "srat= ${srat} "
+
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${CONF_part0}
 dqb "L0G"
@@ -185,9 +186,7 @@ else
 	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE"
 fi
 
-ocs tar
-dqb "srat= ${srat}"
-csleep 3
+#VAIH:tar-testejä sitten vähemmälle jatkossa
 dqb "Lpg"
 
 function common_part() {
@@ -211,9 +210,10 @@ function common_part() {
 
 	if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
 		dqb "A"
+		dqb "gg= ${gg}"
 
-		#sen array:n olamessaolon testi tähän?
-		if [ ! -z ${gg} ] ; then
+		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemasaolon sijaan
+		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 			dqb "B"
 
 			if [ -x ${gg} ] ; then
@@ -224,10 +224,11 @@ function common_part() {
 				r=$?
 			fi
 		fi
+		
+		[ ${r} -eq 0 ] || exit ${r}	
 	fi
 
-	[ ${r} -eq 0 ] || exit ${r} #voiso olla if-blokin sisälläkin
-	csleep 3
+	csleep 2
 
 	#kts. common_lib.psqa()
 	if [ -s ${1}.sha ] ; then
@@ -402,7 +403,7 @@ csleep 1
 
 case "${mode}" in
 	1) #151225:toimii
-	#TODO:jos CONF_testgris asetettu ni / tilalle, tai siinä on kyllä juttuja... chroot (kehitysymp) parempi
+	#jos CONF_testgris asetettu ni / tilalle? tai siinä on kyllä juttuja... chroot (kehitysymp) parempi
 		common_part ${srcfile} ${d} /
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
@@ -460,8 +461,9 @@ case "${mode}" in
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
-		#jonnekin sitten vastaavasti $gg --export ?
-		#... ja avanten allekirjoittamiseen oli muuten omakin optio
+		
+		#jonnekin sitten vastaavasti $gg --export, esim kutl.bash
+		#... ja avaInten allekirjoittamiseen oli muuten omakin optio
 
 		if [ -v gg ] ; then
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then

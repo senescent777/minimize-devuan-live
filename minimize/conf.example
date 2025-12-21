@@ -7,7 +7,7 @@ CONF_changepw=0
 #
 #pkgs
 CONF_pkgdir=/var/cache/apt/archives
-CONF_pkgsrc= #tämän idea olikaan? no sources.list tietenkin
+CONF_pkgsrv= #tämän idea olikaan? no sources.list tietenkin
 CONF_removepkgs=1
 #/pkgs
 #
