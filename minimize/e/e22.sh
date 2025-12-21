@@ -739,9 +739,11 @@ function e22_tblz() { #091225 toimi ainakin kerran
 	dqb "x2.e22_tblz.done"
 }
 
-#VAIH:toiminnan testaus (21.12.25)
+#VAIH:toiminnan testaus (21.12.25) , kutsuva koodi tekee haetuista paketin mutta toimivuuden slvittely
 function e22_dm() {
 	[ -z "${1}" ] && exit 11
+
+	#TODO:xscrensaver+xlock ennen dm-spesifistä cvasea? tai toiseen fktioon kutenkin moinen
 
 	case ${1} in
 		lxdm)
