@@ -576,24 +576,28 @@ function check_binaries() {
 	csleep 1
 
 	sdi="${odio} ${sd0} -i "
+	
 	#091225 siirretty tdstost ae/e22.sh, katsotaan toimiiko näin?
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
-	E22_GT="libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11"
+	#201225:jospa se common_tbls() vielä , prujaa sieltä jos ei ala sujua
+	E22_GT="libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
 	E22_GU="${E22_GT} iptables_ init-system-helpers netfilter-persistent iptables-persistent"
+
 	E22_GT="${E22_GT} iptables"
 	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
+	E22_GU="${E22_GU} nftables iptables-persistent init-system-helpers netfilter-persistent"
+	
 	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
 	E22_GU="${E22_GU} isc-dhcp-client isc-dhcp-common"
 	
-
 	#HUOM.111225:mennäänkö tähän sq-chr-ymp.äristössä? nykyään joo
 	#VAIH:testaa taas
 	#HUOM.141225:josko kiekolle mukaan gpg, ao. if-blokin takia
 	dqb "JUST BEFORE cefgh()"
 	
-	if [ ! -v CONF_testgris ] ; then
+	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
 		dqb "aa"
 		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 			#201225:common_lib ajo-oik pois? jos ei tables asennus sqrootissa onnaa niinqu?
@@ -631,11 +635,7 @@ function check_binaries() {
 				[ -f /.chroot ] && message
 				#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
 			
-				#191225:sqrootissa tällaista:
-				#dpkg: regarding .../iptables-persistent_1.0.20_all.deb containing iptables-persistent, pre-dependency problem:
-				#iptables-persistent pre-depends on iptables
-				#iptables is not installed.
-				#... tarttisikohan jotain tehdä? acccept_2 hoitamaan?
+				#201225:josko alkaisi kohta onnata tablesin asennus sqrootissa?
 
 				#common_tbls ${1} ${CONF_dnsm}
 				for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
@@ -648,9 +648,7 @@ function check_binaries() {
 			fi
 		fi
 	
-		#181225:lisätty tämmöinen kikkailu kehitysymp varten ettei jumitu heti alkuunsa
-		#jos tämä jatkossa jusr ennen CB_LIST
-	
+		#181225:lisätty tämmöinen kikkailu kehitysymp varten ettei jumitu heti alkuunsa	
 		for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
 	fi
 	
@@ -823,9 +821,6 @@ function pre_enforce() {
 		${sco} 0:0 /opt/bin/changedns.sh
 		mangle_s /opt/bin/changedns.sh ${q}/meshuggah
 		csleep 1
-	#else 
-		#141225:voi tulla turhaksi jatkossa tämä else-haara
-		#fi
 	fi
 
 	dqb "LETf HOUTRE JOINED IN L0CH N355"
@@ -1125,17 +1120,22 @@ function dis() {
 	csleep 1
 
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
-	[ -z "${CONF_iface}" ] || ${odio} ${sifd} ${CONF_iface}
-	csleep 1
+	if [ -v CONF_iface ] ; then
+		if [ ! -z "${CONF_iface}" ] ; then
+			${odio} ${sifd} ${CONF_iface}
+			csleep 1
+	
+		#	${odio} ${sifd} -a
+			csleep 1
 
-#	${odio} ${sifd} -a
-#	csleep 1
-
-	[ ${debug} -eq 1 ] && ${sifc};sleep 1
-	dqb "${sip} link set ${CONF_iface} down"
-	${sip} link set ${CONF_iface} down
-	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
-
+			[ ${debug} -eq 1 ] && ${sifc};sleep 1
+			dqb "${sip} link set ${CONF_iface} down"
+	
+			${sip} link set ${CONF_iface} down
+			[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+		fi
+	fi
+	
 	csleep 1
 	${odio} sysctl -p
 	csleep 1

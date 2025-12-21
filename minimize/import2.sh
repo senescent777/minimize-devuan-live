@@ -94,6 +94,9 @@ else
 		odio=$(which sudo)
 	fi
 	
+	#TODO:sqrootissa import2.sh toimitaan jtnkn kätevämmin
+	#... tai siis lottoa ne komennot millä kätevimmin saa siellä asiat hoidettua	
+		
 	function check_binaries() {
 		dqb "imp2.check1"
 
@@ -184,9 +187,6 @@ else
 fi
 
 #VAIH:tar-testejä sitten vähemmälle jatkossa
-#ocs tar
-#dqb "srat= ${srat}"
-#csleep 3
 dqb "Lpg"
 
 function common_part() {
