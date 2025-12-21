@@ -137,6 +137,8 @@ function el_loco() {
 #	if [ -s /etc/default/locale ] ; then #miten tämän pitää mennä?
 #		. /etc/default/locale #tämä pOis jAtkossa?
 #
+
+#211225:pitäisiköhän sitä knftdstpoa($d/conf) pikemminkin muuttaa konffauksen jälkeen? tai jokin ehdollinen asetusten jyrääminen?
 		export LC_TIME
 		export LANGUAGE
 		export LC_ALL
