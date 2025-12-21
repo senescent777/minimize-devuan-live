@@ -112,7 +112,7 @@ function ocs() {
 	fi
 }
 
-#... miten (LC_juttujen) aikainen asettaminen muuten vaikuttaa el_loco():on ?
+#... miten LC_juttujen aikainen asettaminen muuten vaikuttaa el_loco():on ?
 function check_bin_0() {
 	dqb "check_bin_0"
 	csleep 1
@@ -262,12 +262,11 @@ function psqa() {
 	csleep 1
 
 	#HUOM.171225:isommat blokkien sisällöt jos ulkoistaisi omiin fktioihinsa?
+	#dpkg -V oli tässä josqs
 
 	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then
 		dqb "S( ${1} )"
 		csleep 1
-
-		#VAIH:"-z gg" - tark takaisib? tai miteb siellä import2:sessa menikään
 
 		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubring.kbx yli 32 tavua?
 		if [ ! -z ${gg} ] && [ -x ${gg} ] ; then
@@ -410,7 +409,7 @@ function common_lib_tool() {
 	dqb "REJECTNG DONE"
 }
 
-#common_lib_tool ja clibpre pystyisi yhdistämään ... EHKÄ josqs
+#TODO:common_lib_tool ja clibpre yhdistäminen vähitellen
 
 function clibpre() {
 	dqb "common_lib_tool.re( ${1}  , ${2}) "
@@ -1181,7 +1180,7 @@ function part1() {
 	if [ -z "${ipt}" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		if [ -x ${ipt} ] ; then #pitäisikö vielä varrata:$[odio} =
+		if [ -x ${ipt} ] ; then #pitäisikö vielä vErrata: $ {  o d i o } =
 			for t in INPUT OUTPUT FORWARD ; do
 				${ipt} -P ${t} DROP
 				dqb "V6"; csleep 1

@@ -455,9 +455,7 @@ case "${mode}" in
 	k)
 		#161225:toimii, sq-root-ymp ainakin
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
-		dqb "# . \ import2.sh k \ pad -v"
-
-		#sqroot alta pad-hmiston siivoilu? ei tämän skriptin asioita
+		#TODO:tuotaviille avaimille jotain tark? jos on jo ennestäöän jotain av ni niitä vasten testaa uudet, esim.
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
