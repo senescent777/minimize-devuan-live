@@ -1,6 +1,6 @@
 #
-perl-modules-*.deb
-#pitäisi jo aiemmin
+#perl-modules-*.deb
+#pitäisi jo aiemmi
 #
 #nämä 4 tuosta alta kommentteihn ?
 #eudev*.deb
@@ -12,7 +12,7 @@ perl-modules-*.deb
 #dbus-bin*.deb
 #dbus-daemon*.deb dbus-session-bus-common*.deb
 #
-perl-base*.deb
+#perl-base*.deb
 #pitäisi jo aiemmin
 #
 perl*.deb

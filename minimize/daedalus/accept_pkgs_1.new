@@ -1,9 +1,7 @@
 #201225:varmaankin tulisi kirjoittaa uusiksi tämä+accept2, lkibc6-libz11.xcb pohjana ja loput iteroiden
 #
 #erillään vai yhdessä ekat 3?
-libc6*.deb
-gcc-12*.deb
-cpp*.deb
+libc6*.deb gcc-12*.deb cpp*.deb
 #
 #Preparing to unpack perl_5.36.0-7+deb12u3_amd64.deb ...
 #Unpacking perl (5.36.0-7+deb12u3) over (5.36.0-7) ...
@@ -11,9 +9,12 @@ cpp*.deb
 # perl depends on libperl5.36 (= 5.36.0-7+deb12u3); however:
 #  Version of libperl5.36:amd64 on system is 5.36.0-7.
 #
+#
+#perl-modules oltava ennen libperl
+perl-modules-*.deb
 libperl*.deb
 perl-base*.deb
-#perl-modules-*.deb #accept2:ssa on jo
+# 
 #
 libgcc-s1*.deb
 libstdc*.deb
