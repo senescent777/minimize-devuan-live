@@ -739,58 +739,6 @@ function e22_tblz() { #091225 toimi ainakin kerran
 	dqb "x2.e22_tblz.done"
 }
 
-#VAIH:toiminnan testaus (21.12.25) , kutsuva koodi tekee haetuista paketin mutta toimivuuden slvittely
-function e22_dm() {
-	[ -z "${1}" ] && exit 11
-
-	#TODO:xscrensaver+xlock ennen dm-spesifistä cvasea? tai toiseen fktioon kutenkin moinen
-
-	case ${1} in
-		lxdm)
-			#"exp2 rp" on nykyään keksitty
-		
-			#VAIH:(>= 2.12.6),  (>= 2.9.1),  (>= 0.30.0), libpng16-16 (>= 1.6.2-1),  (>= 1.6), libxext6, libxrender1
-			${shary} libxcb-render0 libxcb-shm0 libxcb1
-			csleep 5
-			
-			${shary} libatk1.0-0 libfontconfig1 libfreetype6 libpixman-1-0
-			csleep 5
-			
-			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
-			
-			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1), libxcomposite1 (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxi6, libxinerama1 (>= 2:1.1.4), libxrandr2 (>= 2:1.5.0), libxrender1, adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
-			${shary} libpangocairo-1.0-0 libpangoft2-1.0-0 libx11-6 
-			csleep 5
-
-			${shary} libdeflate0*.debliblerc4*.deb libtiff6
-			csleep 5
-
-			#HUOM.201225:libgdk, libgtk- pakettien riippuvuuksiA joutunee selvittämään ja kasaamaan tänne
-			${shary} libgdk-pixbuf2.0-common libgdk-pixbuf-2.0-0
-			csleep 5
-			
-			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
-			${shary} debconf libcairo2 libgtk2.0-common libgtk2.0-0
-			csleep 5
-	
-			#gdk ennen gtk?
-			${shary} libfribidi0 libharfbuzz0b libthai0
-			csleep 5
-			
-			${shary} libglib2.0-data libglib2.0-0
-			csleep 5
-		
-			${shary} fontconfig libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
-			csleep 5
-
-			${shary} x11-utils lxdm 
-			csleep 5
-		;;
-		*)
-			dqb "sl1m?"
-		;;
-	esac
-}
 
 #TODO:ntp-jutut takaisin josqs?
 #VAIH:testaa uusicksi
@@ -866,6 +814,77 @@ function e22_other_pkgs() {
 
 	dqb "e22_other_pkgs donew"
 	csleep 1
+}
+
+#VAIH:toiminnan testaus (21.12.25) , kutsuva koodi tekee haetuista paketin mutta toimivuuden slvittely
+function e22_dm() {
+	[ -z "${1}" ] && exit 11
+
+	
+	case ${1} in
+		lxdm)
+			#"exp2 rp" on nykyään keksitty
+		
+			#VAIH:(>= 2.12.6),  (>= 2.9.1),  (>= 0.30.0), libpng16-16 (>= 1.6.2-1),  (>= 1.6), libxext6, libxrender1
+			${shary} libxcb-render0 libxcb-shm0 libxcb1
+			csleep 5
+			
+			${shary} libatk1.0-0 libfontconfig1 libfreetype6 libpixman-1-0
+			csleep 5
+			
+			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
+			
+			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1), libxcomposite1 (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxi6, libxinerama1 (>= 2:1.1.4), libxrandr2 (>= 2:1.5.0), libxrender1, adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
+			${shary} libpangocairo-1.0-0 libpangoft2-1.0-0 libx11-6 
+			csleep 5
+
+			${shary} libdeflate0*.debliblerc4*.deb libtiff6
+			csleep 5
+
+			#HUOM.201225:libgdk, libgtk- pakettien riippuvuuksiA joutunee selvittämään ja kasaamaan tänne
+			${shary} libgdk-pixbuf2.0-common libgdk-pixbuf-2.0-0
+			csleep 5
+			
+			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
+			${shary} debconf libcairo2 libgtk2.0-common libgtk2.0-0
+			csleep 5
+	
+			#gdk ennen gtk?
+			${shary} libfribidi0 libharfbuzz0b libthai0
+			csleep 5
+			
+			${shary} libglib2.0-data libglib2.0-0
+			csleep 5
+		
+			${shary} fontconfig libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
+			csleep 5
+
+			${shary} x11-utils lxdm 
+			csleep 5
+		;;
+		*)
+			dqb "sl1m?"
+		;;
+	esac
+	
+	#xscreensaver-data:
+	# Depends:
+	#libwww-perl, libc6 (>= 2.34), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.16.0), libx11-6, libxext6, libxft2 (>> 2.1.1), libxt6
+
+
+	#VAIH:xscreensaver+xlock ennen dm-spesifistä cvasea? tai toiseen fktioon kutenkin moinen
+	# Depends:
+	#xscreensaver-data, 
+	#init-system-helpers (>= 1.52), libatk1.0-0 (>= 1.12.4), libc6 (>= 2.34), #onjo?
+	#libcrypt1 (>= 1:4.1.0), libegl1, 
+	#libglib2.0-0 (>= 2.49.3), libgtk-3-0 (>= 3.16.2), libpam0g (>= 0.99.7.1), #onjo?
+	# libsystemd0 (>= 243), 
+	#libx11-6 (>= 2:1.2.99.901), libxext6, libxft2 (>> 2.1.1), #onjo?
+	# libxi6 (>= 2:1.2.99.4), libxinerama1 (>= 2:1.1.4), 
+	#libxml2 #onjo?
+	# (>= 2.7.4), libxrandr2 (>= 2:1.2.99.2), libxt6, libxxf86vm1
+
+	${shary} xscreensaver-data xscreensaver
 }
 
 function e22_dblock() { #091225:taitaa toimia
