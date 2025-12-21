@@ -1,23 +1,7 @@
 #
-perl-modules-*.deb
-#pitäisi jo aiemmin
-#
-#nämä 4 tuosta alta kommentteihn ?
-#eudev*.deb
-#udev*.deb
-#xserver-common*.deb
-#xserver-xorg-core*.deb
-#
-#mielellään dbus Vittuun jatkossa 666!!!
-#dbus-bin*.deb
-#dbus-daemon*.deb dbus-session-bus-common*.deb
-#
-perl-base*.deb
-#pitäisi jo aiemmin
+#eudev-dbus-e2fsprogs oli siinä rejectissä
 #
 perl*.deb
-#
-#161225:jostain syystä tuo g-man tänään aiuheutti
 #git depends on perl
 git-man*.deb
 git*.deb
@@ -25,21 +9,18 @@ git*.deb
 bind9-host*.deb
 bind9-dns*.deb
 dnsutils*.deb
-#e2fsprogs*.deb
+#e2fsprogs*.deb aiheuttaa jotain härdelliä edelleen?
 #
-#dpkg: dependency problems prevent configuration of python3.11-minimal:
-# python3.11-minimal depends on libpython3.11-minimal (= 3.11.2-6+deb12u6); however:
-#  Version of libpython3.11-minimal:amd64 on system is 3.11.2-6.
-#
+#python toiv kunnossa 211225
 python3.11-minimal*.deb
 #
-#uutena 261125, lienee ok
+#lxdm tarvitsi?
 gtk2-engines-pixbuf*.deb
-#uutena 271125
+#gpg tarvitsee
 gpgconf*.deb
 #
-#uutena 191225, kts jos muita E22_GT:n juttuja tarttee
 nftables*.deb
 iptables_*.deb
 #
+#lxdm
 x11-utils_*.deb
