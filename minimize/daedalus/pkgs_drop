@@ -8,7 +8,8 @@ ntfs-3g
 p7zip
 psmisc
 #tästä tuli initramfs-valitus
-rsync squashfs-tools
+rsync
+squashfs-tools
 #eiole?
 traceroute
 #eiole?
@@ -18,7 +19,7 @@ w3m wget
 #eiole?
 xorriso
 #eiole?
-xorriso
+#xorriso
 xz*
 #initramfs
 xfburn

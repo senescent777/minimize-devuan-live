@@ -2,9 +2,13 @@
 libc6*.deb gcc-12*.deb cpp*.deb
 #
 #perl-modules oltava ennen libperl
-perl-modules-*.deb
-libperl*.deb
-perl-base*.deb
+#pitääkö nämä 2 olla samalla rivillä prkl?
+perl-modules-*.deb libperl*.deb perl-base*.deb
+#
+#221225:mitä jos libperl ja libpython väärää versiota? entä gpg-paketit?
+#
+#
+#josnuo ekat rivit menisivät takaisin kutsuvaanm koodiin tjsp
 #
 libgcc-s1*.deb
 libstdc*.deb
@@ -19,9 +23,7 @@ libglib2*.deb
 libtiff*.deb
 libxcb1*.deb
 #
-#kuitenkin nä-in päin?
-libx11-xcb1*.deb
-libx11-6*.deb
+libx11-xcb1*.deb libx11-6*.deb
 #
 #
 libgdk-pixbuf2.0-common*.deb
@@ -69,7 +71,10 @@ libopen*
 #libpolkit-gobject-*
 #
 libeudev*.deb
+#
+#git tarttee le-p
 liberror-perl*.deb
+#
 libuv1*.deb
 libnghttp2*.deb
 #
@@ -92,45 +97,16 @@ libselinux1*.deb
 #
 #211225:libpam-jutut jo kunnossa?
 #
-libpam-modules-bin*.deb
-libpam-modules_*.deb
+libpam-modules-bin*.deb libpam-modules_*.deb
 #
 libpam-runtime*.deb
 libpam-elogind*.deb
 #
 #kummin päin libpython? minimal ensin
-libpython3.11-minimal*.deb
-libpython3.11-stdlib*.deb
+libpython3.11-minimal*.deb libpython3.11-stdlib*.deb python3.11-minimal*.deb
 #
 #gpg tarttee
 libassuan0*.deb
-#
-#211225;kommentoituja pois sittenq mahd
-#tartteeko lxdm joitain ao. aketeista?
-#
-#libsigc++*.deb
-#
-#
-#libsndfile:n tarvitsi mikä?
-#libvorbisenc*.deb
-#libvorbis0*.deb
-#libopus0*.deb
-#libogg0*.deb
-#libmp3lame*.deb
-#libflac12*.deb
-#libsndfile1*.deb
-#
-#libsystemd0*.deb
-#libatkmm*.deb
-#libcairomm-*.deb
-#libpangomm-*.deb
-#libffi8*.deb
-#libpcre2*.deb
-#libasound2*.deb
-#libltdl7*.deb
-#libtdb1*.deb
-#libvorbisfile3*.deb
-#libcanberra0*.deb #tartteeko?
 #
 #uutena 191225, tables
 libip4tc2*.deb

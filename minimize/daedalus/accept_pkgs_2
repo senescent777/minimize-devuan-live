@@ -12,7 +12,7 @@ dnsutils*.deb
 #e2fsprogs*.deb aiheuttaa jotain härdelliä edelleen?
 #
 #python toiv kunnossa 211225
-python3.11-minimal*.deb
+#python3.11-minimal*.deb
 #
 #lxdm tarvitsi?
 gtk2-engines-pixbuf*.deb

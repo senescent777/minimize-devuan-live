@@ -5,4 +5,6 @@ dbus
 initramfs
 live
 e2fsprogs
-#
+#uutena 221225, tarvitaanko ao. paketteja nykyään?
+dirmngr
+gpg-
