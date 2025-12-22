@@ -17,6 +17,7 @@ if [ -f /.chroot ] ; then
 	}
 
 	#HUOM.141025:oikeastaan pitäisi tarkistaa ennen purkua, gpgtar jos löytyy, normi-tar muuten
+	#221225:onko tarpeellinen kikkailu tuossa alla? jos siis ensin ajetaan import2.sh 
 	for f in $(find $(pwd) -type f -name 'nekros?'.tar.bz3) ; do
 		tar -jxvf ${f}
 		sleep 1
@@ -579,6 +580,8 @@ function check_binaries() {
 	#091225 siirretty tdstost ae/e22.sh, katsotaan toimiiko näin?
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
+	
+	#221225:onko pakko tulla mukana gpg-sitä-sun-t't' ja dirmngr jos pelkkää hph:tä asentaa?
 
 	#201225:jospa se common_tbls() vielä , prujaa sieltä jos ei ala sujua
 	E22_GT="libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
@@ -644,6 +647,9 @@ function check_binaries() {
 				ip6t=$(${odio} which ip6tables)
 				iptr=$(${odio} which iptables-restore)
 				ip6tr=$(${odio} which ip6tables-restore)
+				
+				#sqroot-juttuja
+				[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh
 			fi
 		fi
 	
@@ -1180,7 +1186,7 @@ function part1() {
 	if [ -z "${ipt}" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		if [ -x ${ipt} ] ; then #pitäisikö vielä vErrata: $ {  o d i o } =
+		if [ -x ${ipt} ] ; then # \$ odio vs \$ ipt vielä?
 			for t in INPUT OUTPUT FORWARD ; do
 				${ipt} -P ${t} DROP
 				dqb "V6"; csleep 1
@@ -1232,6 +1238,7 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE"
 }
 
+#TODO:päivityspaketista vielä pois libx11-6+libxcb (tai siis oikeastaan se accetp1 tulisi kirjoittaa  tyhjästä uudestaan) 
 function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
 	csleep 1

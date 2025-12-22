@@ -74,6 +74,8 @@ dqb "mode= ${mode}"
 dqb "debug= ${debug}"
 #exit
 
+#221225:mitäs kaikkia pointteja olikaan ohittaa enforce.hommat sqroot.ympäristössä?
+#changedns ja fstab tietysti
 if [ -s /etc/sudoers.d/meshuggah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 3

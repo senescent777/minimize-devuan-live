@@ -53,6 +53,22 @@ if [ -f /.chroot ] ; then
 	#HUOM.141025:them files should be checked before eXtraCting
 	#gpgtar jos mahd, muuten normi-tar
 
+	#HUOM.221225:wanhassa systeemissä oli yhden s,kriptin alussa niitä sha- ja gpg- tarkistuk sia...
+	echo "A"
+	find . -name 'dgsts.?'
+	g=$(which gpg)
+	sleep 1
+	
+	if [ ! -z "${g}" ] ; then
+		echo "B"
+		find . -name '*.sig'
+		sleep 1
+	fi
+	
+	unset g
+	sleep 1
+	echo "C"
+
 	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
 		tar -jxvf ${f}
 		sleep 1
@@ -94,9 +110,10 @@ else
 		odio=$(which sudo)
 	fi
 	
-	#TODO:sqrootissa import2.sh toimitaan jtnkn kätevämmin
-	#... tai siis lottoa ne komennot millä kätevimmin saa siellä asiat hoidettua	
-		
+	#sqroot:in kanssa tämä skrip toimisi vähän kätevämmin s.e. chmod a-x common_lib.sh		
+	#...tosin joihinkn juttuihn se ajo.oikeus travitaan
+	echo "MAYBE U SHOULD chmod a+x  ${d0}/common_lib.sh"
+	
 	function check_binaries() {
 		dqb "imp2.check1"
 
