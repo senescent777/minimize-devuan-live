@@ -74,6 +74,8 @@ dqb "mode= ${mode}"
 dqb "debug= ${debug}"
 #exit
 
+#221225:mitäs kaikkia pointteja olikaan ohittaa enforce.hommat sqroot.ympäristössä?
+#changedns ja fstab tietysti
 if [ -s /etc/sudoers.d/meshuggah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 3
@@ -137,6 +139,8 @@ function el_loco() {
 #	if [ -s /etc/default/locale ] ; then #miten tämän pitää mennä?
 #		. /etc/default/locale #tämä pOis jAtkossa?
 #
+
+#211225:pitäisiköhän sitä knftdstpoa($d/conf) pikemminkin muuttaa konffauksen jälkeen? tai jokin ehdollinen asetusten jyrääminen?
 		export LC_TIME
 		export LANGUAGE
 		export LC_ALL
