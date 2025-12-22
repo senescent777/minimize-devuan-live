@@ -6,13 +6,14 @@ d0=$(pwd)
 mode=-2
 tgtfile=""
 
-function dqb() {
-	[ ${debug} -eq 1 ] && echo ${1}
-}
-
-function csleep() {
-	[ ${debug} -eq 1 ] && sleep ${1}
-}
+#tartteeko näitä 2 ? jos c_lib.sh ei käytösäs ni voi yhtä hyvin lopettaa suor
+#function dqb() {
+#	[ ${debug} -eq 1 ] && echo ${1}
+#}
+#
+#function csleep() {
+#	[ ${debug} -eq 1 ] && sleep ${1}
+#}
 
 function usage() {
 	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
@@ -26,6 +27,7 @@ function usage() {
 	echo "$0 g adds Gpg for signature checks, maybe?"
 	echo "$0 t ... option for ipTables"
 	#echo "$0 å ... somehow related 2 pavucontrol"
+	echo "$0 rp ... RePack existing arch"
 	echo "$0 -h: shows this message about usage"
 }
 
@@ -57,6 +59,7 @@ function parse_opts_2() {
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
+#TODO:konftdston arpomisesta tuli mieleen että voisi sen keys.conf:in etsiä ja includoida tarvittaessa
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -71,8 +74,8 @@ fi
 if [ -x ${d0}/common_lib.sh ] ; then 
 	. ${d0}/common_lib.sh
 else
-	dqb "FALLBACK"
-	dqb "chmod +x ${d0}/common_lib.sh may be a good idea now"
+	echo "FALLBACK"
+	echo "chmod +x ${d0}/common_lib.sh may be a good idea now"
 	exit 56
 	#HUOM.28725:toistaiseksi näin
 fi
@@ -151,20 +154,37 @@ t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
 	rp) #201225:parempi idea:metadata-paketti? shasums,sig,accept,reject sisältönä , 2 ekaa johdettu jostain olemassaolevan paketin .deb
-	#-uvf olisi myls keksitty
+	#-uvf olisi myös keksitty
+		[ -s "${tgtfile}" ] || exit 67
+		[ -r "${tgtfile}" ] || exit 68
 	
-		dqb "VAIH:repackaging previously created archive"
 		e22_cleanpkgs ${d}
+		csleep 1
 		
 		${smr} ${d}/f.tar
-		${srat} --exclude sha512sums* -C ${d} -xvf ${tgtfile}
+		csleep 1
+		
+		#jotain tarjkistuksie voisi tehdä ennen purkua, psqa()
+		
+		# --exclude '*pkgs*' kusee? jos ei ni takaisin
+		${srat} --exclude 'sha512sums*' -C ${d} -xvf ${tgtfile}
 		[ $? -eq 0 ] && ${svm} ${tgtfile} ${tgtfile}.OLD
+		csleep 1
 		
 		#saattaisi riittää että puretaan sha512sums,txt, poistetaan siitä rivit mikä ei .deb , lisätään kyseisten tiedostojen uudemmat versiot listaan ja allekirjoitetaan, lopuksi uudet tdstot -rv:llä mukaan tariin ja ftr()
 		
-		echo "#???"
-		echo "$0 f ${tgtfile}"
-		echo "#profit"
+		#dqb "#???"
+		
+		#echo "$0 f ${tgtfile}"
+		#tuo aiempi tapa ei tuo/päivitä accept-juttuja mukaan pakettiin
+		#toisaalta "$0 f" ei mahdollista käsipelillä poistella .deb-paketteja $d alta
+		#... vähemm'n käsityötä s.e. niitä accept/yms - juttuja voisi hyldyntää sam,aan tapaanq part3():ssa
+		
+		e22_arch ${tgtfile} ${d}
+		cd ${d}
+		${srat} -rvf ${tgtfile} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
+		
+		#dqb "#profit"
 		exit
 	;;
 	f) 	#201225:tekee paketin, sisältö:
@@ -295,7 +315,7 @@ case ${mode} in
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
 			e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-			e22_other_pkgs ${CONF_dnsm} ${CONF_dm}
+			e22_other_pkgs ${CONF_dnsm} #${CONF_dm}
 
 			if [ -d ${d} ] ; then
 				e22_dblock ${d}/f.tar ${d}
@@ -326,7 +346,8 @@ case ${mode} in
 	#091225:teki paketin, sisällön kelpoisuus selvitettävä
 	#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)	
 	#... syynä ei liene lxdm tai x11-utils koska reject_pkgs
-	#TODO:josqs uusi testaus	
+	
+	#TODO:josqs uusi testaus	 ( karsintahommat pikemminkin toisaalla, oliko syystä?)
 	1|u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
@@ -365,8 +386,7 @@ case ${mode} in
 		e22_arch ${tgtfile} ${d}
 	;;
 	l)
-		#211225;tekee paketin , sisältö:
-		#VAIH:koita korjata riippuvuudet, testaa myös
+		#TODO: testaa myös , paketin sisätöä tarvitaan sqroot kanssa
 		[ -v CONF_dm ] || exit 77
 
 		e22_dm ${CONF_dm}
