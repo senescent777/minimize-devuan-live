@@ -5,10 +5,10 @@ ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
 csleep 1
 
-if [ -v CONF_pubk ] ; then #&& [ -v CONF_ksk 
+if [ -v CONF_pubk ] ; then #&& ( -v CONF_ksk ) 
 	dqb "no keys.conf needed"
 else
-	#voisi tarkemminkin speksata mistä haetaan
+	#voisi tarkemminkin speksata mistä haetaan?
 	arf=$(find / -type f -name 'keys.conf' | head -n 1)
 
 	if [ -s ${arf} ] ; then
@@ -683,6 +683,7 @@ function e22_arch() {
 	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
 	csleep 1
 
+	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
 	#alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious
 	
 	if [ -x ${gg} ] && [ -v CONF_pubk ] ; then
@@ -700,7 +701,7 @@ function e22_arch() {
 	csleep 1
 	psqa .
 
-	${srat} -rf ${1} ./*.deb ./sha512sums.txt.* #./sha512sums.txt.sig ./sha512sums.txt.1 ./sha512sums.txt.1.sig
+	${srat} -rf ${1} ./*.deb ./sha512sums.txt* #./sha512sums.txt.sig ./sha512sums.txt.1 ./sha512sums.txt.1.sig
 	[ ${debug} -eq 1 ] && ls -las ${1} 
 
 	csleep 10
@@ -764,109 +765,72 @@ function e22_tblz() { #091225 toimi ainakin kerran
 
 
 #TODO:ntp-jutut takaisin josqs?
-#VAIH:testaa uusicksi
-#VAIH:varmista että --norecommends mukana ja että mitä /e/apt.conf.d alla sanotaan
-#HUOM.221225:libperl/libpam/libpython/gpg - pakettien kanssa jokin ongelma, joten tulisi toistaiseksi pitää ne poissa asentumasta kunnes keksii jotain
+#VAIH:testaa uusicksi, miten muodostetun paketin sisältö toimii
+#DONE:varmista että --norecommends mukana (on) ja että mitä /e/apt.conf.d alla sanotaan (i-r ja i-s löytyy tdstosta 01recommend)
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
-	#[ -z "${2}" ] && exit 12 #onko toista param?
-
 	dqb "paramz_ok"
 	csleep 1
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 
 	dqb "shary= ${shary}"
-	csleep 10
-	
-	#gpg, vastannee g_23_0, ehkä se paketti ok (mod sha-tarq)
-	#HUOM.231225:gpgv kanssa jotain härdelliä, josko se pois
+	csleep 5
 	${shary} ${E22GI}
 
-	#git+coreutils, vastannee h_2312_0 , kia toimii
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
-	#	dqb "${shary} git coreutils in secs"	
 	${shary} coreutils
 	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0
 	${shary} git-man git
 
-#seuraavaksi ao. 2 blokkia pois kommenteista sitten, qhan alkaa testailemaan siis
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
+	${shary} libc6 zlib1g libreadline8 #moni pak tarttee nämä
+	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf
+	csleep 5
 
-#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
-#	${shary} libc6 zlib1g libreadline8 #moni pak tarttee nämä
-#	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf
-#	csleep 5
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
+	${shary} libaudit1 libselinux1
+	${shary} man-db sudo
+	csleep 2
 
-#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
-#	${shary} libaudit1 libselinux1
-#	${shary} man-db sudo
-#	csleep 2
+	message
+	jules
 
+	if [ ${1} -eq 1 ] ; then
+		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
+		${shary} runit-helper
+		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
+		${lftr} 
+		#josqs ntp-jututkin mukaan?
+		[ $? -eq 0 ] || exit 3
 
-#	#VIIMEAIKAISTEN NALKUTUSTEN TAKIA 2012265 (pitäisikö olla juuri libc6 jälkeen?)
-#	${shary} perl-modules libperl5.36 perl-base	
-#	csleep 5
-#	
-#	#mitä näistäkin oikeasti tarvitaan?
-#	${shary} libpam-modules-bin libpam-modules libpam-runtime libpam-elogind
-#	csleep 5
-#	
-#	${shary} libpython3.11-minimal libpython3.11-stdlib python3.11-minimal #python3.11
-#	csleep 5
-#	#JOS KUSEE PAK AS NI PERLISTÄ TÄHÄN ASTI POIS
-#	
-#	${shary} libgtk-3-common libgtk-3-0 libgtk-3-bin #firefox ja xscreensaver (upg() asioita ?)
-#	csleep 5
-#
+		${shary} libev4
+		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan libc6 uudelleenas tässä?
+		${shary} stubby
+	fi
 
-#
-#	message
-#	jules
-#
-#	if [ ${1} -eq 1 ] ; then
-#		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
-#		${shary} runit-helper
-#		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
-#		${lftr} 
-##		#josqs ntp-jututkin mukaan?
-#		[ $? -eq 0 ] || exit 3
-#
-#		${shary} libev4
-#		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan libc6 uudelleenas tässä?
-#		${shary} stubby
-#	fi
-#
-
-#	csleep 1
-#	${lftr} 
-#
-#
-#	dqb "MåGOG"
-#
-#	# aiemmaksi? muutkin pak saattavat tarvita
-#	#HUOM.221225:pitäisikö tuota GI:tä sorkkia? sqrootin sisällä asennushommat kusevat nimittäin
-#	#
-#
-#	[ $? -eq 0 ] && dqb "luBE 0F THE R3S0NATED"
-#	csleep 2
-#	
+	csleep 1
+	${lftr} 
+	[ $? -eq 0 ] && dqb "luBE 0F THE R3S0NATED"
+	csleep 2
+	dqb "MåGOG"
+	
 #	#TODO:jos lukaisi debian referencen pitkästä aikaa, että löytyisikö jotain jekkua paketinhallinnan kanssa? ettei tarvitse kikkailla initramfs:n ja muutaman paketin kanssa
 #	${lftr}
 #	csleep 2
-#
-#	#aval0n
-#	#dqb "BEFORE ts or UPD6" #kutsutaabko tuota?	ts() qtsuu
-#	csleep 2
-#
+
+	#aval0n
+	#dqb "BEFORE ts or UPD6" #kutsutaabko tuota?	ts() qtsuu
+	csleep 2
+
 	dqb "e22_other_pkgs donew"
 	csleep 1
 }
 
 #VAIH:toiminnan testaus (21.12.25) , kutsuva koodi tekee haetuista paketin mutta toimivuuden slvittely
 #l_221225_0 liittyisi tähän, kys paketti muuten mutta "Package gtk2-engines-pixbuf is not installed."
-#elikkäs muuta accept_jutut
+#elikkäs muuta accept_jutut (josko jo kohta tehty?)
 
 function e22_dm() {
 	[ -z "${1}" ] && exit 11
