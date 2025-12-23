@@ -701,7 +701,7 @@ function e22_arch() {
 	csleep 1
 	psqa .
 
-	${srat} -rf ${1} ./*.deb ./sha512sums.txt.* #./sha512sums.txt.sig ./sha512sums.txt.1 ./sha512sums.txt.1.sig
+	${srat} -rf ${1} ./*.deb ./sha512sums.txt* #./sha512sums.txt.sig ./sha512sums.txt.1 ./sha512sums.txt.1.sig
 	[ ${debug} -eq 1 ] && ls -las ${1} 
 
 	csleep 10
