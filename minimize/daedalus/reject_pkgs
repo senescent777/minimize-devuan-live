@@ -7,4 +7,5 @@ live
 e2fsprogs
 #uutena 221225, tarvitaanko ao. paketteja nykyään?
 dirmngr
-gpg-
+gpgv
+#josko 2 yo. paketin poisto listasta josqs?

@@ -1,134 +1,49 @@
-#201225:varmaankin tulisi kirjoittaa uusiksi tämä+accept2, lkibc6-libz11.xcb pohjana ja loput iteroiden
+#esim. 26.11.25 päivitysaketin kanssa jos testailisi, SFSGSW
 libc6*.deb gcc-12*.deb cpp*.deb
-#
-#perl-modules oltava ennen libperl
-#pitääkö nämä 2 olla samalla rivillä prkl?
-perl-modules-*.deb libperl*.deb perl-base*.deb
-#
-#221225:mitä jos libperl ja libpython väärää versiota? entä gpg-paketit?
-#
-#
-#josnuo ekat rivit menisivät takaisin kutsuvaanm koodiin tjsp
-#
 libgcc-s1*.deb
-libstdc*.deb
-libcap2_1*.deb
 libicu*.deb
-libdbus*.deb
-libxml*.deb
-libblkid1*.deb
-libfdisk1*.deb
-libmount1*.deb
-libglib2*.deb
-libtiff*.deb
-libxcb1*.deb
-#
-libx11-xcb1*.deb libx11-6*.deb
-#
-#
+libgomp*.deb
 libgdk-pixbuf2.0-common*.deb
 libgdk-pixbuf-2.0-0*.deb
 libgdk-pixbuf-2.0-bin*.deb
-#myös xscreensaver ja firefox tarttee libgdk:n
-#
-#libgdk ennen librsvg, sama cairo/pango-juttujen kanssa
-libcairo*.deb
-libpango*.deb
-libpangocairo*.deb
 librsvg2-2*.deb
 librsvg2-common*.deb
+libstdc*.deb
+libatk1.0-0*.deb
 #
 libavahi-common-data*.deb
-libavahi-common*.deb
-libavahi*.deb
-#avahi-client ennen cups
+libavahi-common3*.deb
+libavahi-client3*.deb
+#
+#Depends: libavahi-client3 (>= 0.6.16), libavahi-common3 (>= 0.6.16), libc6 (>= 2.36), libgnutls30 (>= 3.7.5), libgssapi-krb5-2 (>= 1.17), zlib1g (>= 1:1.2.0)
+zlib1g*.deb
+libkrb5support0*.deb
+libkrb5-3*.deb
+libgssapi-krb5-2*.deb
+libgnutls30*.deb
 libcups*.deb
 #
-#oliko tuo gtk3 tarpeen? jokatap gtk3 tarttee dconf ja libcups
-#
-#lxdm tarttee, mutta riittävätkö nämä? toivottavasti
-libgtk2.0-common*.deb
-libgtk2.0-0*.deb
-#
-#jos gtk3 tarttee ni kaikkien muiden jälkeen n varminta?
-#
-libssl3*.deb
-#libpython jo aiempana
-#
-liblzma5*.deb
-libext2fs2*.deb
-libpam0g*.deb
-libcom-err2*.deb
-libkrb5support0*.deb
-libkrb5*.deb
-libgss*.deb
-libcurl4*.deb
-libfdisk*
-libuuid*
-libopen*
-#
-#tarpeellinen tässä? koska myöhemmin
-#libpolkit-gobject-*
-#
-libeudev*.deb
-#
-#git tarttee le-p
-liberror-perl*.deb
-#
-libuv1*.deb
-libnghttp2*.deb
-#
-libatk1.0-0*.deb
-#vte jälkeen atk:n ja gtk3:n jälkeen?
-libvte-2.91-common*.deb
-libvte*.deb
-#
-#mpg123:n tarvcitsi mikä?
-#libmpg123-0*.deb
-libpolkit-gobject-elogind-1-0*.deb
-libpolkit-gobject-consolekit-1-0*.deb
-libgssapi-krb5*.deb
-#
-libxml2*.deb
-libcrypt1*.deb
-bind9-libs*.deb
-libselinux1*.deb
-#
-#
-#211225:libpam-jutut jo kunnossa?
-#
-libpam-modules-bin*.deb libpam-modules_*.deb
-#
-libpam-runtime*.deb
-libpam-elogind*.deb
-#
-#kummin päin libpython? minimal ensin
-libpython3.11-minimal*.deb libpython3.11-stdlib*.deb python3.11-minimal*.deb
-#
-#gpg tarttee
-libassuan0*.deb
-#
-#uutena 191225, tables
-libip4tc2*.deb
-libip6tc2*.deb
-libxtables12*.deb
-#
-#jokin lib-paketti tarvitsi netbasen?
-netbase*.deb
-#
-libmnl0*.deb
-libnetfilter-conntrack3*.deb
-libnfnetlink0*.deb
-libnftnl11*.deb
-libnftables*.deb
-#
-#tbls kanssa asiat toivottavasti kunnossa 211225 mennessä
-#
-#firefox
-libnspr4*.deb
-libnss3*.deb
-#
-#tarvitsevatko muutkin paketit? xscreensaver ainakin
 libgtk-3-common*.deb
 libgtk-3-0*.deb
 libgtk-3-bin*.deb
+#vte jälkeen atk:n ja gtk3:n jälkeen?
+libvte-2.91-common*.deb
+libvte*.deb
+libxml*.deb
+libpam-modules-bin*.deb
+libpam-modules_*.deb
+perl-modules-*.deb
+libperl*.deb perl-base*.deb
+libx11-6*.deb
+libx11-xcb1*.deb
+libpython3.11-minimal*.deb
+libpython3.11-stdlib*.deb
+libgtk2.0-common*.deb
+libgtk2.0-0*.deb
+#
+#jälkimmänen voisi olla accept2_sessa jatqssa
+libnftables*.deb
+nftables*.deb
+#
+gpgconf*.deb
+#gpg tarvitsee confin (josko kuitenkin accet2:sessa ja vain kerran)
