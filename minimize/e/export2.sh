@@ -59,7 +59,7 @@ function parse_opts_2() {
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
-#TODO:konftdston arpomisesta tuli mieleen että voisi sen keys.conf:in etsiä ja includoida tarvittaessa
+#231225:e22.sh nykyään yrittää arpoa keys.conf
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -154,7 +154,6 @@ t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
 	rp) #201225:parempi idea:metadata-paketti? shasums,sig,accept,reject sisältönä , 2 ekaa johdettu jostain olemassaolevan paketin .deb
-	#-uvf olisi myös keksitty
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 	
@@ -166,8 +165,8 @@ case ${mode} in
 		
 		#jotain tarjkistuksie voisi tehdä ennen purkua, psqa()
 		
-		# --exclude '*pkgs*' kusee? jos ei ni takaisin
-		${srat} --exclude 'sha512sums*' -C ${d} -xvf ${tgtfile}
+		#  kusee? jos ei ni takaisin
+		${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${d} -xvf ${tgtfile}
 		[ $? -eq 0 ] && ${svm} ${tgtfile} ${tgtfile}.OLD
 		csleep 1
 		
@@ -180,14 +179,22 @@ case ${mode} in
 		#toisaalta "$0 f" ei mahdollista käsipelillä poistella .deb-paketteja $d alta
 		#... vähemm'n käsityötä s.e. niitä accept/yms - juttuja voisi hyldyntää sam,aan tapaanq part3():ssa
 		
+		#onkohan tuo ao. tapakaan mistään kotoisin? saattaa edelleen jyrätä uudemman konffin wabnemmalla
+		
 		e22_arch ${tgtfile} ${d}
 		cd ${d}
+		
+		#231225: ".u" saattaisi olla parempi vipu tässä jigraa?
 		${srat} -rvf ${tgtfile} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
+		
+		#for t in $(${srat} -tf ${tgtfile}) ; do #fråm update2.sh
+		#	${srat} -uvf  ${tgtfile} ${t}
+		#done
 		
 		#dqb "#profit"
 		exit
 	;;
-	f) 	#201225:tekee paketin, sisältö:
+	f) 	#201225:tekee paketin, sisältö:ok?
 		#... tai siis erillinen case tai skripti sitä varten? 
 		#... tämä vain pakkaisi kerran, muuttamatta sisältöä tjsp
 
@@ -296,7 +303,7 @@ case ${mode} in
 		exit 99
 	;;
 	3|4) 
-		#TODO:tämän casen testaus uusiksi
+		#TODO:tämän casen testaus uudstaan
 	
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
@@ -367,7 +374,7 @@ case ${mode} in
 	e)
 		#211225:tekee paketin, sisältö:
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-		e22_other_pkgs ${CONF_dnsm} #${CONF_dm}
+		e22_other_pkgs ${CONF_dnsm}
 
 		if [ -d ${d} ] ; then
 			e22_dblock ${tgtfile} ${d}

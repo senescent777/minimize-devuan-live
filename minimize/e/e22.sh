@@ -1,7 +1,23 @@
 dqb "${sco} -Rv _apt:root ${CONF_pkgdir}/partial"
 csleep 1
+
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
+csleep 1
+
+if [ -v CONF_pubk ] ; then #&& [ -v CONF_pubk 
+	dqb "no keys.conf needed"
+else
+	#voisi tarkemminkin speksata mistä haetaan
+	arf=$(find / -type f -name 'keys.conf' | head -n 1)
+
+	if [ -s ${arf} ] ; then
+		. ${arf}
+	fi
+
+	unset arf
+fi
+
 csleep 1
 
 function e22_hdr() {
@@ -29,9 +45,7 @@ function e22_hdr() {
 	csleep 1
 }
 
-#HUOM.121225:edelleenkin wanha reject_pkgs jyrää uuden, voisiko jtain tehdä?
-
-function e22_ftr() { #121225:vissiin toimii
+function e22_ftr() { #231225:pitäisiköhän jo testata uuedstaan?
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -48,8 +62,10 @@ function e22_ftr() { #121225:vissiin toimii
 	cd $(dirname ${1})
 
 	${sah6} ./${q} > ${q}.sha
+	csleep 1
 	${sah6} -c ${q}.sha
-
+	csleep 1
+	
 	#riittävät tarkistukset?
 	if [ -x ${gg} ] ; then
 		if [ -v CONF_pubk ] ; then
@@ -651,6 +667,7 @@ function e22_arch() {
 
 	${scm} 0444 ${2}/*.deb
 	fasdfasd ${2}/sha512sums.txt
+	fasdfasd ${2}/sha512sums.txt.1
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
 
 	cd ${2}
@@ -658,18 +675,21 @@ function e22_arch() {
 	${sah6} ./*.deb > ./sha512sums.txt
 
 	dqb "KUKK0 K1EQ 666"
-	#tässä voi tulla ongelma?
-	${sah6} ./reject_pkgs >> ./sha512sums.txt
-	${sah6} ./accept_pkgs_? >> ./sha512sums.txt
-	${sah6} ./pkgs_drop >> ./sha512sums.txt
+	#VAIH:psqa() , common_part():vastaavat muutokset
+	#${spc} ./sha512sums.txt ./sha512sums.txt.1 HUONOHKO IDEA TÄMÄ
+
+	${sah6} ./reject_pkgs >> ./sha512sums.txt.1
+	${sah6} ./accept_pkgs_? >> ./sha512sums.txt.1
+	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
 	csleep 1
 
 	#alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious
-	#TODO:olisi hyvä että saisi synkronoitua keys.conf:in tuoreimman sisällön kanssa tämän skriptin asetukset
+	
 	if [ -x ${gg} ] && [ -v CONF_pubk ] ; then
 		dqb "GGU"
 		csleep 1
 		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt
+		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt.1
 		dqb "GHATS"
 	else
 		dqb "1. ${gg}"
@@ -680,7 +700,7 @@ function e22_arch() {
 	csleep 1
 	psqa .
 
-	${srat} -rf ${1} ./*.deb ./sha512sums.txt ./sha512sums.txt.sig
+	${srat} -rf ${1} ./*.deb ./sha512sums.txt.* #./sha512sums.txt.sig ./sha512sums.txt.1 ./sha512sums.txt.1.sig
 	[ ${debug} -eq 1 ] && ls -las ${1} 
 
 	csleep 10
@@ -716,6 +736,7 @@ function e22_tblz() { #091225 toimi ainakin kerran
 	tpc7	#jotain excaliburiin liittyvää
 	aswasw ${2}
 
+	#vastannee t_2312_0, asentunee
 	#kts check_binaries()
 	${shary} ${E22_GT} 
 
@@ -744,27 +765,46 @@ function e22_tblz() { #091225 toimi ainakin kerran
 
 #TODO:ntp-jutut takaisin josqs?
 #VAIH:testaa uusicksi
-#TODO:varmista että --norecommends mukana ja että mitä /e/apt.conf.d alla sanotaan
+#VAIH:varmista että --norecommends mukana ja että mitä /e/apt.conf.d alla sanotaan
 #HUOM.221225:libperl/libpam/libpython/gpg - pakettien kanssa jokin ongelma, joten tulisi toistaiseksi pitää ne poissa asentumasta kunnes keksii jotain
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
 	csleep 1
 
-#	[ -z "${1}" ] && exit 11
-#	#[ -z "${2}" ] && exit 12 #onko toista param?
-#
-#	dqb "paramz_ok"
-#	csleep 1
-#	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
-#
-#	dqb "shary= ${shary}"
-#	csleep 10
-#	
+	[ -z "${1}" ] && exit 11
+	#[ -z "${2}" ] && exit 12 #onko toista param?
+
+	dqb "paramz_ok"
+	csleep 1
+	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
+
+	dqb "shary= ${shary}"
+	csleep 10
+	
+	#gpg, vastannee g_23_0, ehkä se paketti ok (mod sha-tarq)
+	#HUOM.231225:gpgv kanssa jotain härdelliä, josko se pois
+	${shary} ${E22GI}
+
+	#git+coreutils, vastannee h_2312_0 , kia toimii
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
+	#	dqb "${shary} git coreutils in secs"	
+	${shary} coreutils
+	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0
+	${shary} git-man git
+
+#seuraavaksi ao. 2 blokkia pois kommenteista sitten, qhan alkaa testailemaan siis
+
 #	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 #	${shary} libc6 zlib1g libreadline8 #moni pak tarttee nämä
 #	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf
 #	csleep 5
-#
+
+#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
+#	${shary} libaudit1 libselinux1
+#	${shary} man-db sudo
+#	csleep 2
+
+
 #	#VIIMEAIKAISTEN NALKUTUSTEN TAKIA 2012265 (pitäisikö olla juuri libc6 jälkeen?)
 #	${shary} perl-modules libperl5.36 perl-base	
 #	csleep 5
@@ -780,10 +820,7 @@ function e22_other_pkgs() {
 #	${shary} libgtk-3-common libgtk-3-0 libgtk-3-bin #firefox ja xscreensaver (upg() asioita ?)
 #	csleep 5
 #
-#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
-#	${shary} libaudit1 libselinux1
-#	${shary} man-db sudo
-#	csleep 2
+
 #
 #	message
 #	jules
@@ -801,21 +838,15 @@ function e22_other_pkgs() {
 #		${shary} stubby
 #	fi
 #
-#	dqb "${shary} git coreutils in secs"
+
 #	csleep 1
 #	${lftr} 
 #
-#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
-#	${shary} coreutils
-#	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0
-#	${shary} git-man git
 #
 #	dqb "MåGOG"
 #
 #	# aiemmaksi? muutkin pak saattavat tarvita
 #	#HUOM.221225:pitäisikö tuota GI:tä sorkkia? sqrootin sisällä asennushommat kusevat nimittäin
-#	${shary} ${E22GI}
-#	#{shary} gpg #ylimääräinen tässä?
 #	#
 #
 #	[ $? -eq 0 ] && dqb "luBE 0F THE R3S0NATED"
@@ -826,7 +857,7 @@ function e22_other_pkgs() {
 #	csleep 2
 #
 #	#aval0n
-#	#dqb "BEFORE UPD6" #kutsutaabko tuota?	ts() qtsuu
+#	#dqb "BEFORE ts or UPD6" #kutsutaabko tuota?	ts() qtsuu
 #	csleep 2
 #
 	dqb "e22_other_pkgs donew"
@@ -834,7 +865,8 @@ function e22_other_pkgs() {
 }
 
 #VAIH:toiminnan testaus (21.12.25) , kutsuva koodi tekee haetuista paketin mutta toimivuuden slvittely
-echo "TODO: export2 l ASAP"
+#l_221225_0 liittyisi tähän, kys paketti muuten mutta "Package gtk2-engines-pixbuf is not installed."
+#elikkäs muuta accept_jutut
 
 function e22_dm() {
 	[ -z "${1}" ] && exit 11
@@ -856,7 +888,7 @@ function e22_dm() {
 			${shary} libpangocairo-1.0-0 libpangoft2-1.0-0 libx11-6 
 			csleep 5
 
-			${shary} libdeflate0*.debliblerc4*.deb libtiff6
+			${shary} libdeflate0 debliblerc4 libtiff6
 			csleep 5
 
 			#HUOM.201225:libgdk, libgtk- pakettien riippuvuuksiA joutunee selvittämään ja kasaamaan tänne
@@ -888,7 +920,6 @@ function e22_dm() {
 	#xscreensaver-data:
 	# Depends:
 	#libwww-perl, libc6 (>= 2.34), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.16.0), libx11-6, libxext6, libxft2 (>> 2.1.1), libxt6
-
 
 	#VAIH:xscreensaver+xlock ennen dm-spesifistä cvasea? tai toiseen fktioon kutenkin moinen
 	# Depends:
@@ -974,6 +1005,7 @@ function e22_profs() { #091225:tekee paketin missä validia sisältöä, kai (pi
 }
 
 #091225:testattu että tekee paketin
+#231225:päivityspak päiväyksellä 221.2.225 toimii, kenties koska siitäo n karsittu juttuja
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
