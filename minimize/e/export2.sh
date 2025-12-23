@@ -6,15 +6,6 @@ d0=$(pwd)
 mode=-2
 tgtfile=""
 
-#tartteeko näitä 2 ? jos c_lib.sh ei käytösäs ni voi yhtä hyvin lopettaa suor
-#function dqb() {
-#	[ ${debug} -eq 1 ] && echo ${1}
-#}
-#
-#function csleep() {
-#	[ ${debug} -eq 1 ] && sleep ${1}
-#}
-
 function usage() {
 	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
 	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
@@ -26,7 +17,7 @@ function usage() {
 	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
 	echo "$0 t ... option for ipTables"
-	#echo "$0 å ... somehow related 2 pavucontrol"
+
 	echo "$0 rp ... RePack existing arch"
 	echo "$0 -h: shows this message about usage"
 }
@@ -153,7 +144,7 @@ csleep 1
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
-	rp) #201225:parempi idea:metadata-paketti? shasums,sig,accept,reject sisältönä , 2 ekaa johdettu jostain olemassaolevan paketin .deb
+	rp)
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 	
@@ -163,40 +154,21 @@ case ${mode} in
 		${smr} ${d}/f.tar
 		csleep 1
 		
-		#jotain tarjkistuksie voisi tehdä ennen purkua, psqa()
-		
-		#  kusee? jos ei ni takaisin
 		${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${d} -xvf ${tgtfile}
 		[ $? -eq 0 ] && ${svm} ${tgtfile} ${tgtfile}.OLD
 		csleep 1
-		
-		#saattaisi riittää että puretaan sha512sums,txt, poistetaan siitä rivit mikä ei .deb , lisätään kyseisten tiedostojen uudemmat versiot listaan ja allekirjoitetaan, lopuksi uudet tdstot -rv:llä mukaan tariin ja ftr()
-		
-		#dqb "#???"
-		
-		#echo "$0 f ${tgtfile}"
-		#tuo aiempi tapa ei tuo/päivitä accept-juttuja mukaan pakettiin
-		#toisaalta "$0 f" ei mahdollista käsipelillä poistella .deb-paketteja $d alta
-		#... vähemm'n käsityötä s.e. niitä accept/yms - juttuja voisi hyldyntää sam,aan tapaanq part3():ssa
-		
-		#onkohan tuo ao. tapakaan mistään kotoisin? saattaa edelleen jyrätä uudemman konffin wabnemmalla
-		
+			
 		e22_arch ${tgtfile} ${d}
 		cd ${d}
-		
-		#231225: ".u" saattaisi olla parempi vipu tässä jigraa?
 		${srat} -rvf ${tgtfile} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
 		
 		#for t in $(${srat} -tf ${tgtfile}) ; do #fråm update2.sh
 		#	${srat} -uvf  ${tgtfile} ${t}
 		#done
 		
-		#dqb "#profit"
 		exit
 	;;
 	f) 	#201225:tekee paketin, sisältö:ok?
-		#... tai siis erillinen case tai skripti sitä varten? 
-		#... tämä vain pakkaisi kerran, muuttamatta sisältöä tjsp
 
 		enforce_access ${n} ${t}
 		e22_hdr ${tgtfile}
@@ -240,8 +212,6 @@ case ${mode} in
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}*
 		csleep 2
 		
-		#tuota tdstojen nimeämistä voisi muuttaa jatkossa:kreikan meri/meri kreikan
-		#josko findin jutut listaan ja tar:ille -T , jatkossa? toimii näinkin kyllä
 		${srat} --exclude '*merd*' -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
 
 		e22_ftr ${tgtfile}
@@ -350,10 +320,6 @@ case ${mode} in
 		csleep 1
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
-	#091225:teki paketin, sisällön kelpoisuus selvitettävä
-	#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)	
-	#... syynä ei liene lxdm tai x11-utils koska reject_pkgs
-	
 	#TODO:josqs uusi testaus	 ( karsintahommat pikemminkin toisaalla, oliko syystä?)
 	1|u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"

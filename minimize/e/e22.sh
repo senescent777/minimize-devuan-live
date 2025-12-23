@@ -5,10 +5,10 @@ ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
 csleep 1
 
-if [ -v CONF_pubk ] ; then #&& [ -v CONF_pubk 
+if [ -v CONF_pubk ] ; then #&& ( -v CONF_ksk ) 
 	dqb "no keys.conf needed"
 else
-	#voisi tarkemminkin speksata mistä haetaan
+	#voisi tarkemminkin speksata mistä haetaan?
 	arf=$(find / -type f -name 'keys.conf' | head -n 1)
 
 	if [ -s ${arf} ] ; then
@@ -766,14 +766,11 @@ function e22_tblz() { #091225 toimi ainakin kerran
 #TODO:ntp-jutut takaisin josqs?
 #VAIH:testaa uusicksi
 #VAIH:varmista että --norecommends mukana ja että mitä /e/apt.conf.d alla sanotaan
-#HUOM.221225:libperl/libpam/libpython/gpg - pakettien kanssa jokin ongelma, joten tulisi toistaiseksi pitää ne poissa asentumasta kunnes keksii jotain
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
-	#[ -z "${2}" ] && exit 12 #onko toista param?
-
 	dqb "paramz_ok"
 	csleep 1
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
@@ -781,18 +778,11 @@ function e22_other_pkgs() {
 	dqb "shary= ${shary}"
 	csleep 10
 	
-	#gpg, vastannee g_23_0, ehkä se paketti ok (mod sha-tarq)
-	#HUOM.231225:gpgv kanssa jotain härdelliä, josko se pois
 	${shary} ${E22GI}
 
-	#git+coreutils, vastannee h_2312_0 , kia toimii
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
-	#	dqb "${shary} git coreutils in secs"	
 	${shary} coreutils
 	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0
 	${shary} git-man git
-
-#seuraavaksi ao. 2 blokkia pois kommenteista sitten, qhan alkaa testailemaan siis
 
 #	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 #	${shary} libc6 zlib1g libreadline8 #moni pak tarttee nämä
@@ -805,21 +795,7 @@ function e22_other_pkgs() {
 #	csleep 2
 
 
-#	#VIIMEAIKAISTEN NALKUTUSTEN TAKIA 2012265 (pitäisikö olla juuri libc6 jälkeen?)
-#	${shary} perl-modules libperl5.36 perl-base	
-#	csleep 5
-#	
-#	#mitä näistäkin oikeasti tarvitaan?
-#	${shary} libpam-modules-bin libpam-modules libpam-runtime libpam-elogind
-#	csleep 5
-#	
-#	${shary} libpython3.11-minimal libpython3.11-stdlib python3.11-minimal #python3.11
-#	csleep 5
-#	#JOS KUSEE PAK AS NI PERLISTÄ TÄHÄN ASTI POIS
-#	
-#	${shary} libgtk-3-common libgtk-3-0 libgtk-3-bin #firefox ja xscreensaver (upg() asioita ?)
-#	csleep 5
-#
+
 
 #
 #	message
