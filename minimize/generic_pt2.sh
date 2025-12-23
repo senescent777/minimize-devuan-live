@@ -147,6 +147,10 @@ function t2pc() {
 	${sharpy} exfatprogs fdisk gcr ftp*
 	t2p_filler
 
+	#231225 uutena, pois jos qsee
+	${sharpy} gpgv
+	t2p_filler
+
 	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
 	t2p_filler
 

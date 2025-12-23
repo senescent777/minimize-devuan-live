@@ -6,7 +6,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#TODO:tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn koska syyt? (siis siihen samaan missä profs.sh)
+#tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn? koska syyt? (siis siihen samaan missä profs.sh)
 
 if [ -f /.chroot ] ; then
 	odio=""
@@ -273,7 +273,7 @@ function psqa() {
 		if [ ! -z ${gg} ] && [ -x ${gg} ] ; then
 			dqb "${gg} --verify ./sha512sums.txt.sig "
 			csleep 1
-			${gg} --verify ${1}/sha512sums.txt.sig
+			${gg} --verify ./sha512sums.txt.sig 
 					
 			if [ $? -eq 0 ] ; then #tässäkö se bugi oli?
 				dqb "KÖ"
@@ -281,8 +281,11 @@ function psqa() {
 				dqb "SHOULD imp2 k \$dir !!!"
 				exit 95
 			fi
-				
+			
 			csleep 1
+			#VAIH:psqa() , common_part():vastaavat muutokset	
+			#[ -f ${1}/sha512sums.txt.1.sig ] && ${gg} --verify ${1}/sha512sums.txt.1.sig
+			#csleep 1
 		else
 			dqb "COULD NOT VERIFY SIGNATURES"
 		fi
@@ -713,6 +716,7 @@ function check_binaries2() {
 	csleep 1
 }
 
+#TODO:selvitä tämänkin toiminta?
 function mangle_s() {
 	dqb "mangle_s  ${1} , ${2}, ${3}  "
 	csleep 1
@@ -740,27 +744,33 @@ function mangle_s() {
 	echo -e "\n" >> ${2}
 }
 
+#VAIH:jinnebtiudut jutut taas käyttöön asfd asdf fads
+#tässä va i kutsvassa koodissa bugi?
 function dinf() {
 	local g
-	#local frist
-	#frist=1
+	local frist
+	frist=1
+
+	#vissiin tähän alkuun tarttisi jotain?
+
+	#for ... in find /sbin -type f -name 'dhclient-script* ; do ...
 
 	for g in $(sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq) ; do
 		dqb ${g}
 
-		#if [ ${frist} -eq 1 ] ; then 
-		#frist=0
-		#else
-		#echo -n "," >> ${1}
-		#fi
-		#
-		#echo -n "sha256:${f}" >> ${1}
+		if [ ${frist} -eq 1 ] ; then 
+			frist=0
+#		else
+#			echo -n "," >> ${1}
+		fi
+		
+#		echo -n " sha256:${f}" >> ${1}
 	done
 
-	#echo -n "$(whoami) localhost=NOPASSWD: " >> ${1}
+#	echo -n " $(whoami) localhost=NOPASSWD: " >> ${1}
+#	echo " /sbin/dhclient-script " >> ${1}
 
-	#echo " /sbin/dhclient-script " >> ${1}
-	#cat ${1}
+	cat ${1}
 	#exit
 }
 
@@ -798,7 +808,7 @@ function pre_enforce() {
 	local f
 
 	[ -v mkt ] || exit 99
-	q=$(mktemp -d) #sittenkin näin
+	q=$(mktemp -d) #tdstonimenkin pystyisi lotttoamaan ktmeåillä
 	dqb "touch ${q}/meshuggah in 3 secs"
 
 	csleep 1
@@ -868,7 +878,7 @@ function pre_enforce() {
 
 		${scm} a+w /etc/fstab
 		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
-		${odio} echo "#/dev/disk/by-uuid/${CONF_part1} ${CONF_dir2} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+		#${odio} echo "#/dev/disk/by-uuid/${CONF_part1} ${CONF_dir2} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		${scm} a-w /etc/fstab
 
 		csleep 2

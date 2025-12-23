@@ -111,8 +111,8 @@ else
 	fi
 	
 	#sqroot:in kanssa tämä skrip toimisi vähän kätevämmin s.e. chmod a-x common_lib.sh		
-	#...tosin joihinkn juttuihn se ajo.oikeus travitaan
-	echo "MAYBE U SHOULD chmod a+x  ${d0}/common_lib.sh"
+	#...tosin joihinkn juttuihn se ajo.oikeus tARvitaan
+	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
 	
 	function check_binaries() {
 		dqb "imp2.check1"
@@ -179,7 +179,7 @@ else
 	check_binaries2
 fi
 
-#HUOM.201225:jutut sitten siirretty mylhemmäksi koska sqrootin kanssa ongelmia, to state the obvious
+#HUOM.201225:jutut sitten siirretty myöhemmäksi koska sqrootin kanssa ongelmia, to state the obvious
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
 echo "mkt= ${mkt} "
@@ -232,13 +232,16 @@ function common_part() {
 		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemasaolon sijaan
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 			dqb "B"
-
+			
+			#VAIH:psqa() , common_part():vastaavat muutokset
 			if [ -x ${gg} ] ; then
 				dqb "C"
 
 				dqb " ${gg} --verify ${1}.sha.sig "
 				${gg} --verify ${1}.sha.sig
 				r=$?
+				
+				#[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig
 			fi
 		fi
 		
