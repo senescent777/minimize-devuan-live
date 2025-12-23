@@ -271,9 +271,9 @@ function psqa() {
 
 		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubring.kbx yli 32 tavua?
 		if [ ! -z ${gg} ] && [ -x ${gg} ] ; then
-			dqb "${gg} --verify ./sha512sums.txt.sig "
+			dqb "${gg} --verify ${1}/sha512sums.txt.sig "
 			csleep 1
-			${gg} --verify ./sha512sums.txt.sig 
+			${gg} --verify ${1}/sha512sums.txt.sig 
 					
 			if [ $? -eq 0 ] ; then #tässäkö se bugi oli?
 				dqb "KÖ"
@@ -752,7 +752,6 @@ function dinf() {
 	frist=1
 
 	#vissiin tähän alkuun tarttisi jotain?
-
 	#for ... in find /sbin -type f -name 'dhclient-script* ; do ...
 
 	for g in $(sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq) ; do
@@ -770,7 +769,7 @@ function dinf() {
 #	echo -n " $(whoami) localhost=NOPASSWD: " >> ${1}
 #	echo " /sbin/dhclient-script " >> ${1}
 
-	cat ${1}
+	#cat ${1}
 	#exit
 }
 
