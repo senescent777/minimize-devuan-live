@@ -241,7 +241,8 @@ function common_part() {
 				${gg} --verify ${1}.sha.sig
 				r=$?
 				
-				#[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig
+				[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig.1
+				csleep 1
 			fi
 		fi
 		

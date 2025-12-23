@@ -284,8 +284,8 @@ function psqa() {
 			
 			csleep 1
 			#VAIH:psqa() , common_part():vastaavat muutokset	
-			#[ -f ${1}/sha512sums.txt.1.sig ] && ${gg} --verify ${1}/sha512sums.txt.1.sig
-			#csleep 1
+			[ -f ${1}/sha512sums.txt.1.sig ] && ${gg} --verify ${1}/sha512sums.txt.1.sig
+			csleep 1
 		else
 			dqb "COULD NOT VERIFY SIGNATURES"
 		fi
