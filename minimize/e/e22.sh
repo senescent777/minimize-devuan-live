@@ -844,13 +844,22 @@ function e22_other_pkgs() {
 #	"/libseat/backend/seatd.c could not connect to socket /run/seatd.sock:no such file or directory"
 #	"Xsession:unable to launch "startlxde" x session --- "startlxde" not found"	
 #... eli lisää juttuja pitäisi vetää?
-#
+
+
 #TODO:lxdm varten sitten sen toisenlaisen paketin luonti jotta saadaab sqrootissakin xorg.conf paikoilleen
 function e22_dm() {
 	[ -z "${1}" ] && exit 11
-	
-	#TODO:_yhteen caseen lxsession, lxde-session mukaan
-	#TODO:kaikkia tapauks. varten twm
+	csleep 5
+
+	${fib}
+	csleep 5
+
+	#VAIH:kaikkia tapauks. varten twm
+	# Depends:
+	#menu (>= 2.1.26), libc6 (>= 2.14), libice6 (>= 1:1.0.0), libsm6, libx11-6, libxext6, libxmu6, libxt6
+
+	${shary} menu twm
+	csleep 5
 
 	case ${1} in
 		lxdm)
@@ -891,6 +900,13 @@ function e22_dm() {
 			csleep 5
 
 			${shary} x11-utils lxdm 
+			csleep 5
+
+			#VAIH:_yhteen caseen lxsession, lxde-session mukaan
+			# Depends:
+			#libc6 (>= 2.14), libglib2.0-0 (>= 2.43.92), (>= 2.24.0), libx11-6, lsb-release, laptop-detect, lxpolkit | , , lxsession-logout
+			
+			${shary} libgtk2.0-0 lxpolkit lxsession-data lxsession-logout lxsession
 			csleep 5
 		;;
 		*)
@@ -1016,10 +1032,11 @@ function e22_upgp() {
 	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
 	csleep 1
 
+	[ -v CONF_pkgdir ] || exit 99 #d-blkissa jatkossa?
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb
 	csleep 10
 
-	#aval0n #käyttöön vai ei?
+
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1
 
@@ -1030,7 +1047,7 @@ function e22_upgp() {
 	csleep 1
 #	local s
 
-	[ -v CONF_pkgdir ] || exit 99 #d-blkissa jatkossa?
+	
 	
 #	#tämnänkaltainen blokki oli jossain muuallakin? dblck() nykyään
 #	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä... EIKU

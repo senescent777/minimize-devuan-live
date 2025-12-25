@@ -281,7 +281,7 @@ case ${mode} in
 		exit 99
 	;;
 	3|4) 
-		#VAIH:tämän casen testaus uudstaan, 3 ensin (25.12.25)
+		#VAIH:tämän casen testaus uudstaan, 3 ensin (25.12.25) taitaa kys. case toimia
 	
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
@@ -378,9 +378,11 @@ case ${mode} in
 		#251225:tuotos melkein toimii jo
 		[ -v CONF_dm ] || exit 77
 
+		#voisi tietysti kjäkin sanoa mitä dm:ää halutaan käyttää		
 		e22_dm ${CONF_dm}
+		#exit 78
 		e22_dblock ${tgtfile} ${d}
-#
+
 #		e22_ts ${d} #dblock vai ts?
 #		e22_arch ${tgtfile} ${d}
 	;;
