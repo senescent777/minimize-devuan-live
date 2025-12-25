@@ -126,7 +126,12 @@ function t2pc() {
 #		csleep 1
 #	done
 
-	${sharpy} bluez mutt rpcbind nfs-common
+	#251225:poistuuko se mutt vai ei?
+	${sharpy} bluez mutt
+	t2p_filler
+	csleep 2
+	
+	${sharpy} rpcbind nfs-common
 	${sharpy} dmsetup
 	t2p_filler
 	csleep 2

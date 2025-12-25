@@ -60,11 +60,12 @@ if [ -f /.chroot ] ; then
 	g=(which sha512sum)
 	
 	if [ ! -z "${g}" ] ; then
+		#ei tida tima nin?
 		q=$(find . -name 'dgsts.?')
 		cd ..
 		
 		for r in ${q} ; do
-			dqb "SHOULDA sha512sum -c ./${p}/${r}"
+			echo "SHOULDA sha512sum -c ./${p}/${r}"
 			sleep 1
 		done
 		
