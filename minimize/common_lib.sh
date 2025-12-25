@@ -560,6 +560,7 @@ function cefgh() {
 
 	efk2 ${1}/e.tar
 	efk2 ${1}/f.tar ${1}
+	#TODO:deletoimaan e/f käyöln jälkeen
 }
 
 function check_binaries() {
@@ -597,9 +598,7 @@ function check_binaries() {
 	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
 	E22_GU="${E22_GU} isc-dhcp-client isc-dhcp-common"
 	
-	#HUOM.111225:mennäänkö tähän sq-chr-ymp.äristössä? nykyään joo
-	#VAIH:testaa taas
-	#HUOM.141225:josko kiekolle mukaan gpg, ao. if-blokin takia
+
 	dqb "JUST BEFORE cefgh()"
 	
 	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
@@ -639,9 +638,9 @@ function check_binaries() {
 	
 				[ -f /.chroot ] && message
 				#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
-			
-				#201225:josko alkaisi kohta onnata tablesin asennus sqrootissa?
+				#4... kiinnostavaksi mennee chiameran tai excaliburin kanssa			
 
+				
 				#common_tbls ${1} ${CONF_dnsm}
 				for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
 				other_horrors
