@@ -363,14 +363,19 @@ case ${mode} in
 		csleep 2
 
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-		e22_ts ${d} #dblock vai ts?
 
-		t=$(echo ${d} | cut -d '/' -f 1-5)
-		enforce_access ${n} ${t}
-		e22_arch ${tgtfile} ${d}
+		if [ -d ${d} ] ; then
+			e22_dblock ${tgtfile} ${d}
+		fi
+
+		#e22_ts ${d} #dblock vai ts?
+		#
+		#t=$(echo ${d} | cut -d '/' -f 1-5)
+		#enforce_access ${n} ${t}
+		#e22_arch ${tgtfile} ${d}
 	;;
 	l)
-		#TODO: testaa myös , paketin sisätöä tarvitaan sqroot kanssa
+		#251225:tuotos melkein toimii jo
 		[ -v CONF_dm ] || exit 77
 
 		e22_dm ${CONF_dm}

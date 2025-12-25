@@ -750,15 +750,12 @@ function e22_tblz() { #091225 toimi ainakin kerran
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 2
 
-	#aval0n #tarpeellinen?
+	
 
 	#HUOM.28925.2:onkohan hyvä idea tässä? kuuluisiko tehdö jossain toisaalla?
 	#... josko vaikka sinne dblock():iin ? TODO
 
-	for s in ${PART175_LIST} ; do
-		${sharpy} ${s}*
-		${NKVD} ${CONF_pkgdir}/${s}*
-	done
+
 
 	${asy}
 	dqb "BEFORE e22_pre2"
@@ -947,7 +944,12 @@ function e22_dblock() { #091225:taitaa toimia
 
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
-	#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
+	#aval0n #tarpeellinen?
+		
+	for s in ${PART175_LIST} ; do
+		${sharpy} ${s}*
+		${NKVD} ${CONF_pkgdir}/${s}*
+	done
 
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-5)
