@@ -714,12 +714,10 @@ function e22_arch() {
 	dqb "e22_arch d0n3"
 }
 
-function e22_tblz() { #TODO:"exp2 t" testaus uusiksi
+#VAIH:testaus, tekee paketin:jep sisältö: (251225)
+function e22_tblz() {
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
-
-	echo "TODO:ERTITYISESTI VARMSIAT ETTÄ TABLES TULEE MUKAAN PAKETTIIN \${tgtfile}"
-	csleep 10
 
 	csleep 1
 	dqb "\$shary= ${shary}"

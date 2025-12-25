@@ -358,7 +358,7 @@ case ${mode} in
 		fi
 	;;
 	t) 
-		#101225:teki paketin, sisältökin asentui 091225
+		#VAIH:testaus, tekee paketin:jep sisältö: (251225)
 		message
 		csleep 2
 
