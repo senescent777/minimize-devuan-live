@@ -346,10 +346,7 @@ case ${mode} in
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
-		echo "TODO:ERTITYISESTI VARMSIAT ETTÄ TABLES TULEE MUKAAN PAKETTIIN ${tgtfile}"
-		csleep 10
-
-		#211225:tekee paketin, sisältö:
+		#24-25.12.25 tienoilla teki paketin minkä sisältö vasikuttaa tmivalta
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
 

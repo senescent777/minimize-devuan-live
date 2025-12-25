@@ -762,12 +762,8 @@ function e22_tblz() {
 }
 
 #TODO:ntp-jutut takaisin josqs?
-#VAIH:uudemman tuotoksen testaus
+#VAIH:uudemman tuotoksen testaus (joskohan jo 251225 toimisi)
 function e22_other_pkgs() { 
-
-	echo "VAIH:ERTITYISESTI VARMSIAT ETTÄ TABLES TULEE MUKAAN PAKETTIIN \${tgtfile} (taitaa tulla)"
-	csleep 5
-
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
 	csleep 1
 
