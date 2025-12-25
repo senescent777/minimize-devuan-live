@@ -45,5 +45,5 @@ libgtk2.0-0*.deb
 libnftables*.deb
 nftables*.deb
 #
-gpgconf*.deb
+#gpgconf*.deb
 #gpg tarvitsee confin (josko kuitenkin accet2:sessa ja vain kerran)

@@ -5,7 +5,7 @@ dbus
 initramfs
 live
 e2fsprogs
-#uutena 221225, tarvitaanko ao. paketteja nykyään?
-dirmngr
+#
+#dirmngr joihinkin juttuihin tämä suorastaan tarvitaan, gpgv tuntuu vain sotkevan
 gpgv
-#josko 2 yo. paketin poisto listasta josqs?
+
