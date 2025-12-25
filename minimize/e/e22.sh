@@ -966,7 +966,8 @@ function e22_dblock() { #VAIH:testaus (251225 aloitettu)
 	dqb "e22dblock DONE"
 }
 
-function e22_profs() { #091225:tekee paketin missä validia sisältöä, kai (pitäisiköhän taas nimet fktio uudestn?)
+#251225:teki paketin missä sisältöä, sis. tmivuus testaten myöhemmin
+function e22_profs() {
 	dqb "e22_profs ${1} ${2}"
 
 	[ -z ${1} ] && exit 99

@@ -341,7 +341,7 @@ case ${mode} in
 #		enforce_access ${n} ${t}
 #		e22_arch ${tgtfile} ${d}
 	;;
-	p) #091225:tekee paketin missä validia sisältöä, kai
+	p) #251225:teki paketin missä sisältöä, sis. tmivuus testaten myöhemmin
 		e22_profs ${tgtfile} ${d0} 
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
