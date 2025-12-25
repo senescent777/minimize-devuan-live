@@ -6,9 +6,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn? koska syyt? (siis siihen samaan missä profs.sh)
-echo "HAE SE TUOREIN e22.sh GITHUBISTA TIKULLE ASAP , TULEE KÄYTTÖÄ"
-csleep 20
+#tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn? koska syyt? (siis siihen samaan missä profs.sh?)
 
 if [ -f /.chroot ] ; then
 	odio=""
