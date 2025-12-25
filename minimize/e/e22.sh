@@ -856,7 +856,7 @@ function e22_other_pkgs() {
 #no:
 #	"/libseat/backend/seatd.c could not connect to socket /run/seatd.sock:no such file or directory"
 #	"Xsession:unable to launch "startlxde" x session --- "startlxde" not found"	
-#... eli lisää juttuja pitäisi vetää
+#... eli lisää juttuja pitäisi vetää?
 #
 #TODO:lxdm varten sitten sen toisenlaisen paketin luonti jotta saadaab sqrootissakin xorg.conf paikoilleen
 function e22_dm() {
@@ -865,7 +865,7 @@ function e22_dm() {
 	case ${1} in
 		lxdm)
 			#"exp2 rp" on nykyään keksitty
-			E22_GL="libxcb-render0 ... lxdm"
+			#E22_GL="libxcb-render0 ... lxdm"
 			#VAIH:(>= 2.12.6),  (>= 2.9.1),  (>= 0.30.0), libpng16-16 (>= 1.6.2-1),  (>= 1.6), libxext6, libxrender1
 			${shary} libxcb-render0 libxcb-shm0 libxcb1
 			csleep 5
