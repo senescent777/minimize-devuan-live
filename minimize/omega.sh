@@ -17,6 +17,7 @@ fi
 #251125:edelleen päivityspak ajamisesta seuraa "login command failed", kyse lienee muustaq hmistojen käyttöoik
 #... jos ei muuta keksi ni slim pois kiekolta/esim lxdm tilalle? tai pikemminkin minimal livecd pohjaksi?
 #131225:viime aikoina taas tullut login-ongelma muttei välttis liity lxdm:n
+#231225:suattaapi olla että login-ongelma poissa vuan suattaapi ettei
 
 [ ${mode} -gt 1 ] && ${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev devuan 
 [ ${mode} -gt 2 ] && ${smr} /etc/sudoers.d/live

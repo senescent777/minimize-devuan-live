@@ -27,9 +27,9 @@ BASEURL="github.com/senescent777/"
 #CONF_testgris ja .chroot voisi korvata yhdellä mjalla?
 CONF_testgris=/SMTH1NG
 #
-#krypto
-CONF_pubk=KAYEABCD
-CONF_ksk=KAYEFGHI
+#krypto (keys.conf)
+#CONF_pubk=KeY.ABCD
+#CONF_ksk=KeY.EFGHI
 #/kyrpto
 #
 TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ "

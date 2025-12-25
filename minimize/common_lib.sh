@@ -6,7 +6,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#TODO:tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn koska syyt? (siis siihen samaan missä profs.sh)
+#tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn? koska syyt? (siis siihen samaan missä profs.sh)
 
 if [ -f /.chroot ] ; then
 	odio=""
@@ -16,14 +16,14 @@ if [ -f /.chroot ] ; then
 		dqb "alt-itn1"
 	}
 
-	#HUOM.141025:oikeastaan pitäisi tarkistaa ennen purkua, gpgtar jos löytyy, normi-tar muuten
-	#221225:onko tarpeellinen kikkailu tuossa alla? jos siis ensin ajetaan import2.sh 
-	for f in $(find $(pwd) -type f -name 'nekros?'.tar.bz3) ; do
-		tar -jxvf ${f}
-		sleep 1
-		rm ${f}
-		sleep 1
-	done
+#	#HUOM.141025:oikeastaan pitäisi tarkistaa ennen purkua, gpgtar jos löytyy, normi-tar muuten
+#	#221225:onko tarpeellinen kikkailu tuossa alla? jos siis ensin ajetaan import2.sh 
+#	for f in $(find $(pwd) -type f -name 'nekros?'.tar.bz3) ; do
+#		tar -jxvf ${f}
+#		sleep 1
+#		rm ${f}
+#		sleep 1
+#	done
 else
 	function itni() {
 		dqb "ITN1-2"
@@ -271,9 +271,9 @@ function psqa() {
 
 		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubring.kbx yli 32 tavua?
 		if [ ! -z ${gg} ] && [ -x ${gg} ] ; then
-			dqb "${gg} --verify ./sha512sums.txt.sig "
+			dqb "${gg} --verify ${1}/sha512sums.txt.sig "
 			csleep 1
-			${gg} --verify ${1}/sha512sums.txt.sig
+			${gg} --verify ${1}/sha512sums.txt.sig 
 					
 			if [ $? -eq 0 ] ; then #tässäkö se bugi oli?
 				dqb "KÖ"
@@ -281,7 +281,10 @@ function psqa() {
 				dqb "SHOULD imp2 k \$dir !!!"
 				exit 95
 			fi
-				
+			
+			csleep 1
+			#VAIH:psqa() , common_part():vastaavat muutokset	
+			[ -f ${1}/sha512sums.txt.1.sig ] && ${gg} --verify ${1}/sha512sums.txt.1.sig
 			csleep 1
 		else
 			dqb "COULD NOT VERIFY SIGNATURES"
@@ -713,6 +716,7 @@ function check_binaries2() {
 	csleep 1
 }
 
+#TODO:selvitä tämänkin toiminta?
 function mangle_s() {
 	dqb "mangle_s  ${1} , ${2}, ${3}  "
 	csleep 1
@@ -740,26 +744,31 @@ function mangle_s() {
 	echo -e "\n" >> ${2}
 }
 
+#VAIH:jinnebtiudut jutut taas käyttöön asfd asdf fads
+#tässä va i kutsvassa koodissa bugi?
 function dinf() {
 	local g
-	#local frist
-	#frist=1
+	local frist
+	frist=1
+
+	#vissiin tähän alkuun tarttisi jotain?
+	#for ... in find /sbin -type f -name 'dhclient-script* ; do ...
 
 	for g in $(sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq) ; do
 		dqb ${g}
 
-		#if [ ${frist} -eq 1 ] ; then 
-		#frist=0
-		#else
-		#echo -n "," >> ${1}
-		#fi
-		#
-		#echo -n "sha256:${f}" >> ${1}
+		if [ ${frist} -eq 1 ] ; then 
+			frist=0
+#		else
+#			echo -n "," >> ${1}
+		fi
+		
+#		echo -n " sha256:${f}" >> ${1}
 	done
 
-	#echo -n "$(whoami) localhost=NOPASSWD: " >> ${1}
+#	echo -n " $(whoami) localhost=NOPASSWD: " >> ${1}
+#	echo " /sbin/dhclient-script " >> ${1}
 
-	#echo " /sbin/dhclient-script " >> ${1}
 	#cat ${1}
 	#exit
 }
@@ -798,7 +807,7 @@ function pre_enforce() {
 	local f
 
 	[ -v mkt ] || exit 99
-	q=$(mktemp -d) #sittenkin näin
+	q=$(mktemp -d) #tdstonimenkin pystyisi lotttoamaan ktmeåillä
 	dqb "touch ${q}/meshuggah in 3 secs"
 
 	csleep 1
@@ -828,6 +837,11 @@ function pre_enforce() {
 		csleep 1
 	fi
 
+	#se update2.sh tämän skriptin kautta sudoersiin vai ei?
+	#yo if-blokkiin vaikka else-haara ja siinä cp
+	find ~ -type f -name update2.sh
+	csleep 3
+	
 	dqb "LETf HOUTRE JOINED IN L0CH N355"
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
 	csleep 1
@@ -868,7 +882,7 @@ function pre_enforce() {
 
 		${scm} a+w /etc/fstab
 		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
-		${odio} echo "#/dev/disk/by-uuid/${CONF_part1} ${CONF_dir2} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+		#${odio} echo "#/dev/disk/by-uuid/${CONF_part1} ${CONF_dir2} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		${scm} a-w /etc/fstab
 
 		csleep 2
@@ -1050,11 +1064,7 @@ function part1_5() {
 				echo "deb https://REPOSITORY/merged ${x} main" >> ${h}/sources.list.tmp
 			done
 		else
-			${svm} /etc/apt/sources.list.tmp ${h}
-			#kts. fasdfasd()
-			#${sco} ${n}:${n} ${h}/sources.list.tmp
-			#${scm} 0644 ${h}/sources.list.tmp
-			
+			${svm} /etc/apt/sources.list.tmp ${h}			
 			fasdfasd  ${h}/sources.list.tmp
 		fi
 
@@ -1238,7 +1248,7 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE"
 }
 
-#TODO:päivityspaketista vielä pois libx11-6+libxcb (tai siis oikeastaan se accetp1 tulisi kirjoittaa  tyhjästä uudestaan) 
+#TODO:PIKEMMINKin uudem päivityspaketin veto ja testaus 
 function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
 	csleep 1
@@ -1256,9 +1266,9 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		csleep 1
 		
 		for s in ${PART175_LIST} ; do 
-			#271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa, toimiva konf äksään löydettävä (VAIH)
+			#271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa
 			#151225 taisi äksä taas toimia joten uudemman kerran vääntämään
-			dqb "#CONF_dm:n vai hto + "exp2 e" uudestaan ja åaketin asentelu sqroot sisälle jnpp"
+			#251225:xorg.conf löydetty joten hiiren tulisi taas
 			csleep 4
 		
 			dqb "processing ${s}"
