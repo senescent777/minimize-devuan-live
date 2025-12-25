@@ -50,7 +50,7 @@ function parse_opts_2() {
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
-#231225:e22.sh nykyään yrittää arpoa keys.conf
+#231225:e22.sh nykyään yrittää arpoa keys.conf (ei tässä tarvitse)
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -147,26 +147,34 @@ case ${mode} in
 	rp)
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
-	
+		exit 69
+
 		e22_cleanpkgs ${d}
 		csleep 1
 		
 		${smr} ${d}/f.tar
 		csleep 1
 		
+		#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
+		#... koko case pois käytöstä vaikka
+	
 		${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${d} -xvf ${tgtfile}
 		[ $? -eq 0 ] && ${svm} ${tgtfile} ${tgtfile}.OLD
 		csleep 1
+
+		#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
 			
 		e22_arch ${tgtfile} ${d}
 		cd ${d}
-		${srat} -rvf ${tgtfile} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
+
+		#sotkee sittenkin liikaa?
+		#${srat} -rvf ${tgtfile} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
 		
 		#for t in $(${srat} -tf ${tgtfile}) ; do #fråm update2.sh
 		#	${srat} -uvf  ${tgtfile} ${t}
 		#done
 		
-		exit
+		exit #TODO:j.ollain jekulla voisi hukata exitit näistä case:ista ekasssa switchissa
 	;;
 	f) 	#201225:tekee paketin, sisältö:ok?
 
@@ -178,7 +186,7 @@ case ${mode} in
 	;;
 	q)
 		#101225:toimii (ainakin 1 kerran)
-		${sifd} ${CONF_iface}
+		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 		#141225:tgtfile voisi oikeastaan mennä config1:selle parametriksi jatkossa
 		e22_config1 ~
@@ -204,16 +212,16 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#201225:laati paketin, sisältö:
+		#201225:laati paketin, sisältö:lienee ok
 		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
-		
+		#TODO:ymppäämään pakettiin joitain .deb vai ei? -T tar;iin käyttöön vai ei?
+
 		cd ${d0}
 		fasdfasd ${tgtfile}
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}*
 		csleep 2
 		
 		${srat} --exclude '*merd*' -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
-
 		e22_ftr ${tgtfile}
 		exit
 	;;
@@ -313,7 +321,7 @@ case ${mode} in
 		${NKVD} ${d}/*.tar #oli se fktiokin
 
 		${srat} -tf ${tgtfile} | grep fediverse
-		csleep 10
+		csleep 5 #jos 5 riittäisi
 
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
@@ -336,8 +344,11 @@ case ${mode} in
 	p) #091225:tekee paketin missä validia sisältöä, kai
 		e22_profs ${tgtfile} ${d0} 
 	;;
-		#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia
+	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
+		echo "TODO:ERTITYISESTI VARMSIAT ETTÄ TABLES TULEE MUKAAN PAKETTIIN ${tgtfile}"
+		csleep 10
+
 		#211225:tekee paketin, sisältö:
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}

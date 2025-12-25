@@ -186,15 +186,12 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 	if [ -d ${1} ] ; then
 		dqb "cleaning up ${1} "
 		csleep 1
-
-		#${NKVD} 
-		#"${NKVD} 
 		
-		#aiemmalla tavalla saattaa kestää
+		#aiemmalla NKVD-tavalla saattaa kestää joten rm
 		${smr} ${1}/*.deb
 		${smr} ${1}/sha512sums.txt*
 		
-		#entä ne listat? jospa ei koskettaisi niighin
+		#entä ne listat? jospa ei koskettaisi niihin
 
 		ls -las ${1}/*.deb | wc -l
 		csleep 2
@@ -577,6 +574,7 @@ function aswasw() { #privaatti fktio
 
 	case ${1} in
 		wlan0)
+			#E22:GN="libnl-3-200 ... "
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
 			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
 
@@ -685,7 +683,11 @@ function e22_arch() {
 
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
 	#alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious
-	
+
+	#HUOM gpgv VITTUUN SOTKEMASTA
+	#dirmngr kuitenkin tarvitsee jhnkin?
+	#"gpg --keyserver hkps://keys.gnupg.net --receive-keys $something" esim.
+
 	if [ -x ${gg} ] && [ -v CONF_pubk ] ; then
 		dqb "GGU"
 		csleep 1
@@ -712,6 +714,9 @@ function e22_arch() {
 function e22_tblz() { #091225 toimi ainakin kerran
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
+
+	echo "TODO:ERTITYISESTI VARMSIAT ETTÄ TABLES TULEE MUKAAN PAKETTIIN \${tgtfile}"
+	csleep 10
 
 	csleep 1
 	dqb "\$shary= ${shary}"
@@ -747,7 +752,9 @@ function e22_tblz() { #091225 toimi ainakin kerran
 
 	#aval0n #tarpeellinen?
 
-	#HUOM.28925.2:onkohan hyvä idea tässä?
+	#HUOM.28925.2:onkohan hyvä idea tässä? kuuluisiko tehdö jossain toisaalla?
+	#... josko vaikka sinne dblock():iin ? TODO
+
 	for s in ${PART175_LIST} ; do
 		${sharpy} ${s}*
 		${NKVD} ${CONF_pkgdir}/${s}*
@@ -763,11 +770,19 @@ function e22_tblz() { #091225 toimi ainakin kerran
 	dqb "x2.e22_tblz.done"
 }
 
-
 #TODO:ntp-jutut takaisin josqs?
-#VAIH:testaa uusicksi, miten muodostetun paketin sisältö toimii
+#VAIH:testaa uusicksi, miten muodostetun paketin sisältö toimii (24.12.25)
+#... sqroot-ympäristössä muodostetutn paketin sisältö voisi olla toisella nimellä jotta x
+#mutta jos kuitenkin sitä varten kevyempi versio?
+#
+#live-ynp:g_dout-vaihe ok (tosin sitä gpg-valia) , g_pt2 toimi
+#
 #DONE:varmista että --norecommends mukana (on) ja että mitä /e/apt.conf.d alla sanotaan (i-r ja i-s löytyy tdstosta 01recommend)
 function e22_other_pkgs() { 
+
+	echo "TODO:ERTITYISESTI VARMSIAT ETTÄ TABLES TULEE MUKAAN PAKETTIIN \${tgtfile}"
+	csleep 10
+
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
 	csleep 1
 
@@ -780,10 +795,12 @@ function e22_other_pkgs() {
 	csleep 5
 	${shary} ${E22GI}
 
+	#E22_GG="coreutils libcurl3-gnutls ... git"
 	${shary} coreutils
 	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0
 	${shary} git-man git
 
+	#E22_GS="libc6 ... sudo"
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} libc6 zlib1g libreadline8 #moni pak tarttee nämä
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf
@@ -798,6 +815,7 @@ function e22_other_pkgs() {
 	jules
 
 	if [ ${1} -eq 1 ] ; then
+		#E22_GT="libgmp10 ... stubby"
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
 		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
@@ -831,14 +849,23 @@ function e22_other_pkgs() {
 #VAIH:toiminnan testaus (21.12.25) , kutsuva koodi tekee haetuista paketin mutta toimivuuden slvittely
 #l_221225_0 liittyisi tähän, kys paketti muuten mutta "Package gtk2-engines-pixbuf is not installed."
 #elikkäs muuta accept_jutut (josko jo kohta tehty?)
-
+#
+#241225:sqroot-ympäristössä:päivityspaketin ajon jälkeen lxdm ... asentui?
+#entä heti g_doit+g_pt2 jälkeen? asentiu ilman nalkutusta 24.12.25
+#miten sitten s elive?
+#no:
+#	"/libseat/backend/seatd.c could not connect to socket /run/seatd.sock:no such file or directory"
+#	"Xsession:unable to launch "startlxde" x session --- "startlxde" not found"	
+#... eli lisää juttuja pitäisi vetää
+#
+#TODO:lxdm varten sitten sen toisenlaisen paketin luonti jotta saadaab sqrootissakin xorg.conf paikoilleen
 function e22_dm() {
 	[ -z "${1}" ] && exit 11
 	
 	case ${1} in
 		lxdm)
 			#"exp2 rp" on nykyään keksitty
-		
+			E22_GL="libxcb-render0 ... lxdm"
 			#VAIH:(>= 2.12.6),  (>= 2.9.1),  (>= 0.30.0), libpng16-16 (>= 1.6.2-1),  (>= 1.6), libxext6, libxrender1
 			${shary} libxcb-render0 libxcb-shm0 libxcb1
 			csleep 5
@@ -881,6 +908,7 @@ function e22_dm() {
 		;;
 	esac
 	
+	#E22_GX="libwww-perl ... xscreensaver"
 	#xscreensaver-data:
 	# Depends:
 	#libwww-perl, libc6 (>= 2.34), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.16.0), libx11-6, libxext6, libxft2 (>> 2.1.1), libxt6
