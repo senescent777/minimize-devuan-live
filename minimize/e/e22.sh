@@ -11,10 +11,13 @@ else
 	#voisi tarkemminkin speksata mistä haetaan?
 	arf=$(find / -type f -name 'keys.conf' | head -n 1)
 
-	if [ -s ${arf} ] ; then
-		. ${arf}
+	if [ ! -z "${arf}" ] ; then
+		if [ -s ${arf} ] ; then
+			. ${arf}
+		fi
 	fi
 
+	csleep 1
 	unset arf
 fi
 
@@ -32,7 +35,7 @@ function e22_hdr() {
 	csleep 1
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
-	dqb "srat= ${srat}"
+	#dqb "srat= ${srat}"
 	csleep 2
 
 	${srat} -cvf ${1} ./rnd
@@ -205,7 +208,7 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 	csleep 1
 }
 
-#VAIH:jos sitten tämän kautta mukaan se äksän konf (kys tdston sisällön lottoaminen taas jossain muualla)
+#VAIH:jos sitten tämän kautta mukaan se äksän konf (kys tdston sisällön lottoaminen taas jossain muualla) (olisikohan jo 25122555555 thty?)
 function e22_config1() {
 	[ -z ${1} ] && exit 11
 	[ -d ${1} ] || exit 22
@@ -362,7 +365,7 @@ function luca() { #301125:taitaa toimia
 	dqb "loca done"
 }
 
-function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225)
+function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko jo kohta?
 	dqb "e22_elocal ${1} ${2} ${3} ${4}"
 	csleep 1
 
@@ -605,10 +608,10 @@ function e22_ts() { #091225:jos vaikka toimisi
 	[ -w ${1} ] || exit 15 
 
 	dqb "NEXT:mv ${CONF_pkgdir}/*.deb ${1}"
-	csleep 10
+	csleep 5
 	${svm} ${CONF_pkgdir}/*.deb ${1}
 	dqb $?
-	csleep 10
+	csleep 5
 
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
@@ -703,7 +706,7 @@ function e22_arch() {
 	csleep 1
 	psqa .
 
-	${srat} -rf ${1} ./*.deb ./sha512sums.txt* #./sha512sums.txt.sig ./sha512sums.txt.1 ./sha512sums.txt.1.sig
+	${srat} -rf ${1} ./*.deb ./sha512sums.txt*
 	[ ${debug} -eq 1 ] && ls -las ${1} 
 
 	csleep 10
@@ -711,7 +714,7 @@ function e22_arch() {
 	dqb "e22_arch d0n3"
 }
 
-function e22_tblz() { #091225 toimi ainakin kerran
+function e22_tblz() { #TODO:"exp2 t" testaus uusiksi
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
 
@@ -750,13 +753,6 @@ function e22_tblz() { #091225 toimi ainakin kerran
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 2
 
-	
-
-	#HUOM.28925.2:onkohan hyvä idea tässä? kuuluisiko tehdö jossain toisaalla?
-	#... josko vaikka sinne dblock():iin ? TODO
-
-
-
 	${asy}
 	dqb "BEFORE e22_pre2"
 	csleep 2
@@ -768,17 +764,11 @@ function e22_tblz() { #091225 toimi ainakin kerran
 }
 
 #TODO:ntp-jutut takaisin josqs?
-#VAIH:testaa uusicksi, miten muodostetun paketin sisältö toimii (24.12.25)
-#... sqroot-ympäristössä muodostetutn paketin sisältö voisi olla toisella nimellä jotta x
-#mutta jos kuitenkin sitä varten kevyempi versio?
-#
-#live-ynp:g_dout-vaihe ok (tosin sitä gpg-valia) , g_pt2 toimi
-#
-#DONE:varmista että --norecommends mukana (on) ja että mitä /e/apt.conf.d alla sanotaan (i-r ja i-s löytyy tdstosta 01recommend)
+#VAIH:uudemman tuotoksen testaus
 function e22_other_pkgs() { 
 
-	echo "TODO:ERTITYISESTI VARMSIAT ETTÄ TABLES TULEE MUKAAN PAKETTIIN \${tgtfile}"
-	csleep 10
+	echo "VAIH:ERTITYISESTI VARMSIAT ETTÄ TABLES TULEE MUKAAN PAKETTIIN \${tgtfile} (taitaa tulla)"
+	csleep 5
 
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
 	csleep 1
@@ -859,6 +849,9 @@ function e22_other_pkgs() {
 function e22_dm() {
 	[ -z "${1}" ] && exit 11
 	
+	#TODO:_yhteen caseen lxsession, lxde-session mukaan
+	#TODO:kaikkia tapauks. varten twm
+
 	case ${1} in
 		lxdm)
 			#"exp2 rp" on nykyään keksitty
@@ -925,7 +918,7 @@ function e22_dm() {
 	${shary} xscreensaver-data xscreensaver
 }
 
-function e22_dblock() { #091225:taitaa toimia
+function e22_dblock() { #VAIH:testaus (251225 aloitettu)
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14
@@ -1035,18 +1028,18 @@ function e22_upgp() {
 	
 	dqb " ${3} SHOULD BE Dbtl 1n turq"
 	csleep 1
-	local s
+#	local s
 
-	[ -v CONF_pkgdir ] || exit 99
+	[ -v CONF_pkgdir ] || exit 99 #d-blkissa jatkossa?
 	
-	#tämnänkaltainen blokki oli jossain muuallakin?
-	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä... EIKU
-		dqb "processing ${s} ..."
-		csleep 1
-
-		#-v ennen silmukkaa?
-		${NKVD} ${CONF_pkgdir}/${s}*
-	done
+#	#tämnänkaltainen blokki oli jossain muuallakin? dblck() nykyään
+#	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä... EIKU
+#		dqb "processing ${s} ..."
+#		csleep 1
+#
+#		#-v ennen silmukkaa?
+#		${NKVD} ${CONF_pkgdir}/${s}*
+#	done
 
 	#HUOM.part076() ja part2_5() on keksitty
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb

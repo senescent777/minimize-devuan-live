@@ -148,33 +148,33 @@ case ${mode} in
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 		exit 69
-
-		e22_cleanpkgs ${d}
-		csleep 1
-		
-		${smr} ${d}/f.tar
-		csleep 1
-		
-		#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
-		#... koko case pois käytöstä vaikka
-	
-		${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${d} -xvf ${tgtfile}
-		[ $? -eq 0 ] && ${svm} ${tgtfile} ${tgtfile}.OLD
-		csleep 1
-
-		#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
-			
-		e22_arch ${tgtfile} ${d}
-		cd ${d}
-
-		#sotkee sittenkin liikaa?
-		#${srat} -rvf ${tgtfile} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
-		
-		#for t in $(${srat} -tf ${tgtfile}) ; do #fråm update2.sh
-		#	${srat} -uvf  ${tgtfile} ${t}
-		#done
-		
-		exit #TODO:j.ollain jekulla voisi hukata exitit näistä case:ista ekasssa switchissa
+#
+#		e22_cleanpkgs ${d}
+#		csleep 1
+#		
+#		${smr} ${d}/f.tar
+#		csleep 1
+#		
+#		#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
+#		#... koko case pois käytöstä vaikka
+#	
+#		${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${d} -xvf ${tgtfile}
+#		[ $? -eq 0 ] && ${svm} ${tgtfile} ${tgtfile}.OLD
+#		csleep 1
+#
+#		#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
+#			
+#		e22_arch ${tgtfile} ${d}
+#		cd ${d}
+#
+#		#sotkee sittenkin liikaa?
+#		#${srat} -rvf ${tgtfile} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
+#		
+#		#for t in $(${srat} -tf ${tgtfile}) ; do #fråm update2.sh
+#		#	${srat} -uvf  ${tgtfile} ${t}
+#		#done
+#		
+#		exit #TODO:j.ollain jekulla voisi hukata exitit näistä case:ista ekasssa switchissa
 	;;
 	f) 	#201225:tekee paketin, sisältö:ok?
 
@@ -198,7 +198,7 @@ case ${mode} in
 		${smr} ~/fediverse.tar
 		csleep 1
 
-		#tdstonimi parametriksi jatkossa
+		#tdstonimi parametriksi jatkossa? mille fktiolle?
 		e22_settings ${d0}
 		#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
 
@@ -214,7 +214,7 @@ case ${mode} in
 	c)
 		#201225:laati paketin, sisältö:lienee ok
 		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
-		#TODO:ymppäämään pakettiin joitain .deb vai ei? -T tar;iin käyttöön vai ei?
+		#TODO:-T tar;iin käyttöön vai ei?
 
 		cd ${d0}
 		fasdfasd ${tgtfile}
@@ -281,7 +281,7 @@ case ${mode} in
 		exit 99
 	;;
 	3|4) 
-		#TODO:tämän casen testaus uudstaan
+		#VAIH:tämän casen testaus uudstaan, 3 ensin (25.12.25)
 	
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
@@ -293,14 +293,14 @@ case ${mode} in
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 
-		dqb "srat= ${srat}"
-		csleep 1
+		#dqb "srat= ${srat}" #asia lienee jo qnnossa
+		#csleep 1
 		e22_hdr ${d}/f.tar
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
 			e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-			e22_other_pkgs ${CONF_dnsm} #${CONF_dm}
+			e22_other_pkgs ${CONF_dnsm}
 
 			if [ -d ${d} ] ; then
 				e22_dblock ${d}/f.tar ${d}
@@ -329,17 +329,17 @@ case ${mode} in
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
 	#TODO:josqs uusi testaus	 ( karsintahommat pikemminkin toisaalla, oliko syystä?)
-	1|u|upgrade)
+	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
-
 		e22_upgp ${tgtfile} ${d} ${CONF_iface}
-		e22_ts ${d}
-
-		${srat} -cf ${1} ${d}/tim3stamp #tarvitseeko tätä nykyään?
-		t=$(echo ${d} | cut -d '/' -f 1-5)
-		enforce_access ${n} ${t}
-		e22_arch ${tgtfile} ${d}
+		e22_dblock ${tgtfile} ${d}
+	#	e22_ts ${d}
+#
+#		${srat} -cf ${1} ${d}/tim3stamp #tarvitseeko tätä nykyään?
+#		t=$(echo ${d} | cut -d '/' -f 1-5)
+#		enforce_access ${n} ${t}
+#		e22_arch ${tgtfile} ${d}
 	;;
 	p) #091225:tekee paketin missä validia sisältöä, kai
 		e22_profs ${tgtfile} ${d0} 
@@ -379,8 +379,10 @@ case ${mode} in
 		[ -v CONF_dm ] || exit 77
 
 		e22_dm ${CONF_dm}
-		e22_ts ${d} #dblock vai ts?
-		e22_arch ${tgtfile} ${d}
+		e22_dblock ${tgtfile} ${d}
+#
+#		e22_ts ${d} #dblock vai ts?
+#		e22_arch ${tgtfile} ${d}
 	;;
 	*) #281025:tämäkin toiminee
 		echo "-h"
