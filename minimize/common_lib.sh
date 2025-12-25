@@ -16,14 +16,14 @@ if [ -f /.chroot ] ; then
 		dqb "alt-itn1"
 	}
 
-	#HUOM.141025:oikeastaan pitäisi tarkistaa ennen purkua, gpgtar jos löytyy, normi-tar muuten
-	#221225:onko tarpeellinen kikkailu tuossa alla? jos siis ensin ajetaan import2.sh 
-	for f in $(find $(pwd) -type f -name 'nekros?'.tar.bz3) ; do
-		tar -jxvf ${f}
-		sleep 1
-		rm ${f}
-		sleep 1
-	done
+#	#HUOM.141025:oikeastaan pitäisi tarkistaa ennen purkua, gpgtar jos löytyy, normi-tar muuten
+#	#221225:onko tarpeellinen kikkailu tuossa alla? jos siis ensin ajetaan import2.sh 
+#	for f in $(find $(pwd) -type f -name 'nekros?'.tar.bz3) ; do
+#		tar -jxvf ${f}
+#		sleep 1
+#		rm ${f}
+#		sleep 1
+#	done
 else
 	function itni() {
 		dqb "ITN1-2"
@@ -837,6 +837,11 @@ function pre_enforce() {
 		csleep 1
 	fi
 
+	#se update2.sh tämän skriptin kautta sudoersiin vai ei?
+	#yo if-blokkiin vaikka else-haara ja siinä cp
+	find ~ -type f -name update2.sh
+	csleep 3
+	
 	dqb "LETf HOUTRE JOINED IN L0CH N355"
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
 	csleep 1
@@ -1059,11 +1064,7 @@ function part1_5() {
 				echo "deb https://REPOSITORY/merged ${x} main" >> ${h}/sources.list.tmp
 			done
 		else
-			${svm} /etc/apt/sources.list.tmp ${h}
-			#kts. fasdfasd()
-			#${sco} ${n}:${n} ${h}/sources.list.tmp
-			#${scm} 0644 ${h}/sources.list.tmp
-			
+			${svm} /etc/apt/sources.list.tmp ${h}			
 			fasdfasd  ${h}/sources.list.tmp
 		fi
 
@@ -1247,7 +1248,7 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE"
 }
 
-#TODO:päivityspaketista vielä pois libx11-6+libxcb (tai siis oikeastaan se accetp1 tulisi kirjoittaa  tyhjästä uudestaan) 
+#TODO:PIKEMMINKin uudem päivityspaketin veto ja testaus 
 function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
 	csleep 1
@@ -1265,9 +1266,9 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		csleep 1
 		
 		for s in ${PART175_LIST} ; do 
-			#271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa, toimiva konf äksään löydettävä (VAIH)
+			#271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa
 			#151225 taisi äksä taas toimia joten uudemman kerran vääntämään
-			dqb "#CONF_dm:n vai hto + "exp2 e" uudestaan ja åaketin asentelu sqroot sisälle jnpp"
+			#251225:xorg.conf löydetty joten hiiren tulisi taas
 			csleep 4
 		
 			dqb "processing ${s}"

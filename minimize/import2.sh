@@ -10,8 +10,7 @@ d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
 
-#HUOM.121225:edelleenkin wanha reject_pkgs jyrää uuden, voisiko jtain tehdä?
-#VAIH:muista kopsata tikulle/kiekoille se uudempi päivityspak jotta testit
+#DONE?:muista kopsata tikulle/kiekoille se uudempi päivityspak jotta testit
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -39,7 +38,6 @@ function parse_opts_1() {
 		distro=${1}
 		d=${d0}/${distro}
 	fi
-
 }
 
 function parse_opts_2() {
@@ -50,14 +48,34 @@ if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
 
+	#VAIH: /.chroot-kikkailu pois muista tdstoista, tämän tulisi riittää
 	#HUOM.141025:them files should be checked before eXtraCting
 	#gpgtar jos mahd, muuten normi-tar
 
 	#HUOM.221225:wanhassa systeemissä oli yhden s,kriptin alussa niitä sha- ja gpg- tarkistuk sia...
+	#TODO:josko ainakin sha-tark jo	
+	
 	echo "A"
-	find . -name 'dgsts.?'
+	p=$(pwd)
+	g=(which sha512sum)
+	
+	if [ ! -z "${g}" ] ; then
+		q=$(find . -name 'dgsts.?')
+		cd ..
+		
+		for r in ${q} ; do
+			dqb "SHOULDA sha512sum -c ./${p}/${r}"
+			sleep 1
+		done
+		
+		cd ${p}
+		unset q
+		unset r
+	fi
+	
 	g=$(which gpg)
 	sleep 1
+	cd ${p}
 	
 	if [ ! -z "${g}" ] ; then
 		echo "B"
@@ -206,6 +224,7 @@ fi
 #VAIH:tar-testejä sitten vähemmälle jatkossa
 dqb "Lpg"
 
+#251225;2. param, tekee sillä mtään nkyään?
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
@@ -265,17 +284,20 @@ function common_part() {
 
 	dqb "srat= ${srat}"	#tai ocs() 
 	csleep 3
+	#241225:mitäs exclude-juttuja tuo TPX sisälsikään nykyään?
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 	
 	csleep 2
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
-	[ $? -eq 0 ] || exit 36
-
+	[ $? -eq 0 ] || exit 36	
+	#251225:mitä jos sen sisemmän sha-tarkistuksen tekisi silloinq common_lib pois pelistä?
+	
 	csleep 1
 	dqb "${srat} DONE"
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-5)
 
+	#toisinaan tämä qsee?
 	if [ -x ${t}/common_lib.sh ] ; then
 		enforce_access ${n} ${t} 
 		dqb "running changedns.sh maY be necessary now to fix some things"

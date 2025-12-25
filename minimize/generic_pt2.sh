@@ -9,6 +9,7 @@ d=${d0}/${distro}
 mode=3
 #HUOM.251025:myös excaliburin kanssa se on nimenomaan mode 3 mikä qsee guin? vielä 271125?
 
+#tartteeko näitä 2 oikeastaan?
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -24,7 +25,7 @@ function parse_opts_1() {
 		distro=${1}
 	else
 		case  "${1}" in
-			0|1|2|3) #varsinainen numeerisuustarkistus olisi parempi
+			0|1|2|3) #varsinainen numeerisuustarkistus olisi parempi?
 				mode=${1}
 			;;
 			*)
@@ -205,18 +206,17 @@ function t2pc() {
 	t2p_filler
 
 	#121225:pitäisi se validi xorg.conf ennenq dumppaa:slim
-
 	#071225:pitäisikö tälle ehdolle tehdä jotain?  uuden .iso:n kanssa kun sitä temppuilua
 
 	if [ -f /.chroot ] ; then
 		dqb "SHOULD ${sharpy} slim*"
 
 		#nopeampi boottaus niinqu
-		#... pikemminkin KVG "how to skip dhcp on boot" tjsp
-		dqb "SHOULD ${sharpy} isc-dhcp*"
+		#... pikemminkin  tjsp
+		dqb "KVG \"devuan how to skip dhcp on boot\""
 
-		#tuli uutena 071225, muttei näin vaan...
-		dqb "SHOULD ${sharpy} seat* ?"
+		#tuli uutena 071225, 
+		dqb "SHOULD DO SOMETHING ABOUT THAT libseat-problem w/ xorg"
 		dqb "t2p_filler()"
 
 		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
