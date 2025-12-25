@@ -60,11 +60,12 @@ if [ -f /.chroot ] ; then
 	g=(which sha512sum)
 	
 	if [ ! -z "${g}" ] ; then
+		#ei tida tima nin?
 		q=$(find . -name 'dgsts.?')
 		cd ..
 		
 		for r in ${q} ; do
-			dqb "SHOULDA sha512sum -c ./${p}/${r}"
+			echo "SHOULDA sha512sum -c ./${p}/${r}"
 			sleep 1
 		done
 		
@@ -204,7 +205,7 @@ echo "mkt= ${mkt} "
 
 [ -v srat ] || exit 8
 [ -z "${srat}" ] && exit 10
-echo "srat= ${srat} "
+#echo "srat= ${srat} "
 
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${CONF_part0}
@@ -282,7 +283,7 @@ function common_part() {
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	dqb "srat= ${srat}"	#tai ocs() 
+	#dqb "srat= ${srat}"	#tai ocs() 
 	csleep 3
 	#241225:mitäs exclude-juttuja tuo TPX sisälsikään nykyään?
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
@@ -324,7 +325,7 @@ function common_part() {
 }
 
 ocs tar
-dqb "srat= ${srat}"
+#dqb "srat= ${srat}"
 csleep 3
 dqb "HPL"
 
