@@ -6,7 +6,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn? koska syyt? (siis siihen samaan missä profs.sh)
+#tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn? koska syyt? (siis siihen samaan missä profs.sh?)
 
 if [ -f /.chroot ] ; then
 	odio=""
@@ -15,15 +15,6 @@ if [ -f /.chroot ] ; then
 	function itni() {
 		dqb "alt-itn1"
 	}
-
-#	#HUOM.141025:oikeastaan pitäisi tarkistaa ennen purkua, gpgtar jos löytyy, normi-tar muuten
-#	#221225:onko tarpeellinen kikkailu tuossa alla? jos siis ensin ajetaan import2.sh 
-#	for f in $(find $(pwd) -type f -name 'nekros?'.tar.bz3) ; do
-#		tar -jxvf ${f}
-#		sleep 1
-#		rm ${f}
-#		sleep 1
-#	done
 else
 	function itni() {
 		dqb "ITN1-2"
@@ -283,7 +274,7 @@ function psqa() {
 			fi
 			
 			csleep 1
-			#VAIH:psqa() , common_part():vastaavat muutokset	
+				
 			[ -f ${1}/sha512sums.txt.1.sig ] && ${gg} --verify ${1}/sha512sums.txt.1.sig
 			csleep 1
 		else
@@ -412,8 +403,6 @@ function common_lib_tool() {
 
 	dqb "REJECTNG DONE"
 }
-
-#TODO:common_lib_tool ja clibpre yhdistäminen vähitellen
 
 function clibpre() {
 	dqb "common_lib_tool.re( ${1}  , ${2}) "
@@ -559,7 +548,9 @@ function cefgh() {
 	[ -d ${1} ] || exit 67
 
 	efk2 ${1}/e.tar
+	[ $? -eq 0 ] && ${NKVD} ${1}/e.tar	
 	efk2 ${1}/f.tar ${1}
+	[ $? -eq 0 ] && ${NKVD} ${1}/f.tar	
 }
 
 function check_binaries() {
@@ -590,6 +581,7 @@ function check_binaries() {
 	E22_GT="libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
 	E22_GU="${E22_GT} iptables_ init-system-helpers netfilter-persistent iptables-persistent"
 
+	#TODO:jospa GU:n laittaisi 2 osaan ni saisi sen yes/no-kyselyn pois taas
 	E22_GT="${E22_GT} iptables"
 	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
 	E22_GU="${E22_GU} nftables iptables-persistent init-system-helpers netfilter-persistent"
@@ -597,9 +589,6 @@ function check_binaries() {
 	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
 	E22_GU="${E22_GU} isc-dhcp-client isc-dhcp-common"
 	
-	#HUOM.111225:mennäänkö tähän sq-chr-ymp.äristössä? nykyään joo
-	#VAIH:testaa taas
-	#HUOM.141225:josko kiekolle mukaan gpg, ao. if-blokin takia
 	dqb "JUST BEFORE cefgh()"
 	
 	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
@@ -639,8 +628,7 @@ function check_binaries() {
 	
 				[ -f /.chroot ] && message
 				#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
-			
-				#201225:josko alkaisi kohta onnata tablesin asennus sqrootissa?
+				#... kiinnostavaksi mennee chiameran tai excaliburin kanssa			
 
 				#common_tbls ${1} ${CONF_dnsm}
 				for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
@@ -807,15 +795,15 @@ function pre_enforce() {
 	local f
 
 	[ -v mkt ] || exit 99
-	q=$(mktemp -d) #tdstonimenkin pystyisi lotttoamaan ktmeåillä
-	dqb "touch ${q}/meshuggah in 3 secs"
+	q=$(mktemp) #tdstonimenkin pystyisi lotttoamaan ktmeåillä
+	dqb "touch ${q} in 3 secs"
 
 	csleep 1
-	fasdfasd ${q}/meshuggah
+	fasdfasd ${q}
 
 	[ ${debug} -eq 1 ] && ls -las ${q}
 	csleep 1
-	[ -f ${q}/meshuggah ] || exit 33
+	[ -f ${q} ] || exit 33
 
 	if [ ! -v CONF_testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
 		dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
@@ -833,30 +821,30 @@ function pre_enforce() {
 
 		${scm} 0555 /opt/bin/changedns.sh
 		${sco} 0:0 /opt/bin/changedns.sh
-		mangle_s /opt/bin/changedns.sh ${q}/meshuggah
+		mangle_s /opt/bin/changedns.sh ${q}
 		csleep 1
 	fi
 
-	#se update2.sh tämän skriptin kautta sudoersiin vai ei?
-	#yo if-blokkiin vaikka else-haara ja siinä cp
-	find ~ -type f -name update2.sh
-	csleep 3
+	##se update2.sh tämän skriptin kautta sudoersiin vai ei? toisinbkin voi tehdä
+	##yo if-blokkiin vaikka else-haara ja siinä cp
+	#find ~ -type f -name update2.sh
+	#csleep 3
 	
 	dqb "LETf HOUTRE JOINED IN L0CH N355"
-	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
+	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
 	csleep 1
 
 	dqb "TRAN S1LVAN1AN HUGN3R"
-	dinf ${q}/meshuggah
+	dinf ${q}
 	csleep 1
 
-	if [ -s ${q}/meshuggah ] ; then
-		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
+	if [ -s ${q} ] ; then
+		dqb "sudo mv ${q} /etc/sudoers.d in 2 secs"
 		csleep 1
 
-		reqwreqw ${q}/meshuggah
-		${scm} 0440 ${q}/meshuggah
-		${svm} ${q}/meshuggah /etc/sudoers.d
+		reqwreqw ${q}
+		${scm} 0440 ${q}
+		${svm} ${q} /etc/sudoers.d
 
 		CB_LIST1=""
 		unset CB_LIST1
@@ -882,7 +870,6 @@ function pre_enforce() {
 
 		${scm} a+w /etc/fstab
 		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
-		#${odio} echo "#/dev/disk/by-uuid/${CONF_part1} ${CONF_dir2} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		${scm} a-w /etc/fstab
 
 		csleep 2
