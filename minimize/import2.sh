@@ -53,25 +53,22 @@ if [ -f /.chroot ] ; then
 	#gpgtar jos mahd, muuten normi-tar
 
 	#HUOM.221225:wanhassa systeemissä oli yhden s,kriptin alussa niitä sha- ja gpg- tarkistuk sia...
-	#TODO:josko ainakin sha-tark jo	
+	#VAIH:josko ainakin sha-tark jo	
 	
 	echo "A"
 	p=$(pwd)
 	g=(which sha512sum)
 	
 	if [ ! -z "${g}" ] ; then
-		#ei tida tima nin?
 		q=$(find . -name 'dgsts.?')
 		cd ..
 		
 		for r in ${q} ; do
-			echo "SHOULDA sha512sum -c ./${p}/${r}"
+			${g} --ignore-missing -c ./${p}/${r}
 			sleep 1
 		done
 		
 		cd ${p}
-		unset q
-		unset r
 	fi
 	
 	g=$(which gpg)
@@ -80,10 +77,17 @@ if [ -f /.chroot ] ; then
 	
 	if [ ! -z "${g}" ] ; then
 		echo "B"
-		find . -name '*.sig'
+		q=$(find . -name '*.sig')
+		
+		for r in ${q} ; do
+			${g} --verify ${r}
+		done
+		
 		sleep 1
 	fi
 	
+	unset q
+	unset r
 	unset g
 	sleep 1
 	echo "C"
@@ -253,7 +257,6 @@ function common_part() {
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 			dqb "B"
 			
-			#VAIH:psqa() , common_part():vastaavat muutokset
 			if [ -x ${gg} ] ; then
 				dqb "C"
 
