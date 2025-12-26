@@ -366,6 +366,7 @@ function luca() { #301125:taitaa toimia
 }
 
 function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko jo kohta?
+	#... vaikka sen "exp2 4"-testailun yht kta että on sopivaa konftdstoa mukana
 	dqb "e22_elocal ${1} ${2} ${3} ${4}"
 	csleep 1
 
@@ -762,7 +763,7 @@ function e22_tblz() {
 }
 
 #TODO:ntp-jutut takaisin josqs?
-#VAIH:uudemman tuotoksen testaus (joskohan jo 251225 toimisi)
+
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
 	csleep 1
@@ -819,10 +820,7 @@ function e22_other_pkgs() {
 #	${lftr}
 #	csleep 2
 
-	#aval0n
-	#dqb "BEFORE ts or UPD6" #kutsutaabko tuota?	ts() qtsuu
 	csleep 2
-
 	dqb "e22_other_pkgs donew"
 	csleep 1
 }
@@ -840,7 +838,7 @@ function e22_other_pkgs() {
 #... eli lisää juttuja pitäisi vetää?
 
 
-#TODO:lxdm varten sitten sen toisenlaisen paketin luonti jotta saadaab sqrootissakin xorg.conf paikoilleen
+#VAIH:lxdm varten sitten sen toisenlaisen paketin luonti jotta saadaab sqrootissakin xorg.conf paikoilleen
 function e22_dm() {
 	[ -z "${1}" ] && exit 11
 	csleep 5
@@ -848,7 +846,6 @@ function e22_dm() {
 	${fib}
 	csleep 5
 
-	#VAIH:kaikkia tapauks. varten twm
 	# Depends:
 	#menu (>= 2.1.26), libc6 (>= 2.14), libice6 (>= 1:1.0.0), libsm6, libx11-6, libxext6, libxmu6, libxt6
 
@@ -861,44 +858,45 @@ function e22_dm() {
 			#E22_GL="libxcb-render0 ... lxdm"
 			#VAIH:(>= 2.12.6),  (>= 2.9.1),  (>= 0.30.0), libpng16-16 (>= 1.6.2-1),  (>= 1.6), libxext6, libxrender1
 			${shary} libxcb-render0 libxcb-shm0 libxcb1
-			csleep 5
+			csleep 2
 			
 			${shary} libatk1.0-0 libfontconfig1 libfreetype6 libpixman-1-0
-			csleep 5
+			csleep 2
 			
 			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
 			
 			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1), libxcomposite1 (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxi6, libxinerama1 (>= 2:1.1.4), libxrandr2 (>= 2:1.5.0), libxrender1, adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
 			${shary} libpangocairo-1.0-0 libpangoft2-1.0-0 libx11-6 
-			csleep 5
+			csleep 2
 
 			${shary} libdeflate0 debliblerc4 libtiff6
-			csleep 5
+			csleep 2
 
 			#HUOM.201225:libgdk, libgtk- pakettien riippuvuuksiA joutunee selvittämään ja kasaamaan tänne
 			${shary} libgdk-pixbuf2.0-common libgdk-pixbuf-2.0-0
-			csleep 5
+			csleep 2
 			
 			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
 			${shary} debconf libcairo2 libgtk2.0-common libgtk2.0-0
-			csleep 5
+			csleep 2
 	
 			#gdk ennen gtk?
 			${shary} libfribidi0 libharfbuzz0b libthai0
-			csleep 5
+			csleep 2
 			
 			${shary} libglib2.0-data libglib2.0-0
-			csleep 5
+			csleep 2
 		
 			${shary} fontconfig libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
-			csleep 5
+			csleep 2
 
 			${shary} x11-utils lxdm 
-			csleep 5
+			csleep 2
 
-			#VAIH:_yhteen caseen lxsession, lxde-session mukaan
-			# Depends:
+
 			#libc6 (>= 2.14), libglib2.0-0 (>= 2.43.92), (>= 2.24.0), libx11-6, lsb-release, laptop-detect, lxpolkit | , , lxsession-logout
+			
+			#261225:lxde-juttujrn ja lxpolkit:in riippuvuukisien selvutys saattaa osoittautua tarpeelliskeis?
 			
 			${shary} libgtk2.0-0 lxpolkit lxsession-data lxsession-logout lxsession
 			csleep 5
@@ -941,9 +939,6 @@ function e22_dblock() { #VAIH:testaus (251225 aloitettu)
 
 	dqb "DBLOCK:PARAMS OK"
 	csleep 1
-
-	#dqb "srat= ${srat}" #tartteeko enää?
-	#csleep 1
 
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
@@ -1031,7 +1026,6 @@ function e22_upgp() {
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb
 	csleep 10
 
-
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1
 
@@ -1040,18 +1034,6 @@ function e22_upgp() {
 	
 	dqb " ${3} SHOULD BE Dbtl 1n turq"
 	csleep 1
-#	local s
-
-	
-	
-#	#tämnänkaltainen blokki oli jossain muuallakin? dblck() nykyään
-#	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä... EIKU
-#		dqb "processing ${s} ..."
-#		csleep 1
-#
-#		#-v ennen silmukkaa?
-#		${NKVD} ${CONF_pkgdir}/${s}*
-#	done
 
 	#HUOM.part076() ja part2_5() on keksitty
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb

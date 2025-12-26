@@ -214,7 +214,7 @@ case ${mode} in
 	c)
 		#201225:laati paketin, sisältö:lienee ok
 		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
-		#TODO:-T tar;iin käyttöön vai ei?
+		#-T - vipu tar:in kanssa käyttöön vai ei?
 
 		cd ${d0}
 		fasdfasd ${tgtfile}
@@ -328,7 +328,7 @@ case ${mode} in
 		csleep 1
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
-	#TODO:josqs uusi testaus	 ( karsintahommat pikemminkin toisaalla, oliko syystä?)
+	#TODO:josqs uusi testaus , alkaisi olla jankohtaista 261225
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
@@ -346,7 +346,7 @@ case ${mode} in
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
-		#24-25.12.25 tienoilla teki paketin minkä sisältö vasikuttaa tmivalta
+		#24-25.12.25 tienoilla teki paketin minkä sisältö vaikuttaa tmivalta
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
 
@@ -372,7 +372,8 @@ case ${mode} in
 		#e22_arch ${tgtfile} ${d}
 	;;
 	l)
-		#251225:tuotos melkein toimii jo
+		#26,12,25 live-ympäristössä pak asentuivat jo
+		#vielä selvitettävä miten sqrootissa ja etenkin...
 		[ -v CONF_dm ] || exit 77
 
 		#voisi tietysti kjäkin sanoa mitä dm:ää halutaan käyttää		
