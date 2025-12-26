@@ -99,6 +99,7 @@ dqb "AFTER GANGRENE SETS IN"
 csleep 1
 #HUOM.28925:"tar löytyy ja ajokelpoinen"-tarkistus tdstossa common_lib.sh, ocs()
 
+###################261225:josko vähän loiventaisi ao. ehtoja?
 if [ -z "${tig}" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
 	echo "sudo apt-get update;sudo apt-get install git"
@@ -110,6 +111,7 @@ if [ -z "${mkt}" ] ; then
 	echo "sudo apt-get update;sudo apt-get install coreutils"
 	exit 8
 fi
+#####################
 
 dqb "e22_pre0"
 csleep 1
@@ -328,7 +330,7 @@ case ${mode} in
 		csleep 1
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
-	#TODO:josqs uusi testaus , alkaisi olla jankohtaista 261225
+	#VAIH:josqs uusi testaus , alkaisi olla jankohtaista 261225
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1

@@ -943,11 +943,19 @@ function e22_dblock() { #VAIH:testaus (251225 aloitettu)
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
 	#aval0n #tarpeellinen?
-		
+
+	dqb "bFR 175:"
+	ls -la ${CONF_pkgdir}/*.deb | wc -l
+	csleep 10
+	
 	for s in ${PART175_LIST} ; do
 		${sharpy} ${s}*
-		${NKVD} ${CONF_pkgdir}/${s}*
+		${NKVD} ${CONF_pkgdir}/${s}*.deb
 	done
+
+	dqb "AFTR 175:"
+	ls -la ${CONF_pkgdir}/*.deb | wc -l
+	csleep 10
 
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-5)
@@ -997,14 +1005,13 @@ function e22_profs() {
 	dqb "AAMUNK01"
 }
 
-#091225:testattu että tekee paketin
-#231225:päivityspak päiväyksellä 221.2.225 toimii, kenties koska siitäo n karsittu juttuja
+#VAIH:testit taas (261225)
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1 
 	#[ -w ${1} ] || exit 44 #TODO: man bash taas?
-	[ -s ${1} ] && mv ${1} ${1}.OLD
+	#[ -s ${1} ] && mv ${1} ${1}.OLD 261225 laitetttu kommentteihin koska aiheutti ongelmia
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 
