@@ -19,3 +19,9 @@ x11-utils
 #
 python3.11-minimal*.deb
 python3.11*.deb
+#
+#lxsession-jutut ja twm
+lxsession-data*.deb
+lxsession-logout*.deb
+lxpolkit*.deb
+menu*.deb

@@ -29,6 +29,7 @@ function udp6() { #on käytössä
 }
 
 #common_lib_tool-tyylillä jatkossa tämänkin fktion hommat? kts g_pt2
+#251225:poistetaanko täsäs kohtaa liikaa?
 function t2p() { #on käytössä
 	dqb "DAUD.T2P"
 	csleep 1
