@@ -47,3 +47,23 @@ nftables*.deb
 #
 #gpgconf*.deb
 #gpg tarvitsee confin (josko kuitenkin accet2:sessa ja vain kerran)
+#
+#lxsession-juttuja
+#libpolkit-agent-1-0*.deb
+#-gobject saattaa löytyä jo
+#libpolkit-gobject-1-0*.deb
+#
+#WDM
+libgif7*.deb
+libwebpdemux2*.deb
+libfftw3*.deb
+liblqr-1-0*.deb
+libheif1*.deb
+libmagickcore-6*.deb
+imagemagick-6-common*.deb
+libmagickwand-6*.deb
+libwraster6*.deb
+wmaker-common*.deb
+libwutil5*.deb
+libpangoxft-1.0-0*.deb
+libwings3*.deb
