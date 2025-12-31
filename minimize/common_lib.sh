@@ -176,7 +176,7 @@ function check_bin_0() {
 	#sdi=$(${odio} which dpkg)
 	#spd="${odio} ${sdi} -l " #jäänyt turhaksi muuten mutta g_pt2
 	#sdi="${odio} ${sdi} -i "
-	csleep 3
+	csleep 2
 
 	sifu=$(${odio} which ifup)
 	sifd=$(${odio} which ifdown)
@@ -296,13 +296,15 @@ function psqa() {
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?		
 		${sah6} -c sha512sums.txt --ignore-missing
 	
-			if [ $? -eq 0 ] ; then
-				dqb "Q.KO"
-			else
-				dqb "export2 f ?"
-				exit 94
-			fi
+		if [ $? -eq 0 ] ; then
+			dqb "Q.KO"
+		else
+			dqb "export2 f ?"
+			exit 94
+		fi
 
+		[ -f ${1}/sha512sums.txt.1 ] && ${sah6} --ignore-missing -c sha512sums.txt.1
+		csleep 1
 		cd ${p}
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
@@ -344,6 +346,7 @@ function common_pp3() {
 	fi
 }
 
+#TODO;"man 5 sources-list", josko pääsisi dpkg-kikkailuista
 function efk1() {
 	dqb "efk1 $@"
 	${sdi} $@
@@ -432,29 +435,31 @@ function clibpre() {
 	dqb "BlAnR3eY C0kCCC!!!"
 }
 
-##HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (VAIH)
-##... export xxx tai sitten man sudo taas
-##https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
-##
-##... sen lxdm:n asennuksen kanssa jos saisi kysymyKsen ohituksen niin olisi hyvä kanssa
-#function fromtend() {
-#	dqb "FRöMTEND"
+#HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (VAIH)
+#... export xxx tai sitten man sudo taas
+#https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
 #
-#	[ -v sd0 ] || exit 99
-#	[ -z ${sd0} ] && exit 98
-#	[ -x ${sd0} ] || exit 97
-#
-#	if [ ! -f /.chroot ] ; then
-#		dqb "${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@"
-#		${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
-#	else
-#		${odio} ${sd0} --force-confold -i $@
-#	fi
-#
-#	csleep 2
-#	dqb "DNÖE"
-#}
-#
+#... sen lxdm:n asennuksen kanssa jos saisi kysymyKsen ohituksen niin olisi hyvä kanssa
+#jos siis lxdm käyttää
+
+function fromtend() {
+	dqb "FRöMTEND"
+
+	[ -v sd0 ] || exit 99
+	[ -z ${sd0} ] && exit 98
+	[ -x ${sd0} ] || exit 97
+
+	if [ ! -f /.chroot ] ; then
+		dqb "${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@"
+		${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
+	else
+		${odio} ${sd0} --force-confold -i $@
+	fi
+
+	csleep 2
+	dqb "DNÖE"
+}
+
 #tämän tulisi kai olla privaatti fktio
 #
 #sillä toisella tyylillä tämä masentelu jatkossa? for ... in ... ?
@@ -544,9 +549,12 @@ function clibpre() {
 #}
 
 function cefgh() {
+	dqb " cefgh( ${1})"
 	[ -z ${1} ] && exit 66
 	[ -d ${1} ] || exit 67
-
+	dqb "pars ok"
+	csleep 1
+	
 	efk2 ${1}/e.tar
 	[ $? -eq 0 ] && ${NKVD} ${1}/e.tar	
 	efk2 ${1}/f.tar ${1}
@@ -566,50 +574,39 @@ function check_binaries() {
 	#251025:excalibur-syistä dhclient tilapäisesti ulos listasta...tai siis alemmas
 	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh	
 	for x in ${y} ; do ocs ${x} ; done
-	dqb "JUST BEFORE EE2G"
-	csleep 1
+	#dqb "JUST BEFORE EE2G"
+	#csleep 1
 
 	sdi="${odio} ${sd0} -i "
 	
-	#091225 siirretty tdstost ae/e22.sh, katsotaan toimiiko näin?
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 	
-	#221225:onko pakko tulla mukana gpg-sitä-sun-t't' ja dirmngr jos pelkkää hph:tä asentaa?
-
-	#201225:jospa se common_tbls() vielä , prujaa sieltä jos ei ala sujua
-	E22_GT="libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
-	E22_GU="${E22_GT} iptables_ init-system-helpers netfilter-persistent iptables-persistent"
-
-	#TODO:jospa GU:n laittaisi 2 osaan ni saisi sen yes/no-kyselyn pois taas
+	E22_GT="isc-dhcp-client isc-dhcp-common libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
 	E22_GT="${E22_GT} iptables"
 	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
-	E22_GU="${E22_GU} nftables iptables-persistent init-system-helpers netfilter-persistent"
-	
-	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
-	E22_GU="${E22_GU} isc-dhcp-client isc-dhcp-common"
-	
-	dqb "JUST BEFORE cefgh()"
+
+	E22_GU="isc-dhcp libnfnet libnetfilter libxtables libnftnllibnl-3-200 libnl-route libnl"
+	E22_GV="libip iptables_  netfilter-persistent iptables-"
+	#dqb "JUST BEFORE cefgh()"
 	
 	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
-		dqb "aa"
-		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
-			#201225:common_lib ajo-oik pois? jos ei tables asennus sqrootissa onnaa niinqu?
-			dqb "bbb"
+		#dqb "aa"
+		if [ -z "${ipt}" ] ; then #|| [ -z "${gg}" ] ; then #31225:tilapåäisesti näin
+			#dqb "bbb"
 			[ -z ${1} ] && exit 99
-			dqb "-d ${1} existsts?"
+			#dqb "-d ${1} existsts?"
 			[ -d ${1} ] || exit 101
 
-			dqb "params_ok"
-			csleep 1
+			#dqb "params_ok"
+			#csleep 1
 
 			cefgh ${1}
 			common_pp3 ${1}
 
 			#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
 			if [ -z "${gg}" ] ; then
-				dqb "SHOULD INSTALL gpg AROUND HERE"
-				csleep 1
+				#dqb "SHOULD INSTALL gpg AROUND HERE"
+				#csleep 1
 	
 				for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
 				csleep 1
@@ -622,16 +619,30 @@ function check_binaries() {
 			fi
 
 			if [ -z "${ipt}" ] ; then
-				echo "SHOULD INSTALL IPTABLES"
+				#echo "SHOULD INSTALL IPTABLES"
 				jules
-				sleep 1
+				#sleep 1
 	
 				[ -f /.chroot ] && message
 				#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
 				#... kiinnostavaksi mennee chiameran tai excaliburin kanssa			
 
 				#common_tbls ${1} ${CONF_dnsm}
+				
+				#debug-tauhkoja vähemmälle qhan testailtu vähän lisää
+				#dqb "JUST VBEFORE LOOP"
+				#csleep 1
 				for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
+				#dqb "JUST AFTR L00P"
+				#csleep 1
+				
+				for p in ${E22_GV} ; do 
+					fromtend ${1}/${p}*.deb
+					[ $? -eq 0 ] && ${NKVD} ${1}/${p}*.deb	
+				done
+				
+				#dqb "JST SFTR LOP2"
+				#csleep 1
 				other_horrors
 
 				ipt=$(${odio} which iptables)
@@ -642,6 +653,12 @@ function check_binaries() {
 				#sqroot-juttuja
 				[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh
 			fi
+		
+			ls ${1}/*.deb | wc -l
+			csleep 5
+			
+			#261225:pitäisiköhän gpg- ja tables- instausten jämät deletoida varn, vuoksi?
+			#${NKVD} ${1}/*.deb saattaa jäädä tällä tavalla git tai mktemp puuttumaan	
 		fi
 	
 		#181225:lisätty tämmöinen kikkailu kehitysymp varten ettei jumitu heti alkuunsa	
@@ -704,7 +721,6 @@ function check_binaries2() {
 	csleep 1
 }
 
-#TODO:selvitä tämänkin toiminta?
 function mangle_s() {
 	dqb "mangle_s  ${1} , ${2}, ${3}  "
 	csleep 1
@@ -869,7 +885,9 @@ function pre_enforce() {
 		csleep 2
 
 		${scm} a+w /etc/fstab
+		csleep 1
 		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+		csleep 1
 		${scm} a-w /etc/fstab
 
 		csleep 2
@@ -1235,7 +1253,7 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE"
 }
 
-#TODO:PIKEMMINKin uudem päivityspaketin veto ja testaus 
+#TODO:PIKEMMINKin uudem päivityspaketin veto ja testaus (ei tosin liity ao. fktioon mutta)
 function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
 	csleep 1
@@ -1264,6 +1282,8 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		done
 
 		${lftr}
+	#	[ -f /.chroot ] && exit 666 #täössökö jo lähtee qsemaan? sqrootin kanssa siis
+		
 		${sharpy} libblu* libcupsfilters* libgphoto*
 		${lftr}
 		${sharpy} pkexec po*
@@ -1322,7 +1342,7 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 #https://dev1galaxy.org/viewtopic.php?id=2158
 #
 ##part3() vs import2 case 3 ,. what's the difference?
-#
+
 function part3() {
 	dqb "part3 ${1} , ${2}"
 	csleep 1
@@ -1384,7 +1404,7 @@ function part3() {
 		${NKVD} ${1}/*.deb
 	else
 	       	exit 67
-     	fi
+ 	fi
 
 	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt*
 	csleep 1
