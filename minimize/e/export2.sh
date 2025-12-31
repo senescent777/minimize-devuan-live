@@ -331,17 +331,13 @@ case ${mode} in
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
 	#VAIH:josqs uusi testaus , alkaisi olla jankohtaista 261225
+	#010126 teki ei-tyuhjän paketin vaan asentuuko sisältö?
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
+
 		e22_upgp ${tgtfile} ${d} ${CONF_iface}
 		e22_dblock ${tgtfile} ${d}
-	#	e22_ts ${d}
-#
-#		${srat} -cf ${1} ${d}/tim3stamp #tarvitseeko tätä nykyään?
-#		t=$(echo ${d} | cut -d '/' -f 1-5)
-#		enforce_access ${n} ${t}
-#		e22_arch ${tgtfile} ${d}
 	;;
 	p) #251225:teki paketin missä sisältöä, sis. tmivuus testaten myöhemmin
 		e22_profs ${tgtfile} ${d0} 
@@ -382,11 +378,8 @@ case ${mode} in
 
 		#voisi tietysti kjäkin sanoa mitä dm:ää halutaan käyttää		
 		e22_dm ${CONF_dm}
-		#exit 78
 		e22_dblock ${tgtfile} ${d}
 
-#		e22_ts ${d} #dblock vai ts?
-#		e22_arch ${tgtfile} ${d}
 	;;
 	*) #281025:tämäkin toiminee
 		echo "-h"

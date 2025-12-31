@@ -1057,6 +1057,7 @@ function e22_profs() {
 }
 
 #VAIH:testit taas (261225)
+#010126 teki ei-tyuhjän paketin
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
