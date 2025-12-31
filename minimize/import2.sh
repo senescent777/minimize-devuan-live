@@ -48,7 +48,7 @@ if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
 
-	#VAIH: /.chroot-kikkailu pois muista tdstoista, tämän tulisi riittää
+	#DONE?:ao.. kaltainen /.chroot-kikkailu pois muista tdstoista, tämän tulisi riittää
 	#HUOM.141025:them files should be checked before eXtraCting
 	#gpgtar jos mahd, muuten normi-tar
 
@@ -57,14 +57,14 @@ if [ -f /.chroot ] ; then
 	
 	echo "A"
 	p=$(pwd)
-	g=(which sha512sum)
+	g=$(which sha512sum)
 	
 	if [ ! -z "${g}" ] ; then
 		q=$(find . -name 'dgsts.?')
 		cd ..
 		
 		for r in ${q} ; do
-			${g} --ignore-missing -c ./${p}/${r}
+			${g} -c ./${p}/${r} --ignore-missing
 			sleep 1
 		done
 		

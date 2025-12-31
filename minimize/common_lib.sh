@@ -303,7 +303,7 @@ function psqa() {
 			exit 94
 		fi
 
-		[ -f ${1}/sha512sums.txt.1 ] && ${sah6} sha512sums.txt.1
+		[ -f ${1}/sha512sums.txt.1 ] && ${sah6} --ignore-missing -c sha512sums.txt.1
 		csleep 1
 		cd ${p}
 	else
@@ -439,6 +439,7 @@ function clibpre() {
 #https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
 #
 #... sen lxdm:n asennuksen kanssa jos saisi kysymyKsen ohituksen niin olisi hyvä kanssa
+#jos siis lxdm käyttää
 
 function fromtend() {
 	dqb "FRöMTEND"
@@ -572,8 +573,8 @@ function check_binaries() {
 	#251025:excalibur-syistä dhclient tilapäisesti ulos listasta...tai siis alemmas
 	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh	
 	for x in ${y} ; do ocs ${x} ; done
-	dqb "JUST BEFORE EE2G"
-	csleep 1
+	#dqb "JUST BEFORE EE2G"
+	#csleep 1
 
 	sdi="${odio} ${sd0} -i "
 	
@@ -585,26 +586,26 @@ function check_binaries() {
 
 	E22_GU="isc-dhcp libnfnet libnetfilter libxtables libnftnllibnl-3-200 libnl-route libnl"
 	E22_GV="libip iptables_  netfilter-persistent iptables-"
-	dqb "JUST BEFORE cefgh()"
+	#dqb "JUST BEFORE cefgh()"
 	
 	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
-		dqb "aa"
+		#dqb "aa"
 		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
-			dqb "bbb"
+			#dqb "bbb"
 			[ -z ${1} ] && exit 99
-			dqb "-d ${1} existsts?"
+			#dqb "-d ${1} existsts?"
 			[ -d ${1} ] || exit 101
 
-			dqb "params_ok"
-			csleep 1
+			#dqb "params_ok"
+			#csleep 1
 
 			cefgh ${1}
 			common_pp3 ${1}
 
 			#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
 			if [ -z "${gg}" ] ; then
-				dqb "SHOULD INSTALL gpg AROUND HERE"
-				csleep 1
+				#dqb "SHOULD INSTALL gpg AROUND HERE"
+				#csleep 1
 	
 				for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
 				csleep 1
@@ -617,9 +618,9 @@ function check_binaries() {
 			fi
 
 			if [ -z "${ipt}" ] ; then
-				echo "SHOULD INSTALL IPTABLES"
+				#echo "SHOULD INSTALL IPTABLES"
 				jules
-				sleep 1
+				#sleep 1
 	
 				[ -f /.chroot ] && message
 				#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
@@ -628,19 +629,19 @@ function check_binaries() {
 				#common_tbls ${1} ${CONF_dnsm}
 				
 				#debug-tauhkoja vähemmälle qhan testailtu vähän lisää
-				dqb "JUST VBEFORE LOOP"
-				csleep 1
+				#dqb "JUST VBEFORE LOOP"
+				#csleep 1
 				for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
-				dqb "JUST AFTR L00P"
-				csleep 1
+				#dqb "JUST AFTR L00P"
+				#csleep 1
 				
 				for p in ${E22_GV} ; do 
 					fromtend ${1}/${p}*.deb
 					[ $? -eq 0 ] && ${NKVD} ${1}/${p}*.deb	
 				done
 				
-				dqb "JST SFTR LOP2"
-				csleep 1
+				#dqb "JST SFTR LOP2"
+				#csleep 1
 				other_horrors
 
 				ipt=$(${odio} which iptables)
@@ -651,9 +652,12 @@ function check_binaries() {
 				#sqroot-juttuja
 				[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh
 			fi
+		
+			ls ${1}/*.deb | wc -l
+			csleep 5
 			
 			#261225:pitäisiköhän gpg- ja tables- instausten jämät deletoida varn, vuoksi?
-			${NKVD} ${1}/*.deb
+			#${NKVD} ${1}/*.deb saattaa jäädä tällä tavalla git tai mktemp puuttumaan	
 		fi
 	
 		#181225:lisätty tämmöinen kikkailu kehitysymp varten ettei jumitu heti alkuunsa	
