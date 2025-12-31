@@ -303,6 +303,7 @@ function e22_home() { #151225:josko prof.asiat taas tilap. kunn.
 
 	#maxdepth mukaan vai ei?
 	#HUOM.171225:onko hyvä kun osassa (arkistoon menevistä) tdstoista on tuo ~ mukana polussa ja osassa taas ei?
+	#pitäisi kai väjhän miettiä niitä polkuja siis
 
 	for t in $(find ~ -type f -name 'merd2.sh' -or -name config.tar.bz2) ; do
 		${srat} -rvf ${1} ${t}
@@ -677,8 +678,6 @@ function e22_arch() {
 	${sah6} ./*.deb > ./sha512sums.txt
 
 	dqb "KUKK0 K1EQ 666"
-	#VAIH:psqa() , common_part():vastaavat muutokset
-	#${spc} ./sha512sums.txt ./sha512sums.txt.1 HUONOHKO IDEA TÄMÄ
 
 	${sah6} ./reject_pkgs >> ./sha512sums.txt.1
 	${sah6} ./accept_pkgs_? >> ./sha512sums.txt.1
@@ -839,6 +838,7 @@ function e22_other_pkgs() {
 
 
 #VAIH:lxdm varten sitten sen toisenlaisen paketin luonti jotta saadaab sqrootissakin xorg.conf paikoilleen
+#... tai miten lienee
 function e22_dm() {
 	[ -z "${1}" ] && exit 11
 	csleep 5
@@ -852,6 +852,9 @@ function e22_dm() {
 	${shary} menu twm
 	csleep 5
 
+	#TODO:miten jos SITTENKIN xdm tai wdm?
+	#pelkkä lxdm kun ei riitä ja lxsession-jutut vaativat policykit-matskua ja niiden buygeja tulee mukaan
+	
 	case ${1} in
 		lxdm)
 			#"exp2 rp" on nykyään keksitty
@@ -892,13 +895,26 @@ function e22_dm() {
 
 			${shary} x11-utils lxdm 
 			csleep 2
-
-
-			#libc6 (>= 2.14), libglib2.0-0 (>= 2.43.92), (>= 2.24.0), libx11-6, lsb-release, laptop-detect, lxpolkit | , , lxsession-logout
 			
 			#261225:lxde-juttujrn ja lxpolkit:in riippuvuukisien selvutys saattaa osoittautua tarpeelliskeis?
+			#VAIH:ALA PRKL SELVITTÄÄ MITÄ NUO lxpolkit-lxsession TARVITSEVAT!!!
 			
-			${shary} libgtk2.0-0 lxpolkit lxsession-data lxsession-logout lxsession
+			#polkit-1-auth-agent:
+			
+			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
+			#csleep 2
+			 
+			#Depends: libc6 (>= 2.4), libglib2.0-0 (>= 2.37.3), libgtk2.0-0 (>= 2.12.0),
+			#	 (>= 0.94),  (>= 0.94),  
+			#lxpolkit kanssa taisi olla joitainj vaihtoehtoja
+			
+			#Depends: libc6 (>= 2.4), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.26.0), libgtk2.0-0 (>= 2.24.0), libx11-6, 
+			#	 lxlock | xdg-utils, 
+
+			#Depends: libc6 (>= 2.14), libglib2.0-0 (>= 2.43.92), libgtk2.0-0 (>= 2.24.0), libx11-6, lsb-release, ,
+			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
+			
+			${shary} libgtk2.0-0 lxpolkit lxsession-logout lxsession
 			csleep 5
 		;;
 		*)
@@ -926,7 +942,7 @@ function e22_dm() {
 	${shary} xscreensaver-data xscreensaver
 }
 
-function e22_dblock() { #VAIH:testaus (251225 aloitettu)
+function e22_dblock() { #VAIH:testaus (251225 aloitettu) muuten kai ok mutta pakettien siiertly?
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14
