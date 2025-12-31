@@ -346,6 +346,7 @@ function common_pp3() {
 	fi
 }
 
+#TODO;"man 5 sources-list", josko pääsisi dpkg-kikkailuista
 function efk1() {
 	dqb "efk1 $@"
 	${sdi} $@
@@ -590,7 +591,7 @@ function check_binaries() {
 	
 	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
 		#dqb "aa"
-		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
+		if [ -z "${ipt}" ] ; then #|| [ -z "${gg}" ] ; then #31225:tilapåäisesti näin
 			#dqb "bbb"
 			[ -z ${1} ] && exit 99
 			#dqb "-d ${1} existsts?"
