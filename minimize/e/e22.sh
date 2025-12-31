@@ -855,6 +855,29 @@ function e22_dm() {
 	#pelkkä lxdm kun ei riitä ja lxsession-jutut vaativat policykit-matskua ja niiden bugeja tulee mukaan
 	
 	case ${1} in
+		xdm)
+			${shary} libcrypt1 libpam0g libselinux1 libx11-6 libxau6 libxaw7 libxdmcp6 libxext6 libxft2 libxinerama1 
+			csleep 2
+			${shary} libxmu6 libxpm4 libxrender1 libxt6 debconf x11-utils cpp lsb-base x11-xserver-utils procps
+			csleep 2
+			${shary} xdm
+
+
+#libc6 (>= 2.15),  (>= 1:4.1.0), (>= 0.99.7.1),  (>= 3.1~),  , , , , ,  (>> 2.1.1), ,  (>= 1.2.9) | debconf-2.0,  | xbase-clients | xmessage,  (>= 3.2-14), 
+
+		;;
+		wdm)
+#
+# (>= 0.76-13.1), (>= 3.0-6), , , xserver-xorg | xserver, perl:any, libc6 (>= 2.34),  (>= 1:1.0.9),
+			${shary} libpam-modules libpam-runtime lsb-base psmisc x11-apps x11-common x11-utils x11-xserver-utils
+			csleep 2			
+			${shary} libcrypt1  libpam0g libselinux1 libwings3 libwraster6 libwutil5 libx11-6 libxau6
+			csleep 2 			
+			${shary} libxdmcp6 libxinerama1 libxmu6
+			csleep 2
+
+			${shary} wdm
+		;;
 #		lxdm)
 #			#"exp2 rp" on nykyään keksitty
 #			#E22_GL="libxcb-render0 ... lxdm"
