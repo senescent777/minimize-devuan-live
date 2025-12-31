@@ -37,4 +37,4 @@ TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg
 #sudo-juttuja (jatkossa toisin)
 #CB_LIST2="/bin/rm ${CONF_tmpdir}/*"
 #
-CONF_dm=slim
+CONF_dm=xdm
