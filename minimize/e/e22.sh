@@ -963,7 +963,7 @@ function e22_dm() {
 	${shary} xscreensaver-data xscreensaver
 }
 
-function e22_dblock() { #VAIH:testaus (251225 aloitettu) muuten kai ok mutta pakettien siiertly?
+function e22_dblock() { #VAIH:testaus (251225 aloitettu) muuten kai ok mutta upgp()?
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14

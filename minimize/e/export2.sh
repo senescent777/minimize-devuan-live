@@ -178,7 +178,7 @@ case ${mode} in
 #		
 #		exit #TODO:j.ollain jekulla voisi hukata exitit näistä case:ista ekasssa switchissa
 	;;
-	f) 	#201225:tekee paketin, sisältö:ok?
+	f) 	#201225:tekee paketin, sisältö:ok
 
 		enforce_access ${n} ${t}
 		e22_hdr ${tgtfile}
@@ -349,6 +349,8 @@ case ${mode} in
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
 		#24-25.12.25 tienoilla teki paketin minkä sisältö vaikuttaa tmivalta
+		#311225 sai edelleen paketin aikaiseksi
+		
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
 
