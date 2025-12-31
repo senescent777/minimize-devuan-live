@@ -824,7 +824,6 @@ function e22_other_pkgs() {
 	csleep 1
 }
 
-#VAIH:toiminnan testaus (21.12.25) , kutsuva koodi tekee haetuista paketin mutta toimivuuden slvittely
 #l_221225_0 liittyisi tähän, kys paketti muuten mutta "Package gtk2-engines-pixbuf is not installed."
 #elikkäs muuta accept_jutut (josko jo kohta tehty?)
 #
@@ -852,71 +851,70 @@ function e22_dm() {
 	${shary} menu twm
 	csleep 5
 
-	#TODO:miten jos SITTENKIN xdm tai wdm?
-	#pelkkä lxdm kun ei riitä ja lxsession-jutut vaativat policykit-matskua ja niiden buygeja tulee mukaan
+	#VAIH:miten jos SITTENKIN xdm tai wdm?
+	#pelkkä lxdm kun ei riitä ja lxsession-jutut vaativat policykit-matskua ja niiden bugeja tulee mukaan
 	
 	case ${1} in
-		lxdm)
-			#"exp2 rp" on nykyään keksitty
-			#E22_GL="libxcb-render0 ... lxdm"
-			#VAIH:(>= 2.12.6),  (>= 2.9.1),  (>= 0.30.0), libpng16-16 (>= 1.6.2-1),  (>= 1.6), libxext6, libxrender1
-			${shary} libxcb-render0 libxcb-shm0 libxcb1
-			csleep 2
-			
-			${shary} libatk1.0-0 libfontconfig1 libfreetype6 libpixman-1-0
-			csleep 2
-			
-			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
-			
-			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1), libxcomposite1 (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxi6, libxinerama1 (>= 2:1.1.4), libxrandr2 (>= 2:1.5.0), libxrender1, adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
-			${shary} libpangocairo-1.0-0 libpangoft2-1.0-0 libx11-6 
-			csleep 2
-
-			${shary} libdeflate0 debliblerc4 libtiff6
-			csleep 2
-
-			#HUOM.201225:libgdk, libgtk- pakettien riippuvuuksiA joutunee selvittämään ja kasaamaan tänne
-			${shary} libgdk-pixbuf2.0-common libgdk-pixbuf-2.0-0
-			csleep 2
-			
-			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
-			${shary} debconf libcairo2 libgtk2.0-common libgtk2.0-0
-			csleep 2
-	
-			#gdk ennen gtk?
-			${shary} libfribidi0 libharfbuzz0b libthai0
-			csleep 2
-			
-			${shary} libglib2.0-data libglib2.0-0
-			csleep 2
-		
-			${shary} fontconfig libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
-			csleep 2
-
-			${shary} x11-utils lxdm 
-			csleep 2
-			
-			#261225:lxde-juttujrn ja lxpolkit:in riippuvuukisien selvutys saattaa osoittautua tarpeelliskeis?
-			#VAIH:ALA PRKL SELVITTÄÄ MITÄ NUO lxpolkit-lxsession TARVITSEVAT!!!
-			
-			#polkit-1-auth-agent:
-			
-			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
-			#csleep 2
-			 
-			#Depends: libc6 (>= 2.4), libglib2.0-0 (>= 2.37.3), libgtk2.0-0 (>= 2.12.0),
-			#	 (>= 0.94),  (>= 0.94),  
-			#lxpolkit kanssa taisi olla joitainj vaihtoehtoja
-			
-			#Depends: libc6 (>= 2.4), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.26.0), libgtk2.0-0 (>= 2.24.0), libx11-6, 
-			#	 lxlock | xdg-utils, 
-
-			#Depends: libc6 (>= 2.14), libglib2.0-0 (>= 2.43.92), libgtk2.0-0 (>= 2.24.0), libx11-6, lsb-release, ,
-			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
-			
-			${shary} libgtk2.0-0 lxpolkit lxsession-logout lxsession
-			csleep 5
-		;;
+#		lxdm)
+#			#"exp2 rp" on nykyään keksitty
+#			#E22_GL="libxcb-render0 ... lxdm"
+#
+#			${shary} libxcb-render0 libxcb-shm0 libxcb1
+#			csleep 2
+#			
+#			${shary} libatk1.0-0 libfontconfig1 libfreetype6 libpixman-1-0
+#			csleep 2
+#			
+#			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
+#			
+#			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1), libxcomposite1 (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxi6, libxinerama1 (>= 2:1.1.4), libxrandr2 (>= 2:1.5.0), libxrender1, adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
+#			${shary} libpangocairo-1.0-0 libpangoft2-1.0-0 libx11-6 
+#			csleep 2
+#
+#			${shary} libdeflate0 debliblerc4 libtiff6
+#			csleep 2
+#
+#			#HUOM.201225:libgdk, libgtk- pakettien riippuvuuksiA joutunee selvittämään ja kasaamaan tänne
+#			${shary} libgdk-pixbuf2.0-common libgdk-pixbuf-2.0-0
+#			csleep 2
+#			
+#			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
+#			${shary} debconf libcairo2 libgtk2.0-common libgtk2.0-0
+#			csleep 2
+#	
+#			#gdk ennen gtk?
+#			${shary} libfribidi0 libharfbuzz0b libthai0
+#			csleep 2
+#			
+#			${shary} libglib2.0-data libglib2.0-0
+#			csleep 2
+#		
+#			${shary} fontconfig libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
+#			csleep 2
+#
+#			${shary} x11-utils lxdm 
+#			csleep 2
+#			
+#			#261225:lxde-juttujrn ja lxpolkit:in riippuvuukisien selvutys saattaa osoittautua tarpeelliskeis?
+#			
+#			#polkit-1-auth-agent:
+#			
+#			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
+#			#csleep 2
+#			 
+#			#Depends: libc6 (>= 2.4), libglib2.0-0 (>= 2.37.3), libgtk2.0-0 (>= 2.12.0),
+#			#	 (>= 0.94),  (>= 0.94),  
+#			#lxpolkit kanssa taisi olla joitainj vaihtoehtoja
+#			
+#			#Depends: libc6 (>= 2.4), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.26.0), libgtk2.0-0 (>= 2.24.0), libx11-6, 
+#			#	 lxlock | xdg-utils, 
+#
+#			#Depends: libc6 (>= 2.14), libglib2.0-0 (>= 2.43.92), libgtk2.0-0 (>= 2.24.0), libx11-6, lsb-release, ,
+#			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
+#			
+#			${shary} libgtk2.0-0 lxpolkit lxsession-logout lxsession
+#			csleep 5
+#		;;
 		*)
 			dqb "sl1m?"
 		;;
