@@ -869,9 +869,23 @@ function e22_dm() {
 		wdm)
 #
 # (>= 0.76-13.1), (>= 3.0-6), , , xserver-xorg | xserver, perl:any, libc6 (>= 2.34),  (>= 1:1.0.9),
+#dpkg: dependency problems prevent configuration of libmagickcore-6.q16-6:amd64:
+# libmagickcore-6.q16-6:amd64 depends on libfftw3-double3 (>= 3.3.10); however:
+#  Package libfftw3-double3 is not installed.
+# libmagickcore-6.q16-6:amd64 depends on libheif1 (>= 1.4.0); however:
+#  Package libheif1 is not installed.
+# libmagickcore-6.q16-6:amd64 depends on liblqr-1-0 (>= 0.4.0); however:
+#  Package liblqr-1-0 is not installed.
+# libmagickcore-6.q16-6:amd64 depends on libwebpdemux2 (>= 1.2.4); however:
+#  Package libwebpdemux2 is not installed.
+# libmagickcore-6.q16-6:amd64 depends on imagemagick-6-common (>= 8:6.9.6.2+dfsg-3); however:
+#  Package imagemagick-6-common is not installed.
+
+			${shary} libcrypt1 libwebpdemux2
+			csleep 2
 			${shary} libpam-modules libpam-runtime lsb-base psmisc x11-apps x11-common x11-utils x11-xserver-utils
 			csleep 2			
-			${shary} libcrypt1  libpam0g libselinux1 libwings3 libwraster6 libwutil5 libx11-6 libxau6
+			${shary} libcrypt1 libpam0g libselinux1 libwings3 libwraster6 libwutil5 libx11-6 libxau6
 			csleep 2 			
 			${shary} libxdmcp6 libxinerama1 libxmu6
 			csleep 2
