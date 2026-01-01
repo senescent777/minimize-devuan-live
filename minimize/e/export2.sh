@@ -366,8 +366,8 @@ case ${mode} in
 		fi
 	;;
 	l)
-		#26,12,25 live-ympäristössä pak asentuivat jo
-		#vielä selvitettävä miten sqrootissa ja etenkin...
+		#010126:vissiinkin e22dm() , tapauksissa lxdm ja wdm, tekevät asentuvan paketin
+		#... tosin "sqroot->toimiva kiekko" ei ole vielä onnistunut
 		[ -v CONF_dm ] || exit 77
 
 		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		

@@ -904,8 +904,10 @@ function e22_dm() {
 	#VAIH:miten jos SITTENKIN xdm tai wdm?
 	#pelkkä lxdm kun ei riitä ja lxsession-jutut vaativat policykit-matskua ja niiden bugeja tulee mukaan
 	
+	#fontconfig, libfreetype6, libxcb* ennnen switch-case:a? 
+
 	case ${1} in
-		xdm)
+		xdm) #010126;pitäisiköhän tämäkin case testata?
 			${shary} xdm
 		;;
 		wdm)
@@ -940,19 +942,15 @@ function e22_dm() {
 			csleep 2
 
 			${shary} libpcre2-8-0 libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
+			csleep 2
 
 			${shary} libgif7 libwraster6 libjpeg62-turbo libmagickwand-6.q16-6 libtiff6
 			csleep 2
-# Depends: (= 12.2.0-14+deb12u1),  (>= 2.34)
 
 			${shary} gcc-12-base libc6 libgomp1 libgcc-s1  #kommentteihin vai ei? (VAIH:SELVITÄ TUONKIN RIIPPUVUUDET)
 			#jos ensin päivityspak ja sitten vasta dwm-jutut?
 			csleep 2
 
-			#VAIH:libmagickcore'n riippuvuudet
-# Depends:,  (>= 2.35),  (>= 3.3.10),  (>= 2.12.6),  (>= 2.2.1),(>= 3.3.1),  (>= 6), (>= 1.4.0),  (>= 2.0),  (>= 1.3.1),  (>= 2.6),  (>= 0.4.0),  (>= 2.4.7),  (>= 5.1.1alpha+20120614),  (>= 2.0.0),  (>= 1.6.2-1),  (>= 4.5.0~rc1),  (>= 1.2.4),  (>= 1.2.4),  (>= 1.2.4), 
-#, ,  (>= 2.7.4),  (>= 1:1.1.4),  (>= 8:6.9.6.2+dfsg-3)
-#Depends:-
 			${shary} libbz2-1.0 libfftw3-double3 libfreetype6 libjbig0 liblcms2-2 liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libwebp7 libwebpmux3 imagemagick-6-common
 			csleep 2
 
@@ -987,17 +985,17 @@ function e22_dm() {
 #			csleep 2
 #
 #			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
-#			${shary}  libcairo2 libgtk2.0-common libgtk2.0-0
+#			${shary} libcairo2 libgtk2.0-common libgtk2.0-0
 #			csleep 2
 #	
 #			#gdk ennen gtk?
 #			${shary} libfribidi0 libharfbuzz0b libthai0
 #			csleep 2
 #		
-#			${shary} fontconfig  gtk2-engines-pixbuf gtk2-engines 
+#			${shary} fontconfig gtk2-engines-pixbuf gtk2-engines 
 #			csleep 2
 #
-#			${shary}  lxdm 
+#			${shary} lxdm 
 #			csleep 2
 #			
 #			#261225:lxde-juttujrn ja lxpolkit:in riippuvuukisien selvutys saattaa osoittautua tarpeelliskeis?
@@ -1007,17 +1005,17 @@ function e22_dm() {
 #			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
 #			#csleep 2
 #			 
-#			#Depends: libc6 (>= 2.4),  (>= 2.37.3), libgtk2.0-0 (>= 2.12.0),
+#			#(>= 2.4),  (>= 2.37.3),  (>= 2.12.0),
 #			#	 (>= 0.94),  (>= 0.94),  
 #			#lxpolkit kanssa taisi olla joitainj vaihtoehtoja
 #			
-#			#Depends: libc6 (>= 2.4), libcairo2 (>= 1.2.4),  (>= 2.22.0),  (>= 2.26.0), libgtk2.0-0 (>= 2.24.0), , 
+#			#(>= 2.4),  (>= 1.2.4),  (>= 2.22.0),  (>= 2.26.0),  (>= 2.24.0), , 
 #			#	 lxlock | xdg-utils, 
 #
-#			#Depends: libc6 (>= 2.14),  (>= 2.43.92), libgtk2.0-0 (>= 2.24.0), , lsb-release, ,
+#			#(>= 2.14),  (>= 2.43.92),  (>= 2.24.0), , , ,
 #			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
 #			
-#			${shary} libgtk2.0-0 lxpolkit lxsession-logout lxsession
+#			${shary} lxpolkit lxsession-logout lxsession
 #			csleep 5
 #		;;
 		*)
@@ -1026,8 +1024,7 @@ function e22_dm() {
 	esac
 	
 	#E22_GX="libwww-perl ... xscreensaver"
-
-	${shary} libwww-perl xscreensaver-data  init-system-helpers libsystemd0 libegl1
+	${shary} libwww-perl xscreensaver-data  init-system-helpers libegl1 #libsystemd0
 	${shary} xscreensaver
 }
 
@@ -1067,7 +1064,7 @@ function e22_profs() {
 	dqb "AAMUNK01"
 }
 
-#010126 teki ei-tyuhjän paketin, sisäLtökin näköjään asentuu
+#010126 teki ei-tYhjän paketin, sisäLtökin näköjään asentuu
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
