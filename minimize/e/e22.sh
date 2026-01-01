@@ -689,19 +689,7 @@ function e22_arch() {
 	dqb "e22_arch d0n3"
 }
 
-#l_221225_0 liittyisi tähän, kys paketti muuten mutta "Package gtk2-engines-pixbuf is not installed."
-#elikkäs muuta accept_jutut (josko jo kohta tehty?)
-#
-#241225:sqroot-ympäristössä:päivityspaketin ajon jälkeen lxdm ... asentui?
-#entä heti g_doit+g_pt2 jälkeen? asentiu ilman nalkutusta 24.12.25
-#miten sitten s elive?
-#no:
-#	"/libseat/backend/seatd.c could not connect to socket /run/seatd.sock:no such file or directory"
-#	"Xsession:unable to launch "startlxde" x session --- "startlxde" not found"	
-#... eli lisää juttuja pitäisi vetää?
-
-
-function e22_dblock() { #VAIH:testaus (251225 aloitettu), josko jo 010126 toimisi myös upgp() ?
+function e22_dblock() { #010126:ok
 	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z ${1} ] && exit 14
@@ -893,17 +881,18 @@ function e22_dm() {
 	${fib}
 	csleep 5
 
-	# Depends:
-	#menu (>= 2.1.26), libc6 (>= 2.14), (>= 1:1.0.0), , , libxext6, libxmu6, libxt6
+	#libc6 (>= 2.33), libgcc-s1 (>= 3.0), libstdc++6
+	#menu (>= 2.1.26), libc6 (>= 2.14), libice6 (>= 1:1.0.0), libsm6, libx11-6, libxext6, libxmu6, libxt6
 
 	${shary} menu twm
-	csleep 5
+	csleep 2
 
 	#VAIH:miten jos SITTENKIN xdm tai wdm?
 	#pelkkä lxdm kun ei riitä ja lxsession-jutut vaativat policykit-matskua ja niiden bugeja tulee mukaan
 	
 	case ${1} in
 		xdm)
+			#TODO:osa jutuista ennen casea
 			${shary} libcrypt1 libpam0g libselinux1 libx11-6 libxau6 libxaw7 libxdmcp6 libxext6 libxft2 libxinerama1 
 			csleep 2
 			${shary} libxmu6 libxpm4 libxrender1 libxt6 debconf x11-utils cpp lsb-base x11-xserver-utils procps
@@ -911,7 +900,7 @@ function e22_dm() {
 			${shary} xdm
 
 
-#libc6 (>= 2.15),  (>= 1:4.1.0), (>= 0.99.7.1),  (>= 3.1~),  , , , , ,  (>> 2.1.1), ,  (>= 1.2.9) | debconf-2.0,  | xbase-clients | xmessage,  (>= 3.2-14), 
+# | debconf-2.0,  | xbase-clients | xmessage,  (>= 3.2-14), 
 
 		;;
 		wdm)
@@ -919,8 +908,7 @@ function e22_dm() {
 #libc6 libgcc-s1 (>= 3.0), libstdc++6 zlib1g perl:any xserver-xorg | xserver:tarteeko juuri tässä vetää?
 
 			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
-
-# (>= 3.2.0),   (>= 0.1.0),  (>= 1.0.7),  (>= 3.0), (>= 11),  (>= 3.5),  (>= 1:1.1.4)
+			csleep 2
 
 			${shary} libcrypt1 libwebpdemux2 libheif1 libaudit1 debconf
 			csleep 2
@@ -928,18 +916,11 @@ function e22_dm() {
 			${shary} libdb5.3 libpam0g libselinux1 libpam-modules-bin libpam-modules libpam-runtime
 			csleep 2
 
-# (>= 1:2.2.1),  (>= 1:4.3.0), ,  (>= 1.4.1), (>= 3.1~),  (>= 0.5) | f-2.0,  (= 1.5.2-6+deb12u1)
-# (>= 0.5) | f-2.0, f (>= 1.5.19) | cf,  
-
 			${shary} sysvinit-utils libtinfo6 libpng16-16 libsm6 libx11-6 libx11-xcb1 libxaw7 
 			csleep 2
 
 			${shary} libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1 libxcursor1 libxext6 libxft2
 			csleep 2
-
-#
-# 
-#  (>= 1.6.2-1), , ,  (>= 2:1.7.5), (>= 2:1.0.14), , , , ,  (>> 1.1.2), ,  (>> 2.1.1), 
 
 			${shary} libxi6 libxkbfile1 libxmu6 libxmuu1 libxrender1 libxinerama1 libxt6 man-db
 			csleep 2
@@ -947,51 +928,25 @@ function e22_dm() {
 			${shary} lsb-base libfontconfig1 libfontenc1 libgl1 libxcb-shape0 libxrandr2 
 			csleep 2
 
-# (>= 1.3-9ubuntu2)
-#  (>= 2.12.6), , , ,  (>= 2:1.6.9),, ,  (>= 1.6),  (>= 1:0.3-1), ,  (>> 2.1.1),, 6nerama1,,, , (>= 2:1.2.0), (>= 1:1.1.0),
-
 			${shary} libxtst6 libxv1 libxxf86dga1 libxxf86vm1 cpp libice6
 			csleep 2
-
-#  (>= 1:1.0.0), 7 (>= 2:1.0.14),  (>> 1.1.2), , 6, (>= 2:1.1.3),  (>= 2:1.5.0),  , 
 
 			${shary} psmisc x11-apps x11-common x11-utils x11-xserver-utils
 			csleep 2
 
-			${shary} libpcre2-8-0 libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0 libwraster6 libwutil5 wmaker-common libwings3
+			${shary} libpcre2-8-0 libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
+			#TODO:wraster6 muut riuipp?
+			#TODO:	libmagickwand-6 riip?	
+			${shary} libgif7 libwraster6 libwutil5 wmaker-common libwings3
 			csleep 2
 
-			${shary} libgif7 libjpeg62-turbo libmagickwand-6 libtiff6 libxpm4 libx11-data
+			${shary} libjpeg62-turbo libmagickwand-6 libtiff6 libxpm4 libx11-data
 			csleep 2
-
-# (>= 1:2.2.1),  
-# 
-#:  (>= 2.12.6),  (>= 1.22.0), (>= 1.14.0),  (>= 1.14.0),  (>= 0.95.8),  (>= 0.95.5), , ,  (>> 2.1.1), (>= 0.95.9-3)
-
-#  (>= 5.1),  (>= 1.3.1), .q16-6 (>= 8:6.9.10.2),  (>= 1.6.2-1),  (>= 4.0.3),  , , 6 (>= 2:1.1.3),
-
-# (>= 1.11.1), 
-
 
 			${shary} libxau6 libbsd0
 			csleep 2 	
-
-#
-#			 (>= 0.2.0)
-
-#
-#  (>= 2:1.6.0), 
-#
-#l , , 
-
 		
 			${shary} libxdmcp6 x11-xserver-utils wdm
-
-
-#, , e (>= 0.76-13.1),  (>= 3.0-6),  , , , ,  (>= 2.34), 1 (>= 1:4.1.0), g (>= 0.99.7.1),  (>= 3.1~),
-#  (>= 0.95.0),  (>= 0.95.8), (>= 0.95.5), ,  (>= 1:1.0.9), ,  (>= 2:1.1.4),  (>= 2:1.1.3)
-
-
 		;;
 #		lxdm)
 #			#"exp2 rp" on nykyään keksitty
@@ -1114,8 +1069,7 @@ function e22_profs() {
 	dqb "AAMUNK01"
 }
 
-#VAIH:testit taas (261225)
-#010126 teki ei-tyuhjän paketin, sisäktökin näköjään asentuu
+#010126 teki ei-tyuhjän paketin, sisäLtökin näköjään asentuu
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 

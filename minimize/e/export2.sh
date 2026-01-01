@@ -330,8 +330,7 @@ case ${mode} in
 		csleep 1
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
-	#VAIH:josqs uusi testaus , alkaisi olla jankohtaista 261225
-	#010126 teki ei-tyuhjän paketin vaan asentuuko sisältö? jep
+	#010126 teki ei-tyhjän paketin vaan asentuuko sisältö? jep
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
@@ -356,6 +355,8 @@ case ${mode} in
 	;;
 	t) 
 		#VAIH:testaus, tekee paketin:jep sisältö: (251225)
+		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
+
 		message
 		csleep 2
 
@@ -364,12 +365,6 @@ case ${mode} in
 		if [ -d ${d} ] ; then
 			e22_dblock ${tgtfile} ${d}
 		fi
-
-		#e22_ts ${d} #dblock vai ts?
-		#
-		#t=$(echo ${d} | cut -d '/' -f 1-5)
-		#enforce_access ${n} ${t}
-		#e22_arch ${tgtfile} ${d}
 	;;
 	l)
 		#26,12,25 live-ympäristössä pak asentuivat jo
@@ -379,7 +374,6 @@ case ${mode} in
 		#voisi tietysti kjäkin sanoa mitä dm:ää halutaan käyttää		
 		e22_dm ${CONF_dm}
 		e22_dblock ${tgtfile} ${d}
-
 	;;
 	*) #281025:tämäkin toiminee
 		echo "-h"
