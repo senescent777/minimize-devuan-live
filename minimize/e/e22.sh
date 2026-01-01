@@ -895,6 +895,9 @@ function e22_dm() {
 	${shary} libxpm4 libxrender1 debconf x11-utils cpp lsb-base x11-xserver-utils procps
 	csleep 2
 
+	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libgtk-3-0 libglib2.0-0 libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
+	csleep 2
+
 	#VAIH:miten jos SITTENKIN xdm tai wdm?
 	#pelkkä lxdm kun ei riitä ja lxsession-jutut vaativat policykit-matskua ja niiden bugeja tulee mukaan
 	
@@ -921,13 +924,13 @@ function e22_dm() {
 			${shary} libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1 libxcursor1
 			csleep 2
 
-			${shary} libxi6 libxkbfile1 libxmuu1 man-db
+			${shary} libxkbfile1 libxmuu1 man-db
 			csleep 2
 
-			${shary} libfontconfig1 libfontenc1 libgl1 libxcb-shape0 libxrandr2 
+			${shary} libfontconfig1 libfontenc1 libgl1 libxcb-shape0  
 			csleep 2
 
-			${shary} libxtst6 libxv1 libxxf86dga1 libxxf86vm1
+			${shary} libxtst6 libxv1 libxxf86dga1 
 			csleep 2
 
 			${shary} psmisc x11-apps x11-common
@@ -954,7 +957,7 @@ function e22_dm() {
 #			${shary} libxcb-render0 libxcb-shm0 libxcb1
 #			csleep 2
 #			
-#			${shary} libatk1.0-0 libfreetype6 libpixman-1-0
+#			${shary} libfreetype6 libpixman-1-0
 #			csleep 2
 #			
 #			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
@@ -966,9 +969,6 @@ function e22_dm() {
 #			${shary} libdeflate0 debliblerc4 
 #			csleep 2
 #
-#			#HUOM.201225:libgdk, libgtk- pakettien riippuvuuksiA joutunee selvittämään ja kasaamaan tänne
-#			${shary} libgdk-pixbuf2.0-common libgdk-pixbuf-2.0-0
-#			csleep 2
 #			
 #			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
 #			${shary}  libcairo2 libgtk2.0-common libgtk2.0-0
@@ -978,7 +978,7 @@ function e22_dm() {
 #			${shary} libfribidi0 libharfbuzz0b libthai0
 #			csleep 2
 #			
-#			${shary} libglib2.0-data libglib2.0-0
+#			${shary} libglib2.0-data 
 #			csleep 2
 #		
 #			${shary} fontconfig  gtk2-engines-pixbuf gtk2-engines 
@@ -994,14 +994,14 @@ function e22_dm() {
 #			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
 #			#csleep 2
 #			 
-#			#Depends: libc6 (>= 2.4), libglib2.0-0 (>= 2.37.3), libgtk2.0-0 (>= 2.12.0),
+#			#Depends: libc6 (>= 2.4),  (>= 2.37.3), libgtk2.0-0 (>= 2.12.0),
 #			#	 (>= 0.94),  (>= 0.94),  
 #			#lxpolkit kanssa taisi olla joitainj vaihtoehtoja
 #			
-#			#Depends: libc6 (>= 2.4), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.26.0), libgtk2.0-0 (>= 2.24.0), , 
+#			#Depends: libc6 (>= 2.4), libcairo2 (>= 1.2.4),  (>= 2.22.0),  (>= 2.26.0), libgtk2.0-0 (>= 2.24.0), , 
 #			#	 lxlock | xdg-utils, 
 #
-#			#Depends: libc6 (>= 2.14), libglib2.0-0 (>= 2.43.92), libgtk2.0-0 (>= 2.24.0), , lsb-release, ,
+#			#Depends: libc6 (>= 2.14),  (>= 2.43.92), libgtk2.0-0 (>= 2.24.0), , lsb-release, ,
 #			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
 #			
 #			${shary} libgtk2.0-0 lxpolkit lxsession-logout lxsession
@@ -1015,19 +1015,14 @@ function e22_dm() {
 	#E22_GX="libwww-perl ... xscreensaver"
 	#xscreensaver-data:
 	# Depends:
-	#libwww-perl, libc6 (>= 2.34), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.16.0), , ,  (>> 2.1.1), 
+	#libwww-perl, (>= 2.34),  (>= 2.22.0),  (>= 2.16.0), , ,  (>> 2.1.1), 
 
 	#VAIH:xscreensaver+xlock ennen dm-spesifistä cvasea? tai toiseen fktioon kutenkin moinen
 	# Depends:
 	#xscreensaver-data, 
-	#init-system-helpers (>= 1.52), libatk1.0-0 (>= 1.12.4), libc6 (>= 2.34), #onjo?
+	#init-system-helpers (>= 1.52),  
 	#1 (>= 1:4.1.0), libegl1, 
-	#libglib2.0-0 (>= 2.49.3), libgtk-3-0 (>= 3.16.2), g (>= 0.99.7.1), #onjo?
 	# libsystemd0 (>= 243), 
-	# (>= 2:1.2.99.901), ,  (>> 2.1.1), #onjo?
-	# libxi6 (>= 2:1.2.99.4),  (>= 2:1.1.4), 
-	#libxml2 #onjo?
-	# (>= 2.7.4), libxrandr2 (>= 2:1.2.99.2), , libxxf86vm1
 
 	${shary} xscreensaver-data xscreensaver
 }
