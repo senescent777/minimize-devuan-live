@@ -763,8 +763,7 @@ function aswasw() { #privaatti fktio
 #	dqb "${NKVD} ${CONF_pkgdir}/libavahi* ?"
 #}
 
-
-#VAIH:testaus, tekee paketin:jep sisältö: (251225)
+#DONE:testaus, tekee paketin:jep (251225) sisältö: asentiu 010126
 function e22_tblz() {
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
@@ -895,7 +894,11 @@ function e22_dm() {
 	${shary} libxpm4 libxrender1 debconf x11-utils cpp lsb-base x11-xserver-utils procps
 	csleep 2
 
-	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libgtk-3-0 libglib2.0-0 libglib2.0-data libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
+	#libgtk3-jutut kommentteihin vai ei?
+	${shary} libgtk-3-0 libgtk-3-common
+	csleep 2
+
+	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libglib2.0-0 libglib2.0-data libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
 	csleep 2
 
 	#VAIH:miten jos SITTENKIN xdm tai wdm?
@@ -938,17 +941,15 @@ function e22_dm() {
 
 			${shary} libpcre2-8-0 libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
 
-			#VAIH:wraster6 muut riipp?
-			#Depends:
-			# (>= 2.33), (>= 5.1),  (>= 1.3.1),  (>= 8:6.9.10.2), (>= 1.6.2-1),  (>= 4.0.3), , , 
-			#,  (>= 2:1.1.3), 
-
 			${shary} libgif7 libwraster6 libjpeg62-turbo libmagickwand-6.q16-6 libtiff6
 			csleep 2
 
-			#VAIH:	libmagickwand-6 riip?	
-			# (>= 3.3.1),  (>= 4.9),  (>= 8:6.9.11.24), ,  (>= 8:6.9.6.2+dfsg-3)
-			${shary} libgomp1 libmagickcore-6.q16-6 imagemagick-6-common
+			${shary} libgomp1 #kommentteihin vai ei? (TODO:SELVITÄ TUONKIN RIIPPUVUUDET)
+			#jos ensin päivityspak ja sitten vasta dwm-jutut?
+			csleep 2
+
+			#TODO:libmagickcore'n riippuvuudet
+			${shary} libmagickcore-6.q16-6 imagemagick-6-common
 			csleep 2
 
 			${shary} libwutil5 wmaker-common libwings3
@@ -1018,18 +1019,9 @@ function e22_dm() {
 	esac
 	
 	#E22_GX="libwww-perl ... xscreensaver"
-	#xscreensaver-data:
-	# Depends:
-	#libwww-perl, (>= 2.34),  (>= 2.22.0),  (>= 2.16.0), , ,  (>> 2.1.1), 
 
-	#VAIH:xscreensaver+xlock ennen dm-spesifistä cvasea? tai toiseen fktioon kutenkin moinen
-	# Depends:
-	#xscreensaver-data, 
-	#init-system-helpers (>= 1.52),  
-	#1 (>= 1:4.1.0), libegl1, 
-	# libsystemd0 (>= 243), 
-
-	${shary} xscreensaver-data xscreensaver
+	${shary} libwww-perl xscreensaver-data  init-system-helpers libsystemd0 libegl1
+	${shary} xscreensaver
 }
 
 #251225:teki paketin missä sisältöä, sis. tmivuus testaten myöhemmin

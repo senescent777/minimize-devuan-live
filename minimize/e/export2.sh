@@ -354,12 +354,11 @@ case ${mode} in
 		fi
 	;;
 	t) 
-		#VAIH:testaus, tekee paketin:jep sisältö: (251225)
+		#DONE:testaus, tekee paketin:jep (251225) sisältö: asentuu (010126)
 		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
 
 		message
 		csleep 2
-
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 
 		if [ -d ${d} ] ; then
@@ -371,7 +370,7 @@ case ${mode} in
 		#vielä selvitettävä miten sqrootissa ja etenkin...
 		[ -v CONF_dm ] || exit 77
 
-		#voisi tietysti kjäkin sanoa mitä dm:ää halutaan käyttää		
+		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
 		e22_dm ${CONF_dm}
 		e22_dblock ${tgtfile} ${d}
 	;;
