@@ -894,7 +894,7 @@ function e22_dm() {
 	csleep 5
 
 	# Depends:
-	#menu (>= 2.1.26), libc6 (>= 2.14), libice6 (>= 1:1.0.0), libsm6, libx11-6, libxext6, libxmu6, libxt6
+	#menu (>= 2.1.26), libc6 (>= 2.14), (>= 1:1.0.0), , , libxext6, libxmu6, libxt6
 
 	${shary} menu twm
 	csleep 5
@@ -916,59 +916,80 @@ function e22_dm() {
 		;;
 		wdm)
 
-#libc6 libgcc-s1 (>= 3.0), libstdc++6 zlib1g:tarteeko juuri tässä vetää?
+#libc6 libgcc-s1 (>= 3.0), libstdc++6 zlib1g perl:any xserver-xorg | xserver:tarteeko juuri tässä vetää?
 
 			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
 
 # (>= 3.2.0),   (>= 0.1.0),  (>= 1.0.7),  (>= 3.0), (>= 11),  (>= 3.5),  (>= 1:1.1.4)
 
-
-			#toiv 2 viimeisintä lisäystä ei kuse asioita
-			${shary} libcrypt1 libwebpdemux2  libheif1
+			${shary} libcrypt1 libwebpdemux2 libheif1 libaudit1 debconf
 			csleep 2
 
-#libaudit1 (>= 1:2.2.1), libcrypt1 (>= 1:4.3.0), libdb5.3, libpam0g (>= 1.4.1), libselinux1 (>= 3.1~), debconf (>= 0.5) | debconf-2.0, libpam-modules-bin (= 1.5.2-6+deb12u1)
-#debconf (>= 0.5) | debconf-2.0, debconf (>= 1.5.19) | cdebconf, libpam-modules 
-#sysvinit-utils
-#libtinfo6 
-# libpng16-16 (>= 1.6.2-1), libsm6, libx11-6, libx11-xcb1 (>= 2:1.7.5), libxaw7 (>= 2:1.0.14), libxcb-damage0, libxcb-present0, libxcb-xfixes0, libxcb1, libxcursor1 (>> 1.1.2), libxext6, libxft2 (>> 2.1.1), libxi6 (>= 2:1.2.99.4), libxkbfile1 (>= 1:1.1.0), libxmu6 (>= 2:1.1.3), libxmuu1 (>= 2:1.1.3), libxrender1, libxt6 (>= 1:1.1.0), man-db
-#lsb-base (>= 1.3-9ubuntu2)
-# libfontconfig1 (>= 2.12.6), libfontenc1, libgl1, libx11-6, libx11-xcb1 (>= 2:1.6.9), libxaw7, libxcb-shape0, libxcb1 (>= 1.6), libxcomposite1 (>= 1:0.3-1), libxext6, libxft2 (>> 2.1.1), libxi6, libxinerama1, libxkbfile1, libxmu6, libxmuu1, libxrandr2 (>= 2:1.2.0), libxrender1, libxt6 (>= 1:1.1.0), libxtst6, libxv1, libxxf86dga1, libxxf86vm1
-# libice6 (>= 1:1.0.0), libx11-6, libxaw7 (>= 2:1.0.14), libxcursor1 (>> 1.1.2), libxext6, libxi6, libxmu6 (>= 2:1.1.3), libxmuu1 (>= 2:1.1.3), libxrandr2 (>= 2:1.5.0), libxt6, libxxf86vm1, cpp
-
-			${shary} libpam-modules libpam-runtime lsb-base psmisc x11-apps x11-common x11-utils x11-xserver-utils
+			${shary} libdb5.3 libpam0g libselinux1 libpam-modules-bin libpam-modules libpam-runtime
 			csleep 2
 
-#			 Depends:
+# (>= 1:2.2.1),  (>= 1:4.3.0), ,  (>= 1.4.1), (>= 3.1~),  (>= 0.5) | f-2.0,  (= 1.5.2-6+deb12u1)
+# (>= 0.5) | f-2.0, f (>= 1.5.19) | cf,  
+
+			${shary} sysvinit-utils libtinfo6 libpng16-16 libsm6 libx11-6 libx11-xcb1 libxaw7 
+			csleep 2
+
+			${shary} libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1 libxcursor1 libxext6 libxft2
+			csleep 2
+
 #
+# 
+#  (>= 1.6.2-1), , ,  (>= 2:1.7.5), (>= 2:1.0.14), , , , ,  (>> 1.1.2), ,  (>> 2.1.1), 
 
-#libaudit1 (>= 1:2.2.1),  debconf
-# libpcre2-8-0
-#libwings3:
-# libgif7 (>= 5.1), libjpeg62-turbo (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.0.3),  libx11-6, libxext6, libxmu6 (>= 2:1.1.3), libxpm4
-# wmaker-common
-#libxcb1 (>= 1.11.1), libx11-data
+			${shary} libxi6 libxkbfile1 libxmu6 libxmuu1 libxrender1 libxinerama1 libxt6 man-db
+			csleep 2
+
+			${shary} lsb-base libfontconfig1 libfontenc1 libgl1 libxcb-shape0 libxrandr2 
+			csleep 2
+
+# (>= 1.3-9ubuntu2)
+#  (>= 2.12.6), , , ,  (>= 2:1.6.9),, ,  (>= 1.6),  (>= 1:0.3-1), ,  (>> 2.1.1),, 6nerama1,,, , (>= 2:1.2.0), (>= 1:1.1.0),
+
+			${shary} libxtst6 libxv1 libxxf86dga1 libxxf86vm1 cpp libice6
+			csleep 2
+
+#  (>= 1:1.0.0), 7 (>= 2:1.0.14),  (>> 1.1.2), , 6, (>= 2:1.1.3),  (>= 2:1.5.0),  , 
+
+			${shary} psmisc x11-apps x11-common x11-utils x11-xserver-utils
+			csleep 2
+
+			${shary} libpcre2-8-0 libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0 libwraster6 libwutil5 wmaker-common libwings3
+			csleep 2
+
+			${shary} libgif7 libjpeg62-turbo libmagickwand-6 libtiff6 libxpm4 libx11-data
+			csleep 2
+
+# (>= 1:2.2.1),  
+# 
+#:  (>= 2.12.6),  (>= 1.22.0), (>= 1.14.0),  (>= 1.14.0),  (>= 0.95.8),  (>= 0.95.5), , ,  (>> 2.1.1), (>= 0.95.9-3)
+
+#  (>= 5.1),  (>= 1.3.1), .q16-6 (>= 8:6.9.10.2),  (>= 1.6.2-1),  (>= 4.0.3),  , , 6 (>= 2:1.1.3),
+
+# (>= 1.11.1), 
 
 
-			${shary} libpam0g libselinux1 libwings3 libwraster6 libwutil5 libx11-6 libxau6
+			${shary} libxau6 libbsd0
 			csleep 2 	
 
 #
-#			libbsd0 (>= 0.2.0)
+#			 (>= 0.2.0)
 
 #
-# libx11-6 (>= 2:1.6.0), libxext6
+#  (>= 2:1.6.0), 
 #
-#l libx11-6, libxext6, libxt6
+#l , , 
 
 		
-			${shary} libxdmcp6 libxinerama1 libxmu6
-			csleep 2
-
-			${shary} wdm
+			${shary} libxdmcp6 x11-xserver-utils wdm
 
 
-#debconf (>= 1.5.20) | debconf-2.0, libpam-modules, libpam-runtime (>= 0.76-13.1), lsb-base (>= 3.0-6), psmisc, x11-apps, x11-common, x11-utils, x11-xserver-utils, xserver-xorg | xserver, perl:any,  (>= 2.34), libcrypt1 (>= 1:4.1.0), libpam0g (>= 0.99.7.1), libselinux1 (>= 3.1~), libwings3 (>= 0.95.0), libwraster6 (>= 0.95.8), libwutil5 (>= 0.95.5), libx11-6, libxau6 (>= 1:1.0.9), libxdmcp6, libxinerama1 (>= 2:1.1.4), libxmu6 (>= 2:1.1.3)
+#, , e (>= 0.76-13.1),  (>= 3.0-6),  , , , ,  (>= 2.34), 1 (>= 1:4.1.0), g (>= 0.99.7.1),  (>= 3.1~),
+#  (>= 0.95.0),  (>= 0.95.8), (>= 0.95.5), ,  (>= 1:1.0.9), ,  (>= 2:1.1.4),  (>= 2:1.1.3)
 
 
 		;;
@@ -979,16 +1000,16 @@ function e22_dm() {
 #			${shary} libxcb-render0 libxcb-shm0 libxcb1
 #			csleep 2
 #			
-#			${shary} libatk1.0-0 libfontconfig1 libfreetype6 libpixman-1-0
+#			${shary} libatk1.0-0 libfreetype6 libpixman-1-0
 #			csleep 2
 #			
 #			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
 #			
-#			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1), libxcomposite1 (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxi6, libxinerama1 (>= 2:1.1.4), libxrandr2 (>= 2:1.5.0), libxrender1, adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
-#			${shary} libpangocairo-1.0-0 libpangoft2-1.0-0 libx11-6 
+#			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1),  (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), , libxfixes3,  (>= 2:1.1.4),  (>= 2:1.5.0),  adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
+#			${shary} libpangocairo-1.0-0  libx11-6 
 #			csleep 2
 #
-#			${shary} libdeflate0 debliblerc4 libtiff6
+#			${shary} libdeflate0 debliblerc4 
 #			csleep 2
 #
 #			#HUOM.201225:libgdk, libgtk- pakettien riippuvuuksiA joutunee selvittämään ja kasaamaan tänne
@@ -1006,10 +1027,10 @@ function e22_dm() {
 #			${shary} libglib2.0-data libglib2.0-0
 #			csleep 2
 #		
-#			${shary} fontconfig libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
+#			${shary} fontconfig  gtk2-engines-pixbuf gtk2-engines 
 #			csleep 2
 #
-#			${shary} x11-utils lxdm 
+#			${shary}  lxdm 
 #			csleep 2
 #			
 #			#261225:lxde-juttujrn ja lxpolkit:in riippuvuukisien selvutys saattaa osoittautua tarpeelliskeis?
@@ -1040,16 +1061,16 @@ function e22_dm() {
 	#E22_GX="libwww-perl ... xscreensaver"
 	#xscreensaver-data:
 	# Depends:
-	#libwww-perl, libc6 (>= 2.34), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.16.0), libx11-6, libxext6, libxft2 (>> 2.1.1), libxt6
+	#libwww-perl, libc6 (>= 2.34), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.16.0), libx11-6, ,  (>> 2.1.1), 
 
 	#VAIH:xscreensaver+xlock ennen dm-spesifistä cvasea? tai toiseen fktioon kutenkin moinen
 	# Depends:
 	#xscreensaver-data, 
 	#init-system-helpers (>= 1.52), libatk1.0-0 (>= 1.12.4), libc6 (>= 2.34), #onjo?
-	#libcrypt1 (>= 1:4.1.0), libegl1, 
-	#libglib2.0-0 (>= 2.49.3), libgtk-3-0 (>= 3.16.2), libpam0g (>= 0.99.7.1), #onjo?
+	#1 (>= 1:4.1.0), libegl1, 
+	#libglib2.0-0 (>= 2.49.3), libgtk-3-0 (>= 3.16.2), g (>= 0.99.7.1), #onjo?
 	# libsystemd0 (>= 243), 
-	#libx11-6 (>= 2:1.2.99.901), libxext6, libxft2 (>> 2.1.1), #onjo?
+	#libx11-6 (>= 2:1.2.99.901), libxext6,  (>> 2.1.1), #onjo?
 	# libxi6 (>= 2:1.2.99.4), libxinerama1 (>= 2:1.1.4), 
 	#libxml2 #onjo?
 	# (>= 2.7.4), libxrandr2 (>= 2:1.2.99.2), libxt6, libxxf86vm1
