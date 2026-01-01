@@ -887,22 +887,20 @@ function e22_dm() {
 	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6
 	${shary} menu twm
 	csleep 2
+	
+	#libselinux oikeastaan muualla jo
+	${shary} libcrypt1 libpam0g libselinux1 libxau6 libxaw7 libxdmcp6 libxft2 libxinerama1 
+	csleep 2
+	
+	${shary} libxpm4 libxrender1 debconf x11-utils cpp lsb-base x11-xserver-utils procps
+	csleep 2
 
 	#VAIH:miten jos SITTENKIN xdm tai wdm?
 	#pelkkä lxdm kun ei riitä ja lxsession-jutut vaativat policykit-matskua ja niiden bugeja tulee mukaan
 	
 	case ${1} in
 		xdm)
-			#TODO:osa jutuista ennen casea
-			${shary} libcrypt1 libpam0g libselinux1 libxau6 libxaw7 libxdmcp6  libxft2 libxinerama1 
-			csleep 2
-			${shary} libxpm4 libxrender1 debconf x11-utils cpp lsb-base x11-xserver-utils procps
-			csleep 2
 			${shary} xdm
-
-
-# | debconf-2.0,  | xbase-clients | xmessage,  (>= 3.2-14), 
-
 		;;
 		wdm)
 
@@ -911,28 +909,28 @@ function e22_dm() {
 			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
 			csleep 2
 
-			${shary} libcrypt1 libwebpdemux2 libheif1 libaudit1 debconf
+			${shary} libwebpdemux2 libheif1 libaudit1 
 			csleep 2
 
-			${shary} libdb5.3 libpam0g libselinux1 libpam-modules-bin libpam-modules libpam-runtime
+			${shary} libdb5.3 libpam-modules-bin libpam-modules libpam-runtime
 			csleep 2
 
-			${shary} sysvinit-utils libtinfo6 libpng16-16  libx11-xcb1 libxaw7 
+			${shary} sysvinit-utils libtinfo6 libpng16-16 libx11-xcb1  
 			csleep 2
 
-			${shary} libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1 libxcursor1  libxft2
+			${shary} libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1 libxcursor1
 			csleep 2
 
-			${shary} libxi6 libxkbfile1 libxmuu1 libxrender1 libxinerama1  man-db
+			${shary} libxi6 libxkbfile1 libxmuu1 man-db
 			csleep 2
 
-			${shary} lsb-base libfontconfig1 libfontenc1 libgl1 libxcb-shape0 libxrandr2 
+			${shary} libfontconfig1 libfontenc1 libgl1 libxcb-shape0 libxrandr2 
 			csleep 2
 
-			${shary} libxtst6 libxv1 libxxf86dga1 libxxf86vm1 cpp 
+			${shary} libxtst6 libxv1 libxxf86dga1 libxxf86vm1
 			csleep 2
 
-			${shary} psmisc x11-apps x11-common x11-utils x11-xserver-utils
+			${shary} psmisc x11-apps x11-common
 			csleep 2
 
 			${shary} libpcre2-8-0 libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
@@ -941,13 +939,13 @@ function e22_dm() {
 			${shary} libgif7 libwraster6 libwutil5 wmaker-common libwings3
 			csleep 2
 
-			${shary} libjpeg62-turbo libmagickwand-6 libtiff6 libxpm4 libx11-data
+			${shary} libjpeg62-turbo libmagickwand-6 libtiff6  libx11-data
 			csleep 2
 
-			${shary} libxau6 libbsd0
+			${shary} libbsd0
 			csleep 2 	
 		
-			${shary} libxdmcp6 x11-xserver-utils wdm
+			${shary} wdm
 		;;
 #		lxdm)
 #			#"exp2 rp" on nykyään keksitty
@@ -973,7 +971,7 @@ function e22_dm() {
 #			csleep 2
 #			
 #			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
-#			${shary} debconf libcairo2 libgtk2.0-common libgtk2.0-0
+#			${shary}  libcairo2 libgtk2.0-common libgtk2.0-0
 #			csleep 2
 #	
 #			#gdk ennen gtk?
@@ -1027,7 +1025,7 @@ function e22_dm() {
 	#libglib2.0-0 (>= 2.49.3), libgtk-3-0 (>= 3.16.2), g (>= 0.99.7.1), #onjo?
 	# libsystemd0 (>= 243), 
 	# (>= 2:1.2.99.901), ,  (>> 2.1.1), #onjo?
-	# libxi6 (>= 2:1.2.99.4), libxinerama1 (>= 2:1.1.4), 
+	# libxi6 (>= 2:1.2.99.4),  (>= 2:1.1.4), 
 	#libxml2 #onjo?
 	# (>= 2.7.4), libxrandr2 (>= 2:1.2.99.2), , libxxf86vm1
 
