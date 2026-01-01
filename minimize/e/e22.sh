@@ -882,8 +882,9 @@ function e22_dm() {
 	csleep 5
 
 	#libc6 (>= 2.33), libgcc-s1 (>= 3.0), libstdc++6
-	#menu (>= 2.1.26), libc6 (>= 2.14), libice6 (>= 1:1.0.0), libsm6, libx11-6, libxext6, libxmu6, libxt6
+	#menu (>= 2.1.26), libc6 (>= 2.14), (>= 1:1.0.0), l, , , , 
 
+	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6
 	${shary} menu twm
 	csleep 2
 
@@ -893,9 +894,9 @@ function e22_dm() {
 	case ${1} in
 		xdm)
 			#TODO:osa jutuista ennen casea
-			${shary} libcrypt1 libpam0g libselinux1 libx11-6 libxau6 libxaw7 libxdmcp6 libxext6 libxft2 libxinerama1 
+			${shary} libcrypt1 libpam0g libselinux1 libxau6 libxaw7 libxdmcp6  libxft2 libxinerama1 
 			csleep 2
-			${shary} libxmu6 libxpm4 libxrender1 libxt6 debconf x11-utils cpp lsb-base x11-xserver-utils procps
+			${shary} libxpm4 libxrender1 debconf x11-utils cpp lsb-base x11-xserver-utils procps
 			csleep 2
 			${shary} xdm
 
@@ -916,19 +917,19 @@ function e22_dm() {
 			${shary} libdb5.3 libpam0g libselinux1 libpam-modules-bin libpam-modules libpam-runtime
 			csleep 2
 
-			${shary} sysvinit-utils libtinfo6 libpng16-16 libsm6 libx11-6 libx11-xcb1 libxaw7 
+			${shary} sysvinit-utils libtinfo6 libpng16-16  libx11-xcb1 libxaw7 
 			csleep 2
 
-			${shary} libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1 libxcursor1 libxext6 libxft2
+			${shary} libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1 libxcursor1  libxft2
 			csleep 2
 
-			${shary} libxi6 libxkbfile1 libxmu6 libxmuu1 libxrender1 libxinerama1 libxt6 man-db
+			${shary} libxi6 libxkbfile1 libxmuu1 libxrender1 libxinerama1  man-db
 			csleep 2
 
 			${shary} lsb-base libfontconfig1 libfontenc1 libgl1 libxcb-shape0 libxrandr2 
 			csleep 2
 
-			${shary} libxtst6 libxv1 libxxf86dga1 libxxf86vm1 cpp libice6
+			${shary} libxtst6 libxv1 libxxf86dga1 libxxf86vm1 cpp 
 			csleep 2
 
 			${shary} psmisc x11-apps x11-common x11-utils x11-xserver-utils
@@ -961,7 +962,7 @@ function e22_dm() {
 #			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
 #			
 #			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1),  (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), , libxfixes3,  (>= 2:1.1.4),  (>= 2:1.5.0),  adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
-#			${shary} libpangocairo-1.0-0  libx11-6 
+#			${shary} libpangocairo-1.0-0   
 #			csleep 2
 #
 #			${shary} libdeflate0 debliblerc4 
@@ -999,10 +1000,10 @@ function e22_dm() {
 #			#	 (>= 0.94),  (>= 0.94),  
 #			#lxpolkit kanssa taisi olla joitainj vaihtoehtoja
 #			
-#			#Depends: libc6 (>= 2.4), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.26.0), libgtk2.0-0 (>= 2.24.0), libx11-6, 
+#			#Depends: libc6 (>= 2.4), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.26.0), libgtk2.0-0 (>= 2.24.0), , 
 #			#	 lxlock | xdg-utils, 
 #
-#			#Depends: libc6 (>= 2.14), libglib2.0-0 (>= 2.43.92), libgtk2.0-0 (>= 2.24.0), libx11-6, lsb-release, ,
+#			#Depends: libc6 (>= 2.14), libglib2.0-0 (>= 2.43.92), libgtk2.0-0 (>= 2.24.0), , lsb-release, ,
 #			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
 #			
 #			${shary} libgtk2.0-0 lxpolkit lxsession-logout lxsession
@@ -1016,7 +1017,7 @@ function e22_dm() {
 	#E22_GX="libwww-perl ... xscreensaver"
 	#xscreensaver-data:
 	# Depends:
-	#libwww-perl, libc6 (>= 2.34), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.16.0), libx11-6, ,  (>> 2.1.1), 
+	#libwww-perl, libc6 (>= 2.34), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.16.0), , ,  (>> 2.1.1), 
 
 	#VAIH:xscreensaver+xlock ennen dm-spesifistä cvasea? tai toiseen fktioon kutenkin moinen
 	# Depends:
@@ -1025,10 +1026,10 @@ function e22_dm() {
 	#1 (>= 1:4.1.0), libegl1, 
 	#libglib2.0-0 (>= 2.49.3), libgtk-3-0 (>= 3.16.2), g (>= 0.99.7.1), #onjo?
 	# libsystemd0 (>= 243), 
-	#libx11-6 (>= 2:1.2.99.901), libxext6,  (>> 2.1.1), #onjo?
+	# (>= 2:1.2.99.901), ,  (>> 2.1.1), #onjo?
 	# libxi6 (>= 2:1.2.99.4), libxinerama1 (>= 2:1.1.4), 
 	#libxml2 #onjo?
-	# (>= 2.7.4), libxrandr2 (>= 2:1.2.99.2), libxt6, libxxf86vm1
+	# (>= 2.7.4), libxrandr2 (>= 2:1.2.99.2), , libxxf86vm1
 
 	${shary} xscreensaver-data xscreensaver
 }
