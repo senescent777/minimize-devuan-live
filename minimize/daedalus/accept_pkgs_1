@@ -1,4 +1,3 @@
-#esim. 26.11.25 päivitysaketin kanssa jos testailisi, SFSGSW
 libc6*.deb gcc-12*.deb cpp*.deb
 libgcc-s1*.deb
 libicu*.deb
@@ -58,9 +57,12 @@ libgif7*.deb
 libwebpdemux2*.deb
 libfftw3*.deb
 liblqr-1-0*.deb
+libde265-0*.deb
 libheif1*.deb
-libmagickcore-6*.deb
+#
 imagemagick-6-common*.deb
+libmagickcore-6*.deb
+#
 libmagickwand-6*.deb
 libwraster6*.deb
 wmaker-common*.deb
