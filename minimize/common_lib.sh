@@ -591,7 +591,7 @@ function check_binaries() {
 	
 	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
 		#dqb "aa"
-		if [ -z "${ipt}" ] ; then #|| [ -z "${gg}" ] ; then #31225:tilapåäisesti näin
+		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then #; then #31225:tilapåäisesti gg-testi jemmassa jnkn aikaa
 			#dqb "bbb"
 			[ -z ${1} ] && exit 99
 			#dqb "-d ${1} existsts?"
