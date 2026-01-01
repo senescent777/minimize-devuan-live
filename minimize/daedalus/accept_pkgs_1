@@ -64,7 +64,10 @@ imagemagick-6-common*.deb
 libmagickcore-6*.deb
 #
 libmagickwand-6*.deb
+libgif7*.deb 
 libwraster6*.deb
+#libwings3:amd64 depends on libwraster6
+#
 wmaker-common*.deb
 libwutil5*.deb
 libpangoxft-1.0-0*.deb
