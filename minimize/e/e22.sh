@@ -208,6 +208,7 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 	csleep 1
 }
 
+#pitäöiskö siirtää toiseen tdstoon?
 #VAIH:jos sitten tämän kautta mukaan se äksän konf (kys tdston sisällön lottoaminen taas jossain muualla) (olisikohan jo 25122555555 thty?)
 function e22_config1() {
 	[ -z ${1} ] && exit 11
@@ -232,7 +233,7 @@ function e22_config1() {
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 #nuo muutokset oikeastaan tdstoon profs.sh
-
+#pitäöiskö siirtää toiseen tdstoon?
 function e22_settings() {
 	dqb "e22_settings ${1},  ${2}"
 	csleep 1
@@ -272,6 +273,7 @@ function e22_settings() {
 	csleep 1
 }
 
+#pitäöiskö siirtää toiseen tdstoon?
 function e22_home() { #151225:josko prof.asiat taas tilap. kunn.
 	dqb "e22_home ${1} , ${2} , ${3}  "
 
@@ -337,6 +339,7 @@ function e22_home() { #151225:josko prof.asiat taas tilap. kunn.
 	csleep 1
 }
 
+#pitäöiskö siirtää toiseen tdstoon?
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
 function luca() { #301125:taitaa toimia
 	dqb "luca ( ${1})"
@@ -366,6 +369,7 @@ function luca() { #301125:taitaa toimia
 	dqb "loca done"
 }
 
+#pitäöiskö siirtää toiseen tdstoon?
 function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko jo kohta?
 	#... vaikka sen "exp2 4"-testailun yht kta että on sopivaa konftdstoa mukana
 	dqb "e22_elocal ${1} ${2} ${3} ${4}"
@@ -475,6 +479,7 @@ function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko
 
 [ -v BASEURL ] || exit 6 
 
+#pitäöiskö siirtää toiseen tdstoon?
 function e22_ext() { #091225:taitaa toimia
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
@@ -570,36 +575,6 @@ function e22_ext() { #091225:taitaa toimia
 	dqb "e22_ext done"
 	csleep 1
 }
-
-#091225:toimii
-function aswasw() { #privaatti fktio
-	dqb " aswasw ${1}"
-	[ -z "${1}" ] && exit 56
-	csleep 1
-
-	case ${1} in
-		wlan0)
-			#E22:GN="libnl-3-200 ... "
-			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
-
-			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
-			${shary} wpasupplicant
-		;;
-		*)
-			dqb "not pulling wpasuplicant"
-			csleep 1
-		;;
-	esac
-
-	dqb " aswasw ${1} DONE"
-	csleep 1
-}
-
-#function aval0n() { #prIvaattI, toimimaan+käyttöön?
-#	dqb "${sharpy} libavahi* #saattaa sotkea ?"
-#	dqb "${NKVD} ${CONF_pkgdir}/libavahi* ?"
-#}
 
 function e22_ts() { #091225:jos vaikka toimisi
 	dqb "e22_ts () ${1} ${2}" #van1 param pitäisi olla tällä - Yoda
@@ -714,6 +689,93 @@ function e22_arch() {
 	dqb "e22_arch d0n3"
 }
 
+#l_221225_0 liittyisi tähän, kys paketti muuten mutta "Package gtk2-engines-pixbuf is not installed."
+#elikkäs muuta accept_jutut (josko jo kohta tehty?)
+#
+#241225:sqroot-ympäristössä:päivityspaketin ajon jälkeen lxdm ... asentui?
+#entä heti g_doit+g_pt2 jälkeen? asentiu ilman nalkutusta 24.12.25
+#miten sitten s elive?
+#no:
+#	"/libseat/backend/seatd.c could not connect to socket /run/seatd.sock:no such file or directory"
+#	"Xsession:unable to launch "startlxde" x session --- "startlxde" not found"	
+#... eli lisää juttuja pitäisi vetää?
+
+
+function e22_dblock() { #VAIH:testaus (251225 aloitettu), josko jo 010126 toimisi myös upgp() ?
+	dqb "e22_dblock( ${1}, ${2}, ${3})"
+
+	[ -z ${1} ] && exit 14
+	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes
+	#[ -w ${1} ] || exit 16 #ei näin?
+
+	[ -z ${2} ] && exit 11
+	[ -d ${2} ] || exit 22
+	[ -w ${2} ] || exit 23
+
+	dqb "DBLOCK:PARAMS OK"
+	csleep 1
+
+	[ ${debug} -eq 1 ] && pwd
+	csleep 1
+	#aval0n #tarpeellinen?
+
+	dqb "bFR 175:"
+	ls -la ${CONF_pkgdir}/*.deb | wc -l
+	csleep 10
+	
+	for s in ${PART175_LIST} ; do
+		${sharpy} ${s}*
+		${NKVD} ${CONF_pkgdir}/${s}*.deb
+	done
+
+	dqb "AFTR 175:"
+	ls -la ${CONF_pkgdir}/*.deb | wc -l
+	csleep 10
+
+	local t
+	t=$(echo ${2} | cut -d '/' -f 1-5)
+
+	e22_ts ${2}
+	enforce_access ${n} ${t} #tarpeellinen nykyään?
+	e22_arch ${1} ${2}
+	csleep 1
+
+	e22_cleanpkgs ${2}
+	dqb "e22dblock DONE"
+}
+
+#===========================E23.SH ? =======================================
+#091225:toimii
+function aswasw() { #privaatti fktio
+	dqb " aswasw ${1}"
+	[ -z "${1}" ] && exit 56
+	csleep 1
+
+	case ${1} in
+		wlan0)
+			#E22:GN="libnl-3-200 ... "
+			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
+			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
+
+			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
+			${shary} wpasupplicant
+		;;
+		*)
+			dqb "not pulling wpasuplicant"
+			csleep 1
+		;;
+	esac
+
+	dqb " aswasw ${1} DONE"
+	csleep 1
+}
+
+#function aval0n() { #prIvaattI, toimimaan+käyttöön?
+#	dqb "${sharpy} libavahi* #saattaa sotkea ?"
+#	dqb "${NKVD} ${CONF_pkgdir}/libavahi* ?"
+#}
+
+
 #VAIH:testaus, tekee paketin:jep sisältö: (251225)
 function e22_tblz() {
 	#HUOM.28925:vieläkö asentaa avahin?
@@ -824,18 +886,6 @@ function e22_other_pkgs() {
 	csleep 1
 }
 
-#l_221225_0 liittyisi tähän, kys paketti muuten mutta "Package gtk2-engines-pixbuf is not installed."
-#elikkäs muuta accept_jutut (josko jo kohta tehty?)
-#
-#241225:sqroot-ympäristössä:päivityspaketin ajon jälkeen lxdm ... asentui?
-#entä heti g_doit+g_pt2 jälkeen? asentiu ilman nalkutusta 24.12.25
-#miten sitten s elive?
-#no:
-#	"/libseat/backend/seatd.c could not connect to socket /run/seatd.sock:no such file or directory"
-#	"Xsession:unable to launch "startlxde" x session --- "startlxde" not found"	
-#... eli lisää juttuja pitäisi vetää?
-
-
 #VAIH:lxdm varten sitten sen toisenlaisen paketin luonti jotta saadaab sqrootissakin xorg.conf paikoilleen
 #... tai miten lienee
 function e22_dm() {
@@ -881,8 +931,10 @@ function e22_dm() {
 # libmagickcore-6.q16-6:amd64 depends on imagemagick-6-common (>= 8:6.9.6.2+dfsg-3); however:
 #  Package imagemagick-6-common is not installed.
 
-			${shary} libcrypt1 libwebpdemux2
+			#toiv 2 viimeisintä lisäystä ei kuse asioita
+			${shary} libcrypt1 libwebpdemux2 libde265-0 libheif1
 			csleep 2
+
 			${shary} libpam-modules libpam-runtime lsb-base psmisc x11-apps x11-common x11-utils x11-xserver-utils
 			csleep 2			
 			${shary} libcrypt1 libpam0g libselinux1 libwings3 libwraster6 libwutil5 libx11-6 libxau6
@@ -977,49 +1029,6 @@ function e22_dm() {
 	${shary} xscreensaver-data xscreensaver
 }
 
-function e22_dblock() { #VAIH:testaus (251225 aloitettu) muuten kai ok mutta upgp()?
-	dqb "e22_dblock( ${1}, ${2}, ${3})"
-
-	[ -z ${1} ] && exit 14
-	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes
-	#[ -w ${1} ] || exit 16 #ei näin?
-
-	[ -z ${2} ] && exit 11
-	[ -d ${2} ] || exit 22
-	[ -w ${2} ] || exit 23
-
-	dqb "DBLOCK:PARAMS OK"
-	csleep 1
-
-	[ ${debug} -eq 1 ] && pwd
-	csleep 1
-	#aval0n #tarpeellinen?
-
-	dqb "bFR 175:"
-	ls -la ${CONF_pkgdir}/*.deb | wc -l
-	csleep 10
-	
-	for s in ${PART175_LIST} ; do
-		${sharpy} ${s}*
-		${NKVD} ${CONF_pkgdir}/${s}*.deb
-	done
-
-	dqb "AFTR 175:"
-	ls -la ${CONF_pkgdir}/*.deb | wc -l
-	csleep 10
-
-	local t
-	t=$(echo ${2} | cut -d '/' -f 1-5)
-
-	e22_ts ${2}
-	enforce_access ${n} ${t} #tarpeellinen nykyään?
-	e22_arch ${1} ${2}
-	csleep 1
-
-	e22_cleanpkgs ${2}
-	dqb "e22dblock DONE"
-}
-
 #251225:teki paketin missä sisältöä, sis. tmivuus testaten myöhemmin
 function e22_profs() {
 	dqb "e22_profs ${1} ${2}"
@@ -1057,7 +1066,7 @@ function e22_profs() {
 }
 
 #VAIH:testit taas (261225)
-#010126 teki ei-tyuhjän paketin
+#010126 teki ei-tyuhjän paketin, sisäktökin näköjään asentuu
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 

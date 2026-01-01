@@ -331,7 +331,7 @@ case ${mode} in
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
 	#VAIH:josqs uusi testaus , alkaisi olla jankohtaista 261225
-	#010126 teki ei-tyuhjän paketin vaan asentuuko sisältö?
+	#010126 teki ei-tyuhjän paketin vaan asentuuko sisältö? jep
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
