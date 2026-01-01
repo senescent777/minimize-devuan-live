@@ -895,7 +895,7 @@ function e22_dm() {
 	${shary} libxpm4 libxrender1 debconf x11-utils cpp lsb-base x11-xserver-utils procps
 	csleep 2
 
-	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libgtk-3-0 libglib2.0-0 libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
+	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libgtk-3-0 libglib2.0-0 libglib2.0-data libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
 	csleep 2
 
 	#VAIH:miten jos SITTENKIN xdm tai wdm?
@@ -937,15 +937,24 @@ function e22_dm() {
 			csleep 2
 
 			${shary} libpcre2-8-0 libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
-			#TODO:wraster6 muut riuipp?
-			#TODO:	libmagickwand-6 riip?	
-			${shary} libgif7 libwraster6 libwutil5 wmaker-common libwings3
+
+			#VAIH:wraster6 muut riipp?
+			#Depends:
+			# (>= 2.33), (>= 5.1),  (>= 1.3.1),  (>= 8:6.9.10.2), (>= 1.6.2-1),  (>= 4.0.3), , , 
+			#,  (>= 2:1.1.3), 
+
+			${shary} libgif7 libwraster6 libjpeg62-turbo libmagickwand-6.q16-6 libtiff6
 			csleep 2
 
-			${shary} libjpeg62-turbo libmagickwand-6 libtiff6  libx11-data
+			#VAIH:	libmagickwand-6 riip?	
+			# (>= 3.3.1),  (>= 4.9),  (>= 8:6.9.11.24), ,  (>= 8:6.9.6.2+dfsg-3)
+			${shary} libgomp1 libmagickcore-6.q16-6 imagemagick-6-common
 			csleep 2
 
-			${shary} libbsd0
+			${shary} libwutil5 wmaker-common libwings3
+			csleep 2
+
+			${shary} libx11-data libbsd0
 			csleep 2 	
 		
 			${shary} wdm
@@ -969,16 +978,12 @@ function e22_dm() {
 #			${shary} libdeflate0 debliblerc4 
 #			csleep 2
 #
-#			
 #			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
 #			${shary}  libcairo2 libgtk2.0-common libgtk2.0-0
 #			csleep 2
 #	
 #			#gdk ennen gtk?
 #			${shary} libfribidi0 libharfbuzz0b libthai0
-#			csleep 2
-#			
-#			${shary} libglib2.0-data 
 #			csleep 2
 #		
 #			${shary} fontconfig  gtk2-engines-pixbuf gtk2-engines 
