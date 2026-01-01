@@ -943,13 +943,20 @@ function e22_dm() {
 
 			${shary} libgif7 libwraster6 libjpeg62-turbo libmagickwand-6.q16-6 libtiff6
 			csleep 2
+# Depends: (= 12.2.0-14+deb12u1),  (>= 2.34)
 
-			${shary} libgomp1 #kommentteihin vai ei? (TODO:SELVITÄ TUONKIN RIIPPUVUUDET)
+			${shary} gcc-12-base libc6 libgomp1 libgcc-s1  #kommentteihin vai ei? (VAIH:SELVITÄ TUONKIN RIIPPUVUUDET)
 			#jos ensin päivityspak ja sitten vasta dwm-jutut?
 			csleep 2
 
-			#TODO:libmagickcore'n riippuvuudet
-			${shary} libmagickcore-6.q16-6 imagemagick-6-common
+			#VAIH:libmagickcore'n riippuvuudet
+# Depends:,  (>= 2.35),  (>= 3.3.10),  (>= 2.12.6),  (>= 2.2.1),(>= 3.3.1),  (>= 6), (>= 1.4.0),  (>= 2.0),  (>= 1.3.1),  (>= 2.6),  (>= 0.4.0),  (>= 2.4.7),  (>= 5.1.1alpha+20120614),  (>= 2.0.0),  (>= 1.6.2-1),  (>= 4.5.0~rc1),  (>= 1.2.4),  (>= 1.2.4),  (>= 1.2.4), 
+#, ,  (>= 2.7.4),  (>= 1:1.1.4),  (>= 8:6.9.6.2+dfsg-3)
+#Depends:-
+			${shary} libbz2-1.0 libfftw3-double3 libfreetype6 libjbig0 liblcms2-2 liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libwebp7 libwebpmux3 imagemagick-6-common
+			csleep 2
+
+			${shary} libmagickcore-6.q16-6 
 			csleep 2
 
 			${shary} libwutil5 wmaker-common libwings3
