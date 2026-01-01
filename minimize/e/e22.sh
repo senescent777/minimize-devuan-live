@@ -9,16 +9,16 @@ if [ -v CONF_pubk ] ; then #&& ( -v CONF_ksk )
 	dqb "no keys.conf needed"
 else
 	#voisi tarkemminkin speksata mistä haetaan?
-	arf=$(find / -type f -name 'keys.conf' | head -n 1)
+	arsch=$(find / -type f -name 'keys.conf' | head -n 1)
 
-	if [ ! -z "${arf}" ] ; then
-		if [ -s ${arf} ] ; then
-			. ${arf}
+	if [ ! -z "${arsch}" ] ; then
+		if [ -s ${arsch} ] ; then
+			. ${arsch}
 		fi
 	fi
 
 	csleep 1
-	unset arf
+	unset arsch
 fi
 
 csleep 1
@@ -886,8 +886,6 @@ function e22_other_pkgs() {
 	csleep 1
 }
 
-#VAIH:lxdm varten sitten sen toisenlaisen paketin luonti jotta saadaab sqrootissakin xorg.conf paikoilleen
-#... tai miten lienee
 function e22_dm() {
 	[ -z "${1}" ] && exit 11
 	csleep 5
@@ -917,32 +915,62 @@ function e22_dm() {
 
 		;;
 		wdm)
-#
-# (>= 0.76-13.1), (>= 3.0-6), , , xserver-xorg | xserver, perl:any, libc6 (>= 2.34),  (>= 1:1.0.9),
-#dpkg: dependency problems prevent configuration of libmagickcore-6.q16-6:amd64:
-# libmagickcore-6.q16-6:amd64 depends on libfftw3-double3 (>= 3.3.10); however:
-#  Package libfftw3-double3 is not installed.
-# libmagickcore-6.q16-6:amd64 depends on libheif1 (>= 1.4.0); however:
-#  Package libheif1 is not installed.
-# libmagickcore-6.q16-6:amd64 depends on liblqr-1-0 (>= 0.4.0); however:
-#  Package liblqr-1-0 is not installed.
-# libmagickcore-6.q16-6:amd64 depends on libwebpdemux2 (>= 1.2.4); however:
-#  Package libwebpdemux2 is not installed.
-# libmagickcore-6.q16-6:amd64 depends on imagemagick-6-common (>= 8:6.9.6.2+dfsg-3); however:
-#  Package imagemagick-6-common is not installed.
+
+#libc6 libgcc-s1 (>= 3.0), libstdc++6 zlib1g:tarteeko juuri tässä vetää?
+
+			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
+
+# (>= 3.2.0),   (>= 0.1.0),  (>= 1.0.7),  (>= 3.0), (>= 11),  (>= 3.5),  (>= 1:1.1.4)
+
 
 			#toiv 2 viimeisintä lisäystä ei kuse asioita
-			${shary} libcrypt1 libwebpdemux2 libde265-0 libheif1
+			${shary} libcrypt1 libwebpdemux2  libheif1
 			csleep 2
 
+#libaudit1 (>= 1:2.2.1), libcrypt1 (>= 1:4.3.0), libdb5.3, libpam0g (>= 1.4.1), libselinux1 (>= 3.1~), debconf (>= 0.5) | debconf-2.0, libpam-modules-bin (= 1.5.2-6+deb12u1)
+#debconf (>= 0.5) | debconf-2.0, debconf (>= 1.5.19) | cdebconf, libpam-modules 
+#sysvinit-utils
+#libtinfo6 
+# libpng16-16 (>= 1.6.2-1), libsm6, libx11-6, libx11-xcb1 (>= 2:1.7.5), libxaw7 (>= 2:1.0.14), libxcb-damage0, libxcb-present0, libxcb-xfixes0, libxcb1, libxcursor1 (>> 1.1.2), libxext6, libxft2 (>> 2.1.1), libxi6 (>= 2:1.2.99.4), libxkbfile1 (>= 1:1.1.0), libxmu6 (>= 2:1.1.3), libxmuu1 (>= 2:1.1.3), libxrender1, libxt6 (>= 1:1.1.0), man-db
+#lsb-base (>= 1.3-9ubuntu2)
+# libfontconfig1 (>= 2.12.6), libfontenc1, libgl1, libx11-6, libx11-xcb1 (>= 2:1.6.9), libxaw7, libxcb-shape0, libxcb1 (>= 1.6), libxcomposite1 (>= 1:0.3-1), libxext6, libxft2 (>> 2.1.1), libxi6, libxinerama1, libxkbfile1, libxmu6, libxmuu1, libxrandr2 (>= 2:1.2.0), libxrender1, libxt6 (>= 1:1.1.0), libxtst6, libxv1, libxxf86dga1, libxxf86vm1
+# libice6 (>= 1:1.0.0), libx11-6, libxaw7 (>= 2:1.0.14), libxcursor1 (>> 1.1.2), libxext6, libxi6, libxmu6 (>= 2:1.1.3), libxmuu1 (>= 2:1.1.3), libxrandr2 (>= 2:1.5.0), libxt6, libxxf86vm1, cpp
+
 			${shary} libpam-modules libpam-runtime lsb-base psmisc x11-apps x11-common x11-utils x11-xserver-utils
-			csleep 2			
-			${shary} libcrypt1 libpam0g libselinux1 libwings3 libwraster6 libwutil5 libx11-6 libxau6
-			csleep 2 			
+			csleep 2
+
+#			 Depends:
+#
+
+#libaudit1 (>= 1:2.2.1),  debconf
+# libpcre2-8-0
+#libwings3:
+# libgif7 (>= 5.1), libjpeg62-turbo (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.0.3),  libx11-6, libxext6, libxmu6 (>= 2:1.1.3), libxpm4
+# wmaker-common
+#libxcb1 (>= 1.11.1), libx11-data
+
+
+			${shary} libpam0g libselinux1 libwings3 libwraster6 libwutil5 libx11-6 libxau6
+			csleep 2 	
+
+#
+#			libbsd0 (>= 0.2.0)
+
+#
+# libx11-6 (>= 2:1.6.0), libxext6
+#
+#l libx11-6, libxext6, libxt6
+
+		
 			${shary} libxdmcp6 libxinerama1 libxmu6
 			csleep 2
 
 			${shary} wdm
+
+
+#debconf (>= 1.5.20) | debconf-2.0, libpam-modules, libpam-runtime (>= 0.76-13.1), lsb-base (>= 3.0-6), psmisc, x11-apps, x11-common, x11-utils, x11-xserver-utils, xserver-xorg | xserver, perl:any,  (>= 2.34), libcrypt1 (>= 1:4.1.0), libpam0g (>= 0.99.7.1), libselinux1 (>= 3.1~), libwings3 (>= 0.95.0), libwraster6 (>= 0.95.8), libwutil5 (>= 0.95.5), libx11-6, libxau6 (>= 1:1.0.9), libxdmcp6, libxinerama1 (>= 2:1.1.4), libxmu6 (>= 2:1.1.3)
+
+
 		;;
 #		lxdm)
 #			#"exp2 rp" on nykyään keksitty
