@@ -75,3 +75,11 @@ wmaker-common*.deb
 libwutil5*.deb
 libpangoxft-1.0-0*.deb
 libwings3*.deb
+#
+libavutil57*.deb
+libavcodec59*.deb
+#
+mime-support*.deb
+libimagequant0*.deb
+libraqm0*.deb
+python3-pil*.deb
