@@ -210,6 +210,7 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 
 #pitäöiskö siirtää toiseen tdstoon?
 #VAIH:jos sitten tämän kautta mukaan se äksän konf (kys tdston sisällön lottoaminen taas jossain muualla) (olisikohan jo 25122555555 thty?)
+#... "exp2 4" testauksen yhteydessö vosi varmistaa että xorg.conf* mukana
 function e22_config1() {
 	[ -z ${1} ] && exit 11
 	[ -d ${1} ] || exit 22
@@ -339,7 +340,7 @@ function e22_home() { #151225:josko prof.asiat taas tilap. kunn.
 	csleep 1
 }
 
-#pitäöiskö siirtää toiseen tdstoon?
+#pitäisikö siirtää toiseen tdstoon?
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
 function luca() { #301125:taitaa toimia
 	dqb "luca ( ${1})"
@@ -371,7 +372,7 @@ function luca() { #301125:taitaa toimia
 
 #pitäöiskö siirtää toiseen tdstoon?
 function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko jo kohta?
-	#... vaikka sen "exp2 4"-testailun yht kta että on sopivaa konftdstoa mukana
+	#... vaikka sen "exp2 4"-testailun yht kts että on sopivaa konftdstoa mukana
 	dqb "e22_elocal ${1} ${2} ${3} ${4}"
 	csleep 1
 
@@ -947,7 +948,7 @@ function e22_dm() {
 			${shary} libgif7 libwraster6 libjpeg62-turbo libmagickwand-6.q16-6 libtiff6
 			csleep 2
 
-			${shary} gcc-12-base libc6 libgomp1 libgcc-s1  #kommentteihin vai ei? (VAIH:SELVITÄ TUONKIN RIIPPUVUUDET)
+			${shary} gcc-12-base libc6 libgomp1 libgcc-s1  #kommentteihin vai ei? 
 			#jos ensin päivityspak ja sitten vasta dwm-jutut?
 			csleep 2
 
@@ -1005,14 +1006,10 @@ function e22_dm() {
 #			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
 #			#csleep 2
 #			 
-#			#(>= 2.4),  (>= 2.37.3),  (>= 2.12.0),
-#			#	 (>= 0.94),  (>= 0.94),  
 #			#lxpolkit kanssa taisi olla joitainj vaihtoehtoja
 #			
-#			#(>= 2.4),  (>= 1.2.4),  (>= 2.22.0),  (>= 2.26.0),  (>= 2.24.0), , 
 #			#	 lxlock | xdg-utils, 
 #
-#			#(>= 2.14),  (>= 2.43.92),  (>= 2.24.0), , , ,
 #			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
 #			
 #			${shary} lxpolkit lxsession-logout lxsession

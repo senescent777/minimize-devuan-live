@@ -283,8 +283,7 @@ case ${mode} in
 		exit 99
 	;;
 	3|4) 
-		#VAIH:tämän casen testaus uudstaan, 3 ensin (25.12.25) taitaa kys. case toimia
-	
+		#TODO:case 4, kolmonen toimii jo (testattu 25.12.25 ->)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
