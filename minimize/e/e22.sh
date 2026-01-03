@@ -825,25 +825,24 @@ function e22_other_pkgs() {
 	csleep 1
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 
-	#dqb "shary= ${shary}"
-	#csleep 5
+
 	${shary} ${E22GI}
 
-	#E22_GG="coreutils libcurl3-gnutls ... git"
-	${shary} coreutils
-	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0
-	${shary} git-man git
+	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
+	${shary} ${E22_GG}
+	#${shary} 
+	#${shary}
 
-	#E22_GS="libc6 ... sudo"
+	E22_GS="libc6 zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
-	${shary} libc6 zlib1g libreadline8 #moni pak tarttee nämä
-	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf
+	${shary} ${E22_GS}  #moni pak tarttee nämä
+	#${shary} #bsd debconf
 	csleep 5
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
-	${shary} libaudit1 libselinux1
-	${shary} man-db sudo
-	csleep 2
+	#${shary}
+	#${shary}
+	#csleep 2
 
 	message
 	jules
@@ -901,7 +900,6 @@ function e22_dm() {
 	${shary} libxpm4 libxrender1 debconf x11-utils cpp lsb-base x11-xserver-utils procps
 	csleep 2
 
-	#libgtk3-jutut kommentteihin vai ei?
 	${shary} libgtk-3-0 libgtk-3-common
 	csleep 2
 
@@ -1023,9 +1021,9 @@ function e22_dm() {
 		;;
 	esac
 	
-	#E22_GX="libwww-perl ... xscreensaver"
-	${shary} libwww-perl xscreensaver-data  init-system-helpers libegl1 #libsystemd0
-	${shary} xscreensaver
+	E22_GX="libwww-perl xscreensaver-data  init-system-helpers libegl1 xscreensaver"
+	${shary} ${E22_GX}  #libsystemd0
+	#${shary}
 }
 
 #251225:teki paketin missä sisältöä, sis. tmivuus testaten myöhemmin (TODO)
