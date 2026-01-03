@@ -279,7 +279,6 @@ function common_part() {
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	#dqb "srat= ${srat}"	#tai ocs() 
 	csleep 3
 	#241225:mitäs exclude-juttuja tuo TPX sisälsikään nykyään?
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
@@ -320,9 +319,8 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
-ocs tar
-#dqb "srat= ${srat}"
-csleep 3
+#ocs tar
+#csleep 3
 dqb "HPL"
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
