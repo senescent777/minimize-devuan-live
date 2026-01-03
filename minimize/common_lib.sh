@@ -346,7 +346,7 @@ function common_pp3() {
 	fi
 }
 
-#TODO;"man 5 sources-list", josko pääsisi dpkg-kikkailuista
+#TODO:"man 5 sources.list", josko pääsisi dpkg-kikkailuista
 function efk1() {
 	dqb "efk1 $@"
 	${sdi} $@
@@ -1253,7 +1253,6 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE"
 }
 
-#TODO:PIKEMMINKin uudem päivityspaketin veto ja testaus (ei tosin liity ao. fktioon mutta)
 function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
 	csleep 1
