@@ -180,8 +180,6 @@ else
 fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
-#121225:ulompi gpg-tarkistus sujuu jo live-ymp, miten sisempi? tehdäänkö sitä? nykyään joo
-#111225.2:live-ymp ja ffox-prof exp/imp, toimiiko? jep
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -190,9 +188,11 @@ else
 	dqb "NO LIB"
 	csleep 1
 
-	#TODO:exit jos ongelmia ao. juttujen kanssa
 	check_binaries
+	[ $? -eq 0 ] || exit 
+
 	check_binaries2
+	[ $? -eq 0 ] || exit 
 fi
 
 #HUOM.201225:jutut sitten siirretty myöhemmäksi koska sqrootin kanssa ongelmia, to state the obvious
