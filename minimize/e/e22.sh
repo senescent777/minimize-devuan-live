@@ -209,10 +209,9 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 }
 
 #pitäöiskö siirtää toiseen tdstoon?
-#VAIH:jos sitten tämän kautta mukaan se äksän konf (kys tdston sisällön lottoaminen taas jossain muualla) (olisikohan jo 25122555555 thty?)
-#... "exp2 4" testauksen yhteydessö vosi varmistaa että xorg.conf* mukana
+#030126:varmistettu että xorg.conf.new löytyy
 function e22_config1() {
-	[ -z ${1} ] && exit 11
+	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
 
 	dqb "CFG"
@@ -235,11 +234,12 @@ function e22_config1() {
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 #nuo muutokset oikeastaan tdstoon profs.sh
 #pitäöiskö siirtää toiseen tdstoon?
+#VAIH:ala varmistaa että toimii ok (via "exp2 q" esmes)
 function e22_settings() {
 	dqb "e22_settings ${1},  ${2}"
 	csleep 1
 
-	[ -z ${1} ] && exit 11
+	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
 
 	dqb "paramz 0k, next:"
@@ -265,7 +265,7 @@ function e22_settings() {
 	local t
 	t=$(tar -tf ${1}/fediverse.tar | grep prefs.js | wc -l)
 	[ ${t} -lt 1 ] && exit 27
-	csleep 10
+	csleep 5
 
 	dqb "TSTS DONE"
 	csleep 1
@@ -274,15 +274,15 @@ function e22_settings() {
 	csleep 1
 }
 
-#pitäöiskö siirtää toiseen tdstoon?
-function e22_home() { #151225:josko prof.asiat taas tilap. kunn.
+#pitäisikö siirtää toiseen tdstoon?
+function e22_home() { #030126:saattaa olla että toimii ok
 	dqb "e22_home ${1} , ${2} , ${3}  "
 
-	[ -z ${1} ] && exit 67
+	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
-	[ -z ${2} ] && exit 69
+	[ -z "${2}" ] && exit 69
 	[ -d ${2} ] || exit 70
-	[ -z ${3} ] && exit 71
+	[ -z "${3}" ] && exit 71
 	csleep 1
 
 	dqb "params_ok"
@@ -330,23 +330,25 @@ function e22_home() { #151225:josko prof.asiat taas tilap. kunn.
 	csleep 2
 
 	dqb "AUTOMAGICAL CONFIGURATION IS A DISEASE  x 199 - Bart S."
-	dqb "Xorg -config ~/xorg.conf TODO?"
+	dqb "Xorg -config ~/xorg.conf ?"
 	dqb "find /' ,,, ?"
 	
 	for f in $(find ~  -type f -name 'xorg.conf*') ; do ${srat} -rvf ${1} ${f} ; done 	
-	csleep 10
+	csleep 5
 
 	dqb "e22_home d0n3"
 	csleep 1
 }
 
+#030126:vissiin toimii
 #pitäisikö siirtää toiseen tdstoon?
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
-function luca() { #301125:taitaa toimia
+
+function luca() {
 	dqb "luca ( ${1})"
 	csleep 1
 
-	[ -z ${1} ] && exit 11
+	[ -z "${1}" ] && exit 11
 	[ -s ${1} ] || exit 12
 	#[ -w ${1} ] || exit 13
 	dqb "prs ok"
@@ -371,20 +373,22 @@ function luca() { #301125:taitaa toimia
 }
 
 #pitäöiskö siirtää toiseen tdstoon?
+#pitöisiköhäbn mylös paremrtein määrälle tehdäö jotain?
+#030126:joskohan toimisi?
+#TODO:/etc/X11/default-display-manager pakettiin?
 function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko jo kohta?
 	#... vaikka sen "exp2 4"-testailun yht kts että on sopivaa konftdstoa mukana
-	dqb "e22_elocal ${1} ${2} ${3} ${4}"
+	dqb "e22_elocal ${1} , ${2} , ${3} , ${4} , ${5}"
 	csleep 1
 
-	[ -z ${1} ] && exit 1
+	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
 	#[ -w ${1} ] || exit 9
 
-	[ -z ${2} ] && exit 2
-	[ -z ${3} ] && exit 3	
-	[ -z ${4} ] && exit 5
-	
-	[ -z ${5} ] && exit 11
+	[ -z "${2}" ] && exit 2
+	[ -z "${3}" ] && exit 3	
+	[ -z "${4}" ] && exit 5
+	[ -z "${5}" ] && exit 11
 	csleep 1
 
 	dqb "params_ok"
@@ -468,7 +472,10 @@ function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko
 	done
 	
 	csleep 5
-	
+	#030126:vetääkö tämä mitään mukaan? ei vissiin pitäisi koska conf vs modaamaton kiekko
+	dqb "find /etc -type f -name '${5}*' -and -not -name '*.202*')"
+	csleep 5
+
 	for f in $(find /etc -type f -name '${5}*' -and -not -name '*.202*') ; do
 		${srat} -rvf ${1} ${f}
 	done
@@ -481,7 +488,7 @@ function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko
 [ -v BASEURL ] || exit 6 
 
 #pitäöiskö siirtää toiseen tdstoon?
-function e22_ext() { #091225:taitaa toimia
+function e22_ext() { #030126:taitaa toimia
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1
@@ -596,7 +603,7 @@ function e22_ts() { #091225:jos vaikka toimisi
 
 	udp6 ${1}
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
-	csleep 10
+	csleep 5
 
 	dqb "E22TS DONE"
 	csleep 2
@@ -608,11 +615,10 @@ function e22_arch() {
 	dqb "e22_arch ${1}, ${2} " 
 	csleep 1
 
-	[ -z ${1} ] && exit 1
+	[ -z "${1}" ] && exit 1
 	#[ -s ${1} ] || exit 2 #antaa nyt olla kommenteissa
 	#[ -w ${1} ] || exit 33 #josko man bash...
-
-	[ -z ${2} ] && exit 11
+	[ -z "${2}" ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 44
 
@@ -676,7 +682,7 @@ function e22_arch() {
 	else
 		dqb "1. ${gg}"
 		dqb "2. ${CONF_pubk}"
-		csleep 9
+		csleep 5
 	fi
 
 	csleep 1
@@ -685,19 +691,19 @@ function e22_arch() {
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt*
 	[ ${debug} -eq 1 ] && ls -las ${1} 
 
-	csleep 10
+	csleep 5
 	cd ${p}
 	dqb "e22_arch d0n3"
 }
 
 function e22_dblock() { #010126:ok
-	dqb "e22_dblock( ${1}, ${2}, ${3})"
+	dqb "e22_dblock( ${1}, ${2}, ${3})" #vissiin ei tule 3:sdta?
 
-	[ -z ${1} ] && exit 14
+	[ -z "${1}" ] && exit 14
 	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes
 	#[ -w ${1} ] || exit 16 #ei näin?
 
-	[ -z ${2} ] && exit 11
+	[ -z "${2}" ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 23
 
@@ -710,7 +716,7 @@ function e22_dblock() { #010126:ok
 
 	dqb "bFR 175:"
 	ls -la ${CONF_pkgdir}/*.deb | wc -l
-	csleep 10
+	csleep 5
 	
 	for s in ${PART175_LIST} ; do
 		${sharpy} ${s}*
@@ -719,7 +725,7 @@ function e22_dblock() { #010126:ok
 
 	dqb "AFTR 175:"
 	ls -la ${CONF_pkgdir}/*.deb | wc -l
-	csleep 10
+	csleep 5
 
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-5)
@@ -773,12 +779,11 @@ function e22_tblz() {
 	dqb "\$shary= ${shary}"
 	csleep 2
 
-	[ -z ${1} ] && exit 11
+	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 15 
-
-	[ -z ${2} ] && exit 12
-	[ -z ${3} ] && exit 13
-	[ -z ${4} ] && exit 14
+	[ -z "${2}" ] && exit 12
+	[ -z "${3}" ] && exit 13
+	[ -z "${4}" ] && exit 14
 
 	dqb "parx_ok"
 	csleep 2
@@ -811,32 +816,10 @@ function e22_tblz() {
 	dqb "x2.e22_tblz.done"
 }
 
-function e22_dm() {
-	[ -z "${1}" ] && exit 11
-
-	case ${1} in
-		lxdm)
-			#VAIH:SELVITÄ PRKL NUO RIIPPUVUUDET ETTEI TAAS JÄÄ JUNNAAMAAN
-			#... vissiin libgtk2-paketit tökkäävät, eli niiden kenssa selvittelyä			
-			#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
-
-			${shary} debconf libcairo2 libgtk2.0-common libgtk2.0-0
-			csleep 1
-			${shary} libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
-			csleep 1
-			${shary} x11-utils lxdm 
-			csleep 1
-		;;
-		*)
-			dqb "sl1m?"
-		;;
-	esac
-}
-
 #TODO:ntp-jutut takaisin josqs?
 
 function e22_other_pkgs() { 
-	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
+	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF" #toista ei vissiin gtule?
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
@@ -897,11 +880,14 @@ function e22_other_pkgs() {
 }
 
 function e22_dm() {
+	dqb "e22dm ( ${1} ) "
+	csleep 1
+
 	[ -z "${1}" ] && exit 11
-	csleep 5
+	csleep 4
 
 	${fib}
-	csleep 5
+	csleep 2
 
 	#libc6 (>= 2.33), libgcc-s1 (>= 3.0), libstdc++6
 	#menu (>= 2.1.26), libc6 (>= 2.14), (>= 1:1.0.0), l, , , , 
@@ -923,9 +909,6 @@ function e22_dm() {
 
 	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libglib2.0-0 libglib2.0-data libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
 	csleep 2
-
-	#VAIH:miten jos SITTENKIN xdm tai wdm?
-	#pelkkä lxdm kun ei riitä ja lxsession-jutut vaativat policykit-matskua ja niiden bugeja tulee mukaan
 	
 	#fontconfig, libfreetype6, libxcb* ennnen switch-case:a? 
 
@@ -1051,11 +1034,10 @@ function e22_dm() {
 function e22_profs() {
 	dqb "e22_profs ${1} ${2}"
 
-	[ -z ${1} ] && exit 99
+	[ -z "${1}" ] && exit 99
 	[ -s ${1} ] || exit 98 #pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
 	#[ -w ${1} ] || exit 97
-
-	[ -z ${2} ] && exit 96
+	[ -z "${2}" ] && exit 96
 	[ -d ${2} ] || exit 95
 	[ -w ${2} ] || exit 94
 
@@ -1085,18 +1067,17 @@ function e22_profs() {
 
 #010126 teki ei-tYhjän paketin, sisäLtökin näköjään asentuu
 function e22_upgp() {
-	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
+	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}" #ei pitäne tulla neljättä?
 
-	[ -z ${1} ] && exit 1 
+	[ -z "${1}" ] && exit 1 
 	#[ -w ${1} ] || exit 44 #TODO: man bash taas?
 	#[ -s ${1} ] && mv ${1} ${1}.OLD 261225 laitetttu kommentteihin koska aiheutti ongelmia
-	[ -z ${2} ] && exit 11
+	[ -z "${2}" ] && exit 11
 	[ -d ${2} ] || exit 22
-
-	[ -z ${3} ] && exit 33
+	[ -z "${3}" ] && exit 33
 
 	dqb "params_ok"
-	csleep 10
+	csleep 5
 	
 	${fib}
 	csleep 1
@@ -1109,7 +1090,7 @@ function e22_upgp() {
 
 	[ -v CONF_pkgdir ] || exit 99 #d-blkissa jatkossa?
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb
-	csleep 10
+	csleep 5
 
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1

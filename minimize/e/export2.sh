@@ -226,7 +226,6 @@ case ${mode} in
 		${srat} --exclude '*merd*' -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
 		e22_ftr ${tgtfile}
 		exit
-		#VAIH:install_keys.bash liittyen muutoksia exp2 ja imp2
 	;;
 	g)
 		#101225:ulostuksilla saa paketin aikaiseksi edelleen
@@ -339,7 +338,8 @@ case ${mode} in
 		e22_dblock ${tgtfile} ${d}
 	;;
 	p) #251225:teki paketin missä sisältöä, sis. tmivuus testaten myöhemmin
-		e22_profs ${tgtfile} ${d0} 
+		e22_profs ${tgtfile} ${d0}
+		#TODO:"case p" aiempaan switch-case:en, dblok nykyisen switchin jälkeen
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
