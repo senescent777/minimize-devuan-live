@@ -588,16 +588,17 @@ function e22_ts() { #091225:jos vaikka toimisi
 	dqb "e22_ts () ${1} ${2}" #van1 param pitäisi olla tällä - Yoda
 	csleep 2
 
-	[ -z ${1} ] && exit 13
+	[ -z "${1}" ] && exit 13
 	[ -d ${1} ] || exit 14 #hmistossa hyvä olla kirj.oik.
 	[ -w ${1} ] || exit 15 
 
 	dqb "NEXT:mv ${CONF_pkgdir}/*.deb ${1}"
-	csleep 5
+	csleep 3
 	${svm} ${CONF_pkgdir}/*.deb ${1}
 	dqb $?
-	csleep 5
+	csleep 3
 
+	#lisätäänkö tämä arkistoon jossain?
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
 
@@ -797,9 +798,6 @@ function e22_tblz() {
 	#message() tähän?
 	tpc7	#jotain excaliburiin liittyvää
 	aswasw ${2}
-
-	#vastannee t_2312_0, asentunee
-	#kts check_binaries()
 	${shary} ${E22_GT} 
 
 	dqb "x2.e22_tblz.part2"
@@ -827,8 +825,8 @@ function e22_other_pkgs() {
 	csleep 1
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 
-	dqb "shary= ${shary}"
-	csleep 5
+	#dqb "shary= ${shary}"
+	#csleep 5
 	${shary} ${E22GI}
 
 	#E22_GG="coreutils libcurl3-gnutls ... git"
