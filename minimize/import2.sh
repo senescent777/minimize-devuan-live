@@ -219,7 +219,6 @@ else
 	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE (TODO)"
 fi
 
-#VAIH:tar-testejä sitten vähemmälle jatkossa
 dqb "Lpg"
 
 #251225;2. param, tekee sillä mtään nkyään?
