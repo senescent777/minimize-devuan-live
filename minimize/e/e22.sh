@@ -1030,7 +1030,7 @@ function e22_dm() {
 	${shary} xscreensaver
 }
 
-#251225:teki paketin missä sisältöä, sis. tmivuus testaten myöhemmin
+#251225:teki paketin missä sisältöä, sis. tmivuus testaten myöhemmin (TODO)
 function e22_profs() {
 	dqb "e22_profs ${1} ${2}"
 

@@ -187,7 +187,7 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#101225:toimii (ainakin 1 kerran)
+		#101225:toimii (ainakin 1 kerran) (josko jo se uusi testaus 30126?)
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 		#141225:tgtfile voisi oikeastaan mennä config1:selle parametriksi jatkossa
@@ -197,7 +197,7 @@ case ${mode} in
 		dqb $?
 		csleep 4
 
-		${smr} ~/fediverse.tar
+		${smr} ~/fediverse.tar #NKVD?
 		csleep 1
 
 		#tdstonimi parametriksi jatkossa? mille fktiolle?
@@ -257,6 +257,10 @@ case ${mode} in
 #		echo "$0 f ${tgtfile} ${distro}"
 #		exit 1
 #	;;
+	p) #251225:teki paketin missä sisältöä, sis. tmivuus testaten myöhemmin (TODO)
+		e22_profs ${tgtfile} ${d0}
+		#VAIH:"case p" aiempaan switch-case:en, dblok nykyisen switchin jälkeen
+	;;
 	-h)
 		usage
 	;;
@@ -283,7 +287,7 @@ case ${mode} in
 		exit 99
 	;;
 	3|4) 
-		#TODO:case 4, kolmonen toimii jo (testattu 25.12.25 ->)
+		#030126:case 3 toimii, case4:sen tuotos testissä
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
@@ -336,10 +340,6 @@ case ${mode} in
 
 		e22_upgp ${tgtfile} ${d} ${CONF_iface}
 		e22_dblock ${tgtfile} ${d}
-	;;
-	p) #251225:teki paketin missä sisältöä, sis. tmivuus testaten myöhemmin
-		e22_profs ${tgtfile} ${d0}
-		#TODO:"case p" aiempaan switch-case:en, dblok nykyisen switchin jälkeen
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
