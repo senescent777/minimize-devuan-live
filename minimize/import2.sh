@@ -10,8 +10,6 @@ d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
 
-#DONE?:muista kopsata tikulle/kiekoille se uudempi päivityspak jotta testit
-
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -48,12 +46,7 @@ if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
 
-	#DONE?:ao.. kaltainen /.chroot-kikkailu pois muista tdstoista, tämän tulisi riittää
-	#HUOM.141025:them files should be checked before eXtraCting
 	#gpgtar jos mahd, muuten normi-tar
-
-	#HUOM.221225:wanhassa systeemissä oli yhden s,kriptin alussa niitä sha- ja gpg- tarkistuk sia...
-	#VAIH:josko ainakin sha-tark jo	
 	
 	echo "A"
 	p=$(pwd)
@@ -502,7 +495,7 @@ case "${mode}" in
 	k)
 		#161225:toimii, sq-root-ymp ainakin
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
-		#TODO:tuotaviille avaimille jotain tark? jos on jo ennestäöän jotain av ni niitä vasten testaa uudet, esim.
+		#TODO:tuotaville avaimille jotain tark? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
