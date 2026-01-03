@@ -811,6 +811,28 @@ function e22_tblz() {
 	dqb "x2.e22_tblz.done"
 }
 
+function e22_dm() {
+	[ -z "${1}" ] && exit 11
+
+	case ${1} in
+		lxdm)
+			#VAIH:SELVITÄ PRKL NUO RIIPPUVUUDET ETTEI TAAS JÄÄ JUNNAAMAAN
+			#... vissiin libgtk2-paketit tökkäävät, eli niiden kenssa selvittelyä			
+			#lxdm  Depends: debconf (>= 1.2.9) | debconf-2.0, libc6 (>= 2.14), libcairo2 (>= 1.2.4), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.31.8), libgtk2.0-0 (>= 2.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.14.0), libpangocairo-1.0-0 (>= 1.14.0), libx11-6, libxcb1, gtk2-engines-pixbuf, iso-codes, libpam-modules, libpam-runtime, librsvg2-common, lsb-base, x11-utils | xmessage, gtk2-engines
+
+			${shary} debconf libcairo2 libgtk2.0-common libgtk2.0-0
+			csleep 1
+			${shary} libpango-1.0-0 gtk2-engines-pixbuf gtk2-engines 
+			csleep 1
+			${shary} x11-utils lxdm 
+			csleep 1
+		;;
+		*)
+			dqb "sl1m?"
+		;;
+	esac
+}
+
 #TODO:ntp-jutut takaisin josqs?
 
 function e22_other_pkgs() { 

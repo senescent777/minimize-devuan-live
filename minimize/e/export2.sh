@@ -226,6 +226,7 @@ case ${mode} in
 		${srat} --exclude '*merd*' -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
 		e22_ftr ${tgtfile}
 		exit
+		#VAIH:install_keys.bash liittyen muutoksia exp2 ja imp2
 	;;
 	g)
 		#101225:ulostuksilla saa paketin aikaiseksi edelleen
