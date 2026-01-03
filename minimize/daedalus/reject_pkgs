@@ -6,10 +6,6 @@ initramfs
 live
 e2fsprogs
 #
-#VAIH:mielellään slim Vittuun jatkossa 666!
-#seatd
-#081225:poistamisen sijaan pitäisi selvittää miten *äksän libseat-valitukset* taas korjattiinkaan
-#... pienempi vääntö&huuto kenties minimal_liven kanssa (ala suorittaa)
-#lxdm
-#x11-utils
-#pitäisi selvittää käsipelillä, ilman skriptejä, mitä paketteja käytännössä tarvitaan
+#dirmngr joihinkin juttuihin tämä suorastaan tarvitaan, gpgv tuntuu vain sotkevan
+gpgv
+

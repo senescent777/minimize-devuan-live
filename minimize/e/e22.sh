@@ -1,10 +1,26 @@
-#jatkossa pkgd -> CONF_pkgd konftdstossa
-#[ -v CONF_pkgdir ] || CONF_pkgdir=${pkgdir}
-
 dqb "${sco} -Rv _apt:root ${CONF_pkgdir}/partial"
 csleep 1
+
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
+csleep 1
+
+if [ -v CONF_pubk ] ; then #&& ( -v CONF_ksk ) 
+	dqb "no keys.conf needed"
+else
+	#voisi tarkemminkin speksata mistä haetaan?
+	arsch=$(find / -type f -name 'keys.conf' | head -n 1)
+
+	if [ ! -z "${arsch}" ] ; then
+		if [ -s ${arsch} ] ; then
+			. ${arsch}
+		fi
+	fi
+
+	csleep 1
+	unset arsch
+fi
+
 csleep 1
 
 function e22_hdr() {
@@ -19,15 +35,12 @@ function e22_hdr() {
 	csleep 1
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
-	dqb "srat= ${srat}"
+	#dqb "srat= ${srat}"
 	csleep 2
 
 	${srat} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 
-	${srat} -cvf ${1} ./rnd
-	[ $? -gt 0 ] && exit 60
-	
 	[ ${debug} -eq 1 ] && ls -las ${1}
 	csleep 2
 
@@ -35,9 +48,7 @@ function e22_hdr() {
 	csleep 1
 }
 
-#HUOM.121225:edelleenkin wanha reject_pkgs jyrää uuden, voisiko jtain tehdä?
-
-function e22_ftr() { #121225:vissiin toimii
+function e22_ftr() { #231225:pitäisiköhän jo testata uuedstaan?
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -54,8 +65,10 @@ function e22_ftr() { #121225:vissiin toimii
 	cd $(dirname ${1})
 
 	${sah6} ./${q} > ${q}.sha
+	csleep 1
 	${sah6} -c ${q}.sha
-
+	csleep 1
+	
 	#riittävät tarkistukset?
 	if [ -x ${gg} ] ; then
 		if [ -v CONF_pubk ] ; then
@@ -144,7 +157,7 @@ function e22_pre2() { #091225:vissiin toimii koska "exp2 3"
 	#/e/n alihakemistoihin +x ?
 	#/e/wpa kokonaan talteen? /e/n kokonaan talteen?
 
-	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then #NYT JOSPRKL BUGI LÖYTYI??? ei vissiin ainoa
+	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then
 		dqb "PRKL"
 
 		${odio} /opt/bin/changedns.sh ${par4} ${ortsac}
@@ -176,12 +189,14 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 	if [ -d ${1} ] ; then
 		dqb "cleaning up ${1} "
 		csleep 1
+		
+		#aiemmalla NKVD-tavalla saattaa kestää joten rm
+		${smr} ${1}/*.deb
+		${smr} ${1}/sha512sums.txt*
+		
+		#entä ne listat? jospa ei koskettaisi niihin
 
-		${NKVD} ${1}/*.deb
-		${NKVD} ${1}/sha512sums.txt*
-		#entä ne listat?
-
-		ls -las ${1}/*.deb
+		ls -las ${1}/*.deb | wc -l
 		csleep 2
 		dqb "d0nm3"
 	else
@@ -193,7 +208,9 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 	csleep 1
 }
 
-#VAIH:jos sitten tämän kautta mukaan se äksän konf (tdston sisällön lottoaminen taas jossain muualla)
+#pitäöiskö siirtää toiseen tdstoon?
+#VAIH:jos sitten tämän kautta mukaan se äksän konf (kys tdston sisällön lottoaminen taas jossain muualla) (olisikohan jo 25122555555 thty?)
+#... "exp2 4" testauksen yhteydessö vosi varmistaa että xorg.conf* mukana
 function e22_config1() {
 	[ -z ${1} ] && exit 11
 	[ -d ${1} ] || exit 22
@@ -217,7 +234,7 @@ function e22_config1() {
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 #nuo muutokset oikeastaan tdstoon profs.sh
-
+#pitäöiskö siirtää toiseen tdstoon?
 function e22_settings() {
 	dqb "e22_settings ${1},  ${2}"
 	csleep 1
@@ -257,6 +274,7 @@ function e22_settings() {
 	csleep 1
 }
 
+#pitäöiskö siirtää toiseen tdstoon?
 function e22_home() { #151225:josko prof.asiat taas tilap. kunn.
 	dqb "e22_home ${1} , ${2} , ${3}  "
 
@@ -287,6 +305,9 @@ function e22_home() { #151225:josko prof.asiat taas tilap. kunn.
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 
 	#maxdepth mukaan vai ei?
+	#HUOM.171225:onko hyvä kun osassa (arkistoon menevistä) tdstoista on tuo ~ mukana polussa ja osassa taas ei?
+	#pitäisi kai väjhän miettiä niitä polkuja siis
+
 	for t in $(find ~ -type f -name 'merd2.sh' -or -name config.tar.bz2) ; do
 		${srat} -rvf ${1} ${t}
 	done
@@ -308,15 +329,18 @@ function e22_home() { #151225:josko prof.asiat taas tilap. kunn.
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 	csleep 2
 
-	dqb "AUTOMAGICAL CONFIGURATION IS A DISEASE"
+	dqb "AUTOMAGICAL CONFIGURATION IS A DISEASE  x 199 - Bart S."
 	dqb "Xorg -config ~/xorg.conf TODO?"
-	#for f in $(find / -type f -name 'xorg.conf*') ; do ${srat} -rvf ${1} ${f} ; done 	
+	dqb "find /' ,,, ?"
+	
+	for f in $(find ~  -type f -name 'xorg.conf*') ; do ${srat} -rvf ${1} ${f} ; done 	
 	csleep 10
 
 	dqb "e22_home d0n3"
 	csleep 1
 }
 
+#pitäisikö siirtää toiseen tdstoon?
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
 function luca() { #301125:taitaa toimia
 	dqb "luca ( ${1})"
@@ -346,7 +370,9 @@ function luca() { #301125:taitaa toimia
 	dqb "loca done"
 }
 
-function e22_elocal() { #091225:tehnee paketin ok
+#pitäöiskö siirtää toiseen tdstoon?
+function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko jo kohta?
+	#... vaikka sen "exp2 4"-testailun yht kts että on sopivaa konftdstoa mukana
 	dqb "e22_elocal ${1} ${2} ${3} ${4}"
 	csleep 1
 
@@ -357,6 +383,8 @@ function e22_elocal() { #091225:tehnee paketin ok
 	[ -z ${2} ] && exit 2
 	[ -z ${3} ] && exit 3	
 	[ -z ${4} ] && exit 5
+	
+	[ -z ${5} ] && exit 11
 	csleep 1
 
 	dqb "params_ok"
@@ -422,9 +450,10 @@ function e22_elocal() { #091225:tehnee paketin ok
 
 	dqb "DSN"
 	csleep 2
-
+	local f
+	
 	if [ ${3} -eq 1 ] ; then #-gt 0 ?
-		local f;for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
+		for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 	else
 		dqb "n0 5tub"
@@ -432,15 +461,26 @@ function e22_elocal() { #091225:tehnee paketin ok
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
+	csleep 5
+	
+	for f in $(find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
+		${srat} -rvf ${1} ${f}
+	done
+	
+	csleep 5
+	
+	for f in $(find /etc -type f -name '${5}*' -and -not -name '*.202*') ; do
+		${srat} -rvf ${1} ${f}
+	done
 
-	#tässä se äksän konffi mukaan vai e22_home():ssa?
-
+	csleep 5
 	dqb "e22_elocal done"
 	csleep 1
 }
 
 [ -v BASEURL ] || exit 6 
 
+#pitäöiskö siirtää toiseen tdstoon?
 function e22_ext() { #091225:taitaa toimia
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
@@ -537,35 +577,6 @@ function e22_ext() { #091225:taitaa toimia
 	csleep 1
 }
 
-#091225:toimii
-function aswasw() { #privaatti fktio
-	dqb " aswasw ${1}"
-	[ -z "${1}" ] && exit 56
-	csleep 1
-
-	case ${1} in
-		wlan0)
-			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
-
-			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 libreadline8 # libssl3 adduser
-			${shary} wpasupplicant
-		;;
-		*)
-			dqb "not pulling wpasuplicant"
-			csleep 1
-		;;
-	esac
-
-	dqb " aswasw ${1} DONE"
-	csleep 1
-}
-
-#function aval0n() { #prIvaattI, toimimaan+käyttöön?
-#	dqb "${sharpy} libavahi* #saattaa sotkea ?"
-#	dqb "${NKVD} ${CONF_pkgdir}/libavahi* ?"
-#}
-
 function e22_ts() { #091225:jos vaikka toimisi
 	dqb "e22_ts () ${1} ${2}" #van1 param pitäisi olla tällä - Yoda
 	csleep 2
@@ -575,10 +586,10 @@ function e22_ts() { #091225:jos vaikka toimisi
 	[ -w ${1} ] || exit 15 
 
 	dqb "NEXT:mv ${CONF_pkgdir}/*.deb ${1}"
-	csleep 10
+	csleep 5
 	${svm} ${CONF_pkgdir}/*.deb ${1}
 	dqb $?
-	csleep 10
+	csleep 5
 
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
@@ -592,11 +603,6 @@ function e22_ts() { #091225:jos vaikka toimisi
 }
 
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-#DONE?:sq-chroot-kokeiluja varten jnkn tar purq+uudelleenpakk? 291125 taisi tulla jokun uusi juttty testattavaksi, muuten olisi jo OK
-#... se _pkgs* - jutska vielä , pitäisikö nimenomaan vetää se tuorein versio kuitenkin arkistoon?
-
-#vissiin ok jo 121225 paitsi ehkä accetp/rejct
-#121225:uudelleenpakk kai muuten mutta jos vielä varm vbuoksi karsisi lxdm:n ?
 
 function e22_arch() { 
 	dqb "e22_arch ${1}, ${2} " 
@@ -640,6 +646,7 @@ function e22_arch() {
 
 	${scm} 0444 ${2}/*.deb
 	fasdfasd ${2}/sha512sums.txt
+	fasdfasd ${2}/sha512sums.txt.1
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
 
 	cd ${2}
@@ -647,17 +654,24 @@ function e22_arch() {
 	${sah6} ./*.deb > ./sha512sums.txt
 
 	dqb "KUKK0 K1EQ 666"
-	#tässä voi tulla ongelma?
-	${sah6} ./reject_pkgs >> ./sha512sums.txt
-	${sah6} ./accept_pkgs_? >> ./sha512sums.txt
-	${sah6} ./pkgs_drop >> ./sha512sums.txt
+
+	${sah6} ./reject_pkgs >> ./sha512sums.txt.1
+	${sah6} ./accept_pkgs_? >> ./sha512sums.txt.1
+	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
 	csleep 1
 
+	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
 	#alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious
+
+	#HUOM gpgv VITTUUN SOTKEMASTA
+	#dirmngr kuitenkin tarvitsee jhnkin?
+	#"gpg --keyserver hkps://keys.gnupg.net --receive-keys $something" esim.
+
 	if [ -x ${gg} ] && [ -v CONF_pubk ] ; then
 		dqb "GGU"
 		csleep 1
 		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt
+		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt.1
 		dqb "GHATS"
 	else
 		dqb "1. ${gg}"
@@ -668,11 +682,7 @@ function e22_arch() {
 	csleep 1
 	psqa .
 
-	#121225:tar kanssa edelleen ongelmia?
-	dqb "srat= ${srat}"
-	csleep 1
-
-	${srat} -rf ${1} ./*.deb ./sha512sums.txt ./sha512sums.txt.sig
+	${srat} -rf ${1} ./*.deb ./sha512sums.txt*
 	[ ${debug} -eq 1 ] && ls -las ${1} 
 
 	csleep 10
@@ -680,7 +690,82 @@ function e22_arch() {
 	dqb "e22_arch d0n3"
 }
 
-function e22_tblz() { #091225 toimi ainakin kerran
+function e22_dblock() { #010126:ok
+	dqb "e22_dblock( ${1}, ${2}, ${3})"
+
+	[ -z ${1} ] && exit 14
+	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes
+	#[ -w ${1} ] || exit 16 #ei näin?
+
+	[ -z ${2} ] && exit 11
+	[ -d ${2} ] || exit 22
+	[ -w ${2} ] || exit 23
+
+	dqb "DBLOCK:PARAMS OK"
+	csleep 1
+
+	[ ${debug} -eq 1 ] && pwd
+	csleep 1
+	#aval0n #tarpeellinen?
+
+	dqb "bFR 175:"
+	ls -la ${CONF_pkgdir}/*.deb | wc -l
+	csleep 10
+	
+	for s in ${PART175_LIST} ; do
+		${sharpy} ${s}*
+		${NKVD} ${CONF_pkgdir}/${s}*.deb
+	done
+
+	dqb "AFTR 175:"
+	ls -la ${CONF_pkgdir}/*.deb | wc -l
+	csleep 10
+
+	local t
+	t=$(echo ${2} | cut -d '/' -f 1-5)
+
+	e22_ts ${2}
+	enforce_access ${n} ${t} #tarpeellinen nykyään?
+	e22_arch ${1} ${2}
+	csleep 1
+
+	e22_cleanpkgs ${2}
+	dqb "e22dblock DONE"
+}
+
+#===========================E23.SH ? =======================================
+#091225:toimii
+function aswasw() { #privaatti fktio
+	dqb " aswasw ${1}"
+	[ -z "${1}" ] && exit 56
+	csleep 1
+
+	case ${1} in
+		wlan0)
+			#E22:GN="libnl-3-200 ... "
+			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
+			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
+
+			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
+			${shary} wpasupplicant
+		;;
+		*)
+			dqb "not pulling wpasuplicant"
+			csleep 1
+		;;
+	esac
+
+	dqb " aswasw ${1} DONE"
+	csleep 1
+}
+
+#function aval0n() { #prIvaattI, toimimaan+käyttöön?
+#	dqb "${sharpy} libavahi* #saattaa sotkea ?"
+#	dqb "${NKVD} ${CONF_pkgdir}/libavahi* ?"
+#}
+
+#DONE:testaus, tekee paketin:jep (251225) sisältö: asentiu 010126
+function e22_tblz() {
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
 
@@ -707,26 +792,14 @@ function e22_tblz() { #091225 toimi ainakin kerran
 	#message() tähän?
 	tpc7	#jotain excaliburiin liittyvää
 	aswasw ${2}
-	
-	E22_GT="libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11"
-	E22_GT="${E22_GT} iptables"
-	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
-	E22_GT="${E22_GT} isc-dhcp-client isc-dhcp-common"
 
+	#vastannee t_2312_0, asentunee
 	#kts check_binaries()
 	${shary} ${E22_GT} 
 
 	dqb "x2.e22_tblz.part2"
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 2
-
-	#aval0n #tarpeellinen?
-
-	#HUOM.28925.2:onkohan hyvä idea tässä?
-	for s in ${PART175_LIST} ; do
-		${sharpy} ${s}*
-		${NKVD} ${CONF_pkgdir}/${s}*
-	done
 
 	${asy}
 	dqb "BEFORE e22_pre2"
@@ -761,36 +834,45 @@ function e22_dm() {
 }
 
 #TODO:ntp-jutut takaisin josqs?
-#151225:tällä fktiolla tulisi olla vain 1 param qnnes 2
-#091225:taitaa toimia
+
 function e22_other_pkgs() { 
-	dqb "e22_other_pkgs ${1} ,  ${2}  "
+	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
-	[ -z "${2}" ] && exit 12
-
 	dqb "paramz_ok"
 	csleep 1
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 
+	dqb "shary= ${shary}"
+	csleep 5
+	${shary} ${E22GI}
+
+	#E22_GG="coreutils libcurl3-gnutls ... git"
+	${shary} coreutils
+	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0
+	${shary} git-man git
+
+	#E22_GS="libc6 ... sudo"
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
-	${shary} libc6 zlib1g #moni pak tarttee nämä
+	${shary} libc6 zlib1g libreadline8 #moni pak tarttee nämä
 	${shary} groff-base libgdbm6 libpipeline1 libseccomp2 #bsd debconf
+	csleep 5
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
 	${shary} libaudit1 libselinux1
 	${shary} man-db sudo
+	csleep 2
 
 	message
 	jules
 
 	if [ ${1} -eq 1 ] ; then
+		#E22_GT="libgmp10 ... stubby"
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
 		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
 		${lftr} 
-
 		#josqs ntp-jututkin mukaan?
 		[ $? -eq 0 ] || exit 3
 
@@ -799,70 +881,174 @@ function e22_other_pkgs() {
 		${shary} stubby
 	fi
 
-	dqb "${shary} git coreutils in secs"
 	csleep 1
 	${lftr} 
-
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=git=1:2.39.2-1~bpo11+1
-	${shary} coreutils
-	${shary} libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0
-	${shary} git-man git
-
-	dqb "MAGOG"
-
-	#libreadline8 aiemmaksi? muutkin pak saattavat tarvita
-	${shary} ${E22GI}
-	${shary} gpg
-
 	[ $? -eq 0 ] && dqb "luBE 0F THE R3S0NATED"
 	csleep 2
+	dqb "MåGOG"
 	
-	e22_dm ${2}
-	${lftr}
-	csleep 2
+#	#TODO:jos lukaisi debian referencen pitkästä aikaa, että löytyisikö jotain jekkua paketinhallinnan kanssa? ettei tarvitse kikkailla initramfs:n ja muutaman paketin kanssa
+#	${lftr}
+#	csleep 2
 
-	#aval0n
-	#dqb "BEFORE UPD6" #kutsutaabko tuota?	ts() qtsuu
 	csleep 2
-
 	dqb "e22_other_pkgs donew"
 	csleep 1
 }
 
-function e22_dblock() { #091225:taitaa toimia
-	dqb "e22_dblock( ${1}, ${2}, ${3})"
+function e22_dm() {
+	[ -z "${1}" ] && exit 11
+	csleep 5
 
-	[ -z ${1} ] && exit 14
-	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes
-	#[ -w ${1} ] || exit 16 #ei näin?
+	${fib}
+	csleep 5
 
-	[ -z ${2} ] && exit 11
-	[ -d ${2} ] || exit 22
-	[ -w ${2} ] || exit 23
+	#libc6 (>= 2.33), libgcc-s1 (>= 3.0), libstdc++6
+	#menu (>= 2.1.26), libc6 (>= 2.14), (>= 1:1.0.0), l, , , , 
 
-	dqb "DBLOCK:PARAMS OK"
-	csleep 1
+	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6
+	${shary} menu twm
+	csleep 2
+	
+	#libselinux oikeastaan muualla jo
+	${shary} libcrypt1 libpam0g libselinux1 libxau6 libxaw7 libxdmcp6 libxft2 libxinerama1 
+	csleep 2
+	
+	${shary} libxpm4 libxrender1 debconf x11-utils cpp lsb-base x11-xserver-utils procps
+	csleep 2
 
-	dqb "srat= ${srat}"
-	csleep 1
+	#libgtk3-jutut kommentteihin vai ei?
+	${shary} libgtk-3-0 libgtk-3-common
+	csleep 2
 
-	[ ${debug} -eq 1 ] && pwd
-	csleep 1
-	#HUOM.pitäisiköhän sittenkin olla tässä se part175_listan iterointi?
+	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libglib2.0-0 libglib2.0-data libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
+	csleep 2
 
-	local t
-	t=$(echo ${2} | cut -d '/' -f 1-5)
+	#VAIH:miten jos SITTENKIN xdm tai wdm?
+	#pelkkä lxdm kun ei riitä ja lxsession-jutut vaativat policykit-matskua ja niiden bugeja tulee mukaan
+	
+	#fontconfig, libfreetype6, libxcb* ennnen switch-case:a? 
 
-	e22_ts ${2}
-	enforce_access ${n} ${t} #tarpeellinen nykyään?
-	e22_arch ${1} ${2}
-	csleep 1
+	case ${1} in
+		xdm) #010126;pitäisiköhän tämäkin case testata?
+			${shary} xdm
+		;;
+		wdm)
 
-	e22_cleanpkgs ${2}
-	dqb "e22dblock DONE"
+#libc6 libgcc-s1 (>= 3.0), libstdc++6 zlib1g perl:any xserver-xorg | xserver:tarteeko juuri tässä vetää?
+
+			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
+			csleep 2
+
+			${shary} libwebpdemux2 libheif1 libaudit1 
+			csleep 2
+
+			${shary} libdb5.3 libpam-modules-bin libpam-modules libpam-runtime
+			csleep 2
+
+			${shary} sysvinit-utils libtinfo6 libpng16-16 libx11-xcb1  
+			csleep 2
+
+			${shary} libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1 libxcursor1
+			csleep 2
+
+			${shary} libxkbfile1 libxmuu1 man-db
+			csleep 2
+
+			${shary} libfontconfig1 libfontenc1 libgl1 libxcb-shape0  
+			csleep 2
+
+			${shary} libxtst6 libxv1 libxxf86dga1 
+			csleep 2
+
+			${shary} psmisc x11-apps x11-common
+			csleep 2
+
+			${shary} libpcre2-8-0 libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
+			csleep 2
+
+			${shary} libgif7 libwraster6 libjpeg62-turbo libmagickwand-6.q16-6 libtiff6
+			csleep 2
+
+			${shary} gcc-12-base libc6 libgomp1 libgcc-s1  #kommentteihin vai ei? 
+			#jos ensin päivityspak ja sitten vasta dwm-jutut?
+			csleep 2
+
+			${shary} libbz2-1.0 libfftw3-double3 libfreetype6 libjbig0 liblcms2-2 liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libwebp7 libwebpmux3 imagemagick-6-common
+			csleep 2
+
+			${shary} libmagickcore-6.q16-6 
+			csleep 2
+
+			${shary} libwutil5 wmaker-common libwings3
+			csleep 2
+
+			${shary} libx11-data libbsd0
+			csleep 2 	
+		
+			${shary} wdm
+		;;
+#		lxdm)
+#			#"exp2 rp" on nykyään keksitty
+#			#E22_GL="libxcb-render0 ... lxdm"
+#
+#			${shary} libxcb-render0 libxcb-shm0 libxcb1
+#			csleep 2
+#			
+#			${shary} libfreetype6 libpixman-1-0
+#			csleep 2
+#			
+#			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
+#			
+#			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1),  (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), , libxfixes3,  (>= 2:1.1.4),  (>= 2:1.5.0),  adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
+#			${shary} libpangocairo-1.0-0   
+#			csleep 2
+#
+#			${shary} libdeflate0 debliblerc4 
+#			csleep 2
+#
+#			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
+#			${shary} libcairo2 libgtk2.0-common libgtk2.0-0
+#			csleep 2
+#	
+#			#gdk ennen gtk?
+#			${shary} libfribidi0 libharfbuzz0b libthai0
+#			csleep 2
+#		
+#			${shary} fontconfig gtk2-engines-pixbuf gtk2-engines 
+#			csleep 2
+#
+#			${shary} lxdm 
+#			csleep 2
+#			
+#			#261225:lxde-juttujrn ja lxpolkit:in riippuvuukisien selvutys saattaa osoittautua tarpeelliskeis?
+#			
+#			#polkit-1-auth-agent:
+#			
+#			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
+#			#csleep 2
+#			 
+#			#lxpolkit kanssa taisi olla joitainj vaihtoehtoja
+#			
+#			#	 lxlock | xdg-utils, 
+#
+#			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
+#			
+#			${shary} lxpolkit lxsession-logout lxsession
+#			csleep 5
+#		;;
+		*)
+			dqb "sl1m?"
+		;;
+	esac
+	
+	#E22_GX="libwww-perl ... xscreensaver"
+	${shary} libwww-perl xscreensaver-data  init-system-helpers libegl1 #libsystemd0
+	${shary} xscreensaver
 }
 
-function e22_profs() { #091225:tekee paketin missä validia sisältöä, kai (pitäisiköhän taas nimet uudestaan?)
+#251225:teki paketin missä sisältöä, sis. tmivuus testaten myöhemmin
+function e22_profs() {
 	dqb "e22_profs ${1} ${2}"
 
 	[ -z ${1} ] && exit 99
@@ -897,13 +1083,13 @@ function e22_profs() { #091225:tekee paketin missä validia sisältöä, kai (pi
 	dqb "AAMUNK01"
 }
 
-#091225:testattu että tekee paketin
+#010126 teki ei-tYhjän paketin, sisäLtökin näköjään asentuu
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
 
 	[ -z ${1} ] && exit 1 
 	#[ -w ${1} ] || exit 44 #TODO: man bash taas?
-	[ -s ${1} ] && mv ${1} ${1}.OLD
+	#[ -s ${1} ] && mv ${1} ${1}.OLD 261225 laitetttu kommentteihin koska aiheutti ongelmia
 	[ -z ${2} ] && exit 11
 	[ -d ${2} ] || exit 22
 
@@ -917,13 +1103,14 @@ function e22_upgp() {
 	
 	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta, onko?
 	${sag} --no-install-recommends upgrade -u
-	echo $? #HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
+	echo $?
+	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
 	csleep 1
 
+	[ -v CONF_pkgdir ] || exit 99 #d-blkissa jatkossa?
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb
 	csleep 10
 
-	#aval0n #käyttöön vai ei?
 	dqb "generic_pt2 may be necessary now"	
 	csleep 1
 
@@ -932,17 +1119,6 @@ function e22_upgp() {
 	
 	dqb " ${3} SHOULD BE Dbtl 1n turq"
 	csleep 1
-	local s
-
-	[ -v CONF_pkgdir ] || exit 99
-	#tämnänkaltainen blokki oli jossain muuallakin?
-	for s in ${PART175_LIST} ; do #HUOM.turha koska ylempänä... EIKU
-		dqb "processing ${s} ..."
-		csleep 1
-
-		#-v ennen silmukkaa?
-		${NKVD} ${CONF_pkgdir}/${s}*
-	done
 
 	#HUOM.part076() ja part2_5() on keksitty
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb

@@ -1,33 +1,45 @@
-#
-perl-modules-*.deb
-#pitäisi jo aiemmin
-#
-#nämä 4 tuosta alta kommentteihn ?
-eudev*.deb
-udev*.deb
-xserver-common*.deb
-xserver-xorg-core*.deb
-#
-#mielellään dbus Vittuun jatkossa 666!!!
-dbus-bin*.deb
-dbus-daemon*.deb dbus-session-bus-common*.deb
-#
-perl-base*.deb
-#pitäisi jo aiemmin
-#
-perl*.deb
-#
-#161225:jostain syystä tuo g-man tänään aiuheutti
-git-man*.deb
-git*.deb
-#
+#bind9-jutut tarv: libkrb5, libgssapi-krb5-2
+bind9-libs*.deb
 bind9-host*.deb
 bind9-dns*.deb
 dnsutils*.deb
-e2fsprogs*.deb
-python3.11-minimal*.deb
+perl*.deb
+#eudev-dbus-e2fsprogs oli siinä rejectissä
 #
-#uutena 261125, lienee ok
-gtk2-engines-pixbuf*.deb
-#uutena 271125
 gpgconf*.deb
+#gpg tarvitsee confin /josko kuitenkin kerta-as riittäisi
+#
+#nyt jos typot ho
+gtk2-engines-pixbuf*.deb
+#
+#gpgconf*.deb
+#JOKO JO PERKELE????
+x11-utils
+#lxdm tarttee gtk2 ja x11-u
+#
+python3.11-minimal*.deb
+python3.11*.deb
+#
+#lxsession-jutut ja twm
+#lxsession-data*.deb
+#policykit-1*.deb
+#
+#dpkg: dependency problems prevent configuration of lxsession-logout:
+# lxsession-logout depends on policykit-1; however:
+#  Package policykit-1 is not installed.
+#
+#
+#lxsession-logout*.deb
+#
+#dpkg: dependency problems prevent configuration of lxpolkit:
+# lxpolkit depends on libpolkit-agent-1-0 (>= 0.94); however:
+#  Package libpolkit-agent-1-0 is not installed.
+# lxpolkit depends on policykit-1; however:
+#  Package policykit-1 is not installed.
+#
+#
+#lxpolkit*.deb
+menu*.deb
+#
+#wdm...
+psmisc*.deb

@@ -6,16 +6,6 @@ d0=$(pwd)
 mode=-2
 tgtfile=""
 
-#HUOM.121225:edelleenkin wanha reject_pkgs jyrää uuden, voisiko jtain tehdä?
-
-function dqb() {
-	[ ${debug} -eq 1 ] && echo ${1}
-}
-
-function csleep() {
-	[ ${debug} -eq 1 ] && sleep ${1}
-}
-
 function usage() {
 	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
 	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
@@ -27,7 +17,8 @@ function usage() {
 	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
 	echo "$0 t ... option for ipTables"
-	#echo "$0 å ... somehow related 2 pavucontrol"
+
+	echo "$0 rp ... RePack existing arch"
 	echo "$0 -h: shows this message about usage"
 }
 
@@ -59,6 +50,7 @@ function parse_opts_2() {
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
+#231225:e22.sh nykyään yrittää arpoa keys.conf (ei tässä tarvitse)
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -73,8 +65,8 @@ fi
 if [ -x ${d0}/common_lib.sh ] ; then 
 	. ${d0}/common_lib.sh
 else
-	dqb "FALLBACK"
-	dqb "chmod +x ${d0}/common_lib.sh may be a good idea now"
+	echo "FALLBACK"
+	echo "chmod +x ${d0}/common_lib.sh may be a good idea now"
 	exit 56
 	#HUOM.28725:toistaiseksi näin
 fi
@@ -99,7 +91,7 @@ dqb "tar = ${srat} "
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
-	${odio} ${x} ${dnsm} ${distro}
+	${odio} ${x} ${CONF_dnsm} ${distro}
 	#[ -x $x ] && exit for 
 done
 
@@ -107,6 +99,7 @@ dqb "AFTER GANGRENE SETS IN"
 csleep 1
 #HUOM.28925:"tar löytyy ja ajokelpoinen"-tarkistus tdstossa common_lib.sh, ocs()
 
+###################261225:josko vähän loiventaisi ao. ehtoja?
 if [ -z "${tig}" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
 	echo "sudo apt-get update;sudo apt-get install git"
@@ -118,6 +111,7 @@ if [ -z "${mkt}" ] ; then
 	echo "sudo apt-get update;sudo apt-get install coreutils"
 	exit 8
 fi
+#####################
 
 dqb "e22_pre0"
 csleep 1
@@ -152,19 +146,49 @@ csleep 1
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
 case ${mode} in
-	f) 	#151225:uudelleenpakk kai ok nykyään
-		#... tai siis erillinen case tai skripti sitä varten? 
-		#... tämä vain pakkaisi kerran, muuttamatta sisältöä tjsp
+	rp)
+		[ -s "${tgtfile}" ] || exit 67
+		[ -r "${tgtfile}" ] || exit 68
+		exit 69
+#
+#		e22_cleanpkgs ${d}
+#		csleep 1
+#		
+#		${smr} ${d}/f.tar
+#		csleep 1
+#		
+#		#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
+#		#... koko case pois käytöstä vaikka
+#	
+#		${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${d} -xvf ${tgtfile}
+#		[ $? -eq 0 ] && ${svm} ${tgtfile} ${tgtfile}.OLD
+#		csleep 1
+#
+#		#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
+#			
+#		e22_arch ${tgtfile} ${d}
+#		cd ${d}
+#
+#		#sotkee sittenkin liikaa?
+#		#${srat} -rvf ${tgtfile} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
+#		
+#		#for t in $(${srat} -tf ${tgtfile}) ; do #fråm update2.sh
+#		#	${srat} -uvf  ${tgtfile} ${t}
+#		#done
+#		
+#		exit #TODO:j.ollain jekulla voisi hukata exitit näistä case:ista ekasssa switchissa
+	;;
+	f) 	#201225:tekee paketin, sisältö:ok
 
 		enforce_access ${n} ${t}
-		#e22_hdr() tähän vielä?
+		e22_hdr ${tgtfile}
 		e22_arch ${tgtfile} ${d}
 		e22_ftr ${tgtfile}
 		exit
 	;;
 	q)
 		#101225:toimii (ainakin 1 kerran)
-		${sifd} ${iface}
+		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 		#141225:tgtfile voisi oikeastaan mennä config1:selle parametriksi jatkossa
 		e22_config1 ~
@@ -176,7 +200,7 @@ case ${mode} in
 		${smr} ~/fediverse.tar
 		csleep 1
 
-		#tdstonimi parametriksi jatkossa
+		#tdstonimi parametriksi jatkossa? mille fktiolle?
 		e22_settings ${d0}
 		#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
 
@@ -190,41 +214,17 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#TODO:suoraan tgtfile eik tgtfile.bz3
-		#151225:testailu vaiheessa (tauhkat voisi jo pois)
-#		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
+		#201225:laati paketin, sisältö:lienee ok
+		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
+		#-T - vipu tar:in kanssa käyttöön vai ei?
+
 		cd ${d0}
-#
-#		e22_hdr ${tgtfile}.bz3 #juuei
-#		fasdfasd ${tgtfile}
-
-#		#exit
-#
-#		tcmd=$(which tar)
-#		[ -v CONF_testgris ] && tcmd=${srat} #071225:CONF_testgris- ja .chroot sijaan vain 1 muuttuja jatkossa?
-#
-#		| grep -v 'e/' | grep -v 'olds/') ; do 
-#			${tcmd} -rvf ${tgtfile} ${f}
-#		done
-#
-#		for f in $(find . -type f -name '*_pkgs*' | grep -v 'e/' | grep -v 'olds/')  ; do 
-#			${tcmd} -rvf ${tgtfile} ${f}
-#		done
-#
-#		#HUOM.291125:tästä tuli jotain nalkutusta, joskohan jo 301125 kunnossa?
-#		bzip2 -c ${tgtfile} > ${tgtfile}.bz3
-#
-#		#${svm} ${tgtfile}.bz2 ${tgtfile}.bz3
-#		#tgtfile="${tgtfile}".bz3 #tarkoituksella tämä pääte
-
-		fasdfasd ${tgtfile}.bz3
+		fasdfasd ${tgtfile}
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}*
+		csleep 2
 		
-		#tuota tdstojen nimeämistä voisi muuttaa jatkossa:kreikan meri/meri kreikan
-		#josko findin jutut listaan ja tar:ille -T , jatkossa?
-		${srat} -jcvf ${tgtfile}.bz3 ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
-
-		e22_ftr ${tgtfile}.bz3
+		${srat} --exclude '*merd*' -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
+		e22_ftr ${tgtfile}
 		exit
 		#VAIH:install_keys.bash liittyen muutoksia exp2 ja imp2
 	;;
@@ -235,7 +235,8 @@ case ${mode} in
 
 		echo "${shary} ${E22GI}"
 
-		echo "${svm} ${CONF_pkgdir}/*.deb ${d}" #oli se e22_ts() kanssa
+		echo "${svm} ${CONF_pkgdir}/*.deb ${d}"
+		#oli se e22_ts() kanssa
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
 	;;
@@ -271,40 +272,37 @@ e22_pre1 ${d} ${distro}
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 
 e22_hdr ${tgtfile}
-e22_pre2 ${d} ${distro} ${iface} ${dnsm}
-#TODO:cleanpkgs-jutut tähän jatkossa?
+e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
 
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
+#VAIH:jospa varm vuoksi kaikki caset testiin taas
 case ${mode} in
-	#johdonmukaisuuden vuoksi 3|4) jatkossa (imp2/exp2)
 	0)
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
 	3|4) 
-		#091225:case 3 tekee toimivan paketin, ainakin kerran teki
-		#131225 case 4:tekee paketin, toimiikin jnkn verran
-	
+		#TODO:case 4, kolmonen toimii jo (testattu 25.12.25 ->)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
-		e22_ext ${tgtfile} ${distro} ${dnsm}
+		e22_ext ${tgtfile} ${distro} ${CONF_dnsm}
 		dqb "e22_ext DON3, next:rm some rchives"
 		csleep 1
 
 		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 
-		dqb "srat= ${srat}"
-		csleep 1
+		#dqb "srat= ${srat}" #asia lienee jo qnnossa
+		#csleep 1
 		e22_hdr ${d}/f.tar
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
-			e22_tblz ${d} ${iface} ${distro} ${dnsm}
-			e22_other_pkgs ${dnsm} ${CONF_dm}
+			e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+			e22_other_pkgs ${CONF_dnsm}
 
 			if [ -d ${d} ] ; then
 				e22_dblock ${d}/f.tar ${d}
@@ -315,63 +313,66 @@ case ${mode} in
 			csleep 1
 		fi
 
-		${sifd} ${iface}
+		${sifd} ${CONF_iface}
 		[ ${debug} -eq 1 ] && ls -las ${d}
 		csleep 1
 
-		e22_home ${tgtfile} ${d} ${enforce} 
+		e22_home ${tgtfile} ${d} ${CONF_enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 1
 		${NKVD} ${d}/*.tar #oli se fktiokin
 
 		${srat} -tf ${tgtfile} | grep fediverse
-		csleep 10
+		csleep 5 #jos 5 riittäisi
 
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 1
-		e22_elocal ${tgtfile} ${iface} ${dnsm} ${enforce}
+		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
-	#091225:teki paketin, sisällön kelpoisuus selvitettävä
-	#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)	
-	#... syynä ei liene lxdm tai x11-utils koska reject_pkgs
-	#TODO:josqs uusi testaus	
-	1|u|upgrade)
+	#010126 teki ei-tyhjän paketin vaan asentuuko sisältö? jep
+	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
 
-		e22_upgp ${tgtfile} ${d} ${iface}
-		e22_ts ${d}
-
-		${srat} -cf ${1} ${d}/tim3stamp #tarvitseeko tätä nykyään?
-		t=$(echo ${d} | cut -d '/' -f 1-5)
-		enforce_access ${n} ${t}
-		e22_arch ${tgtfile} ${d}
+		e22_upgp ${tgtfile} ${d} ${CONF_iface}
+		e22_dblock ${tgtfile} ${d}
 	;;
-	p) #091225:tekee paketin missä validia sisältöä, kai
+	p) #251225:teki paketin missä sisältöä, sis. tmivuus testaten myöhemmin
 		e22_profs ${tgtfile} ${d0} 
 	;;
+	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
-		#151225:tekee paketin, sisältö:
-		e22_tblz ${d} ${iface} ${distro} ${dnsm}
-		[ -v CONF_dm ] || exit 77
-		e22_other_pkgs ${dnsm} ${CONF_dm}
+		#24-25.12.25 tienoilla teki paketin minkä sisältö vaikuttaa tmivalta
+		#311225 sai edelleen paketin aikaiseksi
+		
+		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+		e22_other_pkgs ${CONF_dnsm}
 
 		if [ -d ${d} ] ; then
 			e22_dblock ${tgtfile} ${d}
 		fi
 	;;
 	t) 
-		#101225:teki paketin, sisältökin asentui 091225
+		#DONE:testaus, tekee paketin:jep (251225) sisältö: asentuu (010126)
+		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
+
 		message
 		csleep 2
+		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 
-		e22_tblz ${d} ${iface} ${distro} ${dnsm}
-		e22_ts ${d}
+		if [ -d ${d} ] ; then
+			e22_dblock ${tgtfile} ${d}
+		fi
+	;;
+	l)
+		#010126:vissiinkin e22dm() , tapauksissa lxdm ja wdm, tekevät asentuvan paketin
+		#... tosin "sqroot->toimiva kiekko" ei ole vielä onnistunut
+		[ -v CONF_dm ] || exit 77
 
-		t=$(echo ${d} | cut -d '/' -f 1-5)
-		enforce_access ${n} ${t}
-		e22_arch ${tgtfile} ${d}
+		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
+		e22_dm ${CONF_dm}
+		e22_dblock ${tgtfile} ${d}
 	;;
 	*) #281025:tämäkin toiminee
 		echo "-h"
