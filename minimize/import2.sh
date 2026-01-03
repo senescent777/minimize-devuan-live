@@ -216,7 +216,8 @@ dqb "LHP"
 if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
 	dqb "OLD.tar OK"
 else
-	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE (TODO)"
+	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE "
+	${srat} /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
 dqb "Lpg"
@@ -325,7 +326,7 @@ dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #141222:profiilin importoinnin ongelmien syy saattaut selvitä, tietty tap lkukuunottamatta ao. fktio toimii ok
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
-#
+
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
