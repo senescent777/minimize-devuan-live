@@ -257,8 +257,10 @@ case ${mode} in
 #		echo "$0 f ${tgtfile} ${distro}"
 #		exit 1
 #	;;
-	p) #040126:joutaisi testata uusiksi , TODO
+	p) #040126:joutaisi testata uusiksi , VAIH
+		e22_hdr ${tgtfile}
 		e22_profs ${tgtfile} ${d0}
+		exit
 	;;
 	-h)
 		usage
