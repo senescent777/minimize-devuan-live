@@ -184,6 +184,7 @@ echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
+	#TODO:tömnän haaran testaus
 	echo $?
 	dqb "NO LIB"
 	csleep 1
