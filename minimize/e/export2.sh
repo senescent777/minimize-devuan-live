@@ -257,9 +257,8 @@ case ${mode} in
 #		echo "$0 f ${tgtfile} ${distro}"
 #		exit 1
 #	;;
-	p) #251225:teki paketin missä sisältöä, sis. tmivuus testaten myöhemmin (TODO)
+	p) #040126:joutaisi testata uusiksi , TODO
 		e22_profs ${tgtfile} ${d0}
-		#VAIH:"case p" aiempaan switch-case:en, dblok nykyisen switchin jälkeen
 	;;
 	-h)
 		usage
@@ -280,7 +279,7 @@ e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
-#VAIH:jospa varm vuoksi kaikki caset testiin taas
+#040126:tähän mennessä ao. caset pääosin testattu, toiminee, dblock-kikkailu tosin laittaisi kaiken uusiksi
 case ${mode} in
 	0)
 		echo "NOT SUPPORTED ANYMORE"
@@ -307,9 +306,9 @@ case ${mode} in
 			e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e22_other_pkgs ${CONF_dnsm}
 
-			if [ -d ${d} ] ; then
-				e22_dblock ${d}/f.tar ${d}
-			fi
+#			if [ -d ${d} ] ; then
+#				e22_dblock ${d}/f.tar ${d}
+#			fi
 
 			e22_cleanpkgs ${d} #kuinka oleellinen?
 			[ ${debug} -eq 1 ] && ls -las ${d}
@@ -339,7 +338,7 @@ case ${mode} in
 		csleep 1
 
 		e22_upgp ${tgtfile} ${d} ${CONF_iface}
-		e22_dblock ${tgtfile} ${d}
+#		e22_dblock ${tgtfile} ${d}
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
@@ -347,10 +346,10 @@ case ${mode} in
 		
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
-
-		if [ -d ${d} ] ; then
-			e22_dblock ${tgtfile} ${d}
-		fi
+#
+#		if [ -d ${d} ] ; then
+#			e22_dblock ${tgtfile} ${d}
+#		fi
 	;;
 	t) 
 		#DONE:testaus, tekee paketin:jep (251225) sisältö: asentuu (010126)
@@ -359,10 +358,10 @@ case ${mode} in
 		message
 		csleep 2
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-
-		if [ -d ${d} ] ; then
-			e22_dblock ${tgtfile} ${d}
-		fi
+#
+#		if [ -d ${d} ] ; then
+#			e22_dblock ${tgtfile} ${d}
+#		fi
 	;;
 	l)
 		#010126:vissiinkin e22dm() , tapauksissa lxdm ja wdm, tekevät asentuvan paketin
@@ -371,13 +370,17 @@ case ${mode} in
 
 		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
 		e22_dm ${CONF_dm}
-		e22_dblock ${tgtfile} ${d}
+		#e22_dblock ${tgtfile} ${d}
 	;;
 	*) #281025:tämäkin toiminee
 		echo "-h"
 		exit
 	;;
 esac
+
+if [ -d ${d} ] ; then #ehtoa joutaisi varmaankin miettimään vielä
+	e22_dblock ${tgtfile} ${d}
+fi
 
 if [ -s ${tgtfile} ] ; then
 	e22_ftr ${tgtfile}

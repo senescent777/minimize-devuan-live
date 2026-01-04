@@ -375,7 +375,7 @@ function luca() {
 #pitäöiskö siirtää toiseen tdstoon?
 #pitöisiköhäbn mylös paremrtein määrälle tehdäö jotain?
 #030126:joskohan toimisi?
-#TODO:/etc/X11/default-display-manager pakettiin?
+#VAIH:/etc/X11/default-display-manager pakettiin?
 function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko jo kohta?
 	#... vaikka sen "exp2 4"-testailun yht kts että on sopivaa konftdstoa mukana
 	dqb "e22_elocal ${1} , ${2} , ${3} , ${4} , ${5}"
@@ -479,6 +479,9 @@ function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko
 	for f in $(find /etc -type f -name '${5}*' -and -not -name '*.202*') ; do
 		${srat} -rvf ${1} ${f}
 	done
+
+	csleep 5
+	${srat} -rvf ${1} /etc/X11/default-display-manager
 
 	csleep 5
 	dqb "e22_elocal done"
