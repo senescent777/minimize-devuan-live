@@ -187,7 +187,7 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#101225:toimii (ainakin 1 kerran) (josko jo se uusi testaus 30126?)
+		#VAIH:testailu (040126) , lähinnä siis paketin sisällön kelpoisuus vielä
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 		#141225:tgtfile voisi oikeastaan mennä config1:selle parametriksi jatkossa

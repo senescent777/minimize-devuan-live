@@ -234,7 +234,7 @@ function e22_config1() {
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 #nuo muutokset oikeastaan tdstoon profs.sh
 #pitäöiskö siirtää toiseen tdstoon?
-#VAIH:ala varmistaa että toimii ok (via "exp2 q" esmes)
+#VAIH:ala varmistaa että toimii ok (via "exp2 q" esmes) (sai paketttiin sisältöä 0401§26, toimivuus vielä)
 function e22_settings() {
 	dqb "e22_settings ${1},  ${2}"
 	csleep 1
