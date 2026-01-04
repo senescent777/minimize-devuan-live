@@ -187,7 +187,7 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#VAIH:testailu (040126) , lähinnä siis paketin sisällön kelpoisuus vielä
+		#040126:toimii
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 		#141225:tgtfile voisi oikeastaan mennä config1:selle parametriksi jatkossa
@@ -257,7 +257,7 @@ case ${mode} in
 #		echo "$0 f ${tgtfile} ${distro}"
 #		exit 1
 #	;;
-	p) #040126:joutaisi testata uusiksi , VAIH
+	p) #040126:toimii, luulisin
 		e22_hdr ${tgtfile}
 		e22_profs ${tgtfile} ${d0}
 		exit
