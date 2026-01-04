@@ -722,6 +722,8 @@ function check_binaries2() {
 	csleep 1
 }
 
+#TODO;"man 5 sudoers", varmista etä syntaksi menee oikein prkl!!!
+#(oli myös se dinf)
 function mangle_s() {
 	dqb "mangle_s  ${1} , ${2}, ${3}  "
 	csleep 1

@@ -46,7 +46,7 @@ if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
 
-	#gpgtar jos mahd, muuten normi-tar
+	#gpgtar jos mahd, muuten normi-tar?
 	
 	echo "A"
 	p=$(pwd)
@@ -218,12 +218,11 @@ if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
 	dqb "OLD.tar OK"
 else
 	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE "
-	${srat} /OLD.tar /etc /sbin /home/stubby ~/Desktop
+	${srat} -cvf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
 dqb "Lpg"
 
-#251225;2. param, tekee sillä mtään nkyään?
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
@@ -325,7 +324,7 @@ function common_part() {
 dqb "HPL"
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#141222:profiilin importoinnin ongelmien syy saattaut selvitä, tietty tap lkukuunottamatta ao. fktio toimii ok
+#141222:profiilin importoinnin ongelmien syy saattaut selvitä, tietty tap lukuunottamatta ao. fktio toimii ok
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
 
 function tpr() {
@@ -449,6 +448,8 @@ case "${mode}" in
 	;; 
 	0|3) #151225:case 3 toimii edelleen, myös sqroot alla
 		#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)
+		#... paskoo edelleen asioirta 040126
+
 		#TODO:selvitä, toimiiko case 0? jnpp
 
 		echo "ZER0 S0UND"
@@ -480,7 +481,7 @@ case "${mode}" in
 		tpr ${srcfile}
 	;;
 	q)
-		#141225:josko taas toimisi
+		#040126:toimii ainakin ffox prof osalta
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)

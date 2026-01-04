@@ -19,7 +19,7 @@ fi
 #131225:viime aikoina taas tullut login-ongelma muttei välttis liity lxdm:n
 #231225:suattaapi olla että login-ongelma poissa vuan suattaapi ettei
 #040126:nykyään toimii toivotulla tavalla (kirjautumisen suhteen) kunhan ei sitä päivityspakettia aja
-#... toiminnasta sudon kanssa en ole varma
+#... toiminnasta sudon kanssa en ole varma (sudoersiin menevän tdston sisältö saattaa olla P-V-H-H tai sitten ei)
 
 #tty tai input mukaan ryhmiin kokeeksi? testaa seur miten modatulla kiekolla käy
 [ ${mode} -gt 1 ] && ${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty,input devuan 
