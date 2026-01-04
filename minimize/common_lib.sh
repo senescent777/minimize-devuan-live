@@ -167,7 +167,8 @@ function check_bin_0() {
 	NKVD="${odio} ${NKVD} -fu "
 	
 	#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
-	PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" 
+	#040126:josko alkaisi bluez poistumaan?	
+	PART175_LIST="avahi blu cups exim4 nfs network mdadm sane rpc lm-sensors dnsmasq stubby" 
 
 	# ntp" ntp jemmaan 28525 #slim kokeeksi mukaan listaan 271125, hiiri lakkasi toimimasta
 	#HUOM.excalibur ei sisällä:dnsmasq,stubby
@@ -1285,8 +1286,11 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		
 		${sharpy} libblu* libcupsfilters* libgphoto*
 		${lftr}
+
+		#josko vielä pkexec:istä ajo-oik poisto? vai riittäisikö sharpy?
 		${sharpy} pkexec po*
 		${lftr}
+
 		${sharpy} python3-cups
 		${lftr}
 		csleep 1
@@ -1302,6 +1306,8 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 			;;
 		esac
 	fi
+
+	#usermod:illa tty ja input mukaan ryhmiin vai ei? koita ensin omegalla
 
 	dqb "PART2.5.2 ${1} , ${2}"
 	csleep 1

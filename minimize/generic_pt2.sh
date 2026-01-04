@@ -126,11 +126,15 @@ function t2pc() {
 #		csleep 1
 #	done
 
-	#251225:poistuuko se mutt vai ei?
-	${sharpy} bluez mutt
+	#040126:poistuuko se mutt vai ei? ehkä, mutta nyt bluez...
+	${sharpy} blu*
 	t2p_filler
 	csleep 2
-	
+
+	${sharpy} mutt
+	t2p_filler
+	csleep 2
+
 	${sharpy} rpcbind nfs-common
 	${sharpy} dmsetup
 	t2p_filler
@@ -148,6 +152,12 @@ function t2pc() {
 	#HUOM.29925: daedaluksessa dmsetup ja libdevmapper? poistuvat jos poistuvat g_doit ajamisen jälkeen
 	${sharpy} docutils* dosfstools efibootmgr exfalso
 	t2p_filler
+	csleep 2
+
+	#040126:eloginin poisto näköjään laittaa äksän pois pelistä
+	#${sharpy} elogin*
+	#t2p_filler
+	#csleep 2
 
 	#tikkujen kanssa paska tdstojärjestelmä exfat
 	${sharpy} exfatprogs fdisk gcr ftp*
@@ -215,17 +225,21 @@ function t2pc() {
 
 	if [ -f /.chroot ] ; then
 		dqb "SHOULD ${sharpy} slim*"
+		csleep 5
 
 		#nopeampi boottaus niinqu
-		#... pikemminkin  tjsp
 		dqb "KVG \"devuan how to skip dhcp on boot\""
+		csleep 5
 
-		#tuli uutena 071225, 
+		#tuli uutena 071225, sittenkin niin päin että asentaa seatd:n ? jos korjaisi "VT 0 acces denied" -ongelman?
 		dqb "SHOULD DO SOMETHING ABOUT THAT libseat-problem w/ xorg"
+		csleep 5
+
 		dqb "t2p_filler()"
+		csleep 5
 
 		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
-		dqb "dpkg-reconfigure lxdm?"
+		#dqb "dpkg-reconfigure lxdm?"
 		dqb "Xorg -config ? "
 		csleep 5
 	fi
@@ -250,7 +264,7 @@ function t2pf() {
 
 	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut) (no testaappa taas)
 	${smr} -rf /usr/share/doc 
-	
+
 	for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
 	df
 	${odio} which dhclient; ${odio} which ifup; csleep 3
