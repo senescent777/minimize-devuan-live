@@ -714,18 +714,16 @@ function check_binaries2() {
 	csleep 1
 }
 #==================================================================
-function slaughter0() { #jos ottaisi jäytytöön?
+function slaughter0() { #VAIH:kokeile josko mangle_s kuitenKin
 	local fn2
 	local ts2
 
 	fn2=$(echo $1 | awk '{print $1}') 
 	ts2=$(${sah6} ${fn2})
-	echo ${ts2} | awk '{print $1,$2}' >> ${2}
+	echo ${ts2} | awk '{print $1,$2}'  >> ${2}
 }
 
-#TODO:"man 5 sudoers", varmista etä syntaksi menee oikein prkl!!!
-#... tai koitetaan ensin yhtä juytytua
-#(oli myös se dinf)
+#060125:josko jo alkaisi toimia toivotulla tavalla?
 function mangle_s() {
 	dqb "mangle_s  ${1} , ${2}, ${3}  "
 	csleep 1
@@ -733,36 +731,32 @@ function mangle_s() {
 	[ -z "${1}" ] && exit 44
 	[ -x ${1} ] || exit 55
 
-	#HUOM.26525:pitäisiköhän olla jotain lisätarkistuksia $2 kanssa nyk lisäöksi?
 	[ -z "${2}" ] && exit 45
 	[ -f ${2} ] || exit 54
 
-	${scm} 0555 ${1}
-	${sco} root:root ${1}
+	#local p
+	#local q
+	local r
+	#s=$(echo ${1} | grep '..' | wc -l)
 
-#	
+	#ei vissiin näin
+	#r=$(echo $1 | grep -v '..')
+	#[ -z "${r}" ] && echo 67
+	#[ -s gt 0 ] && exit 67
 
-#
-
-#
-#	echo -n ${p} >> ${2}
-#	echo -n " " >> ${2}
-#	 >> ${2}
-#	
+	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
+	${scm} 0555 ${r}
+	${sco} root:root ${r}
 
 	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
-	#echo -n " localhost=NOPASSWD:sha512:" >> ${2} #ei
-	#slaughter0 ${1} ${2}
+#	p=$(sha256sum ${r} | cut -d ' ' -f 1 | tr -dc a-f0-9)
+#	q=$r #(echo ${1} | tr -dc a-zA-Z0-9/.)
+#
+#	echo -n " localhost=NOPASSWD:sha256:${p} ${q}" >> ${2}
+#	echo -e "\n" >> ${2}
 
-	local p
-	local q
-
-	p=$(sha256sum ${1} | cut -d ' ' -f 1 | tr -dc a-f0-9)
-	q=$(echo ${1} | tr -dc a-zA-Z0-9/.) #echoon -n mukaan vai ei?
-
-	echo -n " localhost=NOPASSWD:sha256:${p} ${q}" >> ${2}
-	echo -e "\n" >> ${2}
-
+	echo -n " localhost=NOPASSWD:sha512:" >> ${2}
+	slaughter0 ${r} ${2}
 }
 
 #VAIH:jinnebtiudut jutut taas käyttöön asfd asdf fads
