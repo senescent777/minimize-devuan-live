@@ -216,15 +216,6 @@ function check_bin_0() {
 
 check_bin_0
 
-function slaughter0() { #käytössä?
-	local fn2
-	local ts2
-
-	fn2=$(echo $1 | awk '{print $1}') 
-	ts2=$(${sah6} ${fn2})
-	echo ${ts2} | awk '{print $1,$2}' >> ${2}
-}
-
 function jules() {
 	dqb "LE BIG MAC"
 	#dqb "V8" #josko kommentoituna takaisin se cp
@@ -707,6 +698,7 @@ function check_binaries2() {
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
 
+	#TODO:lftr asettaminen sqroot.-riippuvaiseksi? live-ymp ei tekisi mitään?
 	lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing '/run/live/medium/live/initrd.img.new': No space left on device
@@ -721,34 +713,56 @@ function check_binaries2() {
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
+#==================================================================
+function slaughter0() { #jos ottaisi jäytytöön?
+	local fn2
+	local ts2
 
-#TODO;"man 5 sudoers", varmista etä syntaksi menee oikein prkl!!!
+	fn2=$(echo $1 | awk '{print $1}') 
+	ts2=$(${sah6} ${fn2})
+	echo ${ts2} | awk '{print $1,$2}' >> ${2}
+}
+
+#TODO:"man 5 sudoers", varmista etä syntaksi menee oikein prkl!!!
+#... tai koitetaan ensin yhtä juytytua
 #(oli myös se dinf)
 function mangle_s() {
 	dqb "mangle_s  ${1} , ${2}, ${3}  "
 	csleep 1
 
-	[ y"${1}" == "y" ] && exit 44
+	[ -z "${1}" ] && exit 44
 	[ -x ${1} ] || exit 55
 
-	#HUOM.26525:pitäisiköhän olla jotain lisätarkistuksia $2 kanssa nyk lisäksi?
-	[ y"${2}" == "y" ] && exit 45
+	#HUOM.26525:pitäisiköhän olla jotain lisätarkistuksia $2 kanssa nyk lisäöksi?
+	[ -z "${2}" ] && exit 45
 	[ -f ${2} ] || exit 54
 
 	${scm} 0555 ${1}
 	${sco} root:root ${1}
 
+#	
+
+#
+
+#
+#	echo -n ${p} >> ${2}
+#	echo -n " " >> ${2}
+#	 >> ${2}
+#	
+
 	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
-	echo -n " localhost=NOPASSWD:" >> ${2}
-	echo -n " sha256: " >> ${2}
+	#echo -n " localhost=NOPASSWD:sha512:" >> ${2} #ei
+	#slaughter0 ${1} ${2}
 
 	local p
-	p=$(sha256sum ${1} | cut -d ' ' -f 1 | tr -dc a-f0-9)
+	local q
 
-	echo -n ${p} >> ${2}
-	echo -n " " >> ${2}
-	echo -n ${1} | tr -dc a-zA-Z0-9/. >> ${2}
+	p=$(sha256sum ${1} | cut -d ' ' -f 1 | tr -dc a-f0-9)
+	q=$(echo ${1} | tr -dc a-zA-Z0-9/.) #echoon -n mukaan vai ei?
+
+	echo -n " localhost=NOPASSWD:sha256:${p} ${q}" >> ${2}
 	echo -e "\n" >> ${2}
+
 }
 
 #VAIH:jinnebtiudut jutut taas käyttöön asfd asdf fads
@@ -779,7 +793,7 @@ function dinf() {
 	#cat ${1}
 	#exit
 }
-
+#=================================================================
 function fasdfasd() {
 	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
 	[ -z ${1} ] && exit 99
@@ -814,7 +828,9 @@ function pre_enforce() {
 	local f
 
 	[ -v mkt ] || exit 99
-	q=$(mktemp) #tdstonimenkin pystyisi lotttoamaan ktmeåillä
+	#q=$(mktemp) #ei kai tämä?
+	q=$(${mkt} -d)
+	q=${q}/meshuqqah
 	dqb "touch ${q} in 3 secs"
 
 	csleep 1
@@ -843,17 +859,12 @@ function pre_enforce() {
 		mangle_s /opt/bin/changedns.sh ${q}
 		csleep 1
 	fi
-
-	##se update2.sh tämän skriptin kautta sudoersiin vai ei? toisinbkin voi tehdä
-	##yo if-blokkiin vaikka else-haara ja siinä cp
-	#find ~ -type f -name update2.sh
-	#csleep 3
 	
 	dqb "LETf HOUTRE JOINED IN L0CH N355"
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
 	csleep 1
 
-	dqb "TRAN S1LVAN1AN HUGN3R"
+	dqb "TRAN S1LVAN1AN HUGN3R GAM35"
 	dinf ${q}
 	csleep 1
 
@@ -1373,6 +1384,7 @@ function part3() {
 
 	#HUOM.071225 ehto kommentteihin koska y
 	#if [ ! -f /.chroot ] ; then
+	#TODO:poisteluun jotain muutoksia jatkossa?
 		common_lib_tool ${1} reject_pkgs
 	#fi
 

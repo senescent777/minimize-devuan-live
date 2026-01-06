@@ -20,9 +20,11 @@ fi
 #231225:suattaapi olla että login-ongelma poissa vuan suattaapi ettei
 #040126:nykyään toimii toivotulla tavalla (kirjautumisen suhteen) kunhan ei sitä päivityspakettia aja
 #... toiminnasta sudon kanssa en ole varma (sudoersiin menevän tdston sisältö saattaa olla P-V-H-H tai sitten ei)
+#joko paskaa sisältöä tai paskat versiot softista olisi 2 ensimmäistä arvaistaq
+#urpoa nimittäin jos /e/s.d alaiseen tdstonimeen kaatuu sudotus
 
-#tty tai input mukaan ryhmiin kokeeksi? testaa seur miten modatulla kiekolla käy
-[ ${mode} -gt 1 ] && ${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty,input devuan 
+#tty tai input mukaan ryhmiin kokeeksi? TODO:testaa seur miten modatulla kiekolla käy
+[ ${mode} -gt 1 ] && ${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev devuan #,tty,input
 [ ${mode} -gt 2 ] && ${smr} /etc/sudoers.d/live
 [ ${mode} -gt 3 ] && ${svm} /etc/sudoers_new /etc/sudoers #miten Tämä toimii nykyään?
 [ ${mode} -gt 0 ] && ${whack} xfce4-session
