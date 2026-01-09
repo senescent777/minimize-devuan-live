@@ -281,6 +281,9 @@ e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
+[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
+[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
+
 #040126:tähän mennessä ao. caset pääosin testattu, toiminee, dblock-kikkailu tosin laittaisi kaiken uusiksi
 case ${mode} in
 	0)
@@ -288,20 +291,13 @@ case ${mode} in
 		exit 99
 	;;
 	3|4) 
-		#030126:case 3 toimii, case4:sen tuotos testissä
+		#090126:vaiheessa tämän casen testailu, siis 3 lähinnä, nelonen toiminee
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm}
 		dqb "e22_ext DON3, next:rm some rchives"
 		csleep 1
-
-		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
-		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
-
-		#dqb "srat= ${srat}" #asia lienee jo qnnossa
-		#csleep 1
-		e22_hdr ${d}/f.tar
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
@@ -319,7 +315,7 @@ case ${mode} in
 		e22_home ${tgtfile} ${d} ${CONF_enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 1
-		${NKVD} ${d}/*.tar #oli se fktiokin
+		#${NKVD} ${d}/*.tar #ylempänä jo dellitään
 
 		${srat} -tf ${tgtfile} | grep fediverse
 		csleep 5 #jos 5 riittäisi
@@ -376,7 +372,9 @@ case ${mode} in
 esac
 
 if [ -d ${d} ] ; then #ehtoa joutaisi varmaankin miettimään vielä
-	e22_dblock ${tgtfile} ${d}
+	e22_hdr ${d}/f.tar 
+	e22_dblock ${d}/f.tar ${d}
+	${srat} -rvf ${tgtfile} ${d}/f.tar 
 fi
 
 if [ -s ${tgtfile} ] ; then

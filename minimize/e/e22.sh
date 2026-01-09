@@ -690,9 +690,10 @@ function e22_arch() {
 	fi
 
 	csleep 1
+	#090126:ao,. fktioon liittyen changedns jos tarkistaisi rules.* - tdstot
 	psqa .
 
-	${srat} -rf ${1} ./*.deb ./sha512sums.txt*
+	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
 	[ ${debug} -eq 1 ] && ls -las ${1} 
 
 	csleep 5
