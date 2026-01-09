@@ -755,8 +755,9 @@ function mangle_s() {
 #	echo -n " localhost=NOPASSWD:sha256:${p} ${q}" >> ${2}
 #	echo -e "\n" >> ${2}
 
-	#TODO:localhost-kohdan muuttaminen?
-	echo -n " localhost=NOPASSWD:sha512:" >> ${2}
+	#VAIH:localhost-kohdan muuttaminen?
+	#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
+	echo -n " ALL=NOPASSWD:sha512:" >> ${2}
 	slaughter0 ${r} ${2}
 }
 

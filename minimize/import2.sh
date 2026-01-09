@@ -448,9 +448,9 @@ case "${mode}" in
 	;; 
 	0|3) #151225:case 3 toimii edelleen, myös sqroot alla
 		#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)
-		#... paskoo edelleen asioirta 040126
+		#... paskoi edelleen asioita 040126
 
-		#TODO:selvitä, toimiiko case 0? jnpp
+		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
 
 		echo "ZER0 S0UND"
 		csleep 1
@@ -458,8 +458,8 @@ case "${mode}" in
 		csleep 1
 
 		if [ ${1} -eq 0 ] ; then
-			dqb "DEPRECATED"
-			csleep 10
+			#dqb "DEPRECATED"
+			#csleep 10
 			common_part ${srcfile} ${d} /
 		else
 			common_part ${srcfile} ${d} ${d}
