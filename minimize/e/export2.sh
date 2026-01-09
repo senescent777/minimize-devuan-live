@@ -324,7 +324,7 @@ case ${mode} in
 		csleep 1
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
-	#010126 teki ei-tyhjän paketin vaan asentuuko sisältö? jep
+	#090126:uusi testikiwerros(VAIH	)
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
