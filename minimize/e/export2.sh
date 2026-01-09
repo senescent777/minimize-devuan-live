@@ -315,7 +315,6 @@ case ${mode} in
 		e22_home ${tgtfile} ${d} ${CONF_enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 1
-		#${NKVD} ${d}/*.tar #ylempänä jo dellitään
 
 		${srat} -tf ${tgtfile} | grep fediverse
 		csleep 5 #jos 5 riittäisi
@@ -329,20 +328,13 @@ case ${mode} in
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
-
 		e22_upgp ${tgtfile} ${d} ${CONF_iface}
-#		e22_dblock ${tgtfile} ${d}
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
-		#DONE:testaa uusicksi tämä, 030126 viimeksi, toimi silloin trhfyn sisältö
-		
+		#090126:uusiksi testaus (VAIH)
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
-#
-#		if [ -d ${d} ] ; then
-#			e22_dblock ${tgtfile} ${d}
-#		fi
 	;;
 	t) 
 		#DONE:testaus, tekee paketin:jep (251225) sisältö: asentuu (010126)

@@ -829,24 +829,22 @@ function e22_other_pkgs() {
 	csleep 1
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 
-
 	${shary} ${E22GI}
 
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
 	${shary} ${E22_GG}
-	#${shary} 
-	#${shary}
 
-	E22_GS="libc6 zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
+	#090126:sudo jemmaan koska omegan kanssa kiukuttelua
+	#... joutuisikohan luo libaudit-limpam-etc jutut kanssa kommentoimaan pois?
+
+	E22_GS="libc6 zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db" # sudo
+	
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} ${E22_GS}  #moni pak tarttee nämä
 	#${shary} #bsd debconf
 	csleep 5
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
-	#${shary}
-	#${shary}
-	#csleep 2
 
 	message
 	jules
@@ -898,7 +896,8 @@ function e22_dm() {
 	csleep 2
 	
 	#libselinux oikeastaan muualla jo
-	${shary} libcrypt1 libpam0g libselinux1 libxau6 libxaw7 libxdmcp6 libxft2 libxinerama1 
+	${shary} libcrypt1 libpam0g libselinux1 #jemmaan?
+	${shary} libxau6 libxaw7 libxdmcp6 libxft2 libxinerama1 
 	csleep 2
 	
 	${shary} libxpm4 libxrender1 debconf x11-utils cpp lsb-base x11-xserver-utils procps
@@ -923,10 +922,10 @@ function e22_dm() {
 			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
 			csleep 2
 
-			${shary} libwebpdemux2 libheif1 libaudit1 
+			${shary} libwebpdemux2 libheif1 libaudit1 #libaudit jemmaan ksnssa?
 			csleep 2
 
-			${shary} libdb5.3 libpam-modules-bin libpam-modules libpam-runtime
+			${shary} libdb5.3 libpam-modules-bin libpam-modules libpam-runtime #libpam jemmaan?
 			csleep 2
 
 			${shary} sysvinit-utils libtinfo6 libpng16-16 libx11-xcb1  
