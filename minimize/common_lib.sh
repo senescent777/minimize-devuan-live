@@ -714,7 +714,7 @@ function check_binaries2() {
 	csleep 1
 }
 #==================================================================
-function slaughter0() { #VAIH:kokeile josko mangle_s kuitenKin
+function slaughter0() { #090126:mangle_s toiminee tämän kanssa
 	local fn2
 	local ts2
 
@@ -755,6 +755,7 @@ function mangle_s() {
 #	echo -n " localhost=NOPASSWD:sha256:${p} ${q}" >> ${2}
 #	echo -e "\n" >> ${2}
 
+	#TODO:localhost-kohdan muuttaminen?
 	echo -n " localhost=NOPASSWD:sha512:" >> ${2}
 	slaughter0 ${r} ${2}
 }
