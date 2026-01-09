@@ -834,8 +834,9 @@ function e22_other_pkgs() {
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
 	${shary} ${E22_GG}
 
-	#090126:sudo jemmaan koska omegan kanssa kiukuttelua
+	#090126:toistaiseksi sudo jemmaan koska omegan kanssa kiukuttelua
 	#... joutuisikohan luo libaudit-limpam-etc jutut kanssa kommentoimaan pois?
+	#... pitäisiköhän reject_pkgs laittaa uusikisi? toisaalta CVE-jotain-jotain
 
 	E22_GS="libc6 zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db" # sudo
 	

@@ -337,16 +337,12 @@ case ${mode} in
 		e22_other_pkgs ${CONF_dnsm}
 	;;
 	t) 
-		#DONE:testaus, tekee paketin:jep (251225) sisältö: asentuu (010126)
+		#090126:uusiksi testaus (VAIH)
 		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
 
 		message
 		csleep 2
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-#
-#		if [ -d ${d} ] ; then
-#			e22_dblock ${tgtfile} ${d}
-#		fi
 	;;
 	l)
 		#010126:vissiinkin e22dm() , tapauksissa lxdm ja wdm, tekevät asentuvan paketin
