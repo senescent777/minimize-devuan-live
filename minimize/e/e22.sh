@@ -838,7 +838,7 @@ function e22_other_pkgs() {
 	#... joutuisikohan luo libaudit-limpam-etc jutut kanssa kommentoimaan pois?
 	#... pitäisiköhän reject_pkgs laittaa uusikisi? toisaalta CVE-jotain-jotain
 
-	E22_GS="libc6 zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db" # sudo
+	E22_GS="libc6 zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo" #
 	
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} ${E22_GS}  #moni pak tarttee nämä
