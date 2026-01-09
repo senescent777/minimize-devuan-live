@@ -284,14 +284,14 @@ e22_cleanpkgs ${CONF_pkgdir}
 [ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 
-#040126:tähän mennessä ao. caset pääosin testattu, toiminee, dblock-kikkailu tosin laittaisi kaiken uusiksi
+#040126:tähän mennessä ao. caset pääosin testattu, toiminee, dblock-kikkailu saattaa jo toimina 090126
 case ${mode} in
 	0)
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
 	3|4) 
-		#090126:vaiheessa tämän casen testailu, siis 3 lähinnä, nelonen toiminee
+		#090126:vaiheessa tämän casen testailu, siis 3 lähinnä(tekee pak, sisältökin asentunee), nelonen toiminee
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
@@ -324,7 +324,7 @@ case ${mode} in
 		csleep 1
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
-	#090126:uusi testikiwerros(VAIH	)
+	#090126:uusi testikiwerros, tekee pak ja sisältökin toimii enimmäkseen (VAIH:omega-test vuelä)
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
@@ -332,12 +332,12 @@ case ${mode} in
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
-		#090126:uusiksi testaus (VAIH)
+		#090126:uusiksi testaus (VAIH) (sisällön tmivuus)
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
 	;;
 	t) 
-		#090126:uusiksi testaus (VAIH)
+		#090126:uusiksi testaus (VAIH) (tekee pak, sisällön toimivuus vielä)
 		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
 
 		message
@@ -347,7 +347,7 @@ case ${mode} in
 	l)
 		#010126:vissiinkin e22dm() , tapauksissa lxdm ja wdm, tekevät asentuvan paketin
 		#... tosin "sqroot->toimiva kiekko" ei ole vielä onnistunut
-		#090126:testaukset uudelleen käynnissä (VAIH)
+		#090126:tekee pak mikä as live-ymp (sqroot ei vielä testattu)
 		[ -v CONF_dm ] || exit 77
 
 		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		

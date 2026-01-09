@@ -35,7 +35,6 @@ function e22_hdr() {
 	csleep 1
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
-	#dqb "srat= ${srat}"
 	csleep 2
 
 	${srat} -cvf ${1} ./rnd
