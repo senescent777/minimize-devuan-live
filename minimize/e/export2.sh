@@ -308,18 +308,13 @@ case ${mode} in
 			e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e22_other_pkgs ${CONF_dnsm}
 
-#			if [ -d ${d} ] ; then
-#				e22_dblock ${d}/f.tar ${d}
-#			fi
-
-			e22_cleanpkgs ${d} #kuinka oleellinen?
 			[ ${debug} -eq 1 ] && ls -las ${d}
 			csleep 1
 		fi
 
 		${sifd} ${CONF_iface}
 		[ ${debug} -eq 1 ] && ls -las ${d}
-		csleep 1
+		csleep 10
 
 		e22_home ${tgtfile} ${d} ${CONF_enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
