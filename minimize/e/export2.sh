@@ -347,11 +347,11 @@ case ${mode} in
 	l)
 		#010126:vissiinkin e22dm() , tapauksissa lxdm ja wdm, tekevät asentuvan paketin
 		#... tosin "sqroot->toimiva kiekko" ei ole vielä onnistunut
+		#090126:testaukset uudelleen käynnissä (VAIH)
 		[ -v CONF_dm ] || exit 77
 
 		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
 		e22_dm ${CONF_dm}
-		#e22_dblock ${tgtfile} ${d}
 	;;
 	*) #281025:tämäkin toiminee
 		echo "-h"
@@ -359,7 +359,7 @@ case ${mode} in
 	;;
 esac
 
-if [ -d ${d} ] ; then #ehtoa joutaisi varmaankin miettimään vielä
+if [ -d ${d} ] ; then #ehtoa joutaisi varmaankin miettimään vielä?
 	e22_hdr ${d}/f.tar 
 	e22_dblock ${d}/f.tar ${d}
 	${srat} -rvf ${tgtfile} ${d}/f.tar 

@@ -836,7 +836,7 @@ function e22_other_pkgs() {
 
 	#090126:toistaiseksi sudo jemmaan koska omegan kanssa kiukuttelua
 	#... joutuisikohan luo libaudit-limpam-etc jutut kanssa kommentoimaan pois?
-	#... pitäisiköhän reject_pkgs laittaa uusikisi? toisaalta CVE-jotain-jotain
+	#... pitäisiköhän reject_pkgs laittaa uusiksi? toisaalta CVE-jotain-jotain
 
 	E22_GS="libc6 zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo" #
 	
@@ -1027,7 +1027,6 @@ function e22_dm() {
 	
 	E22_GX="libwww-perl xscreensaver-data init-system-helpers libegl1 xscreensaver"
 	${shary} ${E22_GX}  #libsystemd0
-	#${shary}
 }
 
 #040126:teki paketin missä sisältöä, sis. tmivuus testaten kohta (VAIH)
