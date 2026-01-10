@@ -23,8 +23,14 @@ fi
 #joko paskaa sisältöä tai paskat versiot softista olisi 2 ensimmäistä arvaistaq
 #urpoa nimittäin jos /e/s.d alaiseen tdstonimeen kaatuu sudotus
 
-#tty tai input mukaan ryhmiin kokeeksi? TODO:testaa seur miten modatulla kiekolla käy
-[ ${mode} -gt 1 ] && ${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev devuan #,tty,input
+#tty tai input mukaan ryhmiin kokeeksi? 
+#DONE:testaa seur miten modatulla kiekolla käy:no ei se nyt oikein
+
+if [ ${mode} -gt 1 ]; then
+	${scm} g+rw /dev/tty0	#JOKO JP PRKL
+	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty,input devuan
+fi
+
 [ ${mode} -gt 2 ] && ${smr} /etc/sudoers.d/live
 [ ${mode} -gt 3 ] && ${svm} /etc/sudoers_new /etc/sudoers #miten Tämä toimii nykyään?
 [ ${mode} -gt 0 ] && ${whack} xfce4-session

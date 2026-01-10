@@ -581,6 +581,7 @@ function check_binaries() {
 	E22_GV="libip iptables_  netfilter-persistent iptables-"
 	#dqb "JUST BEFORE cefgh()"
 	
+	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
 	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
 		#dqb "aa"
 		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then #; then #31225:tilapåäisesti gg-testi jemmassa jnkn aikaa
@@ -755,7 +756,7 @@ function mangle_s() {
 #	echo -n " localhost=NOPASSWD:sha256:${p} ${q}" >> ${2}
 #	echo -e "\n" >> ${2}
 
-	#VAIH:localhost-kohdan muuttaminen?
+	#VAIH:localhost-kohdan muuttaminen? ainakin changedns.sh kanssa kiukuttelua sillä tavalla, tosin konftdstosta johtuvaa, luulisin
 	#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
 	echo -n " ALL=NOPASSWD:sha512:" >> ${2}
 	slaughter0 ${r} ${2}
@@ -836,6 +837,11 @@ function pre_enforce() {
 	csleep 1
 	[ -f ${q} ] || exit 33
 
+	dqb "LETf HOUTRE JOINED IN L0CH N355"
+	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
+	csleep 1
+
+	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
 	if [ ! -v CONF_testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
 		dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 
@@ -850,15 +856,13 @@ function pre_enforce() {
 			${svm} ${1}/changedns.sh /opt/bin
 		fi
 
-		${scm} 0555 /opt/bin/changedns.sh
-		${sco} 0:0 /opt/bin/changedns.sh
+		#100126:mangle_s tehenee nuo samat jutut ni...
+		#${scm} 0555 /opt/bin/changedns.sh
+		#${sco} 0:0 /opt/bin/changedns.sh
+
 		mangle_s /opt/bin/changedns.sh ${q}
 		csleep 1
 	fi
-	
-	dqb "LETf HOUTRE JOINED IN L0CH N355"
-	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
-	csleep 1
 
 	dqb "TRAN S1LVAN1AN HUGN3R GAM35"
 	dinf ${q}
@@ -1317,6 +1321,9 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	fi
 
 	#usermod:illa tty ja input mukaan ryhmiin vai ei? koita ensin omegalla
+	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty,input devuan
+	${scm} g+rw /dev/tty0	
+	#joskohan se seatd seuraavaksi	
 
 	dqb "PART2.5.2 ${1} , ${2}"
 	csleep 1
