@@ -324,7 +324,7 @@ case ${mode} in
 		csleep 1
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
-	#100126:uusi testikierros, tekee pak ja sisältökin toimii enimmäkseen (paitsi omegan kanssa, toivotulla tavalla)
+	#100126:uusi testikierros, tekee pak ja sisältökin toimii enimmäkseen (omegan kanssa jo ok?)
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1

@@ -1068,7 +1068,7 @@ function e22_profs() {
 #010126 teki ei-tYhjän paketin, sisäLtökin näköjään asentuu
 #040126 osoittautui että tämä tuoreempi päivityspaketti sössii slimin asiat, "login failed"
 #... jotain olisi hyvä keksiä
-#090126:uusi testikerros käytnnissä (VAIH)
+#100126:olisikohan jo toimiva?
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}" #ei pitäne tulla neljättä?
 
