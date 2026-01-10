@@ -82,4 +82,7 @@ libavcodec59*.deb
 mime-support*.deb
 libimagequant0*.deb
 libraqm0*.deb
+#
+#mime-support*.deb
+python3-pil.imagetk*.deb
 python3-pil*.deb
