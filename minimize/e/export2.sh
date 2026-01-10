@@ -187,7 +187,7 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#101225:toimii (ainakin 1 kerran)
+		#040126:toimii
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 		#141225:tgtfile voisi oikeastaan mennä config1:selle parametriksi jatkossa
@@ -197,7 +197,7 @@ case ${mode} in
 		dqb $?
 		csleep 4
 
-		${smr} ~/fediverse.tar
+		${smr} ~/fediverse.tar #NKVD?
 		csleep 1
 
 		#tdstonimi parametriksi jatkossa? mille fktiolle?
@@ -226,7 +226,6 @@ case ${mode} in
 		${srat} --exclude '*merd*' -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
 		e22_ftr ${tgtfile}
 		exit
-		#VAIH:install_keys.bash liittyen muutoksia exp2 ja imp2
 	;;
 	g)
 		#101225:ulostuksilla saa paketin aikaiseksi edelleen
@@ -258,6 +257,11 @@ case ${mode} in
 #		echo "$0 f ${tgtfile} ${distro}"
 #		exit 1
 #	;;
+	p) #040126:toimii, luulisin
+		e22_hdr ${tgtfile}
+		e22_profs ${tgtfile} ${d0}
+		exit
+	;;
 	-h)
 		usage
 	;;
@@ -277,14 +281,17 @@ e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
-#VAIH:jospa varm vuoksi kaikki caset testiin taas
+[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
+[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
+
+#040126:tähän mennessä ao. caset pääosin testattu, toiminee, dblock-kikkailu saattaa jo toimina 090126
 case ${mode} in
 	0)
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
 	3|4) 
-		#TODO:case 4, kolmonen toimii jo (testattu 25.12.25 ->)
+		#090126:vaiheessa tämän casen testailu, siis 3 lähinnä(tekee pak, sisältökin asentunee), nelonen toiminee
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
@@ -292,35 +299,22 @@ case ${mode} in
 		dqb "e22_ext DON3, next:rm some rchives"
 		csleep 1
 
-		[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
-		[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
-
-		#dqb "srat= ${srat}" #asia lienee jo qnnossa
-		#csleep 1
-		e22_hdr ${d}/f.tar
-
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
 			e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e22_other_pkgs ${CONF_dnsm}
 
-			if [ -d ${d} ] ; then
-				e22_dblock ${d}/f.tar ${d}
-			fi
-
-			e22_cleanpkgs ${d} #kuinka oleellinen?
 			[ ${debug} -eq 1 ] && ls -las ${d}
 			csleep 1
 		fi
 
 		${sifd} ${CONF_iface}
 		[ ${debug} -eq 1 ] && ls -las ${d}
-		csleep 1
+		csleep 10
 
 		e22_home ${tgtfile} ${d} ${CONF_enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
 		csleep 1
-		${NKVD} ${d}/*.tar #oli se fktiokin
 
 		${srat} -tf ${tgtfile} | grep fediverse
 		csleep 5 #jos 5 riittäisi
@@ -330,55 +324,46 @@ case ${mode} in
 		csleep 1
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
-	#010126 teki ei-tyhjän paketin vaan asentuuko sisältö? jep
+	#100126:uusi testikierros, tekee pak ja sisältökin toimii enimmäkseen (omegan kanssa jo ok?)
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
-
 		e22_upgp ${tgtfile} ${d} ${CONF_iface}
-		e22_dblock ${tgtfile} ${d}
-	;;
-	p) #251225:teki paketin missä sisältöä, sis. tmivuus testaten myöhemmin
-		e22_profs ${tgtfile} ${d0} 
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
-		#24-25.12.25 tienoilla teki paketin minkä sisältö vaikuttaa tmivalta
-		#311225 sai edelleen paketin aikaiseksi
-		
+		#090126:uusiksi testaus (VAIH) (sisällön tmivuus)
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
-
-		if [ -d ${d} ] ; then
-			e22_dblock ${tgtfile} ${d}
-		fi
 	;;
 	t) 
-		#DONE:testaus, tekee paketin:jep (251225) sisältö: asentuu (010126)
+		#090126:uusiksi testaus (VAIH) (tekee pak, sisällön toimivuus vielä)
 		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
 
 		message
 		csleep 2
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-
-		if [ -d ${d} ] ; then
-			e22_dblock ${tgtfile} ${d}
-		fi
 	;;
 	l)
 		#010126:vissiinkin e22dm() , tapauksissa lxdm ja wdm, tekevät asentuvan paketin
 		#... tosin "sqroot->toimiva kiekko" ei ole vielä onnistunut
+		#090126:tekee pak mikä as live-ymp (sqroot ei vielä testattu)
 		[ -v CONF_dm ] || exit 77
 
 		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
 		e22_dm ${CONF_dm}
-		e22_dblock ${tgtfile} ${d}
 	;;
 	*) #281025:tämäkin toiminee
 		echo "-h"
 		exit
 	;;
 esac
+
+if [ -d ${d} ] ; then #ehtoa joutaisi varmaankin miettimään vielä?
+	e22_hdr ${d}/f.tar 
+	e22_dblock ${d}/f.tar ${d}
+	${srat} -rvf ${tgtfile} ${d}/f.tar 
+fi
 
 if [ -s ${tgtfile} ] ; then
 	e22_ftr ${tgtfile}

@@ -1,10 +1,10 @@
-eudev
-udev
-xserver
-dbus
-initramfs
-live
-e2fsprogs
+#eudev #090126 laitettu suurin osa sisältöä kommentteihin, let's find out...
+#udev
+#xserver
+#dbus
+#initramfs
+#live
+#e2fsprogs
 #
 #dirmngr joihinkin juttuihin tämä suorastaan tarvitaan, gpgv tuntuu vain sotkevan
 gpgv

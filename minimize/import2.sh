@@ -10,8 +10,6 @@ d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 d=${d0}/${distro}
 
-#DONE?:muista kopsata tikulle/kiekoille se uudempi päivityspak jotta testit
-
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -48,12 +46,7 @@ if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
 
-	#DONE?:ao.. kaltainen /.chroot-kikkailu pois muista tdstoista, tämän tulisi riittää
-	#HUOM.141025:them files should be checked before eXtraCting
-	#gpgtar jos mahd, muuten normi-tar
-
-	#HUOM.221225:wanhassa systeemissä oli yhden s,kriptin alussa niitä sha- ja gpg- tarkistuk sia...
-	#VAIH:josko ainakin sha-tark jo	
+	#gpgtar jos mahd, muuten normi-tar?
 	
 	echo "A"
 	p=$(pwd)
@@ -187,19 +180,20 @@ else
 fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
-#121225:ulompi gpg-tarkistus sujuu jo live-ymp, miten sisempi? tehdäänkö sitä? nykyään joo
-#111225.2:live-ymp ja ffox-prof exp/imp, toimiiko? jep
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
+	#TODO:tömnän haaran testaus
 	echo $?
 	dqb "NO LIB"
 	csleep 1
 
-	#TODO:exit jos ongelmia ao. juttujen kanssa
 	check_binaries
+	[ $? -eq 0 ] || exit 
+
 	check_binaries2
+	[ $? -eq 0 ] || exit 
 fi
 
 #HUOM.201225:jutut sitten siirretty myöhemmäksi koska sqrootin kanssa ongelmia, to state the obvious
@@ -223,13 +217,12 @@ dqb "LHP"
 if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
 	dqb "OLD.tar OK"
 else
-	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE (TODO)"
+	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE "
+	${srat} -cvf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
-#VAIH:tar-testejä sitten vähemmälle jatkossa
 dqb "Lpg"
 
-#251225;2. param, tekee sillä mtään nkyään?
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
 
@@ -286,7 +279,6 @@ function common_part() {
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	#dqb "srat= ${srat}"	#tai ocs() 
 	csleep 3
 	#241225:mitäs exclude-juttuja tuo TPX sisälsikään nykyään?
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
@@ -327,15 +319,14 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
-ocs tar
-#dqb "srat= ${srat}"
-csleep 3
+#ocs tar
+#csleep 3
 dqb "HPL"
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#141222:profiilin importoinnin ongelmien syy saattaut selvitä, tietty tap lkukuunottamatta ao. fktio toimii ok
+#141222:profiilin importoinnin ongelmien syy saattaut selvitä, tietty tap lukuunottamatta ao. fktio toimii ok
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
-#
+
 function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
@@ -457,7 +448,9 @@ case "${mode}" in
 	;; 
 	0|3) #151225:case 3 toimii edelleen, myös sqroot alla
 		#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)
-		#TODO:selvitä, toimiiko case 0? jnpp
+		#... paskoi edelleen asioita 040126
+
+		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
 
 		echo "ZER0 S0UND"
 		csleep 1
@@ -465,8 +458,8 @@ case "${mode}" in
 		csleep 1
 
 		if [ ${1} -eq 0 ] ; then
-			dqb "DEPRECATED"
-			csleep 10
+			#dqb "DEPRECATED"
+			#csleep 10
 			common_part ${srcfile} ${d} /
 		else
 			common_part ${srcfile} ${d} ${d}
@@ -488,7 +481,7 @@ case "${mode}" in
 		tpr ${srcfile}
 	;;
 	q)
-		#141225:josko taas toimisi
+		#040126:toimii ainakin ffox prof osalta
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
@@ -502,7 +495,7 @@ case "${mode}" in
 	k)
 		#161225:toimii, sq-root-ymp ainakin
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
-		#TODO:tuotaviille avaimille jotain tark? jos on jo ennestäöän jotain av ni niitä vasten testaa uudet, esim.
+		#TODO:tuotaville avaimille jotain tark? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"

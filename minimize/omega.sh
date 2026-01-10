@@ -14,12 +14,13 @@ if [ $# -gt 0 ] ; then
 	mode=${1}
 fi
 
-#251125:edelleen päivityspak ajamisesta seuraa "login command failed", kyse lienee muustaq hmistojen käyttöoik
-#... jos ei muuta keksi ni slim pois kiekolta/esim lxdm tilalle? tai pikemminkin minimal livecd pohjaksi?
-#131225:viime aikoina taas tullut login-ongelma muttei välttis liity lxdm:n
-#231225:suattaapi olla että login-ongelma poissa vuan suattaapi ettei
+#seatd as+chmod+usermod==tarpeeksi? uskaltaisiko scm poistaa?
 
-[ ${mode} -gt 1 ] && ${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev devuan 
+if [ ${mode} -gt 1 ]; then
+	${scm} g+rw /dev/tty0
+	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
+fi
+
 [ ${mode} -gt 2 ] && ${smr} /etc/sudoers.d/live
-[ ${mode} -gt 3 ] && ${svm} /etc/sudoers_new /etc/sudoers #miten yämä toimii nykyään?
+[ ${mode} -gt 3 ] && ${svm} /etc/sudoers_new /etc/sudoers #miten Tämä toimii nykyään?
 [ ${mode} -gt 0 ] && ${whack} xfce4-session

@@ -167,7 +167,8 @@ function check_bin_0() {
 	NKVD="${odio} ${NKVD} -fu "
 	
 	#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
-	PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" 
+	#040126:josko alkaisi bluez poistumaan?	
+	PART175_LIST="avahi blu cups exim4 nfs network mdadm sane rpc lm-sensors dnsmasq stubby" 
 
 	# ntp" ntp jemmaan 28525 #slim kokeeksi mukaan listaan 271125, hiiri lakkasi toimimasta
 	#HUOM.excalibur ei sisällä:dnsmasq,stubby
@@ -214,15 +215,6 @@ function check_bin_0() {
 }
 
 check_bin_0
-
-function slaughter0() { #käytössä?
-	local fn2
-	local ts2
-
-	fn2=$(echo $1 | awk '{print $1}') 
-	ts2=$(${sah6} ${fn2})
-	echo ${ts2} | awk '{print $1,$2}' >> ${2}
-}
 
 function jules() {
 	dqb "LE BIG MAC"
@@ -346,7 +338,7 @@ function common_pp3() {
 	fi
 }
 
-#TODO;"man 5 sources-list", josko pääsisi dpkg-kikkailuista
+#TODO:"man 5 sources.list", josko pääsisi dpkg-kikkailuista
 function efk1() {
 	dqb "efk1 $@"
 	${sdi} $@
@@ -589,6 +581,7 @@ function check_binaries() {
 	E22_GV="libip iptables_  netfilter-persistent iptables-"
 	#dqb "JUST BEFORE cefgh()"
 	
+	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
 	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
 		#dqb "aa"
 		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then #; then #31225:tilapåäisesti gg-testi jemmassa jnkn aikaa
@@ -706,6 +699,7 @@ function check_binaries2() {
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
 
+	#TODO:lftr asettaminen sqroot.-riippuvaiseksi? live-ymp ei tekisi mitään?
 	lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing '/run/live/medium/live/initrd.img.new': No space left on device
@@ -720,32 +714,54 @@ function check_binaries2() {
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
+#==================================================================
+function slaughter0() { #090126:mangle_s toiminee tämän kanssa
+	local fn2
+	local ts2
 
+	fn2=$(echo $1 | awk '{print $1}') 
+	ts2=$(${sah6} ${fn2})
+	echo ${ts2} | awk '{print $1,$2}'  >> ${2}
+}
+
+#060126:josko jo alkaisi toimia toivotulla tavalla?
 function mangle_s() {
 	dqb "mangle_s  ${1} , ${2}, ${3}  "
 	csleep 1
 
-	[ y"${1}" == "y" ] && exit 44
+	[ -z "${1}" ] && exit 44
 	[ -x ${1} ] || exit 55
 
-	#HUOM.26525:pitäisiköhän olla jotain lisätarkistuksia $2 kanssa nyk lisäksi?
-	[ y"${2}" == "y" ] && exit 45
+	[ -z "${2}" ] && exit 45
 	[ -f ${2} ] || exit 54
 
-	${scm} 0555 ${1}
-	${sco} root:root ${1}
+	#local p
+	#local q
+	local r
+	#s=$(echo ${1} | grep '..' | wc -l)
+
+	#ei vissiin näin
+	#r=$(echo $1 | grep -v '..')
+	#[ -z "${r}" ] && echo 67
+	#[ -s gt 0 ] && exit 67
+
+	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
+	${scm} 0555 ${r}
+	${sco} root:root ${r}
 
 	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
-	echo -n " localhost=NOPASSWD:" >> ${2}
-	echo -n " sha256: " >> ${2}
+#	p=$(sha256sum ${r} | cut -d ' ' -f 1 | tr -dc a-f0-9)
+#	q=$r #(echo ${1} | tr -dc a-zA-Z0-9/.)
+#
+#	echo -n " localhost=NOPASSWD:sha256:${p} ${q}" >> ${2}
+#	echo -e "\n" >> ${2}
 
-	local p
-	p=$(sha256sum ${1} | cut -d ' ' -f 1 | tr -dc a-f0-9)
+	#100126:ALL vai localhost? rahat vs kolmipyörä?
+	#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
+	#KVG <sudo-juttuja>	? (kts omega)
 
-	echo -n ${p} >> ${2}
-	echo -n " " >> ${2}
-	echo -n ${1} | tr -dc a-zA-Z0-9/. >> ${2}
-	echo -e "\n" >> ${2}
+	echo -n " ALL=NOPASSWD:sha512:" >> ${2}
+	slaughter0 ${r} ${2}
 }
 
 #VAIH:jinnebtiudut jutut taas käyttöön asfd asdf fads
@@ -776,7 +792,7 @@ function dinf() {
 	#cat ${1}
 	#exit
 }
-
+#=================================================================
 function fasdfasd() {
 	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
 	[ -z ${1} ] && exit 99
@@ -811,7 +827,9 @@ function pre_enforce() {
 	local f
 
 	[ -v mkt ] || exit 99
-	q=$(mktemp) #tdstonimenkin pystyisi lotttoamaan ktmeåillä
+	#q=$(mktemp) #ei kai tämä?
+	q=$(${mkt} -d)
+	q=${q}/meshuqqah
 	dqb "touch ${q} in 3 secs"
 
 	csleep 1
@@ -821,6 +839,11 @@ function pre_enforce() {
 	csleep 1
 	[ -f ${q} ] || exit 33
 
+	dqb "LETf HOUTRE JOINED IN L0CH N355"
+	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
+	csleep 1
+
+	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
 	if [ ! -v CONF_testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
 		dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 
@@ -835,22 +858,11 @@ function pre_enforce() {
 			${svm} ${1}/changedns.sh /opt/bin
 		fi
 
-		${scm} 0555 /opt/bin/changedns.sh
-		${sco} 0:0 /opt/bin/changedns.sh
 		mangle_s /opt/bin/changedns.sh ${q}
 		csleep 1
 	fi
 
-	##se update2.sh tämän skriptin kautta sudoersiin vai ei? toisinbkin voi tehdä
-	##yo if-blokkiin vaikka else-haara ja siinä cp
-	#find ~ -type f -name update2.sh
-	#csleep 3
-	
-	dqb "LETf HOUTRE JOINED IN L0CH N355"
-	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
-	csleep 1
-
-	dqb "TRAN S1LVAN1AN HUGN3R"
+	dqb "TRAN S1LVAN1AN HUGN3R GAM35"
 	dinf ${q}
 	csleep 1
 
@@ -1253,7 +1265,6 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE"
 }
 
-#TODO:PIKEMMINKin uudem päivityspaketin veto ja testaus (ei tosin liity ao. fktioon mutta)
 function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
 	csleep 1
@@ -1286,8 +1297,11 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		
 		${sharpy} libblu* libcupsfilters* libgphoto*
 		${lftr}
+
+		#josko vielä pkexec:istä ajo-oik poisto? vai riittäisikö sharpy?
 		${sharpy} pkexec po*
 		${lftr}
+
 		${sharpy} python3-cups
 		${lftr}
 		csleep 1
@@ -1303,6 +1317,11 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 			;;
 		esac
 	fi
+
+	##usermod:illa tty ja input mukaan ryhmiin vai ei? koita ensin omegalla
+	#${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty,input devuan
+	#${scm} g+rw /dev/tty0	
+	##joskohan se seatd seuraavaksi	
 
 	dqb "PART2.5.2 ${1} , ${2}"
 	csleep 1
@@ -1366,6 +1385,7 @@ function part3() {
 
 	#HUOM.071225 ehto kommentteihin koska y
 	#if [ ! -f /.chroot ] ; then
+	#TODO:poisteluun jotain muutoksia jatkossa?
 		common_lib_tool ${1} reject_pkgs
 	#fi
 
