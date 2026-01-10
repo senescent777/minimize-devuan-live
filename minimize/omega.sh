@@ -14,22 +14,12 @@ if [ $# -gt 0 ] ; then
 	mode=${1}
 fi
 
-#251125:edelleen päivityspak ajamisesta seuraa "login command failed", kyse lienee muustaq hmistojen käyttöoik
-#... jos ei muuta keksi ni slim pois kiekolta/esim lxdm tilalle? tai pikemminkin minimal livecd pohjaksi?
-#131225:viime aikoina taas tullut login-ongelma muttei välttis liity lxdm:n
-#231225:suattaapi olla että login-ongelma poissa vuan suattaapi ettei
-#040126:nykyään toimii toivotulla tavalla (kirjautumisen suhteen) kunhan ei sitä päivityspakettia aja
-#... toiminnasta sudon kanssa en ole varma (sudoersiin menevän tdston sisältö saattaa olla P-V-H-H tai sitten ei)
-#joko paskaa sisältöä tai paskat versiot softista olisi 2 ensimmäistä arvaistaq
-#urpoa nimittäin jos /e/s.d alaiseen tdstonimeen kaatuu sudotus
-
-#tty tai input mukaan ryhmiin kokeeksi? 
-#DONE:testaa seur miten modatulla kiekolla käy:no ei se nyt oikein
-
-if [ ${mode} -gt 1 ]; then
-	${scm} g+rw /dev/tty0	#JOKO JP PRKL
-	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty,input devuan
-fi
+#100126:ei vain toimi päivityspaketin jälkeen toivotulla tavalla ja that's it (koita keksiä jotain)
+#
+#if [ ${mode} -gt 1 ]; then
+#	${scm} g+rw /dev/tty0	#JOKO JP PRKL (no eipä oikeastaan päivityspak jälk tilannetta paranna)
+#	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev devuan ,tty,input
+#fi
 
 [ ${mode} -gt 2 ] && ${smr} /etc/sudoers.d/live
 [ ${mode} -gt 3 ] && ${svm} /etc/sudoers_new /etc/sudoers #miten Tämä toimii nykyään?

@@ -724,7 +724,7 @@ function slaughter0() { #090126:mangle_s toiminee tämän kanssa
 	echo ${ts2} | awk '{print $1,$2}'  >> ${2}
 }
 
-#060125:josko jo alkaisi toimia toivotulla tavalla?
+#060126:josko jo alkaisi toimia toivotulla tavalla?
 function mangle_s() {
 	dqb "mangle_s  ${1} , ${2}, ${3}  "
 	csleep 1
@@ -756,8 +756,10 @@ function mangle_s() {
 #	echo -n " localhost=NOPASSWD:sha256:${p} ${q}" >> ${2}
 #	echo -e "\n" >> ${2}
 
-	#VAIH:localhost-kohdan muuttaminen? ainakin changedns.sh kanssa kiukuttelua sillä tavalla, tosin konftdstosta johtuvaa, luulisin
+	#VAIH:localhost-kohdan muuttaminen? ainakin changedns.sh kanssa kiukuttelua, tosn konftdstosta jkohtuvaa
 	#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
+	#TODO:KVG <sudo-juttuja>	
+
 	echo -n " ALL=NOPASSWD:sha512:" >> ${2}
 	slaughter0 ${r} ${2}
 }
@@ -855,10 +857,6 @@ function pre_enforce() {
 			dqb "SÖSSÖN SÖSSÖN"
 			${svm} ${1}/changedns.sh /opt/bin
 		fi
-
-		#100126:mangle_s tehenee nuo samat jutut ni...
-		#${scm} 0555 /opt/bin/changedns.sh
-		#${sco} 0:0 /opt/bin/changedns.sh
 
 		mangle_s /opt/bin/changedns.sh ${q}
 		csleep 1
@@ -1320,10 +1318,10 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		esac
 	fi
 
-	#usermod:illa tty ja input mukaan ryhmiin vai ei? koita ensin omegalla
-	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty,input devuan
-	${scm} g+rw /dev/tty0	
-	#joskohan se seatd seuraavaksi	
+	##usermod:illa tty ja input mukaan ryhmiin vai ei? koita ensin omegalla
+	#${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty,input devuan
+	#${scm} g+rw /dev/tty0	
+	##joskohan se seatd seuraavaksi	
 
 	dqb "PART2.5.2 ${1} , ${2}"
 	csleep 1
