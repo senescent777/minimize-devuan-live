@@ -231,9 +231,9 @@ function t2pc() {
 		dqb "KVG \"devuan how to skip dhcp on boot\""
 		csleep 5
 
-		#tuli uutena 071225, sittenkin niin päin että asentaa seatd:n ? jos korjaisi "VT 0 acces denied" -ongelman?
-		dqb "SHOULD DO SOMETHING ABOUT THAT libseat-problem w/ xorg"
-		csleep 5
+		#joko jo? "VT 0 acces denied" korjayttu nimittäin?
+		#dqb "SHOULD DO SOMETHING ABOUT THAT libseat-problem w/ xorg"
+		#csleep 5
 
 		dqb "t2p_filler()"
 		csleep 5
