@@ -842,6 +842,7 @@ function e22_other_pkgs() {
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} ${E22_GS}  #moni pak tarttee nämä
 	#${shary} #bsd debconf
+	${shary} seatd
 	csleep 5
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
@@ -870,6 +871,7 @@ function e22_other_pkgs() {
 	dqb "MåGOG"
 	
 #	#TODO:jos lukaisi debian referencen pitkästä aikaa, että löytyisikö jotain jekkua paketinhallinnan kanssa? ettei tarvitse kikkailla initramfs:n ja muutaman paketin kanssa
+#	... package pinning?
 #	${lftr}
 #	csleep 2
 
