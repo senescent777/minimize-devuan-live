@@ -14,7 +14,7 @@ if [ $# -gt 0 ] ; then
 	mode=${1}
 fi
 
-#seatd as+chmod+usermod==tarpeeksi?
+#seatd as+chmod+usermod==tarpeeksi? uskaltaisiko scm poistaa?
 
 if [ ${mode} -gt 1 ]; then
 	${scm} g+rw /dev/tty0

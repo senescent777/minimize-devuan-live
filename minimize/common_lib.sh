@@ -756,7 +756,7 @@ function mangle_s() {
 #	echo -n " localhost=NOPASSWD:sha256:${p} ${q}" >> ${2}
 #	echo -e "\n" >> ${2}
 
-	#VAIH:localhost-kohdan muuttaminen? ainakin changedns.sh kanssa kiukuttelua, tosn konftdstosta jkohtuvaa
+	#100126:ALL vai localhost? rahat vs kolmipyörä?
 	#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
 	#KVG <sudo-juttuja>	? (kts omega)
 
