@@ -209,6 +209,7 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 
 #pitäöiskö siirtää toiseen tdstoon?
 #030126:varmistettu että xorg.conf.new löytyy
+#120126:uusi testaus?
 function e22_config1() {
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
@@ -232,8 +233,9 @@ function e22_config1() {
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 #nuo muutokset oikeastaan tdstoon profs.sh
-#pitäöiskö siirtää toiseen tdstoon?
-#VAIH:ala varmistaa että toimii ok (via "exp2 q" esmes) (sai paketttiin sisältöä 0401§26, toimivuus vielä)
+#pitäisIkö siirtää toiseen tdstoon?
+#VAIH:ala varmistaa että toimii ok (via "exp2 q" esmes) (sai paketttiin sisältöä 040126, josko toimivuus vielä)
+
 function e22_settings() {
 	dqb "e22_settings ${1},  ${2}"
 	csleep 1
@@ -274,8 +276,8 @@ function e22_settings() {
 }
 
 #pitäisikö siirtää toiseen tdstoon?
-function e22_home() { #030126:saattaa olla että toimii ok
-	dqb "e22_home ${1} , ${2} , ${3}  "
+function  e22_home() { #030126:saattaa olla että toimii ok
+	dqb "  e22_home() ${1} , ${2} , ${3}  "
 
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
@@ -289,7 +291,7 @@ function e22_home() { #030126:saattaa olla että toimii ok
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
 
-	#141225:if-lauseen pointti nykyään?
+	#141225:if-lauseen pointti nykyään? tähän liittyen oli jokin idea (120126)
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		e22_config1 ~
@@ -324,7 +326,6 @@ function e22_home() { #030126:saattaa olla että toimii ok
 
 	dqb "${srat} ${TARGET_TPX} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
 	csleep 1
-
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 	csleep 2
 
@@ -833,12 +834,9 @@ function e22_other_pkgs() {
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
 	${shary} ${E22_GG}
 
-	#090126:toistaiseksi sudo jemmaan koska omegan kanssa kiukuttelua
-	#... joutuisikohan luo libaudit-limpam-etc jutut kanssa kommentoimaan pois?
-	#... pitäisiköhän reject_pkgs laittaa uusiksi? toisaalta CVE-jotain-jotain
-	#jospa sudo olisi jo kunnpossa 120126	
+	#jospa sudo-asia olisi jo kunnossa 120126	
 
-	E22_GS="libc6 zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo" #
+	E22_GS="libc6 zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 	
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} ${E22_GS}  #moni pak tarttee nämä
@@ -846,13 +844,10 @@ function e22_other_pkgs() {
 	${shary} seatd
 	csleep 5
 
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=sudo=1.9.13p3-1+deb12u1
-
 	message
 	jules
 
 	if [ ${1} -eq 1 ] ; then
-		#E22_GT="libgmp10 ... stubby"
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
 		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
@@ -882,7 +877,7 @@ function e22_other_pkgs() {
 }
 
 #120126:tässä tai other_pkgs() tai upgp() viimeistään, cpp-12/gcc-12-base/	libstdc++6
-echo "#TODO:uusi wdm-paketti modatun ison rakennusta varten"
+echo "VAIH:uusi wdm-paketti modatun ison rakennusta varten"
 
 function e22_dm() {
 	dqb "e22dm ( ${1} ) "

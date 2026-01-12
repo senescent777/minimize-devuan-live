@@ -188,6 +188,7 @@ case ${mode} in
 	;;
 	q)
 		#040126:toimii
+		#120126:uusi test?
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 		#141225:tgtfile voisi oikeastaan mennä config1:selle parametriksi jatkossa
@@ -322,11 +323,14 @@ case ${mode} in
 		e22_pre1 ${d} ${distro}
 		dqb "B3F0R3 RP2	"
 		csleep 1
+
+		#TODO:jollain ehdolllla /e/fstab ja /e/s.d talteen, kts esim. e22_home() liittyen
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
 	#TODO:TAAS uusi testikierros päivityspaketi n kanssa nytq reject_pkgs muutettu
 	#aiempi pak sössii äksän joten joko lib-paketit aiheuttavat tai sitten dbus- tai xorg- pakettien poissaolo (hyvä kai selvittää kumpi)	
-	#... tosin selvittelystä voi tulla jonkinmoinen sirkus	
+	#... tosin selvittelystä voi tulla jonkinmoinen sirkus
+	#... ellei sitten sössiytymoinen aiheudu jostain muusta?
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
@@ -334,8 +338,7 @@ case ${mode} in
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
-		#090126:uusiksi testaus (VAIH) (sisällön tmivuus)
-		#TODO:muista tehdä paketti sqroot-testejä varten
+		#120126:live-ympäristössä asentuu luodun paketin sisältö ok, sqroot-ymp vielä testattava (VAIH)
 
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
@@ -352,7 +355,7 @@ case ${mode} in
 		#010126:vissiinkin e22dm() , tapauksissa lxdm ja wdm, tekevät asentuvan paketin
 		#... tosin "sqroot->toimiva kiekko" ei ole vielä onnistunut
 		#090126:tekee pak mikä as live-ymp (sqroot ei vielä testattu)
-		#TODO:se uusi wdm-paketti sqroot-testejä varten
+		#VAIH:se uusi wdm-paketti sqroot-testejä varten
 		[ -v CONF_dm ] || exit 77
 
 		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
