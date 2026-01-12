@@ -482,7 +482,7 @@ case "${mode}" in
 	;;
 	q)
 		#040126:toimii ainakin ffox prof osalta
-		#120126:uusi test vähitellen?
+		#120126:taitaa toimia edelleen/tilapäisesti
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
