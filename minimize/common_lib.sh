@@ -310,8 +310,9 @@ function common_pp3() {
 	csleep 1
 
 	#kutsutaan useammasta paikkaa joten varm vuoksi
-	[ -z ${1} ] && exit 99
+	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 101
+
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
 
@@ -539,14 +540,17 @@ function fromtend() {
 #}
 
 function cefgh() {
-	dqb " cefgh( ${1})"
-	[ -z ${1} ] && exit 66
+	dqb " cefgh( ${1} )"
+
+	[ -z "${1}" ] && exit 66
 	[ -d ${1} ] || exit 67
+
 	dqb "pars ok"
 	csleep 1
 	
 	efk2 ${1}/e.tar
-	[ $? -eq 0 ] && ${NKVD} ${1}/e.tar	
+	[ $? -eq 0 ] && ${NKVD} ${1}/e.tar
+	
 	efk2 ${1}/f.tar ${1}
 	[ $? -eq 0 ] && ${NKVD} ${1}/f.tar	
 }
@@ -600,7 +604,7 @@ function check_binaries() {
 	
 				[ -f /.chroot ] && message
 				#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
-				#... kiinnostavaksi mennee chiameran tai excaliburin kanssa			
+				#... kiinnostavaksi mennee chiMAeran tai excaliburin kanssa			
 
 				#common_tbls ${1} ${CONF_dnsm}
 				
@@ -625,7 +629,7 @@ function check_binaries() {
 			ls ${1}/*.deb | wc -l
 			csleep 3
 			
-			#261225:pitäisiköhän gpg- ja tables- instausten jämät deletoida varn, vuoksi?
+			#261225:pitäisiköhän gpg- ja tables- instausten jämät deletoida varM, vuoksi?
 			#${NKVD} ${1}/*.deb saattaa jäädä tällä tavalla git tai mktemp puuttumaan	
 		fi
 	

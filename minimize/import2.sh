@@ -331,7 +331,7 @@ function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
 
-	[ -z ${1} ] && exit 11
+	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 12
 	[ -s ${1}/fediverse.tar ] || exit 13
 	[ -r ${1}/fediverse.tar ] || exit 14
@@ -482,6 +482,7 @@ case "${mode}" in
 	;;
 	q)
 		#040126:toimii ainakin ffox prof osalta
+		#120126:uusi test vähitellen?
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
