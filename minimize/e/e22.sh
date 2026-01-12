@@ -209,7 +209,7 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 
 #pitäöiskö siirtää toiseen tdstoon?
 #030126:varmistettu että xorg.conf.new löytyy
-#120126:uusi testaus?
+#120126:taisi toimia taas
 function e22_config1() {
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
@@ -234,7 +234,7 @@ function e22_config1() {
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 #nuo muutokset oikeastaan tdstoon profs.sh
 #pitäisIkö siirtää toiseen tdstoon?
-#VAIH:ala varmistaa että toimii ok (via "exp2 q" esmes) (sai paketttiin sisältöä 040126, josko toimivuus vielä)
+#120126 saattoi toimia testin ajan
 
 function e22_settings() {
 	dqb "e22_settings ${1},  ${2}"
@@ -295,7 +295,7 @@ function e22_home() { #030126:saattaa olla että toimii ok
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		e22_config1 ~
-		${smr} ~/fediverse.tar
+		${NKVD} ~/fediverse.tar
 		e22_settings ${2}/..
 	else
 		dqb "PUIG DESTRÖYERR b666"
@@ -833,9 +833,9 @@ function e22_other_pkgs() {
 	${shary} libgcc-s1 libc6 libgomp1 
 	csleep 2
 	
-
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 
+	#gg-jutut vissiin poistuvat? jotain voisi tehdä asialle
 	${shary} ${E22GI}
 
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
@@ -1061,6 +1061,7 @@ function e22_profs() {
 	cd ${q} #antaa nyt cd:n olla toistaiseksi
 	[ $? -eq 0 ] || exit 77
 
+	#jospa antaisi vihjeen ifup:ista jatkossa?
 	${tig} clone https://${BASEURL}/more_scripts.git
 	[ $? -eq 0 ] || exit 99
 	

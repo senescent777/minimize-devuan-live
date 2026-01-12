@@ -187,8 +187,7 @@ case ${mode} in
 		exit
 	;;
 	q)
-		#040126:toimii
-		#120126:uusi test?
+		#DONE:testausd (120126) , taitaa toimia
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 		#141225:tgtfile voisi oikeastaan mennä config1:selle parametriksi jatkossa
@@ -198,7 +197,7 @@ case ${mode} in
 		dqb $?
 		csleep 4
 
-		${smr} ~/fediverse.tar #NKVD?
+		${NKVD} ~/fediverse.tar
 		csleep 1
 
 		#tdstonimi parametriksi jatkossa? mille fktiolle?
@@ -373,6 +372,7 @@ if [ -d ${d} ] ; then #ehtoa joutaisi varmaankin miettimään vielä?
 	e22_hdr ${d}/f.tar 
 	e22_dblock ${d}/f.tar ${d}
 	${srat} -rvf ${tgtfile} ${d}/f.tar 
+	#pitäisiköhän täsäs olla e222:ftr() tuolle f.tar:ille ? 
 fi
 
 if [ -s ${tgtfile} ] ; then
