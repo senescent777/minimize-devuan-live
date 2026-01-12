@@ -18,7 +18,7 @@ function usage() {
 	echo "$0 g adds Gpg for signature checks, maybe?"
 	echo "$0 t ... option for ipTables"
 
-	echo "$0 rp ... RePack existing arch"
+	#echo "$0 rp ... RePack existing arch"
 	echo "$0 -h: shows this message about usage"
 }
 
@@ -259,6 +259,8 @@ case ${mode} in
 #		exit 1
 #	;;
 	p) #040126:toimii, luulisin
+	#mihin muuten kosahtaa jos omegan jälkeen tätä ajaa? srat vai fasdfasd vai mikä?
+
 		e22_hdr ${tgtfile}
 		e22_profs ${tgtfile} ${d0}
 		exit

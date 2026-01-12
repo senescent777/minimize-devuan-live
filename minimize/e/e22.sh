@@ -276,7 +276,7 @@ function e22_settings() {
 }
 
 #pitäisikö siirtää toiseen tdstoon?
-function  e22_home() { #030126:saattaa olla että toimii ok
+function e22_home() { #030126:saattaa olla että toimii ok
 	dqb "  e22_home() ${1} , ${2} , ${3}  "
 
 	[ -z "${1}" ] && exit 67
@@ -827,6 +827,13 @@ function e22_other_pkgs() {
 	[ -z "${1}" ] && exit 11
 	dqb "paramz_ok"
 	csleep 1
+
+	#LOPPUU SE PURPATUS PRKL
+	${shary} cpp-12 gcc-12-base libstdc++6 
+	${shary} libgcc-s1 libc6 libgomp1 
+	csleep 2
+	
+
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 
 	${shary} ${E22GI}
@@ -888,11 +895,11 @@ function e22_dm() {
 
 	${fib}
 	csleep 2
-
-	#libc6 (>= 2.33), libgcc-s1 (>= 3.0), libstdc++6
-	#${shary} cpp-12 gcc-12-base libstdc++6
-	#${shary} libgcc-s1
-	#csleep 2
+	
+	#LOPPUU SE PURPATUS PRKL
+	${shary} cpp-12 gcc-12-base libstdc++6 
+	${shary} libgcc-s1 libc6 libgomp1 
+	csleep 2
 	
 	#menu (>= 2.1.26), libc6 (>= 2.14), (>= 1:1.0.0), l, , , , 
 
@@ -957,7 +964,7 @@ function e22_dm() {
 			${shary} libgif7 libwraster6 libjpeg62-turbo libmagickwand-6.q16-6 libtiff6
 			csleep 2
 
-			${shary}  cpp-12 gcc-12-base libc6 libgomp1 libgcc-s1  #kommentteihin vai ei? 
+			#${shary}  cpp-12 gcc-12-base  #kommentteihin vai ei? 
 			#jos ensin päivityspak ja sitten vasta dwm-jutut?
 			csleep 2
 
@@ -1033,7 +1040,7 @@ function e22_dm() {
 	${shary} ${E22_GX}  #libsystemd0
 }
 
-#040126:teki paketin missä sisältöä, sis. tmivuus testaten kohta (VAIH)
+#120126:teki paketin missä sisältöä, sis. tmivuus testaten kohta (VAIH)
 function e22_profs() {
 	dqb "e22_profs ${1} ${2}"
 
@@ -1087,6 +1094,11 @@ function e22_upgp() {
 	
 	${fib}
 	csleep 1
+
+	#LOPPUU SE PURPATUS PRKL
+	${shary} cpp-12 gcc-12-base libstdc++6 
+	${shary} libgcc-s1 libc6 libgomp1 
+	csleep 2
 	
 	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta, onko?
 	${sag} --no-install-recommends upgrade -u
