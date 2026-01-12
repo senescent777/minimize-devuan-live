@@ -285,6 +285,8 @@ e22_cleanpkgs ${CONF_pkgdir}
 
 [ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
+doit=1
+csleep 1
 
 #040126:tähän mennessä ao. caset pääosin testattu, toiminee, dblock-kikkailu saattaa jo toimina 090126
 case ${mode} in
@@ -308,6 +310,8 @@ case ${mode} in
 
 			[ ${debug} -eq 1 ] && ls -las ${d}
 			csleep 1
+		else
+			doit=0
 		fi
 
 		${sifd} ${CONF_iface}
@@ -330,7 +334,7 @@ case ${mode} in
 	#TODO:TAAS uusi testikierros päivityspaketi n kanssa nytq reject_pkgs muutettu
 	#aiempi pak sössii äksän joten joko lib-paketit aiheuttavat tai sitten dbus- tai xorg- pakettien poissaolo (hyvä kai selvittää kumpi)	
 	#... tosin selvittelystä voi tulla jonkinmoinen sirkus
-	#... ellei sitten sössiytymoinen aiheudu jostain muusta?
+	#... ellei sitten sössiytyminen aiheudu jostain muusta?
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
@@ -338,14 +342,13 @@ case ${mode} in
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
-		#120126:live-ympäristössä asentuu luodun paketin sisältö ok, sqroot-ymp vielä testattava (VAIH)
-		#ketra vielä kiellon päälle tämän kanssa
+		#130126:live-ympäristössä asentuu luodun paketin sisältö ok, sqroot-ymp vielä testattava (VAIH)
 
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
 	;;
 	t) 
-		#090126:uusiksi testaus (VAIH) (tekee pak, sisällön toimivuus vielä)
+		#130126:josko jo?
 		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
 
 		message
@@ -368,16 +371,16 @@ case ${mode} in
 	;;
 esac
 
-#ao. if-blokin toimivuus olisi varnaan hyvä testata
-if [ -d ${d} ] ; then #&& [ -s  ${d}/f.tar ]
-	if [ ${mode} -ne 4 ] ; then
-		e22_hdr ${d}/f.tar 
-		e22_dblock ${d}/f.tar ${d}
-		${srat} -rvf ${tgtfile} ${d}/f.tar 
+#jos jo toimisi ao. blokki?
+if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
+	e22_hdr ${d}/f.tar 
+	e22_dblock ${d}/f.tar ${d}
 
-		#pitäisiköhän tässä olla e222:ftr() tuolle f.tar:ille ? 
-		#josko myös dellisi f.tar:in sen jälkeen kUn lisätty tgtfileeseen?
-	fi
+	#pitäisiköhän tässä olla e222:ftr() tuolle f.tar:ille ?
+
+	${srat} -rvf ${tgtfile} ${d}/f.tar 
+	#josko myös dellisi f.tar:in sen jälkeen kUn lisätty tgtfileeseen?
+	#[ $? -eq 0 ] && ${NKVD}  ${d}/f.tar 
 fi
 
 if [ -s ${tgtfile} ] ; then
