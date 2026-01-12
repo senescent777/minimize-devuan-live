@@ -126,7 +126,6 @@ function t2pc() {
 #		csleep 1
 #	done
 
-	#040126:poistuuko se mutt vai ei? ehkä, mutta nyt bluez...
 	${sharpy} blu*
 	t2p_filler
 	csleep 2
@@ -154,10 +153,7 @@ function t2pc() {
 	t2p_filler
 	csleep 2
 
-	#040126:eloginin poisto näköjään laittaa äksän pois pelistä
-	#${sharpy} elogin*
-	#t2p_filler
-	#csleep 2
+	#040126:to state the obvious:eloginin poisto laittaa äksän pois pelistä
 
 	#tikkujen kanssa paska tdstojärjestelmä exfat
 	${sharpy} exfatprogs fdisk gcr ftp*
@@ -220,28 +216,26 @@ function t2pc() {
 	#xfce*,xorg* off limits
 	t2p_filler
 
-	#121225:pitäisi se validi xorg.conf ennenq dumppaa:slim
-	#071225:pitäisikö tälle ehdolle tehdä jotain?  uuden .iso:n kanssa kun sitä temppuilua
+	#071225:pitäisikö ao. ehdolle tehdä jotain?  uuden .iso:n kanssa kun sitä temppuilua (vielä ajank 01/26?)
 
 	if [ -f /.chroot ] ; then
 		dqb "SHOULD ${sharpy} slim*"
-		csleep 5
+		csleep 2
 
 		#nopeampi boottaus niinqu
 		dqb "KVG \"devuan how to skip dhcp on boot\""
-		csleep 5
-
-		#joko jo? "VT 0 acces denied" korjayttu nimittäin?
-		#dqb "SHOULD DO SOMETHING ABOUT THAT libseat-problem w/ xorg"
-		#csleep 5
+		csleep 2
 
 		dqb "t2p_filler()"
-		csleep 5
+		csleep 2
 
 		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
 		#dqb "dpkg-reconfigure lxdm?"
 		dqb "Xorg -config ? "
-		csleep 5
+		csleep 2
+	else
+		dqb "COULD ${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
+		csleep 10
 	fi
 
 	spd="${sd0} -l "
@@ -267,7 +261,7 @@ function t2pf() {
 
 	for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
 	df
-	${odio} which dhclient; ${odio} which ifup; csleep 3
+	${odio} which dhclient; ${odio} which ifup; csleep 2
 }
 
 #====================================================================
@@ -285,7 +279,7 @@ t2pf ${d}
 [ ${mode} -eq 2 ] && exit
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
-csleep 3
+csleep 2
 ${scm} 0555 ${d0}/common_lib.sh 
 
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
