@@ -372,12 +372,12 @@ function luca() {
 	dqb "loca done"
 }
 
-#pitäöiskö siirtää toiseen tdstoon?
-#pitöisiköhäbn mylös paremrtein määrälle tehdäö jotain?
-#030126:joskohan toimisi?
-#120126 pienimuotoista testausta menossa, miten nykyään toimaa
-function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko jo kohta?
-	#... vaikka sen "exp2 4"-testailun yht kts että on sopivaa konftdstoa mukana
+#pitäisiköhäbn myös paremtrein määrälle tehdä jotain?
+#
+#130126 pienimuotoista testausta menossa, miten nykyään toimaa
+#... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan
+
+function e22_elocal() { 
 	dqb "e22_elocal ${1} , ${2} , ${3} , ${4} , ${5}"
 	csleep 1
 
@@ -449,7 +449,7 @@ function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko
 	if  [ ${ef} -eq 1 ] ; then
 		dqb "Das Asdd"
 	else
-		#1.else-haara tulisi testata josqs
+		#1.else-haara tulisi testata josqs (TODO)
 		#2.fstab lisäksi muutakin mukaan?
 
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
@@ -458,6 +458,7 @@ function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko
 	dqb "DSN"
 	csleep 2
 	local f
+	local g
 	
 	if [ ${3} -eq 1 ] ; then #-gt 0 ?
 		for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
@@ -470,8 +471,9 @@ function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 	csleep 5
 	
-	dqb "find /etc -type f -name \'xorg \* \' -and -not -name \' * . 202 \* \'"
-	cleep 5
+	#130126:ei taida löytyä 
+	dqb "find /etc -type f -name \'xorg \* \' -and -not -name \' \* . 202 \* \'"
+	csleep 5
 
 	for f in $(find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
 		dqb "${srat} -rvf ${1} ${f}"
@@ -480,11 +482,13 @@ function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko
 	done
 	
 	csleep 5
-	#030126:vetääkö tämä mitään mukaan? ei vissiin pitäisi koska conf vs modaamaton kiekko
+	#130126:josko alkaisi vähitellen tulla wdm-jutut mukaan? ei vielä koska jokin juttu
 	dqb "find /etc -type f -name \' ${5}* \' -and -not -name \' *.202* \' "
 	csleep 5
 
-	for f in $(find /etc -type f -name '${5}*' -and -not -name '*.202*') ; do
+	g=$(${odio} find /etc -type f -name '${5}*' -and -not -name '*.202*')
+
+	for f in ${g} ; do
 		dqb "${srat} -rvf ${1} ${f}"
 		${srat} -rvf ${1} ${f}
 		csleep 1	
