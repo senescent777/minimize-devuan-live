@@ -22,7 +22,7 @@ function usage() {
 	echo "$0 -h: shows this message about usage"
 }
 
-#TODO:jos muuttaisi blokin koskapa gpo() nykyään (-h kanssa voisi tehdä toisinkin)
+#TODO:jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
 if [ $# -gt 1 ] ; then
 	mode=${1}
 	[ -f ${1} ] && exit 99
@@ -324,7 +324,9 @@ case ${mode} in
 		csleep 1
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
-	#100126:uusi testikierros, tekee pak ja sisältökin toimii enimmäkseen (omegan kanssa jo ok?)
+	#TODO:TAAS uusi testikierros päivityspaketi n kanssa nytq reject_pkgs muutettu
+	#aiempi pak sössii äksän joten joko lib-paketit aiheuttavat tai sitten dbus- tai xorg- pakettien poissaolo (hyvä kai selvittää kumpi)	
+	#... tosin selvittelystä voi tulla jonkinmoinen sirkus	
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
@@ -333,6 +335,8 @@ case ${mode} in
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
 		#090126:uusiksi testaus (VAIH) (sisällön tmivuus)
+		#TODO:muista tehdä paketti sqroot-testejä varten
+
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
 	;;
@@ -348,6 +352,7 @@ case ${mode} in
 		#010126:vissiinkin e22dm() , tapauksissa lxdm ja wdm, tekevät asentuvan paketin
 		#... tosin "sqroot->toimiva kiekko" ei ole vielä onnistunut
 		#090126:tekee pak mikä as live-ymp (sqroot ei vielä testattu)
+		#TODO:se uusi wdm-paketti sqroot-testejä varten
 		[ -v CONF_dm ] || exit 77
 
 		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		

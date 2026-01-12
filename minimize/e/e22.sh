@@ -836,6 +836,7 @@ function e22_other_pkgs() {
 	#090126:toistaiseksi sudo jemmaan koska omegan kanssa kiukuttelua
 	#... joutuisikohan luo libaudit-limpam-etc jutut kanssa kommentoimaan pois?
 	#... pitäisiköhän reject_pkgs laittaa uusiksi? toisaalta CVE-jotain-jotain
+	#jospa sudo olisi jo kunnpossa 120126	
 
 	E22_GS="libc6 zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo" #
 	
@@ -880,6 +881,9 @@ function e22_other_pkgs() {
 	csleep 1
 }
 
+#120126:tässä tai other_pkgs() tai upgp() viimeistään, cpp-12/gcc-12-base/	libstdc++6
+echo "#TODO:uusi wdm-paketti modatun ison rakennusta varten"
+
 function e22_dm() {
 	dqb "e22dm ( ${1} ) "
 	csleep 1
@@ -891,6 +895,10 @@ function e22_dm() {
 	csleep 2
 
 	#libc6 (>= 2.33), libgcc-s1 (>= 3.0), libstdc++6
+	#${shary} cpp-12 gcc-12-base libstdc++6
+	#${shary} libgcc-s1
+	#csleep 2
+	
 	#menu (>= 2.1.26), libc6 (>= 2.14), (>= 1:1.0.0), l, , , , 
 
 	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6
@@ -954,7 +962,7 @@ function e22_dm() {
 			${shary} libgif7 libwraster6 libjpeg62-turbo libmagickwand-6.q16-6 libtiff6
 			csleep 2
 
-			${shary} gcc-12-base libc6 libgomp1 libgcc-s1  #kommentteihin vai ei? 
+			${shary}  cpp-12 gcc-12-base libc6 libgomp1 libgcc-s1  #kommentteihin vai ei? 
 			#jos ensin päivityspak ja sitten vasta dwm-jutut?
 			csleep 2
 
