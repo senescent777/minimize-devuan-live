@@ -1006,7 +1006,6 @@ function e_final() {
 	csleep 1
 }
 
-#kts. pre_enforce():n kommentit
 function enforce_access() {
 	dqb " enforce_access ${1} , ${2}"
 	csleep 1
