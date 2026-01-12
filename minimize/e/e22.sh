@@ -133,14 +133,14 @@ function e22_pre1() { #091225:vissiin toimii koska "exp2 3"
 
 #...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 
-function e22_pre2() { #091225:vissiin toimii koska "exp2 3"
+function e22_pre2() { #120126:toiminee edelleen
 	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
-	[ -z ${1} ] && exit 66 #HUOM. -d oli jo
-	[ -z ${2} ] && exit 67
-	[ -z ${3} ] && exit 68
-	[ -z ${4} ] && exit 69
+	[ -z "${1}" ] && exit 66 #HUOM. -d oli jo
+	[ -z "${2}" ] && exit 67
+	[ -z "${3}" ] && exit 68
+	[ -z "${4}" ] && exit 69
 
 	dqb "pars.ok"	
 	csleep 1
@@ -375,7 +375,7 @@ function luca() {
 #pitäöiskö siirtää toiseen tdstoon?
 #pitöisiköhäbn mylös paremrtein määrälle tehdäö jotain?
 #030126:joskohan toimisi?
-#VAIH:/etc/X11/default-display-manager pakettiin?
+#120126 pienimuotoista testausta menossa, miten nykyään toimaa
 function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko jo kohta?
 	#... vaikka sen "exp2 4"-testailun yht kts että on sopivaa konftdstoa mukana
 	dqb "e22_elocal ${1} , ${2} , ${3} , ${4} , ${5}"
@@ -449,7 +449,10 @@ function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko
 	if  [ ${ef} -eq 1 ] ; then
 		dqb "Das Asdd"
 	else
-		${srat} -rf ${1} /etc/sudoers.d/meshuggah
+		#1.else-haara tulisi testata josqs
+		#2.fstab lisäksi muutakin mukaan?
+
+		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
 
 	dqb "DSN"
@@ -467,17 +470,24 @@ function e22_elocal() { #VAIH:slim/lxdm/whåteva konfig lisäys (201225) olisiko
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 	csleep 5
 	
+	dqb "find /etc -type f -name \'xorg \* \' -and -not -name \' * . 202 \* \'"
+	cleep 5
+
 	for f in $(find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
+		dqb "${srat} -rvf ${1} ${f}"
 		${srat} -rvf ${1} ${f}
+		csleep 1
 	done
 	
 	csleep 5
 	#030126:vetääkö tämä mitään mukaan? ei vissiin pitäisi koska conf vs modaamaton kiekko
-	dqb "find /etc -type f -name '${5}*' -and -not -name '*.202*')"
+	dqb "find /etc -type f -name \' ${5}* \' -and -not -name \' *.202* \' "
 	csleep 5
 
 	for f in $(find /etc -type f -name '${5}*' -and -not -name '*.202*') ; do
+		dqb "${srat} -rvf ${1} ${f}"
 		${srat} -rvf ${1} ${f}
+		csleep 1	
 	done
 
 	csleep 5
@@ -829,6 +839,7 @@ function e22_other_pkgs() {
 	csleep 1
 
 	#LOPPUU SE PURPATUS PRKL
+	#jatkossa osa E22_GS ?
 	${shary} cpp-12 gcc-12-base libstdc++6 
 	${shary} libgcc-s1 libc6 libgomp1 
 	csleep 2
@@ -843,7 +854,7 @@ function e22_other_pkgs() {
 
 	#jospa sudo-asia olisi jo kunnossa 120126	
 
-	E22_GS="libc6 zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
+	E22_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 	
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} ${E22_GS}  #moni pak tarttee nämä
@@ -883,8 +894,7 @@ function e22_other_pkgs() {
 	csleep 1
 }
 
-#120126:tässä tai other_pkgs() tai upgp() viimeistään, cpp-12/gcc-12-base/	libstdc++6
-echo "VAIH:uusi wdm-paketti modatun ison rakennusta varten"
+#VAIH:uusi wdm-paketti modatun ison rakennusta varten (olisikohan kohta jo?)
 
 function e22_dm() {
 	dqb "e22dm ( ${1} ) "
@@ -929,7 +939,7 @@ function e22_dm() {
 		;;
 		wdm)
 
-#libc6 libgcc-s1 (>= 3.0), libstdc++6 zlib1g perl:any xserver-xorg | xserver:tarteeko juuri tässä vetää?
+			# zlib1g perl:any xserver-xorg | xserver:tarteeko juuri tässä vetää?
 
 			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
 			csleep 2
@@ -962,10 +972,6 @@ function e22_dm() {
 			csleep 2
 
 			${shary} libgif7 libwraster6 libjpeg62-turbo libmagickwand-6.q16-6 libtiff6
-			csleep 2
-
-			#${shary}  cpp-12 gcc-12-base  #kommentteihin vai ei? 
-			#jos ensin päivityspak ja sitten vasta dwm-jutut?
 			csleep 2
 
 			${shary} libbz2-1.0 libfftw3-double3 libfreetype6 libjbig0 liblcms2-2 liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libwebp7 libwebpmux3 imagemagick-6-common
@@ -1040,7 +1046,7 @@ function e22_dm() {
 	${shary} ${E22_GX}  #libsystemd0
 }
 
-#120126:teki paketin missä sisältöä, sis. tmivuus testaten kohta (VAIH)
+#120126:taitaa toimia tämä
 function e22_profs() {
 	dqb "e22_profs ${1} ${2}"
 

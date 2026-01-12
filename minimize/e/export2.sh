@@ -257,7 +257,7 @@ case ${mode} in
 #		echo "$0 f ${tgtfile} ${distro}"
 #		exit 1
 #	;;
-	p) #040126:toimii, luulisin
+	p) #120126:toimii, luulisin
 	#mihin muuten kosahtaa jos omegan jälkeen tätä ajaa? srat vai fasdfasd vai mikä?
 
 		e22_hdr ${tgtfile}
@@ -293,7 +293,7 @@ case ${mode} in
 		exit 99
 	;;
 	3|4) 
-		#090126:vaiheessa tämän casen testailu, siis 3 lähinnä(tekee pak, sisältökin asentunee), nelonen toiminee
+		#120126:josko 3 ja 4 toimisivat jo
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
@@ -325,7 +325,6 @@ case ${mode} in
 		dqb "B3F0R3 RP2	"
 		csleep 1
 
-		#TODO:jollain ehdolllla /e/fstab ja /e/s.d talteen, kts esim. e22_home() liittyen
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
 	#TODO:TAAS uusi testikierros päivityspaketi n kanssa nytq reject_pkgs muutettu
@@ -340,6 +339,7 @@ case ${mode} in
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
 		#120126:live-ympäristössä asentuu luodun paketin sisältö ok, sqroot-ymp vielä testattava (VAIH)
+		#ketra vielä kiellon päälle tämän kanssa
 
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
@@ -356,7 +356,7 @@ case ${mode} in
 		#010126:vissiinkin e22dm() , tapauksissa lxdm ja wdm, tekevät asentuvan paketin
 		#... tosin "sqroot->toimiva kiekko" ei ole vielä onnistunut
 		#090126:tekee pak mikä as live-ymp (sqroot ei vielä testattu)
-		#VAIH:se uusi wdm-paketti sqroot-testejä varten
+		#VAIH:se uusi wdm-paketti sqroot-testejä varten (vielä kerran 120126)
 		[ -v CONF_dm ] || exit 77
 
 		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
@@ -368,11 +368,16 @@ case ${mode} in
 	;;
 esac
 
-if [ -d ${d} ] ; then #ehtoa joutaisi varmaankin miettimään vielä?
-	e22_hdr ${d}/f.tar 
-	e22_dblock ${d}/f.tar ${d}
-	${srat} -rvf ${tgtfile} ${d}/f.tar 
-	#pitäisiköhän täsäs olla e222:ftr() tuolle f.tar:ille ? 
+#ao. if-blokin toimivuus olisi varnaan hyvä testata
+if [ -d ${d} ] ; then #&& [ -s  ${d}/f.tar ]
+	if [ ${mode} -ne 4 ] ; then
+		e22_hdr ${d}/f.tar 
+		e22_dblock ${d}/f.tar ${d}
+		${srat} -rvf ${tgtfile} ${d}/f.tar 
+
+		#pitäisiköhän tässä olla e222:ftr() tuolle f.tar:ille ? 
+		#josko myös dellisi f.tar:in sen jälkeen kUn lisätty tgtfileeseen?
+	fi
 fi
 
 if [ -s ${tgtfile} ] ; then
