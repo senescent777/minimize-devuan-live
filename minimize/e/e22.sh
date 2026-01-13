@@ -835,6 +835,7 @@ function e22_tblz() {
 #TODO:ntp-jutut takaisin josqs?
 
 #130126:joskohan paketin sisältö toimisi?
+#btw. mikä muuten syynä libfortran-nalkutukseen?
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF" #toista ei vissiin gtule?
 	csleep 1
@@ -1088,6 +1089,7 @@ function e22_profs() {
 }
 
 #130126:olisikohan jo/taas toimiva? onko jotain uutta kiukuttelua vau eu? let's find out soon
+#jokin juttu vielä on kun päivityspaketti rikkoo slimin muokkaamattoman .iso:n kanssa
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}" #ei pitäne tulla neljättä
 
