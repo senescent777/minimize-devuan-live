@@ -30,6 +30,7 @@ function udp6() { #on käytössä
 
 #common_lib_tool-tyylillä jatkossa tämänkin fktion hommat? kts g_pt2
 #251225:poistetaanko täsäs kohtaa liikaa?
+#130126:sqrot-tstissä psmisc ei poistunut
 function t2p() { #on käytössä
 	dqb "DAUD.T2P"
 	csleep 1

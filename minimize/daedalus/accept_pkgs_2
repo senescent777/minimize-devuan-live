@@ -12,34 +12,15 @@ gpgconf*.deb
 #nyt jos typot ho
 gtk2-engines-pixbuf*.deb
 #
-#gpgconf*.deb
-#JOKO JO PERKELE????
 x11-utils
-#lxdm tarttee gtk2 ja x11-u
 #
 python3.11-minimal*.deb
 python3.11*.deb
 #
-#lxsession-jutut ja twm
-#lxsession-data*.deb
-#policykit-1*.deb
-#
-#dpkg: dependency problems prevent configuration of lxsession-logout:
-# lxsession-logout depends on policykit-1; however:
-#  Package policykit-1 is not installed.
-#
-#
-#lxsession-logout*.deb
-#
-#dpkg: dependency problems prevent configuration of lxpolkit:
-# lxpolkit depends on libpolkit-agent-1-0 (>= 0.94); however:
-#  Package libpolkit-agent-1-0 is not installed.
-# lxpolkit depends on policykit-1; however:
-#  Package policykit-1 is not installed.
-#
-#
-#lxpolkit*.deb
 menu*.deb
 #
 #wdm...
 psmisc*.deb
+#
+#ennen git, varm vuoksi
+git.man*.deb
