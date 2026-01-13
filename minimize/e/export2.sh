@@ -337,15 +337,17 @@ case ${mode} in
 	#aiempi pak sössii äksän joten joko lib-paketit aiheuttavat tai sitten dbus- tai xorg- pakettien poissaolo (hyvä kai selvittää kumpi)	
 	#... tosin selvittelystä voi tulla jonkinmoinen sirkus
 	#... ellei sitten sössiytyminen aiheudu jostain muusta?
+	#140126 jälleenm uusi yritys
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
-		e22_upgp ${tgtfile} ${d} ${CONF_iface}
+		[ -v CONF_pkgdir ] || exit 99
+		e22_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia? (tai vähän jo aloiteltu?)
 	e)
 		#130126:live-ympäristössä asentuu luodun paketin sisältö ok, sqroot-ympäristössä asentuu kanssa
-		#... tosin pilaakohan seatd sen chmod-groups-jutun? VAIH:let's find out
+		#... tosin pilaakohan seatd sen chmod-groups-jutun? VAIH:let's find out, e29...
 
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}

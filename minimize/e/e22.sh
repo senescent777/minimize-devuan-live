@@ -728,8 +728,8 @@ function e22_arch() {
 	dqb "e22_arch d0n3"
 }
 
-function e22_dblock() { #010126:ok
-	dqb "e22_dblock( ${1}, ${2}, ${3})" #vissiin ei tule 3:sdta?
+function e22_dblock() { #140126:lienee ok edelleen koska x
+	dqb "e22_dblock( ${1}, ${2}, ${3})" #vissiin ei tule 3:sdta? CONF_pkgdir voisi olla jatkossa
 
 	[ -z "${1}" ] && exit 14
 	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes
@@ -865,9 +865,7 @@ function e22_other_pkgs() {
 	
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 
-	#gg-jutut vissiin poistuvat? jotain voisi tehdä asialle, g_pt2 syynä
 	${shary} ${E22GI}
-
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
 	${shary} ${E22_GG}
 
@@ -1111,8 +1109,8 @@ function e22_upgp() {
 	#[ -w ${1} ] || exit 44 #TODO: man bash taas?
 	#[ -s ${1} ] && mv ${1} ${1}.OLD 261225 laitetttu kommentteihin koska aiheutti ongelmia
 	[ -z "${2}" ] && exit 11
-	[ -d ${2} ] || exit 22 #käytetäänkö tätä? TODO:kenties $3 -> $2 ja uuDeksi kolmoseksi C_pkgd ... tjsp
-	[ -z "${3}" ] && exit 33
+	[ -d ${2} ] || exit 22 #käytetäänkö tätä? VAIH:kenties $3 -> $2 ja uuDeksi kolmoseksi C_pkgd ... tjsp
+	[ -z "${3}" ] && exit 33 #kuinkahan tarpeellista on tämäkin tuoda fktioon?
 
 	dqb "params_ok"
 	csleep 5
@@ -1131,8 +1129,8 @@ function e22_upgp() {
 	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
 	csleep 1
 
-	[ -v CONF_pkgdir ] || exit 99 #d-blkissa jatkossa?
-	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb
+	# #d-blkissa jatkossa?
+	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
 	csleep 5
 
 	dqb "generic_pt2 may be necessary now"	
@@ -1145,7 +1143,7 @@ function e22_upgp() {
 	csleep 1
 
 	#HUOM.part076() ja part2_5() on keksitty (tosin e22_dblock() nykyään...)
-	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb
+	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
 	csleep 1
 	
 	case ${3} in
@@ -1154,7 +1152,7 @@ function e22_upgp() {
 			csleep 1
 		;;
 		*)
-			${NKVD} ${CONF_pkgdir}/wpa*
+			${NKVD} ${2}/wpa*
 			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
 			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
 		;;
