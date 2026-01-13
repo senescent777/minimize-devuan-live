@@ -288,14 +288,14 @@ e22_cleanpkgs ${CONF_pkgdir}
 doit=1
 csleep 1
 
-#040126:tähän mennessä ao. caset pääosin testattu, toiminee, dblock-kikkailu saattaa jo toimina 090126
+#040126:tähän mennessä ao. caset pääosin testattu, toiminee, dblock-kikkailu saattaa jo toimia 090126
 case ${mode} in
 	0)
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
 	3|4) 
-		#120126:josko 3 ja 4 toimisivat jo
+		#130126:josko 3 ja 4 toimisivat jo
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
@@ -331,7 +331,7 @@ case ${mode} in
 
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
-	#TODO:TAAS uusi testikierros päivityspaketi n kanssa nytq reject_pkgs muutettu
+	#VAIH:TAAS uusi testikierros päivityspaketi n kanssa nytq reject_pkgs muutettu
 	#aiempi pak sössii äksän joten joko lib-paketit aiheuttavat tai sitten dbus- tai xorg- pakettien poissaolo (hyvä kai selvittää kumpi)	
 	#... tosin selvittelystä voi tulla jonkinmoinen sirkus
 	#... ellei sitten sössiytyminen aiheudu jostain muusta?
@@ -348,7 +348,7 @@ case ${mode} in
 		e22_other_pkgs ${CONF_dnsm}
 	;;
 	t) 
-		#130126:josko jo?
+		#130126:toimii
 		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
 
 		message
@@ -359,7 +359,7 @@ case ${mode} in
 		#010126:vissiinkin e22dm() , tapauksissa lxdm ja wdm, tekevät asentuvan paketin
 		#... tosin "sqroot->toimiva kiekko" ei ole vielä onnistunut
 		#090126:tekee pak mikä as live-ymp (sqroot ei vielä testattu)
-		#VAIH:se uusi wdm-paketti sqroot-testejä varten (vielä kerran 120126)
+		#TODO:tuoreimman paketin testaus sqroot-ymp, live:n kanssa toimii
 		[ -v CONF_dm ] || exit 77
 
 		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
@@ -371,16 +371,16 @@ case ${mode} in
 	;;
 esac
 
-#jos jo toimisi ao. blokki?
+#jos jo toimisi ao. blokki? vielä 1 testikierros sen selvitykseen?
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar 
 	e22_dblock ${d}/f.tar ${d}
 
 	#pitäisiköhän tässä olla e222:ftr() tuolle f.tar:ille ?
 
+	#josko myös dellisi f.tar:in sen jälkeen kUn lisätty tgtfileeseen?	
 	${srat} -rvf ${tgtfile} ${d}/f.tar 
-	#josko myös dellisi f.tar:in sen jälkeen kUn lisätty tgtfileeseen?
-	#[ $? -eq 0 ] && ${NKVD}  ${d}/f.tar 
+	[ $? -eq 0 ] && ${NKVD}  ${d}/f.tar 
 fi
 
 if [ -s ${tgtfile} ] ; then

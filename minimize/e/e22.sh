@@ -789,7 +789,7 @@ function aswasw() { #privaatti fktio
 #	dqb "${NKVD} ${CONF_pkgdir}/libavahi* ?"
 #}
 
-#DONE:testaus, tekee paketin:jep (251225) sisältö: asentiu 010126
+#130126:tehdyn paketinj sisältö asentuu ainakin live-ymp
 function e22_tblz() {
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
@@ -834,6 +834,7 @@ function e22_tblz() {
 
 #TODO:ntp-jutut takaisin josqs?
 
+#130126:joskohan paketin sisältö toimisi?
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF" #toista ei vissiin gtule?
 	csleep 1
@@ -850,7 +851,7 @@ function e22_other_pkgs() {
 	
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 
-	#gg-jutut vissiin poistuvat? jotain voisi tehdä asialle
+	#gg-jutut vissiin poistuvat? jotain voisi tehdä asialle, g_pt2 syynä
 	${shary} ${E22GI}
 
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
@@ -1086,12 +1087,9 @@ function e22_profs() {
 	dqb "AAMUNK01"
 }
 
-#010126 teki ei-tYhjän paketin, sisäLtökin näköjään asentuu
-#040126 osoittautui että tämä tuoreempi päivityspaketti sössii slimin asiat, "login failed"
-#... jotain olisi hyvä keksiä
-#100126:olisikohan jo toimiva?
+#130126:olisikohan jo/taas toimiva? onko jotain uutta kiukuttelua vau eu? let's find out soon
 function e22_upgp() {
-	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}" #ei pitäne tulla neljättä?
+	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}" #ei pitäne tulla neljättä
 
 	[ -z "${1}" ] && exit 1 
 	#[ -w ${1} ] || exit 44 #TODO: man bash taas?
