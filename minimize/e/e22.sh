@@ -378,7 +378,7 @@ function luca() {
 #130126 pienimuotoista testausta menossa, miten nykyään toimaa
 #... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan
 
-#TODO:vähitellen e22_ftr() käyttöön jotta /o/b/c voi tehdä tarkistukset /e/ipt sisällölle
+#VAIH:vähitellen e22_ftr() käyttöön jotta /o/b/c voi tehdä tarkistukset /e/ipt sisällölle ... tjsp
 function e22_elocal() { 
 	dqb "e22_elocal ${1} , ${2} , ${3} , ${4} , ${5}"
 	csleep 1
@@ -404,9 +404,12 @@ function e22_elocal() {
 	dqb "JUST BEFORE URLE	S"
 	csleep 1
 
+	fasdfasd /opt/bin/zxcv
+
 	for f in $(find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
+			${sah6} >>  /opt/bin/zxcv
 		else
 			echo "SUURI HIRVIKYRPÄ ${f} "
 			echo "5H0ULD exit 666"
@@ -415,6 +418,15 @@ function e22_elocal() {
 	done
 
 	echo $?
+
+	if [ -x ${gg} ] ; then
+		if [ -v CONF_pubk ] ; then
+			${gg} -u ${CONF_pubk} -sb /opt/bin/zxcv.sig
+			csleep 1
+			${srat} -rvf ${1} /opt/bin/zxcv*
+		fi
+	fi
+
 	luca ${1}
 	csleep 1
 	other_horrors
