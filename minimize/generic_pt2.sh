@@ -92,8 +92,6 @@ else
 	[ $? -gt 0 ] && exit
 fi
 
-#====================================================================
-
 function t2p_filler() {
 	dqb "FILLER"
 	${lftr}
@@ -101,11 +99,31 @@ function t2p_filler() {
 	csleep 1
 }
 
+#tarpeellinen ehto?
+if [ -f /.chroot ] ; then
+	${sharpy} blu*
+	${sharpy} nfs*
+	${sharpy} rpc*
+	
+	t2p_filler
+	csleep 2
+	
+	${sharpy} dmsetup
+	${sharpy} at-spi2-core	
+	${sharpy} psmisc
+	
+	t2p_filler
+	csleep 2	
+fi
+	
+#====================================================================
+
 #jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
 
 #VAIH:selvitä missä kohtaa gpg poistuu nykyään, koita saada epä-poistumaan
 #mode:n kanssa kikkailut voivat auttaa selvityksessä
+#130126_sqroot-testissä tämän fktion poistamat paketit enimmäkseen poistuvat pl. tuon yhden blokin jutut
 function t2pc() {
 	dqb "common_lib.t2p_common( ${1})"
 	csleep 1
@@ -127,7 +145,10 @@ function t2pc() {
 #		${sharpy} ${f}*
 #		csleep 1
 #	done
-
+	
+	dqb "gpg= $(sudo which gpg)"
+	csleep 10
+	
 	${sharpy} blu*
 	t2p_filler
 	csleep 2
@@ -238,7 +259,6 @@ function t2pc() {
 		csleep 2
 
 		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
-		#dqb "dpkg-reconfigure lxdm?"
 		dqb "Xorg -config ? "
 		csleep 2
 	else

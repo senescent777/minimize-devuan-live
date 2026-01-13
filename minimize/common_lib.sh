@@ -460,7 +460,7 @@ function fromtend() {
 #... mutta kehitysymp kanssa toimii, luulisin , livenä myös121225 ainakin kerran
 #
 #P.S. this function created to avoid a chicken-and-egg-situation, maybe
-#
+#TODO:chimaera/xcalibur-testi että selviää, voiko ao. fktion heittää roskikseen jo?
 #function common_tbls() {
 #	dqb "COMMON TABLESD $1, $2"
 #	csleep 1
@@ -555,6 +555,7 @@ function cefgh() {
 	[ $? -eq 0 ] && ${NKVD} ${1}/f.tar	
 }
 
+#TODO:mini_e.tar tätä fktiota varten, tai oikeastaan exp2.sh asia
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ) "
 	csleep 1
@@ -603,8 +604,6 @@ function check_binaries() {
 				jules
 	
 				[ -f /.chroot ] && message
-				#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
-				#... kiinnostavaksi mennee chiMAeran tai excaliburin kanssa			
 
 				#common_tbls ${1} ${CONF_dnsm}
 				
@@ -1243,11 +1242,14 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE"
 }
 
-echo "#TODO:tapaus sqroot, selvitä mitä silloin poistuu oikeasti, kun g:dout ajetaan"
+#DONE:tapaus sqroot, selvitä mitä silloin poistuu oikeasti, kun g:dout ajetaan
+#130126:vissiin konf pielessä (tai siis)
+#sqroot-testi, 2. yritys:bluez ei edelleenkään poistunut, eikä nfs, muutenm 175-lista kyl
+#... muuten ao.fktion opistamat poistuu
 
 function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
-	csleep 1
+	csleep 20
 
 	[ -z "${1}" ] && exit 55
 	[ -z "${2}" ] && exit 56

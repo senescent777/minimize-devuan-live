@@ -184,7 +184,7 @@ echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	#TODO:tömnän haaran testaus
+	#TODO:tämän haaran testaus
 	echo $?
 	dqb "NO LIB"
 	csleep 1
@@ -458,8 +458,11 @@ case "${mode}" in
 		csleep 1
 
 		if [ ${1} -eq 0 ] ; then
-			#dqb "DEPRECATED"
-			#csleep 10
+			if [ -f /.chroot ] ; then
+				echo "EI NÄIN"
+				exit 99
+			fi
+			
 			common_part ${srcfile} ${d} /
 		else
 			common_part ${srcfile} ${d} ${d}

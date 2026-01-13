@@ -184,10 +184,11 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 
 	if [ $? -eq 0 ] ; then
 		#jnkn ehdon taakse seur 2-3 riviä?		
-		#${scm} g+rw /dev/tty0
-		#${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
-		#csleep 1
+		${scm} g+rw /dev/tty0
+		${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
+		csleep 1
 
+		#väärä tapa pakottaa uudelleen_kirjautuminen?
 		${whack} xfce4-session
 		#HUOM. tässä ei tartte jos myöhemmin joka tap
 	else
@@ -199,7 +200,7 @@ fi
 
 pre_part2
 c14=$(find ${d} -name '*.deb' | wc -l)
-[ ${c14} -gt 0 ] || CONF_removepkgs=0 #ei näin vaan?
+[ ${c14} -gt 0 ] || CONF_removepkgs=0 #eiheuttaak ongelmia sqrootissa?
 part2_5 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 
 #===================================================PART 3===========================================================
@@ -241,15 +242,20 @@ if [ ${mode} -eq 2 ] ; then
 	echo "time to ${sifu} ${CONF_iface} or whåtever"
 	csleep 1
 
-#	#jnkn ehdon taakse seur 2-3 riviä?	
-#	${scm} g+rw /dev/tty0
-#	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
-#	csleep 1
-#
-#	ls -las /dev/tty?
-#	groups
-#	csleep 5
+	#	#jnkn ehdon taakse seur 2-3 riviä?	
+	#130126:pois kommenteitsa jotta modatun .iso:n testaaminen onnistuu
+	#päivän 1. yritys ei oikein lähtenyt lentoon
 
+	${scm} g+rw /dev/tty0
+	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
+	csleep 1
+
+	ls -las /dev/tty?
+	csleep 5
+	groups
+	csleep 5
+	
+	#väärä tapa pakottaa uudelleen_kirjautuminen?
 	${whack} xfce4-session
  	exit 
 fi
