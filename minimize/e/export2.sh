@@ -178,7 +178,7 @@ case ${mode} in
 #		
 #		exit #TODO:j.ollain jekulla voisi hukata exitit näistä case:ista ekasssa switchissa
 	;;
-	f) 	#201225:tekee paketin, sisältö:ok
+	f) 	#josko josqs testaisi taas
 
 		enforce_access ${n} ${t}
 		e22_hdr ${tgtfile}
@@ -214,7 +214,7 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#201225:laati paketin, sisältö:lienee ok
+		#1e30126:laati paketin, sisältö:lienee ok
 		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
 		#-T - vipu tar:in kanssa käyttöön vai ei?
 
@@ -342,7 +342,8 @@ case ${mode} in
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
-		#130126:live-ympäristössä asentuu luodun paketin sisältö ok, sqroot-ymp vielä testattava (VAIH)
+		#130126:live-ympäristössä asentuu luodun paketin sisältö ok, sqroot-ympäristössä asentuu kanssa
+		#... tosin pilaakohan seatd sen chmod-groups-jutun?
 
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
@@ -359,7 +360,8 @@ case ${mode} in
 		#010126:vissiinkin e22dm() , tapauksissa lxdm ja wdm, tekevät asentuvan paketin
 		#... tosin "sqroot->toimiva kiekko" ei ole vielä onnistunut
 		#090126:tekee pak mikä as live-ymp (sqroot ei vielä testattu)
-		#TODO:tuoreimman paketin testaus sqroot-ymp, live:n kanssa toimii
+		#DONE:tuoreimman paketin testaus sqroot-ymp, live:n kanssa toimii
+		#... onko se nyt seatd mikä paskoo juttuja vai mitvit?
 		[ -v CONF_dm ] || exit 77
 
 		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
@@ -372,11 +374,12 @@ case ${mode} in
 esac
 
 #jos jo toimisi ao. blokki? vielä 1 testikierros sen selvitykseen?
+#130126:uusi toimintatapa aiheuttaa myös lisää mutkia matkaan sqrootissa
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar 
 	e22_dblock ${d}/f.tar ${d}
 
-	#pitäisiköhän tässä olla e222:ftr() tuolle f.tar:ille ?
+	#pitäisiköhän tässä olla e22_ftr() tuolle f.tar:ille ?
 
 	#josko myös dellisi f.tar:in sen jälkeen kUn lisätty tgtfileeseen?	
 	${srat} -rvf ${tgtfile} ${d}/f.tar 

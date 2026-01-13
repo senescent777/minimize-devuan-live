@@ -1,5 +1,6 @@
 dqb "${sco} -Rv _apt:root ${CONF_pkgdir}/partial"
 csleep 1
+#130126:sellainen aivopieru että {exp2, e22} toiminnalliSuuden saattaisi voida korvata Makefilellä ainakin osoittain
 
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
@@ -8,17 +9,18 @@ csleep 1
 if [ -v CONF_pubk ] ; then #&& ( -v CONF_ksk ) 
 	dqb "no keys.conf needed"
 else
-	#voisi tarkemminkin speksata mistä haetaan?
-	arsch=$(find / -type f -name 'keys.conf' | head -n 1)
+	if [ -v CONF_testgris ] ; then
+		arsch=$(find ${CONF_testgris} -type f -name 'keys.conf' | head -n 1)
 
-	if [ ! -z "${arsch}" ] ; then
-		if [ -s ${arsch} ] ; then
-			. ${arsch}
+		if [ ! -z "${arsch}" ] ; then
+			if [ -s ${arsch} ] ; then
+				. ${arsch}
+			fi	
 		fi
-	fi
 
-	csleep 1
-	unset arsch
+		csleep 1
+		unset arsch
+	fi
 fi
 
 csleep 1
@@ -28,10 +30,10 @@ function e22_hdr() {
 
 	dqb "e22hdr():BEFORE "
 	csleep 1
-	[ -z ${1} ] && exit 61
+	[ -z "${1}" ] && exit 61
 
 	fasdfasd ./rnd
-	fasdfasd ${1} #kanssa myös?
+	fasdfasd ${1}
 	csleep 1
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
@@ -47,11 +49,11 @@ function e22_hdr() {
 	csleep 1
 }
 
-function e22_ftr() { #231225:pitäisiköhän jo testata uuedstaan?
+function e22_ftr() { #130126:hdr() ja ftr() toimivat koska kaikenlaisia paketteja saatu tehtyä tähän pvmäärään asti
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
-	[ -z ${1} ] && exit 62
+	[ -z "${1}" ] && exit 62
  	[ -s ${1} ] || exit 63
 	[ -r ${1} ] || exit 64
 
@@ -90,12 +92,12 @@ function e22_ftr() { #231225:pitäisiköhän jo testata uuedstaan?
 	csleep 1
 }
 
-function e22_pre1() { #091225:vissiin toimii koska "exp2 3"
+function e22_pre1() { #130126:edelleen toimiva?
 	#disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
 
 	dqb "e22_pre1 ${1}  ${2} "
-	[ -z ${1} ] && exit 65 #-d- testi olikin jo alempana
-	[ -z ${2} ] && exit 66
+	[ -z "${1}" ] && exit 65 #-d- testi olikin jo alempana
+	[ -z "${2}" ] && exit 66
 
 	csleep 2
 	dqb "pars.0k"
@@ -181,7 +183,7 @@ function e22_pre2() { #120126:toiminee edelleen
 	csleep 1
 }
 
-function e22_cleanpkgs() { #HUOM.301125:toimii
+function e22_cleanpkgs() { #130126:edelleen toimii?
 	dqb "e22_cleanpkgs ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
 	[ -z "${1}" ] && exit 56
 
@@ -207,7 +209,6 @@ function e22_cleanpkgs() { #HUOM.301125:toimii
 	csleep 1
 }
 
-#pitäöiskö siirtää toiseen tdstoon?
 #030126:varmistettu että xorg.conf.new löytyy
 #120126:taisi toimia taas
 function e22_config1() {
@@ -377,6 +378,7 @@ function luca() {
 #130126 pienimuotoista testausta menossa, miten nykyään toimaa
 #... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan
 
+#TODO:vähitellen e22_ftr() käyttöön jotta /o/b/c voi tehdä tarkistukset /e/ipt sisällölle
 function e22_elocal() { 
 	dqb "e22_elocal ${1} , ${2} , ${3} , ${4} , ${5}"
 	csleep 1
@@ -450,7 +452,7 @@ function e22_elocal() {
 		dqb "Das Asdd"
 	else
 		#1.else-haara tulisi testata josqs (TODO)
-		#2.fstab lisäksi muutakin mukaan?
+		#2.fstab lisäksi muutakin mukaan vai ei?
 
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
@@ -504,15 +506,14 @@ function e22_elocal() {
 
 [ -v BASEURL ] || exit 6 
 
-#pitäöiskö siirtää toiseen tdstoon?
 function e22_ext() { #030126:taitaa toimia
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
-	[ -z ${1} ] && exit 1
+	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 2
 	#[ -w ${1} ] || exit 6 
-	[ -z ${2} ] && exit 3
-	[ -z ${3} ] && exit 4
+	[ -z "${2}" ] && exit 3
+	[ -z "${3}" ] && exit 4
 
 	dqb "paramz_0k"
 	csleep 1
@@ -601,7 +602,7 @@ function e22_ext() { #030126:taitaa toimia
 	csleep 1
 }
 
-function e22_ts() { #091225:jos vaikka toimisi
+function e22_ts() { #130126:jos vaikka toimisi?
 	dqb "e22_ts () ${1} ${2}" #van1 param pitäisi olla tällä - Yoda
 	csleep 2
 
@@ -789,7 +790,7 @@ function aswasw() { #privaatti fktio
 #	dqb "${NKVD} ${CONF_pkgdir}/libavahi* ?"
 #}
 
-#130126:tehdyn paketinj sisältö asentuu ainakin live-ymp
+#130126:tehdyn paketin sisältö asentuu ainakin live-ymp
 function e22_tblz() {
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
@@ -835,7 +836,7 @@ function e22_tblz() {
 #TODO:ntp-jutut takaisin josqs?
 
 #130126:joskohan paketin sisältö toimisi?
-#btw. mikä muuten syynä libfortran-nalkutukseen?
+#btw. mikä muuten syynä libgfortran5-nalkutukseen?
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF" #toista ei vissiin gtule?
 	csleep 1
@@ -858,14 +859,16 @@ function e22_other_pkgs() {
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
 	${shary} ${E22_GG}
 
-	#jospa sudo-asia olisi jo kunnossa 120126	
+	#jospa sudo-asia olisi jo kunnossa 120126?	
 
 	E22_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 	
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} ${E22_GS}  #moni pak tarttee nämä
 	#${shary} #bsd debconf
-	${shary} seatd
+
+	${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei?
+	#... ensin tuo pois kokeeksi+uusi sqroot-tst? 
 	csleep 5
 
 	message
@@ -900,7 +903,7 @@ function e22_other_pkgs() {
 	csleep 1
 }
 
-#VAIH:uusi wdm-paketti modatun ison rakennusta varten (olisikohan kohta jo?)
+#DONE:uusi wdm-paketti modatun ison rakennusta varten, asentuu sekä live että sqroot, tosin jotain kiukuttelua äksän kanssa EDELLEEN
 
 function e22_dm() {
 	dqb "e22dm ( ${1} ) "
@@ -917,7 +920,7 @@ function e22_dm() {
 	${shary} libgcc-s1 libc6 libgomp1 
 	csleep 2
 	
-	#menu (>= 2.1.26), libc6 (>= 2.14), (>= 1:1.0.0), l, , , , 
+	#menu (>= 2.1.26),  (>= 2.14), (>= 1:1.0.0), l, , , , 
 
 	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6
 	${shary} menu twm
@@ -940,7 +943,7 @@ function e22_dm() {
 	#fontconfig, libfreetype6, libxcb* ennnen switch-case:a? 
 
 	case ${1} in
-		xdm) #010126;pitäisiköhän tämäkin case testata?
+		xdm) #010126:pitäisiköhän tämäkin case testata?
 			${shary} xdm
 		;;
 		wdm)
@@ -1034,7 +1037,6 @@ function e22_dm() {
 #			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
 #			#csleep 2
 #			 
-#			#lxpolkit kanssa taisi olla joitainj vaihtoehtoja
 #			
 #			#	 lxlock | xdg-utils, 
 #
@@ -1097,7 +1099,7 @@ function e22_upgp() {
 	#[ -w ${1} ] || exit 44 #TODO: man bash taas?
 	#[ -s ${1} ] && mv ${1} ${1}.OLD 261225 laitetttu kommentteihin koska aiheutti ongelmia
 	[ -z "${2}" ] && exit 11
-	[ -d ${2} ] || exit 22
+	[ -d ${2} ] || exit 22 #käytetäänkö tätä? TODO:kenties $3 -> $2 ja uuDeksi kolmoseksi C_pkgd ... tjsp
 	[ -z "${3}" ] && exit 33
 
 	dqb "params_ok"
@@ -1130,7 +1132,7 @@ function e22_upgp() {
 	dqb " ${3} SHOULD BE Dbtl 1n turq"
 	csleep 1
 
-	#HUOM.part076() ja part2_5() on keksitty
+	#HUOM.part076() ja part2_5() on keksitty (tosin e22_dblock() nykyään...)
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb
 	csleep 1
 	
