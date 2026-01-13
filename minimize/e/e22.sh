@@ -847,7 +847,7 @@ function e22_tblz() {
 
 #TODO:ntp-jutut takaisin josqs?
 
-#130126:joskohan paketin sisältö toimisi?
+#140126:joskohan paketin sisältö toimisi?
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF" #toista ei vissiin gtule?
@@ -879,9 +879,9 @@ function e22_other_pkgs() {
 	${shary} ${E22_GS}  #moni pak tarttee nämä
 	#${shary} #bsd debconf
 
-	${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei?
-	#... ensin tuo pois kokeeksi+uusi sqroot-tst? 
-	csleep 5
+	#${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei?
+	#... ensin tuo pois kokeeksi+uusi sqroot-tst? (VAIH)
+	#csleep 5
 
 	message
 	jules

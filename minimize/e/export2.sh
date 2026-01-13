@@ -342,10 +342,10 @@ case ${mode} in
 		csleep 1
 		e22_upgp ${tgtfile} ${d} ${CONF_iface}
 	;;
-	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
+	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia? (tai vähän jo aloiteltu?)
 	e)
 		#130126:live-ympäristössä asentuu luodun paketin sisältö ok, sqroot-ympäristössä asentuu kanssa
-		#... tosin pilaakohan seatd sen chmod-groups-jutun? TODO:let's find out
+		#... tosin pilaakohan seatd sen chmod-groups-jutun? VAIH:let's find out
 
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
