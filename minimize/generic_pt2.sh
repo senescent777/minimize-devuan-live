@@ -104,12 +104,13 @@ function t2p_filler() {
 #jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
 
-#TODO:selvitä missä kohtaa gpg poistuu nykyään, koita saada epä-poistumaan
+#VAIH:selvitä missä kohtaa gpg poistuu nykyään, koita saada epä-poistumaan
+#mode:n kanssa kikkailut voivat auttaa selvityksessä
 function t2pc() {
 	dqb "common_lib.t2p_common( ${1})"
 	csleep 1
 
-	[ -z ${1} ] && exit 99
+	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 98
 
 	dqb "shar_py = ${sharpy} ;"
@@ -164,6 +165,9 @@ function t2pc() {
 	${sharpy} gpgv
 	t2p_filler
 
+	dqb "gpg= $(sudo which gpg)"
+	csleep 10
+
 	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
 	t2p_filler
 
@@ -209,6 +213,9 @@ function t2pc() {
 
 	${sharpy} vim*
 	t2p_filler
+
+	dqb "gpg= $(sudo which gpg)"
+	csleep 10
 
 	${sharpy} xorriso 
 	t2p_filler
@@ -266,17 +273,26 @@ function t2pf() {
 }
 
 #====================================================================
+dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
+csleep 10
+
 t2pc ${d0}
 [ $? -gt 0 ] && exit
+dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
+csleep 10
 [ ${mode} -eq 0 ] && exit
 
 #TODO:$d/pkgs_drop hyödyntäminen jatkossa
 t2p
 [ $? -gt 0 ] && exit
+#dqb "gpg= $(sudo which gpg)"
+#csleep 10
 [ ${mode} -eq 1 ] && exit
 
 t2pf ${d}
 [ $? -gt 0 ] && exit
+#dqb "gpg= $(sudo which gpg)"
+#csleep 10
 [ ${mode} -eq 2 ] && exit
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
@@ -285,5 +301,5 @@ ${scm} 0555 ${d0}/common_lib.sh
 
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
 dqb "${whack} xfce4-session 1n 3 s3c5"
-sleep 3
+sleep 2
 ${whack} xfce4-session #toimiiko tämä?

@@ -500,9 +500,7 @@ case "${mode}" in
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
-		
-		#jonnekin sitten vastaavasti $gg --export, esim kutl.bash
-		#... ja avaInten allekirjoittamiseen oli muuten omakin optio
+		#avaInten allekirjoittamiseen oli muuten omakin optio
 
 		if [ -v gg ] ; then
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
