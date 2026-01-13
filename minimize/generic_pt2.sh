@@ -103,7 +103,8 @@ function t2p_filler() {
 
 #jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
-#VAIH:pkgs_drop hyödyntäminen jatkossa, $d0 parametriksi (joko jo 221225?)
+
+#TODO:selvitä missä kohtaa gpg poistuu nykyään, koita saada epä-poistumaan
 function t2pc() {
 	dqb "common_lib.t2p_common( ${1})"
 	csleep 1
