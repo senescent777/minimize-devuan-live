@@ -178,7 +178,8 @@ case ${mode} in
 #		
 #		exit #TODO:j.ollain jekulla voisi hukata exitit näistä case:ista ekasssa switchissa
 	;;
-	f) 	#josko josqs testaisi taas
+	f) 	#VAIH:toiminnan testailu TAAS (edelleen osaa tehdå paketteja, sisällön toimivuus vielä)
+		#kts liittyen se toniq.tar 
 
 		enforce_access ${n} ${t}
 		e22_hdr ${tgtfile}
@@ -228,6 +229,7 @@ case ${mode} in
 		exit
 	;;
 	g)
+		#140126:sen g-t-jutun kanssa myös aloiteltu (VAIH)
 		#101225:ulostuksilla saa paketin aikaiseksi edelleen
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "${sag_u} | ${fib} , when necessary " 
@@ -343,13 +345,14 @@ case ${mode} in
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia?
 	e)
 		#130126:live-ympäristössä asentuu luodun paketin sisältö ok, sqroot-ympäristössä asentuu kanssa
-		#... tosin pilaakohan seatd sen chmod-groups-jutun?
+		#... tosin pilaakohan seatd sen chmod-groups-jutun? TODO:let's find out
 
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
 	;;
 	t) 
 		#130126:toimii
+		#140126:sen g-t-jutun kanssa myös aloiteltu (VAIH)
 		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
 
 		message
@@ -373,7 +376,7 @@ case ${mode} in
 	;;
 esac
 
-#jos jo toimisi ao. blokki? vielä 1 testikierros sen selvitykseen?
+#140126:uudellakin testikierroksella osaa tämä blokki tehdä paketteja
 #130126:uusi toimintatapa aiheuttaa myös lisää mutkia matkaan sqrootissa
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar 
