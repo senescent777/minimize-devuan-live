@@ -555,7 +555,6 @@ function cefgh() {
 	[ $? -eq 0 ] && ${NKVD} ${1}/f.tar	
 }
 
-#TODO:mini_e.tar tätä fktiota varten, tai oikeastaan exp2.sh asia
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ) "
 	csleep 1
@@ -569,6 +568,7 @@ function check_binaries() {
 	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh	
 	for x in ${y} ; do ocs ${x} ; done
 
+	#HUOM.nämä e22_jutut tarkoituksella asetettu juuri tässä fktiossa
 	sdi="${odio} ${sd0} -i "	
 	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 	
