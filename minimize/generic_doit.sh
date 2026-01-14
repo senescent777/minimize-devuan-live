@@ -242,19 +242,21 @@ if [ ${mode} -eq 2 ] ; then
 	echo "time to ${sifu} ${CONF_iface} or whåtever"
 	csleep 1
 
-	#	#jnkn ehdon taakse seur 2-3 riviä?	
+	#jnkn ehdon taakse session lahtaamista edelliset rivit?
 	#130126:pois kommenteitsa jotta modatun .iso:n testaaminen onnistuu
 	#päivän 1. yritys ei oikein lähtenyt lentoon
 
-	${scm} g+rw /dev/tty0
 	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
-	csleep 1
+	csleep 5
+	groups #ryhmiin kuulumisen muutokset eivät tapahtune ennen uloskirjautumista?
+	csleep 5
+	#140126:aiemmin oli scm ennen usermod, liebneekö merkitystä
 
+	${scm} g+rw /dev/tty0
+	csleep 1
 	ls -las /dev/tty?
 	csleep 5
-	groups
-	csleep 5
-	
+
 	#väärä tapa pakottaa uudelleen_kirjautuminen?
 	${whack} xfce4-session
  	exit 
