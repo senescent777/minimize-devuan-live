@@ -75,6 +75,9 @@ mime-support*.deb
 libimagequant0*.deb
 libraqm0*.deb
 #
+#TODO:->accept2 ?
 #mime-support*.deb
 python3-pil.imagetk*.deb
 python3-pil*.deb
+#
+libdbus-1-3*.deb

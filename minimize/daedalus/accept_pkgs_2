@@ -4,7 +4,16 @@ bind9-host*.deb
 bind9-dns*.deb
 dnsutils*.deb
 perl*.deb
-#eudev-dbus-e2fsprogs oli siinä rejectissä
+#
+#eudev-dbus-e2fsprogs oli siinä rejectissä, miten x-juttuja myös
+xserver-common*.deb
+xserver-xorg-legacy*.deb
+xserver-common*.deb
+xserver-xorg-core*.deb
+dbus-bin*.deb
+dbus-daemon*.deb
+dbus-session-bus-common*.deb
+dbus-x11*.deb
 #
 gpgconf*.deb
 #gpg tarvitsee confin /josko kuitenkin kerta-as riittäisi
