@@ -1102,6 +1102,7 @@ function e22_profs() {
 
 #130126:olisikohan jo/taas toimiva? onko jotain uutta kiukuttelua vau eu? let's find out soon
 #jokin juttu vielä on kun päivityspaketti rikkoo slimin muokkaamattoman .iso:n kanssa
+#... josko se 140126 vaihtuisi libdbus-nalkutukseen
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}" #ei pitäne tulla neljättä
 

@@ -337,7 +337,7 @@ case ${mode} in
 	#aiempi pak sössii äksän joten joko lib-paketit aiheuttavat tai sitten dbus- tai xorg- pakettien poissaolo (hyvä kai selvittää kumpi)	
 	#... tosin selvittelystä voi tulla jonkinmoinen sirkus
 	#... ellei sitten sössiytyminen aiheudu jostain muusta?
-	#140126 jälleenm uusi yritys
+	#140126 jälleenm uusi yritys, ainakin muutoksena aiempaan dbus-nalqtus
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
@@ -367,6 +367,10 @@ case ${mode} in
 		#090126:tekee pak mikä as live-ymp (sqroot ei vielä testattu)
 		#DONE:tuoreimman paketin testaus sqroot-ymp, live:n kanssa toimii
 		#... onko se nyt seatd mikä paskoo juttuja vai mitvit?
+
+		dqb "#ensin wdm-pak as, sitten avsta slim pois?"
+		csleep 1
+
 		[ -v CONF_dm ] || exit 77
 
 		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
