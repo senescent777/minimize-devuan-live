@@ -92,8 +92,6 @@ else
 	[ $? -gt 0 ] && exit
 fi
 
-#====================================================================
-
 function t2p_filler() {
 	dqb "FILLER"
 	${lftr}
@@ -101,14 +99,36 @@ function t2p_filler() {
 	csleep 1
 }
 
+#tarpeellinen ehto?
+if [ -f /.chroot ] ; then
+	${sharpy} blu*
+	${sharpy} nfs*
+	${sharpy} rpc*
+	
+	t2p_filler
+	csleep 2
+	
+	${sharpy} dmsetup
+	${sharpy} at-spi2-core	
+	${sharpy} psmisc
+	
+	t2p_filler
+	csleep 2	
+fi
+	
+#====================================================================
+
 #jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
-#VAIH:pkgs_drop hyödyntäminen jatkossa, $d0 parametriksi (joko jo 221225?)
+
+#VAIH:selvitä missä kohtaa gpg poistuu nykyään, koita saada epä-poistumaan
+#mode:n kanssa kikkailut voivat auttaa selvityksessä
+#130126_sqroot-testissä tämän fktion poistamat paketit enimmäkseen poistuvat pl. tuon yhden blokin jutut
 function t2pc() {
 	dqb "common_lib.t2p_common( ${1})"
 	csleep 1
 
-	[ -z ${1} ] && exit 99
+	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 98
 
 	dqb "shar_py = ${sharpy} ;"
@@ -125,8 +145,10 @@ function t2pc() {
 #		${sharpy} ${f}*
 #		csleep 1
 #	done
-
-	#040126:poistuuko se mutt vai ei? ehkä, mutta nyt bluez...
+	
+	dqb "gpg= $(sudo which gpg)"
+	csleep 10
+	
 	${sharpy} blu*
 	t2p_filler
 	csleep 2
@@ -154,10 +176,7 @@ function t2pc() {
 	t2p_filler
 	csleep 2
 
-	#040126:eloginin poisto näköjään laittaa äksän pois pelistä
-	#${sharpy} elogin*
-	#t2p_filler
-	#csleep 2
+	#040126:to state the obvious:eloginin poisto laittaa äksän pois pelistä
 
 	#tikkujen kanssa paska tdstojärjestelmä exfat
 	${sharpy} exfatprogs fdisk gcr ftp*
@@ -166,6 +185,9 @@ function t2pc() {
 	#231225 uutena, pois jos qsee
 	${sharpy} gpgv
 	t2p_filler
+
+	dqb "gpg= $(sudo which gpg)"
+	csleep 10
 
 	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
 	t2p_filler
@@ -213,6 +235,9 @@ function t2pc() {
 	${sharpy} vim*
 	t2p_filler
 
+	dqb "gpg= $(sudo which gpg)"
+	csleep 10
+
 	${sharpy} xorriso 
 	t2p_filler
 
@@ -220,28 +245,25 @@ function t2pc() {
 	#xfce*,xorg* off limits
 	t2p_filler
 
-	#121225:pitäisi se validi xorg.conf ennenq dumppaa:slim
-	#071225:pitäisikö tälle ehdolle tehdä jotain?  uuden .iso:n kanssa kun sitä temppuilua
+	#071225:pitäisikö ao. ehdolle tehdä jotain?  uuden .iso:n kanssa kun sitä temppuilua (vielä ajank 01/26?)
 
 	if [ -f /.chroot ] ; then
 		dqb "SHOULD ${sharpy} slim*"
-		csleep 5
+		csleep 2
 
 		#nopeampi boottaus niinqu
 		dqb "KVG \"devuan how to skip dhcp on boot\""
-		csleep 5
-
-		#joko jo? "VT 0 acces denied" korjayttu nimittäin?
-		#dqb "SHOULD DO SOMETHING ABOUT THAT libseat-problem w/ xorg"
-		#csleep 5
+		csleep 2
 
 		dqb "t2p_filler()"
-		csleep 5
+		csleep 2
 
 		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
-		#dqb "dpkg-reconfigure lxdm?"
 		dqb "Xorg -config ? "
-		csleep 5
+		csleep 2
+	else
+		dqb "COULD ${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
+		csleep 10
 	fi
 
 	spd="${sd0} -l "
@@ -267,28 +289,37 @@ function t2pf() {
 
 	for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
 	df
-	${odio} which dhclient; ${odio} which ifup; csleep 3
+	${odio} which dhclient; ${odio} which ifup; csleep 2
 }
 
 #====================================================================
+dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
+csleep 10
+
 t2pc ${d0}
 [ $? -gt 0 ] && exit
+dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
+csleep 10
 [ ${mode} -eq 0 ] && exit
 
 #TODO:$d/pkgs_drop hyödyntäminen jatkossa
 t2p
 [ $? -gt 0 ] && exit
+#dqb "gpg= $(sudo which gpg)"
+#csleep 10
 [ ${mode} -eq 1 ] && exit
 
 t2pf ${d}
 [ $? -gt 0 ] && exit
+#dqb "gpg= $(sudo which gpg)"
+#csleep 10
 [ ${mode} -eq 2 ] && exit
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
-csleep 3
+csleep 2
 ${scm} 0555 ${d0}/common_lib.sh 
 
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
 dqb "${whack} xfce4-session 1n 3 s3c5"
-sleep 3
+sleep 2
 ${whack} xfce4-session #toimiiko tämä?

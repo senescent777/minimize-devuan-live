@@ -184,7 +184,7 @@ echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	#TODO:tömnän haaran testaus
+	#TODO:tämän haaran testaus
 	echo $?
 	dqb "NO LIB"
 	csleep 1
@@ -331,7 +331,7 @@ function tpr() {
 	dqb "UPIR  ${1}"
 	csleep 1
 
-	[ -z ${1} ] && exit 11
+	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 12
 	[ -s ${1}/fediverse.tar ] || exit 13
 	[ -r ${1}/fediverse.tar ] || exit 14
@@ -458,8 +458,11 @@ case "${mode}" in
 		csleep 1
 
 		if [ ${1} -eq 0 ] ; then
-			#dqb "DEPRECATED"
-			#csleep 10
+			if [ -f /.chroot ] ; then
+				echo "EI NÄIN"
+				exit 99
+			fi
+			
 			common_part ${srcfile} ${d} /
 		else
 			common_part ${srcfile} ${d} ${d}
@@ -482,6 +485,7 @@ case "${mode}" in
 	;;
 	q)
 		#040126:toimii ainakin ffox prof osalta
+		#120126:taitaa toimia edelleen/tilapäisesti
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
@@ -499,9 +503,7 @@ case "${mode}" in
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
-		
-		#jonnekin sitten vastaavasti $gg --export, esim kutl.bash
-		#... ja avaInten allekirjoittamiseen oli muuten omakin optio
+		#avaInten allekirjoittamiseen oli muuten omakin optio
 
 		if [ -v gg ] ; then
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then

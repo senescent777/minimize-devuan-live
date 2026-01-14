@@ -166,8 +166,6 @@ function check_bin_0() {
 	[ -z ${NKVD} ] && exit 37
 	NKVD="${odio} ${NKVD} -fu "
 	
-	#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
-	#040126:josko alkaisi bluez poistumaan?	
 	PART175_LIST="avahi blu cups exim4 nfs network mdadm sane rpc lm-sensors dnsmasq stubby" 
 
 	# ntp" ntp jemmaan 28525 #slim kokeeksi mukaan listaan 271125, hiiri lakkasi toimimasta
@@ -312,8 +310,9 @@ function common_pp3() {
 	csleep 1
 
 	#kutsutaan useammasta paikkaa joten varm vuoksi
-	[ -z ${1} ] && exit 99
+	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 101
+
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
 
@@ -460,8 +459,8 @@ function fromtend() {
 #111225:ensimmäisellä yrityksellä epäselvää josko juuri siinä ympäristössä missä tätä fktiota kutsutaan
 #... mutta kehitysymp kanssa toimii, luulisin , livenä myös121225 ainakin kerran
 #
-#P.S. this function created to avoid a chicken-and-egg-situation
-#
+#P.S. this function created to avoid a chicken-and-egg-situation, maybe
+#TODO:chimaera/xcalibur-testi että selviää, voiko ao. fktion heittää roskikseen jo?
 #function common_tbls() {
 #	dqb "COMMON TABLESD $1, $2"
 #	csleep 1
@@ -541,14 +540,17 @@ function fromtend() {
 #}
 
 function cefgh() {
-	dqb " cefgh( ${1})"
-	[ -z ${1} ] && exit 66
+	dqb " cefgh( ${1} )"
+
+	[ -z "${1}" ] && exit 66
 	[ -d ${1} ] || exit 67
+
 	dqb "pars ok"
 	csleep 1
 	
 	efk2 ${1}/e.tar
-	[ $? -eq 0 ] && ${NKVD} ${1}/e.tar	
+	[ $? -eq 0 ] && ${NKVD} ${1}/e.tar
+	
 	efk2 ${1}/f.tar ${1}
 	[ $? -eq 0 ] && ${NKVD} ${1}/f.tar	
 }
@@ -563,14 +565,11 @@ function check_binaries() {
 	ip6tr=$(${odio} which ip6tables-restore)
 	
 	local y
-	#251025:excalibur-syistä dhclient tilapäisesti ulos listasta...tai siis alemmas
 	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh	
 	for x in ${y} ; do ocs ${x} ; done
-	#dqb "JUST BEFORE EE2G"
-	#csleep 1
 
-	sdi="${odio} ${sd0} -i "
-	
+	#HUOM.nämä e22_jutut tarkoituksella asetettu juuri tässä fktiossa
+	sdi="${odio} ${sd0} -i "	
 	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 	
 	E22_GT="isc-dhcp-client isc-dhcp-common libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
@@ -579,28 +578,18 @@ function check_binaries() {
 
 	E22_GU="isc-dhcp libnfnet libnetfilter libxtables libnftnllibnl-3-200 libnl-route libnl"
 	E22_GV="libip iptables_  netfilter-persistent iptables-"
-	#dqb "JUST BEFORE cefgh()"
 	
 	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
 	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
-		#dqb "aa"
-		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then #; then #31225:tilapåäisesti gg-testi jemmassa jnkn aikaa
-			#dqb "bbb"
-			[ -z ${1} ] && exit 99
-			#dqb "-d ${1} existsts?"
+		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
+			[ -z "${1}" ] && exit 99
 			[ -d ${1} ] || exit 101
-
-			#dqb "params_ok"
-			#csleep 1
 
 			cefgh ${1}
 			common_pp3 ${1}
 
 			#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
 			if [ -z "${gg}" ] ; then
-				#dqb "SHOULD INSTALL gpg AROUND HERE"
-				#csleep 1
-	
 				for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
 				csleep 1
 
@@ -612,30 +601,19 @@ function check_binaries() {
 			fi
 
 			if [ -z "${ipt}" ] ; then
-				#echo "SHOULD INSTALL IPTABLES"
 				jules
-				#sleep 1
 	
 				[ -f /.chroot ] && message
-				#VAIH:kokeeksi ao. fktion korvaaminen sillä E22_G-tempulla
-				#... kiinnostavaksi mennee chiameran tai excaliburin kanssa			
 
 				#common_tbls ${1} ${CONF_dnsm}
 				
-				#debug-tauhkoja vähemmälle qhan testailtu vähän lisää
-				#dqb "JUST VBEFORE LOOP"
-				#csleep 1
 				for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
-				#dqb "JUST AFTR L00P"
-				#csleep 1
-				
+
 				for p in ${E22_GV} ; do 
 					fromtend ${1}/${p}*.deb
 					[ $? -eq 0 ] && ${NKVD} ${1}/${p}*.deb	
 				done
 				
-				#dqb "JST SFTR LOP2"
-				#csleep 1
 				other_horrors
 
 				ipt=$(${odio} which iptables)
@@ -648,9 +626,9 @@ function check_binaries() {
 			fi
 		
 			ls ${1}/*.deb | wc -l
-			csleep 5
+			csleep 3
 			
-			#261225:pitäisiköhän gpg- ja tables- instausten jämät deletoida varn, vuoksi?
+			#261225:pitäisiköhän gpg- ja tables- instausten jämät deletoida varM, vuoksi?
 			#${NKVD} ${1}/*.deb saattaa jäädä tällä tavalla git tai mktemp puuttumaan	
 		fi
 	
@@ -894,7 +872,7 @@ function pre_enforce() {
 	#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
 	if [ ${c4} -lt 1 ] ; then
 		dqb "MUTILAT31NG /E/F-STAB"
-		csleep 2
+		csleep 1
 
 		${scm} a+w /etc/fstab
 		csleep 1
@@ -902,9 +880,9 @@ function pre_enforce() {
 		csleep 1
 		${scm} a-w /etc/fstab
 
-		csleep 2
+		csleep 1
 		[ ${debug} -eq 1 ] && cat /etc/fstab
-		csleep 2
+		csleep 1
 	fi
 
 	csleep 1
@@ -1027,7 +1005,6 @@ function e_final() {
 	csleep 1
 }
 
-#kts. pre_enforce():n kommentit
 function enforce_access() {
 	dqb " enforce_access ${1} , ${2}"
 	csleep 1
@@ -1265,12 +1242,17 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE"
 }
 
+#DONE:tapaus sqroot, selvitä mitä silloin poistuu oikeasti, kun g:dout ajetaan
+#130126:vissiin konf pielessä (tai siis)
+#sqroot-testi, 2. yritys:bluez ei edelleenkään poistunut, eikä nfs, muutenm 175-lista kyl
+#... muuten ao.fktion opistamat poistuu
+
 function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
-	csleep 1
+	csleep 20
 
-	[ -z ${1} ] && exit 55
-	[ -z ${2} ] && exit 56
+	[ -z "${1}" ] && exit 55
+	[ -z "${2}" ] && exit 56
 
 	dqb "PARS_OK"
 	csleep 1
@@ -1293,7 +1275,7 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		done
 
 		${lftr}
-	#	[ -f /.chroot ] && exit 666 #täössökö jo lähtee qsemaan? sqrootin kanssa siis
+	#	[ -f /.chroot ] && exit 666 #tässäkö jo lähtee qsemaan? sqrootin kanssa siis
 		
 		${sharpy} libblu* libcupsfilters* libgphoto*
 		${lftr}
@@ -1317,11 +1299,6 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 			;;
 		esac
 	fi
-
-	##usermod:illa tty ja input mukaan ryhmiin vai ei? koita ensin omegalla
-	#${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty,input devuan
-	#${scm} g+rw /dev/tty0	
-	##joskohan se seatd seuraavaksi	
 
 	dqb "PART2.5.2 ${1} , ${2}"
 	csleep 1
@@ -1390,7 +1367,6 @@ function part3() {
 	#fi
 
 	clibpre ${1} accept_pkgs_1
-	#josko lxdm tai xdm vaikka, slimin tilalle?
 	clibpre ${1} accept_pkgs_2
 
 	dqb "g4RP D0NE"
