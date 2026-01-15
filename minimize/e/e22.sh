@@ -419,11 +419,11 @@ function e22_elocal() {
 	if [ -x ${gg} ] ; then
 		if [ -v CONF_pubk ] ; then
 			${gg} -u ${CONF_pubk} -sb /opt/bin/zxcv.sig
-			csleep 1
-			${srat} -rvf ${1} /opt/bin/zxcv*
+			csleep 1			
 		fi
 	fi
 
+	${srat} -rvf ${1} /opt/bin/zxcv*
 	luca ${1}
 	csleep 1
 	other_horrors
