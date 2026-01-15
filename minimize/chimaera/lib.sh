@@ -99,5 +99,7 @@ function tpc7() {
 	dqb "c.tpc7 UNDER CONSTRUCTION"
 }
 
+	
 check_binaries ${d} #globaalit perseestä, $(pwd) tilalle?
+lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
 check_binaries2
