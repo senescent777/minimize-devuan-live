@@ -355,8 +355,8 @@ if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 	#accept/reject/drop - jutut mukaan sqroot varten? vai jtnkn muuten?
 	e22_dblock ${d}/f.tar ${d}
 
-	#uutena1 41026 (TODO:sswlv miten toimii?)
-	e22_ftr  ${d}/f.tar 
+	#uutena1 41026 (VAIH:sswlv miten toimii?)
+	e22_ftr ${d}/f.tar 
 
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 

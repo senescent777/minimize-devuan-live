@@ -279,7 +279,7 @@ function e22_settings() {
 	csleep 1
 }
 
-function e22_home() { #TODO:elocal() -muutoksien sivuvaikutuksena tämänkin fktion toimimman testaus josqs 
+function e22_home() { #VAIH:elocal() -muutoksien sivuvaikutuksena tämänkin fktion toimimman testaus josqs 
 	dqb "  e22_home() ${1} , ${2} , ${3}  "
 
 	[ -z "${1}" ] && exit 67
@@ -515,7 +515,7 @@ function e22_elocal() {
 
 [ -v BASEURL ] || exit 6 
 
-function e22_ext() { #TODO:uusi testaus TAAS
+function e22_ext() { #VAIH:uusi testaus TAAS
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
 	[ -z "${1}" ] && exit 1
