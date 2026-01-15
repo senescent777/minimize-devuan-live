@@ -544,6 +544,11 @@ function cefgh() {
 	[ $? -eq 0 ] && ${NKVD} ${1}/f.tar	
 }
 
+function cefgh() {
+	efk2 ${1}/e.tar
+	efk2 ${1}/f.tar ${1}
+}
+
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ) "
 	csleep 1
@@ -1018,6 +1023,13 @@ function enforce_access() {
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 }
 
+function fasdfasd() {
+	dqb "SUN LIIRUM SUN LAARUM ${1}"
+	touch ${1}
+	chown $(whoami):$(whoami) ${1}
+	chmod 0644 ${1}
+}
+
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
 #myös https://github.com/topics/sources-list
 
@@ -1310,6 +1322,16 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	csleep 1
 }
 
+#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=slim=1.4.0-0devuan2&eXtra=87.95.120.70
+# Depends:
+#dbus, debconf (>= 1.2.9) | debconf-2.0, default-logind | logind | consolekit, x11-xserver-utils, libc6 (>= 2.34), libgcc-s1 (>= 3.0), libjpeg62-turbo (>= 1.3.1), libpam0g (>= 0.99.7.1), libpng16-16 (>= 1.6.2-1), libstdc++6 (>= 5.2), libx11-6, libxext6, libxft2 (>> 2.1.1), libxmu6 (>= 2:1.1.3), libxrandr2 (>= 2:1.2.99.3)
+#saattaa harata vastaan:dbus , debconf? , libgcc-s1, libpam0g, libx11-6
+#
+#https://bbs.archlinux.org/viewtopic.php?id=112224 ?
+#https://dev1galaxy.org/viewtopic.php?id=2158
+#
+#part3() vs import2 case 3 ,. what's the difference?
+#VAIH:kutsuvasta koodista 2. param pois, ekaankin tarkistuksia?
 function part3() {
 	dqb "part3 ${1} , ${2}"
 	csleep 1

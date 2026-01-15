@@ -245,6 +245,24 @@ case ${mode} in
 		e22_profs ${tgtfile} ${d0}
 		exit
 	;;
+#	å) #241125:testattu, oksentaa toimivia komentoja, lisäksi:
+#	#1. libgtkmm ja libpangomm  riippuvuuksineen aiheutti nalkutusta, pitäisi niitä listoja päivittää vissiin + riippuvuuksien kanssa vielä iterointia
+#	#2. "$0 f" tekemä paketti ei paskonut:slim
+#
+#	#251125:pavu taisi asentua(tosin "establishing connection") + nalkutusta paketeista: libpolkit, libsystemd
+#
+#	dqb "#TODO:alsaan siirtyminen?"
+#
+#		echo "${shary} libatk1.0-0 libasound2 libltdl7 libtdb1 libvorbisfile3 libatkmm-1.6-1v5 libcairomm-1.0-1v5 libpangomm-1.4-1v5 libjson-glib-1.0-common libasyncns0 libsndfile1 libsystemd0"
+#
+#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=pavucontrol=5.0-2&eXtra=176.93.249.62
+#		echo "${shary} libatkmm-1.6-1v5 libcanberra-gtk3-0 libcanberra0 libglibmm-2.4-1v5 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5 "
+#		echo "${shary} pavucontrol"
+#
+#		echo "${svm} ${pkgdir}/*.deb ${d}"
+#		echo "$0 f ${tgtfile} ${distro}"
+#		exit 1
+#	;;
 	-h)
 		usage
 	;;
