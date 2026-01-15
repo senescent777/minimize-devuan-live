@@ -213,7 +213,8 @@ function e22_cleanpkgs() { #130126:edelleen toimii?
 }
 
 #120126:taisi toimia taas
-#TODO:pitäisikö jossain tunkea /etc alle xorg.conf? sen lisäksi että ~ alle ...
+#HUOM.1§50126:e22_elocal() yrittää vetää /e alta xorg konftdston mukaan pakettiin
+
 function e22_config1() {
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
@@ -279,7 +280,7 @@ function e22_settings() {
 	csleep 1
 }
 
-function e22_home() { #VAIH:elocal() -muutoksien sivuvaikutuksena tämänkin fktion toimimman testaus josqs 
+function e22_home() { #15+0126:suattaapi vaikka toimia
 	dqb "  e22_home() ${1} , ${2} , ${3}  "
 
 	[ -z "${1}" ] && exit 67
@@ -376,7 +377,6 @@ function luca() {
 #130126 pienimuotoista testausta menossa, miten nykyään toimaa
 #... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan
 
-#VAIH:vähitellen e22_ftr() käyttöön jotta /o/b/c voi tehdä tarkistukset /e/ipt sisällölle ... tjsp
 function e22_elocal() { 
 	dqb "e22_elocal ${1} , ${2} , ${3} , ${4} , ${5}"
 	csleep 1
