@@ -1,10 +1,12 @@
 #=================================================PART 0=====================================
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
-#HUOM.28925:testaisiko josqs uudestaan tapaus chimaera? entä xcalibur?
+#milloin viimeksi testattu? lokakuussa?
 function udp6() {
 	dqb "ch1m.lib.UPDP-6"
 	csleep 1
+
+	dqb "do_Something() ?"
 
 	dqb "D0NE"
 	csleep 1

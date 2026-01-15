@@ -3,21 +3,34 @@
 #https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
-#TODO:voisi jatkossa pitää x-oiukeudet common:lib.sh:ssa ettei tarttisi renkata (enemmänkin g_doit asioita)
+#301125:common_lib.sh x-oikeudet lienevät nyt kunnossa?
+#161225:buygijahti koskemaan tätkin tdstoa?
 
 function udp6() { #on käytössä
 	dqb "daud.lib.UPDP-6 ${1}"
 	csleep 1
+
+	#jokin syy miksi ei -z ?
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 	csleep 1
 
-	clib5p ${1} reject_pkgs
+	dqb "${1} :"
+	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb | wc -l
+	csleep 3
+
+	dqb "${pkgdir} :"
+	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb | wc -l
+	csleep 3
+
+	common_lib_tool ${1} reject_pkgs
 	dqb "D0NE"
 	csleep 1
 }
 
-#clib5p-tyylillä jatkossa tämänkin fktion hommat?
+#common_lib_tool-tyylillä jatkossa tämänkin fktion hommat? kts g_pt2
+#251225:poistetaanko täsäs kohtaa liikaa?
+#130126:sqrot-tstissä psmisc ei poistunut
 function t2p() { #on käytössä
 	dqb "DAUD.T2P"
 	csleep 1
@@ -88,7 +101,7 @@ function t2p() { #on käytössä
 }
 
 #josko kuitenkin ntp takaisin part2_5_listaan?
-function pre_part2() { #käytrössä
+function pre_part2() { #käytössä
 	dqb "daud.pre_part2()"
 	csleep 2
 

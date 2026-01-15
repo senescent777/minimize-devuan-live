@@ -43,11 +43,13 @@ function process_entry() {
 }
 
 ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
+[ $? -eq 0 ] || echo "chmod | chown ?"
 sleep 2
 t=$(pwd)
 
-if [ -v testgris ] && [ -d ${testgris} ] ; then
-	cd ${testgris}
+if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
+	echo "YLIULIULI"
+	cd ${CONF_testgris}
 
 	#-C olisi myös keksitty
 	#nalqtus jos /etc yai /opt puuttuu paketista?
@@ -55,11 +57,9 @@ else
 	cd /
 fi
 
-#HUOM.131125:vaikutti siltä että -uvf ei sittenkään toimisi aivan toivotulla tavalla, aina saa renkata d/accept*
-#... tarkemmin ajatellen päivityspaketin sisältö syynä (tee jotain)
-
 for f in $(${tcmd} -tf ${tgt} | grep -v '${n}.conf'  | grep -v .chroot) ; do
 	if [ -f ${f} ] ; then #josko nyt
 		${tcmd} -uvf ${tgt} ${f}
+		[ $? -eq 0 ] || echo "chmod | chown ?"
 	fi
 done

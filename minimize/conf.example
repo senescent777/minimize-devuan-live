@@ -1,14 +1,40 @@
-iface=
-enforce=
+CONF_iface=iface
+CONF_enforce="0 or 1"
 debug=0
-pkgdir=/var/cache/apt/archives
-dir=/media
-dnsm=0
-pkgsrc= #tämän idea olikaan? no sources.list tietenkin
-part0=ABCD-1234-XXXX
-removepkgs=1
+CONF_dnsm=0
 #dsn="INSERT LIST OF DNS/DOT SERVERS HERE"
-changepw=0
+CONF_changepw=0
+#
+#pkgs
+CONF_pkgdir=/var/cache/apt/archives
+CONF_pkgsrv= #tämän idea olikaan? no sources.list tietenkin
+CONF_removepkgs=1
+#/pkgs
+#
+CONF_dir=/media
+CONF_part0=ABCD-1234-XXXX
+#
+#loka
 #HUOM.11525:locale-juttuja varten nykyään /e/d/l.tmp
-LCF666="<SAME_AS LC_TIME>"
+LCF666="SAME_AS LC_TIME"
+LANG=en_US.UTF-8
+LC_TIME=fi_FI.UTF-8
+LANGUAGE=en_US.UTF-8
+LC_ALL=en_US.UTF-8
+#/loka
+#
 BASEURL="github.com/senescent777/"
+#CONF_testgris ja .chroot voisi korvata yhdellä mjalla?
+CONF_testgris=/SMTH1NG
+#
+#krypto (keys.conf)
+#CONF_pubk=KeY.ABCD
+#CONF_ksk=KeY.EFGHI
+#/kyrpto
+#
+TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ "
+#
+#sudo-juttuja (jatkossa toisin)
+#CB_LIST2="/bin/rm ${CONF_tmpdir}/*"
+#
+CONF_dm=xdm

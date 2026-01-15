@@ -1,8 +1,13 @@
-eudev*.deb
-udev*.deb
-xserver*.deb
-dbus*.deb
-initramfs*.deb
-live*.deb
-e2fsprogs*.deb
-#TODO:mielellään slim Vittuun jatkossa 666!
+#eudev
+#090126 laitettu suurin osa sisältöä kommentteihin, let's find out...
+#kohta takaisin kommenteista?
+#udev
+#xserver
+#dbus
+#initramfs
+#live
+#e2fsprogs
+#
+#dirmngr joihinkin juttuihin tämä suorastaan tarvitaan, gpgv tuntuu vain sotkevan
+gpgv
+

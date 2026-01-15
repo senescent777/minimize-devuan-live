@@ -7,8 +7,9 @@ debug=0
 d=${d0}/${distro}
 
 mode=3
-#HUOM.251025:myös excaliburin kanssa se on nimenomaan mode 3 mikä qsee guin? vielä?
+#HUOM.251025:myös excaliburin kanssa se on nimenomaan mode 3 mikä qsee guin? vielä 271125?
 
+#tartteeko näitä 2 oikeastaan?
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -20,20 +21,18 @@ function csleep() {
 function parse_opts_1() {
 	echo "popt_1( ${1} )"
 
-	case ${1} in
-		-v|--v)
-			debug=1
-		;;
-		*)
-			if [ -d ${d0}/${1} ] ; then
-				distro=${1}
-			else 
+	if [ -d ${d0}/${1} ] ; then
+		distro=${1}
+	else
+		case  "${1}" in
+			0|1|2|3) #varsinainen numeerisuustarkistus olisi parempi?
 				mode=${1}
-			fi
-
-			dqb "0th3r 0tps"
-		;;
-	esac
+			;;
+			*)
+				dqb "invalid param"
+			;;
+		esac
+	fi
 }
 
 function parse_opts_2() {
@@ -60,8 +59,6 @@ fi
 
 [ -z ${distro} ] && exit 6
 dqb "BEFORE CNF"
-#echo "dbig= ${debug}"
-#sleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -74,53 +71,96 @@ fi
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
-	${odio} ${x} ${dnsm} ${distro}
+	${odio} ${x} ${CONF_dnsm} ${distro}
 	#[ -x $x ] && exit for 
 done
 
 ${fib}
 #echo "debug=${debug}"
 dqb "distro=${distro}"
-dqb "removepkgs=${removepkgs}"
+dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 
 sleep 1
 csleep 1
 
-if [ ${removepkgs} -eq 1 ] ; then
+#151225:sqroot alla osasi poistella paketteja tämä skripti
+if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	part2_5 1 ${dnsm} ${iface}
+	part2_5 1 ${CONF_dnsm} ${CONF_iface}
 	[ $? -gt 0 ] && exit
 fi
 
-#====================================================================
-
 function t2p_filler() {
 	dqb "FILLER"
-	${lftr} #siirto c_lib:stä tähän tdstoon? tai part2_5 käyttää?
+	${lftr}
 	${asy}
 	csleep 1
 }
 
-#TODO:jatkossa t2p() ja t2pc() listoja prosessoimalla?
+#tarpeellinen ehto?
+if [ -f /.chroot ] ; then
+	${sharpy} blu*
+	${sharpy} nfs*
+	${sharpy} rpc*
+	
+	t2p_filler
+	csleep 2
+	
+	${sharpy} dmsetup
+	${sharpy} at-spi2-core	
+	${sharpy} psmisc
+	
+	t2p_filler
+	csleep 2	
+fi
+	
+#====================================================================
+
+#jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
+
+#VAIH:selvitä missä kohtaa gpg poistuu nykyään, koita saada epä-poistumaan
+#mode:n kanssa kikkailut voivat auttaa selvityksessä
+#130126_sqroot-testissä tämän fktion poistamat paketit enimmäkseen poistuvat pl. tuon yhden blokin jutut
 function t2pc() {
-	#debug=1
-	dqb "common_lib.t2p_common()"
+	dqb "common_lib.t2p_common( ${1})"
 	csleep 1
+
+	[ -z "${1}" ] && exit 99
+	[ -d ${1} ] || exit 98
 
 	dqb "shar_py = ${sharpy} ;"
-	csleep 5
+	csleep 2
 
-	${fib} #uutena 29525, xcalibur...
+	${fib}
 	csleep 1
 
-	#takaisin 161026
-	${sharpy} bluez mutt rpcbind nfs-common
+#	#131225:aiheuttaa oheisvahinkoa, ei voida vielä käyttää ennenq selvitetty missä menee pieleen
+#	local f
+#	for f in $(grep -v '#' ${1}/pkgs_drop | head -n 10) ; do
+#		dqb "sharpy ${f} \*"
+#		csleep 1
+#		${sharpy} ${f}*
+#		csleep 1
+#	done
+	
+	dqb "gpg= $(sudo which gpg)"
+	csleep 10
+	
+	${sharpy} blu*
+	t2p_filler
+	csleep 2
+
+	${sharpy} mutt
+	t2p_filler
+	csleep 2
+
+	${sharpy} rpcbind nfs-common
 	${sharpy} dmsetup
 	t2p_filler
-	csleep 5
+	csleep 2
 
 	${sharpy} amd64-microcode at-spi2-core #toimii systeemi ilmankin näitä mutta ?
 	t2p_filler
@@ -134,12 +174,20 @@ function t2pc() {
 	#HUOM.29925: daedaluksessa dmsetup ja libdevmapper? poistuvat jos poistuvat g_doit ajamisen jälkeen
 	${sharpy} docutils* dosfstools efibootmgr exfalso
 	t2p_filler
+	csleep 2
 
-	#HUOM.29925: daed kanssa poistuu hos poistuu libsouåp josqs g_doit jälkeen
+	#040126:to state the obvious:eloginin poisto laittaa äksän pois pelistä
 
 	#tikkujen kanssa paska tdstojärjestelmä exfat
 	${sharpy} exfatprogs fdisk gcr ftp*
 	t2p_filler
+
+	#231225 uutena, pois jos qsee
+	${sharpy} gpgv
+	t2p_filler
+
+	dqb "gpg= $(sudo which gpg)"
+	csleep 10
 
 	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
 	t2p_filler
@@ -148,8 +196,6 @@ function t2pc() {
 	#${sharpy} grub* 
 	${sharpy} gstreamer* #libgs poist alempana
 	t2p_filler
-
-	#HUOM.22725:näillä main libsoup poistuu?
 
 	${sharpy} htop inetutils-telnet intel-microcode isolinux
 	t2p_filler
@@ -170,8 +216,7 @@ function t2pc() {
 	${sharpy} netcat-traditional openssh*
 	t2p_filler
 
-	#ei eksplisiittistä pavucontrol:in poistoa, oheisvahinkona saattaa mennä edelleen tai aivan sama
-	${sharpy} parted pavucontrol #saattaa löytyä käyttöä (rai sitr eu)
+	${sharpy} parted pavucontrol
 	#libgtk3 ei poistu, libgtk4 kyllä
 	t2p_filler
 
@@ -190,7 +235,9 @@ function t2pc() {
 	${sharpy} vim*
 	t2p_filler
 
-	#miten nämä? poistuuko?
+	dqb "gpg= $(sudo which gpg)"
+	csleep 10
+
 	${sharpy} xorriso 
 	t2p_filler
 
@@ -198,14 +245,28 @@ function t2pc() {
 	#xfce*,xorg* off limits
 	t2p_filler
 
-	#251125 uutena (pitäisi vissiin dpkg-reconfigure tjsp jotta saa slimin syrjäytettyä live-ympäristössä)
-	#TODO:chroot-tark taakse?	
-	${sharpy} slim* 
-	t2p_filler
+	#071225:pitäisikö ao. ehdolle tehdä jotain?  uuden .iso:n kanssa kun sitä temppuilua (vielä ajank 01/26?)
 
-	#271125:pitäisiköhän myös isc-dhclient hukata jollain ehdolla?
+	if [ -f /.chroot ] ; then
+		dqb "SHOULD ${sharpy} slim*"
+		csleep 2
 
-	spd="${sd0} -l " #jäänyt turhaksi muuten mutta g_pt2
+		#nopeampi boottaus niinqu
+		dqb "KVG \"devuan how to skip dhcp on boot\""
+		csleep 2
+
+		dqb "t2p_filler()"
+		csleep 2
+
+		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
+		dqb "Xorg -config ? "
+		csleep 2
+	else
+		dqb "COULD ${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
+		csleep 10
+	fi
+
+	spd="${sd0} -l "
 	[ ${debug} -gt 0 ] && ${spd} x*
 	csleep 1
 
@@ -217,41 +278,48 @@ function t2pf() {
 	dqb "common_lib.T2P.FINAL( ${1} )"
 	csleep 1
 
-	${NKVD} ${pkgdir}/*.deb
-	${NKVD} ${pkgdir}/*.bin 
+	${NKVD} ${CONF_pkgdir}/*.deb
+	${NKVD} ${CONF_pkgdir}/*.bin 
 	[ -d ${1} ] && ${NKVD} ${1}/*.deb 
 	${NKVD} /tmp/*.tar
 	${smr} -rf /tmp/tmp.*
 
 	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut) (no testaappa taas)
 	${smr} -rf /usr/share/doc 
-	
-	#uusi ominaisuus 230725
-	for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
 
-	#squ.ash voisi vilkaista kanssa liittyen (vai oliko mitään hyödyllistä siellä vielä?)
+	for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
 	df
-	${odio} which dhclient; ${odio} which ifup; csleep 3
+	${odio} which dhclient; ${odio} which ifup; csleep 2
 }
 
 #====================================================================
-t2pc
+dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
+csleep 10
+
+t2pc ${d0}
 [ $? -gt 0 ] && exit
+dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
+csleep 10
 [ ${mode} -eq 0 ] && exit
 
+#TODO:$d/pkgs_drop hyödyntäminen jatkossa
 t2p
 [ $? -gt 0 ] && exit
-[ ${mode} -eq 1 ] && exit #tähän tökkää?
+#dqb "gpg= $(sudo which gpg)"
+#csleep 10
+[ ${mode} -eq 1 ] && exit
 
 t2pf ${d}
 [ $? -gt 0 ] && exit
+#dqb "gpg= $(sudo which gpg)"
+#csleep 10
 [ ${mode} -eq 2 ] && exit
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
-csleep 3
-${scm} 0555 ${d0}/common_lib.sh #JOKO JO LOPPUISI PURPATUS PRKL
+csleep 2
+${scm} 0555 ${d0}/common_lib.sh 
 
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
 dqb "${whack} xfce4-session 1n 3 s3c5"
-sleep 3
+sleep 2
 ${whack} xfce4-session #toimiiko tämä?

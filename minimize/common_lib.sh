@@ -6,36 +6,24 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+#tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn? koska syyt? (siis siihen samaan missä profs.sh?)
+
 if [ -f /.chroot ] ; then
 	odio=""
-	debug=1
+	#debug=1
 
 	function itni() {
 		dqb "alt-itn1"
-		sco=$(which chown)
-		scm=$(which chmod)
 	}
-
-	#HUOM.141025:oikeastaan pitäisi tarkistaa ennen purkua
-	for f in $(find $(pwd) -type f -name 'nekros?'.tar.bz3) ; do
-		tar -jxvf ${f}
-		sleep 1
-		rm ${f}
-		sleep 1
-	done
 else
 	function itni() {
+		dqb "ITN1-2"
+
 		odio=$(which sudo)
 		[ y"${odio}" == "y" ] && exit 99 
 		[ -x ${odio} ] || exit 100
-		
-		sco=$(sudo which chown)
-		[ y"${sco}" == "y" ] && exit 98
-		[ -x ${sco} ] || exit 97
-		
-		scm=$(sudo which chmod)
-		[ y"${scm}" == "y" ] && exit 96
-		[ -x ${scm} ] || exit 95
+	
+		#dqb "ITN1-2-2"	
 	}
 
 	#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
@@ -45,7 +33,19 @@ fi
 itni
 
 function fix_sudo() {
-	dqb "fix_sud0.pt0"
+	dqb "common_lib.fix_sud0.pt0"
+	
+	sco=$(${odio} which chown)
+	[ y"${sco}" == "y" ] && exit 98
+	[ -x ${sco} ] || exit 97
+		
+	scm=$(${odio} which chmod)
+	[ y"${scm}" == "y" ] && exit 96
+	[ -x ${scm} ] || exit 95
+
+	dqb "f_s_PART2"
+	sco="${odio} ${sco} "
+	scm="${odio} ${scm} "	
 
 	${sco} -R 0:0 /etc/sudoers.d
 	${scm} 0440 /etc/sudoers.d/*
@@ -60,7 +60,7 @@ function fix_sudo() {
 		${scm} 0444 /usr/lib/sudo/sudoers.so
 	fi
 
-	dqb "fix_sud0.pt1"
+	dqb "fix_sud0.pt"
 	${scm} 0750 /etc/sudoers.d
 	${scm} 0440 /etc/sudoers.d/*
 	
@@ -84,16 +84,11 @@ function other_horrors() {
 	dqb " DONE"
 	csleep 1
 }
-
-sco="${odio} ${sco} "
-scm="${odio} ${scm} "	
-
-#komentorivin parsetyukseen liittyviä juttujamyöskin olisi... esim?
-#... ja jotain matskua voisi siirtää riippuvista skripteistä kirjastoon? mitä?
 	
 fix_sudo
 other_horrors
 
+#HUOM.111225:toimiiko oikein sq-chroot-ympäristössä?
 function ocs() {
 	dqb "ocs ${1}  "
 	local tmp2
@@ -109,80 +104,115 @@ function ocs() {
 	fi
 }
 
-ocs sha512sum
-#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
-sah6=$(${odio} which sha512sum)
+#... miten LC_juttujen aikainen asettaminen muuten vaikuttaa el_loco():on ?
+function check_bin_0() {
+	dqb "check_bin_0"
+	csleep 1
 
-ocs dpkg
-sd0=$(${odio} which dpkg)
-[ -v sd0 ] || exit 78
-[ -z ${sd0} ] && exit 79
+	dqb "cb1"
+	ocs sha512sum
+	ocs dpkg
+	ocs tar
+	ocs shred
+	csleep 1
 
-unset sdi #tekeeko tämä jotain? kyl , kts check_bin ,, "second half"
-dqb "SFDSFDSFDSFDSFDSFDSFDSFDS"
-csleep 3
+	dqb "cb2"
+	unset sdi #tekeeko tämä jotain? kyl , kts check_bin ,, "second half"
+	unset sr0
+	unset srat
+	unset sah6
+	unset NKVD
+	csleep 1
 
-ocs tar
-unset sr0
-sr0=$(${odio} which tar)
-[ -v sr0 ] || exit 80
-[ -z ${sr0} ] && exit 81 #sr0 bai sd0?
+	dqb "cb3"
+	#HUOM. ei tarvitse cb_listiin mutta muuten tarvitsee asettaa mahd aikaisin
+	sah6=$(${odio} which sha512sum)
 
-slinky=$(${odio} which ln)
-slinky="${odio} ${slinky} -s "
-spc=$(${odio} which cp)
-svm=$(${odio} which mv)
-svm="${odio} ${svm} "
-spc="${odio} ${spc} "
-whack=$(${odio} which pkill)
-whack="${odio} ${whack} --signal 9 "
-snt=$(${odio} which netstat)
-snt="${odio} ${snt} -tulpan "
-smr=$(${odio} which rm)	
-smr="${odio} ${smr} "
+	#sdi-jutut myös tänne?
+	sd0=$(${odio} which dpkg)
+	[ -v sd0 ] || exit 78
+	[ -z ${sd0} ] && exit 79
+	#-x vielä?
 
-NKVD=$(${odio} which shred)
-NKVD="${NKVD} -fu "
-NKVD="${odio} ${NKVD} "
+	sr0=$(${odio} which tar)
+	[ -v sr0 ] || exit 80
+	[ -z ${sr0} ] && exit 81
+	#-x vielä?
+
+	srat=${sr0}
 	
-#PART175_LIST="avahi bluetooth cups exim4 nfs network ntp mdadm sane rpcbind lm-sensors dnsmasq stubby"
-PART175_LIST="avahi blue cups exim4 nfs network mdadm sane rpcbind lm-sensors dnsmasq stubby" # ntp" ntp jemmaan 28525
-#HUOM.excalibur ei sisällä:dnsmasq,stubby
+	#tämä kuitenkin myöhempänä?	
+	if [ ${debug} -eq 1 ] ; then
+		srat="${srat} -v "
+	fi
 
-#HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!
-#sdi=$(${odio} which dpkg)
-#spd="${odio} ${sdi} -l " #jäänyt turhaksi muuten mutta g_pt2
-#sdi="${odio} ${sdi} -i "
-csleep 6
+	csleep 1
+	dqb "cb4"
 
-sifu=$(${odio} which ifup)
-sifd=$(${odio} which ifdown)
-sip=$(${odio} which ip)
-sip="${odio} ${sip} "
+	slinky=$(${odio} which ln)
+	slinky="${odio} ${slinky} -s "
+	spc=$(${odio} which cp)
+	svm=$(${odio} which mv)
+	svm="${odio} ${svm} "
+	spc="${odio} ${spc} " #tämmöisten kanssa tarkkana sitten koska check_bin_2
+	whack=$(${odio} which pkill)
+	whack="${odio} ${whack} --signal 9 "
+	snt=$(${odio} which netstat)
+	snt="${odio} ${snt} -tulpan "
+	smr=$(${odio} which rm)	
+	smr="${odio} ${smr} "
 
-#gg=$(${odio} which gpg)
-gv=$(${odio} which gpgv)
-#gi=$(${odio} which genisoimage)
-#gmk=$(${odio} which grub-mkrescue)
-#xi=$(${odio} which xorriso)
-smd=$(${odio} which mkdir)
-sca=$(${odio} which chattr)
-sca="${odio} ${sca}"
-mkt=$(${odio} which mktemp)
-tig=$(${odio} which git)
-gg=$(${odio} which gpg)
+	NKVD=$(${odio} which shred)
+	[ -z ${NKVD} ] && exit 37
+	NKVD="${odio} ${NKVD} -fu "
+	
+	PART175_LIST="avahi blu cups exim4 nfs network mdadm sane rpc lm-sensors dnsmasq stubby" 
 
-if [ -v distro ] ; then 
-	dqb "DUSTRO OK"
-else
-	distro=$(cat /etc/devuan_version)
-fi
+	# ntp" ntp jemmaan 28525 #slim kokeeksi mukaan listaan 271125, hiiri lakkasi toimimasta
+	#HUOM.excalibur ei sisällä:dnsmasq,stubby
 
-if [ -v n ] ; then
-	dqb "n OK"
-else
-	n=$(whoami)
-fi
+	#HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!
+	#sdi=$(${odio} which dpkg)
+	#spd="${odio} ${sdi} -l " #jäänyt turhaksi muuten mutta g_pt2
+	#sdi="${odio} ${sdi} -i "
+	csleep 2
+
+	sifu=$(${odio} which ifup)
+	sifd=$(${odio} which ifdown)
+	sip=$(${odio} which ip)
+	sip="${odio} ${sip} "
+
+	smd=$(${odio} which mkdir)
+	sca=$(${odio} which chattr)
+	sca="${odio} ${sca}"
+	mkt=$(${odio} which mktemp)
+	tig=$(${odio} which git)
+	gg=$(${odio} which gpg)
+	gv=$(${odio} which gpgv)
+
+	if [ -v distro ] ; then 
+		dqb "DUSTRO OK"
+	else
+		distro=$(cat /etc/devuan_version)
+	fi
+
+	if [ -v n ] ; then
+		dqb "n OK"
+	else
+		n=$(whoami)
+	fi
+
+	#-v taakse nämä?
+	export LC_TIME
+	export LANGUAGE
+	export LC_ALL
+	export LANG
+
+	csleep 1
+	dqb "cb0 done"
+}
+
+check_bin_0
 
 function jules() {
 	dqb "LE BIG MAC"
@@ -206,53 +236,83 @@ function message() {
 
 function psqa() {
 	dqb "Q ${1}"
+	csleep 1
+
+	[ -z ${1} ] && exit 97
+	[ -d ${1} ] || exit 96
+	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
+	csleep 1
+
+	#HUOM.171225:isommat blokkien sisällöt jos ulkoistaisi omiin fktioihinsa?
+	#dpkg -V oli tässä josqs
+
+	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then
+		dqb "S( ${1} )"
+		csleep 1
+
+		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubring.kbx yli 32 tavua?
+		if [ ! -z ${gg} ] && [ -x ${gg} ] ; then
+			dqb "${gg} --verify ${1}/sha512sums.txt.sig "
+			csleep 1
+			${gg} --verify ${1}/sha512sums.txt.sig 
+					
+			if [ $? -eq 0 ] ; then #tässäkö se bugi oli?
+				dqb "KÖ"
+			else
+				dqb "SHOULD imp2 k \$dir !!!"
+				exit 95
+			fi
+			
+			csleep 1
+				
+			[ -f ${1}/sha512sums.txt.1.sig ] && ${gg} --verify ${1}/sha512sums.txt.1.sig
+			csleep 1
+		else
+			dqb "COULD NOT VERIFY SIGNATURES"
+		fi
+	else
+		dqb "Лаврентий Берия MADE .txt.sig DISAPPEAR"
+	fi
+
+	csleep 2
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
+		dqb "R ${1} "
+		csleep 1
 		local p
 		p=$(pwd)
 		cd ${1}
 
-		if [ -v SOME_CONFIG_OPT ] ; then	
-			dpkg -V
-			sleep 1
-		fi
-
-		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
+		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?		
 		${sah6} -c sha512sums.txt --ignore-missing
-		[ $? -eq 0 ] || exit 94
-
-		#https://www.gnupg.org/documentation/manuals/gnupg24/gpg.1.html
-		#https://www.gnupg.org/documentation/manuals/gnupg24/gpgv.1.html
-		
-		#HUOM.ao.blokin testausta varten sitten "export2 e ..."
-		#(kys tuotokseen pitäisi se .sig saada mukaan myös)
-		#TODO:-s
-		if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-			dqb "${gg} --verify ./sha512sums.txt.sig "			
-			csleep 3
-
-			[ ${debug} -eq 1 ] && pwd
-			csleep 3
-
-			${gg} --verify ./sha512sums.txt.sig
-			csleep 3
+	
+		if [ $? -eq 0 ] ; then
+			dqb "Q.KO"
+		else
+			dqb "export2 f ?"
+			exit 94
 		fi
 
+		[ -f ${1}/sha512sums.txt.1 ] && ${sah6} --ignore-missing -c sha512sums.txt.1
+		csleep 1
 		cd ${p}
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
+		exit 93
 	fi
 
-	csleep 1
+	csleep 2
 }
 
+#not-that-necessary-wrapper-for-psqa()
 function common_pp3() {
 	dqb "common_pp3 ${1}"
 	csleep 1
 
 	#kutsutaan useammasta paikkaa joten varm vuoksi
-	[ -z ${1} ] && exit 99
+	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 101
+
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
 
@@ -266,16 +326,18 @@ function common_pp3() {
 	r=$(echo ${1} | cut -d '/' -f 1-5)
 
 	if [ ${q} -lt 1 ] ; then
-		echo "SHOULD REMOVE ${1} /sha512sums.txt"
-		echo "\"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
-		${scm} a-x ${r}/common_lib.sh 
-		
+		echo "SHOULD REMOVE ${1} / sha512sums . t x t"
+		echo "ibcovation \"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
+
+		#tämä lienee se syy miksi myöhemmin pitää renkata...
+		${scm} a-x ${r}/common_lib.sh
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
 	fi
 }
 
+#TODO:"man 5 sources.list", josko pääsisi dpkg-kikkailuista
 function efk1() {
 	dqb "efk1 $@"
 	${sdi} $@
@@ -290,7 +352,7 @@ function efk1() {
 	csleep 1
 }
 
-function efk2() { #jotain kautta tätäkin kai kutsuttiin
+function efk2() { #jotain kautta tätäkin kai kutsuttiin (cefgh nykyään)
 	dqb "efk2 ${1}"
 
 	if [ -s ${1} ] && [ -r ${1} ] ; then
@@ -302,30 +364,42 @@ function efk2() { #jotain kautta tätäkin kai kutsuttiin
 	csleep 1
 }
 
-#clib5p ja clibpre pystyisi yhdistämään
-function clib5p() {
-	dqb "clib5p( ${1}  , ${2}) "
+#VAIH:lisäksi clibpre():n toiminnallisuuden ymppääminen
+function common_lib_tool() {
+	dqb "common_lib_tool( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
 	[ -z "${2}" ] && exit 67
-	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE" 
-
+	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE"
+	
 	dqb "WILL START REJECTING P1GS NOW"
 	csleep 1
-
-	local p
-	local q
-	p=$(pwd)
-	cd ${1}
-
-	for q in $(grep -v '#' ${2}) ; do ${NKVD} ${q} ; done
 	
-	csleep 2
-	cd ${p}
+	local q
+	local r
+	local s
+	
+	for q in $(grep -v '#' ${1}/${2}) ; do
+		dqb "outer; ${q}"
+		#jatk r pois?
+		r=$(find ${1} -type f -name "${q}*.deb" )
+
+		for s in ${r} ; do
+			dqb "inner: ${NKVD} ${s}"
+			csleep 1
+			${NKVD} ${s}
+			csleep 1
+		done
+		
+		if [ ${debug} -eq 1 ] ; then
+			ls -las ${1}/${q}* | wc -l
+		fi
+	done
+
 	dqb "REJECTNG DONE"
 }
 
 function clibpre() {
-	dqb "clib5p.re( ${1}  , ${2}) "
+	dqb "common_lib_tool.re( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 96
 	[ -z "${2}" ] && exit 67
 	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE" 
@@ -334,7 +408,7 @@ function clibpre() {
 	csleep 1
 
 	dqb "LOREMIPSUM-.LOREM1PSUM.LOREMIPSUM.LIPSUU"
-	csleep 5
+	csleep 3
 
 	local p
 	local q
@@ -347,12 +421,15 @@ function clibpre() {
 
 	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
 	
-	csleep 5
+	csleep 3
 	cd ${p}
 	dqb "BlAnR3eY C0kCCC!!!"
 }
 
-#HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksern yht ongelma, keksisikö jotain (KVG)
+#HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (VAIH)
+#... export xxx tai sitten man sudo taas
+#https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
+
 function fromtend() {
 	dqb "FRöMTEND"
 
@@ -367,85 +444,104 @@ function fromtend() {
 		${odio} ${sd0} --force-confold -i $@
 	fi
 
-	csleep 3
+	csleep 2
 	dqb "DNÖE"
 }
 
-#sillä toisella tyylillä tämä masentelu jatkossa? for ... in ... ?
-function common_tbls() {
-	dqb "COMMON TABLESD $1, $2"
+#P.S. this function created to avoid a chicken-and-egg-situation, maybe
+#TODO:chimaera/xcalibur-testi että selviää, voiko ao. fktion heittää roskikseen jo?
+#function common_tbls() {
+#	dqb "COMMON TABLESD $1, $2"
+#	csleep 1
+#
+#	[ y"${1}" == "y" ] && exit 33	
+#	[ -d ${1} ] || exit 45
+#	[ -z ${2} ] && exit 67
+#
+#	local d2
+#	d2=$(echo ${2} | tr -d -c 0-9)
+#
+#	dqb "PARAMS_OK"
+#	csleep 1
+#	psqa ${1}
+#
+#	#uutena 251025 syystä excaLIBUR/ceres, pois jos qsee
+#	efk1 ${1}/isc-dhcp*.deb
+#	csleep 1
+#
+#	efk1 ${1}/libnfnet*.deb
+#	csleep 1
+#
+#	efk1 ${1}/libnetfilter*.deb
+#	csleep 1
+#
+#	fromtend ${1}/libip*.deb
+#	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
+#
+#	efk1 ${1}/libxtables*.deb
+#	csleep 1
+#
+#	efk1 ${1}/libnftnl*.deb 
+#	csleep 1
+#
+#	efk1 ${1}/libnl-3-200*.deb
+#	csleep 1
+#
+#	efk1 ${1}/libnl-route*.deb 
+#	csleep 1
+#
+#	efk1 ${1}/libnl-*.deb 
+#	csleep 1
+#
+#	fromtend ${1}/iptables_*.deb
+#	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
+#	
+#	csleep 1
+#	${scm} 0755 /etc/iptables 
+#
+#	${odio} update-alternatives --set iptables /usr/sbin/iptables-legacy
+#	${odio} update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
+#	
+#	local s
+#	local t
+#
+#	s=$(${odio} which iptables-restore)
+#	t=$(${odio} which ip6tables-restore)
+#
+#	if [ ! -z ${d2} ] ; then
+#		${odio} ${s} /etc/iptables/rules.v4.${d2}
+#		${odio} ${t} /etc/iptables/rules.v6.${d2}
+#		csleep 1
+#	fi
+#
+#	fromtend ${1}/netfilter-persistent*.deb
+#	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
+#
+#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables-persistent=1.0.20
+#	fromtend ${1}/iptables-*.deb
+#	[ $? -eq 0 ] && ${NKVD} ${1}/iptables-*.deb
+#
+#	csleep 1
+#	${scm} 0550 /etc/iptables	
+#
+#	echo "common_tblz d0n3"
+#	csleep 1
+#}
+
+function cefgh() {
+	dqb " cefgh( ${1} )"
+
+	[ -z "${1}" ] && exit 66
+	[ -d ${1} ] || exit 67
+
+	dqb "pars ok"
 	csleep 1
-
-	[ y"${1}" == "y" ] && exit 33	
-	[ -d ${1} ] || exit 45
-	[ -z ${2} ] && exit 67
-
-	local d2
-	d2=$(echo ${2} | tr -d -c 0-9)
-
-	dqb "PARAMS_OK"
-	csleep 1
-	psqa ${1}
-
-	#uutena 251025 sysystö excaÖIBUR/ceres, pois jos qsee
-	efk1 ${1}/isc-dhcp*.deb
-	csleep 5
-
-	efk1 ${1}/libnfnet*.deb
-	csleep 1
-
-	efk1 ${1}/libnetfilter*.deb
-	csleep 1
-
-	fromtend ${1}/libip*.deb
-	[ $? -eq 0 ] && ${NKVD} ${1}/libip*.deb
-
-	efk1 ${1}/libxtables*.deb
-	csleep 1
-
-	efk1 ${1}/libnftnl*.deb 
-	csleep 1
-
-	efk1 ${1}/libnl-3-200*.deb
-	csleep 3
-	efk1 ${1}/libnl-route*.deb 
-	csleep 3
-	efk1 ${1}/libnl-*.deb 
-	csleep 3
-
-	fromtend ${1}/iptables_*.deb
-	[ $? -eq 0 ] && ${NKVD} ${1}/iptables_*.deb
 	
-	csleep 1
-	${scm} 0755 /etc/iptables
-
-	${odio} update-alternatives --set iptables /usr/sbin/iptables-legacy
-	${odio} update-alternatives --set iptables-restore /usr/sbin/iptables-legacy-restore	
+	efk2 ${1}/e.tar
+	[ $? -eq 0 ] && ${NKVD} ${1}/e.tar
 	
-	local s
-	local t
-
-	s=$(${odio} which iptables-restore)
-	t=$(${odio} which ip6tables-restore)
-
-	if [ ! -z ${d2} ] ; then
-		${odio} ${s} /etc/iptables/rules.v4.${d2}
-		${odio} ${t} /etc/iptables/rules.v6.${d2}
-		csleep 1
-	fi
-
-	fromtend ${1}/netfilter-persistent*.deb
-	[ $? -eq 0 ] && ${NKVD} ${1}/netfilter-persistent*.deb
-
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=iptables-persistent=1.0.20
-	fromtend ${1}/iptables-*.deb
-	[ $? -eq 0 ] && ${NKVD} ${1}/iptables-*.deb
-
-	csleep 1
-	${scm} 0550 /etc/iptables	
-
-	echo "common_tblz d0n3"
-	csleep 10
+	efk2 ${1}/f.tar ${1}
+	[ $? -eq 0 ] && ${NKVD} ${1}/f.tar	
 }
 
 function cefgh() {
@@ -454,7 +550,7 @@ function cefgh() {
 }
 
 function check_binaries() {
-	dqb "c0mm0n_lib.ch3ck_b1nar135 ${1} "
+	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ) "
 	csleep 1
 
 	ipt=$(${odio} which iptables)
@@ -463,65 +559,89 @@ function check_binaries() {
 	ip6tr=$(${odio} which ip6tables-restore)
 	
 	local y
-	#251025:excalibur-syistä dhclient tilapäisesti ulos listasta...tai siis alemmas
 	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh	
 	for x in ${y} ; do ocs ${x} ; done
-	dqb "JUST BEFORE"
-	csleep 1
 
-	[ -v sr0 ] || exit 102
-	[ -v ipt ] || exit 103
-	[ -v smd ] || exit 104
-	srat=${sr0}
+	#HUOM.nämä e22_jutut tarkoituksella asetettu juuri tässä fktiossa
+	sdi="${odio} ${sd0} -i "	
+	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
+	
+	E22_GT="isc-dhcp-client isc-dhcp-common libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
+	E22_GT="${E22_GT} iptables"
+	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
+
+	E22_GU="isc-dhcp libnfnet libnetfilter libxtables libnftnllibnl-3-200 libnl-route libnl"
+	E22_GV="libip iptables_  netfilter-persistent iptables-"
+	
+	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
+	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
+		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
+			[ -z "${1}" ] && exit 99
+			[ -d ${1} ] || exit 101
+
+			cefgh ${1}
+			common_pp3 ${1}
+
+			#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
+			if [ -z "${gg}" ] ; then
+				for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
+				csleep 1
+
+				gg=$(${odio} which gpg)
+				gv=$(${odio} which gpgv)
+				csleep 1
+
+				common_pp3 ${1}
+			fi
+
+			if [ -z "${ipt}" ] ; then
+				jules
+	
+				[ -f /.chroot ] && message
+
+				#common_tbls ${1} ${CONF_dnsm}
+				
+				for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
+
+				for p in ${E22_GV} ; do 
+					fromtend ${1}/${p}*.deb
+					[ $? -eq 0 ] && ${NKVD} ${1}/${p}*.deb	
+				done
+				
+				other_horrors
+
+				ipt=$(${odio} which iptables)
+				ip6t=$(${odio} which ip6tables)
+				iptr=$(${odio} which iptables-restore)
+				ip6tr=$(${odio} which ip6tables-restore)
+				
+				#sqroot-juttuja
+				[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh
+			fi
 		
-	if [ ${debug} -eq 1 ] ; then
-		srat="${srat} -v "
+			ls ${1}/*.deb | wc -l
+			csleep 3
+			
+			#261225:pitäisiköhän gpg- ja tables- instausten jämät deletoida varM, vuoksi?
+			#${NKVD} ${1}/*.deb saattaa jäädä tällä tavalla git tai mktemp puuttumaan	
+		fi
+	
+		#181225:lisätty tämmöinen kikkailu kehitysymp varten ettei jumitu heti alkuunsa	
+		for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
 	fi
 	
-	sdi="${odio} ${sd0} -i "
-
-	if [ -z "${ipt}" ] ; then
-		[ -z ${1} ] && exit 99
-		dqb "-d ${1} existsts?"
-		[ -d ${1} ] || exit 101
-
-		dqb "params_ok"
-		csleep 1
-
-		echo "SHOULD INSTALL IPTABLES"
-		jules
-		sleep 2
-
-		cefgh ${1}
-
-		common_pp3 ${1}
-		[ -f /.chroot ] && message
-		common_tbls ${1} ${dnsm}
-		other_horrors
-
-		ipt=$(${odio} which iptables)
-		ip6t=$(${odio} which ip6tables)
-		iptr=$(${odio} which iptables-restore)
-		ip6tr=$(${odio} which ip6tables-restore)
-	fi
-
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
 	csleep 1
 
-	[ -v sd0 ] || exit 66
- 	[ -v sdi ] || exit 67
-	[ -z ${sd0} ] && exit 68
-	
-	dqb "sd0= ${sd0} "
-	dqb "sdi= ${sdi} "
-	csleep 2
-
-	for x in iptables ip6tables iptables-restore ip6tables-restore dhclient ; do ocs ${x} ; done
-	csleep 2
+	#kts g_pt2 liittyen
+	[ -f /.chroot ] || ocs dhclient
+	csleep 1
 	
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
+
+	#151225:pitäisikö sittenkin alustaa check_bin_0():ssa ainakin 2 seuraavaa?
 	som=$(${odio} which mount)
 	uom=$(${odio} which umount)
 	sifc=$(${odio} which ifconfig)
@@ -534,6 +654,7 @@ function check_binaries2() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2"
 	csleep 1
 	[ -v sd0 ] || exit 666
+
 	ipt="${odio} ${ipt} "
 	ip6t="${odio} ${ip6t} "
 	iptr="${odio} ${iptr} "
@@ -541,7 +662,7 @@ function check_binaries2() {
 
 	sharpy="${odio} ${sag} remove --purge --yes "
 
-	#HUOM. ${sag} VIIMEISENÄ tai siis ao- kolmikosta
+	#HUOM. ${sag} oltava VIIMEISENÄ tai siis ao. kolmikosta
 	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
 	sag_u="${odio} ${sag} update "
 	sag="${odio} ${sag} "
@@ -550,6 +671,7 @@ function check_binaries2() {
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
 
+	#TODO:lftr asettaminen sqroot.-riippuvaiseksi? live-ymp ei tekisi mitään?
 	lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing '/run/live/medium/live/initrd.img.new': No space left on device
@@ -559,47 +681,118 @@ function check_binaries2() {
 	fib="${odio} ${sa} --fix-broken install "
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
-	smd="${odio} ${smd}" #käyttöön
+	smd="${odio} ${smd}"
+
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
+#==================================================================
+function slaughter0() { #090126:mangle_s toiminee tämän kanssa
+	local fn2
+	local ts2
 
+	fn2=$(echo $1 | awk '{print $1}') 
+	ts2=$(${sah6} ${fn2})
+	echo ${ts2} | awk '{print $1,$2}'  >> ${2}
+}
+
+#060126:josko jo alkaisi toimia toivotulla tavalla?
 function mangle_s() {
 	dqb "mangle_s  ${1} , ${2}, ${3}  "
 	csleep 1
 
-	[ y"${1}" == "y" ] && exit 44
+	[ -z "${1}" ] && exit 44
 	[ -x ${1} ] || exit 55
 
-	#HUOM.26525:pitäisiköhän olla jotain lisätarkistuksia $2 kanssa nyk lisäöksi?
-	[ y"${2}" == "y" ] && exit 45
+	[ -z "${2}" ] && exit 45
 	[ -f ${2} ] || exit 54
 
-	${scm} 0555 ${1}
-	${sco} root:root ${1}
+	#local p
+	#local q
+	local r
+	#s=$(echo ${1} | grep '..' | wc -l)
+
+	#ei vissiin näin
+	#r=$(echo $1 | grep -v '..')
+	#[ -z "${r}" ] && echo 67
+	#[ -s gt 0 ] && exit 67
+
+	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
+	${scm} 0555 ${r}
+	${sco} root:root ${r}
 
 	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
-	echo -n " localhost=NOPASSWD:" >> ${2}
-	echo -n " sha256: " >> ${2}
+#	p=$(sha256sum ${r} | cut -d ' ' -f 1 | tr -dc a-f0-9)
+#	q=$r #(echo ${1} | tr -dc a-zA-Z0-9/.)
+#
+#	echo -n " localhost=NOPASSWD:sha256:${p} ${q}" >> ${2}
+#	echo -e "\n" >> ${2}
 
-	local p
-	p=$(sha256sum ${1} | cut -d ' ' -f 1 | tr -dc a-f0-9)
+	#100126:ALL vai localhost? rahat vs kolmipyörä?
+	#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
+	#KVG <sudo-juttuja>	? (kts omega)
 
-	echo -n ${p} >> ${2}
-	echo -n " " >> ${2}
-	echo -n ${1} | tr -dc a-zA-Z0-9/. >> ${2}
-	echo -e "\n" >> ${2}
+	echo -n " ALL=NOPASSWD:sha512:" >> ${2}
+	slaughter0 ${r} ${2}
 }
 
-#...toisaalta sen dhclient-kikkailun voisi palauttaa
+#VAIH:jinnebtiudut jutut taas käyttöön asfd asdf fads
+#tässä va i kutsvassa koodissa bugi?
 function dinf() {
 	local g
+	local frist
+	frist=1
+
+	#vissiin tähän alkuun tarttisi jotain?
+	#for ... in find /sbin -type f -name 'dhclient-script* ; do ...
 
 	for g in $(sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq) ; do
 		dqb ${g}
+
+		if [ ${frist} -eq 1 ] ; then 
+			frist=0
+#		else
+#			echo -n "," >> ${1}
+		fi
+		
+#		echo -n " sha256:${f}" >> ${1}
 	done
+
+#	echo -n " $(whoami) localhost=NOPASSWD: " >> ${1}
+#	echo " /sbin/dhclient-script " >> ${1}
+
+	#cat ${1}
+	#exit
+}
+#=================================================================
+function fasdfasd() {
+	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
+	[ -z ${1} ] && exit 99
+
+	dqb "SUN LIIRUM SUN LAARUM ${1}"
+	dqb "sco= ${sco}"
+	dqb $(whoami)
+	csleep 1
+
+	${odio} touch ${1}
+	${sco} $(whoami):$(whoami) ${1}
+	${scm} 0644 ${1}
 }
 
+#olisiko jokin palikka jo aiemmin?
+function reqwreqw() {
+	dqb "rewqreqw(${1} )"
+	[ -z ${1} ] && exit 99
+	#[ -f ${1} ] && exit 100 #takaisn josqs? miksi?
+	
+	csleep 1
+	${sco} 0:0 ${1}
+	${scm} a-w ${1}
+
+	dqb "rewqreqw(${1} ) DONE"
+}
+
+#HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan
 function pre_enforce() {
 	dqb "common_lib.pre_enforce ${1} "
 
@@ -607,17 +800,24 @@ function pre_enforce() {
 	local f
 
 	[ -v mkt ] || exit 99
-	q=$(mktemp -d) #sittenkin nöäin
-	dqb "touch ${q}/meshuggah in 3 secs"
+	#q=$(mktemp) #ei kai tämä?
+	q=$(${mkt} -d)
+	q=${q}/meshuqqah
+	dqb "touch ${q} in 3 secs"
 
 	csleep 1
-	touch ${q}/meshuggah
+	fasdfasd ${q}
 
 	[ ${debug} -eq 1 ] && ls -las ${q}
 	csleep 1
-	[ -f ${q}/meshuggah ] || exit 33
+	[ -f ${q} ] || exit 33
 
-	if [ ! -v testgris ] ; then
+	dqb "LETf HOUTRE JOINED IN L0CH N355"
+	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
+	csleep 1
+
+	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
+	if [ ! -v CONF_testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
 		dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
 
 		if [ ! -d /opt/bin ] ; then
@@ -631,31 +831,21 @@ function pre_enforce() {
 			${svm} ${1}/changedns.sh /opt/bin
 		fi
 
-		${scm} 0555 /opt/bin/changedns.sh
-		${sco} 0:0 /opt/bin/changedns.sh
-		mangle_s /opt/bin/changedns.sh ${q}/meshuggah
+		mangle_s /opt/bin/changedns.sh ${q}
 		csleep 1
-	else 
-		if [ -v CB_LIST2 ] ; then
-			echo "$(whoami) localhost=NOPASSWD: ${CB_LIST2} " >> ${q}/meshuggah
-		fi
 	fi
 
-	dqb "LETf HOUTRE JOINED IN L0CH N355"
-	for f in ${CB_LIST1} ; do mangle_s ${f} ${q}/meshuggah ; done
+	dqb "TRAN S1LVAN1AN HUGN3R GAM35"
+	dinf ${q}
 	csleep 1
 
-	dqb "TRAN S1LVAN1AN HUGN3R"
-	dinf ${q}/meshuggah
-	csleep 1
-
-	if [ -s ${q}/meshuggah ] ; then
-		dqb "sudo mv ${q}/meshuggah /etc/sudoers.d in 2 secs"
+	if [ -s ${q} ] ; then
+		dqb "sudo mv ${q} /etc/sudoers.d in 2 secs"
 		csleep 1
 
-		${scm} 0440 ${q}/meshuggah
-		${sco} root:root ${q}/meshuggah
-		${svm} ${q}/meshuggah /etc/sudoers.d
+		reqwreqw ${q}
+		${scm} 0440 ${q}
+		${svm} ${q} /etc/sudoers.d
 
 		CB_LIST1=""
 		unset CB_LIST1
@@ -663,37 +853,40 @@ function pre_enforce() {
 
 	local c4
 	c4=0
-	csleep 5
+	csleep 1
 
-	if [ -v dir ] ; then
-		c4=$(grep ${dir} /etc/fstab | wc -l)
+	if [ -v CONF_dir ] ; then
+		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
 	else
-		echo "NO SUCH THING AS \$dir"
+		echo "NO SUCH THING AS \$CONF_dir"
 		exit 99
 	fi
 
-	csleep 5
+	csleep 1
 
 	#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
 	if [ ${c4} -lt 1 ] ; then
 		dqb "MUTILAT31NG /E/F-STAB"
-		csleep 5
+		csleep 1
 
 		${scm} a+w /etc/fstab
-		${odio} echo "/dev/disk/by-uuid/${part0} ${dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
-		${odio} echo "#/dev/disk/by-uuid/${part1} ${dir2} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+		csleep 1
+		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+		csleep 1
 		${scm} a-w /etc/fstab
 
-		csleep 5
+		csleep 1
 		[ ${debug} -eq 1 ] && cat /etc/fstab
-		csleep 5
+		csleep 1
 	fi
 
-	csleep 5
+	csleep 1
 	dqb "common_lib.pre_enforce d0n3"
 }
 
-function mangle2() { #mikä tätä käyttää nykyään? pl e_fktiot siis...
+function mangle2() {
+	[ -z  ${1} ] && exit 99
+
 	if [ -f ${1} ] ; then
 		dqb "MANGLED ${1} BEYOND RECQG"
 		${scm} o-rwx ${1}
@@ -712,11 +905,13 @@ function e_e() {
 	done
 
 	other_horrors
+
 	${scm} 0755 /etc
 	${sco} -R root:root /etc
 	${scm} 0555 /etc/network
 	${scm} 0444 /etc/network/*
 	${sco} root:root /etc/network
+
 	for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
 	dqb "e_e d0n3"
 	csleep 1
@@ -724,6 +919,7 @@ function e_e() {
 
 function e_v() {
 	dqb "e_v"
+
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
 	${sco} root:root /var
@@ -732,13 +928,14 @@ function e_v() {
 	${sco} root:mail /var/mail
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
+
 	dqb "V1C.THE.V33P"
 	csleep 1
 }
 
 function e_h() {
 	dqb "e_h ${1} , ${2} "
-	csleep 2
+	csleep 1
 	${sco} root:root /home
 	${scm} 0755 /home
 
@@ -757,13 +954,17 @@ function e_h() {
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
 
-	#271125:josko kuitenkin 0555?
-	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} 0555 ${f} ; done
+	#291125:josko kuitenkin 0555? paitsi että sittenq tarttee muokata (to state the obvious)
+	#... jatkossa debug-riippuvaista että 755 vai 555 ?	
+	local m
 
-	#271125:tuo 2. find-rivi ylempänä tekee nämä 2 tarpeettomiksi oikeastaan
-	for f in $(find ${2} -name '*.deb' -type f) ; do ${scm} 0444 ${f} ; done
-	for f in $(find ${2} -type f -name 'conf*') ; do ${scm} 0444 ${f} ; done
+	if [ ${debug} -gt 0 ] ; then
+		m=0755
+	else
+		m=0555
+	fi
 
+	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} ${m} ${f} ; done
 	dqb "F1ND D0N3"
 	csleep 1
 
@@ -792,16 +993,16 @@ function e_final() {
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-	csleep 5
+	csleep 1
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
 	dqb "e_final D0N3"
 	csleep 1
 }
- 
+
 function enforce_access() {
 	dqb " enforce_access ${1} , ${2}"
-	csleep 5
+	csleep 1
 	dqb "changing /sbin , /etc and /var 4 real"
 
 	e_e
@@ -811,12 +1012,12 @@ function enforce_access() {
 	${sco} root:root /
 
 	${scm} 0777 /tmp
-	${scm} o+t /tmp #251125:kokeeksi takaisin jos auttaisi slimin kiukuttelun kanssa
+	${scm} o+w /tmp #081225:+t pois koska "exp2 u"
 	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
 	e_h ${1} ${2}
-	e_final ${iface}
+	e_final ${CONF_iface}
 
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
@@ -859,10 +1060,8 @@ function part1_5() {
 				echo "deb https://REPOSITORY/merged ${x} main" >> ${h}/sources.list.tmp
 			done
 		else
-			${svm} /etc/apt/sources.list.tmp ${h}
-			#kts. fasdfasd()
-			${sco} ${n}:${n} ${h}/sources.list.tmp
-			${scm} 0644 ${h}/sources.list.tmp
+			${svm} /etc/apt/sources.list.tmp ${h}			
+			fasdfasd  ${h}/sources.list.tmp
 		fi
 
 		dqb "p1.5.2"
@@ -873,8 +1072,8 @@ function part1_5() {
 		echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 		csleep 1
 
-		if [ ! -z ${pkgsrc} ] ; then #CONF_pkgsrc?
-			tdmc="sed -i 's/REPOSITORY/${pkgsrc}/g'"
+		if [ ! -z ${CONF_pkgsrv} ] ; then
+			tdmc="sed -i 's/REPOSITORY/${CONF_pkgsrv}/g'"
 			echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 			csleep 1
 		fi
@@ -930,34 +1129,42 @@ function dis() {
 	${scm} 0555 /etc/network
 	[  ${debug} -eq 1 ] && ls -las /etc/network
 	csleep 1
+
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
-	${odio} ${sifd} ${iface}
-	csleep 1
+	if [ -v CONF_iface ] ; then
+		if [ ! -z "${CONF_iface}" ] ; then
+			${odio} ${sifd} ${CONF_iface}
+			csleep 1
+	
+		#	${odio} ${sifd} -a
+			csleep 1
 
-#	${odio} ${sifd} -a
-#	csleep 1
-#
-	[ ${debug} -eq 1 ] && ${sifc};sleep 1
-	dqb "${sip} link set ${iface} down"
-	${sip} link set ${iface} down
-	[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
-
+			[ ${debug} -eq 1 ] && ${sifc};sleep 1
+			dqb "${sip} link set ${CONF_iface} down"
+	
+			${sip} link set ${CONF_iface} down
+			[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+		fi
+	fi
+	
 	csleep 1
 	${odio} sysctl -p
 	csleep 1
 
-	dqb "5HAD0W 0F TH3 B3A5T D0N3"
+	dqb "5HAD0W 0F TH3 BA35T D0N3"
 }
 
 function part076() {
 	dqb "FART076 ${1}"
+	[ -z ${1} ] && exit 76
+
 	csleep 1
 	dis ${1}
 	local s
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
-		#HUOM.261125:saisiko tällä tyylillä myös slimin sammutettua?
+		#HUOM.271125:saisiko tällä tyylillä myös slimin sammutettua? saa, mutta...
 
 		for t in $(find /etc/init.d -name ${s}* ) ; do
 			${odio} ${t} stop
@@ -985,22 +1192,24 @@ function part1() {
 	if [ -z "${ipt}" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		for t in INPUT OUTPUT FORWARD ; do
-			${ipt} -P ${t} DROP
-			dqb "V6"; csleep 1
+		if [ -x ${ipt} ] ; then # \$ odio vs \$ ipt vielä?
+			for t in INPUT OUTPUT FORWARD ; do
+				${ipt} -P ${t} DROP
+				dqb "V6"; csleep 1
 
-			${ip6t} -P ${t} DROP
-			${ip6t} -F ${t}
-		done
+				${ip6t} -P ${t} DROP
+				${ip6t} -F ${t}
+			done
 
-		for t in INPUT OUTPUT FORWARD b c e f ; do ${ipt} -F ${t} ; done
+			for t in INPUT OUTPUT FORWARD b c e f ; do ${ipt} -F ${t} ; done
 	
-		if [ ${debug} -eq 1 ] ; then
-			${ipt} -L
-			dqb "V6.b"; csleep 1
-			${ip6t} -L
-			csleep 1
-		fi
+			if [ ${debug} -eq 1 ] ; then
+				${ipt} -L
+				dqb "V6.b"; csleep 1
+				${ip6t} -L
+				csleep 1
+			fi
+		fi	
 	fi
 
 	local c
@@ -1035,12 +1244,12 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE"
 }
 
-function part2_5() {
+function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
-	csleep 1
+	csleep 20
 
-	[ -z ${1} ] && exit 55
-	[ -z ${2} ] && exit 56
+	[ -z "${1}" ] && exit 55
+	[ -z "${2}" ] && exit 56
 
 	dqb "PARS_OK"
 	csleep 1
@@ -1051,17 +1260,23 @@ function part2_5() {
 		${fib}
 		csleep 1
 		
-		for s in ${PART175_LIST} ; do #TODO:slim mukaan listaan jatkossa?
+		for s in ${PART175_LIST} ; do 
+			csleep 4
+		
 			dqb "processing ${s}"
 			${sharpy} ${s}*
 			csleep 1
 		done
 
 		${lftr}
+		
 		${sharpy} libblu* libcupsfilters* libgphoto*
 		${lftr}
+
+		#josko vielä pkexec:istä ajo-oik poisto? vai riittäisikö sharpy?
 		${sharpy} pkexec po*
 		${lftr}
+
 		${sharpy} python3-cups
 		${lftr}
 		csleep 1
@@ -1121,12 +1336,11 @@ function part3() {
 	dqb "part3 ${1} , ${2}"
 	csleep 1
 
-	[ -z ${1} ] && exit 99
+	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 101
+
 	dqb "PARAMS_OK"
 	csleep 1
-
-	#271125:uutena tämä blokki, pois jos qsee
 	local c15
 	c15=$(find ${1} -type f -name '*.deb' | wc -l)
 
@@ -1134,27 +1348,23 @@ function part3() {
 		cefgh ${1}
 	fi
 
-	csleep 3
-	#
-
+	csleep 1
 	jules
 	common_pp3 ${1}
 	csleep 1
 
-	#jatkossa jos jotenkin toisin?
-	if [ ! -f /.chroot ] ; then
-		clib5p ${1} reject_pkgs
-	fi
+	#HUOM.071225 ehto kommentteihin koska y
+	#if [ ! -f /.chroot ] ; then
+	#poisteluun jotain muutoksia jatkossa?
+		common_lib_tool ${1} reject_pkgs
+	#fi
 
-	#HUOM.281025:jotain pientä dbus-nalkutusta dbus-pakettien kanssa sq-chroot-ympäristössä taPauksessa daed , jotain jos tekisi dbus
+	#TODO:libc6*.deb gcc-12*.deb cpp*.deb erikseen jotta common_lib_tool käyttöönotto
 	clibpre ${1} accept_pkgs_1
-
-	#VAIH:josko lxdm tai xdm vaikka, slimin tilalle?
 	clibpre ${1} accept_pkgs_2
-	#exit #HUOM.pois kommenteista sitq testaa päivityspak
 
 	dqb "g4RP D0NE"
-	csleep 3
+	csleep 1
 
 #	efk1 ${1}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
 #	[ $? -eq 0 ] || echo "SHOULD exit 66"
@@ -1173,9 +1383,9 @@ function part3() {
 	else
                exit 66
 	fi
-	
+
 	dqb "LIBS DONE"
-	csleep 6
+	csleep 1
 	for f in $(find ${1} -name '*.deb') ; do ${sdi} ${f} ; done
 
 	if [ $? -eq  0 ] ; then
@@ -1183,36 +1393,37 @@ function part3() {
 		csleep 1
 		${NKVD} ${1}/*.deb
 	else
-        	exit 67
-       	fi
+	       	exit 67
+ 	fi
 
-	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt
+	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt*
 	csleep 1
 	other_horrors
 }
 
-function slaughter0() { #käytössä?
-	local fn2
-	local ts2
-	fn2=$(echo $1 | awk '{print $1}') 
-	ts2=$(sha512sum ${fn2})
-	echo ${ts2} | awk '{print $1,$2}' >> ${2}
-}
-
-#VAIH:-h,-v vähitellen?
 function gpo() {
 	dqb "GPO"
 	local prevopt
 	local opt
 	prevopt=""
 
+	#121225:miten g_jutut nykyään tämän kanssa?
+	if [ $# -lt 1 ] ; then
+		echo "$0 -h"
+		#exit
+	fi
+
 	for opt in $@ ; do
-#		case ${opt} in	jospa prujaisi toisesta reposta	
-#		-v|--v)
-#			debug=1
-#		;;
-#		esac
-#
+		case ${opt} in	
+			-v|--v)
+				debug=1
+			;;
+			-h|--h)
+				usage
+				exit #181225:sen toisen repon juttuja. Kandeeko laittaa tätä?
+			;;
+		esac
+
 		parse_opts_1 ${opt}
 		parse_opts_2 ${prevopt} ${opt}
 		prevopt=${opt}
