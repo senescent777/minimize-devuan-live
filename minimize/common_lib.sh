@@ -774,7 +774,7 @@ function fasdfasd() {
 	${scm} 0644 ${1}
 }
 
-#olisiko jokin palikka jo aiemmin?
+#olisiko jokin palikka jo aiemmin? e_jutut ?
 function reqwreqw() {
 	dqb "rewqreqw(${1} )"
 	[ -z ${1} ] && exit 99
