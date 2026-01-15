@@ -24,7 +24,6 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-#parsetusta uusittu 171225 $2 osalta, muutoksen peruutus jos qsee
 if [ $# -gt 0 ] ; then
 	mode=${1}
 	[ -f ${1} ] && exit 99
@@ -105,14 +104,6 @@ else
 	fi	
 fi
 
-#testailua yhdistelmä live-ymp+common_lib pois pelistä 
-#aloiteltu 121225 "$0 k" , toiminee 
-#seur "$0 1" (päivityspak?) sen kanssa pientä laittoa vielä (josko jo)
-#-1 ja 2 OK
-#... siinä ne oleellisimmat tapaukset
-#141225:q ja r eivät toimi kunnolla tällöin
-#3 toimi sqroot-ympäristössä ok, pl ilmeinen puute
-
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -122,12 +113,10 @@ else
 	if [ -f /.chroot ] ; then
 		odio=""
 	else
-		#chroot-ynmp tulee nalqtusta tästä
+		#chroot-ynmp tulee nalqtusta tästä?
 		odio=$(which sudo)
 	fi
 	
-	#sqroot:in kanssa tämä skrip toimisi vähän kätevämmin s.e. chmod a-x common_lib.sh		
-	#...tosin joihinkn juttuihn se ajo.oikeus tARvitaan
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
 	
 	function check_binaries() {
@@ -196,7 +185,6 @@ else
 	[ $? -eq 0 ] || exit 
 fi
 
-#HUOM.201225:jutut sitten siirretty myöhemmäksi koska sqrootin kanssa ongelmia, to state the obvious
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
 echo "mkt= ${mkt} "
@@ -246,7 +234,7 @@ function common_part() {
 		dqb "A"
 		dqb "gg= ${gg}"
 
-		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemasaolon sijaan
+		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemasaolon sijaan?
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 			dqb "B"
 			
@@ -319,12 +307,9 @@ function common_part() {
 	dqb "ALL DONE"
 }
 
-#ocs tar
-#csleep 3
 dqb "HPL"
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#141222:profiilin importoinnin ongelmien syy saattaut selvitä, tietty tap lukuunottamatta ao. fktio toimii ok
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
 
 function tpr() {
@@ -358,7 +343,7 @@ function tpr() {
 	[ $? -gt 0 ] && exit 17
 
 	dqb "JUST BEFOIRE TAR"
-	#jos vielä härdelliä niin keskeytetään jos ei fediversestä löydä prefs.js
+	#jos vielä härdelliä niin keskeytetään mikäli ei fediversestä löydä prefs.js?
 	r=$(${srat} -tf ${1}/fediverse.tar | grep prefs.js | wc -l)
 	[ ${r} -gt 0 ] || exit 18
 	csleep 3
@@ -370,7 +355,6 @@ function tpr() {
 	dqb "JUST BEFORE impo_prof"
 	csleep 3
 
-	#täössökö menee pieleen? vissiin
 	imp_prof esr ${n} ${q}
 	dqb $?
 	csleep 3
@@ -441,15 +425,11 @@ csleep 1
 
 case "${mode}" in
 	1) #151225:toimii
-	#jos CONF_testgris asetettu ni / tilalle? tai siinä on kyllä juttuja... chroot (kehitysymp) parempi
 		common_part ${srcfile} ${d} /
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
-	0|3) #151225:case 3 toimii edelleen, myös sqroot alla
-		#111225 luotu päivitytspak sössi taas slim:in (havaittu 131225)
-		#... paskoi edelleen asioita 040126
-
+	0|3) 
 		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
 
 		echo "ZER0 S0UND"
@@ -465,6 +445,8 @@ case "${mode}" in
 			
 			common_part ${srcfile} ${d} /
 		else
+			 [ -f /.chroot ] && echo "DSHOULD cp accept/reject/dtop TO /h/d/d/m/distro"
+			csleep 1
 			common_part ${srcfile} ${d} ${d}
 		fi
 
@@ -478,13 +460,12 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
-	r) #141225:muuten ok mutta x
+	r) #141225:muuten ok mutta x?
 		[ -d ${srcfile} ] || exit 22
 		${srat} -C ~ -jxf ~/config.tar.bz2
 		tpr ${srcfile}
 	;;
 	q)
-		#040126:toimii ainakin ffox prof osalta
 		#120126:taitaa toimia edelleen/tilapäisesti
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
@@ -492,7 +473,6 @@ case "${mode}" in
 		[ ${c} -gt 0 ] || exit 77
 		common_part ${srcfile} ${d} /
 
-		#kai tuo ocnfig voisi suoraan $d0 alla...
 		${srat} -C ~ -jxf ~/config.tar.bz2
 		tpr ${d0}
 	;;

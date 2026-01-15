@@ -1,10 +1,24 @@
 #bind9-jutut tarv: libkrb5, libgssapi-krb5-2
+nftables*.deb
 bind9-libs*.deb
 bind9-host*.deb
 bind9-dns*.deb
 dnsutils*.deb
 perl*.deb
-#eudev-dbus-e2fsprogs oli siinä rejectissä
+#
+#mime-support*.deb josko toimisi tässä?
+python3-pil.imagetk*.deb
+python3-pil*.deb
+#
+#eudev-dbus-e2fsprogs oli siinä rejectissä, miten x-juttuja myös?
+xserver-common*.deb
+xserver-xorg-legacy*.deb
+xserver-common*.deb
+xserver-xorg-core*.deb
+dbus-bin*.deb
+dbus-session-bus-common*.deb
+dbus-daemon*.deb
+dbus-x11*.deb
 #
 gpgconf*.deb
 #gpg tarvitsee confin /josko kuitenkin kerta-as riittäisi
@@ -12,34 +26,15 @@ gpgconf*.deb
 #nyt jos typot ho
 gtk2-engines-pixbuf*.deb
 #
-#gpgconf*.deb
-#JOKO JO PERKELE????
 x11-utils
-#lxdm tarttee gtk2 ja x11-u
 #
 python3.11-minimal*.deb
 python3.11*.deb
 #
-#lxsession-jutut ja twm
-#lxsession-data*.deb
-#policykit-1*.deb
-#
-#dpkg: dependency problems prevent configuration of lxsession-logout:
-# lxsession-logout depends on policykit-1; however:
-#  Package policykit-1 is not installed.
-#
-#
-#lxsession-logout*.deb
-#
-#dpkg: dependency problems prevent configuration of lxpolkit:
-# lxpolkit depends on libpolkit-agent-1-0 (>= 0.94); however:
-#  Package libpolkit-agent-1-0 is not installed.
-# lxpolkit depends on policykit-1; however:
-#  Package policykit-1 is not installed.
-#
-#
-#lxpolkit*.deb
 menu*.deb
 #
 #wdm...
 psmisc*.deb
+#
+#ennen git, varm vuoksi
+git.man*.deb
