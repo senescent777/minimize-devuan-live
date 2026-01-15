@@ -126,4 +126,5 @@ function tpc7() { #e22.sh kutsuu tätä nykyään
 }
 
 check_binaries ${d}
+lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 	
 check_binaries2
