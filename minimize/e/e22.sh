@@ -401,6 +401,9 @@ function e22_elocal() {
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
 	csleep 1
+
+	[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
+	csleep 1
 	fasdfasd /opt/bin/zxcv
 
 	for f in $(find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
@@ -415,11 +418,17 @@ function e22_elocal() {
 	done
 
 	echo $?
+	csleep 1
+	reqwreqw  /opt/bin/zxcv
+	csleep 1
 
 	if [ -x ${gg} ] ; then
 		if [ -v CONF_pubk ] ; then
+			fasdfasd /opt/bin/zxcv	
+			csleep 1
 			${gg} -u ${CONF_pubk} -sb /opt/bin/zxcv.sig
-			csleep 1			
+			csleep 1
+			reqwreqw  /opt/bin/zxcv.sig			
 		fi
 	fi
 
@@ -723,8 +732,8 @@ function e22_arch() {
 	dqb "e22_arch d0n3"
 }
 
-function e22_dblock() { #140126:lienee ok edelleen koska x
-	dqb "e22_dblock( ${1}, ${2}, ${3})" #vissiin ei tule 3:sdta? CONF_pkgdir voisi olla jatkossa (TODO)
+function e22_dblock() { #TODO:testaa että toimii edelleen
+	dqb "e22_dblock( ${1}, ${2}, ${3})" # jatkossa 3. (VAIH)
 
 	[ -z "${1}" ] && exit 14
 	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes
@@ -734,6 +743,10 @@ function e22_dblock() { #140126:lienee ok edelleen koska x
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 23
 
+	[ -z "${3}" ] && exit 33
+	[ -d ${3} ] || exit 34
+	[ -w ${3} ] || exit 35
+
 	dqb "DBLOCK:PARAMS OK"
 	csleep 1
 
@@ -742,16 +755,16 @@ function e22_dblock() { #140126:lienee ok edelleen koska x
 	#aval0n #tarpeellinen?
 
 	dqb "bFR 175:"
-	ls -la ${CONF_pkgdir}/*.deb | wc -l
+	ls -la ${3}/*.deb | wc -l
 	csleep 5
 	
 	for s in ${PART175_LIST} ; do
 		${sharpy} ${s}*
-		${NKVD} ${CONF_pkgdir}/${s}*.deb
+		${NKVD} ${3}/${s}*.deb
 	done
 
 	dqb "AFTR 175:"
-	ls -la ${CONF_pkgdir}/*.deb | wc -l
+	ls -la ${3}/*.deb | wc -l
 	csleep 5
 
 	local t
@@ -1099,7 +1112,7 @@ function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}" #ei pitäne tulla neljättä
 
 	[ -z "${1}" ] && exit 1 
-	#[ -w ${1} ] || exit 44 #TODO: man bash taas?
+	#[ -w ${1} ] || exit 44 #man bash taas?
 	#[ -s ${1} ] && mv ${1} ${1}.OLD 261225 laitetttu kommentteihin koska aiheutti ongelmia
 	[ -z "${2}" ] && exit 11
 	[ -d ${2} ] || exit 22

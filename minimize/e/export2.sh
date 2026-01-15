@@ -320,9 +320,9 @@ case ${mode} in
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia? (tai vähän jo aloiteltu?)
 	e)
-		#... tosin pilaakohan seatd sen chmod-groups-jutun?
 		#140126 näyttäisi asentuvan e29 ok live-ymp, sqrootissa asentuu nalkutuksen kanssa koska syyt
-
+		#... tosin pilaakohan seatd sen chmod-groups-jutun?
+		
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
 	;;
@@ -353,9 +353,9 @@ esac
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar 
 	#accept/reject/drop - jutut mukaan sqroot varten? vai jtnkn muuten?
-	e22_dblock ${d}/f.tar ${d}
+	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} 
 
-	#uutena1 41026 (VAIH:sswlv miten toimii?)
+	#.sha mennee mukaan kohteeseen
 	e22_ftr ${d}/f.tar 
 
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
