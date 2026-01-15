@@ -173,12 +173,12 @@ echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	#TODO:tämän haaran testaus
+	#VAIH:tämän haaran testaus (vielä ainakin kehitysymnp ja sqroot- ymp reaktio c_bin parametriin)
 	echo $?
 	dqb "NO LIB"
 	csleep 1
 
-	check_binaries
+	check_binaries ${d}
 	[ $? -eq 0 ] || exit 
 
 	check_binaries2

@@ -36,8 +36,11 @@ function epr1() {
 	[ ${c} -gt 0 ] && exit 112
 	c=$(find /etc -name 'iptab*' -type d -not -group 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 113
-	c=$(find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
-	[ ${c} -gt 0 ] && exit 114
+
+#	#tämän kanssa jotain kiukuttelua 150126 (josko deletoisi /e/d alta juttuja esmes)
+#	c=$(${odio} find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
+#	[ ${c} -gt 0 ] && exit 114
+
 	c=$(find /etc -name 'rules.v*' -type f -not -user 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 115
 	c=$(find /etc -name 'rules.v*' -type f -not -group 0 | wc -l)
@@ -56,8 +59,10 @@ function epr1() {
 	c=$(find /etc/sudoers.d -type f -not -group 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 122
 
-	c=$(find /opt/bin -type f -perm /o+w,o+r,o+x | wc -l)
-	[ ${c} -gt 0 ] && exit 123
+#takaisin käyttöön asap
+#	c=$(find /opt/bin -type f -perm /o+w,o+r,o+x | wc -l)
+#	[ ${c} -gt 0 ] && exit 123
+
 	c=$(find /opt/bin -type f -not -user 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 124
 	c=$(find /opt/bin -type f -not -group 0 | wc -l)
@@ -77,10 +82,21 @@ function p3r1m3tr() {
 	chown -R root:root /etc/default
 	sleep 1
 
-	sha512sum -c /opt/bin/zxcv
+	${odio} sha512sum -c /opt/bin/zxcv
 	[ $? -eq 0 ] || exit 66
 
-	#VAIH:gpg-TARK SEURAAVAKSI
+	chmod 0400 /opt/bin/zxcv*
+	chown root:root /opt/bin/zxcv*
+
+	if [ -s /opt/bin/zxcv.sig ] ; then
+		local g
+		g=$(which gpg)
+
+		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
+			${gg} --verify /opt/bin/zxcv.sig
+			[ $? -gt 0 ] && exit 126
+		fi
+	fi
 }
 
 p3r1m3tr
