@@ -279,7 +279,7 @@ case ${mode} in
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
-		e22_ext ${tgtfile} ${distro} ${CONF_dnsm}
+		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
 		dqb "e22_ext DON3, next:rm some rchives"
 		csleep 1
 

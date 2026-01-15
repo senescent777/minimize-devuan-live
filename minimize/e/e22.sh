@@ -417,6 +417,8 @@ function e22_elocal() {
 		fi
 	done
 
+	#160126:pitäisiköhän tunkea zxcv:hen muitakin juttuja? kts changedns.clouds_post esmes
+
 	echo $?
 	csleep 1
 	reqwreqw  /opt/bin/zxcv
@@ -523,14 +525,15 @@ function e22_elocal() {
 
 [ -v BASEURL ] || exit 6 
 
-function e22_ext() { #VAIH:uusi testaus TAAS
-	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
+function e22_ext() { #160126:toiminee, jatkossa zxcv-juttuja tähän (TODO)
+	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}" #160126:kuinka monta param nykyään tarvitsee tämä?
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 2
 	#[ -w ${1} ] || exit 6 
 	[ -z "${2}" ] && exit 3
 	[ -z "${3}" ] && exit 4
+	[ -z "${4}" ] && exit 47
 
 	dqb "paramz_0k"
 	csleep 1
