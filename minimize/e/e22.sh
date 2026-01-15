@@ -732,8 +732,8 @@ function e22_arch() {
 	dqb "e22_arch d0n3"
 }
 
-function e22_dblock() { #TODO:testaa että toimii edelleen
-	dqb "e22_dblock( ${1}, ${2}, ${3})" # jatkossa 3. (VAIH)
+function e22_dblock() { #150126:lisää toivottavaa sisältöä kohde-pakettiin
+	dqb "e22_dblock( ${1}, ${2}, ${3})"
 
 	[ -z "${1}" ] && exit 14
 	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes
@@ -745,7 +745,7 @@ function e22_dblock() { #TODO:testaa että toimii edelleen
 
 	[ -z "${3}" ] && exit 33
 	[ -d ${3} ] || exit 34
-	[ -w ${3} ] || exit 35
+	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
 
 	dqb "DBLOCK:PARAMS OK"
 	csleep 1
