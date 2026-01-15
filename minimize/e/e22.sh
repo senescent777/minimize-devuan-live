@@ -401,13 +401,12 @@ function e22_elocal() {
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
 	csleep 1
-
 	fasdfasd /opt/bin/zxcv
 
 	for f in $(find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
-			${sah6} >>  /opt/bin/zxcv
+			${sah6} ${f} >> /opt/bin/zxcv
 		else
 			echo "SUURI HIRVIKYRPÄ ${f} "
 			echo "5H0ULD exit 666"
