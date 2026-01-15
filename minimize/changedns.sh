@@ -3,7 +3,7 @@ debug=0
 mode=-1
 distro=$(cat /etc/devuan_version)
 
-#HUOM.27725:tarpeellisia kikkailuja?
+#HUOM.16126:tarpeellisia kikkailuja? tuskin
 if [ -f /.chroot ] ; then
 	odio=""
 else
@@ -37,9 +37,11 @@ function epr1() {
 	c=$(find /etc -name 'iptab*' -type d -not -group 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 113
 
-#	#tämän kanssa jotain kiukuttelua 150126 (josko deletoisi /e/d alta juttuja esmes)
-#	c=$(${odio} find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
-#	[ ${c} -gt 0 ] && exit 114
+	${odio} rm /etc/default/rules*
+
+	#tämän kanssa jotain kiukuttelua 150126 (josko deletoisi /e/d alta juttuja esmes)
+	c=$(${odio} find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
+	[ ${c} -gt 0 ] && exit 114
 
 	c=$(find /etc -name 'rules.v*' -type f -not -user 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 115
@@ -82,7 +84,7 @@ function p3r1m3tr() {
 	chown -R root:root /etc/default
 	sleep 1
 
-	${odio} sha512sum -c /opt/bin/zxcv
+	${odio} sha512sum --ignore-missing -c /opt/bin/zxcv
 	[ $? -eq 0 ] || exit 66
 
 	chmod 0400 /opt/bin/zxcv*
