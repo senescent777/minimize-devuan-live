@@ -798,6 +798,7 @@ function reqwreqw() {
 	dqb "rewqreqw(${1} ) DONE"
 }
 
+#HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan
 function pre_enforce() {
 	dqb "common_lib.pre_enforce ${1} "
 
@@ -1343,7 +1344,7 @@ function part3() {
 	dqb "part3 ${1} , ${2}"
 	csleep 1
 
-	[ -z ${1} ] && exit 99
+	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 101
 
 	dqb "PARAMS_OK"
@@ -1362,7 +1363,7 @@ function part3() {
 
 	#HUOM.071225 ehto kommentteihin koska y
 	#if [ ! -f /.chroot ] ; then
-	#TODO:poisteluun jotain muutoksia jatkossa?
+	#poisteluun jotain muutoksia jatkossa?
 		common_lib_tool ${1} reject_pkgs
 	#fi
 

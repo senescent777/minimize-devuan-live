@@ -15,6 +15,8 @@ if [ $# -gt 0 ] ; then
 fi
 
 #seatd as+chmod+usermod==tarpeeksi? uskaltaisiko scm poistaa?
+#... tai jos seatd pois? (140126)
+#(entä miten jos +seatd, -chmod, -usermod ?)
 
 if [ ${mode} -gt 1 ]; then
 	${scm} g+rw /dev/tty0
@@ -22,5 +24,5 @@ if [ ${mode} -gt 1 ]; then
 fi
 
 [ ${mode} -gt 2 ] && ${smr} /etc/sudoers.d/live
-[ ${mode} -gt 3 ] && ${svm} /etc/sudoers_new /etc/sudoers #miten Tämä toimii nykyään?
+[ ${mode} -gt 3 ] && ${svm} /etc/sudoers_new /etc/sudoers #miten tämä toimii nykyään?
 [ ${mode} -gt 0 ] && ${whack} xfce4-session

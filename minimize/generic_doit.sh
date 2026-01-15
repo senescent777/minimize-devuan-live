@@ -76,7 +76,7 @@ dqb "debug= ${debug}"
 
 #221225:mitäs kaikkia pointteja olikaan ohittaa enforce.hommat sqroot.ympäristössä?
 #changedns ja fstab tietysti
-if [ -s /etc/sudoers.d/meshuggah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
+if [ -s /etc/sudoers.d/meshuqqah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
 else 
@@ -171,6 +171,10 @@ csleep 1
 el_loco ${c14} 1 #${c13} #joko jo c13 takaisin?
 #=========================================================================================
 
+function adieu() {
+	dqb "TODO:whack xfce4+stuff"
+	}
+
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then 
 	dqb "R (in 2 secs)"
 	csleep 1
@@ -183,7 +187,8 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	fi
 
 	if [ $? -eq 0 ] ; then
-		#jnkn ehdon taakse seur 2-3 riviä?		
+		#jnkn ehdon taakse seur 2-3 riviä?
+		#adieu		
 		${scm} g+rw /dev/tty0
 		${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
 		csleep 1
@@ -241,7 +246,8 @@ ${scm} a-wx $0
 if [ ${mode} -eq 2 ] ; then
 	echo "time to ${sifu} ${CONF_iface} or whåtever"
 	csleep 1
-
+	#adieu
+	
 	#jnkn ehdon taakse session lahtaamista edelliset rivit?
 	#130126:pois kommenteitsa jotta modatun .iso:n testaaminen onnistuu
 	#päivän 1. yritys ei oikein lähtenyt lentoon
@@ -250,7 +256,7 @@ if [ ${mode} -eq 2 ] ; then
 	csleep 5
 	groups #ryhmiin kuulumisen muutokset eivät tapahtune ennen uloskirjautumista?
 	csleep 5
-	#140126:aiemmin oli scm ennen usermod, liebneekö merkitystä
+	#140126:aiemmin oli scm ennen usermod, lieneekö järjestyksellä merkitystä
 
 	${scm} g+rw /dev/tty0
 	csleep 1

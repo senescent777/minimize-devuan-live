@@ -465,6 +465,8 @@ case "${mode}" in
 			
 			common_part ${srcfile} ${d} /
 		else
+			 [ -f /.chroot ] && echo "DSHOULD cp accept/reject/dtop TO /h/d/d/m/distro"
+			csleep 1
 			common_part ${srcfile} ${d} ${d}
 		fi
 
