@@ -26,40 +26,46 @@ function csleep() {
 
 #HUOM.jatkossa ehkä parempi että komentorivioptioilla ei aktivoida debugia
 mode=${1}
-[ -d ~/Desktop/minimize/${2} ] && distro=${2} #TODO:ehkä muutos tähän?
+[ -d ~/Desktop/minimize/${2} ] && distro=${2} #TODO:ehkä muutos tähän? miksi?
 
-#function init2 {
-#	local c
-#	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
-#	[ ${c} -gt 0 ] && exit 111
-#	c=$(find /etc -name 'iptab*' -type d -not -user 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 112
-#	c=$(find /etc -name 'iptab*' -type d -not -group 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 113
-#	c=$(find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
-#	[ ${c} -gt 0 ] && exit 114
-#	c=$(find /etc -name 'rules.v*' -type f -not -user 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 115
-#	c=$(find /etc -name 'rules.v*' -type f -not -group 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 116
-#	 
-#	c=$(find /etc -name 'sudoers*' -type d -perm /o+w,o+r,o+x | wc -l)
-#	[ ${c} -gt 0 ] && exit 117
-#	c=$(find /etc -name 'sudoers*' -type d -not -user 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 118
-#	c=$(find /etc -name 'sudoers*' -type d -not -group 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 119
-#	c=$(find /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
-#	[ ${c} -gt 0 ] && exit 120
-#	c=$(find /etc/sudoers.d -type f -not -user 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 121
-#	c=$(find /etc/sudoers.d -type f -not -group 0 | wc -l)
-#	[ ${c} -gt 0 ] && exit 122
-#}
-#
-#init2
+function epr1() {
+	local c
+	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
+	[ ${c} -gt 0 ] && exit 111
+	c=$(find /etc -name 'iptab*' -type d -not -user 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 112
+	c=$(find /etc -name 'iptab*' -type d -not -group 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 113
+	c=$(find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
+	[ ${c} -gt 0 ] && exit 114
+	c=$(find /etc -name 'rules.v*' -type f -not -user 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 115
+	c=$(find /etc -name 'rules.v*' -type f -not -group 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 116
+	 
+	c=$(find /etc -name 'sudoers*' -type d -perm /o+w,o+r,o+x | wc -l)
+	[ ${c} -gt 0 ] && exit 117
+	c=$(find /etc -name 'sudoers*' -type d -not -user 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 118
+	c=$(find /etc -name 'sudoers*' -type d -not -group 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 119
+	c=$(find /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
+	[ ${c} -gt 0 ] && exit 120
+	c=$(find /etc/sudoers.d -type f -not -user 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 121
+	c=$(find /etc/sudoers.d -type f -not -group 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 122
 
-#TODO:sha-gpg.tarkistukset rulesin sisällölle?
+	c=$(find /opt/bin -type f -perm /o+w,o+r,o+x | wc -l)
+	[ ${c} -gt 0 ] && exit 123
+	c=$(find /opt/bin -type f -not -user 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 124
+	c=$(find /opt/bin -type f -not -group 0 | wc -l)
+	[ ${c} -gt 0 ] && exit 125
+}
+
+epr1
+
 function p3r1m3tr() {
 	#cp /etc/default/rules.* /etc/iptables
 	#[ -s /etc/iptables/rules.v4.] or exit 666
@@ -70,6 +76,11 @@ function p3r1m3tr() {
 	chmod 0400 /etc/default/rules*
 	chown -R root:root /etc/default
 	sleep 1
+
+	sha512sum -c /opt/bin/zxcv
+	[ $? -eq 0 ] || exit 66
+
+	#VAIH:gpg-TARK SEURAAVAKSI
 }
 
 p3r1m3tr
