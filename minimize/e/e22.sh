@@ -99,7 +99,7 @@ function e22_pre1() { #130126:edelleen toimiva?
 	#distRo-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
 
 	dqb "e22_pre1 ${1}  ${2} "
-	[ -z "${1}" ] && exit 65 #-d- testi olikin jo alempana
+	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 66
 
 	csleep 2
@@ -142,7 +142,7 @@ function e22_pre2() { #120126:toiminee edelleen
 	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
 	csleep 1
 
-	[ -z "${1}" ] && exit 66 #HUOM. -d oli jo
+	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	[ -z "${3}" ] && exit 68
 	[ -z "${4}" ] && exit 69
@@ -212,7 +212,6 @@ function e22_cleanpkgs() { #130126:edelleen toimii?
 	csleep 1
 }
 
-#030126:varmistettu että xorg.conf.new löytyy
 #120126:taisi toimia taas
 #TODO:pitäisikö jossain tunkea /etc alle xorg.conf? sen lisäksi että ~ alle ...
 function e22_config1() {
@@ -308,10 +307,6 @@ function e22_home() { #TODO:elocal() -muutoksien sivuvaikutuksena tämänkin fkt
 	local t
 	csleep 1
 	${srat} -rvf ${1} /opt/bin/changedns.sh
-
-	#maxdepth mukaan vai ei?
-	#HUOM.171225:onko hyvä kun osassa (arkistoon menevistä) tdstoista on tuo ~ mukana polussa ja osassa taas ei?
-	#pitäisi kai väjhän miettiä niitä polkuja siis
 
 	for t in $(find ~ -type f -name 'merd2.sh' -or -name config.tar.bz2) ; do
 		${srat} -rvf ${1} ${t}
@@ -488,7 +483,6 @@ function e22_elocal() {
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 	csleep 5
 	
-	#130126:ei taida löytyä 
 	dqb "find /etc -type f -name \'xorg \* \' -and -not -name \' \* . 202 \* \'"
 	csleep 5
 
@@ -521,7 +515,7 @@ function e22_elocal() {
 
 [ -v BASEURL ] || exit 6 
 
-function e22_ext() { #030126:taitaa toimia /TODO:uusi testaus TAAS)
+function e22_ext() { #TODO:uusi testaus TAAS
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
 	[ -z "${1}" ] && exit 1
@@ -550,7 +544,6 @@ function e22_ext() { #030126:taitaa toimia /TODO:uusi testaus TAAS)
 	cd ${q}
 	csleep 1
 
-	#voisi jollain ehdolla estää kloonauksen?
 	${tig} clone https://${BASEURL}/more_scripts.git
 	[ $? -eq 0 ] || exit 66
 
@@ -732,7 +725,7 @@ function e22_arch() {
 }
 
 function e22_dblock() { #140126:lienee ok edelleen koska x
-	dqb "e22_dblock( ${1}, ${2}, ${3})" #vissiin ei tule 3:sdta? CONF_pkgdir voisi olla jatkossa
+	dqb "e22_dblock( ${1}, ${2}, ${3})" #vissiin ei tule 3:sdta? CONF_pkgdir voisi olla jatkossa (TODO)
 
 	[ -z "${1}" ] && exit 14
 	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes
@@ -880,9 +873,8 @@ function e22_other_pkgs() {
 	${shary} ${E22_GS}  #moni pak tarttee nämä
 	#${shary} #bsd debconf
 
-	#${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei?
-	#... ensin tuo pois kokeeksi+uusi sqroot-tst? (VAIH)
-	#csleep 5
+	#${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei? ehkä
+
 
 	message
 	jules
@@ -932,8 +924,6 @@ function e22_dm() {
 	${shary} cpp-12 gcc-12-base libstdc++6 
 	${shary} libgcc-s1 libc6 libgomp1 
 	csleep 1
-	
-	#menu (>= 2.1.26),  (>= 2.14), (>= 1:1.0.0), l, , , , 
 
 	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6
 	${shary} menu twm

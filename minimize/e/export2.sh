@@ -18,7 +18,6 @@ function usage() {
 	echo "$0 g adds Gpg for signature checks, maybe?"
 	echo "$0 t ... option for ipTables"
 
-	#echo "$0 rp ... RePack existing arch"
 	echo "$0 -h: shows this message about usage"
 }
 
@@ -50,7 +49,6 @@ function parse_opts_2() {
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
-#231225:e22.sh nykyään yrittää arpoa keys.conf (ei tässä tarvitse)
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -97,7 +95,6 @@ done
 
 dqb "AFTER GANGRENE SETS IN"
 csleep 1
-#HUOM.28925:"tar löytyy ja ajokelpoinen"-tarkistus tdstossa common_lib.sh, ocs()
 
 ###################261225:josko vähän loiventaisi ao. ehtoja?
 if [ -z "${tig}" ] ; then
@@ -190,7 +187,6 @@ case ${mode} in
 		#DONE:testausd (120126) , taitaa toimia
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
-		#141225:tgtfile voisi oikeastaan mennä config1:selle parametriksi jatkossa
 		e22_config1 ~
 		${srat} -rvf ${tgtfile} ~/config.tar.bz2
 
@@ -200,7 +196,6 @@ case ${mode} in
 		${NKVD} ~/fediverse.tar
 		csleep 1
 
-		#tdstonimi parametriksi jatkossa? mille fktiolle?
 		e22_settings ${d0}
 		#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
 
@@ -242,24 +237,7 @@ case ${mode} in
 		echo "$0 f ${tgtfile} ${distro}"
 		exit 1
 	;;
-#	å) #241125:testattu, oksentaa toimivia komentoja, lisäksi:
-#	#1. libgtkmm ja libpangomm  riippuvuuksineen aiheutti nalkutusta, pitäisi niitä listoja päivittää vissiin + riippuvuuksien kanssa vielä iterointia
-#	#2. "$0 f" tekemä paketti ei paskonut:slim
-#
-#	#251125:pavu taisi asentua(tosin "establishing connection") + nalkutusta paketeista: libpolkit, libsystemd
-#
 #	dqb "#TODO:alsaan siirtyminen?"
-#
-#		echo "${shary} libatk1.0-0 libasound2 libltdl7 libtdb1 libvorbisfile3 libatkmm-1.6-1v5 libcairomm-1.0-1v5 libpangomm-1.4-1v5 libjson-glib-1.0-common libasyncns0 libsndfile1 libsystemd0"
-#
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=pavucontrol=5.0-2&eXtra=176.93.249.62
-#		echo "${shary} libatkmm-1.6-1v5 libcanberra-gtk3-0 libcanberra0 libglibmm-2.4-1v5 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5 "
-#		echo "${shary} pavucontrol"
-#
-#		echo "${svm} ${CONF_pkgdir}/*.deb ${d}"
-#		echo "$0 f ${tgtfile} ${distro}"
-#		exit 1
-#	;;
 	p) #120126:toimii, luulisin
 	#mihin muuten kosahtaa jos omegan jälkeen tätä ajaa? srat vai fasdfasd vai mikä?
 
@@ -273,7 +251,6 @@ case ${mode} in
 esac
 
 e22_pre1 ${d} ${distro}
-#tgtfile:n kanssa muitakin tarkistuksia kuin -z ?
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
 #291125:voiko sen exitin jo laittaa takaisin vai ei?
@@ -319,7 +296,7 @@ case ${mode} in
 
 		${sifd} ${CONF_iface}
 		[ ${debug} -eq 1 ] && ls -las ${d}
-		csleep 10
+		csleep 5
 
 		e22_home ${tgtfile} ${d} ${CONF_enforce} 
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
@@ -334,10 +311,6 @@ case ${mode} in
 
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
 	;;
-	#VAIH:TAAS uusi testikierros päivityspaketi n kanssa nytq reject_pkgs muutettu
-	#aiempi pak sössii äksän joten joko lib-paketit aiheuttavat tai sitten dbus- tai xorg- pakettien poissaolo (hyvä kai selvittää kumpi)	
-	#... tosin selvittelystä voi tulla jonkinmoinen sirkus
-	#... ellei sitten sössiytyminen aiheudu jostain muusta?
 	#140126 jälleenm uusi yritys, ainakin muutoksena aiempaan dbus-nalqtus
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
@@ -354,7 +327,6 @@ case ${mode} in
 		e22_other_pkgs ${CONF_dnsm}
 	;;
 	t) 
-		#130126:toimii
 		#140126:sen g-t-jutun kanssa myös aloiteltu, sisältö asentuu ainakin sqroot-ymp
 		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
 
@@ -363,10 +335,6 @@ case ${mode} in
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;
 	l)
-		#010126:vissiinkin e22dm() , tapauksissa lxdm ja wdm, tekevät asentuvan paketin
-		#... tosin "sqroot->toimiva kiekko" ei ole vielä onnistunut
-		#090126:tekee pak mikä as live-ymp (sqroot ei vielä testattu)
-		#DONE:tuoreimman paketin testaus sqroot-ymp, live:n kanssa toimii
 		#... onko se nyt seatd mikä paskoo juttuja vai mitvit? vissiin
 
 		dqb "#ensin wdm-pak as, sitten avsta slim pois?"
@@ -376,17 +344,15 @@ case ${mode} in
 		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
 		e22_dm ${CONF_dm}
 	;;
-	*) #281025:tämäkin toiminee
+	*)
 		echo "-h"
 		exit
 	;;
 esac
 
-#140126:uudellakin testikierroksella osaa tämä blokki tehdä paketteja
-#130126:uusi toimintatapa aiheuttaa myös lisää mutkia matkaan sqrootissa
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar 
-	#TODO:accept/reject/drop - jutut mukaan sqroot varten? vai jtnkn muuten?
+	#accept/reject/drop - jutut mukaan sqroot varten? vai jtnkn muuten?
 	e22_dblock ${d}/f.tar ${d}
 
 	#uutena1 41026 (TODO:sswlv miten toimii?)
