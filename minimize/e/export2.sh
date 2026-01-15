@@ -178,8 +178,7 @@ case ${mode} in
 #		
 #		exit #TODO:j.ollain jekulla voisi hukata exitit näistä case:ista ekasssa switchissa
 	;;
-	f) 	#VAIH:toiminnan testailu TAAS (edelleen osaa tehdå paketteja, sisällön toimivuus vielä)
-		#kts liittyen se toniq.tar 
+	f) 	#140126:jospa ao. blokki toimisi edelleen
 
 		enforce_access ${n} ${t}
 		e22_hdr ${tgtfile}
@@ -217,8 +216,11 @@ case ${mode} in
 	c)
 		#1e30126:laati paketin, sisältö:lienee ok
 		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
-		#-T - vipu tar:in kanssa käyttöön vai ei?
+		#-T - vipu tar:in kanssa käyttöön vai ei? pärjännee ilmankin
 
+		#TODO:icons-hmisto mukaan jtnkin? tai siis mieluummin jhnknin toiseen pakettiin
+		#liittyy: sqroot
+		
 		cd ${d0}
 		fasdfasd ${tgtfile}
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}*
@@ -229,8 +231,7 @@ case ${mode} in
 		exit
 	;;
 	g)
-		#140126:sen g-t-jutun kanssa myös aloiteltu (VAIH)
-		#101225:ulostuksilla saa paketin aikaiseksi edelleen
+		#150126:luuultavasti oksennetut komennot toimivat edelleen
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "${sag_u} | ${fib} , when necessary " 
 
@@ -287,17 +288,17 @@ e22_cleanpkgs ${CONF_pkgdir}
 
 [ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
+
 doit=1
 csleep 1
 
-#040126:tähän mennessä ao. caset pääosin testattu, toiminee, dblock-kikkailu saattaa jo toimia 090126
 case ${mode} in
 	0)
 		echo "NOT SUPPORTED ANYMORE"
 		exit 99
 	;;
 	3|4) 
-		#130126:josko 3 ja 4 toimisivat jo
+		#150126: 3 ja 4 toimi ainakin jnkn aikaa (uusi testkierros tulossa)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 
@@ -346,15 +347,15 @@ case ${mode} in
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia? (tai vähän jo aloiteltu?)
 	e)
-		#130126:live-ympäristössä asentuu luodun paketin sisältö ok, sqroot-ympäristössä asentuu kanssa
-		#... tosin pilaakohan seatd sen chmod-groups-jutun? VAIH:let's find out, e29...
+		#... tosin pilaakohan seatd sen chmod-groups-jutun?
+		#140126 näyttäisi asentuvan e29 ok live-ymp, sqrootissa asentuu nalkutuksen kanssa koska syyt
 
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
 	;;
 	t) 
 		#130126:toimii
-		#140126:sen g-t-jutun kanssa myös aloiteltu (VAIH)
+		#140126:sen g-t-jutun kanssa myös aloiteltu, sisältö asentuu ainakin sqroot-ymp
 		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
 
 		message
@@ -366,11 +367,10 @@ case ${mode} in
 		#... tosin "sqroot->toimiva kiekko" ei ole vielä onnistunut
 		#090126:tekee pak mikä as live-ymp (sqroot ei vielä testattu)
 		#DONE:tuoreimman paketin testaus sqroot-ymp, live:n kanssa toimii
-		#... onko se nyt seatd mikä paskoo juttuja vai mitvit?
+		#... onko se nyt seatd mikä paskoo juttuja vai mitvit? vissiin
 
 		dqb "#ensin wdm-pak as, sitten avsta slim pois?"
 		csleep 1
-
 		[ -v CONF_dm ] || exit 77
 
 		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
@@ -386,13 +386,14 @@ esac
 #130126:uusi toimintatapa aiheuttaa myös lisää mutkia matkaan sqrootissa
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar 
+	#TODO:accept/reject/drop - jutut mukaan sqroot varten? vai jtnkn muuten?
 	e22_dblock ${d}/f.tar ${d}
 
-	#pitäisiköhän tässä olla e22_ftr() tuolle f.tar:ille ?
+	#uutena1 41026 (TODO:sswlv miten toimii?)
+	e22_ftr  ${d}/f.tar 
 
-	#josko myös dellisi f.tar:in sen jälkeen kUn lisätty tgtfileeseen?	
-	${srat} -rvf ${tgtfile} ${d}/f.tar 
-	[ $? -eq 0 ] && ${NKVD}  ${d}/f.tar 
+	${srat} -rvf ${tgtfile} ${d}/f.tar* 
+	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
 fi
 
 if [ -s ${tgtfile} ] ; then

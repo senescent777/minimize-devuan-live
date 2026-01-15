@@ -1,19 +1,23 @@
 dqb "${sco} -Rv _apt:root ${CONF_pkgdir}/partial"
 csleep 1
+
 #130126:sellainen aivopieru että {exp2, e22} toiminnalliSuuden saattaisi voida korvata Makefilellä ainakin osoittain
+#... jotain jaottelua(yleinen/ertiyinen) fktioiden kanssa myös?
 
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
 csleep 1
 
-if [ -v CONF_pubk ] ; then #&& ( -v CONF_ksk ) 
+if [ -v CONF_pubk ] ; then #&& ( -v CONF_ksk ) #pubk vai kpub?
 	dqb "no keys.conf needed"
 else
 	if [ -v CONF_testgris ] ; then
+		dqb "trying 2 f1nd k3ys.c0nf"
 		arsch=$(find ${CONF_testgris} -type f -name 'keys.conf' | head -n 1)
 
 		if [ ! -z "${arsch}" ] ; then
 			if [ -s ${arsch} ] ; then
+				dqb "f0 und dachshund"
 				. ${arsch}
 			fi	
 		fi
@@ -26,8 +30,7 @@ fi
 csleep 1
 
 function e22_hdr() {
-	#091225:toiminee sillä ehdolla että EI tätä ennen sano "chmod o+t /tmp"
-
+	#140126:lienee toimiva fktio koska x
 	dqb "e22hdr():BEFORE "
 	csleep 1
 	[ -z "${1}" ] && exit 61
@@ -93,7 +96,7 @@ function e22_ftr() { #130126:hdr() ja ftr() toimivat koska kaikenlaisia pakettej
 }
 
 function e22_pre1() { #130126:edelleen toimiva?
-	#disto-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
+	#distRo-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
 
 	dqb "e22_pre1 ${1}  ${2} "
 	[ -z "${1}" ] && exit 65 #-d- testi olikin jo alempana
@@ -211,6 +214,7 @@ function e22_cleanpkgs() { #130126:edelleen toimii?
 
 #030126:varmistettu että xorg.conf.new löytyy
 #120126:taisi toimia taas
+#TODO:pitäisikö jossain tunkea /etc alle xorg.conf? sen lisäksi että ~ alle ...
 function e22_config1() {
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
@@ -276,8 +280,7 @@ function e22_settings() {
 	csleep 1
 }
 
-#pitäisikö siirtää toiseen tdstoon?
-function e22_home() { #030126:saattaa olla että toimii ok
+function e22_home() { #TODO:elocal() -muutoksien sivuvaikutuksena tämänkin fktion toimimman testaus josqs 
 	dqb "  e22_home() ${1} , ${2} , ${3}  "
 
 	[ -z "${1}" ] && exit 67
@@ -518,7 +521,7 @@ function e22_elocal() {
 
 [ -v BASEURL ] || exit 6 
 
-function e22_ext() { #030126:taitaa toimia
+function e22_ext() { #030126:taitaa toimia /TODO:uusi testaus TAAS)
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
 	[ -z "${1}" ] && exit 1
@@ -628,7 +631,7 @@ function e22_ts() { #130126:jos vaikka toimisi?
 	dqb $?
 	csleep 3
 
-	#lisätäänkö tämä arkistoon jossain?
+	#lisätäänkö tämä arkistoon jossain? no e22_a()
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
 
@@ -802,7 +805,7 @@ function aswasw() { #privaatti fktio
 #	dqb "${NKVD} ${CONF_pkgdir}/libavahi* ?"
 #}
 
-#130126:tehdyn paketin sisältö asentuu ainakin live-ymp
+#130126:tehdyn paketin sisältö asentuu ainakin live-ymp, vissiin myös sqrootissa
 function e22_tblz() {
 	#HUOM.28925:vieläkö asentaa avahin?
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
@@ -914,7 +917,7 @@ function e22_other_pkgs() {
 }
 
 #DONE:uusi wdm-paketti modatun ison rakennusta varten, asentuu sekä live että sqroot, tosin jotain kiukuttelua äksän kanssa EDELLEEN
-
+#wdm kanssa kun xorg kiukuttelee ni jospa a) xdm tai b) DISPLAY MANAGET WTTUUN KOKONAAN 666 
 function e22_dm() {
 	dqb "e22dm ( ${1} ) "
 	csleep 1
@@ -928,27 +931,27 @@ function e22_dm() {
 	#LOPPUU SE PURPATUS PRKL
 	${shary} cpp-12 gcc-12-base libstdc++6 
 	${shary} libgcc-s1 libc6 libgomp1 
-	csleep 2
+	csleep 1
 	
 	#menu (>= 2.1.26),  (>= 2.14), (>= 1:1.0.0), l, , , , 
 
 	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6
 	${shary} menu twm
-	csleep 2
+	csleep 1
 	
 	#libselinux oikeastaan muualla jo
 	${shary} libcrypt1 libpam0g libselinux1 #jemmaan?
 	${shary} libxau6 libxaw7 libxdmcp6 libxft2 libxinerama1 
-	csleep 2
+	csleep 1
 	
 	${shary} libxpm4 libxrender1 debconf x11-utils cpp lsb-base x11-xserver-utils procps
-	csleep 2
+	csleep 1
 
 	${shary} libgtk-3-0 libgtk-3-common
-	csleep 2
+	csleep 1
 
 	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libglib2.0-0 libglib2.0-data libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
-	csleep 2
+	csleep 1
 	
 	#fontconfig, libfreetype6, libxcb* ennnen switch-case:a? 
 
@@ -961,49 +964,49 @@ function e22_dm() {
 			# zlib1g perl:any xserver-xorg | xserver:tarteeko juuri tässä vetää?
 
 			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
-			csleep 2
+			csleep 1
 
 			${shary} libwebpdemux2 libheif1 libaudit1 #libaudit jemmaan ksnssa?
-			csleep 2
+			csleep 1
 
 			${shary} libdb5.3 libpam-modules-bin libpam-modules libpam-runtime #libpam jemmaan?
-			csleep 2
+			csleep 1
 
 			${shary} sysvinit-utils libtinfo6 libpng16-16 libx11-xcb1  
-			csleep 2
+			csleep 1
 
 			${shary} libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1 libxcursor1
-			csleep 2
+			csleep 1
 
 			${shary} libxkbfile1 libxmuu1 man-db
-			csleep 2
+			csleep 1
 
 			${shary} libfontconfig1 libfontenc1 libgl1 libxcb-shape0  
-			csleep 2
+			csleep 1
 
 			${shary} libxtst6 libxv1 libxxf86dga1 
-			csleep 2
+			csleep 1
 
 			${shary} psmisc x11-apps x11-common
-			csleep 2
+			csleep 1
 
 			${shary} libpcre2-8-0 libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
-			csleep 2
+			csleep 1
 
 			${shary} libgif7 libwraster6 libjpeg62-turbo libmagickwand-6.q16-6 libtiff6
-			csleep 2
+			csleep 1
 
 			${shary} libbz2-1.0 libfftw3-double3 libfreetype6 libjbig0 liblcms2-2 liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libwebp7 libwebpmux3 imagemagick-6-common
-			csleep 2
+			csleep 1
 
 			${shary} libmagickcore-6.q16-6 
-			csleep 2
+			csleep 1
 
 			${shary} libwutil5 wmaker-common libwings3
-			csleep 2
+			csleep 1
 
 			${shary} libx11-data libbsd0
-			csleep 2 	
+			csleep 1 	
 		
 			${shary} wdm
 		;;
@@ -1012,48 +1015,47 @@ function e22_dm() {
 #			#E22_GL="libxcb-render0 ... lxdm"
 #
 #			${shary} libxcb-render0 libxcb-shm0 libxcb1
-#			csleep 2
+#			csleep 1
 #			
 #			${shary} libfreetype6 libpixman-1-0
-#			csleep 2
+#			csleep 1
 #			
 #			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
 #			
 #			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1),  (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), , libxfixes3,  (>= 2:1.1.4),  (>= 2:1.5.0),  adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
 #			${shary} libpangocairo-1.0-0   
-#			csleep 2
+#			csleep 1
 #
 #			${shary} libdeflate0 debliblerc4 
-#			csleep 2
+#			csleep 1
 #
 #			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
 #			${shary} libcairo2 libgtk2.0-common libgtk2.0-0
-#			csleep 2
+#			csleep 1
 #	
 #			#gdk ennen gtk?
 #			${shary} libfribidi0 libharfbuzz0b libthai0
-#			csleep 2
+#			csleep 1
 #		
 #			${shary} fontconfig gtk2-engines-pixbuf gtk2-engines 
-#			csleep 2
+#			csleep 1
 #
 #			${shary} lxdm 
-#			csleep 2
+#			csleep 1
 #			
 #			#261225:lxde-juttujrn ja lxpolkit:in riippuvuukisien selvutys saattaa osoittautua tarpeelliskeis?
 #			
 #			#polkit-1-auth-agent:
 #			
 #			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
-#			#csleep 2
+#			#csleep 1
 #			 
-#			
 #			#	 lxlock | xdg-utils, 
 #
 #			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
 #			
 #			${shary} lxpolkit lxsession-logout lxsession
-#			csleep 5
+#			csleep 1
 #		;;
 		*)
 			dqb "sl1m?"
@@ -1102,7 +1104,8 @@ function e22_profs() {
 
 #130126:olisikohan jo/taas toimiva? onko jotain uutta kiukuttelua vau eu? let's find out soon
 #jokin juttu vielä on kun päivityspaketti rikkoo slimin muokkaamattoman .iso:n kanssa
-#... josko se 140126 vaihtuisi libdbus-nalkutukseen
+#... josko se rikkoUtuminen 140126 v aihtuisi libdbus-nalkutukseen
+#äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 function e22_upgp() {
 	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}" #ei pitäne tulla neljättä
 
@@ -1110,7 +1113,7 @@ function e22_upgp() {
 	#[ -w ${1} ] || exit 44 #TODO: man bash taas?
 	#[ -s ${1} ] && mv ${1} ${1}.OLD 261225 laitetttu kommentteihin koska aiheutti ongelmia
 	[ -z "${2}" ] && exit 11
-	[ -d ${2} ] || exit 22 #käytetäänkö tätä? VAIH:kenties $3 -> $2 ja uuDeksi kolmoseksi C_pkgd ... tjsp
+	[ -d ${2} ] || exit 22
 	[ -z "${3}" ] && exit 33 #kuinkahan tarpeellista on tämäkin tuoda fktioon?
 
 	dqb "params_ok"
