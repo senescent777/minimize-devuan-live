@@ -429,9 +429,6 @@ function clibpre() {
 #HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (VAIH)
 #... export xxx tai sitten man sudo taas
 #https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
-#
-#... sen lxdm:n asennuksen kanssa jos saisi kysymyKsen ohituksen niin olisi hyvä kanssa
-#jos siis lxdm käyttää
 
 function fromtend() {
 	dqb "FRöMTEND"
@@ -451,14 +448,6 @@ function fromtend() {
 	dqb "DNÖE"
 }
 
-#tämän tulisi kai olla privaatti fktio
-#
-#sillä toisella tyylillä tämä masentelu jatkossa? for ... in ... ?
-#nykyään voisi kai E22-mjilla iteroida suurimman osan tarv paketeista
-#
-#111225:ensimmäisellä yrityksellä epäselvää josko juuri siinä ympäristössä missä tätä fktiota kutsutaan
-#... mutta kehitysymp kanssa toimii, luulisin , livenä myös121225 ainakin kerran
-#
 #P.S. this function created to avoid a chicken-and-egg-situation, maybe
 #TODO:chimaera/xcalibur-testi että selviää, voiko ao. fktion heittää roskikseen jo?
 #function common_tbls() {
@@ -1243,11 +1232,6 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE"
 }
 
-#DONE:tapaus sqroot, selvitä mitä silloin poistuu oikeasti, kun g:dout ajetaan
-#130126:vissiin konf pielessä (tai siis)
-#sqroot-testi, 2. yritys:bluez ei edelleenkään poistunut, eikä nfs, muutenm 175-lista kyl
-#... muuten ao.fktion opistamat poistuu
-
 function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
 	csleep 20
@@ -1265,9 +1249,6 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		csleep 1
 		
 		for s in ${PART175_LIST} ; do 
-			#271125 kokeiltu s.e. slim mukana listassa, tuli ongelma hiiren kanssa
-			#151225 taisi äksä taas toimia joten uudemman kerran vääntämään
-			#251225:xorg.conf löydetty joten hiiren tulisi taas
 			csleep 4
 		
 			dqb "processing ${s}"
@@ -1276,7 +1257,6 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		done
 
 		${lftr}
-	#	[ -f /.chroot ] && exit 666 #tässäkö jo lähtee qsemaan? sqrootin kanssa siis
 		
 		${sharpy} libblu* libcupsfilters* libgphoto*
 		${lftr}
@@ -1330,16 +1310,6 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	csleep 1
 }
 
-#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=slim=1.4.0-0devuan
-# Depends:
-#dbus, debconf (>= 1.2.9) | debconf-2.0, default-logind | logind | consolekit, x11-xserver-utils, libc6 (>= 2.34), libgcc-s1 (>= 3.0), libjpeg62-turbo (>= 1.3.1), libpam0g (>= 0.99.7.1), libpng16-16 (>= 1.6.2-1), libstdc++6 (>= 5.2), libx11-6, libxext6, libxft2 (>> 2.1.1), libxmu6 (>= 2:1.1.3), libxrandr2 (>= 2:1.2.99.3)
-#saattaa harata vastaan:dbus , debconf? , libgcc-s1, libpam0g, libx11-6
-#
-#https://bbs.archlinux.org/viewtopic.php?id=112224 ?
-#https://dev1galaxy.org/viewtopic.php?id=2158
-#
-##part3() vs import2 case 3 ,. what's the difference?
-
 function part3() {
 	dqb "part3 ${1} , ${2}"
 	csleep 1
@@ -1367,6 +1337,7 @@ function part3() {
 		common_lib_tool ${1} reject_pkgs
 	#fi
 
+	#TODO:libc6*.deb gcc-12*.deb cpp*.deb erikseen jotta common_lib_tool käyttöönotto
 	clibpre ${1} accept_pkgs_1
 	clibpre ${1} accept_pkgs_2
 
