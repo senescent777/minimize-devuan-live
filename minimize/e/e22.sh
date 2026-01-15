@@ -279,7 +279,7 @@ function e22_settings() {
 	csleep 1
 }
 
-function e22_home() { #TODO:elocal() -muutoksien sivuvaikutuksena tämänkin fktion toimimman testaus josqs 
+function e22_home() { #VAIH:elocal() -muutoksien sivuvaikutuksena tämänkin fktion toimimman testaus josqs 
 	dqb "  e22_home() ${1} , ${2} , ${3}  "
 
 	[ -z "${1}" ] && exit 67
@@ -401,13 +401,12 @@ function e22_elocal() {
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUST BEFORE URLE	S"
 	csleep 1
-
 	fasdfasd /opt/bin/zxcv
 
 	for f in $(find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
-			${sah6} >>  /opt/bin/zxcv
+			${sah6} ${f} >> /opt/bin/zxcv
 		else
 			echo "SUURI HIRVIKYRPÄ ${f} "
 			echo "5H0ULD exit 666"
@@ -420,11 +419,11 @@ function e22_elocal() {
 	if [ -x ${gg} ] ; then
 		if [ -v CONF_pubk ] ; then
 			${gg} -u ${CONF_pubk} -sb /opt/bin/zxcv.sig
-			csleep 1
-			${srat} -rvf ${1} /opt/bin/zxcv*
+			csleep 1			
 		fi
 	fi
 
+	${srat} -rvf ${1} /opt/bin/zxcv*
 	luca ${1}
 	csleep 1
 	other_horrors
@@ -515,7 +514,7 @@ function e22_elocal() {
 
 [ -v BASEURL ] || exit 6 
 
-function e22_ext() { #TODO:uusi testaus TAAS
+function e22_ext() { #VAIH:uusi testaus TAAS
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 
 	[ -z "${1}" ] && exit 1
