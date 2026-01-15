@@ -23,6 +23,7 @@ function parse_opts_1() {
 	dqb "parseopts_1 ${1} ${2}"
 
 	if [ -d ${d0}/${1} ] ; then
+		#toimiikohan tämä kohta? pitäiskö tegdä toisin, opts_2() ?
 		distro=${1}
 	else
 		case  "${1}" in

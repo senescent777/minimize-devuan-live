@@ -666,10 +666,14 @@ function check_binaries2() {
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
 
-	#TODO:lftr asettaminen sqroot.-riippuvaiseksi? live-ymp ei tekisi mitään?
-	lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 
+	#lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 
+	
+	#VAIH:lftr asettaminen sqroot- tai distro- riippuvaiseksi? live-ymp ei tekisi mitään?
+	
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing '/run/live/medium/live/initrd.img.new': No space left on device
+
+	#... chimaerassa esim pitäisi tuo lgftr asettaa jhnkin ei-huuhaa-sisältöön
 
 	srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "

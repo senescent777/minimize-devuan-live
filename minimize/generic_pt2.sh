@@ -200,6 +200,7 @@ function t2pc() {
 	${sharpy} htop inetutils-telnet intel-microcode isolinux
 	t2p_filler
 
+	#160126:näyttä siltä että chimaeran kanssa libreoffice ei poistuisi, toistuuko?
 	${sharpy} libreoffice*
 	t2p_filler
 
