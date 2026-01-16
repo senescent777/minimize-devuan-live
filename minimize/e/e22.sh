@@ -13,11 +13,11 @@ if [ -v CONF_pubk ] ; then #&& ( -v CONF_ksk ) #pubk vai kpub?
 else
 	if [ -v CONF_testgris ] ; then
 		dqb "trying 2 f1nd k3ys.c0nf"
-		arsch=$(find ${CONF_testgris} -type f -name 'keys.conf' | head -n 1)
+		arsch=$(find ${CONF_testgris} -type f -name keys.conf | head -n 1)
 
 		if [ ! -z "${arsch}" ] ; then
 			if [ -s ${arsch} ] ; then
-				dqb "f0 und dachshund"
+				dqb "f0 und schweinhund"
 				. ${arsch}
 			fi	
 		fi
@@ -316,7 +316,7 @@ function e22_home() { #15+0126:suattaapi vaikka toimia
 	csleep 1
 	${srat} -rvf ${1} /opt/bin/changedns.sh
 
-	for t in $(find ~ -type f -name 'merd2.sh' -or -name config.tar.bz2) ; do
+	for t in $(find ~ -type f -name merd2.sh -or -name config.tar.bz2) ; do
 		${srat} -rvf ${1} ${t}
 	done
 
@@ -331,7 +331,8 @@ function e22_home() { #15+0126:suattaapi vaikka toimia
 	csleep 1
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 
-	dqb "${srat} ${TARGET_TPX} --exclude= \' \* .deb \' -rvf ${1}  / home / stubby ${t} "
+	dqb "${srat} ${TARGET_TPX} --exclude=  \* .deb  -rvf ${1}  / home / stubby ${t} "
+	
 	csleep 1
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 	csleep 2
@@ -486,7 +487,7 @@ function e22_elocal() {
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 	csleep 5
 	
-	dqb "find /etc -type f -name \'xorg \* \' -and -not -name \' \* . 202 \* \'"
+	dqb "find /etc -type f -name xorg * -and -not -name \* . 202 \* "
 	csleep 5
 
 	for f in $(find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
@@ -497,7 +498,7 @@ function e22_elocal() {
 	
 	csleep 5
 	#130126:josko alkaisi vähitellen tulla wdm-jutut mukaan? ei vielä koska jokin juttu
-	dqb "find /etc -type f -name \' ${5}* \' -and -not -name \' *.202* \' "
+	dqb "find /etc -type f -name  ${5} \* -and -not -name  \*.202* "
 	csleep 5
 
 	g=$(${odio} find /etc -type f -name '${5}*' -and -not -name '*.202*')
@@ -610,7 +611,9 @@ function e22_ext() { #160126:toiminee, jatkossa zxcv-juttuja tähän (VAIH)
 	echo $?
 
 	local f
-	for f in $(find ./etc -type f ) ; do
+	#160126:tuon yhden tdston kanssa jokin ongelma sha-tark kanssa, joten...
+
+	for f in $(find ./etc -type f -not -name interfaces.tmp) ; do
 		${sah6} ${f} >> ${4}
 	done
 
@@ -1109,7 +1112,7 @@ function e22_profs() {
 	dqb "AAMUNK01"
 }
 
-#130126:olisikohan jo/taas toimiva? onko jotain uutta kiukuttelua vau eu? let's find out soon
+#130126:olisikohan jo/taas toimiva? onko jotain uutta kiukuttelua vau eu? lets find out soon
 #jokin juttu vielä on kun päivityspaketti rikkoo slimin muokkaamattoman .iso:n kanssa
 #... josko se rikkoUtuminen 140126 v aihtuisi libdbus-nalkutukseen
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
