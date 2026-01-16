@@ -607,7 +607,7 @@ function check_binaries() {
 				gv=$(${odio} which gpgv)
 				csleep 1
 
-				[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt
+				#[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt
 				common_pp3 ${1}
 			fi
 
