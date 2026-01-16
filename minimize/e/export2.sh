@@ -24,7 +24,11 @@ function usage() {
 #TODO:jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
 if [ $# -gt 1 ] ; then
 	mode=${1}
-	[ -f ${1} ] && exit 99
+	if [ -f ${1} ] ; then
+		echo "SAATANAN TUNARI"
+		exit 99
+	fi
+
 	tgtfile=${2}
 else
 	#echo "$0 -h"
@@ -138,7 +142,7 @@ dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
 
-[ -z "${tgtfile}" ] && exit 99
+[ -z "${tgtfile}" ] && exit 98
 [ -z "${srat}" ] && exit 66
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
@@ -272,7 +276,7 @@ csleep 1
 case ${mode} in
 	0)
 		echo "NOT SUPPORTED ANYMORE"
-		exit 99
+		exit 97
 	;;
 	3|4) 
 		#150126: 3 ja 4 toimi ainakin jnkn aikaa ( TAAS uusi testkierros tulossa 160126, VAIH)
@@ -317,19 +321,16 @@ case ${mode} in
 		reqwreqw  /opt/bin/zxcv
 		csleep 1
 
-
-				fasdfasd /opt/bin/zxcv.sig	
-				e22_tyg /opt/bin/zxcv
-				reqwreqw /opt/bin/zxcv.sig			
-
-
+		fasdfasd /opt/bin/zxcv.sig	
+		e22_tyg /opt/bin/zxcv
+		reqwreqw /opt/bin/zxcv.sig			
 		${srat} -rvf ${1} /opt/bin/zxcv*
 	;;
 	#140126 jälleenm uusi yritys, ainakin muutoksena aiempaan dbus-nalqtus
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
-		[ -v CONF_pkgdir ] || exit 99
+		[ -v CONF_pkgdir ] || exit 96
 		e22_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia? (tai vähän jo aloiteltu?)
