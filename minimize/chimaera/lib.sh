@@ -1,7 +1,7 @@
 #=================================================PART 0=====================================
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
-#milloin viimeksi testattu? lokakuussa?
+#milloin viimeksi testattu? lokakuussa? 160126 myös testailuja menossa
 function udp6() {
 	dqb "ch1m.lib.UPDP-6"
 	csleep 1
