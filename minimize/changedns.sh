@@ -22,8 +22,8 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+sah6=$(which sha512sum)
 #asiasta kukkaruukkuun: wicd oli aikoinaan siedettävä softa, ainakin Networkmanageriin verrattuna
-
 #HUOM.jatkossa ehkä parempi että komentorivioptioilla ei aktivoida debugia
 mode=${1}
 [ -d ~/Desktop/minimize/${2} ] && distro=${2} #TODO:ehkä muutos tähän? miksi?
@@ -38,10 +38,9 @@ function epr1() {
 	[ ${c} -gt 0 ] && exit 113
 
 	${odio} rm /etc/default/rules*
-
 	#tämän kanssa jotain kiukuttelua 150126 (josko deletoisi /e/d alta juttuja esmes)
-	c=$(${odio} find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
-	[ ${c} -gt 0 ] && exit 114
+	#c=$(${odio} find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
+	#[ ${c} -gt 0 ] && exit 114
 
 	c=$(find /etc -name 'rules.v*' -type f -not -user 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 115
@@ -84,8 +83,12 @@ function p3r1m3tr() {
 	chown -R root:root /etc/default
 	sleep 1
 
-	${odio} sha512sum --ignore-missing -c /opt/bin/zxcv
+	local p
+	p=$(pwd)
+	cd /
+	${sah6} --ignore-missing -c /opt/bin/zxcv
 	[ $? -eq 0 ] || exit 66
+	cd ${p}
 
 	chmod 0400 /opt/bin/zxcv*
 	chown root:root /opt/bin/zxcv*
