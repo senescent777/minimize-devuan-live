@@ -54,7 +54,9 @@ function e22_hdr() {
 
 #tark-. olla priv fktio
 function e22_tyg() {
-		#VAIH:allekirjoittelu-psuus erilliseksi fktioksi?
+	dqb "e22_tyg( ${1} )"
+	csleep 1
+
 	if [ -x ${gg} ] ; then
 		if [ -v CONF_pubk ] ; then
 			${gg} -u ${CONF_pubk} -sb ${1}
@@ -72,7 +74,7 @@ function e22_tyg() {
 	
 }
 
-function e22_ftr() { #VAIH:testaa toiminta uusiksi
+function e22_ftr() { #VAIH:testaa toiminta uusiksi (olisko vähitellen?)
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -145,7 +147,7 @@ function e22_pre1() { #130126:edelleen toimiva?
 #...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 
 function e22_pre2() { #120126:toiminee edelleen
-	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ...#WTIN KAARISULKEET STNA" 
+	dqb "e22_pre2 ${1}, ${2} , ${3} , ${4}  ... WTIN KAARISULKEET STNA" 
 	csleep 1
 
 	[ -z "${1}" ] && exit 66
@@ -193,7 +195,8 @@ function e22_pre2() { #120126:toiminee edelleen
 }
 
 function e22_cleanpkgs() { #130126:edelleen toimii?
-	dqb "e22_cleanpkgs ${1} , ${2} , ${3}  " #(tulisi olla vain 1 param)
+	dqb "e22_cleanpkgs ${1} , ${2} , ${3}  " 
+	#(tulisi olla vain 1 param)
 	[ -z "${1}" ] && exit 56
 
 	if [ -d ${1} ] ; then
@@ -271,7 +274,7 @@ function e22_settings() {
 	exp_prof ${1}/fediverse.tar default-esr	
 		
 	csleep 1
-	dqb "SOME BASIC TESTS w/  ${1}/fediverse.tar "
+	dqb "SOME BASIC TESTS w/  ${1} / fediverse.tar "
 	csleep 2
 
 	[ -s ${1}/fediverse.tar ] || exit 32
@@ -287,7 +290,7 @@ function e22_settings() {
 	csleep 1
 }
 
-function e22_home() { #15+0126:suattaapi vaikka toimia
+function e22_home() { #150126:suattaapi vaikka toimia
 	dqb "  e22_home() ${1} , ${2} , ${3}  "
 
 	[ -z "${1}" ] && exit 67
@@ -338,8 +341,6 @@ function e22_home() { #15+0126:suattaapi vaikka toimia
 	csleep 2
 
 	dqb "AUTOMAGICAL CONFIGURATION IS A DISEASE  x 199 - Bart S."
-	dqb "Xorg -config ~/xorg.conf ?"
-	dqb "find / ,,, ?"
 	
 	for f in $(find ~  -type f -name 'xorg.conf*') ; do ${srat} -rvf ${1} ${f} ; done 	
 	csleep 5
@@ -353,7 +354,7 @@ function e22_home() { #15+0126:suattaapi vaikka toimia
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
 
 function luca() {
-	dqb "luca ( ${1})"
+	dqb "luca ( ${1} )"
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
@@ -410,7 +411,7 @@ function e22_elocal() {
 	${scm} 0444 /etc/default/rules*
 
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
-	dqb "JUST BEFORE URLE	S"
+	dqb "JUSTs BEFOREs URLEs S"
 	csleep 1
 
 	for f in $(find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
@@ -423,8 +424,6 @@ function e22_elocal() {
 			sleep 1
 		fi
 	done
-
-	#160126:pitäisiköhän tunkea zxcv:hen muitakin juttuja? kts changedns.clouds_post esmes
 
 	echo $?
 	csleep 1
@@ -487,7 +486,7 @@ function e22_elocal() {
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 	csleep 5
 	
-	dqb "find /etc -type f -name xorg * -and -not -name \* . 202 \* "
+	dqb "find /etc -type f -name xorg \* -and -not -name \* . 202 \* "
 	csleep 5
 
 	for f in $(find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
@@ -498,7 +497,7 @@ function e22_elocal() {
 	
 	csleep 5
 	#130126:josko alkaisi vähitellen tulla wdm-jutut mukaan? ei vielä koska jokin juttu
-	dqb "find /etc -type f -name  ${5} \* -and -not -name  \*.202* "
+	dqb "find / etc -type f -name ${5} \* -and -not -name  \* .202 \* "
 	csleep 5
 
 	g=$(${odio} find /etc -type f -name '${5}*' -and -not -name '*.202*')
@@ -519,8 +518,9 @@ function e22_elocal() {
 
 [ -v BASEURL ] || exit 6 
 
-function e22_ext() { #160126:toiminee, jatkossa zxcv-juttuja tähän (VAIH)
-	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}" #160126:kuinka monta param nykyään tarvitsee tämä?
+function e22_ext() { #160126:toiminee, jatkossa zxcv-juttuja tähän (olisiko jo 1609126?)
+	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
+	#160126:kuinka monta param nykyään tarvitsee tämä?
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 2
@@ -611,13 +611,13 @@ function e22_ext() { #160126:toiminee, jatkossa zxcv-juttuja tähän (VAIH)
 	echo $?
 
 	local f
-	#160126:tuon yhden tdston kanssa jokin ongelma sha-tark kanssa, joten...
+	#160126:tuon yhden tdston kanssa jokin ongelma sha-tark kanssa, joten ksrdotssn
 
 	for f in $(find ./etc -type f -not -name interfaces.tmp) ; do
 		${sah6} ${f} >> ${4}
 	done
 
-	dqb "${sah6} ./sbin/* >> ${4} (maybe?)"
+	dqb "${sah6}  . / sbin / \* >> ${4} (maybe?)"
 	csleep 1
 
 	cd ${p}
@@ -626,15 +626,17 @@ function e22_ext() { #160126:toiminee, jatkossa zxcv-juttuja tähän (VAIH)
 	csleep 1
 }
 
-function e22_ts() { #130126:jos vaikka toimisi?
-	dqb "e22_ts () ${1} ${2}" #van1 param pitäisi olla tällä - Yoda
+function e22_ts() {
+	#130126:jos vaikka toimisi?
+	dqb "e22_ts () ${1} ${2}"
+	#van1 param pitäisi olla tällä fktoiplla - Yoda
 	csleep 2
 
 	[ -z "${1}" ] && exit 13
 	[ -d ${1} ] || exit 14 #hmistossa hyvä olla kirj.oik.
 	[ -w ${1} ] || exit 15 
 
-	dqb "NEXT:mv ${CONF_pkgdir}/*.deb ${1}"
+	dqb "NEXT:m v ${CONF_pkgdir} / \* . deb ${1}"
 	csleep 3
 	${svm} ${CONF_pkgdir}/*.deb ${1}
 	dqb $?
@@ -655,7 +657,7 @@ function e22_ts() { #130126:jos vaikka toimisi?
 #HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
 
 function e22_arch() { 
-	dqb "e22_arch ${1}, ${2} " 
+	dqb "e22_arch ${1} , ${2} " 
 	csleep 1
 
 	[ -z "${1}" ] && exit 1
@@ -741,7 +743,7 @@ function e22_arch() {
 }
 
 function e22_dblock() { #150126:lisää toivottavaa sisältöä kohde-pakettiin
-	dqb "e22_dblock( ${1}, ${2}, ${3})"
+	dqb "e22_dblock( ${1}, ${2}, ${3} )"
 
 	[ -z "${1}" ] && exit 14
 	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes
@@ -814,8 +816,8 @@ function aswasw() { #privaatti fktio
 }
 
 #function aval0n() { #prIvaattI, toimimaan+käyttöön?
-#	dqb "${sharpy} libavahi* #saattaa sotkea ?"
-#	dqb "${NKVD} ${CONF_pkgdir}/libavahi* ?"
+#	dqb " \${sharpy} libavahi \* #saattaa sotkea ?"
+#	dqb " \${NKVD} ${CONF_pkgdir} / libavahi \* ?"
 #}
 
 #130126:tehdyn paketin sisältö asentuu ainakin live-ymp, vissiin myös sqrootissa
@@ -824,7 +826,7 @@ function e22_tblz() {
 	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
 
 	csleep 1
-	dqb "\$shary= ${shary}"
+	dqb "\$shary = ${shary}"
 	csleep 2
 
 	[ -z "${1}" ] && exit 11
@@ -866,7 +868,8 @@ function e22_tblz() {
 #140126:joskohan paketin sisältö toimisi?
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 function e22_other_pkgs() { 
-	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF" #toista ei vissiin gtule?
+	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
+	#toista param? ei vissiin gtule?
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
@@ -1116,8 +1119,10 @@ function e22_profs() {
 #jokin juttu vielä on kun päivityspaketti rikkoo slimin muokkaamattoman .iso:n kanssa
 #... josko se rikkoUtuminen 140126 v aihtuisi libdbus-nalkutukseen
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
+
 function e22_upgp() {
-	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}" #ei pitäne tulla neljättä
+	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
+	#ei pitäne tulla neljättä
 
 	[ -z "${1}" ] && exit 1 
 	#[ -w ${1} ] || exit 44 #man bash taas?
