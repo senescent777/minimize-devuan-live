@@ -590,15 +590,15 @@ function check_binaries() {
 
 			#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
 			if [ -z "${gg}" ] ; then
-				#[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt.bak
-				#
-				#efk2 ${1}/g.tar ${1}
-				#common_pp3 ${1}
-				#[ -s ${1}/g.tar ] && ${spc} ${1}/g.tar ${1}/g.tar.bak
-				#[ $? -eq 0 ] && ${NKVD} ${1}/g.tar
-				#
-				#[ -s ${1}/g.tar.bak ] && ${svm} ${1}/g.tar.bak ${1}/g.tar
-				#common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisältö purun jälkeen
+				[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt.bak
+				
+				efk2 ${1}/g.tar ${1}
+				common_pp3 ${1}
+				[ -s ${1}/g.tar ] && ${spc} ${1}/g.tar ${1}/g.tar.bak
+				[ $? -eq 0 ] && ${NKVD} ${1}/g.tar
+				
+				[ -s ${1}/g.tar.bak ] && ${svm} ${1}/g.tar.bak ${1}/g.tar
+				common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisältö purun jälkeen
 
 				for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
 				csleep 1
@@ -607,7 +607,7 @@ function check_binaries() {
 				gv=$(${odio} which gpgv)
 				csleep 1
 
-				#[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt
+				[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt
 				common_pp3 ${1}
 			fi
 
