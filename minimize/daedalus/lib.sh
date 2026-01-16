@@ -3,9 +3,6 @@
 #https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
-#301125:common_lib.sh x-oikeudet lienevät nyt kunnossa?
-#161225:buygijahti koskemaan tätkin tdstoa?
-
 function udp6() { #on käytössä
 	dqb "daud.lib.UPDP-6 ${1}"
 	csleep 1
