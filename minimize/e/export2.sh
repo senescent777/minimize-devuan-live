@@ -275,7 +275,7 @@ case ${mode} in
 		exit 99
 	;;
 	3|4) 
-		#150126: 3 ja 4 toimi ainakin jnkn aikaa ( TAAS uusi testkierros tulossa 160126, TODO)
+		#150126: 3 ja 4 toimi ainakin jnkn aikaa ( TAAS uusi testkierros tulossa 160126, VAIH)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 	
@@ -313,7 +313,7 @@ case ${mode} in
 		dqb "B3F0R3 RP2	"
 		csleep 1
 
-		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
+		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm} /opt/bin/zxcv
 		reqwreqw  /opt/bin/zxcv
 		csleep 1
 

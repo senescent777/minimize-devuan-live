@@ -72,7 +72,7 @@ function e22_tyg() {
 	
 }
 
-function e22_ftr() { #TODO:testaa toiminta uusiksi
+function e22_ftr() { #VAIH:testaa toiminta uusiksi
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
