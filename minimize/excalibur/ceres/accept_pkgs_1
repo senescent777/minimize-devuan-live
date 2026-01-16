@@ -1,1 +1,18 @@
 isc-dhcp-*.deb
+#
+#160126:ao. rivejä joutunewe muuttramaan jatkossa
+#
+libgcc-s1*.deb
+#
+gcc-12-base*.deb
+libstdc++6*.deb
+#libreadline8?
+gcc-12-base*.deb
+libgomp*.deb
+libgdbm6t64*.deb
+libldap-2.5-0*.deb
+libcurl3-gnutls*.deb
+libc6*.deb
+libaudit1*.deb
+libbz2*.deb
+libassuan0*.deb
