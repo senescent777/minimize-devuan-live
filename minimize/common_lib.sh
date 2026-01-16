@@ -1351,7 +1351,7 @@ function part3() {
 
 	#HUOM.160126:pitäiasiköhän ajaa lftr ennen masenteluja? chimaera...
 
-	#TODO:libc6*.deb gcc-12*.deb cpp*.deb erikseen jotta common_lib_tool käyttöönotto
+	efk1 ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
 	clibpre ${1} accept_pkgs_1
 	clibpre ${1} accept_pkgs_2
 
