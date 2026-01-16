@@ -24,7 +24,9 @@ function usage() {
 #TODO:jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
 if [ $# -gt 1 ] ; then
 	mode=${1}
+
 	if [ -f ${1} ] ; then
+		#miksi tähän on joudututtu viimeaikoina?
 		echo "SAATANAN TUNARI"
 		exit 99
 	fi
@@ -324,7 +326,7 @@ case ${mode} in
 		fasdfasd /opt/bin/zxcv.sig	
 		e22_tyg /opt/bin/zxcv
 		reqwreqw /opt/bin/zxcv.sig			
-		${srat} -rvf ${1} /opt/bin/zxcv*
+		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 	;;
 	#140126 jälleenm uusi yritys, ainakin muutoksena aiempaan dbus-nalqtus
 	u|upgrade)

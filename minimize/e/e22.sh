@@ -331,14 +331,14 @@ function e22_home() { #15+0126:suattaapi vaikka toimia
 	csleep 1
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 
-	dqb "${srat} ${TARGET_TPX} --exclude='*.deb' -rvf ${1} /home/stubby ${t} "
+	dqb "${srat} ${TARGET_TPX} --exclude= \' \* .deb \' -rvf ${1}  / home / stubby ${t} "
 	csleep 1
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 	csleep 2
 
 	dqb "AUTOMAGICAL CONFIGURATION IS A DISEASE  x 199 - Bart S."
 	dqb "Xorg -config ~/xorg.conf ?"
-	dqb "find /' ,,, ?"
+	dqb "find / ,,, ?"
 	
 	for f in $(find ~  -type f -name 'xorg.conf*') ; do ${srat} -rvf ${1} ${f} ; done 	
 	csleep 5
