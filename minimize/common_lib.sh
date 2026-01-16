@@ -549,7 +549,9 @@ function cefgh() {
 	[ $? -eq 0 ] && ${NKVD} ${1}/e.tar
 	
 	efk2 ${1}/f.tar ${1}
-	[ $? -eq 0 ] && ${NKVD} ${1}/f.tar	
+	[ $? -eq 0 ] && ${NKVD} ${1}/f.tar
+
+	#TODO:ERIKSEEN G.TAR GPG-JUTTUI VARTEN	
 }
 
 function check_binaries() {
@@ -675,12 +677,10 @@ function check_binaries2() {
 	sifd="${odio} ${sifd} "
 
 	#lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 
-	
-	#VAIH:lftr asettaminen sqroot- tai distro- riippuvaiseksi? live-ymp ei tekisi mitään?
-	
+	#	
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing '/run/live/medium/live/initrd.img.new': No space left on device
-
+	#
 	#... chimaerassa esim pitäisi tuo lgftr asettaa jhnkin ei-huuhaa-sisältöön
 
 	srat="${odio} ${srat} "
