@@ -352,7 +352,7 @@ function efk1() {
 	csleep 1
 }
 
-function efk2() { #jotain kautta tätäkin kai kutsuttiin (cefgh nykyään)
+function efk2() {
 	dqb "efk2 ${1}"
 
 	if [ -s ${1} ] && [ -r ${1} ] ; then
@@ -449,7 +449,7 @@ function fromtend() {
 }
 
 #P.S. this function created to avoid a chicken-and-egg-situation, maybe
-#VAIH:chimaera/xcalibur-testi että selviää, voiko ao. fktion heittää roskikseen jo?
+#chimaera/xcalibur-testi että selviää, voiko ao. fktion heittää roskikseen jo?
 #160126 teStattu jo chimaeran kanssa, toisella tavalla asentuu tbls, muutama .deb tosin jää tähteeksi
 #
 #sudo /etc/init.d/netfilter-persistent restart
@@ -457,6 +457,7 @@ function fromtend() {
 #... tuokin olisi kiva kyllä saada yhteistyöhön
 #
 #...excalibur-testi-iso:n kanssa vaikuttaa olevan edelleen jnkinmoinen säätö saada tables-paketteja vedettyä testejä varten
+#(olisiko jo stable saatavilla 01/26 ?)
 #
 #function common_tbls() {
 #	dqb "COMMON TABLESD $1, $2"
@@ -551,7 +552,7 @@ function cefgh() {
 	efk2 ${1}/f.tar ${1}
 	[ $? -eq 0 ] && ${NKVD} ${1}/f.tar
 
-	#TODO:ERIKSEEN G.TAR GPG-JUTTUI VARTEN	
+	#mitäjos part3() kabssa tulee sitä gpg-nalkutusta? g.tar-jutut takaisin tähämn?	
 }
 
 function check_binaries() {
@@ -589,6 +590,16 @@ function check_binaries() {
 
 			#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
 			if [ -z "${gg}" ] ; then
+				#[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt.bak
+				#
+				#efk2 ${1}/g.tar ${1}
+				#common_pp3 ${1}
+				#[ -s ${1}/g.tar ] && ${spc} ${1}/g.tar ${1}/g.tar.bak
+				#[ $? -eq 0 ] && ${NKVD} ${1}/g.tar
+				#
+				#[ -s ${1}/g.tar.bak ] && ${svm} ${1}/g.tar.bak ${1}/g.tar
+				#common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisältö purun jälkeen
+
 				for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
 				csleep 1
 
@@ -596,14 +607,13 @@ function check_binaries() {
 				gv=$(${odio} which gpgv)
 				csleep 1
 
+				[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt
 				common_pp3 ${1}
 			fi
 
 			if [ -z "${ipt}" ] ; then
 				jules
-	
 				[ -f /.chroot ] && message
-
 				#common_tbls ${1} ${CONF_dnsm}
 				
 				for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
@@ -614,7 +624,6 @@ function check_binaries() {
 				done
 				
 				other_horrors
-
 				ipt=$(${odio} which iptables)
 				ip6t=$(${odio} which ip6tables)
 				iptr=$(${odio} which iptables-restore)
@@ -693,6 +702,7 @@ function check_binaries2() {
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
+
 #==================================================================
 function slaughter0() { #090126:mangle_s toiminee tämän kanssa
 	local fn2
@@ -774,7 +784,7 @@ function dinf() {
 #=================================================================
 function fasdfasd() {
 	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
-	[ -z ${1} ] && exit 99
+	[ -z "${1}" ] && exit 99
 
 	dqb "SUN LIIRUM SUN LAARUM ${1}"
 	dqb "sco= ${sco}"
@@ -1322,6 +1332,7 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	csleep 1
 }
 
+#160126:g.tar liittyvää kikkailua jatkossa? sittenkin checvk_bin() alta g-jutut -> cefgh()?
 function part3() {
 	dqb "part3 ${1} , ${2}"
 	csleep 1
