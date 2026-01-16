@@ -1,7 +1,7 @@
 #!/bin/bash
 #jotain oletuksia kunnes oikea konftdsto saatu lotottua
 debug=0 #1
-distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa?
+distro=$(cat /etc/devuan_version) # | cut -d '/' -f 1) #160126 cut-kikkailu pois sotkemasta, muualla kun menee toisin
 d0=$(pwd)
 mode=-2
 tgtfile=""
@@ -80,7 +80,7 @@ csleep 1
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else 
-	exit 57
+	exit 59
 fi
 
 dqb "tar = ${srat} "
@@ -100,13 +100,13 @@ csleep 1
 if [ -z "${tig}" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
 	echo "sudo apt-get update;sudo apt-get install git"
-	exit 7
+	#exit 7 #syystä excalibut-testit kommentteihin 16126
 fi
 
 if [ -z "${mkt}" ] ; then
 	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
 	echo "sudo apt-get update;sudo apt-get install coreutils"
-	exit 8
+	#exit 8 #syystä excalibut-testit kommentteihin 16126
 fi
 #####################
 
@@ -275,9 +275,13 @@ case ${mode} in
 		exit 99
 	;;
 	3|4) 
-		#150126: 3 ja 4 toimi ainakin jnkn aikaa (uusi testkierros tulossa)
+		#150126: 3 ja 4 toimi ainakin jnkn aikaa ( TAAS uusi testkierros tulossa 160126, TODO)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
+	
+		[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
+		csleep 1
+		fasdfasd /opt/bin/zxcv
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
 		dqb "e22_ext DON3, next:rm some rchives"
@@ -310,6 +314,16 @@ case ${mode} in
 		csleep 1
 
 		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
+		reqwreqw  /opt/bin/zxcv
+		csleep 1
+
+
+				fasdfasd /opt/bin/zxcv.sig	
+				e22_tyg /opt/bin/zxcv
+				reqwreqw /opt/bin/zxcv.sig			
+
+
+		${srat} -rvf ${1} /opt/bin/zxcv*
 	;;
 	#140126 jälleenm uusi yritys, ainakin muutoksena aiempaan dbus-nalqtus
 	u|upgrade)
@@ -335,7 +349,7 @@ case ${mode} in
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;
 	l)
-		#... onko se nyt seatd mikä paskoo juttuja vai mitvit? vissiin
+		#... onko se nyt seatd mikä paskoo juttuja vai mitvit? 
 
 		dqb "#ensin wdm-pak as, sitten avsta slim pois?"
 		csleep 1

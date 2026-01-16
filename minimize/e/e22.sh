@@ -52,7 +52,27 @@ function e22_hdr() {
 	csleep 1
 }
 
-function e22_ftr() { #130126:hdr() ja ftr() toimivat koska kaikenlaisia paketteja saatu tehtyä tähän pvmäärään asti
+#tark-. olla priv fktio
+function e22_tyg() {
+		#VAIH:allekirjoittelu-psuus erilliseksi fktioksi?
+	if [ -x ${gg} ] ; then
+		if [ -v CONF_pubk ] ; then
+			${gg} -u ${CONF_pubk} -sb ${1}
+			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
+			csleep 1
+
+			${gg} --verify ${1}.sig
+			csleep 1
+		else
+			dqb "NO KEYS?"
+		fi
+	else
+		dqb "SHOULD INSTALL GPG"
+	fi
+	
+}
+
+function e22_ftr() { #TODO:testaa toiminta uusiksi
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -73,21 +93,7 @@ function e22_ftr() { #130126:hdr() ja ftr() toimivat koska kaikenlaisia pakettej
 	${sah6} -c ${q}.sha
 	csleep 1
 	
-	#riittävät tarkistukset?
-	if [ -x ${gg} ] ; then
-		if [ -v CONF_pubk ] ; then
-			${gg} -u ${CONF_pubk} -sb ${q}.sha
-			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
-			csleep 1
-
-			${gg} --verify ${q}.sha.sig
-			csleep 1
-		else
-			dqb "NO KEYS?"
-		fi
-	else
-		dqb "SHOULD INSTALL GPG"
-	fi
+	e22_tyg ${q}.sha
 
 	cd ${p}
 	echo "cp ${1} \${tgt}; cp ${1}.* \${tgt}" 
@@ -214,6 +220,7 @@ function e22_cleanpkgs() { #130126:edelleen toimii?
 
 #120126:taisi toimia taas
 #HUOM.1§50126:e22_elocal() yrittää vetää /e alta xorg konftdston mukaan pakettiin
+#... ei ole ihan pakko config1:sessä siis
 
 function e22_config1() {
 	[ -z "${1}" ] && exit 11
@@ -372,13 +379,13 @@ function luca() {
 	dqb "loca done"
 }
 
-#pitäisiköhäbn myös paremtrein määrälle tehdä jotain?
+#pitäisiköhäbn myös paremtrein määrälle tehdä jotain? fcktion pilkkominen esim?
 #
 #130126 pienimuotoista testausta menossa, miten nykyään toimaa
 #... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan
 
 function e22_elocal() { 
-	dqb "e22_elocal ${1} , ${2} , ${3} , ${4} , ${5}"
+	dqb "e22_elocal ${1} , ${2} , ${3} , ${4} , ${5} , ${6}"
 	csleep 1
 
 	[ -z "${1}" ] && exit 1
@@ -389,8 +396,11 @@ function e22_elocal() {
 	[ -z "${3}" ] && exit 3	
 	[ -z "${4}" ] && exit 5
 	[ -z "${5}" ] && exit 11
-	csleep 1
+	
+	[ -z "${6}" ] && exit 13
+	[ -s ${6} ] || exit 17
 
+	csleep 1
 	dqb "params_ok"
 	csleep 1
 
@@ -402,14 +412,10 @@ function e22_elocal() {
 	dqb "JUST BEFORE URLE	S"
 	csleep 1
 
-	[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
-	csleep 1
-	fasdfasd /opt/bin/zxcv
-
 	for f in $(find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
-			${sah6} ${f} >> /opt/bin/zxcv
+			${sah6} ${f} >> ${6}
 		else
 			echo "SUURI HIRVIKYRPÄ ${f} "
 			echo "5H0ULD exit 666"
@@ -421,20 +427,7 @@ function e22_elocal() {
 
 	echo $?
 	csleep 1
-	reqwreqw  /opt/bin/zxcv
-	csleep 1
 
-	if [ -x ${gg} ] ; then
-		if [ -v CONF_pubk ] ; then
-			fasdfasd /opt/bin/zxcv	
-			csleep 1
-			${gg} -u ${CONF_pubk} -sb /opt/bin/zxcv.sig
-			csleep 1
-			reqwreqw  /opt/bin/zxcv.sig			
-		fi
-	fi
-
-	${srat} -rvf ${1} /opt/bin/zxcv*
 	luca ${1}
 	csleep 1
 	other_horrors
@@ -525,7 +518,7 @@ function e22_elocal() {
 
 [ -v BASEURL ] || exit 6 
 
-function e22_ext() { #160126:toiminee, jatkossa zxcv-juttuja tähän (TODO)
+function e22_ext() { #160126:toiminee, jatkossa zxcv-juttuja tähän (VAIH)
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}" #160126:kuinka monta param nykyään tarvitsee tämä?
 
 	[ -z "${1}" ] && exit 1
@@ -534,6 +527,7 @@ function e22_ext() { #160126:toiminee, jatkossa zxcv-juttuja tähän (TODO)
 	[ -z "${2}" ] && exit 3
 	[ -z "${3}" ] && exit 4
 	[ -z "${4}" ] && exit 47
+	[ -f ${4} ] || exit 48
 
 	dqb "paramz_0k"
 	csleep 1
@@ -614,6 +608,14 @@ function e22_ext() { #160126:toiminee, jatkossa zxcv-juttuja tähän (TODO)
 	${srat} -rvf ${1} ./etc  #./sbin jälkimmäinen hmisto josqs takaisin vai ei?
 
 	echo $?
+
+	local f
+	for f in $(find ./etc -type f ) ; do
+		${sah6} ${f} >> ${4}
+	done
+
+	dqb "${sah6} ./sbin/* >> ${4} (maybe?)"
+	csleep 1
 
 	cd ${p}
 	[ ${debug} -eq 1 ] && pwd
