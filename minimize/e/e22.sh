@@ -71,10 +71,9 @@ function e22_tyg() {
 	else
 		dqb "SHOULD INSTALL GPG"
 	fi
-	
 }
 
-function e22_ftr() { #VAIH:testaa toiminta uusiksi (olisko vähitellen?)
+function e22_ftr() { #160126:taitaa toimia
 	dqb "ess_ftr( ${1} )"
 	csleep 1
 
@@ -194,7 +193,7 @@ function e22_pre2() { #120126:toiminee edelleen
 	csleep 1
 }
 
-function e22_cleanpkgs() { #130126:edelleen toimii?
+function e22_cleanpkgs() { #130126:edelleen toimii
 	dqb "e22_cleanpkgs ${1} , ${2} , ${3}  " 
 	#(tulisi olla vain 1 param)
 	[ -z "${1}" ] && exit 56
@@ -290,7 +289,7 @@ function e22_settings() {
 	csleep 1
 }
 
-function e22_home() { #150126:suattaapi vaikka toimia
+function e22_home() { #160126:suattaapi vaikka toimia
 	dqb "  e22_home() ${1} , ${2} , ${3}  "
 
 	[ -z "${1}" ] && exit 67
@@ -342,7 +341,7 @@ function e22_home() { #150126:suattaapi vaikka toimia
 
 	dqb "AUTOMAGICAL CONFIGURATION IS A DISEASE  x 199 - Bart S."
 	
-	for f in $(find ~  -type f -name 'xorg.conf*') ; do ${srat} -rvf ${1} ${f} ; done 	
+	for f in $(find ~ -type f -name 'xorg.conf*') ; do ${srat} -rvf ${1} ${f} ; done 	
 	csleep 5
 
 	dqb "e22_home d0n3"
@@ -383,7 +382,6 @@ function luca() {
 
 #pitäisiköhäbn myös paremtrein määrälle tehdä jotain? fcktion pilkkominen esim?
 #
-#130126 pienimuotoista testausta menossa, miten nykyään toimaa
 #... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan
 
 function e22_elocal() { 
@@ -433,7 +431,7 @@ function e22_elocal() {
 	other_horrors
 
 	dqb "B3F0R3 TÖBX"
-	csleep 2
+	csleep 1
 
 	#mikä järki juuri tässä keskeyttää suoritus?
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
@@ -442,7 +440,7 @@ function e22_elocal() {
 	fi
 
 	dqb "WLAN-RELAT3D"
-	csleep 2
+	csleep 1
 
 	case ${2} in
 		wlan0)
@@ -451,7 +449,7 @@ function e22_elocal() {
 			${srat} -rvf ${1} /etc/wpa_supplicant #parempi vetää koko hmisto
 			csleep 2
 			${srat} -tf ${1} | grep wpa
-			csleep 3
+			csleep 2
 		;;
 		*)
 			dqb "non-wlan"
@@ -464,9 +462,8 @@ function e22_elocal() {
 	if  [ ${ef} -eq 1 ] ; then
 		dqb "Das Asdd"
 	else
-		#1.else-haara tulisi testata josqs (TODO)
+		#1.else-haara tulisi testata josqs (vaih)
 		#2.fstab lisäksi muutakin mukaan vai ei?
-
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
 
@@ -484,10 +481,10 @@ function e22_elocal() {
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
-	csleep 5
+	csleep 3
 	
 	dqb "find /etc -type f -name xorg \* -and -not -name \* . 202 \* "
-	csleep 5
+	csleep 3
 
 	for f in $(find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
 		dqb "${srat} -rvf ${1} ${f}"
@@ -495,10 +492,10 @@ function e22_elocal() {
 		csleep 1
 	done
 	
-	csleep 5
+	csleep 3
 	#130126:josko alkaisi vähitellen tulla wdm-jutut mukaan? ei vielä koska jokin juttu
 	dqb "find / etc -type f -name ${5} \* -and -not -name  \* .202 \* "
-	csleep 5
+	csleep 3
 
 	g=$(${odio} find /etc -type f -name '${5}*' -and -not -name '*.202*')
 
@@ -508,17 +505,16 @@ function e22_elocal() {
 		csleep 1	
 	done
 
-	csleep 5
+	csleep 3
 	${srat} -rvf ${1} /etc/X11/default-display-manager
-
-	csleep 5
+	csleep 3
 	dqb "e22_elocal done"
 	csleep 1
 }
 
 [ -v BASEURL ] || exit 6 
 
-function e22_ext() { #160126:toiminee, jatkossa zxcv-juttuja tähän (olisiko jo 1609126?)
+function e22_ext() { #160126:toiminee
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
 	#160126:kuinka monta param nykyään tarvitsee tämä?
 
@@ -888,8 +884,7 @@ function e22_other_pkgs() {
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
 	${shary} ${E22_GG}
 
-	#jospa sudo-asia olisi jo kunnossa 120126?	
-
+	#sudo-asia olisi jo kunnossa 120126?	ehkä
 	E22_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 	
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
@@ -897,8 +892,6 @@ function e22_other_pkgs() {
 	#${shary} #bsd debconf
 
 	#${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei? ehkä
-
-
 	message
 	jules
 

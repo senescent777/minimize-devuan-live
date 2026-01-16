@@ -106,13 +106,13 @@ csleep 1
 if [ -z "${tig}" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
 	echo "sudo apt-get update;sudo apt-get install git"
-	#exit 7 #syystä excalibut-testit kommentteihin 16126
+	exit 7 #syystä excalibut-testit tilap kommentteihin 16126
 fi
 
 if [ -z "${mkt}" ] ; then
 	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
 	echo "sudo apt-get update;sudo apt-get install coreutils"
-	#exit 8 #syystä excalibut-testit kommentteihin 16126
+	exit 8 #syystä excalibut-testit tolap kommentteihin 16126
 fi
 #####################
 
@@ -215,7 +215,7 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#1e30126:laati paketin, sisältö:lienee ok
+		#130126:laati paketin, sisältö:lienee ok
 		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
 		#-T - vipu tar:in kanssa käyttöön vai ei? pärjännee ilmankin
 
@@ -281,7 +281,7 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#150126: 3 ja 4 toimi ainakin jnkn aikaa ( TAAS uusi testkierros tulossa 160126, VAIH)
+		#160126:josa edelleen toimisi tämä case
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 	
@@ -290,7 +290,7 @@ case ${mode} in
 		fasdfasd /opt/bin/zxcv
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
-		dqb "e22_ext DON3, next:rm some rchives"
+		dqb "e22_ext DON3, next:rm some rchives ?"
 		csleep 1
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
@@ -353,7 +353,6 @@ case ${mode} in
 	;;
 	l)
 		#... onko se nyt seatd mikä paskoo juttuja vai mitvit? 
-
 		dqb "#ensin wdm-pak as, sitten avsta slim pois?"
 		csleep 1
 		[ -v CONF_dm ] || exit 77
@@ -372,7 +371,6 @@ if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 	#accept/reject/drop - jutut mukaan sqroot varten? vai jtnkn muuten?
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} 
 
-	#.sha mennee mukaan kohteeseen
 	e22_ftr ${d}/f.tar 
 
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
