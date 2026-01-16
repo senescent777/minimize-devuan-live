@@ -449,7 +449,15 @@ function fromtend() {
 }
 
 #P.S. this function created to avoid a chicken-and-egg-situation, maybe
-#TODO:chimaera/xcalibur-testi että selviää, voiko ao. fktion heittää roskikseen jo?
+#VAIH:chimaera/xcalibur-testi että selviää, voiko ao. fktion heittää roskikseen jo?
+#160126 teStattu jo chimaeran kanssa, toisella tavalla asentuu tbls, muutama .deb tosin jää tähteeksi
+#
+#sudo /etc/init.d/netfilter-persistent restart
+#Warning: skipping IPv4 (no rules to load)
+#... tuokin olisi kiva kyllä saada yhteistyöhön
+#
+#...excalibur-testi-iso:n kanssa vaikuttaa olevan edelleen jnkinmoinen säätö saada tables-paketteja vedettyä testejä varten
+#
 #function common_tbls() {
 #	dqb "COMMON TABLESD $1, $2"
 #	csleep 1
@@ -1340,6 +1348,8 @@ function part3() {
 	#poisteluun jotain muutoksia jatkossa?
 		common_lib_tool ${1} reject_pkgs
 	#fi
+
+	#HUOM.160126:pitäiasiköhän ajaa lftr ennen masenteluja? chimaera...
 
 	#TODO:libc6*.deb gcc-12*.deb cpp*.deb erikseen jotta common_lib_tool käyttöönotto
 	clibpre ${1} accept_pkgs_1
