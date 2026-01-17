@@ -462,7 +462,7 @@ function e22_elocal() {
 	if  [ ${ef} -eq 1 ] ; then
 		dqb "Das Asdd"
 	else
-		#1.else-haara tulisi testata josqs (vaih)
+		#1.else-haara tOIMII , 1707126
 		#2.fstab lisäksi muutakin mukaan vai ei?
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
