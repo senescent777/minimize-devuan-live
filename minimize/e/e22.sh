@@ -859,13 +859,13 @@ function e22_tblz() {
 	dqb "x2.e22_tblz.done"
 }
 
-#TODO:ntp-jutut takaisin josqs?
+#VAIH:ntp-jutut takaisin josqs? tables-säännt ja mahd konffayus varmaan seuraavaksi
 
-#140126:joskohan paketin sisältö toimisi?
+#140126:joskohan paketin sisältö toimisi? ehkä just ennen ntpsec
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
-	#toista param? ei vissiin gtule?
+	#toista param? eiole
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
@@ -919,6 +919,12 @@ function e22_other_pkgs() {
 #	${lftr}
 #	csleep 2
 
+	#uutena 170126, pois jos qsee
+	# Depends:
+	#adduser, ,,, (= 1.2.2+dfsg1-1+deb12u1),, (>= 0.0), libc6 (>= 2.34), (>= 1:2.10), (>= 3.0.0)
+	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
+	${shary} ntpsec
+		
 	csleep 2
 	dqb "e22_other_pkgs donew"
 	csleep 1
