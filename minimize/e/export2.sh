@@ -179,7 +179,7 @@ case ${mode} in
 #		#	${srat} -uvf  ${tgtfile} ${t}
 #		#done
 #		
-#		exit #TODO:j.ollain jekulla voisi hukata exitit näistä case:ista ekasssa switchissa
+#		exit
 	;;
 	f) 	#140126:jospa ao. blokki toimisi edelleen
 
@@ -219,7 +219,7 @@ case ${mode} in
 		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
 		#-T - vipu tar:in kanssa käyttöön vai ei? pärjännee ilmankin
 
-		#TODO:icons-hmisto mukaan jtnkin? tai siis mieluummin jhnknin toiseen pakettiin
+		#huom.icons-hmisto mukaan jtnkin? tai siis mieluummin jhnknin toiseen pakettiin
 		#liittyy: sqroot
 		
 		cd ${d0}
