@@ -174,6 +174,9 @@ if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
 	#VAIH:tämän haaran testaus (vielä ainakin kehitysymnp ja sqroot- ymp reaktio c_bin parametriin)
+	#210126 ei kai mitään erityistä härdelliä ollut sqroot-testissä mutta jos vielä kerran kokeilisi siellä
+	#... vieläpä niin että lib.sh pois pelistä (TODO)
+	
 	echo $?
 	dqb "NO LIB"
 	csleep 1
@@ -445,7 +448,13 @@ case "${mode}" in
 			
 			common_part ${srcfile} ${d} /
 		else
-			 [ -f /.chroot ] && echo "DSHOULD cp accept/reject/dtop TO /h/d/d/m/distro"
+			if [ -f /.chroot ] ; then
+				#"DSHOULD cp accept/reject/dtop TO /h/d/d/m/distro"
+				cp ${d}/*pkgs* /home/devuan/Desktop/minimize/$(distro)
+				ls -las /home/devuan/Desktop/minimize/$(distro)
+				csleep 4
+			fi
+			
 			csleep 1
 			common_part ${srcfile} ${d} ${d}
 		fi
@@ -460,7 +469,7 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
-	r) #141225:muuten ok mutta x?
+	r) #141225:muuten ok mutta ...?
 		[ -d ${srcfile} ] || exit 22
 		${srat} -C ~ -jxf ~/config.tar.bz2
 		tpr ${srcfile}
