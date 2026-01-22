@@ -11,23 +11,28 @@ csleep 1
 if [ -v CONF_pubk ] ; then #&& ( -v CONF_ksk ) #pubk vai kpub?
 	dqb "no keys.conf needed"
 else
-	if [ -v CONF_testgris ] ; then
-		dqb "trying 2 f1nd k3ys.c0nf"
-		arsch=$(find ${CONF_testgris} -type f -name keys.conf | head -n 1)
+	#if [ -v CONF_testgris ] ; then #ei sittenkään näin?
+	#	dqb "${odio} find ${CONF_testgris} -type f -name keys.conf | head -n 1"
+	#	csleep 5
+		arsch=$(${odio} find / -type f -name keys.conf | head -n 1)
 
-		if [ ! -z "${arsch}" ] ; then
+		if [ -z "${arsch}" ] ; then
+			dqb "P1SS3 UND SCH31553"
+		else
 			if [ -s ${arsch} ] ; then
 				dqb "f0 und schweinhund"
 				. ${arsch}
+			else
+				dqb "666"
 			fi	
 		fi
 
 		csleep 1
 		unset arsch
-	fi
+	#fi
 fi
 
-csleep 1
+csleep 5
 
 function e22_hdr() {
 	#140126:lienee toimiva fktio koska x
