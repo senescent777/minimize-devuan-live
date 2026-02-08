@@ -8,6 +8,7 @@ function csleep() {
 
 #tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn? koska syyt? (siis siihen samaan missä profs.sh?)
 
+#ei tarvinne conf_alt_root ainakaan vielä
 if [ -f /.chroot ] ; then
 	odio=""
 	#debug=1
@@ -337,7 +338,11 @@ function common_pp3() {
 	fi
 }
 
-#TODO:"man 5 sources.list", josko pääsisi dpkg-kikkailuista
+#VAIH:"man 5 sources.list", josko pääsisi dpkg-kikkailuista
+#TODO?:liittyen, fktion sisältö kommentteihin (tai siis) ?
+#...jospa find $1*.deb tähän kutsuvasta koodista näin aluksi
+#... tai siis vaatinee jnkn verran selvittelyä dpkg korvaaminen aptilla niin että
+
 function efk1() {
 	dqb "efk1 $@"
 	${sdi} $@
@@ -350,6 +355,7 @@ function efk1() {
 	fi
 
 	csleep 1
+#exit 666
 }
 
 function efk2() {
@@ -437,7 +443,7 @@ function fromtend() {
 	[ -z ${sd0} ] && exit 98
 	[ -x ${sd0} ] || exit 97
 
-	if [ ! -f /.chroot ] ; then
+	if [ ! -f /.chroot ] ; then #ei conf_alt_root ainakaan vielä
 		dqb "${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@"
 		${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
 	else
@@ -613,6 +619,8 @@ function check_binaries() {
 
 			if [ -z "${ipt}" ] ; then
 				jules
+				
+				#ei vielä conf_alt_toor
 				[ -f /.chroot ] && message
 				#common_tbls ${1} ${CONF_dnsm}
 				
@@ -649,6 +657,7 @@ function check_binaries() {
 	csleep 1
 
 	#kts g_pt2 liittyen
+	#ei vielä conf_lt_root
 	[ -f /.chroot ] || ocs dhclient
 	csleep 1
 	
@@ -1044,7 +1053,11 @@ function enforce_access() {
 #myös https://github.com/topics/sources-list
 
 function part1_5() {
-	dqb "part1_5 ${1} "
+	dqb "part1_5 ${1} , ${2} "
+	[ -z "${1}" ] && exit 66
+	[ -z "${2}" ] && exit 67
+	[ -d ${2} ] || exit 68
+	
 	csleep 1
 	local t
 	t=$(echo ${1} | cut -d '/' -f 1) #nose tr?
@@ -1065,9 +1078,17 @@ function part1_5() {
 			dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
 			csleep 1
 			touch ${h}/sources.list.tmp
+			local b
+			
+			if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
+				#meneeköhän sybtakjsui oiukein? ie tllä tpyotuskella
+				b="deb file://${2}"
+			else
+				b="deb https://REPOSITORY/merged"
+			fi
 
 			for x in DISTRO DISTRO-updates DISTRO-security ; do
-				echo "deb https://REPOSITORY/merged ${x} main" >> ${h}/sources.list.tmp
+				echo "${b} ${x} main" >> ${h}/sources.list.tmp
 			done
 		else
 			${svm} /etc/apt/sources.list.tmp ${h}			
@@ -1193,11 +1214,15 @@ function part076() {
 }
 
 function part1() {
-	dqb "PART1 ${1} "
+	dqb "PART1 ${1} ${2} "
+	[ -z "${1}" ] && exit 66
+	[ -z "${2}" ] && exit 67
+	[ -d ${2} ] || exit 68
+	
 	csleep 1
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
 	csleep 1
-	[ -v ipt ] || exit 666
+	[ -v ipt ] || exit 69
 
 	if [ -z "${ipt}" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
@@ -1238,7 +1263,11 @@ function part1() {
 		fi
 	fi
 
-	part1_5 ${t}
+	if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
+		part1_5 ${t} ${CONF_alt_root}/${t}
+	else
+		part1_5 ${t} ${2}
+	fi
 
 	if [ ! -f /etc/apt/sources.list ] ; then
 		if [ -s /etc/apt/sources.list.${t} ] && [ -r /etc/apt/sources.list.${t} ] ; then
@@ -1332,7 +1361,8 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	csleep 1
 }
 
-#160126:g.tar liittyvää kikkailua jatkossa? sittenkin checvk_bin() alta g-jutut -> cefgh()?
+#160126:g.tar liittyvää kikkailua jatkossa? sittenkin check_bin() alta g-jutut -> cefgh()?
+#TODO:sources.list-juttuuyih liittyviä muutoksia vielä josqs (aluksi sqroot)
 function part3() {
 	dqb "part3 ${1} , ${2}"
 	csleep 1
@@ -1355,7 +1385,7 @@ function part3() {
 	csleep 1
 
 	#HUOM.071225 ehto kommentteihin koska y
-	#if [ ! -f /.chroot ] ; then
+	#if [ ! -f /.chroot ] && [ -v CONF_alt_root ]  ; then
 	#poisteluun jotain muutoksia jatkossa?
 		common_lib_tool ${1} reject_pkgs
 	#fi

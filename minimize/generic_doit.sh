@@ -92,7 +92,7 @@ else
 fi
 
 csleep 2
-part1 ${distro} 
+part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
 
 ${snt}

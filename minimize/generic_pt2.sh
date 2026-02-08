@@ -247,13 +247,14 @@ function t2pc() {
 	t2p_filler
 
 	#071225:pitäisikö ao. ehdolle tehdä jotain?  uuden .iso:n kanssa kun sitä temppuilua (vielä ajank 01/26?)
+	dqb "#TODO: ne python-lib-nalkutukset, dpkg"
 
 	if [ -f /.chroot ] ; then
 		dqb "SHOULD ${sharpy} slim*"
 		csleep 2
 
 		#nopeampi boottaus niinqu
-		dqb "KVG \"devuan how to skip dhcp on boot\""
+		dqb "TODO:KVG \"devuan how to skip dhcp on boot\""
 		csleep 2
 
 		dqb "t2p_filler()"
@@ -263,8 +264,9 @@ function t2pc() {
 		dqb "Xorg -config ? "
 		csleep 2
 	else
-		dqb "COULD ${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
+		dqb "COULD? ${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
 		csleep 10
+		dqb "WOULD: A.I.C"
 	fi
 
 	spd="${sd0} -l "

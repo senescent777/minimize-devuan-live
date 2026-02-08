@@ -205,6 +205,7 @@ dqb "srat= ${srat}"
 csleep 3
 dqb "LHP"
 
+#TODO:josko tilansäästön nimissä kolmaskin ehto?
 if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
 	dqb "OLD.tar OK"
 else
