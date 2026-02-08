@@ -6,7 +6,8 @@ bind9-dns*.deb
 dnsutils*.deb
 perl*.deb
 #
-#mime-support*.deb josko toimisi tässä?
+# josko toimisi tässä?
+mime-support*.deb
 python3-pil.imagetk*.deb
 python3-pil*.deb
 #
@@ -15,6 +16,9 @@ xserver-common*.deb
 xserver-xorg-legacy*.deb
 xserver-common*.deb
 xserver-xorg-core*.deb
+#
+#josko nyt iukea järj?
+dbus-system-bus-common*.deb
 dbus-bin*.deb
 dbus-session-bus-common*.deb
 dbus-daemon*.deb
@@ -26,7 +30,7 @@ gpgconf*.deb
 #nyt jos typot ho
 gtk2-engines-pixbuf*.deb
 #
-x11-utils
+x11-utils*.deb
 #
 python3.11-minimal*.deb
 python3.11*.deb
