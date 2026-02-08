@@ -220,6 +220,7 @@ case ${mode} in
 		#-T - vipu tar:in kanssa käyttöön vai ei? pärjännee ilmankin
 
 		#huom.icons-hmisto mukaan jtnkin? tai siis mieluummin jhnknin toiseen pakettiin
+		#... jos ei muuhun keksi niin tähän sitten (VAIH)
 		#liittyy: sqroot
 		
 		cd ${d0}
@@ -227,7 +228,7 @@ case ${mode} in
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}*
 		csleep 2
 		
-		${srat} --exclude '*merd*' -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
+		${srat} --exclude '*merd*' -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop ./1cons/*.desktop
 		e22_ftr ${tgtfile}
 		exit
 	;;
