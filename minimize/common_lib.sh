@@ -239,7 +239,7 @@ function psqa() {
 	dqb "Q ${1}"
 	csleep 1
 
-	[ -z ${1} ] && exit 97
+	[ -z "${1}" ] && exit 97
 	[ -d ${1} ] || exit 96
 	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
 	csleep 1
@@ -338,9 +338,6 @@ function common_pp3() {
 	fi
 }
 
-#VAIH:"man 5 sources.list", josko pääsisi dpkg-kikkailuista
-#TODO?:liittyen, fktion sisältö kommentteihin (tai siis) ?
-#...jospa find $1*.deb tähän kutsuvasta koodista näin aluksi
 #... tai siis vaatinee jnkn verran selvittelyä dpkg korvaaminen aptilla niin että
 
 function efk1() {
@@ -370,7 +367,7 @@ function efk2() {
 	csleep 1
 }
 
-#VAIH:lisäksi clibpre():n toiminnallisuuden ymppääminen
+#VAIH:lisäksi clibpre():n toiminnallisuuden ymppääminen (joko jo?)
 function common_lib_tool() {
 	dqb "common_lib_tool( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
@@ -403,34 +400,34 @@ function common_lib_tool() {
 
 	dqb "REJECTNG DONE"
 }
-
-function clibpre() {
-	dqb "common_lib_tool.re( ${1}  , ${2}) "
-	[ -d ${1} ] || exit 96
-	[ -z "${2}" ] && exit 67
-	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE" 
-
-	dqb "PARANMS OK"
-	csleep 1
-
-	dqb "LOREMIPSUM-.LOREM1PSUM.LOREMIPSUM.LIPSUU"
-	csleep 3
-
-	local p
-	local q
-
-	p=$(pwd)
-	cd ${1}
-
-	dqb "4 REALZ"
-	csleep 1
-
-	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
-	
-	csleep 3
-	cd ${p}
-	dqb "BlAnR3eY C0kCCC!!!"
-}
+#
+#function clibpre() {
+#	dqb "common_lib_tool.re( ${1}  , ${2}) "
+#	[ -d ${1} ] || exit 96
+#	[ -z "${2}" ] && exit 67
+#	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE" 
+#
+#	dqb "PARANMS OK"
+#	csleep 1
+#
+#	dqb "LOREMIPSUM-.LOREM1PSUM.LOREMIPSUM.LIPSUU"
+#	csleep 3
+#
+#	local p
+#	local q
+#
+#	p=$(pwd)
+#	cd ${1}
+#
+#	dqb "4 REALZ"
+#	csleep 1
+#
+#	for q in $(grep -v '#' ${2}) ; do efk1 ${q} ; done
+#	
+#	csleep 3
+#	cd ${p}
+#	dqb "BlAnR3eY C0kCCC!!!"
+#}
 
 #HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (VAIH)
 #... export xxx tai sitten man sudo taas
@@ -756,7 +753,7 @@ function mangle_s() {
 
 	#100126:ALL vai localhost? rahat vs kolmipyörä?
 	#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
-	#KVG <sudo-juttuja>	? (kts omega)
+	#(kts omega)
 
 	echo -n " ALL=NOPASSWD:sha512:" >> ${2}
 	slaughter0 ${r} ${2}
@@ -777,15 +774,15 @@ function dinf() {
 
 		if [ ${frist} -eq 1 ] ; then 
 			frist=0
-#		else
-#			echo -n "," >> ${1}
+		else
+			echo -n "," #>> ${1}
 		fi
 		
-#		echo -n " sha256:${f}" >> ${1}
+		echo -n " sha256:${f}" #>> ${1}
 	done
 
-#	echo -n " $(whoami) localhost=NOPASSWD: " >> ${1}
-#	echo " /sbin/dhclient-script " >> ${1}
+	echo -n " $(whoami) localhost=NOPASSWD: " #>> ${1}
+	echo " /sbin/dhclient-script " #>> ${1}
 
 	#cat ${1}
 	#exit

@@ -169,13 +169,21 @@ else
 fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
+csleep 1
+dqb "TODO:1cons ja epx2"
+dqb "TODO:accept-jutut"
+csleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	#VAIH:tämän haaran testaus (vielä ainakin kehitysymnp ja sqroot- ymp reaktio c_bin parametriin)
+	#VAIH:tämän haaran testaus (vielä ainakin kehitysymnp? ja sqroot- ymp reaktio c_bin parametriin)
 	#210126 ei kai mitään erityistä härdelliä ollut sqroot-testissä mutta jos vielä kerran kokeilisi siellä
-	#... vieläpä niin että lib.sh pois pelistä (TODO)
+	#... vieläpä niin että lib.sh pois pelistä
+	
+	#100226: "$0 3 " yritteli kyllä asentaa juttuja
+	#, tuli urputusta aiheista libwraster6, libgif7, libmagickwand-6, libpam-modules, libpam-modules-bin ...
+	#eli "accept-jutut" piyäisi saada kuntoon sqrootissa?
 	
 	echo $?
 	dqb "NO LIB"
@@ -205,7 +213,7 @@ dqb "srat= ${srat}"
 csleep 3
 dqb "LHP"
 
-#TODO:josko tilansäästön nimissä kolmaskin ehto?
+#josko tilansäästön nimissä kolmaskin ehto? tai ehkä ei pakko
 if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
 	dqb "OLD.tar OK"
 else
@@ -428,7 +436,7 @@ dqb "srcfile=${srcfile}"
 csleep 1
 
 case "${mode}" in
-	1) #151225:toimii
+	1) #151225:toimii (lienee testattu senkin jälkeen)
 		common_part ${srcfile} ${d} /
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
@@ -450,9 +458,12 @@ case "${mode}" in
 			common_part ${srcfile} ${d} /
 		else
 			if [ -f /.chroot ] ; then
-				#"DSHOULD cp accept/reject/dtop TO /h/d/d/m/distro"
-				cp ${d}/*pkgs* /home/devuan/Desktop/minimize/$(distro)
-				ls -las /home/devuan/Desktop/minimize/$(distro)
+				#100226:vihdoinkin tämäkin korjattu?
+				#"SHOULD cp accept/reject/dtop TO /h/d/d/m/distro ?"
+				#TODO:testaa uusicksi lähjiaikoina
+				
+				cp ${d}/*pkgs* /home/devuan/Desktop/minimize/${distro}
+				ls -las /home/devuan/Desktop/minimize/${distro}
 				csleep 4
 			fi
 			
