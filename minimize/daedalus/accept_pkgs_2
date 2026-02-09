@@ -6,10 +6,10 @@ bind9-dns*.deb
 dnsutils*.deb
 perl*.deb
 #
-# josko toimisi tässä?
+#python3-pil-jutut jemmaan 090226, loppuu purpatus prkl
 mime-support*.deb
-python3-pil.imagetk*.deb
-python3-pil*.deb
+#python3-pil.imagetk*.deb
+#python3-pil*.deb
 #
 #eudev-dbus-e2fsprogs oli siinä rejectissä, miten x-juttuja myös?
 xserver-common*.deb
