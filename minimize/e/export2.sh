@@ -371,7 +371,6 @@ if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 	e22_hdr ${d}/f.tar 
 	#accept/reject/drop - jutut mukaan sqroot varten? vai jtnkn muuten?
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} 
-
 	e22_ftr ${d}/f.tar 
 
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
