@@ -977,7 +977,7 @@ function e22_dm() {
 			${shary} xdm
 		;;
 		wdm)
-
+			#TODO:PAKETIN wdm RIIPPUVUUKSIEN METSÄSTYS UUSIKSI RASKAALLA KÄDELLÄ 666!!!
 			# zlib1g perl:any xserver-xorg | xserver:tarteeko juuri tässä vetää?
 
 			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
