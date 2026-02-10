@@ -170,8 +170,8 @@ fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 csleep 1
-dqb "TODO:1cons ja epx2"
-dqb "vaih:accept-jutut"
+dqb "VAIH:1cons ja epx2"
+
 csleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
@@ -450,20 +450,23 @@ case "${mode}" in
 		csleep 1
 
 		if [ ${1} -eq 0 ] ; then
-			if [ -f /.chroot ] ; then
+			if [ -f /.chroot ] ; then #mitense alt_root?
 				echo "EI NÄIN"
 				exit 99
 			fi
 			
 			common_part ${srcfile} ${d} /
 		else
-			if [ -f /.chroot ] ; then
+			if [ -f /.chroot ]  && [ -v CONF_alt_root ] ; then
 				#100226:vihdoinkin tämäkin korjattu?
-				#"SHOULD cp accept/reject/dtop TO /h/d/d/m/distro ?"
-				#TODO:testaa uusicksi lähjiaikoina
+		
+				#TODO:testaa uusicksi lähiaikoina
 				
-				cp ${d}/*pkgs* /home/devuan/Desktop/minimize/${distro}
-				ls -las /home/devuan/Desktop/minimize/${distro}
+				dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
+				csleep 6
+
+				cp ${d}/*pkgs* ${CONF_alt_root}/${distro}
+				ls -las ${CONF_alt_root}/${distro}
 				csleep 4
 			fi
 			

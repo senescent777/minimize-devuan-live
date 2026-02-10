@@ -366,12 +366,11 @@ function efk2() {
 	csleep 1
 }
 
-
 function common_lib_tool() {
 	dqb "common_lib_tool( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
 	[ -z "${2}" ] && exit 67
-	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSING FILE"
+	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSing f ILE"
 	
 	dqb "WILL START REJECTING P1GS NOW"
 	csleep 1
@@ -559,7 +558,7 @@ function cefgh() {
 	efk2 ${1}/f.tar ${1}
 	[ $? -eq 0 ] && ${NKVD} ${1}/f.tar
 
-	#mitäjos part3() kabssa tulee sitä gpg-nalkutusta? g.tar-jutut takaisin tähämn?	
+	#mitäjos part3() kaNssa tulee sitä gpg-nalkutusta? g.tar-jutut takaisin tähämn?	
 }
 
 function check_binaries() {
@@ -763,8 +762,7 @@ function mangle_s() {
 	slaughter0 ${r} ${2}
 }
 
-#VAIH:jinnebtiudut jutut taas käyttöön asfd asdf fads
-#tässä va i kutsvassa koodissa bugi?
+#TODO:testaapa vähitellen mitebn tämän oksennukset toimivat
 function dinf() {
 	local g
 	local frist
@@ -1363,7 +1361,7 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 }
 
 #160126:g.tar liittyvää kikkailua jatkossa? sittenkin check_bin() alta g-jutut -> cefgh()?
-#TODO:sources.list-juttuuyih liittyviä muutoksia vielä josqs (aluksi sqroot)
+#100226;sources.list-juttuuyihIN liittyviä muutoksia vielä josqs?
 function part3() {
 	dqb "part3 ${1} , ${2}"
 	csleep 1
