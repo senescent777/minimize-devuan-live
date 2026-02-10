@@ -141,7 +141,7 @@ function e22_pre1() { #130126:edelleen toimiva?
 		${scm} 0755 /etc/apt
 		${scm} a+w /etc/apt/sources.list*
 
-		part1 ${1}
+		part1 ${2} ${1}
 	fi
 
 	dqb "per1 d0n3"
