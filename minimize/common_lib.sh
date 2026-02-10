@@ -1063,7 +1063,7 @@ function part076() {
 }
 
 function part1() {
-	dqb "PART1 ${1} ${2} "
+	dqb "PART1 ${1} , ${2} "
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	[ -d ${2} ] || exit 68
