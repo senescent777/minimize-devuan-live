@@ -107,7 +107,7 @@ fi
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	debug=1
+	#debug=1
 	dqb "FALLBACK"
 
 	if [ -f /.chroot ] ; then
@@ -171,7 +171,6 @@ fi
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 csleep 1
 dqb "VAIH:1cons ja epx2"
-
 csleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
@@ -354,7 +353,7 @@ function tpr() {
 	q=$(mktemp -d)
 	[ $? -gt 0 ] && exit 17
 
-	dqb "JUST BEFOIRE TAR"
+	dqb "JUST BEFORE TAR"
 	#jos vielä härdelliä niin keskeytetään mikäli ei fediversestä löydä prefs.js?
 	r=$(${srat} -tf ${1}/fediverse.tar | grep prefs.js | wc -l)
 	[ ${r} -gt 0 ] || exit 18
