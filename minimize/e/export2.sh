@@ -218,10 +218,6 @@ case ${mode} in
 		#130126:laati paketin, sisältö:lienee ok
 		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
 		#-T - vipu tar:in kanssa käyttöön vai ei? pärjännee ilmankin
-
-		#huom.icons-hmisto mukaan jtnkin? tai siis mieluummin jhnknin toiseen pakettiin
-		#... jos ei muuhun keksi niin tähän sitten (VAIH)
-		#liittyy: sqroot
 		
 		cd ${d0}
 		fasdfasd ${tgtfile}

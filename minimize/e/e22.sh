@@ -938,7 +938,7 @@ function e22_other_pkgs() {
 }
 
 #DONE:uusi wdm-paketti modatun ison rakennusta varten, asentuu sekä live että sqroot, tosin jotain kiukuttelua äksän kanssa EDELLEEN
-#wdm kanssa kun xorg kiukuttelee ni jospa a) xdm tai b) DISPLAY MANAGET WTTUUN KOKONAAN 666 
+#wdm kanssa kun xorg kiukuttelee ni jospa a) xdm tai b) DISPLAY MANAGEr WTTUUN KOKONAAN 666 
 function e22_dm() {
 	dqb "e22dm ( ${1} ) "
 	csleep 1
@@ -971,72 +971,77 @@ function e22_dm() {
 
 	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libglib2.0-0 libglib2.0-data libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
 	csleep 1
-	
-	#fontconfig, libfreetype6, libxcb* ennnen switch-case:a? 
+
+	${shary} fontconfig libfribidi0 libharfbuzz0b libthai0
+	${shary} libfreetype6 libxcb-shape0 libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1
+	${shary} libxcb-render0 libxcb-shm0
+	#, , 
 
 	case ${1} in
 		xdm) #010126:pitäisiköhän tämäkin case testata?
 			${shary} xdm
 		;;
 		wdm)
-			#TODO:PAKETIN wdm RIIPPUVUUKSIEN METSÄSTYS UUSIKSI RASKAALLA KÄDELLÄ 666!!!
+			#VAIH:PAKETIN wdm RIIPPUVUUKSIEN METSÄSTYS UUSIKSI RASKAALLA KÄDELLÄ 666!!!
 			# zlib1g perl:any xserver-xorg | xserver:tarteeko juuri tässä vetää?
+			${shary} libnuma1
 
 			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
+			#csleep 1
+
+			${shary} libwebpdemux2 libheif1 libaudit-common libcap-ng0 libaudit1
 			csleep 1
 
-			${shary} libwebpdemux2 libheif1 libaudit1 #libaudit jemmaan ksnssa?
-			csleep 1
-
-			${shary} libdb5.3 libpam-modules-bin libpam-modules libpam-runtime #libpam jemmaan?
-			csleep 1
+			${shary} libdb5.3 libpam-modules-bin libpam-modules libpam-runtime
+			#csleep 1
 
 			${shary} sysvinit-utils libtinfo6 libpng16-16 libx11-xcb1  
 			csleep 1
 
-			${shary} libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1 libxcursor1
+			${shary} libxfixes3 libxcursor1
+			#csleep 1
+
+			${shary} libxkbfile1 libxmuu1 
+			#bsdextrautils | bsdmainutils 
+			${shary} bsdextrautils groff-base libgdbm6 libpipeline1 libseccomp2 man-db
 			csleep 1
 
-			${shary} libxkbfile1 libxmuu1 man-db
+			${shary} libexpat1 fontconfig-config libfontconfig1
+			${shary} libfontenc1 libglvnd0 libglx0 libgl1  
+			#csleep 1
+
+			${shary} x11-common libxtst6 libxv1 libxxf86dga1 
 			csleep 1
 
-			${shary} libfontconfig1 libfontenc1 libgl1 libxcb-shape0  
-			csleep 1
+			#Depends:  (>= 2.33),  (>= 1.6.2-1), , ,  (>= 2:1.7.5),  (>= 2:1.0.14), , , , , (>> 1.1.2), ,  (>> 2.1.1), (>= 2:1.2.99.4),  (>= 1:1.1.0),  (>= 2:1.1.3), (>= 2:1.1.3), ,  (>= 1:1.1.0), 
 
-			${shary} libxtst6 libxv1 libxxf86dga1 
-			csleep 1
-
-			${shary} psmisc x11-apps x11-common
-			csleep 1
+			${shary} psmisc x11-apps
+			#csleep 1
 
 			${shary} libpcre2-8-0 libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
 			csleep 1
 
-			${shary} libgif7 libwraster6 libjpeg62-turbo libmagickwand-6.q16-6 libtiff6
-			csleep 1
+			${shary} libgif7 libwraster6 libjpeg62-turbo
+			${shary} imagemagick-6-common libmagickwand-6.q16-6 libtiff6
+			#csleep 1
 
-			${shary} libbz2-1.0 libfftw3-double3 libfreetype6 libjbig0 liblcms2-2 liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libwebp7 libwebpmux3 imagemagick-6-common
+			${shary} libbz2-1.0 libfftw3-double3  libjbig0 liblcms2-2 liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libwebpmux3
 			csleep 1
 
 			${shary} libmagickcore-6.q16-6 
-			csleep 1
+			#csleep 1
 
 			${shary} libwutil5 wmaker-common libwings3
 			csleep 1
 
-			${shary} libx11-data libbsd0
-			csleep 1 	
+			${shary} libx11-data libmd0 libbsd0
+			#csleep 1 	
 		
 			${shary} wdm
 		;;
 #		lxdm)
-#			#"exp2 rp" on nykyään keksitty
-#			#E22_GL="libxcb-render0 ... lxdm"
-#
-#			${shary} libxcb-render0 libxcb-shm0 libxcb1
-#			csleep 1
 #			
-#			${shary} libfreetype6 libpixman-1-0
+#			${shary} libpixman-1-0
 #			csleep 1
 #			
 #			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
@@ -1053,10 +1058,10 @@ function e22_dm() {
 #			csleep 1
 #	
 #			#gdk ennen gtk?
-#			${shary} libfribidi0 libharfbuzz0b libthai0
+#			${shary}   
 #			csleep 1
 #		
-#			${shary} fontconfig gtk2-engines-pixbuf gtk2-engines 
+#			${shary} gtk2-engines-pixbuf gtk2-engines 
 #			csleep 1
 #
 #			${shary} lxdm 
