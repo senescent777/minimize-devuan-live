@@ -855,7 +855,7 @@ function e22_tblz() {
 	csleep 2
 
 	${asy}
-	dqb "BEFORE e22_pre2"Q
+	dqb "BEFORE e22_pre2"
 	csleep 2
 
 	#actually necessary
