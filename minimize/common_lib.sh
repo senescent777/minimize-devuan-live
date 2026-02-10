@@ -352,7 +352,6 @@ function efk1() {
 	fi
 
 	csleep 1
-#exit 666
 }
 
 function efk2() {
@@ -367,7 +366,7 @@ function efk2() {
 	csleep 1
 }
 
-#VAIH:lisäksi clibpre():n toiminnallisuuden ymppääminen (joko jo?)
+
 function common_lib_tool() {
 	dqb "common_lib_tool( ${1}  , ${2}) "
 	[ -d ${1} ] || exit 66
@@ -380,16 +379,21 @@ function common_lib_tool() {
 	local q
 	local r
 	local s
-	
+
 	for q in $(grep -v '#' ${1}/${2}) ; do
 		dqb "outer; ${q}"
 		#jatk r pois?
 		r=$(find ${1} -type f -name "${q}*.deb" )
 
 		for s in ${r} ; do
-			dqb "inner: ${NKVD} ${s}"
-			csleep 1
-			${NKVD} ${s}
+			dqb "inner: \${cmd} ${s}"
+
+			if [ "$2" == "reject_pkgs" ] ; then
+				${NKVD} ${s}
+			else
+				efk1 ${s}
+			fi
+
 			csleep 1
 		done
 		
@@ -1390,8 +1394,8 @@ function part3() {
 	#HUOM.160126:pitäiasiköhän ajaa lftr ennen masenteluja? chimaera...
 
 	efk1 ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
-	clibpre ${1} accept_pkgs_1
-	clibpre ${1} accept_pkgs_2
+	common_lib_tool ${1} accept_pkgs_1
+	common_lib_tool ${1} accept_pkgs_2
 
 	dqb "g4RP D0NE"
 	csleep 1
