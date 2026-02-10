@@ -855,7 +855,7 @@ function e22_tblz() {
 	csleep 2
 
 	${asy}
-	dqb "BEFORE e22_pre2"
+	dqb "BEFORE e22_pre2"Q
 	csleep 2
 
 	#actually necessary
@@ -927,6 +927,8 @@ function e22_other_pkgs() {
 	#uutena 170126, pois jos qsee
 	# Depends:
 	#adduser, ,,, (= 1.2.2+dfsg1-1+deb12u1),, (>= 0.0), libc6 (>= 2.34), (>= 1:2.10), (>= 3.0.0)
+	#TODO:NTP-KIKKAREEN KONFFAAMINEN	
+
 	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 	${shary} ntpsec
 		
@@ -1119,9 +1121,6 @@ function e22_profs() {
 	dqb "AAMUNK01"
 }
 
-#130126:olisikohan jo/taas toimiva? onko jotain uutta kiukuttelua vau eu? lets find out soon
-#jokin juttu vielä on kun päivityspaketti rikkoo slimin muokkaamattoman .iso:n kanssa
-#... josko se rikkoUtuminen 140126 v aihtuisi libdbus-nalkutukseen
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 
 function e22_upgp() {
