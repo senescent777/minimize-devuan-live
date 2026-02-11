@@ -224,7 +224,7 @@ case ${mode} in
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}*
 		csleep 2
 		
-		${srat} --exclude '*merd*' -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop ./1cons/*.desktop
+		${srat} --exclude '*merd*' -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop ./1c0ns/*.desktop
 		e22_ftr ${tgtfile}
 		exit
 	;;
