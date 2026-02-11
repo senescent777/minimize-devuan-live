@@ -246,9 +246,8 @@ function t2pc() {
 	#xfce*,xorg* off limits
 	t2p_filler
 
+	#111226:joskohan "dpkg-python-lib-nalkutus" olisi jo ohi?
 	#071225:pitäisikö ao. ehdolle tehdä jotain?  uuden .iso:n kanssa kun sitä temppuilua (vielä ajank 01/26?)
-	dqb "#TODO: ne python-lib-nalkutukset, dpkg"
-
 	if [ -f /.chroot ] ; then
 		dqb "SHOULD ${sharpy} slim*"
 		csleep 2

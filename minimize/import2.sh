@@ -174,13 +174,12 @@ csleep 1
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	#VAIH:tämän haaran testaus (vielä ainakin kehitysymnp? ja sqroot- ymp reaktio c_bin parametriin)
+	#DONE?:tämän haaran testaus (vielä ainakin kehitysymnp? ja sqroot- ymp reaktio c_bin parametriin)
 	#210126 ei kai mitään erityistä härdelliä ollut sqroot-testissä mutta jos vielä kerran kokeilisi siellä
 	#... vieläpä niin että lib.sh pois pelistä
 	
 	#100226: "$0 3 " yritteli kyllä asentaa juttuja
 	#, tuli urputusta aiheista libwraster6, libgif7, libmagickwand-6, libpam-modules, libpam-modules-bin ...
-	#eli "accept-jutut" piyäisi saada kuntoon sqrootissa?
 	
 	echo $?
 	dqb "NO LIB"
@@ -243,7 +242,7 @@ function common_part() {
 		dqb "A"
 		dqb "gg= ${gg}"
 
-		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemasaolon sijaan?
+		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemassssaolon sijaan?
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 			dqb "B"
 			
@@ -454,10 +453,9 @@ case "${mode}" in
 			
 			common_part ${srcfile} ${d} /
 		else
-			if [ -f /.chroot ]  && [ -v CONF_alt_root ] ; then
+			if [ -f /.chroot ] ; then #  && [ -v CONF_alt_root ] ; then
 				#100226:vihdoinkin tämäkin korjattu?
-		
-				#TODO:testaa uusicksi lähiaikoina
+				#VAIH:testaa uusicksi lähiaikoina
 				
 				dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
 				csleep 6
