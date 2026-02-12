@@ -855,7 +855,7 @@ function e_h() {
 	csleep 1
 }
 
-#TODO:/o/b sisällön sorkinta tähän
+#VAIH:/o/b sisällön sorkinta tähän
 function e_final() {
 	dqb "e_final ${1} "
 	csleep 1
@@ -873,8 +873,13 @@ function e_final() {
 
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 	csleep 1
+
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
+
+	${scm} a-w /opt/bin/*
+	${sco} -R root:root /opt/bin
+
 	dqb "e_final D0N3"
 	csleep 1
 }
