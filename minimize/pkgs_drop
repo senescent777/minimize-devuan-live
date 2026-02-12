@@ -1,4 +1,4 @@
-bluez
+blu
 mutt
 rpcbind
 nfs-common
@@ -21,6 +21,7 @@ exfatprogs
 fdisk
 gcr
 ftp
+gpgv
 gimp-data
 gir
 #ei poista ligtk3, gir-pakettei ei xcalib

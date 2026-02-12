@@ -377,6 +377,7 @@ function common_lib_tool() {
 		for s in ${r} ; do
 			dqb "inner: \${cmd} ${s}"
 
+			#TODO:case-seac + pkgs_drop käsdittely
 			if [ "$2" == "reject_pkgs" ] ; then
 				${NKVD} ${s}
 			else
@@ -590,7 +591,7 @@ function slaughter0() {
 
 	fn2=$(echo $1 | awk '{print $1}') 
 	ts2=$(${sah6} ${fn2})
-	echo ${ts2} | awk '{print $1,$2}'  >> ${2}
+	echo ${ts2} | awk '{print $1,$2}' >> ${2}
 }
 
 function mangle_s() {
@@ -619,28 +620,29 @@ function mangle_s() {
 	slaughter0 ${r} ${2}
 }
 
-#TODO:testaapa vähitellen mitebn tämän oksennukset toimivat
+#VAIH:testaapa vähitellen mitebn tämän oksennukset toimivat
 function dinf() {
 	local g
+	local t
 	local frist
 	frist=1
 
-	for g in $(sha256sum /sbin/dhclient-script* | cut -d ' ' -f 1 | uniq) ; do
-		dqb ${g}
+	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${1}
+	echo -n " localhost=NOPASSWD:" >> ${1}
 
+	for g in $(${odio} find /sbin -type f -name 'dhclient-script*') ; do
 		if [ ${frist} -eq 1 ] ; then 
 			frist=0
 		else
-			echo -n "," #>> ${1}
+			echo -n "," >> ${1}
 		fi
-		
-		echo -n " sha256:${f}" #>> ${1}
+
+		echo -n "sha512:" >> ${1}
+		t=$(${sah6} ${g}) #kikkailut myöhemmin mukaan
+		echo -n ${t} >> ${1}
 	done
 
-	echo -n " $(whoami) localhost=NOPASSWD: " #>> ${1}
-	echo " /sbin/dhclient-script " #>> ${1}
-
-	#cat ${1}
+	cat ${1}
 	csleep 10
 }
 
@@ -715,7 +717,7 @@ function pre_enforce() {
 	fi
 
 	dqb "TRAN S1LVAN1AN HUGN3R GAM35"
-	dinf ${q}
+	#dinf ${q} ehkä josqs taas
 	csleep 1
 
 	if [ -s ${q} ] ; then
@@ -853,6 +855,7 @@ function e_h() {
 	csleep 1
 }
 
+#TODO:/o/b sisällön sorkinta tähän
 function e_final() {
 	dqb "e_final ${1} "
 	csleep 1
@@ -1079,16 +1082,23 @@ function part1() {
 		if [ -x ${ipt} ] ; then # \$ odio vs \$ ipt vielä?
 			for t in INPUT OUTPUT FORWARD ; do
 				${ipt} -P ${t} DROP
+				[ $? -eq 0 ] || sudo /sbin/halt
 				dqb "V6"; csleep 1
 
 				${ip6t} -P ${t} DROP
+				[ $? -eq 0 ] || sudo /sbin/halt
 				${ip6t} -F ${t}
 			done
 
-			for t in INPUT OUTPUT FORWARD b c e f ; do ${ipt} -F ${t} ; done
+			for t in INPUT OUTPUT FORWARD b c e f ; do 
+				${ipt} -F ${t}
+				[ $? -eq 0 ] || sudo /sbin/halt
+			done
 	
 			if [ ${debug} -eq 1 ] ; then
+				#pitäisikö olla ipt-legacy? 
 				${ipt} -L
+
 				dqb "V6.b"; csleep 1
 				${ip6t} -L
 				csleep 1
@@ -1234,9 +1244,7 @@ function part3() {
 	common_pp3 ${1}
 	csleep 1
 
-		common_lib_tool ${1} reject_pkgs
-
-
+	common_lib_tool ${1} reject_pkgs
 	#HUOM.160126:pitäiasiköhän ajaa lftr ennen masenteluja? chimaera...
 
 	efk1 ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb

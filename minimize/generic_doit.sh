@@ -73,7 +73,6 @@ fi
 #==================================PART 1============================================================
 dqb "mode= ${mode}"
 dqb "debug= ${debug}"
-#exit
 
 #221225:mitäs kaikkia pointteja olikaan ohittaa enforce.hommat sqroot.ympäristössä?
 #changedns ja fstab tietysti
