@@ -37,6 +37,36 @@ perl-modules-
 libperl
 perl-base
 #
+#VAIH:libavutil57 ja libavcodec59 riippuvuudet
+#HUOM.12222222222226:ei tule onnaamaan util57 ja codec59 masennus tietyn modatun kiekon kanssa koska paketteja puuttuu
+libmfx1
+libva-drm2
+libva2
+libvdpau1
+# libavutil57:amd64 depends on ocl-icd-libopencl1 | libopencl1; however:
+libopencl1
+#59
+libcodec2-1.0
+libgsm1
+libhwy1
+libjxl0.7
+librav1e0
+libshine3
+libsnappy1v5
+libspeex1
+libsvtav1enc1
+libswresample4
+libtheora0
+libtwolame0
+libva2
+libx264-164
+libxvidcore4
+libzvbi0
+#
+#dpkg: dependency problems prevent configuration of libswresample4:amd64:
+libsoxr0
+libswresample4
+#
 libx11-6
 libx11-xcb1
 libpython3.11-minimal
