@@ -121,9 +121,44 @@ fi
 #jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
 
+function p2g() {
+	dqb "THE_PIG ( ${1})"
+	csleep 1
+
+	[ -s ${1}/pkgs_drop ] || exit 66
+
+	local f
+	local g
+	local h
+
+	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
+		dqb "SOON: \${sharpy} ${f}* "
+		csleep 5
+	
+		IFS="," read -a g <<< "${f}"
+		#echo "g=$g"
+
+		for h in ${g[@]} ; do
+			#echo "\${sharpy} ${h}"
+			${sharpy} ${h}*
+		done
+
+		#https://unix.stackexchange.com/questions/214664/go-from-a-string-to-an-array-of-words-in-bash
+		#https://www.baeldung.com/linux/bash-string-split-into-array
+		#https://stackoverflow.com/questions/10586153/how-to-split-a-string-into-an-array-in-bash
+
+		csleep 5
+		t2p_filler
+	done
+
+	dqb "p2g DONE"
+	csleep 1
+}
+
 #VAIH:selvitä missä kohtaa gpg poistuu nykyään, koita saada epä-poistumaan
 #mode:n kanssa kikkailut voivat auttaa selvityksessä
 #130126_sqroot-testissä tämän fktion poistamat paketit enimmäkseen poistuvat pl. tuon yhden blokin jutut
+
 function t2pc() {
 	dqb "common_lib.t2p_common( ${1})"
 	csleep 1
@@ -138,68 +173,66 @@ function t2pc() {
 	csleep 1
 
 #	#131225:aiheuttaa oheisvahinkoa, ei voida vielä käyttää ennenq selvitetty missä menee pieleen
-#	local f
-#	for f in $(grep -v '#' ${1}/pkgs_drop | head -n 10) ; do
-#		dqb "sharpy ${f} \*"
-#		csleep 1
-#		${sharpy} ${f}*
-#		csleep 1
-#	done
+#äksään liittyvät paketit olisi hyvä silyttää suus
+#listan5 e kaa riviä ei pasko asioita, mutta sen jälkeen...
+#suattaapi olla ninnii jotta g_pt2 renkaaminen paskoo äksän pikemminkin
 	
-	dqb "gpg= $(sudo which gpg)"
-	csleep 10
-	
-	${sharpy} blu*
-	t2p_filler
-	csleep 2
-
-	${sharpy} mutt
-	t2p_filler
-	csleep 2
-
-	${sharpy} rpcbind nfs-common
-	${sharpy} dmsetup
-	t2p_filler
-	csleep 2
-
-	${sharpy} amd64-microcode at-spi2-core #toimii systeemi ilmankin näitä mutta ?
-	t2p_filler
-
-	${sharpy} bubblewrap coinor* cryptsetup*
-	t2p_filler
-
-	${sharpy} debian-faq dirmngr discover* doc-debian
-	t2p_filler
-
-	#HUOM.29925: daedaluksessa dmsetup ja libdevmapper? poistuvat jos poistuvat g_doit ajamisen jälkeen
-	${sharpy} docutils* dosfstools efibootmgr exfalso
-	t2p_filler
-	csleep 2
-
-	#040126:to state the obvious:eloginin poisto laittaa äksän pois pelistä
-
-	#tikkujen kanssa paska tdstojärjestelmä exfat
-	${sharpy} exfatprogs fdisk gcr ftp*
-	t2p_filler
-
-	#231225 uutena, pois jos qsee
-	${sharpy} gpgv
-	t2p_filler
+	p2g ${1}
+	csleep 5
+#	exit
 
 	dqb "gpg= $(sudo which gpg)"
-	csleep 10
-
-	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
-	t2p_filler
-
-	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta kun xcalibur
-	#${sharpy} grub* 
-	${sharpy} gstreamer* #libgs poist alempana
-	t2p_filler
+	csleep 5
+#	
+#	${sharpy} blu*
+#	t2p_filler
+#	csleep 2
+#
+#	${sharpy} mutt
+#	csleep 2
+#
+#	${sharpy} rpcbind nfs-common
+#	${sharpy} dmsetup
+#	t2p_filler
+#	csleep 2
+#
+#	${sharpy} amd64-microcode at-spi2-core #toimii systeemi ilmankin näitä mutta ?
+#	t2p_filler
+#
+#	${sharpy} bubblewrap coinor* cryptsetup*
+#
+#	${sharpy} debian-faq dirmngr discover* doc-debian
+#	t2p_filler
+#
+#	#HUOM.29925: daedaluksessa dmsetup ja libdevmapper? poistuvat jos poistuvat g_doit ajamisen jälkeen
+#	${sharpy} docutils* dosfstools efibootmgr exfalso
+#	t2p_filler
+#	csleep 2
+#	#040126:to state the obvious:eloginin poisto laittaa äksän pois pelistä
+#
+#	#tikkujen kanssa paska tdstojärjestelmä exfat
+#	${sharpy} exfatprogs fdisk gcr ftp*
+#	t2p_filler
+#
+#	#231225 uutena, pois jos qsee
+#	${sharpy} gpgv
+#	t2p_filler
+#
+#	dqb "gpg= $(sudo which gpg)"
+#	csleep 10
+#
+#	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
+#	t2p_filler
+#
+#	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta kun xcalibur
+#	#${sharpy} grub* 
+#	${sharpy} gstreamer* #libgs poist alempana
+#	t2p_filler
 
 	${sharpy} htop inetutils-telnet intel-microcode isolinux
 	t2p_filler
 
+	#160126:näyttä siltä että chimaeran kanssa libreoffice ei poistuisi, toistuuko?
 	${sharpy} libreoffice*
 	t2p_filler
 
@@ -245,6 +278,7 @@ function t2pc() {
 	#xfce*,xorg* off limits
 	t2p_filler
 
+	#1111111112222222222226:joskohan "dpkg-python-lib-nalkutus" olisi jo ohi?
 	#071225:pitäisikö ao. ehdolle tehdä jotain?  uuden .iso:n kanssa kun sitä temppuilua (vielä ajank 01/26?)
 
 	if [ -f /.chroot ] ; then
@@ -252,7 +286,7 @@ function t2pc() {
 		csleep 2
 
 		#nopeampi boottaus niinqu
-		dqb "KVG \"devuan how to skip dhcp on boot\""
+		dqb "TODO:KVG \"devuan how to skip dhcp on boot\""
 		csleep 2
 
 		dqb "t2p_filler()"
@@ -262,8 +296,9 @@ function t2pc() {
 		dqb "Xorg -config ? "
 		csleep 2
 	else
-		dqb "COULD ${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
+		dqb "COULD? ${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
 		csleep 10
+		dqb "WOULD: A.I.C"
 	fi
 
 	spd="${sd0} -l "
@@ -302,8 +337,10 @@ dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
 csleep 10
 [ ${mode} -eq 0 ] && exit
 
-#TODO:$d/pkgs_drop hyödyntäminen jatkossa
-t2p
+#VAIH:$d/pkgs_drop hyödyntäminen jatkossa
+#t2p
+p2g ${d}
+
 [ $? -gt 0 ] && exit
 #dqb "gpg= $(sudo which gpg)"
 #csleep 10

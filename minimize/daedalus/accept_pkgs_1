@@ -1,77 +1,123 @@
-libgcc-s1*.deb
-libicu*.deb
-libgomp*.deb
+libgcc-s1
+libicu
+libgomp
 #
-libgdk-pixbuf2.0-common*.deb
-libgdk-pixbuf-2.0-0*.deb
-libgdk-pixbuf-2.0-bin*.deb
-librsvg2-2*.deb
-librsvg2-common*.deb
-libstdc*.deb
-libatk1.0-0*.deb
+libgdk-pixbuf2.0-common
+libgdk-pixbuf-2.0-0
+libgdk-pixbuf-2.0-bin
+librsvg2-2
+librsvg2-common
+libstdc
+libatk1.0-0
 #
-libavahi-common-data*.deb
-libavahi-common3*.deb
-libavahi-client3*.deb
+libavahi-common-data
+libavahi-common3
+libavahi-client3
 #
 #Depends: libavahi-client3 (>= 0.6.16), libavahi-common3 (>= 0.6.16), libc6 (>= 2.36), libgnutls30 (>= 3.7.5), libgssapi-krb5-2 (>= 1.17), zlib1g (>= 1:1.2.0)
-zlib1g*.deb
-libkrb5support0*.deb
-libkrb5-3*.deb
-libgssapi-krb5-2*.deb
-libgnutls30*.deb
-libcups*.deb
+zlib1g
+libkrb5support0
+libkrb5-3
+libgssapi-krb5-2
+libgnutls30
+libcups
 #
-libgtk-3-common*.deb
-libgtk-3-0*.deb
-libgtk-3-bin*.deb
+libgtk-3-common
+libgtk-3-0
+libgtk-3-bin
 #vte jälkeen atk:n ja gtk3:n jälkeen?
-libvte-2.91-common*.deb
-libvte*.deb
-libxml*.deb
-libpam-modules-bin*.deb
-libpam-modules_*.deb
-perl-modules-*.deb
-libperl*.deb perl-base*.deb
-libx11-6*.deb
-libx11-xcb1*.deb
-libpython3.11-minimal*.deb
-libpython3.11-stdlib*.deb
-libgtk2.0-common*.deb
-libgtk2.0-0*.deb
+libvte-2.91-common
+libvte
+libxml
+libpam-modules-bin
+libpam-modules_
+#
+#10022226:ans kattoo näiden kanssa, onnaako
+perl-modules-
+libperl
+perl-base
+#
+#VAIH:libavutil57 ja libavcodec59 riippuvuudet
+#HUOM.12222222222226:ei tule onnaamaan util57 ja codec59 masennus tietyn modatun kiekon kanssa koska paketteja puuttuu
+libmfx1
+libva-drm2
+libva2
+libvdpau1
+# libavutil57:amd64 depends on ocl-icd-libopencl1 | libopencl1; however:
+libopencl1
+#59
+libcodec2-1.0
+libgsm1
+libhwy1
+libjxl0.7
+librav1e0
+libshine3
+libsnappy1v5
+libspeex1
+libsvtav1enc1
+libswresample4
+libtheora0
+libtwolame0
+libva2
+libx264-164
+libxvidcore4
+libzvbi0
+#
+#dpkg: dependency problems prevent configuration of libswresample4:amd64:
+libsoxr0
+libswresample4
+#
+libx11-6
+libx11-xcb1
+libpython3.11-minimal
+libpython3.11-stdlib
+libgtk2.0-common
+libgtk2.0-0
 #
 #jälkimmänen voisi olla accept2_sessa jatqssa
-libnftables*.deb
+libnftables
 #
 #WDM
-libgif7*.deb
-libwebpdemux2*.deb
-libfftw3*.deb
-liblqr-1-0*.deb
-libde265-0*.deb
-libheif1*.deb
+libgif7
+libwebpdemux2
+libfftw3
+liblqr-1-0
+libde265-0
 #
-imagemagick-6-common*.deb
-#core tarvitsee:gomp1, fftw3, lqr
-libmagickcore-6*.deb
+#heif tarttee?
+libaom3
+libdav1d6 
+#x265 tarvitsee: numa1
+libnuma1
+libx265-199
+libheif1
 #
-#wand myö starttee gomp1
-libmagickwand-6*.deb
-libgif7*.deb 
-libwraster6*.deb
+imagemagick-6-common
+#
+#core tarvitsee:gomp1, fftw3, lqr, heif
+libopenjp2-7
+libwebpmux3
+libmagickcore-6
+#
+#wand myö starttee gomp1, core:n lisäksi
+libmagickwand-6
+libgif7
+#
+#wraster tarvitsee:wand
+libwraster6
 #libwings3:amd64 depends on libwraster6
 #
-wmaker-common*.deb
-libwutil5*.deb
-libpangoxft-1.0-0*.deb
-libwings3*.deb
+wmaker-common
+libwutil5
+libpangoxft-1.0-0
+libwings3
 #
-libavutil57*.deb
-libavcodec59*.deb
+libavutil57
+libavcodec59
 #
 #python3-pil liittyvät jemmaan 090226
-#libimagequant0*.deb
-#libraqm0*.deb
+#libimagequant0
+#libraqm0
 #
 #
-libdbus-1-3*.deb
+libdbus-1-3

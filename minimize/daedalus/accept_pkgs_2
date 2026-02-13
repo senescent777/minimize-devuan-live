@@ -1,44 +1,42 @@
 #bind9-jutut tarv: libkrb5, libgssapi-krb5-2
-nftables*.deb
-bind9-libs*.deb
-bind9-host*.deb
-bind9-dns*.deb
-dnsutils*.deb
-perl*.deb
+nftables
+bind9-libs
+bind9-host
+bind9-dns
+dnsutils
+perl
 #
 #python3-pil-jutut jemmaan 090226, loppuu purpatus prkl
-mime-support*.deb
-#python3-pil.imagetk*.deb
-#python3-pil*.deb
+mime-support
 #
 #eudev-dbus-e2fsprogs oli siinä rejectissä, miten x-juttuja myös?
-xserver-common*.deb
-xserver-xorg-legacy*.deb
-xserver-common*.deb
-xserver-xorg-core*.deb
+xserver-common
+xserver-xorg-legacy
+xserver-common
+xserver-xorg-core
 #
 #josko nyt iukea järj?
-dbus-system-bus-common*.deb
-dbus-bin*.deb
-dbus-session-bus-common*.deb
-dbus-daemon*.deb
-dbus-x11*.deb
+dbus-system-bus-common
+dbus-bin
+dbus-session-bus-common
+dbus-daemon
+dbus-x11
 #
-gpgconf*.deb
+gpgconf
 #gpg tarvitsee confin /josko kuitenkin kerta-as riittäisi
 #
 #nyt jos typot ho
-gtk2-engines-pixbuf*.deb
+gtk2-engines-pixbuf
 #
-x11-utils*.deb
+x11-utils
 #
-python3.11-minimal*.deb
-python3.11*.deb
+python3.11-minimal
+python3.11
 #
-menu*.deb
+menu
 #
 #wdm...
-psmisc*.deb
+psmisc
 #
-#ennen git, varm vuoksi
-git.man*.deb
+#ennen git, varm vuoksi , muttta "git." vai "git-" ?
+git-man

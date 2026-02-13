@@ -48,6 +48,8 @@ ${tig} clone ${branch} https://${BASEURL}/${PT2}.git
 
 dqb "TGI KO"
 csleep 2
+
+#pitäisiköhän ao. rivien shteen thdä jtain?
 echo "mv minimize minimize.OLD"
 echo "mv ${PT2}/* ."
 echo "[ -x minimize/common_lib.sh ] && . minimize/common_lib.sh"

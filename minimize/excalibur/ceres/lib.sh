@@ -1,13 +1,13 @@
 #VAIH:ne xcalib omat paketit asentaen koska: "iptables: Failed to initialize nft: Protocol not supported"
 #https://superuser.com/questions/1480986/iptables-1-8-2-failed-to-initialize-nft-protocol-not-supported
 #https://hatchjs.com/iptables-1-8-7-failed-to-initialize-nft-protocol-not-supported/
+#HUOM.16126:ennen g_pt2 ajamista tehtävä pakettien haku
 
 function udp6() {
 	dqb "xc.lib.UPDP-6"
 	csleep 1
 
-	#cp5 
-	clib5p ${1}
+	echo "SHOULD RUN clib5p ${1}" #tuollaista fktiota olemassa?
 
 	dqb "...done"
 	csleep 1
@@ -63,15 +63,12 @@ function tpc7() {
 
 	local fname
 	fname=linux-image-6.12.27-amd64
-
-	#${odio} touch ${CONF_pkgdir}/${fname}
-	#${scm} 0644 ${CONF_pkgdir}/${fname}
-	#${sco} $(whoami):$(whoami) ${CONF_pkgdir}/${fname}
 	fasdfasd ${CONF_pkgdir}/${fname}	
 	
 	curl -o ${CONF_pkgdir}/${fname} https://packages.debian.org/trixie/${fname}
 	#${shary} nftables #excalibur-spesifisiä?	
 }
 
-check_binaries ${d} 
+check_binaries ${d}
+#TODO:lkftr-jutut
 check_binaries2

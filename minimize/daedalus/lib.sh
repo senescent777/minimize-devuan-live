@@ -3,9 +3,7 @@
 #https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
-#301125:common_lib.sh x-oikeudet lienevät nyt kunnossa?
-#161225:buygijahti koskemaan tätkin tdstoa?
-
+#jospa tämmöinen geneerinen kikkare -> common_lib tjsp
 function udp6() { #on käytössä
 	dqb "daud.lib.UPDP-6 ${1}"
 	csleep 1
@@ -31,17 +29,22 @@ function udp6() { #on käytössä
 #common_lib_tool-tyylillä jatkossa tämänkin fktion hommat? kts g_pt2
 #251225:poistetaanko täsäs kohtaa liikaa?
 #130126:sqrot-tstissä psmisc ei poistunut
-function t2p() { #on käytössä
+
+#VAIH:p2g() käyttöön
+function t2p() { 
 	dqb "DAUD.T2P"
 	csleep 1
 
 	${sharpy} arch-test
-	${sharpy} grub*
+	${sharpy} grub* #oliko tämän poiston kanssa jokin juttu?
 	${sharpy} gsettings* #tähän asti ok?
 	t2p_filler
 
 	${sharpy} iucode-tool
 	t2p_filler
+
+	dqb "TODO:ntpsec hyötykäyttö"
+	csleep 2
 
 	${sharpy} ntp* #121125:tässä base-passwd- ja init-valitusta. vielä 231125?
 	${sharpy} ntfs-3g
@@ -126,4 +129,5 @@ function tpc7() { #e22.sh kutsuu tätä nykyään
 }
 
 check_binaries ${d}
+lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 	
 check_binaries2

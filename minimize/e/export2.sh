@@ -1,7 +1,7 @@
 #!/bin/bash
 #jotain oletuksia kunnes oikea konftdsto saatu lotottua
 debug=0 #1
-distro=$(cat /etc/devuan_version | cut -d '/' -f 1) #HUOM.28525:cut pois jatkossa?
+distro=$(cat /etc/devuan_version) # | cut -d '/' -f 1) #160126 cut-kikkailu pois sotkemasta, muualla kun menee toisin
 d0=$(pwd)
 mode=-2
 tgtfile=""
@@ -24,7 +24,13 @@ function usage() {
 #TODO:jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
 if [ $# -gt 1 ] ; then
 	mode=${1}
-	[ -f ${1} ] && exit 99
+
+	if [ -f ${1} ] ; then
+		#miksi tähän on joudututtu viimeaikoina?
+		echo "SAATANAN TUNARI"
+		exit 99
+	fi
+
 	tgtfile=${2}
 else
 	#echo "$0 -h"
@@ -80,7 +86,7 @@ csleep 1
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else 
-	exit 57
+	exit 59
 fi
 
 dqb "tar = ${srat} "
@@ -100,13 +106,13 @@ csleep 1
 if [ -z "${tig}" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
 	echo "sudo apt-get update;sudo apt-get install git"
-	exit 7
+	exit 7 #syystä excalibut-testit tilap kommentteihin 16126
 fi
 
 if [ -z "${mkt}" ] ; then
 	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
 	echo "sudo apt-get update;sudo apt-get install coreutils"
-	exit 8
+	exit 8 #syystä excalibut-testit tolap kommentteihin 16126
 fi
 #####################
 
@@ -138,7 +144,7 @@ dqb "mode= ${mode}"
 dqb "tar= ${srat}"
 csleep 1
 
-[ -z "${tgtfile}" ] && exit 99
+[ -z "${tgtfile}" ] && exit 98
 [ -z "${srat}" ] && exit 66
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
@@ -173,7 +179,7 @@ case ${mode} in
 #		#	${srat} -uvf  ${tgtfile} ${t}
 #		#done
 #		
-#		exit #TODO:j.ollain jekulla voisi hukata exitit näistä case:ista ekasssa switchissa
+#		exit
 	;;
 	f) 	#140126:jospa ao. blokki toimisi edelleen
 
@@ -209,19 +215,16 @@ case ${mode} in
 		exit
 	;;
 	c)
-		#1e30126:laati paketin, sisältö:lienee ok
+		#130126:laati paketin, sisältö:lienee ok
 		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
 		#-T - vipu tar:in kanssa käyttöön vai ei? pärjännee ilmankin
-
-		#TODO:icons-hmisto mukaan jtnkin? tai siis mieluummin jhnknin toiseen pakettiin
-		#liittyy: sqroot
 		
 		cd ${d0}
 		fasdfasd ${tgtfile}
 		[ ${debug} -eq 1 ] && ls -las ${tgtfile}*
 		csleep 2
 		
-		${srat} --exclude '*merd*' -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop
+		${srat} --exclude '*merd*' -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop ./1c0ns/*.desktop
 		e22_ftr ${tgtfile}
 		exit
 	;;
@@ -245,24 +248,6 @@ case ${mode} in
 		e22_profs ${tgtfile} ${d0}
 		exit
 	;;
-#	å) #241125:testattu, oksentaa toimivia komentoja, lisäksi:
-#	#1. libgtkmm ja libpangomm  riippuvuuksineen aiheutti nalkutusta, pitäisi niitä listoja päivittää vissiin + riippuvuuksien kanssa vielä iterointia
-#	#2. "$0 f" tekemä paketti ei paskonut:slim
-#
-#	#251125:pavu taisi asentua(tosin "establishing connection") + nalkutusta paketeista: libpolkit, libsystemd
-#
-#	dqb "#TODO:alsaan siirtyminen?"
-#
-#		echo "${shary} libatk1.0-0 libasound2 libltdl7 libtdb1 libvorbisfile3 libatkmm-1.6-1v5 libcairomm-1.0-1v5 libpangomm-1.4-1v5 libjson-glib-1.0-common libasyncns0 libsndfile1 libsystemd0"
-#
-#		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=pavucontrol=5.0-2&eXtra=176.93.249.62
-#		echo "${shary} libatkmm-1.6-1v5 libcanberra-gtk3-0 libcanberra0 libglibmm-2.4-1v5 libgtkmm-3.0-1v5 libjson-glib-1.0-0 libpulse-mainloop-glib0 libpulse0 libsigc++-2.0-0v5 "
-#		echo "${shary} pavucontrol"
-#
-#		echo "${svm} ${pkgdir}/*.deb ${d}"
-#		echo "$0 f ${tgtfile} ${distro}"
-#		exit 1
-#	;;
 	-h)
 		usage
 	;;
@@ -290,15 +275,19 @@ csleep 1
 case ${mode} in
 	0)
 		echo "NOT SUPPORTED ANYMORE"
-		exit 99
+		exit 97
 	;;
 	3|4) 
-		#150126: 3 ja 4 toimi ainakin jnkn aikaa (uusi testkierros tulossa)
+		#160126:josa edelleen toimisi tämä case
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
+	
+		[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
+		csleep 1
+		fasdfasd /opt/bin/zxcv
 
-		e22_ext ${tgtfile} ${distro} ${CONF_dnsm}
-		dqb "e22_ext DON3, next:rm some rchives"
+		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
+		dqb "e22_ext DON3, next:rm some rchives ?"
 		csleep 1
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
@@ -327,20 +316,27 @@ case ${mode} in
 		dqb "B3F0R3 RP2	"
 		csleep 1
 
-		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm}
+		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm} /opt/bin/zxcv
+		reqwreqw  /opt/bin/zxcv
+		csleep 1
+
+		fasdfasd /opt/bin/zxcv.sig	
+		e22_tyg /opt/bin/zxcv
+		reqwreqw /opt/bin/zxcv.sig			
+		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 	;;
 	#140126 jälleenm uusi yritys, ainakin muutoksena aiempaan dbus-nalqtus
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
-		[ -v CONF_pkgdir ] || exit 99
+		[ -v CONF_pkgdir ] || exit 96
 		e22_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
 	;;
 	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia? (tai vähän jo aloiteltu?)
 	e)
-		#... tosin pilaakohan seatd sen chmod-groups-jutun?
 		#140126 näyttäisi asentuvan e29 ok live-ymp, sqrootissa asentuu nalkutuksen kanssa koska syyt
-
+		#... tosin pilaakohan seatd sen chmod-groups-jutun?
+		
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
 	;;
@@ -353,8 +349,7 @@ case ${mode} in
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;
 	l)
-		#... onko se nyt seatd mikä paskoo juttuja vai mitvit? vissiin
-
+		#... onko se nyt seatd mikä paskoo juttuja vai mitvit? 
 		dqb "#ensin wdm-pak as, sitten avsta slim pois?"
 		csleep 1
 		[ -v CONF_dm ] || exit 77
@@ -371,9 +366,7 @@ esac
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar 
 	#accept/reject/drop - jutut mukaan sqroot varten? vai jtnkn muuten?
-	e22_dblock ${d}/f.tar ${d}
-
-	#uutena1 41026 (VAIH:sswlv miten toimii?)
+	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} 
 	e22_ftr ${d}/f.tar 
 
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
