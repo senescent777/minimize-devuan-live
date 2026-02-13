@@ -93,7 +93,7 @@ function ocs() {
 
 	if [ y"${tmp2}" == "y" ] ; then
 		dqb "KAKKA-HÄTÄ ${1} "
-		exit 82
+		exit 82 #tilap jemmaan 130226
 	fi
 
 	if [ ! -x ${tmp2} ] ; then
@@ -377,7 +377,7 @@ function common_lib_tool() {
 		for s in ${r} ; do
 			dqb "inner: \${cmd} ${s}"
 
-			#TODO:case-seac + pkgs_drop käsdittely
+			#130226:tähän case-seac + pkgs_drop käsdittely vaiko ei?
 			if [ "$2" == "reject_pkgs" ] ; then
 				${NKVD} ${s}
 			else
@@ -620,7 +620,7 @@ function mangle_s() {
 	slaughter0 ${r} ${2}
 }
 
-#VAIH:testaapa vähitellen mitebn tämän oksennukset toimivat
+#VAIH:testaapa vähitellen mitebn tämän oksennukset toimivat (jossain välissä 02/26 syntaksi saattoi olla oikea)
 function dinf() {
 	local g
 	local t
@@ -638,12 +638,16 @@ function dinf() {
 		fi
 
 		echo -n "sha512:" >> ${1}
-		t=$(${sah6} ${g}) #kikkailut myöhemmin mukaan
+
+		t=$(${sah6} ${g} | awk '{print $1}')
+		#kikkailut myöhemmin mukaan, KUTEN ESIM vain se heksa-osuus tähän kohtaan
+
 		echo -n ${t} >> ${1}
 	done
 
+	echo " /sbin/dhclient-script" ${t} >> ${1} #jatkossa tdstonimi parametriksi (jos fktio tarpeen oikeasti)
 	cat ${1}
-	csleep 10
+	csleep 5
 }
 
 #=================================================================
@@ -855,7 +859,6 @@ function e_h() {
 	csleep 1
 }
 
-#VAIH:/o/b sisällön sorkinta tähän
 function e_final() {
 	dqb "e_final ${1} "
 	csleep 1

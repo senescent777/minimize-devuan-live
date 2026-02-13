@@ -121,9 +121,59 @@ fi
 #jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
 
+function p2g() {
+	dqb "THE_PIG ( ${1})"
+	csleep 1
+
+	[ -s ${1}/pkgs_drop ] || exit 66
+
+	local f
+	local g
+	local h
+
+	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
+		dqb "SOON: \${sharpy} ${f}* "
+		csleep 5
+
+#		g=$(echo $f | cut -d ',' -f 1)
+#		${sharpy} $g
+#
+#		g=$(echo $f | cut -d ',' -f 2)
+#		${sharpy} $g
+#
+#		g=$(echo $f |  cut -d ',' -f 3)
+#		${sharpy} $g
+#
+#		g=$(echo $f |  cut -d ',' -f 4)
+#		${sharpy} $g
+#
+#		g=$(echo $f |  cut -d ',' -f 5)	
+#		${sharpy} $g
+	
+		IFS="," read -a g <<< "${f}"
+		#echo "g=$g"
+
+		for h in ${g[@]} ; do
+			#echo "\${sharpy} ${h}"
+			${sharpy} ${h}*
+		done
+
+		#https://unix.stackexchange.com/questions/214664/go-from-a-string-to-an-array-of-words-in-bash
+		#https://www.baeldung.com/linux/bash-string-split-into-array
+		#https://stackoverflow.com/questions/10586153/how-to-split-a-string-into-an-array-in-bash
+
+		csleep 5
+		t2p_filler
+	done
+
+	dqb "p2g DONE"
+	csleep 1
+}
+
 #VAIH:selvitä missä kohtaa gpg poistuu nykyään, koita saada epä-poistumaan
 #mode:n kanssa kikkailut voivat auttaa selvityksessä
 #130126_sqroot-testissä tämän fktion poistamat paketit enimmäkseen poistuvat pl. tuon yhden blokin jutut
+
 function t2pc() {
 	dqb "common_lib.t2p_common( ${1})"
 	csleep 1
@@ -136,96 +186,60 @@ function t2pc() {
 
 	${fib}
 	csleep 1
-
 #	#131225:aiheuttaa oheisvahinkoa, ei voida vielä käyttää ennenq selvitetty missä menee pieleen
 #äksään liittyvät paketit olisi hyvä silyttää suus
+#listan5 e kaa riviä ei pasko asioita, mutta sen jälkeen...
+	p2g ${1}
 
-	local f
-	local g
-
-	for f in $(grep -v '#' ${1}/pkgs_drop | head -n 5) ; do
-		dqb "${sharpy} ${f}*"
-		csleep 1
-
-		g=$(echo $f | cut -d ',' -f 1)
-		${sharpy} $g
-
-		g=$(echo $f | cut -d ',' -f 2)
-		${sharpy} $g
-
-		g=$(echo $f |  cut -d ',' -f 3)
-		${sharpy} $g
-
-		g=$(echo $f |  cut -d ',' -f 4)
-		${sharpy} $g
-
-		g=$(echo $f |  cut -d ',' -f 5)	
-		${sharpy} $g	
-
-		#VAIH:JOSKO KUITENKIN s.e. pkgs_drop sisältö vähän toisin ni ei tarvitse cntr-kikkailuja tässä
-		#... jos vaikka ao. linkeistä jotain hyötyä jatkossa:
-
-		#https://unix.stackexchange.com/questions/214664/go-from-a-string-to-an-array-of-words-in-bash
-		#https://www.baeldung.com/linux/bash-string-split-into-array
-		#https://stackoverflow.com/questions/10586153/how-to-split-a-string-into-an-array-in-bash
-
-		csleep 1
-		t2p_filler
-	done
-
-	csleep 10
-	exit
-
+	csleep 5
+#	exit
 	dqb "gpg= $(sudo which gpg)"
-	csleep 10
-	
-	${sharpy} blu*
-	t2p_filler
-	csleep 2
-
-	${sharpy} mutt
-	t2p_filler
-	csleep 2
-
-	${sharpy} rpcbind nfs-common
-	${sharpy} dmsetup
-	t2p_filler
-	csleep 2
-
-	${sharpy} amd64-microcode at-spi2-core #toimii systeemi ilmankin näitä mutta ?
-	t2p_filler
-
-	${sharpy} bubblewrap coinor* cryptsetup*
-	t2p_filler
-
-	${sharpy} debian-faq dirmngr discover* doc-debian
-	t2p_filler
-
-	#HUOM.29925: daedaluksessa dmsetup ja libdevmapper? poistuvat jos poistuvat g_doit ajamisen jälkeen
-	${sharpy} docutils* dosfstools efibootmgr exfalso
-	t2p_filler
-	csleep 2
-
-	#040126:to state the obvious:eloginin poisto laittaa äksän pois pelistä
-
-	#tikkujen kanssa paska tdstojärjestelmä exfat
-	${sharpy} exfatprogs fdisk gcr ftp*
-	t2p_filler
-
-	#231225 uutena, pois jos qsee
-	${sharpy} gpgv
-	t2p_filler
-
-	dqb "gpg= $(sudo which gpg)"
-	csleep 10
-
-	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
-	t2p_filler
-
-	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta kun xcalibur
-	#${sharpy} grub* 
-	${sharpy} gstreamer* #libgs poist alempana
-	t2p_filler
+	csleep 5
+#	
+#	${sharpy} blu*
+#	t2p_filler
+#	csleep 2
+#
+#	${sharpy} mutt
+#	csleep 2
+#
+#	${sharpy} rpcbind nfs-common
+#	${sharpy} dmsetup
+#	t2p_filler
+#	csleep 2
+#
+#	${sharpy} amd64-microcode at-spi2-core #toimii systeemi ilmankin näitä mutta ?
+#	t2p_filler
+#
+#	${sharpy} bubblewrap coinor* cryptsetup*
+#
+#	${sharpy} debian-faq dirmngr discover* doc-debian
+#	t2p_filler
+#
+#	#HUOM.29925: daedaluksessa dmsetup ja libdevmapper? poistuvat jos poistuvat g_doit ajamisen jälkeen
+#	${sharpy} docutils* dosfstools efibootmgr exfalso
+#	t2p_filler
+#	csleep 2
+#	#040126:to state the obvious:eloginin poisto laittaa äksän pois pelistä
+#
+#	#tikkujen kanssa paska tdstojärjestelmä exfat
+#	${sharpy} exfatprogs fdisk gcr ftp*
+#	t2p_filler
+#
+#	#231225 uutena, pois jos qsee
+#	${sharpy} gpgv
+#	t2p_filler
+#
+#	dqb "gpg= $(sudo which gpg)"
+#	csleep 10
+#
+#	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
+#	t2p_filler
+#
+#	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta kun xcalibur
+#	#${sharpy} grub* 
+#	${sharpy} gstreamer* #libgs poist alempana
+#	t2p_filler
 
 	${sharpy} htop inetutils-telnet intel-microcode isolinux
 	t2p_filler
@@ -335,8 +349,10 @@ dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
 csleep 10
 [ ${mode} -eq 0 ] && exit
 
-#TODO:$d/pkgs_drop hyödyntäminen jatkossa
-t2p
+#VAIH:$d/pkgs_drop hyödyntäminen jatkossa
+#t2p
+p2g ${d}
+
 [ $? -gt 0 ] && exit
 #dqb "gpg= $(sudo which gpg)"
 #csleep 10
