@@ -12,7 +12,7 @@ function udp6() {
 	csleep 1
 }
 
-function t2p() {
+function t2p() { #130226:korvautuu kohta g_pt2 uudella fktiolla tai siis
 	csleep 1
 
 	dqb "chim.t2p()"
@@ -100,6 +100,6 @@ function tpc7() {
 }
 
 	
-check_binaries ${d} #globaalit perseestä, $(pwd) tilalle?
+check_binaries $(pwd) #${d} toimiiko?
 lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
 check_binaries2
