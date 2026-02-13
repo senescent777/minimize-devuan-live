@@ -136,30 +136,45 @@ function t2pc() {
 
 	${fib}
 	csleep 1
-	local cntr
-	cntr=0
 
 #	#131225:aiheuttaa oheisvahinkoa, ei voida vielä käyttää ennenq selvitetty missä menee pieleen
 #äksään liittyvät paketit olisi hyvä silyttää suus
-	local f
 
-	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
-		#dqb "sharpy ${f} \*"
-		#csleep 1
+	local f
+	local g
+
+	for f in $(grep -v '#' ${1}/pkgs_drop | head -n 5) ; do
 		dqb "${sharpy} ${f}*"
 		csleep 1
 
-		if [ ${cntr} -gt 3 ] ; then
-			dqb "t2p_filler"
-			csleep 1
-			cntr=0
-		else #meniköhän syntaksi ihan nappiin? ei vielä
-			cntr=$((cntr++))
-		fi
+		g=$(echo $f | cut -d ',' -f 1)
+		${sharpy} $g
+
+		g=$(echo $f | cut -d ',' -f 2)
+		${sharpy} $g
+
+		g=$(echo $f |  cut -d ',' -f 3)
+		${sharpy} $g
+
+		g=$(echo $f |  cut -d ',' -f 4)
+		${sharpy} $g
+
+		g=$(echo $f |  cut -d ',' -f 5)	
+		${sharpy} $g	
+
+		#VAIH:JOSKO KUITENKIN s.e. pkgs_drop sisältö vähän toisin ni ei tarvitse cntr-kikkailuja tässä
+		#... jos vaikka ao. linkeistä jotain hyötyä jatkossa:
+
+		#https://unix.stackexchange.com/questions/214664/go-from-a-string-to-an-array-of-words-in-bash
+		#https://www.baeldung.com/linux/bash-string-split-into-array
+		#https://stackoverflow.com/questions/10586153/how-to-split-a-string-into-an-array-in-bash
+
+		csleep 1
+		t2p_filler
 	done
 
 	csleep 10
-	#exit
+	exit
 
 	dqb "gpg= $(sudo which gpg)"
 	csleep 10
