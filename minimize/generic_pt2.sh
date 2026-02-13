@@ -134,21 +134,6 @@ function p2g() {
 	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
 		dqb "SOON: \${sharpy} ${f}* "
 		csleep 5
-
-#		g=$(echo $f | cut -d ',' -f 1)
-#		${sharpy} $g
-#
-#		g=$(echo $f | cut -d ',' -f 2)
-#		${sharpy} $g
-#
-#		g=$(echo $f |  cut -d ',' -f 3)
-#		${sharpy} $g
-#
-#		g=$(echo $f |  cut -d ',' -f 4)
-#		${sharpy} $g
-#
-#		g=$(echo $f |  cut -d ',' -f 5)	
-#		${sharpy} $g
 	
 		IFS="," read -a g <<< "${f}"
 		#echo "g=$g"
@@ -186,13 +171,16 @@ function t2pc() {
 
 	${fib}
 	csleep 1
+
 #	#131225:aiheuttaa oheisvahinkoa, ei voida vielä käyttää ennenq selvitetty missä menee pieleen
 #äksään liittyvät paketit olisi hyvä silyttää suus
 #listan5 e kaa riviä ei pasko asioita, mutta sen jälkeen...
+#suattaapi olla ninnii jotta g_pt2 renkaaminen paskoo äksän pikemminkin
+	
 	p2g ${1}
-
 	csleep 5
 #	exit
+
 	dqb "gpg= $(sudo which gpg)"
 	csleep 5
 #	
