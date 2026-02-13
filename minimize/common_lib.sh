@@ -434,6 +434,11 @@ function cefgh() {
 	#mitäjos part3() kaNssa tulee sitä gpg-nalkutusta? g.tar-jutut takaisin tähämn?	
 }
 
+function cefgh() {
+	efk2 ${1}/e.tar
+	efk2 ${1}/f.tar ${1}
+}
+
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ) "
 	csleep 1
@@ -908,6 +913,13 @@ function enforce_access() {
 
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
+}
+
+function fasdfasd() {
+	dqb "SUN LIIRUM SUN LAARUM ${1}"
+	touch ${1}
+	chown $(whoami):$(whoami) ${1}
+	chmod 0644 ${1}
 }
 
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages

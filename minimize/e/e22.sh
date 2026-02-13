@@ -416,6 +416,7 @@ function e22_elocal() {
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUSTs BEFOREs URLEs S"
 	csleep 1
+	fasdfasd /opt/bin/zxcv
 
 	for f in $(find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
@@ -737,6 +738,12 @@ function e22_arch() {
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
 	[ ${debug} -eq 1 ] && ls -las ${1} 
+	#VAIH:gpg -u mukaan
+
+	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
+		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
+		#TODO:.sig kanssa mukaan pakettiin
+	fi
 
 	csleep 5
 	cd ${p}
