@@ -262,70 +262,91 @@ function clouds_pp1() {
 	dqb "pp1 done"
 }
 
+#130226:chimaeran kanssa tapahtui halt, jospa selvittäisi miksi
+#130226.2.mjono policy:accept tablesin outputissa saisi johtaa halt:iin kanssa
+
 function clouds_pp3() {
-	csleep 1
+	csleep 2
 	dqb "# c.pp.3 a.k.a RELOADINGz TBLZ RULEZ ${1}"
+	csleep 2
+
 	[ -z "${1}" ] && /sbin/halt
-	csleep 1
+	csleep 2
 	dqb "paramz 0k"
-	csleep 1
+	csleep 2
 	p3r1m3tr
 
 	local p
 	p=$(echo ${1} | tr -d -c 0-9)
 	dqb "bfore -f"
+	csleep 2
 
 	[ -f /etc/iptables/rules.v4.${p} ] || sudo /sbin/halt
         [ -f /etc/iptables/rules.v6.${p} ] || sudo /sbin/halt
 
 	dqb "bfore -s"
-	csleep 1
+	csleep 2
 
 	[ -s /etc/iptables/rules.v4.${p} ] || sudo /sbin/halt
 	[ -s /etc/iptables/rules.v6.${p} ] || sudo /sbin/halt
 	dqb "just bfore iptr"
+	csleep 2
 
 	${iptr} /etc/iptables/rules.v4.${p}
 	[ $? -eq 0 ] || /sbin/halt
+	csleep 2
+	dqb "v4 reloaded ok"
+
 	${ip6tr} /etc/iptables/rules.v6.${p}
 	[ $? -eq 0 ] || /sbin/halt
-	csleep 1
+	csleep 2
+	dqb "v6 reloaded ok"
 
 	#tässä oikea paikka tables-muutoksille vai ei?
 	${ipt} -F b
 	${ipt} -F e
+	csleep 2
+	dqb "FLiBe"	
 
 	#pidemmän päälle olisi kätevämpi nimetä kuin numeroida ne säännöt...
 	${ipt} -D INPUT 5
 	${ipt} -D OUTPUT 6
-
-	csleep 1
+	dqb "56"
+	csleep 2
 	dqb "pp3 done"
 }
 
 #HUOM.29525:tekeekö 2. parametrilla mitään tämä? annetaanko moista?
 function clouds_pre() {
 	dqb "cdns.clouds_pre( ${1}, ${2} )"
-	csleep 1
+	csleep 2
 	local t
+	dqb "jst bef0re loop"
+	csleep 1
 
 	for t in INPUT OUTPUT FORWARD ; do
 		${ipt} -P ${t} DROP
 		[ $? -eq 0 ] || /sbin/halt
-		dqb "V6"; csleep 1
+		dqb "V4 ${t} ok"; csleep 2
 
 		${ip6t} -P ${t} DROP
 		[ $? -eq 0 ] || /sbin/halt
+		dqb "V6 ${t} ok"; csleep 2
 
 		${ip6t} -F ${t}
 		[ $? -eq 0 ] || /sbin/halt
+		dqb "V6 -GF ${t} ok"; csleep 2
 	done
 
 	clouds_pp1
-	csleep 1
+	csleep 2
+
+	dqb "cpp2"
 	#clouds_pp2 ${1} #vissiin common_lib.change_bin1:stä löytyy syy miksi rules.v$x.$y tyhjenee
+	csleep 2
+
 	clouds_pp3 ${1}
-	csleep 1
+	csleep 2
 
 	dqb "... done"
 }

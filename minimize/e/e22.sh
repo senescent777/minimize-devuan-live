@@ -294,6 +294,7 @@ function e22_settings() {
 	csleep 1
 }
 
+#TODO:ne *pkgs* - jutut mukaan zxcv:hen jotain kautta? ESIM 322:HOME?
 function e22_home() { #160126:suattaapi vaikka toimia
 	dqb "  e22_home() ${1} , ${2} , ${3}  "
 
@@ -416,10 +417,15 @@ function e22_elocal() {
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUSTs BEFOREs URLEs S"
 	csleep 1
-	fasdfasd /opt/bin/zxcv
 
 	for f in $(find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
+		dqb "PROCESSING ${f}"
+		csleep 1
+
+		#TODO:find ~ -type f -name '*pkgs*' -not -name '*.OLD' jhnkn
+
 		if [ -s ${f} ] && [ -r ${f} ] ; then
+			#140226:toimiiko tämä haara?
 			${srat} -rvf ${1} ${f}
 			${sah6} ${f} >> ${6}
 		else
@@ -462,6 +468,7 @@ function e22_elocal() {
 		;;
 	esac
 
+	#TODO:tästä poikki fktio? tai ef-kohdan jölkeen parempi?
 	local ef
 	ef=$(echo ${4} | tr -d -c 0-9)
 
@@ -738,12 +745,6 @@ function e22_arch() {
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
 	[ ${debug} -eq 1 ] && ls -las ${1} 
-	#VAIH:gpg -u mukaan
-
-	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
-		#TODO:.sig kanssa mukaan pakettiin
-	fi
 
 	csleep 5
 	cd ${p}

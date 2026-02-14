@@ -175,11 +175,8 @@ if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
 	#DONE?:tämän haaran testaus (vielä ainakin kehitysymnp? ja sqroot- ymp reaktio c_bin parametriin)
-	#210126 ei kai mitään erityistä härdelliä ollut sqroot-testissä mutta jos vielä kerran kokeilisi siellä
-	#... vieläpä niin että lib.sh pois pelistä
-	
+	#210126 ei kai mitään erityistä härdelliä ollut sqroot-testissä
 	#100226: "$0 3 " yritteli kyllä asentaa juttuja
-	#, tuli urputusta aiheista libwraster6, libgif7, libmagickwand-6, libpam-modules, libpam-modules-bin ...
 	
 	echo $?
 	dqb "NO LIB"
@@ -316,7 +313,6 @@ function common_part() {
 }
 
 dqb "HPL"
-
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
 
