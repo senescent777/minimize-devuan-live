@@ -1228,6 +1228,30 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 	csleep 1
 }
 
+function cg_udp6() { #kts $distro/lib.sh
+	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
+	csleep 1
+
+	[ -z "${1}" ] && exit 65
+	#jokin syy miksi ei -z ? let's find out
+
+	[ -d ${1} ] || exit 66
+	dqb "paramz 0k"
+	csleep 1
+
+	dqb "${1} :"
+	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb | wc -l
+	csleep 3
+
+	dqb "${pkgdir} :"
+	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb | wc -l
+	csleep 3
+
+	common_lib_tool ${1} reject_pkgs
+	dqb "D0NE"
+	csleep 1
+}
+
 #160126:g.tar liittyvää kikkailua jatkossa? sittenkin check_bin() alta g-jutut -> cefgh()?
 #100226;sources.list-juttuuyihIN liittyviä muutoksia vielä josqs?
 
