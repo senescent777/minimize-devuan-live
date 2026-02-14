@@ -17,10 +17,10 @@ else
 		arsch=$(${odio} find / -type f -name keys.conf | head -n 1)
 
 		if [ -z "${arsch}" ] ; then
-			dqb "P1SS3 UND SCH31553"
+			dqb "P1553 UND SCH31553"
 		else
 			if [ -s ${arsch} ] ; then
-				dqb "f0 und schweinhund"
+				dqb "f0 und schw31nhund"
 				. ${arsch}
 			else
 				dqb "666"
@@ -811,8 +811,8 @@ function e22_dblock() { #150126:lisää toivottavaa sisältöä kohde-pakettiin
 
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-5)
-
 	e22_ts ${2}
+
 	enforce_access ${n} ${t} #tarpeellinen nykyään?
 	e22_arch ${1} ${2}
 	csleep 1
