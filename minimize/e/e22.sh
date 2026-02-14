@@ -226,7 +226,7 @@ function e22_cleanpkgs() { #130126:edelleen toimii
 }
 
 #120126:taisi toimia taas
-#HUOM.1§50126:e22_elocal() yrittää vetää /e alta xorg konftdston mukaan pakettiin
+#HUOM.1§50126:loka() yrittää vetää /e alta xorg konftdston mukaan pakettiin
 #... ei ole ihan pakko config1:sessä siis
 
 function e22_config1() {
@@ -390,8 +390,8 @@ function luca() {
 #
 #... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan
 
-function e22_elocal() { 
-	dqb "e22_elocal ${1} , ${2} , ${3} , ${4} , ${5} , ${6}"
+function loka() { 
+	dqb "loka ${1} , ${2} , ${3} , ${4} , ${5} , ${6}"
 	csleep 1
 
 	[ -z "${1}" ] && exit 1
@@ -399,18 +399,15 @@ function e22_elocal() {
 	#[ -w ${1} ] || exit 9
 
 	[ -z "${2}" ] && exit 2
-	[ -z "${3}" ] && exit 3	
+	[ -z "${3}" ] && exit 3		
 	[ -z "${4}" ] && exit 5
-	[ -z "${5}" ] && exit 11
-	
-	[ -z "${6}" ] && exit 13
-	[ -s ${6} ] || exit 17
 
 	csleep 1
 	dqb "params_ok"
 	csleep 1
 
-	${scm} 0755 /etc/iptables
+	#missös nämä palautettiin entiselleen? ja tartttteeko olla 07xx ?
+	${scm} 0555 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
 
@@ -422,12 +419,11 @@ function e22_elocal() {
 		dqb "PROCESSING ${f}"
 		csleep 1
 
-		#TODO:find ~ -type f -name '*pkgs*' -not -name '*.OLD' jhnkn
-
+		
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			#140226:toimiiko tämä haara?
 			${srat} -rvf ${1} ${f}
-			${sah6} ${f} >> ${6}
+			#
 		else
 			echo "SUURI HIRVIKYRPÄ ${f} "
 			echo "5H0ULD exit 666"
@@ -468,18 +464,7 @@ function e22_elocal() {
 		;;
 	esac
 
-	#TODO:tästä poikki fktio? tai ef-kohdan jölkeen parempi?
-	local ef
-	ef=$(echo ${4} | tr -d -c 0-9)
-
-	if  [ ${ef} -eq 1 ] ; then
-		dqb "Das Asdd"
-	else
-		#1.else-haara tOIMII , 1707126
-		#2.fstab lisäksi muutakin mukaan vai ei?
-		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
-	fi
-
+	#jos tämä blokki aikaisemmaksi jatkossa, loka
 	dqb "DSN"
 	csleep 2
 	local f
@@ -491,6 +476,35 @@ function e22_elocal() {
 	else
 		dqb "n0 5tub"
 	fi
+	#
+
+	local ef
+	ef=$(echo ${4} | tr -d -c 0-9)
+
+	if  [ ${ef} -eq 1 ] ; then
+		dqb "Das Asdd"
+	else
+		#1.else-haara tOIMII , 1707126
+		#2.fstab lisäksi muutakin mukaan vai ei?
+		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
+	fi
+
+	#VAIH:tästä poikki fktio
+}
+
+function marras() {
+	dqb "marras $1 $2 $3 $4"
+
+	[ -z "${1}" ] && exit 1
+	[ -s ${1} ] || exit 4 
+	#[ -w ${1} ] || exit 9
+#nämäkin pitäuisi lotota uusiksi
+#	
+#	[ -z "${2}" ] && exit 11
+#	
+#	[ -s ${3} ] || exit 17
+
+	#exit 666
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
@@ -506,11 +520,11 @@ function e22_elocal() {
 	done
 	
 	csleep 3
-	#130126:josko alkaisi vähitellen tulla wdm-jutut mukaan? ei vielä koska jokin juttu
-	dqb "find / etc -type f -name ${5} \* -and -not -name  \* .202 \* "
+	#130126:josko alkaisi vähitellen tulla wdm-jutut mukaan? ei vielä koska jokin juttu?
+	dqb "find / etc -type f -name ${2} \* -and -not -name  \* .202 \* "
 	csleep 3
 
-	g=$(${odio} find /etc -type f -name '${5}*' -and -not -name '*.202*')
+	g=$(${odio} find /etc -type f -name '${2}*' -and -not -name '*.202*')
 
 	for f in ${g} ; do
 		dqb "${srat} -rvf ${1} ${f}"
@@ -521,7 +535,16 @@ function e22_elocal() {
 	csleep 3
 	${srat} -rvf ${1} /etc/X11/default-display-manager
 	csleep 3
-	dqb "e22_elocal done"
+
+	${scm} 0555 /etc/iptables
+	${scm} 0444 /etc/iptables/rules*
+	${scm} 0444 /etc/default/rules*
+
+	for f in $(${odio} find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3}	; done
+	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3}	; done
+
+	other_horrors
+	dqb "loka done"
 	csleep 1
 }
 

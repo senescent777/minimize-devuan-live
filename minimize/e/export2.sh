@@ -181,7 +181,7 @@ case ${mode} in
 #		
 #		exit
 	;;
-	f) 	#140126:jospa ao. blokki toimisi edelleen
+	f) 	#140226:toimiiko edelleen? 
 
 		enforce_access ${n} ${t}
 		e22_hdr ${tgtfile}
@@ -229,7 +229,7 @@ case ${mode} in
 		exit
 	;;
 	g)
-		#150126:luuultavasti oksennetut komennot toimivat edelleen
+		#1402222222226:luuultavasti oksennetut komennot toimivat edelleen (miten f?)
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "${sag_u} | ${fib} , when necessary " 
 
@@ -316,7 +316,9 @@ case ${mode} in
 		dqb "B3F0R3 RP2	"
 		csleep 1
 
-		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm} /opt/bin/zxcv
+		loka ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
+		fasdfasd /opt/bin/zxcv #onko ihan pakko? 
+		marras ${tgtfile} ${CONF_dm} /opt/bin/zxcv
 		reqwreqw  /opt/bin/zxcv
 		csleep 1
 
