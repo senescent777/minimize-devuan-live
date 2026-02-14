@@ -3,29 +3,31 @@
 #https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
-#TODO:jospa tämmöinen geneerinen kikkare -> common_lib tjsp
+#VAIH:jospa tämmöinen geneerinen kikkare -> common_lib tjsp
 function udp6() { #on käytössä
-	dqb "daud.lib.UPDP-6 ${1}"
-	csleep 1
+	cg_udp6 ${1}
 
-	#jokin syy miksi ei -z ?
-	[ -d ${1} ] || exit 66
-	dqb "paramz 0k"
-	csleep 1
-
-	dqb "${1} :"
-	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb | wc -l
-	csleep 3
-
-	dqb "${pkgdir} :"
-	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb | wc -l
-	csleep 3
-
-	common_lib_tool ${1} reject_pkgs
-	dqb "D0NE"
-	csleep 1
+#	dqb "daud.lib.UPDP-6 ${1}"
+#	csleep 1
+#
+#	#jokin syy miksi ei -z ?
+#	[ -d ${1} ] || exit 66
+#	dqb "paramz 0k"
+#	csleep 1
+#
+#	dqb "${1} :"
+#	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb | wc -l
+#	csleep 3
+#
+#	dqb "${pkgdir} :"
+#	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb | wc -l
+#	csleep 3
+#
+#	common_lib_tool ${1} reject_pkgs
+#	dqb "D0NE"
+#	csleep 1
 }
-
+#
 #common_lib_tool-tyylillä jatkossa tämänkin fktion hommat? kts g_pt2
 #251225:poistetaanko täsäs kohtaa liikaa?
 #130126:sqrot-tstissä psmisc ei poistunut
