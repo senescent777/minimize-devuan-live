@@ -12,7 +12,8 @@ fi
 
 chmod a-wx ./clouds*
 chown root:root ${0}
-chmod 0555 ${0}
+#oli 0555
+chmod 0511 ${0}
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -29,16 +30,49 @@ mode=${1}
 [ -d ~/Desktop/minimize/${2} ] && distro=${2} #TODO:ehkä muutos tähän? miksi?
 
 function epr1() {
+	dqb "31n-p0d-r05..."
+	csleep 1
 	local c
+
+	#uutena 140226 EIKU
+     	c=$(find /opt -type d -not -user 0 | wc -l)
+        [ ${c} -gt 0 ] && exit 104
+
+        c=$(find /opt -type d -not -group 0 | wc -l)
+        [ ${c} -gt 0 ] && exit 105
+
+        c=$(find /opt -type d -perm /o+w,g+w | wc -l)
+        [ ${c} -gt 0 ] && exit 106
+
+	c=$(find /opt/bin -name 'zxcv*' -type f -perm /o+r | wc -l)
+        [ ${c} -gt 0 ] && exit 107
+
+	#VAIH:go+rw jatkossa ehtona?
+	#c=$(find /opt/bin -type f -perm /o+w,g+w,o+r,g+r | wc -l)
+        #[ ${c} -gt 0 ] && exit 108
+
+        c=$(find /opt/bin -type f -not -user 0 | wc -l)
+        [ ${c} -gt 0 ] && exit 109
+
+	c=$(find /opt/bin -type f -not -group 0 | wc -l)
+        [ ${c} -gt 0 ] && exit 110
+	#
+
+	#g-ehto vielä?
 	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 111
+
 	c=$(find /etc -name 'iptab*' -type d -not -user 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 112
+
 	c=$(find /etc -name 'iptab*' -type d -not -group 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 113
 
 	${odio} rm /etc/default/rules*
+
 	#tämän kanssa jotain kiukuttelua 150126 (josko deletoisi /e/d alta juttuja esmes)
+	#... edelleen jotain 140226 (vissiin tablesin masentelu sotkee, chimaerassa)
+	#
 	#c=$(${odio} find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
 	#[ ${c} -gt 0 ] && exit 114
 
@@ -59,15 +93,6 @@ function epr1() {
 	[ ${c} -gt 0 ] && exit 121
 	c=$(find /etc/sudoers.d -type f -not -group 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 122
-
-#takaisin käyttöön asap (VAIH:jos o+w riittäisi o-ehdksi jatkossa?)
-	c=$(find /opt/bin -type f -perm /o+w | wc -l)
-	[ ${c} -gt 0 ] && exit 123
-
-	c=$(find /opt/bin -type f -not -user 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 124
-	c=$(find /opt/bin -type f -not -group 0 | wc -l)
-	[ ${c} -gt 0 ] && exit 125
 }
 
 epr1
@@ -197,7 +222,7 @@ function dda_snd() {
 #	${scm} go-w /home
 #	${sco} -R ${1}:65534 /home/${1}/ #HUOM.280125: tässä saattaa mennä metsään ... tai sitten se /r/s.pid
 #	dqb "d0n3"
-#	csleep 1	
+#	csleep 1
 #
 #	[ ${debug} -eq 1 ]  && ls -las /home
 #	csleep 1
@@ -281,24 +306,24 @@ function clouds_pp3() {
 	dqb "bfore -f"
 	csleep 2
 
-	[ -f /etc/iptables/rules.v4.${p} ] || sudo /sbin/halt
-        [ -f /etc/iptables/rules.v6.${p} ] || sudo /sbin/halt
+	[ -f /etc/iptables/rules.v4.${p} ] || dqb "SHOULD sudo /sbin/halt 1"
+        [ -f /etc/iptables/rules.v6.${p} ] || dqb "SHOPLD sudo /sbin/halt 2"
 
 	dqb "bfore -s"
 	csleep 2
 
-	[ -s /etc/iptables/rules.v4.${p} ] || sudo /sbin/halt
-	[ -s /etc/iptables/rules.v6.${p} ] || sudo /sbin/halt
+	[ -s /etc/iptables/rules.v4.${p} ] || dqb "SHOULD sudo /sbin/halt 3"
+	[ -s /etc/iptables/rules.v6.${p} ] || dqb "SHOULD sudo /sbin/halt 4"
 	dqb "just bfore iptr"
 	csleep 2
 
 	${iptr} /etc/iptables/rules.v4.${p}
-	[ $? -eq 0 ] || /sbin/halt
+	[ $? -eq 0 ] || dqb "SOhULD /sbin/halt 5"
 	csleep 2
 	dqb "v4 reloaded ok"
 
 	${ip6tr} /etc/iptables/rules.v6.${p}
-	[ $? -eq 0 ] || /sbin/halt
+	[ $? -eq 0 ] || dqb "Hsould /sbin/halt 6"
 	csleep 2
 	dqb "v6 reloaded ok"
 
@@ -306,11 +331,12 @@ function clouds_pp3() {
 	${ipt} -F b
 	${ipt} -F e
 	csleep 2
-	dqb "FLiBe"	
+	dqb "FLiBe"
 
 	#pidemmän päälle olisi kätevämpi nimetä kuin numeroida ne säännöt...
 	${ipt} -D INPUT 5
 	${ipt} -D OUTPUT 6
+
 	dqb "56"
 	csleep 2
 	dqb "pp3 done"
@@ -326,15 +352,15 @@ function clouds_pre() {
 
 	for t in INPUT OUTPUT FORWARD ; do
 		${ipt} -P ${t} DROP
-		[ $? -eq 0 ] || /sbin/halt
+		[ $? -eq 0 ] || dqb "SOULD /sbin/halt 7"
 		dqb "V4 ${t} ok"; csleep 2
 
 		${ip6t} -P ${t} DROP
-		[ $? -eq 0 ] || /sbin/halt
+		[ $? -eq 0 ] || dqb "SOUHLD /sbin/halt 8"
 		dqb "V6 ${t} ok"; csleep 2
 
 		${ip6t} -F ${t}
-		[ $? -eq 0 ] || /sbin/halt
+		[ $? -eq 0 ] || dqb "ShOULD /sbin/halt 9"
 		dqb "V6 -GF ${t} ok"; csleep 2
 	done
 
@@ -347,8 +373,7 @@ function clouds_pre() {
 
 	clouds_pp3 ${1}
 	csleep 2
-
-	dqb "... done"
+	dqb "S0UL SARC1F1C3 69"
 }
 
 function clouds_post() {
