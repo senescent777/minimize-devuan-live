@@ -3,7 +3,7 @@
 #https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
-#VAIH:jospa tämmöinen geneerinen kikkare -> common_lib tjsp
+#TODO:selvitä , toimiiko vai ei? e22_ts() esmes
 function udp6() { #on käytössä
 	cg_udp6 ${1}
 
@@ -27,7 +27,7 @@ function udp6() { #on käytössä
 #	dqb "D0NE"
 #	csleep 1
 }
-#
+
 #common_lib_tool-tyylillä jatkossa tämänkin fktion hommat? kts g_pt2
 #251225:poistetaanko täsäs kohtaa liikaa?
 #130126:sqrot-tstissä psmisc ei poistunut
