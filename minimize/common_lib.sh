@@ -75,6 +75,8 @@ function other_horrors() {
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
 	${sco} -R root:root /etc/iptables
+	
+	#VAIH:fuleksiin liittyen se changedns.sh kommentoitu find-juttu taas käyttöön
 	${scm} 0400 /etc/default/rules*
 	${scm} 0555 /etc/default
 	${sco} -R root:root /etc/default
@@ -794,10 +796,34 @@ function e_e() {
 	${scm} 0755 /etc
 	${sco} -R root:root /etc
 	${scm} 0555 /etc/network
+
+	#vihje:ei tarvinne erikseen -R koska ylempänä
 	${scm} 0444 /etc/network/*
-	${sco} root:root /etc/network
+	#${sco} root:root /etc/network
 
 	for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
+
+	dqb "EE2"
+	csleep 1
+	local f
+	f=$(date +%F)
+
+	#VAIH:etc-jutut e_e alla kuitenkin?
+	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
+	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
+
+	if [ -h /etc/resolv.conf ] ; then
+		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
+			${smr} /etc/resolv.conf
+		fi
+	fi
+
+	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
+	csleep 1
+
+	${sco} -R root:root /etc/wpa_supplicant
+	${scm} -R a-w /etc/wpa_supplicant
+
 	dqb "e_e d0n3"
 	csleep 1
 }
@@ -838,12 +864,10 @@ function e_h() {
 
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
-	local m
+	local m=0555
 
 	if [ ${debug} -gt 0 ] ; then
 		m=0755
-	else
-		m=0555
 	fi
 
 	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} ${m} ${f} ; done
@@ -851,7 +875,7 @@ function e_h() {
 	csleep 1
 
 	for f in ${2} /opt/bin ; do
-		${scm} 0555 ${f}/changedns.sh
+		${scm} 0511 ${f}/changedns.sh #OLI 555
 		${sco} root:root ${f}/changedns.sh
 	done
 
@@ -862,26 +886,18 @@ function e_h() {
 function e_final() {
 	dqb "e_final ${1} "
 	csleep 1
-	local f
-	f=$(date +%F)
 
-	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
-	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
+	#${scm} a-w /opt/bin/*
+	${scm} go-rw /opt/bin/* #VAIH:sama changedns.sh:n sisällä mikäli ei tämäkuse
+	${sco} -R root:root /opt
 
-	if [ -h /etc/resolv.conf ] ; then
-		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
-			${smr} /etc/resolv.conf
-		fi
-	fi
-
-	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-	csleep 1
-
-	${sco} -R root:root /etc/wpa_supplicant
-	${scm} -R a-w /etc/wpa_supplicant
-
-	${scm} a-w /opt/bin/*
-	${sco} -R root:root /opt/bin
+	#VAIH:nämä jatkossa e_final() sisällä?
+	${scm} 0755 /
+	${sco} root:root /
+	${scm} 0777 /tmp
+	${scm} o+w /tmp #081225:+t pois koska "exp2 u"
+	${sco} root:root /tmp
+	#
 
 	dqb "e_final D0N3"
 	csleep 1
@@ -894,13 +910,6 @@ function enforce_access() {
 
 	e_e
 	e_v
-
-	${scm} 0755 /
-	${sco} root:root /
-
-	${scm} 0777 /tmp
-	${scm} o+w /tmp #081225:+t pois koska "exp2 u"
-	${sco} root:root /tmp
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
 	e_h ${1} ${2}
@@ -1277,7 +1286,7 @@ function part3() {
 	csleep 1
 
 	common_lib_tool ${1} reject_pkgs
-	#HUOM.160126:pitäiasiköhän ajaa lftr ennen masenteluja? chimaera...
+	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 
 	efk1 ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
 	common_lib_tool ${1} accept_pkgs_1

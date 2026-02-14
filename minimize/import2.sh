@@ -471,7 +471,7 @@ case "${mode}" in
 
 		part3 ${d}
 		other_horrors
-
+		#TODO:enemmän oikueksien pakotusta tähän
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;

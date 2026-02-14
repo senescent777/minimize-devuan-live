@@ -5,10 +5,13 @@ efibootmgr,exfalso,exfatprogs,fdisk,gcr
 ftp,gpgv,gimp-data,gir,gstreamer
 htop,inetutils-telnet,intel-microcode,isolinux,libreoffice
 #
-#ao. rivit paskovat asioita?
-#libgstreamer,libpoppler,libsane,lvm2,lynx
+#ao. rivit paskovat asioita? let's find out -> äksä poistuu jos koko roskan ajaa läpi
+libgstreamer,libpoppler,libsane
+#lvm2,lynx
 #mail,mlocate,modem,mtools,mythes
 #netcat-traditional,openssh,parted,pavucontrol,ppp
+#
 #plocate,pciutils,procmail,ristretto,screen
 #shim,speech,syslinux-common,tex,tumbler
-#vim,xorriso,xz-utils,xfburn,xarchiver
+#xz.utils vai xz?
+#vim,xorriso,xz,xfburn,xarchiver
