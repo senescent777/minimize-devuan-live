@@ -107,7 +107,7 @@ fi
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	debug=1
+	#debug=1
 	dqb "FALLBACK"
 
 	if [ -f /.chroot ] ; then
@@ -169,16 +169,20 @@ else
 fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
+csleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
-	#TODO:tämän haaran testaus
+	#DONE?:tämän haaran testaus (vielä ainakin kehitysymnp? ja sqroot- ymp reaktio c_bin parametriin)
+	#210126 ei kai mitään erityistä härdelliä ollut sqroot-testissä
+	#100226: "$0 3 " yritteli kyllä asentaa juttuja
+	
 	echo $?
 	dqb "NO LIB"
 	csleep 1
 
-	check_binaries
+	check_binaries ${d}
 	[ $? -eq 0 ] || exit 
 
 	check_binaries2
@@ -202,6 +206,7 @@ dqb "srat= ${srat}"
 csleep 3
 dqb "LHP"
 
+#josko tilansäästön nimissä kolmaskin ehto? tai ehkä ei pakko
 if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
 	dqb "OLD.tar OK"
 else
@@ -234,7 +239,7 @@ function common_part() {
 		dqb "A"
 		dqb "gg= ${gg}"
 
-		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemasaolon sijaan?
+		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemassssaolon sijaan?
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 			dqb "B"
 			
@@ -308,7 +313,6 @@ function common_part() {
 }
 
 dqb "HPL"
-
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
 
@@ -342,7 +346,7 @@ function tpr() {
 	q=$(mktemp -d)
 	[ $? -gt 0 ] && exit 17
 
-	dqb "JUST BEFOIRE TAR"
+	dqb "JUST BEFORE TAR"
 	#jos vielä härdelliä niin keskeytetään mikäli ei fediversestä löydä prefs.js?
 	r=$(${srat} -tf ${1}/fediverse.tar | grep prefs.js | wc -l)
 	[ ${r} -gt 0 ] || exit 18
@@ -424,7 +428,7 @@ dqb "srcfile=${srcfile}"
 csleep 1
 
 case "${mode}" in
-	1) #151225:toimii
+	1) #151225:toimii (lienee testattu senkin jälkeen)
 		common_part ${srcfile} ${d} /
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
@@ -438,14 +442,25 @@ case "${mode}" in
 		csleep 1
 
 		if [ ${1} -eq 0 ] ; then
-			if [ -f /.chroot ] ; then
+			if [ -f /.chroot ] ; then #mitense alt_root?
 				echo "EI NÄIN"
 				exit 99
 			fi
 			
 			common_part ${srcfile} ${d} /
 		else
-			 [ -f /.chroot ] && echo "DSHOULD cp accept/reject/dtop TO /h/d/d/m/distro"
+			if [ -f /.chroot ] ; then #  && [ -v CONF_alt_root ] ; then
+				#100226:vihdoinkin tämäkin korjattu?
+				#VAIH:testaa uusicksi lähiaikoina
+				
+				dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
+				csleep 6
+
+				cp ${d}/*pkgs* ${CONF_alt_root}/${distro}
+				ls -las ${CONF_alt_root}/${distro}
+				csleep 4
+			fi
+			
 			csleep 1
 			common_part ${srcfile} ${d} ${d}
 		fi
@@ -460,7 +475,7 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
-	r) #141225:muuten ok mutta x?
+	r) #141225:muuten ok mutta ...?
 		[ -d ${srcfile} ] || exit 22
 		${srat} -C ~ -jxf ~/config.tar.bz2
 		tpr ${srcfile}
