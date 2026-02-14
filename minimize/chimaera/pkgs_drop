@@ -14,8 +14,7 @@ ntp
 notification-daemon
 orca,packagekit
 #
-pigz
-po
+pigz,po
 rpcbind
 sane-utils
 squash
