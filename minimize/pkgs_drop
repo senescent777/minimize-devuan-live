@@ -7,12 +7,13 @@ htop,inetutils-telnet,intel-microcode,isolinux,libreoffice
 #viimeisin näköjään oltava samalla rivillä muiden kanssa
 #
 #150226:tähän asti ok
-libgstreamer,libpoppler,libsane,lvm2,lynx
+#libgstreamer,libpoppler,libsane,lvm2,lynx
 #
 #mail,mlocate,modem,mtools,mythes
 #netcat-traditional,openssh,parted,pavucontrol
 #ppp
 #
+#uskaltaisikohan listan loppupäätä poistaa kommenteista? ehkä, vim ei näköjään qse asioita
 #plocate,pciutils,procmail,ristretto,screen
-#shim,speech,syslinux-common,tex,tumbler
-#vim,xorriso,xz-utils,xfburn,xarchiver
+shim,speech,syslinux-common,tex,tumbler
+vim,xorriso,xz-utils,xfburn,xarchiver

@@ -809,7 +809,6 @@ function e_e() {
 	local f
 	f=$(date +%F)
 
-	#VAIH:etc-jutut e_e alla kuitenkin?
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
@@ -854,8 +853,7 @@ function e_h() {
 	${sco} root:root /home
 	${scm} 0755 /home
 
-	#if [ y"${1}" != "y" ] ; then
-		#VAIH:tulisi kai grepata /e/p vasten ennenq
+
 		local c
 		c=$(grep $1 /etc/passwd | wc -l)
 
@@ -864,7 +862,7 @@ function e_h() {
 			${sco} -R ${1}:${1} ~
 			csleep 1
 		fi
-	#
+
 	local f
 	dqb " e h PT 2"
 	csleep 1
@@ -896,10 +894,9 @@ function e_final() {
 	csleep 1
 
 	#${scm} a-w /opt/bin/*
-	${scm} go-rw /opt/bin/* #VAIH:sama changedns.sh:n sisällä mikäli ei tämäkuse
+	${scm} go-rw /opt/bin/*
 	${sco} -R root:root /opt
 
-	#VAIH:nämä jatkossa e_final() sisällä?
 	${scm} 0755 /
 	${sco} root:root /
 	${scm} 0777 /tmp

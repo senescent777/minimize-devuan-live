@@ -82,7 +82,7 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 
 sleep 1
-csleep 1
+#csleep 1
 
 #151225:sqroot alla osasi poistella paketteja tämä skripti
 if [ ${CONF_removepkgs} -eq 1 ] ; then
@@ -106,14 +106,14 @@ if [ -f /.chroot ] ; then
 	${sharpy} rpc*
 	
 	t2p_filler
-	csleep 2
+	#csleep 1
 	
 	${sharpy} dmsetup
 	${sharpy} at-spi2-core	
 	${sharpy} psmisc
 	
 	t2p_filler
-	csleep 2	
+	#csleep 1	
 fi
 	
 #====================================================================
@@ -133,10 +133,8 @@ function p2g() {
 
 	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
 		dqb "SOON: \${sharpy} ${f}* "
-		csleep 5
-	
+		csleep 1
 		IFS="," read -a g <<< "${f}"
-		#echo "g=$g"
 
 		for h in ${g[@]} ; do
 			#echo "\${sharpy} ${h}"
@@ -147,7 +145,7 @@ function p2g() {
 		#https://www.baeldung.com/linux/bash-string-split-into-array
 		#https://stackoverflow.com/questions/10586153/how-to-split-a-string-into-an-array-in-bash
 
-		csleep 5
+		csleep 1
 		t2p_filler
 	done
 
@@ -167,67 +165,16 @@ function t2pc() {
 	[ -d ${1} ] || exit 98
 
 	dqb "shar_py = ${sharpy} ;"
-	csleep 2
+	csleep 1
 
 	${fib}
 	csleep 1
-
-#	#131225:aiheuttaa oheisvahinkoa, ei voida vielä käyttää ennenq selvitetty missä menee pieleen
-#äksään liittyvät paketit olisi hyvä silyttää suus
-#listan5 e kaa riviä ei pasko asioita, mutta sen jälkeen...
-#suattaapi olla niInnii jotta g_pt2 renkKKKKaaminen paskoo äksän pikemminkin (TAI SIT EI)
 	
 	p2g ${1}
-	csleep 5
-#	exit
+	csleep 1
 
 	dqb "gpg= $(sudo which gpg)"
-	csleep 5
-#	
-#	${sharpy} blu*
-#	t2p_filler
-#	csleep 2
-#
-#	${sharpy} mutt
-#	csleep 2
-#
-#	${sharpy} rpcbind nfs-common
-#	${sharpy} dmsetup
-#	t2p_filler
-#	csleep 2
-#
-#	${sharpy} amd64-microcode at-spi2-core #toimii systeemi ilmankin näitä mutta ?
-#	t2p_filler
-#
-#	${sharpy} bubblewrap coinor* cryptsetup*
-#
-#	${sharpy} debian-faq dirmngr discover* doc-debian
-#	t2p_filler
-#
-#	#HUOM.29925: daedaluksessa dmsetup ja libdevmapper? poistuvat jos poistuvat g_doit ajamisen jälkeen
-#	${sharpy} docutils* dosfstools efibootmgr exfalso
-#	t2p_filler
-#	csleep 2
-#	#040126:to state the obvious:eloginin poisto laittaa äksän pois pelistä
-#
-#	#tikkujen kanssa paska tdstojärjestelmä exfat
-#	${sharpy} exfatprogs fdisk gcr ftp*
-#	t2p_filler
-#
-#	#231225 uutena, pois jos qsee
-#	${sharpy} gpgv
-#	t2p_filler
-#
-#	dqb "gpg= $(sudo which gpg)"
-#	csleep 10
-#
-#	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
-#	t2p_filler
-#
-#	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta kun xcalibur
-#	#${sharpy} grub* 
-#	${sharpy} gstreamer* #libgs poist alempana
-#	t2p_filler
+	csleep 1
 
 #joskoe i 2 kertaa renkkaisi samoja paketteja?
 #	${sharpy} htop inetutils-telnet intel-microcode isolinux
@@ -236,13 +183,13 @@ function t2pc() {
 #	#160126:näyttä siltä että chimaeran kanssa libreoffice ei poistuisi, toistuuko?
 #	${sharpy} libreoffice*
 #	t2p_filler
-#150226:tähän asti ok
+#150226:tähän asti ok, sitten alkanee qsta
 
-#	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
-#	t2p_filler
-#
-#	${sharpy} lvm2 lynx* #miten mariadb-common?
-#	t2p_filler
+	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
+	t2p_filler
+
+	${sharpy} lvm2 lynx* #miten mariadb-common?
+	t2p_filler
 
 	#excalibur ei sisällä?
 	${sharpy} mail* mlocate modem* mtools mythes*
@@ -261,45 +208,44 @@ function t2pc() {
 	${sharpy} ristretto screen
 	t2p_filler
 
-	${sharpy} shim* speech* syslinux-common
-	t2p_filler
+#150226:tämän blokin kanssa vähän auki, uskaltaako vivuta
+#	${sharpy} shim* speech* syslinux-common
+#	t2p_filler
+#
+#	${sharpy} tex* tumbler*
+#	t2p_filler
 
-	${sharpy} tex* tumbler*
-	t2p_filler
-
-	${sharpy} vim*
-	t2p_filler
-
-	dqb "gpg= $(sudo which gpg)"
-	csleep 10
-
-	${sharpy} xorriso 
-	t2p_filler
-
-	${sharpy} xz-utils xfburn xarchiver # yad ei ole kaikissa distr
-	#xfce*,xorg* off limits
-	t2p_filler
-
-	#1111111112222222222226:joskohan "dpkg-python-lib-nalkutus" olisi jo ohi?
-	#071225:pitäisikö ao. ehdolle tehdä jotain?  uuden .iso:n kanssa kun sitä temppuilua (vielä ajank 01/26?)
+#150226:tämä blokki oli ok siirtää p2g:lle
+#	${sharpy} vim*
+#	t2p_filler
+#
+#	dqb "gpg= $(sudo which gpg)"
+#	csleep 1
+#
+#	${sharpy} xorriso 
+#	t2p_filler
+#
+#	${sharpy} xz-utils xfburn xarchiver # yad ei ole kaikissa distr
+#	#xfce*,xorg* off limits
+#	t2p_filler
 
 	if [ -f /.chroot ] ; then
 		dqb "SHOULD ${sharpy} slim*"
-		csleep 2
+		csleep 1
 
 		#nopeampi boottaus niinqu
 		dqb "TODO:KVG \"devuan how to skip dhcp on boot\""
-		csleep 2
+		csleep 1
 
 		dqb "t2p_filler()"
-		csleep 2
+		csleep 1
 
 		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
 		dqb "Xorg -config ? "
-		csleep 2
+		csleep 1
 	else
 		dqb "COULD? ${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
-		csleep 10
+		csleep 1
 		dqb "WOULD: A.I.C"
 	fi
 
@@ -326,17 +272,17 @@ function t2pf() {
 
 	for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
 	df
-	${odio} which dhclient; ${odio} which ifup; csleep 2
+	${odio} which dhclient; ${odio} which ifup; csleep 1
 }
 
 #====================================================================
 dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
-csleep 10
+csleep 1
 
 t2pc ${d0}
 [ $? -gt 0 ] && exit
 dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
-csleep 10
+csleep 1
 [ ${mode} -eq 0 ] && exit
 
 #VAIH:$d/pkgs_drop hyödyntäminen jatkossa
@@ -345,20 +291,20 @@ p2g ${d}
 
 [ $? -gt 0 ] && exit
 #dqb "gpg= $(sudo which gpg)"
-#csleep 10
+#csleep 1
 [ ${mode} -eq 1 ] && exit
 
 t2pf ${d}
 [ $? -gt 0 ] && exit
 #dqb "gpg= $(sudo which gpg)"
-#csleep 10
+#csleep 1
 [ ${mode} -eq 2 ] && exit
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
-csleep 2
+csleep 1
 ${scm} 0555 ${d0}/common_lib.sh 
 
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
-dqb "${whack} xfce4-session 1n 3 s3c5"
-sleep 2
+dqb "${whack} xfce4-session 1n ... s3c5"
+sleep 1
 ${whack} xfce4-session #toimiiko tämä?

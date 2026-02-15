@@ -294,7 +294,6 @@ function e22_settings() {
 	csleep 1
 }
 
-#TODO:ne *pkgs* - jutut mukaan zxcv:hen jotain kautta? ESIM 322:HOME?
 function e22_home() { #160126:suattaapi vaikka toimia
 	dqb "  e22_home() ${1} , ${2} , ${3}  "
 
@@ -487,7 +486,6 @@ function loka() {
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
 
-	#VAIH:tästä poikki fktio
 }
 
 function marras() {
@@ -495,14 +493,9 @@ function marras() {
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
-	#[ -w ${1} ] || exit 9
-#nämäkin pitäuisi lotota uusiksi
-#	
-#	[ -z "${2}" ] && exit 11
-#	
-#	[ -s ${3} ] || exit 17
 
-	#exit 666
+	#[ -w ${1} ] || exit 9
+	#TODO:param tark. pitäisi lotota uusiksi
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
@@ -539,7 +532,7 @@ function marras() {
 	${scm} 0444 /etc/default/rules*
 
 	#HUOM.150226:alkanut näyttää huonolta idealta ottaa listaan mukaan täsmälleen rules.v4 ja rules.v6
-	#... persistentit ehkä joutuisi ottamaan pois paketeista sivuvaikutuksena, barm vuoksi (VAIH, kts check_bin)
+	#... persistentit otettu pois paketeista sivuvaikutuksena, barm vuoksi ( kts check_bin)
 
 	for f in $(${odio} find /etc -type f -name 'rules.v*' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3}	; done
 	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3}	; done
@@ -896,7 +889,7 @@ function e22_tblz() {
 	dqb "x2.e22_tblz.done"
 }
 
-#VAIH:ntp-jutut takaisin josqs? tables-säännt ja mahd konffayus varmaan seuraavaksi
+#VAIH:ntp-jutut takaisin josqs? tables-säännt ja mahd konffayus varmaan seuraavaksi (JOKO JO?)
 
 #140126:joskohan paketin sisältö toimisi? ehkä just ennen ntpsec
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
@@ -1014,7 +1007,6 @@ function e22_dm() {
 			${shary} xdm
 		;;
 		wdm)
-			#VAIH:PAKETIN wdm RIIPPUVUUKSIEN METSÄSTYS UUSIKSI RASKAALLA KÄDELLÄ 666!!!
 			# zlib1g perl:any xserver-xorg | xserver:tarteeko juuri tässä vetää?
 			${shary} libnuma1
 
