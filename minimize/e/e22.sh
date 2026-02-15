@@ -133,7 +133,7 @@ function e22_pre1() { #130126:edelleen toimiva?
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) # | cut -d '/' -f 1-5)
 		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 
-		enforce_access ${n} ${lefid} #jos jo toimisi
+		enforce_access ${n} ${lefid} ${CONF_iface} #jos taas toimisi
 		csleep 1
 		dqb "3NF0RC1NG D0N3"
 
@@ -406,7 +406,7 @@ function loka() {
 	dqb "params_ok"
 	csleep 1
 
-	#missös nämä palautettiin entiselleen? ja tartttteeko olla 07xx ?
+	#missäs nämä palautettiin entiselleen? ja tartttteeko olla 07xx ? let's find out
 	${scm} 0555 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
@@ -419,11 +419,9 @@ function loka() {
 		dqb "PROCESSING ${f}"
 		csleep 1
 
-		
 		if [ -s ${f} ] && [ -r ${f} ] ; then
-			#140226:toimiiko tämä haara?
+			#140226:toimiiko tämä haara? ehkä
 			${srat} -rvf ${1} ${f}
-			#
 		else
 			echo "SUURI HIRVIKYRPÄ ${f} "
 			echo "5H0ULD exit 666"
@@ -540,7 +538,10 @@ function marras() {
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
 
-	for f in $(${odio} find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3}	; done
+	#HUOM.150226:alkanut näyttää huonolta idealta ottaa listaan mukaan täsmälleen rules.v4 ja rules.v6
+	#... persistentit ehkä joutuisi ottamaan pois paketeista sivuvaikutuksena, barm vuoksi (VAIH, kts check_bin)
+
+	for f in $(${odio} find /etc -type f -name 'rules.v*' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3}	; done
 	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3}	; done
 
 	other_horrors
@@ -813,7 +814,7 @@ function e22_dblock() { #150126:lisää toivottavaa sisältöä kohde-pakettiin
 	t=$(echo ${2} | cut -d '/' -f 1-5)
 	e22_ts ${2}
 
-	enforce_access ${n} ${t} #tarpeellinen nykyään?
+	enforce_access ${n} ${t}  ${CONF_iface} #tarpeellinen nykyään?
 	e22_arch ${1} ${2}
 	csleep 1
 

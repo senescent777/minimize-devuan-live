@@ -283,12 +283,19 @@ function common_part() {
 	
 	csleep 1
 	dqb "${srat} DONE"
-	local t
-	t=$(echo ${2} | cut -d '/' -f 1-5)
+}
 
-	#toisinaan tämä qsee?
+function cptp2() {
+	dqb "common_part tp2 ${1}, ${2}, ${3}"
+	[ -z "${1}" ] && echo 99
+	[ -z "${2}" ] && echo 98
+
+	local t
+	t=$(echo ${1} | cut -d '/' -f 1-5) #d0 jatkossa kutsuvan koodin kautta?
+
+	#150225:joskohan siirtäisi tämän blokin main() - metodin jälkeen, VAIH
 	if [ -x ${t}/common_lib.sh ] ; then
-		enforce_access ${n} ${t} 
+		enforce_access ${n} ${t} ${2}
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	else
 		dqb "n s t as ${t}/common_lib.sh "
@@ -307,11 +314,11 @@ function common_part() {
 		csleep 1
 	fi
 
-	[ ${debug} -eq 1 ] && ls -las ${2}
+	[ ${debug} -eq 1 ] && ls -las ${1}
 	csleep 1
 	dqb "ALL DONE"
 }
-
+	
 dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
@@ -430,6 +437,7 @@ csleep 1
 case "${mode}" in
 	1) #151225:toimii (lienee testattu senkin jälkeen)
 		common_part ${srcfile} ${d} /
+		cptp2 ${d} ${CONF_iface}
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
@@ -440,18 +448,19 @@ case "${mode}" in
 		csleep 1
 		dqb " ${3} ${distro} MN"
 		csleep 1
+		e="/"
 
 		if [ ${1} -eq 0 ] ; then
 			if [ -f /.chroot ] ; then #mitense alt_root?
 				echo "EI NÄIN"
 				exit 99
 			fi
-			
-			common_part ${srcfile} ${d} /
+#			
+#			common_part ${srcfile} ${d} /
 		else
-			if [ -f /.chroot ] ; then #  && [ -v CONF_alt_root ] ; then
+			if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
 				#100226:vihdoinkin tämäkin korjattu?
-				#VAIH:testaa uusicksi lähiaikoina
+				#VAIH:testaa uusicksi lähiaikoina (joko jo testattu 150226?)
 				
 				dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
 				csleep 6
@@ -461,17 +470,26 @@ case "${mode}" in
 				csleep 4
 			fi
 			
-			csleep 1
-			common_part ${srcfile} ${d} ${d}
+			#VAIH:c_p if-blokin jälkeen
+			#csleep 1
+			e=${d}
 		fi
 
+		csleep 1
+		common_part ${srcfile} ${d} ${e}
+		cptp2 ${d} ${CONF_iface}
 		csleep 1
 		dqb "c_p_d0n3, NEXT: pp3"
 		csleep 1
 
 		part3 ${d}
 		other_horrors
-		#TODO:enemmän oikueksien pakotusta tähän
+
+#		#VAIH:enemmän oikueksien pakotusta tähän
+#		if [ -x ${t}/common_lib.sh ] ; then
+#			enforce_access $(whoami) ${d}  #d0 jatkossa d sijaan?
+#		fi
+
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
@@ -487,7 +505,7 @@ case "${mode}" in
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
 		common_part ${srcfile} ${d} /
-
+		cptp2 ${d} ${CONF_iface}
 		${srat} -C ~ -jxf ~/config.tar.bz2
 		tpr ${d0}
 	;;

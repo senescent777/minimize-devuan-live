@@ -4,14 +4,15 @@ dirmngr,discover,doc-debian,docutils,dosfstools
 efibootmgr,exfalso,exfatprogs,fdisk,gcr
 ftp,gpgv,gimp-data,gir,gstreamer
 htop,inetutils-telnet,intel-microcode,isolinux,libreoffice
+#viimeisin näköjään oltava samalla rivillä muiden kanssa
 #
-#ao. rivit paskovat asioita? let's find out -> äksä poistuu jos koko roskan ajaa läpi
-libgstreamer,libpoppler,libsane
-#lvm2,lynx
+#150226:tähän asti ok
+libgstreamer,libpoppler,libsane,lvm2,lynx
+#
 #mail,mlocate,modem,mtools,mythes
-#netcat-traditional,openssh,parted,pavucontrol,ppp
+#netcat-traditional,openssh,parted,pavucontrol
+#ppp
 #
 #plocate,pciutils,procmail,ristretto,screen
 #shim,speech,syslinux-common,tex,tumbler
-#xz.utils vai xz?
-#vim,xorriso,xz,xfburn,xarchiver
+#vim,xorriso,xz-utils,xfburn,xarchiver

@@ -455,10 +455,10 @@ function check_binaries() {
 	
 	E22_GT="isc-dhcp-client isc-dhcp-common libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
 	E22_GT="${E22_GT} iptables"
-	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
+	E22_GT="${E22_GT} init-system-helpers" # iptables-persistent netfilter-persistent
 
 	E22_GU="isc-dhcp libnfnet libnetfilter libxtables libnftnllibnl-3-200 libnl-route libnl"
-	E22_GV="libip iptables_  netfilter-persistent iptables-"
+	E22_GV="libip iptables_  iptables-" # netfilter-persistent
 	
 	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
 	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
@@ -683,11 +683,12 @@ function reqwreqw() {
 #HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan
 function pre_enforce() {
 	dqb "common_lib.pre_enforce ${1} "
+	[ -z "${1}" ] && exit 98	
+	[ -d ${1} ] || exit 97
+	[ -v mkt ] || exit 99
 
 	local q
 	local f
-
-	[ -v mkt ] || exit 99
 
 	q=$(${mkt} -d)
 	q=${q}/meshuqqah
@@ -846,17 +847,24 @@ function e_v() {
 
 function e_h() {
 	dqb "e_h ${1} , ${2} "
+	[ -z "${1}" ] && exit 98
+	[ -d ${2} ] || exit 99
 	csleep 1
+
 	${sco} root:root /home
 	${scm} 0755 /home
 
-	if [ y"${1}" != "y" ] ; then
-		dqb "${sco} -R ${1}:${1} ~"
-		${sco} -R ${1}:${1} ~
-		csleep 1
-	fi
+	#if [ y"${1}" != "y" ] ; then
+		#VAIH:tulisi kai grepata /e/p vasten ennenq
+		local c
+		c=$(grep $1 /etc/passwd | wc -l)
 
-	[ -d ${2} ] || exit 99
+		if [ ${c} -gt 0 ] ; then
+			dqb "${sco} -R ${1}:${1} ~"
+			${sco} -R ${1}:${1} ~
+			csleep 1
+		fi
+	#
 	local f
 	dqb " e h PT 2"
 	csleep 1
@@ -884,7 +892,7 @@ function e_h() {
 }
 
 function e_final() {
-	dqb "e_final ${1} "
+	dqb "e_final ${1} " #HUOM.2501133326:mihin tarvitsee parametria?
 	csleep 1
 
 	#${scm} a-w /opt/bin/*
@@ -904,7 +912,11 @@ function e_final() {
 }
 
 function enforce_access() {
-	dqb " enforce_access ${1} , ${2}"
+	dqb " enforce_access ${1} , ${2}, ${3}"
+	[ -z "${1}" ] && exit 67
+	[ -z "${2}" ] && exit 68
+	[ -z "${3}" ] && exit 66
+
 	csleep 1
 	dqb "changing /sbin , /etc and /var 4 real"
 
@@ -913,7 +925,7 @@ function enforce_access() {
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
 	e_h ${1} ${2}
-	e_final ${CONF_iface}
+	e_final ${3} #CONF_iface} #iface parametriksi jatkossa?
 
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
@@ -1217,6 +1229,7 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		jules
 		local t
 		t=$(echo ${2} | tr -d -c 0-9)
+		#HUOM.160226:tdstot ilman ".$t"-päätettä, pitäisikö tehdä jotain? 
 
 		if [ -s /etc/iptables/rules.v6.${t} ] ; then
 			${ip6tr} /etc/iptables/rules.v6.${t}

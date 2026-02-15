@@ -76,6 +76,7 @@ dqb "debug= ${debug}"
 
 #221225:mitäs kaikkia pointteja olikaan ohittaa enforce.hommat sqroot.ympäristössä?
 #changedns ja fstab tietysti
+
 if [ -s /etc/sudoers.d/meshuqqah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
@@ -87,7 +88,7 @@ if [ -f /.chroot ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
-	enforce_access ${n} ${d0}
+	enforce_access ${n} ${d0} ${CONF_iface}
 fi
 
 csleep 2

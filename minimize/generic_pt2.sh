@@ -175,14 +175,14 @@ function t2pc() {
 #	#131225:aiheuttaa oheisvahinkoa, ei voida vielä käyttää ennenq selvitetty missä menee pieleen
 #äksään liittyvät paketit olisi hyvä silyttää suus
 #listan5 e kaa riviä ei pasko asioita, mutta sen jälkeen...
-#suattaapi olla ninnii jotta g_pt2 renkkkaaminen paskoo äksän pikemminkin (tai sit ei)
+#suattaapi olla niInnii jotta g_pt2 renkKKKKaaminen paskoo äksän pikemminkin (TAI SIT EI)
 	
 	p2g ${1}
 	csleep 5
-	exit
-#
-#	dqb "gpg= $(sudo which gpg)"
-#	csleep 5
+#	exit
+
+	dqb "gpg= $(sudo which gpg)"
+	csleep 5
 #	
 #	${sharpy} blu*
 #	t2p_filler
@@ -213,6 +213,7 @@ function t2pc() {
 #	#tikkujen kanssa paska tdstojärjestelmä exfat
 #	${sharpy} exfatprogs fdisk gcr ftp*
 #	t2p_filler
+#
 #	#231225 uutena, pois jos qsee
 #	${sharpy} gpgv
 #	t2p_filler
@@ -227,56 +228,57 @@ function t2pc() {
 #	#${sharpy} grub* 
 #	${sharpy} gstreamer* #libgs poist alempana
 #	t2p_filler
-#
+
+#joskoe i 2 kertaa renkkaisi samoja paketteja?
 #	${sharpy} htop inetutils-telnet intel-microcode isolinux
 #	t2p_filler
 #
 #	#160126:näyttä siltä että chimaeran kanssa libreoffice ei poistuisi, toistuuko?
 #	${sharpy} libreoffice*
 #	t2p_filler
-#
+#150226:tähän asti ok
+
 #	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
 #	t2p_filler
 #
-#	${sharpy} lvm2 lynx* mail* #miten mariadb-common?
-#	t2p_filler
-#
-#	#excalibur ei sisällä?
-#	${sharpy} mlocate modem* mtools mythes*
-#	t2p_filler
-#
-#	${sharpy} netcat-traditional openssh*
-#	t2p_filler
-#
-#	${sharpy} parted pavucontrol
-#	#libgtk3 ei poistu, libgtk4 kyllä
+#	${sharpy} lvm2 lynx* #miten mariadb-common?
 #	t2p_filler
 
-#toistaiseksi jemmassa nämäkin kunnes nappaa taas säätää
-#	${sharpy} ppp plocate pciutils procmail
-#	t2p_filler
-#
-#	${sharpy} ristretto screen
-#	t2p_filler
-#
-#	${sharpy} shim* speech* syslinux-common
-#	t2p_filler
-#
-#	${sharpy} tex* tumbler*
-#	t2p_filler
-#
-#	${sharpy} vim*
-#	t2p_filler
-#
-#	dqb "gpg= $(sudo which gpg)"
-#	csleep 10
-#
-#	${sharpy} xorriso 
-#	t2p_filler
-#
-#	${sharpy} xz-utils xfburn xarchiver # yad ei ole kaikissa distr
-#	#xfce*,xorg* off limits
-#	t2p_filler
+	#excalibur ei sisällä?
+	${sharpy} mail* mlocate modem* mtools mythes*
+	t2p_filler
+
+	${sharpy} netcat-traditional openssh*
+	t2p_filler
+
+	${sharpy} parted pavucontrol
+	#libgtk3 ei poistu, libgtk4 kyllä
+	t2p_filler
+
+	${sharpy} ppp plocate pciutils procmail
+	t2p_filler
+
+	${sharpy} ristretto screen
+	t2p_filler
+
+	${sharpy} shim* speech* syslinux-common
+	t2p_filler
+
+	${sharpy} tex* tumbler*
+	t2p_filler
+
+	${sharpy} vim*
+	t2p_filler
+
+	dqb "gpg= $(sudo which gpg)"
+	csleep 10
+
+	${sharpy} xorriso 
+	t2p_filler
+
+	${sharpy} xz-utils xfburn xarchiver # yad ei ole kaikissa distr
+	#xfce*,xorg* off limits
+	t2p_filler
 
 	#1111111112222222222226:joskohan "dpkg-python-lib-nalkutus" olisi jo ohi?
 	#071225:pitäisikö ao. ehdolle tehdä jotain?  uuden .iso:n kanssa kun sitä temppuilua (vielä ajank 01/26?)
