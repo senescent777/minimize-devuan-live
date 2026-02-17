@@ -76,13 +76,12 @@ for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 done
 
 ${fib}
-#echo "debug=${debug}"
+
 dqb "distro=${distro}"
 dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 
 sleep 1
-csleep 1
 
 #151225:sqroot alla osasi poistella paketteja tämä skripti
 if [ ${CONF_removepkgs} -eq 1 ] ; then
@@ -106,14 +105,14 @@ if [ -f /.chroot ] ; then
 	${sharpy} rpc*
 	
 	t2p_filler
-	csleep 2
+	#csleep 1
 	
 	${sharpy} dmsetup
 	${sharpy} at-spi2-core	
 	${sharpy} psmisc
 	
 	t2p_filler
-	csleep 2	
+	#csleep 1	
 fi
 	
 #====================================================================
@@ -121,9 +120,38 @@ fi
 #jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
 
+function p2g() {
+	dqb "THE_PIG ( ${1})"
+	csleep 1
+
+	[ -s ${1}/pkgs_drop ] || exit 66
+
+	local f
+	local g
+	local h
+
+	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
+		dqb "SOON: \${sharpy} ${f}* "
+		csleep 1
+		IFS="," read -a g <<< "${f}"
+
+		for h in ${g[@]} ; do
+			#echo "\${sharpy} ${h}"
+			${sharpy} ${h}*
+		done
+
+		csleep 1
+		t2p_filler
+	done
+
+	dqb "p2g DONE"
+	csleep 1
+}
+
 #VAIH:selvitä missä kohtaa gpg poistuu nykyään, koita saada epä-poistumaan
 #mode:n kanssa kikkailut voivat auttaa selvityksessä
 #130126_sqroot-testissä tämän fktion poistamat paketit enimmäkseen poistuvat pl. tuon yhden blokin jutut
+
 function t2pc() {
 	dqb "common_lib.t2p_common( ${1})"
 	csleep 1
@@ -132,85 +160,28 @@ function t2pc() {
 	[ -d ${1} ] || exit 98
 
 	dqb "shar_py = ${sharpy} ;"
-	csleep 2
+	csleep 1
 
 	${fib}
 	csleep 1
-
-#	#131225:aiheuttaa oheisvahinkoa, ei voida vielä käyttää ennenq selvitetty missä menee pieleen
-#	local f
-#	for f in $(grep -v '#' ${1}/pkgs_drop | head -n 10) ; do
-#		dqb "sharpy ${f} \*"
-#		csleep 1
-#		${sharpy} ${f}*
-#		csleep 1
-#	done
 	
-	dqb "gpg= $(sudo which gpg)"
-	csleep 10
-	
-	${sharpy} blu*
-	t2p_filler
-	csleep 2
-
-	${sharpy} mutt
-	t2p_filler
-	csleep 2
-
-	${sharpy} rpcbind nfs-common
-	${sharpy} dmsetup
-	t2p_filler
-	csleep 2
-
-	${sharpy} amd64-microcode at-spi2-core #toimii systeemi ilmankin näitä mutta ?
-	t2p_filler
-
-	${sharpy} bubblewrap coinor* cryptsetup*
-	t2p_filler
-
-	${sharpy} debian-faq dirmngr discover* doc-debian
-	t2p_filler
-
-	#HUOM.29925: daedaluksessa dmsetup ja libdevmapper? poistuvat jos poistuvat g_doit ajamisen jälkeen
-	${sharpy} docutils* dosfstools efibootmgr exfalso
-	t2p_filler
-	csleep 2
-
-	#040126:to state the obvious:eloginin poisto laittaa äksän pois pelistä
-
-	#tikkujen kanssa paska tdstojärjestelmä exfat
-	${sharpy} exfatprogs fdisk gcr ftp*
-	t2p_filler
-
-	#231225 uutena, pois jos qsee
-	${sharpy} gpgv
-	t2p_filler
+	p2g ${1}
+	csleep 1
 
 	dqb "gpg= $(sudo which gpg)"
-	csleep 10
+	csleep 1
 
-	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
-	t2p_filler
-
-	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta kun xcalibur
-	#${sharpy} grub* 
-	${sharpy} gstreamer* #libgs poist alempana
-	t2p_filler
-
-	${sharpy} htop inetutils-telnet intel-microcode isolinux
-	t2p_filler
-
-	${sharpy} libreoffice*
-	t2p_filler
+#joskoe i 2 kertaa renkkaisi samoja paketteja?
+#150226:tähän asti ok, sitten alkanee qsta
 
 	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
 	t2p_filler
 
-	${sharpy} lvm2 lynx* mail* #miten mariadb-common?
+	${sharpy} lvm2 lynx* #miten mariadb-common?
 	t2p_filler
 
 	#excalibur ei sisällä?
-	${sharpy} mlocate modem* mtools mythes*
+	${sharpy} mail* mlocate modem* mtools mythes*
 	t2p_filler
 
 	${sharpy} netcat-traditional openssh*
@@ -226,44 +197,32 @@ function t2pc() {
 	${sharpy} ristretto screen
 	t2p_filler
 
+#150226:tämän blokin kanssa vähän auki, uskaltaako vivuta (no ei vielä)
 	${sharpy} shim* speech* syslinux-common
 	t2p_filler
 
 	${sharpy} tex* tumbler*
 	t2p_filler
-
-	${sharpy} vim*
-	t2p_filler
-
-	dqb "gpg= $(sudo which gpg)"
-	csleep 10
-
-	${sharpy} xorriso 
-	t2p_filler
-
-	${sharpy} xz-utils xfburn xarchiver # yad ei ole kaikissa distr
-	#xfce*,xorg* off limits
-	t2p_filler
-
-	#071225:pitäisikö ao. ehdolle tehdä jotain?  uuden .iso:n kanssa kun sitä temppuilua (vielä ajank 01/26?)
+#
 
 	if [ -f /.chroot ] ; then
 		dqb "SHOULD ${sharpy} slim*"
-		csleep 2
+		csleep 1
 
 		#nopeampi boottaus niinqu
-		dqb "KVG \"devuan how to skip dhcp on boot\""
-		csleep 2
+		dqb "TODO:KVG \"devuan how to skip dhcp on boot\""
+		csleep 1
 
 		dqb "t2p_filler()"
-		csleep 2
+		csleep 1
 
 		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
 		dqb "Xorg -config ? "
-		csleep 2
+		csleep 1
 	else
-		dqb "COULD ${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
-		csleep 10
+		dqb "COULD? ${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
+		csleep 1
+		dqb "WOULD: A.I.C"
 	fi
 
 	spd="${sd0} -l "
@@ -289,37 +248,32 @@ function t2pf() {
 
 	for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
 	df
-	${odio} which dhclient; ${odio} which ifup; csleep 2
+	${odio} which dhclient; ${odio} which ifup; csleep 1
 }
 
 #====================================================================
 dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
-csleep 10
+csleep 1
 
 t2pc ${d0}
 [ $? -gt 0 ] && exit
 dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
-csleep 10
+csleep 1
 [ ${mode} -eq 0 ] && exit
 
-#TODO:$d/pkgs_drop hyödyntäminen jatkossa
-t2p
+p2g ${d}
 [ $? -gt 0 ] && exit
-#dqb "gpg= $(sudo which gpg)"
-#csleep 10
 [ ${mode} -eq 1 ] && exit
 
 t2pf ${d}
 [ $? -gt 0 ] && exit
-#dqb "gpg= $(sudo which gpg)"
-#csleep 10
 [ ${mode} -eq 2 ] && exit
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
-csleep 2
+csleep 1
 ${scm} 0555 ${d0}/common_lib.sh 
 
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
-dqb "${whack} xfce4-session 1n 3 s3c5"
-sleep 2
+dqb "${whack} xfce4-session 1n ... s3c5"
+sleep 1
 ${whack} xfce4-session #toimiiko tämä?

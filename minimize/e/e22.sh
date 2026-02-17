@@ -17,10 +17,10 @@ else
 		arsch=$(${odio} find / -type f -name keys.conf | head -n 1)
 
 		if [ -z "${arsch}" ] ; then
-			dqb "P1SS3 UND SCH31553"
+			dqb "P1553 UND SCH31553"
 		else
 			if [ -s ${arsch} ] ; then
-				dqb "f0 und schweinhund"
+				dqb "f0 und schw31nhund"
 				. ${arsch}
 			else
 				dqb "666"
@@ -133,7 +133,7 @@ function e22_pre1() { #130126:edelleen toimiva?
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) # | cut -d '/' -f 1-5)
 		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 
-		enforce_access ${n} ${lefid} #jos jo toimisi
+		enforce_access ${n} ${lefid} ${CONF_iface} #jos taas toimisi
 		csleep 1
 		dqb "3NF0RC1NG D0N3"
 
@@ -294,7 +294,6 @@ function e22_settings() {
 	csleep 1
 }
 
-#TODO:ne *pkgs* - jutut mukaan zxcv:hen jotain kautta? ESIM 322:HOME?
 function e22_home() { #160126:suattaapi vaikka toimia
 	dqb "  e22_home() ${1} , ${2} , ${3}  "
 
@@ -406,7 +405,7 @@ function loka() {
 	dqb "params_ok"
 	csleep 1
 
-	#missös nämä palautettiin entiselleen? ja tartttteeko olla 07xx ?
+	#missäs nämä palautettiin entiselleen? ja tartttteeko olla 07xx ? let's find out
 	${scm} 0555 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
@@ -419,11 +418,9 @@ function loka() {
 		dqb "PROCESSING ${f}"
 		csleep 1
 
-		
 		if [ -s ${f} ] && [ -r ${f} ] ; then
-			#140226:toimiiko tämä haara?
+			#140226:toimiiko tämä haara? ehkä
 			${srat} -rvf ${1} ${f}
-			#
 		else
 			echo "SUURI HIRVIKYRPÄ ${f} "
 			echo "5H0ULD exit 666"
@@ -441,7 +438,7 @@ function loka() {
 	dqb "B3F0R3 TÖBX"
 	csleep 1
 
-	#mikä järki juuri tässä keskeyttää suoritus?
+	#mikä järki juuri tässä keskeyttää suoritus? josko aiemmin kuitenkn? tai siis
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		echo "/E/IPTABLES sdhgfsdhgf"
 		exit 112
@@ -464,7 +461,6 @@ function loka() {
 		;;
 	esac
 
-	#jos tämä blokki aikaisemmaksi jatkossa, loka
 	dqb "DSN"
 	csleep 2
 	local f
@@ -476,7 +472,6 @@ function loka() {
 	else
 		dqb "n0 5tub"
 	fi
-	#
 
 	local ef
 	ef=$(echo ${4} | tr -d -c 0-9)
@@ -488,8 +483,6 @@ function loka() {
 		#2.fstab lisäksi muutakin mukaan vai ei?
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
-
-	#VAIH:tästä poikki fktio
 }
 
 function marras() {
@@ -540,7 +533,11 @@ function marras() {
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
 
-	for f in $(${odio} find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3}	; done
+	#HUOM.150226:alkanut näyttää huonolta idealta ottaa listaan mukaan täsmälleen rules.v4 ja rules.v6
+	#... persistentit ehkä joutuisi ottamaan pois paketeista sivuvaikutuksena, barm vuoksi (kts check_bin)
+	#TODO:pikemminkin rules.v?.? + sivuvaikutukset -> changedns.sh
+
+	for f in $(${odio} find /etc -type f -name 'rules.v*' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
 	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3}	; done
 
 	other_horrors
@@ -763,7 +760,6 @@ function e22_arch() {
 	fi
 
 	csleep 1
-	#090126:ao,. fktioon liittyen changedns jos tarkistaisi rules.* - tdstot
 	psqa .
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
@@ -811,9 +807,9 @@ function e22_dblock() { #150126:lisää toivottavaa sisältöä kohde-pakettiin
 
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-5)
-
 	e22_ts ${2}
-	enforce_access ${n} ${t} #tarpeellinen nykyään?
+
+	enforce_access ${n} ${t}  ${CONF_iface} #tarpeellinen nykyään?
 	e22_arch ${1} ${2}
 	csleep 1
 
@@ -895,7 +891,7 @@ function e22_tblz() {
 	dqb "x2.e22_tblz.done"
 }
 
-#VAIH:ntp-jutut takaisin josqs? tables-säännt ja mahd konffayus varmaan seuraavaksi
+#VAIH:ntp-jutut takaisin josqs? tables-säännt ja mahd konffayus varmaan seuraavaksi (JOKOJO?)
 
 #140126:joskohan paketin sisältö toimisi? ehkä just ennen ntpsec
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
@@ -1013,7 +1009,6 @@ function e22_dm() {
 			${shary} xdm
 		;;
 		wdm)
-			#VAIH:PAKETIN wdm RIIPPUVUUKSIEN METSÄSTYS UUSIKSI RASKAALLA KÄDELLÄ 666!!!
 			# zlib1g perl:any xserver-xorg | xserver:tarteeko juuri tässä vetää?
 			${shary} libnuma1
 
