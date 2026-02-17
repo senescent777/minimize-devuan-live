@@ -293,7 +293,6 @@ function cptp2() {
 	local t
 	t=$(echo ${1} | cut -d '/' -f 1-5) #d0 jatkossa kutsuvan koodin kautta?
 
-	#150225:joskohan siirtäisi tämän blokin main() - metodin jälkeen, VAIH
 	if [ -x ${t}/common_lib.sh ] ; then
 		enforce_access ${n} ${t} ${2}
 		dqb "running changedns.sh maY be necessary now to fix some things"
@@ -437,7 +436,7 @@ csleep 1
 case "${mode}" in
 	1) #151225:toimii (lienee testattu senkin jälkeen)
 		common_part ${srcfile} ${d} /
-		cptp2 ${d} ${CONF_iface}
+		#cptp2 ${d} ${CONF_iface}
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
@@ -455,8 +454,6 @@ case "${mode}" in
 				echo "EI NÄIN"
 				exit 99
 			fi
-#			
-#			common_part ${srcfile} ${d} /
 		else
 			if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
 				#100226:vihdoinkin tämäkin korjattu?
@@ -470,26 +467,19 @@ case "${mode}" in
 				csleep 4
 			fi
 			
-			#VAIH:c_p if-blokin jälkeen
-			#csleep 1
 			e=${d}
 		fi
 
 		csleep 1
 		common_part ${srcfile} ${d} ${e}
-		cptp2 ${d} ${CONF_iface}
+		#cptp2 ${d} ${CONF_iface}
 		csleep 1
 		dqb "c_p_d0n3, NEXT: pp3"
 		csleep 1
 
 		part3 ${d}
 		other_horrors
-
-#		#VAIH:enemmän oikueksien pakotusta tähän
-#		if [ -x ${t}/common_lib.sh ] ; then
-#			enforce_access $(whoami) ${d}  #d0 jatkossa d sijaan?
-#		fi
-
+		
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
@@ -505,7 +495,7 @@ case "${mode}" in
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
 		common_part ${srcfile} ${d} /
-		cptp2 ${d} ${CONF_iface}
+		#cptp2 ${d} ${CONF_iface}
 		${srat} -C ~ -jxf ~/config.tar.bz2
 		tpr ${d0}
 	;;
@@ -544,6 +534,7 @@ case "${mode}" in
 	;;
 esac
 
+cptp2 ${d} ${CONF_iface} #vaih:jos tämä jatkossa esac jälkeen kokatap, kokaa hyvö vetää nokkaan
 cd ${olddir}
 #ettei umount unohdu 
 

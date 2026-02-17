@@ -88,12 +88,13 @@ if [ -f /.chroot ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
-	enforce_access ${n} ${d0} ${CONF_iface}
+	enforce_access ${n} ${d0} ${CONF_iface} #3. param ei niin tarpeellinen
 fi
 
 csleep 2
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
+#aivopieru:jtnkin niin että voisi samalla kertaa purkaa paketin ja ajaa tämän skriptin trähän asti. Self-extracting archives?
 
 ${snt}
 csleep 1

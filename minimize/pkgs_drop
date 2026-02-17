@@ -13,7 +13,7 @@ htop,inetutils-telnet,intel-microcode,isolinux,libreoffice
 #netcat-traditional,openssh,parted,pavucontrol
 #ppp
 #
-#uskaltaisikohan listan loppupäätä poistaa kommenteista? ehkä, vim ei näköjään qse asioita
+#uskaltaisikohan listan loppupäätä poistaa kommenteista? ehkä, vim ei näköjään qse asioita, shim kyl
 #plocate,pciutils,procmail,ristretto,screen
-shim,speech,syslinux-common,tex,tumbler
+#shim,speech,syslinux-common,tex,tumbler
 vim,xorriso,xz-utils,xfburn,xarchiver

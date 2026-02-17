@@ -438,7 +438,7 @@ function loka() {
 	dqb "B3F0R3 TÖBX"
 	csleep 1
 
-	#mikä järki juuri tässä keskeyttää suoritus?
+	#mikä järki juuri tässä keskeyttää suoritus? josko aiemmin kuitenkn? tai siis
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		echo "/E/IPTABLES sdhgfsdhgf"
 		exit 112
@@ -461,7 +461,6 @@ function loka() {
 		;;
 	esac
 
-	#jos tämä blokki aikaisemmaksi jatkossa, loka
 	dqb "DSN"
 	csleep 2
 	local f
@@ -473,7 +472,6 @@ function loka() {
 	else
 		dqb "n0 5tub"
 	fi
-	#
 
 	local ef
 	ef=$(echo ${4} | tr -d -c 0-9)
@@ -485,7 +483,6 @@ function loka() {
 		#2.fstab lisäksi muutakin mukaan vai ei?
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
-
 }
 
 function marras() {
@@ -493,9 +490,14 @@ function marras() {
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
-
 	#[ -w ${1} ] || exit 9
-	#TODO:param tark. pitäisi lotota uusiksi
+#nämäkin pitäuisi lotota uusiksi
+#	
+#	[ -z "${2}" ] && exit 11
+#	
+#	[ -s ${3} ] || exit 17
+
+	#exit 666
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
@@ -532,9 +534,10 @@ function marras() {
 	${scm} 0444 /etc/default/rules*
 
 	#HUOM.150226:alkanut näyttää huonolta idealta ottaa listaan mukaan täsmälleen rules.v4 ja rules.v6
-	#... persistentit otettu pois paketeista sivuvaikutuksena, barm vuoksi ( kts check_bin)
+	#... persistentit ehkä joutuisi ottamaan pois paketeista sivuvaikutuksena, barm vuoksi (kts check_bin)
+	#TODO:pikemminkin rules.v?.? + sivuvaikutukset -> changedns.sh
 
-	for f in $(${odio} find /etc -type f -name 'rules.v*' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3}	; done
+	for f in $(${odio} find /etc -type f -name 'rules.v*' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
 	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3}	; done
 
 	other_horrors
@@ -757,7 +760,6 @@ function e22_arch() {
 	fi
 
 	csleep 1
-	#090126:ao,. fktioon liittyen changedns jos tarkistaisi rules.* - tdstot
 	psqa .
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
@@ -889,7 +891,7 @@ function e22_tblz() {
 	dqb "x2.e22_tblz.done"
 }
 
-#VAIH:ntp-jutut takaisin josqs? tables-säännt ja mahd konffayus varmaan seuraavaksi (JOKO JO?)
+#VAIH:ntp-jutut takaisin josqs? tables-säännt ja mahd konffayus varmaan seuraavaksi (JOKOJO?)
 
 #140126:joskohan paketin sisältö toimisi? ehkä just ennen ntpsec
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?

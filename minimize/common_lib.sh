@@ -76,7 +76,6 @@ function other_horrors() {
 	${scm} 0550 /etc/iptables
 	${sco} -R root:root /etc/iptables
 	
-	#VAIH:fuleksiin liittyen se changedns.sh kommentoitu find-juttu taas käyttöön
 	${scm} 0400 /etc/default/rules*
 	${scm} 0555 /etc/default
 	${sco} -R root:root /etc/default
@@ -853,15 +852,14 @@ function e_h() {
 	${sco} root:root /home
 	${scm} 0755 /home
 
+	local c
+	c=$(grep $1 /etc/passwd | wc -l)
 
-		local c
-		c=$(grep $1 /etc/passwd | wc -l)
-
-		if [ ${c} -gt 0 ] ; then
-			dqb "${sco} -R ${1}:${1} ~"
-			${sco} -R ${1}:${1} ~
-			csleep 1
-		fi
+	if [ ${c} -gt 0 ] ; then
+		dqb "${sco} -R ${1}:${1} ~"
+		${sco} -R ${1}:${1} ~
+		csleep 1
+	fi
 
 	local f
 	dqb " e h PT 2"
@@ -910,6 +908,7 @@ function e_final() {
 
 function enforce_access() {
 	dqb " enforce_access ${1} , ${2}, ${3}"
+
 	[ -z "${1}" ] && exit 67
 	[ -z "${2}" ] && exit 68
 	[ -z "${3}" ] && exit 66
@@ -922,7 +921,7 @@ function enforce_access() {
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
 	e_h ${1} ${2}
-	e_final ${3} #CONF_iface} #iface parametriksi jatkossa?
+	e_final ${3}
 
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
@@ -932,7 +931,9 @@ function enforce_access() {
 #myös https://github.com/topics/sources-list
 
 function part1_5() {
+
 	dqb "part1_5 ${1} , ${2} "
+
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	[ -d ${2} ] || exit 68

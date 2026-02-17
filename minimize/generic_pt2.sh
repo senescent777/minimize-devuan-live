@@ -76,13 +76,12 @@ for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 done
 
 ${fib}
-#echo "debug=${debug}"
+
 dqb "distro=${distro}"
 dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 
 sleep 1
-#csleep 1
 
 #151225:sqroot alla osasi poistella paketteja tämä skripti
 if [ ${CONF_removepkgs} -eq 1 ] ; then
@@ -141,10 +140,6 @@ function p2g() {
 			${sharpy} ${h}*
 		done
 
-		#https://unix.stackexchange.com/questions/214664/go-from-a-string-to-an-array-of-words-in-bash
-		#https://www.baeldung.com/linux/bash-string-split-into-array
-		#https://stackoverflow.com/questions/10586153/how-to-split-a-string-into-an-array-in-bash
-
 		csleep 1
 		t2p_filler
 	done
@@ -177,12 +172,6 @@ function t2pc() {
 	csleep 1
 
 #joskoe i 2 kertaa renkkaisi samoja paketteja?
-#	${sharpy} htop inetutils-telnet intel-microcode isolinux
-#	t2p_filler
-#
-#	#160126:näyttä siltä että chimaeran kanssa libreoffice ei poistuisi, toistuuko?
-#	${sharpy} libreoffice*
-#	t2p_filler
 #150226:tähän asti ok, sitten alkanee qsta
 
 	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
@@ -208,26 +197,13 @@ function t2pc() {
 	${sharpy} ristretto screen
 	t2p_filler
 
-#150226:tämän blokin kanssa vähän auki, uskaltaako vivuta
-#	${sharpy} shim* speech* syslinux-common
-#	t2p_filler
-#
-#	${sharpy} tex* tumbler*
-#	t2p_filler
+#150226:tämän blokin kanssa vähän auki, uskaltaako vivuta (no ei vielä)
+	${sharpy} shim* speech* syslinux-common
+	t2p_filler
 
-#150226:tämä blokki oli ok siirtää p2g:lle
-#	${sharpy} vim*
-#	t2p_filler
+	${sharpy} tex* tumbler*
+	t2p_filler
 #
-#	dqb "gpg= $(sudo which gpg)"
-#	csleep 1
-#
-#	${sharpy} xorriso 
-#	t2p_filler
-#
-#	${sharpy} xz-utils xfburn xarchiver # yad ei ole kaikissa distr
-#	#xfce*,xorg* off limits
-#	t2p_filler
 
 	if [ -f /.chroot ] ; then
 		dqb "SHOULD ${sharpy} slim*"
@@ -285,19 +261,12 @@ dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
 csleep 1
 [ ${mode} -eq 0 ] && exit
 
-#VAIH:$d/pkgs_drop hyödyntäminen jatkossa
-#t2p
 p2g ${d}
-
 [ $? -gt 0 ] && exit
-#dqb "gpg= $(sudo which gpg)"
-#csleep 1
 [ ${mode} -eq 1 ] && exit
 
 t2pf ${d}
 [ $? -gt 0 ] && exit
-#dqb "gpg= $(sudo which gpg)"
-#csleep 1
 [ ${mode} -eq 2 ] && exit
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
