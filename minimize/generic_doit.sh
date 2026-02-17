@@ -23,7 +23,6 @@ function parse_opts_1() {
 	dqb "parseopts_1 ${1} ${2}"
 
 	if [ -d ${d0}/${1} ] ; then
-		#toimiikohan tämä kohta? pitäiskö tegdä toisin, opts_2() ?
 		distro=${1}
 	else
 		case  "${1}" in
@@ -73,10 +72,10 @@ fi
 #==================================PART 1============================================================
 dqb "mode= ${mode}"
 dqb "debug= ${debug}"
+#exit
 
 #221225:mitäs kaikkia pointteja olikaan ohittaa enforce.hommat sqroot.ympäristössä?
 #changedns ja fstab tietysti
-
 if [ -s /etc/sudoers.d/meshuqqah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
@@ -88,13 +87,12 @@ if [ -f /.chroot ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
-	enforce_access ${n} ${d0} ${CONF_iface} #3. param ei niin tarpeellinen
+	enforce_access ${n} ${d0}
 fi
 
 csleep 2
-part1 ${distro} ${d}
+part1 ${distro} 
 [ ${mode} -eq 0 ] && exit
-#aivopieru:jtnkin niin että voisi samalla kertaa purkaa paketin ja ajaa tämän skriptin trähän asti. Self-extracting archives?
 
 ${snt}
 csleep 1
@@ -174,26 +172,8 @@ el_loco ${c14} 1 #${c13} #joko jo c13 takaisin?
 #=========================================================================================
 
 function adieu() {
-	dqb "AUF WIEDERSEHEN"
-#		
-#	#jnkn ehdon taakse session lahtaamista edelliset rivit?
-#	#130126:pois kommenteitsa jotta modatun .iso:n testaaminen onnistuu
-#	#päivän 1. yritys ei oikein lähtenyt lentoon
-#
-#	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
-#	csleep 5
-#	groups #ryhmiin kuulumisen muutokset eivät tapahtune ennen uloskirjautumista?
-#	csleep 5
-#	#140126:aiemmin oli scm ennen usermod, lieneekö järjestyksellä merkitystä
-#
-#	${scm} g+rw /dev/tty0
-#	csleep 1
-#	ls -las /dev/tty?
-#	csleep 5
-#210126:joskohan toimisi ilman näitä kikkailuja?
-#	#väärä tapa pakottaa uudelleen_kirjautuminen?
-	${whack} xfce4-session
-}
+	dqb "TODO:whack xfce4+stuff"
+	}
 
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then 
 	dqb "R (in 2 secs)"
@@ -207,8 +187,14 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	fi
 
 	if [ $? -eq 0 ] ; then
-		adieu		
+		#jnkn ehdon taakse seur 2-3 riviä?
+		#adieu		
+		${scm} g+rw /dev/tty0
+		${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
+		csleep 1
 
+		#väärä tapa pakottaa uudelleen_kirjautuminen?
+		${whack} xfce4-session
 		#HUOM. tässä ei tartte jos myöhemmin joka tap
 	else
 		dqb "SHOULD NAG ABOUT HAMMAD HERE"
@@ -225,7 +211,7 @@ part2_5 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 #===================================================PART 3===========================================================
 message
 
-#291125:kokeeksi käskyttämään "imp2 3" tässä kohtaa? (TODO)
+#291125:kokeeksi käskyttämään "imp2 3" tässä kohtaa?
 part3 ${d}
 other_horrors
 
@@ -260,8 +246,25 @@ ${scm} a-wx $0
 if [ ${mode} -eq 2 ] ; then
 	echo "time to ${sifu} ${CONF_iface} or whåtever"
 	csleep 1
-	adieu
+	#adieu
+	
+	#jnkn ehdon taakse session lahtaamista edelliset rivit?
+	#130126:pois kommenteitsa jotta modatun .iso:n testaaminen onnistuu
+	#päivän 1. yritys ei oikein lähtenyt lentoon
 
+	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
+	csleep 5
+	groups #ryhmiin kuulumisen muutokset eivät tapahtune ennen uloskirjautumista?
+	csleep 5
+	#140126:aiemmin oli scm ennen usermod, lieneekö järjestyksellä merkitystä
+
+	${scm} g+rw /dev/tty0
+	csleep 1
+	ls -las /dev/tty?
+	csleep 5
+
+	#väärä tapa pakottaa uudelleen_kirjautuminen?
+	${whack} xfce4-session
  	exit 
 fi
 
