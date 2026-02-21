@@ -226,7 +226,7 @@ function e22_cleanpkgs() { #130126:edelleen toimii
 }
 
 #120126:taisi toimia taas
-#HUOM.1§50126:loka() yrittää vetää /e alta xorg konftdston mukaan pakettiin
+#HUOM.1§50126:e22_acol() yrittää vetää /e alta xorg konftdston mukaan pakettiin
 #... ei ole ihan pakko config1:sessä siis
 
 function e22_config1() {
@@ -370,7 +370,7 @@ function luca() {
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule
 	csleep 2
 
-	dqb "JUST BEFOREs LOCALES"
+	dqb "JUSTs BEFOREs LOCALES"
 	csleep 1
 
 	#localtime taisi olla linkki, siksi erikseen
@@ -389,8 +389,8 @@ function luca() {
 #
 #... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan
 
-function loka() { 
-	dqb "loka ${1} , ${2} , ${3} , ${4} , ${5} , ${6}"
+function e22_acol() { 
+	dqb "e22_acol ${1} , ${2} , ${3} , ${4} , ${5} , ${6}"
 	csleep 1
 
 	[ -z "${1}" ] && exit 1
@@ -485,17 +485,16 @@ function loka() {
 	fi
 }
 
-function marras() {
-	dqb "marras $1 $2 $3 $4"
+function e22_sarram() {
+	dqb "e22_sarram $1 $2 $3 $4"
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
 	#[ -w ${1} ] || exit 9
-#nämäkin pitäuisi lotota uusiksi
-#	
-#	[ -z "${2}" ] && exit 11
-#	
-#	[ -s ${3} ] || exit 17
+
+	[ -z "${2}" ] && exit 11
+	[ -z "${3}" ] && exit 13
+	[ -s ${3} ] || exit 17
 
 	#exit 666
 
@@ -535,13 +534,13 @@ function marras() {
 
 	#HUOM.150226:alkanut näyttää huonolta idealta ottaa listaan mukaan täsmälleen rules.v4 ja rules.v6
 	#... persistentit ehkä joutuisi ottamaan pois paketeista sivuvaikutuksena, barm vuoksi (kts check_bin)
-	#TODO:pikemminkin rules.v?.? + sivuvaikutukset -> changedns.sh
+	#VAIH:pikemminkin rules.v?.? + sivuvaikutukset -> changedns.sh
 
-	for f in $(${odio} find /etc -type f -name 'rules.v*' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
+	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
 	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3}	; done
 
 	other_horrors
-	dqb "loka done"
+	dqb "e22_acol done"
 	csleep 1
 }
 
@@ -641,6 +640,7 @@ function e22_ext() { #160126:toiminee
 
 	local f
 	#160126:tuon yhden tdston kanssa jokin ongelma sha-tark kanssa, joten ksrdotssn
+	#TODO:pois myös resolv.conf.* ?
 
 	for f in $(find ./etc -type f -not -name interfaces.tmp) ; do
 		${sah6} ${f} >> ${4}
@@ -1170,6 +1170,7 @@ function e22_upgp() {
 	
 	${fib}
 	csleep 1
+	#210226:57 ja 59 kaikki riippuvuudet mukaan vaiko reject_pkgs kautta moiset pois?
 
 	#LOPPUU SE PURPATUS PRKL
 	${shary} cpp-12 gcc-12-base libstdc++6 

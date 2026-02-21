@@ -278,7 +278,7 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#160126:josa edelleen toimisi tämä case
+		#160126:jos edelleen toimisi tämä case
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 	
@@ -316,9 +316,9 @@ case ${mode} in
 		dqb "B3F0R3 RP2	"
 		csleep 1
 
-		loka ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
+		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
 		fasdfasd /opt/bin/zxcv #onko ihan pakko? 
-		marras ${tgtfile} ${CONF_dm} /opt/bin/zxcv
+		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv
 		reqwreqw  /opt/bin/zxcv
 		csleep 1
 

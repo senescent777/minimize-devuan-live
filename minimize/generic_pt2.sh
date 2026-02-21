@@ -103,25 +103,25 @@ if [ -f /.chroot ] ; then
 	${sharpy} blu*
 	${sharpy} nfs*
 	${sharpy} rpc*
-	
+
 	t2p_filler
 	#csleep 1
-	
+
 	${sharpy} dmsetup
 	${sharpy} at-spi2-core	
 	${sharpy} psmisc
-	
+
 	t2p_filler
-	#csleep 1	
+	#csleep 1
 fi
-	
+
 #====================================================================
 
 #jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
 
 function p2g() {
-	dqb "THE_PIG ( ${1})"
+	dqb "THE_PIG ( ${1} )"
 	csleep 1
 
 	[ -s ${1}/pkgs_drop ] || exit 66
@@ -153,7 +153,7 @@ function p2g() {
 #130126_sqroot-testissä tämän fktion poistamat paketit enimmäkseen poistuvat pl. tuon yhden blokin jutut
 
 function t2pc() {
-	dqb "common_lib.t2p_common( ${1})"
+	dqb "gpt2.t2p_common222( ${1} )"
 	csleep 1
 
 	[ -z "${1}" ] && exit 99
@@ -164,7 +164,7 @@ function t2pc() {
 
 	${fib}
 	csleep 1
-	
+
 	p2g ${1}
 	csleep 1
 
@@ -203,14 +203,14 @@ function t2pc() {
 
 	${sharpy} tex* tumbler*
 	t2p_filler
-#
+#210226: ... joskohan vähitellen saisi edes modaamatt9man kiekon kanssa p2g():n hoitamaan homman kokonaan?
 
 	if [ -f /.chroot ] ; then
-		dqb "SHOULD ${sharpy} slim*"
+		dqb "SHOULD \${sharpy} slim* "
 		csleep 1
 
-		#nopeampi boottaus niinqu
-		dqb "TODO:KVG \"devuan how to skip dhcp on boot\""
+		#onnaisiko näin edes?
+		dqb "TODO:KVG \"devuan how to skip dhcp on boot with /proc/cmdline \" "
 		csleep 1
 
 		dqb "t2p_filler()"
@@ -220,9 +220,10 @@ function t2pc() {
 		dqb "Xorg -config ? "
 		csleep 1
 	else
-		dqb "COULD? ${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
+		dqb "COULD? \${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
 		csleep 1
 		dqb "WOULD: A.I.C"
+		csleep 1
 	fi
 
 	spd="${sd0} -l "
