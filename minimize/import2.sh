@@ -436,7 +436,7 @@ csleep 1
 case "${mode}" in
 	1) #151225:toimii (lienee testattu senkin jälkeen)
 		common_part ${srcfile} ${d} /
-		#cptp2 ${d} ${CONF_iface}
+
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
@@ -472,7 +472,7 @@ case "${mode}" in
 
 		csleep 1
 		common_part ${srcfile} ${d} ${e}
-		#cptp2 ${d} ${CONF_iface}
+
 		csleep 1
 		dqb "c_p_d0n3, NEXT: pp3"
 		csleep 1
@@ -495,7 +495,7 @@ case "${mode}" in
 		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
 		common_part ${srcfile} ${d} /
-		#cptp2 ${d} ${CONF_iface}
+
 		${srat} -C ~ -jxf ~/config.tar.bz2
 		tpr ${d0}
 	;;
@@ -534,7 +534,7 @@ case "${mode}" in
 	;;
 esac
 
-cptp2 ${d} ${CONF_iface} #vaih:jos tämä jatkossa esac jälkeen kokatap, kokaa hyvö vetää nokkaan
+cptp2 ${d} ${CONF_iface}
 cd ${olddir}
 #ettei umount unohdu 
 

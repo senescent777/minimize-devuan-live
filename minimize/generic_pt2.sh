@@ -170,7 +170,7 @@ function t2pc() {
 	csleep 1
 
 #joskoe i 2 kertaa renkkaisi samoja paketteja?
-#150226:tähän asti ok, sitten alkanee qsta
+#150226:tähän asti ok, sitten alkanee qsta (jospa hyppisi ao. lib-juttujen yli tjsåp?)
 
 	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
 	t2p_filler
