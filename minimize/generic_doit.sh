@@ -94,7 +94,9 @@ fi
 csleep 2
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
+
 #aivopieru:jtnkin niin että voisi samalla kertaa purkaa paketin ja ajaa tämän skriptin trähän asti. Self-extracting archives?
+#KVG "bash here-doc examples" ?
 
 ${snt}
 csleep 1

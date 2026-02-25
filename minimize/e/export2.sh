@@ -103,12 +103,12 @@ dqb "AFTER GANGRENE SETS IN"
 csleep 1
 
 ###################261225:josko vähän loiventaisi ao. ehtoja?
-if [ -z "${tig}" ] ; then
-	#HUOM. kts alempaa mitä git tarvitsee
-	echo "sudo apt-get update;sudo apt-get install git"
-	exit 7 #syystä excalibut-testit tilap kommentteihin 16126
-fi
-
+#if [ -z "${tig}" ] ; then
+#	#HUOM. kts alempaa mitä git tarvitsee
+#	echo "sudo apt-get update;sudo apt-get install git"
+#	exit 7 #syystä excalibut-testit tilap kommentteihin 16126
+#fi
+#
 if [ -z "${mkt}" ] ; then
 	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
 	echo "sudo apt-get update;sudo apt-get install coreutils"
@@ -278,7 +278,7 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#250225:toimiiko nykyään?
+		#250225:toimiiko nykyään? lets find out
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 	

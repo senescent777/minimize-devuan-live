@@ -675,7 +675,8 @@ function e22_ts() {
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
 
-	udp6 ${1}
+	#udp6 ${1}
+	cg_udp6 ${1} #joko jo?
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 	csleep 5
 
