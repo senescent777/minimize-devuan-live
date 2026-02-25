@@ -4,3 +4,6 @@ p7zip, psmisc, rsync
 squashfs-tools,traceroute,upower
 w3m,wget,xorriso
 xz,xfburn,xarchiver
+#HUOM:libdav-PAKETTEJA EI SITTEN PRKL POISTELLA
+
+
