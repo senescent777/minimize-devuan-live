@@ -103,12 +103,12 @@ dqb "AFTER GANGRENE SETS IN"
 csleep 1
 
 ###################261225:josko vähän loiventaisi ao. ehtoja?
-#if [ -z "${tig}" ] ; then
-#	#HUOM. kts alempaa mitä git tarvitsee
-#	echo "sudo apt-get update;sudo apt-get install git"
-#	exit 7 #syystä excalibut-testit tilap kommentteihin 16126
-#fi
-#
+if [ -z "${tig}" ] ; then
+	#HUOM. kts alempaa mitä git tarvitsee
+	echo "sudo apt-get update;sudo apt-get install git"
+	exit 7 #syystä excalibut-testit tilap kommentteihin 16126
+fi
+
 if [ -z "${mkt}" ] ; then
 	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
 	echo "sudo apt-get update;sudo apt-get install coreutils"
@@ -278,7 +278,7 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#250225:toimiiko nykyään? lets find out
+		#250225:toimiiko nykyään? lets find out , vissiin saa paketin aikaiseksi ainakin
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 	
@@ -327,14 +327,13 @@ case ${mode} in
 		reqwreqw /opt/bin/zxcv.sig			
 		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 	;;
-	#140126 jälleenm uusi yritys, ainakin muutoksena aiempaan dbus-nalqtus
+	#taisi toimia jnkini aikaa 01/26
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
 		[ -v CONF_pkgdir ] || exit 96
 		e22_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
 	;;
-	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia? (tai vähän jo aloiteltu?)
 	e)
 		#140126 näyttäisi asentuvan e29 ok live-ymp, sqrootissa asentuu nalkutuksen kanssa koska syyt
 		#... tosin pilaakohan seatd sen chmod-groups-jutun?

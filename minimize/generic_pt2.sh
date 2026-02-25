@@ -107,7 +107,7 @@ if [ -f /.chroot ] ; then
 	t2p_filler
 	#csleep 1
 
-	${sharpy} dmsetup
+	${sharpy} dmsetup #tässä kohtaa jo gpg hukataan?
 	${sharpy} at-spi2-core	
 	${sharpy} psmisc
 
@@ -162,7 +162,7 @@ function t2pc() {
 
 	${fib}
 	csleep 1
-
+	#filler just ennen p2g() ?
 	p2g ${1}
 	csleep 1
 
