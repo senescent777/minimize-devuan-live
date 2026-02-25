@@ -1,11 +1,21 @@
 atril
 bc,bluez
+#
+#dconf,debconf off limits
+#
 ghostscript
 gparted
+#
+#gnome* , gpg* off limits , gnupg* ei löydy
+#	#gsettings-desktop-schemas off limits
+#
 grub
 gsasl-common
 gsfonts
 gvfs
+#
+#	#lib-jutut jos antaisi enimmäkseen olla rauhassa
+#	#linux* , live* off limits
 #
 mdadm
 mobile
@@ -15,8 +25,11 @@ notification-daemon
 orca,packagekit
 #
 pigz,po
+#	#procps off limits
+#pois kommentreista: psmisc,rsync, traceroute ? 
 rpcbind
 sane-utils
 squash
 telnet
-
+#pois kommentreista:w3m,.wget ?
+#xfce*,xorg* off limits
