@@ -6,8 +6,12 @@ ftp,gpgv,gimp-data,gir,gstreamer
 htop,inetutils-telnet,intel-microcode,isolinux,libreoffice
 #viimeisin näköjään oltava samalla rivillä muiden kanssa
 #
-#150226:tähän asti ok
-#libgstreamer,libpoppler,libsane,lvm2,lynx
+#150226:tähän asti ok, 1 per rivi onniaisi lynxiin asti?
+#libgstreamer
+#libpoppler
+#libsane
+#lvm2
+#lynx
 #
 #mail,mlocate,modem,mtools,mythes
 #netcat-traditional,openssh,parted,pavucontrol

@@ -117,7 +117,6 @@ fi
 
 #====================================================================
 
-#jatkossa t2p() ja t2pc() listoja prosessoimalla?
 #yhteisiä osia daud ja chim t2p
 
 function p2g() {
@@ -136,7 +135,6 @@ function p2g() {
 		IFS="," read -a g <<< "${f}"
 
 		for h in ${g[@]} ; do
-			#echo "\${sharpy} ${h}"
 			${sharpy} ${h}*
 		done
 
@@ -265,6 +263,9 @@ csleep 1
 p2g ${d}
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 1 ] && exit
+dqb "TODO:ntpsec hyötykäyttö"
+#	${scm} a-wx ${0} ?
+#	csleep 2
 
 t2pf ${d}
 [ $? -gt 0 ] && exit

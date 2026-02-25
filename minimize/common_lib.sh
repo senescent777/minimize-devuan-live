@@ -363,7 +363,7 @@ function common_lib_tool() {
 	[ -z "${2}" ] && exit 67
 	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSing f ILE"
 	
-	dqb "WILL START REJECTING P1GS NOW"
+	dqb "WILL START PR0C3551NG TGTs NOW"
 	csleep 1
 	
 	local q

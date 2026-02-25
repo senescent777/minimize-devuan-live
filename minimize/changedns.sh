@@ -3,7 +3,7 @@ debug=1
 mode=-1
 distro=$(cat /etc/devuan_version)
 
-#HUOM.16126:tarpeellisia kikkailuja? tuskin
+#HUOM.16126:tarpeellisia kikkailuja? tuskin (tai siis sqrootissa ehkä)
 if [ -f /.chroot ] ; then
 	odio=""
 else
@@ -26,8 +26,10 @@ function csleep() {
 sah6=$(which sha512sum)
 #asiasta kukkaruukkuun: wicd oli aikoinaan siedettävä softa, ainakin Networkmanageriin verrattuna
 #HUOM.jatkossa ehkä parempi että komentorivioptioilla ei aktivoida debugia
+
 mode=${1}
-[ -d ~/Desktop/minimize/${2} ] && distro=${2} #TODO:ehkä muutos tähän? miksi?
+#[ -d ~/Desktop/minimize/${2} ] && distro=${2} #ehkä muutos tähän? miksi?
+#... tai siis tarvitseeko tuota distro-mjaa muutella edes?
 
 function epr1() {
 	dqb "31n-p0d-r05..."
@@ -44,12 +46,8 @@ function epr1() {
         c=$(find /opt -type d -perm /o+w,g+w | wc -l)
         [ ${c} -gt 0 ] && exit 106
 
-	c=$(find /opt/bin -name 'zxcv*' -type f -perm /o+r | wc -l)
-        [ ${c} -gt 0 ] && exit 107
-
-	#VAIH:go+rw jatkossa ehtona?
-	#c=$(find /opt/bin -type f -perm /o+w,g+w,o+r,g+r | wc -l)
-        #[ ${c} -gt 0 ] && exit 108
+	c=$(find /opt/bin -type f -perm /o+w,g+w,o+r,g+r | wc -l)
+        [ ${c} -gt 0 ] && exit 108
 
         c=$(find /opt/bin -type f -not -user 0 | wc -l)
         [ ${c} -gt 0 ] && exit 109
@@ -58,39 +56,51 @@ function epr1() {
         [ ${c} -gt 0 ] && exit 110
 	#
 
-	#g-ehto vielä?
 	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 111
+
+	#g-ehto vielä? w riittää?
+        c=$(find /etc -name 'iptab*' -type d -perm /g+w | wc -l)
+        [ ${c} -gt 0 ] && exit 123
 
 	c=$(find /etc -name 'iptab*' -type d -not -user 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 112
 
 	c=$(find /etc -name 'iptab*' -type d -not -group 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 113
-
 	${odio} rm /etc/default/rules*
 
-	#tämän kanssa jotain kiukuttelua 150126 (josko deletoisi /e/d alta juttuja esmes)
-	#... edelleen jotain 140226 (vissiin tablesin masentelu sotkee, chimaerassa)
-	#
-	#c=$(${odio} find /etc -name 'rules.v*' -type f -perm /o+w,o+r,o+x | wc -l)
-	#[ ${c} -gt 0 ] && exit 114
+#josko alkaisi vähitellen ruleksien kanssa arpominen riittää?
+	c=$(${odio} find /etc -name 'rules.v?.?' -type f -perm /o+w,o+x | wc -l) #oli myös o+r
+	[ ${c} -gt 0 ] && exit 114
+
+#	#o+r liikaa? ei? gr sn sijaan...
+#	c=$(${odio} find /etc -name 'rules.v?.?' -type f -perm /o+r,g+x | wc -l)
+#       [ ${c} -gt 0 ] && exit 124
+#... joskohan common_lib.sh voisi sorkkia oikeuksia enemmän?
 
 	c=$(find /etc -name 'rules.v*' -type f -not -user 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 115
+
 	c=$(find /etc -name 'rules.v*' -type f -not -group 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 116
+#
 
 	c=$(find /etc -name 'sudoers*' -type d -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 117
+
 	c=$(find /etc -name 'sudoers*' -type d -not -user 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 118
+
 	c=$(find /etc -name 'sudoers*' -type d -not -group 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 119
+
 	c=$(find /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 120
+
 	c=$(find /etc/sudoers.d -type f -not -user 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 121
+
 	c=$(find /etc/sudoers.d -type f -not -group 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 122
 }
@@ -109,8 +119,8 @@ function p3r1m3tr() {
 	chown -R root:root /etc/iptables
 	chmod 0400 /etc/default/rules*
 	chown -R root:root /etc/default
-	sleep 1
-
+#	sleep 1
+#
 	local p
 	p=$(pwd)
 	cd /
@@ -126,15 +136,15 @@ function p3r1m3tr() {
 		g=$(which gpg)
 
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-			#mitenkähän onnistuu verify jos ylempänä chmod 0400 ?
+			#mitenkähän onnistuu verify jos ylempänä chmod 0400 ? testaa?
 			${gg} --verify /opt/bin/zxcv.sig
 			[ $? -gt 0 ] && exit 126
 		fi
 	fi
 
-	/bin/netstat -tulpan;sleep 5
+	/bin/netstat -tulpan;sleep 2
 	dqb "P3R1MTR D0N3"
-	csleep 1
+	#csleep 1
 }
 
 p3r1m3tr
@@ -149,7 +159,7 @@ case $# in
 	3)
 		if [ "${2}" == "-v" ] ; then
 			debug=1
-			distro=${3}
+			#distro=${3}
 		else
 			[ "${3}" == "-v" ] && debug=1
 		fi
@@ -229,7 +239,8 @@ function dda_snd() {
 #}
 #
 ##ns-fktioihinkin jotain param mankelointia mikäli ottaa käyttöön
-##VAIH:toistaiseksi ns-jutut kommentteihin?
+#toistaiseksi ns-jutut kommentteissa kunnees ehkä x
+#
 #function ns4() {
 #	dqb "ns4( ${1} )"
 #
@@ -241,22 +252,22 @@ function dda_snd() {
 #
 #	sleep 1
 #	${whack} ${1}* #saattaa joutua muuttamaan vielä
-#	sleep 2
+#	sleep 1
 #
 #	dqb "starting ${1} in 5 secs"
 #
-#	sleep 2
+#	sleep 1
 #	${odio} -u ${1} ${1} -g #antaa nyt tämän olla näin toistaiseksi(25.3.25)
 #	echo $?
 #
 #	sleep 1
 #	pgrep stubby*
-#	sleep 2
+#	sleep 1
 #}
 
-#HUOM.29525:$1, annetaanko sitä? käytetäänkö? No Ei
+#190226:josko wanhan resolv.conf nakkaisi Vittuun kuitenkin jossain kohtaa? voi sotkea nimittäin
+
 function clouds_pp1() {
-	dqb "#c.pp.1  ( ${1} )"
 	csleep 1
 	local f
 
@@ -283,54 +294,57 @@ function clouds_pp1() {
 		${svm} /etc/network/interfaces /etc/network/interfaces.OLD
 	fi
 
-	csleep 1
+	#csleep 1
 	dqb "pp1 done"
 }
 
 #130226:chimaeran kanssa tapahtui halt, jospa selvittäisi miksi
-#130226.2.mjono policy:accept tablesin outputissa saisi johtaa halt:iin kanssa
+#130226.2.mjono policy:accept tablesin outputissa saisi johtaa halt:iin kanssa (TODO)
+#150226:rules.v4, rules.v6 :miten niiden kanssa nykyään?
 
 function clouds_pp3() {
-	csleep 2
+	#csleep 1
 	dqb "# c.pp.3 a.k.a RELOADINGz TBLZ RULEZ ${1}"
-	csleep 2
+	csleep 1
 
 	[ -z "${1}" ] && /sbin/halt
-	csleep 2
+	csleep 1
 	dqb "paramz 0k"
-	csleep 2
+	csleep 1
 	p3r1m3tr
 
 	local p
 	p=$(echo ${1} | tr -d -c 0-9)
 	dqb "bfore -f"
-	csleep 2
+	csleep 1
 
+	#210226:pitäisiköhän näille vähitellen jotain?
 	[ -f /etc/iptables/rules.v4.${p} ] || dqb "SHOULD sudo /sbin/halt 1"
         [ -f /etc/iptables/rules.v6.${p} ] || dqb "SHOPLD sudo /sbin/halt 2"
 
 	dqb "bfore -s"
-	csleep 2
+	csleep 1
 
 	[ -s /etc/iptables/rules.v4.${p} ] || dqb "SHOULD sudo /sbin/halt 3"
 	[ -s /etc/iptables/rules.v6.${p} ] || dqb "SHOULD sudo /sbin/halt 4"
 	dqb "just bfore iptr"
-	csleep 2
+	csleep 1
 
 	${iptr} /etc/iptables/rules.v4.${p}
 	[ $? -eq 0 ] || dqb "SOhULD /sbin/halt 5"
-	csleep 2
+	csleep 1
+
 	dqb "v4 reloaded ok"
 
 	${ip6tr} /etc/iptables/rules.v6.${p}
 	[ $? -eq 0 ] || dqb "Hsould /sbin/halt 6"
-	csleep 2
+	csleep 1
 	dqb "v6 reloaded ok"
 
 	#tässä oikea paikka tables-muutoksille vai ei?
 	${ipt} -F b
 	${ipt} -F e
-	csleep 2
+	csleep 1
 	dqb "FLiBe"
 
 	#pidemmän päälle olisi kätevämpi nimetä kuin numeroida ne säännöt...
@@ -338,14 +352,15 @@ function clouds_pp3() {
 	${ipt} -D OUTPUT 6
 
 	dqb "56"
-	csleep 2
+	csleep 1
 	dqb "pp3 done"
 }
 
 #HUOM.29525:tekeekö 2. parametrilla mitään tämä? annetaanko moista?
 function clouds_pre() {
 	dqb "cdns.clouds_pre( ${1}, ${2} )"
-	csleep 2
+	csleep 1
+
 	local t
 	dqb "jst bef0re loop"
 	csleep 1
@@ -353,27 +368,27 @@ function clouds_pre() {
 	for t in INPUT OUTPUT FORWARD ; do
 		${ipt} -P ${t} DROP
 		[ $? -eq 0 ] || dqb "SOULD /sbin/halt 7"
-		dqb "V4 ${t} ok"; csleep 2
+		dqb "V4 ${t} ok"; csleep 1
 
 		${ip6t} -P ${t} DROP
 		[ $? -eq 0 ] || dqb "SOUHLD /sbin/halt 8"
-		dqb "V6 ${t} ok"; csleep 2
+		dqb "V6 ${t} ok"; csleep 1
 
 		${ip6t} -F ${t}
 		[ $? -eq 0 ] || dqb "ShOULD /sbin/halt 9"
-		dqb "V6 -GF ${t} ok"; csleep 2
+		dqb "V6 -GF ${t} ok"; csleep 1
 	done
 
 	clouds_pp1
-	csleep 2
+	csleep 1
 
 	dqb "cpp2"
 	#clouds_pp2 ${1} #vissiin common_lib.change_bin1:stä löytyy syy miksi rules.v$x.$y tyhjenee
-	csleep 2
+	csleep 1
 
 	clouds_pp3 ${1}
-	csleep 2
-	dqb "S0UL SARC1F1C3 69"
+	csleep 1
+	dqb "S0UL SARC1F1C3 6,9"
 }
 
 function clouds_post() {
@@ -384,6 +399,7 @@ function clouds_post() {
 	csleep 1
 	local f
 
+	#jos hyöldybtäisi /o/b/zxcv tässä?
 	for f in $(find /etc -type f -name 'resolv.conf*') ; do
 		${scm} 0444 ${f}
 		${sco} root:root ${f}
@@ -411,10 +427,10 @@ function clouds_post() {
 
 	${scm} 0555 /etc/network
 	${sco} root:root /etc/network 
-	csleep 1
+	#csleep 1
 
 	if [ ${debug} -eq 1 ] ; then
-		#legacy-juttujen kanssa oli jokin jekku, tosin ilman legacyä näyttäisi tuottavan toivottua outputtia
+		#legacy-juttujen kanssa oli jokin juttu, tosin ilman legacyä näyttäisi tuottavan toivottua outputtia
 		${ipt} -L #-legacy -L
 		${ip6t} -L  #-legacy -L
 		csleep 1 
@@ -438,7 +454,7 @@ function clouds_case0_1() {
 		for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do dda_snd ${s} ; done	
 	else
 		dqb "NO RESOLV.CONF FOUND, HAVE TO USE ALT CONF"
-		csleep 1
+		#csleep 1
 
 		if [ z"${dsn}" != "z" ] ; then
 			for s in ${dsn} ;  do dda_snd ${s} ; done
@@ -451,7 +467,7 @@ function clouds_case1_1() {
 		for s in $(grep -v '#' /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do tod_dda ${s} ; done
 	else
 		dqb "NO CONF FOUND, HAVE TO USE ALT CONF"
-		csleep 1
+		#csleep 1
 
 		if [ z"${dsn}" != "z" ] ; then
 			for s in ${dsn} ;  do tod_dda ${s} ; done
@@ -462,7 +478,7 @@ function clouds_case1_1() {
 function clouds_case0_2() {
 	/etc/init.d/dnsmasq stop
 	/etc/init.d/ntpsec stop
-	csleep 1
+	#csleep 1
 	${whack} dnsmasq*
 	${whack} ntp*
 }
@@ -507,13 +523,14 @@ clouds_pre ${mode}
 
 #HUOM.22525:linkittyykö resolv.conf tässä vai ei?
 [ -f /etc/resolv.conf.${mode} ] && ${slinky} /etc/resolv.conf.${mode} /etc/resolv.conf
-[ ${debug} -eq 1 ] && ls -las /etc/resolv*;sleep 2
+[ ${debug} -eq 1 ] && ls -las /etc/resolv*;sleep 1
 
 [ -f /etc/dhcp/dhclient.conf.${mode} ] && ${slinky} /etc/dhcp/dhclient.conf.${mode} /etc/dhcp/dhclient.conf
 [ -f /sbin/dhclient-script.${mode} ] && ${spc} /sbin/dhclient-script.${mode} /sbin/dhclient-script
 
 #HUOM.25525.1:mitenköhän tämä kohta pitäisi mennä?
 #HUOM.25525.2:$distro ei ehkä käy sellaisenaan, esim. tapaus excalibur/ceres
+
 t=$(echo ${distro} | cut -d '/' -f 1 | tr -d -c a-z)
 [ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 [ y"${ipt}" == "y" ] && exit 666
