@@ -390,7 +390,7 @@ function luca() {
 #... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan
 
 function e22_acol() { 
-	dqb "e22_acol ${1} , ${2} , ${3} , ${4} , ${5} , ${6}"
+	dqb "e22_acol ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 
 	[ -z "${1}" ] && exit 1
@@ -1170,12 +1170,19 @@ function e22_upgp() {
 	
 	${fib}
 	csleep 1
-	#210226:57 ja 59 kaikki riippuvuudet mukaan vaiko reject_pkgs kautta moiset pois?
+	#VAIH:57 ja 59 kaikki riippuvuudet mukaan vaiko reject_pkgs kautta moiset pois?
 
 	#LOPPUU SE PURPATUS PRKL
 	${shary} cpp-12 gcc-12-base libstdc++6 
 	${shary} libgcc-s1 libc6 libgomp1 
-	csleep 2
+
+#	#helpompi vain ajaa e22_dm() ennen upgp()
+#	${shary} libsoxr0 #tälle riittisi gomp?
+#	${shary} libaom3
+#	${shary} libcairo2 libcodec2-1.0 libmfx1 libdrm2 libva-drm2 libva-x11-2 libva2 libvdpau1 libx11-6 ocl-icd-libopencl1
+#	${shary} libdav1d6	
+#	${shary} libswresample4 libavcodec59
+#	csleep 2
 	
 	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta, onko?
 	${sag} --no-install-recommends upgrade -u

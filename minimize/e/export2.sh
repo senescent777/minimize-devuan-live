@@ -278,7 +278,7 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#160126:jos edelleen toimisi tämä case
+		#250225:toimiiko nykyään?
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 	
