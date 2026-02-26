@@ -309,7 +309,7 @@ function e22_home() { #160126:suattaapi vaikka toimia
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
 
-	#141225:if-lauseen pointti nykyään? tähän liittyen oli jokin idea (120126)
+	#141225:if-lauseen pointti nykyään? tähän liittyen oli jokin idea? (120126)
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		e22_config1 ~
@@ -478,16 +478,9 @@ function e22_acol() {
 		dqb "Das Asdd"
 	else
 		#1.else-haara tOIMII , 1707126
-		#2.fstab lisäksi muutakin mukaan vai ei?
+		#2.fstab lisäksi muutakin mukaan vai ei? miten zxcv?
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
-
-	#VAIH:tähän tai johonkin muualle ntp:hen liittyvien konftdstojen lisäys
-	#... jos konf piyää saada sha512-tar alaiseksi ni sarram()
-
-	#VAIH:luultavasti myös sivuvaikutuksena changedns lukemaan ntp.conf ja tekemään juttuja sen perusteella
-	#"grep -v '#' /etc/ntpsec/ntp.conf | grep pool | awk '{print $2}'" ja sit jotain
-
 }
 
 function e22_sarram() {
@@ -536,10 +529,6 @@ function e22_sarram() {
 	${scm} 0555 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
-
-	#HUOM.150226:alkanut näyttää huonolta idealta ottaa listaan mukaan täsmälleen rules.v4 ja rules.v6
-	#... persistentit ehkä joutuisi ottamaan pois paketeista sivuvaikutuksena, barm vuoksi (kts check_bin)
-	#VAIH:pikemminkin rules.v?.? + sivuvaikutukset -> changedns.sh
 
 	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
 	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
@@ -963,11 +952,7 @@ function e22_other_pkgs() {
 #	${lftr}
 #	csleep 2
 
-	#uutena 170126, pois jos qsee
-	# Depends:
-	#adduser, ,,, (= 1.2.2+dfsg1-1+deb12u1),, (>= 0.0), libc6 (>= 2.34), (>= 1:2.10), (>= 3.0.0)
 	#TODO:NTP-KIKKAREEN KONFFAAMINEN (tai siis selvitä vähitellen josko oletuskonf kelpaisi)	
-
 	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 	${shary} ntpsec
 		
@@ -1177,7 +1162,6 @@ function e22_upgp() {
 	
 	${fib}
 	csleep 1
-	#VAIH:57 ja 59 kaikki riippuvuudet mukaan vaiko reject_pkgs kautta moiset pois?
 
 	#LOPPUU SE PURPATUS PRKL
 	${shary} cpp-12 gcc-12-base libstdc++6 

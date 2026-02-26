@@ -592,6 +592,8 @@ function slaughter0() {
 
 	fn2=$(echo $1 | awk '{print $1}') 
 	ts2=$(${sah6} ${fn2})
+
+	#tähän alle jotain tr-kikkialua?
 	echo ${ts2} | awk '{print $1,$2}' >> ${2}
 }
 
@@ -608,9 +610,11 @@ function mangle_s() {
 	local r
 
 	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
+	#$r kanssa jotain t arkistuksia?
 	${scm} 0555 ${r}
 	${sco} root:root ${r}
 
+	#vs /e/paswd ?
 	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
 
 	#100126:ALL vai localhost? rahat vs kolmipyörä?

@@ -247,9 +247,9 @@ ${asy}
 dqb "GR1DN BELIALAS KYE"
 
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
-	${scm} 0555 ${x}
+	${scm} 0511 ${x}
 	${sco} root:root ${x}
-	${odio} ${x} ${CONF_dnsm} ${distro}
+	${odio} ${x} ${CONF_dnsm} #${distro}
 	#[ -x $x ] && exit for 
 done
 
@@ -267,4 +267,4 @@ if [ ${mode} -eq 2 ] ; then
  	exit 
 fi
 
-#${odio} ${d0}/changedns.sh ${CONF_dnsm} ${distro} röistaiseksi jennaan
+#${odio} ${d0}/changedns.sh ${CONF_dnsm} #${distro} röistaiseksi jennaan

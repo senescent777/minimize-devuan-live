@@ -278,7 +278,7 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#250225:toimiiko nykyään? lets find out , vissiin saa paketin aikaiseksi ainakin
+		#260225:toimiiko nykyään? , vissiin 
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 	
@@ -289,6 +289,8 @@ case ${mode} in
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
 		dqb "e22_ext DON3, next:rm some rchives ?"
 		csleep 1
+
+		#TODO:jokin e22_fktio vetämään mukaan /e/d/network*
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
@@ -327,7 +329,7 @@ case ${mode} in
 		reqwreqw /opt/bin/zxcv.sig			
 		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 	;;
-	#taisi toimia jnkini aikaa 01/26
+	#u taisi toimia jnkin aikaa 01/26
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1

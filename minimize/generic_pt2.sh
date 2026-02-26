@@ -69,9 +69,9 @@ else
 fi
 
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
-	${scm} 0555 ${x}
+	${scm} 0511 ${x}
 	${sco} root:root ${x}
-	${odio} ${x} ${CONF_dnsm} ${distro}
+	${odio} ${x} ${CONF_dnsm} #${distro}
 	#[ -x $x ] && exit for 
 done
 
@@ -117,8 +117,6 @@ fi
 
 #====================================================================
 
-#yhteisiä osia daud ja chim t2p
-
 function p2g() {
 	dqb "THE_PIG ( ${1} )"
 	csleep 1
@@ -150,86 +148,87 @@ function p2g() {
 #mode:n kanssa kikkailut voivat auttaa selvityksessä
 #130126_sqroot-testissä tämän fktion poistamat paketit enimmäkseen poistuvat pl. tuon yhden blokin jutut
 
-function t2pc() {
-	dqb "gpt2.t2p_common222( ${1} )"
-	csleep 1
-
-	[ -z "${1}" ] && exit 99
-	[ -d ${1} ] || exit 98
-
-	dqb "shar_py = ${sharpy} ;"
-	csleep 1
-
-	${fib}
-	csleep 1
-	#filler just ennen p2g() ?
-	p2g ${1}
-	csleep 1
-
-	dqb "gpg= $(sudo which gpg)"
-	csleep 1
-
-#joskoe i 2 kertaa renkkaisi samoja paketteja?
-#150226:tähän asti ok, sitten alkanee qsta (jospa hyppisi ao. lib-juttujen yli tjsåp?)
+##VAIH:KIRJOITA TÄMÄ PASKA UUSIKSI
+#function t2pc() {
+#	dqb "gpt2.t2p_common222( ${1} )"
+#	csleep 1
 #
+#	[ -z "${1}" ] && exit 99
+#	[ -d ${1} ] || exit 98
+#
+#	dqb "shar_py = ${sharpy} ;"
+#	csleep 1
+#
+#	${fib}
+#	csleep 1
+#	#filler just ennen p2g() ?
+#	p2g ${1}
+#	csleep 1
+#
+#	dqb "gpg= $(sudo which gpg)"
+#	csleep 1
+#
+##joskoe i 2 kertaa renkkaisi samoja paketteja?
+##150226:tähän asti ok, sitten alkanee qsta (jospa hyppisi ao. lib-juttujen yli tjsåp?)
+##
 #	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
 #	t2p_filler
-#tuoko lib-tuossa yllä torpedoi jutut? josko siirtäisi aiemmaksi?
-
+##tuoko lib-tuossa yllä torpedoi jutut? josko siirtäisi aiemmaksi? eitoimi?
+#
 #	${sharpy} lvm2 lynx* #miten mariadb-common?
 #	t2p_filler
-
-	#excalibur ei sisällä?
-	${sharpy} mail* mlocate modem* mtools mythes*
-	t2p_filler
-
-	${sharpy} netcat-traditional openssh*
-	t2p_filler
-
-	${sharpy} parted pavucontrol
-	#libgtk3 ei poistu, libgtk4 kyllä
-	t2p_filler
-
-	${sharpy} ppp plocate pciutils procmail
-	t2p_filler
-
-	${sharpy} ristretto screen
-	t2p_filler
-
-#150226:tämän blokin kanssa vähän auki, uskaltaako vivuta (no ei vielä)
-	${sharpy} shim* speech* syslinux-common
-	t2p_filler
-
-	${sharpy} tex* tumbler*
-	t2p_filler
-#210226: ... joskohan vähitellen saisi edes modaamatt9man kiekon kanssa p2g():n hoitamaan homman kokonaan?
-
-	if [ -f /.chroot ] ; then
-		dqb "SHOULD \${sharpy} slim* "
-		csleep 1
-
-		#26226:/e/d/network saattaisi olla toimivampi idea kuin se aiempi tässä
-
-		dqb "t2p_filler()"
-		csleep 1
-
-		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
-		dqb "Xorg -config ? "
-		csleep 1
-	else
-		dqb "COULD? \${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
-		csleep 1
-		dqb "WOULD: A.I.C"
-		csleep 1
-	fi
-
-	spd="${sd0} -l "
-	[ ${debug} -gt 0 ] && ${spd} x*
-	csleep 1
-
-	dqb "gpt2.T2PC.DONE"
-	csleep 1
-}
+#
+#	#excalibur ei sisällä?
+#	${sharpy} mail* mlocate modem* mtools mythes*
+#	t2p_filler
+#
+#	${sharpy} netcat-traditional openssh*
+#	t2p_filler
+#
+#	${sharpy} parted pavucontrol
+#	#libgtk3 ei poistu, libgtk4 kyllä
+#	t2p_filler
+#
+#	${sharpy} ppp plocate pciutils procmail
+#	t2p_filler
+#
+#	${sharpy} ristretto screen
+#	t2p_filler
+#
+##150226:tämän blokin kanssa vähän auki, uskaltaako vivuta (no ei vielä)
+#	${sharpy} shim* speech* syslinux-common
+#	t2p_filler
+#
+#	${sharpy} tex* tumbler*
+#	t2p_filler
+##210226: ... joskohan vähitellen saisi edes modaamatt9man kiekon kanssa p2g():n hoitamaan homman kokonaan?
+#
+#	if [ -f /.chroot ] ; then
+#		dqb "SHOULD \${sharpy} slim* "
+#		csleep 1
+#
+#		#26226:/e/d/network saattaisi olla toimivampi idea kuin se aiempi tässä
+#
+#		dqb "t2p_filler()"
+#		csleep 1
+#
+#		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
+#		dqb "Xorg -config ? "
+#		csleep 1
+#	else
+#		dqb "COULD? \${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
+#		csleep 1
+#		dqb "WOULD: A.I.C"
+#		csleep 1
+#	fi
+#
+#	spd="${sd0} -l "
+#	[ ${debug} -gt 0 ] && ${spd} x*
+#	csleep 1
+#
+#	dqb "gpt2.T2PC.DONE"
+#	csleep 1
+#}
 
 function t2pf() {
 	dqb "common_lib.T2P.FINAL( ${1} )"
@@ -241,7 +240,7 @@ function t2pf() {
 	${NKVD} /tmp/*.tar
 	${smr} -rf /tmp/tmp.*
 
-	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut) (no testaappa taas)
+	#rikkookohan jotain nykyään? eipäkai
 	${smr} -rf /usr/share/doc 
 
 	for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
@@ -253,16 +252,19 @@ function t2pf() {
 dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
 csleep 1
 
-t2pc ${d0}
-[ $? -gt 0 ] && exit
-dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
+#t2pc ${d0}
+${fib}
 csleep 1
+#filler just ennen p2g() ?
+p2g ${d0}
+
+[ $? -gt 0 ] && exit
 [ ${mode} -eq 0 ] && exit
 
 p2g ${d}
-[ $? -gt 0 ] && exit
+
 [ ${mode} -eq 1 ] && exit
-dqb "TODO:ntpsec hyötykäyttö"
+dqb "VAIH:ntpsec hyötykäyttö"
 #	${scm} a-wx ${0} ?
 #	csleep 2
 
