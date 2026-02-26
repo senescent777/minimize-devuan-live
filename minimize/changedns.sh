@@ -71,7 +71,7 @@ function epr1() {
 	${odio} rm /etc/default/rules*
 
 #josko alkaisi vähitellen ruleksien kanssa arpominen riittää?
-	c=$(${odio} find /etc -name 'rules.v?.?' -type f -perm /o+w,o+x | wc -l) #oli myös o+r
+	c=$(${odio} find /etc -name 'rules.v?.?' -type f -perm /o+w,o+x,o+r | wc -l) #oli myös o+r
 	[ ${c} -gt 0 ] && exit 114
 
 #	#o+r liikaa? ei? gr sn sijaan...
@@ -103,6 +103,8 @@ function epr1() {
 
 	c=$(find /etc/sudoers.d -type f -not -group 0 | wc -l)
 	[ ${c} -gt 0 ] && exit 122
+
+	#TODO:ntp-konffien kanssa jotain?
 }
 
 epr1
@@ -214,6 +216,8 @@ function dda_snd() {
 	${ipt} -A b -p udp -m udp -s ${t} --sport 53 -j ACCEPT 
 	${ipt} -A e -p udp -m udp -d ${t} --dport 53 -j ACCEPT
 }
+
+#TODO:ptn_dda() , "-A {b,e} -p u -m u -s $smthing --{d,s}p 123 -j ACC"
 
 ##==============================================================
 ##HUOM.220624:stubbyn asentumisen ja käynnistymisen kannalta sleep saattaa olla tarpeen
@@ -367,7 +371,7 @@ function clouds_pre() {
 
 	for t in INPUT OUTPUT FORWARD ; do
 		${ipt} -P ${t} DROP
-		[ $? -eq 0 ] || dqb "SOULD /sbin/halt 7"
+		[ $? -eq 0 ] || dqb "SOULD /sbin/halt 7" #jokojo leikit pois?
 		dqb "V4 ${t} ok"; csleep 1
 
 		${ip6t} -P ${t} DROP
@@ -428,6 +432,8 @@ function clouds_post() {
 	${scm} 0555 /etc/network
 	${sco} root:root /etc/network 
 	#csleep 1
+
+	#ntp-konftdstojen iterointi?
 
 	if [ ${debug} -eq 1 ] ; then
 		#legacy-juttujen kanssa oli jokin juttu, tosin ilman legacyä näyttäisi tuottavan toivottua outputtia
@@ -534,6 +540,8 @@ clouds_pre ${mode}
 t=$(echo ${distro} | cut -d '/' -f 1 | tr -d -c a-z)
 [ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 [ y"${ipt}" == "y" ] && exit 666
+
+#dda_ptn ennen case-esac?
 
 case ${mode} in 
 	0)

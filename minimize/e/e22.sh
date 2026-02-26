@@ -385,9 +385,7 @@ function luca() {
 	dqb "loca done"
 }
 
-#pitäisiköhäbn myös paremtrein määrälle tehdä jotain? fcktion pilkkominen esim?
-#
-#... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan
+#... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan ?
 
 function e22_acol() { 
 	dqb "e22_acol ${1} , ${2} , ${3} , ${4} "
@@ -483,6 +481,13 @@ function e22_acol() {
 		#2.fstab lisäksi muutakin mukaan vai ei?
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
+
+	#VAIH:tähän tai johonkin muualle ntp:hen liittyvien konftdstojen lisäys
+	#... jos konf piyää saada sha512-tar alaiseksi ni sarram()
+
+	#VAIH:luultavasti myös sivuvaikutuksena changedns lukemaan ntp.conf ja tekemään juttuja sen perusteella
+	#"grep -v '#' /etc/ntpsec/ntp.conf | grep pool | awk '{print $2}'" ja sit jotain
+
 }
 
 function e22_sarram() {
@@ -537,7 +542,13 @@ function e22_sarram() {
 	#VAIH:pikemminkin rules.v?.? + sivuvaikutukset -> changedns.sh
 
 	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
-	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3}	; done
+	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
+
+	#jtnkn näin
+	for f in $(${odio} find /etc -type f -name 'ntp*') ; do
+		${srat} -rvf ${1} ${f}
+		${sah6} ${f} >> ${3}
+	done
 
 	other_horrors
 	dqb "e22_acol done"
@@ -640,7 +651,7 @@ function e22_ext() { #160126:toiminee
 
 	local f
 	#160126:tuon yhden tdston kanssa jokin ongelma sha-tark kanssa, joten ksrdotssn
-	#TODO:pois myös resolv.conf.* ?
+	#pois myös resolv.conf.* vaiko ei ?
 
 	for f in $(find ./etc -type f -not -name interfaces.tmp) ; do
 		${sah6} ${f} >> ${4}
@@ -933,7 +944,7 @@ function e22_other_pkgs() {
 		${shary} runit-helper
 		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
 		${lftr} 
-		#josqs ntp-jututkin mukaan?
+
 		[ $? -eq 0 ] || exit 3
 
 		${shary} libev4
@@ -955,7 +966,7 @@ function e22_other_pkgs() {
 	#uutena 170126, pois jos qsee
 	# Depends:
 	#adduser, ,,, (= 1.2.2+dfsg1-1+deb12u1),, (>= 0.0), libc6 (>= 2.34), (>= 1:2.10), (>= 3.0.0)
-	#TODO:NTP-KIKKAREEN KONFFAAMINEN	
+	#TODO:NTP-KIKKAREEN KONFFAAMINEN (tai siis selvitä vähitellen josko oletuskonf kelpaisi)	
 
 	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 	${shary} ntpsec
@@ -965,8 +976,6 @@ function e22_other_pkgs() {
 	csleep 1
 }
 
-#DONE:uusi wdm-paketti modatun ison rakennusta varten, asentuu sekä live että sqroot, tosin jotain kiukuttelua äksän kanssa EDELLEEN
-#wdm kanssa kun xorg kiukuttelee ni jospa a) xdm tai b) DISPLAY MANAGEr WTTUUN KOKONAAN 666 
 function e22_dm() {
 	dqb "e22dm ( ${1} ) "
 	csleep 1
@@ -1003,7 +1012,6 @@ function e22_dm() {
 	${shary} fontconfig libfribidi0 libharfbuzz0b libthai0
 	${shary} libfreetype6 libxcb-shape0 libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1
 	${shary} libxcb-render0 libxcb-shm0
-	#, , 
 
 	case ${1} in
 		xdm) #010126:pitäisiköhän tämäkin case testata?
@@ -1039,8 +1047,6 @@ function e22_dm() {
 
 			${shary} x11-common libxtst6 libxv1 libxxf86dga1 
 			csleep 1
-
-			#Depends:  (>= 2.33),  (>= 1.6.2-1), , ,  (>= 2:1.7.5),  (>= 2:1.0.14), , , , , (>> 1.1.2), ,  (>> 2.1.1), (>= 2:1.2.99.4),  (>= 1:1.1.0),  (>= 2:1.1.3), (>= 2:1.1.3), ,  (>= 1:1.1.0), 
 
 			${shary} psmisc x11-apps
 			#csleep 1

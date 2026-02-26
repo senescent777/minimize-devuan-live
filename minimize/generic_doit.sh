@@ -247,7 +247,7 @@ ${asy}
 dqb "GR1DN BELIALAS KYE"
 
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
-	${scm} 0511 ${x}
+	${scm} 0555 ${x}
 	${sco} root:root ${x}
 	${odio} ${x} ${CONF_dnsm} ${distro}
 	#[ -x $x ] && exit for 

@@ -171,12 +171,13 @@ function t2pc() {
 
 #joskoe i 2 kertaa renkkaisi samoja paketteja?
 #150226:tähän asti ok, sitten alkanee qsta (jospa hyppisi ao. lib-juttujen yli tjsåp?)
+#
+#	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
+#	t2p_filler
+#tuoko lib-tuossa yllä torpedoi jutut? josko siirtäisi aiemmaksi?
 
-	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
-	t2p_filler
-
-	${sharpy} lvm2 lynx* #miten mariadb-common?
-	t2p_filler
+#	${sharpy} lvm2 lynx* #miten mariadb-common?
+#	t2p_filler
 
 	#excalibur ei sisällä?
 	${sharpy} mail* mlocate modem* mtools mythes*
@@ -207,9 +208,7 @@ function t2pc() {
 		dqb "SHOULD \${sharpy} slim* "
 		csleep 1
 
-		#onnaisiko näin edes?
-		dqb "TODO:KVG \"devuan how to skip dhcp on boot with /proc/cmdline \" "
-		csleep 1
+		#26226:/e/d/network saattaisi olla toimivampi idea kuin se aiempi tässä
 
 		dqb "t2p_filler()"
 		csleep 1
