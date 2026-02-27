@@ -3,16 +3,6 @@
 #https://hatchjs.com/iptables-1-8-7-failed-to-initialize-nft-protocol-not-supported/
 #HUOM.16126:ennen g_pt2 ajamista tehtävä pakettien haku
 
-function udp6() {
-	dqb "xc.lib.UPDP-6"
-	csleep 1
-
-	echo "SHOULD RUN clib5p ${1}" #tuollaista fktiota olemassa?
-
-	dqb "...done"
-	csleep 1
-}
-
 #jotain tämmöistä tähänn fktioon olisi tarkoitus tulla jatkossa
 #HUOM. tablesiin liittyviä säätöjä olisi parent-hmiston skripteissä (export2?)
 function tpc7() {
@@ -21,37 +11,37 @@ function tpc7() {
 	${shary} nftables #excalibur-spesifisiä?
 	${shary} isc-dhcp-client isc-dhcp-common
 }
-
-function t2p() {
-	dqb "XC.T2P"
-	
-	${sharpy} bsdextrautils*  # util-linux
-	${sharpy} rfkill uuid-runtime
-	t2p_filler	
-
-	${sharpy} arch-test debootstrap #eipä poistunut aiemmin
-	t2p_filler
-
-	#HUOM.28525:a) grubiin liitt. nalkutukset b) ainakin osa noista pitäisi poistua jo aiemmin
-	${sharpy} fuse3 gir* gsettings* gstreamer* # grub*
-	t2p_filler #ei poista libgtk3?
-
-#	#mitä tekee luit? entä libngtcp2? ocl-icd-jotain ?
-
-	${sharpy} libgstreamer* lm-sensors ocl-icd*
-	#${sharpy} libgssapi*
-	t2p_filler
-
-	${sharpy} mc* os-prober rsync # mythes* poistuu muualla
-	t2p_filler
-
-	${sharpy} squashfs-tools upower w3m wget #upower meni jo tilaan rc
-	t2p_filler
-
-	dqb "XC.T2P.DONE"
-	csleep 1
-}
-
+#TODO:pkgs_drop
+#function t2p() {
+#	dqb "XC.T2P"
+#	
+#	${sharpy} bsdextrautils*  # util-linux
+#	${sharpy} rfkill uuid-runtime
+#	t2p_filler	
+#
+#	${sharpy} arch-test debootstrap #eipä poistunut aiemmin
+#	t2p_filler
+#
+#	#HUOM.28525:a) grubiin liitt. nalkutukset b) ainakin osa noista pitäisi poistua jo aiemmin
+#	${sharpy} fuse3 gir* gsettings* gstreamer* # grub*
+#	t2p_filler #ei poista libgtk3?
+#
+##	#mitä tekee luit? entä libngtcp2? ocl-icd-jotain ?
+#
+#	${sharpy} libgstreamer* lm-sensors ocl-icd*
+#	#${sharpy} libgssapi*
+#	t2p_filler
+#
+#	${sharpy} mc* os-prober rsync # mythes* poistuu muualla
+#	t2p_filler
+#
+#	${sharpy} squashfs-tools upower w3m wget #upower meni jo tilaan rc
+#	t2p_filler
+#
+#	dqb "XC.T2P.DONE"
+3	csleep 1
+#}
+#
 function pre_part2() {
 	dqb "XC.pre_part2()"
 	csleep 1
