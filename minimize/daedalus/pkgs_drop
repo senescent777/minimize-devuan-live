@@ -1,7 +1,7 @@
 arch-test,grub,gsettings
 iucode-tool,ntfs-3g
 #26226 ntp jemmaan
-p7zip, psmisc, rsync
+p7zip, psmisc,rsync
 squashfs-tools,traceroute,upower
 w3m,wget,xorriso
 xz,xfburn,xarchiver

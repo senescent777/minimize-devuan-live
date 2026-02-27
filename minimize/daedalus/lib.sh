@@ -3,11 +3,6 @@
 #https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 
-#VAIH:selvitä , toimiiko vai ei? e22_ts() esmes
-function udp6() { #on käytössä
-	cg_udp6 ${1}
-}
-
 #common_lib_tool-tyylillä jatkossa tämänkin fktion hommat? kts g_pt2
 #251225:poistetaanko täsäs kohtaa liikaa?
 #130126:sqrot-tstissä psmisc ei poistunut
@@ -15,9 +10,6 @@ function udp6() { #on käytössä
 #function t2p() { 
 #	dqb "DAUD.T2P"
 #	csleep 1
-#
-#
-#
 #	#${sharpy} libdav* #121125:tämä näyttää poistavan paljon tapauksessa daed, ehkä jopa liikaa
 #	#ÄLÄ SIIS WTUN PÖSILÖ POISTA libdav-PAKETTEJA ELLEI KIINNOSTA SELVITELLÄ "ERROR: ld.so: object 'libgtk3-nocsd.so.0' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored."-NALKUTUSTA
 #	#${asy} #varm. vuoksi
