@@ -84,10 +84,12 @@ dqb "mode=${mode} "
 sleep 1
 
 #151225:sqroot alla osasi poistella paketteja tämä skripti
+#TODO:blu-paketteihin liittyen jotain muutosta ao. blokkiin
+
 if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	part2_5 1 ${CONF_dnsm} ${CONF_iface}
+	part2 1 ${CONF_dnsm} ${CONF_iface}
 	[ $? -gt 0 ] && exit
 fi
 
@@ -148,8 +150,7 @@ function p2g() {
 #mode:n kanssa kikkailut voivat auttaa selvityksessä
 #130126_sqroot-testissä tämän fktion poistamat paketit enimmäkseen poistuvat pl. tuon yhden blokin jutut
 
-##VAIH:KIRJOITA TÄMÄ PASKA UUSIKSI
-#function t2pc() {
+#function t2pc() { wttuun tämä
 #	dqb "gpt2.t2p_common222( ${1} )"
 #	csleep 1
 #
@@ -163,43 +164,25 @@ function p2g() {
 #	csleep 1
 #	#filler just ennen p2g() ?
 #	p2g ${1}
-#	csleep 1
 #
-#	dqb "gpg= $(sudo which gpg)"
-#	csleep 1
-#
-##joskoe i 2 kertaa renkkaisi samoja paketteja?
-##150226:tähän asti ok, sitten alkanee qsta (jospa hyppisi ao. lib-juttujen yli tjsåp?)
-##
-#	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
-#	t2p_filler
-##tuoko lib-tuossa yllä torpedoi jutut? josko siirtäisi aiemmaksi? eitoimi?
-#
-#	${sharpy} lvm2 lynx* #miten mariadb-common?
+#	${sharpy} *
 #	t2p_filler
 #
-#	#excalibur ei sisällä?
-#	${sharpy} mail* mlocate modem* mtools mythes*
-#	t2p_filler
-#
-#	${sharpy} netcat-traditional openssh*
-#	t2p_filler
-#
-#	${sharpy} parted pavucontrol
+#	${sharpy} parted 
 #	#libgtk3 ei poistu, libgtk4 kyllä
 #	t2p_filler
 #
-#	${sharpy} ppp plocate pciutils procmail
+#	${sharpy} 
 #	t2p_filler
 #
-#	${sharpy} ristretto screen
+#	${sharpy} 
 #	t2p_filler
 #
 ##150226:tämän blokin kanssa vähän auki, uskaltaako vivuta (no ei vielä)
-#	${sharpy} shim* speech* syslinux-common
+#	${sharpy} shim* speech* 
 #	t2p_filler
 #
-#	${sharpy} tex* tumbler*
+#	${sharpy} * tumbler*
 #	t2p_filler
 ##210226: ... joskohan vähitellen saisi edes modaamatt9man kiekon kanssa p2g():n hoitamaan homman kokonaan?
 #

@@ -444,7 +444,7 @@ function e22_acol() {
 
 	dqb "WLAN-RELAT3D"
 	csleep 1
-
+	${srat} -rvf ${1} /etc/default/net*
 	case ${2} in
 		wlan0)
 			dqb "APW"
@@ -892,7 +892,7 @@ function e22_tblz() {
 	dqb "x2.e22_tblz.done"
 }
 
-#VAIH:ntp-jutut takaisin josqs? tables-säännt ja mahd konffayus varmaan seuraavaksi (JOKOJO?)
+#VAIH:ntp-jutut takaisin josqs? tables-säännt ja mahd konffayus varmaan seuraavaksi (260226 aloiteltu)
 
 #140126:joskohan paketin sisältö toimisi? ehkä just ennen ntpsec
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
@@ -951,8 +951,7 @@ function e22_other_pkgs() {
 #	... package pinning?
 #	${lftr}
 #	csleep 2
-
-	#TODO:NTP-KIKKAREEN KONFFAAMINEN (tai siis selvitä vähitellen josko oletuskonf kelpaisi)	
+	
 	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 	${shary} ntpsec
 		

@@ -1068,7 +1068,7 @@ function dis() {
 	dqb "5HAD0W 0F TH3 BA35T D0N3"
 }
 
-function part076() {
+function part0() {
 	dqb "FART076 ${1}"
 	[ -z ${1} ] && exit 76
 
@@ -1173,7 +1173,7 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE"
 }
 
-function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
+function part2() {
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
 	csleep 20
 

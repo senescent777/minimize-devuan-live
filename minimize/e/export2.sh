@@ -290,7 +290,7 @@ case ${mode} in
 		dqb "e22_ext DON3, next:rm some rchives ?"
 		csleep 1
 
-		#TODO:jokin e22_fktio vetämään mukaan /e/d/network*
+		#VAIH:jokin e22_fktio vetämään mukaan /e/d/network*
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
