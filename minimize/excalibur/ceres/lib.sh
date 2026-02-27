@@ -11,7 +11,7 @@ function tpc7() {
 	${shary} nftables #excalibur-spesifisiä?
 	${shary} isc-dhcp-client isc-dhcp-common
 }
-#TODO:pkgs_drop
+#VAIH:pkgs_drop
 #function t2p() {
 #	dqb "XC.T2P"
 #	
@@ -39,7 +39,7 @@ function tpc7() {
 #	t2p_filler
 #
 #	dqb "XC.T2P.DONE"
-3	csleep 1
+#	csleep 1
 #}
 #
 function pre_part2() {
