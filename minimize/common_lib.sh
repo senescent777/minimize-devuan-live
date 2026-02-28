@@ -75,6 +75,7 @@ function other_horrors() {
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
 	${sco} -R root:root /etc/iptables
+	
 	${scm} 0400 /etc/default/rules*
 	${scm} 0555 /etc/default
 	${sco} -R root:root /etc/default
@@ -362,7 +363,7 @@ function common_lib_tool() {
 	[ -z "${2}" ] && exit 67
 	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSing f ILE"
 	
-	dqb "WILL START REJECTING P1GS NOW"
+	dqb "WILL START PR0C3551NG TGTs NOW"
 	csleep 1
 	
 	local q
@@ -434,11 +435,6 @@ function cefgh() {
 	#mitäjos part3() kaNssa tulee sitä gpg-nalkutusta? g.tar-jutut takaisin tähämn?	
 }
 
-function cefgh() {
-	efk2 ${1}/e.tar
-	efk2 ${1}/f.tar ${1}
-}
-
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ) "
 	csleep 1
@@ -458,10 +454,10 @@ function check_binaries() {
 	
 	E22_GT="isc-dhcp-client isc-dhcp-common libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
 	E22_GT="${E22_GT} iptables"
-	E22_GT="${E22_GT} iptables-persistent init-system-helpers netfilter-persistent"
+	E22_GT="${E22_GT} init-system-helpers" # iptables-persistent netfilter-persistent
 
 	E22_GU="isc-dhcp libnfnet libnetfilter libxtables libnftnllibnl-3-200 libnl-route libnl"
-	E22_GV="libip iptables_  netfilter-persistent iptables-"
+	E22_GV="libip iptables_  iptables-" # netfilter-persistent
 	
 	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
 	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
@@ -596,6 +592,8 @@ function slaughter0() {
 
 	fn2=$(echo $1 | awk '{print $1}') 
 	ts2=$(${sah6} ${fn2})
+
+	#tähän alle jotain tr-kikkialua?
 	echo ${ts2} | awk '{print $1,$2}' >> ${2}
 }
 
@@ -612,9 +610,11 @@ function mangle_s() {
 	local r
 
 	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
+	#$r kanssa jotain t arkistuksia?
 	${scm} 0555 ${r}
 	${sco} root:root ${r}
 
+	#vs /e/paswd ?
 	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
 
 	#100126:ALL vai localhost? rahat vs kolmipyörä?
@@ -686,11 +686,12 @@ function reqwreqw() {
 #HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan
 function pre_enforce() {
 	dqb "common_lib.pre_enforce ${1} "
+	[ -z "${1}" ] && exit 98	
+	[ -d ${1} ] || exit 97
+	[ -v mkt ] || exit 99
 
 	local q
 	local f
-
-	[ -v mkt ] || exit 99
 
 	q=$(${mkt} -d)
 	q=${q}/meshuqqah
@@ -799,10 +800,33 @@ function e_e() {
 	${scm} 0755 /etc
 	${sco} -R root:root /etc
 	${scm} 0555 /etc/network
+
+	#vihje:ei tarvinne erikseen -R koska ylempänä
 	${scm} 0444 /etc/network/*
-	${sco} root:root /etc/network
+	#${sco} root:root /etc/network
 
 	for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
+
+	dqb "EE2"
+	csleep 1
+	local f
+	f=$(date +%F)
+
+	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
+	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
+
+	if [ -h /etc/resolv.conf ] ; then
+		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
+			${smr} /etc/resolv.conf
+		fi
+	fi
+
+	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
+	csleep 1
+
+	${sco} -R root:root /etc/wpa_supplicant
+	${scm} -R a-w /etc/wpa_supplicant
+
 	dqb "e_e d0n3"
 	csleep 1
 }
@@ -825,17 +849,22 @@ function e_v() {
 
 function e_h() {
 	dqb "e_h ${1} , ${2} "
+	[ -z "${1}" ] && exit 98
+	[ -d ${2} ] || exit 99
 	csleep 1
+
 	${sco} root:root /home
 	${scm} 0755 /home
 
-	if [ y"${1}" != "y" ] ; then
+	local c
+	c=$(grep $1 /etc/passwd | wc -l)
+
+	if [ ${c} -gt 0 ] ; then
 		dqb "${sco} -R ${1}:${1} ~"
 		${sco} -R ${1}:${1} ~
 		csleep 1
 	fi
 
-	[ -d ${2} ] || exit 99
 	local f
 	dqb " e h PT 2"
 	csleep 1
@@ -843,12 +872,10 @@ function e_h() {
 
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
-	local m
+	local m=0555
 
 	if [ ${debug} -gt 0 ] ; then
 		m=0755
-	else
-		m=0555
 	fi
 
 	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} ${m} ${f} ; done
@@ -856,7 +883,7 @@ function e_h() {
 	csleep 1
 
 	for f in ${2} /opt/bin ; do
-		${scm} 0555 ${f}/changedns.sh
+		${scm} 0511 ${f}/changedns.sh #OLI 555
 		${sco} root:root ${f}/changedns.sh
 	done
 
@@ -865,68 +892,52 @@ function e_h() {
 }
 
 function e_final() {
-	dqb "e_final ${1} "
-	csleep 1
-	local f
-	f=$(date +%F)
-
-	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
-	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
-
-	if [ -h /etc/resolv.conf ] ; then
-		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
-			${smr} /etc/resolv.conf
-		fi
-	fi
-
-	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
+	dqb "e_final ${1} " #HUOM.2501133326:mihin tarvitsee parametria?
 	csleep 1
 
-	${sco} -R root:root /etc/wpa_supplicant
-	${scm} -R a-w /etc/wpa_supplicant
+	#${scm} a-w /opt/bin/*
+	${scm} go-rw /opt/bin/*
+	${sco} -R root:root /opt
 
-	${scm} a-w /opt/bin/*
-	${sco} -R root:root /opt/bin
+	${scm} 0755 /
+	${sco} root:root /
+	${scm} 0777 /tmp
+	${scm} o+w /tmp #081225:+t pois koska "exp2 u"
+	${sco} root:root /tmp
+	#
 
 	dqb "e_final D0N3"
 	csleep 1
 }
 
 function enforce_access() {
-	dqb " enforce_access ${1} , ${2}"
+	dqb " enforce_access ${1} , ${2}, ${3}"
+
+	[ -z "${1}" ] && exit 67
+	[ -z "${2}" ] && exit 68
+	[ -z "${3}" ] && exit 66
+
 	csleep 1
 	dqb "changing /sbin , /etc and /var 4 real"
 
 	e_e
 	e_v
 
-	${scm} 0755 /
-	${sco} root:root /
-
-	${scm} 0777 /tmp
-	${scm} o+w /tmp #081225:+t pois koska "exp2 u"
-	${sco} root:root /tmp
-
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
 	e_h ${1} ${2}
-	e_final ${CONF_iface}
+	e_final ${3}
 
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
-}
-
-function fasdfasd() {
-	dqb "SUN LIIRUM SUN LAARUM ${1}"
-	touch ${1}
-	chown $(whoami):$(whoami) ${1}
-	chmod 0644 ${1}
 }
 
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
 #myös https://github.com/topics/sources-list
 
 function part1_5() {
+
 	dqb "part1_5 ${1} , ${2} "
+
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	[ -d ${2} ] || exit 68
@@ -1057,7 +1068,7 @@ function dis() {
 	dqb "5HAD0W 0F TH3 BA35T D0N3"
 }
 
-function part076() {
+function part0() {
 	dqb "FART076 ${1}"
 	[ -z ${1} ] && exit 76
 
@@ -1162,7 +1173,7 @@ function part1() {
 	dqb "FOUR-LEGGED WHORE"
 }
 
-function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
+function part2() {
 	dqb "PART2.5.1 ${1} , ${2} , ${3}"
 	csleep 20
 
@@ -1220,6 +1231,7 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 		jules
 		local t
 		t=$(echo ${2} | tr -d -c 0-9)
+		#HUOM.160226:tdstot ilman ".$t"-päätettä, pitäisikö tehdä jotain? 
 
 		if [ -s /etc/iptables/rules.v6.${t} ] ; then
 			${ip6tr} /etc/iptables/rules.v6.${t}
@@ -1237,6 +1249,30 @@ function part2_5() { #mikä olikaan tämän nimeämisen logiikka?
 
 	csleep 1
 	dqb "PART2.5 d0ne"
+	csleep 1
+}
+
+function cg_udp6() { #kts $distro/lib.sh
+	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
+	csleep 1
+
+	[ -z "${1}" ] && exit 65
+	#jokin syy miksi ei -z ? let's find out
+
+	[ -d ${1} ] || exit 66
+	dqb "paramz 0k"
+	csleep 1
+
+	dqb "${1} :"
+	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb | wc -l
+	csleep 3
+
+	dqb "${pkgdir} :"
+	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb | wc -l
+	csleep 3
+
+	common_lib_tool ${1} reject_pkgs
+	dqb "D0NE"
 	csleep 1
 }
 
@@ -1265,7 +1301,7 @@ function part3() {
 	csleep 1
 
 	common_lib_tool ${1} reject_pkgs
-	#HUOM.160126:pitäiasiköhän ajaa lftr ennen masenteluja? chimaera...
+	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 
 	efk1 ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
 	common_lib_tool ${1} accept_pkgs_1

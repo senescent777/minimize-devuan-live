@@ -69,26 +69,27 @@ else
 fi
 
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
-	${scm} 0555 ${x}
+	${scm} 0511 ${x}
 	${sco} root:root ${x}
-	${odio} ${x} ${CONF_dnsm} ${distro}
+	${odio} ${x} ${CONF_dnsm} #${distro}
 	#[ -x $x ] && exit for 
 done
 
 ${fib}
-#echo "debug=${debug}"
+
 dqb "distro=${distro}"
 dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 
 sleep 1
-csleep 1
 
 #151225:sqroot alla osasi poistella paketteja tämä skripti
+#TODO:blu-paketteihin liittyen jotain muutosta ao. blokkiin?
+
 if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
-	part2_5 1 ${CONF_dnsm} ${CONF_iface}
+	part2 1 ${CONF_dnsm} ${CONF_iface}
 	[ $? -gt 0 ] && exit
 fi
 
@@ -104,25 +105,22 @@ if [ -f /.chroot ] ; then
 	${sharpy} blu*
 	${sharpy} nfs*
 	${sharpy} rpc*
-	
+
 	t2p_filler
-	csleep 2
-	
-	${sharpy} dmsetup
+	#csleep 1
+
+	${sharpy} dmsetup #tässä kohtaa jo gpg hukataan?
 	${sharpy} at-spi2-core	
 	${sharpy} psmisc
-	
+
 	t2p_filler
-	csleep 2	
+	#csleep 1
 fi
-	
+
 #====================================================================
 
-#jatkossa t2p() ja t2pc() listoja prosessoimalla?
-#yhteisiä osia daud ja chim t2p
-
 function p2g() {
-	dqb "THE_PIG ( ${1})"
+	dqb "THE_PIG ( ${1} )"
 	csleep 1
 
 	[ -s ${1}/pkgs_drop ] || exit 66
@@ -133,21 +131,14 @@ function p2g() {
 
 	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
 		dqb "SOON: \${sharpy} ${f}* "
-		csleep 5
-	
+		csleep 1
 		IFS="," read -a g <<< "${f}"
-		#echo "g=$g"
 
 		for h in ${g[@]} ; do
-			#echo "\${sharpy} ${h}"
 			${sharpy} ${h}*
 		done
 
-		#https://unix.stackexchange.com/questions/214664/go-from-a-string-to-an-array-of-words-in-bash
-		#https://www.baeldung.com/linux/bash-string-split-into-array
-		#https://stackoverflow.com/questions/10586153/how-to-split-a-string-into-an-array-in-bash
-
-		csleep 5
+		csleep 1
 		t2p_filler
 	done
 
@@ -159,155 +150,29 @@ function p2g() {
 #mode:n kanssa kikkailut voivat auttaa selvityksessä
 #130126_sqroot-testissä tämän fktion poistamat paketit enimmäkseen poistuvat pl. tuon yhden blokin jutut
 
-function t2pc() {
-	dqb "common_lib.t2p_common( ${1})"
-	csleep 1
 
-	[ -z "${1}" ] && exit 99
-	[ -d ${1} ] || exit 98
-
-	dqb "shar_py = ${sharpy} ;"
-	csleep 2
-
-	${fib}
-	csleep 1
-
-#	#131225:aiheuttaa oheisvahinkoa, ei voida vielä käyttää ennenq selvitetty missä menee pieleen
-#äksään liittyvät paketit olisi hyvä silyttää suus
-#listan5 e kaa riviä ei pasko asioita, mutta sen jälkeen...
-#suattaapi olla ninnii jotta g_pt2 renkaaminen paskoo äksän pikemminkin
-	
-	p2g ${1}
-	csleep 5
-#	exit
-
-	dqb "gpg= $(sudo which gpg)"
-	csleep 5
-#	
-#	${sharpy} blu*
-#	t2p_filler
-#	csleep 2
 #
-#	${sharpy} mutt
-#	csleep 2
+#	#libgtk3 ei poistu, libgtk4 kyllä
 #
-#	${sharpy} rpcbind nfs-common
-#	${sharpy} dmsetup
-#	t2p_filler
-#	csleep 2
+#	if [ -f /.chroot ] ; then
+#		dqb "SHOULD \${sharpy} slim* "
+#		csleep 1
 #
-#	${sharpy} amd64-microcode at-spi2-core #toimii systeemi ilmankin näitä mutta ?
-#	t2p_filler
+#		#26226:/e/d/network saattaisi olla toimivampi idea kuin se aiempi tässä
 #
-#	${sharpy} bubblewrap coinor* cryptsetup*
+#		dqb "t2p_filler()"
+#		csleep 1
 #
-#	${sharpy} debian-faq dirmngr discover* doc-debian
-#	t2p_filler
+#		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
+#		dqb "Xorg -config ? "
+#		csleep 1
+#	else
+#		dqb "COULD? \${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
+#		csleep 1
+#		dqb "WOULD: A.I.C"
+#		csleep 1
+#	fi
 #
-#	#HUOM.29925: daedaluksessa dmsetup ja libdevmapper? poistuvat jos poistuvat g_doit ajamisen jälkeen
-#	${sharpy} docutils* dosfstools efibootmgr exfalso
-#	t2p_filler
-#	csleep 2
-#	#040126:to state the obvious:eloginin poisto laittaa äksän pois pelistä
-#
-#	#tikkujen kanssa paska tdstojärjestelmä exfat
-#	${sharpy} exfatprogs fdisk gcr ftp*
-#	t2p_filler
-#
-#	#231225 uutena, pois jos qsee
-#	${sharpy} gpgv
-#	t2p_filler
-#
-#	dqb "gpg= $(sudo which gpg)"
-#	csleep 10
-#
-#	${sharpy} gimp-data gir* #ei poista ligtk3, gir-pakettei ei xcalib
-#	t2p_filler
-#
-#	#HUOM.28525: grub:in kohdalla tuli essential_packages_nalkutusta kun xcalibur
-#	#${sharpy} grub* 
-#	${sharpy} gstreamer* #libgs poist alempana
-#	t2p_filler
-
-	${sharpy} htop inetutils-telnet intel-microcode isolinux
-	t2p_filler
-
-	#160126:näyttä siltä että chimaeran kanssa libreoffice ei poistuisi, toistuuko?
-	${sharpy} libreoffice*
-	t2p_filler
-
-	${sharpy} libgstreamer* libpoppler* libsane* #libsasl* poistaa git
-	t2p_filler
-
-	${sharpy} lvm2 lynx* mail* #miten mariadb-common?
-	t2p_filler
-
-	#excalibur ei sisällä?
-	${sharpy} mlocate modem* mtools mythes*
-	t2p_filler
-
-	${sharpy} netcat-traditional openssh*
-	t2p_filler
-
-	${sharpy} parted pavucontrol
-	#libgtk3 ei poistu, libgtk4 kyllä
-	t2p_filler
-
-	${sharpy} ppp plocate pciutils procmail
-	t2p_filler
-
-	${sharpy} ristretto screen
-	t2p_filler
-
-	${sharpy} shim* speech* syslinux-common
-	t2p_filler
-
-	${sharpy} tex* tumbler*
-	t2p_filler
-
-	${sharpy} vim*
-	t2p_filler
-
-	dqb "gpg= $(sudo which gpg)"
-	csleep 10
-
-	${sharpy} xorriso 
-	t2p_filler
-
-	${sharpy} xz-utils xfburn xarchiver # yad ei ole kaikissa distr
-	#xfce*,xorg* off limits
-	t2p_filler
-
-	#1111111112222222222226:joskohan "dpkg-python-lib-nalkutus" olisi jo ohi?
-	#071225:pitäisikö ao. ehdolle tehdä jotain?  uuden .iso:n kanssa kun sitä temppuilua (vielä ajank 01/26?)
-
-	if [ -f /.chroot ] ; then
-		dqb "SHOULD ${sharpy} slim*"
-		csleep 2
-
-		#nopeampi boottaus niinqu
-		dqb "TODO:KVG \"devuan how to skip dhcp on boot\""
-		csleep 2
-
-		dqb "t2p_filler()"
-		csleep 2
-
-		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
-		dqb "Xorg -config ? "
-		csleep 2
-	else
-		dqb "COULD? ${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
-		csleep 10
-		dqb "WOULD: A.I.C"
-	fi
-
-	spd="${sd0} -l "
-	[ ${debug} -gt 0 ] && ${spd} x*
-	csleep 1
-
-	dqb "gpt2.T2PC.DONE"
-	csleep 1
-}
 
 function t2pf() {
 	dqb "common_lib.T2P.FINAL( ${1} )"
@@ -319,44 +184,42 @@ function t2pf() {
 	${NKVD} /tmp/*.tar
 	${smr} -rf /tmp/tmp.*
 
-	#rikkookohan jotain nykyään? (vuonna 2005 ei rikkonut) (no testaappa taas)
+	#rikkookohan jotain nykyään? eipäkai
 	${smr} -rf /usr/share/doc 
+	${NKVD} /OLD.tar
 
-	for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
+	for f in $(find /var/log -type f) ; do ${NKVD} ${f} ; done
 	df
-	${odio} which dhclient; ${odio} which ifup; csleep 2
+	${odio} which dhclient; ${odio} which ifup; csleep 1
 }
 
 #====================================================================
 dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
-csleep 10
+csleep 1
 
-t2pc ${d0}
+${fib}
+csleep 1
+p2g ${d0}
+
 [ $? -gt 0 ] && exit
-dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
-csleep 10
 [ ${mode} -eq 0 ] && exit
 
-#VAIH:$d/pkgs_drop hyödyntäminen jatkossa
-#t2p
 p2g ${d}
-
-[ $? -gt 0 ] && exit
-#dqb "gpg= $(sudo which gpg)"
-#csleep 10
 [ ${mode} -eq 1 ] && exit
+
+dqb "VAIH:ntpsec hyötykäyttö"
+#	${scm} a-wx ${0} ?
+#	csleep 2
 
 t2pf ${d}
 [ $? -gt 0 ] && exit
-#dqb "gpg= $(sudo which gpg)"
-#csleep 10
 [ ${mode} -eq 2 ] && exit
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
-csleep 2
+csleep 1
 ${scm} 0555 ${d0}/common_lib.sh 
 
 #tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
-dqb "${whack} xfce4-session 1n 3 s3c5"
-sleep 2
+dqb "${whack} xfce4-session 1n ... s3c5"
+sleep 1
 ${whack} xfce4-session #toimiiko tämä?

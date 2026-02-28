@@ -16,7 +16,7 @@ else
 	else
 		echo "NO CONF"
 	 	exit 57
-	fi	
+	fi
 fi
 
 function parse_opts_1() {
@@ -60,8 +60,7 @@ dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
 
-#291125:nimeämistä jos vähän miettisi ao. ja 2_5 suhteen ?
-part076 ${distro}
+part0 ${distro}
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -76,6 +75,7 @@ dqb "debug= ${debug}"
 
 #221225:mitäs kaikkia pointteja olikaan ohittaa enforce.hommat sqroot.ympäristössä?
 #changedns ja fstab tietysti
+
 if [ -s /etc/sudoers.d/meshuqqah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
@@ -87,12 +87,15 @@ if [ -f /.chroot ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
-	enforce_access ${n} ${d0}
+	enforce_access ${n} ${d0} ${CONF_iface} #3. param ei niin tarpeellinen
 fi
 
 csleep 2
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
+
+#aivopieru:jtnkin niin että voisi samalla kertaa purkaa paketin ja ajaa tämän skriptin trähän asti. Self-extracting archives?
+#KVG "bash here-doc examples" ?
 
 ${snt}
 csleep 1
@@ -110,14 +113,14 @@ function el_loco() {
 	csleep 1
 
 	if [ ${2} -lt 1 ] ; then #tämä blokki konffaamisen jälkeen+toiminaat?
-		#${svm} /etc/default/locale /etc/default/locale.ÅLD		
+		#${svm} /etc/default/locale /etc/default/locale.ÅLD
 		fasdfasd /etc/default/locale
 		csleep 1
 
 		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
 		#env | grep LC >> /etc/default/locale
 		#env | grep LA >> /etc/default/locale
-	
+
 		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
 		#jos riittäisi 10 riviä
 		csleep 1
@@ -126,7 +129,7 @@ function el_loco() {
 		csleep 1
 		reqwreqw /etc/default/locale
 	fi
-	
+
 	if [ ${1} -gt 0 ] ; then
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
@@ -135,7 +138,7 @@ function el_loco() {
 	fi
 
 	#101225:pitäisikö jotain tehdä vielä että nuo sorkitut lokaaliasetukset saa voimaan?
-	
+
 #	if [ -s /etc/default/locale ] ; then #miten tämän pitää mennä?
 #		. /etc/default/locale #tämä pOis jAtkossa?
 #
@@ -173,7 +176,7 @@ el_loco ${c14} 1 #${c13} #joko jo c13 takaisin?
 
 function adieu() {
 	dqb "AUF WIEDERSEHEN"
-#		
+#
 #	#jnkn ehdon taakse session lahtaamista edelliset rivit?
 #	#130126:pois kommenteitsa jotta modatun .iso:n testaaminen onnistuu
 #	#päivän 1. yritys ei oikein lähtenyt lentoon
@@ -205,7 +208,7 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	fi
 
 	if [ $? -eq 0 ] ; then
-		adieu		
+		adieu
 
 		#HUOM. tässä ei tartte jos myöhemmin joka tap
 	else
@@ -215,10 +218,10 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	exit
 fi
 
-pre_part2
+pre_part2 #TODO:tähän kohtaa muutoksia jatkossa?
 c14=$(find ${d} -name '*.deb' | wc -l)
-[ ${c14} -gt 0 ] || CONF_removepkgs=0 #eiheuttaak ongelmia sqrootissa?
-part2_5 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
+#[ ${c14} -gt 0 ] || CONF_removepkgs=0 #tilap kommentteihin 270226 koska g_pt2_jutut
+part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 
 #===================================================PART 3===========================================================
 message
@@ -243,9 +246,9 @@ ${asy}
 dqb "GR1DN BELIALAS KYE"
 
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
-	${scm} 0555 ${x}
+	${scm} 0511 ${x}
 	${sco} root:root ${x}
-	${odio} ${x} ${CONF_dnsm} ${distro}
+	${odio} ${x} ${CONF_dnsm} #${distro}
 	#[ -x $x ] && exit for 
 done
 
@@ -263,4 +266,4 @@ if [ ${mode} -eq 2 ] ; then
  	exit 
 fi
 
-#${odio} ${d0}/changedns.sh ${CONF_dnsm} ${distro} röistaiseksi jennaan
+#${odio} ${d0}/changedns.sh ${CONF_dnsm} #${distro} röistaiseksi Jennaan

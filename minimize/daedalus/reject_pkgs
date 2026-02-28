@@ -12,3 +12,8 @@ gpgv
 #
 #python3-pil-jutut jemmaan 090226, loppuu purpatus prkl
 python3-pil
+#
+#250225:joillain modatuilla kiekoilla tuli näistä ulinaa:
+libswresample4
+libavutil57
+libavcodec59

@@ -63,6 +63,7 @@ if [ -f /.chroot ] ; then
 		cd ${p}
 	fi
 	
+	#gpg-tark kuitenkin ensin?
 	g=$(which gpg)
 	sleep 1
 	cd ${p}
@@ -175,11 +176,8 @@ if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
 	#DONE?:tämän haaran testaus (vielä ainakin kehitysymnp? ja sqroot- ymp reaktio c_bin parametriin)
-	#210126 ei kai mitään erityistä härdelliä ollut sqroot-testissä mutta jos vielä kerran kokeilisi siellä
-	#... vieläpä niin että lib.sh pois pelistä
-	
+	#210126 ei kai mitään erityistä härdelliä ollut sqroot-testissä
 	#100226: "$0 3 " yritteli kyllä asentaa juttuja
-	#, tuli urputusta aiheista libwraster6, libgif7, libmagickwand-6, libpam-modules, libpam-modules-bin ...
 	
 	echo $?
 	dqb "NO LIB"
@@ -286,12 +284,18 @@ function common_part() {
 	
 	csleep 1
 	dqb "${srat} DONE"
-	local t
-	t=$(echo ${2} | cut -d '/' -f 1-5)
+}
 
-	#toisinaan tämä qsee?
+function cptp2() {
+	dqb "common_part tp2 ${1}, ${2}, ${3}"
+	[ -z "${1}" ] && echo 99
+	[ -z "${2}" ] && echo 98
+
+	local t
+	t=$(echo ${1} | cut -d '/' -f 1-5) #d0 jatkossa kutsuvan koodin kautta?
+
 	if [ -x ${t}/common_lib.sh ] ; then
-		enforce_access ${n} ${t} 
+		enforce_access ${n} ${t} ${2}
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	else
 		dqb "n s t as ${t}/common_lib.sh "
@@ -310,13 +314,12 @@ function common_part() {
 		csleep 1
 	fi
 
-	[ ${debug} -eq 1 ] && ls -las ${2}
+	[ ${debug} -eq 1 ] && ls -las ${1}
 	csleep 1
 	dqb "ALL DONE"
 }
-
+	
 dqb "HPL"
-
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
 
@@ -434,6 +437,7 @@ csleep 1
 case "${mode}" in
 	1) #151225:toimii (lienee testattu senkin jälkeen)
 		common_part ${srcfile} ${d} /
+
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
@@ -444,18 +448,17 @@ case "${mode}" in
 		csleep 1
 		dqb " ${3} ${distro} MN"
 		csleep 1
+		e="/"
 
 		if [ ${1} -eq 0 ] ; then
 			if [ -f /.chroot ] ; then #mitense alt_root?
 				echo "EI NÄIN"
 				exit 99
 			fi
-			
-			common_part ${srcfile} ${d} /
 		else
-			if [ -f /.chroot ] ; then #  && [ -v CONF_alt_root ] ; then
+			if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
 				#100226:vihdoinkin tämäkin korjattu?
-				#VAIH:testaa uusicksi lähiaikoina
+				#VAIH:testaa uusicksi lähiaikoina (joko jo testattu 150226?)
 				
 				dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
 				csleep 6
@@ -465,9 +468,11 @@ case "${mode}" in
 				csleep 4
 			fi
 			
-			csleep 1
-			common_part ${srcfile} ${d} ${d}
+			e=${d}
 		fi
+
+		csleep 1
+		common_part ${srcfile} ${d} ${e}
 
 		csleep 1
 		dqb "c_p_d0n3, NEXT: pp3"
@@ -475,7 +480,7 @@ case "${mode}" in
 
 		part3 ${d}
 		other_horrors
-
+		
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
@@ -530,6 +535,7 @@ case "${mode}" in
 	;;
 esac
 
+cptp2 ${d} ${CONF_iface}
 cd ${olddir}
 #ettei umount unohdu 
 

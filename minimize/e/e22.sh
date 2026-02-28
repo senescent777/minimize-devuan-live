@@ -17,10 +17,10 @@ else
 		arsch=$(${odio} find / -type f -name keys.conf | head -n 1)
 
 		if [ -z "${arsch}" ] ; then
-			dqb "P1SS3 UND SCH31553"
+			dqb "P1553 UND SCH31553"
 		else
 			if [ -s ${arsch} ] ; then
-				dqb "f0 und schweinhund"
+				dqb "f0 und schw31nhund"
 				. ${arsch}
 			else
 				dqb "666"
@@ -133,7 +133,7 @@ function e22_pre1() { #130126:edelleen toimiva?
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) # | cut -d '/' -f 1-5)
 		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 
-		enforce_access ${n} ${lefid} #jos jo toimisi
+		enforce_access ${n} ${lefid} ${CONF_iface} #jos taas toimisi
 		csleep 1
 		dqb "3NF0RC1NG D0N3"
 
@@ -226,7 +226,7 @@ function e22_cleanpkgs() { #130126:edelleen toimii
 }
 
 #120126:taisi toimia taas
-#HUOM.1§50126:e22_elocal() yrittää vetää /e alta xorg konftdston mukaan pakettiin
+#HUOM.1§50126:e22_acol() yrittää vetää /e alta xorg konftdston mukaan pakettiin
 #... ei ole ihan pakko config1:sessä siis
 
 function e22_config1() {
@@ -309,7 +309,7 @@ function e22_home() { #160126:suattaapi vaikka toimia
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
 
-	#141225:if-lauseen pointti nykyään? tähän liittyen oli jokin idea (120126)
+	#141225:if-lauseen pointti nykyään? tähän liittyen oli jokin idea? (120126)
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		e22_config1 ~
@@ -370,7 +370,7 @@ function luca() {
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule
 	csleep 2
 
-	dqb "JUST BEFOREs LOCALES"
+	dqb "JUSTs BEFOREs LOCALES"
 	csleep 1
 
 	#localtime taisi olla linkki, siksi erikseen
@@ -385,12 +385,10 @@ function luca() {
 	dqb "loca done"
 }
 
-#pitäisiköhäbn myös paremtrein määrälle tehdä jotain? fcktion pilkkominen esim?
-#
-#... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan
+#... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan ?
 
-function e22_elocal() { 
-	dqb "e22_elocal ${1} , ${2} , ${3} , ${4} , ${5} , ${6}"
+function e22_acol() { 
+	dqb "e22_acol ${1} , ${2} , ${3} , ${4} "
 	csleep 1
 
 	[ -z "${1}" ] && exit 1
@@ -398,30 +396,29 @@ function e22_elocal() {
 	#[ -w ${1} ] || exit 9
 
 	[ -z "${2}" ] && exit 2
-	[ -z "${3}" ] && exit 3	
+	[ -z "${3}" ] && exit 3		
 	[ -z "${4}" ] && exit 5
-	[ -z "${5}" ] && exit 11
-	
-	[ -z "${6}" ] && exit 13
-	[ -s ${6} ] || exit 17
 
 	csleep 1
 	dqb "params_ok"
 	csleep 1
 
-	${scm} 0755 /etc/iptables
+	#missäs nämä palautettiin entiselleen? ja tartttteeko olla 07xx ? let's find out
+	${scm} 0555 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
 
 	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*') ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "JUSTs BEFOREs URLEs S"
 	csleep 1
-	fasdfasd /opt/bin/zxcv
 
 	for f in $(find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
+		dqb "PROCESSING ${f}"
+		csleep 1
+
 		if [ -s ${f} ] && [ -r ${f} ] ; then
+			#140226:toimiiko tämä haara? ehkä
 			${srat} -rvf ${1} ${f}
-			${sah6} ${f} >> ${6}
 		else
 			echo "SUURI HIRVIKYRPÄ ${f} "
 			echo "5H0ULD exit 666"
@@ -439,7 +436,7 @@ function e22_elocal() {
 	dqb "B3F0R3 TÖBX"
 	csleep 1
 
-	#mikä järki juuri tässä keskeyttää suoritus?
+	#mikä järki juuri tässä keskeyttää suoritus? josko aiemmin kuitenkn? tai siis
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		echo "/E/IPTABLES sdhgfsdhgf"
 		exit 112
@@ -447,7 +444,7 @@ function e22_elocal() {
 
 	dqb "WLAN-RELAT3D"
 	csleep 1
-
+	${srat} -rvf ${1} /etc/default/net*
 	case ${2} in
 		wlan0)
 			dqb "APW"
@@ -462,17 +459,6 @@ function e22_elocal() {
 		;;
 	esac
 
-	local ef
-	ef=$(echo ${4} | tr -d -c 0-9)
-
-	if  [ ${ef} -eq 1 ] ; then
-		dqb "Das Asdd"
-	else
-		#1.else-haara tOIMII , 1707126
-		#2.fstab lisäksi muutakin mukaan vai ei?
-		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
-	fi
-
 	dqb "DSN"
 	csleep 2
 	local f
@@ -484,6 +470,31 @@ function e22_elocal() {
 	else
 		dqb "n0 5tub"
 	fi
+
+	local ef
+	ef=$(echo ${4} | tr -d -c 0-9)
+
+	if  [ ${ef} -eq 1 ] ; then
+		dqb "Das Asdd"
+	else
+		#1.else-haara tOIMII , 1707126
+		#2.fstab lisäksi muutakin mukaan vai ei? miten zxcv?
+		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
+	fi
+}
+
+function e22_sarram() {
+	dqb "e22_sarram $1 $2 $3 $4"
+
+	[ -z "${1}" ] && exit 1
+	[ -s ${1} ] || exit 4 
+	#[ -w ${1} ] || exit 9
+
+	[ -z "${2}" ] && exit 11
+	[ -z "${3}" ] && exit 13
+	[ -s ${3} ] || exit 17
+
+	#exit 666
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
@@ -499,11 +510,11 @@ function e22_elocal() {
 	done
 	
 	csleep 3
-	#130126:josko alkaisi vähitellen tulla wdm-jutut mukaan? ei vielä koska jokin juttu
-	dqb "find / etc -type f -name ${5} \* -and -not -name  \* .202 \* "
+	#130126:josko alkaisi vähitellen tulla wdm-jutut mukaan? ei vielä koska jokin juttu?
+	dqb "find / etc -type f -name ${2} \* -and -not -name  \* .202 \* "
 	csleep 3
 
-	g=$(${odio} find /etc -type f -name '${5}*' -and -not -name '*.202*')
+	g=$(${odio} find /etc -type f -name '${2}*' -and -not -name '*.202*')
 
 	for f in ${g} ; do
 		dqb "${srat} -rvf ${1} ${f}"
@@ -514,7 +525,22 @@ function e22_elocal() {
 	csleep 3
 	${srat} -rvf ${1} /etc/X11/default-display-manager
 	csleep 3
-	dqb "e22_elocal done"
+
+	${scm} 0555 /etc/iptables
+	${scm} 0444 /etc/iptables/rules*
+	${scm} 0444 /etc/default/rules*
+
+	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
+	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
+
+	#jtnkn näin
+	for f in $(${odio} find /etc -type f -name 'ntp*') ; do
+		${srat} -rvf ${1} ${f}
+		${sah6} ${f} >> ${3}
+	done
+
+	other_horrors
+	dqb "e22_acol done"
 	csleep 1
 }
 
@@ -614,6 +640,7 @@ function e22_ext() { #160126:toiminee
 
 	local f
 	#160126:tuon yhden tdston kanssa jokin ongelma sha-tark kanssa, joten ksrdotssn
+	#pois myös resolv.conf.* vaiko ei ?
 
 	for f in $(find ./etc -type f -not -name interfaces.tmp) ; do
 		${sah6} ${f} >> ${4}
@@ -648,7 +675,8 @@ function e22_ts() {
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
 
-	udp6 ${1}
+	#udp6 ${1}
+	cg_udp6 ${1} #joko jo?
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 	csleep 5
 
@@ -733,17 +761,10 @@ function e22_arch() {
 	fi
 
 	csleep 1
-	#090126:ao,. fktioon liittyen changedns jos tarkistaisi rules.* - tdstot
 	psqa .
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
 	[ ${debug} -eq 1 ] && ls -las ${1} 
-	#VAIH:gpg -u mukaan
-
-	if [ -x ${gg} ] && [ -v TARGET_Dkname1 ] && [ -v TARGET_Dkname2 ] ; then
-		${gg} -u ${CONF_kay1name} -sb ./sha512sums.txt
-		#TODO:.sig kanssa mukaan pakettiin
-	fi
 
 	csleep 5
 	cd ${p}
@@ -787,9 +808,9 @@ function e22_dblock() { #150126:lisää toivottavaa sisältöä kohde-pakettiin
 
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-5)
-
 	e22_ts ${2}
-	enforce_access ${n} ${t} #tarpeellinen nykyään?
+
+	enforce_access ${n} ${t}  ${CONF_iface} #tarpeellinen nykyään?
 	e22_arch ${1} ${2}
 	csleep 1
 
@@ -871,7 +892,7 @@ function e22_tblz() {
 	dqb "x2.e22_tblz.done"
 }
 
-#VAIH:ntp-jutut takaisin josqs? tables-säännt ja mahd konffayus varmaan seuraavaksi
+#VAIH:ntp-jutut takaisin josqs? tables-säännöt ja mahd konffaus varmaan seuraavaksi (260226 aloiteltu)
 
 #140126:joskohan paketin sisältö toimisi? ehkä just ennen ntpsec
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
@@ -912,7 +933,7 @@ function e22_other_pkgs() {
 		${shary} runit-helper
 		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
 		${lftr} 
-		#josqs ntp-jututkin mukaan?
+
 		[ $? -eq 0 ] || exit 3
 
 		${shary} libev4
@@ -930,12 +951,7 @@ function e22_other_pkgs() {
 #	... package pinning?
 #	${lftr}
 #	csleep 2
-
-	#uutena 170126, pois jos qsee
-	# Depends:
-	#adduser, ,,, (= 1.2.2+dfsg1-1+deb12u1),, (>= 0.0), libc6 (>= 2.34), (>= 1:2.10), (>= 3.0.0)
-	#TODO:NTP-KIKKAREEN KONFFAAMINEN	
-
+	
 	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 	${shary} ntpsec
 		
@@ -944,8 +960,6 @@ function e22_other_pkgs() {
 	csleep 1
 }
 
-#DONE:uusi wdm-paketti modatun ison rakennusta varten, asentuu sekä live että sqroot, tosin jotain kiukuttelua äksän kanssa EDELLEEN
-#wdm kanssa kun xorg kiukuttelee ni jospa a) xdm tai b) DISPLAY MANAGEr WTTUUN KOKONAAN 666 
 function e22_dm() {
 	dqb "e22dm ( ${1} ) "
 	csleep 1
@@ -982,14 +996,12 @@ function e22_dm() {
 	${shary} fontconfig libfribidi0 libharfbuzz0b libthai0
 	${shary} libfreetype6 libxcb-shape0 libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1
 	${shary} libxcb-render0 libxcb-shm0
-	#, , 
 
 	case ${1} in
 		xdm) #010126:pitäisiköhän tämäkin case testata?
 			${shary} xdm
 		;;
 		wdm)
-			#VAIH:PAKETIN wdm RIIPPUVUUKSIEN METSÄSTYS UUSIKSI RASKAALLA KÄDELLÄ 666!!!
 			# zlib1g perl:any xserver-xorg | xserver:tarteeko juuri tässä vetää?
 			${shary} libnuma1
 
@@ -1019,8 +1031,6 @@ function e22_dm() {
 
 			${shary} x11-common libxtst6 libxv1 libxxf86dga1 
 			csleep 1
-
-			#Depends:  (>= 2.33),  (>= 1.6.2-1), , ,  (>= 2:1.7.5),  (>= 2:1.0.14), , , , , (>> 1.1.2), ,  (>> 2.1.1), (>= 2:1.2.99.4),  (>= 1:1.1.0),  (>= 2:1.1.3), (>= 2:1.1.3), ,  (>= 1:1.1.0), 
 
 			${shary} psmisc x11-apps
 			#csleep 1
@@ -1155,7 +1165,14 @@ function e22_upgp() {
 	#LOPPUU SE PURPATUS PRKL
 	${shary} cpp-12 gcc-12-base libstdc++6 
 	${shary} libgcc-s1 libc6 libgomp1 
-	csleep 2
+
+#	#helpompi vain ajaa e22_dm() ennen upgp()
+#	${shary} libsoxr0 #tälle riittisi gomp?
+#	${shary} libaom3
+#	${shary} libcairo2 libcodec2-1.0 libmfx1 libdrm2 libva-drm2 libva-x11-2 libva2 libvdpau1 libx11-6 ocl-icd-libopencl1
+#	${shary} libdav1d6	
+#	${shary} libswresample4 libavcodec59
+#	csleep 2
 	
 	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta, onko?
 	${sag} --no-install-recommends upgrade -u

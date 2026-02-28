@@ -3,7 +3,7 @@ d0=$(pwd)
 tcmd=$(which tar)
 spc=$(which cp)
 n=$(whoami)
-
+#TODO:pitäisi kai yo. juttujen olemassaolo tarkistaa
 #voisikohan käyttää muidenin pakettien päivittelyyn kuin vain sen yhden?
 
 if [ $# -gt 1 ] ; then
@@ -16,8 +16,8 @@ else
 fi
 
 tgt=${1}
-[ -z ${tgt} ] && exit 11
-[ -s ${tgt} ] || exit 12
+[ -z "${tgt}" ] && exit 11
+[ -s "${tgt}" ] || exit 12
 echo "PARAMS CHECKED"
 sleep 1
 
@@ -33,7 +33,7 @@ fi
 
 #pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
 ${tcmd} -tf ${tgt} | grep '.deb'
-sleep 3
+sleep 1
 
 read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
 [ "${confirm}" != "Y" ] && exit 
@@ -44,7 +44,7 @@ function process_entry() {
 
 ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 [ $? -eq 0 ] || echo "chmod | chown ?"
-sleep 2
+sleep 1
 t=$(pwd)
 
 if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then

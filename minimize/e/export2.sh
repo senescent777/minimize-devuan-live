@@ -181,7 +181,7 @@ case ${mode} in
 #		
 #		exit
 	;;
-	f) 	#140126:jospa ao. blokki toimisi edelleen
+	f) 	#140226:toimiiko edelleen? 
 
 		enforce_access ${n} ${t}
 		e22_hdr ${tgtfile}
@@ -229,7 +229,7 @@ case ${mode} in
 		exit
 	;;
 	g)
-		#150126:luuultavasti oksennetut komennot toimivat edelleen
+		#1402222222226:luuultavasti oksennetut komennot toimivat edelleen (miten f?)
 		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
 		dqb "${sag_u} | ${fib} , when necessary " 
 
@@ -278,7 +278,7 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#160126:josa edelleen toimisi tämä case
+		#260225:toimiiko nykyään? , vissiin 
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 	
@@ -289,6 +289,8 @@ case ${mode} in
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
 		dqb "e22_ext DON3, next:rm some rchives ?"
 		csleep 1
+
+		#VAIH:jokin e22_fktio vetämään mukaan /e/d/network*
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
@@ -316,7 +318,9 @@ case ${mode} in
 		dqb "B3F0R3 RP2	"
 		csleep 1
 
-		e22_elocal ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce} ${CONF_dm} /opt/bin/zxcv
+		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
+		fasdfasd /opt/bin/zxcv #onko ihan pakko? 
+		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv
 		reqwreqw  /opt/bin/zxcv
 		csleep 1
 
@@ -325,14 +329,13 @@ case ${mode} in
 		reqwreqw /opt/bin/zxcv.sig			
 		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 	;;
-	#140126 jälleenm uusi yritys, ainakin muutoksena aiempaan dbus-nalqtus
+	#u taisi toimia jnkin aikaa 01/26
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
 		[ -v CONF_pkgdir ] || exit 96
 		e22_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
 	;;
-	#201225:jopsa jatkossa yhdistelisi noita e/t/l/g-tapauksia? (tai vähän jo aloiteltu?)
 	e)
 		#140126 näyttäisi asentuvan e29 ok live-ymp, sqrootissa asentuu nalkutuksen kanssa koska syyt
 		#... tosin pilaakohan seatd sen chmod-groups-jutun?
