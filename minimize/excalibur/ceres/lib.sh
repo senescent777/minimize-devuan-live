@@ -44,6 +44,6 @@ function tpc7() {
 	#${shary} nftables #excalibur-spesifisiä?	
 }
 
-#check_binaries ${d}
+check_binaries ${d}
 #lftr-jutut josqs?
-#check_binaries2
+check_binaries2
