@@ -5,8 +5,6 @@ bind9-host
 bind9-dns
 dnsutils
 perl
-#
-#python3-pil-jutut jemmaan 090226, loppuu purpatus prkl
 mime-support
 #
 #eudev-dbus-e2fsprogs oli siinä rejectissä, miten x-juttuja myös?
@@ -14,29 +12,16 @@ xserver-common
 xserver-xorg-legacy
 xserver-common
 xserver-xorg-core
-#
-#josko nyt iukea järj?
 dbus-system-bus-common
 dbus-bin
 dbus-session-bus-common
 dbus-daemon
 dbus-x11
-#
 gpgconf
-#gpg tarvitsee confin /josko kuitenkin kerta-as riittäisi
-#
-#nyt jos typot ho
 gtk2-engines-pixbuf
-#
 x11-utils
-#
 python3.11-minimal
 python3.11
-#
 menu
-#
-#wdm...
 psmisc
-#
-#ennen git, varm vuoksi , muttta "git." vai "git-" ?
 git-man
