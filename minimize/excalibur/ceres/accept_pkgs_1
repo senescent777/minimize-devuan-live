@@ -1,9 +1,5 @@
 isc-dhcp-*.deb
-#
-#160126:ao. rivejä joutunewe muuttramaan jatkossa
-#
 libgcc-s1*.deb
-#
 gcc-12-base*.deb
 libstdc++6*.deb
 #libreadline8?
