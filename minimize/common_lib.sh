@@ -585,6 +585,26 @@ function check_binaries2() {
 	csleep 1
 }
 
+#VAIH:käyttöön
+function process_lib() {
+	dqb "process_lib( ${1} )"
+	[ -z "${1}" ] && exit 66
+	csleep 1
+
+	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then
+		.  ${1}/lib.sh
+		check_binaries ${1}
+		[ $? -eq 0 ] || exit 67
+
+		check_binaries2
+		[ $? -eq 0 ] || exit 68
+	else
+		fallback	
+	fi
+
+	dqb "process_lib.done()"
+}	
+
 #==================================================================
 function slaughter0() {
 	local fn2

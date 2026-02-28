@@ -61,7 +61,7 @@ dqb "mode= ${mode}"
 csleep 1
 
 part0 ${distro}
-
+#TODO:process_lib() ?
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else
@@ -218,7 +218,7 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	exit
 fi
 
-pre_part2 #TODO:tähän kohtaa muutoksia jatkossa?
+pre_part2 #TODO:tähän kohtaa muutoksia jatkossa? ntp?
 c14=$(find ${d} -name '*.deb' | wc -l)
 #[ ${c14} -gt 0 ] || CONF_removepkgs=0 #tilap kommentteihin 270226 koska g_pt2_jutut
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}

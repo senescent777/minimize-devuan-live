@@ -59,6 +59,7 @@ fi
 
 [ -z ${distro} ] && exit 6
 dqb "BEFORE CNF"
+#TODO:process_lib() ?
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -84,7 +85,7 @@ dqb "mode=${mode} "
 sleep 1
 
 #151225:sqroot alla osasi poistella paketteja tämä skripti
-#TODO:blu-paketteihin liittyen jotain muutosta ao. blokkiin?
+#TODO:blu-paketteihin liittyen jotain muutosta ao. blokkiin? CONF_removepkgs=1 vs 0 ?
 
 if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
@@ -100,7 +101,7 @@ function t2p_filler() {
 	csleep 1
 }
 
-#tarpeellinen ehto?
+#tarpeellinen blokki nykyään?
 if [ -f /.chroot ] ; then
 	${sharpy} blu*
 	${sharpy} nfs*

@@ -74,7 +74,7 @@ function gh() {
 }
 #
 
-#VAIH:testit modaamattoman chimaeran kanssa
+#280226:lienee ok modaamattoman chimaeran kanssa tämä fktio (pl mahd tablesin puute)
 function epr1() {
 	dqb "31n-p0d-r05..."
 	csleep 1
@@ -317,22 +317,19 @@ function clouds_pp1() {
 	dqb "pp1 done"
 }
 
-#130226:chimaeran kanssa tapahtui halt, jospa selvittäisi miksi (28226 kävi sellainen ilmeinen juttu selväksi että tables:puuttui)
 #130226.2.mjono policy:accept tablesin outputissa saisi johtaa halt:iin kanssa (VAIH)
 #150226:rules.v4, rules.v6 :miten niiden kanssa nykyään? piut paut?
 
 function tlah() {
 	if [ ${1} -gt 0 ] ; then
 		dqb "SHOULD / sb1n / h4lt npow"
-		#TODO:se varsinainen halt vähitellen
+		csleep 1
+		[ ${debug} -eq 1 ] || /sbin/halt
 	fi
 }
 
 function clouds_pp3() {
 	dqb "# c.pp.3 a.k.a RELOADINGz TBLZ RULEZ ${1}"
-	[ -z "${1}" ] && /sbin/halt
-	csleep 1
-	dqb "paramz 0k"
 	csleep 1
 
 	[ -z "${1}" ] && /sbin/halt
@@ -396,19 +393,6 @@ function clouds_pp3() {
 function clouds_pre() {
 	dqb "cdns.clouds_pre( ${1}, ${2} )"
 	csleep 1
-	local t
-
-	for t in INPUT OUTPUT FORWARD ; do
-		${ipt} -P ${t} DROP
-		[ $? -eq 0 ] || /sbin/halt
-		dqb "V6"; csleep 1
-
-		${ip6t} -P ${t} DROP
-		[ $? -eq 0 ] || /sbin/halt
-
-		${ip6t} -F ${t}
-		[ $? -eq 0 ] || /sbin/halt
-	done
 
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 65

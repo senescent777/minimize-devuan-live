@@ -171,24 +171,21 @@ fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 csleep 1
+process_lib ${d}
 
-if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-	. ${d}/lib.sh
-else
-	#DONE?:tämän haaran testaus (vielä ainakin kehitysymnp? ja sqroot- ymp reaktio c_bin parametriin)
-	#210126 ei kai mitään erityistä härdelliä ollut sqroot-testissä
-	#100226: "$0 3 " yritteli kyllä asentaa juttuja
-	
-	echo $?
-	dqb "NO LIB"
-	csleep 1
-
-	check_binaries ${d}
-	[ $? -eq 0 ] || exit 
-
-	check_binaries2
-	[ $? -eq 0 ] || exit 
-fi
+#if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+#	. ${d}/lib.sh
+#else	
+#	echo $?
+#	dqb "NO LIB"
+#	csleep 1
+#
+#	check_binaries ${d}
+#	[ $? -eq 0 ] || exit 
+#
+#	check_binaries2
+#	[ $? -eq 0 ] || exit 
+#fi
 
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
@@ -545,5 +542,5 @@ if [ -v part ] || [ -v CONF_dir ] ; then
 	[ -z ${CONF_dir} ] || grep ${CONF_dir} /proc/mounts
 fi
 
-${scm} 0755 $0
+${scm} 0555 $0
 #HUOM.290925: tämän skriptin pitäisi kuvakkeen kanssa löytyä filesystem.squashfs sisältä (no löytyykö?)
