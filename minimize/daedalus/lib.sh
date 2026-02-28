@@ -16,7 +16,7 @@
 #	#sleep 2
 #}
 
-#josko kuitenkin ntp takaisin part2_5_listaan?
+#josko kuitenkin ntp takaisin-> part175?
 function pre_part2() { #käytössä
 	dqb "daud.pre_part2()"
 	csleep 2
