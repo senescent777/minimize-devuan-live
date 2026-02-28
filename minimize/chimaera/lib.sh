@@ -15,6 +15,6 @@ function tpc7() {
 }
 
 	
-check_binaries ${d} # toimiiko? $(pwd) nimittäin? ei toivotulla tavalla
+#check_binaries ${d} # toimiiko? $(pwd) nimittäin? ei toivotulla tavalla
 lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
-check_binaries2
+#check_binaries2
