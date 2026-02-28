@@ -1,36 +1,32 @@
-#TODO:TESTAA MITEN TOIMII ASAP
-atril
-bc,bluez
+#VAIH:TESTAA MITEN TOIMII ASAP (28226 äksä ei vissiin mennyt rikki jollain tämän tdston versiolla)
+atril,bc
+#,bluez
 #
 #dconf,debconf off limits
 #
-ghostscript
-gparted
+ghostscript,gparted
 #
 #gnome* , gpg* off limits , gnupg* ei löydy
-#	#gsettings-desktop-schemas off limits
+#gsettings-desktop-schemas off limits
 #
-grub
-gsasl-common
-gsfonts
-gvfs
+grub,gsasl-common
+gsfonts,gvfs
 #
-#	#lib-jutut jos antaisi enimmäkseen olla rauhassa
-#	#linux* , live* off limits
+#lib-jutut jos antaisi enimmäkseen olla rauhassa
+#linux* , live* off limits
 #
-mdadm
-mobile
-mysql-common
-ntp
-notification-daemon
+mdadm,mobile,mysql-common
+ntp,notification-daemon
 orca,packagekit
 #
 pigz,po
-#	#procps off limits
-#pois kommentreista: psmisc,rsync, traceroute ? 
+#procps off limits
+#
+#uskaltaako näiutä poistaa?
+psmisc,rsync,traceroute 
+#
 rpcbind
-sane-utils
-squash
+sane-utils,squash
 telnet
-#pois kommentreista:w3m,.wget ?
+w3m,wget
 #xfce*,xorg* off limits
