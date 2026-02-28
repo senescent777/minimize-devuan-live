@@ -330,6 +330,9 @@ function tlah() {
 
 function clouds_pp3() {
 	dqb "# c.pp.3 a.k.a RELOADINGz TBLZ RULEZ ${1}"
+	[ -z "${1}" ] && /sbin/halt
+	csleep 1
+	dqb "paramz 0k"
 	csleep 1
 
 	[ -z "${1}" ] && /sbin/halt
@@ -393,6 +396,19 @@ function clouds_pp3() {
 function clouds_pre() {
 	dqb "cdns.clouds_pre( ${1}, ${2} )"
 	csleep 1
+	local t
+
+	for t in INPUT OUTPUT FORWARD ; do
+		${ipt} -P ${t} DROP
+		[ $? -eq 0 ] || /sbin/halt
+		dqb "V6"; csleep 1
+
+		${ip6t} -P ${t} DROP
+		[ $? -eq 0 ] || /sbin/halt
+
+		${ip6t} -F ${t}
+		[ $? -eq 0 ] || /sbin/halt
+	done
 
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 65
