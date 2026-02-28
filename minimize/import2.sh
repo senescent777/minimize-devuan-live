@@ -63,6 +63,7 @@ if [ -f /.chroot ] ; then
 		cd ${p}
 	fi
 	
+	#gpg-tark kuitenkin ensin?
 	g=$(which gpg)
 	sleep 1
 	cd ${p}

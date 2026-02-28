@@ -892,7 +892,7 @@ function e22_tblz() {
 	dqb "x2.e22_tblz.done"
 }
 
-#VAIH:ntp-jutut takaisin josqs? tables-säännt ja mahd konffayus varmaan seuraavaksi (260226 aloiteltu)
+#VAIH:ntp-jutut takaisin josqs? tables-säännöt ja mahd konffaus varmaan seuraavaksi (260226 aloiteltu)
 
 #140126:joskohan paketin sisältö toimisi? ehkä just ennen ntpsec
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?

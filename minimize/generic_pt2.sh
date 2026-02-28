@@ -84,7 +84,7 @@ dqb "mode=${mode} "
 sleep 1
 
 #151225:sqroot alla osasi poistella paketteja tämä skripti
-#TODO:blu-paketteihin liittyen jotain muutosta ao. blokkiin
+#TODO:blu-paketteihin liittyen jotain muutosta ao. blokkiin?
 
 if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
@@ -150,41 +150,9 @@ function p2g() {
 #mode:n kanssa kikkailut voivat auttaa selvityksessä
 #130126_sqroot-testissä tämän fktion poistamat paketit enimmäkseen poistuvat pl. tuon yhden blokin jutut
 
-#function t2pc() { wttuun tämä
-#	dqb "gpt2.t2p_common222( ${1} )"
-#	csleep 1
+
 #
-#	[ -z "${1}" ] && exit 99
-#	[ -d ${1} ] || exit 98
-#
-#	dqb "shar_py = ${sharpy} ;"
-#	csleep 1
-#
-#	${fib}
-#	csleep 1
-#	#filler just ennen p2g() ?
-#	p2g ${1}
-#
-#	${sharpy} *
-#	t2p_filler
-#
-#	${sharpy} parted 
 #	#libgtk3 ei poistu, libgtk4 kyllä
-#	t2p_filler
-#
-#	${sharpy} 
-#	t2p_filler
-#
-#	${sharpy} 
-#	t2p_filler
-#
-##150226:tämän blokin kanssa vähän auki, uskaltaako vivuta (no ei vielä)
-#	${sharpy} shim* speech* 
-#	t2p_filler
-#
-#	${sharpy} * tumbler*
-#	t2p_filler
-##210226: ... joskohan vähitellen saisi edes modaamatt9man kiekon kanssa p2g():n hoitamaan homman kokonaan?
 #
 #	if [ -f /.chroot ] ; then
 #		dqb "SHOULD \${sharpy} slim* "
@@ -205,13 +173,6 @@ function p2g() {
 #		csleep 1
 #	fi
 #
-#	spd="${sd0} -l "
-#	[ ${debug} -gt 0 ] && ${spd} x*
-#	csleep 1
-#
-#	dqb "gpt2.T2PC.DONE"
-#	csleep 1
-#}
 
 function t2pf() {
 	dqb "common_lib.T2P.FINAL( ${1} )"
@@ -225,8 +186,9 @@ function t2pf() {
 
 	#rikkookohan jotain nykyään? eipäkai
 	${smr} -rf /usr/share/doc 
+	${NKVD} /OLD.tar
 
-	for f in $(find /var/log -type f) ; do ${smr} ${f} ; done
+	for f in $(find /var/log -type f) ; do ${NKVD} ${f} ; done
 	df
 	${odio} which dhclient; ${odio} which ifup; csleep 1
 }
@@ -235,18 +197,16 @@ function t2pf() {
 dqb "gpg= $(sudo which gpg)" #tässäjo poistunut
 csleep 1
 
-#t2pc ${d0}
 ${fib}
 csleep 1
-#filler just ennen p2g() ?
 p2g ${d0}
 
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 0 ] && exit
 
 p2g ${d}
-
 [ ${mode} -eq 1 ] && exit
+
 dqb "VAIH:ntpsec hyötykäyttö"
 #	${scm} a-wx ${0} ?
 #	csleep 2

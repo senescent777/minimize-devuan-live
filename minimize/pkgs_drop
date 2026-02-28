@@ -1,16 +1,14 @@
-#VAIH:KIRJOITA KOKO PASKA UUSIKSI TYHJÄSTÄ
+#28022222226 toiminee ainakin daed-tapauksessa 
 #blu HUOM:PART175_LIST SISÄLTÄÄ JO TÄMÄN
 amd64-microcode,at-spi2-core,bubblewrap
-#coinor poistuuko aiemmin?
 cryptsetup,debian-faq,doc-debian
 dirmngr,discover
 docutils,dosfstools,dmsetup
-#efibootmgr,,exfatprogs
 exfalso,fdisk,ftp
-#gcr,,gimp-data
 #
-#poistuuko gpgv?
-gpgv,gir,gstreamer
+#poistuuko gpgv? eivielä
+gpgv
+gir,gstreamer
 #
 #h-libr-RYHMITTELYÄ MUUTETTU 270226
 htop,inetutils-telnet,intel-microcode
@@ -25,9 +23,7 @@ lynx,mutt,mail
 mlocate,modem,mtools
 mythes
 #
-#270226:tähän asti ok?
-#,nfs-common,rpcbind
-#nfs,jutut,poistuvat,aiemmin?
+#nfs,jutut,poistuvat,aiemmin
 netcat-traditional,openssh,pavucontrol
 ppp,pciutils,procmail
 #antaa olla rfkill toistaiseksi
