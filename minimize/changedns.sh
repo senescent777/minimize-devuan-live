@@ -100,14 +100,12 @@ function epr1() {
 	gf /etc iptab
 	${odio} rm /etc/default/rules*
 
-
 	c=$(${odio} find /etc -name 'rules.v?.?' -type f -perm /o+w,o+x,o+r | wc -l) #oli myös o+r
 	[ ${c} -gt 0 ] && exit 114
 
 #	#o+r liikaa? ei? gr sn sijaan...
 	c=$(${odio} find /etc -name 'rules.v?.?' -type f -perm /g+x,g+w | wc -l)
       	[ ${c} -gt 0 ] && exit 124
-
 
 	#VAIH:SELV TOIMIIKO TÄMÄ TRKISTUS VAI EI
 	gh /etc rules.v
@@ -353,7 +351,6 @@ function clouds_pp3() {
 	dqb "bfore -f"
 	csleep 2
 
-	#MITVIT TAAS?
 	[ -f /etc/iptables/rules.v4.${p} ] || tlah 1
         [ -f /etc/iptables/rules.v6.${p} ] || tlah 1
 	dqb "bfore -s"
@@ -382,6 +379,7 @@ function clouds_pp3() {
 	dqb "FLiBe"
 
 	#pidemmän päälle olisi kätevämpi nimetä kuin numeroida ne säännöt...
+	#ideana kenties oli hukatra ketjut b ja e ?
 	${ipt} -D INPUT 5
 	${ipt} -D OUTPUT 6
 
@@ -410,6 +408,7 @@ function clouds_pre() {
 		tlah $?
 		dqb "V6 ${t} ok"; csleep 2
 
+		#opitäisikö huuhdella myls v4-taulut?
 		${ip6t} -F ${t}
 		tlah $?
 		dqb "V6 -GF ${t} ok"; csleep 2
@@ -441,12 +440,6 @@ function clouds_pre() {
 	[ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 	[ y"${ipt}" == "y" ] && exit 666
 
-	if [ -x /usr/sbin/ntpd ] ; then
-		for f in $(${odio} grep -v '#' /etc/ntpsec/ntp.conf | grep pool | awk '{print $2}') ; do
-			ptn_dda ${f}
-		done
-	fi
-
 	dqb "S0UL SARC1F1C3 6,9"
 }
 
@@ -467,28 +460,32 @@ function clouds_post() {
 
 	cd ${g}
 
-	${scm} 0555 /etc/dhcp
-
 	for f in $(find /sbin -type f -name 'dhclient*') ; do
 		${scm} 0555 ${f}
 		${sco} root:root ${f}
 	done
 
-	${scm} 0555 /sbin
 	p3r1m3tr
 
-	${scm} 0555 /etc/network
-	${sco} root:root /etc/network 
-	#csleep 1
-
-#zxcv-iterointi mennee vähän päällekkäin ao,  loopin kansssa
+	#zxcv-iterointi mennee vähän päällekkäin ao,  loopin kansssa
 	for f in $(find /etc -type f -name 'ntp*') ; do
 		${scm} 0444 ${f}
                 ${sco} root:root ${f}
 	done
 
+	${scm} 0555 /etc/dhcp
+	${scm} 0555 /sbin
+	${scm} 0555 /etc/network
+	${sco} root:root /etc/network 
 	${scm} 0555 /etc/init.d/ntpsec
 	${sco} 0:0 /etc/init.d/ntpsec
+
+	#VAIH:tämän kanssa pientä arpomista katlkssa
+	if [ -x /usr/sbin/ntpd ] ; then
+		for f in $(${odio} grep -v '#' /etc/ntpsec/ntp.conf | grep pool | awk '{print $2}') ; do
+			ptn_dda ${f}
+		done
+	fi
 
 	if [ ${debug} -eq 1 ] ; then
 		#legacy-juttujen kanssa oli jokin juttu, tosin ilman legacyä näyttäisi tuottavan toivottua outputtia
@@ -516,10 +513,12 @@ function clouds_case0_1() {
 	else
 		dqb "NO RESOLV.CONF FOUND, HAVE TO USE ALT CONF"
 
-		if [ z"${dsn}" != "z" ] ; then
-			for s in ${dsn} ;  do dda_snd ${s} ; done
+		if [ z"${CONF_dsn}" != "z" ] ; then
+			for s in ${CONF_dsn} ;  do dda_snd ${s} ; done
 		fi
 	fi
+
+	#HUOM.28226:kuuluisikohan nfps-kikkailut olla tössö vaiko _2:sessa? ei bälttämättä c_pre() - fktiossa kuitenkaan
 }
 
 function clouds_case1_1() {
@@ -528,18 +527,18 @@ function clouds_case1_1() {
 	else
 		dqb "NO CONF FOUND, HAVE TO USE ALT CONF"
 
-		if [ z"${dsn}" != "z" ] ; then
-			for s in ${dsn} ;  do tod_dda ${s} ; done
+		if [ z"${CONF_dsn}" != "z" ] ; then
+			for s in ${CONF_dsn} ;  do tod_dda ${s} ; done
 		fi
 	fi
 }
 
 function clouds_case0_2() {
 	/etc/init.d/dnsmasq stop
-	/etc/init.d/ntpsec stop
+#	/etc/init.d/ntpsec stop toistaiseksi jemmaan 280226
 
 	${whack} dnsmasq*
-	${whack} ntp*
+#	${whack} ntp*
 }
 
 function clouds_case1_2() {
@@ -562,30 +561,28 @@ function clouds_case1_2() {
 #	pgrep stubby
 }
 
-#välimiehiä voisi leikellä pois jatkossa
-function clouds_case0() {
-	dqb "cdns.clouds_case0()"
-
-	clouds_case0_0
-	clouds_case0_1
-	clouds_case0_2
-}
-
-function clouds_case1() {
-	clouds_case1_0
-	clouds_case1_1
-	clouds_case1_2
-}
+#välimiehiä voisi leikellä pois jatkossa (VAIH)
+#function clouds_case0() {
+#	dqb "cdns.clouds_case0()"
+#
+#}
+#
+#function clouds_case1() {
+#}
 
 #====================================================================
 clouds_pre ${mode} ${distro}
 
 case ${mode} in 
 	0)
-		clouds_case0
+		clouds_case0_0
+		clouds_case0_1
+		clouds_case0_2
 	;;
 	1)
-		clouds_case1
+		clouds_case1_0
+		clouds_case1_1
+		clouds_case1_2
 	;;
 	*)
 		echo "MEE HIMAAS LEIKKIMÄHÄN"

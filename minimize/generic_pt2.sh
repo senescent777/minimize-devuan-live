@@ -5,18 +5,8 @@ d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro}
-
 mode=3
 #HUOM.251025:myös excaliburin kanssa se on nimenomaan mode 3 mikä qsee guin? vielä 271125?
-
-#tartteeko näitä 2 oikeastaan?
-function dqb() {
-	[ ${debug} -eq 1 ] && echo ${1}
-}
-
-function csleep() {
-	[ ${debug} -eq 1 ] && sleep ${1}
-}
 
 function parse_opts_1() {
 	echo "popt_1( ${1} )"
@@ -39,6 +29,12 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
+function fallback() {
+	dqb $?
+	echo "NOT (LIB AVAILABLE AND ECXUTABL3)"
+	exit 67
+}
+
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -58,16 +54,8 @@ else
 fi
 
 [ -z ${distro} ] && exit 6
-dqb "BEFORE CNF"
-#TODO:process_lib() ?
-
-if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-	. ${d}/lib.sh
-else
-	dqb $?
-	echo "NOT (LIB AVAILABLE AND ECXUTABL3)"
-	exit 67
-fi
+dqb "BEFORE L1B"
+process_lib ${d}
 
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0511 ${x}
@@ -77,11 +65,9 @@ for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 done
 
 ${fib}
-
 dqb "distro=${distro}"
 dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
-
 sleep 1
 
 #151225:sqroot alla osasi poistella paketteja tämä skripti
@@ -130,6 +116,7 @@ function p2g() {
 	local g
 	local h
 
+	#jatkossa jos yhdistelisi common_lib_tool kanssa... paitsi ettäö
 	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
 		dqb "SOON: \${sharpy} ${f}* "
 		csleep 1
@@ -149,7 +136,6 @@ function p2g() {
 
 #VAIH:selvitä missä kohtaa gpg poistuu nykyään, koita saada epä-poistumaan
 #mode:n kanssa kikkailut voivat auttaa selvityksessä
-#130126_sqroot-testissä tämän fktion poistamat paketit enimmäkseen poistuvat pl. tuon yhden blokin jutut
 
 
 #
@@ -187,6 +173,8 @@ function t2pf() {
 
 	#rikkookohan jotain nykyään? eipäkai
 	${smr} -rf /usr/share/doc 
+
+	#fiksumpaa olisi kai muutella import2:ssa vastaava kohta
 	${NKVD} /OLD.tar
 
 	for f in $(find /var/log -type f) ; do ${NKVD} ${f} ; done

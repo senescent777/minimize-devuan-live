@@ -173,20 +173,6 @@ echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/
 csleep 1
 process_lib ${d}
 
-#if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-#	. ${d}/lib.sh
-#else	
-#	echo $?
-#	dqb "NO LIB"
-#	csleep 1
-#
-#	check_binaries ${d}
-#	[ $? -eq 0 ] || exit 
-#
-#	check_binaries2
-#	[ $? -eq 0 ] || exit 
-#fi
-
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
 echo "mkt= ${mkt} "
@@ -481,8 +467,10 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
-	r) #141225:muuten ok mutta ...?
+	r) #VAIH:selvitä toiminta uudestaan
 		[ -d ${srcfile} ] || exit 22
+
+		#tar -> tpr ?
 		${srat} -C ~ -jxf ~/config.tar.bz2
 		tpr ${srcfile}
 	;;

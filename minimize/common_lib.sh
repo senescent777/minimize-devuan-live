@@ -593,6 +593,7 @@ function process_lib() {
 
 	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then
 		.  ${1}/lib.sh
+		#jospa jatkossa c_b if-blokin jölkeen jokatap?
 		check_binaries ${1}
 		[ $? -eq 0 ] || exit 67
 

@@ -41,6 +41,11 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
+function fallback() {
+	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING OR NOT EXECUTABLE"
+	exit 111
+}
+
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -61,13 +66,7 @@ dqb "mode= ${mode}"
 csleep 1
 
 part0 ${distro}
-#TODO:process_lib() ?
-if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-	. ${d}/lib.sh
-else
-	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING OR NOT EXECUTABLE"
-	exit 111
-fi
+process_lib ${d}
 
 #==================================PART 1============================================================
 dqb "mode= ${mode}"
@@ -237,7 +236,12 @@ csleep 2
 if [ ! -f /.chroot ] ; then
 	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh #toistaiseksi tässä kunnes... Jotain
-	${d0}/import2.sh r ${d0} #-v
+	
+	csleep 5
+	dqb "VAIH:KORJAA PROF IMPORT" #paranetrien kuljetus qsee?
+	csleep 5
+
+	${d0}/import2.sh r ${d0} -v
 	#2. ja 3. param. turhia?
 fi
 
