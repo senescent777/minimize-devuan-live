@@ -13,8 +13,6 @@ function pre_part2() {
 function tpc7() {
 	dqb "c.tpc7 UNDER CONSTRUCTION"
 }
-
 	
-#check_binaries ${d} # toimiiko? $(pwd) nimittäin? ei toivotulla tavalla
 lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
-#check_binaries2
+

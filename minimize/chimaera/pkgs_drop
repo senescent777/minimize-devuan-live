@@ -1,4 +1,3 @@
-#VAIH:TESTAA MITEN TOIMII ASAP (28226 äksä ei vissiin mennyt rikki jollain tämän tdston versiolla)
 atril,bc
 #
 #dconf,debconf off limits
@@ -12,7 +11,9 @@ gsfonts,gvfs
 #linux* , live* off limits
 #
 mdadm,mobile,mysql-common
-ntp,notification-daemon
+ntp
+#ntp-kohtaan saattaa tulla muutoksia josqs
+notification-daemon
 orca,packagekit
 pigz,po
 #procps off limits
