@@ -105,6 +105,8 @@ else
 	fi	
 fi
 
+#010236:pientä kiukuttelua chiameran kanssa, pitänee laittaa se vanhempi lib.sh includointi takaisin jos jatq
+
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -159,7 +161,9 @@ else
 	}
 fi
 
-[ -z ${distro} ] && exit 6
+dqb "AFTR common_lib"
+csleep 3
+[ -z "${distro}" ] && exit 6
 csleep 2
 
 if [ -f /.chroot ] || [ -x ${mkt} ] ; then
@@ -467,7 +471,7 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2"
 	;;
-	r) #VAIH:selvitä toiminta uudestaan
+	r) #010326:suattaapi olla niinnii jotta toimii
 		[ -d ${srcfile} ] || exit 22
 
 		#tar -> tpr ?

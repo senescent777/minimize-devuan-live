@@ -217,7 +217,7 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	exit
 fi
 
-pre_part2 #TODO:tähän kohtaa muutoksia jatkossa? ntp?
+pre_part2 #ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
 c14=$(find ${d} -name '*.deb' | wc -l)
 #[ ${c14} -gt 0 ] || CONF_removepkgs=0 #tilap kommentteihin 270226 koska g_pt2_jutut
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
@@ -237,9 +237,9 @@ if [ ! -f /.chroot ] ; then
 	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh #toistaiseksi tässä kunnes... Jotain
 	
-	csleep 5
-	dqb "VAIH:KORJAA PROF IMPORT" #paranetrien kuljetus qsee?
-	csleep 5
+#	csleep 5
+#	dqb "KORJAA PROF IMPORT?" #tilapäinen kiukutteul?
+#	csleep 5
 
 	${d0}/import2.sh r ${d0} -v
 	#2. ja 3. param. turhia?

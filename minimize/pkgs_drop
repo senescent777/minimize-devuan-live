@@ -1,4 +1,3 @@
-#28022222226 toiminee ainakin daed-tapauksessa 
 #blu HUOM:PART175_LIST SISÄLTÄÄ JO TÄMÄN
 amd64-microcode,at-spi2-core,bubblewrap
 cryptsetup,debian-faq,doc-debian
@@ -17,11 +16,11 @@ libgstreamer,libpoppler
 #
 #libsane,tämä,kusevat,asioita?
 #lvm2,poistui,aikaisemmin,nykyään
-#TODO:perus-ntp pois, mut ntpsec eu?
 #
 lynx,mutt,mail
 mlocate,modem,mtools
-mythes
+#jatkossa perus-ntp pois, mut ntpsec eu?
+mythes,ntp
 #
 #nfs,jutut,poistuvat,aiemmin
 netcat-traditional,openssh,pavucontrol

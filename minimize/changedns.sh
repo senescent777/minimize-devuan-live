@@ -31,7 +31,7 @@ mode=${1}
 #280226:ao. spagettikoodille hyvä tehdä jotian josqs
 function gf() {
 	[ -z "${1}" ] && exit 103
-	local c2		
+	local c2
 
 	if [ -z "${2}" ] ; then
 		c2=$(${odio} find ${1} -type d -not -user 0 | wc -l)
@@ -156,7 +156,7 @@ function p3r1m3tr() {
 		g=$(which gpg)
 
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-			#mitenkähän onnistuu verify jos ylempänä chmod 0400 ? TODO:testaa?
+			#mitenkähän onnistuu verify jos ylempänä chmod 0400 ? TODO:testaa esim @sqroot ?
 			${gg} --verify /opt/bin/zxcv.sig
 			[ $? -gt 0 ] && exit 126
 		fi
@@ -228,8 +228,8 @@ function ptn_dda() {
         t=$(echo ${1} | tr -d -c 0-9.a-z)
 
 	#tai jos aluksi rules.xyz
-	dqb "SH0.ULD \${ipt} -A b -p udp -m udp -s ${t} --sport 123 -j ACCEPT"
-	dqb "SH0.uld \${ipt} -A e -p udp -m udp -d ${t} --dport 123 -j ACCEPT"
+	${ipt} -A b -p udp -m udp -s ${t} --sport 123 -j ACCEPT
+	${ipt} -A e -p udp -m udp -d ${t} --dport 123 -j ACCEPT
 }
 
 ##==============================================================
@@ -361,6 +361,8 @@ function clouds_pp3() {
 	dqb "just bfore iptr"
 	csleep 2
 
+	#"-r" - tark ei vissiin tarpeellinen, to state toe obv
+
 	${iptr} /etc/iptables/rules.v4.${p}
 	tlah $?
 	csleep 2
@@ -372,7 +374,7 @@ function clouds_pp3() {
 	csleep 2
 	dqb "v6 reloaded ok"
 
-	#tässä oikea paikka tables-muutoksille vai ei?
+	#tässä oikea paikka tables-muutoksille vai ei? (josko bain dellisi vuo ketjut)
 	${ipt} -F b
 	${ipt} -F e
 	csleep 2
@@ -380,8 +382,10 @@ function clouds_pp3() {
 
 	#pidemmän päälle olisi kätevämpi nimetä kuin numeroida ne säännöt...
 	#ideana kenties oli hukatra ketjut b ja e ?
+	${ipt} -D INPUT 6
 	${ipt} -D INPUT 5
 	${ipt} -D OUTPUT 6
+	${ipt} -D OUTPUT 5
 
 	dqb "56"
 	csleep 2
@@ -404,11 +408,14 @@ function clouds_pre() {
 		tlah $?
 		dqb "V4 ${t} ok"; csleep 2
 
+		#pitäisikö huuhdella myÖs v4-taulut?
+		${ipt} -F ${t}
+		tlah $?
+
 		${ip6t} -P ${t} DROP
 		tlah $?
 		dqb "V6 ${t} ok"; csleep 2
 
-		#opitäisikö huuhdella myls v4-taulut?
 		${ip6t} -F ${t}
 		tlah $?
 		dqb "V6 -GF ${t} ok"; csleep 2
@@ -467,7 +474,7 @@ function clouds_post() {
 
 	p3r1m3tr
 
-	#zxcv-iterointi mennee vähän päällekkäin ao,  loopin kansssa
+	#zxcv-iterointi mennee vähän päällekkäin ao.  loopin kansssa
 	for f in $(find /etc -type f -name 'ntp*') ; do
 		${scm} 0444 ${f}
                 ${sco} root:root ${f}
@@ -480,11 +487,19 @@ function clouds_post() {
 	${scm} 0555 /etc/init.d/ntpsec
 	${sco} 0:0 /etc/init.d/ntpsec
 
-	#VAIH:tämän kanssa pientä arpomista katlkssa
 	if [ -x /usr/sbin/ntpd ] ; then
-		for f in $(${odio} grep -v '#' /etc/ntpsec/ntp.conf | grep pool | awk '{print $2}') ; do
-			ptn_dda ${f}
-		done
+#		${ipt} -A INPUT -p udp -m udp --sport 123 -j b 
+#		${ipt} -A OUTPUT -p udp -m udp --dport 123 -j e
+#		csleep 1
+#
+#010326:toiminee näinkin mutta jos aluksi kiinteillä ip-osoitteilla...
+#		for f in $(${odio} grep -v '#' /etc/ntpsec/ntp.conf | grep pool | awk '{print $2}') ; do
+#			ptn_dda ${f}
+#		done
+#
+		csleep 1
+		dqb "SHOULD START /etc/init.d/ntpsec AROUND HERE"
+		csleep 1
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
@@ -497,6 +512,7 @@ function clouds_post() {
 	dqb "d0n3"
 }
 
+#voisi tietenkin selvittää, pystyisik ö iptabl/nefiltl-persistenteille penteille vipuamaan näitä dns-dot-ntp-kikkailuja
 function clouds_case0_0() {
 	${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
 	${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
@@ -517,8 +533,6 @@ function clouds_case0_1() {
 			for s in ${CONF_dsn} ;  do dda_snd ${s} ; done
 		fi
 	fi
-
-	#HUOM.28226:kuuluisikohan nfps-kikkailut olla tössö vaiko _2:sessa? ei bälttämättä c_pre() - fktiossa kuitenkaan
 }
 
 function clouds_case1_1() {
@@ -535,10 +549,7 @@ function clouds_case1_1() {
 
 function clouds_case0_2() {
 	/etc/init.d/dnsmasq stop
-#	/etc/init.d/ntpsec stop toistaiseksi jemmaan 280226
-
 	${whack} dnsmasq*
-#	${whack} ntp*
 }
 
 function clouds_case1_2() {
@@ -560,15 +571,6 @@ function clouds_case1_2() {
 #	su devuan -c '/usr/bin/stubby -C /home/stubby/.stubby.yml -g'
 #	pgrep stubby
 }
-
-#välimiehiä voisi leikellä pois jatkossa (VAIH)
-#function clouds_case0() {
-#	dqb "cdns.clouds_case0()"
-#
-#}
-#
-#function clouds_case1() {
-#}
 
 #====================================================================
 clouds_pre ${mode} ${distro}

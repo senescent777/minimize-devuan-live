@@ -279,7 +279,7 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#260225:toimiiko nykyään? , vissiin 
+		#TODO:testaapa taas miten toimii
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 	
@@ -291,7 +291,7 @@ case ${mode} in
 		dqb "e22_ext DON3, next:rm some rchives ?"
 		csleep 1
 
-		#VAIH:jokin e22_fktio vetämään mukaan /e/d/network*
+		#VAIH:jokin e22_fktio vetämään mukaan /e/d/network* (acol esim)
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
@@ -338,9 +338,7 @@ case ${mode} in
 		e22_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e)
-		#140126 näyttäisi asentuvan e29 ok live-ymp, sqrootissa asentuu nalkutuksen kanssa koska syyt
-		#... tosin pilaakohan seatd sen chmod-groups-jutun?
-		
+		#TODO:testaa taas
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
 	;;

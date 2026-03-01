@@ -386,7 +386,7 @@ function luca() {
 }
 
 #... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan ?
-
+#TODO:jospa testaisi taas
 function e22_acol() { 
 	dqb "e22_acol ${1} , ${2} , ${3} , ${4} "
 	csleep 1
@@ -494,8 +494,6 @@ function e22_sarram() {
 	[ -z "${3}" ] && exit 13
 	[ -s ${3} ] || exit 17
 
-	#exit 666
-
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 	csleep 3
@@ -533,7 +531,7 @@ function e22_sarram() {
 	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
 	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
 
-	#jtnkn näin
+	#TODO:konftdstot mukaan vain jos ntpd olemassa ja ajokelpoinen
 	for f in $(${odio} find /etc -type f -name 'ntp*') ; do
 		${srat} -rvf ${1} ${f}
 		${sah6} ${f} >> ${3}
@@ -892,9 +890,12 @@ function e22_tblz() {
 	dqb "x2.e22_tblz.done"
 }
 
-#VAIH:ntp-jutut takaisin josqs? tables-säännöt ja mahd konffaus varmaan seuraavaksi (260226 aloiteltu)
+#VAIH:ntp-jutut takaisin josqs?
+#tables-säännöt vissiin ok
+#ja ainakin oletus-konf löytyy
+#niin että
 
-#140126:joskohan paketin sisältö toimisi? ehkä just ennen ntpsec
+#VAIH:uusi testauskierros joidenin fktioiden kanssa
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
@@ -951,9 +952,9 @@ function e22_other_pkgs() {
 #	... package pinning?
 #	${lftr}
 #	csleep 2
-	
-	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
-	${shary} ntpsec
+#	
+#	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
+#	${shary} ntpsec
 		
 	csleep 2
 	dqb "e22_other_pkgs donew"

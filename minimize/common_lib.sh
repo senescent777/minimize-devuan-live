@@ -585,23 +585,23 @@ function check_binaries2() {
 	csleep 1
 }
 
-#VAIH:käyttöön
 function process_lib() {
 	dqb "process_lib( ${1} )"
 	[ -z "${1}" ] && exit 66
 	csleep 1
 
 	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then
-		.  ${1}/lib.sh
-		#jospa jatkossa c_b if-blokin jölkeen jokatap?
-		check_binaries ${1}
-		[ $? -eq 0 ] || exit 67
-
-		check_binaries2
-		[ $? -eq 0 ] || exit 68
+		.  ${1}/lib.sh		
 	else
 		fallback	
 	fi
+
+	#jospa jatkossa c_b if-blokin jälkeen jokatap? silloin syytö tark että common_lib sisältää x.-oik
+	check_binaries ${1}
+	[ $? -eq 0 ] || exit 67
+
+	check_binaries2
+	[ $? -eq 0 ] || exit 68
 
 	dqb "process_lib.done()"
 }	
@@ -646,14 +646,14 @@ function mangle_s() {
 	slaughter0 ${r} ${2}
 }
 
-#VAIH:testaapa vähitellen mitebn tämän oksennukset toimivat (jossain välissä 02/26 syntaksi saattoi olla oikea)
 function dinf() {
 	local g
 	local t
 	local frist
 	frist=1
 
-	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${1}
+	echo -n "#" >> ${1} #toimiiko näin?
+	echo -n " $(whoami)" | tr -dc a-zA-Z >> ${1}
 	echo -n " localhost=NOPASSWD:" >> ${1}
 
 	for g in $(${odio} find /sbin -type f -name 'dhclient-script*') ; do
@@ -665,13 +665,11 @@ function dinf() {
 
 		echo -n "sha512:" >> ${1}
 
-		t=$(${sah6} ${g} | awk '{print $1}')
-		#kikkailut myöhemmin mukaan, KUTEN ESIM vain se heksa-osuus tähän kohtaan
-
+		t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9)
 		echo -n ${t} >> ${1}
 	done
 
-	echo " /sbin/dhclient-script" ${t} >> ${1} #jatkossa tdstonimi parametriksi (jos fktio tarpeen oikeasti)
+	echo " /sbin/dhclient-script" >> ${1}
 	cat ${1}
 	csleep 5
 }
@@ -748,7 +746,6 @@ function pre_enforce() {
 	fi
 
 	dqb "TRAN S1LVAN1AN HUGN3R GAM35"
-	#dinf ${q} ehkä josqs taas
 	csleep 1
 
 	if [ -s ${q} ] ; then
@@ -762,6 +759,15 @@ function pre_enforce() {
 		CB_LIST1=""
 		unset CB_LIST1
 	fi
+
+	dqb "ANGL3 0F D3ATH (D1\$n3y V3R\$10n)"
+	q=$(${mkt})
+	fasdfasd ${q}
+	dinf ${q} #ehkä josqs toimimaankin (0li jotain pientä häikkää sisällössä?)
+	reqwreqw ${q}
+	${scm} 0440 ${q}
+	${svm} ${q} /etc/sudoers.d
+	csleep 1
 
 	local c4
 	c4=0

@@ -70,9 +70,6 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-#151225:sqroot alla osasi poistella paketteja tämä skripti
-#TODO:blu-paketteihin liittyen jotain muutosta ao. blokkiin? CONF_removepkgs=1 vs 0 ?
-
 if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
 else
