@@ -66,10 +66,15 @@ else
 	fi	
 fi
 
+function fallback() {
+	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING OR NOT EXECUTABLE"
+	exit 59
+}
+
 if [ -x ${d0}/common_lib.sh ] ; then 
 	. ${d0}/common_lib.sh
 else
-	echo "FALLBACK"
+	echo "FALLBACK2"
 	echo "chmod +x ${d0}/common_lib.sh may be a good idea now"
 	exit 56
 	#HUOM.28725:toistaiseksi näin
@@ -82,14 +87,8 @@ dqb "mode= ${mode}"
 dqb "distro=${distro}"
 dqb "file=${tgtfile}"
 csleep 1
-#TODO:process_lib() ?
 
-if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-	. ${d}/lib.sh
-else 
-	exit 59
-fi
-
+process_lib ${d}
 dqb "tar = ${srat} "
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 
@@ -338,7 +337,7 @@ case ${mode} in
 		e22_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e)
-		#TODO:testaa taas
+		#VAIH:testaa taas (saa aikaiseksi ei-tyuhjän paketin: 1, paketin sisältö asentuu:?)
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
 	;;

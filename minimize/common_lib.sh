@@ -1132,11 +1132,13 @@ function part1() {
 	csleep 1
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
 	csleep 1
-	[ -v ipt ] || exit 69
+	
+	[ -v ipt ] || dqb "SHOULD exit 69" #010326 qseeko tämä kohta?
 
 	if [ -z "${ipt}" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
+		#kts /o/b/cnds
 		if [ -x ${ipt} ] ; then # \$ odio vs \$ ipt vielä?
 			for t in INPUT OUTPUT FORWARD ; do
 				${ipt} -P ${t} DROP
@@ -1180,6 +1182,7 @@ function part1() {
 		fi
 	fi
 
+	#kuinkahan tarpeellinen kikkailu?
 	if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
 		part1_5 ${t} ${CONF_alt_root}/${t}
 	else
@@ -1279,7 +1282,8 @@ function part2() {
 	csleep 1
 }
 
-function cg_udp6() { #kts $distro/lib.sh
+#010136:jospa toimisi
+function cg_udp6() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
 	csleep 1
 

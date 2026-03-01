@@ -176,7 +176,7 @@ function e22_pre2() { #120126:toiminee edelleen
 	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then
 		dqb "PRKL"
 
-		${odio} /opt/bin/changedns.sh ${par4} ${ortsac}
+		${odio} /opt/bin/changedns.sh ${par4} #${ortsac} tpoistaiseksi pois toka paarm
 		echo $?
 		csleep 1
 
@@ -653,8 +653,8 @@ function e22_ext() { #160126:toiminee
 	csleep 1
 }
 
-function e22_ts() {
-	#130126:jos vaikka toimisi?
+#010326:jos vaikka toimisi
+function e22_ts() {	
 	dqb "e22_ts () ${1} ${2}"
 	#van1 param pitäisi olla tällä fktoiplla - Yoda
 	csleep 2
@@ -673,7 +673,6 @@ function e22_ts() {
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
 
-	#udp6 ${1}
 	cg_udp6 ${1} #joko jo?
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 	csleep 5
@@ -895,7 +894,7 @@ function e22_tblz() {
 #ja ainakin oletus-konf löytyy
 #niin että
 
-#VAIH:uusi testauskierros joidenin fktioiden kanssa
+#VAIH:uusi testauskierros joidenKin fktioiden kanssa
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
@@ -905,6 +904,9 @@ function e22_other_pkgs() {
 	[ -z "${1}" ] && exit 11
 	dqb "paramz_ok"
 	csleep 1
+
+	dqb "shary= ${shary}"
+	csleep 4
 
 	#LOPPUU SE PURPATUS PRKL
 	#jatkossa osa E22_GS ?
@@ -952,7 +954,8 @@ function e22_other_pkgs() {
 #	... package pinning?
 #	${lftr}
 #	csleep 2
-#	
+
+#	vähöä aikaa ilman kunnes saa aikaiseksi konffata
 #	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 #	${shary} ntpsec
 		

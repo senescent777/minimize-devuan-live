@@ -204,8 +204,8 @@ dqb "when in trouble, \"${odio} chmod 0755  \*.sh ;${odio} chmod 0755 \${distro}
 #==============================================================
 function tod_dda() { 
 	dqb "tod_dda( ${1} ) "
-
-	#TODO:jos vielä typistäisi max 15 merkkiin tuossa alla, KBG vähitellen?
+	dqb "TODO:cut -c AFTER tr"
+	
 	local t
 	t=$(echo ${1} | tr -d -c 0-9.)
 
