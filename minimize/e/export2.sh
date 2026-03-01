@@ -278,7 +278,7 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#TODO:testaapa taas miten toimii
+		#VAIH:testaapa taas miten toimii (tekee paketin:1 , asentuu: ?)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 	
@@ -289,8 +289,6 @@ case ${mode} in
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
 		dqb "e22_ext DON3, next:rm some rchives ?"
 		csleep 1
-
-		#VAIH:jokin e22_fktio vetämään mukaan /e/d/network* (acol esim)
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
@@ -320,6 +318,7 @@ case ${mode} in
 
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
 		fasdfasd /opt/bin/zxcv #onko ihan pakko? 
+
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv
 		reqwreqw  /opt/bin/zxcv
 		csleep 1

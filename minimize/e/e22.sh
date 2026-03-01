@@ -386,7 +386,7 @@ function luca() {
 }
 
 #... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan ?
-#TODO:jospa testaisi taas
+#VAIH:jospa testaisi taas
 function e22_acol() { 
 	dqb "e22_acol ${1} , ${2} , ${3} , ${4} "
 	csleep 1
