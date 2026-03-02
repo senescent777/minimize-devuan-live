@@ -176,7 +176,21 @@ fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 csleep 1
-process_lib ${d}
+#process_lib ${d}
+
+if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
+	. ${d}/lib.sh
+else	
+	echo $?
+	dqb "NO LIB"
+	csleep 1
+fi
+
+check_binaries ${d}
+[ $? -eq 0 ] || exit 
+
+check_binaries2
+[ $? -eq 0 ] || exit 
 
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
