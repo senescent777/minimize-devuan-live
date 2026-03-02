@@ -2,7 +2,7 @@
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 #
 
-function pre_part2() { (TODO:175-listan päivitys fktion ulkpuolella?)
+function pre_part2() { #175-listan päivitys fktion ulkpuolella? ehkä ei?
 	dqb "ch1m.pre_part2()"
 	csleep 1
 
