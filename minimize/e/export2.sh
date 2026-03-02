@@ -55,6 +55,7 @@ function parse_opts_2() {
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
+#TODO:tästä fktio common_lib:iin ?
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -278,7 +279,7 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#VAIH:testaapa taas miten toimii (tekee paketin:1 , asentuu: ?)
+		#0202326: (tekee paketin:1 , asentuu: 1)
 		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
 		csleep 2
 	
@@ -336,7 +337,7 @@ case ${mode} in
 		e22_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e)
-		#VAIH:testaa taas (saa aikaiseksi ei-tyuhjän paketin: 1, paketin sisältö asentuu:?)
+		#020326: (saa aikaiseksi ei-tyhjän paketin: 1, paketin sisältö asentuu:1)
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e22_other_pkgs ${CONF_dnsm}
 	;;

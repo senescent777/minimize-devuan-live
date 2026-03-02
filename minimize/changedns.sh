@@ -14,6 +14,8 @@ chmod a-wx ./clouds*
 chown root:root ${0}
 chmod 0511 ${0}
 
+#tähän /e/i/rules.* oikeuksien/omst pakotus vai tartteeko?
+
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -204,10 +206,9 @@ dqb "when in trouble, \"${odio} chmod 0755  \*.sh ;${odio} chmod 0755 \${distro}
 #==============================================================
 function tod_dda() { 
 	dqb "tod_dda( ${1} ) "
-	dqb "TODO:cut -c AFTER tr"
-	
+
 	local t
-	t=$(echo ${1} | tr -d -c 0-9.)
+	t=$(echo ${1} | tr -d -c 0-9. | cut -c 15) #cut uutena, olisi hyvä laittaa toimimaan toivotulla tavalla kanssa
 
 	${ipt} -A b -p tcp --sport 853 -s ${t} -j c
 	${ipt} -A e -p tcp --dport 853 -d ${t} -j f
@@ -217,7 +218,7 @@ function dda_snd() {
 	dqb "dda_snd( ${1})"
 
 	local t
-	t=$(echo ${1} | tr -d -c 0-9.)
+	t=$(echo ${1} | tr -d -c 0-9.) # | cut -c 15) eivielä
 
 	${ipt} -A b -p udp -m udp -s ${t} --sport 53 -j ACCEPT 
 	${ipt} -A e -p udp -m udp -d ${t} --dport 53 -j ACCEPT
@@ -225,7 +226,7 @@ function dda_snd() {
 
 function ptn_dda() {
 	local t
-        t=$(echo ${1} | tr -d -c 0-9.a-z)
+        t=$(echo ${1} | tr -d -c 0-9.) # | cut -c 15)
 
 	#tai jos aluksi rules.xyz
 	${ipt} -A b -p udp -m udp -s ${t} --sport 123 -j ACCEPT

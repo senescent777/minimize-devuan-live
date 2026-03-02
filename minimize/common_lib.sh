@@ -72,6 +72,7 @@ function fix_sudo() {
 function other_horrors() {	
 	dqb "other_horrors"
 
+	#020326:toimiiko ao. rivit vai ei? fndin kautta kuitenkin?
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
 	${sco} -R root:root /etc/iptables
@@ -596,12 +597,12 @@ function process_lib() {
 		fallback	
 	fi
 
-	#jospa jatkossa c_b if-blokin jälkeen jokatap? silloin syytö tark että common_lib sisältää x.-oik
+	#jospa jatkossa c_b if-blokin jälkeen jokatap? silloin syytä tark että common_lib sisältää x.-oik
 	check_binaries ${1}
-	[ $? -eq 0 ] || exit 67
+	[ $? -eq 0 ] || dqb "SHOULD exit 67" #tilap jemmaan 020326 , jokin qsee
 
 	check_binaries2
-	[ $? -eq 0 ] || exit 68
+	[ $? -eq 0 ] || dqb "SHOULD exit 68 också"
 
 	dqb "process_lib.done()"
 }	
@@ -823,7 +824,6 @@ function e_e() {
 	done
 
 	other_horrors
-
 	${scm} 0755 /etc
 	${sco} -R root:root /etc
 	${scm} 0555 /etc/network
@@ -853,6 +853,12 @@ function e_e() {
 
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
+
+	#02023626:uutena
+	for f in $(${odio} find /etc -type f -name 'rules.*') ; do
+		${sco} -R root:root ${f}
+		${scm} 0400 ${f}
+	done
 
 	dqb "e_e d0n3"
 	csleep 1
@@ -962,7 +968,6 @@ function enforce_access() {
 #myös https://github.com/topics/sources-list
 
 function part1_5() {
-
 	dqb "part1_5 ${1} , ${2} "
 
 	[ -z "${1}" ] && exit 66

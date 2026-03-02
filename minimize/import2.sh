@@ -105,7 +105,7 @@ else
 	fi	
 fi
 
-#010236:pientä kiukuttelua chiameran kanssa, pitänee laittaa se vanhempi lib.sh includointi takaisin jos jatq
+#TODO: se vanhempi lib.sh includointi takaisin toistaiseksi (pienin muutoksin tosin)
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -469,7 +469,7 @@ case "${mode}" in
 		other_horrors
 		
 		csleep 1
-		[ $? -eq 0 ] && echo "NEXT: $0 2"
+		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
 	r) #010326:suattaapi olla niinnii jotta toimii
 		[ -d ${srcfile} ] || exit 22

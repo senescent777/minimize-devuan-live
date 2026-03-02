@@ -65,9 +65,10 @@ dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
 
+#020236:joutaisikohan part0 siirtää tähän tdstoon?
 part0 ${distro}
 process_lib ${d}
-
+echo "AFTER PROCESS_LIB";sleep 1
 #==================================PART 1============================================================
 dqb "mode= ${mode}"
 dqb "debug= ${debug}"
@@ -90,8 +91,10 @@ else
 fi
 
 csleep 2
+echo "JUST BEFORE PART1";sleep 1
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
+echo "JUST AFTR PRT1";sleep 1
 
 #aivopieru:jtnkin niin että voisi samalla kertaa purkaa paketin ja ajaa tämän skriptin trähän asti. Self-extracting archives?
 #KVG "bash here-doc examples" ?

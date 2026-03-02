@@ -226,7 +226,7 @@ function e22_cleanpkgs() { #130126:edelleen toimii
 }
 
 #120126:taisi toimia taas
-#HUOM.1§50126:e22_acol() yrittää vetää /e alta xorg konftdston mukaan pakettiin
+#e22_acol() yrittää vetää /e alta xorg konftdston mukaan pakettiin
 #... ei ole ihan pakko config1:sessä siis
 
 function e22_config1() {
@@ -386,7 +386,7 @@ function luca() {
 }
 
 #... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan ?
-#VAIH:jospa testaisi taas
+#020326:vissiin sisältö ok
 function e22_acol() { 
 	dqb "e22_acol ${1} , ${2} , ${3} , ${4} "
 	csleep 1
@@ -412,7 +412,7 @@ function e22_acol() {
 	dqb "JUSTs BEFOREs URLEs S"
 	csleep 1
 
-	for f in $(find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
+	for f in $(${odio} find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
 		dqb "PROCESSING ${f}"
 		csleep 1
 
@@ -431,12 +431,11 @@ function e22_acol() {
 
 	luca ${1}
 	csleep 1
-	other_horrors
+	other_horrors #TODO:tuohon fktioon se rulesksien oikeuksien pakotus toisella tavalla
 
 	dqb "B3F0R3 TÖBX"
 	csleep 1
 
-	#mikä järki juuri tässä keskeyttää suoritus? josko aiemmin kuitenkn? tai siis
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		echo "/E/IPTABLES sdhgfsdhgf"
 		exit 112
@@ -445,6 +444,7 @@ function e22_acol() {
 	dqb "WLAN-RELAT3D"
 	csleep 1
 	${srat} -rvf ${1} /etc/default/net*
+
 	case ${2} in
 		wlan0)
 			dqb "APW"
@@ -481,7 +481,13 @@ function e22_acol() {
 		#2.fstab lisäksi muutakin mukaan vai ei? miten zxcv?
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
+
+	dqb "done w/ acolutes "
+	dqb 1
 }
+
+#TODO:g_doit,imp2 yms:jos ei ala toimiata ilman -v ni tee jotain
+#020326:ehkä ok sisälytö-siat (xorg ja netp-jutut voisi testata paremmalla ajalla)
 
 function e22_sarram() {
 	dqb "e22_sarram $1 $2 $3 $4"
@@ -501,44 +507,51 @@ function e22_sarram() {
 	dqb "find /etc -type f -name xorg \* -and -not -name \* . 202 \* "
 	csleep 3
 
-	for f in $(find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
+	#TODO:josko kopsaisi /e/X11 alle konffin testaustarkoituksissa
+	for f in $(${odio} find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
 		dqb "${srat} -rvf ${1} ${f}"
 		${srat} -rvf ${1} ${f}
 		csleep 1
 	done
 	
 	csleep 3
-	#130126:josko alkaisi vähitellen tulla wdm-jutut mukaan? ei vielä koska jokin juttu?
-	dqb "find / etc -type f -name ${2} \* -and -not -name  \* .202 \* "
+	dqb "AFTR X0RG"
 	csleep 3
 
-	g=$(${odio} find /etc -type f -name '${2}*' -and -not -name '*.202*')
-
-	for f in ${g} ; do
+	#020326:tää kohta saattoi toimia oikein, ainakin kerran
+	for f in $(${odio} find /etc -type f -name '${2}*' -and -not -name '*.202*') ; do #${g}
 		dqb "${srat} -rvf ${1} ${f}"
 		${srat} -rvf ${1} ${f}
 		csleep 1	
 	done
 
-	csleep 3
+	csleep 2
+	dqb "VF0R3 DDM"
+	csleep 1
 	${srat} -rvf ${1} /etc/X11/default-display-manager
 	csleep 3
 
+	#HUOM.tätä varten oli valmiskin palikka?
 	${scm} 0555 /etc/iptables
-	${scm} 0444 /etc/iptables/rules*
-	${scm} 0444 /etc/default/rules*
+	${scm} 0400 /etc/iptables/rules*
+	${scm} 0400 /etc/default/rules*
 
+	#020326:ehkä ok nämä 2
 	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
 	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
 
-	#TODO:konftdstot mukaan vain jos ntpd olemassa ja ajokelpoinen
-	for f in $(${odio} find /etc -type f -name 'ntp*') ; do
-		${srat} -rvf ${1} ${f}
-		${sah6} ${f} >> ${3}
-	done
+	#VAIH:konftdstot mukaan vain jos ntpd olemassa ja ajokelpoinen
+	if [ -x /usr/sbin/ntpd ] ; then
+		for f in $(${odio} find /etc -type f -name 'ntp*') ; do
+			${srat} -rvf ${1} ${f}
+			${sah6} ${f} >> ${3}
+		done
+	fi
 
 	other_horrors
-	dqb "e22_acol done"
+	csleep 1
+
+	dqb "HA55AN-1-5ABBAH D0n3"
 	csleep 1
 }
 
@@ -894,7 +907,7 @@ function e22_tblz() {
 #ja ainakin oletus-konf löytyy
 #niin että
 
-#VAIH:uusi testauskierros joidenKin fktioiden kanssa
+#010326:toimii 
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
