@@ -4,16 +4,7 @@
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 #130126:sqrot-tstissä psmisc ei poistunut (miten nkyään?)
 
-#function t2p() { 
-#	dqb "DAUD.T2P"
-#	csleep 1
-#	#${sharpy} libdav* #121125:tämä näyttää poistavan paljon tapauksessa daed, ehkä jopa liikaa
-#	#ÄLÄ SIIS WTUN PÖSILÖ POISTA libdav-PAKETTEJA ELLEI KIINNOSTA SELVITELLÄ "ERROR: ld.so: object 'libgtk3-nocsd.so.0' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored."-NALKUTUSTA
-#	#${asy} #varm. vuoksi
-#	#sleep 2
-#}
-
-#josko kuitenkin ntp takaisin-> part175?
+#020326:annetaanpa toistaiseksi olla PART175_LIST kuten on ja p_p2 myös
 function pre_part2() { #käytössä
 	dqb "daud.pre_part2()"
 	csleep 2
