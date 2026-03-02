@@ -7,17 +7,17 @@ d0=$(pwd)
 debug=0 #1
 d=${d0}/${distro} 
 
-if [ -s ${d0}/$(whoami).conf ] ; then
-	echo "ALT.C0NF1G"
-	. ${d0}/$(whoami).conf
-else
-	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-		. ${d}/conf
-	else
-		echo "NO CONF"
-	 	exit 57
-	fi
-fi
+#if [ -s ${d0}/$(whoami).conf ] ; then
+#	echo "ALT.C0NF1G"
+#	. ${d0}/$(whoami).conf
+#else
+#	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+#		. ${d}/conf
+#	else
+#		echo "NO CONF"
+#	 	exit 57
+#	fi
+#fi
 
 function parse_opts_1() {
 	dqb "parseopts_1 ${1} ${2}"

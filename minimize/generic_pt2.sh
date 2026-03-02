@@ -35,16 +35,16 @@ function fallback() {
 	exit 67
 }
 
-if [ -s ${d0}/$(whoami).conf ] ; then
-	echo "ALT.C0NF1G"
-	. ${d0}/$(whoami).conf
-else
-	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-		. ${d}/conf
-	else
-	 	exit 57
-	fi	
-fi
+#if [ -s ${d0}/$(whoami).conf ] ; then
+#	echo "ALT.C0NF1G"
+#	. ${d0}/$(whoami).conf
+#else
+#	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+#		. ${d}/conf
+#	else
+#	 	exit 57
+#	fi	
+#fi
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh

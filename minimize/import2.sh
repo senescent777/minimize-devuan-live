@@ -93,6 +93,7 @@ if [ -f /.chroot ] ; then
 	done
 fi
 
+#myöhemmin tähän tdstoon se conf-kikkailu
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	sleep 2
@@ -105,7 +106,7 @@ else
 	fi	
 fi
 
-#TODO: se vanhempi lib.sh includointi takaisin toistaiseksi (pienin muutoksin tosin)
+#VAIH: se vanhempi lib.sh includointi takaisin toistaiseksi (pienin muutoksin tosin)
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh

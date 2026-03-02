@@ -1415,5 +1415,22 @@ function gpo() {
 	done
 }
 
+#tdston alkuun kuitenkin?
+#d0=$(pwd)
+##echo "d0=${d0}"
+#[ z"${distro}" == "z" ] && exit 6
+#debug=0 #1
+#d=${d0}/${distro} 
+#if [ -s ${d0}/$(whoami).conf ] ; then
+#	echo "ALT.C0NF1G"
+#	. ${d0}/$(whoami).conf
+#else
+#	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+#		. ${d}/conf
+#	else
+#	 	exit 57
+#	fi	
+#fi
+
 #https://stackoverflow.com/questions/16988427/calling-one-bash-script-from-another-script-passing-it-arguments-with-quotes-and
 gpo "$@"

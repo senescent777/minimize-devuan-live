@@ -55,17 +55,17 @@ function parse_opts_2() {
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
-#TODO:tästä fktio common_lib:iin ?
-if [ -s ${d0}/$(whoami).conf ] ; then
-	echo "ALT.C0NF1G"
-	. ${d0}/$(whoami).conf
-else
-	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-		. ${d}/conf
-	else
-	 	exit 57
-	fi	
-fi
+#VAIH:tästä fktio common_lib:iin ?
+#if [ -s ${d0}/$(whoami).conf ] ; then
+#	echo "ALT.C0NF1G"
+#	. ${d0}/$(whoami).conf
+#else
+#	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+#		. ${d}/conf
+#	else
+#	 	exit 57
+#	fi	
+#fi
 
 function fallback() {
 	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING OR NOT EXECUTABLE"
@@ -96,6 +96,7 @@ dqb "tar = ${srat} "
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
+	#distri-param takaisin mikä lkaa cross-distro-kikkailuihin
 	${odio} ${x} ${CONF_dnsm} #${distro}
 	#[ -x $x ] && exit for 
 done
