@@ -41,6 +41,11 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
+function fallback() {
+	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING OR NOT EXECUTABLE"
+	exit 111
+}
+
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -60,15 +65,10 @@ dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
 
+#020236:joutaisikohan part0 siirtää tähän tdstoon?
 part0 ${distro}
-
-if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-	. ${d}/lib.sh
-else
-	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING OR NOT EXECUTABLE"
-	exit 111
-fi
-
+process_lib ${d}
+echo "AFTER PROCESS_LIB";sleep 1
 #==================================PART 1============================================================
 dqb "mode= ${mode}"
 dqb "debug= ${debug}"
@@ -91,8 +91,10 @@ else
 fi
 
 csleep 2
+echo "JUST BEFORE PART1";sleep 1
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
+echo "JUST AFTR PRT1";sleep 1
 
 #aivopieru:jtnkin niin että voisi samalla kertaa purkaa paketin ja ajaa tämän skriptin trähän asti. Self-extracting archives?
 #KVG "bash here-doc examples" ?
@@ -218,7 +220,7 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	exit
 fi
 
-pre_part2 #TODO:tähän kohtaa muutoksia jatkossa?
+pre_part2 #ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
 c14=$(find ${d} -name '*.deb' | wc -l)
 #[ ${c14} -gt 0 ] || CONF_removepkgs=0 #tilap kommentteihin 270226 koska g_pt2_jutut
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
@@ -237,7 +239,12 @@ csleep 2
 if [ ! -f /.chroot ] ; then
 	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh #toistaiseksi tässä kunnes... Jotain
-	${d0}/import2.sh r ${d0} #-v
+	
+#	csleep 5
+#	dqb "KORJAA PROF IMPORT?" #tilapäinen kiukutteul?
+#	csleep 5
+
+	${d0}/import2.sh r ${d0} -v
 	#2. ja 3. param. turhia?
 fi
 
