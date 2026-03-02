@@ -72,11 +72,17 @@ function fix_sudo() {
 function other_horrors() {	
 	dqb "other_horrors"
 
-	#020326:toimiiko ao. rivit vai ei? fndin kautta kuitenkin?
-	${scm} 0400 /etc/iptables/*
+	#020236:josko toimisi uudella tavalla paremmin?
+	#${scm} 0400 /etc/iptables/*
+
+	for f in $(${odio} find /etc -type f -name 'rules.*') ; do
+		${sco} -R root:root ${f}
+		${scm} 0400 ${f}
+	done
+
 	${scm} 0550 /etc/iptables
 	${sco} -R root:root /etc/iptables
-	
+
 	${scm} 0400 /etc/default/rules*
 	${scm} 0555 /etc/default
 	${sco} -R root:root /etc/default
