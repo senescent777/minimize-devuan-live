@@ -72,6 +72,7 @@ function fix_sudo() {
 function other_horrors() {	
 	dqb "other_horrors"
 
+	#020326:toimiiko ao. rivit vai ei? fndin kautta kuitenkin?
 	${scm} 0400 /etc/iptables/*
 	${scm} 0550 /etc/iptables
 	${sco} -R root:root /etc/iptables
@@ -585,6 +586,27 @@ function check_binaries2() {
 	csleep 1
 }
 
+function process_lib() {
+	dqb "process_lib( ${1} )"
+	[ -z "${1}" ] && exit 66
+	csleep 1
+
+	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then
+		.  ${1}/lib.sh		
+	else
+		fallback	
+	fi
+
+	#jospa jatkossa c_b if-blokin jälkeen jokatap? silloin syytä tark että common_lib sisältää x.-oik
+	check_binaries ${1}
+	[ $? -eq 0 ] || dqb "SHOULD exit 67" #tilap jemmaan 020326 , jokin qsee
+
+	check_binaries2
+	[ $? -eq 0 ] || dqb "SHOULD exit 68 också"
+
+	dqb "process_lib.done()"
+}	
+
 #==================================================================
 function slaughter0() {
 	local fn2
@@ -625,14 +647,14 @@ function mangle_s() {
 	slaughter0 ${r} ${2}
 }
 
-#VAIH:testaapa vähitellen mitebn tämän oksennukset toimivat (jossain välissä 02/26 syntaksi saattoi olla oikea)
 function dinf() {
 	local g
 	local t
 	local frist
 	frist=1
 
-	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${1}
+	echo -n "#" >> ${1} #toimiiko näin?
+	echo -n " $(whoami)" | tr -dc a-zA-Z >> ${1}
 	echo -n " localhost=NOPASSWD:" >> ${1}
 
 	for g in $(${odio} find /sbin -type f -name 'dhclient-script*') ; do
@@ -644,13 +666,11 @@ function dinf() {
 
 		echo -n "sha512:" >> ${1}
 
-		t=$(${sah6} ${g} | awk '{print $1}')
-		#kikkailut myöhemmin mukaan, KUTEN ESIM vain se heksa-osuus tähän kohtaan
-
+		t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9)
 		echo -n ${t} >> ${1}
 	done
 
-	echo " /sbin/dhclient-script" ${t} >> ${1} #jatkossa tdstonimi parametriksi (jos fktio tarpeen oikeasti)
+	echo " /sbin/dhclient-script" >> ${1}
 	cat ${1}
 	csleep 5
 }
@@ -727,7 +747,6 @@ function pre_enforce() {
 	fi
 
 	dqb "TRAN S1LVAN1AN HUGN3R GAM35"
-	#dinf ${q} ehkä josqs taas
 	csleep 1
 
 	if [ -s ${q} ] ; then
@@ -741,6 +760,15 @@ function pre_enforce() {
 		CB_LIST1=""
 		unset CB_LIST1
 	fi
+
+	dqb "ANGL3 0F D3ATH (D1\$n3y V3R\$10n)"
+	q=$(${mkt})
+	fasdfasd ${q}
+	dinf ${q} #ehkä josqs toimimaankin (0li jotain pientä häikkää sisällössä?)
+	reqwreqw ${q}
+	${scm} 0440 ${q}
+	${svm} ${q} /etc/sudoers.d
+	csleep 1
 
 	local c4
 	c4=0
@@ -796,7 +824,6 @@ function e_e() {
 	done
 
 	other_horrors
-
 	${scm} 0755 /etc
 	${sco} -R root:root /etc
 	${scm} 0555 /etc/network
@@ -826,6 +853,12 @@ function e_e() {
 
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
+
+	#02023626:uutena
+	for f in $(${odio} find /etc -type f -name 'rules.*') ; do
+		${sco} -R root:root ${f}
+		${scm} 0400 ${f}
+	done
 
 	dqb "e_e d0n3"
 	csleep 1
@@ -935,7 +968,6 @@ function enforce_access() {
 #myös https://github.com/topics/sources-list
 
 function part1_5() {
-
 	dqb "part1_5 ${1} , ${2} "
 
 	[ -z "${1}" ] && exit 66
@@ -1105,11 +1137,13 @@ function part1() {
 	csleep 1
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
 	csleep 1
-	[ -v ipt ] || exit 69
+	
+	[ -v ipt ] || dqb "SHOULD exit 69" #010326 qseeko tämä kohta?
 
 	if [ -z "${ipt}" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
+		#kts /o/b/cnds
 		if [ -x ${ipt} ] ; then # \$ odio vs \$ ipt vielä?
 			for t in INPUT OUTPUT FORWARD ; do
 				${ipt} -P ${t} DROP
@@ -1153,6 +1187,7 @@ function part1() {
 		fi
 	fi
 
+	#kuinkahan tarpeellinen kikkailu?
 	if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
 		part1_5 ${t} ${CONF_alt_root}/${t}
 	else
@@ -1252,7 +1287,8 @@ function part2() {
 	csleep 1
 }
 
-function cg_udp6() { #kts $distro/lib.sh
+#010136:jospa toimisi
+function cg_udp6() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
 	csleep 1
 

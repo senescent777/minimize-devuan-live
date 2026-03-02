@@ -14,6 +14,8 @@ chmod a-wx ./clouds*
 chown root:root ${0}
 chmod 0511 ${0}
 
+#tähän /e/i/rules.* oikeuksien/omst pakotus vai tartteeko?
+
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -31,7 +33,7 @@ mode=${1}
 #280226:ao. spagettikoodille hyvä tehdä jotian josqs
 function gf() {
 	[ -z "${1}" ] && exit 103
-	local c2		
+	local c2
 
 	if [ -z "${2}" ] ; then
 		c2=$(${odio} find ${1} -type d -not -user 0 | wc -l)
@@ -74,7 +76,7 @@ function gh() {
 }
 #
 
-#VAIH:testit modaamattoman chimaeran kanssa
+#280226:lienee ok modaamattoman chimaeran kanssa tämä fktio (pl mahd tablesin puute)
 function epr1() {
 	dqb "31n-p0d-r05..."
 	csleep 1
@@ -100,14 +102,12 @@ function epr1() {
 	gf /etc iptab
 	${odio} rm /etc/default/rules*
 
-
 	c=$(${odio} find /etc -name 'rules.v?.?' -type f -perm /o+w,o+x,o+r | wc -l) #oli myös o+r
 	[ ${c} -gt 0 ] && exit 114
 
 #	#o+r liikaa? ei? gr sn sijaan...
 	c=$(${odio} find /etc -name 'rules.v?.?' -type f -perm /g+x,g+w | wc -l)
       	[ ${c} -gt 0 ] && exit 124
-
 
 	#VAIH:SELV TOIMIIKO TÄMÄ TRKISTUS VAI EI
 	gh /etc rules.v
@@ -158,7 +158,7 @@ function p3r1m3tr() {
 		g=$(which gpg)
 
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-			#mitenkähän onnistuu verify jos ylempänä chmod 0400 ? TODO:testaa?
+			#mitenkähän onnistuu verify jos ylempänä chmod 0400 ? TODO:testaa esim @sqroot ?
 			${gg} --verify /opt/bin/zxcv.sig
 			[ $? -gt 0 ] && exit 126
 		fi
@@ -207,9 +207,8 @@ dqb "when in trouble, \"${odio} chmod 0755  \*.sh ;${odio} chmod 0755 \${distro}
 function tod_dda() { 
 	dqb "tod_dda( ${1} ) "
 
-	#TODO:jos vielä typistäisi max 15 merkkiin tuossa alla, KBG vähitellen?
 	local t
-	t=$(echo ${1} | tr -d -c 0-9.)
+	t=$(echo ${1} | tr -d -c 0-9. | cut -c 15) #cut uutena, olisi hyvä laittaa toimimaan toivotulla tavalla kanssa
 
 	${ipt} -A b -p tcp --sport 853 -s ${t} -j c
 	${ipt} -A e -p tcp --dport 853 -d ${t} -j f
@@ -219,7 +218,7 @@ function dda_snd() {
 	dqb "dda_snd( ${1})"
 
 	local t
-	t=$(echo ${1} | tr -d -c 0-9.)
+	t=$(echo ${1} | tr -d -c 0-9.) # | cut -c 15) eivielä
 
 	${ipt} -A b -p udp -m udp -s ${t} --sport 53 -j ACCEPT 
 	${ipt} -A e -p udp -m udp -d ${t} --dport 53 -j ACCEPT
@@ -227,11 +226,11 @@ function dda_snd() {
 
 function ptn_dda() {
 	local t
-        t=$(echo ${1} | tr -d -c 0-9.a-z)
+        t=$(echo ${1} | tr -d -c 0-9.) # | cut -c 15)
 
 	#tai jos aluksi rules.xyz
-	dqb "SH0.ULD \${ipt} -A b -p udp -m udp -s ${t} --sport 123 -j ACCEPT"
-	dqb "SH0.uld \${ipt} -A e -p udp -m udp -d ${t} --dport 123 -j ACCEPT"
+	${ipt} -A b -p udp -m udp -s ${t} --sport 123 -j ACCEPT
+	${ipt} -A e -p udp -m udp -d ${t} --dport 123 -j ACCEPT
 }
 
 ##==============================================================
@@ -317,22 +316,19 @@ function clouds_pp1() {
 	dqb "pp1 done"
 }
 
-#130226:chimaeran kanssa tapahtui halt, jospa selvittäisi miksi (28226 kävi sellainen ilmeinen juttu selväksi että tables:puuttui)
 #130226.2.mjono policy:accept tablesin outputissa saisi johtaa halt:iin kanssa (VAIH)
 #150226:rules.v4, rules.v6 :miten niiden kanssa nykyään? piut paut?
 
 function tlah() {
 	if [ ${1} -gt 0 ] ; then
 		dqb "SHOULD / sb1n / h4lt npow"
-		#TODO:se varsinainen halt vähitellen
+		csleep 1
+		[ ${debug} -eq 1 ] || /sbin/halt
 	fi
 }
 
 function clouds_pp3() {
 	dqb "# c.pp.3 a.k.a RELOADINGz TBLZ RULEZ ${1}"
-	[ -z "${1}" ] && /sbin/halt
-	csleep 1
-	dqb "paramz 0k"
 	csleep 1
 
 	[ -z "${1}" ] && /sbin/halt
@@ -356,7 +352,6 @@ function clouds_pp3() {
 	dqb "bfore -f"
 	csleep 2
 
-	#MITVIT TAAS?
 	[ -f /etc/iptables/rules.v4.${p} ] || tlah 1
         [ -f /etc/iptables/rules.v6.${p} ] || tlah 1
 	dqb "bfore -s"
@@ -366,6 +361,8 @@ function clouds_pp3() {
 	[ -s /etc/iptables/rules.v6.${p} ] || tlah 1
 	dqb "just bfore iptr"
 	csleep 2
+
+	#"-r" - tark ei vissiin tarpeellinen, to state toe obv
 
 	${iptr} /etc/iptables/rules.v4.${p}
 	tlah $?
@@ -378,15 +375,18 @@ function clouds_pp3() {
 	csleep 2
 	dqb "v6 reloaded ok"
 
-	#tässä oikea paikka tables-muutoksille vai ei?
+	#tässä oikea paikka tables-muutoksille vai ei? (josko bain dellisi vuo ketjut)
 	${ipt} -F b
 	${ipt} -F e
 	csleep 2
 	dqb "FLiBe"
 
 	#pidemmän päälle olisi kätevämpi nimetä kuin numeroida ne säännöt...
+	#ideana kenties oli hukatra ketjut b ja e ?
+	${ipt} -D INPUT 6
 	${ipt} -D INPUT 5
 	${ipt} -D OUTPUT 6
+	${ipt} -D OUTPUT 5
 
 	dqb "56"
 	csleep 2
@@ -396,19 +396,6 @@ function clouds_pp3() {
 function clouds_pre() {
 	dqb "cdns.clouds_pre( ${1}, ${2} )"
 	csleep 1
-	local t
-
-	for t in INPUT OUTPUT FORWARD ; do
-		${ipt} -P ${t} DROP
-		[ $? -eq 0 ] || /sbin/halt
-		dqb "V6"; csleep 1
-
-		${ip6t} -P ${t} DROP
-		[ $? -eq 0 ] || /sbin/halt
-
-		${ip6t} -F ${t}
-		[ $? -eq 0 ] || /sbin/halt
-	done
 
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 65
@@ -421,6 +408,10 @@ function clouds_pre() {
 		${ipt} -P ${t} DROP
 		tlah $?
 		dqb "V4 ${t} ok"; csleep 2
+
+		#pitäisikö huuhdella myÖs v4-taulut?
+		${ipt} -F ${t}
+		tlah $?
 
 		${ip6t} -P ${t} DROP
 		tlah $?
@@ -457,12 +448,6 @@ function clouds_pre() {
 	[ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 	[ y"${ipt}" == "y" ] && exit 666
 
-	if [ -x /usr/sbin/ntpd ] ; then
-		for f in $(${odio} grep -v '#' /etc/ntpsec/ntp.conf | grep pool | awk '{print $2}') ; do
-			ptn_dda ${f}
-		done
-	fi
-
 	dqb "S0UL SARC1F1C3 6,9"
 }
 
@@ -483,28 +468,40 @@ function clouds_post() {
 
 	cd ${g}
 
-	${scm} 0555 /etc/dhcp
-
 	for f in $(find /sbin -type f -name 'dhclient*') ; do
 		${scm} 0555 ${f}
 		${sco} root:root ${f}
 	done
 
-	${scm} 0555 /sbin
 	p3r1m3tr
 
-	${scm} 0555 /etc/network
-	${sco} root:root /etc/network 
-	#csleep 1
-
-#zxcv-iterointi mennee vähän päällekkäin ao,  loopin kansssa
+	#zxcv-iterointi mennee vähän päällekkäin ao.  loopin kansssa
 	for f in $(find /etc -type f -name 'ntp*') ; do
 		${scm} 0444 ${f}
                 ${sco} root:root ${f}
 	done
 
+	${scm} 0555 /etc/dhcp
+	${scm} 0555 /sbin
+	${scm} 0555 /etc/network
+	${sco} root:root /etc/network 
 	${scm} 0555 /etc/init.d/ntpsec
 	${sco} 0:0 /etc/init.d/ntpsec
+
+	if [ -x /usr/sbin/ntpd ] ; then
+#		${ipt} -A INPUT -p udp -m udp --sport 123 -j b 
+#		${ipt} -A OUTPUT -p udp -m udp --dport 123 -j e
+#		csleep 1
+#
+#010326:toiminee näinkin mutta jos aluksi kiinteillä ip-osoitteilla...
+#		for f in $(${odio} grep -v '#' /etc/ntpsec/ntp.conf | grep pool | awk '{print $2}') ; do
+#			ptn_dda ${f}
+#		done
+#
+		csleep 1
+		dqb "SHOULD START /etc/init.d/ntpsec AROUND HERE"
+		csleep 1
+	fi
 
 	if [ ${debug} -eq 1 ] ; then
 		#legacy-juttujen kanssa oli jokin juttu, tosin ilman legacyä näyttäisi tuottavan toivottua outputtia
@@ -516,6 +513,7 @@ function clouds_post() {
 	dqb "d0n3"
 }
 
+#voisi tietenkin selvittää, pystyisik ö iptabl/nefiltl-persistenteille penteille vipuamaan näitä dns-dot-ntp-kikkailuja
 function clouds_case0_0() {
 	${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
 	${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
@@ -532,8 +530,8 @@ function clouds_case0_1() {
 	else
 		dqb "NO RESOLV.CONF FOUND, HAVE TO USE ALT CONF"
 
-		if [ z"${dsn}" != "z" ] ; then
-			for s in ${dsn} ;  do dda_snd ${s} ; done
+		if [ z"${CONF_dsn}" != "z" ] ; then
+			for s in ${CONF_dsn} ;  do dda_snd ${s} ; done
 		fi
 	fi
 }
@@ -544,18 +542,15 @@ function clouds_case1_1() {
 	else
 		dqb "NO CONF FOUND, HAVE TO USE ALT CONF"
 
-		if [ z"${dsn}" != "z" ] ; then
-			for s in ${dsn} ;  do tod_dda ${s} ; done
+		if [ z"${CONF_dsn}" != "z" ] ; then
+			for s in ${CONF_dsn} ;  do tod_dda ${s} ; done
 		fi
 	fi
 }
 
 function clouds_case0_2() {
 	/etc/init.d/dnsmasq stop
-	/etc/init.d/ntpsec stop
-
 	${whack} dnsmasq*
-	${whack} ntp*
 }
 
 function clouds_case1_2() {
@@ -578,30 +573,19 @@ function clouds_case1_2() {
 #	pgrep stubby
 }
 
-#välimiehiä voisi leikellä pois jatkossa
-function clouds_case0() {
-	dqb "cdns.clouds_case0()"
-
-	clouds_case0_0
-	clouds_case0_1
-	clouds_case0_2
-}
-
-function clouds_case1() {
-	clouds_case1_0
-	clouds_case1_1
-	clouds_case1_2
-}
-
 #====================================================================
 clouds_pre ${mode} ${distro}
 
 case ${mode} in 
 	0)
-		clouds_case0
+		clouds_case0_0
+		clouds_case0_1
+		clouds_case0_2
 	;;
 	1)
-		clouds_case1
+		clouds_case1_0
+		clouds_case1_1
+		clouds_case1_2
 	;;
 	*)
 		echo "MEE HIMAAS LEIKKIMÄHÄN"
