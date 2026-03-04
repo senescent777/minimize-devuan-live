@@ -270,19 +270,32 @@ function common_part() {
 	fi
 
 	csleep 2
-
 	#kts. common_lib.psqa()
-	#TODO:jtnkin toisin jatkossa
+	#VAIH:jtnkin toisin jatkossa
+	local cfk=1
+
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
 		dqb "gg= ${gg}"
 
-		cat ${1}.sha
-		${sah6} ${1}
+		#tuon ,sha:n kanssa 1 lisätarkistus ehkä?
+		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f) 
+		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
+		
+		if [ "${aa}" == "${ab}" ] ; then
+			dqb "aa=ab= ${aa}"
+			cfk=0
+		fi
+
 		csleep 2
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
-		#TODO:jokin varmistus jatkamiselle tässä tap ? (tai jos toisessa haarassa... ?)
+		#VAIH:jokin varmistus jatkamiselle tässä tap ? (tai jos toisessa haarassa... ?)
+	fi
+
+	if [ ${cfk} -gt 0 ] ; then
+		read -p "R U  SURE ?" confirm
+		[ "${confirm}" == "Y" ] || exit 33
 	fi
 
 	csleep 3
@@ -463,27 +476,29 @@ case "${mode}" in
 		csleep 1
 		e="/"
 
-		#040326:if-blokin voisi järjestellä toisinkin (TODO)
-		if [ ${1} -eq 0 ] ; then
-			if [ -f /.chroot ] ; then #mitense alt_root?
+		#040326:if-blokin voisi järjestellä toisinkin (VAIH)
+		if [ -f /.chroot ] ; then
+			if [ ${1} -eq 0 ] ; then
+				 #mitense alt_root?
 				echo "EI NÄIN"
 				exit 99
-			fi
-		else
-			if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
-				#100226:vihdoinkin tämäkin korjattu?
-				#VAIH:testaa uusicksi lähiaikoina (joko jo testattu 150226?)
-				
-				dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
-				csleep 6
-
-				cp ${d}/*pkgs* ${CONF_alt_root}/${distro}
-				ls -las ${CONF_alt_root}/${distro}
-				csleep 4
-			fi
 			
-			e=${d}
+			else
+				if [ -v CONF_alt_root ] ; then
+					#100226:vihdoinkin tämäkin korjattu?
+					#VAIH:testaa uusicksi lähiaikoina (joko jo testattu 150226?)
+				
+					dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
+					csleep 6
+
+					cp ${d}/*pkgs* ${CONF_alt_root}/${distro}
+					ls -las ${CONF_alt_root}/${distro}
+					csleep 4
+				fi
+			fi
 		fi
+
+		[ ${1} -eq 0 ] || e=${d}
 
 		csleep 1
 		common_part ${srcfile} ${d} ${e}
@@ -499,7 +514,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
 	r) #010326:suattaapi olla niinnii jotta toimii (kun -v)
-	#TODO;tapaus ilman -v, korjaa
+	#TODO:tapaus ilman -v, korjaa
 		[ -d ${srcfile} ] || exit 22
 
 		#tar -> tpr ?
@@ -520,7 +535,9 @@ case "${mode}" in
 	k)
 		#161225:toimii, sq-root-ymp ainakin
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
+
 		#TODO:tuotaville avaimille jotain tark? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
+		#man gpg voisio lla jankohtainen vähitellen
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"

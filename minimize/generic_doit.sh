@@ -83,7 +83,7 @@ function part0() {
 	csleep 1
 }
 
-#040326:ehkä josqs tämäkin
+#040326:ehkä josqs tämäkin (tai antaa nyt olla jnkn aikaa)
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 1
@@ -95,7 +95,7 @@ function el_loco() {
 		${odio} locale-gen
 	fi
 
-	if [ ${2} -lt 1 ] ; then #VAIH:tämä blokki konffaamisen jälkeen+toiminaat?
+	if [ ${2} -lt 1 ] ; then
 		${svm} /etc/default/locale /etc/default/locale.ÅLD
 		fasdfasd /etc/default/locale
 		csleep 1
@@ -113,10 +113,6 @@ function el_loco() {
 		reqwreqw /etc/default/locale
 	fi
 
-
-
-#	if [ -s /etc/default/locale ] ; then #miten tämän pitää mennä?
-#		. /etc/default/locale #tämä pOis jAtkossa?
 
 		export LC_TIME
 		export LANGUAGE
