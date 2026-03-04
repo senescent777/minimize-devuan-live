@@ -29,7 +29,7 @@ else
 	exit 66
 fi
 
-if [ ! -z ${branch} ] ; then
+if [ ! -z "${branch}" ] ; then
 	branch="--branch ${branch}"
 fi
 
@@ -49,9 +49,10 @@ ${tig} clone ${branch} https://${BASEURL}/${PT2}.git
 dqb "TGI KO"
 csleep 2
 
-#pitäisiköhän ao. rivien shteen thdä jtain?
-echo "mv minimize minimize.OLD"
-echo "mv ${PT2}/* ."
-echo "[ -x minimize/common_lib.sh ] && . minimize/common_lib.sh"
-echo "[ -x minimize/common_lib.sh ] && enforce_access \${n} \${t} "
-echo "mv minimize.OLD/\$distro/conf minimize/\$distro"
+#pitäisiköhän ao. rivien shteen thdä jtain? no tehdäänpä
+mv minimize minimize.OLD
+mv ${PT2}/* .
+
+[ -x minimize/common_lib.sh ] && . minimize/common_lib.sh
+[ -x minimize/common_lib.sh ] && enforce_access ${n} ${t}
+mv minimize.OLD/$distro/conf minimize/$distro
