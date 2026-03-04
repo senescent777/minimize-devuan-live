@@ -11,9 +11,6 @@ csleep 1
 if [ -v CONF_pubk ] ; then #&& ( -v CONF_ksk ) #pubk vai kpub?
 	dqb "no keys.conf needed"
 else
-	#if [ -v CONF_testgris ] ; then #ei sittenkään näin?
-	#	dqb "${odio} find ${CONF_testgris} -type f -name keys.conf | head -n 1"
-	#	csleep 5
 		arsch=$(${odio} find / -type f -name keys.conf | head -n 1)
 
 		if [ -z "${arsch}" ] ; then
@@ -29,13 +26,11 @@ else
 
 		csleep 1
 		unset arsch
-	#fi
 fi
 
 csleep 5
 
 function e22_hdr() {
-	#140126:lienee toimiva fktio koska x
 	dqb "e22hdr():BEFORE "
 	csleep 1
 	[ -z "${1}" ] && exit 61
@@ -133,7 +128,7 @@ function e22_pre1() { #130126:edelleen toimiva?
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) # | cut -d '/' -f 1-5)
 		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 
-		enforce_access ${n} ${lefid} ${CONF_iface} #jos taas toimisi
+		enforce_access ${n} ${lefid} ${CONF_iface}
 		csleep 1
 		dqb "3NF0RC1NG D0N3"
 
@@ -431,8 +426,7 @@ function e22_acol() {
 
 	luca ${1}
 	csleep 1
-	other_horrors #VAIH:tuohon fktioon se rulesksien oikeuksien pakotus toisella tavalla
-
+	other_horrors 
 	dqb "B3F0R3 TÖBX"
 	csleep 1
 
@@ -486,7 +480,7 @@ function e22_acol() {
 	dqb 1
 }
 
-#TODO:g_doit,imp2 yms:jos ei ala toimiata ilman -v ni tee jotain
+#TODO:imp2 yms:jos ei ala toimiata ilman -v ni tee jotain
 #020326:ehkä ok sisälytö-siat (xorg ja netp-jutut voisi testata paremmalla ajalla)
 
 function e22_sarram() {
@@ -507,7 +501,7 @@ function e22_sarram() {
 	dqb "find /etc -type f -name xorg \* -and -not -name \* . 202 \* "
 	csleep 3
 
-	#TODO:josko kopsaisi /e/X11 alle konffin testaustarkoituksissa
+	#josko kopsaisi /e/X11 alle konffin testaustarkoituksissa? nykyään kyllä g_dout kopsailee
 	for f in $(${odio} find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
 		dqb "${srat} -rvf ${1} ${f}"
 		${srat} -rvf ${1} ${f}
@@ -540,7 +534,6 @@ function e22_sarram() {
 	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
 	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
 
-	#VAIH:konftdstot mukaan vain jos ntpd olemassa ja ajokelpoinen
 	if [ -x /usr/sbin/ntpd ] ; then
 		for f in $(${odio} find /etc -type f -name 'ntp*') ; do
 			${srat} -rvf ${1} ${f}
@@ -551,7 +544,7 @@ function e22_sarram() {
 	other_horrors
 	csleep 1
 
-	dqb "HA55AN-1-5ABBAH D0n3"
+	dqb "HA55AN-1-5ABBAtH D0n3"
 	csleep 1
 }
 
@@ -559,7 +552,6 @@ function e22_sarram() {
 
 function e22_ext() { #160126:toiminee
 	dqb "e22_ext ${1} ,  ${2}, ${3}, ${4}"
-	#160126:kuinka monta param nykyään tarvitsee tämä?
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 2
@@ -694,8 +686,6 @@ function e22_ts() {
 	csleep 2
 }
 
-#HUOM.olisi hyväksi, ensisijaisesti .deb-pak sisältävien .tar kanssa, joko poistaa kirj- oik luonnin jälkeen ja/tai gpg:llä sign ja vast tark jottei vahingossa muuttele
-
 function e22_arch() { 
 	dqb "e22_arch ${1} , ${2} " 
 	csleep 1
@@ -820,7 +810,7 @@ function e22_dblock() { #150126:lisää toivottavaa sisältöä kohde-pakettiin
 	t=$(echo ${2} | cut -d '/' -f 1-5)
 	e22_ts ${2}
 
-	enforce_access ${n} ${t}  ${CONF_iface} #tarpeellinen nykyään?
+	enforce_access ${n} ${t} ${CONF_iface} #tarpeellinen nykyään?
 	e22_arch ${1} ${2}
 	csleep 1
 
@@ -968,7 +958,7 @@ function e22_other_pkgs() {
 #	${lftr}
 #	csleep 2
 
-#	vähöä aikaa ilman kunnes saa aikaiseksi konffata
+#	vähän aikaa ilman kunnes saa aikaiseksi konffata
 #	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 #	${shary} ntpsec
 		
@@ -1183,7 +1173,7 @@ function e22_upgp() {
 	${shary} cpp-12 gcc-12-base libstdc++6 
 	${shary} libgcc-s1 libc6 libgomp1 
 
-#	#helpompi vain ajaa e22_dm() ennen upgp()
+	#helpompi vain ajaa e22_dm() ennen upgp()
 	
 	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta, onko?
 	${sag} --no-install-recommends upgrade -u
@@ -1266,61 +1256,60 @@ function e22_fgh() {
 function e22_qrs() {
 	#DONE:testausd (120126) , taitaa toimia
 		
+	e22_config1 ~
+	${srat} -rvf $1} ~/config.tar.bz2
 
-		e22_config1 ~
-		${srat} -rvf $1} ~/config.tar.bz2
+	dqb $?
+	csleep 4
 
-		dqb $?
-		csleep 4
+	${NKVD} ~/fediverse.tar
+	csleep 1
 
-		${NKVD} ~/fediverse.tar
-		csleep 1
+	e22_settings ${2}
+	#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
 
-		e22_settings ${2}
-		#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
+	for f in $(find ${2} -maxdepth 1 -name 'fediverse.tar' -or -name 'profs.sh' | grep -v pulse) ; do
+		${srat} -rvf ${1} ${f}
+	done
 
-		for f in $(find ${2} -maxdepth 1 -name 'fediverse.tar' -or -name 'profs.sh' | grep -v pulse) ; do
-			${srat} -rvf ${1} ${f}
-		done
-
-		e22_ftr ${1}
-		dqb "CASE Q D0N3"
-		csleep 3
-		exit
+	e22_ftr ${1}
+	dqb "CASE Q D0N3"
+	csleep 3
+	exit
 }
 
 function e22_cde() {
-			#130126:laati paketin, sisältö:lienee ok
-		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
-		#-T - vipu tar:in kanssa käyttöön vai ei? pärjännee ilmankin
+	#130126:laati paketin, sisältö:lienee ok
+	# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
+	#-T - vipu tar:in kanssa käyttöön vai ei? pärjännee ilmankin
 		
-		cd ${2}
-		fasdfasd ${1}
-		[ ${debug} -eq 1 ] && ls -las ${1}*
-		csleep 2
+	cd ${2}
+	fasdfasd ${1}
+	[ ${debug} -eq 1 ] && ls -las ${1}*
+	csleep 2
 		
-		${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
-		e22_ftr ${1}
-		exit
+	${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
+	e22_ftr ${1}
+	exit
 }
 
 function e22_ghi() {
 	#1402222222226:luuultavasti oksennetut komennot toimivat edelleen (miten f?)
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-		dqb "${sag_u} | ${fib} , when necessary " 
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
+	dqb "${sag_u} | ${fib} , when necessary " 
 
-		echo "${shary} ${E22GI}"
+	echo "${shary} ${E22GI}"
 
-		echo "${svm} ${CONF_pkgdir}/*.deb ${2}/${3}"
-		#oli se e22_ts() kanssa
-		echo "$0 f ${1} ${3}"
-		exit 1
+	echo "${svm} ${CONF_pkgdir}/*.deb ${2}/${3}"
+	#oli se e22_ts() kanssa
+	echo "$0 f ${1} ${3}"
+	exit 1
 }
 
 function e22_pqr() {
-		#mihin muuten kosahtaa jos omegan jälkeen tätä ajaa? srat vai fasdfasd vai mikä?
+	#mihin muuten kosahtaa jos omegan jälkeen tätä ajaa? srat vai fasdfasd vai mikä?
 
-		e22_hdr ${1}
-		e22_profs ${1} ${2}
-		exit
+	e22_hdr ${1}
+	e22_profs ${1} ${2}
+	exit
 }

@@ -55,18 +55,6 @@ function parse_opts_2() {
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
-#VAIH:tästä fktio common_lib:iin ?
-#if [ -s ${d0}/$(whoami).conf ] ; then
-#	echo "ALT.C0NF1G"
-#	. ${d0}/$(whoami).conf
-#else
-#	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-#		. ${d}/conf
-#	else
-#	 	exit 57
-#	fi	
-#fi
-
 function fallback() {
 	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING OR NOT EXECUTABLE"
 	exit 59
@@ -96,15 +84,13 @@ dqb "tar = ${srat} "
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
-	#distri-param takaisin mikä li lkaa cross-distro-kikkailuihin
-	${odio} ${x} ${CONF_dnsm} #${distro}
-	#[ -x $x ] && exit for 
+	#distro-param takaisin mikä li a lkaa cross-distro-kikkailuihin
+	${odio} ${x} ${CONF_dnsm} 
 done
 
 dqb "AFTER GANGRENE SETS IN"
 csleep 1
 
-###################261225:josko vähän loiventaisi ao. ehtoja?
 if [ -z "${tig}" ] ; then
 	#HUOM. kts alempaa mitä git tarvitsee
 	echo "sudo apt-get update;sudo apt-get install git"
@@ -116,7 +102,6 @@ if [ -z "${mkt}" ] ; then
 	echo "sudo apt-get update;sudo apt-get install coreutils"
 	exit 8 #syystä excalibut-testit tolap kommentteihin 16126
 fi
-#####################
 
 dqb "e22_pre0"
 csleep 1
@@ -128,17 +113,6 @@ if [ -x $(dirname $0)/e22.sh ] ; then
 else
 	exit 58
 fi
-
-##HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia, tuskin menee qten alla
-#tcdd=$(cat /etc/devuan_version)
-#t2=$(echo ${d} | cut -d '/' -f 6 | tr -d -c a-zA-Z/) #tai suoraan $distro?
-#	
-#if [ ${tcdd} != ${t2} ] ; then
-#	dqb "XXX"
-#	csleep 1
-#	shary="${sag} install --download-only "
-#fi
-#TODO:t2-kikkailut jatkossa ennen e22?
 
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 
@@ -206,43 +180,33 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#0202326: (tekee paketin:1 , asentuu: 1)
-		#[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
-		#csleep 2
+		#TODO:testaus TAAS
 	
 		[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
 		csleep 1
 		fasdfasd /opt/bin/zxcv
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
-		#dqb "e22_ext DON3, next:rm some rchives ?"
-		#csleep 1
+
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
 			e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e22_other_pkgs ${CONF_dnsm}
 
-		#	[ ${debug} -eq 1 ] && ls -las ${d}
-		#	csleep 1
 		else
 			doit=0
 		fi
 
-		${sifd} ${CONF_iface}
-		#[ ${debug} -eq 1 ] && ls -las ${d}
-		#csleep 5
+
 
 		e22_home ${tgtfile} ${d} ${CONF_enforce} 
-		#[ ${debug} -eq 1 ] && ls -las ${tgtfile}
-		#csleep 1
 
-		#${srat} -tf ${tgtfile} | grep fediverse
-		#csleep 5 #jos 5 riittäisi
+
+
 
 		e22_pre1 ${d} ${distro}
-		#dqb "B3F0R3 RP2	"
-		#csleep 1
+
 
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
 		fasdfasd /opt/bin/zxcv #onko ihan pakko? 
@@ -277,8 +241,6 @@ case ${mode} in
 		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;
 	l)
-		#... onko se nyt seatd mikä paskoo juttuja vai mitvit? 
-		dqb "#ensin wdm-pak as, sitten avsta slim pois?"
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 
@@ -293,7 +255,7 @@ esac
 
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar 
-	#accept/reject/drop - jutut mukaan sqroot varten? vai jtnkn muuten?
+
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} 
 	e22_ftr ${d}/f.tar 
 
