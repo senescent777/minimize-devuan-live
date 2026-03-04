@@ -39,7 +39,7 @@ function parse_opts_1() {
 }
 
 function parse_opts_2() {
-	dqb "parseopts_2 ${1} ${2}"
+	dqb "imp2.parseopts_2 ${1} ${2}"
 }
 
 if [ -f /.chroot ] ; then
@@ -169,13 +169,13 @@ else
 	}
 fi
 
-dqb "AFTR common_lib"
+dqb "imp2:AFTR common_lib"
 csleep 3
 [ -z "${distro}" ] && exit 6
 csleep 2
 
 if [ -f /.chroot ] || [ -x ${mkt} ] ; then
-	dqb "MTK"
+	dqb "ipm2.MTK"
 else
 	echo "sudo apt-get update;sudo apt-get install coreutils"
 	exit 8
@@ -225,7 +225,7 @@ else
 	${srat} -cvf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
-dqb "Lpg"
+dqb "ip2.m.Lpg"
 
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
@@ -272,6 +272,7 @@ function common_part() {
 	csleep 2
 
 	#kts. common_lib.psqa()
+	#TODO:jtnkin toisin jatkossa
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
 		dqb "gg= ${gg}"
@@ -302,7 +303,7 @@ function cptp2() {
 	[ -z "${2}" ] && echo 98
 
 	local t
-	t=$(echo ${1} | cut -d '/' -f 1-5) #d0 jatkossa kutsuvan koodin kautta?
+	t=$(echo ${1} | cut -d '/' -f 1-5)
 
 	if [ -x ${t}/common_lib.sh ] ; then
 		enforce_access ${n} ${t} ${2}
@@ -460,6 +461,7 @@ case "${mode}" in
 		csleep 1
 		e="/"
 
+		#040326:if-blokin voisi järjestellä toisinkin (TODO)
 		if [ ${1} -eq 0 ] ; then
 			if [ -f /.chroot ] ; then #mitense alt_root?
 				echo "EI NÄIN"

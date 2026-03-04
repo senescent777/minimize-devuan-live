@@ -124,7 +124,7 @@ csleep 1
 [ -z "${srat}" ] && exit 66
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
-#VAIH:tämän casen juttuja -> e22
+#VAIH:tämän casen juttuja -> e22 (testaus vielä)
 case ${mode} in
 	rp)
 		[ -s "${tgtfile}" ] || exit 67
@@ -180,14 +180,12 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#TODO:testaus TAAS
+		#TODO:testaus TAAS , eirtyisesti mitebn nelosen output g_doit:n imp2-kikkailun kanssa
 	
 		[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
 		csleep 1
 		fasdfasd /opt/bin/zxcv
-
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
-
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
@@ -198,15 +196,8 @@ case ${mode} in
 			doit=0
 		fi
 
-
-
 		e22_home ${tgtfile} ${d} ${CONF_enforce} 
-
-
-
-
 		e22_pre1 ${d} ${distro}
-
 
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
 		fasdfasd /opt/bin/zxcv #onko ihan pakko? 
@@ -224,6 +215,7 @@ case ${mode} in
 	u|upgrade)
 		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
 		csleep 1
+
 		[ -v CONF_pkgdir ] || exit 96
 		e22_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
 	;;
@@ -233,8 +225,8 @@ case ${mode} in
 		e22_other_pkgs ${CONF_dnsm}
 	;;
 	t) 
-		#140126:sen g-t-jutun kanssa myös aloiteltu, sisältö asentuu ainakin sqroot-ymp
 		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
+		#cleanpkgs() tulisi hoitaa se
 
 		message
 		csleep 2

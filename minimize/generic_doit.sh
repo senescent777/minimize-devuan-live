@@ -7,17 +7,7 @@ d0=$(pwd)
 debug=0 #1
 d=${d0}/${distro} 
 
-#if [ -s ${d0}/$(whoami).conf ] ; then
-#	echo "ALT.C0NF1G"
-#	. ${d0}/$(whoami).conf
-#else
-#	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-#		. ${d}/conf
-#	else
-#		echo "NO CONF"
-#	 	exit 57
-#	fi
-#fi
+#HUOM.040326:tässä oli se conf-kikkailu aiemmin
 
 function parse_opts_1() {
 	dqb "parseopts_1 ${1} ${2}"
@@ -93,21 +83,26 @@ function part0() {
 	csleep 1
 }
 
-#VAIH:jos siiräisi vähän aiemmaksi fktion (aideu ymös)
-
 function el_loco() {
 	#181225;toimiiko kuten pitää vi ei?
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 1
 
-	if [ ${2} -lt 1 ] ; then #tämä blokki konffaamisen jälkeen+toiminaat?
-		#${svm} /etc/default/locale /etc/default/locale.ÅLD
+	if [ ${1} -gt 0 ] ; then
+		${odio} dpkg-reconfigure locales
+		${odio} dpkg-reconfigure tzdata
+	else
+		${odio} locale-gen
+	fi
+
+	if [ ${2} -lt 1 ] ; then #VAIH:tämä blokki konffaamisen jälkeen+toiminaat?
+		${svm} /etc/default/locale /etc/default/locale.ÅLD
 		fasdfasd /etc/default/locale
 		csleep 1
 
 		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
-		#env | grep LC >> /etc/default/locale
-		#env | grep LA >> /etc/default/locale
+		env | grep LC >> /etc/default/locale
+		env | grep LAN >> /etc/default/locale
 
 		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
 		#jos riittäisi 10 riviä
@@ -116,13 +111,6 @@ function el_loco() {
 		cat /etc/timezone
 		csleep 1
 		reqwreqw /etc/default/locale
-	fi
-
-	if [ ${1} -gt 0 ] ; then
-		${odio} dpkg-reconfigure locales
-		${odio} dpkg-reconfigure tzdata
-	else
-		${odio} locale-gen
 	fi
 
 	#101225:pitäisikö jotain tehdä vielä että nuo sorkitut lokaaliasetukset saa voimaan?
@@ -139,7 +127,7 @@ function el_loco() {
 		if [ ${debug} -gt 0 ] ; then
 			env | grep LC
 			env | grep LAN
-			csleep 2
+			csleep 5
 		fi
 #	fi
 }
@@ -166,7 +154,6 @@ function adieu() {
 	${whack} xfce4-session
 }
 
-#020236:joutaisikohan part0 siirtää tähän tdstoon? (VAIH)
 part0 ${distro}
 process_lib ${d}
 echo "AFTER PROCESS_LIB";sleep 1
@@ -175,10 +162,10 @@ echo "AFTER PROCESS_LIB";sleep 1
 dqb "mode= ${mode}"
 dqb "debug= ${debug}"
 [ -v CONF_enforce ] || exit 99
+
 #221225:mitäs kaikkia pointteja olikaan ohittaa enforce-hommat sqroot.ympäristössä?
 #changedns ja fstab tietysti
 
-#VAIH:johonkin sopivaan kohtaan ~/xorg.conf kopsaus /e/X11 alle
 if [ -s ~/xorg.conf.new ] ; then
 	if [ ! -s /etc/X11/xorg.conf ] ; then
 		${spc}  ~/xorg.conf.new  /etc/X11/xorg.conf
@@ -224,6 +211,8 @@ c13=0
 [ ${mode} -eq 1 ] && c14=1
 
 #==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
+#... joskohan voisi arpomisen lopettaa joskus?
+
 if [ -v LCF666 ] ; then
 	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
 	#c13=$(env | grep LC_TIME | grep -c ${LCF666})
@@ -234,7 +223,7 @@ fi
 csleep 1
 
 [ ${c13} -lt 1 ] && c14=1
-el_loco ${c14} 1 #${c13} #joko jo c13 takaisin?
+el_loco ${c14} ${c13} #joko jo c13 takaisin? kokeillaanpa
 #=========================================================================================
 
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then 
@@ -263,13 +252,17 @@ pre_part2 #ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
 c14=$(find ${d} -name '*.deb' | wc -l)
 #[ ${c14} -gt 0 ] || CONF_removepkgs=0 #tilap kommentteihin 270226 koska g_pt2_jutut
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
+#voisi kai tässä kohta anuo kikialuit palautaa kommenteista (040326)
 
 #===================================================PART 3===========================================================
 message
 
 #291125:kokeeksi käskyttämään "imp2 3" tässä kohtaa? (VAIH)
-part3 ${d}
-#${d0}/import2 3 ${d}/f.tar -v
+#... toimisi kai tuolla toisellakin tavalla mutta pitäisi imp2:sen sha-tarkistuksia vähän laittaa (040326)
+#... myös pitäisi olla jotain $d alla että imp2 tekisi jotain
+
+#part3 ${d}
+${d0}/import2.sh 3 ${d}/f.tar -v
 
 other_horrors
 dqb "BEFORE IMP2"
@@ -280,10 +273,6 @@ if [ ! -f /.chroot ] ; then
 	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh #toistaiseksi tässä kunnes... Jotain
 	
-#	csleep 5
-#	dqb "KORJAA PROF IMPORT?" #tilapäinen kiukutteul? miten nilman -v ? eitoimi?
-#	csleep 5
-
 	${d0}/import2.sh r ${d0} -v
 fi
 
