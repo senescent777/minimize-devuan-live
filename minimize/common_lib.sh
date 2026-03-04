@@ -1,4 +1,4 @@
-#fktioksi tnä ni ei tartte globaalien mjien kanssa sählätä
+#fktioksi tnä ni ei tartte globaalien mjien kanssa sählätä?
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -215,7 +215,7 @@ function check_bin_0() {
 		n=$(whoami)
 	fi
 
-	#-v taakse nämä?
+	#[-v jotain ]  taakse nämä?
 	export LC_TIME
 	export LANGUAGE
 	export LC_ALL
@@ -411,7 +411,7 @@ function common_lib_tool() {
 		fi
 	done
 
-	dqb "REJECTNG DONE"
+	dqb "t00l DONE"
 }
 
 #HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (VAIH)
@@ -422,12 +422,15 @@ function fromtend() {
 	dqb "FRöMTEND"
 
 	[ -v sd0 ] || exit 99
-	[ -z ${sd0} ] && exit 98
+	[ -z "${sd0}" ] && exit 98
 	[ -x ${sd0} ] || exit 97
+
+	export DEBIAN_FRONTEND=noninteractive
 
 	if [ ! -f /.chroot ] ; then #ei conf_alt_root ainakaan vielä
 		dqb "${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@"
-		${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
+		#${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
+		${odio} -E ${sd0} --force-confold -i $@
 	else
 		${odio} ${sd0} --force-confold -i $@
 	fi
