@@ -1,10 +1,16 @@
 #!/bin/bash
 d0=$(pwd)
+
 tcmd=$(which tar)
+[ -z "${tcmd}" ] && exit 11
+[ -x ${tcmd} ] || exit 12
+
 spc=$(which cp)
+[ -z "${spc}" ] && exit 13
+[ -x ${spc} ] || exit 14
 n=$(whoami)
-#TODO:pitäisi kai yo. juttujen olemassaolo tarkistaa
-#voisikohan käyttää muidenin pakettien päivittelyyn kuin vain sen yhden?
+
+#VAIH:pitäisi kai yo. juttujen olemassaolo tarkistaa
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
@@ -16,8 +22,10 @@ else
 fi
 
 tgt=${1}
-[ -z "${tgt}" ] && exit 11
-[ -s "${tgt}" ] || exit 12
+[ -z "${tgt}" ] && exit 15
+[ -s "${tgt}" ] || exit 16
+[ -r "${tgt}" ] || exit 17
+[ -r "${tgt}" ] || exit 18
 echo "PARAMS CHECKED"
 sleep 1
 
@@ -57,9 +65,40 @@ else
 	cd /
 fi
 
-for f in $(${tcmd} -tf ${tgt} | grep -v '${n}.conf'  | grep -v .chroot) ; do
+#HUOM.jos f.tar/e.tar/OLD.tar yli x megaa ni ei tarttisi vetää mukaan
+#""
+g=$(${tcmd} -tf ${tgt} | grep -v '${n}.conf' | grep -v .chroot)
+c=$(find / -maxdepth 1 -type f -name OLD.tar -size +10M | wc -l)
+
+if [ ${c} -gt 0 ] ; then
+	echo "ÅLD"
+	g=$(echo ${g} | grep -v OLD.tar)
+fi
+
+sleep 1
+c=$(find ${d0} -type f -name e.tar -size +10M | wc -l)
+
+if [ ${c} -gt 0 ] ; then
+	echo "e"
+	g=$(echo ${g} | grep -v e.tar)
+fi
+
+sleep 1
+c=$(find ${d0} -type f -name f.tar -size +10M | wc -l)
+
+if [ ${c} -gt 0 ] ; then
+	echo "f"
+	g=$(echo ${g} | grep -v f.tar)
+fi
+
+sleep 1
+
+for f in ${g} ; do
 	if [ -f ${f} ] ; then #josko nyt
 		${tcmd} -uvf ${tgt} ${f}
 		[ $? -eq 0 ] || echo "chmod | chown ?"
 	fi
 done
+
+#jotat ehtisi synkata 
+sleep 6;sudo /bin/sync;sleep 4
