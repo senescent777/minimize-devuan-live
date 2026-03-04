@@ -83,8 +83,8 @@ function part0() {
 	csleep 1
 }
 
+#040326:ehkä josqs tämäkin
 function el_loco() {
-	#181225;toimiiko kuten pitää vi ei?
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 1
 
@@ -113,13 +113,11 @@ function el_loco() {
 		reqwreqw /etc/default/locale
 	fi
 
-	#101225:pitäisikö jotain tehdä vielä että nuo sorkitut lokaaliasetukset saa voimaan?
+
 
 #	if [ -s /etc/default/locale ] ; then #miten tämän pitää mennä?
 #		. /etc/default/locale #tämä pOis jAtkossa?
-#
 
-#211225:pitäisiköhän sitä knftdstpoa($d/conf) pikemminkin muuttaa konffauksen jälkeen? tai jokin ehdollinen asetusten jyrääminen?
 		export LC_TIME
 		export LANGUAGE
 		export LC_ALL
@@ -129,7 +127,6 @@ function el_loco() {
 			env | grep LAN
 			csleep 5
 		fi
-#	fi
 }
 
 function adieu() {
@@ -257,12 +254,16 @@ part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 #===================================================PART 3===========================================================
 message
 
-#291125:kokeeksi käskyttämään "imp2 3" tässä kohtaa? (VAIH)
+#kokeeksi käskyttämään "imp2 3" tässä kohtaa
 #... toimisi kai tuolla toisellakin tavalla mutta pitäisi imp2:sen sha-tarkistuksia vähän laittaa (040326)
 #... myös pitäisi olla jotain $d alla että imp2 tekisi jotain
+#menkööt toistaiseksi part3 kanssa (040325)
+#common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain
 
-#part3 ${d}
-${d0}/import2.sh 3 ${d}/f.tar -v
+part3 ${d}
+#dqb "JUST BEFORE IMP2 3"
+#csleep 10
+#${d0}/import2.sh 3 ${d}/f.tar -v
 
 other_horrors
 dqb "BEFORE IMP2"

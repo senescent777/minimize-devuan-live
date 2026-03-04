@@ -484,6 +484,7 @@ function check_binaries() {
 			[ -z "${1}" ] && exit 99
 			[ -d ${1} ] || exit 101
 
+			#HUOMJ.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
 			cefgh ${1}
 			common_pp3 ${1}
 
@@ -512,7 +513,6 @@ function check_binaries() {
 
 			if [ -z "${ipt}" ] ; then
 				jules
-				
 				#ei vielä conf_alt_toor
 				[ -f /.chroot ] && message
 				

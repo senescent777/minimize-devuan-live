@@ -282,6 +282,7 @@ function common_part() {
 		csleep 2
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
+		#TODO:jokin varmistus jatkamiselle tässä tap ? (tai jos toisessa haarassa... ?)
 	fi
 
 	csleep 3
@@ -303,9 +304,10 @@ function cptp2() {
 	[ -z "${2}" ] && echo 98
 
 	local t
-	t=$(echo ${1} | cut -d '/' -f 1-5)
+	t=$(echo ${1} | cut -d '/' -f 1-5) #se tr vielä?
 
 	if [ -x ${t}/common_lib.sh ] ; then
+		#TODO:sha-sig-tarkistus tähän? entä process_lib() ?
 		enforce_access ${n} ${t} ${2}
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	else
