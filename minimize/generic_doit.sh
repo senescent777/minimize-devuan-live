@@ -65,49 +65,35 @@ dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
 
-#020236:joutaisikohan part0 siirtää tähän tdstoon?
-part0 ${distro}
-process_lib ${d}
-echo "AFTER PROCESS_LIB";sleep 1
-#==================================PART 1============================================================
-dqb "mode= ${mode}"
-dqb "debug= ${debug}"
+function part0() {
+	dqb "common_lib.FART076 ${1}"
+	[ -z "${1}" ] && exit 76
 
-#221225:mitäs kaikkia pointteja olikaan ohittaa enforce.hommat sqroot.ympäristössä?
-#changedns ja fstab tietysti
+	csleep 1
+	dis ${1}
+	local s
 
-if [ -s /etc/sudoers.d/meshuqqah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
-	dqb "BYPASSING pre_enforce()"
-	csleep 2
-else 
-	pre_enforce ${d0}
-fi
+	for s in ${PART175_LIST} ; do
+		dqb ${s}
+		#HUOM.271125:saisiko tällä tyylillä myös slimin sammutettua? saa, mutta...
 
-if [ -f /.chroot ] ; then
-	dqb "BYPASSING enforce_access()"
-	csleep 2
-else 
-	enforce_access ${n} ${d0} ${CONF_iface} #3. param ei niin tarpeellinen
-fi
+		for t in $(find /etc/init.d -name ${s}* ) ; do
+			${odio} ${t} stop
+			csleep 1
+		done
 
-csleep 2
-echo "JUST BEFORE PART1";sleep 1
-part1 ${distro} ${d}
-[ ${mode} -eq 0 ] && exit
-echo "JUST AFTR PRT1";sleep 1
+		${whack} ${s}*
+	done
 
-#aivopieru:jtnkin niin että voisi samalla kertaa purkaa paketin ja ajaa tämän skriptin trähän asti. Self-extracting archives?
-#KVG "bash here-doc examples" ?
+	dqb "alm0st d0n3"
+	csleep 1
+	${whack} nm-applet
+	${snt}
+	dqb "P.176 DONE"
+	csleep 1
+}
 
-${snt}
-csleep 1
-dqb "${svm} ${d0}/1c0ns/ \* .desktop ~/Desktop"
-csleep 1
-${svm} ${d0}/1c0ns/*.desktop ~/Desktop
-
-#===================================================PART 2===================================
-#jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
-#TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
+#VAIH:jos siiräisi vähän aiemmaksi fktion (aideu ymös)
 
 function el_loco() {
 	#181225;toimiiko kuten pitää vi ei?
@@ -158,24 +144,6 @@ function el_loco() {
 #	fi
 }
 
-c14=0
-c13=0
-[ ${mode} -eq 1 ] && c14=1
-
-#==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
-if [ -v LCF666 ] ; then
-	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
-	#c13=$(env | grep LC_TIME | grep -c ${LCF666})
-else
-	echo "555"
-fi
-
-csleep 1
-
-[ ${c13} -lt 1 ] && c14=1
-el_loco ${c14} 1 #${c13} #joko jo c13 takaisin?
-#=========================================================================================
-
 function adieu() {
 	dqb "AUF WIEDERSEHEN"
 #
@@ -197,6 +165,77 @@ function adieu() {
 #	#väärä tapa pakottaa uudelleen_kirjautuminen?
 	${whack} xfce4-session
 }
+
+#020236:joutaisikohan part0 siirtää tähän tdstoon? (VAIH)
+part0 ${distro}
+process_lib ${d}
+echo "AFTER PROCESS_LIB";sleep 1
+
+#==================================PART 1============================================================
+dqb "mode= ${mode}"
+dqb "debug= ${debug}"
+[ -v CONF_enforce ] || exit 99
+#221225:mitäs kaikkia pointteja olikaan ohittaa enforce-hommat sqroot.ympäristössä?
+#changedns ja fstab tietysti
+
+#VAIH:johonkin sopivaan kohtaan ~/xorg.conf kopsaus /e/X11 alle
+if [ -s ~/xorg.conf.new ] ; then
+	if [ ! -s /etc/X11/xorg.conf ] ; then
+		${spc}  ~/xorg.conf.new  /etc/X11/xorg.conf
+		reqwreqw /etc/X11/xorg.conf
+	fi
+fi
+
+if [ -s /etc/sudoers.d/meshuqqah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
+	dqb "BYPASSING pre_enforce()"
+	csleep 2
+else 
+	pre_enforce ${d0}
+fi
+
+if [ -f /.chroot ] ; then
+	dqb "BYPASSING enforce_access()"
+	csleep 2
+else 
+	enforce_access ${n} ${d0} ${CONF_iface} #3. param ei niin tarpeellinen
+fi
+
+csleep 2
+echo "JUST BEFORE PART1";sleep 1
+part1 ${distro} ${d}
+[ ${mode} -eq 0 ] && exit
+echo "JUST AFTR PRT1";sleep 1
+
+#aivopieru:jtnkin niin että voisi samalla kertaa purkaa paketin ja ajaa tämän skriptin trähän asti. Self-extracting archives?
+#KVG "bash here-doc examples" ?
+
+${snt}
+csleep 1
+dqb "${svm} ${d0}/1c0ns/ \* .desktop ~/Desktop"
+csleep 1
+${svm} ${d0}/1c0ns/*.desktop ~/Desktop
+
+#===================================================PART 2===================================
+#jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
+#TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
+
+c14=0
+c13=0
+[ ${mode} -eq 1 ] && c14=1
+
+#==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
+if [ -v LCF666 ] ; then
+	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
+	#c13=$(env | grep LC_TIME | grep -c ${LCF666})
+else
+	echo "555"
+fi
+
+csleep 1
+
+[ ${c13} -lt 1 ] && c14=1
+el_loco ${c14} 1 #${c13} #joko jo c13 takaisin?
+#=========================================================================================
 
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then 
 	dqb "R (in 2 secs)"
@@ -228,10 +267,11 @@ part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 #===================================================PART 3===========================================================
 message
 
-#291125:kokeeksi käskyttämään "imp2 3" tässä kohtaa? (TODO)
+#291125:kokeeksi käskyttämään "imp2 3" tässä kohtaa? (VAIH)
 part3 ${d}
-other_horrors
+#${d0}/import2 3 ${d}/f.tar -v
 
+other_horrors
 dqb "BEFORE IMP2"
 csleep 2
 
@@ -241,11 +281,10 @@ if [ ! -f /.chroot ] ; then
 	${scm} 0555 ${d0}/common_lib.sh #toistaiseksi tässä kunnes... Jotain
 	
 #	csleep 5
-#	dqb "KORJAA PROF IMPORT?" #tilapäinen kiukutteul?
+#	dqb "KORJAA PROF IMPORT?" #tilapäinen kiukutteul? miten nilman -v ? eitoimi?
 #	csleep 5
 
 	${d0}/import2.sh r ${d0} -v
-	#2. ja 3. param. turhia?
 fi
 
 jules

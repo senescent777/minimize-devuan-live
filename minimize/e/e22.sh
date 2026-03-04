@@ -431,7 +431,7 @@ function e22_acol() {
 
 	luca ${1}
 	csleep 1
-	other_horrors #TODO:tuohon fktioon se rulesksien oikeuksien pakotus toisella tavalla
+	other_horrors #VAIH:tuohon fktioon se rulesksien oikeuksien pakotus toisella tavalla
 
 	dqb "B3F0R3 TÖBX"
 	csleep 1
@@ -686,7 +686,7 @@ function e22_ts() {
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
 
-	cg_udp6 ${1} #joko jo?
+	cg_udp6 ${1}
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 	csleep 5
 
@@ -1184,12 +1184,6 @@ function e22_upgp() {
 	${shary} libgcc-s1 libc6 libgomp1 
 
 #	#helpompi vain ajaa e22_dm() ennen upgp()
-#	${shary} libsoxr0 #tälle riittisi gomp?
-#	${shary} libaom3
-#	${shary} libcairo2 libcodec2-1.0 libmfx1 libdrm2 libva-drm2 libva-x11-2 libva2 libvdpau1 libx11-6 ocl-icd-libopencl1
-#	${shary} libdav1d6	
-#	${shary} libswresample4 libavcodec59
-#	csleep 2
 	
 	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta, onko?
 	${sag} --no-install-recommends upgrade -u
@@ -1229,4 +1223,104 @@ function e22_upgp() {
 	csleep 1
 	dqb "SIELUNV1H0LL1N3N"
 	csleep 1
+}
+
+function e22_rpg() {
+		exit 69
+#
+#		e22_cleanpkgs ${2}
+#		csleep 1
+#		
+#		${smr} ${2}/f.tar
+#		csleep 1
+#		
+#		#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
+#		#... koko case pois käytöstä vaikka
+#	
+#		${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${d} -xvf ${1}
+#		[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
+#		csleep 1
+#
+#		#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
+#			
+#		e22_arch ${1} ${2}
+#		cd ${2}
+#
+#		#sotkee sittenkin liikaa?
+#		#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
+#		
+#		#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh
+#		#	${srat} -uvf  ${1} ${t}
+#		#done
+#		
+#		exit
+}
+
+function e22_fgh() {
+	e22_hdr ${1}
+	e22_arch ${1} ${2}
+	e22_ftr ${1}
+	exit
+}
+
+function e22_qrs() {
+	#DONE:testausd (120126) , taitaa toimia
+		
+
+		e22_config1 ~
+		${srat} -rvf $1} ~/config.tar.bz2
+
+		dqb $?
+		csleep 4
+
+		${NKVD} ~/fediverse.tar
+		csleep 1
+
+		e22_settings ${2}
+		#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
+
+		for f in $(find ${2} -maxdepth 1 -name 'fediverse.tar' -or -name 'profs.sh' | grep -v pulse) ; do
+			${srat} -rvf ${1} ${f}
+		done
+
+		e22_ftr ${1}
+		dqb "CASE Q D0N3"
+		csleep 3
+		exit
+}
+
+function e22_cde() {
+			#130126:laati paketin, sisältö:lienee ok
+		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
+		#-T - vipu tar:in kanssa käyttöön vai ei? pärjännee ilmankin
+		
+		cd ${2}
+		fasdfasd ${1}
+		[ ${debug} -eq 1 ] && ls -las ${1}*
+		csleep 2
+		
+		${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
+		e22_ftr ${1}
+		exit
+}
+
+function e22_ghi() {
+	#1402222222226:luuultavasti oksennetut komennot toimivat edelleen (miten f?)
+		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
+		dqb "${sag_u} | ${fib} , when necessary " 
+
+		echo "${shary} ${E22GI}"
+
+		echo "${svm} ${CONF_pkgdir}/*.deb ${2}/${3}"
+		#oli se e22_ts() kanssa
+		echo "$0 f ${1} ${3}"
+		exit 1
+}
+
+function e22_pqr() {
+		#mihin muuten kosahtaa jos omegan jälkeen tätä ajaa? srat vai fasdfasd vai mikä?
+
+		e22_hdr ${1}
+		e22_profs ${1} ${2}
+		exit
 }

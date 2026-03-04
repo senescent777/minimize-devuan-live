@@ -96,7 +96,7 @@ dqb "tar = ${srat} "
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
-	#distri-param takaisin mikä lkaa cross-distro-kikkailuihin
+	#distri-param takaisin mikä li lkaa cross-distro-kikkailuihin
 	${odio} ${x} ${CONF_dnsm} #${distro}
 	#[ -x $x ] && exit for 
 done
@@ -150,105 +150,31 @@ csleep 1
 [ -z "${srat}" ] && exit 66
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
+#VAIH:tämän casen juttuja -> e22
 case ${mode} in
 	rp)
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
-		exit 69
-#
-#		e22_cleanpkgs ${d}
-#		csleep 1
-#		
-#		${smr} ${d}/f.tar
-#		csleep 1
-#		
-#		#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
-#		#... koko case pois käytöstä vaikka
-#	
-#		${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${d} -xvf ${tgtfile}
-#		[ $? -eq 0 ] && ${svm} ${tgtfile} ${tgtfile}.OLD
-#		csleep 1
-#
-#		#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
-#			
-#		e22_arch ${tgtfile} ${d}
-#		cd ${d}
-#
-#		#sotkee sittenkin liikaa?
-#		#${srat} -rvf ${tgtfile} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
-#		
-#		#for t in $(${srat} -tf ${tgtfile}) ; do #fråm update2.sh
-#		#	${srat} -uvf  ${tgtfile} ${t}
-#		#done
-#		
-#		exit
+		e22_rpg ${tgtfile} ${d}
 	;;
-	f) 	#140226:toimiiko edelleen? 
+	f) 	#140226:toimiiko edelleen? TODO:testaa
 
 		enforce_access ${n} ${t}
-		e22_hdr ${tgtfile}
-		e22_arch ${tgtfile} ${d}
-		e22_ftr ${tgtfile}
-		exit
+		e22_fgh ${tgtfile} ${d}
 	;;
 	q)
-		#DONE:testausd (120126) , taitaa toimia
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
-
-		e22_config1 ~
-		${srat} -rvf ${tgtfile} ~/config.tar.bz2
-
-		dqb $?
-		csleep 4
-
-		${NKVD} ~/fediverse.tar
-		csleep 1
-
-		e22_settings ${d0}
-		#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
-
-		for f in $(find ${d0} -maxdepth 1 -name 'fediverse.tar' -or -name 'profs.sh' | grep -v pulse) ; do
-			${srat} -rvf ${tgtfile} ${f}
-		done
-
-		e22_ftr ${tgtfile}
-		dqb "CASE Q D0N3"
-		csleep 3
-		exit
+		e22_qrs ${tgtfile} ${d0}
 	;;
 	c)
-		#130126:laati paketin, sisältö:lienee ok
-		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
-		#-T - vipu tar:in kanssa käyttöön vai ei? pärjännee ilmankin
-		
-		cd ${d0}
-		fasdfasd ${tgtfile}
-		[ ${debug} -eq 1 ] && ls -las ${tgtfile}*
-		csleep 2
-		
-		${srat} --exclude '*merd*' -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop ./1c0ns/*.desktop
-		e22_ftr ${tgtfile}
-		exit
+		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
 	g)
-		#1402222222226:luuultavasti oksennetut komennot toimivat edelleen (miten f?)
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-		dqb "${sag_u} | ${fib} , when necessary " 
-
-		echo "${shary} ${E22GI}"
-
-		echo "${svm} ${CONF_pkgdir}/*.deb ${d}"
-		#oli se e22_ts() kanssa
-		echo "$0 f ${tgtfile} ${distro}"
-		exit 1
+		e22_ghi ${tgtfile} ${d0} ${distro}
 	;;
 #	dqb "#TODO:alsaan siirtyminen?"
 	p) #120126:toimii, luulisin
-	#mihin muuten kosahtaa jos omegan jälkeen tätä ajaa? srat vai fasdfasd vai mikä?
-
-		e22_hdr ${tgtfile}
-		e22_profs ${tgtfile} ${d0}
-		exit
+		e22_pqr ${tgtfile} ${d0}
 	;;
 	-h)
 		usage
@@ -281,42 +207,42 @@ case ${mode} in
 	;;
 	3|4) 
 		#0202326: (tekee paketin:1 , asentuu: 1)
-		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
-		csleep 2
+		#[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
+		#csleep 2
 	
 		[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
 		csleep 1
 		fasdfasd /opt/bin/zxcv
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
-		dqb "e22_ext DON3, next:rm some rchives ?"
-		csleep 1
+		#dqb "e22_ext DON3, next:rm some rchives ?"
+		#csleep 1
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
 			e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e22_other_pkgs ${CONF_dnsm}
 
-			[ ${debug} -eq 1 ] && ls -las ${d}
-			csleep 1
+		#	[ ${debug} -eq 1 ] && ls -las ${d}
+		#	csleep 1
 		else
 			doit=0
 		fi
 
 		${sifd} ${CONF_iface}
-		[ ${debug} -eq 1 ] && ls -las ${d}
-		csleep 5
+		#[ ${debug} -eq 1 ] && ls -las ${d}
+		#csleep 5
 
 		e22_home ${tgtfile} ${d} ${CONF_enforce} 
-		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
-		csleep 1
+		#[ ${debug} -eq 1 ] && ls -las ${tgtfile}
+		#csleep 1
 
-		${srat} -tf ${tgtfile} | grep fediverse
-		csleep 5 #jos 5 riittäisi
+		#${srat} -tf ${tgtfile} | grep fediverse
+		#csleep 5 #jos 5 riittäisi
 
 		e22_pre1 ${d} ${distro}
-		dqb "B3F0R3 RP2	"
-		csleep 1
+		#dqb "B3F0R3 RP2	"
+		#csleep 1
 
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
 		fasdfasd /opt/bin/zxcv #onko ihan pakko? 

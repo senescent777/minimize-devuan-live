@@ -30,6 +30,7 @@ if [ $# -gt 0 ] ; then
 	[ "${2}" == "-v" ] || srcfile=${2}
 fi
 
+#030326:toimiikohan tämä nykyään? etenkään toivotulla tavalla?
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
 		distro=${1}
@@ -93,24 +94,25 @@ if [ -f /.chroot ] ; then
 	done
 fi
 
-#myöhemmin tähän tdstoon se conf-kikkailu
-if [ -s ${d0}/$(whoami).conf ] ; then
-	echo "ALT.C0NF1G"
-	sleep 2
-	. ${d0}/$(whoami).conf
-else
-	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-		. ${d}/conf
-	else
-	 	exit 57
-	fi	
-fi
-
-#VAIH: se vanhempi lib.sh includointi takaisin toistaiseksi (pienin muutoksin tosin)
+#DONE: se vanhempi lib.sh includointi takaisin toistaiseksi (pienin muutoksin tosin)
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
+	#TODO:sqroot-testiä yaas kehiin
+
+	if [ -s ${d0}/$(whoami).conf ] ; then
+		echo "ALT.C0NF1G"
+		sleep 2
+		. ${d0}/$(whoami).conf
+	else
+		if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+			. ${d}/conf
+		else
+		 	exit 57
+		fi	
+	fi
+
 	#debug=1
 	dqb "FALLBACK"
 
@@ -131,7 +133,7 @@ else
 		sah6=$(${odio} which sha512sum)
 
 		srat=$(${odio} which tar)
-		#eXit jos srat ei
+		#eXit jos srat ei?
 
 		gg=$(${odio} which gpg)
 		som=$(${odio} which mount)
@@ -160,6 +162,11 @@ else
 		which ${1}
 		dqb "==================="
 	}
+
+	#barm vuokxi
+	function enforce_access() {
+		dqb "imp2.3nf :NOT SUPPORTED"
+	}
 fi
 
 dqb "AFTR common_lib"
@@ -182,7 +189,7 @@ if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 else	
 	echo $?
-	dqb "NO LIB"
+	dqb "N 0 L1.B"
 	csleep 1
 fi
 
@@ -214,6 +221,7 @@ if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
 	dqb "OLD.tar OK"
 else
 	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE "
+	csleep 1
 	${srat} -cvf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
@@ -300,7 +308,7 @@ function cptp2() {
 		enforce_access ${n} ${t} ${2}
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	else
-		dqb "n s t as ${t}/common_lib.sh "
+		dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
 	fi
 
 	csleep 1
@@ -486,7 +494,8 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
-	r) #010326:suattaapi olla niinnii jotta toimii
+	r) #010326:suattaapi olla niinnii jotta toimii (kun -v)
+	#TODO;tapaus ilman -v, korjaa
 		[ -d ${srcfile} ] || exit 22
 
 		#tar -> tpr ?

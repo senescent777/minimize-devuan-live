@@ -1,3 +1,15 @@
+#fktioksi tnä ni ei tartte globaalien mjien kanssa sählätä
+if [ -s ${d0}/$(whoami).conf ] ; then
+	echo "ALT.C0NF1G"
+	. ${d0}/$(whoami).conf
+else
+	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+		. ${d}/conf
+	else
+	 	exit 57
+	fi	
+fi
+
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -101,7 +113,7 @@ function ocs() {
 
 	if [ y"${tmp2}" == "y" ] ; then
 		dqb "KAKKA-HÄTÄ ${1} "
-		exit 82 #tilap jemmaan 130226
+		exit 82
 	fi
 
 	if [ ! -x ${tmp2} ] ; then
@@ -698,7 +710,7 @@ function fasdfasd() {
 
 #olisiko jokin palikka jo aiemmin? e_jutut ?
 function reqwreqw() {
-	dqb "rewqreqw(${1} )"
+	dqb "common_lib.rewqreqw(${1} )"
 	[ -z ${1} ] && exit 99
 	#[ -f ${1} ] && exit 100 #takaisn josqs? miksi?
 	
@@ -1106,34 +1118,6 @@ function dis() {
 	dqb "5HAD0W 0F TH3 BA35T D0N3"
 }
 
-function part0() {
-	dqb "FART076 ${1}"
-	[ -z ${1} ] && exit 76
-
-	csleep 1
-	dis ${1}
-	local s
-
-	for s in ${PART175_LIST} ; do
-		dqb ${s}
-		#HUOM.271125:saisiko tällä tyylillä myös slimin sammutettua? saa, mutta...
-
-		for t in $(find /etc/init.d -name ${s}* ) ; do
-			${odio} ${t} stop
-			csleep 1
-		done
-
-		${whack} ${s}*
-	done
-
-	dqb "alm0st d0n3"
-	csleep 1
-	${whack} nm-applet
-	${snt}
-	dqb "P.176 DONE"
-	csleep 1
-}
-
 function part1() {
 	dqb "PART1 ${1} , ${2} "
 	[ -z "${1}" ] && exit 66
@@ -1319,7 +1303,7 @@ function cg_udp6() {
 }
 
 #160126:g.tar liittyvää kikkailua jatkossa? sittenkin check_bin() alta g-jutut -> cefgh()?
-#100226;sources.list-juttuuyihIN liittyviä muutoksia vielä josqs?
+#100226:sources.list-juttuiihIN liittyviä muutoksia vielä josqs? virlä ajankohtainen 03/26?
 
 function part3() {
 	dqb "part3 ${1} , ${2}"
@@ -1415,22 +1399,13 @@ function gpo() {
 	done
 }
 
-#tdston alkuun kuitenkin?
+
 #d0=$(pwd)
 ##echo "d0=${d0}"
 #[ z"${distro}" == "z" ] && exit 6
 #debug=0 #1
 #d=${d0}/${distro} 
-#if [ -s ${d0}/$(whoami).conf ] ; then
-#	echo "ALT.C0NF1G"
-#	. ${d0}/$(whoami).conf
-#else
-#	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-#		. ${d}/conf
-#	else
-#	 	exit 57
-#	fi	
-#fi
+
 
 #https://stackoverflow.com/questions/16988427/calling-one-bash-script-from-another-script-passing-it-arguments-with-quotes-and
 gpo "$@"

@@ -193,10 +193,6 @@ p2g ${d0}
 p2g ${d}
 [ ${mode} -eq 1 ] && exit
 
-dqb "VAIH:ntpsec hyötykäyttö"
-#	${scm} a-wx ${0} ?
-#	csleep 2
-
 t2pf ${d}
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 2 ] && exit
