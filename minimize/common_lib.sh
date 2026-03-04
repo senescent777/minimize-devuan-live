@@ -44,11 +44,11 @@ itni
 
 function fix_sudo() {
 	dqb "common_lib.fix_sud0.pt0"
-	
+
 	sco=$(${odio} which chown)
 	[ y"${sco}" == "y" ] && exit 98
 	[ -x ${sco} ] || exit 97
-		
+
 	scm=$(${odio} which chmod)
 	[ y"${scm}" == "y" ] && exit 96
 	[ -x ${scm} ] || exit 95
@@ -73,7 +73,7 @@ function fix_sudo() {
 	dqb "fix_sud0.pt"
 	${scm} 0750 /etc/sudoers.d
 	${scm} 0440 /etc/sudoers.d/*
-	
+
 	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
 	csleep 1
 	dqb "fix_sud0.d0n3"
@@ -81,7 +81,7 @@ function fix_sudo() {
 	#HUOM.29925:pidetään nyt varm. vuoksi "ch m00d abcd \u5 R \ bin \ 5 ud0 *" poissa tstä
 }
 
-function other_horrors() {	
+function other_horrors() {
 	dqb "other_horrors"
 
 	#020236:josko toimisi uudella tavalla paremmin?
@@ -102,7 +102,7 @@ function other_horrors() {
 	dqb " DONE"
 	csleep 1
 }
-	
+
 fix_sudo
 other_horrors
 
@@ -154,7 +154,7 @@ function check_bin_0() {
 	#-x vielä?
 
 	srat=${sr0}
-	
+
 	if [ ${debug} -eq 1 ] ; then
 		srat="${srat} -v "
 	fi
@@ -178,7 +178,7 @@ function check_bin_0() {
 	NKVD=$(${odio} which shred)
 	[ -z ${NKVD} ] && exit 37
 	NKVD="${odio} ${NKVD} -fu "
-	
+
 	PART175_LIST="avahi blu cups exim4 nfs network mdadm sane rpc lm-sensors dnsmasq stubby" 
 
 	# ntp" ntp jemmaan 28525 #slim kokeeksi mukaan listaan 271125, hiiri lakkasi toimimasta
@@ -274,9 +274,8 @@ function psqa() {
 				dqb "SHOULD imp2 k \$dir !!!"
 				exit 95
 			fi
-			
+
 			csleep 1
-				
 			[ -f ${1}/sha512sums.txt.1.sig ] && ${gg} --verify ${1}/sha512sums.txt.1.sig
 			csleep 1
 		else
@@ -295,9 +294,9 @@ function psqa() {
 		p=$(pwd)
 		cd ${1}
 
-		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?		
+		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c sha512sums.txt --ignore-missing
-	
+
 		if [ $? -eq 0 ] ; then
 			dqb "Q.KO"
 		else
@@ -331,7 +330,7 @@ function common_pp3() {
 	csleep 3
 
 	local q
-	local r 
+	local r
 
 	q=$(find ${1} -type f -name '*.deb' | wc -l)
 	r=$(echo ${1} | cut -d '/' -f 1-5)
@@ -381,10 +380,10 @@ function common_lib_tool() {
 	[ -d ${1} ] || exit 66
 	[ -z "${2}" ] && exit 67
 	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSing f ILE"
-	
+
 	dqb "WILL START PR0C3551NG TGTs NOW"
 	csleep 1
-	
+
 	local q
 	local r
 	local s
@@ -406,7 +405,7 @@ function common_lib_tool() {
 
 			csleep 1
 		done
-		
+
 		if [ ${debug} -eq 1 ] ; then
 			ls -las ${1}/${q}* | wc -l
 		fi
@@ -417,6 +416,7 @@ function common_lib_tool() {
 
 #HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (VAIH)
 #https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
+#alahan jo tehdä jotain tuolle
 
 function fromtend() {
 	dqb "FRöMTEND"
@@ -444,10 +444,10 @@ function cefgh() {
 
 	dqb "pars ok"
 	csleep 1
-	
+
 	efk2 ${1}/e.tar
 	[ $? -eq 0 ] && ${NKVD} ${1}/e.tar
-	
+
 	efk2 ${1}/f.tar ${1}
 	[ $? -eq 0 ] && ${NKVD} ${1}/f.tar
 
@@ -462,41 +462,41 @@ function check_binaries() {
 	ip6t=$(${odio} which ip6tables)
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
-	
+
 	local y
-	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh	
+	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh
 	for x in ${y} ; do ocs ${x} ; done
 
 	#HUOM.nämä e22_jutut tarkoituksella asetettu juuri tässä fktiossa
-	sdi="${odio} ${sd0} -i "	
+	sdi="${odio} ${sd0} -i "
 	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
-	
+
 	E22_GT="isc-dhcp-client isc-dhcp-common libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
 	E22_GT="${E22_GT} iptables"
 	E22_GT="${E22_GT} init-system-helpers" # iptables-persistent netfilter-persistent
 
-	E22_GU="isc-dhcp libnfnet libnetfilter libxtables libnftnllibnl-3-200 libnl-route libnl"
+	E22_GU="isc-dhcp libnfnet libnetfilter libxtables libnftnl libnl-3-200 libnl-route libnl"
 	E22_GV="libip iptables_  iptables-" # netfilter-persistent
-	
+
 	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
 	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
 		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 			[ -z "${1}" ] && exit 99
 			[ -d ${1} ] || exit 101
 
-			#HUOMJ.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
+			#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
 			cefgh ${1}
 			common_pp3 ${1}
 
 			#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
 			if [ -z "${gg}" ] ; then
 				[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt.bak
-				
+
 				efk2 ${1}/g.tar ${1}
 				common_pp3 ${1}
 				[ -s ${1}/g.tar ] && ${spc} ${1}/g.tar ${1}/g.tar.bak
 				[ $? -eq 0 ] && ${NKVD} ${1}/g.tar
-				
+
 				[ -s ${1}/g.tar.bak ] && ${svm} ${1}/g.tar.bak ${1}/g.tar
 				common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisältö purun jälkeen
 
@@ -515,31 +515,30 @@ function check_binaries() {
 				jules
 				#ei vielä conf_alt_toor
 				[ -f /.chroot ] && message
-				
 				for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
 
 				for p in ${E22_GV} ; do 
 					fromtend ${1}/${p}*.deb
-					[ $? -eq 0 ] && ${NKVD} ${1}/${p}*.deb	
+					[ $? -eq 0 ] && ${NKVD} ${1}/${p}*.deb
 				done
-				
+
 				other_horrors
 				ipt=$(${odio} which iptables)
 				ip6t=$(${odio} which ip6tables)
 				iptr=$(${odio} which iptables-restore)
 				ip6tr=$(${odio} which ip6tables-restore)
-				
+
 				#sqroot-juttuja
 				[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh
 			fi
-		
+
 			ls ${1}/*.deb | wc -l
 			csleep 3
-			
+
 			#261225:pitäisiköhän gpg- ja tables- instausten jämät deletoida varM, vuoksi?
-			#${NKVD} ${1}/*.deb saattaa jäädä tällä tavalla git tai mktemp puuttumaan	
+			#${NKVD} ${1}/*.deb saattaa jäädä tällä tavalla git tai mktemp puuttumaan
 		fi
-	
+
 		#181225:lisätty tämmöinen kikkailu kehitysymp varten ettei jumitu heti alkuunsa	
 		for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
 	fi
