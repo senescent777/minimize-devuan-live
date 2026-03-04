@@ -1282,7 +1282,13 @@ function e22_cde() {
 	#130126:laati paketin, sisältö:lienee ok
 	# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
 	#-T - vipu tar:in kanssa käyttöön vai ei? pärjännee ilmankin
-		
+	
+	#TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?
+	
+	[ -z "${1}" ] && exit 99
+	[ -z "${2}" ] && exit 98
+	[ -d "${2}" ] || exit 97
+
 	cd ${2}
 	fasdfasd ${1}
 	[ ${debug} -eq 1 ] && ls -las ${1}*
