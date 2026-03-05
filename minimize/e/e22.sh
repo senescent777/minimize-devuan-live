@@ -250,6 +250,7 @@ function e22_config1() {
 #pitäisIkö siirtää toiseen tdstoon?
 #120126 saattoi toimia testin ajan
 
+#TODO:tdstonimi parametriksi (myöa konftdstoon voisi lisätä oletuksen)
 function e22_settings() {
 	dqb "e22_settings ${1},  ${2}"
 	csleep 1
@@ -289,6 +290,7 @@ function e22_settings() {
 	csleep 1
 }
 
+#TODO:se 1 tdstonnimi paramrtriksi
 function e22_home() { #160126:suattaapi vaikka toimia
 	dqb "  e22_home() ${1} , ${2} , ${3}  "
 
@@ -1253,6 +1255,8 @@ function e22_fgh() {
 	exit
 }
 
+#TODO:tdstonnimi parametriksi
+#TODO:param tark
 function e22_qrs() {
 	#DONE:testausd (120126) , taitaa toimia
 		

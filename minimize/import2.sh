@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0
+debug=1 #kunnnes viimeaikaiset temppuilut...
 srcfile=""
 
 distro=$(cat /etc/devuan_version)
@@ -30,7 +30,7 @@ if [ $# -gt 0 ] ; then
 	[ "${2}" == "-v" ] || srcfile=${2}
 fi
 
-#030326:toimiikohan tämä nykyään? etenkään toivotulla tavalla?
+#030326:toimiikohan tämä nykyään? etenkään toivotulla tavalla? selvitä jposqs?
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
 		distro=${1}
@@ -92,9 +92,12 @@ if [ -f /.chroot ] ; then
 		rm ${f}
 		sleep 1
 	done
+
+	#jos löytyy common_lib.sh.sig ni voiusi tässä tarkistaa?
 fi
 
-#DONE: se vanhempi lib.sh includointi takaisin toistaiseksi (pienin muutoksin tosin)
+dqb "SHOULD gg --veridy ${d0}/common_lib.sh HERE, MAYBE"
+csleep 1
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -169,6 +172,7 @@ else
 	}
 fi
 
+debug=1 #kunnes...
 dqb "imp2:AFTR common_lib"
 csleep 3
 [ -z "${distro}" ] && exit 6
@@ -183,7 +187,7 @@ fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 csleep 1
-#process_lib ${d}
+#HUOM. tähän ei "process_lib ${d}" , mennään tarkoituksella toisella tavalla
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -292,7 +296,7 @@ function common_part() {
 	fi
 
 	if [ ${cfk} -gt 0 ] ; then
-		read -p "R U  SURE ?" confirm
+		read -p " U  SURE ?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
 	fi
 
@@ -303,6 +307,9 @@ function common_part() {
 	csleep 2
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
+
+	#$d alta tar-juttuja pois tässä? ehkä ei aina kannata
+	csleep 1
 	#251225:mitä jos sen sisemmän sha-tarkistuksen tekisi silloinq common_lib pois pelistä?
 	
 	csleep 1
@@ -313,12 +320,13 @@ function cptp2() {
 	dqb "common_part tp2 ${1}, ${2}, ${3}"
 	[ -z "${1}" ] && echo 99
 	[ -z "${2}" ] && echo 98
+	[ -d ${1} ] || exit 97
 
 	local t
-	t=$(echo ${1} | cut -d '/' -f 1-5) #se tr vielä?
-
+	t=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c 0-9a-fA-F/.)
+	
 	if [ -x ${t}/common_lib.sh ] ; then
-		#TODO:sha-sig-tarkistus tähän? entä process_lib() ?
+		#TODO:sha-sig-tarkistus tähän? entä process_lib():iin ?
 		enforce_access ${n} ${t} ${2}
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	else
@@ -347,14 +355,16 @@ dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
 
+#VAIH:tdstonimi parametrtiksi
 function tpr() {
-	dqb "UPIR  ${1}"
+	dqb "UPIR  ${1} , ${2}"
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
+	[ -z "${2}" ] && exit 10
 	[ -d ${1} ] || exit 12
-	[ -s ${1}/fediverse.tar ] || exit 13
-	[ -r ${1}/fediverse.tar ] || exit 14
+	[ -s ${1}/${2} ] || exit 13
+	[ -r ${1}/${2} ] || exit 14
 
 	dqb "pars_ok"
 	csleep 1
@@ -379,11 +389,11 @@ function tpr() {
 
 	dqb "JUST BEFORE TAR"
 	#jos vielä härdelliä niin keskeytetään mikäli ei fediversestä löydä prefs.js?
-	r=$(${srat} -tf ${1}/fediverse.tar | grep prefs.js | wc -l)
+	r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l)
 	[ ${r} -gt 0 ] || exit 18
 	csleep 3
 
-	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/fediverse.tar
+	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/${2}
 	[ $? -gt 0 ] && exit 19
 	csleep 3
 
@@ -516,7 +526,7 @@ case "${mode}" in
 
 		#tar -> tpr ?
 		${srat} -C ~ -jxf ~/config.tar.bz2
-		tpr ${srcfile}
+		tpr ${srcfile} fediverse.tar
 	;;
 	q)
 		#120126:taitaa toimia edelleen/tilapäisesti
@@ -527,7 +537,7 @@ case "${mode}" in
 		common_part ${srcfile} ${d} /
 
 		${srat} -C ~ -jxf ~/config.tar.bz2
-		tpr ${d0}
+		tpr ${d0} fediverse.tar
 	;;
 	k)
 		#161225:toimii, sq-root-ymp ainakin
@@ -548,7 +558,7 @@ case "${mode}" in
 				#for f in $(dinf $srcfile -type f -name '*.sig') ; do
 				#	g=$(echo $f | cut -d . -f 1,2)
 				#	check=$(smthing)
-				#	[ $check ] && gg --import $f
+				#	[ $check ] && gg --import $g
 				#	rm $g	
 				#done
 

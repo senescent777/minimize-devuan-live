@@ -417,6 +417,7 @@ function common_lib_tool() {
 #HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (VAIH)
 #https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
 #alahan jo tehdä jotain tuolle
+#toimii edelleen noinkin? (050326) (vielä se sqroot...)
 
 function fromtend() {
 	dqb "FRöMTEND"
@@ -430,6 +431,7 @@ function fromtend() {
 	if [ ! -f /.chroot ] ; then #ei conf_alt_root ainakaan vielä
 		dqb "${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@"
 		#${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
+	
 		${odio} -E ${sd0} --force-confold -i $@
 	else
 		${odio} ${sd0} --force-confold -i $@
@@ -611,6 +613,9 @@ function process_lib() {
 	[ -z "${1}" ] && exit 66
 	csleep 1
 
+	[ -x "${gg}"  ] && dqb "SHOULD ${gg} --verify ${1}/lib.sh.sig ? "
+	csleep 1
+
 	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then
 		.  ${1}/lib.sh		
 	else
@@ -623,7 +628,6 @@ function process_lib() {
 
 	check_binaries2
 	[ $? -eq 0 ] || dqb "SHOULD exit 68 också"
-
 	dqb "process_lib.done()"
 }	
 

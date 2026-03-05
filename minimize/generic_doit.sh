@@ -251,7 +251,7 @@ part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 message
 
 #kokeeksi käskyttämään "imp2 3" tässä kohtaa
-#... toimisi kai tuolla toisellakin tavalla mutta pitäisi imp2:sen sha-tarkistuksia vähän laittaa (040326)
+#... toimisi kai tuolla toisellakin tavalla muuten mutta pitäisi imp2:sen sha-tarkistuksia vähän laittaa (040326)
 #... myös pitäisi olla jotain $d alla että imp2 tekisi jotain
 #menkööt toistaiseksi part3 kanssa (040325)
 #common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain
@@ -262,7 +262,7 @@ part3 ${d}
 #${d0}/import2.sh 3 ${d}/f.tar -v
 
 other_horrors
-dqb "BEFORE IMP2"
+dqb "BEFORE IMP2 r"
 csleep 2
 
 #141225:mitäjos common_lib ei ajokelpoinen? osaako imp2 toimia oikein silloin?
