@@ -35,3 +35,5 @@ CONF_testgris=/SMTH1NG
 TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ "
 #
 CONF_dm=xdm
+#
+CONF_default_arhcive=fediverse.tar

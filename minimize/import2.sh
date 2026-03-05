@@ -187,7 +187,7 @@ fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 csleep 1
-#HUOM. tähän ei "process_lib ${d}" , mennään tarkoituksella toisella tavalla
+#HUOM. tähän ei "process_lib ${d}" , mennään tarkoituksella toisella tavalla (ainakin jnkin aikaa)
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -281,7 +281,7 @@ function common_part() {
 		dqb "KHAZAD-DUM"
 		dqb "gg= ${gg}"
 
-		#tuon .sha:n kanssa 1 lisätarkistus ehkä?
+		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistöä mjonoa löytyykö? $1 vs $1 sha ?
 		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f)
 		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
 

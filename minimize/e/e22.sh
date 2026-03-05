@@ -11,24 +11,25 @@ csleep 1
 if [ -v CONF_pubk ] ; then #&& ( -v CONF_ksk ) #pubk vai kpub?
 	dqb "no keys.conf needed"
 else
-		arsch=$(${odio} find / -type f -name keys.conf | head -n 1)
+	#050326:jatkosäätöjä tähän vai ei?
+	arsch=$(${odio} find / -type f -name keys.conf | head -n 1)
 
-		if [ -z "${arsch}" ] ; then
-			dqb "P1553 UND SCH31553"
+	if [ -z "${arsch}" ] ; then
+		dqb "P1553 UND SCH31553"
+	else
+		if [ -s ${arsch} ] ; then
+			dqb "f0 und schw31nhund"
+			. ${arsch}
 		else
-			if [ -s ${arsch} ] ; then
-				dqb "f0 und schw31nhund"
-				. ${arsch}
-			else
-				dqb "666"
-			fi	
-		fi
+			dqb "666"
+		fi	
+	fi
 
-		csleep 1
-		unset arsch
+	csleep 1
+	unset arsch
 fi
 
-csleep 5
+csleep 3
 
 function e22_hdr() {
 	dqb "e22hdr():BEFORE "
@@ -213,7 +214,6 @@ function e22_cleanpkgs() { #130126:edelleen toimii
 		dqb "d0nm3"
 	else
 		dqb "NO SUCH DIR ${1}"
-
 	fi
 
 	dqb "e22_cleanpkgs D0N3"
@@ -222,7 +222,7 @@ function e22_cleanpkgs() { #130126:edelleen toimii
 
 #120126:taisi toimia taas
 #e22_acol() yrittää vetää /e alta xorg konftdston mukaan pakettiin
-#... ei ole ihan pakko config1:sessä siis
+#... ei ole ihan pakko config1():sessä siis
 
 function e22_config1() {
 	[ -z "${1}" ] && exit 11
@@ -235,6 +235,7 @@ function e22_config1() {
 	cd ${1} 
 	#tar:issa olisi myös -C , josko sitä käyttämään jatkossa
 
+	#TODO:koko .config jatkossa?
 	[ -f config.tar.bz2 ] && mv config.tar.bz2 config.tar.bz2.ÅLD
 	tar -jcf config.tar.bz2 .config/xfce4/xfconf/xfce-perchannel-xml ./xorg.conf*
 
@@ -250,13 +251,15 @@ function e22_config1() {
 #pitäisIkö siirtää toiseen tdstoon?
 #120126 saattoi toimia testin ajan
 
-#TODO:tdstonimi parametriksi (myöa konftdstoon voisi lisätä oletuksen)
+#VAIH:tdstonimi parametriksi (myöa konftdstoon voisi lisätä oletuksen)
 function e22_settings() {
-	dqb "e22_settings ${1},  ${2}"
+	dqb "e22_settings ${1},  ${2},. ${3}"
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
+
+	[ -z "${2}" ] && exit 44
 
 	dqb "paramz 0k, next:"
 	csleep 1
@@ -290,7 +293,7 @@ function e22_settings() {
 	csleep 1
 }
 
-#TODO:se 1 tdstonnimi paramrtriksi
+#VAIH:se 1 tdstonnimi paramrtriksi
 function e22_home() { #160126:suattaapi vaikka toimia
 	dqb "  e22_home() ${1} , ${2} , ${3}  "
 
@@ -299,6 +302,7 @@ function e22_home() { #160126:suattaapi vaikka toimia
 	[ -z "${2}" ] && exit 69
 	[ -d ${2} ] || exit 70
 	[ -z "${3}" ] && exit 71
+	[ -z "${3}" ] && exit 72
 	csleep 1
 
 	dqb "params_ok"
@@ -310,8 +314,9 @@ function e22_home() { #160126:suattaapi vaikka toimia
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		dqb "FORCEFED BROKEN GLASS"
 		e22_config1 ~
-		${NKVD} ~/fediverse.tar
-		e22_settings ${2}/..
+
+		${NKVD} ~/${CONF_default_arhcive}
+		e22_settings ${2}/.. ${CONF_default_arhcive}
 	else
 		dqb "PUIG DESTRÖYERR b666"
 	fi
@@ -324,10 +329,10 @@ function e22_home() { #160126:suattaapi vaikka toimia
 		${srat} -rvf ${1} ${t}
 	done
 
-	${srat} -rvf ${1} ${2}/../fediverse.tar	
+	${srat} -rvf ${1} ${2}/../${CONF_default_arhcive}
 	csleep 5
 
-	t=$(${srat} -tf ${1} | grep fediverse.tar | wc -l)
+	t=$(${srat} -tf ${1} | grep ${CONF_default_arhcive} | wc -l)
 	[ ${t} -lt 1 ] && exit 72
 	csleep 10
 
@@ -382,8 +387,9 @@ function luca() {
 	dqb "loca done"
 }
 
-#... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan ?
+#... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan vai tuleeko?
 #020326:vissiin sisältö ok
+
 function e22_acol() { 
 	dqb "e22_acol ${1} , ${2} , ${3} , ${4} "
 	csleep 1
@@ -482,7 +488,7 @@ function e22_acol() {
 	dqb 1
 }
 
-#TODO:imp2 yms:jos ei ala toimiata ilman -v ni tee jotain
+#TODO:imp2 yms:jos ei ala toimia ilman -v ni tee jotain
 #020326:ehkä ok sisälytö-siat (xorg ja netp-jutut voisi testata paremmalla ajalla)
 
 function e22_sarram() {
@@ -522,7 +528,7 @@ function e22_sarram() {
 	done
 
 	csleep 2
-	dqb "VF0R3 DDM"
+	dqb "J.S0N V00RH335 WA5 H3R3"
 	csleep 1
 	${srat} -rvf ${1} /etc/X11/default-display-manager
 	csleep 3
@@ -822,6 +828,7 @@ function e22_dblock() { #150126:lisää toivottavaa sisältöä kohde-pakettiin
 
 #===========================E23.SH ? =======================================
 #091225:toimii
+
 function aswasw() { #privaatti fktio
 	dqb " aswasw ${1}"
 	[ -z "${1}" ] && exit 56
@@ -901,6 +908,7 @@ function e22_tblz() {
 
 #010326:toimii 
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
+
 function e22_other_pkgs() { 
 	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
 	#toista param? eiole
@@ -1218,6 +1226,12 @@ function e22_upgp() {
 }
 
 function e22_rpg() {
+	[ -z "${1}" ] && exit 99
+	[ -z "${2}" ] && exit 98
+	
+	[ -s "${1}" ] || exit 97
+	[ -d ${2} ] || exit 96
+
 		exit 69
 #
 #		e22_cleanpkgs ${2}
@@ -1249,30 +1263,37 @@ function e22_rpg() {
 }
 
 function e22_fgh() {
+	[ -z "${1}" ] && exit 99
+	[ -z "${2}" ] && exit 98	
+	[ -s "${1}" ] || exit 97
+
 	e22_hdr ${1}
 	e22_arch ${1} ${2}
 	e22_ftr ${1}
 	exit
 }
 
-#TODO:tdstonnimi parametriksi
-#TODO:param tark
+#VAIH:tdstonnimi parametriksi
+#VAIH:param tark
 function e22_qrs() {
-	#DONE:testausd (120126) , taitaa toimia
-		
+	[ -z "${1}" ] && exit 77
+	[ -s ${1} ] || exit 66
+	[ -r ${1} ] || exit 55
+	[ -z "${4}" ] && exit 44
+	
 	e22_config1 ~
 	${srat} -rvf $1} ~/config.tar.bz2
 
 	dqb $?
 	csleep 4
 
-	${NKVD} ~/fediverse.tar
+	${NKVD} ~/${CONF_default_arhcive}
 	csleep 1
 
-	e22_settings ${2}
+	e22_settings ${2} ${CONF_default_arhcive}
 	#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
 
-	for f in $(find ${2} -maxdepth 1 -name 'fediverse.tar' -or -name 'profs.sh' | grep -v pulse) ; do
+	for f in $(find ${2} -maxdepth 1 -name '${CONF_default_arhcive}' -or -name 'profs.sh' | grep -v pulse) ; do
 		${srat} -rvf ${1} ${f}
 	done
 
@@ -1304,19 +1325,20 @@ function e22_cde() {
 }
 
 function e22_ghi() {
-	#1402222222226:luuultavasti oksennetut komennot toimivat edelleen (miten f?)
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
+	dqb "TODO:testaa"
 	dqb "${sag_u} | ${fib} , when necessary " 
+	exit 44
 
 	echo "${shary} ${E22GI}"
-
 	echo "${svm} ${CONF_pkgdir}/*.deb ${2}/${3}"
-	#oli se e22_ts() kanssa
+	
 	echo "$0 f ${1} ${3}"
-	exit 1
+	#exit 1
 }
 
 function e22_pqr() {
+	[ -z "${1}" ] && exit 99
+	[ -z "${2}" ] && exit 98
 	#mihin muuten kosahtaa jos omegan jälkeen tätä ajaa? srat vai fasdfasd vai mikä?
 
 	e22_hdr ${1}

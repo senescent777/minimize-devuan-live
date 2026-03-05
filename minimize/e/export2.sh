@@ -60,6 +60,9 @@ function fallback() {
 	exit 59
 }
 
+dqb "SHOULD gg --veridy ${d0}/common_lib.sh HERE, MAYBE"
+csleep 1
+
 if [ -x ${d0}/common_lib.sh ] ; then 
 	. ${d0}/common_lib.sh
 else
