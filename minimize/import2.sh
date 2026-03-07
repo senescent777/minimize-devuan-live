@@ -355,7 +355,7 @@ dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
 
-#VAIH:tdstonimi parametrtiksi
+#VAIH:tdstonimi parametrIksi
 function tpr() {
 	dqb "UPIR  ${1} , ${2}"
 	csleep 1
@@ -388,7 +388,7 @@ function tpr() {
 	[ $? -gt 0 ] && exit 17
 
 	dqb "JUST BEFORE TAR"
-	#jos vielä härdelliä niin keskeytetään mikäli ei fediversestä löydä prefs.js?
+	#jos vielä härdelliä niin keskeytetään mikäli ei $2:sta löydä prefs.js?
 	r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l)
 	[ ${r} -gt 0 ] || exit 18
 	csleep 3
@@ -521,12 +521,12 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
 	r) #010326:suattaapi olla niinnii jotta toimii (kun -v)
-	#TODO:tapaus ilman -v, korjaa
+	#TODO:tapaus ilman -v, korjaa?
 		[ -d ${srcfile} ] || exit 22
 
 		#tar -> tpr ?
 		${srat} -C ~ -jxf ~/config.tar.bz2
-		tpr ${srcfile} fediverse.tar
+		tpr ${srcfile} fediverse.tar #TODO:CONF_xxx
 	;;
 	q)
 		#120126:taitaa toimia edelleen/tilapäisesti
@@ -537,7 +537,7 @@ case "${mode}" in
 		common_part ${srcfile} ${d} /
 
 		${srat} -C ~ -jxf ~/config.tar.bz2
-		tpr ${d0} fediverse.tar
+		tpr ${d0} fediverse.tar #TODO:CONF_xxx
 	;;
 	k)
 		#161225:toimii, sq-root-ymp ainakin

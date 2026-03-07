@@ -127,7 +127,6 @@ csleep 1
 [ -z "${srat}" ] && exit 66
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
-#VAIH:tämän casen juttuja -> e22 (testaus vielä)
 case ${mode} in
 	rp)
 		[ -s "${tgtfile}" ] || exit 67
@@ -140,6 +139,7 @@ case ${mode} in
 		e22_fgh ${tgtfile} ${d}
 	;;
 	q)
+		#TODO:mm tämön testaus
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 		e22_qrs ${tgtfile} ${d0}
 	;;
@@ -183,7 +183,7 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#TODO:testaus TAAS , eirtyisesti mitebn nelosen output g_doit:n imp2-kikkailun kanssa
+		#TODO:testaus TAAS , eRItyisesti miten nelosen output g_doit:n imp2-kikkailun kanssa
 	
 		[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
 		csleep 1

@@ -429,7 +429,7 @@ function fromtend() {
 	export DEBIAN_FRONTEND=noninteractive
 
 	if [ ! -f /.chroot ] ; then #ei conf_alt_root ainakaan vielä
-		dqb "${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@"
+		dqb "${odio} -E ${sd0} --force-confold -i $@"
 		#${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
 	
 		${odio} -E ${sd0} --force-confold -i $@
@@ -714,11 +714,11 @@ function fasdfasd() {
 	${scm} 0644 ${1}
 }
 
-#olisiko jokin palikka jo aiemmin? e_jutut ?
+#olisiko jokin palikka jo aiemmin? e_jutut ? mangle2() ?
 function reqwreqw() {
 	dqb "common_lib.rewqreqw(${1} )"
-	[ -z ${1} ] && exit 99
-	#[ -f ${1} ] && exit 100 #takaisn josqs? miksi?
+	[ -z "${1}" ] && exit 99
+	[ -f ${1} ] || exit 100 #takaisn josqs? miksi?
 	
 	csleep 1
 	${sco} 0:0 ${1}
@@ -828,7 +828,7 @@ function pre_enforce() {
 }
 
 function mangle2() {
-	[ -z  ${1} ] && exit 99
+	[ -z  "${1}" ] && exit 99
 
 	if [ -f ${1} ] ; then
 		dqb "MANGLED ${1} BEYOND RECQG"

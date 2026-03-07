@@ -220,9 +220,10 @@ function e22_cleanpkgs() { #130126:edelleen toimii
 	csleep 1
 }
 
-#120126:taisi toimia taas
+
 #e22_acol() yrittää vetää /e alta xorg konftdston mukaan pakettiin
 #... ei ole ihan pakko config1():sessä siis
+#TODO:testaus
 
 function e22_config1() {
 	[ -z "${1}" ] && exit 11
@@ -235,9 +236,9 @@ function e22_config1() {
 	cd ${1} 
 	#tar:issa olisi myös -C , josko sitä käyttämään jatkossa
 
-	#TODO:koko .config jatkossa?
+	#VAIH:koko .config jatkossa?
 	[ -f config.tar.bz2 ] && mv config.tar.bz2 config.tar.bz2.ÅLD
-	tar -jcf config.tar.bz2 .config/xfce4/xfconf/xfce-perchannel-xml ./xorg.conf*
+	tar -jcf config.tar.bz2 ./xorg.conf*  .config #/xfce4/xfconf/xfce-perchannel-xml
 
 	csleep 1
 	[ -s config.tar.bz2 ] || exit 99
@@ -293,8 +294,10 @@ function e22_settings() {
 	csleep 1
 }
 
-#VAIH:se 1 tdstonnimi paramrtriksi
-function e22_home() { #160126:suattaapi vaikka toimia
+#TODO:testaa taas
+#VAIH:se 1 tdstonnimi paramEtriksi
+
+function e22_home() {
 	dqb "  e22_home() ${1} , ${2} , ${3}  "
 
 	[ -z "${1}" ] && exit 67
@@ -1275,6 +1278,8 @@ function e22_fgh() {
 
 #VAIH:tdstonnimi parametriksi
 #VAIH:param tark
+#TODO:testaa
+
 function e22_qrs() {
 	[ -z "${1}" ] && exit 77
 	[ -s ${1} ] || exit 66
@@ -1282,7 +1287,7 @@ function e22_qrs() {
 	[ -z "${4}" ] && exit 44
 	
 	e22_config1 ~
-	${srat} -rvf $1} ~/config.tar.bz2
+	${srat} -rvf $1} ~/config.tar.bz2 #TODO:CONBF_yyy
 
 	dqb $?
 	csleep 4

@@ -32,6 +32,9 @@ mode=${1}
 
 #280226:ao. spagettikoodille hyvä tehdä jotian josqs
 function gf() {
+	dqb "gf $1, $2"
+	csleep 1
+
 	[ -z "${1}" ] && exit 103
 	local c2
 
@@ -54,6 +57,9 @@ function gf() {
 }
 
 function gh() {
+	dqb "gh $1 , $2"
+	csleep 1
+
 	[ -z "${1}" ] && exit 108
 	local c2
 
@@ -102,10 +108,11 @@ function epr1() {
 	gf /etc iptab
 	${odio} rm /etc/default/rules*
 
+	#TODO:ruleksien kanssa jatkossa ehtona:a+wx?
 	c=$(${odio} find /etc -name 'rules.v?.?' -type f -perm /o+w,o+x,o+r | wc -l) #oli myös o+r
 	[ ${c} -gt 0 ] && exit 114
 
-#	#o+r liikaa? ei? gr sn sijaan...
+#TODO:	 g+r,u+x ?
 	c=$(${odio} find /etc -name 'rules.v?.?' -type f -perm /g+x,g+w | wc -l)
       	[ ${c} -gt 0 ] && exit 124
 
@@ -116,6 +123,7 @@ function epr1() {
 	[ ${c} -gt 0 ] && exit 117
 	gf /etc sudoers
 
+	#a+wx,o+r ?
 	c=$(find /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 120
 	gf /etc/sudoers.d
@@ -146,6 +154,7 @@ function p3r1m3tr() {
 	local p
 	p=$(pwd)
 	cd /
+
 	${sah6} --ignore-missing -c /opt/bin/zxcv
 	[ $? -eq 0 ] || exit 66
 	cd ${p}
@@ -206,12 +215,12 @@ dqb "when in trouble, \"${odio} chmod 0755  \*.sh ;${odio} chmod 0755 \${distro}
 #==============================================================
 function tod_dda() { 
 	dqb "tod_dda( ${1} ) "
-
-	local t
-	t=$(echo ${1} | tr -d -c 0-9. | cut -c 15) #cut uutena, olisi hyvä laittaa toimimaan toivotulla tavalla kanssa
-
-	${ipt} -A b -p tcp --sport 853 -s ${t} -j c
-	${ipt} -A e -p tcp --dport 853 -d ${t} -j f
+#
+#	local t
+#	t=$(echo ${1} | tr -d -c 0-9. | cut -c 15) #cut uutena, olisi hyvä laittaa toimimaan toivotulla tavalla kanssa
+#
+#	${ipt} -A u -p tcp --sport 853 -s ${t} -j c
+#	${ipt} -A v -p tcp --dport 853 -d ${t} -j f
 }
 
 function dda_snd() {
@@ -220,6 +229,7 @@ function dda_snd() {
 	local t
 	t=$(echo ${1} | tr -d -c 0-9.) # | cut -c 15) eivielä
 
+	#HUOM.070326:oli AIEmmin -{s,d} ${t} ja sitten taas
 	${ipt} -A b -p udp -m udp -s ${t} --sport 53 -j ACCEPT 
 	${ipt} -A e -p udp -m udp -d ${t} --dport 53 -j ACCEPT
 }
@@ -362,7 +372,7 @@ function clouds_pp3() {
 	dqb "just bfore iptr"
 	csleep 2
 
-	#"-r" - tark ei vissiin tarpeellinen, to state toe obv
+	#"-r" - tark ei vissiin tarpeellinen, to state the obv
 
 	${iptr} /etc/iptables/rules.v4.${p}
 	tlah $?
@@ -375,18 +385,17 @@ function clouds_pp3() {
 	csleep 2
 	dqb "v6 reloaded ok"
 
-	#tässä oikea paikka tables-muutoksille vai ei? (josko bain dellisi vuo ketjut)
-	${ipt} -F b
-	${ipt} -F e
-	csleep 2
-	dqb "FLiBe"
+#	#tässä oikea paikka tables-muutoksille vai ei? (josko bain dellisi vuo ketjut)
+#	${ipt} -F b
+#	${ipt} -F e
+#	csleep 2
+#	dqb "FLiBe"
 
 	#pidemmän päälle olisi kätevämpi nimetä kuin numeroida ne säännöt...
-	#ideana kenties oli hukatra ketjut b ja e ?
-	${ipt} -D INPUT 6
-	${ipt} -D INPUT 5
-	${ipt} -D OUTPUT 6
-	${ipt} -D OUTPUT 5
+	#ideana kenties oli hukata ketjut b ja e ?
+	#HUOM.7-3-26:jos tarttee delliä ni nämä tällä hetkellä
+	#${ipt} -D INPUT 6
+	#${ipt} -D OUTPUT 7
 
 	dqb "56"
 	csleep 2
@@ -489,9 +498,6 @@ function clouds_post() {
 	${sco} 0:0 /etc/init.d/ntpsec
 
 	if [ -x /usr/sbin/ntpd ] ; then
-#		${ipt} -A INPUT -p udp -m udp --sport 123 -j b 
-#		${ipt} -A OUTPUT -p udp -m udp --dport 123 -j e
-#		csleep 1
 #
 #010326:toiminee näinkin mutta jos aluksi kiinteillä ip-osoitteilla...
 #		for f in $(${odio} grep -v '#' /etc/ntpsec/ntp.conf | grep pool | awk '{print $2}') ; do
@@ -506,6 +512,9 @@ function clouds_post() {
 	if [ ${debug} -eq 1 ] ; then
 		#legacy-juttujen kanssa oli jokin juttu, tosin ilman legacyä näyttäisi tuottavan toivottua outputtia
 		${ipt} -L #-legacy -L
+		csleep 2
+		dqb "===================666======================================"
+		csleep 2
 		${ip6t} -L  #-legacy -L
 		csleep 1 
 	fi #
@@ -515,13 +524,16 @@ function clouds_post() {
 
 #voisi tietenkin selvittää, pystyisik ö iptabl/nefiltl-persistenteille penteille vipuamaan näitä dns-dot-ntp-kikkailuja
 function clouds_case0_0() {
-	${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
-	${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
+	dqb "0 cc of ??? intravenompously stat"
+#	${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
+#	${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
 }
 
+#TODO:SITTENIN TOISIN  jatkossa (no miten? koita päättää)
 function clouds_case1_0() {
-	${ipt} -A INPUT -p tcp -m tcp --sport 853 -j b
-	${ipt} -A OUTPUT -p tcp -m tcp --dport 853 -j e
+	dqb "c10"
+#	${ipt} -A INPUT -p tcp -m tcp --sport 853 -j u
+#	${ipt} -A OUTPUT -p tcp -m tcp --dport 853 -j v
 }
 
 function clouds_case0_1() {
