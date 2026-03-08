@@ -277,6 +277,8 @@ jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
+#TODO:ao. for-blokkiin muutoksia jatkossa (kts. changedns.sh,interfaces.tmp mm.)
+#TODO:"for... scm" korvaaminen common_lib.e_h() ?
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0511 ${x}
 	${sco} root:root ${x}

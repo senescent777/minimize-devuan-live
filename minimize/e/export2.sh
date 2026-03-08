@@ -84,6 +84,7 @@ process_lib ${d}
 dqb "tar = ${srat} "
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 
+#TODO:ao.for-blokkiin muutoksia jatkossa
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0555 ${x}
 	${sco} root:root ${x}
@@ -161,9 +162,10 @@ esac
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
-#291125:voiko sen exitin jo laittaa takaisin vai ei?
+#291125:voiko sen exitin jo laittaa takaisin vai ei? (joutuisi tekemään lisäsäätöäkin jo, TODO?)
 [ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59"
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
+#... kts interfaces.tmp liittyen (080326)
 
 e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
@@ -238,8 +240,10 @@ case ${mode} in
 	l)
 		csleep 1
 		[ -v CONF_dm ] || exit 77
+		[ -f ${d0}/e:e23.sh ] && . ${d0}/e/e23.sh
 
 		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
+		#VAIH:uuteen skriptiin nämä dm-kikkailut?
 		e22_dm ${CONF_dm}
 	;;
 	*)

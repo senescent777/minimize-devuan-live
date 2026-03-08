@@ -40,6 +40,8 @@ else
 	fi
 fi
 
+#TODO:näille main urputus jos ei ole $tgt sis hmisto mountattu?
+
 #pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
 ${tcmd} -tf ${tgt} | grep '.deb'
 sleep 1

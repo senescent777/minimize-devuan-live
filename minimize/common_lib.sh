@@ -761,8 +761,11 @@ function pre_enforce() {
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
 		fi
 
+		#080326:voisi ao. tdston nimetä uudestaan (pääte)
 		if [ -f ${1}/changedns.sh ] ; then
 			dqb "SÖSSÖN SÖSSÖN"
+
+			#080326.2:svm voisi jstkossa tehdä enemmän 
 			${svm} ${1}/changedns.sh /opt/bin
 		fi
 
@@ -935,12 +938,14 @@ function e_h() {
 		m=0755
 	fi
 
+	#tämäkö siihen "-v vs ei -v"-temppuiluun liittyy?
 	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} ${m} ${f} ; done
 	dqb "F1ND D0N3"
 	csleep 1
 
+	#080326:tähän mahdollisesti muutoksia myöhemmin (kts interfaces.tmp ja changedns.sh liittyen)
 	for f in ${2} /opt/bin ; do
-		${scm} 0511 ${f}/changedns.sh #OLI 555
+		${scm} 0511 ${f}/changedns.sh
 		${sco} root:root ${f}/changedns.sh
 	done
 
@@ -1139,7 +1144,7 @@ function part1() {
 	if [ -z "${ipt}" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		#kts /o/b/cnds
+		#TODO:JATKOSSA AO. BLOKKI KENTIES TOISIN, kts /o/b/cnds
 		if [ -x ${ipt} ] ; then # \$ odio vs \$ ipt vielä?
 			for t in INPUT OUTPUT FORWARD ; do
 				${ipt} -P ${t} DROP
@@ -1216,6 +1221,7 @@ function part2() {
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."
+		#HUOM.080326:if [ "$INITRD" = 'No' ]; then , olisiko apua initramfs-urputuksen kanssa?
 		${lftr}
 		${fib}
 		csleep 1

@@ -57,6 +57,7 @@ fi
 dqb "BEFORE L1B"
 process_lib ${d}
 
+#TODO:ao for-blokki uusiksi jatkossa (kts changedns.sh ja interfaces.tmp myös)
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0511 ${x}
 	${sco} root:root ${x}

@@ -37,3 +37,4 @@ TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg
 CONF_dm=xdm
 #
 CONF_default_arhcive=fediverse.tar
+CONF_default_arhcive2=config.tar.bz2

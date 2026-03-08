@@ -520,24 +520,29 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
-	r) #010326:suattaapi olla niinnii jotta toimii (kun -v)
-	#TODO:tapaus ilman -v, korjaa?
+	r) #VAIH:testaus
+	#TODO?:tapaus ilman -v, korjaa?
 		[ -d ${srcfile} ] || exit 22
+		[ -v CONF_default_arhcive ] || exit 23
+ 		[ -v CONF_default_arhcive2 ] || exit 24
 
 		#tar -> tpr ?
-		${srat} -C ~ -jxf ~/config.tar.bz2
-		tpr ${srcfile} fediverse.tar #TODO:CONF_xxx
+		${srat} -C ~ -jxf ~/${CONF_default_arhcive2} #VAIH:tästäkin tdstonimestä const?
+		tpr ${srcfile} ${CONF_default_arhcive}
 	;;
 	q)
-		#120126:taitaa toimia edelleen/tilapäisesti
+		#TODO:testaus taas josqs
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
-		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
+		[ -v CONF_default_arhcive ] || exit 23
+ 		[ -v CONF_default_arhcive2 ] || exit 24
+
+		c=$(${srat} -tf ${srcfile} | grep ${CONF_default_arhcive}  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
 		common_part ${srcfile} ${d} /
 
-		${srat} -C ~ -jxf ~/config.tar.bz2
-		tpr ${d0} fediverse.tar #TODO:CONF_xxx
+		${srat} -C ~ -jxf ~/${CONF_default_arhcive2} #VAIH:tästäkin tdstonimestä const?
+		tpr ${d0} ${CONF_default_arhcive}
 	;;
 	k)
 		#161225:toimii, sq-root-ymp ainakin
@@ -555,7 +560,7 @@ case "${mode}" in
 				dqb "NOP"
 				csleep 1
 
-				#for f in $(dinf $srcfile -type f -name '*.sig') ; do
+				#for f in $(fnid $srcfile -type f -name '*.sig') ; do
 				#	g=$(echo $f | cut -d . -f 1,2)
 				#	check=$(smthing)
 				#	[ $check ] && gg --import $g
