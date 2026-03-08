@@ -870,128 +870,6 @@ function aswasw() { #privaatti fktio
 #	dqb " \${NKVD} ${CONF_pkgdir} / libavahi \* ?"
 #}
 
-#130126:tehdyn paketin sisältö asentuu ainakin live-ymp, vissiin myös sqrootissa
-#HUOM.080326:3. param tarpeellisuus?
-#TODO:testaus uusicksi josqs
-
-function e22_tblz() {
-	#HUOM.28925:vieläkö asentaa avahin?
-	dqb "x2.e22_tblz ${1} , ${2}  , ${3}  , ${4} "
-
-	csleep 1
-	dqb "\$shary = ${shary}"
-	csleep 2
-
-	[ -z "${1}" ] && exit 11
-	[ -d ${1} ] || exit 15 
-	[ -z "${2}" ] && exit 12
-	[ -z "${3}" ] && exit 13
-	[ -z "${4}" ] && exit 14
-
-	dqb "parx_ok"
-	csleep 2
-
-	dqb "EDIBLE AUTOPSY"
-	csleep 1
-	${fib}
-	${asy}
-	csleep 1
-
-	#message() tähän?
-	tpc7	#jotain excaliburiin liittyvää
-	aswasw ${2}
-	${shary} ${E22_GT} 
-
-	dqb "x2.e22_tblz.part2"
-	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
-	csleep 2
-
-	${asy}
-	dqb "BEFORE e22_pre2"
-	csleep 2
-
-	#actually necessary
-	e22_pre2 ${1} ${3} ${2} ${4} 
-	other_horrors
-	dqb "x2.e22_tblz.done"
-}
-
-#VAIH:ntp-jutut takaisin josqs?
-#tables-säännöt vissiin ok
-#ja ainakin oletus-konf löytyy
-#niin että
-
-#010326:toimii (testaa josqs uusiksi, TODO) 
-#btw. mikä muuten syynä libgfortran5-nalkutukseen?
-#HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
-
-function e22_other_pkgs() { 
-	dqb "e22_other_pkgs ${1} ,  ${2}  ASDFASDFASDF"
-	#toista param? eiole
-	csleep 1
-
-	[ -z "${1}" ] && exit 11
-	dqb "paramz_ok"
-	csleep 1
-
-	dqb "shary= ${shary}"
-	csleep 4
-
-	#LOPPUU SE PURPATUS PRKL
-	#jatkossa osa E22_GS ?
-	${shary} cpp-12 gcc-12-base libstdc++6 
-	${shary} libgcc-s1 libc6 libgomp1 
-	csleep 2
-	
-	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
-
-	${shary} ${E22GI}
-	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
-	${shary} ${E22_GG}
-
-	#sudo-asia olisi jo kunnossa 120126?	ehkä
-	E22_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
-	
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
-	${shary} ${E22_GS}  #moni pak tarttee nämä
-	#${shary} #bsd debconf
-
-	#${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei? ehkä
-	message
-	jules
-
-	if [ ${1} -eq 1 ] ; then
-		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
-		${shary} runit-helper
-		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
-		${lftr} 
-
-		[ $? -eq 0 ] || exit 3
-
-		${shary} libev4
-		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan libc6 uudelleenas tässä?
-		${shary} stubby
-	fi
-
-	csleep 1
-	${lftr} 
-	[ $? -eq 0 ] && dqb "luBE 0F THE R3S0NATED"
-	csleep 2
-	dqb "MåGOG"
-	
-#	#TODO:jos lukaisi debian referencen pitkästä aikaa, että löytyisikö jotain jekkua paketinhallinnan kanssa? ettei tarvitse kikkailla initramfs:n ja muutaman paketin kanssa
-#	... package pinning?
-#	${lftr}
-#	csleep 2
-
-#	vähän aikaa ilman kunnes saa aikaiseksi konffata
-#	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
-#	${shary} ntpsec
-		
-	csleep 2
-	dqb "e22_other_pkgs donew"
-	csleep 1
-}
 
 #120126:taitaa toimia tämä
 function e22_profs() {
@@ -1029,71 +907,6 @@ function e22_profs() {
 	dqb "AAMUNK01"
 }
 
-#äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
-
-function e22_upgp() {
-	dqb "e22_upgp ${1}, ${2}, ${3}, ${4}"
-	#ei pitäne tulla neljättä
-
-	[ -z "${1}" ] && exit 1 
-	#[ -w ${1} ] || exit 44 #man bash taas?
-	#[ -s ${1} ] && mv ${1} ${1}.OLD 261225 laitetttu kommentteihin koska aiheutti ongelmia
-	[ -z "${2}" ] && exit 11
-	[ -d ${2} ] || exit 22
-	[ -z "${3}" ] && exit 33 #kuinkahan tarpeellista on tämäkin tuoda fktioon?
-
-	dqb "params_ok"
-	csleep 5
-	
-	${fib}
-	csleep 1
-
-	#LOPPUU SE PURPATUS PRKL
-	${shary} cpp-12 gcc-12-base libstdc++6 
-	${shary} libgcc-s1 libc6 libgomp1 
-
-	#helpompi vain ajaa e22_dm() ennen upgp()
-	
-	#HUOM.27925: "--yes"- vipu pitäisi olla mukana check_bin2 kautta, onko?
-	${sag} --no-install-recommends upgrade -u
-	echo $?
-	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
-	csleep 1
-
-	# #d-blkissa jatkossa?
-	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
-	csleep 5
-
-	dqb "generic_pt2 may be necessary now"	
-	csleep 1
-
-	${sifd} ${3}
-	csleep 1
-	
-	dqb " ${3} SHOULD BE Dbtl 1n turq"
-	csleep 1
-
-	#HUOM.part076() ja part2_5() on keksitty (tosin e22_dblock() nykyään...)
-	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
-	csleep 1
-	
-	case ${3} in
-		wlan0)
-			dqb "NOT REMOVING WPASUPPLICANT"
-			csleep 1
-		;;
-		*)
-			${NKVD} ${2}/wpa*
-			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
-			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
-		;;
-	esac
-
-	csleep 1
-	dqb "SIELUNV1H0LL1N3N"
-	csleep 1
-}
-
 function e22_rpg() {
 	[ -z "${1}" ] && exit 99
 	[ -z "${2}" ] && exit 98
@@ -1101,34 +914,34 @@ function e22_rpg() {
 	[ -s "${1}" ] || exit 97
 	[ -d ${2} ] || exit 96
 
-		exit 69
+	exit 95
 #
-#		e22_cleanpkgs ${2}
-#		csleep 1
+#	e22_cleanpkgs ${2}
+#	csleep 1
 #		
-#		${smr} ${2}/f.tar
-#		csleep 1
+#	${smr} ${2}/f.tar
+#	csleep 1
 #		
-#		#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
-#		#... koko case pois käytöstä vaikka
+#	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
+#	#... koko case pois käytöstä vaikka
 #	
-#		${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${d} -xvf ${1}
-#		[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
-#		csleep 1
+#	${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${d} -xvf ${1}
+#	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
+#	csleep 1
 #
-#		#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
+#	#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
 #			
-#		e22_arch ${1} ${2}
-#		cd ${2}
+#	e22_arch ${1} ${2}
+#	cd ${2}
 #
-#		#sotkee sittenkin liikaa?
-#		#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
+#	#sotkee sittenkin liikaa?
+#	#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
 #		
-#		#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh
-#		#	${srat} -uvf  ${1} ${t}
-#		#done
+#	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh
+#	#	${srat} -uvf  ${1} ${t}
+#	#done
 #		
-#		exit
+#	exit
 }
 
 function e22_fgh() {
@@ -1139,38 +952,6 @@ function e22_fgh() {
 	e22_hdr ${1}
 	e22_arch ${1} ${2}
 	e22_ftr ${1}
-	exit
-}
-
-#VAIH:tdstonnimi parametriksi
-#VAIH:param tark
-#TODO:testaa
-
-function e22_qrs() {
-	[ -z "${1}" ] && exit 77
-	[ -s ${1} ] || exit 66
-	[ -r ${1} ] || exit 55
-	[ -z "${4}" ] && exit 44
-	
-	e22_config1 ~ ${CONF_default_arhcive2}
-	${srat} -rvf $1} ~/${CONF_default_arhcive2} #VAIH:CONBF_def_yhyy
-
-	dqb $?
-	csleep 4
-
-	${NKVD} ~/${CONF_default_arhcive}
-	csleep 1
-
-	e22_settings ${2} ${CONF_default_arhcive}
-	#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
-
-	for f in $(find ${2} -maxdepth 1 -name '${CONF_default_arhcive}' -or -name 'profs.sh' | grep -v pulse) ; do
-		${srat} -rvf ${1} ${f}
-	done
-
-	e22_ftr ${1}
-	dqb "CASE Q D0N3"
-	csleep 3
 	exit
 }
 
@@ -1195,17 +976,6 @@ function e22_cde() {
 	exit
 }
 
-function e22_ghi() {
-	dqb "TODO:testaa"
-	dqb "${sag_u} | ${fib} , when necessary " 
-	exit 44
-
-	echo "${shary} ${E22GI}"
-	echo "${svm} ${CONF_pkgdir}/*.deb ${2}/${3}"
-	
-	echo "$0 f ${1} ${3}"
-	#exit 1
-}
 
 function e22_pqr() {
 	[ -z "${1}" ] && exit 99
