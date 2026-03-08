@@ -1,0 +1,7 @@
+bsdextrautils
+rfkill,uuid-runtime
+arch-test,debootstrap
+fuse3,gir,gsettings,gstreamer
+libgstreamer,lm-sensors,ocl-icd
+mc,os-prober,rsync
+squashfs-tools,upower,w3m,wget
