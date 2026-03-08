@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0
+debug=1 #kunnnes viimeaikaiset temppuilut...
 srcfile=""
 
 distro=$(cat /etc/devuan_version)
@@ -30,6 +30,7 @@ if [ $# -gt 0 ] ; then
 	[ "${2}" == "-v" ] || srcfile=${2}
 fi
 
+#030326:toimiikohan tämä nykyään? etenkään toivotulla tavalla? selvitä jposqs?
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
 		distro=${1}
@@ -38,7 +39,7 @@ function parse_opts_1() {
 }
 
 function parse_opts_2() {
-	dqb "parseopts_2 ${1} ${2}"
+	dqb "imp2.parseopts_2 ${1} ${2}"
 }
 
 if [ -f /.chroot ] ; then
@@ -46,28 +47,28 @@ if [ -f /.chroot ] ; then
 	sleep 1
 
 	#gpgtar jos mahd, muuten normi-tar?
-	
+
 	echo "A"
 	p=$(pwd)
 	g=$(which sha512sum)
-	
+
 	if [ ! -z "${g}" ] ; then
 		q=$(find . -name 'dgsts.?')
 		cd ..
-		
+
 		for r in ${q} ; do
 			${g} -c ./${p}/${r} --ignore-missing
 			sleep 1
 		done
-		
+
 		cd ${p}
 	fi
-	
+
 	#gpg-tark kuitenkin ensin?
 	g=$(which gpg)
 	sleep 1
 	cd ${p}
-	
+
 	if [ ! -z "${g}" ] ; then
 		echo "B"
 		q=$(find . -name '*.sig')
@@ -91,23 +92,30 @@ if [ -f /.chroot ] ; then
 		rm ${f}
 		sleep 1
 	done
+
+	#jos löytyy common_lib.sh.sig ni voiusi tässä tarkistaa?
 fi
 
-if [ -s ${d0}/$(whoami).conf ] ; then
-	echo "ALT.C0NF1G"
-	sleep 2
-	. ${d0}/$(whoami).conf
-else
-	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-		. ${d}/conf
-	else
-	 	exit 57
-	fi	
-fi
+dqb "SHOULD gg --veridy ${d0}/common_lib.sh HERE, MAYBE"
+csleep 1
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
+	#TODO:sqroot-testiä yaas kehiin
+
+	if [ -s ${d0}/$(whoami).conf ] ; then
+		echo "ALT.C0NF1G"
+		sleep 2
+		. ${d0}/$(whoami).conf
+	else
+		if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+			. ${d}/conf
+		else
+		 	exit 57
+		fi	
+	fi
+
 	#debug=1
 	dqb "FALLBACK"
 
@@ -128,7 +136,7 @@ else
 		sah6=$(${odio} which sha512sum)
 
 		srat=$(${odio} which tar)
-		#eXit jos srat ei
+		#eXit jos srat ei?
 
 		gg=$(${odio} which gpg)
 		som=$(${odio} which mount)
@@ -157,13 +165,21 @@ else
 		which ${1}
 		dqb "==================="
 	}
+
+	#barm vuokxi
+	function enforce_access() {
+		dqb "imp2.3nf :NOT SUPPORTED"
+	}
 fi
 
-[ -z ${distro} ] && exit 6
+debug=1 #kunnes...
+dqb "imp2:AFTR common_lib"
+csleep 3
+[ -z "${distro}" ] && exit 6
 csleep 2
 
 if [ -f /.chroot ] || [ -x ${mkt} ] ; then
-	dqb "MTK"
+	dqb "ipm2.MTK"
 else
 	echo "sudo apt-get update;sudo apt-get install coreutils"
 	exit 8
@@ -171,24 +187,21 @@ fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 csleep 1
+#HUOM. tähän ei "process_lib ${d}" , mennään tarkoituksella toisella tavalla (ainakin jnkin aikaa)
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
-else
-	#DONE?:tämän haaran testaus (vielä ainakin kehitysymnp? ja sqroot- ymp reaktio c_bin parametriin)
-	#210126 ei kai mitään erityistä härdelliä ollut sqroot-testissä
-	#100226: "$0 3 " yritteli kyllä asentaa juttuja
-	
+else	
 	echo $?
-	dqb "NO LIB"
+	dqb "N 0 L1.B"
 	csleep 1
-
-	check_binaries ${d}
-	[ $? -eq 0 ] || exit 
-
-	check_binaries2
-	[ $? -eq 0 ] || exit 
 fi
+
+check_binaries ${d}
+[ $? -eq 0 ] || exit 
+
+check_binaries2
+[ $? -eq 0 ] || exit 
 
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
@@ -212,10 +225,11 @@ if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
 	dqb "OLD.tar OK"
 else
 	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE "
+	csleep 1
 	${srat} -cvf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
-dqb "Lpg"
+dqb "ip2.m.Lpg"
 
 function common_part() {
 	dqb "common_part ${1}, ${2}, ${3}"
@@ -243,43 +257,59 @@ function common_part() {
 		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemassssaolon sijaan?
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 			dqb "B"
-			
+
 			if [ -x ${gg} ] ; then
 				dqb "C"
 
 				dqb " ${gg} --verify ${1}.sha.sig "
 				${gg} --verify ${1}.sha.sig
 				r=$?
-				
+
 				[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig.1
 				csleep 1
 			fi
 		fi
-		
-		[ ${r} -eq 0 ] || exit ${r}	
+
+		[ ${r} -eq 0 ] || exit ${r}
 	fi
 
 	csleep 2
-
 	#kts. common_lib.psqa()
+	local cfk=1
+
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
 		dqb "gg= ${gg}"
 
-		cat ${1}.sha
-		${sah6} ${1}
+		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistöä mjonoa löytyykö? $1 vs $1 sha ?
+		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f)
+		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
+
+		if [ "${aa}" == "${ab}" ] ; then
+			dqb "aa=ab= ${aa}"
+			cfk=0
+		fi
+
 		csleep 2
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
+	if [ ${cfk} -gt 0 ] ; then
+		read -p " U  SURE ?" confirm
+		[ "${confirm}" == "Y" ] || exit 33
+	fi
+
 	csleep 3
 	#241225:mitäs exclude-juttuja tuo TPX sisälsikään nykyään?
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
-	
+
 	csleep 2
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
+
+	#$d alta tar-juttuja pois tässä? ehkä ei aina kannata
+	csleep 1
 	#251225:mitä jos sen sisemmän sha-tarkistuksen tekisi silloinq common_lib pois pelistä?
 	
 	csleep 1
@@ -290,15 +320,17 @@ function cptp2() {
 	dqb "common_part tp2 ${1}, ${2}, ${3}"
 	[ -z "${1}" ] && echo 99
 	[ -z "${2}" ] && echo 98
+	[ -d ${1} ] || exit 97
 
 	local t
-	t=$(echo ${1} | cut -d '/' -f 1-5) #d0 jatkossa kutsuvan koodin kautta?
-
+	t=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c 0-9a-fA-F/.)
+	
 	if [ -x ${t}/common_lib.sh ] ; then
+		#TODO:sha-sig-tarkistus tähän? entä process_lib():iin ?
 		enforce_access ${n} ${t} ${2}
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	else
-		dqb "n s t as ${t}/common_lib.sh "
+		dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
 	fi
 
 	csleep 1
@@ -318,19 +350,20 @@ function cptp2() {
 	csleep 1
 	dqb "ALL DONE"
 }
-	
+
 dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
 
 function tpr() {
-	dqb "UPIR  ${1}"
+	dqb "UPIR  ${1} , ${2}"
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
+	[ -z "${2}" ] && exit 10
 	[ -d ${1} ] || exit 12
-	[ -s ${1}/fediverse.tar ] || exit 13
-	[ -r ${1}/fediverse.tar ] || exit 14
+	[ -s ${1}/${2} ] || exit 13
+	[ -r ${1}/${2} ] || exit 14
 
 	dqb "pars_ok"
 	csleep 1
@@ -354,12 +387,12 @@ function tpr() {
 	[ $? -gt 0 ] && exit 17
 
 	dqb "JUST BEFORE TAR"
-	#jos vielä härdelliä niin keskeytetään mikäli ei fediversestä löydä prefs.js?
-	r=$(${srat} -tf ${1}/fediverse.tar | grep prefs.js | wc -l)
+	#jos vielä härdelliä niin keskeytetään mikäli ei $2:sta löydä prefs.js?
+	r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l)
 	[ ${r} -gt 0 ] || exit 18
 	csleep 3
 
-	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/fediverse.tar
+	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/${2}
 	[ $? -gt 0 ] && exit 19
 	csleep 3
 
@@ -443,6 +476,7 @@ case "${mode}" in
 	;; 
 	0|3) 
 		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
+		#080326:toimii edelleen mod pientä kiukuttelua josqs
 
 		echo "ZER0 S0UND"
 		csleep 1
@@ -450,26 +484,28 @@ case "${mode}" in
 		csleep 1
 		e="/"
 
-		if [ ${1} -eq 0 ] ; then
-			if [ -f /.chroot ] ; then #mitense alt_root?
+		if [ -f /.chroot ] ; then
+			if [ ${1} -eq 0 ] ; then
+				 #mitense alt_root?
 				echo "EI NÄIN"
 				exit 99
-			fi
-		else
-			if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
-				#100226:vihdoinkin tämäkin korjattu?
-				#VAIH:testaa uusicksi lähiaikoina (joko jo testattu 150226?)
-				
-				dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
-				csleep 6
 
-				cp ${d}/*pkgs* ${CONF_alt_root}/${distro}
-				ls -las ${CONF_alt_root}/${distro}
-				csleep 4
+			else
+				if [ -v CONF_alt_root ] ; then
+					#100226:vihdoinkin tämäkin korjattu?
+					#VAIH:testaa uusicksi lähiaikoina (joko jo testattu 150226?)
+
+					dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
+					csleep 6
+
+					cp ${d}/*pkgs* ${CONF_alt_root}/${distro}
+					ls -las ${CONF_alt_root}/${distro}
+					csleep 4
+				fi
 			fi
-			
-			e=${d}
 		fi
+
+		[ ${1} -eq 0 ] || e=${d}
 
 		csleep 1
 		common_part ${srcfile} ${d} ${e}
@@ -480,39 +516,55 @@ case "${mode}" in
 
 		part3 ${d}
 		other_horrors
-		
+
 		csleep 1
-		[ $? -eq 0 ] && echo "NEXT: $0 2"
+		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
-	r) #141225:muuten ok mutta ...?
+	r) #080326:toimii, luulisin
 		[ -d ${srcfile} ] || exit 22
-		${srat} -C ~ -jxf ~/config.tar.bz2
-		tpr ${srcfile}
+		[ -v CONF_default_arhcive ] || exit 23
+ 		[ -v CONF_default_arhcive2 ] || exit 24
+
+		#tar -> tpr ?
+		${srat} -C ~ -jxf ~/${CONF_default_arhcive2}
+		tpr ${srcfile} ${CONF_default_arhcive}
 	;;
 	q)
-		#120126:taitaa toimia edelleen/tilapäisesti
+		#TODO:testaus taas josqs lähiaikoina, "exp2 q" sorkuttu uusicksi
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
-		c=$(${srat} -tf ${srcfile} | grep fediverse.tar  | wc -l)
+		[ -v CONF_default_arhcive ] || exit 23
+ 		[ -v CONF_default_arhcive2 ] || exit 24
+
+		c=$(${srat} -tf ${srcfile} | grep ${CONF_default_arhcive}  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
 		common_part ${srcfile} ${d} /
 
-		${srat} -C ~ -jxf ~/config.tar.bz2
-		tpr ${d0}
+		${srat} -C ~ -jxf ~/${CONF_default_arhcive2} #VAIH:tästäkin tdstonimestä const?
+		tpr ${d0} ${CONF_default_arhcive}
 	;;
 	k)
 		#161225:toimii, sq-root-ymp ainakin
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
-		#TODO:tuotaville avaimille jotain tark? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
+
+		#VAIH:tuotaville avaimille jotain tark? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
+		#man gpg voisio lla jankohtainen vähitellen
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
-		#avaInten allekirjoittamiseen oli muuten omakin optio
+		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ?)
 
 		if [ -v gg ] ; then
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 				dqb "NOP"
 				csleep 1
+
+				#for f in $(fnid $srcfile -type f -name '*.sig') ; do
+				#	g=$(echo $f | cut -d . -f 1,2)
+				#	check=$(smthing)
+				#	[ $check ] && gg --import $g
+				#	rm $g	
+				#done
 
 				dqb "${gg} --import ${srcfile}/*.gpg soon"
 				csleep 1
@@ -524,7 +576,7 @@ case "${mode}" in
 				csleep 3
 			fi
 		else
-			dqb "NO-GO-.THEOREM"
+			dqb "NO-GO-THEOREM"
 		fi
 	;;
 	-3)
@@ -545,5 +597,5 @@ if [ -v part ] || [ -v CONF_dir ] ; then
 	[ -z ${CONF_dir} ] || grep ${CONF_dir} /proc/mounts
 fi
 
-${scm} 0755 $0
+${scm} 0555 $0
 #HUOM.290925: tämän skriptin pitäisi kuvakkeen kanssa löytyä filesystem.squashfs sisältä (no löytyykö?)

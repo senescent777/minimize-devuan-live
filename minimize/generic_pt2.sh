@@ -5,18 +5,8 @@ d0=$(pwd)
 [ z"${distro}" == "z" ] && exit 6
 debug=0
 d=${d0}/${distro}
-
 mode=3
 #HUOM.251025:myös excaliburin kanssa se on nimenomaan mode 3 mikä qsee guin? vielä 271125?
-
-#tartteeko näitä 2 oikeastaan?
-function dqb() {
-	[ ${debug} -eq 1 ] && echo ${1}
-}
-
-function csleep() {
-	[ ${debug} -eq 1 ] && sleep ${1}
-}
 
 function parse_opts_1() {
 	echo "popt_1( ${1} )"
@@ -39,16 +29,22 @@ function parse_opts_2() {
 	dqb "parseopts_2 ${1} ${2}"
 }
 
-if [ -s ${d0}/$(whoami).conf ] ; then
-	echo "ALT.C0NF1G"
-	. ${d0}/$(whoami).conf
-else
-	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-		. ${d}/conf
-	else
-	 	exit 57
-	fi	
-fi
+function fallback() {
+	dqb $?
+	echo "NOT (LIB AVAILABLE AND ECXUTABL3)"
+	exit 67
+}
+
+#if [ -s ${d0}/$(whoami).conf ] ; then
+#	echo "ALT.C0NF1G"
+#	. ${d0}/$(whoami).conf
+#else
+#	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+#		. ${d}/conf
+#	else
+#	 	exit 57
+#	fi	
+#fi
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -58,16 +54,10 @@ else
 fi
 
 [ -z ${distro} ] && exit 6
-dqb "BEFORE CNF"
+dqb "BEFORE L1B"
+process_lib ${d}
 
-if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-	. ${d}/lib.sh
-else
-	dqb $?
-	echo "NOT (LIB AVAILABLE AND ECXUTABL3)"
-	exit 67
-fi
-
+#TODO:ao for-blokki uusiksi jatkossa (kts changedns.sh ja interfaces.tmp myös)
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0511 ${x}
 	${sco} root:root ${x}
@@ -76,15 +66,10 @@ for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 done
 
 ${fib}
-
 dqb "distro=${distro}"
 dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
-
 sleep 1
-
-#151225:sqroot alla osasi poistella paketteja tämä skripti
-#TODO:blu-paketteihin liittyen jotain muutosta ao. blokkiin?
 
 if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
@@ -100,7 +85,7 @@ function t2p_filler() {
 	csleep 1
 }
 
-#tarpeellinen ehto?
+#tarpeellinen blokki nykyään?
 if [ -f /.chroot ] ; then
 	${sharpy} blu*
 	${sharpy} nfs*
@@ -129,6 +114,7 @@ function p2g() {
 	local g
 	local h
 
+	#jatkossa jos yhdistelisi common_lib_tool kanssa... paitsi ettäö
 	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
 		dqb "SOON: \${sharpy} ${f}* "
 		csleep 1
@@ -148,7 +134,6 @@ function p2g() {
 
 #VAIH:selvitä missä kohtaa gpg poistuu nykyään, koita saada epä-poistumaan
 #mode:n kanssa kikkailut voivat auttaa selvityksessä
-#130126_sqroot-testissä tämän fktion poistamat paketit enimmäkseen poistuvat pl. tuon yhden blokin jutut
 
 
 #
@@ -186,6 +171,8 @@ function t2pf() {
 
 	#rikkookohan jotain nykyään? eipäkai
 	${smr} -rf /usr/share/doc 
+
+	#fiksumpaa olisi kai muutella import2:ssa vastaava kohta
 	${NKVD} /OLD.tar
 
 	for f in $(find /var/log -type f) ; do ${NKVD} ${f} ; done
@@ -206,10 +193,6 @@ p2g ${d0}
 
 p2g ${d}
 [ ${mode} -eq 1 ] && exit
-
-dqb "VAIH:ntpsec hyötykäyttö"
-#	${scm} a-wx ${0} ?
-#	csleep 2
 
 t2pf ${d}
 [ $? -gt 0 ] && exit

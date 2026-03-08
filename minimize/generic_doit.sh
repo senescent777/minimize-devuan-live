@@ -7,17 +7,7 @@ d0=$(pwd)
 debug=0 #1
 d=${d0}/${distro} 
 
-if [ -s ${d0}/$(whoami).conf ] ; then
-	echo "ALT.C0NF1G"
-	. ${d0}/$(whoami).conf
-else
-	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-		. ${d}/conf
-	else
-		echo "NO CONF"
-	 	exit 57
-	fi
-fi
+#HUOM.040326:tässä oli se conf-kikkailu aiemmin
 
 function parse_opts_1() {
 	dqb "parseopts_1 ${1} ${2}"
@@ -65,16 +55,116 @@ dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
 
-#020236:joutaisikohan part0 siirtää tähän tdstoon?
+function part0() {
+	dqb "common_lib.FART076 ${1}"
+	[ -z "${1}" ] && exit 76
+
+	csleep 1
+	dis ${1}
+	local s
+
+	for s in ${PART175_LIST} ; do
+		dqb ${s}
+		#HUOM.271125:saisiko tällä tyylillä myös slimin sammutettua? saa, mutta...
+
+		for t in $(find /etc/init.d -name ${s}* ) ; do
+			${odio} ${t} stop
+			csleep 1
+		done
+
+		${whack} ${s}*
+	done
+
+	dqb "alm0st d0n3"
+	csleep 1
+	${whack} nm-applet
+	${snt}
+	dqb "P.176 DONE"
+	csleep 1
+}
+
+#040326:ehkä josqs tämäkin (tai antaa nyt olla jnkn aikaa)
+function el_loco() {
+	dqb "MI LOCO ${1} , ${2}"
+	csleep 1
+
+	if [ ${1} -gt 0 ] ; then
+		${odio} dpkg-reconfigure locales
+		${odio} dpkg-reconfigure tzdata
+	else
+		${odio} locale-gen
+	fi
+
+	if [ ${2} -lt 1 ] ; then
+		${svm} /etc/default/locale /etc/default/locale.ÅLD
+		fasdfasd /etc/default/locale
+		csleep 1
+
+		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
+		env | grep LC >> /etc/default/locale
+		env | grep LAN >> /etc/default/locale
+
+		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
+		#jos riittäisi 10 riviä
+		csleep 1
+
+		cat /etc/timezone
+		csleep 1
+		reqwreqw /etc/default/locale
+	fi
+
+
+		export LC_TIME
+		export LANGUAGE
+		export LC_ALL
+
+		if [ ${debug} -gt 0 ] ; then
+			env | grep LC
+			env | grep LAN
+			csleep 5
+		fi
+}
+
+function adieu() {
+	dqb "AUF WIEDERSEHEN"
+#
+#	#jnkn ehdon taakse session lahtaamista edelliset rivit?
+#	#130126:pois kommenteitsa jotta modatun .iso:n testaaminen onnistuu
+#	#päivän 1. yritys ei oikein lähtenyt lentoon
+#
+#	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
+#	csleep 5
+#	groups #ryhmiin kuulumisen muutokset eivät tapahtune ennen uloskirjautumista?
+#	csleep 5
+#	#140126:aiemmin oli scm ennen usermod, lieneekö järjestyksellä merkitystä
+#
+#	${scm} g+rw /dev/tty0
+#	csleep 1
+#	ls -las /dev/tty?
+#	csleep 5
+#210126:joskohan toimisi ilman näitä kikkailuja?
+#	#väärä tapa pakottaa uudelleen_kirjautuminen?
+	${whack} xfce4-session
+}
+
 part0 ${distro}
 process_lib ${d}
 echo "AFTER PROCESS_LIB";sleep 1
+
 #==================================PART 1============================================================
 dqb "mode= ${mode}"
 dqb "debug= ${debug}"
+[ -v CONF_enforce ] || exit 99
 
-#221225:mitäs kaikkia pointteja olikaan ohittaa enforce.hommat sqroot.ympäristössä?
+#221225:mitäs kaikkia pointteja olikaan ohittaa enforce-hommat sqroot.ympäristössä?
 #changedns ja fstab tietysti
+
+if [ -s ~/xorg.conf.new ] ; then
+	if [ ! -s /etc/X11/xorg.conf ] ; then
+		${spc}  ~/xorg.conf.new  /etc/X11/xorg.conf
+		reqwreqw /etc/X11/xorg.conf
+	fi
+fi
 
 if [ -s /etc/sudoers.d/meshuqqah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
@@ -109,60 +199,13 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 #TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
 
-function el_loco() {
-	#181225;toimiiko kuten pitää vi ei?
-	dqb "MI LOCO ${1} , ${2}"
-	csleep 1
-
-	if [ ${2} -lt 1 ] ; then #tämä blokki konffaamisen jälkeen+toiminaat?
-		#${svm} /etc/default/locale /etc/default/locale.ÅLD
-		fasdfasd /etc/default/locale
-		csleep 1
-
-		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
-		#env | grep LC >> /etc/default/locale
-		#env | grep LA >> /etc/default/locale
-
-		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
-		#jos riittäisi 10 riviä
-		csleep 1
-
-		cat /etc/timezone
-		csleep 1
-		reqwreqw /etc/default/locale
-	fi
-
-	if [ ${1} -gt 0 ] ; then
-		${odio} dpkg-reconfigure locales
-		${odio} dpkg-reconfigure tzdata
-	else
-		${odio} locale-gen
-	fi
-
-	#101225:pitäisikö jotain tehdä vielä että nuo sorkitut lokaaliasetukset saa voimaan?
-
-#	if [ -s /etc/default/locale ] ; then #miten tämän pitää mennä?
-#		. /etc/default/locale #tämä pOis jAtkossa?
-#
-
-#211225:pitäisiköhän sitä knftdstpoa($d/conf) pikemminkin muuttaa konffauksen jälkeen? tai jokin ehdollinen asetusten jyrääminen?
-		export LC_TIME
-		export LANGUAGE
-		export LC_ALL
-
-		if [ ${debug} -gt 0 ] ; then
-			env | grep LC
-			env | grep LAN
-			csleep 2
-		fi
-#	fi
-}
-
 c14=0
 c13=0
 [ ${mode} -eq 1 ] && c14=1
 
 #==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
+#... joskohan voisi arpomisen lopettaa joskus?
+
 if [ -v LCF666 ] ; then
 	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
 	#c13=$(env | grep LC_TIME | grep -c ${LCF666})
@@ -173,30 +216,8 @@ fi
 csleep 1
 
 [ ${c13} -lt 1 ] && c14=1
-el_loco ${c14} 1 #${c13} #joko jo c13 takaisin?
+el_loco ${c14} ${c13} #joko jo c13 takaisin? kokeillaanpa
 #=========================================================================================
-
-function adieu() {
-	dqb "AUF WIEDERSEHEN"
-#
-#	#jnkn ehdon taakse session lahtaamista edelliset rivit?
-#	#130126:pois kommenteitsa jotta modatun .iso:n testaaminen onnistuu
-#	#päivän 1. yritys ei oikein lähtenyt lentoon
-#
-#	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
-#	csleep 5
-#	groups #ryhmiin kuulumisen muutokset eivät tapahtune ennen uloskirjautumista?
-#	csleep 5
-#	#140126:aiemmin oli scm ennen usermod, lieneekö järjestyksellä merkitystä
-#
-#	${scm} g+rw /dev/tty0
-#	csleep 1
-#	ls -las /dev/tty?
-#	csleep 5
-#210126:joskohan toimisi ilman näitä kikkailuja?
-#	#väärä tapa pakottaa uudelleen_kirjautuminen?
-	${whack} xfce4-session
-}
 
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then 
 	dqb "R (in 2 secs)"
@@ -224,15 +245,24 @@ pre_part2 #ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
 c14=$(find ${d} -name '*.deb' | wc -l)
 #[ ${c14} -gt 0 ] || CONF_removepkgs=0 #tilap kommentteihin 270226 koska g_pt2_jutut
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
+#voisi kai tässä kohta anuo kikialuit palautaa kommenteista (040326)
 
 #===================================================PART 3===========================================================
 message
 
-#291125:kokeeksi käskyttämään "imp2 3" tässä kohtaa? (TODO)
-part3 ${d}
-other_horrors
+#kokeeksi käskyttämään "imp2 3" tässä kohtaa
+#... toimisi kai tuolla toisellakin tavalla muuten mutta pitäisi imp2:sen sha-tarkistuksia vähän laittaa (040326)
+#... myös pitäisi olla jotain $d alla että imp2 tekisi jotain
+#menkööt toistaiseksi part3 kanssa (040325)
+#common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain
 
-dqb "BEFORE IMP2"
+part3 ${d}
+#dqb "JUST BEFORE IMP2 3"
+#csleep 10
+#${d0}/import2.sh 3 ${d}/f.tar -v
+
+other_horrors
+dqb "BEFORE IMP2 r"
 csleep 2
 
 #141225:mitäjos common_lib ei ajokelpoinen? osaako imp2 toimia oikein silloin?
@@ -240,18 +270,15 @@ if [ ! -f /.chroot ] ; then
 	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh #toistaiseksi tässä kunnes... Jotain
 	
-#	csleep 5
-#	dqb "KORJAA PROF IMPORT?" #tilapäinen kiukutteul?
-#	csleep 5
-
 	${d0}/import2.sh r ${d0} -v
-	#2. ja 3. param. turhia?
 fi
 
 jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
+#TODO:ao. for-blokkiin muutoksia jatkossa (kts. changedns.sh,interfaces.tmp mm.)
+#TODO:"for... scm" korvaaminen common_lib.e_h() ?
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	${scm} 0511 ${x}
 	${sco} root:root ${x}
