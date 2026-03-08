@@ -22,150 +22,130 @@ function usage() {
 }
 
 #TODO:jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
+
 if [ $# -gt 1 ] ; then
 	mode=${1}
 
-	if [ -f ${1} ] ; then
-		#miksi tähän on joudututtu viimeaikoina?
-		echo "SAATANAN TUNARI"
-		exit 99
-	fi
+#	if [ -f ${1} ] ; then
+#		exit 99
+#	fi
 
 	tgtfile=${2}
 else
-	#echo "$0 -h"
 	usage
 	exit 1	
 fi
 
 #"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
-function parse_opts_1() {
-	dqb "exp2.patse_otps8( ${1}, ${2})"
 
+function parse_opts_1() {
 	if [ -d ${d}/${1} ] ; then
 		distro=${1}
 		d=${d0}/${distro}
 	fi
 }
 
-function parse_opts_2() {
-	dqb "parseopts_2 ${1} ${2}"
-}
+#
+#function parse_opts_2() {
+#}
 
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
 function fallback() {
-	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING OR NOT EXECUTABLE"
-	exit 59
+exit 59
 }
 
-dqb "SHOULD gg --veridy ${d0}/common_lib.sh HERE, MAYBE"
-csleep 1
+#dqb ja csleep vielä määritelty
 
 if [ -x ${d0}/common_lib.sh ] ; then 
 	. ${d0}/common_lib.sh
 else
-	echo "FALLBACK2"
-	echo "chmod +x ${d0}/common_lib.sh may be a good idea now"
 	exit 56
-	#HUOM.28725:toistaiseksi näin
 fi
 
-[ -z ${distro} ] && exit 6
+[ -z "${distro}" ] && exit 6
 d=${d0}/${distro}
 
-dqb "mode= ${mode}"
-dqb "distro=${distro}"
-dqb "file=${tgtfile}"
-csleep 1
-
 process_lib ${d}
-dqb "tar = ${srat} "
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 
-#TODO:ao.for-blokkiin muutoksia jatkossa
-for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
-	${scm} 0555 ${x}
-	${sco} root:root ${x}
-	#distro-param takaisin mikä li a lkaa cross-distro-kikkailuihin
-	${odio} ${x} ${CONF_dnsm} 
-done
-
-dqb "AFTER GANGRENE SETS IN"
-csleep 1
-
 if [ -z "${tig}" ] ; then
-	#HUOM. kts alempaa mitä git tarvitsee
-	echo "sudo apt-get update;sudo apt-get install git"
 	exit 7 #syystä excalibut-testit tilap kommentteihin 16126
 fi
 
 if [ -z "${mkt}" ] ; then
-	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
-	echo "sudo apt-get update;sudo apt-get install coreutils"
-	exit 8 #syystä excalibut-testit tolap kommentteihin 16126
+	exit 8
 fi
 
-dqb "e22_pre0"
-csleep 1
+#dirnamen kanssa ei oikein toiminut
+if [ -x ${d0}/e/e22.sh ] ; then
+	.  ${d0}/e/e22.sh
+	dqb $?
+	csleep 1
 
-if [ -x $(dirname $0)/e22.sh ] ; then
-	dqb "222"
-	.  $(dirname $0)/e22.sh
+	.  ${d0}/e/e23.sh
+	dqb $?
 	csleep 2
 else
 	exit 58
 fi
 
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
-
-dqb "mode= ${mode}"
-dqb "tar= ${srat}"
-csleep 1
-
 [ -z "${tgtfile}" ] && exit 98
-[ -z "${srat}" ] && exit 66
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
-case ${mode} in
-	rp)
-		[ -s "${tgtfile}" ] || exit 67
-		[ -r "${tgtfile}" ] || exit 68
-		e22_rpg ${tgtfile} ${d}
-	;;
-	f) 	#140226:toimiiko edelleen? TODO:testaa
+#VAIH:q,rp,f,g,c,p
+#TODO:jospa myös keskeyttäisi suorituksen mikäli ei mode täsmää mihinkään
 
+case ${mode} in
+#	rp) #080326:toistaiseksi jemmaan, kiukuttelua
+#		[ -s "${tgtfile}" ] || exit 67
+#		[ -r "${tgtfile}" ] || exit 68
+#		e22_rpg ${tgtfile} ${d}
+#	;;
+	f) #VAIH:testaus (seur pakettei $d alle)
 		enforce_access ${n} ${t}
 		e22_fgh ${tgtfile} ${d}
 	;;
 	q)
-		#TODO:mm tämön testaus
+		#VAIH:tämän casen testaus (paketin purku lähinnä)
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
-		e22_qrs ${tgtfile} ${d0}
+		e22_hdr ${tgtfile}
+		e23_qrs ${tgtfile} ${d0}
+		exit #tarkoitus olisi ettei suoritusta jatkettaisi tätä pidemmälle
 	;;
-	c)
+	c) #VAIH:testaa miten paketin sisältö purkautuu
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
-	g)
-		e22_ghi ${tgtfile} ${d0} ${distro}
+	g) #VAIH:testit (oksennetuille komennoille niinqy)
+		e23_ghi ${tgtfile} ${d0} ${distro}
+		exit
 	;;
-#	dqb "#TODO:alsaan siirtyminen?"
-	p) #120126:toimii, luulisin
-		e22_pqr ${tgtfile} ${d0}
+	p) #VAIH:testit.paketin.purq (qhan kasaaminen ensin)
+		e22_hdr ${tgtfile}
+		e23_profs ${tgtfile} ${d0}	
 	;;
 	-h)
 		usage
 	;;
 esac
 
+exit 666
+
+#TODO:ao.for-blokkiin muutoksia jatkossa
+#for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
+#	${scm} 0555 ${x}
+#	${sco} root:root ${x}
+#	#distro-param takaisin mikä li a lkaa cross-distro-kikkailuihin
+#	${odio} ${x} ${CONF_dnsm} 
+#done
+
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
-#291125:voiko sen exitin jo laittaa takaisin vai ei? (joutuisi tekemään lisäsäätöäkin jo, TODO?)
-[ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59"
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
-#... kts interfaces.tmp liittyen (080326)
+#.. kts interfaces.tmp liittyen (080326)
 
 e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
@@ -181,73 +161,68 @@ csleep 1
 
 case ${mode} in
 	0)
-		echo "NOT SUPPORTED ANYMORE"
 		exit 97
 	;;
-	3|4) 
-		#TODO:testaus TAAS , eRItyisesti miten nelosen output g_doit:n imp2-kikkailun kanssa
-	
-		[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
-		csleep 1
-		fasdfasd /opt/bin/zxcv
-		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
-
-		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 3 ] ; then
-			e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-			e22_other_pkgs ${CONF_dnsm}
-
-		else
-			doit=0
-		fi
-
-		e22_home ${tgtfile} ${d} ${CONF_enforce} 
-		e22_pre1 ${d} ${distro}
-
-		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
-		fasdfasd /opt/bin/zxcv #onko ihan pakko? 
-
-		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv
-		reqwreqw  /opt/bin/zxcv
-		csleep 1
-
-		fasdfasd /opt/bin/zxcv.sig	
-		e22_tyg /opt/bin/zxcv
-		reqwreqw /opt/bin/zxcv.sig			
-		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
-	;;
-	#u taisi toimia jnkin aikaa 01/26
-	u|upgrade)
-		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
-		csleep 1
-
-		[ -v CONF_pkgdir ] || exit 96
-		e22_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
-	;;
-	e)
-		#020326: (saa aikaiseksi ei-tyhjän paketin: 1, paketin sisältö asentuu:1)
-		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-		e22_other_pkgs ${CONF_dnsm}
-	;;
-	t) 
-		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
-		#cleanpkgs() tulisi hoitaa se
-
-		message
-		csleep 2
-		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-	;;
-	l)
-		csleep 1
-		[ -v CONF_dm ] || exit 77
-		[ -f ${d0}/e:e23.sh ] && . ${d0}/e/e23.sh
-
-		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
-		#VAIH:uuteen skriptiin nämä dm-kikkailut?
-		e22_dm ${CONF_dm}
-	;;
+#	3|4) 
+#		#TODO:testaus TAAS , eRItyisesti miten nelosen output g_doit:n imp2-kikkailun kanssa
+#	
+#		[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
+#		csleep 1
+#		fasdfasd /opt/bin/zxcv
+#		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
+#
+#		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
+#		if [ ${mode} -eq 3 ] ; then
+#			e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+#			e22_other_pkgs ${CONF_dnsm}
+#
+#		else
+#			doit=0
+#		fi
+#
+#		e22_home ${tgtfile} ${d} ${CONF_enforce} 
+#		e22_pre1 ${d} ${distro}
+#
+#		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
+#		fasdfasd /opt/bin/zxcv #onko ihan pakko? 
+#
+#		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv
+#		reqwreqw  /opt/bin/zxcv
+#		csleep 1
+#
+#		fasdfasd /opt/bin/zxcv.sig	
+#		e22_tyg /opt/bin/zxcv
+#		reqwreqw /opt/bin/zxcv.sig			
+#		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
+#	;;
+#	#u taisi toimia jnkin aikaa 01/26
+#	u|upgrade)
+#		[ -v CONF_pkgdir ] || exit 96
+#		e22_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
+#	;;
+#	e)
+#		#020326: (saa aikaiseksi ei-tyhjän paketin: 1, paketin sisältö asentuu:1)
+#		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+#		e22_other_pkgs ${CONF_dnsm}
+#	;;
+#	t) 
+#		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
+#		#cleanpkgs() tulisi hoitaa se
+#
+#		message
+#		csleep 2
+#		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+#	;;
+#	l)
+#		csleep 1
+#		[ -v CONF_dm ] || exit 77
+#		#[ -f ${d0}/e/e23.sh ] && . ${d0}/e/e23.sh
+#
+#		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
+#		#VAIH:uuteen skriptiin nämä dm-kikkailut?
+#		e22_dm ${CONF_dm}
+#	;;
 	*)
-		echo "-h"
 		exit
 	;;
 esac

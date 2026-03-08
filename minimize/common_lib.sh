@@ -376,7 +376,7 @@ function efk2() {
 }
 
 function common_lib_tool() {
-	dqb "common_lib_tool( ${1}  , ${2}) "
+	dqb "common_lib_tool( ${1}  , ${2} ) "
 	[ -d ${1} ] || exit 66
 	[ -z "${2}" ] && exit 67
 	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSing f ILE"
@@ -761,14 +761,15 @@ function pre_enforce() {
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
 		fi
 
-		#080326:voisi ao. tdston nimetä uudestaan (pääte)
+		#080326:voisi ao. tdston nimetä uudestaan (pääte) ... ja mitä muita säätöä tuleekaan (TODO)
 		if [ -f ${1}/changedns.sh ] ; then
 			dqb "SÖSSÖN SÖSSÖN"
 
-			#080326.2:svm voisi jstkossa tehdä enemmän 
+			#080326.2:svm voisi jstkossa tehdä enemmän (TODO)
 			${svm} ${1}/changedns.sh /opt/bin
 		fi
 
+		#TODO:jatkossa pikemminkin koko hmiston alaiset kalat sudoersiin
 		mangle_s /opt/bin/changedns.sh ${q}
 		csleep 1
 	fi
@@ -943,7 +944,7 @@ function e_h() {
 	dqb "F1ND D0N3"
 	csleep 1
 
-	#080326:tähän mahdollisesti muutoksia myöhemmin (kts interfaces.tmp ja changedns.sh liittyen)
+	#TODO:tähän mahdollisesti muutoksia myöhemmin (kts interfaces.tmp ja changedns.sh liittyen)
 	for f in ${2} /opt/bin ; do
 		${scm} 0511 ${f}/changedns.sh
 		${sco} root:root ${f}/changedns.sh
@@ -977,7 +978,7 @@ function enforce_access() {
 
 	[ -z "${1}" ] && exit 67
 	[ -z "${2}" ] && exit 68
-	[ -z "${3}" ] && exit 66
+	#[ -z "${3}" ] && exit 66
 
 	csleep 1
 	dqb "changing /sbin , /etc and /var 4 real"

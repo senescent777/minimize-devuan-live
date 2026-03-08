@@ -355,7 +355,6 @@ dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
 
-#VAIH:tdstonimi parametrIksi
 function tpr() {
 	dqb "UPIR  ${1} , ${2}"
 	csleep 1
@@ -477,6 +476,7 @@ case "${mode}" in
 	;; 
 	0|3) 
 		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
+		#080326:toimii edelleen mod pientä kiukuttelua josqs
 
 		echo "ZER0 S0UND"
 		csleep 1
@@ -520,18 +520,17 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
-	r) #VAIH:testaus
-	#TODO?:tapaus ilman -v, korjaa?
+	r) #080326:toimii, luulisin
 		[ -d ${srcfile} ] || exit 22
 		[ -v CONF_default_arhcive ] || exit 23
  		[ -v CONF_default_arhcive2 ] || exit 24
 
 		#tar -> tpr ?
-		${srat} -C ~ -jxf ~/${CONF_default_arhcive2} #VAIH:tästäkin tdstonimestä const?
+		${srat} -C ~ -jxf ~/${CONF_default_arhcive2}
 		tpr ${srcfile} ${CONF_default_arhcive}
 	;;
 	q)
-		#TODO:testaus taas josqs
+		#TODO:testaus taas josqs lähiaikoina, "exp2 q" sorkuttu uusicksi
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		[ -v CONF_default_arhcive ] || exit 23
