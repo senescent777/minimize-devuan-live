@@ -177,7 +177,7 @@ if [ -f /.chroot ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
-	enforce_access ${n} ${d0} ${CONF_iface} #3. param ei niin tarpeellinen
+	enforce_access ${n} ${d0}
 fi
 
 csleep 2
@@ -278,10 +278,13 @@ ${asy}
 dqb "GR1DN BELIALAS KYE"
 
 #TODO:ao. for-blokkiin muutoksia jatkossa (kts. changedns.sh,interfaces.tmp mm.)
-#TODO:"for... scm" korvaaminen common_lib.e_h() ?
+#VAIH:"for... scm" korvaaminen common_lib.e_h´FINAL() ?
+e_final
+e_h ${n} ${d0} 
+
 for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
-	${scm} 0511 ${x}
-	${sco} root:root ${x}
+#	${scm} 0511 ${x}
+#	${sco} root:root ${x}
 	${odio} ${x} ${CONF_dnsm} #${distro}
 	#[ -x $x ] && exit for 
 done

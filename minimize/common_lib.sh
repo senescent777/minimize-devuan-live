@@ -761,16 +761,22 @@ function pre_enforce() {
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
 		fi
 
-		#080326:voisi ao. tdston nimetä uudestaan (pääte) ... ja mitä muita säätöä tuleekaan (TODO)
-		if [ -f ${1}/changedns.sh ] ; then
+		#080326:voisi ao. tdston nimetä uudestaan (pääte) ... ja mitä muita säätöä tuleekaan (VAIH)
+		#if [ -f ${1}/changedns.sh ] ; then
+		if [ -d  ${1}/opt/bin ] ; then
 			dqb "SÖSSÖN SÖSSÖN"
 
-			#080326.2:svm voisi jstkossa tehdä enemmän (TODO)
-			${svm} ${1}/changedns.sh /opt/bin
+			#080326.2:svm voisi jstkossa tehdä enemmän (VAIH)
+			#changedns.sh
+			${svm} ${1}/opt/bin/*.bash  /opt/bin
 		fi
 
-		#TODO:jatkossa pikemminkin koko hmiston alaiset kalat sudoersiin
-		mangle_s /opt/bin/changedns.sh ${q}
+		#VAIH:jatkossa pikemminkin koko hmiston alaiset kalat sudoersiin
+		# /opt/bin/changedns.sh ${q}
+		for f in $(${odio} find /opt/bin/*.bash) ; do
+			mangle_s ${f} ${q}
+		done
+
 		csleep 1
 	fi
 
@@ -944,22 +950,31 @@ function e_h() {
 	dqb "F1ND D0N3"
 	csleep 1
 
-	#TODO:tähän mahdollisesti muutoksia myöhemmin (kts interfaces.tmp ja changedns.sh liittyen)
-	for f in ${2} /opt/bin ; do
-		${scm} 0511 ${f}/changedns.sh
-		${sco} root:root ${f}/changedns.sh
-	done
+	#VAIH:tähän mahdollisesti muutoksia myöhemmin (kts interfaces.tmp ja changedns.sh liittyen)
+	#for f in ${2} /opt/bin ; do
+	#	${scm} 0511 ${f}/changedns.sh
+	#	 ${f}/changedns.sh
+	#done
+
+	if [ -d ${2}/opt/bin ] ; then
+		${sco} -R root:root ${2}/opt/bin
+		${scm} go-wr ${2}/opt/bin/*
+		${scm} 0511 ${2}/opt/bin/*.sh
+		${scm} 0511 ${2}/opt/bin/*.bash
+	fi
 
 	dqb "e_h"
 	csleep 1
 }
 
 function e_final() {
-	dqb "e_final ${1} " #HUOM.2501133326:mihin tarvitsee parametria?
+	dqb "e_final ( ${1} ) " #HUOM.2501133326:mihin tarvitsee parametria?
 	csleep 1
 
 	#${scm} a-w /opt/bin/*
 	${scm} go-rw /opt/bin/*
+	${scm} 0511 /opt/bin/*.sh
+	${scm} 0511 /opt/bin/*.bash
 	${sco} -R root:root /opt
 
 	${scm} 0755 /
@@ -988,7 +1003,7 @@ function enforce_access() {
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
 	e_h ${1} ${2}
-	e_final ${3}
+	e_final #${3}
 
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
