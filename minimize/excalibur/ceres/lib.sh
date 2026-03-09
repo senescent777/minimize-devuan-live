@@ -11,32 +11,17 @@ function tpc7() {
 	${shary} nftables #excalibur-spesifisiä?
 	${shary} isc-dhcp-client isc-dhcp-common
 }
-#VAIH:pkgs_drop
+
 #function t2p() {
 #	dqb "XC.T2P"
 #	
-#	${sharpy} bsdextrautils*  # util-linux
-#	${sharpy} rfkill uuid-runtime
-#	t2p_filler	
 #
-#	${sharpy} arch-test debootstrap #eipä poistunut aiemmin
-#	t2p_filler
-#
-#	#HUOM.28525:a) grubiin liitt. nalkutukset b) ainakin osa noista pitäisi poistua jo aiemmin
-#	${sharpy} fuse3 gir* gsettings* gstreamer* # grub*
-#	t2p_filler #ei poista libgtk3?
 #
 ##	#mitä tekee luit? entä libngtcp2? ocl-icd-jotain ?
 #
-#	${sharpy} libgstreamer* lm-sensors ocl-icd*
 #	#${sharpy} libgssapi*
 #	t2p_filler
 #
-#	${sharpy} mc* os-prober rsync # mythes* poistuu muualla
-#	t2p_filler
-#
-#	${sharpy} squashfs-tools upower w3m wget #upower meni jo tilaan rc
-#	t2p_filler
 #
 #	dqb "XC.T2P.DONE"
 #	csleep 1
@@ -60,5 +45,5 @@ function tpc7() {
 }
 
 check_binaries ${d}
-#TODO:lkftr-jutut
+#lftr-jutut josqs?
 check_binaries2
