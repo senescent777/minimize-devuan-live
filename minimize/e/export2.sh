@@ -78,7 +78,7 @@ if [ -z "${mkt}" ] ; then
 	exit 8
 fi
 
-#dirnamen kanssa ei oikein toiminut
+#dirnamen kanssa ei oikein toiminut aiemmin
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
 	dqb $?
@@ -104,7 +104,7 @@ case ${mode} in
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
 #	;;
-	f) #VAIH:testaus (seur pakettei $d alle)
+	f) #090326:vissiin tekee paketin, purq vielä testaten
 		enforce_access ${n} ${t}
 		e22_fgh ${tgtfile} ${d}
 	;;
@@ -118,7 +118,7 @@ case ${mode} in
 	c) #VAIH:testaa miten paketin sisältö purkautuu
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
-	g) #VAIH:testit (oksennetuille komennoille niinqy)
+	g) #090326:oksennetut komennot vissiin ok edelleen
 		e23_ghi ${tgtfile} ${d0} ${distro}
 		exit
 	;;

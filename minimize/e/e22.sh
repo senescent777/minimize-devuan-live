@@ -678,7 +678,7 @@ function e22_arch() {
 ##	exit
 #}
 
-#VAIH:test (080326)
+#090326:taitaa toimia
 function e22_fgh() {
 	dqb "e22_fgh( ${1} ; ${2} ; ${3} )"
 	[ -z "${1}" ] && exit 99
