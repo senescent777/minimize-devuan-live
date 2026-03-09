@@ -353,7 +353,7 @@ function e23_qrs() {
 #	${shary} ${E22_GX}  #libsystemd0
 #}
 
-#080326:testaus käynnissä
+#090326:tekee paketin
 function e23_profs() {
 	[ -z "${1}" ] && exit 99
 	[ -s ${1} ] || exit 98 #pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
@@ -369,10 +369,10 @@ function e23_profs() {
 	cd ${q} #antaa nyt cd:n olla toistaiseksi
 	[ $? -eq 0 ] || exit 77
 
-#	#jospa antaisi vihjeen ifup:ista jatkossa?
-#TODO:pois kommenteista tig
-#	${tig} clone https://${BASEURL}/more_scripts.git
-#	[ $? -eq 0 ] || exit 99
+	#jospa antaisi vihjeen ifup:ista jatkossa?
+
+	${tig} clone https://${BASEURL}/more_scripts.git
+	[ $? -eq 0 ] || exit 99
 	
 	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
 	mv more_scripts/profs/profs* ${2}

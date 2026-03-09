@@ -122,7 +122,7 @@ case ${mode} in
 		e23_ghi ${tgtfile} ${d0} ${distro}
 		exit
 	;;
-	p) #VAIH:testit.paketin.purq (qhan kasaaminen ensin)
+	p) #090326:tekee paketin, sisällön toimivuuden testaus erikseen
 		e22_hdr ${tgtfile}
 		e23_profs ${tgtfile} ${d0}	
 	;;
