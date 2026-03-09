@@ -95,7 +95,6 @@ fi
 [ -z "${tgtfile}" ] && exit 98
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
-#VAIH:q,rp,,c,p
 #TODO:jospa myös keskeyttäisi suorituksen mikäli ei mode täsmää mihinkään
 
 case ${mode} in
@@ -138,7 +137,7 @@ esac
 exit 666
 
 #TODO:ao.for-blokkiin muutoksia jatkossa (kts generic_doit esmes)
-#for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
+#for x in /opt/bin/changedns.bash /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 #	${scm} 0555 ${x}
 #	${sco} root:root ${x}
 #	#distro-param takaisin mikä li a lkaa cross-distro-kikkailuihin
