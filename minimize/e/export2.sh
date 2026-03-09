@@ -95,7 +95,7 @@ fi
 [ -z "${tgtfile}" ] && exit 98
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
-#VAIH:q,rp,f,g,c,p
+#VAIH:q,rp,,c,p
 #TODO:jospa myös keskeyttäisi suorituksen mikäli ei mode täsmää mihinkään
 
 case ${mode} in
@@ -109,10 +109,14 @@ case ${mode} in
 		e22_fgh ${tgtfile} ${d}
 	;;
 	q)
-		#VAIH:tämän casen testaus (paketin purku lähinnä)
-		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
+		#090326:tehnee åpaketin, purq testattava
+		#[ -v CONF_iface ] && ${sifd} ${CONF_iface} TODO:takaisin kmmenteista sasp
 		e22_hdr ${tgtfile}
-		e23_qrs ${tgtfile} ${d0}
+
+		[ -v CONF_default_arhcive ] || exit 33
+		[ -v CONF_default_arhcive2 ] || exit 34
+
+		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		exit #tarkoitus olisi ettei suoritusta jatkettaisi tätä pidemmälle
 	;;
 	c) #VAIH:testaa miten paketin sisältö purkautuu

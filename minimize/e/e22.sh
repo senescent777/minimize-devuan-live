@@ -234,6 +234,7 @@ function e22_settings() {
 	[ -s ${1}/${2} ] || exit 32
 	local t
 	t=$(tar -tf ${1}/${2} | grep prefs.js | wc -l)
+	dqb "FOUND PREFS: ${t}"
 	[ ${t} -lt 1 ] && exit 27
 }
 
