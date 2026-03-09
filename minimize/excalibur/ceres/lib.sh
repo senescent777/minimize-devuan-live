@@ -5,6 +5,7 @@
 
 #jotain tämmöistä tähänn fktioon olisi tarkoitus tulla jatkossa
 #HUOM. tablesiin liittyviä säätöjä olisi parent-hmiston skripteissä (export2?)
+
 function tpc7() {
 	dqb "UNDER CONSTRUCTION"
 
@@ -12,21 +13,6 @@ function tpc7() {
 	${shary} isc-dhcp-client isc-dhcp-common
 }
 
-#function t2p() {
-#	dqb "XC.T2P"
-#	
-#
-#
-##	#mitä tekee luit? entä libngtcp2? ocl-icd-jotain ?
-#
-#	#${sharpy} libgssapi*
-#	t2p_filler
-#
-#
-#	dqb "XC.T2P.DONE"
-#	csleep 1
-#}
-#
 function pre_part2() {
 	dqb "XC.pre_part2()"
 	csleep 1
@@ -44,6 +30,4 @@ function tpc7() {
 	#${shary} nftables #excalibur-spesifisiä?	
 }
 
-check_binaries ${d}
 #lftr-jutut josqs?
-check_binaries2
