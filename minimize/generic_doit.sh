@@ -12,7 +12,7 @@ d=${d0}/${distro}
 function parse_opts_1() {
 	dqb "parseopts_1 ${1} ${2}"
 
-	if [ -d ${d0}/${1} ] ; then
+	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
 		#toimiikohan tämä kohta? pitäiskö tegdä toisin, opts_2() ?
 		distro=${1}
 	else
@@ -204,7 +204,7 @@ c13=0
 [ ${mode} -eq 1 ] && c14=1
 
 #==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
-#... joskohan voisi arpomisen lopettaa joskus?
+#... joskohan voisi arpomisen lopettaa joskus? lopettelun visi aloittaa vhitellen (090326)
 
 if [ -v LCF666 ] ; then
 	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
@@ -282,7 +282,7 @@ dqb "GR1DN BELIALAS KYE"
 e_final
 e_h ${n} ${d0} 
 
-for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
+for x in  /opt/bin/changedns.bash /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 #	${scm} 0511 ${x}
 #	${sco} root:root ${x}
 	${odio} ${x} ${CONF_dnsm} #${distro}

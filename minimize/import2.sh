@@ -33,7 +33,7 @@ fi
 #030326:toimiikohan tämä nykyään? etenkään toivotulla tavalla? selvitä jposqs?
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
-		distro=${1}
+		distro=${1} #090326:kuinkahan oleellinen distron yliajo?
 		d=${d0}/${distro}
 	fi
 }
@@ -65,6 +65,8 @@ if [ -f /.chroot ] ; then
 	fi
 
 	#gpg-tark kuitenkin ensin?
+	#090326:pitäisiköhän myös tämä tarkistus-osuus muuttaa fktioksi, ennen chroot-tark ?
+
 	g=$(which gpg)
 	sleep 1
 	cd ${p}
@@ -79,7 +81,8 @@ if [ -f /.chroot ] ; then
 		
 		sleep 1
 	fi
-	
+	#
+
 	unset q
 	unset r
 	unset g
@@ -125,9 +128,11 @@ else
 		#chroot-ynmp tulee nalqtusta tästä?
 		odio=$(which sudo)
 	fi
-	
+
+	#"tar -cvf OLD.tar"-syystä ei tätä tekstiä huomaa	
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
-	
+	sleep 5
+
 	function check_binaries() {
 		dqb "imp2.check1"
 
@@ -226,7 +231,7 @@ if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
 else
 	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE "
 	csleep 1
-	${srat} -cvf /OLD.tar /etc /sbin /home/stubby ~/Desktop
+	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
 dqb "ip2.m.Lpg"
@@ -318,12 +323,17 @@ function common_part() {
 
 function cptp2() {
 	dqb "common_part tp2 ${1}, ${2}, ${3}"
+
 	[ -z "${1}" ] && echo 99
 	[ -z "${2}" ] && echo 98
 	[ -d ${1} ] || exit 97
 
+	dqb "cptp2:pars ok"
+	csleep 1
+
+	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
 	local t
-	t=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c 0-9a-fA-F/.)
+	t=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 	
 	if [ -x ${t}/common_lib.sh ] ; then
 		#TODO:sha-sig-tarkistus tähän? entä process_lib():iin ?
@@ -335,6 +345,7 @@ function cptp2() {
 
 	csleep 1
 
+	#090326:toimiiko toivotulla tavalla? toivottavasti nytq tr-kikkailut kirjattu
 	if [ -d ${t} ] ; then
 		dqb "HAIL UKK"
 

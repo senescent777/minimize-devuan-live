@@ -11,7 +11,7 @@ mode=3
 function parse_opts_1() {
 	echo "popt_1( ${1} )"
 
-	if [ -d ${d0}/${1} ] ; then
+	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
 		distro=${1}
 	else
 		case  "${1}" in
@@ -53,7 +53,7 @@ else
 	exit 89
 fi
 
-[ -z ${distro} ] && exit 6
+[ -z "${distro}" ] && exit 6
 dqb "BEFORE L1B"
 process_lib ${d}
 
@@ -61,7 +61,7 @@ process_lib ${d}
 e_final
 e_h ${n} ${d0} 
 
-for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
+for x in /opt/bin/changedns.bash /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 	#${scm} 0511 ${x}
 	#${sco} root:root ${x}
 	${odio} ${x} ${CONF_dnsm} #${distro}

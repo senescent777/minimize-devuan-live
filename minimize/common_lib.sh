@@ -763,17 +763,19 @@ function pre_enforce() {
 
 		#080326:voisi ao. tdston nimetä uudestaan (pääte) ... ja mitä muita säätöä tuleekaan (VAIH)
 		#if [ -f ${1}/changedns.sh ] ; then
-		if [ -d  ${1}/opt/bin ] ; then
+		if [ -d ${1}/opt/bin ] ; then
 			dqb "SÖSSÖN SÖSSÖN"
 
 			#080326.2:svm voisi jstkossa tehdä enemmän (VAIH)
-			#changedns.sh
-			${svm} ${1}/opt/bin/*.bash  /opt/bin
+			${svm} ${1}/opt/bin/*.bash /opt/bin
+
+			#090326.1:pitäisiköhän kopsata enemmän?
+			#090326.2:miten /o/b/zxcv ja /o/b alaiset skRiptit`
 		fi
 
 		#VAIH:jatkossa pikemminkin koko hmiston alaiset kalat sudoersiin
 		# /opt/bin/changedns.sh ${q}
-		for f in $(${odio} find /opt/bin/*.bash) ; do
+		for f in $(${odio} find /opt/bin -type f -name '*.bash') ; do
 			mangle_s ${f} ${q}
 		done
 

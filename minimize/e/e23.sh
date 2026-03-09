@@ -13,7 +13,7 @@ csleep 1
 #	[ -d ${1} ] || exit 15 
 #	[ -z "${2}" ] && exit 12
 #	[ -z "${3}" ] && exit 13
-#	[ -z "${4}" ] && exit 14
+#	[ -z "${4}" ] && exit 14 #HUOM.tämän trapeellisuus?
 #
 #
 #	${fib}

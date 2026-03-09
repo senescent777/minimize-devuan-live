@@ -40,7 +40,7 @@ fi
 
 function parse_opts_1() {
 	if [ -d ${d}/${1} ] ; then
-		distro=${1}
+		distro=${1} #090326:kuinkahan oleellinen distron yliajo?
 		d=${d0}/${distro}
 	fi
 }
@@ -133,7 +133,7 @@ esac
 
 exit 666
 
-#TODO:ao.for-blokkiin muutoksia jatkossa
+#TODO:ao.for-blokkiin muutoksia jatkossa (kts generic_doit esmes)
 #for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
 #	${scm} 0555 ${x}
 #	${sco} root:root ${x}
@@ -173,8 +173,8 @@ case ${mode} in
 #
 #		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 #		if [ ${mode} -eq 3 ] ; then
-#			e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-#			e22_other_pkgs ${CONF_dnsm}
+#			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+#			e23_other_pkgs ${CONF_dnsm}
 #
 #		else
 #			doit=0
@@ -187,7 +187,7 @@ case ${mode} in
 #		fasdfasd /opt/bin/zxcv #onko ihan pakko? 
 #
 #		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv
-#		reqwreqw  /opt/bin/zxcv
+#		reqwreqw /opt/bin/zxcv
 #		csleep 1
 #
 #		fasdfasd /opt/bin/zxcv.sig	
