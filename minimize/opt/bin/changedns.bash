@@ -1,0 +1,469 @@
+debug=1
+mode=-1
+distro=$(cat /etc/devuan_version)
+
+if [ -f /.chroot ] ; then
+	odio=""
+else
+	odio=$(which sudo)
+fi
+
+chmod a-wx ./clouds*
+chown root:root ${0}
+chmod 0511 ${0}
+
+
+function dqb() {
+	[ ${debug} -eq 1 ] && echo ${1}
+}
+
+function csleep() {
+	[ ${debug} -eq 1 ] && sleep ${1}
+}
+
+sah6=$(which sha512sum)
+
+mode=${1}
+
+function gf() {
+	dqb "gf $1, $2"
+	csleep 1
+
+	[ -z "${1}" ] && exit 103
+	local c2
+
+	if [ -z "${2}" ] ; then
+		c2=$(${odio} find ${1} -type d -not -user 0 | wc -l)
+	else
+		dqb "find ${1} -name ${2} -type d -not \$smthing"
+		c2=$(${odio} find ${1} -name '${2}*' -type d -not -user 0 | wc -l)
+	fi
+
+	[ ${c2} -gt 0 ] && exit 104
+
+	if [ -z "${2}" ] ; then
+		c2=$(${odio} find ${1} -type d -not -group 0 | wc -l)
+	else
+		c2=$(${odio} find ${1} -name '${2}*' -type d -not -group 0 | wc -l)
+	fi
+
+	[ ${c2} -gt 0 ] && exit 105
+}
+
+function gh() {
+	dqb "gh $1 , $2"
+	csleep 1
+
+	[ -z "${1}" ] && exit 108
+	local c2
+
+	if [ -z "${2}" ] ; then
+		c2=$(${odio} find ${1} -type f  -not -user 0 | wc -l)
+	else
+		dqb "find ${1} -type f -name "
+		c2=$(${odio} find ${1} -type f -name '${2}*' -not -user 0 | wc -l)
+	fi
+
+	[ ${c2} -gt 0 ] && exit 106
+
+	if [ -z "${2}" ] ; then
+		c2=$(${odio} find ${1} -type f -not -group 0 | wc -l)
+	else
+		c2=$(${odio} find ${1} -type f -name '${2}*' -not -group 0 | wc -l)
+	fi
+
+	[ ${c2} -gt 0 ] && exit 107
+}
+
+function epr1() {
+	dqb "31n-p0d-r05..."
+	csleep 1
+	local c
+
+	gf /opt
+        c=$(find /opt -type d -perm /o+w,g+w | wc -l)
+        [ ${c} -gt 0 ] && exit 106
+
+	c=$(find /opt/bin -type f -perm /o+w,g+w,o+r,g+r | wc -l)
+        [ ${c} -gt 0 ] && exit 108
+	gh /opt/bin
+
+	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
+	[ ${c} -gt 0 ] && exit 111
+
+       	c=$(find /etc -name 'iptab*' -type d -perm /g+w | wc -l)
+        [ ${c} -gt 0 ] && exit 123
+
+	gf /etc iptab
+	${odio} rm /etc/default/rules*
+
+	[ ${c} -gt 0 ] && exit 114
+
+	c=$(${odio} find /etc -name 'rules.v?.?' -type f -perm /g+x,g+w | wc -l)
+      	[ ${c} -gt 0 ] && exit 124
+
+	gh /etc rules.v
+
+	c=$(find /etc -name 'sudoers*' -type d -perm /o+w,o+r,o+x | wc -l)
+	[ ${c} -gt 0 ] && exit 117
+	gf /etc sudoers
+
+	c=$(find /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
+	[ ${c} -gt 0 ] && exit 120
+	gf /etc/sudoers.d
+
+	if [ -x /usr/sbin/ntpd ] ; then
+		dqb "RA1N 1N SPA1N"
+		c=$(find /etc -name 'ntp*' -type f -perm /o+w | wc -l)
+        	[ ${c} -gt 0 ] && exit 126
+		gh /etc ntp
+	fi
+}
+
+epr1
+
+function p3r1m3tr() {
+	dqb "P3R1M3TR"
+	csleep 1
+
+
+	chmod 0400 /etc/iptables/*
+	chmod 0550 /etc/iptables
+	chown -R root:root /etc/iptables
+	chmod 0400 /etc/default/rules*
+	chown -R root:root /etc/default
+
+	local p
+	p=$(pwd)
+	cd /
+
+	${sah6} --ignore-missing -c /opt/bin/zxcv
+	[ $? -eq 0 ] || exit 66
+	cd ${p}
+
+	chmod 0400 /opt/bin/zxcv*
+	chown root:root /opt/bin/zxcv*
+
+	if [ -s /opt/bin/zxcv.sig ] ; then
+		local g
+		g=$(which gpg)
+
+		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
+			${gg} --verify /opt/bin/zxcv.sig
+			[ $? -gt 0 ] && exit 126
+		fi
+	fi
+
+	/bin/netstat -tulpan;sleep 2
+	dqb "P3R1MTR D0N3"
+}
+
+p3r1m3tr
+
+	1)
+		dqb "maybe ok"
+	;;
+	*)
+		echo "${0} <mode> [other_params]";exit 13
+	;;
+esac
+
+dqb "mode=${mode}"
+dqb "distro=${distro}"
+csleep 1
+
+
+smr=$(${odio} which rm)
+ipt=$(${odio} which iptables)
+slinky=$(${odio} which ln)
+spc=$(${odio} which cp)
+slinky="${slinky} -s "
+sco=$(${odio} which chown)
+scm=$(${odio} which chmod)
+svm=$(${odio} which mv)
+
+ip6t=$(${odio} which ip6tables)
+iptr=$(${odio} which iptables-restore)
+ip6tr=$(${odio} which ip6tables-restore)
+
+dqb "when in trouble, \"${odio} chmod 0755  \*.sh ;${odio} chmod 0755 \${distro}; ${odio} chmod 0755 \${distro}/ \*.sh; ${odio} chmod 0644 \${distro}/conf\" may help "
+
+function tod_dda() { 
+	dqb "tod_dda( ${1} ) "
+}
+
+function dda_snd() {
+	dqb "dda_snd( ${1})"
+
+	local t
+
+	${ipt} -A b -p udp -m udp -s ${t} --sport 53 -j ACCEPT 
+	${ipt} -A e -p udp -m udp -d ${t} --dport 53 -j ACCEPT
+}
+
+function ptn_dda() {
+	local t
+
+	${ipt} -A b -p udp -m udp -s ${t} --sport 123 -j ACCEPT
+	${ipt} -A e -p udp -m udp -d ${t} --dport 123 -j ACCEPT
+}
+
+
+function clouds_pp1() {
+	csleep 1
+	local f
+
+	for f in /etc/resolv.conf /etc/dhcp/dhclient.conf ; do
+				${smr} ${f}
+				[ $? -gt 0 ] && dqb "FAILURE TO COMPLY WHILE TRYING TO REMOVE ${f}"
+			fi
+		else
+			dqb "NOt A SHARk... link: ${f}"
+			${svm} ${f} ${f}.OLD
+		fi
+	done
+
+	if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 	
+		${smr} /sbin/dhclient-script
+		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHIOLE TRYINMG TO REMOVE DHCLIENT-SCRIPT"
+	fi
+
+	if [ -h /etc/network/interfaces ] ; then
+		${smr} /etc/network/interfaces
+	else
+		${svm} /etc/network/interfaces /etc/network/interfaces.OLD
+	fi
+
+	dqb "pp1 done"
+}
+
+
+function tlah() {
+	if [ ${1} -gt 0 ] ; then
+		dqb "SHOULD / sb1n / h4lt npow"
+		csleep 1
+		[ ${debug} -eq 1 ] || /sbin/halt
+	fi
+}
+
+function clouds_pp3() {
+	csleep 1
+
+	[ -z "${1}" ] && /sbin/halt
+	csleep 1
+	dqb "paramz 0k"
+	csleep 1
+	p3r1m3tr
+
+	local c
+	c=$(${ipt} -L  | grep policy | grep ACCEPT | wc -l)
+	tlah ${c}
+
+	c=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
+	tlah ${c}
+
+	dqb "accept that"
+	csleep 2
+
+	local p
+	p=$(echo ${1} | tr -d -c 0-9)
+	dqb "bfore -f"
+	csleep 2
+
+	[ -f /etc/iptables/rules.v4.${p} ] || tlah 1
+        [ -f /etc/iptables/rules.v6.${p} ] || tlah 1
+	dqb "bfore -s"
+	csleep 2
+
+	[ -s /etc/iptables/rules.v4.${p} ] || tlah 1
+	[ -s /etc/iptables/rules.v6.${p} ] || tlah 1
+	dqb "just bfore iptr"
+	csleep 2
+
+
+	${iptr} /etc/iptables/rules.v4.${p}
+	tlah $?
+	csleep 2
+
+	dqb "v4 reloaded ok"
+
+	${ip6tr} /etc/iptables/rules.v6.${p}
+	tlah $?
+	csleep 2
+	dqb "v6 reloaded ok"
+
+
+	dqb "56"
+	csleep 2
+	dqb "pp3 done"
+}
+
+function clouds_pre() {
+	dqb "cdns.clouds_pre( ${1}, ${2} )"
+	csleep 1
+
+	[ -z "${1}" ] && exit 65
+
+	local t
+	dqb "jst bef0re loop"
+	csleep 1
+
+	for t in INPUT OUTPUT FORWARD ; do
+		${ipt} -P ${t} DROP
+		tlah $?
+		dqb "V4 ${t} ok"; csleep 2
+
+		${ipt} -F ${t}
+		tlah $?
+
+		${ip6t} -P ${t} DROP
+		tlah $?
+		dqb "V6 ${t} ok"; csleep 2
+
+		${ip6t} -F ${t}
+		tlah $?
+		dqb "V6 -GF ${t} ok"; csleep 2
+	done
+
+	clouds_pp1
+	csleep 1
+
+
+	dqb "cpp2"
+	csleep 1
+
+	clouds_pp3 ${t}
+	csleep 1
+	dqb "4 n0RS3M3N"
+
+	[ -f /etc/resolv.conf.${t} ] && ${slinky} /etc/resolv.conf.${t} /etc/resolv.conf
+	[ ${debug} -eq 1 ] && ls -las /etc/resolv*;sleep 1
+
+	[ -f /etc/dhcp/dhclient.conf.${t} ] && ${slinky} /etc/dhcp/dhclient.conf.${t} /etc/dhcp/dhclient.conf
+	[ -f /sbin/dhclient-script.${t} ] && ${spc} /sbin/dhclient-script.${t} /sbin/dhclient-script
+
+
+	[ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
+	[ y"${ipt}" == "y" ] && exit 666
+
+	dqb "S0UL SARC1F1C3 6,9"
+}
+
+function clouds_post() {
+	dqb "cdns.clouds_post() "
+	dqb "scm= ${scm}"
+	dqb "sco =${sco}"
+
+	csleep 1
+	local f
+	g=$(pwd)
+	cd /
+
+		${scm} 0444 ${f}
+		${sco} root:root ${f}
+	done
+
+	cd ${g}
+
+	for f in $(find /sbin -type f -name 'dhclient*') ; do
+		${scm} 0555 ${f}
+		${sco} root:root ${f}
+	done
+
+	p3r1m3tr
+
+	for f in $(find /etc -type f -name 'ntp*') ; do
+		${scm} 0444 ${f}
+                ${sco} root:root ${f}
+	done
+
+	${scm} 0555 /etc/dhcp
+	${scm} 0555 /sbin
+	${scm} 0555 /etc/network
+	${sco} root:root /etc/network 
+	${scm} 0555 /etc/init.d/ntpsec
+	${sco} 0:0 /etc/init.d/ntpsec
+
+	if [ -x /usr/sbin/ntpd ] ; then
+		${ipt} -A INPUT -p udp -m udp --sport 123 -j b 
+		${ipt} -A OUTPUT -p udp -m udp --dport 123 -j e
+
+
+		csleep 1
+		dqb "SHOULD START /etc/init.d/ntpsec AROUND HERE"
+		csleep 1
+	fi
+
+	if [ ${debug} -eq 1 ] ; then
+		csleep 2
+		dqb "===================666======================================"
+		csleep 2
+		csleep 1 
+
+	dqb "d0n3"
+}
+
+function clouds_case0_0() {
+	dqb "0 cc of ??? intravenompously stat"
+}
+
+function clouds_case1_0() {
+	dqb "c10"
+}
+
+function clouds_case0_1() {
+	dqb " clouds_case0_1()"
+	csleep 1
+
+	if [ -s  /etc/resolv.conf ] ; then
+	else
+		dqb "NO RESOLV.CONF FOUND, HAVE TO USE ALT CONF"
+
+		if [ z"${CONF_dsn}" != "z" ] ; then
+			for s in ${CONF_dsn} ;  do dda_snd ${s} ; done
+		fi
+	fi
+}
+
+function clouds_case1_1() {
+	if [ -s /home/stubby/.stubby.yml ] ; then
+	else
+		dqb "NO CONF FOUND, HAVE TO USE ALT CONF"
+
+		if [ z"${CONF_dsn}" != "z" ] ; then
+			for s in ${CONF_dsn} ;  do tod_dda ${s} ; done
+		fi
+	fi
+}
+
+function clouds_case0_2() {
+	/etc/init.d/dnsmasq stop
+	${whack} dnsmasq*
+}
+
+function clouds_case1_2() {
+	echo "dns";sleep 1
+	/etc/init.d/dnsmasq restart
+	pgrep dnsmasq
+
+}
+
+
+
+case ${mode} in 
+	0)
+		clouds_case0_0
+		clouds_case0_1
+		clouds_case0_2
+	;;
+	1)
+		clouds_case1_0
+		clouds_case1_1
+		clouds_case1_2
+	;;
+	*)
+		echo "MEE HIMAAS LEIKKIMÄHÄN"
+	;;
+esac
+
+clouds_post
