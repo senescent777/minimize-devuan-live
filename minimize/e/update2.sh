@@ -10,10 +10,11 @@ spc=$(which cp)
 [ -x ${spc} ] || exit 14
 n=$(whoami)
 
-#VAIH:pitäisi kai yo. juttujen olemassaolo tarkistaa
-
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
+		#TODO:testaus miten saa tiomimaan omegan ajon jlkeen
+		#... pitäisi onnata qhan kohteen käyttöoik kunnossa
+
 		tcmd="sudo ${tcmd} "
 		spc="sudo ${spc} "
 	fi
@@ -39,6 +40,8 @@ else
 	fi
 fi
 
+#TODO:näille main urputus jos ei ole $tgt sis hmisto mountattu?
+
 #pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
 ${tcmd} -tf ${tgt} | grep '.deb'
 sleep 1
@@ -59,14 +62,12 @@ if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	echo "YLIULIULI"
 	cd ${CONF_testgris}
 
-	#-C olisi myös keksitty
-	#nalqtus jos /etc yai /opt puuttuu paketista?
+	#TODO?:-C olisi myös keksitty
+	#TODO?:nalqtus jos /etc yai /opt puuttuu paketista?
 else
 	cd /
 fi
 
-#HUOM.jos f.tar/e.tar/OLD.tar yli x megaa ni ei tarttisi vetää mukaan
-#""
 g=$(${tcmd} -tf ${tgt} | grep -v '${n}.conf' | grep -v .chroot)
 c=$(find / -maxdepth 1 -type f -name OLD.tar -size +10M | wc -l)
 
