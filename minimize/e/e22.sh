@@ -132,19 +132,23 @@ function e22_pre1() { #VAIH:testaus
 
 #...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 #TODO:2. param pois josqs?
-#TODO:testatus myös jällleen
+
 
 function e22_pre2() {
+	dqb "e22_pre2( $1, $2, $3, $4)"
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	[ -z "${3}" ] && exit 68
 	[ -z "${4}" ] && exit 69
-#
+
+	dqb "TODO:tämä fktio käyttökuntoon vähitellebn"
+	exit 999
+
 #	local ortsac
 #	local par4
 #
 #	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
-#	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z)
+#	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
 #	par4=$(echo ${4} | tr -d -c 0-9)
 #
 #	#HUOM.020825:vähän enemmän sorkintaa tänne?
@@ -152,9 +156,9 @@ function e22_pre2() {
 #	#/e/wpa kokonaan talteen? /e/n kokonaan talteen?
 #
 #	#TODO:/o/b muutoksien sivuvaikutukset sittenq
-#	if [ -d ${1} ] && [ -x /opt/bin/changedns.sh ] ; then
+#	if [ -d ${1} ] && [ -x /opt/bin/changedns.bash ] ; then
 #		#HUOM.080326:jatkossa jos kääåntgyisi e.e. ifup käskyttäisi tarpeellisia skriptejä
-#		${odio} /opt/bin/changedns.sh ${par4} #${ortsac} tpoistaiseksi pois toka paarm
+#		${odio} /opt/bin/changedns.bash ${par4} #${ortsac} tpoistaiseksi pois toka paarm
 #		echo $?
 #		csleep 1
 #

@@ -109,7 +109,7 @@ case ${mode} in
 	;;
 	q)
 		#090326:tehnee åpaketin, purq testattava
-		#[ -v CONF_iface ] && ${sifd} ${CONF_iface} TODO:takaisin kmmenteista sasp
+		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 		e22_hdr ${tgtfile}
 
 		[ -v CONF_default_arhcive ] || exit 33
@@ -136,16 +136,17 @@ esac
 
 exit 666
 
-#TODO:ao.for-blokkiin muutoksia jatkossa (kts generic_doit esmes)
-#for x in /opt/bin/changedns.bash /opt/bin/changedns.sh ${d0}/changedns.sh ; do
+#VAIH:ao.for-blokkiin muutoksia jatkossa (kts generic_doit esmes)
+for x in /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
 #	${scm} 0555 ${x}
 #	${sco} root:root ${x}
 #	#distro-param takaisin mikä li a lkaa cross-distro-kikkailuihin
-#	${odio} ${x} ${CONF_dnsm} 
-#done
+	${odio} ${x} ${CONF_dnsm} 
+done
 
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
+exit 77
 
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 #.. kts interfaces.tmp liittyen (080326)
@@ -203,11 +204,11 @@ case ${mode} in
 #		[ -v CONF_pkgdir ] || exit 96
 #		e22_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
 #	;;
-#	e)
-#		#020326: (saa aikaiseksi ei-tyhjän paketin: 1, paketin sisältö asentuu:1)
-#		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-#		e22_other_pkgs ${CONF_dnsm}
-#	;;
+	e)
+		#VAIH:toimimaan taas
+		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+		e23_other_pkgs ${CONF_dnsm}
+	;;
 #	t) 
 #		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
 #		#cleanpkgs() tulisi hoitaa se
