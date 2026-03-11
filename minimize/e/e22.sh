@@ -1,6 +1,7 @@
 #
 #130126:sellainen aivopieru että {exp2, e22} toiminnalliSuuden saattaisi voida korvata Makefilellä ainakin osoittain
 dqb "#TODO:KVG \"/etc/network/interfaces pre_up examples\ ""
+csleep 6
 
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
@@ -97,7 +98,7 @@ function e22_ftr() {
 	cd ${p}
 }
 
-function e22_pre1() { #VAIH:testaus
+function e22_pre1() { #VAIH:testaus (alkaisikohan jo olla?)
 	dqb "e22_pre1( ${1} , ${2})"
 	#distRo-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
 	#HUOM.080326:$distyro mukaan tähän paketinhallinnan takis, ei liity changedns
@@ -122,6 +123,7 @@ function e22_pre1() { #VAIH:testaus
 
 		enforce_access ${n} ${lefid} ${CONF_iface}
 		csleep 1
+
 		${scm} 0755 /etc/apt
 		${scm} a+w /etc/apt/sources.list*
 
@@ -240,8 +242,7 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
-##TODO:testaa taas
-#VAIH:se 1 tdstonnimi paramEtriksi? jos ei ihan vielä
+#TODO:testaa taas (jokojo 12326?)
 #
 #function e22_home() {
 #
@@ -251,23 +252,23 @@ function e22_settings() {
 #	[ -d ${2} ] || exit 70
 #	[ -z "${3}" ] && exit 71
 #	[ -z "${3}" ] && exit 72
+#[ -z "${4}" ] && exit 73
 #	csleep 1
 #
 #
 #	#141225:if-lauseen pointti nykyään? tähän liittyen oli jokin idea? (120126)
 #	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
-#		e22_config1 ~ ${CONF_default_arhcive2}
+#		e22_config1 ~ ${4}
 #
 #		${NKVD} ~/${CONF_default_arhcive}
 #		e22_settings ${2}/.. ${CONF_default_arhcive}
-#	else
 #	fi
 #
 #	local t
 #	csleep 1
 #	${srat} -rvf ${1} /opt/bin 
 #
-#	for t in $(find ~ -type f -name 'merd2.sh' -or -name '${CONF_default_arhcive2}' ) ; do #qseeko tässä?
+#	for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
 #		${srat} -rvf ${1} ${t}
 #	done
 #

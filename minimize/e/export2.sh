@@ -126,7 +126,7 @@ case ${mode} in
 		e23_ghi ${tgtfile} ${d0} ${distro}
 		exit
 	;;
-	p) #110326:VAIH (testaus, sisällön lähinnä)
+	p) #110326:VAIH (testaus, sisällön lähinnä, kts $0 4)
 		[ -v CONF_default_arhcive3 ] || exit 666
 		e22_hdr ${tgtfile}
 		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
@@ -192,7 +192,7 @@ case ${mode} in
 #			doit=0
 #		fi
 #
-#		e22_home ${tgtfile} ${d} ${CONF_enforce} 
+#		e22_home ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2}
 #		e22_pre1 ${d} ${distro}
 #
 #		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
