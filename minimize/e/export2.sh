@@ -133,9 +133,13 @@ case ${mode} in
 esac
 
 #exit 666
+#VAIH:ne e_jutut tähän
+e_final
+e_h ${n} ${d0} 
 
 for x in /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
-	${odio} ${x} ${CONF_dnsm} 
+	[ -x ${f} ] ${odio} ${x} ${CONF_dnsm}
+	#exit for
 done
 
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
@@ -204,12 +208,12 @@ case ${mode} in
 		e23_other_pkgs ${CONF_dnsm}
 	;;
 	t) 
-		#toiminee sikäli mikäli e) toimii
+		#toiminee sikäli mikäli caae e) toimii
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;
-	l)
+	l) #110326:osaa tehdä' paketin ja sisältö asentui
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${CONF_dm}

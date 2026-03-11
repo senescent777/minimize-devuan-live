@@ -95,12 +95,16 @@ function el_loco() {
 		${odio} locale-gen
 	fi
 
+	#pitäisiköhän localtime ja timezone delliä jossain kohtaa?
+
 	if [ ${2} -lt 1 ] ; then
 		${svm} /etc/default/locale /etc/default/locale.ÅLD
 		fasdfasd /etc/default/locale
 		csleep 1
 
 		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
+		#env vai locale minkä oksennukset tdstoon?
+
 		env | grep LC >> /etc/default/locale
 		env | grep LAN >> /etc/default/locale
 
@@ -112,7 +116,6 @@ function el_loco() {
 		csleep 1
 		reqwreqw /etc/default/locale
 	fi
-
 
 	export LC_TIME
 	export LANGUAGE
@@ -216,7 +219,8 @@ fi
 csleep 1
 
 [ ${c13} -lt 1 ] && c14=1
-el_loco ${c14} ${c13} #joko jo c13 takaisin? kokeillaanpa
+#el_loco ${c14} ${c13} #joko jo c13 takaisin? kokeillaanpa
+el_loco ${c14} ${c14}
 #=========================================================================================
 
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then 
@@ -277,7 +281,7 @@ jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
-#TODO:ao. for-blokkiin muutoksia jatkossa (kts. changedns.sh,interfaces.tmp mm.)
+#DONE?:ao. for-blokkiin muutoksia jatkossa (kts. changedns.sh,interfaces.tmp mm.)
 
 e_final
 e_h ${n} ${d0} 
