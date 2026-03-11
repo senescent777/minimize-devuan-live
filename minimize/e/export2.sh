@@ -198,8 +198,8 @@ case ${mode} in
 #		[ -v CONF_pkgdir ] || exit 96
 #		e22_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
 #	;;
-	e)
-		#VAIH:toimimaan taas
+	e) #110326 tienoilla e/l/t - caset osasivat paketin tehdä
+		message
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e23_other_pkgs ${CONF_dnsm}
 	;;
@@ -209,14 +209,11 @@ case ${mode} in
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;
-#	l)
-#		csleep 1
-#		[ -v CONF_dm ] || exit 77
-#
-#		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
-#		#VAIH:uuteen skriptiin nämä dm-kikkailut?
-#		e23_dm ${CONF_dm}
-#	;;
+	l)
+		csleep 1
+		[ -v CONF_dm ] || exit 77
+		e23_dm ${CONF_dm}
+	;;
 	*)
 		exit
 	;;
@@ -225,7 +222,7 @@ esac
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar 
 
-	#HUOM.db-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
+	#HUOM.11326:d-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} 
 	e22_ftr ${d}/f.tar 
 

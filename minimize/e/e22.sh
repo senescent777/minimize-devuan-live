@@ -509,22 +509,23 @@ function e22_settings() {
 #	[ ${debug} -eq 1 ] && pwd
 #}
 #
-#010326:jos vaikka toimisi
-#function e22_ts() {
-#
-#	[ -z "${1}" ] && exit 13
-#	[ -d ${1} ] || exit 14 #hmistossa hyvä olla kirj.oik.
-#	[ -w ${1} ] || exit 15 
-#
-#	${svm} ${CONF_pkgdir}/*.deb ${1} #glob muutt vähän huonjo juttu oikeastaan
-#
-#	#lisätäänkö tämä arkistoon jossain? no e22_a()
-#	fasdfasd ${1}/tim3stamp
-#	date > ${1}/tim3stamp
-#
-#	cg_udp6 ${1}
-#	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
-#}
+
+function e22_ts() {
+	dqb "E222.TS $1 , $2"
+	[ -z "${1}" ] && exit 13
+	[ -d ${1} ] || exit 14 #hmistossa hyvä olla kirj.oik.
+	[ -w ${1} ] || exit 15 
+	dqb "par5 0k"	
+	csleep 1
+	${svm} ${CONF_pkgdir}/*.deb ${1} #glob muutt vähän huonjo juttu oikeastaan
+
+	#lisätäänkö tämä arkistoon jossain? no e22_a()
+	fasdfasd ${1}/tim3stamp
+	date > ${1}/tim3stamp
+
+	cg_udp6 ${1}
+	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
+}
 
 #joskohan jo toimisi 110326 mennessä ?
 function e22_arch() { 
@@ -620,10 +621,15 @@ function e22_dblock() {
 	done
 
 	local t
-	t=$(echo ${2} | cut -d '/' -f 1-5) #joitain tr-jekkuja vielä?
-	e22_ts ${2}
+	t=$(echo ${2} | cut -d '/' -f 1-6) #joitain tr-jekkuja vielä?
+	e22_ts ${t}
+	dqb "JST B3F0R3 3NF0RC3"
+	csleep 5
 
 	enforce_access ${n} ${t} #${CONF_iface}
+	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
+	csleep 5
+
 	e22_arch ${1} ${2}
 	e22_cleanpkgs ${2}
 }
