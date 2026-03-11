@@ -126,7 +126,11 @@ function e23_upgp() {
 	#[ -s ${1} ] && mv ${1} ${1}.OLD 261225 laitetttu kommentteihin koska aiheutti ongelmia
 	[ -z "${2}" ] && exit 11
 	[ -d ${2} ] || exit 22
+
 	[ -z "${3}" ] && exit 33 #kuinkahan tarpeellista on tämäkin tuoda fktioon?
+	#TODO:JOSPA KUTSUVASSA KOODISSA kuitenkin tuo ifd ?	
+	#TODO:$1 pois myös?
+
 	dqb "pars_ok"
 	${fib}
 	csleep 1

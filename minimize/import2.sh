@@ -420,6 +420,9 @@ function tpr() {
 }
 
 #261125:eka case-blokki toimii
+#HUOM.110326:voisi olla tämä case nnen common_lib ... paitsi että conf
+#... ehkä voisi cpy-pastettaa sen konftdston etsinnän
+ 
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii?
@@ -531,7 +534,7 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
-	r) #119326;uutta testiä kehiin kjohta
+	r) #119326:uutta testiä kehiin kohta? tsi g_doit kyllä...
 		[ -d ${srcfile} ] || exit 22
 		[ -v CONF_default_arhcive ] || exit 23
  		[ -v CONF_default_arhcive2 ] || exit 24

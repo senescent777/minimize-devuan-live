@@ -109,7 +109,7 @@ case ${mode} in
 		e22_fgh ${tgtfile} ${d}
 	;;
 	q)
-		#110326:tehnee paketin edelleen, purqu saattaa toimia
+		#110326:tehnee paketin edelleen, purqu saattaa myös toimia
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 		e22_hdr ${tgtfile}
 
@@ -159,6 +159,7 @@ e22_pre1 ${d} ${distro}
 #exit 77
 
 e22_hdr ${tgtfile}
+#TODO:se pre2 ylim paramn pois
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
 
 e22_cleanpkgs ${d}
@@ -175,8 +176,9 @@ case ${mode} in
 		exit 97
 	;;
 #	3|4) 
-#		#TODO:testaus TAAS , eRItyisesti miten nelosen output g_doit:n imp2-kikkailun kanssa
-#	
+#		#TODO:testaus TAAS , eRItyisesti miten nelosen output g_doit:n imp2-kikkailun kanssa?
+#		#TODO:jos sen "exp2 p" saisi samalla kertaa testattua
+# ${NKVD} ${d0}/${CONF_default_arhcive3}*
 #		[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
 #		csleep 1
 #		fasdfasd /opt/bin/zxcv
@@ -206,7 +208,7 @@ case ${mode} in
 #		reqwreqw /opt/bin/zxcv.sig			
 #		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 #	;;
-	#VAIH:testi (110326) (ainakin paketin osasi tehdä)
+	#DONE:testi (110326) (ainakin paketin osasi tehdä, asennus:toimii)
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		e23_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}

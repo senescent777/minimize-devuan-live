@@ -1,6 +1,6 @@
 #
 #130126:sellainen aivopieru että {exp2, e22} toiminnalliSuuden saattaisi voida korvata Makefilellä ainakin osoittain
-#TODO:KVG "/etc/network/interfaces pre_up examples"
+dqb "#TODO:KVG \"/etc/network/interfaces pre_up examples\ ""
 
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
@@ -241,7 +241,7 @@ function e22_settings() {
 }
 
 ##TODO:testaa taas
-##VAIH:se 1 tdstonnimi paramEtriksi? jos ei ihan vielä
+#VAIH:se 1 tdstonnimi paramEtriksi? jos ei ihan vielä
 #
 #function e22_home() {
 #

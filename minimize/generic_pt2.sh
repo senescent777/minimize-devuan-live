@@ -49,6 +49,7 @@ process_lib ${d}
 e_final
 e_h ${n} ${d0} 
 
+#if-lause sittenin parempi idea
 for x in /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
 	[ -x ${x} ] && ${odio} ${x} ${CONF_dnsm}
 done
@@ -100,7 +101,7 @@ function p2g() {
 	local g
 	local h
 
-	#jatkossa jos yhdistelisi common_lib_tool kanssa... paitsi ettäö
+	#jatkossa jos yhdistelisi common_lib_tool kanssa... paitsi että
 	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
 		dqb "SOON: \${sharpy} ${f}* "
 		csleep 1
