@@ -156,10 +156,9 @@ done
 
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
-#exit 77
-
 e22_hdr ${tgtfile}
-#TODO:se pre2 ylim paramn pois
+
+#110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
 
 e22_cleanpkgs ${d}

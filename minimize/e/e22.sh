@@ -133,7 +133,7 @@ function e22_pre1() { #VAIH:testaus
 }
 
 #...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
-#TODO:2. param pois josqs?
+#HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
 
 function e22_pre2() {
 	dqb "e22_pre2( $1, $2, $3, $4)"
