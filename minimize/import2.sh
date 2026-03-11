@@ -534,13 +534,15 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
-	r) #119326:uutta testiä kehiin kohta? tsi g_doit kyllä...
+	r) #TODO:selvitä TAAS missä qsee
 		[ -d ${srcfile} ] || exit 22
 		[ -v CONF_default_arhcive ] || exit 23
  		[ -v CONF_default_arhcive2 ] || exit 24
 
-		#tar -> tpr ?
 		${srat} -C ~ -jxf ~/${CONF_default_arhcive2}
+		echo $?
+		csleep 5
+
 		tpr ${srcfile} ${CONF_default_arhcive}
 	;;
 	q)
