@@ -93,7 +93,9 @@ fi
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 [ -z "${tgtfile}" ] && exit 98
 t=$(echo ${d} | cut -d '/' -f 1-5)
-#TODO:jospa myös keskeyttäisi suorituksen mikäli ei mode täsmää mihinkään
+
+#VAIH:jospa myös keskeyttäisi suorituksen mikäli ei mode täsmää mihinkään
+cont=0
 
 case ${mode} in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua
@@ -130,9 +132,13 @@ case ${mode} in
 	-h)
 		usage
 	;;
+#	*(
+#		cont=1
+#	;;
 esac
 
-#exit 666
+#[ $cont -eq 1 ] || exit 666
+
 #VAIH:ne e_jutut tähän
 e_final
 e_h ${n} ${d0} 
