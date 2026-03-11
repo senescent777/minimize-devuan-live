@@ -209,9 +209,13 @@ case ${mode} in
 #		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 #	;;
 	#DONE:testi (110326) (ainakin paketin osasi tehdä, asennus:toimii)
+	#...tosin uusimpien muutoksian jälkeen tulisi TAAS
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
-		e23_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
+		e23_upgp ${tgtfile} ${CONF_pkgdir} 
+		${sifd} ${CONF_iface}
+		csleep 1
+		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) #110326 tienoilla e/l/t - caset osasivat paketin tehdä , sis asentumista ei vielä testattu
 		message

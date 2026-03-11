@@ -121,15 +121,15 @@ function e23_other_pkgs() {
 
 function e23_upgp() {
 	dqb " e23_upgp() "
-	[ -z "${1}" ] && exit 1 
+	#[ -z "${1}" ] && exit 1 
 	#[ -w ${1} ] || exit 44 #man bash taas?
 	#[ -s ${1} ] && mv ${1} ${1}.OLD 261225 laitetttu kommentteihin koska aiheutti ongelmia
-	[ -z "${2}" ] && exit 11
-	[ -d ${2} ] || exit 22
-
-	[ -z "${3}" ] && exit 33 #kuinkahan tarpeellista on tämäkin tuoda fktioon?
-	#TODO:JOSPA KUTSUVASSA KOODISSA kuitenkin tuo ifd ?	
-	#TODO:$1 pois myös?
+	#[ -z "${2}" ] && exit 11
+	#[ -d ${2} ] || exit 22
+	#
+	#[ -z "${3}" ] && exit 33 #kuinkahan tarpeellista on tämäkin tuoda fktioon?
+	#VAIH:JOSPA KUTSUVASSA KOODISSA kuitenkin tuo ifd ?	
+	#VAIH:$1 pois myös?
 
 	dqb "pars_ok"
 	${fib}
@@ -145,29 +145,37 @@ function e23_upgp() {
 	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
 	csleep 1
 
-	# #d-blkissa jatkossa?
-	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
-	csleep 5
+#	# #d-blkissa jatkossa?
+#	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
+#	csleep 5
 
-	${sifd} ${3}
+	dqb " e23_upgp() done"
 	csleep 1
 
-	#HUOM.part076() ja part2_5() on keksitty (tosin e22_dblock() nykyään...)
-	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
-	csleep 1
-	
-	case ${3} in
+#	
+#	csleep 1
+}
+
+#	#HUOM.part076() ja part2_5() on keksitty (tosin e22_dblock() nykyään...)
+#	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
+#	csleep 1
+
+function e23_upgp2() {
+	[ -z "${1}" ] && exit 1 
+	[ -z "${2}" ] && exit 11
+
+	case ${2} in
 		wlan0)
 			csleep 1
 		;;
 		*)
-			${NKVD} ${2}/wpa*
+			${NKVD} ${1}/wpa*
 			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
 			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
 		;;
 	esac
 
-	dqb " e23_upgp() done"
+	dqb " e23_upgp2() done"
 	csleep 1
 }
 
