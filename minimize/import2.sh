@@ -541,7 +541,7 @@ case "${mode}" in
 		tpr ${srcfile} ${CONF_default_arhcive}
 	;;
 	q)
-		#VAIH:testaus taas josqs lähiaikoina, "exp2 q" sorkIttu uusicksi
+		#119326 taisi toimia ainakin kerrab
 		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
 
 		[ -v CONF_default_arhcive ] || exit 23

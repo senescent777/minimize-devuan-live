@@ -118,52 +118,54 @@ function e23_other_pkgs() {
 }
 
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
-#
-#function e23_upgp() {
-#	[ -z "${1}" ] && exit 1 
-#	#[ -w ${1} ] || exit 44 #man bash taas?
-#	#[ -s ${1} ] && mv ${1} ${1}.OLD 261225 laitetttu kommentteihin koska aiheutti ongelmia
-#	[ -z "${2}" ] && exit 11
-#	[ -d ${2} ] || exit 22
-#	[ -z "${3}" ] && exit 33 #kuinkahan tarpeellista on tämäkin tuoda fktioon?
-#
-#	${fib}
-#	csleep 1
-#
-#	#LOPPUU SE PURPATUS PRKL
-#	${shary} cpp-12 gcc-12-base libstdc++6 
-#	${shary} libgcc-s1 libc6 libgomp1 
-#
-#	#helpompi vain ajaa e23_dm() ennen upgp()
-#	${sag} --no-install-recommends upgrade -u
-#	echo $?
-#	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
-#	csleep 1
-#
-#	# #d-blkissa jatkossa?
-#	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
-#	csleep 5
-#
-#	${sifd} ${3}
-#	csleep 1
-#
-#	#HUOM.part076() ja part2_5() on keksitty (tosin e22_dblock() nykyään...)
-#	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
-#	csleep 1
-#	
-#	case ${3} in
-#		wlan0)
-#			csleep 1
-#		;;
-#		*)
-#			${NKVD} ${2}/wpa*
-#			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
-#			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
-#		;;
-#	esac
-#
-#	csleep 1
-#}
+
+function e23_upgp() {
+	dqb " e23_upgp() "
+	[ -z "${1}" ] && exit 1 
+	#[ -w ${1} ] || exit 44 #man bash taas?
+	#[ -s ${1} ] && mv ${1} ${1}.OLD 261225 laitetttu kommentteihin koska aiheutti ongelmia
+	[ -z "${2}" ] && exit 11
+	[ -d ${2} ] || exit 22
+	[ -z "${3}" ] && exit 33 #kuinkahan tarpeellista on tämäkin tuoda fktioon?
+	dqb "pars_ok"
+	${fib}
+	csleep 1
+
+	#LOPPUU SE PURPATUS PRKL
+	${shary} cpp-12 gcc-12-base libstdc++6 
+	${shary} libgcc-s1 libc6 libgomp1 
+
+	#helpompi vain ajaa e23_dm() ennen upgp()
+	${sag} --no-install-recommends upgrade -u
+	echo $?
+	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
+	csleep 1
+
+	# #d-blkissa jatkossa?
+	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
+	csleep 5
+
+	${sifd} ${3}
+	csleep 1
+
+	#HUOM.part076() ja part2_5() on keksitty (tosin e22_dblock() nykyään...)
+	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
+	csleep 1
+	
+	case ${3} in
+		wlan0)
+			csleep 1
+		;;
+		*)
+			${NKVD} ${2}/wpa*
+			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
+			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
+		;;
+	esac
+
+	dqb " e23_upgp() done"
+	csleep 1
+}
 
 #080326:ehkä toimii
 function e23_ghi() {
@@ -178,7 +180,7 @@ function e23_ghi() {
 	echo "$0 f ${1} ${3}"
 }
 
-#110326:ehkä toimii, purq testattava (vaih)
+#110326:ehkä toimii, purq testattu kanssa silloin
 function e23_qrs() {
 	dqb " e23_qrs( $1 , $2 , $3 , $4 )"
 
@@ -221,7 +223,7 @@ function e23_qrs() {
 		${srat} -rvf ${1} ${f}
 	done
 
-	[ ${debug} -eq 1 ] &&tar -tf ${1} | grep ${4} | wc -l
+	[ ${debug} -eq 1 ] && tar -tf ${1} | grep ${4} | wc -l
 	csleep 3
 	e22_ftr ${1}
 }
