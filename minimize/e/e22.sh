@@ -678,8 +678,7 @@ function e22_fgh() {
 	exit
 }
 
-#HUOM.080326:toiminee jnkin verran
-#VAIH:testaus kehitys/sqroot-ymp , paketin saa luotua
+#110326:toimii
 #TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?
 
 function e22_cde() {

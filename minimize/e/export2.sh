@@ -134,11 +134,7 @@ esac
 
 exit 666
 
-#VAIH:ao.for-blokkiin muutoksia jatkossa (kts generic_doit esmes)
 for x in /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
-#	${scm} 0555 ${x}
-#	${sco} root:root ${x}
-#	#distro-param takaisin mikä li a lkaa cross-distro-kikkailuihin
 	${odio} ${x} ${CONF_dnsm} 
 done
 
