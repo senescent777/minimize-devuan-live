@@ -29,6 +29,8 @@ fi
 csleep 3
 
 #080326:toimii
+#TODO:jos tässä star -> sr0 tspj,ettei ihan minne tahansa loisi arkistoa
+
 function e22_hdr() {
 	dqb "e22-HRD () ${1} "
 	[ -z "${1}" ] && exit 61
@@ -140,39 +142,39 @@ function e22_pre2() {
 	[ -z "${3}" ] && exit 68
 	[ -z "${4}" ] && exit 69
 
-	dqb "TODO:tämä fktio käyttökuntoon vähitellebn"
-	exit 999
+	dqb "VAIH:tämä fktio käyttökuntoon vähitellebn"
+	#exit 999
 
-#	local ortsac
-#	local par4
-#
-#	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
-#	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
-#	par4=$(echo ${4} | tr -d -c 0-9)
-#
-#	#HUOM.020825:vähän enemmän sorkintaa tänne?
-#	#/e/n alihakemistoihin +x ?
-#	#/e/wpa kokonaan talteen? /e/n kokonaan talteen?
-#
-#	#TODO:/o/b muutoksien sivuvaikutukset sittenq
-#	if [ -d ${1} ] && [ -x /opt/bin/changedns.bash ] ; then
-#		#HUOM.080326:jatkossa jos kääåntgyisi e.e. ifup käskyttäisi tarpeellisia skriptejä
-#		${odio} /opt/bin/changedns.bash ${par4} #${ortsac} tpoistaiseksi pois toka paarm
-#		echo $?
-#		csleep 1
-#
-#		${sifu} ${3}
-#		[ ${debug} -eq 1 ] && ${sifc}
-#		csleep 1
-#
-#		${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-#		${scm} -Rv 700 ${CONF_pkgdir}/partial/
-#
-#		${sag_u}
-#		csleep 1
-#	else
-#		exit 111
-#	fi
+	local ortsac
+	local par4
+
+	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
+	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
+	par4=$(echo ${4} | tr -d -c 0-9)
+
+	#HUOM.020825:vähän enemmän sorkintaa tänne?
+	#/e/n alihakemistoihin +x ?
+	#/e/wpa kokonaan talteen? /e/n kokonaan talteen?
+
+	#TODO:/o/b muutoksien sivuvaikutukset sittenq
+	if [ -d ${1} ] && [ -x /opt/bin/changedns.bash ] ; then
+		#HUOM.080326:jatkossa jos kääåntgyisi e.e. ifup käskyttäisi tarpeellisia skriptejä
+		${odio} /opt/bin/changedns.bash ${par4} #${ortsac} tpoistaiseksi pois toka paarm
+		echo $?
+		csleep 1
+
+		${sifu} ${3}
+		[ ${debug} -eq 1 ] && ${sifc}
+		csleep 1
+
+		${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+		${scm} -Rv 700 ${CONF_pkgdir}/partial/
+
+		${sag_u}
+		csleep 1
+	else
+		exit 111
+	fi
 }
 
 function e22_cleanpkgs() {
@@ -524,7 +526,7 @@ function e22_settings() {
 #	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 #}
 
-#VAIH:testaus(080326)
+#joskohan jo toimisi 110326 mennessä ?
 function e22_arch() { 
 	dqb "e22_arch( ${1}, ${2} )"
 	[ -z "${1}" ] && exit 1
@@ -534,7 +536,10 @@ function e22_arch() {
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 44
 
-	p=$(pwd)
+	dqb "pars ok"
+	csleep 1
+
+	local p=$(pwd)
 	csleep 1
 	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
 
@@ -585,48 +590,45 @@ function e22_arch() {
 
 	dqb "ARCH DONE"
 }
+
 #function aval0n() { #prIvaattI, toimimaan+käyttöön?
 #	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 #}
-#function e22_dblock() {
-#	[ -z "${1}" ] && exit 14
-#	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
-#	#[ -w ${1} ] || exit 16 #ei näin?
-#
-#	[ -z "${2}" ] && exit 11
-#	[ -d ${2} ] || exit 22
-#	[ -w ${2} ] || exit 23
-#
-#	[ -z "${3}" ] && exit 33
-#	[ -d ${3} ] || exit 34
-#	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
-#
-#	[ ${debug} -eq 1 ] && pwd
-#	csleep 1
-#	#aval0n #tarpeellinen?
-#	ls -la ${3}/*.deb | wc -l
-#	
-#	for s in ${PART175_LIST} ; do
-#		${sharpy} ${s}*
-#		${NKVD} ${3}/${s}*.deb
-#	done
-#
-#	local t
-#	t=$(echo ${2} | cut -d '/' -f 1-5) #joitain tr-jekkuja vielä?
-#	e22_ts ${2}
-#
-#	enforce_access ${n} ${t} #${CONF_iface}
-#	e22_arch ${1} ${2}
-#	e22_cleanpkgs ${2}
-#}
-#
-#===========================E23.SH ? =======================================
-#
-#
-#
-#
-##080326:testattu senverranq pystyy, jotain kiukuttelua aiheutui (debbug-ulostuksen typot kenties)
+
+function e22_dblock() {
+	[ -z "${1}" ] && exit 14
+	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
+	#[ -w ${1} ] || exit 16 #ei näin?
+
+	[ -z "${2}" ] && exit 11
+	[ -d ${2} ] || exit 22
+	[ -w ${2} ] || exit 23
+
+	[ -z "${3}" ] && exit 33
+	[ -d ${3} ] || exit 34
+	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
+
+	[ ${debug} -eq 1 ] && pwd
+	csleep 1
+	#aval0n #tarpeellinen?
+	ls -la ${3}/*.deb | wc -l
+	
+	for s in ${PART175_LIST} ; do
+		${sharpy} ${s}*
+		${NKVD} ${3}/${s}*.deb
+	done
+
+	local t
+	t=$(echo ${2} | cut -d '/' -f 1-5) #joitain tr-jekkuja vielä?
+	e22_ts ${2}
+
+	enforce_access ${n} ${t} #${CONF_iface}
+	e22_arch ${1} ${2}
+	e22_cleanpkgs ${2}
+}
+
+#080326:testattu senverranq pystyy, jotain kiukuttelua aiheutui (debbug-ulostuksen typot kenties)
 #function e22_rpg() {
 #	dqb "R-P-G ${1} , ${2} , ${3}"
 #	[ -z "${1}" ] && exit 99

@@ -132,18 +132,18 @@ case ${mode} in
 	;;
 esac
 
-exit 666
+#exit 666
 
 for x in /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
 	${odio} ${x} ${CONF_dnsm} 
 done
 
-e22_pre1 ${d} ${distro}
-[ ${debug} -eq 1 ] && pwd;sleep 6
-exit 77
-
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 #.. kts interfaces.tmp liittyen (080326)
+
+e22_pre1 ${d} ${distro}
+[ ${debug} -eq 1 ] && pwd;sleep 6
+#exit 77
 
 e22_hdr ${tgtfile}
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
@@ -203,22 +203,19 @@ case ${mode} in
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e23_other_pkgs ${CONF_dnsm}
 	;;
-#	t) 
-#		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
-#		#cleanpkgs() tulisi hoitaa se
-#
-#		message
-#		csleep 2
-#		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-#	;;
+	t) 
+		#toiminee sikäli mikäli e) toimii
+		message
+		csleep 2
+		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+	;;
 #	l)
 #		csleep 1
 #		[ -v CONF_dm ] || exit 77
-#		#[ -f ${d0}/e/e23.sh ] && . ${d0}/e/e23.sh
 #
 #		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
 #		#VAIH:uuteen skriptiin nämä dm-kikkailut?
-#		e22_dm ${CONF_dm}
+#		e23_dm ${CONF_dm}
 #	;;
 	*)
 		exit

@@ -21,7 +21,7 @@ csleep 1
 
 #130126:tehdyn paketin sisältö asentuu ainakin live-ymp, vissiin myös sqrootissa
 #HUOM.080326:3. param tarpeellisuus?
-#VAIH:testaus uusicksi josqs
+#VAIH:testaus uusicksi josqs (esim 113926)
 
 function e23_tblz() {
 	csleep 2
@@ -54,8 +54,8 @@ function e23_tblz() {
 #tables-säännöt vissiin ok
 #ja ainakin oletus-konf löytyy
 #niin että
-#
-#010326:toimii (testaa josqs uusiksi, VAIH) 
+
+#testaa josqs uusiksi, VAIH . 11326
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 #HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
@@ -119,7 +119,6 @@ function e23_other_pkgs() {
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 #
 #function e23_upgp() {
-#
 #	[ -z "${1}" ] && exit 1 
 #	#[ -w ${1} ] || exit 44 #man bash taas?
 #	#[ -s ${1} ] && mv ${1} ${1}.OLD 261225 laitetttu kommentteihin koska aiheutti ongelmia
@@ -127,7 +126,6 @@ function e23_other_pkgs() {
 #	[ -d ${2} ] || exit 22
 #	[ -z "${3}" ] && exit 33 #kuinkahan tarpeellista on tämäkin tuoda fktioon?
 #
-#	
 #	${fib}
 #	csleep 1
 #
@@ -135,7 +133,7 @@ function e23_other_pkgs() {
 #	${shary} cpp-12 gcc-12-base libstdc++6 
 #	${shary} libgcc-s1 libc6 libgomp1 
 #
-#	#helpompi vain ajaa e22_dm() ennen upgp()
+#	#helpompi vain ajaa e23_dm() ennen upgp()
 #	${sag} --no-install-recommends upgrade -u
 #	echo $?
 #	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
@@ -147,7 +145,6 @@ function e23_other_pkgs() {
 #
 #	${sifd} ${3}
 #	csleep 1
-#	
 #
 #	#HUOM.part076() ja part2_5() on keksitty (tosin e22_dblock() nykyään...)
 #	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
@@ -228,7 +225,7 @@ function e23_qrs() {
 	e22_ftr ${1}
 }
 #
-#function e22_dm() {
+#function e23_dm() {
 #
 #	[ -z "${1}" ] && exit 11
 #	csleep 4
@@ -388,8 +385,8 @@ function e23_profs() {
 	cd ${q} #antaa nyt cd:n olla toistaiseksi
 	[ $? -eq 0 ] || exit 77
 
-	#jospa antaisi vihjeen ifup:ista jatkossa?
-	#-v baseurl olisi hyvä kanssa
+	#TODO:jospa antaisi vihjeen ifup:ista jatkossa?
+	#TODO:-v baseurl olisi hyvä kanssa
 
 	${tig} clone https://${BASEURL}/more_scripts.git
 	[ $? -eq 0 ] || exit 99
