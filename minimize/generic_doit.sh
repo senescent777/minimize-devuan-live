@@ -114,15 +114,15 @@ function el_loco() {
 	fi
 
 
-		export LC_TIME
-		export LANGUAGE
-		export LC_ALL
+	export LC_TIME
+	export LANGUAGE
+	export LC_ALL
 
-		if [ ${debug} -gt 0 ] ; then
-			env | grep LC
-			env | grep LAN
-			csleep 5
-		fi
+	if [ ${debug} -gt 0 ] ; then
+		env | grep LC
+		env | grep LAN
+		csleep 5
+	fi
 }
 
 function adieu() {
@@ -278,15 +278,13 @@ ${asy}
 dqb "GR1DN BELIALAS KYE"
 
 #TODO:ao. for-blokkiin muutoksia jatkossa (kts. changedns.sh,interfaces.tmp mm.)
-#VAIH:"for... scm" korvaaminen common_lib.e_h´FINAL() ?
+
 e_final
 e_h ${n} ${d0} 
 
-for x in  /opt/bin/changedns.bash /opt/bin/changedns.sh ${d0}/changedns.sh ; do
-#	${scm} 0511 ${x}
-#	${sco} root:root ${x}
-	${odio} ${x} ${CONF_dnsm} #${distro}
-	#[ -x $x ] && exit for 
+for x in  /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
+	[ -v CONF_testgris ] || ${odio} ${x} ${CONF_dnsm} 
+	#KVG:"how to exit for in bash"
 done
 
 ${sipt} -L

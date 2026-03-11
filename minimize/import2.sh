@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=1 #kunnnes viimeaikaiset temppuilut...
+debug=0
 srcfile=""
 
 distro=$(cat /etc/devuan_version)
@@ -55,6 +55,7 @@ if [ -f /.chroot ] ; then
 	if [ ! -z "${g}" ] ; then
 		q=$(find . -name 'dgsts.?')
 		cd ..
+		#110326:jotain urputusta oli, mksums bugittaa?
 
 		for r in ${q} ; do
 			${g} -c ./${p}/${r} --ignore-missing
@@ -105,7 +106,7 @@ csleep 1
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#TODO:sqroot-testiä yaas kehiin
+	#VAIH:sqroot-testiä yaas kehiin (yo. purq ainakin onnaa)
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0NF1G"
@@ -177,7 +178,7 @@ else
 	}
 fi
 
-debug=1 #kunnes...
+#debug=1 #kunnes...
 dqb "imp2:AFTR common_lib"
 csleep 3
 [ -z "${distro}" ] && exit 6
@@ -376,7 +377,7 @@ function tpr() {
 	[ -s ${1}/${2} ] || exit 13
 	[ -r ${1}/${2} ] || exit 14
 
-	dqb "pars_ok"
+	dqb "tpr.pars_ok"
 	csleep 1
 
 	if [ ! -x ${1}/profs.sh ] ; then
@@ -397,7 +398,7 @@ function tpr() {
 	q=$(mktemp -d)
 	[ $? -gt 0 ] && exit 17
 
-	dqb "JUST BEFORE TAR"
+	dqb "JUST BEFORE TAR ${1}/${2}"
 	#jos vielä härdelliä niin keskeytetään mikäli ei $2:sta löydä prefs.js?
 	r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l)
 	[ ${r} -gt 0 ] || exit 18
@@ -487,7 +488,7 @@ case "${mode}" in
 	;; 
 	0|3) 
 		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
-		#080326:toimii edelleen mod pientä kiukuttelua josqs
+		#110326:toimii edelleen mod pientä kiukuttelua josqs
 
 		echo "ZER0 S0UND"
 		csleep 1
@@ -500,24 +501,22 @@ case "${mode}" in
 				 #mitense alt_root?
 				echo "EI NÄIN"
 				exit 99
-
-			else
-				if [ -v CONF_alt_root ] ; then
-					#100226:vihdoinkin tämäkin korjattu?
-					#VAIH:testaa uusicksi lähiaikoina (joko jo testattu 150226?)
-
-					dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
-					csleep 6
-
-					cp ${d}/*pkgs* ${CONF_alt_root}/${distro}
-					ls -las ${CONF_alt_root}/${distro}
-					csleep 4
-				fi
+			#else
+			#	#kuinkahan tarpeellinen else-haara?
+			#	if [ -v CONF_alt_root ] ; then
+			#		#100226:vihdoinkin tämäkin korjattu?
+			#		11+326:voisi osata päättää miten menetellä 
+#					dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
+#					csleep 6
+#
+#					cp ${d}/*pkgs* ${CONF_alt_root}/${distro}
+#					ls -las ${CONF_alt_root}/${distro}
+#					csleep 4
+#				fi
 			fi
 		fi
 
 		[ ${1} -eq 0 ] || e=${d}
-
 		csleep 1
 		common_part ${srcfile} ${d} ${e}
 
@@ -541,17 +540,18 @@ case "${mode}" in
 		tpr ${srcfile} ${CONF_default_arhcive}
 	;;
 	q)
-		#TODO:testaus taas josqs lähiaikoina, "exp2 q" sorkuttu uusicksi
+		#VAIH:testaus taas josqs lähiaikoina, "exp2 q" sorkIttu uusicksi
 		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
 
 		[ -v CONF_default_arhcive ] || exit 23
  		[ -v CONF_default_arhcive2 ] || exit 24
+		#HUOM.110326:olisi parempi , varm. buoksi delliä tai nimetä uudetsaan aiemmatr default_arch ja default_arch2
 
 		c=$(${srat} -tf ${srcfile} | grep ${CONF_default_arhcive}  | wc -l)
 		[ ${c} -gt 0 ] || exit 77
 		common_part ${srcfile} ${d} /
 
-		${srat} -C ~ -jxf ~/${CONF_default_arhcive2} #VAIH:tästäkin tdstonimestä const?
+		${srat} -C ~ -jxf ~/${CONF_default_arhcive2}
 		tpr ${d0} ${CONF_default_arhcive}
 	;;
 	k)

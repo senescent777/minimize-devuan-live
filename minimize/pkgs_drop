@@ -20,7 +20,7 @@ libgstreamer,libpoppler
 lynx,mutt,mail
 mlocate,modem,mtools
 #jatkossa perus-ntp pois, mut ntpsec eu?
-mythes,ntp
+mythes
 #
 #nfs,jutut,poistuvat,aiemmin
 netcat-traditional,openssh,pavucontrol

@@ -1,12 +1,29 @@
 echo "pMERSENNE.23.q"
 csleep 1
+#
+#function aswasw() { #privaatti fktio VAIH:->23 sittenq
+#	[ -z "${1}" ] && exit 56
+#	csleep 1
+#
+#	case ${1} in
+#		wlan0)
+#			#E22:GN="libnl-3-200 ... "
+#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
+#			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
+#
+#			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
+#			${shary} wpasupplicant
+#		;;
+#		*)
+#		;;
+#	esac
+#}
 
 #130126:tehdyn paketin sisältö asentuu ainakin live-ymp, vissiin myös sqrootissa
 #HUOM.080326:3. param tarpeellisuus?
 #VAIH:testaus uusicksi josqs
 
 function e23_tblz() {
-
 	csleep 2
 
 	[ -z "${1}" ] && exit 11
@@ -14,7 +31,6 @@ function e23_tblz() {
 	[ -z "${2}" ] && exit 12
 	[ -z "${3}" ] && exit 13
 	[ -z "${4}" ] && exit 14 #HUOM.tämän trapeellisuus?
-
 
 	${fib}
 	${asy}
@@ -27,7 +43,6 @@ function e23_tblz() {
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 2
-
 	${asy}
 
 	#actually necessary
@@ -43,13 +58,12 @@ function e23_tblz() {
 #010326:toimii (testaa josqs uusiksi, VAIH) 
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 #HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
+#HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
 
 function e23_other_pkgs() { 
 	#toista param? eiole
 	csleep 1
-
 	[ -z "${1}" ] && exit 11
-
 
 	#LOPPUU SE PURPATUS PRKL
 	#jatkossa osa E22_GS ?
@@ -92,12 +106,12 @@ function e23_other_pkgs() {
 	
 #	#TODO:jos lukaisi debian referencen pitkästä aikaa, että löytyisikö jotain jekkua paketinhallinnan kanssa? ettei tarvitse kikkailla initramfs:n ja muutaman paketin kanssa
 #	... package pinning?
-#	${lftr}
+#	${lftr} #kts. /etc/kernel liittyen
 #	csleep 2
 
-#	vähän aikaa ilman kunnes saa aikaiseksi konffata
-#	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
-#	${shary} ntpsec
+	vähän aikaa ilman kunnes saa aikaiseksi konffata
+	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
+	${shary} ntpsec
 		
 	csleep 2
 }
@@ -131,7 +145,6 @@ function e23_other_pkgs() {
 #	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
 #	csleep 5
 #
-#
 #	${sifd} ${3}
 #	csleep 1
 #	
@@ -154,7 +167,7 @@ function e23_other_pkgs() {
 #	csleep 1
 #}
 
-#080326:tesataus käynnissä
+#080326:ehkä toimii
 function e23_ghi() {
 	[ -z "${1}" ] && exit 6
 	[ -z "${2}" ] && exit 16
@@ -162,12 +175,12 @@ function e23_ghi() {
 	dqb "ghi.aps.0k"
 	csleep 1
 
-	echo "\${shary} ${E22GI}"
+	echo "\${shary} ${E22GI}" #common_lib
 	echo "\${svm} ${CONF_pkgdir}/*.deb ${2}/${3}"
 	echo "$0 f ${1} ${3}"
 }
 
-#090326:ehkä toimii, purq testattava
+#110326:ehkä toimii, purq testattava (vaih)
 function e23_qrs() {
 	dqb " e23_qrs( $1 , $2 , $3 , $4 )"
 
@@ -192,7 +205,7 @@ function e23_qrs() {
 	csleep 2
 
 	#tuleeko mukaan vai ei?
-	tar -tf ${1} | grep ${3} | wc -l
+	 tar -tf ${1} | grep ${3} | wc -l
 	csleep 3
 
 	dqb "BEFORE NVDk"
@@ -210,7 +223,7 @@ function e23_qrs() {
 		${srat} -rvf ${1} ${f}
 	done
 
-	tar -tf ${1} | grep ${4} | wc -l
+	[ ${debug} -eq 1 ] &&tar -tf ${1} | grep ${4} | wc -l
 	csleep 3
 	e22_ftr ${1}
 }
@@ -376,6 +389,7 @@ function e23_profs() {
 	[ $? -eq 0 ] || exit 77
 
 	#jospa antaisi vihjeen ifup:ista jatkossa?
+	#-v baseurl olisi hyvä kanssa
 
 	${tig} clone https://${BASEURL}/more_scripts.git
 	[ $? -eq 0 ] || exit 99

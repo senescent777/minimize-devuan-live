@@ -66,7 +66,6 @@ fi
 
 [ -z "${distro}" ] && exit 6
 d=${d0}/${distro}
-
 process_lib ${d}
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 
@@ -94,7 +93,6 @@ fi
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 [ -z "${tgtfile}" ] && exit 98
 t=$(echo ${d} | cut -d '/' -f 1-5)
-
 #TODO:jospa myös keskeyttäisi suorituksen mikäli ei mode täsmää mihinkään
 
 case ${mode} in
@@ -108,7 +106,7 @@ case ${mode} in
 		e22_fgh ${tgtfile} ${d}
 	;;
 	q)
-		#090326:tehnee åpaketin, purq testattava
+		#110326:tehnee paketin edelleen, purqu saattaa toimia
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 		e22_hdr ${tgtfile}
 
@@ -118,7 +116,7 @@ case ${mode} in
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		exit #tarkoitus olisi ettei suoritusta jatkettaisi tätä pidemmälle
 	;;
-	c) #VAIH:testaa miten paketin sisältö purkautuu
+	c) #119326;toimii
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
 	g) #090326:oksennetut komennot vissiin ok edelleen
@@ -215,7 +213,7 @@ case ${mode} in
 #
 #		message
 #		csleep 2
-#		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+#		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 #	;;
 #	l)
 #		csleep 1
@@ -234,6 +232,7 @@ esac
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar 
 
+	#HUOM.db-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} 
 	e22_ftr ${d}/f.tar 
 

@@ -133,7 +133,6 @@ function e22_pre1() { #VAIH:testaus
 #...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 #TODO:2. param pois josqs?
 
-
 function e22_pre2() {
 	dqb "e22_pre2( $1, $2, $3, $4)"
 	[ -z "${1}" ] && exit 66
@@ -219,6 +218,7 @@ function e22_config1() {
 #pitäisIkö siirtää toiseen tdstoon?
 
 #08026:toimii jnkn verran
+#110326:eivielä uskalla siirrellä toiseen tdstoon, onko edes tarpeen?
 function e22_settings() {
 	dqb "e22_set( ${1}, ${2}) "
 
@@ -231,7 +231,7 @@ function e22_settings() {
 		exit 24
 	fi
 
-	.  ${1}/profs.sh
+	.  ${1}/profs.sh #3. Cinst tästä?
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
 	exp_prof ${1}/${2} default-esr	
 		
@@ -515,7 +515,7 @@ function e22_settings() {
 #	[ -d ${1} ] || exit 14 #hmistossa hyvä olla kirj.oik.
 #	[ -w ${1} ] || exit 15 
 #
-#	${svm} ${CONF_pkgdir}/*.deb ${1}
+#	${svm} ${CONF_pkgdir}/*.deb ${1} #glob muutt vähän huonjo juttu oikeastaan
 #
 #	#lisätäänkö tämä arkistoon jossain? no e22_a()
 #	fasdfasd ${1}/tim3stamp
@@ -586,7 +586,10 @@ function e22_arch() {
 
 	dqb "ARCH DONE"
 }
-
+#function aval0n() { #prIvaattI, toimimaan+käyttöön?
+#	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
+#	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
+#}
 #function e22_dblock() {
 #	[ -z "${1}" ] && exit 14
 #	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
@@ -611,38 +614,16 @@ function e22_arch() {
 #	done
 #
 #	local t
-#	t=$(echo ${2} | cut -d '/' -f 1-5)
+#	t=$(echo ${2} | cut -d '/' -f 1-5) #joitain tr-jekkuja vielä?
 #	e22_ts ${2}
 #
-#	enforce_access ${n} ${t} ${CONF_iface}
+#	enforce_access ${n} ${t} #${CONF_iface}
 #	e22_arch ${1} ${2}
 #	e22_cleanpkgs ${2}
 #}
 #
 #===========================E23.SH ? =======================================
 #
-#function aswasw() { #privaatti fktio TODO:->23 sittenq
-#	[ -z "${1}" ] && exit 56
-#	csleep 1
-#
-#	case ${1} in
-#		wlan0)
-#			#E22:GN="libnl-3-200 ... "
-#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-#			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
-#
-#			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
-#			${shary} wpasupplicant
-#		;;
-#		*)
-#		;;
-#	esac
-#}
-#
-#function aval0n() { #prIvaattI, toimimaan+käyttöön?
-#	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
-#	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
-#}
 #
 #
 #
@@ -698,7 +679,7 @@ function e22_fgh() {
 }
 
 #HUOM.080326:toiminee jnkin verran
-#TODO:testaus kehitys/sqroot-ymp
+#VAIH:testaus kehitys/sqroot-ymp , paketin saa luotua
 #TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?
 
 function e22_cde() {
@@ -715,14 +696,3 @@ function e22_cde() {
 	e22_ftr ${1}
 	exit
 }
-#
-##989326;giukan turha wrapper, pois jatq(
-#function e22_pqr() {
-#	dqb "e22.pqr  ) ${1} , ${2} ("
-#	[ -z "${1}" ] && exit 99
-#	[ -z "${2}" ] && exit 98
-#
-#	#mihin muuten kosahtaa jos omegan jälkeen tätä ajaa? srat vai fasdfasd vai mikä?
-#
-#	exit
-#}
