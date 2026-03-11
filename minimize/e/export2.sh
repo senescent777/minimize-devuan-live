@@ -197,12 +197,12 @@ case ${mode} in
 #		reqwreqw /opt/bin/zxcv.sig			
 #		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 #	;;
-#	#u taisi toimia jnkin aikaa 01/26
-#	u|upgrade)
-#		[ -v CONF_pkgdir ] || exit 96
-#		e22_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
-#	;;
-	e) #110326 tienoilla e/l/t - caset osasivat paketin tehdä
+	#VAIH:testi (110326) (ainakin paketin osasi tehdä)
+	u|upgrade)
+		[ -v CONF_pkgdir ] || exit 96
+		e23_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
+	;;
+	e) #110326 tienoilla e/l/t - caset osasivat paketin tehdä , sis asentumista ei vielä testattu
 		message
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e23_other_pkgs ${CONF_dnsm}
@@ -213,7 +213,7 @@ case ${mode} in
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;
-	l) #110326:osaa tehdä' paketin ja sisältö asentui
+	l) #110326:osaa tehdä paketin ja sisältö asentui
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${CONF_dm}
