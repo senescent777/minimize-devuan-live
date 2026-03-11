@@ -392,7 +392,8 @@ function e23_profs() {
 	cd ${q} #antaa nyt cd:n olla toistaiseksi
 	[ $? -eq 0 ] || exit 77
 
-	#TODO:jospa antaisi vihjeen ifup:ista jatkossa?
+	dqb "SHOULD ifup \$iface BEFORE ${tig} clone"
+	csleep 1
 	[ -v BASEURL ] || exit 78
 
 	${tig} clone https://${BASEURL}/more_scripts.git
