@@ -50,7 +50,7 @@ e_final
 e_h ${n} ${d0} 
 
 for x in /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
-	${odio} ${x} ${CONF_dnsm}
+	[ -x ${f} ] && ${odio} ${x} ${CONF_dnsm}
 done
 
 ${fib}
