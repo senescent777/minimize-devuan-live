@@ -94,8 +94,9 @@ fi
 [ -z "${tgtfile}" ] && exit 98
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
-#VAIH:jospa myös keskeyttäisi suorituksen mikäli ei mode täsmää mihinkään
 cont=0
+dqb "ESAC1"
+csleep 1
 
 case ${mode} in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua
@@ -125,23 +126,23 @@ case ${mode} in
 		e23_ghi ${tgtfile} ${d0} ${distro}
 		exit
 	;;
-	p) #090326:tekee paketin, sisällön toimivuuden testaus erikseen
-		[ -v CONF_default_archive3 ] || exit 666
-
+	p) #110326:VAIH (testaus, sisällön lähinnä)
+		[ -v CONF_default_arhcive3 ] || exit 666
 		e22_hdr ${tgtfile}
-		e23_profs ${tgtfile} ${d0} ${CONF_default_archive3}	
+		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
 	;;
 	-h)
 		usage
 	;;
-#	*)
-#		cont=1
-#	;;
+	*)
+		cont=1
+	;;
 esac
 
-#[ $cont -eq 1 ] || exit 666
+[ $cont -eq 1 ] || exit 666
+dqb "R3D B3F0R3 BL4KC"
+csleep 1
 
-#VAIH:ne e_jutut tähän
 e_final
 e_h ${n} ${d0} 
 

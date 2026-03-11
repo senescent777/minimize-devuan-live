@@ -142,9 +142,6 @@ function e22_pre2() {
 	[ -z "${3}" ] && exit 68
 	[ -z "${4}" ] && exit 69
 
-	dqb "VAIH:tämä fktio käyttökuntoon vähitellebn"
-	#exit 999
-
 	local ortsac
 	local par4
 

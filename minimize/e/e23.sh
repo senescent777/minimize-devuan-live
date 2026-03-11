@@ -2,7 +2,7 @@ echo "pMERSENNE.23.q"
 csleep 1
 #just_download_not_install-vipu olisi tietysti...
 
-#function aswasw() { #privaatti fktio VAIH:->23 sittenq
+#function aswasw() { #privaatti fktio
 #	[ -z "${1}" ] && exit 56
 #	csleep 1
 #
@@ -56,7 +56,7 @@ function e23_tblz() {
 #ja ainakin oletus-konf löytyy
 #niin että
 
-#testaa josqs uusiksi, VAIH . 11326
+#testaa josqs uusiksi, VAIH . 11326, pak.sis.tiomiuvuus lähinnä
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 #HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
@@ -359,6 +359,9 @@ function e23_dm() {
 
 #110326:tekee paketin, toimivuus syytä testata uudestaabn (VAIH)
 function e23_profs() {
+	dqb "e23_profs( ${1}, ${2}, ${3} )"
+	csleep 1
+
 	[ -z "${1}" ] && exit 99
 	[ -s ${1} ] || exit 98 #pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
 	#[ -w ${1} ] || exit 97
@@ -366,6 +369,9 @@ function e23_profs() {
 	[ -d ${2} ] || exit 95
 	[ -w ${2} ] || exit 94
 	[ -z "${3}" ] && exit 96
+
+	dqb "pars.0k"
+	csleep 1
 
 	local q
 	#q=$(${mkt} -d) #ei näin?
@@ -387,6 +393,9 @@ function e23_profs() {
 	cd ${2}	
 	${srat} -rvf ${1} ./${3}*
 	cd ${q}
+
+	dqb "e23_profs() done"
+	csleep 1
 }
 
 sleep 1
