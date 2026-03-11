@@ -35,17 +35,6 @@ function fallback() {
 	exit 67
 }
 
-#if [ -s ${d0}/$(whoami).conf ] ; then
-#	echo "ALT.C0NF1G"
-#	. ${d0}/$(whoami).conf
-#else
-#	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-#		. ${d}/conf
-#	else
-#	 	exit 57
-#	fi	
-#fi
-
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -57,15 +46,11 @@ fi
 dqb "BEFORE L1B"
 process_lib ${d}
 
-#VAIH:ao for-blokki uusiksi jatkossa (kts changedns.sh ja interfaces.tmp myös)
 e_final
 e_h ${n} ${d0} 
 
-for x in /opt/bin/changedns.bash /opt/bin/changedns.sh ${d0}/changedns.sh ; do
-	#${scm} 0511 ${x}
-	#${sco} root:root ${x}
-	${odio} ${x} ${CONF_dnsm} #${distro}
-	#[ -x $x ] && exit for 
+for x in /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
+	${odio} ${x} ${CONF_dnsm}
 done
 
 ${fib}
@@ -95,14 +80,12 @@ if [ -f /.chroot ] ; then
 	${sharpy} rpc*
 
 	t2p_filler
-	#csleep 1
 
 	${sharpy} dmsetup #tässä kohtaa jo gpg hukataan?
 	${sharpy} at-spi2-core	
 	${sharpy} psmisc
 
 	t2p_filler
-	#csleep 1
 fi
 
 #====================================================================
@@ -137,8 +120,6 @@ function p2g() {
 
 #VAIH:selvitä missä kohtaa gpg poistuu nykyään, koita saada epä-poistumaan
 #mode:n kanssa kikkailut voivat auttaa selvityksessä
-
-
 #
 #	#libgtk3 ei poistu, libgtk4 kyllä
 #
