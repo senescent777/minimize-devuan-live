@@ -12,7 +12,7 @@ function usage() {
 	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
 	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
 	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \$ {d0} /\${distro}"
-	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
+	echo "$0 p <> [] [] pulls ${CONF_default_archive3} from somewhere"
 	echo "$0 q <> [] [] archives firefox settings"
 	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"

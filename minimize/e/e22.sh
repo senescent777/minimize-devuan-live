@@ -214,11 +214,10 @@ function e22_config1() {
 }
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
-#nuo muutokset oikeastaan tdstoon profs.sh
-#pitäisIkö siirtää toiseen tdstoon?
+#nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
+#pitäisIkö siirtää toiseen tdstoon? ei just nyt
 
-#08026:toimii jnkn verran
-#110326:eivielä uskalla siirrellä toiseen tdstoon, onko edes tarpeen?
+#110326:syytä testata lähiaikoina
 function e22_settings() {
 	dqb "e22_set( ${1}, ${2}) "
 
@@ -226,12 +225,12 @@ function e22_settings() {
 	[ -d ${1} ] || exit 22
 	[ -z "${2}" ] && exit 44
 
-	#profs.sh kätevämpi laittaa mukaan kutsuvassa koodissa
-	if [ ! -x ${1}/profs.sh ] ; then
+	#${CONF_default_archive3} kätevämpi laittaa mukaan kutsuvassa koodissa
+	if [ ! -x ${1}/${CONF_default_archive3} ] ; then
 		exit 24
 	fi
 
-	.  ${1}/profs.sh #3. Cinst tästä?
+	.  ${1}/${CONF_default_archive3}
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
 	exp_prof ${1}/${2} default-esr	
 		

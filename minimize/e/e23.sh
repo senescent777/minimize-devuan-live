@@ -219,7 +219,7 @@ function e23_qrs() {
 	csleep 1
 
 	#jospa ei hiopusja tähän find:iin
-	for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name profs.sh | grep -v pulse) ; do
+	for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${CONF_default_archive3} | grep -v pulse) ; do
 		${srat} -rvf ${1} ${f}
 	done
 
@@ -372,7 +372,7 @@ function e23_qrs() {
 #	${shary} ${E22_GX}  #libsystemd0
 #}
 
-#090326:tekee paketin
+#110326:tekee paketin, toimivuus syytä testata uudestaabn
 function e23_profs() {
 	[ -z "${1}" ] && exit 99
 	[ -s ${1} ] || exit 98 #pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
@@ -394,13 +394,12 @@ function e23_profs() {
 	${tig} clone https://${BASEURL}/more_scripts.git
 	[ $? -eq 0 ] || exit 99
 	
-	[ -s ${2}/profs.sh ] && mv ${2}/profs.sh ${2}/profs.sh.OLD
-	mv more_scripts/profs/profs* ${2}
+	[ -s ${2}/${CONF_default_archive3} ] && mv ${2}/${CONF_default_archive3} ${2}/${CONF_default_archive3}.OLD
+	mv more_scripts/profs/${CONF_default_archive3}* ${2}
+	${scm} 0755 ${2}/${CONF_default_archive3}*
 
-	${scm} 0755 ${2}/profs*
 	cd ${2}	
-	${srat} -rvf ${1} ./profs.*
-
+	${srat} -rvf ${1} ./${CONF_default_archive3}*
 	cd ${q}
 }
 

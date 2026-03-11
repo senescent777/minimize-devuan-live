@@ -365,7 +365,7 @@ function cptp2() {
 
 dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
+#olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3})
 
 function tpr() {
 	dqb "UPIR  ${1} , ${2}"
@@ -380,14 +380,14 @@ function tpr() {
 	dqb "tpr.pars_ok"
 	csleep 1
 
-	if [ ! -x ${1}/profs.sh ] ; then
+	if [ ! -x ${1}/${CONF_default_archive3} ] ; then
 		dqb "CANNOT INCLUDE PROFS.HS"
-		dqb "$0 1 \$srcfile | chmod +x profs.sh ?"
+		dqb "$0 1 \$srcfile | chmod +x ${CONF_default_archive3} ?"
 		exit 15
 	fi
 
 	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
-	. ${1}/profs.sh
+	. ${1}/${CONF_default_archive3}
 	[ $? -gt 0 ] && exit 16
 
 	dqb "INCLUDE OK"
@@ -530,7 +530,7 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
-	r) #080326:toimii, luulisin
+	r) #119326;uutta testiä kehiin kjohta
 		[ -d ${srcfile} ] || exit 22
 		[ -v CONF_default_arhcive ] || exit 23
  		[ -v CONF_default_arhcive2 ] || exit 24
@@ -541,7 +541,7 @@ case "${mode}" in
 	;;
 	q)
 		#VAIH:testaus taas josqs lähiaikoina, "exp2 q" sorkIttu uusicksi
-		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
+		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
 
 		[ -v CONF_default_arhcive ] || exit 23
  		[ -v CONF_default_arhcive2 ] || exit 24
