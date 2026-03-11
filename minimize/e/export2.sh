@@ -126,13 +126,15 @@ case ${mode} in
 		exit
 	;;
 	p) #090326:tekee paketin, sisällön toimivuuden testaus erikseen
+		[ -v CONF_default_archive3 ] || exit 666
+
 		e22_hdr ${tgtfile}
-		e23_profs ${tgtfile} ${d0}	
+		e23_profs ${tgtfile} ${d0} ${CONF_default_archive3}	
 	;;
 	-h)
 		usage
 	;;
-#	*(
+#	*)
 #		cont=1
 #	;;
 esac

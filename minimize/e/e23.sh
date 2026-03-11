@@ -228,6 +228,7 @@ function e23_qrs() {
 	e22_ftr ${1}
 }
 
+#119326 viimeksi testattu, yoimi silloin
 function e23_dm() {
 	[ -z "${1}" ] && exit 11
 	csleep 4
@@ -356,7 +357,7 @@ function e23_dm() {
 	${shary} ${E22_GX}  #libsystemd0
 }
 
-#110326:tekee paketin, toimivuus syytä testata uudestaabn
+#110326:tekee paketin, toimivuus syytä testata uudestaabn (VAIH)
 function e23_profs() {
 	[ -z "${1}" ] && exit 99
 	[ -s ${1} ] || exit 98 #pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
@@ -364,6 +365,7 @@ function e23_profs() {
 	[ -z "${2}" ] && exit 96
 	[ -d ${2} ] || exit 95
 	[ -w ${2} ] || exit 94
+	[ -z "${3}" ] && exit 96
 
 	local q
 	#q=$(${mkt} -d) #ei näin?
@@ -373,17 +375,17 @@ function e23_profs() {
 	[ $? -eq 0 ] || exit 77
 
 	#TODO:jospa antaisi vihjeen ifup:ista jatkossa?
-	#TODO:-v baseurl olisi hyvä kanssa
+	[ -v BASEURL ] || exit 78
 
 	${tig} clone https://${BASEURL}/more_scripts.git
-	[ $? -eq 0 ] || exit 99
+	[ $? -eq 0 ] || exit 79
 	
-	[ -s ${2}/${CONF_default_archive3} ] && mv ${2}/${CONF_default_archive3} ${2}/${CONF_default_archive3}.OLD
-	mv more_scripts/profs/${CONF_default_archive3}* ${2}
-	${scm} 0755 ${2}/${CONF_default_archive3}*
+	[ -s ${2}/${3} ] && mv ${2}/${3} ${2}/${3}.OLD
+	mv more_scripts/profs/${3}* ${2}
+	${scm} 0755 ${2}/${3}*
 
 	cd ${2}	
-	${srat} -rvf ${1} ./${CONF_default_archive3}*
+	${srat} -rvf ${1} ./${3}*
 	cd ${q}
 }
 
