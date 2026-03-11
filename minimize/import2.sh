@@ -498,14 +498,15 @@ case "${mode}" in
 
 		if [ -f /.chroot ] ; then
 			if [ ${1} -eq 0 ] ; then
-				 #mitense alt_root?
+				#mitense alt_root?
+				#TODO:jokin vihje echolla kjälle ni ei tartte arpoa
 				echo "EI NÄIN"
 				exit 99
 			#else
 			#	#kuinkahan tarpeellinen else-haara?
 			#	if [ -v CONF_alt_root ] ; then
 			#		#100226:vihdoinkin tämäkin korjattu?
-			#		11+326:voisi osata päättää miten menetellä 
+			#		110326:voisi osata päättää miten menetellä 
 #					dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
 #					csleep 6
 #
