@@ -109,17 +109,18 @@ case ${mode} in
 		e22_fgh ${tgtfile} ${d}
 	;;
 	q)
-		#110326:tehnee paketin edelleen, purqu saattaa myös toimia
+		#VAIH:testaa yyysicksi
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 		e22_hdr ${tgtfile}
 
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
+		[ -v CONF_default_arhcive3 ] || exit 35
 
-		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive}
+		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 		exit #tarkoitus olisi ettei suoritusta jatkettaisi tätä pidemmälle
 	;;
-	c) #119326;toimii
+	c) #110326;toimii
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
 	g) #090326:oksennetut komennot vissiin ok edelleen
@@ -145,6 +146,7 @@ csleep 1
 
 e_final
 e_h ${n} ${d0} 
+#TODO:changedns:n dns-osuuden vipuaminen joko resolconf:ille tai dnsmasq:lle? , kumman saakaan pienemmällä säädöllä toimimaan
 
 for x in /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
 	[ -x ${x} ] && ${odio} ${x} ${CONF_dnsm}
@@ -218,11 +220,12 @@ case ${mode} in
 	;;
 	e) #110326 tienoilla e/l/t - caset osasivat paketin tehdä , sis asentumista ei vielä testattu
 		message
+		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e23_other_pkgs ${CONF_dnsm}
 	;;
 	t) 
-		#toiminee sikäli mikäli caae e) toimii
+		#toiminee sikäli mikäli case e) toimii
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}

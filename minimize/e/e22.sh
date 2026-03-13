@@ -1,7 +1,11 @@
 #
 #130126:sellainen aivopieru että {exp2, e22} toiminnalliSuuden saattaisi voida korvata Makefilellä ainakin osoittain
-dqb "#TODO:KVG \"/etc/network/interfaces pre_up examples\ ""
-csleep 6
+
+#https://superuser.com/questions/1020155/pre-up-in-the-network-interfaces-file
+#https://www.cyberciti.biz/faq/setting-up-an-network-interfaces-file/
+#https://unix.stackexchange.com/questions/128439/good-detailed-explanation-of-etc-network-interfaces-syntax
+#https://askubuntu.com/questions/1030048/how-to-create-post-up-and-pre-down-routes-in-interfaces-file
+#csleep 6
 
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
@@ -218,20 +222,20 @@ function e22_config1() {
 #nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
 #pitäisIkö siirtää toiseen tdstoon? ei just nyt
 
-#110326:syytä testata lähiaikoina
+#VAIH:tesdtaa yysiksi
 function e22_settings() {
-	dqb "e22_set( ${1}, ${2}) "
+	dqb "e22_set) ${1} , ${2} , ${3} ( "
 
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
 	[ -z "${2}" ] && exit 44
+	[ -z "${3}" ] && exit 89
 
-	#${CONF_default_archive3} kätevämpi laittaa mukaan kutsuvassa koodissa
-	if [ ! -x ${1}/${CONF_default_archive3} ] ; then
+	if [ ! -x ${1}/${3} ] ; then
 		exit 24
 	fi
 
-	.  ${1}/${CONF_default_archive3}
+	.  ${1}/${3}
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
 	exp_prof ${1}/${2} default-esr	
 		
@@ -257,11 +261,13 @@ function e22_settings() {
 #
 #
 #	#141225:if-lauseen pointti nykyään? tähän liittyen oli jokin idea? (120126)
+#HUOM.130326:josdko config1+sett erottelisi omaksi fkitoikseen?
+##home_pre()
 #	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 #		e22_config1 ~ ${4}
 #
 #		${NKVD} ~/${CONF_default_arhcive}
-#		e22_settings ${2}/.. ${CONF_default_arhcive}
+#		e22_settings ${2}/.. ${CONF_default_arhcive} ${CONF_default_arhcive3}
 #	fi
 #
 #	local t
@@ -271,6 +277,7 @@ function e22_settings() {
 #	for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
 #		${srat} -rvf ${1} ${t}
 #	done
+##/home_pre()
 #
 #	${srat} -rvf ${1} ${2}/../${CONF_default_arhcive}
 #

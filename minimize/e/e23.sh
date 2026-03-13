@@ -192,9 +192,9 @@ function e23_ghi() {
 	echo "$0 f ${1} ${3}"
 }
 
-#110326:ehkä toimii, purq testattu kanssa silloin
+#VAIH:testaus uusicksi
 function e23_qrs() {
-	dqb " e23_qrs( $1 , $2 , $3 , $4 )"
+	dqb " e23_qrs( $1 , $2 , $3 , $4 , $5 )"
 
 	[ -z "${1}" ] && exit 77
 	[ -s ${1} ] || exit 66
@@ -208,6 +208,9 @@ function e23_qrs() {
 
 	[ -z "${4}" ] && exit 43
 	#[ -f ${4} ] || exit 34
+
+	[ -z "${5}" ] && exit 43
+	#[ -f ${5} ] || exit 34
 
 	dqb "pars.0k"
 	csleep 1
@@ -224,14 +227,14 @@ function e23_qrs() {
 	[ -f ${4} ] && ${NKVD} ~/${4}
 	csleep 1
 
-	e22_settings ${2} ${4}
+	e22_settings ${2} ${4} ${5}
 	#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
 
 	dqb "just BEFORE find ${2} -maxdepth 1 -type f -name ${4} "
 	csleep 1
 
-	#jospa ei hiopusja tähän find:iin
-	for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${CONF_default_archive3} | grep -v pulse) ; do
+	#jospa ei hipsuja tähän find:iin
+	for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
 		${srat} -rvf ${1} ${f}
 	done
 
@@ -371,7 +374,7 @@ function e23_dm() {
 
 #110326:tekee paketin, toimivuus syytä testata uudestaabn (VAIH)
 function e23_profs() {
-	dqb "e23_profs( ${1}, ${2}, ${3} )"
+	dqb "e23_profs) ${1}, ${2}, ${3} ("
 	csleep 1
 
 	[ -z "${1}" ] && exit 99

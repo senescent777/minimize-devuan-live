@@ -159,9 +159,6 @@ dqb "mode= ${mode}"
 dqb "debug= ${debug}"
 [ -v CONF_enforce ] || exit 99
 
-#221225:mitäs kaikkia pointteja olikaan ohittaa enforce-hommat sqroot.ympäristössä?
-#changedns ja fstab tietysti
-
 if [ -s ~/xorg.conf.new ] ; then
 	if [ ! -s /etc/X11/xorg.conf ] ; then
 		${spc}  ~/xorg.conf.new  /etc/X11/xorg.conf
@@ -205,6 +202,7 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 c14=0
 c13=0
 [ ${mode} -eq 1 ] && c14=1
+#timezone ja localtime jos dellisi joissain tilanteissa?
 
 #==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
 #... joskohan voisi arpomisen lopettaa joskus? lopettelun visi aloittaa vhitellen (090326)

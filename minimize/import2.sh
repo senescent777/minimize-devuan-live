@@ -365,30 +365,37 @@ function cptp2() {
 
 dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3})
+#olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3} siis)
 
+#VAIH:uusiminen
 function tpr() {
-	dqb "UPIR  ${1} , ${2}"
+	dqb "UPIR ) ${1} , ${2} , ${3} ("
 	csleep 1
 
-	[ -z "${1}" ] && exit 11
-	[ -z "${2}" ] && exit 10
-	[ -d ${1} ] || exit 12
+	[ -z "${1}" ] && exit 8
+	[ -z "${2}" ] && exit 9
+	[ -z "${3}" ] && exit 10
+	[ -d ${1} ] || exit 11
+
+	[ -f ${1}/${2} ] || exit 12
 	[ -s ${1}/${2} ] || exit 13
 	[ -r ${1}/${2} ] || exit 14
+
+	[ -f ${1}/${3} ] || exit 15
+	[ -s ${1}/${3} ] || exit 16
+
+	if [ ! -x ${1}/${3} ] ; then
+		dqb "CANNOT INCLUDE PROFS.HS 0 R WHÅTEVER"
+		dqb "$0 1 \$srcfile | chmod +x ${3} ?"
+		exit 17
+	fi
 
 	dqb "tpr.pars_ok"
 	csleep 1
 
-	if [ ! -x ${1}/${CONF_default_archive3} ] ; then
-		dqb "CANNOT INCLUDE PROFS.HS"
-		dqb "$0 1 \$srcfile | chmod +x ${CONF_default_archive3} ?"
-		exit 15
-	fi
-
 	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
-	. ${1}/${CONF_default_archive3}
-	[ $? -gt 0 ] && exit 16
+	. ${1}/${3}
+	[ $? -gt 0 ] && exit 19
 
 	dqb "INCLUDE OK"
 	csleep 1
@@ -396,16 +403,16 @@ function tpr() {
 	local q
 	local r
 	q=$(mktemp -d)
-	[ $? -gt 0 ] && exit 17
+	[ $? -gt 0 ] && exit 20
 
 	dqb "JUST BEFORE TAR ${1}/${2}"
 	#jos vielä härdelliä niin keskeytetään mikäli ei $2:sta löydä prefs.js?
 	r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l)
-	[ ${r} -gt 0 ] || exit 18
+	[ ${r} -gt 0 ] || exit 21
 	csleep 3
 
 	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/${2}
-	[ $? -gt 0 ] && exit 19
+	[ $? -gt 0 ] && exit 22
 	csleep 3
 
 	dqb "JUST BEFORE impo_prof"
@@ -534,31 +541,34 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
-	r) #TODO:selvitä TAAS missä qsee
-		[ -d ${srcfile} ] || exit 22
-		[ -v CONF_default_arhcive ] || exit 23
- 		[ -v CONF_default_arhcive2 ] || exit 24
+	r) #VAIH:selvitä TAAS missä qsee
+		[ -d ${srcfile} ] || exit 23
+		[ -v CONF_default_arhcive ] || exit 24
+ 		[ -v CONF_default_arhcive2 ] || exit 25
+		[ -v CONF_default_arhcive3 ]  || exit 18
 
 		${srat} -C ~ -jxf ~/${CONF_default_arhcive2}
 		echo $?
 		csleep 5
 
-		tpr ${srcfile} ${CONF_default_arhcive}
+		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	q)
-		#119326 taisi toimia ainakin kerrab
+		#VAIH:testaa TAAS
 		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
 
-		[ -v CONF_default_arhcive ] || exit 23
- 		[ -v CONF_default_arhcive2 ] || exit 24
+		[ -v CONF_default_arhcive ] || exit 24
+ 		[ -v CONF_default_arhcive2 ] || exit 25
+		[ -v CONF_default_arhcive3 ]  || exit 18
+
 		#HUOM.110326:olisi parempi , varm. buoksi delliä tai nimetä uudetsaan aiemmatr default_arch ja default_arch2
 
 		c=$(${srat} -tf ${srcfile} | grep ${CONF_default_arhcive}  | wc -l)
-		[ ${c} -gt 0 ] || exit 77
+		[ ${c} -gt 0 ] || exit 27
 		common_part ${srcfile} ${d} /
 
 		${srat} -C ~ -jxf ~/${CONF_default_arhcive2}
-		tpr ${d0} ${CONF_default_arhcive}
+		tpr ${d0} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	k)
 		#161225:toimii, sq-root-ymp ainakin
@@ -569,7 +579,7 @@ case "${mode}" in
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
-		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ?)
+		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd find out?)
 
 		if [ -v gg ] ; then
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
