@@ -247,22 +247,8 @@ function e22_settings() {
 }
 
 #TODO:testaa taas (jokojo 12326?)
-#
-#function e22_home() {
-#
-#	[ -z "${1}" ] && exit 67
-#	[ -s ${1} ] || exit 68
-#	[ -z "${2}" ] && exit 69
-#	[ -d ${2} ] || exit 70
-#	[ -z "${3}" ] && exit 71
-#	[ -z "${3}" ] && exit 72
-#[ -z "${4}" ] && exit 73
-#	csleep 1
-#
-#
-#	#141225:if-lauseen pointti nykyään? tähän liittyen oli jokin idea? (120126)
-#HUOM.130326:josdko config1+sett erottelisi omaksi fkitoikseen?
-##home_pre()
+
+#function e22_home_pre()
 #	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 #		e22_config1 ~ ${4}
 #
@@ -277,11 +263,27 @@ function e22_settings() {
 #	for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
 #		${srat} -rvf ${1} ${t}
 #	done
-##/home_pre()
+#}
+
+
+#function e22_home() {
 #
-#	${srat} -rvf ${1} ${2}/../${CONF_default_arhcive}
+#	[ -z "${1}" ] && exit 67
+#	[ -s ${1} ] || exit 68
+#	[ -z "${2}" ] && exit 69
+#	[ -d ${2} ] || exit 70
+#	[ -z "${3}" ] && exit 71
+#	[ -z "${3}" ] && exit 72
+#[ -z "${4}" ] && exit 73
+#	csleep 1
 #
-#	t=$(${srat} -tf ${1} | grep ${CONF_default_arhcive} | wc -l)
+#
+#	#141225:if-lauseen pointti nykyään? tähän liittyen oli jokin idea? (120126)
+#HUOM.130326:josdko config1+sett erottelisi omaksi fkitoikseen?
+#
+#	${srat} -rvf ${1} ${2}/../${3}
+#
+#	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
 #	[ ${t} -lt 1 ] && exit 72
 #	csleep 10
 #

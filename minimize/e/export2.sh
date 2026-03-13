@@ -1,7 +1,10 @@
 #!/bin/bash
 #jotain oletuksia kunnes oikea konftdsto saatu lotottua
 debug=0 #1
-distro=$(cat /etc/devuan_version) # | cut -d '/' -f 1) #160126 cut-kikkailu pois sotkemasta, muualla kun menee toisin
+
+distro=$(cat /etc/devuan_version)
+# | cut -d '/' -f 1) #160126 cut-kikkailu pois sotkemasta, muualla kun menee toisin
+
 d0=$(pwd)
 mode=-2
 tgtfile=""
@@ -179,7 +182,7 @@ case ${mode} in
 #	3|4) 
 #		#TODO:testaus TAAS , eRItyisesti miten nelosen output g_doit:n imp2-kikkailun kanssa?
 #		#TODO:jos sen "exp2 p" saisi samalla kertaa testattua
-# ${NKVD} ${d0}/${CONF_default_arhcive3}*
+#		${NKVD} ${d0}/${CONF_default_arhcive3}*
 #		[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
 #		csleep 1
 #		fasdfasd /opt/bin/zxcv
@@ -194,7 +197,8 @@ case ${mode} in
 #			doit=0
 #		fi
 #
-#		e22_home ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2}
+#		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2}
+#		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} #${CONF_enforce} ${CONF_default_arhcive2}
 #		e22_pre1 ${d} ${distro}
 #
 #		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
@@ -209,8 +213,7 @@ case ${mode} in
 #		reqwreqw /opt/bin/zxcv.sig			
 #		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 #	;;
-	#DONE:testi (110326) (ainakin paketin osasi tehdä, asennus:toimii)
-	#...tosin uusimpien muutoksian jälkeen tulisi TAAS
+	#TODO:testi taas josqs
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		e23_upgp ${tgtfile} ${CONF_pkgdir} 
