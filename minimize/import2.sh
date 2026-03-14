@@ -513,7 +513,7 @@ case "${mode}" in
 				#VAIH:jokin vihje echolla kjälle ni ei tartte arpoa
 				#echo "EI NÄIN"
 
-				tar -tf ${srcfile} | head -n 1
+				tar -tf ${srcfile} | grep f.tar | head -n 1
 				echo "... SHOULD BE MOVED UNDER ${d} , AFTER THAT:RUN $0 3 ${d}/f.tar"
 				exit 99
 			#else
