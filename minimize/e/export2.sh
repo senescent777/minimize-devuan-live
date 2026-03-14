@@ -124,7 +124,7 @@ case ${mode} in
 		[ -v CONF_default_arhcive3 ] || exit 35
 
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
-		exit #tarkoitus olisi ettei suoritusta jatkettaisi tätä pidemmälle
+		#exit #tarkoitus olisi ettei suoritusta jatkettaisi tätä pidemmälle
 	;;
 	c) #110326:toimi
 		e22_cde ${tgtfile} ${d0} ${distro}
@@ -149,7 +149,7 @@ esac
 if [ $cont -eq 1 ] ; then
 	dqb "R3D B3F0R3 BL4KC"
 else
-	echo "TODO:e22_ftr()"	
+	e22_ftr ${tgtfile}	
 	exit 666
 fi
 

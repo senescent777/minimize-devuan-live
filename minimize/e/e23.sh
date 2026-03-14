@@ -242,7 +242,7 @@ function e23_qrs() {
 	csleep 3
 
 	#ftr() tässä vai kutsuvassa koodissa?
-	e22_ftr ${1}
+	#e22_ftr ${1}
 }
 
 #110326 viimeksi testattu, toimi silloin

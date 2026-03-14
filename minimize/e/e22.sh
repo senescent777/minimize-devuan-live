@@ -692,11 +692,10 @@ function e22_fgh() {
 
 	#e22_hdr ${1}
 	e22_arch ${1} ${2}
-	e22_ftr ${1}
+	#e22_ftr ${1}
 	exit
 }
 
-#110326:toimii
 #TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?
 #TODO:testaus uusicksi koska e22_hdr() muutokset 140326
 
@@ -711,6 +710,6 @@ function e22_cde() {
 	csleep 2
 		
 	${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
-	e22_ftr ${1}
-	exit
+	#e22_ftr ${1}
+	#exit
 }
