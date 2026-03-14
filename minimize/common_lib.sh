@@ -752,7 +752,7 @@ function pre_enforce() {
 		${svm} ${q} /etc/sudoers.d
 		CB_LIST1=""
 		unset CB_LIST1
-		fi
+	fi
 
 	q=$(${mkt})
 	fasdfasd ${q}
@@ -916,8 +916,6 @@ jules
 #myös https://github.com/topics/sources-list
 
 function part1_5() {
-	dqb "part1_5 ${1} , ${2} "
-
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	[ -d ${2} ] || exit 68
@@ -966,7 +964,7 @@ function part1_5() {
 		echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 		csleep 1
 
-		if [ ! -z ${CONF_pkgsrv} ] ; then
+		if [ ! -z "${CONF_pkgsrv}" ] ; then
 			tdmc="sed -i 's/REPOSITORY/${CONF_pkgsrv}/g'"
 			echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 			csleep 1
@@ -1134,7 +1132,7 @@ function part1() {
 
 	${sco} -R root:root /etc/apt
 	${scm} -R a-w /etc/apt/
-	dqb "FOUR-LEGGED WHORE"
+	dqb "FOUR-LEGGED WH0R3"
 }
 
 #140326:debug-syistä suurin osa sisällöstä kommenteissa
@@ -1148,74 +1146,74 @@ function part2() {
 	dqb "PARS_OK"
 	csleep 1
 
-#	if [ ${1} -eq 1 ] ; then
-#		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."
-#		#HUOM.080326:if [ "$INITRD" = 'No' ]; then , olisiko apua initramfs-urputuksen kanssa?
-#		${lftr}
-#		${fib}
-#		csleep 1
-#		
-#		for s in ${PART175_LIST} ; do 
-#			csleep 4
-#		
-#			dqb "processing ${s}"
-#			${sharpy} ${s}*
-#			csleep 1
-#		done
-#
-#		${lftr}
-#		
-#		${sharpy} libblu* libcupsfilters* libgphoto*
-#		${lftr}
-#
-#		#josko vielä pkexec:istä ajo-oik poisto? vai riittäisikö sharpy?
-#		${sharpy} pkexec po*
-#		${lftr}
-#
-#		${sharpy} python3-cups
-#		${lftr}
-#		csleep 1
-#
-#		case ${3} in
-#			wlan0)
-#				dqb "NOT REMOVING WPASUPPLICANT"
-#				csleep 1
-#			;;
-#			*)
-#				${sharpy} modem* wireless* wpa*
-#				${sharpy} iw lm-sensors
-#			;;
-#		esac
-#	fi
-#
+	if [ ${1} -eq 1 ] ; then
+		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."
+		#HUOM.080326:if [ "$INITRD" = 'No' ]; then , olisiko apua initramfs-urputuksen kanssa?
+		${lftr}
+		${fib}
+		csleep 1
+		
+		for s in ${PART175_LIST} ; do 
+			csleep 4
+		
+			dqb "processing ${s}"
+			${sharpy} ${s}*
+			csleep 1
+		done
+
+		${lftr}
+		
+		${sharpy} libblu* libcupsfilters* libgphoto*
+		${lftr}
+
+		#josko vielä pkexec:istä ajo-oik poisto? vai riittäisikö sharpy?
+		${sharpy} pkexec po*
+		${lftr}
+
+		${sharpy} python3-cups
+		${lftr}
+		csleep 1
+
+		case ${3} in
+			wlan0)
+				dqb "NOT REMOVING WPASUPPLICANT"
+				csleep 1
+			;;
+			*)
+				${sharpy} modem* wireless* wpa*
+				${sharpy} iw lm-sensors
+			;;
+		esac
+	fi
+
 	dqb "PART2.5.2 )))))( $1 , $2"
 	csleep 1
-#	${lftr}
-#	csleep 1
-#
-#	if [ y"${ipt}" != "y" ] ; then
-#		jules
-#		local t
-#		t=$(echo ${2} | tr -d -c 0-9)
-#		#HUOM.160226:tdstot ilman ".$t"-päätettä, pitäisikö tehdä jotain? 
-#
-#		if [ -s /etc/iptables/rules.v6.${t} ] ; then
-#			${ip6tr} /etc/iptables/rules.v6.${t}
-#		fi
-#
-#		if [ -s /etc/iptables/rules.v4.${t} ] ; then
-#			${iptr} /etc/iptables/rules.v4.${t}
-#		fi
-#	fi
-#
-#	if [ ${debug} -eq 1 ] ; then
-#		${snt}
-#		sleep 1
-#	fi
-#
-csleep 1
-dqb "PART2.5 d0ne"
-csleep 1
+	${lftr}
+	csleep 1
+
+	if [ y"${ipt}" != "y" ] ; then
+		jules
+		local t
+		t=$(echo ${2} | tr -d -c 0-9)
+		#HUOM.160226:tdstot ilman ".$t"-päätettä, pitäisikö tehdä jotain? 
+
+		if [ -s /etc/iptables/rules.v6.${t} ] ; then
+			${ip6tr} /etc/iptables/rules.v6.${t}
+		fi
+
+		if [ -s /etc/iptables/rules.v4.${t} ] ; then
+			${iptr} /etc/iptables/rules.v4.${t}
+		fi
+	fi
+
+	if [ ${debug} -eq 1 ] ; then
+		${snt}
+		sleep 1
+	fi
+
+	csleep 1
+	dqb "PART2.5 d0ne"
+	csleep 1
 }
 
 #010136:jospa toimisi
