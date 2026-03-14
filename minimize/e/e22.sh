@@ -696,7 +696,7 @@ function e22_fgh() {
 
 #110326:toimi
 #TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?
-#TODO:uusicksi koska viimeaikaiset muutokset
+#TODO:uusicksi testaus koska viimeaikaiset muutokset
 
 function e22_cde() {
 	[ -z "${1}" ] && exit 99
