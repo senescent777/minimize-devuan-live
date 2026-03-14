@@ -101,6 +101,9 @@ cont=0
 dqb "ESAC1"
 csleep 1
 
+#hdr-jutut sittenkin aiemmaksi, ennen ekaa case-esac
+e22_hdr ${tgtfile}
+
 case ${mode} in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua
 #		[ -s "${tgtfile}" ] || exit 67
@@ -112,9 +115,9 @@ case ${mode} in
 		e22_fgh ${tgtfile} ${d}
 	;;
 	q)
-		#140326:toimii
+		#140326:toimi ainakin kerrabn
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
-		e22_hdr ${tgtfile}
+		#e22_hdr ${tgtfile}
 
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
@@ -123,7 +126,7 @@ case ${mode} in
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 		exit #tarkoitus olisi ettei suoritusta jatkettaisi tätä pidemmälle
 	;;
-	c) #110326:toimii
+	c) #110326:toimi
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
 	g) #090326:oksennetut komennot vissiin ok edelleen
@@ -132,7 +135,7 @@ case ${mode} in
 	;;
 	p) #110326:VAIH (testaus, sisällön lähinnä, kts $0 4)
 		[ -v CONF_default_arhcive3 ] || exit 666
-		e22_hdr ${tgtfile}
+		#e22_hdr ${tgtfile}
 		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
 	;;
 	-h)
@@ -143,8 +146,13 @@ case ${mode} in
 	;;
 esac
 
-[ $cont -eq 1 ] || exit 666
-dqb "R3D B3F0R3 BL4KC"
+if [ $cont -eq 1 ] ; then
+	dqb "R3D B3F0R3 BL4KC"
+else
+	echo "TODO:e22_ftr()"	
+	exit 666
+fi
+
 csleep 1
 
 e_final
@@ -175,9 +183,6 @@ e22_pre1 ${d} ${distro}
 
 #VAIH:jotenkin pitäisi reagoida jos $tgtfile == "-v" tai $d0/$tgtfile eksistoi
 #[ -d ${d0}/${tgtfile} ] && exit 64
-
-#hdr-jutut sittenkin aiemmaksi, ennen ekaa case-esac
-e22_hdr ${tgtfile}
 
 #110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}

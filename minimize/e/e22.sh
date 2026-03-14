@@ -681,7 +681,8 @@ function e22_dblock() {
 ##	exit
 #}
 
-#140326:taitaa toimia
+#140326:taisi toimia ainakin kerran
+#TODO:testaus uusicksi koska e22_hdr m,uutox
 function e22_fgh() {
 	dqb "e22_fgh( ${1} ; ${2} ; ${3} )"
 	[ -z "${1}" ] && exit 99
@@ -689,7 +690,7 @@ function e22_fgh() {
 	#[ -s "${1}" ] || exit 97
 	dqb "PA.RS"
 
-	e22_hdr ${1}
+	#e22_hdr ${1}
 	e22_arch ${1} ${2}
 	e22_ftr ${1}
 	exit
@@ -697,6 +698,7 @@ function e22_fgh() {
 
 #110326:toimii
 #TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?
+#TODO:testaus uusicksi koska e22_hdr() muutokset 140326
 
 function e22_cde() {
 	[ -z "${1}" ] && exit 99
