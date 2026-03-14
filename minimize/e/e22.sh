@@ -33,12 +33,14 @@ fi
 
 csleep 3
 
-#140326:toimii
-#TODO:jos tässä star -> sr0 tspj,ettei ihan minne tahansa loisi arkistoa
+#140326:toimi ainakin kerran hdr()
+
 
 function e22_hdr() {
 	dqb "e22-HRD () ${1} "
 	[ -z "${1}" ] && exit 61
+	[ "${1}" == "-v" ] && exit 62
+	[ -f ${1} ] && echo "${1} ALREADY EXISTS"
 
 	fasdfasd ./rnd
 	fasdfasd ${1}
@@ -47,7 +49,7 @@ function e22_hdr() {
 	dd if=/dev/random bs=12 count=1 > ./rnd
 	csleep 2
 
-	${srat} -cvf ${1} ./rnd
+	${sr0} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
@@ -686,14 +688,15 @@ function e22_fgh() {
 	#[ -s "${1}" ] || exit 97
 	dqb "PA.RS"
 
-	e22_hdr ${1}
+	#e22_hdr ${1}
 	e22_arch ${1} ${2}
-	e22_ftr ${1}
+	#e22_ftr ${1}
 	exit
 }
 
-#110326:toimii
+#110326:toimi
 #TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?
+#TODO:uusicksi koska viimeaikaiset muutokset
 
 function e22_cde() {
 	[ -z "${1}" ] && exit 99
@@ -706,6 +709,6 @@ function e22_cde() {
 	csleep 2
 		
 	${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
-	e22_ftr ${1}
-	exit
+	#e22_ftr ${1}
+	#exit
 }

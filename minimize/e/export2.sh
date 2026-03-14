@@ -103,8 +103,6 @@ csleep 1
 
 #VAIH:jotenkin pitäisi reagoida jos $tgtfile == "-v" tai $d0/$tgtfile eksistoi
 [ -d ${d0}/${tgtfile} ] && exit 64
-
-#hdr-jutut sittenkin aiemmaksi, ennen ekaa case-esac
 e22_hdr ${tgtfile}
 
 case ${mode} in
@@ -120,8 +118,6 @@ case ${mode} in
 	q)
 		#140326:toimi ainakin kerrabn
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
-		#e22_hdr ${tgtfile}
-
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
@@ -138,7 +134,6 @@ case ${mode} in
 	;;
 	p) #110326:VAIH (testaus, sisällön lähinnä, kts $0 4)
 		[ -v CONF_default_arhcive3 ] || exit 666
-		#e22_hdr ${tgtfile}
 		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
 	;;
 	-h)
