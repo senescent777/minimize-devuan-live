@@ -10,7 +10,7 @@ d=${d0}/${distro}
 #HUOM.040326:tässä oli se conf-kikkailu aiemmin
 
 function parse_opts_1() {
-	dqb "parseopts_1 ${1} ${2}"
+	dqb "parseopts_1 ) ${1} ; ${2}"
 
 	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
 		#toimiikohan tämä kohta? pitäiskö tegdä toisin, opts_2() ?
@@ -84,56 +84,57 @@ function part0() {
 }
 
 #040326:ehkä josqs tämäkin (tai antaa nyt olla jnkn aikaa)
+#140326;debug-tarkoituksissa suurin osa sisällöstä kommentteihin
+
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 1
 
-	if [ ${1} -gt 0 ] ; then
-		${odio} dpkg-reconfigure locales
-		${odio} dpkg-reconfigure tzdata
-	else
-		${odio} locale-gen
-	fi
-
-	#pitäisiköhän localtime ja timezone delliä jossain kohtaa?
-
-	if [ ${2} -lt 1 ] ; then
-		${svm} /etc/default/locale /etc/default/locale.ÅLD
-		fasdfasd /etc/default/locale
-		csleep 1
-
-		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
-		#env vai locale minkä oksennukset tdstoon?
-
-		env | grep LC >> /etc/default/locale
-		env | grep LAN >> /etc/default/locale
-
-		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
-		#jos riittäisi 10 riviä
-		csleep 1
-
-		cat /etc/timezone
-		csleep 1
-		reqwreqw /etc/default/locale
-	fi
-
-	export LC_TIME
-	export LANGUAGE
-	export LC_ALL
-
-	if [ ${debug} -gt 0 ] ; then
-		env | grep LC
-		env | grep LAN
-		csleep 5
-	fi
+#	if [ ${1} -gt 0 ] ; then
+#		${odio} dpkg-reconfigure locales
+#		${odio} dpkg-reconfigure tzdata
+#	else
+#		${odio} locale-gen
+#	fi
+#
+#	#pitäisiköhän localtime ja timezone delliä jossain kohtaa jollain ehdolla?
+#
+#	if [ ${2} -lt 1 ] ; then
+#		${svm} /etc/default/locale /etc/default/locale.ÅLD
+#		fasdfasd /etc/default/locale
+#		csleep 1
+#
+#		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
+#		#env vai locale minkä oksennukset tdstoon?
+#
+#		env | grep LC >> /etc/default/locale
+#		env | grep LAN >> /etc/default/locale
+#
+#		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
+#		#jos riittäisi 10 riviä
+#		csleep 1
+#
+#		cat /etc/timezone
+#		csleep 1
+#		reqwreqw /etc/default/locale
+#	fi
+#
+#	export LC_TIME
+#	export LANGUAGE
+#	export LC_ALL
+#
+#	if [ ${debug} -gt 0 ] ; then
+#		env | grep LC
+#		env | grep LAN
+#		csleep 5
+#	fi
 }
 
+#140326:tarkkuutta peliin, ao. rivillä oli typo jnkn aikaa
 function adieu() {
 	dqb "AUF WIEDERSEHEN"
 #
 #	#jnkn ehdon taakse session lahtaamista edelliset rivit?
-#	#130126:pois kommenteitsa jotta modatun .iso:n testaaminen onnistuu
-#	#päivän 1. yritys ei oikein lähtenyt lentoon
 #
 #	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
 #	csleep 5
@@ -161,7 +162,7 @@ dqb "debug= ${debug}"
 
 if [ -s ~/xorg.conf.new ] ; then
 	if [ ! -s /etc/X11/xorg.conf ] ; then
-		${spc}  ~/xorg.conf.new  /etc/X11/xorg.conf
+		${spc} ~/xorg.conf.new  /etc/X11/xorg.conf
 		reqwreqw /etc/X11/xorg.conf
 	fi
 fi
@@ -184,10 +185,11 @@ csleep 2
 echo "JUST BEFORE PART1";sleep 1
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
-echo "JUST AFTR PRT1";sleep 1
+#HUOM.140326:tässä ei vielä alkanut bugittaa
 
+echo "JUST AFTR PRT1";sleep 1
 #aivopieru:jtnkin niin että voisi samalla kertaa purkaa paketin ja ajaa tämän skriptin trähän asti. Self-extracting archives?
-#KVG "bash here-doc examples" ?
+#KVG "bash here-doc examples"  (olisiko jo katsottu?)
 
 ${snt}
 csleep 1
@@ -205,7 +207,7 @@ c13=0
 #timezone ja localtime jos dellisi joissain tilanteissa?
 
 #==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
-#... joskohan voisi arpomisen lopettaa joskus? lopettelun visi aloittaa vhitellen (090326)
+#... joskohan voisi arpomisen lopettaa joskus? lopettelun v01si aloittaa vhitellen (090326)
 
 if [ -v LCF666 ] ; then
 	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
@@ -234,8 +236,7 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 
 	if [ $? -eq 0 ] ; then
 		adieu
-
-		#HUOM. tässä ei tartte jos myöhemmin joka tap
+		#HUOM. tässä ei tartte exit jos myöhemmin joka tap
 	else
 		dqb "SHOULD NAG ABOUT HAMMAD HERE"
 	fi
@@ -267,40 +268,43 @@ other_horrors
 dqb "BEFORE IMP2 r"
 csleep 2
 
-#141225:mitäjos common_lib ei ajokelpoinen? osaako imp2 toimia oikein silloin?
 if [ ! -f /.chroot ] ; then
 	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh #toistaiseksi tässä kunnes... Jotain
-	
 	${d0}/import2.sh r ${d0} -v
 fi
+
+#149326:vissiin tähän asti toimii ok
 
 jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
-#DONE?:ao. for-blokkiin muutoksia jatkossa (kts. changedns.sh,interfaces.tmp mm.)
-
 e_final
-e_h ${n} ${d0} 
+e_h ${n} ${d0}
+echo "KVG:\"how to exit for-loop in bash\" " #TÄSSÄKÖ KUSI PASKAA?
+sleep 5
 
-for x in  /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
-	[ -v CONF_testgris ] || ${odio} ${x} ${CONF_dnsm} 
-	#KVG:"how to exit for in bash"
-done
+if [ -x /opt/bin/changedns.bash ] ; then
+${odio} /opt/bin/changedns.bash ${CONF_dnsm}
+else
+if [ -x ${d0}/opt/bin/changedns.bash ] ; then
+${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
+else
+dqb "changedns not an option"
+csleep 5
+fi
+fi
 
 ${sipt} -L
 csleep 1
-${scm} 0555 ${d0}/common_lib.sh #JOKO JO LOPPUISI PURPATUS PRKL
+${scm} 0555 ${d0}/common_lib.sh
+#JOKO JO LOPPUISI PURPATUS PRKL
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
-
 if [ ${mode} -eq 2 ] ; then
-	echo "time to ${sifu} ${CONF_iface} or whåtever"
-	csleep 1
-	adieu
-
- 	exit 
+echo "time to \$sifu \$CONF_iface or whåtever"
+csleep 1
+adieu
+exit 
 fi
-
-#${odio} ${d0}/changedns.sh ${CONF_dnsm} #${distro} röistaiseksi Jennaan

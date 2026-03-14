@@ -19,7 +19,7 @@ function csleep() {
 }
 
 function usage() {
-	echo "${0} <mode> <srcfile> [distro?] [debug] "
+	echo "${0} <mode> <srcfile> [distro] [debug] "
 	echo "when mode=k , this imports PUBLIC_KEYS , u have to import private keys another way!!!"
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
@@ -33,7 +33,7 @@ fi
 #030326:toimiikohan tämä nykyään? etenkään toivotulla tavalla? selvitä jposqs?
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
-		distro=${1} #090326:kuinkahan oleellinen distron yliajo?
+		#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
 		d=${d0}/${distro}
 	fi
 }
@@ -151,7 +151,7 @@ else
 	}
 
 	function check_binaries2() {
-		dqb "imp2.check2"
+		echo "imp2.check2"
 	
 		som="${odio} ${som}"
 		uom="${odio} ${uom}"
@@ -168,9 +168,9 @@ else
 	}
 
 	function ocs() {
-		dqb "=======OCS( ${1} )="
+		echo "======IPM2.=OCS( ${1} )="
 		which ${1}
-		dqb "==================="
+		echo "==================="
 	}
 
 	#barm vuokxi
@@ -324,7 +324,7 @@ function common_part() {
 }
 
 function cptp2() {
-	dqb "common_part tp2 ${1}, ${2}, ${3}"
+	dqb "c tp2 ${1}, ${2}, ${3}"
 
 	[ -z "${1}" ] && echo 99
 	[ -z "${2}" ] && echo 98
@@ -485,6 +485,7 @@ else
 	[ "${confirm}" == "Y" ] || exit 33
 fi
 
+#140326:toimiikohan nuo debug-hommat kuten tarkoitus?
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "srcfile=${srcfile}"
@@ -512,7 +513,7 @@ case "${mode}" in
 				#VAIH:jokin vihje echolla kjälle ni ei tartte arpoa
 				#echo "EI NÄIN"
 
-				tar -tf ${srcfile} | grep f.tar | head -n 1
+				tar -tf ${srcfile} | head -n 1
 				echo "... SHOULD BE MOVED UNDER ${d} , AFTER THAT:RUN $0 3 ${d}/f.tar"
 				exit 99
 			#else
