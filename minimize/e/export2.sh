@@ -43,7 +43,7 @@ fi
 
 function parse_opts_1() {
 	if [ -d ${d}/${1} ] ; then
-		distro=${1} #090326:kuinkahan oleellinen distron yliajo?
+		#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
 		d=${d0}/${distro}
 	fi
 }
@@ -172,7 +172,11 @@ fi
 
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
-#TODO:jotenkin pitäisi reagoida jos $tgtfile == "-v" tai $d0/$tgtfile eksistoi
+
+#VAIH:jotenkin pitäisi reagoida jos $tgtfile == "-v" tai $d0/$tgtfile eksistoi
+#[ -d ${d0}/${tgtfile} ] && exit 64
+
+#hdr-jutut sittenkin aiemmaksi, ennen ekaa case-esac
 e22_hdr ${tgtfile}
 
 #110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?

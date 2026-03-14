@@ -33,12 +33,15 @@ fi
 
 csleep 3
 
-#140326:toimii
+#140326:toimi ainakin kerran
 #TODO:jos tässä star -> sr0 tspj,ettei ihan minne tahansa loisi arkistoa
 
 function e22_hdr() {
 	dqb "e22-HRD () ${1} "
 	[ -z "${1}" ] && exit 61
+	[ "${1}" == "-v" ] && exit 62
+	#[ -d ${1} ] && exit 60 ei näin
+	[ -f ${1} ] && echo "${1} ALREADY EXISTS"
 
 	fasdfasd ./rnd
 	fasdfasd ${1}
