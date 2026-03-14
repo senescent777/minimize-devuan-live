@@ -101,6 +101,9 @@ cont=0
 dqb "ESAC1"
 csleep 1
 
+#VAIH:jotenkin pitäisi reagoida jos $tgtfile == "-v" tai $d0/$tgtfile eksistoi
+[ -d ${d0}/${tgtfile} ] && exit 64
+
 #hdr-jutut sittenkin aiemmaksi, ennen ekaa case-esac
 e22_hdr ${tgtfile}
 
@@ -181,18 +184,13 @@ fi
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
-#VAIH:jotenkin pitäisi reagoida jos $tgtfile == "-v" tai $d0/$tgtfile eksistoi
-#[ -d ${d0}/${tgtfile} ] && exit 64
-
 #110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
-
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
 [ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
-
 doit=1
 csleep 1
 
