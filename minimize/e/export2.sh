@@ -189,6 +189,7 @@ e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
+#HUOM.nämä voivat jtnkkin suhtautua ylmepään e22_hdr()-qtsuun
 [ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 doit=1
@@ -232,10 +233,13 @@ case ${mode} in
 #		reqwreqw /opt/bin/zxcv.sig			
 #		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 #	;;
-	#TODO:testi taas josqs
+	#VAIH:testi taas josqs
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
-		e23_upgp ${tgtfile} ${CONF_pkgdir} 
+		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
+		csleep 1
+
+		e23_upgp
 		${sifd} ${CONF_iface}
 		csleep 1
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
@@ -263,11 +267,11 @@ case ${mode} in
 esac
 
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
-	e22_hdr ${d}/f.tar 
+	e22_hdr ${d}/f.tar #140326:pitäisiköhän tämä kohta muuttaa?
 
 	#HUOM.11326:d-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} 
-	e22_ftr ${d}/f.tar 
+	e22_ftr ${d}/f.tar  #140326:pitäisiköhän tämä kohta muuttaa?
 
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
