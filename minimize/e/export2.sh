@@ -194,40 +194,41 @@ case ${mode} in
 	0)
 		exit 97
 	;;
-#	3|4) 
-#		#TODO:testaus TAAS , eRItyisesti miten nelosen output g_doit:n imp2-kikkailun kanssa?
-#		#TODO:jos sen "exp2 p" saisi samalla kertaa testattua
-#		${NKVD} ${d0}/${CONF_default_arhcive3}*
-#		[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
-#		csleep 1
-#		fasdfasd /opt/bin/zxcv
-#		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
-#
-#		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-#		if [ ${mode} -eq 3 ] ; then
-#			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-#			e23_other_pkgs ${CONF_dnsm}
-#
-#		else
-#			doit=0
-#		fi
-#
-#		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2}
-#		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} #${CONF_enforce} ${CONF_default_arhcive2}
-#		e22_pre1 ${d} ${distro}
-#
-#		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
-#		fasdfasd /opt/bin/zxcv #onko ihan pakko? 
-#
-#		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv
-#		reqwreqw /opt/bin/zxcv
-#		csleep 1
-#
-#		fasdfasd /opt/bin/zxcv.sig	
-#		e22_tyg /opt/bin/zxcv
-#		reqwreqw /opt/bin/zxcv.sig			
-#		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
-#	;;
+	3|4) 
+		#VAIH:testaus TAAS , eRItyisesti miten nelosen output g_doit:n imp2-kikkailun kanssa?
+		#VAIH:jos sen "exp2 p" saisi samalla kertaa testattua
+		${NKVD} ${d0}/${CONF_default_arhcive3}*
+		[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
+
+		csleep 1
+		fasdfasd /opt/bin/zxcv
+		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
+
+		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
+		if [ ${mode} -eq 3 ] ; then
+			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+			e23_other_pkgs ${CONF_dnsm}
+
+		else
+			doit=0
+		fi
+
+		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2}
+		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} #${CONF_enforce} ${CONF_default_arhcive2}
+		e22_pre1 ${d} ${distro}
+
+		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
+		fasdfasd /opt/bin/zxcv #onko ihan pakko? 
+
+		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv
+		reqwreqw /opt/bin/zxcv
+		csleep 1
+
+		fasdfasd /opt/bin/zxcv.sig	
+		e22_tyg /opt/bin/zxcv
+		reqwreqw /opt/bin/zxcv.sig			
+		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
+	;;
 	#140326:toimi ainakin kerran
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96

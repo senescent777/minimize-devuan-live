@@ -248,276 +248,280 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
-#TODO:testaa taas (jokojo 12326?)
+#VAIH:testaa taas (jokojo 14326?)
+#HUOM.140326:testit vaiheessa, kommentteihin jos qsee
+function e22_home_pre()
+	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
+		e22_config1 ~ ${4}
 
-#function e22_home_pre()
-#	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
-#		e22_config1 ~ ${4}
-#
-#		${NKVD} ~/${CONF_default_arhcive}
-#		e22_settings ${2}/.. ${CONF_default_arhcive} ${CONF_default_arhcive3}
-#	fi
-#
-#	local t
-#	csleep 1
-#	${srat} -rvf ${1} /opt/bin 
-#
-#	for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
-#		${srat} -rvf ${1} ${t}
-#	done
-#}
+		${NKVD} ~/${CONF_default_arhcive}
+		e22_settings ${2}/.. ${CONF_default_arhcive} ${CONF_default_arhcive3}
+	fi
+
+	local t
+	csleep 1
+	${srat} -rvf ${1} /opt/bin 
+
+	for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
+		${srat} -rvf ${1} ${t}
+	done
+}
+
+#HUOM.140326:testit vaiheessa, kommentteihin jos qsee
+function e22_home() {
+
+	[ -z "${1}" ] && exit 67
+	[ -s ${1} ] || exit 68
+	[ -z "${2}" ] && exit 69
+	[ -d ${2} ] || exit 70
+	[ -z "${3}" ] && exit 71
+	[ -z "${3}" ] && exit 72
+	[ -z "${4}" ] && exit 73
+	csleep 1
 
 
-#function e22_home() {
-#
-#	[ -z "${1}" ] && exit 67
-#	[ -s ${1} ] || exit 68
-#	[ -z "${2}" ] && exit 69
-#	[ -d ${2} ] || exit 70
-#	[ -z "${3}" ] && exit 71
-#	[ -z "${3}" ] && exit 72
-#[ -z "${4}" ] && exit 73
-#	csleep 1
-#
-#
-#	#141225:if-lauseen pointti nykyään? tähän liittyen oli jokin idea? (120126)
-#HUOM.130326:josdko config1+sett erottelisi omaksi fkitoikseen?
-#
-#	${srat} -rvf ${1} ${2}/../${3}
-#
-#	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
-#	[ ${t} -lt 1 ] && exit 72
-#	csleep 10
-#
-#	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-#
-#	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
-#	csleep 2
-#
-#	
-#	for f in $(find ~ -type f -name 'xorg.conf*' ) ; do ${srat} -rvf ${1} ${f} ; done	
-#}
-#
-##030126:vissiin toimii
-##pitäisikö siirtää toiseen tdstoon?
-##toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
-#
-#function luca() {
-#
-#	[ -z "${1}" ] && exit 11
-#	[ -s ${1} ] || exit 12
-#	#[ -w ${1} ] || exit 13
-#
-#	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule
-#	csleep 2
-#
-#
-#	#localtime taisi olla linkki, siksi erikseen
-#	${srat} -rvf ${1} /etc/timezone /etc/localtime 
-#	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
-#
-#	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
-#}
-#
-##... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan vai tuleeko?
-##020326:vissiin sisältö ok
-#
-#function e22_acol() {
-#	[ -z "${1}" ] && exit 1
-#	[ -s ${1} ] || exit 4 
-#	#[ -w ${1} ] || exit 9
-#
-#	[ -z "${2}" ] && exit 2
-#	[ -z "${3}" ] && exit 3		
-#	[ -z "${4}" ] && exit 5
-#
-#	#missäs nämä palautettiin entiselleen? ja tartttteeko olla 07xx ? let's find out
-#	${scm} 0555 /etc/iptables
-#	${scm} 0444 /etc/iptables/rules*
-#	${scm} 0444 /etc/default/rules*
-#
-#	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
-#
-#	for f in $(${odio} find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
-#		if [ -s ${f} ] && [ -r ${f} ] ; then
-#			${srat} -rvf ${1} ${f}
-#		else
-#		fi
-#	done
-#
-#	luca ${1}
-#	other_horrors 
-#
-#	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
-#		exit 112
-#	fi
-#
-#	${srat} -rvf ${1} /etc/default/net*
-#
-#	case ${2} in
-#		wlan0)
-#			${srat} -rvf ${1} /etc/wpa_supplicant
-#			${srat} -tf ${1} | grep wpa
-#		;;
-#		*)
-#		;;
-#	esac
-#
-#	local f
-#	local g
-#	
-#	if [ ${3} -eq 1 ] ; then #-gt 0 ?
-#		for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
-#		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
-#	else
-#	fi
-#
-#	local ef
-#	ef=$(echo ${4} | tr -d -c 0-9)
-#
-#	if  [ ${ef} -eq 1 ] ; then
-#	else
-#		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
-#	fi
-#}
-#
+	#141225:if-lauseen pointti nykyään? tähän liittyen oli jokin idea? (120126)
+
+	${srat} -rvf ${1} ${2}/../${3}
+
+	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
+	[ ${t} -lt 1 ] && exit 72
+	csleep 10
+
+	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
+
+	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
+	csleep 2
+
+	
+	for f in $(find ~ -type f -name 'xorg.conf*' ) ; do ${srat} -rvf ${1} ${f} ; done	
+}
+
+
+#pitäisikö siirtää toiseen tdstoon?
+#toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
+#HUOM.140326:testit vaiheessa, kommentteihin jos qsee
+#VAIH:toiminnan testaus
+
+function luca() {
+
+	[ -z "${1}" ] && exit 11
+	[ -s ${1} ] || exit 12
+	#[ -w ${1} ] || exit 13
+
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule
+	csleep 2
+
+
+	#localtime taisi olla linkki, siksi erikseen
+	${srat} -rvf ${1} /etc/timezone /etc/localtime 
+	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
+
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
+}
+
+#... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan vai tuleeko?
+#HUOM.140326:testit vaiheessa, kommentteihin jos qsee
+#VAIH:toiminnan testaus
+
+function e22_acol() {
+	[ -z "${1}" ] && exit 1
+	[ -s ${1} ] || exit 4 
+	#[ -w ${1} ] || exit 9
+
+	[ -z "${2}" ] && exit 2
+	[ -z "${3}" ] && exit 3		
+	[ -z "${4}" ] && exit 5
+
+	#missäs nämä palautettiin entiselleen? ja tartttteeko olla 07xx ? let's find out
+	${scm} 0555 /etc/iptables
+	${scm} 0444 /etc/iptables/rules*
+	${scm} 0444 /etc/default/rules*
+
+	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
+
+	for f in $(${odio} find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
+		if [ -s ${f} ] && [ -r ${f} ] ; then
+			${srat} -rvf ${1} ${f}
+		else
+		fi
+	done
+
+	luca ${1}
+	other_horrors 
+
+	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
+		exit 112
+	fi
+
+	${srat} -rvf ${1} /etc/default/net*
+
+	case ${2} in
+		wlan0)
+			${srat} -rvf ${1} /etc/wpa_supplicant
+			${srat} -tf ${1} | grep wpa
+		;;
+		*)
+		;;
+	esac
+
+	local f
+	local g
+	
+	if [ ${3} -eq 1 ] ; then #-gt 0 ?
+		for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
+		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
+	else
+	fi
+
+	local ef
+	ef=$(echo ${4} | tr -d -c 0-9)
+
+	if  [ ${ef} -eq 1 ] ; then
+	else
+		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
+	fi
+}
+
 #imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
-##020326:ehkä ok sisältö-siat (xorg ja ntp-jutut voisi testata paremmalla ajalla)
-#
-#function e22_sarram() {
-#	[ -z "${1}" ] && exit 1
-#	[ -s ${1} ] || exit 4 
-#	#[ -w ${1} ] || exit 9
-#
-#	[ -z "${2}" ] && exit 11
-#	[ -z "${3}" ] && exit 13
-#	[ -s ${3} ] || exit 17
-#
-#	${srat} -rf ${1} /etc/init.d/net*
-#	${srat} -rf ${1} /etc/rcS.d/S*net*
-#	csleep 3
-#
-#	#josko kopsaisi /e/X11 alle konffin testaustarkoituksissa? nykyään kyllä g_dout kopsailee
-#	for f in $(${odio} find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
-#		${srat} -rvf ${1} ${f}
-#	done
-#
-#	#020326:tää kohta saattoi toimia oikein, ainakin kerran
-#	for f in $(${odio} find /etc -type f -name '${2}*' -and -not -name '*.202*') ; do
-#		${srat} -rvf ${1} ${f}
-#	done
-#
-#	${srat} -rvf ${1} /etc/X11/default-display-manager
-#
-#	#HUOM.tätä varten oli valmiskin palikka?
-#	${scm} 0555 /etc/iptables
-#	${scm} 0400 /etc/iptables/rules*
-#	${scm} 0400 /etc/default/rules*
-#
-#	#020326:ehkä ok nämä 2
-#	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
-#	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
-#
-#	if [ -x /usr/sbin/ntpd ] ; then
-#		for f in $(${odio} find /etc -type f -name 'ntp*') ; do
-#			${srat} -rvf ${1} ${f}
-#			${sah6} ${f} >> ${3}
-#		done
-#	fi
-#
-#	other_horrors
-#}
-#
-#[ -v BASEURL ] || exit 6 
-#
-#function e22_ext() { #TODO:testatakin voisi taas
-##TODO:/o/b liittyvää käsittelyö uusicksi sittenq
-#	[ -z "${1}" ] && exit 1
-#	[ -s ${1} ] || exit 2
-#	#[ -w ${1} ] || exit 6 
-#	[ -z "${2}" ] && exit 3
-#	[ -z "${3}" ] && exit 4
-#	[ -z "${4}" ] && exit 47
-#	[ -f ${4} ] || exit 48
-#
-#	local p
-#	local q	
-#	local r
-#	local st
-#
-#	csleep 1
-#	p=$(pwd)
-#
-#	#q=$(${mkt} -d) #ei vaan toimi näin?
-#	q=$(mktemp -d)
-#	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
-#	st=$(echo ${3} | tr -d -c 0-9)
-#	[ ${debug} -eq 1 ] && pwd
-#
-#	cd ${q}
-#	csleep 1
-#
-#	${tig} clone https://${BASEURL}/more_scripts.git
-#	[ $? -eq 0 ] || exit 66
-#
-#	cd more_scripts/misc
-#	echo $?
-#
-#	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
-#
-#	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
-#		${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1	
-#	fi
-#
-#	${spc} /etc/resolv.conf ./etc/resolv.conf.${st}
-#
-#	if [ ! -s ./etc/resolv.conf.1 ] ; then
-#		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
-#	fi
-#
-#	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${st}
-#
-#	if [ ! -s ./sbin/dhclient-script.1 ] ; then
-#		 ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
-#		ls -las ./sbin
+#020326:ehkä ok sisältö-siat (xorg ja ntp-jutut voisi testata paremmalla ajalla)
+
+#HUOM.140326:testit vaiheessa, kommentteihin jos qsee
+#VAIH:toiminnan testaus
+
+function e22_sarram() {
+	[ -z "${1}" ] && exit 1
+	[ -s ${1} ] || exit 4 
+	#[ -w ${1} ] || exit 9
+
+	[ -z "${2}" ] && exit 11
+	[ -z "${3}" ] && exit 13
+	[ -s ${3} ] || exit 17
+
+	${srat} -rf ${1} /etc/init.d/net*
+	${srat} -rf ${1} /etc/rcS.d/S*net*
+	csleep 3
+
+	#josko kopsaisi /e/X11 alle konffin testaustarkoituksissa? nykyään kyllä g_dout kopsailee
+	for f in $(${odio} find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
+		${srat} -rvf ${1} ${f}
+	done
+
+	#020326:tää kohta saattoi toimia oikein, ainakin kerran
+	for f in $(${odio} find /etc -type f -name '${2}*' -and -not -name '*.202*') ; do
+		${srat} -rvf ${1} ${f}
+	done
+
+	${srat} -rvf ${1} /etc/X11/default-display-manager
+
+	#HUOM.tätä varten oli valmiskin palikka?
+	${scm} 0555 /etc/iptables
+	${scm} 0400 /etc/iptables/rules*
+	${scm} 0400 /etc/default/rules*
+
+	#020326:ehkä ok nämä 2
+	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
+	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
+
+	if [ -x /usr/sbin/ntpd ] ; then
+		for f in $(${odio} find /etc -type f -name 'ntp*') ; do
+			${srat} -rvf ${1} ${f}
+			${sah6} ${f} >> ${3}
+		done
+	fi
+
+	other_horrors
+}
+
+#joutaisi kai Const:in nimetä yleisen kaavan mukaan
+[ -v BASEURL ] || exit 6 
+
+function e22_ext() { #VAIH:testatakin voisi taas, takaisin kommentteihin koko fcktio jos qsee
+#TODO:/o/b liittyvää käsittelyä uusicksi sittenq
+	[ -z "${1}" ] && exit 1
+	[ -s ${1} ] || exit 2
+	#[ -w ${1} ] || exit 6 
+	[ -z "${2}" ] && exit 3
+	[ -z "${3}" ] && exit 4
+	[ -z "${4}" ] && exit 47
+	[ -f ${4} ] || exit 48
+
+	local p
+	local q	
+	local r
+	local st
+
+	csleep 1
+	p=$(pwd)
+
+	#q=$(${mkt} -d) #ei vaan toimi näin?
+	q=$(mktemp -d)
+	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+	st=$(echo ${3} | tr -d -c 0-9)
+	[ ${debug} -eq 1 ] && pwd
+
+	cd ${q}
+	csleep 1
+
+	${tig} clone https://${BASEURL}/more_scripts.git
+	[ $? -eq 0 ] || exit 66
+
+	cd more_scripts/misc
+	echo $?
+
+	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
+
+	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
+		${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1	
+	fi
+
+	${spc} /etc/resolv.conf ./etc/resolv.conf.${st}
+
+	if [ ! -s ./etc/resolv.conf.1 ] ; then
+		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
+	fi
+
+	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${st}
+
+	if [ ! -s ./sbin/dhclient-script.1 ] ; then
+		 ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
+		ls -las ./sbin
 #	else
-#	fi
-#
-#	if [ -f /etc/apt/sources.list ] ; then
-#		local c
-#		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
-#
-#		if [ ${c} -lt 1 ] ; then
-# 			${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
-#		fi
-#	fi
-#
-#	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
-#	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
-#
-#	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
-#
-#	${sco} -R root:root ./etc
-#	${scm} -R a-w ./etc
-#	${sco} -R root:root ./sbin 
-#	${scm} -R a-w ./sbin
-#	${srat} -rvf ${1} ./etc  #./sbin jälkimmäinen hmisto josqs takaisin vai ei?
-#
-#	echo $?
-#
-#	local f
-#	#160126:tuon yhden tdston kanssa jokin ongelma sha-tark kanssa, joten ksrdotssn
-#	#pois myös resolv.conf.* vaiko ei ?
-#
-#	for f in $(find ./etc -type f -not -name 'interfaces.tmp') ; do
-#		${sah6} ${f} >> ${4}
-#	done
-#
-#
-#	cd ${p}
-#	[ ${debug} -eq 1 ] && pwd
-#}
-#
+	fi
+
+	if [ -f /etc/apt/sources.list ] ; then
+		local c
+		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
+
+		if [ ${c} -lt 1 ] ; then
+ 			${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
+		fi
+	fi
+
+	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
+	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
+
+	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
+
+	${sco} -R root:root ./etc
+	${scm} -R a-w ./etc
+	${sco} -R root:root ./sbin 
+	${scm} -R a-w ./sbin
+	${srat} -rvf ${1} ./etc  #./sbin jälkimmäinen hmisto josqs takaisin vai ei?
+
+	echo $?
+
+	local f
+	#160126:tuon yhden tdston kanssa jokin ongelma sha-tark kanssa, joten ksrdotssn
+	#pois myös resolv.conf.* vaiko ei ?
+
+	for f in $(find ./etc -type f -not -name 'interfaces.tmp') ; do
+		${sah6} ${f} >> ${4}
+	done
+
+	cd ${p}
+	[ ${debug} -eq 1 ] && pwd
+}
 
 function e22_ts() {
 	dqb "E222.TS $1 , $2"
@@ -685,12 +689,13 @@ function e22_fgh() {
 	dqb "e22_fgh( ${1} ; ${2} ; ${3} )"
 	[ -z "${1}" ] && exit 99
 	[ -z "${2}" ] && exit 98	
-	#[ -s "${1}" ] || exit 97
+	#[ -s "${1}" ] || exit 97 #mikä tässä oli pointti?
+
 	dqb "PA.RS"
 
-	#e22_hdr ${1}
+
 	e22_arch ${1} ${2}
-	#e22_ftr ${1}
+
 	exit
 }
 
