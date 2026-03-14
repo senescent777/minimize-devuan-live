@@ -33,15 +33,12 @@ fi
 
 csleep 3
 
-#140326:toimi ainakin kerran
-#VAIH:jos tässä star -> sr0 tspj,ettei ihan minne tahansa loisi arkistoa
+#140326:toimii
+#TODO:jos tässä star -> sr0 tspj,ettei ihan minne tahansa loisi arkistoa
 
 function e22_hdr() {
 	dqb "e22-HRD () ${1} "
 	[ -z "${1}" ] && exit 61
-	[ "${1}" == "-v" ] && exit 62
-	#[ -d ${1} ] && exit 60 ei näin
-	[ -f ${1} ] && echo "${1} ALREADY EXISTS"
 
 	fasdfasd ./rnd
 	fasdfasd ${1}
@@ -50,7 +47,7 @@ function e22_hdr() {
 	dd if=/dev/random bs=12 count=1 > ./rnd
 	csleep 2
 
-	${sr0} -cvf ${1} ./rnd
+	${srat} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
@@ -681,8 +678,7 @@ function e22_dblock() {
 ##	exit
 #}
 
-#140326:taisi toimia ainakin kerran
-#TODO:testaus uusicksi koska e22_hdr m,uutox
+#140326:taitaa toimia
 function e22_fgh() {
 	dqb "e22_fgh( ${1} ; ${2} ; ${3} )"
 	[ -z "${1}" ] && exit 99
@@ -690,14 +686,14 @@ function e22_fgh() {
 	#[ -s "${1}" ] || exit 97
 	dqb "PA.RS"
 
-	#e22_hdr ${1}
+	e22_hdr ${1}
 	e22_arch ${1} ${2}
-	#e22_ftr ${1}
+	e22_ftr ${1}
 	exit
 }
 
+#110326:toimii
 #TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?
-#TODO:testaus uusicksi koska e22_hdr() muutokset 140326
 
 function e22_cde() {
 	[ -z "${1}" ] && exit 99
@@ -710,6 +706,6 @@ function e22_cde() {
 	csleep 2
 		
 	${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
-	#e22_ftr ${1}
-	#exit
+	e22_ftr ${1}
+	exit
 }

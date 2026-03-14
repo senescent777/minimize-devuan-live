@@ -233,7 +233,7 @@ case ${mode} in
 #		reqwreqw /opt/bin/zxcv.sig			
 #		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 #	;;
-	#VAIH:testi taas josqs
+	#140326:toimi ainakin kerran
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"

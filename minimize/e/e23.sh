@@ -121,15 +121,6 @@ function e23_other_pkgs() {
 
 function e23_upgp() {
 	dqb " e23_upgp() "
-	#[ -z "${1}" ] && exit 1 
-	#[ -w ${1} ] || exit 44 #man bash taas?
-	#[ -s ${1} ] && mv ${1} ${1}.OLD 261225 laitetttu kommentteihin koska aiheutti ongelmia
-	#[ -z "${2}" ] && exit 11
-	#[ -d ${2} ] || exit 22
-	#
-	#[ -z "${3}" ] && exit 33 #kuinkahan tarpeellista on tämäkin tuoda fktioon?
-	#VAIH:JOSPA KUTSUVASSA KOODISSA kuitenkin tuo ifd ?	
-	#VAIH:$1 pois myös?
 
 	dqb "pars_ok"
 	${fib}
@@ -142,23 +133,13 @@ function e23_upgp() {
 	#helpompi vain ajaa e23_dm() ennen upgp()
 	${sag} --no-install-recommends upgrade -u
 	echo $?
+
 	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
 	csleep 1
 
-#	# #d-blkissa jatkossa?
-#	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
-#	csleep 5
-
 	dqb " e23_upgp() done"
 	csleep 1
-
-#	
-#	csleep 1
 }
-
-#	#HUOM.part076() ja part2_5() on keksitty (tosin e22_dblock() nykyään...)
-#	[ ${debug} -eq 1 ] && ls -las ${2}/*.deb
-#	csleep 1
 
 function e23_upgp2() {
 	[ -z "${1}" ] && exit 1 
@@ -242,7 +223,7 @@ function e23_qrs() {
 	csleep 3
 
 	#ftr() tässä vai kutsuvassa koodissa?
-	#e22_ftr ${1}
+	e22_ftr ${1}
 }
 
 #110326 viimeksi testattu, toimi silloin
