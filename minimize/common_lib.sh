@@ -1,7 +1,13 @@
 #fktioksi tnä ni ei tartte globaalien mjien kanssa sählätä?
+echo "common_lib:"
+echo "d0= ${d0}"
+echo "d= ${d}"
+sleep 5
+
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
+	sleep 5
 else
 	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 		. ${d}/conf
@@ -179,6 +185,7 @@ function check_bin_0() {
 	[ -z ${NKVD} ] && exit 37
 	NKVD="${odio} ${NKVD} -fu "
 
+	#ehkä tämmöinen lista kuuluisi konftdstoon?
 	PART175_LIST="avahi blu cups exim4 nfs network mdadm sane rpc lm-sensors dnsmasq stubby" 
 
 	# ntp" ntp jemmaan 28525 #slim kokeeksi mukaan listaan 271125, hiiri lakkasi toimimasta
@@ -417,7 +424,7 @@ function common_lib_tool() {
 #HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (VAIH)
 #https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
 #alahan jo tehdä jotain tuolle
-#toimii edelleen noinkin? (050326) (vielä se sqroot...)
+#toimii edelleen noinkin? (050326) (110326 puolella sqroot alaisuudessa näyttäisi toimivan myös)
 
 function fromtend() {
 	dqb "FRöMTEND"
@@ -761,16 +768,24 @@ function pre_enforce() {
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
 		fi
 
-		#080326:voisi ao. tdston nimetä uudestaan (pääte) ... ja mitä muita säätöä tuleekaan (TODO)
-		if [ -f ${1}/changedns.sh ] ; then
+		#080326:voisi ao. tdston nimetä uudestaan (pääte) ... ja mitä muita säätöä tuleekaan (VAIH)
+		#if [ -f ${1}/changedns.sh ] ; then
+		if [ -d ${1}/opt/bin ] ; then
 			dqb "SÖSSÖN SÖSSÖN"
 
-			#080326.2:svm voisi jstkossa tehdä enemmän (TODO)
-			${svm} ${1}/changedns.sh /opt/bin
+			#080326.2:svm voisi jstkossa tehdä enemmän (VAIH)
+			${svm} ${1}/opt/bin/*.bash /opt/bin
+
+			#090326.1:pitäisiköhän kopsata enemmän?
+			#090326.2:miten /o/b/zxcv ja /o/b alaiset skRiptit`
 		fi
 
-		#TODO:jatkossa pikemminkin koko hmiston alaiset kalat sudoersiin
-		mangle_s /opt/bin/changedns.sh ${q}
+		#VAIH:jatkossa pikemminkin koko hmiston alaiset kalat sudoersiin
+		# /opt/bin/changedns.sh ${q}
+		for f in $(${odio} find /opt/bin -type f -name '*.bash') ; do
+			mangle_s ${f} ${q}
+		done
+
 		csleep 1
 	fi
 
@@ -944,22 +959,31 @@ function e_h() {
 	dqb "F1ND D0N3"
 	csleep 1
 
-	#TODO:tähän mahdollisesti muutoksia myöhemmin (kts interfaces.tmp ja changedns.sh liittyen)
-	for f in ${2} /opt/bin ; do
-		${scm} 0511 ${f}/changedns.sh
-		${sco} root:root ${f}/changedns.sh
-	done
+	#VAIH:tähän mahdollisesti muutoksia myöhemmin (kts interfaces.tmp ja changedns.sh liittyen)
+	#for f in ${2} /opt/bin ; do
+	#	${scm} 0511 ${f}/changedns.sh
+	#	 ${f}/changedns.sh
+	#done
+
+	if [ -d ${2}/opt/bin ] ; then
+		${sco} -R root:root ${2}/opt/bin
+		${scm} go-wr ${2}/opt/bin/*
+		${scm} 0511 ${2}/opt/bin/*.sh
+		${scm} 0511 ${2}/opt/bin/*.bash
+	fi
 
 	dqb "e_h"
 	csleep 1
 }
 
 function e_final() {
-	dqb "e_final ${1} " #HUOM.2501133326:mihin tarvitsee parametria?
+	dqb "e_final ( ${1} ) " #HUOM.2501133326:mihin tarvitsee parametria?
 	csleep 1
 
 	#${scm} a-w /opt/bin/*
 	${scm} go-rw /opt/bin/*
+	${scm} 0511 /opt/bin/*.sh
+	${scm} 0511 /opt/bin/*.bash
 	${sco} -R root:root /opt
 
 	${scm} 0755 /
@@ -988,7 +1012,7 @@ function enforce_access() {
 
 	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
 	e_h ${1} ${2}
-	e_final ${3}
+	e_final #${3}
 
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
@@ -1141,35 +1165,44 @@ function part1() {
 	csleep 1
 	
 	[ -v ipt ] || dqb "SHOULD exit 69" #010326 qseeko tämä kohta?
+	dqb "ipt=  ${ipt} "
+	dqb "testgris = ${CONF_testgris}"
+	csleep 1
 
-	if [ -z "${ipt}" ] ; then
+	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ]  ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		#TODO:JATKOSSA AO. BLOKKI KENTIES TOISIN, kts /o/b/cnds
-		if [ -x ${ipt} ] ; then # \$ odio vs \$ ipt vielä?
-			for t in INPUT OUTPUT FORWARD ; do
-				${ipt} -P ${t} DROP
-				[ $? -eq 0 ] || sudo /sbin/halt
-				dqb "V6"; csleep 1
+		#exit 666
+		#TODO:JATKOSSA AO. BLOKKI KENTIES TOISIN, kts /o/b/cnds (ideana kai tehdö uusia skeriptej korvaamaan changedns)
+		#VAIH:myäs CONBF_tesgtgirs ehkö huomioitava
+		#aluksi ohitetaan koko for-takenne uknnes ehkä keksii paremman tavan
+		
+		if [ -x ${ipt} ] ; then
+			if [ ! -v CONF_testgris ] ; then
+				for t in INPUT OUTPUT FORWARD ; do
+					${ipt} -P ${t} DROP
+					[ $? -eq 0 ] || ${odio} /sbin/halt
+					dqb "V6"; csleep 1
 
-				${ip6t} -P ${t} DROP
-				[ $? -eq 0 ] || sudo /sbin/halt
-				${ip6t} -F ${t}
-			done
+					${ip6t} -P ${t} DROP
+					[ $? -eq 0 ] || ${odio} /sbin/halt
+					${ip6t} -F ${t}
+				done
 
-			for t in INPUT OUTPUT FORWARD b c e f ; do 
-				${ipt} -F ${t}
-				[ $? -eq 0 ] || sudo /sbin/halt
-			done
+				for t in INPUT OUTPUT FORWARD b c e f ; do 
+					${ipt} -F ${t}
+					[ $? -eq 0 ] || ${odio} /sbin/halt
+				done
 	
-			if [ ${debug} -eq 1 ] ; then
-				#pitäisikö olla ipt-legacy? 
-				${ipt} -L
+				if [ ${debug} -eq 1 ] ; then
+					#pitäisikö olla ipt-legacy? 
+					${ipt} -L
 
-				dqb "V6.b"; csleep 1
-				${ip6t} -L
-				csleep 1
-			fi
+					dqb "V6.b"; csleep 1
+					${ip6t} -L
+					csleep 1
+				fi
+			fi		
 		fi	
 	fi
 
@@ -1316,7 +1349,7 @@ function cg_udp6() {
 }
 
 #160126:g.tar liittyvää kikkailua jatkossa? sittenkin check_bin() alta g-jutut -> cefgh()?
-#100226:sources.list-juttuiihIN liittyviä muutoksia vielä josqs? virlä ajankohtainen 03/26?
+#140326:libfortran-urputuksille j os tekisijojo tain
 
 function part3() {
 	dqb "part3 ${1} , ${2}"
@@ -1342,7 +1375,9 @@ function part3() {
 	common_lib_tool ${1} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 
+	#140326:näiden 3 kanssa saattaa olla jokin juttu
 	efk1 ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
+
 	common_lib_tool ${1} accept_pkgs_1
 	common_lib_tool ${1} accept_pkgs_2
 

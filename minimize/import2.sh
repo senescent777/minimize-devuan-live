@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=1 #kunnnes viimeaikaiset temppuilut...
+debug=0
 srcfile=""
 
 distro=$(cat /etc/devuan_version)
@@ -33,7 +33,7 @@ fi
 #030326:toimiikohan tämä nykyään? etenkään toivotulla tavalla? selvitä jposqs?
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
-		distro=${1}
+		#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
 		d=${d0}/${distro}
 	fi
 }
@@ -55,6 +55,7 @@ if [ -f /.chroot ] ; then
 	if [ ! -z "${g}" ] ; then
 		q=$(find . -name 'dgsts.?')
 		cd ..
+		#110326:jotain urputusta oli, mksums bugittaa?
 
 		for r in ${q} ; do
 			${g} -c ./${p}/${r} --ignore-missing
@@ -65,6 +66,8 @@ if [ -f /.chroot ] ; then
 	fi
 
 	#gpg-tark kuitenkin ensin?
+	#090326:pitäisiköhän myös tämä tarkistus-osuus muuttaa fktioksi, ennen chroot-tark ?
+
 	g=$(which gpg)
 	sleep 1
 	cd ${p}
@@ -79,7 +82,8 @@ if [ -f /.chroot ] ; then
 		
 		sleep 1
 	fi
-	
+	#
+
 	unset q
 	unset r
 	unset g
@@ -102,7 +106,7 @@ csleep 1
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#TODO:sqroot-testiä yaas kehiin
+	#VAIH:sqroot-testiä yaas kehiin (yo. purq ainakin onnaa)
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0NF1G"
@@ -118,6 +122,7 @@ else
 
 	#debug=1
 	dqb "FALLBACK"
+	sleep 5
 
 	if [ -f /.chroot ] ; then
 		odio=""
@@ -125,9 +130,11 @@ else
 		#chroot-ynmp tulee nalqtusta tästä?
 		odio=$(which sudo)
 	fi
-	
+
+	#"tar -cvf OLD.tar"-syystä ei tätä tekstiä huomaa	
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
-	
+	sleep 5
+
 	function check_binaries() {
 		dqb "imp2.check1"
 
@@ -144,7 +151,7 @@ else
 	}
 
 	function check_binaries2() {
-		dqb "imp2.check2"
+		echo "imp2.check2"
 	
 		som="${odio} ${som}"
 		uom="${odio} ${uom}"
@@ -161,9 +168,9 @@ else
 	}
 
 	function ocs() {
-		dqb "=======OCS( ${1} )="
+		echo "======IPM2.=OCS( ${1} )="
 		which ${1}
-		dqb "==================="
+		echo "==================="
 	}
 
 	#barm vuokxi
@@ -172,7 +179,7 @@ else
 	}
 fi
 
-debug=1 #kunnes...
+#debug=1 #kunnes...
 dqb "imp2:AFTR common_lib"
 csleep 3
 [ -z "${distro}" ] && exit 6
@@ -226,7 +233,7 @@ if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
 else
 	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE "
 	csleep 1
-	${srat} -cvf /OLD.tar /etc /sbin /home/stubby ~/Desktop
+	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
 dqb "ip2.m.Lpg"
@@ -317,13 +324,18 @@ function common_part() {
 }
 
 function cptp2() {
-	dqb "common_part tp2 ${1}, ${2}, ${3}"
+	dqb "c tp2 ${1}, ${2}, ${3}"
+
 	[ -z "${1}" ] && echo 99
 	[ -z "${2}" ] && echo 98
 	[ -d ${1} ] || exit 97
 
+	dqb "cptp2:pars ok"
+	csleep 1
+
+	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
 	local t
-	t=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c 0-9a-fA-F/.)
+	t=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 	
 	if [ -x ${t}/common_lib.sh ] ; then
 		#TODO:sha-sig-tarkistus tähän? entä process_lib():iin ?
@@ -335,6 +347,7 @@ function cptp2() {
 
 	csleep 1
 
+	#090326:toimiiko toivotulla tavalla? toivottavasti nytq tr-kikkailut kirjattu
 	if [ -d ${t} ] ; then
 		dqb "HAIL UKK"
 
@@ -353,30 +366,37 @@ function cptp2() {
 
 dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (profs.sh)
+#olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3} siis)
 
+#140326:OK
 function tpr() {
-	dqb "UPIR  ${1} , ${2}"
+	dqb "UPIR ) ${1} , ${2} , ${3} ("
 	csleep 1
 
-	[ -z "${1}" ] && exit 11
-	[ -z "${2}" ] && exit 10
-	[ -d ${1} ] || exit 12
+	[ -z "${1}" ] && exit 8
+	[ -z "${2}" ] && exit 9
+	[ -z "${3}" ] && exit 10
+	[ -d ${1} ] || exit 11
+
+	[ -f ${1}/${2} ] || exit 12
 	[ -s ${1}/${2} ] || exit 13
 	[ -r ${1}/${2} ] || exit 14
 
-	dqb "pars_ok"
-	csleep 1
+	[ -f ${1}/${3} ] || exit 15
+	[ -s ${1}/${3} ] || exit 16
 
-	if [ ! -x ${1}/profs.sh ] ; then
-		dqb "CANNOT INCLUDE PROFS.HS"
-		dqb "$0 1 \$srcfile | chmod +x profs.sh ?"
-		exit 15
+	if [ ! -x ${1}/${3} ] ; then
+		dqb "CANNOT INCLUDE PROFS.HS 0 R WHÅTEVER"
+		dqb "$0 1 \$srcfile | chmod +x ${3} ?"
+		exit 17
 	fi
 
+	dqb "tpr.pars_ok"
+	csleep 1
+
 	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
-	. ${1}/profs.sh
-	[ $? -gt 0 ] && exit 16
+	. ${1}/${3}
+	[ $? -gt 0 ] && exit 19
 
 	dqb "INCLUDE OK"
 	csleep 1
@@ -384,16 +404,16 @@ function tpr() {
 	local q
 	local r
 	q=$(mktemp -d)
-	[ $? -gt 0 ] && exit 17
+	[ $? -gt 0 ] && exit 20
 
-	dqb "JUST BEFORE TAR"
+	dqb "JUST BEFORE TAR ${1}/${2}"
 	#jos vielä härdelliä niin keskeytetään mikäli ei $2:sta löydä prefs.js?
 	r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l)
-	[ ${r} -gt 0 ] || exit 18
+	[ ${r} -gt 0 ] || exit 21
 	csleep 3
 
 	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/${2}
-	[ $? -gt 0 ] && exit 19
+	[ $? -gt 0 ] && exit 22
 	csleep 3
 
 	dqb "JUST BEFORE impo_prof"
@@ -408,6 +428,9 @@ function tpr() {
 }
 
 #261125:eka case-blokki toimii
+#HUOM.110326:voisi olla tämä case nnen common_lib ... paitsi että conf
+#... ehkä voisi cpy-pastettaa sen konftdston etsinnän
+ 
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii?
@@ -462,21 +485,21 @@ else
 	[ "${confirm}" == "Y" ] || exit 33
 fi
 
+#140326:toimiikohan nuo debug-hommat kuten tarkoitus?
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "srcfile=${srcfile}"
 csleep 1
 
 case "${mode}" in
-	1) #151225:toimii (lienee testattu senkin jälkeen)
+	1) #140326:taitaa toimia
 		common_part ${srcfile} ${d} /
-
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
 	0|3) 
 		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
-		#080326:toimii edelleen mod pientä kiukuttelua josqs
+		#110326:toimii edelleen mod pientä kiukuttelua josqs
 
 		echo "ZER0 S0UND"
 		csleep 1
@@ -486,27 +509,29 @@ case "${mode}" in
 
 		if [ -f /.chroot ] ; then
 			if [ ${1} -eq 0 ] ; then
-				 #mitense alt_root?
-				echo "EI NÄIN"
+				#mitense alt_root?
+				#VAIH:jokin vihje echolla kjälle ni ei tartte arpoa
+				#echo "EI NÄIN"
+
+				tar -tf ${srcfile} | head -n 1
+				echo "... SHOULD BE MOVED UNDER ${d} , AFTER THAT:RUN $0 3 ${d}/f.tar"
 				exit 99
-
-			else
-				if [ -v CONF_alt_root ] ; then
-					#100226:vihdoinkin tämäkin korjattu?
-					#VAIH:testaa uusicksi lähiaikoina (joko jo testattu 150226?)
-
-					dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
-					csleep 6
-
-					cp ${d}/*pkgs* ${CONF_alt_root}/${distro}
-					ls -las ${CONF_alt_root}/${distro}
-					csleep 4
-				fi
+			#else
+			#	#kuinkahan tarpeellinen else-haara?
+			#	if [ -v CONF_alt_root ] ; then
+			#		#100226:vihdoinkin tämäkin korjattu?
+			#		110326:voisi osata päättää miten menetellä 
+#					dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
+#					csleep 6
+#
+#					cp ${d}/*pkgs* ${CONF_alt_root}/${distro}
+#					ls -las ${CONF_alt_root}/${distro}
+#					csleep 4
+#				fi
 			fi
 		fi
 
 		[ ${1} -eq 0 ] || e=${d}
-
 		csleep 1
 		common_part ${srcfile} ${d} ${e}
 
@@ -520,28 +545,35 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
-	r) #080326:toimii, luulisin
-		[ -d ${srcfile} ] || exit 22
-		[ -v CONF_default_arhcive ] || exit 23
- 		[ -v CONF_default_arhcive2 ] || exit 24
+	r) #140326:jos jo toimisi taas
+		[ -d ${srcfile} ] || exit 23
+		[ -v CONF_default_arhcive ] || exit 24
+ 		[ -v CONF_default_arhcive2 ] || exit 25
+		[ -v CONF_default_arhcive3 ]  || exit 18
 
-		#tar -> tpr ?
 		${srat} -C ~ -jxf ~/${CONF_default_arhcive2}
-		tpr ${srcfile} ${CONF_default_arhcive}
+		echo $?
+		csleep 5
+
+		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	q)
-		#TODO:testaus taas josqs lähiaikoina, "exp2 q" sorkuttu uusicksi
-		#btw. ffox 147-jutut enemmän profs.sh:n heiniä
+		#140326:toimii kai
+		# (turha case oikeastaan koska "$0 1"+"$0 r"
+		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
 
-		[ -v CONF_default_arhcive ] || exit 23
- 		[ -v CONF_default_arhcive2 ] || exit 24
+		[ -v CONF_default_arhcive ] || exit 24
+ 		[ -v CONF_default_arhcive2 ] || exit 25
+		[ -v CONF_default_arhcive3 ]  || exit 18
+
+		#HUOM.110326:olisi parempi , varm. buoksi delliä tai nimetä uudetsaan aiemmatr default_arch ja default_arch2
 
 		c=$(${srat} -tf ${srcfile} | grep ${CONF_default_arhcive}  | wc -l)
-		[ ${c} -gt 0 ] || exit 77
+		[ ${c} -gt 0 ] || exit 27
 		common_part ${srcfile} ${d} /
 
-		${srat} -C ~ -jxf ~/${CONF_default_arhcive2} #VAIH:tästäkin tdstonimestä const?
-		tpr ${d0} ${CONF_default_arhcive}
+		${srat} -C ~ -jxf ~/${CONF_default_arhcive2}
+		tpr ${d0} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	k)
 		#161225:toimii, sq-root-ymp ainakin
@@ -552,7 +584,7 @@ case "${mode}" in
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
-		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ?)
+		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd find out?)
 
 		if [ -v gg ] ; then
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then

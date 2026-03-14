@@ -38,3 +38,4 @@ CONF_dm=xdm
 #
 CONF_default_arhcive=fediverse.tar
 CONF_default_arhcive2=config.tar.bz2
+CONF_default_arhcive3=profs.sh

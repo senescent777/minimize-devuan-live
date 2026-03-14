@@ -11,7 +11,7 @@ mode=3
 function parse_opts_1() {
 	echo "popt_1( ${1} )"
 
-	if [ -d ${d0}/${1} ] ; then
+	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
 		distro=${1}
 	else
 		case  "${1}" in
@@ -35,17 +35,6 @@ function fallback() {
 	exit 67
 }
 
-#if [ -s ${d0}/$(whoami).conf ] ; then
-#	echo "ALT.C0NF1G"
-#	. ${d0}/$(whoami).conf
-#else
-#	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-#		. ${d}/conf
-#	else
-#	 	exit 57
-#	fi	
-#fi
-
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -53,17 +42,28 @@ else
 	exit 89
 fi
 
-[ -z ${distro} ] && exit 6
+[ -z "${distro}" ] && exit 6
 dqb "BEFORE L1B"
 process_lib ${d}
 
-#TODO:ao for-blokki uusiksi jatkossa (kts changedns.sh ja interfaces.tmp myös)
-for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
-	${scm} 0511 ${x}
-	${sco} root:root ${x}
-	${odio} ${x} ${CONF_dnsm} #${distro}
-	#[ -x $x ] && exit for 
-done
+e_final
+e_h ${n} ${d0} 
+#
+
+#for x in /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
+#	[ -x ${x} ] && ${odio} ${x} ${CONF_dnsm}
+#done
+
+if [ -x /opt/bin/changedns.bash ] ; then
+	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
+else
+	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
+		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
+	else
+		dqb "changedns not an option"
+		csleep 5
+	fi
+fi
 
 ${fib}
 dqb "distro=${distro}"
@@ -92,14 +92,12 @@ if [ -f /.chroot ] ; then
 	${sharpy} rpc*
 
 	t2p_filler
-	#csleep 1
 
 	${sharpy} dmsetup #tässä kohtaa jo gpg hukataan?
 	${sharpy} at-spi2-core	
 	${sharpy} psmisc
 
 	t2p_filler
-	#csleep 1
 fi
 
 #====================================================================
@@ -114,7 +112,7 @@ function p2g() {
 	local g
 	local h
 
-	#jatkossa jos yhdistelisi common_lib_tool kanssa... paitsi ettäö
+	#jatkossa jos yhdistelisi common_lib_tool kanssa... paitsi että
 	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
 		dqb "SOON: \${sharpy} ${f}* "
 		csleep 1
@@ -134,8 +132,6 @@ function p2g() {
 
 #VAIH:selvitä missä kohtaa gpg poistuu nykyään, koita saada epä-poistumaan
 #mode:n kanssa kikkailut voivat auttaa selvityksessä
-
-
 #
 #	#libgtk3 ei poistu, libgtk4 kyllä
 #

@@ -12,7 +12,7 @@ d=${d0}/${distro}
 function parse_opts_1() {
 	dqb "parseopts_1 ${1} ${2}"
 
-	if [ -d ${d0}/${1} ] ; then
+	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
 		#toimiikohan tämä kohta? pitäiskö tegdä toisin, opts_2() ?
 		distro=${1}
 	else
@@ -95,12 +95,16 @@ function el_loco() {
 		${odio} locale-gen
 	fi
 
+	#pitäisiköhän localtime ja timezone delliä jossain kohtaa?
+
 	if [ ${2} -lt 1 ] ; then
 		${svm} /etc/default/locale /etc/default/locale.ÅLD
 		fasdfasd /etc/default/locale
 		csleep 1
 
 		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
+		#env vai locale minkä oksennukset tdstoon?
+
 		env | grep LC >> /etc/default/locale
 		env | grep LAN >> /etc/default/locale
 
@@ -113,16 +117,15 @@ function el_loco() {
 		reqwreqw /etc/default/locale
 	fi
 
+	export LC_TIME
+	export LANGUAGE
+	export LC_ALL
 
-		export LC_TIME
-		export LANGUAGE
-		export LC_ALL
-
-		if [ ${debug} -gt 0 ] ; then
-			env | grep LC
-			env | grep LAN
-			csleep 5
-		fi
+	if [ ${debug} -gt 0 ] ; then
+		env | grep LC
+		env | grep LAN
+		csleep 5
+	fi
 }
 
 function adieu() {
@@ -156,9 +159,6 @@ dqb "mode= ${mode}"
 dqb "debug= ${debug}"
 [ -v CONF_enforce ] || exit 99
 
-#221225:mitäs kaikkia pointteja olikaan ohittaa enforce-hommat sqroot.ympäristössä?
-#changedns ja fstab tietysti
-
 if [ -s ~/xorg.conf.new ] ; then
 	if [ ! -s /etc/X11/xorg.conf ] ; then
 		${spc}  ~/xorg.conf.new  /etc/X11/xorg.conf
@@ -177,7 +177,7 @@ if [ -f /.chroot ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
-	enforce_access ${n} ${d0} ${CONF_iface} #3. param ei niin tarpeellinen
+	enforce_access ${n} ${d0}
 fi
 
 csleep 2
@@ -202,9 +202,10 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 c14=0
 c13=0
 [ ${mode} -eq 1 ] && c14=1
+#timezone ja localtime jos dellisi joissain tilanteissa?
 
 #==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
-#... joskohan voisi arpomisen lopettaa joskus?
+#... joskohan voisi arpomisen lopettaa joskus? lopettelun visi aloittaa vhitellen (090326)
 
 if [ -v LCF666 ] ; then
 	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
@@ -216,7 +217,8 @@ fi
 csleep 1
 
 [ ${c13} -lt 1 ] && c14=1
-el_loco ${c14} ${c13} #joko jo c13 takaisin? kokeillaanpa
+#el_loco ${c14} ${c13} #joko jo c13 takaisin? kokeillaanpa
+el_loco ${c14} ${c14}
 #=========================================================================================
 
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then 
@@ -277,14 +279,29 @@ jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
-#TODO:ao. for-blokkiin muutoksia jatkossa (kts. changedns.sh,interfaces.tmp mm.)
-#TODO:"for... scm" korvaaminen common_lib.e_h() ?
-for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
-	${scm} 0511 ${x}
-	${sco} root:root ${x}
-	${odio} ${x} ${CONF_dnsm} #${distro}
-	#[ -x $x ] && exit for 
-done
+#DONE?:ao. for-blokkiin muutoksia jatkossa (kts. changedns.sh,interfaces.tmp mm.)
+
+e_final
+e_h ${n} ${d0} 
+#
+#for x in  /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
+#	[ -v CONF_testgris ] || ${odio} ${x} ${CONF_dnsm} 
+#
+	echo "#KVG:"how to exit for in bash"
+	sleep 5
+#
+#done
+
+if [ -x /opt/bin/changedns.bash ] ; then
+	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
+else
+	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
+		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
+	else
+		dqb "changedns not an option"
+		csleep 5
+	fi
+fi
 
 ${sipt} -L
 csleep 1
