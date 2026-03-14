@@ -34,7 +34,7 @@ fi
 csleep 3
 
 #140326:toimi ainakin kerran
-#TODO:jos tässä star -> sr0 tspj,ettei ihan minne tahansa loisi arkistoa
+#VAIH:jos tässä star -> sr0 tspj,ettei ihan minne tahansa loisi arkistoa
 
 function e22_hdr() {
 	dqb "e22-HRD () ${1} "
@@ -50,7 +50,7 @@ function e22_hdr() {
 	dd if=/dev/random bs=12 count=1 > ./rnd
 	csleep 2
 
-	${srat} -cvf ${1} ./rnd
+	${sr0} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
