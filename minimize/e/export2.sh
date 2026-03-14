@@ -10,11 +10,11 @@ mode=-2
 tgtfile=""
 
 function usage() {
-	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
-	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
-	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
-	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
-	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \$ {d0} /\${distro}"
+	echo "$0 0 <tgtfile> [distro?] [-v]: makes the main package (new way)"
+	echo "$0 4 <tgtfile> [distro?] [-v]: makes lighter main package (just scripts and config)"
+	echo "$0 1 <tgtfile> [distro?] [-v]: makes upgrade_pkg"
+	echo "$0 e <tgtfile> [distro?] [-v]: archives the Essential .deb packages"
+	echo "$0 f <tgtfile> [distro?] [-v]: archives .deb Files under \$ {d0} /\${distro}"
 	echo "$0 p <> [] [] pulls ${CONF_default_archive3} from somewhere"
 	echo "$0 q <> [] [] archives firefox settings"
 	echo "$0 c is sq-Chroot-env-related option"
@@ -73,7 +73,7 @@ process_lib ${d}
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 
 if [ -z "${tig}" ] ; then
-	exit 7 #syystä excalibut-testit tilap kommentteihin 16126
+	exit 7 #syystä excalibur-testit tilap kommentteihin 16126
 fi
 
 if [ -z "${mkt}" ] ; then
@@ -107,12 +107,12 @@ case ${mode} in
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
 #	;;
-	f) #090326:vissiin tekee paketin, purq vielä testaten
+	f) #140326: tekee paketin, purq onnistuu myös
 		enforce_access ${n} ${t}
 		e22_fgh ${tgtfile} ${d}
 	;;
 	q)
-		#VAIH:testaa yyysicksi
+		#140326:toimii
 		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 		e22_hdr ${tgtfile}
 
@@ -123,7 +123,7 @@ case ${mode} in
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 		exit #tarkoitus olisi ettei suoritusta jatkettaisi tätä pidemmälle
 	;;
-	c) #110326;toimii
+	c) #110326:toimii
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
 	g) #090326:oksennetut komennot vissiin ok edelleen
@@ -149,7 +149,7 @@ csleep 1
 
 e_final
 e_h ${n} ${d0} 
-#TODO:changedns:n dns-osuuden vipuaminen joko resolconf:ille tai dnsmasq:lle? , kumman saakaan pienemmällä säädöllä toimimaan
+#TODO:changedns:n dns-osuuden vipuaminen joko resolVconf:ille tai dnsmasq:lle? , kumman saakaan pienemmällä säädöllä toimimaan
 
 for x in /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
 	[ -x ${x} ] && ${odio} ${x} ${CONF_dnsm}
@@ -161,6 +161,7 @@ done
 
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
+#TODO:jotenkin pitäisi reagoida jos $tgtfile == "-v" tai $d0/$tgtfile eksistoi
 e22_hdr ${tgtfile}
 
 #110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?

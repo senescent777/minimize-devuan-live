@@ -1349,7 +1349,7 @@ function cg_udp6() {
 }
 
 #160126:g.tar liittyvää kikkailua jatkossa? sittenkin check_bin() alta g-jutut -> cefgh()?
-#100226:sources.list-juttuiihIN liittyviä muutoksia vielä josqs? virlä ajankohtainen 03/26?
+#140326:libfortran-urputuksille j os tekisijojo tain
 
 function part3() {
 	dqb "part3 ${1} , ${2}"
@@ -1375,7 +1375,9 @@ function part3() {
 	common_lib_tool ${1} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 
+	#140326:näiden 3 kanssa saattaa olla jokin juttu
 	efk1 ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
+
 	common_lib_tool ${1} accept_pkgs_1
 	common_lib_tool ${1} accept_pkgs_2
 

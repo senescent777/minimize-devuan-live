@@ -33,7 +33,7 @@ fi
 
 csleep 3
 
-#080326:toimii
+#140326:toimii
 #TODO:jos tässä star -> sr0 tspj,ettei ihan minne tahansa loisi arkistoa
 
 function e22_hdr() {
@@ -78,7 +78,7 @@ function e22_tyg() {
 	fi
 }
 
-#080326:toimii
+#140326:toimii?
 function e22_ftr() {
 	dqb "e22_ftr( $1 , ${2} )"
 	[ -z "${1}" ] && exit 62
@@ -102,7 +102,7 @@ function e22_ftr() {
 	cd ${p}
 }
 
-function e22_pre1() { #VAIH:testaus (alkaisikohan jo olla?)
+function e22_pre1() { #140326:jospa olisi jo ok tämä gktio?
 	dqb "e22_pre1( ${1} , ${2})"
 	#distRo-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
 	#HUOM.080326:$distyro mukaan tähän paketinhallinnan takis, ei liity changedns
@@ -197,9 +197,8 @@ function e22_cleanpkgs() {
 
 #e22_acol() yrittää vetää /e alta xorg konftdston mukaan pakettiin
 #... ei ole ihan pakko config1():sessä siis
-#VAIH:testaus
 
-#080326:ehkä toimii
+#140326:toimii edelleen
 function e22_config1() {
 	dqb "e22_config1( ${1}, ${2} )"
 	[ -z "${1}" ] && exit 11
@@ -222,7 +221,7 @@ function e22_config1() {
 #nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
 #pitäisIkö siirtää toiseen tdstoon? ei just nyt
 
-#VAIH:tesdtaa yysiksi
+#140326:toimii edelleen
 function e22_settings() {
 	dqb "e22_set) ${1} , ${2} , ${3} ( "
 
@@ -241,6 +240,7 @@ function e22_settings() {
 		
 	[ -s ${1}/${2} ] || exit 32
 	local t
+
 	t=$(tar -tf ${1}/${2} | grep prefs.js | wc -l)
 	dqb "FOUND PREFS: ${t}"
 	[ ${t} -lt 1 ] && exit 27
@@ -678,7 +678,7 @@ function e22_dblock() {
 ##	exit
 #}
 
-#090326:taitaa toimia
+#140326:taitaa toimia
 function e22_fgh() {
 	dqb "e22_fgh( ${1} ; ${2} ; ${3} )"
 	[ -z "${1}" ] && exit 99

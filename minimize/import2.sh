@@ -19,7 +19,7 @@ function csleep() {
 }
 
 function usage() {
-	echo "${0} <mode> <srcfile> [distro] [debug] "
+	echo "${0} <mode> <srcfile> [distro?] [debug] "
 	echo "when mode=k , this imports PUBLIC_KEYS , u have to import private keys another way!!!"
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
@@ -122,6 +122,7 @@ else
 
 	#debug=1
 	dqb "FALLBACK"
+	sleep 5
 
 	if [ -f /.chroot ] ; then
 		odio=""
@@ -367,7 +368,7 @@ dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3} siis)
 
-#VAIH:uusiminen
+#140326:OK
 function tpr() {
 	dqb "UPIR ) ${1} , ${2} , ${3} ("
 	csleep 1
@@ -490,9 +491,8 @@ dqb "srcfile=${srcfile}"
 csleep 1
 
 case "${mode}" in
-	1) #151225:toimii (lienee testattu senkin jälkeen)
+	1) #140326:taitaa toimia
 		common_part ${srcfile} ${d} /
-
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
@@ -509,8 +509,11 @@ case "${mode}" in
 		if [ -f /.chroot ] ; then
 			if [ ${1} -eq 0 ] ; then
 				#mitense alt_root?
-				#TODO:jokin vihje echolla kjälle ni ei tartte arpoa
-				echo "EI NÄIN"
+				#VAIH:jokin vihje echolla kjälle ni ei tartte arpoa
+				#echo "EI NÄIN"
+
+				tar -tf ${srcfile} | head -n 1
+				echo "... SHOULD BE MOVED UNDER ${d} , AFTER THAT:RUN $0 3 ${d}/f.tar"
 				exit 99
 			#else
 			#	#kuinkahan tarpeellinen else-haara?
@@ -541,7 +544,7 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
-	r) #VAIH:selvitä TAAS missä qsee
+	r) #140326:jos jo toimisi taas
 		[ -d ${srcfile} ] || exit 23
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
@@ -554,7 +557,8 @@ case "${mode}" in
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	q)
-		#VAIH:testaa TAAS
+		#140326:toimii kai
+		# (turha case oikeastaan koska "$0 1"+"$0 r"
 		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
 
 		[ -v CONF_default_arhcive ] || exit 24

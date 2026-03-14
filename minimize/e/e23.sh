@@ -192,7 +192,7 @@ function e23_ghi() {
 	echo "$0 f ${1} ${3}"
 }
 
-#VAIH:testaus uusicksi
+#140326:toimii
 function e23_qrs() {
 	dqb " e23_qrs( $1 , $2 , $3 , $4 , $5 )"
 
@@ -220,7 +220,7 @@ function e23_qrs() {
 	csleep 2
 
 	#tuleeko mukaan vai ei?
-	 tar -tf ${1} | grep ${3} | wc -l
+	tar -tf ${1} | grep ${3} | wc -l
 	csleep 3
 
 	dqb "BEFORE NVDk"
@@ -240,10 +240,12 @@ function e23_qrs() {
 
 	[ ${debug} -eq 1 ] && tar -tf ${1} | grep ${4} | wc -l
 	csleep 3
+
+	#ftr() tässä vai kutsuvassa koodissa?
 	e22_ftr ${1}
 }
 
-#119326 viimeksi testattu, yoimi silloin
+#110326 viimeksi testattu, toimi silloin
 function e23_dm() {
 	[ -z "${1}" ] && exit 11
 	csleep 4
