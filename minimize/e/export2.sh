@@ -151,10 +151,21 @@ e_final
 e_h ${n} ${d0} 
 #TODO:changedns:n dns-osuuden vipuaminen joko resolVconf:ille tai dnsmasq:lle? , kumman saakaan pienemmällä säädöllä toimimaan
 
-for x in /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
-	[ -x ${x} ] && ${odio} ${x} ${CONF_dnsm}
-	#exit for
-done
+#for x in  ${d0}/opt/bin/changedns.bash ; do
+#	[ -x ${x} ]  ${x}
+#	#exit for
+#done
+
+if [ -x /opt/bin/changedns.bash ] ; then
+	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
+else
+	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
+		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
+	else
+		dqb "changedns not an option"
+		csleep 5
+	fi
+fi
 
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 #.. kts interfaces.tmp liittyen (080326)
