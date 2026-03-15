@@ -185,8 +185,6 @@ function e22_cleanpkgs() {
 	fi
 }
 
-#e22_acol() yrittää vetää /e alta xorg konftdston mukaan pakettiin
-##... ei ole ihan pakko config1():sessä siis
 
 function e22_config1() {
 dqb "e22_config1()"
@@ -286,11 +284,10 @@ function e22_home() {
 
 #pitäisikö siirtää toiseen tdstoon?
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
-#HUOM.140326:testit vaiheessa, kommentteihin jos qsee
-#VAIH:toiminnan testaus
+#HUOM.150326:testit vaiheessa, kommentteihin jos qsee
+#VAIH:toiminnan testaus (olisikohan jo kohta?)
 
 function luca() {
-
 	[ -z "${1}" ] && exit 11
 	[ -s ${1} ] || exit 12
 	#[ -w ${1} ] || exit 13
@@ -298,45 +295,46 @@ function luca() {
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule
 	csleep 2
 
-
 	#localtime taisi olla linkki, siksi erikseen
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
-	exit 99
-	#for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
+	#exit 99
 
+	local f
+	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 }
 
 #... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan vai tuleeko?
-#HUOM.140326:testit vaiheessa, kommentteihin jos qsee
-#VAIH:toiminnan testaus
+#VAIH:toiminnan testaus (koskohan alkaisi olla 150326)
 
 function e22_acol() {
+	dqb "e22_acol()"
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
 	#[ -w ${1} ] || exit 9
-
 	[ -z "${2}" ] && exit 2
 	[ -z "${3}" ] && exit 3		
 	[ -z "${4}" ] && exit 5
+	dqb "prs ok"
+	csleep 1
 
 	#missäs nämä palautettiin entiselleen? ja tartttteeko olla 07xx ? let's find out
 	${scm} 0555 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
-
-	exit 99
-	#for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
-
-	#for f in $(${odio} find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
-	#	if [ -s ${f} ] && [ -r ${f} ] ; then
-	#		${srat} -rvf ${1} ${f}
-	#	#else
-	#	fi
-	#done
+	local f
+	local ef
+	local g
+	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
+	
+	for f in $(${odio} find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
+		if [ -s ${f} ] && [ -r ${f} ] ; then
+			${srat} -rvf ${1} ${f}
+		fi
+	done
 
 	luca ${1}
-	other_horrors 
+	other_horrors
 
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		exit 112
@@ -352,25 +350,22 @@ function e22_acol() {
 		*)
 		;;
 	esac
+		
+	if [ ${3} -eq 1 ] ; then #-gt 0 ?
+		for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
+		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
+	fi
 
-	#local f
-	#local g
-	
-	exit 99
-	#if [ ${3} -eq 1 ] ; then #-gt 0 ?
-	#	for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
-	#	for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
-	##else
-	#fi
-#
-	#local ef
 	ef=$(echo ${4} | tr -d -c 0-9)
+	#exit 99
 
 	if  [ ${ef} -eq 1 ] ; then
 		dqb "SMTHING"
 	else
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
+
+	dqb "e22_acol() dinbe()"
 }
 
 #imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)

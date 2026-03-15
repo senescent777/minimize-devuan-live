@@ -249,7 +249,7 @@ case ${mode} in
 		#exit 99 #qnnes tämä rasti selvitetty
 
 		e22_pre1 ${d} ${distro}
-		exit 99 #qnnes tämä rasti selvitetty
+		#exit 99 #qnnes tämä rasti selvitetty
 
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
 		fasdfasd /opt/bin/zxcv.tmp #onko ihan pakko? 
