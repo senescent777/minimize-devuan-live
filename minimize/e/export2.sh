@@ -73,7 +73,7 @@ process_lib ${d}
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 
 if [ -z "${tig}" ] ; then
-	echo "SHOOLD INSTALL GIT"
+	echo "SHOULD INSTALL GIT"
 	exit 7 #syystä excalibur-testit tilap kommentteihin 16126
 fi
 

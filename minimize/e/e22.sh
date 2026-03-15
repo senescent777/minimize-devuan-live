@@ -82,7 +82,6 @@ function e22_tyg() {
 
 #140326:toimii?
 function e22_ftr() {
-	dqb "e22_ftr( $1 , ${2} )"
 	[ -z "${1}" ] && exit 62
  	[ -s ${1} ] || exit 63
 	[ -r ${1} ] || exit 64
@@ -104,8 +103,8 @@ function e22_ftr() {
 	cd ${p}
 }
 
-function e22_pre1() { #140326:jospa olisi jo ok tämä gktio?
-	dqb "e22_pre1( ${1} , ${2})"
+function e22_pre1() {
+
 	#distRo-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
 	#HUOM.080326:$distyro mukaan tähän paketinhallinnan takis, ei liity changedns
 
@@ -144,7 +143,7 @@ function e22_pre1() { #140326:jospa olisi jo ok tämä gktio?
 #HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
 
 function e22_pre2() {
-	dqb "e22_pre2( $1, $2, $3, $4)"
+
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	[ -z "${3}" ] && exit 68
@@ -225,7 +224,6 @@ function e22_config1() {
 
 #140326:toimii edelleen
 function e22_settings() {
-	dqb "e22_set) ${1} , ${2} , ${3} ( "
 
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
@@ -250,6 +248,7 @@ function e22_settings() {
 
 #VAIH:testaa taas (jokojo 14326?)
 #HUOM.140326:testit vaiheessa, kommentteihin jos qsee
+
 function e22_home_pre()
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		e22_config1 ~ ${4}
@@ -371,14 +370,15 @@ function e22_acol() {
 	if [ ${3} -eq 1 ] ; then #-gt 0 ?
 		for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
-	else
+	#else
 	fi
 
 	local ef
 	ef=$(echo ${4} | tr -d -c 0-9)
 
 	if  [ ${ef} -eq 1 ] ; then
-	else
+		dqb "SMTHING"
+	#else
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
 }
@@ -542,7 +542,6 @@ function e22_ts() {
 
 #joskohan jo toimisi 110326 mennessä ?
 function e22_arch() { 
-	dqb "e22_arch( ${1}, ${2} )"
 	[ -z "${1}" ] && exit 1
 	#[ -s ${1} ] || exit 2 #antaa nyt olla kommenteissa
 	#[ -w ${1} ] || exit 33 #josko man bash...
