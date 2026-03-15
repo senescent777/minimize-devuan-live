@@ -99,28 +99,38 @@ cd ${p}
 dqb "e22_ftr() done"
 csleep 1
 }
-#TODO:selvitä qseeko vai ei?
+
+#VAIH:selvitä qseeko vai ei?
 function e22_pre1() {
-[ -z "${1}" ] && exit 65
-[ -z "${2}" ] && exit 66
-csleep 3
-dqb "pars.0k"
-csleep 2
-${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-${scm} -Rv 700 ${CONF_pkgdir}/partial/
-csleep 1
-if [ ! -d ${1} ] ; then
-exit 111
-else
-lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/)
-enforce_access ${n} ${lefid}
-csleep 1
-${scm} 0755 /etc/apt
-${scm} a+w /etc/apt/sources.list*
-part1 ${2} ${1}
-fi
-dqb "P3R1.D0N3"
-csleep 1
+	dqb "e22_pre1()"
+	[ -z "${1}" ] && exit 65
+	[ -z "${2}" ] && exit 66
+	csleep 3
+	dqb "pars.0k"
+	csleep 2
+
+	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+	${scm} -Rv 700 ${CONF_pkgdir}/partial/
+	csleep 1
+
+	if [ ! -d ${1} ] ; then
+		exit 111
+	else
+		local lefid
+		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/)
+
+		#TODO:glb mja n roskikseen jatkossa, toisnkin voi tehdä		
+		enforce_access ${n} ${lefid}
+
+		csleep 1
+		${scm} 0755 /etc/apt
+		${scm} a+w /etc/apt/sources.list*
+		part1 ${2} ${1}
+		${scm} a-w /etc/apt/sources.list*
+	fi
+
+	dqb "P3R1.D0N3"
+	csleep 1
 }
 #
 ##...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan

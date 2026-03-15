@@ -1077,6 +1077,7 @@ function part1() {
 		#HUOM.140326:olisikohan CONBF_tesgtgirs riittävästi huomioitu? 
 		#aluksi ohitetaan koko for-takenne uknnes ehkä keksii paremman tavan
 		
+		#to state the obvious:expot2 kautta kutsuttaessa part1() ei tarvinne tables-sääntöjä nollata
 		if [ -x ${ipt} ] ; then
 			if [ ! -v CONF_testgris ] ; then
 				for t in INPUT OUTPUT FORWARD ; do

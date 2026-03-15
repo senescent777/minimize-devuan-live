@@ -246,7 +246,7 @@ case ${mode} in
 
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 	
-		exit 99 #qnnes tämä rasti selvitetty
+		#exit 99 #qnnes tämä rasti selvitetty
 
 		e22_pre1 ${d} ${distro}
 		exit 99 #qnnes tämä rasti selvitetty
