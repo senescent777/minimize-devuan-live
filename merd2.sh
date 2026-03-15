@@ -3,8 +3,8 @@ debug=0
 branch=""
 d0=$(pwd)
 echo "d0=${d0}"
-BASEURL="github.com/senescent777"
-PT2=minimize-devuan-live
+CONF_BASEURL="github.com/senescent777"
+CONF_PT2=minimize-devuan-live
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -43,15 +43,15 @@ fi
 
 dqb "BFROE tig"
 csleep 2
-${tig} clone ${branch} https://${BASEURL}/${PT2}.git
+${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 [ $? -gt 0 ] && exit
 
 dqb "TGI KO"
 csleep 2
 
-#pitäisiköhän ao. rivien shteen thdä jtain? no tehdäänpä
+#TODO:jos vähitellen testaisi toimintaa taas
 mv minimize minimize.OLD
-mv ${PT2}/* .
+mv ${CONF_PT2}/* .
 
 [ -x minimize/common_lib.sh ] && . minimize/common_lib.sh
 [ -x minimize/common_lib.sh ] && enforce_access ${n} ${t}
