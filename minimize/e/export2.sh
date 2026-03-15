@@ -179,7 +179,7 @@ csleep 1
 
 #TODO:changedns:n dns-osuuden vipuaminen joko resolVconf:ille tai dnsmasq:lle? , kumman saakaan pienemmällä säädöllä toimimaan
 #exit 99
-#
+#TODO:taksisin käyttöön sittenq
 #if [ -x /opt/bin/changedns.bash ] ; then
 #	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
 #else
@@ -228,11 +228,15 @@ case ${mode} in
 		#${NKVD} ${d0}/${CONF_default_arhcive3}* ei näin
 		#[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv* ei näinkään?
 
+		${NKVD} /opt/bin/zxcv.tmp
+		${spc} /opt/bin/zxcv /opt/bin/zxcv.backup
+		${spc} /opt/bin/zxcv.sig /opt/bin/zxcv.sig.backup
+
 		csleep 1
 		fasdfasd /opt/bin/zxcv.tmp
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
-		exit 99 #qnnes tämä rasti selvitetty
+		#exit 99 #qnnes tämä rasti selvitetty
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
@@ -242,7 +246,7 @@ case ${mode} in
 			doit=0
 		fi
 
-		exit 99 #qnnes tämä rasti selvitetty
+#		exit 99 #qnnes tämä rasti selvitetty
 
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 

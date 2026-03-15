@@ -159,20 +159,20 @@ function e23_upgp2() {
 	dqb " e23_upgp2() done"
 	csleep 1
 }
-
-#080326:ehkä toimii
-function e23_ghi() {
-	[ -z "${1}" ] && exit 6
-	[ -z "${2}" ] && exit 16
-	[ -z "${3}" ] && exit 6
-	dqb "ghi.aps.0k"
-	csleep 1
-
-	echo "\${shary} ${E22GI}" #common_lib
-	echo "\${svm} ${CONF_pkgdir}/*.deb ${2}/${3}"
-	echo "$0 f ${1} ${3}"
-}
-
+#
+##080326:ehkä toimii
+#function e23_ghi() {
+#	[ -z "${1}" ] && exit 6
+#	[ -z "${2}" ] && exit 16
+#	[ -z "${3}" ] && exit 6
+#	dqb "ghi.aps.0k"
+#	csleep 1
+#
+#	echo "\${shary} ${E22GI}" #common_lib
+#	echo "\${svm} ${CONF_pkgdir}/*.deb ${2}/${3}"
+#	echo "$0 f ${1} ${3}"
+#}
+#
 #140326:toimi
 function e23_qrs() {
 #
@@ -356,47 +356,45 @@ function e23_dm() {
 	E22_GX="libwww-perl xscreensaver-data init-system-helpers libegl1 xscreensaver"
 	${shary} ${E22_GX}  #libsystemd0
 }
-
-#150326:tekee edelleen paketin, mikä:
-function e23_profs() {
-	dqb "e23_profs) ${1}, ${2}, ${3} ("
-	csleep 1
-
-	[ -z "${1}" ] && exit 99
-	[ -s ${1} ] || exit 98 #pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
-	#[ -w ${1} ] || exit 97
-	[ -z "${2}" ] && exit 96
-	[ -d ${2} ] || exit 95
-	[ -w ${2} ] || exit 94
-	[ -z "${3}" ] && exit 96
-
-	dqb "pars.0k"
-	csleep 1
-
-	#local q
-	#q=$(${mkt} -d) #ei näin?
-	q=$(mktemp -d)
-
-	cd ${q} #antaa nyt cd:n olla toistaiseksi
-	[ $? -eq 0 ] || exit 77
-
-	dqb "SHOULD ifup \$iface BEFORE \${tig} clone"
-	csleep 1
-	[ -v BASEURL ] || exit 78
-
-	${tig} clone https://${BASEURL}/more_scripts.git
-	[ $? -eq 0 ] || exit 79
-	
-	[ -s ${2}/${3} ] && mv ${2}/${3} ${2}/${3}.OLD
-	mv more_scripts/profs/${3}* ${2}
-	${scm} 0755 ${2}/${3}*
-
-	cd ${2}	
-	${srat} -rvf ${1} ./${3}*
-	cd ${q}
-
-	dqb "e23_profs() done"
-	csleep 1
-}
-
+#
+#TODO:pois kommenteista josqs
+#function e23_profs() {
+#	dqb "e23_profs) ${1}, ${2}, ${3} ("
+#	csleep 1
+#
+#	[ -z "${1}" ] && exit 99
+#	[ -s ${1} ] || exit 98 #pitäisi varmaan tunkea tgtfileeseen jotain että tästä pääsee läpi
+#	#[ -w ${1} ] || exit 97
+#	[ -z "${2}" ] && exit 96
+#	[ -d ${2} ] || exit 95
+#	[ -w ${2} ] || exit 94
+#	[ -z "${3}" ] && exit 96
+#
+#	dqb "pars.0k"
+#	csleep 1
+#
+#	#local q
+#	#q=$(${mkt} -d) #ei näin?
+#	q=$(mktemp -d)
+#
+#	cd ${q} #antaa nyt cd:n olla toistaiseksi
+#	[ $? -eq 0 ] || exit 77
+#
+#	dqb "SHOULD ifup \$iface BEFORE \${tig} clone"
+#	csleep 1
+#	[ -v BASEURL ] || exit 78
+#
+#	${tig} clone https://${CONF_BASEURL}/more_scripts.git
+#	[ $? -eq 0 ] || exit 79
+#	
+#	${scm} 0755 ${2}/${3}*
+#
+#	cd ${2}	
+#	${srat} -rvf ${1} ./${3}*
+#	cd ${q}
+#
+#	dqb "e23_profs() done"
+#	csleep 1
+#}
+#
 sleep 1

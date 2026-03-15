@@ -34,28 +34,23 @@
 #
 #
 function e22_hdr() {
-	echo "e22_hdr() ${1}"
-	sleep 1
-
-	[ -z "${1}" ] && exit 61
-	[ "${1}" == "-v" ] && exit 62
-	[ -f ${1} ] && echo "${1} ALREADY EXISTS"
-
-	fasdfasd ./rnd
-	fasdfasd ${1}
-	csleep 1
-
-	dd if=/dev/random bs=12 count=1 > ./rnd
-	csleep 2
-
-	dqb "${sr0} -cvf ${1} ./rnd"
-	csleep 1
-	${sr0} -cvf ${1} ./rnd
-	[ $? -gt 0 ] && exit 60
-
-	[ ${debug} -eq 1 ] && ls -las ${1}
-	dqb "hdr done"
-	csleep 2
+echo "e22_hdr() ${1}"
+sleep 1
+[ -z "${1}" ] && exit 61
+[ "${1}" == "-v" ] && exit 62
+[ -f ${1} ] && echo "${1} ALREADY EXISTS"
+fasdfasd ./rnd
+fasdfasd ${1}
+csleep 1
+dd if=/dev/random bs=12 count=1 > ./rnd
+csleep 2
+echo "${sr0} -cvf ${1} ./rnd IN 1 SECS"
+csleep 1
+${sr0} -cvf ${1} ./rnd
+[ $? -gt 0 ] && exit 60
+[ ${debug} -eq 1 ] && ls -las ${1}
+dqb "hdr done"
+csleep 2
 }
 #
 ##tark-. olla priv fktio
@@ -85,7 +80,8 @@ function e22_hdr() {
 #	fi
 #}
 #
-##140326:toimii?
+##140326:toimi?
+#TODO:pois koemmnetista josqs
 #function e22_ftr() {
 #	[ -z "${1}" ] && exit 62
 #	[ -s ${1} ] || exit 63
@@ -107,36 +103,35 @@ function e22_hdr() {
 #	e22_tyg ${q}.sha
 #	cd ${p}
 #}
-#
+#TODO:selvitä qseeko vai ei?
 function e22_pre1() {
-	[ -z "${1}" ] && exit 65
-	[ -z "${2}" ] && exit 66
-	csleep 3
-	dqb "pars.0k"
-	csleep 2
-	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-	${scm} -Rv 700 ${CONF_pkgdir}/partial/
-	csleep 1
-
-	if [ ! -d ${1} ] ; then
-		exit 111
-	else
-		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/)
-		enforce_access ${n} ${lefid}
-		csleep 1
-		${scm} 0755 /etc/apt
-		${scm} a+w /etc/apt/sources.list*
-		part1 ${2} ${1}
-	fi
-
-	dqb "P3R1.D0N3"
-	csleep 1
+[ -z "${1}" ] && exit 65
+[ -z "${2}" ] && exit 66
+csleep 3
+dqb "pars.0k"
+csleep 2
+${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+${scm} -Rv 700 ${CONF_pkgdir}/partial/
+csleep 1
+if [ ! -d ${1} ] ; then
+exit 111
+else
+lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/)
+enforce_access ${n} ${lefid}
+csleep 1
+${scm} 0755 /etc/apt
+${scm} a+w /etc/apt/sources.list*
+part1 ${2} ${1}
+fi
+dqb "P3R1.D0N3"
+csleep 1
 }
 #
 ##...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 ##HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
 #
 ##150326:debug-syistä rivejä kommentteihin
+#TODO:SELVITÄ KLUSEEKO TÄMÄ VAI EI?
 function e22_pre2() {
 	echo "per2..."
 #	[ -z "${1}" ] && exit 66
@@ -236,25 +231,23 @@ function e22_cleanpkgs() {
 ##VAIH:testaa taas (jokojo 14326?)
 ##HUOM.140326:testit vaiheessa, kommentteihin jos qsee
 #
-#function e22_home_pre()
-#	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
-#		e22_config1 ~ ${4}
-#
-#		${NKVD} ~/${CONF_default_arhcive}
-#		e22_settings ${2}/.. ${CONF_default_arhcive} ${CONF_default_arhcive3}
-#	fi
-#
-#	#local t
-#	csleep 1
+function e22_home_pre() {
+if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
+e22_config1 ~ ${4}
+${NKVD} ~/${CONF_default_arhcive}
+e22_settings ${2}/.. ${CONF_default_arhcive} ${CONF_default_arhcive3}
+fi
+csleep 1
 #150326:JOSKOHANLIITTYISI VIIMEAIKAISEEN KUSEMISEEN TUO AO. RIVI
-#	${srat} -rvf ${1} /opt/bin 
-#
-#	exit 99 #find qsee jossain
-#	#for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
-#	#	${srat} -rvf ${1} ${t}
-#	#done
-#}
-#
+${srat} -rvf ${1} /opt/bin 
+#exit 99 #find qsee jossain
+#for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
+#	${srat} -rvf ${1} ${t}
+#done
+dqb "HOMEPRE D0NE"
+csleep 1
+}
+
 #HUOM.140326:testit vaiheessa, kommentteihin jos qsee
 function e22_home() {
 
@@ -515,11 +508,11 @@ function e22_ext() {
 	#local f
 	#160126:tuon yhden tdston kanssa jokin ongelma sha-tark kanssa, joten ksrdotssn
 	#pois myös resolv.conf.* vaiko ei ?
-	exit 99
+	#exit 99
 
-#	for f in $(find ./etc -type f -not -name 'interfaces.tmp') ; do
-#		${sah6} ${f} >> ${4}
-#	done
+	for f in $(find ./etc -type f -not -name 'interfaces.tmp') ; do
+		${sah6} ${f} >> ${4}
+	done
 
 	cd ${p}
 	[ ${debug} -eq 1 ] && pwd
@@ -685,37 +678,39 @@ function e22_dblock() {
 ##		
 ##	exit
 #}
-
+#
 #140326:taitaa toimia
-function e22_fgh() {
-	dqb "e22_fgh( ${1} ; ${2} ; ${3} )"
-	[ -z "${1}" ] && exit 99
-	[ -z "${2}" ] && exit 98	
-	#[ -s "${1}" ] || exit 97 #mikä tässä oli pointti?
-
-	dqb "PA.RS"
-
-
-	e22_arch ${1} ${2}
-
-	exit
-}
-
-#110326:toimi
-#TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?
-#TODO:uusicksi testaus koska viimeaikaiset muutokset
-
-function e22_cde() {
-	[ -z "${1}" ] && exit 99
-	[ -z "${2}" ] && exit 98
-	[ -d "${2}" ] || exit 97
-
-	cd ${2}
-	fasdfasd ${1}
-	[ ${debug} -eq 1 ] && ls -las ${1}*
-	csleep 2
-		
-	${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
-	#e22_ftr ${1}
-	#exit
-}
+#TODO:pois kommenteista josqs
+#function e22_fgh() {
+#	dqb "e22_fgh( ${1} ; ${2} ; ${3} )"
+#	[ -z "${1}" ] && exit 99
+#	[ -z "${2}" ] && exit 98	
+#	#[ -s "${1}" ] || exit 97 #mikä tässä oli pointti?
+#
+#	dqb "PA.RS"
+#
+#
+#	e22_arch ${1} ${2}
+#
+#	exit
+#}
+#
+##110326:toimi
+##TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?
+##TODO:uusicksi testaus koska viimeaikaiset muutokset
+#
+#function e22_cde() {
+#	[ -z "${1}" ] && exit 99
+#	[ -z "${2}" ] && exit 98
+#	[ -d "${2}" ] || exit 97
+#
+#	cd ${2}
+#	fasdfasd ${1}
+#	[ ${debug} -eq 1 ] && ls -las ${1}*
+#	csleep 2
+#		
+#	${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
+#	#e22_ftr ${1}
+#	#exit
+#}
+#
