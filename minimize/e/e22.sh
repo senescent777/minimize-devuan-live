@@ -57,12 +57,14 @@ function e22_hdr() {
 }
 
 #tark-. olla priv fktio
-#080326:toimii jnkn verran
+#080326:toimi jnkn verran (miten nykyään?)
 function e22_tyg() {
 	dqb "e22_tyg( ${1} )"
 	[ -z "${1}" ] && exit 45
 	[ -s ${1} ] || exit 46
 	[ -r ${1} ] || exit 47
+	csleep 1
+	dqb "pars.0k"
 
 	if [ -x ${gg} ] ; then
 		if [ -v CONF_pubk ] ; then
@@ -354,7 +356,7 @@ function e22_acol() {
 
 	${srat} -rvf ${1} /etc/default/net*
 
-	case ${2} in
+	case "${2}" in
 		wlan0)
 			${srat} -rvf ${1} /etc/wpa_supplicant
 			${srat} -tf ${1} | grep wpa
@@ -377,7 +379,7 @@ function e22_acol() {
 
 	if  [ ${ef} -eq 1 ] ; then
 		dqb "SMTHING"
-	#else
+	else
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
 }
@@ -441,7 +443,8 @@ function e22_ext() {
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 2
-	#[ -w ${1} ] || exit 6 
+	#[ -w ${1} ] || exit 6
+	#-f, ! -d pitäisikö olla 1 tai 4 kanssa?
 	[ -z "${2}" ] && exit 3
 	[ -z "${3}" ] && exit 4
 	[ -z "${4}" ] && exit 47
@@ -462,6 +465,9 @@ function e22_ext() {
 	[ ${debug} -eq 1 ] && pwd
 
 	cd ${q}
+	csleep 1
+
+	dqb "iface should be up by bow, next:git"
 	csleep 1
 
 	${tig} clone https://${BASEURL}/more_scripts.git

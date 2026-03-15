@@ -509,7 +509,9 @@ case "${mode}" in
 
 		if [ -f /.chroot ] ; then
 			if [ ${1} -eq 0 ] ; then
-				#mitense alt_root?
+				#mitense alt_root? ensisijaisesti sitä pakettien "uutta" asennustapaa vartebn
+				#... siinä piti vielä prujata se hmistorakanne ainakin
+
 				#VAIH:jokin vihje echolla kjälle ni ei tartte arpoa
 				#echo "EI NÄIN"
 
@@ -568,11 +570,13 @@ case "${mode}" in
 
 		#HUOM.110326:olisi parempi , varm. buoksi delliä tai nimetä uudetsaan aiemmatr default_arch ja default_arch2
 
-		c=$(${srat} -tf ${srcfile} | grep ${CONF_default_arhcive}  | wc -l)
+		c=$(${srat} -tf ${srcfile} | grep ${CONF_default_arhcive} | wc -l)
 		[ ${c} -gt 0 ] || exit 27
 		common_part ${srcfile} ${d} /
 
+		#jos sr0 jatkossa
 		${srat} -C ~ -jxf ~/${CONF_default_arhcive2}
+
 		tpr ${d0} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	k)

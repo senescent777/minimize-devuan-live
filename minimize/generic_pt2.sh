@@ -162,6 +162,8 @@ function t2pf() {
 
 	#fiksumpaa olisi kai muutella import2:ssa vastaava kohta
 	${NKVD} /OLD.tar
+	csleep 1
+	${srat} /OLD.tar /etc/X11
 
 	for f in $(find /var/log -type f) ; do ${NKVD} ${f} ; done
 	df

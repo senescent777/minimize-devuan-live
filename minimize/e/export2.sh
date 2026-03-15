@@ -15,7 +15,7 @@ function usage() {
 	echo "$0 1 <tgtfile> [distro?] [-v]: makes upgrade_pkg"
 	echo "$0 e <tgtfile> [distro?] [-v]: archives the Essential .deb packages"
 	echo "$0 f <tgtfile> [distro?] [-v]: archives .deb Files under \$ {d0} /\${distro}"
-	echo "$0 p <> [] [] pulls ${CONF_default_archive3} from somewhere"
+	echo "$0 p <> [] [] pulls \${CONF_default_archive3} from somewhere"
 	echo "$0 q <> [] [] archives firefox settings"
 	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
@@ -42,10 +42,10 @@ fi
 #"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
 
 function parse_opts_1() {
-	if [ -d ${d}/${1} ] ; then
+	#if [ -d ${d}/${1} ] ; then
 		#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
 		d=${d0}/${distro}
-	fi
+	#fi
 }
 
 #
@@ -184,7 +184,7 @@ e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
-#HUOM.nämä voivat jtnkkin suhtautua ylmepään e22_hdr()-qtsuun
+#HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun
 [ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 doit=1
@@ -202,34 +202,43 @@ case ${mode} in
 		dqb "NVDK 1b 5 secs"
 		csleep 5
 
-		#${NKVD} ${d0}/${CONF_default_arhcive3}*
-		[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
+		#${NKVD} ${d0}/${CONF_default_arhcive3}* ei näin
+		#[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv* ei näinkään?
 
 		csleep 1
-		fasdfasd /opt/bin/zxcv
-		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
-		reqwreqw /opt/bin/zxcv
+		fasdfasd /opt/bin/zxcv.tmp
+		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
+		reqwreqw /opt/bin/zxcv.tmp
+		exit 99 #qnnes tämä rasti selvitetty
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
-
 		else
 			doit=0
 		fi
 
+		exit 99 #qnnes tämä rasti selvitetty
+
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2}
-		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} #${CONF_enforce} ${CONF_default_arhcive2}
+		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
+		#${CONF_enforce} ${CONF_default_arhcive2}		
+		exit 99 #qnnes tämä rasti selvitetty
+
 		e22_pre1 ${d} ${distro}
+		exit 99 #qnnes tämä rasti selvitetty
 
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
-		fasdfasd /opt/bin/zxcv #onko ihan pakko? 
+		fasdfasd /opt/bin/zxcv.tmp #onko ihan pakko? 
+		exit 99 #qnnes tämä rasti selvitetty
 
-		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv
-		reqwreqw /opt/bin/zxcv
+		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
+		reqwreqw /opt/bin/zxcv.tmp
 		csleep 1
+		exit 99 #qnnes tämä rasti selvitetty
 
+		#TODO:näille main kai zxcv.tmp -> zxcv
 		fasdfasd /opt/bin/zxcv.sig	
 		e22_tyg /opt/bin/zxcv
 		reqwreqw /opt/bin/zxcv.sig			

@@ -738,9 +738,9 @@ function pre_enforce() {
 			mangle_s ${f} ${q}
 		done
 	
-		#uutena 140326
+		#uutena 150326
+		${scm} a-w /opt/bin/*
 		${scm} a-wx /opt/bin/*.sh
-
 		csleep 1
 	fi
 
@@ -765,26 +765,30 @@ function pre_enforce() {
 	c4=0
 	csleep 1
 
-if [ -v CONF_dir ] ; then
-c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
-else
-exit 99
-fi
-csleep 1
-#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
-if [ ${c4} -lt 1 ] ; then
-csleep 1
-${scm} a+w /etc/fstab
-csleep 1
-${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
-csleep 1
-${scm} a-w /etc/fstab
-csleep 1
-[ ${debug} -eq 1 ] && cat /etc/fstab
-csleep 1
-fi
-csleep 1
+	if [ -v CONF_dir ] ; then
+		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
+	else
+		exit 99
+	fi
+
+	csleep 1
+	#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
+
+	if [ ${c4} -lt 1 ] ; then
+		csleep 1
+		${scm} a+w /etc/fstab
+		csleep 1
+		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+		csleep 1
+		${scm} a-w /etc/fstab
+		csleep 1
+		[ ${debug} -eq 1 ] && cat /etc/fstab
+		csleep 1
+	fi
+
+	csleep 1
 }
+
 function mangle2() {
 [ -z  "${1}" ] && exit 99
 if [ -f ${1} ] ; then
@@ -827,19 +831,20 @@ ${scm} 0400 ${f}
 done
 csleep 1
 }
+
 function e_v() {
-${sco} -R root:root /sbin
-${scm} -R 0755 /sbin
-${sco} root:root /var
-${scm} 0755 /var
-${sco} root:staff /var/local
-${sco} root:mail /var/mail
-${sco} -R man:man /var/cache/man
-${scm} -R 0755 /var/cache/man
-csleep 1
+	${sco} -R root:root /sbin
+	${scm} -R 0755 /sbin
+	${sco} root:root /var
+	${scm} 0755 /var
+	${sco} root:staff /var/local
+	${sco} root:mail /var/mail
+	${sco} -R man:man /var/cache/man
+	${scm} -R 0755 /var/cache/man
+	csleep 1
 }
 
-#VAIH:selvitä qseeko tämä fktio?
+#150326:vissiin toimii kuten tarkoitus
 function e_h() {
 	[ -z "${1}" ] && exit 98
 	[ -d ${2} ] || exit 99
@@ -883,7 +888,7 @@ function e_h() {
 	csleep 1
 }
 
-#VAIH:selvitä qseeko tämä fktio?
+#150326:ehkä tämäkin toimii
 function e_final() {
 	csleep 1
 	#${scm} a-w /opt/bin/*
@@ -893,23 +898,25 @@ function e_final() {
 	${sco} -R root:root /opt
 	${scm} 0755 /
 	${sco} root:root /
+
 	${scm} 0777 /tmp
-	${scm} o+w /tmp
+	#${scm} o+w /tmp
 	#081225:+t pois koska exp2 u
 	${sco} root:root /tmp
+
 	csleep 1
 }
 
 function enforce_access() {
-[ -z "${1}" ] && exit 67
-[ -z "${2}" ] && exit 68
-csleep 1
-e_e
-e_v
-e_h ${1} ${2}
-e_final
-jules
-[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
+	[ -z "${1}" ] && exit 67
+	[ -z "${2}" ] && exit 68
+	csleep 1
+	e_e
+	e_v
+	e_h ${1} ${2}
+	e_final
+	jules
+	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 }
 
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
@@ -1081,7 +1088,7 @@ function part1() {
 					${ip6t} -F ${t}
 				done
 
-				for t in INPUT OUTPUT FORWARD b c e f ; do 
+				for t in INPUT OUTPUT FORWARD b c e f u v ; do 
 					${ipt} -F ${t}
 					[ $? -eq 0 ] || ${odio} /sbin/halt
 				done
@@ -1135,7 +1142,7 @@ function part1() {
 	dqb "FOUR-LEGGED WH0R3"
 }
 
-#140326:debug-syistä suurin osa sisällöstä kommenteissa
+#150326:debug-syistä oli suurin osa sisällöstä kommenteissa
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
 	csleep 6
@@ -1191,6 +1198,7 @@ function part2() {
 	${lftr}
 	csleep 1
 
+	#150326:pitäisikohän tehdf vielä toinenkin veuiartlu barm buoksi?
 	if [ y"${ipt}" != "y" ] ; then
 		jules
 		local t
@@ -1318,7 +1326,6 @@ function gpo() {
 	local opt
 	prevopt=""
 
-	#121225:miten g_jutut nykyään tämän kanssa?
 	if [ $# -lt 1 ] ; then
 		echo "$0 -h"
 	fi
@@ -1339,14 +1346,6 @@ function gpo() {
 		prevopt=${opt}
 	done
 }
-
-
-#d0=$(pwd)
-##echo "d0=${d0}"
-#[ z"${distro}" == "z" ] && exit 6
-#debug=0 #1
-#d=${d0}/${distro} 
-
 
 #https://stackoverflow.com/questions/16988427/calling-one-bash-script-from-another-script-passing-it-arguments-with-quotes-and
 gpo "$@"
