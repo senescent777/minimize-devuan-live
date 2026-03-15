@@ -34,7 +34,7 @@
 #
 #
 function e22_hdr() {
-	dqb "e22.HRD () ${1} "
+
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
 	[ -f ${1} ] && echo "${1} ALREADY EXISTS"
@@ -55,13 +55,14 @@ function e22_hdr() {
 
 #tark-. olla priv fktio
 #080326:toimi jnkn verran (miten nykyään?)
+
 function e22_tyg() {
-	dqb "e22_tyg( ${1} )"
+
 	[ -z "${1}" ] && exit 45
 	[ -s ${1} ] || exit 46
 	[ -r ${1} ] || exit 47
 	csleep 1
-	dqb "pars.0k"
+
 
 	if [ -x ${gg} ] ; then
 		if [ -v CONF_pubk ] ; then
@@ -86,8 +87,8 @@ function e22_ftr() {
 	[ -r ${1} ] || exit 64
 
 	fasdfasd ${1}.sha
-	local p
-	local q
+#	local p
+#	local q
 
 	p=$(pwd)
 	q=$(basename ${1})
@@ -121,7 +122,7 @@ function e22_pre1() {
 	if [ ! -d ${1} ] ; then
 		exit 111
 	else
-		local lefid
+		#local lefid
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/)
 		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
 
@@ -205,7 +206,7 @@ function e22_config1() {
 	[ -d ${1} ] || exit 22
 	[ -z "${2}" ] && exit 11
 	
-	local p
+	#local p
 	p=$(pwd)
 	cd ${1} 
 	#antaa nyt olla toistaiseksi näin, cd:n kanssa
@@ -238,7 +239,7 @@ function e22_settings() {
 	exp_prof ${1}/${2} default-esr	
 		
 	[ -s ${1}/${2} ] || exit 32
-	local t
+	#local t
 
 	t=$(tar -tf ${1}/${2} | grep prefs.js | wc -l)
 	dqb "FOUND PREFS: ${t}"
@@ -256,7 +257,7 @@ function e22_home_pre()
 		e22_settings ${2}/.. ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	fi
 
-	local t
+	#local t
 	csleep 1
 	${srat} -rvf ${1} /opt/bin 
 
@@ -367,8 +368,8 @@ function e22_acol() {
 		;;
 	esac
 
-	local f
-	local g
+	#local f
+	#local g
 	
 	exit 99
 	#if [ ${3} -eq 1 ] ; then #-gt 0 ?
@@ -376,8 +377,8 @@ function e22_acol() {
 	#	for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
 	##else
 	#fi
-
-	local ef
+#
+	#local ef
 	ef=$(echo ${4} | tr -d -c 0-9)
 
 	if  [ ${ef} -eq 1 ] ; then
@@ -440,26 +441,25 @@ function e22_sarram() {
 	other_horrors
 }
 
-
-[ -v CONF_BASEURL ] || exit 6 
+[ -v CONF_BASEURL ] || exit 6
 
 function e22_ext() {
 	#VAIH:testatakin voisi taas, takaisin kommentteihin koko fcktio jos qsee
 	#TODO:/o/b liittyvää käsittelyä uusicksi sittenq
-
-	[ -z "${1}" ] && exit 1
-	[ -s ${1} ] || exit 2
-	#[ -w ${1} ] || exit 6
-	#-f, ! -d pitäisikö olla 1 tai 4 kanssa?
-	[ -z "${2}" ] && exit 3
-	[ -z "${3}" ] && exit 4
-	[ -z "${4}" ] && exit 47
-	[ -f ${4} ] || exit 48
-
-	local p
-	local q	
-	local r
-	local st
+#
+#	[ -z "${1}" ] && exit 1
+#	[ -s ${1} ] || exit 2
+#	#[ -w ${1} ] || exit 6
+#	#-f, ! -d pitäisikö olla 1 tai 4 kanssa?
+#	[ -z "${2}" ] && exit 3
+#	[ -z "${3}" ] && exit 4
+#	[ -z "${4}" ] && exit 47
+#	[ -f ${4} ] || exit 48
+#
+	#local p
+	#local q	
+	#local r
+	#local st
 
 	csleep 1
 	p=$(pwd)
@@ -503,7 +503,7 @@ function e22_ext() {
 	fi
 
 	if [ -f /etc/apt/sources.list ] ; then
-		local c
+		#local c
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
 
 		if [ ${c} -lt 1 ] ; then
@@ -524,7 +524,7 @@ function e22_ext() {
 
 	echo $?
 
-	local f
+	#local f
 	#160126:tuon yhden tdston kanssa jokin ongelma sha-tark kanssa, joten ksrdotssn
 	#pois myös resolv.conf.* vaiko ei ?
 	exit 99
@@ -566,7 +566,7 @@ function e22_arch() {
 	dqb "pars ok"
 	csleep 1
 
-	local p=$(pwd)
+	#local p=$(pwd)
 	csleep 1
 	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
 
@@ -647,7 +647,7 @@ function e22_dblock() {
 		${NKVD} ${3}/${s}*.deb
 	done
 
-	local t
+	#local t
 	t=$(echo ${2} | cut -d '/' -f 1-6) #joitain tr-jekkuja vielä?
 	e22_ts ${t}
 	dqb "JST B3F0R3 3NF0RC3"

@@ -71,6 +71,8 @@ fi
 d=${d0}/${distro}
 process_lib ${d}
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
+echo "BEFORE TIG NOR MKTMP"
+sleep 1
 
 if [ -z "${tig}" ] ; then
 	echo "SHOULD INSTALL GIT"
@@ -81,6 +83,10 @@ if [ -z "${mkt}" ] ; then
 	echo "SHOULD INSTALL MKTEMP"
 	exit 8
 fi
+
+
+echo "JUST BEFORE INCLUDING FLIES"
+sleep 2
 
 #dirnamen kanssa ei oikein toiminut aiemmin
 if [ -x ${d0}/e/e22.sh ] ; then
@@ -95,6 +101,9 @@ else
 	echo "NO BACKEND FOUND"
 	exit 58
 fi
+
+echo "AFTER 1NCLUD1NG FILEZ"
+sleep 2
 
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 [ -z "${tgtfile}" ] && exit 98
