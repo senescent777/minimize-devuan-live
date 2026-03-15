@@ -173,7 +173,10 @@ fi
 
 csleep 1
 e_final
-e_h ${n} ${d0} 
+e_h ${n} ${d0}
+dqb "EHD0NE"
+csleep 1
+
 #TODO:changedns:n dns-osuuden vipuaminen joko resolVconf:ille tai dnsmasq:lle? , kumman saakaan pienemmällä säädöllä toimimaan
 #exit 99
 #
@@ -194,12 +197,13 @@ e_h ${n} ${d0}
 
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
-exit 99
+#exit 99
 
 #110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?
-e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
+#e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm} #qseeko tämä?
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
+#exit 99
 
 #HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun
 [ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
@@ -207,7 +211,7 @@ e22_cleanpkgs ${CONF_pkgdir}
 doit=1
 csleep 1
 
-exit 99
+#exit 99
 
 case ${mode} in
 	0)

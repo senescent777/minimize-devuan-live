@@ -993,65 +993,66 @@ function part1_5() {
 	dqb "p1.5 done"
 	csleep 1
 }
-
-function dis() {
-	dqb "CHAMBERS OF 5HA0 L1N ${1}"
-	[ -z "${1}" ] && exit 44
-	csleep 1
-
-	${scm} 0755 /etc/network
-	${sco} -R root:root /etc/network
-	${scm} a+r /etc/network/*
-
-	if [ -f /etc/network/interfaces ] ; then
-		if [ ! -h /etc/network/interfaces ] ; then
-			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
-		else
-			dqb " /e/n/i n0t a l1nk"
-		fi
-	else
-		dqb "/e/n/i n0t f0und"
-	fi
-
-	local t
-	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
-
-	if [ -f /etc/network/interfaces.${t} ] ; then
-		dqb "LINKS-1-2-3"
-		${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
-		echo $?		
-		csleep 1
-	else
-		dqb "N0 \$UCH TH1NG A5 /etc/network/interfaces.${t}"
-	fi
-
-	${scm} 0555 /etc/network
-	[  ${debug} -eq 1 ] && ls -las /etc/network
-	csleep 1
-
-	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
-	if [ -v CONF_iface ] ; then
-		if [ ! -z "${CONF_iface}" ] ; then
-			${odio} ${sifd} ${CONF_iface}
-			csleep 1
-	
-		#	${odio} ${sifd} -a
-			csleep 1
-
-			[ ${debug} -eq 1 ] && ${sifc};sleep 1
-			dqb "${sip} link set ${CONF_iface} down"
-	
-			${sip} link set ${CONF_iface} down
-			[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
-		fi
-	fi
-	
-	csleep 1
-	${odio} sysctl -p
-	csleep 1
-
-	dqb "5HAD0W 0F TH3 BA35T D0N3"
-}
+#
+##150626:käytössä?
+#function dis() {
+#	dqb "CHAMBERS OF 5HA0 L1N ${1}"
+#	[ -z "${1}" ] && exit 44
+#	csleep 1
+#
+#	${scm} 0755 /etc/network
+#	${sco} -R root:root /etc/network
+#	${scm} a+r /etc/network/*
+#
+#	if [ -f /etc/network/interfaces ] ; then
+#		if [ ! -h /etc/network/interfaces ] ; then
+#			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
+#		else
+#			dqb " /e/n/i n0t a l1nk"
+#		fi
+#	else
+#		dqb "/e/n/i n0t f0und"
+#	fi
+#
+#	local t
+#	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+#
+#	if [ -f /etc/network/interfaces.${t} ] ; then
+#		dqb "LINKS-1-2-3"
+#		${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
+#		echo $?		
+#		csleep 1
+#	else
+#		dqb "N0 \$UCH TH1NG A5 /etc/network/interfaces.${t}"
+#	fi
+#
+#	${scm} 0555 /etc/network
+#	[  ${debug} -eq 1 ] && ls -las /etc/network
+#	csleep 1
+#
+#	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
+#	if [ -v CONF_iface ] ; then
+#		if [ ! -z "${CONF_iface}" ] ; then
+#			${odio} ${sifd} ${CONF_iface}
+#			csleep 1
+#	
+#		#	${odio} ${sifd} -a
+#			csleep 1
+#
+#			[ ${debug} -eq 1 ] && ${sifc};sleep 1
+#			dqb "${sip} link set ${CONF_iface} down"
+#	
+#			${sip} link set ${CONF_iface} down
+#			[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+#		fi
+#	fi
+#	
+#	csleep 1
+#	${odio} sysctl -p
+#	csleep 1
+#
+#	dqb "5HAD0W 0F TH3 BA35T D0N3"
+#}
 
 function part1() {
 	dqb "PART1 ${1} , ${2} "

@@ -169,23 +169,21 @@ function e22_pre1() {
 ##		exit 111
 ##	fi
 #}
-#
-#function e22_cleanpkgs() {
-#	[ -z "${1}" ] && exit 56
-#
-#	if [ -d ${1} ] ; then
-#		#aiemmalla NKVD-tavalla saattaa kestää joten rm
-#		${smr} ${1}/*.deb
-#		${smr} ${1}/sha512sums.txt*
-#		
-#		#entä ne listat? jospa ei koskettaisi niihin
-#		ls -las ${1}/*.deb | wc -l
-#	else
-#		dqb "NO SUCH DIR ${1}"
-#	fi
-#}
-#
-##e22_acol() yrittää vetää /e alta xorg konftdston mukaan pakettiin
+
+function e22_cleanpkgs() {
+	[ -z "${1}" ] && exit 56
+	if [ -d ${1} ] ; then
+		#aiemmalla NKVD-tavalla saattaa kestää joten rm
+		${smr} ${1}/*.deb
+		${smr} ${1}/sha512sums.txt*
+		#entä ne listat? jospa ei koskettaisi niihin
+		ls -las ${1}/*.deb | wc -l
+	else
+		dqb "NO SUCH DIR ${1}"
+	fi
+}
+
+#e22_acol() yrittää vetää /e alta xorg konftdston mukaan pakettiin
 ##... ei ole ihan pakko config1():sessä siis
 #
 ##140326:toimii edelleen
