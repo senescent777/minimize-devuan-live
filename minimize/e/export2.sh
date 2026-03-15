@@ -258,7 +258,7 @@ case ${mode} in
 		csleep 1
 		#exit 99 #qnnes tämä rasti selvitetty
 
-		#VAIH:näille main kai zxcv.tmp -> zxcv
+		#VAIH:näille main kai zxcv.tmp -> zxcv (alkasiskohan jo olla?)
 		${NKVD} /opt/bin/zxcv.sig
 		${NKVD} /opt/bin/zxcv
 		csleep 1
