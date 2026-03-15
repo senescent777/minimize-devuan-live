@@ -99,7 +99,6 @@ libavutil57
 libavcodec59
 #
 #
-#
 libdbus-1-3
 #
 #glib-networking:amd64 depends on gsettings-desktop-schemas
@@ -109,3 +108,7 @@ gsettings-desktop-schemas
 #libsoup-3.0-0:amd64 depends on glib-networking 
 glib-networking
 libsoup
+libassuan0
+#
+#TODO:git depends on liberror-perl; however
+liberror-perl
