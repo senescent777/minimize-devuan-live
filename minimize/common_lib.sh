@@ -421,7 +421,7 @@ function common_lib_tool() {
 	dqb "t00l DONE"
 }
 
-#HUOM.041025:chroot-ympäristössä tietenkin se ympäristömja sudotuksen yht ongelma, keksisikö jotain (VAIH)
+#HUOM.140326:jospa olisi jo ympäristömjat kunnossa fromtendissä
 #https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
 #alahan jo tehdä jotain tuolle
 #toimii edelleen noinkin? (050326) (110326 puolella sqroot alaisuudessa näyttäisi toimivan myös)
@@ -437,8 +437,6 @@ function fromtend() {
 
 	if [ ! -f /.chroot ] ; then #ei conf_alt_root ainakaan vielä
 		dqb "${odio} -E ${sd0} --force-confold -i $@"
-		#${odio} DEBIAN_FRONTEND=noninteractive ${sd0} --force-confold -i $@
-	
 		${odio} -E ${sd0} --force-confold -i $@
 	else
 		${odio} ${sd0} --force-confold -i $@
@@ -640,179 +638,129 @@ function process_lib() {
 
 #==================================================================
 function slaughter0() {
-	local fn2
-	local ts2
-
-	fn2=$(echo $1 | awk '{print $1}') 
-	ts2=$(${sah6} ${fn2})
-
-	#tähän alle jotain tr-kikkialua?
-	echo ${ts2} | awk '{print $1,$2}' >> ${2}
+local fn2
+local ts2
+fn2=$(echo $1 | awk '{print $1}') 
+ts2=$(${sah6} ${fn2})
+#tähän alle jotain tr-kikkialua?
+echo ${ts2} | awk '{print $1,$2}' >> ${2}
 }
-
 function mangle_s() {
-	dqb "mangle_s  ${1} , ${2}, ${3}  "
-	csleep 1
-
-	[ -z "${1}" ] && exit 44
-	[ -x ${1} ] || exit 55
-
-	[ -z "${2}" ] && exit 45
-	[ -f ${2} ] || exit 54
-
-	local r
-
-	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
-	#$r kanssa jotain t arkistuksia?
-	${scm} 0555 ${r}
-	${sco} root:root ${r}
-
-	#vs /e/paswd ?
-	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
-
-	#100126:ALL vai localhost? rahat vs kolmipyörä?
-	#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
-	#(kts omega)
-
-	echo -n " ALL=NOPASSWD:sha512:" >> ${2}
-	slaughter0 ${r} ${2}
+csleep 1
+[ -z "${1}" ] && exit 44
+[ -x ${1} ] || exit 55
+[ -z "${2}" ] && exit 45
+[ -f ${2} ] || exit 54
+local r
+r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
+#$r kanssa jotain t arkistuksia?
+${scm} 0555 ${r}
+${sco} root:root ${r}
+#vs /e/paswd ?
+echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
+#100126:ALL vai localhost? rahat vs kolmipyörä?
+#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
+#(kts omega)
+echo -n " ALL=NOPASSWD:sha512:" >> ${2}
+slaughter0 ${r} ${2}
 }
-
 function dinf() {
-	local g
-	local t
-	local frist
-	frist=1
-
-	echo -n "#" >> ${1} #toimiiko näin?
-	echo -n " $(whoami)" | tr -dc a-zA-Z >> ${1}
-	echo -n " localhost=NOPASSWD:" >> ${1}
-
-	for g in $(${odio} find /sbin -type f -name 'dhclient-script*') ; do
-		if [ ${frist} -eq 1 ] ; then 
-			frist=0
-		else
-			echo -n "," >> ${1}
-		fi
-
-		echo -n "sha512:" >> ${1}
-
-		t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9)
-		echo -n ${t} >> ${1}
-	done
-
-	echo " /sbin/dhclient-script" >> ${1}
-	cat ${1}
-	csleep 5
+local g
+local t
+local frist
+frist=1
+echo -n "#" >> ${1} #toimiiko näin?
+echo -n " $(whoami)" | tr -dc a-zA-Z >> ${1}
+echo -n " localhost=NOPASSWD:" >> ${1}
+for g in $(${odio} find /sbin -type f -name 'dhclient-script*') ; do
+if [ ${frist} -eq 1 ] ; then 
+frist=0
+else
+echo -n "," >> ${1}
+fi
+echo -n "sha512:" >> ${1}
+t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9)
+echo -n ${t} >> ${1}
+done
+echo " /sbin/dhclient-script" >> ${1}
+cat ${1}
+csleep 5
 }
-
 #=================================================================
 function fasdfasd() {
-	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
-	[ -z "${1}" ] && exit 99
-
-	dqb "SUN LIIRUM SUN LAARUM ${1}"
-	dqb "sco= ${sco}"
-	dqb $(whoami)
-	csleep 1
-
-	${odio} touch ${1}
-	${sco} $(whoami):$(whoami) ${1}
-	${scm} 0644 ${1}
+#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
+[ -z "${1}" ] && exit 99
+csleep 1
+${odio} touch ${1}
+${sco} $(whoami):$(whoami) ${1}
+${scm} 0644 ${1}
 }
-
 #olisiko jokin palikka jo aiemmin? e_jutut ? mangle2() ?
 function reqwreqw() {
-	dqb "common_lib.rewqreqw(${1} )"
-	[ -z "${1}" ] && exit 99
-	[ -f ${1} ] || exit 100 #takaisn josqs? miksi?
-	
-	csleep 1
-	${sco} 0:0 ${1}
-	${scm} a-w ${1}
-
-	dqb "rewqreqw(${1} ) DONE"
+[ -z "${1}" ] && exit 99
+[ -f ${1} ] || exit 100 #takaisn josqs? miksi?
+csleep 1
+${sco} 0:0 ${1}
+${scm} a-w ${1}
 }
 
-#HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan
+#HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan?
 function pre_enforce() {
-	dqb "common_lib.pre_enforce ${1} "
 	[ -z "${1}" ] && exit 98	
 	[ -d ${1} ] || exit 97
 	[ -v mkt ] || exit 99
 
 	local q
 	local f
-
 	q=$(${mkt} -d)
 	q=${q}/meshuqqah
-	dqb "touch ${q} in 3 secs"
-
 	csleep 1
 	fasdfasd ${q}
-
 	[ ${debug} -eq 1 ] && ls -las ${q}
 	csleep 1
 	[ -f ${q} ] || exit 33
-
-	dqb "LETf HOUTRE JOINED IN L0CH N355"
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
 	csleep 1
 
 	if [ ! -v CONF_testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
-		dqb "1N F3NR0 0F SACR3D D35TRUCT10N"
-
 		if [ ! -d /opt/bin ] ; then
-			dqb "FSDFSDFSD"
 			${smd} /opt/bin
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
 		fi
 
-		#080326:voisi ao. tdston nimetä uudestaan (pääte) ... ja mitä muita säätöä tuleekaan (VAIH)
-		#if [ -f ${1}/changedns.sh ] ; then
+		#140326:jospa olisi tämä blokki jnkin aikaa ok näin
 		if [ -d ${1}/opt/bin ] ; then
-			dqb "SÖSSÖN SÖSSÖN"
-
-			#080326.2:svm voisi jstkossa tehdä enemmän (VAIH)
 			${svm} ${1}/opt/bin/*.bash /opt/bin
-
-			#090326.1:pitäisiköhän kopsata enemmän?
 			#090326.2:miten /o/b/zxcv ja /o/b alaiset skRiptit`
 		fi
-
-		#VAIH:jatkossa pikemminkin koko hmiston alaiset kalat sudoersiin
-		# /opt/bin/changedns.sh ${q}
+	
 		for f in $(${odio} find /opt/bin -type f -name '*.bash') ; do
 			mangle_s ${f} ${q}
 		done
-
+	
+		#uutena 150326
+		${scm} a-w /opt/bin/*
+		${scm} a-wx /opt/bin/*.sh
 		csleep 1
 	fi
 
-	dqb "TRAN S1LVAN1AN HUGN3R GAM35"
 	csleep 1
-
 	if [ -s ${q} ] ; then
-		dqb "sudo mv ${q} /etc/sudoers.d in 2 secs"
 		csleep 1
-
 		reqwreqw ${q}
 		${scm} 0440 ${q}
 		${svm} ${q} /etc/sudoers.d
-
 		CB_LIST1=""
 		unset CB_LIST1
 	fi
 
-	dqb "ANGL3 0F D3ATH (D1\$n3y V3R\$10n)"
 	q=$(${mkt})
 	fasdfasd ${q}
-	dinf ${q} #ehkä josqs toimimaankin (0li jotain pientä häikkää sisällössä?)
+	dinf ${q}
 	reqwreqw ${q}
 	${scm} 0440 ${q}
 	${svm} ${q} /etc/sudoers.d
 	csleep 1
-
 	local c4
 	c4=0
 	csleep 1
@@ -820,96 +768,71 @@ function pre_enforce() {
 	if [ -v CONF_dir ] ; then
 		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
 	else
-		echo "NO SUCH THING AS \$CONF_dir"
 		exit 99
 	fi
 
 	csleep 1
-
 	#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
-	if [ ${c4} -lt 1 ] ; then
-		dqb "MUTILAT31NG /E/F-STAB"
-		csleep 1
 
+	if [ ${c4} -lt 1 ] ; then
+		csleep 1
 		${scm} a+w /etc/fstab
 		csleep 1
 		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		csleep 1
 		${scm} a-w /etc/fstab
-
 		csleep 1
 		[ ${debug} -eq 1 ] && cat /etc/fstab
 		csleep 1
 	fi
 
 	csleep 1
-	dqb "common_lib.pre_enforce d0n3"
 }
 
 function mangle2() {
-	[ -z  "${1}" ] && exit 99
-
-	if [ -f ${1} ] ; then
-		dqb "MANGLED ${1} BEYOND RECQG"
-		${scm} o-rwx ${1}
-		${sco} root:root ${1}
-	fi
+[ -z  "${1}" ] && exit 99
+if [ -f ${1} ] ; then
+${scm} o-rwx ${1}
+${sco} root:root ${1}
+fi
 }
-
 function e_e() {
-	dqb "e_e"	
-	csleep 1
-	fix_sudo
-	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
-
-	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
-		mangle2 ${f}
-	done
-
-	other_horrors
-	${scm} 0755 /etc
-	${sco} -R root:root /etc
-	${scm} 0555 /etc/network
-
-	#vihje:ei tarvinne erikseen -R koska ylempänä
-	${scm} 0444 /etc/network/*
-	#${sco} root:root /etc/network
-
-	for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
-
-	dqb "EE2"
-	csleep 1
-	local f
-	f=$(date +%F)
-
-	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
-	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
-
-	if [ -h /etc/resolv.conf ] ; then
-		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
-			${smr} /etc/resolv.conf
-		fi
-	fi
-
-	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-	csleep 1
-
-	${sco} -R root:root /etc/wpa_supplicant
-	${scm} -R a-w /etc/wpa_supplicant
-
-	#02023626:uutena
-	for f in $(${odio} find /etc -type f -name 'rules.*') ; do
-		${sco} -R root:root ${f}
-		${scm} 0400 ${f}
-	done
-
-	dqb "e_e d0n3"
-	csleep 1
+csleep 1
+fix_sudo
+for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
+for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
+mangle2 ${f}
+done
+other_horrors
+${scm} 0755 /etc
+${sco} -R root:root /etc
+${scm} 0555 /etc/network
+#vihje:ei tarvinne erikseen -R koska ylempänä
+${scm} 0444 /etc/network/*
+#${sco} root:root /etc/network
+for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
+csleep 1
+local f
+f=$(date +%F)
+[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
+[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
+if [ -h /etc/resolv.conf ] ; then
+if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
+${smr} /etc/resolv.conf
+fi
+fi
+[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
+csleep 1
+${sco} -R root:root /etc/wpa_supplicant
+${scm} -R a-w /etc/wpa_supplicant
+for f in $(${odio} find /etc -type f -name 'rules.*') ; do
+${sco} -R root:root ${f}
+${scm} 0400 ${f}
+done
+csleep 1
 }
 
 function e_v() {
-	dqb "e_v"
-
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
 	${sco} root:root /var
@@ -918,34 +841,27 @@ function e_v() {
 	${sco} root:mail /var/mail
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
-
-	dqb "V1C.THE.V33P"
 	csleep 1
 }
 
+#150326:vissiin toimii kuten tarkoitus
 function e_h() {
-	dqb "e_h ${1} , ${2} "
 	[ -z "${1}" ] && exit 98
 	[ -d ${2} ] || exit 99
 	csleep 1
-
 	${sco} root:root /home
 	${scm} 0755 /home
-
 	local c
 	c=$(grep $1 /etc/passwd | wc -l)
 
 	if [ ${c} -gt 0 ] ; then
-		dqb "${sco} -R ${1}:${1} ~"
 		${sco} -R ${1}:${1} ~
 		csleep 1
 	fi
 
 	local f
-	dqb " e h PT 2"
 	csleep 1
 	${scm} 0755 ${2}
-
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
 	local m=0555
@@ -955,65 +871,50 @@ function e_h() {
 	fi
 
 	#tämäkö siihen "-v vs ei -v"-temppuiluun liittyy?
-	for f in $(find ${2} -type f -name '*.sh') ; do ${scm} ${m} ${f} ; done
-	dqb "F1ND D0N3"
+	for f in $(find ${2} -type f -name '*.sh' ) ; do ${scm} ${m} ${f} ; done
 	csleep 1
 
 	#VAIH:tähän mahdollisesti muutoksia myöhemmin (kts interfaces.tmp ja changedns.sh liittyen)
 	#for f in ${2} /opt/bin ; do
-	#	${scm} 0511 ${f}/changedns.sh
-	#	 ${f}/changedns.sh
 	#done
 
 	if [ -d ${2}/opt/bin ] ; then
 		${sco} -R root:root ${2}/opt/bin
 		${scm} go-wr ${2}/opt/bin/*
-		${scm} 0511 ${2}/opt/bin/*.sh
+		${scm} 0400 ${2}/opt/bin/*.sh
 		${scm} 0511 ${2}/opt/bin/*.bash
 	fi
-
-	dqb "e_h"
+	
 	csleep 1
 }
 
+#150326:ehkä tämäkin toimii
 function e_final() {
-	dqb "e_final ( ${1} ) " #HUOM.2501133326:mihin tarvitsee parametria?
 	csleep 1
-
 	#${scm} a-w /opt/bin/*
 	${scm} go-rw /opt/bin/*
-	${scm} 0511 /opt/bin/*.sh
+	${scm} 0400 /opt/bin/*.sh
 	${scm} 0511 /opt/bin/*.bash
 	${sco} -R root:root /opt
-
 	${scm} 0755 /
 	${sco} root:root /
-	${scm} 0777 /tmp
-	${scm} o+w /tmp #081225:+t pois koska "exp2 u"
-	${sco} root:root /tmp
-	#
 
-	dqb "e_final D0N3"
+	${scm} 0777 /tmp
+	#${scm} o+w /tmp
+	#081225:+t pois koska exp2 u
+	${sco} root:root /tmp
+
 	csleep 1
 }
 
 function enforce_access() {
-	dqb " enforce_access ${1} , ${2}, ${3}"
-
 	[ -z "${1}" ] && exit 67
 	[ -z "${2}" ] && exit 68
-	#[ -z "${3}" ] && exit 66
-
 	csleep 1
-	dqb "changing /sbin , /etc and /var 4 real"
-
 	e_e
 	e_v
-
-	#ch-jutut siltä varalta että tar tjsp sössii oikeudet tai omistajat
 	e_h ${1} ${2}
-	e_final #${3}
-
+	e_final
 	jules
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 }
@@ -1022,8 +923,6 @@ function enforce_access() {
 #myös https://github.com/topics/sources-list
 
 function part1_5() {
-	dqb "part1_5 ${1} , ${2} "
-
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	[ -d ${2} ] || exit 68
@@ -1072,7 +971,7 @@ function part1_5() {
 		echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 		csleep 1
 
-		if [ ! -z ${CONF_pkgsrv} ] ; then
+		if [ ! -z "${CONF_pkgsrv}" ] ; then
 			tdmc="sed -i 's/REPOSITORY/${CONF_pkgsrv}/g'"
 			echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 			csleep 1
@@ -1174,7 +1073,7 @@ function part1() {
 	else
 		#exit 666
 		#TODO:JATKOSSA AO. BLOKKI KENTIES TOISIN, kts /o/b/cnds (ideana kai tehdö uusia skeriptej korvaamaan changedns)
-		#VAIH:myäs CONBF_tesgtgirs ehkö huomioitava
+		#HUOM.140326:olisikohan CONBF_tesgtgirs riittävästi huomioitu? 
 		#aluksi ohitetaan koko for-takenne uknnes ehkä keksii paremman tavan
 		
 		if [ -x ${ipt} ] ; then
@@ -1189,7 +1088,7 @@ function part1() {
 					${ip6t} -F ${t}
 				done
 
-				for t in INPUT OUTPUT FORWARD b c e f ; do 
+				for t in INPUT OUTPUT FORWARD b c e f u v ; do 
 					${ipt} -F ${t}
 					[ $? -eq 0 ] || ${odio} /sbin/halt
 				done
@@ -1240,12 +1139,13 @@ function part1() {
 
 	${sco} -R root:root /etc/apt
 	${scm} -R a-w /etc/apt/
-	dqb "FOUR-LEGGED WHORE"
+	dqb "FOUR-LEGGED WH0R3"
 }
 
+#150326:debug-syistä oli suurin osa sisällöstä kommenteissa
 function part2() {
-	dqb "PART2.5.1 ${1} , ${2} , ${3}"
-	csleep 20
+	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
+	csleep 6
 
 	[ -z "${1}" ] && exit 55
 	[ -z "${2}" ] && exit 56
@@ -1293,11 +1193,12 @@ function part2() {
 		esac
 	fi
 
-	dqb "PART2.5.2 ${1} , ${2}"
+	dqb "PART2.5.2 )))))( $1 , $2"
 	csleep 1
 	${lftr}
 	csleep 1
 
+	#150326:pitäisikohän tehdf vielä toinenkin veuiartlu barm buoksi?
 	if [ y"${ipt}" != "y" ] ; then
 		jules
 		local t
@@ -1425,7 +1326,6 @@ function gpo() {
 	local opt
 	prevopt=""
 
-	#121225:miten g_jutut nykyään tämän kanssa?
 	if [ $# -lt 1 ] ; then
 		echo "$0 -h"
 	fi
@@ -1446,14 +1346,6 @@ function gpo() {
 		prevopt=${opt}
 	done
 }
-
-
-#d0=$(pwd)
-##echo "d0=${d0}"
-#[ z"${distro}" == "z" ] && exit 6
-#debug=0 #1
-#d=${d0}/${distro} 
-
 
 #https://stackoverflow.com/questions/16988427/calling-one-bash-script-from-another-script-passing-it-arguments-with-quotes-and
 gpo "$@"

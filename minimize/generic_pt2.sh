@@ -2,17 +2,14 @@
 distro=$(cat /etc/devuan_version)
 d0=$(pwd)
 
-[ z"${distro}" == "z" ] && exit 6
+[ -z "${distro}" ] && exit 6
 debug=0
 d=${d0}/${distro}
 mode=3
-#HUOM.251025:myös excaliburin kanssa se on nimenomaan mode 3 mikä qsee guin? vielä 271125?
 
 function parse_opts_1() {
-	echo "popt_1( ${1} )"
-
 	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
-		distro=${1}
+		echo "#distro=${1}"
 	else
 		case  "${1}" in
 			0|1|2|3) #varsinainen numeerisuustarkistus olisi parempi?
@@ -48,11 +45,6 @@ process_lib ${d}
 
 e_final
 e_h ${n} ${d0} 
-#
-
-#for x in /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
-#	[ -x ${x} ] && ${odio} ${x} ${CONF_dnsm}
-#done
 
 if [ -x /opt/bin/changedns.bash ] ; then
 	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
@@ -103,7 +95,7 @@ fi
 #====================================================================
 
 function p2g() {
-	dqb "THE_PIG ( ${1} )"
+	dqb "THE_PIG ((((((((((((((((( ${1} )"
 	csleep 1
 
 	[ -s ${1}/pkgs_drop ] || exit 66
@@ -170,6 +162,8 @@ function t2pf() {
 
 	#fiksumpaa olisi kai muutella import2:ssa vastaava kohta
 	${NKVD} /OLD.tar
+	csleep 1
+	${srat} /OLD.tar /etc/X11
 
 	for f in $(find /var/log -type f) ; do ${NKVD} ${f} ; done
 	df

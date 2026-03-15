@@ -10,7 +10,7 @@ d=${d0}/${distro}
 #HUOM.040326:tässä oli se conf-kikkailu aiemmin
 
 function parse_opts_1() {
-	dqb "parseopts_1 ${1} ${2}"
+	dqb "parseopts_1 ) ${1} ; ${2}"
 
 	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
 		#toimiikohan tämä kohta? pitäiskö tegdä toisin, opts_2() ?
@@ -84,6 +84,9 @@ function part0() {
 }
 
 #040326:ehkä josqs tämäkin (tai antaa nyt olla jnkn aikaa)
+#140326;debug-tarkoituksissa suurin osa sisällöstä kommentteihin (äskettäin palautettu)
+#150326:miten /proc/cmdline:n lokaaliasetukset vs /e/d/l ja tämän ao. kikkareen jutut
+
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 1
@@ -95,7 +98,7 @@ function el_loco() {
 		${odio} locale-gen
 	fi
 
-	#pitäisiköhän localtime ja timezone delliä jossain kohtaa?
+	#pitäisiköhän localtime ja timezone delliä jossain kohtaa jollain ehdolla?
 
 	if [ ${2} -lt 1 ] ; then
 		${svm} /etc/default/locale /etc/default/locale.ÅLD
@@ -128,12 +131,11 @@ function el_loco() {
 	fi
 }
 
+#140326:tarkkuutta peliin, ao. rivillä oli typo jnkn aikaa
 function adieu() {
-	dqb "AUF WIEDERSEHEN"
-#
+dqb "AUF W13DERSEHEN"
+
 #	#jnkn ehdon taakse session lahtaamista edelliset rivit?
-#	#130126:pois kommenteitsa jotta modatun .iso:n testaaminen onnistuu
-#	#päivän 1. yritys ei oikein lähtenyt lentoon
 #
 #	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
 #	csleep 5
@@ -161,7 +163,7 @@ dqb "debug= ${debug}"
 
 if [ -s ~/xorg.conf.new ] ; then
 	if [ ! -s /etc/X11/xorg.conf ] ; then
-		${spc}  ~/xorg.conf.new  /etc/X11/xorg.conf
+		${spc} ~/xorg.conf.new  /etc/X11/xorg.conf
 		reqwreqw /etc/X11/xorg.conf
 	fi
 fi
@@ -184,10 +186,11 @@ csleep 2
 echo "JUST BEFORE PART1";sleep 1
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
-echo "JUST AFTR PRT1";sleep 1
+#HUOM.140326:tässä ei vielä alkanut bugittaa
 
+echo "JUST AFTR PRT1";sleep 1
 #aivopieru:jtnkin niin että voisi samalla kertaa purkaa paketin ja ajaa tämän skriptin trähän asti. Self-extracting archives?
-#KVG "bash here-doc examples" ?
+#KVG "bash here-doc examples"  (olisiko jo katsottu?)
 
 ${snt}
 csleep 1
@@ -205,7 +208,7 @@ c13=0
 #timezone ja localtime jos dellisi joissain tilanteissa?
 
 #==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
-#... joskohan voisi arpomisen lopettaa joskus? lopettelun visi aloittaa vhitellen (090326)
+#... joskohan voisi arpomisen lopettaa joskus? lopettelun v01si aloittaa vhitellen (090326)
 
 if [ -v LCF666 ] ; then
 	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
@@ -234,8 +237,7 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 
 	if [ $? -eq 0 ] ; then
 		adieu
-
-		#HUOM. tässä ei tartte jos myöhemmin joka tap
+		#HUOM. tässä ei tartte exit jos myöhemmin joka tap
 	else
 		dqb "SHOULD NAG ABOUT HAMMAD HERE"
 	fi
@@ -267,54 +269,43 @@ other_horrors
 dqb "BEFORE IMP2 r"
 csleep 2
 
-#141225:mitäjos common_lib ei ajokelpoinen? osaako imp2 toimia oikein silloin?
 if [ ! -f /.chroot ] ; then
 	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh #toistaiseksi tässä kunnes... Jotain
-	
 	${d0}/import2.sh r ${d0} -v
 fi
+
+#149326:vissiin tähän asti toimii ok
 
 jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
-#DONE?:ao. for-blokkiin muutoksia jatkossa (kts. changedns.sh,interfaces.tmp mm.)
-
 e_final
-e_h ${n} ${d0} 
-#
-#for x in  /opt/bin/changedns.bash ${d0}/opt/bin/changedns.bash ; do
-#	[ -v CONF_testgris ] || ${odio} ${x} ${CONF_dnsm} 
-#
-	echo "#KVG:"how to exit for in bash"
-	sleep 5
-#
-#done
+e_h ${n} ${d0}
+echo "KVG:\"how to exit for-loop in bash\" " #TÄSSÄKÖ KUSI PASKAA?
+sleep 5
 
 if [ -x /opt/bin/changedns.bash ] ; then
-	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
+${odio} /opt/bin/changedns.bash ${CONF_dnsm}
 else
-	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
-		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
-	else
-		dqb "changedns not an option"
-		csleep 5
-	fi
+if [ -x ${d0}/opt/bin/changedns.bash ] ; then
+${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
+else
+dqb "changedns not an option"
+csleep 5
+fi
 fi
 
 ${sipt} -L
 csleep 1
-${scm} 0555 ${d0}/common_lib.sh #JOKO JO LOPPUISI PURPATUS PRKL
+${scm} 0555 ${d0}/common_lib.sh
+#JOKO JO LOPPUISI PURPATUS PRKL
 ${scm} a-wx $0
 #===================================================PART 4(final)==========================================================
-
 if [ ${mode} -eq 2 ] ; then
-	echo "time to ${sifu} ${CONF_iface} or whåtever"
-	csleep 1
-	adieu
-
- 	exit 
+echo "time to \$sifu \$CONF_iface or whåtever"
+csleep 1
+adieu
+exit 
 fi
-
-#${odio} ${d0}/changedns.sh ${CONF_dnsm} #${distro} röistaiseksi Jennaan
