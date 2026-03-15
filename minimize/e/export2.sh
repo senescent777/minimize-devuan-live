@@ -73,10 +73,12 @@ process_lib ${d}
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 
 if [ -z "${tig}" ] ; then
+	echo "SHOOLD INSTALL GIT"
 	exit 7 #syystä excalibur-testit tilap kommentteihin 16126
 fi
 
 if [ -z "${mkt}" ] ; then
+	echo "SHOULD INSTALL MKTEMP"
 	exit 8
 fi
 
@@ -90,6 +92,7 @@ if [ -x ${d0}/e/e22.sh ] ; then
 	dqb $?
 	csleep 2
 else
+	echo "NO BACKEND FOUND"
 	exit 58
 fi
 
