@@ -34,6 +34,8 @@
 #
 #
 function e22_hdr() {
+	echo "e22_hdr() ${1}"
+	sleep 1
 
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
@@ -46,227 +48,225 @@ function e22_hdr() {
 	dd if=/dev/random bs=12 count=1 > ./rnd
 	csleep 2
 
+	dqb "${sr0} -cvf ${1} ./rnd"
+	csleep 1
 	${sr0} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
+	dqb "hdr done"
 	csleep 2
 }
-
-#tark-. olla priv fktio
-#080326:toimi jnkn verran (miten nykyään?)
-
-function e22_tyg() {
-
-	[ -z "${1}" ] && exit 45
-	[ -s ${1} ] || exit 46
-	[ -r ${1} ] || exit 47
-	csleep 1
-
-
-	if [ -x ${gg} ] ; then
-		if [ -v CONF_pubk ] ; then
-			${gg} -u ${CONF_pubk} -sb ${1}
-			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
-			csleep 1
-
-			${gg} --verify ${1}.sig
-			csleep 1
-		else
-			dqb "NO KEYS?"
-		fi
-	else
-		dqb "SHOULD INSTALL GPG"
-	fi
-}
-
-#140326:toimii?
-function e22_ftr() {
-	[ -z "${1}" ] && exit 62
- 	[ -s ${1} ] || exit 63
-	[ -r ${1} ] || exit 64
-
-	fasdfasd ${1}.sha
-#	local p
-#	local q
-
-	p=$(pwd)
-	q=$(basename ${1})
-	cd $(dirname ${1})
-
-	${sah6} ./${q} > ${q}.sha
-	csleep 1
-	${sah6} -c ${q}.sha
-	csleep 1
-	
-	e22_tyg ${q}.sha
-	cd ${p}
-}
-
-function e22_pre1() {
-
-	#distRo-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
-	#HUOM.080326:$distyro mukaan tähän paketinhallinnan takis, ei liity changedns
-
-	[ -z "${1}" ] && exit 65
-	[ -z "${2}" ] && exit 66
-
-	csleep 3
-	dqb "pars.0k"
-
-	csleep 2
-	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-	${scm} -Rv 700 ${CONF_pkgdir}/partial/
-	csleep 1
-
-	if [ ! -d ${1} ] ; then
-		exit 111
-	else
-		#local lefid
-		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/)
-		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
-
-		enforce_access ${n} ${lefid} ${CONF_iface}
-		csleep 1
-
-		${scm} 0755 /etc/apt
-		${scm} a+w /etc/apt/sources.list*
-
-		part1 ${2} ${1}
-	fi
-
-	dqb "P3R1.D0N3"
-	csleep 1
-}
-
-#...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
-#HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
-
-#150326:debug-syistä rivejä kommentteihin
-function e22_pre2() {
-
-	[ -z "${1}" ] && exit 66
-	[ -z "${2}" ] && exit 67
-	[ -z "${3}" ] && exit 68
-	[ -z "${4}" ] && exit 69
 #
-#	local ortsac
-#	local par4
+##tark-. olla priv fktio
+##080326:toimi jnkn verran (miten nykyään?)
 #
-#	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
-#	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
-#	par4=$(echo ${4} | tr -d -c 0-9)
+#function e22_tyg() {
 #
-#	#HUOM.020825:vähän enemmän sorkintaa tänne?
-#	#/e/n alihakemistoihin +x ?
-#	#/e/wpa kokonaan talteen? /e/n kokonaan talteen?
+#	[ -z "${1}" ] && exit 45
+#	[ -s ${1} ] || exit 46
+#	[ -r ${1} ] || exit 47
+#	csleep 1
 #
-#	#TODO:/o/b muutoksien sivuvaikutukset sittenq
-#	if [ -d ${1} ] && [ -x /opt/bin/changedns.bash ] ; then
-#		#HUOM.080326:jatkossa jos kääåntgyisi e.e. ifup käskyttäisi tarpeellisia skriptejä
-#		${odio} /opt/bin/changedns.bash ${par4} #${ortsac} tpoistaiseksi pois toka paarm
-#		echo $?
-#		csleep 1
 #
-#		${sifu} ${3}
-#		[ ${debug} -eq 1 ] && ${sifc}
-#		csleep 1
+#	if [ -x ${gg} ] ; then
+#		if [ -v CONF_pubk ] ; then
+#			${gg} -u ${CONF_pubk} -sb ${1}
+#			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
+#			csleep 1
 #
-#		${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-#		${scm} -Rv 700 ${CONF_pkgdir}/partial/
-#
-#		${sag_u}
-#		csleep 1
+#			${gg} --verify ${1}.sig
+#			csleep 1
+#		else
+#			dqb "NO KEYS?"
+#		fi
 #	else
-#		exit 111
+#		dqb "SHOULD INSTALL GPG"
 #	fi
-}
-
-function e22_cleanpkgs() {
-	[ -z "${1}" ] && exit 56
-
-	if [ -d ${1} ] ; then
-		#aiemmalla NKVD-tavalla saattaa kestää joten rm
-		${smr} ${1}/*.deb
-		${smr} ${1}/sha512sums.txt*
-		
-		#entä ne listat? jospa ei koskettaisi niihin
-		ls -las ${1}/*.deb | wc -l
-	else
-		dqb "NO SUCH DIR ${1}"
-	fi
-}
-
-#e22_acol() yrittää vetää /e alta xorg konftdston mukaan pakettiin
-#... ei ole ihan pakko config1():sessä siis
-
-#140326:toimii edelleen
-function e22_config1() {
-	[ -z "${1}" ] && exit 11
-	[ -d ${1} ] || exit 22
-	[ -z "${2}" ] && exit 11
-	
-	#local p
-	p=$(pwd)
-	cd ${1} 
-	#antaa nyt olla toistaiseksi näin, cd:n kanssa
-
-	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
-	${sr0} -jcf ${2} ./xorg.conf* ./.config
-	[ -s ${2} ] || exit 99
-	
-	cd ${p}
-}
-
-#TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
-#nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
-#pitäisIkö siirtää toiseen tdstoon? ei just nyt
-
-#140326:toimii edelleen
-function e22_settings() {
-
-	[ -z "${1}" ] && exit 11
-	[ -d ${1} ] || exit 22
-	[ -z "${2}" ] && exit 44
-	[ -z "${3}" ] && exit 89
-
-	if [ ! -x ${1}/${3} ] ; then
-		exit 24
-	fi
-
-	.  ${1}/${3}
-	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
-	exp_prof ${1}/${2} default-esr	
-		
-	[ -s ${1}/${2} ] || exit 32
-	#local t
-
-	t=$(tar -tf ${1}/${2} | grep prefs.js | wc -l)
-	dqb "FOUND PREFS: ${t}"
-	[ ${t} -lt 1 ] && exit 27
-}
-
-#VAIH:testaa taas (jokojo 14326?)
-#HUOM.140326:testit vaiheessa, kommentteihin jos qsee
-
-function e22_home_pre()
-	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
-		e22_config1 ~ ${4}
-
-		${NKVD} ~/${CONF_default_arhcive}
-		e22_settings ${2}/.. ${CONF_default_arhcive} ${CONF_default_arhcive3}
-	fi
-
-	#local t
-	csleep 1
-	${srat} -rvf ${1} /opt/bin 
-
-	exit 99 #find qsee jossain
-	#for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
-	#	${srat} -rvf ${1} ${t}
-	#done
-}
-
+#}
+#
+##140326:toimii?
+#function e22_ftr() {
+#	[ -z "${1}" ] && exit 62
+#	[ -s ${1} ] || exit 63
+#	[ -r ${1} ] || exit 64
+#
+#	fasdfasd ${1}.sha
+##	local p
+##	local q
+#
+#	p=$(pwd)
+#	q=$(basename ${1})
+#	cd $(dirname ${1})
+#
+#	${sah6} ./${q} > ${q}.sha
+#	csleep 1
+#	${sah6} -c ${q}.sha
+#	csleep 1
+#	
+#	e22_tyg ${q}.sha
+#	cd ${p}
+#}
+#
+#function e22_pre1() {
+#
+#	#distRo-parametrin vaikutukset voisi testata, sittenq parsetus taas toimii kunnolla(?)
+#	#HUOM.080326:$distyro mukaan tähän paketinhallinnan takis, ei liity changedns
+#
+#	[ -z "${1}" ] && exit 65
+#	[ -z "${2}" ] && exit 66
+#
+#	csleep 3
+#	dqb "pars.0k"
+#
+#	csleep 2
+#	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+#	${scm} -Rv 700 ${CONF_pkgdir}/partial/
+#	csleep 1
+#
+#	if [ ! -d ${1} ] ; then
+#		exit 111
+#	else
+#		#local lefid
+#		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/)
+#		#HUOM.25725:voi periaatteessa mennä metsään nuo $c ja $l, mutta tuleeko käytännössä sellaista tilannetta vastaan?
+#
+#		enforce_access ${n} ${lefid} ${CONF_iface}
+#		csleep 1
+#
+#		${scm} 0755 /etc/apt
+#		${scm} a+w /etc/apt/sources.list*
+#
+#		part1 ${2} ${1}
+#	fi
+#
+#	dqb "P3R1.D0N3"
+#	csleep 1
+#}
+#
+##...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
+##HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
+#
+##150326:debug-syistä rivejä kommentteihin
+#function e22_pre2() {
+#
+#	[ -z "${1}" ] && exit 66
+#	[ -z "${2}" ] && exit 67
+#	[ -z "${3}" ] && exit 68
+#	[ -z "${4}" ] && exit 69
+##
+##	local ortsac
+##	local par4
+##
+##	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
+##	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
+##	par4=$(echo ${4} | tr -d -c 0-9)
+##
+##	#HUOM.020825:vähän enemmän sorkintaa tänne?
+##	#/e/n alihakemistoihin +x ?
+##	#/e/wpa kokonaan talteen? /e/n kokonaan talteen?
+##
+###	if [ -d ${1} ] && [ -x /opt/bin/changedns.bash ] ; then
+##		#HUOM.080326:jatkossa jos kääåntgyisi e.e. ifup käskyttäisi tarpeellisia skriptejä
+###		echo $?
+##		csleep 1
+###		${sifu} ${3}
+#####		${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+##		${scm} -Rv 700 ${CONF_pkgdir}/partial/
+##
+##		${sag_u}
+##		csleep 1
+##	else
+##		exit 111
+##	fi
+#}
+#
+#function e22_cleanpkgs() {
+#	[ -z "${1}" ] && exit 56
+#
+#	if [ -d ${1} ] ; then
+#		#aiemmalla NKVD-tavalla saattaa kestää joten rm
+#		${smr} ${1}/*.deb
+#		${smr} ${1}/sha512sums.txt*
+#		
+#		#entä ne listat? jospa ei koskettaisi niihin
+#		ls -las ${1}/*.deb | wc -l
+#	else
+#		dqb "NO SUCH DIR ${1}"
+#	fi
+#}
+#
+##e22_acol() yrittää vetää /e alta xorg konftdston mukaan pakettiin
+##... ei ole ihan pakko config1():sessä siis
+#
+##140326:toimii edelleen
+#function e22_config1() {
+#	[ -z "${1}" ] && exit 11
+#	[ -d ${1} ] || exit 22
+#	[ -z "${2}" ] && exit 11
+#	
+#	#local p
+#	p=$(pwd)
+#	cd ${1} 
+#	#antaa nyt olla toistaiseksi näin, cd:n kanssa
+#
+#	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
+#	${sr0} -jcf ${2} ./xorg.conf* ./.config
+#	[ -s ${2} ] || exit 99
+#	
+#	cd ${p}
+#}
+#
+##TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
+##nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
+##pitäisIkö siirtää toiseen tdstoon? ei just nyt
+#
+##140326:toimii edelleen
+#function e22_settings() {
+#
+#	[ -z "${1}" ] && exit 11
+#	[ -d ${1} ] || exit 22
+#	[ -z "${2}" ] && exit 44
+#	[ -z "${3}" ] && exit 89
+#
+#	if [ ! -x ${1}/${3} ] ; then
+#		exit 24
+#	fi
+#
+#	.  ${1}/${3}
+#	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
+#	exp_prof ${1}/${2} default-esr	
+#		
+#	[ -s ${1}/${2} ] || exit 32
+#	#local t
+#
+#	t=$(tar -tf ${1}/${2} | grep prefs.js | wc -l)
+#	dqb "FOUND PREFS: ${t}"
+#	[ ${t} -lt 1 ] && exit 27
+#}
+#
+##VAIH:testaa taas (jokojo 14326?)
+##HUOM.140326:testit vaiheessa, kommentteihin jos qsee
+#
+#function e22_home_pre()
+#	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
+#		e22_config1 ~ ${4}
+#
+#		${NKVD} ~/${CONF_default_arhcive}
+#		e22_settings ${2}/.. ${CONF_default_arhcive} ${CONF_default_arhcive3}
+#	fi
+#
+#	#local t
+#	csleep 1
+#150326:JOSKOHANLIITTYISI VIIMEAIKAISEEN KUSEMISEEN TUO AO. RIVI
+#	${srat} -rvf ${1} /opt/bin 
+#
+#	exit 99 #find qsee jossain
+#	#for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
+#	#	${srat} -rvf ${1} ${t}
+#	#done
+#}
+#
 #HUOM.140326:testit vaiheessa, kommentteihin jos qsee
 function e22_home() {
 

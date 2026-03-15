@@ -1,121 +1,121 @@
 #echo "pMERSENNE.23.q"
 #csleep 1
 ##just_download_not_install-vipu olisi tietysti...
-
-function aswasw() { #privaatti fktio
-	[ -z "${1}" ] && exit 56
-	csleep 1
-
-	case ${1} in
-		wlan0)
-			#E22:GN="libnl-3-200 ... "
-			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
-
-			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
-			${shary} wpasupplicant
-		;;
-		*)
-		;;
-	esac
-}
-
-#130126:tehdyn paketin sisältö asentuu ainakin live-ymp, vissiin myös sqrootissa
-#HUOM.080326:3. param tarpeellisuus?
-#11326:joskohan tblz ja pther_pkgs osaisivat tehdä sisältöä pakettiin , sisällön toimivuus asia erikseen
-
-function e23_tblz() {
-	csleep 2
-
-	[ -z "${1}" ] && exit 11
-	[ -d ${1} ] || exit 15 
-	[ -z "${2}" ] && exit 12
-	[ -z "${3}" ] && exit 13
-	[ -z "${4}" ] && exit 14 #HUOM.tämän trapeellisuus?
-
-	${fib}
-	${asy}
-	csleep 1
-
-	#message() tähän?
-	tpc7	#jotain excaliburiin liittyvää
-	aswasw ${2}
-	${shary} ${E22_GT} 
-
-	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
-	csleep 2
-	${asy}
-
-	#actually necessary
-	e22_pre2 ${1} ${3} ${2} ${4} 
-	other_horrors
-}
-
-#VAIH:ntp-jutut takaisin josqs?
-#tables-säännöt vissiin ok
-#ja ainakin oletus-konf löytyy
-#niin että
-
-#testaa josqs uusiksi, VAIH . 11326, pak.sis.tiomiuvuus lähinnä
-#btw. mikä muuten syynä libgfortran5-nalkutukseen?
-#HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
-#HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
-
-function e23_other_pkgs() { 
-	#toista param? eiole
-	csleep 1
-	[ -z "${1}" ] && exit 11
-
-	#LOPPUU SE PURPATUS PRKL
-	#jatkossa osa E22_GS ?
-	${shary} cpp-12 gcc-12-base libstdc++6 
-	${shary} libgcc-s1 libc6 libgomp1 
-	csleep 2
-	
-	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
-
-	${shary} ${E22GI}
-	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
-	${shary} ${E22_GG}
-
-	#sudo-asia olisi jo kunnossa 120126?	ehkä
-	E22_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
-	
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
-	${shary} ${E22_GS}  #moni pak tarttee nämä
-	#${shary} #bsd debconf
-
-	#${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei? ehkä
-	message
-	jules
-
-	if [ ${1} -eq 1 ] ; then
-		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
-		${shary} runit-helper
-		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
-		${lftr} 
-
-		[ $? -eq 0 ] || exit 3
-
-		${shary} libev4
-		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan libc6 uudelleenas tässä?
-		${shary} stubby
-	fi
-
-	csleep 1
-	${lftr} 
-	
-#	#TODO:jos lukaisi debian referencen pitkästä aikaa, että löytyisikö jotain jekkua paketinhallinnan kanssa? ettei tarvitse kikkailla initramfs:n ja muutaman paketin kanssa
-#	... package pinning?
-#	${lftr} #kts. /etc/kernel liittyen
+#
+#function aswasw() { #privaatti fktio
+#	[ -z "${1}" ] && exit 56
+#	csleep 1
+#
+#	case ${1} in
+#		wlan0)
+#			#E22:GN="libnl-3-200 ... "
+#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
+#			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
+#
+#			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
+#			${shary} wpasupplicant
+#		;;
+#		*)
+#		;;
+#	esac
+#}
+#
+##130126:tehdyn paketin sisältö asentuu ainakin live-ymp, vissiin myös sqrootissa
+##HUOM.080326:3. param tarpeellisuus?
+##11326:joskohan tblz ja pther_pkgs osaisivat tehdä sisältöä pakettiin , sisällön toimivuus asia erikseen
+#
+#function e23_tblz() {
 #	csleep 2
-
-	vähän aikaa ilman kunnes saa aikaiseksi konffata
-	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
-	${shary} ntpsec
-		
-	csleep 2
-}
+#
+#	[ -z "${1}" ] && exit 11
+#	[ -d ${1} ] || exit 15 
+#	[ -z "${2}" ] && exit 12
+#	[ -z "${3}" ] && exit 13
+#	[ -z "${4}" ] && exit 14 #HUOM.tämän trapeellisuus?
+#
+#	${fib}
+#	${asy}
+#	csleep 1
+#
+#	#message() tähän?
+#	tpc7	#jotain excaliburiin liittyvää
+#	aswasw ${2}
+#	${shary} ${E22_GT} 
+#
+#	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
+#	csleep 2
+#	${asy}
+#
+#	#actually necessary
+#	e22_pre2 ${1} ${3} ${2} ${4} 
+#	other_horrors
+#}
+#
+##VAIH:ntp-jutut takaisin josqs?
+##tables-säännöt vissiin ok
+##ja ainakin oletus-konf löytyy
+##niin että
+#
+##testaa josqs uusiksi, VAIH . 11326, pak.sis.tiomiuvuus lähinnä
+##btw. mikä muuten syynä libgfortran5-nalkutukseen?
+##HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
+##HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
+#
+#function e23_other_pkgs() { 
+#	#toista param? eiole
+#	csleep 1
+#	[ -z "${1}" ] && exit 11
+#
+#	#LOPPUU SE PURPATUS PRKL
+#	#jatkossa osa E22_GS ?
+#	${shary} cpp-12 gcc-12-base libstdc++6 
+#	${shary} libgcc-s1 libc6 libgomp1 
+#	csleep 2
+#	
+#	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
+#
+#	${shary} ${E22GI}
+#	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
+#	${shary} ${E22_GG}
+#
+#	#sudo-asia olisi jo kunnossa 120126?	ehkä
+#	E22_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
+#	
+#	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
+#	${shary} ${E22_GS}  #moni pak tarttee nämä
+#	#${shary} #bsd debconf
+#
+#	#${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei? ehkä
+#	message
+#	jules
+#
+#	if [ ${1} -eq 1 ] ; then
+#		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
+#		${shary} runit-helper
+#		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
+#		${lftr} 
+#
+#		[ $? -eq 0 ] || exit 3
+#
+#		${shary} libev4
+#		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan libc6 uudelleenas tässä?
+#		${shary} stubby
+#	fi
+#
+#	csleep 1
+#	${lftr} 
+#	
+##	#TODO:jos lukaisi debian referencen pitkästä aikaa, että löytyisikö jotain jekkua paketinhallinnan kanssa? ettei tarvitse kikkailla initramfs:n ja muutaman paketin kanssa
+##	... package pinning?
+##	${lftr} #kts. /etc/kernel liittyen
+##	csleep 2
+#
+#	vähän aikaa ilman kunnes saa aikaiseksi konffata
+#	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
+#	${shary} ntpsec
+#		
+#	csleep 2
+#}
 
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 

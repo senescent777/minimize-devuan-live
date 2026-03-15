@@ -94,6 +94,9 @@ if [ -x ${d0}/e/e22.sh ] ; then
 	[ $? -gt 0 ] && exit 66
 	csleep 1
 
+	echo "INTER GRENUM"
+	sleep 5
+
 	.  ${d0}/e/e23.sh
 	[ $? -gt 0 ] && exit 67
 	csleep 2
@@ -116,6 +119,7 @@ csleep 1
 
 #-h pysähtyy ennen tätä riviä?
 e22_hdr ${tgtfile}
+exit 99
 
 case ${mode} in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua
@@ -156,12 +160,16 @@ case ${mode} in
 	;;
 esac
 
+exit 99
+
 if [ $cont -eq 1 ] ; then
 	dqb "R3D B3F0R3 BL4KC"
 else
 	e22_ftr ${tgtfile}	
 	exit 666
 fi
+
+exit 99
 
 csleep 1
 e_final
@@ -179,6 +187,7 @@ else
 	fi
 fi
 
+exit 99
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 #.. kts interfaces.tmp liittyen (080326)
 
@@ -195,6 +204,8 @@ e22_cleanpkgs ${CONF_pkgdir}
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 doit=1
 csleep 1
+
+exit 99
 
 case ${mode} in
 	0)
