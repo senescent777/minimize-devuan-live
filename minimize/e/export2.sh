@@ -219,13 +219,15 @@ case ${mode} in
 	;;
 	3|4) 
 		#VAIH:testaus TAAS , eRItyisesti miten nelosen output g_doit:n imp2-kikkailun kanssa?
+		#... jokohan seuraavaksi sen tuotoksen testaus?
+
 		[ -v CONF_default_arhcive3 ] || exit 66
 		dqb "NVDK 1b 5 secs"
 		csleep 5
 
 		${NKVD} /opt/bin/zxcv.tmp
-		${spc} /opt/bin/zxcv /opt/bin/zxcv.backup
-		${spc} /opt/bin/zxcv.sig /opt/bin/zxcv.sig.backup
+		${spc} /opt/bin/zxcv /opt/bin/zxcv.ÅLD
+		${spc} /opt/bin/zxcv.sig /opt/bin/zxcv.sig.ÅLD
 
 		csleep 1
 		fasdfasd /opt/bin/zxcv.tmp
@@ -254,12 +256,22 @@ case ${mode} in
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
 		csleep 1
-		exit 99 #qnnes tämä rasti selvitetty
+		#exit 99 #qnnes tämä rasti selvitetty
 
-		#TODO:näille main kai zxcv.tmp -> zxcv
-		fasdfasd /opt/bin/zxcv.sig	
+		#VAIH:näille main kai zxcv.tmp -> zxcv
+		${NKVD} /opt/bin/zxcv.sig
+		${NKVD} /opt/bin/zxcv
+		csleep 1
+
+		fasdfasd /opt/bin/zxcv.sig
+		${svm} /opt/bin/zxcv.tmp /opt/bin/zxcv
+		csleep 1
+
 		e22_tyg /opt/bin/zxcv
-		reqwreqw /opt/bin/zxcv.sig			
+		reqwreqw /opt/bin/zxcv.sig
+		reqwreqw /opt/bin/zxcv
+		csleep 1
+			
 		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 	;;
 	#140326:toimi ainakin kerran
