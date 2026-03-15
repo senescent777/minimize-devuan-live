@@ -23,7 +23,7 @@ LANGUAGE=en_US.UTF-8
 LC_ALL=en_US.UTF-8
 #/loka
 #
-BASEURL="github.com/senescent777/"
+CONF_BASEURL="github.com/senescent777/"
 #CONF_testgris ja .chroot voisi korvata yhdellä mjalla?
 CONF_testgris=/SMTH1NG
 #

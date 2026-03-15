@@ -434,8 +434,8 @@ function e22_sarram() {
 	other_horrors
 }
 
-#joutaisi kai Const:in nimetä yleisen kaavan mukaan
-[ -v BASEURL ] || exit 6 
+
+[ -v CONF_BASEURL ] || exit 6 
 
 function e22_ext() {
 	#VAIH:testatakin voisi taas, takaisin kommentteihin koko fcktio jos qsee
@@ -470,7 +470,7 @@ function e22_ext() {
 	dqb "iface should be up by bow, next:git"
 	csleep 1
 
-	${tig} clone https://${BASEURL}/more_scripts.git
+	${tig} clone https://${CONF_BASEURL}/more_scripts.git
 	[ $? -eq 0 ] || exit 66
 
 	cd more_scripts/misc
