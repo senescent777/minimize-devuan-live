@@ -94,7 +94,7 @@ if [ -x ${d0}/e/e22.sh ] ; then
 	[ $? -gt 0 ] && exit 66
 	csleep 1
 
-	echo "INTER GRENUM"
+	echo "INTER GRENUM...REGFNUM"
 	sleep 5
 
 	.  ${d0}/e/e23.sh
@@ -119,7 +119,7 @@ csleep 1
 
 #-h pysähtyy ennen tätä riviä?
 e22_hdr ${tgtfile}
-exit 99
+#exit 99
 
 case ${mode} in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua
@@ -160,7 +160,7 @@ case ${mode} in
 	;;
 esac
 
-exit 99
+#exit 99
 
 if [ $cont -eq 1 ] ; then
 	dqb "R3D B3F0R3 BL4KC"
@@ -169,30 +169,32 @@ else
 	exit 666
 fi
 
-exit 99
+#exit 99
 
 csleep 1
 e_final
 e_h ${n} ${d0} 
 #TODO:changedns:n dns-osuuden vipuaminen joko resolVconf:ille tai dnsmasq:lle? , kumman saakaan pienemmällä säädöllä toimimaan
-
-if [ -x /opt/bin/changedns.bash ] ; then
-	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
-else
-	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
-		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
-	else
-		dqb "changedns not an option"
-		csleep 5
-	fi
-fi
-
-exit 99
+#exit 99
+#
+#if [ -x /opt/bin/changedns.bash ] ; then
+#	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
+#else
+#	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
+#		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
+#	else
+#		dqb "changedns not an option"
+#		csleep 5
+#	fi
+#fi
+#
+#exit 99
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 #.. kts interfaces.tmp liittyen (080326)
 
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
+exit 99
 
 #110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
