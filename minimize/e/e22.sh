@@ -1,43 +1,40 @@
-#
-#130126:sellainen aivopieru että {exp2, e22} toiminnalliSuuden saattaisi voida korvata Makefilellä ainakin osoittain
-
 #https://superuser.com/questions/1020155/pre-up-in-the-network-interfaces-file
 #https://www.cyberciti.biz/faq/setting-up-an-network-interfaces-file/
 #https://unix.stackexchange.com/questions/128439/good-detailed-explanation-of-etc-network-interfaces-syntax
 #https://askubuntu.com/questions/1030048/how-to-create-post-up-and-pre-down-routes-in-interfaces-file
 #csleep 6
-
-${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-${scm} -Rv 700 ${CONF_pkgdir}/partial/
-csleep 1
-
-if [ -v CONF_pubk ] ; then #&& ( -v CONF_ksk ) #pubk vai kpub?
-	dqb "Å"
-else
-	#050326:jatkosäätöjä tähän vai ei?
-	arsch=$(${odio} find / -type f -name 'keys.conf' | head -n 1)
-
-	if [ -z "${arsch}" ] ; then
-		dqb "B"
-	else
-		if [ -s ${arsch} ] ; then
-			. ${arsch}
-		else
-			dqb "C"
-		fi	
-	fi
-
-	csleep 1
-	unset arsch
-fi
-
-csleep 3
-
-#140326:toimi ainakin kerran hdr()
-
-
+#
+#${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+#${scm} -Rv 700 ${CONF_pkgdir}/partial/
+#csleep 1
+#
+#if [ -v CONF_pubk ] ; then
+#	dqb "Å"
+#else
+#	#050326:jatkosäätöjä tähän vai ei?
+#	arsch=$(${odio} find / -type f -name 'keys.conf' | head -n 1)
+#
+#	if [ -z "${arsch}" ] ; then
+#		dqb "B"
+#	else
+#		if [ -s ${arsch} ] ; then
+#			. ${arsch}
+#		else
+#			dqb "C"
+#		fi	
+#	fi
+#
+#	csleep 1
+#	unset arsch
+#fi
+#
+#csleep 3
+#
+##140326:toimi ainakin kerran hdr()
+#
+#
 function e22_hdr() {
-	dqb "e22-HRD () ${1} "
+	dqb "e22.HRD () ${1} "
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
 	[ -f ${1} ] && echo "${1} ALREADY EXISTS"
@@ -144,43 +141,44 @@ function e22_pre1() {
 #...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 #HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
 
+#150326:debug-syistä rivejä kommentteihin
 function e22_pre2() {
 
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	[ -z "${3}" ] && exit 68
 	[ -z "${4}" ] && exit 69
-
-	local ortsac
-	local par4
-
-	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
-	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
-	par4=$(echo ${4} | tr -d -c 0-9)
-
-	#HUOM.020825:vähän enemmän sorkintaa tänne?
-	#/e/n alihakemistoihin +x ?
-	#/e/wpa kokonaan talteen? /e/n kokonaan talteen?
-
-	#TODO:/o/b muutoksien sivuvaikutukset sittenq
-	if [ -d ${1} ] && [ -x /opt/bin/changedns.bash ] ; then
-		#HUOM.080326:jatkossa jos kääåntgyisi e.e. ifup käskyttäisi tarpeellisia skriptejä
-		${odio} /opt/bin/changedns.bash ${par4} #${ortsac} tpoistaiseksi pois toka paarm
-		echo $?
-		csleep 1
-
-		${sifu} ${3}
-		[ ${debug} -eq 1 ] && ${sifc}
-		csleep 1
-
-		${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-		${scm} -Rv 700 ${CONF_pkgdir}/partial/
-
-		${sag_u}
-		csleep 1
-	else
-		exit 111
-	fi
+#
+#	local ortsac
+#	local par4
+#
+#	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
+#	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
+#	par4=$(echo ${4} | tr -d -c 0-9)
+#
+#	#HUOM.020825:vähän enemmän sorkintaa tänne?
+#	#/e/n alihakemistoihin +x ?
+#	#/e/wpa kokonaan talteen? /e/n kokonaan talteen?
+#
+#	#TODO:/o/b muutoksien sivuvaikutukset sittenq
+#	if [ -d ${1} ] && [ -x /opt/bin/changedns.bash ] ; then
+#		#HUOM.080326:jatkossa jos kääåntgyisi e.e. ifup käskyttäisi tarpeellisia skriptejä
+#		${odio} /opt/bin/changedns.bash ${par4} #${ortsac} tpoistaiseksi pois toka paarm
+#		echo $?
+#		csleep 1
+#
+#		${sifu} ${3}
+#		[ ${debug} -eq 1 ] && ${sifc}
+#		csleep 1
+#
+#		${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+#		${scm} -Rv 700 ${CONF_pkgdir}/partial/
+#
+#		${sag_u}
+#		csleep 1
+#	else
+#		exit 111
+#	fi
 }
 
 function e22_cleanpkgs() {

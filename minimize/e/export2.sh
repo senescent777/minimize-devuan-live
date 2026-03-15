@@ -85,11 +85,11 @@ fi
 #dirnamen kanssa ei oikein toiminut aiemmin
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
-	dqb $?
+	[ $? -gt 0 ] && exit 66
 	csleep 1
 
 	.  ${d0}/e/e23.sh
-	dqb $?
+	[ $? -gt 0 ] && exit 67
 	csleep 2
 else
 	echo "NO BACKEND FOUND"
@@ -103,11 +103,9 @@ t=$(echo ${d} | cut -d '/' -f 1-5)
 cont=0
 dqb "ESAC1"
 csleep 1
-
-#VAIH:jotenkin pitäisi reagoida jos $tgtfile == "-v" tai $d0/$tgtfile eksistoi
 [ -d ${d0}/${tgtfile} ] && exit 64
 
-#-h pytsåähtyy ennen tätä riviä?
+#-h pysähtyy ennen tätä riviä?
 e22_hdr ${tgtfile}
 
 case ${mode} in
@@ -157,7 +155,6 @@ else
 fi
 
 csleep 1
-
 e_final
 e_h ${n} ${d0} 
 #TODO:changedns:n dns-osuuden vipuaminen joko resolVconf:ille tai dnsmasq:lle? , kumman saakaan pienemmällä säädöllä toimimaan
