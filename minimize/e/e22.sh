@@ -371,54 +371,58 @@ function e22_acol() {
 #imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
 #020326:ehkä ok sisältö-siat (xorg ja ntp-jutut voisi testata paremmalla ajalla)
 
-#HUOM.140326:testit vaiheessa, kommentteihin jos qsee
-#VAIH:toiminnan testaus
+#VAIH:toiminnan testaus (olisikohan kohta 150326?)
 
 function e22_sarram() {
+	dqb "e22_sarram()"
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
 	#[ -w ${1} ] || exit 9
-
 	[ -z "${2}" ] && exit 11
 	[ -z "${3}" ] && exit 13
 	[ -s ${3} ] || exit 17
-
+	dqb "e22_sarram().pars.ok"
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 	csleep 3
-	exit 99
-#
-#	#josko kopsaisi /e/X11 alle konffin testaustarkoituksissa? nykyään kyllä g_dout kopsailee
-#	for f in $(${odio} find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
-#		${srat} -rvf ${1} ${f}
-#	done
-#exit 99
-#	#020326:tää kohta saattoi toimia oikein, ainakin kerran
-#	for f in $(${odio} find /etc -type f -name '${2}*' -and -not -name '*.202*') ; do
-#		${srat} -rvf ${1} ${f}
-#	done
+	#exit 99
+	local f
+	csleep 1
 
+	#josko kopsaisi /e/X11 alle konffin testaustarkoituksissa? nykyään kyllä g_dout kopsailee
+	for f in $(${odio} find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
+		${srat} -rvf ${1} ${f}
+	done	
+
+	#020326:tää kohta saattoi toimia oikein, ainakin kerran
+	#150326:entä toisne kerran?
+
+	for f in $(${odio} find /etc -type f -name '${2}*' -and -not -name '*.202*') ; do
+		${srat} -rvf ${1} ${f}
+	done
+
+	#exit 99
 	${srat} -rvf ${1} /etc/X11/default-display-manager
-
 	#HUOM.tätä varten oli valmiskin palikka?
 	${scm} 0555 /etc/iptables
 	${scm} 0400 /etc/iptables/rules*
 	${scm} 0400 /etc/default/rules*
-	exit 99
+	#exit 99
 
-#	#020326:ehkä ok nämä 2
-#	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
-#	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
-	exit 99
+	#150326:nalkutusta ruleksien käyttöopikeukissta, tee jotain?
+	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
+	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
+	#exit 99
 
-#	if [ -x /usr/sbin/ntpd ] ; then
-#		for f in $(${odio} find /etc -type f -name 'ntp*') ; do
-#			${srat} -rvf ${1} ${f}
-#			${sah6} ${f} >> ${3}
-#		done
-#	fi
+	if [ -x /usr/sbin/ntpd ] ; then
+		for f in $(${odio} find /etc -type f -name 'ntp*') ; do
+			${srat} -rvf ${1} ${f}
+			${sah6} ${f} >> ${3}
+		done
+	fi
 
 	other_horrors
+	dqb "e22_sarram() dne()"
 }
 
 [ -v CONF_BASEURL ] || exit 6

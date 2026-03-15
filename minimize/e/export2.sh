@@ -219,13 +219,9 @@ case ${mode} in
 	;;
 	3|4) 
 		#VAIH:testaus TAAS , eRItyisesti miten nelosen output g_doit:n imp2-kikkailun kanssa?
-
 		[ -v CONF_default_arhcive3 ] || exit 66
 		dqb "NVDK 1b 5 secs"
 		csleep 5
-
-		#${NKVD} ${d0}/${CONF_default_arhcive3}* ei näin
-		#[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv* ei näinkään?
 
 		${NKVD} /opt/bin/zxcv.tmp
 		${spc} /opt/bin/zxcv /opt/bin/zxcv.backup
@@ -253,7 +249,7 @@ case ${mode} in
 
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
 		fasdfasd /opt/bin/zxcv.tmp #onko ihan pakko? 
-		exit 99 #qnnes tämä rasti selvitetty
+		#exit 99 #qnnes tämä rasti selvitetty
 
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
