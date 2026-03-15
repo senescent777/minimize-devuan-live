@@ -197,11 +197,12 @@ case ${mode} in
 	3|4) 
 		#VAIH:testaus TAAS , eRItyisesti miten nelosen output g_doit:n imp2-kikkailun kanssa?
 		#VAIH:jos sen "exp2 p" saisi samalla kertaa testattua
+
 		[ -v CONF_default_arhcive3 ] || exit 66
 		dqb "NVDK 1b 5 secs"
 		csleep 5
 
-		${NKVD} ${d0}/${CONF_default_arhcive3}*
+		#${NKVD} ${d0}/${CONF_default_arhcive3}*
 		[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
 
 		csleep 1

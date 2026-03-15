@@ -355,7 +355,7 @@ function e23_dm() {
 	${shary} ${E22_GX}  #libsystemd0
 }
 
-#110326:tekee paketin, toimivuus syytä testata uudestaabn (VAIH)
+#150326:tekee edelleen paketin, mikä:
 function e23_profs() {
 	dqb "e23_profs) ${1}, ${2}, ${3} ("
 	csleep 1
@@ -378,7 +378,7 @@ function e23_profs() {
 	cd ${q} #antaa nyt cd:n olla toistaiseksi
 	[ $? -eq 0 ] || exit 77
 
-	dqb "SHOULD ifup \$iface BEFORE ${tig} clone"
+	dqb "SHOULD ifup \$iface BEFORE \${tig} clone"
 	csleep 1
 	[ -v BASEURL ] || exit 78
 

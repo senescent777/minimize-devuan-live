@@ -201,7 +201,6 @@ function e22_cleanpkgs() {
 
 #140326:toimii edelleen
 function e22_config1() {
-	dqb "e22_config1( ${1}, ${2} )"
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
 	[ -z "${2}" ] && exit 11
@@ -212,7 +211,7 @@ function e22_config1() {
 	#antaa nyt olla toistaiseksi näin, cd:n kanssa
 
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
-	tar -jcf ${2} ./xorg.conf* ./.config
+	${sr0} -jcf ${2} ./xorg.conf* ./.config
 	[ -s ${2} ] || exit 99
 	
 	cd ${p}
