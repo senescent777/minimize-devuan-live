@@ -127,7 +127,7 @@ case ${mode} in
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
 #	;;
-	f) #140326: tekee paketin, purq onnistuu myös
+	f) #140326: tekei paketin, purq onnistui myös
 		enforce_access ${n} ${t}
 		e22_fgh ${tgtfile} ${d}
 	;;
@@ -148,8 +148,8 @@ case ${mode} in
 		e23_ghi ${tgtfile} ${d0} ${distro}
 		#exit
 	;;
-	p) #110326:VAIH (testaus, sisällön lähinnä, kts $0 4)
-		[ -v CONF_default_arhcive3 ] || exit 666
+	p) #150326:VAIH (testaus, sisällön lähinnä, kts $0 4)
+		[ -v CONF_default_arhcive3 ] || exit 66
 		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
 	;;
 	-h)

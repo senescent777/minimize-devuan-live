@@ -54,55 +54,51 @@ csleep 2
 }
 #
 ##tark-. olla priv fktio
-##080326:toimi jnkn verran (miten nykyään?)
-#
-#function e22_tyg() {
-#
-#	[ -z "${1}" ] && exit 45
-#	[ -s ${1} ] || exit 46
-#	[ -r ${1} ] || exit 47
-#	csleep 1
-#
-#
-#	if [ -x ${gg} ] ; then
-#		if [ -v CONF_pubk ] ; then
-#			${gg} -u ${CONF_pubk} -sb ${1}
-#			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
-#			csleep 1
-#
-#			${gg} --verify ${1}.sig
-#			csleep 1
-#		else
-#			dqb "NO KEYS?"
-#		fi
-#	else
-#		dqb "SHOULD INSTALL GPG"
-#	fi
-#}
-#
-##140326:toimi?
-#TODO:pois koemmnetista josqs
-#function e22_ftr() {
-#	[ -z "${1}" ] && exit 62
-#	[ -s ${1} ] || exit 63
-#	[ -r ${1} ] || exit 64
-#
-#	fasdfasd ${1}.sha
-##	local p
-##	local q
-#
-#	p=$(pwd)
-#	q=$(basename ${1})
-#	cd $(dirname ${1})
-#
-#	${sah6} ./${q} > ${q}.sha
-#	csleep 1
-#	${sah6} -c ${q}.sha
-#	csleep 1
-#	
-#	e22_tyg ${q}.sha
-#	cd ${p}
-#}
+#080326:toimi jnkn verran (miten nykyään?)
+
+function e22_tyg() {
+#[ -z "${1}" ] && exit 45
+#[ -s ${1} ] || exit 46
+#[ -r ${1} ] || exit 47
+#csleep 1
+if [ -x ${gg} ] ; then
+if [ -v CONF_pubk ] ; then
+${gg} -u ${CONF_pubk} -sb ${1}
+[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
+csleep 1
+${gg} --verify ${1}.sig
+csleep 1
+else
+dqb "NO KEYS?"
+fi
+else
+dqb "SHOULD INSTALL GPG"
+fi
+dqb "e22_tyg() done"
+csleep 1
+}
+
+#140326:toimi?
+#VAIH:pois koemmnetista josqs
+function e22_ftr() {
+#[ -z "${1}" ] && exit 62
+#[ -s ${1} ] || exit 63
+#[ -r ${1} ] || exit 64
+fasdfasd ${1}.sha
+#local p
+#local q
+p=$(pwd)
+q=$(basename ${1})
+cd $(dirname ${1})
+${sah6} ./${q} > ${q}.sha
+csleep 1
+${sah6} -c ${q}.sha
+csleep 1
+e22_tyg ${q}.sha
+cd ${p}
+dqb "e22_ftr() done"
+csleep 1
+}
 #TODO:selvitä qseeko vai ei?
 function e22_pre1() {
 [ -z "${1}" ] && exit 65
@@ -183,6 +179,7 @@ function e22_cleanpkgs() {
 ##... ei ole ihan pakko config1():sessä siis
 
 function e22_config1() {
+dqb "e22_config1()"
 [ -z "${1}" ] && exit 11
 [ -d ${1} ] || exit 22
 [ -z "${2}" ] && exit 11
@@ -194,6 +191,8 @@ cd ${1}
 ${sr0} -jcf ${2} ./xorg.conf* ./.config
 [ -s ${2} ] || exit 99
 cd ${p}
+dqb "e22_config1() done"
+csleep 1
 }
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
@@ -220,7 +219,8 @@ dqb "FOUND PREFS: ${t}"
 #VAIH:testit menossa 150326-
 
 function e22_home_pre() {
-dqb "e22_home_pre()"
+	dqb "e22_home_pre()"
+
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		e22_config1 ~ ${4}
 		${NKVD} ~/${CONF_default_arhcive}
