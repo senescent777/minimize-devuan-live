@@ -181,71 +181,66 @@ function e22_cleanpkgs() {
 
 #e22_acol() yrittää vetää /e alta xorg konftdston mukaan pakettiin
 ##... ei ole ihan pakko config1():sessä siis
-#
-##140326:toimii edelleen
-#function e22_config1() {
-#	[ -z "${1}" ] && exit 11
-#	[ -d ${1} ] || exit 22
-#	[ -z "${2}" ] && exit 11
-#	
-#	#local p
-#	p=$(pwd)
-#	cd ${1} 
-#	#antaa nyt olla toistaiseksi näin, cd:n kanssa
-#
-#	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
-#	${sr0} -jcf ${2} ./xorg.conf* ./.config
-#	[ -s ${2} ] || exit 99
-#	
-#	cd ${p}
-#}
-#
-##TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
-##nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
-##pitäisIkö siirtää toiseen tdstoon? ei just nyt
-#
-##140326:toimii edelleen
-#function e22_settings() {
-#
-#	[ -z "${1}" ] && exit 11
-#	[ -d ${1} ] || exit 22
-#	[ -z "${2}" ] && exit 44
-#	[ -z "${3}" ] && exit 89
-#
-#	if [ ! -x ${1}/${3} ] ; then
-#		exit 24
-#	fi
-#
-#	.  ${1}/${3}
-#	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
-#	exp_prof ${1}/${2} default-esr	
-#		
-#	[ -s ${1}/${2} ] || exit 32
-#	#local t
-#
-#	t=$(tar -tf ${1}/${2} | grep prefs.js | wc -l)
-#	dqb "FOUND PREFS: ${t}"
-#	[ ${t} -lt 1 ] && exit 27
-#}
-#
-##VAIH:testaa taas (jokojo 14326?)
-##HUOM.140326:testit vaiheessa, kommentteihin jos qsee
-#
-function e22_home_pre() {
-if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
-e22_config1 ~ ${4}
-${NKVD} ~/${CONF_default_arhcive}
-e22_settings ${2}/.. ${CONF_default_arhcive} ${CONF_default_arhcive3}
+
+function e22_config1() {
+[ -z "${1}" ] && exit 11
+[ -d ${1} ] || exit 22
+[ -z "${2}" ] && exit 11
+#local p
+p=$(pwd)
+cd ${1} 
+#antaa nyt olla toistaiseksi näin, cd:n kanssa
+[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
+${sr0} -jcf ${2} ./xorg.conf* ./.config
+[ -s ${2} ] || exit 99
+cd ${p}
+}
+
+#TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
+#nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
+
+function e22_settings() {
+#[ -z "${1}" ] && exit 11
+#[ -d ${1} ] || exit 22
+#[ -z "${2}" ] && exit 44
+#[ -z "${3}" ] && exit 89
+if [ ! -x ${1}/${3} ] ; then
+exit 24
 fi
-csleep 1
-#150326:JOSKOHANLIITTYISI VIIMEAIKAISEEN KUSEMISEEN TUO AO. RIVI
-${srat} -rvf ${1} /opt/bin 
-#exit 99 #find qsee jossain
-#for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
-#	${srat} -rvf ${1} ${t}
-#done
-dqb "HOMEPRE D0NE"
-csleep 1
+.  ${1}/${3}
+[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
+exp_prof ${1}/${2} default-esr
+[ -s ${1}/${2} ] || exit 32
+#local t
+t=$(tar -tf ${1}/${2} | grep prefs.js | wc -l)
+dqb "FOUND PREFS: ${t}"
+[ ${t} -lt 1 ] && exit 27
+}
+
+#VAIH:testit menossa 150326-
+
+function e22_home_pre() {
+dqb "e22_home_pre()"
+	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
+		e22_config1 ~ ${4}
+		${NKVD} ~/${CONF_default_arhcive}
+		e22_settings ${2}/.. ${CONF_default_arhcive} ${CONF_default_arhcive3}
+	fi
+
+	csleep 1
+	#150326:JOSKOHANLIITTYISI VIIMEAIKAISEEN KUSEMISEEN TUO AO. RIVI
+	${srat} -rvf ${1} /opt/bin 
+	#exit 99 #find qsee jossain
+
+	dqb "JUST BEFORE FIND"
+	csleep 1
+
+	for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
+		${srat} -rvf ${1} ${t}
+	done
+
+	dqb "HOMEPRE D0NE"
+	csleep 1
 }
 
 #HUOM.140326:testit vaiheessa, kommentteihin jos qsee
