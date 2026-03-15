@@ -1065,8 +1065,8 @@ function part1() {
 	csleep 1
 	
 	[ -v ipt ] || dqb "SHOULD exit 69" #010326 qseeko tämä kohta?
-	dqb "ipt=  ${ipt} "
-	dqb "testgris = ${CONF_testgris}"
+	dqb "ipt :  ${ipt} "
+	dqb "testgris : ${CONF_testgris}"
 	csleep 1
 
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ]  ; then

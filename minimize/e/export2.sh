@@ -200,7 +200,7 @@ e22_pre1 ${d} ${distro}
 #exit 99
 
 #110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?
-#e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm} #qseeko tämä?
+e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm} #qseeko tämä?
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 #exit 99

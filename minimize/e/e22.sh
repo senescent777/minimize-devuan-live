@@ -137,8 +137,8 @@ function e22_pre1() {
 ##HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
 #
 ##150326:debug-syistä rivejä kommentteihin
-#function e22_pre2() {
-#
+function e22_pre2() {
+	echo "per2..."
 #	[ -z "${1}" ] && exit 66
 #	[ -z "${2}" ] && exit 67
 #	[ -z "${3}" ] && exit 68
@@ -164,11 +164,12 @@ function e22_pre1() {
 ##		${scm} -Rv 700 ${CONF_pkgdir}/partial/
 ##
 ##		${sag_u}
-##		csleep 1
+csleep 1
 ##	else
 ##		exit 111
 ##	fi
-#}
+dqb "... done"
+}
 
 function e22_cleanpkgs() {
 	[ -z "${1}" ] && exit 56
