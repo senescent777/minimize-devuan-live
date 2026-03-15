@@ -342,7 +342,7 @@ function e22_acol() {
 	for f in $(${odio} find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
-		else
+		#else
 		fi
 	done
 
