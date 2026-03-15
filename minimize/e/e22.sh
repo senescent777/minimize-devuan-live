@@ -243,35 +243,34 @@ function e22_home_pre() {
 	csleep 1
 }
 
-#HUOM.140326:testit vaiheessa, kommentteihin jos qsee
+#HUOM.150326:testit vaiheessa
 function e22_home() {
-
-	[ -z "${1}" ] && exit 67
-	[ -s ${1} ] || exit 68
-	[ -z "${2}" ] && exit 69
-	[ -d ${2} ] || exit 70
-	[ -z "${3}" ] && exit 71
-	[ -z "${3}" ] && exit 72
-	[ -z "${4}" ] && exit 73
+	dqb "e22_home()"
+#	[ -z "${1}" ] && exit 67
+#	[ -s ${1} ] || exit 68
+#	[ -z "${2}" ] && exit 69
+#	[ -d ${2} ] || exit 70
+#	[ -z "${3}" ] && exit 71
+#	[ -z "${3}" ] && exit 72
+#	[ -z "${4}" ] && exit 73
 	csleep 1
 
-
-	#141225:if-lauseen pointti nykyään? tähän liittyen oli jokin idea? (120126)
+	local t
+	local f
 
 	${srat} -rvf ${1} ${2}/../${3}
-
 	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
 	[ ${t} -lt 1 ] && exit 72
-	csleep 10
+	csleep 5
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 	csleep 2
 
-	exit 99
-	#find qsee jossain	
-	#for f in $(find ~ -type f -name 'xorg.conf*' ) ; do ${srat} -rvf ${1} ${f} ; done	
+	#exit 99
+	#find qsee jossain?	
+	for f in $(find ~ -type f -name 'xorg.conf*' ) ; do ${srat} -rvf ${1} ${f} ; done
+	dqb "e22_home().done()"	
 }
 
 

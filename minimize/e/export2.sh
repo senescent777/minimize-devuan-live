@@ -219,7 +219,6 @@ case ${mode} in
 	;;
 	3|4) 
 		#VAIH:testaus TAAS , eRItyisesti miten nelosen output g_doit:n imp2-kikkailun kanssa?
-		#VAIH:jos sen "exp2 p" saisi samalla kertaa testattua
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		dqb "NVDK 1b 5 secs"
@@ -236,8 +235,7 @@ case ${mode} in
 		fasdfasd /opt/bin/zxcv.tmp
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
-		#exit 99 #qnnes tämä rasti selvitetty
-
+	
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
@@ -246,11 +244,8 @@ case ${mode} in
 			doit=0
 		fi
 
-#		exit 99 #qnnes tämä rasti selvitetty
-
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2}
-		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
-		#${CONF_enforce} ${CONF_default_arhcive2}		
+		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 	
 		exit 99 #qnnes tämä rasti selvitetty
 
 		e22_pre1 ${d} ${distro}

@@ -367,7 +367,6 @@ function e23_profs() {
 	q=$(mktemp -d)
 	cd ${q}
 
-	#antaa nyt cd:n olla toistaiseksi
 	[ $? -eq 0 ] || exit 77
 	pwd
 	csleep 1
@@ -380,6 +379,7 @@ function e23_profs() {
 	[ $? -eq 0 ] || exit 79
 
 	${svm} more_scripts/profs/${3}* ${2}
+	${scm} 0555 ${2}/${3}*
 	${sr0} -rvf ${1} ${2}/${3}*
 	csleep 1
 
