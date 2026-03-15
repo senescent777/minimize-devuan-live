@@ -436,8 +436,10 @@ function e22_sarram() {
 #joutaisi kai Const:in nimetä yleisen kaavan mukaan
 [ -v BASEURL ] || exit 6 
 
-function e22_ext() { #VAIH:testatakin voisi taas, takaisin kommentteihin koko fcktio jos qsee
-#TODO:/o/b liittyvää käsittelyä uusicksi sittenq
+function e22_ext() {
+	#VAIH:testatakin voisi taas, takaisin kommentteihin koko fcktio jos qsee
+	#TODO:/o/b liittyvää käsittelyä uusicksi sittenq
+
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 2
 	#[ -w ${1} ] || exit 6 

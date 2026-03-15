@@ -207,6 +207,7 @@ case ${mode} in
 		csleep 1
 		fasdfasd /opt/bin/zxcv
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
+		reqwreqw /opt/bin/zxcv
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
