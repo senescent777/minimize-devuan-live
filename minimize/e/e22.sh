@@ -260,9 +260,10 @@ function e22_home_pre()
 	csleep 1
 	${srat} -rvf ${1} /opt/bin 
 
-	for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
-		${srat} -rvf ${1} ${t}
-	done
+	exit 99 #find qsee jossain
+	#for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
+	#	${srat} -rvf ${1} ${t}
+	#done
 }
 
 #HUOM.140326:testit vaiheessa, kommentteihin jos qsee
@@ -291,8 +292,9 @@ function e22_home() {
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 	csleep 2
 
-	
-	for f in $(find ~ -type f -name 'xorg.conf*' ) ; do ${srat} -rvf ${1} ${f} ; done	
+	exit 99
+	#find qsee jossain	
+	#for f in $(find ~ -type f -name 'xorg.conf*' ) ; do ${srat} -rvf ${1} ${f} ; done	
 }
 
 
@@ -313,7 +315,8 @@ function luca() {
 
 	#localtime taisi olla linkki, siksi erikseen
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
-	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
+	exit 99
+	#for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
 
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 }
@@ -336,14 +339,15 @@ function e22_acol() {
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
 
-	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
+	exit 99
+	#for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
 
-	for f in $(${odio} find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
-		if [ -s ${f} ] && [ -r ${f} ] ; then
-			${srat} -rvf ${1} ${f}
-		#else
-		fi
-	done
+	#for f in $(${odio} find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
+	#	if [ -s ${f} ] && [ -r ${f} ] ; then
+	#		${srat} -rvf ${1} ${f}
+	#	#else
+	#	fi
+	#done
 
 	luca ${1}
 	other_horrors 
@@ -366,11 +370,12 @@ function e22_acol() {
 	local f
 	local g
 	
-	if [ ${3} -eq 1 ] ; then #-gt 0 ?
-		for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
-		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
-	#else
-	fi
+	exit 99
+	#if [ ${3} -eq 1 ] ; then #-gt 0 ?
+	#	for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
+	#	for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
+	##else
+	#fi
 
 	local ef
 	ef=$(echo ${4} | tr -d -c 0-9)
@@ -400,16 +405,17 @@ function e22_sarram() {
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 	csleep 3
-
-	#josko kopsaisi /e/X11 alle konffin testaustarkoituksissa? nykyään kyllä g_dout kopsailee
-	for f in $(${odio} find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
-		${srat} -rvf ${1} ${f}
-	done
-
-	#020326:tää kohta saattoi toimia oikein, ainakin kerran
-	for f in $(${odio} find /etc -type f -name '${2}*' -and -not -name '*.202*') ; do
-		${srat} -rvf ${1} ${f}
-	done
+	exit 99
+#
+#	#josko kopsaisi /e/X11 alle konffin testaustarkoituksissa? nykyään kyllä g_dout kopsailee
+#	for f in $(${odio} find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
+#		${srat} -rvf ${1} ${f}
+#	done
+#exit 99
+#	#020326:tää kohta saattoi toimia oikein, ainakin kerran
+#	for f in $(${odio} find /etc -type f -name '${2}*' -and -not -name '*.202*') ; do
+#		${srat} -rvf ${1} ${f}
+#	done
 
 	${srat} -rvf ${1} /etc/X11/default-display-manager
 
@@ -417,17 +423,19 @@ function e22_sarram() {
 	${scm} 0555 /etc/iptables
 	${scm} 0400 /etc/iptables/rules*
 	${scm} 0400 /etc/default/rules*
+	exit 99
 
-	#020326:ehkä ok nämä 2
-	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
-	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
+#	#020326:ehkä ok nämä 2
+#	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
+#	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
+	exit 99
 
-	if [ -x /usr/sbin/ntpd ] ; then
-		for f in $(${odio} find /etc -type f -name 'ntp*') ; do
-			${srat} -rvf ${1} ${f}
-			${sah6} ${f} >> ${3}
-		done
-	fi
+#	if [ -x /usr/sbin/ntpd ] ; then
+#		for f in $(${odio} find /etc -type f -name 'ntp*') ; do
+#			${srat} -rvf ${1} ${f}
+#			${sah6} ${f} >> ${3}
+#		done
+#	fi
 
 	other_horrors
 }
@@ -519,10 +527,11 @@ function e22_ext() {
 	local f
 	#160126:tuon yhden tdston kanssa jokin ongelma sha-tark kanssa, joten ksrdotssn
 	#pois myös resolv.conf.* vaiko ei ?
+	exit 99
 
-	for f in $(find ./etc -type f -not -name 'interfaces.tmp') ; do
-		${sah6} ${f} >> ${4}
-	done
+#	for f in $(find ./etc -type f -not -name 'interfaces.tmp') ; do
+#		${sah6} ${f} >> ${4}
+#	done
 
 	cd ${p}
 	[ ${debug} -eq 1 ] && pwd
@@ -565,13 +574,14 @@ function e22_arch() {
 		${NKVD} ${2}/sha512sums.txt*
 	#else
 	fi
+	exit 99
 
-	local c
-	c=$(find ${2} -type f -name '*.deb' | wc -l)
-
-	if [ ${c} -lt 1 ] ; then
-		exit 55
-	fi
+#	local c
+#	c=$(find ${2} -type f -name '*.deb' | wc -l)
+#
+#	if [ ${c} -lt 1 ] ; then
+#		exit 55
+#	fi
 
 	${scm} 0444 ${2}/*.deb
 	fasdfasd ${2}/sha512sums.txt
