@@ -103,6 +103,8 @@ csleep 1
 
 #VAIH:jotenkin pitäisi reagoida jos $tgtfile == "-v" tai $d0/$tgtfile eksistoi
 [ -d ${d0}/${tgtfile} ] && exit 64
+
+#-h pytsåähtyy ennen tätä riviä?
 e22_hdr ${tgtfile}
 
 case ${mode} in
@@ -130,7 +132,7 @@ case ${mode} in
 	;;
 	g) #090326:oksennetut komennot vissiin ok edelleen
 		e23_ghi ${tgtfile} ${d0} ${distro}
-		exit
+		#exit
 	;;
 	p) #110326:VAIH (testaus, sisällön lähinnä, kts $0 4)
 		[ -v CONF_default_arhcive3 ] || exit 666
@@ -156,11 +158,6 @@ csleep 1
 e_final
 e_h ${n} ${d0} 
 #TODO:changedns:n dns-osuuden vipuaminen joko resolVconf:ille tai dnsmasq:lle? , kumman saakaan pienemmällä säädöllä toimimaan
-
-#for x in  ${d0}/opt/bin/changedns.bash ; do
-#	[ -x ${x} ]  ${x}
-#	#exit for
-#done
 
 if [ -x /opt/bin/changedns.bash ] ; then
 	${odio} /opt/bin/changedns.bash ${CONF_dnsm}

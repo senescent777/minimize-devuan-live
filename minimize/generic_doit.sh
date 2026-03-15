@@ -84,56 +84,57 @@ function part0() {
 }
 
 #040326:ehkä josqs tämäkin (tai antaa nyt olla jnkn aikaa)
-#140326;debug-tarkoituksissa suurin osa sisällöstä kommentteihin
+#140326;debug-tarkoituksissa suurin osa sisällöstä kommentteihin (äskettäin palautettu)
+#150326:miten /proc/cmdline:n lokaaliasetukset vs /e/d/l ja tämän ao. kikkareen jutut
 
 function el_loco() {
 	dqb "MI LOCO ${1} , ${2}"
 	csleep 1
 
-#	if [ ${1} -gt 0 ] ; then
-#		${odio} dpkg-reconfigure locales
-#		${odio} dpkg-reconfigure tzdata
-#	else
-#		${odio} locale-gen
-#	fi
-#
-#	#pitäisiköhän localtime ja timezone delliä jossain kohtaa jollain ehdolla?
-#
-#	if [ ${2} -lt 1 ] ; then
-#		${svm} /etc/default/locale /etc/default/locale.ÅLD
-#		fasdfasd /etc/default/locale
-#		csleep 1
-#
-#		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
-#		#env vai locale minkä oksennukset tdstoon?
-#
-#		env | grep LC >> /etc/default/locale
-#		env | grep LAN >> /etc/default/locale
-#
-#		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
-#		#jos riittäisi 10 riviä
-#		csleep 1
-#
-#		cat /etc/timezone
-#		csleep 1
-#		reqwreqw /etc/default/locale
-#	fi
-#
-#	export LC_TIME
-#	export LANGUAGE
-#	export LC_ALL
-#
-#	if [ ${debug} -gt 0 ] ; then
-#		env | grep LC
-#		env | grep LAN
-#		csleep 5
-#	fi
+	if [ ${1} -gt 0 ] ; then
+		${odio} dpkg-reconfigure locales
+		${odio} dpkg-reconfigure tzdata
+	else
+		${odio} locale-gen
+	fi
+
+	#pitäisiköhän localtime ja timezone delliä jossain kohtaa jollain ehdolla?
+
+	if [ ${2} -lt 1 ] ; then
+		${svm} /etc/default/locale /etc/default/locale.ÅLD
+		fasdfasd /etc/default/locale
+		csleep 1
+
+		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
+		#env vai locale minkä oksennukset tdstoon?
+
+		env | grep LC >> /etc/default/locale
+		env | grep LAN >> /etc/default/locale
+
+		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
+		#jos riittäisi 10 riviä
+		csleep 1
+
+		cat /etc/timezone
+		csleep 1
+		reqwreqw /etc/default/locale
+	fi
+
+	export LC_TIME
+	export LANGUAGE
+	export LC_ALL
+
+	if [ ${debug} -gt 0 ] ; then
+		env | grep LC
+		env | grep LAN
+		csleep 5
+	fi
 }
 
 #140326:tarkkuutta peliin, ao. rivillä oli typo jnkn aikaa
 function adieu() {
-	dqb "AUF WIEDERSEHEN"
-#
+dqb "AUF W13DERSEHEN"
+
 #	#jnkn ehdon taakse session lahtaamista edelliset rivit?
 #
 #	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?

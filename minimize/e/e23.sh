@@ -2,23 +2,23 @@ echo "pMERSENNE.23.q"
 csleep 1
 #just_download_not_install-vipu olisi tietysti...
 
-#function aswasw() { #privaatti fktio
-#	[ -z "${1}" ] && exit 56
-#	csleep 1
-#
-#	case ${1} in
-#		wlan0)
-#			#E22:GN="libnl-3-200 ... "
-#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-#			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
-#
-#			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
-#			${shary} wpasupplicant
-#		;;
-#		*)
-#		;;
-#	esac
-#}
+function aswasw() { #privaatti fktio
+	[ -z "${1}" ] && exit 56
+	csleep 1
+
+	case ${1} in
+		wlan0)
+			#E22:GN="libnl-3-200 ... "
+			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
+			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
+
+			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
+			${shary} wpasupplicant
+		;;
+		*)
+		;;
+	esac
+}
 
 #130126:tehdyn paketin sisältö asentuu ainakin live-ymp, vissiin myös sqrootissa
 #HUOM.080326:3. param tarpeellisuus?
