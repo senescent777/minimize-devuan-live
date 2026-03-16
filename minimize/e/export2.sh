@@ -119,10 +119,7 @@ csleep 1
 
 #-h pysähtyy ennen tätä riviä?
 e22_hdr ${tgtfile}
-#exit 99
-
-#[ -v CONF_iface ] && ${sifd} ${CONF_iface}
-#TODO:sifd takaisin sittenq testit ohi	
+[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 case ${mode} in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua
@@ -141,17 +138,17 @@ case ${mode} in
 		[ -v CONF_default_arhcive3 ] || exit 35
 
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
-		#exit #tarkoitus olisi ettei suoritusta jatkettaisi tätä pidemmälle
 	;;
 	c) #160326:teki taas paketin, sisällön kanssa vielä testejä(VAIH)
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
 	g) #160326:edlleen validi rimpsu tuo E22GI, tosin tgtfile:n suhteen olisi hyvö tehdö jotain
 		e23_ghi ${tgtfile} ${d0} ${distro}
-		#exit
 	;;
 	p) #160326:osdaa edelleen tdhä arkiston, sisällön testaus jäölleen(VAIH)
 		[ -v CONF_default_arhcive3 ] || exit 66
+		csleep 1
+		[ -v CONF_iface ] && ${sifu} ${CONF_iface}
 		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
 	;;
 	-h)
@@ -168,7 +165,7 @@ if [ $cont -eq 1 ] ; then
 	dqb "R3D B3F0R3 BL4KC"
 else
 	e22_ftr ${tgtfile}	
-	exit 666
+	exit 66
 fi
 
 #exit 99
