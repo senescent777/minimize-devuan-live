@@ -64,6 +64,7 @@ exit 59
 if [ -x ${d0}/common_lib.sh ] ; then 
 	. ${d0}/common_lib.sh
 else
+	#miksi tökkää tähän?
 	exit 56
 fi
 
@@ -131,8 +132,10 @@ case ${mode} in
 		e22_fgh ${tgtfile} ${d}
 	;;
 	q)
-		#140326:toimi ainakin kerrabn
-		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
+		#160326:testit käynnissä tekee edelleen arkiston, sisällön validius vielä
+		#[ -v CONF_iface ] && ${sifd} ${CONF_iface}
+		#TODO:sifd takaisin sittenq testit ohi		
+
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35

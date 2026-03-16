@@ -231,6 +231,8 @@ function e22_home_pre() {
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		e22_config1 ~ ${4}
 		${NKVD} ~/${CONF_default_arhcive}
+
+		#voisikohan nuo Constit korvata josqs...
 		e22_settings ${2}/.. ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	fi
 
