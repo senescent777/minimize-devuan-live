@@ -2,7 +2,7 @@
 #csleep 1
 ##just_download_not_install-vipu olisi tietysti...
 #
-#function aswasw() { #privaatti fktio
+#function aswasw() { #privaatti fktio TODO:joskohan jo kommenteista
 #	[ -z "${1}" ] && exit 56
 #	csleep 1
 #

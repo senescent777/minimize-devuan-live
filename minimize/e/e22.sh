@@ -545,7 +545,7 @@ function e22_ts() {
 	cg_udp6 ${1}
 
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
-	exit 99
+	#exit 99
 }
 
 function e22_arch() {
@@ -687,30 +687,27 @@ function e22_dblock() {
 ##		
 ##	exit
 #}
+#function e22_fgh() {
+#	dqb "e22_fgh(((( ${1} ; ${2} ; ${3} )()"
+#
+#	[ -z "${1}" ] && exit 99
+#	[ -z "${2}" ] && exit 98
+#	#[ -s "${1}" ] || exit 97 #mikä tässä oli pointti?
+#
+#	dqb "PA.RS"
+#	e22_arch ${1} ${2}
+#}
 
-#VAIH:pois kommenteista josqs (160326)
-#turha wrapper kohta
-function e22_fgh() {
-	dqb "e22_fgh(((( ${1} ; ${2} ; ${3} )()"
-
-	[ -z "${1}" ] && exit 99
-	[ -z "${2}" ] && exit 98
-	#[ -s "${1}" ] || exit 97 #mikä tässä oli pointti?
-
-	dqb "PA.RS"
-	e22_arch ${1} ${2}
-}
-
-#110326:toimi
 #TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?
 #VAIH:uusicksi testaus koska viimeaikaiset muutokset (160326, tekee tdston, sisältö:)
+
 function e22_cde() {
-[ -z "${1}" ] && exit 99
-[ -z "${2}" ] && exit 98
-[ -d "${2}" ] || exit 97
-cd ${2}
-fasdfasd ${1}
-[ ${debug} -eq 1 ] && ls -las ${1}*
-csleep 2
-${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
+	[ -z "${1}" ] && exit 99
+	[ -z "${2}" ] && exit 98
+	[ -d "${2}" ] || exit 97
+	cd ${2}
+	fasdfasd ${1}
+	[ ${debug} -eq 1 ] && ls -las ${1}*
+	csleep 2
+	${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
 }

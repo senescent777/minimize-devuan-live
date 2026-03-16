@@ -129,7 +129,7 @@ case ${mode} in
 #	;;
 	f) #160326:osasi luoda paketin, sisällön testaus vielä (VAIH)
 		enforce_access ${n} ${t}
-		e22_fgh ${tgtfile} ${d}
+		e22_arch ${tgtfile} ${d}
 	;;
 	q)
 		#160326:testit käynnissä tekee edelleen arkiston, sisällön validius vielä
@@ -199,21 +199,17 @@ fi
 
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
-#exit 99
 
 #110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm} #qseeko tämä?
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
-#exit 99
 
 #HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun
 [ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 doit=1
 csleep 1
-
-#exit 99
 
 case ${mode} in
 	0)
@@ -244,7 +240,6 @@ case ${mode} in
 			doit=0
 		fi
 		
-		#exit 99
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
 
@@ -289,7 +284,7 @@ case ${mode} in
 		e23_other_pkgs ${CONF_dnsm}
 	;;
 	t) 
-		#60326:osannee paketin tehdä, sis asentumista ei vielä testattu
+		#160326:osannee paketin tehdä, sis asentumista ei vielä testattu
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
@@ -308,9 +303,10 @@ if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 	e22_hdr ${d}/f.tar #140326:pitäisiköhän tämä kohta muuttaa?
 
 	#HUOM.11326:d-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
+	#... voisi sitäpaitsi kys fktion räjäyttää auki q käytössä vain 1 paikasta
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} 
-	e22_ftr ${d}/f.tar  #140326:pitäisiköhän tämä kohta muuttaa?
 
+	e22_ftr ${d}/f.tar  #140326:pitäisiköhän tämä kohta muuttaa?
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
 fi
