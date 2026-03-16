@@ -176,6 +176,17 @@ csleep 1
 
 #HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
 
+
+
+#...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
+#.. kts interfaces.tmp liittyen (080326)
+
+e22_pre1 ${d} ${distro}
+[ ${debug} -eq 1 ] && pwd;sleep 6
+
+#110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?
+e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm} #qseeko tämä?
+
 #(cdns ennen vai jälkeen sifu?)
 
 if [ -x /opt/bin/changedns.bash ] ; then
@@ -190,14 +201,6 @@ else
 fi
 #
 
-#...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
-#.. kts interfaces.tmp liittyen (080326)
-
-e22_pre1 ${d} ${distro}
-[ ${debug} -eq 1 ] && pwd;sleep 6
-
-#110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?
-e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm} #qseeko tämä?
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
