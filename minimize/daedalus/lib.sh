@@ -12,7 +12,7 @@ function pre_part2() { #käytössä
 	${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
 
-	for f in $(find /etc/init.d -type f -name 'ntp*') ; do 
+	for f in $(find /etc/init.d -type f -name 'ntp*' ) ; do 
 		${odio} ${f} stop
 		csleep 1
 	done
@@ -21,10 +21,7 @@ function pre_part2() { #käytössä
 	dqb "d0n3"
 }
 
-#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=netfilter-persistent=1.0.20
-#... tarkistus tosin uusiksi, josko sinne tcdd-blokkiin(?) ylemmäs?
-
-function tpc7() { #e22.sh kutsuu tätä nykyään
+function tpc7() {
 	dqb "d.prc7 UNDER CONSTRUCTION"
 }
 
