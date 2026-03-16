@@ -146,7 +146,7 @@ case ${mode} in
 	c) #160326:teki taas paketin, sisällön kanssa vielä testejä(VAIH)
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
-	g) #090326:oksennetut komennot vissiin ok edelleen
+	g) #160326:edlleen validi rimpsu tuo E22GI, tosin tgtfile:n suhteen olisi hyvö tehdö jotain
 		e23_ghi ${tgtfile} ${d0} ${distro}
 		#exit
 	;;
