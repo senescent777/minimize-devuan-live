@@ -15,6 +15,7 @@ function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
 		#toimiikohan tämä kohta? pitäiskö tegdä toisin, opts_2() ?
 		#distro=${1}
+		echo "I1RTS0 CNAGN3H"
 	else
 		case  "${1}" in
 			0|1|2) #varsinainen numeerisuustarkistus parempi

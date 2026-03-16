@@ -19,11 +19,12 @@ function csleep() {
 }
 
 function usage() {
-	echo "${0} <mode> <srcfile> [distro] [debug] "
+	echo "${0} <mode> <srcfile> [distro?] [debug] "
 	echo "when mode=k , this imports PUBLIC_KEYS , u have to import private keys another way!!!"
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
+#TODO:parsetus uusicksi, josqs srcfile:ä ei aseteta
 if [ $# -gt 0 ] ; then
 	mode=${1}
 	[ -f ${1} ] && exit 99
@@ -106,7 +107,7 @@ csleep 1
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#VAIH:sqroot-testiä yaas kehiin (yo. purq ainakin onnaa)
+	#VAIH:sqroot-testiä Taas kehiin (yo. purq ainakin onnaa)
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0NF1G"
@@ -308,7 +309,6 @@ function common_part() {
 	fi
 
 	csleep 3
-	#241225:mitäs exclude-juttuja tuo TPX sisälsikään nykyään?
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 
 	csleep 2
@@ -368,7 +368,7 @@ dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3} siis)
 
-#140326:OK
+#160326:toimiiko edelleen? "$0 q"-reittiä ainakin
 function tpr() {
 	dqb "UPIR ) ${1} , ${2} , ${3} ("
 	csleep 1
@@ -408,7 +408,7 @@ function tpr() {
 
 	dqb "JUST BEFORE TAR ${1}/${2}"
 	#jos vielä härdelliä niin keskeytetään mikäli ei $2:sta löydä prefs.js?
-	r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l)
+	r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l) #vielä jos arhc_4 ?
 	[ ${r} -gt 0 ] || exit 21
 	csleep 3
 
@@ -419,7 +419,7 @@ function tpr() {
 	dqb "JUST BEFORE impo_prof"
 	csleep 3
 
-	imp_prof esr ${n} ${q}
+	imp_prof esr $(whoami) ${q}
 	dqb $?
 	csleep 3
 
@@ -548,20 +548,20 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
-	r) #140326:jos jo toimisi taas
+	r) #TODO:testaa TAAS että toimiiiko (16.3.26)
 		[ -d ${srcfile} ] || exit 23
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
 		[ -v CONF_default_arhcive3 ]  || exit 18
 
-		${srat} -C ~ -jxf ~/${CONF_default_arhcive2}
+		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
 		echo $?
 		csleep 5
 
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	q)
-		#140326:toimii kai
+		#160326:toimi
 		# (turha case oikeastaan koska "$0 1"+"$0 r"
 		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
 

@@ -213,11 +213,11 @@ function check_bin_0() {
 		distro=$(cat /etc/devuan_version)
 	fi
 
-	if [ -v n ] ; then
-		dqb "n OK"
-	else
-		n=$(whoami)
-	fi
+#	if [ -v n ] ; then
+#		dqb "n OK"
+#	else
+#		n=$(whoami)
+#	fi
 
 	#[-v jotain ]  taakse nämä?
 	export LC_TIME
