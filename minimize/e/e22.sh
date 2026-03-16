@@ -379,7 +379,6 @@ function e22_acol() {
 	fi
 
 	ef=$(echo ${4} | tr -d -c 0-9)
-	#exit 99
 
 	if  [ ${ef} -eq 1 ] ; then
 		dqb "SMTHING"

@@ -23,7 +23,7 @@ function aswasw() { #privaatti fktio
 
 #11326:joskohan tblz ja pther_pkgs osaisivat tehdä sisältöä pakettiin , sisällön toimivuus asia erikseen
 
-function e23_tblz() { #160326;osasi paketin tehdä
+function e23_tblz() { #160326:osasi paketin tehdä
 	dqb "e23_tblz()"
 	csleep 2
 
@@ -53,49 +53,61 @@ function e23_tblz() { #160326;osasi paketin tehdä
 	dqb "e23_tblz()"
 }
 
-##VAIH:ntp-jutut takaisin josqs?
-##tables-säännöt vissiin ok
-##ja ainakin oletus-konf löytyy
-##niin että
-#
+#VAIH:ntp-jutut takaisin josqs?
+#tables-säännöt vissiin ok
+#ja ainakin oletus-konf löytyy
+#niin että
+
 #testaa josqs uusiksi, VAIH . 11326, pak.sis.tiomiuvuus lähinnä
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 #HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
+#160326:vissiin toimii edelleen
 
 function e23_other_pkgs() { 
-#toista param? eiole
-csleep 1
-[ -z "${1}" ] && exit 11
-#LOPPUU SE PURPATUS PRKL
-#jatkossa osa E22_GS ?
-${shary} cpp-12 gcc-12-base libstdc++6 
-${shary} libgcc-s1 libc6 libgomp1 
-csleep 2	
-#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
-${shary} ${E22GI}
-E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
-${shary} ${E22_GG}
-#sudo-asia olisi jo kunnossa 120126?	ehkä
-E22_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
-#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
-${shary} ${E22_GS}  #moni pak tarttee nämä
-#${shary} #bsd debconf
-##${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei? ehkä
-message
-jules
-if [ ${1} -eq 1 ] ; then
-${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
-${shary} runit-helper
-${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
-${lftr} 
-[ $? -eq 0 ] || exit 3
-${shary} libev4
-${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan libc6 uudelleenas tässä?
-${shary} stubby
-fi
-csleep 1
-${lftr} 	
+	dqb "e23_other_pkgs()"
+	#toista param? eiole
+	csleep 1
+	[ -z "${1}" ] && exit 11
+	dqb "pars.ok"
+
+	#LOPPUU SE PURPATUS PRKL
+	#jatkossa osa E22_GS ?
+	${shary} cpp-12 gcc-12-base libstdc++6 
+	${shary} libgcc-s1 libc6 libgomp1 
+	csleep 2	
+
+	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
+	${shary} ${E22GI}
+	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
+	${shary} ${E22_GG}
+
+	#sudo-asia olisi jo kunnossa 120126?	ehkä
+	E22_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
+
+	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
+	${shary} ${E22_GS}  #moni pak tarttee nämä
+
+	#${shary} #bsd debconf
+	##${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei? ehkä
+
+	message
+	jules
+
+	if [ ${1} -eq 1 ] ; then
+		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
+		${shary} runit-helper
+		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
+		${lftr} 
+		[ $? -eq 0 ] || exit 3
+		${shary} libev4
+		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan libc6 uudelleenas tässä?
+		${shary} stubby
+	fi
+
+	csleep 1
+	${lftr}
+	
 #TODO:jos lukaisi debian referencen pitkästä aikaa, että löytyisikö jotain jekkua paketinhallinnan kanssa? ettei tarvitse kikkailla initramfs:n ja muutaman paketin kanssa
 #	... package pinning?
 #	${lftr} #kts. /etc/kernel liittyen
@@ -105,7 +117,8 @@ ${lftr}
 #	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 #	${shary} ntpsec
 
-csleep 2
+	dqb "e23_other_pkgs() DONE"
+	csleep 2
 }
 
 ##äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
