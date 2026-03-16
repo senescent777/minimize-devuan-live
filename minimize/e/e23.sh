@@ -229,6 +229,7 @@
 #}
 #
 ##110326 viimeksi testattu, toimi silloin
+#tar: File shrank by
 #function e23_dm() {
 #	[ -z "${1}" ] && exit 11
 #	csleep 4

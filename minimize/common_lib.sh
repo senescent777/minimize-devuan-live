@@ -89,7 +89,6 @@ function fix_sudo() {
 
 function other_horrors() {
 	dqb "other_horrors"
-
 	#020236:josko toimisi uudella tavalla paremmin?
 	#${scm} 0400 /etc/iptables/*
 
@@ -100,11 +99,9 @@ function other_horrors() {
 
 	${scm} 0550 /etc/iptables
 	${sco} -R root:root /etc/iptables
-
 	${scm} 0400 /etc/default/rules*
 	${scm} 0555 /etc/default
 	${sco} -R root:root /etc/default
-
 	dqb " DONE"
 	csleep 1
 }
@@ -500,6 +497,7 @@ function check_binaries() {
 
 			#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
 			if [ -z "${gg}" ] ; then
+				#160326:mv-komennon kanssa oli jotain urputusta? vissiin tämän?
 				[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt.bak
 
 				efk2 ${1}/g.tar ${1}
@@ -507,6 +505,7 @@ function check_binaries() {
 				[ -s ${1}/g.tar ] && ${spc} ${1}/g.tar ${1}/g.tar.bak
 				[ $? -eq 0 ] && ${NKVD} ${1}/g.tar
 
+				#160326:mv-komennon kanssa oli jotain urputusta?
 				[ -s ${1}/g.tar.bak ] && ${svm} ${1}/g.tar.bak ${1}/g.tar
 				common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisältö purun jälkeen
 
@@ -517,6 +516,7 @@ function check_binaries() {
 				gv=$(${odio} which gpgv)
 				csleep 1
 
+				#160326:mv-komennon kanssa oli jotain urputusta?
 				[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt
 				common_pp3 ${1}
 			fi
@@ -730,6 +730,7 @@ function pre_enforce() {
 
 		#140326:jospa olisi tämä blokki jnkin aikaa ok näin
 		if [ -d ${1}/opt/bin ] ; then
+			#tämä mv ok?
 			${svm} ${1}/opt/bin/*.bash /opt/bin
 			#090326.2:miten /o/b/zxcv ja /o/b alaiset skRiptit`
 		fi
@@ -749,6 +750,7 @@ function pre_enforce() {
 		csleep 1
 		reqwreqw ${q}
 		${scm} 0440 ${q}
+		#tämä mv ok?
 		${svm} ${q} /etc/sudoers.d
 		CB_LIST1=""
 		unset CB_LIST1

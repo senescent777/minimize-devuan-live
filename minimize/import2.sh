@@ -7,7 +7,7 @@ CONF_dir=/media
 CONF_part0=ABCD-1234
 mode=-2
 d0=$(pwd)
-[ z"${distro}" == "z" ] && exit 6
+[ -z "${distro}" ] && exit 6
 d=${d0}/${distro}
 
 function dqb() {
@@ -239,9 +239,9 @@ fi
 dqb "ip2.m.Lpg"
 
 function common_part() {
-	dqb "common_part ${1}, ${2}, ${3}"
+	dqb "common_part ${1} , ${2} , ${3}"
 
-	[ -z "${1}" ] && exit 1
+	[ -z "${1}" ] && exit 1 #pitäisi kai kesksyttää suoritus aiemmin tässä tap
 	[ -s ${1} ] || exit 2
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
@@ -288,7 +288,7 @@ function common_part() {
 		dqb "KHAZAD-DUM"
 		dqb "gg= ${gg}"
 
-		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistöä mjonoa löytyykö? $1 vs $1 sha ?
+		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
 		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f)
 		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
 
@@ -469,13 +469,14 @@ esac
 
 [ -z "${srcfile}" ] && exit 44
 
-if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
+if [ -f ${srcfile} ] || [ -d ${srcfile} ] ; then #eka tark oli -s
 	dqb "SD"
 else
 	dqb "SMTHING WRONG WITH ${srcfile} "
 	exit 55
 fi
 
+[ -s ${srcfile} ] || exit 34 #pitäsikö olla if-blokin sisällä?
 [ -r ${srcfile} ] || exit 35
 
 if [ "${mode}" == "-3" ] || [ "${mode}" == "r" ] ; then

@@ -14,7 +14,7 @@ function parse_opts_1() {
 
 	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
 		#toimiikohan tämä kohta? pitäiskö tegdä toisin, opts_2() ?
-		distro=${1}
+		#distro=${1}
 	else
 		case  "${1}" in
 			0|1|2) #varsinainen numeerisuustarkistus parempi
@@ -114,7 +114,7 @@ function dis() {
 }
 
 function part0() {
-	dqb "common_lib.FART076 ${1}"
+	dqb "g_doit.common_lib.FART076 ${1}"
 	[ -z "${1}" ] && exit 76
 
 	csleep 1
@@ -329,11 +329,14 @@ csleep 2
 
 if [ ! -f /.chroot ] ; then
 	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
-	${scm} 0555 ${d0}/common_lib.sh #toistaiseksi tässä kunnes... Jotain
+
+	${scm} 0555 ${d0}/common_lib.sh
+	#toistaiseksi tässä kunnes... Jotain
+
 	${d0}/import2.sh r ${d0} -v
 fi
 
-#149326:vissiin tähän asti toimii ok
+#140326:vissiin tähän asti toimii ok
 
 jules
 ${asy}
@@ -345,14 +348,14 @@ echo "KVG:\"how to exit for-loop in bash\" " #TÄSSÄKÖ KUSI PASKAA?
 sleep 5
 
 if [ -x /opt/bin/changedns.bash ] ; then
-${odio} /opt/bin/changedns.bash ${CONF_dnsm}
+	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
 else
-if [ -x ${d0}/opt/bin/changedns.bash ] ; then
-${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
-else
-dqb "changedns not an option"
-csleep 5
-fi
+	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
+		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
+	else
+		dqb "changedns not an option"
+		csleep 5
+	fi
 fi
 
 ${sipt} -L
@@ -360,10 +363,11 @@ csleep 1
 ${scm} 0555 ${d0}/common_lib.sh
 #JOKO JO LOPPUISI PURPATUS PRKL
 ${scm} a-wx $0
+
 #===================================================PART 4(final)==========================================================
 if [ ${mode} -eq 2 ] ; then
-echo "time to \$sifu \$CONF_iface or whåtever"
-csleep 1
-adieu
-exit 
+	echo "time to \$sifu \$CONF_iface or whåtever"
+	csleep 1
+	adieu
+	exit 
 fi
