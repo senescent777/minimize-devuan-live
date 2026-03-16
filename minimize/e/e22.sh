@@ -525,123 +525,131 @@ function e22_ext() {
 	cd ${p}
 	[ ${debug} -eq 1 ] && pwd
 }
-#
-#function e22_ts() {
-#	dqb "E222.TS $1 , $2"
-#	[ -z "${1}" ] && exit 13
-#	[ -d ${1} ] || exit 14 #hmistossa hyvä olla kirj.oik.
-#	[ -w ${1} ] || exit 15 
-#	dqb "par5 0k"	
-#	csleep 1
-#	${svm} ${CONF_pkgdir}/*.deb ${1} #glob muutt vähän huonjo juttu oikeastaan
-#
-#	#lisätäänkö tämä arkistoon jossain? no e22_a()
-#	fasdfasd ${1}/tim3stamp
-#	date > ${1}/tim3stamp
-#
-#	cg_udp6 ${1}
-#	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
-#}
+
+function e22_ts() {
+	dqb "E222.TS ()()() $1 , $2, $3"
+	[ -z "${1}" ] && exit 13
+	[ -d ${1} ] || exit 14
+	[ -w ${1} ] || exit 15  #hmistossa hyvä olla kirj.oik.
+
+	dqb "par5 0k"
+	csleep 1
+
+	${svm} ${CONF_pkgdir}/*.deb ${1}
+	[ $? -eq 0 ] || exit 56
+	#glob muutt vähän huono juttu oikeastaan, TODO:tee jotain
+
+	#lisätäänkö tämä arkistoon jossain? no e22_a()
+	fasdfasd ${1}/tim3stamp
+	date > ${1}/tim3stamp
+	cg_udp6 ${1}
+
+	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
+	exit 99
+}
 
 function e22_arch() {
-dqb "e22_arch()"
+	dqb "e22_arch() $1 , $2 , $3 , $4"
 
-#[ -z "${1}" ] && exit 1
-##[ -s ${1} ] || exit 2 #antaa nyt olla kommenteissa
-##[ -w ${1} ] || exit 33 #josko man bash...
-#[ -d ${2} ] || exit 22
-#[ -w ${2} ] || exit 44
+	[ -z "${1}" ] && exit 1
+	#[ -s ${1} ] || exit 2 #antaa nyt olla kommenteissa
+	#[ -w ${1} ] || exit 33 #josko man bash...
+	[ -d ${2} ] || exit 22
+	[ -w ${2} ] || exit 44
 
-dqb "pars ok"
-csleep 1
-local p=$(pwd)
-csleep 1
-#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
-if [ -f ${2}/sha512sums.txt ] ; then
-${NKVD} ${2}/sha512sums.txt*
-#else
-fi
+	dqb "pars ok"
+	csleep 1
+	local p=$(pwd)
+	csleep 1
 
-#exit 99
-local c
-c=$(find ${2} -type f -name '*.deb' | wc -l)
+	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
+	if [ -f ${2}/sha512sums.txt ] ; then
+		${NKVD} ${2}/sha512sums.txt*
+	fi
 
-if [ ${c} -lt 1 ] ; then
-exit 55
-fi
-${scm} 0444 ${2}/*.deb
-fasdfasd ${2}/sha512sums.txt
-fasdfasd ${2}/sha512sums.txt.1
-[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+	local c
+	c=$(find ${2} -type f -name '*.deb' | wc -l)
 
-cd ${2}
-echo $?
+	if [ ${c} -lt 1 ] ; then
+		dqb "N0.F1SH"
+		exit 55
+	fi
 
-${sah6} ./*.deb > ./sha512sums.txt
-${sah6} ./reject_pkgs >> ./sha512sums.txt.1
-${sah6} ./accept_pkgs_? >> ./sha512sums.txt.1
-${sah6} ./pkgs_drop >> ./sha512sums.txt.1
-csleep 1
+	${scm} 0444 ${2}/*.deb
+	fasdfasd ${2}/sha512sums.txt
+	fasdfasd ${2}/sha512sums.txt.1
+	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
 
-[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
-#alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious
-#HUOM gpgv VITTUUN SOTKEMASTA
-#dirmngr kuitenkin tarvitsee jhnkin?
-#"gpg --keyserver hkps://keys.gnupg.net --receive-keys $something" esim.
+	cd ${2}
+	echo $?
 
-if [ -x ${gg} ] && [ -v CONF_pubk ] ; then
-${gg} -u ${CONF_pubk} -sb ./sha512sums.txt
-${gg} -u ${CONF_pubk} -sb ./sha512sums.txt.1
-fi
+	${sah6} ./*.deb > ./sha512sums.txt
+	${sah6} ./reject_pkgs >> ./sha512sums.txt.1
+	${sah6} ./accept_pkgs_? >> ./sha512sums.txt.1
+	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
+	csleep 1
 
-psqa .
-${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
-[ ${debug} -eq 1 ] && ls -las ${1}
-cd ${p}
-dqb "ARCH DONE"
+	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+	#alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious
+	#HUOM gpgv VITTUUN SOTKEMASTA
+	#dirmngr kuitenkin tarvitsee jhnkin?
+	#"gpg --keyserver hkps://keys.gnupg.net --receive-keys $something" esim.
+
+	if [ -x ${gg} ] && [ -v CONF_pubk ] ; then
+		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt
+		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt.1
+	fi
+
+	psqa .
+	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
+	[ ${debug} -eq 1 ] && ls -las ${1}
+	cd ${p}
+
+	dqb "ARCH ENEMA DöNE"
 }
 
 #function aval0n() { #prIvaattI, toimimaan+käyttöön?
 #	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 #}
-#
-#function e22_dblock() {
-#	[ -z "${1}" ] && exit 14
-#	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
-#	#[ -w ${1} ] || exit 16 #ei näin?
-#
-#	[ -z "${2}" ] && exit 11
-#	[ -d ${2} ] || exit 22
-#	[ -w ${2} ] || exit 23
-#
-#	[ -z "${3}" ] && exit 33
-#	[ -d ${3} ] || exit 34
-#	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
-#
-#	[ ${debug} -eq 1 ] && pwd
-#	csleep 1
-#	#aval0n #tarpeellinen?
-#	ls -la ${3}/*.deb | wc -l
-#	
-#	for s in ${PART175_LIST} ; do
-#		${sharpy} ${s}*
-#		${NKVD} ${3}/${s}*.deb
-#	done
-#
-#	local t
-#	t=$(echo ${2} | cut -d '/' -f 1-6) #joitain tr-jekkuja vielä?
-#	e22_ts ${t}
-#	dqb "JST B3F0R3 3NF0RC3"
-#	csleep 5
-#
-#	enforce_access ${n} ${t} #${CONF_iface}
-#	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-#	csleep 5
-#
-#	e22_arch ${1} ${2}
-#	e22_cleanpkgs ${2}
-#}
+
+function e22_dblock() {
+	[ -z "${1}" ] && exit 14
+	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
+	#[ -w ${1} ] || exit 16 #ei näin?
+	[ -z "${2}" ] && exit 11
+	[ -d ${2} ] || exit 22
+	[ -w ${2} ] || exit 23
+	[ -z "${3}" ] && exit 33
+	[ -d ${3} ] || exit 34
+	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
+
+	dqb "e22_dblock().PARS-OK"
+	csleep 1
+
+	[ ${debug} -eq 1 ] && pwd
+	csleep 1
+	#aval0n #tarpeellinen?
+	ls -la ${3}/*.deb | wc -l
+	
+	for s in ${PART175_LIST} ; do
+		${sharpy} ${s}*
+		${NKVD} ${3}/${s}*.deb
+	done
+	
+	local t
+	t=$(echo ${2} | cut -d '/' -f 1-6) #joitain tr-jekkuja vielä?
+	e22_ts ${t}
+	dqb "JST B3F0R3 3NF0RC3"
+	csleep 5
+	
+	enforce_access $(whoami) ${t}
+	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
+	csleep 5
+
+	e22_arch ${1} ${2}
+	e22_cleanpkgs ${2}
+}
 
 #080326:testattu senverranq pystyy, jotain kiukuttelua aiheutui (debbug-ulostuksen typot kenties)
 #function e22_rpg() {
