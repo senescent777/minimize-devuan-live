@@ -31,28 +31,34 @@
 #csleep 3
 #140326:toimi ainakin kerran hdr()
 #
-#
+
 function e22_hdr() {
-echo "e22_hdr() ${1}"
-sleep 1
-[ -z "${1}" ] && exit 61
-[ "${1}" == "-v" ] && exit 62
-[ -f ${1} ] && echo "${1} ALREADY EXISTS"
-fasdfasd ./rnd
-fasdfasd ${1}
-csleep 1
-dd if=/dev/random bs=12 count=1 > ./rnd
-csleep 2
-echo "${sr0} -cvf ${1} ./rnd IN 1 SECS"
-csleep 1
-${sr0} -cvf ${1} ./rnd
-[ $? -gt 0 ] && exit 60
-[ ${debug} -eq 1 ] && ls -las ${1}
-dqb "hdr done"
-csleep 2
+	echo "e22_hdr() ${1}"
+	sleep 1
+
+	[ -z "${1}" ] && exit 61
+	[ "${1}" == "-v" ] && exit 62
+	[ -f ${1} ] && echo "${1} ALREADY EXISTS"
+
+	fasdfasd ./rnd
+	fasdfasd ${1}
+	csleep 1
+
+	dd if=/dev/random bs=12 count=1 > ./rnd
+	csleep 2
+
+	echo "${sr0} -cvf ${1} ./rnd IN 1 SECS"
+	csleep 1
+
+	${sr0} -cvf ${1} ./rnd
+	[ $? -gt 0 ] && exit 60
+
+	[ ${debug} -eq 1 ] && ls -las ${1}
+	dqb "hdr done"
+	csleep 2
 }
-#
-##tark-. olla priv fktio
+
+#tark-. olla priv fktio
 #080326:toimi jnkn verran (miten nykyään?)
 
 function e22_tyg() {
@@ -223,7 +229,7 @@ dqb "FOUND PREFS: ${t}"
 [ ${t} -lt 1 ] && exit 27
 }
 
-#VAIH:testit menossa 150326-
+#VAIH:testit menossa 150326- (jokohan jo kunnossa?)
 
 function e22_home_pre() {
 	dqb "e22_home_pre()"
@@ -537,71 +543,65 @@ function e22_ext() {
 #	cg_udp6 ${1}
 #	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 #}
-#
-#joskohan jo toimisi 110326 mennessä ?
-#function e22_arch() { 
-#	[ -z "${1}" ] && exit 1
-#	#[ -s ${1} ] || exit 2 #antaa nyt olla kommenteissa
-#	#[ -w ${1} ] || exit 33 #josko man bash...
-#	[ -d ${2} ] || exit 22
-#	[ -w ${2} ] || exit 44
-#
-#	dqb "pars ok"
-#	csleep 1
-#
-#	#local p=$(pwd)
-#	csleep 1
-#	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
-#
-#	if [ -f ${2}/sha512sums.txt ] ; then
-#		${NKVD} ${2}/sha512sums.txt*
-#	#else
-#	fi
-#	exit 99
-#
-##	local c
-##	c=$(find ${2} -type f -name '*.deb' | wc -l)
-##
-##	if [ ${c} -lt 1 ] ; then
-##		exit 55
-##	fi
-#
-#	${scm} 0444 ${2}/*.deb
-#	fasdfasd ${2}/sha512sums.txt
-#	fasdfasd ${2}/sha512sums.txt.1
-#	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
-#
-#	cd ${2}
-#	echo $?
-#	${sah6} ./*.deb > ./sha512sums.txt
-#
-#	${sah6} ./reject_pkgs >> ./sha512sums.txt.1
-#	${sah6} ./accept_pkgs_? >> ./sha512sums.txt.1
-#	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
-#	csleep 1
-#
-#	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
-#	#alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious
-#
-#	#HUOM gpgv VITTUUN SOTKEMASTA
-#	#dirmngr kuitenkin tarvitsee jhnkin?
-#	#"gpg --keyserver hkps://keys.gnupg.net --receive-keys $something" esim.
-#
-#	if [ -x ${gg} ] && [ -v CONF_pubk ] ; then
-#		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt
-#		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt.1
-#	#else
-#	fi
-#
-#	psqa .
-#
-#	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
-#	[ ${debug} -eq 1 ] && ls -las ${1} 
-#	cd ${p}
-#
-#	dqb "ARCH DONE"
-#}
-#
+
+function e22_arch() {
+dqb "e22_arch()"
+
+#[ -z "${1}" ] && exit 1
+##[ -s ${1} ] || exit 2 #antaa nyt olla kommenteissa
+##[ -w ${1} ] || exit 33 #josko man bash...
+#[ -d ${2} ] || exit 22
+#[ -w ${2} ] || exit 44
+
+dqb "pars ok"
+csleep 1
+local p=$(pwd)
+csleep 1
+#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
+if [ -f ${2}/sha512sums.txt ] ; then
+${NKVD} ${2}/sha512sums.txt*
+#else
+fi
+
+#exit 99
+local c
+c=$(find ${2} -type f -name '*.deb' | wc -l)
+
+if [ ${c} -lt 1 ] ; then
+exit 55
+fi
+${scm} 0444 ${2}/*.deb
+fasdfasd ${2}/sha512sums.txt
+fasdfasd ${2}/sha512sums.txt.1
+[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+
+cd ${2}
+echo $?
+
+${sah6} ./*.deb > ./sha512sums.txt
+${sah6} ./reject_pkgs >> ./sha512sums.txt.1
+${sah6} ./accept_pkgs_? >> ./sha512sums.txt.1
+${sah6} ./pkgs_drop >> ./sha512sums.txt.1
+csleep 1
+
+[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+#alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious
+#HUOM gpgv VITTUUN SOTKEMASTA
+#dirmngr kuitenkin tarvitsee jhnkin?
+#"gpg --keyserver hkps://keys.gnupg.net --receive-keys $something" esim.
+
+if [ -x ${gg} ] && [ -v CONF_pubk ] ; then
+${gg} -u ${CONF_pubk} -sb ./sha512sums.txt
+${gg} -u ${CONF_pubk} -sb ./sha512sums.txt.1
+fi
+
+psqa .
+${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
+[ ${debug} -eq 1 ] && ls -las ${1}
+cd ${p}
+dqb "ARCH DONE"
+}
+
 #function aval0n() { #prIvaattI, toimimaan+käyttöön?
 #	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
@@ -680,22 +680,18 @@ function e22_ext() {
 ##		
 ##	exit
 #}
-#
-#140326:taitaa toimia
-#TODO:pois kommenteista josqs
-#function e22_fgh() {
-#	dqb "e22_fgh( ${1} ; ${2} ; ${3} )"
-#	[ -z "${1}" ] && exit 99
-#	[ -z "${2}" ] && exit 98	
-#	#[ -s "${1}" ] || exit 97 #mikä tässä oli pointti?
-#
-#	dqb "PA.RS"
-#
-#
-#	e22_arch ${1} ${2}
-#
-#	exit
-#}
+
+#VAIH:pois kommenteista josqs (160326)
+function e22_fgh() {
+	dqb "e22_fgh(((( ${1} ; ${2} ; ${3} )()"
+
+	[ -z "${1}" ] && exit 99
+	[ -z "${2}" ] && exit 98
+	#[ -s "${1}" ] || exit 97 #mikä tässä oli pointti?
+
+	dqb "PA.RS"
+	e22_arch ${1} ${2}
+}
 
 #110326:toimi
 #TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?

@@ -127,7 +127,7 @@ case ${mode} in
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
 #	;;
-	f) #140326: tekei paketin, purq onnistui myös
+	f) #160326:osasi luoda paketin, sisällön testaus vielä (VAIH)
 		enforce_access ${n} ${t}
 		e22_fgh ${tgtfile} ${d}
 	;;
