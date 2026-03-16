@@ -695,13 +695,15 @@ ${odio} touch ${1}
 ${sco} $(whoami):$(whoami) ${1}
 ${scm} 0644 ${1}
 }
+
 #olisiko jokin palikka jo aiemmin? e_jutut ? mangle2() ?
 function reqwreqw() {
-[ -z "${1}" ] && exit 99
-[ -f ${1} ] || exit 100 #takaisn josqs? miksi?
-csleep 1
-${sco} 0:0 ${1}
-${scm} a-w ${1}
+	[ -z "${1}" ] && exit 99
+	[ -f ${1} ] || exit 100 #takaisn josqs? miksi?
+
+	csleep 1
+	${sco} 0:0 ${1}
+	${scm} a-w ${1}
 }
 
 #HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan?
