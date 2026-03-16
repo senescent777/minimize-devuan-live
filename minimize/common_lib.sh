@@ -89,7 +89,6 @@ function fix_sudo() {
 
 function other_horrors() {
 	dqb "other_horrors"
-
 	#020236:josko toimisi uudella tavalla paremmin?
 	#${scm} 0400 /etc/iptables/*
 
@@ -100,11 +99,9 @@ function other_horrors() {
 
 	${scm} 0550 /etc/iptables
 	${sco} -R root:root /etc/iptables
-
 	${scm} 0400 /etc/default/rules*
 	${scm} 0555 /etc/default
 	${sco} -R root:root /etc/default
-
 	dqb " DONE"
 	csleep 1
 }
@@ -216,11 +213,11 @@ function check_bin_0() {
 		distro=$(cat /etc/devuan_version)
 	fi
 
-	if [ -v n ] ; then
-		dqb "n OK"
-	else
-		n=$(whoami)
-	fi
+#	if [ -v n ] ; then
+#		dqb "n OK"
+#	else
+#		n=$(whoami)
+#	fi
 
 	#[-v jotain ]  taakse nämä?
 	export LC_TIME
@@ -500,6 +497,7 @@ function check_binaries() {
 
 			#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
 			if [ -z "${gg}" ] ; then
+				#160326:mv-komennon kanssa oli jotain urputusta? vissiin tämän?
 				[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt.bak
 
 				efk2 ${1}/g.tar ${1}
@@ -507,6 +505,7 @@ function check_binaries() {
 				[ -s ${1}/g.tar ] && ${spc} ${1}/g.tar ${1}/g.tar.bak
 				[ $? -eq 0 ] && ${NKVD} ${1}/g.tar
 
+				#160326:mv-komennon kanssa oli jotain urputusta?
 				[ -s ${1}/g.tar.bak ] && ${svm} ${1}/g.tar.bak ${1}/g.tar
 				common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisältö purun jälkeen
 
@@ -517,6 +516,7 @@ function check_binaries() {
 				gv=$(${odio} which gpgv)
 				csleep 1
 
+				#160326:mv-komennon kanssa oli jotain urputusta?
 				[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt
 				common_pp3 ${1}
 			fi
@@ -730,6 +730,7 @@ function pre_enforce() {
 
 		#140326:jospa olisi tämä blokki jnkin aikaa ok näin
 		if [ -d ${1}/opt/bin ] ; then
+			#tämä mv ok?
 			${svm} ${1}/opt/bin/*.bash /opt/bin
 			#090326.2:miten /o/b/zxcv ja /o/b alaiset skRiptit`
 		fi
@@ -749,6 +750,7 @@ function pre_enforce() {
 		csleep 1
 		reqwreqw ${q}
 		${scm} 0440 ${q}
+		#tämä mv ok?
 		${svm} ${q} /etc/sudoers.d
 		CB_LIST1=""
 		unset CB_LIST1
@@ -908,6 +910,7 @@ function e_final() {
 }
 
 function enforce_access() {
+	dqb "enforce_access(${1} , ${2} )"
 	[ -z "${1}" ] && exit 67
 	[ -z "${2}" ] && exit 68
 	csleep 1
@@ -993,65 +996,7 @@ function part1_5() {
 	dqb "p1.5 done"
 	csleep 1
 }
-
-function dis() {
-	dqb "CHAMBERS OF 5HA0 L1N ${1}"
-	[ -z "${1}" ] && exit 44
-	csleep 1
-
-	${scm} 0755 /etc/network
-	${sco} -R root:root /etc/network
-	${scm} a+r /etc/network/*
-
-	if [ -f /etc/network/interfaces ] ; then
-		if [ ! -h /etc/network/interfaces ] ; then
-			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
-		else
-			dqb " /e/n/i n0t a l1nk"
-		fi
-	else
-		dqb "/e/n/i n0t f0und"
-	fi
-
-	local t
-	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
-
-	if [ -f /etc/network/interfaces.${t} ] ; then
-		dqb "LINKS-1-2-3"
-		${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
-		echo $?		
-		csleep 1
-	else
-		dqb "N0 \$UCH TH1NG A5 /etc/network/interfaces.${t}"
-	fi
-
-	${scm} 0555 /etc/network
-	[  ${debug} -eq 1 ] && ls -las /etc/network
-	csleep 1
-
-	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
-	if [ -v CONF_iface ] ; then
-		if [ ! -z "${CONF_iface}" ] ; then
-			${odio} ${sifd} ${CONF_iface}
-			csleep 1
-	
-		#	${odio} ${sifd} -a
-			csleep 1
-
-			[ ${debug} -eq 1 ] && ${sifc};sleep 1
-			dqb "${sip} link set ${CONF_iface} down"
-	
-			${sip} link set ${CONF_iface} down
-			[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
-		fi
-	fi
-	
-	csleep 1
-	${odio} sysctl -p
-	csleep 1
-
-	dqb "5HAD0W 0F TH3 BA35T D0N3"
-}
+#
 
 function part1() {
 	dqb "PART1 ${1} , ${2} "
@@ -1064,8 +1009,8 @@ function part1() {
 	csleep 1
 	
 	[ -v ipt ] || dqb "SHOULD exit 69" #010326 qseeko tämä kohta?
-	dqb "ipt=  ${ipt} "
-	dqb "testgris = ${CONF_testgris}"
+	dqb "ipt :  ${ipt} "
+	dqb "testgris : ${CONF_testgris}"
 	csleep 1
 
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ]  ; then
@@ -1076,6 +1021,7 @@ function part1() {
 		#HUOM.140326:olisikohan CONBF_tesgtgirs riittävästi huomioitu? 
 		#aluksi ohitetaan koko for-takenne uknnes ehkä keksii paremman tavan
 		
+		#to state the obvious:expot2 kautta kutsuttaessa part1() ei tarvinne tables-sääntöjä nollata
 		if [ -x ${ipt} ] ; then
 			if [ ! -v CONF_testgris ] ; then
 				for t in INPUT OUTPUT FORWARD ; do

@@ -3,7 +3,7 @@ mode=2
 distro=$(cat /etc/devuan_version)
 d0=$(pwd)
 #echo "d0=${d0}"
-[ z"${distro}" == "z" ] && exit 6
+[ -z "${distro}" ] && exit 6
 debug=0 #1
 d=${d0}/${distro} 
 
@@ -14,7 +14,8 @@ function parse_opts_1() {
 
 	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
 		#toimiikohan tämä kohta? pitäiskö tegdä toisin, opts_2() ?
-		distro=${1}
+		#distro=${1}
+		echo "I1RTS0 CNAGN3H"
 	else
 		case  "${1}" in
 			0|1|2) #varsinainen numeerisuustarkistus parempi
@@ -55,8 +56,66 @@ dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
 
+function dis() {
+	dqb "CHAMBERS OF 5HA0 L1N ${1}"
+	[ -z "${1}" ] && exit 44
+	csleep 1
+
+	${scm} 0755 /etc/network
+	${sco} -R root:root /etc/network
+	${scm} a+r /etc/network/*
+
+	if [ -f /etc/network/interfaces ] ; then
+		if [ ! -h /etc/network/interfaces ] ; then
+			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
+		else
+			dqb " /e/n/i n0t a l1nk"
+		fi
+	else
+		dqb "/e/n/i n0t f0und"
+	fi
+
+	local t
+	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+
+	if [ -f /etc/network/interfaces.${t} ] ; then
+		dqb "LINKS-1-2-3"
+		${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
+		echo $?		
+		csleep 1
+	else
+		dqb "N0 \$UCH TH1NG A5 /etc/network/interfaces.${t}"
+	fi
+
+	${scm} 0555 /etc/network
+	[  ${debug} -eq 1 ] && ls -las /etc/network
+	csleep 1
+
+	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
+	if [ -v CONF_iface ] ; then
+		if [ ! -z "${CONF_iface}" ] ; then
+			${odio} ${sifd} ${CONF_iface}
+			csleep 1
+	
+		#	${odio} ${sifd} -a
+			csleep 1
+
+			[ ${debug} -eq 1 ] && ${sifc};sleep 1
+			dqb "${sip} link set ${CONF_iface} down"
+	
+			${sip} link set ${CONF_iface} down
+			[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+		fi
+	fi
+	
+	csleep 1
+	${odio} sysctl -p
+	csleep 1
+	dqb "5HAD0W 0F TH3 BA35T D0N3"
+}
+
 function part0() {
-	dqb "common_lib.FART076 ${1}"
+	dqb "g_doit.common_lib.FART076 ${1}"
 	[ -z "${1}" ] && exit 76
 
 	csleep 1
@@ -179,7 +238,7 @@ if [ -f /.chroot ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
-	enforce_access ${n} ${d0}
+	enforce_access $(whoami) ${d0}
 fi
 
 csleep 2
@@ -271,11 +330,14 @@ csleep 2
 
 if [ ! -f /.chroot ] ; then
 	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
-	${scm} 0555 ${d0}/common_lib.sh #toistaiseksi tässä kunnes... Jotain
+
+	${scm} 0555 ${d0}/common_lib.sh
+	#toistaiseksi tässä kunnes... Jotain
+
 	${d0}/import2.sh r ${d0} -v
 fi
 
-#149326:vissiin tähän asti toimii ok
+#140326:vissiin tähän asti toimii ok
 
 jules
 ${asy}
@@ -287,14 +349,14 @@ echo "KVG:\"how to exit for-loop in bash\" " #TÄSSÄKÖ KUSI PASKAA?
 sleep 5
 
 if [ -x /opt/bin/changedns.bash ] ; then
-${odio} /opt/bin/changedns.bash ${CONF_dnsm}
+	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
 else
-if [ -x ${d0}/opt/bin/changedns.bash ] ; then
-${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
-else
-dqb "changedns not an option"
-csleep 5
-fi
+	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
+		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
+	else
+		dqb "changedns not an option"
+		csleep 5
+	fi
 fi
 
 ${sipt} -L
@@ -302,10 +364,11 @@ csleep 1
 ${scm} 0555 ${d0}/common_lib.sh
 #JOKO JO LOPPUISI PURPATUS PRKL
 ${scm} a-wx $0
+
 #===================================================PART 4(final)==========================================================
 if [ ${mode} -eq 2 ] ; then
-echo "time to \$sifu \$CONF_iface or whåtever"
-csleep 1
-adieu
-exit 
+	echo "time to \$sifu \$CONF_iface or whåtever"
+	csleep 1
+	adieu
+	exit 
 fi

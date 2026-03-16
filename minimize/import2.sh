@@ -7,7 +7,7 @@ CONF_dir=/media
 CONF_part0=ABCD-1234
 mode=-2
 d0=$(pwd)
-[ z"${distro}" == "z" ] && exit 6
+[ -z "${distro}" ] && exit 6
 d=${d0}/${distro}
 
 function dqb() {
@@ -19,11 +19,12 @@ function csleep() {
 }
 
 function usage() {
-	echo "${0} <mode> <srcfile> [distro] [debug] "
+	echo "${0} <mode> <srcfile> [distro?] [debug] "
 	echo "when mode=k , this imports PUBLIC_KEYS , u have to import private keys another way!!!"
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
+#TODO:parsetus uusicksi, josqs srcfile:ä ei aseteta
 if [ $# -gt 0 ] ; then
 	mode=${1}
 	[ -f ${1} ] && exit 99
@@ -106,7 +107,7 @@ csleep 1
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#VAIH:sqroot-testiä yaas kehiin (yo. purq ainakin onnaa)
+	#VAIH:sqroot-testiä Taas kehiin (yo. purq ainakin onnaa)
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0NF1G"
@@ -239,9 +240,9 @@ fi
 dqb "ip2.m.Lpg"
 
 function common_part() {
-	dqb "common_part ${1}, ${2}, ${3}"
+	dqb "common_part ${1} , ${2} , ${3}"
 
-	[ -z "${1}" ] && exit 1
+	[ -z "${1}" ] && exit 1 #pitäisi kai kesksyttää suoritus aiemmin tässä tap
 	[ -s ${1} ] || exit 2
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
@@ -288,7 +289,7 @@ function common_part() {
 		dqb "KHAZAD-DUM"
 		dqb "gg= ${gg}"
 
-		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistöä mjonoa löytyykö? $1 vs $1 sha ?
+		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
 		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f)
 		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
 
@@ -308,7 +309,6 @@ function common_part() {
 	fi
 
 	csleep 3
-	#241225:mitäs exclude-juttuja tuo TPX sisälsikään nykyään?
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 
 	csleep 2
@@ -339,7 +339,7 @@ function cptp2() {
 	
 	if [ -x ${t}/common_lib.sh ] ; then
 		#TODO:sha-sig-tarkistus tähän? entä process_lib():iin ?
-		enforce_access ${n} ${t} ${2}
+		enforce_access $(whoami) ${t} #${2} toka param turha?
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	else
 		dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
@@ -347,7 +347,7 @@ function cptp2() {
 
 	csleep 1
 
-	#090326:toimiiko toivotulla tavalla? toivottavasti nytq tr-kikkailut kirjattu
+	#090326:toimiiko toivotulla tavalla? toivottavasti nytq tr-kikkailut kOrjattu
 	if [ -d ${t} ] ; then
 		dqb "HAIL UKK"
 
@@ -368,7 +368,7 @@ dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3} siis)
 
-#140326:OK
+#160326:toimiiko edelleen? "$0 q"-reittiä ainakin
 function tpr() {
 	dqb "UPIR ) ${1} , ${2} , ${3} ("
 	csleep 1
@@ -408,7 +408,7 @@ function tpr() {
 
 	dqb "JUST BEFORE TAR ${1}/${2}"
 	#jos vielä härdelliä niin keskeytetään mikäli ei $2:sta löydä prefs.js?
-	r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l)
+	r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l) #vielä jos arhc_4 ?
 	[ ${r} -gt 0 ] || exit 21
 	csleep 3
 
@@ -419,7 +419,7 @@ function tpr() {
 	dqb "JUST BEFORE impo_prof"
 	csleep 3
 
-	imp_prof esr ${n} ${q}
+	imp_prof esr $(whoami) ${q}
 	dqb $?
 	csleep 3
 
@@ -469,13 +469,14 @@ esac
 
 [ -z "${srcfile}" ] && exit 44
 
-if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
+if [ -f ${srcfile} ] || [ -d ${srcfile} ] ; then #eka tark oli -s
 	dqb "SD"
 else
 	dqb "SMTHING WRONG WITH ${srcfile} "
 	exit 55
 fi
 
+[ -s ${srcfile} ] || exit 34 #pitäsikö olla if-blokin sisällä?
 [ -r ${srcfile} ] || exit 35
 
 if [ "${mode}" == "-3" ] || [ "${mode}" == "r" ] ; then
@@ -500,6 +501,7 @@ case "${mode}" in
 	0|3) 
 		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
 		#110326:toimii edelleen mod pientä kiukuttelua josqs
+		#160326:sama, kiukuttelulle voisi todin tehdä jotain
 
 		echo "ZER0 S0UND"
 		csleep 1
@@ -547,20 +549,20 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
-	r) #140326:jos jo toimisi taas
+	r) #160326:ehkä tämä jo toimii
 		[ -d ${srcfile} ] || exit 23
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
 		[ -v CONF_default_arhcive3 ]  || exit 18
 
-		${srat} -C ~ -jxf ~/${CONF_default_arhcive2}
+		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
 		echo $?
 		csleep 5
 
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	q)
-		#140326:toimii kai
+		#160326:toimi
 		# (turha case oikeastaan koska "$0 1"+"$0 r"
 		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
 
@@ -623,7 +625,7 @@ case "${mode}" in
 	;;
 esac
 
-cptp2 ${d} ${CONF_iface}
+cptp2 ${d} ${CONF_iface} #toka param turha?
 cd ${olddir}
 #ettei umount unohdu 
 
