@@ -1,18 +1,21 @@
 #!/bin/bash
 #jotain oletuksia kunnes oikea konftdsto saatu lotottua
 debug=0 #1
-distro=$(cat /etc/devuan_version) # | cut -d '/' -f 1) #160126 cut-kikkailu pois sotkemasta, muualla kun menee toisin
+
+distro=$(cat /etc/devuan_version)
+# | cut -d '/' -f 1) #160126 cut-kikkailu pois sotkemasta, muualla kun menee toisin
+
 d0=$(pwd)
 mode=-2
 tgtfile=""
 
 function usage() {
-	echo "$0 0 <tgtfile> [distro] [-v]: makes the main package (new way)"
-	echo "$0 4 <tgtfile> [distro] [-v]: makes lighter main package (just scripts and config)"
-	echo "$0 1 <tgtfile> [distro] [-v]: makes upgrade_pkg"
-	echo "$0 e <tgtfile> [distro] [-v]: archives the Essential .deb packages"
-	echo "$0 f <tgtfile> [distro] [-v]: archives .deb Files under \$ {d0} /\${distro}"
-	echo "$0 p <> [] [] pulls Profs.sh from somewhere"
+	echo "$0 0 <tgtfile> [distro?] [-v]: makes the main package (new way)"
+	echo "$0 4 <tgtfile> [distro?] [-v]: makes lighter main package (just scripts and config)"
+	echo "$0 1 <tgtfile> [distro?] [-v]: makes upgrade_pkg"
+	echo "$0 e <tgtfile> [distro?] [-v]: archives the Essential .deb packages"
+	echo "$0 f <tgtfile> [distro?] [-v]: archives .deb Files under \$ {d0} /\${distro}"
+	echo "$0 p <> [] [] pulls \${CONF_default_archive3} from somewhere"
 	echo "$0 q <> [] [] archives firefox settings"
 	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
@@ -22,356 +25,291 @@ function usage() {
 }
 
 #TODO:jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
+
 if [ $# -gt 1 ] ; then
 	mode=${1}
 
-	if [ -f ${1} ] ; then
-		#miksi tähän on joudututtu viimeaikoina?
-		echo "SAATANAN TUNARI"
-		exit 99
-	fi
+#	if [ -f ${1} ] ; then
+#		exit 99
+#	fi
 
 	tgtfile=${2}
 else
-	#echo "$0 -h"
 	usage
 	exit 1	
 fi
 
 #"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
+
 function parse_opts_1() {
-	dqb "exp2.patse_otps8( ${1}, ${2})"
-
-	if [ -d ${d}/${1} ] ; then
-		distro=${1}
+	#if [ -d ${d}/${1} ] ; then
+		#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
 		d=${d0}/${distro}
-	fi
+	#fi
 }
 
-function parse_opts_2() {
-	dqb "parseopts_2 ${1} ${2}"
-}
+#
+#function parse_opts_2() { #160326:josko takaisin vähitellen?
+#}
 
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
-if [ -s ${d0}/$(whoami).conf ] ; then
-	echo "ALT.C0NF1G"
-	. ${d0}/$(whoami).conf
-else
-	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-		. ${d}/conf
-	else
-	 	exit 57
-	fi	
-fi
+function fallback() {
+exit 59
+}
+
+#dqb ja csleep vielä määritelty
 
 if [ -x ${d0}/common_lib.sh ] ; then 
 	. ${d0}/common_lib.sh
 else
-	echo "FALLBACK"
-	echo "chmod +x ${d0}/common_lib.sh may be a good idea now"
+	#miksi tökkää tähän?
 	exit 56
-	#HUOM.28725:toistaiseksi näin
 fi
 
-[ -z ${distro} ] && exit 6
+[ -z "${distro}" ] && exit 6
 d=${d0}/${distro}
-
-dqb "mode= ${mode}"
-dqb "distro=${distro}"
-dqb "file=${tgtfile}"
-csleep 1
-
-if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
-	. ${d}/lib.sh
-else 
-	exit 59
-fi
-
-dqb "tar = ${srat} "
+process_lib ${d}
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
+echo "BEFORE TIG NOR MKTMP"
+sleep 1
 
-for x in /opt/bin/changedns.sh ${d0}/changedns.sh ; do
-	${scm} 0555 ${x}
-	${sco} root:root ${x}
-	${odio} ${x} ${CONF_dnsm} ${distro}
-	#[ -x $x ] && exit for 
-done
-
-dqb "AFTER GANGRENE SETS IN"
-csleep 1
-
-###################261225:josko vähän loiventaisi ao. ehtoja?
 if [ -z "${tig}" ] ; then
-	#HUOM. kts alempaa mitä git tarvitsee
-	echo "sudo apt-get update;sudo apt-get install git"
-	exit 7 #syystä excalibut-testit tilap kommentteihin 16126
+	echo "SHOULD INSTALL GIT"
+	exit 7 #syystä excalibur-testit tilap kommentteihin 16126
 fi
 
 if [ -z "${mkt}" ] ; then
-	#coreutils vaikuttaisi olevan se paketti mikä sisältää mktemp
-	echo "sudo apt-get update;sudo apt-get install coreutils"
-	exit 8 #syystä excalibut-testit tolap kommentteihin 16126
+	echo "SHOULD INSTALL MKTEMP"
+	exit 8
 fi
-#####################
 
-dqb "e22_pre0"
-csleep 1
+echo "JUST BEFORE INCLUDING FLIES"
+sleep 2
 
-if [ -x $(dirname $0)/e22.sh ] ; then
-	dqb "222"
-	.  $(dirname $0)/e22.sh
+#dirnamen kanssa ei oikein toiminut aiemmin
+if [ -x ${d0}/e/e22.sh ] ; then
+	.  ${d0}/e/e22.sh
+	[ $? -gt 0 ] && exit 66
+	csleep 1
+
+	echo "INTER GRENUM...REGFNUM"
+	sleep 5
+
+	.  ${d0}/e/e23.sh
+	[ $? -gt 0 ] && exit 67
 	csleep 2
 else
+	echo "NO BACKEND FOUND"
 	exit 58
 fi
 
-##HUOM.25525:tapaus excalibur/ceres teettäisi lisähommia, tuskin menee qten alla
-#tcdd=$(cat /etc/devuan_version)
-#t2=$(echo ${d} | cut -d '/' -f 6 | tr -d -c a-zA-Z/) #tai suoraan $distro?
-#	
-#if [ ${tcdd} != ${t2} ] ; then
-#	dqb "XXX"
-#	csleep 1
-#	shary="${sag} install --download-only "
-#fi
-#TODO:t2-kikkailut jatkossa ennen e22?
+echo "AFTER 1NCLUD1NG FILEZ"
+sleep 2
 
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
-
-dqb "mode= ${mode}"
-dqb "tar= ${srat}"
-csleep 1
-
 [ -z "${tgtfile}" ] && exit 98
-[ -z "${srat}" ] && exit 66
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
-case ${mode} in
-	rp)
-		[ -s "${tgtfile}" ] || exit 67
-		[ -r "${tgtfile}" ] || exit 68
-		exit 69
-#
-#		e22_cleanpkgs ${d}
-#		csleep 1
-#		
-#		${smr} ${d}/f.tar
-#		csleep 1
-#		
-#		#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
-#		#... koko case pois käytöstä vaikka
-#	
-#		${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${d} -xvf ${tgtfile}
-#		[ $? -eq 0 ] && ${svm} ${tgtfile} ${tgtfile}.OLD
-#		csleep 1
-#
-#		#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
-#			
-#		e22_arch ${tgtfile} ${d}
-#		cd ${d}
-#
-#		#sotkee sittenkin liikaa?
-#		#${srat} -rvf ${tgtfile} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
-#		
-#		#for t in $(${srat} -tf ${tgtfile}) ; do #fråm update2.sh
-#		#	${srat} -uvf  ${tgtfile} ${t}
-#		#done
-#		
-#		exit
-	;;
-	f) 	#140226:toimiiko edelleen? 
+cont=0
+dqb "ESAC1"
+csleep 1
+[ -d ${d0}/${tgtfile} ] && exit 64
 
-		enforce_access ${n} ${t}
-		e22_hdr ${tgtfile}
+#-h pysähtyy ennen tätä riviä?
+e22_hdr ${tgtfile}
+[ -v CONF_iface ] && ${sifd} ${CONF_iface}
+
+case ${mode} in
+#	rp) #080326:toistaiseksi jemmaan, kiukuttelua
+#		[ -s "${tgtfile}" ] || exit 67
+#		[ -r "${tgtfile}" ] || exit 68
+#		e22_rpg ${tgtfile} ${d}
+#	;;
+	f) #160326:osasi luoda paketin, sisällön testaus vielä
+		#(VAIH, esim case g kanssa testit)
+		enforce_access $(whoami) ${t}
 		e22_arch ${tgtfile} ${d}
-		e22_ftr ${tgtfile}
-		exit
 	;;
 	q)
-		#DONE:testausd (120126) , taitaa toimia
-		[ -v CONF_iface ] && ${sifd} ${CONF_iface}
+		#160326:tekee edelleen arkiston, sisältö kenties ok
+		[ -v CONF_default_arhcive ] || exit 33
+		[ -v CONF_default_arhcive2 ] || exit 34
+		[ -v CONF_default_arhcive3 ] || exit 35
 
-		e22_config1 ~
-		${srat} -rvf ${tgtfile} ~/config.tar.bz2
-
-		dqb $?
-		csleep 4
-
-		${NKVD} ~/fediverse.tar
+		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
+	;;
+	c) #160326:teki taas paketin, sisällön kanssa vielä testejä(VAIH)
+		e22_cde ${tgtfile} ${d0} ${distro}
+	;;
+	g) #160326:edlleen validi rimpsu tuo E22GI, tosin tgtfile:n suhteen olisi hyvä tehdä jotain
+		e23_ghi ${tgtfile} ${d0} ${distro}
+	;;
+	p) #160326:osdaa edelleen tdhä arkiston, sisältö jos vaikka ok kanssa
+		[ -v CONF_default_arhcive3 ] || exit 66
 		csleep 1
-
-		e22_settings ${d0}
-		#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
-
-		for f in $(find ${d0} -maxdepth 1 -name 'fediverse.tar' -or -name 'profs.sh' | grep -v pulse) ; do
-			${srat} -rvf ${tgtfile} ${f}
-		done
-
-		e22_ftr ${tgtfile}
-		dqb "CASE Q D0N3"
-		csleep 3
-		exit
-	;;
-	c)
-		#130126:laati paketin, sisältö:lienee ok
-		# tekee paketin (mod ehkä /tmp-hmiston  kiukuttelut)
-		#-T - vipu tar:in kanssa käyttöön vai ei? pärjännee ilmankin
-		
-		cd ${d0}
-		fasdfasd ${tgtfile}
-		[ ${debug} -eq 1 ] && ls -las ${tgtfile}*
-		csleep 2
-		
-		${srat} --exclude '*merd*' -jcvf ${tgtfile} ./*.sh ./pkgs_drop ./${distro}/*.sh ./${distro}/*_pkgs* ./${distro}/pkgs_drop ./1c0ns/*.desktop
-		e22_ftr ${tgtfile}
-		exit
-	;;
-	g)
-		#1402222222226:luuultavasti oksennetut komennot toimivat edelleen (miten f?)
-		#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=gpg=2.2.40-1.1+deb12u1
-		dqb "${sag_u} | ${fib} , when necessary " 
-
-		echo "${shary} ${E22GI}"
-
-		echo "${svm} ${CONF_pkgdir}/*.deb ${d}"
-		#oli se e22_ts() kanssa
-		echo "$0 f ${tgtfile} ${distro}"
-		exit 1
-	;;
-#	dqb "#TODO:alsaan siirtyminen?"
-	p) #120126:toimii, luulisin
-	#mihin muuten kosahtaa jos omegan jälkeen tätä ajaa? srat vai fasdfasd vai mikä?
-
-		e22_hdr ${tgtfile}
-		e22_profs ${tgtfile} ${d0}
-		exit
+		[ -v CONF_iface ] && ${sifu} ${CONF_iface}
+		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
 	;;
 	-h)
 		usage
 	;;
+	*)
+		cont=1
+	;;
 esac
+
+if [ $cont -eq 1 ] ; then
+	dqb "R3D B3F0R3 BL4KC"
+else
+	e22_ftr ${tgtfile}	
+	exit 66
+fi
+
+csleep 1
+e_final
+e_h $(whoami) ${d0}
+dqb "EHD0NE"
+csleep 1
+
+#TODO:changedns:n dns-osuuden vipuaminen joko resolVconf:ille tai dnsmasq:lle? , kumman saakaan pienemmällä säädöllä toimimaan
+
+#HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
+
+#...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
+#.. kts interfaces.tmp liittyen (080326)
 
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
-#291125:voiko sen exitin jo laittaa takaisin vai ei?
-[ -x /opt/bin/changedns.sh ] || echo "SHOULD exit 59"
-#...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
+#110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?
+e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm} #qseeko tämä?
 
-e22_hdr ${tgtfile}
-e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
+#(cdns ennen vai jälkeen sifu?)
+
+if [ -x /opt/bin/changedns.bash ] ; then
+	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
+else
+	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
+		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
+	else
+		dqb "changedns not an option"
+		csleep 5
+	fi
+fi
+#
 
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
+#HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun jossia n tilanteessa
 [ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
-
 doit=1
 csleep 1
 
 case ${mode} in
 	0)
-		echo "NOT SUPPORTED ANYMORE"
 		exit 97
 	;;
 	3|4) 
-		#260225:toimiiko nykyään? , vissiin 
-		[ ${debug} -eq 1 ] && ${srat} -tf ${tgtfile} 
-		csleep 2
+		#160326:kolmonen saattaa tehdä jo toiMivan tdston
+		#(mikäse g_doit-imp2-juttu oli?)
+
+		#nelosen testi VAIH
+
+		[ -v CONF_default_arhcive3 ] || exit 66
+		dqb "NVDK 1b 5 secs"
+		csleep 5
+
+		${NKVD} /opt/bin/zxcv.tmp
+		${spc} /opt/bin/zxcv /opt/bin/zxcv.ÅLD
+		${spc} /opt/bin/zxcv.sig /opt/bin/zxcv.sig.ÅLD
+
+		csleep 1
+		fasdfasd /opt/bin/zxcv.tmp
+		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
+		reqwreqw /opt/bin/zxcv.tmp
 	
-		[ -f /opt/bin/zxcv ] && ${NKVD} /opt/bin/zxcv*
-		csleep 1
-		fasdfasd /opt/bin/zxcv
-
-		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv
-		dqb "e22_ext DON3, next:rm some rchives ?"
-		csleep 1
-
-		#VAIH:jokin e22_fktio vetämään mukaan /e/d/network*
-
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] ; then
-			e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-			e22_other_pkgs ${CONF_dnsm}
-
-			[ ${debug} -eq 1 ] && ls -las ${d}
-			csleep 1
+			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+			e23_other_pkgs ${CONF_dnsm}
 		else
 			doit=0
 		fi
-
-		${sifd} ${CONF_iface}
-		[ ${debug} -eq 1 ] && ls -las ${d}
-		csleep 5
-
-		e22_home ${tgtfile} ${d} ${CONF_enforce} 
-		[ ${debug} -eq 1 ] && ls -las ${tgtfile}
-		csleep 1
-
-		${srat} -tf ${tgtfile} | grep fediverse
-		csleep 5 #jos 5 riittäisi
+		
+		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2}
+		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
 
 		e22_pre1 ${d} ${distro}
-		dqb "B3F0R3 RP2	"
-		csleep 1
-
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
-		fasdfasd /opt/bin/zxcv #onko ihan pakko? 
-		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv
-		reqwreqw  /opt/bin/zxcv
+		fasdfasd /opt/bin/zxcv.tmp
+
+		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
+		reqwreqw /opt/bin/zxcv.tmp
 		csleep 1
 
-		fasdfasd /opt/bin/zxcv.sig	
+		${NKVD} /opt/bin/zxcv.sig
+		${NKVD} /opt/bin/zxcv
+		csleep 1
+
+		fasdfasd /opt/bin/zxcv.sig
+		${svm} /opt/bin/zxcv.tmp /opt/bin/zxcv
+		csleep 1
+
+		${sah6} --ignore-missing -c  /opt/bin/zxcv
+		csleep 6
+		
 		e22_tyg /opt/bin/zxcv
-		reqwreqw /opt/bin/zxcv.sig			
+		reqwreqw /opt/bin/zxcv.sig
+		reqwreqw /opt/bin/zxcv
+		csleep 1
+			
 		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 	;;
-	#u taisi toimia jnkin aikaa 01/26
+	#140326:toimi ainakin kerran (poisp elistä qnnes seur kerr testaa)
 	u|upgrade)
-		dqb "CLEANUP 1 AND 2 DONE, NEXT: ${sag} upgrade"
-		csleep 1
 		[ -v CONF_pkgdir ] || exit 96
-		e22_upgp ${tgtfile} ${CONF_pkgdir} ${CONF_iface}
+		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
+		csleep 1
+		exit 99
+		e23_upgp
+		${sifd} ${CONF_iface}
+		csleep 1
+		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
-	e)
-		#140126 näyttäisi asentuvan e29 ok live-ymp, sqrootissa asentuu nalkutuksen kanssa koska syyt
-		#... tosin pilaakohan seatd sen chmod-groups-jutun?
-		
-		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-		e22_other_pkgs ${CONF_dnsm}
-	;;
-	t) 
-		#140126:sen g-t-jutun kanssa myös aloiteltu, sisältö asentuu ainakin sqroot-ymp
-		#HUOM.wanhat .deb alta pois ennen pak purq jotta pääsee varmuuteen		
-
+	e) #160326:osannee paketin tehdä, sis asentumista ei vielä testattu
 		message
 		csleep 2
-		e22_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+		e23_other_pkgs ${CONF_dnsm}
 	;;
-	l)
-		#... onko se nyt seatd mikä paskoo juttuja vai mitvit? 
-		dqb "#ensin wdm-pak as, sitten avsta slim pois?"
+	t) 
+		#160326:osaa paketin tehdä, sis asentumista ei vielä testattu
+		message
+		csleep 2
+		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+	;;
+	l) #VAIH:testi taas (160326) ... paketin sisällön toimivuus vielä
 		csleep 1
 		[ -v CONF_dm ] || exit 77
-
-		#voisi tietysti kjäkin sanoa komentorivillä mitä dm:ää halutaan käyttää		
-		e22_dm ${CONF_dm}
+		e23_dm ${CONF_dm}
 	;;
 	*)
-		echo "-h"
 		exit
 	;;
 esac
 
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
-	e22_hdr ${d}/f.tar 
-	#accept/reject/drop - jutut mukaan sqroot varten? vai jtnkn muuten?
-	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} 
-	e22_ftr ${d}/f.tar 
+	e22_hdr ${d}/f.tar #140326:pitäisiköhän tämä kohta muuttaa?
 
+	#HUOM.11326:d-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
+	#... voisi sitäpaitsi kys fktion räjäyttää auki q käytössä vain 1 paikasta
+	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} 
+
+	e22_ftr ${d}/f.tar  #140326:pitäisiköhän tämä kohta muuttaa?
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
 fi
