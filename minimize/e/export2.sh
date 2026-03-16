@@ -274,7 +274,7 @@ case ${mode} in
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
 		csleep 1
-
+		exit 99
 		e23_upgp
 		${sifd} ${CONF_iface}
 		csleep 1
@@ -292,7 +292,7 @@ case ${mode} in
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;
-	l) #110326:osaa tehdä paketin ja sisältö asentui (160326 pois pelisdtä qnnes)
+	l) #VAIH:testi taas (160326)
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${CONF_dm}

@@ -634,6 +634,7 @@ function e22_dblock() {
 	#aval0n #tarpeellinen?
 	ls -la ${3}/*.deb | wc -l
 	
+	#HUOM.160326:ao. for-blokki omaksi fktioksi?
 	for s in ${PART175_LIST} ; do
 		${sharpy} ${s}*
 		${NKVD} ${3}/${s}*.deb
