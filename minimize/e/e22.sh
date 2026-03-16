@@ -642,7 +642,7 @@ dqb "ARCH DONE"
 #	e22_arch ${1} ${2}
 #	e22_cleanpkgs ${2}
 #}
-#
+
 #080326:testattu senverranq pystyy, jotain kiukuttelua aiheutui (debbug-ulostuksen typot kenties)
 #function e22_rpg() {
 #	dqb "R-P-G ${1} , ${2} , ${3}"

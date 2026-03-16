@@ -243,24 +243,19 @@ case ${mode} in
 		else
 			doit=0
 		fi
-
+		
+		#exit 99
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2}
-		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 	
-		#exit 99 #qnnes tämä rasti selvitetty
+		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
 
 		e22_pre1 ${d} ${distro}
-		#exit 99 #qnnes tämä rasti selvitetty
-
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
-		fasdfasd /opt/bin/zxcv.tmp #onko ihan pakko? 
-		#exit 99 #qnnes tämä rasti selvitetty
+		fasdfasd /opt/bin/zxcv.tmp
 
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
 		csleep 1
-		#exit 99 #qnnes tämä rasti selvitetty
 
-		#VAIH:näille main kai zxcv.tmp -> zxcv (alkasiskohan jo olla?)
 		${NKVD} /opt/bin/zxcv.sig
 		${NKVD} /opt/bin/zxcv
 		csleep 1
@@ -287,14 +282,14 @@ case ${mode} in
 		csleep 1
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
-	e) #110326 tienoilla e/l/t - caset osasivat paketin tehdä , sis asentumista ei vielä testattu
+	e) #160326:osannee paketin tehdä, sis asentumista ei vielä testattu
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e23_other_pkgs ${CONF_dnsm}
 	;;
 	t) 
-		#toiminee sikäli mikäli case e) toimii
+		#60326:osannee paketin tehdä, sis asentumista ei vielä testattu
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
