@@ -62,47 +62,55 @@ function e22_hdr() {
 #080326:toimi jnkn verran (miten nykyään?)
 
 function e22_tyg() {
-#[ -z "${1}" ] && exit 45
-#[ -s ${1} ] || exit 46
-#[ -r ${1} ] || exit 47
-#csleep 1
-if [ -x ${gg} ] ; then
-if [ -v CONF_pubk ] ; then
-${gg} -u ${CONF_pubk} -sb ${1}
-[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
-csleep 1
-${gg} --verify ${1}.sig
-csleep 1
-else
-dqb "NO KEYS?"
-fi
-else
-dqb "SHOULD INSTALL GPG"
-fi
-dqb "e22_tyg() done"
-csleep 1
+	#[ -z "${1}" ] && exit 45 #TODO:tark takaisin
+	#[ -s ${1} ] || exit 46
+	#[ -r ${1} ] || exit 47
+	#csleep 1
+
+	if [ -x ${gg} ] ; then
+		if [ -v CONF_pubk ] ; then
+			${gg} -u ${CONF_pubk} -sb ${1}
+			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
+			csleep 1
+			${gg} --verify ${1}.sig
+			csleep 1
+		else
+			dqb "NO KEYS?"
+		fi
+	else
+		dqb "SHOULD INSTALL GPG"
+	fi
+
+	dqb "e22_tyg() done"
+	csleep 1
 }
 
 #150326:toimi?
 
-function e22_ftr() {
-#[ -z "${1}" ] && exit 62
-#[ -s ${1} ] || exit 63
-#[ -r ${1} ] || exit 64
-fasdfasd ${1}.sha
-#local p
-#local q
-p=$(pwd)
-q=$(basename ${1})
-cd $(dirname ${1})
-${sah6} ./${q} > ${q}.sha
-csleep 1
-${sah6} -c ${q}.sha
-csleep 1
-e22_tyg ${q}.sha
-cd ${p}
-dqb "e22_ftr() done"
-csleep 1
+function e22_ftr() { #TODO:tarkistukseT takaisin
+	#[ -z "${1}" ] && exit 62
+	#[ -s ${1} ] || exit 63
+	#[ -r ${1} ] || exit 64
+
+	fasdfasd ${1}.sha
+	local p
+	local q
+
+	p=$(pwd)
+	q=$(basename ${1})
+
+	cd $(dirname ${1})
+	${sah6} ./${q} > ${q}.sha
+	csleep 1
+
+	${sah6} -c ${q}.sha
+	csleep 1
+
+	e22_tyg ${q}.sha
+	cd ${p}
+
+	dqb "e22_ftr() done"
+	csleep 1
 }
 
 #VAIH:selvitä qseeko vai ei? ainakaan isompia virheilmoituksia ei tulluT 16326 mennessä enää
@@ -137,12 +145,11 @@ function e22_pre1() {
 	dqb "P3R1.D0N3"
 	csleep 1
 }
-#
+
 #...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 #HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
 
-
-#VAIH:SELVITÄ KUSEEKO TÄMÄ VAI EI?
+#VAIH:SELVITÄ KUSEEKO TÄMÄ VAI EI? ei?
 function e22_pre2() {
 	echo "per2..."
 	[ -z "${1}" ] && exit 66
@@ -156,6 +163,7 @@ function e22_pre2() {
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
 	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
 	par4=$(echo ${4} | tr -d -c 0-9)
+
 ##	#HUOM.020825:vähän enemmän sorkintaa tänne?
 ##	#/e/n alihakemistoihin +x ?
 ##	 /e/n kokonaan talteen?
@@ -433,7 +441,6 @@ function e22_sarram() {
 [ -v CONF_BASEURL ] || exit 6
 
 function e22_ext() {
-	#VAIH:testaus (lkaisikohan jo 16326 ollatestattu?)
 	#TODO:/o/b liittyvää käsittelyä uusicksi sittenq
 	#... millä tavall auusiksi?
 
@@ -689,16 +696,6 @@ function e22_dblock() {
 ##	#done
 ##		
 ##	exit
-#}
-#function e22_fgh() {
-#	dqb "e22_fgh(((( ${1} ; ${2} ; ${3} )()"
-#
-#	[ -z "${1}" ] && exit 99
-#	[ -z "${2}" ] && exit 98
-#	#[ -s "${1}" ] || exit 97 #mikä tässä oli pointti?
-#
-#	dqb "PA.RS"
-#	e22_arch ${1} ${2}
 #}
 
 #TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?

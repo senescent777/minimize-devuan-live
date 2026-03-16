@@ -151,16 +151,18 @@ csleep 2
 #	csleep 1
 #}
 
-#VAIH:testit TAAS (160326 tuo GI-rimpsu edelleen validi)
+#160326;ok
+#TODO:yleisemmän mallin mukaan tämä
 function e23_ghi() {
-[ -z "${1}" ] && exit 6
-[ -z "${2}" ] && exit 16
-[ -z "${3}" ] && exit 6
-dqb "ghi.aps.0k"
-csleep 1
-echo "\${shary} ${E22GI}" #common_lib
-echo "\${svm} ${CONF_pkgdir}/*.deb ${2}/${3}"
-echo "$0 f ${1} ${3}"
+	[ -z "${1}" ] && exit 6
+	[ -z "${2}" ] && exit 16
+	[ -z "${3}" ] && exit 6
+
+	dqb "ghi.aps.0k"
+	csleep 1
+	echo "\${shary} ${E22GI}" #common_lib
+	echo "\${svm} ${CONF_pkgdir}/*.deb ${2}/${3}"
+	echo "$0 f ${1} #${3}"
 }
 
 #VAIH:testaus (160326 tekee edelleen arkiston, sisällön validius vielä seölvitettävä)

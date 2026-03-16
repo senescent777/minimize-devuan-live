@@ -127,8 +127,9 @@ case ${mode} in
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
 #	;;
-	f) #160326:osasi luoda paketin, sisällön testaus vielä (VAIH, esim case g kanssa testit)
-		enforce_access ${n} ${t}
+	f) #160326:osasi luoda paketin, sisällön testaus vielä
+		#(VAIH, esim case g kanssa testit)
+		enforce_access $(whoami) ${t}
 		e22_arch ${tgtfile} ${d}
 	;;
 	q)
@@ -287,12 +288,12 @@ case ${mode} in
 		e23_other_pkgs ${CONF_dnsm}
 	;;
 	t) 
-		#160326:osannee paketin tehdä, sis asentumista ei vielä testattu
+		#160326:osaa paketin tehdä, sis asentumista ei vielä testattu
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;
-	l) #VAIH:testi taas (160326)
+	l) #VAIH:testi taas (160326) ... paketin sisällön toimivuus vielä
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${CONF_dm}
