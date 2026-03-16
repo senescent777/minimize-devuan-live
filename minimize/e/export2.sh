@@ -258,7 +258,9 @@ case ${mode} in
 		${svm} /opt/bin/zxcv.tmp /opt/bin/zxcv
 		csleep 1
 
-		#TODO:jossai n näillä main sha512sum -c /o/b/z ?
+		#VAIH
+		${sah6} --ignore-missing -c  /opt/bin/zxcv
+		csleep 6
 		
 		e22_tyg /opt/bin/zxcv
 		reqwreqw /opt/bin/zxcv.sig
