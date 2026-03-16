@@ -259,7 +259,6 @@ case ${mode} in
 		${svm} /opt/bin/zxcv.tmp /opt/bin/zxcv
 		csleep 1
 
-		#VAIH
 		${sah6} --ignore-missing -c  /opt/bin/zxcv
 		csleep 6
 		
