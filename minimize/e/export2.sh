@@ -159,8 +159,6 @@ case ${mode} in
 	;;
 esac
 
-#exit 99
-
 if [ $cont -eq 1 ] ; then
 	dqb "R3D B3F0R3 BL4KC"
 else
@@ -168,29 +166,34 @@ else
 	exit 66
 fi
 
-#exit 99
-
 csleep 1
 e_final
-e_h ${n} ${d0}
+e_h $(whoami) ${d0}
 dqb "EHD0NE"
 csleep 1
 
 #TODO:changedns:n dns-osuuden vipuaminen joko resolVconf:ille tai dnsmasq:lle? , kumman saakaan pienemmällä säädöllä toimimaan
-#exit 99
-#TODO:taksisin käyttöön sittenq
-#if [ -x /opt/bin/changedns.bash ] ; then
-#	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
-#else
-#	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
-#		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
-#	else
-#		dqb "changedns not an option"
-#		csleep 5
-#	fi
-#fi
+
+#HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
+#[ -v CONF_iface ] && ${sifu} ${CONF_iface}
+#csleep 1
+
+#VAIH:takAisin käyttöön sittenq
+#(buginmetsästyksen aikana åparempi pitää kommenteissa tosin)
+#(cdns ennen vai jälkeen sifu?)
+
+if [ -x /opt/bin/changedns.bash ] ; then
+	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
+else
+	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
+		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
+	else
+		dqb "changedns not an option"
+		csleep 5
+	fi
+fi
 #
-#exit 99
+
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 #.. kts interfaces.tmp liittyen (080326)
 

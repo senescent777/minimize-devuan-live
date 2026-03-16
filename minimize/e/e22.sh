@@ -105,7 +105,7 @@ dqb "e22_ftr() done"
 csleep 1
 }
 
-#VAIH:selvitä qseeko vai ei?
+#VAIH:selvitä qseeko vai ei? ainakaan isompia virheilmoituksia ei tulluT 16326 mennessä enää
 function e22_pre1() {
 	dqb "e22_pre1()"
 	[ -z "${1}" ] && exit 65
@@ -124,8 +124,8 @@ function e22_pre1() {
 		local lefid
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/)
 
-		#TODO:glb mja n roskikseen jatkossa, toisnkin voi tehdä		
-		enforce_access ${n} ${lefid}
+		#VAIH:glb mja n roskikseen jatkossa, toisnkin voi tehdä		
+		enforce_access $(whoami) ${lefid}
 
 		csleep 1
 		${scm} 0755 /etc/apt
@@ -140,41 +140,40 @@ function e22_pre1() {
 #
 #...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 #HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
-#
-#150326:debug-syistä rivejä kommentteihin, josko kohta takaisin?
-#TODO:SELVITÄ KLUSEEKO TÄMÄ VAI EI?
+
+
+#VAIH:SELVITÄ KUSEEKO TÄMÄ VAI EI?
 function e22_pre2() {
 	echo "per2..."
-#	[ -z "${1}" ] && exit 66
-#	[ -z "${2}" ] && exit 67
-#	[ -z "${3}" ] && exit 68
-#	[ -z "${4}" ] && exit 69
-##
-##	local ortsac
-##	local par4
-##
-##	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
-##	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
-##	par4=$(echo ${4} | tr -d -c 0-9)
-##
+	[ -z "${1}" ] && exit 66
+	[ -z "${2}" ] && exit 67
+	[ -z "${3}" ] && exit 68
+	[ -z "${4}" ] && exit 69
+	dqb " (pars.ok)"
+	csleep 1
+	local ortsac
+	local par4
+	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
+	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
+	par4=$(echo ${4} | tr -d -c 0-9)
 ##	#HUOM.020825:vähän enemmän sorkintaa tänne?
 ##	#/e/n alihakemistoihin +x ?
-##	#/e/wpa kokonaan talteen? /e/n kokonaan talteen?
-##
-###	if [ -d ${1} ] && [ -x /opt/bin/changedns.bash ] ; then
-##		#HUOM.080326:jatkossa jos kääåntgyisi e.e. ifup käskyttäisi tarpeellisia skriptejä
-###		echo $?
-##		csleep 1
-###		${sifu} ${3}
-#####		${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-##		${scm} -Rv 700 ${CONF_pkgdir}/partial/
-##
-##		${sag_u}
-csleep 1
-##	else
-##		exit 111
-##	fi
-dqb "... done"
+##	 /e/n kokonaan talteen?
+
+	if [ -d ${1} ] && [ -x /opt/bin/changedns.bash ] ; then
+		#HUOM.080326:jatkossa jos kääåntgyisi e.e. ifup käskyttäisi tarpeellisia skriptejä
+		echo $?
+		csleep 1
+		${sifu} ${3}
+		${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+		${scm} -Rv 700 ${CONF_pkgdir}/partial/
+		${sag_u}
+	else
+		exit 111
+	fi
+
+	csleep 1
+	dqb "... done"
 }
 
 function e22_cleanpkgs() {
