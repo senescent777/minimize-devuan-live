@@ -49,7 +49,7 @@ function parse_opts_1() {
 }
 
 #
-#function parse_opts_2() {
+#function parse_opts_2() { #160326:josko takaisin vähitellen?
 #}
 
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
@@ -83,7 +83,6 @@ if [ -z "${mkt}" ] ; then
 	echo "SHOULD INSTALL MKTEMP"
 	exit 8
 fi
-
 
 echo "JUST BEFORE INCLUDING FLIES"
 sleep 2
@@ -141,7 +140,7 @@ case ${mode} in
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 		#exit #tarkoitus olisi ettei suoritusta jatkettaisi tätä pidemmälle
 	;;
-	c) #110326:toimi
+	c) #160326:teki taas paketin, sisällön kanssa vielä testejä(VAIH)
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
 	g) #090326:oksennetut komennot vissiin ok edelleen

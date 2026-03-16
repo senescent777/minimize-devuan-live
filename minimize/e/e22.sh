@@ -694,23 +694,17 @@ function e22_ext() {
 #
 #	exit
 #}
-#
-##110326:toimi
-##TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?
-##TODO:uusicksi testaus koska viimeaikaiset muutokset
-#
-#function e22_cde() {
-#	[ -z "${1}" ] && exit 99
-#	[ -z "${2}" ] && exit 98
-#	[ -d "${2}" ] || exit 97
-#
-#	cd ${2}
-#	fasdfasd ${1}
-#	[ ${debug} -eq 1 ] && ls -las ${1}*
-#	csleep 2
-#		
-#	${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
-#	#e22_ftr ${1}
-#	#exit
-#}
-#
+
+#110326:toimi
+#TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?
+#VAIH:uusicksi testaus koska viimeaikaiset muutokset (160326, tekee tdston, sisältö:)
+function e22_cde() {
+[ -z "${1}" ] && exit 99
+[ -z "${2}" ] && exit 98
+[ -d "${2}" ] || exit 97
+cd ${2}
+fasdfasd ${1}
+[ ${debug} -eq 1 ] && ls -las ${1}*
+csleep 2
+${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
+}

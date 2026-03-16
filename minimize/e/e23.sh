@@ -172,61 +172,55 @@
 #	echo "\${svm} ${CONF_pkgdir}/*.deb ${2}/${3}"
 #	echo "$0 f ${1} ${3}"
 #}
-#
-##140326:toimi
-#function e23_qrs() {
-##
-##
-##	[ -z "${1}" ] && exit 77
-##	[ -s ${1} ] || exit 66
-##	[ -r ${1} ] || exit 55
-##
-##	[ -z "${2}" ] && exit 11
-##	[ -d ${2} ] || exit 22
-##
-##	[ -z "${3}" ] && exit 44
-##	#[ -f ${3} ] || exit 33
-##
-##	[ -z "${4}" ] && exit 43
-##	#[ -f ${4} ] || exit 34
-##
-##	[ -z "${5}" ] && exit 43
-##	#[ -f ${5} ] || exit 34
-#
-#	dqb "pars.0k"
-#	csleep 1
-#
-#	e22_config1 ~ ${3}
-#	${srat} -rvf ${1} ~/${3}
-#	csleep 2
-#
-#	#tuleeko mukaan vai ei?
-#	tar -tf ${1} | grep ${3} | wc -l
-#	csleep 3
-#
-#	dqb "BEFORE NVDk"
-#	[ -f ${4} ] && ${NKVD} ~/${4}
-#	csleep 1
-#
-#	e22_settings ${2} ${4} ${5}
-#	#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
-#	exit 99
-#
-#	#dqb "just BEFORE find ${2} -maxdepth 1 -type f -name ${4} "
-#	#csleep 1
-#	exit 99
-#
-##	#jospa ei hipsuja tähän find:iin
-##	for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
-##		${srat} -rvf ${1} ${f}
-##	done
-#
-#	[ ${debug} -eq 1 ] && tar -tf ${1} | grep ${4} | wc -l
-#	csleep 3
-#
+
+#140326:toimi
+function e23_qrs() {
+#[ -z "${1}" ] && exit 77
+#[ -s ${1} ] || exit 66
+#[ -r ${1} ] || exit 55
+#[ -z "${2}" ] && exit 11
+#[ -d ${2} ] || exit 22
+#[ -z "${3}" ] && exit 44
+##[ -f ${3} ] || exit 33
+#[ -z "${4}" ] && exit 43
+##[ -f ${4} ] || exit 34
+#[ -z "${5}" ] && exit 43
+##[ -f ${5} ] || exit 34
+
+	dqb "pars.0k"
+	csleep 1
+
+	e22_config1 ~ ${3}
+	${srat} -rvf ${1} ~/${3}
+	csleep 2
+
+	#tuleeko mukaan vai ei?
+	tar -tf ${1} | grep ${3} | wc -l
+	csleep 3
+
+	dqb "BEFORE NVDk"
+	[ -f ${4} ] && ${NKVD} ~/${4}
+	csleep 1
+
+	e22_settings ${2} ${4} ${5}
+	#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
+	exit 99
+
+	#dqb "just BEFORE find ${2} -maxdepth 1 -type f -name ${4} "
+	#csleep 1
+	exit 99
+
+#	#jospa ei hipsuja tähän find:iin
+#	for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
+#		${srat} -rvf ${1} ${f}
+#	done
+
+	[ ${debug} -eq 1 ] && tar -tf ${1} | grep ${4} | wc -l
+	csleep 3
+
 #	#ftr() tässä vai kutsuvassa koodissa?
 #	e22_ftr ${1}
-#}
+}
 #
 ##110326 viimeksi testattu, toimi silloin
 #tar: File shrank by
