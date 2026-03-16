@@ -682,6 +682,7 @@ dqb "ARCH DONE"
 #}
 
 #VAIH:pois kommenteista josqs (160326)
+#turha wrapper kohta
 function e22_fgh() {
 	dqb "e22_fgh(((( ${1} ; ${2} ; ${3} )()"
 

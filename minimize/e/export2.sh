@@ -121,6 +121,9 @@ csleep 1
 e22_hdr ${tgtfile}
 #exit 99
 
+#[ -v CONF_iface ] && ${sifd} ${CONF_iface}
+#TODO:sifd takaisin sittenq testit ohi	
+
 case ${mode} in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua
 #		[ -s "${tgtfile}" ] || exit 67
@@ -133,9 +136,6 @@ case ${mode} in
 	;;
 	q)
 		#160326:testit käynnissä tekee edelleen arkiston, sisällön validius vielä
-		#[ -v CONF_iface ] && ${sifd} ${CONF_iface}
-		#TODO:sifd takaisin sittenq testit ohi		
-
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
@@ -150,7 +150,7 @@ case ${mode} in
 		e23_ghi ${tgtfile} ${d0} ${distro}
 		#exit
 	;;
-	p) #150326:VAIH (testaus, sisällön lähinnä, kts $0 4)
+	p) #160326:osdaa edelleen tdhä arkiston, sisällön testaus jäölleen(VAIH)
 		[ -v CONF_default_arhcive3 ] || exit 66
 		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
 	;;
