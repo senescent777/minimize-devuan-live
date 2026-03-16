@@ -3,11 +3,11 @@
 #https://unix.stackexchange.com/questions/128439/good-detailed-explanation-of-etc-network-interfaces-syntax
 #https://askubuntu.com/questions/1030048/how-to-create-post-up-and-pre-down-routes-in-interfaces-file
 #csleep 6
-#TODO.JOSQS kommentoidut jututy takaisin?
-#${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-#${scm} -Rv 700 ${CONF_pkgdir}/partial/
-#csleep 1
-#
+
+${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+${scm} -Rv 700 ${CONF_pkgdir}/partial/
+csleep 1
+
 #if [ -v CONF_pubk ] ; then
 #	dqb "Å"
 #else
@@ -62,10 +62,11 @@ function e22_hdr() {
 #080326:toimi jnkn verran (miten nykyään?)
 
 function e22_tyg() {
-	#[ -z "${1}" ] && exit 45 #TODO:tark takaisin
-	#[ -s ${1} ] || exit 46
-	#[ -r ${1} ] || exit 47
-	#csleep 1
+	[ -z "${1}" ] && exit 45 #VAIH:tark takaisin
+	[ -s ${1} ] || exit 46
+	[ -r ${1} ] || exit 47
+	csleep 1
+	dqb "e22_tyg().pars.ok"
 
 	if [ -x ${gg} ] ; then
 		if [ -v CONF_pubk ] ; then
@@ -87,10 +88,13 @@ function e22_tyg() {
 
 #150326:toimi?
 
-function e22_ftr() { #TODO:tarkistukseT takaisin
-	#[ -z "${1}" ] && exit 62
-	#[ -s ${1} ] || exit 63
-	#[ -r ${1} ] || exit 64
+function e22_ftr() { #VAIH:tarkistukseT takaisin
+	dqb "e22_ftr()"
+	[ -z "${1}" ] && exit 62
+	[ -s ${1} ] || exit 63
+	[ -r ${1} ] || exit 64
+	dqb "pars.ok"
+	csleep 1
 
 	fasdfasd ${1}.sha
 	local p
@@ -130,9 +134,7 @@ function e22_pre1() {
 		exit 111
 	else
 		local lefid
-		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/)
-
-		#VAIH:glb mja n roskikseen jatkossa, toisnkin voi tehdä		
+		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/)	
 		enforce_access $(whoami) ${lefid}
 
 		csleep 1
@@ -184,6 +186,7 @@ function e22_pre2() {
 	dqb "... done"
 }
 
+#TODO:param.tark
 function e22_cleanpkgs() {
 	[ -z "${1}" ] && exit 56
 	if [ -d ${1} ] ; then
@@ -197,62 +200,70 @@ function e22_cleanpkgs() {
 	fi
 }
 
-
 function e22_config1() {
-dqb "e22_config1()"
-[ -z "${1}" ] && exit 11
-[ -d ${1} ] || exit 22
-[ -z "${2}" ] && exit 11
-#local p
-p=$(pwd)
-cd ${1} 
-#antaa nyt olla toistaiseksi näin, cd:n kanssa
-[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
-${sr0} -jcf ${2} ./xorg.conf* ./.config
-[ -s ${2} ] || exit 99
-cd ${p}
-dqb "e22_config1() done"
-csleep 1
+	dqb "e22_config1()"
+	[ -z "${1}" ] && exit 11
+	[ -d ${1} ] || exit 22
+	[ -z "${2}" ] && exit 11
+
+	local p
+	p=$(pwd)
+	
+	cd ${1} 
+	#antaa nyt olla toistaiseksi näin, cd:n kanssa
+	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
+	${sr0} -jcf ${2} ./xorg.conf* ./.config
+
+	[ -s ${2} ] || exit 99
+	cd ${p}
+
+	dqb "e22_config1() done"
+	csleep 1
 }
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 #nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
 
 function e22_settings() {
-#[ -z "${1}" ] && exit 11
-#[ -d ${1} ] || exit 22
-#[ -z "${2}" ] && exit 44
-#[ -z "${3}" ] && exit 89
-if [ ! -x ${1}/${3} ] ; then
-exit 24
-fi
-.  ${1}/${3}
-[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
-exp_prof ${1}/${2} default-esr
-[ -s ${1}/${2} ] || exit 32
-#local t
-t=$(tar -tf ${1}/${2} | grep prefs.js | wc -l)
-dqb "FOUND PREFS: ${t}"
-[ ${t} -lt 1 ] && exit 27
+	dqb "e22_settings(${1}, ${2}, ${3}, ${4})"
+	[ -z "${1}" ] && exit 11
+	[ -d ${1} ] || exit 22
+	[ -z "${2}" ] && exit 44
+	[ -z "${3}" ] && exit 89
+	dqb "pars.ok"
+	csleep 1
+
+	if [ ! -x ${1}/${3} ] ; then
+		exit 24
+	fi
+
+	.  ${1}/${3}
+	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
+	exp_prof ${1}/${2} default-esr
+	[ -s ${1}/${2} ] || exit 32
+
+	local t
+	t=$(tar -tf ${1}/${2} | grep prefs.js | wc -l)
+	dqb "FOUND PREFS: ${t}"
+	[ ${t} -lt 1 ] && exit 27
 }
 
-#VAIH:testit menossa 150326- (jokohan jo kunnossa?)
+#160326:toimi tuolloin aiankin kerran
+#TODO:voisikohan nuo Constit korvata josqs...
+#TODO:tarkistukset paramreille
 
 function e22_home_pre() {
 	dqb "e22_home_pre()"
 
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		e22_config1 ~ ${4}
-		${NKVD} ~/${CONF_default_arhcive}
-
-		#voisikohan nuo Constit korvata josqs...
+		${NKVD} ~/${CONF_default_arhcive}		
 		e22_settings ${2}/.. ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	fi
 
 	csleep 1
 	#150326:JOSKOHANLIITTYISI VIIMEAIKAISEEN KUSEMISEEN TUO AO. RIVI
 	${srat} -rvf ${1} /opt/bin 
-	#exit 99 #find qsee jossain
 
 	dqb "JUST BEFORE FIND"
 	csleep 1
@@ -265,16 +276,15 @@ function e22_home_pre() {
 	csleep 1
 }
 
-#HUOM.150326:testit vaiheessa
 function e22_home() {
 	dqb "e22_home()"
-#	[ -z "${1}" ] && exit 67
-#	[ -s ${1} ] || exit 68
-#	[ -z "${2}" ] && exit 69
-#	[ -d ${2} ] || exit 70
-#	[ -z "${3}" ] && exit 71
-#	[ -z "${3}" ] && exit 72
-#	[ -z "${4}" ] && exit 73
+	[ -z "${1}" ] && exit 67 #VAIH:tark takas
+	[ -s ${1} ] || exit 68
+	[ -z "${2}" ] && exit 69
+	[ -d ${2} ] || exit 70
+	[ -z "${3}" ] && exit 71
+
+	#[ -z "${4}" ] && exit 73
 	csleep 1
 
 	local t
@@ -289,12 +299,10 @@ function e22_home() {
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 	csleep 2
 
-	#exit 99
 	#find qsee jossain?	
 	for f in $(find ~ -type f -name 'xorg.conf*' ) ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "e22_home().done()"	
 }
-
 
 #pitäisikö siirtää toiseen tdstoon?
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
@@ -414,18 +422,15 @@ function e22_sarram() {
 		${srat} -rvf ${1} ${f}
 	done
 
-	#exit 99
 	${srat} -rvf ${1} /etc/X11/default-display-manager
 	#HUOM.tätä varten oli valmiskin palikka?
 	${scm} 0555 /etc/iptables
 	${scm} 0400 /etc/iptables/rules*
 	${scm} 0400 /etc/default/rules*
-	#exit 99
 
 	#150326:nalkutusta ruleksien käyttöopikeukissta, tee jotain?
 	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
 	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
-	#exit 99
 
 	if [ -x /usr/sbin/ntpd ] ; then
 		for f in $(${odio} find /etc -type f -name 'ntp*') ; do
@@ -444,16 +449,16 @@ function e22_ext() {
 	#TODO:/o/b liittyvää käsittelyä uusicksi sittenq
 	#... millä tavall auusiksi?
 
-#TODO:juttuja takaisin kommenteista?
-#	[ -z "${1}" ] && exit 1
-#	[ -s ${1} ] || exit 2
-#	#[ -w ${1} ] || exit 6
-#	#-f, ! -d pitäisikö olla 1 tai 4 kanssa?
-#	[ -z "${2}" ] && exit 3
-#	[ -z "${3}" ] && exit 4
-#	[ -z "${4}" ] && exit 47
-#	[ -f ${4} ] || exit 48
-#
+#VAIH:juttuja takaisin kommenteista?
+	[ -z "${1}" ] && exit 1
+	[ -s ${1} ] || exit 2
+	#[ -w ${1} ] || exit 6
+	#-f, ! -d pitäisikö olla 1 tai 4 kanssa?
+	[ -z "${2}" ] && exit 3
+	[ -z "${3}" ] && exit 4
+	[ -z "${4}" ] && exit 47
+	[ -f ${4} ] || exit 48
+
 	local p
 	local q	
 	local r
@@ -521,7 +526,7 @@ function e22_ext() {
 
 	echo $?
 
-	#local f
+	local f
 	#160126:tuon yhden tdston kanssa jokin ongelma sha-tark kanssa, joten ksrdotssn
 	#pois myös resolv.conf.* vaiko ei ?
 	#exit 99

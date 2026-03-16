@@ -177,8 +177,6 @@ csleep 1
 
 #HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
 
-
-
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
 #.. kts interfaces.tmp liittyen (080326)
 
@@ -218,6 +216,8 @@ case ${mode} in
 	3|4) 
 		#160326:kolmonen saattaa tehdä jo toiMivan tdston
 		#(mikäse g_doit-imp2-juttu oli?)
+
+		#nelosen testi VAIH
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		dqb "NVDK 1b 5 secs"
