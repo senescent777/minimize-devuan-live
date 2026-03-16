@@ -127,12 +127,12 @@ case ${mode} in
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
 #	;;
-	f) #160326:osasi luoda paketin, sisällön testaus vielä (VAIH)
+	f) #160326:osasi luoda paketin, sisällön testaus vielä (VAIH, esim case g kanssa testit)
 		enforce_access ${n} ${t}
 		e22_arch ${tgtfile} ${d}
 	;;
 	q)
-		#160326:testit käynnissä tekee edelleen arkiston, sisällön validius vielä
+		#160326:tekee edelleen arkiston, sisältö kenties ok
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
@@ -142,10 +142,10 @@ case ${mode} in
 	c) #160326:teki taas paketin, sisällön kanssa vielä testejä(VAIH)
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
-	g) #160326:edlleen validi rimpsu tuo E22GI, tosin tgtfile:n suhteen olisi hyvö tehdö jotain
+	g) #160326:edlleen validi rimpsu tuo E22GI, tosin tgtfile:n suhteen olisi hyvä tehdä jotain
 		e23_ghi ${tgtfile} ${d0} ${distro}
 	;;
-	p) #160326:osdaa edelleen tdhä arkiston, sisällön testaus jäölleen(VAIH)
+	p) #160326:osdaa edelleen tdhä arkiston, sisältö jos vaikka ok kanssa
 		[ -v CONF_default_arhcive3 ] || exit 66
 		csleep 1
 		[ -v CONF_iface ] && ${sifu} ${CONF_iface}
@@ -175,11 +175,7 @@ csleep 1
 #TODO:changedns:n dns-osuuden vipuaminen joko resolVconf:ille tai dnsmasq:lle? , kumman saakaan pienemmällä säädöllä toimimaan
 
 #HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
-#[ -v CONF_iface ] && ${sifu} ${CONF_iface}
-#csleep 1
 
-#VAIH:takAisin käyttöön sittenq
-#(buginmetsästyksen aikana åparempi pitää kommenteissa tosin)
 #(cdns ennen vai jälkeen sifu?)
 
 if [ -x /opt/bin/changedns.bash ] ; then
@@ -205,7 +201,7 @@ e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm} #qseeko tämä?
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
-#HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun
+#HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun jossia n tilanteessa
 [ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 doit=1
@@ -216,8 +212,8 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#VAIH:testaus TAAS , eRItyisesti miten nelosen output g_doit:n imp2-kikkailun kanssa?
-		#... jokohan seuraavaksi sen tuotoksen testaus?
+		#160326:kolmonen saattaa tehdä jo toiMivan tdston
+		#(mikäse g_doit-imp2-juttu oli?)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		dqb "NVDK 1b 5 secs"
@@ -259,6 +255,8 @@ case ${mode} in
 		${svm} /opt/bin/zxcv.tmp /opt/bin/zxcv
 		csleep 1
 
+		#TODO:jossai n näillä main sha512sum -c /o/b/z ?
+		
 		e22_tyg /opt/bin/zxcv
 		reqwreqw /opt/bin/zxcv.sig
 		reqwreqw /opt/bin/zxcv
@@ -266,7 +264,7 @@ case ${mode} in
 			
 		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 	;;
-	#140326:toimi ainakin kerran
+	#140326:toimi ainakin kerran (poisp elistä qnnes seur kerr testaa)
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
@@ -289,7 +287,7 @@ case ${mode} in
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;
-	l) #110326:osaa tehdä paketin ja sisältö asentui
+	l) #110326:osaa tehdä paketin ja sisältö asentui (160326 pois pelisdtä qnnes)
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${CONF_dm}

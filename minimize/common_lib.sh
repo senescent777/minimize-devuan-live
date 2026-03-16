@@ -910,6 +910,7 @@ function e_final() {
 }
 
 function enforce_access() {
+	dqb "enforce_access(${1} , ${2} )"
 	[ -z "${1}" ] && exit 67
 	[ -z "${2}" ] && exit 68
 	csleep 1

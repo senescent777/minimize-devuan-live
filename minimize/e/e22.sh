@@ -433,8 +433,10 @@ function e22_sarram() {
 [ -v CONF_BASEURL ] || exit 6
 
 function e22_ext() {
-	#VAIH:testaus
+	#VAIH:testaus (lkaisikohan jo 16326 ollatestattu?)
 	#TODO:/o/b liittyvää käsittelyä uusicksi sittenq
+	#... millä tavall auusiksi?
+
 #TODO:juttuja takaisin kommenteista?
 #	[ -z "${1}" ] && exit 1
 #	[ -s ${1} ] || exit 2
@@ -445,10 +447,10 @@ function e22_ext() {
 #	[ -z "${4}" ] && exit 47
 #	[ -f ${4} ] || exit 48
 #
-	#local p
-	#local q	
-	#local r
-	#local st
+	local p
+	local q	
+	local r
+	local st
 
 	csleep 1
 	p=$(pwd)
@@ -488,7 +490,6 @@ function e22_ext() {
 	if [ ! -s ./sbin/dhclient-script.1 ] ; then
 		 ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
 		ls -las ./sbin
-#	else
 	fi
 
 	if [ -f /etc/apt/sources.list ] ; then
@@ -518,7 +519,8 @@ function e22_ext() {
 	#pois myös resolv.conf.* vaiko ei ?
 	#exit 99
 
-	for f in $(find ./etc -type f -not -name 'interfaces.tmp') ; do
+	#interfaces-alkuisten kanssa kiukuttelua cnangedns kanssa
+	for f in $(find ./etc -type f -not -name 'interfaces.*') ; do
 		${sah6} ${f} >> ${4}
 	done
 

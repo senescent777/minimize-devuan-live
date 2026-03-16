@@ -339,7 +339,7 @@ function cptp2() {
 	
 	if [ -x ${t}/common_lib.sh ] ; then
 		#TODO:sha-sig-tarkistus tähän? entä process_lib():iin ?
-		enforce_access ${n} ${t} ${2}
+		enforce_access $(whoami) ${t} #${2} toka param turha?
 		dqb "running changedns.sh maY be necessary now to fix some things"
 	else
 		dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
@@ -347,7 +347,7 @@ function cptp2() {
 
 	csleep 1
 
-	#090326:toimiiko toivotulla tavalla? toivottavasti nytq tr-kikkailut kirjattu
+	#090326:toimiiko toivotulla tavalla? toivottavasti nytq tr-kikkailut kOrjattu
 	if [ -d ${t} ] ; then
 		dqb "HAIL UKK"
 
@@ -501,6 +501,7 @@ case "${mode}" in
 	0|3) 
 		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
 		#110326:toimii edelleen mod pientä kiukuttelua josqs
+		#160326:sama, kiukuttelulle voisi todin tehdä jotain
 
 		echo "ZER0 S0UND"
 		csleep 1
@@ -548,7 +549,7 @@ case "${mode}" in
 		csleep 1
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
-	r) #TODO:testaa TAAS että toimiiiko (16.3.26)
+	r) #160326:ehkä tämä jo toimii
 		[ -d ${srcfile} ] || exit 23
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
@@ -624,7 +625,7 @@ case "${mode}" in
 	;;
 esac
 
-cptp2 ${d} ${CONF_iface}
+cptp2 ${d} ${CONF_iface} #toka param turha?
 cd ${olddir}
 #ettei umount unohdu 
 

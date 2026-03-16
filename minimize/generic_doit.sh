@@ -238,7 +238,7 @@ if [ -f /.chroot ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
-	enforce_access ${n} ${d0}
+	enforce_access $(whoami) ${d0}
 fi
 
 csleep 2
