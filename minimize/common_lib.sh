@@ -483,7 +483,7 @@ function check_binaries() {
 	E22_GT="${E22_GT} init-system-helpers" # iptables-persistent netfilter-persistent
 
 	E22_GU="isc-dhcp libnfnet libnetfilter libxtables libnftnl libnl-3-200 libnl-route libnl"
-	E22_GV="libip iptables_  iptables-" # netfilter-persistent
+	E22_GV="libip iptables_ iptables-" # netfilter-persistent
 
 	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
 	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
@@ -638,62 +638,72 @@ function process_lib() {
 
 #==================================================================
 function slaughter0() {
-local fn2
-local ts2
-fn2=$(echo $1 | awk '{print $1}') 
-ts2=$(${sah6} ${fn2})
-#tähän alle jotain tr-kikkialua?
-echo ${ts2} | awk '{print $1,$2}' >> ${2}
+	local fn2
+	local ts2
+	fn2=$(echo $1 | awk '{print $1}') 
+	ts2=$(${sah6} ${fn2})
+	#tähän alle jotain tr-kikkialua?
+	echo ${ts2} | awk '{print $1,$2}' >> ${2}
 }
+
 function mangle_s() {
-csleep 1
-[ -z "${1}" ] && exit 44
-[ -x ${1} ] || exit 55
-[ -z "${2}" ] && exit 45
-[ -f ${2} ] || exit 54
-local r
-r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
-#$r kanssa jotain t arkistuksia?
-${scm} 0555 ${r}
-${sco} root:root ${r}
-#vs /e/paswd ?
-echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
-#100126:ALL vai localhost? rahat vs kolmipyörä?
-#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
-#(kts omega)
-echo -n " ALL=NOPASSWD:sha512:" >> ${2}
-slaughter0 ${r} ${2}
+	csleep 1
+	[ -z "${1}" ] && exit 44
+	[ -x ${1} ] || exit 55
+	[ -z "${2}" ] && exit 45
+	[ -f ${2} ] || exit 54
+
+	local r
+	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
+	#$r kanssa jotain t arkistuksia?
+	${scm} 0555 ${r}
+	${sco} root:root ${r}
+	#vs /e/paswd ?
+
+	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
+	#100126:ALL vai localhost? rahat vs kolmipyörä?
+	#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
+	#(kts omega)
+	echo -n " ALL=NOPASSWD:sha512:" >> ${2}
+
+	slaughter0 ${r} ${2}
 }
+
 function dinf() {
-local g
-local t
-local frist
-frist=1
-echo -n "#" >> ${1} #toimiiko näin?
-echo -n " $(whoami)" | tr -dc a-zA-Z >> ${1}
-echo -n " localhost=NOPASSWD:" >> ${1}
-for g in $(${odio} find /sbin -type f -name 'dhclient-script*') ; do
-if [ ${frist} -eq 1 ] ; then 
-frist=0
-else
-echo -n "," >> ${1}
-fi
-echo -n "sha512:" >> ${1}
-t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9)
-echo -n ${t} >> ${1}
-done
-echo " /sbin/dhclient-script" >> ${1}
-cat ${1}
-csleep 5
+	local g
+	local t
+	local frist
+
+	frist=1
+	echo -n "#" >> ${1} #toimiiko näin?
+	echo -n " $(whoami)" | tr -dc a-zA-Z >> ${1}
+	echo -n " localhost=NOPASSWD:" >> ${1}
+
+	for g in $(${odio} find /sbin -type f -name 'dhclient-script*') ; do
+		if [ ${frist} -eq 1 ] ; then 
+			frist=0
+		else
+			echo -n "," >> ${1}
+		fi
+
+		echo -n "sha512:" >> ${1}
+		t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9)
+		echo -n ${t} >> ${1}
+	done
+
+	echo " /sbin/dhclient-script" >> ${1}
+	cat ${1}
+	csleep 5
 }
+
 #=================================================================
 function fasdfasd() {
-#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
-[ -z "${1}" ] && exit 99
-csleep 1
-${odio} touch ${1}
-${sco} $(whoami):$(whoami) ${1}
-${scm} 0644 ${1}
+	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
+	[ -z "${1}" ] && exit 99
+	csleep 1
+	${odio} touch ${1}
+	${sco} $(whoami):$(whoami) ${1}
+	${scm} 0644 ${1}
 }
 
 #olisiko jokin palikka jo aiemmin? e_jutut ? mangle2() ?
@@ -734,7 +744,7 @@ function pre_enforce() {
 		if [ -d ${1}/opt/bin ] ; then
 			#tämä mv ok?
 			${svm} ${1}/opt/bin/*.bash /opt/bin
-			#090326.2:miten /o/b/zxcv ja /o/b alaiset skRiptit`
+			#090326.2:miten /o/b/zxcv ?
 		fi
 	
 		for f in $(${odio} find /opt/bin -type f -name '*.bash') ; do
@@ -765,6 +775,7 @@ function pre_enforce() {
 	${scm} 0440 ${q}
 	${svm} ${q} /etc/sudoers.d
 	csleep 1
+
 	local c4
 	c4=0
 	csleep 1
@@ -794,46 +805,57 @@ function pre_enforce() {
 }
 
 function mangle2() {
-[ -z  "${1}" ] && exit 99
-if [ -f ${1} ] ; then
-${scm} o-rwx ${1}
-${sco} root:root ${1}
-fi
+	[ -z  "${1}" ] && exit 99
+	
+	if [ -f ${1} ] ; then
+		${scm} o-rwx ${1}
+		${sco} root:root ${1}
+	fi
 }
+
+#TODO:/e alaisten tdstojen linkieetämiseen liittyen jokin juttu?
 function e_e() {
-csleep 1
-fix_sudo
-for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
-for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
-mangle2 ${f}
-done
-other_horrors
-${scm} 0755 /etc
-${sco} -R root:root /etc
-${scm} 0555 /etc/network
-#vihje:ei tarvinne erikseen -R koska ylempänä
-${scm} 0444 /etc/network/*
-#${sco} root:root /etc/network
-for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
-csleep 1
-local f
-f=$(date +%F)
-[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
-[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
-if [ -h /etc/resolv.conf ] ; then
-if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
-${smr} /etc/resolv.conf
-fi
-fi
-[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-csleep 1
-${sco} -R root:root /etc/wpa_supplicant
-${scm} -R a-w /etc/wpa_supplicant
-for f in $(${odio} find /etc -type f -name 'rules.*') ; do
-${sco} -R root:root ${f}
-${scm} 0400 ${f}
-done
-csleep 1
+	csleep 1
+	fix_sudo
+	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
+
+	for f in $(find /etc -name 'sudo*' -type f | grep -v log) ; do
+		mangle2 ${f}
+	done
+
+	other_horrors
+	${scm} 0755 /etc
+	${sco} -R root:root /etc
+	${scm} 0555 /etc/network
+
+	#vihje:ei tarvinne erikseen -R koska ylempänä
+	${scm} 0444 /etc/network/*
+	#${sco} root:root /etc/network
+	for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
+	csleep 1
+
+	local f
+	f=$(date +%F)
+	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
+	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
+
+	if [ -h /etc/resolv.conf ] ; then
+		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
+			${smr} /etc/resolv.conf
+		fi
+	fi
+
+	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
+	csleep 1
+	${sco} -R root:root /etc/wpa_supplicant
+	${scm} -R a-w /etc/wpa_supplicant
+
+	for f in $(${odio} find /etc -type f -name 'rules.*') ; do
+		${sco} -R root:root ${f}
+		${scm} 0400 ${f}
+	done
+
+	csleep 1
 }
 
 function e_v() {
@@ -852,6 +874,7 @@ function e_v() {
 function e_h() {
 	[ -z "${1}" ] && exit 98
 	[ -d ${2} ] || exit 99
+
 	csleep 1
 	${sco} root:root /home
 	${scm} 0755 /home
@@ -1000,6 +1023,7 @@ function part1_5() {
 }
 #
 
+#HUOM.170326:JOS VAI N MITENKÄÄN MAHDOLLISTA NIIN EI TABLESIN KANSSA SAISI JÄÄDÄ ACCEPT-TILANTEESEEN
 function part1() {
 	dqb "PART1 ${1} , ${2} "
 	[ -z "${1}" ] && exit 66
