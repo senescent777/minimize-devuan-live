@@ -172,7 +172,7 @@ csleep 1
 
 
 smr=$(${odio} which rm)
-ipt=$(${odio} which iptables)
+
 slinky=$(${odio} which ln)
 spc=$(${odio} which cp)
 slinky="${slinky} -s "
@@ -180,19 +180,11 @@ sco=$(${odio} which chown)
 scm=$(${odio} which chmod)
 svm=$(${odio} which mv)
 
-ip6t=$(${odio} which ip6tables)
-iptr=$(${odio} which iptables-restore)
-ip6tr=$(${odio} which ip6tables-restore)
 
 dqb "when in trouble, \"${odio} chmod 0755  \*.sh ;${odio} chmod 0755 \${distro}; ${odio} chmod 0755 \${distro}/ \*.sh; ${odio} chmod 0644 \${distro}/conf\" may help "
 
 
-function ptn_dda() {
-	local t
 
-	${ipt} -A b -p udp -m udp -s ${t} --sport 123 -j ACCEPT
-	${ipt} -A e -p udp -m udp -d ${t} --dport 123 -j ACCEPT
-}
 
 
 function clouds_pp1() {
@@ -200,13 +192,13 @@ function clouds_pp1() {
 	local f
 
 	for f in /etc/resolv.conf /etc/dhcp/dhclient.conf ; do
-				${smr} ${f}
-				[ $? -gt 0 ] && dqb "FAILURE TO COMPLY WHILE TRYING TO REMOVE ${f}"
-			fi
-		else
-			dqb "NOt A SHARk... link: ${f}"
-			${svm} ${f} ${f}.OLD
-		fi
+		#		${smr} ${f}
+		#		[ $? -gt 0 ] && dqb "FAILURE TO COMPLY WHILE TRYING TO REMOVE ${f}"
+		#	fi
+		#else
+		#	dqb "NOt A SHARk... link: ${f}"
+		#	${svm} ${f} ${f}.OLD
+		#fi
 	done
 
 	if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 	
@@ -275,9 +267,9 @@ function clouds_post() {
 	g=$(pwd)
 	cd /
 
-		${scm} 0444 ${f}
-		${sco} root:root ${f}
-	done
+	#	${scm} 0444 ${f}
+	#	${sco} root:root ${f}
+	#done
 
 	cd ${g}
 
@@ -300,15 +292,7 @@ function clouds_post() {
 	${scm} 0555 /etc/init.d/ntpsec
 	${sco} 0:0 /etc/init.d/ntpsec
 
-	if [ -x /usr/sbin/ntpd ] ; then
-		${ipt} -A INPUT -p udp -m udp --sport 123 -j b 
-		${ipt} -A OUTPUT -p udp -m udp --dport 123 -j e
 
-
-		csleep 1
-		dqb "SHOULD START /etc/init.d/ntpsec AROUND HERE"
-		csleep 1
-	fi
 
 		csleep 2
 		dqb "===================666======================================"
@@ -323,17 +307,7 @@ function clouds_case1_0() {
 }
 
 
-function clouds_case0_2() {
-	/etc/init.d/dnsmasq stop
-	${whack} dnsmasq*
-}
 
-function clouds_case1_2() {
-	echo "dns";sleep 1
-	/etc/init.d/dnsmasq restart
-	pgrep dnsmasq
-
-}
 
 dqb "VAIH:TÄMÄn ABOMINAATION KIRJOITUS UUSIKSI TYHJÄSTÄ"
 
