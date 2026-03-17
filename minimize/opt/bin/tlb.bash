@@ -1,0 +1,128 @@
+#!/bin/bash
+debug=1
+
+if [ -f /.chroot ] ; then
+        odio=""
+else
+        odio=$(which sudo)
+fi
+
+function dqb() {
+        [ ${debug} -eq 1 ] && echo ${1}
+}
+
+function csleep() {
+        [ ${debug} -eq 1 ] && sleep ${1}
+}
+
+dqb "odio: ${odio}"
+
+function tlah() {
+	if [ ${1} -gt 0 ] ; then
+		dqb "SHOULD / sb1n / h4lt npow"
+		csleep 1
+		[ ${debug} -eq 1 ] || /sbin/halt
+	fi
+}
+
+ipt=$(${odio} which iptables)
+ip6t=$(${odio} which ip6tables)
+iptr=$(${odio} which iptables-restore)
+ip6tr=$(${odio} which ip6tables-restore)
+
+#for-loopin sisään jos mahd
+[ -z "${ipt}" ] && tlah 1
+[ -z "${ip6t}" ] && tlah 1
+[ -z "${iptr}" ] && tlah 1
+[ -z "${ip6tr}" ] && tlah 1
+
+for x in ; do
+	dqb x
+	[ -x ${x} ] || tlah 1
+	[ "${x}" == "${odio}" ] && tlah 1
+done
+
+dqb "0 cc of ??? intravenompously stat"
+
+for t in INPUT OUTPUT FORWARD ; do
+	${ipt} -P ${t} DROP
+	tlah $?
+	dqb "V4 ${t} $?"; csleep 1
+
+	#pitäisikö huuhdella myÖs v4-taulut?
+	${ipt} -F ${t}
+	tlah $?
+
+	${ip6t} -P ${t} DROP
+	tlah $?
+	dqb "V6 ${t} $?"; csleep 1
+
+	${ip6t} -F ${t}
+	tlah $?
+	dqb "V6 -GF ${t} $?"; csleep 1
+done
+
+#jatkossa jokin array voisi sisltää nuo
+for t in e b u v c f ; do
+	${ipt} -P ${t} DROP
+	dqb $?
+
+	${ipt} -F ${t}
+	dqb $?
+
+	${ip6t} -P ${t} DROP
+	dqb $?
+
+	${ip6t} -F ${t}
+	dqb $?
+done
+
+csleep 2
+
+#local c
+c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
+tlah ${c}
+#[ ${c} -gt 0 ] && sbin/halt
+
+c=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
+tlah ${c}
+#[ ${c} -gt 0 ] && sbin/halt
+
+dqb "accept that"
+csleep 1
+[ -z "${1}" ] && tlah 1
+
+#local p
+p=$(echo ${1} | tr -d -c 0-9)
+dqb "bfore -f"
+csleep 1
+
+[ -f /etc/iptables/rules.v4.${p} ] || tlah 1
+[ -f /etc/iptables/rules.v6.${p} ] || tlah 1
+dqb "bfore -s"
+csleep 1
+
+
+[ -s /etc/iptables/rules.v4.${p} ] || tlah 1
+[ -s /etc/iptables/rules.v6.${p} ] || tlah 1
+dqb "just bfore iptr"
+csleep 1
+
+#"-r" - tark ei vissiin tarpeellinen, to state the obv
+
+${iptr} /etc/iptables/rules.v4.${p}
+tlah $?
+csleep 1
+
+dqb "v4 reloaded ok"
+
+${ip6tr} /etc/iptables/rules.v6.${p}
+tlah $?
+csleep 1
+dqb "v6 reloaded ok"
+
+${ipt} -D INPUT 8
+${ipt} -D INPUT 7
+${ipt} -D OUTPUT 9
+${ipt} -D OUTPUT 8
+#exit 99
