@@ -1,8 +1,8 @@
 #fktioksi tnä ni ei tartte globaalien mjien kanssa sählätä?
-echo "common_lib:"
-echo "d0= ${d0}"
-echo "d= ${d}"
-sleep 5
+#echo "common_lib:"
+#echo "d0= ${d0}"
+#echo "d= ${d}"
+#sleep 5
 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
@@ -638,58 +638,70 @@ function process_lib() {
 
 #==================================================================
 function slaughter0() {
-local fn2
-local ts2
-fn2=$(echo $1 | awk '{print $1}') 
-ts2=$(${sah6} ${fn2})
-#tähän alle jotain tr-kikkialua?
-echo ${ts2} | awk '{print $1,$2}' >> ${2}
+	local fn2
+	local ts2
+
+	fn2=$(echo $1 | awk '{print $1}') 
+	ts2=$(${sah6} ${fn2})
+
+	#tähän alle jotain tr-kikkialua?
+	echo ${ts2} | awk '{print $1,$2}' >> ${2}
 }
+
 function mangle_s() {
-csleep 1
-[ -z "${1}" ] && exit 44
-[ -x ${1} ] || exit 55
-[ -z "${2}" ] && exit 45
-[ -f ${2} ] || exit 54
-local r
-r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
-#$r kanssa jotain t arkistuksia?
-${scm} 0555 ${r}
-${sco} root:root ${r}
-#vs /e/paswd ?
-echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
-#100126:ALL vai localhost? rahat vs kolmipyörä?
-#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
-#(kts omega)
-echo -n " ALL=NOPASSWD:sha512:" >> ${2}
-slaughter0 ${r} ${2}
+	csleep 1
+	[ -z "${1}" ] && exit 44
+	[ -x ${1} ] || exit 55
+	[ -z "${2}" ] && exit 45
+	[ -f ${2} ] || exit 54
+
+	local r
+	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
+	#$r kanssa jotain t arkistuksia?
+	${scm} 0555 ${r}
+	${sco} root:root ${r}
+	#vs /e/paswd ?
+
+	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
+	#100126:ALL vai localhost? rahat vs kolmipyörä?
+	#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
+	#(kts omega)
+	echo -n " ALL=NOPASSWD:sha512:" >> ${2}
+	slaughter0 ${r} ${2}
 }
+
 function dinf() {
-local g
-local t
-local frist
-frist=1
-echo -n "#" >> ${1} #toimiiko näin?
-echo -n " $(whoami)" | tr -dc a-zA-Z >> ${1}
-echo -n " localhost=NOPASSWD:" >> ${1}
-for g in $(${odio} find /sbin -type f -name 'dhclient-script*') ; do
-if [ ${frist} -eq 1 ] ; then 
-frist=0
-else
-echo -n "," >> ${1}
-fi
-echo -n "sha512:" >> ${1}
-t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9)
-echo -n ${t} >> ${1}
-done
-echo " /sbin/dhclient-script" >> ${1}
-cat ${1}
-csleep 5
+	local g
+	local t
+	local frist
+	frist=1
+
+	echo -n "#" >> ${1} #toimiiko näin?
+	echo -n " $(whoami)" | tr -dc a-zA-Z >> ${1}
+	echo -n " localhost=NOPASSWD:" >> ${1}
+
+	for g in $(${odio} find /sbin -type f -name 'dhclient-script*') ; do
+		if [ ${frist} -eq 1 ] ; then 
+			frist=0
+		else
+			echo -n "," >> ${1}
+		fi
+
+		echo -n "sha512:" >> ${1}
+		t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9)
+		echo -n ${t} >> ${1}
+	done
+
+	echo " /sbin/dhclient-script" >> ${1}
+	cat ${1}
+	csleep 5
 }
+
 #=================================================================
 function fasdfasd() {
 	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
 	[ -z "${1}" ] && exit 99
+
 	csleep 1
 	${odio} touch ${1}
 	${sco} $(whoami):$(whoami) ${1}
@@ -748,6 +760,7 @@ function pre_enforce() {
 	fi
 
 	csleep 1
+
 	if [ -s ${q} ] ; then
 		csleep 1
 		reqwreqw ${q}
@@ -803,7 +816,8 @@ function mangle2() {
 	fi
 }
 
-#TODO:/e alaisten tdstojen linkietttämiseen liittyen jokin juttu? jhnkin toiseen skriptiin vissiin
+#TODO:/e alaisten tdstojen linkitttämiseen liittyen jokin juttu? jhnkin toiseen skriptiin vissiin
+
 function e_e() {
 	csleep 1
 	fix_sudo
@@ -1013,6 +1027,7 @@ function part1_5() {
 }
 #
 
+#jatkossa erillinen fktio vaiko kutsuen /o/b/tlb.bash ? 
 function TLA() {
 	dqb "ipt :  ${ipt} "
 	dqb "testgris : ${CONF_testgris}"
