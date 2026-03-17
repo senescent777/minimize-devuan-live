@@ -151,6 +151,10 @@ function el_loco() {
 	csleep 1
 
 	if [ ${1} -gt 0 ] ; then
+		#uutena seur 2 riviä
+		${smr} /etc/timezone
+		${smr} /etc/localtime
+
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
 	else
@@ -165,7 +169,7 @@ function el_loco() {
 		csleep 1
 
 		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
-		#env vai locale minkä oksennukset tdstoon?
+		#env vai locale minkä oksennukset tdstoon? vissiin env
 
 		env | grep LC >> /etc/default/locale
 		env | grep LAN >> /etc/default/locale
@@ -222,7 +226,7 @@ dqb "debug= ${debug}"
 
 if [ -s ~/xorg.conf.new ] ; then
 	if [ ! -s /etc/X11/xorg.conf ] ; then
-		${spc} ~/xorg.conf.new  /etc/X11/xorg.conf
+		${spc} ~/xorg.conf.new /etc/X11/xorg.conf
 		reqwreqw /etc/X11/xorg.conf
 	fi
 fi
@@ -264,7 +268,17 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 c14=0
 c13=0
 [ ${mode} -eq 1 ] && c14=1
-#timezone ja localtime jos dellisi joissain tilanteissa? (TODO)
+
+#timezone ja localtime jos dellisi joissain tilanteissa? c14 oletuksena ykkönen kunnes
+#c14=1
+#
+#if [ ${mode} -gt 1 ] ; then #nollasta ei tarttisi välittää koska exit aiempana
+#	if [ -v LCF666 ] ; then
+#		c13= ...
+#		[ $c13 -gt 0 ] && c14=0
+#		profit
+#	fi
+#fi
 
 #==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
 #... joskohan voisi arpomisen lopettaa joskus? lopettelun v01si aloittaa vhitellen (090326)

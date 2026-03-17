@@ -638,64 +638,54 @@ function process_lib() {
 
 #==================================================================
 function slaughter0() {
-	local fn2
-	local ts2
-	fn2=$(echo $1 | awk '{print $1}') 
-	ts2=$(${sah6} ${fn2})
-	#tähän alle jotain tr-kikkialua?
-	echo ${ts2} | awk '{print $1,$2}' >> ${2}
+local fn2
+local ts2
+fn2=$(echo $1 | awk '{print $1}') 
+ts2=$(${sah6} ${fn2})
+#tähän alle jotain tr-kikkialua?
+echo ${ts2} | awk '{print $1,$2}' >> ${2}
 }
-
 function mangle_s() {
-	csleep 1
-	[ -z "${1}" ] && exit 44
-	[ -x ${1} ] || exit 55
-	[ -z "${2}" ] && exit 45
-	[ -f ${2} ] || exit 54
-
-	local r
-	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
-	#$r kanssa jotain t arkistuksia?
-	${scm} 0555 ${r}
-	${sco} root:root ${r}
-	#vs /e/paswd ?
-
-	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
-	#100126:ALL vai localhost? rahat vs kolmipyörä?
-	#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
-	#(kts omega)
-	echo -n " ALL=NOPASSWD:sha512:" >> ${2}
-
-	slaughter0 ${r} ${2}
+csleep 1
+[ -z "${1}" ] && exit 44
+[ -x ${1} ] || exit 55
+[ -z "${2}" ] && exit 45
+[ -f ${2} ] || exit 54
+local r
+r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
+#$r kanssa jotain t arkistuksia?
+${scm} 0555 ${r}
+${sco} root:root ${r}
+#vs /e/paswd ?
+echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
+#100126:ALL vai localhost? rahat vs kolmipyörä?
+#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
+#(kts omega)
+echo -n " ALL=NOPASSWD:sha512:" >> ${2}
+slaughter0 ${r} ${2}
 }
-
 function dinf() {
-	local g
-	local t
-	local frist
-
-	frist=1
-	echo -n "#" >> ${1} #toimiiko näin?
-	echo -n " $(whoami)" | tr -dc a-zA-Z >> ${1}
-	echo -n " localhost=NOPASSWD:" >> ${1}
-
-	for g in $(${odio} find /sbin -type f -name 'dhclient-script*') ; do
-		if [ ${frist} -eq 1 ] ; then 
-			frist=0
-		else
-			echo -n "," >> ${1}
-		fi
-
-		echo -n "sha512:" >> ${1}
-		t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9)
-		echo -n ${t} >> ${1}
-	done
-
-	echo " /sbin/dhclient-script" >> ${1}
-	cat ${1}
-	csleep 5
+local g
+local t
+local frist
+frist=1
+echo -n "#" >> ${1} #toimiiko näin?
+echo -n " $(whoami)" | tr -dc a-zA-Z >> ${1}
+echo -n " localhost=NOPASSWD:" >> ${1}
+for g in $(${odio} find /sbin -type f -name 'dhclient-script*') ; do
+if [ ${frist} -eq 1 ] ; then 
+frist=0
+else
+echo -n "," >> ${1}
+fi
+echo -n "sha512:" >> ${1}
+t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9)
+echo -n ${t} >> ${1}
+done
+echo " /sbin/dhclient-script" >> ${1}
+cat ${1}
+csleep 5
 }
-
 #=================================================================
 function fasdfasd() {
 	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
@@ -813,7 +803,7 @@ function mangle2() {
 	fi
 }
 
-#TODO:/e alaisten tdstojen linkieetämiseen liittyen jokin juttu?
+#TODO:/e alaisten tdstojen linkietttämiseen liittyen jokin juttu? jhnkin toiseen skriptiin vissiin
 function e_e() {
 	csleep 1
 	fix_sudo
@@ -1023,18 +1013,7 @@ function part1_5() {
 }
 #
 
-#HUOM.170326:JOS VAI N MITENKÄÄN MAHDOLLISTA NIIN EI TABLESIN KANSSA SAISI JÄÄDÄ ACCEPT-TILANTEESEEN
-function part1() {
-	dqb "PART1 ${1} , ${2} "
-	[ -z "${1}" ] && exit 66
-	[ -z "${2}" ] && exit 67
-	[ -d ${2} ] || exit 68
-	
-	csleep 1
-	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
-	csleep 1
-	
-	[ -v ipt ] || dqb "SHOULD exit 69" #010326 qseeko tämä kohta?
+function TLA() {
 	dqb "ipt :  ${ipt} "
 	dqb "testgris : ${CONF_testgris}"
 	csleep 1
@@ -1043,13 +1022,16 @@ function part1() {
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
 		#exit 666
-		#TODO:JATKOSSA AO. BLOKKI KENTIES TOISIN, kts /o/b/cnds (ideana kai tehdö uusia skeriptej korvaamaan changedns)
+		#TODO?:JATKOSSA AO. BLOKKI KENTIES TOISIN, kts /o/b/cnds (ideana kai tehdö uusia skeriptej korvaamaan changedns)
 		#HUOM.140326:olisikohan CONBF_tesgtgirs riittävästi huomioitu? 
 		#aluksi ohitetaan koko for-takenne uknnes ehkä keksii paremman tavan
 		
-		#to state the obvious:expot2 kautta kutsuttaessa part1() ei tarvinne tables-sääntöjä nollata
-		if [ -x ${ipt} ] ; then
-			if [ ! -v CONF_testgris ] ; then
+		#VAIH:se accetp-greppaaminen näille main
+		#... -F ja -P vain tarvittaessa, HCF-jutut lopuksi
+
+		#to state the obvious:export2 kautta kutsuttaessa part1() ei tarvinne tables-sääntöjä nollata
+		if [ -x ${ipt} ] ; then #TODO:nalqtrus jos ei -x
+			if [ ! -v CONF_testgris ] ; then #tämä ehto pois jatkossa?
 				for t in INPUT OUTPUT FORWARD ; do
 					${ipt} -P ${t} DROP
 					[ $? -eq 0 ] || ${odio} /sbin/halt
@@ -1074,8 +1056,37 @@ function part1() {
 					csleep 1
 				fi
 			fi		
+		
+
+			#/o/b/tlb.bash
+			local c
+
+			c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
+			[ ${c} -gt 1 ] && echo "SHOULD HALt AND CATCH FIRE IMMEDIATELY"
+			csleep 1
+
+			c=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
+			[ ${c} -gt 1 ] && echo "SHOULD ALSO:HALt AND CATCH FIRE IMMEDIATELY"
+			csleep 1
 		fi	
 	fi
+}
+
+#TLA jokatap?
+
+#HUOM.170326:JOS VAI N MITENKÄÄN MAHDOLLISTA NIIN EI TABLESIN KANSSA SAISI JÄÄDÄ ACCEPT-TILANTEESEEN
+function part1() {
+	dqb "PART1 ${1} , ${2} "
+	[ -z "${1}" ] && exit 66
+	[ -z "${2}" ] && exit 67
+	[ -d ${2} ] || exit 68
+	
+	csleep 1
+	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
+	csleep 1
+	
+	[ -v ipt ] || dqb "SHOULD exit 69" #010326 qseeko tämä kohta?
+	TLA
 
 	local c
 	local g
