@@ -216,7 +216,7 @@ case ${mode} in
 		#160326:kolmonen saattaa tehdä jo toiMivan tdston
 		#(mikäse g_doit-imp2-juttu oli?)
 
-		#nelosen testi VAIH
+		#nelosen testi VAIH (eli ala suorittaa)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		dqb "NVDK 1b 5 secs"
@@ -279,7 +279,7 @@ case ${mode} in
 		csleep 1
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
-	e) #160326:osannee paketin tehdä, sis asentumista ei vielä testattu
+	e) #VAIH:testi menossa 170326
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
@@ -308,7 +308,7 @@ if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 	#... voisi sitäpaitsi kys fktion räjäyttää auki q käytössä vain 1 paikasta
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} 
 
-	e22_ftr ${d}/f.tar  #140326:pitäisiköhän tämä kohta muuttaa?
+	e22_ftr ${d}/f.tar  #140326:pitäisiköhän tämä kohta muuttaa? miten?
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
 fi
