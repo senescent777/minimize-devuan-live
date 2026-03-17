@@ -151,7 +151,7 @@ function e22_pre1() {
 #...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 #HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
 
-#VAIH:SELVITÄ KUSEEKO TÄMÄ VAI EI? ei?
+#170326:kai toimii, tosin joutunee tekemään muutoksia /o/bc.bash liirrtyen
 function e22_pre2() {
 	echo "per2..."
 	[ -z "${1}" ] && exit 66

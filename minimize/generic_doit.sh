@@ -264,7 +264,7 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 c14=0
 c13=0
 [ ${mode} -eq 1 ] && c14=1
-#timezone ja localtime jos dellisi joissain tilanteissa?
+#timezone ja localtime jos dellisi joissain tilanteissa? (TODO)
 
 #==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
 #... joskohan voisi arpomisen lopettaa joskus? lopettelun v01si aloittaa vhitellen (090326)

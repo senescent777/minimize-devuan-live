@@ -224,12 +224,9 @@ function e23_qrs() {
 
 	[ ${debug} -eq 1 ] && tar -tf ${1} | grep ${4} | wc -l
 	csleep 3
-
-#	#ftr() tässä vai kutsuvassa koodissa?
-#	e22_ftr ${1}
 }
 
-#VAIH:uusi testaus menossa, aiempi tar saattoi olla viallinen (160326)
+#170326:osasi vetää sisältöä mikä asentuu
 function e23_dm() {
 	dqb "e23_dm(${1})"
 	[ -z "${1}" ] && exit 11

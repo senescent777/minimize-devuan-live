@@ -127,8 +127,7 @@ case ${mode} in
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
 #	;;
-	f) #160326:osasi luoda paketin, sisällön testaus vielä
-		#(VAIH, esim case g kanssa testit)
+	f) #170326:selvitetty että toimii ($0 g:n kanssa)
 		enforce_access $(whoami) ${t}
 		e22_arch ${tgtfile} ${d}
 	;;
@@ -146,7 +145,7 @@ case ${mode} in
 	g) #160326:edlleen validi rimpsu tuo E22GI, tosin tgtfile:n suhteen olisi hyvä tehdä jotain
 		e23_ghi ${tgtfile} ${d0} ${distro}
 	;;
-	p) #160326:osdaa edelleen tdhä arkiston, sisältö jos vaikka ok kanssa
+	p) #170326:lienee kunnossa
 		[ -v CONF_default_arhcive3 ] || exit 66
 		csleep 1
 		[ -v CONF_iface ] && ${sifu} ${CONF_iface}
@@ -292,7 +291,7 @@ case ${mode} in
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;
-	l) #VAIH:testi taas (160326) ... paketin sisällön toimivuus vielä
+	l) #170236:ok
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${CONF_dm}
