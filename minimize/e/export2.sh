@@ -132,7 +132,7 @@ case ${mode} in
 		e22_arch ${tgtfile} ${d}
 	;;
 	q)
-		#160326:tekee edelleen arkiston, sisältö kenties ok
+		#170326:tekee edelleen arkiston, sisältö kenties ok
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35

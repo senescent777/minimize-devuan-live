@@ -24,18 +24,31 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-#TODO:parsetus uusicksi, josqs srcfile:ä ei aseteta
-if [ $# -gt 0 ] ; then
-	mode=${1}
-	[ -f ${1} ] && exit 99
-	[ "${2}" == "-v" ] || srcfile=${2}
-fi
+##VAIH:parsetus uusicksi, josqs srcfile:ä ei aseteta
+#if [ $# -gt 0 ] ; then
+#	mode=${1}
+#	[ -f ${1} ] && exit 99
+#	[ "${2}" == "-v" ] || srcfile=${2}
+#fi
 
-#030326:toimiikohan tämä nykyään? etenkään toivotulla tavalla? selvitä jposqs?
+#030326:toimiikohan tämä nykyään? etenkään toivotulla tavalla? selvitä jposqs? (VAIH)
 function parse_opts_1() {
-	if [ -d ${d0}/${1} ] ; then
-		#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
-		d=${d0}/${distro}
+	dqb "parse_opts_1( ${1} )"
+
+	#sisäkkäiset if-lauseet pystyisi ehkä purkamaan
+	if [ "${mode}" == "-2" ] ; then
+		mode=${1}
+	else
+		if [ "${1}" == "-v" ] ; then
+			debug=1
+		else
+			if [ -d ${d0}/${1} ] ; then
+				#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
+				d=${d0}/${distro}
+			else
+				srcfile=${1}
+			fi
+		fi
 	fi
 }
 
@@ -217,7 +230,6 @@ echo "mkt= ${mkt} "
 
 [ -v srat ] || exit 8
 [ -z "${srat}" ] && exit 10
-#echo "srat= ${srat} "
 
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${CONF_part0}
@@ -467,6 +479,7 @@ case "${mode}" in
 	;;
 esac
 
+dqb "mode: ${mode} "
 [ -z "${srcfile}" ] && exit 44
 
 if [ -f ${srcfile} ] || [ -d ${srcfile} ] ; then #eka tark oli -s

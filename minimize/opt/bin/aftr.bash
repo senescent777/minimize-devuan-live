@@ -24,8 +24,12 @@ ip6tr=$(${odio} which ip6tables-restore)
 #TODO:jokin param resolv.vonf-kikkailuja varten?
 #TODO:entäse dot?
 
-${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
-${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
+#TODO:ruleksiin oikeastaan, u- ja v- ketjujen oletusarvot, joputaisiko säätää?
+#${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
+#${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
+#yo. jutut takaisin kommenteista sittenq ehkä ntpsec
+${ipt} -D u 2
+${ipt} -D v 2
 
 function dda_snd() {
 	dqb "dda_snd( ${1})"

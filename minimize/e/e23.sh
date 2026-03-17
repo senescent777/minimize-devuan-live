@@ -58,7 +58,7 @@ function e23_tblz() { #160326:osasi paketin tehdä
 #ja ainakin oletus-konf löytyy
 #niin että
 
-#testaa josqs uusiksi, VAIH . 11326, pak.sis.tiomiuvuus lähinnä
+
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 #HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
@@ -165,7 +165,7 @@ function e23_other_pkgs() {
 #}
 
 #160326;ok
-#TODO:yleisemmän mallin mukaan tämä
+#TODO:yleisemmän mallin mukaan tämä, siihen toiseen ase-easc-blokkiin yms
 function e23_ghi() {
 	[ -z "${1}" ] && exit 6
 	[ -z "${2}" ] && exit 16
@@ -178,7 +178,7 @@ function e23_ghi() {
 	echo "$0 f ${1} #${3}"
 }
 
-#VAIH:testaus (160326 tekee edelleen arkiston, sisällön validius vielä selvitettävä)
+#170326:taitaa toimia, paketin teko ja sisältö
 function e23_qrs() {
 	dqb "e23_qrs()"
 
@@ -210,12 +210,7 @@ function e23_qrs() {
 	csleep 1
 	
 	e22_settings ${2} ${4} ${5}
-
 	#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
-
-	#dqb "just BEFORE find ${2} -maxdepth 1 -type f -name ${4} "
-	#csleep 1
-
 
 	#jospa ei hipsuja tähän find:iin
 	for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
