@@ -158,19 +158,21 @@ function e22_pre2() {
 	[ -z "${2}" ] && exit 67
 	[ -z "${3}" ] && exit 68
 	[ -z "${4}" ] && exit 69
+
 	dqb " (pars.ok)"
 	csleep 1
 	local ortsac
 	local par4
+
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
 	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
 	par4=$(echo ${4} | tr -d -c 0-9)
 
-##	#HUOM.020825:vähän enemmän sorkintaa tänne?
-##	#/e/n alihakemistoihin +x ?
-##	 /e/n kokonaan talteen?
+#	#HUOM.020825:vähän enemmän sorkintaa tänne?
+#	#/e/n alihakemistoihin +x ?
+#	 /e/n kokonaan talteen?
 
-	if [ -d ${1} ] && [ -x /opt/bin/changedns.bash ] ; then
+	if [ -d ${1} ] ; then #&& [ -x /opt/bin/changedns.bash ] vähän jatqssa
 		#HUOM.080326:jatkossa jos kääåntgyisi e.e. ifup käskyttäisi tarpeellisia skriptejä
 		echo $?
 		csleep 1
@@ -189,6 +191,7 @@ function e22_pre2() {
 #TODO:param.tark
 function e22_cleanpkgs() {
 	[ -z "${1}" ] && exit 56
+
 	if [ -d ${1} ] ; then
 		#aiemmalla NKVD-tavalla saattaa kestää joten rm
 		${smr} ${1}/*.deb

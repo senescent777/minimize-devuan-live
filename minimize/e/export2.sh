@@ -186,18 +186,18 @@ e22_pre1 ${d} ${distro}
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm} #qseeko tämä?
 
 #(cdns ennen vai jälkeen sifu?)
-
-if [ -x /opt/bin/changedns.bash ] ; then
-	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
-else
-	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
-		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
-	else
-		dqb "changedns not an option"
-		csleep 5
-	fi
-fi
 #
+#if [ -x /opt/bin/changedns.bash ] ; then
+#	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
+#else
+#	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
+#		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
+#	else
+#		dqb "changedns not an option"
+#		csleep 5
+#	fi
+#fi
+#TODO:/o/b/skriptit tähän
 
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
