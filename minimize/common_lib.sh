@@ -487,7 +487,7 @@ function check_binaries() {
 
 	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
 	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
-		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
+		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then #tirha if?
 			[ -z "${1}" ] && exit 99
 			[ -d ${1} ] || exit 101
 
@@ -863,8 +863,13 @@ function e_e() {
 }
 
 function e_v() {
+	#180326:/sbin - rivien kanssa jotain ongelmaa? chown valittaa /sbin alaisista tdstoista...
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
+	dqb "e_V_2 IN 1 SECS"
+	csleep 1
+	
+
 	${sco} root:root /var
 	${scm} 0755 /var
 	${sco} root:staff /var/local
@@ -905,10 +910,6 @@ function e_h() {
 	for f in $(find ${2} -type f -name '*.sh' ) ; do ${scm} ${m} ${f} ; done
 	csleep 1
 
-	#VAIH:tähän mahdollisesti muutoksia myöhemmin (kts interfaces.tmp ja changedns.sh liittyen)
-	#for f in ${2} /opt/bin ; do
-	#done
-
 	if [ -d ${2}/opt/bin ] ; then
 		${sco} -R root:root ${2}/opt/bin
 		${scm} go-wr ${2}/opt/bin/*
@@ -943,11 +944,13 @@ function enforce_access() {
 	[ -z "${1}" ] && exit 67
 	[ -z "${2}" ] && exit 68
 	csleep 1
+
 	e_e
 	e_v
 	e_h ${1} ${2}
 	e_final
 	jules
+
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 }
 
@@ -1027,15 +1030,16 @@ function part1_5() {
 }
 #
 
-#jatkossa erillinen fktio vaiko kutsuen /o/b/tlb.bash ? vissiin jälkimmäinen (TODO)
+#jatkossa erillinen fktio vaiko kutsuen /o/b/tlb.bash ? vissiin jälkimmäinen (VAIH)
 function TLA() {
-	dqb "ipt :  ${ipt} "
+	dqb "TLA: ipt :  ${ipt} "
 	dqb "testgris : ${CONF_testgris}"
 	csleep 1
 
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ]  ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
+		dqb "JST B3F0R:tlb-b a s h"
 		[ -x /opt/bin/tlb.bash ] || exit 99
 		${odio} /opt/bin/tlb.bash #tarkoiytukseölla ilman param
 
@@ -1150,7 +1154,6 @@ function part1() {
 	dqb "FOUR-LEGGED WH0R3"
 }
 
-#150326:debug-syistä oli suurin osa sisällöstä kommenteissa
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
 	csleep 6
@@ -1207,9 +1210,13 @@ function part2() {
 	csleep 1
 
 	#150326:pitäisikohän tehdf vielä toinenkin veuiartlu barm buoksi?
-	if [ y"${ipt}" != "y" ] ; then
+	if [ ! -z "${ipt}"  ] ; then
 		jules
 		local t
+
+		dqb "TODO:repklce PART2.5.2 w/ o/b/tlb ?"
+		csleep 6
+
 		t=$(echo ${2} | tr -d -c 0-9)
 		#HUOM.160226:tdstot ilman ".$t"-päätettä, pitäisikö tehdä jotain? 
 

@@ -287,7 +287,7 @@ case ${mode} in
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;	
-	g) #1803126:testaapa uusicksi josqs (VAIH)
+	g) #1803126:toimii edelleen
 		e23_ghi #${tgtfile} ${d0} ${distro}
 	;;
 	l) #170236:ok

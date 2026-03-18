@@ -37,6 +37,8 @@ fi
 
 #030326:toimiikohan tämä nykyään? etenkään toivotulla tavalla? selvitä jposqs? (VAIH)
 #170326:pasretus se vain edelleen kusee paskaa 666 (liittyyköhän tables/gpg asiaan?)
+#180326:liittyyköhän check_bin():in "ocs ipt" tuohon viimeaikaiseen kiukutteluun?
+
 function parse_opts_1() {
 	dqb "parse_opts_1( ${1} )"
 

@@ -157,8 +157,8 @@ function e23_other_pkgs() {
 #	csleep 1
 #}
 
-#VAIH:yleisemmän mallin mukaan tämä, siihen toiseen ase-easc-blokkiin yms
-#180326 osasi paketin tehdä edelleen joten luultavastri asentuu kanssa
+#180326:osasi paketin tehdä edelleen ja sisältö asentiu myös, kuten odotettua
+#ehkä voisi exp2:n case-easc-rakenteeseen siiträä
 function e23_ghi() {
 
 	dqb "ghi.aps.0k"
