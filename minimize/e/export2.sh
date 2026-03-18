@@ -212,7 +212,7 @@ case ${mode} in
 	3|4) 
 		#160326:kolmonen saattaa tehdä jo toiMivan tdston
 		#(mikäse g_doit-imp2-juttu oli? "imp2 3" liittyvää?)
-		#nelosen testi VAIH (vakuttaa thety oaketti toimivan 170326)
+		#nelonen toiminee kanssa (180326, pl. import2 viimeaikaiset kiukuttelut)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		dqb "NVDK 1b 5 secs"

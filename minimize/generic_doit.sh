@@ -264,10 +264,11 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #===================================================PART 2===================================
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 #TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
-#
+
+
 #c14=0
 c13=0
-[ ${mode} -eq 1 ] && c14=1
+#[ ${mode} -eq 1 ] && c14=1
 #
 #timezone ja localtime jos dellisi joissain tilanteissa? c14 oletuksena ykkönen kunnes
 c14=1
