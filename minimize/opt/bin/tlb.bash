@@ -25,74 +25,83 @@ function tlah() {
 	fi
 }
 
+function ocs() {
+	dqb "ocs ${1} "
+	local tmp2
+	tmp2=$(${odio} which ${1})
+
+	if [ y"${tmp2}" == "y" ] ; then
+		dqb "KAKKA-HÄTÄ ${1} "
+		exit 82
+	fi
+
+	if [ ! -x ${tmp2} ] ; then
+		exit 77
+	fi
+}
+
+for x in iptables ip6tables iptables-restore ip6tables-restore ; do
+	#dqb ${x}
+	ocs ${x}
+	tlah $?
+done
+
 ipt=$(${odio} which iptables)
 ip6t=$(${odio} which ip6tables)
 iptr=$(${odio} which iptables-restore)
 ip6tr=$(${odio} which ip6tables-restore)
 
-#for-loopin sisään jos mahd
-[ -z "${ipt}" ] && tlah 1
-[ -z "${ip6t}" ] && tlah 1
-[ -z "${iptr}" ] && tlah 1
-[ -z "${ip6tr}" ] && tlah 1
+csleep 1
+dqb "0 cc of \??? intravenompously stat"
+c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
+c2=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
 
-for x in ; do
-	dqb x
-	[ -x ${x} ] || tlah 1
-	[ "${x}" == "${odio}" ] && tlah 1
-done
+if [ ${c} -gt 0 ] || [ ${c2} -gt 0 ] ; then
+	for t in INPUT OUTPUT FORWARD ; do
+		${ipt} -P ${t} DROP
+		tlah $?
+		dqb "V4 ${t} $?" #; csleep 1
 
-dqb "0 cc of ??? intravenompously stat"
+		#pitäisikö huuhdella myÖs v4-taulut?
+		${ipt} -F ${t}
+		tlah $?
 
-for t in INPUT OUTPUT FORWARD ; do
-	${ipt} -P ${t} DROP
-	tlah $?
-	dqb "V4 ${t} $?"; csleep 1
+		${ip6t} -P ${t} DROP
+		tlah $?
+		dqb "V6 ${t} $?" #; csleep 1
 
-	#pitäisikö huuhdella myÖs v4-taulut?
-	${ipt} -F ${t}
-	tlah $?
+		${ip6t} -F ${t}
+		tlah $?
+		dqb "V6 -GF ${t} $?" #; csleep 1
+	done
 
-	${ip6t} -P ${t} DROP
-	tlah $?
-	dqb "V6 ${t} $?"; csleep 1
+	#jatkossa jokin array voisi sisltää nuo
+	for t in e b u v c f ; do
+		#${ipt} -P ${t} DROP
+		#dqb $?
 
-	${ip6t} -F ${t}
-	tlah $?
-	dqb "V6 -GF ${t} $?"; csleep 1
-done
+		${ipt} -F ${t}
+		dqb $?
 
-#jatkossa jokin array voisi sisltää nuo
-for t in e b u v c f ; do
-	${ipt} -P ${t} DROP
-	dqb $?
+		#${ip6t} -P ${t} DROP
+		#dqb $?
 
-	${ipt} -F ${t}
-	dqb $?
-
-	${ip6t} -P ${t} DROP
-	dqb $?
-
-	${ip6t} -F ${t}
-	dqb $?
-done
+		${ip6t} -F ${t}
+		dqb $?
+	done
+fi
 
 csleep 2
-
-#local c
 c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
 tlah ${c}
-#[ ${c} -gt 0 ] && sbin/halt
 
 c=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
 tlah ${c}
-#[ ${c} -gt 0 ] && sbin/halt
 
 dqb "accept that"
 csleep 1
-[ -z "${1}" ] && tlah 1
+[ -z "${1}" ] && exit #1
 
-#local p
 p=$(echo ${1} | tr -d -c 0-9)
 dqb "bfore -f"
 csleep 1
@@ -101,7 +110,6 @@ csleep 1
 [ -f /etc/iptables/rules.v6.${p} ] || tlah 1
 dqb "bfore -s"
 csleep 1
-
 
 [ -s /etc/iptables/rules.v4.${p} ] || tlah 1
 [ -s /etc/iptables/rules.v6.${p} ] || tlah 1
