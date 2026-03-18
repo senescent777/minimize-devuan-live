@@ -1036,63 +1036,64 @@ function TLA() {
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ]  ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		
+		[ -x /opt/bin/tlb.bash ] || exit 99
+		${odio} /opt/bin/tlb.bash #tarkoiytukseölla ilman param
 
-		#HUOM.140326:olisikohan CONBF_tesgtgirs riittävästi huomioitu? 
-		#aluksi ohitetaan koko for-takenne uknnes ehkä keksii paremman tavan
-		
-	
-		#... -F ja -P vain tarvittaessa, HCF-jutut lopuksi
-
-		#to state the obvious:export2 kautta kutsuttaessa part1() ei tarvinne tables-sääntöjä nollata
-		if [ -x ${ipt} ] ; then #VAIH:nalqtrus jos ei -x
-			local c
-			local c2
-
-			c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
-			c2=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
-
-			if [ ${c} -gt 0 ] || [ ${c2} -gt 0 ] ; then
-				#if [ ! -v CONF_testgris ] ; then # ehto pois 18326, tarvtseeko takaisin?
-				#/o/b/tlb.bash
-			
-				for t in INPUT OUTPUT FORWARD ; do
-					${ipt} -P ${t} DROP
-					[ $? -eq 0 ] || ${odio} /sbin/halt
-					dqb "V6"; csleep 1
-
-					${ip6t} -P ${t} DROP
-					[ $? -eq 0 ] || ${odio} /sbin/halt
-					${ip6t} -F ${t}
-				done
-
-				for t in INPUT OUTPUT FORWARD b c e f u v ; do 
-					${ipt} -F ${t}
-					[ $? -eq 0 ] || ${odio} /sbin/halt
-				done
-	
-				if [ ${debug} -eq 1 ] ; then
-					#pitäisikö olla ipt-legacy? 
-					${ipt} -L
-
-					dqb "V6.b"; csleep 1
-					${ip6t} -L
-				fi
-				
-				csleep 1
-			fi		
-
-			c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
-			[ ${c} -gt 1 ] && echo "SHOULD HALt AND CATCH FIRE IMMEDIATELY"
-			csleep 1
-
-			c=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
-			[ ${c} -gt 1 ] && echo "SHOULD ALSO:HALt AND CATCH FIRE IMMEDIATELY"
-			csleep 1
-		else
-			dqb "ipt NOT RUNNABLE?"
-			#exit 99 #ei ihan vielä uskalla näin tehdä? linkkiys sotkee asioita?
-		fi	
+#		#HUOM.140326:olisikohan CONBF_tesgtgirs riittävästi huomioitu? 
+#		#aluksi ohitetaan koko for-takenne uknnes ehkä keksii paremman tavan
+#		
+#	
+#		#... -F ja -P vain tarvittaessa, HCF-jutut lopuksi
+#
+#		#to state the obvious:export2 kautta kutsuttaessa part1() ei tarvinne tables-sääntöjä nollata
+#		if [ -x ${ipt} ] ; then #VAIH:nalqtrus jos ei -x
+#			local c
+#			local c2
+#
+#			c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
+#			c2=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
+#
+#			if [ ${c} -gt 0 ] || [ ${c2} -gt 0 ] ; then
+#				#if [ ! -v CONF_testgris ] ; then # ehto pois 18326, tarvtseeko takaisin?
+#				#/o/b/tlb.bash
+#			
+#				for t in INPUT OUTPUT FORWARD ; do
+#					${ipt} -P ${t} DROP
+#					[ $? -eq 0 ] || ${odio} /sbin/halt
+#					dqb "V6"; csleep 1
+#
+#					${ip6t} -P ${t} DROP
+#					[ $? -eq 0 ] || ${odio} /sbin/halt
+#					${ip6t} -F ${t}
+#				done
+#
+#				for t in INPUT OUTPUT FORWARD b c e f u v ; do 
+#					${ipt} -F ${t}
+#					[ $? -eq 0 ] || ${odio} /sbin/halt
+#				done
+#	
+#				if [ ${debug} -eq 1 ] ; then
+#					#pitäisikö olla ipt-legacy? 
+#					${ipt} -L
+#
+#					dqb "V6.b"; csleep 1
+#					${ip6t} -L
+#				fi
+#				
+#				csleep 1
+#			fi		
+#
+#			c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
+#			[ ${c} -gt 1 ] && echo "SHOULD HALt AND CATCH FIRE IMMEDIATELY"
+#			csleep 1
+#
+#			c=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
+#			[ ${c} -gt 1 ] && echo "SHOULD ALSO:HALt AND CATCH FIRE IMMEDIATELY"
+#			csleep 1
+#		else
+#			dqb "ipt NOT RUNNABLE?"
+#			#exit 99 #ei ihan vielä uskalla näin tehdä? linkkiys sotkee asioita?
+#		fi	
 	fi
 }
 

@@ -67,7 +67,7 @@ function e23_other_pkgs() {
 	dqb "pars.ok"
 
 	#LOPPUU SE PURPATUS PRKL
-	#jatkossa osa E22_GS ?
+	#jatkossa osa E22_GS (TODO?)
 	${shary} cpp-12 gcc-12-base libstdc++6 
 	${shary} libgcc-s1 libc6 libgomp1 
 	csleep 2	
@@ -158,16 +158,12 @@ function e23_other_pkgs() {
 #}
 
 #VAIH:yleisemmän mallin mukaan tämä, siihen toiseen ase-easc-blokkiin yms
+#180326 osasi paketin tehdä edelleen joten luultavastri asentuu kanssa
 function e23_ghi() {
-#	[ -z "${1}" ] && exit 6
-#	[ -z "${2}" ] && exit 16
-#	[ -z "${3}" ] && exit 6
-#
+
 	dqb "ghi.aps.0k"
 	csleep 1
 	${shary} ${E22GI} #common_lib
-#	echo "\${svm} ${CONF_pkgdir}/*.deb ${2}/${3}"
-#	echo "$0 f ${1} #${3}"
 }
 
 #170326:taitaa toimia, paketin teko ja sisältö
