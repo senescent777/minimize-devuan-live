@@ -49,14 +49,14 @@ function parse_opts_1() {
 }
 
 #
-#function parse_opts_2() { #160326:josko takaisin vähitellen?
+#function parse_opts_2() { #170326:josko takaisin vähitellen?
 #}
 
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
 function fallback() {
-exit 59
+	exit 59
 }
 
 #dqb ja csleep vielä määritelty
@@ -142,9 +142,6 @@ case ${mode} in
 	c) #160326:teki taas paketin, sisällön kanssa vielä testejä(VAIH)
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
-	g) #160326:edlleen validi rimpsu tuo E22GI, tosin tgtfile:n suhteen olisi hyvä tehdä jotain
-		e23_ghi ${tgtfile} ${d0} ${distro}
-	;;
 	p) #170326:lienee kunnossa
 		[ -v CONF_default_arhcive3 ] || exit 66
 		csleep 1
@@ -214,9 +211,8 @@ case ${mode} in
 	;;
 	3|4) 
 		#160326:kolmonen saattaa tehdä jo toiMivan tdston
-		#(mikäse g_doit-imp2-juttu oli?)
-
-		#nelosen testi VAIH (eli ala suorittaa)
+		#(mikäse g_doit-imp2-juttu oli? "imp2 3" liittyvää?)
+		#nelosen testi VAIH (vakuttaa thety oaketti toimivan 170326)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		dqb "NVDK 1b 5 secs"
@@ -258,7 +254,7 @@ case ${mode} in
 		${svm} /opt/bin/zxcv.tmp /opt/bin/zxcv
 		csleep 1
 
-		${sah6} --ignore-missing -c  /opt/bin/zxcv
+		${sah6} --ignore-missing -c /opt/bin/zxcv
 		csleep 6
 		
 		e22_tyg /opt/bin/zxcv
@@ -279,7 +275,7 @@ case ${mode} in
 		csleep 1
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
-	e) #VAIH:testi menossa 170326
+	e) #170326:ehkä jopa toimii
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
@@ -290,6 +286,9 @@ case ${mode} in
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+	;;	
+	g) #1803126:testaapa uusicksi josqs (VAIH)
+		e23_ghi #${tgtfile} ${d0} ${distro}
 	;;
 	l) #170236:ok
 		csleep 1

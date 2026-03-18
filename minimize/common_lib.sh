@@ -267,7 +267,7 @@ function psqa() {
 		csleep 1
 
 		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubring.kbx yli 32 tavua?
-		if [ ! -z ${gg} ] && [ -x ${gg} ] ; then
+		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 			dqb "${gg} --verify ${1}/sha512sums.txt.sig "
 			csleep 1
 			${gg} --verify ${1}/sha512sums.txt.sig 
@@ -1027,7 +1027,7 @@ function part1_5() {
 }
 #
 
-#jatkossa erillinen fktio vaiko kutsuen /o/b/tlb.bash ? 
+#jatkossa erillinen fktio vaiko kutsuen /o/b/tlb.bash ? vissiin jälkimmäinen (TODO)
 function TLA() {
 	dqb "ipt :  ${ipt} "
 	dqb "testgris : ${CONF_testgris}"
@@ -1036,17 +1036,26 @@ function TLA() {
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ]  ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		#exit 666
-		#TODO?:JATKOSSA AO. BLOKKI KENTIES TOISIN, kts /o/b/cnds (ideana kai tehdö uusia skeriptej korvaamaan changedns)
+		
+
 		#HUOM.140326:olisikohan CONBF_tesgtgirs riittävästi huomioitu? 
 		#aluksi ohitetaan koko for-takenne uknnes ehkä keksii paremman tavan
 		
-		#VAIH:se accetp-greppaaminen näille main
+	
 		#... -F ja -P vain tarvittaessa, HCF-jutut lopuksi
 
 		#to state the obvious:export2 kautta kutsuttaessa part1() ei tarvinne tables-sääntöjä nollata
-		if [ -x ${ipt} ] ; then #TODO:nalqtrus jos ei -x
-			if [ ! -v CONF_testgris ] ; then #tämä ehto pois jatkossa?
+		if [ -x ${ipt} ] ; then #VAIH:nalqtrus jos ei -x
+			local c
+			local c2
+
+			c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
+			c2=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
+
+			if [ ${c} -gt 0 ] || [ ${c2} -gt 0 ] ; then
+				#if [ ! -v CONF_testgris ] ; then # ehto pois 18326, tarvtseeko takaisin?
+				#/o/b/tlb.bash
+			
 				for t in INPUT OUTPUT FORWARD ; do
 					${ipt} -P ${t} DROP
 					[ $? -eq 0 ] || ${odio} /sbin/halt
@@ -1068,13 +1077,10 @@ function TLA() {
 
 					dqb "V6.b"; csleep 1
 					${ip6t} -L
-					csleep 1
 				fi
+				
+				csleep 1
 			fi		
-		
-
-			#/o/b/tlb.bash
-			local c
 
 			c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
 			[ ${c} -gt 1 ] && echo "SHOULD HALt AND CATCH FIRE IMMEDIATELY"
@@ -1083,6 +1089,9 @@ function TLA() {
 			c=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
 			[ ${c} -gt 1 ] && echo "SHOULD ALSO:HALt AND CATCH FIRE IMMEDIATELY"
 			csleep 1
+		else
+			dqb "ipt NOT RUNNABLE?"
+			#exit 99 #ei ihan vielä uskalla näin tehdä? linkkiys sotkee asioita?
 		fi	
 	fi
 }

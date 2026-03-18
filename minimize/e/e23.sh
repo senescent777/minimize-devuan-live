@@ -1,5 +1,3 @@
-#echo "pMERSENNE.23.q"
-#csleep 1
 #just_download_not_install-vipu olisi tietysti...
 
 function aswasw() { #privaatti fktio
@@ -21,9 +19,7 @@ function aswasw() { #privaatti fktio
 	esac
 }
 
-#11326:joskohan tblz ja pther_pkgs osaisivat tehdä sisältöä pakettiin , sisällön toimivuus asia erikseen
-
-function e23_tblz() { #160326:osasi paketin tehdä
+function e23_tblz() { #170326:osasi paketin tehdä, eghjkä toimii sisältökin
 	dqb "e23_tblz()"
 	csleep 2
 
@@ -58,12 +54,11 @@ function e23_tblz() { #160326:osasi paketin tehdä
 #ja ainakin oletus-konf löytyy
 #niin että
 
-
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 #HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
-#160326:vissiin toimii edelleen
 
+#170326:vissiin toimii edelleen
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -107,11 +102,9 @@ function e23_other_pkgs() {
 
 	csleep 1
 	${lftr}
-	
-#TODO:jos lukaisi debian referencen pitkästä aikaa, että löytyisikö jotain jekkua paketinhallinnan kanssa? ettei tarvitse kikkailla initramfs:n ja muutaman paketin kanssa
-#	... package pinning?
-#	${lftr} #kts. /etc/kernel liittyen
-#	csleep 2
+
+#initrd-nalkutus mutkistanut asioita, josko a) /etc/kernel sisältö b) debian reference auttaisi?
+#	${lftr}
 
 #	vähän aikaa ilman kunnes saa aikaiseksi konffata
 #	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
@@ -121,7 +114,7 @@ function e23_other_pkgs() {
 	csleep 2
 }
 
-##äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
+#äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 #
 #function e23_upgp() {
 #	dqb " e23_upgp() "
@@ -164,18 +157,17 @@ function e23_other_pkgs() {
 #	csleep 1
 #}
 
-#160326;ok
-#TODO:yleisemmän mallin mukaan tämä, siihen toiseen ase-easc-blokkiin yms
+#VAIH:yleisemmän mallin mukaan tämä, siihen toiseen ase-easc-blokkiin yms
 function e23_ghi() {
-	[ -z "${1}" ] && exit 6
-	[ -z "${2}" ] && exit 16
-	[ -z "${3}" ] && exit 6
-
+#	[ -z "${1}" ] && exit 6
+#	[ -z "${2}" ] && exit 16
+#	[ -z "${3}" ] && exit 6
+#
 	dqb "ghi.aps.0k"
 	csleep 1
-	echo "\${shary} ${E22GI}" #common_lib
-	echo "\${svm} ${CONF_pkgdir}/*.deb ${2}/${3}"
-	echo "$0 f ${1} #${3}"
+	${shary} ${E22GI} #common_lib
+#	echo "\${svm} ${CONF_pkgdir}/*.deb ${2}/${3}"
+#	echo "$0 f ${1} #${3}"
 }
 
 #170326:taitaa toimia, paketin teko ja sisältö

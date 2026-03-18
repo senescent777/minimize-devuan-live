@@ -24,32 +24,37 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-##VAIH:parsetus uusicksi, josqs srcfile:ä ei aseteta
-#if [ $# -gt 0 ] ; then
-#	mode=${1}
-#	[ -f ${1} ] && exit 99
-#	[ "${2}" == "-v" ] || srcfile=${2}
-#fi
+#VAIH:parsetus uusicksi, josqs srcfile:ä ei aseteta
+if [ $# -gt 0 ] ; then
+	mode=${1}
+	[ -f ${1} ] && exit 99
+	srcfile=${2}
+	[ "${3}" == "-v" ] && debug=1
+	[ "${4}" == "-v" ] && debug=1
+fi
+
+#TODO:jos järjestelisi tämän kikkareen uudestaan sittenq sqroot-testit seur kerran tehty
 
 #030326:toimiikohan tämä nykyään? etenkään toivotulla tavalla? selvitä jposqs? (VAIH)
+#170326:pasretus se vain edelleen kusee paskaa 666 (liittyyköhän tables/gpg asiaan?)
 function parse_opts_1() {
 	dqb "parse_opts_1( ${1} )"
 
-	#sisäkkäiset if-lauseet pystyisi ehkä purkamaan
-	if [ "${mode}" == "-2" ] ; then
-		mode=${1}
-	else
-		if [ "${1}" == "-v" ] ; then
-			debug=1
-		else
-			if [ -d ${d0}/${1} ] ; then
-				#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
-				d=${d0}/${distro}
-			else
-				srcfile=${1}
-			fi
-		fi
-	fi
+#	#sisäkkäiset if-lauseet pystyisi ehkä purkamaan
+#	if [ "${mode}" == "-2" ] ; then
+#		mode=${1}
+#	else
+#		if [ "${1}" == "-v" ] ; then
+#			debug=1
+#		else
+#		#	if [ -d ${d0}/${1} ] ; then
+#		#		#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
+#		#		d=${d0}/${distro}
+#		#	else
+#				srcfile=${1}
+#		#	fi
+#		fi
+#	fi
 }
 
 function parse_opts_2() {
@@ -128,13 +133,14 @@ else
 		. ${d0}/$(whoami).conf
 	else
 		if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+			echo "ordnary cqf"
 			. ${d}/conf
 		else
 		 	exit 57
 		fi	
 	fi
 
-	#debug=1
+	debug=1
 	dqb "FALLBACK"
 	sleep 5
 
@@ -191,9 +197,12 @@ else
 	function enforce_access() {
 		dqb "imp2.3nf :NOT SUPPORTED"
 	}
+
+	#TODO:barm vuoksi pitäisi kai käskyttää parse_opts_fktioita siltä varalta että parsetuksen saakin sitä kautta toimimaan
+	dqb "SHOULD CALL parse_opts_x() AROUND HERE"
 fi
 
-#debug=1 #kunnes...
+debug=1 #kunnes...
 dqb "imp2:AFTR common_lib"
 csleep 3
 [ -z "${distro}" ] && exit 6
@@ -236,7 +245,7 @@ part=/dev/disk/by-uuid/${CONF_part0}
 dqb "L0G"
 
 ocs tar
-dqb "srat= ${srat}"
+dqb "srat: ${srat}"
 csleep 3
 dqb "LHP"
 
@@ -479,17 +488,22 @@ case "${mode}" in
 	;;
 esac
 
-dqb "mode: ${mode} "
+dqb "debug: 1"
+echo "mode: ${mode} "
+echo "srcfile: ${srcfile} "
 [ -z "${srcfile}" ] && exit 44
 
-if [ -f ${srcfile} ] || [ -d ${srcfile} ] ; then #eka tark oli -s
+if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then #eka tark oli -s , vissiin oltava taas
+	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	dqb "SD"
 else
+	[ -d ${srcfile} ] || dqb "NOT A DIR"
+	[ -f ${srcfile} ] || dqb "NOT A FILE"
 	dqb "SMTHING WRONG WITH ${srcfile} "
 	exit 55
 fi
 
-[ -s ${srcfile} ] || exit 34 #pitäsikö olla if-blokin sisällä?
+#[ -s ${srcfile} ] || exit 34 #pitäsikö olla if-blokin sisällä?
 [ -r ${srcfile} ] || exit 35
 
 if [ "${mode}" == "-3" ] || [ "${mode}" == "r" ] ; then
@@ -514,7 +528,7 @@ case "${mode}" in
 	0|3) 
 		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
 		#110326:toimii edelleen mod pientä kiukuttelua josqs
-		#160326:sama, kiukuttelulle voisi todin tehdä jotain
+		#160326:sama, kiukuttelulle voisi tosin tehdä jotain
 
 		echo "ZER0 S0UND"
 		csleep 1
