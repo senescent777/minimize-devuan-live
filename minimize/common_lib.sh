@@ -225,6 +225,15 @@ function check_bin_0() {
 	export LC_ALL
 	export LANG
 
+	#TODO:/o/b/zxcv - jutut
+	#[ -s /opt/bin/zxcv ] || exit 98
+	#[ -s /opt/bin/zxcv.sig ] || exit 99
+	#[ -s /opt/bin/zxcv.sha ] || exit 97
+	#${sah6} -c /opt/bin/zxcv.sha
+	#[ $? -gt 0 ] || exit 96
+	#${gg} --verify ${g_d0}/zxcv.sig
+	#[ $? -gt 0 ] && exit 126
+
 	csleep 1
 	dqb "cb0 done"
 }
@@ -649,11 +658,16 @@ function slaughter0() {
 }
 
 function mangle_s() {
+	dqb " mangle_s( ${1} )"
 	csleep 1
+
 	[ -z "${1}" ] && exit 44
 	[ -x ${1} ] || exit 55
 	[ -z "${2}" ] && exit 45
 	[ -f ${2} ] || exit 54
+
+	dqb "pars ok"
+	csleep 1
 
 	local r
 	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
@@ -668,6 +682,8 @@ function mangle_s() {
 	#(kts omega)
 	echo -n " ALL=NOPASSWD:sha512:" >> ${2}
 	slaughter0 ${r} ${2}
+
+	dqb " mangle_s() done"
 }
 
 function dinf() {
@@ -720,9 +736,12 @@ function reqwreqw() {
 
 #HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan?
 function pre_enforce() {
+	dqb "pre_enforce() "
 	[ -z "${1}" ] && exit 98	
 	[ -d ${1} ] || exit 97
 	[ -v mkt ] || exit 99
+	dqb "pars_ok"
+	csleep 1
 
 	local q
 	local f
@@ -734,6 +753,8 @@ function pre_enforce() {
 	csleep 1
 	[ -f ${q} ] || exit 33
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
+
+	dqb "BFOR3 testgris"
 	csleep 1
 
 	if [ ! -v CONF_testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
@@ -804,6 +825,7 @@ function pre_enforce() {
 		csleep 1
 	fi
 
+	dqb "pre_enforce() done"	
 	csleep 1
 }
 

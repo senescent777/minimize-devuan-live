@@ -556,13 +556,15 @@ function e22_ts() {
 	[ -z "${1}" ] && exit 13
 	[ -d ${1} ] || exit 14
 	[ -w ${1} ] || exit 15  #hmistossa hyvä olla kirj.oik.
+	[ -z "${2}" ] && exit 16
+	[ -d ${2} ] || exit 17
 
 	dqb "par5 0k"
 	csleep 1
 
-	${svm} ${CONF_pkgdir}/*.deb ${1}
+	${svm} ${2}/*.deb ${1} #${CONF_pkgdir}
 	[ $? -eq 0 ] || exit 56
-	#glob muutt vähän huono juttu oikeastaan, TODO:tee jotain
+	#glob muutt vähän huono juttu oikeastaan, VAIH:tee jotain
 
 	#lisätäänkö tämä arkistoon jossain? no e22_a()
 	fasdfasd ${1}/tim3stamp
@@ -572,6 +574,7 @@ function e22_ts() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 }
 
+#TODO:tetsaus uusicksi
 function e22_arch() {
 	dqb "e22_arch() $1 , $2 , $3 , $4"
 
@@ -580,6 +583,7 @@ function e22_arch() {
 	#[ -w ${1} ] || exit 33 #josko man bash...
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 44
+	[ -z "${3}" ] && exit 53
 
 	dqb "pars ok"
 	csleep 1
@@ -608,6 +612,11 @@ function e22_arch() {
 	echo $?
 
 	${sah6} ./*.deb > ./sha512sums.txt
+
+	if [  ${3} -eq 1 ] ; then
+		echo "#TODO:tar -rf reject/accept/drop"
+	fi
+
 	${sah6} ./reject_pkgs >> ./sha512sums.txt.1
 	${sah6} ./accept_pkgs_? >> ./sha512sums.txt.1
 	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
@@ -638,6 +647,7 @@ function e22_arch() {
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 #}
 
+#VAIH:testaus uusiksi kosak xc
 function e22_dblock() {
 	[ -z "${1}" ] && exit 14
 	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
