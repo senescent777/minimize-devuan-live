@@ -83,36 +83,21 @@ function epr1() {
     	[ ${c} -gt 0 ] && exit 106
 
 
-	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
-	[ ${c} -gt 0 ] && exit 111
+	
 
-       	c=$(find /etc -name 'iptab*' -type d -perm /g+w | wc -l)
-        [ ${c} -gt 0 ] && exit 123
 
-	gf /etc iptab
-	${odio} rm /etc/default/rules*
+  
+	
 
-	[ ${c} -gt 0 ] && exit 114
+	
 
-	c=$(${odio} find /etc -name 'rules.v?.?' -type f -perm /g+x,g+w | wc -l)
-      	[ ${c} -gt 0 ] && exit 124
 
-	gh /etc rules.v
 
-	c=$(find /etc -name 'sudoers*' -type d -perm /o+w,o+r,o+x | wc -l)
-	[ ${c} -gt 0 ] && exit 117
-	gf /etc sudoers
 
-	c=$(find /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
-	[ ${c} -gt 0 ] && exit 120
-	gf /etc/sudoers.d
 
-	if [ -x /usr/sbin/ntpd ] ; then
-		dqb "RA1N 1N SPA1N"
-		c=$(find /etc -name 'ntp*' -type f -perm /o+w | wc -l)
-        	[ ${c} -gt 0 ] && exit 126
-		gh /etc ntp
-	fi
+
+
+
 }
 
 epr1
@@ -122,11 +107,7 @@ function p3r1m3tr() {
 	csleep 1
 
 
-	chmod 0400 /etc/iptables/*
-	chmod 0550 /etc/iptables
-	chown -R root:root /etc/iptables
-	chmod 0400 /etc/default/rules*
-	chown -R root:root /etc/default
+
 
 	local p
 	p=$(pwd)
@@ -181,21 +162,12 @@ function clouds_pp1() {
 		#		[ $? -gt 0 ] && dqb "FAILURE TO COMPLY WHILE TRYING TO REMOVE ${f}"
 		#	fi
 		#else
-		#	dqb "NOt A SHARk... link: ${f}"
-		#	${svm} ${f} ${f}.OLD
+		#	
 		#fi
 	done
 
-	if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 	
-		${smr} /sbin/dhclient-script
-		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHIOLE TRYINMG TO REMOVE DHCLIENT-SCRIPT"
-	fi
 
-	if [ -h /etc/network/interfaces ] ; then
-		${smr} /etc/network/interfaces
-	else
-		${svm} /etc/network/interfaces /etc/network/interfaces.OLD
-	fi
+
 
 	dqb "pp1 done"
 }
@@ -230,14 +202,7 @@ function clouds_pre() {
 	csleep 1
 	dqb "4 n0RS3M3N"
 
-	[ -f /etc/resolv.conf.${t} ] && ${slinky} /etc/resolv.conf.${t} /etc/resolv.conf
-
-	[ -f /etc/dhcp/dhclient.conf.${t} ] && ${slinky} /etc/dhcp/dhclient.conf.${t} /etc/dhcp/dhclient.conf
-	[ -f /sbin/dhclient-script.${t} ] && ${spc} /sbin/dhclient-script.${t} /sbin/dhclient-script
-
-
-	[ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
-	[ y"${ipt}" == "y" ] && exit 666
+		[ y"${ipt}" == "y" ] && exit 666
 
 	dqb "S0UL SARC1F1C3 6,9"
 }
@@ -252,30 +217,16 @@ function clouds_post() {
 	g=$(pwd)
 	cd /
 
-	#	${scm} 0444 ${f}
-	#	${sco} root:root ${f}
-	#done
+
 
 	cd ${g}
 
-	for f in $(find /sbin -type f -name 'dhclient*') ; do
-		${scm} 0555 ${f}
-		${sco} root:root ${f}
-	done
 
 	p3r1m3tr
 
-	for f in $(find /etc -type f -name 'ntp*') ; do
-		${scm} 0444 ${f}
-                ${sco} root:root ${f}
-	done
 
-	${scm} 0555 /etc/dhcp
-	${scm} 0555 /sbin
-	${scm} 0555 /etc/network
-	${sco} root:root /etc/network 
-	${scm} 0555 /etc/init.d/ntpsec
-	${sco} 0:0 /etc/init.d/ntpsec
+
+
 
 
 
