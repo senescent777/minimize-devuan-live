@@ -1,8 +1,4 @@
 #fktioksi tnä ni ei tartte globaalien mjien kanssa sählätä?
-#echo "common_lib:"
-#echo "d0= ${d0}"
-#echo "d= ${d}"
-#sleep 5
 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
@@ -539,8 +535,8 @@ function check_binaries() {
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
 
 	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
-	#voisiko testgris-ehdon hukata jatkossa?
-	if [ ! -v CONF_testgris ] ; then
+	#voisiko testgris-ehdon hukata jatkossa? lets find out
+	#if [ ! -v CONF_testgris ] ; then
 		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 			[ -z "${1}" ] && exit 99
 			[ -d ${1} ] || exit 101
@@ -563,7 +559,7 @@ function check_binaries() {
 		csleep 3
 	
 		for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
-	fi #tstgris
+	#fi #tstgris
 	
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
@@ -841,7 +837,7 @@ function mangle2() {
 	fi
 }
 
-#TODO:/e alaisten tdstojen linkitttämiseen liittyen jokin juttu? jhnkin toiseen skriptiin vissiin
+#VAIH:/e alaisten tdstojen linkitttämiseen liittyen jokin juttu? jhnkin toiseen skriptiin vissiin
 
 function e_e() {
 	csleep 1
@@ -1129,7 +1125,7 @@ function TLA() {
 	fi
 }
 
-#TLA jokatap? (TODO)
+TLA #jokatap?
 
 #HUOM.170326:JOS VAI N MITENKÄÄN MAHDOLLISTA NIIN EI TABLESIN KANSSA SAISI JÄÄDÄ ACCEPT-TILANTEESEEN
 function part1() {
@@ -1143,7 +1139,7 @@ function part1() {
 	csleep 1
 	
 	[ -v ipt ] || dqb "SHOULD exit 69" #010326 qseeko tämä kohta?
-	TLA #vähitellen pois tsätä fktiosta
+	#TLA #vähitellen pois tsätä fktiosta
 
 	local c
 	local g
@@ -1242,19 +1238,21 @@ function part2() {
 		jules
 		local t
 
-		dqb "TODO:repklce PART2.5.2 w/ o/b/tlb ?"
+		dqb "VAIH:repklce PART2.5.2 w/ o/b/tlb ?"
 		csleep 6
 
 		t=$(echo ${2} | tr -d -c 0-9)
-		#HUOM.160226:tdstot ilman ".$t"-päätettä, pitäisikö tehdä jotain? 
+		${odio} /opt/bin/tlb.bash ${t}
 
-		if [ -s /etc/iptables/rules.v6.${t} ] ; then
-			${ip6tr} /etc/iptables/rules.v6.${t}
-		fi
-
-		if [ -s /etc/iptables/rules.v4.${t} ] ; then
-			${iptr} /etc/iptables/rules.v4.${t}
-		fi
+#		#HUOM.160226:tdstot ilman ".$t"-päätettä, pitäisikö tehdä jotain? 
+#
+#		if [ -s /etc/iptables/rules.v6.${t} ] ; then
+#			${ip6tr} /etc/iptables/rules.v6.${t}
+#		fi
+#
+#		if [ -s /etc/iptables/rules.v4.${t} ] ; then
+#			${iptr} /etc/iptables/rules.v4.${t}
+#		fi
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
