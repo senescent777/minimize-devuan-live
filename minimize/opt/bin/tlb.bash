@@ -19,14 +19,14 @@ dqb "odio: ${odio}"
 
 function tlah() {
 	if [ ${1} -gt 0 ] ; then
-		dqb "tlb: SHOULD / sb1n / h4lt npow"
+		dqb "SHOULD / sb1n / h4lt npow"
 		csleep 1
 		[ ${debug} -eq 1 ] || /sbin/halt
 	fi
 }
 
 function ocs() {
-	dqb "tlb.ocs ${1} "
+	dqb "ocs ${1} "
 	local tmp2
 	tmp2=$(${odio} which ${1})
 
@@ -40,6 +40,7 @@ function ocs() {
 	fi
 }
 
+#TODO:/sbin/ifdown-hmmia varten jokin vipu?
 for x in iptables ip6tables iptables-restore ip6tables-restore ; do
 	#dqb ${x}
 	ocs ${x}
@@ -52,7 +53,7 @@ iptr=$(${odio} which iptables-restore)
 ip6tr=$(${odio} which ip6tables-restore)
 
 csleep 1
-dqb "tbl.bahs: 0 cc of \??? intravenompously stat"
+dqb "0 cc of \??? intravenompously stat"
 c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
 c2=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
 
@@ -62,6 +63,7 @@ if [ ${c} -gt 0 ] || [ ${c2} -gt 0 ] ; then
 		tlah $?
 		dqb "V4 ${t} $?" #; csleep 1
 
+		#pitäisikö huuhdella myÖs v4-taulut?
 		${ipt} -F ${t}
 		tlah $?
 
@@ -75,7 +77,6 @@ if [ ${c} -gt 0 ] || [ ${c2} -gt 0 ] ; then
 	done
 
 	#jatkossa jokin array voisi sisltää nuo
-	#tuliko tuosta muuten jotain nalkutusta?
 	for t in e b u v c f ; do
 		#${ipt} -P ${t} DROP
 		#dqb $?

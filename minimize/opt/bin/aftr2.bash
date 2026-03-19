@@ -1,13 +1,13 @@
 #!/bin/bash
 debug=1
-
+#esit pois josqs, nyt näin
+exit 99
 
 #================================
 #ntp-kikkailut erilliseen skriptiin?
 #miten muuten ne ipt/netf-persistent? oliko niissä jotain skriptihakemistoa? pystyisikö käyttämään?
 
 function ptn_dda() {
-	
 	local t
 	local u
 

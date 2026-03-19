@@ -132,25 +132,10 @@ function p3r1m3tr() {
 	p=$(pwd)
 	cd /
 
-	dqb "${sah6} --ignore-missing -c ${g_d0}/zxcv"
-	csleep 1
 
-	${sah6} --ignore-missing -c /opt/bin/zxcv
-	[ $? -eq 0 ] || exit 66
 	cd ${p}
 
-	chmod 0400 ${g_d0}/zxcv*
-	chown root:root ${g_d0}/zxcv*
 
-	if [ -s ${g_d0}/zxcv.sig ] ; then
-		local g
-		g=$(which gpg)
-
-		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-			${gg} --verify ${g_d0}/zxcv.sig
-			[ $? -gt 0 ] && exit 126
-		fi
-	fi
 
 	/bin/netstat -tulpan;sleep 2
 	dqb "P3R1MTR g_d0N3"
