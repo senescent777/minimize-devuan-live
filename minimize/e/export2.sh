@@ -60,6 +60,8 @@ function fallback() {
 	exit 59
 }
 
+echo "distro: ${distro}"
+sleep 5
 #dqb ja csleep vielä määritelty
 
 if [ -x ${d0}/common_lib.sh ] ; then 
@@ -86,7 +88,7 @@ if [ -z "${mkt}" ] ; then
 	exit 8
 fi
 
-echo "JUST BEFORE INCLUDING FLIES"
+echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 2
 
 #dirnamen kanssa ei oikein toiminut aiemmin
@@ -140,7 +142,7 @@ case ${mode} in
 
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
-	c) #160326:teki taas paketin, sisällön kanssa vielä testejä(VAIH)
+	c) #190326:teki taas paketin, sisältökin toimii
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
 	p) #170326:lienee kunnossa
@@ -170,8 +172,6 @@ e_h $(whoami) ${d0}
 dqb "EHD0NE"
 csleep 1
 
-#TODO:changedns:n dns-osuuden vipuaminen joko resolVconf:ille tai dnsmasq:lle? , kumman saakaan pienemmällä säädöllä toimimaan
-
 #HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
 
 #...saisiko yo skriptin jotenkin yhdistettyä ifup:iin? siihen kun liittyy niitä skriptejä , post-jotain.. (ls /etc/network)
@@ -183,19 +183,8 @@ e22_pre1 ${d} ${distro}
 #110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm} #qseeko tämä?
 
-#(cdns ennen vai jälkeen sifu?)
-#
-#if [ -x /opt/bin/changedns.bash ] ; then
-#	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
-#else
-#	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
-#		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
-#	else
-#		dqb "changedns not an option"
-#		csleep 5
-#	fi
-#fi
-#TODO:/o/b/skriptit tähän
+
+#TODO:/o/b/skriptit tähän tai siis ifupdown käskyttämään niitä
 
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}

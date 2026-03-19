@@ -6,29 +6,31 @@
 
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
+dqb "MDB"
 csleep 1
 
-#if [ -v CONF_pubk ] ; then
-#	dqb "Å"
-#else
-#	#050326:jatkosäätöjä tähän vai ei?
-#	arsch=$(${odio} find / -type f -name 'keys.conf' | head -n 1)
-#
-#	if [ -z "${arsch}" ] ; then
-#		dqb "B"
-#	else
-#		if [ -s ${arsch} ] ; then
-#			. ${arsch}
-#		else
-#			dqb "C"
-#		fi	
-#	fi
-#
-#	csleep 1
-#	unset arsch
-#fi
-#
-#csleep 3
+if [ -v CONF_pubk ] ; then
+	dqb "Å"
+else
+	#050326:jatkosäätöjä tähän vai ei?
+	arsch=$(${odio} find / -type f -name 'keys.conf' | head -n 1)
+
+	if [ -z "${arsch}" ] ; then
+		dqb "B"
+	else
+		if [ -s ${arsch} ] ; then
+			. ${arsch}
+		else
+			dqb "C"
+		fi	
+	fi
+
+	csleep 1
+	unset arsch
+fi
+
+dqb "MILTONS L0ST PARAD153"
+csleep 3
 
 #170326:lienee ok
 function e22_hdr() {
@@ -254,7 +256,7 @@ function e22_settings() {
 
 #160326:toimi tuolloin aiankin kerran
 #TODO:voisikohan nuo Constit korvata josqs...
-#VAIH:tarkistukset paramreille
+#VAIH:tarkistukset paramreille (olisikojo 190326 qnnossa?)
 
 function e22_home_pre() {
 	dqb "e22_home_pre()"
@@ -262,7 +264,7 @@ function e22_home_pre() {
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
-	#[ -d ${2} ] || exit 70
+	[ -d ${2} ] || exit 70
 	[ -z "${3}" ] && exit 71
 	[ -z "${4}" ] && exit 73
 
@@ -464,13 +466,15 @@ function e22_ext() {
 
 	#VAIH:juttuja takaisin kommenteista?
 	[ -z "${1}" ] && exit 1
+	[ -d ${1} ] && exit 59
 	[ -s ${1} ] || exit 2
 	#[ -w ${1} ] || exit 6
 	#-f, ! -d pitäisikö olla 1 tai 4 kanssa?
 	[ -z "${2}" ] && exit 3
 	[ -z "${3}" ] && exit 4
 	[ -z "${4}" ] && exit 47
-	[ -f ${4} ] || exit 48
+		
+	[ -d ${4} ] && exit 53
 
 	local p
 	local q	
@@ -725,9 +729,11 @@ function e22_dblock() {
 #}
 
 #TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen?
-#VAIH:uusicksi testaus koska viimeaikaiset muutokset (160326, tekee tdston, sisältö:)
+#190326:toimii sqrootissa edelleen pakerin sisältö
 
 function e22_cde() {
+	dqb "e22_cde()"
+	
 	[ -z "${1}" ] && exit 99
 	[ -z "${2}" ] && exit 98
 	[ -d "${2}" ] || exit 97

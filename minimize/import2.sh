@@ -127,8 +127,7 @@ csleep 1
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#VAIH:sqroot-testiä Taas kehiin (yo. purq ainakin onnaa)
-
+	#190326:vissiin tämän haaran kanssa jutut toimivat jnkn verran ja thats it
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0NF1G"
 		sleep 2
@@ -531,7 +530,8 @@ case "${mode}" in
 		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
 		#110326:toimii edelleen mod pientä kiukuttelua josqs
 		#160326:sama, kiukuttelulle voisi tosin tehdä jotain
-
+		#190326:onnistui sqrootin alaisuudessa paketteja asennella
+		
 		echo "ZER0 S0UND"
 		csleep 1
 		dqb " ${3} ${distro} MN"
@@ -543,24 +543,9 @@ case "${mode}" in
 				#mitense alt_root? ensisijaisesti sitä pakettien "uutta" asennustapaa vartebn
 				#... siinä piti vielä prujata se hmistorakanne ainakin
 
-				#VAIH:jokin vihje echolla kjälle ni ei tartte arpoa
-				#echo "EI NÄIN"
-
 				tar -tf ${srcfile} | grep f.tar | head -n 1
 				echo "... SHOULD BE MOVED UNDER ${d} , AFTER THAT:RUN $0 3 ${d}/f.tar"
 				exit 99
-			#else
-			#	#kuinkahan tarpeellinen else-haara?
-			#	if [ -v CONF_alt_root ] ; then
-			#		#100226:vihdoinkin tämäkin korjattu?
-			#		110326:voisi osata päättää miten menetellä 
-#					dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
-#					csleep 6
-#
-#					cp ${d}/*pkgs* ${CONF_alt_root}/${distro}
-#					ls -las ${CONF_alt_root}/${distro}
-#					csleep 4
-#				fi
 			fi
 		fi
 

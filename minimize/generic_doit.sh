@@ -266,11 +266,8 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
 
 
-#c14=0
+#TODO:el_loco() - blkin testaus vähitellen
 c13=0
-#[ ${mode} -eq 1 ] && c14=1
-#
-#timezone ja localtime jos dellisi joissain tilanteissa? c14 oletuksena ykkönen kunnes
 c14=1
 
 if [ ${mode} -gt 1 ] ; then #nollasta ei tarttisi välittää koska exit aiempana
@@ -278,7 +275,8 @@ if [ ${mode} -gt 1 ] ; then #nollasta ei tarttisi välittää koska exit aiempan
 		c13=$(env | grep LC_TIME | grep -c ${LCF666})
 		[ $c13 -gt 0 ] && c14=0
 		#profit
-	#TODO:else-haara
+	else
+		echo "NO PREFERRED LC_TIME FOUND" #...ja Sit Jotain?
 	fi
 fi
 
@@ -295,8 +293,8 @@ fi
 #csleep 1
 #
 #[ ${c13} -lt 1 ] && c14=1
-#el_loco ${c14} ${c13} #joko jo c13 takaisin? kokeillaanpa
-el_loco ${c14} ${c14}
+
+el_loco ${c14} ${c13}
 #=========================================================================================
 
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then 
@@ -363,20 +361,21 @@ ${asy}
 dqb "GR1DN BELIALAS KYE"
 
 e_final
-e_h ${n} ${d0}
+e_h $(whoami) ${d0}
 echo "KVG:\"how to exit for-loop in bash\" " #TÄSSÄKÖ KUSI PASKAA?
 sleep 5
 
-if [ -x /opt/bin/changedns.bash ] ; then
-	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
-else
-	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
-		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
-	else
-		dqb "changedns not an option"
-		csleep 5
-	fi
-fi
+#VAIH:tämä blokki opis, /o/b alla oli niitä muitakin skriptejä
+#if [ -x /opt/bin/changedns.bash ] ; then
+#	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
+#else
+#	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
+#		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
+#	else
+#		dqb "changedns not an option"
+#		csleep 5
+#	fi
+#fi
 
 ${sipt} -L
 csleep 1

@@ -213,12 +213,6 @@ function check_bin_0() {
 		distro=$(cat /etc/devuan_version)
 	fi
 
-#	if [ -v n ] ; then
-#		dqb "n OK"
-#	else
-#		n=$(whoami)
-#	fi
-
 	#[-v jotain ]  taakse nämä?
 	export LC_TIME
 	export LANGUAGE
@@ -470,6 +464,56 @@ function cefgh() {
 	#mitäjos part3() kaNssa tulee sitä gpg-nalkutusta? g.tar-jutut takaisin tähämn?	
 }
 
+function CB01() {
+	dqb "CB01()"
+	csleep 1
+	
+	#160326:mv-komennon kanssa oli jotain urputusta? vissiin tämän?
+	[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt.bak
+	efk2 ${1}/g.tar ${1}
+	common_pp3 ${1}
+	[ -s ${1}/g.tar ] && ${spc} ${1}/g.tar ${1}/g.tar.bak
+	[ $? -eq 0 ] && ${NKVD} ${1}/g.tar
+	
+	#160326:mv-komennon kanssa oli jotain urputusta?
+	[ -s ${1}/g.tar.bak ] && ${svm} ${1}/g.tar.bak ${1}/g.tar
+	common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisältö purun jälkeen
+	
+	for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
+	csleep 1
+	
+	gg=$(${odio} which gpg)
+	gv=$(${odio} which gpgv)
+	csleep 1
+	
+	#160326:mv-komennon kanssa oli jotain urputusta?
+	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt
+	common_pp3 ${1}
+	}
+
+function CB02() {
+	dqb "CB02()"
+	csleep 1
+	jules
+
+	[ -f /.chroot ] && message
+	for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
+	
+	for p in ${E22_GV} ; do 
+		fromtend ${1}/${p}*.deb
+		[ $? -eq 0 ] && ${NKVD} ${1}/${p}*.deb
+	done
+	
+	other_horrors
+	ipt=$(${odio} which iptables)
+	ip6t=$(${odio} which ip6tables)
+	iptr=$(${odio} which iptables-restore)
+	ip6tr=$(${odio} which ip6tables-restore)
+	
+	#sqroot-juttuja
+	[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh	
+}
+
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ) "
 	csleep 1
@@ -495,72 +539,31 @@ function check_binaries() {
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
 
 	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
-	if [ ! -v CONF_testgris ] ; then #mitenköhän ehdon pitäisi mennä?
-		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then #tirha if?
+	#voisiko testgris-ehdon hukata jatkossa?
+	if [ ! -v CONF_testgris ] ; then
+		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 			[ -z "${1}" ] && exit 99
 			[ -d ${1} ] || exit 101
-
+			
 			#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
 			cefgh ${1}
 			common_pp3 ${1}
-
-			#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
-			if [ -z "${gg}" ] ; then
-				#160326:mv-komennon kanssa oli jotain urputusta? vissiin tämän?
-				[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt.bak
-
-				efk2 ${1}/g.tar ${1}
-				common_pp3 ${1}
-				[ -s ${1}/g.tar ] && ${spc} ${1}/g.tar ${1}/g.tar.bak
-				[ $? -eq 0 ] && ${NKVD} ${1}/g.tar
-
-				#160326:mv-komennon kanssa oli jotain urputusta?
-				[ -s ${1}/g.tar.bak ] && ${svm} ${1}/g.tar.bak ${1}/g.tar
-				common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisältö purun jälkeen
-
-				for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
-				csleep 1
-
-				gg=$(${odio} which gpg)
-				gv=$(${odio} which gpgv)
-				csleep 1
-
-				#160326:mv-komennon kanssa oli jotain urputusta?
-				[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt
-				common_pp3 ${1}
-			fi
-
-			if [ -z "${ipt}" ] ; then
-				jules
-				#ei vielä conf_alt_toor
-				[ -f /.chroot ] && message
-				for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
-
-				for p in ${E22_GV} ; do 
-					fromtend ${1}/${p}*.deb
-					[ $? -eq 0 ] && ${NKVD} ${1}/${p}*.deb
-				done
-
-				other_horrors
-				ipt=$(${odio} which iptables)
-				ip6t=$(${odio} which ip6tables)
-				iptr=$(${odio} which iptables-restore)
-				ip6tr=$(${odio} which ip6tables-restore)
-
-				#sqroot-juttuja
-				[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh
-			fi
-
-			ls ${1}/*.deb | wc -l
-			csleep 3
-
-			#261225:pitäisiköhän gpg- ja tables- instausten jämät deletoida varM, vuoksi?
-			#${NKVD} ${1}/*.deb saattaa jäädä tällä tavalla git tai mktemp puuttumaan
+		fi
+		
+		#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
+		if [ -z "${gg}" ] ; then
+			CB01 ${1}
+		fi
+	
+		if [ -z "${ipt}" ] ; then
+			CB02 ${1}
 		fi
 
-		#181225:lisätty tämmöinen kikkailu kehitysymp varten ettei jumitu heti alkuunsa	
+		ls ${1}/*.deb | wc -l
+		csleep 3
+	
 		for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
-	fi
+	fi #tstgris
 	
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
@@ -886,6 +889,8 @@ function e_e() {
 
 function e_v() {
 	#180326:/sbin - rivien kanssa jotain ongelmaa? chown valittaa /sbin alaisista tdstoista...
+	#kiekolla bittejä poikittain?
+	
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
 	dqb "e_V_2 IN 1 SECS"
@@ -1058,7 +1063,8 @@ function TLA() {
 	dqb "testgris : ${CONF_testgris}"
 	csleep 1
 
-	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ]  ; then
+	#3. ehto pois jatkossa vai ei?
+	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] ||  [ -f /.chroot ]  ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
 		dqb "JST B3F0R:tlb-b a s h"
@@ -1123,7 +1129,7 @@ function TLA() {
 	fi
 }
 
-#TLA jokatap?
+#TLA jokatap? (TODO)
 
 #HUOM.170326:JOS VAI N MITENKÄÄN MAHDOLLISTA NIIN EI TABLESIN KANSSA SAISI JÄÄDÄ ACCEPT-TILANTEESEEN
 function part1() {
@@ -1137,7 +1143,7 @@ function part1() {
 	csleep 1
 	
 	[ -v ipt ] || dqb "SHOULD exit 69" #010326 qseeko tämä kohta?
-	TLA
+	TLA #vähitellen pois tsätä fktiosta
 
 	local c
 	local g
