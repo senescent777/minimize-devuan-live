@@ -40,7 +40,7 @@ else
 fi
 
 #"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
-#TODO:lisävipu e22_dblock()/e22_ts()/e22_arch() varten
+#VAIH:lisävipu e22_dblock()/e22_ts()/e22_arch() varten
 
 function parse_opts_1() {
 	#if [ -d ${d}/${1} ] ; then

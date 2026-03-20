@@ -177,7 +177,9 @@ function e22_pre2() {
 		echo $?
 		csleep 1
 
+		#HUOM.200326:TLA() tähän väliaikaisesti vai ei?
 		${sifu} ${3}
+
 		${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 		${scm} -Rv 700 ${CONF_pkgdir}/partial/
 		${sag_u}
@@ -566,7 +568,7 @@ function e22_ts() {
 	dqb "par5 0k"
 	csleep 1
 
-	${svm} ${2}/*.deb ${1} #${CONF_pkgdir}
+	${svm} ${2}/*.deb ${1} #
 	[ $? -eq 0 ] || exit 56
 	#glob muutt vähän huono juttu oikeastaan, VAIH:tee jotain
 
@@ -617,7 +619,7 @@ function e22_arch() {
 
 	${sah6} ./*.deb > ./sha512sums.txt
 
-	if [  ${3} -eq 1 ] ; then
+	if [ ${3} -eq 1 ] ; then
 		echo "#TODO:tar -rf reject/accept/drop"
 	fi
 
@@ -679,7 +681,7 @@ function e22_dblock() {
 	
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-6) #joitain tr-jekkuja vielä?
-	e22_ts ${t}
+	e22_ts ${t} ${CONF_pkgdir}
 	dqb "JST B3F0R3 3NF0RC3"
 	csleep 5
 	
