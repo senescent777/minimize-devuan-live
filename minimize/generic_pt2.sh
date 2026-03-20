@@ -45,17 +45,17 @@ process_lib ${d}
 
 e_final
 e_h ${n} ${d0} 
-
-if [ -x /opt/bin/changedns.bash ] ; then
-	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
-else
-	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
-		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
-	else
-		dqb "changedns not an option"
-		csleep 5
-	fi
-fi
+#TODO:tbl ja aftr tähän? vai ko TLA()
+#if [ -x /opt/bin/changedns.bash ] ; then
+#	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
+#else
+#	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
+#		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
+#	else
+#		dqb "changedns not an option"
+#		csleep 5
+#	fi
+#fi
 
 ${fib}
 dqb "distro=${distro}"
@@ -65,6 +65,7 @@ sleep 1
 
 if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
+	TLA
 else
 	part2 1 ${CONF_dnsm} ${CONF_iface}
 	[ $? -gt 0 ] && exit

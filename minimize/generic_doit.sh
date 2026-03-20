@@ -111,7 +111,8 @@ function dis() {
 	csleep 1
 	${odio} sysctl -p
 	csleep 1
-	dqb "5HAD0W 0F TH3 BA35T D0N3"
+
+	dqb "5HAD0W 0F TH3 BA5T D0N3"
 }
 
 function part0() {
@@ -265,8 +266,7 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 #TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
 
-
-#TODO:el_loco() - blkin testaus vähitellen
+#VAIH:el_loco() - blkin testaus vähitellen
 c13=0
 c14=1
 
@@ -279,20 +279,6 @@ if [ ${mode} -gt 1 ] ; then #nollasta ei tarttisi välittää koska exit aiempan
 		echo "NO PREFERRED LC_TIME FOUND" #...ja Sit Jotain?
 	fi
 fi
-
-#==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
-#... joskohan voisi arpomisen lopettaa joskus? lopettelun v01si aloittaa vhitellen (090326)
-#
-#if [ -v LCF666 ] ; then
-#	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
-#	#c13=
-#else
-#	echo "555"
-#fi
-#
-#csleep 1
-#
-#[ ${c13} -lt 1 ] && c14=1
 
 el_loco ${c14} ${c13}
 #=========================================================================================
@@ -354,8 +340,6 @@ if [ ! -f /.chroot ] ; then
 	${d0}/import2.sh r ${d0} -v
 fi
 
-#140326:vissiin tähän asti toimii ok
-
 jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
@@ -365,17 +349,8 @@ e_h $(whoami) ${d0}
 echo "KVG:\"how to exit for-loop in bash\" " #TÄSSÄKÖ KUSI PASKAA?
 sleep 5
 
-#VAIH:tämä blokki opis, /o/b alla oli niitä muitakin skriptejä
-#if [ -x /opt/bin/changedns.bash ] ; then
-#	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
-#else
-#	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
-#		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
-#	else
-#		dqb "changedns not an option"
-#		csleep 5
-#	fi
-#fi
+${odio} /opt/bin/tlb.bash ${CONF_dnsm}
+${odio} /opt/bin/aftr.bash
 
 ${sipt} -L
 csleep 1
