@@ -1,13 +1,12 @@
 #!/bin/bash
 #jotain oletuksia kunnes oikea konftdsto saatu lotottua
 debug=0 #1
-
 distro=$(cat /etc/devuan_version)
 # | cut -d '/' -f 1) #160126 cut-kikkailu pois sotkemasta, muualla kun menee toisin
-
 d0=$(pwd)
 mode=-2
 tgtfile=""
+gbk=-1
 
 function usage() {
 	echo "$0 0 <tgtfile> [distro?] [-v]: makes the main package (new way)"
@@ -28,11 +27,6 @@ function usage() {
 
 if [ $# -gt 1 ] ; then
 	mode=${1}
-
-#	if [ -f ${1} ] ; then
-#		exit 99
-#	fi
-
 	tgtfile=${2}
 else
 	usage
@@ -43,10 +37,16 @@ fi
 #VAIH:lisävipu e22_dblock()/e22_ts()/e22_arch() varten
 
 function parse_opts_1() {
-	#if [ -d ${d}/${1} ] ; then
+	dqb "parse_opts_1( ${1})"
+
+	if [ -d ${d}/${1} ] ; then
 		#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
 		d=${d0}/${distro}
-	#fi
+	else
+		if [ "${gbk}" == "-1" ] ; then
+			[ "${1}" == "-p" ] && gbk=1
+		fi
+	fi
 }
 
 #
@@ -96,9 +96,9 @@ if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
 	[ $? -gt 0 ] && exit 66
 	csleep 1
-
-	echo "INTER GRENUM...REGFNUM"
-	sleep 5
+#
+#	echo "INTER GRENUM...REGFNUM"
+#	sleep 5
 
 	.  ${d0}/e/e23.sh
 	[ $? -gt 0 ] && exit 67
@@ -130,9 +130,9 @@ case ${mode} in
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
 #	;;
-	f) #170326:selvitetty että toimii ($0 g:n kanssa)
+	f) #VAIH:testaa
 		enforce_access $(whoami) ${t}
-		e22_arch ${tgtfile} ${d}
+		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
 	q)
 		#170326:tekee edelleen arkiston, sisältö kenties ok
@@ -182,8 +182,6 @@ e22_pre1 ${d} ${distro}
 
 #110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm} #qseeko tämä?
-
-
 #TODO:/o/b/skriptit tähän tai siis ifupdown käskyttämään niitä
 
 e22_cleanpkgs ${d}
@@ -295,7 +293,7 @@ if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 
 	#HUOM.11326:d-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
 	#... voisi sitäpaitsi kys fktion räjäyttää auki q käytössä vain 1 paikasta
-	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} 
+	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 
 	e22_ftr ${d}/f.tar  #140326:pitäisiköhän tämä kohta muuttaa? miten?
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 

@@ -580,7 +580,7 @@ function e22_ts() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 }
 
-#TODO:tetsaus uusicksi
+#VAIH:tetsaus uusicksi (20326)
 function e22_arch() {
 	dqb "e22_arch() $1 , $2 , $3 , $4"
 
@@ -616,11 +616,10 @@ function e22_arch() {
 
 	cd ${2}
 	echo $?
-
 	${sah6} ./*.deb > ./sha512sums.txt
 
 	if [ ${3} -eq 1 ] ; then
-		echo "#TODO:tar -rf reject/accept/drop"
+		${srat} -rf ${1} ./*pkgs*
 	fi
 
 	${sah6} ./reject_pkgs >> ./sha512sums.txt.1
@@ -655,6 +654,8 @@ function e22_arch() {
 
 #VAIH:testaus uusiksi kosak xc
 function e22_dblock() {
+	dqb "e22_dblock(${1} , ${2} , ${3} , ${4})"
+
 	[ -z "${1}" ] && exit 14
 	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
 	#[ -w ${1} ] || exit 16 #ei näin?
@@ -664,8 +665,9 @@ function e22_dblock() {
 	[ -z "${3}" ] && exit 33
 	[ -d ${3} ] || exit 34
 	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
+	[ -z "${4}" ] && exit 37
 
-	dqb "e22_dblock().PARS-OK"
+	dqb ".PARS-OK"
 	csleep 1
 
 	[ ${debug} -eq 1 ] && pwd
@@ -681,7 +683,7 @@ function e22_dblock() {
 	
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-6) #joitain tr-jekkuja vielä?
-	e22_ts ${t} ${CONF_pkgdir}
+	e22_ts ${t} ${3}
 	dqb "JST B3F0R3 3NF0RC3"
 	csleep 5
 	
@@ -689,7 +691,7 @@ function e22_dblock() {
 	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
 	csleep 5
 
-	e22_arch ${1} ${2}
+	e22_arch ${1} ${2} ${4}
 	e22_cleanpkgs ${2}
 }
 
@@ -717,7 +719,7 @@ function e22_dblock() {
 ##
 ##	#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
 ##			
-##	e22_arch ${1} ${2}
+##	e22_arch ${1} ${2} ${4}
 ##	cd ${2}
 ##
 ##	#sotkee sittenkin liikaa?
