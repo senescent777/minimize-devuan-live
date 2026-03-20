@@ -1,4 +1,5 @@
 #fktioksi tnä ni ei tartte globaalien mjien kanssa sählätä?
+#debug=1 #pois sittenq
 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
@@ -215,14 +216,14 @@ function check_bin_0() {
 	export LC_ALL
 	export LANG
 
-	#TODO:/o/b/zxcv - jutut
-	#[ -s /opt/bin/zxcv ] || exit 98
-	#[ -s /opt/bin/zxcv.sig ] || exit 99
-	#[ -s /opt/bin/zxcv.sha ] || exit 97
-	#${sah6} -c /opt/bin/zxcv.sha
-	#[ $? -gt 0 ] || exit 96
-	#${gg} --verify ${g_d0}/zxcv.sig
-	#[ $? -gt 0 ] && exit 126
+	#VAIH:/o/b/zxcv - jutut
+	[ -s /opt/bin/zxcv ] || echo "should exit 98"
+	[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
+	[ -s /opt/bin/zxcv.sha ] || echo "should exit 97"
+	${sah6} -c /opt/bin/zxcv.sha
+	[ $? -gt 0 ] || echo "should exit 96"
+	${gg} --verify ${g_d0}/zxcv.sig
+	[ $? -gt 0 ] && echo "dhoulf exit 126"
 
 	csleep 1
 	dqb "cb0 done"
@@ -616,9 +617,83 @@ function check_binaries2() {
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
 	smd="${odio} ${smd}"
-
+	
+	#tähän/seuraavaan TLA() vai mitenkä?
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
+}
+
+#jatkossa erillinen fktio vaiko kutsuen /o/b/tlb.bash ? vissiin jälkimmäinen (VAIH)
+function TLA() {
+	dqb "TLA.ipt :  ${ipt} "
+	dqb "TLA.testgris : ${CONF_testgris}"
+	csleep 1
+
+	#3. ehto pois jatkossa vai ei?
+	#200326:toimiikohan tarkistus toivotulla tavalla?
+	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] ||  [ -f /.chroot ]  ; then
+		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
+	else
+		dqb "JST B3F0R:tlb-b a s h"
+		[ -x /opt/bin/tlb.bash ] || exit 99
+		${odio} /opt/bin/tlb.bash #tarkoiytukseölla ilman param
+
+#		#HUOM.140326:olisikohan CONBF_tesgtgirs riittävästi huomioitu? 
+#		#aluksi ohitetaan koko for-takenne uknnes ehkä keksii paremman tavan
+#		
+#	
+#		#... -F ja -P vain tarvittaessa, HCF-jutut lopuksi
+#
+#		#to state the obvious:export2 kautta kutsuttaessa part1() ei tarvinne tables-sääntöjä nollata
+#		if [ -x ${ipt} ] ; then #VAIH:nalqtrus jos ei -x
+#			local c
+#			local c2
+#
+#			c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
+#			c2=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
+#
+#			if [ ${c} -gt 0 ] || [ ${c2} -gt 0 ] ; then
+#				#if [ ! -v CONF_testgris ] ; then # ehto pois 18326, tarvtseeko takaisin?
+#				#/o/b/tlb.bash
+#			
+#				for t in INPUT OUTPUT FORWARD ; do
+#					${ipt} -P ${t} DROP
+#					[ $? -eq 0 ] || ${odio} /sbin/halt
+#					dqb "V6"; csleep 1
+#
+#					${ip6t} -P ${t} DROP
+#					[ $? -eq 0 ] || ${odio} /sbin/halt
+#					${ip6t} -F ${t}
+#				done
+#
+#				for t in INPUT OUTPUT FORWARD b c e f u v ; do 
+#					${ipt} -F ${t}
+#					[ $? -eq 0 ] || ${odio} /sbin/halt
+#				done
+#	
+#				if [ ${debug} -eq 1 ] ; then
+#					#pitäisikö olla ipt-legacy? 
+#					${ipt} -L
+#
+#					dqb "V6.b"; csleep 1
+#					${ip6t} -L
+#				fi
+#				
+#				csleep 1
+#			fi		
+#
+#			c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
+#			[ ${c} -gt 1 ] && echo "SHOULD HALt AND CATCH FIRE IMMEDIATELY"
+#			csleep 1
+#
+#			c=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
+#			[ ${c} -gt 1 ] && echo "SHOULD ALSO:HALt AND CATCH FIRE IMMEDIATELY"
+#			csleep 1
+#		else
+#			dqb "ipt NOT RUNNABLE?"
+#			#exit 99 #ei ihan vielä uskalla näin tehdä? linkkiys sotkee asioita?
+#		fi	
+	fi
 }
 
 function process_lib() {
@@ -626,7 +701,7 @@ function process_lib() {
 	[ -z "${1}" ] && exit 66
 	csleep 1
 
-	[ -x "${gg}"  ] && dqb "SHOULD ${gg} --verify ${1}/lib.sh.sig ? "
+	[ -x "${gg}" ] && dqb "SHOULD ${gg} --verify ${1}/lib.sh.sig ? "
 	csleep 1
 
 	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then
@@ -641,6 +716,8 @@ function process_lib() {
 
 	check_binaries2
 	[ $? -eq 0 ] || dqb "SHOULD exit 68 också"
+
+	TLA
 	dqb "process_lib.done()"
 }	
 
@@ -1053,80 +1130,6 @@ function part1_5() {
 }
 #
 
-#jatkossa erillinen fktio vaiko kutsuen /o/b/tlb.bash ? vissiin jälkimmäinen (VAIH)
-function TLA() {
-	dqb "TLA: ipt :  ${ipt} "
-	dqb "testgris : ${CONF_testgris}"
-	csleep 1
-
-	#3. ehto pois jatkossa vai ei?
-	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] ||  [ -f /.chroot ]  ; then
-		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
-	else
-		dqb "JST B3F0R:tlb-b a s h"
-		[ -x /opt/bin/tlb.bash ] || exit 99
-		${odio} /opt/bin/tlb.bash #tarkoiytukseölla ilman param
-
-#		#HUOM.140326:olisikohan CONBF_tesgtgirs riittävästi huomioitu? 
-#		#aluksi ohitetaan koko for-takenne uknnes ehkä keksii paremman tavan
-#		
-#	
-#		#... -F ja -P vain tarvittaessa, HCF-jutut lopuksi
-#
-#		#to state the obvious:export2 kautta kutsuttaessa part1() ei tarvinne tables-sääntöjä nollata
-#		if [ -x ${ipt} ] ; then #VAIH:nalqtrus jos ei -x
-#			local c
-#			local c2
-#
-#			c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
-#			c2=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
-#
-#			if [ ${c} -gt 0 ] || [ ${c2} -gt 0 ] ; then
-#				#if [ ! -v CONF_testgris ] ; then # ehto pois 18326, tarvtseeko takaisin?
-#				#/o/b/tlb.bash
-#			
-#				for t in INPUT OUTPUT FORWARD ; do
-#					${ipt} -P ${t} DROP
-#					[ $? -eq 0 ] || ${odio} /sbin/halt
-#					dqb "V6"; csleep 1
-#
-#					${ip6t} -P ${t} DROP
-#					[ $? -eq 0 ] || ${odio} /sbin/halt
-#					${ip6t} -F ${t}
-#				done
-#
-#				for t in INPUT OUTPUT FORWARD b c e f u v ; do 
-#					${ipt} -F ${t}
-#					[ $? -eq 0 ] || ${odio} /sbin/halt
-#				done
-#	
-#				if [ ${debug} -eq 1 ] ; then
-#					#pitäisikö olla ipt-legacy? 
-#					${ipt} -L
-#
-#					dqb "V6.b"; csleep 1
-#					${ip6t} -L
-#				fi
-#				
-#				csleep 1
-#			fi		
-#
-#			c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
-#			[ ${c} -gt 1 ] && echo "SHOULD HALt AND CATCH FIRE IMMEDIATELY"
-#			csleep 1
-#
-#			c=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
-#			[ ${c} -gt 1 ] && echo "SHOULD ALSO:HALt AND CATCH FIRE IMMEDIATELY"
-#			csleep 1
-#		else
-#			dqb "ipt NOT RUNNABLE?"
-#			#exit 99 #ei ihan vielä uskalla näin tehdä? linkkiys sotkee asioita?
-#		fi	
-	fi
-}
-
-TLA #jokatap?
-
 #HUOM.170326:JOS VAI N MITENKÄÄN MAHDOLLISTA NIIN EI TABLESIN KANSSA SAISI JÄÄDÄ ACCEPT-TILANTEESEEN
 function part1() {
 	dqb "PART1 ${1} , ${2} "
@@ -1139,7 +1142,7 @@ function part1() {
 	csleep 1
 	
 	[ -v ipt ] || dqb "SHOULD exit 69" #010326 qseeko tämä kohta?
-	#TLA #vähitellen pois tsätä fktiosta
+	#TLA #vähitellen pois tsätä fktiosta va i ei sittenkään?
 
 	local c
 	local g

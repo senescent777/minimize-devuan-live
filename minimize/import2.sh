@@ -24,7 +24,7 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-#VAIH:parsetus uusicksi, josqs srcfile:ä ei aseteta
+#VAIH:parsetus uusicksi, josqs srcfile:ä ei aseteta (alkasikohan joskus olla kunnossa?)
 if [ $# -gt 0 ] ; then
 	mode=${1}
 	[ -f ${1} ] && exit 99
@@ -141,7 +141,7 @@ else
 		fi	
 	fi
 
-	debug=1
+	#debug=1
 	dqb "FALLBACK"
 	sleep 5
 
@@ -203,7 +203,7 @@ else
 	dqb "SHOULD CALL parse_opts_x() AROUND HERE"
 fi
 
-debug=1 #kunnes...
+#debug=1 #kunnes...
 dqb "imp2:AFTR common_lib"
 csleep 3
 [ -z "${distro}" ] && exit 6
@@ -233,6 +233,7 @@ check_binaries ${d}
 
 check_binaries2
 [ $? -eq 0 ] || exit 
+${sifd} ${CONF_iface}  #uutena
 
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
