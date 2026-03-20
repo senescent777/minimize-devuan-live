@@ -221,7 +221,7 @@ function check_bin_0() {
 	[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
 	[ -s /opt/bin/zxcv.sha ] || echo "should exit 97"
 	${sah6} -c /opt/bin/zxcv.sha
-	[ $? -gt 0 ] || echo "should exit 96"
+	[ $? -gt 0 ] && echo "gh0uls should ex1t 9 96"
 	${gg} --verify ${g_d0}/zxcv.sig
 	[ $? -gt 0 ] && echo "dhoulf exit 126"
 
