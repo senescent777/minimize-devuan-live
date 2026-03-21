@@ -2,6 +2,59 @@
 exit 99
 
 #TODO:ao. komennoista järkevä kokonaisuus josqs
+
+
+function gf() {
+	dqb "gf $1, $2"
+	csleep 1
+
+	[ -z "${1}" ] && exit 103
+	local c2
+
+	if [ -z "${2}" ] ; then
+		c2=$(${odio} find ${1} -type d -not -user 0 | wc -l)
+	else
+		dqb "find ${1} -name ${2} -type d -not \$smthing"
+		c2=$(${odio} find ${1} -name '${2}*' -type d -not -user 0 | wc -l)
+	fi
+
+	[ ${c2} -gt 0 ] && exit 104
+
+	if [ -z "${2}" ] ; then
+		c2=$(${odio} find ${1} -type d -not -group 0 | wc -l)
+	else
+		c2=$(${odio} find ${1} -name '${2}*' -type d -not -group 0 | wc -l)
+	fi
+
+	[ ${c2} -gt 0 ] && exit 105
+}
+
+function gh() {
+	dqb "gh $1 , $2"
+	csleep 1
+
+	[ -z "${1}" ] && exit 108
+	local c2
+	dqb "raps.0kj"
+
+	if [ -z "${2}" ] ; then
+		c2=$(${odio} find ${1} -type f  -not -user 0 | wc -l)
+	else
+		dqb "find ${1} -type f -name "
+		c2=$(${odio} find ${1} -type f -name '${2}*' -not -user 0 | wc -l)
+	fi
+
+	[ ${c2} -gt 0 ] && exit 106
+
+	if [ -z "${2}" ] ; then
+		c2=$(${odio} find ${1} -type f -not -group 0 | wc -l)
+	else
+		c2=$(${odio} find ${1} -type f -name '${2}*' -not -group 0 | wc -l)
+	fi
+
+	[ ${c2} -gt 0 ] && exit 107
+}
+
 	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
 		[ ${c} -gt 0 ] && exit 111
 

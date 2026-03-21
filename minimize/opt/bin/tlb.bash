@@ -40,7 +40,6 @@ function ocs() {
 	fi
 }
 
-#TODO:/sbin/ifdown-hmmia varten jokin vipu?
 for x in iptables ip6tables iptables-restore ip6tables-restore ; do
 	#dqb ${x}
 	ocs ${x}
