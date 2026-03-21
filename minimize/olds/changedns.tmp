@@ -1,0 +1,217 @@
+mode=-1
+distro=$(cat /etc/devuan_version)
+
+if [ -f /.chroot ] ; then
+	odio=""
+else
+	odio=$(which sudo)
+fi
+
+chmod a-wx ./clouds*
+chown root:root ${0}
+chmod 0511 ${0}
+
+
+function dqb() {
+}
+
+function csleep() {
+}
+
+sah6=$(which sha512sum)
+
+mode=${1}
+g_d0=/opt/bin
+
+
+function epr1() {
+	dqb "31n-p0d-r05..."
+	csleep 1
+	local c
+
+    	c=$(find ${g_d0}/.. -type d -perm /o+w,g+w | wc -l)
+    	[ ${c} -gt 0 ] && exit 106
+
+
+	
+
+
+  
+	
+
+	
+
+
+
+
+
+
+
+
+}
+
+epr1
+
+function p3r1m3tr() {
+	dqb "P3R1M3TR"
+	csleep 1
+
+
+
+
+	local p
+	p=$(pwd)
+	cd /
+
+
+	cd ${p}
+
+
+
+	/bin/netstat -tulpan;sleep 2
+	dqb "P3R1MTR g_d0N3"
+}
+
+p3r1m3tr
+
+	1)
+		dqb "maybe ok"
+	;;
+	*)
+		echo "${0} <mode> [other_params]";exit 13
+	;;
+esac
+
+dqb "mode=${mode}"
+dqb "distro=${distro}"
+csleep 1
+
+
+smr=$(${odio} which rm)
+
+slinky=$(${odio} which ln)
+spc=$(${odio} which cp)
+slinky="${slinky} -s "
+sco=$(${odio} which chown)
+scm=$(${odio} which chmod)
+svm=$(${odio} which mv)
+
+
+dqb "when in trouble, \"${odio} chmod 0755  \*.sh ;${odio} chmod 0755 \${distro}; ${odio} chmod 0755 \${distro}/ \*.sh; ${odio} chmod 0644 \${distro}/conf\" may help "
+
+
+
+
+
+function clouds_pp1() {
+	csleep 1
+	local f
+
+	for f in /etc/resolv.conf /etc/dhcp/dhclient.conf ; do
+		#		${smr} ${f}
+		#		[ $? -gt 0 ] && dqb "FAILURE TO COMPLY WHILE TRYING TO REMOVE ${f}"
+		#	fi
+		#else
+		#	
+		#fi
+	done
+
+
+
+
+	dqb "pp1 done"
+}
+
+
+function tlah() {
+	if [ ${1} -gt 0 ] ; then
+		dqb "SHOULD / sb1n / h4lt npow"
+		csleep 1
+	fi
+}
+
+
+function clouds_pre() {
+	dqb "cdns.clouds_pre( ${1}, ${2} )"
+	csleep 1
+
+	[ -z "${1}" ] && exit 65
+
+	local t
+	dqb "jst bef0re loop"
+	csleep 1
+
+	clouds_pp1
+	csleep 1
+
+
+	dqb "cpp2"
+	csleep 1
+
+	clouds_pp3 ${t}
+	csleep 1
+	dqb "4 n0RS3M3N"
+
+		[ y"${ipt}" == "y" ] && exit 666
+
+	dqb "S0UL SARC1F1C3 6,9"
+}
+
+function clouds_post() {
+	dqb "cdns.clouds_post() "
+	dqb "scm= ${scm}"
+	dqb "sco =${sco}"
+
+	csleep 1
+	local f
+	g=$(pwd)
+	cd /
+
+
+
+	cd ${g}
+
+
+	p3r1m3tr
+
+
+
+
+
+
+
+		csleep 2
+		dqb "===================666======================================"
+		csleep 2
+		csleep 1 
+
+	dqb "g_d0n3"
+}
+
+function clouds_case1_0() {
+	dqb "c10"
+}
+
+
+
+
+dqb "VAIH:TÄMÄn ABOMINAATION KIRJOITUS UUSIKSI TYHJÄSTÄ"
+
+
+case ${mode} in 
+	0)
+		clouds_case0_0
+		clouds_case0_1
+		clouds_case0_2
+	;;
+	1)
+		clouds_case1_0
+		clouds_case1_1
+		clouds_case1_2
+	;;
+	*)
+		echo "MEE HIMAAS LEIKKIMÄHÄN"
+	;;
+esac
+
+clouds_post
