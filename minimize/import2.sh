@@ -24,18 +24,20 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-#VAIH:parsetus uusicksi, josqs srcfile:ä ei aseteta (alkasikohan joskus olla kunnossa?)
+#VAIH:parsetus uusicksi, josqs srcfile:ä ei aseteta (alkaIsikohan joskus olla kunnossa?)
 if [ $# -gt 0 ] ; then
 	mode=${1}
 	[ -f ${1} ] && exit 99
-	srcfile=${2}
-	[ "${3}" == "-v" ] && debug=1
-	[ "${4}" == "-v" ] && debug=1
+	[ "${2}" == "-v" ] || srcfile=${2}
+
+	#parse_opts pitäisi
+	if [ "${3}" == "-v" ] || [ "${4}" == "-v" ] ; then
+		debug=1
+	fi
 fi
 
 #TODO:jos järjestelisi tämän kikkareen uudestaan sittenq sqroot-testit seur kerran tehty
 
-#030326:toimiikohan tämä nykyään? etenkään toivotulla tavalla? selvitä jposqs? (VAIH)
 #190326:alkaisikohan kohta asettua parsetus?  (liittyyköhän tables/gpg asiaan?)
 #180326:liittyyköhän check_bin():in "ocs ipt" tuohon viimeaikaiseen kiukutteluun?
 

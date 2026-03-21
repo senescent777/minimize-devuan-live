@@ -1,6 +1,4 @@
 #fktioksi tnä ni ei tartte globaalien mjien kanssa sählätä?
-#debug=1 #pois sittenq
-
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -222,7 +220,7 @@ function check_bin_0() {
 	[ -s /opt/bin/zxcv.sha ] || echo "should exit 97"
 	${sah6} -c /opt/bin/zxcv.sha
 	[ $? -gt 0 ] && echo "gh0uls should ex1t 9 96"
-	${gg} --verify ${g_d0}/zxcv.sig
+	[ -z "${gg}" ] || ${gg} --verify /opt/bin/zxcv.sig
 	[ $? -gt 0 ] && echo "dhoulf exit 126"
 
 	csleep 1
@@ -420,8 +418,6 @@ function common_lib_tool() {
 
 #HUOM.140326:jospa olisi jo ympäristömjat kunnossa fromtendissä
 #https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
-#alahan jo tehdä jotain tuolle
-#toimii edelleen noinkin? (050326) (110326 puolella sqroot alaisuudessa näyttäisi toimivan myös)
 
 function fromtend() {
 	dqb "FRöMTEND"
@@ -464,7 +460,9 @@ function cefgh() {
 function CB01() {
 	dqb "CB01()"
 	csleep 1
-	
+	[ -z "${1}" ] && exit 99
+	[ -d ${1} ] || exit 100
+
 	#160326:mv-komennon kanssa oli jotain urputusta? vissiin tämän?
 	[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt.bak
 	efk2 ${1}/g.tar ${1}
@@ -492,6 +490,9 @@ function CB02() {
 	dqb "CB02()"
 	csleep 1
 	jules
+
+	[ -z "${1}" ] && exit 99
+	[ -d ${1} ] || exit 100
 
 	[ -f /.chroot ] && message
 	for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
@@ -536,7 +537,7 @@ function check_binaries() {
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
 
 	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
-	#voisiko testgris-ehdon hukata jatkossa? lets find out
+	#voisiko testgris-ehdon hukata jatkossa? lets find out (TODO)
 	#if [ ! -v CONF_testgris ] ; then
 		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 			[ -z "${1}" ] && exit 99
@@ -623,7 +624,6 @@ function check_binaries2() {
 	csleep 1
 }
 
-#jatkossa erillinen fktio vaiko kutsuen /o/b/tlb.bash ? vissiin jälkimmäinen (VAIH)
 function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
 	dqb "TLA.testgris : ${CONF_testgris}"
@@ -636,63 +636,9 @@ function TLA() {
 	else
 		dqb "JST B3F0R:tlb-b a s h"
 		[ -x /opt/bin/tlb.bash ] || exit 99
-		${odio} /opt/bin/tlb.bash #tarkoiytukseölla ilman param
 
-#		#HUOM.140326:olisikohan CONBF_tesgtgirs riittävästi huomioitu? 
-#		#aluksi ohitetaan koko for-takenne uknnes ehkä keksii paremman tavan
-#		
-#	
-#		#... -F ja -P vain tarvittaessa, HCF-jutut lopuksi
-#
-#		#to state the obvious:export2 kautta kutsuttaessa part1() ei tarvinne tables-sääntöjä nollata
-#		if [ -x ${ipt} ] ; then #VAIH:nalqtrus jos ei -x
-#			local c
-#			local c2
-#
-#			c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
-#			c2=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
-#
-#			if [ ${c} -gt 0 ] || [ ${c2} -gt 0 ] ; then
-#				#if [ ! -v CONF_testgris ] ; then # ehto pois 18326, tarvtseeko takaisin?
-#				#/o/b/tlb.bash
-#			
-#				for t in INPUT OUTPUT FORWARD ; do
-#					${ipt} -P ${t} DROP
-#					[ $? -eq 0 ] || ${odio} /sbin/halt
-#					dqb "V6"; csleep 1
-#
-#					${ip6t} -P ${t} DROP
-#					[ $? -eq 0 ] || ${odio} /sbin/halt
-#					${ip6t} -F ${t}
-#				done
-#
-#				for t in INPUT OUTPUT FORWARD b c e f u v ; do 
-#					${ipt} -F ${t}
-#					[ $? -eq 0 ] || ${odio} /sbin/halt
-#				done
-#	
-#				if [ ${debug} -eq 1 ] ; then
-#					#pitäisikö olla ipt-legacy? 
-#					${ipt} -L
-#
-#					dqb "V6.b"; csleep 1
-#					${ip6t} -L
-#				fi
-#				
-#				csleep 1
-#			fi		
-#
-#			c=$(${ipt} -L | grep policy | grep ACCEPT | wc -l)
-#			[ ${c} -gt 1 ] && echo "SHOULD HALt AND CATCH FIRE IMMEDIATELY"
-#			csleep 1
-#
-#			c=$(${ip6t} -L | grep policy | grep ACCEPT | wc -l)
-#			[ ${c} -gt 1 ] && echo "SHOULD ALSO:HALt AND CATCH FIRE IMMEDIATELY"
-#			csleep 1
-#		else
-#			dqb "ipt NOT RUNNABLE?"
-#			#exit 99 #ei ihan vielä uskalla näin tehdä? linkkiys sotkee asioita?
-#		fi	
+		#tarkoituksella ilman param
+		${odio} /opt/bin/tlb.bash 
 	fi
 }
 
@@ -914,7 +860,7 @@ function mangle2() {
 	fi
 }
 
-#VAIH:/e alaisten tdstojen linkitttämiseen liittyen jokin juttu? jhnkin toiseen skriptiin vissiin
+#210326:/e alaisten tdstojen linkitttämiseen liittyVÄ JUTTU Tidnbäk toisessa skriptissä sijaitsee nykyään
 
 function e_e() {
 	csleep 1
@@ -969,7 +915,6 @@ function e_v() {
 	dqb "e_V_2 IN 1 SECS"
 	csleep 1
 	
-
 	${sco} root:root /var
 	${scm} 0755 /var
 	${sco} root:staff /var/local
@@ -1241,21 +1186,9 @@ function part2() {
 		jules
 		local t
 
-		dqb "VAIH:repklce PART2.5.2 w/ o/b/tlb ?"
-		csleep 6
-
+		#210326:nyt sitten miettimään että pitäisikö reslvo.conf:ille tehdä jotain. taas
 		t=$(echo ${2} | tr -d -c 0-9)
 		${odio} /opt/bin/tlb.bash ${t}
-
-#		#HUOM.160226:tdstot ilman ".$t"-päätettä, pitäisikö tehdä jotain? 
-#
-#		if [ -s /etc/iptables/rules.v6.${t} ] ; then
-#			${ip6tr} /etc/iptables/rules.v6.${t}
-#		fi
-#
-#		if [ -s /etc/iptables/rules.v4.${t} ] ; then
-#			${iptr} /etc/iptables/rules.v4.${t}
-#		fi
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
