@@ -587,7 +587,7 @@ function e22_ts() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 }
 
-#VAIH:tetsaus uusicksi (20326)
+#220326:toimii, tai ainakin osasi tehdä paketin
 function e22_arch() {
 	dqb "e22_arch() $1 , $2 , $3 , $4"
 

@@ -13,7 +13,10 @@ function usage() {
 	echo "$0 4 <tgtfile> [distro?] [-v]: makes lighter main package (just scripts and config)"
 	echo "$0 1 <tgtfile> [distro?] [-v]: makes upgrade_pkg"
 	echo "$0 e <tgtfile> [distro?] [-v]: archives the Essential .deb packages"
-	echo "$0 f <tgtfile> [distro?] [-v]: archives .deb Files under \$ {d0} /\${distro}"
+
+	#$d pitäisi alustaa ennen tätä
+	echo "$0 f <tgtfile> [distro?] [-v]: archives .deb Files under ${d}"
+
 	echo "$0 p <> [] [] pulls \${CONF_default_archive3} from somewhere"
 	echo "$0 q <> [] [] archives firefox settings"
 	echo "$0 c is sq-Chroot-env-related option"
@@ -118,6 +121,7 @@ csleep 1
 #-h pysähtyy ennen tätä riviä?
 e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
+#jokin varmistus vielä että iface alhaalla?
 
 case ${mode} in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua
@@ -125,7 +129,7 @@ case ${mode} in
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
 #	;;
-	f) #VAIH:testaa
+	f) #220326:toimii, tai ainakin osasi tehdä paketin
 		enforce_access $(whoami) ${t}
 		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
