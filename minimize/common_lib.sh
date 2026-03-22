@@ -218,7 +218,8 @@ function check_bin_0() {
 	[ -s /opt/bin/zxcv ] || echo "should exit 98"
 	[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
 	[ -s /opt/bin/zxcv.sha ] || echo "should exit 97"
-	${sah6} -c /opt/bin/zxcv.sha
+
+	${sah6} -c /opt/bin/zxcv.sha #jatkossa .sig vai .sha.sig?
 	[ $? -gt 0 ] && echo "gh0uls should ex1t 9 96"
 	[ -z "${gg}" ] || ${gg} --verify /opt/bin/zxcv.sig
 	[ $? -gt 0 ] && echo "dhoulf exit 126"
@@ -649,7 +650,13 @@ function process_lib() {
 	[ -z "${1}" ] && exit 66
 	csleep 1
 
-	[ -x "${gg}" ] && dqb "SHOULD ${gg} --verify ${1}/lib.sh.sig ? "
+	if [ -x "${gg}" ] && [ -s ${1}/lib.sh.sig ] ; then
+		dqb "SHOULD ${gg} --verify ${1}/lib.sh.sig ? "
+		${gg} --verify ${1}/lib.sh.sig
+		[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"
+		csleep 1
+	fi
+
 	csleep 1
 
 	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then

@@ -362,12 +362,21 @@ function cptp2() {
 	local t
 	t=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 	
-	if [ -x ${t}/common_lib.sh ] ; then
-		#TODO:sha-sig-tarkistus tähän? entä process_lib():iin ?
-		enforce_access $(whoami) ${t} #${2} toka param turha?
-		dqb "running changedns.sh maY be necessary now to fix some things"
-	else
-		dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
+	if [ -f ${t}/common_lib.sh ] ; then
+		#VAIH:sha-sig-tarkistus tähän? entä process_lib():iin ?
+					
+		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
+			csleep 1
+			${gg} --verify ${t}/common_lib.sh.sig 		
+			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"		
+		fi
+		
+		if [ -x ${t}/common_lib.sh ] ; then
+			enforce_access $(whoami) ${t} #${2} toka param turha?
+			dqb "running changedns.sh maY be necessary now to fix some things"
+		else
+			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
+		fi
 	fi
 
 	csleep 1
