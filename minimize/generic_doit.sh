@@ -51,7 +51,6 @@ sleep 1
 #https://linuxopsys.com/use-dollar-at-in-bash-scripting
 #https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
 
-#=====================================PART0=========================================================
 dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
@@ -111,7 +110,8 @@ function dis() {
 	csleep 1
 	${odio} sysctl -p
 	csleep 1
-	dqb "5HAD0W 0F TH3 BA35T D0N3"
+
+	dqb "5HAD0W 0F TH3 BA5T D0N3"
 }
 
 function part0() {
@@ -151,6 +151,10 @@ function el_loco() {
 	csleep 1
 
 	if [ ${1} -gt 0 ] ; then
+		#uutena seur 2 riviä
+		${smr} /etc/timezone
+		${smr} /etc/localtime
+
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
 	else
@@ -165,7 +169,7 @@ function el_loco() {
 		csleep 1
 
 		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
-		#env vai locale minkä oksennukset tdstoon?
+		#env vai locale minkä oksennukset tdstoon? vissiin env
 
 		env | grep LC >> /etc/default/locale
 		env | grep LAN >> /etc/default/locale
@@ -210,6 +214,7 @@ dqb "AUF W13DERSEHEN"
 #	#väärä tapa pakottaa uudelleen_kirjautuminen?
 	${whack} xfce4-session
 }
+#=====================================PART0=========================================================
 
 part0 ${distro}
 process_lib ${d}
@@ -222,7 +227,7 @@ dqb "debug= ${debug}"
 
 if [ -s ~/xorg.conf.new ] ; then
 	if [ ! -s /etc/X11/xorg.conf ] ; then
-		${spc} ~/xorg.conf.new  /etc/X11/xorg.conf
+		${spc} ~/xorg.conf.new /etc/X11/xorg.conf
 		reqwreqw /etc/X11/xorg.conf
 	fi
 fi
@@ -261,26 +266,21 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 #TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
 
-c14=0
+#VAIH:el_loco() - blkin testaus vähitellen
 c13=0
-[ ${mode} -eq 1 ] && c14=1
-#timezone ja localtime jos dellisi joissain tilanteissa?
+c14=1
 
-#==============================LOKAALIEN KANSSA HILLITTÖMÄT ARPAJAISET MENOSSA 666========
-#... joskohan voisi arpomisen lopettaa joskus? lopettelun v01si aloittaa vhitellen (090326)
-
-if [ -v LCF666 ] ; then
-	c13=$(grep -v '#' /etc/default/locale | grep LC_TIME | grep -c ${LCF666})
-	#c13=$(env | grep LC_TIME | grep -c ${LCF666})
-else
-	echo "555"
+if [ ${mode} -gt 1 ] ; then #nollasta ei tarttisi välittää koska exit aiempana
+	if [ -v LCF666 ] ; then
+		c13=$(env | grep LC_TIME | grep -c ${LCF666})
+		[ $c13 -gt 0 ] && c14=0
+		#profit
+	else
+		echo "NO PREFERRED LC_TIME FOUND" #...ja Sit Jotain?
+	fi
 fi
 
-csleep 1
-
-[ ${c13} -lt 1 ] && c14=1
-#el_loco ${c14} ${c13} #joko jo c13 takaisin? kokeillaanpa
-el_loco ${c14} ${c14}
+el_loco ${c14} ${c13}
 #=========================================================================================
 
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then 
@@ -306,7 +306,10 @@ fi
 
 pre_part2 #ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
 c14=$(find ${d} -name '*.deb' | wc -l)
+
 #[ ${c14} -gt 0 ] || CONF_removepkgs=0 #tilap kommentteihin 270226 koska g_pt2_jutut
+#... jokohan jo kommenteista 190326? (TODO)
+
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 #voisi kai tässä kohta anuo kikialuit palautaa kommenteista (040326)
 
@@ -337,27 +340,17 @@ if [ ! -f /.chroot ] ; then
 	${d0}/import2.sh r ${d0} -v
 fi
 
-#140326:vissiin tähän asti toimii ok
-
 jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
 e_final
-e_h ${n} ${d0}
+e_h $(whoami) ${d0}
 echo "KVG:\"how to exit for-loop in bash\" " #TÄSSÄKÖ KUSI PASKAA?
 sleep 5
 
-if [ -x /opt/bin/changedns.bash ] ; then
-	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
-else
-	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
-		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
-	else
-		dqb "changedns not an option"
-		csleep 5
-	fi
-fi
+${odio} /opt/bin/tlb.bash ${CONF_dnsm}
+${odio} /opt/bin/aftr.bash
 
 ${sipt} -L
 csleep 1
