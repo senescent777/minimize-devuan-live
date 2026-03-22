@@ -58,7 +58,9 @@ function e23_tblz() { #170326:osasi paketin tehdä, eghjkä toimii sisältökin
 #HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
 
-#170326:vissiin toimii edelleen
+E22_GS="cpp-12 gcc-12-base libstdc++6 libgcc-s1 libc6 libgomp1"
+
+#VAIH:testaus muutoksien jälkeen
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -66,10 +68,7 @@ function e23_other_pkgs() {
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
 
-	#LOPPUU SE PURPATUS PRKL
-	#jatkossa osa E22_GS (TODO?)
-	${shary} cpp-12 gcc-12-base libstdc++6 
-	${shary} libgcc-s1 libc6 libgomp1 
+	${shary} ${E22_GS}
 	csleep 2	
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
@@ -124,8 +123,7 @@ function e23_other_pkgs() {
 #	csleep 1
 #
 #	#LOPPUU SE PURPATUS PRKL
-#	${shary} cpp-12 gcc-12-base libstdc++6 
-#	${shary} libgcc-s1 libc6 libgomp1 
+#	${shary} E22_GS
 #
 #	#helpompi vain ajaa e23_dm() ennen upgp()
 #	${sag} --no-install-recommends upgrade -u
@@ -209,17 +207,18 @@ function e23_qrs() {
 	csleep 3
 }
 
-#170326:osasi vetää sisältöä mikä asentuu
+#VAIH:testaa uusicksi 666
 function e23_dm() {
 	dqb "e23_dm(${1})"
 	[ -z "${1}" ] && exit 11
 	csleep 4
 	${fib}
 	csleep 2
+
 	#LOPPUU SE PURPATUS PRKL
-	${shary} cpp-12 gcc-12-base libstdc++6 
-	${shary} libgcc-s1 libc6 libgomp1 
+	${shary} ${E22_GS}
 	csleep 1
+
 	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6
 	${shary} menu twm
 	csleep 1
