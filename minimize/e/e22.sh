@@ -260,9 +260,7 @@ function e22_settings() {
 }
 
 #160326:toimi tuolloin aiankin kerran
-#TODO:voisikohan nuo Constit korvata josqs...
-#VAIH:tarkistukset paramreille (olisikojo 190326 qnnossa?)
-
+#TODO:testaus uusicksi josqs
 function e22_home_pre() {
 	dqb "e22_home_pre()"
 
@@ -272,11 +270,12 @@ function e22_home_pre() {
 	[ -d ${2} ] || exit 70
 	[ -z "${3}" ] && exit 71
 	[ -z "${4}" ] && exit 73
+	[ -z "${5}" ] && exit 79
 
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		e22_config1 ~ ${4}
-		${NKVD} ~/${CONF_default_arhcive}		
-		e22_settings ${2}/.. ${CONF_default_arhcive} ${CONF_default_arhcive3}
+		${NKVD} ~/${5}		
+		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
 	fi
 
 	csleep 1
@@ -325,8 +324,8 @@ function e22_home() {
 
 #pitäisikö siirtää toiseen tdstoon?
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
-#HUOM.150326:testit vaiheessa, kommentteihin jos qsee
-#VAIH:toiminnan testaus (olisikohan jo kohta?) (170326)
+
+
 
 function luca() {
 	[ -z "${1}" ] && exit 11
@@ -345,7 +344,7 @@ function luca() {
 }
 
 #... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan vai tuleeko?
-#VAIH:toiminnan testaus (koskohan alkaisi olla 150326)
+#TODO:testaus.uusiksi.josqs
 
 function e22_acol() {
 	dqb "e22_acol()"
@@ -413,7 +412,7 @@ function e22_acol() {
 
 #imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
 #020326:ehkä ok sisältö-siat (xorg ja ntp-jutut voisi testata paremmalla ajalla)
-#VAIH:toiminnan testaus (olisikohan kohta 150326?) (tar -tf $archive jossain välissä)
+#TODO:toiminnan testaus (olisikohan kohta 150326?) (tar -tf $archive jossain välissä)
 
 function e22_sarram() {
 	dqb "e22_sarram()"
@@ -466,11 +465,11 @@ function e22_sarram() {
 
 [ -v CONF_BASEURL ] || exit 6
 
+#TODO:testit taas josqs
 function e22_ext() {
-	#TODO:/o/b liittyvää käsittelyä uusicksi sittenq
+	#/o/b liittyvää käsittelyä uusicksi sittenq
 	#... millä tavall auusiksi?
 
-	#VAIH:juttuja takaisin kommenteista?
 	[ -z "${1}" ] && exit 1
 	[ -d ${1} ] && exit 59
 	[ -f ${1} ] || exit 67
@@ -575,9 +574,8 @@ function e22_ts() {
 	dqb "par5 0k"
 	csleep 1
 
-	${svm} ${2}/*.deb ${1} #
+	${svm} ${2}/*.deb ${1}
 	[ $? -eq 0 ] || exit 56
-	#glob muutt vähän huono juttu oikeastaan, VAIH:tee jotain
 
 	#lisätäänkö tämä arkistoon jossain? no e22_a()
 	fasdfasd ${1}/tim3stamp
@@ -660,7 +658,6 @@ function e22_arch() {
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 #}
 
-#VAIH:testaus uusiksi kosak xc
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4})"
 
@@ -741,7 +738,7 @@ function e22_dblock() {
 #}
 
 #TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen?
-#190326:toimii sqrootissa edelleen pakerin sisältö
+#190326:toimii sqrootissa edelleen pakeTin sisältö ?
 
 function e22_cde() {
 	dqb "e22_cde()"
