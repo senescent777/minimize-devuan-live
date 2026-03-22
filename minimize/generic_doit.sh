@@ -51,7 +51,6 @@ sleep 1
 #https://linuxopsys.com/use-dollar-at-in-bash-scripting
 #https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
 
-#=====================================PART0=========================================================
 dqb "b3f0r3 p.076"
 dqb "mode= ${mode}"
 csleep 1
@@ -215,6 +214,7 @@ dqb "AUF W13DERSEHEN"
 #	#väärä tapa pakottaa uudelleen_kirjautuminen?
 	${whack} xfce4-session
 }
+#=====================================PART0=========================================================
 
 part0 ${distro}
 process_lib ${d}

@@ -1,4 +1,4 @@
-#fktioksi tnä ni ei tartte globaalien mjien kanssa sählätä?
+#fktioksi tmä ni ei tartte globaalien mjien kanssa sählätä?
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -537,30 +537,29 @@ function check_binaries() {
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
 
 	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
-	#voisiko testgris-ehdon hukata jatkossa? lets find out (TODO)
+	#210326:tables ei niin oleellinen etstiympäristössä niimn että voisi toisaalta palauttaakin tämän 
 	#if [ ! -v CONF_testgris ] ; then
-		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
-			[ -z "${1}" ] && exit 99
-			[ -d ${1} ] || exit 101
+	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
+		[ -z "${1}" ] && exit 99
+		[ -d ${1} ] || exit 101
 			
-			#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
-			cefgh ${1}
-			common_pp3 ${1}
-		fi
+		#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
+		cefgh ${1}
+		common_pp3 ${1}
+	fi
 		
-		#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
-		if [ -z "${gg}" ] ; then
+	#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
+	if [ -z "${gg}" ] ; then
 			CB01 ${1}
-		fi
+	fi
 	
-		if [ -z "${ipt}" ] ; then
-			CB02 ${1}
-		fi
+	if [ -z "${ipt}" ] ; then
+		CB02 ${1}
+	fi
 
-		ls ${1}/*.deb | wc -l
-		csleep 3
-	
-		for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
+	ls ${1}/*.deb | wc -l
+	csleep 3
+	for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
 	#fi #tstgris
 	
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
@@ -631,14 +630,17 @@ function TLA() {
 
 	#3. ehto pois jatkossa vai ei?
 	#200326:toimiikohan tarkistus toivotulla tavalla?
+	#210326:tla() ja sqroot? jos on pedantti niin tuollakin yhdostelmällä piytäisi tables-säännöt muuttaa...
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] ||  [ -f /.chroot ]  ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		dqb "JST B3F0R:tlb-b a s h"
-		[ -x /opt/bin/tlb.bash ] || exit 99
+		if [ ! -v CONF_testgris ] ; then 
+			dqb "JST B3F0R:tlb-b a s h"
+			[ -x /opt/bin/tlb.bash ] || exit 99
 
-		#tarkoituksella ilman param
-		${odio} /opt/bin/tlb.bash 
+			#tarkoituksella ilman param
+			${odio} /opt/bin/tlb.bash 
+		fi
 	fi
 }
 

@@ -34,7 +34,6 @@ else
 fi
 
 #"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
-#VAIH:lisävipu e22_dblock()/e22_ts()/e22_arch() varten
 
 function parse_opts_1() {
 	dqb "parse_opts_1( ${1})"
@@ -67,7 +66,6 @@ sleep 5
 if [ -x ${d0}/common_lib.sh ] ; then 
 	. ${d0}/common_lib.sh
 else
-	#miksi tökkää tähän?
 	exit 56
 fi
 
@@ -96,9 +94,6 @@ if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
 	[ $? -gt 0 ] && exit 66
 	csleep 1
-#
-#	echo "INTER GRENUM...REGFNUM"
-#	sleep 5
 
 	.  ${d0}/e/e23.sh
 	[ $? -gt 0 ] && exit 67
@@ -159,6 +154,9 @@ case ${mode} in
 	;;
 esac
 
+#TODO:*lib.sh allek jotenkin jhnkin? 
+#"for f in $(dinf $dir -type f -name '*lib.sh') ; do e22_ftr $f ; done" , esmes
+
 if [ $cont -eq 1 ] ; then
 	dqb "R3D B3F0R3 BL4KC"
 else
@@ -182,7 +180,7 @@ e22_pre1 ${d} ${distro}
 
 #110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm} #qseeko tämä?
-#TODO:/o/b/skriptit tähän tai siis ifupdown käskyttämään niitä
+#220326:/o/b alaisia skriptejä käskytetöön nyt välillisestri, pre2() -> ifup -> ...
 
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
@@ -209,6 +207,7 @@ case ${mode} in
 		${NKVD} /opt/bin/zxcv.tmp
 		${spc} /opt/bin/zxcv /opt/bin/zxcv.ÅLD
 		${spc} /opt/bin/zxcv.sig /opt/bin/zxcv.sig.ÅLD
+		${spc} /opt/bin/zxcv.sha /opt/bin/zxcv.sha.ÅLD
 
 		csleep 1
 		fasdfasd /opt/bin/zxcv.tmp
@@ -235,10 +234,12 @@ case ${mode} in
 		csleep 1
 
 		${NKVD} /opt/bin/zxcv.sig
+		${NKVD} /opt/bin/zxcv.sha
 		${NKVD} /opt/bin/zxcv
 		csleep 1
 
 		fasdfasd /opt/bin/zxcv.sig
+		fasdfasd /opt/bin/zxcv.sha
 		${svm} /opt/bin/zxcv.tmp /opt/bin/zxcv
 		csleep 1
 
@@ -246,8 +247,10 @@ case ${mode} in
 		csleep 6
 		
 		e22_tyg /opt/bin/zxcv
+		${sah6} /opt/bin/zxcv > /opt/bin/zxcv.sha
+		
 		reqwreqw /opt/bin/zxcv.sig
-		reqwreqw /opt/bin/zxcv
+		reqwreqw /opt/bin/zxcv.sha #pointtia tämmöisessä?
 		csleep 1
 			
 		${srat} -rvf ${tgtfile} /opt/bin/zxcv*

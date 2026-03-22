@@ -501,13 +501,14 @@ if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then #eka tark oli -s , vissiin olta
 	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	dqb "SD"
 else
+	#220326:myös sqroot-ymp tähän jouduttu, syy muu kuin ilmeinen?
 	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	[ -f ${srcfile} ] || dqb "NOT A FILE"
 	dqb "SMTHING WRONG WITH ${srcfile} "
 	exit 55
 fi
 
-#[ -s ${srcfile} ] || exit 34 #pitäsikö olla if-blokin sisällä?
+#[ -s ${srcfile} ] || exit 34 #pitäIsikö olla if-blokin sisällä?
 [ -r ${srcfile} ] || exit 35
 
 if [ "${mode}" == "-3" ] || [ "${mode}" == "r" ] ; then
@@ -593,9 +594,7 @@ case "${mode}" in
 		[ ${c} -gt 0 ] || exit 27
 		common_part ${srcfile} ${d} /
 
-		#jos sr0 jatkossa
-		${srat} -C ~ -jxf ~/${CONF_default_arhcive2}
-
+		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
 		tpr ${d0} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	k)

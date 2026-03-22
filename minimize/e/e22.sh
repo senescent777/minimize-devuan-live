@@ -62,9 +62,12 @@ function e22_hdr() {
 #tark-. olla priv fktio
 #170326:taitaa olla toimiva fktio nykyään (ellei toisin todisteta)
 function e22_tyg() {
+	dqb " e22_tyg()"
+
 	[ -z "${1}" ] && exit 45
 	[ -s ${1} ] || exit 46
 	[ -r ${1} ] || exit 47
+
 	csleep 1
 	dqb "e22_tyg().pars.ok"
 
@@ -173,7 +176,7 @@ function e22_pre2() {
 	#/e/n kokonaan talteen?
 
 	if [ -d ${1} ] ; then
-		#VAIH:jatkossa jos kääåntgyisi e.e. ifup käskyttäisi tarpeellisia skriptejä
+		#VAIH:jatkossa jos kääåntgyisi s.e. ifup käskyttäisi tarpeellisia skriptejä
 		echo $?
 		csleep 1
 
@@ -278,6 +281,7 @@ function e22_home_pre() {
 
 	csleep 1
 	#150326:JOSKOHANLIITTYISI VIIMEAIKAISEEN KUSEMISEEN TUO AO. RIVI
+	#... oikeasti /opt/bin vaiko $smthing/opt/bin ?
 	${srat} -rvf ${1} /opt/bin 
 
 	dqb "JUST BEFORE FIND"
@@ -469,14 +473,17 @@ function e22_ext() {
 	#VAIH:juttuja takaisin kommenteista?
 	[ -z "${1}" ] && exit 1
 	[ -d ${1} ] && exit 59
+	[ -f ${1} ] || exit 67
+
 	[ -s ${1} ] || exit 2
-	#[ -w ${1} ] || exit 6
-	#-f, ! -d pitäisikö olla 1 tai 4 kanssa?
+	[ -w ${1} ] || exit 6
+	
 	[ -z "${2}" ] && exit 3
 	[ -z "${3}" ] && exit 4
 	[ -z "${4}" ] && exit 47
 		
 	[ -d ${4} ] && exit 53
+	[ -f ${4} ] || exit 61
 
 	local p
 	local q	
@@ -585,7 +592,8 @@ function e22_arch() {
 	dqb "e22_arch() $1 , $2 , $3 , $4"
 
 	[ -z "${1}" ] && exit 1
-	#[ -s ${1} ] || exit 2 #antaa nyt olla kommenteissa
+	[ -s ${1} ] || exit 2 #josko uskaltaisi poistaa kommeneitsta
+
 	#[ -w ${1} ] || exit 33 #josko man bash...
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 44
