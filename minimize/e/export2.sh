@@ -153,13 +153,16 @@ case ${mode} in
 	-h)
 		usage
 	;;
+	b)
+		#VAIH:*lib.sh allek jotenkin jhnkin?
+		for f in $(find ${d} -type f -name '*lib.sh') ; do
+			e22_ftr ${f}
+		done
+	;;
 	*)
 		cont=1
 	;;
 esac
-
-#TODO:*lib.sh allek jotenkin jhnkin? 
-#"for f in $(dinf $dir -type f -name '*lib.sh') ; do e22_ftr $f ; done" , esmes
 
 if [ $cont -eq 1 ] ; then
 	dqb "R3D B3F0R3 BL4KC"
