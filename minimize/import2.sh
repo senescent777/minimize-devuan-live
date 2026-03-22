@@ -24,19 +24,41 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-#TODO:parsetus uusicksi, josqs srcfile:ä ei aseteta
+#VAIH:parsetus uusicksi, josqs srcfile:ä ei aseteta (alkaIsikohan joskus olla kunnossa?)
 if [ $# -gt 0 ] ; then
 	mode=${1}
 	[ -f ${1} ] && exit 99
 	[ "${2}" == "-v" ] || srcfile=${2}
+
+	#parse_opts pitäisi
+	if [ "${3}" == "-v" ] || [ "${4}" == "-v" ] ; then
+		debug=1
+	fi
 fi
 
-#030326:toimiikohan tämä nykyään? etenkään toivotulla tavalla? selvitä jposqs?
+#TODO:jos järjestelisi tämän kikkareen uudestaan sittenq sqroot-testit seur kerran tehty
+
+#190326:alkaisikohan kohta asettua parsetus?  (liittyyköhän tables/gpg asiaan?)
+#180326:liittyyköhän check_bin():in "ocs ipt" tuohon viimeaikaiseen kiukutteluun?
+
 function parse_opts_1() {
-	if [ -d ${d0}/${1} ] ; then
-		#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
-		d=${d0}/${distro}
-	fi
+	dqb "parse_opts_1( ${1} )"
+
+#	#sisäkkäiset if-lauseet pystyisi ehkä purkamaan
+#	if [ "${mode}" == "-2" ] ; then
+#		mode=${1}
+#	else
+#		if [ "${1}" == "-v" ] ; then
+#			debug=1
+#		else
+#		#	if [ -d ${d0}/${1} ] ; then
+#		#		#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
+#		#		d=${d0}/${distro}
+#		#	else
+#				srcfile=${1}
+#		#	fi
+#		fi
+#	fi
 }
 
 function parse_opts_2() {
@@ -107,14 +129,14 @@ csleep 1
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#VAIH:sqroot-testiä Taas kehiin (yo. purq ainakin onnaa)
-
+	#190326:vissiin tämän haaran kanssa jutut toimivat jnkn verran ja thats it
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0NF1G"
 		sleep 2
 		. ${d0}/$(whoami).conf
 	else
 		if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+			echo "ordnary cqf"
 			. ${d}/conf
 		else
 		 	exit 57
@@ -178,6 +200,9 @@ else
 	function enforce_access() {
 		dqb "imp2.3nf :NOT SUPPORTED"
 	}
+
+	#TODO:barm vuoksi pitäisi kai käskyttää parse_opts_fktioita siltä varalta että parsetuksen saakin sitä kautta toimimaan
+	dqb "SHOULD CALL parse_opts_x() AROUND HERE"
 fi
 
 #debug=1 #kunnes...
@@ -210,6 +235,7 @@ check_binaries ${d}
 
 check_binaries2
 [ $? -eq 0 ] || exit 
+${sifd} ${CONF_iface}  #uutena
 
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
@@ -217,14 +243,13 @@ echo "mkt= ${mkt} "
 
 [ -v srat ] || exit 8
 [ -z "${srat}" ] && exit 10
-#echo "srat= ${srat} "
 
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${CONF_part0}
 dqb "L0G"
 
 ocs tar
-dqb "srat= ${srat}"
+dqb "srat: ${srat}"
 csleep 3
 dqb "LHP"
 
@@ -337,12 +362,21 @@ function cptp2() {
 	local t
 	t=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 	
-	if [ -x ${t}/common_lib.sh ] ; then
-		#TODO:sha-sig-tarkistus tähän? entä process_lib():iin ?
-		enforce_access $(whoami) ${t} #${2} toka param turha?
-		dqb "running changedns.sh maY be necessary now to fix some things"
-	else
-		dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
+	if [ -f ${t}/common_lib.sh ] ; then
+		#VAIH:sha-sig-tarkistus tähän? entä process_lib():iin ?
+					
+		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
+			csleep 1
+			${gg} --verify ${t}/common_lib.sh.sig 		
+			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"		
+		fi
+		
+		if [ -x ${t}/common_lib.sh ] ; then
+			enforce_access $(whoami) ${t} #${2} toka param turha?
+			dqb "running changedns.sh maY be necessary now to fix some things"
+		else
+			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
+		fi
 	fi
 
 	csleep 1
@@ -467,16 +501,23 @@ case "${mode}" in
 	;;
 esac
 
+dqb "debug: 1"
+echo "mode: ${mode} "
+echo "srcfile: ${srcfile} "
 [ -z "${srcfile}" ] && exit 44
 
-if [ -f ${srcfile} ] || [ -d ${srcfile} ] ; then #eka tark oli -s
+if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then #eka tark oli -s , vissiin oltava taas
+	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	dqb "SD"
 else
+	#220326:myös sqroot-ymp tähän jouduttu, syy muu kuin ilmeinen?
+	[ -d ${srcfile} ] || dqb "NOT A DIR"
+	[ -f ${srcfile} ] || dqb "NOT A FILE"
 	dqb "SMTHING WRONG WITH ${srcfile} "
 	exit 55
 fi
 
-[ -s ${srcfile} ] || exit 34 #pitäsikö olla if-blokin sisällä?
+#[ -s ${srcfile} ] || exit 34 #pitäIsikö olla if-blokin sisällä?
 [ -r ${srcfile} ] || exit 35
 
 if [ "${mode}" == "-3" ] || [ "${mode}" == "r" ] ; then
@@ -501,8 +542,9 @@ case "${mode}" in
 	0|3) 
 		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
 		#110326:toimii edelleen mod pientä kiukuttelua josqs
-		#160326:sama, kiukuttelulle voisi todin tehdä jotain
-
+		#160326:sama, kiukuttelulle voisi tosin tehdä jotain
+		#190326:onnistui sqrootin alaisuudessa paketteja asennella
+		
 		echo "ZER0 S0UND"
 		csleep 1
 		dqb " ${3} ${distro} MN"
@@ -514,24 +556,9 @@ case "${mode}" in
 				#mitense alt_root? ensisijaisesti sitä pakettien "uutta" asennustapaa vartebn
 				#... siinä piti vielä prujata se hmistorakanne ainakin
 
-				#VAIH:jokin vihje echolla kjälle ni ei tartte arpoa
-				#echo "EI NÄIN"
-
 				tar -tf ${srcfile} | grep f.tar | head -n 1
 				echo "... SHOULD BE MOVED UNDER ${d} , AFTER THAT:RUN $0 3 ${d}/f.tar"
 				exit 99
-			#else
-			#	#kuinkahan tarpeellinen else-haara?
-			#	if [ -v CONF_alt_root ] ; then
-			#		#100226:vihdoinkin tämäkin korjattu?
-			#		110326:voisi osata päättää miten menetellä 
-#					dqb "cp ${d}/*pkgs* ${CONF_alt_root} /${distro} SOON"
-#					csleep 6
-#
-#					cp ${d}/*pkgs* ${CONF_alt_root}/${distro}
-#					ls -las ${CONF_alt_root}/${distro}
-#					csleep 4
-#				fi
 			fi
 		fi
 
@@ -576,9 +603,7 @@ case "${mode}" in
 		[ ${c} -gt 0 ] || exit 27
 		common_part ${srcfile} ${d} /
 
-		#jos sr0 jatkossa
-		${srat} -C ~ -jxf ~/${CONF_default_arhcive2}
-
+		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
 		tpr ${d0} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	k)
