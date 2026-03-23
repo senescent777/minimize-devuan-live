@@ -111,48 +111,49 @@ function e23_other_pkgs() {
 #}
 #
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
-#
-#TODO:testaus vähitellen
-#function e23_upgp() {
-#	dqb " e23_upgp() "
+
+#VAIH:testaus vähitellen
+function e23_upgp() {
+	dqb " e23_upgp() "
 #exit 99
-#	dqb "pars_ok"
-#	${fib}
-#	csleep 1
-#
-#	#LOPPUU SE PURPATUS PRKL
-#	${shary} E22_GS
-#
-#	#helpompi vain ajaa e23_dm() ennen upgp()
-#	${sag} --no-install-recommends upgrade -u
-#	echo $?
-#
-#	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
-#	csleep 1
-#
-#	dqb " e23_upgp() done"
-#	csleep 1
-#}
-#TODO:testaus vähitellen
-#function e23_upgp2() {
-#	[ -z "${1}" ] && exit 1 
-#	[ -z "${2}" ] && exit 11
+	dqb "pars_ok"
+	${fib}
+	csleep 1
+
+	#LOPPUU SE PURPATUS PRKL
+	${shary} E22_GS
+
+	#helpompi vain ajaa e23_dm() ennen upgp()
+	${sag} --no-install-recommends upgrade -u
+	echo $?
+
+	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
+	csleep 1
+
+	dqb " e23_upgp() done"
+	csleep 1
+}
+
+#VAIH:testaus vähitellen
+function e23_upgp2() {
+	[ -z "${1}" ] && exit 1 
+	[ -z "${2}" ] && exit 11
 #exit 99
-#	case "${2}" in
-#		wlan0)
-#			csleep 1
-#		;;
-#		*)
-#			${NKVD} ${1}/wpa*
-#			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
-#			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
-#		;;
-#	esac
-#
-#	dqb " e23_upgp2() done"
-#	csleep 1
-#}
-#
+	case "${2}" in
+		wlan0)
+			csleep 1
+		;;
+		*)
+			${NKVD} ${1}/wpa*
+			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
+			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
+		;;
+	esac
+
+	dqb " e23_upgp2() done"
+	csleep 1
+}
+
 #180326:osasi paketin tehdä edelleen ja sisältö asentiu myös, kuten odotettua
 #function e23_ghi() {
 #
