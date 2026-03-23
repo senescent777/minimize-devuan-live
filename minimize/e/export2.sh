@@ -182,12 +182,12 @@ case ${mode} in
 	-h)
 		usage
 	;;
-	b)
-		#VAIH:*lib.sh allek jotenkin jhnkin? (testaisiko jo?)
-		for f in $(find ${d} -type f -name '*lib.sh') ; do
-			e22_ftr ${f}
-		done
-	;;
+#	b)
+#		#230326:tekee jo jotain, vielä sietää miettiä onko siinä pointtia mitä tekee
+#		for f in $(find ${d0} -type f -name '*lib.sh') ; do
+#			e22_ftr ${f}
+#		done
+#	;;
 	*)
 		cont=1
 	;;
