@@ -43,7 +43,7 @@ fi
 function parse_opts_1() {
 	dqb "parse_opts_1( ${1})"
 
-	case "${1}"
+	case "${1}" in
 		-p)
 			if [ "${gbk}" == "-1" ] ; then
 				gbk=1
@@ -306,7 +306,7 @@ case ${mode} in
 	g) #1803126:toimii edelleen
 		e23_ghi #${tgtfile} ${d0} ${distro}
 	;;
-	l) #170236:ok (vähitellen testaus uudestaan)
+	l) #VAIH;testaus (230236)
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
