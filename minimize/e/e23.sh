@@ -49,14 +49,10 @@ function e23_tblz() { #170326:osasi paketin tehdä, eHkä toimii sisältökin
 	dqb "e23_tblz()"
 }
 
-#VAIH:ntp-jutut takaisin josqs?
-#tables-säännöt vissiin ok
-#ja ainakin oletus-konf löytyy
-#niin että
-
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 #HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
+#... siinä on kyllä semmoinen juttu
 
 E22_GS="cpp-12 gcc-12-base libstdc++6 libgcc-s1 libc6 libgomp1"
 
@@ -108,6 +104,11 @@ function e23_other_pkgs() {
 	dqb "e23_other_pkgs() DONE"
 	csleep 2
 }
+
+#VAIH:ntp-jutut takaisin josqs?
+#tables-säännöt vissiin ok
+#ja ainakin oletus-konf löytyy
+#niin että
 
 #TODO:fktio käyttöön exp2 kautta, vaiko sisältö kokonaan exp2:seen?
 function e23_n() {
