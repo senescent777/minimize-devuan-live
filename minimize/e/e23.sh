@@ -105,16 +105,19 @@ function e23_other_pkgs() {
 #initrd-nalkutus mutkistanut asioita, josko a) /etc/kernel sisältö b) debian reference auttaisi?
 #	${lftr}
 
-#	vähän aikaa ilman kunnes saa aikaiseksi konffata ... vaiko erillinen optio exp2:lle ?
-#	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
-#	${shary} ntpsec
-
 	dqb "e23_other_pkgs() DONE"
 	csleep 2
 }
 
+#TODO:fktio käyttöön exp2 kautta, vaiko sisältö kokonaan exp2:seen?
+function e23_n() {
+	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
+	${shary} ntpsec
+}
+
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 #
+#TODO:testaus vähitellen
 #function e23_upgp() {
 #	dqb " e23_upgp() "
 #exit 99
@@ -135,7 +138,7 @@ function e23_other_pkgs() {
 #	dqb " e23_upgp() done"
 #	csleep 1
 #}
-#
+#TODO:testaus vähitellen
 #function e23_upgp2() {
 #	[ -z "${1}" ] && exit 1 
 #	[ -z "${2}" ] && exit 11
