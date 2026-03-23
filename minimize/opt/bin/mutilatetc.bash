@@ -1,8 +1,7 @@
 #!/bin/bash
-exit 99
-
+#exit 99
+#
 #VAIH:ao. komennoista järkevä kokonaisuus josqs
-
 
 function gf() {
 	dqb "gf $1, $2"
@@ -194,14 +193,11 @@ function clouds_post() {
 
 #====================================================================
 clouds_pre ${mode}
-	#t pitäis i johtaa jostain ensin? mode?
+#t pitäis i johtaa jostain ensin? mode?
 
-
-	[ -f /etc/resolv.conf.${t} ] && ${slinky} /etc/resolv.conf.${t} /etc/resolv.conf
-	[ -f /etc/dhcp/dhclient.conf.${t} ] && ${slinky} /etc/dhcp/dhclient.conf.${t} /etc/dhcp/dhclient.conf
-	[ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
+[ -f /etc/resolv.conf.${t} ] && ${slinky} /etc/resolv.conf.${t} /etc/resolv.conf
+[ -f /etc/dhcp/dhclient.conf.${t} ] && ${slinky} /etc/dhcp/dhclient.conf.${t} /etc/dhcp/dhclient.conf
+[ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 #=================fktiån ulkopuolella olivat nuo 3 riviä==================================================
-
-
 
 clouds_post
