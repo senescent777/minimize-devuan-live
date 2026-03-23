@@ -56,19 +56,13 @@ function parse_opts_1() {
 			fi
 		;;
 	esac
-#
-#	#VAIH:switch...case, esim syystö e2x_dm()
-#
-#	else
-#		
-#			[ "${1}" == "-p" ] &&
-#	fi
-}
 
+#	#VAIH:switch...case, esim syystö e2x_dm()
+
+}
 
 function parse_opts_2() {
 	dqb "parse_opts_2)))))))( ${1} ; ${2} ))))))"
-	#VAIH:sitä e2x_dm() juttua varten muutoksia tähän alle
 
 	case "${1}" in
 		-d)
@@ -105,7 +99,7 @@ process_lib ${d}
 mop=${CONF_dm} #voinee joutua muuttamaan jatkossa
 
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
-echo "BEFORE TIG NOR MKTMP"
+dqb "BEFORE TIG NOR MKTMP"
 sleep 1
 
 if [ -z "${tig}" ] ; then
@@ -311,7 +305,7 @@ case ${mode} in
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;	
 	g)
-	#VAIH:ghi:n sisällön siirto+testaus
+	#230326:edelleen osaa paketin tehdä
 		#e23_ghi #${tgtfile} ${d0} ${distro}
 		${shary} ${E22GI}
 	;;

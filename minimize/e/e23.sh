@@ -159,8 +159,7 @@ function e23_n() {
 #	csleep 1
 #}
 #
-##180326:osasi paketin tehdä edelleen ja sisältö asentiu myös, kuten odotettua
-##ehkä voisi exp2:n case-easc-rakenteeseen siiträä
+#180326:osasi paketin tehdä edelleen ja sisältö asentiu myös, kuten odotettua
 #function e23_ghi() {
 #
 #	dqb "ghi.aps.0k"
