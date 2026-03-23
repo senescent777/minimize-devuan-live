@@ -154,16 +154,16 @@ function e23_other_pkgs() {
 #	dqb " e23_upgp2() done"
 #	csleep 1
 #}
-
-#180326:osasi paketin tehdä edelleen ja sisältö asentiu myös, kuten odotettua
-#ehkä voisi exp2:n case-easc-rakenteeseen siiträä
-function e23_ghi() {
-
-	dqb "ghi.aps.0k"
-	csleep 1
-	${shary} ${E22GI} #common_lib
-}
-
+#
+##180326:osasi paketin tehdä edelleen ja sisältö asentiu myös, kuten odotettua
+##ehkä voisi exp2:n case-easc-rakenteeseen siiträä
+#function e23_ghi() {
+#
+#	dqb "ghi.aps.0k"
+#	csleep 1
+#	 #common_lib
+#}
+#
 #170326:taitaa toimia, paketin teko ja sisältö
 function e23_qrs() {
 	dqb "e23_qrs()"

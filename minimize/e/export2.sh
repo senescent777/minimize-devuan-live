@@ -310,9 +310,10 @@ case ${mode} in
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;	
-	g) #1803126:toimii edelleen
-	#TODO:ghi:n sisä'llön siirto
-		e23_ghi #${tgtfile} ${d0} ${distro}
+	g)
+	#VAIH:ghi:n sisällön siirto+testaus
+		#e23_ghi #${tgtfile} ${d0} ${distro}
+		${shary} ${E22GI}
 	;;
 	l) #VAIH:testaus (230236) (ainakin paketin rakennus onnnistuu 230326)
 		csleep 1
