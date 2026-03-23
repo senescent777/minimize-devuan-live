@@ -104,18 +104,12 @@ function e23_other_pkgs() {
 	dqb "e23_other_pkgs() DONE"
 	csleep 2
 }
-
-#VAIH:ntp-jutut takaisin josqs?
-#tables-säännöt vissiin ok
-#ja ainakin oletus-konf löytyy
-#niin että
-
-#TODO:fktio käyttöön exp2 kautta, vaiko sisältö kokonaan exp2:seen?
-function e23_n() {
-	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
-	${shary} ntpsec
-}
-
+#
+#
+#function e23_n() {
+#	
+#}
+#
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 #
 #TODO:testaus vähitellen

@@ -314,6 +314,16 @@ case ${mode} in
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
 	;;
+	n)
+		#VAIH:ntp-jutut takaisin josqs?
+		#tables-säännöt vissiin ok
+		#ja ainakin oletus-konf löytyy
+		#niin että
+
+		#VAIH:fktio käyttöön exp2 kautta, vaiko sisältö kokonaan exp2:seen?	
+		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
+		${shary} ntpsec
+	;;
 	*)
 		exit
 	;;
