@@ -5,6 +5,7 @@ d0=$(pwd)
 echo "d0=${d0}"
 CONF_BASEURL="github.com/senescent777"
 CONF_PT2=minimize-devuan-live
+distro=$(cat /etc/devuan_version)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -49,10 +50,10 @@ ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 dqb "TGI KO"
 csleep 2
 
-#TODO:jos vähitellen testaisi toimintaa taas
+#VAIH:jos vähitellen testaisi toimintaa taas
 mv minimize minimize.OLD
 mv ${CONF_PT2}/* .
 
 [ -x minimize/common_lib.sh ] && . minimize/common_lib.sh
-[ -x minimize/common_lib.sh ] && enforce_access ${n} ${t}
-mv minimize.OLD/$distro/conf minimize/$distro
+[ -x minimize/common_lib.sh ] && enforce_access $(whoami) ${d0}/minimize
+mv minimize.OLD/${distro}/conf minimize/${distro}
