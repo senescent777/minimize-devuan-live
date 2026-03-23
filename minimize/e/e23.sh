@@ -19,7 +19,7 @@ function aswasw() { #privaatti fktio
 	esac
 }
 
-function e23_tblz() { #170326:osasi paketin tehdä, eghjkä toimii sisältökin
+function e23_tblz() { #170326:osasi paketin tehdä, eHkä toimii sisältökin
 	dqb "e23_tblz()"
 	csleep 2
 
@@ -60,7 +60,7 @@ function e23_tblz() { #170326:osasi paketin tehdä, eghjkä toimii sisältökin
 
 E22_GS="cpp-12 gcc-12-base libstdc++6 libgcc-s1 libc6 libgomp1"
 
-#VAIH:testaus muutoksien jälkeen
+#230326:osasi edelleen rakentaa paketin
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -207,7 +207,7 @@ function e23_qrs() {
 	csleep 3
 }
 
-#VAIH:testaa uusicksi 666
+#VAIH:testaa uusicksi 666 (ainakin paketin rakennus onnnistuu 230326)
 function e23_dm() {
 	dqb "e23_dm(${1})"
 	[ -z "${1}" ] && exit 11

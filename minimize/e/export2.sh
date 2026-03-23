@@ -315,9 +315,10 @@ case ${mode} in
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;	
 	g) #1803126:toimii edelleen
+	#TODO:ghi:n sisä'llön siirto
 		e23_ghi #${tgtfile} ${d0} ${distro}
 	;;
-	l) #VAIH:testaus (230236)
+	l) #VAIH:testaus (230236) (ainakin paketin rakennus onnnistuu 230326)
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}

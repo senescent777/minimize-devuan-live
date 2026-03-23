@@ -194,6 +194,7 @@ function e22_pre2() {
 	dqb "... done"
 }
 
+#230326:vissiin toimii edelleen
 function e22_cleanpkgs() {
 	dqb "cleanpkgs()"
 	[ -z "${1}" ] && exit 56
@@ -563,6 +564,7 @@ function e22_ext() {
 	[ ${debug} -eq 1 ] && pwd
 }
 
+#239326:lienee edelleen toimiva
 function e22_ts() {
 	dqb "E222.TS ()()() $1 , $2, $3"
 	[ -z "${1}" ] && exit 13
@@ -658,6 +660,7 @@ function e22_arch() {
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 #}
 
+#2309326:paketin rakennus onnaa edelleen
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4})"
 
