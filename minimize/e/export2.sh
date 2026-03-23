@@ -4,9 +4,11 @@ debug=0 #1
 distro=$(cat /etc/devuan_version)
 # | cut -d '/' -f 1) #160126 cut-kikkailu pois sotkemasta, muualla kun menee toisin
 d0=$(pwd)
+d=${d0}/${distro}
 mode=-2
 tgtfile=""
 gbk=-1
+mop=""
 
 function usage() {
 	echo "$0 0 <tgtfile> [distro?] [-v]: makes the main package (new way)"
@@ -15,7 +17,7 @@ function usage() {
 	echo "$0 e <tgtfile> [distro?] [-v]: archives the Essential .deb packages"
 
 	#$d pitäisi alustaa ennen tätä
-	echo "$0 f <tgtfile> [distro?] [-v]: archives .deb Files under ${d}"
+	echo "$0 f <tgtfile> [distro?] [-v]: archives .deb Files under ${d0}/\${distro}"
 
 	echo "$0 p <> [] [] pulls \${CONF_default_archive3} from somewhere"
 	echo "$0 q <> [] [] archives firefox settings"
@@ -41,19 +43,33 @@ fi
 function parse_opts_1() {
 	dqb "parse_opts_1( ${1})"
 
-	if [ -d ${d}/${1} ] ; then
-		#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
-		d=${d0}/${distro}
-	else
-		if [ "${gbk}" == "-1" ] ; then
-			[ "${1}" == "-p" ] && gbk=1
-		fi
-	fi
+	case "${1}"
+		-p)
+			if [ "${gbk}" == "-1" ] ; then
+				gbk=1
+			fi
+		;;
+		*)
+			if [ -d ${d}/${1} ] ; then
+				#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
+				d=${d0}/${distro}
+			fi
+		;;
+	esac
+#
+#	#VAIH:switch...case, esim syystö e2x_dm()
+#
+#	else
+#		
+#			[ "${1}" == "-p" ] &&
+#	fi
 }
 
-#
-#function parse_opts_2() { #170326:josko takaisin vähitellen?
-#}
+
+function parse_opts_2() {
+	dqb "parse_opts_2)))))))( ${1} ; ${2} ))))))"
+	#TODO:sitä e2x_dm() juttua varten muutoksia tähän alle
+}
 
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
@@ -73,8 +89,10 @@ else
 fi
 
 [ -z "${distro}" ] && exit 6
-d=${d0}/${distro}
+d=${d0}/${distro} #nykyään vähän turha tässä
 process_lib ${d}
+mop=${CONF_dm} #voinee joutua muuttamaan jatkossa
+
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 echo "BEFORE TIG NOR MKTMP"
 sleep 1
@@ -154,7 +172,7 @@ case ${mode} in
 		usage
 	;;
 	b)
-		#VAIH:*lib.sh allek jotenkin jhnkin?
+		#VAIH:*lib.sh allek jotenkin jhnkin? (testaisiko jo?)
 		for f in $(find ${d} -type f -name '*lib.sh') ; do
 			e22_ftr ${f}
 		done
@@ -288,10 +306,10 @@ case ${mode} in
 	g) #1803126:toimii edelleen
 		e23_ghi #${tgtfile} ${d0} ${distro}
 	;;
-	l) #170236:ok
+	l) #170236:ok (vähitellen testaus uudestaan)
 		csleep 1
 		[ -v CONF_dm ] || exit 77
-		e23_dm ${CONF_dm}
+		e23_dm ${mop}
 	;;
 	*)
 		exit

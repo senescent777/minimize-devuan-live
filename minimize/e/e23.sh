@@ -105,7 +105,7 @@ function e23_other_pkgs() {
 #initrd-nalkutus mutkistanut asioita, josko a) /etc/kernel sisältö b) debian reference auttaisi?
 #	${lftr}
 
-#	vähän aikaa ilman kunnes saa aikaiseksi konffata
+#	vähän aikaa ilman kunnes saa aikaiseksi konffata ... vaiko erillinen optio exp2:lle ?
 #	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 #	${shary} ntpsec
 
@@ -212,6 +212,8 @@ function e23_dm() {
 	dqb "e23_dm(${1})"
 	[ -z "${1}" ] && exit 11
 	csleep 4
+
+	dqb "params ok"
 	${fib}
 	csleep 2
 

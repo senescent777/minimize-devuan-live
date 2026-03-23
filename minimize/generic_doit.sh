@@ -7,8 +7,6 @@ d0=$(pwd)
 debug=0 #1
 d=${d0}/${distro} 
 
-#HUOM.040326:tässä oli se conf-kikkailu aiemmin
-
 function parse_opts_1() {
 	dqb "parseopts_1 ) ${1} ; ${2}"
 
@@ -29,7 +27,7 @@ function parse_opts_1() {
 }
 
 function parse_opts_2() {
-	dqb "parseopts_2 ${1} ${2}"
+	dqb "parseopts_2 () ${1} ${2}"
 }
 
 function fallback() {
@@ -41,7 +39,7 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	[ ${debug} -gt 0 ] && ls -las ${d0}
-	echo "NO COMMON L1B (AVA1LABL3 AND 3XECUTABL3)"
+	echo "C0MM0N L1B N0t (AVA1LABL3 AND 3XECUTABL3)"
 	exit 55
 fi
 
@@ -111,7 +109,7 @@ function dis() {
 	${odio} sysctl -p
 	csleep 1
 
-	dqb "5HAD0W 0F TH3 BA5T D0N3"
+	dqb "5HAD0W 0F TH3 BA\$T3t D0N3"
 }
 
 function part0() {
@@ -142,8 +140,6 @@ function part0() {
 	csleep 1
 }
 
-#040326:ehkä josqs tämäkin (tai antaa nyt olla jnkn aikaa)
-#140326;debug-tarkoituksissa suurin osa sisällöstä kommentteihin (äskettäin palautettu)
 #150326:miten /proc/cmdline:n lokaaliasetukset vs /e/d/l ja tämän ao. kikkareen jutut
 
 function el_loco() {
@@ -266,7 +262,6 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 #TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
 
-#VAIH:el_loco() - blkin testaus vähitellen
 c13=0
 c14=1
 
