@@ -1,6 +1,6 @@
 #!/bin/bash
 #jotain oletuksia kunnes oikea konftdsto saatu lotottua
-debug=0 #1
+debug=1
 distro=$(cat /etc/devuan_version)
 # | cut -d '/' -f 1) #160126 cut-kikkailu pois sotkemasta, muualla kun menee toisin
 d0=$(pwd)
@@ -68,7 +68,18 @@ function parse_opts_1() {
 
 function parse_opts_2() {
 	dqb "parse_opts_2)))))))( ${1} ; ${2} ))))))"
-	#TODO:sitä e2x_dm() juttua varten muutoksia tähän alle
+	#VAIH:sitä e2x_dm() juttua varten muutoksia tähän alle
+
+	case "${1}" in
+		-d)
+			#if [ -z "${mop}" ] ; then
+				mop=${2}
+			#fi
+		;;
+		*)
+			dqb " ${1} NOT SUPPORTED"
+		;;
+	esac
 }
 
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
@@ -306,7 +317,7 @@ case ${mode} in
 	g) #1803126:toimii edelleen
 		e23_ghi #${tgtfile} ${d0} ${distro}
 	;;
-	l) #VAIH;testaus (230236)
+	l) #VAIH:testaus (230236)
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
