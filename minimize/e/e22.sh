@@ -1,9 +1,3 @@
-#https://superuser.com/questions/1020155/pre-up-in-the-network-interfaces-file
-#https://www.cyberciti.biz/faq/setting-up-an-network-interfaces-file/
-#https://unix.stackexchange.com/questions/128439/good-detailed-explanation-of-etc-network-interfaces-syntax
-#https://askubuntu.com/questions/1030048/how-to-create-post-up-and-pre-down-routes-in-interfaces-file
-#csleep 6
-
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
 dqb "MDB"
@@ -176,7 +170,6 @@ function e22_pre2() {
 	#/e/n kokonaan talteen?
 
 	if [ -d ${1} ] ; then
-		#VAIH:jatkossa jos kääåntgyisi s.e. ifup käskyttäisi tarpeellisia skriptejä
 		echo $?
 		csleep 1
 
@@ -261,7 +254,9 @@ function e22_settings() {
 }
 
 #160326:toimi tuolloin aiankin kerran
-#TODO:testaus uusicksi josqs
+#VAIH:testaus uusicksi josqs (aubnakin 230326 osasi pakettiin lisätä juttuja)
+#... miten muuten se fediverse.tar juuressa, tekisikö jotain jos toistuu?
+
 function e22_home_pre() {
 	dqb "e22_home_pre()"
 
@@ -295,6 +290,7 @@ function e22_home_pre() {
 	csleep 1
 }
 
+#VAIH:testaus uusicksi, 230326 osasi juttuja lisätä pakettiin, sisällön kelvollisuus vielä
 function e22_home() {
 	dqb "e22_home()"
 	[ -z "${1}" ] && exit 67
@@ -326,8 +322,6 @@ function e22_home() {
 #pitäisikö siirtää toiseen tdstoon?
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
 
-
-
 function luca() {
 	[ -z "${1}" ] && exit 11
 	[ -s ${1} ] || exit 12
@@ -345,7 +339,7 @@ function luca() {
 }
 
 #... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan vai tuleeko?
-#TODO:testaus.uusiksi.josqs
+#VAIH:testaus.uusiksi,230326, bissiin vetää mukaan ne mitä pitää
 
 function e22_acol() {
 	dqb "e22_acol()"
@@ -413,7 +407,8 @@ function e22_acol() {
 
 #imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
 #020326:ehkä ok sisältö-siat (xorg ja ntp-jutut voisi testata paremmalla ajalla)
-#TODO:toiminnan testaus (olisikohan kohta 150326?) (tar -tf $archive jossain välissä)
+#VAIH:toiminnan testaus 230326 -> 
+#... wdm-juttuja ei vielä vetänyt mukaan, find:in kanssa tarttis jotain tehrä
 
 function e22_sarram() {
 	dqb "e22_sarram()"
@@ -449,10 +444,11 @@ function e22_sarram() {
 	${scm} 0400 /etc/iptables/rules*
 	${scm} 0400 /etc/default/rules*
 
-	#150326:nalkutusta ruleksien käyttöopikeukissta, tee jotain?
+	#150326:nalkutusta ruleksien käyttöopikeukissta, tee jotain? (vielä 230326?)
 	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
 	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
 
+	#230326:ntp-jtut näyttäisi vetävän mukaan
 	if [ -x /usr/sbin/ntpd ] ; then
 		for f in $(${odio} find /etc -type f -name 'ntp*') ; do
 			${srat} -rvf ${1} ${f}
@@ -466,7 +462,7 @@ function e22_sarram() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#TODO:testit taas josqs
+#VAIH:testit taas josqs (230326) , osannee lisätä juttuja pakettiin ainakin
 function e22_ext() {
 	#/o/b liittyvää käsittelyä uusicksi sittenq
 	#... millä tavall auusiksi?
