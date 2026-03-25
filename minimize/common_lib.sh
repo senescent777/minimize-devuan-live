@@ -897,6 +897,7 @@ function e_e() {
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
 	if [ -h /etc/resolv.conf ] ; then
+		#ao. tarkistus uusiksi vai ei?
 		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
 			${smr} /etc/resolv.conf
 		fi
@@ -904,6 +905,8 @@ function e_e() {
 
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 	csleep 1
+
+	#CONF_iface-tarkistuksen taakse?
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
 
@@ -956,9 +959,9 @@ function e_h() {
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
 	local m=0555
 
-	if [ ${debug} -gt 0 ] ; then
-		m=0755
-	fi
+	#if [ ${debug} -gt 0 ] ; then
+	#	m=0755
+	#fi
 
 	#tämäkö siihen "-v vs ei -v"-temppuiluun liittyy?
 	for f in $(find ${2} -type f -name '*.sh' ) ; do ${scm} ${m} ${f} ; done
@@ -1173,7 +1176,7 @@ function part2() {
 		${lftr}
 		csleep 1
 
-		case ${3} in
+		case "${3}" in
 			wlan0)
 				dqb "NOT REMOVING WPASUPPLICANT"
 				csleep 1
@@ -1262,7 +1265,9 @@ function part3() {
 	common_lib_tool ${1} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 
-	#140326:näiden 3 kanssa saattaa olla jokin juttu
+	E22_GS="cpp-12 gcc-12-base libstdc++6 libgcc-s1 libc6 libgomp1"
+
+	#140326:näiden 3 kanssa saattaa olla jokin juttu (no mikä?)
 	efk1 ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
 
 	common_lib_tool ${1} accept_pkgs_1
