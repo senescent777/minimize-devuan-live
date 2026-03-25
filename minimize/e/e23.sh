@@ -1,6 +1,6 @@
 #just_download_not_install-vipu olisi tietysti...
 
-function aswasw() { #privaatti fktio
+function aswasw() { #privaatti fktio, tarkpoitus olla
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
 	csleep 1
@@ -52,11 +52,11 @@ function e23_tblz() { #170326:osasi paketin tehdä, eHkä toimii sisältökin
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 #HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
-#... siinä on kyllä semmoinen juttu
+#... siinä ulkoistuksessa on kyllä semmoinen juttu
 
-E22_GS="cpp-12 gcc-12-base libstdc++6 libgcc-s1 libc6 libgomp1"
 
-#230326:osasi edelleen rakentaa paketin
+
+#TODO:joskus taas muutosten testit
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -73,10 +73,10 @@ function e23_other_pkgs() {
 	${shary} ${E22_GG}
 
 	#sudo-asia olisi jo kunnossa 120126?	ehkä
-	E22_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
+	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
-	${shary} ${E22_GS}  #moni pak tarttee nämä
+	${shary} ${E23_GS}  #moni pak tarttee nämä
 
 	#${shary} #bsd debconf
 	##${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei? ehkä
@@ -121,7 +121,7 @@ function e23_upgp() {
 	csleep 1
 
 	#LOPPUU SE PURPATUS PRKL
-	${shary} E22_GS
+	${shary} ${E22_GS}
 
 	#helpompi vain ajaa e23_dm() ennen upgp()
 	${sag} --no-install-recommends upgrade -u
