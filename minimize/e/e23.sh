@@ -1,8 +1,6 @@
-#echo "pMERSENNE.23.q"
-#csleep 1
 #just_download_not_install-vipu olisi tietysti...
 
-function aswasw() { #privaatti fktio
+function aswasw() { #privaatti fktio, tarkpoitus olla
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
 	csleep 1
@@ -21,9 +19,7 @@ function aswasw() { #privaatti fktio
 	esac
 }
 
-#11326:joskohan tblz ja pther_pkgs osaisivat tehdä sisältöä pakettiin , sisällön toimivuus asia erikseen
-
-function e23_tblz() { #160326:osasi paketin tehdä
+function e23_tblz() { #170326:osasi paketin tehdä, eHkä toimii sisältökin
 	dqb "e23_tblz()"
 	csleep 2
 
@@ -53,17 +49,14 @@ function e23_tblz() { #160326:osasi paketin tehdä
 	dqb "e23_tblz()"
 }
 
-#VAIH:ntp-jutut takaisin josqs?
-#tables-säännöt vissiin ok
-#ja ainakin oletus-konf löytyy
-#niin että
-
-#testaa josqs uusiksi, VAIH . 11326, pak.sis.tiomiuvuus lähinnä
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 #HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
-#160326:vissiin toimii edelleen
+#... siinä ulkoistuksessa on kyllä semmoinen juttu
 
+
+
+#TODO:joskus taas muutosten testit
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -71,10 +64,7 @@ function e23_other_pkgs() {
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
 
-	#LOPPUU SE PURPATUS PRKL
-	#jatkossa osa E22_GS ?
-	${shary} cpp-12 gcc-12-base libstdc++6 
-	${shary} libgcc-s1 libc6 libgomp1 
+	${shary} ${E22_GS}
 	csleep 2	
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
@@ -83,10 +73,10 @@ function e23_other_pkgs() {
 	${shary} ${E22_GG}
 
 	#sudo-asia olisi jo kunnossa 120126?	ehkä
-	E22_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
+	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
-	${shary} ${E22_GS}  #moni pak tarttee nämä
+	${shary} ${E23_GS}  #moni pak tarttee nämä
 
 	#${shary} #bsd debconf
 	##${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei? ehkä
@@ -107,78 +97,72 @@ function e23_other_pkgs() {
 
 	csleep 1
 	${lftr}
-	
-#TODO:jos lukaisi debian referencen pitkästä aikaa, että löytyisikö jotain jekkua paketinhallinnan kanssa? ettei tarvitse kikkailla initramfs:n ja muutaman paketin kanssa
-#	... package pinning?
-#	${lftr} #kts. /etc/kernel liittyen
-#	csleep 2
 
-#	vähän aikaa ilman kunnes saa aikaiseksi konffata
-#	${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
-#	${shary} ntpsec
+#initrd-nalkutus mutkistanut asioita, josko a) /etc/kernel sisältö b) debian reference auttaisi?
+#	${lftr}
 
 	dqb "e23_other_pkgs() DONE"
 	csleep 2
 }
-
-##äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 #
-#function e23_upgp() {
-#	dqb " e23_upgp() "
-#exit 99
-#	dqb "pars_ok"
-#	${fib}
-#	csleep 1
 #
-#	#LOPPUU SE PURPATUS PRKL
-#	${shary} cpp-12 gcc-12-base libstdc++6 
-#	${shary} libgcc-s1 libc6 libgomp1 
-#
-#	#helpompi vain ajaa e23_dm() ennen upgp()
-#	${sag} --no-install-recommends upgrade -u
-#	echo $?
-#
-#	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
-#	csleep 1
-#
-#	dqb " e23_upgp() done"
-#	csleep 1
+#function e23_n() {
+#	
 #}
 #
-#function e23_upgp2() {
-#	[ -z "${1}" ] && exit 1 
-#	[ -z "${2}" ] && exit 11
+#äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
+
+#VAIH:testaus vähitellen
+function e23_upgp() {
+	dqb " e23_upgp() "
 #exit 99
-#	case "${2}" in
-#		wlan0)
-#			csleep 1
-#		;;
-#		*)
-#			${NKVD} ${1}/wpa*
-#			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
-#			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
-#		;;
-#	esac
-#
-#	dqb " e23_upgp2() done"
-#	csleep 1
-#}
-
-#160326;ok
-#TODO:yleisemmän mallin mukaan tämä
-function e23_ghi() {
-	[ -z "${1}" ] && exit 6
-	[ -z "${2}" ] && exit 16
-	[ -z "${3}" ] && exit 6
-
-	dqb "ghi.aps.0k"
+	dqb "pars_ok"
+	${fib}
 	csleep 1
-	echo "\${shary} ${E22GI}" #common_lib
-	echo "\${svm} ${CONF_pkgdir}/*.deb ${2}/${3}"
-	echo "$0 f ${1} #${3}"
+
+	#LOPPUU SE PURPATUS PRKL
+	${shary} ${E22_GS}
+
+	#helpompi vain ajaa e23_dm() ennen upgp()
+	${sag} --no-install-recommends upgrade -u
+	echo $?
+
+	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
+	csleep 1
+
+	dqb " e23_upgp() done"
+	csleep 1
 }
 
-#VAIH:testaus (160326 tekee edelleen arkiston, sisällön validius vielä selvitettävä)
+#VAIH:testaus vähitellen
+function e23_upgp2() {
+	[ -z "${1}" ] && exit 1 
+	[ -z "${2}" ] && exit 11
+#exit 99
+	case "${2}" in
+		wlan0)
+			csleep 1
+		;;
+		*)
+			${NKVD} ${1}/wpa*
+			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
+			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
+		;;
+	esac
+
+	dqb " e23_upgp2() done"
+	csleep 1
+}
+
+#180326:osasi paketin tehdä edelleen ja sisältö asentiu myös, kuten odotettua
+#function e23_ghi() {
+#
+#	dqb "ghi.aps.0k"
+#	csleep 1
+#	 #common_lib
+#}
+#
+#170326:taitaa toimia, paketin teko ja sisältö
 function e23_qrs() {
 	dqb "e23_qrs()"
 
@@ -210,12 +194,7 @@ function e23_qrs() {
 	csleep 1
 	
 	e22_settings ${2} ${4} ${5}
-
 	#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
-
-	#dqb "just BEFORE find ${2} -maxdepth 1 -type f -name ${4} "
-	#csleep 1
-
 
 	#jospa ei hipsuja tähän find:iin
 	for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
@@ -224,22 +203,22 @@ function e23_qrs() {
 
 	[ ${debug} -eq 1 ] && tar -tf ${1} | grep ${4} | wc -l
 	csleep 3
-
-#	#ftr() tässä vai kutsuvassa koodissa?
-#	e22_ftr ${1}
 }
 
-#VAIH:uusi testaus menossa, aiempi tar saattoi olla viallinen (160326)
+#VAIH:testaa uusicksi 666 (ainakin paketin rakennus onnnistuu 230326)
 function e23_dm() {
 	dqb "e23_dm(${1})"
 	[ -z "${1}" ] && exit 11
 	csleep 4
+
+	dqb "params ok"
 	${fib}
 	csleep 2
+
 	#LOPPUU SE PURPATUS PRKL
-	${shary} cpp-12 gcc-12-base libstdc++6 
-	${shary} libgcc-s1 libc6 libgomp1 
+	${shary} ${E22_GS}
 	csleep 1
+
 	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6
 	${shary} menu twm
 	csleep 1
