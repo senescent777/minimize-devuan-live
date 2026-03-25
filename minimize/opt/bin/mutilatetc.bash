@@ -1,7 +1,27 @@
 #!/bin/bash
 #exit 99
-#
+
 #VAIH:ao. komennoista järkevä kokonaisuus josqs
+debug=1
+odio="/usr/bin/sudo"
+smr=$(${odio} which rm)
+svm=$(${odio} which mv)
+scm=$(${odio} which chmod)
+sco=$(${odio} which chown)
+slinky=$(${odio} which ln)
+slinky="${odio} ${slinky} -s "
+ipt=$(${odio} which iptables)
+ip6t=$(${odio} which ip6tables)
+gg=$(${odio} which gpg)
+sah6=$(${odio} which sha512sum)
+
+function dqb() {
+	[ ${debug} -eq 1 ] && echo ${1}
+}
+
+function csleep() {
+	[ ${debug} -eq 1 ] && sleep ${1}
+}
 
 function gf() {
 	dqb "gf $1, $2"
@@ -27,6 +47,19 @@ function gf() {
 
 	[ ${c2} -gt 0 ] && exit 105
 }
+
+gf /opt/bin/zxcv
+#chattrin kanssa käviSi ktevämmin, lisäksi pitäisi reagoida jyrkemmin?
+c3=$(find /opt -name 'zxcv*' -type f -perm /o+w,g+w,u+w | wc -l)
+[ ${c3} -gt 0 ] && exit 105
+c3=$(find /opt -name 'zxcv*' -type f -perm /o+r,g+r | wc -l)
+[ ${c3} -gt 0 ] && exit 106
+
+#vähän kiikun kaakun onko fiksua sudottaa noita komentoja
+[ -z "${gg}" ] || ${odio} ${gg} --verify /opt/bin/zxcv.sig
+[ $? -eq 0 ] || exit 107
+${odio} ${sah6} --ignore-missing -c /opt/bin/zxcv
+[ $? -eq 0 ] || exit 108
 
 function gh() {
 	dqb "gh $1 , $2"
@@ -54,9 +87,10 @@ function gh() {
 	[ ${c2} -gt 0 ] && exit 107
 }
 
-function init2 {
+function itin2 {
+	local c
 	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
-		[ ${c} -gt 0 ] && exit 111
+	[ ${c} -gt 0 ] && exit 111
 
        	c=$(find /etc -name 'iptab*' -type d -perm /g+w | wc -l)
 	[ ${c} -gt 0 ] && exit 123
@@ -76,18 +110,18 @@ function init2 {
 	[ ${c} -gt 0 ] && exit 120
 	gf /etc/sudoers.d
 
-		c=$(find /etc -name 'ntp*' -type f -perm /o+w | wc -l)
-		gh /etc ntp
+	c=$(find /etc -name 'ntp*' -type f -perm /o+w | wc -l)
+	gh /etc ntp
 }
 
-init2
+itin2
 
 function p3r1m3tr() {
-	chmod 0400 /etc/iptables/*
-	chmod 0550 /etc/iptables
-	chown -R root:root /etc/iptables
-	chmod 0400 /etc/default/rules*
-	chown -R root:root /etc/default
+	${scm} 0400 /etc/iptables/*
+	${scm} 0550 /etc/iptables
+	${sco} -R root:root /etc/iptables
+	${scm} 0400 /etc/default/rules*
+	${sco} -R root:root /etc/default
 }
 
 p3r1m3tr
@@ -95,12 +129,18 @@ p3r1m3tr
 function clouds_pp1() {
 	dqb "#c.pp.1  ( ${1} )"
 	local f
+	local c0
 
 	for f in /etc/resolv.conf /etc/dhcp/dhclient.conf ; do
 		if [ -h ${f} ] ; then #mikä ero -L nähden?
-			if [ -s ${f}.1 ] || [ -s ${f}.0 ] ; then #riittäisikö nämä tark?
+			c0=$(find / -type f -name '${f}.*' | wc -l)
+			#if [ -s ${f}.1 ] || [ -s ${f}.0 ] ; then #riittäisikö nämä tark?
+		
+			if [ ${c0} -gt 0 ] ; then
 				${smr} ${f}
 				[ $? -gt 0 ] && dqb "FAILURE TO COMPLY WHILE TRYING TO REMOVE ${f}"
+			else
+				dqb "N.S.T.A.S: ${f}.xxx"			
 			fi
 		else
 			dqb "NOt A SHARk... link: ${f}"
@@ -108,7 +148,11 @@ function clouds_pp1() {
 		fi
 	done
 
-	if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 	
+	c0=$(find /sbin -type f -name 'dhclient-script.*' | wc -l)
+	#
+	#if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 
+
+	if [ ${c0} -gt 0 ] ; then 
 		${smr} /sbin/dhclient-script
 		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHIOLE TRYINMG TO REMOVE DHCLIENT-SCRIPT"
 	fi
@@ -128,9 +172,6 @@ function clouds_pre() {
 	csleep 1
 
 	clouds_pp1
-	csleep 1
-	#clouds_pp2 ${1} #vissiin common_lib.change_bin1:stä löytyy syy miksi rules.v$x.$y tyhjenee
-	#clouds_pp3 ${1}
 	csleep 1
 
 	dqb "... done"
@@ -174,13 +215,13 @@ function clouds_post() {
 		${sco} root:root ${f}
 	done
 
+	#sitten oli vielä /o/b/z listan sisällön pakottaminen, oikeastaan
 
 	${scm} 0555 /etc/dhcp
 	${scm} 0555 /etc/network
 	${sco} root:root /etc/network 
 	${scm} 0555 /etc/init.d/ntpsec
 	${sco} 0:0 /etc/init.d/ntpsec
-
 
 	if [ ${debug} -eq 1 ] ; then
 		${ipt} -L  #
@@ -192,7 +233,10 @@ function clouds_post() {
 }
 
 #====================================================================
-clouds_pre ${mode}
+[ $# -lt 1 ] && exit 99
+t=$(echo ${1} | tr -dc a-zA-Z0-9/.)
+
+clouds_pre ${t}
 #t pitäis i johtaa jostain ensin? mode?
 
 [ -f /etc/resolv.conf.${t} ] && ${slinky} /etc/resolv.conf.${t} /etc/resolv.conf
