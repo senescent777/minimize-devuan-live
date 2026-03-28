@@ -136,9 +136,9 @@ function clouds_pp1() {
 	local f
 	local c0
 
-	for f in /etc/resolv.conf /etc/dhcp/dhclient.conf ; do
+	for f in etc/resolv.conf etc/dhcp/dhclient.conf ; do
 		if [ -h ${f} ] ; then #mikä ero -L nähden?
-			c0=$(find / -type f -name '${f}.*' | wc -l)
+			c0=$(find / -type f -name "${f}.*" | wc -l)
 			#if [ -s ${f}.1 ] || [ -s ${f}.0 ] ; then #riittäisikö nämä tark?
 		
 			if [ ${c0} -gt 0 ] ; then
@@ -246,10 +246,17 @@ t=$(echo ${1} | tr -dc a-zA-Z0-9/.)
 
 clouds_pre ${t}
 #ei olisi hyväksi hukata /e/r.conf
-[ -f /etc/resolv.conf.${t} ] && ${slinky} /etc/resolv.conf.${t} /etc/resolv.conf
+
+if [ -f /etc/resolv.conf.${t} ] ; then
+	${slinky} /etc/resolv.conf.${t} /etc/resolv.conf
+else
+	dqb "WHERE IS /etc/resolv.conf.${t} ???"
+fi
 
 #280326:dhc-juttuihin liittyen miten sitten jos tunaroi dhclient-script:in kanssa? (common_lib saattaa liittyä myös)
 #... man dhclient.conf tietysti 1 lähtökohta
+
+#jotain purpatusta näistäkin
 [ -f /etc/dhcp/dhclient.conf.${t} ] && ${slinky} /etc/dhcp/dhclient.conf.${t} /etc/dhcp/dhclient.conf
 [ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 

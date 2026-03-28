@@ -23,6 +23,7 @@ ip6tr=$(${odio} which ip6tables-restore)
 
 #TODO:jokin param resolv.vonf-kikkailuja varten?
 #TODO:entäse dot?
+#TODO:jos resolv.conf hukataan jatkossa ni jotain ytarttisi tehdä esim. tässä
 
 #VAIH:ruleksiin oikeastaan, u- ja v- ketjujen oletusarvot, joputaisiko säätää?
 ${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
