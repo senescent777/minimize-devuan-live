@@ -158,11 +158,11 @@ function e22_pre2() {
 
 	dqb " (pars.ok)"
 	csleep 1
-	local ortsac
+	#local ortsac
 	local par4
 
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
-	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
+	#ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
 	par4=$(echo ${4} | tr -d -c 0-9)
 
 	#HUOM.020825:vähän enemmän sorkintaa tänne?
@@ -176,7 +176,7 @@ function e22_pre2() {
 		#HUOM.200326:TLA() tähän väliaikaisesti vai ei? nykyään kyllä ifup...
 
 		#280326:tilapäinen viritys kunnes x
-		[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${CONF_dnsm} /etc/resolv.conf
+		[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
 		ls -las /etc/resolv.*
 		csleep 5  	
 
