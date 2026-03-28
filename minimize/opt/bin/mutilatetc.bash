@@ -153,14 +153,15 @@ function clouds_pp1() {
 		fi
 	done
 
-	c0=$(find /sbin -type f -name 'dhclient-script.*' | wc -l)
-	#
-	#if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 
-
-	if [ ${c0} -gt 0 ] ; then 
-		${smr} /sbin/dhclient-script
-		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHIOLE TRYINMG TO REMOVE DHCLIENT-SCRIPT"
-	fi
+#280326:toistaiseksi jemmaan dhslcient-skriptiin sekaantuminen kunnes miettinyt vähän
+#	c0=$(find /sbin -type f -name 'dhclient-script.*' | wc -l)
+#	#
+#	#if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 
+#
+#	if [ ${c0} -gt 0 ] ; then 
+#		${smr} /sbin/dhclient-script
+#		[ $? -gt 0 ] && echo "FAILURE TO CPMPLY WHIOLE TRYINMG TO REMOVE DHCLIENT-SCRIPT"
+#	fi
 
 	if [ -h /etc/network/interfaces ] ; then
 		${smr} /etc/network/interfaces
@@ -244,12 +245,14 @@ function clouds_post() {
 t=$(echo ${1} | tr -dc a-zA-Z0-9/.)
 
 clouds_pre ${t}
-#t pitäis i johtaa jostain ensin? mode?
-
+#ei olisi hyväksi hukata /e/r.conf
 [ -f /etc/resolv.conf.${t} ] && ${slinky} /etc/resolv.conf.${t} /etc/resolv.conf
 
+#280326:dhc-juttuihin liittyen miten sitten jos tunaroi dhclient-script:in kanssa? (common_lib saattaa liittyä myös)
+#... man dhclient.conf tietysti 1 lähtökohta
 [ -f /etc/dhcp/dhclient.conf.${t} ] && ${slinky} /etc/dhcp/dhclient.conf.${t} /etc/dhcp/dhclient.conf
 [ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
+
 #=================fktiån ulkopuolella olivat nuo 3 riviä==================================================
 
 clouds_post
