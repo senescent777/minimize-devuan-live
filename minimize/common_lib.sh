@@ -214,7 +214,7 @@ function check_bin_0() {
 	export LC_ALL
 	export LANG
 
-	#VAIH:/o/b/zxcv - jutut
+	#280326:/o/b/zxcv - jutut jo kunnossa? vai vielä jotain säätöä?
 	[ -s /opt/bin/zxcv ] || echo "should exit 98"
 	[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
 	[ -s /opt/bin/zxcv.sha ] || echo "should exit 97"

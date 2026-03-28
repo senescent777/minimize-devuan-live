@@ -198,7 +198,7 @@ csleep 1
 #230326:e_jutut vielä tarpeellisia?
 e_final
 e_h $(whoami) ${d0}
-dqb "EHD0NE"
+dqb "EHD0.LL1.N3"
 csleep 1
 
 #HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
