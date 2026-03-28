@@ -112,10 +112,10 @@ function e23_other_pkgs() {
 #
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 
-#VAIH:testaus vähitellen
+#280326:saa aikaiseksi paketin, sisällön testaus vielä
 function e23_upgp() {
 	dqb " e23_upgp() "
-#exit 99
+
 	dqb "pars_ok"
 	${fib}
 	csleep 1
@@ -134,11 +134,11 @@ function e23_upgp() {
 	csleep 1
 }
 
-#VAIH:testaus vähitellen
+#280326:saa aikaiseksi paketin, sisällön testaus vielä
 function e23_upgp2() {
 	[ -z "${1}" ] && exit 1 
 	[ -z "${2}" ] && exit 11
-#exit 99
+
 	case "${2}" in
 		wlan0)
 			csleep 1

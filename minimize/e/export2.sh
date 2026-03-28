@@ -281,12 +281,12 @@ case ${mode} in
 			
 		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 	;;
-	#VAIH:testaus (230326)
+	#280326:saa aikaiseksi paketin, sisällön testaus vielä
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
 		csleep 1
-		#exit 99
+	
 		e23_upgp
 		${sifd} ${CONF_iface}
 		csleep 1
