@@ -55,9 +55,14 @@ c3=$(find /opt -name 'zxcv*' -type f -perm /o+w,g+w,u+w | wc -l)
 c3=$(find /opt -name 'zxcv*' -type f -perm /o+r,g+r | wc -l)
 [ ${c3} -gt 0 ] && exit 106
 
-#vähän kiikun kaakun onko fiksua sudottaa noita komentoja
-[ -z "${gg}" ] || ${odio} ${gg} --verify /opt/bin/zxcv.sig
-[ $? -eq 0 ] || exit 107
+#vähän kiikun kaakun onko fiksua sudottaa noita ao. komentoja , gg tilapäisesti jemmaan 280326
+#if [ ! -z "${gg}" ] ; then
+#	if [ -x ${gg} ] ; then
+#		${odio} ${gg} --verify /opt/bin/zxcv.sig
+#		[ $? -eq 0 ] || exit 107
+#	fi
+#fi
+#
 ${odio} ${sah6} --ignore-missing -c /opt/bin/zxcv
 [ $? -eq 0 ] || exit 108
 
@@ -225,7 +230,9 @@ function clouds_post() {
 
 	if [ ${debug} -eq 1 ] ; then
 		${ipt} -L  #
-		${ip6t} -L #parempi ajaa vain jos löytyy
+		csleep 1
+		dqb "666"
+		${ip6t} -L #olisi parempi ajaa vain jos löytyy
 		csleep 1 #
 	fi #
 
@@ -240,6 +247,7 @@ clouds_pre ${t}
 #t pitäis i johtaa jostain ensin? mode?
 
 [ -f /etc/resolv.conf.${t} ] && ${slinky} /etc/resolv.conf.${t} /etc/resolv.conf
+
 [ -f /etc/dhcp/dhclient.conf.${t} ] && ${slinky} /etc/dhcp/dhclient.conf.${t} /etc/dhcp/dhclient.conf
 [ -f /etc/network/interfaces.${t} ] && ${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 #=================fktiån ulkopuolella olivat nuo 3 riviä==================================================
