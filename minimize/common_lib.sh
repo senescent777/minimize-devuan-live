@@ -909,13 +909,21 @@ function e_e() {
 	csleep 1
 
 	local f
+	local c
+
+	#280326:missä djclient-sctipy hukataan? siihen tarvitsisi kosea vain jos CONF_dnsm
+	#... /o/b/m voisiolla se hukkaaja
+
 	f=$(date +%F)
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
 	if [ -h /etc/resolv.conf ] ; then
 		#ao. tarkistus uusiksi vai ei?
-		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
+		#if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
+		c=$(find /etc -type f -name "resolv.conf.?" | wc -l ) #size-ehto vielä
+
+		if [ ${c} -gt 0 ] ; then 
 			${smr} /etc/resolv.conf
 		fi
 	fi

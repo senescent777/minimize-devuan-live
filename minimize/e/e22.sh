@@ -412,7 +412,7 @@ function e22_acol() {
 #... wdm-juttuja ei vielä vetänyt mukaan, find:in kanssa tarttis jotain tehrä
 
 function e22_sarram() {
-	dqb "e22_sarram()"
+	dqb "e22_sarram(${1} ; ${2} ; ${3} )))))))()))))"
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
@@ -435,10 +435,15 @@ function e22_sarram() {
 		${srat} -rvf ${1} ${f}
 	done	
 
+	dqb "X0RG.D0N3"
+	csleep 1
+
 	for f in $(${odio} find /etc -type f -name '${2}*' -and -not -name '*.202*') ; do
 		${srat} -rvf ${1} ${f}
 	done
 
+	dqb "NEXT:ddm"
+	csleep 1
 	${srat} -rvf ${1} /etc/X11/default-display-manager
 
 	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka?
