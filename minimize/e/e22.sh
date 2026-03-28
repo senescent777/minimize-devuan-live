@@ -171,10 +171,17 @@ function e22_pre2() {
 
 	if [ -d ${1} ] ; then
 		echo $?
-		csleep 1
+		csleep 5
 
-		#HUOM.200326:TLA() tähän väliaikaisesti vai ei?
+		#HUOM.200326:TLA() tähän väliaikaisesti vai ei? nykyään kyllä ifup...
+
+		#280326:tilapäinen viritys kunnes x
+		[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${CONF_dnsm} /etc/resolv.conf
+		ls -las /etc/resolv.*
+		csleep 5  	
+
 		${sifu} ${3}
+		csleep 1
 
 		${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 		${scm} -Rv 700 ${CONF_pkgdir}/partial/
