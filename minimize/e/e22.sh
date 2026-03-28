@@ -415,8 +415,9 @@ function e22_acol() {
 
 #imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
 #020326:ehkä ok sisältö-siat (xorg ja ntp-jutut voisi testata paremmalla ajalla)
+
 #VAIH:toiminnan testaus 230326 -> 
-#... wdm-juttuja ei vielä vetänyt mukaan, find:in kanssa tarttis jotain tehrä
+#... nyt jos 280326 alkaisi olla wdm-jututkin mukana niin testaus etenisi
 
 function e22_sarram() {
 	dqb "e22_sarram(${1} ; ${2} ; ${3} )))))))()))))"
@@ -445,7 +446,10 @@ function e22_sarram() {
 	dqb "X0RG.D0N3"
 	csleep 1
 
-	for f in $(${odio} find /etc -type f -name '${2}*' -and -not -name '*.202*') ; do
+	dqb "${odio} find /etc -type f -name \"${2}*\" S00N"
+	csleep 1
+
+	for f in $(${odio} find /etc -type f -name "${2}*" -and -not -name '*.202*') ; do
 		${srat} -rvf ${1} ${f}
 	done
 
