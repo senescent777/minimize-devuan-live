@@ -331,6 +331,7 @@ function luca() {
 	csleep 2
 
 	#localtime taisi olla linkki, siksi erikseen
+	#... hyväksi testata että tuoreimmat versiot npoista tulevat mukaan
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
 
 	local f
@@ -439,7 +440,8 @@ function e22_sarram() {
 	done
 
 	${srat} -rvf ${1} /etc/X11/default-display-manager
-	#HUOM.tätä varten oli valmiskin palikka?
+
+	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka?
 	${scm} 0555 /etc/iptables
 	${scm} 0400 /etc/iptables/rules*
 	${scm} 0400 /etc/default/rules*
