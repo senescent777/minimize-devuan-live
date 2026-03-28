@@ -224,6 +224,9 @@ function check_bin_0() {
 	[ -z "${gg}" ] || ${gg} --verify /opt/bin/zxcv.sig
 	[ $? -gt 0 ] && echo "dhoulf exit 126"
 
+	${sah6} -c /opt/bin/zxcv
+	[ $? -gt 0 ] && echo "dhoulf exit 1234!!!"
+
 	csleep 1
 	dqb "cb0 done"
 }
@@ -378,6 +381,21 @@ function efk2() {
 	csleep 1
 }
 
+#function wopr() { #jos tarttee ni pios kommenteista
+#	local r=$(find ${1} -type f -name "${1}*.deb" )
+#
+#	for s in ${r} ; do
+#		case "${2}"
+#			reject_pkgs)
+#			;;
+#			accept_pkgs_1|accept_pkgs_2)
+#			;;
+#			*)
+#			;;
+#		esac
+#	done
+#}
+
 function common_lib_tool() {
 	dqb "common_lib_tool( ${1}  , ${2} ) "
 	[ -d ${1} ] || exit 66
@@ -393,13 +411,12 @@ function common_lib_tool() {
 
 	for q in $(grep -v '#' ${1}/${2}) ; do
 		dqb "outer; ${q}"
-		#jatk r pois?
+		#wopr() ?
 		r=$(find ${1} -type f -name "${q}*.deb" )
 
 		for s in ${r} ; do
 			dqb "inner: \${cmd} ${s}"
 
-			#130226:tähän case-seac + pkgs_drop käsdittely vaiko ei?
 			if [ "$2" == "reject_pkgs" ] ; then
 				${NKVD} ${s}
 			else
@@ -1265,9 +1282,8 @@ function part3() {
 	common_lib_tool ${1} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 
+	#270326:jatkossa jotain kikkailua 2 ao. rivin kanssa vai ei?
 	E22_GS="cpp-12 gcc-12-base libstdc++6 libgcc-s1 libc6 libgomp1"
-
-	#140326:näiden 3 kanssa saattaa olla jokin juttu (no mikä?)
 	efk1 ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
 
 	common_lib_tool ${1} accept_pkgs_1
