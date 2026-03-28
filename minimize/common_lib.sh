@@ -214,7 +214,7 @@ function check_bin_0() {
 	export LC_ALL
 	export LANG
 
-	#VAIH:/o/b/zxcv - jutut
+	#280326:/o/b/zxcv - jutut jo kunnossa? vai vielä jotain säätöä?
 	[ -s /opt/bin/zxcv ] || echo "should exit 98"
 	[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
 	[ -s /opt/bin/zxcv.sha ] || echo "should exit 97"
@@ -909,19 +909,28 @@ function e_e() {
 	csleep 1
 
 	local f
+	local c
+
+	#280326:missä djclient-sctipy hukataan? siihen tarvitsisi kosea vain jos CONF_dnsm
+	#... /o/b/m voisiolla se hukkaaja
+
 	f=$(date +%F)
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
+	#280326:pitäisiköhän tämä kohta miettiä uusiksi?
 	if [ -h /etc/resolv.conf ] ; then
 		#ao. tarkistus uusiksi vai ei?
-		if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
+		#if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
+		c=$(find /etc -type f -name "resolv.conf.?" | wc -l ) #size-ehto vielä
+
+		if [ ${c} -gt 0 ] ; then 
 			${smr} /etc/resolv.conf
 		fi
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-	csleep 1
+	csleep 10
 
 	#CONF_iface-tarkistuksen taakse?
 	${sco} -R root:root /etc/wpa_supplicant
@@ -1032,10 +1041,13 @@ function enforce_access() {
 #myös https://github.com/topics/sources-list
 
 function part1_5() {
+	dqb "part1_5()"
+
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	[ -d ${2} ] || exit 68
 	
+	dqb "part1_5().pasr.ko"
 	csleep 1
 	local t
 	t=$(echo ${1} | cut -d '/' -f 1) #nose tr?

@@ -363,8 +363,6 @@ function cptp2() {
 	t=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 	
 	if [ -f ${t}/common_lib.sh ] ; then
-		#VAIH:sha-sig-tarkistus tähän? entä process_lib():iin ?
-					
 		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
 			csleep 1
 			${gg} --verify ${t}/common_lib.sh.sig 		
