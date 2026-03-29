@@ -11,10 +11,13 @@ gbk=-1
 mop=""
 
 function usage() {
-	echo "$0 0 <tgtfile> [distro?] [-v]: makes the main package (new way)"
+	echo "$0 3 <tgtfile> [distro?] [-v]: makes the main package (new way)"
 	echo "$0 4 <tgtfile> [distro?] [-v]: makes lighter main package (just scripts and config)"
-	echo "$0 1 <tgtfile> [distro?] [-v]: makes upgrade_pkg"
+	echo "$0 u <tgtfile> [distro?] [-v]: makes upgrade_pkg"
 	echo "$0 e <tgtfile> [distro?] [-v]: archives the Essential .deb packages"
+	echo
+	
+	echo "$0 l <tgtfile> [-v] [ -d preferred_displaymanager ] makes a packaged containing .deb-files for a (preferred) displaymanager"
 
 	#$d pitäisi alustaa ennen tätä
 	echo "$0 f <tgtfile> [distro?] [-v]: archives .deb Files under ${d0}/\${distro}"
@@ -57,7 +60,7 @@ function parse_opts_1() {
 		;;
 	esac
 
-#	#VAIH:switch...case, esim syystö e2x_dm()
+#290326:jspa tu case-esac esim. toimisi?
 
 }
 
@@ -66,9 +69,7 @@ function parse_opts_2() {
 
 	case "${1}" in
 		-d)
-			#if [ -z "${mop}" ] ; then
-				mop=${2}
-			#fi
+			mop=${2}
 		;;
 		*)
 			dqb " ${1} NOT SUPPORTED"
