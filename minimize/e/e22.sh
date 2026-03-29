@@ -213,6 +213,7 @@ function e22_cleanpkgs() {
 	dqb "done"
 }
 
+#290326:tämän kanssa jotain hatkosäätöä vai ei?
 function e22_config1() {
 	dqb "e22_config1()"
 	[ -z "${1}" ] && exit 11
@@ -237,6 +238,7 @@ function e22_config1() {
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 #nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
 
+#290326:tämän kanssa jotain hatkosäätöä vai ei?
 function e22_settings() {
 	dqb "e22_settings(${1}, ${2}, ${3}, ${4})"
 	[ -z "${1}" ] && exit 11
@@ -261,9 +263,8 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
-#160326:toimi tuolloin aiankin kerran
-#VAIH:testaus (290326)
-#... miten muuten se fediverse.tar juuressa, tekisikö jotain jos toistuu?
+#160326:toimi tuolloin aiNAkin kerran
+#290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa
 
 function e22_home_pre() {
 	dqb "e22_home_pre()"
@@ -298,7 +299,7 @@ function e22_home_pre() {
 	csleep 1
 }
 
-#VAIH:testaus 290326
+#290326:toimii, mutta $3 kanssa ehkä jotain
 function e22_home() {
 	dqb "e22_home()"
 	[ -z "${1}" ] && exit 67
@@ -339,7 +340,7 @@ function luca() {
 	csleep 2
 
 	#localtime taisi olla linkki, siksi erikseen
-	#... hyväksi testata että tuoreimmat versiot npoista tulevat mukaan
+	#josko kokeiliei "g_foit 1" jäljiltä että päivittyvätkö nuo 2 (TODO)
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
 
 	local f
@@ -347,8 +348,9 @@ function luca() {
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 }
 
-# slim/xdm/wdm-spesifinen konfiguraatio saattaa tulla jo mukaan
-#VAIH:testaus.290326
+
+#290326:taitaa toimia
+# slim/xdm/wdm-spesifinen konfiguraatio saattaa tulla jo mukaan myös
 
 function e22_acol() {
 	dqb "e22_acol()"
@@ -417,8 +419,8 @@ function e22_acol() {
 #imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
 #020326:ehkä ok sisältö-siat (xorg ja ntp-jutut voisi testata paremmalla ajalla)
 
-#VAIH:toiminnan testaus 2290326
-#... nyt jos 280326 alkaisi olla wdm-jututkin mukana niin testaus etenisi
+#290326:vissiin toimii
+#... nyt jos 280326 alkaisi olla wdm-jututkin mukana
 
 function e22_sarram() {
 	dqb "e22_sarram(${1} ; ${2} ; ${3} )))))))()))))"
@@ -439,7 +441,6 @@ function e22_sarram() {
 	local f
 	csleep 1
 
-	#josko kopsaisi /e/X11 alle konffin testaustarkoituksissa? nykyään kyllä g_dout kopsailee
 	for f in $(${odio} find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
 		${srat} -rvf ${1} ${f}
 	done	
@@ -481,7 +482,8 @@ function e22_sarram() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#VAIH:testit taas josqs (290326) , osannee lisätä juttuja pakettiin ainakin
+#290326:taitaa toimia
+#tai sen zxcv;b sha-tarkistuksen kanssa jotain kiukuttelua että "tar -t $arch" josqs(TODO)
 function e22_ext() {
 	[ -z "${1}" ] && exit 1
 	[ -d ${1} ] && exit 59
@@ -522,7 +524,6 @@ function e22_ext() {
 
 	cd more_scripts/misc
 	echo $?
-
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
 
 	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
@@ -543,7 +544,7 @@ function e22_ext() {
 	fi
 
 	if [ -f /etc/apt/sources.list ] ; then
-		#local c
+		local c
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
 
 		if [ ${c} -lt 1 ] ; then
@@ -672,7 +673,7 @@ function e22_arch() {
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 #}
 
-#2309326:paketin rakennus onnaa edelleen
+#290326:paketin rakennus onnaa edelleen
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4})"
 

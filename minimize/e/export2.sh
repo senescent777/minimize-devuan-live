@@ -1,6 +1,6 @@
 #!/bin/bash
 #jotain oletuksia kunnes oikea konftdsto saatu lotottua
-debug=1
+debug=0 #1
 distro=$(cat /etc/devuan_version)
 # | cut -d '/' -f 1) #160126 cut-kikkailu pois sotkemasta, muualla kun menee toisin
 d0=$(pwd)
@@ -17,7 +17,7 @@ function usage() {
 	echo "$0 e <tgtfile> [distro?] [-v]: archives the Essential .deb packages"
 	echo
 	
-	echo "$0 l <tgtfile> [-v] [ -d preferred_displaymanager ] makes a packaged containing .deb-files for a (preferred) displaymanager"
+	echo "$0 l <tgtfile> [-v] [ -d preferred_displaymanager ] : makes a packaged containing .deb-files for a (preferred) displaymanager"
 
 	#$d pitäisi alustaa ennen tätä
 	echo "$0 f <tgtfile> [distro?] [-v]: archives .deb Files under ${d0}/\${distro}"
@@ -60,8 +60,7 @@ function parse_opts_1() {
 		;;
 	esac
 
-#290326:jspa tu case-esac esim. toimisi?
-
+	#290326:jspa tu case-esac esim. toimisi?
 }
 
 function parse_opts_2() {
@@ -196,18 +195,17 @@ else
 fi
 
 csleep 1
-#230326:e_jutut vielä tarpeellisia?
+#290326:e_jutut vielä tarpeellisia?
 e_final
 e_h $(whoami) ${d0}
 dqb "EHD0.LL1.N3"
 csleep 1
 
 #HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
-
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
-#110326:pre2:sen parametrit kaikki tarpeellisia kunnes ... ?
+#290326:pre2() 2. param pois?
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
@@ -223,11 +221,9 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#160326:kolmonen saattaa tehdä jo toiMivan tdston
-		#(mikäse g_doit-imp2-juttu oli? "imp2 3" liittyvää?)
-		#nelonen toiminee kanssa (180326, pl. import2 viimeaikaiset kiukuttelut)
-		#VAIH:kolmosen test i vähitellen, paketin osasi jo muodostaa 290326
-
+		#3 toimi 290326 (vai oliko jotain?)
+		#4 toiminee kanssa (180326, pl. import2 viimeaikaiset kiukuttelut)
+		
 		[ -v CONF_default_arhcive3 ] || exit 66
 		dqb "NVDK 1b 5 secs"
 		csleep 5
@@ -294,24 +290,23 @@ case ${mode} in
 		csleep 1
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
-	e) #170326:ehkä jopa toimii
+	e) #290326:ehkä jopa toimii koska "$0 3"
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e23_other_pkgs ${CONF_dnsm}
 	;;
 	t) 
-		#160326:osaa paketin tehdä, sis asentumista ei vielä testattu
+		#290326:osaa paketin tehdä, todnäk asentuu myös
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;	
 	g)
 	#230326:edelleen osaa paketin tehdä
-		#e23_ghi #${tgtfile} ${d0} ${distro}
 		${shary} ${E22GI}
 	;;
-	l) #VAIH:testaus (230236) (ainakin paketin rakennus onnnistuu 230326)
+	l) #290326:toimii edelleen/taas
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}

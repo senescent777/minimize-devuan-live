@@ -19,7 +19,7 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 	esac
 }
 
-function e23_tblz() { #VAIH:toiminnan testaus (290326)
+function e23_tblz() { #290326:toimii
 	dqb "e23_tblz()"
 	csleep 2
 
@@ -51,10 +51,11 @@ function e23_tblz() { #VAIH:toiminnan testaus (290326)
 
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
 #HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
+
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
 #... siinä ulkoistuksessa on kyllä semmoinen juttu
 
-#VAIH:joskus taas muutosten testit (290326)
+#290326:toimii
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -147,14 +148,6 @@ function e23_upgp2() {
 	csleep 1
 }
 
-#180326:osasi paketin tehdä edelleen ja sisältö asentiu myös, kuten odotettua
-#function e23_ghi() {
-#
-#	dqb "ghi.aps.0k"
-#	csleep 1
-#	 #common_lib
-#}
-#
 #170326:taitaa toimia, paketin teko ja sisältö
 function e23_qrs() {
 	dqb "e23_qrs()"
@@ -198,7 +191,7 @@ function e23_qrs() {
 	csleep 3
 }
 
-#VAIH:testaa uusicksi 666 (ainakin paketin rakennus onnnistuu 230326)
+#290326:toimii
 function e23_dm() {
 	dqb "e23_dm(${1})"
 	[ -z "${1}" ] && exit 11
