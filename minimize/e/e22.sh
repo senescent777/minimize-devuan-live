@@ -55,6 +55,7 @@ function e22_hdr() {
 
 #tark-. olla priv fktio
 #170326:taitaa olla toimiva fktio nykyään (ellei toisin todisteta)
+#290326:toimii edelleen?
 function e22_tyg() {
 	dqb " e22_tyg()"
 
@@ -114,7 +115,7 @@ function e22_ftr() {
 	csleep 1
 }
 
-#170326:lienee ok
+#290326:lienee delleen ok?
 function e22_pre1() {
 	dqb "e22_pre1()"
 	[ -z "${1}" ] && exit 65
@@ -261,7 +262,7 @@ function e22_settings() {
 }
 
 #160326:toimi tuolloin aiankin kerran
-#VAIH:testaus uusicksi josqs (aubnakin 230326 osasi pakettiin lisätä juttuja)
+#VAIH:testaus (290326)
 #... miten muuten se fediverse.tar juuressa, tekisikö jotain jos toistuu?
 
 function e22_home_pre() {
@@ -297,7 +298,7 @@ function e22_home_pre() {
 	csleep 1
 }
 
-#VAIH:testaus uusicksi, 230326 osasi juttuja lisätä pakettiin, sisällön kelvollisuus vielä
+#VAIH:testaus 290326
 function e22_home() {
 	dqb "e22_home()"
 	[ -z "${1}" ] && exit 67
@@ -346,8 +347,8 @@ function luca() {
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 }
 
-#... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan vai tuleeko?
-#VAIH:testaus.uusiksi,230326, bissiin vetää mukaan ne mitä pitää
+# slim/xdm/wdm-spesifinen konfiguraatio saattaa tulla jo mukaan
+#VAIH:testaus.290326
 
 function e22_acol() {
 	dqb "e22_acol()"
@@ -416,7 +417,7 @@ function e22_acol() {
 #imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
 #020326:ehkä ok sisältö-siat (xorg ja ntp-jutut voisi testata paremmalla ajalla)
 
-#VAIH:toiminnan testaus 230326 -> 
+#VAIH:toiminnan testaus 2290326
 #... nyt jos 280326 alkaisi olla wdm-jututkin mukana niin testaus etenisi
 
 function e22_sarram() {
@@ -480,11 +481,8 @@ function e22_sarram() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#VAIH:testit taas josqs (230326) , osannee lisätä juttuja pakettiin ainakin
+#VAIH:testit taas josqs (290326) , osannee lisätä juttuja pakettiin ainakin
 function e22_ext() {
-	#/o/b liittyvää käsittelyä uusicksi sittenq
-	#... millä tavall auusiksi?
-
 	[ -z "${1}" ] && exit 1
 	[ -d ${1} ] && exit 59
 	[ -f ${1} ] || exit 67

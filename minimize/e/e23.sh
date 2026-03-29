@@ -19,7 +19,7 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 	esac
 }
 
-function e23_tblz() { #170326:osasi paketin tehdä, eHkä toimii sisältökin
+function e23_tblz() { #VAIH:toiminnan testaus (290326)
 	dqb "e23_tblz()"
 	csleep 2
 
@@ -54,9 +54,7 @@ function e23_tblz() { #170326:osasi paketin tehdä, eHkä toimii sisältökin
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
 #... siinä ulkoistuksessa on kyllä semmoinen juttu
 
-
-
-#TODO:joskus taas muutosten testit
+#VAIH:joskus taas muutosten testit (290326)
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -104,12 +102,7 @@ function e23_other_pkgs() {
 	dqb "e23_other_pkgs() DONE"
 	csleep 2
 }
-#
-#
-#function e23_n() {
-#	
-#}
-#
+
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 
 #280326:saa aikaiseksi paketin, sisällön testaus vielä

@@ -226,7 +226,7 @@ case ${mode} in
 		#160326:kolmonen saattaa tehdä jo toiMivan tdston
 		#(mikäse g_doit-imp2-juttu oli? "imp2 3" liittyvää?)
 		#nelonen toiminee kanssa (180326, pl. import2 viimeaikaiset kiukuttelut)
-		#TODO:kolmosen test i vähitellen
+		#VAIH:kolmosen test i vähitellen, paketin osasi jo muodostaa 290326
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		dqb "NVDK 1b 5 secs"
@@ -318,11 +318,7 @@ case ${mode} in
 	;;
 	n)
 		#VAIH:ntp-jutut takaisin josqs?
-		#tables-säännöt vissiin ok
-		#ja ainakin oletus-konf löytyy
-		#niin että
 
-		#VAIH:fktio käyttöön exp2 kautta, vaiko sisältö kokonaan exp2:seen?	
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;
@@ -332,7 +328,7 @@ case ${mode} in
 esac
 
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
-	e22_hdr ${d}/f.tar #140326:pitäisiköhän tämä kohta muuttaa?
+	e22_hdr ${d}/f.tar #140326:pitäisiköhän tämä kohta muuttaa? miten?
 
 	#HUOM.11326:d-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
 	#... voisi sitäpaitsi kys fktion räjäyttää auki q käytössä vain 1 paikasta
