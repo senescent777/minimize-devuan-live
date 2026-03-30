@@ -224,9 +224,11 @@ function check_bin_0() {
 	[ -z "${gg}" ] || ${gg} --verify /opt/bin/zxcv.sig
 	[ $? -gt 0 ] && echo "dhoulf exit 126"
 
-	#TODO:cd / , ignore-missing
+	local p=$(pwd)
+	cd /
 	${sah6} -c /opt/bin/zxcv
 	[ $? -gt 0 ] && echo "dhoulf exit 1234!!!"
+	cd ${p}
 
 	csleep 1
 	dqb "cb0 done"
@@ -921,6 +923,7 @@ function e_e() {
 	#... /o/b/m voisiolla se hukkaaja
 
 	f=$(date +%F)
+	#TODO:jotain lisäsäätöä resolv.conf kanssa vielä, jossain skriptissä
 	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
