@@ -754,7 +754,7 @@ function e22_dblock() {
 #}
 
 #TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen?
-#190326:toimii sqrootissa edelleen pakeTin sisältö ?
+#290326:toimii sqrootissa edelleen pakeTin sisältö ? (TODO:testaus)
 
 function e22_cde() {
 	dqb "e22_cde()"

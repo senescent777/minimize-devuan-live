@@ -37,6 +37,7 @@ if [ $# -gt 0 ] ; then
 fi
 
 #TODO:jos järjestelisi tämän kikkareen uudestaan sittenq sqroot-testit seur kerran tehty
+#... JOKO JO 300236?
 
 #190326:alkaisikohan kohta asettua parsetus?  (liittyyköhän tables/gpg asiaan?)
 #180326:liittyyköhän check_bin():in "ocs ipt" tuohon viimeaikaiseen kiukutteluun?

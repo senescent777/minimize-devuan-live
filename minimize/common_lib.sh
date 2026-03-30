@@ -224,6 +224,7 @@ function check_bin_0() {
 	[ -z "${gg}" ] || ${gg} --verify /opt/bin/zxcv.sig
 	[ $? -gt 0 ] && echo "dhoulf exit 126"
 
+	#TODO:cd / , ignore-missing
 	${sah6} -c /opt/bin/zxcv
 	[ $? -gt 0 ] && echo "dhoulf exit 1234!!!"
 
@@ -556,29 +557,34 @@ function check_binaries() {
 
 	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
 	#210326:tables ei niin oleellinen etstiympäristössä niimn että voisi toisaalta palauttaakin tämän 
-	#if [ ! -v CONF_testgris ] ; then
-	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
-		[ -z "${1}" ] && exit 99
-		[ -d ${1} ] || exit 101
+
+	if [ ! -v CONF_testgris ] ; then #290326:testgris pois sittenq common_funcs:iin lotottu parametrit check_bin:ille
+		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
+			[ -z "${1}" ] && exit 99
+			[ -d ${1} ] || exit 101
 			
-		#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
-		cefgh ${1}
-		common_pp3 ${1}
-	fi
-		
-	#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
-	if [ -z "${gg}" ] ; then
-			CB01 ${1}
+			#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
+			cefgh ${1}
+			common_pp3 ${1}
+		fi
+	else
+		echo "TODO: common_funcs.sh"
 	fi
 	
-	if [ -z "${ipt}" ] ; then
+	#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
+	if [ -z "${gg}" ] ; then
+		CB01 ${1}
+	fi
+	
+	if [ -z "${ipt}" ] && [ ! -v CONF_testgris ] ; then #TODO:jäölk tarq pois sittenbq
 		CB02 ${1}
 	fi
 
-	ls ${1}/*.deb | wc -l
-	csleep 3
-	for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
-	#fi #tstgris
+	if [ ! -v CONF_testgris ] ; then #TODO:jäölk
+		ls ${1}/*.deb | wc -l
+		csleep 3
+		for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
+	fi #tstgris
 	
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
