@@ -157,8 +157,6 @@ function el_loco() {
 		${odio} locale-gen
 	fi
 
-	#pitäisiköhän localtime ja timezone delliä jossain kohtaa jollain ehdolla?
-
 	if [ ${2} -lt 1 ] ; then
 		${svm} /etc/default/locale /etc/default/locale.ÅLD
 		fasdfasd /etc/default/locale
@@ -275,6 +273,7 @@ if [ ${mode} -gt 1 ] ; then #nollasta ei tarttisi välittää koska exit aiempan
 	fi
 fi
 
+#josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta?
 el_loco ${c14} ${c13}
 #=========================================================================================
 

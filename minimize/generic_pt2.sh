@@ -42,10 +42,14 @@ fi
 [ -z "${distro}" ] && exit 6
 dqb "BEFORE L1B"
 process_lib ${d}
+csleep 2
 
 e_final
-e_h ${n} ${d0} 
-#TODO:tbl ja aftr tähän? vai ko TLA()
+csleep 2
+e_h $(whoami) ${d0} 
+csleep 2
+
+#VAIH:tbl ja aftr tähän? vai ko TLA()
 #if [ -x /opt/bin/changedns.bash ] ; then
 #	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
 #else
@@ -57,7 +61,16 @@ e_h ${n} ${d0}
 #	fi
 #fi
 
+#jos vaikka näin?
+${sifd} ${CONF_iface}
+csleep 2
+${odio} /opt/bin/tlb.bash
+csleep 2
+${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+csleep 2
 ${fib}
+csleep 2
+
 dqb "distro=${distro}"
 dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "

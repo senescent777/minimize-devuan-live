@@ -630,8 +630,9 @@ function check_binaries2() {
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
 
-	#lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 
-	#	
+	#VAIH:pois kommenteista lftr tai sitten sen jonkin /etc/kernel-jekun hyödyntämisen kokeilu
+	lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 
+		
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing '/run/live/medium/live/initrd.img.new': No space left on device
 	#
@@ -923,15 +924,15 @@ function e_e() {
 	#... /o/b/m voisiolla se hukkaaja
 
 	f=$(date +%F)
-	#TODO:jotain lisäsäätöä resolv.conf kanssa vielä, jossain skriptissä
-	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
+	#VAIH:jotain lisäsäätöä resolv.conf kanssa vielä, jossain skriptissä?
+	[ -f /etc/resolv.conf.${f} ] || ${svm} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
 	#280326:pitäisiköhän tämä kohta miettiä uusiksi?
 	if [ -h /etc/resolv.conf ] ; then
 		#ao. tarkistus uusiksi vai ei?
 		#if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
-		c=$(find /etc -type f -name "resolv.conf.?" | wc -l ) #size-ehto vielä
+		c=$(find /etc -type f -name "resolv.conf.*" | wc -l ) #size-ehto vielä (VAIH)
 
 		if [ ${c} -gt 0 ] ; then 
 			${smr} /etc/resolv.conf
