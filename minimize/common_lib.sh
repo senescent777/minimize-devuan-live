@@ -84,8 +84,6 @@ function fix_sudo() {
 
 function other_horrors() {
 	dqb "other_horrors"
-	#020236:josko toimisi uudella tavalla paremmin?
-	#${scm} 0400 /etc/iptables/*
 
 	for f in $(${odio} find /etc -type f -name 'rules.*') ; do
 		${sco} -R root:root ${f}
@@ -224,9 +222,11 @@ function check_bin_0() {
 	[ -z "${gg}" ] || ${gg} --verify /opt/bin/zxcv.sig
 	[ $? -gt 0 ] && echo "dhoulf exit 126"
 
-	#TODO:cd / , ignore-missing
+	local p=$(pwd)
+	cd /
 	${sah6} -c /opt/bin/zxcv
 	[ $? -gt 0 ] && echo "dhoulf exit 1234!!!"
+	cd ${p}
 
 	csleep 1
 	dqb "cb0 done"
@@ -236,10 +236,7 @@ check_bin_0
 
 function jules() {
 	dqb "LE BIG MAC"
-
-	#${spc} /etc/default/rules.* /etc/iptables
 	csleep 1
-
 	other_horrors
 	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 	csleep 1
@@ -263,7 +260,7 @@ function psqa() {
 	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
 	csleep 1
 
-	#dpkg -V oli tässä josqs
+	#dpkg -V oli tässä josqs , [ -v ] takana
 
 	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then
 		dqb "S( ${1} )"
@@ -382,7 +379,7 @@ function efk2() {
 	csleep 1
 }
 
-#function wopr() { #jos tarttee ni pios kommenteista
+#function wopr() { #jos tarttee ni pios kommenteista (jokojo vähitellen?)
 #	local r=$(find ${1} -type f -name "${1}*.deb" )
 #
 #	for s in ${r} ; do
@@ -467,6 +464,7 @@ function cefgh() {
 	dqb "pars ok"
 	csleep 1
 
+	#pitäisiköhän noissa poistelöuissa olla jotain muitakin ehtoja?
 	efk2 ${1}/e.tar
 	[ $? -eq 0 ] && ${NKVD} ${1}/e.tar
 
@@ -482,17 +480,19 @@ function CB01() {
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
 
-	#160326:mv-komennon kanssa oli jotain urputusta? vissiin tämän?
-	[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt.bak
-	efk2 ${1}/g.tar ${1}
+#010426:txt.bak tilapäisesti pois sotkemasta, ehkä takaisin kommnetietsta josqs
+#	[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt ${1}/sha512sums.txt.bak
+#	efk2 ${1}/g.tar ${1}
+
 	common_pp3 ${1}
-	[ -s ${1}/g.tar ] && ${spc} ${1}/g.tar ${1}/g.tar.bak
-	[ $? -eq 0 ] && ${NKVD} ${1}/g.tar
-	
-	#160326:mv-komennon kanssa oli jotain urputusta?
-	[ -s ${1}/g.tar.bak ] && ${svm} ${1}/g.tar.bak ${1}/g.tar
-	common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisältö purun jälkeen
-	
+
+#	[ -s ${1}/g.tar ] && ${spc} ${1}/g.tar ${1}/g.tar.bak
+#	[ $? -eq 0 ] && ${NKVD} ${1}/g.tar
+#	
+#	#josdpa nyt jaksaisi mv taas toimia ulisematta
+#	[ -s ${1}/g.tar.bak ] && ${svm} ${1}/g.tar.bak ${1}/g.tar
+
+	common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen	
 	for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
 	csleep 1
 	
@@ -500,10 +500,9 @@ function CB01() {
 	gv=$(${odio} which gpgv)
 	csleep 1
 	
-	#160326:mv-komennon kanssa oli jotain urputusta?
-	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt
+#	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt.bak ${1}/sha512sums.txt
 	common_pp3 ${1}
-	}
+}
 
 function CB02() {
 	dqb "CB02()"
@@ -548,6 +547,7 @@ function check_binaries() {
 	sdi="${odio} ${sd0} -i "
 	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
+	#010426:dhcp-jutut erilleen jatkossa?
 	E22_GT="isc-dhcp-client isc-dhcp-common libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
 	E22_GT="${E22_GT} iptables"
 	E22_GT="${E22_GT} init-system-helpers" # iptables-persistent netfilter-persistent
@@ -555,36 +555,30 @@ function check_binaries() {
 	E22_GU="isc-dhcp libnfnet libnetfilter libxtables libnftnl libnl-3-200 libnl-route libnl"
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
 
-	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
-	#210326:tables ei niin oleellinen etstiympäristössä niimn että voisi toisaalta palauttaakin tämän 
-
-	if [ ! -v CONF_testgris ] ; then #290326:testgris pois sittenq common_funcs:iin lotottu parametrit check_bin:ille
-		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
-			[ -z "${1}" ] && exit 99
-			[ -d ${1} ] || exit 101
+	#HUOM. gpg:n opistumis-ongelmalle voisi vähitellen keksiä ratkaisun prkl
+	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
+		[ -z "${1}" ] && exit 99
+		[ -d ${1} ] || exit 101
 			
-			#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
-			cefgh ${1}
-			common_pp3 ${1}
-		fi
-	else
-		echo "TODO: common_funcs.sh"
+		#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
+		cefgh ${1}
+		common_pp3 ${1}
 	fi
-	
+
 	#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
 	if [ -z "${gg}" ] ; then
 		CB01 ${1}
 	fi
 	
-	if [ -z "${ipt}" ] && [ ! -v CONF_testgris ] ; then #TODO:jäölk tarq pois sittenbq
+	if [ -z "${ipt}" ] ; then
 		CB02 ${1}
 	fi
 
-	if [ ! -v CONF_testgris ] ; then #TODO:jäölk
+	#jäölk ÄYÖYÄ SDDFSDSDGH t. Aku Snkka
 		ls ${1}/*.deb | wc -l
 		csleep 3
 		for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
-	fi #tstgris
+	#fi #tstgris
 	
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
@@ -628,8 +622,13 @@ function check_binaries2() {
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
 
-	#lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 
-	#	
+	#VAIH:pois kommenteista lftr tai sitten sen jonkin /etc/kernel-jekun hyödyntämisen kokeilu
+	#... toimii vai ei?
+
+	INITRD=No
+	export INITRD
+	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
+		
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing '/run/live/medium/live/initrd.img.new': No space left on device
 	#
@@ -655,7 +654,8 @@ function TLA() {
 	#3. ehto pois jatkossa vai ei?
 	#200326:toimiikohan tarkistus toivotulla tavalla?
 	#210326:tla() ja sqroot? jos on pedantti niin tuollakin yhdostelmällä piytäisi tables-säännöt muuttaa...
-	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] ||  [ -f /.chroot ]  ; then
+
+	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ -f /.chroot ] ; then #010426:antaa toistaiseksi o.lla viimiei n eht0
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
 		if [ ! -v CONF_testgris ] ; then 
@@ -690,7 +690,7 @@ function process_lib() {
 
 	#jospa jatkossa c_b if-blokin jälkeen jokatap? silloin syytä tark että common_lib sisältää x.-oik
 	check_binaries ${1}
-	[ $? -eq 0 ] || dqb "SHOULD exit 67" #tilap jemmaan 020326 , jokin qsee
+	[ $? -eq 0 ] || dqb "SHOULD exit 67"
 
 	check_binaries2
 	[ $? -eq 0 ] || dqb "SHOULD exit 68 också"
@@ -778,7 +778,7 @@ function fasdfasd() {
 	${scm} 0644 ${1}
 }
 
-#olisiko jokin palikka jo aiemmin? e_jutut ? mangle2() ?
+#olisiko jokin palikka jo aiemmin? e_jutut ? mangle2() ? ei ihan täsmä lleen kumpikaan
 function reqwreqw() {
 	[ -z "${1}" ] && exit 99
 	[ -f ${1} ] || exit 100 #takaisn josqs? miksi?
@@ -892,7 +892,7 @@ function mangle2() {
 	fi
 }
 
-#210326:/e alaisten tdstojen linkitttämiseen liittyVÄ JUTTU Tidnbäk toisessa skriptissä sijaitsee nykyään
+#010426:pitäisiköhän vähän miettiä mistä tätä ao. fkftiota tarpeellista kutsua ja mistä ei?
 
 function e_e() {
 	csleep 1
@@ -908,9 +908,9 @@ function e_e() {
 	${sco} -R root:root /etc
 	${scm} 0555 /etc/network
 
-	#vihje:ei tarvinne erikseen -R koska ylempänä
+
 	${scm} 0444 /etc/network/*
-	#${sco} root:root /etc/network
+
 	for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
 	csleep 1
 
@@ -921,14 +921,14 @@ function e_e() {
 	#... /o/b/m voisiolla se hukkaaja
 
 	f=$(date +%F)
-	[ -f /etc/resolv.conf.${f} ] || ${spc} /etc/resolv.conf /etc/resolv.conf.${f}
+
+	[ -f /etc/resolv.conf.${f} ] || ${svm} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
 	#280326:pitäisiköhän tämä kohta miettiä uusiksi?
 	if [ -h /etc/resolv.conf ] ; then
-		#ao. tarkistus uusiksi vai ei?
-		#if [ -s /etc/resolv.conf.0 ] && [ -s /etc/resolv.conf.1 ] ; then
-		c=$(find /etc -type f -name "resolv.conf.?" | wc -l ) #size-ehto vielä
+		#tarkistus hyvä näin vai ei?
+		c=$(find /etc -type f -name "resolv.conf.*" | wc -l ) #size-ehto vielä (VAIH)
 
 		if [ ${c} -gt 0 ] ; then 
 			${smr} /etc/resolv.conf
@@ -991,10 +991,6 @@ function e_h() {
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
 	local m=0555
 
-	#if [ ${debug} -gt 0 ] ; then
-	#	m=0755
-	#fi
-
 	#tämäkö siihen "-v vs ei -v"-temppuiluun liittyy?
 	for f in $(find ${2} -type f -name '*.sh' ) ; do ${scm} ${m} ${f} ; done
 	csleep 1
@@ -1012,7 +1008,7 @@ function e_h() {
 #150326:ehkä tämäkin toimii
 function e_final() {
 	csleep 1
-	#${scm} a-w /opt/bin/*
+
 	${scm} go-rw /opt/bin/*
 	${scm} 0400 /opt/bin/*.sh
 	${scm} 0511 /opt/bin/*.bash
@@ -1044,7 +1040,7 @@ function enforce_access() {
 }
 
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
-#myös https://github.com/topics/sources-list
+#kts myös https://github.com/topics/sources-list
 
 function part1_5() {
 	dqb "part1_5()"
@@ -1300,9 +1296,9 @@ function part3() {
 	common_lib_tool ${1} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 
-	#270326:jatkossa jotain kikkailua 2 ao. rivin kanssa vai ei?
+	#270326:jatkossa jotain kikkailua 2 ao. rivin kanssa vai ei? wopr() vähitellebn...
 	E22_GS="cpp-12 gcc-12-base libstdc++6 libgcc-s1 libc6 libgomp1"
-	efk1 ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
+	efk1 ${1}/libgcc-s1*.deb ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
 
 	common_lib_tool ${1} accept_pkgs_1
 	common_lib_tool ${1} accept_pkgs_2

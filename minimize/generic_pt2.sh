@@ -42,22 +42,26 @@ fi
 [ -z "${distro}" ] && exit 6
 dqb "BEFORE L1B"
 process_lib ${d}
+csleep 2
 
 e_final
-e_h ${n} ${d0} 
-#TODO:tbl ja aftr tähän? vai ko TLA()
-#if [ -x /opt/bin/changedns.bash ] ; then
-#	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
-#else
-#	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
-#		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
-#	else
-#		dqb "changedns not an option"
-#		csleep 5
-#	fi
-#fi
+csleep 2
+e_h $(whoami) ${d0} 
+csleep 2
 
+#jos vaikka näin?
+[ -v CONF_iface ] && ${sifd} ${CONF_iface}
+csleep 2
+${odio} /opt/bin/tlb.bash
+csleep 2
+
+#020426:[ -v] taakse ao. rivi?
+${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+
+csleep 2
 ${fib}
+csleep 2
+
 dqb "distro=${distro}"
 dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
@@ -149,7 +153,7 @@ function p2g() {
 #
 
 function t2pf() {
-	dqb "common_lib.T2P.FINAL( ${1} )"
+	dqb "gp2t.common_lib.T2P.FINAL( ${1} )"
 	csleep 1
 
 	${NKVD} ${CONF_pkgdir}/*.deb
@@ -164,7 +168,7 @@ function t2pf() {
 	#fiksumpaa olisi kai muutella import2:ssa vastaava kohta
 	${NKVD} /OLD.tar
 	csleep 1
-	${srat} /OLD.tar /etc/X11
+	${srat} -cvf /OLD.tar /etc/X11 #TARKKUUTTA PRKL
 
 	for f in $(find /var/log -type f) ; do ${NKVD} ${f} ; done
 	df
