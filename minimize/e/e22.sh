@@ -115,7 +115,7 @@ function e22_ftr() {
 	csleep 1
 }
 
-#290326:lienee delleen ok?
+#20426:lienee delleen ok?
 function e22_pre1() {
 	dqb "e22_pre1()"
 	[ -z "${1}" ] && exit 65
@@ -263,9 +263,9 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
-#160326:toimi tuolloin aiNAkin kerran
 #290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa? (vielä 020426?)
 #TODO:testgirs-ehto mukaan suoritukseen vai ei?
+#20426:edelleen toimii?
 
 function e22_home_pre() {
 	dqb "e22_home_pre()"
@@ -302,6 +302,7 @@ function e22_home_pre() {
 
 #290326:toimii, mutta $3 kanssa ehkä jotain
 #TODO:testgirs-ehto mukaan suoritukseen vai ei?
+#29426:edelleen toimii?
 
 function e22_home() {
 	dqb "e22_home()"
@@ -352,7 +353,7 @@ function luca() {
 }
 
 
-#290326:taitaa toimia
+#204226:toimii edelleen?
 # slim/xdm/wdm-spesifinen konfiguraatio saattaa tulla jo mukaan myös
 #020426:ei vedä verkosta mitään ni ei tartte lisätestejä?
 
@@ -423,8 +424,8 @@ function e22_acol() {
 #imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
 #020326:ehkä ok sisältö-siat (xorg ja ntp-jutut voisi testata paremmalla ajalla)
 
-#290326:vissiin toimii
-#... nyt jos 280326 alkaisi olla wdm-jututkin mukana
+#20426:edelleen toimii?
+
 #020426:vissiin ai tarvitse lisätestejä koska ei vedä verkosta mitään
 
 function e22_sarram() {
@@ -446,6 +447,7 @@ function e22_sarram() {
 	local f
 	csleep 1
 
+	#TODO:hipsut wttuun
 	for f in $(${odio} find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
 		${srat} -rvf ${1} ${f}
 	done	
@@ -471,6 +473,8 @@ function e22_sarram() {
 
 	#150326:nalkutusta ruleksien käyttöopikeukissta, tee jotain? (vielä 230326?)
 	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
+
+	#TODO:hispujen liskäsi karsittava hmiston minimize.OLD alaiset
 	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
 
 	#230326:ntp-jtut näyttäisi vetävän mukaan
@@ -487,7 +491,7 @@ function e22_sarram() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#290326:taitaa toimia
+#20426:toimii edelleen/taas?
 #tai sen zxcv;b sha-tarkistuksen kanssa jotain kiukuttelua että "tar -t $arch" josqs(TODO)
 #TODO:verkkoyhteyttä vaativat jutut vain jos testgris ei asetrettu? vaiko kutsuvan koodin puolella tarkistus?
 
@@ -511,7 +515,7 @@ function e22_ext() {
 	local r
 	local st
 
-	csleep 1
+	csleep 1 #TODO:devugin latensseja jos taas karsisisisi
 	p=$(pwd)
 
 	#q=$(${mkt} -d) #ei vaan toimi näin?

@@ -483,14 +483,16 @@ function CB01() {
 #010426:txt.bak tilapäisesti pois sotkemasta, ehkä takaisin kommnetietsta josqs
 #	[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt ${1}/sha512sums.txt.bak
 #	efk2 ${1}/g.tar ${1}
+
 	common_pp3 ${1}
+
 #	[ -s ${1}/g.tar ] && ${spc} ${1}/g.tar ${1}/g.tar.bak
 #	[ $? -eq 0 ] && ${NKVD} ${1}/g.tar
 #	
 #	#josdpa nyt jaksaisi mv taas toimia ulisematta
 #	[ -s ${1}/g.tar.bak ] && ${svm} ${1}/g.tar.bak ${1}/g.tar
-	common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen
-	
+
+	common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen	
 	for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
 	csleep 1
 	

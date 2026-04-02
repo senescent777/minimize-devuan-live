@@ -198,7 +198,7 @@ csleep 1
 #290326:e_jutut vielä tarpeellisia?
 e_final
 e_h $(whoami) ${d0}
-dqb "EHD0.LL1.N3"
+dqb "EHD0.LL1.N3 1v2k"
 csleep 1
 
 #HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
@@ -221,7 +221,7 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#3 toimi 290326 (vai oliko jotain?)
+		#3 toiminnan testaus menossa taas (020426)
 		#4 toiminee kanssa (180326, pl. import2 viimeaikaiset kiukuttelut)
 		
 		[ -v CONF_default_arhcive3 ] || exit 66
@@ -326,13 +326,16 @@ case ${mode} in
 esac
 
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
-	e22_hdr ${d}/f.tar #140326:pitäisiköhän tämä kohta muuttaa? miten?
+	e22_hdr ${d}/f.tar
+	#140326:pitäisiköhän tämä kohta muuttaa? miten?
 
 	#HUOM.11326:d-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
 	#... voisi sitäpaitsi kys fktion räjäyttää auki q käytössä vain 1 paikasta
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 
-	e22_ftr ${d}/f.tar  #140326:pitäisiköhän tämä kohta muuttaa? miten?
+	e22_ftr ${d}/f.tar
+	#140326:pitäisiköhän yo. kohta muuttaa? miten? miksi?
+
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
 fi

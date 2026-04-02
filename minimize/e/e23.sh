@@ -22,7 +22,7 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 	esac
 }
 
-function e23_tblz() { #290326:toimii
+function e23_tblz() { #20426:toimii edelleen?
 	dqb "e23_tblz()"
 	csleep 2
 
@@ -58,11 +58,11 @@ function e23_tblz() { #290326:toimii
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
 #... siinä ulkoistuksessa on kyllä semmoinen juttu
 
-#290326:toimii
+#20426:toimiie delleen?
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
-	csleep 1
+	csleep 1 #TODO:latemnsseja vähemmäksi?
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
 
