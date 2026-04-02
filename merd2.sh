@@ -31,7 +31,7 @@ else
 fi
 
 if [ ! -z "${branch}" ] ; then
-	branch="--branch ${branch}"
+	branch="--branch ${branch}" #tr-jekku tähän vielä?
 fi
 
 dqb "branch=${branch}"
@@ -50,7 +50,7 @@ ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 dqb "TGI KO"
 csleep 2
 
-#VAIH:jos vähitellen testaisi toimintaa taas
+#020426:toimii
 mv minimize minimize.OLD
 mv ${CONF_PT2}/* .
 
