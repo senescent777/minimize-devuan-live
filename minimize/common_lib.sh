@@ -555,17 +555,16 @@ function check_binaries() {
 	E22_GU="isc-dhcp libnfnet libnetfilter libxtables libnftnl libnl-3-200 libnl-route libnl"
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
 
-
-		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
-			[ -z "${1}" ] && exit 99
-			[ -d ${1} ] || exit 101
+	#HUOM. gpg:n opistumis-ongelmalle voisi vähitellen keksiä ratkaisun prkl
+	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
+		[ -z "${1}" ] && exit 99
+		[ -d ${1} ] || exit 101
 			
-			#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
-			cefgh ${1}
-			common_pp3 ${1}
-		fi
+		#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
+		cefgh ${1}
+		common_pp3 ${1}
+	fi
 
-	
 	#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
 	if [ -z "${gg}" ] ; then
 		CB01 ${1}
@@ -575,7 +574,7 @@ function check_binaries() {
 		CB02 ${1}
 	fi
 
-	#if [ ! -v CONF_testgris ] ; then VAIH:jäölk ÄYÖYÄ SDDFSDSDGH t. Aku Snkka
+	#jäölk ÄYÖYÄ SDDFSDSDGH t. Aku Snkka
 		ls ${1}/*.deb | wc -l
 		csleep 3
 		for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
@@ -624,6 +623,8 @@ function check_binaries2() {
 	sifd="${odio} ${sifd} "
 
 	#VAIH:pois kommenteista lftr tai sitten sen jonkin /etc/kernel-jekun hyödyntämisen kokeilu
+	#... toimii vai ei?
+
 	INITRD=No
 	export INITRD
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
@@ -990,10 +991,6 @@ function e_h() {
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
 	local m=0555
 
-	#if [ ${debug} -gt 0 ] ; then
-	#	m=0755
-	#fi
-
 	#tämäkö siihen "-v vs ei -v"-temppuiluun liittyy?
 	for f in $(find ${2} -type f -name '*.sh' ) ; do ${scm} ${m} ${f} ; done
 	csleep 1
@@ -1011,7 +1008,7 @@ function e_h() {
 #150326:ehkä tämäkin toimii
 function e_final() {
 	csleep 1
-	#${scm} a-w /opt/bin/*
+
 	${scm} go-rw /opt/bin/*
 	${scm} 0400 /opt/bin/*.sh
 	${scm} 0511 /opt/bin/*.bash
@@ -1299,7 +1296,7 @@ function part3() {
 	common_lib_tool ${1} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 
-	#270326:jatkossa jotain kikkailua 2 ao. rivin kanssa vai ei? wopr() ...
+	#270326:jatkossa jotain kikkailua 2 ao. rivin kanssa vai ei? wopr() vähitellebn...
 	E22_GS="cpp-12 gcc-12-base libstdc++6 libgcc-s1 libc6 libgomp1"
 	efk1 ${1}/libgcc-s1*.deb ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
 

@@ -113,7 +113,7 @@ if [ -z "${mkt}" ] ; then
 fi
 
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
-sleep 2
+sleep 1
 
 #dirnamen kanssa ei oikein toiminut aiemmin
 if [ -x ${d0}/e/e22.sh ] ; then
@@ -123,7 +123,7 @@ if [ -x ${d0}/e/e22.sh ] ; then
 
 	.  ${d0}/e/e23.sh
 	[ $? -gt 0 ] && exit 67
-	csleep 2
+	csleep 1
 else
 	echo "NO BACKEND FOUND"
 	exit 58
@@ -225,8 +225,8 @@ case ${mode} in
 		#4 toiminee kanssa (180326, pl. import2 viimeaikaiset kiukuttelut)
 		
 		[ -v CONF_default_arhcive3 ] || exit 66
-		dqb "NVDK 1b 5 secs"
-		csleep 5
+		dqb "NVDK 1b 2 secs"
+		csleep 2
 
 		${NKVD} /opt/bin/zxcv.tmp
 		${spc} /opt/bin/zxcv /opt/bin/zxcv.ÅLD
@@ -271,7 +271,7 @@ case ${mode} in
 		csleep 1
 
 		${sah6} --ignore-missing -c /opt/bin/zxcv
-		csleep 6
+		csleep 3
 		
 		e22_tyg /opt/bin/zxcv
 		${sah6} /opt/bin/zxcv > /opt/bin/zxcv.sha

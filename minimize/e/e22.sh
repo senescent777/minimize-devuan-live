@@ -7,7 +7,7 @@ if [ -v CONF_pubk ] ; then
 	dqb "Å"
 else
 	#050326:jatkosäätöjä tähän vai ei?
-	arsch=$(${odio} find / -type f -name 'keys.conf' | head -n 1)
+	arsch=$(${odio} find / -type f -name "keys.conf" | head -n 1)
 
 	if [ -z "${arsch}" ] ; then
 		dqb "B"
@@ -24,7 +24,7 @@ else
 fi
 
 dqb "MILTONS L0ST PARAD153"
-csleep 3
+csleep 1
 
 #170326:lienee ok
 function e22_hdr() {
@@ -40,7 +40,7 @@ function e22_hdr() {
 	csleep 1
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
-	csleep 2
+	csleep 1
 
 	#tarkoituksella sr0 eikä srat
 	echo "${sr0} -cvf ${1} ./rnd IN 1 SECS"
@@ -50,7 +50,7 @@ function e22_hdr() {
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
 	dqb "hdr done"
-	csleep 2
+	csleep 1
 }
 
 #tark-. olla priv fktio
@@ -120,9 +120,9 @@ function e22_pre1() {
 	dqb "e22_pre1()"
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 66
-	csleep 3
+	csleep 1
 	dqb "pars.0k"
-	csleep 2
+	csleep 1
 
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
@@ -172,14 +172,14 @@ function e22_pre2() {
 
 	if [ -d ${1} ] ; then
 		echo $?
-		csleep 5
+		csleep 2
 
 		#HUOM.200326:TLA() tähän väliaikaisesti vai ei? nykyään kyllä ifup...
 
-		#280326:tilapäinen viritys kunnes x
+		#280326:tilapäinen viritys kunnes x?
 		[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
 		ls -las /etc/resolv.*
-		csleep 5  	
+		csleep 2	
 
 		${sifu} ${3}
 		csleep 1
@@ -285,8 +285,7 @@ function e22_home_pre() {
 	fi
 
 	csleep 1
-	#150326:JOSKOHANLIITTYISI VIIMEAIKAISEEN KUSEMISEEN TUO AO. RIVI
-	#... oikeasti /opt/bin vaiko $smthing/opt/bin ?
+
 	${srat} -rvf ${1} /opt/bin 
 
 	dqb "JUST BEFORE FIND"
@@ -321,14 +320,14 @@ function e22_home() {
 	${srat} -rvf ${1} ${2}/../${3}
 	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
 	[ ${t} -lt 1 ] && exit 72
-	csleep 5
+	csleep 2
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 	csleep 2
 
 	#find qsee jossain?	
-	for f in $(find ~ -type f -name 'xorg.conf*' ) ; do ${srat} -rvf ${1} ${f} ; done
+	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "e22_home().done()"	
 }
 
@@ -341,14 +340,14 @@ function luca() {
 	#[ -w ${1} ] || exit 13
 
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule
-	csleep 2
+	csleep 1
 
 	#localtime taisi olla linkki, siksi erikseen
-	#josko kokeiliei "g_foit 1" jäljiltä että päivittyvätkö nuo 2 (TODO)
+	#josko kokeiliSi "g_Doit 1" jäljiltä että päivittyvätkö nuo 2 (TODO)
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
 
 	local f
-	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
+	for f in $(find /etc -type f -name "local*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 }
 
@@ -379,9 +378,9 @@ function e22_acol() {
 	local ef
 	local g
 
-	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
+	for f in $(find /etc -type f -name "interfaces*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
 	
-	for f in $(${odio} find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
+	for f in $(${odio} find /etc -type f -name "rules*" -and -not -name "*.202*" ) ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
 		fi
@@ -405,9 +404,9 @@ function e22_acol() {
 		;;
 	esac
 		
-	if [ ${3} -eq 1 ] ; then #-gt 0 ?
-		for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
-		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
+	if [ ${3} -gt 0 ] ; then #-eq 1
+		for f in $(find /etc -type f -name "stubby*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
+		for f in $(find /etc -type f -name "dns*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
 	fi
 
 	ef=$(echo ${4} | tr -d -c 0-9)
@@ -442,23 +441,23 @@ function e22_sarram() {
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
-	csleep 3
+	csleep 1
 	
 	local f
-	csleep 1
+	#csleep 1
 
-	#TODO:hipsut wttuun
-	for f in $(${odio} find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
+	#VAIH:hipsut wttuun
+	for f in $(${odio} find /etc -type f -name "xorg*" -and -not -name "*.202*" ) ; do
 		${srat} -rvf ${1} ${f}
 	done	
 
 	dqb "X0RG.D0N3"
 	csleep 1
 
-	dqb "${odio} find /etc -type f -name \"${2}*\" S00N"
+	dqb "\${odio} find /etc -type f -name \"${2}*\" S00N"
 	csleep 1
 
-	for f in $(${odio} find /etc -type f -name "${2}*" -and -not -name '*.202*') ; do
+	for f in $(${odio} find /etc -type f -name "${2}*" -and -not -name "*.202*" ) ; do
 		${srat} -rvf ${1} ${f}
 	done
 
@@ -472,14 +471,14 @@ function e22_sarram() {
 	${scm} 0400 /etc/default/rules*
 
 	#150326:nalkutusta ruleksien käyttöopikeukissta, tee jotain? (vielä 230326?)
-	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
+	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 
-	#TODO:hispujen liskäsi karsittava hmiston minimize.OLD alaiset
-	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
+	#VAIH:hispujen liskäsi karsittava hmiston minimize.OLD alaiset
+	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD ) ; do ${sah6} ${f} >> ${3} ; done
 
 	#230326:ntp-jtut näyttäisi vetävän mukaan
 	if [ -x /usr/sbin/ntpd ] ; then
-		for f in $(${odio} find /etc -type f -name 'ntp*') ; do
+		for f in $(${odio} find /etc -type f -name "ntp*" ) ; do
 			${srat} -rvf ${1} ${f}
 			${sah6} ${f} >> ${3}
 		done
@@ -515,7 +514,7 @@ function e22_ext() {
 	local r
 	local st
 
-	csleep 1 #TODO:devugin latensseja jos taas karsisisisi
+	csleep 1 #VAIH:deBugin latensseja jos taas karsisisisi
 	p=$(pwd)
 
 	#q=$(${mkt} -d) #ei vaan toimi näin?
@@ -525,7 +524,7 @@ function e22_ext() {
 	[ ${debug} -eq 1 ] && pwd
 
 	cd ${q}
-	csleep 1
+	#csleep 1
 
 	dqb "iface should be up by bow, next:git"
 	csleep 1
@@ -580,7 +579,7 @@ function e22_ext() {
 	#pois myös resolv.conf.* vaiko ei ?
 
 	#interfaces-alkuisten kanssa kiukuttelua cnangedns kanssa
-	for f in $(find ./etc -type f -not -name 'interfaces.*') ; do
+	for f in $(find ./etc -type f -not -name "interfaces.*" ) ; do
 		${sah6} ${f} >> ${4}
 	done
 
@@ -626,7 +625,7 @@ function e22_arch() {
 	dqb "pars ok"
 	csleep 1
 	local p=$(pwd)
-	csleep 1
+	#csleep 1
 
 	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
 	if [ -f ${2}/sha512sums.txt ] ; then
@@ -634,7 +633,7 @@ function e22_arch() {
 	fi
 
 	local c
-	c=$(find ${2} -type f -name '*.deb' | wc -l)
+	c=$(find ${2} -type f -name "*.deb" | wc -l)
 
 	if [ ${c} -lt 1 ] ; then
 		dqb "N0.F1SH"
@@ -703,7 +702,7 @@ function e22_dblock() {
 	csleep 1
 
 	[ ${debug} -eq 1 ] && pwd
-	csleep 1
+	#csleep 1
 	#aval0n #tarpeellinen?
 	ls -la ${3}/*.deb | wc -l
 	
@@ -717,11 +716,11 @@ function e22_dblock() {
 	t=$(echo ${2} | cut -d '/' -f 1-6) #joitain tr-jekkuja vielä?
 	e22_ts ${t} ${3}
 	dqb "JST B3F0R3 3NF0RC3"
-	csleep 5
+	csleep 2
 	
 	enforce_access $(whoami) ${t}
 	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-	csleep 5
+	csleep 2
 
 	e22_arch ${1} ${2} ${4}
 	e22_cleanpkgs ${2}
@@ -779,7 +778,7 @@ function e22_cde() {
 	cd ${2}
 	fasdfasd ${1}
 	[ ${debug} -eq 1 ] && ls -las ${1}*
-	csleep 2
+	csleep 1
 
 	${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
 

@@ -211,11 +211,10 @@ else
 	dqb "SHOULD CALL parse_opts_x() AROUND HERE"
 fi
 
-#debug=1 #kunnes...
 dqb "imp2:AFTR common_lib"
-csleep 3
+csleep 1
 [ -z "${distro}" ] && exit 6
-csleep 2
+csleep 1
 
 if [ -f /.chroot ] || [ -x ${mkt} ] ; then
 	dqb "ipm2.MTK"
@@ -256,7 +255,7 @@ dqb "L0G"
 
 ocs tar
 dqb "srat: ${srat}"
-csleep 3
+csleep 1
 dqb "LHP"
 
 #josko tilansäästön nimissä kolmaskin ehto? tai ehkä ei pakko
@@ -305,14 +304,14 @@ function common_part() {
 				r=$?
 
 				[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig.1
-				csleep 1
+				#csleep 1
 			fi
 		fi
 
 		[ ${r} -eq 0 ] || exit ${r}
 	fi
 
-	csleep 2
+	csleep 1
 	#kts. common_lib.psqa()
 	local cfk=1
 
@@ -329,7 +328,7 @@ function common_part() {
 			cfk=0
 		fi
 
-		csleep 2
+		csleep 1
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
@@ -339,15 +338,15 @@ function common_part() {
 		[ "${confirm}" == "Y" ] || exit 33
 	fi
 
-	csleep 3
+	csleep 1
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 
-	csleep 2
+	csleep 1
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
 
 	#$d alta tar-juttuja pois tässä? ehkä ei aina kannata
-	csleep 1
+	#csleep 1
 	#251225:mitä jos sen sisemmän sha-tarkistuksen tekisi silloinq common_lib pois pelistä?
 	
 	csleep 1
@@ -370,7 +369,7 @@ function cptp2() {
 	
 	if [ -f ${t}/common_lib.sh ] ; then
 		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
-			csleep 1
+			#csleep 1
 			${gg} --verify ${t}/common_lib.sh.sig 		
 			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"		
 		fi
@@ -437,7 +436,7 @@ function tpr() {
 	[ $? -gt 0 ] && exit 19
 
 	dqb "INCLUDE OK"
-	csleep 1
+	#csleep 1
 
 	local q
 	local r
@@ -448,18 +447,18 @@ function tpr() {
 	#jos vielä härdelliä niin keskeytetään mikäli ei $2:sta löydä prefs.js?
 	r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l) #vielä jos arhc_4 ?
 	[ ${r} -gt 0 ] || exit 21
-	csleep 3
+	csleep 1
 
 	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/${2}
 	[ $? -gt 0 ] && exit 22
-	csleep 3
+	csleep 1
 
 	dqb "JUST BEFORE impo_prof"
-	csleep 3
+	csleep 1
 
 	imp_prof esr $(whoami) ${q}
 	dqb $?
-	csleep 3
+	csleep 1
 
 	dqb "UP1R D0N3"
 	csleep 1
@@ -597,7 +596,7 @@ case "${mode}" in
 
 		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
 		echo $?
-		csleep 5
+		csleep 2
 
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
@@ -649,7 +648,7 @@ case "${mode}" in
 				csleep 1
 
 				[ ${debug} -eq 1 ] && ${gg} --list-keys
-				csleep 3
+				csleep 2
 			fi
 		else
 			dqb "NO-GO-THEOREM"
