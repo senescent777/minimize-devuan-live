@@ -1,5 +1,7 @@
 #just_download_not_install-vipu olisi tietysti...
 
+#dgsts.4 ja dgsts.5 , miten niiden kanssa nkuyään?
+
 function aswasw() { #privaatti fktio, tarkpoitus olla
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56

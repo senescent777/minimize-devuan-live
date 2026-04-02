@@ -69,7 +69,8 @@ function parse_opts_2() {
 if [ -f /.chroot ] ; then
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
-
+	debug=1
+	
 	#gpgtar jos mahd, muuten normi-tar?
 
 	echo "A"
@@ -80,8 +81,11 @@ if [ -f /.chroot ] ; then
 		q=$(find . -name 'dgsts.?')
 		cd ..
 		#110326:jotain urputusta oli, mksums bugittaa?
-
+		#010426:jotain urputusta oli edelleen ennen "B"-osaa, selvitä 
+		
 		for r in ${q} ; do
+			dqb " -c ./${p}/${r}"
+			csleep 1
 			${g} -c ./${p}/${r} --ignore-missing
 			sleep 1
 		done
@@ -513,7 +517,7 @@ else
 	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	[ -f ${srcfile} ] || dqb "NOT A FILE"
 	dqb "SMTHING WRONG WITH ${srcfile} "
-	exit 55
+	exit 55 #sqrootin takia jokin poikkeus tähän vai ei?
 fi
 
 #[ -s ${srcfile} ] || exit 34 #pitäIsikö olla if-blokin sisällä?
@@ -543,6 +547,7 @@ case "${mode}" in
 		#110326:toimii edelleen mod pientä kiukuttelua josqs
 		#160326:sama, kiukuttelulle voisi tosin tehdä jotain
 		#190326:onnistui sqrootin alaisuudessa paketteja asennella
+		#010426:edelleen osasi sqrtot alla
 		
 		echo "ZER0 S0UND"
 		csleep 1

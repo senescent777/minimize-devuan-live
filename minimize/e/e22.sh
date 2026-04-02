@@ -754,19 +754,23 @@ function e22_dblock() {
 #}
 
 #TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen?
-#290326:toimii sqrootissa edelleen pakeTin sisältö ? (TODO:testaus)
+#290326:toimii sqrootissa edelleen pakeTin sisältö ? (VAIH:testaus)
 
 function e22_cde() {
 	dqb "e22_cde()"
 	
 	[ -z "${1}" ] && exit 99
 	[ -z "${2}" ] && exit 98
+	[ -z "${3}" ] && exit 96
 	[ -d "${2}" ] || exit 97
-
+	[ -d "${3}" ] || exit 95
+	
 	cd ${2}
 	fasdfasd ${1}
 	[ ${debug} -eq 1 ] && ls -las ${1}*
 	csleep 2
 
 	${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
+
+	dqb "e22_cde DONE()"
 }

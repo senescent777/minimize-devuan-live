@@ -484,15 +484,15 @@ function CB01() {
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
 
-	#160326:mv-komennon kanssa oli jotain urputusta? vissiin tämän?
-	[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt.bak
-	efk2 ${1}/g.tar ${1}
+#	#160326:mv-komennon kanssa oli jotain urputusta? vissiin tämän?
+#	[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt.bak
+#	efk2 ${1}/g.tar ${1}
 	common_pp3 ${1}
-	[ -s ${1}/g.tar ] && ${spc} ${1}/g.tar ${1}/g.tar.bak
-	[ $? -eq 0 ] && ${NKVD} ${1}/g.tar
-	
-	#160326:mv-komennon kanssa oli jotain urputusta?
-	[ -s ${1}/g.tar.bak ] && ${svm} ${1}/g.tar.bak ${1}/g.tar
+#	[ -s ${1}/g.tar ] && ${spc} ${1}/g.tar ${1}/g.tar.bak
+#	[ $? -eq 0 ] && ${NKVD} ${1}/g.tar
+#	
+#	#160326:mv-komennon kanssa oli jotain urputusta?
+#	[ -s ${1}/g.tar.bak ] && ${svm} ${1}/g.tar.bak ${1}/g.tar
 	common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisältö purun jälkeen
 	
 	for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
@@ -501,9 +501,9 @@ function CB01() {
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
 	csleep 1
-	
-	#160326:mv-komennon kanssa oli jotain urputusta?
-	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt
+#	
+#	#160326:mv-komennon kanssa oli jotain urputusta?
+#	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt
 	common_pp3 ${1}
 	}
 
@@ -560,7 +560,7 @@ function check_binaries() {
 	#HUOM.ao. mjan asettaminen konfiguraatiossa voi aiheuttaa härdelliä tässä alla?
 	#210326:tables ei niin oleellinen etstiympäristössä niimn että voisi toisaalta palauttaakin tämän 
 
-	if [ ! -v CONF_testgris ] ; then #290326:testgris pois sittenq common_funcs:iin lotottu parametrit check_bin:ille
+	#if [ ! -v CONF_testgris ] ; then #290326:testgris pois sittenq common_funcs:iin lotottu parametrit check_bin:ille
 		if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 			[ -z "${1}" ] && exit 99
 			[ -d ${1} ] || exit 101
@@ -569,24 +569,24 @@ function check_binaries() {
 			cefgh ${1}
 			common_pp3 ${1}
 		fi
-	else
-		echo "TODO: common_funcs.sh"
-	fi
+	#else
+	#	echo "VAIH: common_funcs.sh"
+	#fi
 	
 	#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
 	if [ -z "${gg}" ] ; then
 		CB01 ${1}
 	fi
 	
-	if [ -z "${ipt}" ] && [ ! -v CONF_testgris ] ; then #TODO:jäölk tarq pois sittenbq
+	if [ -z "${ipt}" ] ; then # && [ ! -v CONF_testgris ]VAIH:jäölk tarq pois sittenbq
 		CB02 ${1}
 	fi
 
-	if [ ! -v CONF_testgris ] ; then #TODO:jäölk
+	#if [ ! -v CONF_testgris ] ; then VAIH:jäölk
 		ls ${1}/*.deb | wc -l
 		csleep 3
 		for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
-	fi #tstgris
+	#fi #tstgris
 	
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
@@ -631,7 +631,9 @@ function check_binaries2() {
 	sifd="${odio} ${sifd} "
 
 	#VAIH:pois kommenteista lftr tai sitten sen jonkin /etc/kernel-jekun hyödyntämisen kokeilu
-	lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 
+	INITRD=No
+	export INITRD
+	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
 		
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing '/run/live/medium/live/initrd.img.new': No space left on device
@@ -658,7 +660,8 @@ function TLA() {
 	#3. ehto pois jatkossa vai ei?
 	#200326:toimiikohan tarkistus toivotulla tavalla?
 	#210326:tla() ja sqroot? jos on pedantti niin tuollakin yhdostelmällä piytäisi tables-säännöt muuttaa...
-	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] ||  [ -f /.chroot ]  ; then
+
+	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ]  ; then # || [ -f /.chroot ]
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
 		if [ ! -v CONF_testgris ] ; then 

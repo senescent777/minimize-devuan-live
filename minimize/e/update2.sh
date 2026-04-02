@@ -69,6 +69,7 @@ else
 fi
 
 #TODO:lisäsäätöä /e/resolv , /e/localtime /e/timezone suhteen vai ei?
+#... liittyen jos alkaisi tehdä päivityshommat aivan toisella tavalla
 
 g=$(${tcmd} -tf ${tgt} | grep -v '${n}.conf' | grep -v .chroot)
 c=$(find / -maxdepth 1 -type f -name OLD.tar -size +10M | wc -l)

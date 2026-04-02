@@ -49,20 +49,8 @@ csleep 2
 e_h $(whoami) ${d0} 
 csleep 2
 
-#VAIH:tbl ja aftr tähän? vai ko TLA()
-#if [ -x /opt/bin/changedns.bash ] ; then
-#	${odio} /opt/bin/changedns.bash ${CONF_dnsm}
-#else
-#	if [ -x ${d0}/opt/bin/changedns.bash ] ; then
-#		${odio} ${d0}/opt/bin/changedns.bash ${CONF_dnsm}
-#	else
-#		dqb "changedns not an option"
-#		csleep 5
-#	fi
-#fi
-
 #jos vaikka näin?
-${sifd} ${CONF_iface}
+[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 csleep 2
 ${odio} /opt/bin/tlb.bash
 csleep 2
