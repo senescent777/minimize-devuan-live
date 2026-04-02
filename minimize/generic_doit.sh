@@ -7,6 +7,8 @@ d0=$(pwd)
 debug=0 #1
 d=${d0}/${distro} 
 
+#020426:uudelleen_nimeäminen josqs tämän hmistomn tdstoille?
+
 function parse_opts_1() {
 	dqb "parseopts_1 ) ${1} ; ${2}"
 
@@ -266,14 +268,14 @@ c14=1
 if [ ${mode} -gt 1 ] ; then #nollasta ei tarttisi välittää koska exit aiempana
 	if [ -v LCF666 ] ; then
 		c13=$(env | grep LC_TIME | grep -c ${LCF666})
-		[ $c13 -gt 0 ] && c14=0
+		#[ $c13 -gt 0 ] && c14=0
 		#profit
 	else
 		echo "NO PREFERRED LC_TIME FOUND" #...ja Sit Jotain?
 	fi
 fi
 
-#josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta?
+#josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta? kkeillaan
 el_loco ${c14} ${c13}
 #=========================================================================================
 

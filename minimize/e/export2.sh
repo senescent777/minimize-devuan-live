@@ -164,7 +164,7 @@ case ${mode} in
 
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
-	c) #290326:teki taas paketin, sisältö:VAIH
+	c) #290326:teki taas paketin, sisältö:VAIH (ehkä ok jo)
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
 	p) #170326:lienee kunnossa
@@ -235,11 +235,14 @@ case ${mode} in
 
 		csleep 1
 		fasdfasd /opt/bin/zxcv.tmp
+
+		#020426:ao. rivin kanssa muutokasi vaiei?
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
+
 		reqwreqw /opt/bin/zxcv.tmp
 	
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 3 ] ; then
+		if [ ${mode} -eq 3 ] ; then #TODO:testgris-ehto mukaan?
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else

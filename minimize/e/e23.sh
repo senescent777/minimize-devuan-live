@@ -1,7 +1,8 @@
 #just_download_not_install-vipu olisi tietysti...
 
-#dgsts.4 ja dgsts.5 , miten niiden kanssa nkuyään?
+#020426:dgsts.4 ja dgsts.5 , miten niiden kanssa nkuyään?lets find out?
 
+#010426:muutoksia josqs? dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteen keksitty
 function aswasw() { #privaatti fktio, tarkpoitus olla
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56

@@ -264,7 +264,8 @@ function e22_settings() {
 }
 
 #160326:toimi tuolloin aiNAkin kerran
-#290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa
+#290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa? (vielä 020426?)
+#TODO:testgirs-ehto mukaan suoritukseen vai ei?
 
 function e22_home_pre() {
 	dqb "e22_home_pre()"
@@ -300,6 +301,8 @@ function e22_home_pre() {
 }
 
 #290326:toimii, mutta $3 kanssa ehkä jotain
+#TODO:testgirs-ehto mukaan suoritukseen vai ei?
+
 function e22_home() {
 	dqb "e22_home()"
 	[ -z "${1}" ] && exit 67
@@ -351,6 +354,7 @@ function luca() {
 
 #290326:taitaa toimia
 # slim/xdm/wdm-spesifinen konfiguraatio saattaa tulla jo mukaan myös
+#020426:ei vedä verkosta mitään ni ei tartte lisätestejä?
 
 function e22_acol() {
 	dqb "e22_acol()"
@@ -421,6 +425,7 @@ function e22_acol() {
 
 #290326:vissiin toimii
 #... nyt jos 280326 alkaisi olla wdm-jututkin mukana
+#020426:vissiin ai tarvitse lisätestejä koska ei vedä verkosta mitään
 
 function e22_sarram() {
 	dqb "e22_sarram(${1} ; ${2} ; ${3} )))))))()))))"
@@ -484,6 +489,8 @@ function e22_sarram() {
 
 #290326:taitaa toimia
 #tai sen zxcv;b sha-tarkistuksen kanssa jotain kiukuttelua että "tar -t $arch" josqs(TODO)
+#TODO:verkkoyhteyttä vaativat jutut vain jos testgris ei asetrettu? vaiko kutsuvan koodin puolella tarkistus?
+
 function e22_ext() {
 	[ -z "${1}" ] && exit 1
 	[ -d ${1} ] && exit 59

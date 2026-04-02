@@ -5,6 +5,8 @@ tcmd=$(which tar)
 [ -z "${tcmd}" ] && exit 11
 [ -x ${tcmd} ] || exit 12
 
+#TODO:tämä kikkare roskikseen, pitäisi keksiä parempiq ei kerran jaksa kesä/talviajan/lokaalien kanssa kikkailla
+
 spc=$(which cp)
 [ -z "${spc}" ] && exit 13
 [ -x ${spc} ] || exit 14
@@ -69,7 +71,6 @@ else
 fi
 
 #TODO:lisäsäätöä /e/resolv , /e/localtime /e/timezone suhteen vai ei?
-#... liittyen jos alkaisi tehdä päivityshommat aivan toisella tavalla
 
 g=$(${tcmd} -tf ${tgt} | grep -v '${n}.conf' | grep -v .chroot)
 c=$(find / -maxdepth 1 -type f -name OLD.tar -size +10M | wc -l)

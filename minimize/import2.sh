@@ -24,7 +24,6 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-#VAIH:parsetus uusicksi, josqs srcfile:ä ei aseteta (alkaIsikohan joskus olla kunnossa?)
 if [ $# -gt 0 ] ; then
 	mode=${1}
 	[ -f ${1} ] && exit 99
@@ -37,7 +36,7 @@ if [ $# -gt 0 ] ; then
 fi
 
 #TODO:jos järjestelisi tämän kikkareen uudestaan sittenq sqroot-testit seur kerran tehty
-#... JOKO JO 300236?
+#... JOKO JO 300236? eu uhan vielä (2426)
 
 #190326:alkaisikohan kohta asettua parsetus?  (liittyyköhän tables/gpg asiaan?)
 #180326:liittyyköhän check_bin():in "ocs ipt" tuohon viimeaikaiseen kiukutteluun?
@@ -82,6 +81,7 @@ if [ -f /.chroot ] ; then
 		cd ..
 		#110326:jotain urputusta oli, mksums bugittaa?
 		#010426:jotain urputusta oli edelleen ennen "B"-osaa, selvitä 
+		#... vissiin vain se että sqroot sisällä ei tdstojen sisältö täsmää listan sisältöön
 		
 		for r in ${q} ; do
 			dqb " -c ./${p}/${r}"
@@ -240,7 +240,7 @@ check_binaries ${d}
 
 check_binaries2
 [ $? -eq 0 ] || exit 
-${sifd} ${CONF_iface}  #uutena
+[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
@@ -514,10 +514,12 @@ if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then #eka tark oli -s , vissiin olta
 	dqb "SD"
 else
 	#220326:myös sqroot-ymp tähän jouduttu, syy muu kuin ilmeinen?
+	#010426:exitin ohitus jos ollaan sqrootissa?
+	
 	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	[ -f ${srcfile} ] || dqb "NOT A FILE"
 	dqb "SMTHING WRONG WITH ${srcfile} "
-	exit 55 #sqrootin takia jokin poikkeus tähän vai ei?
+	exit 55
 fi
 
 #[ -s ${srcfile} ] || exit 34 #pitäIsikö olla if-blokin sisällä?
@@ -547,7 +549,13 @@ case "${mode}" in
 		#110326:toimii edelleen mod pientä kiukuttelua josqs
 		#160326:sama, kiukuttelulle voisi tosin tehdä jotain
 		#190326:onnistui sqrootin alaisuudessa paketteja asennella
+		
 		#010426:edelleen osasi sqrtot alla
+		#... kiukuttelut sqrot alla liittyvät enemmän wdm-pakettiin kuin itse skriptiin?
+		#sha512sums.txt.bak suattaapi liittyä vua n suattaapi ettei
+	
+		
+		#myös "libc6:amd64 depends on libgcc-s1; however:" joutaisi tehdä jotain?
 		
 		echo "ZER0 S0UND"
 		csleep 1
