@@ -590,7 +590,7 @@ function check_binaries() {
 	csleep 1
 	
 	sag=$(${odio} which apt-get)
-	sa=$(${odio} which apt)
+	sa=$(${odio} which apt) #tar4vitaanko jossain?
 
 	#151225:pitäisikö sittenkin alustaa check_bin_0():ssa ainakin 2 seuraavaa?
 	som=$(${odio} which mount)
