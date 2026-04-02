@@ -5,6 +5,8 @@ tcmd=$(which tar)
 [ -z "${tcmd}" ] && exit 11
 [ -x ${tcmd} ] || exit 12
 
+#TODO:tämä kikkare roskikseen, pitäisi keksiä parempiq ei kerran jaksa kesä/talviajan/lokaalien kanssa kikkailla
+
 spc=$(which cp)
 [ -z "${spc}" ] && exit 13
 [ -x ${spc} ] || exit 14

@@ -1,37 +1,32 @@
-#https://superuser.com/questions/1020155/pre-up-in-the-network-interfaces-file
-#https://www.cyberciti.biz/faq/setting-up-an-network-interfaces-file/
-#https://unix.stackexchange.com/questions/128439/good-detailed-explanation-of-etc-network-interfaces-syntax
-#https://askubuntu.com/questions/1030048/how-to-create-post-up-and-pre-down-routes-in-interfaces-file
-#csleep 6
-
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
+dqb "MDB"
 csleep 1
 
-#if [ -v CONF_pubk ] ; then
-#	dqb "Å"
-#else
-#	#050326:jatkosäätöjä tähän vai ei?
-#	arsch=$(${odio} find / -type f -name 'keys.conf' | head -n 1)
-#
-#	if [ -z "${arsch}" ] ; then
-#		dqb "B"
-#	else
-#		if [ -s ${arsch} ] ; then
-#			. ${arsch}
-#		else
-#			dqb "C"
-#		fi	
-#	fi
-#
-#	csleep 1
-#	unset arsch
-#fi
-#
-#csleep 3
-#140326:toimi ainakin kerran hdr()
-#
+if [ -v CONF_pubk ] ; then
+	dqb "Å"
+else
+	#050326:jatkosäätöjä tähän vai ei?
+	arsch=$(${odio} find / -type f -name "keys.conf" | head -n 1)
 
+	if [ -z "${arsch}" ] ; then
+		dqb "B"
+	else
+		if [ -s ${arsch} ] ; then
+			. ${arsch}
+		else
+			dqb "C"
+		fi	
+	fi
+
+	csleep 1
+	unset arsch
+fi
+
+dqb "MILTONS L0ST PARAD153"
+csleep 1
+
+#170326:lienee ok
 function e22_hdr() {
 	echo "e22_hdr() ${1}"
 	sleep 1
@@ -45,26 +40,29 @@ function e22_hdr() {
 	csleep 1
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
-	csleep 2
-
-	echo "${sr0} -cvf ${1} ./rnd IN 1 SECS"
 	csleep 1
 
+	#tarkoituksella sr0 eikä srat
+	echo "${sr0} -cvf ${1} ./rnd IN 1 SECS"
+	csleep 1
 	${sr0} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
 	dqb "hdr done"
-	csleep 2
+	csleep 1
 }
 
 #tark-. olla priv fktio
-#080326:toimi jnkn verran (miten nykyään?)
-
+#170326:taitaa olla toimiva fktio nykyään (ellei toisin todisteta)
+#290326:toimii edelleen?
 function e22_tyg() {
-	[ -z "${1}" ] && exit 45 #VAIH:tark takaisin
+	dqb " e22_tyg()"
+
+	[ -z "${1}" ] && exit 45
 	[ -s ${1} ] || exit 46
 	[ -r ${1} ] || exit 47
+
 	csleep 1
 	dqb "e22_tyg().pars.ok"
 
@@ -86,13 +84,15 @@ function e22_tyg() {
 	csleep 1
 }
 
-#150326:toimi?
-
-function e22_ftr() { #VAIH:tarkistukseT takaisin
+#170326:lienee ok
+function e22_ftr() {
 	dqb "e22_ftr()"
 	[ -z "${1}" ] && exit 62
 	[ -s ${1} ] || exit 63
 	[ -r ${1} ] || exit 64
+	dqb "pars.ok"
+	csleep 1
+
 	dqb "pars.ok"
 	csleep 1
 
@@ -117,14 +117,14 @@ function e22_ftr() { #VAIH:tarkistukseT takaisin
 	csleep 1
 }
 
-#VAIH:selvitä qseeko vai ei? ainakaan isompia virheilmoituksia ei tulluT 16326 mennessä enää
+#20426:lienee delleen ok?
 function e22_pre1() {
 	dqb "e22_pre1()"
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 66
-	csleep 3
+	csleep 1
 	dqb "pars.0k"
-	csleep 2
+	csleep 1
 
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
@@ -151,30 +151,40 @@ function e22_pre1() {
 #...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 #HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
 
-#VAIH:SELVITÄ KUSEEKO TÄMÄ VAI EI? ei?
+#170326:kai toimii, tietyt muutoksetkin tehty
 function e22_pre2() {
 	echo "per2..."
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	[ -z "${3}" ] && exit 68
 	[ -z "${4}" ] && exit 69
+
 	dqb " (pars.ok)"
 	csleep 1
-	local ortsac
+	#local ortsac
 	local par4
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
-	ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
+	#ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
 	par4=$(echo ${4} | tr -d -c 0-9)
 
-##	#HUOM.020825:vähän enemmän sorkintaa tänne?
-##	#/e/n alihakemistoihin +x ?
-##	 /e/n kokonaan talteen?
+	#HUOM.020825:vähän enemmän sorkintaa tänne?
+	#/e/n alihakemistoihin +x ?
+	#/e/n kokonaan talteen?
 
-	if [ -d ${1} ] && [ -x /opt/bin/changedns.bash ] ; then
-		#HUOM.080326:jatkossa jos kääåntgyisi e.e. ifup käskyttäisi tarpeellisia skriptejä
+	if [ -d ${1} ] ; then
 		echo $?
-		csleep 1
+		csleep 2
+
+		#HUOM.200326:TLA() tähän väliaikaisesti vai ei? nykyään kyllä ifup...
+
+		#280326:tilapäinen viritys kunnes x?
+		[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
+		ls -las /etc/resolv.*
+		csleep 2	
+
 		${sifu} ${3}
+		csleep 1
+
 		${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 		${scm} -Rv 700 ${CONF_pkgdir}/partial/
 		${sag_u}
@@ -186,8 +196,9 @@ function e22_pre2() {
 	dqb "... done"
 }
 
-#TODO:param.tark
+#230326:vissiin toimii edelleen
 function e22_cleanpkgs() {
+	dqb "cleanpkgs()"
 	[ -z "${1}" ] && exit 56
 	if [ -d ${1} ] ; then
 		#aiemmalla NKVD-tavalla saattaa kestää joten rm
@@ -196,10 +207,13 @@ function e22_cleanpkgs() {
 		#entä ne listat? jospa ei koskettaisi niihin
 		ls -las ${1}/*.deb | wc -l
 	else
-		dqb "NO SUCH DIR ${1}"
+		dqb "NO SUCH DIR: ${1}"
 	fi
+
+	dqb "done"
 }
 
+#290326:tämän kanssa jotain hatkosäätöä vai ei?
 function e22_config1() {
 	dqb "e22_config1()"
 	[ -z "${1}" ] && exit 11
@@ -224,6 +238,7 @@ function e22_config1() {
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 #nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
 
+#290326:tämän kanssa jotain hatkosäätöä vai ei?
 function e22_settings() {
 	dqb "e22_settings(${1}, ${2}, ${3}, ${4})"
 	[ -z "${1}" ] && exit 11
@@ -248,21 +263,35 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
-#160326:toimi tuolloin aiankin kerran
-#TODO:voisikohan nuo Constit korvata josqs...
-#TODO:tarkistukset paramreille
+#290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa? (vielä 020426?)
+#TODO:testgirs-ehto mukaan suoritukseen vai ei?
+#20426:edelleen toimii?
 
 function e22_home_pre() {
 	dqb "e22_home_pre()"
 
+	dqb "HOMEPRE D0NE"
+	csleep 1
+}
+
+function e22_home() {
+	dqb "e22_home()"
+	[ -z "${1}" ] && exit 67 #VAIH:tark takas
+	[ -s ${1} ] || exit 68
+	[ -z "${2}" ] && exit 69
+	[ -d ${2} ] || exit 70
+	[ -z "${3}" ] && exit 71
+	[ -z "${4}" ] && exit 73
+	[ -z "${5}" ] && exit 79
+
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		e22_config1 ~ ${4}
-		${NKVD} ~/${CONF_default_arhcive}		
-		e22_settings ${2}/.. ${CONF_default_arhcive} ${CONF_default_arhcive3}
+		${NKVD} ~/${5}		
+		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
 	fi
 
 	csleep 1
-	#150326:JOSKOHANLIITTYISI VIIMEAIKAISEEN KUSEMISEEN TUO AO. RIVI
+
 	${srat} -rvf ${1} /opt/bin 
 
 	dqb "JUST BEFORE FIND"
@@ -276,9 +305,13 @@ function e22_home_pre() {
 	csleep 1
 }
 
+#290326:toimii, mutta $3 kanssa ehkä jotain
+#TODO:testgirs-ehto mukaan suoritukseen vai ei?
+#29426:edelleen toimii?
+
 function e22_home() {
 	dqb "e22_home()"
-	[ -z "${1}" ] && exit 67 #VAIH:tark takas
+	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
 	[ -d ${2} ] || exit 70
@@ -293,14 +326,14 @@ function e22_home() {
 	${srat} -rvf ${1} ${2}/../${3}
 	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
 	[ ${t} -lt 1 ] && exit 72
-	csleep 5
+	csleep 2
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
 	csleep 2
 
 	#find qsee jossain?	
-	for f in $(find ~ -type f -name 'xorg.conf*' ) ; do ${srat} -rvf ${1} ${f} ; done
+	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 	dqb "e22_home().done()"	
 }
 
@@ -315,19 +348,24 @@ function luca() {
 	#[ -w ${1} ] || exit 13
 
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep rule
-	csleep 2
+	csleep 1
 
 	#localtime taisi olla linkki, siksi erikseen
+	#josko kokeiliSi "g_Doit 1" jäljiltä että päivittyvätkö nuo 2 (TODO)
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
-	#exit 99
 
 	local f
-	for f in $(find /etc -type f -name 'local*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
+	for f in $(find /etc -type f -name "local*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 }
 
-#... muuten lienee ok mutta slim/xdm/wdm-spesifinen konfiguraatio ei vielä tule mukaan vai tuleeko?
-#VAIH:toiminnan testaus (koskohan alkaisi olla 150326)
+
+#204226:toimii edelleen?
+# slim/xdm/wdm-spesifinen konfiguraatio saattaa tulla jo mukaan myös
+#020426:ei vedä verkosta mitään ni ei tartte lisätestejä?
+
+function e22_acol() {
+	dqb "e22_acol()"
 
 function e22_acol() {
 	dqb "e22_acol()"
@@ -337,6 +375,7 @@ function e22_acol() {
 	[ -z "${2}" ] && exit 2
 	[ -z "${3}" ] && exit 3		
 	[ -z "${4}" ] && exit 5
+
 	dqb "prs ok"
 	csleep 1
 
@@ -344,12 +383,14 @@ function e22_acol() {
 	${scm} 0555 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
+
 	local f
 	local ef
 	local g
-	for f in $(find /etc -type f -name 'interfaces*' -and -not -name '*.202*' ) ; do ${srat} -rvf ${1} ${f} ; done
+
+	for f in $(find /etc -type f -name "interfaces*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
 	
-	for f in $(${odio} find /etc -type f -name 'rules*' -and -not -name '*.202*') ; do
+	for f in $(${odio} find /etc -type f -name "rules*" -and -not -name "*.202*" ) ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
 		fi
@@ -373,9 +414,9 @@ function e22_acol() {
 		;;
 	esac
 		
-	if [ ${3} -eq 1 ] ; then #-gt 0 ?
-		for f in $(find /etc -type f -name 'stubby*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
-		for f in $(find /etc -type f -name 'dns*' -and -not -name '*.202*') ; do ${srat} -rf ${1} ${f} ; done
+	if [ ${3} -gt 0 ] ; then #-eq 1
+		for f in $(find /etc -type f -name "stubby*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
+		for f in $(find /etc -type f -name "dns*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
 	fi
 
 	ef=$(echo ${4} | tr -d -c 0-9)
@@ -391,7 +432,22 @@ function e22_acol() {
 
 #imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
 #020326:ehkä ok sisältö-siat (xorg ja ntp-jutut voisi testata paremmalla ajalla)
-#VAIH:toiminnan testaus (olisikohan kohta 150326?)
+
+#20426:edelleen toimii?
+
+#020426:vissiin ai tarvitse lisätestejä koska ei vedä verkosta mitään
+
+function e22_sarram() {
+	dqb "e22_sarram(${1} ; ${2} ; ${3} )))))))()))))"
+
+	[ -z "${1}" ] && exit 1
+	[ -s ${1} ] || exit 4 
+	#[ -w ${1} ] || exit 9
+	[ -z "${2}" ] && exit 11
+	[ -z "${3}" ] && exit 13
+	[ -s ${3} ] || exit 17
+
+	dqb "e22_sarram().pars.ok"
 
 function e22_sarram() {
 	dqb "e22_sarram()"
@@ -404,35 +460,44 @@ function e22_sarram() {
 	dqb "e22_sarram().pars.ok"
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
-	csleep 3
-	#exit 99
-	local f
 	csleep 1
+	
+	local f
+	#csleep 1
 
-	#josko kopsaisi /e/X11 alle konffin testaustarkoituksissa? nykyään kyllä g_dout kopsailee
-	for f in $(${odio} find /etc -type f -name 'xorg*' -and -not -name '*.202*') ; do
+	#VAIH:hipsut wttuun
+	for f in $(${odio} find /etc -type f -name "xorg*" -and -not -name "*.202*" ) ; do
 		${srat} -rvf ${1} ${f}
 	done	
 
-	#020326:tää kohta saattoi toimia oikein, ainakin kerran
-	#150326:entä toisne kerran?
+	dqb "X0RG.D0N3"
+	csleep 1
 
-	for f in $(${odio} find /etc -type f -name '${2}*' -and -not -name '*.202*') ; do
+	dqb "\${odio} find /etc -type f -name \"${2}*\" S00N"
+	csleep 1
+
+	for f in $(${odio} find /etc -type f -name "${2}*" -and -not -name "*.202*" ) ; do
 		${srat} -rvf ${1} ${f}
 	done
 
+	dqb "NEXT:ddm"
+	csleep 1
 	${srat} -rvf ${1} /etc/X11/default-display-manager
-	#HUOM.tätä varten oli valmiskin palikka?
+
+	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka?
 	${scm} 0555 /etc/iptables
 	${scm} 0400 /etc/iptables/rules*
 	${scm} 0400 /etc/default/rules*
 
-	#150326:nalkutusta ruleksien käyttöopikeukissta, tee jotain?
-	for f in $(${odio} find /etc -type f -name 'rules.v?.?' -and -not -name '*.202*') ; do ${sah6} ${f} >> ${3} ; done
-	for f in $(find ~ -type f -name '*pkgs*' -not -name '*.OLD') ; do ${sah6} ${f} >> ${3} ; done
+	#150326:nalkutusta ruleksien käyttöopikeukissta, tee jotain? (vielä 230326?)
+	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 
+	#VAIH:hispujen liskäsi karsittava hmiston minimize.OLD alaiset
+	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD ) ; do ${sah6} ${f} >> ${3} ; done
+
+	#230326:ntp-jtut näyttäisi vetävän mukaan
 	if [ -x /usr/sbin/ntpd ] ; then
-		for f in $(${odio} find /etc -type f -name 'ntp*') ; do
+		for f in $(${odio} find /etc -type f -name "ntp*" ) ; do
 			${srat} -rvf ${1} ${f}
 			${sah6} ${f} >> ${3}
 		done
@@ -444,26 +509,31 @@ function e22_sarram() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-function e22_ext() {
-	#TODO:/o/b liittyvää käsittelyä uusicksi sittenq
-	#... millä tavall auusiksi?
+#20426:toimii edelleen/taas?
+#tai sen zxcv;b sha-tarkistuksen kanssa jotain kiukuttelua että "tar -t $arch" josqs(TODO)
+#TODO:verkkoyhteyttä vaativat jutut vain jos testgris ei asetrettu? vaiko kutsuvan koodin puolella tarkistus?
 
-#VAIH:juttuja takaisin kommenteista?
+function e22_ext() {
 	[ -z "${1}" ] && exit 1
+	[ -d ${1} ] && exit 59
+	[ -f ${1} ] || exit 67
+
 	[ -s ${1} ] || exit 2
-	#[ -w ${1} ] || exit 6
-	#-f, ! -d pitäisikö olla 1 tai 4 kanssa?
+	[ -w ${1} ] || exit 6
+	
 	[ -z "${2}" ] && exit 3
 	[ -z "${3}" ] && exit 4
 	[ -z "${4}" ] && exit 47
-	[ -f ${4} ] || exit 48
+		
+	[ -d ${4} ] && exit 53
+	[ -f ${4} ] || exit 61
 
 	local p
 	local q	
 	local r
 	local st
 
-	csleep 1
+	csleep 1 #VAIH:deBugin latensseja jos taas karsisisisi
 	p=$(pwd)
 
 	#q=$(${mkt} -d) #ei vaan toimi näin?
@@ -473,7 +543,7 @@ function e22_ext() {
 	[ ${debug} -eq 1 ] && pwd
 
 	cd ${q}
-	csleep 1
+	#csleep 1
 
 	dqb "iface should be up by bow, next:git"
 	csleep 1
@@ -483,7 +553,6 @@ function e22_ext() {
 
 	cd more_scripts/misc
 	echo $?
-
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
 
 	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
@@ -499,7 +568,7 @@ function e22_ext() {
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${st}
 
 	if [ ! -s ./sbin/dhclient-script.1 ] ; then
-		 ${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
+		${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
 		ls -las ./sbin
 	fi
 
@@ -514,7 +583,6 @@ function e22_ext() {
 
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
-
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
 
 	${sco} -R root:root ./etc
@@ -528,10 +596,9 @@ function e22_ext() {
 	local f
 	#160126:tuon yhden tdston kanssa jokin ongelma sha-tark kanssa, joten ksrdotssn
 	#pois myös resolv.conf.* vaiko ei ?
-	#exit 99
 
 	#interfaces-alkuisten kanssa kiukuttelua cnangedns kanssa
-	for f in $(find ./etc -type f -not -name 'interfaces.*') ; do
+	for f in $(find ./etc -type f -not -name "interfaces.*" ) ; do
 		${sah6} ${f} >> ${4}
 	done
 
@@ -539,18 +606,20 @@ function e22_ext() {
 	[ ${debug} -eq 1 ] && pwd
 }
 
+#239326:lienee edelleen toimiva
 function e22_ts() {
 	dqb "E222.TS ()()() $1 , $2, $3"
 	[ -z "${1}" ] && exit 13
 	[ -d ${1} ] || exit 14
 	[ -w ${1} ] || exit 15  #hmistossa hyvä olla kirj.oik.
+	[ -z "${2}" ] && exit 16
+	[ -d ${2} ] || exit 17
 
 	dqb "par5 0k"
 	csleep 1
 
-	${svm} ${CONF_pkgdir}/*.deb ${1}
+	${svm} ${2}/*.deb ${1}
 	[ $? -eq 0 ] || exit 56
-	#glob muutt vähän huono juttu oikeastaan, TODO:tee jotain
 
 	#lisätäänkö tämä arkistoon jossain? no e22_a()
 	fasdfasd ${1}/tim3stamp
@@ -558,22 +627,24 @@ function e22_ts() {
 	cg_udp6 ${1}
 
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
-	#exit 99
 }
 
+#220326:toimii, tai ainakin osasi tehdä paketin
 function e22_arch() {
 	dqb "e22_arch() $1 , $2 , $3 , $4"
 
 	[ -z "${1}" ] && exit 1
-	#[ -s ${1} ] || exit 2 #antaa nyt olla kommenteissa
+	[ -s ${1} ] || exit 2 #josko uskaltaisi poistaa kommeneitsta
+
 	#[ -w ${1} ] || exit 33 #josko man bash...
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 44
+	[ -z "${3}" ] && exit 53
 
 	dqb "pars ok"
 	csleep 1
 	local p=$(pwd)
-	csleep 1
+	#csleep 1
 
 	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
 	if [ -f ${2}/sha512sums.txt ] ; then
@@ -581,7 +652,7 @@ function e22_arch() {
 	fi
 
 	local c
-	c=$(find ${2} -type f -name '*.deb' | wc -l)
+	c=$(find ${2} -type f -name "*.deb" | wc -l)
 
 	if [ ${c} -lt 1 ] ; then
 		dqb "N0.F1SH"
@@ -595,6 +666,11 @@ function e22_arch() {
 
 	cd ${2}
 	echo $?
+	${sah6} ./*.deb > ./sha512sums.txt
+
+	if [ ${3} -eq 1 ] ; then
+		${srat} -rf ${1} ./*pkgs*
+	fi
 
 	${sah6} ./*.deb > ./sha512sums.txt
 	${sah6} ./reject_pkgs >> ./sha512sums.txt.1
@@ -603,6 +679,7 @@ function e22_arch() {
 	csleep 1
 
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+
 	#alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious
 	#HUOM gpgv VITTUUN SOTKEMASTA
 	#dirmngr kuitenkin tarvitsee jhnkin?
@@ -626,6 +703,10 @@ function e22_arch() {
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 #}
 
+#290326:paketin rakennus onnaa edelleen
+function e22_dblock() {
+	dqb "e22_dblock(${1} , ${2} , ${3} , ${4})"
+
 function e22_dblock() {
 	[ -z "${1}" ] && exit 14
 	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
@@ -636,12 +717,13 @@ function e22_dblock() {
 	[ -z "${3}" ] && exit 33
 	[ -d ${3} ] || exit 34
 	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
+	[ -z "${4}" ] && exit 37
 
-	dqb "e22_dblock().PARS-OK"
+	dqb ".PARS-OK"
 	csleep 1
 
 	[ ${debug} -eq 1 ] && pwd
-	csleep 1
+	#csleep 1
 	#aval0n #tarpeellinen?
 	ls -la ${3}/*.deb | wc -l
 	
@@ -653,15 +735,15 @@ function e22_dblock() {
 	
 	local t
 	t=$(echo ${2} | cut -d '/' -f 1-6) #joitain tr-jekkuja vielä?
-	e22_ts ${t}
+	e22_ts ${t} ${3}
 	dqb "JST B3F0R3 3NF0RC3"
-	csleep 5
+	csleep 2
 	
 	enforce_access $(whoami) ${t}
 	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-	csleep 5
+	csleep 2
 
-	e22_arch ${1} ${2}
+	e22_arch ${1} ${2} ${4}
 	e22_cleanpkgs ${2}
 }
 
@@ -689,7 +771,7 @@ function e22_dblock() {
 ##
 ##	#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
 ##			
-##	e22_arch ${1} ${2}
+##	e22_arch ${1} ${2} ${4}
 ##	cd ${2}
 ##
 ##	#sotkee sittenkin liikaa?
@@ -702,16 +784,24 @@ function e22_dblock() {
 ##	exit
 #}
 
-#TODO:tmän kanssa sitä self_extracting_archive-juttua kokeillen?
-#VAIH:uusicksi testaus koska viimeaikaiset muutokset (160326, tekee tdston, sisältö:)
+#TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen?
+#290326:toimii sqrootissa edelleen pakeTin sisältö ? (VAIH:testaus)
 
 function e22_cde() {
+	dqb "e22_cde()"
+	
 	[ -z "${1}" ] && exit 99
 	[ -z "${2}" ] && exit 98
+	[ -z "${3}" ] && exit 96
 	[ -d "${2}" ] || exit 97
+	[ -d "${3}" ] || exit 95
+	
 	cd ${2}
 	fasdfasd ${1}
 	[ ${debug} -eq 1 ] && ls -las ${1}*
-	csleep 2
+	csleep 1
+
 	${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
+
+	dqb "e22_cde DONE()"
 }

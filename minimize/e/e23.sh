@@ -1,5 +1,8 @@
 #just_download_not_install-vipu olisi tietysti...
 
+#020426:dgsts.4 ja dgsts.5 , miten niiden kanssa nkuyään?lets find out? EIKU
+
+#010426:muutoksia josqs? dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteen keksitty
 function aswasw() { #privaatti fktio, tarkpoitus olla
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
@@ -19,9 +22,9 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 	esac
 }
 
-function e23_tblz() { #290326:toimii
+function e23_tblz() { #20426:toimii edelleen?
 	dqb "e23_tblz()"
-	csleep 2
+	csleep 1
 
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 15
@@ -31,7 +34,7 @@ function e23_tblz() { #290326:toimii
 
 	${fib}
 	${asy}
-	csleep 1
+	#csleep 1
 
 	#message() tähän?
 	tpc7	#jotain excaliburiin liittyvää
@@ -39,7 +42,7 @@ function e23_tblz() { #290326:toimii
 	${shary} ${E22_GT}
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
-	csleep 2
+	csleep 1
 
 	${asy}
 	#actually necessary
@@ -55,16 +58,16 @@ function e23_tblz() { #290326:toimii
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
 #... siinä ulkoistuksessa on kyllä semmoinen juttu
 
-#290326:toimii
+#20426:toimiie delleen?
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
-	csleep 1
+	#csleep 1 #VAIH:latemnsseja vähemmäksi?
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
 
 	${shary} ${E22_GS}
-	csleep 2	
+	csleep 1	
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	${shary} ${E22GI}
@@ -87,8 +90,10 @@ function e23_other_pkgs() {
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
 		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
+
 		${lftr} 
 		[ $? -eq 0 ] || exit 3
+
 		${shary} libev4
 		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan libc6 uudelleenas tässä?
 		${shary} stubby
@@ -97,11 +102,11 @@ function e23_other_pkgs() {
 	csleep 1
 	${lftr}
 
-#initrd-nalkutus mutkistanut asioita, josko a) /etc/kernel sisältö b) debian reference auttaisi?
+#initrd-nalkutus mutkistanut asioita, josko a) /etc/kernel sisältö b) debian reference auttaisi? (tämä seur)
 #	${lftr}
 
 	dqb "e23_other_pkgs() DONE"
-	csleep 2
+	csleep 1
 }
 
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
@@ -122,7 +127,7 @@ function e23_upgp() {
 	echo $?
 
 	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
-	csleep 1
+	#csleep 1
 
 	dqb " e23_upgp() done"
 	csleep 1
@@ -169,11 +174,11 @@ function e23_qrs() {
 
 	e22_config1 ~ ${3}
 	${srat} -rvf ${1} ~/${3}
-	csleep 2
+	csleep 1
 
 	#tuleeko mukaan vai ei?
 	tar -tf ${1} | grep ${3} | wc -l
-	csleep 3
+	csleep 2
 
 	dqb "BEFORE NVDk"
 	[ -f ${4} ] && ${NKVD} ~/${4}
@@ -188,18 +193,18 @@ function e23_qrs() {
 	done
 
 	[ ${debug} -eq 1 ] && tar -tf ${1} | grep ${4} | wc -l
-	csleep 3
+	csleep 1
 }
 
 #290326:toimii
 function e23_dm() {
 	dqb "e23_dm(${1})"
 	[ -z "${1}" ] && exit 11
-	csleep 4
+	csleep 2
 
 	dqb "params ok"
 	${fib}
-	csleep 2
+	csleep 1
 
 	#LOPPUU SE PURPATUS PRKL
 	${shary} ${E22_GS}
@@ -207,17 +212,19 @@ function e23_dm() {
 
 	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6
 	${shary} menu twm
-	csleep 1
+	#csleep 1
+
 	#libselinux oikeastaan muualla jo
 	${shary} libcrypt1 libpam0g libselinux1 #jemmaan?
 	${shary} libxau6 libxaw7 libxdmcp6 libxft2 libxinerama1 
 	csleep 1
 	${shary} libxpm4 libxrender1 debconf x11-utils cpp lsb-base x11-xserver-utils procps
-	csleep 1
+	#csleep 1
+
 	${shary} libgtk-3-0 libgtk-3-common
 	csleep 1
 	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libglib2.0-0 libglib2.0-data libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
-	csleep 1
+#	csleep 1
 	${shary} fontconfig libfribidi0 libharfbuzz0b libthai0
 	${shary} libfreetype6 libxcb-shape0 libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1
 	${shary} libxcb-render0 libxcb-shm0
@@ -232,39 +239,46 @@ function e23_dm() {
 			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
 			${shary} libwebpdemux2 libheif1 libaudit-common libcap-ng0 libaudit1
 			csleep 1
+
 			${shary} libdb5.3 libpam-modules-bin libpam-modules libpam-runtime
 			${shary} sysvinit-utils libtinfo6 libpng16-16 libx11-xcb1  
-			csleep 1
+			#csleep 1
+
 			${shary} libxfixes3 libxcursor1
 			${shary} libxkbfile1 libxmuu1 
 			#bsdextrautils | bsdmainutils 
 			${shary} bsdextrautils groff-base libgdbm6 libpipeline1 libseccomp2 man-db
 			csleep 1
+
 			${shary} libexpat1 fontconfig-config libfontconfig1
 			${shary} libfontenc1 libglvnd0 libglx0 libgl1  
 			${shary} x11-common libxtst6 libxv1 libxxf86dga1 
-			csleep 1
+			#csleep 1
+
 			${shary} psmisc x11-apps
 			${shary} libpcre2-8-0 libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
 			csleep 1
+
 			${shary} libgif7 libwraster6 libjpeg62-turbo
 			${shary} imagemagick-6-common libmagickwand-6.q16-6 libtiff6
 			#csleep 1
+
 			${shary} libbz2-1.0 libfftw3-double3  libjbig0 liblcms2-2 liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libwebpmux3
 			csleep 1
 			${shary} libmagickcore-6.q16-6 
 			${shary} libwutil5 wmaker-common libwings3
-			csleep 1
+			#csleep 1
+
 			${shary} libx11-data libmd0 libbsd0
 			${shary} wdm
 		;;
 #		lxdm)
 #			${shary} libpixman-1-0
-#			csleep 1
+#			#csleep 1
 #			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
 #			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1),  (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), , libxfixes3,  (>= 2:1.1.4),  (>= 2:1.5.0),  adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
 #			${shary} libpangocairo-1.0-0   
-#			csleep 1
+#			#csleep 1
 #			${shary} libdeflate0 debliblerc4 
 #			csleep 1
 #			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
@@ -284,7 +298,7 @@ function e23_dm() {
 #			#	 lxlock | xdg-utils, 
 #			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
 #			${shary} lxpolkit lxsession-logout lxsession
-#			csleep 1
+#			#csleep 1
 #		;;
 		*)
 		;;
