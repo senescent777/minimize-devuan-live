@@ -103,7 +103,7 @@ function e23_other_pkgs() {
 	${lftr}
 
 #initrd-nalkutus mutkistanut asioita, josko a) /etc/kernel sisältö b) debian reference auttaisi? (tämä seur)
-#	${lftr}
+
 
 	dqb "e23_other_pkgs() DONE"
 	csleep 1
@@ -218,6 +218,7 @@ function e23_dm() {
 	${shary} libcrypt1 libpam0g libselinux1 #jemmaan?
 	${shary} libxau6 libxaw7 libxdmcp6 libxft2 libxinerama1 
 	csleep 1
+
 	${shary} libxpm4 libxrender1 debconf x11-utils cpp lsb-base x11-xserver-utils procps
 	#csleep 1
 
@@ -225,6 +226,7 @@ function e23_dm() {
 	csleep 1
 	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libglib2.0-0 libglib2.0-data libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
 #	csleep 1
+
 	${shary} fontconfig libfribidi0 libharfbuzz0b libthai0
 	${shary} libfreetype6 libxcb-shape0 libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1
 	${shary} libxcb-render0 libxcb-shm0

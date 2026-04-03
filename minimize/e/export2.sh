@@ -316,8 +316,12 @@ case ${mode} in
 	;;
 #VAIH:vaikkapa tähän väliin uusi toiminto, if ja äksä... (jatkossa e23)
 	m)
+		${shary} ${E22_GS}
 		${shary} ifupdown adduser iproute2 net-tools tar mount coreutils
-		
+
+		#tässä alla vöib tulla suurempi lottoaminen
+		${shary} xorg xterm xserver-xorg xserver-xorg-legacy xserver-xorg-core xserver-common
+		${shary} xinit x11-apps x11-common x11-session-utils x11-utils x11-xkb-utils x11-xserver-utils  
 	;;
 	n)
 		#VAIH:ntp-jutut takaisin josqs?
