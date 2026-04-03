@@ -314,7 +314,11 @@ case ${mode} in
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
 	;;
-#TODO:vaikkapa tähän väliin uusi toiminto, if ja äksä...
+#VAIH:vaikkapa tähän väliin uusi toiminto, if ja äksä... (jatkossa e23)
+	m)
+		${shary} ifupdown adduser iproute2 net-tools tar mount coreutils
+		
+	;;
 	n)
 		#VAIH:ntp-jutut takaisin josqs?
 

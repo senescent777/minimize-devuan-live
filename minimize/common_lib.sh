@@ -543,7 +543,19 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	#TODO:yhteen juttuun liittyen pitäisi ifupdown-pkaetti ja muut leikit...
+	#VAIH:yhteen juttuun liittyen pitäisi ifupdown-pkaetti ja muut leikit...
+	#muistilappuna:
+
+	#ifupdown
+	# Depends:libc6 (>= 2.34), adduser, iproute2
+	#
+	#apt:antaa olla toistaiseksi?
+	#ip -> iproutre2
+	#netstat -> net-tools
+	#dpkg,tar: antaa olla toist? (tar)
+	#mount
+	#coreutils
+
 	local y
 	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh
 	for x in ${y} ; do ocs ${x} ; done
