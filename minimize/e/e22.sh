@@ -90,8 +90,6 @@ function e22_ftr() {
 	[ -z "${1}" ] && exit 62
 	[ -s ${1} ] || exit 63
 	[ -r ${1} ] || exit 64
-	dqb "pars.ok"
-	csleep 1
 
 	dqb "pars.ok"
 	csleep 1
@@ -163,6 +161,7 @@ function e22_pre2() {
 	csleep 1
 	#local ortsac
 	local par4
+
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
 	#ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
 	par4=$(echo ${4} | tr -d -c 0-9)
@@ -177,7 +176,7 @@ function e22_pre2() {
 
 		#HUOM.200326:TLA() tähän väliaikaisesti vai ei? nykyään kyllä ifup...
 
-		#280326:tilapäinen viritys kunnes x?
+		#280326:tilapäinen viritys kunnes x? mikä?
 		[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
 		ls -las /etc/resolv.*
 		csleep 2	
@@ -200,6 +199,7 @@ function e22_pre2() {
 function e22_cleanpkgs() {
 	dqb "cleanpkgs()"
 	[ -z "${1}" ] && exit 56
+
 	if [ -d ${1} ] ; then
 		#aiemmalla NKVD-tavalla saattaa kestää joten rm
 		${smr} ${1}/*.deb
@@ -270,13 +270,7 @@ function e22_settings() {
 function e22_home_pre() {
 	dqb "e22_home_pre()"
 
-	dqb "HOMEPRE D0NE"
-	csleep 1
-}
-
-function e22_home() {
-	dqb "e22_home()"
-	[ -z "${1}" ] && exit 67 #VAIH:tark takas
+	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
 	[ -d ${2} ] || exit 70
@@ -339,8 +333,6 @@ function e22_home() {
 
 #pitäisikö siirtää toiseen tdstoon?
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
-#HUOM.150326:testit vaiheessa, kommentteihin jos qsee
-#VAIH:toiminnan testaus (olisikohan jo kohta?)
 
 function luca() {
 	[ -z "${1}" ] && exit 11
@@ -367,8 +359,6 @@ function luca() {
 function e22_acol() {
 	dqb "e22_acol()"
 
-function e22_acol() {
-	dqb "e22_acol()"
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
 	#[ -w ${1} ] || exit 9
@@ -449,15 +439,6 @@ function e22_sarram() {
 
 	dqb "e22_sarram().pars.ok"
 
-function e22_sarram() {
-	dqb "e22_sarram()"
-	[ -z "${1}" ] && exit 1
-	[ -s ${1} ] || exit 4 
-	#[ -w ${1} ] || exit 9
-	[ -z "${2}" ] && exit 11
-	[ -z "${3}" ] && exit 13
-	[ -s ${3} ] || exit 17
-	dqb "e22_sarram().pars.ok"
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 	csleep 1
@@ -533,7 +514,7 @@ function e22_ext() {
 	local r
 	local st
 
-	csleep 1 #VAIH:deBugin latensseja jos taas karsisisisi
+	csleep 1 #VAIH:deBugin latensseja jos taas karsisisisi (vielä 030426?)
 	p=$(pwd)
 
 	#q=$(${mkt} -d) #ei vaan toimi näin?
@@ -573,7 +554,7 @@ function e22_ext() {
 	fi
 
 	if [ -f /etc/apt/sources.list ] ; then
-		#local c
+		local c
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
 
 		if [ ${c} -lt 1 ] ; then
@@ -672,7 +653,6 @@ function e22_arch() {
 		${srat} -rf ${1} ./*pkgs*
 	fi
 
-	${sah6} ./*.deb > ./sha512sums.txt
 	${sah6} ./reject_pkgs >> ./sha512sums.txt.1
 	${sah6} ./accept_pkgs_? >> ./sha512sums.txt.1
 	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
@@ -707,7 +687,6 @@ function e22_arch() {
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4})"
 
-function e22_dblock() {
 	[ -z "${1}" ] && exit 14
 	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
 	#[ -w ${1} ] || exit 16 #ei näin?
@@ -785,7 +764,7 @@ function e22_dblock() {
 #}
 
 #TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen?
-#290326:toimii sqrootissa edelleen pakeTin sisältö ? (VAIH:testaus)
+#030426:taitaa edelleen toimia paketin sisältö sqrootissa
 
 function e22_cde() {
 	dqb "e22_cde()"

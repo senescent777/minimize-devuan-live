@@ -52,11 +52,15 @@ csleep 2
 #jos vaikka näin?
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 csleep 2
-${odio} /opt/bin/tlb.bash
-csleep 2
 
-#020426:[ -v] taakse ao. rivi?
-${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+if [ -x /opt/bin/tlb.bash ] ; then
+	${odio} /opt/bin/tlb.bash
+	csleep 2
+fi
+
+if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
+	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+fi
 
 csleep 2
 ${fib}
@@ -77,6 +81,7 @@ fi
 
 function t2p_filler() {
 	dqb "FILLER"
+	#chmod a-x /usr/sbin/update-initramfs ?
 	${lftr}
 	${asy}
 	csleep 1

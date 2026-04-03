@@ -35,7 +35,7 @@ if [ $# -gt 0 ] ; then
 	fi
 fi
 
-#TODO:jos järjestelisi tämän kikkareen uudestaan sittenq sqroot-testit seur kerran tehty
+#TODO?:jos järjestelisi tämän kikkareen uudestaan sittenq sqroot-testit seur kerran tehty
 #... JOKO JO 300236? eu uhan vielä (2426)
 #... joutaisi koko roskan kirjoittamaan uusicksi fråm scratch mutta odotellessa jos latensseja pienemmäksi syystä ilman -v ei toimi mikään
 
@@ -279,7 +279,7 @@ function common_part() {
 
 	[ -z "${2}"  ] && exit 11
 	[ -d ${2} ] || exit 22
-	[ -d ${3} ] || exit 33
+	[ -d ${3} ] || exit 44
 
 	dqb "paramz_0k"
 	csleep 1

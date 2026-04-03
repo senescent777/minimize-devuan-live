@@ -215,7 +215,7 @@ function check_bin_0() {
 	#280326:/o/b/zxcv - jutut jo kunnossa? vai vielä jotain säätöä?
 	[ -s /opt/bin/zxcv ] || echo "should exit 98"
 	[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
-	[ -s /opt/bin/zxcv.sha ] || echo "should exit 97"
+	[ -s /opt/bin/zxcv.sha ] || echo "shoul.d ex1t 97"
 
 	${sah6} -c /opt/bin/zxcv.sha #jatkossa .sig vai .sha.sig?
 	[ $? -gt 0 ] && echo "gh0uls should ex1t 9 96"
@@ -464,13 +464,17 @@ function cefgh() {
 	dqb "pars ok"
 	csleep 1
 
-	#pitäisiköhän noissa poistelöuissa olla jotain muitakin ehtoja?
+	#pitäisiköhän noissa poisteluissa olla jotain muitakin ehtoja?
 	efk2 ${1}/e.tar
 	[ $? -eq 0 ] && ${NKVD} ${1}/e.tar
 
+	#VAIH:[ -x $gg ] taakse tuo ao. poisto jos ei muuta keksi?
 	efk2 ${1}/f.tar ${1}
-	[ $? -eq 0 ] && ${NKVD} ${1}/f.tar
-
+	
+	if [ $? -eq 0 ] ; then
+		[ -x ${gg} ] && ${NKVD} ${1}/f.tar
+	fi
+	
 	#mitäjos part3() kaNssa tulee sitä gpg-nalkutusta? g.tar-jutut takaisin tähämn?	
 }
 
@@ -539,6 +543,7 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
+	#TODO:yhteen juttuun liittyen pitäisi ifupdown-pkaetti ja muut leikit...
 	local y
 	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh
 	for x in ${y} ; do ocs ${x} ; done
@@ -566,6 +571,8 @@ function check_binaries() {
 	fi
 
 	#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
+	#... pitäisiköhän gg:n suhteen jotain tehdä, imp2 kiukuttelut nimittäin
+	
 	if [ -z "${gg}" ] ; then
 		CB01 ${1}
 	fi
@@ -574,7 +581,7 @@ function check_binaries() {
 		CB02 ${1}
 	fi
 
-	#jäölk ÄYÖYÄ SDDFSDSDGH t. Aku Snkka
+	dqb "#jäölk ÄYÖYÄ SDDFSDSDGH t. Aku Snkka"
 		ls ${1}/*.deb | wc -l
 		csleep 3
 		for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
@@ -590,7 +597,7 @@ function check_binaries() {
 	csleep 1
 	
 	sag=$(${odio} which apt-get)
-	sa=$(${odio} which apt) #tar4vitaanko jossain?
+	sa=$(${odio} which apt) #tar4vitaanko jossain? jep
 
 	#151225:pitäisikö sittenkin alustaa check_bin_0():ssa ainakin 2 seuraavaa?
 	som=$(${odio} which mount)
@@ -625,9 +632,12 @@ function check_binaries2() {
 	#VAIH:pois kommenteista lftr tai sitten sen jonkin /etc/kernel-jekun hyödyntämisen kokeilu
 	#... toimii vai ei?
 
+	#konftdstoon tuo INITRd vai ei?
 	INITRD=No
 	export INITRD
+	
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
+	${scm} a-x /usr/sbin/update-initramfs #kokeeksi tämäkin
 		
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing '/run/live/medium/live/initrd.img.new': No space left on device
@@ -907,8 +917,6 @@ function e_e() {
 	${scm} 0755 /etc
 	${sco} -R root:root /etc
 	${scm} 0555 /etc/network
-
-
 	${scm} 0444 /etc/network/*
 
 	for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
@@ -925,11 +933,11 @@ function e_e() {
 	[ -f /etc/resolv.conf.${f} ] || ${svm} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
-	#280326:pitäisiköhän tämä kohta miettiä uusiksi?
+	#030426:ok näin vai ei?
 	if [ -h /etc/resolv.conf ] ; then
-		#tarkistus hyvä näin vai ei?
-		c=$(find /etc -type f -name "resolv.conf.*" | wc -l ) #size-ehto vielä (VAIH)
-
+		#tarkistus hyvä näin vai ei? toimiiko size?
+		c=$(find /etc -type f -name "resolv.conf.*" -size +10c | wc -l )
+		
 		if [ ${c} -gt 0 ] ; then 
 			${smr} /etc/resolv.conf
 		fi

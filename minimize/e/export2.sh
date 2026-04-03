@@ -314,6 +314,7 @@ case ${mode} in
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
 	;;
+#TODO:vaikkapa tähän väliin uusi toiminto, if ja äksä...
 	n)
 		#VAIH:ntp-jutut takaisin josqs?
 
@@ -336,7 +337,6 @@ if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 	e22_ftr ${d}/f.tar
 	#140326:pitäisiköhän yo. kohta muuttaa? miten? miksi?
 
-	e22_ftr ${d}/f.tar  #140326:pitäisiköhän tämä kohta muuttaa?
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
 fi

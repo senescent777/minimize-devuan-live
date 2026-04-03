@@ -345,11 +345,14 @@ e_h $(whoami) ${d0}
 echo "KVG:\"how to exit for-loop in bash\" " #TÄSSÄKÖ KUSI PASKAA?
 sleep 5
 
-${odio} /opt/bin/tlb.bash ${CONF_dnsm}
-${odio} /opt/bin/aftr.bash
+#030426:seur 2-3 riviä chrot-testin taakse jatkossa?
+if [ -x /opt/bin/tlb.bash ] && [ -v CONF_dnsm ] ; then
+	${odio} /opt/bin/tlb.bash ${CONF_dnsm}
+	${odio} /opt/bin/aftr.bash
+	${sipt} -L
+	csleep 1
+fi
 
-${sipt} -L
-csleep 1
 ${scm} 0555 ${d0}/common_lib.sh
 #JOKO JO LOPPUISI PURPATUS PRKL
 ${scm} a-wx $0
