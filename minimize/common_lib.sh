@@ -547,15 +547,20 @@ function check_binaries() {
 	#muistilappuna:
 
 	#ifupdown
-	# Depends:libc6 (>= 2.34), adduser, iproute2
+	# Depends:libc6 (>= 2.34), , 
 	#
 	#apt:antaa olla toistaiseksi?
-	#ip -> iproutre2
-	#netstat -> net-tools
+	#ip -> 
+	#netstat -> 
 	#dpkg,tar: antaa olla toist? (tar)
-	#mount
-	#coreutils
+	#
+	#
 
+	E22_M="libtirpc3 libbsd0 libc6 libdb5.3 libselinux1 iproute2 adduser ifupdown net-tools mount coreutils"
+
+	#... nuo jutut miel accept1/2 mukaan jatq tjsp?
+	#... no ainakin joutaa iteroimaan riippuvuudet huolella (030426)
+	
 	local y
 	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh
 	for x in ${y} ; do ocs ${x} ; done
@@ -594,9 +599,9 @@ function check_binaries() {
 	fi
 
 	dqb "#jäölk ÄYÖYÄ SDDFSDSDGH t. Aku Snkka"
-		ls ${1}/*.deb | wc -l
-		csleep 3
-		for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
+	ls ${1}/*.deb | wc -l
+	csleep 3
+	for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
 	#fi #tstgris
 	
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"

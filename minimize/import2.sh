@@ -39,6 +39,10 @@ fi
 #... JOKO JO 300236? eu uhan vielä (2426)
 #... joutaisi koko roskan kirjoittamaan uusicksi fråm scratch mutta odotellessa jos latensseja pienemmäksi syystä ilman -v ei toimi mikään
 
+
+#TODO:josko sittenkin silppuaisi tämän skriptin kahdeksi
+#yksi versio sqroot-ymp varten, toinen taas ei
+
 #190326:alkaisikohan kohta asettua parsetus?  (liittyyköhän tables/gpg asiaan?)
 #180326:liittyyköhän check_bin():in "ocs ipt" tuohon viimeaikaiseen kiukutteluun?
 
@@ -118,6 +122,8 @@ if [ -f /.chroot ] ; then
 	unset g
 	sleep 1
 	echo "C"
+
+	#030426:huom. kts commn_lib , E22_M , tarpeellinen
 
 	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
 		tar -jxvf ${f}

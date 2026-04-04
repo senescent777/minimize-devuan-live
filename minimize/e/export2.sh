@@ -164,7 +164,7 @@ case ${mode} in
 
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
-	c) #290326:teki taas paketin, sisältö:VAIH (ehkä ok jo)
+	c) #030426 tIEnoilla toimi viimeksi
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
 	p) #170326:lienee kunnossa
@@ -316,12 +316,37 @@ case ${mode} in
 	;;
 #VAIH:vaikkapa tähän väliin uusi toiminto, if ja äksä... (jatkossa e23)
 	m)
+		[ -v E22_GS ] || exit 78
+		[ -v E22_M ] || exit 79
+		
 		${shary} ${E22_GS}
-		${shary} ifupdown adduser iproute2 net-tools tar mount coreutils
+		#${shary} ifupdown adduser iproute2 net-tools tar mount coreutils
+		${shary} ${E22_M} #tämän kanssa piyäisi viel itEroida
 
-		#tässä alla vöib tulla suurempi lottoaminen
-		${shary} xorg xterm xserver-xorg xserver-xorg-legacy xserver-xorg-core xserver-common
+		#tässä alla vöib tulla suurempi lottoaminen (jospa jollain livecd:llä selvittäisi mitä oik tarv)
+		${shary} xorg xorg-docs-core
+		${shary} xserver-xorg xserver-xorg-legacy xserver-xorg-core xserver-common
+		${shary} xserver-xorg-input-all xserver-xorg-video-all
 		${shary} xinit x11-apps x11-common x11-session-utils x11-utils x11-xkb-utils x11-xserver-utils  
+		${shary} xauth xbitmaps xterm 
+		#TODO:xserver-xorg-video-* ainakin mukaan
+		
+#		#dpkg: dependency problems prevent configuration of x11-apps:
+# x11-apps depends on libxaw7 (>= 2:1.0.14); however:
+#  Package libxaw7 is not installed.
+# x11-apps depends on libxcb-damage0; however:
+#  Package libxcb-damage0 is not installed.
+# x11-apps depends on libxft2 (>> 2.1.1); however:
+#  Package libxft2 is not installed.
+# x11-apps depends on libxi6 (>= 2:1.2.99.4); however:
+#  Package libxi6 is not installed.
+# x11-apps depends on libxkbfile1 (>= 1:1.1.0); however:
+#  Package libxkbfile1 is not installed.
+# x11-apps depends on libxmu6 (>= 2:1.1.3); however:
+#  Package libxmu6 is not installed.
+# x11-apps depends on libxmuu1 (>= 2:1.1.3); however:
+#  Package libxmuu1 is not installed.
+#... "case l" jos kuittaisi äksän lib-jutut (tai sit boottaa minimal-liveen ja asenna x+wdm siihen) (TODO?)
 	;;
 	n)
 		#VAIH:ntp-jutut takaisin josqs?

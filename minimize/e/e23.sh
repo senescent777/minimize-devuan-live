@@ -223,14 +223,24 @@ function e23_dm() {
 	#csleep 1
 
 	${shary} libgtk-3-0 libgtk-3-common
-	csleep 1
+	
 	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libglib2.0-0 libglib2.0-data libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
 #	csleep 1
 
 	${shary} fontconfig libfribidi0 libharfbuzz0b libthai0
 	${shary} libfreetype6 libxcb-shape0 libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1
 	${shary} libxcb-render0 libxcb-shm0
-
+	${shary} libxkbfile1 libxmuu1 libxt6
+	csleep 1
+	
+	${shary} libexpat1 fontconfig-config libfontconfig1
+	${shary} libfontenc1 libglvnd0 libglx0 libgl1  
+	${shary} x11-common libxtst6 libxv1 libxxf86dga1 
+	${shary} libx11-data libx11-xcb1 libxcomposite1
+	csleep 1
+	
+	${shary} libgbm1 libseat1 libunwind8 libxpm4 # libselinux1
+			
 	case "${1}" in
 		xdm) #010126:pitäisiköhän tämäkin case testata?
 			${shary} xdm
@@ -247,14 +257,12 @@ function e23_dm() {
 			#csleep 1
 
 			${shary} libxfixes3 libxcursor1
-			${shary} libxkbfile1 libxmuu1 
+			
 			#bsdextrautils | bsdmainutils 
 			${shary} bsdextrautils groff-base libgdbm6 libpipeline1 libseccomp2 man-db
 			csleep 1
 
-			${shary} libexpat1 fontconfig-config libfontconfig1
-			${shary} libfontenc1 libglvnd0 libglx0 libgl1  
-			${shary} x11-common libxtst6 libxv1 libxxf86dga1 
+
 			#csleep 1
 
 			${shary} psmisc x11-apps
@@ -271,7 +279,7 @@ function e23_dm() {
 			${shary} libwutil5 wmaker-common libwings3
 			#csleep 1
 
-			${shary} libx11-data libmd0 libbsd0
+			${shary} libmd0 libbsd0
 			${shary} wdm
 		;;
 #		lxdm)
