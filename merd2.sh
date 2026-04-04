@@ -31,7 +31,8 @@ else
 fi
 
 if [ ! -z "${branch}" ] ; then
-	branch="--branch ${branch}" #tr-jekku tähän vielä?
+	branch=$(echo ${branch} | tr -dc a-zA-Z0-9/.)
+	branch="--branch ${branch}"
 fi
 
 dqb "branch=${branch}"
