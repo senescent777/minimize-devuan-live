@@ -9,9 +9,15 @@ mime-support
 #
 #eudev-dbus-e2fsprogs oli siinä rejectissä, miten x-juttuja myös?
 xserver-common
+#
+#libc6 ennen legacy
 xserver-xorg-legacy
+#
+#utyils ennen:common
+x11-xkb-utils
 xserver-common
 xserver-xorg-core
+#
 dbus-system-bus-common
 dbus-bin
 dbus-session-bus-common
@@ -25,3 +31,12 @@ python3.11
 menu
 psmisc
 git-man
+#
+xauth
+xinit
+xbitmaps
+xterm
+xfonts
+x11
+xorg
+
