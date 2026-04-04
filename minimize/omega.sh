@@ -3,7 +3,7 @@
 odio=$(which sudo)
 smr=$(${odio} which rm)
 smr="${odio} ${smr} "
-
+#TODO:scm vähitellen mukaan wtun spede?
 whack=$(${odio} which pkill)
 whack="${whack} --signal 9 "
 svm=$(${odio} which mv)
