@@ -3,6 +3,7 @@ distro=$(cat /etc/devuan_version)
 
 #HUOM. tämä skripti ei välttämttä oleellinen chroot-ympäristön kannalta
 d=$(pwd)
+#TODO:ajan tasalle tämä skripti
 
 if [ -s ${d}/${distro}/conf ] ; then
 	. ${d}/${distro}/conf
