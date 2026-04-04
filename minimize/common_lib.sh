@@ -543,11 +543,10 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	#VAIH:yhteen juttuun liittyen pitäisi ifupdown-pkaetti ja muut leikit...
+	#VAIH:yhteen juttuun liittyen pitäisi -pkaetti ja muut leikit...
 	#muistilappuna:
 
-	#ifupdown
-	# Depends:libc6 (>= 2.34), , 
+
 	#
 	#apt:antaa olla toistaiseksi?
 	#ip -> 
@@ -557,40 +556,54 @@ function check_binaries() {
 	#
 
 	#Dependencies: 
-	#1.3.3+ds-1 - libc6 (2 2.34) libgssapi-krb5-2 (2 1.17) libtirpc-common (2 1.3.3+ds-1) nfs-common (3 1:1.2.8-7) nfs-kernel-server (3 1:1.2.8-7)
+	#1.3.3+ds-1 -  (2 2.34)  (2 1.3.3+ds-1) nfs-common (3 1:1.2.8-7) nfs-kernel-server (3 1:1.2.8-7)
 
 	#Dependencies: 
-	#0.11.7-2 - libc6 (2 2.34) libmd0 (2 1.0.3-2) 
+	#0.11.7-2 -  (2 2.34)  (2 1.0.3-2) 
 
 	#(antaa olla)
 
-	#libc6
-	#libpcre2-8-0
+	#
+	#
 	#Dependencies: 
-	#6.1.0-3 - debconf (18 0.5) debconf-2.0 (0 (null)) libbpf1 (2 1:0.6.0) libbsd0 (2 0.0) libc6 (2 2.34) libcap2 (2 1:2.10) libdb5.3 (0 (null)) libelf1 (2 0.131) libmnl0 (2 1.0.3-4~) libselinux1 (2 3.1~) libtirpc3 (2 1.0.2) libxtables12 (2 1.6.0+snapshot20161117) libcap2-bin (0 (null)) arpd (0 (null)) iproute (3 20130000-1) libatm1 (2 2.4.1-17~) iproute2-doc (0 (null)) python3:any (0 (null)) iproute (0 (null)) 
-
-	#Dependencies: 
-	#3.134 - passwd (0 (null)) liblocale-gettext-perl (0 (null)) perl (0 (null)) cron (0 (null)) quota (0 (null)) 
+	#6.1.0-3 - (0 (null))  (2 1:0.6.0)  (2 0.0)  (2 2.34)  (2 1:2.10)  (0 (null))  (2 0.131)  (2 1.0.3-4~) 1 (2 3.1~)  (2 1.0.2) (2 1.6.0+snapshot20161117)  (0 (null)) arpd (0 (null))  (3 20130000-1) (2 2.4.1-17~) (0 (null)) python3:any (0 (null))  (0 (null)) 
 
 	#Dependencies: 
-	#0.8.41 - libc6 (2 2.34) adduser (0 (null)) iproute2 (0 (null)) systemd (3 228-3~) isc-dhcp-client (16 (null)) dhcp-client (0 (null)) ppp (0 (null)) rdnssd (0 (null)) systemd (3 228-3~) 
+	#3.134 -  (0 (null))  (0 (null)) perl (0 (null)) cron (0 (null)) quota (0 (null)) 
 
 	#Dependencies: 
-	#2.10-0.1+deb12u2devuan1 - libc6 (2 2.34) libselinux1 (2 3.1~) 
-	#2.10-0.1devuan1 - libc6 (2 2.34) libselinux1 (2 3.1~)
+	#0.8.41 -  (2 2.34)  (0 (null)) (0 (null)) (3 228-3~)  (16 (null)) dhcp-client (0 (null)) ppp (0 (null)) rdnssd (0 (null)) systemd (3 228-3~) 
 
 	#Dependencies: 
-	#2.38.1-5+deb12u3devuan1 - libblkid1 (2 2.17.2) libc6 (2 2.34) libmount1 (2 2.38) libselinux1 (2 3.1~) libsmartcols1 (2 2.33) nfs-common (0 (null))
+	#2.10-0.1+deb12u2devuan1 -  (2 2.34)  (2 3.1~) 
+	#2.10-0.1devuan1 - (2 2.34)  (2 3.1~)
 
 	#Dependencies: 
-	#9.1-1 - libacl1 (2 2.2.23) libattr1 (2 1:2.4.44)  (2 2.34) libgmp10 (2 2:6.2.1+dfsg1) libselinux1 (2 3.1~) 
+	#2.38.1-5+deb12u3devuan1 -  (2 2.17.2) (2 2.34) (2 2.38)  (2 3.1~)  (2 2.33) (0 (null))
 
-	#libtirpc3 libbsd0  libdb5.3 libselinux1 iproute2 adduser ifupdown net-tools mount coreutils"
+	#Dependencies: 
+	#9.1-1 - (2 2.2.23) (2 1:2.4.44)  (2 2.34) (2 2:6.2.1+dfsg1)  (2 3.1~) 
 
-	E22_M="libc6"
+	#     
+
+	E22_M="libc6 libtirpc3 libbsd0 libdb5.3 libselinux1 libmount1 libacl1 libattr1 libgmp10"
+	E22_M="${E22_M} libblkid1 libsmartcols1 debianutils liblocale-gettext-perl passwd" # nfs-common
+
+	#Dependencies: 
+	#4.4.3-P1-2 - (0 (null))  (0 (null)) (0 (null)) avahi-autoipd (0 (null)) isc-dhcp-client-ddns (0 (null)) 
+
+	#Dependencies: 
+	#4.4.3-P1-2 -  (2 2.8.2) 
+
+
+	E22_M="${E22_M} resolvconf isc-dhcp-client isc-dhcp-common"
+	E22_M="${E22_M} debconf debconf-i18n libbpf1 libcap2 libcap2-bin libelf1"
+	E22_M="${E22_M} libmnl0 libxtables12 " # oikeastaanm jo toisissakin jutussa mukana
+	E22_M="${E22_M} libatm1 libpcre2-8-0 libmd0 libgssapi-krb5-2 libtirpc-common"
+	E22_M="${E22_M} iproute2 adduser ifupdown net-tools mount coreutils" #iproute2-doc iproute
 
 	#... nuo jutut miel accept1/2 mukaan jatq tjsp?
-	#... no ainakin joutaa iteroimaan riippuvuudet huolella (030426)
+	#... no ainakin joutaa iteroimaan riippuvuudet huolella (VAIH)
 	
 	local y
 	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh
