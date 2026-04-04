@@ -18,16 +18,16 @@
 	it can also be used to install upgrades to .deb packages
 
 - merd2.sh
-  is some day supposed to fetch the most recent version of this project from github
+  is supposed to fetch the most recent version of this project from github
 
 - generic_pt2.sh removes little more packages.
-  If you want even lighter filesystem.squashfs
-	https://github.com/senescent777/some_scripts/blob/main/skripts/export/squ.ash.export can be used to make that .squashfs from / - partition
+  If you want even lighter filesystem.squashfs , then
+	squ.ash in another repository can be used to make that .squashfs from / - partition
 
 
 - about all those .desktop-files under 1c0ns: i have started to work on them, maybe part of them are already doing what they're supposed to
 
-- changedns.sh
+- /o/b/mutilatetc.bash
   	If there's problem with DNS, this script may fix that. 
 	It can be used to change the network configuration to use plain-old-DNS... and that's all, folks.
   There is something going on with Daedalus/stubby/dnsmasq that i have to figure out
@@ -35,7 +35,8 @@
 	
 
 - omega.sh removes "Ubuntu-style sudo". Potentially dangerous.
-
+- wrapper.sh is supposed to become a wrapper around some of these scripts
+- 
 P.S. there may be some problems with access rights.  Should not happen that often anymore. 
 But if it does, invocation "chmod 0755 *.sh;chmod 0755 $distro;chmod 0644 $distro/conf*;chmod 0755 $distro/*.sh" helps.
 
