@@ -324,13 +324,19 @@ case ${mode} in
 		#${shary} ifupdown adduser iproute2 net-tools tar mount coreutils
 		${shary} ${E22_M} #tämän kanssa piTäisi viel itEroida
 
+		#TODO:tästä kohtaa poikki case+siirto
 		#tässä alla vöib tulla suurempi lottoaminen (jospa jollain livecd:llä selvittäisi mitä oik tarv)
 		${shary} xorg xorg-docs-core
-		${shary} xserver-xorg xserver-xorg-legacy xserver-xorg-core xserver-common
-		${shary} xserver-xorg-input-all xserver-xorg-video-all
+
+		${shary} xserver-common xserver-xorg xserver-xorg-core
+		${shary} xserver-xorg-input-all xserver-xorg-input-libinput xserver-xorg-input-wacom 
+		${shary} xserver-xorg-legacy xserver-xorg-video-all xserver-xorg-video-amdgpu
+		${shary} xserver-xorg-video-ati xserver-xorg-video-fbdev xserver-xorg-video-intel 
+		${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
+
 		${shary} xinit x11-apps x11-common x11-session-utils x11-utils x11-xkb-utils x11-xserver-utils  
 		${shary} xauth xbitmaps xterm 
-		#TODO:xserver-xorg-video-* ainakin mukaan
+		#VAIH:xserver-xorg-video-* ainakin mukaan
 		
 #		#dpkg: dependency problems prevent configuration of x11-apps:
 # x11-apps depends on libxaw7 (>= 2:1.0.14); however:
