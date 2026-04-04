@@ -310,7 +310,7 @@ case ${mode} in
 	#230326:edelleen osaa paketin tehdä
 		${shary} ${E22GI}
 	;;
-	l) #TODO:testaus uusicksi viimeaikaisen sorkinnan takia
+	l) #VAIH:testaus uusicksi viimeaikaisen sorkinnan takia
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
@@ -322,9 +322,10 @@ case ${mode} in
 		
 		${shary} ${E22_GS}
 		#${shary} ifupdown adduser iproute2 net-tools tar mount coreutils
-		${shary} ${E22_M} #tämän kanssa piTäisi viel itEroida
-
-		#TODO:tästä kohtaa poikki case+siirto
+		${shary} ${E22_M} #tämän kanssa piTäisi vielä itEroida
+	;;
+	x)
+		#VAIH:tästä kohtaa poikki case+siirto (e23)
 		#tässä alla vöib tulla suurempi lottoaminen (jospa jollain livecd:llä selvittäisi mitä oik tarv)
 		${shary} xorg xorg-docs-core
 

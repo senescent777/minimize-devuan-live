@@ -196,7 +196,7 @@ function e23_qrs() {
 	csleep 1
 }
 
-#290326:toimii
+#VAIH:test.aus
 function e23_dm() {
 	dqb "e23_dm(${1})"
 	[ -z "${1}" ] && exit 11

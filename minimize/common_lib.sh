@@ -613,6 +613,8 @@ function check_binaries() {
 	sdi="${odio} ${sd0} -i "
 	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
+	E22_GS="cpp-12 gcc-12-base libstdc++6 libgcc-s1 libc6 libgomp1"
+
 	#010426:dhcp-jutut erilleen jatkossa?
 	E22_GT="isc-dhcp-client isc-dhcp-common libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
 	E22_GT="${E22_GT} iptables"
@@ -646,7 +648,6 @@ function check_binaries() {
 	ls ${1}/*.deb | wc -l
 	csleep 3
 	for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
-	#fi #tstgris
 	
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
@@ -1365,10 +1366,7 @@ function part3() {
 	common_lib_tool ${1} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 
-	#270326:jatkossa jotain kikkailua 2 ao. rivin kanssa vai ei? wopr() vähitellebn...
-	E22_GS="cpp-12 gcc-12-base libstdc++6 libgcc-s1 libc6 libgomp1"
-
-	#040426:viime aikoina ollut nalkutusta libc/libgcc/gcc liittyen, josko jotain tekisi?
+	#040426:viime aikoina ollut nalkutusta libc/libgcc/gcc liittyen, josko jotain tekisi? E22_GS+wopr() ? (TODO)
 	efk1 ${1}/libgcc-s1*.deb ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
 
 	common_lib_tool ${1} accept_pkgs_1
