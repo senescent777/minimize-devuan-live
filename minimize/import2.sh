@@ -245,7 +245,9 @@ check_binaries ${d}
 [ $? -eq 0 ] || exit 
 
 check_binaries2
-[ $? -eq 0 ] || exit 
+[ $? -eq 0 ] || exit
+
+#-x sifd - testi olisi myös idea
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 [ -v mkt ] || exit 7

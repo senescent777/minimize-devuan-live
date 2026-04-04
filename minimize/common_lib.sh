@@ -193,7 +193,7 @@ function check_bin_0() {
 	sip="${odio} ${sip} "
 
 	smd=$(${odio} which mkdir)
-	sca=$(${odio} which chattr)
+	sca=$(${odio} which chattr) #käytössä?
 	sca="${odio} ${sca}"
 	mkt=$(${odio} which mktemp)
 	tig=$(${odio} which git)
@@ -734,7 +734,7 @@ function slaughter0() {
 	fn2=$(echo $1 | awk '{print $1}') 
 	ts2=$(${sah6} ${fn2})
 
-	#tähän alle jotain tr-kikkialua?
+	#tähän alle jotain tr-kikkAIlua?
 	echo ${ts2} | awk '{print $1,$2}' >> ${2}
 }
 
@@ -1323,6 +1323,8 @@ function part3() {
 
 	#270326:jatkossa jotain kikkailua 2 ao. rivin kanssa vai ei? wopr() vähitellebn...
 	E22_GS="cpp-12 gcc-12-base libstdc++6 libgcc-s1 libc6 libgomp1"
+
+	#040426:viime aikoina ollut nalkutusta libc/libgcc/gcc liittyen, josko jotain tekisi?
 	efk1 ${1}/libgcc-s1*.deb ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
 
 	common_lib_tool ${1} accept_pkgs_1

@@ -3,7 +3,7 @@ distro=$(cat /etc/devuan_version)
 
 #HUOM. tämä skripti ei välttämttä oleellinen chroot-ympäristön kannalta
 d=$(pwd)
-#TODO:ajan tasalle tämä skripti
+#VAIH:ajan tasalle tämä skripti (olisikojo?)
 
 if [ -s ${d}/${distro}/conf ] ; then
 	. ${d}/${distro}/conf
@@ -11,12 +11,12 @@ else
 	echo "NO CONFIG FILE"
 fi
 
-#miten tämän vastaavuudet some_scripts/lib alaisten kanssa?
-#liittyy:https://github.com/senescent777/some_scripts/blob/main/lib/export/ui.sh.export
-
 gol=$(which dialog)
-#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=dialog=1.3-20230209-1&eXtra=87.95.53.103
-[ -x ${gol} ] || echo "apt-get install libtinfo6 libncursesw6 debianutils dialog"
+
+if  [ -z "${gol}" ] || [ ! -x ${gol} ] ; then
+	echo "apt-get install libtinfo6 libncursesw6 debianutils dialog"
+	#VAIH:-z vielä ennen -x
+fi
 
 case ${1} in
 	merde)
@@ -27,13 +27,13 @@ case ${1} in
 		fi
 	;;
 	cdns)		
-		sudo /opt/bin/changedns.sh ${dnsm}
+		sudo /opt/bin/mutilatetc.bash ${CONF_dnsm}
 	;;
 	ifup)
-		sudo /sbin/ifup ${iface}
+		sudo /sbin/ifup ${CONF_iface}
 	;;
 	ifdown)
-		sudo /sbin/ifdown ${iface}
+		sudo /sbin/ifdown ${CONF_iface}
 	;;
 	import|import2)
 		${d}/import2.sh -1
@@ -53,7 +53,8 @@ case ${1} in
 		#https://invisible-island.net/dialog/manpage/dialog.pdf
 
 		if [ "${1}" == "import" ] ; then
-			${d}/import2.sh 0 ${sorsa}
+			#-v mielellään pois optioista sittenq mahd
+			${d}/import2.sh 0 ${sorsa} -v
 			[ $? -eq 0 ] || echo "$0 import2 ?"
 			sleep 1
 		else
