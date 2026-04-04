@@ -242,7 +242,8 @@ case ${mode} in
 		reqwreqw /opt/bin/zxcv.tmp
 	
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 3 ] ; then #TODO:testgris-ehto mukaan?
+		if [ ${mode} -eq 3 ] && [ ! -v CONF_tesgris ] ; then
+			#VAIH:testgris-ehto mukaan, tosin pointti?
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
@@ -321,7 +322,7 @@ case ${mode} in
 		
 		${shary} ${E22_GS}
 		#${shary} ifupdown adduser iproute2 net-tools tar mount coreutils
-		${shary} ${E22_M} #tämän kanssa piyäisi viel itEroida
+		${shary} ${E22_M} #tämän kanssa piTäisi viel itEroida
 
 		#tässä alla vöib tulla suurempi lottoaminen (jospa jollain livecd:llä selvittäisi mitä oik tarv)
 		${shary} xorg xorg-docs-core

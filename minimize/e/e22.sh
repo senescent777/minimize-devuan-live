@@ -264,8 +264,8 @@ function e22_settings() {
 }
 
 #290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa? (vielä 020426?)
-#TODO:testgirs-ehto mukaan suoritukseen vai ei?
 #20426:edelleen toimii?
+#040426:ei tarvinne CONF_testgris-ehtoa ainakaan verkkoyhteyden varalta, ei vedä kaloja
 
 function e22_home_pre() {
 	dqb "e22_home_pre()"
@@ -299,9 +299,9 @@ function e22_home_pre() {
 	csleep 1
 }
 
-#290326:toimii, mutta $3 kanssa ehkä jotain
-#TODO:testgirs-ehto mukaan suoritukseen vai ei?
+#290326:toimii, mutta $3 kanssa ehkä jotain?
 #29426:edelleen toimii?
+#040426:ei vedä kaloja verkosta ni ei tarvinne lisätestejäjä
 
 function e22_home() {
 	dqb "e22_home()"
@@ -491,7 +491,7 @@ function e22_sarram() {
 [ -v CONF_BASEURL ] || exit 6
 
 #20426:toimii edelleen/taas?
-#tai sen zxcv;b sha-tarkistuksen kanssa jotain kiukuttelua että "tar -t $arch" josqs(TODO)
+#tai sen zxcv:n sha-tarkistuksen kanssa jotain kiukuttelua että "tar -t $arch" josqs(TODO)
 #TODO:verkkoyhteyttä vaativat jutut vain jos testgris ei asetrettu? vaiko kutsuvan koodin puolella tarkistus?
 
 function e22_ext() {

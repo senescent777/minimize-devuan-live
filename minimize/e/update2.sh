@@ -14,7 +14,7 @@ n=$(whoami)
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
-		#TODO:testaus miten saa tiomimaan omegan ajon jlkeen?
+		#TODO:testaus miten saa tOImimaan omegan ajon jlkeen?
 		#... pitäisi onnata qhan kohteen käyttöoik kunnossa
 
 		tcmd="sudo ${tcmd} "
@@ -70,7 +70,7 @@ else
 	cd /
 fi
 
-#TODO:lisäsäätöä /e/resolv , /e/localtime /e/timezone suhteen vai ei?
+#TODO:lisäsäätöä /e/resolv , /e/localtime /e/timezone suhteen vai ei? vissiin ei
 
 g=$(${tcmd} -tf ${tgt} | grep -v '${n}.conf' | grep -v .chroot)
 c=$(find / -maxdepth 1 -type f -name OLD.tar -size +10M | wc -l)
