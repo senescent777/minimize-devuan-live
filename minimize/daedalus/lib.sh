@@ -5,6 +5,7 @@
 #130126:sqrot-tstissä psmisc ei poistunut (miten nkyään?)
 
 #020326:annetaanpa toistaiseksi olla PART175_LIST kuten on ja p_p2 myös
+#... voisi myös vivuta -> common_lib ?
 function pre_part2() { #käytössä
 	dqb "daud.pre_part2()"
 	csleep 2
@@ -12,7 +13,7 @@ function pre_part2() { #käytössä
 	${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
 
-	for f in $(find /etc/init.d -type f -name "ntp*" ) ; do 
+	for f in $(find /etc/init.d -type f -name 'ntp*' ) ; do 
 		${odio} ${f} stop
 		csleep 1
 	done
@@ -21,10 +22,9 @@ function pre_part2() { #käytössä
 	dqb "d0n3"
 }
 
+#tekisikö tuolle josqs jotain vaiei?
 function tpc7() {
 	dqb "d.prc7 UNDER CONSTRUCTION"
 }
 
-#VAIH:tämä pitäisi muuttaa koska x ?
-#lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 	
-lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
+lftr="${smr} -rf /run/live/medium/live/initrd.img* " 	
