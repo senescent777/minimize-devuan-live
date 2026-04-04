@@ -3,7 +3,11 @@
 odio=$(which sudo)
 smr=$(${odio} which rm)
 smr="${odio} ${smr} "
-#TODO:scm vähitellen mukaan wtun spede?
+
+#VAIH:scm vähitellen mukaan wtun spede?
+#scm=$(${odio} which mv)
+#scm="${odio} ${scm}"
+
 whack=$(${odio} which pkill)
 whack="${whack} --signal 9 "
 svm=$(${odio} which mv)
@@ -14,12 +18,8 @@ if [ $# -gt 0 ] ; then
 	mode=${1}
 fi
 
-#seatd as+chmod+usermod==tarpeeksi? uskaltaisiko scm poistaa?
-#... tai jos seatd pois? (140126)
-#(entä miten jos +seatd, -chmod, -usermod ?)
-
 if [ ${mode} -gt 1 ]; then
-	${scm} g+rw /dev/tty0
+	${scm} g+rw /dev/tty0 #ehkä toimii ilmankin
 	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
 fi
 
