@@ -310,7 +310,7 @@ case ${mode} in
 	#230326:edelleen osaa paketin tehdä
 		${shary} ${E22GI}
 	;;
-	l) #290326:toimii edelleen/taas
+	l) #TODO:testaus uusicksi viimeaikaisen sorkinnan takia
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}

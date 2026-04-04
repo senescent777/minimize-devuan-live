@@ -556,7 +556,38 @@ function check_binaries() {
 	#
 	#
 
-	E22_M="libtirpc3 libbsd0 libc6 libdb5.3 libselinux1 iproute2 adduser ifupdown net-tools mount coreutils"
+	#Dependencies: 
+	#1.3.3+ds-1 - libc6 (2 2.34) libgssapi-krb5-2 (2 1.17) libtirpc-common (2 1.3.3+ds-1) nfs-common (3 1:1.2.8-7) nfs-kernel-server (3 1:1.2.8-7)
+
+	#Dependencies: 
+	#0.11.7-2 - libc6 (2 2.34) libmd0 (2 1.0.3-2) 
+
+	#(antaa olla)
+
+	#libc6
+	#libpcre2-8-0
+	#Dependencies: 
+	#6.1.0-3 - debconf (18 0.5) debconf-2.0 (0 (null)) libbpf1 (2 1:0.6.0) libbsd0 (2 0.0) libc6 (2 2.34) libcap2 (2 1:2.10) libdb5.3 (0 (null)) libelf1 (2 0.131) libmnl0 (2 1.0.3-4~) libselinux1 (2 3.1~) libtirpc3 (2 1.0.2) libxtables12 (2 1.6.0+snapshot20161117) libcap2-bin (0 (null)) arpd (0 (null)) iproute (3 20130000-1) libatm1 (2 2.4.1-17~) iproute2-doc (0 (null)) python3:any (0 (null)) iproute (0 (null)) 
+
+	#Dependencies: 
+	#3.134 - passwd (0 (null)) liblocale-gettext-perl (0 (null)) perl (0 (null)) cron (0 (null)) quota (0 (null)) 
+
+	#Dependencies: 
+	#0.8.41 - libc6 (2 2.34) adduser (0 (null)) iproute2 (0 (null)) systemd (3 228-3~) isc-dhcp-client (16 (null)) dhcp-client (0 (null)) ppp (0 (null)) rdnssd (0 (null)) systemd (3 228-3~) 
+
+	#Dependencies: 
+	#2.10-0.1+deb12u2devuan1 - libc6 (2 2.34) libselinux1 (2 3.1~) 
+	#2.10-0.1devuan1 - libc6 (2 2.34) libselinux1 (2 3.1~)
+
+	#Dependencies: 
+	#2.38.1-5+deb12u3devuan1 - libblkid1 (2 2.17.2) libc6 (2 2.34) libmount1 (2 2.38) libselinux1 (2 3.1~) libsmartcols1 (2 2.33) nfs-common (0 (null))
+
+	#Dependencies: 
+	#9.1-1 - libacl1 (2 2.2.23) libattr1 (2 1:2.4.44)  (2 2.34) libgmp10 (2 2:6.2.1+dfsg1) libselinux1 (2 3.1~) 
+
+	#libtirpc3 libbsd0  libdb5.3 libselinux1 iproute2 adduser ifupdown net-tools mount coreutils"
+
+	E22_M="libc6"
 
 	#... nuo jutut miel accept1/2 mukaan jatq tjsp?
 	#... no ainakin joutaa iteroimaan riippuvuudet huolella (030426)
