@@ -3,10 +3,11 @@
 #
 
 function pre_part2() { #175-listan päivitys fktion ulkpuolella? ehkä ei?
-	dqb "ch1m.pre_part2()"
-	csleep 1
-
-	${odio} /etc/init.d/ntpd stop
+		cg_pp2
+#	dqb "ch1m.pre_part2()"
+#	csleep 1
+#
+	#${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
 }
 
