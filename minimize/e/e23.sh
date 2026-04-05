@@ -225,7 +225,6 @@ function e23_dm() {
 	${shary} libgtk-3-0 libgtk-3-common
 	
 	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libglib2.0-0 libglib2.0-data libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
-#	csleep 1
 
 	${shary} fontconfig libfribidi0 libharfbuzz0b libthai0
 	${shary} libfreetype6 libxcb-shape0 libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1
@@ -243,17 +242,18 @@ function e23_dm() {
 	#TODO:	at-spi2-common,libatk1.0-0 tössö jäörj
 	#TODO:libgtk-3-common depends on dconf-gsettings-backend | gsettings-backend; however:
 	#TODO:	dependency problems prevent configuration of libgtk-3-0:amd64
-	#TODO:	libwraster6:amd64 depends on libxmu6 (>= 2:1.1.3); however:
-	#TODO:libpangoxft-1.0-0:amd64 depends on libxft2 (>> 2.1.1);
+	#TODO:	libwraster6:amd64 depends on  (>= 2:1.1.3); however:
+	#TODO:libpangoxft-1.0-0:amd64 depends on  (>> 2.1.1);
 	#TODO:libwings3:amd64 depends on
 	#TODO:libegl1:amd64 depends on
 	#TODO:libgbm1:amd64 depends on libwayland-server0
-	#TODO:libxaw7:amd64 depends on libxmu6 
-	#TODO: x11-utils depends on libxaw7; however:
-	#TODO:x11-apps depends on libxaw7 
-	#TODO: x11-xserver-utils depends on libxaw7 (>= 2:1.0.14); however:
-	#Package libxaw7:amd64 is not configured yet.
-	#x11-xserver-utils depends on cpp; however:
+	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
+	#TODO: x11-utils depends on ; however:
+	#TODO:x11-apps depends on 
+	#TODO: x11-xserver-utils depends on  (>= 2:1.0.14); however:
+
+	#x11-xserver-utils depends on cpp; however: pitäisijo 5426
+
 	#TODO:dpkg: dependency problems prevent configuration of libwww-perl:
 	#TODO: libegl1:amd64 depends on libegl-mesa0; however:
 	#TODO:xscreensaver depends on xscreensaver-data; however:
@@ -370,10 +370,10 @@ function e23_profs() {
 }
 
 #sleep 1
-#		xserver-common depends on x11-xkb-utils;
+#		xserver-common depends on
 #			xserver-xorg-legacy depends on xserver-common
 #			 dependency problems prevent configuration of xserver-xorg-core
-#			 x11-xserver-utils depends on cpp;
+#			 x11-xserver-utils depends on 
 #			 dependency problems prevent configuration of xorg
 #			 dependency problems prevent configuration of xserver-xorg-video-vmware
 #			 dependency problems prevent configuration of xserver-xorg-video-vesa
@@ -381,48 +381,59 @@ function e23_profs() {
 #			 dependency problems prevent configuration of xserver-xorg-input-wacom
 #			 dependency problems prevent configuration of xserver-xorg-core
 #			 xserver-xorg-video-radeon depends on libgbm1
-#			 xserver-xorg depends on xserver-xorg-core 
+#			 
 #			 dependency problems prevent configuration of xserver-xorg-video-fbdev
 #			 dependency problems prevent configuration of xserver-xorg-video-nouveau
 #			 dependency problems prevent configuration of xserver-xorg-video-ati
 #			 dependency problems prevent configuration of xserver-xorg-video-amdgpu
 #			 dependency problems prevent configuration of xserver-xorg-video-qxl
 #			 dependency problems prevent configuration of xorg
-#			 x11-xserver-utils depends on cpp
+#			 x11-xserver-utils depends 
 #			 configuration of xserver-xorg-input-libinput
 #			 xserver-xorg-input-all
 #			 xserver-xorg-video-intel
 			 
 function e23_xyz() {
-	
+#Dependencies: 
+#2:21.1.7-3+deb12u11devuan1 - xserver-common (2 2:21.1.7-3+deb12u11devuan1) keyboard-configuration (0 (null)) udev (2 149) libegl1 (0 (null)) libaudit1 (2 1:2.2.1) libbsd0 (2 0.7.0) libc6 (2 2.35) libdrm2 (2 2.4.66) libepoxy0 (2 1.5.4) libeudev1 (2 3.2.12) libgbm1 (2 17.1.0~rc2) libgcrypt20 (2 1.10.0) libgl1 (0 (null)) libpciaccess0 (2 0.12.902) libpixman-1-0 (2 0.30.0) libseat1 (2 0.5.0) libselinux1 (2 3.1~) libunwind8 (0 (null)) libxau6 (2 1:1.0.9) libxcvt0 (2 0.1.0) libxdmcp6 (0 (null)) libxfont2 (2 1:2.0.1) libxshmfence1 (0 (null)) xserver-xorg-input-evtouch (0 (null)) xserver-xorg-video-modesetting (0 (null)) libgl1-mesa-dri (3 18.0.5) systemd (3 226-4~) libgl1-mesa-dri (2 7.10.2-4) xcvt (0 (null)) xfonts-100dpi (16 (null)) xfonts-75dpi (0 (null)) xfonts-scalable (0 (null))  xserver-xorg-video-modesetting (0 (null)) 
+#2:21.1.7-3+deb12u10devuan1 - xserver-common (2 2:21.1.7-3+deb12u10devuan1) keyboard-configuration (0 (null)) udev (2 149) libegl1 (0 (null)) libaudit1 (2 1:2.2.1) libbsd0 (2 0.7.0) libc6 (2 2.35) libdrm2 (2 2.4.66) libepoxy0 (2 1.5.4) libeudev1 (2 3.2.12) libgbm1 (2 17.1.0~rc2) libgcrypt20 (2 1.10.0) libgl1 (0 (null)) libpciaccess0 (2 0.12.902) libpixman-1-0 (2 0.30.0) libseat1 (2 0.5.0) libselinux1 (2 3.1~) libunwind8 (0 (null)) libxau6 (2 1:1.0.9) libxcvt0 (2 0.1.0) libxdmcp6 (0 (null)) libxfont2 (2 1:2.0.1) libxshmfence1 (0 (null)) xserver-xorg-input-evtouch (0 (null)) xserver-xorg-video-modesetting (0 (null)) libgl1-mesa-dri (3 18.0.5) systemd (3 226-4~)  libgl1-mesa-dri (2 7.10.2-4) xcvt (0 (null)) xfonts-100dpi (16 (null)) xfonts-75dpi (0 (null)) xfonts-scalable (0 (null))  xserver-xorg-video-modesetting (0 (null)) 
+
+#Dependencies: 
+#2:21.1.7-3+deb12u11devuan1 -  (0 (null))  (0 (null))
+#2:21.1.7-3+deb12u10devuan1 -  (0 (null)) (0 (null))  (0 (null))
+
+#Dependencies: 
+1:7.7+23 -  libgl1 (0 (null)) libgl1-mesa-dri (0 (null)) libglu1-mesa (0 (null))  (2 1:1.0.0-1) xfonts-100dpi (2 1:1.0.0-1) xfonts-75dpi (2 1:1.0.0-1) xfonts-scalable (2 1:1.0.0-1) x11-apps (0 (null))  (0 (null))  (0 (null))  (0 (null)) x11-xserver-utils (0 (null))  (0 (null)) xinit (0 (null)) xfonts-utils (0 (null))  (0 (null))  (0 (null))  (16 (null)) x-terminal-emulator (0 (null))  (0 (null))  (0 (null)) 	
+
+
 		#tässä alla vöib tulla suurempi lottoaminen (jospa jollain livecd:llä selvittäisi mitä oik tarv)
-		${shary} xorg xorg-docs-core
+	${shary} x11-session-utils
+	#{shary} xserver-xorg
 
-		${shary} xserver-common xserver-xorg xserver-xorg-core
-		${shary} xserver-xorg-input-all xserver-xorg-input-libinput xserver-xorg-input-wacom 
-		${shary} xserver-xorg-legacy xserver-xorg-video-all xserver-xorg-video-amdgpu
-		${shary} xserver-xorg-video-ati xserver-xorg-video-fbdev xserver-xorg-video-intel 
-		${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
+	${shary} xbitmaps x11-xfs-utils xterm xkb-data xauth xfonts-base x11-xkb-utils
+	#${shary} x11-common #xterm+xauth vosi hoitaa e23_dm() kayrra? x11-common jo dm
+	${shary} xserver-common xserver-xorg-core
+	#xserver-xorg #tarvitseeko erikseen sanoa kosa xorg?		
+	${shary} xorg xorg-docs-core xorg-docs #2. ja 3. oik. tarpeen?
 
-		${shary} xinit x11-apps x11-common x11-session-utils x11-utils x11-xkb-utils x11-xserver-utils  
-		${shary} xauth xbitmaps xterm 
-		#VAIH:xserver-xorg-video-* ainakin mukaan
+		
+	#${shary} xserver-xorg-input-all xserver-xorg-input-libinput xserver-xorg-input-wacom 
+	#${shary} xserver-xorg-legacy xserver-xorg-video-all xserver-xorg-video-amdgpu
+	#${shary} xserver-xorg-video-ati xserver-xorg-video-fbdev xserver-xorg-video-intel 
+	#${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
+
+	
+		
+		#VAIH:xserver-xorg-video-* ainakin mukaan?
 		
 #		#dpkg: dependency problems prevent configuration of x11-apps:
-# x11-apps depends on libxaw7 (>= 2:1.0.14); however:
-#  Package libxaw7 is not installed.
-# x11-apps depends on libxcb-damage0; however:
-#  Package libxcb-damage0 is not installed.
-# x11-apps depends on libxft2 (>> 2.1.1); however:
-#  Package libxft2 is not installed.
-# x11-apps depends on libxi6 (>= 2:1.2.99.4); however:
-#  Package libxi6 is not installed.
-# x11-apps depends on libxkbfile1 (>= 1:1.1.0); however:
-#  Package libxkbfile1 is not installed.
-# x11-apps depends on libxmu6 (>= 2:1.1.3); however:
-#  Package libxmu6 is not installed.
-# x11-apps depends on libxmuu1 (>= 2:1.1.3); however:
-#  Package libxmuu1 is not installed.
+
+
+
+
+
+
+
 #... "case l" jos kuittaisi äksän lib-jutut (tai sit boottaa minimal-liveen ja asenna x+wdm siihen) (TODO?)
 	
 }

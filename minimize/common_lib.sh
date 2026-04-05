@@ -505,6 +505,7 @@ function CB02() {
 	[ -d ${1} ] || exit 100
 
 	[ -f /.chroot ] && message
+	local p
 	for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
 	
 	for p in ${E22_GV} ; do 
@@ -531,6 +532,7 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
+	#TODO:nimeäminen uudelleen joskus
 	E22_M="libc6 libtirpc3 libbsd0 libdb5.3 libselinux1 libmount1 libacl1 libattr1 libgmp10"
 	E22_M="${E22_M} libblkid1 libsmartcols1 debianutils liblocale-gettext-perl passwd" # nfs-common
 	E22_M="${E22_M} resolvconf isc-dhcp-client isc-dhcp-common"
@@ -548,15 +550,15 @@ function check_binaries() {
 	#HUOM.nämä e22_jutut tarkoituksella asetettu juuri tässä fktiossa
 	sdi="${odio} ${sd0} -i "
 	
-	#VAIH:nimeäminen (liittyy "exp2 g" ja e23_other_pkgs())
+	#050426:tämä jo okK?
 	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
-	#VAIH:ao. kilkkeiden riippuvuuksien selvittely, barm vuoksi (joko jo kunnossa 050426?)
+	#(joko jo kunnossa 050426?)
 	E22_GS="gcc-12-base libc6 libgcc-s1" #meneeköhän jännäksi 2. ja 3. kohdalla?
 	E22_GS="${E22_GS} libgmp10 libisl23 libmpfr6 libmpc3 libzstd1 zlib1g"
 	E22_GS="${E22_GS} cpp-12 libstdc++6 libgomp1"
 
-	#010426:dhcp-jutut erilleen jatkossa?
+	#050426:dhcp-jutut erilleen jatkossa? entä dhcp?
 	E22_GT="isc-dhcp-client isc-dhcp-common libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
 	E22_GT="${E22_GT} iptables"
 	E22_GT="${E22_GT} init-system-helpers" # iptables-persistent netfilter-persistent

@@ -298,7 +298,8 @@ case ${mode} in
 		#todo:xserver-common depends on x11-xkb-utils
 		#todo:dependency problems prevent configuration of xserver-xorg-core:
 		#TODO:libvte-2.91-0:amd64 depends on libgtk-3-0
-		
+		#... bissiin näitä tapellen kanssa minimal_liven 		
+
 		e23_upgp
 		${sifd} ${CONF_iface}
 		csleep 1
@@ -323,7 +324,7 @@ case ${mode} in
 		${fib}
 		${shary} ${E22_GI}
 	;;
-	l) #050426:osaa muodostaa wdm-paketin
+	l) #050426:osaa muodostaa wdm-paketin, sisältökin visisin toimii
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
@@ -343,7 +344,7 @@ case ${mode} in
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;	
-	x) #TODO:vähän vielä pitäisi paketteja metsästää että asentuisi?
+	x) #VAIH:vähän vielä pitäisi paketteja metsästää että asentuisi?
 		e23_xyz
 	;;
 	*)
