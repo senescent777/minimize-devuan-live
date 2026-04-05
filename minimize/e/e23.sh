@@ -196,9 +196,9 @@ function e23_qrs() {
 	csleep 1
 }
 
-#050426:taisipa toimia yhden kerran (entä toisen? TODO)
+#050426:taisipa toimia yhden kerran (entä toisen? VAIH)
 function e23_dm() {
-	dqb "e23_dm(${1})"
+	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
 	csleep 2
 
@@ -359,54 +359,29 @@ function e23_profs() {
 	csleep 1
 }
 
-#sleep 1
-#		 depends on
-#			xserver-xorg-legacy depends on 
-#			 dependency problems prevent configuration of xserver-xorg-core
 
-#			 dependency problems prevent configuration of xorg
-#			 dependency problems prevent configuration of xserver-xorg-video-vmware
-#			 dependency problems prevent configuration of xserver-xorg-video-vesa
-#			 dependency problems prevent configuration of xserver-xorg-video-all
-#			 dependency problems prevent configuration of xserver-xorg-input-wacom
-#			 dependency problems prevent configuration of xserver-xorg-core
-#			 xserver-xorg-video-radeon depends on 
+#			 problems prevent configuration of xserver-xorg-core
+
+#			problems prevent configuration of xorg
+#			 problems prevent configuration of xserver-xorg-video-vmware
+#			problems prevent configuration of xserver-xorg-video-vesa
+#			problems prevent configuration of xserver-xorg-video-all
+#			problems prevent configuration of xserver-xorg-input-wacom
+#			problems prevent configuration of xserver-xorg-core
+#			 xserver-xorg-video-radeon  on 
 #			 
-#			 dependency problems prevent configuration of xserver-xorg-video-fbdev
-#			 dependency problems prevent configuration of xserver-xorg-video-nouveau
-#			 dependency problems prevent configuration of xserver-xorg-video-ati
-#			 dependency problems prevent configuration of xserver-xorg-video-amdgpu
-#			 dependency problems prevent configuration of xserver-xorg-video-qxl
-#			 dependency problems prevent configuration of xorg
-#			 x11-xserver-utils depends #e23_dm() kautta?
+#			problems prevent configuration of xserver-xorg-video-fbdev
+#			problems prevent configuration of xserver-xorg-video-nouveau
+#			problems prevent configuration of xserver-xorg-video-ati
+#			problems prevent configuration of xserver-xorg-video-amdgpu
+#			 problems prevent configuration of xserver-xorg-video-qxl
+#			problems prevent configuration of xorg
+#			 x11-xserver-utils  #e23_dm() kautta?
 #			 configuration of xserver-xorg-input-libinput
 #			 xserver-xorg-input-all
 #			 xserver-xorg-video-intel
 			 
-function e23_xyz() {
-#Dependencies: 
-#2:21.1.7-3+deb12u11devuan1 -  (2 2:21.1.7-3+deb12u11devuan1)  (0 (null)) udev (2 149)  (0 (null)) 
-# (2 1:2.2.1)  (2 0.7.0)  (2 2.35)  (2 2.4.66) 
-# (2 1.5.4)  (2 3.2.12)  (2 17.1.0~rc2)  (2 1.10.0)  (0 (null))  (2 0.12.902)  (2 0.30.0)  
-#(2 0.5.0)  (2 3.1~)  (0 (null))  (2 1:1.0.9)  (2 0.1.0)  (0 (null))  (2 1:2.0.1)  (0 (null))  
-#(0 (null))  (0 (null))  (3 18.0.5)   (2 7.10.2-4) 
-# (0 (null))  (16 (null))  (0 (null)) (0 (null))   (0 (null)) 
-#2:21.1.7-3+deb12u10devuan1 - (2 2:21.1.7-3+deb12u10devuan1)  (0 (null)) udev (2 149)  (0 (null))  (2 1:2.2.1)
-#  (2 0.7.0) (2 2.35)  (2 2.4.66)  (2 1.5.4)  (2 3.2.12)  (2 17.1.0~rc2) 
-# (2 1.10.0)  (0 (null))  (2 0.12.902)  (2 0.30.0)  (2 0.5.0)  (2 3.1~)  
-#(0 (null))  (2 1:1.0.9) (2 0.1.0)  (0 (null))  (2 1:2.0.1) 
-# (0 (null))  (0 (null))  (0 (null))  (3 18.0.5)    (2 7.10.2-4) 
-# (0 (null))  (16 (null))  (0 (null))  (0 (null))   (0 (null)) 
-
-#Dependencies: 
-#2:21.1.7-3+deb12u11devuan1 -  (0 (null))  (0 (null))
-#2:21.1.7-3+deb12u10devuan1 -  (0 (null)) (0 (null))  (0 (null))
-
-#Dependencies: 
-1:7.7+23 -   (0 (null))  (0 (null))  (0 (null))  (2 1:1.0.0-1) (2 1:1.0.0-1)  (2 1:1.0.0-1)  (2 1:1.0.0-1) 
-# (0 (null))  (0 (null))  (0 (null))  (0 (null))  (0 (null))  (0 (null))  (0 (null)) 
-# (0 (null))  (0 (null))  (0 (null))  (16 (null)) x-terminal-emulator (0 (null))  (0 (null))  (0 (null)) 	
-
+function e23_xyz() {	
 	${shary} libeudev1 libepoxy0 libdrm2 keyboard-configuration 
 	${shary} libpixman-1-0 libxshmfence1 libxfont2 libpciaccess0 libgcrypt20
 	${shary} xcvt libxcvt0 xserver-xorg-video-modesetting xserver-xorg-input-evtouch
