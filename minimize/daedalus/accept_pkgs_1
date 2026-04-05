@@ -8,6 +8,9 @@ libgdk-pixbuf-2.0-bin
 librsvg2-2
 librsvg2-common
 libstdc
+#
+#
+at-spi
 libatk1.0-0
 #
 libavahi-common-data
@@ -22,9 +25,14 @@ libgssapi-krb5-2
 libgnutls30
 libcups
 #
+#gtk3
+#
+dconf-gsettings-backend
+gsettings-backend
 libgtk-3-common
 libgtk-3-0
 libgtk-3-bin
+#
 #vte jälkeen atk:n ja gtk3:n jälkeen?
 libvte-2.91-common
 libvte
@@ -87,9 +95,20 @@ imagemagick-6-common
 libopenjp2-7
 libwebpmux3
 libmagickcore-6
+#
+#raster6 varten
+libxpm4
+libxmu6
+libxext6
+libwebp7
+libtiff6
+libpng16
 libmagickwand-6
-libgif7
+libjpeg62-turbo
+#libgif7 löytyyjo aiemmin
 libwraster6
+#/raster
+#
 wmaker-common
 libwutil5
 libpangoxft-1.0-0
@@ -114,6 +133,7 @@ libassuan0
 liberror-perl
 #
 #ennen äksää (030426)
+libegl-mesa0
 libegl1
 libaudit1
 libbsd0
@@ -128,15 +148,20 @@ libxcvt0
 libxdmcp6
 libxfont2
 libfont
+#
+#
+#tarvitseek o erikseen?
 libx11
+libxmu
+#
+#/tarttee?
+#
 libxaw7
 libxcb
 libxcomposite1
-libxext6
 libxft2
 libxi
 libxkb
-libxmu
 libxr
 libxt
 libxv1
@@ -146,4 +171,4 @@ libxcursor
 libfreetype
 libice6
 libtinfo6
-libxpm4
+
