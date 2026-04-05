@@ -4,7 +4,6 @@ odio=$(which sudo)
 smr=$(${odio} which rm)
 smr="${odio} ${smr} "
 
-#VAIH:scm vähitellen mukaan wtun spede?
 #scm=$(${odio} which mv)
 #scm="${odio} ${scm}"
 
@@ -19,7 +18,7 @@ if [ $# -gt 0 ] ; then
 fi
 
 if [ ${mode} -gt 1 ]; then
-	${scm} g+rw /dev/tty0 #ehkä toimii ilmankin
+	#${scm} g+rw /dev/tty0 #ehkä toimii ilmankin mutta puidetäänpä nyt kommenteissa vielä
 	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
 fi
 
