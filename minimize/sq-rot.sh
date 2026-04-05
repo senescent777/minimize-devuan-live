@@ -108,6 +108,7 @@ fi
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
+	[ $? -eq 0 ] || exit
 else
 	echo "5L33P1NG UND3RR T4RTARU5"
 	sleep 66
@@ -180,6 +181,7 @@ fi
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
+	[ $? -eq 0 ] || exit
 else	
 	echo $?
 	dqb "N 0 L1.B"

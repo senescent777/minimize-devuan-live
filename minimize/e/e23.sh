@@ -238,7 +238,7 @@ function e23_dm() {
 	${shary} libgbm1 libseat1 libunwind8 libxpm4 # libselinux1
 
 	#TODO:	at-spi2-common,libatk1.0-0 tössö jäörj
-	#TODO:libgtk-3-common depends on dconf-gsettings-backend | gsettings-backend; however:
+	#TODO:libgtk-3-common depends on  | ; however:
 	#TODO:	dependency problems prevent configuration of libgtk-3-0:amd64
 	#TODO:	libwraster6:amd64 depends on  (>= 2:1.1.3); however:
 	#TODO:libpangoxft-1.0-0:amd64 depends on  (>> 2.1.1);
@@ -249,7 +249,7 @@ function e23_dm() {
 	#TODO: x11-utils depends on ; however:
 
 	#TODO:dpkg: dependency problems prevent configuration of libwww-perl:
-	#TODO:  depends on libegl-mesa0; however:
+	#TODO:  depends on; however:
 	#TODO:xscreensaver depends on xscreensaver-data; however:
 	#TODO:cpp depends on  (>= 12.2.0-1~); however: #vielä qsee?
 
@@ -325,7 +325,7 @@ function e23_dm() {
 		;;
 	esac
 	
-	E22_GX="libwww-perl xscreensaver-data init-system-helpers libegl1 xscreensaver"
+	E22_GX="libwww-perl xscreensaver-data init-system-helpers libegl-mesa0 libegl1 xscreensaver"
 	${shary} ${E22_GX}  #libsystemd0
 }
 

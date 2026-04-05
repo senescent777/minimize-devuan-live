@@ -34,6 +34,13 @@ function fallback() {
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
+
+	#minimal_liven kanssa jokin juttu? includointi ei onnaa?
+	#process_lib() esittely juuri ennen gpo()?
+	#syyllinen saattanut jo löytyä
+
+	echo $?
+	sleep 15 
 else
 	echo "NO COMMON LIB"
 	exit 89
@@ -41,6 +48,8 @@ fi
 
 [ -z "${distro}" ] && exit 6
 dqb "BEFORE L1B"
+#HUOM.050426:p_lib aiheutti nalq, gtoistuuko?
+sleep 5
 process_lib ${d}
 csleep 2
 

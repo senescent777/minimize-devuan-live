@@ -248,7 +248,7 @@ case ${mode} in
 		else
 			doit=0
 		fi
-		
+
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
 
@@ -272,10 +272,10 @@ case ${mode} in
 
 		${sah6} --ignore-missing -c /opt/bin/zxcv
 		csleep 3
-		
+
 		e22_tyg /opt/bin/zxcv
 		${sah6} /opt/bin/zxcv > /opt/bin/zxcv.sha
-		
+
 		#reqwreqw /opt/bin/zxcv.sig
 		#reqwreqw /opt/bin/zxcv.sha #pointtia tämmöisessä?
 		#csleep 1
@@ -290,15 +290,15 @@ case ${mode} in
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
 		csleep 1
-		
-		#TODO:dpkg: dependency problems prevent configuration of cpp-12:
+
+		#VAIH:dpkg: dependency problems prevent configuration of cpp-12:
 		#TODO:dpkg: dependency problems prevent configuration of libgtk-3-bin:
 		#TODO:xserver-common depends on x11-xkb-utils; however:
 		#TODO:xserver-xorg-legacy depends on xserver-common 
 		#todo:xserver-common depends on x11-xkb-utils
 		#todo:dependency problems prevent configuration of xserver-xorg-core:
 		#TODO:libvte-2.91-0:amd64 depends on libgtk-3-0
-		#... bissiin näitä tapellen kanssa minimal_liven 		
+		#... bissiin näitä tapellen kanssa minimal_liven , asennusjärj ainakin aiheittaa nalq, libatk+at-spi ainakin (6.4.26)
 
 		e23_upgp
 		${sifd} ${CONF_iface}
@@ -306,37 +306,37 @@ case ${mode} in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) #050426:suattaapi vaikka toimiakin jo
-	#... chattr olisi kullä paikallaan etteo vahingossa spedeilisi
+	#... chattr olisi kullä paikallaan etteI vahingossa spedeilisi
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e23_other_pkgs ${CONF_dnsm}
 	;;
-	t) 
+	t)
 		#290326:osaa paketin tehdä, todnäk asentuu myös
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-	;;	
+	;;
 	g)
 		[ -v E22_GI ] || exit 95
 		#VAIH:test taas (jotain pientä urputusta pakettia muodostettaessa 050426)
 		${fib}
 		${shary} ${E22_GI}
 	;;
-	l) #050426:osaa muodostaa wdm-paketin, sisältökin visisin toimii
+	l) #050426:osaa muodostaa wdm-paketin, sisältökin visisin toimii (pl ehkä pient nalq minimal_livessä, korjaa)
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
 	;;
 	m)
 		#to state the obvious:check_bin() , ocs() liittyy
-		#VAIH:testaa tämän oksennukset TAAS
+		#VAIH:testaa tämän oksennukset TAAS (060426 enimmäkseen asentuu minimial_liveen, puentä nalq vielä, korhaa)
 		[ -v E22_GS ] || exit 78
-		[ -v E22_M ] || exit 79
-		
+		[ -v E22_GM ] || exit 79
+
 		${shary} ${E22_GS} #05043526:alkaisiko jo olla kunnossa?
-		${shary} ${E22_M}
+		${shary} ${E22_GM}
 	;;
 	n)
 		#VAIH:ntp-jutut takaisin josqs?
@@ -344,7 +344,7 @@ case ${mode} in
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;	
-	x) #VAIH:vähän vielä pitäisi paketteja metsästää että asentuisi?
+	x) #VAIH:vähän vielä pitäisi paketteja metsästää että asentuisi? ehkä , myös asennusjärj aiheuttaa nalq minimal_livessä 060426
 		e23_xyz
 	;;
 	*)

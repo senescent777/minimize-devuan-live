@@ -39,6 +39,7 @@ function fallback() {
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
+	#[ $? -gt 0 ] && exit 54 #060436:nytkö qsee tässä?
 else
 	[ ${debug} -gt 0 ] && ls -las ${d0}
 	echo "C0MM0N L1B N0t (AVA1LABL3 AND 3XECUTABL3)"
