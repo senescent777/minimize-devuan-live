@@ -70,7 +70,7 @@ else
 	cd /
 fi
 
-#TODO:lisäsäätöä /e/resolv , /e/localtime /e/timezone suhteen vai ei? vissiin ei
+#lisäsäätöä /e/resolv , /e/localtime /e/timezone suhteen vai ei? vissiin ei
 
 g=$(${tcmd} -tf ${tgt} | grep -v '${n}.conf' | grep -v .chroot)
 c=$(find / -maxdepth 1 -type f -name OLD.tar -size +10M | wc -l)
@@ -99,6 +99,7 @@ fi
 sleep 1
 
 for f in ${g} ; do
+	#TODO:jonkin rajoitus linkkien suhteen
 	if [ -f ${f} ] ; then #josko nyt
 		${tcmd} -uvf ${tgt} ${f}
 		[ $? -eq 0 ] || echo "chmod | chown ?"

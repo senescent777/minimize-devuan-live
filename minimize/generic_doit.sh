@@ -219,6 +219,8 @@ echo "AFTER PROCESS_LIB";sleep 1
 #==================================PART 1============================================================
 dqb "mode= ${mode}"
 dqb "debug= ${debug}"
+dqb "TODO:konftdston muodostus sqroot:in pad-hmistoon, tarkista"
+
 [ -v CONF_enforce ] || exit 99
 
 if [ -s ~/xorg.conf.new ] ; then

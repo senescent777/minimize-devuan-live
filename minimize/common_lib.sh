@@ -176,7 +176,8 @@ function check_bin_0() {
 	NKVD="${odio} ${NKVD} -fu "
 
 	#ehkä tämmöinen lista kuuluisi konftdstoon?
-	PART175_LIST="avahi blu cups exim4 nfs network mdadm sane rpc lm-sensors dnsmasq stubby" 
+	#4426:brl ja openssh uutena minimal_live liittyen, pois jos qsee
+	PART175_LIST="avahi blu cups exim4 nfs network mdadm sane rpc lm-sensors dnsmasq stubby brltty openssh" 
 
 	# ntp" ntp jemmaan 28525 #slim kokeeksi mukaan listaan 271125, hiiri lakkasi toimimasta
 	#HUOM.excalibur ei sisällä:dnsmasq,stubby
@@ -379,20 +380,23 @@ function efk2() {
 	csleep 1
 }
 
-#function wopr() { #jos tarttee ni pios kommenteista (jokojo vähitellen?)
-#	local r=$(find ${1} -type f -name "${1}*.deb" )
-#
-#	for s in ${r} ; do
-#		case "${2}"
-#			reject_pkgs)
-#			;;
-#			accept_pkgs_1|accept_pkgs_2)
-#			;;
-#			*)
-#			;;
-#		esac
-#	done
-#}
+function wopr() { #VAIH
+	local r=$(find ${1} -type f -name "${2}*.deb" )
+
+	for s in ${r} ; do
+		case "${3}" in
+			reject_pkgs)
+				${NKVD} ${s}
+			;;
+			accept_pkgs_1|accept_pkgs_2)
+				efk1 ${s}
+			;;
+			*)
+				exit 99
+			;;
+		esac
+	done
+}
 
 function common_lib_tool() {
 	dqb "common_lib_tool( ${1}  , ${2} ) "
@@ -402,27 +406,11 @@ function common_lib_tool() {
 
 	dqb "WILL START PR0C3551NG TGTs NOW"
 	csleep 1
-
 	local q
-	local r
-	local s
 
 	for q in $(grep -v '#' ${1}/${2}) ; do
 		dqb "outer; ${q}"
-		#wopr() ?
-		r=$(find ${1} -type f -name "${q}*.deb" )
-
-		for s in ${r} ; do
-			dqb "inner: \${cmd} ${s}"
-
-			if [ "$2" == "reject_pkgs" ] ; then
-				${NKVD} ${s}
-			else
-				efk1 ${s}
-			fi
-
-			csleep 1
-		done
+		wopr ${1} ${q} ${2}
 
 		if [ ${debug} -eq 1 ] ; then
 			ls -las ${1}/${q}* | wc -l
@@ -543,58 +531,9 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	#VAIH:yhteen juttuun liittyen pitäisi -pkaetti ja muut leikit...
-	#muistilappuna:
-
-
-	#
-	#apt:antaa olla toistaiseksi?
-	#ip -> 
-	#netstat -> 
-	#dpkg,tar: antaa olla toist? (tar)
-	#
-	#
-
-	#Dependencies: 
-	#1.3.3+ds-1 -  (2 2.34)  (2 1.3.3+ds-1) nfs-common (3 1:1.2.8-7) nfs-kernel-server (3 1:1.2.8-7)
-
-	#Dependencies: 
-	#0.11.7-2 -  (2 2.34)  (2 1.0.3-2) 
-
-	#(antaa olla)
-
-	#
-	#
-	#Dependencies: 
-	#6.1.0-3 - (0 (null))  (2 1:0.6.0)  (2 0.0)  (2 2.34)  (2 1:2.10)  (0 (null))  (2 0.131)  (2 1.0.3-4~) 1 (2 3.1~)  (2 1.0.2) (2 1.6.0+snapshot20161117)  (0 (null)) arpd (0 (null))  (3 20130000-1) (2 2.4.1-17~) (0 (null)) python3:any (0 (null))  (0 (null)) 
-
-	#Dependencies: 
-	#3.134 -  (0 (null))  (0 (null)) perl (0 (null)) cron (0 (null)) quota (0 (null)) 
-
-	#Dependencies: 
-	#0.8.41 -  (2 2.34)  (0 (null)) (0 (null)) (3 228-3~)  (16 (null)) dhcp-client (0 (null)) ppp (0 (null)) rdnssd (0 (null)) systemd (3 228-3~) 
-
-	#Dependencies: 
-	#2.10-0.1+deb12u2devuan1 -  (2 2.34)  (2 3.1~) 
-	#2.10-0.1devuan1 - (2 2.34)  (2 3.1~)
-
-	#Dependencies: 
-	#2.38.1-5+deb12u3devuan1 -  (2 2.17.2) (2 2.34) (2 2.38)  (2 3.1~)  (2 2.33) (0 (null))
-
-	#Dependencies: 
-	#9.1-1 - (2 2.2.23) (2 1:2.4.44)  (2 2.34) (2 2:6.2.1+dfsg1)  (2 3.1~) 
-
-	#     
-
+	#VAIH:yhteen juttuun liittyen pitäisi... (OLISikohan jo 050426)
 	E22_M="libc6 libtirpc3 libbsd0 libdb5.3 libselinux1 libmount1 libacl1 libattr1 libgmp10"
 	E22_M="${E22_M} libblkid1 libsmartcols1 debianutils liblocale-gettext-perl passwd" # nfs-common
-
-	#Dependencies: 
-	#4.4.3-P1-2 - (0 (null))  (0 (null)) (0 (null)) avahi-autoipd (0 (null)) isc-dhcp-client-ddns (0 (null)) 
-
-	#Dependencies: 
-	#4.4.3-P1-2 -  (2 2.8.2) 
-
 
 	E22_M="${E22_M} resolvconf isc-dhcp-client isc-dhcp-common"
 	E22_M="${E22_M} debconf debconf-i18n libbpf1 libcap2 libcap2-bin libelf1"
@@ -611,8 +550,11 @@ function check_binaries() {
 
 	#HUOM.nämä e22_jutut tarkoituksella asetettu juuri tässä fktiossa
 	sdi="${odio} ${sd0} -i "
+	
+	#TODO:nimeäminen
 	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
+	#TODO:ao. kilkkeiden riippuvuuksien selvittely, barm vuoksi
 	E22_GS="cpp-12 gcc-12-base libstdc++6 libgcc-s1 libc6 libgomp1"
 
 	#010426:dhcp-jutut erilleen jatkossa?
@@ -1339,6 +1281,23 @@ function cg_udp6() {
 	csleep 1
 }
 
+function cg_pp2() {
+	
+	dqb " GENERIC REPLACEMENT FOR daud.lib.pre_part2 ${1}"
+	csleep 1
+	
+		${odio} /etc/init.d/ntpd stop
+	#$sharpy ntp* jo aiempana
+
+	for f in $(find /etc/init.d -type f -name "ntp*" ) ; do 
+		${odio} ${f} stop
+		csleep 1
+	done
+
+	csleep 2
+	dqb "d0n3"
+	}
+
 #160126:g.tar liittyvää kikkailua jatkossa? sittenkin check_bin() alta g-jutut -> cefgh()?
 #140326:libfortran-urputuksille j os tekisijojo tain
 
@@ -1366,9 +1325,9 @@ function part3() {
 	common_lib_tool ${1} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 
-	#040426:viime aikoina ollut nalkutusta libc/libgcc/gcc liittyen, josko jotain tekisi? E22_GS+wopr() ? (TODO)
-	efk1 ${1}/libgcc-s1*.deb ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
-
+	#040426:viime aikoina ollut nalkutusta libc/libgcc/gcc liittyen, josko jotain tekisi? E22_GS+wopr() ? (VAIH)
+	#efk1 ${1}/libgcc-s1*.deb ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
+	for p in  ${E22_GS} ; do wopr ${1} ${p} accept_pkgs_1 ; done
 	common_lib_tool ${1} accept_pkgs_1
 	common_lib_tool ${1} accept_pkgs_2
 

@@ -6,7 +6,7 @@ d0=$(pwd)
 debug=0
 d=${d0}/${distro}
 mode=3
-#TODO:slimin poistelua vartebn oma mode?
+#VAIH:slimin poistelua vartebn oma mode?
 
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
@@ -198,6 +198,10 @@ p2g ${d}
 t2pf ${d}
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 2 ] && exit
+
+if [ ${mode} -gt 3 ] ; then
+	${sharpy} slim
+fi
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
 csleep 1

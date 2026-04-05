@@ -221,9 +221,9 @@ case ${mode} in
 		exit 97
 	;;
 	3|4) 
-		#3 toiminnan testaus menossa taas (020426)
-		#4 toiminee kanssa (180326, pl. import2 viimeaikaiset kiukuttelut)
-		
+		#3 taisi toimia 04/26 tienoilla ainakin kerran
+		#4 testattava kohta uusicksi (TODO)
+
 		[ -v CONF_default_arhcive3 ] || exit 66
 		dqb "NVDK 1b 2 secs"
 		csleep 2
@@ -238,7 +238,6 @@ case ${mode} in
 
 		#020426:ao. rivin kanssa muutokasi vaiei?
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
-
 		reqwreqw /opt/bin/zxcv.tmp
 	
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
@@ -288,13 +287,21 @@ case ${mode} in
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
 		csleep 1
-	
+		
+		#TODO:dpkg: dependency problems prevent configuration of cpp-12:
+		#TODO:dpkg: dependency problems prevent configuration of libgtk-3-bin:
+		#TODO:xserver-common depends on x11-xkb-utils; however:
+		#TODO:xserver-xorg-legacy depends on xserver-common 
+		#todo:xserver-common depends on x11-xkb-utils
+		#todo:dependency problems prevent configuration of xserver-xorg-core:
+		#TODO:libvte-2.91-0:amd64 depends on libgtk-3-0
+		
 		e23_upgp
 		${sifd} ${CONF_iface}
 		csleep 1
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
-	e) #290326:ehkä jopa toimii koska "$0 3"
+	e) #TODO:testit uusiksi kohta
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
@@ -310,57 +317,27 @@ case ${mode} in
 	#230326:edelleen osaa paketin tehdä
 		${shary} ${E22GI}
 	;;
-	l) #VAIH:testaus uusicksi viimeaikaisen sorkinnan takia
+	l) #050426:osaa muodostaa wdm-paketin?
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
 	;;
-#VAIH:vaikkapa tähän väliin uusi toiminto, if ja äksä... (jatkossa e23)
+#VAIH:vaikkapa tähän väliin uusi toiminto, libmpc3/cpp-12 vielä ni ok?
 	m)
 		[ -v E22_GS ] || exit 78
 		[ -v E22_M ] || exit 79
 		
-		${shary} ${E22_GS}
-		#${shary} ifupdown adduser iproute2 net-tools tar mount coreutils
-		${shary} ${E22_M} #tämän kanssa piTäisi vielä itEroida
-	;;
-	x)
-		#VAIH:tästä kohtaa poikki case+siirto (e23)
-		#tässä alla vöib tulla suurempi lottoaminen (jospa jollain livecd:llä selvittäisi mitä oik tarv)
-		${shary} xorg xorg-docs-core
-
-		${shary} xserver-common xserver-xorg xserver-xorg-core
-		${shary} xserver-xorg-input-all xserver-xorg-input-libinput xserver-xorg-input-wacom 
-		${shary} xserver-xorg-legacy xserver-xorg-video-all xserver-xorg-video-amdgpu
-		${shary} xserver-xorg-video-ati xserver-xorg-video-fbdev xserver-xorg-video-intel 
-		${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
-
-		${shary} xinit x11-apps x11-common x11-session-utils x11-utils x11-xkb-utils x11-xserver-utils  
-		${shary} xauth xbitmaps xterm 
-		#VAIH:xserver-xorg-video-* ainakin mukaan
-		
-#		#dpkg: dependency problems prevent configuration of x11-apps:
-# x11-apps depends on libxaw7 (>= 2:1.0.14); however:
-#  Package libxaw7 is not installed.
-# x11-apps depends on libxcb-damage0; however:
-#  Package libxcb-damage0 is not installed.
-# x11-apps depends on libxft2 (>> 2.1.1); however:
-#  Package libxft2 is not installed.
-# x11-apps depends on libxi6 (>= 2:1.2.99.4); however:
-#  Package libxi6 is not installed.
-# x11-apps depends on libxkbfile1 (>= 1:1.1.0); however:
-#  Package libxkbfile1 is not installed.
-# x11-apps depends on libxmu6 (>= 2:1.1.3); however:
-#  Package libxmu6 is not installed.
-# x11-apps depends on libxmuu1 (>= 2:1.1.3); however:
-#  Package libxmuu1 is not installed.
-#... "case l" jos kuittaisi äksän lib-jutut (tai sit boottaa minimal-liveen ja asenna x+wdm siihen) (TODO?)
+		${shary} ${E22_GS} #TODO:tämän riippuvuuksien metsästely seuraavaksi
+		${shary} ${E22_M}
 	;;
 	n)
 		#VAIH:ntp-jutut takaisin josqs?
 
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
+	;;	
+	x) #TODO:vähän vielä pitäisi paketteja metsästää että asentuisi?
+		e23_xyz
 	;;
 	*)
 		exit

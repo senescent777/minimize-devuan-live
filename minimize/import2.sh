@@ -40,7 +40,7 @@ fi
 #... joutaisi koko roskan kirjoittamaan uusicksi fråm scratch mutta odotellessa jos latensseja pienemmäksi syystä ilman -v ei toimi mikään
 
 
-#TODO:josko sittenkin silppuaisi tämän skriptin kahdeksi
+#VAIH:josko sittenkin silppuaisi tämän skriptin kahdeksi
 #yksi versio sqroot-ymp varten, toinen taas ei
 
 #190326:alkaisikohan kohta asettua parsetus?  (liittyyköhän tables/gpg asiaan?)
@@ -70,70 +70,6 @@ function parse_opts_2() {
 	dqb "imp2.parseopts_2 ${1} ${2}"
 }
 
-if [ -f /.chroot ] ; then
-	echo "UNDER THE GRAV3YARD"
-	sleep 1
-	debug=1
-	
-	#gpgtar jos mahd, muuten normi-tar?
-
-	echo "A"
-	p=$(pwd)
-	g=$(which sha512sum)
-
-	if [ ! -z "${g}" ] ; then
-		q=$(find . -name 'dgsts.?')
-		cd ..
-		#110326:jotain urputusta oli, mksums bugittaa?
-		#010426:jotain urputusta oli edelleen ennen "B"-osaa, selvitä 
-		#... vissiin vain se että sqroot sisällä ei tdstojen sisältö täsmää listan sisältöön
-		
-		for r in ${q} ; do
-			dqb " -c ./${p}/${r}"
-			csleep 1
-			${g} -c ./${p}/${r} --ignore-missing
-			sleep 1
-		done
-
-		cd ${p}
-	fi
-
-	#gpg-tark kuitenkin ensin?
-	#090326:pitäisiköhän myös tämä tarkistus-osuus muuttaa fktioksi, ennen chroot-tark ?
-
-	g=$(which gpg)
-	sleep 1
-	cd ${p}
-
-	if [ ! -z "${g}" ] ; then
-		echo "B"
-		q=$(find . -name '*.sig')
-		
-		for r in ${q} ; do
-			${g} --verify ${r}
-		done
-		
-		sleep 1
-	fi
-	#
-
-	unset q
-	unset r
-	unset g
-	sleep 1
-	echo "C"
-
-	#030426:huom. kts commn_lib , E22_M , tarpeellinen
-
-	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
-		tar -jxvf ${f}
-		sleep 1
-		rm ${f}
-		sleep 1
-	done
-
-	#jos löytyy common_lib.sh.sig ni voiusi tässä tarkistaa?
-fi
 
 dqb "SHOULD gg --veridy ${d0}/common_lib.sh HERE, MAYBE"
 csleep 1
@@ -159,12 +95,12 @@ else
 	dqb "FALLBACK"
 	sleep 5
 
-	if [ -f /.chroot ] ; then
-		odio=""
-	else
-		#chroot-ynmp tulee nalqtusta tästä?
+#	if [ -f /.chroot ] ; then
+#		odio=""
+#	else
+#		#chroot-ynmp tulee nalqtusta tästä?
 		odio=$(which sudo)
-	fi
+#	fi
 
 	#"tar -cvf OLD.tar"-syystä ei tätä tekstiä huomaa	
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
@@ -222,7 +158,7 @@ csleep 1
 [ -z "${distro}" ] && exit 6
 csleep 1
 
-if [ -f /.chroot ] || [ -x ${mkt} ] ; then
+if [ -x ${mkt} ] ; then
 	dqb "ipm2.MTK"
 else
 	echo "sudo apt-get update;sudo apt-get install coreutils"
@@ -267,7 +203,7 @@ csleep 1
 dqb "LHP"
 
 #josko tilansäästön nimissä kolmaskin ehto? tai ehkä ei pakko
-if [ -f /.chroot ] || [ -s /OLD.tar ] ; then
+if [ -s /OLD.tar ] ; then
 	dqb "OLD.tar OK"
 else
 	dqb "SHOULD MAKE A BACKUP OF /etc,/sbin,/home/stubby AND  ~/Desktop ,  AROUND HERE "
@@ -280,7 +216,7 @@ dqb "ip2.m.Lpg"
 function common_part() {
 	dqb "common_part ${1} , ${2} , ${3}"
 
-	[ -z "${1}" ] && exit 1 #pitäisi kai kesksyttää suoritus aiemmin tässä tap
+	[ -z "${1}" ] && exit 1 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
 	[ -s ${1} ] || exit 2
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
@@ -475,7 +411,8 @@ function tpr() {
 #261125:eka case-blokki toimii
 #HUOM.110326:voisi olla tämä case nnen common_lib ... paitsi että conf
 #... ehkä voisi cpy-pastettaa sen konftdston etsinnän
- 
+
+#sqrot ei tarvitse tätä blokkia (pl. ehkä -h) 
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii?
@@ -552,51 +489,52 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
-	0|3) 
-		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
-		#110326:toimii edelleen mod pientä kiukuttelua josqs
-		#160326:sama, kiukuttelulle voisi tosin tehdä jotain
-		#190326:onnistui sqrootin alaisuudessa paketteja asennella
-		
-		#010426:edelleen osasi sqrtot alla
-		#... kiukuttelut sqrot alla liittyvät enemmän wdm-pakettiin kuin itse skriptiin?
-		#sha512sums.txt.bak suattaapi liittyä vua n suattaapi ettei
-	
-		
-		#myös "libc6:amd64 depends on libgcc-s1; however:" joutaisi tehdä jotain?
-		
-		echo "ZER0 S0UND"
-		csleep 1
-		dqb " ${3} ${distro} MN"
-		csleep 1
-		e="/"
-
-		if [ -f /.chroot ] ; then
-			if [ ${1} -eq 0 ] ; then
-				#mitense alt_root? ensisijaisesti sitä pakettien "uutta" asennustapaa vartebn
-				#... siinä piti vielä prujata se hmistorakanne ainakin
-
-				tar -tf ${srcfile} | grep f.tar | head -n 1
-				echo "... SHOULD BE MOVED UNDER ${d} , AFTER THAT:RUN $0 3 ${d}/f.tar"
-				exit 99
-			fi
-		fi
-
-		[ ${1} -eq 0 ] || e=${d}
-		csleep 1
-		common_part ${srcfile} ${d} ${e}
-
-		csleep 1
-		dqb "c_p_d0n3, NEXT: pp3"
-		csleep 1
-
-		part3 ${d}
-		other_horrors
-
-		csleep 1
-		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
-	;;
+#	0|3) #EI POINTTIA TÄSSÄ ENNENQ PARSETUS KORJATTU
+#		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
+#		#110326:toimii edelleen mod pientä kiukuttelua josqs
+#		#160326:sama, kiukuttelulle voisi tosin tehdä jotain
+#		#190326:onnistui sqrootin alaisuudessa paketteja asennella
+#		
+#		#010426:edelleen osasi sqrtot alla
+#		#... kiukuttelut sqrot alla liittyvät enemmän wdm-pakettiin kuin itse skriptiin?
+#		#sha512sums.txt.bak suattaapi liittyä vua n suattaapi ettei
+#	
+#		
+#		#myös "libc6:amd64 depends on libgcc-s1; however:" joutaisi tehdä jotain?
+#		
+#		echo "ZER0 S0UND"
+#		csleep 1
+#		dqb " ${3} ${distro} MN"
+#		csleep 1
+#		e="/"
+#
+#		#if [ -f /.chroot ] ; then
+#			if [ ${1} -eq 0 ] ; then
+#				#mitense alt_root? ensisijaisesti sitä pakettien "uutta" asennustapaa vartebn
+#				#... siinä piti vielä prujata se hmistorakanne ainakin
+#
+#				tar -tf ${srcfile} | grep f.tar | head -n 1
+#				echo "... SHOULD BE MOVED UNDER ${d} , AFTER THAT:RUN $0 3 ${d}/f.tar"
+#				exit 99
+#			fi
+#		#fi
+#
+#		[ ${1} -eq 0 ] || e=${d}
+#		csleep 1
+#		common_part ${srcfile} ${d} ${e}
+#
+#		csleep 1
+#		dqb "c_p_d0n3, NEXT: pp3"
+#		csleep 1
+#
+#		part3 ${d}
+#		other_horrors
+#
+#		csleep 1
+#		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
+#	;;
 	r) #160326:ehkä tämä jo toimii
+	#sqrot ei tarvitse tätä casea, kai
 		[ -d ${srcfile} ] || exit 23
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
@@ -610,6 +548,7 @@ case "${mode}" in
 	;;
 	q)
 		#160326:toimi
+	#sqrot ei tarvitse tätä casea, kai
 		# (turha case oikeastaan koska "$0 1"+"$0 r"
 		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
 
@@ -626,42 +565,40 @@ case "${mode}" in
 		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
 		tpr ${d0} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
-	k)
-		#161225:toimii, sq-root-ymp ainakin
-		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
-
-		#VAIH:tuotaville avaimille jotain tark? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
-		#man gpg voisio lla jankohtainen vähitellen
-
-		[ -d ${srcfile} ] || exit 22
-		dqb "KLM"
-		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd find out?)
-
-		if [ -v gg ] ; then
-			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-				dqb "NOP"
-				csleep 1
-
-				#for f in $(fnid $srcfile -type f -name '*.sig') ; do
-				#	g=$(echo $f | cut -d . -f 1,2)
-				#	check=$(smthing)
-				#	[ $check ] && gg --import $g
-				#	rm $g	
-				#done
-
-				dqb "${gg} --import ${srcfile}/*.gpg soon"
-				csleep 1
-
-				${gg} --import ${srcfile}/*.gpg
-				csleep 1
-
-				[ ${debug} -eq 1 ] && ${gg} --list-keys
-				csleep 2
-			fi
-		else
-			dqb "NO-GO-THEOREM"
-		fi
-	;;
+#	k)
+#		#161225:toimii, sq-root-ymp ainakin
+#		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
+#
+#
+#		[ -d ${srcfile} ] || exit 22
+#		dqb "KLM"
+#		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd find out?)
+#
+#		if [ -v gg ] ; then
+#			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
+#				dqb "NOP"
+#				csleep 1
+#
+#				#for f in $(fnid $srcfile -type f -name '*.sig') ; do
+#				#	g=$(echo $f | cut -d . -f 1,2)
+#				#	check=$(smthing)
+#				#	[ $check ] && gg --import $g
+#				#	rm $g	
+#				#done
+#
+#				dqb "${gg} --import ${srcfile}/*.gpg soon"
+#				csleep 1
+#
+#				${gg} --import ${srcfile}/*.gpg
+#				csleep 1
+#
+#				[ ${debug} -eq 1 ] && ${gg} --list-keys
+#				csleep 2
+#			fi
+#		else
+#			dqb "NO-GO-THEOREM"
+#		fi
+#	;;
 	-3)
 		dqb "do_Nothing()"
 	;;

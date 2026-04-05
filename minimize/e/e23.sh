@@ -240,7 +240,28 @@ function e23_dm() {
 	csleep 1
 	
 	${shary} libgbm1 libseat1 libunwind8 libxpm4 # libselinux1
-			
+	#TODO:	at-spi2-common,libatk1.0-0 tössö jäörj
+	#TODO:libgtk-3-common depends on dconf-gsettings-backend | gsettings-backend; however:
+	#TODO:	dependency problems prevent configuration of libgtk-3-0:amd64
+	#TODO:	libwraster6:amd64 depends on libxmu6 (>= 2:1.1.3); however:
+	#TODO:libpangoxft-1.0-0:amd64 depends on libxft2 (>> 2.1.1);
+	#TODO:libwings3:amd64 depends on
+	#TODO:libegl1:amd64 depends on
+	#TODO:libgbm1:amd64 depends on libwayland-server0
+	#TODO:libxaw7:amd64 depends on libxmu6 
+	#TODO: x11-utils depends on libxaw7; however:
+	#TODO:x11-apps depends on libxaw7 
+	#TODO: x11-xserver-utils depends on libxaw7 (>= 2:1.0.14); however:
+	#Package libxaw7:amd64 is not configured yet.
+	#x11-xserver-utils depends on cpp; however:
+	#TODO:dpkg: dependency problems prevent configuration of libwww-perl:
+	#TODO: libegl1:amd64 depends on libegl-mesa0; however:
+	#TODO:xscreensaver depends on xscreensaver-data; however:
+	#TODO:cpp depends on cpp-12 (>= 12.2.0-1~); however:
+	#TODO: wdm depends on x11-xserver-utils; however:
+	#Package x11-xserver-utils is not configured yet.
+	#wdm depends on xserver-xorg | xserver; however:
+
 	case "${1}" in
 		xdm) #010126:pitäisiköhän tämäkin case testata?
 			${shary} xdm
@@ -348,4 +369,60 @@ function e23_profs() {
 	csleep 1
 }
 
-sleep 1
+#sleep 1
+#		xserver-common depends on x11-xkb-utils;
+#			xserver-xorg-legacy depends on xserver-common
+#			 dependency problems prevent configuration of xserver-xorg-core
+#			 x11-xserver-utils depends on cpp;
+#			 dependency problems prevent configuration of xorg
+#			 dependency problems prevent configuration of xserver-xorg-video-vmware
+#			 dependency problems prevent configuration of xserver-xorg-video-vesa
+#			 dependency problems prevent configuration of xserver-xorg-video-all
+#			 dependency problems prevent configuration of xserver-xorg-input-wacom
+#			 dependency problems prevent configuration of xserver-xorg-core
+#			 xserver-xorg-video-radeon depends on libgbm1
+#			 xserver-xorg depends on xserver-xorg-core 
+#			 dependency problems prevent configuration of xserver-xorg-video-fbdev
+#			 dependency problems prevent configuration of xserver-xorg-video-nouveau
+#			 dependency problems prevent configuration of xserver-xorg-video-ati
+#			 dependency problems prevent configuration of xserver-xorg-video-amdgpu
+#			 dependency problems prevent configuration of xserver-xorg-video-qxl
+#			 dependency problems prevent configuration of xorg
+#			 x11-xserver-utils depends on cpp
+#			 configuration of xserver-xorg-input-libinput
+#			 xserver-xorg-input-all
+#			 xserver-xorg-video-intel
+			 
+function e23_xyz() {
+		#VAIH:tästä kohtaa poikki case+siirto (e23)
+		#tässä alla vöib tulla suurempi lottoaminen (jospa jollain livecd:llä selvittäisi mitä oik tarv)
+		${shary} xorg xorg-docs-core
+
+		${shary} xserver-common xserver-xorg xserver-xorg-core
+		${shary} xserver-xorg-input-all xserver-xorg-input-libinput xserver-xorg-input-wacom 
+		${shary} xserver-xorg-legacy xserver-xorg-video-all xserver-xorg-video-amdgpu
+		${shary} xserver-xorg-video-ati xserver-xorg-video-fbdev xserver-xorg-video-intel 
+		${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
+
+		${shary} xinit x11-apps x11-common x11-session-utils x11-utils x11-xkb-utils x11-xserver-utils  
+		${shary} xauth xbitmaps xterm 
+		#VAIH:xserver-xorg-video-* ainakin mukaan
+		
+#		#dpkg: dependency problems prevent configuration of x11-apps:
+# x11-apps depends on libxaw7 (>= 2:1.0.14); however:
+#  Package libxaw7 is not installed.
+# x11-apps depends on libxcb-damage0; however:
+#  Package libxcb-damage0 is not installed.
+# x11-apps depends on libxft2 (>> 2.1.1); however:
+#  Package libxft2 is not installed.
+# x11-apps depends on libxi6 (>= 2:1.2.99.4); however:
+#  Package libxi6 is not installed.
+# x11-apps depends on libxkbfile1 (>= 1:1.1.0); however:
+#  Package libxkbfile1 is not installed.
+# x11-apps depends on libxmu6 (>= 2:1.1.3); however:
+#  Package libxmu6 is not installed.
+# x11-apps depends on libxmuu1 (>= 2:1.1.3); however:
+#  Package libxmuu1 is not installed.
+#... "case l" jos kuittaisi äksän lib-jutut (tai sit boottaa minimal-liveen ja asenna x+wdm siihen) (TODO?)
+	
+}
