@@ -462,7 +462,7 @@ function cefgh() {
 	fi
 	
 	#mitäjos part3() kaNssa tulee sitä gpg-nalkutusta? g.tar-jutut takaisin tähämn?	
-	#"exp2 g $d/g.tar ?"
+	#"exp2 g $d/g.tar" ? + "exp2 f jälkeen"
 }
 
 function CB01() {

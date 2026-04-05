@@ -264,9 +264,9 @@ function e22_settings() {
 }
 
 #290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa? (vielä 020426?)
-#20426:edelleen toimii?
-#040426:ei tarvinne CONF_testgris-ehtoa ainakaan verkkoyhteyden varalta, ei vedä kaloja
 
+#040426:ei tarvinne CONF_testgris-ehtoa ainakaan verkkoyhteyden varalta, ei vedä kaloja
+#TODO:jölleen kerran testaus koska y
 function e22_home_pre() {
 	dqb "e22_home_pre()"
 
@@ -285,7 +285,10 @@ function e22_home_pre() {
 	fi
 
 	csleep 1
-
+	
+	#VAIH:oikeusksien oskirntaa lsiää koksa /o/b/mutilatetc (meneeköhäön wtuiksi?)
+	${scm} go-rw /opt/bin/*
+	${sco} 0:0 /opt/bin/*
 	${srat} -rvf ${1} /opt/bin 
 
 	dqb "JUST BEFORE FIND"

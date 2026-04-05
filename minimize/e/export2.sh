@@ -281,8 +281,8 @@ case ${mode} in
 		#csleep 1
 
 		#VAIH:oikeusksien oskirntaa lsiää koksa /o/b/mutilatetc
-		${scm} go-rw /opt/bin/*
-		${sco} 0:0 /opt/bin/*
+		${scm} go-rw /opt/bin/zxcv*
+		${sco} 0:0 /opt/bin/zxcv*
 		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 	;;
 	#280326:saa aikaiseksi paketin, sisällön testaus vielä
@@ -329,7 +329,8 @@ case ${mode} in
 		e23_dm ${mop}
 	;;
 	m)
-		#TODO:testaa tämän oksennukset TAAS
+		#to state the obvious:check_bin() , ocs() liittyy
+		#VAIH:testaa tämän oksennukset TAAS
 		[ -v E22_GS ] || exit 78
 		[ -v E22_M ] || exit 79
 		
