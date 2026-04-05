@@ -196,7 +196,7 @@ function e23_qrs() {
 	csleep 1
 }
 
-#050426:taisipa toimia yhden kerran 
+#050426:taisipa toimia yhden kerran (entä toisen? TODO)
 function e23_dm() {
 	dqb "e23_dm(${1})"
 	[ -z "${1}" ] && exit 11
@@ -212,7 +212,6 @@ function e23_dm() {
 
 	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6
 	${shary} menu twm
-	#csleep 1
 
 	#libselinux oikeastaan muualla jo
 	${shary} libcrypt1 libpam0g libselinux1 #jemmaan?
@@ -220,8 +219,6 @@ function e23_dm() {
 	csleep 1
 
 	${shary} libxpm4 libxrender1 debconf x11-utils cpp lsb-base x11-xserver-utils procps
-	#csleep 1
-
 	${shary} libgtk-3-0 libgtk-3-common
 	
 	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libglib2.0-0 libglib2.0-data libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
@@ -251,10 +248,6 @@ function e23_dm() {
 	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
 	#TODO: x11-utils depends on ; however:
 
-
-
-	
-
 	#TODO:dpkg: dependency problems prevent configuration of libwww-perl:
 	#TODO:  depends on libegl-mesa0; however:
 	#TODO:xscreensaver depends on xscreensaver-data; however:
@@ -274,11 +267,9 @@ function e23_dm() {
 			${shary} libnuma1
 			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
 			${shary} libwebpdemux2 libheif1 libaudit-common libcap-ng0 #audit1 ennen case?
-			csleep 1
-
+		
 			${shary} libdb5.3 libpam-modules-bin libpam-modules libpam-runtime
 			${shary} sysvinit-utils libtinfo6 libpng16-16 libx11-xcb1  
-			#csleep 1
 
 			${shary} libxfixes3 libxcursor1
 			
@@ -300,7 +291,6 @@ function e23_dm() {
 			${shary} libwutil5 wmaker-common libwings3
 			#csleep 1
 
-		
 			${shary} wdm
 		;;
 #		lxdm)
@@ -398,7 +388,7 @@ function e23_xyz() {
 #2:21.1.7-3+deb12u11devuan1 -  (2 2:21.1.7-3+deb12u11devuan1)  (0 (null)) udev (2 149)  (0 (null)) 
 # (2 1:2.2.1)  (2 0.7.0)  (2 2.35)  (2 2.4.66) 
 # (2 1.5.4)  (2 3.2.12)  (2 17.1.0~rc2)  (2 1.10.0)  (0 (null))  (2 0.12.902)  (2 0.30.0)  
-#(2 0.5.0)  (2 3.1~)  (0 (null))  (2 1:1.0.9)  (2 0.1.0)  (0 (null))  (2 1:2.0.1)  (0 (null)) xserver-xorg-input-evtouch 
+#(2 0.5.0)  (2 3.1~)  (0 (null))  (2 1:1.0.9)  (2 0.1.0)  (0 (null))  (2 1:2.0.1)  (0 (null))  
 #(0 (null))  (0 (null))  (3 18.0.5)   (2 7.10.2-4) 
 # (0 (null))  (16 (null))  (0 (null)) (0 (null))   (0 (null)) 
 #2:21.1.7-3+deb12u10devuan1 - (2 2:21.1.7-3+deb12u10devuan1)  (0 (null)) udev (2 149)  (0 (null))  (2 1:2.2.1)
@@ -417,7 +407,7 @@ function e23_xyz() {
 # (0 (null))  (0 (null))  (0 (null))  (0 (null))  (0 (null))  (0 (null))  (0 (null)) 
 # (0 (null))  (0 (null))  (0 (null))  (16 (null)) x-terminal-emulator (0 (null))  (0 (null))  (0 (null)) 	
 
-	${shary} libeudev1 libepoxy0 libdrm2 keyboard-configuration
+	${shary} libeudev1 libepoxy0 libdrm2 keyboard-configuration 
 	${shary} libpixman-1-0 libxshmfence1 libxfont2 libpciaccess0 libgcrypt20
 	${shary} xcvt libxcvt0 xserver-xorg-video-modesetting xserver-xorg-input-evtouch
 	${shary} libglu1-mesa libgl1-mesa-dri
@@ -432,25 +422,13 @@ function e23_xyz() {
 	${shary} xserver-common xserver-xorg-core
 	#xserver-xorg #tarvitseeko erikseen sanoa kosa xorg?		
 	${shary} xorg xorg-docs-core xorg-docs #2. ja 3. oik. tarpeen?
-
 		
 	#${shary} xserver-xorg-input-all xserver-xorg-input-libinput xserver-xorg-input-wacom 
 	#${shary} xserver-xorg-legacy xserver-xorg-video-all xserver-xorg-video-amdgpu
 	#${shary} xserver-xorg-video-ati xserver-xorg-video-fbdev xserver-xorg-video-intel 
 	#${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
 
-	
-		
 		#VAIH:xserver-xorg-video-* ainakin mukaan?
-		
-
-
-
-
-
-
-
-
 #... "case l" jos kuittaisi äksän lib-jutut (tai sit boottaa minimal-liveen ja asenna x+wdm siihen) (TODO?)
 	
 }
