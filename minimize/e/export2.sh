@@ -90,6 +90,7 @@ sleep 5
 if [ -x ${d0}/common_lib.sh ] ; then 
 	. ${d0}/common_lib.sh
 else
+	#johdonmukaisuus virhekoodeissa olisi tietty kiva
 	exit 56
 fi
 
@@ -317,7 +318,9 @@ case ${mode} in
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;	
 	g)
-	#TODO:test taas
+		[ -v E22_GI ] || exit 95
+		#VAIH:test taas (jotain pientä urputusta pakettia muodostettaessa 050426)
+		${fib}
 		${shary} ${E22_GI}
 	;;
 	l) #050426:osaa muodostaa wdm-paketin
