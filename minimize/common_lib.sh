@@ -485,7 +485,7 @@ function CB01() {
 #	[ -s ${1}/g.tar.bak ] && ${svm} ${1}/g.tar.bak ${1}/g.tar
 
 	common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen	
-	for p in ${E22GI} ; do efk1 ${1}/${p}*.deb ; done
+	for p in ${E22_GI} ; do efk1 ${1}/${p}*.deb ; done
 	csleep 1
 	
 	gg=$(${odio} which gpg)
@@ -551,11 +551,13 @@ function check_binaries() {
 	#HUOM.nämä e22_jutut tarkoituksella asetettu juuri tässä fktiossa
 	sdi="${odio} ${sd0} -i "
 	
-	#TODO:nimeäminen
-	E22GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
+	#VAIH:nimeäminen
+	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
-	#TODO:ao. kilkkeiden riippuvuuksien selvittely, barm vuoksi
-	E22_GS="cpp-12 gcc-12-base libstdc++6 libgcc-s1 libc6 libgomp1"
+	#VAIH:ao. kilkkeiden riippuvuuksien selvittely, barm vuoksi
+	E22_GS="gcc-12-base libc6 libgcc-s1" #meneeköhän jännäksi 2. ja 3. kohdalla?
+	E22_GS="${E22_GS} libgmp10 libisl23 libmpfr6 libmpc3 libzstd1 zlib1g"
+	E22_GS="${E22_GS} cpp-12 libstdc++6 libgomp1"
 
 	#010426:dhcp-jutut erilleen jatkossa?
 	E22_GT="isc-dhcp-client isc-dhcp-common libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
@@ -1328,6 +1330,7 @@ function part3() {
 	#040426:viime aikoina ollut nalkutusta libc/libgcc/gcc liittyen, josko jotain tekisi? E22_GS+wopr() ? (VAIH)
 	#efk1 ${1}/libgcc-s1*.deb ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
 	for p in  ${E22_GS} ; do wopr ${1} ${p} accept_pkgs_1 ; done
+
 	common_lib_tool ${1} accept_pkgs_1
 	common_lib_tool ${1} accept_pkgs_2
 

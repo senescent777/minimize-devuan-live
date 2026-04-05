@@ -315,8 +315,8 @@ case ${mode} in
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;	
 	g)
-	#230326:edelleen osaa paketin tehdä
-		${shary} ${E22GI}
+	#TODO:test taas
+		${shary} ${E22_GI}
 	;;
 	l) #050426:osaa muodostaa wdm-paketin
 		csleep 1
@@ -324,11 +324,14 @@ case ${mode} in
 		e23_dm ${mop}
 	;;
 #VAIH:vaikkapa tähän väliin uusi toiminto, libmpc3/cpp-12 vielä ni ok?
+#Depends: libc6 (>= 2.4), libgmp10 (>= 2:6.2.1+dfsg1), libmpfr6 (>= 4.0.0)
+#Depends: gcc-12-base (= 12.2.0-14+deb12u1), libc6 (>= 2.36), libgmp10 (>= 2:6.2.1+dfsg1), libisl23 (>= 0.15), libmpc3 (>= 1.1.0), libmpfr6 (>= 3.1.3), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)
+
 	m)
 		[ -v E22_GS ] || exit 78
 		[ -v E22_M ] || exit 79
 		
-		${shary} ${E22_GS} #TODO:tämän riippuvuuksien metsästely seuraavaksi
+		${shary} ${E22_GS} #VAIH:tämän riippuvuuksien metsästely seuraavaksi
 		${shary} ${E22_M}
 	;;
 	n)

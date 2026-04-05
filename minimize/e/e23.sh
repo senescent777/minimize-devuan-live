@@ -62,7 +62,7 @@ function e23_tblz() { #VAIH:tst taas (050426)
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
-	#csleep 1 #VAIH:latemnsseja vähemmäksi?
+
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
 
@@ -70,7 +70,7 @@ function e23_other_pkgs() {
 	csleep 1	
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
-	${shary} ${E22GI}
+	${shary} ${E22_GI}
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
 	${shary} ${E22_GG}
 
