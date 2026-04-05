@@ -6,7 +6,6 @@ d0=$(pwd)
 debug=0
 d=${d0}/${distro}
 mode=3
-#VAIH:slimin poistelua vartebn oma mode?
 
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?

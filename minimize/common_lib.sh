@@ -219,7 +219,7 @@ function check_bin_0() {
 	[ -s /opt/bin/zxcv.sha ] || echo "shoul.d ex1t 97"
 
 	${sah6} -c /opt/bin/zxcv.sha #jatkossa .sig vai .sha.sig?
-	[ $? -gt 0 ] && echo "gh0uls should ex1t 9 96"
+	[ $? -gt 0 ] && echo "gh0uls 0f n1n1w3h"
 	[ -z "${gg}" ] || ${gg} --verify /opt/bin/zxcv.sig
 	[ $? -gt 0 ] && echo "dhoulf exit 126"
 
@@ -380,7 +380,7 @@ function efk2() {
 	csleep 1
 }
 
-function wopr() { #VAIH
+function wopr() { #050426:toimii jo?
 	local r=$(find ${1} -type f -name "${2}*.deb" )
 
 	for s in ${r} ; do
@@ -455,8 +455,6 @@ function cefgh() {
 	#pitäisiköhän noissa poisteluissa olla jotain muitakin ehtoja?
 	efk2 ${1}/e.tar
 	[ $? -eq 0 ] && ${NKVD} ${1}/e.tar
-
-	#VAIH:[ -x $gg ] taakse tuo ao. poisto jos ei muuta keksi?
 	efk2 ${1}/f.tar ${1}
 	
 	if [ $? -eq 0 ] ; then
@@ -464,15 +462,17 @@ function cefgh() {
 	fi
 	
 	#mitäjos part3() kaNssa tulee sitä gpg-nalkutusta? g.tar-jutut takaisin tähämn?	
+	#"exp2 g $d/g.tar ?"
 }
 
 function CB01() {
-	dqb "CB01()"
+	dqb "common.lib.CB01()"
 	csleep 1
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
 
 #010426:txt.bak tilapäisesti pois sotkemasta, ehkä takaisin kommnetietsta josqs
+#TODO:VÄHITELLEN JOTAIN TÄMÄNKIN HYVÄKSI?
 #	[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt ${1}/sha512sums.txt.bak
 #	efk2 ${1}/g.tar ${1}
 
@@ -531,10 +531,8 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	#VAIH:yhteen juttuun liittyen pitäisi... (OLISikohan jo 050426)
 	E22_M="libc6 libtirpc3 libbsd0 libdb5.3 libselinux1 libmount1 libacl1 libattr1 libgmp10"
 	E22_M="${E22_M} libblkid1 libsmartcols1 debianutils liblocale-gettext-perl passwd" # nfs-common
-
 	E22_M="${E22_M} resolvconf isc-dhcp-client isc-dhcp-common"
 	E22_M="${E22_M} debconf debconf-i18n libbpf1 libcap2 libcap2-bin libelf1"
 	E22_M="${E22_M} libmnl0 libxtables12 " # oikeastaanm jo toisissakin jutussa mukana
@@ -542,7 +540,6 @@ function check_binaries() {
 	E22_M="${E22_M} iproute2 adduser ifupdown net-tools mount coreutils" #iproute2-doc iproute
 
 	#... nuo jutut miel accept1/2 mukaan jatq tjsp?
-	#... no ainakin joutaa iteroimaan riippuvuudet huolella (VAIH)
 	
 	local y
 	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh
@@ -551,10 +548,10 @@ function check_binaries() {
 	#HUOM.nämä e22_jutut tarkoituksella asetettu juuri tässä fktiossa
 	sdi="${odio} ${sd0} -i "
 	
-	#VAIH:nimeäminen
+	#VAIH:nimeäminen (liittyy "exp2 g" ja e23_other_pkgs())
 	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
-	#VAIH:ao. kilkkeiden riippuvuuksien selvittely, barm vuoksi
+	#VAIH:ao. kilkkeiden riippuvuuksien selvittely, barm vuoksi (joko jo kunnossa 050426?)
 	E22_GS="gcc-12-base libc6 libgcc-s1" #meneeköhän jännäksi 2. ja 3. kohdalla?
 	E22_GS="${E22_GS} libgmp10 libisl23 libmpfr6 libmpc3 libzstd1 zlib1g"
 	E22_GS="${E22_GS} cpp-12 libstdc++6 libgomp1"
@@ -635,7 +632,7 @@ function check_binaries2() {
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
 
-	#VAIH:pois kommenteista lftr tai sitten sen jonkin /etc/kernel-jekun hyödyntämisen kokeilu
+	#VAIH:r tai sitten sen jonkin /etc/kernel-jekun hyödyntämisen kokeilu (tekeekö jotain?)
 	#... toimii vai ei?
 
 	#konftdstoon tuo INITRd vai ei?
@@ -643,7 +640,7 @@ function check_binaries2() {
 	export INITRD
 	
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
-	${scm} a-x /usr/sbin/update-initramfs #kokeeksi tämäkin
+	${scm} a-wx /usr/sbin/update-initramfs #kokeeksi tämäkin, vissiin jotyain saa aikaan 050426
 		
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing '/run/live/medium/live/initrd.img.new': No space left on device
@@ -1327,8 +1324,7 @@ function part3() {
 	common_lib_tool ${1} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 
-	#040426:viime aikoina ollut nalkutusta libc/libgcc/gcc liittyen, josko jotain tekisi? E22_GS+wopr() ? (VAIH)
-	#efk1 ${1}/libgcc-s1*.deb ${1}/libc6*.deb ${1}/gcc-12*.deb ${1}/cpp*.deb
+	#050426:alkaisi jo olla libc6-liittyvät asiat kunnossa?
 	for p in  ${E22_GS} ; do wopr ${1} ${p} accept_pkgs_1 ; done
 
 	common_lib_tool ${1} accept_pkgs_1

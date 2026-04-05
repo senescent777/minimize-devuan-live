@@ -109,6 +109,9 @@ fi
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
+	echo "5L33P1NG UND3RR T4RTARU5"
+	sleep 66
+
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0NF1G"
 		sleep 2
@@ -202,6 +205,8 @@ else
 	exit 55
 fi
 
+#HUOM.olisi hyväksi siivota aiemmat tar:it kummittelemasta
+
 function common_part() {
 	dqb "rot.common_part ${1} , ${2} , ${3}"
 
@@ -284,6 +289,7 @@ function common_part() {
 }
 
 #TODO:cptp2 prujaaminen
+#TODO:kysymöön kähteen poistosta purkamisen jälkeen?
 
 case "${mode}" in
 	1) #
@@ -291,7 +297,7 @@ case "${mode}" in
 		#[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
-	3)  #0 poistettu 040426
+	3)  #0 poistettu 040426 (takaisin josqs vai rei?)
 		
 		e=${d}
 		common_part ${srcfile} ${d} ${e}

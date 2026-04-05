@@ -22,7 +22,7 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 	esac
 }
 
-function e23_tblz() { #VAIH:tst taas (050426)
+function e23_tblz() { #050426:jokohan jo toimisi?
 	dqb "e23_tblz()"
 	csleep 1
 
@@ -58,7 +58,7 @@ function e23_tblz() { #VAIH:tst taas (050426)
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
 #... siinä ulkoistuksessa on kyllä semmoinen juttu
 
-#VAIH:test taas 05054545454266
+#050426:suattaapi vaikka toimia
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -71,7 +71,7 @@ function e23_other_pkgs() {
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	${shary} ${E22_GI}
-	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
+	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	${shary} ${E22_GG}
 
 	#sudo-asia olisi jo kunnossa 120126?	ehkä
@@ -196,7 +196,7 @@ function e23_qrs() {
 	csleep 1
 }
 
-#VAIH:test.aus
+#050426:taisipa toimia yhden kerran 
 function e23_dm() {
 	dqb "e23_dm(${1})"
 	[ -z "${1}" ] && exit 11
@@ -394,7 +394,7 @@ function e23_profs() {
 #			 xserver-xorg-video-intel
 			 
 function e23_xyz() {
-		#VAIH:tästä kohtaa poikki case+siirto (e23)
+	
 		#tässä alla vöib tulla suurempi lottoaminen (jospa jollain livecd:llä selvittäisi mitä oik tarv)
 		${shary} xorg xorg-docs-core
 

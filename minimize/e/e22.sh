@@ -159,7 +159,7 @@ function e22_pre2() {
 
 	dqb " (pars.ok)"
 	csleep 1
-	#local ortsac
+	
 	local par4
 
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
@@ -172,14 +172,14 @@ function e22_pre2() {
 
 	if [ -d ${1} ] ; then
 		echo $?
-		csleep 2
+		csleep 1
 
 		#HUOM.200326:TLA() tähän väliaikaisesti vai ei? nykyään kyllä ifup...
 
 		#280326:tilapäinen viritys kunnes x? mikä?
 		[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
 		ls -las /etc/resolv.*
-		csleep 2	
+		csleep 1	
 
 		${sifu} ${3}
 		csleep 1
@@ -320,11 +320,11 @@ function e22_home() {
 	${srat} -rvf ${1} ${2}/../${3}
 	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
 	[ ${t} -lt 1 ] && exit 72
-	csleep 2
+	csleep 1
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
-	csleep 2
+	csleep 1
 
 	#find qsee jossain?	
 	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
@@ -444,9 +444,7 @@ function e22_sarram() {
 	csleep 1
 	
 	local f
-	#csleep 1
 
-	#VAIH:hipsut wttuun
 	for f in $(${odio} find /etc -type f -name "xorg*" -and -not -name "*.202*" ) ; do
 		${srat} -rvf ${1} ${f}
 	done	
@@ -470,10 +468,8 @@ function e22_sarram() {
 	${scm} 0400 /etc/iptables/rules*
 	${scm} 0400 /etc/default/rules*
 
-	#150326:nalkutusta ruleksien käyttöopikeukissta, tee jotain? (vielä 230326?)
+	#150326:nalkutusta ruleksien käyttöoikeuksista, tee jotain? (vielä 230326?)
 	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
-
-	#VAIH:hispujen liskäsi karsittava hmiston minimize.OLD alaiset
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD ) ; do ${sah6} ${f} >> ${3} ; done
 
 	#230326:ntp-jtut näyttäisi vetävän mukaan
@@ -490,9 +486,9 @@ function e22_sarram() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#20426:toimii edelleen/taas?
+#050426:suattaapi olla että toimii edelleen (ellel toisin tdoisteta)
 #tai sen zxcv:n sha-tarkistuksen kanssa jotain kiukuttelua että "tar -t $arch" josqs(TODO)
-#TODO:verkkoyhteyttä vaativat jutut vain jos testgris ei asetrettu? vaiko kutsuvan koodin puolella tarkistus?
+#TODO?:verkkoyhteyttä vaativat jutut vain jos testgris ei asetrettu? vaiko kutsuvan koodin puolella tarkistus?
 
 function e22_ext() {
 	[ -z "${1}" ] && exit 1
@@ -514,7 +510,7 @@ function e22_ext() {
 	local r
 	local st
 
-	csleep 1 #VAIH:deBugin latensseja jos taas karsisisisi (vielä 030426?)
+	csleep 1 #0504526:riittävästi latensseja karsittu ?
 	p=$(pwd)
 
 	#q=$(${mkt} -d) #ei vaan toimi näin?
@@ -524,7 +520,6 @@ function e22_ext() {
 	[ ${debug} -eq 1 ] && pwd
 
 	cd ${q}
-	#csleep 1
 
 	dqb "iface should be up by bow, next:git"
 	csleep 1
@@ -625,7 +620,6 @@ function e22_arch() {
 	dqb "pars ok"
 	csleep 1
 	local p=$(pwd)
-	#csleep 1
 
 	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
 	if [ -f ${2}/sha512sums.txt ] ; then
@@ -702,7 +696,6 @@ function e22_dblock() {
 	csleep 1
 
 	[ ${debug} -eq 1 ] && pwd
-	#csleep 1
 	#aval0n #tarpeellinen?
 	ls -la ${3}/*.deb | wc -l
 	
@@ -716,11 +709,11 @@ function e22_dblock() {
 	t=$(echo ${2} | cut -d '/' -f 1-6) #joitain tr-jekkuja vielä?
 	e22_ts ${t} ${3}
 	dqb "JST B3F0R3 3NF0RC3"
-	csleep 2
+	csleep 1
 	
 	enforce_access $(whoami) ${t}
 	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-	csleep 2
+	csleep 1
 
 	e22_arch ${1} ${2} ${4}
 	e22_cleanpkgs ${2}
@@ -736,7 +729,6 @@ function e22_dblock() {
 #	exit 95
 #
 ##	e22_cleanpkgs ${2}
-##	csleep 1
 ##		
 ##	${smr} ${2}/f.tar
 ##	csleep 1

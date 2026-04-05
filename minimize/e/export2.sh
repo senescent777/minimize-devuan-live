@@ -242,7 +242,6 @@ case ${mode} in
 	
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
-			#VAIH:testgris-ehto mukaan, tosin pointti?
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
@@ -265,7 +264,6 @@ case ${mode} in
 		${NKVD} /opt/bin/zxcv
 		csleep 1
 
-		#TODO:oikeusksien oskirntaa lsiää koksa /o/b/mutilatetc
 		fasdfasd /opt/bin/zxcv.sig
 		fasdfasd /opt/bin/zxcv.sha
 		${svm} /opt/bin/zxcv.tmp /opt/bin/zxcv
@@ -277,10 +275,13 @@ case ${mode} in
 		e22_tyg /opt/bin/zxcv
 		${sah6} /opt/bin/zxcv > /opt/bin/zxcv.sha
 		
-		reqwreqw /opt/bin/zxcv.sig
-		reqwreqw /opt/bin/zxcv.sha #pointtia tämmöisessä?
-		csleep 1
-			
+		#reqwreqw /opt/bin/zxcv.sig
+		#reqwreqw /opt/bin/zxcv.sha #pointtia tämmöisessä?
+		#csleep 1
+
+		#VAIH:oikeusksien oskirntaa lsiää koksa /o/b/mutilatetc
+		${scm} go-rw /opt/bin/*
+		${sco} 0:0 /opt/bin/*
 		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 	;;
 	#280326:saa aikaiseksi paketin, sisällön testaus vielä
@@ -302,7 +303,8 @@ case ${mode} in
 		csleep 1
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
-	e) #VAIH:testit uusiksi kohta (050426)
+	e) #050426:suattaapi vaikka toimiakin jo
+	#... chattr olisi kullä paikallaan etteo vahingossa spedeilisi
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
@@ -323,15 +325,12 @@ case ${mode} in
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
 	;;
-#VAIH:vaikkapa tähän väliin uusi toiminto, libmpc3/cpp-12 vielä ni ok?
-#Depends: libc6 (>= 2.4), libgmp10 (>= 2:6.2.1+dfsg1), libmpfr6 (>= 4.0.0)
-#Depends: gcc-12-base (= 12.2.0-14+deb12u1), libc6 (>= 2.36), libgmp10 (>= 2:6.2.1+dfsg1), libisl23 (>= 0.15), libmpc3 (>= 1.1.0), libmpfr6 (>= 3.1.3), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)
-
 	m)
+		#TODO:testaa tämän oksennukset TAAS
 		[ -v E22_GS ] || exit 78
 		[ -v E22_M ] || exit 79
 		
-		${shary} ${E22_GS} #VAIH:tämän riippuvuuksien metsästely seuraavaksi
+		${shary} ${E22_GS} #05043526:alkaisiko jo olla kunnossa?
 		${shary} ${E22_M}
 	;;
 	n)
@@ -347,6 +346,8 @@ case ${mode} in
 		exit
 	;;
 esac
+
+#TODO:$distro/{accept,reject,drop} muokkaus viimeaikaisista joghtuen
 
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar

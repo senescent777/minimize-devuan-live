@@ -48,6 +48,8 @@ fi
 ${tcmd} -tf ${tgt} | grep '.deb'
 sleep 1
 
+#... pikemminkin {f/g/e}.tar läsnäolosta kohteessa pitäisi yrputtaa
+
 read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
 [ "${confirm}" != "Y" ] && exit 
 
@@ -99,10 +101,12 @@ fi
 sleep 1
 
 for f in ${g} ; do
-	#TODO:jonkin rajoitus linkkien suhteen
+	#VAIH:jokin rajoitus linkkien suhteen
 	if [ -f ${f} ] ; then #josko nyt
-		${tcmd} -uvf ${tgt} ${f}
-		[ $? -eq 0 ] || echo "chmod | chown ?"
+		#if [ ! -h ${f} ] ; then 
+			${tcmd} -uvf ${tgt} ${f}
+			[ $? -eq 0 ] || echo "chmod | chown ?"
+		#fi
 	fi
 done
 

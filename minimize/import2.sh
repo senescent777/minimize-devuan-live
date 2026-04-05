@@ -39,10 +39,6 @@ fi
 #... JOKO JO 300236? eu uhan vielä (2426)
 #... joutaisi koko roskan kirjoittamaan uusicksi fråm scratch mutta odotellessa jos latensseja pienemmäksi syystä ilman -v ei toimi mikään
 
-
-#VAIH:josko sittenkin silppuaisi tämän skriptin kahdeksi
-#yksi versio sqroot-ymp varten, toinen taas ei
-
 #190326:alkaisikohan kohta asettua parsetus?  (liittyyköhän tables/gpg asiaan?)
 #180326:liittyyköhän check_bin():in "ocs ipt" tuohon viimeaikaiseen kiukutteluun?
 
