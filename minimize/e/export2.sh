@@ -222,7 +222,7 @@ case ${mode} in
 	;;
 	3|4) 
 		#3 taisi toimia 04/26 tienoilla ainakin kerran
-		#4 testattava kohta uusicksi (TODO)
+		#4 testit käynnissä 050426 -> (VAIH)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		dqb "NVDK 1b 2 secs"
@@ -265,6 +265,7 @@ case ${mode} in
 		${NKVD} /opt/bin/zxcv
 		csleep 1
 
+		#TODO:oikeusksien oskirntaa lsiää koksa /o/b/mutilatetc
 		fasdfasd /opt/bin/zxcv.sig
 		fasdfasd /opt/bin/zxcv.sha
 		${svm} /opt/bin/zxcv.tmp /opt/bin/zxcv
@@ -301,7 +302,7 @@ case ${mode} in
 		csleep 1
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
-	e) #TODO:testit uusiksi kohta
+	e) #VAIH:testit uusiksi kohta (050426)
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
@@ -317,7 +318,7 @@ case ${mode} in
 	#230326:edelleen osaa paketin tehdä
 		${shary} ${E22GI}
 	;;
-	l) #050426:osaa muodostaa wdm-paketin?
+	l) #050426:osaa muodostaa wdm-paketin
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
