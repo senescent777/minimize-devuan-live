@@ -409,6 +409,7 @@ function tpr() {
 #... ehkä voisi cpy-pastettaa sen konftdston etsinnän
 
 #sqrot ei tarvitse tätä blokkia (pl. ehkä -h) 
+#HUOM.060426:tämä case-esac voisi toimia ilmankin kirjastoa, qhan vain konftdsto löytyy
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii?

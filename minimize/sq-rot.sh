@@ -26,7 +26,7 @@ function usage() {
 
 function parse_opts_1() {
 	dqb "rot.parse_opts_1() ${1} ((()"
-	
+
 	if [ "${mode}" == "-2" ] ; then
 		mode=${1}
 	fi
@@ -34,7 +34,7 @@ function parse_opts_1() {
 
 function parse_opts_2() {
 	dqb "rot.parseopts_2 )) ${1} ; ${2} (("
-	
+
 	if [ -f ${2} ] || [ -d ${2} ] ; then
 		srcfile=${2}
 	fi
@@ -44,7 +44,7 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
 	#debug=1
-	
+
 	#gpgtar jos mahd, muuten normi-tar?
 
 	echo "A"
@@ -52,13 +52,13 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
 	g=$(which sha512sum)
 
 	if [ ! -z "${g}" ] ; then
-		q=$(find . -name 'dgsts.?')
+		q=$(find . -name "dgsts.?" )
 		cd ..
-		
-		#110326:jotain urputusta oli, mksums bugittaa?
+
+		#110326:jotain urputusta oli, mksums bugittaa
 		#010426:jotain urputusta oli edelleen ennen "B"-osaa, selvitä 
 		#... vissiin vain se että sqroot sisällä ei tdstojen sisältö täsmää listan sisältöön
-		
+
 		for r in ${q} ; do
 			dqb " -c ./${p}/${r}"
 			csleep 1
@@ -78,25 +78,25 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
 
 	if [ ! -z "${g}" ] ; then
 		echo "B"
-		q=$(find . -name '*.sig')
-		
+		q=$(find . -name "*.sig" )
+
 		for r in ${q} ; do
 			${g} --verify ${r}
 		done
-		
+
 		sleep 1
 	fi
 	#
 
 	unset q
 	unset r
-	unset g
+	
 	sleep 1
 	echo "C"
 
 	#030426:huom. kts commn_lib , E22_M , tarpeellinen
 
-	for f in $(find ${d0} -type f -name 'nekros?'.tar.bz3) ; do
+	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do
 		tar -jxvf ${f}
 		sleep 1
 		rm ${f}
@@ -104,6 +104,14 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
 	done
 
 	#jos löytyy common_lib.sh.sig ni voiusi tässä tarkistaa?
+	#... toisaalta vähän tuhra koska cptp23
+	if [ ! -z "${g}" ] ; then
+		if [ -s ${d0}/common_lib.sh.sig ] ; then
+			${g} --verify ${d0}/common_lib.sh.sig
+		fi
+	fi
+
+	unset g
 fi
 
 if [ -x ${d0}/common_lib.sh ] ; then
@@ -123,13 +131,13 @@ else
 			. ${d}/conf
 		else
 		 	exit 57
-		fi	
+		fi
 	fi
 
 	odio=""	
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
 	sleep 5
-	
+
 	function check_binaries() {
 		dqb "rot.check1"
 
@@ -147,21 +155,26 @@ else
 
 	function check_binaries2() {
 		echo "irot.check2"
-	
+
 		som="${odio} ${som}"
 		uom="${odio} ${uom}"
 		srat="${odio} ${srat}"
 	}
-	
+
 	function part3() {
 		dqb "rot.part3 :NOT SUPPORTED"
 	}
 
 	function other_horrors() {
 		dqb "R0TT1NG W4Y5 T0 M153RY"
-	}	
-	
-	#TODO:tähän se gpo() varm. vuoksi
+	}
+
+	#VAIH:tähän se gpo() varm. vuoksi JOKO JO 6426???
+	for opt in $@ ; do
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
 fi
 
 #050426:tämänkin skriptin kanssa se debug-riippuvuus? common_lib saattaisi liittyä
@@ -207,7 +220,7 @@ else
 	exit 55
 fi
 
-#HUOM.olisi hyväksi siivota aiemmat tar:it kummittelemasta
+#HUOM.olisi hyväksi siivota aiemmat tar:it kummittelemasta, tapahtuu lopussa kysymyksen takana
 
 function common_part() {
 	dqb "rot.common_part ${1} , ${2} , ${3}"
@@ -261,7 +274,7 @@ function common_part() {
 		dqb "gg= ${gg}"
 
 		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
-		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f)
+		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f) #HUOM.TARKKANA SITTEN HIPSUHEN KANSSA 666!!!
 		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
 
 		if [ "${aa}" == "${ab}" ] ; then
@@ -278,20 +291,67 @@ function common_part() {
 		read -p " U  SURE ?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
 	fi
-	
+
 	csleep 1
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 
 	csleep 1
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
-	
+
 	csleep 1
 	dqb "${srat} DONE"
 }
 
-#TODO:cptp2 prujaaminen
-#TODO:kysymöön kähteen poistosta purkamisen jälkeen?
+#VAIH:cptp2 prujaaminen + käyttöö n vielä
+#
+#function cptp2() {
+#	dqb "c tp2 ${1}, ${2}, ${3}"
+#
+#	[ -z "${1}" ] && echo 99
+#	[ -z "${2}" ] && echo 98
+#	[ -d ${1} ] || exit 97
+#
+#	dqb "cptp2:pars ok"
+#	csleep 1
+#
+#	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
+#	local t
+#	t=$(echo ${1} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
+#	
+#	if [ -f ${t}/common_lib.sh ] ; then
+#		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
+#			#csleep 1
+#			${gg} --verify ${t}/common_lib.sh.sig 		
+#			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"		
+#		fi
+#		
+#		if [ -x ${t}/common_lib.sh ] ; then
+#			enforce_access $(whoami) ${t} #${2} toka param turha?
+#			dqb "running changedns.sh maY be necessary now to fix some things"
+#		else
+#			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
+#		fi
+#	fi
+#
+#	csleep 1
+#
+#	#090326:toimiiko toivotulla tavalla? toivottavasti nytq tr-kikkailut kOrjattu
+#	if [ -d ${t} ] ; then
+#		dqb "HAIL UKK"
+#
+#		${scm} 0755 ${t}
+#		${scm} 0555 ${t}/*.sh
+#		${scm} 0444 ${t}/conf*
+#		${scm} 0444 ${t}/*.deb
+#
+#		csleep 1
+#	fi
+#
+#	[ ${debug} -eq 1 ] && ls -las ${1}
+#	csleep 1
+#	dqb "ALL DONE"
+#}
 
 case "${mode}" in
 	1) #
@@ -299,8 +359,8 @@ case "${mode}" in
 		#[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
-	3)  #0 poistettu 040426 (takaisin josqs vai rei?)
-		
+	3)  #0 poistettu 040426 (takaisin josqs vai rai rai?)
+
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
 		part3 ${d}
@@ -321,7 +381,7 @@ case "${mode}" in
 				dqb "NOP"
 				csleep 1
 
-				#for f in $(fnid $srcfile -type f -name '*.sig') ; do
+				#for f in $(fnid $srcfile -type f -name "*.sig" ) ; do
 				#	g=$(echo $f | cut -d . -f 1,2)
 				#	check=$(smthing)
 				#	[ $check ] && gg --import $g
@@ -350,3 +410,13 @@ case "${mode}" in
 		echo "-h"
 	;;
 esac
+
+#VAIH:kysymään lähteen poistosta purkamisen jälkeen?
+
+if [ -s ${srcfile} ] ; then
+	read -p " U  WANT T0 RM SOURCE ?" confirm
+	[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
+
+fi
+
+#cptp2 params

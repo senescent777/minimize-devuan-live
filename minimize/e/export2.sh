@@ -229,6 +229,7 @@ case ${mode} in
 		dqb "NVDK 1b 2 secs"
 		csleep 2
 
+		#TODO:zxcv-jutuista apufktioita selkeyden vuoksi
 		${NKVD} /opt/bin/zxcv.tmp
 		${spc} /opt/bin/zxcv /opt/bin/zxcv.ÅLD
 		${spc} /opt/bin/zxcv.sig /opt/bin/zxcv.sig.ÅLD
@@ -240,7 +241,7 @@ case ${mode} in
 		#020426:ao. rivin kanssa muutokasi vaiei?
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
-	
+
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
@@ -291,13 +292,19 @@ case ${mode} in
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
 		csleep 1
 
-		#VAIH:dpkg: dependency problems prevent configuration of cpp-12:
-		#TODO:dpkg: dependency problems prevent configuration of libgtk-3-bin:
-		#TODO:xserver-common depends on x11-xkb-utils; however:
-		#TODO:xserver-xorg-legacy depends on xserver-common 
-		#todo:xserver-common depends on x11-xkb-utils
+		#VAIH:dpkg: dependency problems prevent configuration of cpp-12: jos common_lib jatkossa...
+		#VAIH:dpkg: dependency problems prevent configuration of libgtk-3-bin: EDELLEEN
+
+		#VAIH:xserver-common depends on x11-xkb-utils; however:
+		#Depends: x11-common, xkb-data, x11-xkb-utils
+
+		#VAIh:xserver-xorg-legacy depends on xserver-common 
+	
 		#todo:dependency problems prevent configuration of xserver-xorg-core:
-		#TODO:libvte-2.91-0:amd64 depends on libgtk-3-0
+
+		#VAIH:libvte-2.91-0:amd64 depends on libgtk-3-0
+		#Depends: libvte-2.91-common (= 0.70.6-1~deb12u1), libatk1.0-0 (>= 1.12.4), libc6 (>= 2.34), libcairo2 (>= 1.10.0), libfribidi0 (>= 1.0.0), libgcc-s1 (>= 3.0), libglib2.0-0 (>= 2.52.0), libgnutls30 (>= 3.7.2), libgtk-3-0 (>= 3.24.22), libicu72 (>= 72.1~rc-1~), libpango-1.0-0 (>= 1.44.3), libpangocairo-1.0-0 (>= 1.22.0), libpcre2-8-0 (>= 10.22), libstdc++6 (>= 11), libsystemd0 (>= 220), zlib1g (>= 1:1.2.0)
+
 		#... bissiin näitä tapellen kanssa minimal_liven , asennusjärj ainakin aiheittaa nalq, libatk+at-spi ainakin (6.4.26)
 
 		e23_upgp
@@ -305,8 +312,15 @@ case ${mode} in
 		csleep 1
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
-	e) #050426:suattaapi vaikka toimiakin jo
+	e) #050426:suattaapi vaikka toimiakin jo hetken aikaa
 	#... chattr olisi kullä paikallaan etteI vahingossa spedeilisi
+		#VAIH:E22_GS -jutskat jtnkin mukaan että cpp-nalqtus vähenisi
+		#TODO:testaus uusicksi
+
+		${shary} ${E22_GS}
+		${shary} ${E22_GM}
+		csleep 3
+
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
@@ -325,19 +339,32 @@ case ${mode} in
 		${shary} ${E22_GI}
 	;;
 	l) #050426:osaa muodostaa wdm-paketin, sisältökin visisin toimii (pl ehkä pient nalq minimal_livessä, korjaa)
+		#LIBGTK JA LIBATK EDELLEEN
+		#seat ,cpp myös (jokin tarvitsee enneq käytössä?)
+		#060426 paketti asentui desktop_livessä mutta minimal...
+		#TODO:uusiksi testaus
+
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
 	;;
-	m)
-		#to state the obvious:check_bin() , ocs() liittyy
-		#VAIH:testaa tämän oksennukset TAAS (060426 enimmäkseen asentuu minimial_liveen, puentä nalq vielä, korhaa)
-		[ -v E22_GS ] || exit 78
-		[ -v E22_GM ] || exit 79
-
-		${shary} ${E22_GS} #05043526:alkaisiko jo olla kunnossa?
-		${shary} ${E22_GM}
-	;;
+#	m)
+#		#to state the obvious:check_bin() , ocs() liittyy
+#		#VAIH:testaa tämän oksennukset TAAS (060426 enimmäkseen asentuu minimial_liveen, puentä nalq vielä, korhaa)
+#		#ifupdown+iproute2 oli 1 juttu (vetikö?)
+#
+#		#iptoute2 ja libtirpc3 toinen (vetikö? joo)
+#		#tosin tirpc tarttee libgssapin mikä pitäisi kyllö löytyä mutta
+#		#VAIH:KATSO NYT PELLE VIHDOINKIN ONKO KAIKKI IPROUTE2 TARVITSEMAT MUKANA VAI EI (commomn_lib)
+#
+#		#HUOM.040326:jatkossa turhahko case, voisi yhdistää e):hen
+#
+#		[ -v E22_GS ] || exit 78
+#		[ -v E22_GM ] || exit 79
+#
+#		${shary} ${E22_GS} #05043526:alkaisiko jo olla kunnossa?
+#		${shary} ${E22_GM}
+#	;;
 	n)
 		#VAIH:ntp-jutut takaisin josqs?
 
@@ -345,6 +372,8 @@ case ${mode} in
 		${shary} ntpsec
 	;;	
 	x) #VAIH:vähän vielä pitäisi paketteja metsästää että asentuisi? ehkä , myös asennusjärj aiheuttaa nalq minimal_livessä 060426
+	#libglu ainakin kusi
+	#TODO:testit taas uudella pak
 		e23_xyz
 	;;
 	*)
@@ -352,7 +381,7 @@ case ${mode} in
 	;;
 esac
 
-#TODO:$distro/{accept,reject,drop} muokkaus viimeaikaisista joghtuen
+#VAIH:$distro/{accept,reject,drop} muokkaus viimeaikaisista joghtuen
 
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar

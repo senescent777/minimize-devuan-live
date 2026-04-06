@@ -109,6 +109,7 @@ function ocs() {
 
 	#-z myös keksitty
 	#if [ y"${tmp2}" == "y" ] ; then
+
 	if [ -z "${tmp2}" ] ; then
 		dqb "KAKKA-HÄTÄ ${1} "
 		exit 82
@@ -178,8 +179,8 @@ function check_bin_0() {
 	NKVD="${odio} ${NKVD} -fu "
 
 	#ehkä tämmöinen lista kuuluisi konftdstoon?
-	#4426:brl ja openssh uutena minimal_live liittyen, pois jos qsee
-	PART175_LIST="avahi blu cups exim4 nfs network mdadm sane rpc lm-sensors dnsmasq stubby brltty openssh ssh" 
+	#4426:brl ja openssh uutena minimal_live liittyen, pois jos qsee (6426 ssh viskoi pihalle äksästä ennenaikaisesti, toistuuko?)
+	PART175_LIST="avahi blu cups exim4 nfs network mdadm sane rpc lm-sensors dnsmasq stubby brltty openssh" # ssh 
 
 	# ntp" ntp jemmaan 28525 #slim kokeeksi mukaan listaan 271125, hiiri lakkasi toimimasta
 	#HUOM.excalibur ei sisällä:dnsmasq,stubby
@@ -322,6 +323,10 @@ function psqa() {
 	csleep 2
 }
 
+#HUOM.060426:ne kalat mitkä eivät listassa tulisi kai hukata
+#... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
+#efk2 2. param ja cefgh voisi liittyä asiaan
+
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} )))))))))))))"
 	csleep 1
@@ -377,7 +382,7 @@ function efk2() {
 		${odio} ${sr0} -C ${2} -xf ${1}
 	else
 		dqb "WE NEED T0 TALK ABT ${1}"
-	fi	
+	fi
 
 	csleep 1
 }
@@ -477,9 +482,9 @@ function CB01() {
 #TODO:VÄHITELLEN JOTAIN TÄMÄNKIN HYVÄKSI?
 #	[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt ${1}/sha512sums.txt.bak
 #	efk2 ${1}/g.tar ${1}
-
-	common_pp3 ${1}
-
+#
+#	common_pp3 ${1}
+#
 #	[ -s ${1}/g.tar ] && ${spc} ${1}/g.tar ${1}/g.tar.bak
 #	[ $? -eq 0 ] && ${NKVD} ${1}/g.tar
 #
@@ -493,9 +498,9 @@ function CB01() {
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
 	csleep 1
-	
+
 	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt.bak ${1}/sha512sums.txt
-	common_pp3 ${1}
+	common_pp3 ${1} #miksi pitikään renkata useampaan kertaan? nose gpg-tark tietrtty
 }
 
 function CB02() {
@@ -520,7 +525,7 @@ function CB02() {
 	ip6t=$(${odio} which ip6tables)
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
-	
+
 	#sqroot-juttuja
 	[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh	
 }
@@ -534,14 +539,31 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	#VAIH:nimeäminen uudelleen joskus
-	E22_GM="libc6 libtirpc3 libbsd0 libdb5.3 libselinux1 libmount1 libacl1 libattr1 libgmp10"
-	E22_GM="${E22_GM} libblkid1 libsmartcols1 debianutils liblocale-gettext-perl passwd" # nfs-common
-	E22_GM="${E22_GM} resolvconf isc-dhcp-client isc-dhcp-common"
-	E22_GM="${E22_GM} debconf debconf-i18n libbpf1 libcap2 libcap2-bin libelf1"
+	#(joko jo kunnossa 050426? melkein) (jos sittenkin vipuaisi GS takaisin accept-tdstoihin?)
+	E22_GS="gcc-12-base libgcc-s1 libc6" #meneeköhän jännäksi 2. ja 3. kohdalla? jep
+	#E22_GR="gcc-12-base libgcc-s1 libc6"
+
+	E22_GS="${E22_GS} libgmp10 libisl23 libmpfr6 libmpc3 libzstd1 zlib1g"
+	E22_GS="${E22_GS} libstdc++6 libgomp1 cpp-12" #060426:tartteeko varsinaisen cpp:n kanssa?
+
+	E22_GM="libc6 libselinux1"
+
+	E22_GM="${E22_GM} debianutils debconf liblocale-gettext-perl libtext-charwidth-perl libtext-iconv-perl libtext-wrapi18n-perl" # nfs-common	
+	E22_GM="${E22_GM} debconf-i18n libelf1 libbpf1 " #zlib1,libc6
 	E22_GM="${E22_GM} libmnl0 libxtables12 " # oikeastaanm jo toisissakin jutussa mukana
-	E22_GM="${E22_GM} libatm1 libpcre2-8-0 libmd0 libgssapi-krb5-2 libtirpc-common"
-	E22_GM="${E22_GM} iproute2 adduser ifupdown net-tools mount coreutils" #iproute2-doc iproute
+
+	#HUOM.060426:gss-  ja krb5 - kirjastoista tarvitaan oikeat versiot!!!
+	E22_GM="${E22_GM} libcom-err2 libk5crypto3 libkeyutils1 libkrb5support0 libssl3 libkrb5-3 libkrb5support0"
+	E22_GM="${E22_GM} libmnl0 libatm1 libpcre2-8-0 libmd0 libgssapi-krb5-2 "
+	E22_GM="${E22_GM} libbsd0 libcap2 libcap2-bin libdb5.3 libtirpc-common libtirpc3 iproute2"
+
+	#Depends: libc6 (>= 2.36), debianutils (>= 2.8.2), iproute2
+	#Depends: debianutils (>= 2.8.2)
+	E22_GM="${E22_GM} resolvconf isc-dhcp-client isc-dhcp-common"
+
+	E22_GM="${E22_GM} libpam-modules libsemanage2 libpam0g libcrypt1 libaudit1 passwd adduser ifupdown"
+	E22_GM="${E22_GM} libblkid1 libmount1 libsmartcols1 mount net-tools"
+	E22_GM="${E22_GM} libacl1 libattr1 libgmp10 coreutils" #iproute2-doc iproute
 
 	#... nuo jutut miel accept1/2 mukaan jatq tjsp?
 
@@ -555,15 +577,11 @@ function check_binaries() {
 	#050426:tämä jo okK?
 	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
-	#(joko jo kunnossa 050426? melkein) (jos sittenkin vipuaisi GS takaisin accept-tdstoihin?)
-	E22_GS="gcc-12-base libgcc-s1 libc6" #meneeköhän jännäksi 2. ja 3. kohdalla? jep
-	E22_GR="gcc-12-base libgcc-s1 libc6"
 
-	E22_GS="${E22_GS} libgmp10 libisl23 libmpfr6 libmpc3 libzstd1 zlib1g"
-	E22_GS="${E22_GS} libisl libmpc cpp-12 libstdc++6 libgomp1"
 
 	#050426:dhcp-jutut erilleen jatkossa? entä dhcp?
-	E22_GT="isc-dhcp-client isc-dhcp-common libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
+	E22_GT="isc-dhcp-client isc-dhcp-common "
+	E22_GT="${E22_GT} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
 	E22_GT="${E22_GT} iptables"
 	E22_GT="${E22_GT} init-system-helpers" # iptables-persistent netfilter-persistent
 
@@ -586,7 +604,7 @@ function check_binaries() {
 	if [ -z "${gg}" ] ; then
 		CB01 ${1}
 	fi
-	
+
 	if [ -z "${ipt}" ] ; then
 		CB02 ${1}
 	fi
@@ -595,7 +613,7 @@ function check_binaries() {
 	ls ${1}/*.deb | wc -l
 	csleep 3
 	for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
-	
+
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
 	csleep 1
@@ -604,7 +622,7 @@ function check_binaries() {
 	#ei vielä conf_lt_root
 	[ -f /.chroot ] || ocs dhclient
 	csleep 1
-	
+
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt) #tar4vitaanko jossain? jep
 
@@ -644,10 +662,10 @@ function check_binaries2() {
 	#konftdstoon tuo INITRd vai ei?
 	INITRD=No
 	export INITRD
-	
+
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
 	${scm} a-wx /usr/sbin/update-initramfs #kokeeksi tämäkin, vissiin jotyain saa aikaan 050426
-		
+
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing /run/live/medium/live/initrd.img.new: No space left on device
 	#
@@ -659,7 +677,7 @@ function check_binaries2() {
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
 	smd="${odio} ${smd}"
-	
+
 	#tähän/seuraavaan TLA() vai mitenkä?
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
@@ -762,6 +780,7 @@ function dinf() {
 }
 
 #=================================================================
+#tämä+seur fktio voisi seitellä melko pian c_bin_0 jälkeen
 function fasdfasd() {
 	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
 	[ -z "${1}" ] && exit 99
@@ -816,11 +835,12 @@ function pre_enforce() {
 			${svm} ${1}/opt/bin/*.bash /opt/bin
 			#090326.2:miten /o/b/zxcv ?
 		fi
-	
+
+		#vainko .bash mankeloidaan jatkossa?
 		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q}
 		done
-	
+
 		#uutena 150326
 		${scm} a-w /opt/bin/*
 		${scm} a-wx /opt/bin/*.sh
@@ -878,7 +898,7 @@ function pre_enforce() {
 
 function mangle2() {
 	[ -z  "${1}" ] && exit 99
-	
+
 	if [ -f ${1} ] ; then
 		${scm} o-rwx ${1}
 		${sco} root:root ${1}
@@ -920,7 +940,7 @@ function e_e() {
 	if [ -h /etc/resolv.conf ] ; then
 		#tarkistus hyvä näin vai ei? toimiiko size?
 		c=$(find /etc -type f -name "resolv.conf.*" -size +10c | wc -l )
-		
+
 		if [ ${c} -gt 0 ] ; then 
 			${smr} /etc/resolv.conf
 		fi
@@ -944,12 +964,12 @@ function e_e() {
 function e_v() {
 	#180326:/sbin - rivien kanssa jotain ongelmaa? chown valittaa /sbin alaisista tdstoista...
 	#kiekolla bittejä poikittain?
-	
+
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
 	dqb "e_V_2 IN 1 SECS"
 	csleep 1
-	
+
 	${sco} root:root /var
 	${scm} 0755 /var
 	${sco} root:staff /var/local
@@ -992,7 +1012,7 @@ function e_h() {
 		${scm} 0400 ${2}/opt/bin/*.sh
 		${scm} 0511 ${2}/opt/bin/*.bash
 	fi
-	
+
 	csleep 1
 }
 
@@ -1039,7 +1059,7 @@ function part1_5() {
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	[ -d ${2} ] || exit 68
-	
+
 	dqb "part1_5().pasr.ko"
 	csleep 1
 	local t
@@ -1062,7 +1082,7 @@ function part1_5() {
 			csleep 1
 			touch ${h}/sources.list.tmp
 			local b
-			
+
 			if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
 				b="deb file://${2}"
 			else
@@ -1073,14 +1093,14 @@ function part1_5() {
 				echo "${b} ${x} main" >> ${h}/sources.list.tmp
 			done
 		else
-			${svm} /etc/apt/sources.list.tmp ${h}			
+			${svm} /etc/apt/sources.list.tmp ${h}
 			fasdfasd  ${h}/sources.list.tmp
 		fi
 
 		dqb "p1.5.2"
 		csleep 1
 		local tdmc
-	
+
 		tdmc="sed -i 's/DISTRO/${t}/g'" #TARRKK PRKL
 		echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 		csleep 1
@@ -1090,7 +1110,7 @@ function part1_5() {
 			echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 			csleep 1
 		fi
-	
+
 		${svm} ${h}/sources.list.tmp /etc/apt/sources.list.${t}
 		csleep 1
 
@@ -1114,11 +1134,11 @@ function part1() {
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	[ -d ${2} ] || exit 68
-	
+
 	csleep 1
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
 	csleep 1
-	
+
 	[ -v ipt ] || dqb "SHOULD exit 69" #010326 qseeko tämä kohta?
 	#TLA #vähitellen pois tsätä fktiosta va i ei sittenkään?
 
@@ -1175,17 +1195,17 @@ function part2() {
 		${lftr}
 		${fib}
 		csleep 1
-		
+
 		for s in ${PART175_LIST} ; do 
 			csleep 4
-		
+
 			dqb "processing ${s}"
 			${sharpy} ${s}*
 			csleep 1
 		done
 
 		${lftr}
-		
+
 		${sharpy} libblu* libcupsfilters* libgphoto*
 		${lftr}
 
@@ -1260,11 +1280,11 @@ function cg_udp6() {
 }
 
 function cg_pp2() {
-	
+
 	dqb " GENERIC REPLACEMENT FOR daud.lib.pre_part2 ${1}"
 	csleep 1
-	
-		${odio} /etc/init.d/ntpd stop
+
+	${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
 
 	for f in $(find /etc/init.d -type f -name "ntp*" ) ; do 
@@ -1303,9 +1323,13 @@ function part3() {
 	common_lib_tool ${1} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 
-	#050426:alkaisi jo olla libc6-liittyvät asiat kunnossa? mlkein
+	#060426:AO. RIVI TUOLLAINEN TARKOITUKSELLA, ÄLÄ SORKI!!!
 	efk1 ${1}/gcc-12-base*.deb ${1}/libgcc-s1*.deb ${1}/libc6*.deb
+	csleep 5
+
 	for p in ${E22_GS} ; do wopr ${1} ${p} accept_pkgs_1 ; done
+	#060426:jospa keskeyttäisi tässä kunnes cpp-asiat kunnossa? vai alkaisiko jo sujua?
+	csleep 15
 
 	common_lib_tool ${1} accept_pkgs_1
 	common_lib_tool ${1} accept_pkgs_2

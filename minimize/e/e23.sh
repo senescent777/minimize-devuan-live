@@ -196,7 +196,7 @@ function e23_qrs() {
 	csleep 1
 }
 
-#050426:taisipa toimia yhden kerran (entä toisen? VAIH)
+#060426:taisipa desktop_liven aknssa asentua fktion tuotos, mutta minimal...
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -206,49 +206,66 @@ function e23_dm() {
 	${fib}
 	csleep 1
 
-	#LOPPUU SE PURPATUS PRKL
+	#varsinainen cpp mukaan tuohon? alempana se tulee mukaan nyt
 	${shary} ${E22_GS}
 	csleep 1
 
-	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6
+	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6 libx11-xcb1
 	${shary} menu twm
 
 	#libselinux oikeastaan muualla jo
 	${shary} libcrypt1 libpam0g libselinux1 #jemmaan?
 	${shary} libxau6 libxaw7 libxdmcp6 libxft2 libxinerama1 
+	${shary} libfontconfig1 libfontenc1 libgl1 libxcb-shape0 libxcb1 
 	csleep 1
 
-	${shary} libxpm4 libxrender1 debconf x11-utils cpp lsb-base x11-xserver-utils procps
-	${shary} libgtk-3-0 libgtk-3-common
-	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libglib2.0-0 libglib2.0-data  at-spi2-common libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
+	${shary} libx11-data libxcomposite1 libxi6 libxkbfile1 libxmuu1 libxrandr2 libxrender1 libxtst6
 
-	${shary} fontconfig libfribidi0 libharfbuzz0b libthai0
-	${shary} libfreetype6 libxcb-shape0 libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1
-	${shary} libxcb-render0 libxcb-shm0
-	${shary} libxkbfile1 libxmuu1 libxt6
+	#x11-utils Depends: libc6 (>= 2.15),  (>= 2.12.6),, , ,  (>= 2:1.6.9), , 
+	#, (>= 1.6),(>= 1:0.3-1), , (>> 2.1.1), , , , , ,  (>= 2:1.2.0), ,  (>= 1:1.1.0), 
+	#, 
+	${shary} x11-common libxv1 libxxf86dga1 libxxf86vm1
+
+	${shary} libxpm4 debconf  cpp lsb-base procps
+
+	#Depends: dconf-gsettings-backend | gsettings-backend (TODO)
+	#Depends: adwaita-icon-theme, hicolor-icon-theme, shared-mime-info, 
+	# (>= 2.15.1), (>= 2.35.1), libc6 (>= 2.34),  (>= 1.14.0), (>= 1.14.0), 
+	# (>= 0.1.10), libcups2 (>= 1.7.0),  (>= 1.4.3),  (>= 2.12.6), (>= 0.19.7), (>= 2.40.0),  (>= 2.59.0),
+	# (>= 2.2.0), (>= 1.45.5), (>= 1.44.0), (>= 1.44.0), 
+	#(>= 1.20.0), (>= 1.14.91), (>= 1.15.0), 
+	# (>= 2:1.4.99.1),  (>= 1:0.4.5),  (>> 1.1.2),  (>= 1:1.1), , ,  (>= 2:1.2.99.4),  (>= 2:1.1.4), 
+	# (>= 0.5.0),  (>= 2:1.5.0),  (>= 3.24.38-2~deb12u3)
+	
+	${shary} libgtk-3-0 libgtk-3-common libatk-bridge2.0-0 libcairo-gobject2 libcairo2
+	${shary} libcolord2 libepoxy0 libfribidi0 libglib2.0-0 libpango-1.0-0
+	${shary} libxml2 libglib2.0-data at-spi2-common libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
+	${shary} libpangocairo-1.0-0 libpangoft2-1.0-0 libwayland-client0 libwayland-cursor0 libwayland-egl1
+	${shary} fontconfig libharfbuzz0b libthai0 libxcursor1 libxdamage1 libxfixes3
+	${shary} libfreetype6 libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxkbcommon0
+	${shary} libxcb-render0 libxcb-shm0 x11-utils x11-xserver-utils 
+
 	csleep 1
 	
-	${shary} libexpat1 fontconfig-config libfontconfig1
-	${shary} libfontenc1 libglvnd0 libglx0 libgl1  
-	${shary} x11-common libxtst6 libxv1 libxxf86dga1 
-	${shary} libx11-data libx11-xcb1 libxcomposite1
+	${shary} libexpat1 fontconfig-config
+	${shary} libglvnd0 libglx0   
+	
+	
 	csleep 1
 	
 	${shary} libgbm1 libseat1 libunwind8 libxpm4 # libselinux1
 
-	#TODO:	at-spi2-common,libatk1.0-0 tössö jäörj
-	#TODO:libgtk-3-common depends on  | ; however:
-	#TODO:	dependency problems prevent configuration of libgtk-3-0:amd64
-	#TODO:	libwraster6:amd64 depends on  (>= 2:1.1.3); however:
+	
+
 	#TODO:libpangoxft-1.0-0:amd64 depends on  (>> 2.1.1);
 	#TODO:libwings3:amd64 depends on
-	#TODO: :amd64 depends on
+
 	#TODO: :amd64 depends on libwayland-server0
 	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
-	#TODO: x11-utils depends on ; however:
+
 
 	#TODO:dpkg: dependency problems prevent configuration of libwww-perl:
-	#TODO:  depends on; however:
+
 	#TODO:xscreensaver depends on xscreensaver-data; however:
 	#TODO:cpp depends on  (>= 12.2.0-1~); however: #vielä qsee?
 
@@ -268,16 +285,15 @@ function e23_dm() {
 			${shary} libwebpdemux2 libheif1 libaudit-common libcap-ng0 #audit1 ennen case?
 		
 			${shary} libdb5.3 libpam-modules-bin libpam-modules libpam-runtime
-			${shary} sysvinit-utils libtinfo6 libpng16-16 libx11-xcb1  
+			${shary} sysvinit-utils libtinfo6 libpng16-16   
 
-			${shary} libxfixes3 libxcursor1
 			
 			#bsdextrautils | bsdmainutils 
 			${shary} bsdextrautils groff-base libgdbm6 libpipeline1 libseccomp2 man-db
 			csleep 1
 
 			#pcre tulisi muutakin kautta?
-			${shary} libpcre2-8-0 libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
+			${shary} libpcre2-8-0  libpangoxft-1.0-0
 			csleep 1
 
 			${shary} libgif7 libwraster6 libjpeg62-turbo
@@ -296,13 +312,13 @@ function e23_dm() {
 #			
 #			#csleep 1
 #			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
-#			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1),  (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), , libxfixes3,  (>= 2:1.1.4),  (>= 2:1.5.0),  adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
-#			${shary} libpangocairo-1.0-0   
+#			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1),  (>= 1:0.4.5),  (>> 1.1.2),  (>= 1:1.1), , ,  (>= 2:1.1.4),  (>= 2:1.5.0),  ,
+#			  
 #			#csleep 1
 #			${shary} libdeflate0 debliblerc4 
 #			csleep 1
 #			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
-#			${shary} libcairo2 libgtk2.0-common libgtk2.0-0
+#			${shary}  libgtk2.0-common libgtk2.0-0
 #			csleep 1
 #			#gdk ennen gtk?
 #			${shary}   
@@ -359,14 +375,13 @@ function e23_profs() {
 }
 
 
-#			 problems prevent configuration of xserver-xorg-core
 
 #			problems prevent configuration of xorg
 #			 problems prevent configuration of xserver-xorg-video-vmware
 #			problems prevent configuration of xserver-xorg-video-vesa
 #			problems prevent configuration of xserver-xorg-video-all
 #			problems prevent configuration of xserver-xorg-input-wacom
-#			problems prevent configuration of xserver-xorg-core
+
 #			 xserver-xorg-video-radeon  on 
 #			 
 #			problems prevent configuration of xserver-xorg-video-fbdev
@@ -381,24 +396,33 @@ function e23_profs() {
 #			 xserver-xorg-video-intel
 			 
 function e23_xyz() {	
-	${shary} libeudev1 libepoxy0 libdrm2 keyboard-configuration 
+	${shary} libeudev1  libdrm2 keyboard-configuration 
 	${shary} libpixman-1-0 libxshmfence1 libxfont2 libpciaccess0 libgcrypt20
 	${shary} xcvt libxcvt0 xserver-xorg-video-modesetting xserver-xorg-input-evtouch
-	${shary} libglu1-mesa libgl1-mesa-dri
+	${shary} libglu1-mesa libgl1-mesa-dri #gl1 muttei mesa löytyy jo aiemmin
 
 	#tässä alla vöib tulla suurempi lottoaminen (jospa jollain livecd:llä selvittäisi mitä oik tarv)
 	${shary} x11-session-utils xfonts-utils xinit xfonts-scalable xfonts-75dpi xfonts-100dpi
 	#{shary} xserver-xorg
 
 	${shary} xbitmaps x11-xfs-utils xterm xkb-data xauth xfonts-base x11-xkb-utils
-	#${shary} x11-common #xterm+xauth vosi hoitaa e23_dm() kayrra? x11-common jo dm
+	${shary} x11-common #xterm+xauth voIsi hoitaa e23_dm() kaUTTa? x11-common jo dm
 	
+	#egl,audit,bsd0,libgbm1,libgl1  yms. dm() kautta
+	#Depends:  (>= 2:21.1.7-3devuan1), , udev (>= 149), , (>= 1:2.2.1),  (>= 0.7.0), libc6 (>= 2.35), 
+	#(>= 2.4.66), (>= 3.2.11),  (>= 17.1.0~rc2), (>= 1.10.0), , (>= 0.12.902),  (>= 0.30.0), 
+	#,  (>= 1:1.0.9),  (>= 0.1.0),,  (>= 1:2.0.1), 
+
+
 	${shary} xserver-common xserver-xorg-core
 	#xserver-xorg #tarvitseeko erikseen sanoa kosa xorg?		
 	${shary} xorg xorg-docs-core xorg-docs #2. ja 3. oik. tarpeen?
 		
 	#${shary} xserver-xorg-input-all xserver-xorg-input-libinput xserver-xorg-input-wacom 
+
+	#Depends: xserver-common (>= 2:21.1.7-3devuan1), libc6 (>= 2.34), debconf (>= 0.5) | debconf-2.0
 	#${shary} xserver-xorg-legacy xserver-xorg-video-all xserver-xorg-video-amdgpu
+
 	#${shary} xserver-xorg-video-ati xserver-xorg-video-fbdev xserver-xorg-video-intel 
 	#${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
 
