@@ -18,10 +18,11 @@ if [ $# -gt 0 ] ; then
 fi
 
 if [ ${mode} -gt 1 ]; then
-	#${scm} g+rw /dev/tty0 #ehkä toimii ilmankin mutta puidetäänpä nyt kommenteissa vielä
+	#${scm} g+rw /dev/tty0 #ehkä toimii ilmankin mutta pidetäänpä nyt kommenteissa vielä
 	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
 fi
 
 [ ${mode} -gt 2 ] && ${smr} /etc/sudoers.d/live
 [ ${mode} -gt 3 ] && ${svm} /etc/sudoers_new /etc/sudoers #miten tämä toimii nykyään?
+#to state the obvious:jos ei olla äksässä sisällä ni pikemminkin logout tässä alla
 [ ${mode} -gt 0 ] && ${whack} xfce4-session
