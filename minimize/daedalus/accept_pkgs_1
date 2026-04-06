@@ -21,21 +21,55 @@ libavahi-client3
 zlib1g
 libkrb5support0
 libkrb5-3
-libgssapi-krb5-2
+#gss ja krb5 olisi hyvä olla oikea versio
+libgssapi-krb5
 libgnutls30
 libcups
+libtirpc-common
+libtirpc3
 #
 #gtk3
 #
 dconf-gsettings-backend
 gsettings-backend
 libgtk-3-common
+#
+adwaita-icon-theme
+hicolor-icon-theme
+shared-mime-info
+libatk-bridge
+libcairo
+libcolord2
+libepoxy
+libfont
+libfribidi0
+libglib2.0-0
+libharfbuzz0b
+libpango-1
+libpangocairo
+libpangoft2
+libwayland
+libx11-6
+libxcomposite1
+libxcursor
+libxdamage1
+libxext6
+libxfixes3
+libxi
+libxkb
+libxr
 libgtk-3-0
+#
+gtk-update-icon-cache
 libgtk-3-bin
 #
-#vte jälkeen atk:n ja gtk3:n jälkeen?
+#vte -> ,cairo2,  gcc-s1 ,,  , icu72, , , pcre2,  systemd, zlib
+libcairo2
+libicu72
+libpcre2-8-0
 libvte-2.91-common
 libvte
+#
 libxml
 libpam-modules-bin
 libpam-modules_
@@ -69,14 +103,14 @@ libzvbi0
 libsoxr0
 libswresample4
 #
-libx11-6
 libx11-xcb1
 libpython3.11-minimal
 libpython3.11-stdlib
+#pitäisikö ao 2 riippuvuudet slivittää?
 libgtk2.0-common
 libgtk2.0-0
 #
-#jälkimmänen voisi olla accept2_sessa jatqssa
+#jälkimmänen voisi olla accept2_sessa jatqssa?
 libnftables
 #
 #WDM
@@ -99,7 +133,6 @@ libmagickcore-6
 #raster6 varten
 libxpm4
 libxmu6
-libxext6
 libwebp7
 libtiff6
 libpng16
@@ -129,7 +162,7 @@ glib-networking
 libsoup
 libassuan0
 #
-#TODO:git depends on liberror-perl; however
+#VAIH:git depends on liberror-perl; however
 liberror-perl
 #
 #ennen äksää (030426)
@@ -137,7 +170,6 @@ libegl-mesa0
 libegl1
 libaudit1
 libbsd0
-libepoxy0
 libgbm1
 libgl
 libseat1
@@ -147,7 +179,6 @@ libxau6
 libxcvt0
 libxdmcp6
 libxfont2
-libfont
 #
 #
 #tarvitseek o erikseen?
@@ -158,17 +189,29 @@ libxmu
 #
 libxaw7
 libxcb
-libxcomposite1
 libxft2
-libxi
-libxkb
-libxr
 libxt
 libxv1
 libxx
 libsm
-libxcursor
 libfreetype
 libice6
 libtinfo6
+libxshmfence1
+libpixman
+ibpciaccess
+#libgl1 turha tässä?
+libgcrypt20
+#miten ao. kirj. ankssa?
+libeudev
+libdrm
+#
+#vissiin gcc-12/cpp-12? aiemmaksi?
+libisl
+#
+#nftables
+libnftables
+#
+#iproute2
+#libgssapi objo aiemmin
 

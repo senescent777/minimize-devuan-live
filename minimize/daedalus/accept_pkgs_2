@@ -8,9 +8,14 @@ perl
 mime-support
 #
 #eudev-dbus-e2fsprogs oli siinä rejectissä, miten x-juttuja myös?
+cpp
+#menisikö näin? , cpp juuri ennen äksää?
+x11-common
+xkb-data
+x11-xkb-utils
 xserver-common
 #
-#libc6 ennen legacy
+#libc6 ennen legacy, xserver-common ennen legacy
 xserver-xorg-legacy
 #
 #utyils ennen:common
@@ -39,4 +44,6 @@ xterm
 xfonts
 x11
 xorg
-
+#route ennne dhcp
+iproute2
+isc-dhcp
