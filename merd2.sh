@@ -3,8 +3,9 @@ debug=0
 branch=""
 d0=$(pwd)
 echo "d0=${d0}"
-BASEURL="github.com/senescent777"
-PT2=minimize-devuan-live
+CONF_BASEURL="github.com/senescent777"
+CONF_PT2=minimize-devuan-live
+distro=$(cat /etc/devuan_version)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -29,7 +30,8 @@ else
 	exit 66
 fi
 
-if [ ! -z ${branch} ] ; then
+if [ ! -z "${branch}" ] ; then
+	branch=$(echo ${branch} | tr -dc a-zA-Z0-9/.)
 	branch="--branch ${branch}"
 fi
 
@@ -43,13 +45,16 @@ fi
 
 dqb "BFROE tig"
 csleep 2
-${tig} clone ${branch} https://${BASEURL}/${PT2}.git
+${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 [ $? -gt 0 ] && exit
 
 dqb "TGI KO"
 csleep 2
-echo "mv minimize minimize.OLD"
-echo "mv ${PT2}/* ."
-echo "[ -x minimize/common_lib.sh ] && . minimize/common_lib.sh"
-echo "[ -x minimize/common_lib.sh ] && enforce_access \${n} \${t} "
-echo "mv minimize.OLD/\$distro/conf minimize/\$distro"
+
+#020426:toimii
+mv minimize minimize.OLD
+mv ${CONF_PT2}/* .
+
+[ -x minimize/common_lib.sh ] && . minimize/common_lib.sh
+[ -x minimize/common_lib.sh ] && enforce_access $(whoami) ${d0}/minimize
+mv minimize.OLD/${distro}/conf minimize/${distro}
