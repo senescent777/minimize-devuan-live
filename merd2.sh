@@ -55,6 +55,7 @@ csleep 2
 mv minimize minimize.OLD
 mv ${CONF_PT2}/* .
 
+#TODO:voisi taas selvittää, ovatko 1take-haaran matskut toimintaqntoisia? (7426) 
 [ -x minimize/common_lib.sh ] && . minimize/common_lib.sh
 [ -x minimize/common_lib.sh ] && enforce_access $(whoami) ${d0}/minimize
 mv minimize.OLD/${distro}/conf minimize/${distro}
