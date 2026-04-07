@@ -9,9 +9,11 @@ librsvg2-2
 librsvg2-common
 libstdc
 #
-#
+#7426:menisikö näin? (TODO:libatspi2 vetäminen? 070426 ei vielä onnannut)
+libatspi2
 at-spi
 libatk1.0-0
+libatk-bridge
 #
 libavahi-common-data
 libavahi-common3
@@ -21,7 +23,7 @@ libavahi-client3
 zlib1g
 libkrb5support0
 libkrb5-3
-#gss ja krb5 olisi hyvä olla oikea versio
+#gss ja krb5 olisi hyvä olla oikea versio (7426 lienee jo kunnossa)
 libgssapi-krb5
 libgnutls30
 libcups
@@ -29,10 +31,15 @@ libtirpc-common
 libtirpc3
 #
 #gtk3
-#
+#ASNEUVATKO NU O PASKEET ENNEN COMMON VAI EI??? (7426) TODO:tee jotain EDELLEENN
 dconf-gsettings-backend
 gsettings-backend
 libgtk-3-common
+#
+libxft2
+libpango-1
+libpangoft2
+libpangoxft
 #
 adwaita-icon-theme
 hicolor-icon-theme
@@ -63,13 +70,13 @@ libgtk-3-0
 gtk-update-icon-cache
 libgtk-3-bin
 #
-#vte -> ,cairo2,  gcc-s1 ,,  , icu72, , , pcre2,  systemd, zlib
+#vte -> ,cairo2,  gcc-s1 ,,  , icu72, , , pcre2,  systemd, zlib (jäi puolitiehen 7426, TODO:uusiksi?)
 libcairo2
 libicu72
 libpcre2-8-0
 libvte-2.91-common
 libvte
-#
+#oikeat versiot libpam-paketeista saattaa olla 7426
 libxml
 libpam-modules-bin
 libpam-modules_
@@ -110,7 +117,7 @@ libpython3.11-stdlib
 libgtk2.0-common
 libgtk2.0-0
 #
-#jälkimmänen voisi olla accept2_sessa jatqssa?
+#jälkimmäInen voisi olla accept2_sessa jatqssa?
 libnftables
 #
 #WDM
@@ -161,13 +168,16 @@ gsettings-desktop-schemas
 glib-networking
 libsoup
 libassuan0
-#
+#TODO:libseat,seat johonkin väliin
 #VAIH:git depends on liberror-perl; however
 liberror-perl
 #
-#ennen äksää (030426)
+#ennen äksää (030426) TODO:myös e23:seen mukaan wayland-s
+libgbm1
+libwayland-server
 libegl-mesa0
 libegl1
+#
 libaudit1
 libbsd0
 libgbm1
@@ -199,7 +209,7 @@ libice6
 libtinfo6
 libxshmfence1
 libpixman
-ibpciaccess
+libpciaccess
 #libgl1 turha tässä?
 libgcrypt20
 #miten ao. kirj. ankssa?
@@ -212,6 +222,12 @@ libisl
 #nftables
 libnftables
 #
-#iproute2
-#libgssapi objo aiemmin
+#iproute2 varte?
+#libgssapi objo aiemmin (cap2-bin erikseen?)
+libcap2
+#
+#debconf varten
+libtext-wrapi18
+libfs6
+#TODO:jotain libseat-juttuja oli kanssa?
 

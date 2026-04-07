@@ -8,4 +8,69 @@ xz,xfburn,xarchiver
 #
 #HUOM:libdav-PAKETTEJA EI SITTEN PRKL POISTELLA
 #
-#TODO:minimal_live:en liittyen lisää poistettavia
+#VAIH:minimal_live:en liittyen lisää poistettavia
+bastet
+#bc?
+bombardier
+bsdgames
+bti
+build-essential
+caca-utils
+#calc #tässä jo kosahtaa desktop_liven kanssa?
+#cavezofphear
+#ceni
+#clex
+#cmatrix
+#cowsay
+#crawl
+#curseofwar
+#dahdi
+#dc #?
+#ed #?
+#empire
+#entr
+#fbi
+#fbterm
+#fetchmail
+#figlet
+#fmtools
+#fortune
+#freesweep
+#gddrescue
+#geoip-bin
+#gnuchess
+#gobject-introspection
+#greed
+#haveged
+#icu-devtools
+#irssi
+#jhead
+#lrzsz
+#matanza
+#mc #?
+#minicom
+#moc
+#moria
+#netcat #jatkossakin jemmassa?
+#nethack
+#ntp #jos pitäisi jemmassa koska x
+#omega-rpg
+#open-invaders
+#pacman4console
+#pente
+#rpl
+#rsstail
+#sensible-utils
+#setnet
+#taskwarrior
+#tcc
+#toilet
+#transmission
+#ttyrec
+#w2do
+#w3m
+#wamerican
+#wavemon
+#yasr
+#zile
+#
