@@ -220,14 +220,18 @@ function check_bin_0() {
 	[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
 	[ -s /opt/bin/zxcv.sha ] || echo "shoul.d ex1t 97"
 
-	${sah6} -c /opt/bin/zxcv.sha #jatkossa .sig vai .sha.sig?
+	#pitäisiköhä olla lukuoikeus noilla ao. tdstoilla?
+
+	${odio} ${sah6} -c /opt/bin/zxcv.sha
+	#jatkossa .sig vai .sha.sig?
 	[ $? -gt 0 ] && echo "gh0uls 0f n1n1w3h"
+
 	[ -z "${gg}" ] || ${gg} --verify /opt/bin/zxcv.sig
 	[ $? -gt 0 ] && echo "dhoulf exit 126"
 
 	local p=$(pwd)
 	cd /
-	${sah6} -c /opt/bin/zxcv
+	${odio} ${sah6} -c /opt/bin/zxcv
 	[ $? -gt 0 ] && echo "dhoulf exit 1234!!!"
 	cd ${p}
 
@@ -254,6 +258,7 @@ function message() {
 	sleep 1
 }
 
+#TODO:jatkossa uusikcsi tämä?
 function psqa() {
 	dqb "Q () () () () ${1} ;;;"
 	csleep 1
@@ -279,7 +284,8 @@ function psqa() {
 				dqb "KÖ"
 			else
 				dqb "SHOULD imp2 k \$dir !!!"
-				exit 95
+				${NKVD} ${1}/sha512sums.*
+				exit 95 #jatk exit pois
 			fi
 
 			csleep 1
@@ -307,7 +313,7 @@ function psqa() {
 		if [ $? -eq 0 ] ; then
 			dqb "Q.KO"
 		else
-			dqb "export2 f ?"
+			dqb "SHOULD \${NKVD} ${1}/*.deb"
 			exit 94
 		fi
 
@@ -316,9 +322,11 @@ function psqa() {
 		cd ${p}
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
+		dqb "SHOULD \${NKVD} ${1}/*.deb"		
 		exit 93
 	fi
 
+	dqb " DONE WITH THE Q-FEVER () ;;;; (((((("
 	csleep 2
 }
 
@@ -326,6 +334,7 @@ function psqa() {
 #... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
 #efk2 2. param ja cefgh voisi liittyä asiaan
 
+#TODO:jatkossa uusikcsi tämä?
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} )))))))))))))"
 	csleep 1
@@ -355,7 +364,11 @@ function common_pp3() {
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
+		#TODO:jos mahd ni dellimään paketit jos tarq menee wtuiksi (man vash? fktioiden palautusarvot...)
 	fi
+
+	dqb "() common_pp3 DONE"
+	csleep 1
 }
 
 #... tai siis vaatinee jnkn verran selvittelyä dpkg korvaaminen aptilla niin että
@@ -452,6 +465,7 @@ function fromtend() {
 	dqb "DNÖE"
 }
 
+#TODO:jatkossa uusikcsi tämä?
 function cefgh() {
 	dqb " cefgh( ${1} )))"
 
@@ -462,6 +476,7 @@ function cefgh() {
 	csleep 1
 
 	#pitäisiköhän noissa poisteluissa olla jotain muitakin ehtoja?
+	#... esim. e.tar purq vain mikäli gg:tä ei ole?	
 	efk2 ${1}/e.tar
 	[ $? -eq 0 ] && ${NKVD} ${1}/e.tar
 	efk2 ${1}/f.tar ${1}
@@ -472,26 +487,31 @@ function cefgh() {
 
 	#mitäjos part3() kaNssa tulee sitä gpg-nalkutusta? g.tar-jutut takaisin tähämn?	
 	#"exp2 g $d/g.tar" ? + "exp2 f jälkeen"
+	#... tai tuo e.tar-jutska jos olisi kätevämpi sittenkin?
 }
 
+#TODO:jatkossa uusikcsi tämä?
 function CB01() {
-	dqb "common.lib.CB01()"
+	dqb "common.lib.CB01( ${1} )"
 	csleep 1
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
 
-#010426:txt.bak tilapäisesti pois sotkemasta, ehkä takaisin kommnetietsta josqs
-#TODO:VÄHITELLEN JOTAIN TÄMÄNKIN HYVÄKSI?
-#if [ -s ${1}/g.tar ] ; then
-#	[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt ${1}/sha512sums.txt.bak
-#	# && ${spc} ${1}/g.tar ${1}/g.tar.bak #efk2 ei deletoi niin tätä ei oik tarvitse
-#	efk2 ${1}/g.tar ${1} #fk2 .bak ${1}
-#
-#	common_pp3 ${1} #070426:miten tämän kanssa?
-#
-#	#josdpa nyt jaksaisi mv taas toimia ulisematta
-#	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt.bak ${1}/sha512sums.txt 
-#fi
+	#010426:txt.bak tilapäisesti pois sotkemasta, ehkä takaisin kommnetietsta josqs
+
+	#VAIH:VÄHITELLEN JOTAIN TÄMÄNKIN HYVÄKSI?
+	if [ -s ${1}/g.tar ] ; then
+		#[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt ${1}/sha512sums.txt.bak
+		# && ${spc} ${1}/g.tar ${1}/g.tar.bak #efk2 ei deletoi niin tätä ei oik tarvitse
+		efk2 ${1}/g.tar / #koita päättää miten tämän kanssa
+	
+		common_pp3 ${1} #070426:miten tämän kanssa?
+	
+		#josdpa nyt jaksaisi mv taas toimia ulisematta
+		#[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt.bak ${1}/sha512sums.txt 
+		${NKVD} ${1}/g.tar
+		exit 103
+	fi
 
 	common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen	
 	for p in ${E22_GI} ; do efk1 ${1}/${p}*.deb ; done
@@ -503,8 +523,11 @@ function CB01() {
 
 	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt.bak ${1}/sha512sums.txt
 	common_pp3 ${1}
-}
 
+	dqb "common.lib.CB01() DONE"
+	csleep 1
+}
+#TODO:jatkossa uusikcsi tämä?
 function CB02() {
 	dqb "CB02()"
 	csleep 1
@@ -543,40 +566,30 @@ function check_binaries() {
 
 	#(joko jo kunnossa 050426? melkein) (jos sittenkin vipuaisi GS takaisin accept-tdstoihin?)
 	E22_GS="gcc-12-base libgcc-s1 libc6" #meneeköhän jännäksi 2. ja 3. kohdalla? jep, sicksi dpkg:n kanssa kuten menee
-
 	E22_GS="${E22_GS} libgmp10 libisl23 libmpfr6 libmpc3 libzstd1 zlib1g"
 	E22_GS="${E22_GS} libstdc++6 libgomp1 cpp-12" #060426:tartteeko varsinaisen cpp:n kanssa?
 
 	E22_GM="libc6 libselinux1"
-
-	#libtext-wrap kanssa jotain (VIELÄ 7426?)
+	#libtext-wrap kanssa jotain (VIELÄ 7426? ei?)
 	E22_GM="${E22_GM} debianutils debconf liblocale-gettext-perl libtext-charwidth-perl libtext-iconv-perl libtext-wrapi18n-perl" # nfs-common	
 	E22_GM="${E22_GM} debconf-i18n libelf1 libbpf1 " #zlib1,libc6
 	E22_GM="${E22_GM} libmnl0 libxtables12 " # oikeastaanm jo toisissakin jutussa mukana
 
-	#HUOM.060426:gss-  ja krb5 - kirjastoista tarvitaan oikeat versiot!!!
+	#HUOM.060426:gss-  ja krb5 - kirjastoista tarvitaan oikeat versiot!!! (olisikojo 7426?)
 	E22_GM="${E22_GM} libcom-err2 libk5crypto3 libkeyutils1 libkrb5support0 libssl3 libkrb5-3 libkrb5support0"
 	E22_GM="${E22_GM} libmnl0 libatm1 libpcre2-8-0 libmd0 libgssapi-krb5-2 "
 	E22_GM="${E22_GM} libbsd0 libcap2 libcap2-bin libdb5.3 libtirpc-common libtirpc3 iproute2"
 
 	#Depends: , debianutils (>= 2.8.2), iproute2
-	#Depends: debianutils (>= 2.8.2)
-	#	E22_GM="${E22_GM} resolvconf" #VAIH:josq toimisi ilmankin tätä ?
+	#	E22_GM="${E22_GM} resolvconf" #josq toimisi ilmankin tätä 
 	E22_GM="${E22_GM} isc-dhcp-client isc-dhcp-common"
-
-	#VAIH:ja VIELÄ lisää iteroinria prkl, pitäisikö jahdata liBaudit-l_m_b ?
-	#Pre-Depends:  (>= 1:2.2.1),  (>= 2.34),  (>= 1:4.3.0), ,  (>= 1.4.1),  (>= 3.1~),  (>= 0.5) | debconf-2.0, (= 1.5.2-6)
-
-	#selinux ja db53 joaiemmn
 	E22_GM="${E22_GM} libpam0g libcrypt1 libaudit1 libpam-modules-bin libpam-modules "
 
 	#Depends: passwd
 	#Depends:  (>= 2.34), adduser, iproute2
 
 	E22_GM="${E22_GM} libbz2-1.0 libsemanage-common libsemanage2 libsepol2 passwd adduser ifupdown"
-	
 	E22_GM="${E22_GM} libblkid1 libmount1 libsmartcols1 mount net-tools"
-	
 	E22_GM="${E22_GM} libacl1 libattr1 libgmp10 coreutils" #iproute2-doc iproute
 
 	#... nuo jutut miel accept1/2 mukaan jatq tjsp?
@@ -591,9 +604,7 @@ function check_binaries() {
 	#050426:tämä jo okK?
 	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
-#VAIH:libglu tarttee libopengl0
-#libegl, libxcvt,xcvt niiden kanssa myls jotain (VAIH:vedä nuokin)
-#TODO:varmista myös että twm asentuu, barm voksi
+	#TODO:varmista myös että twm asentuu, barm voksi?
 
 	#050426:dhcp-jutut erilleen jatkossa? 
 	E22_GT="isc-dhcp-client isc-dhcp-common "
@@ -612,6 +623,10 @@ function check_binaries() {
 		#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
 		cefgh ${1}
 		common_pp3 ${1}
+		#070426:gpg-tarq pystyy tekemöään vastaq gpg asennettu, jos voisi jtnkinhuiomioida
+
+		dqb "BF0R3 CVB0"
+		csleep 10
 	fi
 
 	#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
@@ -722,10 +737,7 @@ function TLA() {
 }
 
 #060426:process_lib() oli tässä TLA() ja slaughter0() välissä aiemmin
-#kokeeksi siirretty juuri ennen gpo() josko se auttaisi viimeaikaisten tilanteiden kanssa
-#... tosin vöib olla jokin muu tunaroinsi syynä kuin fcktio n esittelyn järjestys 
-
-
+#kokeeksi siirretty juuri ennen gpo() , toimii sielläkin
 
 #==================================================================
 function slaughter0() {
@@ -947,7 +959,6 @@ function e_e() {
 	#... /o/b/m voisiolla se hukkaaja
 
 	f=$(date +%F)
-
 	[ -f /etc/resolv.conf.${f} ] || ${svm} /etc/resolv.conf /etc/resolv.conf.${f}
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
@@ -962,7 +973,7 @@ function e_e() {
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-	csleep 10
+	csleep 5
 
 	#CONF_iface-tarkistuksen taakse?
 	${sco} -R root:root /etc/wpa_supplicant
@@ -1154,9 +1165,7 @@ function part1() {
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
 	csleep 1
 
-	[ -v ipt ] || dqb "SHOULD exit 69" #010326 qseeko tämä kohta?
-	#TLA #vähitellen pois tsätä fktiosta va i ei sittenkään?
-
+	[ -v ipt ] || dqb "SHOULD exit 69"
 	local c
 	local g
 	local t
@@ -1295,7 +1304,6 @@ function cg_udp6() {
 }
 
 function cg_pp2() {
-
 	dqb " GENERIC REPLACEMENT FOR daud.lib.pre_part2 ${1}"
 	csleep 1
 
@@ -1309,10 +1317,10 @@ function cg_pp2() {
 
 	csleep 2
 	dqb "d0n3"
-	}
+}
 
 #160126:g.tar liittyvää kikkailua jatkossa? sittenkin check_bin() alta g-jutut -> cefgh()?
-#140326:libfortran-urputuksille j os tekisijojo tain
+#140326:libfortran-urputuksille j os tekisijojo tain?
 
 function part3() {
 	dqb "))() part3 ${1} , ${2} (((((((("
@@ -1323,12 +1331,9 @@ function part3() {
 
 	dqb "PARAMS_OK"
 	csleep 1
-	dqb "#TODO: dpkg --get-selections > txt minimal alaisuudessa ja sitten jotain"
+	#VAIH: dpkg --get-selections > txt minimal alaisuudessa ja sitten jotain
 	csleep 5
-
-	#TODO:ffox prof importoinnissa pitäisi huomioida, onko ffox:ia asennettu vai ei
-	#VAIH:josko ylempää resolvconf pois sotkemasta, varm. vuoksi
-
+	
 	local n15
 	n15=$(find ${1} -type f -name "*.deb" | wc -l)
 
@@ -1339,7 +1344,7 @@ function part3() {
 	csleep 1
 	jules
 	common_pp3 ${1}
-	dqb "ALPGA"
+	dqb "AL-fPGA"
 	csleep 1
 
 	common_lib_tool ${1} reject_pkgs
@@ -1350,12 +1355,12 @@ function part3() {
 	#060426:AO. RIVI TUOLLAINEN TARKOITUKSELLA, ÄLÄ SORKI!!!
 	efk1 ${1}/gcc-12-base*.deb ${1}/libgcc-s1*.deb ${1}/libc6*.deb
 	dqb "LAJKKA"
-	csleep 25
+	csleep 10
 
 	for p in ${E22_GS} ; do wopr ${1} ${p} accept_pkgs_1 ; done
 	#060426:jospa keskeyttäisi tässä kunnes cpp-asiat kunnossa? vai alkaisiko jo sujua?
-	dqb "öMEGA"
-	csleep 15
+	dqb "önEGA"
+	csleep 10
 
 #70426:nalq aihtutui ainakin: libgtk-3-common , libatk-bridge
 

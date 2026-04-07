@@ -118,8 +118,8 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 	[ $? -eq 0 ] || exit
 else
-	echo "5L33P1NG UND3RR T4RTARU5"
-	sleep 66
+	echo "W33P1NG UND3RR G4L4CTU5"
+	sleep 33
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0NF1G"
@@ -141,7 +141,7 @@ else
 	function check_binaries() {
 		dqb "rot.check1"
 
-		mkt=$(${odio} which mktemp)
+		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
 		scm=$(${odio} which chmod)
 		sah6=$(${odio} which sha512sum)
 
@@ -149,15 +149,15 @@ else
 		#eXit jos srat ei?
 
 		gg=$(${odio} which gpg)
-		som=$(${odio} which mount)
-		uom=$(${odio} which umount)
+		#som=$(${odio} which mount)
+		#uom=$(${odio} which umount)
 	}
 
 	function check_binaries2() {
 		echo "irot.check2"
 
-		som="${odio} ${som}"
-		uom="${odio} ${uom}"
+		#som="${odio} ${som}"
+		#uom="${odio} ${uom}"
 		srat="${odio} ${srat}"
 	}
 
@@ -169,7 +169,11 @@ else
 		dqb "R0TT1NG W4Y5 T0 M153RY"
 	}
 
-	#VAIH:tähän se gpo() varm. vuoksi JOKO JO 6426???
+	#tarttisiko vielä jotain fktiota tähän? NKVD hos esittelisi ainakin
+	#function ocs() {???}
+	#function enforce_access() {???}
+
+	#070426:jospa toimisi jnkin verran näinkin
 	for opt in $@ ; do
 		parse_opts_1 ${opt}
 		parse_opts_2 ${prevopt} ${opt}
@@ -185,17 +189,17 @@ csleep 1
 [ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
 csleep 1
 
-if [ -f /.chroot ] || [ -x ${mkt} ] ; then
-	dqb "rot.MTK"
-else
-	echo "sudo apt-get update;sudo apt-get install coreutils"
-	exit 8
-fi
+#if [ -f /.chroot ] || [ -x ${mkt} ] ; then
+#	dqb "rot.MTK"
+#else
+#	echo "sudo apt-get update;sudo apt-get install coreutils"
+#	exit 8
+#fi
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 	[ $? -eq 0 ] || exit
-else	
+else
 	echo $?
 	dqb "N 0 L1.B"
 	csleep 1
@@ -213,7 +217,7 @@ check_binaries2
 if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
 	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	dqb "SD"
-else	
+else
 	[ -d ${srcfile} ] || dqb "NOT A MAN"
 	[ -f ${srcfile} ] || dqb "NOT A CYBORG"
 	dqb "SMTHING WRONG WITH ${srcfile} "
@@ -238,7 +242,6 @@ function common_part() {
 	csleep 1
 
 	cd /
-
 	local r
 	r=0
 
@@ -303,55 +306,53 @@ function common_part() {
 	dqb "${srat} DONE"
 }
 
-#VAIH:cptp2 prujaaminen + käyttöö n vielä (JOKO JO 7426)
-#
-#function cptp2() {
-#	dqb "c tp2 ${1}, ${2}, ${3}"
-#
-#	[ -z "${1}" ] && echo 99
-#	[ -z "${2}" ] && echo 98
-#	[ -d ${1} ] || exit 97
-#
-#	dqb "cptp2:pars ok"
-#	csleep 1
-#
-#	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
-#	local t
-#	t=$(echo ${1} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
-#	
-#	if [ -f ${t}/common_lib.sh ] ; then
-#		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
-#			#csleep 1
-#			${gg} --verify ${t}/common_lib.sh.sig 		
-#			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"		
-#		fi
-#		
-#		if [ -x ${t}/common_lib.sh ] ; then
-#			enforce_access $(whoami) ${t} #${2} toka param turha?
-#			dqb "running changedns.sh maY be necessary now to fix some things"
-#		else
-#			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
-#		fi
-#	fi
-#
-#	csleep 1
-#
-#	#090326:toimiiko toivotulla tavalla? toivottavasti nytq tr-kikkailut kOrjattu
-#	if [ -d ${t} ] ; then
-#		dqb "HAIL UKK"
-#
-#		${scm} 0755 ${t}
-#		${scm} 0555 ${t}/*.sh
-#		${scm} 0444 ${t}/conf*
-#		${scm} 0444 ${t}/*.deb
-#
-#		csleep 1
-#	fi
-#
-#	[ ${debug} -eq 1 ] && ls -las ${1}
-#	csleep 1
-#	dqb "ALL DONE"
-#}
+function cptp2() {
+	dqb "rot.c tp2 ${1}, ${2}, ${3}"
+
+	[ -z "${1}" ] && echo 99
+	[ -z "${2}" ] && echo 98
+	[ -d ${1} ] || exit 97
+
+	dqb "cptp2:pars ok"
+	csleep 1
+
+	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
+	local t
+	t=$(echo ${1} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
+
+	if [ -f ${t}/common_lib.sh ] ; then
+		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
+			#csleep 1
+			${gg} --verify ${t}/common_lib.sh.sig 
+			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"
+		fi
+
+		if [ -x ${t}/common_lib.sh ] ; then
+			enforce_access $(whoami) ${t} #${2} toka param turha?
+			dqb "running changedns.sh maY be necessary now to fix some things"
+		else
+			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
+		fi
+	fi
+
+	csleep 1
+
+	#090326:toimiiko toivotulla tavalla? toivottavasti nytq tr-kikkailut kOrjattu
+	if [ -d ${t} ] ; then
+		dqb "HAIL UKK"
+
+		${scm} 0755 ${t}
+		${scm} 0555 ${t}/*.sh #jos sittenkin 0555?
+		${scm} 0444 ${t}/conf*
+		${scm} 0444 ${t}/*.deb
+
+		csleep 1
+	fi
+
+	[ ${debug} -eq 1 ] && ls -las ${1}
+	csleep 1
+	dqb "ALL DONE"
+}
 
 case "${mode}" in
 	1) #
@@ -411,12 +412,11 @@ case "${mode}" in
 	;;
 esac
 
-#VAIH:kysymään lähteen poistosta purkamisen jälkeen?
-#TODO:poistelu ajank vain jos tehty lähteelle jotain sitä ennen, teejotain
+#poistelu ajank vain jos tehty lähteelle jotain sitä ennen?
 if [ -s ${srcfile} ] ; then
-	read -p " U  WANT T0 RM SOURCE ?" confirm
+	read -p " U  WANT 2 RM SOURCE ?" confirm
 	[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
 
 fi
 
-#cptp2 params (JOKO JO 070426?)
+cptp2 ${d0} #params (JOKO JO 070426?)

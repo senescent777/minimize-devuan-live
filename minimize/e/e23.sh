@@ -22,7 +22,7 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 	esac
 }
 
-function e23_tblz() { #050426:jokohan jo toimisi?
+function e23_tblz() { #taitaa toimia, 070426
 	dqb "e23_tblz()"
 	csleep 1
 
@@ -66,15 +66,15 @@ function e23_other_pkgs() {
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
 
-	${shary} ${E22_GS}
-	csleep 1	
+	#${shary} ${E22_GS} #tämä oli jo kytsuvassa koodissa
+	csleep 1
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	${shary} ${E22_GI}
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	${shary} ${E22_GG}
 
-	#sudo-asia olisi jo kunnossa 120126?	ehkä
+	#rämän eiirto-> common_lib?
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 
 	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
@@ -102,9 +102,7 @@ function e23_other_pkgs() {
 	csleep 1
 	${lftr}
 
-#initrd-nalkutus mutkistanut asioita, josko a) /etc/kernel sisältö b) debian reference auttaisi? (tämä seur)
-
-
+	#initrd-nalkutus mutkistanut asioita, josko a) /etc/kernel sisältö b) debian reference auttaisi? (tämä seur)
 	dqb "e23_other_pkgs() DONE"
 	csleep 1
 }
@@ -122,7 +120,6 @@ function e23_upgp() {
 	#LOPPUU SE PURPATUS PRKL
 	${shary} ${E22_GS}
 
-	#helpompi vain ajaa e23_dm() ennen upgp()
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 
@@ -183,7 +180,7 @@ function e23_qrs() {
 	dqb "BEFORE NVDk"
 	[ -f ${4} ] && ${NKVD} ~/${4}
 	csleep 1
-	
+
 	e22_settings ${2} ${4} ${5}
 	#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
 
@@ -196,153 +193,163 @@ function e23_qrs() {
 	csleep 1
 }
 
-#060426:taisipa desktop_liven aknssa asentua fktion tuotos, mutta minimal...
+#VAIH:uusiksi vain tyhjästä
+#TODO:boisi myös ottaa mallia viimeisimmästä toimivasta paketista että mitä mukaan
 function e23_dm() {
-	#TODO:jospa yhdistelisi e23_xyz() kanssa josqs
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
 	csleep 2
 
-	#	VAIH:libwww-perl, mitä sen kanssa tekee?
-
-	dqb "params ok"
-	${fib}
-	csleep 1
-
-	#varsinainen cpp mukaan tuohon? alempana se tulee mukaan nyt
-	${shary} ${E22_GS}
-	csleep 1
-
-	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6 libx11-xcb1 libopengl0O
-	${shary} menu twm
-
-	#libselinux oikeastaan muualla jo
-	${shary} libcrypt1 libpam0g libselinux1 #jemmaan?
-	${shary} libxau6 libxaw7 libxdmcp6 libxft2 libxinerama1 
-	${shary} libfontconfig1 libfontenc1 libgl1 libxcb-shape0 libxcb1 
-	csleep 1
-
-	${shary} libx11-data libxcomposite1 libxi6 libxkbfile1 libxmuu1 libxrandr2 libxrender1 libxtst6
-	${shary} x11-common libxv1 libxxf86dga1 libxxf86vm1
-	${shary} libxpm4 debconf cpp lsb-base procps
-
-	#Depends: dconf-gsettings-backend | gsettings-backend (TODO)
-	#Depends: adwaita-icon-theme, hicolor-icon-theme, shared-mime-info, 
-
-	${shary} libgtk-3-0 libgtk-3-common libatk-bridge2.0-0 libcairo-gobject2 libcairo2
-	${shary} libcolord2 libepoxy0 libfribidi0 libglib2.0-0 libpango-1.0-0
-	${shary} libxml2 libglib2.0-data at-spi2-common libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
-	${shary} libpangocairo-1.0-0 libpangoft2-1.0-0 libwayland-client0 libwayland-cursor0 libwayland-egl1 libwayland-server0 
-	${shary} fontconfig libharfbuzz0b libthai0 libxcursor1 libxdamage1 libxfixes3
-	${shary} libfreetype6 libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxkbcommon0
-	${shary} libxcb-render0 libxcb-shm0 x11-utils x11-xserver-utils 
-
-	csleep 1
-
-	${shary} libexpat1 fontconfig-config
-	${shary} libglvnd0 libglx0   
-	csleep 1
-	${shary} libgbm1 libseat1 libunwind8 libxpm4 # libselinux1
-
-
-	#VAIH:libpangoxft-1.0-0:amd64 depends on  (>> 2.1.1);
-	#TODO:libwings3:amd64 depends on
-
-	#VAIH: :amd64 depends on libwayland-server0 (tmä vhitellen)
-	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
-
-	#VAIH:dpkg: dependency problems prevent configuration of libwww-perl:
-	#VAIH:xscreensaver depends on ; however:
-	#VAIH:cpp depends on  (>= 12.2.0-1~); however: #vielä qsee?
-
-	${shary} psmisc x11-apps
-	${shary} libmd0 libbsd0 libaudit1
-
-	#VAIH:libvte-jutut
-	#Depends:  (= 0.70.6-2~deb12u1),  (>= 1.12.4), libc6 (>= 2.34),  (>= 1.10.0),  (>= 1.0.0), 
-	# (>= 3.0),  (>= 2.52.0),  (>= 3.7.2),  (>= 3.24.22),  (>= 72.1~rc-1~), 
-	#(>= 1.44.3),  (>= 1.22.0), (>= 10.22), libstdc++6 (>= 11), libsystemd0 (>= 220), zlib1g (>= 1:1.2.0)
-	
-	${shary} libvte-2.91-common libgnutls30 libicu72 libvte-2.91
-
-	#wdm depends on xserver-xorg | xserver; however:
-
-	case "${1}" in
-		xdm) #010126:pitäisiköhän tämäkin case testata?
-			${shary} xdm
-		;;
-		wdm)
-			#TODO:wdm tartvitsee xserver|xserver-org (minimal_live)
-			${shary} libnuma1
-			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
-			${shary} libwebpdemux2 libheif1 libaudit-common libcap-ng0 #audit1 ennen case?
-
-			${shary} libdb5.3 libpam-modules-bin libpam-modules libpam-runtime
-			${shary} sysvinit-utils libtinfo6 libpng16-16   
-
-
-			#bsdextrautils | bsdmainutils 
-			${shary} bsdextrautils groff-base libgdbm6 libpipeline1 libseccomp2 man-db
-			csleep 1
-
-			#pcre tulisi muutakin kautta?
-			${shary} libpcre2-8-0 libpangoxft-1.0-0
-			csleep 1
-
-			${shary} libgif7 libwraster6 libjpeg62-turbo
-			${shary} imagemagick-6-common libmagickwand-6.q16-6 libtiff6
-			#csleep 1
-
-			${shary} libbz2-1.0 libfftw3-double3  libjbig0 liblcms2-2 liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libwebpmux3
-			csleep 1
-			${shary} libmagickcore-6.q16-6 
-			${shary} libwutil5 wmaker-common libwings3
-			#csleep 1
-
-			${shary} wdm
-		;;
-#		lxdm)
-#			#csleep 1
-#			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
-#			#csleep 1
-#			${shary} libdeflate0 debliblerc4 
-#			csleep 1
-#			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
-#			${shary}  libgtk2.0-common libgtk2.0-0
-#			csleep 1
-#			#gdk ennen gtk?
-#			${shary}   
-#			csleep 1
-#			${shary} gtk2-engines-pixbuf gtk2-engines 
-#			csleep 1
-#			${shary} lxdm 
-#			csleep 1
-#			#261225:lxde-juttujrn ja lxpolkit:in riippuvuukisien selvutys saattaa osoittautua tarpeelliskeis?
-#			#polkit-1-auth-agent:
-#			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
-#			#csleep 1
-#			#	 lxlock | xdg-utils, 
-#			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
-#			${shary} lxpolkit lxsession-logout lxsession
-#			#csleep 1
-#		;;
-		*)
-		;;
-	esac
-
-	#VAIH:pitäisiköhän nämäkin junnata läpi?
-	#Depends: perl:any, , ,,,,,,,,, liblwp-mediatypes-perl,, libnet-http-perl, libtry-tiny-perl, liburi-perl, libwww-robotrules-perl, 
-	#  (>= 0.99.7.1), libsystemd0 (>= 243), ,  (>> 2.1.1), (>= 2:1.2.99.4),  (>= 2:1.1.4), 
-
-	#EI JUNALAUTTA
-	E22_GX="netbase"
-	E22_GX="${E22_GX} liblwp-protocol-https-perl libhttp-negotiate-perl libhtml-tagset-perl libhttp-message-perl libhttp-date-perl libhttp-cookies-perl libhtml-tree-perl libhtml-parser-perl libfile-listing-perl libencode-locale-perl"
-	E22_GX="${E22_GX} ca-certificates libwww-perl "
-	
-	E22_GX="${E22_GX} libdrm2 libglapi-mesa libxcb-dri2-0  libxcb-dri3-0 libxcb-randr0 libxcb-sync1 libxshmfence1"
-	E22_GX="${E22_GX} xscreensaver-data init-system-helpers libegl-mesa0 libegl1 xscreensaver"
-	${shary} ${E22_GX}  #libsystemd0
+	#. , ,  , ,  | xserver, perl,libc, , 
+	${sharpy} debconf lsb-base psmisc
+	${sharpy} libpam-modules libpam-runtime libcrypt1 libpam0g libselinux1
+	${sharpy} libwings3 libwraster5 libwutil5 libx11-6 libxau6 linxdmcp6 libxinerama1 libxmu6
+	${sharpy} x11-apps x11-common x11-utils x11-xserver-utils xserver-xorg
+	${sharpy} wdm
 }
+
+#	#TODO?:jospa yhdistelisi e23_xyz() kanssa josqs?
+
+#
+#	#	VAIH:libwww-perl, mitä sen kanssa tekee?
+#
+#	dqb "params ok"
+#	${fib}
+#	csleep 1
+#
+#	#varsinainen cpp mukaan tuohon? alempana se tulee mukaan nyt
+#	${shary} ${E22_GS}
+#	csleep 1
+#
+#	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6 libx11-xcb1 libopengl0O
+#	${shary} menu twm
+#
+#	#libselinux oikeastaan muualla jo
+#	${shary} libcrypt1 libpam0g libselinux1 #jemmaan?
+#	${shary} libxau6 libxaw7 libxdmcp6 libxft2 libxinerama1 
+#	${shary} libfontconfig1 libfontenc1 libgl1 libxcb-shape0 libxcb1 
+#	csleep 1
+#
+#	${shary} libx11-data libxcomposite1 libxi6 libxkbfile1 libxmuu1 libxrandr2 libxrender1 libxtst6
+#	${shary} x11-common libxv1 libxxf86dga1 libxxf86vm1
+#	${shary} libxpm4 debconf cpp lsb-base procps
+#
+#	#Depends: dconf-gsettings-backend | gsettings-backend (TODO)
+#	#Depends: adwaita-icon-theme, hicolor-icon-theme, shared-mime-info, 
+#
+#	${shary} libgtk-3-0 libgtk-3-common libatk-bridge2.0-0 libcairo-gobject2 libcairo2
+#	${shary} libcolord2 libepoxy0 libfribidi0 libglib2.0-0 libpango-1.0-0
+#	${shary} libxml2 libglib2.0-data at-spi2-common libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
+#	${shary} libpangocairo-1.0-0 libpangoft2-1.0-0 libwayland-client0 libwayland-cursor0 libwayland-egl1 libwayland-server0 
+#	${shary} fontconfig libharfbuzz0b libthai0 libxcursor1 libxdamage1 libxfixes3
+#	${shary} libfreetype6 libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxkbcommon0
+#	${shary} libxcb-render0 libxcb-shm0 x11-utils x11-xserver-utils 
+#
+#	csleep 1
+#
+#	${shary} libexpat1 fontconfig-config
+#	${shary} libglvnd0 libglx0   
+#	csleep 1
+#	${shary} libgbm1 libseat1 libunwind8 libxpm4 # libselinux1
+#
+#
+#	#VAIH:libpangoxft-1.0-0:amd64 depends on  (>> 2.1.1);
+#	#TODO:libwings3:amd64 depends on
+#
+#	#VAIH: :amd64 depends on libwayland-server0 (tmä vhitellen)
+#	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
+#
+#	#VAIH:dpkg: dependency problems prevent configuration of libwww-perl:
+#	#VAIH:xscreensaver depends on ; however:
+#	#VAIH:cpp depends on  (>= 12.2.0-1~); however: #vielä qsee?
+#
+#	${shary} psmisc x11-apps
+#	${shary} libmd0 libbsd0 libaudit1
+#
+#	#VAIH:libvte-jutut
+#	#Depends:  (= 0.70.6-2~deb12u1),  (>= 1.12.4), libc6 (>= 2.34),  (>= 1.10.0),  (>= 1.0.0), 
+#	# (>= 3.0),  (>= 2.52.0),  (>= 3.7.2),  (>= 3.24.22),  (>= 72.1~rc-1~), 
+#	#(>= 1.44.3),  (>= 1.22.0), (>= 10.22), libstdc++6 (>= 11), libsystemd0 (>= 220), zlib1g (>= 1:1.2.0)
+#	#	${shary} libvte-2.91-common libgnutls30 libicu72 libvte-2.91
+#
+#	#wdm depends on xserver-xorg | xserver; however:
+#
+#	case "${1}" in
+#		xdm) #010126:pitäisiköhän tämäkin case testata?
+#			${shary} xdm
+#		;;
+#		wdm)
+#			#TODO:wdm tartvitsee xserver|xserver-org (minimal_live)
+#			${shary} libnuma1
+#			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
+#			${shary} libwebpdemux2 libheif1 libaudit-common libcap-ng0 #audit1 ennen case?
+#
+#			${shary} libdb5.3 libpam-modules-bin libpam-modules libpam-runtime
+#			${shary} sysvinit-utils libtinfo6 libpng16-16   
+#
+#
+#			#bsdextrautils | bsdmainutils 
+#			${shary} bsdextrautils groff-base libgdbm6 libpipeline1 libseccomp2 man-db
+#			csleep 1
+#
+#			#pcre tulisi muutakin kautta?
+#			${shary} libpcre2-8-0 libpangoxft-1.0-0
+#			csleep 1
+#
+#			${shary} libgif7 libwraster6 libjpeg62-turbo
+#			${shary} imagemagick-6-common libmagickwand-6.q16-6 libtiff6
+#			#csleep 1
+#
+#			${shary} libbz2-1.0 libfftw3-double3  libjbig0 liblcms2-2 liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libwebpmux3
+#			csleep 1
+#			${shary} libmagickcore-6.q16-6 
+#			${shary} libwutil5 wmaker-common libwings3
+#			#csleep 1
+#
+#			${shary} wdm
+#		;;
+##		lxdm)
+##			#csleep 1
+##			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
+##			#csleep 1
+##			${shary} libdeflate0 debliblerc4 
+##			csleep 1
+##			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
+##			${shary}  libgtk2.0-common libgtk2.0-0
+##			csleep 1
+##			#gdk ennen gtk?
+##			${shary}   
+##			csleep 1
+##			${shary} gtk2-engines-pixbuf gtk2-engines 
+##			csleep 1
+##			${shary} lxdm 
+##			csleep 1
+##			#261225:lxde-juttujrn ja lxpolkit:in riippuvuukisien selvutys saattaa osoittautua tarpeelliskeis?
+##			#polkit-1-auth-agent:
+##			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
+##			#csleep 1
+##			#	 lxlock | xdg-utils, 
+##			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
+##			${shary} lxpolkit lxsession-logout lxsession
+##			#csleep 1
+##		;;
+#		*)
+#		;;
+#	esac
+#
+#	#VAIH:pitäisiköhän nämäkin junnata läpi?
+#	#Depends: perl:any, , ,,,,,,,,, liblwp-mediatypes-perl,, libnet-http-perl, libtry-tiny-perl, liburi-perl, libwww-robotrules-perl, 
+#	#  (>= 0.99.7.1), libsystemd0 (>= 243), ,  (>> 2.1.1), (>= 2:1.2.99.4),  (>= 2:1.1.4), 
+#
+#	#EI JUNALAUTTA
+#	E22_GX="netbase"
+#	E22_GX="${E22_GX} liblwp-protocol-https-perl libhttp-negotiate-perl libhtml-tagset-perl libhttp-message-perl libhttp-date-perl libhttp-cookies-perl libhtml-tree-perl libhtml-parser-perl libfile-listing-perl libencode-locale-perl"
+#	E22_GX="${E22_GX} ca-certificates libwww-perl "
+#
+#	E22_GX="${E22_GX} libdrm2 libglapi-mesa libxcb-dri2-0  libxcb-dri3-0 libxcb-randr0 libxcb-sync1 libxshmfence1"
+#	E22_GX="${E22_GX} xscreensaver-data init-system-helpers libegl-mesa0 libegl1 xscreensaver"
+#	${shary} ${E22_GX}  #libsystemd0
+#}
 
 #150326:teki ainakin kerran jotain toivottua (ehkä joutaa vielä arpoa minne juttuja kopsaillaan) 
 function e23_profs() {
@@ -374,41 +381,42 @@ function e23_profs() {
 	csleep 1
 }
 
-function e23_xyz() {	
-	${shary} libeudev1 keyboard-configuration #drm2 sekä shmfence _dm() kautta
-	${shary} libpixman-1-0 libxfont2 libpciaccess0 libgcrypt20
-	${shary} libxcvt0 xcvt #vetää vai ei?
-	csleep 30
-	dpkg -l libxcvt*
-	csleep 6
-
-	${shary} xserver-xorg-video-modesetting xserver-xorg-input-evtouch
-	#libopengl0 tarvitaanm, e23() 
-	${shary} libglu1-mesa libgl1-mesa-dri #gl1 muttei mesa löytyy jo aiemmin
-
-	#tässä alla vöib tulla suurempi lottoaminen (jospa jollain livecd:llä selvittäisi mitä oik tarv)
-	${shary} x11-session-utils xfonts-utils xinit xfonts-scalable xfonts-75dpi xfonts-100dpi
-	#{shary} xserver-xorg
-
-	${shary} xbitmaps x11-xfs-utils xterm xkb-data xauth xfonts-base x11-xkb-utils
-	${shary} x11-common #xterm+xauth voIsi hoitaa e23_dm() kaUTTa? x11-common jo dm
-
-	#egl,audit,bsd0,libgbm1,libgl1  yms. dm() kautta
-
-	${shary} xserver-common xserver-xorg-core
-	#xserver-xorg #tarvitseeko erikseen sanoa koska xorg?
-	${shary} xorg xorg-docs-core xorg-docs #2. ja 3. oik. tarpeen?
-
-	#${shary} xserver-xorg-input-all xserver-xorg-input-libinput xserver-xorg-input-wacom 
-
-	#Depends:  (>= 2:21.1.7-3devuan1), libc6 (>= 2.34),  (>= 0.5) | 
-	${shary} xserver-xorg-legacy #tarvitsee vai ei?
-	#server-xorg-video-all xserver-xorg-video-amdgpu
-
-	#${shary} xserver-xorg-video-ati xserver-xorg-video-fbdev xserver-xorg-video-intel 
-	#${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
-
-		#VAIH:xserver-xorg-video-* ainakin mukaan?
-#... "case l" jos kuittaisi äksän lib-jutut (tai sit boottaa minimal-liveen ja asenna x+wdm siihen) (TODO?)
-
-}
+#function e23_xyz() {	
+#	${shary} libeudev1 keyboard-configuration #drm2 sekä shmfence _dm() kautta
+#	${shary} libpixman-1-0 libxfont2 libpciaccess0 libgcrypt20
+#	${shary} libxcvt0 xcvt #vetää vai ei? vssiin menee hi pakettiin 7426
+#
+#	csleep 30
+#	dpkg -l libxcvt*
+#	csleep 6
+#
+#	${shary} xserver-xorg-video-modesetting xserver-xorg-input-evtouch
+#	#libopengl0 tarvitaanm, e23() 
+#	${shary} libglu1-mesa libgl1-mesa-dri #gl1 muttei mesa löytyy jo aiemmin
+#
+#	#tässä alla vöib tulla suurempi lottoaminen (jospa jollain livecd:llä selvittäisi mitä oik tarv)
+#	${shary} x11-session-utils xfonts-utils xinit xfonts-scalable xfonts-75dpi xfonts-100dpi
+#	#{shary} xserver-xorg
+#
+#	${shary} xbitmaps x11-xfs-utils xterm xkb-data xauth xfonts-base x11-xkb-utils
+#	${shary} x11-common #xterm+xauth voIsi hoitaa e23_dm() kaUTTa? x11-common jo dm
+#
+#	#egl,audit,bsd0,libgbm1,libgl1  yms. dm() kautta
+#
+#	${shary} xserver-common xserver-xorg-core
+#	#xserver-xorg #tarvitseeko erikseen sanoa koska xorg?
+#	${shary} xorg xorg-docs-core xorg-docs #2. ja 3. oik. tarpeen?
+#
+#	#${shary} xserver-xorg-input-all xserver-xorg-input-libinput xserver-xorg-input-wacom 
+#
+#	#Depends:  (>= 2:21.1.7-3devuan1), libc6 (>= 2.34),  (>= 0.5) | 
+#	${shary} xserver-xorg-legacy #tarvitsee vai ei?
+#	#server-xorg-video-all xserver-xorg-video-amdgpu
+#
+#	#${shary} xserver-xorg-video-ati xserver-xorg-video-fbdev xserver-xorg-video-intel 
+#	#${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
+#
+#		#VAIH:xserver-xorg-video-* ainakin mukaan?
+##... "case l" jos kuittaisi äksän lib-jutut (tai sit boottaa minimal-liveen ja asenna x+wdm siihen) (TODO?)
+#
+#}

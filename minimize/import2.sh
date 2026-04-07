@@ -145,7 +145,9 @@ else
 		dqb "imp2.3nf :NOT SUPPORTED"
 	}
 
-	#TODO:barm vuoksi pitäisi kai käskyttää parse_opts_fktioita siltä varalta että parsetuksen saakin sitä kautta toimimaan
+	#TODO:barm vuoksi pitäisi kai käskyttää parse_opts_fktioita siltä varalta että parsetuksen saakin sitä kautta toimimaan 
+	#... sq-rot:isTa jos esim. prujaisi
+
 	dqb "SHOULD CALL parse_opts_x() AROUND HERE"
 fi
 
@@ -198,6 +200,9 @@ dqb "srat: ${srat}"
 csleep 1
 dqb "LHP"
 
+echo "#TODO:ffox prof importoinnissa pitäisi huomioida, onko ffox:ia asennettu vai ei"
+sleep 6
+	
 #josko tilansäästön nimissä kolmaskin ehto? tai ehkä ei pakko
 if [ -s /OLD.tar ] ; then
 	dqb "OLD.tar OK"

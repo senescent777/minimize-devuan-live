@@ -668,59 +668,18 @@ function e22_arch() {
 	fi
 
 	psqa .
+	#TODO:jos ed. fktion saa aikaiseksi antamaan paluuarvon niin se pitäisi huomioida jtnkin
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
 	[ ${debug} -eq 1 ] && ls -las ${1}
 	cd ${p}
 
-	dqb "ARCH ENEMA DöNE"
+	dqb "4RCH 3N3M4 DöNE"
 }
 
 #function aval0n() { #prIvaattI, toimimaan+käyttöön?
 #	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 #}
-
-#290326:paketin rakennus onnaa edelleen
-function e22_dblock() {
-	dqb "e22_dblock(${1} , ${2} , ${3} , ${4})"
-
-	[ -z "${1}" ] && exit 14
-	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
-	#[ -w ${1} ] || exit 16 #ei näin?
-	[ -z "${2}" ] && exit 11
-	[ -d ${2} ] || exit 22
-	[ -w ${2} ] || exit 23
-	[ -z "${3}" ] && exit 33
-	[ -d ${3} ] || exit 34
-	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
-	[ -z "${4}" ] && exit 37
-
-	dqb ".PARS-OK"
-	csleep 1
-
-	[ ${debug} -eq 1 ] && pwd
-	#aval0n #tarpeellinen?
-	ls -la ${3}/*.deb | wc -l
-	
-	#HUOM.160326:ao. for-blokki omaksi fktioksi?
-	for s in ${PART175_LIST} ; do
-		${sharpy} ${s}*
-		${NKVD} ${3}/${s}*.deb
-	done
-	
-	local t
-	t=$(echo ${2} | cut -d '/' -f 1-6) #joitain tr-jekkuja vielä?
-	e22_ts ${t} ${3}
-	dqb "JST B3F0R3 3NF0RC3"
-	csleep 1
-	
-	enforce_access $(whoami) ${t}
-	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-	csleep 1
-
-	e22_arch ${1} ${2} ${4}
-	e22_cleanpkgs ${2}
-}
 
 #080326:testattu senverranq pystyy, jotain kiukuttelua aiheutui (debbug-ulostuksen typot kenties)
 #function e22_rpg() {

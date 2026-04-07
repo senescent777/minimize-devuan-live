@@ -16,7 +16,7 @@ function usage() {
 	echo "$0 u <tgtfile> [distro?] [-v]: makes upgrade_pkg"
 	echo "$0 e <tgtfile> [distro?] [-v]: archives the Essential .deb packages"
 	echo
-	
+
 	echo "$0 l <tgtfile> [-v] [ -d preferred_displaymanager ] : makes a packaged containing .deb-files for a (preferred) displaymanager"
 
 	#$d pitäisi alustaa ennen tätä
@@ -223,7 +223,7 @@ case ${mode} in
 	;;
 	3|4) 
 		#3 taisi toimia 04/26 tienoilla ainakin kerran
-		#4 testit käynnissä 050426 -> (VAIH)
+		#4 testit käynnissä 050426 -> (VAIH, vissiin toimii)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		dqb "NVDK 1b 2 secs"
@@ -310,7 +310,8 @@ case ${mode} in
 	;;
 	e) 
 	#... chattr olisi kullä paikallaan etteI vahingossa spedeilisi
-		#TODO:testaus uusicksi 7426 (vissiin sisältö toimii, enimmäkseen)
+		#070426:paketin sisältö vaikuttaa toimivan minimal_liven alaisuudessa, entä desktop?
+		#... oliklop jostain libpam- paketeista ulinaa? tuliko libcom-err2 mukaan?
 
 		${shary} ${E22_GS}
 		${shary} ${E22_GM}
@@ -318,6 +319,7 @@ case ${mode} in
 
 		message
 		csleep 2
+
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e23_other_pkgs ${CONF_dnsm}
 	;;
@@ -329,12 +331,22 @@ case ${mode} in
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
-		#TODO:test taas 070426
+		#070426:osannee tehdä toimivan paketin
 		${fib}
 		${shary} ${E22_GI}
 	;;
 	l)
-		#TODO:uusiksi testaus, myös minimal kanssa (070426) (desktoip_liven kanssa toimii)
+		#libc6-dev , miksi mukaan?
+		#libicu-dev?
+		#libstdc++-dev?
+		#libatk-bridge, libcairo2, libgtk3, nalkuttaa edelleen
+		#zlib1g-dev? #libfontconfig-dev? #libwayland-dev?  #libxcursor-dev? #dev-PAKETIT WRRUUN RAAH
+		#libwings, libwraster
+		#x11-utils
+		#TODO:josko vain koko paska uusiksi fråm scratch
+
+
+		#wdm -> debconf. libpam-modules, libpam-runtime, lsb-base. psmisc, x11-apps, x11-common, x11-utils, x11-xserver-utils, xserver-xorg | xserver, perl,libc, libcrypt1, libpam0g, libselinux1, libwings3, libwraster5, libwutil5, libx11-6, libxau6, linxdmcp6, libxinerama1, libxmu6
 
 		csleep 1
 		[ -v CONF_dm ] || exit 77
@@ -345,9 +357,9 @@ case ${mode} in
 
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
-	;;	
-	x) 
-	#TODO:testit taas uudella pak 070426
+	;;
+	x)
+		#TODO:uusiksi vain koko pasq?
 		e23_xyz
 	;;
 	*)

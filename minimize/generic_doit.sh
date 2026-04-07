@@ -374,21 +374,23 @@ dqb "GR1DN BELIALAS KYE"
 
 e_final
 e_h $(whoami) ${d0}
-echo "KVG:\"how to exit for-loop in bash\" " #TÄSSÄKÖ KUSI PASKAA?
-csleep 5
+echo "KVG:\"how to exit for-loop in bash\" " #TÄSSÄKÖ KUSI PASKAA? (onko katsottu btw?)
+csleep 3
 
-#060426:hyvä näin vai vieläkö säätäisi? melkein sama sisältä blokilla kuin /e/n/i.xxx
-if [ -x /opt/bin/tlb.bash ] && [ -v CONF_dnsm ] ; then
+#060426:hyvä näin vai vieläkö säätäisi? melkein sama sisältö blokilla kuin /e/n/i.xxx
+if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} /opt/bin/mutilatetc.bash  ${CONF_dnsm}
-	${odio} /opt/bin/tlb.bash ${CONF_dnsm}
-	${odio} /opt/bin/aftr.bash
-	${sipt} -L
-	csleep 1
+
+#	${odio} /opt/bin/tlb.bash ${CONF_dnsm}
+#	${odio} /opt/bin/aftr.bash
+#	${sipt} -L
+#	csleep 1
 fi
 
 ${scm} 0555 ${d0}/common_lib.sh
 #JOKO JO LOPPUISI PURPATUS PRKL
 ${scm} a-wx $0
+${fib}
 
 #===================================================PART 4(final)==========================================================
 if [ ${mode} -eq 2 ] ; then
