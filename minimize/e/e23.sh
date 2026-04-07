@@ -251,20 +251,18 @@ function e23_dm() {
 	#VAIH: :amd64 depends on libwayland-server0 (tmä vhitellen)
 	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
 
-
-	#TODO:dpkg: dependency problems prevent configuration of libwww-perl:
-
-	#TODO:xscreensaver depends on xscreensaver-data; however:
+	#VAIH:dpkg: dependency problems prevent configuration of libwww-perl:
+	#VAIH:xscreensaver depends on ; however:
 	#VAIH:cpp depends on  (>= 12.2.0-1~); however: #vielä qsee?
 
 	${shary} psmisc x11-apps
 	${shary} libmd0 libbsd0 libaudit1
 
 	#VAIH:libvte-jutut
-
 	#Depends:  (= 0.70.6-2~deb12u1),  (>= 1.12.4), libc6 (>= 2.34),  (>= 1.10.0),  (>= 1.0.0), 
 	# (>= 3.0),  (>= 2.52.0),  (>= 3.7.2),  (>= 3.24.22),  (>= 72.1~rc-1~), 
 	#(>= 1.44.3),  (>= 1.22.0), (>= 10.22), libstdc++6 (>= 11), libsystemd0 (>= 220), zlib1g (>= 1:1.2.0)
+	
 	${shary} libvte-2.91-common libgnutls30 libicu72 libvte-2.91
 
 	#wdm depends on xserver-xorg | xserver; however:

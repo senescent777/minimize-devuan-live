@@ -322,6 +322,10 @@ function psqa() {
 	csleep 2
 }
 
+#HUOM.060426:ne kalat mitkä eivät listassa tulisi kai hukata
+#... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
+#efk2 2. param ja cefgh voisi liittyä asiaan
+
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} )))))))))))))"
 	csleep 1
@@ -1354,7 +1358,7 @@ function part3() {
 	csleep 15
 
 #70426:nalq aihtutui ainakin: libgtk-3-common , libatk-bridge
-O
+
 	common_lib_tool ${1} accept_pkgs_1
 	common_lib_tool ${1} accept_pkgs_2
 
