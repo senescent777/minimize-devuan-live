@@ -292,19 +292,15 @@ case ${mode} in
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
 		csleep 1
 
-		#VAIH:dpkg: dependency problems prevent configuration of cpp-12: jos common_lib jatkossa...
 		#VAIH:dpkg: dependency problems prevent configuration of libgtk-3-bin: EDELLEEN
+		#cpp-12 jo ok?
 
-		#VAIH:xserver-common depends on x11-xkb-utils; however:
-		#Depends: x11-common, xkb-data, x11-xkb-utils
-
-		#VAIh:xserver-xorg-legacy depends on xserver-common 
-	
+		#VAIH:xserver-common depends on  however:
+		#VAIh:xserver-xorg-legacy depends on
 		#todo:dependency problems prevent configuration of xserver-xorg-core:
 
 		#VAIH:libvte-2.91-0:amd64 depends on libgtk-3-0
 		#Depends: libvte-2.91-common (= 0.70.6-1~deb12u1), libatk1.0-0 (>= 1.12.4), libc6 (>= 2.34), libcairo2 (>= 1.10.0), libfribidi0 (>= 1.0.0), libgcc-s1 (>= 3.0), libglib2.0-0 (>= 2.52.0), libgnutls30 (>= 3.7.2), libgtk-3-0 (>= 3.24.22), libicu72 (>= 72.1~rc-1~), libpango-1.0-0 (>= 1.44.3), libpangocairo-1.0-0 (>= 1.22.0), libpcre2-8-0 (>= 10.22), libstdc++6 (>= 11), libsystemd0 (>= 220), zlib1g (>= 1:1.2.0)
-
 		#... bissiin näitä tapellen kanssa minimal_liven , asennusjärj ainakin aiheittaa nalq, libatk+at-spi ainakin (6.4.26)
 
 		e23_upgp
@@ -312,10 +308,9 @@ case ${mode} in
 		csleep 1
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
-	e) #050426:suattaapi vaikka toimiakin jo hetken aikaa
+	e) 
 	#... chattr olisi kullä paikallaan etteI vahingossa spedeilisi
-		#VAIH:E22_GS -jutskat jtnkin mukaan että cpp-nalqtus vähenisi
-		#TODO:testaus uusicksi
+		#TODO:testaus uusicksi 7426 (vissiin sisältö toimii, enimmäkseen)
 
 		${shary} ${E22_GS}
 		${shary} ${E22_GM}
@@ -334,46 +329,25 @@ case ${mode} in
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
-		#VAIH:test taas (jotain pientä urputusta pakettia muodostettaessa 050426)
+		#TODO:test taas 070426
 		${fib}
 		${shary} ${E22_GI}
 	;;
-	l) #050426:osaa muodostaa wdm-paketin, sisältökin visisin toimii (pl ehkä pient nalq minimal_livessä, korjaa)
-		#LIBGTK JA LIBATK EDELLEEN
-		#seat ,cpp myös (jokin tarvitsee enneq käytössä?)
-		#060426 paketti asentui desktop_livessä mutta minimal...
-		#TODO:uusiksi testaus
+	l)
+		#TODO:uusiksi testaus, myös minimal kanssa (070426) (desktoip_liven kanssa toimii)
 
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
 	;;
-#	m)
-#		#to state the obvious:check_bin() , ocs() liittyy
-#		#VAIH:testaa tämän oksennukset TAAS (060426 enimmäkseen asentuu minimial_liveen, puentä nalq vielä, korhaa)
-#		#ifupdown+iproute2 oli 1 juttu (vetikö?)
-#
-#		#iptoute2 ja libtirpc3 toinen (vetikö? joo)
-#		#tosin tirpc tarttee libgssapin mikä pitäisi kyllö löytyä mutta
-#		#VAIH:KATSO NYT PELLE VIHDOINKIN ONKO KAIKKI IPROUTE2 TARVITSEMAT MUKANA VAI EI (commomn_lib)
-#
-#		#HUOM.040326:jatkossa turhahko case, voisi yhdistää e):hen
-#
-#		[ -v E22_GS ] || exit 78
-#		[ -v E22_GM ] || exit 79
-#
-#		${shary} ${E22_GS} #05043526:alkaisiko jo olla kunnossa?
-#		${shary} ${E22_GM}
-#	;;
 	n)
 		#VAIH:ntp-jutut takaisin josqs?
 
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;	
-	x) #VAIH:vähän vielä pitäisi paketteja metsästää että asentuisi? ehkä , myös asennusjärj aiheuttaa nalq minimal_livessä 060426
-	#libglu ainakin kusi
-	#TODO:testit taas uudella pak
+	x) 
+	#TODO:testit taas uudella pak 070426
 		e23_xyz
 	;;
 	*)

@@ -109,7 +109,6 @@ function ocs() {
 
 	#-z myös keksitty
 	#if [ y"${tmp2}" == "y" ] ; then
-
 	if [ -z "${tmp2}" ] ; then
 		dqb "KAKKA-HÄTÄ ${1} "
 		exit 82
@@ -323,10 +322,6 @@ function psqa() {
 	csleep 2
 }
 
-#HUOM.060426:ne kalat mitkä eivät listassa tulisi kai hukata
-#... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
-#efk2 2. param ja cefgh voisi liittyä asiaan
-
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} )))))))))))))"
 	csleep 1
@@ -372,7 +367,7 @@ function efk1() {
 		dqb $?
 	fi
 
-	csleep 1
+	csleep 2 #nyt jos ehtisi seurata mitä tap
 }
 
 function efk2() {
@@ -388,6 +383,7 @@ function efk2() {
 }
 
 function wopr() { #050426:toimii jo?
+	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
 	local r=$(find ${1} -type f -name "${2}*.deb" )
 
 	for s in ${r} ; do
@@ -403,6 +399,8 @@ function wopr() { #050426:toimii jo?
 			;;
 		esac
 	done
+
+	csleep 2
 }
 
 function common_lib_tool() {
@@ -480,16 +478,16 @@ function CB01() {
 
 #010426:txt.bak tilapäisesti pois sotkemasta, ehkä takaisin kommnetietsta josqs
 #TODO:VÄHITELLEN JOTAIN TÄMÄNKIN HYVÄKSI?
+#if [ -s ${1}/g.tar ] ; then
 #	[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt ${1}/sha512sums.txt.bak
-#	efk2 ${1}/g.tar ${1}
+#	# && ${spc} ${1}/g.tar ${1}/g.tar.bak #efk2 ei deletoi niin tätä ei oik tarvitse
+#	efk2 ${1}/g.tar ${1} #fk2 .bak ${1}
 #
-#	common_pp3 ${1}
-#
-#	[ -s ${1}/g.tar ] && ${spc} ${1}/g.tar ${1}/g.tar.bak
-#	[ $? -eq 0 ] && ${NKVD} ${1}/g.tar
+#	common_pp3 ${1} #070426:miten tämän kanssa?
 #
 #	#josdpa nyt jaksaisi mv taas toimia ulisematta
-#	[ -s ${1}/g.tar.bak ] && ${svm} ${1}/g.tar.bak ${1}/g.tar
+#	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt.bak ${1}/sha512sums.txt 
+#fi
 
 	common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen	
 	for p in ${E22_GI} ; do efk1 ${1}/${p}*.deb ; done
@@ -500,7 +498,7 @@ function CB01() {
 	csleep 1
 
 	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt.bak ${1}/sha512sums.txt
-	common_pp3 ${1} #miksi pitikään renkata useampaan kertaan? nose gpg-tark tietrtty
+	common_pp3 ${1}
 }
 
 function CB02() {
@@ -540,14 +538,14 @@ function check_binaries() {
 	ip6tr=$(${odio} which ip6tables-restore)
 
 	#(joko jo kunnossa 050426? melkein) (jos sittenkin vipuaisi GS takaisin accept-tdstoihin?)
-	E22_GS="gcc-12-base libgcc-s1 libc6" #meneeköhän jännäksi 2. ja 3. kohdalla? jep
-	#E22_GR="gcc-12-base libgcc-s1 libc6"
+	E22_GS="gcc-12-base libgcc-s1 libc6" #meneeköhän jännäksi 2. ja 3. kohdalla? jep, sicksi dpkg:n kanssa kuten menee
 
 	E22_GS="${E22_GS} libgmp10 libisl23 libmpfr6 libmpc3 libzstd1 zlib1g"
 	E22_GS="${E22_GS} libstdc++6 libgomp1 cpp-12" #060426:tartteeko varsinaisen cpp:n kanssa?
 
 	E22_GM="libc6 libselinux1"
 
+	#libtext-wrap kanssa jotain (VIELÄ 7426?)
 	E22_GM="${E22_GM} debianutils debconf liblocale-gettext-perl libtext-charwidth-perl libtext-iconv-perl libtext-wrapi18n-perl" # nfs-common	
 	E22_GM="${E22_GM} debconf-i18n libelf1 libbpf1 " #zlib1,libc6
 	E22_GM="${E22_GM} libmnl0 libxtables12 " # oikeastaanm jo toisissakin jutussa mukana
@@ -557,12 +555,24 @@ function check_binaries() {
 	E22_GM="${E22_GM} libmnl0 libatm1 libpcre2-8-0 libmd0 libgssapi-krb5-2 "
 	E22_GM="${E22_GM} libbsd0 libcap2 libcap2-bin libdb5.3 libtirpc-common libtirpc3 iproute2"
 
-	#Depends: libc6 (>= 2.36), debianutils (>= 2.8.2), iproute2
+	#Depends: , debianutils (>= 2.8.2), iproute2
 	#Depends: debianutils (>= 2.8.2)
-	E22_GM="${E22_GM} resolvconf isc-dhcp-client isc-dhcp-common"
+	#	E22_GM="${E22_GM} resolvconf" #VAIH:josq toimisi ilmankin tätä ?
+	E22_GM="${E22_GM} isc-dhcp-client isc-dhcp-common"
 
-	E22_GM="${E22_GM} libpam-modules libsemanage2 libpam0g libcrypt1 libaudit1 passwd adduser ifupdown"
+	#VAIH:ja VIELÄ lisää iteroinria prkl, pitäisikö jahdata liBaudit-l_m_b ?
+	#Pre-Depends:  (>= 1:2.2.1),  (>= 2.34),  (>= 1:4.3.0), ,  (>= 1.4.1),  (>= 3.1~),  (>= 0.5) | debconf-2.0, (= 1.5.2-6)
+
+	#selinux ja db53 joaiemmn
+	E22_GM="${E22_GM} libpam0g libcrypt1 libaudit1 libpam-modules-bin libpam-modules "
+
+	#Depends: passwd
+	#Depends:  (>= 2.34), adduser, iproute2
+
+	E22_GM="${E22_GM} libbz2-1.0 libsemanage-common libsemanage2 libsepol2 passwd adduser ifupdown"
+	
 	E22_GM="${E22_GM} libblkid1 libmount1 libsmartcols1 mount net-tools"
+	
 	E22_GM="${E22_GM} libacl1 libattr1 libgmp10 coreutils" #iproute2-doc iproute
 
 	#... nuo jutut miel accept1/2 mukaan jatq tjsp?
@@ -577,9 +587,11 @@ function check_binaries() {
 	#050426:tämä jo okK?
 	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
+#VAIH:libglu tarttee libopengl0
+#libegl, libxcvt,xcvt niiden kanssa myls jotain (VAIH:vedä nuokin)
+#TODO:varmista myös että twm asentuu, barm voksi
 
-
-	#050426:dhcp-jutut erilleen jatkossa? entä dhcp?
+	#050426:dhcp-jutut erilleen jatkossa? 
 	E22_GT="isc-dhcp-client isc-dhcp-common "
 	E22_GT="${E22_GT} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
 	E22_GT="${E22_GT} iptables"
@@ -780,7 +792,6 @@ function dinf() {
 }
 
 #=================================================================
-#tämä+seur fktio voisi seitellä melko pian c_bin_0 jälkeen
 function fasdfasd() {
 	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
 	[ -z "${1}" ] && exit 99
@@ -1308,29 +1319,42 @@ function part3() {
 
 	dqb "PARAMS_OK"
 	csleep 1
-	local c15
-	c15=$(find ${1} -type f -name "*.deb" | wc -l)
+	dqb "#TODO: dpkg --get-selections > txt minimal alaisuudessa ja sitten jotain"
+	csleep 5
 
-	if [ ${c15} -lt 1 ] ; then
+	#TODO:ffox prof importoinnissa pitäisi huomioida, onko ffox:ia asennettu vai ei
+	#VAIH:josko ylempää resolvconf pois sotkemasta, varm. vuoksi
+
+	local n15
+	n15=$(find ${1} -type f -name "*.deb" | wc -l)
+
+	if [ ${n15} -lt 1 ] ; then
 		cefgh ${1}
 	fi
 
 	csleep 1
 	jules
 	common_pp3 ${1}
+	dqb "ALPGA"
 	csleep 1
 
 	common_lib_tool ${1} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
+	dqb "B3TA"
+	csleep 10
 
 	#060426:AO. RIVI TUOLLAINEN TARKOITUKSELLA, ÄLÄ SORKI!!!
 	efk1 ${1}/gcc-12-base*.deb ${1}/libgcc-s1*.deb ${1}/libc6*.deb
-	csleep 5
+	dqb "LAJKKA"
+	csleep 25
 
 	for p in ${E22_GS} ; do wopr ${1} ${p} accept_pkgs_1 ; done
 	#060426:jospa keskeyttäisi tässä kunnes cpp-asiat kunnossa? vai alkaisiko jo sujua?
+	dqb "öMEGA"
 	csleep 15
 
+#70426:nalq aihtutui ainakin: libgtk-3-common , libatk-bridge
+O
 	common_lib_tool ${1} accept_pkgs_1
 	common_lib_tool ${1} accept_pkgs_2
 

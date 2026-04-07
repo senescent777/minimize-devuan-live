@@ -303,7 +303,7 @@ function common_part() {
 	dqb "${srat} DONE"
 }
 
-#VAIH:cptp2 prujaaminen + käyttöö n vielä
+#VAIH:cptp2 prujaaminen + käyttöö n vielä (JOKO JO 7426)
 #
 #function cptp2() {
 #	dqb "c tp2 ${1}, ${2}, ${3}"
@@ -401,7 +401,7 @@ case "${mode}" in
 			dqb "NO-GO-THEOREM"
 		fi
 	;;
-	-h)
+	-h) #miten tämä+seur case toimii nykyään?
 		usage
 		#mode=-3
 		exit
@@ -412,11 +412,11 @@ case "${mode}" in
 esac
 
 #VAIH:kysymään lähteen poistosta purkamisen jälkeen?
-
+#TODO:poistelu ajank vain jos tehty lähteelle jotain sitä ennen, teejotain
 if [ -s ${srcfile} ] ; then
 	read -p " U  WANT T0 RM SOURCE ?" confirm
 	[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
 
 fi
 
-#cptp2 params
+#cptp2 params (JOKO JO 070426?)

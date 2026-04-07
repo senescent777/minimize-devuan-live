@@ -77,7 +77,7 @@ function dis() {
 	fi
 
 	local t
-	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+	t=$(echo ${1} | cut -d "/" -f 1 | tr -d -c a-zA-Z)
 
 	if [ -f /etc/network/interfaces.${t} ] ; then
 		dqb "LINKS-1-2-3"
@@ -126,12 +126,21 @@ function part0() {
 	dis ${1}
 	local s
 
+	#dw i'n gwybod sut i ddefnyddio Google Translate
 	dqb "смерть шпионам"
-	#TODO:KVG, saisiko xfce4-session olemaan käyttämättä tuota?
+
+	#VAIH:KVG, saisiko xfce4-session olemaan käyttämättä tuota?
+	#https://docs.xfce.org/xfce/xfce4-session/advanced
+	#https://superuser.com/questions/1222663/how-do-i-use-combine-ssh-agent-forwarding-and-xfce4
+	#https://forum.manjaro.org/t/how-to-disable-ssh-agent-autostart/89404
+	
+	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
+	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
+
 	${whack} ssh-agent*
 	csleep 5
 
-	dqb "HARV35TER 0F 50RR0W"
+	dqb "H4RV35TER 0F 50RR0W"
 	csleep 1
 
 	#060426:tämäkö heittää pihalle ennenaikaisesti? ssh:n kanssa ehkä jotain	
@@ -157,7 +166,7 @@ function part0() {
 }
 
 part0 ${distro}
-#exit #yo. fktion kanssa jokin juttu?
+#exit #yo. fktion kanssa jokin juttu? ssh ehkä
 
 process_lib ${d}
 echo "AFTER PROCESS_LIB";sleep 6
@@ -324,13 +333,13 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 fi
 
 pre_part2 #ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
-c14=$(find ${d} -name '*.deb' | wc -l)
+c14=$(find ${d} -name "*.deb" | wc -l)
 
 #[ ${c14} -gt 0 ] || CONF_removepkgs=0 #tilap kommentteihin 270226 koska g_pt2_jutut
 #... jokohan jo kommenteista 190326? (TODO)
 
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
-#voisi kai tässä kohta anuo kikialuit palautaa kommenteista (040326)
+
 
 #===================================================PART 3===========================================================
 message
@@ -366,7 +375,7 @@ dqb "GR1DN BELIALAS KYE"
 e_final
 e_h $(whoami) ${d0}
 echo "KVG:\"how to exit for-loop in bash\" " #TÄSSÄKÖ KUSI PASKAA?
-sleep 5
+csleep 5
 
 #060426:hyvä näin vai vieläkö säätäisi? melkein sama sisältä blokilla kuin /e/n/i.xxx
 if [ -x /opt/bin/tlb.bash ] && [ -v CONF_dnsm ] ; then
