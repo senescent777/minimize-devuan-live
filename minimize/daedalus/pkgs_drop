@@ -13,37 +13,37 @@ bastet
 #bc?
 bombardier
 bsdgames
-bti
+#bti #080426:aiheuttaako tämän poisto jotain?
 build-essential
 caca-utils
-#calc #tässä jo kosahtaa desktop_liven kanssa?
-#cavezofphear
-#ceni
-#clex
-#cmatrix
-#cowsay
-#crawl
-#curseofwar
-#dahdi
-#dc #?
-#ed #?
-#empire
-#entr
-#fbi
-#fbterm
-#fetchmail
-#figlet
-#fmtools
-#fortune
-#freesweep
-#gddrescue
-#geoip-bin
-#gnuchess
-#gobject-introspection
-#greed
-#haveged
-#icu-devtools
-#irssi
+#calc #080426:tässä jo kosahtaa desktop_liven kanssa? miten nuo muut c-jutut?
+cavezofphear
+ceni
+#clex #080426:tämä taitaa paskoa asioita desktop_liven kanssa, vältä
+cmatrix
+cowsay
+crawl
+curseofwar
+dahdi
+#dc #mikä tämä on?
+#ed #uskaltaako poistaa? entä e-i?
+empire
+entr
+#fbi #ehkä ei tätä pois?
+fbterm
+fetchmail
+figlet
+fmtools
+fortune
+freesweep
+gddrescue
+geoip-bin
+gnuchess
+gobject-introspection
+greed
+haveged
+icu-devtools
+irssi
 #jhead
 #lrzsz
 #matanza
