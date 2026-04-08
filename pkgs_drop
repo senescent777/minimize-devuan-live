@@ -1,0 +1,35 @@
+#blu HUOM:PART175_LIST SISÄLTÄÄ JO TÄMÄN
+amd64-microcode,at-spi2-core,bubblewrap
+cryptsetup,debian-faq,doc-debian
+dirmngr,discover
+docutils,dosfstools,dmsetup
+exfalso,fdisk,ftp
+#
+#poistuuko gpgv? eivielä
+gpgv
+gir,gstreamer
+#
+#h-libr-RYHMITTELYÄ MUUTETTU 270226
+htop,inetutils-telnet,intel-microcode
+isolinux,libreoffice
+libgstreamer,libpoppler
+#
+#libsane,tämä,kusevat,asioita?
+#lvm2,poistui,aikaisemmin,nykyään
+#
+lynx,mutt,mail
+#oistuukop mutt?
+#
+mlocate,modem,mtools
+#jatkossa perus-ntp pois, mut ntpsec eu?
+mythes
+#
+#nfs,jutut,poistuvat,aiemmin
+netcat-traditional,openssh,pavucontrol
+ppp,pciutils,procmail
+#antaa olla rfkill toistaiseksi
+ristretto,screen,syslinux-common
+tex,vim
+#
+#uutena 060426, $distro/pkgs_drop alle jatqs?
+ssh,openssh
