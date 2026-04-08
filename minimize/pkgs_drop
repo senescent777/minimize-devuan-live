@@ -31,5 +31,5 @@ ppp,pciutils,procmail
 ristretto,screen,syslinux-common
 tex,vim
 #
-#uutena 060426
+#uutena 060426, $distro/pkgs_drop alle jatqs?
 ssh,openssh

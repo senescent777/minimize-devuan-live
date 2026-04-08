@@ -149,15 +149,10 @@ else
 		#eXit jos srat ei?
 
 		gg=$(${odio} which gpg)
-		#som=$(${odio} which mount)
-		#uom=$(${odio} which umount)
 	}
 
 	function check_binaries2() {
 		echo "irot.check2"
-
-		#som="${odio} ${som}"
-		#uom="${odio} ${uom}"
 		srat="${odio} ${srat}"
 	}
 
@@ -188,13 +183,6 @@ dqb "rot:AFTR common_lib"
 csleep 1
 [ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
 csleep 1
-
-#if [ -f /.chroot ] || [ -x ${mkt} ] ; then
-#	dqb "rot.MTK"
-#else
-#	echo "sudo apt-get update;sudo apt-get install coreutils"
-#	exit 8
-#fi
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -285,6 +273,7 @@ function common_part() {
 			cfk=0
 		fi
 
+		#TODO:näille main mallia:import2.sh, common_lib.psqa(), common_pp3() ehkä
 		csleep 1
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"

@@ -156,7 +156,7 @@ csleep 1
 [ -z "${distro}" ] && exit 6
 csleep 1
 
-if [ -x ${mkt} ] ; then
+if [ -x ${mkt} ] ; then #kts. tpr()
 	dqb "ipm2.MTK"
 else
 	echo "sudo apt-get update;sudo apt-get install coreutils"
@@ -254,6 +254,7 @@ function common_part() {
 		fi
 
 		[ ${r} -eq 0 ] || exit ${r}
+		#TODO:jos menee wtuiksi niin joutaisi delliä .sha
 	fi
 
 	csleep 1
@@ -281,6 +282,7 @@ function common_part() {
 	if [ ${cfk} -gt 0 ] ; then
 		read -p " U  SURE ?" confirm
 		[ "${confirm}" == "Y" ] || exit 33
+		#TODO:jos ei varmistusta ni sietäisi delliä *.deb ?
 	fi
 
 	csleep 1
@@ -349,6 +351,8 @@ function cptp2() {
 dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3} siis)
+
+fox=$(${odio} which firefox)
 
 #160326:toimiiko edelleen? "$0 q"-reittiä ainakin
 function tpr() {
@@ -540,7 +544,10 @@ case "${mode}" in
 		[ -d ${srcfile} ] || exit 23
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
-		[ -v CONF_default_arhcive3 ]  || exit 18
+		[ -v CONF_default_arhcive3 ] || exit 18
+		#VAIH:SE FFOX-TARQ
+		[ -z "${fox}" ] && exit 26
+		[ -x ${fox} ] || exit 27
 
 		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
 		echo $?
@@ -553,6 +560,10 @@ case "${mode}" in
 	#sqrot ei tarvitse tätä casea, kai
 		# (turha case oikeastaan koska "$0 1"+"$0 r"
 		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
+#VAIH:SE FFOX-TARQ
+		
+		[ -z "${fox}" ] && exit 26
+		[ -x ${fox} ] || exit 27
 
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25

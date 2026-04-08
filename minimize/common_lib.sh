@@ -258,9 +258,9 @@ function message() {
 	sleep 1
 }
 
-#TODO:jatkossa uusikcsi tämä?
+#VAIH:jatkossa uusikcsi tämä
 function psqa() {
-	dqb "Q () () () () ${1} ;;;"
+	dqb "c.Q () () () () ${1} ;;;"
 	csleep 1
 
 	[ -z "${1}" ] && exit 97
@@ -285,7 +285,7 @@ function psqa() {
 			else
 				dqb "SHOULD imp2 k \$dir !!!"
 				${NKVD} ${1}/sha512sums.*
-				exit 95 #jatk exit pois
+				return 95 #jatk exit pois
 			fi
 
 			csleep 1
@@ -314,7 +314,7 @@ function psqa() {
 			dqb "Q.KO"
 		else
 			dqb "SHOULD \${NKVD} ${1}/*.deb"
-			exit 94
+			return 94
 		fi
 
 		[ -f ${1}/sha512sums.txt.1 ] && ${sah6} --ignore-missing -c sha512sums.txt.1
@@ -323,7 +323,7 @@ function psqa() {
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
 		dqb "SHOULD \${NKVD} ${1}/*.deb"		
-		exit 93
+		return 93
 	fi
 
 	dqb " DONE WITH THE Q-FEVER () ;;;; (((((("
@@ -334,7 +334,8 @@ function psqa() {
 #... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
 #efk2 2. param ja cefgh voisi liittyä asiaan
 
-#TODO:jatkossa uusikcsi tämä?
+#VAIH:jatkossa uusikcsi tämä? palautusarvoon reagointi kai hyvä testata kohta
+#TODO:jatkossa tämä tai kutsuva koodi viskomaan validit paketit tmp-hmistoon jatkoa vrten
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} )))))))))))))"
 	csleep 1
@@ -364,7 +365,8 @@ function common_pp3() {
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
-		#TODO:jos mahd ni dellimään paketit jos tarq menee wtuiksi (man vash? fktioiden palautusarvot...)
+		#VAIH:jos mahd ni dellimään paketit jos tarq menee wtuiksi (man vash? fktioiden palautusarvot...)
+		[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums* #./*.tar?
 	fi
 
 	dqb "() common_pp3 DONE"
@@ -384,7 +386,7 @@ function efk1() {
 		dqb $?
 	fi
 
-	csleep 2 #nyt jos ehtisi seurata mitä tap
+	csleep 1 #riittäisikö?
 }
 
 function efk2() {
@@ -417,7 +419,7 @@ function wopr() { #050426:toimii jo?
 		esac
 	done
 
-	csleep 2
+	csleep 1
 }
 
 function common_lib_tool() {
@@ -490,30 +492,26 @@ function cefgh() {
 	#... tai tuo e.tar-jutska jos olisi kätevämpi sittenkin?
 }
 
-#TODO:jatkossa uusikcsi tämä?
+#VAIH:jatkossa uusikcsi tämä?
 function CB01() {
 	dqb "common.lib.CB01( ${1} )"
 	csleep 1
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
 
-	#010426:txt.bak tilapäisesti pois sotkemasta, ehkä takaisin kommnetietsta josqs
-
 	#VAIH:VÄHITELLEN JOTAIN TÄMÄNKIN HYVÄKSI?
 	if [ -s ${1}/g.tar ] ; then
-		#[ -s ${1}/sha512sums.txt ] && ${svm} ${1}/sha512sums.txt ${1}/sha512sums.txt.bak
-		# && ${spc} ${1}/g.tar ${1}/g.tar.bak #efk2 ei deletoi niin tätä ei oik tarvitse
-		efk2 ${1}/g.tar / #koita päättää miten tämän kanssa
-	
-		common_pp3 ${1} #070426:miten tämän kanssa?
-	
-		#josdpa nyt jaksaisi mv taas toimia ulisematta
-		#[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt.bak ${1}/sha512sums.txt 
+		#JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen
+		#... tai ilman gpg:tä voi tehdä vain sha-tarq ja sekin oikeastaan tapahtuu jo kutsuvassa koodissa
+		#... g.tar:in saisi kyllä listaan mukaan
+
+		efk2 ${1}/g.tar /
+		common_pp3 ${1}
 		${NKVD} ${1}/g.tar
 		exit 103
 	fi
 
-	common_pp3 ${1} #JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen	
+	common_pp3 ${1}
 	for p in ${E22_GI} ; do efk1 ${1}/${p}*.deb ; done
 	csleep 1
 
@@ -527,7 +525,8 @@ function CB01() {
 	dqb "common.lib.CB01() DONE"
 	csleep 1
 }
-#TODO:jatkossa uusikcsi tämä?
+
+#TODO:jatkossa uusikcsi tämä? vai tarvitseeko?
 function CB02() {
 	dqb "CB02()"
 	csleep 1
@@ -553,6 +552,8 @@ function CB02() {
 
 	#sqroot-juttuja
 	[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh	
+	dqb "CB02() D0.N3"
+	csleep 1
 }
 
 function check_binaries() {
@@ -604,7 +605,7 @@ function check_binaries() {
 	#050426:tämä jo okK?
 	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
-	#TODO:varmista myös että twm asentuu, barm voksi?
+	#080426:twm-jutut josqs myöhemmin, ehkä (enemmän liittyy e23.sh)
 
 	#050426:dhcp-jutut erilleen jatkossa? 
 	E22_GT="isc-dhcp-client isc-dhcp-common "
@@ -626,7 +627,7 @@ function check_binaries() {
 		#070426:gpg-tarq pystyy tekemöään vastaq gpg asennettu, jos voisi jtnkinhuiomioida
 
 		dqb "BF0R3 CVB0"
-		csleep 10
+		csleep 5
 	fi
 
 	#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
@@ -676,8 +677,8 @@ function check_binaries2() {
 	iptr="${odio} ${iptr} "
 	ip6tr="${odio} ${ip6tr} "
 
+	#HUOM.joutaisi varmaan nimeämistä miettiä, vöin tull skaannuksia
 	sharpy="${odio} ${sag} remove --purge --yes "
-
 	#HUOM. ${sag} oltava VIIMEISENÄ tai siis ao. kolmikosta
 	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
 	sag_u="${odio} ${sag} update "
@@ -687,7 +688,7 @@ function check_binaries2() {
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
 
-	#VAIH:r tai sitten sen jonkin /etc/kernel-jekun hyödyntämisen kokeilu (tekeekö jotain?)
+	#VAIH: tai sitten sen jonkin /etc/kernel-jekun hyödyntämisen kokeilu (tekeekö jotain?)
 	#... toimii vai ei?
 
 	#konftdstoon tuo INITRd vai ei?
@@ -1321,6 +1322,10 @@ function cg_pp2() {
 
 #160126:g.tar liittyvää kikkailua jatkossa? sittenkin check_bin() alta g-jutut -> cefgh()?
 #140326:libfortran-urputuksille j os tekisijojo tain?
+#libatomic1 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
+# libgfortran5 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
+# libquadmath0 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
+#... jospa nyt aluksi selvittäisi mikä näitä tarvitsee?
 
 function part3() {
 	dqb "))() part3 ${1} , ${2} (((((((("
@@ -1331,8 +1336,6 @@ function part3() {
 
 	dqb "PARAMS_OK"
 	csleep 1
-	#VAIH: dpkg --get-selections > txt minimal alaisuudessa ja sitten jotain
-	csleep 5
 	
 	local n15
 	n15=$(find ${1} -type f -name "*.deb" | wc -l)
@@ -1350,20 +1353,19 @@ function part3() {
 	common_lib_tool ${1} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 	dqb "B3TA"
-	csleep 10
+	csleep 6
 
 	#060426:AO. RIVI TUOLLAINEN TARKOITUKSELLA, ÄLÄ SORKI!!!
 	efk1 ${1}/gcc-12-base*.deb ${1}/libgcc-s1*.deb ${1}/libc6*.deb
 	dqb "LAJKKA"
-	csleep 10
+	csleep 6
 
 	for p in ${E22_GS} ; do wopr ${1} ${p} accept_pkgs_1 ; done
 	#060426:jospa keskeyttäisi tässä kunnes cpp-asiat kunnossa? vai alkaisiko jo sujua?
-	dqb "önEGA"
-	csleep 10
+	dqb "önEGA-VGA"
+	csleep 6
 
-#70426:nalq aihtutui ainakin: libgtk-3-common , libatk-bridge
-
+	#70426:nalq aihtutui ainakin: libgtk-3-common , libatk-bridge
 	common_lib_tool ${1} accept_pkgs_1
 	common_lib_tool ${1} accept_pkgs_2
 

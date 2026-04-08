@@ -76,8 +76,6 @@ function e23_other_pkgs() {
 
 	#rämän eiirto-> common_lib?
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
-
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} ${E23_GS}  #moni pak tarttee nämä
 
 	#${shary} #bsd debconf
@@ -194,24 +192,58 @@ function e23_qrs() {
 }
 
 #VAIH:uusiksi vain tyhjästä
-#TODO:boisi myös ottaa mallia viimeisimmästä toimivasta paketista että mitä mukaan
+#VAIH:boisi myös ottaa mallia viimeisimmästä toimivasta paketista että mitä mukaan
+#TODO:myös minimal_liven kanssa uudempi testikierros tämän kanssa
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
 	csleep 2
 
+	#TODO: _GS tak tähän josqs
 	#. , ,  , ,  | xserver, perl,libc, , 
-	${sharpy} debconf lsb-base psmisc
-	${sharpy} libpam-modules libpam-runtime libcrypt1 libpam0g libselinux1
-	${sharpy} libwings3 libwraster5 libwutil5 libx11-6 libxau6 linxdmcp6 libxinerama1 libxmu6
-	${sharpy} x11-apps x11-common x11-utils x11-xserver-utils xserver-xorg
-	${sharpy} wdm
+
+	${shary} debconf_1 lsb-base_11 psmisc_23 #A
+	${shary} at-spi2-common_2 bsdextrautils_2 fontconfig_2 fontconfig-config_2 groff-base_1 imagemagick-6-common_8
+	${shary} init-system-helpers_1 libegl-mesa0_22 libegl1_1 #xscreensaver?
+	${shary} libxcb-shape0_1 libxcb1_1 libxcb-present0_1 libxcb-damage0_1 libxcb-shm0_1 libxcb-xfixes0_1 libxcomposite1_1 libxcursor1_1 libxdmcp6_1 menu_2 twm_1 wmaker-common_0.95
+	[ $? -eq 0 ] || exit	
+	csleep 1
+
+	${shary} libpam-modules libpam-runtime libcrypt1 libpam0g libselinux1 #B
+ 	${shary} libaom3 libatk1.0-0 libaudit1 libaudit-common libbsd0 libbz2-1.0 libcap-ng0 libcrypt1
+	${shary} libdav1d6 libdb5.3 libde265-0	libexpat1 libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libfribidi0 
+	[ $? -eq 0 ] || exit
+	csleep 1
+
+	${shary} libwings3 libwraster5 libwutil5 libx11-6 libxau6 linxdmcp6 libxinerama1 libxmu6 #C
+	${shary} libgbm1 libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libgif7 libgl1 libglib2.0-0 libglib2.0-data libglvnd0 libglx0 
+	${shary} libgtk-3-0 libgtk-3-common libharfbuzz0b libheif1_1 libice6 libjbig0 libjpeg62-turbo #libheif versio ok?
+	[ $? -eq 0 ] || exit	
+	csleep 1
+	
+	${shary} x11-apps_7 x11-common_1 x11-utils_7 x11-xserver-utils_7 xserver-xorg_7 #D
+	${shary} xterm xauth
+	[ $? -eq 0 ] || exit
+	csleep 1
+
+	${shary} liblcms2-2 liblqr-1-0 libltdl7 liblzma5 libmagickwand-6.q16-6 libmagickcore-6.q16-6 libmd0 libnuma1 libopenjp2-7 libpam-modules-bin
+	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0 libpcre2-8-0 libpng16-16 libseat1 libseccomp2 libsm6 libthai0 libtiff6 libtinfo6 #libpipeline1?
+	${shary} libunwind8 libxpm4_1 libwebp7 libx265-199 libwebpdemux2 libwebpmux3 libwings3 libwutil5 libx11-xcb1 libx11-data libxaw7 
+	[ $? -eq 0 ] || exit
+	csleep 1
+
+	#libxcb1 libxcb-render0_1 libxext6_2 libxfixes3_1 libxft2_2 libxi6_2 libxinerama1_2 libxkbfile1_1 libxml2_2 libxmu6_2 libxmuu1_2 libxrandr2_2 libxrender1_1 libxt6_1 libxtst6_2 libxv1_2
+	#libxxf86dga1_2 libxxf86vm1_1 man-db_2
+	${shary} wdm #E
+
+	dqb "e23_dm( done (((("
+	csleep 1
 }
 
 #	#TODO?:jospa yhdistelisi e23_xyz() kanssa josqs?
 
 #
-#	#	VAIH:libwww-perl, mitä sen kanssa tekee?
+
 #
 #	dqb "params ok"
 #	${fib}
@@ -221,54 +253,52 @@ function e23_dm() {
 #	${shary} ${E22_GS}
 #	csleep 1
 #
-#	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6 libx11-xcb1 libopengl0O
-#	${shary} menu twm
+#	${shary}    libopengl0O
+#	${shary}
 #
-#	#libselinux oikeastaan muualla jo
-#	${shary} libcrypt1 libpam0g libselinux1 #jemmaan?
-#	${shary} libxau6 libxaw7 libxdmcp6 libxft2 libxinerama1 
-#	${shary} libfontconfig1 libfontenc1 libgl1 libxcb-shape0 libxcb1 
+
+
+#	
 #	csleep 1
 #
-#	${shary} libx11-data libxcomposite1 libxi6 libxkbfile1 libxmuu1 libxrandr2 libxrender1 libxtst6
-#	${shary} x11-common libxv1 libxxf86dga1 libxxf86vm1
-#	${shary} libxpm4 debconf cpp lsb-base procps
+#	${shary}     
+#	${shary}   libxxf86dga1 libxxf86vm1
+#	${shary} cpp procps
 #
 #	#Depends: dconf-gsettings-backend | gsettings-backend (TODO)
 #	#Depends: adwaita-icon-theme, hicolor-icon-theme, shared-mime-info, 
 #
-#	${shary} libgtk-3-0 libgtk-3-common libatk-bridge2.0-0 libcairo-gobject2 libcairo2
-#	${shary} libcolord2 libepoxy0 libfribidi0 libglib2.0-0 libpango-1.0-0
-#	${shary} libxml2 libglib2.0-data at-spi2-common libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
-#	${shary} libpangocairo-1.0-0 libpangoft2-1.0-0 libwayland-client0 libwayland-cursor0 libwayland-egl1 libwayland-server0 
-#	${shary} fontconfig libharfbuzz0b libthai0 libxcursor1 libxdamage1 libxfixes3
-#	${shary} libfreetype6 libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxkbcommon0
-#	${shary} libxcb-render0 libxcb-shm0 x11-utils x11-xserver-utils 
+#	 libatk-bridge2.0-0 libcairo-gobject2 libcairo2
+#	${shary} libcolord2 libepoxy0
+
+#	${shary} libpangocairo-1.0-0 libwayland-client0 libwayland-cursor0 libwayland-egl1 libwayland-server0 
+#	${shary} libxdamage1 
+#	${shary} libxkbcommon0
+
 #
 #	csleep 1
 #
-#	${shary} libexpat1 fontconfig-config
-#	${shary} libglvnd0 libglx0   
+#	${shary}
+#	${shary}  
 #	csleep 1
-#	${shary} libgbm1 libseat1 libunwind8 libxpm4 # libselinux1
+## libselinux1
 #
 #
-#	#VAIH:libpangoxft-1.0-0:amd64 depends on  (>> 2.1.1);
-#	#TODO:libwings3:amd64 depends on
+#	#TODO::amd64 depends on
 #
 #	#VAIH: :amd64 depends on libwayland-server0 (tmä vhitellen)
 #	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
 #
 #	#VAIH:dpkg: dependency problems prevent configuration of libwww-perl:
 #	#VAIH:xscreensaver depends on ; however:
-#	#VAIH:cpp depends on  (>= 12.2.0-1~); however: #vielä qsee?
+
 #
-#	${shary} psmisc x11-apps
-#	${shary} libmd0 libbsd0 libaudit1
+
+#	${shary} 
 #
 #	#VAIH:libvte-jutut
-#	#Depends:  (= 0.70.6-2~deb12u1),  (>= 1.12.4), libc6 (>= 2.34),  (>= 1.10.0),  (>= 1.0.0), 
-#	# (>= 3.0),  (>= 2.52.0),  (>= 3.7.2),  (>= 3.24.22),  (>= 72.1~rc-1~), 
+
+ 
 #	#(>= 1.44.3),  (>= 1.22.0), (>= 10.22), libstdc++6 (>= 11), libsystemd0 (>= 220), zlib1g (>= 1:1.2.0)
 #	#	${shary} libvte-2.91-common libgnutls30 libicu72 libvte-2.91
 #
@@ -280,36 +310,34 @@ function e23_dm() {
 #		;;
 #		wdm)
 #			#TODO:wdm tartvitsee xserver|xserver-org (minimal_live)
-#			${shary} libnuma1
-#			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
-#			${shary} libwebpdemux2 libheif1 libaudit-common libcap-ng0 #audit1 ennen case?
+#			${shary}
+#			${shary}
+#			${shary}  #audit1 ennen case?
 #
-#			${shary} libdb5.3 libpam-modules-bin libpam-modules libpam-runtime
-#			${shary} sysvinit-utils libtinfo6 libpng16-16   
+#			${shary} sysvinit-utils 
 #
 #
-#			#bsdextrautils | bsdmainutils 
-#			${shary} bsdextrautils groff-base libgdbm6 libpipeline1 libseccomp2 man-db
+#			${shary} libpipeline1
 #			csleep 1
 #
 #			#pcre tulisi muutakin kautta?
-#			${shary} libpcre2-8-0 libpangoxft-1.0-0
+#			${shary}
 #			csleep 1
 #
-#			${shary} libgif7 libwraster6 libjpeg62-turbo
-#			${shary} imagemagick-6-common libmagickwand-6.q16-6 libtiff6
+#			${shary} libwraster6 #vitonen vai kutonen?
+#			${shary}
 #			#csleep 1
 #
-#			${shary} libbz2-1.0 libfftw3-double3  libjbig0 liblcms2-2 liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libwebpmux3
+#			${shary} 
 #			csleep 1
-#			${shary} libmagickcore-6.q16-6 
-#			${shary} libwutil5 wmaker-common libwings3
+#			${shary} 
+#			${shary} 
 #			#csleep 1
 #
 #			${shary} wdm
 #		;;
 ##		lxdm)
-##			#csleep 1
+
 ##			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
 ##			#csleep 1
 ##			${shary} libdeflate0 debliblerc4 
@@ -347,7 +375,7 @@ function e23_dm() {
 #	E22_GX="${E22_GX} ca-certificates libwww-perl "
 #
 #	E22_GX="${E22_GX} libdrm2 libglapi-mesa libxcb-dri2-0  libxcb-dri3-0 libxcb-randr0 libxcb-sync1 libxshmfence1"
-#	E22_GX="${E22_GX} xscreensaver-data init-system-helpers libegl-mesa0 libegl1 xscreensaver"
+#	E22_GX="${E22_GX} xscreensaver-data xscreensaver"
 #	${shary} ${E22_GX}  #libsystemd0
 #}
 
@@ -398,8 +426,8 @@ function e23_profs() {
 #	${shary} x11-session-utils xfonts-utils xinit xfonts-scalable xfonts-75dpi xfonts-100dpi
 #	#{shary} xserver-xorg
 #
-#	${shary} xbitmaps x11-xfs-utils xterm xkb-data xauth xfonts-base x11-xkb-utils
-#	${shary} x11-common #xterm+xauth voIsi hoitaa e23_dm() kaUTTa? x11-common jo dm
+#	${shary} xbitmaps x11-xfs-utils  xkb-data xfonts-base x11-xkb-utils
+#	${shary}  #xterm+xauth voIsi hoitaa e23_dm() kaUTTa? jo dm
 #
 #	#egl,audit,bsd0,libgbm1,libgl1  yms. dm() kautta
 #

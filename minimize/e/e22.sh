@@ -285,8 +285,8 @@ function e22_home_pre() {
 	fi
 
 	csleep 1
-	
-	#VAIH:oikeusksien oskirntaa lsiää koksa /o/b/mutilatetc (meneeköhäön wtuiksi?)
+
+	#080426:osilikohan okieutedt ok oj?	
 	${scm} go-rw /opt/bin/*
 	${sco} 0:0 /opt/bin/*
 	${srat} -rvf ${1} /opt/bin 
@@ -334,7 +334,7 @@ function e22_home() {
 	dqb "e22_home().done()"	
 }
 
-#pitäisikö siirtää toiseen tdstoon?
+#pitäisikö siirtää toiseen tdstoon? mihin?
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
 
 function luca() {
@@ -346,7 +346,7 @@ function luca() {
 	csleep 1
 
 	#localtime taisi olla linkki, siksi erikseen
-	#josko kokeiliSi "g_Doit 1" jäljiltä että päivittyvätkö nuo 2 (TODO)
+	#josko kokeiliSi "g_Doit 1" jäljiltä että päivittyvätkö nuo 2 (TODO?)
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
 
 	local f
@@ -653,6 +653,8 @@ function e22_arch() {
 	${sah6} ./reject_pkgs >> ./sha512sums.txt.1
 	${sah6} ./accept_pkgs_? >> ./sha512sums.txt.1
 	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
+	#TODO:.tar mukaan myös listaan?
+	E22_E="e.tar g.tar"
 	csleep 1
 
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
@@ -668,7 +670,10 @@ function e22_arch() {
 	fi
 
 	psqa .
-	#TODO:jos ed. fktion saa aikaiseksi antamaan paluuarvon niin se pitäisi huomioida jtnkin
+	#VAIH:jos ed. fktion saa aikaiseksi antamaan paluuarvon niin se pitäisi huomioida jtnkin
+	[ $? -gt 0 ] && ${NKVD} ./*.deb  ./sha512sums* #./*.tar?
+	csleep 1
+
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
 	[ ${debug} -eq 1 ] && ls -las ${1}
 	cd ${p}

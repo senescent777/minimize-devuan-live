@@ -6,6 +6,8 @@ tcmd=$(which tar)
 [ -x ${tcmd} ] || exit 12
 
 #TODO:tämä kikkare roskikseen, pitäisi keksiä parempiq ei kerran jaksa kesä/talviajan/lokaalien kanssa kikkailla
+#... O(2**n) tllennustilan suhteen olisi 1 juttu kanssa mikä hiertää
+#... "tar -T" sietäisi kokeilla ensin
 
 spc=$(which cp)
 [ -z "${spc}" ] && exit 13
@@ -52,10 +54,10 @@ sleep 1
 
 read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
 [ "${confirm}" != "Y" ] && exit 
-
-function process_entry() {
-	${tcmd} -f ${1} -rv ${2}
-}
+#
+#function process_entry() {
+#	${tcmd} -f ${1} -rv ${2}
+#}
 
 ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 [ $? -eq 0 ] || echo "chmod | chown ?"
@@ -73,40 +75,39 @@ else
 fi
 
 #lisäsäätöä /e/resolv , /e/localtime /e/timezone suhteen vai ei? vissiin ei
+g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
 
-g=$(${tcmd} -tf ${tgt} | grep -v '${n}.conf' | grep -v .chroot)
-c=$(find / -maxdepth 1 -type f -name OLD.tar -size +10M | wc -l)
-
-if [ ${c} -gt 0 ] ; then
-	echo "ÅLD"
-	g=$(echo ${g} | grep -v OLD.tar)
-fi
-
-sleep 1
-c=$(find ${d0} -type f -name e.tar -size +10M | wc -l)
-
-if [ ${c} -gt 0 ] ; then
-	echo "e"
-	g=$(echo ${g} | grep -v e.tar)
-fi
-
-sleep 1
-c=$(find ${d0} -type f -name f.tar -size +10M | wc -l)
-
-if [ ${c} -gt 0 ] ; then
-	echo "f"
-	g=$(echo ${g} | grep -v f.tar)
-fi
+#c=$(find / -maxdepth 1 -type f -name OLD.tar -size +10M | wc -l)
+#
+#if [ ${c} -gt 0 ] ; then
+#	echo "ÅLD"
+#	g=$(echo ${g} | grep -v OLD.tar)
+#fi
+#
+#sleep 1
+#c=$(find ${d0} -type f -name e.tar -size +5M | wc -l)
+#
+#if [ ${c} -gt 0 ] ; then
+#	echo "e"
+#	g=$(echo ${g} | grep -v e.tar)
+#fi
+#
+#sleep 1
+#c=$(find ${d0} -type f -name f.tar -size +10M | wc -l)
+#
+#if [ ${c} -gt 0 ] ; then
+#	echo "f"
+#	g=$(echo ${g} | grep -v f.tar)
+#fi
 
 sleep 1
 
 for f in ${g} ; do
-	#VAIH:jokin rajoitus linkkien suhteen
 	if [ -f ${f} ] ; then #josko nyt
-		#if [ ! -h ${f} ] ; then 
-			${tcmd} -uvf ${tgt} ${f}
+		if [ ! -h ${f} ] ; then 
+			${tcmd} -rvf ${tgt} ${f} #HUOM. "-uvf" KANSSA MENEE VITUIKSI JOS EI OLE TARKKANA 666 !!!
 			[ $? -eq 0 ] || echo "chmod | chown ?"
-		#fi
+		fi
 	fi
 done
 

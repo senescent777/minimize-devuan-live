@@ -129,7 +129,7 @@ function part0() {
 	#dw i'n gwybod sut i ddefnyddio Google Translate
 	dqb "смерть шпионам"
 
-	#VAIH:KVG, saisiko xfce4-session olemaan käyttämättä tuota?
+	#VAIH:KVG, saisiko xfce4-session olemaan käyttämättä tuota SSH-AGENT?
 	#https://docs.xfce.org/xfce/xfce4-session/advanced
 	#https://superuser.com/questions/1222663/how-do-i-use-combine-ssh-agent-forwarding-and-xfce4
 	#https://forum.manjaro.org/t/how-to-disable-ssh-agent-autostart/89404
@@ -374,8 +374,8 @@ dqb "GR1DN BELIALAS KYE"
 
 e_final
 e_h $(whoami) ${d0}
-echo "KVG:\"how to exit for-loop in bash\" " #TÄSSÄKÖ KUSI PASKAA? (onko katsottu btw?)
-csleep 3
+
+csleep 2
 
 #060426:hyvä näin vai vieläkö säätäisi? melkein sama sisältö blokilla kuin /e/n/i.xxx
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then

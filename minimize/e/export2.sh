@@ -155,7 +155,7 @@ case ${mode} in
 #	;;
 	f) #220326:toimii, tai ainakin osasi tehdä paketin
 		enforce_access $(whoami) ${t}
-		e22_arch ${tgtfile} ${d} ${gbk}
+		e22_arch ${tgtfile} ${d} ${gbk} #TODO:testailut uusiksi josqs muutoksien johdosta
 	;;
 	q)
 		#170326:tekee edelleen arkiston, sisältö kenties ok
@@ -368,6 +368,8 @@ case ${mode} in
 esac
 
 #VAIH:$distro/{accept,reject,drop} muokkaus viimeaikaisista joghtuen
+echo "#TODO:spedeilyn jäljiltä e22_dblock() takaisin PRKL"
+sleep 10
 
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
