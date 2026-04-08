@@ -5,7 +5,7 @@ tcmd=$(which tar)
 [ -z "${tcmd}" ] && exit 11
 [ -x ${tcmd} ] || exit 12
 
-#TODO:tämä kikkare roskikseen, pitäisi keksiä parempiq ei kerran jaksa kesä/talviajan/lokaalien kanssa kikkailla
+#VAIH:tämä kikkare roskikseen, pitäisi keksiä parempiq ei kerran jaksa kesä/talviajan/lokaalien kanssa kikkailla
 #... O(2**n) tllennustilan suhteen olisi 1 juttu kanssa mikä hiertää
 #... "tar -T" sietäisi kokeilla ensin
 
@@ -65,19 +65,18 @@ else
 	cd /
 fi
 
-g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
-sleep 1
+#g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
+#sleep 1
+#
+#for f in ${g} ; do
+#	if [ -f ${f} ] ; then #josko nyt
+#		if [ ! -h ${f} ] ; then 
+#			${tcmd} -rvf ${tgt} ${f} #HUOM. "-uvf" KANSSA MENEE VITUIKSI JOS EI OLE TARKKANA 666 !!!
+#			[ $? -eq 0 ] || echo "chmod | chown ?"
+#		fi
+#	fi
+#done
 
-for f in ${g} ; do
-	if [ -f ${f} ] ; then #josko nyt
-		if [ ! -h ${f} ] ; then 
-			${tcmd} -rvf ${tgt} ${f} #HUOM. "-uvf" KANSSA MENEE VITUIKSI JOS EI OLE TARKKANA 666 !!!
-			[ $? -eq 0 ] || echo "chmod | chown ?"
-		fi
-	fi
-done
-
-#TODO:${tcmd} -T $(pwd)/../MAN1.F2ST -f ${tgt} -rv
-
+${tcmd} -T $(pwd)/../MAN1.F2ST -f ${tgt} -rv
 #jotat ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4

@@ -276,7 +276,16 @@ case ${mode} in
 		e22_tyg /opt/bin/zxcv
 		${sah6} /opt/bin/zxcv > /opt/bin/zxcv.sha
 
-		#VAIH:oikeusksien oskirntaa lsiää koksa /o/b/mutilatetc
+		#TODO:fktioksi jatkossa ao. bokki (Ior)
+		[ -f ${d0}/MAN1.F2ST ] && ${NKVD} ${d0}/MAN1.F2ST
+		csleep 1
+		fasdfasd ${d0}/MAN1.F2ST
+		csleep 1
+		${srat} -tf ${tgtfile} | grep -v .tar > ${d0}/MAN1.F2ST
+		csleep 1
+		${srat} -rvf ${tgtfile} ${d0}/MAN1.F2ST
+
+		#VAIH:oikeusksien oskirntaa lsiää koksa /o/b/mutilatetc (valmista?)
 		${scm} go-rw /opt/bin/zxcv*
 		${sco} 0:0 /opt/bin/zxcv*
 		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
@@ -393,13 +402,7 @@ if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar
 
-	[ -f ${d0}/MAN1.F2ST ] && ${NKVD} ${d0}/MAN1.F2ST
-	csleep 1
-	fasdfasd  ${d0}/MAN1.F2ST
-	csleep 1
-	${srat} -tf ${tgtfile} > ${d0}/MAN1.F2ST
-	csleep 1
-	${srat} -rvf ${tgtfile}  ${d0}/MAN1.F2ST
+
 
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
