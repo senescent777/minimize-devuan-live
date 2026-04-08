@@ -177,6 +177,7 @@ function e22_pre2() {
 		#HUOM.200326:TLA() tähän väliaikaisesti vai ei? nykyään kyllä ifup...
 
 		#280326:tilapäinen viritys kunnes x? mikä?
+		#TODO:vähän parempi jos tarkistaisi että kyseessä nimenomaan tieosto eikä linkki
 		[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
 		ls -las /etc/resolv.*
 		csleep 1	

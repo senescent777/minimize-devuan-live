@@ -193,7 +193,7 @@ function e23_qrs() {
 
 #VAIH:uusiksi vain tyhjästä
 #VAIH:boisi myös ottaa mallia viimeisimmästä toimivasta paketista että mitä mukaan
-#TODO:myös minimal_liven kanssa uudempi testikierros tämän kanssa
+#VAIH:myös minimal_liven kanssa uudempi testikierros tämän kanssa
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -202,38 +202,38 @@ function e23_dm() {
 	#TODO: _GS tak tähän josqs
 	#. , ,  , ,  | xserver, perl,libc, , 
 
-	${shary} debconf_1 lsb-base_11 psmisc_23 #A
-	${shary} at-spi2-common_2 bsdextrautils_2 fontconfig_2 fontconfig-config_2 groff-base_1 imagemagick-6-common_8
-	${shary} init-system-helpers_1 libegl-mesa0_22 libegl1_1 #xscreensaver?
-	${shary} libxcb-shape0_1 libxcb1_1 libxcb-present0_1 libxcb-damage0_1 libxcb-shm0_1 libxcb-xfixes0_1 libxcomposite1_1 libxcursor1_1 libxdmcp6_1 menu_2 twm_1 wmaker-common_0.95
-	[ $? -eq 0 ] || exit	
+	${shary} debconf lsb-base psmisc #A
+	${shary} at-spi2-common bsdextrautils fontconfig fontconfig-config groff-base imagemagick-6-common
+	${shary} init-system-helpers libegl-mesa0 libegl1 #xscreensaver?
+	${shary} libxcb-shape0 libxcb1 libxcb-present0 libxcb-damage0 libxcb-shm0 libxcb-xfixes0 libxcomposite1 libxcursor1 libxdmcp6 menu twm wmaker-common
+	#[ $? -eq 0 ] || exit	
 	csleep 1
 
 	${shary} libpam-modules libpam-runtime libcrypt1 libpam0g libselinux1 #B
  	${shary} libaom3 libatk1.0-0 libaudit1 libaudit-common libbsd0 libbz2-1.0 libcap-ng0 libcrypt1
-	${shary} libdav1d6 libdb5.3 libde265-0	libexpat1 libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libfribidi0 
-	[ $? -eq 0 ] || exit
+	${shary} libdav1d6 libdb5.3 libde265-0 libexpat1 libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libfribidi0 
+	#[ $? -eq 0 ] || exit
 	csleep 1
 
 	${shary} libwings3 libwraster5 libwutil5 libx11-6 libxau6 linxdmcp6 libxinerama1 libxmu6 #C
 	${shary} libgbm1 libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libgif7 libgl1 libglib2.0-0 libglib2.0-data libglvnd0 libglx0 
-	${shary} libgtk-3-0 libgtk-3-common libharfbuzz0b libheif1_1 libice6 libjbig0 libjpeg62-turbo #libheif versio ok?
-	[ $? -eq 0 ] || exit	
+	${shary} libgtk-3-0 libgtk-3-common libharfbuzz0b libheif1 libice6 libjbig0 libjpeg62-turbo #libheif versio ok?
+	#[ $? -eq 0 ] || exit	
 	csleep 1
 	
-	${shary} x11-apps_7 x11-common_1 x11-utils_7 x11-xserver-utils_7 xserver-xorg_7 #D
+	${shary} x11-apps x11-common x11-utils x11-xserver-utils xserver-xorg #D
 	${shary} xterm xauth
-	[ $? -eq 0 ] || exit
+	#[ $? -eq 0 ] || exit
 	csleep 1
 
-	${shary} liblcms2-2 liblqr-1-0 libltdl7 liblzma5 libmagickwand-6.q16-6 libmagickcore-6.q16-6 libmd0 libnuma1 libopenjp2-7 libpam-modules-bin
+	${shary} liblcms2 liblqr libltdl7 liblzma5 libmagickwand-6.q16-6 libmagickcore-6.q16-6 libmd0 libnuma1 libopenjp2-7 libpam-modules-bin
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0 libpcre2-8-0 libpng16-16 libseat1 libseccomp2 libsm6 libthai0 libtiff6 libtinfo6 #libpipeline1?
-	${shary} libunwind8 libxpm4_1 libwebp7 libx265-199 libwebpdemux2 libwebpmux3 libwings3 libwutil5 libx11-xcb1 libx11-data libxaw7 
-	[ $? -eq 0 ] || exit
+	${shary} libunwind8 libxpm4 libwebp7 libx265-199 libwebpdemux2 libwebpmux3 libwings3 libwutil5 libx11-xcb1 libx11-data libxaw7 
+	#[ $? -eq 0 ] || exit
 	csleep 1
 
-	#libxcb1 libxcb-render0_1 libxext6_2 libxfixes3_1 libxft2_2 libxi6_2 libxinerama1_2 libxkbfile1_1 libxml2_2 libxmu6_2 libxmuu1_2 libxrandr2_2 libxrender1_1 libxt6_1 libxtst6_2 libxv1_2
-	#libxxf86dga1_2 libxxf86vm1_1 man-db_2
+	${shary} libxcb1 libxcb-render0 libxext6 libxfixes3 libxft2 libxi6 libxinerama1 libxkbfile1 libxml2 libxmu6 libxmuu1 libxrandr2 libxrender1 libxt6 libxtst6 libxv1
+	${shary} libxxf86dga1 libxxf86vm1 man-db
 	${shary} wdm #E
 
 	dqb "e23_dm( done (((("

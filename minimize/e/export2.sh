@@ -353,7 +353,6 @@ esac
 
 #VAIH:$distro/{accept,reject,drop} muokkaus viimeaikaisista johtuen
 
-#VAIH:spedeilyn jäljiltä e22_dblock() takaisin PRKL
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4})"
 
@@ -401,7 +400,6 @@ if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar
-
 
 
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
