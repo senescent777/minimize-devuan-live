@@ -65,10 +65,8 @@ else
 	cd /
 fi
 
-#lisäsäätöä /e/resolv , /e/localtime /e/timezone suhteen vai ei? vissiin ei
+lisäsäätöä /e/resolv , /e/localtime /e/timezone suhteen vai ei? vissiin ei
 g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
-#$g pois kohta
-
 sleep 1
 
 for f in ${g} ; do
@@ -79,6 +77,8 @@ for f in ${g} ; do
 		fi
 	fi
 done
+
+#TODO:${tcmd} -T $(pwd)/../MAN1.F2ST -f ${tgt} -rv
 
 #jotat ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4
