@@ -393,6 +393,14 @@ if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar
 
+	[ -f ${d0}/MAN1.F2ST ] && ${NKVD} ${d0}/MAN1.F2ST
+	csleep 1
+	fasdfasd  ${d0}/MAN1.F2ST
+	csleep 1
+	${srat} -tf ${tgtfile} > ${d0}/MAN1.F2ST
+	csleep 1
+	${srat} -rvf ${tgtfile}  ${d0}/MAN1.F2ST
+
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
 fi
