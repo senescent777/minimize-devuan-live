@@ -65,7 +65,6 @@ else
 	cd /
 fi
 
-lisäsäätöä /e/resolv , /e/localtime /e/timezone suhteen vai ei? vissiin ei
 g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
 sleep 1
 
