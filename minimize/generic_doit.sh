@@ -177,7 +177,6 @@ dqb "mode: ${mode}"
 dqb "debug: ${debug}"
 dqb "TODO:konftdston muodostus sqroot:in pad-hmistoon, tarkista"
 [ -v CONF_enforce ] || exit 99
-#exit
 
 if [ -s ~/xorg.conf.new ] ; then
 	if [ ! -s /etc/X11/xorg.conf ] ; then
@@ -339,8 +338,6 @@ c14=$(find ${d} -name "*.deb" | wc -l)
 #... jokohan jo kommenteista 190326? (TODO)
 
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
-
-
 #===================================================PART 3===========================================================
 message
 
@@ -380,12 +377,9 @@ csleep 2
 #060426:hyvä näin vai vieläkö säätäisi? melkein sama sisältö blokilla kuin /e/n/i.xxx
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} /opt/bin/mutilatetc.bash  ${CONF_dnsm}
-
-#	${odio} /opt/bin/tlb.bash ${CONF_dnsm}
-#	${odio} /opt/bin/aftr.bash
-#	${sipt} -L
-#	csleep 1
 fi
+
+#TODO:jossain voisi nalq mikäli /e/resolv.conf puuttuu
 
 ${scm} 0555 ${d0}/common_lib.sh
 #JOKO JO LOPPUISI PURPATUS PRKL
