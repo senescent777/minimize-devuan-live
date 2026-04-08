@@ -1,8 +1,8 @@
 #!/bin/bash
-#jotain oletuksia kunnes oikea konftdsto saatu lotottua
+
 debug=0 #1
 distro=$(cat /etc/devuan_version)
-# | cut -d '/' -f 1) #160126 cut-kikkailu pois sotkemasta, muualla kun menee toisin
+
 d0=$(pwd)
 d=${d0}/${distro}
 mode=-2
@@ -116,7 +116,6 @@ fi
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
 
-#dirnamen kanssa ei oikein toiminut aiemmin
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
 	[ $? -gt 0 ] && exit 66
@@ -148,7 +147,7 @@ e22_hdr ${tgtfile}
 #jokin varmistus vielä että iface alhaalla?
 
 case ${mode} in
-#	rp) #080326:toistaiseksi jemmaan, kiukuttelua
+#	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
 #		[ -s "${tgtfile}" ] || exit 67
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
@@ -223,7 +222,7 @@ case ${mode} in
 	;;
 	3|4) 
 		#3 taisi toimia 04/26 tienoilla ainakin kerran
-		#4 testit käynnissä 050426 -> (VAIH, vissiin toimii)
+		#4 vissiin toimi kerran 04/26 (TODO:uusiksi vain testit)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		dqb "NVDK 1b 2 secs"
@@ -277,10 +276,6 @@ case ${mode} in
 		e22_tyg /opt/bin/zxcv
 		${sah6} /opt/bin/zxcv > /opt/bin/zxcv.sha
 
-		#reqwreqw /opt/bin/zxcv.sig
-		#reqwreqw /opt/bin/zxcv.sha #pointtia tämmöisessä?
-		#csleep 1
-
 		#VAIH:oikeusksien oskirntaa lsiää koksa /o/b/mutilatetc
 		${scm} go-rw /opt/bin/zxcv*
 		${sco} 0:0 /opt/bin/zxcv*
@@ -291,17 +286,6 @@ case ${mode} in
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
 		csleep 1
-
-		#VAIH:dpkg: dependency problems prevent configuration of libgtk-3-bin: EDELLEEN
-		#cpp-12 jo ok?
-
-		#VAIH:xserver-common depends on  however:
-		#VAIh:xserver-xorg-legacy depends on
-		#todo:dependency problems prevent configuration of xserver-xorg-core:
-
-		#VAIH:libvte-2.91-0:amd64 depends on libgtk-3-0
-		#Depends: libvte-2.91-common (= 0.70.6-1~deb12u1), libatk1.0-0 (>= 1.12.4), libc6 (>= 2.34), libcairo2 (>= 1.10.0), libfribidi0 (>= 1.0.0), libgcc-s1 (>= 3.0), libglib2.0-0 (>= 2.52.0), libgnutls30 (>= 3.7.2), libgtk-3-0 (>= 3.24.22), libicu72 (>= 72.1~rc-1~), libpango-1.0-0 (>= 1.44.3), libpangocairo-1.0-0 (>= 1.22.0), libpcre2-8-0 (>= 10.22), libstdc++6 (>= 11), libsystemd0 (>= 220), zlib1g (>= 1:1.2.0)
-		#... bissiin näitä tapellen kanssa minimal_liven , asennusjärj ainakin aiheittaa nalq, libatk+at-spi ainakin (6.4.26)
 
 		e23_upgp
 		${sifd} ${CONF_iface}
@@ -336,16 +320,7 @@ case ${mode} in
 		${shary} ${E22_GI}
 	;;
 	l)
-		#libc6-dev , miksi mukaan?
-		#libicu-dev?
-		#libstdc++-dev?
-		#libatk-bridge, libcairo2, libgtk3, nalkuttaa edelleen
-		#zlib1g-dev? #libfontconfig-dev? #libwayland-dev?  #libxcursor-dev? #dev-PAKETIT WRRUUN RAAH
-		#libwings, libwraster
-		#x11-utils
-		#TODO:josko vain koko paska uusiksi fråm scratch
-
-
+		#VAIH:e23_dm() uusicksi
 		#wdm -> debconf. libpam-modules, libpam-runtime, lsb-base. psmisc, x11-apps, x11-common, x11-utils, x11-xserver-utils, xserver-xorg | xserver, perl,libc, libcrypt1, libpam0g, libselinux1, libwings3, libwraster5, libwutil5, libx11-6, libxau6, linxdmcp6, libxinerama1, libxmu6
 
 		csleep 1
@@ -413,14 +388,10 @@ function e22_dblock() {
 
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
-	#140326:pitäisiköhän tämä kohta muuttaa? miten?
-
 	#HUOM.11326:d-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
-	#... voisi sitäpaitsi kys fktion räjäyttää auki q käytössä vain 1 paikasta
-	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 
+	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar
-	#140326:pitäisiköhän yo. kohta muuttaa? miten? miksi?
 
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
