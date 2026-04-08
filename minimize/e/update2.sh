@@ -44,20 +44,12 @@ else
 	fi
 fi
 
-#TODO:näille main urputus jos ei ole $tgt sis hmisto mountattu?
-
 #pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
-${tcmd} -tf ${tgt} | grep '.deb'
+${tcmd} -tf ${tgt} | grep .deb
 sleep 1
-
-#... pikemminkin {f/g/e}.tar läsnäolosta kohteessa pitäisi yrputtaa
 
 read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
 [ "${confirm}" != "Y" ] && exit 
-#
-#function process_entry() {
-#	${tcmd} -f ${1} -rv ${2}
-#}
 
 ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 [ $? -eq 0 ] || echo "chmod | chown ?"
@@ -69,36 +61,13 @@ if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	cd ${CONF_testgris}
 
 	#TODO?:-C olisi myös keksitty
-	#TODO?:nalqtus jos /etc yai /opt puuttuu paketista?
 else
 	cd /
 fi
 
 #lisäsäätöä /e/resolv , /e/localtime /e/timezone suhteen vai ei? vissiin ei
 g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
-
-#c=$(find / -maxdepth 1 -type f -name OLD.tar -size +10M | wc -l)
-#
-#if [ ${c} -gt 0 ] ; then
-#	echo "ÅLD"
-#	g=$(echo ${g} | grep -v OLD.tar)
-#fi
-#
-#sleep 1
-#c=$(find ${d0} -type f -name e.tar -size +5M | wc -l)
-#
-#if [ ${c} -gt 0 ] ; then
-#	echo "e"
-#	g=$(echo ${g} | grep -v e.tar)
-#fi
-#
-#sleep 1
-#c=$(find ${d0} -type f -name f.tar -size +10M | wc -l)
-#
-#if [ ${c} -gt 0 ] ; then
-#	echo "f"
-#	g=$(echo ${g} | grep -v f.tar)
-#fi
+#$g pois kohta
 
 sleep 1
 
