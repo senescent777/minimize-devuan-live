@@ -208,19 +208,19 @@ function e23_dm() {
 	csleep 5
 
 	${shary} libfftw3-double3 libfontconfig1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
-	[ $? -eq 0 ] || exit 55
+	#[ $? -eq 0 ] || exit 55
 	csleep 10
 
 	${shary} liblzma5 libopenjp2-7 libltdl7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
-	[ $? -eq 0 ] || exit 56
+	#[ $? -eq 0 ] || exit 56
 	csleep 10
 
 	${shary} libx11-6 libxext6 imagemagick-6-common libxmu6 libgif7 libxpm4 libpango-1.0-0 libpangoft2 libpangoxft-1.0-0
-	[ $? -eq 0 ] || exit 57
+	#[ $? -eq 0 ] || exit 57
 	csleep 10
 
 	${shary} libxft2 libwutil5 wmaker-common
-	[ $? -eq 0 ] || exit 57
+	#[ $? -eq 0 ] || exit 57
 	csleep 10
 
 	#090426:libmagickcore,libmagicwand,libwraster,libwings3 edelleen vääntöä
@@ -236,25 +236,18 @@ function e23_dm() {
 
 	${shary} libx11-xcb1 libnuma1 libx265-199 libwings3
 	${shary} libmagickcore-6 libmagickwand-6
-	[ $? -eq 0 ] || exit 66	
+	#[ $? -eq 0 ] || exit 66	
 	csleep 10
 
 	${shary} libwraster6 libegl-mesa0 libpam-modules libpam-runtime libpam-modules-bin
-	[ $? -eq 0 ] || exit 67	
+	#[ $? -eq 0 ] || exit 67	
 	csleep 10
 
 	#TODO:lib-jutut jos keskittäisi fktion alkuun?
 	${shary} libxcb-shape0 libxcb1 libxcb-present0 libxcb-damage0 libxcb-shm0 libxcb-xfixes0 libxcomposite1 libxcursor1 libxdmcp6 menu twm
 	${shary} libwings3
-	[ $? -eq 0 ] || exit 68
+	#[ $? -eq 0 ] || exit 68
 	csleep 10
-
-	${shary} debconf lsb-base psmisc #A
-	${shary} at-spi2-common bsdextrautils fontconfig fontconfig-config groff-base 
-	${shary} init-system-helpers libegl1 #xscreensaver?
-
-	#[ $? -eq 0 ] || exit	
-	csleep 1
 
 	${shary} libcrypt1 libpam0g libselinux1 #B
  	${shary} libaom3 libatk1.0-0 libaudit1 libaudit-common libbsd0 libcap-ng0 libcrypt1
@@ -267,21 +260,11 @@ function e23_dm() {
 	${shary} libgtk-3-0 libgtk-3-common libharfbuzz0b libice6  #libheif versio ok?
 	#[ $? -eq 0 ] || exit	
 	csleep 1
-	
-	${shary} x11-apps x11-common x11-utils
-	#[ $? -eq 0 ] || exit
-	csleep 10
-
-	${shary} x11-xserver-utils xserver-xorg #D
-	${shary} xterm xauth
-	#[ $? -eq 0 ] || exit
-	csleep 1
 
 	${shary} liblcms2 libmd0
 	${shary} libseat1 libseccomp2 libsm6 libthai0 libtinfo6 #libpipeline1?
 	${shary} libunwind8 libx11-data libxaw7 
 	#[ $? -eq 0 ] || exit
-	csleep 1
 
 	${shary} libxcb1 libxcb-render0 
 	#[ $? -eq 0 ] || exit
@@ -292,35 +275,38 @@ function e23_dm() {
 	#[ $? -eq 0 ] || exit
 	csleep 10
 
+	${shary} debconf lsb-base psmisc #A
+	${shary} at-spi2-common bsdextrautils fontconfig fontconfig-config groff-base 
+	${shary} init-system-helpers libegl1 #xscreensaver?
+
+	#[ $? -eq 0 ] || exit	
+	csleep 1
+	
+	${shary} x11-apps x11-common x11-utils
+	#[ $? -eq 0 ] || exit
+	csleep 10
+
+	${shary} x11-xserver-utils xserver-xorg #D
+	${shary} xterm xauth
+	#[ $? -eq 0 ] || exit
+	csleep 1
+
+	csleep 1
 	${shary} wdm 
 
 	dqb "e23_dm( done (((("
 	csleep 1
 }
 
-#	#TODO?:jospa yhdistelisi e23_xyz() kanssa josqs?
-
+#	vieläjotain yhdisteltäbvää?
 #
-
-#
-#	dqb "params ok"
-#	${fib}
-#	csleep 1
 #
 #	#varsinainen cpp mukaan tuohon? alempana se tulee mukaan nyt
 #	${shary} ${E22_GS}
 #	csleep 1
 #
-#	${shary}    libopengl0O
-#	${shary}
-#
-
-
-#	
-#	csleep 1
-#
-#	${shary}     
-#	${shary}   libxxf86dga1 libxxf86vm1
+#	${shary} libopengl0O  
+#	${shary} libxxf86dga1 libxxf86vm1
 #	${shary} cpp procps
 #
 #	#Depends: dconf-gsettings-backend | gsettings-backend (TODO)
@@ -328,32 +314,19 @@ function e23_dm() {
 #
 #	 libatk-bridge2.0-0 libcairo-gobject2 libcairo2
 #	${shary} libcolord2 libepoxy0
-
 #	${shary} libpangocairo-1.0-0 libwayland-client0 libwayland-cursor0 libwayland-egl1 libwayland-server0 
 #	${shary} libxdamage1 
 #	${shary} libxkbcommon0
-
-#
-#	csleep 1
-#
-#	${shary}
-#	${shary}  
-#	csleep 1
 ## libselinux1
 #
-#
-#	#TODO::amd64 depends on
 #
 #	#VAIH: :amd64 depends on libwayland-server0 (tmä vhitellen)
 #	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
 #
 #	#VAIH:dpkg: dependency problems prevent configuration of libwww-perl:
 #	#VAIH:xscreensaver depends on ; however:
-
 #
 #	#VAIH:libvte-jutut
-
- 
 #	libstdc++6 (>= 11), 
 #	#	${shary} libvte-2.91-common libgnutls30 libicu72 libvte-2.91
 #
@@ -365,23 +338,14 @@ function e23_dm() {
 #		;;
 #		wdm)
 #			#TODO:wdm tartvitsee xserver|xserver-org (minimal_live)
-#			${shary}
-#			${shary}
 #			${shary}  #audit1 ennen case?
-#
 #			${shary} sysvinit-utils 
-#
-#
 #			${shary} libpipeline1
 #			csleep 1
-#
-#
-#
 #
 #			${shary} wdm
 #		;;
 ##		lxdm)
-
 ##			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
 ##			#csleep 1
 ##			${shary} libdeflate0 debliblerc4 
@@ -421,7 +385,6 @@ function e23_dm() {
 #	E22_GX="${E22_GX} libdrm2 libglapi-mesa libxcb-dri2-0  libxcb-dri3-0 libxcb-randr0 libxcb-sync1 libxshmfence1"
 #	E22_GX="${E22_GX} xscreensaver-data xscreensaver"
 #	${shary} ${E22_GX}  #libsystemd0
-#}
 
 #150326:teki ainakin kerran jotain toivottua (ehkä joutaa vielä arpoa minne juttuja kopsaillaan) 
 function e23_profs() {
