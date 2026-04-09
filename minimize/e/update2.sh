@@ -30,7 +30,7 @@ tgt=${1}
 [ -z "${tgt}" ] && exit 15
 [ -s "${tgt}" ] || exit 16
 [ -r "${tgt}" ] || exit 17
-[ -r "${tgt}" ] || exit 18
+
 echo "PARAMS CHECKED"
 sleep 1
 
@@ -77,6 +77,6 @@ fi
 #	fi
 #done
 
-${tcmd} -T $(pwd)/../MAN1.F2ST -f ${tgt} -rv
+${tcmd} -T ${d0}/MAN1.F2ST -f ${tgt} -rv
 #jotat ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4

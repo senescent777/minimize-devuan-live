@@ -79,7 +79,7 @@ function parse_opts_2() {
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
-function fallback() {
+function fallback() { #tarpeellinen?
 	exit 59
 }
 
@@ -216,26 +216,72 @@ e22_cleanpkgs ${CONF_pkgdir}
 doit=1
 csleep 1
 
+function z1() {
+	dqb "NVDK 1b 2 secs"
+	csleep 2
+
+	#VAIH:zxcv-jutuista apufktioita selkeyden vuoksi
+	${NKVD} /opt/bin/zxcv.tmp
+	${spc} /opt/bin/zxcv /opt/bin/zxcv.ÅLD
+	${spc} /opt/bin/zxcv.sig /opt/bin/zxcv.sig.ÅLD
+	${spc} /opt/bin/zxcv.sha /opt/bin/zxcv.sha.ÅLD
+
+	csleep 1
+	fasdfasd /opt/bin/zxcv.tmp
+}
+
+function z2() {
+	reqwreqw /opt/bin/zxcv.tmp
+	csleep 1
+
+	${NKVD} /opt/bin/zxcv.sig
+	${NKVD} /opt/bin/zxcv.sha
+	${NKVD} /opt/bin/zxcv
+	csleep 1
+
+	fasdfasd /opt/bin/zxcv.sig
+	fasdfasd /opt/bin/zxcv.sha
+	${svm} /opt/bin/zxcv.tmp /opt/bin/zxcv
+	csleep 1
+
+	${sah6} --ignore-missing -c /opt/bin/zxcv
+	csleep 3
+
+	e22_tyg /opt/bin/zxcv
+	${sah6} /opt/bin/zxcv > /opt/bin/zxcv.sha
+}
+
+function z3() {
+	#VAIH:fktioksi jatkossa ao. bokki (Ior)
+	#[ -f ${d0}/MAN1.F2ST ] && ${NKVD} ${d0}/MAN1.F2ST
+	#csleep 1
+	#fasdfasd ${d0}/MAN1.F2ST
+	#csleep 1
+
+	#HUOM.090426:EI IHAN SUORAAN NÄIN, PITÄISI EDITOIDA HAKEMISTOT POIS LISTASTA
+	if [ ! -s ${d0}/MAN1.F2ST ] ; then
+		${srat} -tf ${tgtfile} | grep -v .tar > ${d0}/MAN1.F2ST
+		csleep 1
+	fi
+
+	${srat} -rvf ${tgtfile} ${d0}/MAN1.F2ST
+
+	#VAIH:oikeusksien oskirntaa lsiää koksa /o/b/mutilatetc (valmista?)
+	${scm} go-rw /opt/bin/zxcv*
+	${sco} 0:0 /opt/bin/zxcv*
+	${srat} -rvf ${tgtfile} /opt/bin/zxcv*
+}
+
 case ${mode} in
 	0)
 		exit 97
 	;;
 	3|4) 
 		#3 taisi toimia 04/26 tienoilla ainakin kerran
-		#4 vissiin toimi kerran 04/26 (TODO:uusiksi vain testit)
+		#4 vissiin toimi kerran 04/26 (VAIH:uusiksi vain testit)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
-		dqb "NVDK 1b 2 secs"
-		csleep 2
-
-		#TODO:zxcv-jutuista apufktioita selkeyden vuoksi
-		${NKVD} /opt/bin/zxcv.tmp
-		${spc} /opt/bin/zxcv /opt/bin/zxcv.ÅLD
-		${spc} /opt/bin/zxcv.sig /opt/bin/zxcv.sig.ÅLD
-		${spc} /opt/bin/zxcv.sha /opt/bin/zxcv.sha.ÅLD
-
-		csleep 1
-		fasdfasd /opt/bin/zxcv.tmp
+		z1
 
 		#020426:ao. rivin kanssa muutokasi vaiei?
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
@@ -257,38 +303,8 @@ case ${mode} in
 		fasdfasd /opt/bin/zxcv.tmp
 
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
-		reqwreqw /opt/bin/zxcv.tmp
-		csleep 1
-
-		${NKVD} /opt/bin/zxcv.sig
-		${NKVD} /opt/bin/zxcv.sha
-		${NKVD} /opt/bin/zxcv
-		csleep 1
-
-		fasdfasd /opt/bin/zxcv.sig
-		fasdfasd /opt/bin/zxcv.sha
-		${svm} /opt/bin/zxcv.tmp /opt/bin/zxcv
-		csleep 1
-
-		${sah6} --ignore-missing -c /opt/bin/zxcv
-		csleep 3
-
-		e22_tyg /opt/bin/zxcv
-		${sah6} /opt/bin/zxcv > /opt/bin/zxcv.sha
-
-		#TODO:fktioksi jatkossa ao. bokki (Ior)
-		[ -f ${d0}/MAN1.F2ST ] && ${NKVD} ${d0}/MAN1.F2ST
-		csleep 1
-		fasdfasd ${d0}/MAN1.F2ST
-		csleep 1
-		${srat} -tf ${tgtfile} | grep -v .tar > ${d0}/MAN1.F2ST
-		csleep 1
-		${srat} -rvf ${tgtfile} ${d0}/MAN1.F2ST
-
-		#VAIH:oikeusksien oskirntaa lsiää koksa /o/b/mutilatetc (valmista?)
-		${scm} go-rw /opt/bin/zxcv*
-		${sco} 0:0 /opt/bin/zxcv*
-		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
+		z2		
+		z3
 	;;
 	#280326:saa aikaiseksi paketin, sisällön testaus vielä
 	u|upgrade)
@@ -331,6 +347,7 @@ case ${mode} in
 	l)
 		#VAIH:e23_dm() uusicksi
 		#wdm -> debconf. libpam-modules, libpam-runtime, lsb-base. psmisc, x11-apps, x11-common, x11-utils, x11-xserver-utils, xserver-xorg | xserver, perl,libc, libcrypt1, libpam0g, libselinux1, libwings3, libwraster5, libwutil5, libx11-6, libxau6, linxdmcp6, libxinerama1, libxmu6
+		#0904236:ihan vielä ei onnistu edes desktop-LIven kanssa?
 
 		csleep 1
 		[ -v CONF_dm ] || exit 77
@@ -400,7 +417,7 @@ if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar
-
+	#z3?	
 
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 

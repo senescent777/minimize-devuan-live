@@ -119,7 +119,7 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	[ $? -eq 0 ] || exit
 else
 	echo "W33P1NG UND3RR G4L4CTU5"
-	sleep 33
+	sleep 13
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0NF1G"
@@ -346,7 +346,6 @@ function cptp2() {
 case "${mode}" in
 	1) #
 		common_part ${srcfile} ${d} /
-		#[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
 	3)  #0 poistettu 040426 (takaisin josqs vai rai rai?)
@@ -405,7 +404,6 @@ esac
 if [ -s ${srcfile} ] ; then
 	read -p " U  WANT 2 RM SOURCE ?" confirm
 	[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
-
 fi
 
-cptp2 ${d0} #params (JOKO JO 070426?)
+cptp2 ${d0}

@@ -107,8 +107,6 @@ function ocs() {
 	local tmp2
 	tmp2=$(${odio} which ${1})
 
-	#-z myös keksitty
-	#if [ y"${tmp2}" == "y" ] ; then
 	if [ -z "${tmp2}" ] ; then
 		dqb "KAKKA-HÄTÄ ${1} "
 		exit 82
