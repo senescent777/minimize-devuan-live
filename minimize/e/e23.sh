@@ -203,18 +203,29 @@ function e23_dm() {
 	csleep 2
 
 	${fib}
+	${shary} ${E22_GS}
+	${shary} ${E22_GS}
+	csleep 5
 
-	#TODO: _GS tak tähän josqs
-	#. , ,  , ,  | xserver, perl,libc, , 
+	#090426:libmagickcore,libmagicwand,libwraster,libwings3 edelleen vääntöä
+	#Depends: libbz2-1.0, libc6 (>= 2.35), libfftw3-double3 (>= 3.3.10), libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.2.1), libgcc-s1 (>= 3.3.1), libgomp1 (>= 6), libheif1 (>= 1.4.0), libjbig0 (>= 2.0), libjpeg62-turbo (>= 1.3.1), liblcms2-2 (>= 2.6), liblqr-1-0 (>= 0.4.0), libltdl7 (>= 2.4.7), liblzma5 (>= 5.1.1alpha+20120614), libopenjp2-7 (>= 2.0.0), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.5.0~rc1), libwebp7 (>= 1.2.4), libwebpdemux2 (>= 1.2.4), libwebpmux3 (>= 1.2.4), libx11-6, libxext6, libxml2 (>= 2.7.4), zlib1g (>= 1:1.1.4), imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
+	#Depends: libc6 (>= 2.14), libgcc-s1 (>= 3.3.1), libgomp1 (>= 4.9), libmagickcore-6.q16-6 (>= 8:6.9.11.24), libx11-6, imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
+	#Pre-Depends: dpkg (>= 1.17.6)
+	#Depends: libc6 (>= 2.33), libgif7 (>= 5.1), libjpeg62-turbo (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.0.3), libwebp7, libx11-6, libxext6, libxmu6 (>= 2:1.1.3), libxpm4
+	#Depends: libc6 (>= 2.33), libfontconfig1 (>= 2.12.6), libpango-1.0-0 (>= 1.22.0), libpangoft2-1.0-0 (>= 1.14.0), libpangoxft-1.0-0 (>= 1.14.0), libwraster6 (>= 0.95.8), libwutil5 (>= 0.95.5), libx11-6, libxext6, libxft2 (>> 2.1.1), wmaker-common (>= 0.95.9-3)
 
 	${shary} libx11-xcb1 libx11-6 libnuma1 libx265-199 libheif1 libwings3
-	${shary} libmagickwand-6.q16-6 libmagickcore-6.q16-6
-	#[ $? -eq 0 ] || exit	
-	csleep 5
+	${shary} libmagickcore-6 libmagickwand-6
+	[ $? -eq 0 ] || exit 66	
+	csleep 10
 
 	${shary} libwraster6 libegl-mesa0 libpam-modules libpam-runtime libpam-modules-bin
-	#[ $? -eq 0 ] || exit	
-	csleep 5
+	[ $? -eq 0 ] || exit 67	
+	csleep 10
+
+	${shary} libwings3
+	[ $? -eq 0 ] || exit 68
+	csleep 10
 
 	${shary} debconf lsb-base psmisc #A
 	${shary} at-spi2-common bsdextrautils fontconfig fontconfig-config groff-base imagemagick-6-common
@@ -246,7 +257,7 @@ function e23_dm() {
 
 	${shary} liblcms2 liblqr libltdl7 liblzma5 libmd0 libopenjp2-7
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0 libpcre2-8-0 libpng16-16 libseat1 libseccomp2 libsm6 libthai0 libtiff6 libtinfo6 #libpipeline1?
-	${shary} libunwind8 libxpm4 libwebp7 libwebpdemux2 libwebpmux3 libwings3 libwutil5 libx11-data libxaw7 
+	${shary} libunwind8 libxpm4 libwebp7 libwebpdemux2 libwebpmux3 libwutil5 libx11-data libxaw7 
 	#[ $? -eq 0 ] || exit
 	csleep 1
 

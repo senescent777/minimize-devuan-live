@@ -347,7 +347,7 @@ case ${mode} in
 	l)
 		#VAIH:e23_dm() uusicksi
 		#wdm -> debconf. libpam-modules, libpam-runtime, lsb-base. psmisc, x11-apps, x11-common, x11-utils, x11-xserver-utils, xserver-xorg | xserver, perl,libc, libcrypt1, libpam0g, libselinux1, libwings3, libwraster5, libwutil5, libx11-6, libxau6, linxdmcp6, libxinerama1, libxmu6
-		#0904236:ihan vielä ei onnistu edes desktop-LIven kanssa?
+		#0904236:ihan vielä ei onnistu edes desktop-LIven kanssa? tietyt kirjastot aiheuttavat härdelliä edelleen
 
 		csleep 1
 		[ -v CONF_dm ] || exit 77

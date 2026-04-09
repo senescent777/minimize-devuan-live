@@ -120,8 +120,10 @@ if [ -x ${d0}/common_lib.sh ] ; then
 else
 	echo "W33P1NG UND3RR G4L4CTU5"
 	sleep 13
-	#TODO:"$0 1", varm että toimii silloinkin ku n common_lib ei ajokepl
+
+	#VAIH:"$0 1", varm että toimii silloinkin ku n common_lib ei ajokepl
 	#(entä "-v" ?)
+	#... saattaa välillä toimiakin, cptp2 voisi lopuksi palauttaa x-oikeuden kirjastoon?
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0NF1G"
@@ -168,7 +170,10 @@ else
 
 	#tarttisiko vielä jotain fktiota tähän? NKVD hos esittelisi ainakin
 	#function ocs() {???}
-	#function enforce_access() {???}
+	
+	function enforce_access() {
+		dqb "W T F ???"
+	}
 
 	#070426:jospa toimisi jnkin verran näinkin
 	for opt in $@ ; do
@@ -326,7 +331,8 @@ function cptp2() {
 			enforce_access $(whoami) ${t} #${2} toka param turha?
 			dqb "running changedns.sh maY be necessary now to fix some things"
 		else
-			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
+			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
+			csleep 10
 		fi
 	fi
 
