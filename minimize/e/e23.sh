@@ -204,7 +204,7 @@ function e23_dm() {
 
 	${fib}
 	${shary} ${E22_GS}
-	${shary} ${E22_GS}
+	${shary} ${E22_GM}
 	csleep 5
 
 	#090426:libmagickcore,libmagicwand,libwraster,libwings3 edelleen vääntöä
