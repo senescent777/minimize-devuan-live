@@ -58,11 +58,11 @@ omega-rpg
 open-invaders
 pacman4console
 pente
-#rpl
-#rsstail
-#sensible-utils
-#setnet
-#taskwarrior
+rpl
+rsstail
+sensible-utils
+setnet
+taskwarrior
 #tcc
 #toilet
 #transmission
