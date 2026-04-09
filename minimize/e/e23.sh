@@ -207,14 +207,34 @@ function e23_dm() {
 	${shary} ${E22_GM}
 	csleep 5
 
-	#090426:libmagickcore,libmagicwand,libwraster,libwings3 edelleen vääntöä
-	#Depends: libbz2-1.0, libc6 (>= 2.35), libfftw3-double3 (>= 3.3.10), libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.2.1), libgcc-s1 (>= 3.3.1), libgomp1 (>= 6), libheif1 (>= 1.4.0), libjbig0 (>= 2.0), libjpeg62-turbo (>= 1.3.1), liblcms2-2 (>= 2.6), liblqr-1-0 (>= 0.4.0), libltdl7 (>= 2.4.7), liblzma5 (>= 5.1.1alpha+20120614), libopenjp2-7 (>= 2.0.0), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.5.0~rc1), libwebp7 (>= 1.2.4), libwebpdemux2 (>= 1.2.4), libwebpmux3 (>= 1.2.4), libx11-6, libxext6, libxml2 (>= 2.7.4), zlib1g (>= 1:1.1.4), imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
-	#Depends: libc6 (>= 2.14), libgcc-s1 (>= 3.3.1), libgomp1 (>= 4.9), libmagickcore-6.q16-6 (>= 8:6.9.11.24), libx11-6, imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
-	#Pre-Depends: dpkg (>= 1.17.6)
-	#Depends: libc6 (>= 2.33), libgif7 (>= 5.1), libjpeg62-turbo (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.0.3), libwebp7, libx11-6, libxext6, libxmu6 (>= 2:1.1.3), libxpm4
-	#Depends: libc6 (>= 2.33), libfontconfig1 (>= 2.12.6), libpango-1.0-0 (>= 1.22.0), libpangoft2-1.0-0 (>= 1.14.0), libpangoxft-1.0-0 (>= 1.14.0), libwraster6 (>= 0.95.8), libwutil5 (>= 0.95.5), libx11-6, libxext6, libxft2 (>> 2.1.1), wmaker-common (>= 0.95.9-3)
+	${shary} libfftw3-double3 libfontconfig1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
+	[ $? -eq 0 ] || exit 55
+	csleep 10
 
-	${shary} libx11-xcb1 libx11-6 libnuma1 libx265-199 libheif1 libwings3
+	${shary} liblzma5 libopenjp2-7 libltdl7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
+	[ $? -eq 0 ] || exit 56
+	csleep 10
+
+	${shary} libx11-6 libxext6 imagemagick-6-common libxmu6 libgif7 libxpm4 libpango-1.0-0 libpangoft2 libpangoxft-1.0-0
+	[ $? -eq 0 ] || exit 57
+	csleep 10
+
+	${shary} libxft2 libwutil5 wmaker-common
+	[ $? -eq 0 ] || exit 57
+	csleep 10
+
+	#090426:libmagickcore,libmagicwand,libwraster,libwings3 edelleen vääntöä
+	#Depends: (>= 2.35),  (>= 3.3.10), (>= 2.12.6),(>= 2.2.1), (>= 3.3.1), (>= 6), (>= 1.4.0),(>= 2.0), (>= 1.3.1), (>= 2.6), (>= 0.4.0),
+	# (>= 2.4.7),  (>= 5.1.1alpha+20120614), (>= 2.0.0), (>= 1.6.2-1), (>= 4.5.0~rc1), (>= 1.2.4), (>= 1.2.4),
+	#,  libxml2 (>= 2.7.4),  (>= 1:1.1.4),  (>= 8:6.9.6.2+dfsg-3)
+	#Depends: (>= 2.14),  (>= 3.3.1),  (>= 4.9), libmagickcore-6.q16-6 (>= 8:6.9.11.24), , (>= 8:6.9.6.2+dfsg-3)
+
+	#Depends:  (>= 2.33), (>= 5.1), (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2),  (>= 1.6.2-1), (>= 4.0.3), , ,, 
+	# (>= 2:1.1.3),
+	#Depends:  (>= 2.33),  (>= 2.12.6),  (>= 1.22.0), -1.0-0 (>= 1.14.0), (>= 1.14.0), libwraster6 (>= 0.95.8),
+	# (>= 0.95.5), (>> 2.1.1), (>= 0.95.9-3)
+
+	${shary} libx11-xcb1 libnuma1 libx265-199 libwings3
 	${shary} libmagickcore-6 libmagickwand-6
 	[ $? -eq 0 ] || exit 66	
 	csleep 10
@@ -223,26 +243,28 @@ function e23_dm() {
 	[ $? -eq 0 ] || exit 67	
 	csleep 10
 
+	#TODO:lib-jutut jos keskittäisi fktion alkuun?
+	${shary} libxcb-shape0 libxcb1 libxcb-present0 libxcb-damage0 libxcb-shm0 libxcb-xfixes0 libxcomposite1 libxcursor1 libxdmcp6 menu twm
 	${shary} libwings3
 	[ $? -eq 0 ] || exit 68
 	csleep 10
 
 	${shary} debconf lsb-base psmisc #A
-	${shary} at-spi2-common bsdextrautils fontconfig fontconfig-config groff-base imagemagick-6-common
+	${shary} at-spi2-common bsdextrautils fontconfig fontconfig-config groff-base 
 	${shary} init-system-helpers libegl1 #xscreensaver?
-	${shary} libxcb-shape0 libxcb1 libxcb-present0 libxcb-damage0 libxcb-shm0 libxcb-xfixes0 libxcomposite1 libxcursor1 libxdmcp6 menu twm wmaker-common
+
 	#[ $? -eq 0 ] || exit	
 	csleep 1
 
 	${shary} libcrypt1 libpam0g libselinux1 #B
- 	${shary} libaom3 libatk1.0-0 libaudit1 libaudit-common libbsd0 libbz2-1.0 libcap-ng0 libcrypt1
-	${shary} libdav1d6 libdb5.3 libde265-0 libexpat1 libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libfribidi0 
+ 	${shary} libaom3 libatk1.0-0 libaudit1 libaudit-common libbsd0 libcap-ng0 libcrypt1
+	${shary} libdav1d6 libdb5.3 libde265-0 libexpat1 libfontenc1 libfribidi0 
 	#[ $? -eq 0 ] || exit
 	csleep 1
 
-	${shary} libwutil5 libxau6 linxdmcp6 libxinerama1 libxmu6 #C
-	${shary} libgbm1 libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libgif7 libgl1 libglib2.0-0 libglib2.0-data libglvnd0 libglx0 
-	${shary} libgtk-3-0 libgtk-3-common libharfbuzz0b libice6 libjbig0 libjpeg62-turbo #libheif versio ok?
+	${shary} libxau6 libxdmcp6 libxinerama1 #C
+	${shary} libgbm1 libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libgl1 libglib2.0-0 libglib2.0-data libglvnd0 libglx0 
+	${shary} libgtk-3-0 libgtk-3-common libharfbuzz0b libice6  #libheif versio ok?
 	#[ $? -eq 0 ] || exit	
 	csleep 1
 	
@@ -255,9 +277,9 @@ function e23_dm() {
 	#[ $? -eq 0 ] || exit
 	csleep 1
 
-	${shary} liblcms2 liblqr libltdl7 liblzma5 libmd0 libopenjp2-7
-	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0 libpcre2-8-0 libpng16-16 libseat1 libseccomp2 libsm6 libthai0 libtiff6 libtinfo6 #libpipeline1?
-	${shary} libunwind8 libxpm4 libwebp7 libwebpdemux2 libwebpmux3 libwutil5 libx11-data libxaw7 
+	${shary} liblcms2 libmd0
+	${shary} libseat1 libseccomp2 libsm6 libthai0 libtinfo6 #libpipeline1?
+	${shary} libunwind8 libx11-data libxaw7 
 	#[ $? -eq 0 ] || exit
 	csleep 1
 
@@ -265,7 +287,7 @@ function e23_dm() {
 	#[ $? -eq 0 ] || exit
 	csleep 10
 
-	${shary} libxext6 libxfixes3 libxft2 libxi6 libxinerama1 libxkbfile1 libxml2 libxmu6 libxmuu1 libxrandr2 libxrender1 libxt6 libxtst6 libxv1
+	${shary} libxfixes3 libxi6 libxinerama1 libxkbfile1 libxml2 libxmuu1 libxrandr2 libxrender1 libxt6 libxtst6 libxv1
 	${shary} libxxf86dga1 libxxf86vm1 man-db
 	#[ $? -eq 0 ] || exit
 	csleep 10
@@ -329,13 +351,10 @@ function e23_dm() {
 #	#VAIH:xscreensaver depends on ; however:
 
 #
-
-#	${shary} 
-#
 #	#VAIH:libvte-jutut
 
  
-#	#(>= 1.44.3),  (>= 1.22.0), (>= 10.22), libstdc++6 (>= 11), libsystemd0 (>= 220), zlib1g (>= 1:1.2.0)
+#	libstdc++6 (>= 11), 
 #	#	${shary} libvte-2.91-common libgnutls30 libicu72 libvte-2.91
 #
 #	#wdm depends on xserver-xorg | xserver; however:
@@ -356,18 +375,8 @@ function e23_dm() {
 #			${shary} libpipeline1
 #			csleep 1
 #
-#			#pcre tulisi muutakin kautta?
-#			${shary}
-#			csleep 1
 #
-#			${shary}
-#			#csleep 1
 #
-#			${shary} 
-#			csleep 1
-#			${shary} 
-#			${shary} 
-#			#csleep 1
 #
 #			${shary} wdm
 #		;;
