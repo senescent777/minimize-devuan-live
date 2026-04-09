@@ -28,7 +28,7 @@ dahdi
 #dc #mikä tämä on?
 #ed #uskaltaako poistaa? entä e-i?
 empire
-entr
+#entr #uskaltaako sittebkään? tässä kohtaa tul jotain
 #fbi #ehkä ei tätä pois?
 fbterm
 fetchmail
@@ -51,26 +51,29 @@ matanza
 minicom
 moc
 moria
-netcat #jatkossakin jemmassa vai ei?
-#nethack
+#netcat #jatkossakin jemmassa vai ei?
+nethack
 #ntp #jos pitäisi jemmassa koska x
 omega-rpg
 open-invaders
 pacman4console
 pente
 rpl
-rsstail
-sensible-utils
-setnet
-taskwarrior
-#tcc
-#toilet
-#transmission
-#ttyrec
+#
+#jokin näistä paskoo äksän?
+#rsstail
+#sensible-utils
+#setnet
+#taskwarrior
+#
+tcc
+toilet
+transmission
+ttyrec
 #w2do
 #w3m
 #wamerican
 #wavemon
-#yasr
-#zile
+yasr
+zile
 #

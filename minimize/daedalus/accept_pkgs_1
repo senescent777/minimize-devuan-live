@@ -135,7 +135,11 @@ libheif1
 imagemagick-6-common
 libopenjp2-7
 libwebpmux3
+#
 libmagickcore-6
+#ASTNTUUKO TÄMÄ VAI EI
+libmagickwand
+#
 #
 #raster6 varten
 libxpm4
@@ -143,15 +147,15 @@ libxmu6
 libwebp7
 libtiff6
 libpng16
-libmagickwand-6
 libjpeg62-turbo
-#libgif7 löytyyjo aiemmin
-libwraster6
+libwraster
 #/raster
 #
 wmaker-common
 libwutil5
 libpangoxft-1.0-0
+#
+#huom.WINGS TARVITSEE WRASTERIN
 libwings3
 #
 libavutil57
