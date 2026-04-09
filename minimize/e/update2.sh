@@ -7,7 +7,7 @@ tcmd=$(which tar)
 
 #VAIH:tämä kikkare roskikseen, pitäisi keksiä parempiq ei kerran jaksa kesä/talviajan/lokaalien kanssa kikkailla
 #... O(2**n) tllennustilan suhteen olisi 1 juttu kanssa mikä hiertää
-#... "tar -T" sietäisi kokeilla ensin
+#... "tar -T" sietäisi kokeilla ensin /entä -g ?
 
 spc=$(which cp)
 [ -z "${spc}" ] && exit 13
@@ -68,7 +68,7 @@ fi
 #g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
 #sleep 1
 #
-#for f in ${g} ; do
+#for f in ${g} ; do #090426:ehkä tuota mazn1.jutskaa hyödyntäen saisi for-loopin takaisin
 #	if [ -f ${f} ] ; then #josko nyt
 #		if [ ! -h ${f} ] ; then 
 #			${tcmd} -rvf ${tgt} ${f} #HUOM. "-uvf" KANSSA MENEE VITUIKSI JOS EI OLE TARKKANA 666 !!!

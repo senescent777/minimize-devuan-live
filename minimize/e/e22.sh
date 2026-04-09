@@ -609,7 +609,7 @@ function e22_ts() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 }
 
-#220326:toimii, tai ainakin osasi tehdä paketin
+#TODO:testaus.uusicksi
 function e22_arch() {
 	dqb "e22_arch() $1 , $2 , $3 , $4"
 
@@ -647,6 +647,7 @@ function e22_arch() {
 	echo $?
 	${sah6} ./*.deb > ./sha512sums.txt
 
+	#
 	if [ ${3} -eq 1 ] ; then
 		${srat} -rf ${1} ./*pkgs*
 	fi
@@ -654,8 +655,11 @@ function e22_arch() {
 	${sah6} ./reject_pkgs >> ./sha512sums.txt.1
 	${sah6} ./accept_pkgs_? >> ./sha512sums.txt.1
 	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
-	#TODO:.tar mukaan myös listaan?
+	#
+
+	#VAIH:.tar mukaan myös listaan?
 	E22_E="e.tar g.tar"
+	for p in ${E22_E} ; do ${sah6} ./${p} >> ./sha512sums.txt ; done
 	csleep 1
 
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
@@ -672,7 +676,7 @@ function e22_arch() {
 
 	psqa .
 	#VAIH:jos ed. fktion saa aikaiseksi antamaan paluuarvon niin se pitäisi huomioida jtnkin
-	[ $? -gt 0 ] && ${NKVD} ./*.deb  ./sha512sums* #./*.tar?
+	[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums* ./*.tar #?
 	csleep 1
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp

@@ -236,7 +236,7 @@ function e23_dm() {
 	csleep 1
 	
 	${shary} x11-apps x11-common x11-utils
-	[ $? -eq 0 ] || exit
+	#[ $? -eq 0 ] || exit
 	csleep 10
 
 	${shary} x11-xserver-utils xserver-xorg #D
@@ -251,12 +251,12 @@ function e23_dm() {
 	csleep 1
 
 	${shary} libxcb1 libxcb-render0 
-	[ $? -eq 0 ] || exit
+	#[ $? -eq 0 ] || exit
 	csleep 10
 
 	${shary} libxext6 libxfixes3 libxft2 libxi6 libxinerama1 libxkbfile1 libxml2 libxmu6 libxmuu1 libxrandr2 libxrender1 libxt6 libxtst6 libxv1
 	${shary} libxxf86dga1 libxxf86vm1 man-db
-	[ $? -eq 0 ] || exit
+	#[ $? -eq 0 ] || exit
 	csleep 10
 
 	${shary} wdm 

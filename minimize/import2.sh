@@ -200,7 +200,7 @@ dqb "srat: ${srat}"
 csleep 1
 dqb "LHP"
 
-echo "#TODO:ffox prof importoinnissa pitäisi huomioida, onko ffox:ia asennettu vai ei"
+#VAIH:ffox prof importoinnissa pitäisi huomioida, onko ffox:ia asennettu vai ei
 sleep 6
 	
 #josko tilansäästön nimissä kolmaskin ehto? tai ehkä ei pakko
@@ -253,8 +253,13 @@ function common_part() {
 			fi
 		fi
 
-		[ ${r} -eq 0 ] || exit ${r}
-		#TODO:jos menee wtuiksi niin joutaisi delliä .sha
+		if [ ${r} -eq 0 ] ; then
+			dqb "KÖ"
+		else
+			${NKVD} ${1}.*
+			exit ${r}
+			#VAIH:jos menee wtuiksi niin joutaisi delliä .sha
+		fi
 	fi
 
 	csleep 1
@@ -533,7 +538,7 @@ case "${mode}" in
 #		dqb "c_p_d0n3, NEXT: pp3"
 #		csleep 1
 #
-#		part3 ${d}
+#		part3 ${d} #TODO:tämän toiminnan tesialu uusiksi josqs
 #		other_horrors
 #
 #		csleep 1
@@ -552,7 +557,7 @@ case "${mode}" in
 		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
 		echo $?
 		csleep 2
-
+		echo "JUST VEFORE TPR"
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	q)

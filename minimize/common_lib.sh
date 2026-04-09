@@ -363,8 +363,8 @@ function common_pp3() {
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
-		#VAIH:jos mahd ni dellimään paketit jos tarq menee wtuiksi (man vash? fktioiden palautusarvot...)
-		[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums* #./*.tar?
+		#VAIH:jos mahd ni dellimään paketit jos tarq menee wtuiksi tai siis...
+		[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums ./*.tar* #näin ok?
 	fi
 
 	dqb "() common_pp3 DONE"
@@ -640,6 +640,7 @@ function check_binaries() {
 	fi
 
 	dqb "#jäölk ÄYÖYÄ SDDFSDSDGH t. Aku Snkka"
+	echo "CBIN.BF0RE.OCS"
 	ls ${1}/*.deb | wc -l
 	csleep 3
 	for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done

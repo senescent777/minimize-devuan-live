@@ -120,6 +120,8 @@ if [ -x ${d0}/common_lib.sh ] ; then
 else
 	echo "W33P1NG UND3RR G4L4CTU5"
 	sleep 13
+	#TODO:"$0 1", varm että toimii silloinkin ku n common_lib ei ajokepl
+	#(entä "-v" ?)
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0NF1G"
@@ -189,7 +191,7 @@ if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	[ $? -eq 0 ] || exit
 else
 	echo $?
-	dqb "N 0 L1.B"
+	echo "N 0 L1.B"
 	csleep 1
 fi
 
@@ -198,6 +200,8 @@ check_binaries ${d}
 
 check_binaries2
 [ $? -eq 0 ] || exit
+echo "CHEKCS Adn BALACNES"
+sleep 1
 
 [ -z "${srcfile}" ] && exit 44
 [ -z "${distro}" ] && exit 46
@@ -212,6 +216,7 @@ else
 	exit 55
 fi
 
+echo "JUST BFR com-ort()";sleep 1
 #HUOM.olisi hyväksi siivota aiemmat tar:it kummittelemasta, tapahtuu lopussa kysymyksen takana
 
 function common_part() {
@@ -253,6 +258,7 @@ function common_part() {
 			fi
 		fi
 
+		#TODO:tähän ehkäö jotain muutosta
 		[ ${r} -eq 0 ] || exit ${r}
 	fi
 
@@ -273,7 +279,7 @@ function common_part() {
 			cfk=0
 		fi
 
-		#TODO:näille main mallia:import2.sh, common_lib.psqa(), common_pp3() ehkä
+		dqb "#TODO:näille main mallia:import2.sh, common_lib.psqa(), common_pp3() ehkä"
 		csleep 1
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
@@ -298,8 +304,8 @@ function common_part() {
 function cptp2() {
 	dqb "rot.c tp2 ${1}, ${2}, ${3}"
 
-	[ -z "${1}" ] && echo 99
-	[ -z "${2}" ] && echo 98
+	[ -z "${1}" ] && exit 99
+	[ -z "${2}" ] && exit 98
 	[ -d ${1} ] || exit 97
 
 	dqb "cptp2:pars ok"
@@ -352,7 +358,7 @@ case "${mode}" in
 
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
-		part3 ${d}
+		part3 ${d} #TODO:tämän toiminnan testailu uusiksi josqs
 		other_horrors
 	;;
 	k)

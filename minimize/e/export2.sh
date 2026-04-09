@@ -370,7 +370,7 @@ esac
 
 #VAIH:$distro/{accept,reject,drop} muokkaus viimeaikaisista johtuen
 
-function e22_dblock() {
+function e22_dblock() { #TODO:testailut uusicksi taas
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4})"
 
 	[ -z "${1}" ] && exit 14
