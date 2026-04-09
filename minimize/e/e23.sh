@@ -202,12 +202,19 @@ function e23_dm() {
 	[ -z "${1}" ] && exit 11
 	csleep 2
 
+	${fib}
+
 	#TODO: _GS tak tähän josqs
 	#. , ,  , ,  | xserver, perl,libc, , 
 
-	${shary} libx11-xcb1 libx11-6 libnuma1 libx265-199 libheif1 libwings3 libwraster6 libegl-mesa0 libpam-modules libpam-runtime  libpam-modules-bin
-	[ $? -eq 0 ] || exit	
-	csleep 10
+	${shary} libx11-xcb1 libx11-6 libnuma1 libx265-199 libheif1 libwings3
+	${shary} libmagickwand-6.q16-6 libmagickcore-6.q16-6
+	#[ $? -eq 0 ] || exit	
+	csleep 5
+
+	${shary} libwraster6 libegl-mesa0 libpam-modules libpam-runtime libpam-modules-bin
+	#[ $? -eq 0 ] || exit	
+	csleep 5
 
 	${shary} debconf lsb-base psmisc #A
 	${shary} at-spi2-common bsdextrautils fontconfig fontconfig-config groff-base imagemagick-6-common
@@ -237,7 +244,7 @@ function e23_dm() {
 	#[ $? -eq 0 ] || exit
 	csleep 1
 
-	${shary} liblcms2 liblqr libltdl7 liblzma5 libmagickwand-6.q16-6 libmagickcore-6.q16-6 libmd0 libopenjp2-7
+	${shary} liblcms2 liblqr libltdl7 liblzma5 libmd0 libopenjp2-7
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0 libpcre2-8-0 libpng16-16 libseat1 libseccomp2 libsm6 libthai0 libtiff6 libtinfo6 #libpipeline1?
 	${shary} libunwind8 libxpm4 libwebp7 libwebpdemux2 libwebpmux3 libwings3 libwutil5 libx11-data libxaw7 
 	#[ $? -eq 0 ] || exit
