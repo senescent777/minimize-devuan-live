@@ -196,7 +196,6 @@ function e23_qrs() {
 #VAIH:myös minimal_liven kanssa uudempi testikierros tämän kanssa
 #... modaamattomalla minimalilla boottaus+pakettien veto saattaisi olla idea
 
-#090426:     x11-utils x11-apps
 
 
 
@@ -215,19 +214,19 @@ function e23_dm() {
 	#TODO:voisi urputtaa että tällä hetkellä vain wdm tuettuna (jos sekään)
 	#jos ei ala muuten sujua ni ao riveistä mallia accept1:seen
 
-	${shary} libfftw3-double3 libfontconfig1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
+	${shary} libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
 	csleep 5
 
 	${shary} liblzma5 libopenjp2-7 libltdl7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
 	csleep 5
 
-	${shary} libx11-6 libx11-xcb1 libx11-data libxext6 imagemagick-6-common libxmu6 libgif7 libxpm4
+	${shary} libx11-6 libx11-xcb1 libx11-data libxext6 imagemagick-6-common libxmu6 libxmuu1 libgif7 libxpm4
 	[ $? -eq 0 ] || exit 57
 	csleep 5
 
 	${shary} fontconfig fontconfig-config
 	${shary} libdav1d6 libde265-0 libfribidi0 libglib2.0-0 libglib2.0-data libharfbuzz0b
-	${shary} libthai0 libxft2 libxrender1
+	${shary} libthai0 libxft2 libxrender1 libxrandr2
 	csleep 10
 
 	${shary} libpango-1.0-0 libpangoft2 libpangoxft-1.0-0
@@ -241,20 +240,17 @@ function e23_dm() {
 	${shary} libxcb-shape0 libxshmfence1 libxcb-damage0 libxcb-shm0 libxcb-render0 #hyvä idea ksekittää nämä inxcb-jutut?
 	csleep 10
 
-	${shary} libglvnd0 libegl-mesa0 libfontenc1 libgl1 libxaw7 libegl1
+	${shary} libglvnd0 libegl-mesa0 libgl1 libxaw7 libegl1
 	csleep 10
 
-	${shary} libxcomposite1 libxi6 libxinerama1 libxkbfile1 libxmuu1 libxrandr2
+	${shary} libxcomposite1 libxi6 libxinerama1 libxkbfile1
 	csleep 10
 
-	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6 man-db
-	csleep 10
+	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
+	csleep 5
 
-	${shary} libxcursor1
-	csleep 10
-
-	${shary} libwutil5 wmaker-common #libbz2-1.0
-	csleep 10
+	${shary} libxcursor1 libwutil5 man-db wmaker-common #libbz2-1.0
+	csleep 5
 
 	${shary} libicu72 libxfixes3 libxml2
 	${shary} libmagickcore-6 libmagickwand-6
@@ -283,13 +279,6 @@ function e23_dm() {
 	${shary} bsdextrautils groff-base 
 	${shary} init-system-helpers  #xscreensaver?
 	csleep 1
-	
-	#Depends: (>= 2.33),  (>= 1.6.2-1),  (>= 2:1.7.5),  (>= 2:1.0.14), 
-	#  libxcursor1 (>> 1.1.2), libxext6, libxft2 (>> 2.1.1), libxi6 (>= 2:1.2.99.4), 
-	#(>= 1:1.1.0), libxmu6 (>= 2:1.1.3), libxmuu1 (>= 2:1.1.3), libxrender1, libxt6 (>= 1:1.1.0), man-db
-	#Depends: (>= 1.3-9ubuntu2)
-	#Depends: (>= 2.15), libfontconfig1 (>= 2.12.6), libfontenc1, libgl1,  (>= 2:1.6.9), 
-	#  libxcomposite1 (>= 1:0.3-1), libxext6, libxft2 (>> 2.1.1), libxi6, libxinerama1, libxkbfile1, libxmu6, libxmuu1,  (>= 2:1.2.0), libxrender1, libxt6 (>= 1:1.1.0), libxtst6, libxv1, libxxf86dga1, libxxf86vm1
 
 	${shary} x11-apps x11-common x11-utils
 	csleep 10
