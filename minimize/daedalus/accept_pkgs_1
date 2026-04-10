@@ -9,7 +9,7 @@ librsvg2-2
 librsvg2-common
 libstdc
 #
-#7426:menisikö näin? (TODO:libatspi2 vetäminen? 070426 ei vielä onnannut)
+#110426:libatk-at_spi-jutut jo kunnossa vai ei?
 libatspi2
 at-spi
 libatk1.0-0
@@ -19,7 +19,6 @@ libavahi-common-data
 libavahi-common3
 libavahi-client3
 #
-#Depends: libavahi-client3 (>= 0.6.16), libavahi-common3 (>= 0.6.16), libc6 (>= 2.36), libgnutls30 (>= 3.7.5), libgssapi-krb5-2 (>= 1.17), zlib1g (>= 1:1.2.0)
 zlib1g
 libkrb5support0
 libkrb5-3
@@ -31,15 +30,26 @@ libtirpc-common
 libtirpc3
 #
 #gtk3
-#ASNEUVATKO NU O PASKEET ENNEN COMMON VAI EI??? (7426) TODO:tee jotain EDELLEENN
+#110426:gtk3-jutut kunnossa vai ei? ehkä
 dconf-gsettings-backend
 gsettings-backend
 libgtk-3-common
 #
+libx11-6
+libx11-xcb1
 libxft2
+libxrender1
 libpango-1
 libpangoft2
-#libpangoxft
+#
+#joko jo?
+libfontconfig1
+libglib2.0
+libpangoxft
+#
+libwayland
+#
+libgif7
 #
 adwaita-icon-theme
 hicolor-icon-theme
@@ -50,13 +60,8 @@ libcolord2
 libepoxy
 libfont
 libfribidi0
-libglib2.0-0
 libharfbuzz0b
-libpango-1
 libpangocairo
-libpangoft2
-#libwayland
-#x11-6 juur iennen x11-xcb nykyään, toimiiko noin?
 libxcomposite1
 libxcursor
 libxdamage1
@@ -70,7 +75,7 @@ libgtk-3-0
 gtk-update-icon-cache
 libgtk-3-bin
 #
-#vte -> ,cairo2,  gcc-s1 ,,  , icu72, , , pcre2,  systemd, zlib (jäi puolitiehen 7426, TODO:uusiksi?)
+#110426:vte-jutut jo kunnossa? ( -> , ,,  ,  , , pcre2,  systemd, zlib )
 libcairo2
 libicu72
 libpcre2-8-0
@@ -110,8 +115,8 @@ libzvbi0
 libsoxr0
 libswresample4
 #
-#libx11-6
-#libx11-xcb1
+#
+#
 libpython3.11-minimal
 libpython3.11-stdlib
 #pitäisikö ao 2 riippuvuudet slivittää?
@@ -122,7 +127,7 @@ libgtk2.0-0
 libnftables
 #
 #WDM
-#libgif7
+#
 #libwebpdemux2
 libfftw3
 liblqr-1-0
@@ -136,7 +141,7 @@ libheif1
 libopenjp2-7
 #libwebpmux3
 #
-#TODO:näiden suhteen jotain:libx11-xcb1 libgif7 libmagickwand-6 libpangoxft-1 libegl-mesa0 libegl1 libx11-6 x11-utils x11-apps libwings3 libwraster6
+#TODO:näiden suhteen jotain: libmagickwand-6 libpangoxft-1 libegl-mesa0 libegl1  x11-utils x11-apps libwings3 libwraster6
 #
 imagemagick-6-common
 libmagickcore-6
@@ -175,12 +180,11 @@ glib-networking
 libsoup
 libassuan0
 #TODO:libseat,seat johonkin väliin
-#VAIH:git depends on liberror-perl; however
+#täm,ä jo ok 110426?
 liberror-perl
 #
 #ennen äksää (030426) TODO:myös e23:seen mukaan wayland-s
 libgbm1
-#libwayland-server
 #libegl-mesa0
 #libegl1
 #
@@ -205,7 +209,6 @@ libxmu
 #
 libxaw7
 libxcb
-libxft2
 libxt
 libxv1
 libxx
