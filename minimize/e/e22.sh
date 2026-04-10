@@ -327,7 +327,7 @@ function e22_home() {
 	csleep 1
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
+	${srat} ${TARGET_TPX} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
 
 	#find qsee jossain?	
@@ -657,7 +657,7 @@ function e22_arch() {
 	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
 	#
 
-	#VAIH:.tar mukaan myös listaan?
+	#.tar mukaan myös listaan? TODO:uusdi kikkare ja testaus
 	E22_E="e.tar g.tar"
 	for p in ${E22_E} ; do ${sah6} ./${p} >> ./sha512sums.txt ; done
 	csleep 1

@@ -24,6 +24,7 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
+#TODO:tämä impoetr2:seen vähitellen?
 function parse_opts_1() {
 	dqb "rot.parse_opts_1() ${1} ((()"
 
@@ -31,6 +32,8 @@ function parse_opts_1() {
 		mode=${1}
 	fi
 }
+
+#TODO:exp2/imp2/sqr komentorivien käsittelyyn muutosta? uusi optio? ,mikä?
 
 function parse_opts_2() {
 	dqb "rot.parseopts_2 )) ${1} ; ${2} (("
@@ -114,24 +117,28 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
 	unset g
 fi
 
+echo "aftr.unset.g";sleep 1
+
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
-	[ $? -eq 0 ] || exit
+	#[ $? -eq 0 ] || exit #tähänkö kosahtanut viime_aikoina?
 else
 	echo "W33P1NG UND3RR G4L4CTU5"
-	sleep 13
+	sleep 6
 
 	#VAIH:"$0 1", varm että toimii silloinkin ku n common_lib ei ajokepl
 	#(entä "-v" ?)
+
 	#... saattaa välillä toimiakin, cptp2 voisi lopuksi palauttaa x-oikeuden kirjastoon?
+	#saattaa myös olla että kiukuttelu paikallistui erääseen modattuun desktop_live_kiekkoon 090426
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
-		echo "ALT.C0NF1G"
+		echo "ALT.C0fn.1G"
 		sleep 2
 		. ${d0}/$(whoami).conf
 	else
 		if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-			echo "ordnary cqf"
+			echo "ord1nary cqf"
 			. ${d}/conf
 		else
 		 	exit 57
@@ -141,9 +148,10 @@ else
 	odio=""	
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
 	sleep 5
+	#function ocs() {???}
 
 	function check_binaries() {
-		dqb "rot.check1"
+		echo "rot.check1"
 
 		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
 		scm=$(${odio} which chmod)
@@ -152,12 +160,16 @@ else
 		srat=$(${odio} which tar)
 		#eXit jos srat ei?
 
-		gg=$(${odio} which gpg)
+		gg=$(${odio} which gpg) #suattaapi olla että tähän tökkää, taisiis myöhemmin
+		[ -z "${gg}" ] && echo "SH0ULD.1NST.GPG"
+
+		NKVD=$(${odio} which shred)
 	}
 
 	function check_binaries2() {
 		echo "irot.check2"
 		srat="${odio} ${srat}"
+		NKVD="${odio} ${NKVD} -fu "
 	}
 
 	function part3() {
@@ -167,9 +179,6 @@ else
 	function other_horrors() {
 		dqb "R0TT1NG W4Y5 T0 M153RY"
 	}
-
-	#tarttisiko vielä jotain fktiota tähän? NKVD hos esittelisi ainakin
-	#function ocs() {???}
 	
 	function enforce_access() {
 		dqb "W T F ???"
@@ -190,6 +199,7 @@ dqb "rot:AFTR common_lib"
 csleep 1
 [ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
 csleep 1
+echo "jts.bfr.l1b";sleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -200,11 +210,12 @@ else
 	csleep 1
 fi
 
+echo "jts.bfr.cbin1";sleep 1
 check_binaries ${d}
-[ $? -eq 0 ] || exit 
+#[ $? -eq 0 ] || exit saattaa aiheuttaa ongelmia liialliset tarkistukset
 
 check_binaries2
-[ $? -eq 0 ] || exit
+#[ $? -eq 0 ] || exit
 echo "CHEKCS Adn BALACNES"
 sleep 1
 

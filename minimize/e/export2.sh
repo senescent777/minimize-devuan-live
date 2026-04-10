@@ -341,6 +341,7 @@ case ${mode} in
 	g)
 		[ -v E22_GI ] || exit 95
 		#070426:osannee tehdä toimivan paketin
+		#TODO:tämäönkin testaus uudestaan
 		${fib}
 		${shary} ${E22_GI}
 	;;

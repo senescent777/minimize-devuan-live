@@ -78,7 +78,7 @@ function e23_other_pkgs() {
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 	${shary} ${E23_GS}  #moni pak tarttee nämä
 
-	#${shary} #bsd debconf
+	#${shary} #bsd 
 	##${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei? ehkä
 
 	message
@@ -195,8 +195,27 @@ function e23_qrs() {
 #VAIH:boisi myös ottaa mallia viimeisimmästä toimivasta paketista että mitä mukaan
 #VAIH:myös minimal_liven kanssa uudempi testikierros tämän kanssa
 #... modaamattomalla minimalilla boottaus+pakettien veto saattaisi olla idea
-#, ,,,   , , ,  
 
+#090426:libx11-xcb1 libgif7 libmagickwand-6 libpangoxft-1 libegl-mesa0 libegl1 libx11-6 x11-utils x11-apps libwings3 libwraster6
+#tämä fktio ja accept1 syytä editoida vielä
+#100426: libx11-xcb1:amd64 depends on ibx11-6
+# libwraster6:amd64 depends on libgif7 (>= 5.1); however:
+#  Package libgif7 is not installed.
+# libwraster6:amd64 depends on libmagickwand-6.q16-6 (>= 8:6.9.10.2); however:
+#  Package libmagickwand-6.q16-6 is not installed.
+# libwings3:amd64 depends on libpangoxft-1.0-0 (>= 1.14.0); however:
+#  Package libpangoxft-1.0-0 is not installed.
+# libwings3:amd64 depends on libwraster6 (>= 0.95.8); however:
+#  Package libwraster6:amd64 is not configured yet.
+#dpkg: dependency problems prevent configuration of libegl-mesa0:amd64:
+# libegl-mesa0:amd64 depends on libx11-xcb1 (>= 2:1.8.4); however:
+#  Package libx11-xcb1:amd64 is not configured yet.
+#
+#dpkg: dependency problems prevent configuration of libegl1:amd64:
+# libegl1:amd64 depends on libegl-mesa0; however:
+#  Package libegl-mesa0:amd64 is not configured yet.
+#
+#.V.M.P.5tna
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -207,6 +226,9 @@ function e23_dm() {
 	${shary} ${E22_GM}
 	csleep 5
 
+	#TODO:voisi urputtaa että tällä hetkellä vain wdm tuettuna (jos sekään)
+	#jos ei ala muuten sujua ni ao riveistä mallia accept1:seen
+
 	${shary} libfftw3-double3 libfontconfig1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
 	#[ $? -eq 0 ] || exit 55
 	csleep 10
@@ -215,69 +237,103 @@ function e23_dm() {
 	#[ $? -eq 0 ] || exit 56
 	csleep 10
 
-	${shary} libx11-6 libxext6 imagemagick-6-common libxmu6 libgif7 libxpm4 libpango-1.0-0 libpangoft2 libpangoxft-1.0-0
-	#[ $? -eq 0 ] || exit 57
+	${shary} libx11-6 libxext6 imagemagick-6-common libxmu6 libgif7 libxpm4
+	[ $? -eq 0 ] || exit 57
 	csleep 10
 
-	${shary} libxft2 libwutil5 wmaker-common
-	#[ $? -eq 0 ] || exit 57
+	${shary} libx11-xcb1
+	[ $? -eq 0 ] || exit 57
 	csleep 10
 
-	#090426:libmagickcore,libmagicwand,libwraster,libwings3 edelleen vääntöä
-	#Depends: (>= 2.35),  (>= 3.3.10), (>= 2.12.6),(>= 2.2.1), (>= 3.3.1), (>= 6), (>= 1.4.0),(>= 2.0), (>= 1.3.1), (>= 2.6), (>= 0.4.0),
-	# (>= 2.4.7),  (>= 5.1.1alpha+20120614), (>= 2.0.0), (>= 1.6.2-1), (>= 4.5.0~rc1), (>= 1.2.4), (>= 1.2.4),
-	#,  libxml2 (>= 2.7.4),  (>= 1:1.1.4),  (>= 8:6.9.6.2+dfsg-3)
-	#Depends: (>= 2.14),  (>= 3.3.1),  (>= 4.9), libmagickcore-6.q16-6 (>= 8:6.9.11.24), , (>= 8:6.9.6.2+dfsg-3)
+	${shary} fontconfig fontconfig-config
+	${shary} libdav1d6 libde265-0 libfribidi0 libglib2.0-0 libglib2.0-data libharfbuzz0b
+	${shary} libthai0  
+	csleep 10
 
-	#Depends:  (>= 2.33), (>= 5.1), (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2),  (>= 1.6.2-1), (>= 4.0.3), , ,, 
-	# (>= 2:1.1.3),
-	#Depends:  (>= 2.33),  (>= 2.12.6),  (>= 1.22.0), -1.0-0 (>= 1.14.0), (>= 1.14.0), libwraster6 (>= 0.95.8),
-	# (>= 0.95.5), (>> 2.1.1), (>= 0.95.9-3)
+	#Depends: , (>= 1.0.6),  (>= 2.67.3),  (>= 5.1.0),(>= 0.1.25)
+	#Depends: (>= 2.14), (>= 2.13.0), (>= 2.2.1), (>= 2.67.3),  (>= 5.1.0), libpango-1.0-0 (= 1.50.12+ds-1)
+	#libpangoxft: ?
 
-	${shary} libx11-xcb1 libnuma1 libx265-199 libwings3
+	#saako näitä vedettyä vai ei? xft cielä
+	${shary} libpango-1.0-0 libpangoft2 libpangoxft-1.0-0
+	#[ $? -eq 0 ] || exit 58
+	csleep 10
+
+	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0
+	${shary} libxcb1
+	csleep 10
+
+	${shary} libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 
+	${shary} libxcb-shape0 libxshmfence1 libxcb-damage0 libxcb-shm0 libxcb-render0 #hyvä idea ksekittää nämä inxcb-jutut?
+	csleep 10
+
+	${shary} libglvnd0 libegl-mesa0 libfontenc1 libgl1 libxaw7 libegl1
+	csleep 10
+
+	${shary} libxcomposite1 libxft2 libxi6 libxinerama1 libxkbfile1 libxmuu1 libxrandr2 libxrender1
+	csleep 10
+
+	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6 man-db
+	csleep 10
+
+	${shary} libxcursor1
+	csleep 10
+
+	#Depends:? (gif7)
+	#? (libmagickwand-6)
+	#? libpangoxft
+
+	#Depends:  (>= 2.33),  (>= 5.1), (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2),  (>= 1.6.2-1), (>= 4.0.3),  
+
+	${shary} libwutil5 wmaker-common
+	#[ $? -eq 0 ] || exit 59
+	csleep 10
+
+	${shary} libnuma1 libx265-199 libwings3
 	${shary} libmagickcore-6 libmagickwand-6
 	#[ $? -eq 0 ] || exit 66	
 	csleep 10
 
-	${shary} libwraster6 libegl-mesa0 libpam-modules libpam-runtime libpam-modules-bin
+	#Depends:  (>= 2.33),  (>= 5.1), (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2), (>= 1.6.2-1),  (>= 4.0.3),   (>= 2:1.1.3), 
+
+	${shary} libwraster6 libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
 	#[ $? -eq 0 ] || exit 67	
 	csleep 10
 
-	#TODO:lib-jutut jos keskittäisi fktion alkuun?
-	${shary} libxcb-shape0 libxcb1 libxcb-present0 libxcb-damage0 libxcb-shm0 libxcb-xfixes0 libxcomposite1 libxcursor1 libxdmcp6 menu twm
+	#VAIH:lib-jutut jos keskittäisi fktion alkuun?
+	${shary} libxdmcp6 menu twm
+	csleep 10
+
 	${shary} libwings3
 	#[ $? -eq 0 ] || exit 68
 	csleep 10
 
-	${shary} libcrypt1 libpam0g libselinux1 #B
- 	${shary} libaom3 libatk1.0-0 libaudit1 libaudit-common libbsd0 libcap-ng0 libcrypt1
-	${shary} libdav1d6 libdb5.3 libde265-0 libexpat1 libfontenc1 libfribidi0 
-	#[ $? -eq 0 ] || exit
-	csleep 1
-
-	${shary} libxau6 libxdmcp6 libxinerama1 #C
-	${shary} libgbm1 libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libgl1 libglib2.0-0 libglib2.0-data libglvnd0 libglx0 
-	${shary} libgtk-3-0 libgtk-3-common libharfbuzz0b libice6  #libheif versio ok?
-	#[ $? -eq 0 ] || exit	
-	csleep 1
-
+	#Depends:  libmd0 (>= 1.0.3-2)
 	${shary} liblcms2 libmd0
-	${shary} libseat1 libseccomp2 libsm6 libthai0 libtinfo6 #libpipeline1?
-	${shary} libunwind8 libx11-data libxaw7 
-	#[ $? -eq 0 ] || exit
+ 	${shary} libaom3 at-spi2-common libatk1.0-0  libaudit-common libbsd0 libcap-ng0 
+	csleep 5
 
-	${shary} libxcb1 libxcb-render0 
 	#[ $? -eq 0 ] || exit
-	csleep 10
+	csleep 5
 
-	${shary} libxfixes3 libxi6 libxinerama1 libxkbfile1 libxml2 libxmuu1 libxrandr2 libxrender1 libxt6 libxtst6 libxv1
-	${shary} libxxf86dga1 libxxf86vm1 man-db
+	${shary} libxau6  #C
+	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0 
+	${shary} libgtk-3-0 libgtk-3-common libice6  #libheif versio ok?
+	#[ $? -eq 0 ] || exit	
+	csleep 5
+
+	${shary} libseat1 libseccomp2 libtinfo6 #libpipeline1?
+	${shary} libunwind8 libx11-data
 	#[ $? -eq 0 ] || exit
-	csleep 10
+	csleep 5
 
-	${shary} debconf lsb-base psmisc #A
-	${shary} at-spi2-common bsdextrautils fontconfig fontconfig-config groff-base 
-	${shary} init-system-helpers libegl1 #xscreensaver?
+	${shary} libxfixes3 libxml2
+	#[ $? -eq 0 ] || exit
+	csleep 5
+
+	${shary} lsb-base psmisc #A
+	${shary} bsdextrautils groff-base 
+	${shary} init-system-helpers  #xscreensaver?
 
 	#[ $? -eq 0 ] || exit	
 	csleep 1
@@ -302,11 +358,9 @@ function e23_dm() {
 #
 #
 #	#varsinainen cpp mukaan tuohon? alempana se tulee mukaan nyt
-#	${shary} ${E22_GS}
-#	csleep 1
+
 #
 #	${shary} libopengl0O  
-#	${shary} libxxf86dga1 libxxf86vm1
 #	${shary} cpp procps
 #
 #	#Depends: dconf-gsettings-backend | gsettings-backend (TODO)
@@ -314,13 +368,13 @@ function e23_dm() {
 #
 #	 libatk-bridge2.0-0 libcairo-gobject2 libcairo2
 #	${shary} libcolord2 libepoxy0
-#	${shary} libpangocairo-1.0-0 libwayland-client0 libwayland-cursor0 libwayland-egl1 libwayland-server0 
+#	${shary} libpangocairo-1.0-0  libwayland-cursor0 libwayland-egl1
 #	${shary} libxdamage1 
 #	${shary} libxkbcommon0
-## libselinux1
+## 
 #
 #
-#	#VAIH: :amd64 depends on libwayland-server0 (tmä vhitellen)
+#	#VAIH: :amd64 depends on (tmä vhitellen)
 #	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
 #
 #	#VAIH:dpkg: dependency problems prevent configuration of libwww-perl:
@@ -360,7 +414,7 @@ function e23_dm() {
 ##			csleep 1
 ##			${shary} lxdm 
 ##			csleep 1
-##			#261225:lxde-juttujrn ja lxpolkit:in riippuvuukisien selvutys saattaa osoittautua tarpeelliskeis?
+
 ##			#polkit-1-auth-agent:
 ##			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
 ##			#csleep 1
@@ -382,7 +436,7 @@ function e23_dm() {
 #	E22_GX="${E22_GX} liblwp-protocol-https-perl libhttp-negotiate-perl libhtml-tagset-perl libhttp-message-perl libhttp-date-perl libhttp-cookies-perl libhtml-tree-perl libhtml-parser-perl libfile-listing-perl libencode-locale-perl"
 #	E22_GX="${E22_GX} ca-certificates libwww-perl "
 #
-#	E22_GX="${E22_GX} libdrm2 libglapi-mesa libxcb-dri2-0  libxcb-dri3-0 libxcb-randr0 libxcb-sync1 libxshmfence1"
+#	E22_GX="${E22_GX}  
 #	E22_GX="${E22_GX} xscreensaver-data xscreensaver"
 #	${shary} ${E22_GX}  #libsystemd0
 
@@ -436,7 +490,7 @@ function e23_profs() {
 #	${shary} xbitmaps x11-xfs-utils  xkb-data xfonts-base x11-xkb-utils
 #	${shary}  #xterm+xauth voIsi hoitaa e23_dm() kaUTTa? jo dm
 #
-#	#egl,audit,bsd0,libgbm1,libgl1  yms. dm() kautta
+#	#egl,audit,bsd0,, yms. dm() kautta
 #
 #	${shary} xserver-common xserver-xorg-core
 #	#xserver-xorg #tarvitseeko erikseen sanoa koska xorg?
@@ -444,7 +498,7 @@ function e23_profs() {
 #
 #	#${shary} xserver-xorg-input-all xserver-xorg-input-libinput xserver-xorg-input-wacom 
 #
-#	#Depends:  (>= 2:21.1.7-3devuan1), libc6 (>= 2.34),  (>= 0.5) | 
+#	#Depends:  (>= 2:21.1.7-3devuan1),  (>= 2.34),  (>= 0.5) | 
 #	${shary} xserver-xorg-legacy #tarvitsee vai ei?
 #	#server-xorg-video-all xserver-xorg-video-amdgpu
 #

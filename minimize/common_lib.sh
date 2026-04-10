@@ -477,8 +477,12 @@ function cefgh() {
 
 	#pitäisiköhän noissa poisteluissa olla jotain muitakin ehtoja?
 	#... esim. e.tar purq vain mikäli gg:tä ei ole?	
+
+	#! -z $gg then	
 	efk2 ${1}/e.tar
 	[ $? -eq 0 ] && ${NKVD} ${1}/e.tar
+	#fi
+
 	efk2 ${1}/f.tar ${1}
 
 	if [ $? -eq 0 ] ; then
@@ -662,12 +666,12 @@ function check_binaries() {
 	uom=$(${odio} which umount)
 	sifc=$(${odio} which ifconfig)
 
-	dqb "b1nar135 0k"
+	echo "b1nar135 0k"
 	csleep 1
 }
 
 function check_binaries2() {
-	dqb "c0mm0n_lib.ch3ck_b1nar135.2"
+	echo "c0mm0n_lib.ch3ck_b1nar135.2"
 	csleep 1
 	[ -v sd0 ] || exit 666
 
