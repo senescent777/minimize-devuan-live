@@ -199,8 +199,6 @@ function e23_qrs() {
 #090426:   libegl-mesa0 libegl1  x11-utils x11-apps
 
 
-#  Package  is not installed.
-
 #dpkg: dependency problems prevent configuration of libegl-mesa0:amd64:
 # libegl-mesa0:amd64 depends on  (>= 2:1.8.4); however:
 #  Package :amd64 is not configured yet.
@@ -224,11 +222,9 @@ function e23_dm() {
 	#jos ei ala muuten sujua ni ao riveistä mallia accept1:seen
 
 	${shary} libfftw3-double3 libfontconfig1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
-	#[ $? -eq 0 ] || exit 55
 	csleep 10
 
 	${shary} liblzma5 libopenjp2-7 libltdl7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
-	#[ $? -eq 0 ] || exit 56
 	csleep 10
 
 	${shary} libx11-6 libxext6 imagemagick-6-common libxmu6 libgif7 libxpm4
@@ -244,12 +240,7 @@ function e23_dm() {
 	${shary} libthai0 libxft2 libxrender1
 	csleep 10
 
-	#Depends: , (>= 1.0.6),  (>= 2.67.3),  (>= 5.1.0),(>= 0.1.25)
-	#Depends: (>= 2.14), (>= 2.13.0), (>= 2.2.1), (>= 2.67.3),  (>= 5.1.0), 
-	#libpangoxft: Depends:  (>= 2.13.0),  (>= 2.62.0),   (= 1.50.12+ds-1),  (>> 2.1.1),
-
 	${shary} libpango-1.0-0 libpangoft2 libpangoxft-1.0-0
-	#[ $? -eq 0 ] || exit 58
 	csleep 10
 
 	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
@@ -272,75 +263,45 @@ function e23_dm() {
 	${shary} libxcursor1
 	csleep 10
 
-	#Depends: libc6 (>= 2.34), wmaker-common (>= 0.95.9-3)
-	#	
-	${shary} libwutil5 wmaker-common
-	#[ $? -eq 0 ] || exit 59
+	${shary} libwutil5 wmaker-common #libbz2-1.0
 	csleep 10
 
-	#Depends: libc6 (>= 2.33), libgif7 (>= 5.1), libjpeg62-turbo (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.0.3), libwebp7, libx11-6, libxext6, libxmu6 (>= 2:1.1.3), libxpm4
-	#Depends: libc6 (>= 2.33), libfontconfig1 (>= 2.12.6), libpango-1.0-0 (>= 1.22.0), libpangoft2-1.0-0 (>= 1.14.0), libpangoxft-1.0-0 (>= 1.14.0), libwraster6 (>= 0.95.8), libwutil5 (>= 0.95.5), libx11-6, libxext6, libxft2 (>> 2.1.1), wmaker-common (>= 0.95.9-3)
-	${shary} libnuma1 libx265-199 libwraster6 libwings3
-
-	
-	#Depends: libbz2-1.0, libc6 (>= 2.35), libfftw3-double3 (>= 3.3.10), libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.2.1), libgcc-s1 (>= 3.3.1), libgomp1 (>= 6), libheif1 (>= 1.4.0), libjbig0 (>= 2.0), libjpeg62-turbo (>= 1.3.1), liblcms2-2 (>= 2.6), liblqr-1-0 (>= 0.4.0), libltdl7 (>= 2.4.7), liblzma5 (>= 5.1.1alpha+20120614), libopenjp2-7 (>= 2.0.0), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.5.0~rc1), libwebp7 (>= 1.2.4), libwebpdemux2 (>= 1.2.4), libwebpmux3 (>= 1.2.4), libx11-6, libxext6, libxml2 (>= 2.7.4), zlib1g (>= 1:1.1.4), imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
-	#Depends: libc6 (>= 2.14), libgcc-s1 (>= 3.3.1), libgomp1 (>= 4.9), libmagickcore-6.q16-6 (>= 8:6.9.11.24), libx11-6, imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
-	#Pre-Depends: dpkg (>= 1.17.6)
-
+	${shary} libicu72 libxfixes3 libxml2
 	${shary} libmagickcore-6 libmagickwand-6
-	#[ $? -eq 0 ] || exit 66	
 	csleep 10
 
-	#Depends:  (>= 2.33),  (>= 5.1), (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2), (>= 1.6.2-1),  (>= 4.0.3),   (>= 2:1.1.3), 
-
+	${shary} libnuma1 libx265-199 libwraster6 libwings3
 	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
-	#[ $? -eq 0 ] || exit 67	
 	csleep 10
 
-	${shary} libxdmcp6 menu twm
+	${shary} libxdmcp6 menu twm libmd0
 	csleep 10
 
-	${shary} liblcms2 libmd0
- 	${shary} libaom3 at-spi2-common libatk1.0-0  libaudit-common libbsd0 libcap-ng0 
-	csleep 5
-
-	#[ $? -eq 0 ] || exit
+ 	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common libbsd0 libcap-ng0 
 	csleep 5
 
 	${shary} libxau6  #C
 	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0 
 	${shary} libgtk-3-0 libgtk-3-common libice6  #libheif versio ok?
-	#[ $? -eq 0 ] || exit	
 	csleep 5
 
 	${shary} libseat1 libseccomp2 libtinfo6 #libpipeline1?
 	${shary} libunwind8 libx11-data
-	#[ $? -eq 0 ] || exit
-	csleep 5
-
-	${shary} libxfixes3 libxml2
-	#[ $? -eq 0 ] || exit
 	csleep 5
 
 	${shary} lsb-base psmisc #A
 	${shary} bsdextrautils groff-base 
 	${shary} init-system-helpers  #xscreensaver?
-
-	#[ $? -eq 0 ] || exit	
 	csleep 1
 	
 	${shary} x11-apps x11-common x11-utils
-	#[ $? -eq 0 ] || exit
 	csleep 10
 
 	${shary} x11-xserver-utils xserver-xorg #D
 	${shary} xterm xauth
-	#[ $? -eq 0 ] || exit
 	csleep 1
 
-	csleep 1
 	${shary} wdm 
-
 	dqb "e23_dm( done (((("
 	csleep 1
 }
@@ -372,7 +333,7 @@ function e23_dm() {
 #	#VAIH:xscreensaver depends on ; however:
 
 #	libstdc++6 (>= 11), 
-#	#	${shary}  libgnutls30 libicu72 
+#	#	${shary}  libgnutls30
 #
 #	#wdm depends on xserver-xorg | xserver; however:
 #
