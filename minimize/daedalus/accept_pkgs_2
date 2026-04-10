@@ -11,10 +11,7 @@ mime-support
 cpp
 #menisikö näin? , cpp juuri ennen äksää?
 xkb-data
-#
-#Depends: (>= 2.33), ,  (>= 2:1.0.14),  (>= 1:1.1.0), libxrandr2 (>= 2:1.2.99.2), libxt6
 x11-xkb-utils
-#
 xserver-common
 #
 #libc6 ennen legacy, xserver-common ennen legacy

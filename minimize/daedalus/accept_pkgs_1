@@ -246,3 +246,5 @@ libcap2
 libtext-wrapi18
 libfs6
 libxkbfile1
+libxrandr2
+libxt6
