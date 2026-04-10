@@ -38,12 +38,11 @@ libgtk-3-common
 libx11-6
 libx11-xcb1
 libxft2
-libxrender1
 libpango-1
 libpangoft2
 #
 #joko jo?
-libfontconfig1
+libfont
 libglib2.0
 libpangoxft
 #
@@ -65,7 +64,6 @@ libatk-bridge
 libcairo
 libcolord2
 libepoxy
-libfont
 libfribidi0
 libharfbuzz0b
 libpangocairo
@@ -160,7 +158,7 @@ libpng16-16
 libtiff6
 libxml2
 #
-# (>= 2.0.0),  (>= 1.6.2-1),  (>= 4.5.0~rc1), (>= 1.2.4), ,  (>= 2.7.4), zlib1g (>= 1:1.1.4),  (>= 8:6.9.6.2+dfsg-3)
+#  zlib1g (>= 1:1.1.4),  (>= 8:6.9.6.2+dfsg-3)
 #
 libmagickcore-6
 #ASTNTUUKO TÄMÄ VAI EI
@@ -222,7 +220,7 @@ libtinfo6
 libxshmfence1
 libpixman
 libpciaccess
-#libgl1 turha tässä?
+libgl1 #turha tässä vai ei?
 libgcrypt20
 #miten ao. kirj. ankssa?
 libeudev
@@ -242,7 +240,5 @@ libcap2
 libtext-wrapi18
 libfs6
 libxkbfile1
-libxrandr2
-libxt6
 libsm6
 libxcursor1
