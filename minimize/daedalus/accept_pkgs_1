@@ -39,7 +39,7 @@ libgtk-3-common
 libxft2
 libpango-1
 libpangoft2
-libpangoxft
+#libpangoxft
 #
 adwaita-icon-theme
 hicolor-icon-theme
@@ -55,8 +55,8 @@ libharfbuzz0b
 libpango-1
 libpangocairo
 libpangoft2
-libwayland
-libx11-6
+#libwayland
+#x11-6 juur iennen x11-xcb nykyään, toimiiko noin?
 libxcomposite1
 libxcursor
 libxdamage1
@@ -110,7 +110,8 @@ libzvbi0
 libsoxr0
 libswresample4
 #
-libx11-xcb1
+#libx11-6
+#libx11-xcb1
 libpython3.11-minimal
 libpython3.11-stdlib
 #pitäisikö ao 2 riippuvuudet slivittää?
@@ -121,8 +122,8 @@ libgtk2.0-0
 libnftables
 #
 #WDM
-libgif7
-libwebpdemux2
+#libgif7
+#libwebpdemux2
 libfftw3
 liblqr-1-0
 libde265-0
@@ -133,7 +134,9 @@ libnuma1
 libx265-199
 libheif1
 libopenjp2-7
-libwebpmux3
+#libwebpmux3
+#
+#TODO:näiden suhteen jotain:libx11-xcb1 libgif7 libmagickwand-6 libpangoxft-1 libegl-mesa0 libegl1 libx11-6 x11-utils x11-apps libwings3 libwraster6
 #
 imagemagick-6-common
 libmagickcore-6
@@ -144,19 +147,18 @@ libmagickwand
 #raster6 varten
 libxpm4
 libxmu6
-libwebp7
+#libwebp7
 libtiff6
 libpng16
 libjpeg62-turbo
-libwraster
+#libwraster
 #/raster
 #
 wmaker-common
-libwutil5
-libpangoxft-1.0-0
+#libwutil5
 #
 #huom.WINGS TARVITSEE WRASTERIN
-libwings3
+#libwings3
 #
 libavutil57
 libavcodec59
@@ -178,9 +180,9 @@ liberror-perl
 #
 #ennen äksää (030426) TODO:myös e23:seen mukaan wayland-s
 libgbm1
-libwayland-server
-libegl-mesa0
-libegl1
+#libwayland-server
+#libegl-mesa0
+#libegl1
 #
 libaudit1
 libbsd0
@@ -196,7 +198,7 @@ libxfont2
 #
 #
 #tarvitseek o erikseen?
-libx11
+#libx11
 libxmu
 #
 #/tarttee?

@@ -10,16 +10,16 @@ mime-support
 #eudev-dbus-e2fsprogs oli siinä rejectissä, miten x-juttuja myös?
 cpp
 #menisikö näin? , cpp juuri ennen äksää?
-x11-common
+#x11-common
 xkb-data
-x11-xkb-utils
+#x11-xkb-utils
 xserver-common
 #
 #libc6 ennen legacy, xserver-common ennen legacy
 xserver-xorg-legacy
 #
 #utyils ennen:common
-x11-xkb-utils
+#x11-xkb-utils
 xserver-common
 xserver-xorg-core
 #
@@ -30,7 +30,7 @@ dbus-daemon
 dbus-x11
 gpgconf
 gtk2-engines-pixbuf
-x11-utils
+#x11-utils
 python3.11-minimal
 python3.11
 menu
