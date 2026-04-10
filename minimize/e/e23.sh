@@ -196,20 +196,14 @@ function e23_qrs() {
 #VAIH:myös minimal_liven kanssa uudempi testikierros tämän kanssa
 #... modaamattomalla minimalilla boottaus+pakettien veto saattaisi olla idea
 
-#090426:libx11-xcb1 libgif7 libmagickwand-6 libpangoxft-1 libegl-mesa0 libegl1 libx11-6 x11-utils x11-apps libwings3 libwraster6
-#tämä fktio ja accept1 syytä editoida vielä
-#100426: libx11-xcb1:amd64 depends on ibx11-6
-# libwraster6:amd64 depends on libgif7 (>= 5.1); however:
-#  Package libgif7 is not installed.
-# libwraster6:amd64 depends on libmagickwand-6.q16-6 (>= 8:6.9.10.2); however:
-#  Package libmagickwand-6.q16-6 is not installed.
-# libwings3:amd64 depends on libpangoxft-1.0-0 (>= 1.14.0); however:
-#  Package libpangoxft-1.0-0 is not installed.
-# libwings3:amd64 depends on libwraster6 (>= 0.95.8); however:
-#  Package libwraster6:amd64 is not configured yet.
+#090426:   libegl-mesa0 libegl1  x11-utils x11-apps
+
+
+#  Package  is not installed.
+
 #dpkg: dependency problems prevent configuration of libegl-mesa0:amd64:
-# libegl-mesa0:amd64 depends on libx11-xcb1 (>= 2:1.8.4); however:
-#  Package libx11-xcb1:amd64 is not configured yet.
+# libegl-mesa0:amd64 depends on  (>= 2:1.8.4); however:
+#  Package :amd64 is not configured yet.
 #
 #dpkg: dependency problems prevent configuration of libegl1:amd64:
 # libegl1:amd64 depends on libegl-mesa0; however:
@@ -247,19 +241,18 @@ function e23_dm() {
 
 	${shary} fontconfig fontconfig-config
 	${shary} libdav1d6 libde265-0 libfribidi0 libglib2.0-0 libglib2.0-data libharfbuzz0b
-	${shary} libthai0  
+	${shary} libthai0 libxft2 libxrender1
 	csleep 10
 
 	#Depends: , (>= 1.0.6),  (>= 2.67.3),  (>= 5.1.0),(>= 0.1.25)
-	#Depends: (>= 2.14), (>= 2.13.0), (>= 2.2.1), (>= 2.67.3),  (>= 5.1.0), libpango-1.0-0 (= 1.50.12+ds-1)
-	#libpangoxft: ?
+	#Depends: (>= 2.14), (>= 2.13.0), (>= 2.2.1), (>= 2.67.3),  (>= 5.1.0), 
+	#libpangoxft: Depends:  (>= 2.13.0),  (>= 2.62.0),   (= 1.50.12+ds-1),  (>> 2.1.1),
 
-	#saako näitä vedettyä vai ei? xft cielä
 	${shary} libpango-1.0-0 libpangoft2 libpangoxft-1.0-0
 	#[ $? -eq 0 ] || exit 58
 	csleep 10
 
-	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0
+	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
 	${shary} libxcb1
 	csleep 10
 
@@ -270,7 +263,7 @@ function e23_dm() {
 	${shary} libglvnd0 libegl-mesa0 libfontenc1 libgl1 libxaw7 libegl1
 	csleep 10
 
-	${shary} libxcomposite1 libxft2 libxi6 libxinerama1 libxkbfile1 libxmuu1 libxrandr2 libxrender1
+	${shary} libxcomposite1 libxi6 libxinerama1 libxkbfile1 libxmuu1 libxrandr2
 	csleep 10
 
 	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6 man-db
@@ -279,36 +272,34 @@ function e23_dm() {
 	${shary} libxcursor1
 	csleep 10
 
-	#Depends:? (gif7)
-	#? (libmagickwand-6)
-	#? libpangoxft
-
-	#Depends:  (>= 2.33),  (>= 5.1), (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2),  (>= 1.6.2-1), (>= 4.0.3),  
-
+	#Depends: libc6 (>= 2.34), wmaker-common (>= 0.95.9-3)
+	#	
 	${shary} libwutil5 wmaker-common
 	#[ $? -eq 0 ] || exit 59
 	csleep 10
 
-	${shary} libnuma1 libx265-199 libwings3
+	#Depends: libc6 (>= 2.33), libgif7 (>= 5.1), libjpeg62-turbo (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.0.3), libwebp7, libx11-6, libxext6, libxmu6 (>= 2:1.1.3), libxpm4
+	#Depends: libc6 (>= 2.33), libfontconfig1 (>= 2.12.6), libpango-1.0-0 (>= 1.22.0), libpangoft2-1.0-0 (>= 1.14.0), libpangoxft-1.0-0 (>= 1.14.0), libwraster6 (>= 0.95.8), libwutil5 (>= 0.95.5), libx11-6, libxext6, libxft2 (>> 2.1.1), wmaker-common (>= 0.95.9-3)
+	${shary} libnuma1 libx265-199 libwraster6 libwings3
+
+	
+	#Depends: libbz2-1.0, libc6 (>= 2.35), libfftw3-double3 (>= 3.3.10), libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.2.1), libgcc-s1 (>= 3.3.1), libgomp1 (>= 6), libheif1 (>= 1.4.0), libjbig0 (>= 2.0), libjpeg62-turbo (>= 1.3.1), liblcms2-2 (>= 2.6), liblqr-1-0 (>= 0.4.0), libltdl7 (>= 2.4.7), liblzma5 (>= 5.1.1alpha+20120614), libopenjp2-7 (>= 2.0.0), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.5.0~rc1), libwebp7 (>= 1.2.4), libwebpdemux2 (>= 1.2.4), libwebpmux3 (>= 1.2.4), libx11-6, libxext6, libxml2 (>= 2.7.4), zlib1g (>= 1:1.1.4), imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
+	#Depends: libc6 (>= 2.14), libgcc-s1 (>= 3.3.1), libgomp1 (>= 4.9), libmagickcore-6.q16-6 (>= 8:6.9.11.24), libx11-6, imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
+	#Pre-Depends: dpkg (>= 1.17.6)
+
 	${shary} libmagickcore-6 libmagickwand-6
 	#[ $? -eq 0 ] || exit 66	
 	csleep 10
 
 	#Depends:  (>= 2.33),  (>= 5.1), (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2), (>= 1.6.2-1),  (>= 4.0.3),   (>= 2:1.1.3), 
 
-	${shary} libwraster6 libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
+	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
 	#[ $? -eq 0 ] || exit 67	
 	csleep 10
 
-	#VAIH:lib-jutut jos keskittäisi fktion alkuun?
 	${shary} libxdmcp6 menu twm
 	csleep 10
 
-	${shary} libwings3
-	#[ $? -eq 0 ] || exit 68
-	csleep 10
-
-	#Depends:  libmd0 (>= 1.0.3-2)
 	${shary} liblcms2 libmd0
  	${shary} libaom3 at-spi2-common libatk1.0-0  libaudit-common libbsd0 libcap-ng0 
 	csleep 5
@@ -368,7 +359,7 @@ function e23_dm() {
 #
 #	 libatk-bridge2.0-0 libcairo-gobject2 libcairo2
 #	${shary} libcolord2 libepoxy0
-#	${shary} libpangocairo-1.0-0  libwayland-cursor0 libwayland-egl1
+#	${shary} libpangocairo-1.0-0
 #	${shary} libxdamage1 
 #	${shary} libxkbcommon0
 ## 
@@ -379,10 +370,9 @@ function e23_dm() {
 #
 #	#VAIH:dpkg: dependency problems prevent configuration of libwww-perl:
 #	#VAIH:xscreensaver depends on ; however:
-#
-#	#VAIH:libvte-jutut
+
 #	libstdc++6 (>= 11), 
-#	#	${shary} libvte-2.91-common libgnutls30 libicu72 libvte-2.91
+#	#	${shary}  libgnutls30 libicu72 
 #
 #	#wdm depends on xserver-xorg | xserver; however:
 #
