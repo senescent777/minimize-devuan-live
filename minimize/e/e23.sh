@@ -216,18 +216,14 @@ function e23_dm() {
 	#jos ei ala muuten sujua ni ao riveistä mallia accept1:seen
 
 	${shary} libfftw3-double3 libfontconfig1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
-	csleep 10
+	csleep 5
 
 	${shary} liblzma5 libopenjp2-7 libltdl7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
-	csleep 10
+	csleep 5
 
-	${shary} libx11-6 libxext6 imagemagick-6-common libxmu6 libgif7 libxpm4
+	${shary} libx11-6 libx11-xcb1 libx11-data libxext6 imagemagick-6-common libxmu6 libgif7 libxpm4
 	[ $? -eq 0 ] || exit 57
-	csleep 10
-
-	${shary} libx11-xcb1
-	[ $? -eq 0 ] || exit 57
-	csleep 10
+	csleep 5
 
 	${shary} fontconfig fontconfig-config
 	${shary} libdav1d6 libde265-0 libfribidi0 libglib2.0-0 libglib2.0-data libharfbuzz0b
@@ -280,7 +276,7 @@ function e23_dm() {
 	csleep 5
 
 	${shary} libseat1 libseccomp2 libtinfo6 #libpipeline1?
-	${shary} libunwind8 libx11-data
+	${shary} libunwind8
 	csleep 5
 
 	${shary} lsb-base psmisc #A
@@ -288,9 +284,12 @@ function e23_dm() {
 	${shary} init-system-helpers  #xscreensaver?
 	csleep 1
 	
-	#Depends: libc6 (>= 2.33), libpng16-16 (>= 1.6.2-1), libsm6, libx11-6, libx11-xcb1 (>= 2:1.7.5), libxaw7 (>= 2:1.0.14), libxcb-damage0, libxcb-present0, libxcb-xfixes0, libxcb1, libxcursor1 (>> 1.1.2), libxext6, libxft2 (>> 2.1.1), libxi6 (>= 2:1.2.99.4), libxkbfile1 (>= 1:1.1.0), libxmu6 (>= 2:1.1.3), libxmuu1 (>= 2:1.1.3), libxrender1, libxt6 (>= 1:1.1.0), man-db
-	#Depends: lsb-base (>= 1.3-9ubuntu2)
-	#Depends: libc6 (>= 2.15), libfontconfig1 (>= 2.12.6), libfontenc1, libgl1, libx11-6, libx11-xcb1 (>= 2:1.6.9), libxaw7, libxcb-shape0, libxcb1 (>= 1.6), libxcomposite1 (>= 1:0.3-1), libxext6, libxft2 (>> 2.1.1), libxi6, libxinerama1, libxkbfile1, libxmu6, libxmuu1, libxrandr2 (>= 2:1.2.0), libxrender1, libxt6 (>= 1:1.1.0), libxtst6, libxv1, libxxf86dga1, libxxf86vm1
+	#Depends: (>= 2.33),  (>= 1.6.2-1),  (>= 2:1.7.5),  (>= 2:1.0.14), 
+	#  libxcursor1 (>> 1.1.2), libxext6, libxft2 (>> 2.1.1), libxi6 (>= 2:1.2.99.4), 
+	#(>= 1:1.1.0), libxmu6 (>= 2:1.1.3), libxmuu1 (>= 2:1.1.3), libxrender1, libxt6 (>= 1:1.1.0), man-db
+	#Depends: (>= 1.3-9ubuntu2)
+	#Depends: (>= 2.15), libfontconfig1 (>= 2.12.6), libfontenc1, libgl1,  (>= 2:1.6.9), 
+	#  libxcomposite1 (>= 1:0.3-1), libxext6, libxft2 (>> 2.1.1), libxi6, libxinerama1, libxkbfile1, libxmu6, libxmuu1,  (>= 2:1.2.0), libxrender1, libxt6 (>= 1:1.1.0), libxtst6, libxv1, libxxf86dga1, libxxf86vm1
 
 	${shary} x11-apps x11-common x11-utils
 	csleep 10
