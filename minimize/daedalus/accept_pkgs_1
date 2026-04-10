@@ -245,5 +245,4 @@ libcap2
 #debconf varten
 libtext-wrapi18
 libfs6
-#TODO:jotain libseat-juttuja oli kanssa?
-
+libxkbfile1
