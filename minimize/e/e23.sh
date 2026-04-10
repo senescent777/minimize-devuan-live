@@ -196,17 +196,11 @@ function e23_qrs() {
 #VAIH:myös minimal_liven kanssa uudempi testikierros tämän kanssa
 #... modaamattomalla minimalilla boottaus+pakettien veto saattaisi olla idea
 
-#090426:   libegl-mesa0 libegl1  x11-utils x11-apps
+#090426:     x11-utils x11-apps
 
 
-#dpkg: dependency problems prevent configuration of libegl-mesa0:amd64:
-# libegl-mesa0:amd64 depends on  (>= 2:1.8.4); however:
-#  Package :amd64 is not configured yet.
-#
-#dpkg: dependency problems prevent configuration of libegl1:amd64:
-# libegl1:amd64 depends on libegl-mesa0; however:
-#  Package libegl-mesa0:amd64 is not configured yet.
-#
+
+
 #.V.M.P.5tna
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
@@ -294,6 +288,10 @@ function e23_dm() {
 	${shary} init-system-helpers  #xscreensaver?
 	csleep 1
 	
+	#Depends: libc6 (>= 2.33), libpng16-16 (>= 1.6.2-1), libsm6, libx11-6, libx11-xcb1 (>= 2:1.7.5), libxaw7 (>= 2:1.0.14), libxcb-damage0, libxcb-present0, libxcb-xfixes0, libxcb1, libxcursor1 (>> 1.1.2), libxext6, libxft2 (>> 2.1.1), libxi6 (>= 2:1.2.99.4), libxkbfile1 (>= 1:1.1.0), libxmu6 (>= 2:1.1.3), libxmuu1 (>= 2:1.1.3), libxrender1, libxt6 (>= 1:1.1.0), man-db
+	#Depends: lsb-base (>= 1.3-9ubuntu2)
+	#Depends: libc6 (>= 2.15), libfontconfig1 (>= 2.12.6), libfontenc1, libgl1, libx11-6, libx11-xcb1 (>= 2:1.6.9), libxaw7, libxcb-shape0, libxcb1 (>= 1.6), libxcomposite1 (>= 1:0.3-1), libxext6, libxft2 (>> 2.1.1), libxi6, libxinerama1, libxkbfile1, libxmu6, libxmuu1, libxrandr2 (>= 2:1.2.0), libxrender1, libxt6 (>= 1:1.1.0), libxtst6, libxv1, libxxf86dga1, libxxf86vm1
+
 	${shary} x11-apps x11-common x11-utils
 	csleep 10
 
