@@ -170,7 +170,7 @@ libmagickwand
 #
 #raster6 varten
 libxpm4
-libxmu6
+libxmu
 libwraster
 #/raster
 #huom.WINGS TARVITSEE WRASTERIN
@@ -210,10 +210,6 @@ libxcvt0
 libxdmcp6
 libxfont2
 #
-#
-libxmu
-#
-#
 libxaw7
 libxcb
 libxt
@@ -249,3 +245,4 @@ libxkbfile1
 libxrandr2
 libxt6
 libsm6
+libxcursor1
