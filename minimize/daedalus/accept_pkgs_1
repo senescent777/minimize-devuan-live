@@ -242,9 +242,10 @@ libnftables
 #libgssapi objo aiemmin (cap2-bin erikseen?)
 libcap2
 #
-#debconf varten
+#debconf varten?
 libtext-wrapi18
 libfs6
 libxkbfile1
 libxrandr2
 libxt6
+libsm6
