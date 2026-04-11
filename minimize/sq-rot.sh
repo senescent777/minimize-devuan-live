@@ -243,7 +243,7 @@ function common_part() {
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
 
-	[ -z "${2}"  ] && exit 11
+	[ -z "${2}"  ] && exit 11 # truhra parm (110426)
 	[ -d ${2} ] || exit 22
 	[ -d ${3} ] || exit 45
 
@@ -321,7 +321,7 @@ function cptp2() {
 	dqb "rot.c tp2 ${1}, ${2}, ${3}"
 
 	[ -z "${1}" ] && exit 99
-	[ -z "${2}" ] && exit 98
+	#[ -z "${2}" ] && exit 98 truhra parm (110426)
 	[ -d ${1} ] || exit 97
 
 	dqb "cptp2:pars ok"
