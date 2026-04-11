@@ -191,9 +191,9 @@ function e23_qrs() {
 	csleep 1
 }
 
-#VAIH:uusiksi vain tyhjästä (110426 onnSi paketin veto kokeiluja varten, asentiu desktop_liveen urputuksen aknssa)
-#VAIH:boisi myös ottaa mallia viimeisimmästä toimivasta paketista että mitä mukaan
-#VAIH:myös minimal_liven kanssa uudempi testikierros tämän kanssa
+#VAIH:uusiksi vain tyhjästä (110426 onnaSi paketin veto kokeiluja varten, asentiu desktop_liveen urputuksen aknssa) (jos jo urputus pois?)
+
+#VAIH:myös minimal_liven kanssa uudempi testikierros tämän kanssa (taas olisi ajank )
 #... modaamattomalla minimalilla boottaus+pakettien veto saattaisi olla idea
 
 #edelleen:
@@ -201,6 +201,7 @@ function e23_qrs() {
 #libwings3:amd64 depends on libpangoxft-1.0-0
 #libwings3:amd64 depends on libwraster6
 #wdm depends on libwings3 (>= 0.95.0); however:
+#110426:alkaisikohan kohta olla lib-asiat kunnossa? desktop_liven kanssa jo onnasi?
 
 #TODO:jokin /o/b/skRipti nostamaan äläkän jos /e/resolv.vonf puuttuu
 
@@ -215,7 +216,6 @@ function e23_dm() {
 	${shary} ${E22_GM}
 	csleep 5
 
-	#VAIH:voisi urputtaa että tällä hetkellä vain wdm tuettuna (jos sekään)
 	if [ "${1}" == "wdm" ] ; then
 		dqb "dm.k0"
 	else
@@ -228,9 +228,9 @@ function e23_dm() {
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
 	#[ $? -eq 0 ] || exit 54 #to state the obvious:initramfs-kikkailujen takia ei kande nöin tehdö
 	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
-	#[ $? -eq 0 ] || exit 55
+
 	${shary} libnuma1 libx265-199 libwraster6 libwings3
-	#[ $? -eq 0 ] || exit 57 #tarkoiytuksella
+
 	csleep 10
 
 	${shary} libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0

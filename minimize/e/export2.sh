@@ -156,7 +156,7 @@ case ${mode} in
 #	;;
 	f) #220326:toimii, tai ainakin osasi tehdä paketin
 		enforce_access $(whoami) ${t}
-		e22_arch ${tgtfile} ${d} ${gbk} #VAIH:testailut uusiksi josqs muutoksien johdosta (esim 110426)
+		e22_arch ${tgtfile} ${d} ${gbk} #VAIH:testailut uusiksi josqs muutoksien johdosta (esim 110426, ehkäjo toimii)
 	;;
 	q)
 		#170326:tekee edelleen arkiston, sisältö kenties ok
@@ -260,7 +260,7 @@ function z3() {
 
 	#HUOM.090426:EI IHAN SUORAAN NÄIN, PITÄISI EDITOIDA HAKEMISTOT POIS LISTASTA
 	if [ ! -s ${d0}/MAN1.F2ST ] ; then
-		#TODO:for x in $(rat -tf) ; do ...
+		#VAIH:for x in $(rat -tf) ; do ...
 		${sr0} -tf ${tgtfile} | grep -v .tar > ${d0}/MAN1.F2ST
 		csleep 1
 	fi
@@ -346,7 +346,7 @@ case ${mode} in
 		${shary} ${E22_GI}
 	;;
 	l)
-		#VAIH:e23_dm() uusicksi (110426 uusi paketti kokeiluun?)
+		#VAIH:e23_dm() uusicksi (110426 uusi paketti kokeiluun, joko toimii?)
 		#wdm -> debconf. libpam-modules, libpam-runtime, lsb-base. psmisc, x11-apps, x11-common, x11-utils, x11-xserver-utils, xserver-xorg | xserver, perl,libc, libcrypt1, libpam0g, libselinux1, libwings3, libwraster5, libwutil5, libx11-6, libxau6, linxdmcp6, libxinerama1, libxmu6
 		
 		#1104236:desktop_live:n kanssa onnistui jo paketin asennus? 
