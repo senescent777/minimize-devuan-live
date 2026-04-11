@@ -310,6 +310,7 @@ case ${mode} in
 		z3
 	;;
 	#280326:saa aikaiseksi paketin, sisällön testaus vielä
+	#viimeisin päivityspak ja minimal_live:xserver-paketit aiheuttivat urputusta, paketteja puuttunee
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
@@ -353,7 +354,7 @@ case ${mode} in
 		#wdm -> debconf. libpam-modules, libpam-runtime, lsb-base. psmisc, x11-apps, x11-common, x11-utils, x11-xserver-utils, xserver-xorg | xserver, perl,libc, libcrypt1, libpam0g, libselinux1, libwings3, libwraster5, libwutil5, libx11-6, libxau6, linxdmcp6, libxinerama1, libxmu6
 		
 		#1104236:desktop_live:n kanssa onnistui jo paketin asennus? 
-		#(tietyt kirjastot aiheuttavat härdelliä edelleen)
+		#minimal_live:n kanssa ei
 
 		csleep 1
 		[ -v CONF_dm ] || exit 77
