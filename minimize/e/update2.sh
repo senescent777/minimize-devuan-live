@@ -5,7 +5,9 @@ tcmd=$(which tar)
 [ -z "${tcmd}" ] && exit 11
 [ -x ${tcmd} ] || exit 12
 
-#TODO:tämä kikkare roskikseen, pitäisi keksiä parempiq ei kerran jaksa kesä/talviajan/lokaalien kanssa kikkailla
+#VAIH:tämä kikkare roskikseen, pitäisi keksiä parempiq ei kerran jaksa kesä/talviajan/lokaalien kanssa kikkailla
+#... O(2**n) tllennustilan suhteen olisi 1 juttu kanssa mikä hiertää
+#... "tar -T" sietäisi kokeilla ensin /entä -g ?
 
 spc=$(which cp)
 [ -z "${spc}" ] && exit 13
@@ -14,7 +16,7 @@ n=$(whoami)
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
-		#TODO:testaus miten saa tiomimaan omegan ajon jlkeen?
+		#TODO:testaus miten saa tOImimaan omegan ajon jlkeen?
 		#... pitäisi onnata qhan kohteen käyttöoik kunnossa
 
 		tcmd="sudo ${tcmd} "
@@ -28,7 +30,7 @@ tgt=${1}
 [ -z "${tgt}" ] && exit 15
 [ -s "${tgt}" ] || exit 16
 [ -r "${tgt}" ] || exit 17
-[ -r "${tgt}" ] || exit 18
+
 echo "PARAMS CHECKED"
 sleep 1
 
@@ -42,18 +44,12 @@ else
 	fi
 fi
 
-#TODO:näille main urputus jos ei ole $tgt sis hmisto mountattu?
-
 #pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
-${tcmd} -tf ${tgt} | grep '.deb'
+${tcmd} -tf ${tgt} | grep .deb
 sleep 1
 
 read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
 [ "${confirm}" != "Y" ] && exit 
-
-function process_entry() {
-	${tcmd} -f ${1} -rv ${2}
-}
 
 ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 [ $? -eq 0 ] || echo "chmod | chown ?"
@@ -65,45 +61,22 @@ if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	cd ${CONF_testgris}
 
 	#TODO?:-C olisi myös keksitty
-	#TODO?:nalqtus jos /etc yai /opt puuttuu paketista?
 else
 	cd /
 fi
 
-#TODO:lisäsäätöä /e/resolv , /e/localtime /e/timezone suhteen vai ei?
+#g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
+#sleep 1
+#
+#for f in ${g} ; do #090426:ehkä tuota mazn1.jutskaa hyödyntäen saisi for-loopin takaisin
+#	if [ -f ${f} ] ; then #josko nyt
+#		if [ ! -h ${f} ] ; then 
+#			${tcmd} -rvf ${tgt} ${f} #HUOM. "-uvf" KANSSA MENEE VITUIKSI JOS EI OLE TARKKANA 666 !!!
+#			[ $? -eq 0 ] || echo "chmod | chown ?"
+#		fi
+#	fi
+#done
 
-g=$(${tcmd} -tf ${tgt} | grep -v '${n}.conf' | grep -v .chroot)
-c=$(find / -maxdepth 1 -type f -name OLD.tar -size +10M | wc -l)
-
-if [ ${c} -gt 0 ] ; then
-	echo "ÅLD"
-	g=$(echo ${g} | grep -v OLD.tar)
-fi
-
-sleep 1
-c=$(find ${d0} -type f -name e.tar -size +10M | wc -l)
-
-if [ ${c} -gt 0 ] ; then
-	echo "e"
-	g=$(echo ${g} | grep -v e.tar)
-fi
-
-sleep 1
-c=$(find ${d0} -type f -name f.tar -size +10M | wc -l)
-
-if [ ${c} -gt 0 ] ; then
-	echo "f"
-	g=$(echo ${g} | grep -v f.tar)
-fi
-
-sleep 1
-
-for f in ${g} ; do
-	if [ -f ${f} ] ; then #josko nyt
-		${tcmd} -uvf ${tgt} ${f}
-		[ $? -eq 0 ] || echo "chmod | chown ?"
-	fi
-done
-
+${tcmd} -T ${d0}/MAN1.F2ST -f ${tgt} -rv
 #jotat ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4
