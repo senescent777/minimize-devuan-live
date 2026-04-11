@@ -424,6 +424,8 @@ function tpr() {
 
 #sqrot ei tarvitse tätä blokkia (pl. ehkä -h) 
 #HUOM.060426:tämä case-esac voisi toimia ilmankin kirjastoa, qhan vain konftdsto löytyy
+#110426:tässäkin "-v" tarpeen?
+
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii?

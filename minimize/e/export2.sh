@@ -220,7 +220,7 @@ function z1() {
 	dqb "NVDK 1b 2 secs"
 	csleep 2
 
-	#VAIH:zxcv-jutuista apufktioita selkeyden vuoksi
+
 	${NKVD} /opt/bin/zxcv.tmp
 	${spc} /opt/bin/zxcv /opt/bin/zxcv.ÅLD
 	${spc} /opt/bin/zxcv.sig /opt/bin/zxcv.sig.ÅLD
@@ -252,7 +252,7 @@ function z2() {
 }
 
 function z3() {
-	#VAIH:fktioksi jatkossa ao. bokki (Ior)
+
 	#[ -f ${d0}/MAN1.F2ST ] && ${NKVD} ${d0}/MAN1.F2ST
 	#csleep 1
 	#fasdfasd ${d0}/MAN1.F2ST
@@ -266,7 +266,6 @@ function z3() {
 
 	${srat} -rvf ${tgtfile} ${d0}/MAN1.F2ST
 
-	#VAIH:oikeusksien oskirntaa lsiää koksa /o/b/mutilatetc (valmista?)
 	${scm} go-rw /opt/bin/zxcv*
 	${sco} 0:0 /opt/bin/zxcv*
 	${srat} -rvf ${tgtfile} /opt/bin/zxcv*
@@ -278,7 +277,7 @@ case ${mode} in
 	;;
 	3|4) 
 		#3 taisi toimia 04/26 tienoilla ainakin kerran
-		#4 vissiin toimi kerran 04/26 (VAIH:uusiksi vain testit)
+		#4 vissiin toimi kerran 04/26 (TODO:uusiksi vain testit)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1
@@ -318,7 +317,7 @@ case ${mode} in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) 
-	#... chattr olisi kullä paikallaan etteI vahingossa spedeilisi
+	#... chattr olisi kYllä paikallaan etteI vahingossa spedeilisi
 		#070426:paketin sisältö vaikuttaa toimivan minimal_liven alaisuudessa, entä desktop?
 		#... oliklop jostain libpam- paketeista ulinaa? tuliko libcom-err2 mukaan?
 
@@ -341,7 +340,7 @@ case ${mode} in
 	g)
 		[ -v E22_GI ] || exit 95
 		#070426:osannee tehdä toimivan paketin
-		#TODO:tämäönkin testaus uudestaan
+		#TODO:tämänkin testaus uudestaan
 		${fib}
 		${shary} ${E22_GI}
 	;;
@@ -356,23 +355,20 @@ case ${mode} in
 	;;
 	n)
 		#VAIH:ntp-jutut takaisin josqs?
-
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;
-	x)
-		#TODO:uusiksi vain koko pasq?
-		e23_xyz
-	;;
+#	x)
+#		#TODO:uusiksi vain koko pasq?
+#		e23_xyz
+#	;;
 	*)
 		exit
 	;;
 esac
 
-#VAIH:$distro/{accept,reject,drop} muokkaus viimeaikaisista johtuen
-
-function e22_dblock() { #TODO:testailut uusicksi taas
-	dqb "e22_dblock(${1} , ${2} , ${3} , ${4})"
+function e22_dblock() { #VAIH:testailut uusicksi taas
+	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
 
 	[ -z "${1}" ] && exit 14
 	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
