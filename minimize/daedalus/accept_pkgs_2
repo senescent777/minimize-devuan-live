@@ -18,7 +18,6 @@ xserver-common
 xserver-xorg-legacy
 #
 #utyils ennen:common
-#x11-xkb-utils
 xserver-common
 xserver-xorg-core
 #
@@ -43,10 +42,11 @@ xfonts
 lsb-base
 man-db
 #
-#	${shary} x11-apps x11-common x11-utils
 #
 x11
 xorg
 #route ennne dhcp
 iproute2
 isc-dhcp
+#
+wdm
