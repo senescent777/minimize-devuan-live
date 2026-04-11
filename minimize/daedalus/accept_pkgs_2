@@ -36,12 +36,13 @@ git-man
 #
 xauth
 xinit
+#
 xbitmaps
 xterm
+#
 xfonts
 lsb-base
-man-db
-#libx11
+man-db 
 #
 x11
 xorg

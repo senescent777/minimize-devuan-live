@@ -22,7 +22,6 @@ libavahi-client3
 zlib1g
 libkrb5support0
 libkrb5-3
-#gss ja krb5 olisi hyvä olla oikea versio (7426 lienee jo kunnossa)
 libgssapi-krb5
 libgnutls30
 libcups
@@ -55,7 +54,6 @@ libcolord2
 libepoxy
 libfribidi0
 libharfbuzz0b
-#pangocairo oli tässä aiemmin
 libxcomposite1
 libxcursor
 libxdamage1
@@ -75,9 +73,6 @@ libwayland
 libbsd0
 x11-common
 #
-#Depends: ,  , , libc6 (>= 2.34),  (>= 1.14.0), (>= 1.14.0),  (>= 0.1.10),  (>= 1.7.0),  (>= 1.4.3),
-# (>= 0.5.0),  (>= 2:1.5.0), libgtk-3-common (>= 3.24.38-2~deb12u3)
-#Depends:  (>= 0.2.0), libc6 (>= 2.14), 
 #
 libgtk-3-0
 #
@@ -89,7 +84,6 @@ libicu72
 libpcre2-8-0
 libvte-2.91-common
 libvte
-#oikeat versiot libpam-paketeista saattaa olla 7426
 libxml
 libpam-modules-bin
 libpam-modules_
@@ -144,12 +138,12 @@ libheif1
 libopenjp2-7
 #
 #
-#TODO:näiden suhteen jotain?:   x11-utils x11-apps
+#TODO:näiden suhteen jotain?:   x11-utils x11-apps (vielä 120426?)
 #libgomp1,libbz2 pitäisi olla yähän menbnessä?
 #
 imagemagick-6-common
 libfftw3-double3
-libfreetype6
+libfreetype
 libjbig0
 libjpeg62-turbo
 liblcms2-2
@@ -177,14 +171,12 @@ libsoup
 libassuan0
 liberror-perl
 #
-#ennen äksää (030426) (myös e23:seen mukaan wayland-s ?)
 libgbm1
 libdrm2
 libexpat1
 libglapi-mesa
 libxcb
 libxshmfence1
-#Depends: libc6 (>= 2.34),  (>= 2.4.109),  (>= 2.0.1),  (= 22.3.6-1+deb12u1), (>= 3.4),  (= 22.3.6-1+deb12u1), , ,
 libegl-mesa0
 libegl1
 #
@@ -203,7 +195,6 @@ libxt
 libxv1
 libxx
 libsm
-libfreetype
 libice6
 libtinfo6
 libpixman
@@ -242,3 +233,4 @@ dconf-service
 libdconf1
 libgl1
 libxxf86
+libutempter0
