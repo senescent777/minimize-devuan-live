@@ -200,8 +200,8 @@ function e23_qrs() {
 #TODO:jokin /o/b/skRipti nostamaan äläkän jos /e/resolv.vonf puuttuu
 
 #libgtk3 ja dconf-gsettings qsi minimal_liven kanssa (jotain jo tehty?)
-#libegl-mesa myös, libwings ja libpango tottakai
-#xterm ja xbitmaps, x11-server-utils
+#libegl-mesa myös, libwings ja libpango tottakai (jotain jo tehty?)
+#xterm ja xbitmaps, x11-server-utils (jotain jo tehty?)
 
 #.V.M.P.5tna mussunmussun
 function e23_dm() {
@@ -220,8 +220,6 @@ function e23_dm() {
 		echo "NOT SUPPORTED"
 		exit 666
 	fi
-
-	#jos ei ala muuten sujua ni ao riveistä mallia accept1:seen
 	
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0 libpangocairo-1.0-0
 	#[ $? -eq 0 ] || exit 54 #to state the obvious:initramfs-kikkailujen takia ei kande nöin tehdö
@@ -256,7 +254,6 @@ function e23_dm() {
 	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0
 	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
 
-	#Depends: 
 	#Depends:  (>= 2.34),  (>= 2.4.109),  (>= 2.0.1),(= 22.3.6-1+deb12u1),  (>= 3.4),  (= 22.3.6-1+deb12u1), 
 	#(>= 1.15.0), (>= 2:1.8.4), (>= 1.13),(>= 1.3), , (>= 1.9.2), 
 	#Depends:  (>= 2.34), (= 1.6.0-1), (= 1.6.0-1)
@@ -273,7 +270,6 @@ function e23_dm() {
 	csleep 10
 
 	${shary} libicu72 libxfixes3 libxml2
-	${shary} 
 	csleep 5
 
 	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
@@ -286,7 +282,6 @@ function e23_dm() {
 	csleep 10
 
 	${shary} libxau6  #C
-
 	${shary} lsb-base psmisc #A
 #
 
@@ -313,10 +308,20 @@ function e23_dm() {
 
 	${shary} bsdextrautils groff-base 
 	${shary} init-system-helpers  #xscreensaver?
-	csleep 5
+	csleep 10
 
+	#Depends:  (>= 2.34),  (>= 1:1.0.0),   (>= 2:1.0.14),  (>> 1.1.2),  
+	#(>= 2:1.1.3), (>= 2:1.1.3), (>= 2:1.5.0),  
+
+	${shary} cpp procps #mitä kaikkea nämä vetävät mukaan?
 	${shary} x11-xserver-utils xserver-xorg #D
-	${shary} xterm xauth
+	csleep 10
+
+	#Depends: , (>= 2.34),  (>= 2.12.6), (>= 2.2.1), (>= 1:1.0.0), 
+	#(>= 6),  (>= 1.1.5), , (>= 2:1.0.14), , (>> 2.1.1),  (>= 2:1.1.4), (>= 2:1.1.3), , 
+	#Depends:  (>= 2.34), ,  (>= 1:1.0.9), ,  (>= 2:1.1.3)
+
+	${shary} libutempter0 xbitmaps xterm xauth
 	csleep 5
 
 	${shary} wdm 
@@ -327,20 +332,12 @@ function e23_dm() {
 #	vieläjotain yhdisteltäbvää?
 #
 #
-#	#varsinainen cpp mukaan tuohon? alempana se tulee mukaan nyt
+
 
 #
 #	${shary} libopengl0O  
-#	${shary} cpp procps
-#
-
-#
-#
-
 #	
-## 
-#
-#
+
 
 #	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
 #
@@ -453,7 +450,7 @@ function e23_profs() {
 #	${shary} x11-session-utils xfonts-utils xinit xfonts-scalable xfonts-75dpi xfonts-100dpi
 #	#{shary} xserver-xorg
 #
-#	${shary} xbitmaps x11-xfs-utils  xkb-data xfonts-base x11-xkb-utils
+#	${shary}  x11-xfs-utils  xkb-data xfonts-base x11-xkb-utils
 #	${shary}  #xterm+xauth voIsi hoitaa e23_dm() kaUTTa? jo dm
 #
 #	#egl,audit,bsd0,, yms. dm() kautta
