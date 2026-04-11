@@ -67,21 +67,16 @@ libxr
 libcairo-gobject2
 libcairo2
 libcups2
-libfontconfig1
 libpango-1
 libpangoft2
 libpangocairo
 libpangoxft
 libwayland
-libxcursor1
 libbsd0
 x11-common
 #
 #Depends: ,  , , libc6 (>= 2.34),  (>= 1.14.0), (>= 1.14.0),  (>= 0.1.10),  (>= 1.7.0),  (>= 1.4.3),
-# (>= 2.12.6), (>= 0.19.7),  (>= 2.40.0), (>= 2.59.0), (>= 2.2.0),  (>= 1.45.5),  (>= 1.44.0), -0 (>= 1.44.0), 
-# (>= 1.15.0),  (>= 2:1.4.99.1),  (>= 1:0.4.5),  (>> 1.1.2), (>= 1:1.1),  (>= 2:1.1.4), 
 # (>= 0.5.0),  (>= 2:1.5.0), libgtk-3-common (>= 3.24.38-2~deb12u3)
-#Depends: 
 #Depends:  (>= 0.2.0), libc6 (>= 2.14), 
 #
 libgtk-3-0
@@ -184,6 +179,12 @@ liberror-perl
 #
 #ennen äksää (030426) (myös e23:seen mukaan wayland-s ?)
 libgbm1
+libdrm2
+libexpat1
+libglapi-mesa
+libxcb
+libxshmfence1
+#Depends: libc6 (>= 2.34),  (>= 2.4.109),  (>= 2.0.1),  (= 22.3.6-1+deb12u1), (>= 3.4),  (= 22.3.6-1+deb12u1), , ,
 libegl-mesa0
 libegl1
 #
@@ -198,7 +199,6 @@ libxdmcp6
 libxfont2
 #
 libxaw7
-libxcb
 libxt
 libxv1
 libxx
@@ -206,7 +206,6 @@ libsm
 libfreetype
 libice6
 libtinfo6
-libxshmfence1
 libpixman
 libpciaccess
 libgl1 #turha tässä vai ei?
@@ -238,3 +237,8 @@ libmagickcore-6
 libmagickwand
 libwraster
 libwings3
+#
+dconf-service 
+libdconf1
+libgl1
+libxxf86
