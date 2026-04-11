@@ -22,7 +22,7 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 	esac
 }
 
-function e23_tblz() { #20426:toimii edelleen?
+function e23_tblz() { #taitaa toimia, 070426
 	dqb "e23_tblz()"
 	csleep 1
 
@@ -58,29 +58,27 @@ function e23_tblz() { #20426:toimii edelleen?
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
 #... siinä ulkoistuksessa on kyllä semmoinen juttu
 
-#20426:toimiie delleen?
+#050426:suattaapi vaikka toimia
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
-	#csleep 1 #VAIH:latemnsseja vähemmäksi?
+
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
 
-	${shary} ${E22_GS}
-	csleep 1	
+	#${shary} ${E22_GS} #tämä oli jo kytsuvassa koodissa
+	csleep 1
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
-	${shary} ${E22GI}
-	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0  git-man git"
+	${shary} ${E22_GI}
+	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	${shary} ${E22_GG}
 
-	#sudo-asia olisi jo kunnossa 120126?	ehkä
+	#rämän eiirto-> common_lib?
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
-
-	#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=man-db=2.11.2-2
 	${shary} ${E23_GS}  #moni pak tarttee nämä
 
-	#${shary} #bsd debconf
+	#${shary} #bsd 
 	##${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei? ehkä
 
 	message
@@ -102,9 +100,7 @@ function e23_other_pkgs() {
 	csleep 1
 	${lftr}
 
-#initrd-nalkutus mutkistanut asioita, josko a) /etc/kernel sisältö b) debian reference auttaisi? (tämä seur)
-#	${lftr}
-
+	#initrd-nalkutus mutkistanut asioita, josko a) /etc/kernel sisältö b) debian reference auttaisi? (tämä seur)
 	dqb "e23_other_pkgs() DONE"
 	csleep 1
 }
@@ -122,7 +118,6 @@ function e23_upgp() {
 	#LOPPUU SE PURPATUS PRKL
 	${shary} ${E22_GS}
 
-	#helpompi vain ajaa e23_dm() ennen upgp()
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 
@@ -183,7 +178,7 @@ function e23_qrs() {
 	dqb "BEFORE NVDk"
 	[ -f ${4} ] && ${NKVD} ~/${4}
 	csleep 1
-	
+
 	e22_settings ${2} ${4} ${5}
 	#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
 
@@ -196,117 +191,206 @@ function e23_qrs() {
 	csleep 1
 }
 
-#290326:toimii
+#VAIH:uusiksi vain tyhjästä (110426 onnaSi paketin veto kokeiluja varten, asentiu desktop_liveen urputuksen aknssa) (jos jo urputus pois?)
+
+#VAIH:myös minimal_liven kanssa uudempi testikierros tämän kanssa (taas olisi ajank )
+#... modaamattomalla minimalilla boottaus+pakettien veto saattaisi olla idea
+
+#edelleen:
+#libwraster6:amd64 depends on libmagickwand-6.q16-6 (>= 8:6.9.10.2); however:
+#libwings3:amd64 depends on libpangoxft-1.0-0
+#libwings3:amd64 depends on libwraster6
+#wdm depends on libwings3 (>= 0.95.0); however:
+#110426:alkaisikohan kohta olla lib-asiat kunnossa? desktop_liven kanssa jo onnasi?
+
+#TODO:jokin /o/b/skRipti nostamaan äläkän jos /e/resolv.vonf puuttuu
+
+#.V.M.P.5tna mussunmussun
 function e23_dm() {
-	dqb "e23_dm(${1})"
+	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
 	csleep 2
 
-	dqb "params ok"
 	${fib}
-	csleep 1
-
-	#LOPPUU SE PURPATUS PRKL
 	${shary} ${E22_GS}
-	csleep 1
+	${shary} ${E22_GM}
+	csleep 5
 
-	${shary} libice6 libsm6 libx11-6 libxext6 libxmu6 libxt6
-	${shary} menu twm
-	#csleep 1
+	if [ "${1}" == "wdm" ] ; then
+		dqb "dm.k0"
+	else
+		echo "NOT SUPPORTED"
+		exit 666
+	fi
 
-	#libselinux oikeastaan muualla jo
-	${shary} libcrypt1 libpam0g libselinux1 #jemmaan?
-	${shary} libxau6 libxaw7 libxdmcp6 libxft2 libxinerama1 
-	csleep 1
-	${shary} libxpm4 libxrender1 debconf x11-utils cpp lsb-base x11-xserver-utils procps
-	#csleep 1
-
-	${shary} libgtk-3-0 libgtk-3-common
-	csleep 1
-	${shary} libxxf86vm1 libxrandr2 libxml2 libxi6 libglib2.0-0 libglib2.0-data libatk1.0-0 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common
-#	csleep 1
-	${shary} fontconfig libfribidi0 libharfbuzz0b libthai0
-	${shary} libfreetype6 libxcb-shape0 libxcb-damage0 libxcb-present0 libxcb-xfixes0 libxcb1
-	${shary} libxcb-render0 libxcb-shm0
-
-	case "${1}" in
-		xdm) #010126:pitäisiköhän tämäkin case testata?
-			${shary} xdm
-		;;
-		wdm)
-			# zlib1g perl:any xserver-xorg | xserver:tarteeko juuri tässä vetää?
-			${shary} libnuma1
-			${shary} libwebp7 libaom3 libdav1d6 libde265-0 libx265-199
-			${shary} libwebpdemux2 libheif1 libaudit-common libcap-ng0 libaudit1
-			csleep 1
-
-			${shary} libdb5.3 libpam-modules-bin libpam-modules libpam-runtime
-			${shary} sysvinit-utils libtinfo6 libpng16-16 libx11-xcb1  
-			#csleep 1
-
-			${shary} libxfixes3 libxcursor1
-			${shary} libxkbfile1 libxmuu1 
-			#bsdextrautils | bsdmainutils 
-			${shary} bsdextrautils groff-base libgdbm6 libpipeline1 libseccomp2 man-db
-			csleep 1
-
-			${shary} libexpat1 fontconfig-config libfontconfig1
-			${shary} libfontenc1 libglvnd0 libglx0 libgl1  
-			${shary} x11-common libxtst6 libxv1 libxxf86dga1 
-			#csleep 1
-
-			${shary} psmisc x11-apps
-			${shary} libpcre2-8-0 libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
-			csleep 1
-
-			${shary} libgif7 libwraster6 libjpeg62-turbo
-			${shary} imagemagick-6-common libmagickwand-6.q16-6 libtiff6
-			#csleep 1
-
-			${shary} libbz2-1.0 libfftw3-double3  libjbig0 liblcms2-2 liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libwebpmux3
-			csleep 1
-			${shary} libmagickcore-6.q16-6 
-			${shary} libwutil5 wmaker-common libwings3
-			#csleep 1
-
-			${shary} libx11-data libmd0 libbsd0
-			${shary} wdm
-		;;
-#		lxdm)
-#			${shary} libpixman-1-0
-#			#csleep 1
-#			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
-#			# (>= 1.28.3),  (>= 1.28.3),(>= 1.28.3),(>= 2:1.4.99.1),  (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), , libxfixes3,  (>= 2:1.1.4),  (>= 2:1.5.0),  adwaita-icon-theme | gnome-icon-theme, hicolor-icon-theme, shared-mime-info
-#			${shary} libpangocairo-1.0-0   
-#			#csleep 1
-#			${shary} libdeflate0 debliblerc4 
-#			csleep 1
-#			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
-#			${shary} libcairo2 libgtk2.0-common libgtk2.0-0
-#			csleep 1
-#			#gdk ennen gtk?
-#			${shary}   
-#			csleep 1
-#			${shary} gtk2-engines-pixbuf gtk2-engines 
-#			csleep 1
-#			${shary} lxdm 
-#			csleep 1
-#			#261225:lxde-juttujrn ja lxpolkit:in riippuvuukisien selvutys saattaa osoittautua tarpeelliskeis?
-#			#polkit-1-auth-agent:
-#			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
-#			#csleep 1
-#			#	 lxlock | xdg-utils, 
-#			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
-#			${shary} lxpolkit lxsession-logout lxsession
-#			#csleep 1
-#		;;
-		*)
-		;;
-	esac
+	#jos ei ala muuten sujua ni ao riveistä mallia accept1:seen
 	
-	E22_GX="libwww-perl xscreensaver-data init-system-helpers libegl1 xscreensaver"
-	${shary} ${E22_GX}  #libsystemd0
+	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
+	#[ $? -eq 0 ] || exit 54 #to state the obvious:initramfs-kikkailujen takia ei kande nöin tehdö
+	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
+
+	${shary} libnuma1 libx265-199 libwraster6 libwings3
+
+	csleep 10
+
+	${shary} libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
+	csleep 5
+
+	${shary} liblzma5 libopenjp2-7 libltdl7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
+	csleep 10
+
+	${shary} libx11-6 libx11-xcb1 libx11-data libxext6 imagemagick-6-common libxmu6 libxmuu1 libgif7 libxpm4
+	#[ $? -eq 0 ] || exit 57 #jospa ei tämmöisiä tähän fktioon, tökkii
+	csleep 5
+
+	${shary} fontconfig fontconfig-config
+	${shary} libdav1d6 libde265-0 libfribidi0 libglib2.0-0 libglib2.0-data libharfbuzz0b
+	${shary} libthai0 libxft2 libxrender1 libxrandr2
+	csleep 10
+
+	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
+	${shary} libxcb1
+	csleep 5
+
+	${shary} libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 
+	${shary} libxcb-shape0 libxshmfence1 libxcb-damage0 libxcb-shm0 libxcb-render0 #hyvä idea ksekittää nämä inxcb-jutut?
+	csleep 10
+
+	${shary} libglvnd0 libegl-mesa0 libgl1 libxaw7 libegl1
+	csleep 5
+
+	${shary} libxcomposite1 libxi6 libxinerama1 libxkbfile1
+	csleep 10
+
+	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
+	csleep 5
+
+	${shary} libxcursor1 libwutil5 man-db wmaker-common #libbz2-1.0
+	csleep 10
+
+	${shary} libicu72 libxfixes3 libxml2
+	${shary} 
+	csleep 5
+
+	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
+	csleep 10
+
+	${shary} libxdmcp6 menu twm libmd0
+	csleep 5
+
+ 	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common libbsd0 libcap-ng0 
+	csleep 10
+
+	${shary} libxau6  #C
+	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0 
+	${shary} libgtk-3-0 libgtk-3-common libice6  #libheif versio ok?
+	csleep 5
+
+	${shary} libseat1 libseccomp2 libtinfo6 #libpipeline1?
+	${shary} libunwind8
+	csleep 10
+
+	${shary} lsb-base psmisc #A
+	${shary} bsdextrautils groff-base 
+	${shary} init-system-helpers  #xscreensaver?
+	csleep 5
+
+	${shary} x11-apps x11-common x11-utils
+	csleep 10
+
+	${shary} x11-xserver-utils xserver-xorg #D
+	${shary} xterm xauth
+	csleep 5
+
+	${shary} wdm 
+	dqb "e23_dm( done (((("
+	csleep 1
 }
+
+#	vieläjotain yhdisteltäbvää?
+#
+#
+#	#varsinainen cpp mukaan tuohon? alempana se tulee mukaan nyt
+
+#
+#	${shary} libopengl0O  
+#	${shary} cpp procps
+#
+
+#	#Depends: adwaita-icon-theme, hicolor-icon-theme, shared-mime-info, 
+#
+#	 libatk-bridge2.0-0 libcairo-gobject2 libcairo2
+#	${shary} libcolord2 libepoxy0
+#	${shary} libpangocairo-1.0-0
+#	${shary} libxdamage1 
+#	${shary} libxkbcommon0
+## 
+#
+#
+
+#	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
+#
+#	#VAIH:dpkg: dependency problems prevent configuration of libwww-perl:
+#	#VAIH:xscreensaver depends on ; however:
+
+#	libstdc++6 (>= 11), 
+#	#	${shary}  libgnutls30
+#
+#	#wdm depends on xserver-xorg | xserver; however:
+#
+#	case "${1}" in
+#		xdm) #010126:pitäisiköhän tämäkin case testata?
+#			${shary} xdm
+#		;;
+#		wdm)
+#			#TODO:wdm tartvitsee xserver|xserver-org (minimal_live)
+#			${shary}  #audit1 ennen case?
+#			${shary} sysvinit-utils 
+#			${shary} libpipeline1
+#			csleep 1
+#
+#			${shary} wdm
+#		;;
+##		lxdm)
+##			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
+##			#csleep 1
+##			${shary} libdeflate0 debliblerc4 
+##			csleep 1
+##			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
+##			${shary}  libgtk2.0-common libgtk2.0-0
+##			csleep 1
+##			#gdk ennen gtk?
+##			${shary}   
+##			csleep 1
+##			${shary} gtk2-engines-pixbuf gtk2-engines 
+##			csleep 1
+##			${shary} lxdm 
+##			csleep 1
+
+##			#polkit-1-auth-agent:
+##			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
+##			#csleep 1
+##			#	 lxlock | xdg-utils, 
+##			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
+##			${shary} lxpolkit lxsession-logout lxsession
+##			#csleep 1
+##		;;
+#		*)
+#		;;
+#	esac
+#
+#	#VAIH:pitäisiköhän nämäkin junnata läpi?
+#	#Depends: perl:any, , ,,,,,,,,, liblwp-mediatypes-perl,, libnet-http-perl, libtry-tiny-perl, liburi-perl, libwww-robotrules-perl, 
+#	#  (>= 0.99.7.1), libsystemd0 (>= 243), ,  (>> 2.1.1), (>= 2:1.2.99.4),  (>= 2:1.1.4), 
+#
+#	#EI JUNALAUTTA
+#	E22_GX="netbase"
+#	E22_GX="${E22_GX} liblwp-protocol-https-perl libhttp-negotiate-perl libhtml-tagset-perl libhttp-message-perl libhttp-date-perl libhttp-cookies-perl libhtml-tree-perl libhtml-parser-perl libfile-listing-perl libencode-locale-perl"
+#	E22_GX="${E22_GX} ca-certificates libwww-perl "
+#
+#	E22_GX="${E22_GX}  
+#	E22_GX="${E22_GX} xscreensaver-data xscreensaver"
+#	${shary} ${E22_GX}  #libsystemd0
 
 #150326:teki ainakin kerran jotain toivottua (ehkä joutaa vielä arpoa minne juttuja kopsaillaan) 
 function e23_profs() {
@@ -338,4 +422,42 @@ function e23_profs() {
 	csleep 1
 }
 
-sleep 1
+#function e23_xyz() {	
+#	${shary} libeudev1 keyboard-configuration #drm2 sekä shmfence _dm() kautta
+#	${shary} libpixman-1-0 libxfont2 libpciaccess0 libgcrypt20
+#	${shary} libxcvt0 xcvt #vetää vai ei? vssiin menee hi pakettiin 7426
+#
+#	csleep 30
+#	dpkg -l libxcvt*
+#	csleep 6
+#
+#	${shary} xserver-xorg-video-modesetting xserver-xorg-input-evtouch
+#	#libopengl0 tarvitaanm, e23() 
+#	${shary} libglu1-mesa libgl1-mesa-dri #gl1 muttei mesa löytyy jo aiemmin
+#
+#	#tässä alla vöib tulla suurempi lottoaminen (jospa jollain livecd:llä selvittäisi mitä oik tarv)
+#	${shary} x11-session-utils xfonts-utils xinit xfonts-scalable xfonts-75dpi xfonts-100dpi
+#	#{shary} xserver-xorg
+#
+#	${shary} xbitmaps x11-xfs-utils  xkb-data xfonts-base x11-xkb-utils
+#	${shary}  #xterm+xauth voIsi hoitaa e23_dm() kaUTTa? jo dm
+#
+#	#egl,audit,bsd0,, yms. dm() kautta
+#
+#	${shary} xserver-common xserver-xorg-core
+#	#xserver-xorg #tarvitseeko erikseen sanoa koska xorg?
+#	${shary} xorg xorg-docs-core xorg-docs #2. ja 3. oik. tarpeen?
+#
+#	#${shary} xserver-xorg-input-all xserver-xorg-input-libinput xserver-xorg-input-wacom 
+#
+#	#Depends:  (>= 2:21.1.7-3devuan1),  (>= 2.34),  (>= 0.5) | 
+#	${shary} xserver-xorg-legacy #tarvitsee vai ei?
+#	#server-xorg-video-all xserver-xorg-video-amdgpu
+#
+#	#${shary} xserver-xorg-video-ati xserver-xorg-video-fbdev xserver-xorg-video-intel 
+#	#${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
+#
+#		#VAIH:xserver-xorg-video-* ainakin mukaan?
+##... "case l" jos kuittaisi äksän lib-jutut (tai sit boottaa minimal-liveen ja asenna x+wdm siihen) (TODO?)
+#
+#}
