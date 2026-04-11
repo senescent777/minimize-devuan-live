@@ -8,26 +8,79 @@ libgdk-pixbuf-2.0-bin
 librsvg2-2
 librsvg2-common
 libstdc
+#
+#110426:libatk-at_spi-jutut jo kunnossa vai ei?
+libatspi2
+at-spi
 libatk1.0-0
+libatk-bridge
 #
 libavahi-common-data
 libavahi-common3
 libavahi-client3
 #
-#Depends: libavahi-client3 (>= 0.6.16), libavahi-common3 (>= 0.6.16), libc6 (>= 2.36), libgnutls30 (>= 3.7.5), libgssapi-krb5-2 (>= 1.17), zlib1g (>= 1:1.2.0)
 zlib1g
 libkrb5support0
 libkrb5-3
-libgssapi-krb5-2
+#gss ja krb5 olisi hyvä olla oikea versio (7426 lienee jo kunnossa)
+libgssapi-krb5
 libgnutls30
 libcups
+libtirpc-common
+libtirpc3
 #
+#gtk3
+#110426:gtk3-jutut kunnossa vai ei? ehkä
+dconf-gsettings-backend
+gsettings-backend
 libgtk-3-common
+#
+libx11-6
+libx11-xcb1
+libxft2
+#
+#joko jo?
+libfont
+libglib2.0
+#
+#
+#
+libgif7
+#
+#
+wmaker-common
+#
+#
+adwaita-icon-theme
+hicolor-icon-theme
+shared-mime-info
+libatk-bridge
+libcairo
+libcolord2
+libepoxy
+libfribidi0
+libharfbuzz0b
+#pangocairo oli tässä aiemmin
+libxcomposite1
+libxcursor
+libxdamage1
+libxext6
+libxfixes3
+libxi
+libxkb
+libxr
 libgtk-3-0
+#
+gtk-update-icon-cache
 libgtk-3-bin
-#vte jälkeen atk:n ja gtk3:n jälkeen?
+#
+#110426:vte-jutut jo kunnossa? ( -> , ,,  ,  , , pcre2,  systemd, zlib )
+libcairo2
+libicu72
+libpcre2-8-0
 libvte-2.91-common
 libvte
+#oikeat versiot libpam-paketeista saattaa olla 7426
 libxml
 libpam-modules-bin
 libpam-modules_
@@ -61,19 +114,17 @@ libzvbi0
 libsoxr0
 libswresample4
 #
-libx11-6
-libx11-xcb1
 libpython3.11-minimal
 libpython3.11-stdlib
+#pitäisikö ao 2 riippuvuudet selvittää? ei juurinyt
 libgtk2.0-common
 libgtk2.0-0
 #
-#jälkimmänen voisi olla accept2_sessa jatqssa
+#jälkimmäInen voisi olla accept2_sessa jatqssa?
 libnftables
 #
-#WDM
-libgif7
-libwebpdemux2
+#
+#
 libfftw3
 liblqr-1-0
 libde265-0
@@ -83,32 +134,111 @@ libdav1d6
 libnuma1
 libx265-199
 libheif1
-imagemagick-6-common
 libopenjp2-7
-libwebpmux3
-libmagickcore-6
-libmagickwand-6
-libgif7
-libwraster6
-wmaker-common
-libwutil5
-libpangoxft-1.0-0
-libwings3
+#
+#
+#TODO:näiden suhteen jotain:   x11-utils x11-apps
+#libgomp1,libbz2 pitäisi olla yähän menbnessä?
+imagemagick-6-common
+libfftw3-double3
+libfreetype6
+libjbig0
+libjpeg62-turbo
+liblcms2-2
+libltdl7
+liblzma5
+libpng16-16
+libtiff6
+libxml2
+#
+#
+#
+#
+#
+#
+#
+#raster6 varten
+libxpm4
+libxmu
+#
+#huom.WINGS TARVITSEE WRASTERIN
+#
 #
 libavutil57
 libavcodec59
 #
-#
 libdbus-1-3
 #
 #glib-networking:amd64 depends on gsettings-desktop-schemas
-#
 gsettings-desktop-schemas
 #
 #libsoup-3.0-0:amd64 depends on glib-networking 
 glib-networking
 libsoup
 libassuan0
-#
-#TODO:git depends on liberror-perl; however
+#täm,ä jo ok 110426?
 liberror-perl
+#
+#ennen äksää (030426) (myös e23:seen mukaan wayland-s ?)
+libgbm1
+libegl-mesa0
+libegl1
+#
+libaudit1
+libbsd0
+libgl
+libseat1
+libselinux1
+libunwind8
+libxau6
+libxcvt0
+libxdmcp6
+libxfont2
+#
+libxaw7
+libxcb
+libxt
+libxv1
+libxx
+libsm
+libfreetype
+libice6
+libtinfo6
+libxshmfence1
+libpixman
+libpciaccess
+libgl1 #turha tässä vai ei?
+libgcrypt20
+#miten ao. kirj. ankssa?
+libeudev
+libdrm
+#
+#vissiin gcc-12/cpp-12? aiemmaksi?
+libisl
+#
+#nftables
+libnftables
+#
+#iproute2 varte?
+#libgssapi objo aiemmin (cap2-bin erikseen?)
+libcap2
+#
+#debconf varten?
+libtext-wrapi18
+libfs6
+libxkbfile1
+libsm6
+libxcursor1
+#
+#UUSI YRITYS 110426 PRKL
+libpango-1
+libpangoft2
+libpangocairo
+libpangoxft
+libwayland
+libwebp
+libwutil5
+libmagickcore-6
+libmagickwand
+libwraster
+libwings3
