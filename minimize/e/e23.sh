@@ -280,19 +280,27 @@ function e23_dm() {
 
 	${shary} libxau6  #C
 	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0
-
+	${shary} lsb-base psmisc #A
 #
-	#Depends:  (>= 2.33),  (>= 1.6.2-1), libsm6, libx11-6, libx11-xcb1 (>= 2:1.7.5), libxaw7 (>= 2:1.0.14), libxcb-damage0, libxcb-present0, libxcb-xfixes0, libxcb1, libxcursor1 (>> 1.1.2), libxext6, libxft2 (>> 2.1.1), libxi6 (>= 2:1.2.99.4), libxkbfile1 (>= 1:1.1.0), libxmu6 (>= 2:1.1.3), libxmuu1 (>= 2:1.1.3), libxrender1, libxt6 (>= 1:1.1.0), man-db
-	#Depends: lsb-base (>= 1.3-9ubuntu2)
-	#Depends: libc6 (>= 2.15), libfontconfig1 (>= 2.12.6), libfontenc1, libgl1, libx11-6, libx11-xcb1 (>= 2:1.6.9), libxaw7, libxcb-shape0, libxcb1 (>= 1.6), libxcomposite1 (>= 1:0.3-1), libxext6, libxft2 (>> 2.1.1), libxi6, libxinerama1, libxkbfile1, libxmu6, libxmuu1, libxrandr2 (>= 2:1.2.0), libxrender1, libxt6 (>= 1:1.1.0), libxtst6, libxv1, libxxf86dga1, libxxf86vm1
+	#Depends:  (>= 2.33),  (>= 1.6.2-1), , (>= 2:1.7.5), (>= 2:1.0.14), 
+	#   ,  (>> 1.1.2), ,  (>> 2.1.1), (>= 2:1.2.99.4),(>= 1:1.1.0),  (>= 2:1.1.3), 
+	# (>= 1:1.1.0), 
+
+	#Depends: libc6 (>= 2.15), ,  (>= 2:1.6.9), 
+	#, , (>= 1.6), (>= 1:0.3-1), ,  (>> 2.1.1), 
+	#,  (>= 1:1.1.0),  , 
 
 	${shary} x11-apps x11-common x11-utils
 	csleep 10
 
-	#Depends: dconf-service (<< 0.40.0-4.1~), dconf-service (>= 0.40.0-4), libdconf1 (= 0.40.0-4), libc6 (>= 2.14), libglib2.0-0 (>= 2.55.2)
+	${shary} dconf-service libdconf1 adwaita-icon-theme hicolor-icon-theme shared-mime-info
+	#Depends:  (<< 0.40.0-4.1~),(>= 0.40.0-4),  (= 0.40.0-4), (>= 2.14),  (>= 2.55.2)
 
 
-	#Depends: adwaita-icon-theme, hicolor-icon-theme, shared-mime-info, libatk-bridge2.0-0 (>= 2.15.1), libatk1.0-0 (>= 2.35.1), libc6 (>= 2.34), libcairo-gobject2 (>= 1.14.0), libcairo2 (>= 1.14.0), libcolord2 (>= 0.1.10), libcups2 (>= 1.7.0), libepoxy0 (>= 1.4.3), libfontconfig1 (>= 2.12.6), libfribidi0 (>= 0.19.7), libgdk-pixbuf-2.0-0 (>= 2.40.0), libglib2.0-0 (>= 2.59.0), libharfbuzz0b (>= 2.2.0), libpango-1.0-0 (>= 1.45.5), libpangocairo-1.0-0 (>= 1.44.0), libpangoft2-1.0-0 (>= 1.44.0), libwayland-client0 (>= 1.20.0), libwayland-cursor0 (>= 1.14.91), libwayland-egl1 (>= 1.15.0), libx11-6 (>= 2:1.4.99.1), libxcomposite1 (>= 1:0.4.5), libxcursor1 (>> 1.1.2), libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxi6 (>= 2:1.2.99.4), libxinerama1 (>= 2:1.1.4), libxkbcommon0 (>= 0.5.0), libxrandr2 (>= 2:1.5.0), libgtk-3-common (>= 3.24.38-2~deb12u3)
+	#Depends: , , libatk-bridge2.0-0 (>= 2.15.1), libatk1.0-0 (>= 2.35.1), libc6 (>= 2.34), libcairo-gobject2 (>= 1.14.0), libcairo2 (>= 1.14.0), libcolord2 (>= 0.1.10), libcups2 (>= 1.7.0), libepoxy0 (>= 1.4.3), 
+	#(>= 2.12.6), libfribidi0 (>= 0.19.7), libgdk-pixbuf-2.0-0 (>= 2.40.0),  (>= 2.59.0), libharfbuzz0b (>= 2.2.0), libpango-1.0-0 (>= 1.45.5), libpangocairo-1.0-0 (>= 1.44.0), libpangoft2-1.0-0 (>= 1.44.0), libwayland-client0 (>= 1.20.0), libwayland-cursor0 (>= 1.14.91), libwayland-egl1 (>= 1.15.0), 
+	#(>= 2:1.4.99.1), (>= 1:0.4.5), (>> 1.1.2), libxdamage1 (>= 1:1.1), l
+	# libxfixes3, (>= 2:1.2.99.4),  (>= 2:1.1.4), libxkbcommon0 (>= 0.5.0), libxrandr2 (>= 2:1.5.0), libgtk-3-common (>= 3.24.38-2~deb12u3)
 	#Depends: dconf-gsettings-backend | gsettings-backend
 	#Depends: libbsd0 (>= 0.2.0), libc6 (>= 2.14), x11-common
 
@@ -304,7 +312,7 @@ function e23_dm() {
 	${shary} libunwind8
 	csleep 10
 
-	${shary} lsb-base psmisc #A
+
 	${shary} bsdextrautils groff-base 
 	${shary} init-system-helpers  #xscreensaver?
 	csleep 5
@@ -330,7 +338,6 @@ function e23_dm() {
 #	${shary} cpp procps
 #
 
-#	#Depends: adwaita-icon-theme, hicolor-icon-theme, shared-mime-info, 
 #
 #	 libatk-bridge2.0-0 libcairo-gobject2 libcairo2
 #	${shary} libcolord2 libepoxy0
