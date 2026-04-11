@@ -253,21 +253,21 @@ function e23_dm() {
 	${shary} libxcb-shape0 libxshmfence1 libxcb-damage0 libxcb-shm0 libxcb-render0 #hyvä idea ksekittää nämä inxcb-jutut?
 	csleep 10
 
-	#Depends: 
-	#Depends:  (>= 2.34),  (>= 2.4.109),  (>= 2.0.1),(= 22.3.6-1+deb12u1), libgcc-s1 (>= 3.4), libglapi-mesa (= 22.3.6-1+deb12u1), libwayland-client0 (>= 1.20.0), libwayland-server0 (>= 1.15.0), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0 (>= 1.13), libxcb-present0, libxcb-randr0 (>= 1.3), libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), 
-	#Depends:  (>= 2.34), libglvnd0 (= 1.6.0-1), libglx0 (= 1.6.0-1)
-	#Depends:  (>= 2.15), libx11-6, libxext6, libxmu6 (>= 2:1.1.3), libxpm4, libxt6
-	#Depends:  (>= 2.34), libglvnd0 (= 1.6.0-1), libegl-mesa0
+	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0
+	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
 
+	#Depends: 
+	#Depends:  (>= 2.34),  (>= 2.4.109),  (>= 2.0.1),(= 22.3.6-1+deb12u1),  (>= 3.4),  (= 22.3.6-1+deb12u1), 
+	#(>= 1.15.0), (>= 2:1.8.4), (>= 1.13),(>= 1.3), , (>= 1.9.2), 
+	#Depends:  (>= 2.34), (= 1.6.0-1), (= 1.6.0-1)
+	#Depends:  (>= 2.15), ,  (>= 2:1.1.3),  
+	#Depends:  (>= 2.34),  (= 1.6.0-1), 
 
 	${shary} libglvnd0 libegl-mesa0 libgl1 libxaw7 libegl1
 	csleep 5
 
 	${shary} libxcomposite1 libxi6 libxinerama1 libxkbfile1
 	csleep 10
-
-	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
-	csleep 5
 
 	${shary} libxcursor1 libwutil5 man-db wmaker-common #libbz2-1.0
 	csleep 10
@@ -286,16 +286,9 @@ function e23_dm() {
 	csleep 10
 
 	${shary} libxau6  #C
-	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0
+
 	${shary} lsb-base psmisc #A
 #
-	#Depends:  (>= 2.33),  (>= 1.6.2-1), , (>= 2:1.7.5), (>= 2:1.0.14), 
-	#   ,  (>> 1.1.2), ,  (>> 2.1.1), (>= 2:1.2.99.4),(>= 1:1.1.0),  (>= 2:1.1.3), 
-	# (>= 1:1.1.0), 
-
-	#Depends: libc6 (>= 2.15), ,  (>= 2:1.6.9), 
-	#, , (>= 1.6), (>= 1:0.3-1), ,  (>> 2.1.1), 
-	#,  (>= 1:1.1.0),  , 
 
 	${shary} x11-apps x11-common x11-utils
 	csleep 10
@@ -305,11 +298,7 @@ function e23_dm() {
 	${shary} libcairo-gobject2 libcairo2 libcolord2 libcups2 libepoxy0 libxdamage1
 	${shary} libxkbcommon0 libgtk-3-common  libgtk-3-0 libice6
 
-	#Depends: , , (>= 2.15.1), (>= 2.35.1), (>= 2.34), (>= 1.14.0),(>= 1.14.0),  (>= 0.1.10),
-	#  (>= 1.7.0),  (>= 1.4.3), 
-	#(>= 2.12.6),  (>= 0.19.7), (>= 2.40.0),  (>= 2.59.0),  (>= 2.2.0),  (>= 1.45.5),  (>= 1.44.0), (>= 1.44.0),
-	#  (>= 1.14.91),  
-	#(>= 2:1.4.99.1), (>= 1:0.4.5), (>> 1.1.2),  (>= 1:1.1), l
+
 	#  (>= 2:1.2.99.4),  (>= 2:1.1.4),  (>= 0.5.0), (>= 2:1.5.0), (>= 3.24.38-2~deb12u3)
 
 	#Depends:  | gsettings-backend
