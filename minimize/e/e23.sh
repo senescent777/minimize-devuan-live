@@ -191,13 +191,18 @@ function e23_qrs() {
 	csleep 1
 }
 
-#VAIH:uusiksi vain tyhjästä (jokojo 110426 saiSi paketin vedettyä kokeiluja varten)
+#VAIH:uusiksi vain tyhjästä (110426 onnSi paketin veto kokeiluja varten, asentiu desktop_liveen urputuksen aknssa)
 #VAIH:boisi myös ottaa mallia viimeisimmästä toimivasta paketista että mitä mukaan
 #VAIH:myös minimal_liven kanssa uudempi testikierros tämän kanssa
 #... modaamattomalla minimalilla boottaus+pakettien veto saattaisi olla idea
 
+#edelleen:
+#libwraster6:amd64 depends on libmagickwand-6.q16-6 (>= 8:6.9.10.2); however:
+#libwings3:amd64 depends on libpangoxft-1.0-0
+#libwings3:amd64 depends on libwraster6
+#wdm depends on libwings3 (>= 0.95.0); however:
 
-#.V.M.P.5tna
+#.V.M.P.5tna mussunmussun
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -208,14 +213,41 @@ function e23_dm() {
 	${shary} ${E22_GM}
 	csleep 5
 
-	#TODO:voisi urputtaa että tällä hetkellä vain wdm tuettuna (jos sekään)
+	#VAIH:voisi urputtaa että tällä hetkellä vain wdm tuettuna (jos sekään)
+	if [ "${2}" == "wdm" ] ; then
+		dqb "dm.k0"
+	else
+		echo "NOT SUPPORTED"
+		exit 666
+	fi
+
 	#jos ei ala muuten sujua ni ao riveistä mallia accept1:seen
+	
+	${shary} libpango-1.0-0 libpangoft2 libpangoxft-1.0-0
+	[ $? -eq 0 ] || exit 54
+	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
+	[ $? -eq 0 ] || exit 55
+	${shary} libnuma1 libx265-199 libwraster6 libwings3
+	[ $? -eq 0 ] || exit 57 #tarkoiytuksella
+	csleep 10
+	
+	${shary} libpango-1.0-0 libpangoft2 libpangoxft-1.0-0
+	${shary} libmagickcore-6 libmagickwand-6
+	${shary} libnuma1 libx265-199 libwraster6 libwings3
+	[ $? -eq 0 ] || exit 57 #tarkoiytuksella
+	csleep 10
+	
+	${shary} libpango-1.0-0 libpangoft2 libpangoxft-1.0-0
+	${shary} libmagickcore-6 libmagickwand-6
+	${shary} libnuma1 libx265-199 libwraster6 libwings3
+	[ $? -eq 0 ] || exit 57 #tarkoiytuksella
+	csleep 10
 
 	${shary} libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
 	csleep 5
 
 	${shary} liblzma5 libopenjp2-7 libltdl7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
-	csleep 5
+	csleep 10
 
 	${shary} libx11-6 libx11-xcb1 libx11-data libxext6 imagemagick-6-common libxmu6 libxmuu1 libgif7 libxpm4
 	#[ $? -eq 0 ] || exit 57 #jospa ei tämmöisiä tähän fktioon, tökkii
@@ -226,19 +258,16 @@ function e23_dm() {
 	${shary} libthai0 libxft2 libxrender1 libxrandr2
 	csleep 10
 
-	${shary} libpango-1.0-0 libpangoft2 libpangoxft-1.0-0
-	csleep 10
-
 	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
 	${shary} libxcb1
-	csleep 10
+	csleep 5
 
 	${shary} libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 
 	${shary} libxcb-shape0 libxshmfence1 libxcb-damage0 libxcb-shm0 libxcb-render0 #hyvä idea ksekittää nämä inxcb-jutut?
 	csleep 10
 
 	${shary} libglvnd0 libegl-mesa0 libgl1 libxaw7 libegl1
-	csleep 10
+	csleep 5
 
 	${shary} libxcomposite1 libxi6 libxinerama1 libxkbfile1
 	csleep 10
@@ -247,21 +276,20 @@ function e23_dm() {
 	csleep 5
 
 	${shary} libxcursor1 libwutil5 man-db wmaker-common #libbz2-1.0
-	csleep 5
-
-	${shary} libicu72 libxfixes3 libxml2
-	${shary} libmagickcore-6 libmagickwand-6
 	csleep 10
 
-	${shary} libnuma1 libx265-199 libwraster6 libwings3
+	${shary} libicu72 libxfixes3 libxml2
+	${shary} 
+	csleep 5
+
 	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
 	csleep 10
 
 	${shary} libxdmcp6 menu twm libmd0
-	csleep 10
+	csleep 5
 
  	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common libbsd0 libcap-ng0 
-	csleep 5
+	csleep 10
 
 	${shary} libxau6  #C
 	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0 
@@ -270,19 +298,19 @@ function e23_dm() {
 
 	${shary} libseat1 libseccomp2 libtinfo6 #libpipeline1?
 	${shary} libunwind8
-	csleep 5
+	csleep 10
 
 	${shary} lsb-base psmisc #A
 	${shary} bsdextrautils groff-base 
 	${shary} init-system-helpers  #xscreensaver?
-	csleep 1
+	csleep 5
 
 	${shary} x11-apps x11-common x11-utils
 	csleep 10
 
 	${shary} x11-xserver-utils xserver-xorg #D
 	${shary} xterm xauth
-	csleep 1
+	csleep 5
 
 	${shary} wdm 
 	dqb "e23_dm( done (((("
@@ -298,7 +326,7 @@ function e23_dm() {
 #	${shary} libopengl0O  
 #	${shary} cpp procps
 #
-#	#Depends: dconf-gsettings-backend | gsettings-backend (TODO)
+
 #	#Depends: adwaita-icon-theme, hicolor-icon-theme, shared-mime-info, 
 #
 #	 libatk-bridge2.0-0 libcairo-gobject2 libcairo2
@@ -309,7 +337,7 @@ function e23_dm() {
 ## 
 #
 #
-#	#VAIH: :amd64 depends on (tmä vhitellen)
+
 #	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
 #
 #	#VAIH:dpkg: dependency problems prevent configuration of libwww-perl:

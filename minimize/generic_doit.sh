@@ -8,6 +8,7 @@ debug=0 #1
 d=${d0}/${distro} 
 
 #020426:uudelleen_nimeäminen josqs tämän hmistomn tdstoille?
+#110426:jokinj ongelma parsimisen kanssa vei ei?
 
 function parse_opts_1() {
 	dqb "parseopts_1 ) ${1} ; ${2}"

@@ -222,7 +222,6 @@ function z1() {
 	dqb "NVDK 1b 2 secs"
 	csleep 2
 
-
 	${NKVD} /opt/bin/zxcv.tmp
 	${spc} /opt/bin/zxcv /opt/bin/zxcv.ÅLD
 	${spc} /opt/bin/zxcv.sig /opt/bin/zxcv.sig.ÅLD
@@ -254,7 +253,6 @@ function z2() {
 }
 
 function z3() {
-
 	#[ -f ${d0}/MAN1.F2ST ] && ${NKVD} ${d0}/MAN1.F2ST
 	#csleep 1
 	#fasdfasd ${d0}/MAN1.F2ST
@@ -262,11 +260,12 @@ function z3() {
 
 	#HUOM.090426:EI IHAN SUORAAN NÄIN, PITÄISI EDITOIDA HAKEMISTOT POIS LISTASTA
 	if [ ! -s ${d0}/MAN1.F2ST ] ; then
-		${srat} -tf ${tgtfile} | grep -v .tar > ${d0}/MAN1.F2ST
+		#TODO:for x in $(rat -tf) ; do ...
+		${sr0} -tf ${tgtfile} | grep -v .tar > ${d0}/MAN1.F2ST
 		csleep 1
 	fi
 
-	${srat} -rvf ${tgtfile} ${d0}/MAN1.F2ST
+	${srat} -rvf ${tgtfile} ${d0}/MAN1.F2ST #vai sr0?
 
 	${scm} go-rw /opt/bin/zxcv*
 	${sco} 0:0 /opt/bin/zxcv*
@@ -342,14 +341,16 @@ case ${mode} in
 	g)
 		[ -v E22_GI ] || exit 95
 		#070426:osannee tehdä toimivan paketin
-		#VAIH:tämänkin testaus uudestaan (paketti:onnistuu , sisältö: )
+		#110426:tämän testaus uudestaan (paketti:onnistuu , sisältö:asentuu )
 		${fib}
 		${shary} ${E22_GI}
 	;;
 	l)
 		#VAIH:e23_dm() uusicksi (110426 uusi paketti kokeiluun?)
 		#wdm -> debconf. libpam-modules, libpam-runtime, lsb-base. psmisc, x11-apps, x11-common, x11-utils, x11-xserver-utils, xserver-xorg | xserver, perl,libc, libcrypt1, libpam0g, libselinux1, libwings3, libwraster5, libwutil5, libx11-6, libxau6, linxdmcp6, libxinerama1, libxmu6
-		#0904236:ihan vielä ei onnistu edes desktop-LIven kanssa? tietyt kirjastot aiheuttavat härdelliä edelleen
+		
+		#1104236:desktop_live:n kanssa onnistui jo paketin asennus? 
+		#(tietyt kirjastot aiheuttavat härdelliä edelleen)
 
 		csleep 1
 		[ -v CONF_dm ] || exit 77

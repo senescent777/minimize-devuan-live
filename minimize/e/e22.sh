@@ -347,7 +347,7 @@ function luca() {
 	csleep 1
 
 	#localtime taisi olla linkki, siksi erikseen
-	#josko kokeiliSi "g_Doit 1" jäljiltä että päivittyvätkö nuo 2 (TODO?)
+
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
 
 	local f
@@ -609,13 +609,12 @@ function e22_ts() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 }
 
-#VAIH:testaus.uusicksi 110426 (osasi paketin muodostaa, sisältö:)
+#VAIH:testaus.uusicksi 110426 (osasi paketin muodostaa, sisältö: saattaa toimia jo)
 function e22_arch() {
 	dqb "e22_arch() $1 , $2 , $3 , $4"
 
 	[ -z "${1}" ] && exit 1
-	[ -s ${1} ] || exit 2 #josko uskaltaisi poistaa kommeneitsta
-
+	[ -s ${1} ] || exit 
 	#[ -w ${1} ] || exit 33 #josko man bash...
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 44
@@ -647,7 +646,8 @@ function e22_arch() {
 	echo $?
 	${sah6} ./*.deb > ./sha512sums.txt
 
-	#
+	#110426:vähietllen for-find-jekulla rat+sah ?
+
 	if [ ${3} -eq 1 ] ; then
 		${srat} -rf ${1} ./*pkgs*
 	fi
@@ -657,11 +657,16 @@ function e22_arch() {
 	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
 	#
 
-	#.tar mukaan myös listaan? TODO:uusdi kikkare ja testaus
+	#.tar mukaan myös listaan? VAIH:uusdi kikkare ja testaus
+	# (vähän saattaa vielä laittoa kaivata, btw, grep -v $(basename $filre))
 	E22_E="e.tar g.tar"
-	for p in ${E22_E} ; do ${sah6} ./${p} >> ./sha512sums.txt ; done
-	csleep 1
+	local t=$(basename ${1})
 
+	for p in ${E22_E} ; 
+		do ${sah6} ./${p} | grep -v ${t} >> ./sha512sums.txt
+	done
+
+	csleep 1
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
 
 	#alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious

@@ -388,7 +388,7 @@ function efk1() {
 }
 
 function efk2() {
-	dqb "efk2 )))))))) ${1} )))))"
+	dqb "efk2 )))))))) ${1} ))) ${2} )))))"
 
 	if [ -s ${1} ] && [ -r ${1} ] ; then
 		${odio} ${sr0} -C ${2} -xf ${1}
@@ -478,7 +478,7 @@ function cefgh() {
 	#... esim. e.tar purq vain mikäli gg:tä ei ole?	no nyt on
 
 	if [ -z "${gg}" ] ; then	
-		efk2 ${1}/e.tar
+		efk2 ${1}/e.tar ${1}
 		#[ $? -eq 0 ] && 
 		${NKVD} ${1}/e.tar
 	fi
@@ -501,7 +501,7 @@ function CB01() {
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
 
-	#VAIH:VÄHITELLEN JOTAIN TÄMÄNKIN HYVÄKSI?
+	#VAIH:VÄHITELLEN JOTAIN TÄMÄNKIN HYVÄKSI? ao. ehdon uutos vai e0?
 	if [ -s ${1}/g.tar ] ; then
 		#JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen
 		#... tai ilman gpg:tä voi tehdä vain sha-tarq ja sekin oikeastaan tapahtuu jo kutsuvassa koodissa
