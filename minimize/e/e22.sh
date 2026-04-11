@@ -115,7 +115,7 @@ function e22_ftr() {
 	csleep 1
 }
 
-#20426:lienee delleen ok?
+#20426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
 function e22_pre1() {
 	dqb "e22_pre1()"
 	[ -z "${1}" ] && exit 65
@@ -267,7 +267,7 @@ function e22_settings() {
 #290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa? (vielä 020426?)
 
 #040426:ei tarvinne CONF_testgris-ehtoa ainakaan verkkoyhteyden varalta, ei vedä kaloja
-#TODO:jölleen kerran testaus koska y
+#VAIH:jälleen kerran testaus (110426)
 function e22_home_pre() {
 	dqb "e22_home_pre()"
 
@@ -305,7 +305,7 @@ function e22_home_pre() {
 
 #290326:toimii, mutta $3 kanssa ehkä jotain?
 #29426:edelleen toimii?
-#040426:ei vedä kaloja verkosta ni ei tarvinne lisätestejäjä
+#110426:testit taas menossa (VAIH)
 
 function e22_home() {
 	dqb "e22_home()"
@@ -356,10 +356,10 @@ function luca() {
 }
 
 
-#204226:toimii edelleen?
+
 # slim/xdm/wdm-spesifinen konfiguraatio saattaa tulla jo mukaan myös
 #020426:ei vedä verkosta mitään ni ei tartte lisätestejä?
-
+#VAIH:toiminnan testauis taas 110426)
 function e22_acol() {
 	dqb "e22_acol()"
 
@@ -425,12 +425,13 @@ function e22_acol() {
 }
 
 #imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
-#020326:ehkä ok sisältö-siat (xorg ja ntp-jutut voisi testata paremmalla ajalla)
+#... jotain alettu trehdäö 04/26
 
-#20426:edelleen toimii?
+
+
 
 #020426:vissiin ai tarvitse lisätestejä koska ei vedä verkosta mitään
-
+#VAIH:testaus taas (110426)
 function e22_sarram() {
 	dqb "e22_sarram(${1} ; ${2} ; ${3} )))))))()))))"
 
@@ -490,10 +491,10 @@ function e22_sarram() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#050426:suattaapi olla että toimii edelleen (ellel toisin tdoisteta)
-#tai sen zxcv:n sha-tarkistuksen kanssa jotain kiukuttelua että "tar -t $arch" josqs(TODO)
-#TODO?:verkkoyhteyttä vaativat jutut vain jos testgris ei asetrettu? vaiko kutsuvan koodin puolella tarkistus?
 
+#tai sen zxcv:n sha-tarkistuksen kanssa jotain kiukuttelua että "tar -t $arch" josqs(TODO)
+#verkkoyhteyttä vaativat jutut vain jos testgris ei asetrettu? vaiko kutsuvan koodin puolella tarkistus?
+#VAIH:testit taas menossa 110426
 function e22_ext() {
 	[ -z "${1}" ] && exit 1
 	[ -d ${1} ] && exit 59

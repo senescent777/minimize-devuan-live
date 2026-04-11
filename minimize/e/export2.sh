@@ -232,6 +232,7 @@ function z1() {
 }
 
 function z2() {
+	dqb "z2()"
 	reqwreqw /opt/bin/zxcv.tmp
 	csleep 1
 
@@ -253,6 +254,8 @@ function z2() {
 }
 
 function z3() {
+	dqb "z3()"
+
 	#[ -f ${d0}/MAN1.F2ST ] && ${NKVD} ${d0}/MAN1.F2ST
 	#csleep 1
 	#fasdfasd ${d0}/MAN1.F2ST
@@ -278,7 +281,7 @@ case ${mode} in
 	;;
 	3|4) 
 		#3 taisi toimia 04/26 tienoilla ainakin kerran
-		#4 vissiin toimi kerran 04/26 (TODO:uusiksi vain testit)
+		#4 vissiin toimi kerran 04/26 (VAIH:uusiksi vain testit 110426)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1
@@ -370,7 +373,7 @@ case ${mode} in
 	;;
 esac
 
-function e22_dblock() { #VAIH:testailut uusicksi taas
+function e22_dblock() { #VAIH:testailut uusicksi taas (110426:olisiko j ok?)
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
 
 	[ -z "${1}" ] && exit 14
