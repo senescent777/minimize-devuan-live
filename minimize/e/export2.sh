@@ -146,6 +146,8 @@ e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 #jokin varmistus vielä että iface alhaalla?
 
+#1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO)
+
 case ${mode} in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
 #		[ -s "${tgtfile}" ] || exit 67
@@ -154,7 +156,7 @@ case ${mode} in
 #	;;
 	f) #220326:toimii, tai ainakin osasi tehdä paketin
 		enforce_access $(whoami) ${t}
-		e22_arch ${tgtfile} ${d} ${gbk} #TODO:testailut uusiksi josqs muutoksien johdosta
+		e22_arch ${tgtfile} ${d} ${gbk} #VAIH:testailut uusiksi josqs muutoksien johdosta (esim 110426)
 	;;
 	q)
 		#170326:tekee edelleen arkiston, sisältö kenties ok
@@ -340,12 +342,12 @@ case ${mode} in
 	g)
 		[ -v E22_GI ] || exit 95
 		#070426:osannee tehdä toimivan paketin
-		#TODO:tämänkin testaus uudestaan
+		#VAIH:tämänkin testaus uudestaan (paketti:onnistuu , sisältö: )
 		${fib}
 		${shary} ${E22_GI}
 	;;
 	l)
-		#VAIH:e23_dm() uusicksi
+		#VAIH:e23_dm() uusicksi (110426 uusi paketti kokeiluun?)
 		#wdm -> debconf. libpam-modules, libpam-runtime, lsb-base. psmisc, x11-apps, x11-common, x11-utils, x11-xserver-utils, xserver-xorg | xserver, perl,libc, libcrypt1, libpam0g, libselinux1, libwings3, libwraster5, libwutil5, libx11-6, libxau6, linxdmcp6, libxinerama1, libxmu6
 		#0904236:ihan vielä ei onnistu edes desktop-LIven kanssa? tietyt kirjastot aiheuttavat härdelliä edelleen
 

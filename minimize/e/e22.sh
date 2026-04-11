@@ -177,7 +177,7 @@ function e22_pre2() {
 		#HUOM.200326:TLA() tähän väliaikaisesti vai ei? nykyään kyllä ifup...
 
 		#280326:tilapäinen viritys kunnes x? mikä?
-		#TODO:vähän parempi jos tarkistaisi että kyseessä nimenomaan tieosto eikä linkki
+		#TODO:vähän parempi jos tarkistaisi että kyseessä nimenomaan tieDosto eikä linkki (JOKOJO 110426?)
 		[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
 		ls -las /etc/resolv.*
 		csleep 1	
@@ -609,7 +609,7 @@ function e22_ts() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 }
 
-#TODO:testaus.uusicksi
+#VAIH:testaus.uusicksi 110426 (osasi paketin muodostaa, sisältö:)
 function e22_arch() {
 	dqb "e22_arch() $1 , $2 , $3 , $4"
 

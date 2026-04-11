@@ -191,13 +191,10 @@ function e23_qrs() {
 	csleep 1
 }
 
-#VAIH:uusiksi vain tyhjästä
+#VAIH:uusiksi vain tyhjästä (jokojo 110426 saiSi paketin vedettyä kokeiluja varten)
 #VAIH:boisi myös ottaa mallia viimeisimmästä toimivasta paketista että mitä mukaan
 #VAIH:myös minimal_liven kanssa uudempi testikierros tämän kanssa
 #... modaamattomalla minimalilla boottaus+pakettien veto saattaisi olla idea
-
-
-
 
 
 #.V.M.P.5tna
@@ -221,7 +218,7 @@ function e23_dm() {
 	csleep 5
 
 	${shary} libx11-6 libx11-xcb1 libx11-data libxext6 imagemagick-6-common libxmu6 libxmuu1 libgif7 libxpm4
-	[ $? -eq 0 ] || exit 57
+	#[ $? -eq 0 ] || exit 57 #jospa ei tämmöisiä tähän fktioon, tökkii
 	csleep 5
 
 	${shary} fontconfig fontconfig-config

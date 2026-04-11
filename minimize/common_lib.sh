@@ -465,7 +465,7 @@ function fromtend() {
 	dqb "DNÖE"
 }
 
-#TODO:jatkossa uusikcsi tämä?
+#VAIH:jatkossa uusikcsi tämä?
 function cefgh() {
 	dqb " cefgh( ${1} )))"
 
@@ -474,14 +474,14 @@ function cefgh() {
 
 	dqb "pars ok"
 	csleep 1
-
 	#pitäisiköhän noissa poisteluissa olla jotain muitakin ehtoja?
-	#... esim. e.tar purq vain mikäli gg:tä ei ole?	
+	#... esim. e.tar purq vain mikäli gg:tä ei ole?	no nyt on
 
-	#! -z $gg then	
-	efk2 ${1}/e.tar
-	[ $? -eq 0 ] && ${NKVD} ${1}/e.tar
-	#fi
+	if [ -z "${gg}" ] ; then	
+		efk2 ${1}/e.tar
+		#[ $? -eq 0 ] && 
+		${NKVD} ${1}/e.tar
+	fi
 
 	efk2 ${1}/f.tar ${1}
 
