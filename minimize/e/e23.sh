@@ -199,7 +199,7 @@ function e23_qrs() {
 
 #TODO:jokin /o/b/skRipti nostamaan äläkän jos /e/resolv.vonf puuttuu
 
-#lingtk3 ja dconf-gsettings qsi minimal_liven kanssa
+#libgtk3 ja dconf-gsettings qsi minimal_liven kanssa (jotain jo tehty?)
 #libegl-mesa myös, libwings ja libpango tottakai
 #xterm ja xbitmaps, x11-server-utils
 
@@ -223,7 +223,7 @@ function e23_dm() {
 
 	#jos ei ala muuten sujua ni ao riveistä mallia accept1:seen
 	
-	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
+	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0 libpangocairo-1.0-0
 	#[ $? -eq 0 ] || exit 54 #to state the obvious:initramfs-kikkailujen takia ei kande nöin tehdö
 	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
 
@@ -252,6 +252,13 @@ function e23_dm() {
 	${shary} libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 
 	${shary} libxcb-shape0 libxshmfence1 libxcb-damage0 libxcb-shm0 libxcb-render0 #hyvä idea ksekittää nämä inxcb-jutut?
 	csleep 10
+
+	#Depends: 
+	#Depends:  (>= 2.34),  (>= 2.4.109),  (>= 2.0.1),(= 22.3.6-1+deb12u1), libgcc-s1 (>= 3.4), libglapi-mesa (= 22.3.6-1+deb12u1), libwayland-client0 (>= 1.20.0), libwayland-server0 (>= 1.15.0), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0 (>= 1.13), libxcb-present0, libxcb-randr0 (>= 1.3), libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), 
+	#Depends:  (>= 2.34), libglvnd0 (= 1.6.0-1), libglx0 (= 1.6.0-1)
+	#Depends:  (>= 2.15), libx11-6, libxext6, libxmu6 (>= 2:1.1.3), libxpm4, libxt6
+	#Depends:  (>= 2.34), libglvnd0 (= 1.6.0-1), libegl-mesa0
+
 
 	${shary} libglvnd0 libegl-mesa0 libgl1 libxaw7 libegl1
 	csleep 5
@@ -293,18 +300,21 @@ function e23_dm() {
 	${shary} x11-apps x11-common x11-utils
 	csleep 10
 
-	${shary} dconf-service libdconf1 adwaita-icon-theme hicolor-icon-theme shared-mime-info
+	${shary} dconf-gsettings-backend dconf-service libdconf1 adwaita-icon-theme hicolor-icon-theme shared-mime-info libatk-bridge2.0-0
 	#Depends:  (<< 0.40.0-4.1~),(>= 0.40.0-4),  (= 0.40.0-4), (>= 2.14),  (>= 2.55.2)
+	${shary} libcairo-gobject2 libcairo2 libcolord2 libcups2 libepoxy0 libxdamage1
+	${shary} libxkbcommon0 libgtk-3-common  libgtk-3-0 libice6
 
+	#Depends: , , (>= 2.15.1), (>= 2.35.1), (>= 2.34), (>= 1.14.0),(>= 1.14.0),  (>= 0.1.10),
+	#  (>= 1.7.0),  (>= 1.4.3), 
+	#(>= 2.12.6),  (>= 0.19.7), (>= 2.40.0),  (>= 2.59.0),  (>= 2.2.0),  (>= 1.45.5),  (>= 1.44.0), (>= 1.44.0),
+	#  (>= 1.14.91),  
+	#(>= 2:1.4.99.1), (>= 1:0.4.5), (>> 1.1.2),  (>= 1:1.1), l
+	#  (>= 2:1.2.99.4),  (>= 2:1.1.4),  (>= 0.5.0), (>= 2:1.5.0), (>= 3.24.38-2~deb12u3)
 
-	#Depends: , , libatk-bridge2.0-0 (>= 2.15.1), libatk1.0-0 (>= 2.35.1), libc6 (>= 2.34), libcairo-gobject2 (>= 1.14.0), libcairo2 (>= 1.14.0), libcolord2 (>= 0.1.10), libcups2 (>= 1.7.0), libepoxy0 (>= 1.4.3), 
-	#(>= 2.12.6), libfribidi0 (>= 0.19.7), libgdk-pixbuf-2.0-0 (>= 2.40.0),  (>= 2.59.0), libharfbuzz0b (>= 2.2.0), libpango-1.0-0 (>= 1.45.5), libpangocairo-1.0-0 (>= 1.44.0), libpangoft2-1.0-0 (>= 1.44.0), libwayland-client0 (>= 1.20.0), libwayland-cursor0 (>= 1.14.91), libwayland-egl1 (>= 1.15.0), 
-	#(>= 2:1.4.99.1), (>= 1:0.4.5), (>> 1.1.2), libxdamage1 (>= 1:1.1), l
-	# libxfixes3, (>= 2:1.2.99.4),  (>= 2:1.1.4), libxkbcommon0 (>= 0.5.0), libxrandr2 (>= 2:1.5.0), libgtk-3-common (>= 3.24.38-2~deb12u3)
-	#Depends: dconf-gsettings-backend | gsettings-backend
-	#Depends: libbsd0 (>= 0.2.0), libc6 (>= 2.14), x11-common
+	#Depends:  | gsettings-backend
+	#Depends: , x11-common
 
-	${shary} libgtk-3-0 libgtk-3-common libice6  #libheif versio ok?
 	csleep 5
 #
 
@@ -312,12 +322,9 @@ function e23_dm() {
 	${shary} libunwind8
 	csleep 10
 
-
 	${shary} bsdextrautils groff-base 
 	${shary} init-system-helpers  #xscreensaver?
 	csleep 5
-
-
 
 	${shary} x11-xserver-utils xserver-xorg #D
 	${shary} xterm xauth
@@ -339,11 +346,9 @@ function e23_dm() {
 #
 
 #
-#	 libatk-bridge2.0-0 libcairo-gobject2 libcairo2
-#	${shary} libcolord2 libepoxy0
-#	${shary} libpangocairo-1.0-0
-#	${shary} libxdamage1 
-#	${shary} libxkbcommon0
+#
+
+#	
 ## 
 #
 #
