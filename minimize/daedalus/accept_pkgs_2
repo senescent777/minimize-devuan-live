@@ -37,9 +37,6 @@ git-man
 #VAIH:kevyttä junnausta xtermin ja xbitmapsin kanssa
 xbitmaps
 #
-#Depends: , (>= 2.34),  (>= 2.2.1),  (>= 1:1.0.0),  (>= 6),  (>= 1.1.5),
-#  (>= 2:1.0.14),   (>> 2.1.1),  (>= 2:1.1.4),  (>= 2:1.1.3), , 
-#
 xterm
 #term+bitmaps ennen vai jälkeen "x11-*"-pakettien?
 #

@@ -49,27 +49,20 @@ libharfbuzz0b
 fontconfig
 libthai0
 libfreetype
-#Depends:  (>= 2.13.0), (>= 2.14),  (>= 1.0.6), (>= 2.67.3), (>= 5.1.0),  (>= 0.1.25)
 #
 libpango-1
 #
-#Depends: (>= 2.14), 1 (>= 2.13.0), (>= 2.2.1),  (>= 2.67.3), (>= 5.1.0), libpango-1.0-0 (= 1.50.12+ds-1)
 #
 libpangoft2
 #
-#Depends:  (>= 2.4),  (>= 1.12.10), (>= 2.13.0),  (>= 2.62.0),  (>= 2.6.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1)
-#
 libpangocairo
 #
-#Depends:?
+#Depends:Depends: libc6 (>= 2.4), libfontconfig1 (>= 2.13.0), libglib2.0-0 (>= 2.62.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1), libx11-6, libxft2 (>> 2.1.1), libxrender1
+#
 libpangoxft
 #
 #
 #VAIH:NÄIDEN KANSSA JUNNAAMISTA
-#Depends: libc6 (>= 2.28), (>= 3.4)
-#Depends: libc6 (>= 2.33), libffi8 (>= 3.4)
-#Depends: libc6 (>= 2.28), libwayland-client0 (>= 1.20.0)
-#Depends: libc6 (>= 2.2.5)
 #libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
 libffi8 
 libwayland
@@ -85,15 +78,9 @@ libxi
 libxkbcommon0
 libxr
 #
-#Depends: , , (>= 2.35.1),(>= 2.34), (>= 1.14.0), (>= 1.14.0), (>= 0.1.10),
-# (>= 1.7.0), (>= 1.4.3),  (>= 2.12.6),  (>= 0.19.7),  (>= 2.40.0), 
-# (>= 2.59.0), (>= 2.2.0),  (>= 1.45.5), (>= 1.44.0), (>= 1.44.0),
 #libwayland-client0 (>= 1.20.0), libwayland-cursor0 (>= 1.14.91), libwayland-egl1 (>= 1.15.0), 
-#(>= 2:1.4.99.1),  (>> 1.1.2),     (>= 0.5.0),  (>= 2:1.5.0), 
 #
 libgtk-3-0
-#
-#Depends: ,  (>= 2.34), (>= 1.14.0),  (>= 2.40.0),  (>= 2.57.2), libgtk-3-0 (>= 3.24.38-2~deb12u3), libgtk-3-common (>= 3.24.38-2~deb12u3)
 #
 gtk-update-icon-cache
 libgtk-3-bin
