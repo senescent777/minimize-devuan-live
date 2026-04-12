@@ -209,7 +209,14 @@ function e23_qrs() {
 #wings ja wraster nyt taas desktop_liven kauttakin nalkutuksen aihe
 #libpango*.deb ei tule mukaan? eikä libcairo*.deb, jtain js tkisi
 
-#... olisi hyväksi pysyä kärryillä minkä paketin version kanssa nysvää
+#ptäisi tuoreimmassa paketissa ollajo libgtk-3 ja libtgk3-common (entä -bin?)
+#samoin pangoxft mukana mutta miten riippuvuudet? joo
+#wayland ja ffi8 löytyy
+#xterm ja xbitmapos ejlä ok
+#wraster,wings,wutil mukana
+#pari libcairo-pakettiakin löytyy
+
+#... olisi myös hyväksi pysyä kärryillä minkä paketin version kanssa nysvää
 
 #.V.M.P.5tna mussunmussun
 function e23_dm() {
@@ -301,7 +308,7 @@ function e23_dm() {
 
 	#HUOM.120426:mitkä kaikki sen gtk-3-0:n tarvitsivat?
 	${shary} libxkbcommon0 libgtk-3-common libgtk-3-0 libice6
-
+	#${shary} gtk-update-icon-cache libgtk-3-bin #TODO:libgtk-3-bin mukaan kanssa?
 	#Depends: , x11-common
 	csleep 5
 #

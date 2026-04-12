@@ -149,7 +149,7 @@ function e22_pre1() {
 #...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 #HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
 
-#TODO:testailut uusiksi
+#VAIH:testailut uusiksi (120426)
 function e22_pre2() {
 	echo "per2..."
 	[ -z "${1}" ] && exit 66
@@ -158,7 +158,7 @@ function e22_pre2() {
 	[ -z "${4}" ] && exit 69
 
 	dqb " (pars.ok)"
-	csleep 1
+	csleep 10
 	local par4
 
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
@@ -187,7 +187,7 @@ function e22_pre2() {
 		fi
 
 		ls -las /etc/resolv.*
-		csleep 1	
+		csleep 10	
 
 		${sifu} ${3}
 		csleep 1
@@ -621,7 +621,7 @@ function e22_ts() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 }
 
-#TODO:testaus.uusicksi 120426 ->
+#VAIH:testaus.uusicksi 120426 -> (enimmäkseen toiminee)
 function e22_arch() {
 	dqb "e22_arch() $1 , $2 , $3 , $4"
 
@@ -669,12 +669,12 @@ function e22_arch() {
 	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
 	#
 
-	#.tar mukaan myös listaan? VAIH:uusdi kikkare ja testaus
-	# (vähän saattaa vielä laittoa kaivata, btw, grep -v $(basename $filre))
+	#TODO:jossain sopivassa välissä ao. for-loopin kanssa testailu
 	E22_E="e.tar g.tar"
 	local t=$(basename ${1})
 
-	for p in ${E22_E} ; do 
+	for p in ${E22_E} ; do
+		dqb "${sah6} ./${p} ,,, "
 		${sah6} ./${p} | grep -v ${t} >> ./sha512sums.txt
 	done
 
@@ -692,7 +692,7 @@ function e22_arch() {
 	fi
 
 	psqa .
-	#VAIH:jos ed. fktion saa aikaiseksi antamaan paluuarvon niin se pitäisi huomioida jtnkin
+	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x
 	[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums* ./*.tar #?
 	csleep 1
 

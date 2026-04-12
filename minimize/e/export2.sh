@@ -374,7 +374,7 @@ case ${mode} in
 	;;
 esac
 
-function e22_dblock() { #TODO:jälleen kerran testailut, e22_arch() liittyvää
+function e22_dblock() { #VAIH:jälleen kerran testailut, e22_arch() liittyvää (120426)
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
 
 	[ -z "${1}" ] && exit 14
