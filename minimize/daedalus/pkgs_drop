@@ -16,7 +16,7 @@ bsdgames
 #bti #080426:aiheuttaako tämän poisto jotain?
 build-essential
 caca-utils
-#calc #080426:tässä jo kosahtaa desktop_liven kanssa? miten nuo muut c-jutut?
+#calc #080426:tässä jo kosahtaa desktop_liven kanssa? miten nuo muut c-jutut? vissiin ok
 cavezofphear
 ceni
 #clex #080426:tämä taitaa paskoa asioita desktop_liven kanssa, vältä
@@ -24,4 +24,6 @@ cmatrix
 cowsay
 crawl
 curseofwar
-#lloput siirretty -> g_pt2
+#lloput siirretty -> g_pt2, paitsi dahdi/dc takaisin 120426 kokeilun vuoksi
+dahdi
+dc
