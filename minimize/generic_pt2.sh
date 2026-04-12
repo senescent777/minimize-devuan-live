@@ -210,10 +210,10 @@ t2pf ${d}
 if [ ${mode} -gt 3 ] ; then
 	${sharpy} slim
 	csleep 5
-
-	${sharpy} dahdi
-	${sharpy} dc #mikä tämä on?
-	csleep 5
+#
+#	${sharpy} dahdi
+#	${sharpy} dc #mikä tämä on?
+#	csleep 5
 
 	${sharpy} ed #uskaltaako poistaa? entä e-i?
 	${sharpy} empire

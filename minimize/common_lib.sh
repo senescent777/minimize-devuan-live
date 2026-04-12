@@ -256,7 +256,7 @@ function message() {
 	sleep 1
 }
 
-#VAIH:jatkossa uusikcsi tämä
+#VAIH:jatkossa uusikcsi tämä? trtteeko vielä muuttaa 120426-> ?
 function psqa() {
 	dqb "c.Q () () () () ${1} ;;;"
 	csleep 1
@@ -466,6 +466,7 @@ function fromtend() {
 }
 
 #VAIH:jatkossa uusikcsi tämä?
+#TODO:e.tar purq vs sq-rot alku
 function cefgh() {
 	dqb " cefgh( ${1} )))"
 
@@ -494,7 +495,7 @@ function cefgh() {
 	#... tai tuo e.tar-jutska jos olisi kätevämpi sittenkin?
 }
 
-#VAIH:jatkossa uusikcsi tämä?
+#VAIH:jatkossa uusikcsi tämä? vai tartteeko 120426 -> ?
 function CB01() {
 	dqb "common.lib.CB01( ${1} )"
 	csleep 1
@@ -528,7 +529,7 @@ function CB01() {
 	csleep 1
 }
 
-#TODO:jatkossa uusikcsi tämä? vai tarvitseeko?
+#120426:jos tämä sisältö olisi ok toistaiseksi
 function CB02() {
 	dqb "CB02()"
 	csleep 1
@@ -1360,15 +1361,14 @@ function part3() {
 
 	#060426:AO. RIVI TUOLLAINEN TARKOITUKSELLA, ÄLÄ SORKI!!!
 	efk1 ${1}/gcc-12-base*.deb ${1}/libgcc-s1*.deb ${1}/libc6*.deb
-	dqb "LAJKKA"
+	dqb "LAcKKA"
 	csleep 6
 
 	for p in ${E22_GS} ; do wopr ${1} ${p} accept_pkgs_1 ; done
-	#060426:jospa keskeyttäisi tässä kunnes cpp-asiat kunnossa? vai alkaisiko jo sujua?
-	dqb "önEGA-VGA"
+
+	dqb "önEGA-VGA.ra"
 	csleep 6
 
-	#70426:nalq aihtutui ainakin: libgtk-3-common , libatk-bridge
 	common_lib_tool ${1} accept_pkgs_1
 	common_lib_tool ${1} accept_pkgs_2
 

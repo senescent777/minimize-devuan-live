@@ -156,7 +156,7 @@ case ${mode} in
 #	;;
 	f) #220326:toimii, tai ainakin osasi tehdä paketin
 		enforce_access $(whoami) ${t}
-		e22_arch ${tgtfile} ${d} ${gbk} #VAIH:testailut uusiksi josqs muutoksien johdosta (esim 110426, ehkäjo toimii)
+		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
 	q)
 		#170326:tekee edelleen arkiston, sisältö kenties ok
@@ -281,7 +281,7 @@ case ${mode} in
 	;;
 	3|4) 
 		#3 taisi toimia 04/26 tienoilla ainakin kerran
-		#4 vissiin toimi kerran 04/26 (VAIH:uusiksi vain testit 110426)
+		#4 vissiin toimi kerran 04/26 (VAIH:uusiksi vain testit 120426, hkä oksennus toimii)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1
@@ -323,7 +323,7 @@ case ${mode} in
 	;;
 	e) 
 	#... chattr olisi kYllä paikallaan etteI vahingossa spedeilisi
-		#070426:paketin sisältö vaikuttaa toimivan minimal_liven alaisuudessa, entä desktop?
+		#070426:paketin sisältö vaikuttaa toimivan minimal_liven alaisuudessa, entä desktop? sielläkin
 		#... oliklop jostain libpam- paketeista ulinaa? tuliko libcom-err2 mukaan?
 
 		${shary} ${E22_GS}
@@ -374,7 +374,7 @@ case ${mode} in
 	;;
 esac
 
-function e22_dblock() { #VAIH:testailut uusicksi taas (110426:olisiko j ok?)
+function e22_dblock() { #TODO:jälleen kerran testailut, e22_arch() liittyvää
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
 
 	[ -z "${1}" ] && exit 14

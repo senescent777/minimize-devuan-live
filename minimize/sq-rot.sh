@@ -36,13 +36,14 @@ function parse_opts_1() {
 #TODO:exp2/imp2/sqr komentorivien käsittelyyn muutosta? uusi optio? ,mikä?
 
 function parse_opts_2() {
-	dqb "rot.parseopts_2 )) ${1} ; ${2} (("
+	dqb "rpus.ot.parseopts_2 )) ${1} ; ${2} (("
 
 	if [ -f ${2} ] || [ -d ${2} ] ; then
 		srcfile=${2}
 	fi
 }
 
+#TODO:e.tar purq (cefgh()) vs tämä sq-rot alku
 if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
 	echo "UNDER THE GRAV3YARD"
 	sleep 1

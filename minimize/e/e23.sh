@@ -108,6 +108,7 @@ function e23_other_pkgs() {
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 
 #280326:saa aikaiseksi paketin, sisällön testaus vielä
+#120426:minimal_livessä naturlich valitusta xserver- ja libgtk3- pakettien kanssa, tee jotain
 function e23_upgp() {
 	dqb " e23_upgp() "
 
@@ -194,7 +195,6 @@ function e23_qrs() {
 #VAIH:myös minimal_liven kanssa uudempi testikierros tämän kanssa (taas olisi ajank )
 #... modaamattomalla minimalilla boottaus+pakettien veto saattaisi olla idea
 
-
 #110426:alkaisikohan kohta olla lib-asiat kunnossa? desktop_liven kanssa jo onnasi?
 
 #TODO:jokin /o/b/skRipti nostamaan äläkän jos /e/resolv.vonf puuttuu
@@ -202,6 +202,14 @@ function e23_qrs() {
 #libgtk3 ja dconf-gsettings qsi minimal_liven kanssa (jotain jo tehty?)
 #libegl-mesa myös, libwings ja libpango tottakai (jotain jo tehty?)
 #xterm ja xbitmaps, x11-server-utils (jotain jo tehty?)
+
+#120426:
+#libpangoxft, libwayland ja libgtk3 ed aiheutt nalq minimal_liven knssa 120426 (ainakin libffi8 puuttui)
+#xterm ja xbitmap ei vielä ihan nappiin nekään mene siellä (libutempter puuttui)
+#wings ja wraster nyt taas desktop_liven kauttakin nalkutuksen aihe
+#libpango*.deb ei tule mukaan? eikä libcairo*.deb, jtain js tkisi
+
+#... olisi hyväksi pysyä kärryillä minkä paketin version kanssa nysvää
 
 #.V.M.P.5tna mussunmussun
 function e23_dm() {
@@ -220,11 +228,14 @@ function e23_dm() {
 		echo "NOT SUPPORTED"
 		exit 666
 	fi
-	
+
+	#TODO:näiden riippuvuudet selvittäen TAAS (toiv ei magick-juttuja tartte)
+	#TODO:varm myös että menevät kohde-pakettiin mukaan libpango*.deb
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0 libpangocairo-1.0-0
+
 	#[ $? -eq 0 ] || exit 54 #to state the obvious:initramfs-kikkailujen takia ei kande nöin tehdö
 	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
-
+	csleep 5
 	${shary} libnuma1 libx265-199 libwraster6 libwings3
 	csleep 10
 
@@ -243,7 +254,12 @@ function e23_dm() {
 	${shary} libthai0 libxft2 libxrender1 libxrandr2
 	csleep 10
 
-	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
+	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa
+
+	#TODO:ao. pakettien riippuvuudet mykaan tai siis...
+	#TODO:varm myös että menevät kohde-pakettiin mukaan libwayland*.deb
+	${shary} libffi8 libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
+	
 	${shary} libxcb1
 	csleep 5
 
@@ -253,13 +269,6 @@ function e23_dm() {
 
 	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0
 	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
-
-	#Depends:  (>= 2.34),  (>= 2.4.109),  (>= 2.0.1),(= 22.3.6-1+deb12u1),  (>= 3.4),  (= 22.3.6-1+deb12u1), 
-	#(>= 1.15.0), (>= 2:1.8.4), (>= 1.13),(>= 1.3), , (>= 1.9.2), 
-	#Depends:  (>= 2.34), (= 1.6.0-1), (= 1.6.0-1)
-	#Depends:  (>= 2.15), ,  (>= 2:1.1.3),  
-	#Depends:  (>= 2.34),  (= 1.6.0-1), 
-
 	${shary} libglvnd0 libegl-mesa0 libgl1 libxaw7 libegl1
 	csleep 5
 
@@ -284,21 +293,16 @@ function e23_dm() {
 	${shary} libxau6  #C
 	${shary} lsb-base psmisc #A
 #
-
 	${shary} x11-apps x11-common x11-utils
 	csleep 10
 
 	${shary} dconf-gsettings-backend dconf-service libdconf1 adwaita-icon-theme hicolor-icon-theme shared-mime-info libatk-bridge2.0-0
-	#Depends:  (<< 0.40.0-4.1~),(>= 0.40.0-4),  (= 0.40.0-4), (>= 2.14),  (>= 2.55.2)
 	${shary} libcairo-gobject2 libcairo2 libcolord2 libcups2 libepoxy0 libxdamage1
-	${shary} libxkbcommon0 libgtk-3-common  libgtk-3-0 libice6
 
+	#HUOM.120426:mitkä kaikki sen gtk-3-0:n tarvitsivat?
+	${shary} libxkbcommon0 libgtk-3-common libgtk-3-0 libice6
 
-	#  (>= 2:1.2.99.4),  (>= 2:1.1.4),  (>= 0.5.0), (>= 2:1.5.0), (>= 3.24.38-2~deb12u3)
-
-	#Depends:  | gsettings-backend
 	#Depends: , x11-common
-
 	csleep 5
 #
 
@@ -310,16 +314,9 @@ function e23_dm() {
 	${shary} init-system-helpers  #xscreensaver?
 	csleep 10
 
-	#Depends:  (>= 2.34),  (>= 1:1.0.0),   (>= 2:1.0.14),  (>> 1.1.2),  
-	#(>= 2:1.1.3), (>= 2:1.1.3), (>= 2:1.5.0),  
-
 	${shary} cpp procps #mitä kaikkea nämä vetävät mukaan?
 	${shary} x11-xserver-utils xserver-xorg #D
 	csleep 10
-
-	#Depends: , (>= 2.34),  (>= 2.12.6), (>= 2.2.1), (>= 1:1.0.0), 
-	#(>= 6),  (>= 1.1.5), , (>= 2:1.0.14), , (>> 2.1.1),  (>= 2:1.1.4), (>= 2:1.1.3), , 
-	#Depends:  (>= 2.34), ,  (>= 1:1.0.9), ,  (>= 2:1.1.3)
 
 	${shary} libutempter0 xbitmaps xterm xauth
 	csleep 5
@@ -339,10 +336,9 @@ function e23_dm() {
 #	
 
 
-#	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
+
 #
-#	#VAIH:dpkg: dependency problems prevent configuration of libwww-perl:
-#	#VAIH:xscreensaver depends on ; however:
+
 
 #	libstdc++6 (>= 11), 
 #	#	${shary}  libgnutls30
@@ -354,10 +350,9 @@ function e23_dm() {
 #			${shary} xdm
 #		;;
 #		wdm)
-#			#TODO:wdm tartvitsee xserver|xserver-org (minimal_live)
-#			${shary}  #audit1 ennen case?
+
+
 #			${shary} sysvinit-utils 
-#			${shary} libpipeline1
 #			csleep 1
 #
 #			${shary} wdm
@@ -390,7 +385,7 @@ function e23_dm() {
 #		;;
 #	esac
 #
-#	#VAIH:pitäisiköhän nämäkin junnata läpi?
+
 #	#Depends: perl:any, , ,,,,,,,,, liblwp-mediatypes-perl,, libnet-http-perl, libtry-tiny-perl, liburi-perl, libwww-robotrules-perl, 
 #	#  (>= 0.99.7.1), libsystemd0 (>= 243), ,  (>> 2.1.1), (>= 2:1.2.99.4),  (>= 2:1.1.4), 
 #

@@ -149,7 +149,7 @@ function e22_pre1() {
 #...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 #HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
 
-#170326:kai toimii, tietyt muutoksetkin tehty
+#TODO:testailut uusiksi
 function e22_pre2() {
 	echo "per2..."
 	[ -z "${1}" ] && exit 66
@@ -159,14 +159,13 @@ function e22_pre2() {
 
 	dqb " (pars.ok)"
 	csleep 1
-	
 	local par4
 
 	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
-	#ortsac=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
+	#ortsac=$(echo ${2} | cut -d "/" -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
 	par4=$(echo ${4} | tr -d -c 0-9)
 
-	#HUOM.020825:vähän enemmän sorkintaa tänne?
+	#HUOM.020825:vähän enemmän sorkintaa tänne? a) vielä ajank? b) miksi juuri tässä fktiossa?
 	#/e/n alihakemistoihin +x ?
 	#/e/n kokonaan talteen?
 
@@ -174,11 +173,19 @@ function e22_pre2() {
 		echo $?
 		csleep 1
 
-		#HUOM.200326:TLA() tähän väliaikaisesti vai ei? nykyään kyllä ifup...
-
 		#280326:tilapäinen viritys kunnes x? mikä?
-		#TODO:vähän parempi jos tarkistaisi että kyseessä nimenomaan tieDosto eikä linkki (JOKOJO 110426?)
-		[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
+		#VAIH:vähän parempi jos tarkistaisi että kyseessä nimenomaan tieDosto eikä linkki (JOKOJO 110426?)
+
+		if [ -d /etc/resolv.conf ] ; then
+			echo "D"
+		else
+			if [ -h  /etc/resolv.conf ] ; then
+				echo "-L"
+			else
+				[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
+			fi
+		fi
+
 		ls -las /etc/resolv.*
 		csleep 1	
 
@@ -215,6 +222,7 @@ function e22_cleanpkgs() {
 }
 
 #290326:tämän kanssa jotain hatkosäätöä vai ei?
+#120426:bissiin menee mukaan kohteeseen config.tar.bz2
 function e22_config1() {
 	dqb "e22_config1()"
 	[ -z "${1}" ] && exit 11
@@ -240,6 +248,7 @@ function e22_config1() {
 #nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
 
 #290326:tämän kanssa jotain hatkosäätöä vai ei?
+#120426:vissiin menee kohteeseen fedi ja profs (mutta meneekö 1. mainittu myös juureen?)
 function e22_settings() {
 	dqb "e22_settings(${1}, ${2}, ${3}, ${4})"
 	[ -z "${1}" ] && exit 11
@@ -264,10 +273,10 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
-#290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa? (vielä 020426?)
+#290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa? (vielä 120426?)
 
 #040426:ei tarvinne CONF_testgris-ehtoa ainakaan verkkoyhteyden varalta, ei vedä kaloja
-#VAIH:jälleen kerran testaus (110426)
+#VAIH:jälleen kerran testaus (120426, vissiin menee kohteeseen mitä pitääkin)
 function e22_home_pre() {
 	dqb "e22_home_pre()"
 
@@ -287,7 +296,7 @@ function e22_home_pre() {
 
 	csleep 1
 
-	#080426:osilikohan okieutedt ok oj?	
+	#080426:osilikohan okieutedt ok oj? kaikilta w pois vielä?	
 	${scm} go-rw /opt/bin/*
 	${sco} 0:0 /opt/bin/*
 	${srat} -rvf ${1} /opt/bin 
@@ -295,6 +304,7 @@ function e22_home_pre() {
 	dqb "JUST BEFORE FIND"
 	csleep 1
 
+	#TODO:jos merd2:sta vain 1 kpl jatkossa kohteeseen
 	for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
 		${srat} -rvf ${1} ${t}
 	done
@@ -305,7 +315,7 @@ function e22_home_pre() {
 
 #290326:toimii, mutta $3 kanssa ehkä jotain?
 #29426:edelleen toimii?
-#110426:testit taas menossa (VAIH)
+#120426:testit taas menossa (VAIH) (vissiin kopsaa kohdepakettin mitä pitääkin)
 
 function e22_home() {
 	dqb "e22_home()"
@@ -317,7 +327,6 @@ function e22_home() {
 
 	#[ -z "${4}" ] && exit 73
 	csleep 1
-
 	local t
 	local f
 
@@ -337,7 +346,7 @@ function e22_home() {
 
 #pitäisikö siirtää toiseen tdstoon? mihin?
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
-
+#120426:vissiin kopsaa kohteeseen mitä itääkin
 function luca() {
 	[ -z "${1}" ] && exit 11
 	[ -s ${1} ] || exit 12
@@ -355,11 +364,11 @@ function luca() {
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 }
 
-
-
 # slim/xdm/wdm-spesifinen konfiguraatio saattaa tulla jo mukaan myös
 #020426:ei vedä verkosta mitään ni ei tartte lisätestejä?
-#VAIH:toiminnan testauis taas 110426)
+#VAIH:toiminnan testaus taas 120426 , kopsannee kohteeseen  mitä pitääkin
+#(meneekö rules.* kohteeseen useamman kerran?)
+
 function e22_acol() {
 	dqb "e22_acol()"
 
@@ -427,11 +436,13 @@ function e22_acol() {
 #imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
 #... jotain alettu trehdäö 04/26
 
-
-
-
 #020426:vissiin ai tarvitse lisätestejä koska ei vedä verkosta mitään
-#VAIH:testaus taas (110426)
+#VAIH:testaus taas (120426) /etc/rcS.d/S*net , meneekö kohteeseen? jep
+#, wdm-jutut myös kuten myös ddm ja rules (tsin...)
+#pkgs-jutut myös, lienee ok
+
+#(josko exp2 voisi korvata "tar -T -cf":llä?)
+
 function e22_sarram() {
 	dqb "e22_sarram(${1} ; ${2} ; ${3} )))))))()))))"
 
@@ -491,10 +502,10 @@ function e22_sarram() {
 
 [ -v CONF_BASEURL ] || exit 6
 
+#tai sen zxcv:n sha-tarkistuksen kanssa jotain kiukuttelua että "tar -t $arch" josqs(DONE)
+#verkkoyhteyttä vaativat jutut vain jos testgris ei asetettu? vaiko kutsuvan koodin puolella tarkistus?
+#VAIH:testit taas menossa 120426 (muuten mennee pakettiin paitsi dhclient-script)
 
-#tai sen zxcv:n sha-tarkistuksen kanssa jotain kiukuttelua että "tar -t $arch" josqs(TODO)
-#verkkoyhteyttä vaativat jutut vain jos testgris ei asetrettu? vaiko kutsuvan koodin puolella tarkistus?
-#VAIH:testit taas menossa 110426
 function e22_ext() {
 	[ -z "${1}" ] && exit 1
 	[ -d ${1} ] && exit 59
@@ -610,7 +621,7 @@ function e22_ts() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 }
 
-#VAIH:testaus.uusicksi 110426 (osasi paketin muodostaa, sisältö: saattaa toimia jo)
+#TODO:testaus.uusicksi 120426 ->
 function e22_arch() {
 	dqb "e22_arch() $1 , $2 , $3 , $4"
 
@@ -663,8 +674,8 @@ function e22_arch() {
 	E22_E="e.tar g.tar"
 	local t=$(basename ${1})
 
-	for p in ${E22_E} ; 
-		do ${sah6} ./${p} | grep -v ${t} >> ./sha512sums.txt
+	for p in ${E22_E} ; do 
+		${sah6} ./${p} | grep -v ${t} >> ./sha512sums.txt
 	done
 
 	csleep 1

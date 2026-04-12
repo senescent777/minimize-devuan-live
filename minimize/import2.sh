@@ -43,27 +43,19 @@ fi
 #180326:liittyyköhän check_bin():in "ocs ipt" tuohon viimeaikaiseen kiukutteluun?
 
 function parse_opts_1() {
-	dqb "parse_opts_1( ${1} )"
+	dqb "ump3-parse_opts_1( ${1} ((((()"
 
-#	#sisäkkäiset if-lauseet pystyisi ehkä purkamaan
-#	if [ "${mode}" == "-2" ] ; then
-#		mode=${1}
-#	else
-#		if [ "${1}" == "-v" ] ; then
-#			debug=1
-#		else
-#		#	if [ -d ${d0}/${1} ] ; then
-#		#		#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
-#		#		d=${d0}/${distro}
-#		#	else
-#				srcfile=${1}
-#		#	fi
-#		fi
-#	fi
+	if [ "${mode}" == "-2" ] ; then
+		mode=${1}
+	fi
 }
 
 function parse_opts_2() {
-	dqb "imp2.parseopts_2 ${1} ${2}"
+	dqb "(imp2.parseopts_2 ; ${1} ; ${2} ;"
+
+	if [ -f ${2} ] || [ -d ${2} ] ; then
+		srcfile=${2}
+	fi
 }
 
 
@@ -91,12 +83,8 @@ else
 	dqb "FALLBACK"
 	sleep 5
 
-#	if [ -f /.chroot ] ; then
-#		odio=""
-#	else
-#		#chroot-ynmp tulee nalqtusta tästä?
-		odio=$(which sudo)
-#	fi
+	odio=$(which sudo)
+
 
 	#"tar -cvf OLD.tar"-syystä ei tätä tekstiä huomaa	
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
@@ -145,10 +133,15 @@ else
 		dqb "imp2.3nf :NOT SUPPORTED"
 	}
 
-	#TODO:barm vuoksi pitäisi kai käskyttää parse_opts_fktioita siltä varalta että parsetuksen saakin sitä kautta toimimaan 
+	#VAIH:barm vuoksi pitäisi kai käskyttää parse_opts_fktioita siltä varalta että parsetuksen saakin sitä kautta toimimaan 
 	#... sq-rot:isTa jos esim. prujaisi
 
-	dqb "SHOULD CALL parse_opts_x() AROUND HERE"
+	
+	for opt in $@ ; do
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
 fi
 
 dqb "imp2:AFTR common_lib"
@@ -199,9 +192,6 @@ ocs tar
 dqb "srat: ${srat}"
 csleep 1
 dqb "LHP"
-
-#VAIH:ffox prof importoinnissa pitäisi huomioida, onko ffox:ia asennettu vai ei
-sleep 6
 	
 #josko tilansäästön nimissä kolmaskin ehto? tai ehkä ei pakko
 if [ -s /OLD.tar ] ; then
@@ -258,7 +248,9 @@ function common_part() {
 		else
 			${NKVD} ${1}.*
 			exit ${r}
+
 			#VAIH:jos menee wtuiksi niin joutaisi delliä .sha
+			#... miten testauksen kanssa?
 		fi
 	fi
 
@@ -552,7 +544,8 @@ case "${mode}" in
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
 		[ -v CONF_default_arhcive3 ] || exit 18
-		#VAIH:SE FFOX-TARQ
+
+		#1204236:jos nämä fox-tarkistukset riittäisivät ja toimisivat
 		[ -z "${fox}" ] && exit 26
 		[ -x ${fox} ] || exit 27
 
@@ -567,7 +560,7 @@ case "${mode}" in
 	#sqrot ei tarvitse tätä casea, kai
 		# (turha case oikeastaan koska "$0 1"+"$0 r"
 		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
-#VAIH:SE FFOX-TARQ
+
 		
 		[ -z "${fox}" ] && exit 26
 		[ -x ${fox} ] || exit 27
