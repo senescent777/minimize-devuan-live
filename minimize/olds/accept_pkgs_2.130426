@@ -1,0 +1,52 @@
+#bind9-jutut tarv: libkrb5, libgssapi-krb5-2
+nftables
+bind9-libs
+bind9-host
+bind9-dns
+dnsutils
+perl
+mime-support
+#
+#eudev-dbus-e2fsprogs oli siinä rejectissä, miten x-juttuja myös?
+cpp
+#menisikö näin? , cpp juuri ennen äksää?
+xkb-data
+x11-xkb-utils
+xserver-common
+#
+#libc6 ennen legacy, xserver-common ennen legacy
+xserver-xorg-legacy
+#
+#utyils ennen:common
+xserver-common
+xserver-xorg-core
+#
+dbus-system-bus-common
+dbus-bin
+dbus-session-bus-common
+dbus-daemon
+dbus-x11
+gpgconf
+gtk2-engines-pixbuf
+python3.11-minimal
+python3.11
+menu
+psmisc
+git-man
+#
+xauth
+xinit
+xbitmaps
+xterm
+xfonts
+lsb-base
+man-db
+#
+#
+x11
+xorg
+#route ennne dhcp
+iproute2
+isc-dhcp
+#
+wdm
