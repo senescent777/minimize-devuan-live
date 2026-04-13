@@ -730,7 +730,10 @@ function TLA() {
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ -f /.chroot ] ; then #010426:antaa toistaiseksi o.lla viimiei n eht0
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		if [ ! -v CONF_testgris ] ; then 
+		if [ ! -v CONF_testgris ] ; then
+			#TODO:viimeistään tässä kohtaa kalojen siirtyo /o/b alle ellei sitten petäti medr2.sh toimesta
+			#... lisäksi medr2 voisi asettaa x-oikeudet ratpeellisiin skritpeihin	
+		
 			dqb "JST B3F0R:tlb-b a s h"
 			[ -x /opt/bin/tlb.bash ] || exit 99
 

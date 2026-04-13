@@ -263,79 +263,7 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
-#290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa? (vielä 020426?)
-#TODO:testgirs-ehto mukaan suoritukseen vai ei?
-#20426:edelleen toimii?
 
-function e22_home_pre() {
-	dqb "e22_home_pre()"
-
-	dqb "HOMEPRE D0NE"
-	csleep 1
-}
-
-function e22_home() {
-	dqb "e22_home()"
-	[ -z "${1}" ] && exit 67 #VAIH:tark takas
-	[ -s ${1} ] || exit 68
-	[ -z "${2}" ] && exit 69
-	[ -d ${2} ] || exit 70
-	[ -z "${3}" ] && exit 71
-	[ -z "${4}" ] && exit 73
-	[ -z "${5}" ] && exit 79
-
-	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
-		e22_config1 ~ ${4}
-		${NKVD} ~/${5}		
-		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
-	fi
-
-	csleep 1
-
-	${srat} -rvf ${1} /opt/bin 
-
-	dqb "JUST BEFORE FIND"
-	csleep 1
-
-	for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
-		${srat} -rvf ${1} ${t}
-	done
-
-	dqb "HOMEPRE D0NE"
-	csleep 1
-}
-
-#290326:toimii, mutta $3 kanssa ehkä jotain
-#TODO:testgirs-ehto mukaan suoritukseen vai ei?
-#29426:edelleen toimii?
-
-function e22_home() {
-	dqb "e22_home()"
-	[ -z "${1}" ] && exit 67
-	[ -s ${1} ] || exit 68
-	[ -z "${2}" ] && exit 69
-	[ -d ${2} ] || exit 70
-	[ -z "${3}" ] && exit 71
-
-	#[ -z "${4}" ] && exit 73
-	csleep 1
-
-	local t
-	local f
-
-	${srat} -rvf ${1} ${2}/../${3}
-	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
-	#[ ${t} -lt 1 ] && exit 72
-	csleep 2
-
-	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-	${srat} ${TARGET_TPX} --exclude='*.deb' --exclude '*.conf' -rvf ${1} /home/stubby ${t}
-	csleep 2
-
-	#find qsee jossain?	
-	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
-	dqb "e22_home().done()"	
-}
 
 #pitäisikö siirtää toiseen tdstoon?
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
