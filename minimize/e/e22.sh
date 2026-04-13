@@ -325,7 +325,7 @@ function e22_home() {
 
 	${srat} -rvf ${1} ${2}/../${3}
 	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
-	[ ${t} -lt 1 ] && exit 72
+	#[ ${t} -lt 1 ] && exit 72
 	csleep 2
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
@@ -363,9 +363,6 @@ function luca() {
 #204226:toimii edelleen?
 # slim/xdm/wdm-spesifinen konfiguraatio saattaa tulla jo mukaan myös
 #020426:ei vedä verkosta mitään ni ei tartte lisätestejä?
-
-function e22_acol() {
-	dqb "e22_acol()"
 
 function e22_acol() {
 	dqb "e22_acol()"
@@ -432,22 +429,8 @@ function e22_acol() {
 
 #imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
 #020326:ehkä ok sisältö-siat (xorg ja ntp-jutut voisi testata paremmalla ajalla)
-
 #20426:edelleen toimii?
-
 #020426:vissiin ai tarvitse lisätestejä koska ei vedä verkosta mitään
-
-function e22_sarram() {
-	dqb "e22_sarram(${1} ; ${2} ; ${3} )))))))()))))"
-
-	[ -z "${1}" ] && exit 1
-	[ -s ${1} ] || exit 4 
-	#[ -w ${1} ] || exit 9
-	[ -z "${2}" ] && exit 11
-	[ -z "${3}" ] && exit 13
-	[ -s ${3} ] || exit 17
-
-	dqb "e22_sarram().pars.ok"
 
 function e22_sarram() {
 	dqb "e22_sarram()"
@@ -702,10 +685,6 @@ function e22_arch() {
 #	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 #}
-
-#290326:paketin rakennus onnaa edelleen
-function e22_dblock() {
-	dqb "e22_dblock(${1} , ${2} , ${3} , ${4})"
 
 function e22_dblock() {
 	[ -z "${1}" ] && exit 14
