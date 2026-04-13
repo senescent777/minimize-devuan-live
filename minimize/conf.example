@@ -2,7 +2,7 @@ CONF_iface=iface
 CONF_enforce="0 or 1"
 debug=0
 CONF_dnsm=0
-#dsn="INSERT LIST OF DNS/DOT SERVERS HERE"
+#CONF_dsn="INSERT LIST OF DNS/DOT SERVERS HERE"
 CONF_changepw=0
 #
 #pkgs
@@ -23,7 +23,7 @@ LANGUAGE=en_US.UTF-8
 LC_ALL=en_US.UTF-8
 #/loka
 #
-BASEURL="github.com/senescent777/"
+CONF_BASEURL="github.com/senescent777/"
 #CONF_testgris ja .chroot voisi korvata yhdellä mjalla?
 CONF_testgris=/SMTH1NG
 #
@@ -34,7 +34,8 @@ CONF_testgris=/SMTH1NG
 #
 TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ "
 #
-#sudo-juttuja (jatkossa toisin)
-#CB_LIST2="/bin/rm ${CONF_tmpdir}/*"
-#
 CONF_dm=xdm
+#
+CONF_default_arhcive=fediverse.tar
+CONF_default_arhcive2=config.tar.bz2
+CONF_default_arhcive3=profs.sh
