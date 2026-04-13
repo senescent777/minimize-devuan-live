@@ -43,14 +43,13 @@ xterm
 #
 xfonts
 lsb-base
-man-db 
+man-db
+procps
 #
 x11
-#
-#Depends: (>= 2.34),  (>= 1:1.0.9), , 
+# 
 #
 xauth
-#Depends:  (>= 2.11),  (>= 7.4-1), x11-common, xauth
 #
 coreutils
 xinit
