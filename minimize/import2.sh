@@ -58,7 +58,6 @@ function parse_opts_2() {
 	fi
 }
 
-
 dqb "SHOULD gg --veridy ${d0}/common_lib.sh HERE, MAYBE"
 csleep 1
 
@@ -136,7 +135,6 @@ else
 	#VAIH:barm vuoksi pitäisi kai käskyttää parse_opts_fktioita siltä varalta että parsetuksen saakin sitä kautta toimimaan 
 	#... sq-rot:isTa jos esim. prujaisi
 
-	
 	for opt in $@ ; do
 		parse_opts_1 ${opt}
 		parse_opts_2 ${prevopt} ${opt}
@@ -410,10 +408,6 @@ function tpr() {
 	csleep 1
 }
 
-#261125:eka case-blokki toimii
-#HUOM.110326:voisi olla tämä case nnen common_lib ... paitsi että conf
-#... ehkä voisi cpy-pastettaa sen konftdston etsinnän
-
 #sqrot ei tarvitse tätä blokkia (pl. ehkä -h) 
 #HUOM.060426:tämä case-esac voisi toimia ilmankin kirjastoa, qhan vain konftdsto löytyy
 #110426:tässäkin "-v" tarpeen?
@@ -494,7 +488,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 		csleep 1
 	;; 
-#	0|3) #EI POINTTIA TÄSSÄ ENNENQ PARSETUS KORJATTU
+#	0|3) #EI POINTTIA TÄSSÄ ENNENQ PARSETUS KORJATTU (jos uskaltaisi jo kokeilla)
 #		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
 #		#110326:toimii edelleen mod pientä kiukuttelua josqs
 #		#160326:sama, kiukuttelulle voisi tosin tehdä jotain
@@ -504,7 +498,7 @@ case "${mode}" in
 #		#... kiukuttelut sqrot alla liittyvät enemmän wdm-pakettiin kuin itse skriptiin?
 #		#sha512sums.txt.bak suattaapi liittyä vua n suattaapi ettei
 #	
-#		
+#TODO:sq-rt:in alun tar -x:ään tämän skriptin exclude jos mahd		
 #		#myös "libc6:amd64 depends on libgcc-s1; however:" joutaisi tehdä jotain?
 #		
 #		echo "ZER0 S0UND"
@@ -513,7 +507,7 @@ case "${mode}" in
 #		csleep 1
 #		e="/"
 #
-#		#if [ -f /.chroot ] ; then
+
 #			if [ ${1} -eq 0 ] ; then
 #				#mitense alt_root? ensisijaisesti sitä pakettien "uutta" asennustapaa vartebn
 #				#... siinä piti vielä prujata se hmistorakanne ainakin
@@ -522,7 +516,7 @@ case "${mode}" in
 #				echo "... SHOULD BE MOVED UNDER ${d} , AFTER THAT:RUN $0 3 ${d}/f.tar"
 #				exit 99
 #			fi
-#		#fi
+
 #
 #		[ ${1} -eq 0 ] || e=${d}
 #		csleep 1
@@ -561,7 +555,6 @@ case "${mode}" in
 		# (turha case oikeastaan koska "$0 1"+"$0 r"
 		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
 
-		
 		[ -z "${fox}" ] && exit 26
 		[ -x ${fox} ] || exit 27
 

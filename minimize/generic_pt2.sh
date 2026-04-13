@@ -82,7 +82,7 @@ sleep 1
 
 if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
-	TLA
+	TLA #miten tämä suhtautuu noihin aiemiin /o/b käskytyksiin?
 else
 	part2 1 ${CONF_dnsm} ${CONF_iface}
 	[ $? -gt 0 ] && exit
