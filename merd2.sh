@@ -38,7 +38,7 @@ fi
 dqb "branch=${branch}"
 tig=$(sudo which git)
 
-if [ x"${tig}" == "x" ] ; then
+if [ -z "${tig}"  ] ; then
 	echo "sudo apt-get install git"
 	exit 7
 fi
@@ -54,8 +54,25 @@ csleep 2
 #020426:toimii
 mv minimize minimize.OLD
 mv ${CONF_PT2}/* .
+p=$(pwd)
 
-#TODO:voisi taas selvittää, ovatko 1take-haaran matskut toimintaqntoisia? (7426) 
-[ -x minimize/common_lib.sh ] && . minimize/common_lib.sh
-[ -x minimize/common_lib.sh ] && enforce_access $(whoami) ${d0}/minimize
+#DONE:voisi taas selvittää, ovatko 1take-haaran matskut toimintaqntoisia? enimmäkseen (130426)
+#TODO:sen man1.  - jutut kys- haaran e22:seen? vai sittenkin e/update2 else-haara hoitamaan?
+[ -s minimize/common_lib.sh ] && chmod 0555 minimize/common_lib.sh 
+echo $?
+
+if [ -x minimize/common_lib.sh ] ; then
+	#TODO:/o/b-juttuja oli kanssa
+
+	. minimize/common_lib.sh
+	enforce_access $(whoami) ${d0}/minimize
+
+	#josko nyt jo?
+	for d in $(find . -type f name "*.sh") ; do chmod 0555 ; done
+else
+	echo "SMTHING WR0NG W/ minimize/common_lib"
+fi
+
+#toivottavasti nbyt...
+cd ${p}
 mv minimize.OLD/${distro}/conf minimize/${distro}
