@@ -71,14 +71,14 @@ if [ -x minimize/common_lib.sh ] ; then
 	#TODO:/o/b-juttuja oli kanssa
 
 	#josko nyt jo?
-	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ; done
+	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 
 	#140426:knftydston puute kenteis estää seur rivien toiminnan (tekisikö jotain?)
 	. minimize/common_lib.sh
 	enforce_access $(whoami) ${d0}/minimize
 
 	#josko nyt jo?
-	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ; done
+	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 else
 	echo "SMTHING WR0NG W/ minimize/common_lib"
 fi
