@@ -714,7 +714,6 @@ function check_binaries2() {
 	uom="${odio} ${uom} "
 	smd="${odio} ${smd}"
 
-	#tähän/seuraavaan TLA() vai mitenkä?
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
@@ -733,6 +732,7 @@ function TLA() {
 	else
 		if [ ! -v CONF_testgris ] ; then 
 			dqb "JST B3F0R:tlb-b a s h"
+			#TODO:viimeistään tässä kohtaa mv $d0/o/b/*.bash ellei sitten medr2 hoida
 			[ -x /opt/bin/tlb.bash ] || exit 99
 
 			#tarkoituksella ilman param

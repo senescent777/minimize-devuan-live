@@ -344,16 +344,12 @@ case ${mode} in
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
-		#070426:osannee tehdä toimivan paketin
 		#110426:tämän testaus uudestaan (paketti:onnistuu , sisältö:asentuu )
 		${fib}
 		${shary} ${E22_GI}
 	;;
 	l)
-		#VAIH:e23_dm() uusicksi (110426 uusi paketti kokeiluun, joko toimii?)
-		#wdm -> debconf. libpam-modules, libpam-runtime, lsb-base. psmisc, x11-apps, x11-common, x11-utils, x11-xserver-utils, xserver-xorg | xserver, perl,libc, libcrypt1, libpam0g, libselinux1, libwings3, libwraster5, libwutil5, libx11-6, libxau6, linxdmcp6, libxinerama1, libxmu6
-		
-		#1104236:desktop_live:n kanssa onnistui jo paketin asennus? 
+		#1104236:desktop_live:n kanssa onnistui jo paketin asennus
 		#minimal_live:n kanssa ei
 
 		csleep 1
@@ -402,7 +398,7 @@ function e22_dblock() { #VAIH:jälleen kerran testailut, e22_arch() liittyvää 
 	done
 	
 	local t
-	t=$(echo ${2} | cut -d '/' -f 1-6) #joitain tr-jekkuja vielä?
+	t=$(echo ${2} | cut -d "/" -f 1-6) #joitain tr-jekkuja vielä?
 	e22_ts ${t} ${3}
 	dqb "JST B3F0R3 3NF0RC3"
 	csleep 1

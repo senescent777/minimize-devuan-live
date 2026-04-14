@@ -506,6 +506,6 @@ function e23_profs() {
 #	#${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
 #
 #		#VAIH:xserver-xorg-video-* ainakin mukaan?
-##... "case l" jos kuittaisi äksän lib-jutut (tai sit boottaa minimal-liveen ja asenna x+wdm siihen) (TODO?)
+##... "case l" jos kuittaisi äksän lib-jutut (tai sit boottaa minimal-liveen ja asenna x+wdm siihen) (ensin pitäisi asiat z ja w enneq tuota pääsee)
 #
 #}

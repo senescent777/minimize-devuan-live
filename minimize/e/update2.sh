@@ -60,23 +60,28 @@ if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	echo "YLIULIULI"
 	cd ${CONF_testgris}
 
-	#TODO?:-C olisi myös keksitty
+	#HUOM:-C olisi myös keksitty
 else
 	cd /
 fi
 
-#g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
-#sleep 1
-#
-#for f in ${g} ; do #090426:ehkä tuota mazn1.jutskaa hyödyntäen saisi for-loopin takaisin
-#	if [ -f ${f} ] ; then #josko nyt
-#		if [ ! -h ${f} ] ; then 
-#			${tcmd} -rvf ${tgt} ${f} #HUOM. "-uvf" KANSSA MENEE VITUIKSI JOS EI OLE TARKKANA 666 !!!
-#			[ $? -eq 0 ] || echo "chmod | chown ?"
-#		fi
-#	fi
-#done
+if [ -s  ${d0}/MAN1.F2ST ] ; then
+	${tcmd} -T ${d0}/MAN1.F2ST -f ${tgt} -rv
+else
+	echo "2 (TODO)"
 
-${tcmd} -T ${d0}/MAN1.F2ST -f ${tgt} -rv
+	#g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
+	#sleep 1
+	#
+	#for f in ${g} ; do #090426:ehkä tuota mazn1.jutskaa hyödyntäen saisi for-loopin takaisin
+	#	if [ -f ${f} ] ; then #josko nyt
+	#		if [ ! -h ${f} ] ; then 
+	#			${tcmd} -rvf ${tgt} ${f} #HUOM. "-uvf" KANSSA MENEE VITUIKSI JOS EI OLE TARKKANA 666 !!!
+	#			[ $? -eq 0 ] || echo "chmod | chown ?"
+	#		fi
+	#	fi
+	#done	
+fi
+
 #jotat ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4
