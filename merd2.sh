@@ -55,8 +55,13 @@ csleep 2
 mv minimize minimize.OLD
 mv ${CONF_PT2}/* .
 
-#VAIH:voisi taas selvittää, ovatko 1take-haaran matskut toimintaqntoisia? (7426) 
+#DONE:voisi taas selvittää, ovatko 1take-haaran matskut toimintaqntoisia? enimmäkseen (130426)
+#TODO:sen man1.  - jutut kys- haaran e22:seen? vai sittenkin e/update2 else-haara hoitamaan?
+[ -s minimize/common_lib.sh ] && chmod 0555 minimize/common_lib.sh 
+
 if [ -x minimize/common_lib.sh ] ; then
+	#TODO:/o/b-juttuja oli kanssa
+
 	. minimize/common_lib.sh
 	enforce_access $(whoami) ${d0}/minimize
 fi
