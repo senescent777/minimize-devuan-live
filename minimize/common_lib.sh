@@ -732,8 +732,14 @@ function TLA() {
 	else
 		if [ ! -v CONF_testgris ] ; then 
 			dqb "JST B3F0R:tlb-b a s h"
-			#TODO:viimeistään tässä kohtaa mv $d0/o/b/*.bash ellei sitten medr2 hoida
-			[ -x /opt/bin/tlb.bash ] || exit 99
+			#VAIH:viimeistään tässä kohtaa mv $d0/o/b/*.bash ellei sitten medr2 hoida
+			
+			if [ -x /opt/bin/tlb.bash ] ; then
+				dqb "/o/b/t ok"
+			else
+				dqb "should  exit 99"
+				${svm} $(pwd)/opt/bin/tlb.bash /opt/bin
+			fi		
 
 			#tarkoituksella ilman param
 			${odio} /opt/bin/tlb.bash 
