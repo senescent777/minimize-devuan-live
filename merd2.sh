@@ -69,8 +69,8 @@ echo $?
 dqb "FN0C"
 csleep 1
 
-if [ -s minimize.OLD/${distro}/conf ] ; them
-	mv minimize.OLD/${distro}/conf minimize/${distro}
+if [ -s minimize.OLD/${distro}/conf ] ; then
+	mv minimize.OLD/${distro}/conf minimize/${distro}/conf
 else
 	dqb "V.M.P"
 fi
