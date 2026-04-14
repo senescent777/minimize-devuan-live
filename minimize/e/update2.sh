@@ -60,15 +60,18 @@ if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	echo "YLIULIULI"
 	cd ${CONF_testgris}
 
-	#HUOM:-C olisi myös keksitty
+	#TODO?:-C olisi myös keksitty
 else
 	cd /
 fi
 
-if [ -s  ${d0}/MAN1.F2ST ] ; then
+if [ -s ${d0}/MAN1.F2ST ] ; then
 	${tcmd} -T ${d0}/MAN1.F2ST -f ${tgt} -rv
 else
-	echo "2 (TODO)"
+	${tcmd} -tf  ${tgt} > ${d0}/MAN1.F2ST
+	${tcmd} -rvf ${tgt}  ${d0}/MAN1.F2ST
+	echo "TRY AGAIN"
+	exit
 
 	#g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
 	#sleep 1
@@ -80,8 +83,9 @@ else
 	#			[ $? -eq 0 ] || echo "chmod | chown ?"
 	#		fi
 	#	fi
-	#done	
+	#done
 fi
+
 
 #jotat ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4
