@@ -43,6 +43,8 @@ if [ -z "${tig}"  ] ; then
 	exit 7
 fi
 
+echo "TODO?: rm -rf ${CONF_PT2}"
+
 dqb "BFROE tig"
 csleep 2
 ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
@@ -63,6 +65,9 @@ echo $?
 
 if [ -x minimize/common_lib.sh ] ; then
 	#TODO:/o/b-juttuja oli kanssa
+
+	#josko nyt jo?
+	for d in $(find . -type f name "*.sh") ; do chmod 0555 ; done
 
 	. minimize/common_lib.sh
 	enforce_access $(whoami) ${d0}/minimize
