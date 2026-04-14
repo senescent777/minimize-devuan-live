@@ -72,9 +72,10 @@ csleep 1
 if [ -s minimize.OLD/${distro}/conf ] ; then
 	mv minimize.OLD/${distro}/conf minimize/${distro}/conf
 else
-	dqb "V.M.P"
+	dqb "N0.C0NF"
 fi
 
+echo $?
 dqb "NEXT:common_lib"
 csleep 1
 
