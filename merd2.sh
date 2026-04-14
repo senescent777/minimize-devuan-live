@@ -60,12 +60,23 @@ csleep 2
 #020426:toimii
 mv minimize minimize.OLD
 mv ${CONF_PT2}/* .
-p=$(pwd)
 
 #DONE:voisi taas selvittää, ovatko 1take-haaran matskut toimintaqntoisia? enimmäkseen (130426)
 #TODO:sen man1.  - jutut kys- haaran e22:seen? vai sittenkin e/update2 else-haara hoitamaan?
 [ -s minimize/common_lib.sh ] && chmod 0555 minimize/common_lib.sh 
 echo $?
+
+dqb "FN0C"
+csleep 1
+
+if [ -s minimize.OLD/${distro}/conf ] ; them
+	mv minimize.OLD/${distro}/conf minimize/${distro}
+else
+	dqb "P1\$3N PR0 5ATANA"
+fi
+
+dqb "NEXT:common_lib"
+csleep 1
 
 if [ -x minimize/common_lib.sh ] ; then
 	#TODO:/o/b-juttuja oli kanssa
@@ -83,6 +94,5 @@ else
 	echo "SMTHING WR0NG W/ minimize/common_lib"
 fi
 
-#toivottavasti nbyt...
-cd ${d0}
-mv minimize.OLD/${distro}/conf minimize/${distro}
+
+
