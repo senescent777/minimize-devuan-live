@@ -11,7 +11,6 @@ librsvg2-common
 libstdc
 #
 libatspi2
-#
 libgl
 #
 at-spi
@@ -57,7 +56,6 @@ libharfbuzz0b
 fontconfig
 libthai0
 libfreetype
-#
 libxf
 #
 libx11-6
@@ -68,6 +66,10 @@ libpangoft2
 libpangocairo
 libpangoxft
 #
+#
+#VAIH:siirto aiemmaksi ffi8 (nftables ja lqr välissä aiemmin)
+#Depends: libc6 (>= 2.34), libgomp1 (>= 4.9) ?
+libfftw3
 libffi8
 libwayland-client0
 libwayland-server0
@@ -120,11 +122,17 @@ libswresample4
 libtheora0
 libtwolame0
 #
-#TODO:libx265 tähän jatqs?
+#VAIH:libx265 tähän jatqs? (dav16 ja heif välissä aiemmin)
 #Depends: libc6 (>= 2.34)
 #
 libx264-164
 #
+#
+#Depends: libc6 (>= 2.34)
+libnuma1
+#Depends: libc6 (>= 2.34), libnuma1 (>= 2.0.11), libstdc++6 (>= 4.1.1)
+#
+libx265-199
 libxv
 #
 libzvbi0
@@ -138,21 +146,11 @@ libgtk2.0-0
 #
 libnftables
 #
-#TODO:siirto aiemmaksi ffi8 ?
-#Depends: libc6 (>= 2.34), libgomp1 (>= 4.9) ?
-libfftw3
-#
 liblqr-1-0
 libde265-0
 #
 libaom3
 libdav1d6 
-#
-#Depends: libc6 (>= 2.34)
-libnuma1
-#Depends: libc6 (>= 2.34), libnuma1 (>= 2.0.11), libstdc++6 (>= 4.1.1)
-#
-libx265-199
 #
 libheif1
 libopenjp2-7

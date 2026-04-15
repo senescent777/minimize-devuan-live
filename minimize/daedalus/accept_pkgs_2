@@ -47,13 +47,14 @@ procps
 x11
 # 
 xauth
-#
 coreutils
 xinit
 #
 xorg
 #route ennne dhcp
 iproute2
+#
+#dhcp kanssa jotain muutoksia jatkossa?
 isc-dhcp
 #
 wdm
