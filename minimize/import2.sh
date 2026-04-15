@@ -129,8 +129,7 @@ else
 		dqb "imp2.3nf :NOT SUPPORTED"
 	}
 
-	#VAIH:barm vuoksi pitäisi kai käskyttää parse_opts_fktioita siltä varalta että parsetuksen saakin sitä kautta toimimaan 
-	#... sq-rot:isTa jos esim. prujaisi
+	#150426:josko olisi parsetus-asiat kunnossa jnkin aikaa?
 
 	for opt in $@ ; do
 		parse_opts_1 ${opt}
@@ -243,9 +242,7 @@ function common_part() {
 		else
 			${NKVD} ${1}.*
 			exit ${r}
-
-			#VAIH:jos menee wtuiksi niin joutaisi delliä .sha
-			#... miten testauksen kanssa?
+			#... miten testauksen kanssa? TODO:sqrootin kanssa josqs
 		fi
 	fi
 
@@ -279,7 +276,7 @@ function common_part() {
 		else
 			${NKVD} ./*.deb ./sha512sums* ./*.tar*
 			exit 33
-		#VAIH:jos ei varmistusta ni sietäisi delliä *.deb ?
+			#TODO:testaa tämä vähitellen
 		fi
 	fi
 
