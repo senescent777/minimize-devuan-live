@@ -33,8 +33,9 @@ else
 	exit 66
 fi
 
-if [ ! -z ${branch} ] ; then
-	branch="--branch ${branch} | tr -dc a-zA-Z0-9/."
+if [ ! -z "${branch}" ] ; then
+	branch=$(echo ${branch} | tr -dc a-zA-Z0-9/.)
+	branch="--branch ${branch}"
 fi
 
 dqb "branch=${branch}"
@@ -78,10 +79,6 @@ fi
 echo $?
 dqb "NEXT:common_lib"
 csleep 1
-#
-#echo "[ -x minimize/common_lib.sh ] && . minimize/common_lib.sh"
-#echo "[ -x minimize/common_lib.sh ] && enforce_access \${n} \${t} "
-#echo "mv minimize.OLD/\$distro/conf minimize/\$distro"
 
 if [ -x minimize/common_lib.sh ] ; then
 	#TODO:/o/b-juttuja oli kanssa
