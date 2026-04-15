@@ -30,8 +30,6 @@ tgt=${1}
 echo "PARAMS CHECKED"
 sleep 1
 
-#TODO:parse_opts ja merd2
-
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -69,7 +67,7 @@ else
 	${tcmd} -tf ${tgt} | grep -v .tar > ${d0}/MAN1.F2ST
 	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
 	echo "TRY AGAIN"
-	exit
+	exit #TODO:exit pois jatkossa
 
 	#g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
 	#sleep 1
