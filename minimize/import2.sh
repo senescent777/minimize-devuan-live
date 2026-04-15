@@ -501,7 +501,7 @@ case "${mode}" in
 #		#... kiukuttelut sqrot alla liittyvät enemmän wdm-pakettiin kuin itse skriptiin?
 #		#sha512sums.txt.bak suattaapi liittyä vua n suattaapi ettei
 #	
-#TODO:sq-rt:in alun tar -x:ään tämän skriptin exclude jos mahd		
+		
 #		#myös "libc6:amd64 depends on libgcc-s1; however:" joutaisi tehdä jotain?
 #		
 #		echo "ZER0 S0UND"

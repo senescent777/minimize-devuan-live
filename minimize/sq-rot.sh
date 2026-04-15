@@ -98,6 +98,7 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
 	echo "C"
 
 	#030426:huom. kts commn_lib , E22_M , tarpeellinen
+	#TODO:tuohon alle tar -x:ään tämän import2.sh koskeva --exclude jos mahd?
 
 	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do
 		tar -jxvf ${f}
