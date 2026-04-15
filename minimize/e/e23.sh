@@ -195,18 +195,154 @@ function e23_qrs() {
 
 #TODO:jokin /o/b/skRipti nostamaan äläkän jos /e/resolv.vonf puuttuu
 
-#libseat (aloiteltu)
-#libatk (aloiteltu)
-#lib-gtk-3 (aloiteltu)
-#libgtk3-bin (aloiteltu)
-#dconf-service, libdconf /aloiteltu
-#dconf-gsettings-backend (selv riipp al/pios josqs?)
-#adwaita->gtk-update-icon-cache (aloiteltu)
+#
+##DONE:tämäö versiuo kommentteihin ja toisen branchin versio tilalle
+#function e23_dm() {
+#	dqb "e23_dm())) ${1} )"
+#	[ -z "${1}" ] && exit 11
+#	csleep 2
+#
+#	${fib}
+#	${shary} ${E22_GS}
+#	${shary} ${E22_GM}
+#	csleep 5
+#
+#	if [ "${1}" == "wdm" ] ; then
+#		dqb "dm.k0"
+#	else
+#		echo "NOT SUPPORTED"
+#		exit 666
+#	fi
+#
+#	${shary} fontconfig fontconfig-config libfontconfig1 libfontenc1
+#	${shary} libfribidi0 libglib2.0-0 libglib2.0-data libharfbuzz0b libthai0
+#	${shary} libfreetype6 libcairo2
+#
+#	#Depends:  (>= 2.14),  (>= 2.13.0), (>= 2.2.1),  (>= 2.67.3),  (>= 5.1.0), libpango-1.0-0 (= 1.50.12+ds-1)
+#	#?
+#	#Depends:  (>= 2.4),  (>= 1.12.10), (>= 2.13.0),  (>= 2.62.0),  (>= 2.6.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1)
+#
+#	#140426:vieläkö tarvitsee varm myös että menevät kohde-pakettiin mukaan libpango*.deb ?
+#	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0 libpangocairo-1.0-0
+#
+#	#[ $? -eq 0 ] || exit 54 #to state the obvious:initramfs-kikkailujen takia ei kande nöin tehdö
+#	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
+#	csleep 5
+#	${shary} libnuma1 libx265-199 libwraster6 libwings3
+#	csleep 10
+#
+#	${shary} libfftw3-double3 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
+#	csleep 5
+#
+#	${shary} liblzma5 libopenjp2-7 libltdl7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
+#	csleep 10
+#
+#	${shary} libx11-6 libx11-xcb1 libx11-data libxext6 imagemagick-6-common libxmu6 libxmuu1 libgif7 libxpm4
+#	#[ $? -eq 0 ] || exit 57 #jospa ei tämmöisiä tähän fktioon, tökkii
+#	csleep 5
+#	
+#	${shary} libdav1d6 libde265-0
+#	${shary} libxft2 libxrender1 libxrandr2
+#	csleep 10
+#
+#	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa
+#
+#	#TODO?:varm myös että menevät kohde-pakettiin mukaan libwayland*.deb ?
+#	${shary} libffi8 libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
+#	
+#	${shary} libxcb1
+#	${shary} libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 
+#	${shary} libxcb-shape0 libxshmfence1 libxcb-damage0 libxcb-shm0 libxcb-render0 #hyvä idea ksekittää nämä inxcb-jutut?
+#	csleep 10
+#
+#	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0
+#	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
+#	${shary} libglvnd0 libegl-mesa0 libgl1 libxaw7 libegl1
+#	csleep 5
+#
+#	${shary} libxcomposite1 libxi6 libxinerama1 libxkbfile1 libxkbcommon0
+#	csleep 10
+#
+#	${shary} libxcursor1 libwutil5 man-db wmaker-common #libbz2-1.0
+#	csleep 10
+#
+#	${shary} libicu72 libxfixes3 libxml2
+#	csleep 5
+#
+#	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
+#	csleep 10
+#
+#	${shary} libxdmcp6 menu twm libmd0 #tarvitseeko twm takia tehdä accept_juttuihin muutoksia?
+#	csleep 5
+#
+# 	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common libbsd0 libcap-ng0 
+#	csleep 10
+#
+#	${shary} libatspi2.0-0 libatk-bridge2.0-0
+#	csleep 5
+#
+#	${shary} libxau6  #C
+#	${shary} lsb-base psmisc #A
+#
+#	${shary} x11-apps x11-common x11-utils x11-xkb-utils
+#	csleep 10
+#
+#	#TODO:dconf-juttujen tilalle jotain muuta jatkossa? gsettings-backend desmes
+#
+#	#Depends: dconf-service (<< 0.40.0-4.1~), dconf-service (>= 0.40.0-4), libdconf1 (= 0.40.0-4),  (>= 2.55.2)
+#	#Depends: default-dbus-session-bus | dbus-session-bus, libdconf1 (= 0.40.0-4),, (>= 2.34),  (>= 2.55.2)
+#	#Depends: 
+#
+#	${shary} dconf-gsettings-backend dconf-service libdconf1
+#	
+#	${shary} gtk-update-icon-cache
+#	#Depends: hicolor-icon-theme,
+#	${shary} adwaita-icon-theme hicolor-icon-theme
+#
+#	${shary} shared-mime-info libpixman-1-0 libeudev1 libgnutls30 libgssapi-krb5-2
+#
+#	#Depends: libavahi-client3 (>= 0.6.16), libavahi-common3 (>= 0.6.16),  (>= 2.36), 
+#
+#	${shary} libcairo-gobject2 libcolord2 libcups2 libepoxy0 libxdamage1
+#
+#	${shary} libice6 xkb-data
+#
+#	#HUOM.120426:mitkä kaikki sen gtk-3-0:n tarvitsivat?
+#	#Depends: dconf-gsettings-backend | gsettings-backend
+#
+#	${shary} libgtk-3-common libgtk-3-0 libgtk-3-bin
+#	# 
+#	csleep 5
+#
+##lototaan nyt seatd
+#	#Depends: seatd | logind, libc6 (>= 2.33), libsystemd0 (>= 238)
+#
+#	${shary} seatd libseat1 libseccomp2 libtinfo6 #libpipeline1?
+#
+#	${shary} libunwind8
+#	csleep 10
+##
+#	${shary} bsdextrautils groff-base #tartteeko listä accept1:seen niätä?
+#	${shary} init-system-helpers  #xscreensaver?
+#	csleep 10
+#	${shary} libncursesw6 libproc2-0
+#	
+#	${shary} cpp procps cpp-12 #mitä kaikkea nämä vetävät mukaan?
+#
+#	#Depends: xserver-xorg-core (>= 2:1.17.2-2), xserver-xorg-video-all | xorg-driver-video, xserver-xorg-input-all | xorg-driver-input,
+#
+#	${shary} x11-xserver-utils xserver-xorg #D
+#	csleep 10
+#
+#	${shary} libutempter0 xbitmaps xterm xauth
+#	csleep 5
+#
+#	${shary} wdm 
+#	dqb "e23_dm( done (((("
+#	csleep 1
+#}
 
-#libwayland (vissiin asennusjärjestyksestä kyse?)
-#xserver-xorg (liittyy jo e23_upg()?) (VAIH:selv riippuvuudet)
 
-#TODO:selv onko pikemmin accept_jutuista kiinni wdm:n asentuminen, jos ei ni tämäö versiuo kommentteihin ja toisen branchin versio tilalle
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -224,24 +360,17 @@ function e23_dm() {
 		exit 666
 	fi
 
-	${shary} fontconfig fontconfig-config libfontconfig1 libfontenc1
-	${shary} libfribidi0 libglib2.0-0 libglib2.0-data libharfbuzz0b libthai0
-	${shary} libfreetype6 libcairo2
-
-	#Depends:  (>= 2.14),  (>= 2.13.0), (>= 2.2.1),  (>= 2.67.3),  (>= 5.1.0), libpango-1.0-0 (= 1.50.12+ds-1)
-	#?
-	#Depends:  (>= 2.4),  (>= 1.12.10), (>= 2.13.0),  (>= 2.62.0),  (>= 2.6.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1)
-
-	#140426:vieläkö tarvitsee varm myös että menevät kohde-pakettiin mukaan libpango*.deb ?
-	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0 libpangocairo-1.0-0
-
+	#jos ei ala muuten sujua ni ao riveistä mallia accept1:seen
+	
+	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
 	#[ $? -eq 0 ] || exit 54 #to state the obvious:initramfs-kikkailujen takia ei kande nöin tehdö
 	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
-	csleep 5
+
 	${shary} libnuma1 libx265-199 libwraster6 libwings3
+
 	csleep 10
 
-	${shary} libfftw3-double3 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
+	${shary} libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
 	csleep 5
 
 	${shary} liblzma5 libopenjp2-7 libltdl7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
@@ -250,118 +379,64 @@ function e23_dm() {
 	${shary} libx11-6 libx11-xcb1 libx11-data libxext6 imagemagick-6-common libxmu6 libxmuu1 libgif7 libxpm4
 	#[ $? -eq 0 ] || exit 57 #jospa ei tämmöisiä tähän fktioon, tökkii
 	csleep 5
-	
-	${shary} libdav1d6 libde265-0
-	${shary} libxft2 libxrender1 libxrandr2
+
+	${shary} fontconfig fontconfig-config
+	${shary} libdav1d6 libde265-0 libfribidi0 libglib2.0-0 libglib2.0-data libharfbuzz0b
+	${shary} libthai0 libxft2 libxrender1 libxrandr2
 	csleep 10
 
-	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa
-
-	#TODO?:varm myös että menevät kohde-pakettiin mukaan libwayland*.deb ?
-	${shary} libffi8 libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
-	
+	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
 	${shary} libxcb1
+	csleep 5
+
 	${shary} libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 
 	${shary} libxcb-shape0 libxshmfence1 libxcb-damage0 libxcb-shm0 libxcb-render0 #hyvä idea ksekittää nämä inxcb-jutut?
 	csleep 10
 
-	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0
-	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
 	${shary} libglvnd0 libegl-mesa0 libgl1 libxaw7 libegl1
 	csleep 5
 
-	${shary} libxcomposite1 libxi6 libxinerama1 libxkbfile1 libxkbcommon0
+	${shary} libxcomposite1 libxi6 libxinerama1 libxkbfile1
 	csleep 10
+
+	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
+	csleep 5
 
 	${shary} libxcursor1 libwutil5 man-db wmaker-common #libbz2-1.0
 	csleep 10
 
 	${shary} libicu72 libxfixes3 libxml2
+	${shary} 
 	csleep 5
 
 	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
 	csleep 10
 
-	${shary} libxdmcp6 menu twm libmd0 #tarvitseeko twm takia tehdä accept_juttuihin muutoksia?
+	${shary} libxdmcp6 menu twm libmd0
 	csleep 5
 
  	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common libbsd0 libcap-ng0 
 	csleep 10
 
-	${shary} libatspi2.0-0 libatk-bridge2.0-0
-	csleep 5
-
 	${shary} libxau6  #C
-	${shary} lsb-base psmisc #A
-#
-
-	${shary} x11-apps x11-common x11-utils x11-xkb-utils
-	csleep 10
-
-	#TODO:dconf-juttujen tilalle jotain muuta jatkossa? gsettings-backend desmes
-
-	#Depends: dconf-service (<< 0.40.0-4.1~), dconf-service (>= 0.40.0-4), libdconf1 (= 0.40.0-4),  (>= 2.55.2)
-	#Depends: default-dbus-session-bus | dbus-session-bus, libdconf1 (= 0.40.0-4),, (>= 2.34),  (>= 2.55.2)
-	#Depends: 
-
-	${shary} dconf-gsettings-backend dconf-service libdconf1
-	
-	${shary} gtk-update-icon-cache
-	#Depends: hicolor-icon-theme,
-	${shary} adwaita-icon-theme hicolor-icon-theme
-
-	${shary} shared-mime-info libpixman-1-0 libeudev1 libgnutls30 libgssapi-krb5-2
-
-
-
-	#Depends: libavahi-client3 (>= 0.6.16), libavahi-common3 (>= 0.6.16),  (>= 2.36), 
-
-	#Depends:
-
-	${shary} libcairo-gobject2 libcolord2 libcups2 libepoxy0 libxdamage1
-
-
-	${shary} libice6 xkb-data
-
-	#HUOM.120426:mitkä kaikki sen gtk-3-0:n tarvitsivat?
-	#Depends: , 
-	#Depends: dconf-gsettings-backend | gsettings-backend
-
-		
-
-
-
-	#Depends: ,,  (>= 1.14.0), (>= 2.40.0), 
-
-
-	${shary} libgtk-3-common libgtk-3-0 libgtk-3-bin
-	# 
-
-
+	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0 
+	${shary} libgtk-3-0 libgtk-3-common libice6  #libheif versio ok?
 	csleep 5
 
-#lototaan nyt seatd
-	#Depends: seatd | logind, libc6 (>= 2.33), libsystemd0 (>= 238)
-
-
-	${shary} seatd libseat1 libseccomp2 libtinfo6 #libpipeline1?
-
+	${shary} libseat1 libseccomp2 libtinfo6 #libpipeline1?
 	${shary} libunwind8
 	csleep 10
-#
-	${shary} bsdextrautils groff-base #tartteeko listä accept1:seen niätä?
-	${shary} init-system-helpers  #xscreensaver?
-	csleep 10
-	${shary} libncursesw6 libproc2-0
-	
-	${shary} cpp procps cpp-12 #mitä kaikkea nämä vetävät mukaan?
 
-	#Depends: xserver-xorg-core (>= 2:1.17.2-2), xserver-xorg-video-all | xorg-driver-video, xserver-xorg-input-all | xorg-driver-input,
+	${shary} lsb-base psmisc #A
+	${shary} bsdextrautils groff-base 
+	${shary} init-system-helpers  #xscreensaver?
+	csleep 5
+
+	${shary} x11-apps x11-common x11-utils
+	csleep 10
 
 	${shary} x11-xserver-utils xserver-xorg #D
-	csleep 10
-
-	${shary} libutempter0 xbitmaps xterm xauth
+	${shary} xterm xauth
 	csleep 5
 
 	${shary} wdm 
