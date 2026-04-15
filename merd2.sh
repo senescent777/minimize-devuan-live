@@ -4,7 +4,9 @@ branch=""
 d0=$(pwd)
 echo "d0=${d0}"
 CONF_BASEURL="github.com/senescent777"
+CONF_BASE=minimize
 CONF_PT2=minimize-devuan-live
+CONF_LIB=minimize/common_lib.sh
 distro=$(cat /etc/devuan_version)
 
 function dqb() {
@@ -60,18 +62,18 @@ ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 dqb "TGI KO"
 csleep 2
 
-mv minimize minimize.OLD
+mv ${CONF_BASE} ${CONF_BASE}.OLD
 mv ${CONF_PT2}/* .
 
-#VAIH:sen man1.  - jutut kys- haaran e22:seen? vai sittenkin e/update2 else-haara hoitamaan?
-[ -s minimize/common_lib.sh ] && chmod 0555 minimize/common_lib.sh 
+[ -s ${CONF_LIB} ] && chmod 0555 ${CONF_LIB} 
 echo $?
 
 dqb "FN0C"
 csleep 1
 
-if [ -s minimize.OLD/${distro}/conf ] ; then
-	mv minimize.OLD/${distro}/conf minimize/${distro}/conf
+#oli kanssa se conf.example
+if [ -s ${CONF_BASE}.OLD/${distro}/conf ] ; then
+	mv ${CONF_BASE}.OLD/${distro}/conf ${CONF_BASE}/${distro}/conf
 else
 	dqb "N0.C0NF"
 fi
@@ -80,18 +82,18 @@ echo $?
 dqb "NEXT:common_lib"
 csleep 1
 
-if [ -x minimize/common_lib.sh ] ; then
+if [ -x ${CONF_LIB} ] ; then
 	#TODO:/o/b-juttuja oli kanssa
 
 	#josko nyt jo?
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 
 	#140426:knftydston puute kenteis estää seur rivien toiminnan (tekisikö jotain?)
-	. minimize/common_lib.sh
-	enforce_access $(whoami) ${d0}/minimize
+	. ${CONF_LIB}
+	enforce_access $(whoami) ${d0}/${CONF_BASE}
 
 	#josko nyt jo?
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 else
-	echo "SMTHING WR0NG W/ minimize/common_lib"
+	echo "SMTHING WR0NG W/ ${CONF_LIB}"
 fi
