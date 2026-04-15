@@ -15,6 +15,9 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+#function parse_opts_1 () {}
+#function parse_opts_2 () {}
+
 if [ $# -gt 0 ] ; then
 	dqb "params_ok"
 
@@ -30,20 +33,19 @@ else
 	exit 66
 fi
 
-if [ ! -z "${branch}" ] ; then
-	branch=$(echo ${branch} | tr -dc a-zA-Z0-9/.)
-	branch="--branch ${branch}"
+if [ ! -z ${branch} ] ; then
+	branch="--branch ${branch} | tr -dc a-zA-Z0-9/."
 fi
 
 dqb "branch=${branch}"
 tig=$(sudo which git)
 
-if [ -z "${tig}"  ] ; then
+if [ x"${tig}" == "x" ] ; then
 	echo "sudo apt-get install git"
 	exit 7
 fi
 
-dqb "rm -rf  ${CONF_PT2} SOON"
+dqb "rm -rf ${CONF_PT2} SOON"
 csleep 3
 [ -d ${CONF_PT2} ] && rm -rf ${CONF_PT2}
 [ $? -gt 0 ] && exit
@@ -57,12 +59,10 @@ ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 dqb "TGI KO"
 csleep 2
 
-#020426:toimii
 mv minimize minimize.OLD
 mv ${CONF_PT2}/* .
 
-#DONE:voisi taas selvittää, ovatko 1take-haaran matskut toimintaqntoisia? enimmäkseen (130426)
-#TODO:sen man1.  - jutut kys- haaran e22:seen? vai sittenkin e/update2 else-haara hoitamaan?
+#VAIH:sen man1.  - jutut kys- haaran e22:seen? vai sittenkin e/update2 else-haara hoitamaan?
 [ -s minimize/common_lib.sh ] && chmod 0555 minimize/common_lib.sh 
 echo $?
 
@@ -78,6 +78,10 @@ fi
 echo $?
 dqb "NEXT:common_lib"
 csleep 1
+#
+#echo "[ -x minimize/common_lib.sh ] && . minimize/common_lib.sh"
+#echo "[ -x minimize/common_lib.sh ] && enforce_access \${n} \${t} "
+#echo "mv minimize.OLD/\$distro/conf minimize/\$distro"
 
 if [ -x minimize/common_lib.sh ] ; then
 	#TODO:/o/b-juttuja oli kanssa
@@ -94,6 +98,3 @@ if [ -x minimize/common_lib.sh ] ; then
 else
 	echo "SMTHING WR0NG W/ minimize/common_lib"
 fi
-
-
-
