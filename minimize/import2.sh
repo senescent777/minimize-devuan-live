@@ -81,8 +81,7 @@ else
 
 	odio=$(which sudo)
 
-
-	#"tar -cvf OLD.tar"-syystä ei tätä tekstiä huomaa	
+	#"tar -cvf OLD.tar"-syystä ei tätä tekstiä huomannut	
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
 	sleep 5
 
@@ -274,7 +273,9 @@ function common_part() {
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "ko"		
 		else
-			${NKVD} ./*.deb ./sha512sums* ./*.tar*
+			pwd
+			sleep 5
+			${NKVD} ${1}* ./*.deb ./sha512sums* ./*.tar*
 			exit 33
 			#TODO:testaa tämä vähitellen
 		fi
@@ -549,7 +550,7 @@ case "${mode}" in
 	;;
 	q)
 		#160326:toimi
-	#sqrot ei tarvitse tätä casea, kai
+		#sqrot ei tarvitse tätä casea, kai
 		# (turha case oikeastaan koska "$0 1"+"$0 r"
 		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
 

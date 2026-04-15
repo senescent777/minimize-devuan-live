@@ -98,10 +98,10 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
 	echo "C"
 
 	#030426:huom. kts commn_lib , E22_M , tarpeellinen
-	#TODO:tuohon alle tar -x:ään tämän import2.sh koskeva --exclude jos mahd?
+	#VAIH:tuohon alle tar -x:ään tämän import2.sh koskeva --exclude jos mahd?
 
 	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do
-		tar -jxvf ${f}
+		tar --exclude import2.sh -jxvf ${f}
 		sleep 1
 		rm ${f}
 		sleep 1
@@ -127,10 +127,9 @@ else
 	echo "W33P1NG UND3RR G4L4CTU5"
 	sleep 6
 
-	#VAIH:"$0 1", varm että toimii silloinkin ku n common_lib ei ajokepl
-	#(entä "-v" ?) (alkaisiko jo olla 150426 testattu?)
+	#150426:toimii tämä haara
 
-	#... saattaa välillä toimiakin, cptp2 voisi lopuksi palauttaa x-oikeuden kirjastoon?
+	#cptp2 voisi lopuksi palauttaa x-oikeuden kirjastoon?
 	#saattaa myös olla että kiukuttelu paikallistui erääseen modattuun desktop_live_kiekkoon 090426
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
