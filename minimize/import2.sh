@@ -501,7 +501,7 @@ case "${mode}" in
 #		#... kiukuttelut sqrot alla liittyvät enemmän wdm-pakettiin kuin itse skriptiin?
 #		#sha512sums.txt.bak suattaapi liittyä vua n suattaapi ettei
 #	
-		
+#TODO:sq-rot jatkossa hoitamaan "case 3":sen?		
 #		#myös "libc6:amd64 depends on libgcc-s1; however:" joutaisi tehdä jotain?
 #		
 #		echo "ZER0 S0UND"
@@ -510,7 +510,6 @@ case "${mode}" in
 #		csleep 1
 #		e="/"
 #
-
 #			if [ ${1} -eq 0 ] ; then
 #				#mitense alt_root? ensisijaisesti sitä pakettien "uutta" asennustapaa vartebn
 #				#... siinä piti vielä prujata se hmistorakanne ainakin
@@ -519,7 +518,6 @@ case "${mode}" in
 #				echo "... SHOULD BE MOVED UNDER ${d} , AFTER THAT:RUN $0 3 ${d}/f.tar"
 #				exit 99
 #			fi
-
 #
 #		[ ${1} -eq 0 ] || e=${d}
 #		csleep 1
@@ -529,7 +527,7 @@ case "${mode}" in
 #		dqb "c_p_d0n3, NEXT: pp3"
 #		csleep 1
 #
-#		part3 ${d} #TODO:tämän toiminnan tesialu uusiksi josqs
+#		part3 ${d} #TODO:tämän toiminnan tesialu uusiksi josqs  ?
 #		other_horrors
 #
 #		csleep 1
