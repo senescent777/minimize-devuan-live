@@ -128,7 +128,7 @@ else
 	sleep 6
 
 	#VAIH:"$0 1", varm että toimii silloinkin ku n common_lib ei ajokepl
-	#(entä "-v" ?)
+	#(entä "-v" ?) (alkaisiko jo olla 150426 testattu?)
 
 	#... saattaa välillä toimiakin, cptp2 voisi lopuksi palauttaa x-oikeuden kirjastoon?
 	#saattaa myös olla että kiukuttelu paikallistui erääseen modattuun desktop_live_kiekkoon 090426
@@ -272,7 +272,7 @@ function common_part() {
 			fi
 		fi
 
-		#VAIH:tähän ehkä jotain muutosta (juttujen deletointi jos virheitä?)
+		#TODO:sqrootin alaisuudessa testailut
 		[ ${r} -eq 0 ] || ${NKVD} ${1}*
 	fi
 

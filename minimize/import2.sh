@@ -242,7 +242,7 @@ function common_part() {
 		else
 			${NKVD} ${1}.*
 			exit ${r}
-			#... miten testauksen kanssa? TODO:sqrootin kanssa josqs
+			#... miten testauksen kanssa? TODO:sqrootin kanssa josqs ?
 		fi
 	fi
 
@@ -524,7 +524,7 @@ case "${mode}" in
 #		dqb "c_p_d0n3, NEXT: pp3"
 #		csleep 1
 #
-#		part3 ${d} #TODO:tämän toiminnan tesialu uusiksi josqs  ?
+#		part3 ${d}
 #		other_horrors
 #
 #		csleep 1
