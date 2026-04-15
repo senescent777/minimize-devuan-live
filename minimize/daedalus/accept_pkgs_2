@@ -18,7 +18,6 @@ xserver-common
 xserver-xorg-legacy
 #
 #utyils ennen:common
-xserver-common
 xserver-xorg-core
 #
 dbus-system-bus-common
@@ -40,7 +39,6 @@ xbitmaps
 xterm
 #term+bitmaps ennen vai jälkeen "x11-*"-pakettien?
 #
-#
 xfonts
 lsb-base
 man-db
@@ -48,12 +46,10 @@ procps
 #
 x11
 # 
-#
 xauth
 #
 coreutils
 xinit
-#
 #
 xorg
 #route ennne dhcp
