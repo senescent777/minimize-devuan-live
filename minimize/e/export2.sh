@@ -263,7 +263,6 @@ function z3() {
 
 	#HUOM.090426:EI IHAN SUORAAN NÄIN, PITÄISI EDITOIDA HAKEMISTOT POIS LISTASTA
 	if [ ! -s ${d0}/MAN1.F2ST ] ; then
-		#TODO:grep -v myös update2:seen
 		${sr0} -tf ${tgtfile} | grep -v .tar > ${d0}/MAN1.F2ST
 		csleep 1
 	fi
