@@ -210,10 +210,10 @@ t2pf ${d}
 if [ ${mode} -gt 3 ] ; then
 	${sharpy} slim
 	csleep 5
-#
-#	${sharpy} dahdi
-#	${sharpy} dc #mikä tämä on?
-#	csleep 5
+
+	${sharpy} dahdi
+	${sharpy} dc #mikä tämä on?
+	csleep 5
 
 	${sharpy} ed #uskaltaako poistaa? entä e-i?
 	${sharpy} empire
@@ -265,12 +265,12 @@ if [ ${mode} -gt 3 ] ; then
 
 	${sharpy} transmission ttyrec w2do
 	csleep 5
-
-	${sharpy} w3m wamerican wavemon
-	csleep 5
-
-	${sharpy} yasr zile
-	csleep 5
+#TODO:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että...
+#	${sharpy} w3m wamerican wavemon
+#	csleep 5
+#
+#	${sharpy} yasr zile
+#	csleep 5
 fi
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"

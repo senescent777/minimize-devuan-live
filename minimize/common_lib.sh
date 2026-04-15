@@ -480,8 +480,6 @@ function cefgh() {
 
 	dqb "pars ok"
 	csleep 1
-	#pitäisiköhän noissa poisteluissa olla jotain muitakin ehtoja?
-	#... esim. e.tar purq vain mikäli gg:tä ei ole?	no nyt on
 
 	if [ -z "${gg}" ] ; then	
 		efk2 ${1}/e.tar ${1}
@@ -518,6 +516,9 @@ function CB01() {
 		${NKVD} ${1}/g.tar
 		exit 103
 	fi
+
+	#TODO:libassuan-nalkutus, voisiko sile tehdä jotain?
+	#pitäisikö vai ei keskeyttäää suoritus jos gpg ei asennu? ehkä ei
 
 	common_pp3 ${1}
 	for p in ${E22_GI} ; do efk1 ${1}/${p}*.deb ; done
