@@ -35,6 +35,8 @@ dconf-service
 libdconf1
 dconf-gsettings-backend
 gsettings-backend
+#VAIH:gsettings ylemmäksi? (aiemmin libev ja glib-n välissä)
+gsettings-desktop-schemas
 #
 xkb-data
 libgtk-3-common
@@ -66,18 +68,17 @@ libpangoft2
 libpangocairo
 libpangoxft
 #
-#
 #VAIH:siirto aiemmaksi ffi8 (nftables ja lqr välissä aiemmin)
-#Depends: libc6 (>= 2.34), libgomp1 (>= 4.9) ?
-libfftw3
-libffi8
+#libfftw3
+#libffi8
+libff
+#
 libwayland-client0
 libwayland-server0
 libwayland-egl1
 libwayland-cursor0
 #
 libxc
-#
 libxdamage1
 libxext6
 libxi
@@ -122,16 +123,8 @@ libswresample4
 libtheora0
 libtwolame0
 #
-#VAIH:libx265 tähän jatqs? (dav16 ja heif välissä aiemmin)
-#Depends: libc6 (>= 2.34)
-#
 libx264-164
-#
-#
-#Depends: libc6 (>= 2.34)
 libnuma1
-#Depends: libc6 (>= 2.34), libnuma1 (>= 2.0.11), libstdc++6 (>= 4.1.1)
-#
 libx265-199
 libxv
 #
@@ -148,7 +141,6 @@ libnftables
 #
 liblqr-1-0
 libde265-0
-#
 libaom3
 libdav1d6 
 #
@@ -174,9 +166,6 @@ libxmu
 #
 libavutil57
 libavcodec59
-#
-#TODO:gsettings ylemmäksi?
-gsettings-desktop-schemas
 #
 #TODO:ylemmäs libsox kanssa?
 glib-networking
@@ -225,7 +214,6 @@ libcap-ng0
 libtext-wrapi18
 libfs6
 #
-#UUSI YRITYS 110426 PRKL
 libwebp
 libwutil5
 libmagickcore-6
