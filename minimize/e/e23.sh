@@ -1,6 +1,6 @@
 #just_download_not_install-vipu olisi tietysti...
 
-#020426:dgsts.4 ja dgsts.5 , miten niiden kanssa nkuyään?lets find out? EIKU
+#020426:dgsts.4 ja dgsts.5 , miten niiden kanssa nkuyään?lets find out? EIKU toinen skripti ja repo
 
 #010426:muutoksia josqs? dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteen keksitty
 function aswasw() { #privaatti fktio, tarkpoitus olla
@@ -191,21 +191,8 @@ function e23_qrs() {
 	csleep 1
 }
 
-#VAIH:uusiksi vain tyhjästä (110426 onnaSi paketin veto kokeiluja varten, asentiu desktop_liveen urputuksen aknssa) (jos jo urputus pois?)
-
-#VAIH:myös minimal_liven kanssa uudempi testikierros tämän kanssa (taas olisi ajank )
-#... modaamattomalla minimalilla boottaus+pakettien veto saattaisi olla idea
-
-#edelleen:
-#libwraster6:amd64 depends on libmagickwand-6.q16-6 (>= 8:6.9.10.2); however:
-#libwings3:amd64 depends on libpangoxft-1.0-0
-#libwings3:amd64 depends on libwraster6
-#wdm depends on libwings3 (>= 0.95.0); however:
-#110426:alkaisikohan kohta olla lib-asiat kunnossa? desktop_liven kanssa jo onnasi?
-
 #TODO:jokin /o/b/skRipti nostamaan äläkän jos /e/resolv.vonf puuttuu
 
-#.V.M.P.5tna mussunmussun
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -307,26 +294,7 @@ function e23_dm() {
 	csleep 1
 }
 
-#	vieläjotain yhdisteltäbvää?
-#
-#
-#	#varsinainen cpp mukaan tuohon? alempana se tulee mukaan nyt
 
-#
-#	${shary} libopengl0O  
-#	${shary} cpp procps
-#
-
-#	#Depends: adwaita-icon-theme, hicolor-icon-theme, shared-mime-info, 
-#
-#	 libatk-bridge2.0-0 libcairo-gobject2 libcairo2
-#	${shary} libcolord2 libepoxy0
-#	${shary} libpangocairo-1.0-0
-#	${shary} libxdamage1 
-#	${shary} libxkbcommon0
-## 
-#
-#
 
 #	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
 #
