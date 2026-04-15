@@ -10,11 +10,9 @@ librsvg2-2
 librsvg2-common
 libstdc
 #
-#120426:libatk-at_spi-jutut jo kunnossa vai ei?
 libatspi2
 #
-#TODO:libgl-juttujen yhdistäminen josqs?
-libglib2.0
+libgl
 #
 at-spi
 libatk1.0-0
@@ -40,7 +38,6 @@ dconf-gsettings-backend
 gsettings-backend
 #
 xkb-data
-#VAIH:libgtk3-junnaus (xkb-d saattaa liittyä)
 libgtk-3-common
 #
 #mihin näutä taas tarvittiin?
@@ -57,12 +54,10 @@ libfribidi0
 libfont
 libharfbuzz0b
 #
-#VAIH:NÄIDEN pangojen jengojen KANSSA JUNNAAMISTA
 fontconfig
 libthai0
 libfreetype
 #
-#VAIH:libxf yhdistely? (aiemmin oli vain libxft2 tässä)
 libxf
 #
 libx11-6
@@ -79,19 +74,12 @@ libwayland-server0
 libwayland-egl1
 libwayland-cursor0
 #
-#VAIH:libxc-juttujen yhdistely?
-libxcomposite1
-libxcursor
-libxcb
-libxcvt0
+libxc
 #
 libxdamage1
 libxext6
-#libxfixes3
 libxi
 #
-#VAIH:libxkb-juttujen yhdistely vaikkapa tähän
-#libxkbcommon0
 libxkb
 #
 libgtk-3-0
@@ -131,12 +119,12 @@ libsvtav1enc1
 libswresample4
 libtheora0
 libtwolame0
+#
 #TODO:libx265 tähän jatqs?
+#Depends: libc6 (>= 2.34)
+#
 libx264-164
 #
-#vidcore yhdist v1 kanssa?
-#libxvidcore4
-#libxv1
 libxv
 #
 libzvbi0
@@ -151,6 +139,7 @@ libgtk2.0-0
 libnftables
 #
 #TODO:siirto aiemmaksi ffi8 ?
+#Depends: libc6 (>= 2.34), libgomp1 (>= 4.9) ?
 libfftw3
 #
 liblqr-1-0
@@ -158,12 +147,17 @@ libde265-0
 #
 libaom3
 libdav1d6 
+#
+#Depends: libc6 (>= 2.34)
 libnuma1
+#Depends: libc6 (>= 2.34), libnuma1 (>= 2.0.11), libstdc++6 (>= 4.1.1)
+#
 libx265-199
+#
 libheif1
 libopenjp2-7
 #
-#TODO:näiden suhteen jotain?:   x11-utils x11-apps (vielä 120426?)
+#näiden suhteen jotain?:   x11-utils x11-apps (vielä 120426?)
 #
 imagemagick-6-common
 libjbig0
@@ -197,14 +191,11 @@ liberror-perl
 libgbm1
 libdrm
 libexpat1
-libglapi-mesa
 libxshmfence1
 libegl-mesa0
 libegl1
 #
 libaudit1
-#
-libgl
 #
 libseccomp2
 seatd
@@ -213,7 +204,6 @@ libselinux1
 libunwind8
 libxau6
 libxdmcp6
-#libxfont2
 #
 libxaw7
 libxt
@@ -230,14 +220,12 @@ libeudev
 libisl
 #
 #iproute2 varte?
-#libgssapi objo aiemmin (cap2-bin erikseen?)
 libcap2
 libcap-ng0
 #
 #debconf varten?
 libtext-wrapi18
 libfs6
-#libxkbfile1
 #
 #UUSI YRITYS 110426 PRKL
 libwebp
