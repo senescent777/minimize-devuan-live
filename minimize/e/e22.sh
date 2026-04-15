@@ -276,7 +276,7 @@ function e22_settings() {
 #290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa? (vielä 120426?)
 
 #040426:ei tarvinne CONF_testgris-ehtoa ainakaan verkkoyhteyden varalta, ei vedä kaloja
-#VAIH:jälleen kerran testaus (120426, vissiin menee kohteeseen mitä pitääkin)
+#140426:vissiin toimiva fktio (ainakin ennen merd2-kikkailua)
 function e22_home_pre() {
 	dqb "e22_home_pre()"
 
@@ -304,8 +304,12 @@ function e22_home_pre() {
 	dqb "JUST BEFORE FIND"
 	csleep 1
 
-	#TODO:jos merd2:sta vain 1 kpl jatkossa kohteeseen
-	for t in $(find ~ -type f -name merd2.sh -or -name ${4} ) ; do #qseeko tässä?
+	#VAIH:jos merd2:sta vain 1 kpl jatkossa kohteeseen
+	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
+		${srat} -rvf ${1} ${t}
+	done
+	
+	for t in $(find ~ -type f -name ${4} ) ; do
 		${srat} -rvf ${1} ${t}
 	done
 
@@ -315,7 +319,7 @@ function e22_home_pre() {
 
 #290326:toimii, mutta $3 kanssa ehkä jotain?
 #29426:edelleen toimii?
-#120426:testit taas menossa (VAIH) (vissiin kopsaa kohdepakettin mitä pitääkin)
+#140426:vissiin kopsaa kohdepakettin mitä pitääkin/kunnes toisin todistetaa)
 
 function e22_home() {
 	dqb "e22_home()"
@@ -366,7 +370,7 @@ function luca() {
 
 # slim/xdm/wdm-spesifinen konfiguraatio saattaa tulla jo mukaan myös
 #020426:ei vedä verkosta mitään ni ei tartte lisätestejä?
-#VAIH:toiminnan testaus taas 120426 , kopsannee kohteeseen  mitä pitääkin
+#140426:kopsannee kohteeseen  mitä pitääkin
 #(meneekö rules.* kohteeseen useamman kerran?)
 
 function e22_acol() {
@@ -437,7 +441,8 @@ function e22_acol() {
 #... jotain alettu trehdäö 04/26
 
 #020426:vissiin ai tarvitse lisätestejä koska ei vedä verkosta mitään
-#VAIH:testaus taas (120426) /etc/rcS.d/S*net , meneekö kohteeseen? jep
+#140426:toiminee
+# /etc/rcS.d/S*net , meneekö kohteeseen? jep
 #, wdm-jutut myös kuten myös ddm ja rules (tsin...)
 #pkgs-jutut myös, lienee ok
 
@@ -504,7 +509,7 @@ function e22_sarram() {
 
 #tai sen zxcv:n sha-tarkistuksen kanssa jotain kiukuttelua että "tar -t $arch" josqs(DONE)
 #verkkoyhteyttä vaativat jutut vain jos testgris ei asetettu? vaiko kutsuvan koodin puolella tarkistus?
-#VAIH:testit taas menossa 120426 (muuten mennee pakettiin paitsi dhclient-script)
+#140416:muuten mennee pakettiin jutut paitsi dhclient-script?
 
 function e22_ext() {
 	[ -z "${1}" ] && exit 1
@@ -621,7 +626,7 @@ function e22_ts() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 }
 
-#VAIH:testaus.uusicksi 120426 -> (enimmäkseen toiminee)
+#1450426:toimii
 function e22_arch() {
 	dqb "e22_arch() $1 , $2 , $3 , $4"
 

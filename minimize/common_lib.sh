@@ -256,7 +256,7 @@ function message() {
 	sleep 1
 }
 
-#VAIH:jatkossa uusikcsi tämä? trtteeko vielä muuttaa 120426-> ?
+#140426:palautusarvokikkailun toimivuus sqrootin kanssa epäselvää
 function psqa() {
 	dqb "c.Q () () () () ${1} ;;;"
 	csleep 1
@@ -265,6 +265,8 @@ function psqa() {
 	[ -d ${1} ] || exit 96
 	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
 	csleep 1
+
+	return 92 #kokeillaan yhtä juttua
 
 	#dpkg -V oli tässä josqs , [ -v ] takana
 
@@ -332,7 +334,7 @@ function psqa() {
 #... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
 #efk2 2. param ja cefgh voisi liittyä asiaan
 
-#VAIH:jatkossa uusikcsi tämä? palautusarvoon reagointi kai hyvä testata kohta
+#VAIH:jatkossa uusikcsi tämä? palautusarvoon reagointi kai hyvä testata kohta (JOKO JO 150426?)
 #TODO:jatkossa tämä tai kutsuva koodi viskomaan validit paketit tmp-hmistoon jatkoa vrten
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} )))))))))))))"
@@ -363,8 +365,11 @@ function common_pp3() {
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
-		#VAIH:jos mahd ni dellimään paketit jos tarq menee wtuiksi tai siis...
-		[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums ./*.tar* #näin ok?
+
+		if [ $? -gt 0 ] ; then
+			dqb "SOULD  ${NKVD} ./*.deb ./sha512sums* ./*.tar*" #näin ok?
+			csleep 6
+		fi
 	fi
 
 	dqb "() common_pp3 DONE"
@@ -466,7 +471,7 @@ function fromtend() {
 }
 
 #VAIH:jatkossa uusikcsi tämä?
-#TODO:e.tar purq vs sq-rot alku
+#TODO?:e.tar purq vs sq-rot alku
 function cefgh() {
 	dqb " cefgh( ${1} )))"
 
@@ -502,7 +507,7 @@ function CB01() {
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
 
-	#VAIH:VÄHITELLEN JOTAIN TÄMÄNKIN HYVÄKSI? ao. ehdon uutos vai e0?
+	#140426:antaisiko olla tämän ehdon toistaiseksi?
 	if [ -s ${1}/g.tar ] ; then
 		#JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen
 		#... tai ilman gpg:tä voi tehdä vain sha-tarq ja sekin oikeastaan tapahtuu jo kutsuvassa koodissa
@@ -586,7 +591,7 @@ function check_binaries() {
 
 	#Depends: , debianutils (>= 2.8.2), iproute2
 	#	E22_GM="${E22_GM} resolvconf" #josq toimisi ilmankin tätä 
-	E22_GM="${E22_GM} isc-dhcp-client isc-dhcp-common"
+	E22_GM="${E22_GM} isc-dhcp-client isc-dhcp-common" #dhcp-jutut erilleen jotenkin?
 	E22_GM="${E22_GM} libpam0g libcrypt1 libaudit1 libpam-modules-bin libpam-modules "
 
 	#Depends: passwd
@@ -1337,6 +1342,7 @@ function cg_pp2() {
 # libquadmath0 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
 #... jospa nyt aluksi selvittäisi mikä näitä tarvitsee?
 
+#TODO:se "debug-riippuvuus-juttu" , saako tämän kanssa masenneltua paketteja silloinq debug=0 ? (sq_rot, import2)
 function part3() {
 	dqb "))() part3 ${1} , ${2} (((((((("
 	csleep 1

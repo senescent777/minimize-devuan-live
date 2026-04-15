@@ -5,10 +5,6 @@ tcmd=$(which tar)
 [ -z "${tcmd}" ] && exit 11
 [ -x ${tcmd} ] || exit 12
 
-#VAIH:tämä kikkare roskikseen, pitäisi keksiä parempiq ei kerran jaksa kesä/talviajan/lokaalien kanssa kikkailla
-#... O(2**n) tllennustilan suhteen olisi 1 juttu kanssa mikä hiertää
-#... "tar -T" sietäisi kokeilla ensin /entä -g ?
-
 spc=$(which cp)
 [ -z "${spc}" ] && exit 13
 [ -x ${spc} ] || exit 14
@@ -33,6 +29,8 @@ tgt=${1}
 
 echo "PARAMS CHECKED"
 sleep 1
+
+#TODO:parse_opts ja merd2
 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
@@ -60,7 +58,7 @@ if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	echo "YLIULIULI"
 	cd ${CONF_testgris}
 
-	#TODO?:-C olisi myös keksitty
+	#HUOM:-C olisi myös keksitty
 else
 	cd /
 fi
@@ -68,8 +66,8 @@ fi
 if [ -s ${d0}/MAN1.F2ST ] ; then
 	${tcmd} -T ${d0}/MAN1.F2ST -f ${tgt} -rv
 else
-	${tcmd} -tf  ${tgt} > ${d0}/MAN1.F2ST
-	${tcmd} -rvf ${tgt}  ${d0}/MAN1.F2ST
+	${tcmd} -tf ${tgt} | grep -v .tar > ${d0}/MAN1.F2ST
+	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
 	echo "TRY AGAIN"
 	exit
 
@@ -83,9 +81,8 @@ else
 	#			[ $? -eq 0 ] || echo "chmod | chown ?"
 	#		fi
 	#	fi
-	#done
+	#done	
 fi
-
 
 #jotat ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4

@@ -35,10 +35,7 @@ if [ $# -gt 0 ] ; then
 	fi
 fi
 
-#TODO?:jos järjestelisi tämän kikkareen uudestaan sittenq sqroot-testit seur kerran tehty
-#... JOKO JO 300236? eu uhan vielä (2426)
-#... joutaisi koko roskan kirjoittamaan uusicksi fråm scratch mutta odotellessa jos latensseja pienemmäksi syystä ilman -v ei toimi mikään
-
+#14426:ans kattoo nyt tämän tdston isimpien muutoksien kanssa että tervitseeko
 #190326:alkaisikohan kohta asettua parsetus?  (liittyyköhän tables/gpg asiaan?)
 #180326:liittyyköhän check_bin():in "ocs ipt" tuohon viimeaikaiseen kiukutteluun?
 
@@ -276,8 +273,14 @@ function common_part() {
 
 	if [ ${cfk} -gt 0 ] ; then
 		read -p " U  SURE ?" confirm
-		[ "${confirm}" == "Y" ] || exit 33
-		#TODO:jos ei varmistusta ni sietäisi delliä *.deb ?
+		
+		if [ "${confirm}" == "Y" ] ; then
+			dqb "ko"		
+		else
+			${NKVD} ./*.deb ./sha512sums* ./*.tar*
+			exit 33
+		#VAIH:jos ei varmistusta ni sietäisi delliä *.deb ?
+		fi
 	fi
 
 	csleep 1
@@ -472,7 +475,7 @@ fi
 if [ "${mode}" == "-3" ] || [ "${mode}" == "r" ] ; then
 	dqb "asia kunnossa"
 else
-	read -p "U R ABT TO INSTALL ${srcfile} , SURE ABOUT THAT?" confirm
+	read -p "U R ABT TO INSTALL C0NTENTS OV: ${srcfile} , SURE ABOUT THAT?" confirm
 	[ "${confirm}" == "Y" ] || exit 33
 fi
 

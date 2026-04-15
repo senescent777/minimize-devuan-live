@@ -154,7 +154,7 @@ case ${mode} in
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
 #	;;
-	f) #220326:toimii, tai ainakin osasi tehdä paketin
+	f) #220326:toimii, tai ainakin osasi tehdä paketin (jos testaisi uudestaan)
 		enforce_access $(whoami) ${t}
 		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
@@ -263,7 +263,7 @@ function z3() {
 
 	#HUOM.090426:EI IHAN SUORAAN NÄIN, PITÄISI EDITOIDA HAKEMISTOT POIS LISTASTA
 	if [ ! -s ${d0}/MAN1.F2ST ] ; then
-		#VAIH:for x in $(rat -tf) ; do ...
+		#TODO:grep -v myös update2:seen
 		${sr0} -tf ${tgtfile} | grep -v .tar > ${d0}/MAN1.F2ST
 		csleep 1
 	fi
@@ -281,7 +281,7 @@ case ${mode} in
 	;;
 	3|4) 
 		#3 taisi toimia 04/26 tienoilla ainakin kerran
-		#4 vissiin toimi kerran 04/26 (VAIH:uusiksi vain testit 120426, hkä oksennus toimii)
+		#4 vissiin toimi kerran 04/26 (140426 tienoilla viimeksi testattu)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1
@@ -370,7 +370,7 @@ case ${mode} in
 	;;
 esac
 
-function e22_dblock() { #VAIH:jälleen kerran testailut, e22_arch() liittyvää (120426)
+function e22_dblock() { #140426:lienee toimiva tämä fktio
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
 
 	[ -z "${1}" ] && exit 14

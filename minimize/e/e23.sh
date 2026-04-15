@@ -39,6 +39,7 @@ function e23_tblz() { #taitaa toimia, 070426
 	#message() tähän?
 	tpc7	#jotain excaliburiin liittyvää
 	aswasw ${2}
+	#TODO:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
 	${shary} ${E22_GT}
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
@@ -129,7 +130,7 @@ function e23_upgp() {
 	csleep 1
 }
 
-#280326:saa aikaiseksi paketin, sisällön testaus vielä
+#280326:saa aikaiseksi paketin, sisällön testaus vielä tai siis
 function e23_upgp2() {
 	[ -z "${1}" ] && exit 1 
 	[ -z "${2}" ] && exit 11
@@ -201,11 +202,11 @@ function e23_qrs() {
 #dconf-service, libdconf /aloiteltu
 #dconf-gsettings-backend (selv riipp al/pios josqs?)
 #adwaita->gtk-update-icon-cache (aloiteltu)
-#libxft2<->libpakgoxft (VAIH?)
+
 #libwayland (vissiin asennusjärjestyksestä kyse?)
 #xserver-xorg (liittyy jo e23_upg()?) (VAIH:selv riippuvuudet)
-#x11-xkb-utils (VAIH:selv riippuvuudet) (Depends:  (>= 2.33), ,  (>= 2:1.0.14), (>= 1:1.1.0), (>= 2:1.2.99.2), 
 
+#TODO:selv onko pikemmin accept_jutuista kiinni wdm:n asentuminen, jos ei ni tämäö versiuo kommentteihin ja toisen branchin versio tilalle
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -231,7 +232,7 @@ function e23_dm() {
 	#?
 	#Depends:  (>= 2.4),  (>= 1.12.10), (>= 2.13.0),  (>= 2.62.0),  (>= 2.6.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1)
 
-	#TODO:varm myös että menevät kohde-pakettiin mukaan libpango*.deb
+	#140426:vieläkö tarvitsee varm myös että menevät kohde-pakettiin mukaan libpango*.deb ?
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0 libpangocairo-1.0-0
 
 	#[ $? -eq 0 ] || exit 54 #to state the obvious:initramfs-kikkailujen takia ei kande nöin tehdö
@@ -256,7 +257,7 @@ function e23_dm() {
 
 	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa
 
-	#TODO:varm myös että menevät kohde-pakettiin mukaan libwayland*.deb
+	#TODO?:varm myös että menevät kohde-pakettiin mukaan libwayland*.deb ?
 	${shary} libffi8 libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
 	
 	${shary} libxcb1
@@ -298,7 +299,7 @@ function e23_dm() {
 	csleep 10
 
 	#TODO:dconf-juttujen tilalle jotain muuta jatkossa? gsettings-backend desmes
-	#VAIH:selv riipp
+
 	#Depends: dconf-service (<< 0.40.0-4.1~), dconf-service (>= 0.40.0-4), libdconf1 (= 0.40.0-4),  (>= 2.55.2)
 	#Depends: default-dbus-session-bus | dbus-session-bus, libdconf1 (= 0.40.0-4),, (>= 2.34),  (>= 2.55.2)
 	#Depends: 
