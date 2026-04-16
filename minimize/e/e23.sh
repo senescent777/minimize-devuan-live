@@ -195,8 +195,7 @@ function e23_qrs() {
 
 #TODO:jokin /o/b/skRipti nostamaan äläkän jos /e/resolv.vonf puuttuu
 
-#
-##DONE:tämäö versiuo kommentteihin ja toisen branchin versio tilalle
+#DONE:tämä versio kommentteihin ja toisen branchin versio tilalle
 #function e23_dm() {
 #	dqb "e23_dm())) ${1} )"
 #	[ -z "${1}" ] && exit 11
@@ -341,7 +340,6 @@ function e23_qrs() {
 #	dqb "e23_dm( done (((("
 #	csleep 1
 #}
-
 
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"

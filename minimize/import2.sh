@@ -484,12 +484,18 @@ dqb "srcfile=${srcfile}"
 csleep 1
 
 case "${mode}" in
-	1) #140326:taitaa toimia
-		common_part ${srcfile} ${d} /
-		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
-		csleep 1
+	1) #160426:lettu vivuta toiselle skriptille
+		echo "sq-rot ${mode} ${srcfile}"
+		exit 111
+
+		#common_part ${srcfile} ${d} /
+		#[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
+		#csleep 1
 	;; 
-#	0|3) #EI POINTTIA TÄSSÄ ENNENQ PARSETUS KORJATTU (jos uskaltaisi jo kokeilla)
+	0|3)
+		echo "sq-rot ${mode} ${srcfile}"
+		exit 111
+		
 #		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
 #		#110326:toimii edelleen mod pientä kiukuttelua josqs
 #		#160326:sama, kiukuttelulle voisi tosin tehdä jotain
@@ -530,7 +536,7 @@ case "${mode}" in
 #
 #		csleep 1
 #		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
-#	;;
+	;;
 	r) #160326:ehkä tämä jo toimii
 	#sqrot ei tarvitse tätä casea, kai
 		[ -d ${srcfile} ] || exit 23
@@ -573,8 +579,6 @@ case "${mode}" in
 #	k)
 #		#161225:toimii, sq-root-ymp ainakin
 #		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
-#
-#
 #		[ -d ${srcfile} ] || exit 22
 #		dqb "KLM"
 #		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd find out?)

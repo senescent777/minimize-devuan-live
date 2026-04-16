@@ -310,6 +310,7 @@ case ${mode} in
 	;;
 	#280326:saa aikaiseksi paketin, sisällön testaus vielä
 	#viimeisin päivityspak ja minimal_live:xserver-paketit aiheuttivat urputusta, paketteja puuttunee
+	#160426:josko taas vähitellen u:n kanssa testit? (TODO)
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
@@ -321,9 +322,9 @@ case ${mode} in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) 
-	#... chattr olisi kYllä paikallaan etteI vahingossa spedeilisi
+		#... chattr olisi kYllä paikallaan etteI vahingossa spedeilisi
 		#070426:paketin sisältö vaikuttaa toimivan minimal_liven alaisuudessa, entä desktop? sielläkin
-		#... oliklop jostain libpam- paketeista ulinaa? tuliko libcom-err2 mukaan?
+		#... oliko jostain libpam- paketeista ulinaa? tuliko libcom-err2 mukaan?
 
 		${shary} ${E22_GS}
 		${shary} ${E22_GM}

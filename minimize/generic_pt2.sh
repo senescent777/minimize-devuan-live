@@ -260,12 +260,14 @@ if [ ${mode} -gt 3 ] ; then
 	${sharpy} rsstail sensible-utils setnet
 	csleep 5
 
-	${sharpy} taskwarrior tcc toilet
-	csleep 5
+#	${sharpy} taskwarrior tcc toilet
+#	csleep 5
+#
+#	${sharpy} transmission ttyrec w2do
+#	csleep 5
 
-	${sharpy} transmission ttyrec w2do
-	csleep 5
 #TODO:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että...
+
 #	${sharpy} w3m wamerican wavemon
 #	csleep 5
 #

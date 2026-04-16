@@ -42,7 +42,7 @@ function parse_opts_2() {
 	fi
 }
 
-#TODO?:e.tar purq (cefgh()) vs tämä sq-rot alku
+#e.tar purq (cefgh()) vs tämä sq-rot alku
 if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
@@ -127,9 +127,8 @@ else
 	echo "W33P1NG UND3RR G4L4CTU5"
 	sleep 6
 
-	#150426:toimii tämä haara
-
 	#cptp2 voisi lopuksi palauttaa x-oikeuden kirjastoon?
+	#150426:toimii tämä haara
 	#saattaa myös olla että kiukuttelu paikallistui erääseen modattuun desktop_live_kiekkoon 090426
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
@@ -213,8 +212,6 @@ check_binaries ${d}
 
 check_binaries2
 #[ $? -eq 0 ] || exit
-#echo "CHEKCS Adn BALACNES"
-#sleep 1
 
 [ -z "${srcfile}" ] && exit 44
 [ -z "${distro}" ] && exit 46

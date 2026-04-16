@@ -61,18 +61,14 @@ else
 	cd /
 fi
 
-if [ -s ${d0}/MAN1.F2ST ] ; then
-	${tcmd} -T ${d0}/MAN1.F2ST -f ${tgt} -rv
-else
+if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	${tcmd} -tf ${tgt} | grep -v .tar > ${d0}/MAN1.F2ST
 	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
-	echo "TRY AGAIN"
-	exit #TODO:exit pois jatkossa
 
 	#g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
-	#sleep 1
-	#
-	#for f in ${g} ; do #090426:ehkä tuota mazn1.jutskaa hyödyntäen saisi for-loopin takaisin
+	sleep 1
+	
+	#for f in ${g} ; do 
 	#	if [ -f ${f} ] ; then #josko nyt
 	#		if [ ! -h ${f} ] ; then 
 	#			${tcmd} -rvf ${tgt} ${f} #HUOM. "-uvf" KANSSA MENEE VITUIKSI JOS EI OLE TARKKANA 666 !!!
@@ -81,6 +77,8 @@ else
 	#	fi
 	#done	
 fi
+
+${tcmd} -T ${d0}/MAN1.F2ST -f ${tgt} -rv
 
 #jotat ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4
