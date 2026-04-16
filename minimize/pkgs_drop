@@ -28,3 +28,4 @@ ppp,pciutils,procmail
 #antaa olla rfkill toistaiseksi
 ristretto,screen,syslinux-common
 tex,vim
+ssh,openssh
