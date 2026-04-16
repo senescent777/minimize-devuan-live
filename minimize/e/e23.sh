@@ -39,6 +39,7 @@ function e23_tblz() { #taitaa toimia, 070426
 	#message() tähän?
 	tpc7	#jotain excaliburiin liittyvää
 	aswasw ${2}
+	#TODO:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
 	${shary} ${E22_GT}
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
@@ -128,7 +129,7 @@ function e23_upgp() {
 	csleep 1
 }
 
-#280326:saa aikaiseksi paketin, sisällön testaus vielä
+#280326:saa aikaiseksi paketin, sisällön testaus vielä (tai siis)
 function e23_upgp2() {
 	[ -z "${1}" ] && exit 1 
 	[ -z "${2}" ] && exit 11
