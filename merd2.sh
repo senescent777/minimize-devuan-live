@@ -48,10 +48,13 @@ if [ x"${tig}" == "x" ] ; then
 	exit 7
 fi
 
-dqb "rm -rf ${CONF_PT2} SOON"
-csleep 3
-[ -d ${CONF_PT2} ] && rm -rf ${CONF_PT2}
-[ $? -gt 0 ] && exit
+if [ -d ./${CONF_PT2} ] ; then
+	dqb "rm -rf ./${CONF_PT2} SOON"
+	csleep 3
+	rm -rf ./${CONF_PT2}
+	[ $? -gt 0 ] && exit
+fi
+
 csleep 2
 
 dqb "BFROE tig"
@@ -88,7 +91,7 @@ if [ -x ${CONF_LIB} ] ; then
 	#josko nyt jo?
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 
-	#140426:knftydston puute kenteis estää seur rivien toiminnan (tekisikö jotain?)
+	#TODO:konftdston kanssa jotain
 	. ${CONF_LIB}
 	enforce_access $(whoami) ${d0}/${CONF_BASE}
 
