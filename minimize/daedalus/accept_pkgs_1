@@ -35,13 +35,11 @@ dconf-service
 libdconf1
 dconf-gsettings-backend
 gsettings-backend
-#VAIH:gsettings ylemmäksi? (aiemmin libev ja glib-n välissä)
 gsettings-desktop-schemas
 #
 xkb-data
 libgtk-3-common
 #
-#mihin näutä taas tarvittiin?
 gtk-update-icon-cache
 adwaita-icon-theme
 hicolor-icon-theme
@@ -68,9 +66,6 @@ libpangoft2
 libpangocairo
 libpangoxft
 #
-#VAIH:siirto aiemmaksi ffi8 (nftables ja lqr välissä aiemmin)
-#libfftw3
-#libffi8
 libff
 #
 libwayland-client0
@@ -181,13 +176,14 @@ libexpat1
 libxshmfence1
 libegl-mesa0
 libegl1
-#
 libaudit1
 #
+#TODO:libse-juttujakin yhdistellen?
 libseccomp2
 seatd
 libseat1
 libselinux1
+#
 libunwind8
 libxau6
 libxdmcp6
@@ -218,9 +214,7 @@ libwebp
 libwutil5
 libmagickcore-6
 libmagickwand
-#
 libutempter0
-#
 libwraster
 libwings3
 #libmd0?
