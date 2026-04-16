@@ -65,18 +65,19 @@ ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 dqb "TGI KO"
 csleep 2
 
-mv ${CONF_BASE} ${CONF_BASE}.OLD
-mv ${CONF_PT2}/* .
+#tässä jotain sössimistä?
+mv ./${CONF_BASE} ./${CONF_BASE}.OLD
+mv ./${CONF_PT2}/* .
 
-[ -s ${CONF_LIB} ] && chmod 0555 ${CONF_LIB} 
+[ -s ./${CONF_LIB} ] && chmod 0555 ./${CONF_LIB} 
 echo $?
 
 dqb "FN0C"
 csleep 1
 
-#oli kanssa se conf.example
-if [ -s ${CONF_BASE}.OLD/${distro}/conf ] ; then
-	mv ${CONF_BASE}.OLD/${distro}/conf ${CONF_BASE}/${distro}/conf
+#160426:TOIMIIKO TÄMÄ KOHTA VAI EI?
+if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
+	mv ./${CONF_BASE}.OLD/${distro}/conf ./${CONF_BASE}/${distro}/conf
 else
 	dqb "N0.C0NF"
 fi
@@ -85,14 +86,16 @@ echo $?
 dqb "NEXT:common_lib"
 csleep 1
 
-if [ -x ${CONF_LIB} ] ; then
+if [ -x ./${CONF_LIB} ] ; then
 	#TODO:/o/b-juttuja oli kanssa
 
 	#josko nyt jo?
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 
 	#TODO:konftdston kanssa jotain
-	. ${CONF_LIB}
+	#TODO:"exp2 4" urputtamaan jos profs.sh puuttuu
+
+	. ./${CONF_LIB}
 	enforce_access $(whoami) ${d0}/${CONF_BASE}
 
 	#josko nyt jo?
