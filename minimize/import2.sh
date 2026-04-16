@@ -35,13 +35,6 @@ if [ $# -gt 0 ] ; then
 	fi
 fi
 
-#TODO?:jos järjestelisi tämän kikkareen uudestaan sittenq sqroot-testit seur kerran tehty
-#... JOKO JO 300236? eu uhan vielä (2426)
-#... joutaisi koko roskan kirjoittamaan uusicksi fråm scratch mutta odotellessa jos latensseja pienemmäksi syystä ilman -v ei toimi mikään
-
-#190326:alkaisikohan kohta asettua parsetus?  (liittyyköhän tables/gpg asiaan?)
-#180326:liittyyköhän check_bin():in "ocs ipt" tuohon viimeaikaiseen kiukutteluun?
-
 function parse_opts_1() {
 	dqb "parse_opts_1( ${1} )"
 
@@ -59,8 +52,7 @@ function parse_opts_2() {
 
 }
 
-
-dqb "SHOULD gg --veridy ${d0}/common_lib.sh HERE, MAYBE"
+dqb "SHOULD gg --veriFy ${d0}/common_lib.sh HERE, MAYBE?"
 csleep 1
 
 if [ -x ${d0}/common_lib.sh ] ; then
