@@ -41,7 +41,7 @@ else
 fi
 
 #pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
-${tcmd} -tf ${tgt} | grep .deb
+${tcmd} -tf ${tgt} | grep ".deb"
 sleep 1
 
 read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm

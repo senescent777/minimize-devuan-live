@@ -259,6 +259,7 @@ function e22_settings() {
 	csleep 1
 
 	if [ ! -x ${1}/${3} ] ; then
+		echo "SHOU.LD exp2 p asgfd asgfd"
 		exit 24
 	fi
 
@@ -277,6 +278,8 @@ function e22_settings() {
 
 #040426:ei tarvinne CONF_testgris-ehtoa ainakaan verkkoyhteyden varalta, ei vedä kaloja
 #140426:vissiin toimiva fktio (ainakin ennen merd2-kikkailua)
+#160426:taitaa toimia edelleen
+
 function e22_home_pre() {
 	dqb "e22_home_pre()"
 
@@ -296,7 +299,7 @@ function e22_home_pre() {
 
 	csleep 1
 
-	#080426:osilikohan okieutedt ok oj? kaikilta w pois vielä?	
+	#080426:osilikohan okieutedt ok oj? kaikilta w pois vielä?	(TODO?)
 	${scm} go-rw /opt/bin/*
 	${sco} 0:0 /opt/bin/*
 	${srat} -rvf ${1} /opt/bin 
@@ -304,7 +307,7 @@ function e22_home_pre() {
 	dqb "JUST BEFORE FIND"
 	csleep 1
 
-	#VAIH:jos merd2:sta vain 1 kpl jatkossa kohteeseen
+	#DONE:jos merd2:sta vain 1 kpl jatkossa kohteeseen
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
 	done
@@ -319,7 +322,8 @@ function e22_home_pre() {
 
 #290326:toimii, mutta $3 kanssa ehkä jotain?
 #29426:edelleen toimii?
-#140426:vissiin kopsaa kohdepakettin mitä pitääkin/kunnes toisin todistetaa)
+#140426:vissiin kopsaa kohdepakettin mitä pitääkin/kunnes toisin todistetaaN)
+#160426:taitaa toimia edelleen
 
 function e22_home() {
 	dqb "e22_home()"
@@ -360,7 +364,6 @@ function luca() {
 	csleep 1
 
 	#localtime taisi olla linkki, siksi erikseen
-
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
 
 	local f
@@ -372,6 +375,7 @@ function luca() {
 #020426:ei vedä verkosta mitään ni ei tartte lisätestejä?
 #140426:kopsannee kohteeseen  mitä pitääkin
 #(meneekö rules.* kohteeseen useamman kerran?)
+#160426:toimii
 
 function e22_acol() {
 	dqb "e22_acol()"
@@ -448,6 +452,7 @@ function e22_acol() {
 
 #(josko exp2 voisi korvata "tar -T -cf":llä?)
 
+#160426:toimii
 function e22_sarram() {
 	dqb "e22_sarram(${1} ; ${2} ; ${3} )))))))()))))"
 
@@ -507,9 +512,9 @@ function e22_sarram() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#tai sen zxcv:n sha-tarkistuksen kanssa jotain kiukuttelua että "tar -t $arch" josqs(DONE)
 #verkkoyhteyttä vaativat jutut vain jos testgris ei asetettu? vaiko kutsuvan koodin puolella tarkistus?
-#140416:muuten mennee pakettiin jutut paitsi dhclient-script?
+#140426:muuten mennee pakettiin jutut paitsi dhclient-script?
+#160426:toimii
 
 function e22_ext() {
 	[ -z "${1}" ] && exit 1

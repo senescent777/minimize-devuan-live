@@ -166,7 +166,7 @@ case ${mode} in
 
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
-	c) #030426 tIEnoilla toimi viimeksi
+	c) #ainakin 030426 tIEnoilla toimi viimeksi
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
 	p) #170326:lienee kunnossa
@@ -280,12 +280,11 @@ case ${mode} in
 	;;
 	3|4) 
 		#3 taisi toimia 04/26 tienoilla ainakin kerran
-		#4 vissiin toimi kerran 04/26 (140426 tienoilla viimeksi testattu)
+		#4 toimi viimeksi 160426 (toisen branchin kanssa testaus)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1
 
-		#020426:ao. rivin kanssa muutokasi vaiei?
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
 
