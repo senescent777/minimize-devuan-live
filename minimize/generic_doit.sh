@@ -121,12 +121,28 @@ function part0() {
 	csleep 1
 	dis ${1}
 	local s
+	
+	#dw i'n gwybod sut i ddefnyddio Google Translate
+	dqb "смерть шпионам"
+
+	#VAIH:KVG, saisiko xfce4-session olemaan käyttämättä tuota SSH-AGENT?
+	#https://docs.xfce.org/xfce/xfce4-session/advanced
+	#https://superuser.com/questions/1222663/how-do-i-use-combine-ssh-agent-forwarding-and-xfce4
+	#https://forum.manjaro.org/t/how-to-disable-ssh-agent-autostart/89404
+
+	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
+	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
+	${whack} ssh-agent*
+	csleep 5
+	dqb "H4RV35TER 0F 50RR0W"
+	csleep 1
+	#060426:tämäkö heittää pihalle ennenaikaisesti? ssh:n kanssa ehkä jotain	
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
 		#HUOM.271125:saisiko tällä tyylillä myös slimin sammutettua? saa, mutta...
 
-		for t in $(find /etc/init.d -name ${s}* ) ; do
+		for t in $(find /etc/init.d -name "${s}*" ) ; do
 			${odio} ${t} stop
 			csleep 1
 		done
@@ -301,7 +317,7 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 fi
 
 pre_part2 #ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
-c14=$(find ${d} -name '*.deb' | wc -l)
+c14=$(find ${d} -name "*.deb" | wc -l)
 
 #[ ${c14} -gt 0 ] || CONF_removepkgs=0 #tilap kommentteihin 270226 koska g_pt2_jutut
 #... jokohan jo kommenteista 190326? (TODO)
@@ -342,17 +358,25 @@ dqb "GR1DN BELIALAS KYE"
 
 e_final
 e_h $(whoami) ${d0}
-echo "KVG:\"how to exit for-loop in bash\" " #TÄSSÄKÖ KUSI PASKAA?
-sleep 5
 
-${odio} /opt/bin/tlb.bash ${CONF_dnsm}
-${odio} /opt/bin/aftr.bash
+if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
+	${odio} /opt/bin/mutilatetc.bash  ${CONF_dnsm}
+fi
+#
+#
+#${odio} /opt/bin/tlb.bash ${CONF_dnsm}
+#${odio} /opt/bin/aftr.bash
 
 ${sipt} -L
 csleep 1
 ${scm} 0555 ${d0}/common_lib.sh
 #JOKO JO LOPPUISI PURPATUS PRKL
 ${scm} a-wx $0
+
+
+
+
+${fib}
 
 #===================================================PART 4(final)==========================================================
 if [ ${mode} -eq 2 ] ; then
