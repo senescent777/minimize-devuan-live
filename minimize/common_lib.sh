@@ -256,7 +256,7 @@ function message() {
 	sleep 1
 }
 
-#VAIH:jatkossa uusikcsi tämä
+#TODO:jatkosäätöä josqs lähiaikoina
 function psqa() {
 	dqb "c.Q () () () () ${1} ;;;"
 	csleep 1
@@ -266,6 +266,7 @@ function psqa() {
 	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
 	csleep 1
 
+	#return 92 #ei näin?
 	#dpkg -V oli tässä josqs , [ -v ] takana
 
 	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then
@@ -332,7 +333,7 @@ function psqa() {
 #... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
 #efk2 2. param ja cefgh voisi liittyä asiaan
 
-#VAIH:jatkossa uusikcsi tämä? palautusarvoon reagointi kai hyvä testata kohta
+#TODO:"palautusarvo-tarkistus" uusiksi josqs
 #TODO:jatkossa tämä tai kutsuva koodi viskomaan validit paketit tmp-hmistoon jatkoa vrten
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} )))))))))))))"
@@ -363,7 +364,7 @@ function common_pp3() {
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
-		#VAIH:jos mahd ni dellimään paketit jos tarq menee wtuiksi tai siis...
+		#TODO:koitahan päättää mitä tässä tekee.
 		[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums ./*.tar* #näin ok?
 	fi
 
@@ -474,8 +475,6 @@ function cefgh() {
 
 	dqb "pars ok"
 	csleep 1
-	#pitäisiköhän noissa poisteluissa olla jotain muitakin ehtoja?
-	#... esim. e.tar purq vain mikäli gg:tä ei ole?	no nyt on
 
 	if [ -z "${gg}" ] ; then	
 		efk2 ${1}/e.tar ${1}
@@ -494,14 +493,13 @@ function cefgh() {
 	#... tai tuo e.tar-jutska jos olisi kätevämpi sittenkin?
 }
 
-#VAIH:jatkossa uusikcsi tämä?
+#160426:tarteeko uusia vai ei?
 function CB01() {
 	dqb "common.lib.CB01( ${1} )"
 	csleep 1
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
 
-	#VAIH:VÄHITELLEN JOTAIN TÄMÄNKIN HYVÄKSI? ao. ehdon uutos vai e0?
 	if [ -s ${1}/g.tar ] ; then
 		#JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen
 		#... tai ilman gpg:tä voi tehdä vain sha-tarq ja sekin oikeastaan tapahtuu jo kutsuvassa koodissa
@@ -513,6 +511,7 @@ function CB01() {
 		exit 103
 	fi
 
+	#160426:libaassuanin kanssa härdelliä vai ei?
 	common_pp3 ${1}
 	for p in ${E22_GI} ; do efk1 ${1}/${p}*.deb ; done
 	csleep 1
@@ -528,7 +527,7 @@ function CB01() {
 	csleep 1
 }
 
-#TODO:jatkossa uusikcsi tämä? vai tarvitseeko?
+#160426:bissiin ei tarvtse muutella Just Nyt
 function CB02() {
 	dqb "CB02()"
 	csleep 1
@@ -573,7 +572,7 @@ function check_binaries() {
 	E22_GS="${E22_GS} libstdc++6 libgomp1 cpp-12" #060426:tartteeko varsinaisen cpp:n kanssa?
 
 	E22_GM="libc6 libselinux1"
-	#libtext-wrap kanssa jotain (VIELÄ 7426? ei?)
+
 	E22_GM="${E22_GM} debianutils debconf liblocale-gettext-perl libtext-charwidth-perl libtext-iconv-perl libtext-wrapi18n-perl" # nfs-common	
 	E22_GM="${E22_GM} debconf-i18n libelf1 libbpf1 " #zlib1,libc6
 	E22_GM="${E22_GM} libmnl0 libxtables12 " # oikeastaanm jo toisissakin jutussa mukana
@@ -585,7 +584,7 @@ function check_binaries() {
 
 	#Depends: , debianutils (>= 2.8.2), iproute2
 	#	E22_GM="${E22_GM} resolvconf" #josq toimisi ilmankin tätä 
-	E22_GM="${E22_GM} isc-dhcp-client isc-dhcp-common"
+	E22_GM="${E22_GM} isc-dhcp-client isc-dhcp-common" #dhcp-jutut erilleen jotenkin?
 	E22_GM="${E22_GM} libpam0g libcrypt1 libaudit1 libpam-modules-bin libpam-modules "
 
 	#Depends: passwd
@@ -704,7 +703,7 @@ function check_binaries2() {
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing /run/live/medium/live/initrd.img.new: No space left on device
 	#
-	#... chimaerassa esim pitäisi tuo lgftr asettaa jhnkin ei-huuhaa-sisältöön
+	#... chimaerassa esim pitäisi tuo lftr asettaa jhnkin ei-huuhaa-sisältöön
 
 	srat="${odio} ${srat} "
 	asy="${odio} ${sa} autoremove --yes "
@@ -713,7 +712,6 @@ function check_binaries2() {
 	uom="${odio} ${uom} "
 	smd="${odio} ${smd}"
 
-	#tähän/seuraavaan TLA() vai mitenkä?
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
@@ -731,8 +729,7 @@ function TLA() {
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
 		if [ ! -v CONF_testgris ] ; then
-			#TODO:viimeistään tässä kohtaa kalojen siirtyo /o/b alle ellei sitten petäti medr2.sh toimesta
-			#... lisäksi medr2 voisi asettaa x-oikeudet ratpeellisiin skritpeihin	
+			#160426:mitenkähän tämän kohdan kanssa jatkossa?	
 		
 			dqb "JST B3F0R:tlb-b a s h"
 			[ -s /opt/bin/tlb.bash ] || exit 99
@@ -1334,6 +1331,7 @@ function cg_pp2() {
 # libquadmath0 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
 #... jospa nyt aluksi selvittäisi mikä näitä tarvitsee?
 
+#TODO:toiminnan selvittelyä vai ei?
 function part3() {
 	dqb "))() part3 ${1} , ${2} (((((((("
 	csleep 1
@@ -1359,20 +1357,18 @@ function part3() {
 
 	common_lib_tool ${1} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
-	dqb "B3TA"
+	dqb "B3T4"
 	csleep 6
 
 	#060426:AO. RIVI TUOLLAINEN TARKOITUKSELLA, ÄLÄ SORKI!!!
 	efk1 ${1}/gcc-12-base*.deb ${1}/libgcc-s1*.deb ${1}/libc6*.deb
-	dqb "LAJKKA"
+	dqb "LAcKK.a"
 	csleep 6
 
 	for p in ${E22_GS} ; do wopr ${1} ${p} accept_pkgs_1 ; done
-	#060426:jospa keskeyttäisi tässä kunnes cpp-asiat kunnossa? vai alkaisiko jo sujua?
-	dqb "önEGA-VGA"
+	dqb "önEGA-VGA RA"
 	csleep 6
 
-	#70426:nalq aihtutui ainakin: libgtk-3-common , libatk-bridge
 	common_lib_tool ${1} accept_pkgs_1
 	common_lib_tool ${1} accept_pkgs_2
 
