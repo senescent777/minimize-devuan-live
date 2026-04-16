@@ -24,7 +24,6 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-#TODO:tämä impoetr2:seen vähitellen?
 function parse_opts_1() {
 	dqb "rot.parse_opts_1() ${1} ((()"
 
@@ -33,16 +32,17 @@ function parse_opts_1() {
 	fi
 }
 
-#TODO:exp2/imp2/sqr komentorivien käsittelyyn muutosta? uusi optio? ,mikä?
+#TODO?:exp2/imp2/sqr komentorivien käsittelyyn muutosta? uusi optio? ,mikä?
 
 function parse_opts_2() {
-	dqb "rot.parseopts_2 )) ${1} ; ${2} (("
+	dqb "rpus.ot.parseopts_2 )) ${1} ; ${2} (("
 
 	if [ -f ${2} ] || [ -d ${2} ] ; then
 		srcfile=${2}
 	fi
 }
 
+#e.tar purq (cefgh()) vs tämä sq-rot alku
 if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
@@ -98,9 +98,10 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
 	echo "C"
 
 	#030426:huom. kts commn_lib , E22_M , tarpeellinen
+	#VAIH:tuohon alle tar -x:ään tämän import2.sh koskeva --exclude jos mahd?
 
 	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do
-		tar -jxvf ${f}
+		tar --exclude import2.sh -jxvf ${f}
 		sleep 1
 		rm ${f}
 		sleep 1
@@ -117,7 +118,7 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
 	unset g
 fi
 
-echo "aftr.unset.g";sleep 1
+#echo "aftr.unset.g";sleep 1
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -126,10 +127,8 @@ else
 	echo "W33P1NG UND3RR G4L4CTU5"
 	sleep 6
 
-	#VAIH:"$0 1", varm että toimii silloinkin ku n common_lib ei ajokepl
-	#(entä "-v" ?)
-
-	#... saattaa välillä toimiakin, cptp2 voisi lopuksi palauttaa x-oikeuden kirjastoon?
+	#cptp2 voisi lopuksi palauttaa x-oikeuden kirjastoon?
+	#150426:toimii tämä haara
 	#saattaa myös olla että kiukuttelu paikallistui erääseen modattuun desktop_live_kiekkoon 090426
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
@@ -192,14 +191,11 @@ else
 	done
 fi
 
-#050426:tämänkin skriptin kanssa se debug-riippuvuus? common_lib saattaisi liittyä
-#TODO:jos tekisi asialle jotain (part3)
-
 dqb "rot:AFTR common_lib"
 csleep 1
 [ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
-csleep 1
-echo "jts.bfr.l1b";sleep 1
+#csleep 1
+#echo "jts.bfr.l1b";sleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -210,14 +206,12 @@ else
 	csleep 1
 fi
 
-echo "jts.bfr.cbin1";sleep 1
+#echo "jts.bfr.cbin1";sleep 1
 check_binaries ${d}
 #[ $? -eq 0 ] || exit saattaa aiheuttaa ongelmia liialliset tarkistukset
 
 check_binaries2
 #[ $? -eq 0 ] || exit
-echo "CHEKCS Adn BALACNES"
-sleep 1
 
 [ -z "${srcfile}" ] && exit 44
 [ -z "${distro}" ] && exit 46
@@ -232,7 +226,7 @@ else
 	exit 55
 fi
 
-echo "JUST BFR com-ort()";sleep 1
+#echo "JUST BFR com-ort()";sleep 1
 #HUOM.olisi hyväksi siivota aiemmat tar:it kummittelemasta, tapahtuu lopussa kysymyksen takana
 
 function common_part() {
@@ -274,8 +268,8 @@ function common_part() {
 			fi
 		fi
 
-		#TODO:tähän ehkäö jotain muutosta
-		[ ${r} -eq 0 ] || exit ${r}
+		#TODO:sqrootin alaisuudessa testailut
+		[ ${r} -eq 0 ] || ${NKVD} ${1}*
 	fi
 
 	csleep 1
@@ -295,7 +289,8 @@ function common_part() {
 			cfk=0
 		fi
 
-		dqb "#TODO:näille main mallia:import2.sh, common_lib.psqa(), common_pp3() ehkä"
+		dqb "#VAIH:näille main mallia:import2.sh, common_lib.psqa(), common_pp3() ehkä"
+		[ ${cfk} -eq 0 ] || ${NKVD} ${1}*
 		csleep 1
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
@@ -303,7 +298,14 @@ function common_part() {
 
 	if [ ${cfk} -gt 0 ] ; then
 		read -p " U  SURE ?" confirm
-		[ "${confirm}" == "Y" ] || exit 33
+
+		if [ "${confirm}" == "Y" ] ; then
+			dqb "ko"		
+		else
+			${NKVD} ./*.deb ./sha512sums* ./*.tar*
+			exit 33
+			#VAIH:jos ei varmistusta ni sietäisi delliä *.deb ?
+		fi
 	fi
 
 	csleep 1
