@@ -18,8 +18,6 @@ libgstreamer,libpoppler
 #lvm2,poistui,aikaisemmin,nykyään
 #
 lynx,mutt,mail
-#oistuukop mutt?
-#
 mlocate,modem,mtools
 #jatkossa perus-ntp pois, mut ntpsec eu?
 mythes
@@ -30,6 +28,3 @@ ppp,pciutils,procmail
 #antaa olla rfkill toistaiseksi
 ristretto,screen,syslinux-common
 tex,vim
-#
-#uutena 060426, $distro/pkgs_drop alle jatqs?
-ssh,openssh

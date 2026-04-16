@@ -5,6 +5,10 @@ tcmd=$(which tar)
 [ -z "${tcmd}" ] && exit 11
 [ -x ${tcmd} ] || exit 12
 
+#VAIH:tämä kikkare roskikseen, pitäisi keksiä parempiq ei kerran jaksa kesä/talviajan/lokaalien kanssa kikkailla
+#... O(2**n) tllennustilan suhteen olisi 1 juttu kanssa mikä hiertää
+#... "tar -T" sietäisi kokeilla ensin /entä -g ?
+
 spc=$(which cp)
 [ -z "${spc}" ] && exit 13
 [ -x ${spc} ] || exit 14
@@ -41,7 +45,7 @@ else
 fi
 
 #pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
-${tcmd} -tf ${tgt} | grep ".deb"
+${tcmd} -tf ${tgt} | grep .deb
 sleep 1
 
 read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
@@ -56,29 +60,32 @@ if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	echo "YLIULIULI"
 	cd ${CONF_testgris}
 
-	#HUOM:-C olisi myös keksitty
+	#TODO?:-C olisi myös keksitty
 else
 	cd /
 fi
 
-if [ ! -s ${d0}/MAN1.F2ST ] ; then
-	${tcmd} -tf ${tgt} | grep -v .tar > ${d0}/MAN1.F2ST
-	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
+if [ -s ${d0}/MAN1.F2ST ] ; then
+	${tcmd} -T ${d0}/MAN1.F2ST -f ${tgt} -rv
+else
+	${tcmd} -tf  ${tgt} > ${d0}/MAN1.F2ST
+	${tcmd} -rvf ${tgt}  ${d0}/MAN1.F2ST
+	echo "TRY AGAIN"
+	exit
 
 	#g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
-	sleep 1
-	
-	#for f in ${g} ; do 
+	#sleep 1
+	#
+	#for f in ${g} ; do #090426:ehkä tuota mazn1.jutskaa hyödyntäen saisi for-loopin takaisin
 	#	if [ -f ${f} ] ; then #josko nyt
 	#		if [ ! -h ${f} ] ; then 
 	#			${tcmd} -rvf ${tgt} ${f} #HUOM. "-uvf" KANSSA MENEE VITUIKSI JOS EI OLE TARKKANA 666 !!!
 	#			[ $? -eq 0 ] || echo "chmod | chown ?"
 	#		fi
 	#	fi
-	#done	
+	#done
 fi
 
-${tcmd} -T ${d0}/MAN1.F2ST -f ${tgt} -rv
 
 #jotat ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4

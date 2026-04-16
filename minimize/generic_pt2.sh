@@ -34,13 +34,6 @@ function fallback() {
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
-
-	#minimal_liven kanssa jokin juttu? includointi ei onnaa?
-	#process_lib() esittely juuri ennen gpo()?
-	#syyllinen saattanut jo löytyä
-
-	echo $?
-	sleep 15 
 else
 	echo "NO COMMON LIB"
 	exit 89
@@ -48,8 +41,6 @@ fi
 
 [ -z "${distro}" ] && exit 6
 dqb "BEFORE L1B"
-#HUOM.050426:p_lib aiheutti nalq, gtoistuuko?
-sleep 5
 process_lib ${d}
 csleep 2
 
@@ -61,15 +52,11 @@ csleep 2
 #jos vaikka näin?
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 csleep 2
+${odio} /opt/bin/tlb.bash
+csleep 2
 
-if [ -x /opt/bin/tlb.bash ] ; then
-	${odio} /opt/bin/tlb.bash
-	csleep 2
-fi
-
-if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
-	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
-fi
+#020426:[ -v] taakse ao. rivi?
+${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
 
 csleep 2
 ${fib}
@@ -82,7 +69,7 @@ sleep 1
 
 if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
-	TLA #miten tämä suhtautuu noihin aiemiin /o/b käskytyksiin?
+	TLA
 else
 	part2 1 ${CONF_dnsm} ${CONF_iface}
 	[ $? -gt 0 ] && exit
@@ -90,7 +77,6 @@ fi
 
 function t2p_filler() {
 	dqb "FILLER"
-	#chmod a-x /usr/sbin/update-initramfs ?
 	${lftr}
 	${asy}
 	csleep 1
@@ -206,74 +192,6 @@ p2g ${d}
 t2pf ${d}
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 2 ] && exit
-
-if [ ${mode} -gt 3 ] ; then
-	${sharpy} slim
-	csleep 5
-
-	${sharpy} dahdi
-	${sharpy} dc #mikä tämä on?
-	csleep 5
-
-	${sharpy} ed #uskaltaako poistaa? entä e-i?
-	${sharpy} empire
-	${sharpy} entr #uskaltaako sittebkään? tässä kohtaa tul ijotain ?
-	csleep 5
-
-	${sharpy} fbi #ehkä ei tätä pois?
-	${sharpy} fbterm
-	${sharpy} fetchmail
-	csleep 5
-
-	${sharpy} figlet fmtools fortune
-	csleep 5
-
-	${sharpy} freesweep gddrescue geoip-bin
-	csleep 5
-
-	${sharpy} gnuchess gobject-introspection greed
-	csleep 5
-
-	${sharpy} haveged icu-devtools irssi
-	csleep 5
-
-	${sharpy} jhead lrzsz matanza
-	csleep 5
-
-	${sharpy} mc #?
-	${sharpy} minicom moc
-	csleep 5
-
-	${sharpy} moria
-	${sharpy} netcat #jatkossakin jemmassa vai ei?
-	${sharpy} nethack
-	csleep 5
-
-	#ntp #jos pitäisi jemmassa koska x
-	${sharpy} omega-rpg open-invaders
-	csleep 5
-
-	${sharpy} pacman4console pente rpl
-	csleep 5
-
-	#jokin näistä paskoo äksän?
-	${sharpy} rsstail sensible-utils setnet
-	csleep 5
-
-#	${sharpy} taskwarrior tcc toilet
-#	csleep 5
-#
-#	${sharpy} transmission ttyrec w2do
-#	csleep 5
-
-#TODO:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että...
-
-#	${sharpy} w3m wamerican wavemon
-#	csleep 5
-#
-#	${sharpy} yasr zile
-#	csleep 5
-fi
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
 csleep 1

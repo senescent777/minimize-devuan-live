@@ -256,7 +256,7 @@ function message() {
 	sleep 1
 }
 
-#140426:palautusarvokikkailun toimivuus sqrootin kanssa epäselvää
+#VAIH:jatkossa uusikcsi tämä
 function psqa() {
 	dqb "c.Q () () () () ${1} ;;;"
 	csleep 1
@@ -265,8 +265,6 @@ function psqa() {
 	[ -d ${1} ] || exit 96
 	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
 	csleep 1
-
-	return 92 #kokeillaan yhtä juttua
 
 	#dpkg -V oli tässä josqs , [ -v ] takana
 
@@ -334,7 +332,7 @@ function psqa() {
 #... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
 #efk2 2. param ja cefgh voisi liittyä asiaan
 
-#VAIH:jatkossa uusikcsi tämä? palautusarvoon reagointi kai hyvä testata kohta (JOKO JO 150426?)
+#VAIH:jatkossa uusikcsi tämä? palautusarvoon reagointi kai hyvä testata kohta
 #TODO:jatkossa tämä tai kutsuva koodi viskomaan validit paketit tmp-hmistoon jatkoa vrten
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} )))))))))))))"
@@ -365,11 +363,8 @@ function common_pp3() {
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
-
-		if [ $? -gt 0 ] ; then
-			dqb "SOULD  ${NKVD} ./*.deb ./sha512sums* ./*.tar*" #näin ok?
-			csleep 6
-		fi
+		#VAIH:jos mahd ni dellimään paketit jos tarq menee wtuiksi tai siis...
+		[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums ./*.tar* #näin ok?
 	fi
 
 	dqb "() common_pp3 DONE"
@@ -471,7 +466,6 @@ function fromtend() {
 }
 
 #VAIH:jatkossa uusikcsi tämä?
-#TODO?:e.tar purq vs sq-rot alku
 function cefgh() {
 	dqb " cefgh( ${1} )))"
 
@@ -480,6 +474,8 @@ function cefgh() {
 
 	dqb "pars ok"
 	csleep 1
+	#pitäisiköhän noissa poisteluissa olla jotain muitakin ehtoja?
+	#... esim. e.tar purq vain mikäli gg:tä ei ole?	no nyt on
 
 	if [ -z "${gg}" ] ; then	
 		efk2 ${1}/e.tar ${1}
@@ -498,14 +494,14 @@ function cefgh() {
 	#... tai tuo e.tar-jutska jos olisi kätevämpi sittenkin?
 }
 
-#VAIH:jatkossa uusikcsi tämä? vai tartteeko 120426 -> ?
+#VAIH:jatkossa uusikcsi tämä?
 function CB01() {
 	dqb "common.lib.CB01( ${1} )"
 	csleep 1
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
 
-	#140426:antaisiko olla tämän ehdon toistaiseksi?
+	#VAIH:VÄHITELLEN JOTAIN TÄMÄNKIN HYVÄKSI? ao. ehdon uutos vai e0?
 	if [ -s ${1}/g.tar ] ; then
 		#JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen
 		#... tai ilman gpg:tä voi tehdä vain sha-tarq ja sekin oikeastaan tapahtuu jo kutsuvassa koodissa
@@ -516,9 +512,6 @@ function CB01() {
 		${NKVD} ${1}/g.tar
 		exit 103
 	fi
-
-	#TODO:libassuan-nalkutus, voisiko sile tehdä jotain?
-	#pitäisikö vai ei keskeyttäää suoritus jos gpg ei asennu? ehkä ei
 
 	common_pp3 ${1}
 	for p in ${E22_GI} ; do efk1 ${1}/${p}*.deb ; done
@@ -535,7 +528,7 @@ function CB01() {
 	csleep 1
 }
 
-#120426:jos tämä sisältö olisi ok toistaiseksi
+#TODO:jatkossa uusikcsi tämä? vai tarvitseeko?
 function CB02() {
 	dqb "CB02()"
 	csleep 1
@@ -592,7 +585,7 @@ function check_binaries() {
 
 	#Depends: , debianutils (>= 2.8.2), iproute2
 	#	E22_GM="${E22_GM} resolvconf" #josq toimisi ilmankin tätä 
-	E22_GM="${E22_GM} isc-dhcp-client isc-dhcp-common" #dhcp-jutut erilleen jotenkin?
+	E22_GM="${E22_GM} isc-dhcp-client isc-dhcp-common"
 	E22_GM="${E22_GM} libpam0g libcrypt1 libaudit1 libpam-modules-bin libpam-modules "
 
 	#Depends: passwd
@@ -720,6 +713,7 @@ function check_binaries2() {
 	uom="${odio} ${uom} "
 	smd="${odio} ${smd}"
 
+	#tähän/seuraavaan TLA() vai mitenkä?
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
@@ -736,16 +730,13 @@ function TLA() {
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ -f /.chroot ] ; then #010426:antaa toistaiseksi o.lla viimiei n eht0
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		if [ ! -v CONF_testgris ] ; then 
+		if [ ! -v CONF_testgris ] ; then
+			#TODO:viimeistään tässä kohtaa kalojen siirtyo /o/b alle ellei sitten petäti medr2.sh toimesta
+			#... lisäksi medr2 voisi asettaa x-oikeudet ratpeellisiin skritpeihin	
+		
 			dqb "JST B3F0R:tlb-b a s h"
-			#VAIH:viimeistään tässä kohtaa mv $d0/o/b/*.bash ellei sitten medr2 hoida
-			
-			if [ -x /opt/bin/tlb.bash ] ; then
-				dqb "/o/b/t ok"
-			else
-				dqb "should  exit 99"
-				${svm} $(pwd)/opt/bin/tlb.bash /opt/bin
-			fi		
+			[ -s /opt/bin/tlb.bash ] || exit 99
+			${scm} 0511 /opt/bin/tlb.bash
 
 			#tarkoituksella ilman param
 			${odio} /opt/bin/tlb.bash 
@@ -1343,7 +1334,6 @@ function cg_pp2() {
 # libquadmath0 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
 #... jospa nyt aluksi selvittäisi mikä näitä tarvitsee?
 
-#TODO:se "debug-riippuvuus-juttu" , saako tämän kanssa masenneltua paketteja silloinq debug=0 ? (sq_rot, import2)
 function part3() {
 	dqb "))() part3 ${1} , ${2} (((((((("
 	csleep 1
@@ -1374,14 +1364,15 @@ function part3() {
 
 	#060426:AO. RIVI TUOLLAINEN TARKOITUKSELLA, ÄLÄ SORKI!!!
 	efk1 ${1}/gcc-12-base*.deb ${1}/libgcc-s1*.deb ${1}/libc6*.deb
-	dqb "LAcKKA"
+	dqb "LAJKKA"
 	csleep 6
 
 	for p in ${E22_GS} ; do wopr ${1} ${p} accept_pkgs_1 ; done
-
-	dqb "önEGA-VGA.ra"
+	#060426:jospa keskeyttäisi tässä kunnes cpp-asiat kunnossa? vai alkaisiko jo sujua?
+	dqb "önEGA-VGA"
 	csleep 6
 
+	#70426:nalq aihtutui ainakin: libgtk-3-common , libatk-bridge
 	common_lib_tool ${1} accept_pkgs_1
 	common_lib_tool ${1} accept_pkgs_2
 

@@ -35,25 +35,37 @@ if [ $# -gt 0 ] ; then
 	fi
 fi
 
-#14426:ans kattoo nyt tämän tdston isimpien muutoksien kanssa että tervitseeko
+#TODO?:jos järjestelisi tämän kikkareen uudestaan sittenq sqroot-testit seur kerran tehty
+#... JOKO JO 300236? eu uhan vielä (2426)
+#... joutaisi koko roskan kirjoittamaan uusicksi fråm scratch mutta odotellessa jos latensseja pienemmäksi syystä ilman -v ei toimi mikään
+
 #190326:alkaisikohan kohta asettua parsetus?  (liittyyköhän tables/gpg asiaan?)
 #180326:liittyyköhän check_bin():in "ocs ipt" tuohon viimeaikaiseen kiukutteluun?
 
 function parse_opts_1() {
-	dqb "ump3-parse_opts_1( ${1} ((((()"
+	dqb "parse_opts_1( ${1} )"
 
-	if [ "${mode}" == "-2" ] ; then
-		mode=${1}
-	fi
+#	#sisäkkäiset if-lauseet pystyisi ehkä purkamaan
+#	if [ "${mode}" == "-2" ] ; then
+#		mode=${1}
+#	else
+#		if [ "${1}" == "-v" ] ; then
+#			debug=1
+#		else
+#		#	if [ -d ${d0}/${1} ] ; then
+#		#		#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
+#		#		d=${d0}/${distro}
+#		#	else
+#				srcfile=${1}
+#		#	fi
+#		fi
+#	fi
 }
 
 function parse_opts_2() {
-	dqb "(imp2.parseopts_2 ; ${1} ; ${2} ;"
-
-	if [ -f ${2} ] || [ -d ${2} ] ; then
-		srcfile=${2}
-	fi
+	dqb "imp2.parseopts_2 ${1} ${2}"
 }
+
 
 dqb "SHOULD gg --veridy ${d0}/common_lib.sh HERE, MAYBE"
 csleep 1
@@ -79,9 +91,14 @@ else
 	dqb "FALLBACK"
 	sleep 5
 
-	odio=$(which sudo)
+#	if [ -f /.chroot ] ; then
+#		odio=""
+#	else
+#		#chroot-ynmp tulee nalqtusta tästä?
+		odio=$(which sudo)
+#	fi
 
-	#"tar -cvf OLD.tar"-syystä ei tätä tekstiä huomannut	
+	#"tar -cvf OLD.tar"-syystä ei tätä tekstiä huomaa	
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
 	sleep 5
 
@@ -128,13 +145,10 @@ else
 		dqb "imp2.3nf :NOT SUPPORTED"
 	}
 
-	#150426:josko olisi parsetus-asiat kunnossa jnkin aikaa?
+	#TODO:barm vuoksi pitäisi kai käskyttää parse_opts_fktioita siltä varalta että parsetuksen saakin sitä kautta toimimaan 
+	#... sq-rot:isTa jos esim. prujaisi
 
-	for opt in $@ ; do
-		parse_opts_1 ${opt}
-		parse_opts_2 ${prevopt} ${opt}
-		prevopt=${opt}
-	done
+	dqb "SHOULD CALL parse_opts_x() AROUND HERE"
 fi
 
 dqb "imp2:AFTR common_lib"
@@ -185,6 +199,9 @@ ocs tar
 dqb "srat: ${srat}"
 csleep 1
 dqb "LHP"
+
+#VAIH:ffox prof importoinnissa pitäisi huomioida, onko ffox:ia asennettu vai ei
+sleep 6
 	
 #josko tilansäästön nimissä kolmaskin ehto? tai ehkä ei pakko
 if [ -s /OLD.tar ] ; then
@@ -241,7 +258,7 @@ function common_part() {
 		else
 			${NKVD} ${1}.*
 			exit ${r}
-			#... miten testauksen kanssa? TODO:sqrootin kanssa josqs ?
+			#VAIH:jos menee wtuiksi niin joutaisi delliä .sha
 		fi
 	fi
 
@@ -269,16 +286,8 @@ function common_part() {
 
 	if [ ${cfk} -gt 0 ] ; then
 		read -p " U  SURE ?" confirm
-		
-		if [ "${confirm}" == "Y" ] ; then
-			dqb "ko"		
-		else
-			pwd
-			sleep 5
-			${NKVD} ${1}* ./*.deb ./sha512sums* ./*.tar*
-			exit 33
-			#TODO:testaa tämä vähitellen
-		fi
+		[ "${confirm}" == "Y" ] || exit 33
+		#TODO:jos ei varmistusta ni sietäisi delliä *.deb ?
 	fi
 
 	csleep 1
@@ -409,6 +418,10 @@ function tpr() {
 	csleep 1
 }
 
+#261125:eka case-blokki toimii
+#HUOM.110326:voisi olla tämä case nnen common_lib ... paitsi että conf
+#... ehkä voisi cpy-pastettaa sen konftdston etsinnän
+
 #sqrot ei tarvitse tätä blokkia (pl. ehkä -h) 
 #HUOM.060426:tämä case-esac voisi toimia ilmankin kirjastoa, qhan vain konftdsto löytyy
 #110426:tässäkin "-v" tarpeen?
@@ -473,7 +486,7 @@ fi
 if [ "${mode}" == "-3" ] || [ "${mode}" == "r" ] ; then
 	dqb "asia kunnossa"
 else
-	read -p "U R ABT TO INSTALL C0NTENTS OV: ${srcfile} , SURE ABOUT THAT?" confirm
+	read -p "U R ABT TO INSTALL ${srcfile} , SURE ABOUT THAT?" confirm
 	[ "${confirm}" == "Y" ] || exit 33
 fi
 
@@ -484,18 +497,12 @@ dqb "srcfile=${srcfile}"
 csleep 1
 
 case "${mode}" in
-	1) #160426:lettu vivuta toiselle skriptille
-		echo "sq-rot ${mode} ${srcfile}"
-		exit 111
-
-		#common_part ${srcfile} ${d} /
-		#[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
-		#csleep 1
+	1) #140326:taitaa toimia
+		common_part ${srcfile} ${d} /
+		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
+		csleep 1
 	;; 
-	0|3)
-		echo "sq-rot ${mode} ${srcfile}"
-		exit 111
-		
+#	0|3) #EI POINTTIA TÄSSÄ ENNENQ PARSETUS KORJATTU
 #		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
 #		#110326:toimii edelleen mod pientä kiukuttelua josqs
 #		#160326:sama, kiukuttelulle voisi tosin tehdä jotain
@@ -505,7 +512,7 @@ case "${mode}" in
 #		#... kiukuttelut sqrot alla liittyvät enemmän wdm-pakettiin kuin itse skriptiin?
 #		#sha512sums.txt.bak suattaapi liittyä vua n suattaapi ettei
 #	
-#TODO:sq-rot jatkossa hoitamaan "case 3":sen?		
+#		
 #		#myös "libc6:amd64 depends on libgcc-s1; however:" joutaisi tehdä jotain?
 #		
 #		echo "ZER0 S0UND"
@@ -514,6 +521,7 @@ case "${mode}" in
 #		csleep 1
 #		e="/"
 #
+#		#if [ -f /.chroot ] ; then
 #			if [ ${1} -eq 0 ] ; then
 #				#mitense alt_root? ensisijaisesti sitä pakettien "uutta" asennustapaa vartebn
 #				#... siinä piti vielä prujata se hmistorakanne ainakin
@@ -522,6 +530,7 @@ case "${mode}" in
 #				echo "... SHOULD BE MOVED UNDER ${d} , AFTER THAT:RUN $0 3 ${d}/f.tar"
 #				exit 99
 #			fi
+#		#fi
 #
 #		[ ${1} -eq 0 ] || e=${d}
 #		csleep 1
@@ -531,20 +540,19 @@ case "${mode}" in
 #		dqb "c_p_d0n3, NEXT: pp3"
 #		csleep 1
 #
-#		part3 ${d}
+#		part3 ${d} #TODO:tämän toiminnan tesialu uusiksi josqs
 #		other_horrors
 #
 #		csleep 1
 #		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
-	;;
+#	;;
 	r) #160326:ehkä tämä jo toimii
 	#sqrot ei tarvitse tätä casea, kai
 		[ -d ${srcfile} ] || exit 23
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
 		[ -v CONF_default_arhcive3 ] || exit 18
-
-		#1204236:jos nämä fox-tarkistukset riittäisivät ja toimisivat
+		#VAIH:SE FFOX-TARQ
 		[ -z "${fox}" ] && exit 26
 		[ -x ${fox} ] || exit 27
 
@@ -556,10 +564,11 @@ case "${mode}" in
 	;;
 	q)
 		#160326:toimi
-		#sqrot ei tarvitse tätä casea, kai
+	#sqrot ei tarvitse tätä casea, kai
 		# (turha case oikeastaan koska "$0 1"+"$0 r"
 		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
-
+#VAIH:SE FFOX-TARQ
+		
 		[ -z "${fox}" ] && exit 26
 		[ -x ${fox} ] || exit 27
 
@@ -579,6 +588,8 @@ case "${mode}" in
 #	k)
 #		#161225:toimii, sq-root-ymp ainakin
 #		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
+#
+#
 #		[ -d ${srcfile} ] || exit 22
 #		dqb "KLM"
 #		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd find out?)
