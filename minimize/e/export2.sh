@@ -129,8 +129,8 @@ else
 	exit 58
 fi
 
-echo "AFTER 1NCLUD1NG FILEZ"
-sleep 2
+#echo "AFTER 1NCLUD1NG FILEZ"
+#sleep 2
 
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 [ -z "${tgtfile}" ] && exit 98
@@ -154,7 +154,9 @@ case ${mode} in
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
 #	;;
-	f) #220326:toimii, tai ainakin osasi tehdä paketin (jos testaisi uudestaan)
+	f) #220326:toimii, tai ainakin osasi tehdä paketin (jos testaisi uudestaan esim. 04/26 aikana?)
+	#... jos muualla kuin kehistysymp testaisi, olisiko kätevänpää?
+	#TODO:kts e22_arch() kmmnt
 		enforce_access $(whoami) ${t}
 		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
@@ -166,7 +168,7 @@ case ${mode} in
 
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
-	c) #ainakin 030426 tIEnoilla toimi viimeksi
+	c) #ainakin 160426 tIEnoilla toimi viimeksi
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
 	p) #170326:lienee kunnossa
@@ -344,6 +346,7 @@ case ${mode} in
 	g)
 		[ -v E22_GI ] || exit 95
 		#110426:tämän testaus uudestaan (paketti:onnistuu , sisältö:asentuu )
+		#TODO:kts e22_arch()
 		${fib}
 		${shary} ${E22_GI}
 	;;

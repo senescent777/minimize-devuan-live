@@ -631,7 +631,7 @@ function e22_ts() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 }
 
-#1450426:toimii
+#1450426:toimii (tiettyjen juttujen takia uusi testaus kohta?)
 function e22_arch() {
 	dqb "e22_arch() $1 , $2 , $3 , $4"
 
@@ -680,6 +680,8 @@ function e22_arch() {
 	#
 
 	#TODO:jossain sopivassa välissä ao. for-loopin kanssa testailu
+	#... ideana "epx2 g + jotain + exp2 f" ?
+	
 	E22_E="e.tar g.tar"
 	local t=$(basename ${1})
 
@@ -754,8 +756,7 @@ function e22_arch() {
 ##	exit
 #}
 
-#TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen?
-#030426:taitaa edelleen toimia paketin sisältö sqrootissa
+#TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
 
 function e22_cde() {
 	dqb "e22_cde()"

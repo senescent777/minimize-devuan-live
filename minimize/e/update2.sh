@@ -61,11 +61,13 @@ else
 	cd /
 fi
 
+#HUOM.170426:olisi hyvä keksiä tähänkin jotain siltä varalta että merd2 ei tulisi ylimääräisiä kopioita
+
 if [ ! -s ${d0}/MAN1.F2ST ] ; then
-	${tcmd} -tf ${tgt} | grep -v .tar > ${d0}/MAN1.F2ST
+	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb > ${d0}/MAN1.F2ST
 	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
 
-	#g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
+	#g=$(${tcmd} -tf ${tgt} )
 	sleep 1
 	
 	#for f in ${g} ; do 
@@ -78,7 +80,8 @@ if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	#done	
 fi
 
-${tcmd} -T ${d0}/MAN1.F2ST -f ${tgt} -rv
+#toimiikohan kehitysynp.tössä niinqu pitää?
+${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
 
 #jotat ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4
