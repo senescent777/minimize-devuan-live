@@ -222,6 +222,7 @@ doit=1
 csleep 1
 
 #TODO:zxcv parametrksi tälle jaseur f k tiolle 
+#TODO:f(z) -> e22
 function z1() {
 	dqb "NVDK 1b 2 secs"
 	csleep 2
@@ -348,7 +349,7 @@ case ${mode} in
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
-		#110426:tämän testaus uudestaan (paketti:onnistuu , sisältö:asentuu )
+		#180426 edelleen osasi paketin muodostaa, todnäk asenytuu myös
 		#VAIH:kts e22_arch()
 
 		${fib}

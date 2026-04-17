@@ -115,11 +115,15 @@ function e22_ftr() {
 	csleep 1
 }
 
-#20426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
+#020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
+#... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf
+
 function e22_pre1() {
 	dqb "e22_pre1()"
+
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 66
+
 	csleep 1
 	dqb "pars.0k"
 	csleep 1
@@ -149,7 +153,7 @@ function e22_pre1() {
 #...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 #HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
 
-#VAIH:testailut uusiksi (120426)
+#170426:josko esim. toimisi (resolv.conf kanssa vielä jotain?)
 function e22_pre2() {
 	echo "per2..."
 	[ -z "${1}" ] && exit 66
@@ -172,10 +176,8 @@ function e22_pre2() {
 	if [ -d ${1} ] ; then
 		echo $?
 		csleep 1
-
 		#280326:tilapäinen viritys kunnes x? mikä?
-		#VAIH:vähän parempi jos tarkistaisi että kyseessä nimenomaan tieDosto eikä linkki (JOKOJO 110426?)
-
+		
 		if [ -d /etc/resolv.conf ] ; then
 			echo "D"
 		else

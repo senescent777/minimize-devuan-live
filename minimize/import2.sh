@@ -24,7 +24,7 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-#TODO:"$0 -1 -v" , toimiiko oikein?
+#VAIH:"$0 -1 -v" , toimiiko oikein?
 
 if [ $# -gt 0 ] ; then
 	mode=${1}
@@ -49,7 +49,12 @@ function parse_opts_2() {
 	dqb "(imp2.parseopts_2 ; ${1} ; ${2} ;"
 
 	if [ -f ${2} ] || [ -d ${2} ] ; then
-		srcfile=${2}
+		
+		if [ -z "${srcfile}" ] ; then
+			if [ "${2}" != "-v" ] ; then	
+				srcfile=${2}
+			fi
+		fi
 	fi
 
 }
@@ -192,108 +197,108 @@ else
 fi
 
 dqb "ip2.m.Lpgqq"
-
-function common_part() {
-	dqb "common_part ${1} , ${2} , ${3}"
-
-	[ -z "${1}" ] && exit 1 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
-	[ -s ${1} ] || exit 2
-	[ -r ${1} ] || exit 3
-	[ -z "${3}" ] && exit 4
-
-	[ -z "${2}"  ] && exit 11
-	[ -d ${2} ] || exit 22
-	[ -d ${3} ] || exit 44
-
-	dqb "paramz_0k"
-	csleep 1
-	cd /
-
-	local r
-	r=0
-
-	if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
-		dqb "A"
-		dqb "gg= ${gg}"
-
-		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemassssaolon sijaan?
-		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-			dqb "B"
-
-			if [ -x ${gg} ] ; then
-				dqb "C"
-
-				dqb " ${gg} --verify ${1}.sha.sig "
-				${gg} --verify ${1}.sha.sig
-				r=$?
-
-				[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig.1
-				#csleep 1
-			fi
-		fi
-
-		if [ ${r} -eq 0 ] ; then
-			dqb "KÖ"
-		else
-			${NKVD} ${1}.*
-			exit ${r}
-			#TODO?:tähän jotain josqs
-		fi
-	fi
-
-	csleep 1
-
-	local cfk=1
-
-	if [ -s ${1}.sha ] ; then
-		dqb "KHAZAD-DUM"
-		dqb "gg= ${gg}"
-
-		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
-		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f)
-		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
-
-		if [ "${aa}" == "${ab}" ] ; then
-			dqb "aa=ab= ${aa}"
-			cfk=0
-		fi
-
-		csleep 1
-	else
-		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
-	fi
-
-	if [ ${cfk} -gt 0 ] ; then
-		read -p " U  SURE ?" confirm
-	
-		#TODO?:jos ei varmistusta ni sietäisi delliä *.deb ?
-
-		if [ "${confirm}" == "Y" ] ; then
-			dqb "ko"		
-		else
-			pwd
-			sleep 5
-			${NKVD} ${1}* ./*.deb ./sha512sums* ./*.tar*
-			exit 33
-
-			#TODO?:testaa tämä vähitellen
-		fi
-	fi
-
-	csleep 1
-	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
-
-	csleep 1
-	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
-	[ $? -eq 0 ] || exit 36	
-
-	#$d alta tar-juttuja pois tässä? ehkä ei aina kannata
-	#csleep 1
-	#251225:mitä jos sen sisemmän sha-tarkistuksen tekisi silloinq common_lib pois pelistä?
-	
-	csleep 1
-	dqb "${srat} DONE"
-}
+#
+#function common_part() {
+#	dqb "common_part ${1} , ${2} , ${3}"
+#
+#	[ -z "${1}" ] && exit 1 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
+#	[ -s ${1} ] || exit 2
+#	[ -r ${1} ] || exit 3
+#	[ -z "${3}" ] && exit 4
+#
+#	[ -z "${2}"  ] && exit 11
+#	[ -d ${2} ] || exit 22
+#	[ -d ${3} ] || exit 44
+#
+#	dqb "paramz_0k"
+#	csleep 1
+#	cd /
+#
+#	local r
+#	r=0
+#
+#	if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
+#		dqb "A"
+#		dqb "gg= ${gg}"
+#
+#		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemassssaolon sijaan?
+#		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
+#			dqb "B"
+#
+#			if [ -x ${gg} ] ; then
+#				dqb "C"
+#
+#				dqb " ${gg} --verify ${1}.sha.sig "
+#				${gg} --verify ${1}.sha.sig
+#				r=$?
+#
+#				[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig.1
+#				#csleep 1
+#			fi
+#		fi
+#
+#		if [ ${r} -eq 0 ] ; then
+#			dqb "KÖ"
+#		else
+#			${NKVD} ${1}.*
+#			exit ${r}
+#			#TODO?:tähän jotain josqs
+#		fi
+#	fi
+#
+#	csleep 1
+#
+#	local cfk=1
+#
+#	if [ -s ${1}.sha ] ; then
+#		dqb "KHAZAD-DUM"
+#		dqb "gg= ${gg}"
+#
+#		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
+#		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f)
+#		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
+#
+#		if [ "${aa}" == "${ab}" ] ; then
+#			dqb "aa=ab= ${aa}"
+#			cfk=0
+#		fi
+#
+#		csleep 1
+#	else
+#		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
+#	fi
+#
+#	if [ ${cfk} -gt 0 ] ; then
+#		read -p " U  SURE ?" confirm
+#	
+#		#TODO?:jos ei varmistusta ni sietäisi delliä *.deb ?
+#
+#		if [ "${confirm}" == "Y" ] ; then
+#			dqb "ko"		
+#		else
+#			pwd
+#			sleep 5
+#			${NKVD} ${1}* ./*.deb ./sha512sums* ./*.tar*
+#			exit 33
+#
+#			#TODO?:testaa tämä vähitellen
+#		fi
+#	fi
+#
+#	csleep 1
+#	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
+#
+#	csleep 1
+#	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
+#	[ $? -eq 0 ] || exit 36	
+#
+#	#$d alta tar-juttuja pois tässä? ehkä ei aina kannata
+#	#csleep 1
+#	#251225:mitä jos sen sisemmän sha-tarkistuksen tekisi silloinq common_lib pois pelistä?
+#	
+#	csleep 1
+#	dqb "${srat} DONE"
+#}
 
 function cptp2() {
 	dqb "c tp2 ${1}, ${2}, ${3}"

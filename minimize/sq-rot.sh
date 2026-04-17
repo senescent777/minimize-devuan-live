@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=1
+debug=0
 srcfile=""
 
 distro=$(cat /etc/devuan_version)

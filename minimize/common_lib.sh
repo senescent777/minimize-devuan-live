@@ -642,8 +642,8 @@ function check_binaries() {
 		CB02 ${1}
 	fi
 
-	dqb "#jäölk ÄYÖYÄ SDDFSDSDGH t. Aku Snkka"
-	echo "CBIN.BF0RE.OCS"
+	dqb "#jäölk ÄYÖYÄ SDDFSDSDGH t. Paska-Ankka"
+	#echo "CBIN.BF0RE.OCS"
 	ls ${1}/*.deb | wc -l
 	csleep 3
 	for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
@@ -665,12 +665,12 @@ function check_binaries() {
 	uom=$(${odio} which umount)
 	sifc=$(${odio} which ifconfig)
 
-	echo "b1nar135 0k"
+	dqb "b1nar135 0k"
 	csleep 1
 }
 
 function check_binaries2() {
-	echo "c0mm0n_lib.ch3ck_b1nar135.2"
+	dqb "c0mm0n_lib.ch3ck_b1nar135.2"
 	csleep 1
 	[ -v sd0 ] || exit 666
 
@@ -689,9 +689,6 @@ function check_binaries2() {
 	sa="${odio} ${sa} "
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
-
-	#VAIH: tai sitten sen jonkin /etc/kernel-jekun hyödyntämisen kokeilu (tekeekö jotain?)
-	#... toimii vai ei?
 
 	#konftdstoon tuo INITRd vai ei?
 	INITRD=No
