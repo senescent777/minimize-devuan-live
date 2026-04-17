@@ -154,14 +154,8 @@ case "${mode}" in
 		enforce_access $(whoami) ${t}
 		e22_arch ${tgtfile} ${d} ${gbk}
 		
-#		#löienee turhaa kikkailua
-#		t=$(basename ${tgtfile})
-#		
-#		if [ "${t}" == "e.tar" ] || [ "${t}" == "g.tar" ] ; then
-#			${sr0} -f ${tgtfile} -x sha512sums.txt
-#			sha512sum ${tgtfile} >> ./sha512sums.txt
-#			${sr0} -f ${tgtfile} -rv ./sha512sums.txt	
-#		fi
+		#HUOM! EIPÄ KIKKAILLA sha512sums.txt KANSSA, tar.sha PAREMPI IDEA
+		#, PITÄÄ VAIN SAADA AIKAISEKSI common_lib.ah HUOMIOIMAAN SE
 	;;
 	q)
 		#170326:tekee edelleen arkiston, sisältö kenties ok

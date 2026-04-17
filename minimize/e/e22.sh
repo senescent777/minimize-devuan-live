@@ -56,6 +56,7 @@ function e22_hdr() {
 #tark-. olla priv fktio
 #170326:taitaa olla toimiva fktio nykyään (ellei toisin todisteta)
 #290326:toimii edelleen?
+
 function e22_tyg() {
 	dqb " e22_tyg()"
 
@@ -671,16 +672,6 @@ function e22_arch() {
 	cd ${2}
 	echo $?
 	${sah6} ./*.deb > ./sha512sums.txt
-
-
-#
-#	if [ ${3} -eq 1 ] ; then
-#		${srat} -rf ${1} ./*pkgs*
-#	fi
-#
-#	${sah6} ./reject_pkgs >> ./sha512sums.txt.1
-#	${sah6} ./accept_pkgs_? >> ./sha512sums.txt.1
-#	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
 	
 	for f in $(find . -type f -name "*pkgs*") ; do
 		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
