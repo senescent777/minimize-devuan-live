@@ -301,8 +301,9 @@ function e22_home_pre() {
 
 	csleep 1
 
-	#080426:osilikohan okieutedt ok oj? kaikilta w pois vielä?	(TODO?)
-	${scm} go-rw /opt/bin/*
+	#080426:osilikohan okieutedt ok oj? kaikilta w pois vielä?
+	${scm} a-w  /opt/bin/*
+	${scm} go-r /opt/bin/*
 	${sco} 0:0 /opt/bin/*
 	${srat} -rvf ${1} /opt/bin 
 
