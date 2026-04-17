@@ -193,6 +193,8 @@ t2pf ${d}
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 2 ] && exit
 
+#TODO:minimal_live;:n pakettivalikoima johonkin erilliseen tiedostoon ettei skeoile hukkaan
+
 if [ ${mode} -gt 3 ] ; then
 	${sharpy} slim
 	csleep 5
