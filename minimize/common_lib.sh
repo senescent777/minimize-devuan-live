@@ -1324,6 +1324,9 @@ function cg_pp2() {
 	dqb "d0n3"
 }
 
+dqb "HUOM. KANNATTAA KEHITYSYMP PURKAA PAKETTI RIITTÄVIN VALTUUKSIN ETTÄ PYSYVÄT SKRIPTIT AJAN TASALLA"
+csleep 6
+
 #160126:g.tar liittyvää kikkailua jatkossa? sittenkin check_bin() alta g-jutut -> cefgh()?
 #140326:libfortran-urputuksille j os tekisijojo tain?
 #libatomic1 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed

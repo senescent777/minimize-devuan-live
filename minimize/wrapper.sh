@@ -23,7 +23,7 @@ case ${1} in
 		if [ -x ${d}/../merd2.sh ] ; then
 			${d}/../merd2.sh ${2} ${3}
 		else
-			echo "N0 5H1T 5H3RL0CK"
+			echo "N0 5H1T,  5H3RL0CK"
 		fi
 	;;
 	cdns)		
@@ -52,13 +52,14 @@ case ${1} in
 		#https://linuxconfig.org/how-to-use-ncurses-widgets-in-shell-scripts-on-linux
 		#https://invisible-island.net/dialog/manpage/dialog.pdf
 
+		#VAIH:tätä if-blokkia joutaisi sorkkimaan josqs kosak imp2/sqrot
 		if [ "${1}" == "import" ] ; then
 			#-v mielellään pois optioista sittenq mahd
-			${d}/import2.sh 0 ${sorsa} -v
+			${d}/sq-rot.sh 0 ${sorsa} -v
 			[ $? -eq 0 ] || echo "$0 import2 ?"
 			sleep 1
 		else
-			${d}/import2.sh 3 ${sorsa}
+			${d}/sq-rot.sh 3 ${sorsa}
 		fi
 
 		echo $?

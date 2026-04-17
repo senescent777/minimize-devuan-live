@@ -24,6 +24,8 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
+#TODO:"$0 -1 -v" , toimiiko oikein?
+
 if [ $# -gt 0 ] ; then
 	mode=${1}
 	[ -f ${1} ] && exit 99
@@ -189,7 +191,7 @@ else
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
-dqb "ip2.m.Lpg"
+dqb "ip2.m.Lpgqq"
 
 function common_part() {
 	dqb "common_part ${1} , ${2} , ${3}"
@@ -235,12 +237,12 @@ function common_part() {
 		else
 			${NKVD} ${1}.*
 			exit ${r}
-			#TODO:tähän jotain josqs
+			#TODO?:tähän jotain josqs
 		fi
 	fi
 
 	csleep 1
-	#kts. common_lib.psqa()
+
 	local cfk=1
 
 	if [ -s ${1}.sha ] ; then
@@ -264,7 +266,7 @@ function common_part() {
 	if [ ${cfk} -gt 0 ] ; then
 		read -p " U  SURE ?" confirm
 	
-		#TODO:jos ei varmistusta ni sietäisi delliä *.deb ?
+		#TODO?:jos ei varmistusta ni sietäisi delliä *.deb ?
 
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "ko"		
@@ -274,7 +276,7 @@ function common_part() {
 			${NKVD} ${1}* ./*.deb ./sha512sums* ./*.tar*
 			exit 33
 
-			#TODO:testaa tämä vähitellen
+			#TODO?:testaa tämä vähitellen
 		fi
 	fi
 
@@ -539,7 +541,7 @@ case "${mode}" in
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
 		[ -v CONF_default_arhcive3 ] || exit 18
-		#VAIH:SE FFOX-TARQ
+		
 		[ -z "${fox}" ] && exit 26
 		[ -x ${fox} ] || exit 27
 
@@ -549,28 +551,28 @@ case "${mode}" in
 		echo "JUST VEFORE TPR"
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
-	q)
-		#160326:toimi
-		#sqrot ei tarvitse tätä casea, kai
-		# (turha case oikeastaan koska "$0 1"+"$0 r"
-		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
-		
-		[ -z "${fox}" ] && exit 26
-		[ -x ${fox} ] || exit 27
-
-		[ -v CONF_default_arhcive ] || exit 24
- 		[ -v CONF_default_arhcive2 ] || exit 25
-		[ -v CONF_default_arhcive3 ]  || exit 18
-
-		#HUOM.110326:olisi parempi , varm. buoksi delliä tai nimetä uudetsaan aiemmatr default_arch ja default_arch2
-
-		c=$(${srat} -tf ${srcfile} | grep ${CONF_default_arhcive} | wc -l)
-		[ ${c} -gt 0 ] || exit 27
-		common_part ${srcfile} ${d} /
-
-		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
-		tpr ${d0} ${CONF_default_arhcive} ${CONF_default_arhcive3}
-	;;
+#	q)
+#		#160326:toimi
+#		#sqrot ei tarvitse tätä casea, kai
+#		# (turha case oikeastaan koska "$0 1"+"$0 r" (TODO:jospa tekisi jotain liittyen)
+#		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
+#		
+#		[ -z "${fox}" ] && exit 26
+#		[ -x ${fox} ] || exit 27
+#
+#		[ -v CONF_default_arhcive ] || exit 24
+# 		[ -v CONF_default_arhcive2 ] || exit 25
+#		[ -v CONF_default_arhcive3 ]  || exit 18
+#
+#		#HUOM.110326:olisi parempi , varm. buoksi delliä tai nimetä uudetsaan aiemmatr default_arch ja default_arch2
+#
+#		c=$(${srat} -tf ${srcfile} | grep ${CONF_default_arhcive} | wc -l)
+#		[ ${c} -gt 0 ] || exit 27
+#		common_part ${srcfile} ${d} /
+#
+#		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
+#		tpr ${d0} ${CONF_default_arhcive} ${CONF_default_arhcive3}
+#	;;
 #	k)
 #		#161225:toimii, sq-root-ymp ainakin
 #		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
