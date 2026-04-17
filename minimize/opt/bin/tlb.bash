@@ -40,6 +40,8 @@ function ocs() {
 	fi
 }
 
+#TODO:suuri mölinä jos resolv.conf puuttuu
+
 for x in iptables ip6tables iptables-restore ip6tables-restore ; do
 	#dqb ${x}
 	ocs ${x}
@@ -77,14 +79,14 @@ if [ ${c} -gt 0 ] || [ ${c2} -gt 0 ] ; then
 
 	#jatkossa jokin array voisi sisltää nuo
 	for t in e b u v c f ; do
-		#${ipt} -P ${t} DROP
-		#dqb $?
+		${ipt} -P ${t} DROP #miski -P kommenteissa?
+		dqb $?
 
 		${ipt} -F ${t}
 		dqb $?
 
-		#${ip6t} -P ${t} DROP
-		#dqb $?
+		${ip6t} -P ${t} DROP
+		dqb $?
 
 		${ip6t} -F ${t}
 		dqb $?
