@@ -99,9 +99,6 @@ if [ -x ./${CONF_LIB} ] ; then
 	#josko nyt jo?
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 
-	
-	#VAIH:"exp2 4" urputtamaan jos profs.sh puuttuu
-
 	. ./${CONF_LIB}
 	enforce_access $(whoami) ${d0}/${CONF_BASE}
 
