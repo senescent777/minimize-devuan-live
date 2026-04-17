@@ -936,7 +936,7 @@ function mangle2() {
 }
 
 #010426:pitäisiköhän vähän miettiä mistä tätä ao. fkftiota tarpeellista kutsua ja mistä ei?
-
+#170426:resolv.conf delliminen voi aiheuttaa härdelliä myöhemmin
 function e_e() {
 	csleep 1
 	fix_sudo

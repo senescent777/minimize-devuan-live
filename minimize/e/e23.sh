@@ -192,8 +192,6 @@ function e23_qrs() {
 	csleep 1
 }
 
-#TODO:jokin /o/b/skRipti nostamaan äläkän jos /e/resolv.vonf puuttuu
-
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11

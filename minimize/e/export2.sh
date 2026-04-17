@@ -129,9 +129,6 @@ else
 	exit 58
 fi
 
-#echo "AFTER 1NCLUD1NG FILEZ"
-#sleep 2
-
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 [ -z "${tgtfile}" ] && exit 98
 t=$(echo ${d} | cut -d '/' -f 1-5)
@@ -151,11 +148,20 @@ case "${mode}" in
 #		[ -s "${tgtfile}" ] || exit 67
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
+#17426:josqs ta,aisin kommenteista?
 #	;;
 	f) #170426:osaa tehdä paketin edelleen
-
 		enforce_access $(whoami) ${t}
 		e22_arch ${tgtfile} ${d} ${gbk}
+		
+#		#löienee turhaa kikkailua
+#		t=$(basename ${tgtfile})
+#		
+#		if [ "${t}" == "e.tar" ] || [ "${t}" == "g.tar" ] ; then
+#			${sr0} -f ${tgtfile} -x sha512sums.txt
+#			sha512sum ${tgtfile} >> ./sha512sums.txt
+#			${sr0} -f ${tgtfile} -rv ./sha512sums.txt	
+#		fi
 	;;
 	q)
 		#170326:tekee edelleen arkiston, sisältö kenties ok
@@ -224,7 +230,8 @@ case "${mode}" in
 	3|4) 
 		#3 taisi toimia 04/26 tienoilla ainakin kerran
 		#4 toimi viimeksi 160426 (toisen branchin kanssa testaus)
-
+		#TODO:UUSIKSI TAAS TESTIT
+	
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
 

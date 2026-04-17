@@ -634,7 +634,8 @@ function e22_ts() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 }
 
-#170426:juttujen testaus taas menossa (VAIH)
+#170426:fktio taisi toimia tuolloin jnkn aikaa
+#TODO:uusiksi testailut
 function e22_arch() {
 	dqb "e22_arch() $1 , $2 , $3 , $4 ((((("
 
@@ -671,30 +672,21 @@ function e22_arch() {
 	echo $?
 	${sah6} ./*.deb > ./sha512sums.txt
 
-	#110426:vähietllen for-find-jekulla rat+sah ?
 
-	if [ ${3} -eq 1 ] ; then
-		${srat} -rf ${1} ./*pkgs*
-	fi
+#
+#	if [ ${3} -eq 1 ] ; then
+#		${srat} -rf ${1} ./*pkgs*
+#	fi
+#
+#	${sah6} ./reject_pkgs >> ./sha512sums.txt.1
+#	${sah6} ./accept_pkgs_? >> ./sha512sums.txt.1
+#	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
+	
+	for f in $(find . -type f -name "*pkgs*") ; do
+		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
+		${sah6} ${f} >> ./sha512sums.txt.1
+	done
 
-	${sah6} ./reject_pkgs >> ./sha512sums.txt.1
-	${sah6} ./accept_pkgs_? >> ./sha512sums.txt.1
-	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
-	#
-
-	##DONE?:jossain sopivassa välissä ao. for-loopin kanssa testailu
-	##... ideana "epx2 g + jotain + exp2 f" ?
-	##mitään kiinnostavaa taPahtunee vasta kun kohde-tdsto $2 alla	
-	##... jotenkin toisin jos tekisi (kutsuvassa koodissa?)
-#
-#	E22_E="e.tar g.tar"
-#	local t=$(basename ${1})
-#
-#	for p in ${E22_E} ; do
-#		dqb "${sah6} ./${p} ,,, "
-#		${sah6} ./${p} >> ./sha512sums.txt.1 #| grep -v ${t}
-#	done
-#
 	csleep 1
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
 
@@ -782,7 +774,7 @@ function e22_cde() {
 	dqb "e22_cde DONE()"
 }
 
-#1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO)
+#1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO?)
 #VAIH:zxcv parametrksi tälle jaseur f k tiolle tai siis glob wttuun
 
 function z1() {
