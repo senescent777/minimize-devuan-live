@@ -779,3 +779,62 @@ function e22_cde() {
 
 	dqb "e22_cde DONE()"
 }
+
+#TODO:zxcv parametrksi tälle jaseur f k tiolle tai siis glob wttuun
+
+function z1() {
+	dqb "NVDK 1b 2 secs"
+	csleep 2
+
+	${NKVD} /opt/bin/zxcv.tmp
+	${spc} /opt/bin/zxcv /opt/bin/zxcv.ÅLD
+	${spc} /opt/bin/zxcv.sig /opt/bin/zxcv.sig.ÅLD
+	${spc} /opt/bin/zxcv.sha /opt/bin/zxcv.sha.ÅLD
+
+	csleep 1
+	fasdfasd /opt/bin/zxcv.tmp
+}
+
+function z2() {
+	dqb "z2()"
+	reqwreqw /opt/bin/zxcv.tmp
+	csleep 1
+
+	${NKVD} /opt/bin/zxcv.sig
+	${NKVD} /opt/bin/zxcv.sha
+	${NKVD} /opt/bin/zxcv
+	csleep 1
+
+	fasdfasd /opt/bin/zxcv.sig
+	fasdfasd /opt/bin/zxcv.sha
+	${svm} /opt/bin/zxcv.tmp /opt/bin/zxcv
+	csleep 1
+
+	${sah6} --ignore-missing -c /opt/bin/zxcv
+	csleep 3
+
+	e22_tyg /opt/bin/zxcv
+	${sah6} /opt/bin/zxcv > /opt/bin/zxcv.sha
+}
+
+function z3() {
+	dqb "z3()"
+
+	#[ -f ${d0}/MAN1.F2ST ] && ${NKVD} ${d0}/MAN1.F2ST
+	#csleep 1
+
+	fasdfasd ${d0}/MAN1.F2ST
+	csleep 1
+
+	#HUOM.090426:EI IHAN SUORAAN NÄIN, PITÄISI EDITOIDA HAKEMISTOT POIS LISTASTA
+	if [ ! -s ${d0}/MAN1.F2ST ] ; then
+		${sr0} -tf ${tgtfile} | grep -v .tar > ${d0}/MAN1.F2ST
+		csleep 1
+	fi
+
+	${srat} -rvf ${tgtfile} ${d0}/MAN1.F2ST #vai sr0?
+
+	${scm} go-rw /opt/bin/zxcv*
+	${sco} 0:0 /opt/bin/zxcv*
+	${srat} -rvf ${tgtfile} /opt/bin/zxcv*
+}
