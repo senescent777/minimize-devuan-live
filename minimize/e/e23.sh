@@ -299,8 +299,8 @@ function e23_dm() {
 
 #	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
 #
-#	#VAIH:dpkg: dependency problems prevent configuration of libwww-perl:
-#	#VAIH:xscreensaver depends on ; however:
+
+
 
 #	libstdc++6 (>= 11), 
 #	#	${shary}  libgnutls30
@@ -312,7 +312,6 @@ function e23_dm() {
 #			${shary} xdm
 #		;;
 #		wdm)
-#			#TODO:wdm tartvitsee xserver|xserver-org (minimal_live)
 #			${shary}  #audit1 ennen case?
 #			${shary} sysvinit-utils 
 #			${shary} libpipeline1
@@ -348,10 +347,8 @@ function e23_dm() {
 #		;;
 #	esac
 #
-#	#VAIH:pitäisiköhän nämäkin junnata läpi?
-#	#Depends: perl:any, , ,,,,,,,,, liblwp-mediatypes-perl,, libnet-http-perl, libtry-tiny-perl, liburi-perl, libwww-robotrules-perl, 
-#	#  (>= 0.99.7.1), libsystemd0 (>= 243), ,  (>> 2.1.1), (>= 2:1.2.99.4),  (>= 2:1.1.4), 
-#
+
+
 #	#EI JUNALAUTTA
 #	E22_GX="netbase"
 #	E22_GX="${E22_GX} liblwp-protocol-https-perl libhttp-negotiate-perl libhtml-tagset-perl libhttp-message-perl libhttp-date-perl libhttp-cookies-perl libhtml-tree-perl libhtml-parser-perl libfile-listing-perl libencode-locale-perl"
@@ -426,7 +423,5 @@ function e23_profs() {
 #	#${shary} xserver-xorg-video-ati xserver-xorg-video-fbdev xserver-xorg-video-intel 
 #	#${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
 #
-#		#VAIH:xserver-xorg-video-* ainakin mukaan?
-##... "case l" jos kuittaisi äksän lib-jutut (tai sit boottaa minimal-liveen ja asenna x+wdm siihen) (TODO?)
-#
+
 #}
