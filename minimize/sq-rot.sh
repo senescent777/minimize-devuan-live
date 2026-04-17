@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0
+debug=1
 srcfile=""
 
 distro=$(cat /etc/devuan_version)
@@ -24,7 +24,7 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-#TODO:"$0 1 tgtfile -v" - osaako menetellä oikein?
+#VAIH:"$0 1 tgtfile -v" - osaako menetellä oikein?
 
 function parse_opts_1() {
 	dqb "rot.parse_opts_1() ${1} ((()"
@@ -40,7 +40,11 @@ function parse_opts_2() {
 	dqb "rpus.ot.parseopts_2 )) ${1} ; ${2} (("
 
 	if [ -f ${2} ] || [ -d ${2} ] ; then
-		srcfile=${2}
+		if [ -z "${srcfile}" ] ; then
+			if [ "${2}" != "-v" ] ; then			
+				srcfile=${2}
+			fi
+		fi
 	fi
 }
 
