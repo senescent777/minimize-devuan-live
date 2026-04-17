@@ -83,8 +83,8 @@ function fallback() { #tarpeellinen?
 	exit 59
 }
 
-echo "distro: ${distro}"
-sleep 5
+#echo "distro: ${distro}"
+#sleep 5
 #dqb ja csleep vielä määritelty
 
 if [ -x ${d0}/common_lib.sh ] ; then 
@@ -156,7 +156,8 @@ case ${mode} in
 #	;;
 	f) #220326:toimii, tai ainakin osasi tehdä paketin (jos testaisi uudestaan esim. 04/26 aikana?)
 	#... jos muualla kuin kehistysymp testaisi, olisiko kätevänpää?
-	#TODO:kts e22_arch() kmmnt
+		#VAIH:kts e22_arch() kmmnt
+
 		enforce_access $(whoami) ${t}
 		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
@@ -220,6 +221,7 @@ e22_cleanpkgs ${CONF_pkgdir}
 doit=1
 csleep 1
 
+#TODO:zxcv parametrksi tälle jaseur f k tiolle 
 function z1() {
 	dqb "NVDK 1b 2 secs"
 	csleep 2
@@ -260,8 +262,9 @@ function z3() {
 
 	#[ -f ${d0}/MAN1.F2ST ] && ${NKVD} ${d0}/MAN1.F2ST
 	#csleep 1
-	#fasdfasd ${d0}/MAN1.F2ST
-	#csleep 1
+
+	fasdfasd ${d0}/MAN1.F2ST
+	csleep 1
 
 	#HUOM.090426:EI IHAN SUORAAN NÄIN, PITÄISI EDITOIDA HAKEMISTOT POIS LISTASTA
 	if [ ! -s ${d0}/MAN1.F2ST ] ; then
@@ -346,7 +349,8 @@ case ${mode} in
 	g)
 		[ -v E22_GI ] || exit 95
 		#110426:tämän testaus uudestaan (paketti:onnistuu , sisältö:asentuu )
-		#TODO:kts e22_arch()
+		#VAIH:kts e22_arch()
+
 		${fib}
 		${shary} ${E22_GI}
 	;;

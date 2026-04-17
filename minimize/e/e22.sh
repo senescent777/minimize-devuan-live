@@ -631,9 +631,9 @@ function e22_ts() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 }
 
-#1450426:toimii (tiettyjen juttujen takia uusi testaus kohta?)
+#170426:juttujen testaus taas menossa
 function e22_arch() {
-	dqb "e22_arch() $1 , $2 , $3 , $4"
+	dqb "e22_arch() $1 , $2 , $3 , $4 ((((("
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 
@@ -704,7 +704,7 @@ function e22_arch() {
 	fi
 
 	psqa .
-	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x
+	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
 	[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums* ./*.tar #?
 	csleep 1
 
