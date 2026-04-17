@@ -41,7 +41,7 @@ else
 fi
 
 #pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
-${tcmd} -tf ${tgt} | grep ".deb"
+${tcmd} -tf ${tgt} | grep '.deb' | head -n 5
 sleep 1
 
 read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
@@ -61,6 +61,10 @@ else
 	cd /
 fi
 
+function process_row() {
+	${tcmd} -rvf ${1} ${2}
+}
+
 #HUOM.170426:olisi hyvä keksiä tähänkin jotain siltä varalta että merd2 ei tulisi ylimääräisiä kopioita
 
 if [ ! -s ${d0}/MAN1.F2ST ] ; then
@@ -70,18 +74,29 @@ if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	#g=$(${tcmd} -tf ${tgt} )
 	sleep 1
 	
-	#for f in ${g} ; do 
+	# ${g} ; do 
 	#	if [ -f ${f} ] ; then #josko nyt
 	#		if [ ! -h ${f} ] ; then 
 	#			${tcmd} -rvf ${tgt} ${f} #HUOM. "-uvf" KANSSA MENEE VITUIKSI JOS EI OLE TARKKANA 666 !!!
 	#			[ $? -eq 0 ] || echo "chmod | chown ?"
 	#		fi
 	#	fi
-	#done	
+	#	
 fi
 
+echo "JUST BEFOR.E PROCESSING ROWS"
+sleep 1
+
 #toimiikohan kehitysynp.tössä niinqu pitää?
-${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
+#${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
+
+for f in $(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb  ) ; do
+	if [ -f ${f} ] ; then
+		if [ ! -d ${f} ] ; then
+			process_row ${tgt} ${f}
+		fi
+	fi
+done
 
 #jotat ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4

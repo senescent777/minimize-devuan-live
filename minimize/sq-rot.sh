@@ -105,6 +105,7 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
 
 	#030426:huom. kts commn_lib , E22_M , tarpeellinen
 	#DONE:tuohon alle tar -x:ään tämän import2.sh koskeva --exclude jos mahd?
+	#... tosin profiilin importointi
 
 	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do
 		tar --exclude import2.sh -jxvf ${f}

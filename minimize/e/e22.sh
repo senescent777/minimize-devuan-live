@@ -679,9 +679,10 @@ function e22_arch() {
 	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
 	#
 
-	#TODO:jossain sopivassa välissä ao. for-loopin kanssa testailu
+	#VAIH:jossain sopivassa välissä ao. for-loopin kanssa testailu
 	#... ideana "epx2 g + jotain + exp2 f" ?
-	
+	#mitään kiinnostavaa taåahtunee vasta kun kohde-tdsto $2 alla	
+
 	E22_E="e.tar g.tar"
 	local t=$(basename ${1})
 
