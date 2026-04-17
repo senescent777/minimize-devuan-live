@@ -77,7 +77,6 @@ libxc
 libxdamage1
 libxext6
 libxi
-#
 libxkb
 #
 libgtk-3-0
@@ -124,6 +123,11 @@ libx265-199
 libxv
 #
 libzvbi0
+#
+#VAIH:ylemmäs libsox kanssa?
+glib-networking
+libsoup
+#
 libsoxr0
 #
 libpython3.11-minimal
@@ -162,10 +166,6 @@ libxmu
 libavutil57
 libavcodec59
 #
-#TODO:ylemmäs libsox kanssa?
-glib-networking
-libsoup
-#
 #assuanin kanssa jokin ongelma vai ei? (124.26)
 libassuan0
 liberror-perl
@@ -178,11 +178,12 @@ libegl-mesa0
 libegl1
 libaudit1
 #
-#TODO:libse-juttujakin yhdistellen?
-libseccomp2
+#VAIH:libse-juttujakin yhdistellen?
+#libseccomp2
 seatd
-libseat1
-libselinux1
+#libseat1
+#libselinux1
+libse
 #
 libunwind8
 libxau6
