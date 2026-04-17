@@ -782,61 +782,67 @@ function e22_cde() {
 }
 
 #1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO)
-#TODO:zxcv parametrksi tälle jaseur f k tiolle tai siis glob wttuun
+#VAIH:zxcv parametrksi tälle jaseur f k tiolle tai siis glob wttuun
 
 function z1() {
+	[ -z "${1}" ] && exit 66
 	dqb "NVDK 1b 2 secs"
 	csleep 2
 
-	${NKVD} /opt/bin/zxcv.tmp
-	${spc} /opt/bin/zxcv /opt/bin/zxcv.ÅLD
-	${spc} /opt/bin/zxcv.sig /opt/bin/zxcv.sig.ÅLD
-	${spc} /opt/bin/zxcv.sha /opt/bin/zxcv.sha.ÅLD
+	${NKVD} ${1}.tmp
+	${spc} ${1} ${1}.ÅLD
+	${spc} ${1}.sig ${1}.sig.ÅLD
+	${spc} ${1}.sha ${1}.sha.ÅLD
 
 	csleep 1
-	fasdfasd /opt/bin/zxcv.tmp
+	fasdfasd ${1}.tmp
 }
 
 function z2() {
 	dqb "z2()"
-	reqwreqw /opt/bin/zxcv.tmp
+	[ -z "${1}" ] && exit 66
+	reqwreqw ${1}.tmp
 	csleep 1
 
-	${NKVD} /opt/bin/zxcv.sig
-	${NKVD} /opt/bin/zxcv.sha
-	${NKVD} /opt/bin/zxcv
+	${NKVD} ${1}.sig
+	${NKVD} ${1}.sha
+	${NKVD} ${1}
 	csleep 1
 
-	fasdfasd /opt/bin/zxcv.sig
-	fasdfasd /opt/bin/zxcv.sha
-	${svm} /opt/bin/zxcv.tmp /opt/bin/zxcv
+	fasdfasd ${1}.sig
+	fasdfasd ${1}.sha
+	${svm} ${1}.tmp ${1}
 	csleep 1
 
-	${sah6} --ignore-missing -c /opt/bin/zxcv
+	${sah6} --ignore-missing -c ${1}
 	csleep 3
 
-	e22_tyg /opt/bin/zxcv
-	${sah6} /opt/bin/zxcv > /opt/bin/zxcv.sha
+	e22_tyg ${1}
+	${sah6} ${1} > ${1}.sha
 }
 
 function z3() {
 	dqb "z3()"
+	[ -z "${1}" ] && exit 66
+	[ -s ${2} ] || exit 67
 
-	#[ -f ${d0}/MAN1.F2ST ] && ${NKVD} ${d0}/MAN1.F2ST
-	#csleep 1
+	dqb "raps ko"
+
+	#[ -f ${3} ] && ${NKVD} ${3}
+	csleep 1
 
 	fasdfasd ${d0}/MAN1.F2ST
 	csleep 1
 
 	#HUOM.090426:EI IHAN SUORAAN NÄIN, PITÄISI EDITOIDA HAKEMISTOT POIS LISTASTA
-	if [ ! -s ${d0}/MAN1.F2ST ] ; then
-		${sr0} -tf ${tgtfile} | grep -v .tar > ${d0}/MAN1.F2ST
+	if [ ! -s ${3} ] ; then
+		${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
 		csleep 1
 	fi
 
-	${srat} -rvf ${tgtfile} ${d0}/MAN1.F2ST #vai sr0?
+	${srat} -rvf ${2} ${3}
 
-	${scm} go-rw /opt/bin/zxcv*
-	${sco} 0:0 /opt/bin/zxcv*
-	${srat} -rvf ${tgtfile} /opt/bin/zxcv*
+	${scm} go-rw ${1}*
+	${sco} 0:0 ${1}*
+	${srat} -rvf ${2} ${1}*
 }

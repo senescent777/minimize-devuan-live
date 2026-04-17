@@ -146,9 +146,7 @@ e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 #jokin varmistus vielä että iface alhaalla?
 
-
-
-case ${mode} in
+case "${mode}" in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
 #		[ -s "${tgtfile}" ] || exit 67
 #		[ -r "${tgtfile}" ] || exit 68
@@ -228,7 +226,7 @@ case "${mode}" in
 		#4 toimi viimeksi 160426 (toisen branchin kanssa testaus)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
-		z1
+		z1 /opt/bin/zxcv
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
@@ -249,8 +247,8 @@ case "${mode}" in
 		fasdfasd /opt/bin/zxcv.tmp
 
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
-		z2		
-		z3
+		z2 /opt/bin/zxcv 		
+		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
 	#280326:saa aikaiseksi paketin, sisällön testaus vielä
 	#viimeisin päivityspak ja minimal_live:xserver-paketit aiheuttivat urputusta, paketteja puuttunee
@@ -288,8 +286,7 @@ case "${mode}" in
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
-		#180426 edelleen osasi paketin muodostaa, todnäk asenytuu myös
-		#VAIH:kts e22_arch()
+		#170426 edelleen osasi paketin muodostaa, todnäk asentuu myös
 
 		${fib}
 		${shary} ${E22_GI}
