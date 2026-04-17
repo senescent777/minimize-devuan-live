@@ -146,7 +146,7 @@ e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 #jokin varmistus vielä että iface alhaalla?
 
-#1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO)
+
 
 case ${mode} in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
@@ -154,9 +154,7 @@ case ${mode} in
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
 #	;;
-	f) #220326:toimii, tai ainakin osasi tehdä paketin (jos testaisi uudestaan esim. 04/26 aikana?)
-	#... jos muualla kuin kehistysymp testaisi, olisiko kätevänpää?
-		#VAIH:kts e22_arch() kmmnt
+	f) #170426:osaa tehdä paketin edelleen
 
 		enforce_access $(whoami) ${t}
 		e22_arch ${tgtfile} ${d} ${gbk}

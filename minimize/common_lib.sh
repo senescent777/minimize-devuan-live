@@ -256,7 +256,7 @@ function message() {
 	sleep 1
 }
 
-#TODO:jatkosäätöä josqs lähiaikoina
+#TODO:jatkosäätöä josqs lähiaikoina?
 function psqa() {
 	dqb "c.Q () () () () ${1} ;;;"
 	csleep 1
@@ -333,6 +333,7 @@ function psqa() {
 #... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
 #efk2 2. param ja cefgh voisi liittyä asiaan
 
+#TODO:tapaus e.tar, pitäisi tarkistaa pikemminkin $file.sha
 #TODO:"palautusarvo-tarkistus" uusiksi josqs
 #TODO:jatkossa tämä tai kutsuva koodi viskomaan validit paketit tmp-hmistoon jatkoa vrten
 function common_pp3() {

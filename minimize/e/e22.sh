@@ -633,7 +633,7 @@ function e22_ts() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 }
 
-#170426:juttujen testaus taas menossa
+#170426:juttujen testaus taas menossa (VAIH)
 function e22_arch() {
 	dqb "e22_arch() $1 , $2 , $3 , $4 ((((("
 
@@ -681,18 +681,19 @@ function e22_arch() {
 	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
 	#
 
-	#VAIH:jossain sopivassa välissä ao. for-loopin kanssa testailu
-	#... ideana "epx2 g + jotain + exp2 f" ?
-	#mitään kiinnostavaa taåahtunee vasta kun kohde-tdsto $2 alla	
-
-	E22_E="e.tar g.tar"
-	local t=$(basename ${1})
-
-	for p in ${E22_E} ; do
-		dqb "${sah6} ./${p} ,,, "
-		${sah6} ./${p} | grep -v ${t} >> ./sha512sums.txt
-	done
-
+	##DONE?:jossain sopivassa välissä ao. for-loopin kanssa testailu
+	##... ideana "epx2 g + jotain + exp2 f" ?
+	##mitään kiinnostavaa taPahtunee vasta kun kohde-tdsto $2 alla	
+	##... jotenkin toisin jos tekisi (kutsuvassa koodissa?)
+#
+#	E22_E="e.tar g.tar"
+#	local t=$(basename ${1})
+#
+#	for p in ${E22_E} ; do
+#		dqb "${sah6} ./${p} ,,, "
+#		${sah6} ./${p} >> ./sha512sums.txt.1 #| grep -v ${t}
+#	done
+#
 	csleep 1
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
 
@@ -780,6 +781,7 @@ function e22_cde() {
 	dqb "e22_cde DONE()"
 }
 
+#1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO)
 #TODO:zxcv parametrksi tälle jaseur f k tiolle tai siis glob wttuun
 
 function z1() {
