@@ -501,6 +501,7 @@ function CB01() {
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
 
+	#180426:josko sittenkin kikkailisi ao. blokin -> cefgh ?
 	if [ -s ${1}/g.tar ] ; then
 		#JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen
 		#... tai ilman gpg:tä voi tehdä vain sha-tarq ja sekin oikeastaan tapahtuu jo kutsuvassa koodissa

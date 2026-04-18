@@ -32,6 +32,7 @@ function usage() {
 }
 
 #TODO:jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
+#... joko jo 190426?
 
 if [ $# -gt 1 ] ; then
 	mode=${1}
@@ -223,7 +224,7 @@ case "${mode}" in
 	;;
 	3|4) 
 		#3 taisi toimia 04/26 tienoilla ainakin kerran (TODO:e tai 3 kanssa ne e22_a()- kikkailut?)
-		#4 VAIH:UUSIKSI TAAS TESTI (180426, vissiin uusi pak roimii)
+		#4 toimi viimeksi 180426
 		#(merd2 tst myöhemmin)
 	
 		[ -v CONF_default_arhcive3 ] || exit 66
@@ -296,6 +297,8 @@ case "${mode}" in
 	l)
 		#1104236:desktop_live:n kanssa onnistui jo paketin asennus
 		#minimal_live:n kanssa ei
+
+		#180426:"libx11-xcb1:amd64 depends on libx11-6 " , modatun kiekon kanssa, tekisikö jotain?
 
 		csleep 1
 		[ -v CONF_dm ] || exit 77
