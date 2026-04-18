@@ -212,7 +212,7 @@ e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
 #HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun jossia n tilanteessa
-[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
+#[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar #180426:tilapäisesti jemmaan kokeilun takia, takaisin josqs
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 doit=1
 csleep 1
@@ -251,9 +251,7 @@ case "${mode}" in
 		z2 /opt/bin/zxcv 		
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
-	#280326:saa aikaiseksi paketin, sisällön testaus vielä
-	#viimeisin päivityspak ja minimal_live:xserver-paketit aiheuttivat urputusta, paketteja puuttunee
-	#160426:josko taas vähitellen u:n kanssa testit? (TODO)
+	#VAIH:testaus (180426)
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"

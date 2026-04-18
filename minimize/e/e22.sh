@@ -650,10 +650,11 @@ function e22_arch() {
 	dqb "pars ok"
 	csleep 1
 	local p=$(pwd)
-
 	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
+
 	if [ -f ${2}/sha512sums.txt ] ; then
 		${NKVD} ${2}/sha512sums.txt*
+		csleep 1
 	fi
 
 	local c
@@ -677,6 +678,16 @@ function e22_arch() {
 		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
 		${sah6} ${f} >> ./sha512sums.txt.1
 	done
+
+	csleep 1
+	#tämä leikki takaisin kuitenkin 180426
+	t=$(basename ${1})
+
+	for f in e.tar g.tar ; do
+		dqb "sah6 ./${f}"
+		${sah6} ./${f} >> ./sha512sums.txt.1 # | grep -v ${t} 
+	done
+	#
 
 	csleep 1
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3

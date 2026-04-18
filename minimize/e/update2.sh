@@ -70,18 +70,7 @@ function process_row() {
 if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb > ${d0}/MAN1.F2ST
 	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
-
-	#g=$(${tcmd} -tf ${tgt} )
 	sleep 1
-	
-	# ${g} ; do 
-	#	if [ -f ${f} ] ; then #josko nyt
-	#		if [ ! -h ${f} ] ; then 
-	#			${tcmd} -rvf ${tgt} ${f} #HUOM. "-uvf" KANSSA MENEE VITUIKSI JOS EI OLE TARKKANA 666 !!!
-	#			[ $? -eq 0 ] || echo "chmod | chown ?"
-	#		fi
-	#	fi
-	#	
 fi
 
 echo "JUST BEFOR.E PROCESSING ROWS"
@@ -92,7 +81,7 @@ sleep 1
 
 for f in $(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb  ) ; do
 	if [ -f ${f} ] ; then
-		if [ ! -d ${f} ] ; then
+		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
 			process_row ${tgt} ${f}
 		fi
 	fi

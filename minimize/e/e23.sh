@@ -108,7 +108,7 @@ function e23_other_pkgs() {
 
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 
-#280326:saa aikaiseksi paketin, sisällön testaus vielä
+#VAIH:testaus (180426)
 function e23_upgp() {
 	dqb " e23_upgp() "
 
@@ -129,7 +129,7 @@ function e23_upgp() {
 	csleep 1
 }
 
-#280326:saa aikaiseksi paketin, sisällön testaus vielä (tai siis)
+#VAIH:testaus (180426)
 function e23_upgp2() {
 	[ -z "${1}" ] && exit 1 
 	[ -z "${2}" ] && exit 11
