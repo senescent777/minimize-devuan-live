@@ -58,14 +58,15 @@ libthai0
 libfreetype
 libxf
 #
-libx11-6
-libx11-xcb1
+#libx11-6
+#libx11-xcb1
+libx11-
+#
 libxr
 libpango-1
 libpangoft2
 libpangocairo
 libpangoxft
-#
 libff
 #
 libwayland-client0
@@ -117,18 +118,19 @@ libswresample4
 libtheora0
 libtwolame0
 #
-libx264-164
+#libx264-164
 libnuma1
-libx265-199
+#libx265-199
+libx26
 libxv
 #
 libzvbi0
 #
-#VAIH:ylemmäs libsox kanssa?
+#HUOM.libsdwresample ja libsox ennen libav?
 glib-networking
-libsoup
-#
-libsoxr0
+#libsoup
+#libsoxr0
+libso
 #
 libpython3.11-minimal
 libpython3.11-stdlib
@@ -137,7 +139,6 @@ libgtk2.0-common
 libgtk2.0-0
 #
 libnftables
-#
 liblqr-1-0
 libde265-0
 libaom3
