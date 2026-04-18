@@ -1,8 +1,8 @@
 #!/bin/bash
-
+#jotain oletuksia kunnes oikea konftdsto saatu lotottua
 debug=0 #1
 distro=$(cat /etc/devuan_version)
-
+# | cut -d '/' -f 1) #160126 cut-kikkailu pois sotkemasta, muualla kun menee toisin
 d0=$(pwd)
 d=${d0}/${distro}
 mode=-2
@@ -16,7 +16,7 @@ function usage() {
 	echo "$0 u <tgtfile> [distro?] [-v]: makes upgrade_pkg"
 	echo "$0 e <tgtfile> [distro?] [-v]: archives the Essential .deb packages"
 	echo
-
+	
 	echo "$0 l <tgtfile> [-v] [ -d preferred_displaymanager ] : makes a packaged containing .deb-files for a (preferred) displaymanager"
 
 	#$d pitäisi alustaa ennen tätä
@@ -79,18 +79,17 @@ function parse_opts_2() {
 #parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
-function fallback() { #tarpeellinen?
+function fallback() {
 	exit 59
 }
 
-#echo "distro: ${distro}"
-#sleep 5
+echo "distro: ${distro}"
+sleep 5
 #dqb ja csleep vielä määritelty
 
 if [ -x ${d0}/common_lib.sh ] ; then 
 	. ${d0}/common_lib.sh
 else
-	#johdonmukaisuus virhekoodeissa olisi tietty kiva
 	exit 56
 fi
 
@@ -116,6 +115,7 @@ fi
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
 
+#dirnamen kanssa ei oikein toiminut aiemmin
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
 	[ $? -gt 0 ] && exit 66
@@ -128,6 +128,9 @@ else
 	echo "NO BACKEND FOUND"
 	exit 58
 fi
+
+echo "AFTER 1NCLUD1NG FILEZ"
+sleep 2
 
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 [ -z "${tgtfile}" ] && exit 98
@@ -143,19 +146,15 @@ e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 #jokin varmistus vielä että iface alhaalla?
 
-case "${mode}" in
-#	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
+case ${mode} in
+#	rp) #080326:toistaiseksi jemmaan, kiukuttelua
 #		[ -s "${tgtfile}" ] || exit 67
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
-#17426:josqs ta,aisin kommenteista?
 #	;;
-	f) #170426:osaa tehdä paketin edelleen
+	f) #220326:toimii, tai ainakin osasi tehdä paketin
 		enforce_access $(whoami) ${t}
 		e22_arch ${tgtfile} ${d} ${gbk}
-		
-		#HUOM! EIPÄ KIKKAILLA sha512sums.txt KANSSA, tar.sha PAREMPI IDEA
-		#, PITÄÄ VAIN SAADA AIKAISEKSI common_lib.ah HUOMIOIMAAN SE
 	;;
 	q)
 		#170326:tekee edelleen arkiston, sisältö kenties ok
@@ -165,7 +164,7 @@ case "${mode}" in
 
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
-	c) #ainakin 160426 tIEnoilla toimi viimeksi
+	c) #290326:teki taas paketin, sisältö:VAIH (ehkä ok jo)
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
 	p) #170326:lienee kunnossa
@@ -212,34 +211,44 @@ e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
 #HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun jossia n tilanteessa
-#[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar #180426:tilapäisesti jemmaan kokeilun takia, takaisin josqs
+[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 doit=1
 csleep 1
 
-case "${mode}" in
+case ${mode} in
 	0)
 		exit 97
 	;;
 	3|4) 
-		#3 taisi toimia 04/26 tienoilla ainakin kerran
-		#4 toimi viimeksi 160426 (toisen branchin kanssa testaus)
-		#TODO:UUSIKSI TAAS TESTIT
-	
+		#3 toiminnan testaus menossa taas (020426)
+		#4 toiminee kanssa (180326, pl. import2 viimeaikaiset kiukuttelut)
+		
 		[ -v CONF_default_arhcive3 ] || exit 66
-		z1 /opt/bin/zxcv
+		dqb "NVDK 1b 2 secs"
+		csleep 2
 
+		${NKVD} /opt/bin/zxcv.tmp
+		${spc} /opt/bin/zxcv /opt/bin/zxcv.ÅLD
+		${spc} /opt/bin/zxcv.sig /opt/bin/zxcv.sig.ÅLD
+		${spc} /opt/bin/zxcv.sha /opt/bin/zxcv.sha.ÅLD
+
+		csleep 1
+		fasdfasd /opt/bin/zxcv.tmp
+
+		#020426:ao. rivin kanssa muutokasi vaiei?
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
-		reqwreqw /opt/bin/zxcv.tmp
 
+		reqwreqw /opt/bin/zxcv.tmp
+	
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
+		if [ ${mode} -eq 3 ] ; then #TODO:testgris-ehto mukaan?
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
 			doit=0
 		fi
-
+		
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
 
@@ -248,119 +257,86 @@ case "${mode}" in
 		fasdfasd /opt/bin/zxcv.tmp
 
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
-		z2 /opt/bin/zxcv 		
-		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
+		reqwreqw /opt/bin/zxcv.tmp
+		csleep 1
+
+		${NKVD} /opt/bin/zxcv.sig
+		${NKVD} /opt/bin/zxcv.sha
+		${NKVD} /opt/bin/zxcv
+		csleep 1
+
+		fasdfasd /opt/bin/zxcv.sig
+		fasdfasd /opt/bin/zxcv.sha
+		${svm} /opt/bin/zxcv.tmp /opt/bin/zxcv
+		csleep 1
+
+		${sah6} --ignore-missing -c /opt/bin/zxcv
+		csleep 3
+		
+		e22_tyg /opt/bin/zxcv
+		${sah6} /opt/bin/zxcv > /opt/bin/zxcv.sha
+		
+		reqwreqw /opt/bin/zxcv.sig
+		reqwreqw /opt/bin/zxcv.sha #pointtia tämmöisessä?
+		csleep 1
+			
+		${srat} -rvf ${tgtfile} /opt/bin/zxcv*
 	;;
-	#VAIH:testaus (180426)
+	#280326:saa aikaiseksi paketin, sisällön testaus vielä
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
 		csleep 1
-
+	
 		e23_upgp
 		${sifd} ${CONF_iface}
 		csleep 1
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
-	e) 
-		#... chattr olisi kYllä paikallaan etteI vahingossa spedeilisi
-		#070426:paketin sisältö vaikuttaa toimivan minimal_liven alaisuudessa, entä desktop? sielläkin
-		#... oliko jostain libpam- paketeista ulinaa? tuliko libcom-err2 mukaan?
-
-		${shary} ${E22_GS}
-		${shary} ${E22_GM}
-		csleep 3
-
+	e) #290326:ehkä jopa toimii koska "$0 3"
 		message
 		csleep 2
-
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e23_other_pkgs ${CONF_dnsm}
 	;;
-	t)
+	t) 
 		#290326:osaa paketin tehdä, todnäk asentuu myös
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-	;;
+	;;	
 	g)
-		[ -v E22_GI ] || exit 95
-		#170426 edelleen osasi paketin muodostaa, todnäk asentuu myös
-
-		${fib}
-		${shary} ${E22_GI}
+	#230326:edelleen osaa paketin tehdä
+		${shary} ${E22GI}
 	;;
-	l)
-		#1104236:desktop_live:n kanssa onnistui jo paketin asennus
-		#minimal_live:n kanssa ei
-
+	l) #290326:toimii edelleen/taas
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
 	;;
 	n)
 		#VAIH:ntp-jutut takaisin josqs?
+
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;
-#	x)
-#		#TODO:uusiksi vain koko pasq?
-#		e23_xyz
-#	;;
 	*)
 		exit
 	;;
 esac
 
-function e22_dblock() { #140426:lienee toimiva tämä fktio
-	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
-
-	[ -z "${1}" ] && exit 14
-	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
-	#[ -w ${1} ] || exit 16 #ei näin?
-	[ -z "${2}" ] && exit 11
-	[ -d ${2} ] || exit 22
-	[ -w ${2} ] || exit 23
-	[ -z "${3}" ] && exit 33
-	[ -d ${3} ] || exit 34
-	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
-	[ -z "${4}" ] && exit 37
-
-	dqb ".PARS-OK"
-	csleep 1
-
-	[ ${debug} -eq 1 ] && pwd
-	#aval0n #tarpeellinen?
-	ls -la ${3}/*.deb | wc -l
-	
-	#HUOM.160326:ao. for-blokki omaksi fktioksi?
-	for s in ${PART175_LIST} ; do
-		${sharpy} ${s}*
-		${NKVD} ${3}/${s}*.deb
-	done
-	
-	local t
-	t=$(echo ${2} | cut -d "/" -f 1-6) #joitain tr-jekkuja vielä?
-	e22_ts ${t} ${3}
-	dqb "JST B3F0R3 3NF0RC3"
-	csleep 1
-	
-	enforce_access $(whoami) ${t}
-	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-	csleep 1
-
-	e22_arch ${1} ${2} ${4}
-	e22_cleanpkgs ${2}
-}
-
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
+	#140326:pitäisiköhän tämä kohta muuttaa? miten?
+
 	#HUOM.11326:d-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
-
+	#... voisi sitäpaitsi kys fktion räjäyttää auki q käytössä vain 1 paikasta
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
-	e22_ftr ${d}/f.tar
-	#z3?	
 
+	e22_ftr ${d}/f.tar
+	#140326:pitäisiköhän yo. kohta muuttaa? miten? miksi?
+
+	e22_ftr ${d}/f.tar  #140326:pitäisiköhän tämä kohta muuttaa?
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
 fi

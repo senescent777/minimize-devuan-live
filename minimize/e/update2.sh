@@ -5,6 +5,10 @@ tcmd=$(which tar)
 [ -z "${tcmd}" ] && exit 11
 [ -x ${tcmd} ] || exit 12
 
+#VAIH:tämä kikkare roskikseen, pitäisi keksiä parempiq ei kerran jaksa kesä/talviajan/lokaalien kanssa kikkailla
+#... O(2**n) tllennustilan suhteen olisi 1 juttu kanssa mikä hiertää
+#... "tar -T" sietäisi kokeilla ensin /entä -g ?
+
 spc=$(which cp)
 [ -z "${spc}" ] && exit 13
 [ -x ${spc} ] || exit 14
@@ -41,7 +45,7 @@ else
 fi
 
 #pelkästään .deb-paketteja sisältävien kalojen päivityksestä pitäisi urputtaa	
-${tcmd} -tf ${tgt} | grep '.deb' | head -n 5
+${tcmd} -tf ${tgt} | grep .deb
 sleep 1
 
 read -p "U R ABT TO UPDATE ${tgt} , SURE ABOUT THAT?" confirm
@@ -56,36 +60,23 @@ if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	echo "YLIULIULI"
 	cd ${CONF_testgris}
 
-	#HUOM:-C olisi myös keksitty
+	#TODO?:-C olisi myös keksitty
 else
 	cd /
 fi
 
-function process_row() {
-	${tcmd} -rvf ${1} ${2}
-}
+#g=$(${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar )
+#sleep 1
+#
+#for f in ${g} ; do #090426:ehkä tuota mazn1.jutskaa hyödyntäen saisi for-loopin takaisin
+#	if [ -f ${f} ] ; then #josko nyt
+#		if [ ! -h ${f} ] ; then 
+#			${tcmd} -rvf ${tgt} ${f} #HUOM. "-uvf" KANSSA MENEE VITUIKSI JOS EI OLE TARKKANA 666 !!!
+#			[ $? -eq 0 ] || echo "chmod | chown ?"
+#		fi
+#	fi
+#done
 
-#HUOM.170426:olisi hyvä keksiä tähänkin jotain siltä varalta että merd2 ei tulisi ylimääräisiä kopioita
-
-if [ ! -s ${d0}/MAN1.F2ST ] ; then
-	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb > ${d0}/MAN1.F2ST
-	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
-	sleep 1
-fi
-
-echo "JUST BEFOR.E PROCESSING ROWS"
-sleep 1
-
-#toimiikohan kehitysynp.tössä niinqu pitää?
-#${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
-
-for f in $(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb  ) ; do
-	if [ -f ${f} ] ; then
-		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
-			process_row ${tgt} ${f}
-		fi
-	fi
-done
-
+${tcmd} -T ${d0}/MAN1.F2ST -f ${tgt} -rv
 #jotat ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4
