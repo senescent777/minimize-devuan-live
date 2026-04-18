@@ -40,6 +40,12 @@ function ocs() {
 	fi
 }
 
+#se suuri mölinä jos resolv.conf puuttuu
+if [ ! -f /etc/resolv.conf ] ; then
+	echo "ULIULIULI 666"
+	sleep 99
+fi
+
 for x in iptables ip6tables iptables-restore ip6tables-restore ; do
 	#dqb ${x}
 	ocs ${x}
@@ -77,7 +83,7 @@ if [ ${c} -gt 0 ] || [ ${c2} -gt 0 ] ; then
 
 	#jatkossa jokin array voisi sisltää nuo
 	for t in e b u v c f ; do
-		#${ipt} -P ${t} DROP
+		#${ipt} -P ${t} DROP #miski -P kommenteissa? NO TIETENKIN KOSKA 666!!!
 		#dqb $?
 
 		${ipt} -F ${t}
