@@ -42,7 +42,6 @@ xfonts
 lsb-base
 man-db
 #
-#
 x11
 xorg
 #route ennne dhcp

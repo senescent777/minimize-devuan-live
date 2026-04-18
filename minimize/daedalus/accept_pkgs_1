@@ -5,14 +5,17 @@ libgomp
 libgdk-pixbuf2.0-common
 libgdk-pixbuf-2.0-0
 libgdk-pixbuf-2.0-bin
+libgdbm
 librsvg2-2
 librsvg2-common
 libstdc
 #
-#110426:libatk-at_spi-jutut jo kunnossa vai ei?
 libatspi2
+libgl
+#
 at-spi
 libatk1.0-0
+libdbus-1-3
 libatk-bridge
 #
 libavahi-common-data
@@ -22,72 +25,80 @@ libavahi-client3
 zlib1g
 libkrb5support0
 libkrb5-3
-#gss ja krb5 olisi hyvä olla oikea versio (7426 lienee jo kunnossa)
 libgssapi-krb5
 libgnutls30
 libcups
 libtirpc-common
 libtirpc3
 #
-#gtk3
-#110426:gtk3-jutut kunnossa vai ei? ehkä
+dconf-service 
+libdconf1
 dconf-gsettings-backend
 gsettings-backend
+gsettings-desktop-schemas
+#
+xkb-data
 libgtk-3-common
 #
-libx11-6
-libx11-xcb1
-libxft2
-#
-#joko jo?
-libfont
-libglib2.0
-#
-#
-#
-libgif7
-#
-#
-wmaker-common
-#
-#
+gtk-update-icon-cache
 adwaita-icon-theme
 hicolor-icon-theme
+libxml
 shared-mime-info
-libatk-bridge
+#
 libcairo
 libcolord2
 libepoxy
 libfribidi0
+libfont
 libharfbuzz0b
-#pangocairo oli tässä aiemmin
-libxcomposite1
-libxcursor
+#
+fontconfig
+libthai0
+libfreetype
+libxf
+#
+#libx11-6
+#libx11-xcb1
+libx11-
+#
+libxr
+libpango-1
+libpangoft2
+libpangocairo
+libpangoxft
+libff
+#
+libwayland-client0
+libwayland-server0
+libwayland-egl1
+libwayland-cursor0
+#
+libxc
 libxdamage1
 libxext6
-libxfixes3
 libxi
 libxkb
-libxr
-libgtk-3-0
 #
-gtk-update-icon-cache
+libgtk-3-0
 libgtk-3-bin
 #
-#110426:vte-jutut jo kunnossa? ( -> , ,,  ,  , , pcre2,  systemd, zlib )
-libcairo2
-libicu72
+libgif7
+wmaker-common
+#
+libbsd0
+x11-common
+#
 libpcre2-8-0
 libvte-2.91-common
 libvte
-#oikeat versiot libpam-paketeista saattaa olla 7426
-libxml
 libpam-modules-bin
 libpam-modules_
 #
 perl-modules-
 libperl
 perl-base
+#TODO:libxml-parser-per, mitä sen kanssa tekee?
 #
 libmfx1
 libva-drm2
@@ -107,12 +118,20 @@ libsvtav1enc1
 libswresample4
 libtheora0
 libtwolame0
-libva2
-libx264-164
-libxvidcore4
+#
+#libx264-164
+libnuma1
+#libx265-199
+libx26
+libxv
+#
 libzvbi0
-libsoxr0
-libswresample4
+#
+#HUOM.libsdwresample ja libsox ennen libav?
+glib-networking
+#libsoup
+#libsoxr0
+libso
 #
 libpython3.11-minimal
 libpython3.11-stdlib
@@ -120,28 +139,18 @@ libpython3.11-stdlib
 libgtk2.0-common
 libgtk2.0-0
 #
-#jälkimmäInen voisi olla accept2_sessa jatqssa?
 libnftables
-#
-#
-#
-libfftw3
 liblqr-1-0
 libde265-0
-#
 libaom3
 libdav1d6 
-libnuma1
-libx265-199
+#
 libheif1
 libopenjp2-7
 #
+#näiden suhteen jotain?:   x11-utils x11-apps (vielä 120426?)
 #
-#TODO:näiden suhteen jotain:   x11-utils x11-apps
-#libgomp1,libbz2 pitäisi olla yähän menbnessä?
 imagemagick-6-common
-libfftw3-double3
-libfreetype6
 libjbig0
 libjpeg62-turbo
 liblcms2-2
@@ -149,13 +158,6 @@ libltdl7
 liblzma5
 libpng16-16
 libtiff6
-libxml2
-#
-#
-#
-#
-#
-#
 #
 #raster6 varten
 libxpm4
@@ -163,82 +165,61 @@ libxmu
 #
 #huom.WINGS TARVITSEE WRASTERIN
 #
-#
 libavutil57
 libavcodec59
 #
-libdbus-1-3
-#
-#glib-networking:amd64 depends on gsettings-desktop-schemas
-gsettings-desktop-schemas
-#
-#libsoup-3.0-0:amd64 depends on glib-networking 
-glib-networking
-libsoup
+#assuanin kanssa jokin ongelma vai ei? (124.26)
 libassuan0
-#täm,ä jo ok 110426?
 liberror-perl
 #
-#ennen äksää (030426) (myös e23:seen mukaan wayland-s ?)
 libgbm1
+libdrm
+libexpat1
+libxshmfence1
 libegl-mesa0
 libegl1
-#
 libaudit1
-libbsd0
-libgl
-libseat1
-libselinux1
+#
+#VAIH:libse-juttujakin yhdistellen?
+#libseccomp2
+seatd
+#libseat1
+#libselinux1
+libse
+#
 libunwind8
 libxau6
-libxcvt0
 libxdmcp6
-libxfont2
 #
 libxaw7
-libxcb
 libxt
-libxv1
 libxx
 libsm
-libfreetype
 libice6
 libtinfo6
-libxshmfence1
 libpixman
 libpciaccess
-libgl1 #turha tässä vai ei?
 libgcrypt20
-#miten ao. kirj. ankssa?
 libeudev
-libdrm
 #
 #vissiin gcc-12/cpp-12? aiemmaksi?
 libisl
 #
-#nftables
-libnftables
-#
 #iproute2 varte?
-#libgssapi objo aiemmin (cap2-bin erikseen?)
 libcap2
+libcap-ng0
 #
 #debconf varten?
 libtext-wrapi18
 libfs6
-libxkbfile1
-libsm6
-libxcursor1
 #
-#UUSI YRITYS 110426 PRKL
-libpango-1
-libpangoft2
-libpangocairo
-libpangoxft
-libwayland
 libwebp
 libwutil5
 libmagickcore-6
 libmagickwand
+libutempter0
 libwraster
 libwings3
+#libmd0?
+libncursesw6
+libproc2-0

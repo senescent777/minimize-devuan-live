@@ -1,14 +1,16 @@
+#eudev
+#160126:nytkö sitten niinpäin että pitääkin olla kommenteissa kaikki patsi gpgv?
+#udev
+#xserver
+#dbus
+#initramfs
+#live
+#e2fsprogs
 #
 #dirmngr joihinkin juttuihin tämä suorastaan tarvitaan, gpgv tuntuu vain sotkevan
 gpgv
 #
+#python3-pil-jutut jemmaan 090226, loppuu purpatus prkl
 python3-pil
-#
-#250226:joillain modatuilla kiekoilla tuli näistä ulinaa:
-libswresample4
-libavutil57
-libavcodec59
-#
-#uutena 140326
-grub
-mutt
+#VAIH:libav mukaan vai ei? (avutil ja avcodec aiheuttavat härdelliä, nopeampi vain karsia)
+libav
