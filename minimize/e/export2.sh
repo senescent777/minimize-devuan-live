@@ -83,8 +83,8 @@ function fallback() { #tarpeellinen?
 	exit 59
 }
 
-echo "distro: ${distro}"
-sleep 5
+#echo "distro: ${distro}"
+#sleep 5
 #dqb ja csleep vielä määritelty
 
 if [ -x ${d0}/common_lib.sh ] ; then 
@@ -129,9 +129,6 @@ else
 	exit 58
 fi
 
-echo "AFTER 1NCLUD1NG FILEZ"
-sleep 2
-
 #https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 [ -z "${tgtfile}" ] && exit 98
 t=$(echo ${d} | cut -d '/' -f 1-5)
@@ -146,17 +143,19 @@ e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 #jokin varmistus vielä että iface alhaalla?
 
-#1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO)
-
-case ${mode} in
+case "${mode}" in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
 #		[ -s "${tgtfile}" ] || exit 67
 #		[ -r "${tgtfile}" ] || exit 68
 #		e22_rpg ${tgtfile} ${d}
+#17426:josqs ta,aisin kommenteista?
 #	;;
-	f) #220326:toimii, tai ainakin osasi tehdä paketin (jos testaisi uudestaan)
+	f) #170426:osaa tehdä paketin edelleen
 		enforce_access $(whoami) ${t}
 		e22_arch ${tgtfile} ${d} ${gbk}
+		
+		#HUOM! EIPÄ KIKKAILLA sha512sums.txt KANSSA, tar.sha PAREMPI IDEA
+		#, PITÄÄ VAIN SAADA AIKAISEKSI common_lib.ah HUOMIOIMAAN SE
 	;;
 	q)
 		#170326:tekee edelleen arkiston, sisältö kenties ok
@@ -166,7 +165,7 @@ case ${mode} in
 
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
-	c) #ainakin 030426 tIEnoilla toimi viimeksi
+	c) #ainakin 160426 tIEnoilla toimi viimeksi
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
 	p) #170326:lienee kunnossa
@@ -180,7 +179,7 @@ case ${mode} in
 	;;
 #	b)
 #		#230326:tekee jo jotain, vielä sietää miettiä onko siinä pointtia mitä tekee
-#		for f in $(find ${d0} -type f -name '*lib.sh') ; do
+#		for f in $(find ${d0} -type f -name "*lib.sh") ; do
 #			e22_ftr ${f}
 #		done
 #	;;
@@ -213,77 +212,22 @@ e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
 #HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun jossia n tilanteessa
-[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
+#[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar #180426:tilapäisesti jemmaan kokeilun takia, takaisin josqs
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 doit=1
 csleep 1
 
-function z1() {
-	dqb "NVDK 1b 2 secs"
-	csleep 2
-
-	${NKVD} /opt/bin/zxcv.tmp
-	${spc} /opt/bin/zxcv /opt/bin/zxcv.ÅLD
-	${spc} /opt/bin/zxcv.sig /opt/bin/zxcv.sig.ÅLD
-	${spc} /opt/bin/zxcv.sha /opt/bin/zxcv.sha.ÅLD
-
-	csleep 1
-	fasdfasd /opt/bin/zxcv.tmp
-}
-
-function z2() {
-	dqb "z2()"
-	reqwreqw /opt/bin/zxcv.tmp
-	csleep 1
-
-	${NKVD} /opt/bin/zxcv.sig
-	${NKVD} /opt/bin/zxcv.sha
-	${NKVD} /opt/bin/zxcv
-	csleep 1
-
-	fasdfasd /opt/bin/zxcv.sig
-	fasdfasd /opt/bin/zxcv.sha
-	${svm} /opt/bin/zxcv.tmp /opt/bin/zxcv
-	csleep 1
-
-	${sah6} --ignore-missing -c /opt/bin/zxcv
-	csleep 3
-
-	e22_tyg /opt/bin/zxcv
-	${sah6} /opt/bin/zxcv > /opt/bin/zxcv.sha
-}
-
-function z3() {
-	dqb "z3()"
-
-	#[ -f ${d0}/MAN1.F2ST ] && ${NKVD} ${d0}/MAN1.F2ST
-	#csleep 1
-	#fasdfasd ${d0}/MAN1.F2ST
-	#csleep 1
-
-	#HUOM.090426:EI IHAN SUORAAN NÄIN, PITÄISI EDITOIDA HAKEMISTOT POIS LISTASTA
-	if [ ! -s ${d0}/MAN1.F2ST ] ; then
-		${sr0} -tf ${tgtfile} | grep -v .tar > ${d0}/MAN1.F2ST
-		csleep 1
-	fi
-
-	${srat} -rvf ${tgtfile} ${d0}/MAN1.F2ST #vai sr0?
-
-	${scm} go-rw /opt/bin/zxcv*
-	${sco} 0:0 /opt/bin/zxcv*
-	${srat} -rvf ${tgtfile} /opt/bin/zxcv*
-}
-
-case ${mode} in
+case "${mode}" in
 	0)
 		exit 97
 	;;
 	3|4) 
-		#3 taisi toimia 04/26 tienoilla ainakin kerran
-		#4 toimi viimeksi 160426 (toisen branchin kanssa testaus)
-
+		#3 taisi toimia 04/26 tienoilla ainakin kerran (TODO:e tai 3 kanssa ne e22_a()- kikkailut?)
+		#4 VAIH:UUSIKSI TAAS TESTI (180426, vissiin uusi pak roimii)
+		#(merd2 tst myöhemmin)
+	
 		[ -v CONF_default_arhcive3 ] || exit 66
-		z1
+		z1 /opt/bin/zxcv
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
@@ -304,12 +248,13 @@ case ${mode} in
 		fasdfasd /opt/bin/zxcv.tmp
 
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
-		z2		
-		z3
+		z2 /opt/bin/zxcv 		
+		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
-	#280326:saa aikaiseksi paketin, sisällön testaus vielä
-	#viimeisin päivityspak ja minimal_live:xserver-paketit aiheuttivat urputusta, paketteja puuttunee
-	#160426:josko taas vähitellen u:n kanssa testit? (TODO)
+	#VAIH:testaus (180426) (osasi paketin muodostaa, asennusvaih pientä nalkutusta)
+	#dpkg: dependency problems prevent configuration of libxml-parser-perl:
+ 	#libxml-parser-perl depends on perl  however:
+
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
@@ -343,7 +288,8 @@ case ${mode} in
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
-		#110426:tämän testaus uudestaan (paketti:onnistuu , sisältö:asentuu )
+		#170426 edelleen osasi paketin muodostaa, todnäk asentuu myös
+
 		${fib}
 		${shary} ${E22_GI}
 	;;

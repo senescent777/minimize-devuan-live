@@ -56,6 +56,7 @@ function e22_hdr() {
 #tark-. olla priv fktio
 #170326:taitaa olla toimiva fktio nykyään (ellei toisin todisteta)
 #290326:toimii edelleen?
+
 function e22_tyg() {
 	dqb " e22_tyg()"
 
@@ -115,11 +116,15 @@ function e22_ftr() {
 	csleep 1
 }
 
-#20426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
+#020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
+#... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf
+
 function e22_pre1() {
 	dqb "e22_pre1()"
+
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 66
+
 	csleep 1
 	dqb "pars.0k"
 	csleep 1
@@ -149,7 +154,7 @@ function e22_pre1() {
 #...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 #HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
 
-#VAIH:testailut uusiksi (120426)
+#170426:josko esim. toimisi (resolv.conf kanssa vielä jotain?)
 function e22_pre2() {
 	echo "per2..."
 	[ -z "${1}" ] && exit 66
@@ -172,10 +177,8 @@ function e22_pre2() {
 	if [ -d ${1} ] ; then
 		echo $?
 		csleep 1
-
 		#280326:tilapäinen viritys kunnes x? mikä?
-		#VAIH:vähän parempi jos tarkistaisi että kyseessä nimenomaan tieDosto eikä linkki (JOKOJO 110426?)
-
+		
 		if [ -d /etc/resolv.conf ] ; then
 			echo "D"
 		else
@@ -299,8 +302,9 @@ function e22_home_pre() {
 
 	csleep 1
 
-	#080426:osilikohan okieutedt ok oj? kaikilta w pois vielä?	(TODO?)
-	${scm} go-rw /opt/bin/*
+	#080426:osilikohan okieutedt ok oj? kaikilta w pois vielä?
+	${scm} a-w  /opt/bin/*
+	${scm} go-r /opt/bin/*
 	${sco} 0:0 /opt/bin/*
 	${srat} -rvf ${1} /opt/bin 
 
@@ -631,9 +635,10 @@ function e22_ts() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 }
 
-#1450426:toimii
+#170426:fktio taisi toimia tuolloin jnkn aikaa
+#TODO:uusiksi testailut
 function e22_arch() {
-	dqb "e22_arch() $1 , $2 , $3 , $4"
+	dqb "e22_arch() $1 , $2 , $3 , $4 ((((("
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 
@@ -645,10 +650,11 @@ function e22_arch() {
 	dqb "pars ok"
 	csleep 1
 	local p=$(pwd)
-
 	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
+
 	if [ -f ${2}/sha512sums.txt ] ; then
 		${NKVD} ${2}/sha512sums.txt*
+		csleep 1
 	fi
 
 	local c
@@ -667,26 +673,21 @@ function e22_arch() {
 	cd ${2}
 	echo $?
 	${sah6} ./*.deb > ./sha512sums.txt
-
-	#110426:vähietllen for-find-jekulla rat+sah ?
-
-	if [ ${3} -eq 1 ] ; then
-		${srat} -rf ${1} ./*pkgs*
-	fi
-
-	${sah6} ./reject_pkgs >> ./sha512sums.txt.1
-	${sah6} ./accept_pkgs_? >> ./sha512sums.txt.1
-	${sah6} ./pkgs_drop >> ./sha512sums.txt.1
-	#
-
-	#TODO:jossain sopivassa välissä ao. for-loopin kanssa testailu
-	E22_E="e.tar g.tar"
-	local t=$(basename ${1})
-
-	for p in ${E22_E} ; do
-		dqb "${sah6} ./${p} ,,, "
-		${sah6} ./${p} | grep -v ${t} >> ./sha512sums.txt
+	
+	for f in $(find . -type f -name "*pkgs*") ; do
+		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
+		${sah6} ${f} >> ./sha512sums.txt.1
 	done
+
+	csleep 1
+	#tämä leikki takaisin kuitenkin 180426
+	t=$(basename ${1})
+
+	for f in e.tar g.tar ; do
+		dqb "sah6 ./${f}"
+		${sah6} ./${f} >> ./sha512sums.txt.1 # | grep -v ${t} 
+	done
+	#
 
 	csleep 1
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
@@ -702,7 +703,7 @@ function e22_arch() {
 	fi
 
 	psqa .
-	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x
+	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
 	[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums* ./*.tar #?
 	csleep 1
 
@@ -754,8 +755,7 @@ function e22_arch() {
 ##	exit
 #}
 
-#TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen?
-#030426:taitaa edelleen toimia paketin sisältö sqrootissa
+#TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
 
 function e22_cde() {
 	dqb "e22_cde()"
@@ -774,4 +774,75 @@ function e22_cde() {
 	${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
 
 	dqb "e22_cde DONE()"
+}
+
+#1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO?)
+#VAIH:zxcv parametrksi tälle jaseur f k tiolle tai siis glob wttuun
+
+function z1() {
+	[ -z "${1}" ] && exit 66
+	dqb "NVDK 1b 2 secs"
+	csleep 2
+
+	${NKVD} ${1}.tmp
+	${spc} ${1} ${1}.ÅLD
+	${spc} ${1}.sig ${1}.sig.ÅLD
+	${spc} ${1}.sha ${1}.sha.ÅLD
+
+	csleep 1
+	fasdfasd ${1}.tmp
+}
+
+function z2() {
+	dqb "z2()"
+	[ -z "${1}" ] && exit 66
+	reqwreqw ${1}.tmp
+	csleep 1
+
+	${NKVD} ${1}.sig
+	${NKVD} ${1}.sha
+	${NKVD} ${1}
+	csleep 1
+
+	fasdfasd ${1}.sig
+	fasdfasd ${1}.sha
+	${svm} ${1}.tmp ${1}
+	csleep 1
+
+	${sah6} --ignore-missing -c ${1}
+	csleep 3
+
+	e22_tyg ${1}
+	${sah6} ${1} > ${1}.sha
+}
+
+function z3() {
+	dqb "z3( ${1] ; ${2} ; ${3} ))))))))))"
+	[ -z "${1}" ] && exit 66
+	[ -s ${2} ] || exit 67
+	[ -z "${3}" ] && exit 68
+
+	dqb "raps ko"
+	#[ -f ${3} ] && ${NKVD} ${3}
+	csleep 1
+
+	fasdfasd ${3}
+	csleep 1
+
+	#HUOM.090426:EI IHAN SUORAAN NÄIN, PITÄISI EDITOIDA HAKEMISTOT POIS LISTASTA
+	if [ ! -s ${3} ] ; then
+		${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
+		csleep 1
+	fi
+
+	${srat} -rvf ${2} ${3}
+
+	local t=$(dirname ${1})
+	${scm} go-w ${t}/*
+	${sco} -R 0:0 ${1}
+	${srat} -rvf ${2} ${1}*
+	
+	${scm} go-r ${t}/*
+	csleep 1
+	dqb "z3.done"
 }
