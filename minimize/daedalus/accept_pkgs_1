@@ -58,9 +58,10 @@ libthai0
 libfreetype
 libxf
 #
-#libx11-6
-#libx11-xcb1
-libx11-
+#180426:sittenkin parem,pi speksata erikseen nuo 2
+libx11-6
+libx11-xcb1
+#libx11-
 #
 libxr
 libpango-1
@@ -115,7 +116,7 @@ libshine3
 libsnappy1v5
 libspeex1
 libsvtav1enc1
-libswresample4
+#swresample oli aiemmin tössö
 libtheora0
 libtwolame0
 #
@@ -127,11 +128,11 @@ libxv
 #
 libzvbi0
 #
-#HUOM.libsdwresample ja libsox ennen libav?
+#HUOM.libsdwresample ja libsox ennen libav? päintoisin, swresample tarv:libavutil57, libsoxr0
+#
 glib-networking
-#libsoup
-#libsoxr0
 libso
+libswresample4
 #
 libpython3.11-minimal
 libpython3.11-stdlib
@@ -165,6 +166,7 @@ libxmu
 #
 #huom.WINGS TARVITSEE WRASTERIN
 #
+#TODO:jatkosäätöä seur 2 lib kanssa?
 libavutil57
 libavcodec59
 #
@@ -181,10 +183,7 @@ libegl1
 libaudit1
 #
 #VAIH:libse-juttujakin yhdistellen?
-#libseccomp2
 seatd
-#libseat1
-#libselinux1
 libse
 #
 libunwind8
