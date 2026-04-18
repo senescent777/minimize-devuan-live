@@ -98,6 +98,7 @@ libpam-modules_
 perl-modules-
 libperl
 perl-base
+#TODO:libxml-parser-per, mitä sen kanssa tekee?
 #
 libmfx1
 libva-drm2
