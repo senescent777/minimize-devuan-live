@@ -83,7 +83,7 @@ csleep 1
 if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
 	mv ./${CONF_BASE}.OLD/${distro}/conf ./${CONF_BASE}/${distro}/conf
 
-	#VAIH:konftdston kanssa jotain
+	#VAIH:konftdston kanssa jotain (vissiin varovasti tuon kanssa, vöib sotkea asioita)
 	ln -s  ./${CONF_BASE}/${distro}/conf ./$(whoami).conf
 else
 	dqb "N0.C0NF"
