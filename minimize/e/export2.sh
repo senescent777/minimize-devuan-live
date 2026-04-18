@@ -224,7 +224,7 @@ case "${mode}" in
 	3|4) 
 		#3 taisi toimia 04/26 tienoilla ainakin kerran
 		#4 toimi viimeksi 160426 (toisen branchin kanssa testaus)
-		#TODO:UUSIKSI TAAS TESTIT
+		#TODO:UUSIKSI TAAS TESTIT (vaikka merd2 tst siinä samassa)
 	
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
@@ -251,7 +251,10 @@ case "${mode}" in
 		z2 /opt/bin/zxcv 		
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
-	#VAIH:testaus (180426)
+	#VAIH:testaus (180426) (osasi pakwetin muodostaa, asennusvaih pientä nalkutusta)
+	#dpkg: dependency problems prevent configuration of libxml-parser-perl:
+ 	#libxml-parser-perl depends on perl  however:
+
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
