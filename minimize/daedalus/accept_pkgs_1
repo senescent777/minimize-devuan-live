@@ -128,6 +128,11 @@ libxv
 #
 libzvbi0
 #
+#
+#VAIH:jatkosäätöä seur 2 lib kanssa? (aiemmin libxmu ja libassuan välissä)
+libavutil57
+libavcodec59
+#
 #HUOM.libsdwresample ja libsox ennen libav? päintoisin, swresample tarv:libavutil57, libsoxr0
 #
 glib-networking
@@ -166,10 +171,6 @@ libxmu
 #
 #huom.WINGS TARVITSEE WRASTERIN
 #
-#TODO:jatkosäätöä seur 2 lib kanssa?
-libavutil57
-libavcodec59
-#
 #assuanin kanssa jokin ongelma vai ei? (124.26)
 libassuan0
 liberror-perl
@@ -182,7 +183,6 @@ libegl-mesa0
 libegl1
 libaudit1
 #
-#VAIH:libse-juttujakin yhdistellen?
 seatd
 libse
 #
