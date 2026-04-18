@@ -12,3 +12,4 @@ gpgv
 #
 #python3-pil-jutut jemmaan 090226, loppuu purpatus prkl
 python3-pil
+#TODO:libav mukaan vai ei? (avutil ja avcodec aiheuttavat härdelliä, nopeampi vain karsia)

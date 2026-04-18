@@ -58,14 +58,14 @@ libthai0
 libfreetype
 libxf
 #
-#libx11-6
-#libx11-xcb1
-libx11-
+libx11-6
+libx11-xcb1
 libxr
 libpango-1
 libpangoft2
 libpangocairo
 libpangoxft
+#
 libff
 #
 libwayland-client0
@@ -117,18 +117,18 @@ libswresample4
 libtheora0
 libtwolame0
 #
-#libx264-164
+libx264-164
 libnuma1
-#libx265-199
-libx26
+libx265-199
 libxv
 #
 libzvbi0
 #
+#VAIH:ylemmäs libsox kanssa?
 glib-networking
-#libsoup
-#libsoxr0
-libso
+libsoup
+#
+libsoxr0
 #
 libpython3.11-minimal
 libpython3.11-stdlib
@@ -178,7 +178,11 @@ libegl-mesa0
 libegl1
 libaudit1
 #
+#VAIH:libse-juttujakin yhdistellen?
+#libseccomp2
 seatd
+#libseat1
+#libselinux1
 libse
 #
 libunwind8
