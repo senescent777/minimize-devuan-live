@@ -179,7 +179,7 @@ case "${mode}" in
 	;;
 #	b)
 #		#230326:tekee jo jotain, vielä sietää miettiä onko siinä pointtia mitä tekee
-#		for f in $(find ${d0} -type f -name '*lib.sh') ; do
+#		for f in $(find ${d0} -type f -name "*lib.sh") ; do
 #			e22_ftr ${f}
 #		done
 #	;;
@@ -222,9 +222,9 @@ case "${mode}" in
 		exit 97
 	;;
 	3|4) 
-		#3 taisi toimia 04/26 tienoilla ainakin kerran
-		#4 toimi viimeksi 160426 (toisen branchin kanssa testaus)
-		#TODO:UUSIKSI TAAS TESTIT (vaikka merd2 tst siinä samassa)
+		#3 taisi toimia 04/26 tienoilla ainakin kerran (TODO:e tai 3 kanssa ne e22_a()- kikkailut?)
+		#4 VAIH:UUSIKSI TAAS TESTI (180426, vissiin uusi pak roimii)
+		#(merd2 tst myöhemmin)
 	
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
@@ -251,7 +251,7 @@ case "${mode}" in
 		z2 /opt/bin/zxcv 		
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
-	#VAIH:testaus (180426) (osasi pakwetin muodostaa, asennusvaih pientä nalkutusta)
+	#VAIH:testaus (180426) (osasi paketin muodostaa, asennusvaih pientä nalkutusta)
 	#dpkg: dependency problems prevent configuration of libxml-parser-perl:
  	#libxml-parser-perl depends on perl  however:
 

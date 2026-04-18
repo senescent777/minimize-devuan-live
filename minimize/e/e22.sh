@@ -817,16 +817,16 @@ function z2() {
 }
 
 function z3() {
-	dqb "z3()"
+	dqb "z3( ${1] ; ${2} ; ${3} ))))))))))"
 	[ -z "${1}" ] && exit 66
 	[ -s ${2} ] || exit 67
+	[ -z "${3}" ] && exit 68
 
 	dqb "raps ko"
-
 	#[ -f ${3} ] && ${NKVD} ${3}
 	csleep 1
 
-	fasdfasd ${d0}/MAN1.F2ST
+	fasdfasd ${3}
 	csleep 1
 
 	#HUOM.090426:EI IHAN SUORAAN NÄIN, PITÄISI EDITOIDA HAKEMISTOT POIS LISTASTA
@@ -837,7 +837,12 @@ function z3() {
 
 	${srat} -rvf ${2} ${3}
 
-	${scm} go-rw ${1}*
-	${sco} 0:0 ${1}*
+	local t=$(dirname ${1})
+	${scm} go-w ${t}/*
+	${sco} -R 0:0 ${1}
 	${srat} -rvf ${2} ${1}*
+	
+	${scm} go-r ${t}/*
+	csleep 1
+	dqb "z3.done"
 }
