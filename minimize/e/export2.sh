@@ -144,7 +144,7 @@ e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 #jokin varmistus vielä että iface alhaalla?
 
-#TODO:tästä ekasta case-blokista oma skriptinsä?
+#VAIH:tästä ekasta case-blokista oma skriptinsä?
 case "${mode}" in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
 #		[ -s "${tgtfile}" ] || exit 67

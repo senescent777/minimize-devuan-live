@@ -27,7 +27,7 @@
 #csleep 1
 #
 ##170326:lienee ok
-f#unction e22_hdr() {
+#function e22_hdr() {
 #	echo "e22_hdr() ${1}"
 #	sleep 1
 #
@@ -201,7 +201,7 @@ f#unction e22_hdr() {
 #
 #	csleep 1
 #	dqb "... done"
-}#
+#}
 #
 #230326:vissiin toimii edelleen
 #function e22_cleanpkgs() {
