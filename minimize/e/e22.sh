@@ -638,85 +638,87 @@ function e22_ts() {
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
 }
 
-##170426:fktio taisi toimia tuolloin jnkn aikaa
-##TODO:uusiksi testailut
-#function e22_arch() {
-#	dqb "e22_arch() $1 , $2 , $3 , $4 ((((("
-#
-#	[ -z "${1}" ] && exit 1
-#	[ -s ${1} ] || exit 
-#	#[ -w ${1} ] || exit 33 #josko man bash...
-#	[ -d ${2} ] || exit 22
-#	[ -w ${2} ] || exit 44
-#	[ -z "${3}" ] && exit 53
-#
-#	dqb "pars ok"
-#	csleep 1
-#	local p=$(pwd)
-#	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
-#
-#	if [ -f ${2}/sha512sums.txt ] ; then
-#		${NKVD} ${2}/sha512sums.txt*
-#		csleep 1
-#	fi
-#
-#	local c
-#	c=$(find ${2} -type f -name "*.deb" | wc -l)
-#
-#	if [ ${c} -lt 1 ] ; then
-#		dqb "N0.F1SH"
-#		exit 55
-#	fi
-#
-#	${scm} 0444 ${2}/*.deb
-#	fasdfasd ${2}/sha512sums.txt
-#	fasdfasd ${2}/sha512sums.txt.1
-#	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
-#
-#	cd ${2}
-#	echo $?
-#	${sah6} ./*.deb > ./sha512sums.txt
-#	
-#	for f in $(find . -type f -name "*pkgs*") ; do
-#		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
-#		${sah6} ${f} >> ./sha512sums.txt.1
-#	done
-#
-#	csleep 1
-#	#tämä leikki takaisin kuitenkin 180426
-#	t=$(basename ${1})
-#
-#	for f in e.tar g.tar ; do
-#		dqb "sah6 ./${f}"
-#		${sah6} ./${f} >> ./sha512sums.txt.1 # | grep -v ${t} 
-#	done
-#	#
-#
-#	csleep 1
-#	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
-#
-#	#alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious
-#	#HUOM gpgv VITTUUN SOTKEMASTA
-#	#dirmngr kuitenkin tarvitsee jhnkin?
-#	#"gpg --keyserver hkps://keys.gnupg.net --receive-keys $something" esim.
-#
-#	if [ -x ${gg} ] && [ -v CONF_pubk ] ; then
-#		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt
-#		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt.1
-#	fi
-#
-#	psqa .
-#	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
-#	[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums* ./*.tar #?
-#	csleep 1
-#
-#	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
-#	[ ${debug} -eq 1 ] && ls -las ${1}
-#	cd ${p}
-#
-#	dqb "4RCH 3N3M4 DöNE"
-#}
-#
+#170426:fktio taisi toimia  jnkn aikaa
+#TODO:uusiksi testailut (se psqa() - juttu lkähinnä , muita on jo testailtu 190426 mennessä)
+
+function e22_arch() {
+	dqb "e22_arch() $1 , $2 , $3 , $4 ((((("
+
+	[ -z "${1}" ] && exit 1
+	[ -s ${1} ] || exit 
+	#[ -w ${1} ] || exit 33 #josko man bash...
+	[ -d ${2} ] || exit 22
+	[ -w ${2} ] || exit 44
+	[ -z "${3}" ] && exit 53
+
+	dqb "pars ok"
+	csleep 1
+	local p=$(pwd)
+	#HUOM.23725 bashin kanssa oli ne pushd-popd-jutut
+
+	if [ -f ${2}/sha512sums.txt ] ; then #turha tarq?
+		${NKVD} ${2}/sha512sums.txt*
+		csleep 1
+	fi
+
+	local c
+	c=$(find ${2} -type f -name "*.deb" | wc -l)
+
+	if [ ${c} -lt 1 ] ; then
+		dqb "N0.F1SH"
+		exit 55
+	fi
+
+	${scm} 0444 ${2}/*.deb
+	fasdfasd ${2}/sha512sums.txt
+	fasdfasd ${2}/sha512sums.txt.1
+	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+
+	cd ${2}
+	echo $?
+	${sah6} ./*.deb > ./sha512sums.txt
+	
+	for f in $(find . -type f -name "*pkgs*") ; do
+		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
+		${sah6} ${f} >> ./sha512sums.txt.1
+	done
+
+	csleep 1
+	#tämä leikki takaisin kuitenkin 180426
+	t=$(basename ${1})
+
+	for f in e.tar g.tar ; do
+		dqb "sah6 ./${f}"
+		${sah6} ./${f} >> ./sha512sums.txt.1 # | grep -v ${t} 
+	done
+	#
+
+	csleep 1
+	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+
+	##alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious
+	##HUOM gpgv VITTUUN SOTKEMASTA
+	##dirmngr kuitenkin tarvitsee jhnkin?
+	##"gpg --keyserver hkps://keys.gnupg.net --receive-keys $something" esim.
+
+	#tönö vs e22_tyg() , mikä pointti?
+	if [ -x ${gg} ] && [ -v CONF_pubk ] ; then
+		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt
+		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt.1
+	fi
+
+	psqa .
+	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
+	[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums* ./*.tar #?
+	csleep 1
+
+	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
+	[ ${debug} -eq 1 ] && ls -las ${1}
+	cd ${p}
+
+	dqb "4RCH 3N3M4 DöNE"
+}
+
 ##function aval0n() { #prIvaattI, toimimaan+käyttöön?
 ##	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
 ##	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
