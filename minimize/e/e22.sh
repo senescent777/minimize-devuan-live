@@ -614,30 +614,30 @@ function e22_cleanpkgs() {
 #	cd ${p}
 #	[ ${debug} -eq 1 ] && pwd
 #}
-#
-##239326:lienee edelleen toimiva
-#function e22_ts() {
-#	dqb "E222.TS ()()() $1 , $2, $3"
-#	[ -z "${1}" ] && exit 13
-#	[ -d ${1} ] || exit 14
-#	[ -w ${1} ] || exit 15  #hmistossa hyvä olla kirj.oik.
-#	[ -z "${2}" ] && exit 16
-#	[ -d ${2} ] || exit 17
-#
-#	dqb "par5 0k"
-#	csleep 1
-#
-#	${svm} ${2}/*.deb ${1}
-#	[ $? -eq 0 ] || exit 56
-#
-#	#lisätäänkö tämä arkistoon jossain? no e22_a()
-#	fasdfasd ${1}/tim3stamp
-#	date > ${1}/tim3stamp
-#	cg_udp6 ${1}
-#
-#	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
-#}
-#
+
+#190426:lienee edelleen toimiva
+function e22_ts() {
+	dqb "E222.TS ()()() $1 , $2, $3"
+	[ -z "${1}" ] && exit 13
+	[ -d ${1} ] || exit 14
+	[ -w ${1} ] || exit 15  #hmistossa hyvä olla kirj.oik.
+	[ -z "${2}" ] && exit 16
+	[ -d ${2} ] || exit 17
+
+	dqb "par5 0k"
+	csleep 1
+
+	${svm} ${2}/*.deb ${1}
+	[ $? -eq 0 ] || exit 56
+
+	#lisätäänkö tämä arkistoon jossain? no e22_a()
+	fasdfasd ${1}/tim3stamp
+	date > ${1}/tim3stamp
+	cg_udp6 ${1}
+
+	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb
+}
+
 ##170426:fktio taisi toimia tuolloin jnkn aikaa
 ##TODO:uusiksi testailut
 #function e22_arch() {
