@@ -54,37 +54,37 @@ function e22_hdr() {
 	csleep 1
 }
 
-##tark-. olla priv fktio
-##170326:taitaa olla toimiva fktio nykyään (ellei toisin todisteta)
-#2#90326:toimii edelleen?
-#
-#function e22_tyg() {
-#	dqb " e22_tyg()"
-#
-#	[ -z "${1}" ] && exit 45
-#	[ -s ${1} ] || exit 46
-#	[ -r ${1} ] || exit 47
-#
-#	csleep 1
-#	dqb "e22_tyg().pars.ok"
-#
-#	if [ -x ${gg} ] ; then
-#		if [ -v CONF_pubk ] ; then
-#			${gg} -u ${CONF_pubk} -sb ${1}
-#			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
-#			csleep 1
-#			${gg} --verify ${1}.sig
-#			csleep 1
-#		else
-#			dqb "NO KEYS?"
-#		fi
-#	else
-#		dqb "SHOULD INSTALL GPG"
-#	fi
-#
-#	dqb "e22_tyg() done"
-#	csleep 1
-#}
+#tark-. olla priv fktio
+#170326:taitaa olla toimiva fktio nykyään (ellei toisin todisteta)
+#190426:toimii edelleen?
+
+function e22_tyg() {
+	dqb " e22_tyg( ${1} )))))))))"
+
+	[ -z "${1}" ] && exit 45
+	[ -s ${1} ] || exit 46
+	[ -r ${1} ] || exit 47
+
+	csleep 1
+	dqb "e22_tyg().pars.ok"
+
+	if [ -x ${gg} ] ; then
+		if [ -v CONF_pubk ] ; then
+			${gg} -u ${CONF_pubk} -sb ${1}
+			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
+			csleep 1
+			${gg} --verify ${1}.sig
+			csleep 1
+		else
+			dqb "NO KEYS?"
+		fi
+	else
+		dqb "SHOULD INSTALL GPG"
+	fi
+
+	dqb "e22_tyg() done"
+	csleep 1
+}
 
 #170326:lienee ok
 function e22_ftr() {
@@ -639,7 +639,7 @@ function e22_ts() {
 }
 
 #170426:fktio taisi toimia  jnkn aikaa
-#TODO:uusiksi testailut (se psqa() - juttu lkähinnä , muita on jo testailtu 190426 mennessä)
+#josqs uusiksi testailut (se psqa() - juttu lähinnä , muita on jo testailtu 190426 mennessä)
 
 function e22_arch() {
 	dqb "e22_arch() $1 , $2 , $3 , $4 ((((("
@@ -710,7 +710,7 @@ function e22_arch() {
 	##dirmngr kuitenkin tarvitsee jhnkin?
 	##"gpg --keyserver hkps://keys.gnupg.net --receive-keys $something" esim.
 
-	#tönö vs e22_tyg() , mikä pointti?
+	#tämä vs e22_tyg() , mikä pointti? (TODO:jatkossssa käskyttämään kys fktiota)
 	if [ -x ${gg} ] && [ -v CONF_pubk ] ; then
 		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt
 		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt.1
@@ -796,8 +796,8 @@ function e22_arch() {
 #	dqb "e22_cde DONE()"
 #}
 #
-##1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO?)
-##VAIH:zxcv parametrksi tälle jaseur f k tiolle tai siis glob wttuun
+#1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO?)
+
 #
 #function z1() {
 #	[ -z "${1}" ] && exit 66
