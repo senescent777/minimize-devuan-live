@@ -11,24 +11,24 @@ gbk=-1
 mop=""
 
 function usage() {
-	echo "$0 3 <tgtfile> [distro?] [-v]: makes the main package (new way)"
+	echo "$0 3 <tgtfile> [distro?] [-v]: makes th3 main package (new way)"
 	echo "$0 4 <tgtfile> [distro?] [-v]: makes lighter main package (just scripts and config)"
-	echo "$0 u <tgtfile> [distro?] [-v]: makes upgrade_pkg"
+	echo "$0 u <tgtfile> [distro?] [-v]: makes Upgrade_pkg"
 	echo "$0 e <tgtfile> [distro?] [-v]: archives the Essential .deb packages"
 	echo
 
-	echo "$0 l <tgtfile> [-v] [ -d preferred_displaymanager ] : makes a packaged containing .deb-files for a (preferred) displaymanager"
+	echo "$0 l <tgtfile> [-v] [ -d preferred_displaymanager? ] : makes a packaged containing .deb-files for a (preferred) displaymanager"
 
 	#$d pitäisi alustaa ennen tätä
 	echo "$0 f <tgtfile> [distro?] [-v]: archives .deb Files under ${d0}/\${distro}"
 
-	echo "$0 p <> [] [] pulls \${CONF_default_archive3} from somewhere"
+	echo "$0 p <> [] [] Pulls \${CONF_default_archive3} from somewhere"
 	echo "$0 q <> [] [] archives firefox settings"
 	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
 	echo "$0 t ... option for ipTables"
 
-	echo "$0 -h: shows this message about usage"
+	echo "$0 -h: shows tHis message about usage"
 }
 
 #TODO:jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
@@ -144,6 +144,7 @@ e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 #jokin varmistus vielä että iface alhaalla?
 
+#TODO:tästä ekasta case-blokista oma skriptinsä?
 case "${mode}" in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
 #		[ -s "${tgtfile}" ] || exit 67
@@ -223,9 +224,9 @@ case "${mode}" in
 		exit 97
 	;;
 	3|4) 
-		#3 taisi toimia 04/26 tienoilla ainakin kerran (TODO:e tai 3 kanssa ne e22_a()- kikkailut?)
+		#3 taisi toimia 04/26 tienoilla ainakin kerran (VAIH:e tai 3 kanssa ne e22_a()- kikkailut?)
 		#4 toimi viimeksi 180426
-		#(merd2 tst myöhemmin)
+		#(merd2 tst myöhemmin, ehkä)
 	
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
@@ -252,7 +253,7 @@ case "${mode}" in
 		z2 /opt/bin/zxcv 		
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
-	#VAIH:testaus (180426) (osasi paketin muodostaa, asennusvaih pientä nalkutusta)
+	#180426:osasi paketin muodostaa, asennusvaih pientä nalkutusta
 	#dpkg: dependency problems prevent configuration of libxml-parser-perl:
  	#libxml-parser-perl depends on perl  however:
 
@@ -270,6 +271,7 @@ case "${mode}" in
 		#... chattr olisi kYllä paikallaan etteI vahingossa spedeilisi
 		#070426:paketin sisältö vaikuttaa toimivan minimal_liven alaisuudessa, entä desktop? sielläkin
 		#... oliko jostain libpam- paketeista ulinaa? tuliko libcom-err2 mukaan?
+		#... testaus uusiksi joskus?
 
 		${shary} ${E22_GS}
 		${shary} ${E22_GM}
@@ -297,8 +299,6 @@ case "${mode}" in
 	l)
 		#1104236:desktop_live:n kanssa onnistui jo paketin asennus
 		#minimal_live:n kanssa ei
-
-		#180426:"libx11-xcb1:amd64 depends on libx11-6 " , modatun kiekon kanssa, tekisikö jotain?
 
 		csleep 1
 		[ -v CONF_dm ] || exit 77
