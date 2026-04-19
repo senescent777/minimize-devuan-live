@@ -208,24 +208,25 @@ function e22_pre2() {
 	dqb "... done"
 }
 
-#230326:vissiin toimii edelleen
-#function e22_cleanpkgs() {
-#	dqb "cleanpkgs()"
-#	[ -z "${1}" ] && exit 56
-#
-#	if [ -d ${1} ] ; then
-#		#aiemmalla NKVD-tavalla saattaa kestää joten rm
-#		${smr} ${1}/*.deb
-#		${smr} ${1}/sha512sums.txt*
-#		#entä ne listat? jospa ei koskettaisi niihin
-#		ls -las ${1}/*.deb | wc -l
-#	else
-#		dqb "NO SUCH DIR: ${1}"
-#	fi
-#
-#	dqb "done"
-#}
-#
+#194326:vissiin toimii edelleen?
+
+function e22_cleanpkgs() {
+	dqb "cleanpkgs()"
+	[ -z "${1}" ] && exit 56
+
+	if [ -d ${1} ] ; then
+		#aiemmalla NKVD-tavalla saattaa kestää joten rm
+		${smr} ${1}/*.deb
+		${smr} ${1}/sha512sums.txt*
+		#entä ne listat? jospa ei koskettaisi niihin
+		ls -las ${1}/*.deb | wc -l
+	else
+		dqb "NO SUCH DIR: ${1}"
+	fi
+
+	dqb "done"
+}
+
 ##290326:tämän kanssa jotain Jatkosäätöä vai ei?
 ##120426:bissiin menee mukaan kohteeseen config.tar.bz2
 #function e22_config1() {
