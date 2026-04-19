@@ -477,7 +477,11 @@ function cefgh() {
 	dqb "pars ok"
 	csleep 1
 
-	if [ -z "${gg}" ] ; then	
+	if [ -z "${gg}" ] ; then
+		#TODO:tähän saha-tarkistus vai ei?
+		dqb "SHOULD {sah6} -c ${1}/e.tar HERE"
+		csleep 5
+	
 		efk2 ${1}/e.tar ${1}
 		#[ $? -eq 0 ] && 
 		${NKVD} ${1}/e.tar
@@ -501,17 +505,17 @@ function CB01() {
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
 
-	#180426:josko sittenkin kikkailisi ao. blokin -> cefgh ?
-	if [ -s ${1}/g.tar ] ; then
-		#JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen
-		#... tai ilman gpg:tä voi tehdä vain sha-tarq ja sekin oikeastaan tapahtuu jo kutsuvassa koodissa
-		#... g.tar:in saisi kyllä listaan mukaan
-
-		efk2 ${1}/g.tar /
-		common_pp3 ${1}
-		${NKVD} ${1}/g.tar
-		exit 103
-	fi
+#	#180426:josko sittenkin kikkailisi ao. blokin -> cefgh ?
+#	if [ -s ${1}/g.tar ] ; then
+#		#JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen
+#		#... tai ilman gpg:tä voi tehdä vain sha-tarq ja sekin oikeastaan tapahtuu jo kutsuvassa koodissa
+#		#... g.tar:in saisi kyllä listaan mukaan
+#
+#		efk2 ${1}/g.tar /
+#		common_pp3 ${1}
+#		${NKVD} ${1}/g.tar
+#		exit 103
+#	fi
 
 	#160426:libaassuanin kanssa härdelliä vai ei?
 	common_pp3 ${1}
@@ -522,7 +526,7 @@ function CB01() {
 	gv=$(${odio} which gpgv)
 	csleep 1
 
-	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt.bak ${1}/sha512sums.txt
+#	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt.bak ${1}/sha512sums.txt
 	common_pp3 ${1}
 
 	dqb "common.lib.CB01() DONE"
