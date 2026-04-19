@@ -675,9 +675,13 @@ function e22_arch() {
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
 
 	cd ${2}
-	echo $?
+	dqb "JUST BEFORE shasms.0"
+	csleep 1
+
 	${sah6} ./*.deb > ./sha512sums.txt
-	
+	dqb "JUST BEFORE shasms.1.1"
+	csleep 1
+
 	for f in $(find . -type f -name "*pkgs*") ; do
 		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
 		${sah6} ${f} >> ./sha512sums.txt.1
@@ -686,6 +690,8 @@ function e22_arch() {
 	csleep 1
 	#tämä leikki takaisin kuitenkin 180426
 	t=$(basename ${1})
+	dqb "JUST BEFORE shasms.1.1"
+	csleep 1
 
 	for f in e.tar g.tar ; do
 		dqb "sah6 ./${f}"
@@ -695,6 +701,9 @@ function e22_arch() {
 
 	csleep 1
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+
+	dqb "JUST BEFORE ggp"
+	csleep 1
 
 	##alla tuo mja tulisi asettaa vain silloinq vastaava sal av löytyy, tos tate the obvious
 	##HUOM gpgv VITTUUN SOTKEMASTA
@@ -707,9 +716,15 @@ function e22_arch() {
 		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt.1
 	fi
 
+	dqb "JUST BEFORE ps-qa"
+	csleep 1
+
 	psqa .
 	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
 	[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums* ./*.tar #?
+	csleep 1
+
+	dqb "JUST BEFORE rat -fr"
 	csleep 1
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
