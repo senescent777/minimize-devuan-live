@@ -116,94 +116,98 @@ function e22_ftr() {
 	csleep 1
 }
 
-##020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
-##... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf
-#
-#function e22_pre1() {
-#	dqb "e22_pre1()"
-#
-#	[ -z "${1}" ] && exit 65
-#	[ -z "${2}" ] && exit 66
-#
-#	csleep 1
-#	dqb "pars.0k"
-#	csleep 1
-#	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-#	${scm} -Rv 700 ${CONF_pkgdir}/partial/
-#	csleep 1
-#
-#	if [ ! -d ${1} ] ; then
-#		exit 111
-#	else
-#		local lefid
-#		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/)	
-#		enforce_access $(whoami) ${lefid}
-#
-#		csleep 1
-#		${scm} 0755 /etc/apt
-#		${scm} a+w /etc/apt/sources.list*
-#		part1 ${2} ${1}
-#		${scm} a-w /etc/apt/sources.list*
-#	fi
-#
-#	dqb "P3R1.D0N3"
-#	csleep 1
-#}
-#
+#020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
+#... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf
+
+function e22_pre1() {
+	dqb "e22_pre1()"
+
+	[ -z "${1}" ] && exit 65
+	[ -z "${2}" ] && exit 66
+
+	csleep 1
+	dqb "pars.0k"
+	csleep 1
+	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+	${scm} -Rv 700 ${CONF_pkgdir}/partial/
+	csleep 1
+
+	if [ ! -d ${1} ] ; then #voisi tehdä toisinkin (TODO)
+		exit 111
+	else
+		local lefid
+		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?	
+		enforce_access $(whoami) ${lefid}
+
+		csleep 1
+		${scm} 0755 /etc/apt
+		${scm} a+w /etc/apt/sources.list*
+		part1 ${2} ${1}
+		${scm} a-w /etc/apt/sources.list*
+	fi
+
+	dqb "P3R1.D0N3"
+	csleep 1
+}
+
 #...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
-##HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
-#
-##170426:josko esim. toimisi (resolv.conf kanssa vielä jotain?)
-#function e22_pre2() {
-#	echo "per2..."
-#	[ -z "${1}" ] && exit 66
-#	[ -z "${2}" ] && exit 67
-#	[ -z "${3}" ] && exit 68
-#	[ -z "${4}" ] && exit 69
-#
-#	dqb " (pars.ok)"
-#	csleep 10
-#	local par4
-#
-#	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
-#	#ortsac=$(echo ${2} | cut -d "/" -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
-#	par4=$(echo ${4} | tr -d -c 0-9)
-#
-#	#HUOM.020825:vähän enemmän sorkintaa tänne? a) vielä ajank? b) miksi juuri tässä fktiossa?
-#	#/e/n alihakemistoihin +x ?
-#	#/e/n kokonaan talteen?
-#
-#	if [ -d ${1} ] ; then
-#		echo $?
-#		csleep 1
-#		#280326:tilapäinen viritys kunnes x? mikä?
-#		
-#		if [ -d /etc/resolv.conf ] ; then
-#			echo "D"
-#		else
-#			if [ -h  /etc/resolv.conf ] ; then
-#				echo "-L"
-#			else
-#				[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
-#			fi
-#
-#		ls -las /etc/resolv.*
-#		csleep 10	
-#
-#		${sifu} ${3}
-#		csleep 1
-#
-#		${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-#		${scm} -Rv 700 ${CONF_pkgdir}/partial/
-#		${sag_u}
-#	else
-#		exit 111
-#	fi
-#
-#	csleep 1
-#	dqb "... done"
-#}
-#
+#HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
+
+#170426:josko esim. toimisi (resolv.conf kanssa vielä jotain?)
+function e22_pre2() {
+	echo "per2..."
+
+	[ -z "${1}" ] && exit 66
+	[ -z "${2}" ] && exit 67
+	[ -z "${3}" ] && exit 68
+	[ -z "${4}" ] && exit 69
+
+	dqb " (pars.ok)"
+	csleep 10
+	local par4
+
+	#leikkelyt tarpeellisia? exc/ceres takia vissiin on
+	#ortsac=$(echo ${2} | cut -d "/" -f 1 | tr -d -c a-z) #kts import2 tai mikä olikaan
+
+	par4=$(echo ${4} | tr -d -c 0-9)
+
+	#HUOM.020825:vähän enemmän sorkintaa tänne? a) vielä ajank? b) miksi juuri tässä fktiossa?
+	#/e/n alihakemistoihin +x ?
+	#/e/n kokonaan talteen?
+
+	if [ -d ${1} ] ; then #voisi tehdä toisinkin (TODO)
+		echo $?
+		csleep 1
+
+		#280326:tilapäinen viritys kunnes x? mikä?
+		
+		if [ -d /etc/resolv.conf ] ; then
+			echo "D"
+		else
+			if [ -h  /etc/resolv.conf ] ; then
+				echo "-L"
+			else
+				[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
+			fi
+		fi
+
+		ls -las /etc/resolv.*
+		csleep 10	
+
+		${sifu} ${3}
+		csleep 1
+
+		${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+		${scm} -Rv 700 ${CONF_pkgdir}/partial/
+		${sag_u}
+	else
+		exit 111
+	fi
+
+	csleep 1
+	dqb "... done"
+}
+
 #230326:vissiin toimii edelleen
 #function e22_cleanpkgs() {
 #	dqb "cleanpkgs()"
