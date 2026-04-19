@@ -1,3 +1,15 @@
+if [ -x ${d0}/e/e22.sh ] ; then
+	.  ${d0}/e/e22.sh
+	[ $? -gt 0 ] && exit 66
+	csleep 1
+
+	.  ${d0}/e/e23.sh
+	[ $? -gt 0 ] && exit 67
+	csleep 1
+else
+	echo "NO BACKEND FOUND"
+	exit 58
+fi
 
 case "${mode}" in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)

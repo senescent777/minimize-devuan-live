@@ -25,34 +25,35 @@
 #
 #dqb "MILTONS L0ST PARAD153"
 #csleep 1
-#
-##170326:lienee ok
-#function e22_hdr() {
-#	echo "e22_hdr() ${1}"
-#	sleep 1
-#
-#	[ -z "${1}" ] && exit 61
-#	[ "${1}" == "-v" ] && exit 62
-#	[ -f ${1} ] && echo "${1} ALREADY EXISTS"
-#
-#	fasdfasd ./rnd
-#	fasdfasd ${1}
-#	csleep 1
-#
-#	dd if=/dev/random bs=12 count=1 > ./rnd
-#	csleep 1
-#
-#	#tarkoituksella sr0 eikä srat
-#	echo "${sr0} -cvf ${1} ./rnd IN 1 SECS"
-#	csleep 1
-#	${sr0} -cvf ${1} ./rnd
-#	[ $? -gt 0 ] && exit 60
-#
-#	[ ${debug} -eq 1 ] && ls -las ${1}
-#	dqb "hdr done"
-#	csleep 1
-#}
-#
+
+#170326:lienee ok
+function e22_hdr() {
+	echo "e22_hdr() $1 )))))"
+	sleep 1
+
+	[ -z "${1}" ] && exit 61
+	[ "${1}" == "-v" ] && exit 62
+	[ -f ${1} ] && echo "$1 ALR3ADY EX1STS"
+
+	fasdfasd ./rnd
+	fasdfasd ${1}
+	csleep 1
+
+	dd if=/dev/random bs=12 count=1 > ./rnd
+	csleep 1
+
+	#tarkoituksella sr0 eikä srat
+	echo "${sr0} -cvf ${1} ./rnd IN 1 SECS"
+	csleep 1
+
+	${sr0} -cvf ${1} ./rnd
+	[ $? -gt 0 ] && exit 60
+
+	[ ${debug} -eq 1 ] && ls -las ${1}
+	dqb "hdr done"
+	csleep 1
+}
+
 ##tark-. olla priv fktio
 ##170326:taitaa olla toimiva fktio nykyään (ellei toisin todisteta)
 #2#90326:toimii edelleen?
@@ -84,37 +85,37 @@
 #	dqb "e22_tyg() done"
 #	csleep 1
 #}
-#
-##170326:lienee ok
-#function e22_ftr() {
-#	dqb "e22_ftr()"
-#	[ -z "${1}" ] && exit 62
-#	[ -s ${1} ] || exit 63
-#	[ -r ${1} ] || exit 64
-#
-#	dqb "pars.ok"
-#	csleep 1
-#	fasdfasd ${1}.sha
-#	local p
-#	local q
-#
-#	p=$(pwd)
-#	q=$(basename ${1})
-#
-#	cd $(dirname ${1})
-#	${sah6} ./${q} > ${q}.sha
-#	csleep 1
-#
-#	${sah6} -c ${q}.sha
-#	csleep 1
-#
-#	e22_tyg ${q}.sha
-#	cd ${p}
-#
-#	dqb "e22_ftr() done"
-#	csleep 1
-#}
-#
+
+#170326:lienee ok
+function e22_ftr() {
+	dqb "e22_ftr()"
+	[ -z "${1}" ] && exit 62
+	[ -s ${1} ] || exit 63
+	[ -r ${1} ] || exit 64
+
+	dqb "pars.ok"
+	csleep 1
+	fasdfasd ${1}.sha
+	local p
+	local q
+
+	p=$(pwd)
+	q=$(basename ${1})
+
+	cd $(dirname ${1})
+	${sah6} ./${q} > ${q}.sha
+	csleep 1
+
+	${sah6} -c ${q}.sha
+	csleep 1
+
+	e22_tyg ${q}.sha
+	cd ${p}
+
+	dqb "e22_ftr() done"
+	csleep 1
+}
+
 ##020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
 ##... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf
 #
