@@ -88,12 +88,12 @@ function fallback() { #tarpeellinen?
 #sleep 5
 #dqb ja csleep vielä määritelty
 
-#if [ -x ${d0}/common_lib.sh ] ; then #lieneekö turha jo? let's find out
-#	. ${d0}/common_lib.sh
-#else
-#	#johdonmukaisuus virhekoodeissa olisi tietty kiva
-#	exit 56
-#fi
+if [ -x ${d0}/common_lib.sh ] ; then #200426:edelleen tarpeellinen kirjasto
+	. ${d0}/common_lib.sh
+else
+	#johdonmukaisuus virhekoodeissa olisi tietty kiva
+	exit 56
+fi
 
 [ -z "${distro}" ] && exit 6
 d=${d0}/${distro} #nykyään vähän turha tässä
