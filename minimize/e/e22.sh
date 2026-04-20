@@ -380,77 +380,77 @@ function e22_home() {
 #	for f in $(find /etc -type f -name "local*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
 #	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 #}
-#
-## slim/xdm/wdm-spesifinen konfiguraatio saattaa tulla jo mukaan myös
-##020426:ei vedä verkosta mitään ni ei tartte lisätestejä?
-##140426:kopsannee kohteeseen  mitä pitääkin
-##(meneekö rules.* kohteeseen useamman kerran?)
-##160426:toimii
-#
-#function e22_acol() {
-#	dqb "e22_acol()"
-#
-#	[ -z "${1}" ] && exit 1
-#	[ -s ${1} ] || exit 4 
-#	#[ -w ${1} ] || exit 9
-#	[ -z "${2}" ] && exit 2
-#	[ -z "${3}" ] && exit 3		
-#	[ -z "${4}" ] && exit 5
-#
-#	dqb "prs ok"
-#	csleep 1
-#
-#	#missäs nämä palautettiin entiselleen? ja tartttteeko olla 07xx ? let's find out
-#	${scm} 0555 /etc/iptables
-#	${scm} 0444 /etc/iptables/rules*
-#	${scm} 0444 /etc/default/rules*
-#
-#	local f
-#	local ef
-#	local g
-#
-#	for f in $(find /etc -type f -name "interfaces*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
-#	
-#	for f in $(${odio} find /etc -type f -name "rules*" -and -not -name "*.202*" ) ; do
-#		if [ -s ${f} ] && [ -r ${f} ] ; then
-#			${srat} -rvf ${1} ${f}
-#		fi
-#	done
-#
-#	luca ${1}
-#	other_horrors
-#
-#	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
-#		exit 112
-#	fi
-#
-#	${srat} -rvf ${1} /etc/default/net*
-#
-#	case "${2}" in
-#		wlan0)
-#			${srat} -rvf ${1} /etc/wpa_supplicant
-#			${srat} -tf ${1} | grep wpa
-#		;;
-#		*)
-#		;;
-#	esac
-#		
-#	if [ ${3} -gt 0 ] ; then #-eq 1
-#		for f in $(find /etc -type f -name "stubby*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
-#		for f in $(find /etc -type f -name "dns*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
-#	fi
-#
-#	ef=$(echo ${4} | tr -d -c 0-9)
-#
-#	if  [ ${ef} -eq 1 ] ; then
-#		dqb "SMTHING"
-#	else
-#		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
-#	fi
-#
-#	dqb "e22_acol() dinbe()"
-#}
-#
+
+#slim/xdm/wdm-spesifinen konfiguraatio saattaa tulla jo mukaan myös
+#020426:ei vedä verkosta mitään ni ei tartte lisätestejä?
+#140426:kopsannee kohteeseen mitä pitääkin
+#(meneekö rules.* kohteeseen useamman kerran?)
+#200426:taitaa toimia edelleen
+
+function e22_acol() {
+	dqb "e22_acol()"
+
+	[ -z "${1}" ] && exit 1
+	[ -s ${1} ] || exit 4 
+	#[ -w ${1} ] || exit 9
+	[ -z "${2}" ] && exit 2
+	[ -z "${3}" ] && exit 3		
+	[ -z "${4}" ] && exit 5
+
+	dqb "prs ok"
+	csleep 1
+
+	#missäs nämä palautettiin entiselleen? ja tartttteeko olla 07xx ? let's find out
+	${scm} 0555 /etc/iptables
+	${scm} 0444 /etc/iptables/rules*
+	${scm} 0444 /etc/default/rules*
+
+	local f
+	local ef
+	local g
+
+	for f in $(find /etc -type f -name "interfaces*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
+	
+	for f in $(${odio} find /etc -type f -name "rules*" -and -not -name "*.202*" ) ; do
+		if [ -s ${f} ] && [ -r ${f} ] ; then
+			${srat} -rvf ${1} ${f}
+		fi
+	done
+
+	luca ${1}
+	other_horrors
+
+	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
+		exit 112
+	fi
+
+	${srat} -rvf ${1} /etc/default/net*
+
+	case "${2}" in
+		wlan0)
+			${srat} -rvf ${1} /etc/wpa_supplicant
+			${srat} -tf ${1} | grep wpa
+		;;
+		*)
+		;;
+	esac
+		
+	if [ ${3} -gt 0 ] ; then #-eq 1
+		for f in $(find /etc -type f -name "stubby*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
+		for f in $(find /etc -type f -name "dns*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
+	fi
+
+	ef=$(echo ${4} | tr -d -c 0-9)
+
+	if  [ ${ef} -eq 1 ] ; then
+		dqb "SMTHING"
+	else
+		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
+	fi
+
+	dqb "e22_acol() dinbe()"
+}
+
 ##imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
 ##... jotain alettu trehdäö 04/26
 #

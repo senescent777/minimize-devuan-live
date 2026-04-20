@@ -244,7 +244,6 @@ case "${mode}" in
 
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
-		exit
 
 		e22_pre1 ${d} ${distro}
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
@@ -253,6 +252,7 @@ case "${mode}" in
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
 		z2 /opt/bin/zxcv 		
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
+		exit
 	;;
 	#180426:osasi paketin muodostaa, asennusvaih pientä nalkutusta
 	#dpkg: dependency problems prevent configuration of libxml-parser-perl:
