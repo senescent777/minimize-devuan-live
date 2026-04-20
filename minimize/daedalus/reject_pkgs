@@ -11,7 +11,5 @@
 gpgv
 #
 python3-pil
-#
-#VAIH:libav mukaan vai ei? (avutil ja avcodec aiheuttavat härdelliä, nopeampi vain karsia)
-#... josko takaisin kommentteihin josqs?
-#libav
+#JOSKO NYT TULISI MUKAAN
+libav
