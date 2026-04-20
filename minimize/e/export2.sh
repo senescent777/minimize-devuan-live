@@ -249,7 +249,7 @@ case "${mode}" in
 		#exit
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
-		exit
+		#exit
 
 		e22_pre1 ${d} ${distro}
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}

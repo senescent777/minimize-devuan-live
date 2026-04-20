@@ -261,22 +261,17 @@ function e22_acol() {
 	local ef
 	local g
 	for f in $(find /etc -type f -name "interfaces*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
-
 	for f in $(${odio} find /etc -type f -name "rules*" -and -not -name "*.202*" ) ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
 		fi
 	done
-
 	luca ${1}
 	other_horrors
-
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		exit 112
 	fi
-
 	${srat} -rvf ${1} /etc/default/net*
-
 	case "${2}" in
 		wlan0)
 			${srat} -rvf ${1} /etc/wpa_supplicant
@@ -285,14 +280,11 @@ function e22_acol() {
 		*)
 		;;
 	esac
-		
 	if [ ${3} -gt 0 ] ; then #-eq 1
 		for f in $(find /etc -type f -name "stubby*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
 		for f in $(find /etc -type f -name "dns*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
 	fi
-
 	ef=$(echo ${4} | tr -d -c 0-9)
-
 	if  [ ${ef} -eq 1 ] ; then
 		dqb "SMTHING"
 	else
