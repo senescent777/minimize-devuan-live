@@ -9,12 +9,12 @@ mode=-2
 tgtfile=""
 
 function usage() {
-	echo "$0 <mode> <file> [ -v] "
+	echo "$0 <mode> <tgtfile> [ -v] "
 	echo "mode:"
 	echo "f: makes archive of .deb-files"
 	echo "q: makes archive contaihing firefox profile"
-	echo "c:"
-	echo "p:"
+	echo "c: is sq-Chroot-env-related option"
+	echo "p:" Pulls \${CONF_default_archive3} from somewhere?"
 	
 }
 
