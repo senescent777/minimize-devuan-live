@@ -450,7 +450,7 @@ function e22_acol() {
 
 	dqb "e22_acol() dinbe()"
 }
-
+#
 ##imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
 ##... jotain alettu trehdäö 04/26
 #
@@ -462,7 +462,7 @@ function e22_acol() {
 #
 ##(josko exp2 voisi korvata "tar -T -cf":llä?)
 #
-##160426:toimii
+#200426:qseeko tässä jokin?
 #function e22_sarram() {
 #	dqb "e22_sarram(${1} ; ${2} ; ${3} )))))))()))))"
 #
@@ -519,9 +519,9 @@ function e22_acol() {
 #	other_horrors
 #	dqb "e22_sarram() dne()"
 #}
-
-[ -v CONF_BASEURL ] || exit 6
-
+#
+#[ -v CONF_BASEURL ] || exit 6
+#
 #verkkoyhteyttä vaativat jutut vain jos testgris ei asetettu? vaiko kutsuvan koodin puolella tarkistus?
 #140426:muuten mennee pakettiin jutut paitsi dhclient-script?
 #160426:toimii
@@ -802,23 +802,23 @@ function e22_arch() {
 #}
 #
 #1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO?)
-
-
-function z1() {
-	dqb "z1()"
-	[ -z "${1}" ] && exit 66
-	dqb "NVDK 1b 2 secs"
-	csleep 2
-
-	${NKVD} ${1}.tmp
-	${spc} ${1} ${1}.ÅLD
-	${spc} ${1}.sig ${1}.sig.ÅLD
-	${spc} ${1}.sha ${1}.sha.ÅLD
-
-	csleep 1
-	fasdfasd ${1}.tmp
-}
-
+#
+#
+#function z1() {
+#	dqb "z1()"
+#	[ -z "${1}" ] && exit 66
+#	dqb "NVDK 1b 2 secs"
+#	csleep 2
+#
+#	${NKVD} ${1}.tmp
+#	${spc} ${1} ${1}.ÅLD
+#	${spc} ${1}.sig ${1}.sig.ÅLD
+#	${spc} ${1}.sha ${1}.sha.ÅLD
+#
+#	csleep 1
+#	fasdfasd ${1}.tmp
+#}
+#
 #function z2() {
 #	dqb "z2()"
 #	[ -z "${1}" ] && exit 66
@@ -841,35 +841,22 @@ function z1() {
 #	e22_tyg ${1}
 #	${sah6} ${1} > ${1}.sha
 #}
-#
-#function z3() {
-#	dqb "z3( ${1] ; ${2} ; ${3} ))))))))))"
-#	[ -z "${1}" ] && exit 66
-#	[ -s ${2} ] || exit 67
-#	[ -z "${3}" ] && exit 68
-#
-#	dqb "raps ko"
-#	#[ -f ${3} ] && ${NKVD} ${3}
-#	csleep 1
-#
-#	fasdfasd ${3}
-#	csleep 1
-#
-#	#HUOM.090426:EI IHAN SUORAAN NÄIN, PITÄISI EDITOIDA HAKEMISTOT POIS LISTASTA
-#	if [ ! -s ${3} ] ; then
-#		${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
-#		csleep 1
-#	fi
-#
-#	${srat} -rvf ${2} ${3}
-#
-#	local t=$(dirname ${1})
-#	${scm} go-w ${t}/*
-#	${sco} -R 0:0 ${1}
-#	${srat} -rvf ${2} ${1}*
-#	
-#	${scm} go-r ${t}/*
-#	csleep 1
-#	dqb "z3.done"
-#}
-#
+function z3() {
+[ -z "${1}" ] && exit 66
+[ -s ${2} ] || exit 67
+[ -z "${3}" ] && exit 68
+csleep 1
+fasdfasd ${3}
+csleep 1
+if [ ! -s ${3} ] ; then
+${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
+csleep 1
+fi
+${srat} -rvf ${2} ${3}
+local t=$(dirname ${1})
+${scm} go-w ${t}/*
+${sco} -R 0:0 ${1}
+${srat} -rvf ${2} ${1}*
+${scm} go-r ${t}/*
+csleep 1
+}
