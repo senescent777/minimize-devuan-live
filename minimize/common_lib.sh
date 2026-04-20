@@ -389,6 +389,7 @@ function efk1() {
 	csleep 1 #riittäisikö?
 }
 
+#TODO:$2 tarkistus myös?
 function efk2() {
 	dqb "efk2 )))))))) ${1} ))) ${2} )))))"
 
@@ -401,7 +402,7 @@ function efk2() {
 	csleep 1
 }
 
-function wopr() { #050426:toimii jo?
+function wopr() { #200426:taitaa toimnia
 	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
 	local r=$(find ${1} -type f -name "${2}*.deb" )
 
@@ -478,8 +479,13 @@ function cefgh() {
 	csleep 1
 
 	if [ -z "${gg}" ] ; then
-		#TODO:tähän saha-tarkistus vai ei?
-		dqb "SHOULD {sah6} -c ${1}/e.tar HERE"
+		#tähän sah6-tarkistus vai ei?
+		#dqb "SHOULD {sah6} -c ${1}/e.tar HERE"
+		#if [ -s ${1}/e.tar.sha ] ; then
+		#	${sah6} -c ${1}/e.tar.sha
+		#	[ $? -eq 0 ] || ${NKVD} ${1}/e.tar*
+		#fi
+
 		csleep 5
 	
 		efk2 ${1}/e.tar ${1}

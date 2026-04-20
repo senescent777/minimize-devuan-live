@@ -689,7 +689,7 @@ function e22_arch() {
 
 	csleep 1
 	#tämä leikki takaisin kuitenkin 180426
-	t=$(basename ${1})
+	#local t=$(basename ${1})
 	dqb "JUST BEFORE shasms.1.1"
 	csleep 1
 
