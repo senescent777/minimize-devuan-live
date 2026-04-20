@@ -1,6 +1,6 @@
 #just_download_not_install-vipu olisi tietysti...
 
-#020426:dgsts.4 ja dgsts.5 , miten niiden kanssa nkuyään?lets find out? EIKU toinen skripti ja repo
+#020426:dgsts.4 ja dgsts.5 , miten niiden kanssa nkuyään?lets find out? EIKU
 
 #010426:muutoksia josqs? dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteen keksitty
 function aswasw() { #privaatti fktio, tarkpoitus olla
@@ -22,7 +22,7 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 	esac
 }
 
-function e23_tblz() { #200426:vissiin edelleen vetää paketteja
+function e23_tblz() { #taitaa toimia, 070426
 	dqb "e23_tblz()"
 	csleep 1
 
@@ -39,7 +39,6 @@ function e23_tblz() { #200426:vissiin edelleen vetää paketteja
 	#message() tähän?
 	tpc7	#jotain excaliburiin liittyvää
 	aswasw ${2}
-	#TODO:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
 	${shary} ${E22_GT}
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
@@ -59,7 +58,7 @@ function e23_tblz() { #200426:vissiin edelleen vetää paketteja
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
 #... siinä ulkoistuksessa on kyllä semmoinen juttu
 
-#200426:vissiin edelleen vetää paketteja
+#050426:suattaapi vaikka toimia
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -108,11 +107,11 @@ function e23_other_pkgs() {
 
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 
-#190426:toimii
+#280326:saa aikaiseksi paketin, sisällön testaus vielä
 function e23_upgp() {
 	dqb " e23_upgp() "
 
-	#dqb "pars_ok"
+	dqb "pars_ok"
 	${fib}
 	csleep 1
 
@@ -129,9 +128,8 @@ function e23_upgp() {
 	csleep 1
 }
 
-#190426:toimii
+#280326:saa aikaiseksi paketin, sisällön testaus vielä
 function e23_upgp2() {
-	dqb " e23_upgp2() "
 	[ -z "${1}" ] && exit 1 
 	[ -z "${2}" ] && exit 11
 
@@ -193,7 +191,21 @@ function e23_qrs() {
 	csleep 1
 }
 
-#190426:vissiin toimii, ÄLÄ SORKI
+#VAIH:uusiksi vain tyhjästä (110426 onnaSi paketin veto kokeiluja varten, asentiu desktop_liveen urputuksen aknssa) (jos jo urputus pois?)
+
+#VAIH:myös minimal_liven kanssa uudempi testikierros tämän kanssa (taas olisi ajank )
+#... modaamattomalla minimalilla boottaus+pakettien veto saattaisi olla idea
+
+#edelleen:
+#libwraster6:amd64 depends on libmagickwand-6.q16-6 (>= 8:6.9.10.2); however:
+#libwings3:amd64 depends on libpangoxft-1.0-0
+#libwings3:amd64 depends on libwraster6
+#wdm depends on libwings3 (>= 0.95.0); however:
+#110426:alkaisikohan kohta olla lib-asiat kunnossa? desktop_liven kanssa jo onnasi?
+
+#TODO:jokin /o/b/skRipti nostamaan äläkän jos /e/resolv.vonf puuttuu
+
+#.V.M.P.5tna mussunmussun
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -295,12 +307,31 @@ function e23_dm() {
 	csleep 1
 }
 
+#	vieläjotain yhdisteltäbvää?
+#
+#
+#	#varsinainen cpp mukaan tuohon? alempana se tulee mukaan nyt
 
+#
+#	${shary} libopengl0O  
+#	${shary} cpp procps
+#
+
+#	#Depends: adwaita-icon-theme, hicolor-icon-theme, shared-mime-info, 
+#
+#	 libatk-bridge2.0-0 libcairo-gobject2 libcairo2
+#	${shary} libcolord2 libepoxy0
+#	${shary} libpangocairo-1.0-0
+#	${shary} libxdamage1 
+#	${shary} libxkbcommon0
+## 
+#
+#
 
 #	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
 #
-
-
+#	#VAIH:dpkg: dependency problems prevent configuration of libwww-perl:
+#	#VAIH:xscreensaver depends on ; however:
 
 #	libstdc++6 (>= 11), 
 #	#	${shary}  libgnutls30
@@ -312,6 +343,7 @@ function e23_dm() {
 #			${shary} xdm
 #		;;
 #		wdm)
+#			#TODO:wdm tartvitsee xserver|xserver-org (minimal_live)
 #			${shary}  #audit1 ennen case?
 #			${shary} sysvinit-utils 
 #			${shary} libpipeline1
@@ -347,8 +379,10 @@ function e23_dm() {
 #		;;
 #	esac
 #
-
-
+#	#VAIH:pitäisiköhän nämäkin junnata läpi?
+#	#Depends: perl:any, , ,,,,,,,,, liblwp-mediatypes-perl,, libnet-http-perl, libtry-tiny-perl, liburi-perl, libwww-robotrules-perl, 
+#	#  (>= 0.99.7.1), libsystemd0 (>= 243), ,  (>> 2.1.1), (>= 2:1.2.99.4),  (>= 2:1.1.4), 
+#
 #	#EI JUNALAUTTA
 #	E22_GX="netbase"
 #	E22_GX="${E22_GX} liblwp-protocol-https-perl libhttp-negotiate-perl libhtml-tagset-perl libhttp-message-perl libhttp-date-perl libhttp-cookies-perl libhtml-tree-perl libhtml-parser-perl libfile-listing-perl libencode-locale-perl"
@@ -423,5 +457,7 @@ function e23_profs() {
 #	#${shary} xserver-xorg-video-ati xserver-xorg-video-fbdev xserver-xorg-video-intel 
 #	#${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
 #
-
+#		#VAIH:xserver-xorg-video-* ainakin mukaan?
+##... "case l" jos kuittaisi äksän lib-jutut (tai sit boottaa minimal-liveen ja asenna x+wdm siihen) (TODO?)
+#
 #}
