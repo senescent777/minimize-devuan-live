@@ -224,7 +224,7 @@ case "${mode}" in
 		exit 97
 	;;
 	3|4) 
-		#3 taisi toimia 04/26 tienoilla ainakin kerran (VAIH:e tai 3 kanssa ne e22_a()- kikkailut?)
+		#3 taisi toimia 04/26 tienoilla ainakin kerran (VAIH:e tai 3 kanssa ne e22_a()- kikkailut?) paketin muodostus saattaa kohta toimia, sisällön toimivuus asia erikseen
 		#4 toimi viimeksi 180426
 		#(merd2 tst myöhemmin, ehkä)
 	
@@ -242,9 +242,9 @@ case "${mode}" in
 			doit=0
 		fi
 
-		exit
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
+		exit
 
 		e22_pre1 ${d} ${distro}
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}

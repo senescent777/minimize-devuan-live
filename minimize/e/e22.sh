@@ -230,139 +230,139 @@ function e22_cleanpkgs() {
 	dqb "done"
 }
 
-##290326:tämän kanssa jotain Jatkosäätöä vai ei?
-##120426:bissiin menee mukaan kohteeseen config.tar.bz2
-#function e22_config1() {
-#	dqb "e22_config1()"
-#	[ -z "${1}" ] && exit 11
-#	[ -d ${1} ] || exit 22
-#	[ -z "${2}" ] && exit 11
-#
-#	local p
-#	p=$(pwd)
-#	
-#	cd ${1} 
-#	#antaa nyt olla toistaiseksi näin, cd:n kanssa
-#	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
-#	${sr0} -jcf ${2} ./xorg.conf* ./.config
-#
-#	[ -s ${2} ] || exit 99
-#	cd ${p}
-#
-#	dqb "e22_config1() done"
-#	csleep 1
-#}
-#
-##TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
-##nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
-#
-##290326:tämän kanssa jotain hatkosäätöä vai ei?
-##120426:vissiin menee kohteeseen fedi ja profs (mutta meneekö 1. mainittu myös juureen?)
-#function e22_settings() {
-#	dqb "e22_settings(${1}, ${2}, ${3}, ${4})"
-#	[ -z "${1}" ] && exit 11
-#	[ -d ${1} ] || exit 22
-#	[ -z "${2}" ] && exit 44
-#	[ -z "${3}" ] && exit 89
-#	dqb "pars.ok"
-#	csleep 1
-#
-#	if [ ! -x ${1}/${3} ] ; then
-#		echo "SHOU.LD exp2 p asgfd asgfd"
-#		exit 24
-#	fi
-#
-#	.  ${1}/${3}
-#	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
-#	exp_prof ${1}/${2} default-esr
-#	[ -s ${1}/${2} ] || exit 32
-#
-#	local t
-#	t=$(tar -tf ${1}/${2} | grep prefs.js | wc -l)
-#	dqb "FOUND PREFS: ${t}"
-#	[ ${t} -lt 1 ] && exit 27
-#}
-#
-##290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa? (vielä 120426?)
-#
-##040426:ei tarvinne CONF_testgris-ehtoa ainakaan verkkoyhteyden varalta, ei vedä kaloja
-##140426:vissiin toimiva fktio (ainakin ennen merd2-kikkailua)
-##160426:taitaa toimia edelleen
-#
-#function e22_home_pre() {
-#	dqb "e22_home_pre()"
-#
-#	[ -z "${1}" ] && exit 67
-#	[ -s ${1} ] || exit 68
-#	[ -z "${2}" ] && exit 69
-#	[ -d ${2} ] || exit 70
-#	[ -z "${3}" ] && exit 71
-#	[ -z "${4}" ] && exit 73
-#	[ -z "${5}" ] && exit 79
-#
-#	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
-#		e22_config1 ~ ${4}
-#		${NKVD} ~/${5}		
-#		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
-#	fi
-#
-#	csleep 1
-#
-#	#080426:osilikohan okieutedt ok oj? kaikilta w pois vielä?
-#	${scm} a-w  /opt/bin/*
-#	${scm} go-r /opt/bin/*
-#	${sco} 0:0 /opt/bin/*
-#	${srat} -rvf ${1} /opt/bin 
-#
-#	dqb "JUST BEFORE FIND"
-#	csleep 1
-#
-#	#DONE:jos merd2:sta vain 1 kpl jatkossa kohteeseen
-#	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
-#		${srat} -rvf ${1} ${t}
-#	done
-#	
-#	for t in $(find ~ -type f -name ${4} ) ; do
-#		${srat} -rvf ${1} ${t}
-#	done
-#
-#	dqb "HOMEPRE D0NE"
-#	csleep 1
-#}
-#
-##290326:toimii, mutta $3 kanssa ehkä jotain?
-##29426:edelleen toimii?
-##140426:vissiin kopsaa kohdepakettin mitä pitääkin/kunnes toisin todistetaaN)
-##160426:taitaa toimia edelleen
-#
-#function e22_home() {
-#	dqb "e22_home()"
-#	[ -z "${1}" ] && exit 67
-#	[ -s ${1} ] || exit 68
-#	[ -z "${2}" ] && exit 69
-#	[ -d ${2} ] || exit 70
-#	[ -z "${3}" ] && exit 71
-#
-#	#[ -z "${4}" ] && exit 73
-#	csleep 1
-#	local t
-#	local f
-#
-#	${srat} -rvf ${1} ${2}/../${3}
-#	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
-#	[ ${t} -lt 1 ] && exit 72
-#	csleep 1
-#
-#	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-#	${srat} ${TARGET_TPX} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
-#	csleep 1
-#
-#	#find qsee jossain?	
-#	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
-#	dqb "e22_home().done()"	
-#}
-#
-##pitäisikö siirtää toiseen tdstoon? mihin?
+#290326:tämän kanssa jotain Jatkosäätöä vai ei?
+#120426:bissiin menee mukaan kohteeseen config.tar.bz2
+function e22_config1() {
+	dqb "e22_config1()"
+	[ -z "${1}" ] && exit 11
+	[ -d ${1} ] || exit 22
+	[ -z "${2}" ] && exit 11
+
+	local p
+	p=$(pwd)
+	
+	cd ${1} 
+	#antaa nyt olla toistaiseksi näin, cd:n kanssa
+	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
+	${sr0} -jcf ${2} ./xorg.conf* ./.config
+
+	[ -s ${2} ] || exit 99
+	cd ${p}
+
+	dqb "e22_config1() done"
+	csleep 1
+}
+
+#TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
+#nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
+
+#290326:tämän kanssa jotain hatkosäätöä vai ei?
+#120426:vissiin menee kohteeseen fedi ja profs (mutta meneekö 1. mainittu myös juureen?)
+function e22_settings() {
+	dqb "e22_settings(${1}, ${2}, ${3}, ${4})"
+	[ -z "${1}" ] && exit 11
+	[ -d ${1} ] || exit 22
+	[ -z "${2}" ] && exit 44
+	[ -z "${3}" ] && exit 89
+	dqb "pars.ok"
+	csleep 1
+
+	if [ ! -x ${1}/${3} ] ; then
+		echo "SHOU.LD exp2 p asgfd asgfd"
+		exit 24
+	fi
+
+	.  ${1}/${3}
+	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
+	exp_prof ${1}/${2} default-esr
+	[ -s ${1}/${2} ] || exit 32
+
+	local t
+	t=$(tar -tf ${1}/${2} | grep prefs.js | wc -l)
+	dqb "FOUND PREFS: ${t}"
+	[ ${t} -lt 1 ] && exit 27
+}
+
+#290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa? (vielä 120426?)
+
+#040426:ei tarvinne CONF_testgris-ehtoa ainakaan verkkoyhteyden varalta, ei vedä kaloja
+#140426:vissiin toimiva fktio (ainakin ennen merd2-kikkailua)
+#160426:taitaa toimia edelleen
+
+function e22_home_pre() {
+	dqb "e22_home_pre()"
+
+	[ -z "${1}" ] && exit 67
+	[ -s ${1} ] || exit 68
+	[ -z "${2}" ] && exit 69
+	[ -d ${2} ] || exit 70
+	[ -z "${3}" ] && exit 71
+	[ -z "${4}" ] && exit 73
+	[ -z "${5}" ] && exit 79
+
+	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
+		e22_config1 ~ ${4}
+		${NKVD} ~/${5}		
+		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
+	fi
+
+	csleep 1
+
+	#080426:osilikohan okieutedt ok oj? kaikilta w pois vielä?
+	${scm} a-w  /opt/bin/*
+	${scm} go-r /opt/bin/*
+	${sco} 0:0 /opt/bin/*
+	${srat} -rvf ${1} /opt/bin 
+
+	dqb "JUST BEFORE FIND"
+	csleep 1
+
+	#DONE:jos merd2:sta vain 1 kpl jatkossa kohteeseen
+	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
+		${srat} -rvf ${1} ${t}
+	done
+	
+	for t in $(find ~ -type f -name ${4} ) ; do
+		${srat} -rvf ${1} ${t}
+	done
+
+	dqb "HOMEPRE D0NE"
+	csleep 1
+}
+
+#290326:toimii, mutta $3 kanssa ehkä jotain?
+#29426:edelleen toimii?
+#140426:vissiin kopsaa kohdepakettin mitä pitääkin/kunnes toisin todistetaaN)
+#160426:taitaa toimia edelleen
+
+function e22_home() {
+	dqb "e22_home()"
+	[ -z "${1}" ] && exit 67
+	[ -s ${1} ] || exit 68
+	[ -z "${2}" ] && exit 69
+	[ -d ${2} ] || exit 70
+	[ -z "${3}" ] && exit 71
+
+	#[ -z "${4}" ] && exit 73
+	csleep 1
+	local t
+	local f
+
+	${srat} -rvf ${1} ${2}/../${3}
+	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
+	[ ${t} -lt 1 ] && exit 72
+	csleep 1
+
+	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
+	${srat} ${TARGET_TPX} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
+	csleep 1
+
+	#find qsee jossain?	
+	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
+	dqb "e22_home().done()"	
+}
+
+#pitäisikö siirtää toiseen tdstoon? mihin?
 ##toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
 ##120426:vissiin kopsaa kohteeseen mitä itääkin
 #function luca() {
