@@ -257,7 +257,7 @@ case "${mode}" in
 		#exit
 
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
-		exit
+		#exit
 		
 		z2 /opt/bin/zxcv
 		exit

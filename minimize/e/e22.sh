@@ -494,23 +494,25 @@ ${spc} ${1}.sha ${1}.sha.ÅLD
 csleep 1
 fasdfasd ${1}.tmp
 }
-#function z2() {
-#[ -z "${1}" ] && exit 66
-#reqwreqw ${1}.tmp
-#csleep 1
-#${NKVD} ${1}.sig
-#${NKVD} ${1}.sha
-#${NKVD} ${1}
-#csleep 1
-#fasdfasd ${1}.sig
-#fasdfasd ${1}.sha
-#${svm} ${1}.tmp ${1}
-#csleep 1
-#${sah6} --ignore-missing -c ${1}
-#csleep 3
-#e22_tyg ${1}
-#${sah6} ${1} > ${1}.sha
-#}
+
+function z2() {
+[ -z "${1}" ] && exit 66
+reqwreqw ${1}.tmp
+csleep 1
+${NKVD} ${1}.sig
+${NKVD} ${1}.sha
+${NKVD} ${1}
+csleep 1
+fasdfasd ${1}.sig
+fasdfasd ${1}.sha
+${svm} ${1}.tmp ${1}
+csleep 1
+${sah6} --ignore-missing -c ${1}
+csleep 3
+e22_tyg ${1}
+${sah6} ${1} > ${1}.sha
+}
+
 #function z3() {
 #[ -z "${1}" ] && exit 66
 #[ -s ${2} ] || exit 67
