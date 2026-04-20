@@ -31,8 +31,8 @@ function usage() {
 	echo "$0 -h: shows tHis message about usage"
 }
 
-#TODO:jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
-#... joko jo 190426?
+#VAIH:jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
+#... jospa ensin export3:sen kanssa kokeilut ja sitttten
 
 if [ $# -gt 1 ] ; then
 	mode=${1}
@@ -84,10 +84,6 @@ function fallback() { #tarpeellinen?
 	exit 59
 }
 
-#echo "distro: ${distro}"
-#sleep 5
-#dqb ja csleep vielä määritelty
-
 if [ -x ${d0}/common_lib.sh ] ; then #200426:edelleen tarpeellinen kirjasto
 	. ${d0}/common_lib.sh
 else
@@ -106,7 +102,7 @@ sleep 1
 
 if [ -z "${tig}" ] ; then
 	echo "SHOULD INSTALL GIT"
-	exit 7 #syystä excalibur-testit tilap kommentteihin 16126
+	exit 7
 fi
 
 if [ -z "${mkt}" ] ; then
@@ -143,6 +139,7 @@ csleep 1
 e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 #jokin varmistus vielä että iface alhaalla?
+#exit
 
 #VAIH:tästä ekasta case-blokista oma skriptinsä?
 case "${mode}" in
@@ -190,6 +187,8 @@ case "${mode}" in
 	;;
 esac
 
+#exit
+
 if [ $cont -eq 1 ] ; then
 	dqb "R3D B3F0R3 BL4KC"
 else
@@ -197,16 +196,19 @@ else
 	exit 66
 fi
 
-csleep 1
+#exit
+
+#csleep 1
 #290326:e_jutut vielä tarpeellisia?
-e_final
-e_h $(whoami) ${d0}
-dqb "EHD0.LL1.N3 1v2k"
-csleep 1
+#e_final
+#e_h $(whoami) ${d0}
+#dqb "EHD0.LL1.N3 1v2k"
+#csleep 1
 
 #HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
+#exit
 
 #290326:pre2() 2. param pois?
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
@@ -218,6 +220,7 @@ e22_cleanpkgs ${CONF_pkgdir}
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 doit=1
 csleep 1
+#exit
 
 case "${mode}" in
 	0)
@@ -233,7 +236,8 @@ case "${mode}" in
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
-		
+		exit
+
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
@@ -241,13 +245,16 @@ case "${mode}" in
 		else
 			doit=0
 		fi
-
+		
+		exit
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
+		exit
 
 		e22_pre1 ${d} ${distro}
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
 		fasdfasd /opt/bin/zxcv.tmp
+		exit
 
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
 		z2 /opt/bin/zxcv 		
@@ -319,6 +326,8 @@ case "${mode}" in
 	;;
 esac
 
+exit
+
 function e22_dblock() { #140426:lienee toimiva tämä fktio
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
 
@@ -363,6 +372,7 @@ function e22_dblock() { #140426:lienee toimiva tämä fktio
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
 	#HUOM.11326:d-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
+	exit
 
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar
@@ -371,6 +381,8 @@ if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
 fi
+
+exit
 
 if [ -s ${tgtfile} ] ; then
 	e22_ftr ${tgtfile}

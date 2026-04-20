@@ -1,39 +1,3 @@
-#!/bin/bash
-
-debug=0 #1
-distro=$(cat /etc/devuan_version)
-
-d0=$(pwd)
-d=${d0}/${distro}
-mode=-2
-tgtfile=""
-
-function usage() {
-	echo "$0 <mode> <file> [ -v] "
-	echo "mode:"
-	echo "f: makes archive of .deb-files"
-	echo "q: makes archive contaihing firefox profile"
-	echo "c:"
-	echo "p:"
-	
-}
-
-function parse_opts_1() {
-	dqb "parse_opts_1( ${1})"
-}
-
-function parse_opts_2() {
-	dqb "parse_opts_2)))))))( ${1} ; ${2} ))))))"
-}
-
-function fallback() { #tarpeellinen?
-	exit 59
-}
-
-[ -z "${distro}" ] && exit 6
-#d=${d0}/${distro} #nykyään vähän turha tässä
-process_lib ${d}
-
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
 	[ $? -gt 0 ] && exit 66
@@ -46,9 +10,6 @@ else
 	echo "NO BACKEND FOUND"
 	exit 58
 fi
-
-e22_hdr ${tgtfile}
-[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 case "${mode}" in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
@@ -90,9 +51,7 @@ case "${mode}" in
 #			e22_ftr ${f}
 #		done
 #	;;
-#	*)
-#		cont=1
-#	;;
+	*)
+		cont=1
+	;;
 esac
-
-e22_ftr ${tgtfile}
