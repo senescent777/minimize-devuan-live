@@ -519,104 +519,104 @@ function e22_cleanpkgs() {
 #	other_horrors
 #	dqb "e22_sarram() dne()"
 #}
-#
-#[ -v CONF_BASEURL ] || exit 6
-#
-##verkkoyhteyttä vaativat jutut vain jos testgris ei asetettu? vaiko kutsuvan koodin puolella tarkistus?
-##140426:muuten mennee pakettiin jutut paitsi dhclient-script?
-##160426:toimii
-#
-#function e22_ext() {
-#	[ -z "${1}" ] && exit 1
-#	[ -d ${1} ] && exit 59
-#	[ -f ${1} ] || exit 67
-#
-#	[ -s ${1} ] || exit 2
-#	[ -w ${1} ] || exit 6
-#	
-#	[ -z "${2}" ] && exit 3
-#	[ -z "${3}" ] && exit 4
-#	[ -z "${4}" ] && exit 47
-#		
-#	[ -d ${4} ] && exit 53
-#	[ -f ${4} ] || exit 61
-#
-#	local p
-#	local q	
-#	local r
-#	local st
-#
-#	csleep 1 #0504526:riittävästi latensseja karsittu ?
-#	p=$(pwd)
-#
-#	#q=$(${mkt} -d) #ei vaan toimi näin?
-#	q=$(mktemp -d)
-#	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
-#	st=$(echo ${3} | tr -d -c 0-9)
-#	[ ${debug} -eq 1 ] && pwd
-#
-#	cd ${q}
-#
-#	dqb "iface should be up by bow, next:git"
-#	csleep 1
-#
-#	${tig} clone https://${CONF_BASEURL}/more_scripts.git
-#	[ $? -eq 0 ] || exit 66
-#
-#	cd more_scripts/misc
-#	echo $?
-#	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
-#
-#	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
-#		${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1	
-#	fi
-#
-#	${spc} /etc/resolv.conf ./etc/resolv.conf.${st}
-#
-#	if [ ! -s ./etc/resolv.conf.1 ] ; then
-#		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
-#	fi
-#
-#	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${st}
-#
-#	if [ ! -s ./sbin/dhclient-script.1 ] ; then
-#		${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
-#		ls -las ./sbin
-#	fi
-#
-#	if [ -f /etc/apt/sources.list ] ; then
-#		local c
-#		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
-#
-#		if [ ${c} -lt 1 ] ; then
-# 			${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
-#		fi
-#	fi
-#
-#	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
-#	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
-#	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
-#
-#	${sco} -R root:root ./etc
-#	${scm} -R a-w ./etc
-#	${sco} -R root:root ./sbin 
-#	${scm} -R a-w ./sbin
-#	${srat} -rvf ${1} ./etc  #./sbin jälkimmäinen hmisto josqs takaisin vai ei?
-#
-#	echo $?
-#
-#	local f
-#	#160126:tuon yhden tdston kanssa jokin ongelma sha-tark kanssa, joten ksrdotssn
-#	#pois myös resolv.conf.* vaiko ei ?
-#
-#	#interfaces-alkuisten kanssa kiukuttelua cnangedns kanssa
-#	for f in $(find ./etc -type f -not -name "interfaces.*" ) ; do
-#		${sah6} ${f} >> ${4}
-#	done
-#
-#	cd ${p}
-#	[ ${debug} -eq 1 ] && pwd
-#}
+
+[ -v CONF_BASEURL ] || exit 6
+
+#verkkoyhteyttä vaativat jutut vain jos testgris ei asetettu? vaiko kutsuvan koodin puolella tarkistus?
+#140426:muuten mennee pakettiin jutut paitsi dhclient-script?
+#160426:toimii
+
+function e22_ext() {
+	[ -z "${1}" ] && exit 1
+	[ -d ${1} ] && exit 59
+	[ -f ${1} ] || exit 67
+
+	[ -s ${1} ] || exit 2
+	[ -w ${1} ] || exit 6
+	
+	[ -z "${2}" ] && exit 3
+	[ -z "${3}" ] && exit 4
+	[ -z "${4}" ] && exit 47
+		
+	[ -d ${4} ] && exit 53
+	[ -f ${4} ] || exit 61
+
+	local p
+	local q	
+	local r
+	local st
+
+	csleep 1 #0504526:riittävästi latensseja karsittu ?
+	p=$(pwd)
+
+	#q=$(${mkt} -d) #ei vaan toimi näin?
+	q=$(mktemp -d)
+	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+	st=$(echo ${3} | tr -d -c 0-9)
+	[ ${debug} -eq 1 ] && pwd
+
+	cd ${q}
+
+	dqb "iface should be up by bow, next:git"
+	csleep 1
+
+	${tig} clone https://${CONF_BASEURL}/more_scripts.git
+	[ $? -eq 0 ] || exit 66
+
+	cd more_scripts/misc
+	echo $?
+	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
+
+	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
+		${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1	
+	fi
+
+	${spc} /etc/resolv.conf ./etc/resolv.conf.${st}
+
+	if [ ! -s ./etc/resolv.conf.1 ] ; then
+		 ${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
+	fi
+
+	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${st}
+
+	if [ ! -s ./sbin/dhclient-script.1 ] ; then
+		${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
+		ls -las ./sbin
+	fi
+
+	if [ -f /etc/apt/sources.list ] ; then
+		local c
+		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
+
+		if [ ${c} -lt 1 ] ; then
+ 			${spc} /etc/apt/sources.list ./etc/apt/sources.list.${2}
+		fi
+	fi
+
+	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
+	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
+	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
+
+	${sco} -R root:root ./etc
+	${scm} -R a-w ./etc
+	${sco} -R root:root ./sbin 
+	${scm} -R a-w ./sbin
+	${srat} -rvf ${1} ./etc  #./sbin jälkimmäinen hmisto josqs takaisin vai ei?
+
+	echo $?
+
+	local f
+	#160126:tuon yhden tdston kanssa jokin ongelma sha-tark kanssa, joten ksrdotssn
+	#pois myös resolv.conf.* vaiko ei ?
+
+	#interfaces-alkuisten kanssa kiukuttelua cnangedns kanssa
+	for f in $(find ./etc -type f -not -name "interfaces.*" ) ; do
+		${sah6} ${f} >> ${4}
+	done
+
+	cd ${p}
+	[ ${debug} -eq 1 ] && pwd
+}
 
 #190426:lienee edelleen toimiva
 function e22_ts() {
@@ -803,21 +803,22 @@ function e22_arch() {
 #
 #1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO?)
 
-#
-#function z1() {
-#	[ -z "${1}" ] && exit 66
-#	dqb "NVDK 1b 2 secs"
-#	csleep 2
-#
-#	${NKVD} ${1}.tmp
-#	${spc} ${1} ${1}.ÅLD
-#	${spc} ${1}.sig ${1}.sig.ÅLD
-#	${spc} ${1}.sha ${1}.sha.ÅLD
-#
-#	csleep 1
-#	fasdfasd ${1}.tmp
-#}
-#
+
+function z1() {
+	dqb "z1()"
+	[ -z "${1}" ] && exit 66
+	dqb "NVDK 1b 2 secs"
+	csleep 2
+
+	${NKVD} ${1}.tmp
+	${spc} ${1} ${1}.ÅLD
+	${spc} ${1}.sig ${1}.sig.ÅLD
+	${spc} ${1}.sha ${1}.sha.ÅLD
+
+	csleep 1
+	fasdfasd ${1}.tmp
+}
+
 #function z2() {
 #	dqb "z2()"
 #	[ -z "${1}" ] && exit 66

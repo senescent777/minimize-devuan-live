@@ -22,7 +22,7 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 	esac
 }
 
-function e23_tblz() { #taitaa toimia, 070426 (uusi testi kohta?)
+function e23_tblz() { #200426:vissiin edelleen vetää paketteja
 	dqb "e23_tblz()"
 	csleep 1
 
@@ -59,7 +59,7 @@ function e23_tblz() { #taitaa toimia, 070426 (uusi testi kohta?)
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
 #... siinä ulkoistuksessa on kyllä semmoinen juttu
 
-#050426:suattaapi vaikka toimia (uusi testi kohta?)
+#200426:vissiin edelleen vetää paketteja
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
