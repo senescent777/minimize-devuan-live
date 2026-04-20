@@ -1,8 +1,9 @@
-#${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-#${scm} -Rv 700 ${CONF_pkgdir}/partial/
+${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+${scm} -Rv 700 ${CONF_pkgdir}/partial/
+
 #dqb "MDB"
 #csleep 1
-#
+
 #if [ -v CONF_pubk ] ; then
 #	dqb "Å"
 #else
@@ -124,6 +125,7 @@ function e22_pre1() {
 
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 66
+	[ -d ${1} ] || exit 111
 
 	csleep 1
 	dqb "pars.0k"
@@ -132,9 +134,9 @@ function e22_pre1() {
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
 	csleep 1
 
-	if [ ! -d ${1} ] ; then #voisi tehdä toisinkin (TODO)
-		exit 111
-	else
+#	if [ ! -d ${1} ] ; then
+#		exit 111
+#	else
 		local lefid
 		lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?	
 		enforce_access $(whoami) ${lefid}
@@ -144,7 +146,7 @@ function e22_pre1() {
 		${scm} a+w /etc/apt/sources.list*
 		part1 ${2} ${1}
 		${scm} a-w /etc/apt/sources.list*
-	fi
+#	fi
 
 	dqb "P3R1.D0N3"
 	csleep 1
@@ -161,6 +163,7 @@ function e22_pre2() {
 	[ -z "${2}" ] && exit 67
 	[ -z "${3}" ] && exit 68
 	[ -z "${4}" ] && exit 69
+	[ -d ${1} ] || exit 111
 
 	dqb " (pars.ok)"
 	csleep 10
@@ -175,7 +178,7 @@ function e22_pre2() {
 	#/e/n alihakemistoihin +x ?
 	#/e/n kokonaan talteen?
 
-	if [ -d ${1} ] ; then #voisi tehdä toisinkin (TODO)
+	#if [ -d ${1} ] ; then 
 		echo $?
 		csleep 1
 
@@ -200,9 +203,9 @@ function e22_pre2() {
 		${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 		${scm} -Rv 700 ${CONF_pkgdir}/partial/
 		${sag_u}
-	else
-		exit 111
-	fi
+	#else
+	#	exit 111
+	#fi
 
 	csleep 1
 	dqb "... done"
@@ -710,12 +713,14 @@ function e22_arch() {
 	##dirmngr kuitenkin tarvitsee jhnkin?
 	##"gpg --keyserver hkps://keys.gnupg.net --receive-keys $something" esim.
 
-	#tämä vs e22_tyg() , mikä pointti? (TODO:jatkossssa käskyttämään kys fktiota)
-	if [ -x ${gg} ] && [ -v CONF_pubk ] ; then
-		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt
-		${gg} -u ${CONF_pubk} -sb ./sha512sums.txt.1
-	fi
+	#tämä vs e22_tyg() , mikä pointti? (VAIH:jatkossssa käskyttämään kys fktiota)
+	#if [ -x ${gg} ] && [ -v CONF_pubk ] ; then
+	#	${gg} -u ${CONF_pubk} -sb ./sha512sums.txt
+	#	${gg} -u ${CONF_pubk} -sb ./sha512sums.txt.1
+	#fi
 
+	e22_tyg ./sha512sums.txt
+	e22_tyg ./sha512sums.txt.1
 	dqb "JUST BEFORE ps-qa"
 	csleep 1
 
