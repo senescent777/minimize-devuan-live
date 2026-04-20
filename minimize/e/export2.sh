@@ -254,10 +254,14 @@ case "${mode}" in
 		e22_pre1 ${d} ${distro}
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
 		fasdfasd /opt/bin/zxcv.tmp
-		exit
+		#exit
 
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
-		z2 /opt/bin/zxcv 		
+		exit
+		
+		z2 /opt/bin/zxcv
+		exit
+ 		
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 		exit
 	;;
