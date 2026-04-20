@@ -43,11 +43,11 @@ fi
 dqb "BEFORE L1B"
 process_lib ${d}
 csleep 2
-
-e_final
-csleep 2
-e_h $(whoami) ${d0} 
-csleep 2
+##20426:kokeillaanpa miten ilman e_juttuja toimaa
+#e_final
+#csleep 2
+#e_h $(whoami) ${d0} 
+#csleep 2
 
 #jos vaikka näin?
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}

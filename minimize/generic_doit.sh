@@ -356,13 +356,14 @@ jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
-e_final
-e_h $(whoami) ${d0}
+#20426:kokeillaanpa miten ilman e_juttuja toimaa
+#e_final
+#e_h $(whoami) ${d0}
 
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} /opt/bin/mutilatetc.bash  ${CONF_dnsm}
 fi
-#
+
 #
 #${odio} /opt/bin/tlb.bash ${CONF_dnsm}
 #${odio} /opt/bin/aftr.bash
