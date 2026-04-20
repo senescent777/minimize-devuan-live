@@ -260,7 +260,7 @@ case "${mode}" in
 		#exit
 		
 		z2 /opt/bin/zxcv
-		exit
+		#exit
  		
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 		exit

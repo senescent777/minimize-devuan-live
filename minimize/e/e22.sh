@@ -513,27 +513,29 @@ e22_tyg ${1}
 ${sah6} ${1} > ${1}.sha
 }
 
-#function z3() {
-#[ -z "${1}" ] && exit 66
-#[ -s ${2} ] || exit 67
-#[ -z "${3}" ] && exit 68
-#csleep 1
-#fasdfasd ${3}
-#csleep 1
-#if [ ! -s ${3} ] ; then
+function z3() {
+[ -z "${1}" ] && exit 66
+[ -s ${2} ] || exit 67
+[ -z "${3}" ] && exit 68
+csleep 1
+fasdfasd ${3}
+csleep 1
+if [ ! -s ${3} ] ; then
 #tulöeeko export3 mukaan?
-#${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
-#csleep 1
-#fi
-#${srat} -rvf ${2} ${3}
-#local t=$(dirname ${1})
-#${scm} go-w ${t}/*
-#${sco} -R 0:0 ${1}
-#${srat} -rvf ${2} ${1}*
-#${scm} go-r ${t}/*
-#csleep 1
-#}
-#
+${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
+csleep 1
+fi
+${srat} -rvf ${2} ${3}
+local t=$(dirname ${1})
+
+#onko riittävästi renkattu kohteessa?
+${scm} go-w ${t}/*
+${sco} -R 0:0 ${1}
+${srat} -rvf ${2} ${1}*
+${scm} go-r ${t}/*
+csleep 1
+}
+
 ##imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
 ##... jotain alettu trehdäö 04/26
 #
