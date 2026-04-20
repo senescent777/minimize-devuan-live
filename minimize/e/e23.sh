@@ -22,7 +22,7 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 	esac
 }
 
-function e23_tblz() { #taitaa toimia, 070426
+function e23_tblz() { #200426:vissiin edelleen vetää paketteja
 	dqb "e23_tblz()"
 	csleep 1
 
@@ -59,7 +59,7 @@ function e23_tblz() { #taitaa toimia, 070426
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
 #... siinä ulkoistuksessa on kyllä semmoinen juttu
 
-#050426:suattaapi vaikka toimia
+#200426:vissiin edelleen vetää paketteja
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -108,11 +108,11 @@ function e23_other_pkgs() {
 
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 
-#VAIH:testaus (180426)
+#190426:toimii
 function e23_upgp() {
 	dqb " e23_upgp() "
 
-	dqb "pars_ok"
+	#dqb "pars_ok"
 	${fib}
 	csleep 1
 
@@ -129,8 +129,9 @@ function e23_upgp() {
 	csleep 1
 }
 
-#VAIH:testaus (180426)
+#190426:toimii
 function e23_upgp2() {
+	dqb " e23_upgp2() "
 	[ -z "${1}" ] && exit 1 
 	[ -z "${2}" ] && exit 11
 
@@ -192,6 +193,7 @@ function e23_qrs() {
 	csleep 1
 }
 
+#190426:vissiin toimii, ÄLÄ SORKI
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
