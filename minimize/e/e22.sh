@@ -519,9 +519,9 @@ function e22_acol() {
 #	other_horrors
 #	dqb "e22_sarram() dne()"
 #}
-#
-#[ -v CONF_BASEURL ] || exit 6
-#
+
+[ -v CONF_BASEURL ] || exit 6
+
 #verkkoyhteyttä vaativat jutut vain jos testgris ei asetettu? vaiko kutsuvan koodin puolella tarkistus?
 #140426:muuten mennee pakettiin jutut paitsi dhclient-script?
 #160426:toimii
@@ -783,80 +783,64 @@ function e22_arch() {
 ##TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
 #
 #function e22_cde() {
-#	dqb "e22_cde()"
-#	
-#	[ -z "${1}" ] && exit 99
-#	[ -z "${2}" ] && exit 98
-#	[ -z "${3}" ] && exit 96
-#	[ -d "${2}" ] || exit 97
-#	[ -d "${3}" ] || exit 95
-#	
-#	cd ${2}
-#	fasdfasd ${1}
-#	[ ${debug} -eq 1 ] && ls -las ${1}*
-#	csleep 1
-#
-#	${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*_pkgs* ./${3}/pkgs_drop ./1c0ns/*.desktop
-#
-#	dqb "e22_cde DONE()"
+#[ -z "${1}" ] && exit 99
+#[ -z "${2}" ] && exit 98
+#[ -z "${3}" ] && exit 96
+#[ -d "${2}" ] || exit 97
+#[ -d "${3}" ] || exit 95
+#cd ${2}
+#fasdfasd ${1}
+#[ ${debug} -eq 1 ] && ls -las ${1}*
+#csleep 1
+#${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
 #}
 #
 #1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO?)
 #
 #
-#function z1() {
-#	dqb "z1()"
-#	[ -z "${1}" ] && exit 66
-#	dqb "NVDK 1b 2 secs"
-#	csleep 2
-#
-#	${NKVD} ${1}.tmp
-#	${spc} ${1} ${1}.ÅLD
-#	${spc} ${1}.sig ${1}.sig.ÅLD
-#	${spc} ${1}.sha ${1}.sha.ÅLD
-#
-#	csleep 1
-#	fasdfasd ${1}.tmp
+##function z1() {
+#[ -z "${1}" ] && exit 66
+#csleep 2
+#${NKVD} ${1}.tmp
+#${spc} ${1} ${1}.ÅLD
+#${spc} ${1}.sig ${1}.sig.ÅLD
+#${spc} ${1}.sha ${1}.sha.ÅLD
+#csleep 1
+#fasdfasd ${1}.tmp
 #}
-#
 #function z2() {
-#	dqb "z2()"
-#	[ -z "${1}" ] && exit 66
-#	reqwreqw ${1}.tmp
-#	csleep 1
-#
-#	${NKVD} ${1}.sig
-#	${NKVD} ${1}.sha
-#	${NKVD} ${1}
-#	csleep 1
-#
-#	fasdfasd ${1}.sig
-#	fasdfasd ${1}.sha
-#	${svm} ${1}.tmp ${1}
-#	csleep 1
-#
-#	${sah6} --ignore-missing -c ${1}
-#	csleep 3
-#
-#	e22_tyg ${1}
-#	${sah6} ${1} > ${1}.sha
+#[ -z "${1}" ] && exit 66
+#reqwreqw ${1}.tmp
+#csleep 1
+#${NKVD} ${1}.sig
+#${NKVD} ${1}.sha
+#${NKVD} ${1}
+#csleep 1
+#fasdfasd ${1}.sig
+#fasdfasd ${1}.sha
+#${svm} ${1}.tmp ${1}
+#csleep 1
+#${sah6} --ignore-missing -c ${1}
+#csleep 3
+#e22_tyg ${1}
+#${sah6} ${1} > ${1}.sha
 #}
-function z3() {
-[ -z "${1}" ] && exit 66
-[ -s ${2} ] || exit 67
-[ -z "${3}" ] && exit 68
-csleep 1
-fasdfasd ${3}
-csleep 1
-if [ ! -s ${3} ] ; then
-${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
-csleep 1
-fi
-${srat} -rvf ${2} ${3}
-local t=$(dirname ${1})
-${scm} go-w ${t}/*
-${sco} -R 0:0 ${1}
-${srat} -rvf ${2} ${1}*
-${scm} go-r ${t}/*
-csleep 1
-}
+#function z3() {
+#[ -z "${1}" ] && exit 66
+#[ -s ${2} ] || exit 67
+#[ -z "${3}" ] && exit 68
+#csleep 1
+#fasdfasd ${3}
+#csleep 1
+#if [ ! -s ${3} ] ; then
+#${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
+#csleep 1
+#fi
+#${srat} -rvf ${2} ${3}
+#local t=$(dirname ${1})
+#${scm} go-w ${t}/*
+#${sco} -R 0:0 ${1}
+#${srat} -rvf ${2} ${1}*
+#${scm} go-r ${t}/*
+#csleep 1
+#}
