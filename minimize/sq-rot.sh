@@ -24,6 +24,8 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
+#VAIH:"$0 1 tgtfile -v" - osaako menetellä oikein?
+
 function parse_opts_1() {
 	dqb "rot.parse_opts_1() ${1} ((()"
 
@@ -38,7 +40,11 @@ function parse_opts_2() {
 	dqb "rpus.ot.parseopts_2 )) ${1} ; ${2} (("
 
 	if [ -f ${2} ] || [ -d ${2} ] ; then
-		srcfile=${2}
+		if [ -z "${srcfile}" ] ; then
+			if [ "${2}" != "-v" ] ; then			
+				srcfile=${2}
+			fi
+		fi
 	fi
 }
 
@@ -98,7 +104,8 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
 	echo "C"
 
 	#030426:huom. kts commn_lib , E22_M , tarpeellinen
-	#VAIH:tuohon alle tar -x:ään tämän import2.sh koskeva --exclude jos mahd?
+	#DONE:tuohon alle tar -x:ään tämän import2.sh koskeva --exclude jos mahd?
+	#... tosin profiilin importointi
 
 	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do
 		tar --exclude import2.sh -jxvf ${f}
@@ -107,8 +114,9 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
 		sleep 1
 	done
 
-	#jos löytyy common_lib.sh.sig ni voiusi tässä tarkistaa?
+	#jos löytyy common_lib.sh.sig ni voisi tässä tarkistaa?
 	#... toisaalta vähän tuhra koska cptp23
+
 	if [ ! -z "${g}" ] ; then
 		if [ -s ${d0}/common_lib.sh.sig ] ; then
 			${g} --verify ${d0}/common_lib.sh.sig
@@ -268,7 +276,7 @@ function common_part() {
 			fi
 		fi
 
-		#TODO:sqrootin alaisuudessa testailut
+		#VAIH:sqrootin alaisuudessa testailut, toiminee
 		[ ${r} -eq 0 ] || ${NKVD} ${1}*
 	fi
 
@@ -289,7 +297,6 @@ function common_part() {
 			cfk=0
 		fi
 
-		dqb "#VAIH:näille main mallia:import2.sh, common_lib.psqa(), common_pp3() ehkä"
 		[ ${cfk} -eq 0 ] || ${NKVD} ${1}*
 		csleep 1
 	else
@@ -302,9 +309,10 @@ function common_part() {
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "ko"		
 		else
-			${NKVD} ./*.deb ./sha512sums* ./*.tar*
+			${NKVD} ${1}* 
+			${NKVD} ${2}/*.deb ${2}/sha512sums* ${2}/*.tar*
 			exit 33
-			#VAIH:jos ei varmistusta ni sietäisi delliä *.deb ?
+			#160426:nuo loput dellimisen kohteet eivät niin mielekkäitä koska x .. tai siis
 		fi
 	fi
 
@@ -377,7 +385,7 @@ case "${mode}" in
 
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
-		part3 ${d} #TODO:tämän toiminnan testailu uusiksi josqs
+		part3 ${d}
 		other_horrors
 	;;
 	k)
