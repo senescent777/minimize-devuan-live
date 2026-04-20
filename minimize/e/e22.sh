@@ -188,7 +188,6 @@ function e22_home_pre() {
 	[ -z "${3}" ] && exit 71
 	[ -z "${4}" ] && exit 73
 	[ -z "${5}" ] && exit 79
-
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		e22_config1 ~ ${4}
 		${NKVD} ~/${5}		
@@ -226,6 +225,7 @@ function e22_home() {
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 	${srat} ${TARGET_TPX} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
+	#miksi täsäs eokä h_pre() ?
 	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 }
 
@@ -490,16 +490,16 @@ function e22_arch() {
 #1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO?)
 #
 #
-##function z1() {
-#[ -z "${1}" ] && exit 66
-#csleep 2
-#${NKVD} ${1}.tmp
-#${spc} ${1} ${1}.ÅLD
-#${spc} ${1}.sig ${1}.sig.ÅLD
-#${spc} ${1}.sha ${1}.sha.ÅLD
-#csleep 1
-#fasdfasd ${1}.tmp
-#}
+function z1() {
+[ -z "${1}" ] && exit 66
+csleep 2
+${NKVD} ${1}.tmp
+${spc} ${1} ${1}.ÅLD
+${spc} ${1}.sig ${1}.sig.ÅLD
+${spc} ${1}.sha ${1}.sha.ÅLD
+csleep 1
+fasdfasd ${1}.tmp
+}
 #function z2() {
 #[ -z "${1}" ] && exit 66
 #reqwreqw ${1}.tmp
@@ -525,6 +525,7 @@ function e22_arch() {
 #fasdfasd ${3}
 #csleep 1
 #if [ ! -s ${3} ] ; then
+#tulöeeko export3 mukaan?
 #${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
 #csleep 1
 #fi
