@@ -263,7 +263,7 @@ case "${mode}" in
 		#exit
  		
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
-		exit
+		#exit
 	;;
 	#180426:osasi paketin muodostaa, asennusvaih pientä nalkutusta
 	#dpkg: dependency problems prevent configuration of libxml-parser-perl:
@@ -330,7 +330,7 @@ case "${mode}" in
 	;;
 esac
 
-exit
+#exit
 
 function e22_dblock() { #140426:lienee toimiva tämä fktio
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
@@ -376,7 +376,7 @@ function e22_dblock() { #140426:lienee toimiva tämä fktio
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
 	#HUOM.11326:d-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
-	exit
+	#exit
 
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar

@@ -536,17 +536,8 @@ ${scm} go-r ${t}/*
 csleep 1
 }
 
-##imp2 yms:jos ei ala toimia ilman -v ni tee jotain (ajankohtainen viuelä 080326?)
-##... jotain alettu trehdäö 04/26
-#
-##020426:vissiin ai tarvitse lisätestejä koska ei vedä verkosta mitään
-##140426:toiminee
-## /etc/rcS.d/S*net , meneekö kohteeseen? jep
-##, wdm-jutut myös kuten myös ddm ja rules (tsin...)
-##pkgs-jutut myös, lienee ok
-#
-##(josko exp2 voisi korvata "tar -T -cf":llä?)
-#
+#(josko exp2 voisi korvata "tar -T -cf":llä?)
+
 #200426:qseeko tässä jokin?
 function e22_sarram() {
 #[ -z "${1}" ] && exit 1
@@ -571,7 +562,6 @@ ${srat} -rvf ${1} /etc/X11/default-display-manager
 ${scm} 0555 /etc/iptables
 ${scm} 0400 /etc/iptables/rules*
 ${scm} 0400 /etc/default/rules*
-#150326:nalkutusta ruleksien käyttöoikeuksista, tee jotain? (vielä 230326?)
 for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD ) ; do ${sah6} ${f} >> ${3} ; done
 #230326:ntp-jtut näyttäisi vetävän mukaan
