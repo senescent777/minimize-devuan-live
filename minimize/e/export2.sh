@@ -386,7 +386,7 @@ if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
 fi
 
-exit
+#exit
 
 if [ -s ${tgtfile} ] ; then
 	e22_ftr ${tgtfile}
