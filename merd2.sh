@@ -17,6 +17,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+#TODO:näiden 2 hyväksi jotain josqs
 #function parse_opts_1 () {}
 #function parse_opts_2 () {}
 
@@ -79,11 +80,9 @@ echo $?
 dqb "FN0C"
 csleep 1
 
-#160426:TOIMIIKO TÄMÄ KOHTA VAI EI?
+#210426:ehkä ao. if-blokki toimii jo?
 if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
 	mv ./${CONF_BASE}.OLD/${distro}/conf ./${CONF_BASE}/${distro}/conf
-
-	#VAIH:konftdston kanssa jotain (vissiin varovasti tuon kanssa, vöib sotkea asioita)
 	ln -s  ./${CONF_BASE}/${distro}/conf ./$(whoami).conf
 else
 	dqb "N0.C0NF"
@@ -94,15 +93,14 @@ dqb "NEXT:common_lib"
 csleep 1
 
 if [ -x ./${CONF_LIB} ] ; then
-	#TODO:/o/b-juttuja oli kanssa (mv lähinnä)
+	#TODO?:/o/b-juttuja oli kanssa (mv lähinnä)
 
-	#josko nyt jo?
+
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 
 	. ./${CONF_LIB}
 	enforce_access $(whoami) ${d0}/${CONF_BASE}
 
-	#qnnes enf_a() saadaan qntoon niinq
 	sudo chmod 0511 /opt/bin/*.bash
 
 	#josko nyt jo?
@@ -110,3 +108,5 @@ if [ -x ./${CONF_LIB} ] ; then
 else
 	echo "SMTHING WR0NG W/ ${CONF_LIB}"
 fi
+
+#210426:vissiin onnistui jo vetämään 7thson-oksan
