@@ -360,6 +360,9 @@ dqb "GR1DN BELIALAS KYE"
 #e_final
 #e_h $(whoami) ${d0}
 
+echo "#TODO:varmista että tätä käskytetäämn(mutilate)"
+sleep 10
+
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} /opt/bin/mutilatetc.bash  ${CONF_dnsm}
 fi
@@ -373,9 +376,6 @@ csleep 1
 ${scm} 0555 ${d0}/common_lib.sh
 #JOKO JO LOPPUISI PURPATUS PRKL
 ${scm} a-wx $0
-
-
-
 
 ${fib}
 
