@@ -164,7 +164,7 @@ case "${mode}" in
 
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
-	c) #ainakin 160426 tIEnoilla toimi viimeksi
+	c) #ainakin 210426 tIEnoilla toimi viimeksi
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
 	p) #170326:lienee kunnossa
@@ -227,7 +227,7 @@ case "${mode}" in
 		exit 97
 	;;
 	3|4) 
-		#3 taisi toimia 04/26 tienoilla ainakin kerran (VAIH:e tai 3 kanssa ne e22_a()- kikkailut?) paketin muodostus saattaa kohta toimia, sisällön toimivuus asia erikseen
+		#3 taisi toimia 04/26 tienoilla ainakin kerran (VAIH:e tai 3 kanssa ne e22_a()- kikkailut?) paketin muodostus saattaa kohta toimia, sisällön toimivuus asia erikseen(TODO)
 		#4 toimi viimeksi 180426
 		#(merd2 tst myöhemmin, ehkä)
 	

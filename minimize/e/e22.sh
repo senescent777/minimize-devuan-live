@@ -78,7 +78,7 @@ function e22_ftr() {
 }
 
 #020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
-#... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf
+#... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf (mitä muita on mistä sorkitaan? tämän tdstn fktiot)
 
 function e22_pre1() {
 [ -z "${1}" ] && exit 65
@@ -465,25 +465,26 @@ function e22_arch() {
 ###		
 ###	exit
 ##}
-#
-##TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
-#
-#function e22_cde() {
-#[ -z "${1}" ] && exit 99
-#[ -z "${2}" ] && exit 98
-#[ -z "${3}" ] && exit 96
-#[ -d "${2}" ] || exit 97
-#[ -d "${3}" ] || exit 95
-#cd ${2}
-#fasdfasd ${1}
-#[ ${debug} -eq 1 ] && ls -las ${1}*
-#csleep 1
-#${srat} --exclude '*merd*' -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
-#}
-#
+
+#TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
+
+function e22_cde() {
+	[ -z "${1}" ] && exit 99
+	[ -z "${2}" ] && exit 98
+	[ -z "${3}" ] && exit 96
+	[ -d "${2}" ] || exit 97
+	[ -d "${3}" ] || exit 95
+	cd ${2}
+	fasdfasd ${1}
+	[ ${debug} -eq 1 ] && ls -las ${1}*
+	csleep 1
+	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
+}
+
 #1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO?)
-#
-#
+#tässä tdstossa pre2() ja ext() , lisäksi common_lib kautta e_e -> enforce_access
+#-> merd2, g_doit, sq_rot, import2, export3, export2, e22_pre1()
+
 function z1() {
 [ -z "${1}" ] && exit 66
 csleep 2
