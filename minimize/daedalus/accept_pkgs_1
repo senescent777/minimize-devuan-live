@@ -58,15 +58,14 @@ libthai0
 libfreetype
 libxf
 #
-#libx11-6
-#libx11-xcb1
-libx11-
-#
+libx11-6
+libx11-xcb1
 libxr
 libpango-1
 libpangoft2
 libpangocairo
 libpangoxft
+#
 libff
 #
 libwayland-client0
@@ -98,7 +97,6 @@ libpam-modules_
 perl-modules-
 libperl
 perl-base
-#TODO:libxml-parser-per, mitä sen kanssa tekee?
 #
 libmfx1
 libva-drm2
@@ -119,19 +117,18 @@ libswresample4
 libtheora0
 libtwolame0
 #
-#libx264-164
+libx264-164
 libnuma1
-#libx265-199
-libx26
+libx265-199
 libxv
 #
 libzvbi0
 #
-#HUOM.libsdwresample ja libsox ennen libav?
+#VAIH:ylemmäs libsox kanssa?
 glib-networking
-#libsoup
-#libsoxr0
-libso
+libsoup
+#
+libsoxr0
 #
 libpython3.11-minimal
 libpython3.11-stdlib
@@ -140,6 +137,7 @@ libgtk2.0-common
 libgtk2.0-0
 #
 libnftables
+#
 liblqr-1-0
 libde265-0
 libaom3
