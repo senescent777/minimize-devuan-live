@@ -17,6 +17,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+#TODO:näiden 2 hyväksi jotain josqs
 #function parse_opts_1 () {}
 #function parse_opts_2 () {}
 
@@ -65,8 +66,12 @@ ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 dqb "TGI KO"
 csleep 2
 
-#tässä jotain sössimistä?
-mv ./${CONF_BASE} ./${CONF_BASE}.OLD
+if [ -d  ./${CONF_BASE}.OLD ] ; then
+	mv ./${CONF_BASE}/*  ./${CONF_BASE}.OLD
+else
+	mv ./${CONF_BASE} ./${CONF_BASE}.OLD
+fi
+
 mv ./${CONF_PT2}/* .
 
 [ -s ./${CONF_LIB} ] && chmod 0555 ./${CONF_LIB} 
@@ -75,9 +80,10 @@ echo $?
 dqb "FN0C"
 csleep 1
 
-#160426:TOIMIIKO TÄMÄ KOHTA VAI EI?
+#210426:ehkä ao. if-blokki toimii jo?
 if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
 	mv ./${CONF_BASE}.OLD/${distro}/conf ./${CONF_BASE}/${distro}/conf
+	ln -s  ./${CONF_BASE}/${distro}/conf ./$(whoami).conf
 else
 	dqb "N0.C0NF"
 fi
@@ -87,19 +93,20 @@ dqb "NEXT:common_lib"
 csleep 1
 
 if [ -x ./${CONF_LIB} ] ; then
-	#TODO:/o/b-juttuja oli kanssa
+	#TODO?:/o/b-juttuja oli kanssa (mv lähinnä)
 
-	#josko nyt jo?
+
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
-
-	#TODO:konftdston kanssa jotain
-	#TODO:"exp2 4" urputtamaan jos profs.sh puuttuu
 
 	. ./${CONF_LIB}
 	enforce_access $(whoami) ${d0}/${CONF_BASE}
+
+	sudo chmod 0511 /opt/bin/*.bash
 
 	#josko nyt jo?
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 else
 	echo "SMTHING WR0NG W/ ${CONF_LIB}"
 fi
+
+#210426:vissiin onnistui jo vetämään 7thson-oksan
