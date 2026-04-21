@@ -333,8 +333,7 @@ function psqa() {
 #... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
 #efk2 2. param ja cefgh voisi liittyä asiaan
 
-#TODO:tapaus e.tar, pitäisi tarkistaa pikemminkin $file.sha
-#TODO:"palautusarvo-tarkistus" uusiksi josqs
+#TODO:"palautusarvo-tarkistus" uusiksi josqs (JOKO JO 22426?)
 #TODO:jatkossa tämä tai kutsuva koodi viskomaan validit paketit tmp-hmistoon jatkoa vrten
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} )))))))))))))"
@@ -389,9 +388,10 @@ function efk1() {
 	csleep 1 #riittäisikö?
 }
 
-#TODO:$2 tarkistus myös?
+#VAIH:$2 tarkistus myös?
 function efk2() {
 	dqb "efk2 )))))))) ${1} ))) ${2} )))))"
+	[ -z "${2}" ] && exit 98
 
 	if [ -s ${1} ] && [ -r ${1} ] ; then
 		${odio} ${sr0} -C ${2} -xf ${1}
@@ -468,7 +468,7 @@ function fromtend() {
 	dqb "DNÖE"
 }
 
-#VAIH:jatkossa uusikcsi tämä?
+#VAIH:jatkossa uusikcsi tämä? (jos olisi jo 21426 mennessä tarpeeksi säädetty)
 function cefgh() {
 	dqb " cefgh( ${1} )))"
 
@@ -1343,7 +1343,7 @@ csleep 6
 # libquadmath0 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
 #... jospa nyt aluksi selvittäisi mikä näitä tarvitsee?
 
-#TODO:toiminnan selvittelyä vai ei?
+#TODO?:toiminnan selvittelyä vai ei?
 function part3() {
 	dqb "))() part3 ${1} , ${2} (((((((("
 	csleep 1
