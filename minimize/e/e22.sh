@@ -35,7 +35,6 @@ function e22_hdr() {
 	csleep 1
 	dd if=/dev/random bs=12 count=1 > ./rnd
 	csleep 1
-
 	${sr0} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 	[ ${debug} -eq 1 ] && ls -las ${1}
@@ -261,6 +260,7 @@ function e22_acol() {
 	${scm} 0555 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
+
 	local f
 	local ef
 	local g
@@ -472,6 +472,8 @@ function e22_arch() {
 #TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
 
 function e22_cde() {
+	dqb "e22_cde()"
+	
 	[ -z "${1}" ] && exit 99
 	[ -z "${2}" ] && exit 98
 	[ -z "${3}" ] && exit 96
