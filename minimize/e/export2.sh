@@ -238,34 +238,27 @@ case "${mode}" in
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
-		#exit
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+
+			#TODO:gpgn paketointiin muutoksia kun kerran ei nappaa selvittää miksi ja missä se poistuu (g.tar SITTENKIN tkaisin?)
 			e23_other_pkgs ${CONF_dnsm}
 		else
 			doit=0
 		fi
 		
-		#exit
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
-		#exit
 
 		e22_pre1 ${d} ${distro}
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
 		fasdfasd /opt/bin/zxcv.tmp
-		#exit
 
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
-		#exit
-		
-		z2 /opt/bin/zxcv
-		#exit
- 		
+		z2 /opt/bin/zxcv´
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
-		#exit
 	;;
 	#180426:osasi paketin muodostaa, asennusvaih pientä nalkutusta
 	#dpkg: dependency problems prevent configuration of libxml-parser-perl:

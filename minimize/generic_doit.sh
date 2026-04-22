@@ -208,9 +208,9 @@ function el_loco() {
 
 #140326:tarkkuutta peliin, ao. rivillä oli typo jnkn aikaa
 function adieu() {
-dqb "AUF W13DERSEHEN"
+	dqb "AUF W13DERSEHEN"
 
-#	#jnkn ehdon taakse session lahtaamista edelliset rivit?
+#	pidetäänpä nämä jutut kommenteissa sitä varten että saattuukin tarvitsemaan
 #
 #	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
 #	csleep 5
@@ -262,7 +262,6 @@ csleep 2
 echo "JUST BEFORE PART1";sleep 1
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
-#HUOM.140326:tässä ei vielä alkanut bugittaa
 
 echo "JUST AFTR PRT1";sleep 1
 #aivopieru:jtnkin niin että voisi samalla kertaa purkaa paketin ja ajaa tämän skriptin trähän asti. Self-extracting archives?
@@ -356,12 +355,11 @@ jules
 ${asy}
 dqb "GR1DN BELIALAS KYE"
 
-#20426:kokeillaanpa miten ilman e_juttuja toimaa
-#e_final
+#220426:varm vuoksi palautettu e_f kommenteista 
+e_final
 #e_h $(whoami) ${d0}
 
-echo "#TODO:varmista että tätä käskytetäämn(mutilate)"
-sleep 10
+#220426:mutilatetc kutsutaan onnistuneesti tuossa alla
 
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} /opt/bin/mutilatetc.bash  ${CONF_dnsm}
@@ -377,6 +375,7 @@ ${scm} 0555 ${d0}/common_lib.sh
 #JOKO JO LOPPUISI PURPATUS PRKL
 ${scm} a-wx $0
 
+#tämä saattaa laukaista pakettien poistelun
 ${fib}
 
 #===================================================PART 4(final)==========================================================

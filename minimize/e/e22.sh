@@ -1,6 +1,9 @@
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
 
+echo "TODO:exp2 c -leikit kehitysymp"
+sleep 15
+
 #if [ -v CONF_pubk ] ; then
 #	dqb "Å"
 #else
