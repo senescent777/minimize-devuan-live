@@ -12,7 +12,7 @@ function pre_part2() { #käytössä
 	${odio} /etc/init.d/ntpd stop
 	#$sharpy ntp* jo aiempana
 
-	for f in $(find /etc/init.d -type f -name 'ntp*' ) ; do 
+	for f in $(find /etc/init.d -type f -name "ntp*" ) ; do 
 		${odio} ${f} stop
 		csleep 1
 	done
@@ -24,5 +24,5 @@ function pre_part2() { #käytössä
 function tpc7() {
 	dqb "d.prc7 UNDER CONSTRUCTION"
 }
-
-lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 	
+#
+#lftr="echo # \${smr} -rf  / run / live / medium / live / initrd.img\* " 	

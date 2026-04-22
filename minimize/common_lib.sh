@@ -973,10 +973,12 @@ function e_e() {
 	#... /o/b/m voisiolla se hukkaaja
 
 	f=$(date +%F)
-	[ -f /etc/resolv.conf.${f} ] || ${svm} /etc/resolv.conf /etc/resolv.conf.${f}
+	
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
-	#030426:ok näin vai ei?
+	[ -f /etc/resolv.conf.${f} ] || ${svm} /etc/resolv.conf /etc/resolv.conf.${f}
+	#22+426:jospa purkaisi linkityksen vain silloinq .$f ei löydy? (TODO?)
+
 	if [ -h /etc/resolv.conf ] ; then
 		#tarkistus hyvä näin vai ei? toimiiko size?
 		c=$(find /etc -type f -name "resolv.conf.*" -size +10c | wc -l )

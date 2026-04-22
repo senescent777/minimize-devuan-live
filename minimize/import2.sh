@@ -321,12 +321,18 @@ function cptp2() {
 			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"		
 		fi
 		
+		ls -las /etc/res*
+		csleep 10
+
 		if [ -x ${t}/common_lib.sh ] ; then
 			enforce_access $(whoami) ${t} #${2} toka param turha?
 			dqb "running changedns.sh maY be necessary now to fix some things"
 		else
 			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
 		fi
+		
+		ls -las /etc/res*
+		csleep 10
 	fi
 
 	csleep 1
@@ -417,6 +423,7 @@ function tpr() {
 #HUOM.060426:tämä case-esac voisi toimia ilmankin kirjastoa, qhan vain konftdsto löytyy
 #110426:tässäkin "-v" tarpeen?
 
+#TODO:ne kiukuttelut pois jo?
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii?

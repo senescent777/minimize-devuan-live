@@ -43,11 +43,11 @@ fi
 dqb "BEFORE L1B"
 process_lib ${d}
 csleep 2
-
-e_final
-csleep 2
-e_h $(whoami) ${d0} 
-csleep 2
+##20426:kokeillaanpa miten ilman e_juttuja toimaa
+#e_final
+#csleep 2
+#e_h $(whoami) ${d0} 
+#csleep 2
 
 #jos vaikka näin?
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
@@ -192,6 +192,76 @@ p2g ${d}
 t2pf ${d}
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 2 ] && exit
+
+#TODO:minimal_live;:n pakettivalikoima johonkin erilliseen tiedostoon ettei skeoile hukkaan
+
+if [ ${mode} -gt 3 ] ; then
+	${sharpy} slim
+	csleep 5
+
+	${sharpy} dahdi
+	${sharpy} dc #mikä tämä on?
+	csleep 5
+
+	${sharpy} ed #uskaltaako poistaa? entä e-i?
+	${sharpy} empire
+	${sharpy} entr #uskaltaako sittebkään? tässä kohtaa tul ijotain ?
+	csleep 5
+
+	${sharpy} fbi #ehkä ei tätä pois?
+	${sharpy} fbterm
+	${sharpy} fetchmail
+	csleep 5
+
+	${sharpy} figlet fmtools fortune
+	csleep 5
+
+	${sharpy} freesweep gddrescue geoip-bin
+	csleep 5
+
+	${sharpy} gnuchess gobject-introspection greed
+	csleep 5
+
+	${sharpy} haveged icu-devtools irssi
+	csleep 5
+
+	${sharpy} jhead lrzsz matanza
+	csleep 5
+
+	${sharpy} mc #?
+	${sharpy} minicom moc
+	csleep 5
+
+	${sharpy} moria
+	${sharpy} netcat #jatkossakin jemmassa vai ei?
+	${sharpy} nethack
+	csleep 5
+
+	#ntp #jos pitäisi jemmassa koska x
+	${sharpy} omega-rpg open-invaders
+	csleep 5
+
+	${sharpy} pacman4console pente rpl
+	csleep 5
+
+	#jokin näistä paskoo äksän?
+	${sharpy} rsstail sensible-utils setnet
+	csleep 5
+
+#	${sharpy} taskwarrior tcc toilet
+#	csleep 5
+#
+#	${sharpy} transmission ttyrec w2do
+#	csleep 5
+
+#TODO:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että...
+
+#	${sharpy} w3m wamerican wavemon
+#	csleep 5
+#
+#	${sharpy} yasr zile
+#	csleep 5
+fi
 
 echo "BELLvM C0NTRA HUMAN1TAT3M"
 csleep 1
