@@ -4,7 +4,9 @@ branch=""
 d0=$(pwd)
 echo "d0=${d0}"
 CONF_BASEURL="github.com/senescent777"
+CONF_BASE=minimize
 CONF_PT2=minimize-devuan-live
+CONF_LIB=minimize/common_lib.sh
 distro=$(cat /etc/devuan_version)
 
 function dqb() {
@@ -14,6 +16,10 @@ function dqb() {
 function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
+
+#TODO:näiden 2 hyväksi jotain josqs
+#function parse_opts_1 () {}
+#function parse_opts_2 () {}
 
 if [ $# -gt 0 ] ; then
 	dqb "params_ok"
@@ -43,6 +49,15 @@ if [ x"${tig}" == "x" ] ; then
 	exit 7
 fi
 
+if [ -d ./${CONF_PT2} ] ; then
+	dqb "rm -rf ./${CONF_PT2} SOON"
+	csleep 3
+	rm -rf ./${CONF_PT2}
+	[ $? -gt 0 ] && exit
+fi
+
+csleep 2
+
 dqb "BFROE tig"
 csleep 2
 ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
@@ -51,10 +66,47 @@ ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 dqb "TGI KO"
 csleep 2
 
-#020426:toimii
-mv minimize minimize.OLD
-mv ${CONF_PT2}/* .
+if [ -d  ./${CONF_BASE}.OLD ] ; then
+	mv ./${CONF_BASE}/*  ./${CONF_BASE}.OLD
+else
+	mv ./${CONF_BASE} ./${CONF_BASE}.OLD
+fi
 
-[ -x minimize/common_lib.sh ] && . minimize/common_lib.sh
-[ -x minimize/common_lib.sh ] && enforce_access $(whoami) ${d0}/minimize
-mv minimize.OLD/${distro}/conf minimize/${distro}
+mv ./${CONF_PT2}/* .
+
+[ -s ./${CONF_LIB} ] && chmod 0555 ./${CONF_LIB} 
+echo $?
+
+dqb "FN0C"
+csleep 1
+
+#210426:ehkä ao. if-blokki toimii jo?
+if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
+	mv ./${CONF_BASE}.OLD/${distro}/conf ./${CONF_BASE}/${distro}/conf
+	ln -s  ./${CONF_BASE}/${distro}/conf ./$(whoami).conf
+else
+	dqb "N0.C0NF"
+fi
+
+echo $?
+dqb "NEXT:common_lib"
+csleep 1
+
+if [ -x ./${CONF_LIB} ] ; then
+	#TODO?:/o/b-juttuja oli kanssa (mv lähinnä)
+
+
+	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
+
+	. ./${CONF_LIB}
+	enforce_access $(whoami) ${d0}/${CONF_BASE}
+
+	sudo chmod 0511 /opt/bin/*.bash
+
+	#josko nyt jo?
+	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
+else
+	echo "SMTHING WR0NG W/ ${CONF_LIB}"
+fi
+
+#210426:vissiin onnistui jo vetämään 7thson-oksan
