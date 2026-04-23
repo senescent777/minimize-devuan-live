@@ -1,0 +1,25 @@
+atril,bc
+#
+#dconf,debconf off limits
+ghostscript,gparted
+#
+#gsettings-desktop-schemas off limits
+#
+grub,gsasl-common
+gsfonts,gvfs
+#
+#linux* , live* off limits
+#
+mdadm,mobile,mysql-common
+ntp
+#ntp-kohtaan saattaa tulla muutoksia josqs
+notification-daemon
+orca,packagekit
+pigz,po
+#procps off limits
+psmisc,rsync,traceroute 
+rpcbind
+sane-utils,squash
+telnet
+w3m,wget
+#xfce*,xorg* off limits
