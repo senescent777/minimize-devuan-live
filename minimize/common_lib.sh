@@ -312,7 +312,7 @@ function psqa() {
 		if [ $? -eq 0 ] ; then
 			dqb "Q.KO"
 		else
-			dqb "SHOULD \${NKVD} ${1}/*.deb"
+			dqb "SHOULD \${NKVD} ${1}/ \* .deb"
 			return 94
 		fi
 
@@ -321,7 +321,7 @@ function psqa() {
 		cd ${p}
 	else
 		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
-		dqb "SHOULD \${NKVD} ${1}/*.deb"		
+		dqb "SHOULD \${NKVD} ${1}/ \*.deb"		
 		return 93
 	fi
 
@@ -334,14 +334,16 @@ function psqa() {
 #efk2 2. param ja cefgh voisi liittyä asiaan
 
 #TODO:"palautusarvo-tarkistus" uusiksi josqs (JOKO JO 22426?)
-#TODO:jatkossa tämä tai kutsuva koodi viskomaan validit paketit tmp-hmistoon jatkoa vrten
+#VAIH:jatkossa tämä tai kutsuva koodi viskomaan validit paketit tmp-hmistoon jatkoa vrten
 function common_pp3() {
-	dqb "() common_pp3 )))))) ${1} )))))))))))))"
+	dqb "() common_pp3 )))))) ${1} ) ${2} )))))))))))))"
 	csleep 1
 
 	#kutsutaan useammasta paikkaa joten varm vuoksi
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 101
+	[ -z "${2}" ] && exit 98
+	[ -d ${2} ] || exit 102
 
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
@@ -364,8 +366,22 @@ function common_pp3() {
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
-		#TODO:koitahan päättää mitä tässä tekee.
-		[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums ./*.tar* #näin ok?
+		#VAIH:koitahan päättää mitä tässä tekee.
+		[ $? -gt 0 ] && ${NKVD} ${1}/*.deb ${1}/sha512sums* ${1}/*.tar* #näin ok?
+		
+		local s
+		#HISPUJENB KANSSA SITTEN TARKKUUTTA PRKL
+
+		for s in $(grep -v '#' ${1}/sha512sums.txt | awk '{print $2}') ; do
+			${svm} ${1}/${s} ${2}
+		done
+
+		#TODO:accept1 kanssa nuo uudet lib-väännöt prkl (libx265-199:amd64 depends on libnuma1 /etc)
+
+		#jälkimmäinen grep sekä spc tarkoit7uksella
+		for s in $(grep -v '#' ${1}/sha512sums.txt.1 | grep -v drop | awk '{print $2}') ; do
+			${spc} ${1}/${s} ${2}
+		done
 	fi
 
 	dqb "() common_pp3 DONE"
@@ -388,7 +404,6 @@ function efk1() {
 	csleep 1 #riittäisikö?
 }
 
-#VAIH:$2 tarkistus myös?
 function efk2() {
 	dqb "efk2 )))))))) ${1} ))) ${2} )))))"
 	[ -z "${2}" ] && exit 98
@@ -468,7 +483,6 @@ function fromtend() {
 	dqb "DNÖE"
 }
 
-#VAIH:jatkossa uusikcsi tämä? (jos olisi jo 21426 mennessä tarpeeksi säädetty)
 function cefgh() {
 	dqb " cefgh( ${1} )))"
 
@@ -504,12 +518,15 @@ function cefgh() {
 	#... tai tuo e.tar-jutska jos olisi kätevämpi sittenkin?
 }
 
-#160426:tarteeko uusia vai ei?
+#VAIH
 function CB01() {
-	dqb "common.lib.CB01( ${1} )"
+	dqb "common.lib.CB01( ${1} (( ${2} )"
 	csleep 1
+
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
+	[ -z "${2}" ] && exit 98
+	[ -d ${2} ] || exit 102
 
 #	#180426:josko sittenkin kikkailisi ao. blokin -> cefgh ?
 #	if [ -s ${1}/g.tar ] ; then
@@ -518,14 +535,14 @@ function CB01() {
 #		#... g.tar:in saisi kyllä listaan mukaan
 #
 #		efk2 ${1}/g.tar /
-#		common_pp3 ${1}
+#		common_pp3 ${1} ${t}
 #		${NKVD} ${1}/g.tar
 #		exit 103
 #	fi
 
 	#160426:libaassuanin kanssa härdelliä vai ei?
-	common_pp3 ${1}
-	for p in ${E22_GI} ; do efk1 ${1}/${p}*.deb ; done
+	common_pp3 ${1} ${2}
+	for p in ${E22_GI} ; do efk1 ${2}/${p}*.deb ; done
 	csleep 1
 
 	gg=$(${odio} which gpg)
@@ -533,7 +550,7 @@ function CB01() {
 	csleep 1
 
 #	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt.bak ${1}/sha512sums.txt
-	common_pp3 ${1}
+	common_pp3 ${1} ${2}
 
 	dqb "common.lib.CB01() DONE"
 	csleep 1
@@ -629,14 +646,18 @@ function check_binaries() {
 	E22_GU="isc-dhcp libnfnet libnetfilter libxtables libmnl libnftnl libnftables libnl-3-200 libnl-route libnl nftables"
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
 
+	local t
+	t=""
+
 	#HUOM. gpg:n opistumis-ongelmalle voisi vähitellen keksiä ratkaisun prkl
 	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 		[ -z "${1}" ] && exit 99
 		[ -d ${1} ] || exit 101
+		t=$(mktemp -d)		
 
 		#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
 		cefgh ${1}
-		common_pp3 ${1}
+		common_pp3 ${1} ${t}
 		#070426:gpg-tarq pystyy tekemöään vastaq gpg asennettu, jos voisi jtnkinhuiomioida
 
 		dqb "BF0R3 CVB0"
@@ -647,16 +668,16 @@ function check_binaries() {
 	#... pitäisiköhän gg:n suhteen jotain tehdä, imp2 kiukuttelut nimittäin
 
 	if [ -z "${gg}" ] ; then
-		CB01 ${1}
+		CB01 ${1} ${t}
 	fi
 
 	if [ -z "${ipt}" ] ; then
-		CB02 ${1}
+		CB02 ${t}
 	fi
 
 	dqb "#jäölk ÄYÖYÄ SDDFSDSDGH t. Paska-Ankka"
 	#echo "CBIN.BF0RE.OCS"
-	ls ${1}/*.deb | wc -l
+	ls ${t}/*.deb | wc -l
 	csleep 3
 	for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
 
@@ -971,20 +992,22 @@ function e_e() {
 
 	#280326:missä djclient-sctipy hukataan? siihen tarvitsisi kosea vain jos CONF_dnsm
 	#... /o/b/m voisiolla se hukkaaja
-
 	f=$(date +%F)
-	
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
-	[ -f /etc/resolv.conf.${f} ] || ${svm} /etc/resolv.conf /etc/resolv.conf.${f}
-	#22+426:jospa purkaisi linkityksen vain silloinq .$f ei löydy? (TODO?)
+	if [ -f /etc/resolv.conf.${f} ] ; then
+		dqb "SADF SADF SADFS ASDGH"
+	else
+		${svm} /etc/resolv.conf /etc/resolv.conf.${f}
+		#22+426:jospa purkaisi linkityksen vain silloinq .$f ei löydy? (VAIH)
 
-	if [ -h /etc/resolv.conf ] ; then
-		#tarkistus hyvä näin vai ei? toimiiko size?
-		c=$(find /etc -type f -name "resolv.conf.*" -size +10c | wc -l )
-
-		if [ ${c} -gt 0 ] ; then 
-			${smr} /etc/resolv.conf
+		if [ -h /etc/resolv.conf ] ; then
+			#tarkistus hyvä näin vai ei? toimiiko size?
+			c=$(find /etc -type f -name "resolv.conf.*" -size +10c | wc -l )
+	
+			if [ ${c} -gt 0 ] ; then 
+				${smr} /etc/resolv.conf
+			fi
 		fi
 	fi
 
@@ -1357,6 +1380,7 @@ function part3() {
 	csleep 1
 	
 	local n15
+	local t=$(mktemp -d)
 	n15=$(find ${1} -type f -name "*.deb" | wc -l)
 
 	if [ ${n15} -lt 1 ] ; then
@@ -1365,56 +1389,57 @@ function part3() {
 
 	csleep 1
 	jules
-	common_pp3 ${1}
+	common_pp3 ${1} ${t}
 	dqb "AL-fPGA"
 	csleep 1
 
-	common_lib_tool ${1} reject_pkgs
+	common_lib_tool ${t} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 	dqb "B3T4"
 	csleep 6
 
 	#060426:AO. RIVI TUOLLAINEN TARKOITUKSELLA, ÄLÄ SORKI!!!
-	efk1 ${1}/gcc-12-base*.deb ${1}/libgcc-s1*.deb ${1}/libc6*.deb
+	efk1 ${t}/gcc-12-base*.deb ${t}/libgcc-s1*.deb ${t}/libc6*.deb
 	dqb "LAcKK.a"
 	csleep 6
 
-	for p in ${E22_GS} ; do wopr ${1} ${p} accept_pkgs_1 ; done
+	for p in ${E22_GS} ; do wopr ${t} ${p} accept_pkgs_1 ; done
 	dqb "önEGA-VGA RA"
 	csleep 6
 
-	common_lib_tool ${1} accept_pkgs_1
-	common_lib_tool ${1} accept_pkgs_2
+	common_lib_tool ${t} accept_pkgs_1
+	common_lib_tool ${t} accept_pkgs_2
 
 	dqb "g4RP D0NE"
 	csleep 1
 
-#	efk1 ${1}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
+#	efk1 ${t}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
 #	[ $? -eq 0 ] || echo "SHOULD exit 66"
 #	csleep 1
 #
-#	efk1 ${1}/*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
+#	efk1 ${t}/*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
 #	[ $? -eq 0 ] || echo "SHOULD exit 67"	
 #	csleep 1
 
-	for f in $(find ${1} -name "lib*.deb" ) ; do ${sdi} ${f} ; done
+	local f
+	for f in $(find ${t} -name "lib*.deb" ) ; do ${sdi} ${f} ; done
 
 	if [ $? -eq  0 ] ; then
                dqb "part3.1 ok"
                csleep 1
-               ${NKVD} ${1}/lib*.deb
+               ${NKVD} ${t}/lib*.deb
 	else
                exit 66
 	fi
 
 	dqb "LIBS DONE"
 	csleep 1
-	for f in $(find ${1} -name "*.deb" ) ; do ${sdi} ${f} ; done
+	for f in $(find ${t} -name "*.deb" ) ; do ${sdi} ${f} ; done
 
 	if [ $? -eq  0 ] ; then
 		dqb "part3.2 ok"
 		csleep 1
-		${NKVD} ${1}/*.deb
+		${NKVD} ${t}/*.deb
 	else
 	       	exit 67
  	fi

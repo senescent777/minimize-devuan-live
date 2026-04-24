@@ -1,28 +1,25 @@
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
 
-echo "TODO:exp2 c -leikit kehitysymp"
-sleep 15
+if [ -v CONF_pubk ] ; then
+	dqb "Å"
+else
+	#050326:jatkosäätöjä tähän vai ei?
+	arsch=$(${odio} find / -type f -name "keys.conf" | head -n 1)
 
-#if [ -v CONF_pubk ] ; then
-#	dqb "Å"
-#else
-#	#050326:jatkosäätöjä tähän vai ei?
-#	arsch=$(${odio} find / -type f -name "keys.conf" | head -n 1)
-#
-#	if [ -z "${arsch}" ] ; then
-#		dqb "B"
-#	else
-#		if [ -s ${arsch} ] ; then
-#			. ${arsch}
-#		else
-#			dqb "C"
-#		fi	
-#	fi
-#
-#	csleep 1
-#	unset arsch
-#fi
+	if [ -z "${arsch}" ] ; then
+		dqb "B"
+	else
+		if [ -s ${arsch} ] ; then
+			. ${arsch}
+		else
+			dqb "C"
+		fi	
+	fi
+
+	csleep 1
+	unset arsch
+fi
 
 #170326:lienee ok
 function e22_hdr() {
@@ -35,6 +32,7 @@ function e22_hdr() {
 	csleep 1
 	dd if=/dev/random bs=12 count=1 > ./rnd
 	csleep 1
+
 	${sr0} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 	[ ${debug} -eq 1 ] && ls -las ${1}
@@ -260,7 +258,6 @@ function e22_acol() {
 	${scm} 0555 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
-
 	local f
 	local ef
 	local g
@@ -471,19 +468,21 @@ function e22_arch() {
 
 #TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
 
+#2450426:lisätty pkgs-jutut varm vyokjsi
 function e22_cde() {
-	dqb "e22_cde()"
-	
 	[ -z "${1}" ] && exit 99
 	[ -z "${2}" ] && exit 98
 	[ -z "${3}" ] && exit 96
 	[ -d "${2}" ] || exit 97
 	[ -d "${3}" ] || exit 95
+
 	cd ${2}
 	fasdfasd ${1}
+
 	[ ${debug} -eq 1 ] && ls -las ${1}*
 	csleep 1
-	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
+
+	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkgs*
 }
 
 #1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO?)

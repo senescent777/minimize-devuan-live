@@ -17,6 +17,9 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
 			${shary} wpasupplicant
 		;;
+		eth0)
+			dqb "sHOULD "${shary} ISC-DHCP-???"
+		;;
 		*)
 		;;
 	esac
@@ -211,14 +214,11 @@ function e23_dm() {
 		exit 666
 	fi
 
-	#jos ei ala muuten sujua ni ao riveistä mallia accept1:seen
-	
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
 	#[ $? -eq 0 ] || exit 54 #to state the obvious:initramfs-kikkailujen takia ei kande nöin tehdö
 	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
 
 	${shary} libnuma1 libx265-199 libwraster6 libwings3
-
 	csleep 10
 
 	${shary} libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
