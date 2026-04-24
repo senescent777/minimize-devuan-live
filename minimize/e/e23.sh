@@ -183,16 +183,16 @@
 #	${shary} xterm xauth
 #	${shary} wdm
 #}
-##150326:teki ainakin kerran jotain toivottua (ehkä joutaa vielä arpoa minne juttuja kopsaillaan) 
-#function e23_profs() {
-#	q=$(mktemp -d)
-#	cd ${q}
-#	[ $? -eq 0 ] || exit 77
-#	pwd
-#	[ -v CONF_BASEURL ] || exit 78
-#	${tig} clone https://${CONF_BASEURL}/more_scripts.git
-#	[ $? -eq 0 ] || exit 79
-#	${svm} more_scripts/profs/${3}* ${2}
-#	${scm} 0555 ${2}/${3}*
-#	${sr0} -rvf ${1} ${2}/${3}*
-#}
+#150326:teki ainakin kerran jotain toivottua (ehkä joutaa vielä arpoa minne juttuja kopsaillaan) 
+function e23_profs() {
+q=$(mktemp -d)
+cd ${q}
+[ $? -eq 0 ] || exit 77
+pwd
+[ -v CONF_BASEURL ] || exit 78
+${tig} clone https://${CONF_BASEURL}/more_scripts.git
+[ $? -eq 0 ] || exit 79
+${svm} more_scripts/profs/${3}* ${2}
+${scm} 0555 ${2}/${3}*
+${sr0} -rvf ${1} ${2}/${3}*
+}

@@ -75,12 +75,12 @@ case "${mode}" in
 	c)
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;
-#	p) #170326:lienee kunnossa
-#		[ -v CONF_default_arhcive3 ] || exit 66
-#		csleep 1
-#		[ -v CONF_iface ] && ${sifu} ${CONF_iface}
-#		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
-#	;;
+	p)
+		[ -v CONF_default_arhcive3 ] || exit 66
+		csleep 1
+		[ -v CONF_iface ] && ${sifu} ${CONF_iface}
+		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
+	;;
 	-h)
 		usage
 	;;
