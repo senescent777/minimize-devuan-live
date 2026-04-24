@@ -52,7 +52,7 @@ e22_hdr ${tgtfile}
 #[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta
 #exit
 
-#case "${mode}" in
+case "${mode}" in
 ##	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
 ##		[ -s "${tgtfile}" ] || exit 67
 ##		[ -r "${tgtfile}" ] || exit 68
@@ -72,9 +72,9 @@ e22_hdr ${tgtfile}
 #
 #		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 #	;;
-#	c) #ainakin 160426 tIEnoilla toimi viimeksi
-#		e22_cde ${tgtfile} ${d0} ${distro}
-#	;;
+	c)
+		e22_cde ${tgtfile} ${d0} ${distro}
+	;;
 #	p) #170326:lienee kunnossa
 #		[ -v CONF_default_arhcive3 ] || exit 66
 #		csleep 1
@@ -93,6 +93,6 @@ e22_hdr ${tgtfile}
 ##	*)
 ##		cont=1
 ##	;;
-#esac
-#
+esac
+
 e22_ftr ${tgtfile}
