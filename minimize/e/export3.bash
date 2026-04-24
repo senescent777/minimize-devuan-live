@@ -8,7 +8,7 @@ tgtfile=""
 function usage() {
 echo "$0 <mode> <tgtfile> [ -v] "
 echo "mode:"
-echo "f: makes archive of .deb-files"
+echo "f: makes archive of .deb-Files"
 echo "q: makes archive contaihing firefox profile"
 echo "c: is sq-Chroot-env-related option"
 echo "p: Pulls \${CONF_default_archive3} from somewhere?"
@@ -59,11 +59,10 @@ case "${mode}" in
 ##		e22_rpg ${tgtfile} ${d}
 ##17426:josqs ta,aisin kommenteista?
 ##	;;
-#	f) #170426:osaa tehdä paketin edelleen
-#		enforce_access $(whoami) ${t}
-#		e22_arch ${tgtfile} ${d} ${gbk}
-#		
-#	;;
+	f)
+		enforce_access $(whoami) ${t}
+		e22_arch ${tgtfile} ${d} ${gbk}
+	;;
 	q)
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
