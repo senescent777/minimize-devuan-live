@@ -64,14 +64,12 @@ case "${mode}" in
 #		e22_arch ${tgtfile} ${d} ${gbk}
 #		
 #	;;
-#	q)
-#		#170326:tekee edelleen arkiston, sisältö kenties ok
-#		[ -v CONF_default_arhcive ] || exit 33
-#		[ -v CONF_default_arhcive2 ] || exit 34
-#		[ -v CONF_default_arhcive3 ] || exit 35
-#
-#		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
-#	;;
+	q)
+		[ -v CONF_default_arhcive ] || exit 33
+		[ -v CONF_default_arhcive2 ] || exit 34
+		[ -v CONF_default_arhcive3 ] || exit 35
+		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
+	;;
 	c)
 		e22_cde ${tgtfile} ${d0} ${distro}
 	;;

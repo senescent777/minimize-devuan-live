@@ -73,30 +73,30 @@
 #		;;
 #	esac
 #}
-#
-##170326:taitaa toimia, paketin teko ja sisältö
-#function e23_qrs() {
-#	[ -z "${1}" ] && exit 77
-#	[ -s ${1} ] || exit 66
-#	[ -r ${1} ] || exit 55
-#	[ -z "${2}" ] && exit 11
-#	[ -d ${2} ] || exit 22
-#	[ -z "${3}" ] && exit 44
-#	#[ -f ${3} ] || exit 33
-#	[ -z "${4}" ] && exit 43
-#	#[ -f ${4} ] || exit 34
-#	[ -z "${5}" ] && exit 43
-#	#[ -f ${5} ] || exit 34
-#	e22_config1 ~ ${3}
-#	${srat} -rvf ${1} ~/${3}
-#	tar -tf ${1} | grep ${3} | wc -l
-#	[ -f ${4} ] && ${NKVD} ~/${4}
-#	e22_settings ${2} ${4} ${5}
-#	for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
-#		${srat} -rvf ${1} ${f}
-#	done
-#}
-#
+
+#170326:taitaa toimia, paketin teko ja sisältö
+function e23_qrs() {
+[ -z "${1}" ] && exit 77
+[ -s ${1} ] || exit 66
+[ -r ${1} ] || exit 55
+[ -z "${2}" ] && exit 11
+[ -d ${2} ] || exit 22
+[ -z "${3}" ] && exit 44
+#[ -f ${3} ] || exit 33
+[ -z "${4}" ] && exit 43
+#[ -f ${4} ] || exit 34
+[ -z "${5}" ] && exit 43
+#[ -f ${5} ] || exit 34
+e22_config1 ~ ${3}
+${srat} -rvf ${1} ~/${3}
+tar -tf ${1} | grep ${3} | wc -l
+[ -f ${4} ] && ${NKVD} ~/${4}
+e22_settings ${2} ${4} ${5}
+for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
+${srat} -rvf ${1} ${f}
+done
+}
+
 #190426:vissiin toimii, ÄLÄ SORKI (ainakaan ebnempää kuin välttämnätöntä)
 #function e23_dm() {
 #[ -z "${1}" ] && exit 11
