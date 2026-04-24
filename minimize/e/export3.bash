@@ -81,9 +81,9 @@ case "${mode}" in
 #		[ -v CONF_iface ] && ${sifu} ${CONF_iface}
 #		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
 #	;;
-#	-h)
-#		usage
-#	;;
+	-h)
+		usage
+	;;
 ##	b)
 ##		#230326:tekee jo jotain, vielä sietää miettiä onko siinä pointtia mitä tekee
 ##		for f in $(find ${d0} -type f -name "*lib.sh") ; do
