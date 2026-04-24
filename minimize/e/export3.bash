@@ -13,11 +13,18 @@ echo "q: makes archive contaihing firefox profile"
 echo "c: is sq-Chroot-env-related option"
 echo "p: Pulls \${CONF_default_archive3} from somewhere?"
 }
-#function parse_opts_1() {
-#}
-#
-#function parse_opts_2() {
-#}
+function parse_opts_1() {
+	if [ "${mode}" == "-2" ] ; then
+		mode=${1}
+	fi
+}
+function parse_opts_2() {
+	if [ -z "${tgtfile}" ] ; then
+		if [ "${2}" != "-v" ] ; then			
+			tgtfile=${2}
+		fi
+	fi
+}
 #
 #function fallback() { #tarpeellinen?
 #	exit 59
@@ -34,7 +41,7 @@ fi
 process_lib ${d}
 
 if [ -x ${d0}/e/e22.sh ] ; then
-#.  ${d0}/e/e22.sh #tässä jotain vikaa vikaa?
+.  ${d0}/e/e22.sh #tässä jotain vikaa vikaa? toiv ei
 .  ${d0}/e/e23.sh
 else
 echo "NO BACKEND FOUND"
@@ -42,8 +49,8 @@ exit 58
 fi
 
 e22_hdr ${tgtfile}
-[ -v CONF_iface ] && ${sifd} ${CONF_iface}
-exit
+#[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta
+#exit
 
 #case "${mode}" in
 ##	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
@@ -88,4 +95,4 @@ exit
 ##	;;
 #esac
 #
-#e22_ftr ${tgtfile}
+e22_ftr ${tgtfile}
