@@ -18,16 +18,8 @@ function usage() {
 	echo
 
 	echo "$0 l <tgtfile> [-v] [ -d preferred_displaymanager? ] : makes a packaged containing .deb-files for a (preferred) displaymanager"
-
-	#$d pitäisi alustaa ennen tätä
-	echo "$0 f <tgtfile> [distro?] [-v]: archives .deb Files under ${d0}/\${distro}"
-
-	echo "$0 p <> [] [] Pulls \${CONF_default_archive3} from somewhere"
-	echo "$0 q <> [] [] archives firefox settings"
-	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
 	echo "$0 t ... option for ipTables"
-
 	echo "$0 -h: shows tHis message about usage"
 }
 
@@ -141,63 +133,63 @@ e22_hdr ${tgtfile}
 #jokin varmistus vielä että iface alhaalla?
 #exit
 
-#VAIH:tästä ekasta case-blokista oma skriptinsä?
-case "${mode}" in
-#	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
-#		[ -s "${tgtfile}" ] || exit 67
-#		[ -r "${tgtfile}" ] || exit 68
-#		e22_rpg ${tgtfile} ${d}
-#17426:josqs ta,aisin kommenteista?
+
+#case "${mode}" in
+##	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
+##		[ -s "${tgtfile}" ] || exit 67
+##		[ -r "${tgtfile}" ] || exit 68
+##		e22_rpg ${tgtfile} ${d}
+##17426:josqs ta,aisin kommenteista?
+##	;;
+#	f) #170426:osaa tehdä paketin edelleen
+#		enforce_access $(whoami) ${t}
+#		e22_arch ${tgtfile} ${d} ${gbk}
+#		
+#		#HUOM! EIPÄ KIKKAILLA sha512sums.txt KANSSA, tar.sha PAREMPI IDEA
+#		#, PITÄÄ VAIN SAADA AIKAISEKSI common_lib.ah HUOMIOIMAAN SE
 #	;;
-	f) #170426:osaa tehdä paketin edelleen
-		enforce_access $(whoami) ${t}
-		e22_arch ${tgtfile} ${d} ${gbk}
-		
-		#HUOM! EIPÄ KIKKAILLA sha512sums.txt KANSSA, tar.sha PAREMPI IDEA
-		#, PITÄÄ VAIN SAADA AIKAISEKSI common_lib.ah HUOMIOIMAAN SE
-	;;
-	q)
-		#170326:tekee edelleen arkiston, sisältö kenties ok
-		[ -v CONF_default_arhcive ] || exit 33
-		[ -v CONF_default_arhcive2 ] || exit 34
-		[ -v CONF_default_arhcive3 ] || exit 35
-
-		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
-	;;
-	c) #ainakin 210426 tIEnoilla toimi viimeksi
-		e22_cde ${tgtfile} ${d0} ${distro}
-	;;
-	p) #170326:lienee kunnossa
-		[ -v CONF_default_arhcive3 ] || exit 66
-		csleep 1
-		[ -v CONF_iface ] && ${sifu} ${CONF_iface}
-		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
-	;;
-	-h)
-		usage
-	;;
-#	b)
-#		#230326:tekee jo jotain, vielä sietää miettiä onko siinä pointtia mitä tekee
-#		for f in $(find ${d0} -type f -name "*lib.sh") ; do
-#			e22_ftr ${f}
-#		done
+#	q)
+#		#170326:tekee edelleen arkiston, sisältö kenties ok
+#		[ -v CONF_default_arhcive ] || exit 33
+#		[ -v CONF_default_arhcive2 ] || exit 34
+#		[ -v CONF_default_arhcive3 ] || exit 35
+#
+#		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 #	;;
-	*)
-		cont=1
-	;;
-esac
-
+#	c) #ainakin 210426 tIEnoilla toimi viimeksi
+#		e22_cde ${tgtfile} ${d0} ${distro}
+#	;;
+#	p) #170326:lienee kunnossa
+#		[ -v CONF_default_arhcive3 ] || exit 66
+#		csleep 1
+#		[ -v CONF_iface ] && ${sifu} ${CONF_iface}
+#		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
+#	;;
+#	-h)
+#		usage
+#	;;
+##	b)
+##		#230326:tekee jo jotain, vielä sietää miettiä onko siinä pointtia mitä tekee
+##		for f in $(find ${d0} -type f -name "*lib.sh") ; do
+##			e22_ftr ${f}
+##		done
+##	;;
+#	*)
+#		cont=1
+#	;;
+#esac
+#
 #exit
-
-if [ $cont -eq 1 ] ; then
-	dqb "R3D B3F0R3 BL4KC"
-else
-	e22_ftr ${tgtfile}	
-	exit 66
-fi
-
+#
+#if [ $cont -eq 1 ] ; then
+#	dqb "R3D B3F0R3 BL4KC"
+#else
+#	e22_ftr ${tgtfile}	
+#	exit 66
+#fi
+#
 #exit
-
+#
 #csleep 1
 #290326:e_jutut vielä tarpeellisia?
 #e_final
@@ -216,7 +208,7 @@ e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
 #HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun jossia n tilanteessa
-#[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar #180426:tilapäisesti jemmaan kokeilun takia, takaisin josqs
+#[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar #180426:tilapäisesti jemmaan kokeilun takia, takaisin josqs (esim 25426?)
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 doit=1
 csleep 1

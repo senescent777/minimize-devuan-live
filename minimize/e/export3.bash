@@ -5,6 +5,7 @@ d0=$(pwd)
 d=${d0}/${distro}
 mode=-2
 tgtfile=""
+
 function usage() {
 echo "$0 <mode> <tgtfile> [ -v] "
 echo "mode:"
@@ -13,6 +14,7 @@ echo "q: makes archive contaihing firefox profile"
 echo "c: is sq-Chroot-env-related option"
 echo "p: Pulls \${CONF_default_archive3} from somewhere?"
 }
+
 function parse_opts_1() {
 	if [ "${mode}" == "-2" ] ; then
 		mode=${1}
