@@ -140,12 +140,12 @@ function clouds_pp1() {
 		if [ -h ${f} ] ; then #mikä ero -L nähden?
 			c0=$(find / -type f -name "${f}.*" | wc -l)
 			#if [ -s ${f}.1 ] || [ -s ${f}.0 ] ; then #riittäisikö nämä tark?
-		
+
 			if [ ${c0} -gt 0 ] ; then
 				${smr} ${f}
 				[ $? -gt 0 ] && dqb "FAILURE TO COMPLY WHILE TRYING TO REMOVE ${f}"
 			else
-				dqb "N.S.T.A.S: ${f}.xxx"			
+				dqb "N.S.T.A.S: ${f}.xxx"
 			fi
 		else
 			dqb "NOt A SHARk... link: ${f}"
@@ -194,7 +194,7 @@ function clouds_post() {
 	for f in $(find /etc -type f -name 'resolv.conf*') ; do
 		${scm} 0444 ${f}
 		${sco} root:root ${f}
-	done	
+	done
 
 	for f in $(find /etc -type f -name 'dhclient*') ; do
 		${scm} 0444 ${f}
@@ -209,13 +209,13 @@ function clouds_post() {
 	done
 
 	${scm} 0555 /sbin
-	p3r1m3tr	
+	p3r1m3tr
 
 	for f in $(find /etc -type f -name 'ntp*') ; do
 		${scm} 0444 ${f}
                 ${sco} root:root ${f}
-	done	
-	
+	done
+
 	for f in $(find /etc/network -type f -name 'interface*') ; do
 		${scm} 0444 ${f}
 		${sco} root:root ${f}
@@ -225,7 +225,7 @@ function clouds_post() {
 
 	${scm} 0555 /etc/dhcp
 	${scm} 0555 /etc/network
-	${sco} root:root /etc/network 
+	${sco} root:root /etc/network
 	${scm} 0555 /etc/init.d/ntpsec
 	${sco} 0:0 /etc/init.d/ntpsec
 
@@ -249,10 +249,12 @@ clouds_pre ${t}
 
 if [ -f /etc/resolv.conf.${t} ] ; then
 	${slinky} /etc/resolv.conf.${t} /etc/resolv.conf
+	[ $? -eq 0 ] || echo "LINKING FAILED"
 else
 	dqb "WHERE IS /etc/resolv.conf.${t} ???"
 fi
 
+sleep 10
 #280326:dhc-juttuihin liittyen miten sitten jos tunaroi dhclient-script:in kanssa? (common_lib saattaa liittyä myös)
 #... man dhclient.conf tietysti 1 lähtökohta
 
