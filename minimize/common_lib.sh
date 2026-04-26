@@ -995,6 +995,7 @@ function e_e() {
 	f=$(date +%F)
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
+	#2604236:onkohan näinkääbn hyvbä? uusiksi taas?
 	if [ -f /etc/resolv.conf.${f} ] ; then
 		dqb "SADF SADF SADFS ASDGH"
 	else
@@ -1285,6 +1286,7 @@ function part2() {
 				dqb "NOT REMOVING WPASUPPLICANT"
 				csleep 1
 			;;
+			#entä dhcp-pakettien poisto jollain ehdolla?
 			*)
 				${sharpy} modem* wireless* wpa*
 				${sharpy} iw lm-sensors
@@ -1342,6 +1344,7 @@ function cg_udp6() {
 	csleep 1
 }
 
+#käytössä?
 function cg_pp2() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.pre_part2 ${1}"
 	csleep 1

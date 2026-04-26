@@ -1,3 +1,42 @@
+
+#240426 ehkä toimi
+function e23_qrs() {
+[ -z "${1}" ] && exit 77
+[ -s ${1} ] || exit 66
+[ -r ${1} ] || exit 55
+[ -z "${2}" ] && exit 11
+[ -d ${2} ] || exit 22
+[ -z "${3}" ] && exit 44
+#[ -f ${3} ] || exit 33
+[ -z "${4}" ] && exit 43
+#[ -f ${4} ] || exit 34
+[ -z "${5}" ] && exit 43
+#[ -f ${5} ] || exit 34
+e22_config1 ~ ${3}
+${srat} -rvf ${1} ~/${3}
+tar -tf ${1} | grep ${3} | wc -l
+[ -f ${4} ] && ${NKVD} ~/${4}
+e22_settings ${2} ${4} ${5}
+for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
+${srat} -rvf ${1} ${f}
+done
+}
+
+
+#240426 ehkä toimi
+function e23_profs() {
+q=$(mktemp -d)
+cd ${q}
+[ $? -eq 0 ] || exit 77
+pwd
+[ -v CONF_BASEURL ] || exit 78
+${tig} clone https://${CONF_BASEURL}/more_scripts.git
+[ $? -eq 0 ] || exit 79
+${svm} more_scripts/profs/${3}* ${2}
+${scm} 0555 ${2}/${3}*
+${sr0} -rvf ${1} ${2}/${3}*
+}
+
 #function aswasw() {
 #[ -z "${1}" ] && exit 56
 #case "${1}" in
@@ -51,7 +90,7 @@
 #fi
 #${lftr}
 #}
-#
+#dqb "TODO:sqroot-juttuja varten uudempi päivityspak"
 #function e23_upgp() {
 #	${fib}
 #	${shary} ${E22_GS}
@@ -73,31 +112,7 @@
 #		;;
 #	esac
 #}
-
-#170326:taitaa toimia, paketin teko ja sisältö
-function e23_qrs() {
-[ -z "${1}" ] && exit 77
-[ -s ${1} ] || exit 66
-[ -r ${1} ] || exit 55
-[ -z "${2}" ] && exit 11
-[ -d ${2} ] || exit 22
-[ -z "${3}" ] && exit 44
-#[ -f ${3} ] || exit 33
-[ -z "${4}" ] && exit 43
-#[ -f ${4} ] || exit 34
-[ -z "${5}" ] && exit 43
-#[ -f ${5} ] || exit 34
-e22_config1 ~ ${3}
-${srat} -rvf ${1} ~/${3}
-tar -tf ${1} | grep ${3} | wc -l
-[ -f ${4} ] && ${NKVD} ~/${4}
-e22_settings ${2} ${4} ${5}
-for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
-${srat} -rvf ${1} ${f}
-done
-}
-
-#190426:vissiin toimii, ÄLÄ SORKI (ainakaan ebnempää kuin välttämnätöntä)
+#190426:vissiin toimii, ÄLÄ SORKI (ainakaan enempää kuin aivan välttämätöntä)
 #function e23_dm() {
 #[ -z "${1}" ] && exit 11
 #	${fib}
@@ -149,7 +164,7 @@ done
 #	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
 #	csleep 5
 #
-#	${shary} libxcursor1 libwutil5 man-db wmaker-common #libbz2-1.0
+#	${shary} libxcursor1 libwutil5 man-db wmaker-common libbz2-1.0
 #	csleep 10
 #
 #	${shary} libicu72 libxfixes3 libxml2
@@ -183,16 +198,3 @@ done
 #	${shary} xterm xauth
 #	${shary} wdm
 #}
-#150326:teki ainakin kerran jotain toivottua (ehkä joutaa vielä arpoa minne juttuja kopsaillaan) 
-function e23_profs() {
-q=$(mktemp -d)
-cd ${q}
-[ $? -eq 0 ] || exit 77
-pwd
-[ -v CONF_BASEURL ] || exit 78
-${tig} clone https://${CONF_BASEURL}/more_scripts.git
-[ $? -eq 0 ] || exit 79
-${svm} more_scripts/profs/${3}* ${2}
-${scm} 0555 ${2}/${3}*
-${sr0} -rvf ${1} ${2}/${3}*
-}

@@ -43,8 +43,9 @@ fi
 dqb "BEFORE L1B"
 process_lib ${d}
 csleep 2
-##20426:kokeillaanpa miten ilman e_juttuja toimaa
-#e_final
+
+#250426 final takaisin kommenteista jotta mutuilatetc varmasti toimisi
+e_final
 #csleep 2
 #e_h $(whoami) ${d0} 
 #csleep 2
@@ -52,11 +53,20 @@ csleep 2
 #jos vaikka näin?
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 csleep 2
+
 ${odio} /opt/bin/tlb.bash
 csleep 2
 
-#020426:[ -v] taakse ao. rivi?
-${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then		
+	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+else
+	dqb "FAILURE TO MUTILATE: /etc/resolc.vonf "
+fi
+
+dqb "AFTER MUTILAT.10n"
+
+ls -las /etc/resolv*
+sleep 60
 
 csleep 2
 ${fib}

@@ -68,7 +68,7 @@ function dis() {
 		if [ ! -h /etc/network/interfaces ] ; then
 			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
 		else
-			dqb " /e/n/i n0t a l1nk"
+			dqb " /e/n/i 15 a l1nk?"
 		fi
 	else
 		dqb "/e/n/i n0t f0und"
@@ -91,7 +91,7 @@ function dis() {
 	csleep 1
 
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
-	if [ -v CONF_iface ] ; then
+	if [ -v CONF_iface ] ; then #TODO:CONF-iface parametriksi?
 		if [ ! -z "${CONF_iface}" ] ; then
 			${odio} ${sifd} ${CONF_iface}
 			csleep 1
@@ -331,7 +331,7 @@ message
 #... toimisi kai tuolla toisellakin tavalla muuten mutta pitäisi imp2:sen sha-tarkistuksia vähän laittaa (040326)
 #... myös pitäisi olla jotain $d alla että imp2 tekisi jotain
 #menkööt toistaiseksi part3 kanssa (040325)
-#common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain
+#common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain?
 
 part3 ${d}
 #dqb "JUST BEFORE IMP2 3"
@@ -359,13 +359,18 @@ dqb "GR1DN BELIALAS KYE"
 e_final
 #e_h $(whoami) ${d0}
 
-#220426:mutilatetc kutsutaan onnistuneesti tuossa alla
+#220426:mutilatetc kutsutaan onnistuneesti tuossa alla (mutta...)
 
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
-	${odio} /opt/bin/mutilatetc.bash  ${CONF_dnsm}
+	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+else
+	dqb "FAILURE TO MUTILATE: /etc/resolc.vonf "
 fi
 
-#
+dqb "AFTER MUTILAT.10n"
+ls -las /etc/resolv*
+sleep 60
+
 #${odio} /opt/bin/tlb.bash ${CONF_dnsm}
 #${odio} /opt/bin/aftr.bash
 

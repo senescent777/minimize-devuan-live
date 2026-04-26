@@ -27,10 +27,6 @@ function parse_opts_2() {
 		fi
 	fi
 }
-#
-#function fallback() { #tarpeellinen?
-#	exit 59
-#}
 
 if [ -x ${d0}/common_lib.sh ] ; then
 . ${d0}/common_lib.sh
