@@ -141,7 +141,7 @@ libavutil57
 libdav1d6
 #
 #oikeastaan jo ylempänä sillä libgl
-libglib2
+#libglib2
 #
 liblzma5
 libmp3lame
@@ -168,10 +168,6 @@ libnftables
 liblqr-1-0
 libde265-0
 #libx265-199 onjo ylempänä, tavallaabn
-# Depends:
-#
-#, , , (>= 1.0.7), (>= 3.0), (>= 11), (>= 3.5), 
-#
 libheif1
 #
 #näiden suhteen jotain?:   x11-utils x11-apps (vielä 120426?)
@@ -199,13 +195,7 @@ libexpat1
 libxshmfence1
 #
 #oikeastaan jo ylempänä libgl
-libglapi-mesa
-#
-# Depends:
-#
-# (>= 2.4.109),  (>= 2.0.1),  (= 22.3.6-1+deb12u1), 
-# (>= 3.4),  (= 22.3.6-1+deb12u1), (>= 1.20.0),  (>= 1.15.0), (>= 2:1.8.4),
-# (>= 1.8), (>= 1.13), ,  (>= 1.3), , , (>= 1.9.2), 
+#libglapi-mesa
 #
 libegl-mesa0
 #
@@ -243,17 +233,7 @@ libfs6
 libwutil5
 libbz2-1.0
 libfftw3-double3
-# Depends:
-#
-#,   (>= 3.3.10),  (>= 2.12.6), (>= 2.2.1),
-#, (>= 6),  (>= 1.4.0), (>= 2.0), (>= 1.3.1),  (>= 2.6), (>= 0.4.0),
-# (>= 2.4.7),  (>= 5.1.1alpha+20120614),  (>= 2.0.0),  (>= 1.6.2-1),  (>= 4.5.0~rc1), (>= 1.2.4),  (>= 1.2.4), (>= 1.2.4),
-#
 libmagickcore-6
-# Depends:
-#
-# , (>= 4.9),  (>= 8:6.9.11.24),
-#
 libmagickwand
 #
 libutempter0
