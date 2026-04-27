@@ -104,13 +104,17 @@ libperl
 perl-base
 #TODO:libxml-parser-perl, mitä sen kanssa tekee?
 #
+#libav tarttee
 libmfx1
+#
 #libva-drm2
+#libav tarttee myös libva, libvdpau, libpoencl, ocl-
 libva-
 libva2
 #
 libvdpau1
 libopencl1
+ocl-icd-
 #59
 libcodec2-1.0
 libgsm1
@@ -136,6 +140,7 @@ libdrm
 libaom3
 #
 #joko jo libav-pakettien kanssa asia kunnossa vai ei?
+#edelleen jaksaa nalkuttaa riippuvuukiststa dpkg
 #
 libavutil57
 libdav1d6
