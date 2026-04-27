@@ -89,10 +89,10 @@ ${sr0} -rvf ${1} ${2}/${3}*
 #fi
 #${lftr}
 #}
-#dqb "TODO:sqroot-juttuja varten uudempi päivityspak"
 #function e23_upgp() {
 #	${fib}
 #	${shary} ${E22_GS}
+#TODO:livavutil- ja libavcodec- paketit riippuvuuksineen mukaan?
 #	${sag} --no-install-recommends upgrade -u
 #	echo $?
 #}
