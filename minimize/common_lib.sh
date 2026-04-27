@@ -177,7 +177,7 @@ function check_bin_0() {
 
 	#ehkä tämmöinen lista kuuluisi konftdstoon?
 	#4426:brl ja openssh uutena minimal_live liittyen, pois jos qsee (6426 ssh viskoi pihalle äksästä ennenaikaisesti, toistuuko?)
-	PART175_LIST="avahi blu cups exim4 nfs network mdadm sane rpc lm-sensors dnsmasq stubby brltty openssh" # ssh 
+	PART175_LIST="avahi blu cups exim4 nfs network mdadm sane rpc lm-sensors dnsmasq stubby brltty openssh" #  ssh too soon
 
 	# ntp" ntp jemmaan 28525 #slim kokeeksi mukaan listaan 271125, hiiri lakkasi toimimasta
 	#HUOM.excalibur ei sisällä:dnsmasq,stubby
@@ -334,7 +334,7 @@ function psqa() {
 #efk2 2. param ja cefgh voisi liittyä asiaan
 
 #TODO:"palautusarvo-tarkistus" uusiksi josqs (JOKO JO 22426?)
-#VAIH:jatkossa tämä tai kutsuva koodi viskomaan validit paketit tmp-hmistoon jatkoa vrten (jälk puoliskon toiminnan varmistus vielä 270426)
+
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} ) ${2} )))))))))))))"
 	csleep 1
@@ -366,6 +366,8 @@ function common_pp3() {
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
+		#TODO:local r=$(psqa ${1}) jatkossa+leikit
+		
 		#270426:hyvä näin?
 		[ $? -gt 0 ] && ${NKVD} ${1}/*.deb ${1}/sha512sums* ${1}/*.tar* #näin ok?
 		
@@ -373,23 +375,20 @@ function common_pp3() {
 		#HISPUJENB KANSSA SITTEN TARKKUUTTA PRKL
 
 		dqb "SAH.0"
-		csleep 10
+		csleep 3
 
 		for s in $(grep -v '#' ${1}/sha512sums.txt | awk '{print $2}') ; do
 			${svm} ${1}/${s} ${2}
 		done
-
-		#VAIH:accept1 kanssa nuo uudet lib-väännöt prkl (libx265-199:amd64 depends on libnuma1 /etc)
-		#... miten tilanne 270426, kunnossa vai ei?
 		
 		dqb "SAH.1"
-		csleep 10
+		csleep 4
 
 		#jälkimmäinen grep sekä spc tarkoit7uksella
 		for s in $(grep -v '#' ${1}/sha512sums.txt.1 | grep -v drop | awk '{print $2}') ; do
 			dqb "${spc} ${1}/${s} ${2}"
 			${spc} ${1}/${s} ${2}
-			csleep 6
+			csleep 5
 		done
 	fi
 
@@ -527,7 +526,6 @@ function cefgh() {
 	#... tai tuo e.tar-jutska jos olisi kätevämpi sittenkin?
 }
 
-#VAIH
 function CB01() {
 	dqb "common.lib.CB01( ${1} (( ${2} )"
 	csleep 1
@@ -977,7 +975,7 @@ function mangle2() {
 }
 
 #010426:pitäisiköhän vähän miettiä mistä tätä ao. fkftiota tarpeellista kutsua ja mistä ei?
-#170426:resolv.conf delliminen voi aiheuttaa härdelliä myöhemmin
+
 function e_e() {
 	csleep 1
 	fix_sudo
@@ -1009,8 +1007,7 @@ function e_e() {
 		dqb "SADF SADF SADFS ASDGH"
 	else
 		${svm} /etc/resolv.conf /etc/resolv.conf.${f}
-		#22+426:jospa purkaisi linkityksen vain silloinq .$f ei löydy? (VAIH)
-
+		
 		if [ -h /etc/resolv.conf ] ; then
 			#tarkistus hyvä näin vai ei? toimiiko size? sittenkin .? .* sijaan?
 			c=$(find /etc -type f -name "resolv.conf.*" -size +10c | wc -l )
@@ -1380,7 +1377,7 @@ csleep 6
 # libquadmath0 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
 #... jospa nyt aluksi selvittäisi mikä näitä tarvitsee?
 
-#TODO?:toiminnan selvittelyä vai ei?
+#toiminnan selvittelyä vai ei?
 function part3() {
 	dqb "))() part3 ${1} , ${2} (((((((("
 	csleep 1

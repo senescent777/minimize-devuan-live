@@ -46,9 +46,7 @@ csleep 2
 
 #250426 final takaisin kommenteista jotta mutuilatetc varmasti toimisi
 e_final
-#csleep 2
-e_h $(whoami) ${d0} 
-#csleep 2
+e_h $(whoami) ${d0}
 
 #jos vaikka näin?
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}

@@ -13,7 +13,7 @@ if [ ! -v CONF_pubk ] ; then
 	unset a
 fi
 
-#170326:lienee ok
+#270426:lienee ok
 function e22_hdr() {
 [ -z "${1}" ] && exit 61
 [ "${1}" == "-v" ] && exit 62
@@ -42,7 +42,7 @@ fi
 fi
 }
 #
-#170326:lienee ok
+#270426:lienee ok edlleen?
 function e22_ftr() {
 [ -z "${1}" ] && exit 62
 [ -s ${1} ] || exit 63
@@ -88,8 +88,11 @@ ${sah6} ./${f} >> ./sha512sums.txt.1 # | grep -v ${t}
 done
 e22_tyg ./sha512sums.txt
 e22_tyg ./sha512sums.txt.1
+
 psqa .
 #TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
+#local r=$(psqa ${1} ) inkl moms och så vidare
+
 [ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums* ./*.tar
 ${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
 cd ${p}
@@ -101,9 +104,15 @@ function e22_cde() {
 [ -z "${3}" ] && exit 96
 [ -d "${2}" ] || exit 97
 [ -d "${3}" ] || exit 95
+
 cd ${2}
 fasdfasd ${1}
 ${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkgs*
+
+#echo "# ! / b ..."
+#echo "base64 -d << FOE | tar -jxv"
+#$srat} -jcf $opts | base64
+#echo "FOE"
 }
 #
 ##020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)

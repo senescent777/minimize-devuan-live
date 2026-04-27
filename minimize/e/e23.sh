@@ -1,4 +1,3 @@
-
 #240426 ehkä toimi
 function e23_qrs() {
 [ -z "${1}" ] && exit 77
@@ -198,5 +197,13 @@ ${sr0} -rvf ${1} ${2}/${3}*
 #	${shary} xterm xauth
 #	${shary} wdm
 #}
-
-#TODO:SETUP1.BASH juttuja (setup0.conf kanssa oli myös jotain?)
+#
+#VAIH:SETUP1.BASH juttuja (setup0.conf kanssa oli myös jotain?)
+#function e23_st() {
+#	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
+#	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim
+#	${shary} dmsetup libdevmapper1 libjte2
+#	${shary} libefiboot1 libefivar1 libfreetype6 libfuse3-3 gettext-base
+#	${shary} libisoburn1 libburn4 libisofs6 libfuse2 mtools
+#	${shary} grub-common xorriso  geany  isolinux
+#	}

@@ -86,7 +86,7 @@ fi
 [ -z "${distro}" ] && exit 6
 d=${d0}/${distro} #nykyään vähän turha tässä
 process_lib ${d}
-mop=${CONF_dm} #voinee joutua muuttamaan jatkossa
+mop=${CONF_dm} #voinee joutua muuttamaan jatkossa?
 
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 dqb "BEFORE TIG NOR MKTMP"
@@ -133,70 +133,6 @@ e22_hdr ${tgtfile}
 #jokin varmistus vielä että iface alhaalla?
 #exit
 
-
-#case "${mode}" in
-##	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
-##		[ -s "${tgtfile}" ] || exit 67
-##		[ -r "${tgtfile}" ] || exit 68
-##		e22_rpg ${tgtfile} ${d}
-##17426:josqs ta,aisin kommenteista?
-##	;;
-#	f) #170426:osaa tehdä paketin edelleen
-#		enforce_access $(whoami) ${t}
-#		e22_arch ${tgtfile} ${d} ${gbk}
-#		
-#		#HUOM! EIPÄ KIKKAILLA sha512sums.txt KANSSA, tar.sha PAREMPI IDEA
-#		#, PITÄÄ VAIN SAADA AIKAISEKSI common_lib.ah HUOMIOIMAAN SE
-#	;;
-#	q)
-#		#170326:tekee edelleen arkiston, sisältö kenties ok
-#		[ -v CONF_default_arhcive ] || exit 33
-#		[ -v CONF_default_arhcive2 ] || exit 34
-#		[ -v CONF_default_arhcive3 ] || exit 35
-#
-#		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
-#	;;
-#	c) #ainakin 210426 tIEnoilla toimi viimeksi
-#		e22_cde ${tgtfile} ${d0} ${distro}
-#	;;
-#	p) #170326:lienee kunnossa
-#		[ -v CONF_default_arhcive3 ] || exit 66
-#		csleep 1
-#		[ -v CONF_iface ] && ${sifu} ${CONF_iface}
-#		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
-#	;;
-#	-h)
-#		usage
-#	;;
-##	b)
-##		#230326:tekee jo jotain, vielä sietää miettiä onko siinä pointtia mitä tekee
-##		for f in $(find ${d0} -type f -name "*lib.sh") ; do
-##			e22_ftr ${f}
-##		done
-##	;;
-#	*)
-#		cont=1
-#	;;
-#esac
-#
-#exit
-#
-#if [ $cont -eq 1 ] ; then
-#	dqb "R3D B3F0R3 BL4KC"
-#else
-#	e22_ftr ${tgtfile}	
-#	exit 66
-#fi
-#
-#exit
-#
-#csleep 1
-#290326:e_jutut vielä tarpeellisia?
-#e_final
-#e_h $(whoami) ${d0}
-#dqb "EHD0.LL1.N3 1v2k"
-#csleep 1
-
 #HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
@@ -208,7 +144,7 @@ e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
 #HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun jossia n tilanteessa
-#[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar #180426:tilapäisesti jemmaan kokeilun takia, takaisin josqs (esim 25426?)
+[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar #180426:tilapäisesti jemmaan kokeilun takia, takaisin josqs (esim 25426?)
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 doit=1
 csleep 1

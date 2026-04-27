@@ -443,7 +443,7 @@ case "${mode}" in
 esac
 
 #poistelu ajank vain jos tehty lähteelle jotain sitä ennen?
-if [ -s ${srcfile} ] ; then
+if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
 	read -p " U  WANT 2 RM SOURCE ?" confirm
 	[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
 fi
