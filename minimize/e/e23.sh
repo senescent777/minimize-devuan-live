@@ -198,3 +198,5 @@ ${sr0} -rvf ${1} ${2}/${3}*
 #	${shary} xterm xauth
 #	${shary} wdm
 #}
+
+#TODO:SETUP1.BASH juttuja (setup0.conf kanssa oli myös jotain?)

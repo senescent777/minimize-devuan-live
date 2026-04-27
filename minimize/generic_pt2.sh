@@ -47,7 +47,7 @@ csleep 2
 #250426 final takaisin kommenteista jotta mutuilatetc varmasti toimisi
 e_final
 #csleep 2
-#e_h $(whoami) ${d0} 
+e_h $(whoami) ${d0} 
 #csleep 2
 
 #jos vaikka näin?
@@ -64,9 +64,8 @@ else
 fi
 
 dqb "AFTER MUTILAT.10n"
-
 ls -las /etc/resolv*
-sleep 60
+csleep 6
 
 csleep 2
 ${fib}

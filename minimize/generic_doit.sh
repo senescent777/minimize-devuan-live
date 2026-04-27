@@ -357,7 +357,7 @@ dqb "GR1DN BELIALAS KYE"
 
 #220426:varm vuoksi palautettu e_f kommenteista 
 e_final
-#e_h $(whoami) ${d0}
+e_h $(whoami) ${d0}
 
 #220426:mutilatetc kutsutaan onnistuneesti tuossa alla (mutta...)
 
@@ -371,6 +371,7 @@ dqb "AFTER MUTILAT.10n"
 ls -las /etc/resolv*
 sleep 60
 
+#ifup nykyään...
 #${odio} /opt/bin/tlb.bash ${CONF_dnsm}
 #${odio} /opt/bin/aftr.bash
 

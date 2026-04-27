@@ -334,7 +334,7 @@ function psqa() {
 #efk2 2. param ja cefgh voisi liittyä asiaan
 
 #TODO:"palautusarvo-tarkistus" uusiksi josqs (JOKO JO 22426?)
-#VAIH:jatkossa tämä tai kutsuva koodi viskomaan validit paketit tmp-hmistoon jatkoa vrten
+#VAIH:jatkossa tämä tai kutsuva koodi viskomaan validit paketit tmp-hmistoon jatkoa vrten (jälk puoliskon toiminnan varmistus vielä 270426)
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} ) ${2} )))))))))))))"
 	csleep 1
@@ -366,21 +366,30 @@ function common_pp3() {
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
-		#VAIH:koitahan päättää mitä tässä tekee.
+		#270426:hyvä näin?
 		[ $? -gt 0 ] && ${NKVD} ${1}/*.deb ${1}/sha512sums* ${1}/*.tar* #näin ok?
 		
 		local s
 		#HISPUJENB KANSSA SITTEN TARKKUUTTA PRKL
 
+		dqb "SAH.0"
+		csleep 10
+
 		for s in $(grep -v '#' ${1}/sha512sums.txt | awk '{print $2}') ; do
 			${svm} ${1}/${s} ${2}
 		done
 
-		#TODO:accept1 kanssa nuo uudet lib-väännöt prkl (libx265-199:amd64 depends on libnuma1 /etc)
+		#VAIH:accept1 kanssa nuo uudet lib-väännöt prkl (libx265-199:amd64 depends on libnuma1 /etc)
+		#... miten tilanne 270426, kunnossa vai ei?
+		
+		dqb "SAH.1"
+		csleep 10
 
 		#jälkimmäinen grep sekä spc tarkoit7uksella
 		for s in $(grep -v '#' ${1}/sha512sums.txt.1 | grep -v drop | awk '{print $2}') ; do
+			dqb "${spc} ${1}/${s} ${2}"
 			${spc} ${1}/${s} ${2}
+			csleep 6
 		done
 	fi
 
@@ -1003,7 +1012,7 @@ function e_e() {
 		#22+426:jospa purkaisi linkityksen vain silloinq .$f ei löydy? (VAIH)
 
 		if [ -h /etc/resolv.conf ] ; then
-			#tarkistus hyvä näin vai ei? toimiiko size?
+			#tarkistus hyvä näin vai ei? toimiiko size? sittenkin .? .* sijaan?
 			c=$(find /etc -type f -name "resolv.conf.*" -size +10c | wc -l )
 	
 			if [ ${c} -gt 0 ] ; then 
