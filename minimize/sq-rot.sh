@@ -49,7 +49,7 @@ function parse_opts_2() {
 }
 
 #e.tar purq (cefgh()) vs tämä sq-rot alku
-if [ -f /.chroot ] ; then #vähän turha tarkistus koska y
+if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
 	#debug=1
@@ -376,7 +376,16 @@ function cptp2() {
 	dqb "ALL DONE"
 }
 
+#TODO:mode 0 vähitellen takaisin
 case "${mode}" in
+#	0)
+#		e="/"
+#		[ ${1} -eq 0 ] || e=${d}
+#		common_part ${srcfile} ${d} ${e}
+#		part3 ${d}
+#		other_horrors
+#		[ $? -eq 0 ] && echo "NEXT: import2 2 ?"
+#	:;
 	1) #
 		common_part ${srcfile} ${d} /
 		csleep 1
