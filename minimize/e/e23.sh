@@ -1,39 +1,42 @@
-#240426 ehkä toimi
+#280426:sai aikaiseksi tdston, sisällön kelpoisuus vielä selvitwettävä
 function e23_qrs() {
-[ -z "${1}" ] && exit 77
-[ -s ${1} ] || exit 66
-[ -r ${1} ] || exit 55
-[ -z "${2}" ] && exit 11
-[ -d ${2} ] || exit 22
-[ -z "${3}" ] && exit 44
-#[ -f ${3} ] || exit 33
-[ -z "${4}" ] && exit 43
-#[ -f ${4} ] || exit 34
-[ -z "${5}" ] && exit 43
-#[ -f ${5} ] || exit 34
-e22_config1 ~ ${3}
-${srat} -rvf ${1} ~/${3}
-tar -tf ${1} | grep ${3} | wc -l
-[ -f ${4} ] && ${NKVD} ~/${4}
-e22_settings ${2} ${4} ${5}
-for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
-${srat} -rvf ${1} ${f}
-done
+	[ -z "${1}" ] && exit 77
+	[ -s ${1} ] || exit 66
+	[ -r ${1} ] || exit 55
+	[ -z "${2}" ] && exit 11
+	[ -d ${2} ] || exit 22
+	[ -z "${3}" ] && exit 44
+	#[ -f ${3} ] || exit 33
+	[ -z "${4}" ] && exit 43
+	#[ -f ${4} ] || exit 34
+	[ -z "${5}" ] && exit 43
+	#[ -f ${5} ] || exit 34
+
+	e22_config1 ~ ${3}
+	${srat} -rvf ${1} ~/${3}
+	tar -tf ${1} | grep ${3} | wc -l
+
+	[ -f ${4} ] && ${NKVD} ~/${4}
+	e22_settings ${2} ${4} ${5}
+
+	for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
+		${srat} -rvf ${1} ${f}
+	done
 }
 
 
 #240426 ehkä toimi
 function e23_profs() {
-q=$(mktemp -d)
-cd ${q}
-[ $? -eq 0 ] || exit 77
-pwd
-[ -v CONF_BASEURL ] || exit 78
-${tig} clone https://${CONF_BASEURL}/more_scripts.git
-[ $? -eq 0 ] || exit 79
-${svm} more_scripts/profs/${3}* ${2}
-${scm} 0555 ${2}/${3}*
-${sr0} -rvf ${1} ${2}/${3}*
+	q=$(mktemp -d)
+	cd ${q}
+	[ $? -eq 0 ] || exit 77
+	pwd
+	[ -v CONF_BASEURL ] || exit 78
+	${tig} clone https://${CONF_BASEURL}/more_scripts.git
+	[ $? -eq 0 ] || exit 79
+	${svm} more_scripts/profs/${3}* ${2}
+	${scm} 0555 ${2}/${3}*
+	${sr0} -rvf ${1} ${2}/${3}*
 }
 
 #function aswasw() {

@@ -64,80 +64,80 @@ csleep 1
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
-else
-	#190326:vissiin tämän haaran kanssa jutut toimivat jnkn verran ja thats it
-	#280426:else-haara vielä tarpeellinen?
-
-	if [ -s ${d0}/$(whoami).conf ] ; then
-		echo "ALT.C0NF1G"
-		sleep 2
-		. ${d0}/$(whoami).conf
-	else
-		if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-			echo "ordnary cqf"
-			. ${d}/conf
-		else
-		 	exit 57
-		fi	
-	fi
-
-	#debug=1
-	dqb "FALLBACK"
-	sleep 5
-
-	odio=$(which sudo)
-	
-	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
-	sleep 5
-
-	function check_binaries() {
-		dqb "imp2.check1"
-
-		mkt=$(${odio} which mktemp)
-		scm=$(${odio} which chmod)
-		sah6=$(${odio} which sha512sum)
-
-		srat=$(${odio} which tar)
-		#eXit jos srat ei?
-
-		gg=$(${odio} which gpg)
-		som=$(${odio} which mount)
-		uom=$(${odio} which umount)
-	}
-
-	function check_binaries2() {
-		echo "imp2.check2"
-	
-		som="${odio} ${som}"
-		uom="${odio} ${uom}"
-		srat="${odio} ${srat}"
-	}
-
-	function part3() {
-		dqb "imp2.part3 :NOT SUPPORTED"
-		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount?
-	}
-
-	function other_horrors() {
-		dqb "AZATH0TH AND OTHER H0RR0RR55.6"
-	}
-
-	function ocs() {
-		echo "======IPM2.=OCS( ${1} )="
-		which ${1}
-		echo "==================="
-	}
-
-	#barm vuokxi
-	function enforce_access() {
-		dqb "imp2.3nf :NOT SUPPORTED"
-	}
-
-	for opt in $@ ; do
-		parse_opts_1 ${opt}
-		parse_opts_2 ${prevopt} ${opt}
-		prevopt=${opt}
-	done
+#else
+#	#190326:vissiin tämän haaran kanssa jutut toimivat jnkn verran ja thats it
+#	#280426:else-haara vielä tarpeellinen?
+#
+#	if [ -s ${d0}/$(whoami).conf ] ; then
+#		echo "ALT.C0NF1G"
+#		sleep 2
+#		. ${d0}/$(whoami).conf
+#	else
+#		if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+#			echo "ordnary cqf"
+#			. ${d}/conf
+#		else
+#		 	exit 57
+#		fi	
+#	fi
+#
+#	#debug=1
+#	dqb "FALLBACK"
+#	sleep 5
+#
+#	odio=$(which sudo)
+#	
+#	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
+#	sleep 5
+#
+#	function check_binaries() {
+#		dqb "imp2.check1"
+#
+#		mkt=$(${odio} which mktemp)
+#		scm=$(${odio} which chmod)
+#		sah6=$(${odio} which sha512sum)
+#
+#		srat=$(${odio} which tar)
+#		#eXit jos srat ei?
+#
+#		gg=$(${odio} which gpg)
+#		som=$(${odio} which mount)
+#		uom=$(${odio} which umount)
+#	}
+#
+#	function check_binaries2() {
+#		echo "imp2.check2"
+#	
+#		som="${odio} ${som}"
+#		uom="${odio} ${uom}"
+#		srat="${odio} ${srat}"
+#	}
+#
+#	function part3() {
+#		dqb "imp2.part3 :NOT SUPPORTED"
+#		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount?
+#	}
+#
+#	function other_horrors() {
+#		dqb "AZATH0TH AND OTHER H0RR0RR55.6"
+#	}
+#
+#	function ocs() {
+#		echo "======IPM2.=OCS( ${1} )="
+#		which ${1}
+#		echo "==================="
+#	}
+#
+#	#barm vuokxi
+#	function enforce_access() {
+#		dqb "imp2.3nf :NOT SUPPORTED"
+#	}
+#
+#	for opt in $@ ; do
+#		parse_opts_1 ${opt}
+#		parse_opts_2 ${prevopt} ${opt}
+#		prevopt=${opt}
+#	done
 fi
 
 dqb "imp2:AFTR common_lib"
@@ -201,15 +201,11 @@ fi
 dqb "ip2.m.Lpgqq"
 #VAIH:vähitellen kommentoituja blokkeja siivoten
 
-function cptp2() { #HUOM.280426:käytetäänk tätä jossain? jep, ei vielä pois
-	dqb "c tp2 ${1}, ${2}, ${3}"
-
+#HUOM.280426:käytetäänk tätä jossain? jep, ei vielä pois
+function cptp2() {
 	[ -z "${1}" ] && echo 99
-	[ -z "${2}" ] && echo 98
+	#[ -z "${2}" ] && echo 98
 	[ -d ${1} ] || exit 97
-
-	dqb "cptp2:pars ok"
-	csleep 1
 
 	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
 	local t
@@ -218,7 +214,6 @@ function cptp2() { #HUOM.280426:käytetäänk tätä jossain? jep, ei vielä poi
 	if [ -f ${t}/common_lib.sh ] ; then
 		#pointti?
 		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
-			#csleep 1
 			${gg} --verify ${t}/common_lib.sh.sig 		
 			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"		
 		fi
@@ -227,7 +222,8 @@ function cptp2() { #HUOM.280426:käytetäänk tätä jossain? jep, ei vielä poi
 		csleep 10
 
 		if [ -x ${t}/common_lib.sh ] ; then
-			enforce_access $(whoami) ${t} #${2} toka param turha?
+			enforce_access $(whoami) ${t}
+
 			dqb "running changedns.sh maY be necessary now to fix some things"
 		else
 			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
@@ -237,23 +233,14 @@ function cptp2() { #HUOM.280426:käytetäänk tätä jossain? jep, ei vielä poi
 		csleep 10
 	fi
 
-	csleep 1
-
-	#090326:toimiiko toivotulla tavalla? toivottavasti nytq tr-kikkailut kOrjattu
 	if [ -d ${t} ] ; then
-		dqb "HAIL UKK"
-
 		${scm} 0755 ${t}
 		${scm} 0555 ${t}/*.sh
 		${scm} 0444 ${t}/conf*
 		${scm} 0444 ${t}/*.deb
-
-		csleep 1
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
-	csleep 1
-	dqb "ALL DONE"
 }
 
 dqb "HPL"
@@ -344,27 +331,16 @@ case "${mode}" in
 		#remember:to_umount olisi hyvä muistuttaa kuitenkin
 	;;
 	2)
-		#081225:toimiiko oikein kun "$0 2 -v" ?
-		dqb "T=-1 K (Eugen K.)"
-		csleep 1
-
 		${uom} ${CONF_dir}
 		csleep 1
 		${som} | grep ${CONF_dir}
-
-		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh maybe | sleep \$delay;ifup \$iface;changedns if necessary"
-		#mode=-3
 	;;
 	-h)
 		usage
-		#mode=-3
 		exit
 	;;
 esac
 
-dqb "debug: 1"
-echo "mode: ${mode} "
-echo "srcfile: ${srcfile} "
 [ -z "${srcfile}" ] && exit 44
 
 if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then #eka tark oli -s , vissiin oltava taas
@@ -397,6 +373,7 @@ dqb "srcfile=${srcfile}"
 csleep 1
 
 #HUOM.280426:jatkossa tämä skripti lienee turha sqroot-ympäristössä, voisi karsia siitä yuhdestä paketista
+#... paItsi että "$0 r"
 
 case "${mode}" in
 	1) 
@@ -455,7 +432,7 @@ case "${mode}" in
 	;;
 esac
 
-cptp2 ${d} ${CONF_iface} #toka param turha?
+cptp2 ${d}
 cd ${olddir}
 #ettei umount unohdu 
 

@@ -13,116 +13,158 @@ if [ ! -v CONF_pubk ] ; then
 	unset a
 fi
 
-#270426:lienee ok
+#280426:lienee ok
 function e22_hdr() {
-[ -z "${1}" ] && exit 61
-[ "${1}" == "-v" ] && exit 62
-[ -f ${1} ] && echo "$1 ALR3ADY EX1STS"
-fasdfasd ./rnd
-fasdfasd ${1}
-dd if=/dev/random bs=12 count=1 > ./rnd
-${sr0} -cvf ${1} ./rnd
-[ $? -gt 0 ] && exit 60
+	[ -z "${1}" ] && exit 61
+	[ "${1}" == "-v" ] && exit 62
+	[ -f ${1} ] && echo "$1 ALR3ADY EX1STS"
+
+	fasdfasd ./rnd
+	fasdfasd ${1}
+
+	dd if=/dev/random bs=12 count=1 > ./rnd
+	${sr0} -cvf ${1} ./rnd
+	[ $? -gt 0 ] && exit 60
 }
-#
-#tark-. olla priv fktio
-#170326:taitaa olla toimiva fktio nykyään (ellei toisin todisteta)
-#190426:toimii edelleen?
+
+#280426:vissiin toimii ao. fktio?
 #TODO:hyvin etäisesti liittyen toisen repon copy_x - fktioihin muutoksia, .sig-jutut hyvä saada mukaan kohteeseen
+
 function e22_tyg() {
-[ -z "${1}" ] && exit 45
-[ -s ${1} ] || exit 46
-[ -r ${1} ] || exit 47
-if [ -x ${gg} ] ; then
-if [ -v CONF_pubk ] ; then
-${gg} -u ${CONF_pubk} -sb ${1}
-[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
-${gg} --verify ${1}.sig
-fi
-fi
+	[ -z "${1}" ] && exit 45
+	[ -s ${1} ] || exit 46
+	[ -r ${1} ] || exit 47
+
+	if [ -x ${gg} ] ; then
+		if [ -v CONF_pubk ] ; then
+			${gg} -u ${CONF_pubk} -sb ${1}
+			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
+			${gg} --verify ${1}.sig
+		fi
+	fi
 }
-#
-#270426:lienee ok edlleen?
+
+#280426:lienee ok edlleen?
 function e22_ftr() {
-[ -z "${1}" ] && exit 62
-[ -s ${1} ] || exit 63
-[ -r ${1} ] || exit 64
-fasdfasd ${1}.sha
-local p
-local q
-p=$(pwd)
-q=$(basename ${1})
-cd $(dirname ${1})
-${sah6} ./${q} > ${q}.sha
-${sah6} -c ${q}.sha
-e22_tyg ${q} #.sha sittenkin näin?
-cd ${p}
+	[ -z "${1}" ] && exit 62
+	[ -s ${1} ] || exit 63
+	[ -r ${1} ] || exit 64
+
+	fasdfasd ${1}.sha
+	local p=$(pwd)
+	local q=$(basename ${1})
+
+	cd $(dirname ${1})
+	${sah6} ./${q} > ${q}.sha
+	${sah6} -c ${q}.sha
+	e22_tyg ${q} #.sha sittenkin näin?
+
+	cd ${p}
 }
+
+#VAIH
+function aqsp() {
+	[ -z "${1}" ] && return 97
+	[ -d ${1} ] || return 96
+
+#	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then
+#		TODO.1
+#	else
+#		TODO.2
+#	fi
+
+	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
+		local p=$(pwd)
+		cd ${1}
+
+		${sah6} -c sha512sums.txt --ignore-missing
+		[ $? -gt 0 ] && return $?
+		cd ${p}
+	else
+		return 90
+	fi	
+}
+
 function e22_arch() {
-[ -z "${1}" ] && exit 1
-[ -s ${1} ] || exit
-[ -d ${2} ] || exit 22
-[ -w ${2} ] || exit 44
-[ -z "${3}" ] && exit 53
-local p=$(pwd)
+	dqb "e22_arch ${1} ; ${2} ; ${3}"
+	csleep 1
 
-if [ -f ${2}/sha512sums.txt ] ; then
-${NKVD} ${2}/sha512sums.txt*
-fi
+	[ -z "${1}" ] && exit 1
+	[ -s ${1} ] || exit 2
+	[ -z "${2}" ] && exit 11
+	[ -d ${2} ] || exit 22
+	[ -w ${2} ] || exit 44
+	[ -z "${3}" ] && exit 53
+	local p=$(pwd)
 
-local c
-c=$(find ${2} -type f -name "*.deb" | wc -l)
-if [ ${c} -lt 1 ] ; then
-exit 55
-fi
+	if [ -f ${2}/sha512sums.txt ] ; then
+		${NKVD} ${2}/sha512sums.txt*
+	fi
 
-${scm} 0444 ${2}/*.deb
-fasdfasd ${2}/sha512sums.txt
-fasdfasd ${2}/sha512sums.txt.1
-cd ${2}
+	local c
+	c=$(find ${2} -type f -name "*.deb" | wc -l)
 
-${sah6} ./*.deb > ./sha512sums.txt
-for f in $(find . -type f -name "*pkgs*") ; do
-[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
-${sah6} ${f} >> ./sha512sums.txt.1
-done
+	if [ ${c} -lt 1 ] ; then
+		exit 55
+	fi
 
-#jatkossa varsinaiseen .txt:hen nuo?
-for f in e.tar g.tar ; do
-dqb "sah6 ./${f}"
-${sah6} ./${f} >> ./sha512sums.txt.1 # | grep -v ${t}
-done
+	${scm} 0444 ${2}/*.deb
+	fasdfasd ${2}/sha512sums.txt
+	fasdfasd ${2}/sha512sums.txt.1
 
-e22_tyg ./sha512sums.txt
-e22_tyg ./sha512sums.txt.1
+	cd ${2}
+	${sah6} ./*.deb > ./sha512sums.txt
 
-psqa .
-#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
-#local r=$(psqa ${1} ) inkl moms och så vidare
+	for f in $(find . -type f -name "*pkgs*") ; do
+		[ ${3} -gt 0 ] && ${srat} -rf ${1} ${f}
+		${sah6} ${f} >> ./sha512sums.txt.1
+	done
 
-[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums* ./*.tar
-${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
-cd ${p}
+	#jatkossa varsinaiseen .txt:hen nuo?
+	for f in e.tar g.tar ; do
+		dqb "sah6 ./${f}"
+		${sah6} ./${f} >> ./sha512sums.txt.1 # | grep -v ${t}
+	done
+
+	e22_tyg ./sha512sums.txt
+	e22_tyg ./sha512sums.txt.1
+
+	#VAIH:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
+	#...aluksi vaikka paikallinen versio psqa():sta ja sitten jotain
+
+	#local r=$(aqsp .) ->  [: too many arguments ekoilla yriotyksillöä
+	aqsp .
+	
+	if [ $? -gt 0 ] ; then
+		echo "SHOULD ${NKVD} ./*.deb ./sha512sums* ./*.tar"
+	fi
+
+	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
+	cd ${p}
 }
 
-#TODO:import2 pois jatkossa? vaiko kys skripti e-hmistoon?
+#TODO?:import2 pois jatkossa? vaiko kys skripti e-hmistoon? paitsi että g_doit kutsuu sitä
+
+#280426:osasi tdston tehdä tuolloin
 function e22_cde() {
-[ -z "${1}" ] && exit 99
-[ -z "${2}" ] && exit 98
-[ -z "${3}" ] && exit 96
-[ -d "${2}" ] || exit 97
-[ -d "${3}" ] || exit 95
-
-cd ${2}
-fasdfasd ${1}
-${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkgs*
-
-#echo "# ! / b ..."
-#echo "base64 -d << FOE | tar -jxv"
-#$srat} -jcf $opts | base64
-#echo "FOE"
+	[ -z "${1}" ] && exit 99
+	[ -z "${2}" ] && exit 98
+	[ -z "${3}" ] && exit 96
+	[ -d "${2}" ] || exit 97
+	[ -d "${3}" ] || exit 95
+	
+	cd ${2}
+	fasdfasd ${1}
+	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkgs*
 }
-#
+
+#function e22_stu() {
+#	echo "# ! / b ..." #TODO:pois kommenteista josqs
+#	echo "base64 -d << FOE | tar -jxv"
+#	$srat} -jcf $opts | base64
+#	echo "FOE"
+#}
+
 ##020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
 ##... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf (mitä muita on mistä sorkitaan? tämän tdstn fktiot)
 #
@@ -145,7 +187,8 @@ ${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkg
 ##...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
 ##HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
 #
-##170426:josko esim. toimisi (resolv.conf kanssa vielä jotain?)
+#280426:resolv.conf sorkkimisen ylkoistus -> mutilatetc?
+#TODO:turhat param pois?
 #function e22_pre2() {
 #[ -z "${1}" ] && exit 66
 #[ -z "${2}" ] && exit 67
@@ -155,7 +198,7 @@ ${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkg
 #par4=$(echo ${4} | tr -d -c 0-9)
 #echo $?
 #csleep 1
-#if [ -d /etc/resolv.conf ] ; then
+#if [ -d /etc/resolv.conf ] ; then #mitvit?
 #echo "D"
 #else
 #if [ -h  /etc/resolv.conf ] ; then
@@ -473,12 +516,10 @@ ${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkg
 ###	exit
 ##}
 #
-#TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
+#280426:joitain kokeiluita ollut jo s_e_a idean kanssa
 #
 #
-##1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO?)
-##tässä tdstossa pre2() ja ext() , lisäksi common_lib kautta e_e -> enforce_access
-##-> merd2, g_doit, sq_rot, import2, export3, export2, e22_pre1()
+#280426.2:olisikohan resolv.conf nyt toistraiseksi ok?
 #
 #function z1() {
 #[ -z "${1}" ] && exit 66

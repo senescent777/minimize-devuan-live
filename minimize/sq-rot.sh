@@ -48,6 +48,8 @@ function parse_opts_2() {
 
 #e.tar purq (cefgh()) vs tämä sq-rot alku
 if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
+	#280426:self_extracting_archive-kikkailu saattaa tehdä tämän if-blkin turhaksi jatkossa ( tai sitten ei)
+
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
 	#debug=1
@@ -123,6 +125,10 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 
 	unset g
 fi
+
+#TODO:se /e/resolv.conf-linkin katkeaminen taas, tee jotain
+[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
+csleep 5
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -249,8 +255,8 @@ function common_part() {
 	local r
 	r=0
 
-	#TODO:.sha.sig -> .sig jatkossa
-	if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
+	#VAIH:.sha.sig -> .sig jatkossa
+	if [ -v gg ] && [ -s ${1}.sig ] ; then
 		dqb "A"
 		dqb "gg= ${gg}"
 
@@ -261,11 +267,11 @@ function common_part() {
 			if [ -x ${gg} ] ; then
 				dqb "C"
 
-				dqb " ${gg} --verify ${1}.sha.sig "
-				${gg} --verify ${1}.sha.sig
+				dqb " ${gg} --verify ${1}.sig "
+				${gg} --verify ${1}.sig
 				r=$?
 
-				[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig.1
+				#[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig.1 mikäö idea tässä?
 				#csleep 1
 			fi
 		fi
@@ -303,8 +309,12 @@ function common_part() {
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "ko"		
 		else
+			#sittenkin näin
 			${NKVD} ${1}* 
-			${NKVD} ${2}/*.deb ${2}/sha512sums* ${2}/*.tar*
+			${NKVD} ${2}/*.deb
+			${NKVD} ${2}/sha512sums*
+			${NKVD} ${2}/*.tar*
+
 			exit 33
 			#160426:nuo loput dellimisen kohteet eivät niin mielekkäitä koska x .. tai siis
 		fi
@@ -344,7 +354,7 @@ function cptp2() {
 		fi
 
 		if [ -x ${t}/common_lib.sh ] ; then
-			enforce_access $(whoami) ${t} #${2} toka param turha?
+			enforce_access $(whoami) ${t}
 			dqb "running changedns.sh maY be necessary now to fix some things"
 		else
 			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
@@ -359,7 +369,7 @@ function cptp2() {
 		dqb "HAIL UKK"
 
 		${scm} 0755 ${t}
-		${scm} 0555 ${t}/*.sh #jos sittenkin 0555?
+		${scm} 0555 ${t}/*.sh
 		${scm} 0444 ${t}/conf*
 		${scm} 0444 ${t}/*.deb
 
@@ -380,13 +390,14 @@ case "${mode}" in
 	0)
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
-		tar -tf ${srcfile} | grep '.tar'
-		csleep 10
+		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
+		f=$(dirname ${f})
 		common_part ${srcfile} ${d} ${e}
-		part3 ${d}
+		part3 ${f}
 		other_horrors
 	;;
 	3)
+		#TODO:mielellään suorituksen keskeytys aikaisessa vaiheessa mikäli gpg hankaa vastaan, erityisesti ennen lähteen hukkaamista
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
 		part3 ${d}

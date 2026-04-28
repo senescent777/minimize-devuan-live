@@ -256,7 +256,7 @@ function message() {
 	sleep 1
 }
 
-#TODO:jatkosäätöä josqs lähiaikoina?
+#TODO:jatkosäätöä josqs lähiaikoina? (kts e22.sh)
 function psqa() {
 	dqb "c.Q () () () () ${1} ;;;"
 	csleep 1
@@ -333,7 +333,7 @@ function psqa() {
 #... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
 #efk2 2. param ja cefgh voisi liittyä asiaan
 
-#TODO:"palautusarvo-tarkistus" uusiksi josqs (JOKO JO 22426?)
+#TODO:"palautusarvo-tarkistus" uusiksi josqs (kts e22.sh)
 
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} ) ${2} )))))))))))))"
@@ -366,29 +366,32 @@ function common_pp3() {
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
-		#TODO:local r=$(psqa ${1}) jatkossa+leikit
-		
-		#270426:hyvä näin?
-		[ $? -gt 0 ] && ${NKVD} ${1}/*.deb ${1}/sha512sums* ${1}/*.tar* #näin ok?
-		
+		#TODO:local r=$(psqa ${1}) jatkossa+leikit?
+			
+		if [ $? -gt 0 ] ; then
+			${NKVD} ${1}/*.deb
+			${NKVD} ${1}/sha512sums*
+			${NKVD} ${1}/*.tar*
+		fi
+
 		local s
 		#HISPUJENB KANSSA SITTEN TARKKUUTTA PRKL
 
 		dqb "SAH.0"
-		csleep 3
+		csleep 1
 
 		for s in $(grep -v '#' ${1}/sha512sums.txt | awk '{print $2}') ; do
 			${svm} ${1}/${s} ${2}
 		done
 		
 		dqb "SAH.1"
-		csleep 4
+		csleep 1
 
 		#jälkimmäinen grep sekä spc tarkoit7uksella
 		for s in $(grep -v '#' ${1}/sha512sums.txt.1 | grep -v drop | awk '{print $2}') ; do
 			dqb "${spc} ${1}/${s} ${2}"
 			${spc} ${1}/${s} ${2}
-			csleep 5
+			csleep 1
 		done
 	fi
 
@@ -409,7 +412,7 @@ function efk1() {
 		dqb $?
 	fi
 
-	csleep 1 #riittäisikö?
+	#csleep 1 #riittäisikö?
 }
 
 function efk2() {
@@ -1005,8 +1008,6 @@ function e_e() {
 	if [ -f /etc/resolv.conf.${f} ] ; then
 		dqb "SADF SADF SADFS ASDGH"
 	else
-		
-		
 		if [ -h /etc/resolv.conf ] ; then
 			#arpoo arpoo
 			c=$(find /etc -type f -name "resolv.conf.*" -size +10c | wc -l )
@@ -1168,7 +1169,7 @@ function part1_5() {
 			done
 		else
 			${svm} /etc/apt/sources.list.tmp ${h}
-			fasdfasd  ${h}/sources.list.tmp
+			fasdfasd ${h}/sources.list.tmp
 		fi
 
 		dqb "p1.5.2"
@@ -1224,7 +1225,7 @@ function part1() {
 	if [ -f /etc/apt/sources.list ] ; then
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:' | wc -l) #TARRKK PRKL
 
-		if [ ${c} -gt 0 ] ; then 
+		if [ ${c} -gt 0 ] ; then #ehtona pikemminkin https: poissaolo?
 			${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
 			csleep 1
 		fi

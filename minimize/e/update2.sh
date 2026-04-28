@@ -10,6 +10,8 @@ spc=$(which cp)
 [ -x ${spc} ] || exit 14
 n=$(whoami)
 
+#TODO:kolmanneksi parametriksi alihakemisto mikä dumpataan arkistoon, sen sijaan että käydään koko lista läpi ?
+
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
 		#TODO:testaus miten saa tOImimaan omegan ajon jlkeen?
