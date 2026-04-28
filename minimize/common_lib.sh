@@ -502,7 +502,7 @@ function cefgh() {
 
 	if [ -z "${gg}" ] ; then
 		#tähän sah6-tarkistus vai ei?
-		#dqb "SHOULD {sah6} -c ${1}/e.tar HERE"
+		dqb "SHOULD {sah6} -c ${1}/e.tar HERE"
 		#if [ -s ${1}/e.tar.sha ] ; then
 		#	${sah6} -c ${1}/e.tar.sha
 		#	[ $? -eq 0 ] || ${NKVD} ${1}/e.tar*
@@ -997,24 +997,26 @@ function e_e() {
 	local f
 	local c
 
-	#280326:missä djclient-sctipy hukataan? siihen tarvitsisi kosea vain jos CONF_dnsm
+	#280326:missä djclient-script hukataan? siihen tarvitsisi kosKea vain jos CONF_dnsm
 	#... /o/b/m voisiolla se hukkaaja
 	f=$(date +%F)
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
-	#2604236:onkohan näinkääbn hyvbä? uusiksi taas?
 	if [ -f /etc/resolv.conf.${f} ] ; then
 		dqb "SADF SADF SADFS ASDGH"
 	else
-		${svm} /etc/resolv.conf /etc/resolv.conf.${f}
+		
 		
 		if [ -h /etc/resolv.conf ] ; then
-			#tarkistus hyvä näin vai ei? toimiiko size? sittenkin .? .* sijaan?
+			#arpoo arpoo
 			c=$(find /etc -type f -name "resolv.conf.*" -size +10c | wc -l )
 	
 			if [ ${c} -gt 0 ] ; then 
 				${smr} /etc/resolv.conf
 			fi
+		else
+			#VAIH:ao.blokin else-haaraan tämä? (oli ennen if-blokkia)
+			${svm} /etc/resolv.conf /etc/resolv.conf.${f}
 		fi
 	fi
 
@@ -1463,6 +1465,7 @@ function process_lib() {
 	[ -z "${1}" ] && exit 66
 	csleep 1
 
+	#pointti?
 	if [ -x "${gg}" ] && [ -s ${1}/lib.sh.sig ] ; then
 		dqb "SHOULD ${gg} --verify ${1}/lib.sh.sig ? "
 		${gg} --verify ${1}/lib.sh.sig

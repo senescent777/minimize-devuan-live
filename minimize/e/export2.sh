@@ -131,12 +131,10 @@ csleep 1
 e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 #jokin varmistus vielä että iface alhaalla?
-#exit
 
 #HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
-#exit
 
 #290326:pre2() 2. param pois?
 e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
@@ -144,11 +142,10 @@ e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
 #HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun jossia n tilanteessa
-[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar #180426:tilapäisesti jemmaan kokeilun takia, takaisin josqs (esim 25426?)
+[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 doit=1
 csleep 1
-#exit
 
 case "${mode}" in
 	0)
@@ -171,7 +168,7 @@ case "${mode}" in
 		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 
-			#TODO:gpgn paketointiin muutoksia kun kerran ei nappaa selvittää miksi ja missä se poistuu (g.tar SITTENKIN tkaisin?)
+			#TODO:gpgn paketointiin muutoksia kun kerran ei nappaa selvittää miksi ja missä se poistuu (JOKO JO 280426?)
 			e23_other_pkgs ${CONF_dnsm}
 		else
 			doit=0

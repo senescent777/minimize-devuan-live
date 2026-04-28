@@ -61,7 +61,7 @@ ${sr0} -rvf ${1} ${2}/${3}*
 #${asy}
 #tpc7
 #aswasw ${2}
-##TODO:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
+##TODO:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta? "for p in grep -v dhcp"? 
 #${shary} ${E22_GT}
 #${asy}
 ##actually necessary
@@ -92,7 +92,7 @@ ${sr0} -rvf ${1} ${2}/${3}*
 #function e23_upgp() {
 #	${fib}
 #	${shary} ${E22_GS}
-#TODO:livavutil- ja libavcodec- paketit riippuvuuksineen mukaan?
+#TODO:vetämään livavutil- ja libavcodec- paketit riippuvuuksineen mukaan?
 #	${sag} --no-install-recommends upgrade -u
 #	echo $?
 #}
@@ -207,3 +207,4 @@ ${sr0} -rvf ${1} ${2}/${3}*
 #	${shary} libisoburn1 libburn4 libisofs6 libfuse2 mtools
 #	${shary} grub-common xorriso  geany  isolinux
 #	}
+#TODO:miten se Makefile-idea? kokeilisiko?

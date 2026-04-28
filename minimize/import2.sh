@@ -66,6 +66,8 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	#190326:vissiin tämän haaran kanssa jutut toimivat jnkn verran ja thats it
+	#280426:else-haara vielä tarpeellinen?
+
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0NF1G"
 		sleep 2
@@ -197,110 +199,9 @@ else
 fi
 
 dqb "ip2.m.Lpgqq"
-#
-#function common_part() {
-#	dqb "common_part ${1} , ${2} , ${3}"
-#
-#	[ -z "${1}" ] && exit 1 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
-#	[ -s ${1} ] || exit 2
-#	[ -r ${1} ] || exit 3
-#	[ -z "${3}" ] && exit 4
-#
-#	[ -z "${2}"  ] && exit 11
-#	[ -d ${2} ] || exit 22
-#	[ -d ${3} ] || exit 44
-#
-#	dqb "paramz_0k"
-#	csleep 1
-#	cd /
-#
-#	local r
-#	r=0
-#
-#	if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
-#		dqb "A"
-#		dqb "gg= ${gg}"
-#
-#		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemassssaolon sijaan?
-#		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-#			dqb "B"
-#
-#			if [ -x ${gg} ] ; then
-#				dqb "C"
-#
-#				dqb " ${gg} --verify ${1}.sha.sig "
-#				${gg} --verify ${1}.sha.sig
-#				r=$?
-#
-#				[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig.1
-#				#csleep 1
-#			fi
-#		fi
-#
-#		if [ ${r} -eq 0 ] ; then
-#			dqb "KÖ"
-#		else
-#			${NKVD} ${1}.*
-#			exit ${r}
-#			#TODO?:tähän jotain josqs
-#		fi
-#	fi
-#
-#	csleep 1
-#
-#	local cfk=1
-#
-#	if [ -s ${1}.sha ] ; then
-#		dqb "KHAZAD-DUM"
-#		dqb "gg= ${gg}"
-#
-#		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
-#		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f)
-#		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
-#
-#		if [ "${aa}" == "${ab}" ] ; then
-#			dqb "aa=ab= ${aa}"
-#			cfk=0
-#		fi
-#
-#		csleep 1
-#	else
-#		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
-#	fi
-#
-#	if [ ${cfk} -gt 0 ] ; then
-#		read -p " U  SURE ?" confirm
-#	
-#		#TODO?:jos ei varmistusta ni sietäisi delliä *.deb ?
-#
-#		if [ "${confirm}" == "Y" ] ; then
-#			dqb "ko"		
-#		else
-#			pwd
-#			sleep 5
-#			${NKVD} ${1}* ./*.deb ./sha512sums* ./*.tar*
-#			exit 33
-#
-#			#TODO?:testaa tämä vähitellen
-#		fi
-#	fi
-#
-#	csleep 1
-#	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
-#
-#	csleep 1
-#	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
-#	[ $? -eq 0 ] || exit 36	
-#
-#	#$d alta tar-juttuja pois tässä? ehkä ei aina kannata
-#	#csleep 1
-#	#251225:mitä jos sen sisemmän sha-tarkistuksen tekisi silloinq common_lib pois pelistä?
-#	
-#	csleep 1
-#	dqb "${srat} DONE"
-#}
+#VAIH:vähitellen kommentoituja blokkeja siivoten
 
-function cptp2() {
+function cptp2() { #HUOM.280426:käytetäänk tätä jossain? jep, ei vielä pois
 	dqb "c tp2 ${1}, ${2}, ${3}"
 
 	[ -z "${1}" ] && echo 99
@@ -315,6 +216,7 @@ function cptp2() {
 	t=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 	
 	if [ -f ${t}/common_lib.sh ] ; then
+		#pointti?
 		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
 			#csleep 1
 			${gg} --verify ${t}/common_lib.sh.sig 		
@@ -423,7 +325,7 @@ function tpr() {
 #HUOM.060426:tämä case-esac voisi toimia ilmankin kirjastoa, qhan vain konftdsto löytyy
 #110426:tässäkin "-v" tarpeen?
 
-#TODO:ne kiukuttelut pois jo?
+#TODO:ne kiukuttelut pois jo? mitkä?
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii?
@@ -494,57 +396,17 @@ dqb "distro=${distro}"
 dqb "srcfile=${srcfile}"
 csleep 1
 
+#HUOM.280426:jatkossa tämä skripti lienee turha sqroot-ympäristössä, voisi karsia siitä yuhdestä paketista
+
 case "${mode}" in
 	1) 
 		echo "sq-rot ${mode} ${tgtfile}"
 		exit
-#		common_part ${srcfile} ${d} /
-#		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
-#		csleep 1
 	;; 
-	0|3) 
+	0|3) #tässä kohtaa tuli se juttu sqroot-ympäristön kanssa, case 0 vs minne f.tar purkautuu
 		echo "sq-rot ${mode} ${tgtfile}"
 		exit
-		
-#		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
-#		#110326:toimii edelleen mod pientä kiukuttelua josqs
-#		#160326:sama, kiukuttelulle voisi tosin tehdä jotain
-#		#190326:onnistui sqrootin alaisuudessa paketteja asennella
-#		
-#		#010426:edelleen osasi sqrtot alla
-#		#... kiukuttelut sqrot alla liittyvät enemmän wdm-pakettiin kuin itse skriptiin?
-#		#sha512sums.txt.bak suattaapi liittyä vua n suattaapi ettei
-#	
-#		
-#		#myös "libc6:amd64 depends on libgcc-s1; however:" joutaisi tehdä jotain?
-#		
-#		echo "ZER0 S0UND"
-#		csleep 1
-#		dqb " ${3} ${distro} MN"
-#		csleep 1
-#		e="/"
-#
-#			if [ ${1} -eq 0 ] ; then
-#				#mitense alt_root? ensisijaisesti sitä pakettien "uutta" asennustapaa vartebn
-#				#... siinä piti vielä prujata se hmistorakanne ainakin
-#
-#				tar -tf ${srcfile} | grep f.tar | head -n 1
-#				echo "... SHOULD BE MOVED UNDER ${d} , AFTER THAT:RUN $0 3 ${d}/f.tar"
-#				exit 99
-#			fi
-#
-#		[ ${1} -eq 0 ] || e=${d}
-#		csleep 1
-#		common_part ${srcfile} ${d} ${e}
-#
-#		csleep 1
-#		dqb "c_p_d0n3, NEXT: pp3"
-#		csleep 1
-#
-#		part3 ${d} 
-#		other_horrors
-#
-#		csleep 1
+
 #		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
 	r) #160326:ehkä tämä jo toimii
@@ -566,7 +428,7 @@ case "${mode}" in
 #	q)
 #		#160326:toimi
 #		#sqrot ei tarvitse tätä casea, kai
-#		# (turha case oikeastaan koska "$0 1"+"$0 r" (TODO:jospa tekisi jotain liittyen)
+#		# (turha case oikeastaan koska "$0 1"+"$0 r" (TODO?:jospa tekisi jotain liittyen)
 #		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
 #		
 #		[ -z "${fox}" ] && exit 26
@@ -584,38 +446,6 @@ case "${mode}" in
 #
 #		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
 #		tpr ${d0} ${CONF_default_arhcive} ${CONF_default_arhcive3}
-#	;;
-#	k)
-#		#161225:toimii, sq-root-ymp ainakin
-#		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
-#		[ -d ${srcfile} ] || exit 22
-#		dqb "KLM"
-#		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd find out?)
-#
-#		if [ -v gg ] ; then
-#			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-#				dqb "NOP"
-#				csleep 1
-#
-#				#for f in $(fnid $srcfile -type f -name '*.sig') ; do
-#				#	g=$(echo $f | cut -d . -f 1,2)
-#				#	check=$(smthing)
-#				#	[ $check ] && gg --import $g
-#				#	rm $g	
-#				#done
-#
-#				dqb "${gg} --import ${srcfile}/*.gpg soon"
-#				csleep 1
-#
-#				${gg} --import ${srcfile}/*.gpg
-#				csleep 1
-#
-#				[ ${debug} -eq 1 ] && ${gg} --list-keys
-#				csleep 2
-#			fi
-#		else
-#			dqb "NO-GO-THEOREM"
-#		fi
 #	;;
 	-3)
 		dqb "do_Nothing()"

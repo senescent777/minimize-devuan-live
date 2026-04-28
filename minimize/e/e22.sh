@@ -28,7 +28,7 @@ ${sr0} -cvf ${1} ./rnd
 #tark-. olla priv fktio
 #170326:taitaa olla toimiva fktio nykyään (ellei toisin todisteta)
 #190426:toimii edelleen?
-#
+#TODO:hyvin etäisesti liittyen toisen repon copy_x - fktioihin muutoksia, .sig-jutut hyvä saada mukaan kohteeseen
 function e22_tyg() {
 [ -z "${1}" ] && exit 45
 [ -s ${1} ] || exit 46
@@ -55,7 +55,7 @@ q=$(basename ${1})
 cd $(dirname ${1})
 ${sah6} ./${q} > ${q}.sha
 ${sah6} -c ${q}.sha
-e22_tyg ${q}.sha
+e22_tyg ${q} #.sha sittenkin näin?
 cd ${p}
 }
 function e22_arch() {
@@ -65,27 +65,34 @@ function e22_arch() {
 [ -w ${2} ] || exit 44
 [ -z "${3}" ] && exit 53
 local p=$(pwd)
+
 if [ -f ${2}/sha512sums.txt ] ; then
 ${NKVD} ${2}/sha512sums.txt*
 fi
+
 local c
 c=$(find ${2} -type f -name "*.deb" | wc -l)
 if [ ${c} -lt 1 ] ; then
 exit 55
 fi
+
 ${scm} 0444 ${2}/*.deb
 fasdfasd ${2}/sha512sums.txt
 fasdfasd ${2}/sha512sums.txt.1
 cd ${2}
+
 ${sah6} ./*.deb > ./sha512sums.txt
 for f in $(find . -type f -name "*pkgs*") ; do
 [ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
 ${sah6} ${f} >> ./sha512sums.txt.1
 done
+
+#jatkossa varsinaiseen .txt:hen nuo?
 for f in e.tar g.tar ; do
 dqb "sah6 ./${f}"
 ${sah6} ./${f} >> ./sha512sums.txt.1 # | grep -v ${t}
 done
+
 e22_tyg ./sha512sums.txt
 e22_tyg ./sha512sums.txt.1
 
@@ -97,7 +104,8 @@ psqa .
 ${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
 cd ${p}
 }
-#2450426:lisätty pkgs-jutut varm vyokjsi
+
+#TODO:import2 pois jatkossa? vaiko kys skripti e-hmistoon?
 function e22_cde() {
 [ -z "${1}" ] && exit 99
 [ -z "${2}" ] && exit 98
@@ -172,9 +180,13 @@ ${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkg
 #ls -las ${1}/*.deb | wc -l
 #fi
 #}
-#
+
+
 ##290326:tämän kanssa jotain Jatkosäätöä vai ei?
 ##120426:bissiin menee mukaan kohteeseen config.tar.bz2
+#
+##TODO:g_doit.part0() liittyviä juttuja, hyvä varmistaa että menevätkö muuttuneet xfce4-asetukset talteen asti 
+##TODO:myös sqroot-ympäristössä olisi hyvä purkaa xe config.tar.bz2
 #
 #function e22_config1() {
 #[ -z "${1}" ] && exit 11
@@ -188,7 +200,8 @@ ${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkg
 #[ -s ${2} ] || exit 99
 #cd ${p}
 #}
-#
+
+
 ##TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 ##nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
 #
@@ -235,6 +248,7 @@ ${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkg
 #	${scm} go-r /opt/bin/*
 #	${sco} 0:0 /opt/bin/*
 #	${srat} -rvf ${1} /opt/bin
+#TODO:findin lähtökohdaksi jokin toinen
 #	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 #		${srat} -rvf ${1} ${t}
 #	done	
@@ -263,7 +277,7 @@ ${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkg
 #	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 #	${srat} ${TARGET_TPX} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 #	csleep 1
-#	#miksi täsäs eokä h_pre() ?
+#	#miksi täsäs eokä h_pre() ? TODO?:siirtäisikö?
 #	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 #}
 #
@@ -283,7 +297,7 @@ ${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkg
 ##slim/xdm/wdm-spesifinen konfiguraatio saattaa tulla jo mukaan myös
 ##020426:ei vedä verkosta mitään ni ei tartte lisätestejä?
 ##140426:kopsannee kohteeseen mitä pitääkin
-##(meneekö rules.* kohteeseen useamman kerran?)
+##(meneekö rules.* kohteeseen useamman kerran?) voisi päättää että acol vai sarram hoitaa
 ##200426:taitaa toimia edelleen
 #
 #function e22_acol() {
@@ -423,7 +437,7 @@ ${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkg
 ##	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 ##}
 #
-##080326:testattu senverranq pystyy, jotain kiukuttelua aiheutui (debbug-ulostuksen typot kenties)
+##080326:testattu senverranq pystyy, jotain kiukuttelua aiheutui (debug-ulostuksen typot kenties)
 ##function e22_rpg() {
 ##	dqb "R-P-G ${1} , ${2} , ${3}"
 ##	[ -z "${1}" ] && exit 99

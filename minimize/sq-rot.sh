@@ -34,8 +34,6 @@ function parse_opts_1() {
 	fi
 }
 
-#TODO?:exp2/imp2/sqr komentorivien käsittelyyn muutosta? uusi optio? ,mikä?
-
 function parse_opts_2() {
 	dqb "rpus.ot.parseopts_2 )) ${1} ; ${2} (("
 
@@ -126,8 +124,6 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 	unset g
 fi
 
-#echo "aftr.unset.g";sleep 1
-
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 	#[ $? -eq 0 ] || exit #tähänkö kosahtanut viime_aikoina?
@@ -202,8 +198,6 @@ fi
 dqb "rot:AFTR common_lib"
 csleep 1
 [ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
-#csleep 1
-#echo "jts.bfr.l1b";sleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -214,7 +208,6 @@ else
 	csleep 1
 fi
 
-#echo "jts.bfr.cbin1";sleep 1
 check_binaries ${d}
 #[ $? -eq 0 ] || exit saattaa aiheuttaa ongelmia liialliset tarkistukset
 
@@ -256,6 +249,7 @@ function common_part() {
 	local r
 	r=0
 
+	#TODO:.sha.sig -> .sig jatkossa
 	if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
 		dqb "A"
 		dqb "gg= ${gg}"
@@ -276,7 +270,7 @@ function common_part() {
 			fi
 		fi
 
-		#VAIH:sqrootin alaisuudessa testailut, toiminee
+		#tohtisiko joskus testata oikeasti tuota?
 		[ ${r} -eq 0 ] || ${NKVD} ${1}*
 	fi
 
@@ -342,6 +336,7 @@ function cptp2() {
 	t=$(echo ${1} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 
 	if [ -f ${t}/common_lib.sh ] ; then
+		#onkohan tuossa tarkistuksessa pointtia?
 		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
 			#csleep 1
 			${gg} --verify ${t}/common_lib.sh.sig 
@@ -376,22 +371,22 @@ function cptp2() {
 	dqb "ALL DONE"
 }
 
-#TODO:mode 0 vähitellen takaisin
-case "${mode}" in
-#	0)
-#		e="/"
-#		[ ${1} -eq 0 ] || e=${d}
-#		common_part ${srcfile} ${d} ${e}
-#		part3 ${d}
-#		other_horrors
-#		[ $? -eq 0 ] && echo "NEXT: import2 2 ?"
-#	:;
-	1) #
-		common_part ${srcfile} ${d} /
-		csleep 1
-	;; 
-	3)  #0 poistettu 040426 (takaisin josqs vai rai rai?)
+#VAIH:mode 0 vähitellen takaisin , f.tar sijainnin selvittely olisi kiva tehdä seuraavaksi
 
+case "${mode}" in
+	1)
+		common_part ${srcfile} ${d} /
+	;; 
+	0)
+		e="/"
+		[ ${mode} -eq 0 ] || e=${d}
+		tar -tf ${srcfile} | grep '.tar'
+		csleep 10
+		common_part ${srcfile} ${d} ${e}
+		part3 ${d}
+		other_horrors
+	;;
+	3)
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
 		part3 ${d}

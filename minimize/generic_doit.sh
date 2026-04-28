@@ -104,13 +104,16 @@ function part0() {
 	#https://docs.xfce.org/xfce/xfce4-session/advanced
 	#https://superuser.com/questions/1222663/how-do-i-use-combine-ssh-agent-forwarding-and-xfce4
 	#https://forum.manjaro.org/t/how-to-disable-ssh-agent-autostart/89404
+	
 	dqb "#VAIH:jospa kokeilisi vähitellen miten xfquery-komennot vaikuttavat? (270426)"
+	#... meneekö sinne config.tar.bz2 asti muutokset esim? (TODO:selvitä)	
 
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
 	${whack} ssh-agent*
 
 	#060426:tämäkö heittää pihalle ennenaikaisesti? ssh:n kanssa ehkä jotain	
+	#2804236:josko ssh-agentin sisältävän paketin voisi poistaa?
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
