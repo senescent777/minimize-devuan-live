@@ -9,6 +9,8 @@ CONF_PT2=minimize-devuan-live
 CONF_LIB=minimize/common_lib.sh
 distro=$(cat /etc/devuan_version)
 
+#TODO:voisi sen main-mergen hoitaa josqs
+
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
