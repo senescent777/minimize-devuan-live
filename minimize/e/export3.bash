@@ -62,8 +62,6 @@ fi
 e22_hdr ${tgtfile}
 #[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta
 
-#TODO:e22_stu() mukaan?
-
 case "${mode}" in
 #	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
 #		[ -s "${tgtfile}" ] || exit 67
