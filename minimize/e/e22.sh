@@ -166,7 +166,7 @@ function e22_stu() {
 	echo "FOE"
 }
 
-#190426:lienee edelleen toimiva
+#300426:lienee edelleen toimiva
 function e22_ts() {
 	[ -z "${1}" ] && exit 13
 	[ -d ${1} ] || exit 14
@@ -181,64 +181,72 @@ function e22_ts() {
 	cg_udp6 ${1}
 }
 
-##020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
-##... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf (mitä muita on mistä sorkitaan? tämän tdstn fktiot)
-#
-#function e22_pre1() {
-#[ -z "${1}" ] && exit 65
-#[ -z "${2}" ] && exit 66
-#[ -d ${1} ] || exit 111
-#${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-#${scm} -Rv 700 ${CONF_pkgdir}/partial/
-#local lefid
-#lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?	
-#enforce_access $(whoami) ${lefid}
-#csleep 1
-#${scm} 0755 /etc/apt
-#${scm} a+w /etc/apt/sources.list*
-#part1 ${2} ${1}
-#${scm} a-w /etc/apt/sources.list*
-#}
-##
-##...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
-##HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
-#
+function e22_cleanpkgs() {
+	[ -z "${1}" ] && exit 56
+
+	if [ -d ${1} ] ; then
+		${smr} ${1}/*.deb
+		${smr} ${1}/sha512sums.txt*
+		ls -las ${1}/*.deb | wc -l
+	fi
+}
+
+#020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
+#... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf (mitä muita on mistä sorkitaan? tämän tdstn fktiot)
+
+function e22_pre1() {
+	[ -z "${1}" ] && exit 65
+	[ -z "${2}" ] && exit 66
+	[ -d ${1} ] || exit 111
+
+	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+	${scm} -Rv 700 ${CONF_pkgdir}/partial/
+
+	local lefid
+	lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?	
+	enforce_access $(whoami) ${lefid}
+
+	csleep 1
+	${scm} 0755 /etc/apt
+	${scm} a+w /etc/apt/sources.list*
+	part1 ${2} ${1}
+	${scm} a-w /etc/apt/sources.list*
+}
+
+#...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
+#HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
+
 #280426:resolv.conf sorkkimisen ylkoistus -> mutilatetc?
 #TODO:turhat param pois?
-#function e22_pre2() {
-#[ -z "${1}" ] && exit 66
-#[ -z "${2}" ] && exit 67
-#[ -z "${3}" ] && exit 68
-#[ -z "${4}" ] && exit 69
-#[ -d ${1} ] || exit 111
-#par4=$(echo ${4} | tr -d -c 0-9)
-#echo $?
-#csleep 1
-#if [ -d /etc/resolv.conf ] ; then #mitvit?
-#echo "D"
-#else
-#if [ -h  /etc/resolv.conf ] ; then
-#echo "-L"
-#else
-#[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
-#fi
-#fi
-#ls -las /etc/resolv.*
-#csleep 10
-#${sifu} ${3}
-#csleep 1
-#${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-#${scm} -Rv 700 ${CONF_pkgdir}/partial/
-#${sag_u}
-#}
-#function e22_cleanpkgs() {
-#[ -z "${1}" ] && exit 56
-#if [ -d ${1} ] ; then
-#${smr} ${1}/*.deb
-#${smr} ${1}/sha512sums.txt*
-#ls -las ${1}/*.deb | wc -l
-#fi
-#}
+function e22_pre2() {
+	[ -z "${1}" ] && exit 66
+	[ -z "${2}" ] && exit 67
+	[ -z "${3}" ] && exit 68
+	[ -z "${4}" ] && exit 69
+	[ -d ${1} ] || exit 111
+
+	par4=$(echo ${4} | tr -d -c 0-9)
+	echo $?
+	csleep 1
+
+	if [ -d /etc/resolv.conf ] ; then #mitvit?
+		echo "D"
+	else
+		if [ -h  /etc/resolv.conf ] ; then
+			echo "-L"
+		else
+			[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
+		fi
+	fi
+
+	ls -las /etc/resolv.*
+	csleep 10
+	${sifu} ${3}
+	csleep 1
+	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+	${scm} -Rv 700 ${CONF_pkgdir}/partial/
+	${sag_u}
+}
 
 
 ##290326:tämän kanssa jotain Jatkosäätöä vai ei?
