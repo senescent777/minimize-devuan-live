@@ -126,9 +126,10 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 	unset g
 fi
 
-#TODO:se /e/resolv.conf-linkin katkeaminen taas, tee jotain
+#TODO?:se /e/resolv.conf-linkin katkeaminen taas, tee jotain (vielä ongelma 290426-> ?)
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
+#tuossa yllä tosin turhahko ls
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
