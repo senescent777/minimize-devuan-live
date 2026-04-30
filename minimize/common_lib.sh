@@ -1005,6 +1005,9 @@ function e_e() {
 	f=$(date +%F)
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
+	dqb "JUST BEF0RE MUTILATING RESOLV.CONF"
+	csleep 10
+
 	if [ -f /etc/resolv.conf.${f} ] ; then
 		dqb "SADF SADF SADFS ASDGH"
 	else
@@ -1021,6 +1024,8 @@ function e_e() {
 		fi
 	fi
 
+	dqb "JUST AFTER MUTILATING RESOLV.CONF"
+	csleep 5
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 	csleep 5
 
