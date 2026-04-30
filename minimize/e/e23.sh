@@ -88,27 +88,31 @@ function e23_tblz() {
 	other_horrors
 }
 
-#function e23_other_pkgs() {
-#[ -z "${1}" ] && exit 11
-#${shary} ${E22_GI}
-#E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
-#${shary} ${E22_GG}
-#E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
-#${shary} ${E23_GS}
-#message
-#jules
-#if [ ${1} -eq 1 ] ; then
-#${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
-#${shary} runit-helper
-#${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
-#${lftr} 
-#[ $? -eq 0 ] || exit 3
-#${shary} libev4
-#${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2
-#${shary} stubby
-#fi
-#${lftr}
-#}
+function e23_other_pkgs() {
+	[ -z "${1}" ] && exit 11
+
+	${shary} ${E22_GI}
+	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
+	${shary} ${E22_GG}
+	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
+	${shary} ${E23_GS}
+	message
+	jules
+
+	if [ ${1} -eq 1 ] ; then
+		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
+		${shary} runit-helper
+		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
+		${lftr} 
+		[ $? -eq 0 ] || exit 3
+		${shary} libev4
+		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2
+		${shary} stubby
+	fi
+
+	${lftr}
+}
+
 #function e23_upgp() {
 #	${fib}
 #	${shary} ${E22_GS}

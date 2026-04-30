@@ -148,8 +148,6 @@ e22_cleanpkgs ${CONF_pkgdir}
 doit=1
 csleep 1
 
-#VAIH:e23_other_pkgs palauttaminen kommenteista
-
 #VAIH:gpgn paketointiin muutoksia kun kerran ei nappaa s... (case g?)
 function e22_dblock() { #140426:lienee toimiva tämä fktio (josko TAAS -> e22 ?)
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
@@ -243,10 +241,7 @@ case "${mode}" in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) 
-		#... chattr olisi kYllä paikallaan etteI vahingossa spedeilisi
-		#070426:paketin sisältö vaikuttaa toimivan minimal_liven alaisuudessa, entä desktop? sielläkin
-		#... oliko jostain libpam- paketeista ulinaa? tuliko libcom-err2 mukaan?
-		#... testaus uusiksi joskus?
+		#300426:paketin muodostaa jälleen, sisällön toinmivuus slevitettävä
 
 		${shary} ${E22_GS}
 		${shary} ${E22_GM}
@@ -259,7 +254,7 @@ case "${mode}" in
 		e23_other_pkgs ${CONF_dnsm}
 	;;
 	t)
-		#290326:osaa paketin tehdä, todnäk asentuu myös
+		#300426:osannee paketin tehdä?
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
