@@ -48,38 +48,46 @@ function e23_st() {
 	${shary} grub-common xorriso  geany  isolinux
 	}
 
-#function aswasw() {
-#[ -z "${1}" ] && exit 56
-#case "${1}" in
-#wlan0)
-#${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1
-#${shary} wpasupplicant
-#;;
-#eth0)
-#dqb "sHOULD "\${shary} ISC-DHCP-???"
-#;;
-#*)
-#;;
-#esac
-#}
-#function e23_tblz() {
-#csleep 1
-#[ -z "${1}" ] && exit 11
-#[ -d ${1} ] || exit 15
-#[ -z "${2}" ] && exit 12
-#[ -z "${3}" ] && exit 13
-#[ -z "${4}" ] && exit 14
-#${fib}
-#${asy}
-#tpc7
-#aswasw ${2}
-##TODO:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta? "for p in grep -v dhcp"? 
-#${shary} ${E22_GT}
-#${asy}
-##actually necessary
-#e22_pre2 ${1} ${3} ${2} ${4}
-#other_horrors
-#}
+function aswasw() {
+	[ -z "${1}" ] && exit 56
+
+	case "${1}" in
+		wlan0)
+			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1
+			${shary} wpasupplicant
+		;;
+		eth0)
+			dqb "sHOULD \${shary} ISC-DHCP-???"
+		;;
+		*)
+			dqb "whåtever"
+		;;
+	esac
+}
+
+function e23_tblz() {
+	csleep 1
+
+	[ -z "${1}" ] && exit 11
+	[ -d ${1} ] || exit 15
+	[ -z "${2}" ] && exit 12
+	[ -z "${3}" ] && exit 13
+	[ -z "${4}" ] && exit 14
+
+	${fib}
+	${asy}
+	tpc7
+
+	aswasw ${2}
+	#TODO:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta? "for p in grep -v dhcp"? 
+	${shary} ${E22_GT}
+	${asy}
+
+	#actually necessary
+	e22_pre2 ${1} ${3} ${2} ${4}
+	other_horrors
+}
+
 #function e23_other_pkgs() {
 #[ -z "${1}" ] && exit 11
 #${shary} ${E22_GI}
@@ -210,7 +218,5 @@ function e23_st() {
 #	${shary} wdm
 #}
 #
-
-
 
 #TODO:miten se Makefile-idea? kokeilisiko?

@@ -148,8 +148,7 @@ e22_cleanpkgs ${CONF_pkgdir}
 doit=1
 csleep 1
 
-#TODO:e23_tblz, e23_other_pkgs palauttaminen kommenteista
-#VAIH:e23_st 
+#VAIH:e23_tblz, e23_other_pkgs palauttaminen kommenteista
 
 #VAIH:gpgn paketointiin muutoksia kun kerran ei nappaa s... (case g?)
 function e22_dblock() { #140426:lienee toimiva tämä fktio (josko TAAS -> e22 ?)

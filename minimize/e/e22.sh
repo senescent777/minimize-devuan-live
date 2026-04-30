@@ -133,7 +133,7 @@ function e22_arch() {
 	#...aluksi vaikka paikallinen versio psqa():sta ja sitten jotain
 
 	#local r=$(aqsp .) ->  [: too many arguments ekoilla yriotyksillöä
-	aqsp å #.
+	aqsp . #leikkimiset myöhemmin
 	
 	if [ $? -gt 0 ] ; then
 		echo "rv= $?"
@@ -164,6 +164,21 @@ function e22_stu() {
 	echo "base64 -d << FOE | tar -jxv"
 	echo "${srat} -jcf \$opts | base64"
 	echo "FOE"
+}
+
+#190426:lienee edelleen toimiva
+function e22_ts() {
+	[ -z "${1}" ] && exit 13
+	[ -d ${1} ] || exit 14
+	[ -w ${1} ] || exit 15
+	[ -z "${2}" ] && exit 16
+	[ -d ${2} ] || exit 17
+
+	${svm} ${2}/*.deb ${1}
+	[ $? -eq 0 ] || exit 56
+	fasdfasd ${1}/tim3stamp
+	date > ${1}/tim3stamp
+	cg_udp6 ${1}
 }
 
 ##020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
@@ -458,19 +473,7 @@ function e22_stu() {
 #cd ${p}
 #}
 #
-##190426:lienee edelleen toimiva
-#function e22_ts() {
-#	[ -z "${1}" ] && exit 13
-#	[ -d ${1} ] || exit 14
-#	[ -w ${1} ] || exit 15
-#[ -z "${2}" ] && exit 16
-#	[ -d ${2} ] || exit 17
-#	${svm} ${2}/*.deb ${1}
-#	[ $? -eq 0 ] || exit 56
-#	fasdfasd ${1}/tim3stamp
-#	date > ${1}/tim3stamp
-#	cg_udp6 ${1}
-#}
+
 #
 ##170426:fktio taisi toimia  jnkn aikaa
 ##josqs uusiksi testailut (se psqa() - juttu lähinnä , muita on jo testailtu 190426 mennessä)
