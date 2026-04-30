@@ -12,5 +12,6 @@ gpgv
 #
 #python3-pil-jutut jemmaan 090226, loppuu purpatus prkl
 python3-pil
-#parenpi pitää libav tuossa alla ei-kommentoituna
+#parenpi pitää libav tuossa alla ei-kommentoituna (swreample kanssa)
 libav
+libsw
