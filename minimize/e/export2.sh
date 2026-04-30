@@ -260,11 +260,13 @@ case "${mode}" in
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
-		#170426 edelleen osasi paketin muodostaa, todnäk asentuu myös
+		#VAIH
+		e22_hdr ${d}/e.tar
 
 		${fib}
 		${shary} ${E22_GI}
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
+		${srat} -rvf ${tgtfile} ${d}/e.tar*
 	;;
 	l)
 		#1104236:desktop_live:n kanssa onnistui jo paketin asennus
