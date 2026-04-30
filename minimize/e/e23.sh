@@ -49,7 +49,8 @@ function e23_st() {
 	}
 
 function aswasw() {
-	[ -z "${1}" ] && exit 56
+	dqb "aswasw()"
+	[ -z "${1}" ] && exit 51
 
 	case "${1}" in
 		wlan0)
@@ -63,6 +64,8 @@ function aswasw() {
 			dqb "whåtever"
 		;;
 	esac
+
+	dqb "aswasw() DONE"
 }
 
 function e23_tblz() {

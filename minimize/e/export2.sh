@@ -81,7 +81,7 @@ if [ -x ${d0}/common_lib.sh ] ; then #200426:edelleen tarpeellinen kirjasto
 	. ${d0}/common_lib.sh
 else
 	#johdonmukaisuus virhekoodeissa olisi tietty kiva
-	exit 56
+	exit 57
 fi
 
 [ -z "${distro}" ] && exit 6
@@ -146,48 +146,6 @@ e22_cleanpkgs ${CONF_pkgdir}
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 doit=1
 csleep 1
-
-#VAIH:gpgn paketointiin muutoksia kun kerran ei nappaa s... (case g?)
-function e22_dblock() { #140426:lienee toimiva tämä fktio (josko TAAS -> e22 ?)
-	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
-
-	[ -z "${1}" ] && exit 14
-	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
-	#[ -w ${1} ] || exit 16 #ei näin?
-	[ -z "${2}" ] && exit 11
-	[ -d ${2} ] || exit 22
-	[ -w ${2} ] || exit 23
-	[ -z "${3}" ] && exit 33
-	[ -d ${3} ] || exit 34
-	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
-	[ -z "${4}" ] && exit 37
-
-	dqb ".PARS-OK"
-	csleep 1
-
-	[ ${debug} -eq 1 ] && pwd
-	#aval0n #tarpeellinen?
-	ls -la ${3}/*.deb | wc -l
-	
-	#HUOM.160326:ao. for-blokki omaksi fktioksi?
-	for s in ${PART175_LIST} ; do
-		${sharpy} ${s}*
-		${NKVD} ${3}/${s}*.deb
-	done
-	
-	local t
-	t=$(echo ${2} | cut -d "/" -f 1-6) #joitain tr-jekkuja vielä?
-	e22_ts ${t} ${3}
-	dqb "JST B3F0R3 3NF0RC3"
-	csleep 1
-	
-	enforce_access $(whoami) ${t}
-	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-	csleep 1
-
-	e22_arch ${1} ${2} ${4}
-	e22_cleanpkgs ${2}
-}
 
 case "${mode}" in
 	0)
@@ -267,6 +225,8 @@ case "${mode}" in
 		${shary} ${E22_GI}
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
+
+		doit=0
 	;;
 	l)
 		#1104236:desktop_live:n kanssa onnistui jo paketin asennus
