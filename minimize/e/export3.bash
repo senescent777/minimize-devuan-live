@@ -94,6 +94,9 @@ case "${mode}" in
 	-h)
 		usage
 	;;
+	s)
+		e22_stu ${tgtfile} 
+	;;
 #	b)
 #		#230326:tekee jo jotain, vielä sietää miettiä onko siinä pointtia mitä tekee
 #		for f in $(find ${d0} -type f -name "*lib.sh") ; do

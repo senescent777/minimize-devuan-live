@@ -159,12 +159,12 @@ function e22_cde() {
 	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkgs*
 }
 
-#function e22_stu() {
-#	echo "# ! / b ..." #TODO:pois kommenteista josqs
-#	echo "base64 -d << FOE | tar -jxv"
-#	$srat} -jcf $opts | base64
-#	echo "FOE"
-#}
+function e22_stu() {
+	echo "# ! / b ..."
+	echo "base64 -d << FOE | tar -jxv"
+	echo "${srat} -jcf \$opts | base64"
+	echo "FOE"
+}
 
 ##020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
 ##... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf (mitä muita on mistä sorkitaan? tämän tdstn fktiot)
