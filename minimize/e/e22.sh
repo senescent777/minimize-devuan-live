@@ -133,9 +133,10 @@ function e22_arch() {
 	#...aluksi vaikka paikallinen versio psqa():sta ja sitten jotain
 
 	#local r=$(aqsp .) ->  [: too many arguments ekoilla yriotyksillöä
-	aqsp .
+	aqsp å #.
 	
 	if [ $? -gt 0 ] ; then
+		echo "rv= $?"
 		echo "SHOULD ${NKVD} ./*.deb ./sha512sums* ./*.tar"
 	fi
 

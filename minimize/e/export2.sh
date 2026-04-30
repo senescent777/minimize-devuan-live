@@ -7,7 +7,7 @@ d0=$(pwd)
 d=${d0}/${distro}
 mode=-2
 tgtfile=""
-gbk=-1
+gbk=0
 mop=""
 
 function usage() {
@@ -35,6 +35,7 @@ else
 fi
 
 #"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
+#290426:parse_fktioiden siirto e22:seen olisi 1 idea, tosin siitä seurannee paljon säätöä
 
 function parse_opts_1() {
 	dqb "parse_opts_1( ${1})"
@@ -147,6 +148,51 @@ e22_cleanpkgs ${CONF_pkgdir}
 doit=1
 csleep 1
 
+#TODO:e23_tblz, e23_other_pkgs palauttaminen kommenteista
+#VAIH:e23_st 
+
+#VAIH:gpgn paketointiin muutoksia kun kerran ei nappaa s... (case g?)
+function e22_dblock() { #140426:lienee toimiva tämä fktio (josko TAAS -> e22 ?)
+	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
+
+	[ -z "${1}" ] && exit 14
+	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
+	#[ -w ${1} ] || exit 16 #ei näin?
+	[ -z "${2}" ] && exit 11
+	[ -d ${2} ] || exit 22
+	[ -w ${2} ] || exit 23
+	[ -z "${3}" ] && exit 33
+	[ -d ${3} ] || exit 34
+	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
+	[ -z "${4}" ] && exit 37
+
+	dqb ".PARS-OK"
+	csleep 1
+
+	[ ${debug} -eq 1 ] && pwd
+	#aval0n #tarpeellinen?
+	ls -la ${3}/*.deb | wc -l
+	
+	#HUOM.160326:ao. for-blokki omaksi fktioksi?
+	for s in ${PART175_LIST} ; do
+		${sharpy} ${s}*
+		${NKVD} ${3}/${s}*.deb
+	done
+	
+	local t
+	t=$(echo ${2} | cut -d "/" -f 1-6) #joitain tr-jekkuja vielä?
+	e22_ts ${t} ${3}
+	dqb "JST B3F0R3 3NF0RC3"
+	csleep 1
+	
+	enforce_access $(whoami) ${t}
+	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
+	csleep 1
+
+	e22_arch ${1} ${2} ${4}
+	e22_cleanpkgs ${2}
+}
+
 case "${mode}" in
 	0)
 		exit 97
@@ -167,8 +213,6 @@ case "${mode}" in
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-
-			#TODO:gpgn paketointiin muutoksia kun kerran ei nappaa selvittää miksi ja missä se poistuu (JOKO JO 280426?)
 			e23_other_pkgs ${CONF_dnsm}
 		else
 			doit=0
@@ -227,6 +271,7 @@ case "${mode}" in
 
 		${fib}
 		${shary} ${E22_GI}
+		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 	;;
 	l)
 		#1104236:desktop_live:n kanssa onnistui jo paketin asennus
@@ -245,53 +290,15 @@ case "${mode}" in
 #		#TODO:uusiksi vain koko pasq?
 #		e23_xyz
 #	;;
+	s)
+		e23_st
+	;;
 	*)
 		exit
 	;;
 esac
 
 #exit
-
-function e22_dblock() { #140426:lienee toimiva tämä fktio
-	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
-
-	[ -z "${1}" ] && exit 14
-	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
-	#[ -w ${1} ] || exit 16 #ei näin?
-	[ -z "${2}" ] && exit 11
-	[ -d ${2} ] || exit 22
-	[ -w ${2} ] || exit 23
-	[ -z "${3}" ] && exit 33
-	[ -d ${3} ] || exit 34
-	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
-	[ -z "${4}" ] && exit 37
-
-	dqb ".PARS-OK"
-	csleep 1
-
-	[ ${debug} -eq 1 ] && pwd
-	#aval0n #tarpeellinen?
-	ls -la ${3}/*.deb | wc -l
-	
-	#HUOM.160326:ao. for-blokki omaksi fktioksi?
-	for s in ${PART175_LIST} ; do
-		${sharpy} ${s}*
-		${NKVD} ${3}/${s}*.deb
-	done
-	
-	local t
-	t=$(echo ${2} | cut -d "/" -f 1-6) #joitain tr-jekkuja vielä?
-	e22_ts ${t} ${3}
-	dqb "JST B3F0R3 3NF0RC3"
-	csleep 1
-	
-	enforce_access $(whoami) ${t}
-	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-	csleep 1
-
-	e22_arch ${1} ${2} ${4}
-	e22_cleanpkgs ${2}
-}
 
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar

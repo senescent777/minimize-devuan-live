@@ -39,6 +39,15 @@ function e23_profs() {
 	${sr0} -rvf ${1} ${2}/${3}*
 }
 
+function e23_st() {
+	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
+	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim
+	${shary} dmsetup libdevmapper1 libjte2
+	${shary} libefiboot1 libefivar1 libfreetype6 libfuse3-3 gettext-base
+	${shary} libisoburn1 libburn4 libisofs6 libfuse2 mtools
+	${shary} grub-common xorriso  geany  isolinux
+	}
+
 #function aswasw() {
 #[ -z "${1}" ] && exit 56
 #case "${1}" in
@@ -201,13 +210,7 @@ function e23_profs() {
 #	${shary} wdm
 #}
 #
-#VAIH:SETUP1.BASH juttuja (setup0.conf kanssa oli myös jotain?)
-#function e23_st() {
-#	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
-#	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim
-#	${shary} dmsetup libdevmapper1 libjte2
-#	${shary} libefiboot1 libefivar1 libfreetype6 libfuse3-3 gettext-base
-#	${shary} libisoburn1 libburn4 libisofs6 libfuse2 mtools
-#	${shary} grub-common xorriso  geany  isolinux
-#	}
+
+
+
 #TODO:miten se Makefile-idea? kokeilisiko?
