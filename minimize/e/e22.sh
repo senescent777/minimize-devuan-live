@@ -213,19 +213,13 @@ function e22_pre1() {
 	${scm} a-w /etc/apt/sources.list*
 }
 
-#...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
-#HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
-
 #280426:resolv.conf sorkkimisen ylkoistus -> mutilatetc?
-#TODO:turhat param pois?
-function e22_pre2() {
-	[ -z "${1}" ] && exit 66
-	[ -z "${2}" ] && exit 67
-	[ -z "${3}" ] && exit 68
-	[ -z "${4}" ] && exit 69
-	[ -d ${1} ] || exit 111
 
-	par4=$(echo ${4} | tr -d -c 0-9)
+function e22_pre2() {
+	[ -z "${1}" ] && exit 68
+	[ -z "${2}" ] && exit 69
+
+	par4=$(echo ${2} | tr -d -c 0-9)
 	echo $?
 	csleep 1
 
@@ -241,7 +235,7 @@ function e22_pre2() {
 
 	ls -las /etc/resolv.*
 	csleep 10
-	${sifu} ${3}
+	${sifu} ${1}
 	csleep 1
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/

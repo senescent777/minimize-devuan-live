@@ -137,8 +137,7 @@ e22_hdr ${tgtfile}
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
-#290326:pre2() 2. param pois?
-e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
+e22_pre2 ${CONF_iface} ${CONF_dnsm}
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
