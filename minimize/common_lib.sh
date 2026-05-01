@@ -198,6 +198,8 @@ function check_bin_0() {
 	sca="${odio} ${sca}"
 	mkt=$(${odio} which mktemp)
 	tig=$(${odio} which git)
+
+	#TODO:suuremåpi uliuli jos gpog puuttuu, ei menisi ohi
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
 
@@ -1269,13 +1271,13 @@ function part2() {
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."
-		#HUOM.080326:if  $INITRD = No  then , olisiko apua initramfs-urputuksen kanssa?
+		#if  $INITRD = No  then ...
 		${lftr}
 		${fib}
 		csleep 1
 
 		for s in ${PART175_LIST} ; do 
-			csleep 4
+			csleep 2
 
 			dqb "processing ${s}"
 			${sharpy} ${s}*
@@ -1283,7 +1285,6 @@ function part2() {
 		done
 
 		${lftr}
-
 		${sharpy} libblu* libcupsfilters* libgphoto*
 		${lftr}
 
@@ -1300,7 +1301,12 @@ function part2() {
 				dqb "NOT REMOVING WPASUPPLICANT"
 				csleep 1
 			;;
-			#entä dhcp-pakettien poisto jollain ehdolla?
+			#VAIH:entä dhcp-pakettien poisto jollain ehdolla?
+			eth0:1)
+				${sharpy} modem* wireless* wpa*
+				${sharpy} iw lm-sensors
+				${sharpy} isc-dchp*
+			;;
 			*)
 				${sharpy} modem* wireless* wpa*
 				${sharpy} iw lm-sensors

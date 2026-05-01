@@ -24,7 +24,6 @@ function e23_qrs() {
 	done
 }
 
-
 #240426 ehkä toimi
 function e23_profs() {
 	q=$(mktemp -d)
@@ -82,10 +81,22 @@ function e23_tblz() {
 	tpc7
 
 	aswasw ${2}
-	#TODO:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta? "for p in grep -v dhcp"? 
-	${shary} ${E22_GT}
-	${asy}
+	#VAIH:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta? "for p in grep -v dhcp"? 
 
+	if [ "${2}" == "eth0:1" ] ; then
+		local p
+		local q
+
+		for p in ${E22_GT} ; do
+			q=$(echo ${p} | grep -v dhcp)
+			[ -z "${q}" ] || ${shary} ${q}
+			csleep 1
+		done
+	else
+		${shary} ${E22_GT}
+	fi
+
+	${asy}
 	#actually necessary
 	e22_pre2 ${1} ${3} ${2} ${4}
 	other_horrors
@@ -116,28 +127,31 @@ function e23_other_pkgs() {
 	${lftr}
 }
 
-#function e23_upgp() {
-#	${fib}
-#	${shary} ${E22_GS}
-#TODO:vetämään livavutil- ja libavcodec- paketit riippuvuuksineen mukaan?
-#	${sag} --no-install-recommends upgrade -u
-#	echo $?
-#}
-#function e23_upgp2() {
-#	[ -z "${1}" ] && exit 1 
-#	[ -z "${2}" ] && exit 11
-#
-#	case "${2}" in
-#		wlan0)
-#			csleep 1
-#		;;
-#		*)
-#			${NKVD} ${1}/wpa*
-#			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
-#			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
-#		;;
-#	esac
-#}
+function e23_upgp() {
+	${fib}
+	${shary} ${E22_GS}
+	#TODO:vetämään livavutil- ja libavcodec- paketit riippuvuuksineen mukaan?
+	${sag} --no-install-recommends upgrade -u
+	echo $?
+}
+
+function e23_upgp2() {
+	[ -z "${1}" ] && exit 1 
+	[ -z "${2}" ] && exit 11
+
+	case "${2}" in
+		wlan0)
+			csleep 1
+		;;
+		#miten ne isc-dhcp-paketit tässä?
+		*)
+			${NKVD} ${1}/wpa*
+			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
+			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
+		;;
+	esac
+}
+
 #190426:vissiin toimii, ÄLÄ SORKI (ainakaan enempää kuin aivan välttämätöntä)
 #function e23_dm() {
 #[ -z "${1}" ] && exit 11

@@ -183,7 +183,7 @@ case "${mode}" in
 		z2 /opt/bin/zxcv´
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
-	#180426:osasi paketin muodostaa, asennusvaih pientä nalkutusta
+	#180426:osasi paketin muodostaa, asennuksen aikana pientä nalkutusta
 	#dpkg: dependency problems prevent configuration of libxml-parser-perl:
  	#libxml-parser-perl depends on perl  however:
 
@@ -218,7 +218,7 @@ case "${mode}" in
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
-		#VAIH
+		#VAIH (modostetun paketin toimivuuden testaus lähinnä)
 		e22_hdr ${d}/e.tar
 
 		${fib}

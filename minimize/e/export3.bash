@@ -82,6 +82,9 @@ case "${mode}" in
 	;;
 	c)
 		e22_cde ${tgtfile} ${d0} ${distro}
+		mv  ${tgtfile} ${tgtfile}.tmp
+		bzip2 -c -z ${tgtfile}.tmp > ${tgtfile}
+		[ $? -eq 0 ] && ${NKVD} ${tgtfile}.tmp
 	;;
 	p)
 		[ -v CONF_default_arhcive3 ] || exit 66

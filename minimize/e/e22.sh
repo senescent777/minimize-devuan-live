@@ -144,9 +144,10 @@ function e22_arch() {
 	cd ${p}
 }
 
-#TODO?:import2 pois jatkossa? vaiko kys skripti e-hmistoon? paitsi että g_doit kutsuu sitä
+#import2 pois jatkossa? vaiko kys skripti e-hmistoon? paitsi että g_doit kutsuu sitä
 
 #280426:osasi tdston tehdä tuolloin
+#VAIH:bzippaus kotsuvan koodin puolella sittenkin?
 function e22_cde() {
 	[ -z "${1}" ] && exit 99
 	[ -z "${2}" ] && exit 98
@@ -156,8 +157,9 @@ function e22_cde() {
 	
 	cd ${2}
 	fasdfasd ${1}
-	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkgs*
-}
+	#-jcvf
+	${srat} --exclude "*merd*" -rvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkgs*
+}	
 
 function e22_stu() {
 	echo "# ! / b ..."
@@ -249,7 +251,7 @@ function e22_pre2() {
 	${sag_u}
 }
 
-#VAIH:gpgn paketointiin muutoksia kun kerran ei nappaa s... (case g?)
+#tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
 function e22_dblock() { #140426:lienee toimiva tämä fktio (josko TAAS -> e22 ?)
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
 
@@ -271,7 +273,7 @@ function e22_dblock() { #140426:lienee toimiva tämä fktio (josko TAAS -> e22 ?
 	#aval0n #tarpeellinen?
 	ls -la ${3}/*.deb | wc -l
 	
-	#HUOM.160326:ao. for-blokki omaksi fktioksi?
+	#HUOM.160326:ao. for-blokki omaksi fktioksi? reject/drop_pkgs huomiointi kanssa?
 	for s in ${PART175_LIST} ; do
 		${sharpy} ${s}*
 		${NKVD} ${3}/${s}*.deb
@@ -290,7 +292,6 @@ function e22_dblock() { #140426:lienee toimiva tämä fktio (josko TAAS -> e22 ?
 	e22_arch ${1} ${2} ${4}
 	e22_cleanpkgs ${2}
 }
-
 
 ##290326:tämän kanssa jotain Jatkosäätöä vai ei?
 ##120426:bissiin menee mukaan kohteeseen config.tar.bz2
@@ -358,13 +359,15 @@ function e22_dblock() { #140426:lienee toimiva tämä fktio (josko TAAS -> e22 ?
 #	${scm} go-r /opt/bin/*
 #	${sco} 0:0 /opt/bin/*
 #	${srat} -rvf ${1} /opt/bin
-#TODO:findin lähtökohdaksi jokin toinen
+#TODO?:findin lähtökohdaksi jokin toinen?
 #	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 #		${srat} -rvf ${1} ${t}
 #	done	
 #	for t in $(find ~ -type f -name ${4} ) ; do
 #		${srat} -rvf ${1} ${t}
 #	done
+#	#miksi täsäs eokä h_pre() ? vaih:siirtäisikö?
+#	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 #}
 #
 ##290326:toimii, mutta $3 kanssa ehkä jotain?
@@ -387,8 +390,6 @@ function e22_dblock() { #140426:lienee toimiva tämä fktio (josko TAAS -> e22 ?
 #	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 #	${srat} ${TARGET_TPX} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 #	csleep 1
-#	#miksi täsäs eokä h_pre() ? TODO?:siirtäisikö?
-#	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 #}
 #
 #
@@ -551,8 +552,8 @@ function e22_dblock() { #140426:lienee toimiva tämä fktio (josko TAAS -> e22 ?
 ###		
 ###	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
 ###	#... koko case pois käytöstä vaikka
-###	
-###	${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${d} -xvf ${1}
+###	VAIH:glob wttuun jos ottaa tämän käyttöön
+###	${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${2} -xvf ${1}
 ###	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
 ###	csleep 1
 ###
@@ -564,7 +565,7 @@ function e22_dblock() { #140426:lienee toimiva tämä fktio (josko TAAS -> e22 ?
 ###	#sotkee sittenkin liikaa?
 ###	#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
 ###		
-###	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh
+###	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh, ei kande liian usein renkata?
 ###	#	${srat} -uvf  ${1} ${t}
 ###	#done
 ###		
