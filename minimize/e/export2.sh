@@ -200,11 +200,26 @@ case "${mode}" in
 	e) 
 		#300426:paketin muodostaa jälleen, sisällön toinmivuus slevitettävä
 		#010526:jos alkaa git hukkumaan säännöllisesti ni jotain tarttisi tehdä
+		
+		#TODO:fiksummin jatkossa tämä blokki (kts myös e23_tblz())
+		if [ "${CONF_iface}" == "eth0:1" ] ; then
+			for p in ${E22_GS} ; do
+				q=$(echo ${p} | grep -v dhcp)
+				[ -z "${q}" ] || ${shary} ${q}
+				csleep 1
+			done
 
-		${shary} ${E22_GS}
-		${shary} ${E22_GM}
+			for p in ${E22_GM} ; do
+				q=$(echo ${p} | grep -v dhcp)
+				[ -z "${q}" ] || ${shary} ${q}
+				csleep 1
+			done
+		else
+			${shary} ${E22_GS}
+			${shary} ${E22_GM}
+		fi
+
 		csleep 3
-
 		message
 		csleep 2
 

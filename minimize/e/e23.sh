@@ -68,7 +68,8 @@ function aswasw() {
 }
 
 function e23_tblz() {
-	csleep 1
+	dqb " e23_tblz( ${1} ; ${2} ; ${3} ; ${4} ))))"
+	csleep 10
 
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 15
@@ -81,8 +82,8 @@ function e23_tblz() {
 	tpc7
 
 	aswasw ${2}
-	#VAIH:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta? "for p in grep -v dhcp"? 
-
+	
+	#vähän turha if-blokki tässä?
 	if [ "${2}" == "eth0:1" ] ; then
 		local p
 		local q

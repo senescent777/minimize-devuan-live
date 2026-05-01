@@ -666,3 +666,7 @@ function e22_dblock() { #140426:lienee toimiva tämä fktio (josko TAAS -> e22 ?
 #fi
 #other_horrors
 #}
+
+#function pre_e() {
+#TODO:tössö ne dhcp-greppaukset jatkossa
+#}
