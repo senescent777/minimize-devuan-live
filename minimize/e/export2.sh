@@ -200,25 +200,27 @@ case "${mode}" in
 	e) 
 		#300426:paketin muodostaa jälleen, sisällön toinmivuus slevitettävä
 		#010526:jos alkaa git hukkumaan säännöllisesti ni jotain tarttisi tehdä
-		
-		#TODO:fiksummin jatkossa tämä blokki (kts myös e23_tblz())
-		if [ "${CONF_iface}" == "eth0:1" ] ; then
-			for p in ${E22_GS} ; do
-				q=$(echo ${p} | grep -v dhcp)
-				[ -z "${q}" ] || ${shary} ${q}
-				csleep 1
-			done
+		#TODO:testailut uusicksi TAAS 666		
 
-			for p in ${E22_GM} ; do
-				q=$(echo ${p} | grep -v dhcp)
-				[ -z "${q}" ] || ${shary} ${q}
-				csleep 1
-			done
-		else
-			${shary} ${E22_GS}
-			${shary} ${E22_GM}
-		fi
+		#if [ "${CONF_iface}" == "eth0:1" ] ; then
+		#	for p in ${E22_GS} ; do
+		#		q=$(echo ${p} | grep -v dhcp)
+		#		[ -z "${q}" ] || ${shary} ${q}
+		#		csleep 1
+		#	done
+		#
+		#	for p in ${E22_GM} ; do
+		#		q=$(echo ${p} | grep -v dhcp)
+		#		[ -z "${q}" ] || ${shary} ${q}
+		#		csleep 1
+		#	done
+		#else
+		#	${shary} ${E22_GS}
+		#	${shary} ${E22_GM}
+		#fi
 
+		pre_e ${E22_GS}
+		pre_e ${E22_GM}
 		csleep 3
 		message
 		csleep 2
@@ -238,7 +240,7 @@ case "${mode}" in
 		e22_hdr ${d}/e.tar
 
 		${fib}
-		${shary} ${E22_GI}
+		${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
 

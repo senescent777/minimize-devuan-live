@@ -736,8 +736,17 @@ function e22_sarram() {
 #
 
 
+function pre_e() {
+	#VAIH:tässä ne dhcp-greppaukset jatkossa
+	local p
+	local q
 
-
-#function pre_e() {
-#TODO:tössö ne dhcp-greppaukset jatkossa
-#}
+	if [ "${CONF_iface}" == "eth0:1" ] ; then
+		for p in $@ ; do
+			q=$(echo ${p} | grep -v dhcp)
+			[ -z "${q}" ] || ${shary} ${q}
+		done
+	else
+		for p in $@ ; do ${shary} ${p} ; done
+	fi
+}

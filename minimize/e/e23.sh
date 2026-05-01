@@ -84,18 +84,20 @@ function e23_tblz() {
 	aswasw ${2}
 	
 	#vähän turha if-blokki tässä?
-	if [ "${2}" == "eth0:1" ] ; then
-		local p
-		local q
+	#if [ "${2}" == "eth0:1" ] ; then
+	#	local p
+	#	local q
+	#
+	#	for p in ${E22_GT} ; do
+	#		q=$(echo ${p} | grep -v dhcp)
+	#		[ -z "${q}" ] || ${shary} ${q}
+	#		csleep 1
+	#	done
+	#else
+	#	${shary} ${E22_GT}
+	#fi
 
-		for p in ${E22_GT} ; do
-			q=$(echo ${p} | grep -v dhcp)
-			[ -z "${q}" ] || ${shary} ${q}
-			csleep 1
-		done
-	else
-		${shary} ${E22_GT}
-	fi
+	e22_pre_e ${E22_GT}
 
 	${asy}
 	#actually necessary
@@ -106,11 +108,17 @@ function e23_tblz() {
 function e23_other_pkgs() {
 	[ -z "${1}" ] && exit 11
 
-	${shary} ${E22_GI}
+	#${shary} ${E22_GI}
+	e22_pre_e ${E22_GI}
+
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
-	${shary} ${E22_GG}
+	#${shary} ${E22_GG}
+	e22_pre_e  ${E22_GG}
+
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
-	${shary} ${E23_GS}
+	#${shary} ${E23_GS}
+	e22_pre_e ${E23_GS}
+
 	message
 	jules
 
@@ -130,9 +138,10 @@ function e23_other_pkgs() {
 
 function e23_upgp() {
 	${fib}
-	${shary} ${E22_GS}
+	#${shary} ${E22_GS}
+	e22_pre_e ${E22_GS}
 
-	#TODO:varm vuoksi E22_GS duosatus kanssa?
+	#VAIH:varm vuoksi E22_GS duosatus kanssa?
 	#TODO:vetämään livavutil- ja libavcodec- paketit riippuvuuksineen mukaan?
 
 	${sag} --no-install-recommends upgrade -u
@@ -162,8 +171,8 @@ function e23_dm() {
 	${fib}
 
 	#010526:ao. 2 riviä saattaa joutua muuttamaan vielä, pre_e() ...
-	${shary} ${E22_GS}
-	${shary} ${E22_GM}
+	e22_pre_e ${E22_GS}
+	e22_pre_e ${E22_GM}
 
 	if [ "${1}" == "wdm" ] ; then #jatkossa ne muut taas?
 		dqb "dm.k0"
