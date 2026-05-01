@@ -72,8 +72,11 @@ else
 	mv ./${CONF_BASE} ./${CONF_BASE}.OLD
 fi
 
+#010526:tässä menee pieleen vaiko CONF_base-blokissa?
 mv ./${CONF_PT2}/* .
+echo $?
 
+#pitäisikö täsä kohtaa sanoa cd?
 [ -s ./${CONF_LIB} ] && chmod 0555 ./${CONF_LIB} 
 echo $?
 
