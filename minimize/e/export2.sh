@@ -90,12 +90,12 @@ process_lib ${d}
 mop=${CONF_dm} #voinee joutua muuttamaan jatkossa?
 
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
-dqb "BEFORE TIG NOR MKTMP"
+dqb "BEF0RE T1G N0R MKTMP"
 sleep 1
 
 if [ -z "${tig}" ] ; then
 	echo "SHOULD INSTALL GIT"
-	exit 7
+	[ "${mode}" == "e" ] || exit 7  #VAIH:exit vain jos mode!=e ?
 fi
 
 if [ -z "${mkt}" ] ; then
@@ -199,6 +199,7 @@ case "${mode}" in
 	;;
 	e) 
 		#300426:paketin muodostaa jälleen, sisällön toinmivuus slevitettävä
+		#010526:jos alkaa git hukkumaan säännöllisesti ni jotain tarttisi tehdä
 
 		${shary} ${E22_GS}
 		${shary} ${E22_GM}
