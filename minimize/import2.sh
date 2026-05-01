@@ -302,7 +302,7 @@ function tpr() {
 
 	imp_prof esr $(whoami) ${q}
 	dqb $?
-	csleep 1
+	csleep 
 
 	dqb "UP1R D0N3"
 	csleep 1

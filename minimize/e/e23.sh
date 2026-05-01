@@ -38,7 +38,7 @@ function e23_profs() {
 	${sr0} -rvf ${1} ${2}/${3}*
 }
 
-function e23_st() {
+function e23_st() { #josqs tämänkin testaus? (kts toisen repon setup1.bash)
 	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
 	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim
 	${shary} dmsetup libdevmapper1 libjte2
