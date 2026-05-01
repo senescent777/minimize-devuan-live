@@ -190,18 +190,24 @@ function e22_home_pre() {
 	[ -z "${3}" ] && exit 71
 	[ -z "${4}" ] && exit 73
 	[ -z "${5}" ] && exit 79
+
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		e22_config1 ~ ${4}
 		${NKVD} ~/${5}		
 		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
 	fi
+
+	#HUOM.010526:toimiiko tämä kohta? e_final käyttöön?
 	${scm} a-w  /opt/bin/*
 	${scm} go-r /opt/bin/*
 	${sco} 0:0 /opt/bin/*
+
 	${srat} -rvf ${1} /opt/bin
+
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
 	done	
+
 	for t in $(find ~ -type f -name ${4} ) ; do
 		${srat} -rvf ${1} ${t}
 	done

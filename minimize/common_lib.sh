@@ -841,6 +841,25 @@ function reqwreqw() {
 	${scm} a-w ${1}
 }
 
+#150326:ehkä tämäkin toimii
+function e_final() {
+	csleep 1
+
+	${scm} go-rw /opt/bin/*
+	${scm} 0400 /opt/bin/*.sh
+	${scm} 0511 /opt/bin/*.bash
+	${sco} -R root:root /opt
+	${scm} 0755 /
+	${sco} root:root /
+
+	${scm} 0777 /tmp
+	#${scm} o+w /tmp
+	#081225:+t pois koska exp2 u
+	${sco} root:root /tmp
+
+	csleep 1
+}
+
 #HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan?
 function pre_enforce() {
 	dqb "pre_enforce() "
@@ -858,6 +877,8 @@ function pre_enforce() {
 	fasdfasd ${q}
 	[ ${debug} -eq 1 ] && ls -las ${q}
 	csleep 1
+
+	#HUOM.tässäkin oksassa pitäisi ne /o/b omistajuudert ha ouikeudet asettaa (tai siis export2)
 	[ -f ${q} ] || exit 33
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
 
@@ -877,7 +898,11 @@ function pre_enforce() {
 			#090326.2:miten /o/b/zxcv ?
 		fi
 
+		#TODO:tähän väliin sitä omistajuuden ja oikeuksien sorkintaa?
+		#e_final?
+
 		#vainko .bash mankeloidaan jatkossa?
+		#oikestaan vain tämä vaitisi chroot-tarkistuksen?
 		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q}
 		done
@@ -1054,25 +1079,6 @@ function e_h() {
 		${scm} 0400 ${2}/opt/bin/*.sh
 		${scm} 0511 ${2}/opt/bin/*.bash
 	fi
-
-	csleep 1
-}
-
-#150326:ehkä tämäkin toimii
-function e_final() {
-	csleep 1
-
-	${scm} go-rw /opt/bin/*
-	${scm} 0400 /opt/bin/*.sh
-	${scm} 0511 /opt/bin/*.bash
-	${sco} -R root:root /opt
-	${scm} 0755 /
-	${sco} root:root /
-
-	${scm} 0777 /tmp
-	#${scm} o+w /tmp
-	#081225:+t pois koska exp2 u
-	${sco} root:root /tmp
 
 	csleep 1
 }
