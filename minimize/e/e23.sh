@@ -157,91 +157,93 @@ function e23_upgp2() {
 }
 
 #190426:vissiin toimii, ÄLÄ SORKI (ainakaan enempää kuin aivan välttämätöntä)
-#function e23_dm() {
-#[ -z "${1}" ] && exit 11
-#	${fib}
-#	${shary} ${E22_GS}
-#	${shary} ${E22_GM}
-#
-#	if [ "${1}" == "wdm" ] ; then
-#		dqb "dm.k0"
-#	else
-#		echo "NOT SUPPORTED"
-#		exit 666
-#	fi
-#
-#	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
-#	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
-#
-#	${shary} libnuma1 libx265-199 libwraster6 libwings3
-#	csleep 10
-#
-#	${shary} libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
-#	csleep 5
-#
-#	${shary} liblzma5 libopenjp2-7 libltdl7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
-#	csleep 10
-#
-#	${shary} libx11-6 libx11-xcb1 libx11-data libxext6 imagemagick-6-common libxmu6 libxmuu1 libgif7 libxpm4
-#	#[ $? -eq 0 ] || exit 57 #jospa ei tämmöisiä tähän fktioon, tökkii
-#	csleep 5
-#
-#	${shary} fontconfig fontconfig-config
-#	${shary} libdav1d6 libde265-0 libfribidi0 libglib2.0-0 libglib2.0-data libharfbuzz0b
-#	${shary} libthai0 libxft2 libxrender1 libxrandr2
-#	csleep 10
-#
-#	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
-#	${shary} libxcb1
-#	csleep 5
-#
-#	${shary} libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 
-#	${shary} libxcb-shape0 libxshmfence1 libxcb-damage0 libxcb-shm0 libxcb-render0 #hyvä idea ksekittää nämä inxcb-jutut?
-#	csleep 10
-#
-#	${shary} libglvnd0 libegl-mesa0 libgl1 libxaw7 libegl1
-#	csleep 5
-#
-#	${shary} libxcomposite1 libxi6 libxinerama1 libxkbfile1
-#	csleep 10
-#
-#	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
-#	csleep 5
-#
-#	${shary} libxcursor1 libwutil5 man-db wmaker-common libbz2-1.0
-#	csleep 10
-#
-#	${shary} libicu72 libxfixes3 libxml2
-#	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
-#	csleep 10
-#
-#	${shary} libxdmcp6 menu twm libmd0
-#	csleep 5
-#
-# 	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common libbsd0 libcap-ng0 
-#	csleep 10
-#
-#	${shary} libxau6  #C
-#	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0 
-#	${shary} libgtk-3-0 libgtk-3-common libice6  #libheif versio ok?
-#	csleep 5
-#
-#	${shary} libseat1 libseccomp2 libtinfo6 #libpipeline1?
-#	${shary} libunwind8
-#	csleep 10
-#
-#	${shary} lsb-base psmisc #A
-#	${shary} bsdextrautils groff-base 
-#	${shary} init-system-helpers  #xscreensaver?
-#	csleep 5
-#
-#	${shary} x11-apps x11-common x11-utils
-#	csleep 10
-#
-#	${shary} x11-xserver-utils xserver-xorg #D
-#	${shary} xterm xauth
-#	${shary} wdm
-#}
-#
+function e23_dm() {
+	[ -z "${1}" ] && exit 11
+	${fib}
+
+	#010526:ao. 2 riviä saattaa joutua muuttamaan vielä, pre_e() ...
+	${shary} ${E22_GS}
+	${shary} ${E22_GM}
+
+	if [ "${1}" == "wdm" ] ; then #jatkossa ne muut taas?
+		dqb "dm.k0"
+	else
+		echo "NOT SUPPORTED"
+		exit 666
+	fi
+
+	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
+	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
+
+	${shary} libnuma1 libx265-199 libwraster6 libwings3
+	csleep 10
+
+	${shary} libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
+	csleep 5
+
+	${shary} liblzma5 libopenjp2-7 libltdl7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
+	csleep 10
+
+	${shary} libx11-6 libx11-xcb1 libx11-data libxext6 imagemagick-6-common libxmu6 libxmuu1 libgif7 libxpm4
+	#[ $? -eq 0 ] || exit 57 #jospa ei tämmöisiä tähän fktioon, tökkii
+	csleep 5
+
+	${shary} fontconfig fontconfig-config
+	${shary} libdav1d6 libde265-0 libfribidi0 libglib2.0-0 libglib2.0-data libharfbuzz0b
+	${shary} libthai0 libxft2 libxrender1 libxrandr2
+	csleep 10
+
+	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
+	${shary} libxcb1
+	csleep 5
+
+	${shary} libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 
+	${shary} libxcb-shape0 libxshmfence1 libxcb-damage0 libxcb-shm0 libxcb-render0 #hyvä idea ksekittää nämä inxcb-jutut?
+	csleep 10
+
+	${shary} libglvnd0 libegl-mesa0 libgl1 libxaw7 libegl1
+	csleep 5
+
+	${shary} libxcomposite1 libxi6 libxinerama1 libxkbfile1
+	csleep 10
+
+	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
+	csleep 5
+
+	${shary} libxcursor1 libwutil5 man-db wmaker-common libbz2-1.0
+	csleep 10
+
+	${shary} libicu72 libxfixes3 libxml2
+	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
+	csleep 10
+
+	${shary} libxdmcp6 menu twm libmd0
+	csleep 5
+
+ 	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common libbsd0 libcap-ng0 
+	csleep 10
+
+	${shary} libxau6  #C
+	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0 
+	${shary} libgtk-3-0 libgtk-3-common libice6  #libheif versio ok?
+	csleep 5
+
+	${shary} libseat1 libseccomp2 libtinfo6 #libpipeline1?
+	${shary} libunwind8
+	csleep 10
+
+	${shary} lsb-base psmisc #A
+	${shary} bsdextrautils groff-base 
+	${shary} init-system-helpers  #xscreensaver?
+	csleep 5
+
+	${shary} x11-apps x11-common x11-utils
+	csleep 10
+
+	${shary} x11-xserver-utils xserver-xorg #D
+	${shary} xterm xauth
+	${shary} wdm
+}
+
 
 #TODO:miten se Makefile-idea? kokeilisiko?

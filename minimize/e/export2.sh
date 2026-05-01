@@ -234,7 +234,7 @@ case "${mode}" in
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
-		#VAIH (modostetun paketin toimivuuden testaus lähinnä)
+		#VAIH (muodostetun paketin toimivuuden testaus lähinnä)
 		e22_hdr ${d}/e.tar
 
 		${fib}
@@ -247,6 +247,7 @@ case "${mode}" in
 	l)
 		#1104236:desktop_live:n kanssa onnistui jo paketin asennus
 		#minimal_live:n kanssa ei
+		#010526:edelleen muodostaa paketin, sisällön validius selvitettävä
 
 		csleep 1
 		[ -v CONF_dm ] || exit 77
