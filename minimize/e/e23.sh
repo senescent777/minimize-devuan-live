@@ -131,7 +131,10 @@ function e23_other_pkgs() {
 function e23_upgp() {
 	${fib}
 	${shary} ${E22_GS}
+
+	#TODO:varm vuoksi E22_GS duosatus kanssa?
 	#TODO:vetämään livavutil- ja libavcodec- paketit riippuvuuksineen mukaan?
+
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 }

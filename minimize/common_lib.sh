@@ -1340,6 +1340,7 @@ function part2() {
 }
 
 #010136:jospa toimisi
+#TODO:pitäisiköhän tässä olla se ehdollinen dhcp-pakettien karsinta vai ei?
 function cg_udp6() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
 	csleep 1
