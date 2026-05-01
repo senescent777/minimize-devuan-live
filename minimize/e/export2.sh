@@ -200,27 +200,11 @@ case "${mode}" in
 	e) 
 		#300426:paketin muodostaa jälleen, sisällön toinmivuus slevitettävä
 		#010526:jos alkaa git hukkumaan säännöllisesti ni jotain tarttisi tehdä
-		#TODO:testailut uusicksi TAAS 666		
+		#VAIH:testailut uusicksi TAAS 666		
 
-		#if [ "${CONF_iface}" == "eth0:1" ] ; then
-		#	for p in ${E22_GS} ; do
-		#		q=$(echo ${p} | grep -v dhcp)
-		#		[ -z "${q}" ] || ${shary} ${q}
-		#		csleep 1
-		#	done
-		#
-		#	for p in ${E22_GM} ; do
-		#		q=$(echo ${p} | grep -v dhcp)
-		#		[ -z "${q}" ] || ${shary} ${q}
-		#		csleep 1
-		#	done
-		#else
-		#	${shary} ${E22_GS}
-		#	${shary} ${E22_GM}
-		#fi
+		e22_pre_e ${E22_GS}
+		e22_pre_e ${E22_GM}
 
-		pre_e ${E22_GS}
-		pre_e ${E22_GM}
 		csleep 3
 		message
 		csleep 2

@@ -82,21 +82,6 @@ function e23_tblz() {
 	tpc7
 
 	aswasw ${2}
-	
-	#vähän turha if-blokki tässä?
-	#if [ "${2}" == "eth0:1" ] ; then
-	#	local p
-	#	local q
-	#
-	#	for p in ${E22_GT} ; do
-	#		q=$(echo ${p} | grep -v dhcp)
-	#		[ -z "${q}" ] || ${shary} ${q}
-	#		csleep 1
-	#	done
-	#else
-	#	${shary} ${E22_GT}
-	#fi
-
 	e22_pre_e ${E22_GT}
 
 	${asy}

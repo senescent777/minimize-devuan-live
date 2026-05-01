@@ -252,7 +252,7 @@ function e22_pre2() {
 }
 
 #tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
-function e22_dblock() { #140426:lienee toimiva tämä fktio (josko TAAS -> e22 ?)
+function e22_dblock() { #140426:lienee toimiva tämä fktio 
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
 
 	[ -z "${1}" ] && exit 14
@@ -339,7 +339,7 @@ function z3() {
 	csleep 1
 
 	if [ ! -s ${3} ] ; then
-		#tulöeeko export3 mukaan?
+		#tuleeko export3 mukaan?
 		${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
 		csleep 1
 	fi
@@ -414,12 +414,13 @@ function e22_ext() {
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
+
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
 	${scm} -R a-w ./sbin
-	${srat} -rvf ${1} ./etc  #./sbin jälkimmäinen hmisto josqs takaisin vai ei?
 
+	${srat} -rvf ${1} ./etc  #./sbin jälkimmäinen hmisto josqs takaisin vai ei?
 	echo $?
 	local f
 
@@ -735,8 +736,7 @@ function e22_sarram() {
 #280426.2:olisikohan resolv.conf nyt toistraiseksi ok?
 #
 
-
-function pre_e() {
+function e22_pre_e() {
 	#VAIH:tässä ne dhcp-greppaukset jatkossa
 	local p
 	local q
