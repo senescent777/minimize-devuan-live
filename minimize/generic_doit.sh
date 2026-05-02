@@ -54,9 +54,7 @@ function dis() {
 	if [ -f /etc/network/interfaces ] ; then
 		if [ ! -h /etc/network/interfaces ] ; then
 			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
-#		else	
-		fi
-#	else		
+		fi	
 	fi
 
 	local t
@@ -66,7 +64,6 @@ function dis() {
 		${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 		echo $?		
 		csleep 1
-#	else
 	fi
 
 	${scm} 0555 /etc/network
@@ -76,17 +73,16 @@ function dis() {
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
 
 	if [ ! -z "${2}" ] ; then
-			${odio} ${sifd} ${2}
-			csleep 1
+		${odio} ${sifd} ${2}
+		csleep 1
 	
-		#	${odio} ${sifd} -a
-			csleep 1
+		#${odio} ${sifd} -a
+		csleep 1
 
-			[ ${debug} -eq 1 ] && ${sifc};sleep 1
+		[ ${debug} -eq 1 ] && ${sifc};sleep 1
 	
-			${sip} link set ${2} down
-			[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
-	#	fi
+		${sip} link set ${2} down
+		[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 	fi
 	
 	${odio} sysctl -p
