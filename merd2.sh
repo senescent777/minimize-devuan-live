@@ -3,6 +3,7 @@ debug=0
 branch=""
 d0=$(pwd)
 echo "d0=${d0}"
+
 CONF_BASEURL="github.com/senescent777"
 CONF_BASE=minimize
 CONF_PT2=minimize-devuan-live
@@ -66,6 +67,7 @@ ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 dqb "TGI KO"
 csleep 2
 
+#tai sitten vain rm jos wanha jo olemassa?
 if [ -d  ./${CONF_BASE}.OLD ] ; then
 	mv ./${CONF_BASE}/* ./${CONF_BASE}.OLD
 else
@@ -88,7 +90,7 @@ exit
 dqb "FN0C"
 csleep 1
 
-#210426:ehkä ao. if-blokki toimii jo?
+#210426:ehkä ao. if-blokki toimii jo? no jotain kiukuttelya vielä jossain kohtaa
 if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
 	mv ./${CONF_BASE}.OLD/${distro}/conf ./${CONF_BASE}/${distro}/conf
 	ln -s  ./${CONF_BASE}/${distro}/conf ./$(whoami).conf
@@ -99,6 +101,7 @@ fi
 echo $?
 dqb "NEXT:common_lib"
 csleep 1
+exit
 
 if [ -x ./${CONF_LIB} ] ; then
 	#TODO?:/o/b-juttuja oli kanssa (mv lähinnä)
