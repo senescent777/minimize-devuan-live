@@ -877,6 +877,62 @@ function reqwreqw() {
 	${scm} a-w ${1}
 }
 
+#150326:ehkä tämäkin toimii
+function e_final() {
+	csleep 1
+
+	${scm} go-rw /opt/bin/*
+	${scm} 0400 /opt/bin/*.sh
+	${scm} 0511 /opt/bin/*.bash
+	${sco} -R root:root /opt
+	${scm} 0755 /
+	${sco} root:root /
+
+	${scm} 0777 /tmp
+	#${scm} o+w /tmp
+	#081225:+t pois koska exp2 u
+	${sco} root:root /tmp
+
+	csleep 1
+}
+
+#150326:vissiin toimii kuten tarkoitus
+function e_h() {
+	[ -z "${1}" ] && exit 98
+	[ -d ${2} ] || exit 99
+
+	csleep 1
+	${sco} root:root /home
+	${scm} 0755 /home
+	local c
+	c=$(grep $1 /etc/passwd | wc -l)
+
+	if [ ${c} -gt 0 ] ; then
+		${sco} -R ${1}:${1} ~
+		csleep 1
+	fi
+
+	local f
+	csleep 1
+	${scm} 0755 ${2}
+	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
+	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
+	local m=0555
+
+	#tämäkö siihen "-v vs ei -v"-temppuiluun liittyy?
+	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
+	csleep 1
+
+	if [ -d ${2}/opt/bin ] ; then
+		${sco} -R root:root ${2}/opt/bin
+		${scm} go-wr ${2}/opt/bin/*
+		${scm} 0400 ${2}/opt/bin/*.sh
+		${scm} 0511 ${2}/opt/bin/*.bash
+	fi
+
+	csleep 1
+}
+
 #HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan?
 function pre_enforce() {
 	dqb "pre_enforce() "
@@ -900,31 +956,35 @@ function pre_enforce() {
 	dqb "BFOR3 testgris"
 	csleep 1
 
+	if [ ! -d /opt/bin ] ; then
+		${smd} /opt/bin
+		[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
+	fi
+
+	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
+
+	#140326:jospa olisi tämä blokki jnkin aikaa ok näin
+	if [ -d ${1}/opt/bin ] ; then
+		#tämä mv ok?
+		${svm} ${1}/opt/bin/*.bash /opt/bin
+		#090326.2:miten /o/b/zxcv ?
+	fi
+
+	e_final
+
 	if [ ! -v CONF_testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
-		if [ ! -d /opt/bin ] ; then
-			${smd} /opt/bin
-			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
-		fi
-
-		#140326:jospa olisi tämä blokki jnkin aikaa ok näin
-		if [ -d ${1}/opt/bin ] ; then
-			#tämä mv ok?
-			${svm} ${1}/opt/bin/*.bash /opt/bin
-			#090326.2:miten /o/b/zxcv ?
-		fi
-
-		#tömö blokki kai eniten aiheuttaisi ongelmai sqroot-ympstössä?
+		#tämä blokki kai eniten aiheuttaisi ongelmia sqroot-ympstössä?
 		#vainko .bash mankeloidaan jatkossa?
+
 		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q}
 		done
-
-		#uutena 150326
-		${scm} a-w /opt/bin/*
-		${scm} a-wx /opt/bin/*.sh
-		csleep 1
 	fi
 
+	#uutena 150326
+	#${scm} a-w /opt/bin/*
+	#${scm} a-wx /opt/bin/*.sh
+	#csleep 1
 	csleep 1
 
 	if [ -s ${q} ] ; then
@@ -1062,62 +1122,6 @@ function e_v() {
 	${sco} root:mail /var/mail
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
-	csleep 1
-}
-
-#150326:vissiin toimii kuten tarkoitus
-function e_h() {
-	[ -z "${1}" ] && exit 98
-	[ -d ${2} ] || exit 99
-
-	csleep 1
-	${sco} root:root /home
-	${scm} 0755 /home
-	local c
-	c=$(grep $1 /etc/passwd | wc -l)
-
-	if [ ${c} -gt 0 ] ; then
-		${sco} -R ${1}:${1} ~
-		csleep 1
-	fi
-
-	local f
-	csleep 1
-	${scm} 0755 ${2}
-	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
-	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
-	local m=0555
-
-	#tämäkö siihen "-v vs ei -v"-temppuiluun liittyy?
-	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
-	csleep 1
-
-	if [ -d ${2}/opt/bin ] ; then
-		${sco} -R root:root ${2}/opt/bin
-		${scm} go-wr ${2}/opt/bin/*
-		${scm} 0400 ${2}/opt/bin/*.sh
-		${scm} 0511 ${2}/opt/bin/*.bash
-	fi
-
-	csleep 1
-}
-
-#150326:ehkä tämäkin toimii
-function e_final() {
-	csleep 1
-
-	${scm} go-rw /opt/bin/*
-	${scm} 0400 /opt/bin/*.sh
-	${scm} 0511 /opt/bin/*.bash
-	${sco} -R root:root /opt
-	${scm} 0755 /
-	${sco} root:root /
-
-	${scm} 0777 /tmp
-	#${scm} o+w /tmp
-	#081225:+t pois koska exp2 u
-	${sco} root:root /tmp
-
 	csleep 1
 }
 
@@ -1425,16 +1429,16 @@ function part3() {
 	common_lib_tool ${t} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 	dqb "B3T4"
-	csleep 6
+	csleep 3
 
 	#060426:AO. RIVI TUOLLAINEN TARKOITUKSELLA, ÄLÄ SORKI!!!
 	efk1 ${t}/gcc-12-base*.deb ${t}/libgcc-s1*.deb ${t}/libc6*.deb
 	dqb "LAcKK.a"
-	csleep 6
+	csleep 3
 
 	for p in ${E22_GS} ; do wopr ${t} ${p} accept_pkgs_1 ; done
 	dqb "önEGA-VGA RA"
-	csleep 6
+	csleep 3
 
 	common_lib_tool ${t} accept_pkgs_1
 	common_lib_tool ${t} accept_pkgs_2

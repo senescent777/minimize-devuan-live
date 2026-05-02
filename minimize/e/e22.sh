@@ -492,9 +492,11 @@ function e22_home_pre() {
 		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
 	fi
 
-	${scm} a-w  /opt/bin/*
-	${scm} go-r /opt/bin/*
-	${sco} 0:0 /opt/bin/*
+	#${scm} a-w  /opt/bin/*
+	#${scm} go-r /opt/bin/*
+	#${sco} 0:0 /opt/bin/*
+
+	e_final
 	${srat} -rvf ${1} /opt/bin
 
 	#TODO?:findin lähtökohdaksi jokin toinen?
