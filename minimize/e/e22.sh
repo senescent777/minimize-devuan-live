@@ -651,7 +651,7 @@ function e22_sarram() {
 		done
 	fi
 
-	for f in $(${odio} find /opt  -type f -name "*.bash) ; do
+	for f in $(${odio} find /opt  -type f -name "*.bash" ) ; do
 		${sah6} ${f} >> ${3}
 	done
 
