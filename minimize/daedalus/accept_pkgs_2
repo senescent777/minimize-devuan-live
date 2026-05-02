@@ -1,40 +1,51 @@
 #bind9-jutut tarv: libkrb5, libgssapi-krb5-2
-nftables*.deb
-bind9-libs*.deb
-bind9-host*.deb
-bind9-dns*.deb
-dnsutils*.deb
-perl*.deb
-#
-#mime-support*.deb josko toimisi tässä?
-python3-pil.imagetk*.deb
-python3-pil*.deb
+nftables
+bind9-libs
+bind9-host
+bind9-dns
+dnsutils
+perl
+mime-support
 #
 #eudev-dbus-e2fsprogs oli siinä rejectissä, miten x-juttuja myös?
-xserver-common*.deb
-xserver-xorg-legacy*.deb
-xserver-common*.deb
-xserver-xorg-core*.deb
-dbus-bin*.deb
-dbus-session-bus-common*.deb
-dbus-daemon*.deb
-dbus-x11*.deb
+cpp
+#menisikö näin? , cpp juuri ennen äksää?
+xkb-data
+x11-xkb-utils
+xserver-common
 #
-gpgconf*.deb
-#gpg tarvitsee confin /josko kuitenkin kerta-as riittäisi
+#libc6 ennen legacy, xserver-common ennen legacy
+xserver-xorg-legacy
 #
-#nyt jos typot ho
-gtk2-engines-pixbuf*.deb
+#utyils ennen:common
+xserver-common
+xserver-xorg-core
 #
-x11-utils
+dbus-system-bus-common
+dbus-bin
+dbus-session-bus-common
+dbus-daemon
+dbus-x11
+gpgconf
+gtk2-engines-pixbuf
+python3.11-minimal
+python3.11
+menu
+psmisc
+git-man
 #
-python3.11-minimal*.deb
-python3.11*.deb
+xauth
+xinit
+xbitmaps
+xterm
+xfonts
+lsb-base
+man-db
 #
-menu*.deb
+x11
+xorg
+#route ennne dhcp
+iproute2
+isc-dhcp
 #
-#wdm...
-psmisc*.deb
-#
-#ennen git, varm vuoksi
-git.man*.deb
+wdm
