@@ -44,7 +44,7 @@ fi
 dqb "branch=${branch}"
 tig=$(sudo which git)
 
-if [ x"${tig}" == "x" ] ; then
+if [ -z "${tig}" ] ; then
 	echo "sudo apt-get install git"
 	exit 7
 fi
@@ -67,18 +67,23 @@ dqb "TGI KO"
 csleep 2
 
 if [ -d  ./${CONF_BASE}.OLD ] ; then
-	mv ./${CONF_BASE}/*  ./${CONF_BASE}.OLD
+	mv ./${CONF_BASE}/* ./${CONF_BASE}.OLD
 else
 	mv ./${CONF_BASE} ./${CONF_BASE}.OLD
 fi
 
+echo $?
+exit
+
 #010526:tässä menee pieleen vaiko CONF_base-blokissa?
 mv ./${CONF_PT2}/* .
 echo $?
+exit
 
 #pitäisikö täsä kohtaa sanoa cd?
 [ -s ./${CONF_LIB} ] && chmod 0555 ./${CONF_LIB} 
 echo $?
+exit
 
 dqb "FN0C"
 csleep 1
