@@ -3,13 +3,12 @@ debug=0
 branch=""
 d0=$(pwd)
 echo "d0=${d0}"
+
 CONF_BASEURL="github.com/senescent777"
 CONF_BASE=minimize
 CONF_PT2=minimize-devuan-live
 CONF_LIB=minimize/common_lib.sh
 distro=$(cat /etc/devuan_version)
-
-#TODO:voisi sen main-mergen hoitaa josqs
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -46,7 +45,7 @@ fi
 dqb "branch=${branch}"
 tig=$(sudo which git)
 
-if [ x"${tig}" == "x" ] ; then
+if [ -z "${tig}" ] ; then
 	echo "sudo apt-get install git"
 	exit 7
 fi
@@ -68,21 +67,30 @@ ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 dqb "TGI KO"
 csleep 2
 
+#tai sitten vain rm jos wanha jo olemassa?
 if [ -d  ./${CONF_BASE}.OLD ] ; then
-	mv ./${CONF_BASE}/*  ./${CONF_BASE}.OLD
+	mv ./${CONF_BASE}/* ./${CONF_BASE}.OLD
 else
 	mv ./${CONF_BASE} ./${CONF_BASE}.OLD
 fi
 
-mv ./${CONF_PT2}/* .
+echo $?
+exit
 
+#010526:tässä menee pieleen vaiko CONF_base-blokissa?
+mv ./${CONF_PT2}/* .
+echo $?
+exit
+
+#pitäisikö täsä kohtaa sanoa cd?
 [ -s ./${CONF_LIB} ] && chmod 0555 ./${CONF_LIB} 
 echo $?
+exit
 
 dqb "FN0C"
 csleep 1
 
-#210426:ehkä ao. if-blokki toimii jo?
+#210426:ehkä ao. if-blokki toimii jo? no jotain kiukuttelya vielä jossain kohtaa
 if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
 	mv ./${CONF_BASE}.OLD/${distro}/conf ./${CONF_BASE}/${distro}/conf
 	ln -s  ./${CONF_BASE}/${distro}/conf ./$(whoami).conf
@@ -93,6 +101,7 @@ fi
 echo $?
 dqb "NEXT:common_lib"
 csleep 1
+exit
 
 if [ -x ./${CONF_LIB} ] ; then
 	#TODO?:/o/b-juttuja oli kanssa (mv lähinnä)
