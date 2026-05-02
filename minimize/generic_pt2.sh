@@ -261,7 +261,7 @@ if [ ${mode} -gt 3 ] ; then
 #	${sharpy} transmission ttyrec w2do
 #	csleep 5
 
-#TODO:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että...
+#TODO:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että... (JOKO JO?)
 
 #	${sharpy} w3m wamerican wavemon
 #	csleep 5

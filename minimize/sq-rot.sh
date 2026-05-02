@@ -398,9 +398,10 @@ case "${mode}" in
 		other_horrors
 	;;
 	3)
-		#TODO:mielellään suorituksen keskeytys aikaisessa vaiheessa mikäli gpg hankaa vastaan, erityisesti ennen lähteen hukkaamista
+		#VAIH:mielellään suorituksen keskeytys aikaisessa vaiheessa mikäli gpg hankaa vastaan, erityisesti ennen lähteen hukkaamista
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
+		ocs gpg
 		part3 ${d}
 		other_horrors
 	;;

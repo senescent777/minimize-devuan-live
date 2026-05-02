@@ -607,7 +607,7 @@ function e22_acol() {
 }
 
 #(josko exp2 voisi korvata "tar -T -cf":llä?)
-#TODO:/opt/bin/*.bash jossain mukaan listaan (zxcv) ?
+#VAIH:/opt/bin/*.bash jossain mukaan listaan (zxcv) ?
 #200426:qseeko tässä jokin?
 
 function e22_sarram() {
@@ -634,6 +634,7 @@ function e22_sarram() {
 	done
 
 	${srat} -rvf ${1} /etc/X11/default-display-manager
+
 	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka?
 	${scm} 0555 /etc/iptables
 	${scm} 0400 /etc/iptables/rules*
@@ -649,6 +650,10 @@ function e22_sarram() {
 			${sah6} ${f} >> ${3}
 		done
 	fi
+
+	for f in $(${odio} find /opt  -type f -name "*.bash) ; do
+		${sah6} ${f} >> ${3}
+	done
 
 	other_horrors
 }

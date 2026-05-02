@@ -74,7 +74,6 @@ function dis() {
 	csleep 1
 
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
-	#if [ -v CONF_iface ] ; then #vaih:CONF-iface parametriksi?
 
 	if [ ! -z "${2}" ] ; then
 			${odio} ${sifd} ${2}

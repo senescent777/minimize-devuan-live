@@ -199,7 +199,7 @@ function check_bin_0() {
 	mkt=$(${odio} which mktemp)
 	tig=$(${odio} which git)
 
-	#TODO:suuremåpi uliuli jos gpog puuttuu, ei menisi ohi
+	#VAIH:suurempi uliuli jos gpog puuttuu, ei menisi ohi (myöhemmin elataan harata vastaan jos x)
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
 
@@ -1319,6 +1319,10 @@ function part2() {
 			*)
 				${sharpy} modem* wireless* wpa*
 				${sharpy} iw lm-sensors
+
+				csleep 10
+				dpkg -l wpa*
+				csleep 10
 			;;
 		esac
 	fi

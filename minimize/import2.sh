@@ -64,80 +64,6 @@ csleep 1
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
-#else
-#	#190326:vissiin tämän haaran kanssa jutut toimivat jnkn verran ja thats it
-#	#280426:else-haara vielä tarpeellinen?
-#
-#	if [ -s ${d0}/$(whoami).conf ] ; then
-#		echo "ALT.C0NF1G"
-#		sleep 2
-#		. ${d0}/$(whoami).conf
-#	else
-#		if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-#			echo "ordnary cqf"
-#			. ${d}/conf
-#		else
-#		 	exit 57
-#		fi	
-#	fi
-#
-#	#debug=1
-#	dqb "FALLBACK"
-#	sleep 5
-#
-#	odio=$(which sudo)
-#	
-#	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
-#	sleep 5
-#
-#	function check_binaries() {
-#		dqb "imp2.check1"
-#
-#		mkt=$(${odio} which mktemp)
-#		scm=$(${odio} which chmod)
-#		sah6=$(${odio} which sha512sum)
-#
-#		srat=$(${odio} which tar)
-#		#eXit jos srat ei?
-#
-#		gg=$(${odio} which gpg)
-#		som=$(${odio} which mount)
-#		uom=$(${odio} which umount)
-#	}
-#
-#	function check_binaries2() {
-#		echo "imp2.check2"
-#	
-#		som="${odio} ${som}"
-#		uom="${odio} ${uom}"
-#		srat="${odio} ${srat}"
-#	}
-#
-#	function part3() {
-#		dqb "imp2.part3 :NOT SUPPORTED"
-#		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount?
-#	}
-#
-#	function other_horrors() {
-#		dqb "AZATH0TH AND OTHER H0RR0RR55.6"
-#	}
-#
-#	function ocs() {
-#		echo "======IPM2.=OCS( ${1} )="
-#		which ${1}
-#		echo "==================="
-#	}
-#
-#	#barm vuokxi
-#	function enforce_access() {
-#		dqb "imp2.3nf :NOT SUPPORTED"
-#	}
-#
-#	for opt in $@ ; do
-#		parse_opts_1 ${opt}
-#		parse_opts_2 ${prevopt} ${opt}
-#		prevopt=${opt}
-#	done
 fi
 
 dqb "imp2:AFTR common_lib"
@@ -199,7 +125,6 @@ else
 fi
 
 dqb "ip2.m.Lpgqq"
-#VAIH:vähitellen kommentoituja blokkeja siivoten
 
 #HUOM.280426:käytetäänk tätä jossain? jep, ei vielä pois
 function cptp2() {
