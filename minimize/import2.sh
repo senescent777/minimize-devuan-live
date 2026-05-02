@@ -49,7 +49,6 @@ function parse_opts_2() {
 	dqb "(imp2.parseopts_2 ; ${1} ; ${2} ;"
 
 	if [ -f ${2} ] || [ -d ${2} ] ; then
-		
 		if [ -z "${srcfile}" ] ; then
 			if [ "${2}" != "-v" ] ; then	
 				srcfile=${2}
@@ -129,7 +128,7 @@ dqb "ip2.m.Lpgqq"
 #HUOM.280426:käytetäänk tätä jossain? jep, ei vielä pois
 function cptp2() {
 	[ -z "${1}" ] && echo 99
-	#[ -z "${2}" ] && echo 98
+
 	[ -d ${1} ] || exit 97
 
 	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
@@ -205,7 +204,6 @@ function tpr() {
 	[ $? -gt 0 ] && exit 19
 
 	dqb "INCLUDE OK"
-	#csleep 1
 
 	local q
 	local r
