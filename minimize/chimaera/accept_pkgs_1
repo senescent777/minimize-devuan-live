@@ -1,10 +1,11 @@
-libpam-modules-bin_*.deb
-libpam-modules_*.deb
-libpam*.deb
-perl-modules-*.deb
-libperl*.deb
-perl*.deb
-libdbus*.deb
-dbus*.deb
-liberror-perl*.deb
-git*.deb
+libpam-modules-bin_
+libpam-modules_
+libpam
+perl-modules-
+libperl
+perl
+libdbus
+dbus
+liberror-perl
+git
+#jos jo toimisi tälleen
