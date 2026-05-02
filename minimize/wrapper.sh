@@ -14,10 +14,9 @@ gol=$(which dialog)
 
 if  [ -z "${gol}" ] || [ ! -x ${gol} ] ; then
 	echo "apt-get install libtinfo6 libncursesw6 debianutils dialog"
-	#VAIH:-z vielä ennen -x
 fi
 
-case ${1} in
+case "${1}" in
 	merde)
 		if [ -x ${d}/../merd2.sh ] ; then
 			${d}/../merd2.sh ${2} ${3}
