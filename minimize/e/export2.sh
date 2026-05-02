@@ -154,7 +154,7 @@ case "${mode}" in
 		e22_arch ${tgtfile} ${d} ${gbk}
 		
 		#HUOM! EIPÄ KIKKAILLA sha512sums.txt KANSSA, tar.sha PAREMPI IDEA
-		#, PITÄÄ VAIN SAADA AIKAISEKSI common_lib.ah HUOMIOIMAAN SE
+		#, PITÄÄ VAIN SAADA AIKAISEKSI common_lib.Sh HUOMIOIMAAN SE
 	;;
 	q)
 		#170326:tekee edelleen arkiston, sisältö kenties ok
@@ -199,8 +199,8 @@ fi
 #exit
 
 #csleep 1
-#290326:e_jutut vielä tarpeellisia?
-#e_final
+#290326:e_jutut vielä tarpeellisia? ehkä
+e_final
 #e_h $(whoami) ${d0}
 #dqb "EHD0.LL1.N3 1v2k"
 #csleep 1

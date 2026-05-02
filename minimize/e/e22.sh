@@ -198,9 +198,10 @@ function e22_home_pre() {
 	fi
 
 	#HUOM.010526:toimiiko tämä kohta? e_final käyttöön?
-	${scm} a-w  /opt/bin/*
-	${scm} go-r /opt/bin/*
-	${sco} 0:0 /opt/bin/*
+	#${scm} a-w  /opt/bin/*
+	#${scm} go-r /opt/bin/*
+	#${sco} 0:0 /opt/bin/*
+	e_final
 
 	${srat} -rvf ${1} /opt/bin
 

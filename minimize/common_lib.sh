@@ -385,10 +385,9 @@ function efk1() {
 		dqb $?
 	fi
 
-	csleep 1 #riittäisikö?
+	#csleep 1 #riittäisikö?
 }
 
-#VAIH:$2 tarkistus myös?
 function efk2() {
 	dqb "efk2 )))))))) ${1} ))) ${2} )))))"
 	[ -z "${2}" ] && exit 98
@@ -892,25 +891,27 @@ function pre_enforce() {
 		fi
 
 		#140326:jospa olisi tämä blokki jnkin aikaa ok näin
+		#HUOM.tulisi tietenkin tarkistaa ennen siirtelyä, check_bin_0 nalkuttanee jos ei täsmää
 		if [ -d ${1}/opt/bin ] ; then
 			#tämä mv ok?
 			${svm} ${1}/opt/bin/*.bash /opt/bin
 			#090326.2:miten /o/b/zxcv ?
 		fi
 
-		#TODO:tähän väliin sitä omistajuuden ja oikeuksien sorkintaa?
-		#e_final?
+		#VAIH:tähän väliin sitä omistajuuden ja oikeuksien sorkintaa?
+		e_final
 
 		#vainko .bash mankeloidaan jatkossa?
-		#oikestaan vain tämä vaitisi chroot-tarkistuksen?
+		#oikestaan vain tämä vaatisi chroot-tarkistuksen?
+
 		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q}
 		done
 
-		#uutena 150326
-		${scm} a-w /opt/bin/*
-		${scm} a-wx /opt/bin/*.sh
-		csleep 1
+		##uutena 150326
+		#${scm} a-w /opt/bin/*
+		#${scm} a-wx /opt/bin/*.sh
+		#csleep 1
 	fi
 
 	csleep 1
@@ -1378,16 +1379,16 @@ function part3() {
 	common_lib_tool ${1} reject_pkgs
 	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
 	dqb "B3T4"
-	csleep 6
+	csleep 3
 
 	#060426:AO. RIVI TUOLLAINEN TARKOITUKSELLA, ÄLÄ SORKI!!!
 	efk1 ${1}/gcc-12-base*.deb ${1}/libgcc-s1*.deb ${1}/libc6*.deb
 	dqb "LAcKK.a"
-	csleep 6
+	csleep 3
 
 	for p in ${E22_GS} ; do wopr ${1} ${p} accept_pkgs_1 ; done
 	dqb "önEGA-VGA RA"
-	csleep 6
+	csleep 3
 
 	common_lib_tool ${1} accept_pkgs_1
 	common_lib_tool ${1} accept_pkgs_2
