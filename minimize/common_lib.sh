@@ -369,7 +369,7 @@ function common_pp3() {
 	else
 		psqa ${1}
 		#TODO:local r=$(psqa ${1}) jatkossa+leikit?
-			
+
 		if [ $? -gt 0 ] ; then
 			${NKVD} ${1}/*.deb
 			${NKVD} ${1}/sha512sums*
@@ -385,7 +385,7 @@ function common_pp3() {
 		for s in $(grep -v '#' ${1}/sha512sums.txt | awk '{print $2}') ; do
 			${svm} ${1}/${s} ${2}
 		done
-		
+
 		dqb "SAH.1"
 		csleep 1
 
@@ -514,7 +514,7 @@ function cefgh() {
 		#fi
 
 		csleep 5
-	
+
 		efk2 ${1}/e.tar ${1}
 		#[ $? -eq 0 ] && 
 		${NKVD} ${1}/e.tar
@@ -559,10 +559,12 @@ function CB01() {
 
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
+	[ -z "${gg}" ] && ${scm} a-wx $0
 	csleep 1
 
 #	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt.bak ${1}/sha512sums.txt
 	common_pp3 ${1} ${2}
+	
 
 	dqb "common.lib.CB01() DONE"
 	csleep 1
@@ -593,7 +595,7 @@ function CB02() {
 	ip6tr=$(${odio} which ip6tables-restore)
 
 	#sqroot-juttuja
-	[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh	
+	[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh #tai $0 ?
 	dqb "CB02() D0.N3"
 	csleep 1
 }
@@ -614,7 +616,7 @@ function check_binaries() {
 
 	E22_GM="libc6 libselinux1"
 
-	E22_GM="${E22_GM} debianutils debconf liblocale-gettext-perl libtext-charwidth-perl libtext-iconv-perl libtext-wrapi18n-perl" # nfs-common	
+	E22_GM="${E22_GM} debianutils debconf liblocale-gettext-perl libtext-charwidth-perl libtext-iconv-perl libtext-wrapi18n-perl" # nfs-common
 	E22_GM="${E22_GM} debconf-i18n libelf1 libbpf1 " #zlib1,libc6
 	E22_GM="${E22_GM} libmnl0 libxtables12 " # oikeastaanm jo toisissakin jutussa mukana
 
@@ -665,7 +667,7 @@ function check_binaries() {
 	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 		[ -z "${1}" ] && exit 99
 		[ -d ${1} ] || exit 101
-		t=$(mktemp -d)		
+		t=$(mktemp -d)
 
 		#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
 		cefgh ${1}
@@ -691,7 +693,8 @@ function check_binaries() {
 	#echo "CBIN.BF0RE.OCS"
 	ls ${t}/*.deb | wc -l
 	csleep 3
-	for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
+
+	for x in iptables ip6tables iptables-restore ip6tables-restore gpg ; do ocs ${x} ; done
 
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
@@ -699,8 +702,8 @@ function check_binaries() {
 
 	#kts g_pt2 liittyen
 	#ei vielä conf_lt_root
-	[ -f /.chroot ] || ocs dhclient
-	csleep 1
+	#[ -f /.chroot ] || ocs dhclient
+	#csleep 1
 
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt) #tar4vitaanko jossain? jep
@@ -771,8 +774,8 @@ function TLA() {
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
 		if [ ! -v CONF_testgris ] ; then
-			#160426:mitenkähän tämän kohdan kanssa jatkossa?	
-		
+			#160426:mitenkähän tämän kohdan kanssa jatkossa?
+
 			dqb "JST B3F0R:tlb-b a s h"
 			[ -s /opt/bin/tlb.bash ] || exit 99
 			${scm} 0511 /opt/bin/tlb.bash
@@ -877,7 +880,7 @@ function reqwreqw() {
 #HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan?
 function pre_enforce() {
 	dqb "pre_enforce() "
-	[ -z "${1}" ] && exit 98	
+	[ -z "${1}" ] && exit 98
 	[ -d ${1} ] || exit 97
 	[ -v mkt ] || exit 99
 	dqb "pars_ok"
@@ -910,6 +913,7 @@ function pre_enforce() {
 			#090326.2:miten /o/b/zxcv ?
 		fi
 
+		#tömö blokki kai eniten aiheuttaisi ongelmai sqroot-ympstössä?
 		#vainko .bash mankeloidaan jatkossa?
 		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q}
@@ -966,7 +970,7 @@ function pre_enforce() {
 		csleep 1
 	fi
 
-	dqb "pre_enforce() done"	
+	dqb "pre_enforce() done"
 	csleep 1
 }
 
@@ -1016,7 +1020,7 @@ function e_e() {
 		if [ -h /etc/resolv.conf ] ; then
 			#arpoo arpoo
 			c=$(find /etc -type f -name "resolv.conf.*" -size +10c | wc -l )
-	
+
 			if [ ${c} -gt 0 ] ; then 
 				${smr} /etc/resolv.conf
 			fi
@@ -1248,7 +1252,7 @@ function part1() {
 	if [ ! -f /etc/apt/sources.list ] ; then
 		if [ -s /etc/apt/sources.list.${t} ] && [ -r /etc/apt/sources.list.${t} ] ; then
 			${slinky} /etc/apt/sources.list.${t} /etc/apt/sources.list
-		fi	
+		fi
 	fi
 
 	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
@@ -1302,11 +1306,12 @@ function part2() {
 				csleep 1
 			;;
 			#VAIH:entä dhcp-pakettien poisto jollain ehdolla?
-			eth0:1)
-				${sharpy} modem* wireless* wpa*
-				${sharpy} iw lm-sensors
-				${sharpy} isc-dchp*
-			;;
+			#010526:ensimmäisellä yrityksellä x meni pois pelistä, joten toistaiseksi kommentteihin
+			#eth0:1)
+			#	${sharpy} modem* wireless* wpa*
+			#	${sharpy} iw lm-sensors
+			#	${sharpy} isc-dchp*
+			#;;
 			*)
 				${sharpy} modem* wireless* wpa*
 				${sharpy} iw lm-sensors
@@ -1402,7 +1407,7 @@ function part3() {
 
 	dqb "PARAMS_OK"
 	csleep 1
-	
+
 	local n15
 	local t=$(mktemp -d)
 	n15=$(find ${1} -type f -name "*.deb" | wc -l)
@@ -1489,9 +1494,9 @@ function process_lib() {
 	csleep 1
 
 	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then
-		.  ${1}/lib.sh		
+		.  ${1}/lib.sh
 	else
-		fallback	
+		fallback
 	fi
 
 	#jospa jatkossa c_b if-blokin jälkeen jokatap? silloin syytä tark että common_lib sisältää x.-oik
@@ -1503,7 +1508,7 @@ function process_lib() {
 
 	TLA
 	dqb "process_lib.done()"
-}	
+}
 
 function gpo() {
 	dqb "GPO"
