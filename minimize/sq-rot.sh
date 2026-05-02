@@ -52,7 +52,6 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
-	#debug=1
 
 	#gpgtar jos mahd, muuten normi-tar?
 
@@ -106,6 +105,8 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 	#030426:huom. kts commn_lib , E22_M , tarpeellinen
 	#DONE:tuohon alle tar -x:ään tämän import2.sh koskeva --exclude jos mahd?
 	#... tosin profiilin importointi
+
+	#TODO:jatkossa purkamaan vain 1 bz3 ?
 
 	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do
 		tar --exclude import2.sh -jxvf ${f}
@@ -382,8 +383,6 @@ function cptp2() {
 	dqb "ALL DONE"
 }
 
-#VAIH:mode 0 vähitellen takaisin , f.tar sijainnin selvittely olisi kiva tehdä seuraavaksi
-
 case "${mode}" in
 	1)
 		common_part ${srcfile} ${d} /
@@ -394,6 +393,8 @@ case "${mode}" in
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
 		f=$(dirname ${f})
 		common_part ${srcfile} ${d} ${e}
+		ocs gpg
+		
 		part3 ${f}
 		other_horrors
 	;;
