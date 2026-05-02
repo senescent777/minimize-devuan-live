@@ -156,7 +156,7 @@ case "${mode}" in
 		# 21426 onnasi viimeksi paketin rakennus tässä moodissa, sisältökin jnkin verran toimaa
 
 		#4 toimi viimeksi 180426
-		#merd2 taisi toimia 21.4
+		#merd2 taisi toimia 21.4 (entä sen jälkeen?)
 	
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
@@ -180,7 +180,7 @@ case "${mode}" in
 		fasdfasd /opt/bin/zxcv.tmp
 
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
-		z2 /opt/bin/zxcv´
+		z2 /opt/bin/zxcv
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
 	#180426:osasi paketin muodostaa, asennuksen aikana pientä nalkutusta

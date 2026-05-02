@@ -26,6 +26,7 @@ function parse_opts_1() {
 			#fi
 		;;
 		*)
+			#tämä voisi olla myös parse_opts_2:sessa?
 			if [ "${mode}" == "-2" ] ; then
 				mode=${1}
 			fi
@@ -82,7 +83,7 @@ case "${mode}" in
 	;;
 	c)
 		e22_cde ${tgtfile} ${d0} ${distro}
-		mv  ${tgtfile} ${tgtfile}.tmp
+		mv ${tgtfile} ${tgtfile}.tmp
 		bzip2 -c -z ${tgtfile}.tmp > ${tgtfile}
 		[ $? -eq 0 ] && ${NKVD} ${tgtfile}.tmp
 	;;
