@@ -68,9 +68,9 @@ function aqsp() {
 	[ -d ${1} ] || return 96
 
 #	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then
-#		TODO.1
+#		TODO:1. gpg --verify
 #	else
-#		TODO.2
+#		TODO:2. urputus
 #	fi
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
@@ -133,7 +133,7 @@ function e22_arch() {
 	#...aluksi vaikka paikallinen versio psqa():sta ja sitten jotain
 
 	#local r=$(aqsp .) ->  [: too many arguments ekoilla yriotyksillöä
-	aqsp . #leikkimiset myöhemmin
+	aqsp å #. #leikkimiset myöhemmin
 	
 	if [ $? -gt 0 ] ; then
 		echo "rv= $?"
@@ -444,7 +444,7 @@ function e22_config1() {
 	cd ${1}
 
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
-	${sr0} -jcf ${2} ./xorg.conf* ./.config
+	${sr0} -jcf ${2} ./.config  ./xorg.conf*
 	[ -s ${2} ] || exit 99
 	cd ${p}
 }
@@ -492,10 +492,6 @@ function e22_home_pre() {
 		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
 	fi
 
-	#${scm} a-w  /opt/bin/*
-	#${scm} go-r /opt/bin/*
-	#${sco} 0:0 /opt/bin/*
-
 	e_final
 	${srat} -rvf ${1} /opt/bin
 
@@ -508,8 +504,7 @@ function e22_home_pre() {
 		${srat} -rvf ${1} ${t}
 	done
 
-	#vaih:siirtäisikö?
-	#P.S. ehkä 1 kpl xrig.conf riittäisi jatkossa
+	dqb "TODO:kts että xorg.conf löytyy ulosteesta";csleep 10
 	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 }
 
@@ -660,42 +655,6 @@ function e22_sarram() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-##290326:tämän kanssa jotain Jatkosäätöä vai ei?
-##120426:bissiin menee mukaan kohteeseen config.tar.bz2
-#
-
-
-
-##
-##290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa? (vielä 120426?)
-##040426:ei tarvinne CONF_testgris-ehtoa ainakaan verkkoyhteyden varalta, ei vedä kaloja
-##140426:vissiin toimiva fktio (ainakin ennen merd2-kikkailua)
-##160426:taitaa toimia edelleen
-
-#
-##290326:toimii, mutta $3 kanssa ehkä jotain?
-##29426:edelleen toimii?
-##140426:vissiin kopsaa kohdepakettin mitä pitääkin/kunnes toisin todistetaaN)
-##160426:taitaa toimia edelleen
-#
-
-
-#
-##slim/xdm/wdm-spesifinen konfiguraatio saattaa tulla jo mukaan myös
-##020426:ei vedä verkosta mitään ni ei tartte lisätestejä?
-##140426:kopsannee kohteeseen mitä pitääkin
-#
-##verkkoyhteyttä vaativat jutut vain jos testgris ei asetettu? vaiko kutsuvan koodin puolella tarkistus?
-##140426:muuten mennee pakettiin jutut paitsi dhclient-script?
-##160426:toimii
-#
-
-
-#
-##170426:fktio taisi toimia  jnkn aikaa
-##josqs uusiksi testailut (se psqa() - juttu lähinnä , muita on jo testailtu 190426 mennessä)
-#
-#
 ##function aval0n() { #prIvaattI, toimimaan+käyttöön?
 ##	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
 ##	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
@@ -744,7 +703,6 @@ function e22_sarram() {
 #
 
 function e22_pre_e() {
-	#VAIH:tässä ne dhcp-greppaukset jatkossa
 	local p
 	local q
 

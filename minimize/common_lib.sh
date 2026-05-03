@@ -364,7 +364,7 @@ function common_pp3() {
 		echo "ibcovation \"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
 
 		#tämä lienee se syy miksi myöhemmin pitää renkata...
-		${scm} a-x ${r}/common_lib.sh
+		${scm} a-wx ${r}/common_lib.sh
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
@@ -559,13 +559,12 @@ function CB01() {
 
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
-	[ -z "${gg}" ] && ${scm} a-wx $0
+	[ -z "${gg}" ] && ${scm} a-wx ${1}/../common_lib.sh #$0 josko näin kuitenkin?
 	csleep 1
 
 #	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt.bak ${1}/sha512sums.txt
 	common_pp3 ${1} ${2}
 	
-
 	dqb "common.lib.CB01() DONE"
 	csleep 1
 }
@@ -1317,7 +1316,8 @@ function part2() {
 			#	${sharpy} isc-dchp*
 			#;;
 			*)
-				${sharpy} modem* wireless* wpa*
+				${sharpy} modem* wireless* 
+				${sharpy} wpa*
 				${sharpy} iw lm-sensors
 
 				csleep 10

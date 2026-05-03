@@ -14,7 +14,7 @@ n=$(whoami)
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
-		#TODO:testaus miten saa tOImimaan omegan ajon jlkeen?
+		#VAIH:testaus miten saa tOImimaan omegan ajon jlkeen?
 		#... pitäisi onnata qhan kohteen käyttöoik kunnossa
 
 		tcmd="sudo ${tcmd} "

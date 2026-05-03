@@ -25,14 +25,14 @@ function usage() {
 
 #VAIH:jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
 #... jospa ensin export3:sen kanssa kokeilut ja sitttten
-
-if [ $# -gt 1 ] ; then
-	mode=${1}
-	tgtfile=${2}
-else
-	usage
-	exit 1	
-fi
+#
+#if [ $# -gt 1 ] ; then
+#	mode=${1}
+#	tgtfile=${2}
+#else
+#	usage
+#	exit 1	
+#fi
 
 #"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
 #290426:parse_fktioiden siirto e22:seen olisi 1 idea, tosin siitä seurannee paljon säätöä
@@ -46,11 +46,11 @@ function parse_opts_1() {
 				gbk=1
 			fi
 		;;
-		*)
-			if [ -d ${d}/${1} ] ; then
-				#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
-				d=${d0}/${distro}
-			fi
+#		*)
+#			if [ -d ${d}/${1} ] ; then
+#				#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
+#				d=${d0}/${distro}
+#			fi
 		;;
 	esac
 
@@ -65,7 +65,11 @@ function parse_opts_2() {
 			mop=${2}
 		;;
 		*)
-			dqb " ${1} NOT SUPPORTED"
+			#dqb " ${1} NOT SUPPORTED"
+			if [ "${mode}" == "-2" ] ; then
+				mode=${1}
+				tgtfile=${2}
+			fi
 		;;
 	esac
 }
@@ -77,7 +81,7 @@ function fallback() { #tarpeellinen?
 	exit 59
 }
 
-if [ -x ${d0}/common_lib.sh ] ; then #200426:edelleen tarpeellinen kirjasto
+if [ -x ${d0}/common_lib.sh ] ; then #200426:on edelleen tarpeellinen kirjasto
 	. ${d0}/common_lib.sh
 else
 	#johdonmukaisuus virhekoodeissa olisi tietty kiva
@@ -95,7 +99,7 @@ sleep 1
 
 if [ -z "${tig}" ] ; then
 	echo "SHOULD INSTALL GIT"
-	[ "${mode}" == "e" ] || exit 7  #VAIH:exit vain jos mode!=e ?
+	[ "${mode}" == "e" ] || exit 7
 fi
 
 if [ -z "${mkt}" ] ; then

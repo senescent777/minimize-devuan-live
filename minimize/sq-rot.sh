@@ -159,7 +159,10 @@ else
 	odio=""	
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
 	sleep 5
-	#function ocs() {???}
+
+	function ocs() {
+		echo "SMTHIN1G 15 WR0NG: ${1}"
+	}
 
 	function check_binaries() {
 		echo "rot.check1"

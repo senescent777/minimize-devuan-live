@@ -89,7 +89,7 @@ function t2p_filler() {
 	csleep 1
 }
 
-#tarpeellinen blokki nykyään?
+#tarpeellinen blokki nykyään? TODO:selvitä
 if [ -f /.chroot ] ; then
 	${sharpy} blu*
 	${sharpy} nfs*
@@ -102,6 +102,13 @@ if [ -f /.chroot ] ; then
 	${sharpy} psmisc
 
 	t2p_filler
+fi
+
+#+3+526:josko nyt poistuisi?
+if [ "${CONF_iface}" != "wlan0" ] ; then
+	${sharpy} wpasupplicant
+	t2p_filler
+	csleep 10
 fi
 
 #====================================================================
@@ -261,7 +268,7 @@ if [ ${mode} -gt 3 ] ; then
 #	${sharpy} transmission ttyrec w2do
 #	csleep 5
 
-#TODO:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että... (JOKO JO?)
+#VAIH:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että... (JOKO JO?)
 
 #	${sharpy} w3m wamerican wavemon
 #	csleep 5
