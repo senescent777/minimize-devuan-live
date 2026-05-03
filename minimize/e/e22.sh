@@ -432,7 +432,7 @@ function e22_ext() {
 }
 
 #TODO:g_doit.part0() liittyviä juttuja, hyvä varmistaa että menevätkö muuttuneet xfce4-asetukset talteen asti 
-#010526:import2.sh pitäisi purka config.tar.bz2 qhan se vain löytyy
+#010526:import2.sh pitäisi purkaa config.tar.bz2 qhan se vain löytyy
 
 function e22_config1() {
 	[ -z "${1}" ] && exit 11
@@ -630,12 +630,16 @@ function e22_sarram() {
 
 	${srat} -rvf ${1} /etc/X11/default-display-manager
 
-	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka?
-	${scm} 0555 /etc/iptables
-	${scm} 0400 /etc/iptables/rules*
-	${scm} 0400 /etc/default/rules*
-
-	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
+	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka? other_horrors()?
+	#${scm} 0555 /etc/iptables
+	#${scm} 0400 /etc/iptables/rules*
+	#${scm} 0400 /etc/default/rules*
+	#
+	#HUOM.rules vedetään jo aiemmin niin tartteeko tässä?
+	#for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
+	
+	dqb "TODO:kts että ylosteesta /e/rules"
+	csleep 10
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD ) ; do ${sah6} ${f} >> ${3} ; done
 
 	#230326:ntp-jtut näyttäisi vetävän mukaan
