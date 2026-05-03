@@ -491,7 +491,6 @@ function e22_home_pre() {
 		${NKVD} ~/${5}		
 		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
 	else
-		dqb "TODO:kts että xorg.conf löytyy ulosteesta";csleep 10
 		for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 	fi
 
@@ -638,8 +637,6 @@ function e22_sarram() {
 	#HUOM.rules vedetään jo aiemmin niin tartteeko tässä?
 	#for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 	
-	dqb "TODO:kts että ylosteesta /e/rules"
-	csleep 10
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD ) ; do ${sah6} ${f} >> ${3} ; done
 
 	#230326:ntp-jtut näyttäisi vetävän mukaan
