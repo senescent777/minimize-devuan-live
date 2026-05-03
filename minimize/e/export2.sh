@@ -1,6 +1,6 @@
 #!/bin/bash
 
-debug=0 #1
+debug=1
 distro=$(cat /etc/devuan_version)
 
 d0=$(pwd)
@@ -25,14 +25,14 @@ function usage() {
 
 #VAIH:jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
 #... jospa ensin export3:sen kanssa kokeilut ja sitttten
-#
-#if [ $# -gt 1 ] ; then
-#	mode=${1}
-#	tgtfile=${2}
-#else
-#	usage
-#	exit 1	
-#fi
+
+if [ $# -gt 1 ] ; then
+	mode=${1}
+	tgtfile=${2}
+else
+	usage
+	exit 1	
+fi
 
 #"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
 #290426:parse_fktioiden siirto e22:seen olisi 1 idea, tosin siitä seurannee paljon säätöä
@@ -51,7 +51,7 @@ function parse_opts_1() {
 #				#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
 #				d=${d0}/${distro}
 #			fi
-		;;
+#		;;
 	esac
 
 	#290326:jspa tu case-esac esim. toimisi?
@@ -64,13 +64,15 @@ function parse_opts_2() {
 		-d)
 			mop=${2}
 		;;
-		*)
-			#dqb " ${1} NOT SUPPORTED"
-			if [ "${mode}" == "-2" ] ; then
-				mode=${1}
-				tgtfile=${2}
-			fi
-		;;
+#		*)
+#			#
+#			if [ "${mode}" == "-2" ] ; then
+#				mode=${1}
+#				tgtfile=${2}
+#			else
+#				dqb " ${1} NOT SUPPORTED"
+#			fi
+#		;;
 	esac
 }
 
