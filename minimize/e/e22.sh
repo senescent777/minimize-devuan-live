@@ -444,7 +444,7 @@ function e22_config1() {
 	cd ${1}
 
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
-	${sr0} -jcf ${2} ./.config  ./xorg.conf*
+	${sr0} -jcf ${2} ./.config ./xorg.conf*
 	[ -s ${2} ] || exit 99
 	cd ${p}
 }
@@ -490,6 +490,9 @@ function e22_home_pre() {
 		e22_config1 ~ ${4}
 		${NKVD} ~/${5}		
 		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
+	else
+		dqb "TODO:kts että xorg.conf löytyy ulosteesta";csleep 10
+		for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 	fi
 
 	e_final
@@ -503,9 +506,6 @@ function e22_home_pre() {
 	for t in $(find ~ -type f -name ${4} ) ; do
 		${srat} -rvf ${1} ${t}
 	done
-
-	dqb "TODO:kts että xorg.conf löytyy ulosteesta";csleep 10
-	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 }
 
 function e22_home() {
