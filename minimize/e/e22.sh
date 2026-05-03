@@ -31,6 +31,8 @@ function e22_hdr() {
 #TODO:hyvin etäisesti liittyen toisen repon copy_x - fktioihin muutoksia, .sig-jutut hyvä saada mukaan kohteeseen
 
 function e22_tyg() {
+	dqb " e22_tyg()"
+
 	[ -z "${1}" ] && exit 45
 	[ -s ${1} ] || exit 46
 	[ -r ${1} ] || exit 47
@@ -62,8 +64,9 @@ function e22_ftr() {
 	cd ${p}
 }
 
-#VAIH
+#VAIH (sillä echo-tavalla kuitenkin?)
 function aqsp() {
+	dqb " aqsp( ${1} ))) "
 	[ -z "${1}" ] && return 97
 	[ -d ${1} ] || return 96
 
@@ -82,7 +85,9 @@ function aqsp() {
 		cd ${p}
 	else
 		return 90
-	fi	
+	fi
+
+	dqb " aqsp( ${1} ))) DONE"	
 }
 
 function e22_arch() {
