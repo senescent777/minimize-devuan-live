@@ -263,8 +263,8 @@ pre_part2
 #ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
 c14=$(find ${d} -name "*.deb" | wc -l)
 
-#[ ${c14} -gt 0 ] || CONF_removepkgs=0 #tilap kommentteihin 270226 koska g_pt2_jutut
-#... jokohan jo kommenteista 190326? (TODO)
+#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu
+[ ${c14} -gt 0 ] || CONF_removepkgs=0
 
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 #voisi kai tässä kohta anuo kikialuit palautaa kommenteista (040326)
