@@ -28,7 +28,6 @@ function e22_hdr() {
 }
 
 #280426:vissiin toimii ao. fktio?
-#TODO:hyvin etäisesti liittyen toisen repon copy_x - fktioihin muutoksia, .sig-jutut hyvä saada mukaan kohteeseen
 
 function e22_tyg() {
 	dqb " e22_tyg()"
@@ -66,28 +65,35 @@ function e22_ftr() {
 
 #VAIH (sillä echo-tavalla kuitenkin?)
 function aqsp() {
-	dqb " aqsp( ${1} ))) "
-	[ -z "${1}" ] && return 97
-	[ -d ${1} ] || return 96
+	#dqb " aqsp( ${1} ))) "
+	[ -z "${1}" ] && echo "97"
+	[ -d ${1} ] || echo "96"
 
-#	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then
-#		TODO:1. gpg --verify
-#	else
-#		TODO:2. urputus
-#	fi
+	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then
+#		VAIH:1. gpg --verify
+		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
+			${gg} --verify ${1}/sha512sums.txt.sig
+			echo $?
+		else
+			echo "94"
+		fi
+	else
+		#VAIH:2. urputus
+		echo "95"
+	fi
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
 		local p=$(pwd)
 		cd ${1}
 
 		${sah6} -c sha512sums.txt --ignore-missing
-		[ $? -gt 0 ] && return $?
+		[ $? -gt 0 ] && echo $?
 		cd ${p}
 	else
-		return 90
+		echo "93"
 	fi
 
-	dqb " aqsp( ${1} ))) DONE"	
+	#dqb " aqsp( ${1} ))) DONE"	
 }
 
 function e22_arch() {
@@ -137,11 +143,11 @@ function e22_arch() {
 	#VAIH:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
 	#...aluksi vaikka paikallinen versio psqa():sta ja sitten jotain
 
-	#local r=$(aqsp .) ->  [: too many arguments ekoilla yriotyksillöä
-	aqsp å #. #leikkimiset myöhemmin
+	#local r=$(aqsp .) 
+	local r=$(aqsp å) #. #jos jo alkaisi testailla
 	
-	if [ $? -gt 0 ] ; then
-		echo "rv= $?"
+	if [ ${r} -gt 0 ] ; then
+		echo "rv= ${r}"
 		echo "SHOULD ${NKVD} ./*.deb ./sha512sums* ./*.tar"
 	fi
 

@@ -106,10 +106,11 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 	#DONE:tuohon alle tar -x:ään tämän import2.sh koskeva --exclude jos mahd?
 	#... tosin profiilin importointi
 
-	#TODO:jatkossa purkamaan vain 1 bz3 ?
+	#VAIH:jatkossa purkamaan vain 1 bz3 ? ihan vielä ei onnaa koska gpg ja tables
 
+	#for f in $(find ${d0} -type f -name nekros1.tar.bz3 ) ; do
 	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do
-		tar --exclude import2.sh -jxvf ${f}
+		tar  -jxvf ${f} #--exclude import2.sh
 		sleep 1
 		rm ${f}
 		sleep 1
@@ -127,7 +128,7 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 	unset g
 fi
 
-#TODO?:se /e/resolv.conf-linkin katkeaminen taas, tee jotain (vielä ongelma 290426-> ?)
+#resolv.conf vielä ongelma 0305-> ? 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
 #tuossa yllä tosin turhahko ls
@@ -389,7 +390,8 @@ function cptp2() {
 case "${mode}" in
 	1)
 		common_part ${srcfile} ${d} /
-	;; 
+	;;
+	#VAIH:vähintään toinen case toimimaan sqroot-ymp (ainakin liittyi se että tulisi olla oikeat versiot .deb-paketeista)
 	0)
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}

@@ -239,9 +239,10 @@ if [ ${mode} -gt 1 ] ; then
 	fi
 fi
 
-#josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta? kkeillaan
+#josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta? kokeillaan
 el_loco ${c14} ${c13}
 #=========================================================================================
+#TODO:selvitä mikä juttu kehitysympstössä on mode 1:n kanssa + korjaa (jos toistuu)
 
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	${odio} passwd

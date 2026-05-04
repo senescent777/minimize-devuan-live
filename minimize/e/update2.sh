@@ -14,8 +14,7 @@ n=$(whoami)
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
-		#VAIH:testaus miten saa tOImimaan omegan ajon jlkeen?
-		#... pitäisi onnata qhan kohteen käyttöoik kunnossa
+		#030526:onnistuu tämän askriptin toiminta myös omegan jöälkeen kunhan x 
 
 		tcmd="sudo ${tcmd} "
 		spc="sudo ${spc} "
@@ -55,7 +54,7 @@ sleep 1
 t=$(pwd)
 
 if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
-	echo "YLIULIULI"
+	echo "YLIULIULI FADS FASDD FASDDQH"
 	cd ${CONF_testgris}
 
 	#HUOM:-C olisi myös keksitty

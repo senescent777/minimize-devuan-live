@@ -30,9 +30,11 @@ function e23_profs() {
 	cd ${q}
 	[ $? -eq 0 ] || exit 77
 	pwd
+
 	[ -v CONF_BASEURL ] || exit 78
 	${tig} clone https://${CONF_BASEURL}/more_scripts.git
 	[ $? -eq 0 ] || exit 79
+
 	${svm} more_scripts/profs/${3}* ${2}
 	${scm} 0555 ${2}/${3}*
 	${sr0} -rvf ${1} ${2}/${3}*
@@ -111,8 +113,10 @@ function e23_other_pkgs() {
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
 		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
+
 		${lftr} 
 		[ $? -eq 0 ] || exit 3
+
 		${shary} libev4
 		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2
 		${shary} stubby

@@ -129,8 +129,6 @@ fi
 [ -z "${tgtfile}" ] && exit 98
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
-cont=0
-dqb "ESAC1"
 csleep 1
 [ -d ${d0}/${tgtfile} ] && exit 64
 
