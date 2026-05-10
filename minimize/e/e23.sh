@@ -1,5 +1,8 @@
-#280426:sai aikaiseksi tdston, sisällön kelpoisuus vielä selvitettävä
+#280426:sai aikaiseksi tdston, sisällön kelpoisuus vielä selvitettävä(100526->)
 function e23_qrs() {
+	dqb "qrs( $1 ; $2 ; $3 ; $4 ; $5 )"
+	csleep 1
+
 	[ -z "${1}" ] && exit 77
 	[ -s ${1} ] || exit 66
 	[ -r ${1} ] || exit 55
@@ -12,6 +15,9 @@ function e23_qrs() {
 	[ -z "${5}" ] && exit 43
 	#[ -f ${5} ] || exit 34
 
+	dqb "pars ok"
+	csleep 1
+
 	e22_config1 ~ ${3}
 	${srat} -rvf ${1} ~/${3}
 	tar -tf ${1} | grep ${3} | wc -l
@@ -22,6 +28,8 @@ function e23_qrs() {
 	for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
 		${srat} -rvf ${1} ${f}
 	done
+
+	dqb "qSRD DONE"
 }
 
 #240426 ehkä toimi? miten 10526?

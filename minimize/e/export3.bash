@@ -75,7 +75,7 @@ case "${mode}" in
 		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
 	q)
-		#TODO:tämänkin testailyu taas
+		#VAIH:tämänkin testailyu taas
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
