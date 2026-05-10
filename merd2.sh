@@ -2,7 +2,6 @@
 debug=0
 branch=""
 d0=$(pwd)
-echo "d0=${d0}"
 
 CONF_BASEURL="github.com/senescent777"
 CONF_BASE=minimize
@@ -45,7 +44,7 @@ fi
 dqb "branch=${branch}"
 tig=$(sudo which git)
 
-if [ -z "${tig}" ] ; then
+if [ x"${tig}" == "x" ] ; then
 	echo "sudo apt-get install git"
 	exit 7
 fi
@@ -67,22 +66,19 @@ ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 dqb "TGI KO"
 csleep 2
 
-#tai sitten vain rm jos wanha jo olemassa?
 if [ -d  ./${CONF_BASE}.OLD ] ; then
-	mv ./${CONF_BASE}/* ./${CONF_BASE}.OLD
-else
-	mv ./${CONF_BASE} ./${CONF_BASE}.OLD
+	rm -rf  ./${CONF_BASE}.OLD
 fi
 
-echo $?
-exit
+#	mv ./${CONF_BASE}/*  ./${CONF_BASE}.OLD
+#else
+	mv ./${CONF_BASE} ./${CONF_BASE}.OLD
+#fi
 
-#010526:tässä menee pieleen vaiko CONF_base-blokissa?
 mv ./${CONF_PT2}/* .
 echo $?
 exit
 
-#pitäisikö täsä kohtaa sanoa cd?
 [ -s ./${CONF_LIB} ] && chmod 0555 ./${CONF_LIB} 
 echo $?
 exit
@@ -90,7 +86,7 @@ exit
 dqb "FN0C"
 csleep 1
 
-#210426:ehkä ao. if-blokki toimii jo? no jotain kiukuttelya vielä jossain kohtaa
+#210426:ehkä ao. if-blokki toimii jo?
 if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
 	mv ./${CONF_BASE}.OLD/${distro}/conf ./${CONF_BASE}/${distro}/conf
 	ln -s  ./${CONF_BASE}/${distro}/conf ./$(whoami).conf
@@ -99,9 +95,10 @@ else
 fi
 
 echo $?
+exit
+
 dqb "NEXT:common_lib"
 csleep 1
-exit
 
 if [ -x ./${CONF_LIB} ] ; then
 	#TODO?:/o/b-juttuja oli kanssa (mv lähinnä)
@@ -120,4 +117,4 @@ else
 	echo "SMTHING WR0NG W/ ${CONF_LIB}"
 fi
 
-#210426:vissiin onnistui jo vetämään 7thson-oksan
+#210426:vissiin onnistui jo vetämään 7thson-oksan, kertaalleen?
