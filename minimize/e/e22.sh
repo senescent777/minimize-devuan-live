@@ -63,23 +63,21 @@ function e22_ftr() {
 	cd ${p}
 }
 
-#"echo-tavassakin" on juttuja huomioitavana
+#100526:return-kikkailu ei toiminut? "echo-tavassakin" on juttuja huomioitavana
 function aqsp() {
-	#dqb " aqsp( ${1} ))) "
-	[ -z "${1}" ] && echo "97"
-	[ -d ${1} ] || echo "96"
+	dqb " aqsp( ${1} ))) "
+	[ -z "${1}" ] && exit 97
+	[ -d ${1} ] || exit 96
 
 	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then
-#		VAIH:1. gpg --verify
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 			${gg} --verify ${1}/sha512sums.txt.sig
 			echo $?
 		else
-			echo "94"
+			exit 94
 		fi
 	else
-		#VAIH:2. urputus
-		echo "95"
+		exit 95
 	fi
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
@@ -90,10 +88,10 @@ function aqsp() {
 		[ $? -gt 0 ] && echo $?
 		cd ${p}
 	else
-		echo "93"
+		exit 93
 	fi
 
-	#dqb " aqsp( ${1} ))) DONE"	
+	dqb " aqsp( ${1} ))) DONE"	
 }
 
 function e22_arch() {
@@ -139,16 +137,17 @@ function e22_arch() {
 
 	e22_tyg ./sha512sums.txt
 	e22_tyg ./sha512sums.txt.1
-	local r=$(aqsp .) 
+	aqsp .
 
+	#local r=$(aqsp .) 
 	#TODO:jos tällä tavalla jatkaa niin vissiinkin pitäisi testata että r joko tyhjä tai sisältää pelkästään alkion "0"
 	#local r=$(aqsp å) #.
 	#echo "rv= ${r}"
 	#exit
-
-	if [ ${r} -gt 0 ] ; then	
-		echo "SHOULD ${NKVD} ./*.deb ./sha512sums* ./*.tar"
-	fi
+#
+#	if [ ${r} -gt 0 ] ; then #TODO:toistaiseksi sqap() hoitamaan poistot	
+#		echo "SHOULD ${NKVD} ./*.deb ./sha512sums* ./*.tar"
+#	fi
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
 	cd ${p}
