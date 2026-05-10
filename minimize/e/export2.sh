@@ -159,7 +159,7 @@ case "${mode}" in
 		#3 taisi toimia 04/26 tienoilla ainakin kerran
 		# 21426 onnasi viimeksi paketin rakennus tässä moodissa, sisältökin jnkin verran toimaa
 
-		#4 toimi viimeksi 180426 (uusi testikiettos uudella paketilla 100526)
+		#4 toimi viimeksi 180426 (uusi testikieRRos uudella paketilla 100526)
 		#merd2 taisi toimia 21.4 (entä sen jälkeen?)
 	
 		[ -v CONF_default_arhcive3 ] || exit 66

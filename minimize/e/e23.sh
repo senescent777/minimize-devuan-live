@@ -26,7 +26,10 @@ function e23_qrs() {
 
 #240426 ehkä toimi? miten 10526?
 function e23_profs() {
-	q=$(mktemp -d)
+	dqb "e23_profs( ${1} , ${2}, ${3} )"
+	csleep 1
+
+	local q=$(mktemp -d)
 	cd ${q}
 	[ $? -eq 0 ] || exit 77
 	pwd
@@ -38,6 +41,9 @@ function e23_profs() {
 	${svm} more_scripts/profs/${3}* ${2}
 	${scm} 0555 ${2}/${3}*
 	${sr0} -rvf ${1} ${2}/${3}*
+
+	csleep 1
+	dqb "e23_profs( ,,, ) DONE"
 }
 
 function e23_st() { #josqs tämänkin testaus? (kts toisen repon setup1.bash)
