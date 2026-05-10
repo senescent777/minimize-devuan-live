@@ -63,7 +63,7 @@ function e22_ftr() {
 	cd ${p}
 }
 
-#VAIH (sillä echo-tavalla kuitenkin?)
+#"echo-tavassakin" on juttuja huomioitavana
 function aqsp() {
 	#dqb " aqsp( ${1} ))) "
 	[ -z "${1}" ] && echo "97"
@@ -139,15 +139,14 @@ function e22_arch() {
 
 	e22_tyg ./sha512sums.txt
 	e22_tyg ./sha512sums.txt.1
+	local r=$(aqsp .) 
 
-	#VAIH:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
-	#...aluksi vaikka paikallinen versio psqa():sta ja sitten jotain
+	#TODO:jos tällä tavalla jatkaa niin vissiinkin pitäisi testata että r joko tyhjä tai sisältää pelkästään alkion "0"
+	#local r=$(aqsp å) #.
+	#echo "rv= ${r}"
+	#exit
 
-	#local r=$(aqsp .) 
-	local r=$(aqsp å) #. #jos jo alkaisi testailla
-	
-	if [ ${r} -gt 0 ] ; then
-		echo "rv= ${r}"
+	if [ ${r} -gt 0 ] ; then	
 		echo "SHOULD ${NKVD} ./*.deb ./sha512sums* ./*.tar"
 	fi
 
