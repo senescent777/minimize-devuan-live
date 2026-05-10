@@ -66,7 +66,13 @@ ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 dqb "TGI KO"
 csleep 2
 
-#HUOM.konfiguraatio olisi hyvä jättää hukkaamatta
+#HUOM.konfiguraatio olisi hyvä jättää hukkaamatta, toisaalta wanhat tauhkat hyvä saada pois sotkemasta
+if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
+	sudo cp ./${CONF_BASE}.OLD/${distro}/conf ./$(whoami).conf
+	ls -las ./*.conf
+	csleep 5
+fi
+
 if [ -d  ./${CONF_BASE}.OLD ] ; then
 	for f in $(find ./${CONF_BASE}.OLD -type f -not -name conf) ; do
 		dqb "sudo rm ${f}"
@@ -81,16 +87,15 @@ fi
 #fi
 
 mv ./${CONF_PT2}/* .
-
 [ -s ./${CONF_LIB} ] && chmod 0555 ./${CONF_LIB} 
 
 dqb "FN0C"
 csleep 1
 
-if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
-	mv ./${CONF_BASE}.OLD/${distro}/conf ./${CONF_BASE}/${distro}/conf
-	ln -s  ./${CONF_BASE}/${distro}/conf ./$(whoami).conf
-else
+if [ ! -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
+#	mv ./${CONF_BASE}.OLD/${distro}/conf ./${CONF_BASE}/${distro}/conf
+#	ln -s  ./${CONF_BASE}/${distro}/conf ./$(whoami).conf
+#else
 	dqb "N0 SUCH THNG AS ./${CONF_BASE}.OLD/${distro}/conf"
 fi
 
