@@ -619,8 +619,9 @@ function e22_acol() {
 }
 
 #(josko exp2 voisi korvata "tar -T -cf":llä?)
-#VAIH:/opt/bin/*.bash jossain mukaan listaan (zxcv) ?
+
 #200426:qseeko tässä jokin?
+#TODO:uudet testit /o/b/zxcv sisältöön liittyen, ei vielä .bash mukana listassa(zxcv)
 
 function e22_sarram() {
 	#[ -z "${1}" ] && exit 1
@@ -665,10 +666,17 @@ function e22_sarram() {
 		done
 	fi
 
+	${scm} a+r /opt/bin/*.bash
+	dqb "JUST BEFORE /o/b/ * . bash"
+	csleep 10
+
 	for f in $(${odio} find /opt  -type f -name "*.bash" ) ; do
+		dqb "${sah6} ${f} >> ${3}"
 		${sah6} ${f} >> ${3}
+		csleep 1
 	done
 
+	${scm} 0511 /opt/bin/*.bash
 	other_horrors
 }
 

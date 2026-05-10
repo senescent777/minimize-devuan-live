@@ -64,7 +64,7 @@ e22_hdr ${tgtfile}
 #[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta
 
 case "${mode}" in
-	rp)
+	rp) #TODO:tämän testailu kehitysymp
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 		e22_rpg ${tgtfile} ${d}
@@ -75,6 +75,7 @@ case "${mode}" in
 		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
 	q)
+		#TODO:tämänkin testailyu taas
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35

@@ -77,9 +77,6 @@ fi
 echo "JUST BEFOR.E PROCESSING ROWS"
 sleep 1
 
-#toimiikohan kehitysynp.tössä niinqu pitää?
-#${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
-
 for f in $(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb  ) ; do
 	if [ -f ${f} ] ; then
 		if [ ! -d ${f} ] ; then #"-h" - tark vielä?

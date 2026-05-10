@@ -159,7 +159,7 @@ case "${mode}" in
 		#3 taisi toimia 04/26 tienoilla ainakin kerran
 		# 21426 onnasi viimeksi paketin rakennus tässä moodissa, sisältökin jnkin verran toimaa
 
-		#4 toimi viimeksi 180426 (uusi testikieRRos uudella paketilla 100526)
+		#4 toimi viimeksi 180426 (uusi testikieRRos uudella paketilla 100526, ehkjä ok pl ffox profiili)
 		#merd2 taisi toimia 21.4 (entä sen jälkeen?)
 	
 		[ -v CONF_default_arhcive3 ] || exit 66
@@ -203,7 +203,7 @@ case "${mode}" in
 	;;
 	e) 
 		#010526:jos alkaa git hukkumaan säännöllisesti ni jotain tarttisi tehdä
-		#VAIH:testailut uusicksi TAAS 666 (100526 viimeksi muodosti paketin, sisältö:)		
+		#VAIH:testailut uusicksi TAAS 666 (100526 viimeksi muodosti paketin, sisältö:masentui ainakin kerran)		
 
 		e22_pre_e ${E22_GS}
 		e22_pre_e ${E22_GM}
@@ -223,7 +223,7 @@ case "${mode}" in
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
-		#VAIH (muodostetun paketin toimivuuden testaus lähinnä)
+		#VAIH (muodostetun paketin toimivuuden testaus lähinnä jokojo?)
 		e22_hdr ${d}/e.tar
 
 		${fib}
