@@ -176,6 +176,7 @@ case "${mode}" in
 			doit=0
 		fi
 		
+		#TODO:profiilijuttujen fiksaus jos kuseminen jatkuu
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
 

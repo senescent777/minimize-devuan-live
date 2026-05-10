@@ -75,7 +75,7 @@ case "${mode}" in
 		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
 	q)
-		#VAIH:tämänkin testailyu taas
+		#VAIH:tämänkin testailyu taas (100526 visisin osasi paketin tehdä toivottavalla sisällöllä)
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
