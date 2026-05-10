@@ -674,53 +674,6 @@ function e22_sarram() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-##function aval0n() { #prIvaattI, toimimaan+käyttöön?
-##	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
-##	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
-##}
-#
-##080326:testattu senverranq pystyy, jotain kiukuttelua aiheutui (debug-ulostuksen typot kenties)
-##function e22_rpg() {
-##	dqb "R-P-G ${1} , ${2} , ${3}"
-##	[ -z "${1}" ] && exit 99
-##	[ -z "${2}" ] && exit 98	
-##	[ -s "${1}" ] || exit 97
-##	[ -d ${2} ] || exit 96
-##	exit 95
-##
-###	e22_cleanpkgs ${2}
-###		
-###	${smr} ${2}/f.tar
-###	csleep 1
-###		
-###	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
-###	#... koko case pois käytöstä vaikka
-###	VAIH:glob wttuun jos ottaa tämän käyttöön
-###	${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${2} -xvf ${1}
-###	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
-###	csleep 1
-###
-###	#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
-###			
-###	e22_arch ${1} ${2} ${4}
-###	cd ${2}
-###
-###	#sotkee sittenkin liikaa?
-###	#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
-###		
-###	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh, ei kande liian usein renkata?
-###	#	${srat} -uvf  ${1} ${t}
-###	#done
-###		
-###	exit
-##}
-#
-#280426:joitain kokeiluita ollut jo s_e_a idean kanssa
-#
-#
-#280426.2:olisikohan resolv.conf nyt toistraiseksi ok?
-#
-
 function e22_pre_e() {
 	local p
 	local q
@@ -733,4 +686,44 @@ function e22_pre_e() {
 	else
 		for p in $@ ; do ${shary} ${p} ; done
 	fi
+}
+
+##function aval0n() { #prIvaattI, toimimaan+käyttöön?
+##	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
+##	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
+##}
+
+function e22_rpg() {
+	dqb "R-P-G ${1} , ${2} , ${3}"
+	[ -z "${1}" ] && exit 99
+	[ -z "${2}" ] && exit 98	
+	[ -s "${1}" ] || exit 97
+	[ -d ${2} ] || exit 96
+	exit 95
+
+	e22_cleanpkgs ${2}
+		
+	${smr} ${2}/f.tar
+	csleep 1
+		
+	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
+	#... koko case pois käytöstä vaikka
+#	VAIH:glob wttuun jos ottaa tämän käyttöön
+	${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${2} -xvf ${1}
+	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
+	csleep 1
+
+	#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
+			
+	e22_arch ${1} ${2} ${4}
+	cd ${2}
+
+	#sotkee sittenkin liikaa?
+	#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
+		
+	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh, ei kande liian usein renkata?
+	#	${srat} -uvf  ${1} ${t}
+	#done
+		
+	exit
 }

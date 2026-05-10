@@ -64,12 +64,11 @@ e22_hdr ${tgtfile}
 #[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta
 
 case "${mode}" in
-#	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
-#		[ -s "${tgtfile}" ] || exit 67
-#		[ -r "${tgtfile}" ] || exit 68
-#		e22_rpg ${tgtfile} ${d}
-#17426:josqs ta,aisin kommenteista?
-#	;;
+	rp)
+		[ -s "${tgtfile}" ] || exit 67
+		[ -r "${tgtfile}" ] || exit 68
+		e22_rpg ${tgtfile} ${d}
+	;;
 	f)
 		t=$(echo ${d} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 		enforce_access $(whoami) ${t}
