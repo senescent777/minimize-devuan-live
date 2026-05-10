@@ -67,8 +67,11 @@ dqb "TGI KO"
 csleep 2
 
 if [ -d  ./${CONF_BASE}.OLD ] ; then
-	#TODO:findin kautta mieluummin, jotta knfiguraation poiston skippaus
-	sudo rm -rf ./${CONF_BASE}.OLD
+	#VAIH:findin kautta mieluummin, jotta knfiguraation poiston skippaus
+	
+	for f in $(find ./${CONF_BASE}.OLD -type f -not -name conf) ; do
+		sudo rm ${f}	
+	done
 fi
 
 #	mv ./${CONF_BASE}/*  ./${CONF_BASE}.OLD
