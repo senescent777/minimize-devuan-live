@@ -66,9 +66,8 @@ ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 dqb "TGI KO"
 csleep 2
 
+#HUOM.konfiguraatio olisi hyvä jättää hukkaamatta
 if [ -d  ./${CONF_BASE}.OLD ] ; then
-	#VAIH:findin kautta mieluummin, jotta knfiguraation poiston skippaus
-	
 	for f in $(find ./${CONF_BASE}.OLD -type f -not -name conf) ; do
 		dqb "sudo rm ${f}"
 		sudo rm ${f}
@@ -82,12 +81,8 @@ fi
 #fi
 
 mv ./${CONF_PT2}/* .
-#echo $?
-#exit
 
 [ -s ./${CONF_LIB} ] && chmod 0555 ./${CONF_LIB} 
-#echo $?
-#exit
 
 dqb "FN0C"
 csleep 1
@@ -99,8 +94,8 @@ else
 	dqb "N0 SUCH THNG AS ./${CONF_BASE}.OLD/${distro}/conf"
 fi
 
-echo $?
-exit
+#echo $?
+#exit
 
 dqb "NEXT:common_lib"
 csleep 1
@@ -111,8 +106,8 @@ if [ -x ./${CONF_LIB} ] ; then
 
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 
-	. ./${CONF_LIB}
-	enforce_access $(whoami) ${d0}/${CONF_BASE}
+	#. ./${CONF_LIB}
+	#enforce_access $(whoami) ${d0}/${CONF_BASE}
 
 	sudo chmod 0511 /opt/bin/*.bash
 
