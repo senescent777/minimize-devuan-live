@@ -44,7 +44,7 @@ fi
 dqb "branch=${branch}"
 tig=$(sudo which git)
 
-if [ x"${tig}" == "x" ] ; then
+if [ -z "${tig}" ] ; then
 	echo "sudo apt-get install git"
 	exit 7
 fi
