@@ -67,6 +67,8 @@ dqb "TGI KO"
 csleep 2
 
 #HUOM.konfiguraatio olisi hyvä jättää hukkaamatta, toisaalta wanhat tauhkat hyvä saada pois sotkemasta
+#(conf kanssa olisi hyvä keksiä jotain josqs, jos ei muuten niin conf.example)
+
 if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
 	sudo cp ./${CONF_BASE}.OLD/${distro}/conf ./$(whoami).conf
 	ls -las ./*.conf
