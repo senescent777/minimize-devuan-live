@@ -24,7 +24,7 @@ function e23_qrs() {
 	done
 }
 
-#240426 ehkä toimi
+#240426 ehkä toimi? miten 10526?
 function e23_profs() {
 	q=$(mktemp -d)
 	cd ${q}

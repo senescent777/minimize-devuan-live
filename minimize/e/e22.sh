@@ -480,7 +480,7 @@ function e22_settings() {
 	[ -z "${3}" ] && exit 89
 
 	if [ ! -x ${1}/${3} ] ; then
-		echo "SHOU.LD exp2 p asgfd asgfd"
+		echo "SHOU.LD exp3 p asgfd asgfd GXQGh"
 		exit 24
 	fi
 
