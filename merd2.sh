@@ -70,7 +70,9 @@ if [ -d  ./${CONF_BASE}.OLD ] ; then
 	#VAIH:findin kautta mieluummin, jotta knfiguraation poiston skippaus
 	
 	for f in $(find ./${CONF_BASE}.OLD -type f -not -name conf) ; do
-		sudo rm ${f}	
+		echo "sudo rm ${f}"
+		sudo rm ${f}
+		sleep 1
 	done
 fi
 
@@ -90,12 +92,11 @@ mv ./${CONF_PT2}/* .
 dqb "FN0C"
 csleep 1
 
-#210426:ehkä ao. if-blokki toimii jo?
 if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
 	mv ./${CONF_BASE}.OLD/${distro}/conf ./${CONF_BASE}/${distro}/conf
 	ln -s  ./${CONF_BASE}/${distro}/conf ./$(whoami).conf
 else
-	dqb "N0.C0NF"
+	dqb "N0 SUCH THNG AS ./${CONF_BASE}.OLD/${distro}/conf"
 fi
 
 echo $?
