@@ -76,8 +76,8 @@ fi
 #fi
 
 mv ./${CONF_PT2}/* .
-echo $?
-exit
+#echo $?
+#exit
 
 [ -s ./${CONF_LIB} ] && chmod 0555 ./${CONF_LIB} 
 echo $?
