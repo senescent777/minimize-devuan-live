@@ -70,9 +70,9 @@ if [ -d  ./${CONF_BASE}.OLD ] ; then
 	#VAIH:findin kautta mieluummin, jotta knfiguraation poiston skippaus
 	
 	for f in $(find ./${CONF_BASE}.OLD -type f -not -name conf) ; do
-		echo "sudo rm ${f}"
+		dqb "sudo rm ${f}"
 		sudo rm ${f}
-		sleep 1
+		csleep 1
 	done
 fi
 
