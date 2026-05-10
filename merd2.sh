@@ -67,12 +67,12 @@ dqb "TGI KO"
 csleep 2
 
 if [ -d  ./${CONF_BASE}.OLD ] ; then
-	rm -rf  ./${CONF_BASE}.OLD
+	sudo rm -rf  ./${CONF_BASE}.OLD
 fi
 
 #	mv ./${CONF_BASE}/*  ./${CONF_BASE}.OLD
 #else
-	mv ./${CONF_BASE} ./${CONF_BASE}.OLD
+	sudo mv ./${CONF_BASE} ./${CONF_BASE}.OLD
 #fi
 
 mv ./${CONF_PT2}/* .
@@ -80,8 +80,8 @@ mv ./${CONF_PT2}/* .
 #exit
 
 [ -s ./${CONF_LIB} ] && chmod 0555 ./${CONF_LIB} 
-echo $?
-exit
+#echo $?
+#exit
 
 dqb "FN0C"
 csleep 1
