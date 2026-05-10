@@ -64,34 +64,45 @@ function e22_ftr() {
 }
 
 #100526:return-kikkailu ei toiminut? "echo-tavassakin" on juttuja huomioitavana
+#... joku päivbä jos maistuisi selvittää tuo "bash function retuen value"-juttu että onaako bvai ei?
 function aqsp() {
-	dqb " aqsp( ${1} ))) "
+	dqb "aqsp ${1} ; "
 	[ -z "${1}" ] && exit 97
 	[ -d ${1} ] || exit 96
+	local rv=0
 
-	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then
+	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then #eka ehto omalle rivilleen ja sit jhotain
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 			${gg} --verify ${1}/sha512sums.txt.sig
-			echo $?
-		else
-			exit 94
+			rv=$?
+	#	else
+	#		rv=94
 		fi
-	else
-		exit 95
+	#else
+	#	rv=95
 	fi
 
-	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
+	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] && [ ${rv} -eq 0 ] ; then
 		local p=$(pwd)
 		cd ${1}
 
 		${sah6} -c sha512sums.txt --ignore-missing
-		[ $? -gt 0 ] && echo $?
+		rv=$?
 		cd ${p}
 	else
-		exit 93
+		rv=93
 	fi
 
-	dqb " aqsp( ${1} ))) DONE"	
+	dqb "rv= ${rv}"
+
+	if [ ${rv} -gt 0 ] ; then #toistaiseksi sqap() hoitamaan poistot
+		dqb "SMTHNG WENT WR09NG"	
+		${NKVD} ./*.deb 
+		${NKVD} ./sha512sums*
+		${NKVD} ./*.tar
+	fi
+
+	dqb "aqsp  DONE"
 }
 
 function e22_arch() {
@@ -145,9 +156,7 @@ function e22_arch() {
 	#echo "rv= ${r}"
 	#exit
 #
-#	if [ ${r} -gt 0 ] ; then #TODO:toistaiseksi sqap() hoitamaan poistot	
-#		echo "SHOULD ${NKVD} ./*.deb ./sha512sums* ./*.tar"
-#	fi
+
 
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
 	cd ${p}

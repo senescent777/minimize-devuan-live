@@ -202,9 +202,8 @@ case "${mode}" in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) 
-		#300426:paketin muodostaa jälleen, sisällön toinmivuus slevitettävä
 		#010526:jos alkaa git hukkumaan säännöllisesti ni jotain tarttisi tehdä
-		#VAIH:testailut uusicksi TAAS 666		
+		#VAIH:testailut uusicksi TAAS 666 (100526 viimeksi muodosti paketin, sisältö:)		
 
 		e22_pre_e ${E22_GS}
 		e22_pre_e ${E22_GM}
