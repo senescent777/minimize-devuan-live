@@ -495,7 +495,7 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
-#TODO:kts miten suhtautuu e23_qrs():n ? osa ao. riveistä pois/kutsuva koodi käskytämään toista qrs()?
+#TODO:kts miten suhtautuu e23_qrs():n ? osa ao. riveistä pois/kutsuva koodi käskyttämään toista kautta qrs()?
 function e22_home_pre() {
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
@@ -657,7 +657,8 @@ function e22_sarram() {
 	#for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 	
 	#VAIH:minimize-devuan-live greppaus pois, juurikin ao. komentoon (jatkossa kai conf mukaan)
-	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD | grep -v minimize-devuan-live ) ; do 
+	#for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD | grep -v minimize-devuan-live ) ; do 
+	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD | grep -v ${CONF_PT2} ) ; do 
 		${sah6} ${f} >> ${3}
 	done
 

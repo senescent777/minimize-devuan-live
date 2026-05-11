@@ -205,7 +205,7 @@ case "${mode}" in
 	;;
 	e) 
 		#010526:jos alkaa git hukkumaan säännöllisesti ni jotain tarttisi tehdä
-		#110526:taitaa toimia muodostetu paketti
+		#110526:taitaa toimia muodostettttu paketti
 
 		e22_pre_e ${E22_GS}
 		e22_pre_e ${E22_GM}
