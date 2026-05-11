@@ -3,6 +3,7 @@ debug=0
 branch=""
 d0=$(pwd)
 
+#VAIH:tarpeelliset tästä -> conf
 CONF_BASEURL="github.com/senescent777"
 CONF_BASE=minimize
 CONF_PT2=minimize-devuan-live
@@ -69,6 +70,7 @@ csleep 2
 #HUOM.konfiguraatio olisi hyvä jättää hukkaamatta, toisaalta wanhat tauhkat hyvä saada pois sotkemasta
 #(conf kanssa olisi hyvä keksiä jotain josqs, jos ei muuten niin conf.example)
 
+#toisestakin sijainnista voisi yrittää
 if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
 	sudo cp ./${CONF_BASE}.OLD/${distro}/conf ./$(whoami).conf
 	ls -las ./*.conf
@@ -108,7 +110,7 @@ dqb "NEXT:common_lib"
 csleep 1
 
 if [ -x ./${CONF_LIB} ] ; then
-	#TODO?:/o/b-juttuja oli kanssa (mv lähinnä)
+	#TODO?:/o/b-juttuja oli kanssa? (mv lähinnä)
 
 
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
