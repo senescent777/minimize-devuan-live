@@ -71,15 +71,17 @@ function aqsp() {
 	[ -d ${1} ] || exit 96
 	local rv=0
 
-	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then #eka ehto omalle rivilleen ja sit jhotain
-		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-			${gg} --verify ${1}/sha512sums.txt.sig
-			rv=$?
-	#	else
-	#		rv=94
+	if [ -v gg ] then
+		if [ -s ${1}/sha512sums.txt.sig ] ; then #eka ehto omalle rivilleen ja sit jhotain
+			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
+				${gg} --verify ${1}/sha512sums.txt.sig
+				rv=$?
+		#	else
+		#		rv=94
+			fi
+		#else
+		#	rv=95
 		fi
-	#else
-	#	rv=95
 	fi
 
 	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] && [ ${rv} -eq 0 ] ; then
@@ -157,14 +159,13 @@ function e22_arch() {
 	#exit
 #
 
-
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
 	cd ${p}
 }
 
 #import2 pois jatkossa? vaiko kys skripti e-hmistoon? paitsi että g_doit kutsuu sitä
 
-#280426:osasi tdston tehdä tuolloin
+#110526:vissiin edelleen ao, fktio ok
 
 function e22_cde() {
 	[ -z "${1}" ] && exit 99
