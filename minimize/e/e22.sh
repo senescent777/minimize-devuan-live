@@ -267,7 +267,7 @@ function e22_pre2() {
 }
 
 #tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
-function e22_dblock() { #110426:lienee toimiva tämä fktio ?
+function e22_dblock() { #110526:lienee toimiva tämä fktio ?
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
 
 	[ -z "${1}" ] && exit 14

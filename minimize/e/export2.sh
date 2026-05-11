@@ -160,7 +160,8 @@ case "${mode}" in
 		# 21426 onnasi viimeksi paketin rakennus tässä moodissa, sisältökin jnkin verran toimaa
 
 		#4 toimi viimeksi 180426 (uusi testikieRRos uudella paketilla 100526, ehkä ok pl ffox profiili)
-		#merd2 taisi toimia 21.4 (entä sen jälkeen?)
+	
+		#merd2 taisi toimia kerrab 21.4 (entä sen jälkeen? ehkä, qhan conf-jutut)
 	
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
@@ -177,7 +178,9 @@ case "${mode}" in
 			doit=0
 		fi
 		
-		#TODO:profiilijuttujen fiksaus jos kuseminen jatkuu (vissiin joutuu fiksaamaan)
+		#VAIH:profiilijuttujen fiksaus jos kuseminen jatkuu (vissiin joutuu fiksaamaan)
+		#110526:config.tar.bz2, fediverse.tar ja profs.sh tulisi kyllä löytyä kohde-paketista edelleen
+		
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
 
