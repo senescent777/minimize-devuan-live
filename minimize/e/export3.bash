@@ -64,10 +64,10 @@ e22_hdr ${tgtfile}
 #[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta
 
 case "${mode}" in
-	rp) #TODO:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms
+	rp) #VAIH:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
-		e22_rpg ${tgtfile} ${d}
+		e22_rpg ${tgtfile} ${d} ${CONF_pkgdir} ${gbk}
 	;;
 	f)
 		t=$(echo ${d} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)

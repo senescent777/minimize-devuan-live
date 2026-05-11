@@ -707,12 +707,20 @@ function e22_pre_e() {
 ##}
 
 function e22_rpg() {
-	dqb "R-P-G ${1} , ${2} , ${3}"
+	dqb "R-P-G ${1} , ${2} , ${3}. ${4}"
+	csleep 1	
+
 	[ -z "${1}" ] && exit 99
 	[ -z "${2}" ] && exit 98	
 	[ -s "${1}" ] || exit 97
 	[ -d ${2} ] || exit 96
-	exit 95
+	[ -z "${3}" ] && exit 33
+	[ -d ${3} ] || exit 34
+	[ -z "${4}" ] && exit 37
+
+	csleep 1
+	#exit 95
+	dqb "pars 0k"
 
 	e22_cleanpkgs ${2}
 		
