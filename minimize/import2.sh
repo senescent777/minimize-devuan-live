@@ -63,6 +63,15 @@ csleep 1
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
+else
+	#VAIH:else-haara takaisin sittenkin, "$0 -1" olisi kiva
+	function check_binaries() {
+		echo "generic.replacement.4.check_bin"
+	}
+
+	function check_binaries2() {
+		echo "generic.replacement.4.check_bin2"
+	}
 fi
 
 dqb "imp2:AFTR common_lib"
@@ -128,7 +137,6 @@ dqb "ip2.m.Lpgqq"
 #HUOM.280426:käytetäänk tätä jossain? jep, ei vielä pois
 function cptp2() {
 	[ -z "${1}" ] && echo 99
-
 	[ -d ${1} ] || exit 97
 
 	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
@@ -172,11 +180,11 @@ dqb "HPL"
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3} siis)
 
 fox=$(${odio} which firefox)
+dqb "VAIH: $0 r toiminnan selvittäminen, bissiin exp2 qsee jtnkn?"
 
-#160326:toimiiko edelleen? "$0 q"-reittiä ainakin
 function tpr() {
 	dqb "UPIR ) ${1} , ${2} , ${3} ("
-	csleep 1
+	csleep 10
 
 	[ -z "${1}" ] && exit 8
 	[ -z "${2}" ] && exit 9
@@ -197,7 +205,7 @@ function tpr() {
 	fi
 
 	dqb "tpr.pars_ok"
-	csleep 1
+	csleep 10
 
 	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
 	. ${1}/${3}
@@ -218,17 +226,17 @@ function tpr() {
 
 	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/${2}
 	[ $? -gt 0 ] && exit 22
-	csleep 1
+	csleep 10
 
 	dqb "JUST BEFORE impo_prof"
-	csleep 1
+	csleep 10
 
 	imp_prof esr $(whoami) ${q}
 	dqb $?
-	csleep 1
+	csleep 10
 
 	dqb "UP1R D0N3"
-	csleep 1
+	csleep 10
 }
 
 #sqrot ei tarvitse tätä blokkia (pl. ehkä -h) 
@@ -270,9 +278,6 @@ if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then #eka tark oli -s , vissiin olta
 	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	dqb "SD"
 else
-	#220326:myös sqroot-ymp tähän jouduttu, syy muu kuin ilmeinen?
-	#010426:exitin ohitus jos ollaan sqrootissa?
-	
 	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	[ -f ${srcfile} ] || dqb "NOT A FILE"
 	dqb "SMTHING WRONG WITH ${srcfile} "
@@ -289,28 +294,31 @@ else
 	[ "${confirm}" == "Y" ] || exit 33
 fi
 
-#140326:toimiikohan nuo debug-hommat kuten tarkoitus?
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "srcfile=${srcfile}"
-csleep 1
+csleep 10
 
 #HUOM.280426:jatkossa tämä skripti lienee turha sqroot-ympäristössä, voisi karsia siitä yuhdestä paketista
 #... paItsi että "$0 r"
 
+#VAIH:josko jatkossa tap 0/1/3 käskyttämään sq-rot pelkän echon sijaan ?
 case "${mode}" in
-	1) 
-		echo "sq-rot ${mode} ${tgtfile}"
-		exit
+	1|0|3) 
+#		echo "sq-rot ${mode} ${tgtfile}"
+#		exit
+		./sq-rot.sh ${mode} ${tgtfile}
 	;; 
-	0|3) #tässä kohtaa tuli se juttu sqroot-ympäristön kanssa, case 0 vs minne f.tar purkautuu
-		echo "sq-rot ${mode} ${tgtfile}"
-		exit
+#	0|3) #tässä kohtaa tuli se juttu sqroot-ympäristön kanssa, case 0 vs minne f.tar purkautuu
+#		echo "sq-rot ${mode} ${tgtfile}"
+#		exit
+#
+##		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
+#	;;
+	r)
+		dqb "NT R"
+		csleep 10
 
-#		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
-	;;
-	r) #160326:ehkä tämä jo toimii
-	#sqrot ei tarvitse tätä casea, kai
 		[ -d ${srcfile} ] || exit 23
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
@@ -318,12 +326,19 @@ case "${mode}" in
 		
 		[ -z "${fox}" ] && exit 26
 		[ -x ${fox} ] || exit 27
+		[ -s ~/${CONF_default_arhcive2} ] || exit 29
 
 		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
+
 		echo $?
 		csleep 2
 		echo "JUST VEFORE TPR"
+		csleep 2
+
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
+
+		dqb "XP R"
+		csleep 5
 	;;
 #	q)
 #		#160326:toimi

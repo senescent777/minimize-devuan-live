@@ -162,7 +162,7 @@ else
 	sleep 5
 
 	function ocs() {
-		echo "SMTHIN1G 15 WR0NG: ${1}"
+		echo "SMTHIN1G 15 WR0NG: ${1} ?"
 	}
 
 	function check_binaries() {
@@ -240,10 +240,10 @@ else
 fi
 
 #echo "JUST BFR com-ort()";sleep 1
-#HUOM.olisi hyväksi siivota aiemmat tar:it kummittelemasta, tapahtuu lopussa kysymyksen takana
+#HUOM.lienee hyväksi siivota aiemmat tar:it kummittelemasta, tapahtuu skriptin lopussa kysymyksen takana
 
 function common_part() {
-	dqb "rot.common_part ${1} , ${2} , ${3}"
+	dqb "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
 
 	[ -z "${1}" ] && exit 1 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
 	[ -s ${1} ] || exit 2
@@ -261,29 +261,30 @@ function common_part() {
 	local r
 	r=0
 
-	#VAIH:.sha.sig -> .sig jatkossa
-	if [ -v gg ] && [ -s ${1}.sig ] ; then
-		dqb "A"
-		dqb "gg= ${gg}"
+	if [ -v gg ] ; then #josko näin kuitenkin?
+		if  [ -s ${1}.sig ] ; then
+			dqb "A"
+			dqb "gg= ${gg}"
 
-		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemassssaolon sijaan?
-		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-			dqb "B"
+			#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemassssaolon sijaan?
+			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
+				dqb "B"
 
-			if [ -x ${gg} ] ; then
-				dqb "C"
+				if [ -x ${gg} ] ; then
+					dqb "C"
 
-				dqb " ${gg} --verify ${1}.sig "
-				${gg} --verify ${1}.sig
-				r=$?
+					dqb " ${gg} --verify ${1}.sig "
+					${gg} --verify ${1}.sig
+					r=$?
 
-				#[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig.1 mikäö idea tässä?
-				#csleep 1
+					#[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig.1 mikäö idea tässä?
+					#csleep 1
+				fi
 			fi
-		fi
 
-		#tohtisiko joskus testata oikeasti tuota?
-		[ ${r} -eq 0 ] || ${NKVD} ${1}*
+			#1105326:tässä käytiin, pitäisi odio olla asetettuma että jotain tapahtuisi
+			[ ${r} -eq 0 ] || ${NKVD} ${1}*
+		fi
 	fi
 
 	csleep 1
@@ -315,20 +316,19 @@ function common_part() {
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "ko"		
 		else
-			#sittenkin näin
 			${NKVD} ${1}* 
 			${NKVD} ${2}/*.deb
 			${NKVD} ${2}/sha512sums*
 			${NKVD} ${2}/*.tar*
 
 			exit 33
-			#160426:nuo loput dellimisen kohteet eivät niin mielekkäitä koska x .. tai siis
 		fi
 	fi
 
 	csleep 1
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 
+	#110523:vöib aiheuttaa nalkutusta jos odio ei asetettu
 	csleep 1
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
@@ -392,6 +392,7 @@ case "${mode}" in
 		common_part ${srcfile} ${d} /
 	;;
 	#VAIH:vähintään toinen case toimimaan sqroot-ymp (ainakin liittyi se että tulisi olla oikeat versiot .deb-paketeista)
+	#... alkaisikohan jo 110526 olla tämä ja seur case ok?
 	0)
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}

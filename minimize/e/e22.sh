@@ -721,7 +721,7 @@ function e22_rpg() {
 		
 	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
 	#... koko case pois käytöstä vaikka
-#	VAIH:glob wttuun jos ottaa tämän käyttöön
+
 	${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${2} -xvf ${1}
 	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
 	csleep 1

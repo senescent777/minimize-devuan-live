@@ -242,7 +242,8 @@ fi
 #josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta? kokeillaan
 el_loco ${c14} ${c13}
 #=========================================================================================
-#TODO:selvitä mikä juttu kehitysympstössä on mode 1:n kanssa + korjaa (jos toistuu)
+#VAIH:selvitä mikä juttu kehitysympstössä on mode 1:n kanssa + korjaa (jos toistuu)
+#... 110526 ei toistunut
 
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	${odio} passwd
@@ -277,13 +278,25 @@ message
 
 part3 ${d}
 other_horrors
+dqb "AFTER THE HORROR"
+csleep 1
 
-if [ ! -f /.chroot ] ; then
+if [ ! -f /.chroot ] ; then #ehto pois jatkossa vai ei?
 	#[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh
 	#toistaiseksi tässä kunnes... Jotain
+	dqb "AFTR SCM"
+	csleep 9
+	dqb "JUST BEFORE IMP R"
+	csleep 10
+
 	${d0}/import2.sh r ${d0} -v
+	echo $?
+	csleep 5
 fi
+
+dqb "PR0F IMPORT DONE?"
+csleep 10
 
 jules
 ${asy}

@@ -64,7 +64,7 @@ e22_hdr ${tgtfile}
 #[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta
 
 case "${mode}" in
-	rp) #TODO:tämän testailu kehitysymp
+	rp) #TODO:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 		e22_rpg ${tgtfile} ${d}
