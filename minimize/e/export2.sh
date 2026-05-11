@@ -170,6 +170,7 @@ case "${mode}" in
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
+			#TODO:e.tar-kikkailu -> other_okgs() syystä gpg puuttuu
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
@@ -204,7 +205,7 @@ case "${mode}" in
 	;;
 	e) 
 		#010526:jos alkaa git hukkumaan säännöllisesti ni jotain tarttisi tehdä
-		#VAIH:testailut uusicksi TAAS 666 (100526 viimeksi muodosti paketin, sisältö:masentui ainakin kerran)		
+		#110526:taitaa toimia muodostetu paketti
 
 		e22_pre_e ${E22_GS}
 		e22_pre_e ${E22_GM}
@@ -224,7 +225,7 @@ case "${mode}" in
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
-		#VAIH (muodostetun paketin toimivuuden testaus lähinnä jokojo?)
+		#VAIH (muodostetun paketin toimivuuden testaus lähinnä jokojo 05/26?)
 		e22_hdr ${d}/e.tar
 
 		${fib}

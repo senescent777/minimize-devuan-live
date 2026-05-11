@@ -102,11 +102,14 @@ if [ -f /.chroot ] ; then
 	${sharpy} psmisc
 
 	t2p_filler
+	dqb "V1"
+	exit
 fi
 
-#+3+526:josko nyt poistuisi?
+#110526:josko nyt poistuisi?
 if [ "${CONF_iface}" != "wlan0" ] ; then
-	${sharpy} wpasupplicant
+	${sharpy} wpa*
+	#etc alaiset wpa-jutut voisi hoidella myös rm-komennolla?
 	t2p_filler
 	csleep 10
 fi

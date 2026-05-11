@@ -32,7 +32,7 @@ function e23_qrs() {
 	dqb "qSRD DONE"
 }
 
-#240426 ehkä toimi? miten 10526?
+#240426 ehkä toimi? miten 10526? ehkä silloinkin?
 function e23_profs() {
 	dqb "e23_profs( ${1} , ${2}, ${3} )"
 	csleep 1
@@ -111,7 +111,7 @@ function e23_other_pkgs() {
 	e22_pre_e ${E22_GI}
 
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
-	e22_pre_e  ${E22_GG}
+	e22_pre_e ${E22_GG}
 
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 	e22_pre_e ${E23_GS}
@@ -167,7 +167,6 @@ function e23_dm() {
 	[ -z "${1}" ] && exit 11
 	${fib}
 
-	#010526:ao. 2 riviä saattaa joutua muuttamaan vielä, pre_e() ...
 	e22_pre_e ${E22_GS}
 	e22_pre_e ${E22_GM}
 
@@ -250,6 +249,5 @@ function e23_dm() {
 	${shary} xterm xauth
 	${shary} wdm
 }
-
 
 #TODO:miten se Makefile-idea? kokeilisiko?

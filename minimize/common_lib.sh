@@ -199,7 +199,7 @@ function check_bin_0() {
 	mkt=$(${odio} which mktemp)
 	tig=$(${odio} which git)
 
-	#VAIH:suurempi uliuli jos gpog puuttuu, ei menisi ohi (myöhemmin elataan harata vastaan jos x)
+	#05/26 riittävästi ulinaa resolv.conf kanssa?
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
 
@@ -258,7 +258,7 @@ function message() {
 	sleep 1
 }
 
-#TODO:jatkosäätöä josqs lähiaikoina? (kts e22.sh)
+#TODO?:jatkosäätöä josqs lähiaikoina? (kts e22.sh, KVG-jutut bissiin uusicksi)
 function psqa() {
 	dqb "c.Q () () () () ${1} ;;;"
 	csleep 1
@@ -334,8 +334,7 @@ function psqa() {
 #HUOM.060426:ne kalat mitkä eivät listassa tulisi kai hukata
 #... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
 #efk2 2. param ja cefgh voisi liittyä asiaan
-
-#TODO:"palautusarvo-tarkistus" uusiksi josqs (kts e22.sh)
+#110526:pitäisi uudestaan katsella niitä bash-juttuja ennenq alkaa muuttelemaan psqa/( käyttävää koodia (ensimmäiset yritelmät eivät oikein...)
 
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} ) ${2} )))))))))))))"
@@ -368,7 +367,7 @@ function common_pp3() {
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
-		#TODO:local r=$(psqa ${1}) jatkossa+leikit?
+		#local r=$(psqa ${1}) jatkossa+leikit?
 
 		if [ $? -gt 0 ] ; then
 			${NKVD} ${1}/*.deb
@@ -1084,7 +1083,7 @@ function e_e() {
 				${smr} /etc/resolv.conf
 			fi
 		else
-			#VAIH:ao.blokin else-haaraan tämä? (oli ennen if-blokkia)
+			#110526:josko nyt voisi olla hetken aikaa nuo linkitys-asiat?
 			${svm} /etc/resolv.conf /etc/resolv.conf.${f}
 		fi
 	fi
@@ -1310,7 +1309,8 @@ function part2() {
 			;;
 			#VAIH:entä dhcp-pakettien poisto jollain ehdolla?
 			#010526:ensimmäisellä yrityksellä x meni pois pelistä, joten toistaiseksi kommentteihin
-			#eth0:1)
+		
+			#eth0:1) #jospa konsultoisi man-sivuja tämän kanssa?
 			#	${sharpy} modem* wireless* wpa*
 			#	${sharpy} iw lm-sensors
 			#	${sharpy} isc-dchp*
@@ -1357,10 +1357,7 @@ function part2() {
 function cg_udp6() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
 	csleep 1
-
 	[ -z "${1}" ] && exit 65
-	#jokin syy miksi ei -z ? eikai
-
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
 	csleep 1

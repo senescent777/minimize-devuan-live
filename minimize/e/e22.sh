@@ -495,6 +495,7 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
+#TODO:kts miten suhtautuu e23_qrs():n ? osa ao. riveistä pois/kutsuva koodi käskytämään toista qrs()?
 function e22_home_pre() {
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
@@ -544,7 +545,6 @@ function e22_home() {
 	${srat} ${TARGET_TPX} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
 }
-
 
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
 #120426:vissiin kopsaa kohteeseen mitä pitääkin
@@ -656,9 +656,12 @@ function e22_sarram() {
 	#HUOM.rules vedetään jo aiemmin niin tartteeko tässä?
 	#for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 	
-	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD ) ; do ${sah6} ${f} >> ${3} ; done
+	#VAIH:minimize-devuan-live greppaus pois, juurikin ao. komentoon (jatkossa kai conf mukaan)
+	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD | grep -v minimize-devuan-live ) ; do 
+		${sah6} ${f} >> ${3}
+	done
 
-	#230326:ntp-jtut näyttäisi vetävän mukaan
+	#230326:ntp-jtut näyttäisi vetävän mukaan niinqu pitää
 	if [ -x /usr/sbin/ntpd ] ; then
 		for f in $(${odio} find /etc -type f -name "ntp*" ) ; do
 			${srat} -rvf ${1} ${f}
@@ -666,6 +669,7 @@ function e22_sarram() {
 		done
 	fi
 
+	#VAIH:nose että meneekö o/b/bash-jutut mukaan listaan vai ei? (entä pakettiin?)
 	${scm} a+r /opt/bin/*.bash
 	dqb "JUST BEFORE /o/b/ * . bash"
 	csleep 10
