@@ -450,9 +450,10 @@ function e22_ext() {
 	cd ${p}
 }
 
-#TODO:g_doit.part0() liittyviä juttuja, hyvä varmistaa että menevätkö muuttuneet xfce4-asetukset talteen asti 
-#010526:import2.sh pitäisi purkaa config.tar.bz2 qhan se vain löytyy
+dqb "#TODO:g_doit.part0() liittyviä juttuja, hyvä varmistaa että menevätkö muuttuneet xfce4-asetukset talteen asti "
+csleep 1
 
+#010526:import2.sh pitäisi purkaa config.tar.bz2 qhan se vain löytyy
 function e22_config1() {
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
@@ -496,7 +497,9 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
-#TODO:kts miten suhtautuu e23_qrs():n ? osa ao. riveistä pois/kutsuva koodi käskyttämään toista kautta qrs()?
+dqb "#TODO:kts miten suhtautuu e23_qrs():n ? osa ao. riveistä pois/kutsuva koodi käskyttämään toista kautta qrs()?"
+csleep 1
+
 function e22_home_pre() {
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
@@ -517,7 +520,9 @@ function e22_home_pre() {
 	e_final
 	${srat} -rvf ${1} /opt/bin
 
-	#TODO?:findin lähtökohdaksi jokin toinen?
+	dqb "#TODO?:findin lähtökohdaksi jokin toinen?"
+	csleep 1
+
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
 	done
@@ -622,7 +627,8 @@ function e22_acol() {
 #(josko exp2 voisi korvata "tar -T -cf":llä?)
 
 #200426:qseeko tässä jokin?
-#TODO:uudet testit /o/b/zxcv sisältöön liittyen, ei vielä .bash mukana listassa(zxcv)
+dqb "#TODO:uudet testit /o/b/zxcv sisältöön liittyen, ei vielä .bash mukana listassa(zxcv)"
+csleep 1
 
 function e22_sarram() {
 	#[ -z "${1}" ] && exit 1
