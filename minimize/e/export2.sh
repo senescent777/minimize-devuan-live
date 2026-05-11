@@ -100,12 +100,12 @@ dqb "BEF0RE T1G N0R MKTMP"
 sleep 1
 
 if [ -z "${tig}" ] ; then
-	echo "SHOULD INSTALL GIT"
+	echo "SHOULD INSTALL GIT ($0 e)"
 	[ "${mode}" == "e" ] || exit 7
 fi
 
 if [ -z "${mkt}" ] ; then
-	echo "SHOULD INSTALL MKTEMP"
+	echo "SHOULD INSTALL MKTEMP ($0 e)"
 	exit 8
 fi
 

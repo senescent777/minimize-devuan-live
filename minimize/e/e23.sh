@@ -1,4 +1,4 @@
-#280426:sai aikaiseksi tdston, sisällön kelpoisuus vielä selvitettävä(100526->)
+#110526 vissiin edelleen/taas toimiva fktio
 function e23_qrs() {
 	dqb "qrs( $1 ; $2 ; $3 ; $4 ; $5 )"
 	csleep 1
@@ -32,7 +32,7 @@ function e23_qrs() {
 	dqb "qSRD DONE"
 }
 
-#240426 ehkä toimi? miten 10526? ehkä silloinkin?
+#240426 ehkä toimi? miten 10526? ehkä silloinkin
 function e23_profs() {
 	dqb "e23_profs( ${1} , ${2}, ${3} )"
 	csleep 1

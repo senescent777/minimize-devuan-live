@@ -64,23 +64,19 @@ function e22_ftr() {
 }
 
 #100526:return-kikkailu ei toiminut? "echo-tavassakin" on juttuja huomioitavana
-#... joku päivbä jos maistuisi selvittää tuo "bash function retuen value"-juttu että onaako bvai ei?
+#... joku päivbä jos maistuisi selvittää tuo "bash function retuRn value"-juttu että onnnaako vai ei?
 function aqsp() {
 	dqb "aqsp ${1} ; "
 	[ -z "${1}" ] && exit 97
 	[ -d ${1} ] || exit 96
 	local rv=0
 
-	if [ -v gg ] then
+	if [ -v gg ] ; then #else-haarat takaisin josqs, ehkä
 		if [ -s ${1}/sha512sums.txt.sig ] ; then #eka ehto omalle rivilleen ja sit jhotain
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 				${gg} --verify ${1}/sha512sums.txt.sig
 				rv=$?
-		#	else
-		#		rv=94
 			fi
-		#else
-		#	rv=95
 		fi
 	fi
 
@@ -271,7 +267,7 @@ function e22_pre2() {
 }
 
 #tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
-function e22_dblock() { #140426:lienee toimiva tämä fktio 
+function e22_dblock() { #110426:lienee toimiva tämä fktio ?
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
 
 	[ -z "${1}" ] && exit 14
@@ -627,8 +623,7 @@ function e22_acol() {
 #(josko exp2 voisi korvata "tar -T -cf":llä?)
 
 #200426:qseeko tässä jokin?
-dqb "#TODO:uudet testit /o/b/zxcv sisältöön liittyen, ei vielä .bash mukana listassa(zxcv)"
-csleep 1
+#110526:zxcv listaan taisi jo tulla mukaan /o/b/*.bash ainakin kerran
 
 function e22_sarram() {
 	#[ -z "${1}" ] && exit 1
@@ -665,6 +660,7 @@ function e22_sarram() {
 	
 	#VAIH:minimize-devuan-live greppaus pois, juurikin ao. komentoon (jatkossa kai conf mukaan)
 	#for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD | grep -v minimize-devuan-live ) ; do 
+
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD | grep -v ${CONF_PT2} ) ; do 
 		${sah6} ${f} >> ${3}
 	done
