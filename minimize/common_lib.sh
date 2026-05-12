@@ -924,7 +924,7 @@ function e_h() {
 	if [ -d ${2}/opt/bin ] ; then
 		${sco} -R root:root ${2}/opt/bin
 		${scm} go-wr ${2}/opt/bin/*
-		${scm} 0400 ${2}/opt/bin/*.sh
+		${scm} 0400 ${2}/opt/bin/*.sh #liene ejo turha
 		${scm} 0511 ${2}/opt/bin/*.bash
 	fi
 
