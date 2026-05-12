@@ -205,7 +205,7 @@ dqb "HPL"
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3} siis)
 
 fox=$(${odio} which firefox)
-dqb "VAIH: $0 r toiminnan selvittäminen, bissiin exp2 qsee jtnkn?"
+#130526;josko jo toimisi "$0 r" ? entä exp2 jutut?
 
 function tpr() {
 	dqb "UPIR ) ${1} , ${2} , ${3} ("
@@ -268,7 +268,7 @@ function tpr() {
 #HUOM.060426:tämä case-esac voisi toimia ilmankin kirjastoa, qhan vain konftdsto löytyy
 #110426:tässäkin "-v" tarpeen?
 
-#TODO:ne kiukuttelut pois jo? mitkä?
+#TODO?:ne kiukuttelut pois jo? mitkä?
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii?
