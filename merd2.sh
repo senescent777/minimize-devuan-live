@@ -96,12 +96,12 @@ sudo mv ./${CONF_BASE} ./${CONF_BASE}.OLD
 mv ./${CONF_PT2}/* .
 [ -s ./${CONF_LIB} ] && chmod 0555 ./${CONF_LIB} 
 
-dqb "FN0C"
+dqb "FN0C.1"
 csleep 1
 
-#if [ ! -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then #lioenee jo turha tässä
-#	dqb "N0 SUCH THNG AS ./${CONF_BASE}.OLD/${distro}/conf"
-#fi
+[ -s ./$(whoami).conf ] && sudo cp  ./$(whoami).conf ./${CONF_BASE}/${distro}/conf 
+dqb "FN0C.2"
+csleep 1
 
 dqb "NEXT:common_lib"
 csleep 1
