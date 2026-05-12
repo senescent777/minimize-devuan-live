@@ -9,9 +9,10 @@ spc=$(which cp)
 [ -z "${spc}" ] && exit 13
 [ -x ${spc} ] || exit 14
 n=$(whoami)
+par3=""
 
-#TODO:kolmanneksi parametriksi alihakemisto mikä dumpataan arkistoon, sen sijaan että käydään koko lista läpi ?
-#TODO?:kokonaan uusi päivitysskripti? aikavyöhyke-lokaali-tar-sekoilut poistanevat tämän skriptin pointin (mallia vaikkapa tpoisen repon setup1,setpu2)
+#VAIH:kolmanneksi parametriksi alihakemisto mikä dumpataan arkistoon, sen sijaan että käydään koko lista läpi ?
+#TODO?:kokonaan uusi päivitysskripti? aikavyöhyke-lokaali-tar-sekoilut poistanevat tämän skriptin pointin (mallia vaikkapa toisen repon {setup1,setup2}.bash)
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
@@ -20,6 +21,8 @@ if [ $# -gt 1 ] ; then
 		tcmd="sudo ${tcmd} "
 		spc="sudo ${spc} "
 	fi
+
+	par3=${3}
 else
 	exit 10
 fi
@@ -77,8 +80,14 @@ fi
 
 echo "JUST BEFOR.E PROCESSING ROWS"
 sleep 1
+g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb  )
 
-for f in $(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb  ) ; do
+if [ ! -z "${par3}" ] ; then
+	g=$(echo ${g} | grep -v ${par3})
+fi
+
+
+for f in ${g} ; do
 	if [ -f ${f} ] ; then
 		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
 			process_row ${tgt} ${f}
