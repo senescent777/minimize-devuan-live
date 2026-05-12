@@ -64,13 +64,38 @@ csleep 1
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#VAIH:else-haara takaisin sittenkin, "$0 -1" olisi kiva
+	if [ -s ${d0}/$(whoami).conf ] ; then
+		echo "ALT.C0fn.1G"
+		sleep 2
+		. ${d0}/$(whoami).conf
+	else
+		if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+			echo "ord1nary cqf"
+			. ${d}/conf
+		else
+		 	exit 57
+		fi
+	fi
+
 	function check_binaries() {
 		echo "generic.replacement.4.check_bin"
 	}
 
 	function check_binaries2() {
 		echo "generic.replacement.4.check_bin2"
+	}
+
+	odio="sudo"
+	mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin?
+	srat=$(${odio} which tar)
+	srat="${odio} ${srat} "
+	som=$(${odio} which mount)
+	uom=$(${odio} which umount)
+	som="${odio} ${som}"
+	uom="${odio} ${uom}"
+
+	function ocs() {
+		echo "ocs()))) ${1} ?"
 	}
 fi
 
