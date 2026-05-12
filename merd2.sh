@@ -3,7 +3,6 @@ debug=0
 branch=""
 d0=$(pwd)
 
-#VAIH:tarpeelliset tästä -> conf
 CONF_BASEURL="github.com/senescent777"
 CONF_BASE=minimize
 CONF_PT2=minimize-devuan-live
@@ -76,12 +75,14 @@ if  [ -s ./${CONF_BASE}/${distro}/conf ] ; then
 else
 	if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
 		sudo cp ./${CONF_BASE}.OLD/${distro}/conf ./$(whoami).conf
+	else
+		exit 58
 	fi
 fi
 
 ls -las ./*.conf
 csleep 5
-exit
+exit 59
 
 if [ -d  ./${CONF_BASE}.OLD ] ; then
 	for f in $(find ./${CONF_BASE}.OLD -type f -not -name conf) ; do
@@ -91,11 +92,7 @@ if [ -d  ./${CONF_BASE}.OLD ] ; then
 	done
 fi
 
-#	mv ./${CONF_BASE}/*  ./${CONF_BASE}.OLD
-#else
-	sudo mv ./${CONF_BASE} ./${CONF_BASE}.OLD
-#fi
-
+sudo mv ./${CONF_BASE} ./${CONF_BASE}.OLD
 mv ./${CONF_PT2}/* .
 [ -s ./${CONF_LIB} ] && chmod 0555 ./${CONF_LIB} 
 
@@ -103,29 +100,20 @@ dqb "FN0C"
 csleep 1
 
 if [ ! -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
-#	mv ./${CONF_BASE}.OLD/${distro}/conf ./${CONF_BASE}/${distro}/conf
-#	ln -s  ./${CONF_BASE}/${distro}/conf ./$(whoami).conf
-#else
 	dqb "N0 SUCH THNG AS ./${CONF_BASE}.OLD/${distro}/conf"
 fi
-
-#echo $?
-#exit
 
 dqb "NEXT:common_lib"
 csleep 1
 
 if [ -x ./${CONF_LIB} ] ; then
 	#TODO?:/o/b-juttuja oli kanssa? (mv lähinnä)
-
-
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 
 	#. ./${CONF_LIB}
 	#enforce_access $(whoami) ${d0}/${CONF_BASE}
 
 	sudo chmod 0511 /opt/bin/*.bash
-
 	#josko nyt jo?
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 else
