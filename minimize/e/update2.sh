@@ -11,10 +11,11 @@ spc=$(which cp)
 n=$(whoami)
 
 #TODO:kolmanneksi parametriksi alihakemisto mikä dumpataan arkistoon, sen sijaan että käydään koko lista läpi ?
+#TODO?:kokonaan uusi päivitysskripti? aikavyöhyke-lokaali-tar-sekoilut poistanevat tämän skriptin pointin (mallia vaikkapa tpoisen repon setup1,setpu2)
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
-		#030526:onnistuu tämän askriptin toiminta myös omegan jöälkeen kunhan x 
+		#030526:onnistuu tämän skriptin toiminta myös omegan jälkeen kunhan x 
 
 		tcmd="sudo ${tcmd} "
 		spc="sudo ${spc} "
