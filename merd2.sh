@@ -70,12 +70,18 @@ csleep 2
 #HUOM.konfiguraatio olisi hyvä jättää hukkaamatta, toisaalta wanhat tauhkat hyvä saada pois sotkemasta
 #(conf kanssa olisi hyvä keksiä jotain josqs, jos ei muuten niin conf.example)
 
-#toisestakin sijainnista voisi yrittää
-if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
-	sudo cp ./${CONF_BASE}.OLD/${distro}/conf ./$(whoami).conf
-	ls -las ./*.conf
-	csleep 5
+#VAIH:toisestakin sijainnista voisi yrittää
+if  [ -s ./${CONF_BASE}/${distro}/conf ] ; then
+	sudo cp ./${CONF_BASE}/${distro}/conf ./$(whoami).conf
+else
+	if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
+		sudo cp ./${CONF_BASE}.OLD/${distro}/conf ./$(whoami).conf
+	fi
 fi
+
+ls -las ./*.conf
+csleep 5
+exit
 
 if [ -d  ./${CONF_BASE}.OLD ] ; then
 	for f in $(find ./${CONF_BASE}.OLD -type f -not -name conf) ; do
