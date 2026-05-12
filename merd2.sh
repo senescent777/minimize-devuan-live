@@ -99,9 +99,9 @@ mv ./${CONF_PT2}/* .
 dqb "FN0C"
 csleep 1
 
-if [ ! -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
-	dqb "N0 SUCH THNG AS ./${CONF_BASE}.OLD/${distro}/conf"
-fi
+#if [ ! -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then #lioenee jo turha tässä
+#	dqb "N0 SUCH THNG AS ./${CONF_BASE}.OLD/${distro}/conf"
+#fi
 
 dqb "NEXT:common_lib"
 csleep 1
@@ -110,7 +110,7 @@ if [ -x ./${CONF_LIB} ] ; then
 	#TODO?:/o/b-juttuja oli kanssa? (mv lähinnä)
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 
-	#. ./${CONF_LIB}
+	#. ./${CONF_LIB} #TODO:josko vähitellen pois kommenteista?
 	#enforce_access $(whoami) ${d0}/${CONF_BASE}
 
 	sudo chmod 0511 /opt/bin/*.bash
