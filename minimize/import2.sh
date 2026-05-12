@@ -327,19 +327,10 @@ csleep 10
 #HUOM.280426:jatkossa tämä skripti lienee turha sqroot-ympäristössä, voisi karsia siitä yuhdestä paketista
 #... paItsi että "$0 r"
 
-#VAIH:josko jatkossa tap 0/1/3 käskyttämään sq-rot pelkän echon sijaan ?
 case "${mode}" in
 	1|0|3) 
-#		echo "sq-rot ${mode} ${tgtfile}"
-#		exit
 		./sq-rot.sh ${mode} ${tgtfile}
 	;; 
-#	0|3) #tässä kohtaa tuli se juttu sqroot-ympäristön kanssa, case 0 vs minne f.tar purkautuu
-#		echo "sq-rot ${mode} ${tgtfile}"
-#		exit
-#
-##		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
-#	;;
 	r)
 		dqb "NT R"
 		csleep 10
@@ -366,8 +357,6 @@ case "${mode}" in
 		csleep 5
 	;;
 #	q)
-#		#160326:toimi
-#		#sqrot ei tarvitse tätä casea, kai
 #		# (turha case oikeastaan koska "$0 1"+"$0 r" (TODO?:jospa tekisi jotain liittyen)
 #		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
 #		
