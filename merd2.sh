@@ -17,9 +17,15 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#TODO:näiden 2 hyväksi jotain josqs
-#function parse_opts_1 () {}
-#function parse_opts_2 () {}
+#VAIH:näiden 2 hyväksi jotain josqs
+function parse_opts_1 () {
+	dqb "merd2.popts1 $1 ; $2"
+}
+
+function parse_opts_2 () {
+	
+	dqb "merd2.popts2 $1 ; $2"
+}
 
 if [ $# -gt 0 ] ; then
 	dqb "params_ok"
