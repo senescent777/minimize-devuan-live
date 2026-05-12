@@ -12,7 +12,7 @@ n=$(whoami)
 par3=""
 
 #VAIH:kolmanneksi parametriksi alihakemisto mikä dumpataan arkistoon, sen sijaan että käydään koko lista läpi ?
-#TODO?:kokonaan uusi päivitysskripti? aikavyöhyke-lokaali-tar-sekoilut poistanevat tämän skriptin pointin (mallia vaikkapa toisen repon {setup1,setup2}.bash)
+#VAIH:kokonaan uusi päivitysskripti? aikavyöhyke-lokaali-tar-sekoilut poistanevat tämän skriptin pointin (mallia vaikkapa toisen repon {setup1,setup2}.bash)
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
