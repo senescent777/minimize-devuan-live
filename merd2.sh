@@ -117,10 +117,13 @@ if [ -x ./${CONF_LIB} ] ; then
 
 else
 	echo "SMTHING WR0NG W/ ${CONF_LIB}"
-	#TODO?:/o/b-juttuja oli kanssa? (mv lähinnä)
-	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 	
+	#for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
+
+	#VAIH:/o/b-juttuja oli kanssa? (mv lähinnä)
+	sudo mv  ./${CONF_BASE}/opt/bin/*.bash /opt/bin
 	sudo chmod 0511 /opt/bin/*.bash
+
 	#josko nyt jo?
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 fi
