@@ -43,20 +43,27 @@ fi
 dqb "BEFORE L1B"
 process_lib ${d}
 csleep 2
-##20426:kokeillaanpa miten ilman e_juttuja toimaa
-#e_final
-#csleep 2
-#e_h $(whoami) ${d0} 
-#csleep 2
+
+#250426 final takaisin kommenteista jotta mutuilatetc varmasti toimisi
+e_final
+e_h $(whoami) ${d0}
 
 #jos vaikka näin?
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 csleep 2
+
 ${odio} /opt/bin/tlb.bash
 csleep 2
 
-#020426:[ -v] taakse ao. rivi?
-${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then		
+	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+else
+	dqb "FAILURE TO MUTILATE: /etc/resolc.vonf "
+fi
+
+dqb "AFTER MUTILAT.10n"
+ls -las /etc/resolv*
+csleep 6
 
 csleep 2
 ${fib}
@@ -82,7 +89,7 @@ function t2p_filler() {
 	csleep 1
 }
 
-#tarpeellinen blokki nykyään?
+#tarpeellinen blokki nykyään? TODO:selvitä
 if [ -f /.chroot ] ; then
 	${sharpy} blu*
 	${sharpy} nfs*
@@ -95,6 +102,16 @@ if [ -f /.chroot ] ; then
 	${sharpy} psmisc
 
 	t2p_filler
+	dqb "V1"
+	exit
+fi
+
+#110526:josko nyt poistuisi?
+if [ "${CONF_iface}" != "wlan0" ] ; then
+	${sharpy} wpa*
+	#etc alaiset wpa-jutut voisi hoidella myös rm-komennolla?
+	t2p_filler
+	csleep 10
 fi
 
 #====================================================================
@@ -254,7 +271,7 @@ if [ ${mode} -gt 3 ] ; then
 #	${sharpy} transmission ttyrec w2do
 #	csleep 5
 
-#TODO:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että...
+#VAIH:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että... (JOKO JO?)
 
 #	${sharpy} w3m wamerican wavemon
 #	csleep 5

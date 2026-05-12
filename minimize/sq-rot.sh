@@ -34,8 +34,6 @@ function parse_opts_1() {
 	fi
 }
 
-#TODO?:exp2/imp2/sqr komentorivien käsittelyyn muutosta? uusi optio? ,mikä?
-
 function parse_opts_2() {
 	dqb "rpus.ot.parseopts_2 )) ${1} ; ${2} (("
 
@@ -50,9 +48,10 @@ function parse_opts_2() {
 
 #e.tar purq (cefgh()) vs tämä sq-rot alku
 if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
+	#280426:self_extracting_archive-kikkailu saattaa tehdä tämän if-blkin turhaksi jatkossa ( tai sitten ei)
+
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
-	#debug=1
 
 	#gpgtar jos mahd, muuten normi-tar?
 
@@ -107,8 +106,11 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 	#DONE:tuohon alle tar -x:ään tämän import2.sh koskeva --exclude jos mahd?
 	#... tosin profiilin importointi
 
+	#VAIH:jatkossa purkamaan vain 1 bz3 ? ihan vielä ei onnaa koska gpg ja tables
+
+	#for f in $(find ${d0} -type f -name nekros1.tar.bz3 ) ; do
 	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do
-		tar --exclude import2.sh -jxvf ${f}
+		tar  -jxvf ${f} #--exclude import2.sh
 		sleep 1
 		rm ${f}
 		sleep 1
@@ -126,7 +128,10 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 	unset g
 fi
 
-#echo "aftr.unset.g";sleep 1
+#resolv.conf vielä ongelma 0305-> ? 
+[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
+csleep 5
+#tuossa yllä tosin turhahko ls
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -155,7 +160,10 @@ else
 	odio=""	
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
 	sleep 5
-	#function ocs() {???}
+
+	function ocs() {
+		echo "SMTHIN1G 15 WR0NG: ${1} ?"
+	}
 
 	function check_binaries() {
 		echo "rot.check1"
@@ -202,8 +210,6 @@ fi
 dqb "rot:AFTR common_lib"
 csleep 1
 [ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
-#csleep 1
-#echo "jts.bfr.l1b";sleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -214,7 +220,6 @@ else
 	csleep 1
 fi
 
-#echo "jts.bfr.cbin1";sleep 1
 check_binaries ${d}
 #[ $? -eq 0 ] || exit saattaa aiheuttaa ongelmia liialliset tarkistukset
 
@@ -235,10 +240,10 @@ else
 fi
 
 #echo "JUST BFR com-ort()";sleep 1
-#HUOM.olisi hyväksi siivota aiemmat tar:it kummittelemasta, tapahtuu lopussa kysymyksen takana
+#HUOM.lienee hyväksi siivota aiemmat tar:it kummittelemasta, tapahtuu skriptin lopussa kysymyksen takana
 
 function common_part() {
-	dqb "rot.common_part ${1} , ${2} , ${3}"
+	dqb "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
 
 	[ -z "${1}" ] && exit 1 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
 	[ -s ${1} ] || exit 2
@@ -256,28 +261,30 @@ function common_part() {
 	local r
 	r=0
 
-	if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
-		dqb "A"
-		dqb "gg= ${gg}"
+	if [ -v gg ] ; then #josko näin kuitenkin?
+		if  [ -s ${1}.sig ] ; then
+			dqb "A"
+			dqb "gg= ${gg}"
 
-		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemassssaolon sijaan?
-		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-			dqb "B"
+			#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemassssaolon sijaan?
+			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
+				dqb "B"
 
-			if [ -x ${gg} ] ; then
-				dqb "C"
+				if [ -x ${gg} ] ; then
+					dqb "C"
 
-				dqb " ${gg} --verify ${1}.sha.sig "
-				${gg} --verify ${1}.sha.sig
-				r=$?
+					dqb " ${gg} --verify ${1}.sig "
+					${gg} --verify ${1}.sig
+					r=$?
 
-				[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig.1
-				#csleep 1
+					#[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig.1 mikäö idea tässä?
+					#csleep 1
+				fi
 			fi
-		fi
 
-		#VAIH:sqrootin alaisuudessa testailut, toiminee
-		[ ${r} -eq 0 ] || ${NKVD} ${1}*
+			#1105326:tässä käytiin, pitäisi odio olla asetettuma että jotain tapahtuisi
+			[ ${r} -eq 0 ] || ${NKVD} ${1}*
+		fi
 	fi
 
 	csleep 1
@@ -310,15 +317,18 @@ function common_part() {
 			dqb "ko"		
 		else
 			${NKVD} ${1}* 
-			${NKVD} ${2}/*.deb ${2}/sha512sums* ${2}/*.tar*
+			${NKVD} ${2}/*.deb
+			${NKVD} ${2}/sha512sums*
+			${NKVD} ${2}/*.tar*
+
 			exit 33
-			#160426:nuo loput dellimisen kohteet eivät niin mielekkäitä koska x .. tai siis
 		fi
 	fi
 
 	csleep 1
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 
+	#110523:vöib aiheuttaa nalkutusta jos odio ei asetettu
 	csleep 1
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
@@ -342,6 +352,7 @@ function cptp2() {
 	t=$(echo ${1} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 
 	if [ -f ${t}/common_lib.sh ] ; then
+		#onkohan tuossa tarkistuksessa pointtia?
 		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
 			#csleep 1
 			${gg} --verify ${t}/common_lib.sh.sig 
@@ -349,7 +360,7 @@ function cptp2() {
 		fi
 
 		if [ -x ${t}/common_lib.sh ] ; then
-			enforce_access $(whoami) ${t} #${2} toka param turha?
+			enforce_access $(whoami) ${t}
 			dqb "running changedns.sh maY be necessary now to fix some things"
 		else
 			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
@@ -364,7 +375,7 @@ function cptp2() {
 		dqb "HAIL UKK"
 
 		${scm} 0755 ${t}
-		${scm} 0555 ${t}/*.sh #jos sittenkin 0555?
+		${scm} 0555 ${t}/*.sh
 		${scm} 0444 ${t}/conf*
 		${scm} 0444 ${t}/*.deb
 
@@ -376,24 +387,28 @@ function cptp2() {
 	dqb "ALL DONE"
 }
 
-#TODO:mode 0 vähitellen takaisin
 case "${mode}" in
-#	0)
-#		e="/"
-#		[ ${1} -eq 0 ] || e=${d}
-#		common_part ${srcfile} ${d} ${e}
-#		part3 ${d}
-#		other_horrors
-#		[ $? -eq 0 ] && echo "NEXT: import2 2 ?"
-#	:;
-	1) #
+	1)
 		common_part ${srcfile} ${d} /
-		csleep 1
-	;; 
-	3)  #0 poistettu 040426 (takaisin josqs vai rai rai?)
-
+	;;
+	#VAIH:vähintään toinen case toimimaan sqroot-ymp (ainakin liittyi se että tulisi olla oikeat versiot .deb-paketeista)
+	#... alkaisikohan jo 110526 olla tämä ja seur case ok?
+	0)
+		e="/"
+		[ ${mode} -eq 0 ] || e=${d}
+		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
+		f=$(dirname ${f})
+		common_part ${srcfile} ${d} ${e}
+		ocs gpg
+		
+		part3 ${f}
+		other_horrors
+	;;
+	3)
+		#VAIH:mielellään suorituksen keskeytys aikaisessa vaiheessa mikäli gpg hankaa vastaan, erityisesti ennen lähteen hukkaamista
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
+		ocs gpg
 		part3 ${d}
 		other_horrors
 	;;
@@ -443,7 +458,7 @@ case "${mode}" in
 esac
 
 #poistelu ajank vain jos tehty lähteelle jotain sitä ennen?
-if [ -s ${srcfile} ] ; then
+if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
 	read -p " U  WANT 2 RM SOURCE ?" confirm
 	[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
 fi
