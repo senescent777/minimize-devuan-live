@@ -49,7 +49,6 @@ function parse_opts_2() {
 	dqb "(imp2.parseopts_2 ; ${1} ; ${2} ;"
 
 	if [ -f ${2} ] || [ -d ${2} ] ; then
-		
 		if [ -z "${srcfile}" ] ; then
 			if [ "${2}" != "-v" ] ; then	
 				srcfile=${2}
@@ -65,77 +64,39 @@ csleep 1
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#190326:vissiin tämän haaran kanssa jutut toimivat jnkn verran ja thats it
 	if [ -s ${d0}/$(whoami).conf ] ; then
-		echo "ALT.C0NF1G"
+		echo "ALT.C0fn.1G"
 		sleep 2
 		. ${d0}/$(whoami).conf
 	else
 		if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-			echo "ordnary cqf"
+			echo "ord1nary cqf"
 			. ${d}/conf
 		else
 		 	exit 57
-		fi	
+		fi
 	fi
 
-	#debug=1
-	dqb "FALLBACK"
-	sleep 5
-
-	odio=$(which sudo)
-	
-	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
-	sleep 5
-
 	function check_binaries() {
-		dqb "imp2.check1"
-
-		mkt=$(${odio} which mktemp)
-		scm=$(${odio} which chmod)
-		sah6=$(${odio} which sha512sum)
-
-		srat=$(${odio} which tar)
-		#eXit jos srat ei?
-
-		gg=$(${odio} which gpg)
-		som=$(${odio} which mount)
-		uom=$(${odio} which umount)
+		echo "generic.replacement.4.check_bin"
 	}
 
 	function check_binaries2() {
-		echo "imp2.check2"
-	
-		som="${odio} ${som}"
-		uom="${odio} ${uom}"
-		srat="${odio} ${srat}"
+		echo "generic.replacement.4.check_bin2"
 	}
 
-	function part3() {
-		dqb "imp2.part3 :NOT SUPPORTED"
-		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount?
-	}
-
-	function other_horrors() {
-		dqb "AZATH0TH AND OTHER H0RR0RR55.6"
-	}
+	odio="sudo"
+	mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin?
+	srat=$(${odio} which tar)
+	srat="${odio} ${srat} "
+	som=$(${odio} which mount)
+	uom=$(${odio} which umount)
+	som="${odio} ${som}"
+	uom="${odio} ${uom}"
 
 	function ocs() {
-		echo "======IPM2.=OCS( ${1} )="
-		which ${1}
-		echo "==================="
+		echo "ocs()))) ${1} ?"
 	}
-
-	#barm vuokxi
-	function enforce_access() {
-		dqb "imp2.3nf :NOT SUPPORTED"
-	}
-
-	for opt in $@ ; do
-		parse_opts_1 ${opt}
-		parse_opts_2 ${prevopt} ${opt}
-		prevopt=${opt}
-	done
 fi
 
 dqb "imp2:AFTR common_lib"
@@ -197,126 +158,19 @@ else
 fi
 
 dqb "ip2.m.Lpgqq"
-#
-#function common_part() {
-#	dqb "common_part ${1} , ${2} , ${3}"
-#
-#	[ -z "${1}" ] && exit 1 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
-#	[ -s ${1} ] || exit 2
-#	[ -r ${1} ] || exit 3
-#	[ -z "${3}" ] && exit 4
-#
-#	[ -z "${2}"  ] && exit 11
-#	[ -d ${2} ] || exit 22
-#	[ -d ${3} ] || exit 44
-#
-#	dqb "paramz_0k"
-#	csleep 1
-#	cd /
-#
-#	local r
-#	r=0
-#
-#	if [ -v gg ] && [ -s ${1}.sha.sig ] ; then
-#		dqb "A"
-#		dqb "gg= ${gg}"
-#
-#		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemassssaolon sijaan?
-#		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-#			dqb "B"
-#
-#			if [ -x ${gg} ] ; then
-#				dqb "C"
-#
-#				dqb " ${gg} --verify ${1}.sha.sig "
-#				${gg} --verify ${1}.sha.sig
-#				r=$?
-#
-#				[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig.1
-#				#csleep 1
-#			fi
-#		fi
-#
-#		if [ ${r} -eq 0 ] ; then
-#			dqb "KÖ"
-#		else
-#			${NKVD} ${1}.*
-#			exit ${r}
-#			#TODO?:tähän jotain josqs
-#		fi
-#	fi
-#
-#	csleep 1
-#
-#	local cfk=1
-#
-#	if [ -s ${1}.sha ] ; then
-#		dqb "KHAZAD-DUM"
-#		dqb "gg= ${gg}"
-#
-#		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
-#		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f)
-#		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
-#
-#		if [ "${aa}" == "${ab}" ] ; then
-#			dqb "aa=ab= ${aa}"
-#			cfk=0
-#		fi
-#
-#		csleep 1
-#	else
-#		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
-#	fi
-#
-#	if [ ${cfk} -gt 0 ] ; then
-#		read -p " U  SURE ?" confirm
-#	
-#		#TODO?:jos ei varmistusta ni sietäisi delliä *.deb ?
-#
-#		if [ "${confirm}" == "Y" ] ; then
-#			dqb "ko"		
-#		else
-#			pwd
-#			sleep 5
-#			${NKVD} ${1}* ./*.deb ./sha512sums* ./*.tar*
-#			exit 33
-#
-#			#TODO?:testaa tämä vähitellen
-#		fi
-#	fi
-#
-#	csleep 1
-#	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
-#
-#	csleep 1
-#	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
-#	[ $? -eq 0 ] || exit 36	
-#
-#	#$d alta tar-juttuja pois tässä? ehkä ei aina kannata
-#	#csleep 1
-#	#251225:mitä jos sen sisemmän sha-tarkistuksen tekisi silloinq common_lib pois pelistä?
-#	
-#	csleep 1
-#	dqb "${srat} DONE"
-#}
 
+#HUOM.280426:käytetäänk tätä jossain? jep, ei vielä pois
 function cptp2() {
-	dqb "c tp2 ${1}, ${2}, ${3}"
-
 	[ -z "${1}" ] && echo 99
-	[ -z "${2}" ] && echo 98
 	[ -d ${1} ] || exit 97
-
-	dqb "cptp2:pars ok"
-	csleep 1
 
 	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
 	local t
 	t=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 	
 	if [ -f ${t}/common_lib.sh ] ; then
+		#pointti?
 		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
-			#csleep 1
 			${gg} --verify ${t}/common_lib.sh.sig 		
 			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"		
 		fi
@@ -325,7 +179,8 @@ function cptp2() {
 		csleep 10
 
 		if [ -x ${t}/common_lib.sh ] ; then
-			enforce_access $(whoami) ${t} #${2} toka param turha?
+			enforce_access $(whoami) ${t}
+
 			dqb "running changedns.sh maY be necessary now to fix some things"
 		else
 			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
@@ -335,23 +190,14 @@ function cptp2() {
 		csleep 10
 	fi
 
-	csleep 1
-
-	#090326:toimiiko toivotulla tavalla? toivottavasti nytq tr-kikkailut kOrjattu
 	if [ -d ${t} ] ; then
-		dqb "HAIL UKK"
-
 		${scm} 0755 ${t}
 		${scm} 0555 ${t}/*.sh
 		${scm} 0444 ${t}/conf*
 		${scm} 0444 ${t}/*.deb
-
-		csleep 1
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
-	csleep 1
-	dqb "ALL DONE"
 }
 
 dqb "HPL"
@@ -359,11 +205,11 @@ dqb "HPL"
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3} siis)
 
 fox=$(${odio} which firefox)
+#130526;josko jo toimisi "$0 r" ? entä exp2 jutut?
 
-#160326:toimiiko edelleen? "$0 q"-reittiä ainakin
 function tpr() {
 	dqb "UPIR ) ${1} , ${2} , ${3} ("
-	csleep 1
+	csleep 10
 
 	[ -z "${1}" ] && exit 8
 	[ -z "${2}" ] && exit 9
@@ -384,14 +230,13 @@ function tpr() {
 	fi
 
 	dqb "tpr.pars_ok"
-	csleep 1
+	csleep 10
 
 	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
 	. ${1}/${3}
 	[ $? -gt 0 ] && exit 19
 
 	dqb "INCLUDE OK"
-	#csleep 1
 
 	local q
 	local r
@@ -406,24 +251,24 @@ function tpr() {
 
 	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/${2}
 	[ $? -gt 0 ] && exit 22
-	csleep 1
+	csleep 10
 
 	dqb "JUST BEFORE impo_prof"
-	csleep 1
+	csleep 10
 
 	imp_prof esr $(whoami) ${q}
 	dqb $?
-	csleep 1
+	csleep 10
 
 	dqb "UP1R D0N3"
-	csleep 1
+	csleep 10
 }
 
 #sqrot ei tarvitse tätä blokkia (pl. ehkä -h) 
 #HUOM.060426:tämä case-esac voisi toimia ilmankin kirjastoa, qhan vain konftdsto löytyy
 #110426:tässäkin "-v" tarpeen?
 
-#TODO:ne kiukuttelut pois jo?
+#TODO?:ne kiukuttelut pois jo? mitkä?
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii?
@@ -442,36 +287,22 @@ case "${mode}" in
 		#remember:to_umount olisi hyvä muistuttaa kuitenkin
 	;;
 	2)
-		#081225:toimiiko oikein kun "$0 2 -v" ?
-		dqb "T=-1 K (Eugen K.)"
-		csleep 1
-
 		${uom} ${CONF_dir}
 		csleep 1
 		${som} | grep ${CONF_dir}
-
-		[ $? -eq 0 ] && echo "NEXT:  \${distro}/doIt6.sh maybe | sleep \$delay;ifup \$iface;changedns if necessary"
-		#mode=-3
 	;;
 	-h)
 		usage
-		#mode=-3
 		exit
 	;;
 esac
 
-dqb "debug: 1"
-echo "mode: ${mode} "
-echo "srcfile: ${srcfile} "
 [ -z "${srcfile}" ] && exit 44
 
 if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then #eka tark oli -s , vissiin oltava taas
 	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	dqb "SD"
 else
-	#220326:myös sqroot-ymp tähän jouduttu, syy muu kuin ilmeinen?
-	#010426:exitin ohitus jos ollaan sqrootissa?
-	
 	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	[ -f ${srcfile} ] || dqb "NOT A FILE"
 	dqb "SMTHING WRONG WITH ${srcfile} "
@@ -488,67 +319,22 @@ else
 	[ "${confirm}" == "Y" ] || exit 33
 fi
 
-#140326:toimiikohan nuo debug-hommat kuten tarkoitus?
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "srcfile=${srcfile}"
-csleep 1
+csleep 10
+
+#HUOM.280426:jatkossa tämä skripti lienee turha sqroot-ympäristössä, voisi karsia siitä yuhdestä paketista
+#... paItsi että "$0 r"
 
 case "${mode}" in
-	1) 
-		echo "sq-rot ${mode} ${tgtfile}"
-		exit
-#		common_part ${srcfile} ${d} /
-#		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
-#		csleep 1
+	1|0|3) 
+		./sq-rot.sh ${mode} ${tgtfile}
 	;; 
-	0|3) 
-		echo "sq-rot ${mode} ${tgtfile}"
-		exit
-		
-#		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
-#		#110326:toimii edelleen mod pientä kiukuttelua josqs
-#		#160326:sama, kiukuttelulle voisi tosin tehdä jotain
-#		#190326:onnistui sqrootin alaisuudessa paketteja asennella
-#		
-#		#010426:edelleen osasi sqrtot alla
-#		#... kiukuttelut sqrot alla liittyvät enemmän wdm-pakettiin kuin itse skriptiin?
-#		#sha512sums.txt.bak suattaapi liittyä vua n suattaapi ettei
-#	
-#		
-#		#myös "libc6:amd64 depends on libgcc-s1; however:" joutaisi tehdä jotain?
-#		
-#		echo "ZER0 S0UND"
-#		csleep 1
-#		dqb " ${3} ${distro} MN"
-#		csleep 1
-#		e="/"
-#
-#			if [ ${1} -eq 0 ] ; then
-#				#mitense alt_root? ensisijaisesti sitä pakettien "uutta" asennustapaa vartebn
-#				#... siinä piti vielä prujata se hmistorakanne ainakin
-#
-#				tar -tf ${srcfile} | grep f.tar | head -n 1
-#				echo "... SHOULD BE MOVED UNDER ${d} , AFTER THAT:RUN $0 3 ${d}/f.tar"
-#				exit 99
-#			fi
-#
-#		[ ${1} -eq 0 ] || e=${d}
-#		csleep 1
-#		common_part ${srcfile} ${d} ${e}
-#
-#		csleep 1
-#		dqb "c_p_d0n3, NEXT: pp3"
-#		csleep 1
-#
-#		part3 ${d} 
-#		other_horrors
-#
-#		csleep 1
-#		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
-	;;
-	r) #160326:ehkä tämä jo toimii
-	#sqrot ei tarvitse tätä casea, kai
+	r)
+		dqb "NT R"
+		csleep 10
+
 		[ -d ${srcfile} ] || exit 23
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
@@ -556,17 +342,22 @@ case "${mode}" in
 		
 		[ -z "${fox}" ] && exit 26
 		[ -x ${fox} ] || exit 27
+		[ -s ~/${CONF_default_arhcive2} ] || exit 29
 
 		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
+
 		echo $?
 		csleep 2
 		echo "JUST VEFORE TPR"
+		csleep 2
+
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
+
+		dqb "XP R"
+		csleep 5
 	;;
 #	q)
-#		#160326:toimi
-#		#sqrot ei tarvitse tätä casea, kai
-#		# (turha case oikeastaan koska "$0 1"+"$0 r" (TODO:jospa tekisi jotain liittyen)
+#		# (turha case oikeastaan koska "$0 1"+"$0 r" (TODO?:jospa tekisi jotain liittyen)
 #		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
 #		
 #		[ -z "${fox}" ] && exit 26
@@ -585,38 +376,6 @@ case "${mode}" in
 #		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
 #		tpr ${d0} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 #	;;
-#	k)
-#		#161225:toimii, sq-root-ymp ainakin
-#		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
-#		[ -d ${srcfile} ] || exit 22
-#		dqb "KLM"
-#		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd find out?)
-#
-#		if [ -v gg ] ; then
-#			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-#				dqb "NOP"
-#				csleep 1
-#
-#				#for f in $(fnid $srcfile -type f -name '*.sig') ; do
-#				#	g=$(echo $f | cut -d . -f 1,2)
-#				#	check=$(smthing)
-#				#	[ $check ] && gg --import $g
-#				#	rm $g	
-#				#done
-#
-#				dqb "${gg} --import ${srcfile}/*.gpg soon"
-#				csleep 1
-#
-#				${gg} --import ${srcfile}/*.gpg
-#				csleep 1
-#
-#				[ ${debug} -eq 1 ] && ${gg} --list-keys
-#				csleep 2
-#			fi
-#		else
-#			dqb "NO-GO-THEOREM"
-#		fi
-#	;;
 	-3)
 		dqb "do_Nothing()"
 	;;
@@ -625,7 +384,7 @@ case "${mode}" in
 	;;
 esac
 
-cptp2 ${d} ${CONF_iface} #toka param turha?
+cptp2 ${d}
 cd ${olddir}
 #ettei umount unohdu 
 
