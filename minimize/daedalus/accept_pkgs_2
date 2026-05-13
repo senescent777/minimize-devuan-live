@@ -30,7 +30,10 @@ gpgconf
 gtk2-engines-pixbuf
 python3.11-minimal
 python3.11
+#
 menu
+twm
+#
 psmisc
 git-man
 #
@@ -42,7 +45,10 @@ xfonts
 lsb-base
 man-db
 #
+#x11-utils erikseen?
+# x11-apps depends on libx11-xcb1 
 x11
+#
 xorg
 #route ennne dhcp
 iproute2

@@ -10,6 +10,8 @@
 #dirmngr joihinkin juttuihin tämä suorastaan tarvitaan, gpgv tuntuu vain sotkevan
 gpgv
 #
+#python3-pil-jutut jemmaan 090226, loppuu purpatus prkl
 python3-pil
-#JOSKO NYT TULISI MUKAAN
+#parenpi pitää libav tuossa alla ei-kommentoituna (swreample kanssa)
 libav
+libsw
