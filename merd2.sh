@@ -66,7 +66,6 @@ csleep 2
 #HUOM.konfiguraatio olisi hyvä jättää hukkaamatta, toisaalta wanhat tauhkat hyvä saada pois sotkemasta
 #(conf kanssa olisi hyvä keksiä jotain josqs, jos ei muuten niin conf.example)
 
-#VAIH:toisestakin sijainnista voisi yrittää (pitäisikö myös siirtää aiemmaksi?)
 if  [ -s ./${CONF_BASE}/${distro}/conf ] ; then
 	sudo cp ./${CONF_BASE}/${distro}/conf ./$(whoami).conf
 else
@@ -87,13 +86,10 @@ ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 
 dqb "TGI KO"
 csleep 2
-#exit 59
 
 if [ -d  ./${CONF_BASE}.OLD ] ; then
 	for f in $(find ./${CONF_BASE}.OLD -type f -not -name conf) ; do
-		#dqb "sudo rm ${f}"
 		sudo rm ${f}
-		#csleep 1
 	done
 fi
 
@@ -112,20 +108,17 @@ dqb "NEXT:common_lib"
 csleep 1
 
 if [ -x ./${CONF_LIB} ] ; then
-	. ./${CONF_LIB} #VAIH:josko vähitellen pois kommenteista?
+	. ./${CONF_LIB}
 	enforce_access $(whoami) ${d0}/${CONF_BASE}
 
 else
 	echo "SMTHING WR0NG W/ ${CONF_LIB}"
 	
-	#for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
-
-	#VAIH:/o/b-juttuja oli kanssa? (mv lähinnä)
-	sudo mv  ./${CONF_BASE}/opt/bin/*.bash /opt/bin
+	sudo mv  ./${CONF_BASE}/opt/bin/*.bash /opt/bin #entä zxcv-jutut?
 	sudo chmod 0511 /opt/bin/*.bash
 
 	#josko nyt jo?
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 fi
 
-#210426:vissiin onnistui jo vetämään 7thson-oksan, kertaalleen?
+#210426:vissiin onnistui jo vetämään 7thson-oksan, kertaalleen? entä toinen/kolmas?
