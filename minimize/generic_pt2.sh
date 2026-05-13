@@ -54,6 +54,7 @@ csleep 2
 
 ${odio} /opt/bin/tlb.bash
 csleep 2
+#TODO:/o/b/zxcv* oikeuksien pakotus kanssa
 
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then		
 	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}

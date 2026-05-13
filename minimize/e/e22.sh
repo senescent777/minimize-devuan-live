@@ -660,6 +660,7 @@ function e22_sarram() {
 	
 	#VAIH:minimize-devuan-live greppaus pois, juurikin ao. komentoon (jatkossa kai conf mukaan)
 	#for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD | grep -v minimize-devuan-live ) ; do 
+	#130526:ehkä ok tuo ao. greppailu
 
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD | grep -v ${CONF_PT2} ) ; do 
 		${sah6} ${f} >> ${3}
@@ -673,7 +674,7 @@ function e22_sarram() {
 		done
 	fi
 
-	#VAIH:nose että meneekö o/b/bash-jutut mukaan listaan vai ei? (entä pakettiin?)
+	#130526:lienee jo .bash-tdstot listassa mukana
 	${scm} a+r /opt/bin/*.bash
 	dqb "JUST BEFORE /o/b/ * . bash"
 	csleep 10
