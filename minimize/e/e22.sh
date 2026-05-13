@@ -263,17 +263,16 @@ function e22_home() {
 #120426:vissiin kopsaa kohteeseen mitä pitääkin
 
 function luca() {
-[ -z "${1}" ] && exit 11
-[ -s ${1} ] || exit 12
-${srat} -rvf ${1} /etc/timezone /etc/localtime 
-local f
-for f in $(find /etc -type f -name "local*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
-[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
+	[ -z "${1}" ] && exit 11
+	[ -s ${1} ] || exit 12
+
+	${srat} -rvf ${1} /etc/timezone /etc/localtime
+
+	local f
+	for f in $(find /etc -type f -name "local*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
+	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 }
 
-#slim/xdm/wdm-spesifinen konfiguraatio saattaa tulla jo mukaan myös
-#020426:ei vedä verkosta mitään ni ei tartte lisätestejä?
-#140426:kopsannee kohteeseen mitä pitääkin
 #(meneekö rules.* kohteeseen useamman kerran?)
 #200426:taitaa toimia edelleen
 
