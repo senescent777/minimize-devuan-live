@@ -24,8 +24,6 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-#VAIH:"$0 -1 -v" , toimiiko oikein?
-
 if [ $# -gt 0 ] ; then
 	mode=${1}
 	[ -f ${1} ] && exit 99
@@ -88,13 +86,14 @@ else
 	}
 
 	odio="sudo"
-	mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin?
+	mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin? tpr() ainakin
 	srat=$(${odio} which tar)
 	srat="${odio} ${srat} "
 	som=$(${odio} which mount)
 	uom=$(${odio} which umount)
 	som="${odio} ${som}"
 	uom="${odio} ${uom}"
+	scm=$(${odio} which chmod)
 
 	function ocs() {
 		echo "ocs()))) ${1} ?"
@@ -131,12 +130,13 @@ check_binaries ${d}
 check_binaries2
 [ $? -eq 0 ] || exit
 
-#-x sifd - testi olisi myös idea
-[ -v CONF_iface ] && ${sifd} ${CONF_iface}
+if [ ! -z "${sifd}" ] && [ -v CONF_iface ] ; then
+	${sifd} ${CONF_iface}
+fi
 
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
-echo "mkt= ${mkt} "
+dqb "mkt= ${mkt} "
 
 [ -v srat ] || exit 8
 [ -z "${srat}" ] && exit 10
@@ -212,7 +212,7 @@ fox=$(${odio} which firefox)
 
 function tpr() {
 	dqb "UPIR ) ${1} , ${2} , ${3} ("
-	csleep 5
+	csleep 2
 
 	[ -z "${1}" ] && exit 8
 	[ -z "${2}" ] && exit 9
@@ -233,7 +233,7 @@ function tpr() {
 	fi
 
 	dqb "tpr.pars_ok"
-	csleep 5
+	csleep 2
 
 	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
 	. ${1}/${3}
@@ -242,7 +242,7 @@ function tpr() {
 
 	local q
 	local r
-	q=$(mktemp -d)
+	q=$(${mkt} -d) #toimisiko näin?
 	[ $? -gt 0 ] && exit 20
 
 	dqb "JUST BEFORE TAR ${1}/${2}"
@@ -253,27 +253,23 @@ function tpr() {
 
 	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/${2}
 	[ $? -gt 0 ] && exit 22
-	csleep 4
+	csleep 2
 
 	dqb "JUST BEFORE impo_prof"
-	csleep 5
+	csleep 2
 
 	imp_prof esr $(whoami) ${q}
 	dqb $?
-	csleep 5
+	csleep 2
 
 	dqb "UP1R D0N3"
-	csleep 5
+	csleep 2
 }
 
-#sqrot ei tarvitse tätä blokkia (pl. ehkä -h) 
-#HUOM.060426:tämä case-esac voisi toimia ilmankin kirjastoa, qhan vain konftdsto löytyy
-#110426:tässäkin "-v" tarpeen?
-
-#TODO?:ne kiukuttelut pois jo? mitkä?
+#130526:vaikutti toimivan tämä blokki (m itä nyut common_lib oikeudet ja gpg:n puute saattavat vähän sotkea)
 case "${mode}" in
 	-1) 
-		# "$0 -1 -v" , miten toimii?
+		# "$0 -1 -v" , miten toimii? vissiin
 		part=/dev/disk/by-uuid/${CONF_part0}
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 		c=$(grep -c ${CONF_dir} /proc/mounts)
@@ -301,7 +297,7 @@ esac
 
 [ -z "${srcfile}" ] && exit 44
 
-if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then #eka tark oli -s , vissiin oltava taas
+if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
 	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	dqb "SD"
 else
@@ -311,7 +307,6 @@ else
 	exit 55
 fi
 
-#[ -s ${srcfile} ] || exit 34 #pitäIsikö olla if-blokin sisällä?
 [ -r ${srcfile} ] || exit 35
 
 if [ "${mode}" == "-3" ] || [ "${mode}" == "r" ] ; then
@@ -324,18 +319,18 @@ fi
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "srcfile=${srcfile}"
-csleep 10
+csleep 5
 
 #HUOM.280426:jatkossa tämä skripti lienee turha sqroot-ympäristössä, voisi karsia siitä yuhdestä paketista
 #... paItsi että "$0 r"
 
 case "${mode}" in
-	1|0|3) 
+	1|0|3) #130526:vielä ei mene ihan nappiin tässä, common_lib.sh oikeudet saattavat liittyä
 		./sq-rot.sh ${mode} ${tgtfile}
 	;; 
 	r)
 		dqb "NT R"
-		csleep 10
+		csleep 5
 
 		[ -d ${srcfile} ] || exit 23
 		[ -v CONF_default_arhcive ] || exit 24
@@ -348,10 +343,10 @@ case "${mode}" in
 
 		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
 
-		echo $?
-		csleep 2
-		echo "JUST VEFORE TPR"
-		csleep 2
+#		echo $?
+#		csleep 2
+#		echo "JUST VEFORE TPR"
+#		csleep 2
 
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 

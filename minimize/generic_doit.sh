@@ -303,7 +303,9 @@ ${asy}
 e_final
 e_h $(whoami) ${d0}
 
-#TODO:/o/b/zxcv* oikeuksien pakotus kanssa
+${sco} 0:0 /opt/bin/*
+${scm} 0400 /opt/bin/zxcv*
+
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
 fi
