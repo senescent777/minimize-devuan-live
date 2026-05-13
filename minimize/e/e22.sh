@@ -341,6 +341,20 @@ function e22_acol() {
 
 [ -v CONF_BASEURL ] || exit 6
 
+function e22_pre_e() {
+	local p
+	local q
+
+	if [ "${CONF_iface}" == "eth0:1" ] ; then
+		for p in $@ ; do
+			q=$(echo ${p} | grep -v dhcp)
+			[ -z "${q}" ] || ${shary} ${q}
+		done
+	else
+		for p in $@ ; do ${shary} ${p} ; done
+	fi
+}
+
 #verkkoyhteyttä vaativat jutut vain jos testgris ei asetettu? vaiko kutsuvan koodin puolella tarkistus?
 #140426:muuten mennee pakettiin jutut paitsi dhclient-script?
 #160426:toimii
