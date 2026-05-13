@@ -64,6 +64,8 @@ csleep 1
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
+	#130526:else-haara tarpeellinen joissain tilanteissa, ei poisteta
+
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
 		sleep 2
@@ -206,10 +208,11 @@ dqb "HPL"
 
 fox=$(${odio} which firefox)
 #130526;josko jo toimisi "$0 r" ? entä exp2 jutut?
+#josko profs.sh jotenkin liittyy profiili-kiukutteluun?
 
 function tpr() {
 	dqb "UPIR ) ${1} , ${2} , ${3} ("
-	csleep 10
+	csleep 5
 
 	[ -z "${1}" ] && exit 8
 	[ -z "${2}" ] && exit 9
@@ -230,12 +233,11 @@ function tpr() {
 	fi
 
 	dqb "tpr.pars_ok"
-	csleep 10
+	csleep 5
 
 	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
 	. ${1}/${3}
 	[ $? -gt 0 ] && exit 19
-
 	dqb "INCLUDE OK"
 
 	local q
@@ -251,17 +253,17 @@ function tpr() {
 
 	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/${2}
 	[ $? -gt 0 ] && exit 22
-	csleep 10
+	csleep 4
 
 	dqb "JUST BEFORE impo_prof"
-	csleep 10
+	csleep 5
 
 	imp_prof esr $(whoami) ${q}
 	dqb $?
-	csleep 10
+	csleep 5
 
 	dqb "UP1R D0N3"
-	csleep 10
+	csleep 5
 }
 
 #sqrot ei tarvitse tätä blokkia (pl. ehkä -h) 

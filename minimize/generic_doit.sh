@@ -234,7 +234,7 @@ if [ ${mode} -gt 1 ] ; then
 	#nollasta ei tarttisi välittää koska exit aiempana
 	if [ -v LCF666 ] ; then
 		c13=$(env | grep LC_TIME | grep -c ${LCF666})
-		#[ $c13 -gt 0 ] && c14=0
+		#[ $c13 -gt 0 ] && c14=0 #josqs pois kommenteista tuo rivi?
 		#profit
 	fi
 fi
@@ -264,11 +264,10 @@ pre_part2
 #ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
 c14=$(find ${d} -name "*.deb" | wc -l)
 
-#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu
+#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu (vissiin ok?)
 [ ${c14} -gt 0 ] || CONF_removepkgs=0
 
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
-#voisi kai tässä kohta anuo kikialuit palautaa kommenteista (040326)
 
 #===================================================PART 3===========================================================
 message
@@ -284,25 +283,27 @@ csleep 1
 if [ ! -f /.chroot ] ; then #ehto pois jatkossa vai ei?
 	#[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh
-	#toistaiseksi tässä kunnes... Jotain
-	dqb "AFTR SCM"
-	csleep 9
-	dqb "JUST BEFORE IMP R"
-	csleep 10
+
+#	#toistaiseksi tässä kunnes... Jotain
+#	dqb "AFTR SCM"
+#	csleep 9
+#	dqb "JUST BEFORE IMP R"
+#	csleep 10
 
 	${d0}/import2.sh r ${d0} -v
 	echo $?
-	csleep 5
+	csleep 3
 fi
 
 dqb "PR0F IMPORT DONE?"
-csleep 10
+csleep 5
 
 jules
 ${asy}
 e_final
 e_h $(whoami) ${d0}
 
+#TODO:/o/b/zxcv* oikeuksien pakotus kanssa
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
 fi
