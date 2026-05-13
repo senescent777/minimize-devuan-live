@@ -1,27 +1,18 @@
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
 
-#if [ -v CONF_pubk ] ; then
-#	dqb "Å"
-#else
-#	#050326:jatkosäätöjä tähän vai ei?
-#	arsch=$(${odio} find / -type f -name "keys.conf" | head -n 1)
-#
-#	if [ -z "${arsch}" ] ; then
-#		dqb "B"
-#	else
-#		if [ -s ${arsch} ] ; then
-#			. ${arsch}
-#		else
-#			dqb "C"
-#		fi	
-#	fi
-#
-#	csleep 1
-#	unset arsch
-#fi
+if [ ! -v CONF_pubk ] ; then
+	a=$(${odio} find / -type f -name "keys.conf" | head -n 1)
+	
+	if [ ! -z "${a}" ] ; then
+		if [ -s ${a} ] ; then
+			. ${a}
+		fi
+	fi
 
-#170326:lienee ok
+	unset a
+fi
+
 function e22_hdr() {
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
