@@ -212,10 +212,6 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
-#290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa? (vielä 120426?)
-#040426:ei tarvinne CONF_testgris-ehtoa ainakaan verkkoyhteyden varalta, ei vedä kaloja
-#140426:vissiin toimiva fktio (ainakin ennen merd2-kikkailua)
-#160426:taitaa toimia edelleen
 function e22_home_pre() {
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
@@ -231,12 +227,7 @@ function e22_home_pre() {
 		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
 	fi
 
-	#HUOM.010526:toimiiko tämä kohta? e_final käyttöön?
-	#${scm} a-w  /opt/bin/*
-	#${scm} go-r /opt/bin/*
-	#${sco} 0:0 /opt/bin/*
 	e_final
-
 	${srat} -rvf ${1} /opt/bin
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
@@ -247,11 +238,6 @@ function e22_home_pre() {
 		${srat} -rvf ${1} ${t}
 	done
 }
-
-#290326:toimii, mutta $3 kanssa ehkä jotain?
-#29426:edelleen toimii?
-#140426:vissiin kopsaa kohdepakettin mitä pitääkin/kunnes toisin todistetaaN)
-#160426:taitaa toimia edelleen
 
 function e22_home() {
 	[ -z "${1}" ] && exit 67
