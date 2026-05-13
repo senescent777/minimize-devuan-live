@@ -24,7 +24,7 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-#VAIH:"$0 1 tgtfile -v" - osaako menetellä oikein?
+#VAIH:"$0 1 tgtfile -v" - osaako menetellä oikein? (vielä 05/26?)
 
 function parse_opts_1() {
 	dqb "rot.parse_opts_1() ${1} ((()"
@@ -52,8 +52,7 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
-
-	#gpgtar jos mahd, muuten normi-tar?
+	#gpgtar:kandeeko koskea?
 
 	echo "A"
 	p=$(pwd)
@@ -62,10 +61,6 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 	if [ ! -z "${g}" ] ; then
 		q=$(find . -name "dgsts.?" )
 		cd ..
-
-		#110326:jotain urputusta oli, mksums bugittaa
-		#010426:jotain urputusta oli edelleen ennen "B"-osaa, selvitä 
-		#... vissiin vain se että sqroot sisällä ei tdstojen sisältö täsmää listan sisältöön
 
 		for r in ${q} ; do
 			dqb " -c ./${p}/${r}"

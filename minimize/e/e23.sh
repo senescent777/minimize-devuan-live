@@ -110,7 +110,6 @@ function e23_other_pkgs() {
 	[ -z "${1}" ] && exit 11
 	e22_pre_e ${E22_GI}
 
-	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	e22_pre_e ${E22_GG}
 
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"

@@ -472,6 +472,7 @@ function e22_config1() {
 #120426:vissiin menee kohteeseen fedi ja profs (mutta meneekö 1. mainittu myös juureen?)
 
 function e22_settings() {
+	dqb "e22_settings()))) ${1} ; ${2} ;  ) ${3} ))))))) "
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
 	[ -z "${2}" ] && exit 44
@@ -497,6 +498,7 @@ dqb "#TODO:kts miten suhtautuu e23_qrs():n ? osa ao. riveistä pois/kutsuva kood
 csleep 1
 
 function e22_home_pre() {
+	dqb "e22_home_pre(${1} ; ${2} ; ${3} ; ${4} ; ${5} ; )))))))())("
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
@@ -504,6 +506,7 @@ function e22_home_pre() {
 	[ -z "${3}" ] && exit 71
 	[ -z "${4}" ] && exit 73
 	[ -z "${5}" ] && exit 79
+	dqb "pars.0k"
 
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		e22_config1 ~ ${4}
@@ -526,9 +529,13 @@ function e22_home_pre() {
 	for t in $(find ~ -type f -name ${4} ) ; do
 		${srat} -rvf ${1} ${t}
 	done
+
+	#exit
 }
 
+#130526:nyt jos ei enää tulisi fediverse.tar juureebn?
 function e22_home() {
+	dqb "e22_home() $1 ) $2 ) $3 "
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
@@ -536,16 +543,24 @@ function e22_home() {
 	[ -z "${3}" ] && exit 71
 
 	local t
-	local f
+	#local f
 
-	${srat} -rvf ${1} ${2}/../${3}
-	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
-	[ ${t} -lt 1 ] && exit 72
+	#${srat} -rvf ${1} ${2}/../${3}
 	csleep 1
+	dqb "home.pt2"
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 	${srat} ${TARGET_TPX} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
+
 	csleep 1
+	dqb "home.pt3"
+
+	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
+	[ ${t} -lt 1 ] && exit 72
+
+	dqb "e22_home() done() "
+	csleep 1
+	#exit
 }
 
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)

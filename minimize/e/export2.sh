@@ -111,7 +111,8 @@ fi
 
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
-
+E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
+	
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
 	[ $? -gt 0 ] && exit 66
@@ -158,7 +159,7 @@ case "${mode}" in
 	3|4) 
 		#3 taisi toimia 04/26 tienoilla ainakin kerran
 		# 21426 onnasi viimeksi paketin rakennus tässä moodissa, sisältökin jnkin verran toimaa
-		#130526 taas testikierros menossa mode 3:n tuotoksen kanssa
+		#130526 taas testikierros menossa mode 3:n tuotoksen kanssa, enimmäkseen ok?
 
 		#4 toimi viimeksi 180426 (uusi testikieRRos uudella paketilla 100526, ehkä ok pl ffox profiili?)
 	
@@ -180,7 +181,7 @@ case "${mode}" in
 		fi
 		
 		#110526:config.tar.bz2, fediverse.tar ja profs.sh tulisi kyllä löytyä kohde-paketista edelleen
-		#130526;profiilit jo toimivat tuolloin?		
+		#130526:profiilit jo toimivat tuolloin?		
 
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
@@ -213,6 +214,7 @@ case "${mode}" in
 
 		e22_pre_e ${E22_GS}
 		e22_pre_e ${E22_GM}
+		#130526:E22_GG  masenteluy löytyy jo fktiosta other_pkgs()
 
 		csleep 3
 		message
@@ -229,11 +231,15 @@ case "${mode}" in
 	;;
 	g)
 		#130526:testattu että tämä case toimii, luo paketin mikä asentuu
+		#VAIH:bissiin git mukaan tähänkin prkl
+		
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 
 		${fib}
 		${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä
+		${shary} ${E22_GG}
+
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
 
