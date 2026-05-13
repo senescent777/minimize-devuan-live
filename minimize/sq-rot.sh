@@ -166,7 +166,7 @@ else
 	}
 
 	function check_binaries() {
-		echo "rot.check1"
+		echo "rot13.check1"
 
 		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
 		scm=$(${odio} which chmod)
@@ -393,6 +393,8 @@ case "${mode}" in
 	;;
 	#VAIH:vähintään toinen case toimimaan sqroot-ymp (ainakin liittyi se että tulisi olla oikeat versiot .deb-paketeista)
 	#... alkaisikohan jo 110526 olla tämä ja seur case ok?
+	#
+	#130526 taisi olla jotain pientä kiukuttelua sqwroot ulkop mutta siis
 	0)
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
@@ -457,7 +459,7 @@ case "${mode}" in
 	;;
 esac
 
-#poistelu ajank vain jos tehty lähteelle jotain sitä ennen?
+#poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistuslisätä (TODO)
 if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
 	read -p " U  WANT 2 RM SOURCE ?" confirm
 	[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}

@@ -222,14 +222,14 @@ case "${mode}" in
 		e23_other_pkgs ${CONF_dnsm}
 	;;
 	t)
-		#300426:osannee paketin tehdä?
+		#130526:suattaapi olla niinnii jotta toimii koska "$0 3" äskettäin
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;
 	g)
+		#130526:testattu että tämä case toimii, luo paketin mikä asentuu
 		[ -v E22_GI ] || exit 95
-		#VAIH (muodostetun paketin toimivuuden testaus lähinnä jokojo 05/26?)
 		e22_hdr ${d}/e.tar
 
 		${fib}
@@ -265,22 +265,16 @@ case "${mode}" in
 	;;
 esac
 
-#exit
-
+#tuossa alla vielä jotain laittoa?
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
-	#HUOM.11326:d-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
-	#exit
 
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar
-	#z3?	
 
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
 fi
-
-#exit
 
 if [ -s ${tgtfile} ] ; then
 	e22_ftr ${tgtfile}
