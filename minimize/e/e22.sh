@@ -60,7 +60,6 @@ function e22_ftr() {
 	${sah6} ./${q} > ${q}.sha
 	${sah6} -c ${q}.sha
 	e22_tyg ${q}.sha #.sha sittenkin näin?
-
 	cd ${p}
 }
 
@@ -109,19 +108,22 @@ function aqsp() {
 #... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf (mitä muita on mistä sorkitaan? tämän tdstn fktiot)
 
 function e22_pre1() {
-[ -z "${1}" ] && exit 65
-[ -z "${2}" ] && exit 66
-[ -d ${1} ] || exit 111
-${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-${scm} -Rv 700 ${CONF_pkgdir}/partial/
-local lefid
-lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?	
-enforce_access $(whoami) ${lefid}
-csleep 1
-${scm} 0755 /etc/apt
-${scm} a+w /etc/apt/sources.list*
-part1 ${2} ${1}
-${scm} a-w /etc/apt/sources.list*
+	[ -z "${1}" ] && exit 65
+	[ -z "${2}" ] && exit 66
+	[ -d ${1} ] || exit 111
+
+	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+	${scm} -Rv 700 ${CONF_pkgdir}/partial/
+
+	local lefid
+	lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?	
+	enforce_access $(whoami) ${lefid}
+
+	csleep 1
+	${scm} 0755 /etc/apt
+	${scm} a+w /etc/apt/sources.list*
+	part1 ${2} ${1}
+	${scm} a-w /etc/apt/sources.list*
 }
 
 #tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
@@ -166,60 +168,70 @@ function e22_dblock() { #110526:lienee toimiva tämä fktio ?
 	e22_cleanpkgs ${2}
 }
 
+#280426:resolv.conf sorkkimisen ylkoistus -> mutilatetc?
 
-#...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
-#HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
-
-#170426:josko esim. toimisi (resolv.conf kanssa vielä jotain?)
 function e22_pre2() {
-[ -z "${1}" ] && exit 66
-[ -z "${2}" ] && exit 67
-[ -z "${3}" ] && exit 68
-[ -z "${4}" ] && exit 69
-[ -d ${1} ] || exit 111
-par4=$(echo ${4} | tr -d -c 0-9)
-echo $?
-csleep 1
-if [ -d /etc/resolv.conf ] ; then
-echo "D"
-else
-if [ -h  /etc/resolv.conf ] ; then
-echo "-L"
-else
-[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
-fi
-fi
-ls -las /etc/resolv.*
-csleep 10
-${sifu} ${3}
-csleep 1
-${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-${scm} -Rv 700 ${CONF_pkgdir}/partial/
-${sag_u}
-}
-function e22_cleanpkgs() {
-[ -z "${1}" ] && exit 56
-if [ -d ${1} ] ; then
-${smr} ${1}/*.deb
-${smr} ${1}/sha512sums.txt*
-ls -las ${1}/*.deb | wc -l
-fi
+	[ -z "${1}" ] && exit 66
+	[ -z "${2}" ] && exit 67
+
+#[ -z "${3}" ] && exit 68
+#[ -z "${4}" ] && exit 69
+#[ -d ${1} ] || exit 111
+
+	par4=$(echo ${4} | tr -d -c 0-9)
+	echo $?
+	csleep 1
+
+	if [ -d /etc/resolv.conf ] ; then
+		echo "D"
+	else
+		if [ -h  /etc/resolv.conf ] ; then
+			echo "-L"
+		else
+			[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
+		fi
+	fi
+
+	ls -las /etc/resolv.*
+	csleep 10
+	${sifu} ${3}
+	csleep 1
+	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+	${scm} -Rv 700 ${CONF_pkgdir}/partial/
+	${sag_u}
 }
 
-#290326:tämän kanssa jotain Jatkosäätöä vai ei?
-#120426:bissiin menee mukaan kohteeseen config.tar.bz2
+function e22_cleanpkgs() {
+	dqb "e22_cleanpkgs() "
+	[ -z "${1}" ] && exit 56
+
+	if [ -d ${1} ] ; then
+		${smr} ${1}/*.deb
+		${smr} ${1}/sha512sums.txt*
+		ls -las ${1}/*.deb | wc -l
+	fi
+
+	dqb "e22_cleanpkgs() DONE"
+}
+
+dqb "#TODO:g_doit.part0() liittyviä juttuja, hyvä varmistaa että menevätkö muuttuneet xfce4-asetukset talteen asti "
+csleep 1
+
+#010526:import2.sh pitäisi purkaa config.tar.bz2 qhan se vain löytyy
 
 function e22_config1() {
-[ -z "${1}" ] && exit 11
-[ -d ${1} ] || exit 22
-[ -z "${2}" ] && exit 11
-local p
-p=$(pwd)
-cd ${1}
-[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
-${sr0} -jcf ${2} ./xorg.conf* ./.config
-[ -s ${2} ] || exit 99
-cd ${p}
+	[ -z "${1}" ] && exit 11
+	[ -d ${1} ] || exit 22
+	[ -z "${2}" ] && exit 11
+
+	local p
+	p=$(pwd)
+	cd ${1}
+
+	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
+	${sr0} -jcf ${2} ./xorg.conf* ./.config
+	[ -s ${2} ] || exit 99
+	cd ${p}
 }
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
