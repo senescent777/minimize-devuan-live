@@ -13,6 +13,7 @@ if [ ! -v CONF_pubk ] ; then
 	unset a
 fi
 
+#280426:lienee ok
 function e22_hdr() {
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
@@ -20,19 +21,18 @@ function e22_hdr() {
 
 	fasdfasd ./rnd
 	fasdfasd ${1}
-	csleep 1
+	
 	dd if=/dev/random bs=12 count=1 > ./rnd
-	csleep 1
+
 	${sr0} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
-	[ ${debug} -eq 1 ] && ls -las ${1}
 }
 
-#tark-. olla priv fktio
-#170326:taitaa olla toimiva fktio nykyään (ellei toisin todisteta)
-#190426:toimii edelleen?
+#280426:vissiin toimii ao. fktio?
 
 function e22_tyg() {
+	dqb " e22_tyg()"
+
 	[ -z "${1}" ] && exit 45
 	[ -s ${1} ] || exit 46
 	[ -r ${1} ] || exit 47
@@ -41,29 +41,26 @@ function e22_tyg() {
 		if [ -v CONF_pubk ] ; then
 			${gg} -u ${CONF_pubk} -sb ${1}
 			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
-			csleep 1
 			${gg} --verify ${1}.sig
-			csleep 1
 		fi
 	fi
 }
 
-#170326:lienee ok
+#280426:lienee ok edlleen?
 function e22_ftr() {
 	[ -z "${1}" ] && exit 62
 	[ -s ${1} ] || exit 63
 	[ -r ${1} ] || exit 64
+
 	fasdfasd ${1}.sha
-	local p
-	local q
-	p=$(pwd)
-	q=$(basename ${1})
+	local p=$(pwd)
+	local q=$(basename ${1})
+
 	cd $(dirname ${1})
 	${sah6} ./${q} > ${q}.sha
-	csleep 1
 	${sah6} -c ${q}.sha
-	csleep 1
-	e22_tyg ${q}.sha
+	e22_tyg ${q}.sha #.sha sittenkin näin?
+
 	cd ${p}
 }
 
@@ -85,9 +82,6 @@ ${scm} a+w /etc/apt/sources.list*
 part1 ${2} ${1}
 ${scm} a-w /etc/apt/sources.list*
 }
-
-
-
 
 #tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
 function e22_dblock() { #110526:lienee toimiva tämä fktio ?
