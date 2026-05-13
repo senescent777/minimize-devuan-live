@@ -1,13 +1,13 @@
 #!/bin/bash
 
-debug=0 #1
+debug=1
 distro=$(cat /etc/devuan_version)
 
 d0=$(pwd)
 d=${d0}/${distro}
 mode=-2
 tgtfile=""
-gbk=-1
+gbk=0
 mop=""
 
 function usage() {
@@ -18,16 +18,8 @@ function usage() {
 	echo
 
 	echo "$0 l <tgtfile> [-v] [ -d preferred_displaymanager? ] : makes a packaged containing .deb-files for a (preferred) displaymanager"
-
-	#$d pitäisi alustaa ennen tätä
-	echo "$0 f <tgtfile> [distro?] [-v]: archives .deb Files under ${d0}/\${distro}"
-
-	echo "$0 p <> [] [] Pulls \${CONF_default_archive3} from somewhere"
-	echo "$0 q <> [] [] archives firefox settings"
-	echo "$0 c is sq-Chroot-env-related option"
 	echo "$0 g adds Gpg for signature checks, maybe?"
 	echo "$0 t ... option for ipTables"
-
 	echo "$0 -h: shows tHis message about usage"
 }
 
@@ -43,6 +35,7 @@ else
 fi
 
 #"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
+#290426:parse_fktioiden siirto e22:seen olisi 1 idea, tosin siitä seurannee paljon säätöä
 
 function parse_opts_1() {
 	dqb "parse_opts_1( ${1})"
@@ -53,12 +46,12 @@ function parse_opts_1() {
 				gbk=1
 			fi
 		;;
-		*)
-			if [ -d ${d}/${1} ] ; then
-				#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
-				d=${d0}/${distro}
-			fi
-		;;
+#		*)
+#			if [ -d ${d}/${1} ] ; then
+#				#distro=${1} #090326:kuinkahan oleellinen distron yliajo?
+#				d=${d0}/${distro}
+#			fi
+#		;;
 	esac
 
 	#290326:jspa tu case-esac esim. toimisi?
@@ -71,9 +64,15 @@ function parse_opts_2() {
 		-d)
 			mop=${2}
 		;;
-		*)
-			dqb " ${1} NOT SUPPORTED"
-		;;
+#		*)
+#			#
+#			if [ "${mode}" == "-2" ] ; then
+#				mode=${1}
+#				tgtfile=${2}
+#			else
+#				dqb " ${1} NOT SUPPORTED"
+#			fi
+#		;;
 	esac
 }
 
@@ -84,29 +83,29 @@ function fallback() { #tarpeellinen?
 	exit 59
 }
 
-if [ -x ${d0}/common_lib.sh ] ; then #200426:edelleen tarpeellinen kirjasto
+if [ -x ${d0}/common_lib.sh ] ; then #200426:on edelleen tarpeellinen kirjasto
 	. ${d0}/common_lib.sh
 else
 	#johdonmukaisuus virhekoodeissa olisi tietty kiva
-	exit 56
+	exit 57
 fi
 
 [ -z "${distro}" ] && exit 6
 d=${d0}/${distro} #nykyään vähän turha tässä
 process_lib ${d}
-mop=${CONF_dm} #voinee joutua muuttamaan jatkossa
+mop=${CONF_dm} #voinee joutua muuttamaan jatkossa?
 
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
-dqb "BEFORE TIG NOR MKTMP"
+dqb "BEF0RE T1G N0R MKTMP"
 sleep 1
 
 if [ -z "${tig}" ] ; then
-	echo "SHOULD INSTALL GIT"
-	exit 7
+	echo "SHOULD INSTALL GIT ($0 e)"
+	[ "${mode}" == "e" ] || exit 7
 fi
 
 if [ -z "${mkt}" ] ; then
-	echo "SHOULD INSTALL MKTEMP"
+	echo "SHOULD INSTALL MKTEMP ($0 e)"
 	exit 8
 fi
 
@@ -130,8 +129,6 @@ fi
 [ -z "${tgtfile}" ] && exit 98
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
-cont=0
-dqb "ESAC1"
 csleep 1
 [ -d ${d0}/${tgtfile} ] && exit 64
 
@@ -139,88 +136,20 @@ csleep 1
 e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 #jokin varmistus vielä että iface alhaalla?
-#exit
-
-#VAIH:tästä ekasta case-blokista oma skriptinsä?
-case "${mode}" in
-#	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
-#		[ -s "${tgtfile}" ] || exit 67
-#		[ -r "${tgtfile}" ] || exit 68
-#		e22_rpg ${tgtfile} ${d}
-#17426:josqs ta,aisin kommenteista?
-#	;;
-	f) #170426:osaa tehdä paketin edelleen
-		enforce_access $(whoami) ${t}
-		e22_arch ${tgtfile} ${d} ${gbk}
-		
-		#HUOM! EIPÄ KIKKAILLA sha512sums.txt KANSSA, tar.sha PAREMPI IDEA
-		#, PITÄÄ VAIN SAADA AIKAISEKSI common_lib.Sh HUOMIOIMAAN SE
-	;;
-	q)
-		#170326:tekee edelleen arkiston, sisältö kenties ok
-		[ -v CONF_default_arhcive ] || exit 33
-		[ -v CONF_default_arhcive2 ] || exit 34
-		[ -v CONF_default_arhcive3 ] || exit 35
-
-		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
-	;;
-	c) #ainakin 210426 tIEnoilla toimi viimeksi
-		e22_cde ${tgtfile} ${d0} ${distro}
-	;;
-	p) #170326:lienee kunnossa
-		[ -v CONF_default_arhcive3 ] || exit 66
-		csleep 1
-		[ -v CONF_iface ] && ${sifu} ${CONF_iface}
-		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
-	;;
-	-h)
-		usage
-	;;
-#	b)
-#		#230326:tekee jo jotain, vielä sietää miettiä onko siinä pointtia mitä tekee
-#		for f in $(find ${d0} -type f -name "*lib.sh") ; do
-#			e22_ftr ${f}
-#		done
-#	;;
-	*)
-		cont=1
-	;;
-esac
-
-#exit
-
-if [ $cont -eq 1 ] ; then
-	dqb "R3D B3F0R3 BL4KC"
-else
-	e22_ftr ${tgtfile}	
-	exit 66
-fi
-
-#exit
-
-#csleep 1
-#290326:e_jutut vielä tarpeellisia? ehkä
-e_final
-#e_h $(whoami) ${d0}
-#dqb "EHD0.LL1.N3 1v2k"
-#csleep 1
 
 #HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
-#exit
 
-#290326:pre2() 2. param pois?
-e22_pre2 ${d} ${distro} ${CONF_iface} ${CONF_dnsm}
+e22_pre2 ${CONF_iface} ${CONF_dnsm}
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
 #HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun jossia n tilanteessa
-#[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar #180426:tilapäisesti jemmaan kokeilun takia, takaisin josqs
+[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 doit=1
 csleep 1
-#exit
 
 case "${mode}" in
 	0)
@@ -229,9 +158,11 @@ case "${mode}" in
 	3|4) 
 		#3 taisi toimia 04/26 tienoilla ainakin kerran
 		# 21426 onnasi viimeksi paketin rakennus tässä moodissa, sisältökin jnkin verran toimaa
+		#130526 taas testikierros menossa mode 3:n tuotoksen kanssa
 
-		#4 toimi viimeksi 180426
-		#merd2 taisi toimia 21.4
+		#4 toimi viimeksi 180426 (uusi testikieRRos uudella paketilla 100526, ehkä ok pl ffox profiili?)
+	
+		#merd2 taisi toimia kerrab 21.4 (entä sen jälkeen? ehkä, qhan conf-jutut)
 	
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
@@ -241,31 +172,31 @@ case "${mode}" in
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
+			#TODO:e.tar-kikkailu -> other_okgs() syystä gpg puuttuu
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-
-			#TODO:gpgn paketointiin muutoksia kun kerran ei nappaa selvittää miksi ja missä se poistuu (g.tar SITTENKIN tkaisin?)
 			e23_other_pkgs ${CONF_dnsm}
 		else
 			doit=0
 		fi
 		
+		#110526:config.tar.bz2, fediverse.tar ja profs.sh tulisi kyllä löytyä kohde-paketista edelleen
+		#130526;profiilit jo toimivat tuolloin?		
+
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
-		#exit
 
 		e22_pre1 ${d} ${distro}
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
 		fasdfasd /opt/bin/zxcv.tmp
-		#exit
 
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
-		z2 /opt/bin/zxcv´
+		z2 /opt/bin/zxcv
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
-	#180426:osasi paketin muodostaa, asennusvaih pientä nalkutusta
+	#180426:osasi paketin muodostaa, asennuksen aikana pientä nalkutusta
 	#dpkg: dependency problems prevent configuration of libxml-parser-perl:
  	#libxml-parser-perl depends on perl  however:
-
+	#010526:edelleen osasi paketin muodostaa, toimivuus vielä selvitettävä
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
@@ -277,15 +208,13 @@ case "${mode}" in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) 
-		#... chattr olisi kYllä paikallaan etteI vahingossa spedeilisi
-		#070426:paketin sisältö vaikuttaa toimivan minimal_liven alaisuudessa, entä desktop? sielläkin
-		#... oliko jostain libpam- paketeista ulinaa? tuliko libcom-err2 mukaan?
-		#... testaus uusiksi joskus?
+		#010526:jos alkaa git hukkumaan säännöllisesti ni jotain tarttisi tehdä
+		#110526:taitaa toimia muodostettttu paketti
 
-		${shary} ${E22_GS}
-		${shary} ${E22_GM}
+		e22_pre_e ${E22_GS}
+		e22_pre_e ${E22_GM}
+
 		csleep 3
-
 		message
 		csleep 2
 
@@ -293,21 +222,27 @@ case "${mode}" in
 		e23_other_pkgs ${CONF_dnsm}
 	;;
 	t)
-		#290326:osaa paketin tehdä, todnäk asentuu myös
+		#300426:osannee paketin tehdä?
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
-		#170426 edelleen osasi paketin muodostaa, todnäk asentuu myös
+		#VAIH (muodostetun paketin toimivuuden testaus lähinnä jokojo 05/26?)
+		e22_hdr ${d}/e.tar
 
 		${fib}
-		${shary} ${E22_GI}
+		${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä
+		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
+		${srat} -rvf ${tgtfile} ${d}/e.tar*
+
+		doit=0
 	;;
 	l)
 		#1104236:desktop_live:n kanssa onnistui jo paketin asennus
 		#minimal_live:n kanssa ei
+		#010526:edelleen muodostaa paketin, sisällön validius selvitettävä
 
 		csleep 1
 		[ -v CONF_dm ] || exit 77
@@ -319,56 +254,18 @@ case "${mode}" in
 		${shary} ntpsec
 	;;
 #	x)
-#		#TODO:uusiksi vain koko pasq?
+#		#TODO?:uusiksi vain koko pasq?
 #		e23_xyz
 #	;;
+	s)
+		e23_st
+	;;
 	*)
 		exit
 	;;
 esac
 
 #exit
-
-function e22_dblock() { #140426:lienee toimiva tämä fktio
-	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
-
-	[ -z "${1}" ] && exit 14
-	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
-	#[ -w ${1} ] || exit 16 #ei näin?
-	[ -z "${2}" ] && exit 11
-	[ -d ${2} ] || exit 22
-	[ -w ${2} ] || exit 23
-	[ -z "${3}" ] && exit 33
-	[ -d ${3} ] || exit 34
-	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
-	[ -z "${4}" ] && exit 37
-
-	dqb ".PARS-OK"
-	csleep 1
-
-	[ ${debug} -eq 1 ] && pwd
-	#aval0n #tarpeellinen?
-	ls -la ${3}/*.deb | wc -l
-	
-	#HUOM.160326:ao. for-blokki omaksi fktioksi?
-	for s in ${PART175_LIST} ; do
-		${sharpy} ${s}*
-		${NKVD} ${3}/${s}*.deb
-	done
-	
-	local t
-	t=$(echo ${2} | cut -d "/" -f 1-6) #joitain tr-jekkuja vielä?
-	e22_ts ${t} ${3}
-	dqb "JST B3F0R3 3NF0RC3"
-	csleep 1
-	
-	enforce_access $(whoami) ${t}
-	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-	csleep 1
-
-	e22_arch ${1} ${2} ${4}
-	e22_cleanpkgs ${2}
-}
 
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
