@@ -64,6 +64,47 @@ function e22_ftr() {
 	cd ${p}
 }
 
+#100526:return-kikkailu ei toiminut? "echo-tavassakin" on juttuja huomioitavana
+#... joku päivbä jos maistuisi selvittää tuo "bash function retuRn value"-juttu että onnnaako vai ei?
+function aqsp() {
+	dqb "aqsp ${1} ; "
+	[ -z "${1}" ] && exit 97
+	[ -d ${1} ] || exit 96
+	local rv=0
+
+	if [ -v gg ] ; then #else-haarat takaisin josqs, ehkä
+		if [ -s ${1}/sha512sums.txt.sig ] ; then #eka ehto omalle rivilleen ja sit jhotain
+			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
+				${gg} --verify ${1}/sha512sums.txt.sig
+				rv=$?
+			fi
+		fi
+	fi
+
+	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] && [ ${rv} -eq 0 ] ; then
+		local p=$(pwd)
+		cd ${1}
+
+		${sah6} -c sha512sums.txt --ignore-missing
+		rv=$?
+		cd ${p}
+	else
+		rv=93
+	fi
+
+	dqb "rv= ${rv}"
+
+	if [ ${rv} -gt 0 ] ; then #toistaiseksi sqap() hoitamaan poistot
+		dqb "SMTHNG WENT WR09NG"	
+		${NKVD} ./*.deb 
+		${NKVD} ./sha512sums*
+		${NKVD} ./*.tar
+	fi
+
+	dqb "aqsp  DONE"
+}
+
+
 #020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
 #... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf (mitä muita on mistä sorkitaan? tämän tdstn fktiot)
 
