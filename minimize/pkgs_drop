@@ -29,3 +29,7 @@ ppp,pciutils,procmail
 ristretto,screen,syslinux-common
 tex,vim
 ssh,openssh
+#
+#uutena 140526 liittyen ssh-juttuihin
+gnome-keyring
+libpam-gnome-keyring
