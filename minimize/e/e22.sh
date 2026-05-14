@@ -467,9 +467,6 @@ function e22_config1() {
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 #nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
 
-#290326:tämän kanssa jotain hatkosäätöä vai ei?
-#120426:vissiin menee kohteeseen fedi ja profs (mutta meneekö 1. mainittu myös juureen?)
-
 function e22_settings() {
 	dqb "e22_settings()))) ${1} ; ${2} ;  ) ${3} ))))))) "
 	[ -z "${1}" ] && exit 11
@@ -542,9 +539,7 @@ function e22_home() {
 	[ -z "${3}" ] && exit 71
 
 	local t
-	#local f
 
-	#${srat} -rvf ${1} ${2}/../${3}
 	csleep 1
 	dqb "home.pt2"
 
@@ -663,14 +658,6 @@ function e22_sarram() {
 	done
 
 	${srat} -rvf ${1} /etc/X11/default-display-manager
-
-	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka? other_horrors()?
-	#${scm} 0555 /etc/iptables
-	#${scm} 0400 /etc/iptables/rules*
-	#${scm} 0400 /etc/default/rules*
-	#
-	#HUOM.rules vedetään jo aiemmin niin tartteeko tässä?
-	#for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 	
 	#VAIH:minimize-devuan-live greppaus pois, juurikin ao. komentoon (jatkossa kai conf mukaan)
 	#for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD | grep -v minimize-devuan-live ) ; do 
@@ -690,7 +677,7 @@ function e22_sarram() {
 
 	#130526:lienee jo .bash-tdstot listassa mukana
 	${scm} a+r /opt/bin/*.bash
-	dqb "JUST BEFORE /o/b/ * . bash"
+	dqb "JUST BEFORE /o/b/ \* . bash"
 	csleep 10
 
 	for f in $(${odio} find /opt  -type f -name "*.bash" ) ; do
@@ -737,17 +724,12 @@ function e22_rpg() {
 	[ -z "${4}" ] && exit 37
 
 	csleep 1
-	#exit 95
+
 	dqb "pars 0k"
 
 	e22_cleanpkgs ${2}
 	e22_cleanpkgs ${3}
 			
-#	${smr} ${2}/f.tar #tömäön kohdan joutuu ehkö muuttamaan jatkossa
-#	csleep 1
-#		
-#	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
-#	#... koko case pois käytöstä vaikka
 
 	dqb "${srat} --exclude \"sha512sums\*\" --exclude \"\*pkgs*\" -C ${2} -xvf ${1}"
 	csleep 1
@@ -761,14 +743,4 @@ function e22_rpg() {
 			
 	e22_arch ${1} ${2} ${4}
 	cd ${2}
-
-#	#e22_a nykyään
-#	#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
-#	
-#	#pointti?
-#	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh, ei kande liian usein renkata?
-#	#	${srat} -uvf  ${1} ${t}
-#	#done
-#		
-#	exit
 }
