@@ -66,26 +66,23 @@ fi
 
 case "${mode}" in
 	rp) #VAIH:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms
-		#140526:alkoi osoittautua tarpeelliseksi kokeilla josko...
 		
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 	
 		c=$(tar -tf ${tgtfile} | grep f.tar | wc -l)
-		
+		t=${d}
+
 		if [ ${c} -gt 0 ] ; then	
 			if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
-				${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${CONF_testgris} -xvf ${tgtfile}
-				csleep 10
-				
-				#jatkossa tierenkin kutsu yulos sisemmästä if-blokista
-				e22_rpg ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
-			
-	#		else
-	#		e22_rpg ${tgtfile} ${d} ${CONF_pkgdir} ${gbk}
+				t=${CONF_testgris} 
 			fi
+
+			${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${t} -xvf ${tgtfile}
 		fi
-		
+
+		csleep 10
+		e22_rpg ${d}/f.tar ${d} ${t} ${gbk}	#TODO:lottoa parametrit kohdalleen	
 	;;
 	f)
 		t=$(echo ${d} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)

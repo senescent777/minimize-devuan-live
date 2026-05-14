@@ -724,22 +724,17 @@ function e22_rpg() {
 	[ -z "${4}" ] && exit 37
 
 	csleep 1
-
 	dqb "pars 0k"
 
 	e22_cleanpkgs ${2}
 	e22_cleanpkgs ${3}
 			
-
 	dqb "${srat} --exclude \"sha512sums\*\" --exclude \"\*pkgs*\" -C ${2} -xvf ${1}"
 	csleep 1
 	
 	${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${2} -xvf ${1}
 	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD # ehkä josqs takaisin
 	csleep 1
-	
-	
-	#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
 			
 	e22_arch ${1} ${2} ${4}
 	cd ${2}
