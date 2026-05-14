@@ -370,6 +370,7 @@ function common_pp3() {
 		#local r=$(psqa ${1}) jatkossa+leikit?
 
 		if [ $? -gt 0 ] ; then
+			#140526;pitäisiköhän tässä älähtää jotain?
 			${NKVD} ${1}/*.deb
 			${NKVD} ${1}/sha512sums*
 			${NKVD} ${1}/*.tar*
@@ -772,8 +773,7 @@ function TLA() {
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
 		if [ ! -v CONF_testgris ] ; then
-			#160426:mitenkähän tämän kohdan kanssa jatkossa?
-
+			#140526:muutoksia näille main vai ei?
 			dqb "JST B3F0R:tlb-b a s h"
 			[ -s /opt/bin/tlb.bash ] || exit 99
 			${scm} 0511 /opt/bin/tlb.bash

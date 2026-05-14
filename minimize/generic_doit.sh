@@ -101,7 +101,9 @@ function part0() {
 	#https://forum.manjaro.org/t/how-to-disable-ssh-agent-autostart/89404
 	
 	dqb "#VAIH:jospa kokeilisi vähitellen miten xfquery-komennot vaikuttavat? (270426)"
-	#... meneekö sinne config.tar.bz2 asti muutokset esim? (TODO:selvitä)	
+	#... meneekö sinne config.tar.bz2 asti muutokset esim?
+	#140526:vissiin tdstoon xfce4-session.xml menee tieto että agentit sammuksiin mutta	
+	#x-session-manager saattaa liittyä jtnkn
 
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
@@ -109,6 +111,9 @@ function part0() {
 
 	#060426:tämäkö heittää pihalle ennenaikaisesti? ssh:n kanssa ehkä jotain	
 	#2804236:josko ssh-agentin sisältävän paketin voisi poistaa?
+
+	#140526:gnome-keyring*. libpam-gnome-keyring liittyvät?
+	#kts pkgs_drop jos qsee g_pt2 asjon jölkeen
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
@@ -242,8 +247,7 @@ fi
 #josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta? kokeillaan
 el_loco ${c14} ${c13}
 #=========================================================================================
-#VAIH:selvitä mikä juttu kehitysympstössä on mode 1:n kanssa + korjaa (jos toistuu)
-#... 110526 ei toistunut
+#1§405426:vissiin "mode 1"-kiukuttelut toistaiseksi ohi kehitysympstössä
 
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	${odio} passwd
@@ -261,18 +265,21 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 fi
 
 pre_part2
-#ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
-c14=$(find ${d} -name "*.deb" | wc -l)
+#if [ ! -f /.chroot ] ; then #hyvä näin vai ei?
+	#ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
+	c14=$(find ${d} -name "*.deb" | wc -l)
 
-#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu (vissiin ok?)
-[ ${c14} -gt 0 ] || CONF_removepkgs=0
+	#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu
+	#... pitäisi kai nollaamisessa huomioida myös /.chroot
+	[ ${c14} -gt 0 ] || CONF_removepkgs=0
+#fi
 
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 
 #===================================================PART 3===========================================================
 message
 
-#menkööt toistaiseksi part3 kanssa (040325)
+#menkööt toistaiseksi part3 kanssa (0403265)
 #common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain?
 
 part3 ${d}
@@ -280,20 +287,14 @@ other_horrors
 dqb "AFTER THE HORROR"
 csleep 1
 
-if [ ! -f /.chroot ] ; then #ehto pois jatkossa vai ei?
+#if [ ! -f /.chroot ] ; then #ehto pois jatkossa vai ei?
 	#[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh
-
-#	#toistaiseksi tässä kunnes... Jotain
-#	dqb "AFTR SCM"
-#	csleep 9
-#	dqb "JUST BEFORE IMP R"
-#	csleep 10
 
 	${d0}/import2.sh r ${d0} -v
 	echo $?
 	csleep 3
-fi
+#fi
 
 dqb "PR0F IMPORT DONE?"
 csleep 5

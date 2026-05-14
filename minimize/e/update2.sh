@@ -17,7 +17,6 @@ par3=""
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
 		#030526:onnistuu tämän skriptin toiminta myös omegan jälkeen kunhan x 
-
 		tcmd="sudo ${tcmd} "
 		spc="sudo ${spc} "
 	fi
@@ -70,8 +69,6 @@ function process_row() {
 	${tcmd} -rvf ${1} ${2}
 }
 
-#HUOM.170426:olisi hyvä keksiä tähänkin jotain siltä varalta että merd2 ei tulisi ylimääräisiä kopioita
-
 if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb > ${d0}/MAN1.F2ST
 	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
@@ -86,7 +83,6 @@ if [ ! -z "${par3}" ] ; then
 	g=$(echo ${g} | grep -v ${par3})
 fi
 
-
 for f in ${g} ; do
 	if [ -f ${f} ] ; then
 		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
@@ -95,5 +91,5 @@ for f in ${g} ; do
 	fi
 done
 
-#jotat ehtisi synkata 
+#joTTA ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4

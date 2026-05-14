@@ -60,14 +60,32 @@ else
 	exit 58
 fi
 
-e22_hdr ${tgtfile}
+[ -d  ${tgtfile} ] && exit 99 #P.V.H.H
+[ "${mode}" == "rp" ] || e22_hdr ${tgtfile}
 #[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta
 
 case "${mode}" in
 	rp) #VAIH:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms
+		#140526:alkoi osoittautua tarpeelliseksi kokeilla josko...
+		
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
-		e22_rpg ${tgtfile} ${d} ${CONF_pkgdir} ${gbk}
+	
+		c=$(tar -tf ${tgtfile} | grep f.tar | wc -l)
+		
+		if [ ${c} -gt 0 ] ; then	
+			if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
+				${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${CONF_testgris} -xvf ${tgtfile}
+				csleep 10
+				
+				#jatkossa tierenkin kutsu yulos sisemmästä if-blokista
+				e22_rpg ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
+			
+	#		else
+	#		e22_rpg ${tgtfile} ${d} ${CONF_pkgdir} ${gbk}
+			fi
+		fi
+		
 	;;
 	f)
 		t=$(echo ${d} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)

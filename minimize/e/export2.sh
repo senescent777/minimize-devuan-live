@@ -255,7 +255,7 @@ case "${mode}" in
 		e23_dm ${mop}
 	;;
 	n)
-		#VAIH:ntp-jutut takaisin josqs?
+		#VAIH:ntp-jutut takaisin josqs? 05/26*
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;

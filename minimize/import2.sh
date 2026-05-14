@@ -266,7 +266,7 @@ function tpr() {
 	csleep 2
 }
 
-#130526:vaikutti toimivan tämä blokki (m itä nyut common_lib oikeudet ja gpg:n puute saattavat vähän sotkea)
+#130526:vaikutti toimivan tämä blokki (m itä nyut common_lib oikeudet ja gpg:n puute saattavat vähän sotkea, jokin muukin?)
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii? vissiin

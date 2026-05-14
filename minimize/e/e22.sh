@@ -108,7 +108,7 @@ function e22_arch() {
 	csleep 1
 
 	[ -z "${1}" ] && exit 1
-	[ -s ${1} ] || exit 2
+#	[ -s ${1} ] || exit 2 #140526 tilapäisesti jemmaan
 	[ -z "${2}" ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 44
@@ -161,8 +161,7 @@ function e22_arch() {
 
 #import2 pois jatkossa? vaiko kys skripti e-hmistoon? paitsi että g_doit kutsuu sitä
 
-#110526:vissiin edelleen ao, fktio ok
-
+#140526:vissiin edelleen ao, fktio ok
 function e22_cde() {
 	[ -z "${1}" ] && exit 99
 	[ -z "${2}" ] && exit 98
@@ -446,7 +445,7 @@ function e22_ext() {
 	cd ${p}
 }
 
-dqb "#TODO:g_doit.part0() liittyviä juttuja, hyvä varmistaa että menevätkö muuttuneet xfce4-asetukset talteen asti "
+dqb "#VAIH?:g_doit.part0() liittyviä juttuja, hyvä varmistaa että menevätkö muuttuneet xfce4-asetukset talteen asti "
 csleep 1
 
 #010526:import2.sh pitäisi purkaa config.tar.bz2 qhan se vain löytyy
@@ -733,7 +732,7 @@ function e22_rpg() {
 	[ -z "${2}" ] && exit 98	
 	[ -s "${1}" ] || exit 97
 	[ -d ${2} ] || exit 96
-	[ -z "${3}" ] && exit 33
+	[ -z "${3}" ] && exit 33 #tarpeellinen param?
 	[ -d ${3} ] || exit 34
 	[ -z "${4}" ] && exit 37
 
@@ -742,28 +741,34 @@ function e22_rpg() {
 	dqb "pars 0k"
 
 	e22_cleanpkgs ${2}
-		
-	${smr} ${2}/f.tar
-	csleep 1
-		
-	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
-	#... koko case pois käytöstä vaikka
+	e22_cleanpkgs ${3}
+			
+#	${smr} ${2}/f.tar #tömäön kohdan joutuu ehkö muuttamaan jatkossa
+#	csleep 1
+#		
+#	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
+#	#... koko case pois käytöstä vaikka
 
+	dqb "${srat} --exclude \"sha512sums\*\" --exclude \"\*pkgs*\" -C ${2} -xvf ${1}"
+	csleep 1
+	
 	${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${2} -xvf ${1}
-	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
+	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD # ehkä josqs takaisin
 	csleep 1
-
+	
+	
 	#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
 			
 	e22_arch ${1} ${2} ${4}
 	cd ${2}
 
-	#sotkee sittenkin liikaa?
-	#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
-		
-	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh, ei kande liian usein renkata?
-	#	${srat} -uvf  ${1} ${t}
-	#done
-		
-	exit
+#	#e22_a nykyään
+#	#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
+#	
+#	#pointti?
+#	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh, ei kande liian usein renkata?
+#	#	${srat} -uvf  ${1} ${t}
+#	#done
+#		
+#	exit
 }

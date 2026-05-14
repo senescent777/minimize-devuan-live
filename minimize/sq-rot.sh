@@ -52,7 +52,7 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
-	#gpgtar:kandeeko koskea?
+	#gpgtar:kandeeko koskea? taisiis etua "gpg | tar" nähden?
 
 	echo "A"
 	p=$(pwd)
@@ -98,8 +98,7 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 	echo "C"
 
 	#030426:huom. kts commn_lib , E22_M , tarpeellinen
-	#DONE:tuohon alle tar -x:ään tämän import2.sh koskeva --exclude jos mahd?
-	#... tosin profiilin importointi
+	#import2 syytä purkaa koska case r
 
 	#VAIH:jatkossa purkamaan vain 1 bz3 ? ihan vielä ei onnaa koska gpg ja tables
 
@@ -134,11 +133,8 @@ if [ -x ${d0}/common_lib.sh ] ; then
 else
 	echo "W33P1NG UND3RR G4L4CTU5"
 	sleep 6
-
 	#cptp2 voisi lopuksi palauttaa x-oikeuden kirjastoon?
-	#150426:toimii tämä haara
-	#saattaa myös olla että kiukuttelu paikallistui erääseen modattuun desktop_live_kiekkoon 090426
-
+	
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
 		sleep 2
@@ -157,7 +153,12 @@ else
 	sleep 5
 
 	function ocs() {
-		echo "SMTHIN1G 15 WR0NG: ${1} ?"
+		local t=$(${odio} which ${1})
+
+		if [ -z "${t}" ] ; then
+			echo "SMTHIN1G 15 WR0NG: ${1} ?"
+			exit 666
+		fi
 	}
 
 	function check_binaries() {
@@ -234,7 +235,6 @@ else
 	exit 55
 fi
 
-#echo "JUST BFR com-ort()";sleep 1
 #HUOM.lienee hyväksi siivota aiemmat tar:it kummittelemasta, tapahtuu skriptin lopussa kysymyksen takana
 
 function common_part() {
@@ -386,10 +386,9 @@ case "${mode}" in
 	1)
 		common_part ${srcfile} ${d} /
 	;;
-	#VAIH:vähintään toinen case toimimaan sqroot-ymp (ainakin liittyi se että tulisi olla oikeat versiot .deb-paketeista)
-	#... alkaisikohan jo 110526 olla tämä ja seur case ok?
-	#
-	#130526 taisi olla jotain pientä kiukuttelua sqwroot ulkop mutta siis
+	#240536:jospa olisi tämä ja case 3 jo kunnossa
+	#... tai sqrootissa oli menu- ja libw-pakettien asenynuksen kanssa pientä kiukuttelya, toistuuko?
+	#... exp2 rp testiin?
 	0)
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
@@ -402,7 +401,8 @@ case "${mode}" in
 		other_horrors
 	;;
 	3)
-		#VAIH:mielellään suorituksen keskeytys aikaisessa vaiheessa mikäli gpg hankaa vastaan, erityisesti ennen lähteen hukkaamista
+		#140526 muutettu paikallinen ocs että stoppaa tarv
+
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
 		ocs gpg
@@ -454,7 +454,7 @@ case "${mode}" in
 	;;
 esac
 
-#poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistuslisätä (TODO)
+#poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (TODO)
 if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
 	read -p " U  WANT 2 RM SOURCE ?" confirm
 	[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
