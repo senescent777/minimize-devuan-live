@@ -381,6 +381,8 @@ function common_pp3() {
 
 		dqb "SAH.0"
 		csleep 1
+		#HUOM.lähteen delliminen ja pakettien siirtely voi aiheuttaa härdelliä myöhemmin, kun pitäisi g_doit kautta käskyttää part3
+		#e22_gi, gu, gv mukaiset kalat voisi katsoa että löytyy shasums + siirtää toiseen hak mutta muut tar:in sisältämät... jokin osittainen purq CB01, CB02 varten
 
 		for s in $(grep -v '#' ${1}/sha512sums.txt | awk '{print $2}') ; do
 			${svm} ${1}/${s} ${2}
@@ -666,7 +668,7 @@ function check_binaries() {
 	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 		[ -z "${1}" ] && exit 99
 		[ -d ${1} ] || exit 101
-		t=$(mktemp -d) #mkt?
+		t=$(${mkt} -d) 
 
 		#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
 		cefgh ${1}
