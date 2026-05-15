@@ -66,14 +66,18 @@ fi
 
 case "${mode}" in
 	rp) #VAIH:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms
-		
+		#siirtynee koodia casen ja fktion välillä vielä
+
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
-	
-		c=$(tar -tf ${tgtfile} | grep f.tar | wc -l)
-		t=${d}
 
-		if [ ${c} -gt 0 ] ; then	
+		e22_cleanpkgs ${d}
+		e22_cleanpkgs ${CONF_pkgdir}
+
+		c=$(tar -tf ${tgtfile} | grep f.tar | grep -v '.sha' | head -n 1)
+		t=/
+
+		if [ ! -z "${c}" ] ; then	
 			if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 				t=${CONF_testgris} 
 			fi
@@ -81,8 +85,23 @@ case "${mode}" in
 			${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${t} -xvf ${tgtfile}
 		fi
 
-		csleep 10
-		e22_rpg ${d}/f.tar ${d} ${t} ${gbk}	#TODO:lottoa parametrit kohdalleen	
+		csleep 5
+		${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${d} -xvf ${d}/f.tar
+		csleep 5
+
+		[ $? -eq 0 ] || exit 99
+		${svm} ${d}/f.tar ${d}/f.tar.OLD
+		csleep 5
+	
+		##e22_rpg ${d}/f.tar ${d} ${t} ${gbk}	#VAIH:lottoa parametrit (tai koko fktio) kohdalleen	
+		##miten dblock() käskytys? voisi käyttää jotain tmp-hmistoa minne dumpata f.tar sisältö	
+		e22_arch ${d}/f.tar ${d} ${gbk}
+
+		if [ ! -z "${c}" ] ; then
+			cd ${t}
+			${srat} -uvf ${tgtfile} ${c}
+			${srat} -uvf ${tgtfile} ${c}.sha
+		fi
 	;;
 	f)
 		t=$(echo ${d} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)

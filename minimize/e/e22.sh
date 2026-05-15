@@ -148,13 +148,16 @@ function e22_arch() {
 	e22_tyg ./sha512sums.txt.1
 	aqsp .
 
+	csleep 5
+	${sah6} -c ./sha512sums.txt.1
+	csleep 5
+
 	#local r=$(aqsp .) 
 	#TODO:jos tällä tavalla jatkaa niin vissiinkin pitäisi testata että r joko tyhjä tai sisältää pelkästään alkion "0"
 	#local r=$(aqsp å) #.
 	#echo "rv= ${r}"
 	#exit
-#
-
+	
 	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
 	cd ${p}
 }
@@ -710,32 +713,33 @@ function e22_pre_e() {
 ##	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
 ##	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 ##}
-
-function e22_rpg() {
-	dqb "R-P-G ${1} , ${2} , ${3}. ${4}"
-	csleep 1	
-
-	[ -z "${1}" ] && exit 99
-	[ -z "${2}" ] && exit 98	
-	[ -s "${1}" ] || exit 97
-	[ -d ${2} ] || exit 96
-	[ -z "${3}" ] && exit 33 #tarpeellinen param?
-	[ -d ${3} ] || exit 34
-	[ -z "${4}" ] && exit 37
-
-	csleep 1
-	dqb "pars 0k"
-
-	e22_cleanpkgs ${2}
-	e22_cleanpkgs ${3}
-			
-	dqb "${srat} --exclude \"sha512sums\*\" --exclude \"\*pkgs*\" -C ${2} -xvf ${1}"
-	csleep 1
-	
-	${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${2} -xvf ${1}
-	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD # ehkä josqs takaisin
-	csleep 1
-			
-	e22_arch ${1} ${2} ${4}
-	cd ${2}
-}
+#
+#function e22_rpg() { #pitäisi lotota uusiksi tämä joskus
+#	dqb "R-P-G ${1} , ${2} , ${3}. ${4}"
+#	csleep 1	
+#
+#	[ -z "${1}" ] && exit 99
+#	[ -z "${2}" ] && exit 98	
+#	[ -s "${1}" ] || exit 97
+#	[ -d ${2} ] || exit 96
+#	[ -z "${3}" ] && exit 33 #tarpeellinen param?
+#	[ -d ${3} ] || exit 34
+#	[ -z "${4}" ] && exit 37
+#
+#	csleep 1
+#	dqb "pars 0k"
+#
+#	#${2}
+#	#e22_cleanpkgs ${3}
+#			
+#	dqb "${srat} --exclude \"sha512sums\*\" --exclude \"\*pkgs*\" -C ${2} -xvf ${1}"
+#	csleep 1
+#	
+#	${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${2} -xvf ${1}
+#	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD # ehkä josqs takaisin
+#	csleep 1
+#			
+#	e22_arch ${1} ${2} ${4}
+#	cd ${2}
+#}
+#
