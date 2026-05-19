@@ -44,11 +44,11 @@ dqb "BEFORE L1B"
 process_lib ${d}
 csleep 2
 
-#250426 final takaisin kommenteista jotta mutuilatetc varmasti toimisi
+#250426 final takaisin kommenteista jotta mutilatetc varmasti toimisi
 e_final
 e_h $(whoami) ${d0}
 
-#jos vaikka näin?
+#jos vaikka näin? ehkä tarttee jotain juttuja lisää
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 csleep 2
 
@@ -76,7 +76,7 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-if [ ${CONF_removepkgs} -eq 1 ] ; then
+if [ ${CONF_removepkgs} -eq 1 ] && [ ! -f  /.chroot ] ; then # 2. ehto ok?
 	dqb "kö"
 	TLA
 else
@@ -91,22 +91,22 @@ function t2p_filler() {
 	csleep 1
 }
 
-#tarpeellinen blokki nykyään? TODO:selvitä
-if [ -f /.chroot ] ; then
-	${sharpy} blu*
-	${sharpy} nfs*
-	${sharpy} rpc*
-
-	t2p_filler
-
-	${sharpy} dmsetup #tässä kohtaa jo gpg hukataan?
-	${sharpy} at-spi2-core	
-	${sharpy} psmisc
-
-	t2p_filler
-	dqb "V1"
-	exit
-fi
+##140526 edelleen tarpeellinen blokki, puuttuvat paketit $d alla aiheuttavat?
+#if [ -f /.chroot ] ; then
+#	${sharpy} blu*
+#	${sharpy} nfs*
+#	${sharpy} rpc*
+#
+#	t2p_filler
+#
+#	${sharpy} dmsetup #tässä kohtaa jo gpg hukataan?
+#	${sharpy} at-spi2-core	
+#	${sharpy} psmisc
+#
+#	t2p_filler
+#	dqb "V1"
+#	#exit
+#fi
 
 #110526:josko nyt poistuisi?
 if [ "${CONF_iface}" != "wlan0" ] ; then
@@ -212,7 +212,7 @@ t2pf ${d}
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 2 ] && exit
 
-#TODO:minimal_live;:n pakettivalikoima johonkin erilliseen tiedostoon ettei skeoile hukkaan
+#140526:minimalin pakettilista kopsattu .txt-tiedostoon
 
 if [ ${mode} -gt 3 ] ; then
 	${sharpy} slim
