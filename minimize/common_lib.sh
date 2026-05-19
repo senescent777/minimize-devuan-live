@@ -1,5 +1,6 @@
 #fktioksi tmä ni ei tartte globaalien mjien kanssa sählätä?
 if [ -s ${d0}/$(whoami).conf ] ; then
+	#pitäisikö olla eri conf toisen repon skriptien kautta mentäessä?
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
 	sleep 5
@@ -21,8 +22,10 @@ function csleep() {
 
 #tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn? koska syyt? (siis siihen samaan missä profs.sh?)
 
-#ei tarvinne conf_alt_root ainakaan vielä
-if [ -f /.chroot ] ; then
+#180526:kokeillaan auttaisiko jälkimmäinen ehto kehitysymp sudo-juttujen kanssa
+#... vissiin ei ihan nöin suoraviivaisesti mene
+
+if [ -f /.chroot ]  ; then #|| [ -v CONF_testgris ]
 	odio=""
 
 	function itni() {
@@ -45,7 +48,7 @@ itni
 
 function fix_sudo() {
 	dqb "common_lib.fix_sud0.pt0"
-
+	
 	sco=$(${odio} which chown)
 	[ y"${sco}" == "y" ] && exit 98
 	[ -x ${sco} ] || exit 97
@@ -54,27 +57,30 @@ function fix_sudo() {
 	[ y"${scm}" == "y" ] && exit 96
 	[ -x ${scm} ] || exit 95
 
-	dqb "f_s_PART2"
 	sco="${odio} ${sco} "
 	scm="${odio} ${scm} "	
 
-	${sco} -R 0:0 /etc/sudoers.d
-	${scm} 0440 /etc/sudoers.d/*
-	${sco} -R 0:0 /etc/sudo*
-	${scm} -R a-w /etc/sudo*
+	if [ ! -v CONF_testgris ] ; then
+		dqb "INNERMOST"
 
-	dqb "POT. DANGEROUS PT 1"
+		${sco} -R 0:0 /etc/sudoers.d
+		${scm} 0440 /etc/sudoers.d/*
+		${sco} -R 0:0 /etc/sudo*
+		${scm} -R a-w /etc/sudo*
 
-	if [ -d /usr/lib/sudo ] ; then
-		${sco} 0:0 /usr/lib/sudo/*
-		${scm} -R a-w /usr/lib/sudo/*
-		${scm} 0444 /usr/lib/sudo/sudoers.so
+		dqb "POT. DANGEROUS PT 1"
+
+		if [ -d /usr/lib/sudo ] ; then
+			${sco} 0:0 /usr/lib/sudo/*
+			${scm} -R a-w /usr/lib/sudo/*
+			${scm} 0444 /usr/lib/sudo/sudoers.so
+		fi
+
+		dqb "fix_sud0.pt whåtever"
+		${scm} 0750 /etc/sudoers.d
+		${scm} 0440 /etc/sudoers.d/*
 	fi
-
-	dqb "fix_sud0.pt"
-	${scm} 0750 /etc/sudoers.d
-	${scm} 0440 /etc/sudoers.d/*
-
+	
 	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
 	csleep 1
 	dqb "fix_sud0.d0n3"
@@ -85,20 +91,26 @@ function fix_sudo() {
 function other_horrors() {
 	dqb "other_horrors"
 
-	for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
-		${sco} -R root:root ${f}
-		${scm} 0400 ${f}
-	done
+	if [ ! -v CONF_testgris ] ; then
+		dqb "1NTERBAL SUFFER1NG"
 
-	${scm} 0550 /etc/iptables
-	${sco} -R root:root /etc/iptables
-	${scm} 0400 /etc/default/rules*
-	${scm} 0555 /etc/default
-	${sco} -R root:root /etc/default
+		for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
+			${sco} -R root:root ${f}
+			${scm} 0400 ${f}
+		done
+
+		${scm} 0550 /etc/iptables
+		${sco} -R root:root /etc/iptables
+		${scm} 0400 /etc/default/rules*
+		${scm} 0555 /etc/default
+		${sco} -R root:root /etc/default
+	fi
+
 	dqb " DONE"
 	csleep 1
 }
 
+#testgris-ehdon taakse vai ei? vaiko parempi että fktioiden sisällä nuo tarkistukset va miotenkä?
 fix_sudo
 other_horrors
 
@@ -215,25 +227,27 @@ function check_bin_0() {
 	export LC_ALL
 	export LANG
 
-	#280326:/o/b/zxcv - jutut jo kunnossa? vai vielä jotain säätöä?
-	[ -s /opt/bin/zxcv ] || echo "should exit 98"
-	[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
-	[ -s /opt/bin/zxcv.sha ] || echo "shoul.d ex1t 97"
+	#18+0526:kaikki /o/b liittyvät testgris.tark taakse (VAIH)	
+	if [ ! -v CONF_testgris ] ; then	
+		[ -s /opt/bin/zxcv ] || echo "should exit 98"
+		[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
+		[ -s /opt/bin/zxcv.sha ] || echo "shoul.d ext1 8 97"
 
-	#pitäisiköhä olla lukuoikeus noilla ao. tdstoilla?
+		#pitäisiköhä olla lukuoikeus noilla ao. tdstoilla?
 
-	${odio} ${sah6} -c /opt/bin/zxcv.sha
-	#jatkossa .sig vai .sha.sig?
-	[ $? -gt 0 ] && echo "gh0uls 0f n1n1w3h"
+		${odio} ${sah6} -c /opt/bin/zxcv.sha
+		#jatkossa .sig vai .sha.sig?
+		[ $? -gt 0 ] && echo "gh0uls 0f n1n1w3h"
 
-	[ -z "${gg}" ] || ${gg} --verify /opt/bin/zxcv.sig
-	[ $? -gt 0 ] && echo "dhoulf exit 126"
+		[ -z "${gg}" ] || ${gg} --verify /opt/bin/zxcv.sig
+		[ $? -gt 0 ] && echo "dhoulf exit 126"
 
-	local p=$(pwd)
-	cd /
-	${odio} ${sah6} -c /opt/bin/zxcv
-	[ $? -gt 0 ] && echo "dhoulf exit 1234!!!"
-	cd ${p}
+		local p=$(pwd)
+		cd /
+		${odio} ${sah6} -c /opt/bin/zxcv
+		[ $? -gt 0 ] && echo "dhoulf exit 1234!!!"
+		cd ${p}
+	fi
 
 	csleep 1
 	dqb "cb0 done"
@@ -411,8 +425,8 @@ function efk1() {
 
 	if [ $? -eq 0 ] ; then
 		${NKVD} $@
-		dqb "ÖK"
-	else
+	#	dqb "ÖK"
+	#else
 		dqb $?
 	fi
 
@@ -554,7 +568,7 @@ function CB01() {
 #		exit 103
 #	fi
 
-	#160426:libaassuanin kanssa härdelliä vai ei?
+	#160426:libassuanin kanssa härdelliä vai ei?
 	common_pp3 ${1} ${2}
 	for p in ${E22_GI} ; do efk1 ${2}/${p}*.deb ; done
 	csleep 1
@@ -640,8 +654,17 @@ function check_binaries() {
 
 	#... nuo jutut miel accept1/2 mukaan jatq tjsp?
 
+	#TODO:testiymp kanssa exit sopivin välein ja sitten etsaamnaabn
+
 	local y
-	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh
+	if [ -v CONF_testgris ] ; then
+		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp"
+		ipt="/usr/sbin/iptables"
+		gg="/usr/bin/gpg"
+	else
+		y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh
+	fi
+	
 	for x in ${y} ; do ocs ${x} ; done
 
 	#HUOM.nämä e22_jutut tarkoituksella asetettu juuri tässä fktiossa
@@ -691,11 +714,12 @@ function check_binaries() {
 	fi
 
 	dqb "#jäölk ÄYÖYÄ SDDFSDSDGH t. Paska-Ankka"
-	#echo "CBIN.BF0RE.OCS"
 	ls ${t}/*.deb | wc -l
 	csleep 3
 
-	for x in iptables ip6tables iptables-restore ip6tables-restore gpg ; do ocs ${x} ; done
+	if [ ! -v CONF_testgris ] ; then #chroot-ehto myös?
+		for x in iptables ip6tables iptables-restore ip6tables-restore gpg ; do ocs ${x} ; done
+	fi
 
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
@@ -723,12 +747,15 @@ function check_binaries2() {
 	csleep 1
 	[ -v sd0 ] || exit 666
 
+	#TODO:kokeeksi odion nollaus jos conf_tesgris?
+	#... vai olisikohan suuremmat ongelmat testiymp kanssa check_bin1 aiheuttamia?	
+
 	ipt="${odio} ${ipt} "
 	ip6t="${odio} ${ip6t} "
 	iptr="${odio} ${iptr} "
 	ip6tr="${odio} ${ip6tr} "
 
-	#HUOM.joutaisi varmaan nimeämistä miettiä, vöin tull skaannuksia
+	#HUOM.joutaisi varmaan nimeämistä miettiä, vöibv tull skaannuksia
 	sharpy="${odio} ${sag} remove --purge --yes "
 	#HUOM. ${sag} oltava VIIMEISENÄ tai siis ao. kolmikosta
 	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
@@ -744,7 +771,9 @@ function check_binaries2() {
 	export INITRD
 
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
-	${scm} a-wx /usr/sbin/update-initramfs #kokeeksi tämäkin, vissiin jotyain saa aikaan 050426
+	if [ ! -v CONF_testgris ] ; then 
+		${scm} a-wx /usr/sbin/update-initramfs #kokeeksi tämäkin, vissiin jotyain saa aikaan 050426
+	fi
 
 	#aiemmin moinen lftr oli tarpeen koska ram uhkasi loppua kesken initrd:n päivittelyn johdosta
 	#cp: error writing /run/live/medium/live/initrd.img.new: No space left on device
@@ -817,6 +846,8 @@ function mangle_s() {
 	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
 	#$r kanssa jotain t arkistuksia?
 	${scm} 0555 ${r}
+
+	#seur tivi voi aiheuttaa kiukuttelua jos odio ei asetettu
 	${sco} root:root ${r}
 	#vs /e/paswd ?
 
@@ -859,6 +890,7 @@ function dinf() {
 
 #=================================================================
 function fasdfasd() {
+	dqb "fasdfasd ))) ${1} )))"
 	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
 	[ -z "${1}" ] && exit 99
 
@@ -877,16 +909,17 @@ function reqwreqw() {
 	${scm} a-w ${1}
 }
 
-#150326:ehkä tämäkin toimii
 function e_final() {
 	csleep 1
 
-	${scm} go-rw /opt/bin/*
-	${scm} 0400 /opt/bin/*.sh
-	${scm} 0511 /opt/bin/*.bash
-	${sco} -R root:root /opt
-	${scm} 0755 /
-	${sco} root:root /
+	if [ ! -v CONF_testgris ] ; then
+		${scm} go-rw /opt/bin/*
+		${scm} 0400 /opt/bin/*.sh josko pääte pois? 
+		${scm} 0511 /opt/bin/*.bash
+		${sco} -R root:root /opt
+		${scm} 0755 /
+		${sco} root:root /
+	fi
 
 	${scm} 0777 /tmp
 	#${scm} o+w /tmp
@@ -917,17 +950,21 @@ function e_h() {
 	${scm} 0755 ${2}
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
+
 	local m=0555
+	csleep 1
 
 	#tämäkö siihen "-v vs ei -v"-temppuiluun liittyy?
 	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
 	csleep 1
 
-	if [ -d ${2}/opt/bin ] ; then
-		${sco} -R root:root ${2}/opt/bin
-		${scm} go-wr ${2}/opt/bin/*
-		${scm} 0400 ${2}/opt/bin/*.sh #liene ejo turha
-		${scm} 0511 ${2}/opt/bin/*.bash
+	if [ ! -v CONF_testgris ] ; then
+		if [ -d ${2}/opt/bin ] ; then
+			${sco} -R root:root ${2}/opt/bin
+			${scm} go-wr ${2}/opt/bin/*
+			${scm} 0400 ${2}/opt/bin/*.sh #liene ejo turha
+			${scm} 0511 ${2}/opt/bin/*.bash
+		fi
 	fi
 
 	csleep 1
@@ -950,47 +987,50 @@ function pre_enforce() {
 	fasdfasd ${q}
 	[ ${debug} -eq 1 ] && ls -las ${q}
 	csleep 1
+
 	[ -f ${q} ] || exit 33
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
 
 	dqb "BFOR3 testgris"
 	csleep 1
 
-	if [ ! -d /opt/bin ] ; then
-		${smd} /opt/bin
-		[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
+	if [ ! -v CONF_testgris ] ; then
+		if [ ! -d /opt/bin ] ; then
+			${smd} /opt/bin
+			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
+		fi
 	fi
 
 	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 
-	#140326:jospa olisi tämä blokki jnkin aikaa ok näin
-	if [ -d ${1}/opt/bin ] ; then
-		#tämä mv ok?
-		${svm} ${1}/opt/bin/*.bash /opt/bin
-		#090326.2:miten /o/b/zxcv ?
+	if [ ! -v CONF_testgris ] ; then
+		if [ -d ${1}/opt/bin ] ; then
+			#tämä mv ok?
+			${svm} ${1}/opt/bin/*.bash /opt/bin
+			#090326.2:miten /o/b/zxcv ?
+			#/o/b oikeudet ja omistajat tulisi jossain asettaa
+		fi
 	fi
 
 	e_final
 
 	if [ ! -v CONF_testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
-		#tämä blokki kai eniten aiheuttaisi ongelmia sqroot-ympstössä?
-		#vainko .bash mankeloidaan jatkossa?
+		#1. tämä blokki kai eniten aiheuttaisi ongelmia sqroot-ympstössä?
+		#2. o/b sisällön oikeuksia/omistajia varten taisi olla e_final
+		#3. changedns.vash joutaisi jo mennä (TODO)
 
 		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q}
 		done
 	fi
 
-	#uutena 150326
-	#${scm} a-w /opt/bin/*
-	#${scm} a-wx /opt/bin/*.sh
-	#csleep 1
 	csleep 1
 
 	if [ -s ${q} ] ; then
 		csleep 1
 		reqwreqw ${q}
 		${scm} 0440 ${q}
+
 		#tämä mv ok?
 		${svm} ${q} /etc/sudoers.d
 		CB_LIST1=""
@@ -1009,6 +1049,7 @@ function pre_enforce() {
 	c4=0
 	csleep 1
 
+	#setup2 mennee vähän päällekkäin ytämän fktion kanssa toiminnallisesti
 	if [ -v CONF_dir ] ; then
 		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
 	else
@@ -1072,7 +1113,7 @@ function e_e() {
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
 	dqb "JUST BEF0RE MUTILATING RESOLV.CONF"
-	csleep 10
+	csleep 5
 
 	if [ -f /etc/resolv.conf.${f} ] ; then
 		dqb "SADF SADF SADFS ASDGH"
@@ -1091,9 +1132,9 @@ function e_e() {
 	fi
 
 	dqb "JUST AFTER MUTILATING RESOLV.CONF"
-	csleep 5
+	csleep 2
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-	csleep 5
+	csleep 2
 
 	#CONF_iface-tarkistuksen taakse?
 	${sco} -R root:root /etc/wpa_supplicant
@@ -1341,7 +1382,10 @@ function part2() {
 
 		#210326:nyt sitten miettimään että pitäisikö reslvo.conf:ille tehdä jotain. taas
 		t=$(echo ${2} | tr -d -c 0-9)
-		${odio} /opt/bin/tlb.bash ${t}
+
+		if [ ! -v CONF_testgris ] ; then
+			${odio} /opt/bin/tlb.bash ${t}
+		fi
 	fi
 
 	if [ ${debug} -eq 1 ] ; then
