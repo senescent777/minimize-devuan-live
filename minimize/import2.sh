@@ -182,8 +182,9 @@ function cptp2() {
 
 		if [ -x ${t}/common_lib.sh ] ; then
 			enforce_access $(whoami) ${t}
+			csleep 10
 
-			dqb "running changedns.sh maY be necessary now to fix some things"
+			dqb "1MP,2: running changedns.sh maY be necessary now to fix some things"
 		else
 			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
 		fi
@@ -316,17 +317,22 @@ else
 	[ "${confirm}" == "Y" ] || exit 33
 fi
 
-dqb "mode=${mode}"
-dqb "distro=${distro}"
-dqb "srcfile=${srcfile}"
+dqb "IPM2.mode=${mode}"
+dqb "ip2m.distro=${distro}"
+dqb "m2pi.srcfile=${srcfile}"
 csleep 5
 
 #HUOM.280426:jatkossa tämä skripti lienee turha sqroot-ympäristössä, voisi karsia siitä yuhdestä paketista
 #... paItsi että "$0 r"
+dqb "JUSTR BEFOERE 3SAC"
+csleep 2
 
 case "${mode}" in
-	1|0|3) #130526:vielä ei mene ihan nappiin tässä, common_lib.sh oikeudet saattavat liittyä
-		./sq-rot.sh ${mode} ${tgtfile}
+	1|0|3) #20526:ilmeinen bugi vihdoinkin korjattu
+		./sq-rot.sh ${mode} ${srcfile} -v
+		#dqb $?
+		#dqb "2IMP: 	AFTR S.Q.R"
+		#csleep 10
 	;; 
 	r)
 		dqb "NT R"
