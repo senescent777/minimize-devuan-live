@@ -46,6 +46,7 @@ function parse_opts_2() {
 	fi
 }
 
+#TODO:ao. if.-blokin sisältö fktioksi? kutsutaan main() kautta?
 #e.tar purq (cefgh()) vs tämä sq-rot alku
 if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 	#280426:self_extracting_archive-kikkailu saattaa tehdä tämän if-blkin turhaksi jatkossa ( tai sitten ei)
@@ -236,6 +237,7 @@ else
 fi
 
 #HUOM.lienee hyväksi siivota aiemmat tar:it kummittelemasta, tapahtuu skriptin lopussa kysymyksen takana
+#TODO:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
 
 function common_part() {
 	dqb "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
@@ -340,7 +342,7 @@ function cptp2() {
 	[ -d ${1} ] || exit 97
 
 	dqb "cptp2:pars ok"
-	csleep 1
+	csleep 10
 
 	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
 	local t
@@ -356,11 +358,12 @@ function cptp2() {
 
 		if [ -x ${t}/common_lib.sh ] ; then
 			enforce_access $(whoami) ${t}
-			dqb "running changedns.sh maY be necessary now to fix some things"
+			dqb "TRO: running changedns.sh maY be necessary now to fix some things"
 		else
 			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
-			csleep 10
 		fi
+		
+		csleep 10
 	fi
 
 	csleep 1
