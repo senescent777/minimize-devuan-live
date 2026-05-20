@@ -12,6 +12,10 @@ else
 	fi	
 fi
 
+unset sco
+unset scm
+unset odio
+
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
 }
@@ -24,42 +28,55 @@ function csleep() {
 
 #180526:kokeillaan auttaisiko jälkimmäinen ehto kehitysymp sudo-juttujen kanssa
 #... vissiin ei ihan nöin suoraviivaisesti mene
+#3 huomioitavaa tapsuat oikeastaan (01/26 oikeastaan jo sen suuntaisi keloja jotta if->switch...case)
 
-if [ -f /.chroot ]  ; then #|| [ -v CONF_testgris ]
+#sco,sec-asettelut sittenkin ao. if-blokkiin?
+if [ -f /.chroot ] ; then #
 	odio=""
 
 	function itni() {
 		dqb "alt-itn1"
 	}
 else
-	function itni() {
-		dqb "ITN1-2"
+	if [ -v CONF_testgris ] ; then
+		odio=""
+		
+		function itni() {
+			dqb "itn1-3"
+			}
+	else
+		function itni() {
+			dqb "ITN1-2"
 
-		odio=$(which sudo)
-		[ y"${odio}" == "y" ] && exit 99 
-		[ -x ${odio} ] || exit 100
-	}
+			odio=$(which sudo)
+			[ y"${odio}" == "y" ] && exit 99 
+			[ -x ${odio} ] || exit 100
+			
+			sco=$(${odio} which chown)
+			[ y"${sco}" == "y" ] && exit 98
+			[ -x ${sco} ] || exit 97
 
-	#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
-	#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
+			scm=$(${odio} which chmod)
+			[ y"${scm}" == "y" ] && exit 96
+			[ -x ${scm} ] || exit 95
+			sco="${odio} ${sco} "
+			scm="${odio} ${scm} "	
+		}
+
+		#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
+		#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
+	fi
 fi
 
 itni
+#exit
+#TODO:koko roska kommentteihin ja palauttelee sitten sen verranq tarvitsee
+#ensisijaisets i toisen repon skriptien kanssa testaa mitä tarbitsee
 
 function fix_sudo() {
 	dqb "common_lib.fix_sud0.pt0"
+#	#exit
 	
-	sco=$(${odio} which chown)
-	[ y"${sco}" == "y" ] && exit 98
-	[ -x ${sco} ] || exit 97
-
-	scm=$(${odio} which chmod)
-	[ y"${scm}" == "y" ] && exit 96
-	[ -x ${scm} ] || exit 95
-
-	sco="${odio} ${sco} "
-	scm="${odio} ${scm} "	
-
 	if [ ! -v CONF_testgris ] ; then
 		dqb "INNERMOST"
 
@@ -84,13 +101,13 @@ function fix_sudo() {
 	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
 	csleep 1
 	dqb "fix_sud0.d0n3"
-
 	#HUOM.29925:pidetään nyt varm. vuoksi "ch m00d abcd \u5 R \ bin \ 5 ud0 *" poissa tstä
 }
 
 function other_horrors() {
 	dqb "other_horrors"
-
+	#exit
+	
 	if [ ! -v CONF_testgris ] ; then
 		dqb "1NTERBAL SUFFER1NG"
 
@@ -113,7 +130,9 @@ function other_horrors() {
 #testgris-ehdon taakse vai ei? vaiko parempi että fktioiden sisällä nuo tarkistukset va miotenkä?
 fix_sudo
 other_horrors
+#exit
 
+#TODO:testgris?
 function ocs() {
 	dqb "ocs () () ((( ${1} "
 	local tmp2
@@ -132,23 +151,25 @@ function ocs() {
 function check_bin_0() {
 	dqb "check_bin_0"
 	csleep 1
-
-	dqb "cb1"
+	#exit
+	
+	dqb "cb01"
 	ocs sha512sum
 	ocs dpkg
 	ocs tar
 	ocs shred
 	csleep 1
 
-	dqb "cb2"
+	dqb "cb02"
 	unset sdi #tekeeko tämä jotain? kyl , kts check_bin ,, "second half"
 	unset sr0
 	unset srat
 	unset sah6
 	unset NKVD
 	csleep 1
-
-	dqb "cb3"
+	#exit
+	
+	dqb "cb03"
 	sah6=$(${odio} which sha512sum)
 
 	sd0=$(${odio} which dpkg)
@@ -168,7 +189,7 @@ function check_bin_0() {
 	fi
 
 	csleep 1
-	dqb "cb4"
+	dqb "cb04"
 
 	slinky=$(${odio} which ln)
 	slinky="${odio} ${slinky} -s "
@@ -226,7 +247,8 @@ function check_bin_0() {
 	export LANGUAGE
 	export LC_ALL
 	export LANG
-
+	#exit
+	
 	#18+0526:kaikki /o/b liittyvät testgris.tark taakse (VAIH)	
 	if [ ! -v CONF_testgris ] ; then	
 		[ -s /opt/bin/zxcv ] || echo "should exit 98"
@@ -254,6 +276,7 @@ function check_bin_0() {
 }
 
 check_bin_0
+#exit
 
 function jules() {
 	dqb "LE BIG MAC"
@@ -362,7 +385,8 @@ function common_pp3() {
 
 	[ ${debug} -eq 1 ] && pwd
 	csleep 1
-
+	#exit
+	
 	dqb "find ${1} -type f -name \* .deb"
 	csleep 3
 
@@ -372,6 +396,7 @@ function common_pp3() {
 	q=$(find ${1} -type f -name "*.deb" | wc -l)
 	r=$(echo ${1} | cut -d "/" -f 1-5)
 
+	#TODO:tesgris-juttuja?
 	if [ ${q} -lt 1 ] ; then
 		echo "SHOULD REMOVE ${1} / sha512sums . t x t"
 		echo "ibcovation \"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
@@ -425,12 +450,8 @@ function efk1() {
 
 	if [ $? -eq 0 ] ; then
 		${NKVD} $@
-	#	dqb "ÖK"
-	#else
 		dqb $?
 	fi
-
-	#csleep 1 #riittäisikö?
 }
 
 function efk2() {
@@ -520,7 +541,8 @@ function cefgh() {
 
 	dqb "pars ok"
 	csleep 1
-
+	#exit
+	
 	if [ -z "${gg}" ] ; then
 		#tähän sah6-tarkistus vai ei?
 		dqb "SHOULD {sah6} -c ${1}/e.tar HERE"
@@ -537,7 +559,8 @@ function cefgh() {
 	fi
 
 	efk2 ${1}/f.tar ${1}
-
+	#exit
+	
 	if [ $? -eq 0 ] ; then
 		[ -x ${gg} ] && ${NKVD} ${1}/f.tar
 	fi
@@ -555,7 +578,9 @@ function CB01() {
 	[ -d ${1} ] || exit 100
 	[ -z "${2}" ] && exit 98
 	[ -d ${2} ] || exit 102
-
+	dqb "pars.0k"
+	#exit
+	
 #	#180426:josko sittenkin kikkailisi ao. blokin -> cefgh ?
 #	if [ -s ${1}/g.tar ] ; then
 #		#JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen
@@ -572,17 +597,22 @@ function CB01() {
 	common_pp3 ${1} ${2}
 	for p in ${E22_GI} ; do efk1 ${2}/${p}*.deb ; done
 	csleep 1
-
+	dqb "iZOMVIE"
+	#exit
+	
+	#TODO:tgris-tetris
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
 	[ -z "${gg}" ] && ${scm} a-wx ${1}/../common_lib.sh #$0 josko näin kuitenkin?
 	csleep 1
-
+	dqb "CcC"
+	#exit
+	
 #	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt.bak ${1}/sha512sums.txt
 	common_pp3 ${1} ${2}
-	
 	dqb "common.lib.CB01() DONE"
 	csleep 1
+	#exit
 }
 
 #160426:bissiin ei tarvtse muutella Just Nyt
@@ -593,23 +623,31 @@ function CB02() {
 
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
-
+	dqb "c0b2.pars.0k"
+	#exit
+	
 	[ -f /.chroot ] && message
 	local p
 	for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
-
+	#exit
+	
 	for p in ${E22_GV} ; do 
 		fromtend ${1}/${p}*.deb
 		[ $? -eq 0 ] && ${NKVD} ${1}/${p}*.deb
 	done
-
+	
+	dqb "GYUV DONE, NXT:P2T"
+	#exit
 	other_horrors
+	
 	ipt=$(${odio} which iptables)
 	ip6t=$(${odio} which ip6tables)
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
-
+	#exit
+	
 	#sqroot-juttuja
+	#TODO:testgris liittyviä muutoksia?
 	[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh #tai $0 ?
 	dqb "CB02() D0.N3"
 	csleep 1
@@ -618,7 +656,11 @@ function CB02() {
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ) "
 	csleep 1
-
+	#exit
+	
+	dqb "6tr"
+	csleep 1
+	
 	ipt=$(${odio} which iptables)
 	ip6t=$(${odio} which ip6tables)
 	iptr=$(${odio} which iptables-restore)
@@ -654,10 +696,13 @@ function check_binaries() {
 
 	#... nuo jutut miel accept1/2 mukaan jatq tjsp?
 
-	#TODO:testiymp kanssa exit sopivin välein ja sitten etsaamnaabn
-
+	#VAIH:testiymp kanssa exit sopivin välein ja sitten etsaamnaabn
+	#exit
+	dqb "before 0c.s"
 	local y
+	
 	if [ -v CONF_testgris ] ; then
+		#TODO:josqs nämä kikkailut pois jos mahd
 		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp"
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
@@ -666,13 +711,14 @@ function check_binaries() {
 	fi
 	
 	for x in ${y} ; do ocs ${x} ; done
-
+	#exit
+	dqb "GYUV.W"
+	
 	#HUOM.nämä e22_jutut tarkoituksella asetettu juuri tässä fktiossa
 	sdi="${odio} ${sd0} -i "
 
 	#050426:tämä jo okK?
 	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
-
 	#080426:twm-jutut josqs myöhemmin, ehkä (enemmän liittyy e23.sh)
 
 	#050426:dhcp-jutut erilleen jatkossa? 
@@ -683,10 +729,13 @@ function check_binaries() {
 
 	E22_GU="isc-dhcp libnfnet libnetfilter libxtables libmnl libnftnl libnftables libnl-3-200 libnl-route libnl nftables"
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
-
+	#exit
+	
+	dqb "CEPHALIC CAnrAGE"
 	local t
 	t=""
-
+	csleep 1
+	
 	#HUOM. gpg:n opistumis-ongelmalle voisi vähitellen keksiä ratkaisun prkl
 	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 		[ -z "${1}" ] && exit 99
@@ -701,30 +750,38 @@ function check_binaries() {
 		dqb "BF0R3 CVB0"
 		csleep 5
 	fi
-
+	
+	#exit
+	dqb "C0B.HC"
+	csleep 1
+	
 	#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
 	#... pitäisiköhän gg:n suhteen jotain tehdä, imp2 kiukuttelut nimittäin
 
 	if [ -z "${gg}" ] ; then
 		CB01 ${1} ${t}
 	fi
-
+	
+	#exit
+	
 	if [ -z "${ipt}" ] ; then
 		CB02 ${t}
 	fi
 
+	#exit
 	dqb "#jäölk ÄYÖYÄ SDDFSDSDGH t. Paska-Ankka"
 	ls ${t}/*.deb | wc -l
 	csleep 3
 
-	if [ ! -v CONF_testgris ] ; then #chroot-ehto myös?
+	if [ ! -v CONF_testgris ] ; then #190526:vielä ei voi poistaa ehtoa ympäriltä
 		for x in iptables ip6tables iptables-restore ip6tables-restore gpg ; do ocs ${x} ; done
 	fi
 
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
 	csleep 1
-
+	#exit
+	
 	#kts g_pt2 liittyen
 	#ei vielä conf_lt_root
 	#[ -f /.chroot ] || ocs dhclient
@@ -740,13 +797,15 @@ function check_binaries() {
 
 	dqb "b1nar135 0k"
 	csleep 1
+	#exit
 }
 
 function check_binaries2() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2"
 	csleep 1
 	[ -v sd0 ] || exit 666
-
+	#exit
+	
 	#TODO:kokeeksi odion nollaus jos conf_tesgris?
 	#... vai olisikohan suuremmat ongelmat testiymp kanssa check_bin1 aiheuttamia?	
 
@@ -769,7 +828,9 @@ function check_binaries2() {
 	#konftdstoon tuo INITRd vai ei?
 	INITRD=No
 	export INITRD
-
+	dqb "netx : pt 2.22 "
+	#exit
+	
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
 	if [ ! -v CONF_testgris ] ; then 
 		${scm} a-wx /usr/sbin/update-initramfs #kokeeksi tämäkin, vissiin jotyain saa aikaan 050426
@@ -789,13 +850,15 @@ function check_binaries2() {
 
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
+	#exit
 }
 
 function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
 	dqb "TLA.testgris : ${CONF_testgris}"
 	csleep 1
-
+	#exit
+	
 	#3. ehto pois jatkossa vai ei?
 	#200326:toimiikohan tarkistus toivotulla tavalla?
 	#210326:tla() ja sqroot? jos on pedantti niin tuollakin yhdostelmällä piytäisi tables-säännöt muuttaa...
@@ -830,6 +893,7 @@ function slaughter0() {
 	echo ${ts2} | awk '{print $1,$2}' >> ${2} #TARKK PRKL
 }
 
+#TODO:testgris-juttuja?=
 function mangle_s() {
 	dqb " mangle_s( ${1} )"
 	csleep 1
@@ -889,6 +953,8 @@ function dinf() {
 }
 
 #=================================================================
+
+#TODO:testgirs?
 function fasdfasd() {
 	dqb "fasdfasd ))) ${1} )))"
 	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
@@ -900,6 +966,7 @@ function fasdfasd() {
 	${scm} 0644 ${1}
 }
 
+#TODO:testgris
 #olisiko jokin palikka jo aiemmin? e_jutut ? mangle2() ? ei ihan täsmä lleen kumpikaan
 function reqwreqw() {
 	[ -z "${1}" ] && exit 99
@@ -909,36 +976,45 @@ function reqwreqw() {
 	${scm} a-w ${1}
 }
 
+#TODO:testgris-juttuja?
 function e_final() {
+	dqb "ALOMST FINAL"
 	csleep 1
-
+	#exit
+	
 	if [ ! -v CONF_testgris ] ; then
 		${scm} go-rw /opt/bin/*
-		${scm} 0400 /opt/bin/*.sh josko pääte pois? 
+		${scm} 0400 /opt/bin/*.sh #josko pääte pois? 
 		${scm} 0511 /opt/bin/*.bash
 		${sco} -R root:root /opt
 		${scm} 0755 /
 		${sco} root:root /
 	fi
 
+	dqb "D+T"
+	#exit
+	
 	${scm} 0777 /tmp
 	#${scm} o+w /tmp
 	#081225:+t pois koska exp2 u
 	${sco} root:root /tmp
-
+	
 	csleep 1
+	dqb "HINALIZED"
+	#exit
 }
 
-#150326:vissiin toimii kuten tarkoitus
+#TODO:testgris, sudo
 function e_h() {
+	dqb "EH ((( ${1} ;; ((( ${2} ))(((((("
 	[ -z "${1}" ] && exit 98
 	[ -d ${2} ] || exit 99
-
+	dqb "pars.ok"
 	csleep 1
+
 	${sco} root:root /home
 	${scm} 0755 /home
-	local c
-	c=$(grep $1 /etc/passwd | wc -l)
+	local c=$(grep $1 /etc/passwd | wc -l)
 
 	if [ ${c} -gt 0 ] ; then
 		${sco} -R ${1}:${1} ~
@@ -948,9 +1024,13 @@ function e_h() {
 	local f
 	csleep 1
 	${scm} 0755 ${2}
+	dqb "FNID"
+	csleep 1
+	
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
 
+	dqb "SECNFD HLF FO EH)("
 	local m=0555
 	csleep 1
 
@@ -961,120 +1041,17 @@ function e_h() {
 	if [ ! -v CONF_testgris ] ; then
 		if [ -d ${2}/opt/bin ] ; then
 			${sco} -R root:root ${2}/opt/bin
-			${scm} go-wr ${2}/opt/bin/*
-			${scm} 0400 ${2}/opt/bin/*.sh #liene ejo turha
+			#${scm} go-wr ${2}/opt/bin/*
+			${scm} 0400 ${2}/opt/bin/* #.sh #liene ejo turha
 			${scm} 0511 ${2}/opt/bin/*.bash
 		fi
 	fi
 
+	dqb "EH DONE"
 	csleep 1
 }
 
-#HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan?
-function pre_enforce() {
-	dqb "pre_enforce() "
-	[ -z "${1}" ] && exit 98
-	[ -d ${1} ] || exit 97
-	[ -v mkt ] || exit 99
-	dqb "pars_ok"
-	csleep 1
-
-	local q
-	local f
-	q=$(${mkt} -d)
-	q=${q}/meshuqqah
-	csleep 1
-	fasdfasd ${q}
-	[ ${debug} -eq 1 ] && ls -las ${q}
-	csleep 1
-
-	[ -f ${q} ] || exit 33
-	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
-
-	dqb "BFOR3 testgris"
-	csleep 1
-
-	if [ ! -v CONF_testgris ] ; then
-		if [ ! -d /opt/bin ] ; then
-			${smd} /opt/bin
-			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
-		fi
-	fi
-
-	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
-
-	if [ ! -v CONF_testgris ] ; then
-		if [ -d ${1}/opt/bin ] ; then
-			#tämä mv ok?
-			${svm} ${1}/opt/bin/*.bash /opt/bin
-			#090326.2:miten /o/b/zxcv ?
-			#/o/b oikeudet ja omistajat tulisi jossain asettaa
-		fi
-	fi
-
-	e_final
-
-	if [ ! -v CONF_testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
-		#1. tämä blokki kai eniten aiheuttaisi ongelmia sqroot-ympstössä?
-		#2. o/b sisällön oikeuksia/omistajia varten taisi olla e_final
-		#3. changedns.vash joutaisi jo mennä (TODO)
-
-		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
-			mangle_s ${f} ${q}
-		done
-	fi
-
-	csleep 1
-
-	if [ -s ${q} ] ; then
-		csleep 1
-		reqwreqw ${q}
-		${scm} 0440 ${q}
-
-		#tämä mv ok?
-		${svm} ${q} /etc/sudoers.d
-		CB_LIST1=""
-		unset CB_LIST1
-	fi
-
-	q=$(${mkt})
-	fasdfasd ${q}
-	dinf ${q}
-	reqwreqw ${q}
-	${scm} 0440 ${q}
-	${svm} ${q} /etc/sudoers.d
-	csleep 1
-
-	local c4
-	c4=0
-	csleep 1
-
-	#setup2 mennee vähän päällekkäin ytämän fktion kanssa toiminnallisesti
-	if [ -v CONF_dir ] ; then
-		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
-	else
-		exit 99
-	fi
-
-	csleep 1
-	#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
-
-	if [ ${c4} -lt 1 ] ; then
-		csleep 1
-		${scm} a+w /etc/fstab
-		csleep 1
-		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
-		csleep 1
-		${scm} a-w /etc/fstab
-		csleep 1
-		[ ${debug} -eq 1 ] && cat /etc/fstab
-		csleep 1
-	fi
-
-	dqb "pre_enforce() done"
-	csleep 1
-}
-
+#TODO:testgris, sudo
 function mangle2() {
 	[ -z  "${1}" ] && exit 99
 
@@ -1085,9 +1062,11 @@ function mangle2() {
 }
 
 #010426:pitäisiköhän vähän miettiä mistä tätä ao. fkftiota tarpeellista kutsua ja mistä ei?
-
+#TODO:tesgris,sudo
 function e_e() {
+	dqb "e_e"
 	csleep 1
+	
 	fix_sudo
 	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
 
@@ -1145,13 +1124,15 @@ function e_e() {
 		${scm} 0400 ${f}
 	done
 
+	dqb "EE DONE"
 	csleep 1
 }
 
+#TODO;testgris,sudo
 function e_v() {
 	#180326:/sbin - rivien kanssa jotain ongelmaa? chown valittaa /sbin alaisista tdstoista...
 	#kiekolla bittejä poikittain?
-
+	dqb "e_v()"
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
 	dqb "e_V_2 IN 1 SECS"
@@ -1163,15 +1144,21 @@ function e_v() {
 	${sco} root:mail /var/mail
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
+	
+	dqb "EV DONE"
 	csleep 1
 }
 
+#TODO:tesgris,sudo?
+#190526:tästä aiheutuu nalkutusta kehitysymp nukuään
 function enforce_access() {
-	dqb "enforce_access(${1} , ${2} )"
+	dqb "common_lib.enforce_access(${1} , ${2} )"
 	[ -z "${1}" ] && exit 67
 	[ -z "${2}" ] && exit 68
 	csleep 1
-
+	dqb "pars.ok"
+	#exit
+	
 	e_e
 	e_v
 	e_h ${1} ${2}
@@ -1249,6 +1236,7 @@ function part1_5() {
 		csleep 1
 	fi
 
+	#TODO:te3sgrirs, sduo
 	${sco} -R root:root /etc/apt
 	${scm} -R a-w /etc/apt/
 
@@ -1303,6 +1291,7 @@ function part1() {
 	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
 	csleep 1
 
+	#TODO:tesgris,dufo
 	${sco} -R root:root /etc/apt
 	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WH0R3"
@@ -1533,7 +1522,8 @@ function process_lib() {
 	dqb "process_lib( ${1} )(((((((("
 	[ -z "${1}" ] && exit 66
 	csleep 1
-
+	#exit
+	
 	#pointti?
 	if [ -x "${gg}" ] && [ -s ${1}/lib.sh.sig ] ; then
 		dqb "SHOULD ${gg} --verify ${1}/lib.sh.sig ? "
@@ -1543,7 +1533,8 @@ function process_lib() {
 	fi
 
 	csleep 1
-
+#	exit
+	
 	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then
 		.  ${1}/lib.sh
 	else
@@ -1553,12 +1544,15 @@ function process_lib() {
 	#jospa jatkossa c_b if-blokin jälkeen jokatap? silloin syytä tark että common_lib sisältää x.-oik
 	check_binaries ${1}
 	[ $? -eq 0 ] || dqb "SHOULD exit 67"
-
+	#exit
+	
 	check_binaries2
 	[ $? -eq 0 ] || dqb "SHOULD exit 68 också"
-
+	#exit
+	
 	TLA
 	dqb "process_lib.done()"
+	#exit
 }
 
 function gpo() {

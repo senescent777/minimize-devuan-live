@@ -208,6 +208,112 @@ if [ -s ~/xorg.conf.new ] ; then
 	fi
 fi
 
+#HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan?
+#VAIH:tämänm fktiomn viskominen -> g_doit
+function pre_enforce() {
+	dqb "pre_enforce() "
+	[ -z "${1}" ] && exit 98
+	[ -d ${1} ] || exit 97
+	[ -v mkt ] || exit 99
+	dqb "pars_ok"
+	csleep 1
+
+	local q
+	local f
+	q=$(${mkt} -d)
+	q=${q}/meshuqqah
+	csleep 1
+	fasdfasd ${q}
+	[ ${debug} -eq 1 ] && ls -las ${q}
+	csleep 1
+
+	[ -f ${q} ] || exit 33
+	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
+
+	dqb "BFOR3 testgris"
+	csleep 1
+
+	if [ ! -v CONF_testgris ] ; then
+		if [ ! -d /opt/bin ] ; then
+			${smd} /opt/bin
+			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
+		fi
+	fi
+
+	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
+
+	if [ ! -v CONF_testgris ] ; then
+		if [ -d ${1}/opt/bin ] ; then
+			#tämä mv ok?
+			${svm} ${1}/opt/bin/*.bash /opt/bin
+			#090326.2:miten /o/b/zxcv ?
+			#/o/b oikeudet ja omistajat tulisi jossain asettaa
+		fi
+	fi
+
+	e_final
+
+	if [ ! -v CONF_testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
+		#1. tämä blokki kai eniten aiheuttaisi ongelmia sqroot-ympstössä?
+		#2. o/b sisällön oikeuksia/omistajia varten taisi olla e_final
+		#3. changedns.vash joutaisi jo mennä (TODO)
+
+		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
+			mangle_s ${f} ${q}
+		done
+	fi
+
+	csleep 1
+
+	if [ -s ${q} ] ; then
+		csleep 1
+		reqwreqw ${q}
+		${scm} 0440 ${q}
+
+		#tämä mv ok?
+		${svm} ${q} /etc/sudoers.d
+		CB_LIST1=""
+		unset CB_LIST1
+	fi
+
+	q=$(${mkt})
+	fasdfasd ${q}
+	dinf ${q}
+	reqwreqw ${q}
+	${scm} 0440 ${q}
+	${svm} ${q} /etc/sudoers.d
+	csleep 1
+
+	local c4
+	c4=0
+	csleep 1
+
+	#setup2 mennee vähän päällekkäin ytämän fktion kanssa toiminnallisesti
+	if [ -v CONF_dir ] ; then
+		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
+	else
+		exit 99
+	fi
+
+	csleep 1
+	#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
+
+	if [ ${c4} -lt 1 ] ; then
+		csleep 1
+		${scm} a+w /etc/fstab
+		csleep 1
+		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+		csleep 1
+		${scm} a-w /etc/fstab
+		csleep 1
+		[ ${debug} -eq 1 ] && cat /etc/fstab
+		csleep 1
+	fi
+
+	dqb "pre_enforce() done"
+	csleep 1
+}
+
 if [ -s /etc/sudoers.d/meshuqqah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
