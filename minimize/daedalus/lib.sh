@@ -3,6 +3,7 @@
 #https://askubuntu.com/questions/952113/how-to-bypass-dpkg-prompt
 #https://askubuntu.com/questions/254129/how-to-display-all-apt-get-dpkgoptions-and-their-current-values
 #130126:sqrot-tstissä psmisc ei poistunut (miten nkyään?)
+dqb "daud.-lib-19526"
 
 #020326:annetaanpa toistaiseksi olla PART175_LIST kuten on ja p_p2 myös
 function pre_part2() { #käytössä
