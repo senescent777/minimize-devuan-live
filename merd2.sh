@@ -2,7 +2,6 @@
 debug=0
 branch=""
 d0=$(pwd)
-echo "d0=${d0}"
 
 CONF_BASEURL="github.com/senescent777"
 CONF_BASE=minimize
@@ -18,9 +17,15 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#TODO:näiden 2 hyväksi jotain josqs
-#function parse_opts_1 () {}
-#function parse_opts_2 () {}
+#VAIH:näiden 2 hyväksi jotain josqs
+function parse_opts_1 () {
+	dqb "merd2.popts1 $1 ; $2"
+}
+
+function parse_opts_2 () {
+	
+	dqb "merd2.popts2 $1 ; $2"
+}
 
 if [ $# -gt 0 ] ; then
 	dqb "params_ok"
@@ -58,6 +63,21 @@ if [ -d ./${CONF_PT2} ] ; then
 fi
 
 csleep 2
+#HUOM.konfiguraatio olisi hyvä jättää hukkaamatta, toisaalta wanhat tauhkat hyvä saada pois sotkemasta
+#(conf kanssa olisi hyvä keksiä jotain josqs, jos ei muuten niin conf.example)
+
+if  [ -s ./${CONF_BASE}/${distro}/conf ] ; then
+	sudo cp ./${CONF_BASE}/${distro}/conf ./$(whoami).conf
+else
+	if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
+		sudo cp ./${CONF_BASE}.OLD/${distro}/conf ./$(whoami).conf
+	else
+		exit 58
+	fi
+fi
+
+ls -las ./*.conf
+csleep 5
 
 dqb "BFROE tig"
 csleep 2
@@ -67,57 +87,38 @@ ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 dqb "TGI KO"
 csleep 2
 
-#tai sitten vain rm jos wanha jo olemassa?
 if [ -d  ./${CONF_BASE}.OLD ] ; then
-	mv ./${CONF_BASE}/* ./${CONF_BASE}.OLD
-else
-	mv ./${CONF_BASE} ./${CONF_BASE}.OLD
+	for f in $(find ./${CONF_BASE}.OLD -type f -not -name conf) ; do
+		sudo rm ${f}
+	done
 fi
 
-echo $?
-exit
-
-#010526:tässä menee pieleen vaiko CONF_base-blokissa?
+sudo mv ./${CONF_BASE} ./${CONF_BASE}.OLD
 mv ./${CONF_PT2}/* .
-echo $?
-exit
-
-#pitäisikö täsä kohtaa sanoa cd?
 [ -s ./${CONF_LIB} ] && chmod 0555 ./${CONF_LIB} 
-echo $?
-exit
 
-dqb "FN0C"
+dqb "FN0C.1"
 csleep 1
 
-#210426:ehkä ao. if-blokki toimii jo? no jotain kiukuttelya vielä jossain kohtaa
-if [ -s ./${CONF_BASE}.OLD/${distro}/conf ] ; then
-	mv ./${CONF_BASE}.OLD/${distro}/conf ./${CONF_BASE}/${distro}/conf
-	ln -s  ./${CONF_BASE}/${distro}/conf ./$(whoami).conf
-else
-	dqb "N0.C0NF"
-fi
+[ -s ./$(whoami).conf ] && sudo cp  ./$(whoami).conf ./${CONF_BASE}/${distro}/conf 
+dqb "FN0C.2"
+csleep 1
 
-echo $?
 dqb "NEXT:common_lib"
 csleep 1
-exit
 
 if [ -x ./${CONF_LIB} ] ; then
-	#TODO?:/o/b-juttuja oli kanssa (mv lähinnä)
-
-
-	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
-
 	. ./${CONF_LIB}
 	enforce_access $(whoami) ${d0}/${CONF_BASE}
 
+else
+	echo "SMTHING WR0NG W/ ${CONF_LIB}"
+	
+	sudo mv  ./${CONF_BASE}/opt/bin/*.bash /opt/bin #entä zxcv-jutut?
 	sudo chmod 0511 /opt/bin/*.bash
 
 	#josko nyt jo?
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
-else
-	echo "SMTHING WR0NG W/ ${CONF_LIB}"
 fi
 
-#210426:vissiin onnistui jo vetämään 7thson-oksan
+#210426:vissiin onnistui jo vetämään 7thson-oksan, kertaalleen? entä toinen/kolmas?
