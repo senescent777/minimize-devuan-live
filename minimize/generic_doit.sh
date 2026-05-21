@@ -194,8 +194,13 @@ function adieu() {
 	${whack} xfce4-session
 }
 #=====================================PART0=========================================================
+##mkt=$(which mktemp)
+#echo "mkt= ${mkt}"
+#sleep 5
+#pkgcache=$(${mkt} -d)
+#echo "pkgc= ${pkgcache} "
+#sleep 6
 
-pkgcache=$(mktemp -d)
 part0 ${distro} ${CONF_iface}
 process_lib ${d} ${pkgcache}
 
@@ -210,7 +215,7 @@ if [ -s ~/xorg.conf.new ] ; then
 fi
 
 #HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan?
-#VAIH:tämänm fktiomn viskominen -> g_doit
+
 function pre_enforce() {
 	dqb "pre_enforce() "
 	[ -z "${1}" ] && exit 98

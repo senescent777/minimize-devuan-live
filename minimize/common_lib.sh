@@ -1543,7 +1543,7 @@ function part3() {
 }
 
 function process_lib() {
-	dqb "process_lib( ${1} )(((((((("
+	dqb "process_lib( ${1} ))) ${2} )(((((((("
 	[ -z "${1}" ] && exit 66
 	csleep 1
 
@@ -1564,7 +1564,7 @@ function process_lib() {
 	fi
 
 	#jospa jatkossa c_b if-blokin jälkeen jokatap? silloin syytä tark että common_lib sisältää x.-oik
-	check_binaries ${1}
+	check_binaries ${1} ${2}
 	[ $? -eq 0 ] || dqb "SHOULD exit 67"
 
 	check_binaries2
