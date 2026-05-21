@@ -914,7 +914,7 @@ function e_final() {
 
 	if [ ! -v CONF_testgris ] ; then
 		${scm} go-rw /opt/bin/*
-		${scm} 0400 /opt/bin/*.sh josko pääte pois? 
+		${scm} 0400 /opt/bin/*.sh #josko pääte pois? 
 		${scm} 0511 /opt/bin/*.bash
 		${sco} -R root:root /opt
 		${scm} 0755 /
