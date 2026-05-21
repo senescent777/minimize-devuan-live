@@ -121,4 +121,4 @@ else
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 fi
 
-#210426:vissiin onnistui jo vetämään 7thson-oksan, kertaalleen? entä toinen/kolmas?
+#210526:vissiin onnistui jo vetämään 1take-oksan?
