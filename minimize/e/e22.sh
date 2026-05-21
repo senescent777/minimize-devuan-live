@@ -214,9 +214,8 @@ function e22_cleanpkgs() {
 	dqb "e22_cleanpkgs() DONE"
 }
 
-dqb "#TODO:g_doit.part0() liittyviä juttuja, hyvä varmistaa että menevätkö muuttuneet xfce4-asetukset talteen asti "
+#VAIH:g_doit.part0() liittyviä juttuja, hyvä varmistaa että menevätkö muuttuneet xfce4-asetukset talteen asti 
 csleep 1
-
 #010526:import2.sh pitäisi purkaa config.tar.bz2 qhan se vain löytyy
 
 function e22_config1() {
