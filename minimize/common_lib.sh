@@ -616,7 +616,7 @@ function CB02() {
 }
 
 function check_binaries() {
-	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ) "
+	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ; ${2} ) "
 	csleep 1
 
 	ipt=$(${odio} which iptables)
@@ -691,7 +691,12 @@ function check_binaries() {
 	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 		[ -z "${1}" ] && exit 99
 		[ -d ${1} ] || exit 101
-		t=$(${mkt} -d) 
+
+		if [ -z "${2}" ] ; then
+			t=$(${mkt} -d) 
+		else
+			t=${2}
+		fi
 
 		#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
 		cefgh ${1}
@@ -1459,15 +1464,23 @@ function part3() {
 	dqb "PARAMS_OK"
 	csleep 1
 
-	local n15
-	local t=$(mktemp -d)
-	n15=$(find ${1} -type f -name "*.deb" | wc -l)
+	local n15=0
+	local t=""
+
+	#TODO:muistettava sitten tämä if-blokki sulauttraa toisen oksan part3():seen
+	if [ -z "${2}" ] ; then
+		t=$(mktemp -d)
+		n15=$(find ${1} -type f -name "*.deb" | wc -l)
+	else
+		t=${2}
+		n15=$(find ${2} -type f -name "*.deb" | wc -l)
+	fi
 
 	if [ ${n15} -lt 1 ] ; then
 		cefgh ${1}
 	fi
 
-	csleep 1
+	csleep 10
 	jules
 	common_pp3 ${1} ${t}
 	dqb "AL-fPGA"
