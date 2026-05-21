@@ -113,7 +113,7 @@ function part0() {
 	#2804236:josko ssh-agentin sisältävän paketin voisi poistaa?
 
 	#140526:gnome-keyring*. libpam-gnome-keyring liittyvät?
-	#kts pkgs_drop jos qsee g_pt2 asjon jölkeen
+	#kts pkgs_drop jos qsee g_pt2 asjon jölkeen (vissiin ei)
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
@@ -195,8 +195,9 @@ function adieu() {
 }
 #=====================================PART0=========================================================
 
+pkgcache=$(mktemp -d)
 part0 ${distro} ${CONF_iface}
-process_lib ${d}
+process_lib ${d} ${pkgcache}
 
 #==================================PART 1============================================================
 [ -v CONF_enforce ] || exit 99
@@ -321,7 +322,7 @@ else
 	pre_enforce ${d0}
 fi
 
-if [ -f /.chroot ] ; then
+if [ -f /.chroot ] ; then #200516:pitäisiköhän tätä muuttaa josqs? teshgrs saattaa liittyä etäisestoi
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
@@ -388,7 +389,7 @@ message
 #menkööt toistaiseksi part3 kanssa (0403265)
 #common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain?
 
-part3 ${d}
+part3 ${d} ${pkgcache}
 other_horrors
 dqb "AFTER THE HORROR"
 csleep 1
