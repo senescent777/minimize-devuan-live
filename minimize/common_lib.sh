@@ -380,6 +380,7 @@ function common_pp3() {
 		${scm} a-wx ${r}/common_lib.sh
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
+		#21625:toimiko tuo tarkistus vai ei? lets find out again?
 		psqa ${1}
 		#local r=$(psqa ${1}) jatkossa+leikit?
 
@@ -512,6 +513,7 @@ function fromtend() {
 	dqb "DNÖE"
 }
 
+#TODO;.tar sha-tarq jos vast .sha löytyy?
 function cefgh() {
 	dqb " cefgh( ${1} )))"
 
@@ -1446,14 +1448,12 @@ function cg_pp2() {
 dqb "HUOM. KANNATTAA KEHITYSYMP PURKAA PAKETTI RIITTÄVIN VALTUUKSIN ETTÄ PYSYVÄT SKRIPTIT AJAN TASALLA"
 csleep 6
 
-#160126:g.tar liittyvää kikkailua jatkossa? sittenkin check_bin() alta g-jutut -> cefgh()?
 #140326:libfortran-urputuksille j os tekisijojo tain?
 #libatomic1 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
 # libgfortran5 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
 # libquadmath0 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
 #... jospa nyt aluksi selvittäisi mikä näitä tarvitsee?
 
-#toiminnan selvittelyä vai ei?
 function part3() {
 	dqb "))() part3 ${1} , ${2} (((((((("
 	csleep 1
@@ -1472,6 +1472,8 @@ function part3() {
 		t=$(mktemp -d)
 		n15=$(find ${1} -type f -name "*.deb" | wc -l)
 	else
+		#HUOM.jos on pedantti niin $2 alaiset .deb pitäisi myös testata shasums:ia vasten jnpp
+		
 		t=${2}
 		n15=$(find ${2} -type f -name "*.deb" | wc -l)
 	fi
@@ -1482,6 +1484,8 @@ function part3() {
 
 	csleep 10
 	jules
+
+	#HUOM.jos pp3:n sitä yhtä if-blkkia muuttaa niin sivuvaikutuksena pkgcachen alaiset joutuu ehkä tarkistamaan
 	common_pp3 ${1} ${t}
 	dqb "AL-fPGA"
 	csleep 1

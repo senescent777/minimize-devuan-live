@@ -197,9 +197,9 @@ function adieu() {
 ##mkt=$(which mktemp)
 #echo "mkt= ${mkt}"
 #sleep 5
-#pkgcache=$(${mkt} -d)
-#echo "pkgc= ${pkgcache} "
-#sleep 6
+pkgcache=$(${mkt} -d)
+echo "pkgc= ${pkgcache} "
+sleep 6
 
 part0 ${distro} ${CONF_iface}
 process_lib ${d} ${pkgcache}

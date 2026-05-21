@@ -174,6 +174,8 @@ case "${mode}" in
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
 			#TODO:e.tar-kikkailu -> other_okgs() syystä gpg puuttuu
+			#... rekursion kanssa jos vaikka tekisi
+
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
