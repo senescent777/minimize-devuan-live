@@ -171,12 +171,12 @@ function e22_dblock() { #110526:lienee toimiva tämä fktio ?
 #280426:resolv.conf sorkkimisen ylkoistus -> mutilatetc?
 
 function e22_pre2() {
+	dqb "e22pre2 ))) $1 ; $2 ; ${3} ; ${4} ))))) "
+	csleep 1
+
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
-
-#[ -z "${3}" ] && exit 68
-#[ -z "${4}" ] && exit 69
-#[ -d ${1} ] || exit 111
+	
 
 	par4=$(echo ${4} | tr -d -c 0-9)
 	echo $?
@@ -194,7 +194,7 @@ function e22_pre2() {
 
 	ls -las /etc/resolv.*
 	csleep 10
-	${sifu} ${3}
+	${sifu} ${1}
 	csleep 1
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
