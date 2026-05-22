@@ -434,13 +434,15 @@ case "${mode}" in
 				dqb "NOP"
 				csleep 1
 
-				#for f in $(fnid $srcfile -type f -name "*.sig" ) ; do
-				#	g=$(echo $f | cut -d . -f 1,2)
-				#	check=$(smthing)
-				#	[ $check ] && gg --import $g
-				#	rm $g	
-				#done
+				#kaipa vielä laittao tietenkin
+				for f in $(fnid $srcfile -type f -name "*.sig" ) ; do
+					g=$(echo ${f} | cut -d . -f 1,2)
+					${gg} --verify ${f}
+					[ $? -eq 0 ] && ${gg} --import ${g}
+					rm ${f}	
+				done
 
+				exit
 				dqb "${gg} --import ${srcfile}/*.gpg soon"
 				csleep 1
 
