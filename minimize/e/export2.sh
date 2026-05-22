@@ -174,6 +174,8 @@ case "${mode}" in
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
 			#TODO:e.tar-kikkailu -> other_okgs() syystä gpg puuttuu
+			#rekusriolla jos kikkailisi
+			
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
@@ -267,6 +269,7 @@ case "${mode}" in
 		e23_st
 	;;
 	*)
+		echo "MAYBE U SHOULD RUN export3"
 		exit
 	;;
 esac

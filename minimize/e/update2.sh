@@ -56,6 +56,7 @@ ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 sleep 1
 t=$(pwd)
 
+ #TODO:CONF_env-juttuja
 if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	echo "YLIULIULI FADS FASDD FASDDQH"
 	cd ${CONF_testgris}

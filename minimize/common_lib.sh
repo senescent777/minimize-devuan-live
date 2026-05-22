@@ -1,7 +1,7 @@
 #fktioksi tmä ni ei tartte globaalien mjien kanssa sählätä?
 if [ -s ${d0}/$(whoami).conf ] ; then
 	#pitäisikö olla eri conf toisen repon skriptien kautta mentäessä?
-	echo "ALT.C0NF1G"
+	echo "ALT.C0NF1G (. ${d0}/$(whoami).con )"
 	. ${d0}/$(whoami).conf
 	sleep 5
 else
@@ -30,15 +30,15 @@ function csleep() {
 #... vissiin ei ihan nöin suoraviivaisesti mene
 #3 huomioitavaa tapsuat oikeastaan (01/26 oikeastaan jo sen suuntaisi keloja jotta if->switch...case)
 
-#case "${conf_ENV}" 
-if [ -f /.chroot ] ; then #
-	odio=""
+case "${CONF_env}" in
+	TOOR)
+			odio=""
 
-	function itni() {
-		dqb "alt-itn1"
-	}
-else
-	if [ -v CONF_testgris ] ; then
+			function itni() {
+				dqb "alt-itn1"
+			}
+	;;
+	VED)
 		odio=""
 		sco=$(${odio} which chown)
 		[ y"${sco}" == "y" ] && exit 98
@@ -49,7 +49,10 @@ else
 		function itni() {
 			dqb "itn1-3"
 			}
-	else
+	;;
+	*)
+		exit
+		
 		function itni() {
 			dqb "ITN1-2"
 
@@ -70,8 +73,10 @@ else
 
 		#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
 		#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
-	fi
-fi
+#	fi
+#fi
+	;;
+esac
 
 itni
 #exit
@@ -82,7 +87,7 @@ function fix_sudo() {
 	dqb "common_lib.fix_sud0.pt0"
 #	#exit
 	
-	if [ ! -v CONF_testgris ] ; then
+	if [ "${CONF_env}" != "VED" ] ; then #VAIH:uusiksi tarkistus
 		dqb "INNERMOST"
 
 		${sco} -R 0:0 /etc/sudoers.d
@@ -113,7 +118,7 @@ function other_horrors() {
 	dqb "other_horrors"
 	#exit
 	
-	if [ ! -v CONF_testgris ] ; then
+	if [ "${CONF_env}" != "VED" ] ; then #VAIH:uusiksi tarkistus
 		dqb "1NTERBAL SUFFER1NG"
 
 		for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
@@ -256,7 +261,7 @@ function check_bin_0() {
 	#exit
 	
 	#18+0526:kaikki /o/b liittyvät testgris.tark taakse (VAIH)	
-	if [ ! -v CONF_testgris ] ; then	
+	if [ "${CONF_env}" != "VED" ] ; then #VAIH:uusiksi tarkistus
 		[ -s /opt/bin/zxcv ] || echo "should exit 98"
 		[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
 		[ -s /opt/bin/zxcv.sha ] || echo "shoul.d ext1 8 97"
@@ -430,7 +435,8 @@ function jules() {
 #		csleep 1
 #		#HUOM.lähteen delliminen ja pakettien siirtely voi aiheuttaa härdelliä myöhemmin, kun pitäisi g_doit kautta käskyttää part3
 #		#e22_gi, gu, gv mukaiset kalat voisi katsoa että löytyy shasums + siirtää toiseen hak mutta muut tar:in sisältämät... jokin osittainen purq CB01, CB02 varten
-#
+#TODO:shasums:ien kopsaus $2:seen myös?
+#TODO:pikemminkin siellä $2-hmistossa käsin se sha-tarkstus?
 #		for s in $(grep -v '#' ${1}/sha512sums.txt | awk '{print $2}') ; do
 #			${svm} ${1}/${s} ${2}
 #		done
@@ -530,7 +536,7 @@ function jules() {
 #
 #	export DEBIAN_FRONTEND=noninteractive
 #
-#	if [ ! -f /.chroot ] ; then #ei conf_alt_root ainakaan vielä
+#	if [ ! -f /.chroot ] ; then #TODO:CONF_env-juttuja
 #		dqb "${odio} -E ${sd0} --force-confold -i $@"
 #		${odio} -E ${sd0} --force-confold -i $@
 #	else
@@ -566,6 +572,7 @@ function jules() {
 #		${NKVD} ${1}/e.tar
 #	fi
 #
+#	dqb "SHOULD {sah6} -c ${1}/f.tar HERE"
 #	efk2 ${1}/f.tar ${1}
 #	#exit
 #	
@@ -634,7 +641,7 @@ function jules() {
 #	dqb "c0b2.pars.0k"
 #	#exit
 #	
-#	[ -f /.chroot ] && message
+#	[ -f /.chroot ] && message #TODO:CONF_env-juttuja
 #	local p
 #	for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
 #	#exit
@@ -710,7 +717,7 @@ function check_binaries() {
 	dqb "before 0c.s"
 	local y
 	
-	if [ -v CONF_testgris ] ; then
+	if [ -v CONF_testgris ] ; then #TODO:uusiksi tarkistus
 		#TODO:josqs nämä kikkailut pois jos mahd
 		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp"
 		ipt="/usr/sbin/iptables"
@@ -789,6 +796,7 @@ function check_binaries() {
 	ls ${t}/*.deb | wc -l
 	csleep 3
 
+	 #TODO:uusiksi tarkistus
 	if [ ! -v CONF_testgris ] ; then #190526:vielä ei voi poistaa ehtoa ympäriltä
 		for x in iptables ip6tables iptables-restore ip6tables-restore gpg ; do ocs ${x} ; done
 	fi
@@ -800,7 +808,7 @@ function check_binaries() {
 	
 	#kts g_pt2 liittyen
 	#ei vielä conf_lt_root
-	#[ -f /.chroot ] || ocs dhclient
+	#[ -f /.chroot ] || ocs dhclient #TODO:CONF_env-juttuja
 	#csleep 1
 
 	sag=$(${odio} which apt-get)
@@ -848,7 +856,9 @@ function check_binaries2() {
 	dqb "netx : pt 2.22 "
 	#exit
 	
-	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
+	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
+	
+	 #TODO:uusiksi tarkistus
 	if [ ! -v CONF_testgris ] ; then 
 		${scm} a-wx /usr/sbin/update-initramfs #kokeeksi tämäkin, vissiin jotyain saa aikaan 050426
 	fi
@@ -873,7 +883,7 @@ function check_binaries2() {
 #vöhintäänkin "g_doit 0" tarttee
 function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
-	dqb "TLA.testgris : ${CONF_testgris}"
+	dqb "TLA.testgris : ${CONF_testgris}" #TODO:uusiksi
 	csleep 1
 	#exit
 	
@@ -881,10 +891,11 @@ function TLA() {
 	#200326:toimiikohan tarkistus toivotulla tavalla?
 	#210326:tla() ja sqroot? jos on pedantti niin tuollakin yhdostelmällä piytäisi tables-säännöt muuttaa...
 
+	 #TODO:CONF_env-juttuja
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ -f /.chroot ] ; then #010426:antaa toistaiseksi o.lla viimiei n eht0
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		if [ ! -v CONF_testgris ] ; then
+		if [ ! -v CONF_testgris ] ; then #TODO:uusiksi tarkistus
 			#140526:muutoksia näille main vai ei?
 			dqb "JST B3F0R:tlb-b a s h"
 			[ -s /opt/bin/tlb.bash ] || exit 99
@@ -1006,7 +1017,7 @@ function e_final() {
 	csleep 1
 	#exit
 	
-	if [ ! -v CONF_testgris ] ; then
+	if [ ! -v CONF_testgris ] ; then #TODO:uusiksi tarkistus
 		${scm} go-rw /opt/bin/*
 		${scm} 0400 /opt/bin/*.sh #josko pääte pois? 
 		${scm} 0511 /opt/bin/*.bash
@@ -1063,7 +1074,7 @@ function e_h() {
 	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
 	csleep 1
 
-	if [ ! -v CONF_testgris ] ; then
+	if [ ! -v CONF_testgris ] ; then #TODO:uusiksi tarkistus
 		if [ -d ${2}/opt/bin ] ; then
 			${sco} -R root:root ${2}/opt/bin
 			#${scm} go-wr ${2}/opt/bin/*
@@ -1077,7 +1088,7 @@ function e_h() {
 }
 
 #"g_foit 0" tratttee
-#TODO:testgris, sudo
+#TODO:testgris, sudo?
 function mangle2() {
 	[ -z  "${1}" ] && exit 99
 
@@ -1406,7 +1417,7 @@ function part1() {
 #		#210326:nyt sitten miettimään että pitäisikö reslvo.conf:ille tehdä jotain. taas
 #		t=$(echo ${2} | tr -d -c 0-9)
 #
-#		if [ ! -v CONF_testgris ] ; then
+#		if [ ! -v CONF_testgris ] ; then #TODO	:tarkistus uusiksi
 #			${odio} /opt/bin/tlb.bash ${t}
 #		fi
 #	fi
@@ -1473,7 +1484,7 @@ function part1() {
 #
 ##toiminnan selvittelyä vai ei?
 #function part3() {
-#	dqb "))() part3 ${1} , ${2} (((((((("
+#	dqb "))() part3 ${1} ,((()()()()()( ${2} (((((((("
 #	csleep 1
 #
 #	[ -z "${1}" ] && exit 99
@@ -1481,11 +1492,18 @@ function part1() {
 #
 #	dqb "PARAMS_OK"
 #	csleep 1
-#TODO:$2 huomiointi, kts check_binaries()
-#	local n15
-#	local t=$(mktemp -d)
-#	n15=$(find ${1} -type f -name "*.deb" | wc -l)
-#
+#	#VAIH:$2 huomiointi, kts check_binaries()
+#	local n15=0
+#	local t=""
+#	
+#	if [ -z "${2}" ] ; then
+#		t=$(mktemp -d)
+#		n15=$(find ${1} -type f -name "*.deb" | wc -l)
+#	else
+#		t=${2} #jotain mankelointia mukaan?
+#		n15=$(find ${2} -type f -name "*.deb" | wc -l)
+#	fi
+#	
 #	if [ ${n15} -lt 1 ] ; then
 #		cefgh ${1}
 #	fi
