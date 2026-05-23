@@ -48,7 +48,7 @@ function parse_opts_2() {
 
 #TODO:ao. if.-blokin sisältö fktioksi? kutsutaan main() kautta?
 #e.tar purq (cefgh()) vs tämä sq-rot alku
-if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
+function pre() {
 	#280426:self_extracting_archive-kikkailu saattaa tehdä tämän if-blkin turhaksi jatkossa ( tai sitten ei)
 
 	echo "UNDER THE GRAV3YARD"
@@ -121,6 +121,12 @@ if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 	fi
 
 	unset g
+}
+
+#if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
+
+if [ "${CONF_env}" == "TOOR" ] ; then
+	pre
 fi
 
 #resolv.conf vielä ongelma 0305-> ? 
