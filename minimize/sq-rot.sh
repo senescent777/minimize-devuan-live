@@ -398,10 +398,10 @@ case "${mode}" in
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
 		f=$(dirname ${f})
 		common_part ${srcfile} ${d} ${e}
-		ocs gpg
+		[ $? -eq 0 ] && ocs gpg
 		
-		part3 ${f}
-		other_horrors
+		[ $? -eq 0 ] && part3 ${f}
+		[ $? -eq 0 ] && other_horrors
 	;;
 	3)
 		#140526 muutettu paikallinen ocs että stoppaa tarv
@@ -458,9 +458,11 @@ case "${mode}" in
 esac
 
 #poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (TODO)
-if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
-	read -p " U  WANT 2 RM SOURCE ?" confirm
-	[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
+if [ $? -eq 0 ] ; then
+	if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
+		read -p " U  WANT 2 RM SOURCE ?" confirm
+		[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
+	fi
 fi
 
 cptp2 ${d0}
