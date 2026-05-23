@@ -46,23 +46,23 @@ function parse_opts_2() {
 	fi
 }
 
-#DONE:ao. if.-blokin sisältö fktioksi?
-#TODO?:kutsutaan main() kautta?
+#TODO:ao. if.-blokin sisältö fktioksi? kutsutaan main() kautta?
 #e.tar purq (cefgh()) vs tämä sq-rot alku
+if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
+	#280426:self_extracting_archive-kikkailu saattaa tehdä tämän if-blkin turhaksi jatkossa ( tai sitten ei)
 
-function pre() {
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
 	#gpgtar:kandeeko koskea? taisiis etua "gpg | tar" nähden?
-	
+
 	echo "A"
 	p=$(pwd)
 	g=$(which sha512sum)
-	
+
 	if [ ! -z "${g}" ] ; then
 		q=$(find . -name "dgsts.?" )
 		cd ..
-	
+
 		for r in ${q} ; do
 			dqb " -c ./${p}/${r}"
 			csleep 1
@@ -91,13 +91,13 @@ function pre() {
 		sleep 1
 	fi
 	#
-	
+
 	unset q
 	unset r
 	
 	sleep 1
 	echo "C"
-	
+
 	#030426:huom. kts commn_lib , E22_M , tarpeellinen
 	#import2 syytä purkaa koska case r
 
@@ -121,13 +121,6 @@ function pre() {
 	fi
 
 	unset g
-}
-
-#DONE:CONF_env-juttuja	
-if [ "${CONF_env}" == "TOOR" ] ; then #vähän turha tarkistus koska y (tai siis)
-	#280426:self_extracting_archive-kikkailu saattaa tehdä tämän if-blkin turhaksi jatkossa ( tai sitten ei)
-
-	pre
 fi
 
 #resolv.conf vielä ongelma 0305-> ? 
@@ -405,10 +398,10 @@ case "${mode}" in
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
 		f=$(dirname ${f})
 		common_part ${srcfile} ${d} ${e}
-		ocs gpg
+		[ $? -eq 0 ] && ocs gpg
 		
-		part3 ${f}
-		other_horrors
+		[ $? -eq 0 ] && part3 ${f}
+		[ $? -eq 0 ] && other_horrors
 	;;
 	3)
 		#140526 muutettu paikallinen ocs että stoppaa tarv
@@ -434,15 +427,13 @@ case "${mode}" in
 				dqb "NOP"
 				csleep 1
 
-				#kaipa vielä laittao tietenkin
-				for f in $(fnid $srcfile -type f -name "*.sig" ) ; do
-					g=$(echo ${f} | cut -d . -f 1,2)
-					${gg} --verify ${f}
-					[ $? -eq 0 ] && ${gg} --import ${g}
-					rm ${f}	
-				done
+				#for f in $(fnid $srcfile -type f -name "*.sig" ) ; do
+				#	g=$(echo $f | cut -d . -f 1,2)
+				#	check=$(smthing)
+				#	[ $check ] && gg --import $g
+				#	rm $g	
+				#done
 
-				exit
 				dqb "${gg} --import ${srcfile}/*.gpg soon"
 				csleep 1
 
@@ -467,9 +458,11 @@ case "${mode}" in
 esac
 
 #poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (TODO)
-if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
-	read -p " U  WANT 2 RM SOURCE ?" confirm
-	[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
+if [ $? -eq 0 ] ; then
+	if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
+		read -p " U  WANT 2 RM SOURCE ?" confirm
+		[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
+	fi
 fi
 
 cptp2 ${d0}
