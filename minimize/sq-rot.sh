@@ -46,7 +46,6 @@ function parse_opts_2() {
 	fi
 }
 
-#TODO:ao. if.-blokin sisältö fktioksi? kutsutaan main() kautta?
 #e.tar purq (cefgh()) vs tämä sq-rot alku
 function pre() {
 	#280426:self_extracting_archive-kikkailu saattaa tehdä tämän if-blkin turhaksi jatkossa ( tai sitten ei)
