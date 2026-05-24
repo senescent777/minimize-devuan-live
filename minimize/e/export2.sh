@@ -269,7 +269,7 @@ case "${mode}" in
 		e23_st
 	;;
 	*)
-		#TODO:tämä sitten toisen oksan vastaavan kohtaan 
+
 		echo "MAYBE U SHOULD USE export3 INSTEAD"
 		exit
 	;;

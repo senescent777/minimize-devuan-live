@@ -2,6 +2,7 @@ ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
 
 if [ ! -v CONF_pubk ] ; then
+	#TODO:ao. riville muutoksia jatkossa
 	a=$(${odio} find / -type f -name "keys.conf" | head -n 1)
 	
 	if [ ! -z "${a}" ] ; then
@@ -629,39 +630,50 @@ csleep 1
 }
 
 #(josko exp2 voisi korvata "tar -T -cf":llä?)
+echo "TODO:JOKO JO ntp-jutut kuntoon ?"
+sleep 6
 
-#200426:qseeko tässä jokin?
 function e22_sarram() {
-#[ -z "${1}" ] && exit 1
-[ -s ${1} ] || exit 4 
-#[ -w ${1} ] || exit 9
-[ -z "${2}" ] && exit 11
-[ -z "${3}" ] && exit 13
-[ -s ${3} ] || exit 17
-${srat} -rf ${1} /etc/init.d/net*
-${srat} -rf ${1} /etc/rcS.d/S*net*
-csleep 1
-local f
-for f in $(${odio} find /etc -type f -name "xorg*" -and -not -name "*.202*" ) ; do
-${srat} -rvf ${1} ${f}
-done
-csleep 1
-for f in $(${odio} find /etc -type f -name "${2}*" -and -not -name "*.202*" ) ; do
-${srat} -rvf ${1} ${f}
-done
-${srat} -rvf ${1} /etc/X11/default-display-manager
-#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka?
-${scm} 0555 /etc/iptables
-${scm} 0400 /etc/iptables/rules*
-${scm} 0400 /etc/default/rules*
-for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
-for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD ) ; do ${sah6} ${f} >> ${3} ; done
-#230326:ntp-jtut näyttäisi vetävän mukaan
-if [ -x /usr/sbin/ntpd ] ; then
-for f in $(${odio} find /etc -type f -name "ntp*" ) ; do
-${srat} -rvf ${1} ${f}
-${sah6} ${f} >> ${3}
-done
-fi
-other_horrors
+	#[ -z "${1}" ] && exit 1
+	[ -s ${1} ] || exit 4 
+	#[ -w ${1} ] || exit 9
+	[ -z "${2}" ] && exit 11
+	[ -z "${3}" ] && exit 13
+	[ -s ${3} ] || exit 17
+
+	${srat} -rf ${1} /etc/init.d/net*
+	${srat} -rf ${1} /etc/rcS.d/S*net*
+	csleep 1
+	local f
+
+	for f in $(${odio} find /etc -type f -name "xorg*" -and -not -name "*.202*" ) ; do
+		${srat} -rvf ${1} ${f}
+	done
+
+	csleep 1
+
+	for f in $(${odio} find /etc -type f -name "${2}*" -and -not -name "*.202*" ) ; do
+		${srat} -rvf ${1} ${f}
+	done
+
+	${srat} -rvf ${1} /etc/X11/default-display-manager
+
+	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka?
+	${scm} 0555 /etc/iptables
+	${scm} 0400 /etc/iptables/rules*
+	${scm} 0400 /etc/default/rules*
+
+	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
+	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD ) ; do ${sah6} ${f} >> ${3} ; done
+
+	#230326:ntp-jtut näyttäisi vetävän mukaan
+	if [ -x /usr/sbin/ntpd ] ; then
+		for f in $(${odio} find /etc -type f -name "ntp*" ) ; do
+			${srat} -rvf ${1} ${f}
+			${sah6} ${f} >> ${3}
+		done
+
+	fi
+
+	other_horrors
 }
