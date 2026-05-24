@@ -23,8 +23,8 @@ function dqb() {
 function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
-#TODO:vähitellen kehitystmp kanssa se g:_doit ja omega
 
+#VAIH:vähitellen kehitystmp kanssa se g_doit ja omega
 
 #tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn? koska syyt? (siis siihen samaan missä profs.sh?)
 
@@ -44,12 +44,12 @@ case "${CONF_env}" in
 		}
 	;;
 	VED)
-		#pitäöisiköhän testgris huomioida tässä? jos ei sen mukaista hmistoa ole ni CONF_env arvon muuttaminen
+		#pitäöisiköhän testgris huomioida tässä? jos ei sen mukaista hmistoa ole ni CONF_env arvon muuttaminen tjsp
 		odio=""
 		sco=$(${odio} which chown)
 		[ y"${sco}" == "y" ] && exit 98
 		[ -x ${sco} ] || exit 97
-
+		[ -v CONF_testgris ] || exit 96
 		scm=$(${odio} which chmod)
 			
 		function itni() {
@@ -126,6 +126,7 @@ function other_horrors() {
 		dqb "1NTERBAL SUFFER1NG"
 
 		for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
+			#TODO:valmis palikka?
 			${sco} -R root:root ${f}
 			${scm} 0400 ${f}
 		done
@@ -146,8 +147,10 @@ fix_sudo
 other_horrors
 #exit
 
+debug=1
+
 #common_funcs tarttee
-#TODO:testgris?
+#TODO?:testgris?
 function ocs() {
 	dqb "ocs () () ((( ${1} "
 	local tmp2
@@ -262,10 +265,9 @@ function check_bin_0() {
 	export LANGUAGE
 	export LC_ALL
 	export LANG
-	#exit
-	
-	#18+0526:kaikki /o/b liittyvät testgris.tark taakse (VAIH)	
-	if [ "${CONF_env}" != "VED" ] ; then #VAIH:uusiksi tarkistus (miten tuo o/b olemassaolo?)
+
+	#HUOM.240526:ehto voi vielä muuttua
+	if [ "${CONF_env}" != "VED" ] && [ -d /opt/bin ] ; then
 		[ -s /opt/bin/zxcv ] || echo "should exit 98"
 		[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
 		[ -s /opt/bin/zxcv.sha ] || echo "shoul.d ext1 8 97"
@@ -303,14 +305,7 @@ function jules() {
 	csleep 1
 }
 
-#function message() {
-#	echo "INSTALLING NEW PACKAGES IN x SECS"
-#	sleep 1
-#	echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES"
-#	sleep 1
-#	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS"
-#	sleep 1
-#}
+
 #
 ##TODO?:jatkosäätöä josqs lähiaikoina? (kts e22.sh, KVG-jutut bissiin uusicksi)
 #function psqa() {
@@ -540,7 +535,7 @@ function jules() {
 #
 #	export DEBIAN_FRONTEND=noninteractive
 #
-#	if [ ! -f /.chroot ] ; then #TODO:CONF_env-juttuja
+#	if [ "${CONF_env}" != "TOOR" ] ; then #VAIH:CONF_env-juttuja
 #		dqb "${odio} -E ${sd0} --force-confold -i $@"
 #		${odio} -E ${sd0} --force-confold -i $@
 #	else
@@ -633,7 +628,16 @@ function jules() {
 #	csleep 1
 #	#exit
 #}
-#
+
+#function message() {
+#	echo "INSTALLING NEW PACKAGES IN x SECS"
+#	sleep 1
+#	echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES"
+#	sleep 1
+#	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS"
+#	sleep 1
+#}
+
 ##160426:bissiin ei tarvtse muutella Just Nyt
 #function CB02() {
 #	dqb "CB02()"
@@ -643,12 +647,12 @@ function jules() {
 #	[ -z "${1}" ] && exit 99
 #	[ -d ${1} ] || exit 100
 #	dqb "c0b2.pars.0k"
-#	#exit
+
 #	
-#	[ -f /.chroot ] && message #TODO:CONF_env-juttuja
+#	[ "${CONF_env}" == "TOOR" ] && message #VAIH:CONF_env-juttuja
 #	local p
 #	for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
-#	#exit
+
 #	
 #	for p in ${E22_GV} ; do 
 #		fromtend ${1}/${p}*.deb
@@ -656,14 +660,14 @@ function jules() {
 #	done
 #	
 #	dqb "GYUV DONE, NXT:P2T"
-#	#exit
+
 #	other_horrors
 #	
 #	ipt=$(${odio} which iptables)
 #	ip6t=$(${odio} which ip6tables)
 #	iptr=$(${odio} which iptables-restore)
 #	ip6tr=$(${odio} which ip6tables-restore)
-#	#exit
+
 #	
 #	#sqroot-juttuja
 #	#TODO:testgris liittyviä muutoksia?
@@ -720,12 +724,14 @@ function check_binaries() {
 	dqb "before 0c.s"
 	local y
 	
-	if [ "CONF_env" == "VED" ] ; then #VAIH:uusiksi tarkistus
+	if [ "${CONF_env}" == "VED" ] ; then #VAIH:uusiksi tarkistus
 		#TODO:josqs nämä kikkailut pois jos mahd
 		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp"
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
+		dqb "PISSE"
 	else
+		dqb "SCHEISSE"
 		y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh
 	fi
 	
@@ -777,8 +783,7 @@ function check_binaries() {
 		csleep 5
 	fi
 	
-	#exit
-	dqb "C0B.HC"
+	dqb "MC2"
 	csleep 1
 	
 	#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
@@ -797,18 +802,17 @@ function check_binaries() {
 	csleep 3
 
 	#VAIH:uusiksi tarkistus
-	if [ "${CONF_dev}" != "VED" ] ; then #190526:vielä ei voi poistaa ehtoa ympäriltä
+	if [ "${CONF_env}" != "VED" ] ; then #190526:vielä ei voi poistaa ehtoa ympäriltä
 		for x in iptables ip6tables iptables-restore ip6tables-restore gpg ; do ocs ${x} ; done
 	fi
 
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
 	csleep 1
-	#exit
 	
 	#kts g_pt2 liittyen
 	#ei vielä conf_lt_root
-	#[ -f /.chroot ] || ocs dhclient #TODO:CONF_env-juttuja
+	#[ "${CONF_env}" == "TOOR" ] || ocs dhclient #VAIH:CONF_env-juttuja
 	#csleep 1
 
 	sag=$(${odio} which apt-get)
@@ -821,7 +825,6 @@ function check_binaries() {
 
 	dqb "b1nar135 0k"
 	csleep 1
-	#exit
 }
 
 #common_funcs tarttee
@@ -884,17 +887,16 @@ function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
 	dqb "TLA.testgris : ${CONF_testgris}" #TODO:uusiksi?
 	csleep 1
-	#exit
 	
 	#3. ehto pois jatkossa vai ei?
 	#200326:toimiikohan tarkistus toivotulla tavalla?
 	#210326:tla() ja sqroot? jos on pedantti niin tuollakin yhdostelmällä piytäisi tables-säännöt muuttaa...
 
-	#TODO:CONF_env-juttuja
-	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ -f /.chroot ] ; then #010426:antaa toistaiseksi o.lla viimiei n eht0
+	#VAIH:CONF_env-juttuja
+	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ "${CONF_env}" == "TOOR" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		if [ "${CONF_env}" != "VED" ] ; then #VAIH:uusiksi tarkistus
+		if [ "${CONF_env}" != "VED" ] ; then # && [ -d /opt/bin ] ?
 			#140526:muutoksia näille main vai ei?
 			dqb "JST B3F0R:tlb-b a s h"
 			[ -s /opt/bin/tlb.bash ] || exit 99
@@ -1014,9 +1016,9 @@ function reqwreqw() {
 function e_final() {
 	dqb "ALOMST FINAL"
 	csleep 1
-	#exit
-	
-	if [ "${CONF_env}" != "VED" ] ; then #VAIH:uusiksi tarkistus (joutaa miettiö vielä)
+
+	#ekaa ehtoa uusiksi josqs?
+	if [ "${CONF_env}" != "VED" ] && [ -d /opt/bin ] ; then 
 		${scm} go-rw /opt/bin/*
 		${scm} 0400 /opt/bin/*.sh #josko pääte pois? 
 		${scm} 0511 /opt/bin/*.bash
@@ -1073,7 +1075,7 @@ function e_h() {
 	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
 	csleep 1
 
-	if [ "${CONF_env}" != "VED" ] ; then #VAIH:uusiksi tarkistus
+	if [ "${CONF_env}" != "VED" ] ; then #jos antaisi olla näin jnkn aikaa?
 		if [ -d ${2}/opt/bin ] ; then
 			${sco} -R root:root ${2}/opt/bin
 			#${scm} go-wr ${2}/opt/bin/*
@@ -1166,7 +1168,7 @@ function e_e() {
 }
 
 #"g_doit 0"
-#TODO;testgris,sudo
+#TODO:testgris,sudo
 function e_v() {
 	#180326:/sbin - rivien kanssa jotain ongelmaa? chown valittaa /sbin alaisista tdstoista...
 	#kiekolla bittejä poikittain?
@@ -1198,7 +1200,6 @@ function enforce_access() {
 	
 	csleep 1
 	dqb "pars.ok"
-	#exit
 	
 	e_e
 	e_v
@@ -1243,8 +1244,8 @@ function part1_5() {
 			touch ${h}/sources.list.tmp
 			local b
 
-			#TODO:Conf_env?
-			if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
+			#VAIH:Conf_env?
+			if [ "${CONF_env}" == "TOOR" ] && [ -v CONF_alt_root ] ; then
 				b="deb file://${2}"
 			else
 				b="deb https://REPOSITORY/merged"
@@ -1321,7 +1322,7 @@ function part1() {
 	fi
 
 	#kuinkahan tarpeellinen kikkailu?
-	if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
+	if [ "${CONF_env}" == "TOOR" ] && [ -v CONF_alt_root ] ; then
 		part1_5 ${t} ${CONF_alt_root}/${t}
 	else
 		part1_5 ${t} ${2}
@@ -1336,7 +1337,7 @@ function part1() {
 	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
 	csleep 1
 
-	#TODO:tesgris,dufo
+	#TODO:tesgris,dufo?
 	${sco} -R root:root /etc/apt
 	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WH0R3"
@@ -1417,7 +1418,7 @@ function part1() {
 #		#210326:nyt sitten miettimään että pitäisikö reslvo.conf:ille tehdä jotain. taas
 #		t=$(echo ${2} | tr -d -c 0-9)
 #
-#		if [  "${CONF_env}" != "VED"  ] ; then #VAIH	:tarkistus uusiksi
+#		if [  "${CONF_env}" != "VED"  ] && [ -d /opt/bin ] ; then
 #			${odio} /opt/bin/tlb.bash ${t}
 #		fi
 #	fi
