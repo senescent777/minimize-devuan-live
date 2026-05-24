@@ -2,7 +2,9 @@ ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
 
 if [ ! -v CONF_pubk ] ; then
-	a=$(${odio} find / -type f -name "keys.conf" | head -n 1)
+	b="/"
+	[ -v CONF_testgris ] && b=${CONF_testgris} #CONF_env-tark mukaan kanssa?
+	a=$(${odio} find ${b} -type f -name "keys.conf" | head -n 1)
 	
 	if [ ! -z "${a}" ] ; then
 		if [ -s ${a} ] ; then
@@ -11,6 +13,7 @@ if [ ! -v CONF_pubk ] ; then
 	fi
 
 	unset a
+	unset b
 fi
 
 #280426:lienee ok
@@ -683,7 +686,7 @@ function e22_sarram() {
 	dqb "JUST BEFORE /o/b/ \* . bash"
 	csleep 10
 
-	for f in $(${odio} find /opt  -type f -name "*.bash" ) ; do
+	for f in $(${odio} find /opt -type f -name "*.bash" ) ; do
 		dqb "${sah6} ${f} >> ${3}"
 		${sah6} ${f} >> ${3}
 		csleep 1

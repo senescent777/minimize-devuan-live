@@ -122,11 +122,7 @@ function pre() {
 	unset g
 }
 
-#if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
-
-if [ "${CONF_env}" == "TOOR" ] ; then
-	pre
-fi
+#HUOM.230526:fktio n pre() käskytys oli aiemmin ennen common_lib includointia, takaisiin tähän jos qsee
 
 #resolv.conf vielä ongelma 0305-> ? 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
@@ -211,6 +207,13 @@ fi
 
 dqb "rot:AFTR common_lib"
 csleep 1
+
+#if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
+#HUOM.20526:ei onnaakaan vielä näin, tai ainakin pitäisi conf ncludoida ennenq common_lib
+if [ "${CONF_env}" == "TOOR" ] ; then
+	pre
+fi
+
 [ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then

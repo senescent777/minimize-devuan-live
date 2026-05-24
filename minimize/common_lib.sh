@@ -23,22 +23,28 @@ function dqb() {
 function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
+#TODO:vähitellen kehitystmp kanssa se g:_doit ja omega
+
 
 #tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn? koska syyt? (siis siihen samaan missä profs.sh?)
 
 #180526:kokeillaan auttaisiko jälkimmäinen ehto kehitysymp sudo-juttujen kanssa
 #... vissiin ei ihan nöin suoraviivaisesti mene
 #3 huomioitavaa tapsuat oikeastaan (01/26 oikeastaan jo sen suuntaisi keloja jotta if->switch...case)
+[ -v CONF_env ] || exit 99
+echo "${CONF_env}"
+sleep 5
 
 case "${CONF_env}" in
 	TOOR)
-			odio=""
+		odio=""
 
-			function itni() {
-				dqb "alt-itn1"
-			}
+		function itni() {
+			dqb "alt-itn1"
+		}
 	;;
 	VED)
+		#pitäöisiköhän testgris huomioida tässä? jos ei sen mukaista hmistoa ole ni CONF_env arvon muuttaminen
 		odio=""
 		sco=$(${odio} which chown)
 		[ y"${sco}" == "y" ] && exit 98
@@ -73,8 +79,6 @@ case "${CONF_env}" in
 
 		#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
 		#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
-#	fi
-#fi
 	;;
 esac
 
@@ -261,7 +265,7 @@ function check_bin_0() {
 	#exit
 	
 	#18+0526:kaikki /o/b liittyvät testgris.tark taakse (VAIH)	
-	if [ "${CONF_env}" != "VED" ] ; then #VAIH:uusiksi tarkistus
+	if [ "${CONF_env}" != "VED" ] ; then #VAIH:uusiksi tarkistus (miten tuo o/b olemassaolo?)
 		[ -s /opt/bin/zxcv ] || echo "should exit 98"
 		[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
 		[ -s /opt/bin/zxcv.sha ] || echo "shoul.d ext1 8 97"
@@ -712,12 +716,11 @@ function check_binaries() {
 
 	#... nuo jutut miel accept1/2 mukaan jatq tjsp?
 
-	#VAIH:testiymp kanssa exit sopivin välein ja sitten etsaamnaabn
-	#exit
+
 	dqb "before 0c.s"
 	local y
 	
-	if [ -v CONF_testgris ] ; then #TODO:uusiksi tarkistus
+	if [ "CONF_env" == "VED" ] ; then #VAIH:uusiksi tarkistus
 		#TODO:josqs nämä kikkailut pois jos mahd
 		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp"
 		ipt="/usr/sbin/iptables"
@@ -785,19 +788,16 @@ function check_binaries() {
 		CB01 ${1} ${t}
 	fi
 	
-	#exit
-	
 	if [ -z "${ipt}" ] ; then
 		CB02 ${t}
 	fi
 
-	#exit
 	dqb "#jäölk ÄYÖYÄ SDDFSDSDGH t. Paska-Ankka"
 	ls ${t}/*.deb | wc -l
 	csleep 3
 
-	 #TODO:uusiksi tarkistus
-	if [ ! -v CONF_testgris ] ; then #190526:vielä ei voi poistaa ehtoa ympäriltä
+	#VAIH:uusiksi tarkistus
+	if [ "${CONF_dev}" != "VED" ] ; then #190526:vielä ei voi poistaa ehtoa ympäriltä
 		for x in iptables ip6tables iptables-restore ip6tables-restore gpg ; do ocs ${x} ; done
 	fi
 
@@ -831,7 +831,7 @@ function check_binaries2() {
 	[ -v sd0 ] || exit 66
 	#exit
 	
-	#TODO:kokeeksi odion nollaus jos conf_tesgris?
+	#TODO?:kokeeksi odion nollaus jos conf_tesgris?
 	#... vai olisikohan suuremmat ongelmat testiymp kanssa check_bin1 aiheuttamia?	
 
 	ipt="${odio} ${ipt} "
@@ -858,8 +858,8 @@ function check_binaries2() {
 	
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
 	
-	 #TODO:uusiksi tarkistus
-	if [ ! -v CONF_testgris ] ; then 
+	#VAIH:uusiksi tarkistus
+	if [ "${CONF_env}" != "VED"  ] ; then 
 		${scm} a-wx /usr/sbin/update-initramfs #kokeeksi tämäkin, vissiin jotyain saa aikaan 050426
 	fi
 
@@ -877,13 +877,12 @@ function check_binaries2() {
 
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
-	#exit
 }
 
 #vöhintäänkin "g_doit 0" tarttee
 function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
-	dqb "TLA.testgris : ${CONF_testgris}" #TODO:uusiksi
+	dqb "TLA.testgris : ${CONF_testgris}" #TODO:uusiksi?
 	csleep 1
 	#exit
 	
@@ -891,11 +890,11 @@ function TLA() {
 	#200326:toimiikohan tarkistus toivotulla tavalla?
 	#210326:tla() ja sqroot? jos on pedantti niin tuollakin yhdostelmällä piytäisi tables-säännöt muuttaa...
 
-	 #TODO:CONF_env-juttuja
+	#TODO:CONF_env-juttuja
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ -f /.chroot ] ; then #010426:antaa toistaiseksi o.lla viimiei n eht0
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		if [ ! -v CONF_testgris ] ; then #TODO:uusiksi tarkistus
+		if [ "${CONF_env}" != "VED" ] ; then #VAIH:uusiksi tarkistus
 			#140526:muutoksia näille main vai ei?
 			dqb "JST B3F0R:tlb-b a s h"
 			[ -s /opt/bin/tlb.bash ] || exit 99
@@ -1017,7 +1016,7 @@ function e_final() {
 	csleep 1
 	#exit
 	
-	if [ ! -v CONF_testgris ] ; then #TODO:uusiksi tarkistus
+	if [ "${CONF_env}" != "VED" ] ; then #VAIH:uusiksi tarkistus (joutaa miettiö vielä)
 		${scm} go-rw /opt/bin/*
 		${scm} 0400 /opt/bin/*.sh #josko pääte pois? 
 		${scm} 0511 /opt/bin/*.bash
@@ -1059,14 +1058,14 @@ function e_h() {
 
 	local f
 	csleep #1
-	${scm} #0755 ${2}
+	${scm} 0755 ${2}
 	dqb "FNID"
 	csleep 1
 	
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
 
-	dqb "SECNFD HLF FO EH)("
+	dqb "HTAO EHT FO HTE TAOG EH)("
 	local m=0555
 	csleep 1
 
@@ -1074,7 +1073,7 @@ function e_h() {
 	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
 	csleep 1
 
-	if [ ! -v CONF_testgris ] ; then #TODO:uusiksi tarkistus
+	if [ "${CONF_env}" != "VED" ] ; then #VAIH:uusiksi tarkistus
 		if [ -d ${2}/opt/bin ] ; then
 			${sco} -R root:root ${2}/opt/bin
 			#${scm} go-wr ${2}/opt/bin/*
@@ -1244,6 +1243,7 @@ function part1_5() {
 			touch ${h}/sources.list.tmp
 			local b
 
+			#TODO:Conf_env?
 			if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
 				b="deb file://${2}"
 			else
@@ -1417,7 +1417,7 @@ function part1() {
 #		#210326:nyt sitten miettimään että pitäisikö reslvo.conf:ille tehdä jotain. taas
 #		t=$(echo ${2} | tr -d -c 0-9)
 #
-#		if [ ! -v CONF_testgris ] ; then #TODO	:tarkistus uusiksi
+#		if [  "${CONF_env}" != "VED"  ] ; then #VAIH	:tarkistus uusiksi
 #			${odio} /opt/bin/tlb.bash ${t}
 #		fi
 #	fi
@@ -1498,6 +1498,7 @@ function part1() {
 #	
 #	if [ -z "${2}" ] ; then
 #		t=$(mktemp -d)
+#TODOtössö kåskyttämään common_pp3() ?
 #		n15=$(find ${1} -type f -name "*.deb" | wc -l)
 #	else
 #		t=${2} #jotain mankelointia mukaan?
