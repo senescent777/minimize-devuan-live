@@ -162,9 +162,9 @@ case "${mode}" in
 		#130526 taas testikierros menossa mode 3:n tuotoksen kanssa, enimmäkseen ok?
 
 		#4 toimi viimeksi 180426 (uusi testikieRRos uudella paketilla 100526, ehkä ok pl ffox profiili?)
-		# 1take-oksassa 210526 ok
-
-		#merd2 taisi toimia kerrab 21.4 , 21.5 toisen kerrab
+	
+		#merd2 taisi toimia kerrab 21.4 (entä sen jälkeen? ehkä, qhan conf-jutut)
+	
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
 
@@ -174,8 +174,8 @@ case "${mode}" in
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
 			#TODO:e.tar-kikkailu -> other_okgs() syystä gpg puuttuu
-			#... rekursion kanssa jos vaikka tekisi
-
+			#rekusriolla jos kikkailisi
+			
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
@@ -257,7 +257,7 @@ case "${mode}" in
 		e23_dm ${mop}
 	;;
 	n)
-		#VAIH:ntp-jutut takaisin josqs?
+		#VAIH:ntp-jutut takaisin josqs? 05/26*
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;
@@ -269,8 +269,7 @@ case "${mode}" in
 		e23_st
 	;;
 	*)
-
-		echo "MAYBE U SHOULD USE export3 INSTEAD"
+		echo "MAYBE U SHOULD RUN export3"
 		exit
 	;;
 esac
