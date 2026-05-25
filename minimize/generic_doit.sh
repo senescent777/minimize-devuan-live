@@ -370,7 +370,7 @@ if [ ${mode} -gt 1 ] ; then
 	#nollasta ei tarttisi välittää koska exit aiempana
 	if [ -v LCF666 ] ; then
 		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l) #barm vuoksi näin
-		#[ $c13 -gt 0 ] && c14=0 #josqs pois kommenteista tuo rivi?
+		[ $c13 -gt 0 ] && c14=0 #josqs pois kommenteista tuo rivi?
 		#profit
 	fi
 fi
