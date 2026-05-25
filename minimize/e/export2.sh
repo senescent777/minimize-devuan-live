@@ -111,6 +111,8 @@ fi
 
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
+
+#vrt. toisen repon setup2
 E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	
 if [ -x ${d0}/e/e22.sh ] ; then
@@ -162,9 +164,9 @@ case "${mode}" in
 		#130526 taas testikierros menossa mode 3:n tuotoksen kanssa, enimmäkseen ok?
 
 		#4 toimi viimeksi 180426 (uusi testikieRRos uudella paketilla 100526, ehkä ok pl ffox profiili?)
-	
-		#merd2 taisi toimia kerrab 21.4 (entä sen jälkeen? ehkä, qhan conf-jutut)
-	
+		# 1take-oksassa 210526 ok (250526 uudempi ytritys, enimmäkseen ok)
+
+		#merd2 taisi toimia kerrab 21.4 , 21.5 toisen kerrab
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
 
@@ -174,8 +176,8 @@ case "${mode}" in
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
 			#TODO:e.tar-kikkailu -> other_okgs() syystä gpg puuttuu
-			#rekusriolla jos kikkailisi
-			
+			#... rekursion kanssa jos vaikka tekisi
+
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
@@ -184,6 +186,7 @@ case "${mode}" in
 		
 		#110526:config.tar.bz2, fediverse.tar ja profs.sh tulisi kyllä löytyä kohde-paketista edelleen
 		#130526:profiilit jo toimivat tuolloin?		
+		#VAIH:olds-hmiston voisi oikeastaan karsia (kts e22_home)
 
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
@@ -196,10 +199,12 @@ case "${mode}" in
 		z2 /opt/bin/zxcv
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
+	#
 	#180426:osasi paketin muodostaa, asennuksen aikana pientä nalkutusta
 	#dpkg: dependency problems prevent configuration of libxml-parser-perl:
  	#libxml-parser-perl depends on perl  however:
 	#010526:edelleen osasi paketin muodostaa, toimivuus vielä selvitettävä
+	#	
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
@@ -257,7 +262,7 @@ case "${mode}" in
 		e23_dm ${mop}
 	;;
 	n)
-		#VAIH:ntp-jutut takaisin josqs? 05/26*
+		#VAIH:ntp-jutut takaisin josqs? 260526 -> ?
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;
@@ -269,7 +274,8 @@ case "${mode}" in
 		e23_st
 	;;
 	*)
-		echo "MAYBE U SHOULD RUN export3"
+		#TODO:parsetuksen kanssa jotain, ei tarvitsisi puolta oäövää raksuttaa ao. urputusta varten
+		echo "MAYBE U SHOULD USE export3 INSTEAD"
 		exit
 	;;
 esac

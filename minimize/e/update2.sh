@@ -10,13 +10,12 @@ spc=$(which cp)
 [ -x ${spc} ] || exit 14
 n=$(whoami)
 par3=""
-
-#VAIH:kolmatta param testattu ?
-#"kokonaan uusi päivitysskripti" jo tehty, vaan onko siinä pointtia?
+#250526:kolammen parametrin suhteen toimibta testattu jo?
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
-		#030526:onnistuu tämän skriptin toiminta myös omegan jälkeen kunhan x 
+		#250526:ehkä toimi omegan ajon jälkeen, testaa josqs uudestaan
+
 		tcmd="sudo ${tcmd} "
 		spc="sudo ${spc} "
 	fi
@@ -56,12 +55,18 @@ ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 sleep 1
 t=$(pwd)
 
-#TODO:CONF_env-juttuja
-#TODO:erityisesti olisi hyvä välttää resolv.conf päivittyminen kun se kerran saatu kuntoon
+#VAIH:tunaroinnin varalta lähteestä vkopio ennenq alkaa process_row() hakata
+#VAIH:ja sitten oli se "resolv.conf"-juttukin ed. liittyen
 
-if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
-	echo "YLIULIULI FADS FASDD FASDDQH"
+if [ "${CONF_env}" == "VED" ] && [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
+	echo "YLIULIULI asb asb ABC"
 	cd ${CONF_testgris}
+
+	echo "SHOULD MAKE BACKUP OF SOURCE"
+	sleep 1
+
+	echo "SHOULD ALSO AVOID UPFATING RESOLV.CONF"
+	sleep 1
 
 	#HUOM:-C olisi myös keksitty
 else
@@ -72,6 +77,8 @@ function process_row() {
 	${tcmd} -rvf ${1} ${2}
 }
 
+#HUOM.170426:olisi hyvä keksiä tähänkin jotain siltä varalta että merd2 ei tulisi ylimääräisiä kopioita
+
 if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb > ${d0}/MAN1.F2ST
 	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
@@ -80,10 +87,19 @@ fi
 
 echo "JUST BEFOR.E PROCESSING ROWS"
 sleep 1
-g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb  )
+
+#toimiikohan kehitysynp.tössä niinqu pitää?
+#${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
+#VAIH:ao. riveihin muutoksia koska CONF_env tulosssa käyttöön
+
+g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb)
 
 if [ ! -z "${par3}" ] ; then
 	g=$(echo ${g} | grep -v ${par3})
+fi
+
+if [ "${CONF_env}" == "VED" ]; then
+	g=$(echo ${g} | grep -v resolv)
 fi
 
 for f in ${g} ; do
@@ -94,5 +110,5 @@ for f in ${g} ; do
 	fi
 done
 
-#joTTA ehtisi synkata 
+#jotat ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4
