@@ -7,6 +7,7 @@ debug=0 #1
 d=${d0}/${distro} 
 
 #020426:uudelleen_nimeäminen josqs tämän hmistomn tdstoille?
+#240526:vissiin toimii sudon kautta ok tämä skripti
 
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
@@ -23,7 +24,7 @@ function parse_opts_1() {
 }
 
 function parse_opts_2() {
-	dqb "qwertupoy 1 2"
+	dqb "g_doit.qwertupoy 1 2"
 }
 
 function fallback() {
@@ -43,13 +44,20 @@ sleep 1
 #https://linuxopsys.com/use-dollar-at-in-bash-scripting
 #https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
 
+#240526:tämä aiheutti paljon nalkutusta kehitysymp
 function dis() {
+	dqb "sid $1 ;; $2 ((((("
 	[ -z "${1}" ] && exit 44
 	[ -z "${2}" ] && echo "SHOULD exit 45"
+
+	dqb "ko.srap"
+	csleep 1
 
 	${scm} 0755 /etc/network
 	${sco} -R root:root /etc/network
 	${scm} a+r /etc/network/*
+
+	dqb "bfore int.faces"
 
 	if [ -f /etc/network/interfaces ] ; then
 		if [ ! -h /etc/network/interfaces ] ; then
@@ -71,11 +79,15 @@ function dis() {
 	csleep 1
 
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
+	dqb "aftr.int.faces"
 
 	if [ ! -z "${2}" ] ; then
-		${odio} ${sifd} ${2}
+		#TODO:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
+		#sifd=/sbin/ifdowm ?
+		dqb "${odio} ${sifd} ${2}"	
 		csleep 1
-	
+		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
+		
 		#${odio} ${sifd} -a
 		csleep 1
 
@@ -86,12 +98,18 @@ function dis() {
 	fi
 	
 	${odio} sysctl -p
+	csleep 1
+	dqb "d1s.d0n3"
 }
 
 function part0() {
+	dqb "part0)))( ${1} ;; ${2})(((((("
 	[ -z "${1}" ] && exit 76
 	[ -z "${2}" ] && echo "SHOULD exit 78"
 
+	dqb "pars.ok"
+	csleep 5
+	
 	dis ${1} ${2}
 	local s
 	dqb "смерть шпионам"
@@ -115,6 +133,9 @@ function part0() {
 	#140526:gnome-keyring*. libpam-gnome-keyring liittyvät?
 	#kts pkgs_drop jos qsee g_pt2 asjon jölkeen (vissiin ei)
 
+	#TODO:ao. listan mukaiset olisi kiva saada sammutettua myös kehitysymåp eli sudoersin hakkaamista kehiin?
+	#... pitäisiköhän koko tämä skripti tunkea sudoersiin sitä vartem?
+	
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
 		#HUOM.271125:saisiko tällä tyylillä myös slimin sammutettua? saa, mutta...
@@ -134,9 +155,6 @@ function part0() {
 #150326:miten /proc/cmdline:n lokaaliasetukset vs /e/d/l ja tämän ao. kikkareen jutut
 
 function el_loco() {
-	dqb "el_loco ) $1 ; $2 ((("
-	csleep 1
-
 	if [ ${1} -gt 0 ] ; then
 		${smr} /etc/timezone
 		${smr} /etc/localtime
@@ -197,13 +215,8 @@ function adieu() {
 	${whack} xfce4-session
 }
 #=====================================PART0=========================================================
-##mkt=$(which mktemp)
-#echo "mkt= ${mkt}"
-#sleep 5
-#pkgcache=$(${mkt} -d)
-#echo "pkgc= ${pkgcache} "
-#sleep 6
 
+pkgcache=$(mktemp -d)
 part0 ${distro} ${CONF_iface}
 process_lib ${d} ${pkgcache}
 
@@ -237,21 +250,22 @@ function pre_enforce() {
 	csleep 1
 
 	[ -f ${q} ] || exit 33
+	#TODO:katso lista läåpi ettå mit nykyään tarvotaan misäkin tilanteessa
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
 
 	dqb "BFOR3 testgris"
 	csleep 1
 
-	if [ ! -v CONF_testgris ] ; then
+
+	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
+
+#	if [ ! -v CONF_testgris ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		if [ ! -d /opt/bin ] ; then
 			${smd} /opt/bin
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
 		fi
-	fi
-
-	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
-
-	if [ ! -v CONF_testgris ] ; then
+	
 		if [ -d ${1}/opt/bin ] ; then
 			#tämä mv ok?
 			${svm} ${1}/opt/bin/*.bash /opt/bin
@@ -262,10 +276,11 @@ function pre_enforce() {
 
 	e_final
 
-	if [ ! -v CONF_testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
+	#if [ ! -v CONF_testgris ] ; then # "semmoinen juttu" 
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 		#1. tämä blokki kai eniten aiheuttaisi ongelmia sqroot-ympstössä?
 		#2. o/b sisällön oikeuksia/omistajia varten taisi olla e_final
-		#3. changedns.vash joutaisi jo mennä (TODO)
+		#3. changedns.vash: olisikohan jo hukattu
 
 		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q}
@@ -306,6 +321,7 @@ function pre_enforce() {
 
 	csleep 1
 	#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
+	#TODO:setup2sesa kokeeksi fstab-kikkailut kommentteihin
 
 	if [ ${c4} -lt 1 ] ; then
 		csleep 1
@@ -323,14 +339,14 @@ function pre_enforce() {
 	csleep 1
 }
 
-if [ -s /etc/sudoers.d/meshuqqah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
+if [ -s /etc/sudoers.d/meshuqqah ] || [ ${CONF_enforce} -eq 0 ] ; then # || [ "${CONF_env}" != "DEFAULT" ]
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
 else 
 	pre_enforce ${d0}
 fi
 
-if [ -f /.chroot ] ; then #200516:pitäisiköhän tätä muuttaa josqs? teshgrs saattaa liittyä etäisestoi
+if [ "${CONF_env}" != "DEFAULT" ] ; then #240526:saattaa muuttua vielä, nyt näin nalkutuksen minimoinnin takia
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
@@ -353,17 +369,14 @@ c13=0
 if [ ${mode} -gt 1 ] ; then
 	#nollasta ei tarttisi välittää koska exit aiempana
 	if [ -v LCF666 ] ; then
-		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l) #unohtuiko viimeinen?
-		[ $c13 -gt 0 ] && c14=0 #mitähän tästä tapahtuu kun poistaa komm?
+		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l) #barm vuoksi näin
+		[ $c13 -gt 0 ] && c14=0 #josqs pois kommenteista tuo rivi?
 		#profit
 	fi
 fi
 
-#TODO;/e/d/localeen kirjoittaminen jtnkin uusiksi?
 #josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta? kokeillaan
 el_loco ${c14} ${c13}
-#24526;se oli pikemminkin dpkg m,ikä halusi lokaaleita generoida
-
 #=========================================================================================
 #1§405426:vissiin "mode 1"-kiukuttelut toistaiseksi ohi kehitysympstössä
 
@@ -396,6 +409,7 @@ part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 
 #===================================================PART 3===========================================================
 message
+
 #menkööt toistaiseksi part3 kanssa (0403265)
 #common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain?
 
@@ -404,7 +418,7 @@ other_horrors
 dqb "AFTER THE HORROR"
 csleep 1
 
-#if [ ! -f /.chroot ] ; then #ehto pois jatkossa vai ei? vaiko CONF_env tilalle?
+#if [ ! -f /.chroot ] ; then #ehto pois jatkossa vai ei?
 	#[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh
 
