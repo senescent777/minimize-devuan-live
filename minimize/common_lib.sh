@@ -391,9 +391,9 @@ function psqa() {
 }
 
 #HUOM.060426:ne kalat mitkä eivät listassa tulisi kai hukata
-##... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
-##efk2 2. param ja cefgh voisi liittyä asiaan
-##110526:pitäisi uudestaan katsella niitä bash-juttuja ennenq alkaa muuttelemaan psqa/( käyttävää koodia (ensimmäiset yritelmät eivät oikein...)
+#... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
+#efk2 2. param ja cefgh voisi liittyä asiaan
+#110526:pitäisi uudestaan katsella niitä bash-juttuja ennenq alkaa muuttelemaan psqa/( käyttävää koodia (ensimmäiset yritelmät eivät oikein...)
 
 #250526 pois kommenteista koska sqroot-testit
 function common_pp3() {
@@ -777,7 +777,8 @@ function check_binaries() {
 		[ -z "${1}" ] && exit 99
 		[ -d ${1} ] || exit 101
 
-		if [ -z "${2}" ]; then #tarkistusia pitäisi olla enemmän mutta näillä mennään nytr
+		if [ -z "${2}" ]; then
+			#tarkistusia pitäisi olla enemmän mutta näillä mennään nytr
 			dqb "TKMP"
 			csleep 5
 			t=$(${mkt} -d) 
@@ -788,7 +789,7 @@ function check_binaries() {
 		#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
 		cefgh ${1}
 		common_pp3 ${1} ${t}
-		#070426:gpg-tarq pystyy tekemään vastaq gpg asennettu, jos voisi jtnkinhuiomioida
+		#070426:gpg-tarq pystyy tekemöään vastaq gpg asennettu, jos voisi jtnkinhuiomioida
 
 		dqb "BF0R3 CVB0"
 		csleep 5
@@ -907,7 +908,8 @@ function TLA() {
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ "${CONF_env}" == "TOOR" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		if [ "${CONF_env}" != "VED" ] ; then # && [ -d /opt/bin ] ?
+		if [ "${CONF_env}" != "VED" ] ; then
+			# && [ -d /opt/bin ] ?
 			#140526:muutoksia näille main vai ei?
 			dqb "JST B3F0R:tlb-b a s h"
 			[ -s /opt/bin/tlb.bash ] || exit 99
@@ -1583,11 +1585,13 @@ function part1() {
 #}
 
 #vöhintäänkin "g_doit 0" tarttee
+
+
 function process_lib() {
 	dqb "process_lib( ${1} ) ${2} (((((((("
 	[ -z "${1}" ] && exit 66
 	csleep 1
-	#exit
+	
 	
 	#pointti?
 	if [ -x "${gg}" ] && [ -s ${1}/lib.sh.sig ] ; then
@@ -1617,7 +1621,7 @@ function process_lib() {
 	
 	TLA
 	dqb "process_lib.done()"
-	#exit
+	
 }
 
 #common_funcs tarttee
