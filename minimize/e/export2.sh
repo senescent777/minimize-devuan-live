@@ -270,7 +270,7 @@ case "${mode}" in
 		e23_st
 	;;
 	*)
-
+		#TODO:parsetuksen kanssa jotain, ei tarvitsisi puolta oäövää raksuttaa ao. urputusta varten
 		echo "MAYBE U SHOULD USE export3 INSTEAD"
 		exit
 	;;
