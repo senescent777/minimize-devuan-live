@@ -55,7 +55,6 @@ ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 sleep 1
 t=$(pwd)
 
-
 #VAIH:tunaroinnin varalta lähteestä vkopio ennenq alkaa process_row() hakata
 #VAIH:ja sitten oli se "resolv.conf"-juttukin ed. liittyen
 
