@@ -200,9 +200,9 @@ function adieu() {
 ##mkt=$(which mktemp)
 #echo "mkt= ${mkt}"
 #sleep 5
-pkgcache=$(${mkt} -d)
-echo "pkgc= ${pkgcache} "
-sleep 6
+#pkgcache=$(${mkt} -d)
+#echo "pkgc= ${pkgcache} "
+#sleep 6
 
 part0 ${distro} ${CONF_iface}
 process_lib ${d} ${pkgcache}
@@ -346,19 +346,20 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #===================================================PART 2===================================
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 #TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
-
-c13=0
 c14=1
+c13=0
+
 
 if [ ${mode} -gt 1 ] ; then
 	#nollasta ei tarttisi välittää koska exit aiempana
 	if [ -v LCF666 ] ; then
-		c13=$(env | grep LC_TIME | grep -c ${LCF666})
+		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l) #unohtuiko viimeinen?
 		[ $c13 -gt 0 ] && c14=0 #mitähän tästä tapahtuu kun poistaa komm?
 		#profit
 	fi
 fi
 
+#TODO;/e/d/localeen kirjoittaminen jtnkin uusiksi?
 #josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta? kokeillaan
 el_loco ${c14} ${c13}
 #24526;se oli pikemminkin dpkg m,ikä halusi lokaaleita generoida

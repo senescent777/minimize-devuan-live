@@ -267,19 +267,21 @@ function tpr() {
 	csleep 2
 }
 
+dqb "JUST B3F0RE 1ST CASE-BL0CK"
+csleep 2
+
 #130526:vaikutti toimivan tämä blokki (m itä nyut common_lib oikeudet ja gpg:n puute saattavat vähän sotkea, jokin muukin?)
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii? vissiin
+		#siltä varaltam ettei, debug
+		dqb "DIPOLIN KÄPY"
+		csleep 3
+
 		part=/dev/disk/by-uuid/${CONF_part0}
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 		c=$(grep -c ${CONF_dir} /proc/mounts)
 
-		#siltä varaltam ettei, debug
-		dqb "DIPOLIN KÄPY"
-
-
-		csleep 3
 		if [ ${c} -lt 1 ] ; then
 			${som} -o ro ${part} ${CONF_dir}
 			csleep 1
@@ -398,7 +400,7 @@ cd ${olddir}
 
 if [ -v part ] || [ -v CONF_dir ] ; then
 	echo "REMEMBER 2 UNM0UNT TH3S3:"
-	[ -z ${part} ] || grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan?
+	[ -z "${part}" ] || grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan?
 	[ -z ${CONF_dir} ] || grep ${CONF_dir} /proc/mounts
 fi
 
