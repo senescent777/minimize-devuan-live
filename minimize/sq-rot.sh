@@ -404,7 +404,7 @@ case "${mode}" in
 	;;
 	
 	#... tai sqrootissa oli menu- ja libw-pakettien asenynuksen kanssa pientä kiukuttelya, toistuuko?
-	#... exp2 rp testiin?
+	#... exp2 rp vähän ritetty testailla 05/26
 	0)
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
@@ -412,12 +412,13 @@ case "${mode}" in
 		f=$(dirname ${f})
 		common_part ${srcfile} ${d} ${e}
 
-		#TODO:kiukut6telut voisi poistaa (vai onko vielä moista 250626? vissiin)
+		#VAIH:kiukut6telut voisi poistaa (vai onko vielä moista 250626? vissiin)
+		#modaamattomalla kiekolla jos testaisi kanssa		
 		echo "FART3 $?"
 		[ $? -eq 0 ] && ocs gpg
 		
-		sleep 3
-		exit 61
+		#sleep 3
+		#exit 61
 
 		[ $? -eq 0 ] && part3 ${f}
 		[ $? -eq 0 ] && other_horrors
@@ -446,17 +447,18 @@ case "${mode}" in
 				dqb "NOP"
 				csleep 1
 
-				#for f in $(fnid $srcfile -type f -name "*.sig" ) ; do
-				#	g=$(echo $f | cut -d . -f 1,2)
+				for f in $(find ${srcfile} -type f -name "*.sig" ) ; do
+					g=$(echo $f | cut -d . -f 1,2)
 				#	check=$(smthing)
-				#	[ $check ] && gg --import $g
-				#	rm $g	
-				#done
+				#	[ $check ] && 
+					${gg} --import ${g}
+					rm ${g}	
+				done
 
-				dqb "${gg} --import ${srcfile}/*.gpg soon"
-				csleep 1
-
-				${gg} --import ${srcfile}/*.gpg
+				#dqb "${gg} --import ${srcfile}/*.gpg soon"
+				#csleep 1
+				#
+				#${gg} --import ${srcfile}/*.gpg
 				csleep 1
 
 				[ ${debug} -eq 1 ] && ${gg} --list-keys

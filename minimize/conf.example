@@ -1,3 +1,4 @@
+CONF_env=DEFAULT
 CONF_iface=iface
 CONF_enforce="0 or 1"
 debug=0

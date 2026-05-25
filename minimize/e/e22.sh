@@ -2,8 +2,10 @@ ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
 
 if [ ! -v CONF_pubk ] ; then
-	#TODO:ao. riville muutoksia jatkossa
-	a=$(${odio} find / -type f -name "keys.conf" | head -n 1)
+	#VAIH:ao. riville muutoksia jatkossa
+	b=/
+
+	a=$(${odio} find ${b} -type f -name "keys.conf" | head -n 1)
 	
 	if [ ! -z "${a}" ] ; then
 		if [ -s ${a} ] ; then
@@ -12,6 +14,7 @@ if [ ! -v CONF_pubk ] ; then
 	fi
 
 	unset a
+	unset b
 fi
 
 #280426:lienee ok
@@ -182,6 +185,7 @@ function e22_pre2() {
 	echo $?
 	csleep 1
 
+	#pedanttiuden nimissä tämmöisiä
 	if [ -d /etc/resolv.conf ] ; then
 		echo "D"
 	else
@@ -291,19 +295,23 @@ function e22_home() {
 	[ -z "${2}" ] && exit 69
 	[ -d ${2} ] || exit 70
 	[ -z "${3}" ] && exit 71
+
 	local t
 	local f
+
 	${srat} -rvf ${1} ${2}/../${3}
 	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
 	[ ${t} -lt 1 ] && exit 72
 	csleep 1
+
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
+	#250526:"--exclude olds" ehkä mukaan, olennaisempaa zxcv:n kanssa karsinta
 	${srat} ${TARGET_TPX} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
+
 	#miksi täsäs eokä h_pre() ?
 	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 }
-
 
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
 #120426:vissiin kopsaa kohteeseen mitä pitääkin
@@ -329,6 +337,7 @@ function e22_acol() {
 	[ -z "${2}" ] && exit 2
 	[ -z "${3}" ] && exit 3		
 	[ -z "${4}" ] && exit 5
+
 	${scm} 0555 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
@@ -337,6 +346,7 @@ function e22_acol() {
 	local ef
 	local g
 	for f in $(find /etc -type f -name "interfaces*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
+
 	for f in $(${odio} find /etc -type f -name "rules*" -and -not -name "*.202*" ) ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
@@ -349,7 +359,9 @@ function e22_acol() {
 	if [ -r /etc/iptables ] || [ -w /etc/iptables ] || [ -r /etc/iptables/rules.v4 ] ; then
 		exit 112
 	fi
+
 	${srat} -rvf ${1} /etc/default/net*
+
 	case "${2}" in
 		wlan0)
 			${srat} -rvf ${1} /etc/wpa_supplicant
@@ -358,11 +370,14 @@ function e22_acol() {
 		*)
 		;;
 	esac
+
 	if [ ${3} -gt 0 ] ; then #-eq 1
 		for f in $(find /etc -type f -name "stubby*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
 		for f in $(find /etc -type f -name "dns*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
 	fi
+
 	ef=$(echo ${4} | tr -d -c 0-9)
+
 	if  [ ${ef} -eq 1 ] ; then
 		dqb "SMTHING"
 	else
@@ -426,13 +441,12 @@ function e22_ext() {
 		${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1	
 	fi
 
-	#250626:resolv liittyen josko tilapäisesti pois zxcv:n listasta, jatkuva ulina kuitenkin
+	#250526:resolv liittyen josko tilapäisesti pois zxcv:n listasta, jatkuva ulina kuitenkin
 	${spc} /etc/resolv.conf ./etc/resolv.conf.${st}
 
 	if [ ! -s ./etc/resolv.conf.1 ] ; then
 		${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
 	fi
-
 
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${st}
 
@@ -440,7 +454,6 @@ function e22_ext() {
 		${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
 		ls -las ./sbin
 	fi
-
 
 	if [ -f /etc/apt/sources.list ] ; then
 		local c
@@ -462,7 +475,8 @@ function e22_ext() {
 
 	echo $?
 	local f
-	#resolv.conf uutena
+	#HUOM.250526:resolv.conf uutena
+
 	for f in $(find ./etc -type f -not -name "interfaces.*" -and .not  -name "resolv.*") ; do
 		${sah6} ${f} >> ${4}
 	done
@@ -592,19 +606,21 @@ function e22_cde() {
 	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
 }
 
-#1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO?)
+#1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (oliswikohan jo selvitetty?)
 #tässä tdstossa pre2() ja ext() , lisäksi common_lib kautta e_e -> enforce_access
 #-> merd2, g_doit, sq_rot, import2, export3, export2, e22_pre1()
 
 function z1() {
-[ -z "${1}" ] && exit 66
-csleep 2
-${NKVD} ${1}.tmp
-${spc} ${1} ${1}.ÅLD
-${spc} ${1}.sig ${1}.sig.ÅLD
-${spc} ${1}.sha ${1}.sha.ÅLD
-csleep 1
-fasdfasd ${1}.tmp
+	[ -z "${1}" ] && exit 66
+	csleep 2
+	${NKVD} ${1}.tmp
+
+	${spc} ${1} ${1}.ÅLD
+	${spc} ${1}.sig ${1}.sig.ÅLD
+	${spc} ${1}.sha ${1}.sha.ÅLD
+
+	csleep 1
+	fasdfasd ${1}.tmp
 }
 
 function z2() {
@@ -622,6 +638,7 @@ function z2() {
 	${svm} ${1}.tmp ${1}
 	csleep 1
 
+	#että mitenkä?
 	${sah6} --ignore-missing -c ${1}
 	csleep 3
 
@@ -639,7 +656,7 @@ function z3() {
 	csleep 1
 
 	if [ ! -s ${3} ] ; then
-		#tulöeeko export3 mukaan?
+		#tuleeko export3 mukaan?
 		#tässä EI karsita:resolv.conf
 
 		${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}

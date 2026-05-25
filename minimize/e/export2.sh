@@ -184,7 +184,7 @@ case "${mode}" in
 		
 		#110526:config.tar.bz2, fediverse.tar ja profs.sh tulisi kyllä löytyä kohde-paketista edelleen
 		#130526:profiilit jo toimivat tuolloin?		
-		#TODO:olds-hmiston voisi oikeastaan karsia
+		#VAIH:olds-hmiston voisi oikeastaan karsia (kts e22_home)
 
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
@@ -258,7 +258,7 @@ case "${mode}" in
 		e23_dm ${mop}
 	;;
 	n)
-		#VAIH:ntp-jutut takaisin josqs?
+		#VAIH:ntp-jutut takaisin josqs? 260526 -> ?
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;
