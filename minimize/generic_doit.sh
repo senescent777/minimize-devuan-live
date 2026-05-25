@@ -7,6 +7,7 @@ debug=0 #1
 d=${d0}/${distro} 
 
 #020426:uudelleen_nimeäminen josqs tämän hmistomn tdstoille?
+#240526:vissiin toimii sudon kautta ok tämä skripti
 
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
@@ -82,6 +83,7 @@ function dis() {
 
 	if [ ! -z "${2}" ] ; then
 		#TODO:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
+		#sifd=/sbin/ifdowm ?
 		dqb "${odio} ${sifd} ${2}"	
 		csleep 1
 		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
@@ -132,6 +134,8 @@ function part0() {
 	#kts pkgs_drop jos qsee g_pt2 asjon jölkeen (vissiin ei)
 
 	#TODO:ao. listan mukaiset olisi kiva saada sammutettua myös kehitysymåp eli sudoersin hakkaamista kehiin?
+	#... pitäisiköhän koko tämä skripti tunkea sudoersiin sitä vartem?
+	
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
 		#HUOM.271125:saisiko tällä tyylillä myös slimin sammutettua? saa, mutta...
@@ -246,13 +250,12 @@ function pre_enforce() {
 	csleep 1
 
 	[ -f ${q} ] || exit 33
+	#TODO:katso lista läåpi ettå mit nykyään tarvotaan misäkin tilanteessa
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
 
 	dqb "BFOR3 testgris"
 	csleep 1
 
-#	if [ ! -v CONF_testgris ] ; then
-#	fi
 
 	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 
@@ -273,8 +276,8 @@ function pre_enforce() {
 
 	e_final
 
-	#if [ ! -v CONF_testgris ] ; then # semmoinen juttu 
-	if [ "${CONF_env}" == "DEFAULT" ] ; then
+	#if [ ! -v CONF_testgris ] ; then # "semmoinen juttu" 
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 		#1. tämä blokki kai eniten aiheuttaisi ongelmia sqroot-ympstössä?
 		#2. o/b sisällön oikeuksia/omistajia varten taisi olla e_final
 		#3. changedns.vash: olisikohan jo hukattu
@@ -318,6 +321,7 @@ function pre_enforce() {
 
 	csleep 1
 	#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
+	#TODO:setup2sesa kokeeksi fstab-kikkailut kommentteihin
 
 	if [ ${c4} -lt 1 ] ; then
 		csleep 1
@@ -335,7 +339,7 @@ function pre_enforce() {
 	csleep 1
 }
 
-if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" != "DEFAULT" ] || [ ${CONF_enforce} -eq 0 ] ; then
+if [ -s /etc/sudoers.d/meshuqqah ] || [ ${CONF_enforce} -eq 0 ] ; then # || [ "${CONF_env}" != "DEFAULT" ]
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
 else 

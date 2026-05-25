@@ -11,8 +11,8 @@ spc=$(which cp)
 n=$(whoami)
 par3=""
 
-#VAIH:kolmanneksi parametriksi alihakemisto mikä dumpataan arkistoon, sen sijaan että käydään koko lista läpi ?
-#VAIH:kokonaan uusi päivitysskripti? aikavyöhyke-lokaali-tar-sekoilut poistanevat tämän skriptin pointin (mallia vaikkapa toisen repon {setup1,setup2}.bash)
+#VAIH:kolmatta param testattu ?
+#"kokonaan uusi päivitysskripti" jo tehty, vaan onko siinä pointtia?
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
@@ -56,7 +56,9 @@ ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 sleep 1
 t=$(pwd)
 
- #TODO:CONF_env-juttuja
+#TODO:CONF_env-juttuja
+#TODO:erityisesti olisi hyvä välttää resolv.conf päivittyminen kun se kerran saatu kuntoon
+
 if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	echo "YLIULIULI FADS FASDD FASDDQH"
 	cd ${CONF_testgris}

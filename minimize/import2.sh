@@ -275,11 +275,9 @@ case "${mode}" in
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 		c=$(grep -c ${CONF_dir} /proc/mounts)
 
-		#siltä varaltam ettei, debug
-		dqb "DIPOLIN KÄPY"
+		dqb "DIPOLIN.KÖÄPUY"
+		csleep 1
 
-
-		csleep 3
 		if [ ${c} -lt 1 ] ; then
 			${som} -o ro ${part} ${CONF_dir}
 			csleep 1

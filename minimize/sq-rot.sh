@@ -207,9 +207,10 @@ fi
 
 dqb "rot:AFTR common_lib"
 csleep 1
-
+[ -v CONF_env ] || exit 66
 #if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 #HUOM.20526:ei onnaakaan vielä näin, tai ainakin pitäisi conf ncludoida ennenq common_lib
+
 if [ "${CONF_env}" == "TOOR" ] ; then
 	pre
 fi
@@ -400,7 +401,7 @@ case "${mode}" in
 	#240536:jospa olisi tämä ja case 3 jo kunnossa
 	#... tai sqrootissa oli menu- ja libw-pakettien asenynuksen kanssa pientä kiukuttelya, toistuuko?
 	#... exp2 rp testiin?
-	0)
+	0) #240526:toisen oksan versiossa oli jotain kiukuttelua tässä
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)

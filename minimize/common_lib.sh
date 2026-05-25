@@ -2,6 +2,7 @@
 if [ -s ${d0}/$(whoami).conf ] ; then
 	#pitäisikö olla eri conf toisen repon skriptien kautta mentäessä?
 	echo "ALT.C0NF1G (. ${d0}/$(whoami).con )"
+	#HUOM.sudo voi vähän sotkea tämän if-haaran tyoimintaa
 	. ${d0}/$(whoami).conf
 	sleep 5
 else
@@ -42,6 +43,12 @@ case "${CONF_env}" in
 		function itni() {
 			dqb "alt-itn1"
 		}
+
+		#250526 palautettu kommenteista sqroot-testien takia
+		sco=$(${odio} which chown)
+		[ y"${sco}" == "y" ] && exit 98
+		[ -x ${sco} ] || exit 97
+		scm=$(${odio} which chmod)
 	;;
 	VED)
 		#pitäöisiköhän testgris huomioida tässä? jos ei sen mukaista hmistoa ole ni CONF_env arvon muuttaminen tjsp
@@ -89,11 +96,11 @@ itni
 
 function fix_sudo() {
 	dqb "common_lib.fix_sud0.pt0"
-#	#exit
 	
-	if [ "${CONF_env}" != "VED" ] ; then #VAIH:uusiksi tarkistus
+	if [ "${CONF_env}" == "DEFAULT" ] ; then #EHTPOA SAATTAA JHOUTUA RENKKAAMAAN VIELÄ
 		dqb "INNERMOST"
 
+		#TODO:ao. blokki ennen tarkiststa?
 		${sco} -R 0:0 /etc/sudoers.d
 		${scm} 0440 /etc/sudoers.d/*
 		${sco} -R 0:0 /etc/sudo*
@@ -120,13 +127,12 @@ function fix_sudo() {
 
 function other_horrors() {
 	dqb "other_horrors"
-	#exit
 	
-	if [ "${CONF_env}" != "VED" ] ; then #VAIH:uusiksi tarkistus
+	if [ "${CONF_env}" == "DEFAULT" ] ; then #HYVÄ NÄINB?
 		dqb "1NTERBAL SUFFER1NG"
 
 		for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
-			#TODO:valmis palikka?
+			#TODO:valmis palikka? mangle2 ei ihan
 			${sco} -R root:root ${f}
 			${scm} 0400 ${f}
 		done
@@ -147,7 +153,7 @@ fix_sudo
 other_horrors
 #exit
 
-debug=1
+#debug=1
 
 #common_funcs tarttee
 #TODO?:testgris?
@@ -165,6 +171,8 @@ function ocs() {
 		exit 77
 	fi
 }
+
+#TODO:e/update2.sh varten muutoksia sudoersiin?
 
 #common_funcs tarttee
 function check_bin_0() {
@@ -239,8 +247,10 @@ function check_bin_0() {
 	#sdi="${odio} ${sdi} -i "
 	csleep 2
 
+	#TODO:näille main jotain muutoksia?
 	sifu=$(${odio} which ifup)
 	sifd=$(${odio} which ifdown)
+	
 	sip=$(${odio} which ip)
 	sip="${odio} ${sip} "
 
@@ -306,180 +316,184 @@ function jules() {
 }
 
 
-#
-##TODO?:jatkosäätöä josqs lähiaikoina? (kts e22.sh, KVG-jutut bissiin uusicksi)
-#function psqa() {
-#	dqb "c.Q () () () () ${1} ;;;"
-#	csleep 1
-#
-#	[ -z "${1}" ] && exit 97
-#	[ -d ${1} ] || exit 96
-#	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
-#	csleep 1
-#
-#	#return 92 #ei näin?
-#	#dpkg -V oli tässä josqs , [ -v ] takana
-#
-#	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then
-#		dqb "))S))))( ${1} )"
-#		csleep 1
-#
-#		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubring.kbx yli 32 tavua?
-#		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-#			dqb "${gg} --verify ${1}/sha512sums.txt.sig "
-#			csleep 1
-#			${gg} --verify ${1}/sha512sums.txt.sig 
-#
-#			if [ $? -eq 0 ] ; then
-#				dqb "KÖ"
-#			else
-#				dqb "SHOULD imp2 k \$dir !!!"
-#				${NKVD} ${1}/sha512sums.*
-#				return 95 #jatk exit pois
-#			fi
-#
-#			csleep 1
-#			[ -f ${1}/sha512sums.txt.1.sig ] && ${gg} --verify ${1}/sha512sums.txt.1.sig
-#			csleep 1
-#		else
-#			dqb "COULD NOT VERIFY SIGNATURES"
-#		fi
-#	else
-#		dqb "Лаврентий Берия MADE .txt.sig DISAPPEAR"
-#	fi
-#
-#	csleep 2
-#
-#	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
-#		dqb "R ${1} "
-#		csleep 1
-#		local p
-#		p=$(pwd)
-#		cd ${1}
-#
-#		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
-#		${sah6} -c sha512sums.txt --ignore-missing
-#
-#		if [ $? -eq 0 ] ; then
-#			dqb "Q.KO"
-#		else
-#			dqb "SHOULD \${NKVD} ${1}/ \* .deb"
-#			return 94
-#		fi
-#
-#		[ -f ${1}/sha512sums.txt.1 ] && ${sah6} --ignore-missing -c sha512sums.txt.1
-#		csleep 1
-#		cd ${p}
-#	else
-#		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
-#		dqb "SHOULD \${NKVD} ${1}/ \*.deb"		
-#		return 93
-#	fi
-#
-#	dqb " DONE WITH THE Q-FEVER () ;;;; (((((("
-#	csleep 2
-#}
-#
-##HUOM.060426:ne kalat mitkä eivät listassa tulisi kai hukata
+#250526 pois kommeneista sqroot-testien takia
+#TODO?:jatkosäätöä josqs lähiaikoina? (kts e22.sh, KVG-jutut bissiin uusicksi)
+function psqa() {
+	dqb "c.Q () () () () ${1} ;;;"
+	csleep 1
+
+	[ -z "${1}" ] && exit 97
+	[ -d ${1} ] || exit 96
+	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
+	csleep 1
+
+	#return 92 #ei näin?
+	#dpkg -V oli tässä josqs , [ -v ] takana
+
+	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then
+		dqb "))S))))( ${1} )"
+		csleep 1
+
+		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubring.kbx yli 32 tavua?
+		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
+			dqb "${gg} --verify ${1}/sha512sums.txt.sig "
+			csleep 1
+			${gg} --verify ${1}/sha512sums.txt.sig 
+
+			if [ $? -eq 0 ] ; then
+				dqb "KÖ"
+			else
+				dqb "SHOULD imp2 k \$dir !!!"
+				${NKVD} ${1}/sha512sums.*
+				return 95 #jatk exit pois
+			fi
+
+			csleep 1
+			[ -f ${1}/sha512sums.txt.1.sig ] && ${gg} --verify ${1}/sha512sums.txt.1.sig
+			csleep 1
+		else
+			dqb "COULD NOT VERIFY SIGNATURES"
+		fi
+	else
+		dqb "Лаврентий Берия MADE .txt.sig DISAPPEAR"
+	fi
+
+	csleep 2
+
+	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
+		dqb "R ${1} "
+		csleep 1
+		local p
+		p=$(pwd)
+		cd ${1}
+
+		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
+		${sah6} -c sha512sums.txt --ignore-missing
+
+		if [ $? -eq 0 ] ; then
+			dqb "Q.KO"
+		else
+			dqb "SHOULD \${NKVD} ${1}/ \* .deb"
+			return 94
+		fi
+
+		[ -f ${1}/sha512sums.txt.1 ] && ${sah6} --ignore-missing -c sha512sums.txt.1
+		csleep 1
+		cd ${p}
+	else
+		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
+		dqb "SHOULD \${NKVD} ${1}/ \*.deb"		
+		return 93
+	fi
+
+	dqb " DONE WITH THE Q-FEVER () ;;;; (((((("
+	csleep 2
+}
+
+#HUOM.060426:ne kalat mitkä eivät listassa tulisi kai hukata
 ##... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
 ##efk2 2. param ja cefgh voisi liittyä asiaan
 ##110526:pitäisi uudestaan katsella niitä bash-juttuja ennenq alkaa muuttelemaan psqa/( käyttävää koodia (ensimmäiset yritelmät eivät oikein...)
-#
-#function common_pp3() {
-#	dqb "() common_pp3 )))))) ${1} ) ${2} )))))))))))))"
-#	csleep 1
-#
-#	#kutsutaan useammasta paikkaa joten varm vuoksi
-#	[ -z "${1}" ] && exit 99
-#	[ -d ${1} ] || exit 101
-#	[ -z "${2}" ] && exit 98
-#	[ -d ${2} ] || exit 102
-#
-#	[ ${debug} -eq 1 ] && pwd
-#	csleep 1
-#	#exit
-#	
-#	dqb "find ${1} -type f -name \* .deb"
-#	csleep 3
-#
-#	local q
-#	local r
-#
-#	q=$(find ${1} -type f -name "*.deb" | wc -l)
-#	r=$(echo ${1} | cut -d "/" -f 1-5)
-#
-#	#TODO:tesgris-juttuja?
-#	if [ ${q} -lt 1 ] ; then
-#		echo "SHOULD REMOVE ${1} / sha512sums . t x t"
-#		echo "ibcovation \"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
-#
-#		#tämä lienee se syy miksi myöhemmin pitää renkata...
-#		${scm} a-wx ${r}/common_lib.sh
-#		dqb "NO EXIT 55 HERE, CHIMAERA..."
-#	else
-#		psqa ${1}
-#		#local r=$(psqa ${1}) jatkossa+leikit?
-#
-#		if [ $? -gt 0 ] ; then
-#			#140526;pitäisiköhän tässä älähtää jotain?
-#			${NKVD} ${1}/*.deb
-#			${NKVD} ${1}/sha512sums*
-#			${NKVD} ${1}/*.tar*
-#		fi
-#
-#		local s
-#		#HISPUJENB KANSSA SITTEN TARKKUUTTA PRKL
-#
-#		dqb "SAH.0"
-#		csleep 1
-#		#HUOM.lähteen delliminen ja pakettien siirtely voi aiheuttaa härdelliä myöhemmin, kun pitäisi g_doit kautta käskyttää part3
-#		#e22_gi, gu, gv mukaiset kalat voisi katsoa että löytyy shasums + siirtää toiseen hak mutta muut tar:in sisältämät... jokin osittainen purq CB01, CB02 varten
+
+#250526 pois kommenteista koska sqroot-testit
+function common_pp3() {
+	dqb "() common_pp3 )))))) ${1} ) ${2} )))))))))))))"
+	csleep 1
+
+	#kutsutaan useammasta paikkaa joten varm vuoksi
+	[ -z "${1}" ] && exit 99
+	[ -d ${1} ] || exit 101
+	[ -z "${2}" ] && exit 98
+	[ -d ${2} ] || exit 102
+
+	[ ${debug} -eq 1 ] && pwd
+	csleep 1
+	#exit
+	
+	dqb "find ${1} -type f -name \* .deb"
+	csleep 3
+
+	local q
+	local r
+
+	q=$(find ${1} -type f -name "*.deb" | wc -l)
+	r=$(echo ${1} | cut -d "/" -f 1-5)
+
+	#TODO:tesgris-juttuja?
+	if [ ${q} -lt 1 ] ; then
+		echo "SHOULD REMOVE ${1} / sha512sums . t x t"
+		echo "ibcovation \"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
+
+		#tämä lienee se syy miksi myöhemmin pitää renkata...
+		${scm} a-wx ${r}/common_lib.sh
+		dqb "NO EXIT 55 HERE, CHIMAERA..."
+	else
+		psqa ${1}
+		#local r=$(psqa ${1}) jatkossa+leikit?
+
+		if [ $? -gt 0 ] ; then
+			#140526;pitäisiköhän tässä älähtää jotain?
+			${NKVD} ${1}/*.deb
+			${NKVD} ${1}/sha512sums*
+			${NKVD} ${1}/*.tar*
+		fi
+
+		local s
+		#HISPUJENB KANSSA SITTEN TARKKUUTTA PRKL
+
+		dqb "SAH.0"
+		csleep 1
+		#HUOM.lähteen delliminen ja pakettien siirtely voi aiheuttaa härdelliä myöhemmin, kun pitäisi g_doit kautta käskyttää part3
+		#e22_gi, gu, gv mukaiset kalat voisi katsoa että löytyy shasums + siirtää toiseen hak mutta muut tar:in sisältämät... jokin osittainen purq CB01, CB02 varten
+
 #TODO:shasums:ien kopsaus $2:seen myös?
 #TODO:pikemminkin siellä $2-hmistossa käsin se sha-tarkstus?
-#		for s in $(grep -v '#' ${1}/sha512sums.txt | awk '{print $2}') ; do
-#			${svm} ${1}/${s} ${2}
-#		done
-#
-#		dqb "SAH.1"
-#		csleep 1
-#
-#		#jälkimmäinen grep sekä spc tarkoit7uksella
-#		for s in $(grep -v '#' ${1}/sha512sums.txt.1 | grep -v drop | awk '{print $2}') ; do
-#			dqb "${spc} ${1}/${s} ${2}"
-#			${spc} ${1}/${s} ${2}
-#			csleep 1
-#		done
-#	fi
-#
-#	dqb "() common_pp3 DONE"
-#	csleep 1
-#}
-#
+
+		for s in $(grep -v '#' ${1}/sha512sums.txt | awk '{print $2}') ; do
+			${svm} ${1}/${s} ${2}
+		done
+
+		dqb "SAH.1"
+		csleep 1
+
+		#jälkimmäinen grep sekä spc tarkoit7uksella
+		for s in $(grep -v '#' ${1}/sha512sums.txt.1 | grep -v drop | awk '{print $2}') ; do
+			dqb "${spc} ${1}/${s} ${2}"
+			${spc} ${1}/${s} ${2}
+			csleep 1
+		done
+	fi
+
+	dqb "() common_pp3 DONE"
+	csleep 1
+}
+
 ##... tai siis vaatinee jnkn verran selvittelyä dpkg korvaaminen aptilla niin että
-#
-#function efk1() {
-#	dqb "efk1 $@"
-#	${sdi} $@
-#
-#	if [ $? -eq 0 ] ; then
-#		${NKVD} $@
-#		dqb $?
-#	fi
-#}
-#
-#function efk2() {
-#	dqb "efk2 )))))))) ${1} ))) ${2} )))))"
-#	[ -z "${2}" ] && exit 98
-#
-#	if [ -s ${1} ] && [ -r ${1} ] ; then
-#		${odio} ${sr0} -C ${2} -xf ${1}
-#	else
-#		dqb "WE NEED T0 TALK ABT ${1}"
-#	fi
-#
-#	csleep 1
-#}
-#
+#250526 palautettu kommnetsita, sqroot.tst
+function efk1() {
+	dqb "efk1 $@"
+	${sdi} $@
+
+	if [ $? -eq 0 ] ; then
+		${NKVD} $@
+		dqb $?
+	fi
+}
+
+#250526 pois koemmnetsiat koska sqroot-tests
+function efk2() {
+	dqb "efk2 )))))))) ${1} ))) ${2} )))))"
+	[ -z "${2}" ] && exit 98
+
+	if [ -s ${1} ] && [ -r ${1} ] ; then
+		${odio} ${sr0} -C ${2} -xf ${1}
+	else
+		dqb "WE NEED T0 TALK ABT ${1}"
+	fi
+
+	csleep 1
+}
+
 #function wopr() { #200426:taitaa toimnia
 #	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
 #	local r=$(find ${1} -type f -name "${2}*.deb" )
@@ -525,65 +539,66 @@ function jules() {
 #
 ##HUOM.140326:jospa olisi jo ympäristömjat kunnossa fromtendissä
 ##https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
-#
-#function fromtend() {
-#	dqb "FRöMTEND"
-#
-#	[ -v sd0 ] || exit 99
-#	[ -z "${sd0}" ] && exit 98
-#	[ -x ${sd0} ] || exit 97
-#
-#	export DEBIAN_FRONTEND=noninteractive
-#
-#	if [ "${CONF_env}" != "TOOR" ] ; then #VAIH:CONF_env-juttuja
-#		dqb "${odio} -E ${sd0} --force-confold -i $@"
-#		${odio} -E ${sd0} --force-confold -i $@
-#	else
-#		${odio} ${sd0} --force-confold -i $@
-#	fi
-#
-#	csleep 2
-#	dqb "DNÖE"
-#}
-#
-#function cefgh() {
-#	dqb " cefgh( ${1} )))"
-#
-#	[ -z "${1}" ] && exit 66
-#	[ -d ${1} ] || exit 67
-#
-#	dqb "pars ok"
-#	csleep 1
-#	#exit
-#	
-#	if [ -z "${gg}" ] ; then
-#		#tähän sah6-tarkistus vai ei?
-#		dqb "SHOULD {sah6} -c ${1}/e.tar HERE"
-#		#if [ -s ${1}/e.tar.sha ] ; then
-#		#	${sah6} -c ${1}/e.tar.sha
-#		#	[ $? -eq 0 ] || ${NKVD} ${1}/e.tar*
-#		#fi
-#
-#		csleep 5
-#
-#		efk2 ${1}/e.tar ${1}
-#		#[ $? -eq 0 ] && 
-#		${NKVD} ${1}/e.tar
-#	fi
-#
-#	dqb "SHOULD {sah6} -c ${1}/f.tar HERE"
-#	efk2 ${1}/f.tar ${1}
-#	#exit
-#	
-#	if [ $? -eq 0 ] ; then
-#		[ -x ${gg} ] && ${NKVD} ${1}/f.tar
-#	fi
-#
-#	#mitäjos part3() kaNssa tulee sitä gpg-nalkutusta? g.tar-jutut takaisin tähämn?	
-#	#"exp2 g $d/g.tar" ? + "exp2 f jälkeen"
-#	#... tai tuo e.tar-jutska jos olisi kätevämpi sittenkin?
-#}
-#
+#250526 pal kom , sqrot.ts
+function fromtend() {
+	dqb "FRöMTEND"
+
+	[ -v sd0 ] || exit 99
+	[ -z "${sd0}" ] && exit 98
+	[ -x ${sd0} ] || exit 97
+
+	export DEBIAN_FRONTEND=noninteractive
+
+	if [ "${CONF_env}" != "TOOR" ] ; then #VAIH:CONF_env-juttuja
+		dqb "${odio} -E ${sd0} --force-confold -i $@"
+		${odio} -E ${sd0} --force-confold -i $@
+	else
+		${odio} ${sd0} --force-confold -i $@
+	fi
+
+	csleep 2
+	dqb "DNÖE"
+}
+
+#poistettu komenteista 250526 , sqroot
+function cefgh() {
+	dqb " cefgh( ${1} )))"
+
+	[ -z "${1}" ] && exit 66
+	[ -d ${1} ] || exit 67
+
+	dqb "pars ok"
+	csleep 1
+
+	
+	if [ -z "${gg}" ] ; then
+		#tähän sah6-tarkistus vai ei?
+		dqb "SHOULD {sah6} -c ${1}/e.tar HERE"
+		#if [ -s ${1}/e.tar.sha ] ; then
+		#	${sah6} -c ${1}/e.tar.sha
+		#	[ $? -eq 0 ] || ${NKVD} ${1}/e.tar*
+		#fi
+
+		csleep 5
+
+		efk2 ${1}/e.tar ${1}
+		#[ $? -eq 0 ] && 
+		${NKVD} ${1}/e.tar
+	fi
+
+	dqb "SHOULD {sah6} -c ${1}/f.tar HERE"
+	efk2 ${1}/f.tar ${1}
+
+	
+	if [ $? -eq 0 ] ; then
+		[ -x ${gg} ] && ${NKVD} ${1}/f.tar
+	fi
+
+	#mitäjos part3() kaNssa tulee sitä gpg-nalkutusta? g.tar-jutut takaisin tähämn?	
+	#"exp2 g $d/g.tar" ? + "exp2 f jälkeen"
+	#... tai tuo e.tar-jutska jos olisi kätevämpi sittenkin?
+}
+
 #function CB01() {
 #	dqb "common.lib.CB01( ${1} (( ${2} )"
 #	csleep 1
@@ -638,43 +653,39 @@ function jules() {
 #	sleep 1
 #}
 
-##160426:bissiin ei tarvtse muutella Just Nyt
-#function CB02() {
-#	dqb "CB02()"
-#	csleep 1
-#	jules
-#
-#	[ -z "${1}" ] && exit 99
-#	[ -d ${1} ] || exit 100
-#	dqb "c0b2.pars.0k"
+#250526 pois kommenteista koska sqroot-testit
+function CB02() {
+	dqb "CB02()"
+	csleep 1
+	jules
 
-#	
-#	[ "${CONF_env}" == "TOOR" ] && message #VAIH:CONF_env-juttuja
-#	local p
-#	for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
-
-#	
-#	for p in ${E22_GV} ; do 
-#		fromtend ${1}/${p}*.deb
-#		[ $? -eq 0 ] && ${NKVD} ${1}/${p}*.deb
-#	done
-#	
-#	dqb "GYUV DONE, NXT:P2T"
-
-#	other_horrors
-#	
-#	ipt=$(${odio} which iptables)
-#	ip6t=$(${odio} which ip6tables)
-#	iptr=$(${odio} which iptables-restore)
-#	ip6tr=$(${odio} which ip6tables-restore)
-
-#	
-#	#sqroot-juttuja
-#	#TODO:testgris liittyviä muutoksia?
-#	[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh #tai $0 ?
-#	dqb "CB02() D0.N3"
-#	csleep 1
-#}
+	[ -z "${1}" ] && exit 99
+	[ -d ${1} ] || exit 100
+	dqb "c0b2.pars.0k"
+	
+	[ "${CONF_env}" == "TOOR" ] && message #VAIH:CONF_env-juttuja
+	local p
+	for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
+	
+	for p in ${E22_GV} ; do 
+		fromtend ${1}/${p}*.deb
+		[ $? -eq 0 ] && ${NKVD} ${1}/${p}*.deb
+	done
+	
+	dqb "GYUV DONE, NXT:P2T"
+	other_horrors
+	
+	ipt=$(${odio} which iptables)
+	ip6t=$(${odio} which ip6tables)
+	iptr=$(${odio} which iptables-restore)
+	ip6tr=$(${odio} which ip6tables-restore)
+	
+	#sqroot-juttuja
+	#TODO:testgris liittyviä muutoksia?
+	[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh #tai $0 ?
+	dqb "CB02() D0.N3"
+	csleep 1
+}
 
 #common_funcs tarttee
 function check_binaries() {
@@ -783,7 +794,7 @@ function check_binaries() {
 		csleep 5
 	fi
 	
-	dqb "MC2"
+	dqb "M2c -E"
 	csleep 1
 	
 	#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
@@ -834,7 +845,7 @@ function check_binaries2() {
 	[ -v sd0 ] || exit 66
 	#exit
 	
-	#TODO?:kokeeksi odion nollaus jos conf_tesgris?
+	#tartteeko juuri tässä tyyhjätä odio? tdston alussa jo tehdään tietyissä tap
 	#... vai olisikohan suuremmat ongelmat testiymp kanssa check_bin1 aiheuttamia?	
 
 	ipt="${odio} ${ipt} "
@@ -861,7 +872,7 @@ function check_binaries2() {
 	
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
 	
-	#VAIH:uusiksi tarkistus
+	#240526:jatkossa saattaa joutua lottoamaan ehdon uusiksi
 	if [ "${CONF_env}" != "VED"  ] ; then 
 		${scm} a-wx /usr/sbin/update-initramfs #kokeeksi tämäkin, vissiin jotyain saa aikaan 050426
 	fi
