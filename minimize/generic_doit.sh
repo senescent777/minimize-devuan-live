@@ -155,6 +155,9 @@ function part0() {
 #150326:miten /proc/cmdline:n lokaaliasetukset vs /e/d/l ja tämän ao. kikkareen jutut
 
 function el_loco() {
+	dqb "el_loco ))${1} ; ${2}((((("
+	csleep 1
+
 	if [ ${1} -gt 0 ] ; then
 		${smr} /etc/timezone
 		${smr} /etc/localtime
@@ -365,18 +368,22 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 c14=1
 c13=0
 
-
 if [ ${mode} -gt 1 ] ; then
 	#nollasta ei tarttisi välittää koska exit aiempana
 	if [ -v LCF666 ] ; then
-		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l) #barm vuoksi näin
-		[ $c13 -gt 0 ] && c14=0 #josqs pois kommenteista tuo rivi?
+		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l)
+		 #barm vuoksi näin
+		[ $c13 -gt 0 ] && c14=0
+		#josqs pois kommenteista tuo rivi?
+
 		#profit
 	fi
 fi
 
 #josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta? kokeillaan
 el_loco ${c14} ${c13}
+#250526:c13 vai jokin muu mikä aiheuttaa lokaalien generoinnin?
+
 #=========================================================================================
 #1§405426:vissiin "mode 1"-kiukuttelut toistaiseksi ohi kehitysympstössä
 
@@ -396,14 +403,15 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 fi
 
 pre_part2
-#if [ ! -f /.chroot ] ; then #hyvä näin vai ei?
+if [ ! -f /.chroot ] ; then #hyvä näin vai ei?
+#if [ "${CONF_env}" == "DEFAULT" ] ; then
 	#ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
 	c14=$(find ${d} -name "*.deb" | wc -l)
 
 	#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu
 	#... pitäisi kai nollaamisessa huomioida myös /.chroot
 	[ ${c14} -gt 0 ] || CONF_removepkgs=0
-#fi
+fi
 
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 
@@ -419,6 +427,7 @@ dqb "AFTER THE HORROR"
 csleep 1
 
 #if [ ! -f /.chroot ] ; then #ehto pois jatkossa vai ei?
+if [ "${CONF_env}" == "DEFAULT" ] ; then
 	#[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh
 
