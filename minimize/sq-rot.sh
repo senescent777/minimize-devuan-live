@@ -408,7 +408,8 @@ case "${mode}" in
 		f=$(dirname ${f})
 		common_part ${srcfile} ${d} ${e}
 		[ $? -eq 0 ] && ocs gpg
-		
+		exit
+
 		[ $? -eq 0 ] && part3 ${f}
 		[ $? -eq 0 ] && other_horrors
 	;;
