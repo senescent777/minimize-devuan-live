@@ -121,4 +121,5 @@ else
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 fi
 
-#210526:vissiin onnistui jo vetämään 1take-oksan?
+#210526:vissiin onnistui jo vetämään 1take-oksan
+#250526:vetäminen onnistui jo 2. kerran
