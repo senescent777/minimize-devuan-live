@@ -9,15 +9,18 @@ spc=$(which cp)
 [ -z "${spc}" ] && exit 13
 [ -x ${spc} ] || exit 14
 n=$(whoami)
+par3=""
+#250526:kolammen parametrin suhteen toimibta testattu jo?
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
-		#TODO:testaus miten saa tOImimaan omegan ajon jlkeen?
-		#... pitäisi onnata qhan kohteen käyttöoik kunnossa
+		#250526:ehkä toimi omegan ajon jälkeen, testaa josqs uudestaan
 
 		tcmd="sudo ${tcmd} "
 		spc="sudo ${spc} "
 	fi
+
+	par3=${1}
 else
 	exit 10
 fi
@@ -52,11 +55,12 @@ ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 sleep 1
 t=$(pwd)
 
+#TODO:CONF_env käyttöön ao. if-.bokin ehtoon
 #TODO:tunasroinnin varalta lähteestä vkopio ennenq alkaa process_row() hakata
 #TODO:ja sitten oli se "resolv.conf"-juttukin ed. liittyen
 
 if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
-	echo "YLIULIULI"
+	echo "YLIULIULI asb asb ABC"
 	cd ${CONF_testgris}
 
 	#HUOM:-C olisi myös keksitty
@@ -81,9 +85,15 @@ sleep 1
 
 #toimiikohan kehitysynp.tössä niinqu pitää?
 #${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
-#TODO:ao., riviin muutos koska CONF_env tulosa käyttöön
+#TODO:ao., riveihin muutoksia koska CONF_env tulosssa käyttöön
 
-for f in $(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb  ) ; do
+g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb)
+
+if [ ! -z "${par3}" ] ; then
+	g=$(echo ${g} | grep -v ${par3})
+fi
+
+for f in ${g} ; do
 	if [ -f ${f} ] ; then
 		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
 			process_row ${tgt} ${f}
