@@ -20,7 +20,7 @@ if [ $# -gt 1 ] ; then
 		spc="sudo ${spc} "
 	fi
 
-	par3=${1}
+	par3=${3}
 else
 	exit 10
 fi
