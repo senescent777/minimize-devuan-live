@@ -434,7 +434,7 @@ if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${d0}/import2.sh r ${d0} -v
 	echo $?
 	csleep 3
-#fi
+fi
 
 dqb "PR0F IMPORT DONE?"
 csleep 5
