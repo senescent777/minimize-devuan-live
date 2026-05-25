@@ -55,13 +55,19 @@ ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 sleep 1
 t=$(pwd)
 
-#TODO:CONF_env käyttöön ao. if-.bokin ehtoon
-#TODO:tunasroinnin varalta lähteestä vkopio ennenq alkaa process_row() hakata
-#TODO:ja sitten oli se "resolv.conf"-juttukin ed. liittyen
 
-if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
+#VAIH:tunaroinnin varalta lähteestä vkopio ennenq alkaa process_row() hakata
+#VAIH:ja sitten oli se "resolv.conf"-juttukin ed. liittyen
+
+if [ "${CONF_env}" == "VED" ] && [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	echo "YLIULIULI asb asb ABC"
 	cd ${CONF_testgris}
+
+	echo "SHOULD MAKE BACKUP OF SOURCE"
+	sleep 1
+
+	echo "SHOULD ALSO AVOID UPFATING RESOLV.CONF"
+	sleep 1
 
 	#HUOM:-C olisi myös keksitty
 else
@@ -85,12 +91,16 @@ sleep 1
 
 #toimiikohan kehitysynp.tössä niinqu pitää?
 #${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
-#TODO:ao., riveihin muutoksia koska CONF_env tulosssa käyttöön
+#VAIH:ao. riveihin muutoksia koska CONF_env tulosssa käyttöön
 
 g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb)
 
 if [ ! -z "${par3}" ] ; then
 	g=$(echo ${g} | grep -v ${par3})
+fi
+
+if [ "${CONF_env}" == "VED" ]; then
+	g=$(echo ${g} | grep -v resolv)
 fi
 
 for f in ${g} ; do
