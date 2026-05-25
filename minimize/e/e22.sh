@@ -263,6 +263,7 @@ function e22_settings() {
 }
 
 function e22_home_pre() {
+	dqb "home:pre()"
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
@@ -270,6 +271,8 @@ function e22_home_pre() {
 	[ -z "${3}" ] && exit 71
 	[ -z "${4}" ] && exit 73
 	[ -z "${5}" ] && exit 79
+	dqb "pars_ok"
+	csleep 1
 
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		e22_config1 ~ ${4}
@@ -278,7 +281,7 @@ function e22_home_pre() {
 	fi
 
 	e_final
-	${srat} -rvf ${1} /opt/bin
+	${srat} --exclude "changedns*" -rvf ${1} /opt/bin
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}

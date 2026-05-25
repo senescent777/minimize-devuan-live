@@ -162,7 +162,7 @@ case "${mode}" in
 		#130526 taas testikierros menossa mode 3:n tuotoksen kanssa, enimmäkseen ok?
 
 		#4 toimi viimeksi 180426 (uusi testikieRRos uudella paketilla 100526, ehkä ok pl ffox profiili?)
-		# 1take-oksassa 210526 ok (TODO:voisi jälleen 260526->)
+		# 1take-oksassa 210526 ok (VAIH:voisi jälleen 260526->)
 
 		#merd2 taisi toimia kerrab 21.4 , 21.5 toisen kerrab
 		[ -v CONF_default_arhcive3 ] || exit 66
