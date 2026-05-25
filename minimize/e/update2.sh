@@ -9,19 +9,15 @@ spc=$(which cp)
 [ -z "${spc}" ] && exit 13
 [ -x ${spc} ] || exit 14
 n=$(whoami)
-par3=""
-
-#VAIH:kolmatta param testattu ?
-#"kokonaan uusi päivitysskripti" jo tehty, vaan onko siinä pointtia?
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
-		#030526:onnistuu tämän skriptin toiminta myös omegan jälkeen kunhan x 
+		#TODO:testaus miten saa tOImimaan omegan ajon jlkeen?
+		#... pitäisi onnata qhan kohteen käyttöoik kunnossa
+
 		tcmd="sudo ${tcmd} "
 		spc="sudo ${spc} "
 	fi
-
-	par3=${3}
 else
 	exit 10
 fi
@@ -56,11 +52,11 @@ ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 sleep 1
 t=$(pwd)
 
-#TODO:CONF_env-juttuja
-#TODO:erityisesti olisi hyvä välttää resolv.conf päivittyminen kun se kerran saatu kuntoon
+#TODO:tunasroinnin varalta lähteestä vkopio ennenq alkaa process_row() hakata
+#TODO:ja sitten oli se "resolv.conf"-juttukin ed. liittyen
 
 if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
-	echo "YLIULIULI FADS FASDD FASDDQH"
+	echo "YLIULIULI"
 	cd ${CONF_testgris}
 
 	#HUOM:-C olisi myös keksitty
@@ -72,6 +68,8 @@ function process_row() {
 	${tcmd} -rvf ${1} ${2}
 }
 
+#HUOM.170426:olisi hyvä keksiä tähänkin jotain siltä varalta että merd2 ei tulisi ylimääräisiä kopioita
+
 if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb > ${d0}/MAN1.F2ST
 	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
@@ -80,13 +78,12 @@ fi
 
 echo "JUST BEFOR.E PROCESSING ROWS"
 sleep 1
-g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb  )
 
-if [ ! -z "${par3}" ] ; then
-	g=$(echo ${g} | grep -v ${par3})
-fi
+#toimiikohan kehitysynp.tössä niinqu pitää?
+#${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
+#TODO:ao., riviin muutos koska CONF_env tulosa käyttöön
 
-for f in ${g} ; do
+for f in $(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb  ) ; do
 	if [ -f ${f} ] ; then
 		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
 			process_row ${tgt} ${f}
@@ -94,5 +91,5 @@ for f in ${g} ; do
 	fi
 done
 
-#joTTA ehtisi synkata 
+#jotat ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4
