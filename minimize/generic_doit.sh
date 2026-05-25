@@ -23,7 +23,7 @@ function parse_opts_1() {
 }
 
 function parse_opts_2() {
-	dqb "qwertupoy 1 2"
+	dqb "gdoit.qwertupoy))))) 1 2"
 }
 
 function fallback() {
@@ -73,7 +73,15 @@ function dis() {
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
 
 	if [ ! -z "${2}" ] ; then
-		${odio} ${sifd} ${2}
+		#TODO:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
+
+
+
+		#sifd=/sbin/ifdowm ?
+
+
+		dqb "${odio} ${sifd} ${2}"	
+		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
 		csleep 1
 	
 		#${odio} ${sifd} -a
@@ -115,6 +123,7 @@ function part0() {
 	#140526:gnome-keyring*. libpam-gnome-keyring liittyvät?
 	#kts pkgs_drop jos qsee g_pt2 asjon jölkeen (vissiin ei)
 
+	#250526:onnistui kai sudottamalla tämä skripti, sammuttaa nuo listan mukaiset palvelut
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
 		#HUOM.271125:saisiko tällä tyylillä myös slimin sammutettua? saa, mutta...
@@ -197,12 +206,8 @@ function adieu() {
 	${whack} xfce4-session
 }
 #=====================================PART0=========================================================
-##mkt=$(which mktemp)
-#echo "mkt= ${mkt}"
-#sleep 5
-#pkgcache=$(${mkt} -d)
-#echo "pkgc= ${pkgcache} "
-#sleep 6
+
+pkgcache=$(${mkt} -d)
 
 part0 ${distro} ${CONF_iface}
 process_lib ${d} ${pkgcache}
@@ -236,22 +241,19 @@ function pre_enforce() {
 	[ ${debug} -eq 1 ] && ls -las ${q}
 	csleep 1
 
+	#TODO:CB_list in läpikäynti, mitä tarv milloinkin
 	[ -f ${q} ] || exit 33
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
 
 	dqb "BFOR3 testgris"
 	csleep 1
 
-	if [ ! -v CONF_testgris ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		if [ ! -d /opt/bin ] ; then
 			${smd} /opt/bin
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
 		fi
-	fi
 
-	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
-
-	if [ ! -v CONF_testgris ] ; then
 		if [ -d ${1}/opt/bin ] ; then
 			#tämä mv ok?
 			${svm} ${1}/opt/bin/*.bash /opt/bin
@@ -262,10 +264,10 @@ function pre_enforce() {
 
 	e_final
 
-	if [ ! -v CONF_testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
+	if [ "${CONF_env}" == "DEFAULT" ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
 		#1. tämä blokki kai eniten aiheuttaisi ongelmia sqroot-ympstössä?
 		#2. o/b sisällön oikeuksia/omistajia varten taisi olla e_final
-		#3. changedns.vash joutaisi jo mennä (TODO)
+	
 
 		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q}
@@ -323,14 +325,17 @@ function pre_enforce() {
 	csleep 1
 }
 
-if [ -s /etc/sudoers.d/meshuqqah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
+#250526:toka ehto ok? koita päättää
+if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
 else 
 	pre_enforce ${d0}
 fi
 
-if [ -f /.chroot ] ; then #200516:pitäisiköhän tätä muuttaa josqs? teshgrs saattaa liittyä etäisestoi
+#200516:pitäisiköhän tätä muuttaa josqs? teshgrs saattaa liittyä etäisestoi
+	
+if [ "${CONF_env}" != "DEFAULT"  ] ; then 
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
@@ -386,17 +391,17 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 fi
 
 pre_part2
-#if [ ! -f /.chroot ] ; then #hyvä näin vai ei?
+
+if [ "${CONF_env}" == "DEFAULT" ] ; then
 	#ntp-muutokset tarpeellisia tuossa fktiossa vai ei?
 	c14=$(find ${d} -name "*.deb" | wc -l)
 
-	#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu
-	#... pitäisi kai nollaamisessa huomioida myös /.chroot
+	#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu (ehkä ok)
+
 	[ ${c14} -gt 0 ] || CONF_removepkgs=0
-#fi
+fi
 
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
-
 #===================================================PART 3===========================================================
 message
 #menkööt toistaiseksi part3 kanssa (0403265)
@@ -407,14 +412,15 @@ other_horrors
 dqb "AFTER THE HORROR"
 csleep 1
 
-#if [ ! -f /.chroot ] ; then #ehto pois jatkossa vai ei? vaiko CONF_env tilalle?
+#ehto tänään näin, huomenna taas toisin
+if [ "${CONF_env}" == "DEFAULT" ] ; then
 	#[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh
 
 	${d0}/import2.sh r ${d0} -v
 	echo $?
 	csleep 3
-#fi
+fi
 
 dqb "PR0F IMPORT DONE?"
 csleep 5

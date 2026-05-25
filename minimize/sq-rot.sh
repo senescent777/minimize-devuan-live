@@ -124,9 +124,7 @@ function pre() {
 
 #if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 
-if [ "${CONF_env}" == "TOOR" ] ; then
-	pre
-fi
+
 
 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
@@ -212,6 +210,11 @@ fi
 dqb "rot:AFTR common_lib"
 csleep 1
 [ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
+[ -v CONF_env ] || exit 66
+
+if [ "${CONF_env}" == "TOOR" ] ; then
+	pre
+fi
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -409,7 +412,7 @@ case "${mode}" in
 		f=$(dirname ${f})
 		common_part ${srcfile} ${d} ${e}
 
-		#TODO:kiukut6telut voisi poistaa (vai onko vielä moista 250626?)
+		#TODO:kiukut6telut voisi poistaa (vai onko vielä moista 250626? vissiin)
 		echo "FART3 $?"
 		[ $? -eq 0 ] && ocs gpg
 		
