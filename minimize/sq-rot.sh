@@ -122,11 +122,7 @@ function pre() {
 	unset g
 }
 
-#if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
-
-if [ "${CONF_env}" == "TOOR" ] ; then
-	pre
-fi
+#HUOM.230526:fktio n pre() käskytys oli aiemmin ennen common_lib includointia, takaisiin tähän jos qsee
 
 #resolv.conf vielä ongelma 0305-> ? 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
@@ -211,6 +207,14 @@ fi
 
 dqb "rot:AFTR common_lib"
 csleep 1
+[ -v CONF_env ] || exit 66
+#if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
+#HUOM.20526:ei onnaakaan vielä näin, tai ainakin pitäisi conf ncludoida ennenq common_lib
+
+if [ "${CONF_env}" == "TOOR" ] ; then
+	pre
+fi
+
 [ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
@@ -247,7 +251,7 @@ fi
 function common_part() {
 	dqb "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
 
-	[ -z "${1}" ] && exit 91 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
+	[ -z "${1}" ] && exit 1 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
 	[ -s ${1} ] || exit 2
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
@@ -255,7 +259,6 @@ function common_part() {
 	[ -z "${2}"  ] && exit 11 # truhra parm (110426)
 	[ -d ${2} ] || exit 22
 	[ -d ${3} ] || exit 45
-	#TODO:$2 kanssa lisätarkistuksia koska NKVD yöhemmin
 
 	dqb "paramz_0k"
 	csleep 1
@@ -290,7 +293,6 @@ function common_part() {
 		fi
 	fi
 
-	dqb "AFTR GPG $?"
 	csleep 1
 	#kts. common_lib.psqa()
 	local cfk=1
@@ -313,9 +315,6 @@ function common_part() {
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
-
-	dqb "AFTR SHA $?"
-	csleep 1
 
 	if [ ${cfk} -gt 0 ] ; then
 		read -p " U  SURE ?" confirm
@@ -341,7 +340,7 @@ function common_part() {
 	[ $? -eq 0 ] || exit 36	
 
 	csleep 1
-	dqb "common_part_DONE"
+	dqb "${srat} DONE"
 }
 
 function cptp2() {
@@ -399,21 +398,17 @@ case "${mode}" in
 	1)
 		common_part ${srcfile} ${d} /
 	;;
-	
+	#240536:jospa olisi tämä ja case 3 jo kunnossa
 	#... tai sqrootissa oli menu- ja libw-pakettien asenynuksen kanssa pientä kiukuttelya, toistuuko?
 	#... exp2 rp testiin?
-	0)
+	0) #240526:toisen oksan versiossa oli jotain kiukuttelua tässä
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
 		f=$(dirname ${f})
 		common_part ${srcfile} ${d} ${e}
-
-		#TODO:kiukut6telut voisi poistaa
 		[ $? -eq 0 ] && ocs gpg
-		echo "FART3 $?"
-		sleep 3
-
+		
 		[ $? -eq 0 ] && part3 ${f}
 		[ $? -eq 0 ] && other_horrors
 	;;
