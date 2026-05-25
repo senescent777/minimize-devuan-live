@@ -404,9 +404,11 @@ function e22_pre_e() {
 #verkkoyhteyttä vaativat jutut vain jos testgris ei asetettu? vaiko kutsuvan koodin puolella tarkistus?
 #140426:muuten mennee pakettiin jutut paitsi dhclient-script?
 #160426:toimii
-#TODO:voisi taas kokeilla uudestaan miten "merd2+exp2 4"
+#VAIH:voisi taas kokeilla uudestaan miten "merd2+exp2 4"
 
 function e22_ext() {
+	dqb "e22_ext()"
+
 	[ -z "${1}" ] && exit 1
 	[ -d ${1} ] && exit 59
 	[ -f ${1} ] || exit 67
@@ -417,6 +419,10 @@ function e22_ext() {
 	[ -z "${4}" ] && exit 47
 	[ -d ${4} ] && exit 53
 	[ -f ${4} ] || exit 61
+
+	dqb "paramz_ok"
+	csleep 1
+	
 
 	local p
 	local q	
@@ -477,7 +483,7 @@ function e22_ext() {
 	local f
 	#HUOM.250526:resolv.conf uutena
 
-	for f in $(find ./etc -type f -not -name "interfaces.*" -and .not  -name "resolv.*") ; do
+	for f in $(find ./etc -type f -not -name "interfaces.*" -and -not  -name "resolv.*") ; do
 		${sah6} ${f} >> ${4}
 	done
 
