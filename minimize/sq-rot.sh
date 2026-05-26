@@ -122,9 +122,6 @@ function pre() {
 	unset g
 }
 
-#HUOM.230526:fktio n pre() käskytys oli aiemmin ennen common_lib includointia, takaisiin tähän jos qsee
-
-#resolv.conf vielä ongelma 0305-> ? 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
 #tuossa yllä tosin turhahko ls
@@ -164,7 +161,7 @@ else
 	}
 
 	function check_binaries() {
-		echo "rot13.check1"
+		echo "fish.rot.1"
 
 		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
 		scm=$(${odio} which chmod)
@@ -180,13 +177,13 @@ else
 	}
 
 	function check_binaries2() {
-		echo "irot.check2"
+		echo "fish.rot.2"
 		srat="${odio} ${srat}"
 		NKVD="${odio} ${NKVD} -fu "
 	}
 
 	function part3() {
-		dqb "rot.part3 :NOT SUPPORTED"
+		dqb "fish.rot.part3 :NOT SUPPORTED"
 	}
 
 	function other_horrors() {
@@ -207,15 +204,12 @@ fi
 
 dqb "rot:AFTR common_lib"
 csleep 1
+[ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
 [ -v CONF_env ] || exit 66
-#if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
-#HUOM.20526:ei onnaakaan vielä näin, tai ainakin pitäisi conf ncludoida ennenq common_lib
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 	pre
 fi
-
-[ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -251,16 +245,18 @@ fi
 function common_part() {
 	dqb "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
 
-	[ -z "${1}" ] && exit 1 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
+	[ -z "${1}" ] && exit 91 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
 	[ -s ${1} ] || exit 2
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
 
-	[ -z "${2}"  ] && exit 11 # truhra parm (110426)
+	[ -z "${2}"  ] && exit 11 # truhra parm? melkein
 	[ -d ${2} ] || exit 22
 	[ -d ${3} ] || exit 45
-
-	dqb "paramz_0k"
+	
+	[ "${1}" == "/" ] && exit 56
+	#VAIH:$1 kanssa lisätarkistuksia? koska NKVDm yöhemmin 
+	echo "paramz_0k" #260526:kiukuttelun takia ei dbq
 	csleep 1
 
 	cd /
@@ -293,7 +289,10 @@ function common_part() {
 		fi
 	fi
 
+	echo "AFTR GPG $?"
 	csleep 1
+
+	#2605236:qseeko tässä alla jokin?
 	#kts. common_lib.psqa()
 	local cfk=1
 
@@ -302,19 +301,26 @@ function common_part() {
 		dqb "gg= ${gg}"
 
 		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
-		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f) #HUOM.TARKKANA SITTEN HIPSUHEN KANSSA 666!!!
+		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f) #HUOM.TARKKANA SITTEN HIPSUjEN KANSSA 666!!!
 		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
+
+		echo "AFTER ABC: $?"
+		sleep 5
 
 		if [ "${aa}" == "${ab}" ] ; then
 			dqb "aa=ab= ${aa}"
 			cfk=0
 		fi
 
+		#tämäkö?
 		[ ${cfk} -eq 0 ] || ${NKVD} ${1}*
 		csleep 1
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
+
+	echo "AFTR SHA $?"
+	sleep 1
 
 	if [ ${cfk} -gt 0 ] ; then
 		read -p " U  SURE ?" confirm
@@ -331,16 +337,16 @@ function common_part() {
 		fi
 	fi
 
-	csleep 1
-	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
-
+	sleep 1
+	echo "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
+	
 	#110523:vöib aiheuttaa nalkutusta jos odio ei asetettu
-	csleep 1
+	sleep 1
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
 
-	csleep 1
-	dqb "${srat} DONE"
+	sleep 1
+	echo "common_part_DONE"
 }
 
 function cptp2() {
@@ -398,17 +404,27 @@ case "${mode}" in
 	1)
 		common_part ${srcfile} ${d} /
 	;;
-	#240536:jospa olisi tämä ja case 3 jo kunnossa
+	
 	#... tai sqrootissa oli menu- ja libw-pakettien asenynuksen kanssa pientä kiukuttelya, toistuuko?
-	#... exp2 rp testiin?
-	0) #240526:toisen oksan versiossa oli jotain kiukuttelua tässä
+	#... exp2 rp vähän ritetty testailla 05/26
+	0)
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
 		f=$(dirname ${f})
+
+		echo "bfore cp: $?"
+		sleep 6
+
 		common_part ${srcfile} ${d} ${e}
+
+		#VAIH:kiukut6telut voisi poistaa (vai onko vielä moista 250626? vissiin)
+		#modaamattomalla kiekolla jos testaisi kanssa		
+		echo "sq.FART3: $?"
 		[ $? -eq 0 ] && ocs gpg
-		exit
+		
+		#sleep 3
+		#exit 61
 
 		[ $? -eq 0 ] && part3 ${f}
 		[ $? -eq 0 ] && other_horrors
@@ -437,17 +453,19 @@ case "${mode}" in
 				dqb "NOP"
 				csleep 1
 
-				#for f in $(fnid $srcfile -type f -name "*.sig" ) ; do
-				#	g=$(echo $f | cut -d . -f 1,2)
+				#olisi varmaan hyväksi importoida jossain järjestyksessä eikä miten sattuu
+				for f in $(find ${srcfile} -type f -name "*.sig" ) ; do
+					g=$(echo $f | cut -d . -f 1,2)
 				#	check=$(smthing)
-				#	[ $check ] && gg --import $g
-				#	rm $g	
-				#done
+				#	[ $check ] && 
+					${gg} --import ${g}
+					rm ${g}	
+				done
 
-				dqb "${gg} --import ${srcfile}/*.gpg soon"
-				csleep 1
-
-				${gg} --import ${srcfile}/*.gpg
+				#dqb "${gg} --import ${srcfile}/*.gpg soon"
+				#csleep 1
+				#
+				#${gg} --import ${srcfile}/*.gpg
 				csleep 1
 
 				[ ${debug} -eq 1 ] && ${gg} --list-keys
