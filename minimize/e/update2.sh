@@ -86,30 +86,43 @@ if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	sleep 1
 fi
 
-echo "JUST BEFOR.E PROCESSING ROWS"
+echo "BEFOR.E PROCESSING ROWS"
 sleep 1
 
 #toimiikohan kehitysynp.tössä niinqu pitää?
 #${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
 #VAIH:ao. riveihin muutoksia koska CONF_env tulosssa käyttöön
 
-g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb)
+g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .tar | grep -v .deb)
+echo "JUST BEFORE GREP -V"
+echo ${g}
+sleep 5
 
-if [ ! -z "${par3}" ] ; then
-	g=$(echo ${g} | grep -v ${par3})
-fi
+#TODO:tcmd:lle optioksi nuo pois grepattavat, --exclude
+#if [ ! -z "${par3}" ] ; then
+#	g=$(echo ${g} |  | grep -v ${par3})
+#fi
+#
+#if [ "${CONF_env}" != "DEFAULT" ]; then
+#	g=$(echo ${g}  | grep -v resolv)
+#fi
 
-if [ "${CONF_env}" != "DEFAULT" ]; then
-	g=$(echo ${g} | grep -v resolv)
-fi
+echo "JUST BEFORE FOR-LOOP"
+echo ${g}
+sleep 5
 
 for f in ${g} ; do
+	#echo "${f} :"
+
 	if [ -f ${f} ] ; then
 		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
+			#echo "... processinbfg"
 			process_row ${tgt} ${f}
 		fi
 	fi
+
+	#sleep 1
 done
 
-#jotat ehtisi synkata 
+#jottta ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4
