@@ -76,11 +76,8 @@ else
 	cd /
 fi
 
-xo="${n}.conf --exclude *.tar --exclude .chroot --exclude *.deb --exclude changedns.*"
-
-if [ ! -z "${par3}" ] ; then
-	xo="${xo} --exclude ${par3}* " #oikeastaan toisin päin mutta
-fi
+#tämä wttuun josqs? vai ei?
+xo="*.tar --exclude .chroot --exclude *.deb --exclude changedns.*"
 
 if [ "${CONF_env}" != "DEFAULT" ]; then
 	xo="${xo} --exclude resolv.* "
@@ -95,34 +92,32 @@ function process_row() {
 #... keksitty jo 260526 mennessä?
 
 if [ ! -s ${d0}/MAN1.F2ST ] ; then
-	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb > ${d0}/MAN1.F2ST
+	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb | grep -v resolv > ${d0}/MAN1.F2ST
 	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
 	sleep 1
 fi
 
 echo "BEFOR.E PROCESSING ROWS"
 sleep 1
-
 #toimiikohan kehitysynp.tössä niinqu pitää?
-#${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
+
 #VAIH:ao. riveihin muutoksia koska CONF_env tulosssa käyttöön
+if [ -z "${par3}" ] ; then
+	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .tar | grep -v .deb | grep -v .chroot | grep -v resolv)
+else
+	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep ${par3})
+fi
 
-g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .tar | grep -v .deb)
-echo "JUST BEFORE GREP -V"
-echo ${g}
-sleep 5
-
+#echo ${g}
+#sleep 5
 #VAIH:tcmd:lle optioksi nuo pois grepattavat, --exclude
-
-#
-
 
 echo "JUST BEFORE FOR-LOOP"
 echo ${g}
 sleep 5
 
 for f in ${g} ; do
-	#echo "${f} :"
+	echo "${f} :"
 
 	if [ -f ${f} ] ; then
 		if [ ! -d ${f} ] ; then #"-h" - tark vielä?

@@ -122,11 +122,6 @@ function pre() {
 	unset g
 }
 
-#if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
-
-
-
-
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
 #tuossa yllä tosin turhahko ls
@@ -255,11 +250,12 @@ function common_part() {
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
 
-	[ -z "${2}"  ] && exit 11 # truhra parm? (110426)
+	[ -z "${2}"  ] && exit 11 # truhra parm? melkein
 	[ -d ${2} ] || exit 22
 	[ -d ${3} ] || exit 45
-	#TODO:$2 kanssa lisätarkistuksia? koska NKVD yöhemmin (tai siis $1 kanssa lisätark olennaisempi)
-
+	
+	[ "${1}" == "/" ] && exit 56
+	#VAIH:$1 kanssa lisätarkistuksia? koska NKVDm yöhemmin 
 	echo "paramz_0k" #260526:kiukuttelun takia ei dbq
 	csleep 1
 
@@ -305,14 +301,18 @@ function common_part() {
 		dqb "gg= ${gg}"
 
 		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
-		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f) #HUOM.TARKKANA SITTEN HIPSUHEN KANSSA 666!!!
+		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f) #HUOM.TARKKANA SITTEN HIPSUjEN KANSSA 666!!!
 		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
+
+		echo "AFTER ABC: $?"
+		sleep 5
 
 		if [ "${aa}" == "${ab}" ] ; then
 			dqb "aa=ab= ${aa}"
 			cfk=0
 		fi
 
+		#tämäkö?
 		[ ${cfk} -eq 0 ] || ${NKVD} ${1}*
 		csleep 1
 	else

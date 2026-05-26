@@ -2,9 +2,9 @@ ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
 
 if [ ! -v CONF_pubk ] ; then
-	#VAIH:ao. riville muutoksia jatkossa
+	
 	b=/
-
+	#VAIH:tälle riville muutoksia jatkossa
 	a=$(${odio} find ${b} -type f -name "keys.conf" | head -n 1)
 	
 	if [ ! -z "${a}" ] ; then
@@ -308,8 +308,8 @@ function e22_home() {
 	csleep 1
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-	#250526:"--exclude olds" ehkä mukaan, olennaisempaa zxcv:n kanssa karsinta
-	${srat} ${TARGET_TPX} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
+	#250526:"s" ehkä mukaan, olennaisempaa zxcv:n kanssa karsinta
+	${srat} ${TARGET_TPX} --exclude olds --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
 
 	#miksi täsäs eokä h_pre() ?

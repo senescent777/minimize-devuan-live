@@ -190,8 +190,7 @@ case "${mode}" in
 		
 		#110526:config.tar.bz2, fediverse.tar ja profs.sh tulisi kyllä löytyä kohde-paketista edelleen
 		#130526:profiilit jo toimivat tuolloin?		
-		#VAIH:olds-hmiston voisi oikeastaan karsia (kts e22_home)
-
+		
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
 
@@ -242,7 +241,7 @@ case "${mode}" in
 	;;
 	g)
 		#130526:testattu että tämä case toimii, luo paketin mikä asentuu
-		#VAIH:bissiin git mukaan tähänkin prkl
+		#VAIH:bissiin git mukaan tähänkin prkl?
 		
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
@@ -253,7 +252,6 @@ case "${mode}" in
 
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
-
 		doit=0
 	;;
 	l)
@@ -271,16 +269,19 @@ case "${mode}" in
 		${shary} ntpsec
 	;;
 #	x)
-#		#TODO?:uusiksi vain koko pasq?
+#		#:uusiksi vain koko pasq?
 #		e23_xyz
 #	;;
 	s)
 		e23_st
 	;;
 	*)
-		#TODO:parsetuksen kanssa jotain, ei tarvitsisi puolta päivää raksuttaa ao. urputusta varten
+		#VAUH:parsetuksen kanssa jotain, ei tarvitsisi puolta päivää raksuttaa ao. urputusta varten
 		#getopt tai sitten vain käskyttäisi exp3sta?
+
 		echo "MAYBE U SHOULD USE export3 INSTEAD"
+		sleep 5
+		${d0}/export3.bash ${mode} ${tgtfile} -v
 		exit
 	;;
 esac
