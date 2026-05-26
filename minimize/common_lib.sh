@@ -577,6 +577,7 @@ function CB01() {
 
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
+	[ -z "${gg}" ] && dqb "GPG COULD NOT BE INSTALLED"
 	[ -z "${gg}" ] && ${scm} a-wx ${1}/../common_lib.sh #$0 josko näin kuitenkin?
 	csleep 1
 

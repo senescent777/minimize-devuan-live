@@ -93,8 +93,7 @@ fi
 [ -z "${distro}" ] && exit 6
 d=${d0}/${distro} #nykyään vähän turha tässä
 process_lib ${d}
-mop=${CONF_dm} #voinee joutua muuttamaan jatkossa?
-
+mop=${CONF_dm} 
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 dqb "BEF0RE T1G N0R MKTMP"
 sleep 1
@@ -166,7 +165,10 @@ case "${mode}" in
 		#130526 taas testikierros menossa mode 3:n tuotoksen kanssa, enimmäkseen ok?
 
 		#4 toimi viimeksi 180426 (uusi testikieRRos uudella paketilla 100526, ehkä ok pl ffox profiili?)
-		# 1take-oksassa 210526 ok (250526 uudempi ytritys, enimmäkseen ok)
+		# 1take-oksassa 210526 ok (250526 uudempi yritys, enimmäkseen ok)
+		#260526 vaikuttaisi vielä tuoreempi tuotos toimivan myös modaamattoman kiekon kanssa jnkn verran
+
+		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
 
 		#merd2 taisi toimia kerrab 21.4 , 21.5 toisen kerrab
 		[ -v CONF_default_arhcive3 ] || exit 66

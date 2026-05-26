@@ -9,8 +9,10 @@ spc=$(which cp)
 [ -z "${spc}" ] && exit 13
 [ -x ${spc} ] || exit 14
 n=$(whoami)
+
 par3=""
 #250526:kolammen parametrin suhteen toimibta testattu jo?
+#260526:testaus jouduttu laittamaan käyntiin
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
@@ -74,11 +76,23 @@ else
 	cd /
 fi
 
+xo="${n}.conf --exclude *.tar --exclude .chroot --exclude *.deb --exclude changedns.*"
+
+if [ ! -z "${par3}" ] ; then
+	xo="${xo} --exclude ${par3}* " #oikeastaan toisin päin mutta
+fi
+
+if [ "${CONF_env}" != "DEFAULT" ]; then
+	xo="${xo} --exclude resolv.* "
+fi
+
 function process_row() {
-	${tcmd} -rvf ${1} ${2}
+	echo "TCMD --exclude ${xo} -rvf ${1} ${2}"
+	${tcmd} --exclude "${xo}" -rvf ${1} ${2}
 }
 
 #HUOM.170426:olisi hyvä keksiä tähänkin jotain siltä varalta että merd2 ei tulisi ylimääräisiä kopioita
+#... keksitty jo 260526 mennessä?
 
 if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb > ${d0}/MAN1.F2ST
@@ -98,14 +112,10 @@ echo "JUST BEFORE GREP -V"
 echo ${g}
 sleep 5
 
-#TODO:tcmd:lle optioksi nuo pois grepattavat, --exclude
-#if [ ! -z "${par3}" ] ; then
-#	g=$(echo ${g} |  | grep -v ${par3})
-#fi
+#VAIH:tcmd:lle optioksi nuo pois grepattavat, --exclude
+
 #
-#if [ "${CONF_env}" != "DEFAULT" ]; then
-#	g=$(echo ${g}  | grep -v resolv)
-#fi
+
 
 echo "JUST BEFORE FOR-LOOP"
 echo ${g}

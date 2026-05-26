@@ -166,7 +166,7 @@ else
 	}
 
 	function check_binaries() {
-		echo "rot13.check1"
+		echo "fish.rot.1"
 
 		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
 		scm=$(${odio} which chmod)
@@ -182,13 +182,13 @@ else
 	}
 
 	function check_binaries2() {
-		echo "irot.check2"
+		echo "fish.rot.2"
 		srat="${odio} ${srat}"
 		NKVD="${odio} ${NKVD} -fu "
 	}
 
 	function part3() {
-		dqb "rot.part3 :NOT SUPPORTED"
+		dqb "fish.rot.part3 :NOT SUPPORTED"
 	}
 
 	function other_horrors() {
@@ -295,6 +295,8 @@ function common_part() {
 
 	echo "AFTR GPG $?"
 	csleep 1
+
+	#2605236:qseeko tässä alla jokin?
 	#kts. common_lib.psqa()
 	local cfk=1
 
