@@ -70,6 +70,7 @@ if [ "${CONF_env}" == "VED" ] && [ -v CONF_testgris ] && [ -d ${CONF_testgris} ]
 
 	#HUOM:-C olisi myös keksitty
 else
+	echo "NO TESTGRIS?"
 	cd /
 fi
 
@@ -98,7 +99,7 @@ if [ ! -z "${par3}" ] ; then
 	g=$(echo ${g} | grep -v ${par3})
 fi
 
-if [ "${CONF_env}" == "VED" ]; then
+if [ "${CONF_env}" != "DEFAULT" ]; then
 	g=$(echo ${g} | grep -v resolv)
 fi
 

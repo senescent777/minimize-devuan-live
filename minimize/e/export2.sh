@@ -151,8 +151,10 @@ e22_cleanpkgs ${CONF_pkgdir}
 #HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun jossia n tilanteessa
 [ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
+
 doit=1
 csleep 1
+#getoot .o "34uetglnxs" ...
 
 case "${mode}" in
 	0)
@@ -274,7 +276,8 @@ case "${mode}" in
 		e23_st
 	;;
 	*)
-		#TODO:parsetuksen kanssa jotain, ei tarvitsisi puolta oäövää raksuttaa ao. urputusta varten
+		#TODO:parsetuksen kanssa jotain, ei tarvitsisi puolta päivää raksuttaa ao. urputusta varten
+		#getopt tai sitten vain käskyttäisi exp3sta?
 		echo "MAYBE U SHOULD USE export3 INSTEAD"
 		exit
 	;;

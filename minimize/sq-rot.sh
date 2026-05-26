@@ -255,12 +255,12 @@ function common_part() {
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
 
-	[ -z "${2}"  ] && exit 11 # truhra parm (110426)
+	[ -z "${2}"  ] && exit 11 # truhra parm? (110426)
 	[ -d ${2} ] || exit 22
 	[ -d ${3} ] || exit 45
-	#TODO:$2 kanssa lisätarkistuksia koska NKVD yöhemmin
+	#TODO:$2 kanssa lisätarkistuksia? koska NKVD yöhemmin (tai siis $1 kanssa lisätark olennaisempi)
 
-	dqb "paramz_0k"
+	echo "paramz_0k" #260526:kiukuttelun takia ei dbq
 	csleep 1
 
 	cd /
@@ -293,7 +293,7 @@ function common_part() {
 		fi
 	fi
 
-	dqb "AFTR GPG $?"
+	echo "AFTR GPG $?"
 	csleep 1
 	#kts. common_lib.psqa()
 	local cfk=1
@@ -317,8 +317,8 @@ function common_part() {
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
-	dqb "AFTR SHA $?"
-	csleep 1
+	echo "AFTR SHA $?"
+	sleep 1
 
 	if [ ${cfk} -gt 0 ] ; then
 		read -p " U  SURE ?" confirm
@@ -335,16 +335,16 @@ function common_part() {
 		fi
 	fi
 
-	csleep 1
-	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
-
+	sleep 1
+	echo "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
+	
 	#110523:vöib aiheuttaa nalkutusta jos odio ei asetettu
-	csleep 1
+	sleep 1
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
 
-	csleep 1
-	dqb "common_part_DONE"
+	sleep 1
+	echo "common_part_DONE"
 }
 
 function cptp2() {
@@ -410,11 +410,15 @@ case "${mode}" in
 		[ ${mode} -eq 0 ] || e=${d}
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
 		f=$(dirname ${f})
+
+		echo "bfore cp: $?"
+		sleep 6
+
 		common_part ${srcfile} ${d} ${e}
 
 		#VAIH:kiukut6telut voisi poistaa (vai onko vielä moista 250626? vissiin)
 		#modaamattomalla kiekolla jos testaisi kanssa		
-		echo "FART3 $?"
+		echo "sq.FART3: $?"
 		[ $? -eq 0 ] && ocs gpg
 		
 		#sleep 3
@@ -447,6 +451,7 @@ case "${mode}" in
 				dqb "NOP"
 				csleep 1
 
+				#olisi varmaan hyväksi importoida jossain järjestyksessä eikä miten sattuu
 				for f in $(find ${srcfile} -type f -name "*.sig" ) ; do
 					g=$(echo $f | cut -d . -f 1,2)
 				#	check=$(smthing)
