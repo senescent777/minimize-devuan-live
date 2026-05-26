@@ -9,8 +9,10 @@ spc=$(which cp)
 [ -z "${spc}" ] && exit 13
 [ -x ${spc} ] || exit 14
 n=$(whoami)
+
 par3=""
 #250526:kolammen parametrin suhteen toimibta testattu jo?
+#260526:testaus jouduttu laittamaan käyntiin
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
@@ -33,7 +35,6 @@ tgt=${1}
 echo "PARAMS CHECKED"
 sleep 1
 
-#TODO:ao. konftdsto takaisin
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -41,8 +42,6 @@ else
 	if [ -s ${d0}/../$(whoami).conf ] ; then
 		echo "ALT.C0NF1G3"
 		. ${d0}/../$(whoami).conf
-	else
-		echo "NO CONF"
 	fi
 fi
 
@@ -73,49 +72,62 @@ if [ "${CONF_env}" == "VED" ] && [ -v CONF_testgris ] && [ -d ${CONF_testgris} ]
 
 	#HUOM:-C olisi myös keksitty
 else
+	echo "NO TESTGRIS?"
 	cd /
 fi
 
+#tämä wttuun josqs? vai ei?
+xo="*.tar --exclude .chroot --exclude *.deb --exclude changedns.*"
+
+if [ "${CONF_env}" != "DEFAULT" ]; then
+	xo="${xo} --exclude resolv.* "
+fi
+
 function process_row() {
-	${tcmd} -rvf ${1} ${2}
+	echo "TCMD --exclude ${xo} -rvf ${1} ${2}"
+	${tcmd} --exclude "${xo}" -rvf ${1} ${2}
 }
 
 #HUOM.170426:olisi hyvä keksiä tähänkin jotain siltä varalta että merd2 ei tulisi ylimääräisiä kopioita
+#... keksitty jo 260526 mennessä?
 
 if [ ! -s ${d0}/MAN1.F2ST ] ; then
-	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb > ${d0}/MAN1.F2ST
+	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb | grep -v resolv > ${d0}/MAN1.F2ST
 	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
 	sleep 1
 fi
 
-echo "JUST BEFOR.E PROCESSING ROWS"
+echo "BEFOR.E PROCESSING ROWS"
 sleep 1
-
 #toimiikohan kehitysynp.tössä niinqu pitää?
-#${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
+
 #VAIH:ao. riveihin muutoksia koska CONF_env tulosssa käyttöön
-echo "grep -v '#' ${d0}/MAN1.F2ST"
-g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb)
-
-if [ ! -z "${par3}" ] ; then
-	g=$(echo ${g} | grep -v ${par3})
+if [ -z "${par3}" ] ; then
+	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .tar | grep -v .deb | grep -v .chroot | grep -v resolv)
+else
+	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep ${par3})
 fi
 
-if [ "${CONF_env}" == "VED" ]; then
-	g=$(echo ${g} | grep -v resolv)
-fi
+#echo ${g}
+#sleep 5
+#VAIH:tcmd:lle optioksi nuo pois grepattavat, --exclude
+
+echo "JUST BEFORE FOR-LOOP"
+echo ${g}
+sleep 5
 
 for f in ${g} ; do
-	echo "${f};"
-	sleep 1
+	echo "${f} :"
 
-	#if [ -s ${f} ] ; then #-f kanssa jokinj juttu?
+	if [ -f ${f} ] ; then
 		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
-			echo "processing"
+			#echo "... processinbfg"
 			process_row ${tgt} ${f}
 		fi
-	#fi
+	fi
+
+	#sleep 1
 done
 
-#jotat ehtisi synkata 
+#jottta ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4
