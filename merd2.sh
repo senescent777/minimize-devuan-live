@@ -23,13 +23,8 @@ function parse_opts_1 () {
 }
 
 function parse_opts_2 () {
-	
 	dqb "merd2.popts2 $1 ; $2"
-}
-
-if [ $# -gt 0 ] ; then
-	dqb "params_ok"
-
+	
 	if [ "${1}" == "-v" ] ; then
 		debug=1
 		branch=${2}
@@ -37,6 +32,11 @@ if [ $# -gt 0 ] ; then
 		branch=${1}
 		[ "${2}" == "-v" ] && debug=1
 	fi
+}
+
+if [ $# -gt 0 ] ; then
+	dqb "params maybe_ok"
+	parse_opts2 ${1} ${2}
 else
 	echo "${0} [-v] <branch> | ${0} <branch> [-v]"
 	exit 66
