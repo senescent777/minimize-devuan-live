@@ -42,11 +42,17 @@ function parse_opts_2() {
 	fi
 }
 
+echo "BEFORE COMMON_LIB"
+sleep 1
+
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	exit 5
 fi
+
+echo "BEFORE PROCESS_LIB"
+sleep 1
 
 [ -z "${distro}" ] && exit 6
 #d=${d0}/${distro} #nykyään vähän turha tässä
@@ -60,9 +66,15 @@ else
 	exit 58
 fi
 
-[ -d  ${tgtfile} ] && exit 99 #P.V.H.H
+echo "BEFORE CHECKS"
+sleep 1
+
+[ -d ${tgtfile} ] && exit 99 #P.V.H.H
 [ "${mode}" == "rp" ] || e22_hdr ${tgtfile}
-#[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta
+[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta
+
+echo "JUST BEFORE ESAC"
+sleep 1
 
 case "${mode}" in
 	rp) #VAIH:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms

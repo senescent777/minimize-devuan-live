@@ -33,6 +33,7 @@ tgt=${1}
 echo "PARAMS CHECKED"
 sleep 1
 
+#TODO:ao. konftdsto takaisin
 if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
@@ -40,6 +41,8 @@ else
 	if [ -s ${d0}/../$(whoami).conf ] ; then
 		echo "ALT.C0NF1G3"
 		. ${d0}/../$(whoami).conf
+	else
+		echo "NO CONF"
 	fi
 fi
 
@@ -91,7 +94,7 @@ sleep 1
 #toimiikohan kehitysynp.tössä niinqu pitää?
 #${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
 #VAIH:ao. riveihin muutoksia koska CONF_env tulosssa käyttöön
-
+echo "grep -v '#' ${d0}/MAN1.F2ST"
 g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb)
 
 if [ ! -z "${par3}" ] ; then
@@ -103,11 +106,15 @@ if [ "${CONF_env}" == "VED" ]; then
 fi
 
 for f in ${g} ; do
-	if [ -f ${f} ] ; then
+	echo "${f};"
+	sleep 1
+
+	#if [ -s ${f} ] ; then #-f kanssa jokinj juttu?
 		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
+			echo "processing"
 			process_row ${tgt} ${f}
 		fi
-	fi
+	#fi
 done
 
 #jotat ehtisi synkata 

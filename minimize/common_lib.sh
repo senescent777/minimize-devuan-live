@@ -1,4 +1,6 @@
 #fktioksi tmä ni ei tartte globaalien mjien kanssa sählätä?
+
+#VAIH:ROOT.CONF
 if [ -s ${d0}/$(whoami).conf ] ; then
 	#pitäisikö olla eri conf toisen repon skriptien kautta mentäessä?
 	echo "ALT.C0NF1G (. ${d0}/$(whoami).con )"
@@ -7,6 +9,7 @@ if [ -s ${d0}/$(whoami).conf ] ; then
 	sleep 5
 else
 	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+		echo ". ${d}/conf"
 		. ${d}/conf
 	else
 	 	exit 57
@@ -33,8 +36,12 @@ function csleep() {
 #... vissiin ei ihan nöin suoraviivaisesti mene
 #3 huomioitavaa tapsuat oikeastaan (01/26 oikeastaan jo sen suuntaisi keloja jotta if->switch...case)
 [ -v CONF_env ] || exit 99
-echo "${CONF_env}"
+echo "CONF_env = ${CONF_env}"
 sleep 5
+
+echo "#TODO:C_env liittyen olisi parempi jos kehitysympstlössä voisi käyttää $(whoami).conf . koitakeksiä jotaibn"
+#root.conf tietty q sudonkautta
+sleep 6
 
 case "${CONF_env}" in
 	TOOR)
@@ -96,15 +103,16 @@ itni
 
 function fix_sudo() {
 	dqb "common_lib.fix_sud0.pt0"
-	
-	if [ "${CONF_env}" == "DEFAULT" ] ; then #EHTPOA SAATTAA JHOUTUA RENKKAAMAAN VIELÄ
-		dqb "INNERMOST"
-
-		#TODO:ao. blokki ennen tarkiststa?
+			#oli ennen if-blokin sisällä (pl vielä aiemmin)
 		${sco} -R 0:0 /etc/sudoers.d
 		${scm} 0440 /etc/sudoers.d/*
 		${sco} -R 0:0 /etc/sudo*
 		${scm} -R a-w /etc/sudo*
+
+	if [ "${CONF_env}" == "DEFAULT" ] ; then #EHTPOA SAATTAA JHOUTUA RENKKAAMAAN VIELÄ
+		dqb "INNERMOST"
+
+
 
 		dqb "POT. DANGEROUS PT 1"
 
