@@ -99,8 +99,12 @@ function dis() {
 }
 
 function part0() {
+	dqb "part0)))( ${1} ;; ${2})(((((("
 	[ -z "${1}" ] && exit 76
 	[ -z "${2}" ] && echo "SHOULD exit 78"
+
+	dqb "pars.ok"
+	csleep 5
 
 	dis ${1} ${2}
 	local s
@@ -145,7 +149,7 @@ function part0() {
 #150326:miten /proc/cmdline:n lokaaliasetukset vs /e/d/l ja tämän ao. kikkareen jutut
 
 function el_loco() {
-	dqb "el_loco ) $1 ; $2 ((("
+	dqb "el_loco ))${1} ; ${2}((((("
 	csleep 1
 
 	if [ ${1} -gt 0 ] ; then
@@ -243,12 +247,13 @@ function pre_enforce() {
 	[ ${debug} -eq 1 ] && ls -las ${q}
 	csleep 1
 
-	#TODO:CB_list in läpikäynti, mitä tarv milloinkin
 	[ -f ${q} ] || exit 33
+	#TODO:katso lista läpi että mitä nykyään tarvitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
 
 	dqb "BFOR3 testgris"
 	csleep 1
+	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 
 	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		if [ ! -d /opt/bin ] ; then
@@ -266,10 +271,11 @@ function pre_enforce() {
 
 	e_final
 
-	if [ "${CONF_env}" == "DEFAULT" ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
+	# "semmoinen juttu" 
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		#1. tämä blokki kai eniten aiheuttaisi ongelmia sqroot-ympstössä?
 		#2. o/b sisällön oikeuksia/omistajia varten taisi olla e_final
-	
+		#3. changedns.vash: pientä yritystä hukata (exp2 ja update2)
 
 		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q}
