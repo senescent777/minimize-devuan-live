@@ -401,7 +401,7 @@ cd ${olddir}
 if [ -v part ] || [ -v CONF_dir ] ; then
 	echo "REMEMBER 2 UNM0UNT TH3S3:"
 	[ -z "${part}" ] || grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan?
-	[ -z ${CONF_dir} ] || grep ${CONF_dir} /proc/mounts
+	[ -z "${CONF_dir}" ] || grep ${CONF_dir} /proc/mounts
 fi
 
 ${scm} 0555 $0

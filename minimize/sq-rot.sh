@@ -417,12 +417,14 @@ function cptp2() {
 
 case "${mode}" in
 	1)
+		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est
 		common_part ${srcfile} ${d} /
 	;;
 	
 	#... tai sqrootissa oli menu- ja libw-pakettien asenynuksen kanssa pientä kiukuttelya, toistuuko?
 	#... exp2 rp vähän ritetty testailla 05/26
 	0)
+		[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
@@ -446,7 +448,7 @@ case "${mode}" in
 	;;
 	3)
 		#140526 muutettu paikallinen ocs että stoppaa tarv
-
+		#TODO:e23_st() outputin asennus , kehitysymp
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
 		ocs gpg
