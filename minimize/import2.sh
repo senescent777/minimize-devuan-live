@@ -274,7 +274,6 @@ csleep 2
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii? vissiin
-
 		#siltä varaltam ettei, debug
 		dqb "DIPOLIN KÄPY"
 		csleep 3
