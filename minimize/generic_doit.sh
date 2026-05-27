@@ -23,7 +23,7 @@ function parse_opts_1() {
 }
 
 function parse_opts_2() {
-	dqb "gdoit.qwertupoy))))) 1 2"
+	dqb "gdoit.qwertupoy 1 2"
 }
 
 function fallback() {
@@ -43,6 +43,7 @@ sleep 1
 #https://linuxopsys.com/use-dollar-at-in-bash-scripting
 #https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
 
+#240526:tämä aiheutti paljon nalkutusta kehitysymp
 function dis() {
 	dqb "sid $1 ;; $2 ((((("
 	[ -z "${1}" ] && exit 44
@@ -255,7 +256,7 @@ function pre_enforce() {
 	csleep 1
 	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 
-	if [ "${CONF_env}" == "DEFAULT" ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 		if [ ! -d /opt/bin ] ; then
 			${smd} /opt/bin
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
@@ -342,8 +343,6 @@ else
 	pre_enforce ${d0}
 fi
 
-
-	
 if [ "${CONF_env}" != "DEFAULT" ] ; then #240526:saattaa muuttua vielä, nyt näin nalkutuksen minimoinnin takia
 	dqb "BYPASSING enforce_access()"
 	csleep 2
@@ -362,7 +361,6 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
 c14=1
 c13=0
-
 
 if [ ${mode} -gt 1 ] ; then
 	#nollasta ei tarttisi välittää koska exit aiempana
@@ -395,6 +393,18 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	if [ $? -eq 0 ] ; then
 		adieu
 		#HUOM. tässä ei tartte exit jos myöhemmin joka tap
+	fi
+
+	#VAIH:jos C_env== VED ni common_lib +  root.conf omistajaksi root, jälkimmäisen saa vain omistaja lukea, tälle tdstolle vain ajo-oikeus kaikille
+	if [ "${CONF_env}" == "VED" ] ; then
+		#... aka "hands off" (qhan omega)
+		${sco} 0:0 ${d0}/*.conf
+		${scm} 0444 ${d0}/*.conf
+		#${sca} +ui ${d0}/*.conf
+
+		${sco} 0:0 ${0}
+		${scm} 0444 ${0}
+		#${sca} +ui ${0}
 	fi
 
 	exit
