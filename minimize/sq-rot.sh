@@ -418,7 +418,6 @@ case "${mode}" in
 		echo "sq.FART3: $?"
 		[ $? -eq 0 ] && ocs gpg
 		
-		
 		#sleep 3
 		#exit 61
 
