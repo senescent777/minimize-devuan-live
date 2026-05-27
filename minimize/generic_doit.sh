@@ -48,6 +48,8 @@ function dis() {
 	[ -z "${1}" ] && exit 44
 	[ -z "${2}" ] && echo "SHOULD exit 45"
 
+	dqb "ko.srap"
+	csleep 1
 	${scm} 0755 /etc/network
 	${sco} -R root:root /etc/network
 	${scm} a+r /etc/network/*
