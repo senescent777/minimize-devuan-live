@@ -148,7 +148,7 @@ function check_bin_0() {
 	unset NKVD
 	csleep 1
 
-	echo "#VAIH:sittenkin 256?"
+	echo "TODO:case \$CONF_algo ... esac"
 	sleep 6
 #	ocs sha512sum
 #	dqb "cb3"
@@ -285,32 +285,32 @@ function psqa() {
 
 	[ -z "${1}" ] && exit 97
 	[ -d ${1} ] || exit 96
-	[ ${debug} -gt 0 ] && ls -las ${1}/sha512sums*
+	[ ${debug} -gt 0 ] && ls -las ${1}/${CONF_hashfile}*
 	csleep 1
 
 	#return 92 #ei näin?
 	#dpkg -V oli tässä josqs , [ -v ] takana
 
-	if [ -v gg ] && [ -s ${1}/sha512sums.txt.sig ] ; then
+	if [ -v gg ] && [ -s ${1}/${CONF_hashfile}.sig ] ; then
 		dqb "))S))))( ${1} )"
 		csleep 1
 
 		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubring.kbx yli 32 tavua?
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-			dqb "${gg} --verify ${1}/sha512sums.txt.sig "
+			dqb "${gg} --verify ${1}/${CONF_hashfile}.sig "
 			csleep 1
-			${gg} --verify ${1}/sha512sums.txt.sig 
+			${gg} --verify ${1}/${CONF_hashfile}.sig 
 
 			if [ $? -eq 0 ] ; then
 				dqb "KÖ"
 			else
 				dqb "SHOULD imp2 k \$dir !!!"
-				${NKVD} ${1}/sha512sums.*
+				${NKVD} ${1}/${CONF_hashfile}*
 				return 95 #jatk exit pois
 			fi
 
 			csleep 1
-			[ -f ${1}/sha512sums.txt.1.sig ] && ${gg} --verify ${1}/sha512sums.txt.1.sig
+			[ -f ${1}/${CONF_hashfile}.1.sig ] && ${gg} --verify ${1}/${CONF_hashfile}.1.sig
 			csleep 1
 		else
 			dqb "COULD NOT VERIFY SIGNATURES"
@@ -321,7 +321,7 @@ function psqa() {
 
 	csleep 2
 
-	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] ; then
+	if [ -s ${1}/${CONF_hashfile} ] && [ -x ${sah6} ] ; then
 		dqb "R ${1} "
 		csleep 1
 		local p
@@ -329,7 +329,7 @@ function psqa() {
 		cd ${1}
 
 		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
-		${sah6} -c sha512sums.txt --ignore-missing
+		${sah6} -c ${CONF_hashfile} --ignore-missing
 
 		if [ $? -eq 0 ] ; then
 			dqb "Q.KO"
@@ -338,11 +338,11 @@ function psqa() {
 			return 94
 		fi
 
-		[ -f ${1}/sha512sums.txt.1 ] && ${sah6} --ignore-missing -c sha512sums.txt.1
+		[ -f ${1}/${CONF_hashfile}.1 ] && ${sah6} --ignore-missing -c ${CONF_hashfile}.1
 		csleep 1
 		cd ${p}
 	else
-		dqb "NO SHA512SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
+		dqb "NO SHASUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
 		dqb "SHOULD \${NKVD} ${1}/ \*.deb"		
 		return 93
 	fi
@@ -352,7 +352,7 @@ function psqa() {
 }
 
 #HUOM.060426:ne kalat mitkä eivät listassa tulisi kai hukata
-#... tai helpompi että sha512sums mukaiset tilap hmistoon mistä sitten asennellaan, jölkjelle jääneet pois
+#... tai helpompi että shasums mukaiset tilap hmistoon mistä sitten asennellaan, jölkjelle jääneet pois
 #efk2 2. param ja cefgh voisi liittyä asiaan
 #110526:pitäisi uudestaan katsella niitä bash-juttuja ennenq alkaa muuttelemaan psqa/( käyttävää koodia (ensimmäiset yritelmät eivät oikein...)
 
@@ -379,7 +379,7 @@ function common_pp3() {
 	r=$(echo ${1} | cut -d "/" -f 1-5)
 
 	if [ ${q} -lt 1 ] ; then
-		echo "SHOULD REMOVE ${1} / sha512sums . t x t"
+		echo "SHOULD REMOVE ${1} / shasums . t x t"
 		echo "ibcovation \"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
 
 		#tämä lienee se syy miksi myöhemmin pitää renkata...
@@ -393,7 +393,7 @@ function common_pp3() {
 		if [ $? -gt 0 ] ; then
 			#140526;pitäisiköhän tässä älähtää jotain?
 			${NKVD} ${1}/*.deb
-			${NKVD} ${1}/sha512sums*
+			${NKVD} ${1}/${CONF_hashfile}*
 			${NKVD} ${1}/*.tar*
 		fi
 
@@ -405,7 +405,7 @@ function common_pp3() {
 		#HUOM.lähteen delliminen ja pakettien siirtely voi aiheuttaa härdelliä myöhemmin, kun pitäisi g_doit kautta käskyttää part3
 		#e22_gi, gu, gv mukaiset kalat voisi katsoa että löytyy shasums + siirtää toiseen hak mutta muut tar:in sisältämät... jokin osittainen purq CB01, CB02 varten
 
-		for s in $(grep -v '#' ${1}/sha512sums.txt | awk '{print $2}') ; do
+		for s in $(grep -v '#' ${1}/${CONF_hashfile} | awk '{print $2}') ; do
 			${svm} ${1}/${s} ${2}
 		done
 
@@ -413,7 +413,7 @@ function common_pp3() {
 		csleep 1
 
 		#jälkimmäinen grep sekä spc tarkoit7uksella
-		for s in $(grep -v '#' ${1}/sha512sums.txt.1 | grep -v drop | awk '{print $2}') ; do
+		for s in $(grep -v '#' ${1}/${CONF_hashfile}.1 | grep -v drop | awk '{print $2}') ; do
 			dqb "${spc} ${1}/${s} ${2}"
 			${spc} ${1}/${s} ${2}
 			csleep 1
@@ -588,7 +588,7 @@ function CB01() {
 	[ -z "${gg}" ] && ${scm} a-wx ${1}/../common_lib.sh #$0 josko näin kuitenkin?
 	csleep 1
 
-#	[ -s ${1}/sha512sums.txt.bak ] && ${svm} ${1}/sha512sums.txt.bak ${1}/sha512sums.txt
+#	[ -s ${1}/${CONF_hashfile}.bak ] && ${svm} ${1}/${CONF_hashfile}.bak ${1}/${CONF_hashfile}
 	common_pp3 ${1} ${2}
 	
 	dqb "common.lib.CB01() DONE"
@@ -664,11 +664,11 @@ function check_binaries() {
 
 	#... nuo jutut miel accept1/2 mukaan jatq tjsp?
 
-	#TODO:testiymp kanssa exit sopivin välein ja sitten etsaamnaabn
+
 
 	local y
-	if [ -v CONF_testgris ] ; then
-		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp"
+	if [ "${CONF_env}" == "VED" ] ; then
+		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" #TODO:sha-kohtaan muutoksia
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
 	else
@@ -882,16 +882,16 @@ function mangle_s() {
 
 #	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
 #	#100126:ALL vai localhost? rahat vs kolmipyörä?
-#	#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
+#	#echo -n " localhost=NOPASSWD:${CONF_algo}:" >> ${2}
 #	#(kts omega)
-#	echo -n " ALL=NOPASSWD:sha256:" >> ${2}
+#	echo -n " ALL=NOPASSWD:${CONF_algo}:" >> ${2}
 #	slaughter0 ${r} ${2}
 
 	#toisinkin voisi kai tehdä
 	local aa=$(whoami | tr -dc a-zA-Z0-9 )
 	local ab=$(${sah6} ${r} | awk '{print $1}' | tr -dc a-fA-F0-9)
 	local ac=$(${sah6} ${r} | awk '{print $2}' | tr -dc a-zA-Z0-9./)	
-	echo "${aa} ALL=NOPASSWD:sha256:${ab} ${ac}" >> ${2}
+	echo "${aa} ALL=NOPASSWD:${CONF_algo}:${ab} ${ac}" >> ${2}
 	dqb " mangle_s() done"
 }
 
@@ -913,8 +913,8 @@ function dinf() {
 		fi
 
 		#CONF_hash?
-		#echo -n "sha512:" >> ${1}
-		echo -n "sha256:" >> ${1}
+		#echo -n "${CONF_algo}:" >> ${1}
+		echo -n "${CONF_algo}:" >> ${1}
 
 		t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9) #TARRKK PRKL
 		echo -n ${t} >> ${1}
@@ -1567,7 +1567,7 @@ function part3() {
 	       	exit 67
  	fi
 
-	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt*
+	[ -f ${1}/${CONF_hashfile} ] && ${NKVD} ${1}/${CONF_hashfile}*
 	csleep 1
 	other_horrors
 }
