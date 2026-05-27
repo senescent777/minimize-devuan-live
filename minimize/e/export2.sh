@@ -169,7 +169,7 @@ case "${mode}" in
 		#260526 vaikuttaisi vielä tuoreempi tuotos toimivan myös modaamattoman kiekon kanssa jnkn verran
 
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
-
+		#TODO:turhia kommentteja wttuun sotkemasta
 		#merd2 taisi toimia kerrab 21.4 , 21.5 toisen kerrab
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv

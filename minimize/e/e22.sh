@@ -29,7 +29,6 @@ function e22_hdr() {
 	fasdfasd ${1}
 	
 	dd if=/dev/random bs=12 count=1 > ./rnd
-
 	${sr0} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
 }
