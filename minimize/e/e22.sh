@@ -1,10 +1,11 @@
-${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-${scm} -Rv 700 ${CONF_pkgdir}/partial/
+if [ -v CONF_pkgdir ] ; then #varm vuoksi tätäkin 265226
+	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+	${scm} -Rv 700 ${CONF_pkgdir}/partial/
+fi
 
 if [ ! -v CONF_pubk ] ; then
-	
-	b=/
-	#VAIH:tälle riville muutoksia jatkossa
+	b="/"
+	[ "${CONF_env}" == "VED" ] && b=${CONF_testgris}
 	a=$(${odio} find ${b} -type f -name "keys.conf" | head -n 1)
 	
 	if [ ! -z "${a}" ] ; then
