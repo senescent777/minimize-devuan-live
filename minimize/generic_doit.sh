@@ -74,6 +74,7 @@ function dis() {
 	csleep 1
 
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
+	dqb "aftr.int.faces"
 
 	if [ ! -z "${2}" ] ; then
 		#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
@@ -93,6 +94,8 @@ function dis() {
 	fi
 	
 	${odio} sysctl -p
+	csleep 1
+	dqb "d1s.d0n3"
 }
 
 function part0() {
