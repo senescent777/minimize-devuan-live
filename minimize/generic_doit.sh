@@ -44,6 +44,7 @@ sleep 1
 #https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
 
 function dis() {
+	dqb "sid $1 ;; $2 ((((("
 	[ -z "${1}" ] && exit 44
 	[ -z "${2}" ] && echo "SHOULD exit 45"
 
