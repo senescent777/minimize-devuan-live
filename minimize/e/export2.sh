@@ -97,7 +97,6 @@ sleep 6
 d=${d0}/${distro} #nykyään vähän turha tässä
 process_lib ${d}
 mop=${CONF_dm}
-
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 dqb "BEF0RE T1G N0R MKTMP"
 sleep 1
