@@ -92,7 +92,7 @@ function other_horrors() {
 	dqb "other_horrors"
 
 	if [ ! -v CONF_testgris ] ; then
-		dqb "1NTERBAL SUFFER1NG"
+		dqb "1NTERBAL ShUFFER1NG"
 
 		for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
 			${sco} -R root:root ${f}
@@ -134,7 +134,7 @@ function check_bin_0() {
 	csleep 1
 
 	dqb "cb1"
-	ocs sha512sum
+	
 	ocs dpkg
 	ocs tar
 	ocs shred
@@ -148,8 +148,12 @@ function check_bin_0() {
 	unset NKVD
 	csleep 1
 
+	echo "#TODO:sittenkin 256?"
+	sleep 6
+	ocs sha512sum
 	dqb "cb3"
 	sah6=$(${odio} which sha512sum)
+	#/TODO
 
 	sd0=$(${odio} which dpkg)
 	[ -v sd0 ] || exit 78
@@ -228,7 +232,7 @@ function check_bin_0() {
 	export LANG
 
 	#18+0526:kaikki /o/b liittyvät testgris.tark taakse (VAIH)	
-	if [ ! -v CONF_testgris ] ; then	
+	if [ "${CONF_encv" == "DEFAULT" ] && [ -d /opt/bin] ; then	
 		[ -s /opt/bin/zxcv ] || echo "should exit 98"
 		[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
 		[ -s /opt/bin/zxcv.sha ] || echo "shoul.d ext1 8 97"
@@ -346,7 +350,7 @@ function psqa() {
 }
 
 #HUOM.060426:ne kalat mitkä eivät listassa tulisi kai hukata
-#... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
+#... tai helpompi että sha512sums mukaiset tilap hmistoon mistä sitten asennellaan, jölkjelle jääneet pois
 #efk2 2. param ja cefgh voisi liittyä asiaan
 #110526:pitäisi uudestaan katsella niitä bash-juttuja ennenq alkaa muuttelemaan psqa/( käyttävää koodia (ensimmäiset yritelmät eivät oikein...)
 
@@ -827,6 +831,9 @@ function TLA() {
 #kokeeksi siirretty juuri ennen gpo() , toimii sielläkin
 
 #==================================================================
+echo "TODO:slaiughter0 pois käytöstä?"
+sleep 6
+
 function slaughter0() {
 	local fn2
 	local ts2
@@ -855,7 +862,7 @@ function mangle_s() {
 	#$r kanssa jotain t arkistuksia?
 	${scm} 0555 ${r}
 
-	#seur tivi voi aiheuttaa kiukuttelua jos odio ei asetettu
+	#seur rivi voi aiheuttaa kiukuttelua jos odio ei asetettu
 	${sco} root:root ${r}
 	#vs /e/paswd ?
 

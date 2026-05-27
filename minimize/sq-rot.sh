@@ -294,11 +294,17 @@ function common_part() {
 
 	#2605236:qseeko tässä alla jokin?
 	#kts. common_lib.psqa()
-	local cfk=1
+
 
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
 		dqb "gg= ${gg}"
+		echo "sah: ${sah6}"
+		sleep 1
+
+		#ei kai tämä?		
+		local cfk
+		cfk=1
 
 		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
 		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f) #HUOM.TARKKANA SITTEN HIPSUjEN KANSSA 666!!!
@@ -312,10 +318,19 @@ function common_part() {
 			cfk=0
 		fi
 
+		echo "BEFORE NKVD: $?"
+		sleep 1
+
 		#tämäkö?
-		[ ${cfk} -eq 0 ] || ${NKVD} ${1}*
+		if [ ${cfk} -gt 0 ] ; then
+			echo "SOON: ${NKVD} ${1}* "
+			sleep 1
+			${NKVD} ${1}*
+		fi
+
 		csleep 1
 	else
+
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
