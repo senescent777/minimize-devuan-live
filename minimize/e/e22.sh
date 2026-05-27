@@ -210,7 +210,7 @@ function e22_pre2() {
 
 function e22_cleanpkgs() {
 	dqb "e22_cleanpkgs() "
-	[ -z "${1}" ] && exit 56
+	[ -z "${1}" ] && exit 53
 
 	if [ -d ${1} ] ; then
 		${smr} ${1}/*.deb
