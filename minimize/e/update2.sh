@@ -129,5 +129,6 @@ for f in ${g} ; do
 	#sleep 1
 done
 
+ls -las ${tgt}*
 #jottta ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4
