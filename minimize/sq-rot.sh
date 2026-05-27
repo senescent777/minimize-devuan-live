@@ -50,7 +50,7 @@ echo "#TODO:PRUJAA TOISESTA OKSASTA TÄM,Ä PRE-KOHTA ASAP!!! RENKKAAMINEN VITUT
 #e.tar purq (cefgh()) vs tämä sq-rot alku
 sleep 10
 
-if [ "${CONF_env}" == "TOOR" ] ; then
+function pre() {
 	#280426:self_extracting_archive-kikkailu saattaa tehdä tämän if-blkin turhaksi jatkossa ( tai sitten ei)
 
 	echo "UNDER THE GRAV3YARD"
@@ -125,7 +125,7 @@ if [ "${CONF_env}" == "TOOR" ] ; then
 	unset g
 fi
 
-#resolv.conf vielä ongelma 0305-> ? 
+
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
 #tuossa yllä tosin turhahko ls
@@ -165,7 +165,7 @@ else
 	}
 
 	function check_binaries() {
-		echo "rot13.check1"
+		echo "fish.rot.1"
 
 		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
 		scm=$(${odio} which chmod)
@@ -209,6 +209,11 @@ fi
 dqb "rot:AFTR common_lib"
 csleep 1
 [ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
+[ -v CONF_env ] || exit 66
+
+if [ "${CONF_env}" == "TOOR" ] ; then
+	pre
+fi
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -324,11 +329,11 @@ function common_part() {
 		fi
 	fi
 
-	csleep 1
+	sleep 1
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 
 	#110523:vöib aiheuttaa nalkutusta jos odio ei asetettu
-	csleep 1
+	sleep 1
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
 
@@ -386,6 +391,10 @@ function cptp2() {
 	dqb "ALL DONE"
 }
 
+echo "TODO:toiseen oksaan case 0,1 CONF_env - tarq mukaan"
+sleep 5
+
+
 case "${mode}" in
 	1)
 		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est
@@ -401,11 +410,24 @@ case "${mode}" in
 		[ ${mode} -eq 0 ] || e=${d}
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
 		f=$(dirname ${f})
+
+
+		echo "bfore cp: $?"
+		sleep 6
+
 		common_part ${srcfile} ${d} ${e}
+
+		#VAIH:kiukut6telut voisi poistaa (vai onko vielä moista 250626? vissiin)
+		#modaamattomalla kiekolla jos testaisi kanssa		
+		echo "sq.FART3: $?"
 		ocs gpg
 		
-		part3 ${f}
-		other_horrors
+		
+		#sleep 3
+		#exit 61
+
+		[ $? -eq 0 ] && part3 ${f}
+		[ $? -eq 0 ] && other_horrors
 	;;
 	3)
 		#140526 muutettu paikallinen ocs että stoppaa tarv
@@ -463,9 +485,11 @@ case "${mode}" in
 esac
 
 #poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (TODO)
-if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
-	read -p " U  WANT 2 RM SOURCE ?" confirm
-	[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
+if [ $? -eq 0 ] ; then
+	if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
+		read -p " U  WANT 2 RM SOURCE ?" confirm
+		[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
+	fi
 fi
 
 cptp2 ${d0}
