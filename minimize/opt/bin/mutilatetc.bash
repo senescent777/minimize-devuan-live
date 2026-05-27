@@ -1,7 +1,9 @@
 #!/bin/bash
 #exit 99
+CONF_algo=sha256
+#kts toisn repon setup2 , dalek.s - jutut
 
-#VAIH:ao. komennoista järkevä kokonaisuus josqs
+#VAIH:ao. komennoista järkevä kokonaisuus josqs (jos olisi jo 05/26?)
 debug=1
 odio="/usr/bin/sudo"
 smr=$(${odio} which rm)
@@ -13,7 +15,15 @@ slinky="${odio} ${slinky} -s "
 ipt=$(${odio} which iptables)
 ip6t=$(${odio} which ip6tables)
 gg=$(${odio} which gpg)
-sah6=$(${odio} which sha512sum)
+
+case "${CONF_algo}" in
+	sha256)
+		sah6=$(${odio} which sha256sum)
+	;;
+	sha512)
+		sah6=$(${odio} which sha512sum)
+	;;
+esac
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
