@@ -195,7 +195,7 @@ function check_bin_0() {
 	#exit
 	
 	dqb "cb01"
-	ocs sha512sum
+	
 	ocs dpkg
 	ocs tar
 	ocs shred
@@ -210,8 +210,9 @@ function check_bin_0() {
 	csleep 1
 	#exit
 	
-	dqb "cb03"
-	sah6=$(${odio} which sha512sum)
+#	dqb "cb03" #270526:tarkoitksella jemmaan. kiukuttelua
+#	ocs sha512sum
+#	sah6=$(${odio} which sha512sum)
 
 	sd0=$(${odio} which dpkg)
 	[ -v sd0 ] || exit 78
@@ -896,19 +897,19 @@ function TLA() {
 }
 
 #==================================================================
-
-#"g_doit 0" tarttee tämän toimiakseen
-function slaughter0() {
-	local fn2
-	local ts2
-
-	fn2=$(echo $1 | awk '{print $1}') #TARKKUUTTA PRKL NÄIDEN KANSSA!!!
-	ts2=$(${sah6} ${fn2})
-
-	#tähän alle jotain tr-kikkAIlua?
-	echo ${ts2} | awk '{print $1,$2}' >> ${2} #TARKK PRKL
-}
-
+#
+##"g_doit 0" tarttee tämän toimiakseen
+#function slaughter0() {
+#	local fn2
+#	local ts2
+#
+#	fn2=$(echo $1 | awk '{print $1}') #TARKKUUTTA PRKL NÄIDEN KANSSA!!!
+#	ts2=$(${sah6} ${fn2})
+#
+#	#tähän alle jotain tr-kikkAIlua?
+#	echo ${ts2} | awk '{print $1,$2}' >> ${2} #TARKK PRKL
+#}
+#
 #"g_dpit 0" vaatisi toimiakseen tämän
 #TODO:testgris-juttuja?=
 function mangle_s() {
