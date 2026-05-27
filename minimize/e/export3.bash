@@ -64,7 +64,6 @@ fi
 [ "${mode}" == "rp" ] || e22_hdr ${tgtfile}
 #[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta
 
-
 case "${mode}" in
 	rp) #VAIH:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms
 		#siirtynee koodia casen ja fktion välillä vielä
