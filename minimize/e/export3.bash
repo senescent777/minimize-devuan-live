@@ -64,8 +64,6 @@ fi
 [ "${mode}" == "rp" ] || e22_hdr ${tgtfile}
 #[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta
 
-echo "JUST BEFORE ESAC"
-sleep 1
 
 case "${mode}" in
 	rp) #VAIH:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms
