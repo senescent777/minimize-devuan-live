@@ -812,10 +812,10 @@ function TLA() {
 	#200326:toimiikohan tarkistus toivotulla tavalla?
 	#210326:tla() ja sqroot? jos on pedantti niin tuollakin yhdostelmällä piytäisi tables-säännöt muuttaa...
 
-	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ -f /.chroot ] ; then #010426:antaa toistaiseksi o.lla viimiei n eht0
+	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ "${CONF_env}" == "TOOR" ] ; then #270526:hyvä näin?
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		if [ ! -v CONF_testgris ] ; then
+		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 			#140526:muutoksia näille main vai ei?
 			dqb "JST B3F0R:tlb-b a s h"
 			[ -s /opt/bin/tlb.bash ] || exit 99
@@ -927,7 +927,7 @@ function reqwreqw() {
 function e_final() {
 	csleep 1
 
-	if [ ! -v CONF_testgris ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 		${scm} go-rw /opt/bin/*
 		${scm} 0400 /opt/bin/*.sh #josko pääte pois? 
 		${scm} 0511 /opt/bin/*.bash
@@ -973,13 +973,11 @@ function e_h() {
 	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
 	csleep 1
 
-	if [ ! -v CONF_testgris ] ; then
-		if [ -d ${2}/opt/bin ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${2}/opt/bin ] ; then
 			${sco} -R root:root ${2}/opt/bin
 			${scm} go-wr ${2}/opt/bin/*
 			${scm} 0400 ${2}/opt/bin/*.sh #liene ejo turha
 			${scm} 0511 ${2}/opt/bin/*.bash
-		fi
 	fi
 
 	csleep 1
@@ -1009,16 +1007,14 @@ function pre_enforce() {
 	dqb "BFOR3 testgris"
 	csleep 1
 
-	if [ ! -v CONF_testgris ] ; then
-		if [ ! -d /opt/bin ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] && [ ! -d /opt/bin ] ; then
 			${smd} /opt/bin
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
-		fi
 	fi
 
-	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
+	#HUOM:$1/o/b alainen sisältö tulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 
-	if [ ! -v CONF_testgris ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		if [ -d ${1}/opt/bin ] ; then
 			#tämä mv ok?
 			${svm} ${1}/opt/bin/*.bash /opt/bin
@@ -1029,10 +1025,10 @@ function pre_enforce() {
 
 	e_final
 
-	if [ ! -v CONF_testgris ] ; then #tämän kanssa semmoinen juttu jatkossa (jos mahd)
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		#1. tämä blokki kai eniten aiheuttaisi ongelmia sqroot-ympstössä?
 		#2. o/b sisällön oikeuksia/omistajia varten taisi olla e_final
-		#3. changedns.vash joutaisi jo mennä (TODO)
+		#3. changedns.vash :?
 
 		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q}
@@ -1390,7 +1386,7 @@ function part2() {
 	${lftr}
 	csleep 1
 
-	#150326:pitäisikohän tehdf vielä toinenkin veuiartlu barm buoksi?
+	#270526:pitäisikohän tehdÄ vielä toinenkin veRTAIlu barm buoksi?
 	if [ ! -z "${ipt}"  ] ; then
 		jules
 		local t
@@ -1398,7 +1394,7 @@ function part2() {
 		#210326:nyt sitten miettimään että pitäisikö reslvo.conf:ille tehdä jotain. taas
 		t=$(echo ${2} | tr -d -c 0-9)
 
-		if [ ! -v CONF_testgris ] ; then
+		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin] ; then
 			${odio} /opt/bin/tlb.bash ${t}
 		fi
 	fi
