@@ -78,19 +78,19 @@ function aqsp() {
 	local rv=0
 
 	if [ -v gg ] ; then #else-haarat takaisin josqs, ehkä
-		if [ -s ${1}/sha512sums.txt.sig ] ; then #eka ehto omalle rivilleen ja sit jhotain
+		if [ -s ${1}/${CONF_hashfile}.sig ] ; then #eka ehto omalle rivilleen ja sit jhotain
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-				${gg} --verify ${1}/sha512sums.txt.sig
+				${gg} --verify ${1}/${CONF_hashfile}.sig
 				rv=$?
 			fi
 		fi
 	fi
 
-	if [ -s ${1}/sha512sums.txt ] && [ -x ${sah6} ] && [ ${rv} -eq 0 ] ; then
+	if [ -s ${1}/${CONF_hashfile} ] && [ -x ${sah6} ] && [ ${rv} -eq 0 ] ; then
 		local p=$(pwd)
 		cd ${1}
 
-		${sah6} -c sha512sums.txt --ignore-missing
+		${sah6} -c ${CONF_hashfile} --ignore-missing
 		rv=$?
 		cd ${p}
 	else
@@ -213,7 +213,7 @@ function e22_cleanpkgs() {
 
 	if [ -d ${1} ] ; then
 		${smr} ${1}/*.deb
-		${smr} ${1}/sha512sums.txt*
+		${smr} ${1}/${CONF_hashfile}*
 		ls -las ${1}/*.deb | wc -l
 	fi
 
@@ -533,8 +533,8 @@ function e22_arch() {
 	[ -w ${2} ] || exit 44
 	[ -z "${3}" ] && exit 53
 	local p=$(pwd)
-	if [ -f ${2}/sha512sums.txt ] ; then #turha tarq?
-		${NKVD} ${2}/sha512sums.txt*
+	if [ -f ${2}/${CONF_hashfile} ] ; then #turha tarq?
+		${NKVD} ${2}/${CONF_hashfile}*
 		csleep 1
 	fi
 
@@ -546,29 +546,29 @@ function e22_arch() {
 	fi
 
 	${scm} 0444 ${2}/*.deb
-	fasdfasd ${2}/sha512sums.txt
-	fasdfasd ${2}/sha512sums.txt.1
+	fasdfasd ${2}/${CONF_hashfile}
+	fasdfasd ${2}/${CONF_hashfile}.1
 	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
 
 	cd ${2}
-	${sah6} ./*.deb > ./sha512sums.txt
+	${sah6} ./*.deb > ./${CONF_hashfile}
 
 	for f in $(find . -type f -name "*pkgs*") ; do
 		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
-		${sah6} ${f} >> ./sha512sums.txt.1
+		${sah6} ${f} >> ./${CONF_hashfile}.1
 	done
 
 	for f in e.tar g.tar ; do
 		dqb "sah6 ./${f}"
-		${sah6} ./${f} >> ./sha512sums.txt.1 # | grep -v ${t} 
+		${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
 	done
-	e22_tyg ./sha512sums.txt
-	e22_tyg ./sha512sums.txt.1
+	e22_tyg ./${CONF_hashfile}
+	e22_tyg ./${CONF_hashfile}.1
 
 	psqa .
 	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
 	[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums* ./*.tar #?
-	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
+	${srat} -rf ${1} ./*.deb ./${CONF_hashfile}* ./tim3stamp
 	cd ${p}
 }
 
