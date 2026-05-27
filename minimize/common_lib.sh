@@ -150,9 +150,9 @@ function check_bin_0() {
 
 	echo "#TODO:sittenkin 256?"
 	sleep 6
-	ocs sha512sum
-	dqb "cb3"
-	sah6=$(${odio} which sha512sum)
+#	ocs sha512sum
+#	dqb "cb3"
+#	sah6=$(${odio} which sha512sum)
 	#/TODO
 
 	sd0=$(${odio} which dpkg)
@@ -827,23 +827,21 @@ function TLA() {
 	fi
 }
 
-#060426:process_lib() oli tässä TLA() ja slaughter0() välissä aiemmin
-#kokeeksi siirretty juuri ennen gpo() , toimii sielläkin
 
 #==================================================================
-echo "TODO:slaiughter0 pois käytöstä?"
+echo "VAIH:slaiughter0 pois käytöstä?"
 sleep 6
-
-function slaughter0() {
-	local fn2
-	local ts2
-
-	fn2=$(echo $1 | awk '{print $1}') #TARKKUUTTA PRKL NÄIDEN KANSSA!!!
-	ts2=$(${sah6} ${fn2})
-
-	#tähän alle jotain tr-kikkAIlua?
-	echo ${ts2} | awk '{print $1,$2}' >> ${2} #TARKK PRKL
-}
+#
+#function slaughter0() {
+#	local fn2
+#	local ts2
+#
+#	fn2=$(echo $1 | awk '{print $1}') #TARKKUUTTA PRKL NÄIDEN KANSSA!!!
+#	ts2=$(${sah6} ${fn2})
+#
+#	#tähän alle jotain tr-kikkAIlua?
+#	echo ${ts2} | awk '{print $1,$2}' >> ${2} #TARKK PRKL
+#}
 
 function mangle_s() {
 	dqb " mangle_s( ${1} )"
