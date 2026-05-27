@@ -187,6 +187,9 @@ function e22_pre2() {
 	echo $?
 	csleep 1
 
+	[ -z "${par4}" ] && exit 89
+	csleep 10
+
 	#pedanttiuden nimissä tämmöisiä
 	if [ -d /etc/resolv.conf ] ; then
 		echo "D"
@@ -200,6 +203,8 @@ function e22_pre2() {
 
 	ls -las /etc/resolv.*
 	csleep 10
+	exit 54
+
 	${sifu} ${1}
 	csleep 1
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
