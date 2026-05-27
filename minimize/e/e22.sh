@@ -66,6 +66,7 @@ function e22_ftr() {
 	${sah6} ./${q} > ${q}.sha
 	${sah6} -c ${q}.sha
 	e22_tyg ${q}.sha #.sha sittenkin näin?
+
 	cd ${p}
 }
 
