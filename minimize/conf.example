@@ -1,4 +1,7 @@
 CONF_env=DEFAULT
+CONF_algo=sha256
+CONF_hashfile=sha512sums.txt
+#
 CONF_iface=iface
 CONF_enforce="0 or 1"
 debug=0
