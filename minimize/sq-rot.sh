@@ -46,9 +46,9 @@ function parse_opts_2() {
 	fi
 }
 
-echo "#TODO:PRUJAA TOISESTA OKSASTA TÄM,Ä PRE-KOHTA ASAP!!! RENKKAAMINEN VITUTTAA"
+echo "#VAIH:PRUJAA TOISESTA OKSASTA TÄM,Ä PRE-KOHTA ASAP!!! RENKKAAMINEN VITUTTAA"
 #e.tar purq (cefgh()) vs tämä sq-rot alku
-sleep 10
+
 
 function pre() {
 	#280426:self_extracting_archive-kikkailu saattaa tehdä tämän if-blkin turhaksi jatkossa ( tai sitten ei)
@@ -124,7 +124,6 @@ function pre() {
 
 	unset g
 fi
-
 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
@@ -400,7 +399,7 @@ case "${mode}" in
 		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est
 		common_part ${srcfile} ${d} /
 	;;
-	#240536:jospa olisi tämä ja case 3 jo kunnossa
+
 	#... tai sqrootissa oli menu- ja libw-pakettien asenynuksen kanssa pientä kiukuttelya, toistuuko?
 	#... exp2 rp testiin?
 	0)
@@ -411,7 +410,6 @@ case "${mode}" in
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
 		f=$(dirname ${f})
 
-
 		echo "bfore cp: $?"
 		sleep 6
 
@@ -420,7 +418,7 @@ case "${mode}" in
 		#VAIH:kiukut6telut voisi poistaa (vai onko vielä moista 250626? vissiin)
 		#modaamattomalla kiekolla jos testaisi kanssa		
 		echo "sq.FART3: $?"
-		ocs gpg
+		[ $? -eq 0 ] && ocs gpg
 		
 		
 		#sleep 3
