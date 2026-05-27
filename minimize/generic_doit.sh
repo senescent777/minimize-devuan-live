@@ -73,12 +73,8 @@ function dis() {
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
 
 	if [ ! -z "${2}" ] ; then
-		#TODO:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
-
-
-
-		#sifd=/sbin/ifdowm ?
-
+		#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
+		[ -z "${sifd}" ] && sifd=/sbin/ifdown
 
 		dqb "${odio} ${sifd} ${2}"	
 		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}

@@ -334,12 +334,18 @@ function luca() {
 #200426:taitaa toimia edelleen
 
 function e22_acol() {
+	dqb "e22_acol()"
+	csleep 1
+
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
 	#[ -w ${1} ] || exit 9
 	[ -z "${2}" ] && exit 2
 	[ -z "${3}" ] && exit 3		
 	[ -z "${4}" ] && exit 5
+
+	dqb "PARS.OK"
+	csleep 1
 
 	${scm} 0555 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
@@ -348,11 +354,14 @@ function e22_acol() {
 	local f
 	local ef
 	local g
+	local h
+
 	for f in $(find /etc -type f -name "interfaces*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
 
 	for f in $(${odio} find /etc -type f -name "rules*" -and -not -name "*.202*" ) ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
 			${srat} -rvf ${1} ${f}
+			[ $? -eq 0 ] || exit
 		fi
 	done
 
@@ -363,6 +372,10 @@ function e22_acol() {
 		exit 112
 	fi
 
+	h=$(tar -tf ${1} | grep tables | wc -l)
+	[ ${h} -gt 0 ] || exit
+	dqb "RULZ MAYB 0K"
+	csleep 10
 	${srat} -rvf ${1} /etc/default/net*
 
 	case "${2}" in

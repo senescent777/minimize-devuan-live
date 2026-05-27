@@ -25,7 +25,7 @@ function csleep() {
 #180526:kokeillaan auttaisiko jälkimmäinen ehto kehitysymp sudo-juttujen kanssa
 #... vissiin ei ihan nöin suoraviivaisesti mene
 
-if [ -f /.chroot ]  ; then #|| [ -v CONF_testgris ]
+if [ "${CONF_env}" != "DEFAULT" ]  ; then #TODO:prujaus toisesta oksasta
 	odio=""
 
 	function itni() {
@@ -60,7 +60,7 @@ function fix_sudo() {
 	sco="${odio} ${sco} "
 	scm="${odio} ${scm} "	
 
-	if [ ! -v CONF_testgris ] ; then
+	if [ "${CONF_env}" = "DEFAULT" ] ; then
 		dqb "INNERMOST"
 
 		${sco} -R 0:0 /etc/sudoers.d
@@ -91,7 +91,7 @@ function fix_sudo() {
 function other_horrors() {
 	dqb "other_horrors"
 
-	if [ ! -v CONF_testgris ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] ; then #vöib muuttua vielä
 		dqb "1NTERBAL ShUFFER1NG"
 
 		for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
@@ -148,12 +148,14 @@ function check_bin_0() {
 	unset NKVD
 	csleep 1
 
-	echo "#TODO:sittenkin 256?"
+	echo "#VAIH:sittenkin 256?"
 	sleep 6
 #	ocs sha512sum
 #	dqb "cb3"
-#	sah6=$(${odio} which sha512sum)
-	#/TODO
+#	sha512sum)
+	sah6=$(${odio} which sha256sum)
+	ocs sha256sum
+	#
 
 	sd0=$(${odio} which dpkg)
 	[ -v sd0 ] || exit 78
@@ -232,7 +234,7 @@ function check_bin_0() {
 	export LANG
 
 	#18+0526:kaikki /o/b liittyvät testgris.tark taakse (VAIH)	
-	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin] ; then	
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then	
 		[ -s /opt/bin/zxcv ] || echo "should exit 98"
 		[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
 		[ -s /opt/bin/zxcv.sha ] || echo "shoul.d ext1 8 97"
@@ -530,10 +532,11 @@ function cefgh() {
 	if [ -z "${gg}" ] ; then
 		#tähän sah6-tarkistus vai ei?
 		dqb "SHOULD {sah6} -c ${1}/e.tar HERE"
-		#if [ -s ${1}/e.tar.sha ] ; then
-		#	${sah6} -c ${1}/e.tar.sha
-		#	[ $? -eq 0 ] || ${NKVD} ${1}/e.tar*
-		#fi
+
+		if [ -s ${1}/e.tar.sha ] ; then
+			${sah6} -c ${1}/e.tar.sha
+			[ $? -eq 0 ] || ${NKVD} ${1}/e.tar*
+		fi
 
 		csleep 5
 
@@ -829,22 +832,34 @@ function TLA() {
 
 
 #==================================================================
-echo "VAIH:slaiughter0 pois käytöstä?"
-sleep 6
+#echo "VAIH:slaughter0() pois käytöstä vai mitenkä?"
+#sleep 6
 #
+##riittäisikö 512 ohitus vaiko vielä tr mukaan?
 #function slaughter0() {
-#	local fn2
-#	local ts2
+#	local aa
+#	local ab
+#	local ac
+##	local ad	
 #
-#	fn2=$(echo $1 | awk '{print $1}') #TARKKUUTTA PRKL NÄIDEN KANSSA!!!
-#	ts2=$(${sah6} ${fn2})
+#	aa=$(echo $1 | awk '{print $1}' | tr -dc a-zA-Z0-9./) #TARKKUUTTA PRKL NÄIDEN KANSSA!!!
+#	ab=$(${sah6} ${aa})
 #
 #	#tähän alle jotain tr-kikkAIlua?
-#	echo ${ts2} | awk '{print $1,$2}' >> ${2} #TARKK PRKL
+#	#echo ${ab} | awk '{print $1,$2}' >> ${2} #TARKK PRKL
+#	# | tr -dc a-fA-F0-9 ?
+##
+##	echo -n ${ab}  >> ${2}
+##	echo -n " "  >> ${2}
+##	 >> ${2}
+#
+#	ac=$(echo ${ab} | awk '{print $1}' | tr -dc a-zA-Z0-9./)
+##	ad=$(echo ${ab} | awk '{print $2}' | tr -dc a-fA-F0-9 ) 
+#	echo "${ac}" >> ${2}
 #}
 
 function mangle_s() {
-	dqb " mangle_s( ${1} )"
+	dqb " mangle_s( ${1} , ${2})"
 	csleep 1
 
 	[ -z "${1}" ] && exit 44
@@ -861,16 +876,22 @@ function mangle_s() {
 	${scm} 0555 ${r}
 
 	#seur rivi voi aiheuttaa kiukuttelua jos odio ei asetettu
+	#PS. onko pakko takoa sem,sco joka fktiokutsussa? jep
 	${sco} root:root ${r}
 	#vs /e/paswd ?
 
-	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
-	#100126:ALL vai localhost? rahat vs kolmipyörä?
-	#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
-	#(kts omega)
-	echo -n " ALL=NOPASSWD:sha512:" >> ${2}
-	slaughter0 ${r} ${2}
+#	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
+#	#100126:ALL vai localhost? rahat vs kolmipyörä?
+#	#echo -n " localhost=NOPASSWD:sha512:" >> ${2}
+#	#(kts omega)
+#	echo -n " ALL=NOPASSWD:sha256:" >> ${2}
+#	slaughter0 ${r} ${2}
 
+	#toisinkin voisi kai tehdä
+	local aa=$(whoami | tr -dc a-zA-Z0-9 )
+	local ab=$(${sah6} ${r} | awk '{print $1}' | tr -dc a-fA-F0-9)
+	local ac=$(${sah6} ${r} | awk '{print $2}' | tr -dc a-zA-Z0-9./)	
+	echo "${aa} ALL=NOPASSWD:sha256:${ab} ${ac}" >> ${2}
 	dqb " mangle_s() done"
 }
 
@@ -891,7 +912,10 @@ function dinf() {
 			echo -n "," >> ${1}
 		fi
 
-		echo -n "sha512:" >> ${1}
+		#CONF_hash?
+		#echo -n "sha512:" >> ${1}
+		echo -n "sha256:" >> ${1}
+
 		t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9) #TARRKK PRKL
 		echo -n ${t} >> ${1}
 	done
@@ -972,10 +996,10 @@ function e_h() {
 	csleep 1
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${2}/opt/bin ] ; then
-			${sco} -R root:root ${2}/opt/bin
-			${scm} go-wr ${2}/opt/bin/*
-			${scm} 0400 ${2}/opt/bin/*.sh #liene ejo turha
-			${scm} 0511 ${2}/opt/bin/*.bash
+		${sco} -R root:root ${2}/opt/bin
+		${scm} go-wr ${2}/opt/bin/*
+		${scm} 0400 ${2}/opt/bin/*.sh #liene ejo turha
+		${scm} 0511 ${2}/opt/bin/*.bash
 	fi
 
 	csleep 1
@@ -1006,8 +1030,8 @@ function pre_enforce() {
 	csleep 1
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ ! -d /opt/bin ] ; then
-			${smd} /opt/bin
-			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
+		${smd} /opt/bin
+		[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
 	fi
 
 	#HUOM:$1/o/b alainen sisältö tulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?

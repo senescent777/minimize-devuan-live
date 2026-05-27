@@ -125,6 +125,7 @@ function pre() {
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
 #tuossa yllä tosin turhahko ls
+echo "TODO:/o/b alaiset sha-muutokkset"
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -165,9 +166,10 @@ else
 
 		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
 		scm=$(${odio} which chmod)
-		sah6=$(${odio} which sha512sum)
+		sah6=$(${odio} which sha256sum) #sha512sum)
 
 		srat=$(${odio} which tar)
+		srat="${odio} ${srat}" #270526 osoittautui tarpeelliseksi
 		#eXit jos srat ei?
 
 		gg=$(${odio} which gpg) #suattaapi olla että tähän tökkää, taisiis myöhemmin
@@ -204,7 +206,7 @@ fi
 
 dqb "rot:AFTR common_lib"
 csleep 1
-[ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
+[ -z "${distro}" ] && exit 26 #vähempikin tarkistelu riittäisi?
 [ -v CONF_env ] || exit 66
 
 if [ "${CONF_env}" == "TOOR" ] ; then
@@ -226,7 +228,7 @@ check_binaries ${d}
 check_binaries2
 #[ $? -eq 0 ] || exit
 
-[ -z "${srcfile}" ] && exit 44
+[ -z "${srcfile}" ] && exit 104
 [ -z "${distro}" ] && exit 46
 
 if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
@@ -284,8 +286,10 @@ function common_part() {
 				fi
 			fi
 
-			#1105326:tässä käytiin, pitäisi odio olla asetettuma että jotain tapahtuisi
-			[ ${r} -eq 0 ] || ${NKVD} ${1}*
+			#270526:antaa olla toistaiseksi näin kunnes pahin sekoilu asettunut
+			if [ ${r} -eq 0 ] ; then
+				echo "SHOULD \$ {NKVD} \${1} * NOW"
+			fi
 		fi
 	fi
 
@@ -301,56 +305,64 @@ function common_part() {
 		dqb "gg= ${gg}"
 		echo "sah: ${sah6}"
 		sleep 1
-
-		#ei kai tämä?		
-		local cfk
-		cfk=1
+#
+#		#ei kai tämä?		
+#		local cfk
+#		cfk=1
 
 		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
 		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f) #HUOM.TARKKANA SITTEN HIPSUjEN KANSSA 666!!!
 		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
 
 		echo "AFTER ABC: $?"
+	
 		sleep 5
 
 		if [ "${aa}" == "${ab}" ] ; then
 			dqb "aa=ab= ${aa}"
-			cfk=0
-		fi
+#			cfk=0
+		else
+			#270526:toitsaiseksi näin kunnes pahin sekoilu asettunut
+			echo "aa: ${aa}"
+			echo "ab: ${ab}"
 
-		echo "BEFORE NKVD: $?"
-		sleep 1
-
-		#tämäkö?
-		if [ ${cfk} -gt 0 ] ; then
-			echo "SOON: ${NKVD} ${1}* "
+			echo "SOON: \$ {NKVD} ${1}* "
 			sleep 1
-			${NKVD} ${1}*
+			#${NKVD} ${1}*
+			exit 43
 		fi
+#
+#		echo "BEFORE NKVD: $?"
+#		sleep 1
+#
+#		#tämäkö?
+#		if [ ${cfk} -gt 0 ] ; then
+#
+#		fi
 
 		csleep 1
 	else
-
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
 
 	echo "AFTR SHA $?"
 	sleep 1
 
-	if [ ${cfk} -gt 0 ] ; then
+	#if [ ${cfk} -gt 0 ] ; then
 		read -p " U  SURE ?" confirm
 
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "ko"		
 		else
-			${NKVD} ${1}* 
-			${NKVD} ${2}/*.deb
-			${NKVD} ${2}/sha512sums*
-			${NKVD} ${2}/*.tar*
+			echo "SHOULD DO SOME NKVD-STUFF AROUND HERE"
+			#${NKVD} ${1}* 
+			#${NKVD} ${2}/*.deb
+			#${NKVD} ${2}/sha512sums*
+			#${NKVD} ${2}/*.tar*
 
 			exit 33
 		fi
-	fi
+	#fi
 
 	sleep 1
 	echo "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
@@ -368,7 +380,7 @@ function cptp2() {
 	dqb "rot.c tp2 ${1}, ${2}, ${3}"
 
 	[ -z "${1}" ] && exit 99
-	#[ -z "${2}" ] && exit 98 truhra parm (110426)
+
 	[ -d ${1} ] || exit 97
 
 	dqb "cptp2:pars ok"
@@ -388,6 +400,7 @@ function cptp2() {
 
 		if [ -x ${t}/common_lib.sh ] ; then
 			enforce_access $(whoami) ${t}
+			#TODO:tuota ao. tekstiä voisi varmaan päiuvittää koska x
 			dqb "TRO: running changedns.sh maY be necessary now to fix some things"
 		else
 			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
@@ -449,6 +462,8 @@ case "${mode}" in
 	3)
 		#140526 muutettu paikallinen ocs että stoppaa tarv
 		#TODO:e23_st() outputin asennus , kehitysymp
+		#TODO:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
+
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
 		ocs gpg
@@ -506,7 +521,8 @@ esac
 if [ $? -eq 0 ] ; then
 	if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
 		read -p " U  WANT 2 RM SOURCE ?" confirm
-		[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
+		#270526:joskus takaisin toimintaan
+		[ "${confirm}" == "Y" ] && echo "SHOULD \$ {NKVD} \${srcfile}"
 	fi
 fi
 
