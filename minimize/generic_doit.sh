@@ -316,6 +316,7 @@ function pre_enforce() {
 
 	csleep 1
 	#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
+	#VAIH:setup2sessa kokeeksi fstab-kikkailut kommentteihin
 
 	if [ ${c4} -lt 1 ] ; then
 		csleep 1
@@ -341,9 +342,9 @@ else
 	pre_enforce ${d0}
 fi
 
-#200516:pitäisiköhän tätä muuttaa josqs? teshgrs saattaa liittyä etäisestoi
+
 	
-if [ "${CONF_env}" != "DEFAULT"  ] ; then 
+if [ "${CONF_env}" != "DEFAULT" ] ; then #240526:saattaa muuttua vielä, nyt näin nalkutuksen minimoinnin takia
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
@@ -366,9 +367,10 @@ c13=0
 if [ ${mode} -gt 1 ] ; then
 	#nollasta ei tarttisi välittää koska exit aiempana
 	if [ -v LCF666 ] ; then
-		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l) #unohtuiko viimeinen?
-		[ $c13 -gt 0 ] && c14=0 #mitähän tästä tapahtuu kun poistaa komm? pitkällinen raksutus ainakin
-		#profit
+		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l)
+		 #barm vuoksi näin
+		[ $c13 -gt 0 ] && c14=0
+		
 	fi
 fi
 
@@ -405,7 +407,7 @@ if [ "${CONF_env}" == "DEFAULT" ] ; then
 	c14=$(find ${d} -name "*.deb" | wc -l)
 
 	#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu (ehkä ok)
-
+	#... pitäisi kai nollaamisessa huomioida myös /.chroot
 	[ ${c14} -gt 0 ] || CONF_removepkgs=0
 fi
 
