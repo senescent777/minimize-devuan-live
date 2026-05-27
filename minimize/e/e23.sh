@@ -54,7 +54,7 @@ function e23_profs() {
 	dqb "e23_profs( ,,, ) DONE"
 }
 
-function e23_st() { #josqs tämänkin testaus? (kts toisen repon setup1.bash)
+function e23_st() { #TODO:josqs tämänkin testaus? (kts toisen repon setup1.bash)
 	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
 	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim
 	${shary} dmsetup libdevmapper1 libjte2
@@ -106,6 +106,7 @@ function e23_tblz() {
 	other_horrors
 }
 
+#TODO:tämän kanssa oli juttu
 function e23_other_pkgs() {
 	[ -z "${1}" ] && exit 11
 	e22_pre_e ${E22_GI}

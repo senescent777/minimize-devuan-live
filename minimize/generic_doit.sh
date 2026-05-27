@@ -82,8 +82,8 @@ function dis() {
 	dqb "aftr.int.faces"
 
 	if [ ! -z "${2}" ] ; then
-		#TODO:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
-		#sifd=/sbin/ifdowm ?
+		#TODO?:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
+		sifd=/sbin/ifdowm ?
 		dqb "${odio} ${sifd} ${2}"	
 		csleep 1
 		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
@@ -253,16 +253,13 @@ function pre_enforce() {
 	csleep 1
 
 	[ -f ${q} ] || exit 33
-	#TODO:katso lista läåpi ettå mit nykyään tarvotaan misäkin tilanteessa
+	#TODO:katso lista läpi että mitä nykyään tarvitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
 
 	dqb "BFOR3 testgris"
 	csleep 1
-
-
 	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 
-#	if [ ! -v CONF_testgris ] ; then
 	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		if [ ! -d /opt/bin ] ; then
 			${smd} /opt/bin
@@ -279,11 +276,11 @@ function pre_enforce() {
 
 	e_final
 
-	#if [ ! -v CONF_testgris ] ; then # "semmoinen juttu" 
+	# "semmoinen juttu" 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 		#1. tämä blokki kai eniten aiheuttaisi ongelmia sqroot-ympstössä?
 		#2. o/b sisällön oikeuksia/omistajia varten taisi olla e_final
-		#3. changedns.vash: olisikohan jo hukattu
+		#3. changedns.vash: pientä yritystä hukata (exp2 ja update2)
 
 		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q}
@@ -324,7 +321,7 @@ function pre_enforce() {
 
 	csleep 1
 	#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
-	#TODO:setup2sesa kokeeksi fstab-kikkailut kommentteihin
+	#VAIH:setup2sessa kokeeksi fstab-kikkailut kommentteihin
 
 	if [ ${c4} -lt 1 ] ; then
 		csleep 1
@@ -374,7 +371,7 @@ if [ ${mode} -gt 1 ] ; then
 		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l)
 		 #barm vuoksi näin
 		[ $c13 -gt 0 ] && c14=0
-		#josqs pois kommenteista tuo rivi?
+	
 
 		#profit
 	fi
@@ -399,12 +396,24 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 		#HUOM. tässä ei tartte exit jos myöhemmin joka tap
 	fi
 
+	#VAIH:jos C_env== VED ni common_lib +  root.conf omistajaksi root, jälkimmäisen saa vain omistaja lukea, tälle tdstolle vain ajo-oikeus kaikille
+	if [ "${CONF_env}" == "VED" ] ; then
+		#... aka "hands off" (qhan omega)
+		${sco} 0:0 ${d0}/*.conf
+		${scm} 0444 ${d0}/*.conf
+		#${sca} +ui ${d0}/*.conf
+
+		${sco} 0:0 ${0}
+		${scm} 0444 ${0}
+		#${sca} +ui ${0}
+	fi
+
 	exit
 fi
 
 pre_part2
-if [ ! -f /.chroot ] ; then #hyvä näin vai ei?
-#if [ "${CONF_env}" == "DEFAULT" ] ; then
+
+if [ "${CONF_env}" == "DEFAULT" ] ; then
 	#ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
 	c14=$(find ${d} -name "*.deb" | wc -l)
 

@@ -1,9 +1,11 @@
-${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-${scm} -Rv 700 ${CONF_pkgdir}/partial/
+if [ -v CONF_pkgdir ] ; then #varm vuoksi tätäkin 265226
+	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+	${scm} -Rv 700 ${CONF_pkgdir}/partial/
+fi
 
 if [ ! -v CONF_pubk ] ; then
 	b="/"
-	[ -v CONF_testgris ] && b=${CONF_testgris} #CONF_env-tark mukaan kanssa?
+	[ "${CONF_env}" == "VED" ] && b=${CONF_testgris}
 	a=$(${odio} find ${b} -type f -name "keys.conf" | head -n 1)
 	
 	if [ ! -z "${a}" ] ; then
@@ -18,9 +20,12 @@ fi
 
 #280426:lienee ok
 function e22_hdr() {
+	dqb "e22_hdr()"
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
 	[ -f ${1} ] && echo "$1 ALR3ADY EX1STS"
+	dqb "pars_ok"
+	csleep 1
 
 	fasdfasd ./rnd
 	fasdfasd ${1}
@@ -245,6 +250,7 @@ function e22_pre1() {
 #280426:resolv.conf sorkkimisen ylkoistus -> mutilatetc?
 
 function e22_pre2() {
+	dqb "e22_pre2()"
 	[ -z "${1}" ] && exit 68
 	[ -z "${2}" ] && exit 69
 
@@ -350,6 +356,7 @@ function z2() {
 }
 
 function z3() {
+	dqb "z3"
 	[ -z "${1}" ] && exit 66
 	[ -s ${2} ] || exit 67
 	[ -z "${3}" ] && exit 68
@@ -451,7 +458,7 @@ function e22_ext() {
 	cd ${p}
 }
 
-dqb "#VAIH?:g_doit.part0() liittyviä juttuja, hyvä varmistaa että menevätkö muuttuneet xfce4-asetukset talteen asti "
+#VAIH?:g_doit.part0() liittyviä juttuja, hyvä varmistaa että menevätkö muuttuneet xfce4-asetukset talteen asti 
 csleep 1
 
 #010526:import2.sh pitäisi purkaa config.tar.bz2 qhan se vain löytyy
@@ -696,7 +703,9 @@ function e22_sarram() {
 	other_horrors
 }
 
-[ -v CONF_BASEURL ] || exit 6
+#26526:ettei sekoita distro-mjan tarkistuksiin
+#TODO:myöh huomioimaan CONF_env ennen mahd exitiä?
+[ -v CONF_BASEURL ] || exit 46
 
 function e22_pre_e() {
 	local p

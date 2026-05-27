@@ -90,6 +90,9 @@ else
 	exit 57
 fi
 
+echo "MERGE 1take:s $0 w/ 7thsons:s $0"
+sleep 6
+
 [ -z "${distro}" ] && exit 6
 d=${d0}/${distro} #nykyään vähän turha tässä
 process_lib ${d}
@@ -267,15 +270,17 @@ case "${mode}" in
 		${shary} ntpsec
 	;;
 #	x)
-#		#TODO?:uusiksi vain koko pasq?
+#		#:uusiksi vain koko pasq?
 #		e23_xyz
 #	;;
 	s)
 		e23_st
 	;;
 	*)
-		#TODO:parsetuksen kanssa jotain, ei tarvitsisi puolta oäövää raksuttaa ao. urputusta varten
-		echo "MAYBE U SHOULD USE export3 INSTEAD"
+		#VAIH:parsetuksen kanssa jotain, ei tarvitsisi puolta oäövää raksuttaa ao. urputusta varten
+		#... saisiko esim "$0 c" toimimaan näin?
+
+		${d0}/export3.bash ${mode} ${tgtfile} -v
 		exit
 	;;
 esac

@@ -35,7 +35,7 @@ function parse_opts_1() {
 }
 
 function parse_opts_2() {
-	dqb "rpus.ot.parseopts_2 )) ${1} ; ${2} (("
+	dqb "fidh.rot.parseopts_2 )) ${1} ; ${2} (("
 
 	if [ -f ${2} ] || [ -d ${2} ] ; then
 		if [ -z "${srcfile}" ] ; then
@@ -46,8 +46,11 @@ function parse_opts_2() {
 	fi
 }
 
+echo "#TODO:PRUJAA TOISESTA OKSASTA TÄM,Ä PRE-KOHTA ASAP!!! RENKKAAMINEN VITUTTAA"
 #e.tar purq (cefgh()) vs tämä sq-rot alku
-function pre() {
+sleep 10
+
+if [ "${CONF_env}" == "TOOR" ] ; then
 	#280426:self_extracting_archive-kikkailu saattaa tehdä tämän if-blkin turhaksi jatkossa ( tai sitten ei)
 
 	echo "UNDER THE GRAV3YARD"
@@ -120,8 +123,9 @@ function pre() {
 	fi
 
 	unset g
-}
+fi
 
+#resolv.conf vielä ongelma 0305-> ? 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
 #tuossa yllä tosin turhahko ls
@@ -161,7 +165,7 @@ else
 	}
 
 	function check_binaries() {
-		echo "fish.rot.1"
+		echo "rot13.check1"
 
 		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
 		scm=$(${odio} which chmod)
@@ -177,13 +181,13 @@ else
 	}
 
 	function check_binaries2() {
-		echo "fish.rot.2"
+		echo "irot.check2"
 		srat="${odio} ${srat}"
 		NKVD="${odio} ${NKVD} -fu "
 	}
 
 	function part3() {
-		dqb "fish.rot.part3 :NOT SUPPORTED"
+		dqb "rot.part3 :NOT SUPPORTED"
 	}
 
 	function other_horrors() {
@@ -205,11 +209,6 @@ fi
 dqb "rot:AFTR common_lib"
 csleep 1
 [ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
-[ -v CONF_env ] || exit 66
-
-if [ "${CONF_env}" == "TOOR" ] ; then
-	pre
-fi
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -245,18 +244,16 @@ fi
 function common_part() {
 	dqb "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
 
-	[ -z "${1}" ] && exit 91 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
+	[ -z "${1}" ] && exit 1 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
 	[ -s ${1} ] || exit 2
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
 
-	[ -z "${2}"  ] && exit 11 # truhra parm? melkein
+	[ -z "${2}"  ] && exit 11 # truhra parm (110426)
 	[ -d ${2} ] || exit 22
 	[ -d ${3} ] || exit 45
-	
-	[ "${1}" == "/" ] && exit 56
-	#VAIH:$1 kanssa lisätarkistuksia? koska NKVDm yöhemmin 
-	echo "paramz_0k" #260526:kiukuttelun takia ei dbq
+
+	dqb "paramz_0k"
 	csleep 1
 
 	cd /
@@ -289,10 +286,7 @@ function common_part() {
 		fi
 	fi
 
-	echo "AFTR GPG $?"
 	csleep 1
-
-	#2605236:qseeko tässä alla jokin?
 	#kts. common_lib.psqa()
 	local cfk=1
 
@@ -301,26 +295,19 @@ function common_part() {
 		dqb "gg= ${gg}"
 
 		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
-		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f) #HUOM.TARKKANA SITTEN HIPSUjEN KANSSA 666!!!
+		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f) #HUOM.TARKKANA SITTEN HIPSUHEN KANSSA 666!!!
 		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
-
-		echo "AFTER ABC: $?"
-		sleep 5
 
 		if [ "${aa}" == "${ab}" ] ; then
 			dqb "aa=ab= ${aa}"
 			cfk=0
 		fi
 
-		#tämäkö?
 		[ ${cfk} -eq 0 ] || ${NKVD} ${1}*
 		csleep 1
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
-
-	echo "AFTR SHA $?"
-	sleep 1
 
 	if [ ${cfk} -gt 0 ] ; then
 		read -p " U  SURE ?" confirm
@@ -337,23 +324,22 @@ function common_part() {
 		fi
 	fi
 
-	sleep 1
-	echo "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
-	
+	csleep 1
+	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
+
 	#110523:vöib aiheuttaa nalkutusta jos odio ei asetettu
-	sleep 1
+	csleep 1
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
 
-	sleep 1
-	echo "common_part_DONE"
+	csleep 1
+	dqb "${srat} DONE"
 }
 
 function cptp2() {
 	dqb "rot.c tp2 ${1}, ${2}, ${3}"
 
 	[ -z "${1}" ] && exit 99
-	#[ -z "${2}" ] && exit 98 truhra parm (110426)
 	[ -d ${1} ] || exit 97
 
 	dqb "cptp2:pars ok"
@@ -402,35 +388,28 @@ function cptp2() {
 
 case "${mode}" in
 	1)
+		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est
 		common_part ${srcfile} ${d} /
 	;;
-	
+	#240536:jospa olisi tämä ja case 3 jo kunnossa
 	#... tai sqrootissa oli menu- ja libw-pakettien asenynuksen kanssa pientä kiukuttelya, toistuuko?
-	#... exp2 rp vähän ritetty testailla 05/26
+	#... exp2 rp testiin?
 	0)
+		[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est
+		
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
 		f=$(dirname ${f})
-
-		echo "bfore cp: $?"
-		sleep 6
-
 		common_part ${srcfile} ${d} ${e}
-
-		#VAIH:kiukut6telut voisi poistaa (vai onko vielä moista 250626? vissiin)
-		#modaamattomalla kiekolla jos testaisi kanssa		
-		echo "sq.FART3: $?"
-		[ $? -eq 0 ] && ocs gpg
+		ocs gpg
 		
-		#sleep 3
-		#exit 61
-
-		[ $? -eq 0 ] && part3 ${f}
-		[ $? -eq 0 ] && other_horrors
+		part3 ${f}
+		other_horrors
 	;;
 	3)
 		#140526 muutettu paikallinen ocs että stoppaa tarv
+		#TODO:e23_st() outputin asennus , kehitysymp
 
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
@@ -453,19 +432,17 @@ case "${mode}" in
 				dqb "NOP"
 				csleep 1
 
-				#olisi varmaan hyväksi importoida jossain järjestyksessä eikä miten sattuu
-				for f in $(find ${srcfile} -type f -name "*.sig" ) ; do
-					g=$(echo $f | cut -d . -f 1,2)
+				#for f in $(fnid $srcfile -type f -name "*.sig" ) ; do
+				#	g=$(echo $f | cut -d . -f 1,2)
 				#	check=$(smthing)
-				#	[ $check ] && 
-					${gg} --import ${g}
-					rm ${g}	
-				done
+				#	[ $check ] && gg --import $g
+				#	rm $g	
+				#done
 
-				#dqb "${gg} --import ${srcfile}/*.gpg soon"
-				#csleep 1
-				#
-				#${gg} --import ${srcfile}/*.gpg
+				dqb "${gg} --import ${srcfile}/*.gpg soon"
+				csleep 1
+
+				${gg} --import ${srcfile}/*.gpg
 				csleep 1
 
 				[ ${debug} -eq 1 ] && ${gg} --list-keys
@@ -486,11 +463,9 @@ case "${mode}" in
 esac
 
 #poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (TODO)
-if [ $? -eq 0 ] ; then
-	if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
-		read -p " U  WANT 2 RM SOURCE ?" confirm
-		[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
-	fi
+if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
+	read -p " U  WANT 2 RM SOURCE ?" confirm
+	[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
 fi
 
 cptp2 ${d0}

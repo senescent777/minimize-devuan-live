@@ -35,11 +35,12 @@ function csleep() {
 #180526:kokeillaan auttaisiko jälkimmäinen ehto kehitysymp sudo-juttujen kanssa
 #... vissiin ei ihan nöin suoraviivaisesti mene
 #3 huomioitavaa tapsuat oikeastaan (01/26 oikeastaan jo sen suuntaisi keloja jotta if->switch...case)
+
 [ -v CONF_env ] || exit 99
 echo "CONF_env = ${CONF_env}"
 sleep 5
 
-echo "#TODO:C_env liittyen olisi parempi jos kehitysympstlössä voisi käyttää $(whoami).conf . koitakeksiä jotaibn"
+#VAIH:C_env liittyen olisi parempi jos kehitysympstlössä voisi käyttää $(whoami).conf . koitakeksiä jotaibn
 #root.conf tietty q sudonkautta
 sleep 6
 
@@ -103,15 +104,20 @@ itni
 
 function fix_sudo() {
 	dqb "common_lib.fix_sud0.pt0"
+
+	
+	#TODO:sco, scm asettely, josko tähän fktioon takaisin kanssa?
+
+
+
+	if [ "${CONF_env}" == "DEFAULT" ] ; then #EHTPOA SAATTAA JHOUTUA RENKKAAMAAN VIELÄ
+		dqb "INNERMOST"
+		#DONE:sittenkin takaisin if-blokin sisälle koska urputusta
 			#oli ennen if-blokin sisällä (pl vielä aiemmin)
 		${sco} -R 0:0 /etc/sudoers.d
 		${scm} 0440 /etc/sudoers.d/*
 		${sco} -R 0:0 /etc/sudo*
 		${scm} -R a-w /etc/sudo*
-
-	if [ "${CONF_env}" == "DEFAULT" ] ; then #EHTPOA SAATTAA JHOUTUA RENKKAAMAAN VIELÄ
-		dqb "INNERMOST"
-
 
 
 		dqb "POT. DANGEROUS PT 1"
@@ -164,7 +170,7 @@ other_horrors
 #debug=1
 
 #common_funcs tarttee
-#TODO?:testgris?
+#TODO?:testgris? miksi?
 function ocs() {
 	dqb "ocs () () ((( ${1} "
 	local tmp2
@@ -180,7 +186,7 @@ function ocs() {
 	fi
 }
 
-#TODO:e/update2.sh varten muutoksia sudoersiin?
+#TODO?:e/update2.sh varten muutoksia sudoersiin?
 
 #common_funcs tarttee
 function check_bin_0() {
@@ -285,7 +291,7 @@ function check_bin_0() {
 	export LANG
 
 	#HUOM.240526:ehto voi vielä muuttua
-	if [ "${CONF_env}" != "VED" ] && [ -d /opt/bin ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 		[ -s /opt/bin/zxcv ] || echo "should exit 98"
 		[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
 		[ -s /opt/bin/zxcv.sha ] || echo "shoul.d ext1 8 97"
@@ -311,7 +317,7 @@ function check_bin_0() {
 }
 
 check_bin_0
-##exit
+
 #===TÄHÄN ASTI MELKO TARPEELLISTA TAVARAAA======================
 
 #"g_doit 0"
@@ -322,7 +328,6 @@ function jules() {
 	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 	csleep 1
 }
-
 
 #250526 pois kommeneista sqroot-testien takia
 #TODO?:jatkosäätöä josqs lähiaikoina? (kts e22.sh, KVG-jutut bissiin uusicksi)
@@ -427,7 +432,7 @@ function common_pp3() {
 	q=$(find ${1} -type f -name "*.deb" | wc -l)
 	r=$(echo ${1} | cut -d "/" -f 1-5)
 
-	#TODO:tesgris-juttuja?
+	#TODO?:tesgris-juttuja? miksi?
 	if [ ${q} -lt 1 ] ; then
 		echo "SHOULD REMOVE ${1} / sha512sums . t x t"
 		echo "ibcovation \"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
@@ -502,48 +507,9 @@ function efk2() {
 	csleep 1
 }
 
-#function wopr() { #200426:taitaa toimnia
-#	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
-#	local r=$(find ${1} -type f -name "${2}*.deb" )
+
 #
-#	for s in ${r} ; do
-#		case "${3}" in
-#			reject_pkgs)
-#				${NKVD} ${s}
-#			;;
-#			accept_pkgs_1|accept_pkgs_2)
-#				efk1 ${s}
-#			;;
-#			*)
-#				exit 99
-#			;;
-#		esac
-#	done
-#
-#	csleep 1
-#}
-#
-#function common_lib_tool() {
-#	dqb "common_lib_tool( ${1}  ; ${2} )))) "
-#	[ -d ${1} ] || exit 66
-#	[ -z "${2}" ] && exit 67
-#	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSing f ILE"
-#
-#	dqb "WILL START PR0C3551NG TGTs NOW"
-#	csleep 1
-#	local q
-#
-#	for q in $(grep -v "#" ${1}/${2}) ; do
-#		dqb "outer; ${q}"
-#		wopr ${1} ${q} ${2}
-#
-#		if [ ${debug} -eq 1 ] ; then
-#			ls -las ${1}/${q}* | wc -l
-#		fi
-#	done
-#
-#	dqb "t00l DONE"
-#}
+
 #
 ##HUOM.140326:jospa olisi jo ympäristömjat kunnossa fromtendissä
 ##https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
@@ -929,12 +895,9 @@ function TLA() {
 	fi
 }
 
-#060426:process_lib() oli tässä TLA() ja slaughter0() välissä aiemmin
-#kokeeksi siirretty juuri ennen gpo() , toimii sielläkin
-#
 #==================================================================
 
-#"g_doit 0" rarttee tämän toimiakseen
+#"g_doit 0" tarttee tämän toimiakseen
 function slaughter0() {
 	local fn2
 	local ts2
@@ -1212,8 +1175,9 @@ function e_v() {
 }
 
 #"g_doit 0" tartee tämän
-#TODO:tesgris,sudo?
-#190526:tästä aiheutuu nalkutusta kehitysymp nukuään
+#TODO?:tesgris,sudo?
+#190526:tästä aiheutuu nalkutusta kehitysymp nykyään
+
 function enforce_access() {
 	dqb "common_lib.enforce_access(${1} , ${2} ))))))"
 	[ -z "${1}" ] && exit 67
@@ -1364,6 +1328,7 @@ function part1() {
 	dqb "FOUR-LEGGED WH0R3"
 }
 
+#tarvittiinko tätä kehitysymp?
 #function part2() {
 #	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
 #	csleep 6
@@ -1453,7 +1418,52 @@ function part1() {
 #	dqb "PART2.5 d0ne"
 #	csleep 1
 #}
-#
+
+#260526 poi s kommenteista
+function wopr() { #200426:taitaa toimnia
+	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
+	local r=$(find ${1} -type f -name "${2}*.deb" )
+
+	for s in ${r} ; do
+		case "${3}" in
+			reject_pkgs)
+				${NKVD} ${s}
+			;;
+			accept_pkgs_1|accept_pkgs_2)
+				efk1 ${s}
+			;;
+			*)
+				exit 99
+			;;
+		esac
+	done
+
+	csleep 1
+}
+
+#260526 pois kommenteista
+function common_lib_tool() {
+	dqb "common_lib_tool( ${1}  ; ${2} )))) "
+	[ -d ${1} ] || exit 66
+	[ -z "${2}" ] && exit 67
+	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSing f ILE"
+
+	dqb "WILL START PR0C3551NG TGTs NOW"
+	csleep 1
+	local q
+
+	for q in $(grep -v "#" ${1}/${2}) ; do
+		dqb "outer; ${q}"
+		wopr ${1} ${q} ${2}
+
+		if [ ${debug} -eq 1 ] ; then
+			ls -las ${1}/${q}* | wc -l
+		fi
+	done
+
+	dqb "t00l DONE"
+}
+
 ##010136:jospa toimisi
 ##TODO:pitäisiköhän tässä olla se ehdollinen dhcp-pakettien karsinta vai ei?
 #function cg_udp6() {
@@ -1476,7 +1486,7 @@ function part1() {
 #	dqb "D0NE"
 #	csleep 1
 #}
-#
+
 ##käytössä?
 #function cg_pp2() {
 #	dqb " GENERIC REPLACEMENT FOR daud.lib.pre_part2 ${1}"
@@ -1503,103 +1513,101 @@ function part1() {
 ## libgfortran5 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
 ## libquadmath0 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
 ##... jospa nyt aluksi selvittäisi mikä näitä tarvitsee?
-#
-##toiminnan selvittelyä vai ei?
-#function part3() {
-#	dqb "))() part3 ${1} ,((()()()()()( ${2} (((((((("
-#	csleep 1
-#
-#	[ -z "${1}" ] && exit 99
-#	[ -d ${1} ] || exit 101
-#
-#	dqb "PARAMS_OK"
-#	csleep 1
-#	#VAIH:$2 huomiointi, kts check_binaries()
-#	local n15=0
-#	local t=""
-#	
-#	if [ -z "${2}" ] ; then
-#		t=$(mktemp -d)
-#TODOtössö kåskyttämään common_pp3() ?
-#		n15=$(find ${1} -type f -name "*.deb" | wc -l)
-#	else
-#		t=${2} #jotain mankelointia mukaan?
-#		n15=$(find ${2} -type f -name "*.deb" | wc -l)
-#	fi
-#	
-#	if [ ${n15} -lt 1 ] ; then
-#		cefgh ${1}
-#	fi
-#
-#	csleep 1
-#	jules
-#	common_pp3 ${1} ${t}
-#	dqb "AL-fPGA"
-#	csleep 1
-#
-#	common_lib_tool ${t} reject_pkgs
-#	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
-#	dqb "B3T4"
-#	csleep 3
-#
-#	#060426:AO. RIVI TUOLLAINEN TARKOITUKSELLA, ÄLÄ SORKI!!!
-#	efk1 ${t}/gcc-12-base*.deb ${t}/libgcc-s1*.deb ${t}/libc6*.deb
-#	dqb "LAcKK.a"
-#	csleep 3
-#
-#	for p in ${E22_GS} ; do wopr ${t} ${p} accept_pkgs_1 ; done
-#	dqb "önEGA-VGA RA"
-#	csleep 3
-#
-#	common_lib_tool ${t} accept_pkgs_1
-#	common_lib_tool ${t} accept_pkgs_2
-#
-#	dqb "g4RP D0NE"
-#	csleep 1
-#
-##	efk1 ${t}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
-##	[ $? -eq 0 ] || echo "SHOULD exit 66"
-##	csleep 1
-##
-##	efk1 ${t}/*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
-##	[ $? -eq 0 ] || echo "SHOULD exit 67"	
-##	csleep 1
-#
-#	local f
-#	for f in $(find ${t} -name "lib*.deb" ) ; do ${sdi} ${f} ; done
-#
-#	if [ $? -eq  0 ] ; then
-#               dqb "part3.1 ok"
-#               csleep 1
-#               ${NKVD} ${t}/lib*.deb
-#	else
-#               exit 66
-#	fi
-#
-#	dqb "LIBS DONE"
-#	csleep 1
-#	for f in $(find ${t} -name "*.deb" ) ; do ${sdi} ${f} ; done
-#
-#	if [ $? -eq  0 ] ; then
-#		dqb "part3.2 ok"
-#		csleep 1
-#		${NKVD} ${t}/*.deb
-#	else
-#	       	exit 67
-# 	fi
-#
-#	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt*
-#	other_horrors
-#}
 
-#vöhintäänkin "g_doit 0" tarttee
+#pois kommenteista 26525, kehitysymp ja tietenkin sqroot alkavat tarvita
+function part3() {
+	dqb "))() part3 ${1} ,((()()()()()( ${2} (((((((("
+	csleep 1
 
+	[ -z "${1}" ] && exit 99
+	[ -d ${1} ] || exit 101
 
+	dqb "PARAMS_OK"
+	csleep 1
+	#VAIH:$2 huomiointi, kts check_binaries()
+	local n15=0
+	local t=""
+	
+	if [ -z "${2}" ] ; then
+		t=$(mktemp -d)
+		#TODO:tässä kåskyttämään common_pp3() ?
+		n15=$(find ${1} -type f -name "*.deb" | wc -l)
+	else
+		t=${2} #jotain mankelointia mukaan?
+		n15=$(find ${2} -type f -name "*.deb" | wc -l)
+	fi
+	
+	if [ ${n15} -lt 1 ] ; then
+		cefgh ${1}
+	fi
+
+	csleep 1
+	jules
+
+	common_pp3 ${1} ${t}
+	dqb "AL-fPGA"
+	csleep 1
+
+	common_lib_tool ${t} reject_pkgs
+	#HUOM.160126:pitäisiköhän ajaa lftr ennen masenteluja? chimaera...
+	dqb "B3T4"
+	csleep 3
+
+	#060426:AO. RIVI TUOLLAINEN TARKOITUKSELLA, ÄLÄ SORKI!!!
+	efk1 ${t}/gcc-12-base*.deb ${t}/libgcc-s1*.deb ${t}/libc6*.deb
+	dqb "LAcKK.a"
+	csleep 3
+
+	for p in ${E22_GS} ; do wopr ${t} ${p} accept_pkgs_1 ; done
+	dqb "önEGA-VGA RA"
+	csleep 3
+
+	common_lib_tool ${t} accept_pkgs_1
+	common_lib_tool ${t} accept_pkgs_2
+
+	dqb "g4RP D0NE"
+	csleep 1
+
+#	efk1 ${t}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
+#	[ $? -eq 0 ] || echo "SHOULD exit 66"
+#	csleep 1
+#
+#	efk1 ${t}/*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
+#	[ $? -eq 0 ] || echo "SHOULD exit 67"	
+#	csleep 1
+
+	local f
+	for f in $(find ${t} -name "lib*.deb" ) ; do ${sdi} ${f} ; done
+
+	if [ $? -eq  0 ] ; then
+               dqb "part3.1 ok"
+               csleep 1
+               ${NKVD} ${t}/lib*.deb
+	else
+               exit 66
+	fi
+
+	dqb "LIBS DONE"
+	csleep 1
+	for f in $(find ${t} -name "*.deb" ) ; do ${sdi} ${f} ; done
+
+	if [ $? -eq  0 ] ; then
+		dqb "part3.2 ok"
+		csleep 1
+		${NKVD} ${t}/*.deb
+	else
+	       	exit 67
+ 	fi
+
+	[ -f ${1}/sha512sums.txt ] && ${NKVD} ${1}/sha512sums.txt*
+	other_horrors
+}
+
+#vähintäänkin "g_doit 0" tarttee
 function process_lib() {
 	dqb "process_lib( ${1} ) ${2} (((((((("
 	[ -z "${1}" ] && exit 66
 	csleep 1
-	
 	
 	#pointti?
 	if [ -x "${gg}" ] && [ -s ${1}/lib.sh.sig ] ; then
@@ -1610,7 +1618,6 @@ function process_lib() {
 	fi
 
 	csleep 1
-#	exit
 	
 	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then
 		.  ${1}/lib.sh
@@ -1621,15 +1628,12 @@ function process_lib() {
 	#jospa jatkossa c_b if-blokin jälkeen jokatap? silloin syytä tark että common_lib sisältää x.-oik
 	check_binaries ${1} ${2}
 	[ $? -eq 0 ] || dqb "SHOULD exit 67"
-	#exit
 	
 	check_binaries2
 	[ $? -eq 0 ] || dqb "SHOULD exit 68 också"
-	#exit
-	
+
 	TLA
-	dqb "process_lib.done()"
-	
+	dqb "common.process_lib.done()"
 }
 
 #common_funcs tarttee
