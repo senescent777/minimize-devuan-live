@@ -23,7 +23,7 @@ function parse_opts_1() {
 }
 
 function parse_opts_2() {
-	dqb "gdoit.qwertupoy 1 2"
+	dqb "g_doit.qwertupoy 1 2"
 }
 
 function fallback() {
@@ -83,6 +83,7 @@ function dis() {
 
 		dqb "${odio} ${sifd} ${2}"	
 		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
+
 		csleep 1
 	
 		#${odio} ${sifd} -a
@@ -273,7 +274,7 @@ function pre_enforce() {
 	e_final
 
 	# "semmoinen juttu" 
-	if [ "${CONF_env}" == "DEFAULT" ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 		#1. tämä blokki kai eniten aiheuttaisi ongelmia sqroot-ympstössä?
 		#2. o/b sisällön oikeuksia/omistajia varten taisi olla e_final
 		#3. changedns.vash: pientä yritystä hukata (exp2 ja update2)
@@ -369,6 +370,7 @@ if [ ${mode} -gt 1 ] ; then
 		 #barm vuoksi näin
 		[ $c13 -gt 0 ] && c14=0
 		
+		#profit
 	fi
 fi
 
