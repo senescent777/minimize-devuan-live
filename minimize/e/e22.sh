@@ -114,9 +114,12 @@ function aqsp() {
 #... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf (mitä muita on mistä sorkitaan? tämän tdstn fktiot)
 
 function e22_pre1() {
+	dqb "e22_pre1()"
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 66
 	[ -d ${1} ] || exit 111
+	dqb "pars_ok"
+	csleep 1
 
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
@@ -183,7 +186,7 @@ function e22_pre2() {
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	
-	par4=$(echo ${4} | tr -d -c 0-9)
+	par4=$(echo ${2} | tr -d -c 0-9)
 	echo $?
 	csleep 1
 
@@ -203,7 +206,7 @@ function e22_pre2() {
 
 	ls -las /etc/resolv.*
 	csleep 10
-	exit 54
+	#exit 54
 
 	${sifu} ${1}
 	csleep 1
@@ -294,17 +297,21 @@ function e22_home_pre() {
 		${srat} -rvf ${1} ${t}
 	done	
 
+	#confdig.tar.bz2?
 	for t in $(find ~ -type f -name ${4} ) ; do
 		${srat} -rvf ${1} ${t}
 	done
 }
 
 function e22_home() {
+	dqb "home:pre()"
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
 	[ -d ${2} ] || exit 70
 	[ -z "${3}" ] && exit 71
+	dqb "pars_ok"
+	csleep 1
 
 	local t
 	local f
@@ -708,12 +715,16 @@ echo "TODO:JOKO JO ntp-jutut kuntoon ?"
 sleep 6
 
 function e22_sarram() {
+	dqb "e22_sarram() "
 	#[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
 	#[ -w ${1} ] || exit 9
 	[ -z "${2}" ] && exit 11
 	[ -z "${3}" ] && exit 13
 	[ -s ${3} ] || exit 17
+
+	dqb "pars_ok"
+	csleep 1
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
@@ -737,6 +748,7 @@ function e22_sarram() {
 	${scm} 0400 /etc/iptables/rules*
 	${scm} 0400 /etc/default/rules*
 
+	#rules vedettiin jo aiemmin
 	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD ) ; do ${sah6} ${f} >> ${3} ; done
 
