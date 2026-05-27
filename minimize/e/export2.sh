@@ -96,7 +96,7 @@ sleep 6
 [ -z "${distro}" ] && exit 6
 d=${d0}/${distro} #nykyään vähän turha tässä
 process_lib ${d}
-mop=${CONF_dm} #voinee joutua muuttamaan jatkossa?
+mop=${CONF_dm}
 
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 dqb "BEF0RE T1G N0R MKTMP"
@@ -157,6 +157,8 @@ e22_cleanpkgs ${CONF_pkgdir}
 doit=1
 csleep 1
 
+#getoot .o "34uetglnxs" ...
+
 case "${mode}" in
 	0)
 		exit 97
@@ -168,7 +170,9 @@ case "${mode}" in
 
 		#4 toimi viimeksi 180426 (uusi testikieRRos uudella paketilla 100526, ehkä ok pl ffox profiili?)
 		# 1take-oksassa 210526 ok (250526 uudempi ytritys, enimmäkseen ok)
+		#260526 vaikuttaisi vielä tuoreempi tuotos toimivan myös modaamattoman kiekon kanssa jnkn verran
 
+		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
 		#merd2 taisi toimia kerrab 21.4 , 21.5 toisen kerrab
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
@@ -189,7 +193,7 @@ case "${mode}" in
 		
 		#110526:config.tar.bz2, fediverse.tar ja profs.sh tulisi kyllä löytyä kohde-paketista edelleen
 		#130526:profiilit jo toimivat tuolloin?		
-		#VAIH:olds-hmiston voisi oikeastaan karsia (kts e22_home)
+		
 
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
@@ -241,7 +245,7 @@ case "${mode}" in
 	;;
 	g)
 		#130526:testattu että tämä case toimii, luo paketin mikä asentuu
-		#VAIH:bissiin git mukaan tähänkin prkl
+		#VAIH:bissiin git mukaan tähänkin prkl?
 		
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
@@ -277,8 +281,11 @@ case "${mode}" in
 		e23_st
 	;;
 	*)
-		#VAIH:parsetuksen kanssa jotain, ei tarvitsisi puolta oäövää raksuttaa ao. urputusta varten
-		#... saisiko esim "$0 c" toimimaan näin?
+		#VAUH:parsetuksen kanssa jotain, ei tarvitsisi puolta päivää raksuttaa ao. urputusta varten
+		#getopt tai sitten vain käskyttäisi exp3sta?
+
+		echo "MAYBE U SHOULD USE export3 INSTEAD"
+		sleep 5
 
 		${d0}/export3.bash ${mode} ${tgtfile} -v
 		exit
