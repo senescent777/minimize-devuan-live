@@ -48,8 +48,6 @@ function parse_opts_2() {
 
 echo "#VAIH:PRUJAA TOISESTA OKSASTA TÄM,Ä PRE-KOHTA ASAP!!! RENKKAAMINEN VITUTTAA"
 #e.tar purq (cefgh()) vs tämä sq-rot alku
-
-
 function pre() {
 	#280426:self_extracting_archive-kikkailu saattaa tehdä tämän if-blkin turhaksi jatkossa ( tai sitten ei)
 
@@ -329,7 +327,7 @@ function common_part() {
 	fi
 
 	sleep 1
-	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
+	echo "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 
 	#110523:vöib aiheuttaa nalkutusta jos odio ei asetettu
 	sleep 1
@@ -390,7 +388,7 @@ function cptp2() {
 	dqb "ALL DONE"
 }
 
-echo "TODO:toiseen oksaan case 0,1 CONF_env - tarq mukaan"
+echo "VAIH:toiseen oksaan case 0,1 CONF_env - tarq mukaan"
 sleep 5
 
 
