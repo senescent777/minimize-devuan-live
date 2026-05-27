@@ -232,7 +232,7 @@ function check_bin_0() {
 	export LANG
 
 	#18+0526:kaikki /o/b liittyvät testgris.tark taakse (VAIH)	
-	if [ "${CONF_encv" == "DEFAULT" ] && [ -d /opt/bin] ; then	
+	if [ "${CONF_env" == "DEFAULT" ] && [ -d /opt/bin] ; then	
 		[ -s /opt/bin/zxcv ] || echo "should exit 98"
 		[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
 		[ -s /opt/bin/zxcv.sha ] || echo "shoul.d ext1 8 97"
