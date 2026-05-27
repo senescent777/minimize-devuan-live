@@ -20,6 +20,7 @@ fi
 
 #280426:lienee ok
 function e22_hdr() {
+	dqb "e22_hdr()"
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
 	[ -f ${1} ] && echo "$1 ALR3ADY EX1STS"
