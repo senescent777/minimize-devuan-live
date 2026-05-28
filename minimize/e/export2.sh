@@ -163,7 +163,7 @@ case "${mode}" in
 		
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
 		#VAIH:turhia kommentteja wttuun sotkemasta
-		#merd2 taisi toimia kerrab 21.4 , 21.5 toisen kerrab
+
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
 
@@ -213,6 +213,8 @@ case "${mode}" in
 		csleep 2
 
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+		echo "BC/AD"
+		sleep 10
 		e23_other_pkgs ${CONF_dnsm}
 	;;
 	t)

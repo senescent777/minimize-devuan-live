@@ -31,6 +31,9 @@ function e23_tblz() {
 	[ -z "${3}" ] && exit 13
 	[ -z "${4}" ] && exit 14 #HUOM.tämän tarpeellisuus?
 
+	dqb "params maybe ok"
+	csleep 1
+
 	${fib}
 	${asy}
 	#csleep 1
@@ -45,11 +48,12 @@ function e23_tblz() {
 	csleep 1
 
 	${asy}
-	#actually necessary
-	e22_pre2 ${1} ${3} ${2} ${4}
+	#actually necessary (riittäisikö 2 param kutsussa?)
+	e22_pre2 ${1} ${3}
 	other_horrors
 
-	dqb "e23_tblz()"
+	csleep 1
+	dqb "e23_tblz() DONE"
 }
 
 #btw. mikä muuten syynä libgfortran5-nalkutukseen?
@@ -58,7 +62,6 @@ function e23_tblz() {
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
 #... siinä ulkoistuksessa on kyllä semmoinen juttu
 
-#200426:vissiin edelleen vetää paketteja
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -78,9 +81,6 @@ function e23_other_pkgs() {
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 	${shary} ${E23_GS}  #moni pak tarttee nämä
 
-	#${shary} #bsd 
-	##${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei? ehkä
-
 	message
 	jules
 
@@ -99,19 +99,15 @@ function e23_other_pkgs() {
 
 	csleep 1
 	${lftr}
-
-	#initrd-nalkutus mutkistanut asioita, josko a) /etc/kernel sisältö b) debian reference auttaisi? (tämä seur)
 	dqb "e23_other_pkgs() DONE"
 	csleep 1
 }
 
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 
-#190426:toimii
 function e23_upgp() {
 	dqb " e23_upgp() "
 
-	#dqb "pars_ok"
 	${fib}
 	csleep 1
 

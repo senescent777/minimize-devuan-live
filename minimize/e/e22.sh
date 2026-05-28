@@ -175,14 +175,17 @@ function e22_dblock() { #110526:lienee toimiva tämä fktio ?
 	e22_cleanpkgs ${2}
 }
 
+#tämän kanssa jotain jurpoilua 28526
 function e22_pre2() {
-	dqb "e22pre2 ))) $1 ; $2 ; ${3} ; ${4} ))))) "
+	dqb "e22pre2 )))) ${1} ; ${2} ; ${3} ; ${4} )()))) "
 	csleep 1
 
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
-	
-	par4=$(echo ${2} | tr -d -c 0-9)
+	dqb "pars.maybe.ok"	
+	csleep 1
+
+	local par4=$(echo ${2} | tr -d -c 0-9)
 	echo $?
 	csleep 1
 
@@ -209,6 +212,9 @@ function e22_pre2() {
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
 	${sag_u}
+
+	dqb "pre2.done"
+	csleep 1
 }
 
 function e22_cleanpkgs() {
