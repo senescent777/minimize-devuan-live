@@ -46,86 +46,6 @@ function parse_opts_2() {
 	fi
 }
 
-#e.tar purq (cefgh()) vs tämä sq-rot alku
-function pre() {
-	#280426:self_extracting_archive-kikkailu saattaa tehdä tämän if-blkin turhaksi jatkossa ( tai sitten ei)
-
-	echo "UNDER THE GRAV3YARD"
-	sleep 1
-	#gpgtar: etua "gpg | tar" nähden?
-
-	echo "A"
-	p=$(pwd)
-	#VAIH:Case CONF_algo in... ennen pre() esittelyä
-	#g=$(which sha512sum)
-	#
-	#if [ ! -z "${g}" ] ; then
-		q=$(find . -name "dgsts.?" )
-		cd ..
-
-		for r in ${q} ; do
-			dqb " -c ./${p}/${r}"
-			csleep 1
-			${sah6} -c ./${p}/${r} --ignore-missing
-			sleep 1
-		done
-
-		cd ${p}
-	#fi
-	#
-	#gpg-tark kuitenkin ensin?
-	#090326:pitäisiköhän myös tämä tarkistus-osuus muuttaa fktioksi, ennen chroot-tark ?
-
-	#VAIH:g->gg (pois kommenteista ASAP)
-	#gg=$(which gpg)
-	#sleep 1
-	#cd ${p}
-	#
-	#if [ ! -z "${gg}" ] ; then
-	#	echo "B"
-	#	q=$(find . -name "*.sig" )
-	#
-	#	for r in ${q} ; do
-	#		${gg} --verify ${r}
-	#		#TODO:exit jos vrheitä
-	#	done
-	#
-	#	sleep 1
-	#fi
-	#
-
-	unset q
-	unset r
-	
-	sleep 1
-	echo "C"
-
-	#030426:huom. kts commn_lib , E22_M , tarpeellinen
-	#import2 syytä purkaa koska case r
-
-	#VAIH:jatkossa purkamaan vain 1 bz3 ? ihan vielä ei onnaa koska gpg ja tables
-
-	#for f in $(find ${d0} -type f -name nekros1.tar.bz3 ) ; do
-	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do
-		tar  -jxvf ${f} #--exclude import2.sh
-		sleep 1
-		rm ${f}
-		sleep 1
-	done
-
-	#jos löytyy common_lib.sh.sig ni voisi tässä tarkistaa?
-	#... toisaalta vähän tuhra koska cptp23
-
-	if [ ! -z "${gg}" ] ; then
-		if [ -s ${d0}/common_lib.sh.sig ] ; then
-			${gg} --verify ${d0}/common_lib.sh.sig
-			#exit jos ei ok
-		fi
-	fi
-
-	#unset g
-}
-
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
 
@@ -229,6 +149,89 @@ csleep 1
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 	#280526:pre() esittely tähän blokkiin vai ei?
+
+	
+#e.tar purq (cefgh()) vs tämä sq-rot alku
+function pre() {
+	#280426:self_extracting_archive-kikkailu saattaa tehdä tämän if-blkin turhaksi jatkossa ( tai sitten ei)
+
+	echo "UNDER THE GRAV3YARD"
+	sleep 1
+	#gpgtar: etua "gpg | tar" nähden?
+
+	echo "A"
+	p=$(pwd)
+	#VAIH:Case CONF_algo in... ennen pre() esittelyä
+	#g=$(which sha512sum)
+	#
+	#if [ ! -z "${g}" ] ; then
+		q=$(find . -name "dgsts.?" )
+		cd ..
+
+		for r in ${q} ; do
+			dqb " -c ./${p}/${r}"
+			csleep 1
+			${sah6} -c ./${p}/${r} --ignore-missing
+			sleep 1
+		done
+
+		cd ${p}
+	#fi
+	#
+	#gpg-tark kuitenkin ensin?
+	#090326:pitäisiköhän myös tämä tarkistus-osuus muuttaa fktioksi, ennen chroot-tark ?
+
+	#VAIH:g->gg (pois kommenteista ASAP)
+	#gg=$(which gpg)
+	#sleep 1
+	#cd ${p}
+	#
+	#if [ ! -z "${gg}" ] ; then
+	#	echo "B"
+	#	q=$(find . -name "*.sig" )
+	#
+	#	for r in ${q} ; do
+	#		${gg} --verify ${r}
+	#		#TODO:exit jos vrheitä
+	#	done
+	#
+	#	sleep 1
+	#fi
+	#
+
+	unset q
+	unset r
+	
+	sleep 1
+	echo "C"
+
+	#030426:huom. kts commn_lib , E22_M , tarpeellinen
+	#import2 syytä purkaa koska case r
+
+	#VAIH:jatkossa purkamaan vain 1 bz3 ? ihan vielä ei onnaa koska gpg ja tables
+
+	#for f in $(find ${d0} -type f -name nekros1.tar.bz3 ) ; do
+	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do
+		tar  -jxvf ${f} #--exclude import2.sh
+		sleep 1
+		rm ${f}
+		sleep 1
+	done
+
+	#jos löytyy common_lib.sh.sig ni voisi tässä tarkistaa?
+	#... toisaalta vähän tuhra koska cptp23
+
+	if [ ! -z "${gg}" ] ; then
+		if [ -s ${d0}/common_lib.sh.sig ] ; then
+			${gg} --verify ${d0}/common_lib.sh.sig
+			#exit jos ei ok
+		fi
+	fi
+
+	#unset g
+}
+
+
 	pre
 fi
 
