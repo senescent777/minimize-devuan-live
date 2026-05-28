@@ -35,11 +35,14 @@ function e22_hdr() {
 #280426:vissiin toimii ao. fktio?
 
 function e22_tyg() {
-	dqb " e22_tyg()"
+	dqb " ; e22_tyg( ${1} )(((("
 
 	[ -z "${1}" ] && exit 45
 	[ -s ${1} ] || exit 46
 	[ -r ${1} ] || exit 47
+
+	dqb "pars_ok"
+	csleep 1
 
 	if [ -x ${gg} ] ; then
 		if [ -v CONF_pubk ] ; then
@@ -165,11 +168,11 @@ function e22_dblock() { #110526:lienee toimiva tämä fktio ?
 	t=$(echo ${2} | cut -d "/" -f 1-6) #joitain tr-jekkuja vielä?
 	e22_ts ${t} ${3}
 	dqb "JST B3F0R3 3NF0RC3"
-	csleep 1
+	csleep 10
 	
 	enforce_access $(whoami) ${t}
 	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-	csleep 1
+	csleep 10
 
 	e22_arch ${1} ${2} ${4}
 	e22_cleanpkgs ${2}
@@ -530,7 +533,8 @@ function e22_ts() {
 	[ -z "${2}" ] && exit 16
 	[ -d ${2} ] || exit 17
 
-	dqb "${svm} ${2}/*.deb ${1}"
+	dqb "${svm} ${2}/*.deb ${1} IN 10 SECS"
+	csleep 10
 	${svm} ${2}/*.deb ${1}
 	[ $? -eq 0 ] || exit 56
 
@@ -538,21 +542,30 @@ function e22_ts() {
 	date > ${1}/tim3stamp
 	cg_udp6 ${1}
 
+	ls -las ${1}/*.deb
+	csleep 10
+
 	dqb "e22_ts() done"
 }
 
-#josqs uusiksi testailut (se psqa() - juttu lähinnä , muita on jo testailtu 190426 mennessä)
-
+#28526 taas testailut menossa
 function e22_arch() {
+	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
+	csleep 1
+
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 44
 	[ -z "${3}" ] && exit 53
 
+	dqb "e22_a.pars maybe ok"
+	csleep 1
+
 	local p=$(pwd)
-	local c
-	c=$(find ${2} -type f -name "*.deb" | wc -l)
+	local c=$(find ${2} -type f -name "*.deb" | wc -l)
+	[ -v CONF_hashfile ] || exit 94
+	[ -z "${CONF_hashfile}" ] && exit 95
 
 	if [ -f ${2}/${CONF_hashfile} ] ; then #turha tarq?
 		${NKVD} ${2}/${CONF_hashfile}*
@@ -566,12 +579,11 @@ function e22_arch() {
 	${scm} 0444 ${2}/*.deb
 	fasdfasd ${2}/${CONF_hashfile}
 	fasdfasd ${2}/${CONF_hashfile}.1
-	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+	[ ${debug} -eq 1 ] && ls -las ${2}/${CONF_hashfile}*;sleep 3
 
 	cd ${2}
 	${sah6} ./*.deb > ./${CONF_hashfile}
 
-	#VAIH:grep -v olds mukaan
 	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do
 		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
 		${sah6} ${f} >> ./${CONF_hashfile}.1
@@ -579,23 +591,37 @@ function e22_arch() {
 
 	for f in e.tar g.tar ; do
 		dqb "sah6 ./${f}"
-		${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
+		[ -s ./${f} ] && ${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
 	done
-	e22_tyg ./${CONF_hashfile}
-	e22_tyg ./${CONF_hashfile}.1
 
-	psqa .
+	e22_tyg ./${CONF_hashfile}
+	[ -s  ./${CONF_hashfile}.1 ] && e22_tyg ./${CONF_hashfile}.1
+	dqb "AFTR TYG"
+	csleep 2
+
 	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
-	[ $? -gt 0 ] && ${NKVD} ./*.deb ./${CONF_hashfile}* ./*.tar #?
+	psqa .
+	
+	if [ $? -gt 0 ] ; then
+		echo "SHOULD ${NKVD} ./*.deb ./${CONF_hashfile}* ./*.tar "
+		sleep 10
+	fi
+
+	dqb "BFRE TR"
+	csleep 10
+
 	${srat} -rf ${1} ./*.deb ./${CONF_hashfile}* ./tim3stamp
 	cd ${p}
+
+	dqb "E22_A_DONE"
+	csleep 1
 }
 
-##function aval0n() { #prIvaattI, toimimaan+käyttöön?
-##	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
-##	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
-##}
-#
+#function aval0n() { #prIvaattI, toimimaan+käyttöön?
+#	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
+#	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
+#}
+
 ##080326:testattu senverranq pystyy, jotain kiukuttelua aiheutui (debbug-ulostuksen typot kenties)
 ##function e22_rpg() {
 ##	dqb "R-P-G ${1} , ${2} , ${3}"
