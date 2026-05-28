@@ -192,7 +192,7 @@ case "${mode}" in
 		z2 /opt/bin/zxcv
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
-	#	
+	#270526:tämäkin taas	
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
@@ -212,9 +212,9 @@ case "${mode}" in
 		message
 		csleep 2
 
-		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
-		echo "BC/AD"
-		sleep 10
+		e23_tblz ${CONF_iface} ${CONF_dnsm} 
+		dqb "BC/AD"
+		csleep 10
 		e23_other_pkgs ${CONF_dnsm}
 	;;
 	t)

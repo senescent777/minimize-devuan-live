@@ -530,11 +530,15 @@ function e22_ts() {
 	[ -z "${2}" ] && exit 16
 	[ -d ${2} ] || exit 17
 
+	dqb "${svm} ${2}/*.deb ${1}"
 	${svm} ${2}/*.deb ${1}
 	[ $? -eq 0 ] || exit 56
+
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
 	cg_udp6 ${1}
+
+	dqb "e22_ts() done"
 }
 
 #josqs uusiksi testailut (se psqa() - juttu lähinnä , muita on jo testailtu 190426 mennessä)

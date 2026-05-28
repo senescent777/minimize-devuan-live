@@ -21,26 +21,24 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 	esac
 }
 
+#280526:joko jo toimisi?
 function e23_tblz() {
-	dqb "e23_tblz()"
+	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
-	[ -d ${1} ] || exit 15
 	[ -z "${2}" ] && exit 12
-	[ -z "${3}" ] && exit 13
-	[ -z "${4}" ] && exit 14 #HUOM.tämän tarpeellisuus?
 
 	dqb "params maybe ok"
 	csleep 1
 
 	${fib}
 	${asy}
-	#csleep 1
+	csleep 1
 
 	#message() tähän?
 	tpc7	#jotain excaliburiin liittyvää
-	aswasw ${2}
+	aswasw ${1}
 
 	${shary} ${E22_GT}
 
@@ -48,8 +46,10 @@ function e23_tblz() {
 	csleep 1
 
 	${asy}
+	csleep 30
+
 	#actually necessary (riittäisikö 2 param kutsussa?)
-	e22_pre2 ${1} ${3}
+	e22_pre2 ${1} ${2}
 	other_horrors
 
 	csleep 1
