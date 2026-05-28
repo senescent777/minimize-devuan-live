@@ -326,10 +326,6 @@ function common_part() {
 		dqb "gg= ${gg}"
 		echo "sah: ${sah6}"
 		sleep 1
-#
-#		#ei kai tämä?		
-#		local cfk
-#		cfk=1
 
 		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
 		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f) #HUOM.TARKKANA SITTEN HIPSUjEN KANSSA 666!!!
@@ -339,28 +335,21 @@ function common_part() {
 		sleep 5
 
 		if [ "${aa}" == "${ab}" ] ; then
-			dqb "aa=ab= ${aa}"
-#			cfk=0
+			#echo ehkä ok tässä(palautusarvo), miten dqb? ja sitten se cfk takaisin?
+			echo "aa: ${aa} "
 		else
 			#270526:toitsaiseksi näin kunnes pahin sekoilu asettunut
 			echo "aa: ${aa}"
 			echo "ab: ${ab}"
 
-			echo "SOON: \$ {NKVD} ${1}* "
+			echo "SHOULD: \$ {NKVD} ${1}* "
 			sleep 1
 			#${NKVD} ${1}*
 			exit 43
 		fi
-#
-#		echo "BEFORE NKVD: $?"
-#		sleep 1
-#
-#		#tämäkö?
-#		if [ ${cfk} -gt 0 ] ; then
-#
-#		fi
 
-		csleep 1
+		echo "BEFORE NKVD: $?"
+		sleep 1
 	else
 		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
 	fi
@@ -377,7 +366,7 @@ function common_part() {
 			echo "SHOULD DO SOME NKVD-STUFF AROUND HERE"
 			#${NKVD} ${1}* 
 			#${NKVD} ${2}/*.deb
-			#VAIH:CONF_hashfile
+		
 			#${NKVD} ${2}/${CONF_hashfile}*
 			#${NKVD} ${2}/*.tar*
 
@@ -388,7 +377,7 @@ function common_part() {
 	sleep 1
 	echo "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 	
-	#110523:vöib aiheuttaa nalkutusta jos odio ei asetettu
+	#110526:vöib aiheuttaa nalkutusta jos odio ei asetettu
 	sleep 1
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	

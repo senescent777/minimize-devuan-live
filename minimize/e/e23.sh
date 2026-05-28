@@ -1,7 +1,7 @@
 #just_download_not_install-vipu olisi tietysti...
 
 
-#010426:muutoksia josqs? dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteen keksitty
+#010426:muutoksia josqs? dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteeT keksitty
 function aswasw() { #privaatti fktio, tarkpoitus olla
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
@@ -21,7 +21,7 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 	esac
 }
 
-#280526:joko jo toimisi?
+#280526:joko jo toimisi? ehkä
 function e23_tblz() {
 	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
 	csleep 1
@@ -62,6 +62,7 @@ function e23_tblz() {
 #HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
 #... siinä ulkoistuksessa on kyllä semmoinen juttu
 
+#280526:lienee tämäkin kykenevä avustamaan toimivan asennuspaketin muodostamisessa
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -188,7 +189,9 @@ function e23_qrs() {
 	csleep 1
 }
 
-#190426:vissiin toimii, ÄLÄ SORKI
+#28526:bissiin saa aikaan toimivan asennuspak sisällön
+#paitsi että ne riippuvuudet taas...
+#jospa vain wttuun kaikki display_managerit, minimal_live pohjaksi prkl
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -213,7 +216,7 @@ function e23_dm() {
 	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
 
 	${shary} libnuma1 libx265-199 libwraster6 libwings3
-
+	#TODO:sittenkin $?-testejä?
 	csleep 10
 
 	${shary} libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
@@ -252,7 +255,7 @@ function e23_dm() {
 	csleep 10
 
 	${shary} libicu72 libxfixes3 libxml2
-	${shary} 
+
 	csleep 5
 
 	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
@@ -292,8 +295,7 @@ function e23_dm() {
 
 
 
-#	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
-#
+
 
 
 
@@ -354,6 +356,7 @@ function e23_dm() {
 #	${shary} ${E22_GX}  #libsystemd0
 
 #150326:teki ainakin kerran jotain toivottua (ehkä joutaa vielä arpoa minne juttuja kopsaillaan) 
+#TODO:param tarkistukset?
 function e23_profs() {
 	dqb "e23_profs) $1 , $2 , $3 ("
 	csleep 1

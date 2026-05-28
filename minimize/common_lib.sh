@@ -254,8 +254,8 @@ function check_bin_0() {
 
 		#pitäisiköhä olla lukuoikeus noilla ao. tdstoilla?
 
-		${odio} ${sah6} -c /opt/bin/zxcv.sha
 		#jatkossa .sig vai .sha.sig?
+		${odio} ${sah6} -c /opt/bin/zxcv.sha
 		[ $? -gt 0 ] && echo "gh0uls 0f n1n1w3h"
 
 		[ -z "${gg}" ] || ${gg} --verify /opt/bin/zxcv.sig
@@ -263,6 +263,8 @@ function check_bin_0() {
 
 		local p=$(pwd)
 		cd /
+
+		#280526:edelleen oli olds-hm,iston sisältöä mukana listassa, pois moiset (VAIH, kts e22_sarram() liittyen)
 		${odio} ${sah6} -c /opt/bin/zxcv
 		[ $? -gt 0 ] && echo "dhoulf exit 1234!!!"
 		cd ${p}

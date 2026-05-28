@@ -32,8 +32,6 @@ function e22_hdr() {
 	[ $? -gt 0 ] && exit 60
 }
 
-#280426:vissiin toimii ao. fktio?
-
 function e22_tyg() {
 	dqb " ; e22_tyg( ${1} )(((("
 
@@ -137,7 +135,7 @@ function e22_pre1() {
 }
 
 #tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
-function e22_dblock() { #110526:lienee toimiva tämä fktio ?
+function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
 
 	[ -z "${1}" ] && exit 14
@@ -585,8 +583,9 @@ function e22_arch() {
 	${sah6} ./*.deb > ./${CONF_hashfile}
 
 	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do
-		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
+		[ ${3} -eq 1 ] && ${srat} -rvf ${1} ${f}
 		${sah6} ${f} >> ./${CONF_hashfile}.1
+		csleep 1
 	done
 
 	for f in e.tar g.tar ; do
@@ -639,7 +638,7 @@ function e22_arch() {
 ###	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
 ###	#... koko case pois käytöstä vaikka
 ###	
-###	${srat} --exclude "${CONF_hashfile}*" --exclude '*pkgs*' -C ${d} -xvf ${1}
+###	${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${d} -xvf ${1}
 ###	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
 ###	csleep 1
 ###
@@ -677,7 +676,7 @@ function e22_cde() {
 	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
 }
 
-#TODO:uusi wmd-paketti kokeilun vuoksi
+#VAIH:uusi wmd-paketti kokeilun vuoksi 280526
 
 #1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (oliswikohan jo selvitetty?)
 #tässä tdstossa pre2() ja ext() , lisäksi common_lib kautta e_e -> enforce_access
@@ -790,7 +789,11 @@ function e22_sarram() {
 
 	#rules vedettiin jo aiemmin
 	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
-	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD ) ; do ${sah6} ${f} >> ${3} ; done
+	
+	#280526:jos nyt karsiutuisi zxcv:stä turhat
+	for f in $(find ~ -type f -name "*pkgs*" | grep -v OLD | grep -v old) ; do 
+		${sah6} ${f} >> ${3}
+	done
 
 	#230326:ntp-jtut näyttäisi vetävän mukaan
 	if [ -x /usr/sbin/ntpd ] ; then
