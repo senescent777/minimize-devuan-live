@@ -7,7 +7,6 @@ debug=0 #1
 d=${d0}/${distro} 
 
 #020426:uudelleen_nimeäminen josqs tämän hmistomn tdstoille?
-#240526:vissiin toimii sudon kautta ok tämä skripti
 
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
@@ -52,12 +51,9 @@ function dis() {
 
 	dqb "ko.srap"
 	csleep 1
-
 	${scm} 0755 /etc/network
 	${sco} -R root:root /etc/network
 	${scm} a+r /etc/network/*
-
-	dqb "bfore int.faces"
 
 	if [ -f /etc/network/interfaces ] ; then
 		if [ ! -h /etc/network/interfaces ] ; then
@@ -82,12 +78,14 @@ function dis() {
 	dqb "aftr.int.faces"
 
 	if [ ! -z "${2}" ] ; then
-		#TODO?:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
-		sifd=/sbin/ifdowm ?
+		#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
+		[ -z "${sifd}" ] && sifd=/sbin/ifdown
+
 		dqb "${odio} ${sifd} ${2}"	
-		csleep 1
 		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
-		
+
+		csleep 1
+	
 		#${odio} ${sifd} -a
 		csleep 1
 
@@ -109,7 +107,7 @@ function part0() {
 
 	dqb "pars.ok"
 	csleep 5
-	
+
 	dis ${1} ${2}
 	local s
 	dqb "смерть шпионам"
@@ -133,9 +131,7 @@ function part0() {
 	#140526:gnome-keyring*. libpam-gnome-keyring liittyvät?
 	#kts pkgs_drop jos qsee g_pt2 asjon jölkeen (vissiin ei)
 
-	#TODO:ao. listan mukaiset olisi kiva saada sammutettua myös kehitysymåp eli sudoersin hakkaamista kehiin?
-	#... pitäisiköhän koko tämä skripti tunkea sudoersiin sitä vartem?
-	
+	#250526:onnistui kai sudottamalla tämä skripti, sammuttaa nuo listan mukaiset palvelut
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
 		#HUOM.271125:saisiko tällä tyylillä myös slimin sammutettua? saa, mutta...
@@ -163,8 +159,8 @@ function el_loco() {
 		${smr} /etc/localtime
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
-	else
-		${odio} locale-gen
+	#else
+	#	${odio} locale-gen #tilapäisesti jemmaan koska kestää
 	fi
 
 	if [ ${2} -lt 1 ] ; then
@@ -172,8 +168,8 @@ function el_loco() {
 		fasdfasd /etc/default/locale
 		csleep 1
 
-		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
-		#env vai locale minkä oksennukset tdstoon? vissiin env
+		#TODO:pitäisi kai kutsuvassa koodissa huomioida LCF666 vs env vs /e/d/locale
+		#.. siis onko huomoioitu kunnolla 3 eri lähdettä asetuksille vaiko ei?
 
 		env | grep LC >> /etc/default/locale
 		env | grep LAN >> /etc/default/locale
@@ -219,7 +215,8 @@ function adieu() {
 }
 #=====================================PART0=========================================================
 
-pkgcache=$(mktemp -d)
+pkgcache=$(${mkt} -d)
+
 part0 ${distro} ${CONF_iface}
 process_lib ${d} ${pkgcache}
 
@@ -260,12 +257,12 @@ function pre_enforce() {
 	csleep 1
 	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 
-	if [ "${CONF_env}" == "DEFAULT" ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 		if [ ! -d /opt/bin ] ; then
 			${smd} /opt/bin
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
 		fi
-	
+
 		if [ -d ${1}/opt/bin ] ; then
 			#tämä mv ok?
 			${svm} ${1}/opt/bin/*.bash /opt/bin
@@ -339,7 +336,8 @@ function pre_enforce() {
 	csleep 1
 }
 
-if [ -s /etc/sudoers.d/meshuqqah ] || [ ${CONF_enforce} -eq 0 ] ; then # || [ "${CONF_env}" != "DEFAULT" ]
+#250526:toka ehto ok? koita päättää
+if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
 else 
@@ -371,15 +369,18 @@ if [ ${mode} -gt 1 ] ; then
 		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l)
 		 #barm vuoksi näin
 		[ $c13 -gt 0 ] && c14=0
-	
-
+		
 		#profit
 	fi
 fi
 
+echo "TODO:tables-säännöt&&ntp josqs?"
+sleep 10
+
+#TODO?:/e/d/localeen kirjoittaminen jtnkin uusiksi?
 #josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta? kokeillaan
 el_loco ${c14} ${c13}
-#250526:c13 vai jokin muu mikä aiheuttaa lokaalien generoinnin?
+#24526:se oli pikemminkin dpkg m,ikä halusi lokaaleita generoida
 
 #=========================================================================================
 #1§405426:vissiin "mode 1"-kiukuttelut toistaiseksi ohi kehitysympstössä
@@ -417,16 +418,14 @@ if [ "${CONF_env}" == "DEFAULT" ] ; then
 	#ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
 	c14=$(find ${d} -name "*.deb" | wc -l)
 
-	#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu
+	#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu (ehkä ok)
 	#... pitäisi kai nollaamisessa huomioida myös /.chroot
 	[ ${c14} -gt 0 ] || CONF_removepkgs=0
 fi
 
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
-
 #===================================================PART 3===========================================================
 message
-
 #menkööt toistaiseksi part3 kanssa (0403265)
 #common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain?
 
@@ -435,7 +434,7 @@ other_horrors
 dqb "AFTER THE HORROR"
 csleep 1
 
-#if [ ! -f /.chroot ] ; then #ehto pois jatkossa vai ei?
+#ehto tänään näin, huomenna taas toisin
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	#[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh
@@ -456,10 +455,14 @@ e_h $(whoami) ${d0}
 ${sco} 0:0 /opt/bin/*
 ${scm} 0400 /opt/bin/zxcv*
 
+#280526:ajetaanko tätä vai ei?
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+else
+	echo "NOTHING LEFT TO MUTILATE"
 fi
 
+sleep 20
 #ifup nykyään muuttelee tables-sääntöjä yhdellä jekulla joten ei erikseen tartte käskyttää...
 
 ${sipt} -L
