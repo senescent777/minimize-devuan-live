@@ -32,15 +32,15 @@ tgt=${1}
 [ -s "${tgt}" ] || exit 16
 [ -r "${tgt}" ] || exit 17
 
-echo "PARAMS CHECKED"
-sleep 1
+#echo "PARAMS CHECKED" #TODO:echo->dqb
+#sleep 1
 
 if [ -s ${d0}/$(whoami).conf ] ; then
-	echo "ALT.C0NF1G"
+	#echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
 else
 	if [ -s ${d0}/../$(whoami).conf ] ; then
-		echo "ALT.C0NF1G3"
+		#echo "ALT.C0NF1G3"
 		. ${d0}/../$(whoami).conf
 	fi
 fi
@@ -57,8 +57,8 @@ ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 sleep 1
 t=$(pwd)
 
-#VAIH:tunaroinnin varalta lähteestä vkopio ennenq alkaa process_row() hakata
-#VAIH:ja sitten oli se "resolv.conf"-juttukin ed. liittyen
+echo "#TODO:tunaroinnin varalta lähteestä vkopio ennenq alkaa process_row() hakata"
+#VAIH:ja sitten oli se "resolv.conf"-juttukin ed. liittyen?
 
 if [ "${CONF_env}" == "VED" ] && [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	echo "YLIULIULI asb asb ABC"
@@ -84,7 +84,7 @@ if [ "${CONF_env}" != "DEFAULT" ]; then
 fi
 
 function process_row() {
-	echo "TCMD --exclude ${xo} -rvf ${1} ${2}"
+	#echo "TCMD --exclude ${xo} -rvf ${1} ${2}"
 	${tcmd} --exclude "${xo}" -rvf ${1} ${2}
 }
 
@@ -97,8 +97,8 @@ if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	sleep 1
 fi
 
-echo "BEFOR.E PROCESSING ROWS"
-sleep 1
+#echo "BEFOR.E PROCESSING ROWS"
+#sleep 1
 #toimiikohan kehitysynp.tössä niinqu pitää?
 
 #VAIH:ao. riveihin muutoksia koska CONF_env tulosssa käyttöön
@@ -108,16 +108,14 @@ else
 	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep ${par3})
 fi
 
+#VAIH:tcmd:lle optioksi nuo pois grepattavat, --exclude
+#
+#echo "JUST BEFORE FOR-LOOP"
 #echo ${g}
 #sleep 5
-#VAIH:tcmd:lle optioksi nuo pois grepattavat, --exclude
-
-echo "JUST BEFORE FOR-LOOP"
-echo ${g}
-sleep 5
 
 for f in ${g} ; do
-	echo "${f} :"
+	#echo "${f} :"
 
 	if [ -f ${f} ] ; then
 		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
