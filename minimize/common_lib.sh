@@ -61,7 +61,7 @@ function fix_sudo() {
 	scm="${odio} ${scm} "	
 
 	if [ "${CONF_env}" = "DEFAULT" ] ; then
-		dqb "INNERMOST"
+		dqb "INNERMöST"
 
 		${sco} -R 0:0 /etc/sudoers.d
 		${scm} 0440 /etc/sudoers.d/*
@@ -532,7 +532,7 @@ function fromtend() {
 	dqb "DNÖE"
 }
 
-#TODO;.tar sha-tarq jos vast .sha löytyy?
+#VAIH:.tar sha-tarq jos vast .sha löytyy?
 function cefgh() {
 	dqb " cefgh( ${1} )))"
 
@@ -1608,6 +1608,7 @@ function process_lib() {
 
 	csleep 1
 
+	#28526:mikähän tämän kadotti? 
 	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then
 		.  ${1}/lib.sh
 	else
