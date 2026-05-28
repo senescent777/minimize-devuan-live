@@ -415,7 +415,7 @@ fi
 pre_part2
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
-	#ntp-muutokset tarpeellisia tuossa fktiossa vai ei?
+	#ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
 	c14=$(find ${d} -name "*.deb" | wc -l)
 
 	#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu (ehkä ok)
@@ -455,10 +455,14 @@ e_h $(whoami) ${d0}
 ${sco} 0:0 /opt/bin/*
 ${scm} 0400 /opt/bin/zxcv*
 
+#280526:ajetaanko tätä vai ei?
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+else
+	echo "NOTHING LEFT TO MUTILATE"
 fi
 
+sleep 20
 #ifup nykyään muuttelee tables-sääntöjä yhdellä jekulla joten ei erikseen tartte käskyttää...
 
 ${sipt} -L

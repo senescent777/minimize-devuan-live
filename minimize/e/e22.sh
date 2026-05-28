@@ -18,7 +18,6 @@ if [ ! -v CONF_pubk ] ; then
 	unset b
 fi
 
-#280426:lienee ok
 function e22_hdr() {
 	dqb "e22_hdr()"
 	[ -z "${1}" ] && exit 61
@@ -51,8 +50,8 @@ function e22_tyg() {
 	fi
 }
 
-#280426:lienee ok edlleen?
 function e22_ftr() {
+	dqb "e22_ftr()"
 	[ -z "${1}" ] && exit 62
 	[ -s ${1} ] || exit 63
 	[ -r ${1} ] || exit 64
@@ -64,13 +63,14 @@ function e22_ftr() {
 	cd $(dirname ${1})
 	${sah6} ./${q} > ${q}.sha
 	${sah6} -c ${q}.sha
-	e22_tyg ${q}.sha #.sha sittenkin näin?
+	e22_tyg ${q}.sha
 
 	cd ${p}
 }
 
 #100526:return-kikkailu ei toiminut? "echo-tavassakin" on juttuja huomioitavana
-#... joku päivbä jos maistuisi selvittää tuo "bash function retuRn value"-juttu että onnnaako vai ei?
+#... joku päivä jos maistuisi selvittää tuo "bash function retuRn value"-juttu että onnnaako vai ei?
+
 function aqsp() {
 	dqb "aqsp ${1} ; "
 	[ -z "${1}" ] && exit 97
@@ -102,15 +102,13 @@ function aqsp() {
 	if [ ${rv} -gt 0 ] ; then #toistaiseksi sqap() hoitamaan poistot
 		dqb "SMTHNG WENT WR09NG"	
 		${NKVD} ./*.deb 
-		${NKVD} ./sha512sums*
+		${NKVD} ./${CONF_hashfile}*
 		${NKVD} ./*.tar
 	fi
 
 	dqb "aqsp  DONE"
 }
 
-
-#020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
 #... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf (mitä muita on mistä sorkitaan? tämän tdstn fktiot)
 
 function e22_pre1() {
@@ -177,8 +175,6 @@ function e22_dblock() { #110526:lienee toimiva tämä fktio ?
 	e22_cleanpkgs ${2}
 }
 
-#280426:resolv.conf sorkkimisen ylkoistus -> mutilatetc?
-
 function e22_pre2() {
 	dqb "e22pre2 ))) $1 ; $2 ; ${3} ; ${4} ))))) "
 	csleep 1
@@ -206,10 +202,10 @@ function e22_pre2() {
 
 	ls -las /etc/resolv.*
 	csleep 10
-	#exit 54
 
 	${sifu} ${1}
 	csleep 1
+
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
 	${sag_u}
@@ -229,10 +225,12 @@ function e22_cleanpkgs() {
 }
 
 #VAIH:g_doit.part0() liittyviä juttuja, hyvä varmistaa että menevätkö muuttuneet xfce4-asetukset talteen asti 
+#... olisiko jo 05/26 loppuun mennessä selvitetty?
 csleep 1
 #010526:import2.sh pitäisi purkaa config.tar.bz2 qhan se vain löytyy
 
 function e22_config1() {
+	dqb "e22_config1()"
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
 	[ -z "${2}" ] && exit 11
@@ -249,23 +247,26 @@ function e22_config1() {
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 #nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
-
-#290326:tämän kanssa jotain hatkosäätöä vai ei?
 #120426:vissiin menee kohteeseen fedi ja profs (mutta meneekö 1. mainittu myös juureen?)
 
 function e22_settings() {
+	dqb "e22_settings()"
+
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
 	[ -z "${2}" ] && exit 44
 	[ -z "${3}" ] && exit 89
+
 	if [ ! -x ${1}/${3} ] ; then
 		echo "SHOU.LD exp2 p asgfd asgfd"
 		exit 24
 	fi
+
 	.  ${1}/${3}
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
 	exp_prof ${1}/${2} default-esr
 	[ -s ${1}/${2} ] || exit 32
+
 	local t
 	t=$(tar -tf ${1}/${2} | grep prefs.js | wc -l)
 	dqb "FOUND PREFS: ${t}"
@@ -297,7 +298,7 @@ function e22_home_pre() {
 		${srat} -rvf ${1} ${t}
 	done	
 
-	#confdig.tar.bz2?
+	#config.tar.bz2?
 	for t in $(find ~ -type f -name ${4} ) ; do
 		${srat} -rvf ${1} ${t}
 	done
@@ -322,16 +323,15 @@ function e22_home() {
 	csleep 1
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-	#250526:"s" ehkä mukaan, olennaisempaa zxcv:n kanssa karsinta
+	#250526:"s" ehkä mukaan?, olennaisempaa zxcv:n kanssa karsinta
 	${srat} ${TARGET_TPX} --exclude olds --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
 
-	#miksi täsäs eokä h_pre() ?
+	#miksi tässä eikä h_pre() ?
 	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 }
 
 #toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
-#120426:vissiin kopsaa kohteeseen mitä pitääkin
 
 function luca() {
 	[ -z "${1}" ] && exit 11
@@ -344,8 +344,7 @@ function luca() {
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 }
 
-#(meneekö rules.* kohteeseen useamman kerran?)
-#200426:taitaa toimia edelleen
+#(meneekö rules.* kohteeseen useamman kerran? ehkä)
 
 function e22_acol() {
 	dqb "e22_acol()"
@@ -432,9 +431,7 @@ function e22_pre_e() {
 }
 
 #verkkoyhteyttä vaativat jutut vain jos testgris ei asetettu? vaiko kutsuvan koodin puolella tarkistus?
-#140426:muuten mennee pakettiin jutut paitsi dhclient-script?
-#160426:toimii
-#VAIH:voisi taas kokeilla uudestaan miten "merd2+exp2 4"
+#VAIH:voisi taas kokeilla uudestaan miten "merd2+exp2 4" (28526 testi käynnissä 1take-haaran nkanssa)
 
 function e22_ext() {
 	dqb "e22_ext()"
@@ -453,7 +450,6 @@ function e22_ext() {
 	dqb "paramz_ok"
 	csleep 1
 	
-
 	local p
 	local q	
 	local r
@@ -507,7 +503,7 @@ function e22_ext() {
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
 	${scm} -R a-w ./sbin
-	${srat} -rvf ${1} ./etc  #./sbin jälkimmäinen hmisto josqs takaisin vai ei?
+	${srat} -rvf ${1} ./etc ./sbin #jälkimmäinen hmisto takaisin 28526
 
 	echo $?
 	local f
@@ -520,8 +516,8 @@ function e22_ext() {
 	cd ${p}
 }
 
-#190426:lienee edelleen toimiva
 function e22_ts() {
+	dqb "e22_ts()"
 	[ -z "${1}" ] && exit 13
 	[ -d ${1} ] || exit 14
 	[ -w ${1} ] || exit 15
@@ -535,7 +531,6 @@ function e22_ts() {
 	cg_udp6 ${1}
 }
 
-#170426:fktio taisi toimia  jnkn aikaa
 #josqs uusiksi testailut (se psqa() - juttu lähinnä , muita on jo testailtu 190426 mennessä)
 
 function e22_arch() {
@@ -544,14 +539,15 @@ function e22_arch() {
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 44
 	[ -z "${3}" ] && exit 53
+
 	local p=$(pwd)
+	local c
+	c=$(find ${2} -type f -name "*.deb" | wc -l)
+
 	if [ -f ${2}/${CONF_hashfile} ] ; then #turha tarq?
 		${NKVD} ${2}/${CONF_hashfile}*
 		csleep 1
 	fi
-
-	local c
-	c=$(find ${2} -type f -name "*.deb" | wc -l)
 
 	if [ ${c} -lt 1 ] ; then
 		exit 55
@@ -565,7 +561,8 @@ function e22_arch() {
 	cd ${2}
 	${sah6} ./*.deb > ./${CONF_hashfile}
 
-	for f in $(find . -type f -name "*pkgs*") ; do
+	#VAIH:grep -v olds mukaan
+	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do
 		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
 		${sah6} ${f} >> ./${CONF_hashfile}.1
 	done
@@ -579,7 +576,7 @@ function e22_arch() {
 
 	psqa .
 	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
-	[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums* ./*.tar #?
+	[ $? -gt 0 ] && ${NKVD} ./*.deb ./${CONF_hashfile}* ./*.tar #?
 	${srat} -rf ${1} ./*.deb ./${CONF_hashfile}* ./tim3stamp
 	cd ${p}
 }
@@ -606,7 +603,7 @@ function e22_arch() {
 ###	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
 ###	#... koko case pois käytöstä vaikka
 ###	
-###	${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${d} -xvf ${1}
+###	${srat} --exclude "${CONF_hashfile}*" --exclude '*pkgs*' -C ${d} -xvf ${1}
 ###	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
 ###	csleep 1
 ###
@@ -635,18 +632,23 @@ function e22_cde() {
 	[ -z "${3}" ] && exit 96
 	[ -d "${2}" ] || exit 97
 	[ -d "${3}" ] || exit 95
+
 	cd ${2}
 	fasdfasd ${1}
 	[ ${debug} -eq 1 ] && ls -las ${1}*
 	csleep 1
+
 	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
 }
+
+#TODO:uusi wmd-paketti kokeilun vuoksi
 
 #1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (oliswikohan jo selvitetty?)
 #tässä tdstossa pre2() ja ext() , lisäksi common_lib kautta e_e -> enforce_access
 #-> merd2, g_doit, sq_rot, import2, export3, export2, e22_pre1()
 
 function z1() {
+	dqb "z1()"
 	[ -z "${1}" ] && exit 66
 	csleep 2
 	${NKVD} ${1}.tmp
@@ -660,6 +662,7 @@ function z1() {
 }
 
 function z2() {
+	dqb "z2()"
 	[ -z "${1}" ] && exit 66
 	reqwreqw ${1}.tmp
 	csleep 1
@@ -674,7 +677,7 @@ function z2() {
 	${svm} ${1}.tmp ${1}
 	csleep 1
 
-	#että mitenkä?
+	#että mitenkä? $1.sha uitenkin?
 	${sah6} --ignore-missing -c ${1}
 	csleep 3
 
@@ -683,6 +686,7 @@ function z2() {
 }
 
 function z3() {
+	dqb "z3()"
 	[ -z "${1}" ] && exit 66
 	[ -s ${2} ] || exit 67
 	[ -z "${3}" ] && exit 68
@@ -711,7 +715,7 @@ function z3() {
 }
 
 #(josko exp2 voisi korvata "tar -T -cf":llä?)
-echo "TODO:JOKO JO ntp-jutut kuntoon ?"
+echo "TODO:JOKO JO ntp-jutut kuntoon ?" #aftr2.bash saattoi liittyä
 sleep 6
 
 function e22_sarram() {

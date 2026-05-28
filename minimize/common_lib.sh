@@ -148,13 +148,26 @@ function check_bin_0() {
 	unset NKVD
 	csleep 1
 
-	echo "TODO:case \$CONF_algo ... esac"
+	#VAIH:case \$CONF_algo ... esac
 	sleep 6
-#	ocs sha512sum
+
 #	dqb "cb3"
-#	sha512sum)
-	sah6=$(${odio} which sha256sum)
-	ocs sha256sum
+
+	[ -v CONF_algo ] || exit 77
+
+	case "${CONF_algo}" in
+		sha256)
+			sah6=$(${odio} which sha256sum)
+			ocs sha256sum
+		;;
+		sha512)
+			sah6=$(${odio} which sha512sum)
+			ocs sha512sum
+		;;
+		*)
+			exit 99
+		;;
+	esac
 	#
 
 	sd0=$(${odio} which dpkg)
@@ -652,7 +665,7 @@ function check_binaries() {
 
 	#Depends: , debianutils (>= 2.8.2), iproute2
 	#	E22_GM="${E22_GM} resolvconf" #josq toimisi ilmankin tätä 
-	E22_GM="${E22_GM} isc-dhcp-client isc-dhcp-common" #dhcp-jutut erilleen jotenkin?
+	[ "${CONF_iface}" == "eth0:1" ] || E22_GM="${E22_GM} isc-dhcp-client isc-dhcp-common" #dhcp-jutut erilleen jotenkin?
 	E22_GM="${E22_GM} libpam0g libcrypt1 libaudit1 libpam-modules-bin libpam-modules "
 
 	#Depends: passwd
@@ -663,16 +676,14 @@ function check_binaries() {
 	E22_GM="${E22_GM} libacl1 libattr1 libgmp10 coreutils" #iproute2-doc iproute
 
 	#... nuo jutut miel accept1/2 mukaan jatq tjsp?
-
-
-
 	local y
+
 	if [ "${CONF_env}" == "VED" ] ; then
-		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" #TODO:sha-kohtaan muutoksia
+		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # sha512sum#VAIH:sha-kohtaan muutoksia
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
 	else
-		y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount sha512sum mkdir mktemp" # kilinwittu.sh
+		y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # kilinwittu.sh sha512sum
 	fi
 	
 	for x in ${y} ; do ocs ${x} ; done
@@ -680,20 +691,26 @@ function check_binaries() {
 	#HUOM.nämä e22_jutut tarkoituksella asetettu juuri tässä fktiossa
 	sdi="${odio} ${sd0} -i "
 
-	#050426:tämä jo okK?
+
 	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
-	#080426:twm-jutut josqs myöhemmin, ehkä (enemmän liittyy e23.sh)
+	#080426:twm-jutut josqs myöhemmin, ehkä (enemmän liittyy e23.sh) (ajankohtainen?)
 
-	#050426:dhcp-jutut erilleen jatkossa? 
-	E22_GT="isc-dhcp-client isc-dhcp-common "
+	#VAIH:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
+	E22_GT=""
+	E22_GU=""
+
+	if [ "${CONF_iface}" != "eth0:1" ] ; then
+		E22_GT="isc-dhcp-client isc-dhcp-common "
+		E22_GU="isc-dhcp"
+	fi
+
 	E22_GT="${E22_GT} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
-	E22_GT="${E22_GT} iptables"
-	E22_GT="${E22_GT} init-system-helpers" # iptables-persistent netfilter-persistent
+	E22_GT="${E22_GT} iptables init-system-helpers" # iptables-persistent netfilter-persistent
+	E22_GU="${E22_GU} libnfnet libnetfilter libxtables libmnl libnftnl libnftables libnl-3-200 libnl-route libnl nftables"
+	#
 
-	E22_GU="isc-dhcp libnfnet libnetfilter libxtables libmnl libnftnl libnftables libnl-3-200 libnl-route libnl nftables"
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
-
 	local t
 	t=""
 
@@ -732,7 +749,7 @@ function check_binaries() {
 	ls ${t}/*.deb | wc -l
 	csleep 3
 
-	if [ ! -v CONF_testgris ] ; then #chroot-ehto myös?
+	if [ "${CONF_env}" != "VED" ] ; then #chroot-ehto myös?
 		for x in iptables ip6tables iptables-restore ip6tables-restore gpg ; do ocs ${x} ; done
 	fi
 
@@ -742,7 +759,7 @@ function check_binaries() {
 
 	#kts g_pt2 liittyen
 	#ei vielä conf_lt_root
-	#[ -f /.chroot ] || ocs dhclient
+	#[ "${CONF_env}" == "TOOR" ] || ocs dhclient
 	#csleep 1
 
 	sag=$(${odio} which apt-get)
@@ -762,7 +779,7 @@ function check_binaries2() {
 	csleep 1
 	[ -v sd0 ] || exit 666
 
-	#TODO:kokeeksi odion nollaus jos conf_tesgris?
+	#kokeeksi odion nollaus jos conf_tesgris?
 	#... vai olisikohan suuremmat ongelmat testiymp kanssa check_bin1 aiheuttamia?	
 
 	ipt="${odio} ${ipt} "
@@ -786,7 +803,7 @@ function check_binaries2() {
 	export INITRD
 
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
-	if [ ! -v CONF_testgris ] ; then 
+	if [ "${CONF_env}" != "VED" ] ; then #toistaiseksi näin?
 		${scm} a-wx /usr/sbin/update-initramfs #kokeeksi tämäkin, vissiin jotyain saa aikaan 050426
 	fi
 
@@ -1143,6 +1160,8 @@ function e_e() {
 	#280326:missä djclient-script hukataan? siihen tarvitsisi kosKea vain jos CONF_dnsm
 	#... /o/b/m voisiolla se hukkaaja
 	f=$(date +%F)
+
+	#280526:sellainen ilmeinen juttu että dhclient-skriptiä kandee renkata vain jos kyättää dyn. ip. os.
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
 	dqb "JUST BEF0RE MUTILATING RESOLV.CONF"
@@ -1431,8 +1450,6 @@ function part2() {
 	csleep 1
 }
 
-#010136:jospa toimisi
-#TODO:pitäisiköhän tässä olla se ehdollinen dhcp-pakettien karsinta vai ei?
 function cg_udp6() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
 	csleep 1
@@ -1452,6 +1469,10 @@ function cg_udp6() {
 	common_lib_tool ${1} reject_pkgs
 	dqb "D0NE"
 	csleep 1
+
+	if [ "${CONF_iface}" == "eth0:1" ] ; then
+		dqb "TODO:ehdollinen dhcp-pak karsinta?"
+	fi
 }
 
 #käytössä?

@@ -52,43 +52,46 @@ function pre() {
 
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
-	#gpgtar:kandeeko koskea? taisiis etua "gpg | tar" nähden?
+	#gpgtar: etua "gpg | tar" nähden?
 
 	echo "A"
 	p=$(pwd)
-	g=$(which sha512sum)
-
-	if [ ! -z "${g}" ] ; then
+	#VAIH:Case CONF_algo in... ennen pre() esittelyä
+	#g=$(which sha512sum)
+	#
+	#if [ ! -z "${g}" ] ; then
 		q=$(find . -name "dgsts.?" )
 		cd ..
 
 		for r in ${q} ; do
 			dqb " -c ./${p}/${r}"
 			csleep 1
-			${g} -c ./${p}/${r} --ignore-missing
+			${sah6} -c ./${p}/${r} --ignore-missing
 			sleep 1
 		done
 
 		cd ${p}
-	fi
-
+	#fi
+	#
 	#gpg-tark kuitenkin ensin?
 	#090326:pitäisiköhän myös tämä tarkistus-osuus muuttaa fktioksi, ennen chroot-tark ?
 
-	g=$(which gpg)
-	sleep 1
-	cd ${p}
-
-	if [ ! -z "${g}" ] ; then
-		echo "B"
-		q=$(find . -name "*.sig" )
-
-		for r in ${q} ; do
-			${g} --verify ${r}
-		done
-
-		sleep 1
-	fi
+	#VAIH:g->gg (pois kommenteista ASAP)
+	#gg=$(which gpg)
+	#sleep 1
+	#cd ${p}
+	#
+	#if [ ! -z "${gg}" ] ; then
+	#	echo "B"
+	#	q=$(find . -name "*.sig" )
+	#
+	#	for r in ${q} ; do
+	#		${gg} --verify ${r}
+	#		#TODO:exit jos vrheitä
+	#	done
+	#
+	#	sleep 1
+	#fi
 	#
 
 	unset q
@@ -113,19 +116,20 @@ function pre() {
 	#jos löytyy common_lib.sh.sig ni voisi tässä tarkistaa?
 	#... toisaalta vähän tuhra koska cptp23
 
-	if [ ! -z "${g}" ] ; then
+	if [ ! -z "${gg}" ] ; then
 		if [ -s ${d0}/common_lib.sh.sig ] ; then
-			${g} --verify ${d0}/common_lib.sh.sig
+			${gg} --verify ${d0}/common_lib.sh.sig
+			#exit jos ei ok
 		fi
 	fi
 
-	unset g
+	#unset g
 }
 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
-#tuossa yllä tosin turhahko ls
-echo "TODO:/o/b alaiset sha-muutokkset"
+
+#VAIH:/o/b alaiset sha-muutokkset (/olisiko jo 28.5.25 tehty?)
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -144,7 +148,7 @@ else
 			echo "ord1nary cqf"
 			. ${d}/conf
 		else
-		 	exit 57
+		 	exit 75
 		fi
 	fi
 
@@ -165,8 +169,22 @@ else
 		echo "fish.rot.1"
 
 		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
-		scm=$(${odio} which chmod)
-		sah6=$(${odio} which sha256sum) #sha512sum)
+		scm=$(${odio} which chmod)	
+		[ -v CONF_algo ] || exit 77
+
+		case "${CONF_algo}" in
+			sha256)
+				sah6=$(${odio} which sha256sum)
+				ocs sha256sum
+			;;
+			sha512)
+				sah6=$(${odio} which sha512sum)
+				ocs sha512sum
+			;;
+			*)
+				exit 99
+			;;
+		esac
 
 		srat=$(${odio} which tar)
 		srat="${odio} ${srat}" #270526 osoittautui tarpeelliseksi
@@ -210,6 +228,7 @@ csleep 1
 [ -v CONF_env ] || exit 66
 
 if [ "${CONF_env}" == "TOOR" ] ; then
+	#280526:pre() esittely tähän blokkiin vai ei?
 	pre
 fi
 
@@ -299,7 +318,6 @@ function common_part() {
 	#2605236:qseeko tässä alla jokin?
 	#kts. common_lib.psqa()
 
-
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
 		dqb "gg= ${gg}"
@@ -315,7 +333,6 @@ function common_part() {
 		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
 
 		echo "AFTER ABC: $?"
-	
 		sleep 5
 
 		if [ "${aa}" == "${ab}" ] ; then
@@ -357,7 +374,8 @@ function common_part() {
 			echo "SHOULD DO SOME NKVD-STUFF AROUND HERE"
 			#${NKVD} ${1}* 
 			#${NKVD} ${2}/*.deb
-			#${NKVD} ${2}/sha512sums*
+			#VAIH:CONF_hashfile
+			#${NKVD} ${2}/${CONF_hashfile}*
 			#${NKVD} ${2}/*.tar*
 
 			exit 33
@@ -380,7 +398,6 @@ function cptp2() {
 	dqb "rot.c tp2 ${1}, ${2}, ${3}"
 
 	[ -z "${1}" ] && exit 99
-
 	[ -d ${1} ] || exit 97
 
 	dqb "cptp2:pars ok"
@@ -443,7 +460,7 @@ case "${mode}" in
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
 		f=$(dirname ${f})
 
-		echo "bfore cp: $?"
+		echo "bfore sqr.comm_p: $?"
 		sleep 6
 
 		common_part ${srcfile} ${d} ${e}

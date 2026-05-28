@@ -153,7 +153,7 @@ e22_cleanpkgs ${CONF_pkgdir}
 
 doit=1
 csleep 1
-#getoot .o "34uetglnxs" ...
+#getopt .o "34uetglnxs" ...
 
 case "${mode}" in
 	0)
@@ -162,7 +162,7 @@ case "${mode}" in
 	3|4) 
 		
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
-		#TODO:turhia kommentteja wttuun sotkemasta
+		#VAIH:turhia kommentteja wttuun sotkemasta
 		#merd2 taisi toimia kerrab 21.4 , 21.5 toisen kerrab
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
@@ -171,8 +171,8 @@ case "${mode}" in
 		reqwreqw /opt/bin/zxcv.tmp
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
-			#TODO:e.tar-kikkailu -> other_okgs() syystä gpg puuttuu
+		if [ ${mode} -eq 3 ] && [ "${CONF_env}" = "DEFAULT" ] ; then
+			#TODO:e.tar-kikkailu -> other_pkgs() syystä gpg puuttuu
 			#... rekursion kanssa jos vaikka tekisi
 
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}

@@ -57,15 +57,17 @@ csleep 2
 ${sco} 0:0 /opt/bin/*
 ${scm} 0400 /opt/bin/zxcv*
 
+#280526:ajetaanko tätä vai ei?
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then		
 	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
 else
 	dqb "FAILURE TO MUTILATE: /etc/resolc. von f "
 fi
 
-dqb "AFTER MUTILAT.10n"
+sleep 20
+dqb "BEYOND THE UNHOLY GRAVE"
 ls -las /etc/resolv*
-csleep 6
+sleep 10
 
 csleep 2
 ${fib}
@@ -76,7 +78,7 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-if [ ${CONF_removepkgs} -eq 1 ] && [ ! -f  /.chroot ] ; then # 2. ehto ok?
+if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
 	dqb "kö"
 	TLA
 else
@@ -91,7 +93,7 @@ function t2p_filler() {
 	csleep 1
 }
 
-##140526 edelleen tarpeellinen blokki, puuttuvat paketit $d alla aiheuttavat?
+##140526 edelleen tarpeellinen blokki, puuttuvat paketit $d alla aiheuttavat? TODO:joko jo pois 06/26?
 #if [ -f /.chroot ] ; then
 #	${sharpy} blu*
 #	${sharpy} nfs*

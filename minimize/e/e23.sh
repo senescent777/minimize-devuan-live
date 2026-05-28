@@ -1,6 +1,5 @@
 #just_download_not_install-vipu olisi tietysti...
 
-#020426:dgsts.4 ja dgsts.5 , miten niiden kanssa nkuyään?lets find out? EIKU toinen skripti ja repo
 
 #010426:muutoksia josqs? dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteen keksitty
 function aswasw() { #privaatti fktio, tarkpoitus olla
@@ -22,7 +21,7 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 	esac
 }
 
-function e23_tblz() { #200426:vissiin edelleen vetää paketteja
+function e23_tblz() {
 	dqb "e23_tblz()"
 	csleep 1
 
@@ -30,7 +29,7 @@ function e23_tblz() { #200426:vissiin edelleen vetää paketteja
 	[ -d ${1} ] || exit 15
 	[ -z "${2}" ] && exit 12
 	[ -z "${3}" ] && exit 13
-	[ -z "${4}" ] && exit 14 #HUOM.tämän trapeellisuus?
+	[ -z "${4}" ] && exit 14 #HUOM.tämän tarpeellisuus?
 
 	${fib}
 	${asy}
@@ -39,7 +38,7 @@ function e23_tblz() { #200426:vissiin edelleen vetää paketteja
 	#message() tähän?
 	tpc7	#jotain excaliburiin liittyvää
 	aswasw ${2}
-	#TODO:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
+
 	${shary} ${E22_GT}
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
