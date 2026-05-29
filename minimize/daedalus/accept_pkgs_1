@@ -79,11 +79,13 @@ libxr
 #VAIH:riippuvuudet (selvitetty?)
 #riippuvuudet tuossa ylempänä 
 libpango-1
+#fontconfig vähän turha sanoa kosak ylempänä
 libfontconfig1
 #riippuvuudet ylempänä
 libpangoft2
 #riippuvuudet ylempänä
 libpangocairo
+#render vähän turha sanoa koska
 libxrender1
 libxft2
 libpangoxft

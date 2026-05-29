@@ -57,19 +57,14 @@ debconf
 #Depends:  pitäisi
 man-db
 #
-#VAIH:riippuvuudet, tai voisi tarkemmin speksata kuin pelkkä x11 (apps ja utils ainakin tarvitaan)
+#VAIH:riippuvuudet (selvitetty?)
+# tai voisi tarkemmin speksata kuin pelkkä x11 (apps ja utils ainakin tarvitaan)
 #Depends: pitäisi?
 x11-apps
 #Depends: pitäisi?
 x11-common
-#Depends: , libfontenc1,  , 
-#, libxrandr2 (>= 2:1.2.0), 
-#, ,, libxv1, libxxf86dga1, libxxf86vm1
 #
 x11-utils
-#Depends:  ,  (>= 2:1.0.14),
-#, ,, libxrandr2 (>= 2:1.5.0), 
-#libxxf86vm1, cpp
 x11-xserver-utils
 #
 #
