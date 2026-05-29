@@ -49,7 +49,7 @@ function parse_opts_2() {
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
 
-#VAIH:/o/b alaiset sha-muutokkset (/olisiko jo 28.5.25 tehty?)
+#DONE:/o/b alaiset sha-muutokkset (olisiko jo 28.5.25 tehty?)
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -148,7 +148,6 @@ csleep 1
 [ -v CONF_env ] || exit 66
 
 if [ "${CONF_env}" == "TOOR" ] ; then
-	#280526:pre() esittely tähän blokkiin vai ei?
 
 	
 #e.tar purq (cefgh()) vs tämä sq-rot alku
@@ -161,10 +160,7 @@ function pre() {
 
 	echo "A"
 	p=$(pwd)
-	#VAIH:Case CONF_algo in... ennen pre() esittelyä
-	#g=$(which sha512sum)
-	#
-	#if [ ! -z "${g}" ] ; then
+
 		q=$(find . -name "dgsts.?" )
 		cd ..
 
@@ -176,29 +172,27 @@ function pre() {
 		done
 
 		cd ${p}
-	#fi
-	#
+
 	#gpg-tark kuitenkin ensin?
 	#090326:pitäisiköhän myös tämä tarkistus-osuus muuttaa fktioksi, ennen chroot-tark ?
+	#29526:josqs voisi kokeilla miten pre() toimii
 
-	#VAIH:g->gg (pois kommenteista ASAP)
 	#gg=$(which gpg)
-	#sleep 1
-	#cd ${p}
-	#
-	#if [ ! -z "${gg}" ] ; then
-	#	echo "B"
-	#	q=$(find . -name "*.sig" )
-	#
-	#	for r in ${q} ; do
-	#		${gg} --verify ${r}
-	#		#TODO:exit jos vrheitä
-	#	done
-	#
-	#	sleep 1
-	#fi
-	#
-
+	sleep 1
+	cd ${p}
+	
+	if [ ! -z "${gg}" ] ; then
+		echo "B"
+		q=$(find . -name "*.sig" )
+	
+		for r in ${q} ; do
+			${gg} --verify ${r}
+			#TODO:exit jos vrheitä
+		done
+	
+		sleep 1
+	fi
+	
 	unset q
 	unset r
 	
@@ -279,13 +273,15 @@ function common_part() {
 	[ -d ${3} ] || exit 45
 	
 	[ "${1}" == "/" ] && exit 56
-	#VAIH:$1 kanssa lisätarkistuksia? koska NKVDm yöhemmin 
+	#DONE?:$1 kanssa lisätarkistuksia? koska NKVDm yöhemmin 
 	echo "paramz_0k" #260526:kiukuttelun takia ei dbq
 	csleep 1
 
 	cd /
 	local r
+	local s
 	r=0
+	s=1
 
 	if [ -v gg ] ; then #josko näin kuitenkin?
 		if  [ -s ${1}.sig ] ; then
@@ -336,7 +332,11 @@ function common_part() {
 
 		if [ "${aa}" == "${ab}" ] ; then
 			#echo ehkä ok tässä(palautusarvo), miten dqb? ja sitten se cfk takaisin?
-			echo "aa: ${aa} "
+			#echo "aa: ${aa} "
+
+			#debig antaa nollasta poikkeavan palautusarvon?
+			dqb ${aa}
+			s=0
 		else
 			#270526:toitsaiseksi näin kunnes pahin sekoilu asettunut
 			echo "aa: ${aa}"
@@ -357,7 +357,7 @@ function common_part() {
 	echo "AFTR SHA $?"
 	sleep 1
 
-	#if [ ${cfk} -gt 0 ] ; then
+	if [ ${s} -gt 0 ] ; then
 		read -p " U  SURE ?" confirm
 
 		if [ "${confirm}" == "Y" ] ; then
@@ -372,7 +372,7 @@ function common_part() {
 
 			exit 33
 		fi
-	#fi
+	fi
 
 	sleep 1
 	echo "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"

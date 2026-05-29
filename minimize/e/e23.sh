@@ -192,6 +192,49 @@ function e23_qrs() {
 #28526:bissiin saa aikaan toimivan asennuspak sisällön
 #paitsi että ne riippuvuudet taas...
 #jospa vain wttuun kaikki display_managerit, minimal_live pohjaksi prkl
+
+#magick:
+#libmagickwand-6.q16-6:amd64 depends on libmagickcore-6.q16-6
+#libmagickwand-6.q16-6:amd64 depends on imagemagick-6-common
+#libmagickcore-6.q16-6:amd64 depends on libfftw3-double3 (pitäisi)
+#libmagickcore-6.q16-6:amd64 depends on libheif1
+#libmagickcore-6.q16-6:amd64 depends on liblqr-1-0 (pitäisi)
+#libmagickcore-6.q16-6:amd64 depends on imagemagick-6-common (pitäisi)
+
+#wraster:libwraster6:amd64 depends on libgif7 (>= 5.1); however:
+# libwraster6:amd64 depends on libmagickwand-6.q16-6 (>= 8:6.9.10.2); however:
+#(pitäisi löytyä)
+
+#wings:
+#libwings3:amd64 depends on libpangoxft-1.0-0 (>= 1.14.0); however: (pitäisi)
+#libwings3:amd64 depends on libwraster6 (>= 0.95.8)
+# libwings3:amd64 depends on libwutil5 
+# libwings3:amd64 depends on wmaker-common
+
+# libwutil5:amd64 depends on wmaker-common (>= 0.95.9-3); however: (pitäisi)
+
+#libheif1:amd64 depends on libde265-0 (pitäisi)
+#libegl-mesa0:amd64 depends on libx11-xcb1 (pitäisi)
+#libegl1:amd64 depends on libegl-mesa0 (pitäisi)
+#x11-utils depends on libx11-xcb1(pitäisi)
+# x11-apps depends on libx11-xcb1 (pitäisi)
+
+# wdm depends on psmisc; however:
+#  Package psmisc is not installed. (pitäisi)
+# wdm depends on x11-apps; however:
+#  Package x11-apps is not configured yet. (pitäisi)
+# wdm depends on x11-utils; however:
+#  Package x11-utils is not configured yet.(pitäisi)
+# wdm depends on libwings3 (>= 0.95.0); however:
+#  Package libwings3:amd64 is not configured yet. (pitäisi)
+# wdm depends on libwraster6 (>= 0.95.8); however:
+#  Package libwraster6:amd64 is not configured yet. (pitäisi)
+# wdm depends on libwutil5 (>= 0.95.5); however:
+#  Package libwutil5:amd64 is not configured yet. (pitäisi)
+#
+
+#twm depends on menu (>= 2.1.26); (pitäisi löytyä, myös accept2)
+
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -356,14 +399,23 @@ function e23_dm() {
 #	${shary} ${E22_GX}  #libsystemd0
 
 #150326:teki ainakin kerran jotain toivottua (ehkä joutaa vielä arpoa minne juttuja kopsaillaan) 
-#TODO:param tarkistukset?
+#VAIH:param tarkistukset
 function e23_profs() {
-	dqb "e23_profs) $1 , $2 , $3 ("
+	dqb ";e23_profs) ${1} , ${2} , ${3} (()("
 	csleep 1
+
+	[ -z "${1}" ] && exit 76
+	[ -z "${2}" ] && exit 75
+	[ -z "${3}" ] && exit 74
+
+	[ -d "${2}" ] || exit 73
+	[ -s ${1} ] || exit 72
+	[ -s ${3} ] || exit 71
+
 	dqb "pars.0k"
 	csleep 1
 
-	q=$(mktemp -d)
+	q=$(${mkt} -d)
 	cd ${q}
 
 	[ $? -eq 0 ] || exit 77
@@ -387,6 +439,7 @@ function e23_profs() {
 }
 
 #function e23_xyz() {	
+
 #	${shary} libeudev1 keyboard-configuration #drm2 sekä shmfence _dm() kautta
 #	${shary} libpixman-1-0 libxfont2 libpciaccess0 libgcrypt20
 #	${shary} libxcvt0 xcvt #vetää vai ei? vssiin menee hi pakettiin 7426
