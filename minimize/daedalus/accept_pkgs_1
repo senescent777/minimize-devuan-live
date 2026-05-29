@@ -189,7 +189,7 @@ libpython3.11-stdlib
 libgtk2.0-common
 libgtk2.0-0
 #
-#VAIH:RÄJÄYTTÄEN RIIPPUVUUDET AUKI
+#VAIH:RÄJÄYTTÄEN RIIPPUVUUDET AUKI (selvitetty?)
 libjansson4
 libmnl0
 libnftnl11
@@ -214,7 +214,6 @@ libjbig0
 libjpeg62-turbo
 liblcms2-2
 libltdl7
-
 libtiff6
 #
 #VAIH
@@ -279,15 +278,15 @@ libwutil5
 #
 #Depends:pitäisi löytyä
 libfftw3-double3
-#Depends:   libfftw3-double3 (>= 3.3.10), , , ,, , libjbig0 (>= 2.0), libjpeg62-turbo (>= 1.3.1), liblcms2-2 (>= 2.6), liblqr-1-0 (>= 0.4.0), libltdl7 (>= 2.4.7), liblzma5 (>= 5.1.1alpha+20120614), libopenjp2-7 (>= 2.0.0),
-#, libtiff6 (>= 4.5.0~rc1), libwebp7 (>= 1.2.4), libwebpdemux2 (>= 1.2.4), libwebpmux3 (>= 1.2.4),
+#Depends:   , , , ,, , libjbig0 (>= 2.0), libjpeg62-turbo (>= 1.3.1), liblcms2-2 (>= 2.6), liblqr-1-0 (>= 0.4.0), libltdl7 (>= 2.4.7), liblzma5 (>= 5.1.1alpha+20120614), libopenjp2-7 (>= 2.0.0),
+#, , libwebp7 (>= 1.2.4), libwebpdemux2 (>= 1.2.4), libwebpmux3 (>= 1.2.4),
 #, libxext6, libxml2 (>= 2.7.4),, imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
 libmagickcore-6
 #Depends:  , , libmagickcore-6.q16-6 (>= 8:6.9.11.24),  imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
 libmagickwand
 #Depends:  libjpeg62-turbo (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2), 
-#, libtiff6 (>= 4.0.3), libwebp7, 
-#, libxext6, libxmu6 (>= 2:1.1.3), libxpm4
+#,, libwebp7, 
+#, libxext6, libxmu6 (>= 2:1.1.3), 
 libwraster
 #Depends: , , , 
 # , ,  libxext6, ,
