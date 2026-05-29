@@ -323,7 +323,9 @@ libxmu
 libassuan0
 liberror-perl
 #
+#Depends: libc6 (>= 2.34), libdrm2 (>= 2.4.75), libexpat1 (>= 2.0.1), libwayland-server0 (>= 1.15.0)
 libgbm1
+#Depends: libc6 (>= 2.27)
 libxshmfence1
 #
 #
