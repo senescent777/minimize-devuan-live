@@ -295,4 +295,5 @@ libproc2-0
 #uutena /accept2
 libcrypt1
 libpam0g
-libselinux1
+#libselinux1 (libse ylempänä)
+libpipeline1
