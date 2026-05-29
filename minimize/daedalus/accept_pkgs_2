@@ -34,7 +34,7 @@ python3.11
 #VAIH:TAAS ne rriipuvuudet auki, jotain nohtui 05/26
 #Depends: pitäisi löytyä kaikki
 menu
-#Depends: menu (>= 2.1.26), , libice6 (>= 1:1.0.0), libsm6, libx11-6, libxext6, libxmu6, libxt6
+#Depends: menu (>= 2.1.26), , libice6 (>= 1:1.0.0), libsm6, , libxext6, libxmu6, libxt6
 twm
 #Depends:  libtinfo6 (>= 6)
 psmisc
@@ -54,13 +54,13 @@ lsb-base
 man-db
 #
 #VAIH:riippuvuudet, tai voisi tarkemmin speksata kuin pelkkä x11 (apps ja utils ainakin tarvitaan)
-#Depends:  libpng16-16 (>= 1.6.2-1), libsm6, libx11-6, libx11-xcb1 (>= 2:1.7.5), libxaw7 (>= 2:1.0.14), libxcb-damage0, libxcb-present0, libxcb-xfixes0, libxcb1, libxcursor1 (>> 1.1.2), libxext6, libxft2 (>> 2.1.1), libxi6 (>= 2:1.2.99.4), libxkbfile1 (>= 1:1.1.0), libxmu6 (>= 2:1.1.3), libxmuu1 (>= 2:1.1.3), libxrender1, libxt6 (>= 1:1.1.0), man-db
+#Depends:  libpng16-16 (>= 1.6.2-1), libsm6,  libx11-xcb1 (>= 2:1.7.5), libxaw7 (>= 2:1.0.14), libxcb-damage0, libxcb-present0, libxcb-xfixes0, libxcb1, libxcursor1 (>> 1.1.2), libxext6, libxft2 (>> 2.1.1), libxi6 (>= 2:1.2.99.4), libxkbfile1 (>= 1:1.1.0), libxmu6 (>= 2:1.1.3), libxmuu1 (>= 2:1.1.3), libxrender1, libxt6 (>= 1:1.1.0), man-db
 x11-apps
 #Depends: lsb-base (>= 1.3-9ubuntu2)
 x11-common
-#Depends:  libfontconfig1 (>= 2.12.6), libfontenc1, libgl1, libx11-6, libx11-xcb1 (>= 2:1.6.9), libxaw7, libxcb-shape0, libxcb1 (>= 1.6), libxcomposite1 (>= 1:0.3-1), libxext6, libxft2 (>> 2.1.1), libxi6, libxinerama1, libxkbfile1, libxmu6, libxmuu1, libxrandr2 (>= 2:1.2.0), libxrender1, libxt6 (>= 1:1.1.0), libxtst6, libxv1, libxxf86dga1, libxxf86vm1
+#Depends:  libfontconfig1 (>= 2.12.6), libfontenc1, libgl1, libx11-xcb1 (>= 2:1.6.9), libxaw7, libxcb-shape0, libxcb1 (>= 1.6), libxcomposite1 (>= 1:0.3-1), libxext6, libxft2 (>> 2.1.1), libxi6, libxinerama1, libxkbfile1, libxmu6, libxmuu1, libxrandr2 (>= 2:1.2.0), libxrender1, libxt6 (>= 1:1.1.0), libxtst6, libxv1, libxxf86dga1, libxxf86vm1
 x11-utils
-#Depends:  libice6 (>= 1:1.0.0), libx11-6, libxaw7 (>= 2:1.0.14), libxcursor1 (>> 1.1.2), libxext6, libxi6, libxmu6 (>= 2:1.1.3), libxmuu1 (>= 2:1.1.3), libxrandr2 (>= 2:1.5.0), libxt6, libxxf86vm1, cpp
+#Depends:  libice6 (>= 1:1.0.0),  libxaw7 (>= 2:1.0.14), libxcursor1 (>> 1.1.2), libxext6, libxi6, libxmu6 (>= 2:1.1.3), libxmuu1 (>= 2:1.1.3), libxrandr2 (>= 2:1.5.0), libxt6, libxxf86vm1, cpp
 x11-xserver-utils
 #
 #
@@ -75,5 +75,6 @@ isc-dhcp
 #Depends: debconf (>= 1.5.20) | debconf-2.0, libpam-modules, libpam-runtime (>= 0.76-13.1), lsb-base (>= 3.0-6), psmisc, 
 #x11-apps, x11-common, x11-utils, x11-xserver-utils,
 # xserver-xorg | xserver, 
-#perl:any,  libcrypt1 (>= 1:4.1.0), libpam0g (>= 0.99.7.1), libselinux1 (>= 3.1~), libwings3 (>= 0.95.0), libwraster6 (>= 0.95.8), libwutil5 (>= 0.95.5), libx11-6, libxau6 (>= 1:1.0.9), libxdmcp6, libxinerama1 (>= 2:1.1.4), libxmu6 (>= 2:1.1.3)
+#perl:any,   (>= 1:4.1.0),  (>= 0.99.7.1),  (>= 3.1~), (>= 0.95.0),  (>= 0.95.8), 
+#,  libxau6 (>= 1:1.0.9), libxdmcp6, libxinerama1 (>= 2:1.1.4), libxmu6 (>= 2:1.1.3)
 wdm
