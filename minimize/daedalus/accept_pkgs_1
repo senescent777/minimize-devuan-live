@@ -231,14 +231,15 @@ libgbm1
 libxshmfence1
 #
 #
-#VAIH:riippuvuudet
-#Depends: , , , ,,  libwayland-client0 (>= 1.20.0), libwayland-server0 (>= 1.15.0),
-#, libxcb-dri2-0 (>= 1.8), libxcb-dri3-0 (>= 1.13), libxcb-present0, libxcb-randr0 (>= 1.3), libxcb-sync1, libxcb-xfixes0,
-#, libxshmfence1
+#VAIH:riippuvuudet (selvitetty?)
+libxcb-
+#Depends:pitäisi löytyä
 libegl-mesa0
 #Depends: pitäisi löytyä ylempää
 libegl1
-#Depends: libaudit-common (>= 1:3.0.9-1),  libcap-ng0 (>= 0.7.9)
+#Depends:pitäisi löytyä
+libcap-ng0
+libaudit-common
 libaudit1
 #
 seatd
@@ -266,7 +267,6 @@ libeudev
 libisl
 #iproute2 varte?
 libcap2
-libcap-ng0
 #
 #debconf varten?
 libtext-wrapi18
