@@ -65,7 +65,7 @@ libthai0
 libfreetype
 libxf
 #
-#VAIH:riippuvuudet
+#VAIH:riippuvuudet (selvitetty?)
 libxcb1
 libx11-data
 libx11-6
@@ -77,14 +77,14 @@ libx11-xcb1
 libxr
 #
 #VAIH:riippuvuudet
-#Depends: ,  libfribidi0 (>= 1.0.6), libglib2.0-0 (>= 2.67.3), libharfbuzz0b (>= 5.1.0), libthai0 (>= 0.1.25)
+#Depends: ,  ,, libharfbuzz0b (>= 5.1.0), libthai0 (>= 0.1.25)
 libpango-1
 libfontconfig1
-#Depends:  (>= 2.13.0), libfreetype6 (>= 2.2.1), libglib2.0-0 (>= 2.67.3), libharfbuzz0b (>= 5.1.0), libpango-1.0-0 (= 1.50.12+ds-1)
+#Depends:  (>= 2.13.0), libfreetype6 (>= 2.2.1), , libharfbuzz0b (>= 5.1.0), libpango-1.0-0 (= 1.50.12+ds-1)
 libpangoft2
-#Depends:  libcairo2 (>= 1.12.10), , libglib2.0-0 (>= 2.62.0), libharfbuzz0b (>= 2.6.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1)
+#Depends:  libcairo2 (>= 1.12.10), ,, libharfbuzz0b (>= 2.6.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1)
 libpangocairo
-#Depends:  , libglib2.0-0 (>= 2.62.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1), 
+#Depends:  ,, libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1), 
 #, libxft2 (>> 2.1.1), libxrender1
 libpangoxft
 #TODO:useamman libff-alkuisen paketin riippuvuudet listaten (pitäisi kai listat tarkemmin)
@@ -192,7 +192,7 @@ libgtk2.0-0
 #VAIH:RÄJÄYTTÄEN RIIPPUVUUDET AUKI
 #Depends: , , libjansson4 (>= 2.14), libmnl0 (>= 1.0.3-4~), libnftnl11 (>= 1.2.2), libxtables12 (>= 1.6.0+snapshot20161117)
 libnftables
-#Depends: , libglib2.0-0 (>= 2.24.0)
+#riippuvuudet klöytynevät ylempää, esim libglib2
 liblqr-1-0
 #Depends: pitäisi löytyä kaikki
 libde265-0
