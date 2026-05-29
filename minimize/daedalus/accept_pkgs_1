@@ -2,6 +2,13 @@ libgcc-s1
 libicu
 libgomp
 #
+#libc6 pitäisi riittää näille
+libgif7
+libnuma1
+libaom3
+libbz2-1.0
+libutempter0
+#
 libgdk-pixbuf2.0-common
 libgdk-pixbuf-2.0-0
 libgdk-pixbuf-2.0-bin
@@ -59,7 +66,7 @@ libfreetype
 libxf
 #
 #VAIH:riippuvuudet
-#Depends: libc6 (>= 2.34), libxcb1 (>= 1.11.1), libx11-data
+#Depends:  libxcb1 (>= 1.11.1), libx11-data
 libx11-6
 #Depends: libx11-6 (= 2:1.8.4-2+deb12u2)
 libx11-xcb1
@@ -69,13 +76,13 @@ libx11-xcb1
 libxr
 #
 #VAIH:riippuvuudet
-#Depends: fontconfig (>= 2.13.0), libc6 (>= 2.14), libfribidi0 (>= 1.0.6), libglib2.0-0 (>= 2.67.3), libharfbuzz0b (>= 5.1.0), libthai0 (>= 0.1.25)
+#Depends: fontconfig (>= 2.13.0),  libfribidi0 (>= 1.0.6), libglib2.0-0 (>= 2.67.3), libharfbuzz0b (>= 5.1.0), libthai0 (>= 0.1.25)
 libpango-1
-#Depends: libc6 (>= 2.14), libfontconfig1 (>= 2.13.0), libfreetype6 (>= 2.2.1), libglib2.0-0 (>= 2.67.3), libharfbuzz0b (>= 5.1.0), libpango-1.0-0 (= 1.50.12+ds-1)
+#Depends: libfontconfig1 (>= 2.13.0), libfreetype6 (>= 2.2.1), libglib2.0-0 (>= 2.67.3), libharfbuzz0b (>= 5.1.0), libpango-1.0-0 (= 1.50.12+ds-1)
 libpangoft2
-#Depends: libc6 (>= 2.4), libcairo2 (>= 1.12.10), libfontconfig1 (>= 2.13.0), libglib2.0-0 (>= 2.62.0), libharfbuzz0b (>= 2.6.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1)
+#Depends:  libcairo2 (>= 1.12.10), libfontconfig1 (>= 2.13.0), libglib2.0-0 (>= 2.62.0), libharfbuzz0b (>= 2.6.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1)
 libpangocairo
-#Depends: libc6 (>= 2.4), libfontconfig1 (>= 2.13.0), libglib2.0-0 (>= 2.62.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1), libx11-6, libxft2 (>> 2.1.1), libxrender1
+#Depends:  libfontconfig1 (>= 2.13.0), libglib2.0-0 (>= 2.62.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1), libx11-6, libxft2 (>> 2.1.1), libxrender1
 libpangoxft
 #TODO:useamman libff-alkuisen paketin riippuvuudet listaten (pitäisi kai listat tarkemmin)
 libff
@@ -95,8 +102,7 @@ libgtk-3-0
 libgtk-3-bin
 #
 #VAIH:riippuvuudet
-#Depends: libc6 (>= 2.14)
-libgif7
+
 #Depends:?
 wmaker-common
 #
@@ -113,7 +119,7 @@ perl-modules-
 libperl
 perl-base
 #TODO:libxml-parser-perl, mitä sen kanssa tekee?
-#Depends: perl (>= 5.36.0-7+deb12u3), perlapi-5.36.0, libc6 (>= 2.14), libexpat1 (>= 2.0.1), liburi-perl, libwww-perl
+#Depends: perl (>= 5.36.0-7+deb12u3), perlapi-5.36.0,  (>= 2.14), libexpat1 (>= 2.0.1), liburi-perl, libwww-perl
 #
 #libav tarttee
 libmfx1
@@ -140,20 +146,15 @@ libsvtav1enc1
 libtheora0
 libtwolame0
 #
-#Depends: libc6 (>= 2.34)
-libnuma1
-#
 #290526:pitäisikö speksata tarkemmin tuoss aalla?
 libx26
 libxv
 #
 #VAIH
-#Depends: libc6 (>= 2.34), libpng16-16 (>= 1.6.2-1), libzvbi-common (= 0.2.41-1)
+#Depends: libpng16-16 (>= 1.6.2-1), libzvbi-common (= 0.2.41-1)
 libzvbi0
 #TODO:myöhemmin?
 libdrm
-#Depends: libc6 (>= 2.34)
-libaom3
 #
 #joko jo libav-pakettien kanssa asia kunnossa vai ei?
 #edelleen jaksaa nalkuttaa riippuvuukiststa dpkg
@@ -186,13 +187,13 @@ libgtk2.0-common
 libgtk2.0-0
 #
 #VAIH:RÄJÄYTTÄEN RIIPPUVUUDET AUKI
-#Depends: libc6 (>= 2.34), libgmp10 (>= 2:6.2.1+dfsg1), libjansson4 (>= 2.14), libmnl0 (>= 1.0.3-4~), libnftnl11 (>= 1.2.2), libxtables12 (>= 1.6.0+snapshot20161117)
+#Depends: , libgmp10 (>= 2:6.2.1+dfsg1), libjansson4 (>= 2.14), libmnl0 (>= 1.0.3-4~), libnftnl11 (>= 1.2.2), libxtables12 (>= 1.6.0+snapshot20161117)
 libnftables
-#Depends: libc6 (>= 2.2.5), libglib2.0-0 (>= 2.24.0)
+#Depends: , libglib2.0-0 (>= 2.24.0)
 liblqr-1-0
-#Depends: libc6 (>= 2.34), libgcc-s1 (>= 3.0), libstdc++6 (>= 11)
+#Depends: , libgcc-s1 (>= 3.0), libstdc++6 (>= 11)
 libde265-0
-#Depends: libaom3 (>= 3.2.0), libc6 (>= 2.34), libdav1d6 (>= 0.1.0), libde265-0 (>= 1.0.7), libgcc-s1 (>= 3.0), libstdc++6 (>= 11), libx265-199 (>= 3.5), zlib1g (>= 1:1.1.4)
+#Depends:  (>= 2.34), libdav1d6 (>= 0.1.0), libde265-0 (>= 1.0.7), libgcc-s1 (>= 3.0), libstdc++6 (>= 11), libx265-199 (>= 3.5), zlib1g (>= 1:1.1.4)
 libheif1
 #
 #näiden suhteen jotain?:   x11-utils x11-apps (vielä 120426?)
@@ -209,9 +210,9 @@ libpng16-16
 libtiff6
 #
 #VAIH
-#Depends: libc6 (>= 2.34), libx11-6
+#Depends: , libx11-6
 libxpm4
-#Depends: libc6 (>= 2.14), libx11-6, libxext6, libxt6
+#Depends: , libx11-6, libxext6, libxt6
 libxmu
 #
 #
@@ -227,11 +228,11 @@ libxshmfence1
 #libglapi-mesa
 #
 #VAIH:riippuvuudet
-#Depends: libc6 (>= 2.34), libdrm2 (>= 2.4.109), libexpat1 (>= 2.0.1), libgbm1 (= 22.3.6-1+deb12u1), libgcc-s1 (>= 3.4), libglapi-mesa (= 22.3.6-1+deb12u1), libwayland-client0 (>= 1.20.0), libwayland-server0 (>= 1.15.0), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0 (>= 1.13), libxcb-present0, libxcb-randr0 (>= 1.3), libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), libxshmfence1
+#Depends: , libdrm2 (>= 2.4.109), libexpat1 (>= 2.0.1), libgbm1 (= 22.3.6-1+deb12u1), libgcc-s1 (>= 3.4), libglapi-mesa (= 22.3.6-1+deb12u1), libwayland-client0 (>= 1.20.0), libwayland-server0 (>= 1.15.0), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0 (>= 1.13), libxcb-present0, libxcb-randr0 (>= 1.3), libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), libxshmfence1
 libegl-mesa0
-#Depends: libc6 (>= 2.34), libglvnd0 (= 1.6.0-1), libegl-mesa0
+#Depends: , libglvnd0 (= 1.6.0-1), libegl-mesa0
 libegl1
-#Depends: libaudit-common (>= 1:3.0.9-1), libc6 (>= 2.33), libcap-ng0 (>= 0.7.9)
+#Depends: libaudit-common (>= 1:3.0.9-1),  libcap-ng0 (>= 0.7.9)
 libaudit1
 #
 seatd
@@ -263,22 +264,18 @@ libtext-wrapi18
 libfs6
 #
 #VAIH:riippuvuudet
-#Depends: libc6 (>= 2.34), wmaker-common (>= 0.95.9-3)
+#Depends: , wmaker-common (>= 0.95.9-3)
 libwutil5
-#Depends: libc6 (>= 2.4)
-libbz2-1.0
 #
-#Depends: libc6 (>= 2.34), libgomp1 (>= 4.9)
+#Depends: , libgomp1 (>= 4.9)
 libfftw3-double3
-#Depends: libbz2-1.0, libc6 (>= 2.35), libfftw3-double3 (>= 3.3.10), libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.2.1), libgcc-s1 (>= 3.3.1), libgomp1 (>= 6), libheif1 (>= 1.4.0), libjbig0 (>= 2.0), libjpeg62-turbo (>= 1.3.1), liblcms2-2 (>= 2.6), liblqr-1-0 (>= 0.4.0), libltdl7 (>= 2.4.7), liblzma5 (>= 5.1.1alpha+20120614), libopenjp2-7 (>= 2.0.0), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.5.0~rc1), libwebp7 (>= 1.2.4), libwebpdemux2 (>= 1.2.4), libwebpmux3 (>= 1.2.4), libx11-6, libxext6, libxml2 (>= 2.7.4), zlib1g (>= 1:1.1.4), imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
+#Depends:   libfftw3-double3 (>= 3.3.10), libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.2.1), libgcc-s1 (>= 3.3.1), libgomp1 (>= 6), libheif1 (>= 1.4.0), libjbig0 (>= 2.0), libjpeg62-turbo (>= 1.3.1), liblcms2-2 (>= 2.6), liblqr-1-0 (>= 0.4.0), libltdl7 (>= 2.4.7), liblzma5 (>= 5.1.1alpha+20120614), libopenjp2-7 (>= 2.0.0), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.5.0~rc1), libwebp7 (>= 1.2.4), libwebpdemux2 (>= 1.2.4), libwebpmux3 (>= 1.2.4), libx11-6, libxext6, libxml2 (>= 2.7.4), zlib1g (>= 1:1.1.4), imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
 libmagickcore-6
-#Depends: libc6 (>= 2.14), libgcc-s1 (>= 3.3.1), libgomp1 (>= 4.9), libmagickcore-6.q16-6 (>= 8:6.9.11.24), libx11-6, imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
+#Depends:  libgcc-s1 (>= 3.3.1), libgomp1 (>= 4.9), libmagickcore-6.q16-6 (>= 8:6.9.11.24), libx11-6, imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
 libmagickwand
-#Depends: libc6 
-libutempter0
-#Depends: libc6 (>= 2.33), libgif7 (>= 5.1), libjpeg62-turbo (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.0.3), libwebp7, libx11-6, libxext6, libxmu6 (>= 2:1.1.3), libxpm4
+#Depends:  libjpeg62-turbo (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.0.3), libwebp7, libx11-6, libxext6, libxmu6 (>= 2:1.1.3), libxpm4
 libwraster
-#Depends: libc6 (>= 2.33), libfontconfig1 (>= 2.12.6), libpango-1.0-0 (>= 1.22.0), libpangoft2-1.0-0 (>= 1.14.0), libpangoxft-1.0-0 (>= 1.14.0), libwraster6 (>= 0.95.8), libwutil5 (>= 0.95.5), libx11-6, libxext6, libxft2 (>> 2.1.1), wmaker-common (>= 0.95.9-3)
+#Depends: libfontconfig1 (>= 2.12.6), libpango-1.0-0 (>= 1.22.0), libpangoft2-1.0-0 (>= 1.14.0), libpangoxft-1.0-0 (>= 1.14.0), libwraster6 (>= 0.95.8), libwutil5 (>= 0.95.5), libx11-6, libxext6, libxft2 (>> 2.1.1), wmaker-common (>= 0.95.9-3)
 libwings3
 #
 libncursesw6
