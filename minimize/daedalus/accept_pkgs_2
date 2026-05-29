@@ -32,7 +32,7 @@ python3.11-minimal
 python3.11
 #
 #VAIH:TAAS ne rriipuvuudet auki, jotain nohtui 05/26
-#Depends: , libgcc-s1 (>= 3.0), libstdc++6 (>= 11)
+#Depends: pitäisi löytyä kaikki
 menu
 #Depends: menu (>= 2.1.26), , libice6 (>= 1:1.0.0), libsm6, libx11-6, libxext6, libxmu6, libxt6
 twm
@@ -50,7 +50,7 @@ xfonts
 #VAIH
 #Depends: sysvinit-utils (>= 3.05-4~)
 lsb-base
-#Depends: bsdextrautils | bsdmainutils (<< 12.1.1~), groff-base, debconf (>= 0.5) | debconf-2.0,, libgdbm6 (>= 1.16), libpipeline1 (>= 1.5.0), libseccomp2 (>= 2.1.0), zlib1g (>= 1:1.1.4)
+#Depends: bsdextrautils | bsdmainutils (<< 12.1.1~), groff-base, debconf (>= 0.5) | debconf-2.0,, libgdbm6 (>= 1.16), libpipeline1 (>= 1.5.0), libseccomp2 (>= 2.1.0),
 man-db
 #
 #VAIH:riippuvuudet, tai voisi tarkemmin speksata kuin pelkkä x11 (apps ja utils ainakin tarvitaan)
