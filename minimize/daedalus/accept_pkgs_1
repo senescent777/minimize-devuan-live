@@ -107,6 +107,7 @@ libx11-data
 #VAIH:UUSIKSI VAAN libx11-6 - libx11-xcb1!!!! (vissiin x11-data - xcb1 löytyvät wdm-pak)
 #Depends: libc6 (>= 2.34), libxcb1 (>= 1.11.1), libx11-data
 libx11-6
+#TODO:x11-6 siirto aiemmaksi
 #Depends: libx11-6 (= 2:1.8.4-2+deb12u2)
 libx11-xcb1
 #
@@ -161,6 +162,7 @@ libwayland-cursor0
 #
 libxdamage1
 #Depends: libc6 (>= 2.14), libx11-6 (>= 2:1.6.0)
+#TODO:xext-rivin sttro aeiammaksi
 libxext6
 #Depends: libc6 (>= 2.14), libx11-6 (>= 2:1.6.0), libxext6
 #Depends: libc6 (>= 2.4), libx11-6 (>= 2:1.6.0), libxext6
@@ -316,6 +318,8 @@ libltdl7
 #Depends: libc6 (>= 2.33), libdeflate0 (>= 1.0), libjbig0 (>= 2.0), libjpeg62-turbo (>= 1.3.1), liblerc4 (>= 3.0), liblzma5 (>= 5.1.1alpha+20120614), libwebp7 (>= 1.2.4), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)
 libtiff6
 #
+libice6
+libsm
 #VAIH (pitäisi olla selvitetty)
 #Depends: libc6 (>= 2.34), libx11-6
 libxpm4
@@ -366,8 +370,7 @@ libunwind8
 libxaw7
 #
 libxx
-libsm
-libice6
+#Depends: libc6 (>= 2.34)
 libtinfo6
 libpixman
 libpciaccess

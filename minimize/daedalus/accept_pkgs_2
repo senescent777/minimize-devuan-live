@@ -31,11 +31,15 @@ gtk2-engines-pixbuf
 python3.11-minimal
 python3.11
 #
-#TODO:TAAS menu - git-man ONKO KAIKKI RIIPPUVUUDET MUKANA JA LÖYTYYKÖ MASENNUSPAKETISTA
+#VAIH:TAAS menu - git-man ONKO KAIKKI RIIPPUVUUDET MUKANA JA LÖYTYYKÖ MASENNUSPAKETISTA
+#Depends: libc6 (>= 2.33), libgcc-s1 (>= 3.0), libstdc++6 (>= 11) (nämäö löytyy)
 menu
+#Depends: menu (>= 2.1.26), libc6 (>= 2.14), libice6 (>= 1:1.0.0), libsm6, libx11-6, libxext6, libxmu6, libxt6
+#nuokin tli si löytyä, myös libtinfo
 twm
-#TODO:psmisc RIIPPUVUUKSIEN METSÄSTYS UUSIKSI JA LÖYTYYKÖ MASENNUSPAKETISTA
+#Depends: libc6 (>= 2.34), libtinfo6 (>= 6)
 psmisc
+#Depends:?
 git-man
 #
 xauth
