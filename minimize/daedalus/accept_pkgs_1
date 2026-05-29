@@ -114,21 +114,29 @@ libxcb1
 #heti x11-6 jälkeen
 #x11-utils depends on libx11-xcb1 
 #
-#TODO:useamman libxr-alkuisen pak...
-libxr
+#VAIH:useamman libxr-alkuisen pak... (libxrandr2 ja libxrender1 aluksi)
+#Depends: libc6 (>= 2.14), libx11-6 (>= 2:1.6.0), libxext6, libxrender1
+#Depends: libc6 (>= 2.14), libx11-6 (>= 2:1.6.0)
+libxrender1
+libxrandr2
+#HUOM!!! NUO 2 PAREMPI ANTAA OLLLA ERIKSEEN TUOSSA YLLÄ
 #
-#TODO:PANGOJEN RIIPPUVUUDET METSÄSTÄEN UUSIKSI/LÖYTYYKÖ MASENNUSPAKETiSTA???
-#riippuvuudet tuossa ylempänä 
+#VAIH:PANGOJEN RIIPPUVUUDET METSÄSTÄEN UUSIKSI/LÖYTYYKÖ MASENNUSPAKETiSTA??? (jälk seuraavaksi)
+#Depends: fontconfig (>= 2.13.0), libc6 (>= 2.14), libfribidi0 (>= 1.0.6), libglib2.0-0 (>= 2.67.3), libharfbuzz0b (>= 5.1.0), libthai0 (>= 0.1.25)
 libpango-1
 #fontconfig vähän turha sanoa kosak ylempänä
+#Depends: libc6 (>= 2.33), libexpat1 (>= 2.0.1), libfreetype6 (>= 2.9.1), fontconfig-config (>= 2.14.1-4)
 libfontconfig1
-#riippuvuudet ylempänä
+#Depends: libc6 (>= 2.14), libfontconfig1 (>= 2.13.0), libfreetype6 (>= 2.2.1), libglib2.0-0 (>= 2.67.3), libharfbuzz0b (>= 5.1.0), libpango-1.0-0 (= 1.50.12+ds-1)
 libpangoft2
-#riippuvuudet ylempänä
+#Depends: libc6 (>= 2.4), libcairo2 (>= 1.12.10), libfontconfig1 (>= 2.13.0), libglib2.0-0 (>= 2.62.0), libharfbuzz0b (>= 2.6.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1)
 libpangocairo
+#
 #render vähän turha sanoa koska
-libxrender1
+#libxrender1
+#Depends: libc6 (>= 2.14), libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.3.5), libx11-6, libxrender1
 libxft2
+#Depends: libc6 (>= 2.4), libfontconfig1 (>= 2.13.0), libglib2.0-0 (>= 2.62.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1), libx11-6, libxft2 (>> 2.1.1), libxrender1
 libpangoxft
 #
 #TODO:useamman libff-alkuisen paketin riippuvuudet listaten (pitäisi kai listat tarkemmin)
