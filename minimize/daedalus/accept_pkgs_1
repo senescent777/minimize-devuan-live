@@ -58,12 +58,13 @@ libthai0
 libfreetype
 libxf
 #
-#180426:sittenkin parem,pi speksata erikseen nuo 2
+#TODO:riippuvuudet
 libx11-6
 libx11-xcb1
 #libx11-
 #x11-utils depends on libx11-xcb1 
 #
+#TODO:riippuvuudet
 libxr
 libpango-1
 libpangoft2
@@ -85,9 +86,8 @@ libxkb
 libgtk-3-0
 libgtk-3-bin
 #
-#libwrsater tarvitsee gif7;bn
+#TODO:riippuvuudet
 libgif7
-#libuwtil tarvitsee wmakerin
 wmaker-common
 #
 libbsd0
@@ -169,15 +169,17 @@ libpython3.11-stdlib
 libgtk2.0-common
 libgtk2.0-0
 #
+#TODO:RÄJÄYTTÄEN RIIPPUVUUDET AUKI
 libnftables
 liblqr-1-0
 libde265-0
-#libx265-199 onjo ylempänä, tavallaabn
 libheif1
 #
 #näiden suhteen jotain?:   x11-utils x11-apps (vielä 120426?)
 #
+#TODO:röjöyttöen riippuvuudet auki
 imagemagick-6-common
+#
 libjbig0
 libjpeg62-turbo
 liblcms2-2
@@ -189,7 +191,6 @@ libtiff6
 libxpm4
 libxmu
 #
-#huom.WINGS TARVITSEE WRASTERIN
 #
 #assuanin kanssa jokin ongelma vai ei? (124.26)
 libassuan0
@@ -202,8 +203,8 @@ libxshmfence1
 #oikeastaan jo ylempänä libgl
 #libglapi-mesa
 #
+#TODO:riippuvuudet
 libegl-mesa0
-#
 libegl1
 libaudit1
 #
@@ -235,14 +236,17 @@ libcap-ng0
 libtext-wrapi18
 libfs6
 #
+#TODO:riippuvuudet
 libwutil5
 libbz2-1.0
+#
+#TODO:riippuvuudet
 libfftw3-double3
 libmagickcore-6
 libmagickwand
-#
 libutempter0
 libwraster
 libwings3
+#
 libncursesw6
 libproc2-0
