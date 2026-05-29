@@ -3,7 +3,10 @@ libicu
 libgomp
 #
 #libc6 pitäisi riittää näille
+#
+#TODO:LÖYTYYKÖ gif7 sillä "libwraster6:amd64 depends on libgif7 (>= 5.1); however"
 libgif7
+#
 libnuma1
 libaom3
 libbz2-1.0
@@ -65,18 +68,22 @@ libthai0
 libfreetype
 libxf
 #
-#VAIH:riippuvuudet (selvitetty?)
+#TODO:UUSIKSI VAAN libx11-6 - libx11-xcb1!!!!
+libx11-6
+#TODO:
+libx11.xcb1
+#libx11-xcb1:amd64 depends on libx11-6 (= 2:1.8.4-2+deb12u2); 
+#TODO:jos räjäyttäisi auki kuitenkin
 libxcb1
 libx11-data
-libx11-6
 #heti x11-6 jälkeen
-libx11-xcb1
+#libx11-xcb1
 #x11-utils depends on libx11-xcb1 
 #
 #TODO:useamman libxr-alkuisen pak...
 libxr
 #
-#VAIH:riippuvuudet (selvitetty?)
+#TODO:PANGOJEN RIIPPUVUUDET METSÄSTÄEN UUSIKSI/LÖYTYYKÖ MASENNUSPAKETiSTA???
 #riippuvuudet tuossa ylempänä 
 libpango-1
 #fontconfig vähän turha sanoa kosak ylempänä
@@ -109,8 +116,7 @@ libxkb
 libgtk-3-0
 libgtk-3-bin
 #
-#VAIH:riippuvuudet (selvitetty?)
-#Depends:?
+#TODO:RÄJÄYTÄ AUKI UUDESTAAN/LÖYTYYKLÖ MASKENNUSPAKETISTA 666
 wmaker-common
 #
 libbsd0
@@ -200,17 +206,19 @@ libnftnl11
 libxtables12
 #riippuvuudet pitäisi löydyä ylempää
 libnftables
-#riippuvuudet klöytynevät ylempää, esim libglib2
+#
+#TODO:UUSIKSI KAIKKI TÄMÄN KANSSA, RIUIIPPUVUUDET JA LÖYTYYKÖ TARista ???
 liblqr-1-0
-#Depends: pitäisi löytyä kaikki
+#
+#TODO:UUSIKSI 265-JUTTUJEN KANSSA KAIKKI
 libde265-0
 libx265-199
-#Depends:  ylempää
+#TODO:MIKÄ TÄTÄKIN PASKAA VAIVAA???
 libheif1
 #
 #näiden suhteen jotain?:   x11-utils x11-apps (vielä 120426?)
 #
-#VAIH:räjäyttöen riippuvuudet auki
+#TODO:räjäyttöen riippuvuudet auki UUDESTAAN PRKL / LÖYTYYKÖ PAKETISTA?
 #Depends:?
 imagemagick-6-common
 #
@@ -236,7 +244,7 @@ libgbm1
 libxshmfence1
 #
 #
-#VAIH:riippuvuudet (selvitetty?)
+#TODO:UUSIKSI VAAN libegl-SELVITTELYT, MITÄÖ TARVITSEE JA LÖYTYYKÖ MASENNUSPAKEYTISTA
 libxcb-
 #xc- voi olla turha sanoa tässä koska ylempänä
 #Depends:pitäisi löytyä
@@ -280,19 +288,25 @@ libfs6
 #
 #VAIH:riippuvuudet (selvitetty wutil osalta?)
 #riippuvuudet tuossa ylempänä (pitäisi)
+#MUTTA KUITENKIN PRKL  "libwutil5:amd64 depends on wmaker-common"
 libwutil5
 #
-#Depends:pitäisi löytyä
+#Depends:pitäisi löytyä PAITSI ETTÄ EI TODO:METSÄSTÄ UUSIKSI JA KTS ETTÄ MASENNUSPAKETISTA...
 libfftw3-double3
+#
+#TODO:TAIKURIHOMMAT RÄJÄYTTÖEN AUKI UUDESTAAN/LÖYTYYKÖ TARPEELLISET .deb ???
 imagemagick-6-common
+#TODO:SELVITÄ MIKSI EI imagemagick-common ASENNU!!!!
+#
 #Depends:   , , , ,, , , ,, ,, ,
 #,  ,, imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
 libmagickcore-6
 #Depends:  , , libmagickcore-6.q16-6 (>= 8:6.9.11.24),  imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
 libmagickwand
 #Depends:  , libmagickwand-6.q16-6 (>= 8:6.9.10.2), 
+#TODO:wraster, METSÄSTÄ RIIPPUVUUDET UUDESTAAN/VARMISTA ETTÄ MASENNUSDPAKETISTA LÖYTYY 666!!!
 libwraster
-#Depends:löytyyjo ylempää?
+#Depends:löytyyjo ylempää? NO EI VISSIIN!! TODO:UUSICKSI VAAN 666!!!!
 libwings3
 #
 libncursesw6

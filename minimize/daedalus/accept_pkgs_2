@@ -31,14 +31,11 @@ gtk2-engines-pixbuf
 python3.11-minimal
 python3.11
 #
-#VAIH:TAAS ne rriipuvuudet auki, jotain unohtui 05/26 (olisiko jo?)
-#Depends: pitäisi löytyä kaikki
+#TODO:TAAS menu - git-man ONKO KAIKKI RIIPPUVUUDET MUKANA JA LÖYTYYKÖ MASENNUSPAKETISTA
 menu
-#Depends:pitäisi olla
 twm
-#Depends:  pitäisi
+#TODO:psmisc RIIPPUVUUKSIEN METSÄSTYS UUSIKSI JA LÖYTYYKÖ MASENNUSPAKETISTA
 psmisc
-#Depends:-
 git-man
 #
 xauth
@@ -57,7 +54,7 @@ debconf
 #Depends:  pitäisi
 man-db
 #
-#VAIH:riippuvuudet (selvitetty?)
+#TODO:riippuvuudet x11-apps - x11-xserver-utils JA LÖYTYYKÖ MASENNUSPAKETISTA 666
 # tai voisi tarkemmin speksata kuin pelkkä x11 (apps ja utils ainakin tarvitaan)
 #Depends: pitäisi?
 x11-apps
