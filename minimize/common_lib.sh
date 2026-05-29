@@ -1430,14 +1430,14 @@ function part2() {
 	csleep 1
 
 	#270526:pitäisikohän tehdÄ vielä toinenkin veRTAIlu barm buoksi?
-	if [ ! -z "${ipt}"  ] ; then
+	if [ ! -z "${ipt}" ] ; then
 		jules
 		local t
 
-		#210326:nyt sitten miettimään että pitäisikö reslvo.conf:ille tehdä jotain. taas
+		#210326:nyt sitten miettimään että pitäisikö resOLV.conf:ille tehdä jotain. taas
 		t=$(echo ${2} | tr -d -c 0-9)
 
-		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin] ; then
+		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 			${odio} /opt/bin/tlb.bash ${t}
 		fi
 	fi

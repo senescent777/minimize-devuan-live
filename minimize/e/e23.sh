@@ -105,7 +105,7 @@ function e23_other_pkgs() {
 }
 
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
-
+#290526:yrittää saada aikaiseksi pakettia, jonka sisällön kelvollisuus selvitettävä (VAIH)
 function e23_upgp() {
 	dqb " e23_upgp() "
 
