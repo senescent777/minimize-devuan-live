@@ -2,9 +2,10 @@ libgcc-s1
 libicu
 libgomp
 #
-#libc6 pitäisi riittää näille
+#29526:libc6 pitäisi riittää näille numa1-utempter0, muut löytyi wdm-paketista paitsi viimeksi mainittu
 #
-#TODO:LÖYTYYKÖ gif7 sillä "libwraster6:amd64 depends on libgif7 (>= 5.1); however"
+#VAIH:LÖYTYYKÖ gif7 sillä "libwraster6:amd64 depends on libgif7 (>= 5.1); however"
+#uudemmasta paketista gif7 löytyy, ja pitäisi riippua vain:libc6
 libgif7
 #
 libnuma1
@@ -15,14 +16,39 @@ libutempter0
 libgdk-pixbuf2.0-common
 libgdk-pixbuf-2.0-0
 libgdk-pixbuf-2.0-bin
+#
+#29526:tämä löytyi wdm.paketista, syystä kai (libgdbm6)
+#pitäisi riittää libc6 tuolle
 libgdbm
+#
 librsvg2-2
 librsvg2-common
 libstdc
 #
 libatspi2
-libgl
+#TODO:libgl-säädöt
+#29526:dwm-paketista löytyi: 
 #
+#libgl1_1.6,
+#Depends: libc6 (>= 2.34), libglvnd0 (= 1.6.0-1), libglx0 (= 1.6.0-1)
+#
+# libglapi-mesa_22.3
+#Depends: libc6 (>= 2.34)
+#
+# , libglib2.0-0,
+#Depends: libc6 (>= 2.34), libffi8 (>= 3.4), libmount1 (>= 2.35.2-7~), libpcre2-8-0 (>= 10.22), libselinux1 (>= 3.1~), zlib1g (>= 1:1.2.2)
+#
+# libglib2.0-data,
+#Depends: ?
+#
+# libglvnd0_1.6.0,
+#Depends: libc6 (>= 2.34)
+#
+# libglx0_1.6.0-1
+#Depends: libc6 (>= 2.34), libglvnd0 (= 1.6.0-1), libx11-6 (>= 2:1.4.99.1), libglx-mesa0
+#
+libgl
+#/TODO:libgl
 at-spi
 libatk1.0-0
 libdbus-1-3
@@ -32,7 +58,9 @@ libavahi-common-data
 libavahi-common3
 libavahi-client3
 #
+#Depends: libc6 (>= 2.14)
 zlib1g
+#
 libkrb5support0
 libkrb5-3
 libgssapi-krb5
