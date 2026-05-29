@@ -61,7 +61,7 @@ man-db
 x11-apps
 #Depends: lsb-base (>= 1.3-9ubuntu2)
 x11-common
-#Depends: , libfontenc1, libgl1, , libxaw7, libxcb-shape0, 
+#Depends: , libfontenc1,  , libxaw7, libxcb-shape0, 
 #, libxcomposite1 (>= 1:0.3-1), , , libxi6, libxinerama1, libxkbfile1,
 #, libxrandr2 (>= 2:1.2.0), 
 #, ,, libxv1, libxxf86dga1, libxxf86vm1

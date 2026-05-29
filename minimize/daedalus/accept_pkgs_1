@@ -120,8 +120,9 @@ libpam-modules_
 perl-modules-
 libperl
 perl-base
+libexpat1
 #TODO:libxml-parser-perl, mitä sen kanssa tekee?
-#Depends: perl (>= 5.36.0-7+deb12u3), perlapi-5.36.0,  (>= 2.14), libexpat1 (>= 2.0.1), liburi-perl, libwww-perl
+#Depends: perl (>= 5.36.0-7+deb12u3), perlapi-5.36.0,  (>= 2.14), , liburi-perl, libwww-perl
 #
 #libav tarttee
 libmfx1
@@ -165,8 +166,6 @@ libdrm
 libavutil57
 libdav1d6
 #
-#oikeastaan jo ylempänä sillä libgl
-#libglib2
 #
 liblzma5
 libmp3lame
@@ -229,18 +228,15 @@ libassuan0
 liberror-perl
 #
 libgbm1
-libexpat1
 libxshmfence1
 #
-#oikeastaan jo ylempänä libgl (tarvitseeko tämän kanssa lkaa säätää?)
-#libglapi-mesa
 #
 #VAIH:riippuvuudet
-#Depends: , libdrm2 (>= 2.4.109), libexpat1 (>= 2.0.1), libgbm1 (= 22.3.6-1+deb12u1),, libglapi-mesa (= 22.3.6-1+deb12u1), libwayland-client0 (>= 1.20.0), libwayland-server0 (>= 1.15.0),
+#Depends: , , , ,,  libwayland-client0 (>= 1.20.0), libwayland-server0 (>= 1.15.0),
 #, libxcb-dri2-0 (>= 1.8), libxcb-dri3-0 (>= 1.13), libxcb-present0, libxcb-randr0 (>= 1.3), libxcb-sync1, libxcb-xfixes0,
 #, libxshmfence1
 libegl-mesa0
-#Depends: , libglvnd0 (= 1.6.0-1), libegl-mesa0
+#Depends: pitäisi löytyä ylempää
 libegl1
 #Depends: libaudit-common (>= 1:3.0.9-1),  libcap-ng0 (>= 0.7.9)
 libaudit1
