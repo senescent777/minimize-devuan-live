@@ -31,10 +31,14 @@ gtk2-engines-pixbuf
 python3.11-minimal
 python3.11
 #
+#VAIH:TAAS ne rriipuvuudet auki, jotain unohtui 05/26 (olisiko jo?)
+#Depends: pitäisi löytyä kaikki
 menu
+#Depends:pitäisi olla
 twm
-#
+#Depends:  pitäisi
 psmisc
+#Depends:-
 git-man
 #
 xauth
@@ -42,16 +46,37 @@ xinit
 xbitmaps
 xterm
 xfonts
+#
+#VAIH (selvitetty?)
+sysvinit-utils
+#Depends:  pitäisi
 lsb-base
+bsdextrautils
+groff-base
+debconf
+#Depends:  pitäisi
 man-db
 #
-#x11-utils erikseen?
-# x11-apps depends on libx11-xcb1 
-x11
+#VAIH:riippuvuudet (selvitetty?)
+# tai voisi tarkemmin speksata kuin pelkkä x11 (apps ja utils ainakin tarvitaan)
+#Depends: pitäisi?
+x11-apps
+#Depends: pitäisi?
+x11-common
 #
+x11-utils
+x11-xserver-utils
+#
+#
+#jaksaako noita 2 alkaa selvittää?
+xserver-xorg
 xorg
 #route ennne dhcp
 iproute2
 isc-dhcp
 #
+#VAIH:riippuvuudet
+#Depends: ,   (>= 0.76-13.1), ,
+# xserver-xorg | xserver, 
+#perl:any,  
 wdm
