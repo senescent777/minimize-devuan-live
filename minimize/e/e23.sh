@@ -228,6 +228,8 @@ function e23_qrs() {
 
 #twm depends on menu (>= 2.1.26); (pitäisi löytyä, myös accept2)
 
+#29526:sai oikeastaan aikaiseksi paketin minkä sisältö ainakin osittain asentuu kun toistvasti renkkaa
+
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -291,7 +293,7 @@ function e23_dm() {
 	csleep 10
 
 	${shary} libicu72 libxfixes3 libxml2
-
+	#TODO:libglx-mesa0 sopivaan kohtaan?
 
 	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
 	csleep 10
