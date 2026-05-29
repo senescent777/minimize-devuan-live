@@ -96,6 +96,9 @@ libthai0
 libfreetype
 libxf
 #
+#VAIH:siirto ennen libxcb1? rasittava määrä paketteja tällä jokerilla btw
+libxc
+#
 #Depends:?
 libx11-data
 #VAIH:UUSIKSI VAAN libx11-6 - libx11-xcb1!!!! (vissiin x11-data - xcb1 löytyvät wdm-pak)
@@ -109,7 +112,7 @@ libxau6
 libxdmcp6
 #
 #Depends: libc6 (>= 2.14), libxau6 (>= 1:1.0.9), libxdmcp6
-libxcb1
+#libxcb1 (turha koska ylempänä)
 #
 #heti x11-6 jälkeen
 #x11-utils depends on libx11-xcb1 
@@ -152,9 +155,6 @@ libwayland-server0
 libwayland-egl1
 #Depends: libc6 (>= 2.28), libwayland-client0 (>= 1.20.0)
 libwayland-cursor0
-#
-#TODO:siirto ennen libxcb1?
-libxc
 #
 libxdamage1
 libxext6
@@ -293,7 +293,7 @@ libxshmfence1
 #
 #
 #TODO:UUSIKSI VAAN libegl-SELVITTELYT, MITÄÖ TARVITSEE JA LÖYTYYKÖ MASENNUSPAKEYTISTA
-libxcb-
+#libxcb- turha koska...
 #xc- voi olla turha sanoa tässä koska ylempänä
 #Depends:pitäisi löytyä
 libegl-mesa0
