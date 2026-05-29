@@ -87,6 +87,7 @@ libpangocairo
 libxrender1
 libxft2
 libpangoxft
+#
 #TODO:useamman libff-alkuisen paketin riippuvuudet listaten (pitäisi kai listat tarkemmin)
 libff
 #
@@ -95,7 +96,9 @@ libwayland-server0
 libwayland-egl1
 libwayland-cursor0
 #
+#TODO:siirto ennen libxcb1?
 libxc
+#
 libxdamage1
 libxext6
 libxi
@@ -233,6 +236,7 @@ libxshmfence1
 #
 #VAIH:riippuvuudet (selvitetty?)
 libxcb-
+#xc- voi olla turha sanoa tässä koska ylempänä
 #Depends:pitäisi löytyä
 libegl-mesa0
 #Depends: pitäisi löytyä ylempää
