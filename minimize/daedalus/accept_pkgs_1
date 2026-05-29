@@ -268,6 +268,10 @@ libpython3.11-stdlib
 libgtk2.0-common
 libgtk2.0-0
 #
+#
+#VAIH:siirto ennen xt6,xtables?
+libxt
+#
 #VAIH:RÄJÄYTTÄEN RIIPPUVUUDET AUKI (selvitetty?) (mnl , xtables löytyvät wdm-pkaetista)
 #Depends: libc6 (>= 2.14)
 libjansson4
@@ -329,27 +333,35 @@ libgbm1
 libxshmfence1
 #
 #
-#TODO:UUSIKSI VAAN libegl-SELVITTELYT, MITÄÖ TARVITSEE JA LÖYTYYKÖ MASENNUSPAKEYTISTA
+#VAIH:UUSIKSI VAAN libegl-SELVITTELYT, MITÄÖ TARVITSEE JA LÖYTYYKÖ MASENNUSPAKEYTISTA
 #libxcb- turha koska...
 #xc- voi olla turha sanoa tässä koska ylempänä
-#Depends:pitäisi löytyä
+#
+#Depends:Depends: libc6 (>= 2.34), libdrm2 (>= 2.4.109), libexpat1 (>= 2.0.1), libgbm1 (= 22.3.6-1+deb12u1), libgcc-s1 (>= 3.4), libglapi-mesa (= 22.3.6-1+deb12u1), libwayland-client0 (>= 1.20.0), libwayland-server0 (>= 1.15.0), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0 (>= 1.13), libxcb-present0, libxcb-randr0 (>= 1.3), libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), libxshmfence1
 libegl-mesa0
-#Depends: pitäisi löytyä ylempää
+#
+#Depends:libc6 (>= 2.34), libglvnd0 (= 1.6.0-1), libegl-mesa0
 libegl1
-#Depends:pitäisi löytyä
+#Depends:Depends: libc6 (>= 2.33)
 libcap-ng0
+#Depends:?
 libaudit-common
+#Depends: libaudit-common (>= 1:3.0.9-1), libc6 (>= 2.33), libcap-ng0 (>= 0.7.9)
 libaudit1
 #
 seatd
+#Depends: seatd | logind, libc6 (>= 2.33), libsystemd0 (>= 238)
+#Depends: libc6 (>= 2.4) (seccomp2)
+#Depends: libc6 (>= 2.34), libpcre2-8-0 (>= 10.22) (selinux1)
+#Depends: libsemanage-common (>= 3.4-1), libaudit1 (>= 1:2.2.1), libbz2-1.0, libc6 (>= 2.34), libselinux1 (>= 3.4), libsepol2 (>= 3.4) (semanage2)
+#Dependds: ? (semanage-common)
+#Depends: libc6 (>= 2.33) (sepol)
 libse
 #
 libunwind8
 #
 libxaw7
-#
-#TODO:siirto ennen xt6,xtables?
-libxt
+
 #
 libxx
 libsm
@@ -363,6 +375,7 @@ libeudev
 #vissiin gcc-12/cpp-12? aiemmaksi?
 libisl
 #iproute2 varte?
+#Depends: libc6 (>= 2.34)
 libcap2
 #
 #debconf varten?
