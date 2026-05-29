@@ -46,7 +46,7 @@ libatspi2
 #
 # libglx0_1.6.0-1
 #Depends: libc6 (>= 2.34), libglvnd0 (= 1.6.0-1), libx11-6 (>= 2:1.4.99.1), libglx-mesa0
-#
+#HUOM.28526:glx-mesa0 ei löytynyt wdm-paketista
 libgl
 #/TODO:libgl
 at-spi
@@ -96,16 +96,22 @@ libthai0
 libfreetype
 libxf
 #
-#TODO:UUSIKSI VAAN libx11-6 - libx11-xcb1!!!!
-libx11-6
-#TODO:
-libx11.xcb1
-#libx11-xcb1:amd64 depends on libx11-6 (= 2:1.8.4-2+deb12u2); 
-#TODO:jos räjäyttäisi auki kuitenkin
-libxcb1
+#Depends:?
 libx11-data
+#VAIH:UUSIKSI VAAN libx11-6 - libx11-xcb1!!!! (vissiin x11-data - xcb1 löytyvät wdm-pak)
+#Depends: libc6 (>= 2.34), libxcb1 (>= 1.11.1), libx11-data
+libx11-6
+#Depends: libx11-6 (= 2:1.8.4-2+deb12u2)
+libx11-xcb1
+#
+#siirretty aiemmaksi koska x
+libxau6
+libxdmcp6
+#
+#Depends: libc6 (>= 2.14), libxau6 (>= 1:1.0.9), libxdmcp6
+libxcb1
+#
 #heti x11-6 jälkeen
-#libx11-xcb1
 #x11-utils depends on libx11-xcb1 
 #
 #TODO:useamman libxr-alkuisen pak...
@@ -288,8 +294,7 @@ seatd
 libse
 #
 libunwind8
-libxau6
-libxdmcp6
+
 #
 libxaw7
 #
