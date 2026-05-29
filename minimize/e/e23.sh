@@ -294,6 +294,7 @@ function e23_dm() {
 
 	${shary} libicu72 libxfixes3 libxml2
 	#TODO:libglx-mesa0 sopivaan kohtaan?
+	#TODO:libffi8 myös
 
 	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
 	csleep 10
