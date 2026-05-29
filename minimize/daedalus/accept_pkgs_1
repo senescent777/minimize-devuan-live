@@ -265,12 +265,16 @@ libpython3.11-stdlib
 libgtk2.0-common
 libgtk2.0-0
 #
-#VAIH:RÄJÄYTTÄEN RIIPPUVUUDET AUKI (selvitetty?)
+#VAIH:RÄJÄYTTÄEN RIIPPUVUUDET AUKI (selvitetty?) (mnl , xtables löytyvät wdm-pkaetista)
+#Depends: libc6 (>= 2.14)
 libjansson4
+#Depends: libc6 (>= 2.14)
 libmnl0
+#Depends: libc6 (>= 2.34), libmnl0 (>= 1.0.3-4~)
 libnftnl11
+#Depends: libc6 (>= 2.34)
 libxtables12
-#riippuvuudet pitäisi löydyä ylempää
+#Depends: libc6 (>= 2.34), libgmp10 (>= 2:6.2.1+dfsg1), libjansson4 (>= 2.14), libmnl0 (>= 1.0.3-4~), libnftnl11 (>= 1.2.2), libxtables12 (>= 1.6.0+snapshot20161117)
 libnftables
 #
 #TODO:UUSIKSI KAIKKI TÄMÄN KANSSA, RIUIIPPUVUUDET JA LÖYTYYKÖ TARista ???
