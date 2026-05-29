@@ -181,7 +181,9 @@ libpcre2-8-0
 libvte-2.91-common
 libvte
 #uutena /accept2
+#Depends:libc6 ( Conflicts:libpam0g (<< 1.4.0-10))
 libcrypt1
+# Depends:libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), debconf (>= 0.5) | debconf-2.0
 libpam0g
 #
 #Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), libcrypt1 (>= 1:4.3.0), libpam0g (>= 0.99.7.1), libselinux1 (>= 3.1~)
@@ -282,14 +284,18 @@ libheif1
 #
 #näiden suhteen jotain?:   x11-utils x11-apps (vielä 120426?)
 #
-#TODO:räjäyttöen riippuvuudet auki UUDESTAAN PRKL / LÖYTYYKÖ PAKETISTA?
+#VAIH:räjäyttäen riippuvuudet auki UUDESTAAN PRKL / LÖYTYYKÖ PAKETISTA? (löytyy tiff6 asti)
 #Depends:?
 imagemagick-6-common
-#
+#Depends: libc6 (>= 2.4)
 libjbig0
+#Depends: libc6 (>= 2.14)
 libjpeg62-turbo
+#Depends: libc6 (>= 2.29)
 liblcms2-2
+#Depends: libc6 (>= 2.34)
 libltdl7
+#Depends: libc6 (>= 2.33), libdeflate0 (>= 1.0), libjbig0 (>= 2.0), libjpeg62-turbo (>= 1.3.1), liblerc4 (>= 3.0), liblzma5 (>= 5.1.1alpha+20120614), libwebp7 (>= 1.2.4), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)
 libtiff6
 #
 #VAIH (pitäöisi olla selvitetty)
