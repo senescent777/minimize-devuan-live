@@ -1,7 +1,7 @@
 #!/bin/bash
 debug=1
 
-#TODO:ehto uusiksi
+#TODO:ehto uusiksi, CONF_env huomiointi
 if [ -f /.chroot ] ; then
         odio=""
 else
