@@ -303,3 +303,4 @@ libcrypt1
 libpam0g
 #libselinux1 (libse ylempänä)
 libpipeline1
+libpam-runtime
