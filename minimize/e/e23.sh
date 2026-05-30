@@ -357,9 +357,19 @@ function e23_dm() {
 #	E22_GX="${E22_GX} xscreensaver-data xscreensaver"
 #	${shary} ${E22_GX}  #libsystemd0
 
-#150326:teki ainakin kerran jotain toivottua (ehkä joutaa vielä arpoa minne juttuja kopsaillaan) 
+#VAIH:param tarkistukset
 function e23_profs() {
-	dqb "e23_profs) $1 , $2 , $3 ("
+	dqb ";e23_profs) ${1} , ${2} , ${3} (()("
+	csleep 1
+
+	[ -z "${1}" ] && exit 76
+	[ -z "${2}" ] && exit 75
+	[ -z "${3}" ] && exit 74
+
+	[ -d "${2}" ] || exit 73
+	[ -s ${1} ] || exit 72
+	[ -s ${3} ] || exit 71
+
 	csleep 1
 	dqb "pars.0k"
 	csleep 1
