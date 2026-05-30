@@ -7,9 +7,7 @@ dnsutils
 perl
 mime-support
 #
-#eudev-dbus-e2fsprogs oli siinä rejectissä, miten x-juttuja myös?
 cpp
-#menisikö näin? , cpp juuri ennen äksää?
 xkb-data
 x11-xkb-utils
 xserver-common
@@ -31,14 +29,9 @@ gtk2-engines-pixbuf
 python3.11-minimal
 python3.11
 #
-#VAIH:TAAS menu - git-man ONKO KAIKKI RIIPPUVUUDET MUKANA JA LÖYTYYKÖ MASENNUSPAKETISTA
-#Depends:aiemmin
 menu
-#Depends:aiemmin
 twm
-#Depends:aiemmin
 psmisc
-#Depends:?
 git-man
 #
 xauth
@@ -47,38 +40,24 @@ xbitmaps
 xterm
 xfonts
 #
-#VAIH (selvitetty?)
 sysvinit-utils
-#Depends:  pitäisi
 lsb-base
 bsdextrautils
 groff-base
 debconf
-#Depends:  pitäisi
 man-db
 #
-#VAIH:riippuvuudet , selvitetty 30526 menness'?
-#
-#Depends:aiemmat
 x11-apps
-#
-#Depends:aiemmat
 x11-common
-#Depends: aiemmat
 x11-utils
-#Depends:aiemmat
 x11-xserver-utils
 #
-#
-#jaksaako noita 2 alkaa selvittää?
 xserver-xorg
 xorg
 #route ennne dhcp
 iproute2
 isc-dhcp
 #
-#VAIH:riippuvuudet /selvitetty 30526 mennessä?)
-#Depends: ,   (>= 0.76-13.1), ,
 # xserver-xorg | xserver, 
 #perl:any,  
 wdm
