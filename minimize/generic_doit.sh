@@ -429,7 +429,7 @@ message
 #menkööt toistaiseksi part3 kanssa (0403265)
 #common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain?
 
-#300526:part3() vissiin toimi, mutta miten CB0x - fktiot?
+#300526:part3() vissiin toimi, mutta miten CB0x - fktiot? nekin
 part3 ${d} ${pkgcache}
 
 other_horrors
@@ -441,6 +441,7 @@ if [ "${CONF_env}" == "DEFAULT" ] ; then
 	#[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh
 
+	#TODO:TAAS kerran ffox-prof import/export - toiminnan varmistus, luultavasti export qsi taas
 	${d0}/import2.sh r ${d0} -v
 	echo $?
 	csleep 3
