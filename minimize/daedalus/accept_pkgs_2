@@ -32,12 +32,12 @@ python3.11-minimal
 python3.11
 #
 #VAIH:TAAS menu - git-man ONKO KAIKKI RIIPPUVUUDET MUKANA JA LÖYTYYKÖ MASENNUSPAKETISTA
-#Depends: libc6 (>= 2.33), libgcc-s1 (>= 3.0), libstdc++6 (>= 11) (nämäö löytyy)
+#Depends:aiemmin
 menu
-#Depends: menu (>= 2.1.26), libc6 (>= 2.14), libice6 (>= 1:1.0.0), libsm6, libx11-6, libxext6, libxmu6, libxt6
+#Depends:aiemmin
 #nuokin tli si löytyä, myös libtinfo
 twm
-#Depends: libc6 (>= 2.34), libtinfo6 (>= 6)
+#Depends: , libtinfo6 (>= 6)
 psmisc
 #Depends:?
 git-man
@@ -58,17 +58,16 @@ debconf
 #Depends:  pitäisi
 man-db
 #
-#VAIH:riippuvuudet x11-apps - x11-xserver-utils JA LÖYTYYKÖ MASENNUSPAKETISTA 666
-# tai voisi tarkemmin speksata kuin pelkkä x11 (apps ja utils ainakin tarvitaan)
+#VAIH:riippuvuudet , selvitetty 30526 menness'?
 #
-#Depends: Depends: libc6 (>= 2.33), libpng16-16 (>= 1.6.2-1), libsm6, libx11-6, libx11-xcb1 (>= 2:1.7.5), libxaw7 (>= 2:1.0.14), libxcb-damage0, libxcb-present0, libxcb-xfixes0, libxcb1, libxcursor1 (>> 1.1.2), libxext6, libxft2 (>> 2.1.1), libxi6 (>= 2:1.2.99.4), libxkbfile1 (>= 1:1.1.0), libxmu6 (>= 2:1.1.3), libxmuu1 (>= 2:1.1.3), libxrender1, libxt6 (>= 1:1.1.0), man-db
+#Depends:aiemmat
 x11-apps
 #
-#Depends: Depends: lsb-base (>= 1.3-9ubuntu2)
+#Depends:aiemmat
 x11-common
-#Depends: libc6 (>= 2.15), libfontconfig1 (>= 2.12.6), libfontenc1, libgl1, libx11-6, libx11-xcb1 (>= 2:1.6.9), libxaw7, libxcb-shape0, libxcb1 (>= 1.6), libxcomposite1 (>= 1:0.3-1), libxext6, libxft2 (>> 2.1.1), libxi6, libxinerama1, libxkbfile1, libxmu6, libxmuu1, libxrandr2 (>= 2:1.2.0), libxrender1, libxt6 (>= 1:1.1.0), libxtst6, libxv1, libxxf86dga1, libxxf86vm1
+#Depends: aiemmat
 x11-utils
-#Depends: libc6 (>= 2.34), libice6 (>= 1:1.0.0), libx11-6, libxaw7 (>= 2:1.0.14), libxcursor1 (>> 1.1.2), libxext6, libxi6, libxmu6 (>= 2:1.1.3), libxmuu1 (>= 2:1.1.3), libxrandr2 (>= 2:1.5.0), libxt6, libxxf86vm1, cpp
+#Depends:aiemmat
 x11-xserver-utils
 #
 #
@@ -79,7 +78,7 @@ xorg
 iproute2
 isc-dhcp
 #
-#VAIH:riippuvuudet
+#VAIH:riippuvuudet /selvitetty 30526 mennessä?)
 #Depends: ,   (>= 0.76-13.1), ,
 # xserver-xorg | xserver, 
 #perl:any,  

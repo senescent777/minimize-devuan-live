@@ -2,7 +2,11 @@ libgcc-s1
 libicu
 libgomp
 #
-#29526:libc6 pitäisi riittää näille numa1-utempter0, muut löytyi wdm-paketista paitsi viimeksi mainittu
+#29526:libc6 pitäisi riittää näille numa1-utempter0, muut löytyi wdm-paketista paitsi viimeksi mainittu (tarvitsdeeko löytyä?)
+#
+#
+#Depends: pelkästään libc6
+zlib1g
 #
 #VAIH:LÖYTYYKÖ gif7 sillä "libwraster6:amd64 depends on libgif7 (>= 5.1); however"
 #uudemmasta paketista gif7 löytyy, ja pitäisi riippua vain:libc6
@@ -13,13 +17,60 @@ libaom3
 libbz2-1.0
 libutempter0
 #
-libgdk-pixbuf2.0-common
-libgdk-pixbuf-2.0-0
-libgdk-pixbuf-2.0-bin
-#
 #29526:tämä löytyi wdm.paketista, syystä kai (libgdbm6)
 #pitäisi riittää libc6 tuolle
 libgdbm
+#
+libglapi-mesa_22.3
+#Depends: peläkstään libc6
+#
+libglvnd0_1.6.0,
+#Depends: pelkästään libc6
+#
+#Depends: vain libc6 
+libwayland-egl1
+#
+#Depends: vain libc6 
+libpcre2-8-0
+#
+#Depends:vain libc6 ( Conflicts:libpam0g (<< 1.4.0-10))
+libcrypt1
+#
+#Depends: vain libc6 
+libjansson4
+#Depends: vain libc6 
+libmnl0
+#
+#Depends: vain libc6 
+libxtables12
+#
+#Depends:vain libc6 
+libjbig0
+#Depends: vain libc6
+libjpeg62-turbo
+#Depends: vain libc6 
+liblcms2-2
+#Depends: vain libc6
+libltdl7
+#
+#Depends: vain libc6 
+libxshmfence1
+#
+#Depends:Depends: vain libc6 (
+libcap-ng0
+#
+#Depends: vain libc6 (>= 2.34)
+libtinfo6
+#
+#Depends:vain libc6 
+libcap2
+#
+#Depends:vain libc6 
+libpipeline1
+#
+libgdk-pixbuf2.0-common
+libgdk-pixbuf-2.0-0
+libgdk-pixbuf-2.0-bin
 #
 librsvg2-2
 librsvg2-common
@@ -27,26 +78,27 @@ libstdc
 #
 libatspi2
 #VAIH:libgl-säädöt
+libglx0
 #29526:dwm-paketista löytyi: 
+#Depends: ylempänä
+libgl1_1.6
+#Depends: ?
+libglib2.0
 #
-#libgl1_1.6,
-#Depends: libc6 (>= 2.34), libglvnd0 (= 1.6.0-1), libglx0 (= 1.6.0-1)
+#VAIH:libffi8 pitäisi saadam mukaan riippuvuuksineen
+libffi
+#toimisiko tässä?
+libfftw3-double3
 #
-# libglapi-mesa_22.3
-#Depends: libc6 (>= 2.34)
-#
-# , libglib2.0-0,
-#Depends: libc6 (>= 2.34), libffi8 (>= 3.4), libmount1 (>= 2.35.2-7~), libpcre2-8-0 (>= 10.22), libselinux1 (>= 3.1~), zlib1g (>= 1:1.2.2)
+libblkid1
+#Depends: , libselinux1 (>= 3.1~)
+libmount1
+#Depends: , ,  (>= 2.35.2-7~), , libselinux1 (>= 3.1~), 
 #
 # libglib2.0-data,
-#Depends: ?
-#
-# libglvnd0_1.6.0,
-#Depends: libc6 (>= 2.34)
-#
-# libglx0_1.6.0-1
-#Depends: libc6 (>= 2.34), libglvnd0 (= 1.6.0-1), libx11-6 (>= 2:1.4.99.1), libglx-mesa0
+#Depends: , , libx11-6 (>= 2:1.4.99.1), 
 #HUOM.28526:glx-mesa0 ei löytynyt wdm-paketista
+libglx-mesa0
 libgl
 #/libgl
 at-spi
@@ -57,9 +109,6 @@ libatk-bridge
 libavahi-common-data
 libavahi-common3
 libavahi-client3
-#
-#Depends: libc6 (>= 2.14)
-zlib1g
 #
 libkrb5support0
 libkrb5-3
@@ -77,12 +126,25 @@ gsettings-desktop-schemas
 #
 xkb-data
 libgtk-3-common
+#VAIH:libgtk-3-bin näille main (tai missä järj tuo taas asennettiinkaan)
+#
+#vaih:näiden kanssa jotain? esim. yhdistäminen ylempänä olevaan?
+libgtk-3-0
+libgtk-3-bin
 #
 gtk-update-icon-cache
 adwaita-icon-theme
 hicolor-icon-theme
 #
-#Depends: libc6 (>= 2.34), libicu72 (>= 72.1~rc-1~), liblzma5 (>= 5.1.1alpha+20120614), zlib1g (>= 1:1.2.3.3)
+#VAIH:, mitä sen kanssa tekee?
+#Depends: perl (>= 5.36.0-7+deb12u3), ,  (>= 2.14), , , 
+perlapi-5.36.0
+liburi-perl
+libwww-perl
+libxml-parser-perl
+#
+#libxml2?
+liblzma5
 libxml
 #
 shared-mime-info
@@ -100,114 +162,119 @@ libfreetype
 libxf
 #
 #TODO:vissiin uusi selvityskierros kohta
+#libxcb1
+#libxcb-damage0
+#libxcb-dri2
+#libxcb-dri3
+#libxcb-present0
+#libxcb-randr0
+#libxcb-render0
+#libxcb-shape0
+#libxcb-shm0
+#libxcb-sync1
+#libxcb-xfixes0
+#libxcomposite
+#libxcursor
 libxc
 #
 #Depends:?
 libx11-data
-#VAIH:UUSIKSI VAAN libx11-6 - libx11-xcb1!!!! (vissiin x11-data - xcb1 löytyvät wdm-pak)
-#Depends: libc6 (>= 2.34), libxcb1 (>= 1.11.1), libx11-data
+#VAIH:(vissiin x11-data - xcb1 löytyvät wdm-pak)
+#Depends: ylempänä
 libx11-6
 #TODO:x11-6 siirto aiemmaksi
-#Depends: libx11-6 (= 2:1.8.4-2+deb12u2)
+#Depends: ylempänä
 libx11-xcb1
 #
 #siirretty aiemmaksi koska x
 libxau6
 libxdmcp6
 #
-#Depends: libc6 (>= 2.14), libxau6 (>= 1:1.0.9), libxdmcp6
-#libxcb1 (turha koska ylempänä)
+#Depends: , ,
 #
 #heti x11-6 jälkeen
 #x11-utils depends on libx11-xcb1 
 #
+#VAIH:xext-rivin sttro aeiammaksi (minne asti?)
+libxext6
+#
 #VAIH:useamman libxr-alkuisen pak... (libxrandr2 ja libxrender1 aluksi)
-#Depends: libc6 (>= 2.14), libx11-6 (>= 2:1.6.0), libxext6, libxrender1
-#Depends: libc6 (>= 2.14), libx11-6 (>= 2:1.6.0)
+#
+#Depends: ,ylempänä
 libxrender1
 libxrandr2
 #HUOM!!! NUO 2 PAREMPI ANTAA OLLLA ERIKSEEN TUOSSA YLLÄ
 #
 #VAIH:PANGOJEN RIIPPUVUUDET METSÄSTÄEN UUSIKSI/LÖYTYYKÖ MASENNUSPAKETiSTA??? (jälk seuraavaksi)
-#Depends: fontconfig (>= 2.13.0), libc6 (>= 2.14), libfribidi0 (>= 1.0.6), libglib2.0-0 (>= 2.67.3), libharfbuzz0b (>= 5.1.0), libthai0 (>= 0.1.25)
+#Depends:ylempänä
 libpango-1
-#fontconfig vähän turha sanoa kosak ylempänä
-#Depends: libc6 (>= 2.33), libexpat1 (>= 2.0.1), libfreetype6 (>= 2.9.1), fontconfig-config (>= 2.14.1-4)
-libfontconfig1
-#Depends: libc6 (>= 2.14), libfontconfig1 (>= 2.13.0), libfreetype6 (>= 2.2.1), libglib2.0-0 (>= 2.67.3), libharfbuzz0b (>= 5.1.0), libpango-1.0-0 (= 1.50.12+ds-1)
+libexpat
+#Depends:ylempänä
+#Depends:ylempänä
 libpangoft2
-#Depends: libc6 (>= 2.4), libcairo2 (>= 1.12.10), libfontconfig1 (>= 2.13.0), libglib2.0-0 (>= 2.62.0), libharfbuzz0b (>= 2.6.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1)
 libpangocairo
 #
-#render vähän turha sanoa koska
-#libxrender1
-#Depends: libc6 (>= 2.14), libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.3.5), libx11-6, libxrender1
-libxft2
-#Depends: libc6 (>= 2.4), libfontconfig1 (>= 2.13.0), libglib2.0-0 (>= 2.62.0), libpango-1.0-0 (= 1.50.12+ds-1), libpangoft2-1.0-0 (= 1.50.12+ds-1), libx11-6, libxft2 (>> 2.1.1), libxrender1
+#Depends: ylempänä
+#Depends:ylempänä
 libpangoxft
 #
 #VAIH:useamman libff-alkuisen paketin riippuvuudet listaten (pitäisi kai listat tarkemmin)
 #
-#libfftw3-double3_3.3.10-1_amd64 Depends: libc6 (>= 2.34), libgomp1 (>= 4.9)
-#TODO:libffi8 pitäisi saadam mukaan
-libff
-#Depends: libc6 (>= 2.28), libffi8 (>= 3.4)
+#libfftw3-double3_3.3.10-1_amd64 Depends: ylempänä
+#Depends: ylempänä
 libwayland-client0
-#Depends: libc6 (>= 2.33), libffi8 (>= 3.4)
+#Depends: ylempänä
 libwayland-server0
-#Depends: libc6 (>= 2.2.5)
-libwayland-egl1
-#Depends: libc6 (>= 2.28), libwayland-client0 (>= 1.20.0)
+#Depends: ylempänä
 libwayland-cursor0
 #
 libxdamage1
-#Depends: libc6 (>= 2.14), libx11-6 (>= 2:1.6.0)
-#TODO:xext-rivin sttro aeiammaksi
-libxext6
-#Depends: libc6 (>= 2.14), libx11-6 (>= 2:1.6.0), libxext6
-#Depends: libc6 (>= 2.4), libx11-6 (>= 2:1.6.0), libxext6
+#Depends:ylempänä
+#Depends:ylempänä
+#Depends:ylempänä
 libxi
-#Depends: libc6 (>= 2.14), libx11-6
+#Depends: ylempänä
 libxkb
 #
-libgtk-3-0
-libgtk-3-bin
 #
 #VAIH:RÄJÄYTÄ AUKI UUDESTAAN/LÖYTYYKLÖ MASKENNUSPAKETISTA 666 (löytyy kyllä)
 #Depends:?
 wmaker-common
-#Depends: libc6 (>= 2.34), libmd0 (>= 1.0.3-2)
+libmd0
+#Depends:ylempänä
 libbsd0
-#Depends: lsb-base (>= 1.3-9ubuntu2)
+lsb-base
+#Depends:ylempänä
+#30625:mikähän kijrasto tämän taas tarvitsi?
 x11-common
-#Depends: libc6 (>= 2.34)
-libpcre2-8-0
 #
 libvte-2.91-common
 libvte
 #uutena /accept2
-#Depends:libc6 ( Conflicts:libpam0g (<< 1.4.0-10))
-libcrypt1
-# Depends:libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), debconf (>= 0.5) | debconf-2.0
+#Depends:?
+libaudit-common
+#Depends: ylempänä
+libaudit1
+debconf
+# Depends:ylempänä
 libpam0g
+#Depends:ylempänä (VAIH:muiden libpam.rivien kanssa)
+libpam-runtime
 #
-#Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), libcrypt1 (>= 1:4.3.0), libpam0g (>= 0.99.7.1), libselinux1 (>= 3.1~)
+#Depends: , , ,, libselinux1 (>= 3.1~)
 libpam-modules-bin
-#Pre-Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), libcrypt1 (>= 1:4.3.0), libdb5.3, libpam0g (>= 1.4.1), libselinux1 (>= 3.1~), debconf (>= 0.5) | debconf-2.0, libpam-modules-bin (= 1.5.2-6+deb12u2)
+libdb5.3
+#Pre-Depends: , , , , , libselinux1 (>= 3.1~), , 
 libpam-modules_
 #
 perl-modules-
 libperl
 perl-base
-libexpat1
-#TODO:libxml-parser-perl, mitä sen kanssa tekee?
-#Depends: perl (>= 5.36.0-7+deb12u3), perlapi-5.36.0,  (>= 2.14), , liburi-perl, libwww-perl
-#
 #libav tarttee
 libmfx1
 #
 #libva-drm2
-#libav tarttee myös libva, libvdpau, libpoencl, ocl-
+#libav:jos voisi olla vähän aikaa
 libva-
 libva2
 #
@@ -224,35 +291,31 @@ libshine3
 libsnappy1v5
 libspeex1
 libsvtav1enc1
-#swresample oli aiemmin tössö
+#swresample oli aiemmin tässä
 libtheora0
 libtwolame0
 #
-#290526:pitäisikö speksata tarkemmin tuoss aalla?
-#Depends: libc6 (>= 2.34), libnuma1 (>= 2.0.11), libstdc++6 (>= 4.1.1)
+#Depends:ylempänä
 libx26
-#Depends: libc6 (>= 2.14), libx11-6 (>= 2:1.6.0), libxext6
+#Depends:ylempänä
 libxv
 #
-#VAIH:pitäisikö selvitää uusiksi?
-#Depends: libc6 (>= 2.29), zlib1g (>= 1:1.2.11.dfsg)
+#VAIH:pitäisikö selvitää uusiksi? selvitetty 30526?
+#Depends: tulisi olla ylempänä
 libpng16-16
 #Depends:?
 libzvbi-common
-#Depends: libc6 (>= 2.34), libpng16-16 (>= 1.6.2-1), libzvbi-common (= 0.2.41-1+deb12u1)
+#ylempänä
 libzvbi0
 #VAIH:myöhemmin?
-#Depends: libdrm-common (>= 2.4.114-1), libc6 (>= 2.33)
+#Depends: libdrm-common (>= 2.4.114-1),
 libdrm
 #
-#joko jo libav-pakettien kanssa asia kunnossa vai ei?
-#edelleen jaksaa nalkuttaa riippuvuukiststa dpkg
 #
 libavutil57
 libdav1d6
 #
 #
-liblzma5
 libmp3lame
 libopenjp2-7
 libopus0
@@ -262,7 +325,7 @@ libvpx7
 libwebp
 libavcodec59
 #
-#HUOM.libsdwresample ja libsox ennen libav? päintoisin, swresample tarv:libavutil57, libsoxr0
+#HUOM.libsdwresample ja libsox ennen ? päintoisin, swresample tarv:, libsoxr0
 #
 glib-networking
 libso
@@ -278,28 +341,23 @@ libgtk2.0-0
 libxt
 #
 #VAIH:RÄJÄYTTÄEN RIIPPUVUUDET AUKI (selvitetty?) (mnl , xtables löytyvät wdm-pkaetista)
-#Depends: libc6 (>= 2.14)
-libjansson4
-#Depends: libc6 (>= 2.14)
-libmnl0
-#Depends: libc6 (>= 2.34), libmnl0 (>= 1.0.3-4~)
+#Depends:ylempänä
 libnftnl11
-#Depends: libc6 (>= 2.34)
-libxtables12
-#Depends: libc6 (>= 2.34), libgmp10 (>= 2:6.2.1+dfsg1), libjansson4 (>= 2.14), libmnl0 (>= 1.0.3-4~), libnftnl11 (>= 1.2.2), libxtables12 (>= 1.6.0+snapshot20161117)
+libgmp10
+#Depends:ylempänä
 libnftables
 #
 #VAIH:UUSIKSI KAIKKI TÄMÄN KANSSA, RIUIIPPUVUUDET JA LÖYTYYKÖ TARista ??? (löytyy)
-#Depends: libc6 (>= 2.2.5), libglib2.0-0 (>= 2.24.0)
+#Depends: ylempänä
 liblqr-1-0
 #
 #VAIH:UUSIKSI 265-JUTTUJEN KANSSA KAIKKI (de265 ja x265 löytyi wdm-pak)
-#Depends: libc6 (>= 2.34), libgcc-s1 (>= 3.0), libstdc++6 (>= 11)
+#Depends: ylempänä
 libde265-0
-#Depends: libc6 (>= 2.34), libnuma1 (>= 2.0.11), libstdc++6 (>= 4.1.1)
-libx265-199
+#Depends: ylempänä
+#libx265-199 turha tässä koska
 #VAIH: (löytyy wdm-pak) 
-#Depends: libaom3 (>= 3.2.0), libc6 (>= 2.34), libdav1d6 (>= 0.1.0), libde265-0 (>= 1.0.7), libgcc-s1 (>= 3.0), libstdc++6 (>= 11), libx265-199 (>= 3.5), zlib1g (>= 1:1.1.4)
+#Depends:ylempänä
 libheif1
 #
 #näiden suhteen jotain?:   x11-utils x11-apps (vielä 120426?)
@@ -307,62 +365,48 @@ libheif1
 #VAIH:räjäyttäen riippuvuudet auki UUDESTAAN PRKL / LÖYTYYKÖ PAKETISTA? (löytyy tiff6 asti)
 #Depends:?
 imagemagick-6-common
-#Depends: libc6 (>= 2.4)
-libjbig0
-#Depends: libc6 (>= 2.14)
-libjpeg62-turbo
-#Depends: libc6 (>= 2.29)
-liblcms2-2
-#Depends: libc6 (>= 2.34)
-libltdl7
-#Depends: libc6 (>= 2.33), libdeflate0 (>= 1.0), libjbig0 (>= 2.0), libjpeg62-turbo (>= 1.3.1), liblerc4 (>= 3.0), liblzma5 (>= 5.1.1alpha+20120614), libwebp7 (>= 1.2.4), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)
+libdeflate0
+liblerc4
+#Depends:ylempänä
 libtiff6
 #
 libice6
 libsm
-#VAIH (pitäisi olla selvitetty)
-#Depends: libc6 (>= 2.34), libx11-6
+#(pitäisi olla selvitetty)
+#Depends:ylempänä
 libxpm4
-#Depends: libc6 (>= 2.33), libice6 (>= 1:1.0.0), libsm6, libx11-6
-libxt6
-#Depends: libc6 (>= 2.14), libx11-6, libxext6, libxt6
-#Depends: libc6 (>= 2.4), libx11-6
+#Depends:ylempänä
+#libxt6 turha tässä koska
+#Depends:ylempänä
+#Depends:ylempänä
 libxmu
-#
+#HUOM:libxft ai tarv erikseen koska libxf ylempänä
 #
 #assuanin kanssa jokin ongelma vai ei? (124.26)
 libassuan0
 liberror-perl
 #
-#Depends: libc6 (>= 2.34), libdrm2 (>= 2.4.75), libexpat1 (>= 2.0.1), libwayland-server0 (>= 1.15.0)
+#riippuvuudet ylempänä
 libgbm1
-#Depends: libc6 (>= 2.27)
-libxshmfence1
 #
 #
 #VAIH:UUSIKSI VAAN libegl-SELVITTELYT, MITÄÖ TARVITSEE JA LÖYTYYKÖ MASENNUSPAKEYTISTA
-#libxcb- turha koska...
+#
 #xc- voi olla turha sanoa tässä koska ylempänä
 #
-#Depends:Depends: libc6 (>= 2.34), libdrm2 (>= 2.4.109), libexpat1 (>= 2.0.1), libgbm1 (= 22.3.6-1+deb12u1), libgcc-s1 (>= 3.4), libglapi-mesa (= 22.3.6-1+deb12u1), libwayland-client0 (>= 1.20.0), libwayland-server0 (>= 1.15.0), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0 (>= 1.13), libxcb-present0, libxcb-randr0 (>= 1.3), libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), libxshmfence1
+#Depends:ylempänä
 libegl-mesa0
 #
-#Depends:libc6 (>= 2.34), libglvnd0 (= 1.6.0-1), libegl-mesa0
+#Depends:ylempänä
 libegl1
-#Depends:Depends: libc6 (>= 2.33)
-libcap-ng0
-#Depends:?
-libaudit-common
-#Depends: libaudit-common (>= 1:3.0.9-1), libc6 (>= 2.33), libcap-ng0 (>= 0.7.9)
-libaudit1
 #
 seatd
-#Depends: seatd | logind, libc6 (>= 2.33), libsystemd0 (>= 238)
-#Depends: libc6 (>= 2.4) (seccomp2)
-#Depends: libc6 (>= 2.34), libpcre2-8-0 (>= 10.22) (selinux1)
-#Depends: libsemanage-common (>= 3.4-1), libaudit1 (>= 1:2.2.1), libbz2-1.0, libc6 (>= 2.34), libselinux1 (>= 3.4), libsepol2 (>= 3.4) (semanage2)
-#Dependds: ? (semanage-common)
-#Depends: libc6 (>= 2.33) (sepol)
+libseccomp2
+libsemanage-common
+libsepol
+#Depends: | logind, , libsystemd0 (>= 238)
+#Depends:ylempänä (selinux1)
+#Depends: , ,, , libselinux1 (>= 3.4),  (semanage2)
 libse
 #
 libunwind8
@@ -370,8 +414,7 @@ libunwind8
 libxaw7
 #
 libxx
-#Depends: libc6 (>= 2.34)
-libtinfo6
+#
 libpixman
 libpciaccess
 libgcrypt20
@@ -380,8 +423,6 @@ libeudev
 #vissiin gcc-12/cpp-12? aiemmaksi?
 libisl
 #iproute2 varte?
-#Depends: libc6 (>= 2.34)
-libcap2
 #
 #debconf varten?
 libtext-wrapi18
@@ -389,35 +430,27 @@ libfs6
 #
 #VAIH:riippuvuudet (selvitetty wutil osalta?)
 #riippuvuudet tuossa ylempänä (pitäisi)
-#MUTTA KUITENKIN PRKL  "libwutil5:amd64 depends on wmaker-common"
+#  "libwutil5:amd64 depends on " vieläkö 30526?
 libwutil5
 #
 #VAIH:METSÄSTÄ UUSIKSI JA KTS ETTÄ MASENNUSPAKETISTA... (nyt pitäisi 29526 uusimmalla yrityksellä)
-#Depends: libc6 (>= 2.34), libgomp1 (>= 4.9)
-libfftw3-double3
+#Depends: ylempänä
 #
 #VAIH:TAIKURIHOMMAT RÄJÄYTTÖEN AUKI UUDESTAAN/LÖYTYYKÖ TARPEELLISET .deb ???
-#riippuvuuksista ota selvää mutta wdm-tarista pitäisi imagemagick löytyä
-imagemagick-6-common
-#VAIH:SELVITÄ MIKSI EI imagemagick-common ASENNU!!!!
 #
-#Depends: Depends: libbz2-1.0, libc6 (>= 2.35), libfftw3-double3 (>= 3.3.10), libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.2.1), libgcc-s1 (>= 3.3.1), libgomp1 (>= 6), libheif1 (>= 1.4.0), libjbig0 (>= 2.0), libjpeg62-turbo (>= 1.3.1), liblcms2-2 (>= 2.6), liblqr-1-0 (>= 0.4.0), libltdl7 (>= 2.4.7), liblzma5 (>= 5.1.1alpha+20120614), libopenjp2-7 (>= 2.0.0), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.5.0~rc1), libwebp7 (>= 1.2.4), libwebpdemux2 (>= 1.2.4), libwebpmux3 (>= 1.2.4), libx11-6, libxext6, libxml2 (>= 2.7.4), zlib1g (>= 1:1.1.4), imagemagick-6-common (>= 8:6.9.6.2+dfsg-3) 
+#Depends: Depends:ylempänä
 libmagickcore-6
-#Depends: libc6 (>= 2.14), libgcc-s1 (>= 3.3.1), libgomp1 (>= 4.9), libmagickcore-6.q16-6 (>= 8:6.9.11.24), libx11-6, imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
+#Depends:ylempänä
 libmagickwand
 #
-#Depends: libc6 (>= 2.33), libgif7 (>= 5.1), libjpeg62-turbo (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.0.3), libwebp7, libx11-6, libxext6, libxmu6 (>= 2:1.1.3), libxpm4
-#VAIH:wraster, vissiin löytyy wdm-pakeytista tarv
+#Depends:ylempänä
+#30526 rasterin riippuvuudet selvitetty?
 libwraster
-#Depends: libc6 (>= 2.33), libfontconfig1 (>= 2.12.6), libpango-1.0-0 (>= 1.22.0), libpangoft2-1.0-0 (>= 1.14.0), libpangoxft-1.0-0 (>= 1.14.0), libwraster6 (>= 0.95.8), libwutil5 (>= 0.95.5), libx11-6, libxext6, libxft2 (>> 2.1.1), wmaker-common (>= 0.95.9-3)
+#Depends:ylempänä
 #vissiin löytyy myös wingsin travitsemat wdm-paketista
 libwings3
 #
 libncursesw6
 libproc2-0
 #
-#libselinux1 (libse ylempänä)
-#Depends:libc6 
-libpipeline1
-#Depends: debconf (>= 0.5) | debconf-2.0, debconf (>= 1.5.19) | cdebconf, libpam-modules (>= 1.0.1-6)
-libpam-runtime
+#libselinux1 (libse ylempänä) (TODO:libselinux1 siirto ennen libmount?)
