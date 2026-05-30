@@ -192,7 +192,7 @@ case "${mode}" in
 		z2 /opt/bin/zxcv
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
-	#270526:tämäkin taas	
+	#270526:tämäkin taas (VAIH)
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
