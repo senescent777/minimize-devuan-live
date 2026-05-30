@@ -740,10 +740,12 @@ function check_binaries() {
 	#... pitäisiköhän gg:n suhteen jotain tehdä, imp2 kiukuttelut nimittäin
 
 	if [ -z "${gg}" ] ; then
+		echo "SHOULD INSTALL GPG"
 		CB01 ${1} ${t}
 	fi
 
 	if [ -z "${ipt}" ] ; then
+		echo "SHOULD INSTALL OPÅTANÖES"
 		CB02 ${t}
 	fi
 

@@ -213,10 +213,9 @@ function adieu() {
 
 	${whack} xfce4-session
 }
+
 #=====================================PART0=========================================================
-
 pkgcache=$(${mkt} -d)
-
 part0 ${distro} ${CONF_iface}
 process_lib ${d} ${pkgcache}
 
@@ -257,7 +256,8 @@ function pre_enforce() {
 	csleep 1
 	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 
-	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
+	#VAIH:ehtoa joutaisi vähän viilaamaan
+	if [ "${CONF_env}" == "DEFAULT" ] ; then # && [ -d /opt/bin ]
 		if [ ! -d /opt/bin ] ; then
 			${smd} /opt/bin
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
@@ -429,7 +429,9 @@ message
 #menkööt toistaiseksi part3 kanssa (0403265)
 #common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain?
 
+#300526:part3() vissiin toimi, mutta miten CB0x - fktiot?
 part3 ${d} ${pkgcache}
+
 other_horrors
 dqb "AFTER THE HORROR"
 csleep 1
@@ -455,7 +457,7 @@ e_h $(whoami) ${d0}
 ${sco} 0:0 /opt/bin/*
 ${scm} 0400 /opt/bin/zxcv*
 
-#280526:ajetaanko tätä vai ei?
+#280526:ajetaanko tätä vai ei? vissiin ajetaan (30526)
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
 else

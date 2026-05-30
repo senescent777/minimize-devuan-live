@@ -1,7 +1,7 @@
 #just_download_not_install-vipu olisi tietysti...
 
 
-#010426:muutoksia josqs? dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteeT keksitty
+#dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteeT keksitty
 function aswasw() { #privaatti fktio, tarkpoitus olla
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
@@ -78,6 +78,7 @@ function e23_other_pkgs() {
 	message
 	jules
 
+	#pitäisikö libgmp olla if-lauseen ulkopuolella? mitkä aketit sitä tyavitsavet?
 	if [ ${1} -eq 1 ] ; then
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
@@ -98,7 +99,7 @@ function e23_other_pkgs() {
 }
 
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
-#290526:yrittää saada aikaiseksi pakettia, jonka sisällön kelvollisuus selvitettävä (VAIH)
+#290526:vissiin saada aikaiseksi pakettia, jonka sisältö asentUI (tosin libgtk-narinaa)
 function e23_upgp() {
 	dqb " e23_upgp() "
 
@@ -118,7 +119,6 @@ function e23_upgp() {
 	csleep 1
 }
 
-#190426:toimii
 function e23_upgp2() {
 	dqb " e23_upgp2() "
 	[ -z "${1}" ] && exit 1 
@@ -139,7 +139,6 @@ function e23_upgp2() {
 	csleep 1
 }
 
-#170326:taitaa toimia, paketin teko ja sisältö
 function e23_qrs() {
 	dqb "e23_qrs()"
 
@@ -229,7 +228,7 @@ function e23_qrs() {
 #twm depends on menu (>= 2.1.26); (pitäisi löytyä, myös accept2)
 
 #29526:sai oikeastaan aikaiseksi paketin minkä sisältö ainakin osittain asentuu kun toistvasti renkkaa
-
+#30526:saattoi jo onnistua asentelu kiukuttelematta mutta voi tilanne muuttua q lisää sorkkii
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -250,7 +249,7 @@ function e23_dm() {
 	#jos ei ala muuten sujua ni ao riveistä mallia accept1:seen
 	
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
-	#[ $? -eq 0 ] || exit 54 #to state the obvious:initramfs-kikkailujen takia ei kande nöin tehdö
+	#[ $? -eq 0 ] || exit 54 #to state the obvious:initramfs-kikkailujen takia ei kande näin tehdä
 	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
 
 	${shary} libnuma1 libx265-199 libwraster6 libwings3
@@ -293,10 +292,12 @@ function e23_dm() {
 	csleep 10
 
 	${shary} libicu72 libxfixes3 libxml2
-	#TODO:libglx-mesa0 sopivaan kohtaan?
-	#TODO:libffi8 myös
-	#TODO?:tarvitaanko libzvbi?
-	#TODO:git-man
+	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
+	#VAIH:sopivaan kohtaan?
+	#VAIH: myös
+	#VAIH?:tarvitaanko ?
+	#VAIH: noiden neljän riippuvuudet kanssa?
+	#TODO:libdb5.3 , debconf, libdeflate, liblerc4 mukaan?	
 
 	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
 	csleep 10
@@ -336,7 +337,6 @@ function e23_dm() {
 #TODO:miten se Makefile-idea? kokeilisiko?
 
 
-#150326:teki ainakin kerran jotain toivottua (ehkä joutaa vielä arpoa minne juttuja kopsaillaan) 
 #VAIH:param tarkistukset
 function e23_profs() {
 	dqb ";e23_profs) ${1} , ${2} , ${3} (()("
