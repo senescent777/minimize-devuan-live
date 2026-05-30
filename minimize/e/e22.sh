@@ -119,12 +119,10 @@ function e22_pre2() {
 	dqb "e22_pre2()"
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
-	[ -z "${3}" ] && exit 68
-	[ -z "${4}" ] && exit 69
-	[ -d ${1} ] || exit 111
+
 
 	#tämän sekoilun piti olla lopetettu
-	par4=$(echo ${4} | tr -d -c 0-9)
+	par4=$(echo ${2} | tr -d -c 0-9)
 	echo $?
 	csleep 1
 
@@ -134,13 +132,14 @@ function e22_pre2() {
 		if [ -h  /etc/resolv.conf ] ; then
 			echo "-L"
 		else
+			#TODO:common_lib fktio jos ei nimeäisi linkkejä uudestaan jatkossa
 			[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
 		fi
 	fi
 
 	ls -las /etc/resolv.*
 	csleep 10
-	${sifu} ${3}
+	#${sifu} ${1} #tpostaise4ksi jemmaan koska renkkaaminen vituttaa
 	csleep 1
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/

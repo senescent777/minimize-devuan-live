@@ -93,27 +93,25 @@ fi
 [ -z "${distro}" ] && exit 6
 d=${d0}/${distro} #nykyään vähän turha tässä
 process_lib ${d}
-mop=${CONF_dm} 
+mop=${CONF_dm} #voinee joutua muuttamaan jatkossa?
+
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 dqb "BEF0RE T1G N0R MKTMP"
 sleep 1
 
 if [ -z "${tig}" ] ; then
-	echo "SHOULD INSTALL GIT ($0 e)"
+	echo "SHOULD INSTALL GIT"
 	[ "${mode}" == "e" ] || exit 7
 fi
 
 if [ -z "${mkt}" ] ; then
-	echo "SHOULD INSTALL MKTEMP ($0 e)"
+	echo "SHOULD INSTALL MKTEMP"
 	exit 8
 fi
 
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
 
-#vrt. toisen repon setup2
-E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
-	
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
 	[ $? -gt 0 ] && exit 66
@@ -131,12 +129,14 @@ fi
 [ -z "${tgtfile}" ] && exit 98
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
+cont=0
+dqb "ESAC1"
 csleep 1
 [ -d ${d0}/${tgtfile} ] && exit 64
 
 #-h pysähtyy ennen tätä riviä?
 e22_hdr ${tgtfile}
-[ -v CONF_iface ] && ${sifd} ${CONF_iface}
+#[ -v CONF_iface ] && ${sifd} ${CONF_iface} #tsoiatsieskei jhemmaan, renkkaaminen wtuttaa
 #jokin varmistus vielä että iface alhaalla?
 
 #HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
@@ -150,20 +150,20 @@ e22_cleanpkgs ${CONF_pkgdir}
 #HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun jossia n tilanteessa
 [ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
-
 doit=1
 csleep 1
-#getopt .o "34uetglnxs" ...
 
 case "${mode}" in
 	0)
 		exit 97
 	;;
 	3|4) 
-		
-		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
-		#VAIH:turhia kommentteja wttuun sotkemasta
+		#3 taisi toimia 04/26 tienoilla ainakin kerran
+		# 21426 onnasi viimeksi paketin rakennus tässä moodissa, sisältökin jnkin verran toimaa
 
+		#4 toimi viimeksi 280526
+		#merd2 taisi toimia viimeksi 30526
+	
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
 
@@ -171,15 +171,12 @@ case "${mode}" in
 		reqwreqw /opt/bin/zxcv.tmp
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 3 ] && [ "${CONF_env}" = "DEFAULT" ] ; then
-			#TODO:e.tar-kikkailu -> other_pkgs() syystä gpg puuttuu
-			#... rekursion kanssa jos vaikka tekisi
-
+		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
 			doit=0
-		fi	
+		fi
 		
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
@@ -192,7 +189,10 @@ case "${mode}" in
 		z2 /opt/bin/zxcv
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
-	#270526:tämäkin taas (VAIH)
+	#180426:osasi paketin muodostaa, asennuksen aikana pientä nalkutusta
+	#dpkg: dependency problems prevent configuration of libxml-parser-perl:
+ 	#libxml-parser-perl depends on perl  however:
+	#010526:edelleen osasi paketin muodostaa, toimivuus vielä selvitettävä
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
@@ -204,72 +204,80 @@ case "${mode}" in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) 
+		#300426:paketin muodostaa jälleen, sisällön toinmivuus slevitettävä
+		#010526:jos alkaa git hukkumaan säännöllisesti ni jotain tarttisi tehdä
+		#VAIH:testailut uusicksi TAAS 666		
+
 		e22_pre_e ${E22_GS}
 		e22_pre_e ${E22_GM}
-		#130526:E22_GG  masenteluy löytyy jo fktiosta other_pkgs()
 
 		csleep 3
 		message
 		csleep 2
 
-		e23_tblz ${CONF_iface} ${CONF_dnsm} 
-		dqb "BC/AD"
-		csleep 10
+		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 		e23_other_pkgs ${CONF_dnsm}
 	;;
 	t)
+		#300426:osannee paketin tehdä?
 		message
 		csleep 2
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;
 	g)
-		#VAIH:bissiin git mukaan tähänkin prkl?
 		[ -v E22_GI ] || exit 95
+		#VAIH (muodostetun paketin toimivuuden testaus lähinnä)
 		e22_hdr ${d}/e.tar
 
 		${fib}
 		${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä
-		${shary} ${E22_GG}
-
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
+
 		doit=0
 	;;
 	l)
+		#1104236:desktop_live:n kanssa onnistui jo paketin asennus
+		#minimal_live:n kanssa ei
+		#010526:edelleen muodostaa paketin, sisällön validius selvitettävä
+
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
 	;;
 	n)
-		#VAIH:ntp-jutut takaisin josqs? 260526 -> ?
+		#VAIH:ntp-jutut takaisin josqs?
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;
 #	x)
-#		#:uusiksi vain koko pasq?
+#		#TODO:uusiksi vain koko pasq?
 #		e23_xyz
 #	;;
 	s)
 		e23_st
 	;;
 	*)
-		echo "MAYBE U SHOULD USE export3 INSTEAD"
-		sleep 5
-		${d0}/export3.bash ${mode} ${tgtfile} -v
 		exit
 	;;
 esac
 
-#tuossa alla vielä jotain laittoa?
+#exit
+
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
+	#HUOM.11326:d-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
+	#exit
 
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar
+	#z3?	
 
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
 fi
+
+#exit
 
 if [ -s ${tgtfile} ] ; then
 	e22_ftr ${tgtfile}
