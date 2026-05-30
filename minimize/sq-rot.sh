@@ -50,8 +50,8 @@ function parse_opts_2() {
 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
-#tuossa yllä tosin turhahko ls
 
+#DONE:/o/b alaiset sha-muutokkset (olisiko jo 28.5.25 tehty?)
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 	#[ $? -eq 0 ] || exit #tähänkö kosahtanut viime_aikoina?
@@ -130,7 +130,7 @@ fi
 
 dqb "rot:AFTR common_lib"
 csleep 1
-[ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
+[ -z "${distro}" ] && exit 26 #vähempikin tarkistelu riittäisi?
 [ -v CONF_env ] || exit 66
 
 if [ "${CONF_env}" == "TOOR" ] ; then
@@ -140,7 +140,7 @@ function pre() {
 
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
-	#gpgtar:kandeeko koskea? taisiis etua "gpg | tar" nähden?
+	#gpgtar: taisiis etua "gpg | tar" nähden?
 
 	echo "A"
 	p=$(pwd)
@@ -153,7 +153,7 @@ function pre() {
 		for r in ${q} ; do
 			dqb " -c ./${p}/${r}"
 			csleep 1
-			${g} -c ./${p}/${r} --ignore-missing
+			${sah6} -c ./${p}/${r} --ignore-missing
 			sleep 1
 		done
 
@@ -162,17 +162,19 @@ function pre() {
 
 	#gpg-tark kuitenkin ensin?
 	#090326:pitäisiköhän myös tämä tarkistus-osuus muuttaa fktioksi, ennen chroot-tark ?
+	#29526:josqs voisi kokeilla miten pre() toimii
 
-	g=$(which gpg)
+	gg=$(which gpg)
 	sleep 1
 	cd ${p}
 
-	if [ ! -z "${g}" ] ; then
+	if [ ! -z "${gg}" ] ; then
 		echo "B"
 		q=$(find . -name "*.sig" )
 
 		for r in ${q} ; do
-			${g} --verify ${r}
+			${gg} --verify ${r}
+			#TODO:exit jos vrheitä
 		done
 
 		sleep 1
@@ -201,9 +203,9 @@ function pre() {
 	#jos löytyy common_lib.sh.sig ni voisi tässä tarkistaa?
 	#... toisaalta vähän tuhra koska cptp23
 
-	if [ ! -z "${g}" ] ; then
+	if [ ! -z "${gg}" ] ; then
 		if [ -s ${d0}/common_lib.sh.sig ] ; then
-			${g} --verify ${d0}/common_lib.sh.sig
+			${gg} --verify ${d0}/common_lib.sh.sig
 		fi
 	fi
 
@@ -284,8 +286,12 @@ function common_part() {
 				fi
 			fi
 
-			#1105326:tässä käytiin, pitäisi odio olla asetettuma että jotain tapahtuisi
-			[ ${r} -eq 0 ] || ${NKVD} ${1}*
+			#270526:antaa olla toistaiseksi näin kunnes pahin sekoilu asettunut			
+			if [ ${r} -eq 0 ] ; then
+				${NKVD} ${1}*
+			fi
+
+			#TODO:yllä ehto uusiksi
 		fi
 	fi
 
@@ -318,10 +324,12 @@ function common_part() {
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "ko"		
 		else
-			${NKVD} ${1}* 
-			${NKVD} ${2}/*.deb
-			${NKVD} ${2}/sha512sums*
-			${NKVD} ${2}/*.tar*
+			echo "SHOULD DO SOME NKVD-STUFF AROUND HERE"
+			#${NKVD} ${1}* 
+			#${NKVD} ${2}/*.deb
+			
+			#${NKVD} ${2}/${CONF_hashfile}*
+			#${NKVD} ${2}/*.tar*
 
 			exit 33
 		fi
@@ -330,7 +338,7 @@ function common_part() {
 	sleep 1
 	echo "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 
-	#110523:vöib aiheuttaa nalkutusta jos odio ei asetettu
+	#110526:vöib aiheuttaa nalkutusta jos odio ei asetettu
 	sleep 1
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
@@ -362,6 +370,7 @@ function cptp2() {
 
 		if [ -x ${t}/common_lib.sh ] ; then
 			enforce_access $(whoami) ${t}
+			#TODO:tuota ao. tekstiä voisi varmaan päiuvittää koska x
 			dqb "TRO: running changedns.sh maY be necessary now to fix some things"
 		else
 			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
@@ -409,7 +418,7 @@ case "${mode}" in
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
 		f=$(dirname ${f})
 
-		echo "bfore cp: $?"
+		echo "bfore sqr.comm_p: $?"
 		sleep 6
 
 		common_part ${srcfile} ${d} ${e}
@@ -428,6 +437,7 @@ case "${mode}" in
 	3)
 		#140526 muutettu paikallinen ocs että stoppaa tarv
 		#TODO:e23_st() outputin asennus , kehitysymp
+		#TODO:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
 
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
@@ -484,7 +494,8 @@ esac
 if [ $? -eq 0 ] ; then
 	if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
 		read -p " U  WANT 2 RM SOURCE ?" confirm
-		[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
+		#270526:joskus takaisin toimintaan
+		[ "${confirm}" == "Y" ] && echo "SHOULD \$ {NKVD} \${srcfile}"
 	fi
 fi
 
