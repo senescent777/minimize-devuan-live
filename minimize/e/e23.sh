@@ -37,10 +37,13 @@ function e23_tblz() {
 	#csleep 1
 
 	#message() tähän?
-	tpc7	#jotain excaliburiin liittyvää
+	tpc7
+	#jotain excaliburiin liittyvää
+
+	$1 vai $2 ?
 	aswasw ${2}
 	#VAIH:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
-	${shary} ${E22_GT}
+	e22_pre_e ${E22_GT}
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 1
