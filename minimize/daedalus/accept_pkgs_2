@@ -31,14 +31,15 @@ gtk2-engines-pixbuf
 python3.11-minimal
 python3.11
 #
-#VAIH:TAAS ne rriipuvuudet auki, jotain unohtui 05/26 (olisiko jo?)
-#Depends: pitäisi löytyä kaikki
+#VAIH:TAAS menu - git-man ONKO KAIKKI RIIPPUVUUDET MUKANA JA LÖYTYYKÖ MASENNUSPAKETISTA
+#Depends:aiemmin
 menu
-#Depends:pitäisi olla
+#Depends:aiemmin
+#nuokin tli si löytyä, myös libtinfo
 twm
-#Depends:  pitäisi
+#Depends: , libtinfo6 (>= 6)
 psmisc
-#Depends:-
+#Depends:?
 git-man
 #
 xauth
@@ -57,14 +58,16 @@ debconf
 #Depends:  pitäisi
 man-db
 #
-#VAIH:riippuvuudet (selvitetty?)
-# tai voisi tarkemmin speksata kuin pelkkä x11 (apps ja utils ainakin tarvitaan)
-#Depends: pitäisi?
-x11-apps
-#Depends: pitäisi?
-x11-common
+#VAIH:riippuvuudet , selvitetty 30526 menness'?
 #
+#Depends:aiemmat
+x11-apps
+#
+#Depends:aiemmat
+x11-common
+#Depends: aiemmat
 x11-utils
+#Depends:aiemmat
 x11-xserver-utils
 #
 #
@@ -75,7 +78,7 @@ xorg
 iproute2
 isc-dhcp
 #
-#VAIH:riippuvuudet
+#VAIH:riippuvuudet /selvitetty 30526 mennessä?)
 #Depends: ,   (>= 0.76-13.1), ,
 # xserver-xorg | xserver, 
 #perl:any,  
