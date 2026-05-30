@@ -35,9 +35,8 @@ python3.11
 #Depends:aiemmin
 menu
 #Depends:aiemmin
-#nuokin tli si löytyä, myös libtinfo
 twm
-#Depends: , libtinfo6 (>= 6)
+#Depends:aiemmin
 psmisc
 #Depends:?
 git-man
