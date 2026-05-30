@@ -291,14 +291,25 @@ function e23_dm() {
 
 	${shary} libxcursor1 libwutil5 man-db wmaker-common #libbz2-1.0
 	csleep 10
-
+	
+	# Depends:libc6 (>= 2.34), libgcc-s1 (>= 3.0), libstdc++6 (>= 12)
+	# Depends:libc6 (>= 2.14), libx11-6 (>= 2:1.6.0)
+	# Depends:libc6 (>= 2.34), libicu72 (>= 72.1~rc-1~), liblzma5 (>= 5.1.1alpha+20120614), zlib1g (>= 1:1.2.3.3)
 	${shary} libicu72 libxfixes3 libxml2
+
+	# Depends:libc6 (>= 2.34), libdrm2 (>= 2.4.75), libexpat1 (>= 2.0.1), libglapi-mesa (= 22.3.6-1+deb12u1), libx11-6 (>= 2:1.4.99.1), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0 (>= 1.13), libxcb-glx0 (>= 1.8), libxcb-present0, libxcb-randr0, libxcb-shm0, libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), libxext6, libxfixes3, libxshmfence1, libxxf86vm1, libgl1-mesa-dri
+	# Depends:libc6 (>= 2.34)
+	# Depends:libc6 (>= 2.34), libpng16-16 (>= 1.6.2-1), libzvbi-common (= 0.2.41-1+deb12u1)
+	#
+
 	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
-	#VAIH:sopivaan kohtaan?
-	#VAIH: myös
-	#VAIH?:tarvitaanko ?
-	#VAIH: noiden neljän riippuvuudet kanssa?
-	#TODO:libdb5.3 , debconf, libdeflate, liblerc4 mukaan?	
+
+	# Depends:libc6 (>= 2.34)
+	#
+	# Depends:libc6 (>= 2.14)
+	# Depends:libc6 (>= 2.29), libgcc-s1 (>= 3.0), libstdc++6 (>= 11)
+
+	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
 
 	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
 	csleep 10
