@@ -56,12 +56,6 @@ function e23_tblz() {
 	dqb "e23_tblz()"
 }
 
-#btw. mikä muuten syynä libgfortran5-nalkutukseen?
-#HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
-
-#HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
-#... siinä ulkoistuksessa on kyllä semmoinen juttu
-
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
