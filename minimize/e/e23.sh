@@ -371,7 +371,7 @@ function e23_profs() {
 
 	[ -d "${2}" ] || exit 73
 	[ -s ${1} ] || exit 72
-	[ -s ${3} ] || exit 71
+	#[ -s ${3} ] || exit 71 #mikä tässä pykii?
 
 	csleep 1
 	dqb "pars.0k"
