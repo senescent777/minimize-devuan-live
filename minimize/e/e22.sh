@@ -8,18 +8,15 @@ if [ ! -v CONF_pubk ] ; then
 	[ "${CONF_env}" == "VED" ] && b=${CONF_testgris}
 	a=$(${odio} find ${b} -type f -name "keys.conf" | head -n 1)
 
-	if [ -z "${a}" ] ; then
-		dqb "B"
-	else
+	if [ ! -z "${a}" ] ; then
 		if [ -s ${a} ] ; then
 			. ${a}
-		else
-			dqb "C"
 		fi	
 	fi
 
 	csleep 1
 	unset a
+	unset b
 fi
 
 function e22_hdr() {
