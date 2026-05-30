@@ -46,8 +46,6 @@ function parse_opts_2() {
 	fi
 }
 
-
-
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
 
@@ -134,17 +132,19 @@ csleep 1
 [ -v CONF_env ] || exit 66
 
 if [ "${CONF_env}" == "TOOR" ] ; then
+
+
 #e.tar purq (cefgh()) vs tämä sq-rot alku
 function pre() {
 	#280426:self_extracting_archive-kikkailu saattaa tehdä tämän if-blkin turhaksi jatkossa ( tai sitten ei)
 
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
-	#gpgtar: taisiis etua "gpg | tar" nähden?
+	#gpgtar: etua "gpg | tar" nähden?
 
 	echo "A"
 	p=$(pwd)
-	g=$(which sha512sum)
+
 
 	if [ ! -z "${g}" ] ; then
 		q=$(find . -name "dgsts.?" )
@@ -164,7 +164,7 @@ function pre() {
 	#090326:pitäisiköhän myös tämä tarkistus-osuus muuttaa fktioksi, ennen chroot-tark ?
 	#29526:josqs voisi kokeilla miten pre() toimii
 
-	gg=$(which gpg)
+	#gg=$(which gpg)
 	sleep 1
 	cd ${p}
 
@@ -179,7 +179,6 @@ function pre() {
 
 		sleep 1
 	fi
-	#
 
 	unset q
 	unset r
@@ -209,7 +208,7 @@ function pre() {
 		fi
 	fi
 
-	unset g
+	#unset g
 fi
 
 	pre
@@ -409,7 +408,7 @@ case "${mode}" in
 	;;
 
 	#... tai sqrootissa oli menu- ja libw-pakettien asenynuksen kanssa pientä kiukuttelya, toistuuko?
-	#... exp2 rp testiin?
+	#... exp2 rp vähän ritetty testailla 05/26
 	0)
 		[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est
 		
