@@ -353,6 +353,7 @@ function psqa() {
 			return 94
 		fi
 
+		#TODO:selvitä mikä tämän tdston kanssa on? jääkö tyhjäksi nykyään?
 		[ -f ${1}/${CONF_hashfile}.1 ] && ${sah6} --ignore-missing -c ${CONF_hashfile}.1
 		csleep 1
 		cd ${p}
@@ -1518,13 +1519,12 @@ function part3() {
 	local n15=0
 	local t=""
 
-	#TODO:muistettava sitten tämä if-blokki sulauttraa toisen oksan part3():seen
+	#TODO:muistettava sitten tämä if-blokki sulauttaa toisen oksan part3():seen
 	if [ -z "${2}" ] ; then
 		t=$(mktemp -d)
 		n15=$(find ${1} -type f -name "*.deb" | wc -l)
 	else
-		#HUOM.jos on pedantti niin $2 alaiset .deb pitäisi myös testata shasums:ia vasten jnpp
-		
+		#HUOM.jos on pedantti niin $2 alaiset .deb pitäisi myös testata shasums:ia vasten jnpp (TODO)
 		t=${2}
 		n15=$(find ${2} -type f -name "*.deb" | wc -l)
 	fi

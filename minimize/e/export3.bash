@@ -110,9 +110,12 @@ case "${mode}" in
 	;;
 	q)
 		#100526 vissiin osasi paketin tehdä toivottavalla sisällöllä
+		#300526:uusi testi käyntiiin
+
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
+
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	c)

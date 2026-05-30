@@ -280,6 +280,7 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
+#TODO:kekeksikö jonkin varmistuksen että profiili kanssa menee tariin?
 function e22_home_pre() {
 	dqb "home:pre()"
 	[ -z "${1}" ] && exit 67
@@ -546,7 +547,7 @@ function e22_ts() {
 	dqb "e22_ts() done"
 }
 
-#28526 taas testailut menossa
+#28526 taas testailut menossa (vissiin muuten toimii mutta shasums.1 kanssa jotain?)
 function e22_arch() {
 	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
 	csleep 1
@@ -581,12 +582,16 @@ function e22_arch() {
 
 	cd ${2}
 	${sah6} ./*.deb > ./${CONF_hashfile}
+	csleep 5
+	dqb "${CONF_hashfile}.1"
 
 	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do
 		[ ${3} -eq 1 ] && ${srat} -rvf ${1} ${f}
 		${sah6} ${f} >> ./${CONF_hashfile}.1
 		csleep 1
 	done
+
+	csleep 10
 
 	for f in e.tar g.tar ; do
 		dqb "sah6 ./${f}"
