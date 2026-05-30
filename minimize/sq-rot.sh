@@ -146,7 +146,7 @@ function pre() {
 	p=$(pwd)
 
 
-	if [ ! -z "${g}" ] ; then
+	
 		q=$(find . -name "dgsts.?" )
 		cd ..
 
@@ -158,7 +158,7 @@ function pre() {
 		done
 
 		cd ${p}
-	fi
+	
 
 	#gpg-tark kuitenkin ensin?
 	#090326:pitäisiköhän myös tämä tarkistus-osuus muuttaa fktioksi, ennen chroot-tark ?
@@ -205,6 +205,7 @@ function pre() {
 	if [ ! -z "${gg}" ] ; then
 		if [ -s ${d0}/common_lib.sh.sig ] ; then
 			${gg} --verify ${d0}/common_lib.sh.sig
+			#exit jos ei ok
 		fi
 	fi
 
@@ -411,7 +412,6 @@ case "${mode}" in
 	#... exp2 rp vähän ritetty testailla 05/26
 	0)
 		[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est
-		
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
