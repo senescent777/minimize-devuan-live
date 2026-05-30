@@ -23,7 +23,7 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 }
 
 function e23_tblz() {
-	dqb "e23_tblz()"
+	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
@@ -50,7 +50,7 @@ function e23_tblz() {
 
 	${asy}
 	#actually necessary
-	e22_pre2
+	e22_pre2  ${1} ${2}
 	other_horrors
 
 	dqb "e23_tblz()"
