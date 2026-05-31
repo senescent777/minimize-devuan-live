@@ -1,9 +1,7 @@
 #!/bin/bash
 #exit 99
-CONF_algo=sha256
-#kts toisn repon setup2 , dalek.s - jutut
 
-#VAIH:ao. komennoista järkevä kokonaisuus josqs (jos olisi jo 05/26?)
+#VAIH:ao. komennoista järkevä kokonaisuus josqs
 debug=1
 odio="/usr/bin/sudo"
 smr=$(${odio} which rm)
@@ -15,15 +13,7 @@ slinky="${odio} ${slinky} -s "
 ipt=$(${odio} which iptables)
 ip6t=$(${odio} which ip6tables)
 gg=$(${odio} which gpg)
-
-case "${CONF_algo}" in
-	sha256)
-		sah6=$(${odio} which sha256sum)
-	;;
-	sha512)
-		sah6=$(${odio} which sha512sum)
-	;;
-esac
+sah6=$(${odio} which sha512sum)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -44,7 +34,7 @@ function gf() {
 		c2=$(${odio} find ${1} -type d -not -user 0 | wc -l)
 	else
 		dqb "find ${1} -name ${2} -type d -not \$smthing"
-		c2=$(${odio} find ${1} -name "${2}*" -type d -not -user 0 | wc -l)
+		c2=$(${odio} find ${1} -name '${2}*' -type d -not -user 0 | wc -l)
 	fi
 
 	[ ${c2} -gt 0 ] && exit 104
@@ -52,7 +42,7 @@ function gf() {
 	if [ -z "${2}" ] ; then
 		c2=$(${odio} find ${1} -type d -not -group 0 | wc -l)
 	else
-		c2=$(${odio} find ${1} -name "${2}*" -type d -not -group 0 | wc -l)
+		c2=$(${odio} find ${1} -name '${2}*' -type d -not -group 0 | wc -l)
 	fi
 
 	[ ${c2} -gt 0 ] && exit 105
@@ -60,9 +50,9 @@ function gf() {
 
 gf /opt/bin/zxcv
 #chattrin kanssa käviSi ktevämmin, lisäksi pitäisi reagoida jyrkemmin?
-c3=$(find /opt -name "zxcv*" -type f -perm /o+w,g+w,u+w | wc -l)
+c3=$(find /opt -name 'zxcv*' -type f -perm /o+w,g+w,u+w | wc -l)
 [ ${c3} -gt 0 ] && exit 105
-c3=$(find /opt -name "zxcv*" -type f -perm /o+r,g+r | wc -l)
+c3=$(find /opt -name 'zxcv*' -type f -perm /o+r,g+r | wc -l)
 [ ${c3} -gt 0 ] && exit 106
 
 #vähän kiikun kaakun onko fiksua sudottaa noita ao. komentoja , gg tilapäisesti jemmaan 280326
@@ -88,7 +78,7 @@ function gh() {
 		c2=$(${odio} find ${1} -type f  -not -user 0 | wc -l)
 	else
 		dqb "find ${1} -type f -name "
-		c2=$(${odio} find ${1} -type f -name "${2}*" -not -user 0 | wc -l)
+		c2=$(${odio} find ${1} -type f -name '${2}*' -not -user 0 | wc -l)
 	fi
 
 	[ ${c2} -gt 0 ] && exit 106
@@ -96,7 +86,7 @@ function gh() {
 	if [ -z "${2}" ] ; then
 		c2=$(${odio} find ${1} -type f -not -group 0 | wc -l)
 	else
-		c2=$(${odio} find ${1} -type f -name "${2}*" -not -group 0 | wc -l)
+		c2=$(${odio} find ${1} -type f -name '${2}*' -not -group 0 | wc -l)
 	fi
 
 	[ ${c2} -gt 0 ] && exit 107
@@ -104,20 +94,20 @@ function gh() {
 
 function itin2 {
 	local c
-	c=$(find /etc -name "iptab*" -type d -perm /o+w,o+r,o+x | wc -l)
+	c=$(find /etc -name 'iptab*' -type d -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 111
 
-       	c=$(find /etc -name "iptab*" -type d -perm /g+w | wc -l)
+       	c=$(find /etc -name 'iptab*' -type d -perm /g+w | wc -l)
 	[ ${c} -gt 0 ] && exit 123
 
 	gf /etc iptab
 	${odio} rm /etc/default/rules*
 
-	c=$(${odio} find /etc -name "rules.v?.?" -type f -perm /g+x,g+w | wc -l)
+	c=$(${odio} find /etc -name 'rules.v?.?' -type f -perm /g+x,g+w | wc -l)
 	[ ${c} -gt 0 ] && exit 114
 
 	gh /etc rules.v
-	c=$(find /etc -name "sudoers*" -type d -perm /o+w,o+r,o+x | wc -l)
+	c=$(find /etc -name 'sudoers*' -type d -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 117
 	gf /etc sudoers
 
@@ -125,7 +115,7 @@ function itin2 {
 	[ ${c} -gt 0 ] && exit 120
 	gf /etc/sudoers.d
 
-	c=$(find /etc -name "ntp*" -type f -perm /o+w | wc -l)
+	c=$(find /etc -name 'ntp*' -type f -perm /o+w | wc -l)
 	gh /etc ntp
 }
 
@@ -164,7 +154,7 @@ function clouds_pp1() {
 	done
 
 #280326:toistaiseksi jemmaan dhslcient-skriptiin sekaantuminen kunnes miettinyt vähän
-#	c0=$(find /sbin -type f -name "dhclient-script.*" | wc -l)
+#	c0=$(find /sbin -type f -name 'dhclient-script.*' | wc -l)
 #	#
 #	#if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 
 #
@@ -201,19 +191,19 @@ function clouds_post() {
 	csleep 1
 	local f
 
-	for f in $(find /etc -type f -name "resolv.conf*") ; do
+	for f in $(find /etc -type f -name 'resolv.conf*') ; do
 		${scm} 0444 ${f}
 		${sco} root:root ${f}
 	done	
 
-	for f in $(find /etc -type f -name "dhclient*") ; do
+	for f in $(find /etc -type f -name 'dhclient*') ; do
 		${scm} 0444 ${f}
 		${sco} root:root ${f}
 	done
 
 	${scm} 0555 /etc/dhcp
 
-	for f in $(find /sbin -type f -name "dhclient*") ; do
+	for f in $(find /sbin -type f -name 'dhclient*') ; do
 		${scm} 0555 ${f}
 		${sco} root:root ${f}
 	done
@@ -221,12 +211,12 @@ function clouds_post() {
 	${scm} 0555 /sbin
 	p3r1m3tr	
 
-	for f in $(find /etc -type f -name "ntp*") ; do
+	for f in $(find /etc -type f -name 'ntp*') ; do
 		${scm} 0444 ${f}
                 ${sco} root:root ${f}
 	done	
 	
-	for f in $(find /etc/network -type f -name "interface*") ; do
+	for f in $(find /etc/network -type f -name 'interface*') ; do
 		${scm} 0444 ${f}
 		${sco} root:root ${f}
 	done
