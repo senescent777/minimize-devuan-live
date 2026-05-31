@@ -31,16 +31,17 @@ function e22_hdr() {
 
 	fasdfasd ./rnd
 	fasdfasd ${1}
+
 	csleep 1
+
 	dd if=/dev/random bs=12 count=1 > ./rnd
 	csleep 1
+
 	${sr0} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
+
 	[ ${debug} -eq 1 ] && ls -las ${1}
 }
-
-#tark-. olla priv fktio
-
 
 function e22_tyg() {
 	dqb "e22_tyg()"
@@ -72,21 +73,22 @@ function e22_ftr() {
 	csleep 1
 
 	fasdfasd ${1}.sha
-	local p
-	local q
-	p=$(pwd)
-	q=$(basename ${1})
+	local p=$(pwd)
+	local q=$(basename ${1})
+
 	cd $(dirname ${1})
 	${sah6} ./${q} > ${q}.sha
 	csleep 1
+
 	${sah6} -c ${q}.sha
 	csleep 1
+
 	e22_tyg ${q}.sha
 	cd ${p}
 }
 
-#020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
-#... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf (mitä muita on mistä sorkitaan? tämän tdstn fktiot)
+#TODO:se aqsp() prujaaminen tähän?
+#TODO:miten dblockin kanssa?
 
 function e22_pre1() {
 	dqb "e22_pre1()"
@@ -112,16 +114,12 @@ function e22_pre1() {
 	${scm} a-w /etc/apt/sources.list*
 }
 
-#...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
-#HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
-
 function e22_pre2() {
 	dqb "e22_pre2()"
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 
-
-	#tämän sekoilun piti olla lopetettu
+	#HUOM.tämän sekoilun piti olla lopetettu
 	par4=$(echo ${2} | tr -d -c 0-9)
 	echo $?
 	csleep 1
@@ -139,8 +137,10 @@ function e22_pre2() {
 
 	ls -las /etc/resolv.*
 	csleep 10
-	#${sifu} ${1} #tpostaise4ksi jemmaan koska renkkaaminen vituttaa
+
+	${sifu} ${1} #oli jemmassa koska renkkaaminen vituttaa
 	csleep 1
+
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
 	${sag_u}
@@ -192,8 +192,10 @@ function e22_settings() {
 	.  ${1}/${3}
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
 	exp_prof ${1}/${2} default-esr
+
 	[ -s ${1}/${2} ] || exit 32
 	local t
+
 	t=$(tar -tf ${1}/${2} | grep prefs.js | wc -l)
 	dqb "FOUND PREFS: ${t}"
 	[ ${t} -lt 1 ] && exit 27
@@ -215,12 +217,8 @@ function e22_home_pre() {
 		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
 	fi
 
-	#HUOM.010526:toimiiko tämä kohta? e_final käyttöön?
-	#${scm} a-w  /opt/bin/*
-	#${scm} go-r /opt/bin/*
-	#${sco} 0:0 /opt/bin/*
+	#310526:e_final jo hoitaa opt/bin - jutut? P.S. --exclude changedns.* tuohon tar-riville
 	e_final
-
 	${srat} -rvf ${1} /opt/bin
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
@@ -408,7 +406,7 @@ function e22_ext() {
 	local f
 	#TODO:suorityuksen keskeytys jos resolv.conf.jotain puuttuu
 
-	#joku toinenkin tdsto taisi olla mikä grepattiin pois, toisessa oksassa
+	#TODO:resolv.* mukaan findin ehtoon, kts toinen oksa
 	for f in $(find ./etc -type f -not -name "interfaces.*" ) ; do
 		${sah6} ${f} >> ${4}
 	done
@@ -456,7 +454,7 @@ function e22_arch() {
 	${scm} 0444 ${2}/*.deb
 	fasdfasd ${2}/sha512sums.txt
 	fasdfasd ${2}/sha512sums.txt.1
-	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+	[ ${debug} -eq 1 ] && ls -las ${2}/${CONF_hashfile}*;sleep 3
 
 	cd ${2}
 	${sah6} ./*.deb > ./sha512sums.txt
@@ -476,8 +474,9 @@ function e22_arch() {
 
 	psqa .
 	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
-	[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums* ./*.tar #?
-	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
+	#TODO:muutakin säätöä tässä	
+	[ $? -gt 0 ] && ${NKVD} ./*.deb ./${CONF_hashfile}* ./*.tar #?
+	${srat} -rf ${1} ./*.deb ./${CONF_hashfile}* ./tim3stamp
 	cd ${p}
 }
 
