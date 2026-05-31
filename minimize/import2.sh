@@ -65,7 +65,6 @@ csleep 1
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#190326:vissiin tämän haaran kanssa jutut toimivat jnkn verran ja thats it
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0NF1G"
 		sleep 2
@@ -337,7 +336,6 @@ function cptp2() {
 
 	csleep 1
 
-	#090326:toimiiko toivotulla tavalla? toivottavasti nytq tr-kikkailut kOrjattu
 	if [ -d ${t} ] ; then
 		dqb "HAIL UKK"
 
@@ -357,10 +355,8 @@ function cptp2() {
 dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3} siis)
-
 fox=$(${odio} which firefox)
 
-#160326:toimiiko edelleen? "$0 q"-reittiä ainakin
 function tpr() {
 	dqb "UPIR ) ${1} , ${2} , ${3} ("
 	csleep 1
@@ -391,7 +387,6 @@ function tpr() {
 	[ $? -gt 0 ] && exit 19
 
 	dqb "INCLUDE OK"
-	#csleep 1
 
 	local q
 	local r
@@ -419,11 +414,6 @@ function tpr() {
 	csleep 1
 }
 
-#sqrot ei tarvitse tätä blokkia (pl. ehkä -h) 
-#HUOM.060426:tämä case-esac voisi toimia ilmankin kirjastoa, qhan vain konftdsto löytyy
-#110426:tässäkin "-v" tarpeen?
-
-#TODO:ne kiukuttelut pois jo?
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii?
@@ -442,7 +432,6 @@ case "${mode}" in
 		#remember:to_umount olisi hyvä muistuttaa kuitenkin
 	;;
 	2)
-		#081225:toimiiko oikein kun "$0 2 -v" ?
 		dqb "T=-1 K (Eugen K.)"
 		csleep 1
 
@@ -465,13 +454,10 @@ echo "mode: ${mode} "
 echo "srcfile: ${srcfile} "
 [ -z "${srcfile}" ] && exit 44
 
-if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then #eka tark oli -s , vissiin oltava taas
+if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
 	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	dqb "SD"
 else
-	#220326:myös sqroot-ymp tähän jouduttu, syy muu kuin ilmeinen?
-	#010426:exitin ohitus jos ollaan sqrootissa?
-	
 	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	[ -f ${srcfile} ] || dqb "NOT A FILE"
 	dqb "SMTHING WRONG WITH ${srcfile} "
@@ -488,7 +474,6 @@ else
 	[ "${confirm}" == "Y" ] || exit 33
 fi
 
-#140326:toimiikohan nuo debug-hommat kuten tarkoitus?
 dqb "mode=${mode}"
 dqb "distro=${distro}"
 dqb "srcfile=${srcfile}"
@@ -505,19 +490,7 @@ case "${mode}" in #TODO:mode 1-3 TAAS
 	0|3) 
 		echo "sq-rot ${mode} ${tgtfile}"
 		exit
-		
-#		#090126:case 0 toiminee, säilytetään koska exp2 muutokset
-#		#110326:toimii edelleen mod pientä kiukuttelua josqs
-#		#160326:sama, kiukuttelulle voisi tosin tehdä jotain
-#		#190326:onnistui sqrootin alaisuudessa paketteja asennella
-#		
-#		#010426:edelleen osasi sqrtot alla
-#		#... kiukuttelut sqrot alla liittyvät enemmän wdm-pakettiin kuin itse skriptiin?
-#		#sha512sums.txt.bak suattaapi liittyä vua n suattaapi ettei
-#	
-#		
-#		#myös "libc6:amd64 depends on libgcc-s1; however:" joutaisi tehdä jotain?
-#		
+	
 #		echo "ZER0 S0UND"
 #		csleep 1
 #		dqb " ${3} ${distro} MN"
@@ -525,9 +498,6 @@ case "${mode}" in #TODO:mode 1-3 TAAS
 #		e="/"
 #
 #			if [ ${1} -eq 0 ] ; then
-#				#mitense alt_root? ensisijaisesti sitä pakettien "uutta" asennustapaa vartebn
-#				#... siinä piti vielä prujata se hmistorakanne ainakin
-#
 #				tar -tf ${srcfile} | grep f.tar | head -n 1
 #				echo "... SHOULD BE MOVED UNDER ${d} , AFTER THAT:RUN $0 3 ${d}/f.tar"
 #				exit 99
@@ -547,8 +517,7 @@ case "${mode}" in #TODO:mode 1-3 TAAS
 #		csleep 1
 #		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
-	r) #160326:ehkä tämä jo toimii
-	#sqrot ei tarvitse tätä casea, kai
+	r)
 		[ -d ${srcfile} ] || exit 23
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
@@ -563,20 +532,13 @@ case "${mode}" in #TODO:mode 1-3 TAAS
 		echo "JUST VEFORE TPR"
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
-#	q)
-#		#160326:toimi
-#		#sqrot ei tarvitse tätä casea, kai
-#		# (turha case oikeastaan koska "$0 1"+"$0 r" (TODO:jospa tekisi jotain liittyen)
-#		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
-#		
+#	q)		
 #		[ -z "${fox}" ] && exit 26
 #		[ -x ${fox} ] || exit 27
 #
 #		[ -v CONF_default_arhcive ] || exit 24
 # 		[ -v CONF_default_arhcive2 ] || exit 25
 #		[ -v CONF_default_arhcive3 ]  || exit 18
-#
-#		#HUOM.110326:olisi parempi , varm. buoksi delliä tai nimetä uudetsaan aiemmatr default_arch ja default_arch2
 #
 #		c=$(${srat} -tf ${srcfile} | grep ${CONF_default_arhcive} | wc -l)
 #		[ ${c} -gt 0 ] || exit 27
@@ -586,23 +548,13 @@ case "${mode}" in #TODO:mode 1-3 TAAS
 #		tpr ${d0} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 #	;;
 #	k)
-#		#161225:toimii, sq-root-ymp ainakin
-#		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
 #		[ -d ${srcfile} ] || exit 22
 #		dqb "KLM"
-#		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd find out?)
-#
 #		if [ -v gg ] ; then
 #			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 #				dqb "NOP"
 #				csleep 1
 #
-#				#for f in $(fnid $srcfile -type f -name '*.sig') ; do
-#				#	g=$(echo $f | cut -d . -f 1,2)
-#				#	check=$(smthing)
-#				#	[ $check ] && gg --import $g
-#				#	rm $g	
-#				#done
 #
 #				dqb "${gg} --import ${srcfile}/*.gpg soon"
 #				csleep 1
@@ -631,9 +583,9 @@ cd ${olddir}
 
 if [ -v part ] || [ -v CONF_dir ] ; then
 	echo "REMEMBER 2 UNM0UNT TH3S3:"
-	[ -z ${part} ] || grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan?
+	[ -z ${part} ] || grep ${part} /proc/mounts
+	#greppaus voi jäädä junnaamaan?
 	[ -z ${CONF_dir} ] || grep ${CONF_dir} /proc/mounts
 fi
 
 ${scm} 0555 $0
-#HUOM.290925: tämän skriptin pitäisi kuvakkeen kanssa löytyä filesystem.squashfs sisältä (no löytyykö?)
