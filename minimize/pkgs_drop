@@ -23,9 +23,14 @@ mlocate,modem,mtools
 mythes
 #
 #nfs,jutut,poistuvat,aiemmin
-netcat-traditional,openssh,pavucontrol
+netcat-traditional,pavucontrol
 ppp,pciutils,procmail
+#
 #antaa olla rfkill toistaiseksi
 ristretto,screen,syslinux-common
 tex,vim
 ssh,openssh
+#
+#uutena 140526 liittyen ssh-juttuihin
+gnome-keyring
+libpam-gnome-keyring
