@@ -149,19 +149,24 @@ function e22_pre2() {
 function e22_cleanpkgs() {
 	dqb "e22_cleanpkgs()"
 	[ -z "${1}" ] && exit 56
+	#TODO?:lisää tarkistuksia tähän?
 
 	if [ -d ${1} ] ; then
 		${smr} ${1}/*.deb
-		${smr} ${1}/sha512sums.txt*
+		${smr} ${1}/${CONF_hashfile}*
 		ls -las ${1}/*.deb | wc -l
 	fi
 }
 
 function e22_config1() {
 	dqb "e22_config1()"
+
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
 	[ -z "${2}" ] && exit 11
+
+	dqb "pars.ok"
+	csleep 1
 
 	local p
 	p=$(pwd)
@@ -217,7 +222,7 @@ function e22_home_pre() {
 		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
 	fi
 
-	#310526:e_final jo hoitaa opt/bin - jutut? P.S. --exclude changedns.* tuohon tar-riville
+	#310526:e_final jo hoitaa opt/bin - jutut? P.S. --exclude changedns.* tuohon tar-riville (TODO)
 	e_final
 	${srat} -rvf ${1} /opt/bin
 
@@ -437,10 +442,16 @@ function e22_arch() {
 	[ -w ${2} ] || exit 44
 	[ -z "${3}" ] && exit 53
 
+	dqb "pars_ok"
+	csleep 1
 	local p=$(pwd)
 
-	if [ -f ${2}/sha512sums.txt ] ; then #turha tarq?
-		${NKVD} ${2}/sha512sums.txt*
+	[ -v CONF_hashfile ] || exit 98
+	[ -z "${CONF_hashfile}" ] && exit 99
+	exit
+
+	if [ -f ${2}/${CONF_hashfile} ] ; then #turha tarq?
+		${NKVD} ${2}/${CONG_hashfile}*
 		csleep 1
 	fi
 
@@ -452,25 +463,27 @@ function e22_arch() {
 	fi
 
 	${scm} 0444 ${2}/*.deb
-	fasdfasd ${2}/sha512sums.txt
-	fasdfasd ${2}/sha512sums.txt.1
+	fasdfasd ${2}/${CONF_hashfile}
+	fasdfasd ${2}/${CONF_hashfile}.1
 	[ ${debug} -eq 1 ] && ls -las ${2}/${CONF_hashfile}*;sleep 3
 
 	cd ${2}
-	${sah6} ./*.deb > ./sha512sums.txt
+	${sah6} ./*.deb > ./${CONF_hashfile}
 
 	for f in $(find . -type f -name "*pkgs*") ; do
 		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
-		${sah6} ${f} >> ./sha512sums.txt.1
+		${sah6} ${f} >> ./${CONF_hashfile}.1
 	done
 
 	for f in e.tar g.tar ; do
 		dqb "sah6 ./${f}"
-		${sah6} ./${f} >> ./sha512sums.txt.1 # | grep -v ${t} 
+		${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
 	done
 
-	e22_tyg ./sha512sums.txt
-	e22_tyg ./sha512sums.txt.1
+	e22_tyg ./${CONF_hashfile}
+	e22_tyg ./${CONF_hashfile}.1
+	echo "TODO:TARKISTA ETTEI ./${CONF_hashfile}.1"	
+	exit
 
 	psqa .
 	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
@@ -485,41 +498,41 @@ function e22_arch() {
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 #}
 
-#080326:testattu senverranq pystyy, jotain kiukuttelua aiheutui (debbug-ulostuksen typot kenties)
-#function e22_rpg() {
-#	dqb "R-P-G ${1} , ${2} , ${3}"
-#	[ -z "${1}" ] && exit 99
-#	[ -z "${2}" ] && exit 98	
-#	[ -s "${1}" ] || exit 97
-#	[ -d ${2} ] || exit 96
-#	exit 95
+
+function e22_rpg() {
+	dqb "R-P-G ${1} , ${2} , ${3}"
+	[ -z "${1}" ] && exit 99
+	[ -z "${2}" ] && exit 98	
+	[ -s "${1}" ] || exit 97
+	[ -d ${2} ] || exit 96
+	exit 95
+
+#	e22_cleanpkgs ${2}
+#		
+#	${smr} ${2}/f.tar
+#	csleep 1
+#		
+#	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
+#	#... koko case pois käytöstä vaikka
+#	
+#	${srat} --exclude "${conf_HASHFILE}*" --exclude "*pkgs*" -C ${d} -xvf ${1}
+#	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
+#	csleep 1
 #
-##	e22_cleanpkgs ${2}
-##		
-##	${smr} ${2}/f.tar
-##	csleep 1
-##		
-##	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
-##	#... koko case pois käytöstä vaikka
-##	
-##	${srat} --exclude 'sha512sums*' --exclude '*pkgs*' -C ${d} -xvf ${1}
-##	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
-##	csleep 1
-##
-##	#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
-##			
-##	e22_arch ${1} ${2} ${4}
-##	cd ${2}
-##
-##	#sotkee sittenkin liikaa?
-##	#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
-##		
-##	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh
-##	#	${srat} -uvf  ${1} ${t}
-##	#done
-##		
-##	exit
-#}
+#	#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
+#			
+#	e22_arch ${1} ${2} ${4}
+#	cd ${2}
+#
+#	#sotkee sittenkin liikaa?
+#	#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
+#		
+#	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh
+#	#	${srat} -uvf  ${1} ${t}
+#	#done
+#		
+#	exit
+}
 
 function e22_cde() {
 	dqb "e22_cde()"
@@ -560,6 +573,7 @@ function z2() {
 	dqb "z2()"
 	[ -z "${1}" ] && exit 66
 
+	#TODO:ekan parametrin kanssa lisää tarkistuksia?
 	reqwreqw ${1}.tmp
 	csleep 1
 
