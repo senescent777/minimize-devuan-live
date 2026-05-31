@@ -44,32 +44,19 @@ dqb "BEFORE L1B"
 process_lib ${d}
 csleep 2
 
-#250426 final takaisin kommenteista jotta mutilatetc varmasti toimisi
-e_final
-e_h $(whoami) ${d0}
+echo "TODO:resolv-ULINAT PIKEMMINKIN ifup KANSSA 666!!!"
+csleep 20
 
-#jos vaikka näin? ehkä tarttee jotain juttuja lisää
+#jos vaikka näin?
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
-csleep 2
+csleep 20
 
 ${odio} /opt/bin/tlb.bash
-csleep 2
-${sco} 0:0 /opt/bin/*
-${scm} 0400 /opt/bin/zxcv*
+csleep 20
 
-#280526:ajetaanko tätä vai ei?
-if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then		
-	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
-else
-	dqb "FAILURE TO MUTILATE: /etc/resolc. von f "
-fi
+${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+csleep 20
 
-sleep 20
-dqb "BEYOND THE UNHOLY GRAVE"
-ls -las /etc/resolv*
-sleep 10
-
-csleep 2
 ${fib}
 csleep 2
 
@@ -78,7 +65,7 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
+if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
 	TLA
 else
@@ -93,29 +80,19 @@ function t2p_filler() {
 	csleep 1
 }
 
-##140526 edelleen tarpeellinen blokki, puuttuvat paketit $d alla aiheuttavat? TODO:joko jo pois 06/26?
-#if [ -f /.chroot ] ; then
-#	${sharpy} blu*
-#	${sharpy} nfs*
-#	${sharpy} rpc*
-#
-#	t2p_filler
-#
-#	${sharpy} dmsetup #tässä kohtaa jo gpg hukataan?
-#	${sharpy} at-spi2-core	
-#	${sharpy} psmisc
-#
-#	t2p_filler
-#	dqb "V1"
-#	#exit
-#fi
+#tarpeellinen blokki nykyään? (TODO:kts toisen oksan vastaava tdsto ja kohta)
+if [ -f /.chroot ] ; then
+	${sharpy} blu*
+	${sharpy} nfs*
+	${sharpy} rpc*
 
-#110526:josko nyt poistuisi?
-if [ "${CONF_iface}" != "wlan0" ] ; then
-	${sharpy} wpa*
-	#etc alaiset wpa-jutut voisi hoidella myös rm-komennolla?
 	t2p_filler
-	csleep 10
+
+	${sharpy} dmsetup #tässä kohtaa jo gpg hukataan?
+	${sharpy} at-spi2-core	
+	${sharpy} psmisc
+
+	t2p_filler
 fi
 
 #====================================================================
@@ -214,7 +191,6 @@ t2pf ${d}
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 2 ] && exit
 
-#140526:minimalin pakettilista kopsattu .txt-tiedostoon
 
 if [ ${mode} -gt 3 ] ; then
 	${sharpy} slim
@@ -275,7 +251,7 @@ if [ ${mode} -gt 3 ] ; then
 #	${sharpy} transmission ttyrec w2do
 #	csleep 5
 
-#VAIH:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että... (JOKO JO?)
+#TODO:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että...
 
 #	${sharpy} w3m wamerican wavemon
 #	csleep 5

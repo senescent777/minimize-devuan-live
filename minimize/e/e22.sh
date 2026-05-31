@@ -270,12 +270,17 @@ function luca() {
 
 function e22_acol() {
 	dqb "e22_acol()"
+
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
 	#[ -w ${1} ] || exit 9
 	[ -z "${2}" ] && exit 2
 	[ -z "${3}" ] && exit 3		
 	[ -z "${4}" ] && exit 5
+
+	dqb "åpars_ok"
+	csleep 1
+
 	${scm} 0555 /etc/iptables
 	${scm} 0444 /etc/iptables/rules*
 	${scm} 0444 /etc/default/rules*
@@ -340,6 +345,9 @@ function e22_ext() {
 	[ -d ${4} ] && exit 53
 	[ -f ${4} ] || exit 61
 
+	dqb "pars.ok"
+	csleep 1
+
 	local p
 	local q	
 	local r
@@ -394,18 +402,19 @@ function e22_ext() {
 	${sco} -R root:root ./sbin 
 	${scm} -R a-w ./sbin
 
-	${srat} -rvf ${1} ./etc  #./sbin jälkimmäinen hmisto josqs takaisin vai ei?
+	${srat} -rvf ${1} ./etc ./sbin
 	echo $?
 
 	local f
+	#TODO:suorityuksen keskeytys jos resolv.conf.jotain puuttuu
 
+	#joku toinenkin tdsto taisi olla mikä grepattiin pois, toisessa oksassa
 	for f in $(find ./etc -type f -not -name "interfaces.*" ) ; do
 		${sah6} ${f} >> ${4}
 	done
 
 	cd ${p}
 }
-
 
 function e22_ts() {
 	dqb "e22_ts()"

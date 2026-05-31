@@ -256,6 +256,8 @@ case "${mode}" in
 	*)
 		echo "MAYBE U SHOULD USE export3 INSTEAD"
 		sleep 5
+
+		#ei ihan vielä toimi näin
 		${d0}/export3.bash ${mode} ${tgtfile} -v
 		exit
 	;;

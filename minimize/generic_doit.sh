@@ -2,6 +2,7 @@
 mode=2
 distro=$(cat /etc/devuan_version)
 d0=$(pwd)
+#echo "d0=${d0}"
 [ -z "${distro}" ] && exit 6
 debug=0 #1
 d=${d0}/${distro} 
@@ -9,24 +10,30 @@ d=${d0}/${distro}
 #020426:uudelleen_nimeäminen josqs tämän hmistomn tdstoille?
 
 function parse_opts_1() {
-	if [ -d ${d0}/${1} ] ; then
-		dqb "asdfasd.asdfgh"
+	dqb "parseopts_1 ) ${1} ; ${2}"
+
+	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
+		#toimiikohan tämä kohta? pitäiskö tegdä toisin, opts_2() ?
+		#distro=${1}
+		echo "I1RTS0 CNAGN3H"
 	else
 		case  "${1}" in
-			0|1|2)
+			0|1|2) #varsinainen numeerisuustarkistus parempi
 				mode=${1}
 			;;
 			*)
+				dqb "invalid param"
 			;;
 		esac
 	fi
 }
 
 function parse_opts_2() {
-	dqb "g_doit.qwertupoy 1 2"
+	dqb "parseopts_2 () ${1} ${2}"
 }
 
 function fallback() {
+	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING OR NOT EXECUTABLE"
 	exit 111
 }
 
@@ -34,6 +41,7 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	[ ${debug} -gt 0 ] && ls -las ${d0}
+	echo "C0MM0N L1B N0t (AVA1LABL3 AND 3XECUTABL3)"
 	exit 55
 fi
 
@@ -43,14 +51,15 @@ sleep 1
 #https://linuxopsys.com/use-dollar-at-in-bash-scripting
 #https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
 
-#240526:tämä aiheutti paljon nalkutusta kehitysymp
-function dis() {
-	dqb "sid $1 ;; $2 ((((("
-	[ -z "${1}" ] && exit 44
-	[ -z "${2}" ] && echo "SHOULD exit 45"
+dqb "b3f0r3 p.076"
+dqb "mode= ${mode}"
+csleep 1
 
-	dqb "ko.srap"
+function dis() {
+	dqb "CHAMBERS OF 5HA0 L1N ${1}"
+	[ -z "${1}" ] && exit 44
 	csleep 1
+
 	${scm} 0755 /etc/network
 	${sco} -R root:root /etc/network
 	${scm} a+r /etc/network/*
@@ -58,16 +67,23 @@ function dis() {
 	if [ -f /etc/network/interfaces ] ; then
 		if [ ! -h /etc/network/interfaces ] ; then
 			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
-		fi	
+		else
+			dqb " /e/n/i n0t a l1nk"
+		fi
+	else
+		dqb "/e/n/i n0t f0und"
 	fi
 
 	local t
-	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z) #TARKK PTKL
+	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
 
 	if [ -f /etc/network/interfaces.${t} ] ; then
+		dqb "LINKS-1-2-3"
 		${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 		echo $?		
 		csleep 1
+	else
+		dqb "N0 \$UCH TH1NG A5 /etc/network/interfaces.${t}"
 	fi
 
 	${scm} 0555 /etc/network
@@ -75,63 +91,53 @@ function dis() {
 	csleep 1
 
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
-	dqb "aftr.int.faces"
-
-	if [ ! -z "${2}" ] ; then
-		#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
-		[ -z "${sifd}" ] && sifd=/sbin/ifdown
-
-		dqb "${odio} ${sifd} ${2}"	
-		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
-
-		csleep 1
+	if [ -v CONF_iface ] ; then
+		if [ ! -z "${CONF_iface}" ] ; then
+			${odio} ${sifd} ${CONF_iface}
+			csleep 1
 	
-		#${odio} ${sifd} -a
-		csleep 1
+		#	${odio} ${sifd} -a
+			csleep 1
 
-		[ ${debug} -eq 1 ] && ${sifc};sleep 1
+			[ ${debug} -eq 1 ] && ${sifc};sleep 1
+			dqb "${sip} link set ${CONF_iface} down"
 	
-		${sip} link set ${2} down
-		[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+			${sip} link set ${CONF_iface} down
+			[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+		fi
 	fi
 	
+	csleep 1
 	${odio} sysctl -p
 	csleep 1
-	dqb "d1s.d0n3"
+
+	dqb "5HAD0W 0F TH3 BA\$T3t D0N3"
 }
 
 function part0() {
-	dqb "part0)))( ${1} ;; ${2})(((((("
+	dqb "g_doit.common_lib.FART076 ${1}"
 	[ -z "${1}" ] && exit 76
-	[ -z "${2}" ] && echo "SHOULD exit 78"
 
-	dqb "pars.ok"
-	csleep 5
-
-	dis ${1} ${2}
+	csleep 1
+	dis ${1}
 	local s
+	
+	#dw i'n gwybod sut i ddefnyddio Google Translate
 	dqb "смерть шпионам"
 
+	#VAIH:KVG, saisiko xfce4-session olemaan käyttämättä tuota SSH-AGENT?
 	#https://docs.xfce.org/xfce/xfce4-session/advanced
 	#https://superuser.com/questions/1222663/how-do-i-use-combine-ssh-agent-forwarding-and-xfce4
 	#https://forum.manjaro.org/t/how-to-disable-ssh-agent-autostart/89404
-	
-	dqb "#VAIH:jospa kokeilisi vähitellen miten xfquery-komennot vaikuttavat? (270426)"
-	#... meneekö sinne config.tar.bz2 asti muutokset esim?
-	#140526:vissiin tdstoon xfce4-session.xml menee tieto että agentit sammuksiin mutta	
-	#x-session-manager saattaa liittyä jtnkn
 
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
 	${whack} ssh-agent*
-
+	csleep 5
+	dqb "H4RV35TER 0F 50RR0W"
+	csleep 1
 	#060426:tämäkö heittää pihalle ennenaikaisesti? ssh:n kanssa ehkä jotain	
-	#2804236:josko ssh-agentin sisältävän paketin voisi poistaa?
 
-	#140526:gnome-keyring*. libpam-gnome-keyring liittyvät?
-	#kts pkgs_drop jos qsee g_pt2 asjon jölkeen (vissiin ei)
-
-	#250526:onnistui kai sudottamalla tämä skripti, sammuttaa nuo listan mukaiset palvelut
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
 		#HUOM.271125:saisiko tällä tyylillä myös slimin sammutettua? saa, mutta...
@@ -144,23 +150,29 @@ function part0() {
 		${whack} ${s}*
 	done
 
+	dqb "alm0st d0n3"
+	csleep 1
 	${whack} nm-applet
 	${snt}
+	dqb "P.176 DONE"
+	csleep 1
 }
 
 #150326:miten /proc/cmdline:n lokaaliasetukset vs /e/d/l ja tämän ao. kikkareen jutut
 
 function el_loco() {
-	dqb "el_loco ))${1} ; ${2}((((("
+	dqb "MI LOCO ${1} , ${2}"
 	csleep 1
 
 	if [ ${1} -gt 0 ] ; then
+		#uutena seur 2 riviä
 		${smr} /etc/timezone
 		${smr} /etc/localtime
+
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
-	#else
-	#	${odio} locale-gen #tilapäisesti jemmaan koska kestää
+	else
+		${odio} locale-gen
 	fi
 
 	if [ ${2} -lt 1 ] ; then
@@ -168,8 +180,8 @@ function el_loco() {
 		fasdfasd /etc/default/locale
 		csleep 1
 
-		#TODO:pitäisi kai kutsuvassa koodissa huomioida LCF666 vs env vs /e/d/locale
-		#.. siis onko huomoioitu kunnolla 3 eri lähdettä asetuksille vaiko ei?
+		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
+		#env vai locale minkä oksennukset tdstoon? vissiin env
 
 		env | grep LC >> /etc/default/locale
 		env | grep LAN >> /etc/default/locale
@@ -196,6 +208,8 @@ function el_loco() {
 
 #140326:tarkkuutta peliin, ao. rivillä oli typo jnkn aikaa
 function adieu() {
+	dqb "AUF W13DERSEHEN"
+
 #	pidetäänpä nämä jutut kommenteissa sitä varten että saattuukin tarvitsemaan
 #
 #	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
@@ -210,16 +224,17 @@ function adieu() {
 #	csleep 5
 #210126:joskohan toimisi ilman näitä kikkailuja?
 #	#väärä tapa pakottaa uudelleen_kirjautuminen?
-
 	${whack} xfce4-session
 }
-
 #=====================================PART0=========================================================
-pkgcache=$(${mkt} -d)
-part0 ${distro} ${CONF_iface}
-process_lib ${d} ${pkgcache}
+
+part0 ${distro}
+process_lib ${d}
+echo "AFTER PROCESS_LIB";sleep 1
 
 #==================================PART 1============================================================
+dqb "mode= ${mode}"
+dqb "debug= ${debug}"
 [ -v CONF_enforce ] || exit 99
 
 if [ -s ~/xorg.conf.new ] ; then
@@ -229,248 +244,135 @@ if [ -s ~/xorg.conf.new ] ; then
 	fi
 fi
 
-#HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan?
-
-function pre_enforce() {
-	dqb "pre_enforce() "
-	[ -z "${1}" ] && exit 98
-	[ -d ${1} ] || exit 97
-	[ -v mkt ] || exit 99
-	dqb "pars_ok"
-	csleep 1
-
-	local q
-	local f
-	q=$(${mkt} -d)
-	q=${q}/meshuqqah
-	csleep 1
-	fasdfasd ${q}
-	[ ${debug} -eq 1 ] && ls -las ${q}
-	csleep 1
-
-	[ -f ${q} ] || exit 33
-	#TODO:katso lista läpi että mitä nykyään tarvitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
-	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
-
-	dqb "BFOR3 testgris"
-	csleep 1
-	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
-
-	#VAIH:ehtoa joutaisi vähän viilaamaan
-	if [ "${CONF_env}" == "DEFAULT" ] ; then # && [ -d /opt/bin ]
-		if [ ! -d /opt/bin ] ; then
-			${smd} /opt/bin
-			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
-		fi
-
-		if [ -d ${1}/opt/bin ] ; then
-			#tämä mv ok?
-			${svm} ${1}/opt/bin/*.bash /opt/bin
-			#090326.2:miten /o/b/zxcv ?
-			#/o/b oikeudet ja omistajat tulisi jossain asettaa
-		fi
-	fi
-
-	e_final
-
-	# "semmoinen juttu" 
-	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
-		#1. tämä blokki kai eniten aiheuttaisi ongelmia sqroot-ympstössä?
-		#2. o/b sisällön oikeuksia/omistajia varten taisi olla e_final
-		#3. changedns.vash: pientä yritystä hukata (exp2 ja update2)
-
-		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
-			mangle_s ${f} ${q}
-		done
-	fi
-
-	csleep 1
-
-	if [ -s ${q} ] ; then
-		csleep 1
-		reqwreqw ${q}
-		${scm} 0440 ${q}
-
-		#tämä mv ok?
-		${svm} ${q} /etc/sudoers.d
-		CB_LIST1=""
-		unset CB_LIST1
-	fi
-
-	q=$(${mkt})
-	fasdfasd ${q}
-	dinf ${q}
-	reqwreqw ${q}
-	${scm} 0440 ${q}
-	${svm} ${q} /etc/sudoers.d
-	csleep 1
-
-	local c4
-	c4=0
-	csleep 1
-
-	#setup2 mennee vähän päällekkäin ytämän fktion kanssa toiminnallisesti
-	if [ -v CONF_dir ] ; then
-		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
-	else
-		exit 99
-	fi
-
-	csleep 1
-	#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
-	#VAIH:setup2sessa kokeeksi fstab-kikkailut kommentteihin
-
-	if [ ${c4} -lt 1 ] ; then
-		csleep 1
-		${scm} a+w /etc/fstab
-		csleep 1
-		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
-		csleep 1
-		${scm} a-w /etc/fstab
-		csleep 1
-		[ ${debug} -eq 1 ] && cat /etc/fstab
-		csleep 1
-	fi
-
-	dqb "pre_enforce() done"
-	csleep 1
-}
-
-#250526:toka ehto ok? koita päättää
-if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
+if [ -s /etc/sudoers.d/meshuqqah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
 else 
 	pre_enforce ${d0}
 fi
 
-if [ "${CONF_env}" != "DEFAULT" ] ; then #240526:saattaa muuttua vielä, nyt näin nalkutuksen minimoinnin takia
+if [ -f /.chroot ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
 	enforce_access $(whoami) ${d0}
 fi
 
+csleep 2
+echo "JUST BEFORE PART1";sleep 1
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
 
+echo "JUST AFTR PRT1";sleep 1
+#aivopieru:jtnkin niin että voisi samalla kertaa purkaa paketin ja ajaa tämän skriptin trähän asti. Self-extracting archives?
+#KVG "bash here-doc examples"  (olisiko jo katsottu?)
+
 ${snt}
+csleep 1
+dqb "${svm} ${d0}/1c0ns/ \* .desktop ~/Desktop"
+csleep 1
 ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 
 #===================================================PART 2===================================
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 #TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
-c14=1
-c13=0
 
-if [ ${mode} -gt 1 ] ; then
-	#nollasta ei tarttisi välittää koska exit aiempana
+c13=0
+c14=1
+
+if [ ${mode} -gt 1 ] ; then #nollasta ei tarttisi välittää koska exit aiempana
 	if [ -v LCF666 ] ; then
-		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l)
-		 #barm vuoksi näin
-		[ $c13 -gt 0 ] && c14=0
-		
+		c13=$(env | grep LC_TIME | grep -c ${LCF666})
+		#[ $c13 -gt 0 ] && c14=0
 		#profit
+	else
+		echo "NO PREFERRED LC_TIME FOUND" #...ja Sit Jotain?
 	fi
 fi
 
-echo "TODO:tables-säännöt&&ntp josqs?"
-sleep 10
-
-#TODO?:/e/d/localeen kirjoittaminen jtnkin uusiksi?
-#josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta? kokeillaan
+#josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta? kkeillaan
 el_loco ${c14} ${c13}
-#24526:se oli pikemminkin dpkg m,ikä halusi lokaaleita generoida
-
 #=========================================================================================
-#1§405426:vissiin "mode 1"-kiukuttelut toistaiseksi ohi kehitysympstössä
 
-if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
+if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then 
+	dqb "R (in 2 secs)"
+	csleep 1
 	${odio} passwd
 
 	if [ $? -eq 0 ] ; then
+		dqb "L (in 2 secs)"
+		csleep 1
 		passwd
 	fi
 
 	if [ $? -eq 0 ] ; then
 		adieu
 		#HUOM. tässä ei tartte exit jos myöhemmin joka tap
-	fi
-
-	#VAIH:jos C_env== VED ni common_lib +  root.conf omistajaksi root, jälkimmäisen saa vain omistaja lukea, tälle tdstolle vain ajo-oikeus kaikille
-	if [ "${CONF_env}" == "VED" ] ; then
-		#... aka "hands off" (qhan omega)
-		${sco} 0:0 ${d0}/*.conf
-		${scm} 0444 ${d0}/*.conf
-		#${sca} +ui ${d0}/*.conf
-
-		${sco} 0:0 ${0}
-		${scm} 0444 ${0}
-		#${sca} +ui ${0}
+	else
+		dqb "SHOULD NAG ABOUT HAMMAD HERE"
 	fi
 
 	exit
 fi
 
-pre_part2
+pre_part2 #ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
+c14=$(find ${d} -name "*.deb" | wc -l)
 
-if [ "${CONF_env}" == "DEFAULT" ] ; then
-	#ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
-	c14=$(find ${d} -name "*.deb" | wc -l)
-
-	#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu (ehkä ok)
-	#... pitäisi kai nollaamisessa huomioida myös /.chroot
-	[ ${c14} -gt 0 ] || CONF_removepkgs=0
-fi
+#[ ${c14} -gt 0 ] || CONF_removepkgs=0 #tilap kommentteihin 270226 koska g_pt2_jutut
+#... jokohan jo kommenteista 190326? (TODO)
 
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
+#voisi kai tässä kohta anuo kikialuit palautaa kommenteista (040326)
+
 #===================================================PART 3===========================================================
 message
-#menkööt toistaiseksi part3 kanssa (0403265)
-#common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain?
 
-#300526:part3() vissiin toimi, mutta miten CB0x - fktiot? nekin
-part3 ${d} ${pkgcache}
+#kokeeksi käskyttämään "imp2 3" tässä kohtaa
+#... toimisi kai tuolla toisellakin tavalla muuten mutta pitäisi imp2:sen sha-tarkistuksia vähän laittaa (040326)
+#... myös pitäisi olla jotain $d alla että imp2 tekisi jotain
+#menkööt toistaiseksi part3 kanssa (040325)
+#common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain
+
+part3 ${d}
+#dqb "JUST BEFORE IMP2 3"
+#csleep 10
+#${d0}/import2.sh 3 ${d}/f.tar -v
 
 other_horrors
-dqb "AFTER THE HORROR"
-csleep 1
+dqb "BEFORE IMP2 r"
+csleep 2
 
-#ehto tänään näin, huomenna taas toisin
-if [ "${CONF_env}" == "DEFAULT" ] ; then
-	#[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
+if [ ! -f /.chroot ] ; then
+	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
+
 	${scm} 0555 ${d0}/common_lib.sh
+	#toistaiseksi tässä kunnes... Jotain
 
-	#TODO:TAAS kerran ffox-prof import/export - toiminnan varmistus, luultavasti export qsi taas
 	${d0}/import2.sh r ${d0} -v
-	echo $?
-	csleep 3
 fi
-
-dqb "PR0F IMPORT DONE?"
-csleep 5
 
 jules
 ${asy}
+dqb "GR1DN BELIALAS KYE"
+
+#220426:varm vuoksi palautettu e_f kommenteista 
 e_final
-e_h $(whoami) ${d0}
+#e_h $(whoami) ${d0}
 
-${sco} 0:0 /opt/bin/*
-${scm} 0400 /opt/bin/zxcv*
+#220426:mutilatetc kutsutaan onnistuneesti tuossa alla
 
-#280526:ajetaanko tätä vai ei? vissiin ajetaan (30526)
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
-	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
-else
-	echo "NOTHING LEFT TO MUTILATE"
+	${odio} /opt/bin/mutilatetc.bash  ${CONF_dnsm}
 fi
 
-sleep 20
-#ifup nykyään muuttelee tables-sääntöjä yhdellä jekulla joten ei erikseen tartte käskyttää...
+#
+#${odio} /opt/bin/tlb.bash ${CONF_dnsm}
+#${odio} /opt/bin/aftr.bash
 
 ${sipt} -L
 csleep 1
 ${scm} 0555 ${d0}/common_lib.sh
+#JOKO JO LOPPUISI PURPATUS PRKL
 ${scm} a-wx $0
 
 #tämä saattaa laukaista pakettien poistelun
@@ -478,6 +380,8 @@ ${fib}
 
 #===================================================PART 4(final)==========================================================
 if [ ${mode} -eq 2 ] ; then
+	echo "time to \$sifu \$CONF_iface or whåtever"
+	csleep 1
 	adieu
 	exit 
 fi

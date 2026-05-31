@@ -1,7 +1,3 @@
-CONF_env=DEFAULT
-CONF_algo=sha256
-CONF_hashfile=sha512sums.txt
-#
 CONF_iface=iface
 CONF_enforce="0 or 1"
 debug=0
@@ -43,6 +39,3 @@ CONF_dm=xdm
 CONF_default_arhcive=fediverse.tar
 CONF_default_arhcive2=config.tar.bz2
 CONF_default_arhcive3=profs.sh
-#
-CONF_PT2=minimize-devuan-live
-CONF_LIB=minimize/common_lib.sh

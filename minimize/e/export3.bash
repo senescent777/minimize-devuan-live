@@ -79,7 +79,7 @@ case "${mode}" in
 	;;
 	q)
 		#100526 vissiin osasi paketin tehdä toivottavalla sisällöllä
-		#300526:uusi testi käyntiiin
+		#VAIH:uusi testi käyntiiin (kelvollinen tuotos?/masentuuko se?/menevätkö liuittyvät tdstot kohdearkistoon?/yms)
 
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
