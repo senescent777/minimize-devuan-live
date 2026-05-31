@@ -21,25 +21,62 @@ function csleep() {
 
 #tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn? koska syyt? (siis siihen samaan missä profs.sh?)
 
-#TODO:tämäön if-blokin kanssa uusi raskaalla kädellä
-if [ -f /.chroot ] ; then
-	odio=""
+echo "#TODO:TÄMÄN \"case CONE_env\" - BLOKIN KANSSA ANKARAA SÄÄTÖÄ VAIKKA 27.5.26 VERSIO PALAUTETTU"
+sleep 10
 
-	function itni() {
-		dqb "alt-itn1"
-	}
-else
-	function itni() {
-		dqb "ITN1-2"
+case "${CONF_env}" in
+	TOOR)
+		odio=""
 
-		odio=$(which sudo)
-		[ y"${odio}" == "y" ] && exit 99 
-		[ -x ${odio} ] || exit 100
-	}
+		function itni() {
+			dqb "alt-itn1"
+		}
 
-	#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
-	#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
-fi
+		#250526 palautettu kommenteista sqroot-testien takia
+		sco=$(${odio} which chown)
+		[ y"${sco}" == "y" ] && exit 98
+		[ -x ${sco} ] || exit 97
+		scm=$(${odio} which chmod)
+	;;
+	VED)
+		#pitäöisiköhän testgris huomioida tässä? jos ei sen mukaista hmistoa ole ni CONF_env arvon muuttaminen tjsp
+		odio=""
+		sco=$(${odio} which chown)
+		[ y"${sco}" == "y" ] && exit 98
+		[ -x ${sco} ] || exit 97
+		[ -v CONF_testgris ] || exit 96
+		scm=$(${odio} which chmod)
+			
+		function itni() {
+			dqb "itn1-3"
+			}
+	;;
+	*)
+		exit
+		
+		function itni() {
+			dqb "ITN1-2"
+
+			odio=$(which sudo)
+			[ y"${odio}" == "y" ] && exit 99 
+			[ -x ${odio} ] || exit 100
+			
+			sco=$(${odio} which chown)
+			[ y"${sco}" == "y" ] && exit 98
+			[ -x ${sco} ] || exit 97
+
+			scm=$(${odio} which chmod)
+			[ y"${scm}" == "y" ] && exit 96
+			[ -x ${scm} ] || exit 95
+			sco="${odio} ${sco} "
+			scm="${odio} ${scm} "	
+		}
+
+		#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
+		#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
+	;;
+esac
+
 
 itni
 
