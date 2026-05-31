@@ -244,14 +244,15 @@ if [ -s ~/xorg.conf.new ] ; then
 	fi
 fi
 
-if [ -s /etc/sudoers.d/meshuqqah ] || [ -f /.chroot ] || [ ${CONF_enforce} -eq 0 ] ; then
+#miten näidne pitäisi mennä? pre_enf ja enf ?
+if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
 else 
 	pre_enforce ${d0}
 fi
 
-if [ -f /.chroot ] ; then
+if [ "${CONF_env}" == "TOOR" ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
@@ -262,10 +263,6 @@ csleep 2
 echo "JUST BEFORE PART1";sleep 1
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
-
-echo "JUST AFTR PRT1";sleep 1
-#aivopieru:jtnkin niin että voisi samalla kertaa purkaa paketin ja ajaa tämän skriptin trähän asti. Self-extracting archives?
-#KVG "bash here-doc examples"  (olisiko jo katsottu?)
 
 ${snt}
 csleep 1
@@ -322,7 +319,6 @@ c14=$(find ${d} -name "*.deb" | wc -l)
 #... jokohan jo kommenteista 190326? (TODO)
 
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
-#voisi kai tässä kohta anuo kikialuit palautaa kommenteista (040326)
 
 #===================================================PART 3===========================================================
 message
@@ -342,7 +338,7 @@ other_horrors
 dqb "BEFORE IMP2 r"
 csleep 2
 
-if [ ! -f /.chroot ] ; then
+if [ "${CONF_env}" == "TOOR" ] ; then
 	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 
 	${scm} 0555 ${d0}/common_lib.sh
@@ -353,19 +349,14 @@ fi
 
 jules
 ${asy}
-dqb "GR1DN BELIALAS KYE"
-
-#220426:varm vuoksi palautettu e_f kommenteista 
 e_final
-#e_h $(whoami) ${d0}
-
-#220426:mutilatetc kutsutaan onnistuneesti tuossa alla
+e_h $(whoami) ${d0}
 
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} /opt/bin/mutilatetc.bash  ${CONF_dnsm}
 fi
 
-#
+#miten näiuden kanssa?
 #${odio} /opt/bin/tlb.bash ${CONF_dnsm}
 #${odio} /opt/bin/aftr.bash
 
