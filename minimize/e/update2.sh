@@ -88,20 +88,6 @@ if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	sleep 1
 fi
 
-#echo "JUST BEFOR.E PROCESSING ROWS"
-#sleep 1
-#
-##toimiikohan kehitysynp.tössä niinqu pitää?
-##${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
-#
-#for f in $(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb  ) ; do
-#	if [ -f ${f} ] ; then
-#		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
-#			process_row ${tgt} ${f}
-#		fi
-#	fi
-#done
-
 #VAIH:ao. riveihin muutoksia koska CONF_env tulosssa käyttöön?
 if [ -z "${par3}" ] ; then
 	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .tar | grep -v .deb | grep -v .chroot | grep -v resolv)
@@ -110,10 +96,6 @@ else
 fi
 
 #VAIH:tcmd:lle optioksi nuo pois grepattavat, --exclude
-#
-#echo "JUST BEFORE FOR-LOOP"
-#echo ${g}
-#sleep 5
 
 for f in ${g} ; do
 	#echo "${f} :"
