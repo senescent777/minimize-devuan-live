@@ -44,6 +44,9 @@ dqb "BEFORE L1B"
 process_lib ${d}
 csleep 2
 
+e_final
+e_h $(whoami) ${d0}
+
 echo "TODO:resolv-ULINAT PIKEMMINKIN ifup KANSSA 666!!!"
 csleep 20
 
@@ -52,9 +55,15 @@ csleep 20
 csleep 20
 
 ${odio} /opt/bin/tlb.bash
+csleep 2
+${sco} 0:0 /opt/bin/*
+${scm} 0400 /opt/bin/zxcv*
 csleep 20
 
+#jokin tarkistus ennen vai ei?
 ${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+sleep 10
+ls -las /etc/resolv*
 csleep 20
 
 ${fib}
@@ -65,6 +74,7 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
+#TODO:ehto uusiksi?
 if [ ${CONF_removepkgs} -eq 1 ] ; then
 	dqb "kö"
 	TLA
@@ -95,6 +105,7 @@ if [ -f /.chroot ] ; then
 	t2p_filler
 fi
 
+#HUOM.miten se wlan-juttu?
 #====================================================================
 
 function p2g() {
@@ -190,7 +201,6 @@ p2g ${d}
 t2pf ${d}
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 2 ] && exit
-
 
 if [ ${mode} -gt 3 ] ; then
 	${sharpy} slim
