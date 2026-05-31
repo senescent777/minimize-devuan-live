@@ -60,6 +60,7 @@ else
 	exit 58
 fi
 
+[ -d  ${tgtfile} ] && exit 99 #P.V.H.H
 e22_hdr ${tgtfile}
 [ "${mode}" == "rp" ] || e22_hdr ${tgtfile} #P.V.H.H
 [ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta (josk jo takaisin)
@@ -80,6 +81,7 @@ case "${mode}" in
 	q)
 		#100526 vissiin osasi paketin tehdä toivottavalla sisällöllä
 		#VAIH:uusi testi käyntiiin (kelvollinen tuotos?/masentuuko se?/menevätkö liuittyvät tdstot kohdearkistoon?/yms)
+		#vissiin se exportointi/import nimenomaan g_dout kautta ongelma
 
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
