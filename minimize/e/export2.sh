@@ -225,7 +225,7 @@ case "${mode}" in
 		#VAIH (muodostetun paketin toimivuuden testaus lähinnä)
 		e22_hdr ${d}/e.tar
 
-		#TODO:miten se E22_GG ?
+		#TODO:miten se E22_GG ? (toisessa oksasssa vastaava kohta siis)
 
 		${fib}
 		${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä
@@ -240,7 +240,7 @@ case "${mode}" in
 		e23_dm ${mop}
 	;;
 	n)
-		#VAIH:ntp-jutut takaisin josqs?  260526 -> ?
+		#VAIH:ntp-jutut takaisin josqs? 260526 -> ?
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;
@@ -255,7 +255,10 @@ case "${mode}" in
 		echo "MAYBE U SHOULD USE export3 INSTEAD"
 		sleep 5
 
-		#ei ihan vielä toimi näin
+		echo "d0= ${d0}"
+		echo "dirname= $(dirname $0)"
+
+		#ensimmäisellä yrityksellä ei toiminut, uudestaan joku päivä
 		${d0}/export3.bash ${mode} ${tgtfile} -v
 		exit
 	;;
