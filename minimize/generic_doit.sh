@@ -323,12 +323,6 @@ part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 #===================================================PART 3===========================================================
 message
 
-#kokeeksi käskyttämään "imp2 3" tässä kohtaa
-#... toimisi kai tuolla toisellakin tavalla muuten mutta pitäisi imp2:sen sha-tarkistuksia vähän laittaa (040326)
-#... myös pitäisi olla jotain $d alla että imp2 tekisi jotain
-#menkööt toistaiseksi part3 kanssa (040325)
-#common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain
-
 part3 ${d}
 #dqb "JUST BEFORE IMP2 3"
 #csleep 10
@@ -338,7 +332,7 @@ other_horrors
 dqb "BEFORE IMP2 r"
 csleep 2
 
-if [ "${CONF_env}" == "TOOR" ] ; then
+if [ "${CONF_env}" != "TOOR" ] ; then #saattaa muuttua vielä
 	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 
 	${scm} 0555 ${d0}/common_lib.sh
