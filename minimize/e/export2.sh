@@ -161,19 +161,17 @@ case "${mode}" in
 		exit 97
 	;;
 	3|4) 
-		#VAIH:turhia kommentteja wttuun sotkemasta
-		#4 toimi viimeksi 280526
-		#merd2 taisi toimia viimeksi 30526
-	
+		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
+		#VAIH:turhia kommentteja wttuun sotkemasta	
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
 
-		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 3 ] && [ "${CONF_env}" = "DEFAULT" ] ; then
-			#TODO:se jokin rekursiojuttu näille main?
+		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy? eli 3. ehto tuohon alle?
+		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
+			#TODO:se jokin rekursiojuttu näille main? (kts toinen oksa)
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
