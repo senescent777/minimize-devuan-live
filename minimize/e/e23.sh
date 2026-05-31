@@ -51,7 +51,7 @@ function e23_tblz() {
 	csleep 1
 
 	${asy}
-	#actually necessary
+	#actually necessary (2 param kutsussa sopisi riittää)
 	e22_pre2  ${1} ${2}
 	other_horrors
 
@@ -106,7 +106,7 @@ function e23_other_pkgs() {
 
 #äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
 
-#190426:toimii
+#vissiin 05/26 toimi tämä fktio ja sen ul,oste
 function e23_upgp() {
 	dqb " e23_upgp() "
 
@@ -127,7 +127,6 @@ function e23_upgp() {
 	csleep 1
 }
 
-#190426:toimii
 function e23_upgp2() {
 	dqb " e23_upgp2() "
 	[ -z "${1}" ] && exit 1 
@@ -148,7 +147,6 @@ function e23_upgp2() {
 	csleep 1
 }
 
-#170326:taitaa toimia, paketin teko ja sisältö
 function e23_qrs() {
 	dqb "e23_qrs()"
 
@@ -191,7 +189,6 @@ function e23_qrs() {
 	csleep 1
 }
 
-#190426:vissiin toimii, ÄLÄ SORKI
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -255,7 +252,7 @@ function e23_dm() {
 	csleep 10
 
 	${shary} libicu72 libxfixes3 libxml2
-	${shary} 
+
 	csleep 5
 
 	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
@@ -294,17 +291,6 @@ function e23_dm() {
 }
 
 
-
-#	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
-#
-
-
-
-#	libstdc++6 (>= 11), 
-#	#	${shary}  libgnutls30
-#
-#	#wdm depends on xserver-xorg | xserver; however:
-#
 #	case "${1}" in
 #		xdm) #010126:pitäisiköhän tämäkin case testata?
 #			${shary} xdm
@@ -341,10 +327,7 @@ function e23_dm() {
 ##			${shary} lxpolkit lxsession-logout lxsession
 ##			#csleep 1
 ##		;;
-#		*)
-#		;;
-#	esac
-#
+
 
 
 #	#EI JUNALAUTTA
@@ -395,15 +378,12 @@ function e23_profs() {
 	dqb "e23_profs() done"
 	csleep 1
 }
-
-#function e23_xyz() {	
+	
 #	${shary} libeudev1 keyboard-configuration #drm2 sekä shmfence _dm() kautta
 #	${shary} libpixman-1-0 libxfont2 libpciaccess0 libgcrypt20
 #	${shary} libxcvt0 xcvt #vetää vai ei? vssiin menee hi pakettiin 7426
 #
-#	csleep 30
-#	dpkg -l libxcvt*
-#	csleep 6
+
 #
 #	${shary} xserver-xorg-video-modesetting xserver-xorg-input-evtouch
 #	#libopengl0 tarvitaanm, e23() 
@@ -432,4 +412,3 @@ function e23_profs() {
 #	#${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
 #
 
-#}
