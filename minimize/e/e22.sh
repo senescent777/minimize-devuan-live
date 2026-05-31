@@ -386,10 +386,12 @@ function e22_ext() {
 		${spc} ./sbin/dhclient-script.new ./sbin/dhclient-script.1
 		ls -las ./sbin
 	fi
+	
+	local c=0	
 
-	#samantapsisata koodia oli jossain toisaalla kanssa
+	#samantapAISta koodia oli jossain toisaalla kanssa
 	if [ -f /etc/apt/sources.list ] ; then
-		local c
+		
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
 
 		if [ ${c} -lt 1 ] ; then
@@ -408,8 +410,13 @@ function e22_ext() {
 	${srat} -rvf ${1} ./etc ./sbin
 	echo $?
 
+	#VAIH:suorityuksen keskeytys jos resolv.conf.jotain puuttuu
+	csleep 6
+	c=$(${srat} -tf ${1} | grep resolv.conf.${st} | wc -l)
+	[ ${c} -gt 0 ] || exit 97
+	csleep 4
 	local f
-	#TODO:suorityuksen keskeytys jos resolv.conf.jotain puuttuu
+	
 
 	#TODO:resolv.* mukaan findin ehtoon, kts toinen oksa
 	for f in $(find ./etc -type f -not -name "interfaces.*" ) ; do
@@ -429,6 +436,7 @@ function e22_ts() {
 
 	${svm} ${2}/*.deb ${1}
 	[ $? -eq 0 ] || exit 56
+
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
 	cg_udp6 ${1}
@@ -451,7 +459,7 @@ function e22_arch() {
 	exit
 
 	if [ -f ${2}/${CONF_hashfile} ] ; then #turha tarq?
-		${NKVD} ${2}/${CONG_hashfile}*
+		${NKVD} ${2}/${CONF_hashfile}*
 		csleep 1
 	fi
 
@@ -471,7 +479,7 @@ function e22_arch() {
 	${sah6} ./*.deb > ./${CONF_hashfile}
 
 	for f in $(find . -type f -name "*pkgs*") ; do
-		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
+		[ ${3} -eq 1 ] && ${srat} -rvf ${1} ${f}
 		${sah6} ${f} >> ./${CONF_hashfile}.1
 	done
 
@@ -482,12 +490,12 @@ function e22_arch() {
 
 	e22_tyg ./${CONF_hashfile}
 	e22_tyg ./${CONF_hashfile}.1
-	echo "TODO:TARKISTA ETTEI ./${CONF_hashfile}.1 TYHJÄ"	
+	echo "TODO:TARKISTA ETTEI ./${CONF_hashfile}.1 TYHJÄ"	#tietyssä ilmeisesä tapauksessa näin käy
 	exit
 
 	psqa .
 	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
-	#TODO:muutakin säätöä tässä	
+	#TODO:muutakin säätöä tässä (turha ajaa tar jos sitä ennen poisteltu)	
 	[ $? -gt 0 ] && ${NKVD} ./*.deb ./${CONF_hashfile}* ./*.tar #?
 	${srat} -rf ${1} ./*.deb ./${CONF_hashfile}* ./tim3stamp
 	cd ${p}
@@ -497,7 +505,6 @@ function e22_arch() {
 #	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 #}
-
 
 function e22_rpg() {
 	dqb "R-P-G ${1} , ${2} , ${3}"
@@ -623,14 +630,17 @@ function z3() {
 
 #(josko exp2 voisi korvata "tar -T -cf":llä?)
 
-
 function e22_sarram() {
+	dqb "e22_sarram()"
 	#[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
 	#[ -w ${1} ] || exit 9
 	[ -z "${2}" ] && exit 11
 	[ -z "${3}" ] && exit 13
 	[ -s ${3} ] || exit 17
+
+	dqb "pars_ok"
+	csleep 1
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
@@ -654,6 +664,7 @@ function e22_sarram() {
 	${scm} 0400 /etc/iptables/rules*
 	${scm} 0400 /etc/default/rules*
 
+	#31526:oliko rulesin kanssa vielä jotain?
 	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD ) ; do ${sah6} ${f} >> ${3} ; done
 
