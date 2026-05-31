@@ -60,22 +60,29 @@ else
 	exit 58
 fi
 
+[ -d  ${tgtfile} ] && exit 99 #P.V.H.H
 e22_hdr ${tgtfile}
-#[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta
+[ "${mode}" == "rp" ] || e22_hdr ${tgtfile} #P.V.H.H
+[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta (josk jo takaisin)
 
 case "${mode}" in
-#	rp) #080326:toistaiseksi jemmaan, kiukuttelua (takaisin komm josqs?)
-#		[ -s "${tgtfile}" ] || exit 67
-#		[ -r "${tgtfile}" ] || exit 68
-#		e22_rpg ${tgtfile} ${d}
-#17426:josqs ta,aisin kommenteista?
-#	;;
+	rp) #VAIH:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms
+		#siirtynee koodia casen ja fktion välillä vielä
+		[ -s "${tgtfile}" ] || exit 67
+		[ -r "${tgtfile}" ] || exit 68
+		e22_rpg ${tgtfile} ${d}
+
+	;;
 	f)
 		t=$(echo ${d} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 		enforce_access $(whoami) ${t}
 		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
 	q)
+		#100526 vissiin osasi paketin tehdä toivottavalla sisällöllä
+		#VAIH:uusi testi käyntiiin (kelvollinen tuotos?/masentuuko se?/menevätkö liuittyvät tdstot kohdearkistoon?/yms)
+		#vissiin se exportointi/import nimenomaan g_dout kautta ongelma
+
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
