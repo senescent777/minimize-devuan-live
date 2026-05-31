@@ -417,9 +417,8 @@ function e22_ext() {
 	csleep 4
 	local f
 	
-
-	#TODO:resolv.* mukaan findin ehtoon, kts toinen oksa
-	for f in $(find ./etc -type f -not -name "interfaces.*" ) ; do
+	#VAIH:resolv.* mukaan findin ehtoon, kts toinen oksa
+	for f in $(find ./etc -type f -not -name "interfaces.*" -and -not -name "resolv.*") ; do
 		${sah6} ${f} >> ${4}
 	done
 
