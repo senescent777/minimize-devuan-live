@@ -536,13 +536,12 @@ function CB01() {
 #		#... g.tar:in saisi kyllä listaan mukaan
 #
 #		efk2 ${1}/g.tar /
-#		common_pp3 ${1}
+#		common_pp3 ${1} ${2}
 #		${NKVD} ${1}/g.tar
 #		exit 103
 #	fi
 
-	#160426:libassuanin kanssa härdelliä vai ei?
-	common_pp3 ${1}
+	common_pp3 ${1} ${2}
 	for p in ${E22_GI} ; do efk1 ${1}/${p}*.deb ; done
 	csleep 1
 
@@ -551,7 +550,7 @@ function CB01() {
 	csleep 1
 
 #	[ -s ${1}/${CONF_hashfile}.bak ] && ${svm} ${1}/${CONF_hashfile}.bak ${1}/${CONF_hashfile}
-	common_pp3 ${1}
+	common_pp3 ${1} ${2}
 
 	dqb "common.lib.CB01() DONE"
 	csleep 1
@@ -636,9 +635,7 @@ function check_binaries() {
 	#050426:tämä jo okK?
 	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
-	#080426:twm-jutut josqs myöhemmin, ehkä (enemmän liittyy e23.sh)
 
-	#050426:dhcp-jutut erilleen jatkossa? 
 	E22_GT="isc-dhcp-client isc-dhcp-common "
 	E22_GT="${E22_GT} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
 	E22_GT="${E22_GT} iptables"
@@ -652,11 +649,9 @@ function check_binaries() {
 		[ -z "${1}" ] && exit 99
 		[ -d ${1} ] || exit 101
 
-		#HUOM.040326:ce saattaa vähän haitata jos aikoo "import2 3"-tavalla mennä g_doit
 		cefgh ${1}
-		common_pp3 ${1}
-		#070426:gpg-tarq pystyy tekemöään vastaq gpg asennettu, jos voisi jtnkinhuiomioida
-
+		common_pp3 ${1} ${2}
+		
 		dqb "BF0R3 CVB0"
 		csleep 5
 	fi
@@ -1394,7 +1389,7 @@ function part3() {
 
 	csleep 1
 	jules
-	common_pp3 ${1}
+	common_pp3 ${1} ${2}
 	dqb "AL-fPGA"
 	csleep 1
 

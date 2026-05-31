@@ -356,12 +356,39 @@ function cptp2() {
 
 #TODO:mode 0 vähitellen takaisin
 case "${mode}" in
-
 	1)
+		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est
 		common_part ${srcfile} ${d} /
 		csleep 1
 	;; 
+	#... exp2 rp vähän ritetty testailla 05/26
+	0)
+		[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est
+		e="/"
+		[ ${mode} -eq 0 ] || e=${d}
+		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
+		f=$(dirname ${f})
+
+		echo "bfore sqr.comm_p: $?"
+		sleep 6
+
+		common_part ${srcfile} ${d} ${e}
+
+		#VAIH:kiukut6telut voisi poistaa (vai onko vielä moista 250626? vissiin)
+		#modaamattomalla kiekolla jos testaisi kanssa		
+		echo "sq.FART3: $?"
+		[ $? -eq 0 ] && ocs gpg
+		
+		#sleep 3
+		#exit 61
+
+		[ $? -eq 0 ] && part3 ${f}
+		[ $? -eq 0 ] && other_horrors
+	;;
 	3)
+		#140526 muutettu paikallinen ocs että stoppaa tarv
+		#TODO:e23_st() outputin asennus , kehitysymp
+		#TODO:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
 
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
