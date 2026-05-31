@@ -48,10 +48,6 @@ function parse_opts_2() {
 	fi
 }
 
-
-
-#echo "aftr.unset.g";sleep 1
-
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 	#[ $? -eq 0 ] || exit #tähänkö kosahtanut viime_aikoina?

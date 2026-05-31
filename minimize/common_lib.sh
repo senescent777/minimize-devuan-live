@@ -122,7 +122,7 @@ function check_bin_0() {
 	csleep 1
 
 	dqb "cb1"
-	#ocs sha512sum
+
 	ocs dpkg
 	ocs tar
 	ocs shred
@@ -136,9 +136,7 @@ function check_bin_0() {
 	unset NKVD
 	csleep 1
 
-	#VAIH:sah6 LOTTOAMINEN UUSIKSI 666!!!
 	dqb "cb3"
-	#sah6=$(${odio} which sha512sum)
 	[ -v CONF_algo ] || exit 666
 
 	case "${CONF_algo}" in
@@ -280,7 +278,7 @@ function psqa() {
 
 	[ -z "${1}" ] && exit 97
 	[ -d ${1} ] || exit 96
-	[ ${debug} -gt 0 ] && ls -las ${1}/*
+	[ ${debug} -gt 0 ] && ls -las ${1}/${CONF_hashfile}*
 	csleep 1
 
 	#return 92 #ei näin?
@@ -336,6 +334,7 @@ function psqa() {
 			return 94
 		fi
 
+		#TODO:selvitä mikä tämän tdston kanssa on? jääkö tyhjäksi nykyään?
 		[ -f ${1}/${CONF_hashfile}.1 ] && ${sah6} --ignore-missing -c ${CONF_hashfile}.1
 		csleep 1
 		cd ${p}
