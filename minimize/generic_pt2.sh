@@ -74,8 +74,8 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-#TODO:ehto uusiksi?
-if [ ${CONF_removepkgs} -eq 1 ] ; then
+#VAIH:ehto uusiksi?
+if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ]  ; then
 	dqb "kö"
 	TLA
 else
@@ -91,7 +91,7 @@ function t2p_filler() {
 }
 
 #tarpeellinen blokki nykyään? (TODO:kts toisen oksan vastaava tdsto ja kohta)
-if [ -f /.chroot ] ; then
+if [ "${CONF_env}" == "TOOR" ] ; then
 	${sharpy} blu*
 	${sharpy} nfs*
 	${sharpy} rpc*
@@ -261,7 +261,7 @@ if [ ${mode} -gt 3 ] ; then
 #	${sharpy} transmission ttyrec w2do
 #	csleep 5
 
-#TODO:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että...
+#VAIH?:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että...
 
 #	${sharpy} w3m wamerican wavemon
 #	csleep 5
