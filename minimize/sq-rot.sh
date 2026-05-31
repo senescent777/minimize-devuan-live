@@ -59,10 +59,6 @@ else
 	echo "W33P1NG UND3RR G4L4CTU5"
 	sleep 6
 
-	#cptp2 voisi lopuksi palauttaa x-oikeuden kirjastoon?
-	#150426:toimii tämä haara
-	#saattaa myös olla että kiukuttelu paikallistui erääseen modattuun desktop_live_kiekkoon 090426
-
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
 		sleep 2
@@ -82,7 +78,7 @@ else
 	#function ocs() {???}
 
 	#VAIH:sah6 LOTTOAMINEN UUSIKSI 666!!!
-	#g=$(which sha512sum)
+
 	[ -v CONF_algo ] || exit 666
 
 	case "${CONF_algo}" in
@@ -103,7 +99,6 @@ else
 
 		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
 		scm=$(${odio} which chmod)
-		#sah6=$(${odio} which sha512sum)
 
 		srat=$(${odio} which tar)
 		#eXit jos srat ei?
@@ -132,7 +127,6 @@ else
 		dqb "W T F ???"
 	}
 
-	#070426:jospa toimisi jnkin verran näinkin
 	for opt in $@ ; do
 		parse_opts_1 ${opt}
 		parse_opts_2 ${prevopt} ${opt}
@@ -143,8 +137,6 @@ fi
 dqb "rot:AFTR common_lib"
 csleep 1
 [ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
-#csleep 1
-#echo "jts.bfr.l1b";sleep 1
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -155,23 +147,13 @@ else
 	csleep 1
 fi
 
-#echo "jts.bfr.cbin1";sleep 1
 check_binaries ${d}
-#[ $? -eq 0 ] || exit saattaa aiheuttaa ongelmia liialliset tarkistukset
-
 check_binaries2
-#[ $? -eq 0 ] || exit
 
-#PITI OLLA common_lib JÄLKEEN
-#e.tar purq (cefgh()) vs tämä sq-rot alku
-#if [ -f /.chroot ] ; then #vähän turha tarkistus koska y (tai siis)
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
 	echo "UNDER THE GRAV3YARD"
 	sleep 1
-	#debug=1
-
-	#gpgtar jos mahd, muuten normi-tar?
 
 	echo "A"
 	p=$(pwd)
@@ -190,10 +172,6 @@ function pre() {
 		cd ${p}
 	fi
 
-	#gpg-tark kuitenkin ensin?
-	#090326:pitäisiköhän myös tämä tarkistus-osuus muuttaa fktioksi, ennen chroot-tark ?
-
-	#gg=$(which gpg)
 	sleep 1
 	cd ${p}
 
@@ -208,16 +186,11 @@ function pre() {
 
 		sleep 1
 	fi
-	#
 
 	unset q
 	unset r
 	sleep 1
 	echo "C"
-
-	#030426:huom. kts commn_lib , E22_M , tarpeellinen
-	#DONE:tuohon alle tar -x:ään tämän import2.sh koskeva --exclude jos mahd?
-	#... tosin profiilin importointi
 
 	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do
 		tar --exclude import2.sh -jxvf ${f}
@@ -226,17 +199,12 @@ function pre() {
 		sleep 1
 	done
 
-	#jos löytyy common_lib.sh.sig ni voisi tässä tarkistaa?
-	#... toisaalta vähän tuhra koska cptp23
-
 	if [ ! -z "${gg}" ] ; then
 		if [ -s ${d0}/common_lib.sh.sig ] ; then
 			${gg} --verify ${d0}/common_lib.sh.sig
 			[ $? -eq 0 ] || exit 67
 		fi
 	fi
-
-	#unset g
 }
 	pre
 fi
@@ -253,9 +221,6 @@ else
 	dqb "SMTHING WRONG WITH ${srcfile} "
 	exit 55
 fi
-
-#echo "JUST BFR com-ort()";sleep 1
-#HUOM.olisi hyväksi siivota aiemmat tar:it kummittelemasta, tapahtuu lopussa kysymyksen takana
 
 function common_part() {
 	dqb "rot.common_part ${1} , ${2} , ${3}"
@@ -283,7 +248,6 @@ function common_part() {
 		dqb "A"
 		dqb "gg= ${gg}"
 
-		#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemassssaolon sijaan?
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 			dqb "B"
 
@@ -295,17 +259,14 @@ function common_part() {
 				r=$?
 
 				[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig.1
-				#csleep 1
 			fi
 		fi
 
-		#VAIH:sqrootin alaisuudessa testailut, toiminee
 		[ ${r} -eq 0 ] || ${NKVD} ${1}*
 	fi
 
 	csleep 1
-	#kts. common_lib.psqa()
-	local cfk=1 #TODO:tämänkin kanssa oli juttuja
+	local cfk=1 #TODO:tämän mjan kanssa oli juttuja kuten koko fktionkin kanssa
 
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
@@ -355,19 +316,17 @@ function cptp2() {
 	dqb "rot.c tp2 ${1}, ${2}, ${3}"
 
 	[ -z "${1}" ] && exit 99
-	#[ -z "${2}" ] && exit 98 truhra parm (110426)
+	#[ -z "${2}" ] && exit 98 truhra parm?
 	[ -d ${1} ] || exit 97
 
 	dqb "cptp2:pars ok"
 	csleep 1
 
-	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
 	local t
 	t=$(echo ${1} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 
 	if [ -f ${t}/common_lib.sh ] ; then
 		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
-			#csleep 1
 			${gg} --verify ${t}/common_lib.sh.sig 
 			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"
 		fi
@@ -383,12 +342,11 @@ function cptp2() {
 
 	csleep 1
 
-	#090326:toimiiko toivotulla tavalla? toivottavasti nytq tr-kikkailut kOrjattu
 	if [ -d ${t} ] ; then
 		dqb "HAIL UKK"
 
 		${scm} 0755 ${t}
-		${scm} 0555 ${t}/*.sh #jos sittenkin 0555?
+		${scm} 0555 ${t}/*.sh
 		${scm} 0444 ${t}/conf*
 		${scm} 0444 ${t}/*.deb
 
@@ -402,14 +360,7 @@ function cptp2() {
 
 #TODO:mode 0 vähitellen takaisin
 case "${mode}" in
-#	0)
-#		e="/"
-#		[ ${1} -eq 0 ] || e=${d}
-#		common_part ${srcfile} ${d} ${e}
-#		part3 ${d}
-#		other_horrors
-#		[ $? -eq 0 ] && echo "NEXT: import2 2 ?"
-#	:;
+
 	1)
 		common_part ${srcfile} ${d} /
 		csleep 1
@@ -422,26 +373,13 @@ case "${mode}" in
 		other_horrors
 	;;
 	k)
-		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
-
-		#VAIH:tuotaville avaimille jotain tark? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
-		#man gpg voisio lla jankohtainen vähitellen
-
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
-		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd find out?)
-
+		
 		if [ -v gg ] ; then
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 				dqb "NOP"
 				csleep 1
-
-				#for f in $(fnid $srcfile -type f -name "*.sig" ) ; do
-				#	g=$(echo $f | cut -d . -f 1,2)
-				#	check=$(smthing)
-				#	[ $check ] && gg --import $g
-				#	rm $g	
-				#done
 
 				dqb "${gg} --import ${srcfile}/*.gpg soon"
 				csleep 1
@@ -456,7 +394,7 @@ case "${mode}" in
 			dqb "NO-GO-THEOREM"
 		fi
 	;;
-	-h) #miten tämä+seur case toimii nykyään?
+	-h)
 		usage
 		#mode=-3
 		exit
