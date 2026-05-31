@@ -320,15 +320,12 @@ part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 
 #===================================================PART 3===========================================================
 message
-
-part3 ${d}
-#dqb "JUST BEFORE IMP2 3"
-#csleep 10
-#${d0}/import2.sh 3 ${d}/f.tar -v
+part3 ${d} ${pkgcache}
 
 other_horrors
+dqb "AFTER THE HORROR"
 dqb "BEFORE IMP2 r"
-csleep 2
+csleep 1
 
 if [ "${CONF_env}" != "TOOR" ] ; then #saattaa muuttua vielä
 	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
