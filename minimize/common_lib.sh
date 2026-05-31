@@ -21,7 +21,7 @@ function csleep() {
 
 #tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn? koska syyt? (siis siihen samaan missä profs.sh?)
 
-#ei tarvinne conf_alt_root ainakaan vielä
+#TODO:tämäön if-blokin kanssa uusi raskaalla kädellä
 if [ -f /.chroot ] ; then
 	odio=""
 
@@ -285,7 +285,7 @@ function psqa() {
 	#dpkg -V oli tässä josqs , [ -v ] takana
 
 	[ -v CONF_hashfile ] || exit 98
-	[ -z "CONF_hashfile" ] && exit 99
+	[ -z "${CONF_hashfile}" ] && exit 99
 
 	if [ -v gg ] && [ -s ${1}/${CONF_hashfile}.sig ] ; then
 		dqb "))S))))( ${1} )"
@@ -475,7 +475,7 @@ function fromtend() {
 
 	export DEBIAN_FRONTEND=noninteractive
 
-	if [ ! -f /.chroot ] ; then #ei conf_alt_root ainakaan vielä
+	if ["${CONF_env}" != "TOOR" ] ; then #ei conf_alt_root ainakaan vielä
 		dqb "${odio} -E ${sd0} --force-confold -i $@"
 		${odio} -E ${sd0} --force-confold -i $@
 	else
@@ -522,7 +522,6 @@ function cefgh() {
 	#... tai tuo e.tar-jutska jos olisi kätevämpi sittenkin?
 }
 
-#160426:tarteeko uusia vai ei?
 function CB01() {
 	dqb "common.lib.CB01( ${1} )"
 	csleep 1
@@ -536,7 +535,7 @@ function CB01() {
 #		#... g.tar:in saisi kyllä listaan mukaan
 #
 #		efk2 ${1}/g.tar /
-#		common_pp3 ${1} ${2}
+#		common_pp3 ${1} ${2} #2. param rtäss tarpeellinen?
 #		${NKVD} ${1}/g.tar
 #		exit 103
 #	fi
@@ -556,7 +555,6 @@ function CB01() {
 	csleep 1
 }
 
-#160426:bissiin ei tarvtse muutella Just Nyt
 function CB02() {
 	dqb "CB02()"
 	csleep 1
@@ -565,7 +563,7 @@ function CB02() {
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
 
-	[ -f /.chroot ] && message
+	[ "${CONF_env}" == "TOOR" ] && message
 	local p
 	for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
 
@@ -625,6 +623,7 @@ function check_binaries() {
 
 	#... nuo jutut miel accept1/2 mukaan jatq tjsp?
 
+	#TODO:y:n kanssa muutoksia jatkossa, CONF_env - riippuvaisia
 	local y
 	y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # kilinwittu.sh  sha512sum
 	for x in ${y} ; do ocs ${x} ; done
@@ -632,10 +631,9 @@ function check_binaries() {
 	#HUOM.nämä e22_jutut tarkoituksella asetettu juuri tässä fktiossa
 	sdi="${odio} ${sd0} -i "
 
-	#050426:tämä jo okK?
 	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
-
+	#TODO:gt kanssa muutoksia, kts toinen oksa vastaava fktio
 	E22_GT="isc-dhcp-client isc-dhcp-common "
 	E22_GT="${E22_GT} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
 	E22_GT="${E22_GT} iptables"
@@ -649,6 +647,7 @@ function check_binaries() {
 		[ -z "${1}" ] && exit 99
 		[ -d ${1} ] || exit 101
 
+		#TODO:kts vastaava kohta toisessa oksassa
 		cefgh ${1}
 		common_pp3 ${1} ${2}
 		
@@ -668,7 +667,7 @@ function check_binaries() {
 	fi
 
 	dqb "#jäölk ÄYÖYÄ SDDFSDSDGH t. Paska-Ankka"
-	#echo "CBIN.BF0RE.OCS"
+
 	ls ${1}/*.deb | wc -l
 	csleep 3
 	for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
@@ -677,13 +676,11 @@ function check_binaries() {
 	dqb "second half of c_bin_1"
 	csleep 1
 
-	#kts g_pt2 liittyen
-	#ei vielä conf_lt_root
-	[ -f /.chroot ] || ocs dhclient
+	[ "${CONF_env}" == "TOOR" ] || ocs dhclient
 	csleep 1
 
 	sag=$(${odio} which apt-get)
-	sa=$(${odio} which apt) #tar4vitaanko jossain? jep
+	sa=$(${odio} which apt)
 
 	#151225:pitäisikö sittenkin alustaa check_bin_0():ssa ainakin 2 seuraavaa?
 	som=$(${odio} which mount)
@@ -740,12 +737,11 @@ function check_binaries2() {
 
 function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
-	dqb "TLA.testgris : ${CONF_testgris}" #entä CONF_env?
+	dqb "TLA.testgris : ${CONF_testgris}" #TODO:entä CONF_env?
 	csleep 1
 
-	
-	#TODO:CONF_env pariin seuraavaan ig-lauseeseen (oliko jo aiemmin? toisessa okssasssa ainakin)
-	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ -f /.chroot ] ; then
+	#VAIH:CONF_env pariin seuraavaan ig-lauseeseen (oliko jo aiemmin? toisessa okssasssa ainakin)
+	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ "${CONF_env}" == "TOOR" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
 		if [ ! -v CONF_testgris ] ; then
@@ -1137,7 +1133,7 @@ function part1_5() {
 		[ -z "${mkt}" ] && exit 98
 
 		local h
-		h=$(mktemp -d) 
+		h=$(${mkt} -d) 
 		[ $? -eq 0 ] || exit 97
 
 		dqb "MTKK"
@@ -1149,7 +1145,7 @@ function part1_5() {
 			touch ${h}/sources.list.tmp
 			local b
 
-			if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
+			if [ "${CONF_env}" == "TOOR" ] && [ -v CONF_alt_root ] ; then
 				b="deb file://${2}"
 			else
 				b="deb https://REPOSITORY/merged"
@@ -1223,7 +1219,7 @@ function part1() {
 	fi
 
 	#kuinkahan tarpeellinen kikkailu?
-	if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
+	if [ "${CONF_env}" == "TOOR" ] && [ -v CONF_alt_root ] ; then
 		part1_5 ${t} ${CONF_alt_root}/${t}
 	else
 		part1_5 ${t} ${2}
