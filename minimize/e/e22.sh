@@ -482,7 +482,7 @@ function e22_arch() {
 
 	e22_tyg ./${CONF_hashfile}
 	e22_tyg ./${CONF_hashfile}.1
-	echo "TODO:TARKISTA ETTEI ./${CONF_hashfile}.1"	
+	echo "TODO:TARKISTA ETTEI ./${CONF_hashfile}.1 TYHJÄ"	
 	exit
 
 	psqa .
