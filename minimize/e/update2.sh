@@ -12,9 +12,7 @@ n=$(whoami)
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
-		#TODO:testaus miten saa tOImimaan omegan ajon jlkeen?
-		#... pitäisi onnata qhan kohteen käyttöoik kunnossa
-
+		#omega.testit lienevät jo tehty onnistuneestyi 31/5/26 mennessä
 		tcmd="sudo ${tcmd} "
 		spc="sudo ${spc} "
 	fi
@@ -52,13 +50,30 @@ ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 sleep 1
 t=$(pwd)
 
-if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
-	echo "YLIULIULI"
+echo "#TODO:tunaroinnin varalta lähteestä vkopio ennenq alkaa process_row() hakata"
+#VAIH:ja sitten oli se "resolv.conf"-juttukin ed. liittyen?
+
+if [ "${CONF_env}" == "VED" ] && [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
+	echo "YLIULIULI asb asb ABC"
 	cd ${CONF_testgris}
+
+	echo "SHOULD MAKE BACKUP OF SOURCE"
+	sleep 1
+
+	echo "SHOULD ALSO AVOID UPFATING RESOLV.CONF"
+	sleep 1
 
 	#HUOM:-C olisi myös keksitty
 else
+	echo "NO TESTGRIS?"
 	cd /
+fi
+
+#tämä wttuun josqs? vai ei?
+xo="*.tar --exclude .chroot --exclude *.deb --exclude changedns.*"
+
+if [ "${CONF_env}" != "DEFAULT" ]; then
+	xo="${xo} --exclude resolv.* "
 fi
 
 function process_row() {
@@ -73,18 +88,44 @@ if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	sleep 1
 fi
 
-echo "JUST BEFOR.E PROCESSING ROWS"
-sleep 1
+#echo "JUST BEFOR.E PROCESSING ROWS"
+#sleep 1
+#
+##toimiikohan kehitysynp.tössä niinqu pitää?
+##${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
+#
+#for f in $(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb  ) ; do
+#	if [ -f ${f} ] ; then
+#		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
+#			process_row ${tgt} ${f}
+#		fi
+#	fi
+#done
 
-#toimiikohan kehitysynp.tössä niinqu pitää?
-#${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
+#VAIH:ao. riveihin muutoksia koska CONF_env tulosssa käyttöön?
+if [ -z "${par3}" ] ; then
+	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .tar | grep -v .deb | grep -v .chroot | grep -v resolv)
+else
+	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep ${par3})
+fi
 
-for f in $(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb  ) ; do
+#VAIH:tcmd:lle optioksi nuo pois grepattavat, --exclude
+#
+#echo "JUST BEFORE FOR-LOOP"
+#echo ${g}
+#sleep 5
+
+for f in ${g} ; do
+	#echo "${f} :"
+
 	if [ -f ${f} ] ; then
 		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
+			#echo "... processinbfg"
 			process_row ${tgt} ${f}
 		fi
 	fi
+
+	#sleep 1
 done
 
 #jotat ehtisi synkata 
