@@ -206,9 +206,7 @@ function el_loco() {
 	fi
 }
 
-#140326:tarkkuutta peliin, ao. rivillä oli typo jnkn aikaa
 function adieu() {
-	dqb "AUF W13DERSEHEN"
 
 #	pidetäänpä nämä jutut kommenteissa sitä varten että saattuukin tarvitsemaan
 #
@@ -244,7 +242,7 @@ if [ -s ~/xorg.conf.new ] ; then
 	fi
 fi
 
-#miten näidne pitäisi mennä? pre_enf ja enf ?
+#miten näidne pitäisi mennä? pre_enf ja enf  kutsumiset siis?
 if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
@@ -252,7 +250,7 @@ else
 	pre_enforce ${d0}
 fi
 
-if [ "${CONF_env}" == "TOOR" ] ; then
+if [ "${CONF_env}" == "TOOR" ] ; then #vaiko !=DEFAULT ?
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
