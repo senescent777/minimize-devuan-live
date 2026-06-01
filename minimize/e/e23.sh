@@ -1,7 +1,7 @@
 #just_download_not_install-vipu olisi tietysti...
 
 
-# dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteen keksitty
+#dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteen keksitty
 function aswasw() {
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
@@ -189,6 +189,7 @@ function e23_qrs() {
 	csleep 1
 }
 
+#pitää sitten jaksaa muistaa että tämän fktion tuotoken asentguminen riippuu niistä accept-tdstoista kanssa
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11

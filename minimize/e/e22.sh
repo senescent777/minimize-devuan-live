@@ -410,7 +410,8 @@ function e22_ext() {
 	${srat} -rvf ${1} ./etc ./sbin
 	echo $?
 
-	#VAIH:suorityuksen keskeytys jos resolv.conf.jotain puuttuu
+	echo "#VAIH:suorityuksen keskeytys jos resolv.conf.jotain puuttuu"
+	#... pitäisi kanssa testata että toimii	
 	csleep 6
 	c=$(${srat} -tf ${1} | grep resolv.conf.${st} | wc -l)
 	[ ${c} -gt 0 ] || exit 97
@@ -476,6 +477,7 @@ function e22_arch() {
 
 	cd ${2}
 	${sah6} ./*.deb > ./${CONF_hashfile}
+	#TODO:olds piti viossiin saada grepattua pois tiusta aölta
 
 	for f in $(find . -type f -name "*pkgs*") ; do
 		[ ${3} -eq 1 ] && ${srat} -rvf ${1} ${f}

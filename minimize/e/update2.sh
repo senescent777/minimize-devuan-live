@@ -70,17 +70,18 @@ else
 fi
 
 #tämä wttuun josqs? vai ei?
-xo="*.tar --exclude .chroot --exclude *.deb --exclude changedns.*"
+xo="*.tar --exclude .chroot --exclude *.deb --exclude changedns.* "
 
 if [ "${CONF_env}" != "DEFAULT" ]; then
 	xo="${xo} --exclude resolv.* "
 fi
 
+#020626:KUINKA MONTA KERTAA TÄMÄ PITÄÄ VIELÄ RENKATA????
 function process_row() {
-	${tcmd} -rvf ${1} ${2}
+	${tcmd} --exclude "${xo}" -rvf ${1} ${2}
 }
 
-#HUOM.170426:olisi hyvä keksiä tähänkin jotain siltä varalta että merd2 ei tulisi ylimääräisiä kopioita
+#"merd2 vbain kerrabn" nykyään hoidettu e22.sh kautta
 
 if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb > ${d0}/MAN1.F2ST
