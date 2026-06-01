@@ -226,8 +226,8 @@ function adieu() {
 }
 #=====================================PART0=========================================================
 pkgcache=$(${mkt} -d)
-part0 ${distro}
-process_lib ${d}
+part0 ${distro} ${CONF_iface} #?
+process_lib ${d} ${pkgcache}
 echo "AFTER PROCESS_LIB";sleep 1
 
 #==================================PART 1============================================================
@@ -311,6 +311,7 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 fi
 
 pre_part2 #ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
+#TODO:c14,remopkgs asettelu CONF_env taakse?
 c14=$(find ${d} -name "*.deb" | wc -l)
 
 #[ ${c14} -gt 0 ] || CONF_removepkgs=0 #pois kom vai ei?
@@ -333,7 +334,7 @@ if [ "${CONF_env}" != "TOOR" ] ; then #saattaa muuttua vielä
 	${scm} 0555 ${d0}/common_lib.sh
 	#toistaiseksi tässä kunnes... Jotain
 
-	#TODO:oikein pedantit tarkistuksen tähän if-blokkiin? ja importtiin kanssa koska kiukuttelut
+	#TODO:oikein pedantit tarkistukseT tähän if-blokkiin? ja importtiin kanssa koska kiukuttelut
 	${d0}/import2.sh r ${d0} -v
 fi
 
