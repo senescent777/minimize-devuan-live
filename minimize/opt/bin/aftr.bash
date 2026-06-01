@@ -23,6 +23,12 @@ ip6tr=$(${odio} which ip6tables-restore)
 
 #TODO:jokin param resolv.vonf-kikkailuja varten?
 #TODO:entäse dot?
+#VAIH
+
+if [ ! -f /etc/resolv.conf ] ; then
+	echo "ULIULIULI 666"
+	sleep 99
+fi
 
 #VAIH:ruleksiin oikeastaan, u- ja v- ketjujen oletusarvot, joputaisiko säätää?
 ${ipt} -A INPUT -p udp -m udp --sport 53 -j b 

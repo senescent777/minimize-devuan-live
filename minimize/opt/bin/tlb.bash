@@ -40,7 +40,7 @@ function ocs() {
 	fi
 }
 
-#se suuri mölinä jos resolv.conf puuttuu
+#se suuri mölinä jos resolv.conf puuttuu (parempi olisi jos ifup kautta tapahtuu?)
 if [ ! -f /etc/resolv.conf ] ; then
 	echo "ULIULIULI 666"
 	sleep 99
