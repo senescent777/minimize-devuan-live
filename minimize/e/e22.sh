@@ -633,6 +633,8 @@ function z3() {
 }
 
 #(josko exp2 voisi korvata "tar -T -cf":llä?)
+echo "TODO:JOKO JO ntp-jutut kuntoon ?" #aftr2.bash saattoi liittyä
+sleep 6
 
 function e22_sarram() {
 	dqb "e22_sarram()"
@@ -670,7 +672,10 @@ function e22_sarram() {
 
 	#31526:oliko rulesin kanssa vielä jotain?
 	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
-	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD ) ; do ${sah6} ${f} >> ${3} ; done
+
+	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD | grep -v old) ; do 
+		${sah6} ${f} >> ${3}
+	done
 
 	if [ -x /usr/sbin/ntpd ] ; then
 		for f in $(${odio} find /etc -type f -name "ntp*" ) ; do
