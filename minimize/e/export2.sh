@@ -170,6 +170,7 @@ case "${mode}" in
 		reqwreqw /opt/bin/zxcv.tmp
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy? eli 3. ehto tuohon alle?
+		#TODO:vastaava rivi toisessa oksassa, korjaa
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
 			#TODO:se jokin rekursiojuttu näille main? (kts toinen oksa)
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
