@@ -1,8 +1,7 @@
 #!/bin/bash
-CONF_algo=sha256
-#kts toisn repon setup2 , dalek.s - jutut
+#exit 99
 
-#VAIH:ao. komennoista järkevä kokonaisuus josqs (jos olisi jo 05/26?)
+#VAIH:ao. komennoista järkevä kokonaisuus josqs
 debug=1
 odio="/usr/bin/sudo"
 smr=$(${odio} which rm)
@@ -14,16 +13,7 @@ slinky="${odio} ${slinky} -s "
 ipt=$(${odio} which iptables)
 ip6t=$(${odio} which ip6tables)
 gg=$(${odio} which gpg)
-#sah6=$(${odio} which sha512sum)
-
-case "${CONF_algo}" in
-	sha256)
-		sah6=$(${odio} which sha256sum)
-	;;
-	sha512)
-		sah6=$(${odio} which sha512sum)
-	;;
-esac
+sah6=$(${odio} which sha512sum)
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -260,7 +250,7 @@ clouds_pre ${t}
 if [ -f /etc/resolv.conf.${t} ] ; then
 	${slinky} /etc/resolv.conf.${t} /etc/resolv.conf
 else
-	dqb "WHERE IS /etc/resolv.conf.${t} ???"
+	dqb "WHERE IS /etc/resolv.conf.${t} \???"
 fi
 
 #280326:dhc-juttuihin liittyen miten sitten jos tunaroi dhclient-script:in kanssa? (common_lib saattaa liittyä myös)

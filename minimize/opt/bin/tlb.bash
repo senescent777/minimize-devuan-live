@@ -41,7 +41,6 @@ function ocs() {
 }
 
 #se suuri mölinä jos resolv.conf puuttuu
-#TODO:mölinä tapahtumaan pikemminkin ifup kautta (eli aftr-bash)
 if [ ! -f /etc/resolv.conf ] ; then
 	echo "ULIULIULI 666"
 	sleep 99
