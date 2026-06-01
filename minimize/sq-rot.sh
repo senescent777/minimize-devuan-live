@@ -73,7 +73,12 @@ else
 	sleep 5
 
 	function ocs() {
-		echo "#TODO:sq.ocs() TAKAISIN"
+		local t=$(${odio} which ${1})
+
+		if [ -z "${t}" ] ; then
+			echo "SMTHIN1G 15 WR0NG: ${1} ?"
+			exit 666
+		fi
 	}
 
 	[ -v CONF_algo ] || exit 666
