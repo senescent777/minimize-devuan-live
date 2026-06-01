@@ -342,37 +342,4 @@ function e23_profs() {
 	dqb "e23_profs() done"
 	csleep 1
 }
-	
-#	${shary} libeudev1 keyboard-configuration #drm2 sekä shmfence _dm() kautta
-#	${shary} libpixman-1-0 libxfont2 libpciaccess0 libgcrypt20
-#	${shary} libxcvt0 xcvt #vetää vai ei? vssiin menee hi pakettiin 7426
-#
-
-#
-#	${shary} xserver-xorg-video-modesetting xserver-xorg-input-evtouch
-#	#libopengl0 tarvitaanm, e23() 
-#	${shary} libglu1-mesa libgl1-mesa-dri #gl1 muttei mesa löytyy jo aiemmin
-#
-#	#tässä alla vöib tulla suurempi lottoaminen (jospa jollain livecd:llä selvittäisi mitä oik tarv)
-#	${shary} x11-session-utils xfonts-utils xinit xfonts-scalable xfonts-75dpi xfonts-100dpi
-#	#{shary} xserver-xorg
-#
-#	${shary} xbitmaps x11-xfs-utils  xkb-data xfonts-base x11-xkb-utils
-#	${shary}  #xterm+xauth voIsi hoitaa e23_dm() kaUTTa? jo dm
-#
-#	#egl,audit,bsd0,, yms. dm() kautta
-#
-#	${shary} xserver-common xserver-xorg-core
-#	#xserver-xorg #tarvitseeko erikseen sanoa koska xorg?
-#	${shary} xorg xorg-docs-core xorg-docs #2. ja 3. oik. tarpeen?
-#
-#	#${shary} xserver-xorg-input-all xserver-xorg-input-libinput xserver-xorg-input-wacom 
-#
-#	#Depends:  (>= 2:21.1.7-3devuan1),  (>= 2.34),  (>= 0.5) | 
-#	${shary} xserver-xorg-legacy #tarvitsee vai ei?
-#	#server-xorg-video-all xserver-xorg-video-amdgpu
-#
-#	#${shary} xserver-xorg-video-ati xserver-xorg-video-fbdev xserver-xorg-video-intel 
-#	#${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
-#
 
