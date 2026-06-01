@@ -222,9 +222,9 @@ function e22_home_pre() {
 		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
 	fi
 
-	#310526:e_final jo hoitaa opt/bin - jutut? P.S. --exclude changedns.* tuohon tar-riville (TODO)
+	#310526:e_final jo hoitaa opt/bin - jutut? 
 	e_final
-	${srat} -rvf ${1} /opt/bin
+	${srat} --exclude changedns.* -rvf ${1} /opt/bin
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
@@ -255,7 +255,7 @@ function e22_home() {
 	${srat} ${TARGET_TPX} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
 
-	#miksi täsäs eokä h_pre() ?
+	#miksi tässä eikä h_pre() ?
 	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 }
 
@@ -270,6 +270,8 @@ function luca() {
 	for f in $(find /etc -type f -name "local*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 }
+
+#(meneekö rules.* kohteeseen useamman kerran? ehkä)
 
 function e22_acol() {
 	dqb "e22_acol()"
@@ -333,6 +335,8 @@ function e22_acol() {
 }
 
 [ -v CONF_BASEURL ] || exit 6
+
+#TODO:e22_pre_e() toisesta oksasta
 
 function e22_ext() {
 	dqb "e22_ext()"
@@ -413,12 +417,12 @@ function e22_ext() {
 	echo "#VAIH:suorityuksen keskeytys jos resolv.conf.jotain puuttuu"
 	#... pitäisi kanssa testata että toimii	
 	csleep 6
+
 	c=$(${srat} -tf ${1} | grep resolv.conf.${st} | wc -l)
 	[ ${c} -gt 0 ] || exit 97
 	csleep 4
 	local f
 	
-	#VAIH:resolv.* mukaan findin ehtoon, kts toinen oksa
 	for f in $(find ./etc -type f -not -name "interfaces.*" -and -not -name "resolv.*") ; do
 		${sah6} ${f} >> ${4}
 	done
@@ -454,6 +458,8 @@ function e22_arch() {
 	csleep 1
 	local p=$(pwd)
 
+	local c=$(find ${2} -type f -name "*.deb" | wc -l)
+
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
 	exit
@@ -462,9 +468,6 @@ function e22_arch() {
 		${NKVD} ${2}/${CONF_hashfile}*
 		csleep 1
 	fi
-
-	local c
-	c=$(find ${2} -type f -name "*.deb" | wc -l)
 
 	if [ ${c} -lt 1 ] ; then
 		exit 55
