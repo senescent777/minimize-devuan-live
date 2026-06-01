@@ -313,17 +313,17 @@ fi
 pre_part2 #ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
 c14=$(find ${d} -name "*.deb" | wc -l)
 
-#[ ${c14} -gt 0 ] || CONF_removepkgs=0 #tilap kommentteihin 270226 koska g_pt2_jutut
-#... jokohan jo kommenteista 190326? (TODO)
-
+#[ ${c14} -gt 0 ] || CONF_removepkgs=0 #pois kom vai ei?
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 
 #===================================================PART 3===========================================================
+#missä pkgcache alustetaan vai alustetaanbko?
 message
 part3 ${d} ${pkgcache}
 
 other_horrors
 dqb "AFTER THE HORROR"
+csleep 1
 dqb "BEFORE IMP2 r"
 csleep 1
 
@@ -333,6 +333,7 @@ if [ "${CONF_env}" != "TOOR" ] ; then #saattaa muuttua vielä
 	${scm} 0555 ${d0}/common_lib.sh
 	#toistaiseksi tässä kunnes... Jotain
 
+	#TODO:oikein pedantit tarkistuksen tähän if-blokkiin? ja importtiin kanssa koska kiukuttelut
 	${d0}/import2.sh r ${d0} -v
 fi
 
@@ -341,6 +342,7 @@ ${asy}
 e_final
 e_h $(whoami) ${d0}
 
+#tämä kyllä ajetaan mutta mitä jos r.conf.$x puuttuu? ja miksi puuttuu?
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} /opt/bin/mutilatetc.bash  ${CONF_dnsm}
 fi

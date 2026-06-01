@@ -6,6 +6,7 @@ d0=$(pwd)
 debug=0
 d=${d0}/${distro}
 mode=3
+#TODO:oma moodi slimin poisToa varten?
 
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
@@ -54,6 +55,7 @@ csleep 20
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 csleep 20
 
+#TODO:/o/b - jutut tarkistuksen taakse vai ei?
 ${odio} /opt/bin/tlb.bash
 csleep 2
 ${sco} 0:0 /opt/bin/*
@@ -105,7 +107,7 @@ if [ "${CONF_env}" == "TOOR" ] ; then
 	t2p_filler
 fi
 
-#HUOM.miten se wlan-juttu?
+#HUOM.miten se wlan-juttu? loppupuolella jotain liittyvää?
 #====================================================================
 
 function p2g() {

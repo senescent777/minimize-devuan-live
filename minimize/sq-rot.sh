@@ -71,9 +71,10 @@ else
 	odio=""	
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
 	sleep 5
-	#function ocs() {???}
 
-	#VAIH:sah6 LOTTOAMINEN UUSIKSI 666!!!
+	function ocs() {
+		echo "#TODO:sq.ocs() TAKAISIN"
+	}
 
 	[ -v CONF_algo ] || exit 666
 
@@ -145,6 +146,8 @@ fi
 
 check_binaries ${d}
 check_binaries2
+dqb "sqr.aftr.check_b1n"
+csleep 2
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
@@ -217,6 +220,9 @@ else
 	dqb "SMTHING WRONG WITH ${srcfile} "
 	exit 55
 fi
+
+dqb "sqr.aftr.check_par5"
+csleep 2
 
 function common_part() {
 	dqb "rot.common_part ${1} , ${2} , ${3}"
@@ -354,14 +360,14 @@ function cptp2() {
 	dqb "ALL DONE"
 }
 
-#TODO:mode 0 vähitellen takaisin
+#VAIH:mode 0 vähitellen takaisin
 case "${mode}" in
 	1)
 		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est
 		common_part ${srcfile} ${d} /
 		csleep 1
 	;; 
-	#... exp2 rp vähän ritetty testailla 05/26
+	#... exp2 rp vähän yritetty testailla 05/26
 	0)
 		[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est
 		e="/"
@@ -374,7 +380,7 @@ case "${mode}" in
 
 		common_part ${srcfile} ${d} ${e}
 
-		#VAIH:kiukut6telut voisi poistaa (vai onko vielä moista 250626? vissiin)
+		#VAIH:kiukut6telut voisi poistaa (vai onko vielä moista 260526? vissiin)
 		#modaamattomalla kiekolla jos testaisi kanssa		
 		echo "sq.FART3: $?"
 		[ $? -eq 0 ] && ocs gpg
@@ -386,7 +392,6 @@ case "${mode}" in
 		[ $? -eq 0 ] && other_horrors
 	;;
 	3)
-		#140526 muutettu paikallinen ocs että stoppaa tarv
 		#TODO:e23_st() outputin asennus , kehitysymp
 		#TODO:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
 

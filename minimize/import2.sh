@@ -300,7 +300,7 @@ dqb "ip2.m.Lpgqq"
 #}
 
 function cptp2() {
-	dqb "c tp2 ${1}, ${2}, ${3}"
+	dqb "ip2m c tp2 ${1}, ${2}, ${3}"
 
 	[ -z "${1}" ] && echo 99
 	[ -z "${2}" ] && echo 98
@@ -373,13 +373,16 @@ function tpr() {
 	[ -f ${1}/${3} ] || exit 15
 	[ -s ${1}/${3} ] || exit 16
 
+	dqb "trp.pars_ok.0"
+	csleep 1
+
 	if [ ! -x ${1}/${3} ] ; then
 		dqb "CANNOT INCLUDE PROFS.HS 0 R WHÅTEVER"
 		dqb "$0 1 \$srcfile | chmod +x ${3} ?"
 		exit 17
 	fi
 
-	dqb "tpr.pars_ok"
+	dqb "tpr.pars_ok.1"
 	csleep 1
 
 	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
@@ -388,27 +391,25 @@ function tpr() {
 
 	dqb "INCLUDE OK"
 
-	local q
-	local r
-	q=$(mktemp -d)
+	local q=$(mktemp -d)
 	[ $? -gt 0 ] && exit 20
-
+	
 	dqb "JUST BEFORE TAR ${1}/${2}"
 	#jos vielä härdelliä niin keskeytetään mikäli ei $2:sta löydä prefs.js?
-	r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l) #vielä jos arhc_4 ?
+	local r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l) #vielä jos arhc_4 ?
 	[ ${r} -gt 0 ] || exit 21
-	csleep 1
+	csleep 10
 
 	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/${2}
 	[ $? -gt 0 ] && exit 22
-	csleep 1
+	csleep 10
 
 	dqb "JUST BEFORE impo_prof"
-	csleep 1
+	csleep 10
 
 	imp_prof esr $(whoami) ${q}
 	dqb $?
-	csleep 1
+	csleep 10
 
 	dqb "UP1R D0N3"
 	csleep 1
@@ -479,45 +480,24 @@ dqb "distro=${distro}"
 dqb "srcfile=${srcfile}"
 csleep 1
 
-case "${mode}" in #TODO:mode 1-3 TAAS
+case "${mode}" in #VAIH:mode 1-3 TAAS
 	1) 
-		echo "sq-rot ${mode} ${tgtfile}"
+		echo "sq-rot ${mode} ${srcfile}"
 		exit
 #		common_part ${srcfile} ${d} /
 #		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 #		csleep 1
 	;; 
 	0|3) 
-		echo "sq-rot ${mode} ${tgtfile}"
-		exit
-	
-#		echo "ZER0 S0UND"
-#		csleep 1
-#		dqb " ${3} ${distro} MN"
-#		csleep 1
-#		e="/"
-#
-#			if [ ${1} -eq 0 ] ; then
-#				tar -tf ${srcfile} | grep f.tar | head -n 1
-#				echo "... SHOULD BE MOVED UNDER ${d} , AFTER THAT:RUN $0 3 ${d}/f.tar"
-#				exit 99
-#			fi
-#
-#		[ ${1} -eq 0 ] || e=${d}
-#		csleep 1
-#		common_part ${srcfile} ${d} ${e}
-#
-#		csleep 1
-#		dqb "c_p_d0n3, NEXT: pp3"
-#		csleep 1
-#
-#		part3 ${d} 
-#		other_horrors
-#
-#		csleep 1
-#		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
+		echo "${d0}/sq-rot.sh ${mode} ${srcfile} -v SOON"
+		#exit
+		csleep 1
+		${d0}/sq-rot.sh ${mode} ${srcfile} -v	
+
+		[ $? -eq 0 ] && echo "NEXT: $0 2 ?"
 	;;
 	r)
+		#310526:mitäköhän tarkistuksia tähän vielä keksisi kiukuttelun varalta?
 		[ -d ${srcfile} ] || exit 23
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
@@ -529,6 +509,7 @@ case "${mode}" in #TODO:mode 1-3 TAAS
 		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
 		echo $?
 		csleep 2
+
 		echo "JUST VEFORE TPR"
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
