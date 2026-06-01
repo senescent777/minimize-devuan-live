@@ -225,7 +225,7 @@ function adieu() {
 	${whack} xfce4-session
 }
 #=====================================PART0=========================================================
-
+pkgcache=$(${mkt} -d)
 part0 ${distro}
 process_lib ${d}
 echo "AFTER PROCESS_LIB";sleep 1
