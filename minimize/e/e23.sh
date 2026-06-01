@@ -1,7 +1,7 @@
 #just_download_not_install-vipu olisi tietysti...
 
 
-#dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteen keksitty
+#dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteeT keksitty
 function aswasw() {
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
@@ -189,7 +189,7 @@ function e23_qrs() {
 	csleep 1
 }
 
-#pitää sitten jaksaa muistaa että tämän fktion tuotoken asentguminen riippuu niistä accept-tdstoista kanssa
+#pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentguminen riippuu niistä accept-tdstoista kanssa
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -255,7 +255,19 @@ function e23_dm() {
 	${shary} libicu72 libxfixes3 libxml2
 
 	csleep 5
+	# Depends:libc6 (>= 2.34), libdrm2 (>= 2.4.75), libexpat1 (>= 2.0.1), libglapi-mesa (= 22.3.6-1+deb12u1), libx11-6 (>= 2:1.4.99.1), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0 (>= 1.13), libxcb-glx0 (>= 1.8), libxcb-present0, libxcb-randr0, libxcb-shm0, libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), libxext6, libxfixes3, libxshmfence1, libxxf86vm1, libgl1-mesa-dri
+	# Depends:libc6 (>= 2.34)
+	# Depends:libc6 (>= 2.34), libpng16-16 (>= 1.6.2-1), libzvbi-common (= 0.2.41-1+deb12u1)
+	#
 
+	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
+
+	# Depends:libc6 (>= 2.34)
+	#
+	# Depends:libc6 (>= 2.14)
+	# Depends:libc6 (>= 2.29), libgcc-s1 (>= 3.0), libstdc++6 (>= 11)
+
+	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
 	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
 	csleep 10
 
@@ -290,55 +302,6 @@ function e23_dm() {
 	dqb "e23_dm( done (((("
 	csleep 1
 }
-
-
-#	case "${1}" in
-#		xdm) #010126:pitäisiköhän tämäkin case testata?
-#			${shary} xdm
-#		;;
-#		wdm)
-#			${shary}  #audit1 ennen case?
-#			${shary} sysvinit-utils 
-#			${shary} libpipeline1
-#			csleep 1
-#
-#			${shary} wdm
-#		;;
-##		lxdm)
-##			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
-##			#csleep 1
-##			${shary} libdeflate0 debliblerc4 
-##			csleep 1
-##			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
-##			${shary}  libgtk2.0-common libgtk2.0-0
-##			csleep 1
-##			#gdk ennen gtk?
-##			${shary}   
-##			csleep 1
-##			${shary} gtk2-engines-pixbuf gtk2-engines 
-##			csleep 1
-##			${shary} lxdm 
-##			csleep 1
-
-##			#polkit-1-auth-agent:
-##			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
-##			#csleep 1
-##			#	 lxlock | xdg-utils, 
-##			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
-##			${shary} lxpolkit lxsession-logout lxsession
-##			#csleep 1
-##		;;
-
-
-
-#	#EI JUNALAUTTA
-#	E22_GX="netbase"
-#	E22_GX="${E22_GX} liblwp-protocol-https-perl libhttp-negotiate-perl libhtml-tagset-perl libhttp-message-perl libhttp-date-perl libhttp-cookies-perl libhtml-tree-perl libhtml-parser-perl libfile-listing-perl libencode-locale-perl"
-#	E22_GX="${E22_GX} ca-certificates libwww-perl "
-#
-#	E22_GX="${E22_GX}  
-#	E22_GX="${E22_GX} xscreensaver-data xscreensaver"
-#	${shary} ${E22_GX}  #libsystemd0
 
 #VAIH:param tarkistukset
 function e23_profs() {
