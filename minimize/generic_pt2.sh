@@ -51,23 +51,27 @@ e_h $(whoami) ${d0}
 echo "TODO:resolv-ULINAT PIKEMMINKIN ifup KANSSA 666!!!"
 csleep 20
 
-#jos vaikka näin?
+#jos vaikka näin? ehkä tarttee jotain juttuja lisää
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
-csleep 20
+csleep 2
 
 #TODO:/o/b - jutut tarkistuksen taakse vai ei?
 ${odio} /opt/bin/tlb.bash
 csleep 2
 ${sco} 0:0 /opt/bin/*
 ${scm} 0400 /opt/bin/zxcv*
-csleep 20
 
-#jokin tarkistus ennen vai ei?
-${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
-sleep 10
+if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then		
+	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+else
+	dqb "FAILURE TO MUTILATE: /etc/resolc. von f "
+fi
+
+dqb "AFTER MUTILAT.10n"
 ls -las /etc/resolv*
-csleep 20
+csleep 6
 
+csleep 2
 ${fib}
 csleep 2
 
@@ -77,7 +81,7 @@ dqb "mode=${mode} "
 sleep 1
 
 #VAIH:ehto uusiksi?
-if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ]  ; then
+if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then 
 	dqb "kö"
 	TLA
 else
@@ -105,9 +109,20 @@ if [ "${CONF_env}" == "TOOR" ] ; then
 	${sharpy} psmisc
 
 	t2p_filler
+	dqb "V1"
+	#exit
 fi
 
 #HUOM.miten se wlan-juttu? loppupuolella jotain liittyvää?
+
+#110526:josko nyt poistuisi?
+if [ "${CONF_iface}" != "wlan0" ] ; then
+	${sharpy} wpa*
+	#etc alaiset wpa-jutut voisi hoidella myös rm-komennolla?
+	t2p_filler
+	csleep 10
+fi
+
 #====================================================================
 
 function p2g() {
@@ -204,7 +219,10 @@ t2pf ${d}
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 2 ] && exit
 
+#140526:minimalin pakettilista kopsattu .txt-tiedostoon
+
 if [ ${mode} -gt 3 ] ; then
+	#skilmiin liittyen olk muitakin juttuja?
 	${sharpy} slim
 	csleep 5
 
@@ -263,7 +281,7 @@ if [ ${mode} -gt 3 ] ; then
 #	${sharpy} transmission ttyrec w2do
 #	csleep 5
 
-#VAIH?:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että...
+#VAIH:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että... (JOKO JO?)
 
 #	${sharpy} w3m wamerican wavemon
 #	csleep 5
