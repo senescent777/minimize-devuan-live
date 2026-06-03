@@ -134,7 +134,6 @@ else
 		dqb "W T F ???"
 	}
 
-	#070426:jospa toimisi jnkin verran näinkin
 	for opt in $@ ; do
 		parse_opts_1 ${opt}
 		parse_opts_2 ${prevopt} ${opt}

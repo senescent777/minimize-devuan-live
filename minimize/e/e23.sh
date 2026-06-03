@@ -182,52 +182,6 @@ function e23_qrs() {
 	csleep 1
 }
 
-#28526:bissiin saa aikaan toimivan asennuspak sisällön
-#paitsi että ne riippuvuudet taas...
-#jospa vain wttuun kaikki display_managerit, minimal_live pohjaksi prkl
-
-#magick:
-#libmagickwand-6.q16-6:amd64 depends on libmagickcore-6.q16-6
-#libmagickwand-6.q16-6:amd64 depends on imagemagick-6-common
-#libmagickcore-6.q16-6:amd64 depends on libfftw3-double3 (pitäisi)
-#libmagickcore-6.q16-6:amd64 depends on libheif1
-#libmagickcore-6.q16-6:amd64 depends on liblqr-1-0 (pitäisi)
-#libmagickcore-6.q16-6:amd64 depends on imagemagick-6-common (pitäisi)
-
-#wraster:libwraster6:amd64 depends on libgif7 (>= 5.1); however:
-# libwraster6:amd64 depends on libmagickwand-6.q16-6 (>= 8:6.9.10.2); however:
-#(pitäisi löytyä)
-
-#wings:
-#libwings3:amd64 depends on libpangoxft-1.0-0 (>= 1.14.0); however: (pitäisi)
-#libwings3:amd64 depends on libwraster6 (>= 0.95.8)
-# libwings3:amd64 depends on libwutil5 
-# libwings3:amd64 depends on wmaker-common
-
-# libwutil5:amd64 depends on wmaker-common (>= 0.95.9-3); however: (pitäisi)
-
-#libheif1:amd64 depends on libde265-0 (pitäisi)
-#libegl-mesa0:amd64 depends on libx11-xcb1 (pitäisi)
-#libegl1:amd64 depends on libegl-mesa0 (pitäisi)
-#x11-utils depends on libx11-xcb1(pitäisi)
-# x11-apps depends on libx11-xcb1 (pitäisi)
-
-# wdm depends on psmisc; however:
-#  Package psmisc is not installed. (pitäisi)
-# wdm depends on x11-apps; however:
-#  Package x11-apps is not configured yet. (pitäisi)
-# wdm depends on x11-utils; however:
-#  Package x11-utils is not configured yet.(pitäisi)
-# wdm depends on libwings3 (>= 0.95.0); however:
-#  Package libwings3:amd64 is not configured yet. (pitäisi)
-# wdm depends on libwraster6 (>= 0.95.8); however:
-#  Package libwraster6:amd64 is not configured yet. (pitäisi)
-# wdm depends on libwutil5 (>= 0.95.5); however:
-#  Package libwutil5:amd64 is not configured yet. (pitäisi)
-#
-
-#twm depends on menu (>= 2.1.26); (pitäisi löytyä, myös accept2)
-
 #29526:sai oikeastaan aikaiseksi paketin minkä sisältö ainakin osittain asentuu kun toistvasti renkkaa
 #30526:saattoi jo onnistua asentelu kiukuttelematta mutta voi tilanne muuttua q lisää sorkkii
 function e23_dm() {
@@ -292,22 +246,22 @@ function e23_dm() {
 	${shary} libxcursor1 libwutil5 man-db wmaker-common #libbz2-1.0
 	csleep 10
 	
-	# Depends:libc6 (>= 2.34), libgcc-s1 (>= 3.0), libstdc++6 (>= 12)
-	# Depends:libc6 (>= 2.14), libx11-6 (>= 2:1.6.0)
-	# Depends:libc6 (>= 2.34), libicu72 (>= 72.1~rc-1~), liblzma5 (>= 5.1.1alpha+20120614), zlib1g (>= 1:1.2.3.3)
+	# Depends:, libgcc-s1 (>= 3.0), libstdc++6 (>= 12)
+	# Depends:, libx11-6 (>= 2:1.6.0)
+	# Depends:), libicu72 (>= 72.1~rc-1~), liblzma5 (>= 5.1.1alpha+20120614), zlib1g (>= 1:1.2.3.3)
 	${shary} libicu72 libxfixes3 libxml2
 
-	# Depends:libc6 (>= 2.34), libdrm2 (>= 2.4.75), libexpat1 (>= 2.0.1), libglapi-mesa (= 22.3.6-1+deb12u1), libx11-6 (>= 2:1.4.99.1), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0 (>= 1.13), libxcb-glx0 (>= 1.8), libxcb-present0, libxcb-randr0, libxcb-shm0, libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), libxext6, libxfixes3, libxshmfence1, libxxf86vm1, libgl1-mesa-dri
-	# Depends:libc6 (>= 2.34)
-	# Depends:libc6 (>= 2.34), libpng16-16 (>= 1.6.2-1), libzvbi-common (= 0.2.41-1+deb12u1)
+	# Depends:, libdrm2 (>= 2.4.75), libexpat1 (>= 2.0.1), libglapi-mesa (= 22.3.6-1+deb12u1), libx11-6 (>= 2:1.4.99.1), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0 (>= 1.13), libxcb-glx0 (>= 1.8), libxcb-present0, libxcb-randr0, libxcb-shm0, libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), libxext6, libxfixes3, libxshmfence1, libxxf86vm1, libgl1-mesa-dri
+
+	# Depends:, libpng16-16 (>= 1.6.2-1), libzvbi-common (= 0.2.41-1+deb12u1)
 	#
 
 	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
 
-	# Depends:libc6 (>= 2.34)
+
 	#
-	# Depends:libc6 (>= 2.14)
-	# Depends:libc6 (>= 2.29), libgcc-s1 (>= 3.0), libstdc++6 (>= 11)
+
+	# Depends:, libgcc-s1 (>= 3.0), libstdc++6 (>= 11)
 
 	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
 

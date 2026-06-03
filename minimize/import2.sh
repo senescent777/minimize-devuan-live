@@ -325,8 +325,9 @@ else
 fi
 
 dqb "IPM2.mode=${mode}"
-dqb "ip2m.distro=${distro}"
+dqb "2p1m.distro=${distro}"
 dqb "m2pi.srcfile=${srcfile}"
+dqb "4th arra of..."
 csleep 5
 
 #HUOM.280426:jatkossa tämä skripti lienee turha sqroot-ympäristössä, voisi karsia siitä yuhdestä paketista

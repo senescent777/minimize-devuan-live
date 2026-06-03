@@ -256,8 +256,7 @@ function pre_enforce() {
 	csleep 1
 	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 
-	#VAIH:ehtoa joutaisi vähän viilaamaan
-	if [ "${CONF_env}" == "DEFAULT" ] ; then # && [ -d /opt/bin ]
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		if [ ! -d /opt/bin ] ; then
 			${smd} /opt/bin
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
@@ -383,7 +382,6 @@ el_loco ${c14} ${c13}
 #24526:se oli pikemminkin dpkg m,ikä halusi lokaaleita generoida
 
 #=========================================================================================
-#1§405426:vissiin "mode 1"-kiukuttelut toistaiseksi ohi kehitysympstössä
 
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	${odio} passwd

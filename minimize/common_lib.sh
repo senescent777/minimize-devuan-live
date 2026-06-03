@@ -22,27 +22,57 @@ function csleep() {
 
 #tämän tiedoston siirto toiseen taisiiskolmanteen repositoryyn? koska syyt? (siis siihen samaan missä profs.sh?)
 
-#180526:kokeillaan auttaisiko jälkimmäinen ehto kehitysymp sudo-juttujen kanssa
-#... vissiin ei ihan nöin suoraviivaisesti mene
+[ -v CONF_env ] || exit 99
+echo "CONF_env = ${CONF_env}"
+sleep 5
 
-if [ "${CONF_env}" != "DEFAULT" ]  ; then #TODO:prujaus toisesta oksasta
-	odio=""
+case "${CONF_env}" in
+	TOOR)
+		odio=""
 
-	function itni() {
-		dqb "alt-itn1"
-	}
-else
-	function itni() {
-		dqb "ITN1-2"
+		function itni() {
+			dqb "alt-itn1"
+		}
 
-		odio=$(which sudo)
-		[ y"${odio}" == "y" ] && exit 99 
-		[ -x ${odio} ] || exit 100
-	}
+		#sco=$(${odio} which chown)
+		#[ y"${sco}" == "y" ] && exit 98
+		#[ -x ${sco} ] || exit 97
+		#scm=$(${odio} which chmod)
+	;;
+	VED)
+		odio=""
+		#sco=$(${odio} which chown)
+		#[ y"${sco}" == "y" ] && exit 98
+		#[ -x ${sco} ] || exit 97
+		[ -v CONF_testgris ] || exit 96
+		#scm=$(${odio} which chmod)
+			
+		function itni() {
+			dqb "itn1-3"
+			}
+	;;
+	*)
+		#VAIH:redundantteja rivejä pois josqs (toiseen oksaan myös HUOM)			
 
-	#https://stackoverflow.com/questions/49602024/testing-if-the-directory-of-a-file-is-writable-in-bash-script ei egkä ihan
-	#https://unix.stackexchange.com/questions/220912/checking-that-user-dotfiles-are-not-group-or-world-writeable josko tämä
-fi
+		function itni() {
+			dqb "ITN1-2"
+
+			odio=$(which sudo)
+			[ y"${odio}" == "y" ] && exit 99 
+			[ -x ${odio} ] || exit 100
+			
+#			sco=$(${odio} which chown)
+#			[ y"${sco}" == "y" ] && exit 98
+#			[ -x ${sco} ] || exit 97
+#
+			#scm=$(${odio} which chmod)
+			#[ y"${scm}" == "y" ] && exit 96
+			#[ -x ${scm} ] || exit 95
+			#sco="${odio} ${sco} "
+			#scm="${odio} ${scm} "	
+		}
+	;;
+esac
 
 itni
 
@@ -60,7 +90,7 @@ function fix_sudo() {
 	sco="${odio} ${sco} "
 	scm="${odio} ${scm} "	
 
-	if [ "${CONF_env}" = "DEFAULT" ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		dqb "INNERMöST"
 
 		${sco} -R 0:0 /etc/sudoers.d
@@ -148,11 +178,8 @@ function check_bin_0() {
 	unset NKVD
 	csleep 1
 
-	#VAIH:case \$CONF_algo ... esac
-	sleep 6
-
+	csleep 6
 #	dqb "cb3"
-
 	[ -v CONF_algo ] || exit 77
 
 	case "${CONF_algo}" in
@@ -245,8 +272,7 @@ function check_bin_0() {
 	export LANGUAGE
 	export LC_ALL
 	export LANG
-
-	#18+0526:kaikki /o/b liittyvät testgris.tark taakse (VAIH)	
+	
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then	
 		[ -s /opt/bin/zxcv ] || echo "should exit 98"
 		[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
@@ -452,8 +478,6 @@ function efk1() {
 	#else
 		dqb $?
 	fi
-
-	#csleep 1 #riittäisikö?
 }
 
 function efk2() {
@@ -469,7 +493,7 @@ function efk2() {
 	csleep 1
 }
 
-function wopr() { #200426:taitaa toimnia
+function wopr() {
 	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
 	local r=$(find ${1} -type f -name "${2}*.deb" )
 
@@ -512,7 +536,6 @@ function common_lib_tool() {
 	dqb "t00l DONE"
 }
 
-#HUOM.140326:jospa olisi jo ympäristömjat kunnossa fromtendissä
 #https://superuser.com/questions/1470562/debian-10-over-ssh-ignoring-debian-frontend-noninteractive saattaisi liittyä
 
 function fromtend() {
@@ -593,7 +616,6 @@ function CB01() {
 #		exit 103
 #	fi
 
-	#160426:libassuanin kanssa härdelliä vai ei?
 	common_pp3 ${1} ${2}
 	for p in ${E22_GI} ; do efk1 ${2}/${p}*.deb ; done
 	csleep 1
@@ -666,13 +688,11 @@ function check_binaries() {
 	E22_GM="${E22_GM} libmnl0 libatm1 libpcre2-8-0 libmd0 libgssapi-krb5-2 "
 	E22_GM="${E22_GM} libbsd0 libcap2 libcap2-bin libdb5.3 libtirpc-common libtirpc3 iproute2"
 
-	#Depends: , debianutils (>= 2.8.2), iproute2
-	#	E22_GM="${E22_GM} resolvconf" #josq toimisi ilmankin tätä 
+
 	[ "${CONF_iface}" == "eth0:1" ] || E22_GM="${E22_GM} isc-dhcp-client isc-dhcp-common" #dhcp-jutut erilleen jotenkin?
 	E22_GM="${E22_GM} libpam0g libcrypt1 libaudit1 libpam-modules-bin libpam-modules "
 
-	#Depends: passwd
-	#Depends:  (>= 2.34), adduser, iproute2
+
 
 	E22_GM="${E22_GM} libbz2-1.0 libsemanage-common libsemanage2 libsepol2 passwd adduser ifupdown"
 	E22_GM="${E22_GM} libblkid1 libmount1 libsmartcols1 mount net-tools"
@@ -699,7 +719,7 @@ function check_binaries() {
 
 	#080426:twm-jutut josqs myöhemmin, ehkä (enemmän liittyy e23.sh) (ajankohtainen?)
 
-	#VAIH:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
+	#VAIH:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta? mukaan toiseen oksaan?
 	E22_GT=""
 	E22_GU=""
 
@@ -833,10 +853,6 @@ function TLA() {
 	dqb "TLA.testgris : ${CONF_testgris}"
 	csleep 1
 
-	#3. ehto pois jatkossa vai ei?
-	#200326:toimiikohan tarkistus toivotulla tavalla?
-	#210326:tla() ja sqroot? jos on pedantti niin tuollakin yhdostelmällä piytäisi tables-säännöt muuttaa...
-
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ "${CONF_env}" == "TOOR" ] ; then #270526:hyvä näin?
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
@@ -902,12 +918,6 @@ function mangle_s() {
 	${sco} root:root ${r}
 	#vs /e/paswd ?
 
-#	echo -n "$(whoami)" | tr -dc a-zA-Z >> ${2}
-#	#100126:ALL vai localhost? rahat vs kolmipyörä?
-#	#echo -n " localhost=NOPASSWD:${CONF_algo}:" >> ${2}
-#	#(kts omega)
-#	echo -n " ALL=NOPASSWD:${CONF_algo}:" >> ${2}
-#	slaughter0 ${r} ${2}
 
 	#toisinkin voisi kai tehdä
 	local aa=$(whoami | tr -dc a-zA-Z0-9 )
@@ -988,7 +998,6 @@ function e_final() {
 	csleep 1
 }
 
-#150326:vissiin toimii kuten tarkoitus
 function e_h() {
 	[ -z "${1}" ] && exit 98
 	[ -d ${2} ] || exit 99
@@ -996,8 +1005,8 @@ function e_h() {
 	csleep 1
 	${sco} root:root /home
 	${scm} 0755 /home
-	local c
-	c=$(grep $1 /etc/passwd | wc -l)
+	local c=$(grep $1 /etc/passwd | wc -l)
+	local m=0555
 
 	if [ ${c} -gt 0 ] ; then
 		${sco} -R ${1}:${1} ~
@@ -1010,7 +1019,7 @@ function e_h() {
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
 
-	local m=0555
+	
 	csleep 1
 
 	#tämäkö siihen "-v vs ei -v"-temppuiluun liittyy?
@@ -1259,7 +1268,7 @@ function part1_5() {
 		[ -z "${mkt}" ] && exit 98
 
 		local h
-		h=$(mktemp -d) 
+		h=$(${mkt} -d) 
 		[ $? -eq 0 ] || exit 97
 
 		dqb "MTKK"
@@ -1377,7 +1386,7 @@ function part2() {
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."
-		#if  $INITRD = No  then ...
+		#if  $INITRD == No  then ...
 		${lftr}
 		${fib}
 		csleep 1
@@ -1437,7 +1446,6 @@ function part2() {
 		jules
 		local t
 
-		#210326:nyt sitten miettimään että pitäisikö resOLV.conf:ille tehdä jotain. taas
 		t=$(echo ${2} | tr -d -c 0-9)
 
 		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
@@ -1500,12 +1508,6 @@ function cg_pp2() {
 dqb "HUOM. KANNATTAA KEHITYSYMP PURKAA PAKETTI RIITTÄVIN VALTUUKSIN ETTÄ PYSYVÄT SKRIPTIT AJAN TASALLA"
 csleep 6
 
-#140326:libfortran-urputuksille j os tekisijojo tain?
-#libatomic1 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
-# libgfortran5 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
-# libquadmath0 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
-#... jospa nyt aluksi selvittäisi mikä näitä tarvitsee?
-
 function part3() {
 	dqb "))() part3 ${1} , ${2} (((((((("
 	csleep 1
@@ -1521,7 +1523,7 @@ function part3() {
 
 	#TODO:muistettava sitten tämä if-blokki sulauttaa toisen oksan part3():seen
 	if [ -z "${2}" ] ; then
-		t=$(mktemp -d)
+		t=$(${mkt} -d)
 		n15=$(find ${1} -type f -name "*.deb" | wc -l)
 	else
 		#HUOM.jos on pedantti niin $2 alaiset .deb pitäisi myös testata shasums:ia vasten jnpp (TODO)
