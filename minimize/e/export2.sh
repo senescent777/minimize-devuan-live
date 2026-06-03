@@ -171,7 +171,7 @@ case "${mode}" in
 		reqwreqw /opt/bin/zxcv.tmp
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 3 ] && [ "${CONF_env}" = "DEFAULT" ] ; then
+		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
 			#TODO:e.tar-kikkailu -> other_pkgs() syystä gpg puuttuu
 			#... rekursion kanssa jos vaikka tekisi
 
