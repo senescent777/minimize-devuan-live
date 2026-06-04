@@ -6,7 +6,7 @@ d0=$(pwd)
 debug=0
 d=${d0}/${distro}
 mode=3
-#TODO:oma moodi slimin poisToa varten?
+#VAIH:oma moodi slimin poisToa varten?
 
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
@@ -222,7 +222,10 @@ t2pf ${d}
 #140526:minimalin pakettilista kopsattu .txt-tiedostoon
 
 if [ ${mode} -gt 3 ] ; then
-	#skilmiin liittyen olk muitakin juttuja?
+	#slimiin liittyen olk muitakin juttuja?
+	${fib}
+	${odio} /etc/init.d/ntpsec stop
+	echo "REMEMBER 2 /etc/init.d/wdm start";sleep 6
 	${sharpy} slim
 	csleep 5
 

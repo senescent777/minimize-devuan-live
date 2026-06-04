@@ -225,6 +225,7 @@ echo "AFTER PROCESS_LIB";sleep 1
 #==================================PART 1============================================================
 dqb "mode= ${mode}"
 dqb "debug= ${debug}"
+#enfor vai env?
 [ -v CONF_enforce ] || exit 99
 
 if [ -s ~/xorg.conf.new ] ; then
@@ -309,10 +310,10 @@ function pre_enforce() {
 	${svm} ${q} /etc/sudoers.d
 	csleep 1
 
-	local c4
-	c4=0
+	dqb "semtex"
+	local c4=0
 	csleep 1
-
+	
 	#setup2 mennee vähän päällekkäin ytämän fktion kanssa toiminnallisesti
 	if [ -v CONF_dir ] ; then
 		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)

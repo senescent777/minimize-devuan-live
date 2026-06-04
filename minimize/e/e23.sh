@@ -1,6 +1,5 @@
 #just_download_not_install-vipu olisi tietysti...
 
-
 #dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteeT keksitty
 function aswasw() {
 	dqb "aswasw( ${1} )"
@@ -253,19 +252,12 @@ function e23_dm() {
 	csleep 10
 
 	${shary} libicu72 libxfixes3 libxml2
-
 	csleep 5
-	# Depends:libc6 (>= 2.34), libdrm2 (>= 2.4.75), libexpat1 (>= 2.0.1), libglapi-mesa (= 22.3.6-1+deb12u1), libx11-6 (>= 2:1.4.99.1), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0 (>= 1.13), libxcb-glx0 (>= 1.8), libxcb-present0, libxcb-randr0, libxcb-shm0, libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), libxext6, libxfixes3, libxshmfence1, libxxf86vm1, libgl1-mesa-dri
-	# Depends:libc6 (>= 2.34)
-	# Depends:libc6 (>= 2.34), libpng16-16 (>= 1.6.2-1), libzvbi-common (= 0.2.41-1+deb12u1)
-	#
+
+	# Depends:, libdrm2 (>= 2.4.75), libexpat1 (>= 2.0.1), libglapi-mesa (= 22.3.6-1+deb12u1), libx11-6 (>= 2:1.4.99.1), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0 (>= 1.13), libxcb-glx0 (>= 1.8), libxcb-present0, libxcb-randr0, libxcb-shm0, libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), libxext6, libxfixes3, libxshmfence1, libxxf86vm1, libgl1-mesa-dri
+	# Depends:, libpng16-16 (>= 1.6.2-1), libzvbi-common (= 0.2.41-1+deb12u1)
 
 	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
-
-	# Depends:libc6 (>= 2.34)
-	#
-	# Depends:libc6 (>= 2.14)
-	# Depends:libc6 (>= 2.29), libgcc-s1 (>= 3.0), libstdc++6 (>= 11)
 
 	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
 	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
@@ -303,7 +295,7 @@ function e23_dm() {
 	csleep 1
 }
 
-#VAIH:param tarkistukset
+#VAIH:param tarkistukset (olisiko jo kunnossa 06/26?)
 function e23_profs() {
 	dqb ";e23_profs) ${1} , ${2} , ${3} (()("
 	csleep 1

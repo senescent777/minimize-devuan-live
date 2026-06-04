@@ -1,6 +1,6 @@
 #fktioksi tmä ni ei tartte globaalien mjien kanssa sählätä?
 
-#VAIH:ROOT.CONF
+#VAIH:ROOT.CONF (esim linkittämällä)
 if [ -s ${d0}/$(whoami).conf ] ; then
 	#pitäisikö olla eri conf toisen repon skriptien kautta mentäessä?
 	echo "ALT.C0NF1G (. ${d0}/$(whoami).con )"
@@ -19,9 +19,6 @@ fi
 unset sco
 unset scm
 unset odio
-
-#VAIH:TÄMÄN \"case CONE_env\" - BLOKIN KANSSA ANKARAA SÄÄTÖÄ VAIKKA 27.5.26 VERSIO PALAUTETTU
-sleep 10
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -45,42 +42,40 @@ case "${CONF_env}" in
 			dqb "alt-itn1"
 		}
 
-		sco=$(${odio} which chown)
-		[ y"${sco}" == "y" ] && exit 98
-		[ -x ${sco} ] || exit 97
-		scm=$(${odio} which chmod)
+		#sco=$(${odio} which chown)
+		#[ y"${sco}" == "y" ] && exit 98
+		#[ -x ${sco} ] || exit 97
+		#scm=$(${odio} which chmod)
 	;;
 	VED)
 		odio=""
-		sco=$(${odio} which chown)
-		[ y"${sco}" == "y" ] && exit 98
-		[ -x ${sco} ] || exit 97
+		#sco=$(${odio} which chown)
+		#[ y"${sco}" == "y" ] && exit 98
+		#[ -x ${sco} ] || exit 97
 		[ -v CONF_testgris ] || exit 96
-		scm=$(${odio} which chmod)
+		#scm=$(${odio} which chmod)
 			
 		function itni() {
 			dqb "itn1-3"
 			}
 	;;
 	*)
-		#TODO:redundantteja rivejä pois josqs			
-
 		function itni() {
 			dqb "ITN1-2"
 
 			odio=$(which sudo)
 			[ y"${odio}" == "y" ] && exit 99 
 			[ -x ${odio} ] || exit 100
-			
-			sco=$(${odio} which chown)
-			[ y"${sco}" == "y" ] && exit 98
-			[ -x ${sco} ] || exit 97
-
-			scm=$(${odio} which chmod)
-			[ y"${scm}" == "y" ] && exit 96
-			[ -x ${scm} ] || exit 95
-			sco="${odio} ${sco} "
-			scm="${odio} ${scm} "	
+			#
+			#sco=$(${odio} which chown)
+			#[ y"${sco}" == "y" ] && exit 98
+			#[ -x ${sco} ] || exit 97
+			#
+			#scm=$(${odio} which chmod)
+			#[ y"${scm}" == "y" ] && exit 96
+			#[ -x ${scm} ] || exit 95
+			#sco="${odio} ${sco} "
+			#scm="${odio} ${scm} "	
 		}
 	;;
 esac
@@ -91,7 +86,17 @@ sleep 6
 
 function fix_sudo() {
 	dqb "common_lib.fix_sud0.pt0"	
-	#TODO:sco, scm asettely, josko tähän fktioon takaisin kanssa?
+	#VAIH:sco, scm asettelu, josko tähän fktioon takaisin kanssa?
+	
+	sco=$(${odio} which chown)
+	[ y"${sco}" == "y" ] && exit 98
+	[ -x ${sco} ] || exit 97
+	
+	scm=$(${odio} which chmod)
+	[ y"${scm}" == "y" ] && exit 96
+	[ -x ${scm} ] || exit 95
+	sco="${odio} ${sco} "
+	scm="${odio} ${scm} "	
 
 	if [ "${CONF_env}" == "DEFAULT" ] ; then #EHTPOA SAATTAA JHOUTUA RENKKAAMAAN VIELÄ
 		dqb "1NNERMöST"
@@ -164,8 +169,8 @@ function ocs() {
 
 #common_funcs tarttee
 function check_bin_0() {
-	dqb "check_bin_0"
-	csleep 1
+	echo "check_bin_0"
+	sleep 1
 
 	dqb "cb01"
 
@@ -794,63 +799,64 @@ function TLA() {
 }
 
 #==================================================================
-#
-#function mangle_s() {
-#	dqb " mangle_s( ${1} )"
-#	csleep 1
-#
-#	[ -z "${1}" ] && exit 44
-#	[ -x ${1} ] || exit 55
-#	[ -z "${2}" ] && exit 45 #KUINKA MONTA PARAM?
-#	[ -f ${2} ] || exit 54
-#
-#	[ -v CONF_algo ] || exit 98
-#	[ -z "${CONF_algo}" ] && exit 99 
-#
-#	dqb "pars ok"
-#	csleep 1
-#
-#	local r
-#	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
-#	${scm} 0555 ${r}
-#	${sco} root:root ${r}
-#
-#	#toisinkin voisi kai tehdä (ab,ac)
-#	local aa=$(whoami | tr -dc a-zA-Z0-9 )
-#	local ab=$(${sah6} ${r} | awk '{print $1}' | tr -dc a-fA-F0-9)
-#	local ac=$(${sah6} ${r} | awk '{print $2}' | tr -dc a-zA-Z0-9./)	
-#	echo "${aa} ALL=NOPASSWD:${CONF_algo}:${ab} ${ac}" >> ${2}
-#
-#	dqb " mangle_s() done"
-#}
-#
-#function dinf() {
-#	local g
-#	local t
-#	local frist
-#	frist=1
-#
-#	echo -n "#" >> ${1} #toimiiko näin?
-#	echo -n " $(whoami)" | tr -dc a-zA-Z >> ${1}
-#	echo -n " localhost=NOPASSWD:" >> ${1}
-#
-#	for g in $(${odio} find /sbin -type f -name "dhclient-script*" ) ; do
-#		if [ ${frist} -eq 1 ] ; then 
-#			frist=0
-#		else
-#			echo -n "," >> ${1}
-#		fi
-#
-#		echo -n "${CONF_algo}:" >> ${1}
-#		t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9)
-#		echo -n ${t} >> ${1}
-#	done
-#
-#	echo " /sbin/dhclient-script" >> ${1}
-#	cat ${1}
-#	csleep 5
-#}
-#
+
+function mangle_s() {
+	dqb " mangle_s( ${1} )"
+	csleep 1
+
+	[ -z "${1}" ] && exit 44
+	[ -x ${1} ] || exit 55
+	[ -z "${2}" ] && exit 45 #KUINKA MONTA PARAM?
+	[ -f ${2} ] || exit 54
+
+	[ -v CONF_algo ] || exit 98
+	[ -z "${CONF_algo}" ] && exit 99 
+
+	dqb "pars ok"
+	csleep 1
+
+	local r
+	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
+	${scm} 0555 ${r}
+	${sco} root:root ${r}
+
+	#toisinkin voisi kai tehdä (ab,ac)
+	local aa=$(whoami | tr -dc a-zA-Z0-9 )
+	local ab=$(${sah6} ${r} | awk '{print $1}' | tr -dc a-fA-F0-9)
+	local ac=$(${sah6} ${r} | awk '{print $2}' | tr -dc a-zA-Z0-9./)	
+	echo "${aa} ALL=NOPASSWD:${CONF_algo}:${ab} ${ac}" >> ${2}
+
+	dqb " mangle_s() done"
+}
+
+function dinf() {
+	local g
+	local t
+	local frist
+	frist=1
+
+	echo -n "#" >> ${1} #toimiiko näin?
+	echo -n " $(whoami)" | tr -dc a-zA-Z >> ${1}
+	echo -n " localhost=NOPASSWD:" >> ${1}
+
+	for g in $(${odio} find /sbin -type f -name "dhclient-script*" ) ; do
+		if [ ${frist} -eq 1 ] ; then 
+			frist=0
+		else
+			echo -n "," >> ${1}
+		fi
+
+		echo -n "${CONF_algo}:" >> ${1}
+		t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9)
+		echo -n ${t} >> ${1}
+	done
+
+	echo " /sbin/dhclient-script" >> ${1}
+	cat ${1}
+	echo "DINSDALE"
+	csleep 5
+}
+
 function fasdfasd() {
 	dqb "fasdfasd ))) ${1} )))"
 	[ -z "${1}" ] && exit 99
@@ -861,36 +867,36 @@ function fasdfasd() {
 	${scm} 0644 ${1}
 }
 
-#function reqwreqw() {
-#	[ -z "${1}" ] && exit 99
-#	[ -f ${1} ] || exit 100
-#	csleep 1
-#	${sco} 0:0 ${1}
-#	${scm} a-w ${1}
-#}
-#
-#function e_final() {
-#	dqb "ALOMST FINAL"
-#	csleep 1
-#
-#	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then 
-#		${scm} go-rw /opt/bin/*
-#		${scm} 0400 /opt/bin/*.sh
-#		${scm} 0511 /opt/bin/*.bash
-#	fi
-#
-#	${scm} 0755 /
-#	${sco} root:root /
-#	dqb "D+T"
-#	
-#	${scm} 0777 /tmp
-#	${sco} root:root /tmp
-#	
-#	csleep 1
-#	dqb "ANALISIS CLINICOS ASD ASD 123"
-#	#exit
-#}
-#
+function reqwreqw() {
+	[ -z "${1}" ] && exit 99
+	[ -f ${1} ] || exit 100
+	csleep 1
+	${sco} 0:0 ${1}
+	${scm} a-w ${1}
+}
+
+function e_final() {
+	dqb "ALOMST FINAL"
+	csleep 1
+
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then 
+		${scm} go-rw /opt/bin/*
+		${scm} 0400 /opt/bin/*.sh
+		${scm} 0511 /opt/bin/*.bash
+	fi
+
+	${scm} 0755 /
+	${sco} root:root /
+	dqb "D+T"
+	
+	${scm} 0777 /tmp
+	${sco} root:root /tmp
+	
+	csleep 1
+	dqb "ANALISIS CLINICOS ASD ASD 123"
+	#exit
+}
+
 #function e_h() {
 #	dqb "EH ((( ${1} ;; ((( ${2} ))(((((("
 #	[ -z "${1}" ] && exit 98
@@ -1042,128 +1048,128 @@ function fasdfasd() {
 #
 #	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 #}
-#
-#function part1_5() {
-#	dqb "part1_5()"
-#
-#	[ -z "${1}" ] && exit 66
-#	[ -z "${2}" ] && exit 67
-#	[ -d ${2} ] || exit 68
-#
-#	dqb "part1_5().pasr.ko"
-#	csleep 1
-#	local t
-#	t=$(echo ${1} | cut -d "/" -f 1)
-#
-#	if [ ! -s /etc/apt/sources.list.${t} ] ; then
-#		dqb "S3RV1CE F0R A VCANT C0FF1N"
-#		[ -v mkt ] || exit 99
-#		[ -z "${mkt}" ] && exit 98
-#
-#		local h
-#		h=$(${mkt} -d)
-#		[ $? -eq 0 ] || exit 97
-#
-#		csleep 1
-#
-#		if [ ! -s /etc/apt/sources.list.tmp ] ; then	
-#			dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
-#			csleep 1
-#			touch ${h}/sources.list.tmp
-#			local b
-#
-#			if [ "${CONF_env}" == "TOOR" ] && [ -v CONF_alt_root ] ; then
-#				b="deb file://${2}"
-#			else
-#				b="deb https://REPOSITORY/merged"
-#			fi
-#
-#			for x in DISTRO DISTRO-updates DISTRO-security ; do
-#				echo "${b} ${x} main" >> ${h}/sources.list.tmp
-#			done
-#		else
-#			${svm} /etc/apt/sources.list.tmp ${h}
-#			fasdfasd ${h}/sources.list.tmp
-#		fi
-#
-#		dqb "p1.5.2"
-#		csleep 1
-#		local tdmc
-#
-#		tdmc="sed -i 's/DISTRO/${t}/g'"
-#		echo "${tdmc} ${h}/sources.list.tmp" | bash -s
-#		csleep 1
-#
-#		if [ ! -z "${CONF_pkgsrv}" ] ; then
-#			tdmc="sed -i 's/REPOSITORY/${CONF_pkgsrv}/g'" #TARRKK PRKL
-#			echo "${tdmc} ${h}/sources.list.tmp" | bash -s
-#			csleep 1
-#		fi
-#
-#		${svm} ${h}/sources.list.tmp /etc/apt/sources.list.${t}
-#		csleep 1
-#
-#		dqb "finally"
-#		csleep 1
-#	fi
-#
-#	${sco} -R root:root /etc/apt
-#	${scm} -R a-w /etc/apt/
-#	[ ${debug} -eq 1 ] && ls -las /etc/apt
-#	csleep 1
-#
-#	dqb "p1.5 done"
-#	csleep 1
-#}
-#
-#function part1() {
-#	dqb "()()() PART1 ${1} , ${2} ()()()()() "
-#	[ -z "${1}" ] && exit 66
-#	[ -z "${2}" ] && exit 67
-#	[ -d ${2} ] || exit 68
-#
-#	csleep 1
-#	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
-#	csleep 1
-#
-#	[ -v ipt ] || dqb "SHOULD exit 69"
-#	local c
-#	local g
-#	local t
-#
-#	g=$(date +%F)
-#	t=$(echo ${1} | cut -d '/' -f 1 | tr -dc a-z) 
-#
-#	if [ -f /etc/apt/sources.list ] ; then
-#		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:' | wc -l) #TARRKK PRKL
-#
-#		if [ ${c} -gt 0 ] ; then #ehtona pikemminkin https: poissaolo?
-#			${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
-#			csleep 1
-#		fi
-#	fi
-#
-#	if [ "${CONF_env}" == "TOOR" ] && [ -v CONF_alt_root ] ; then
-#		part1_5 ${t} ${CONF_alt_root}/${t}
-#	else
-#		part1_5 ${t} ${2}
-#	fi
-#
-#	if [ ! -f /etc/apt/sources.list ] ; then
-#		if [ -s /etc/apt/sources.list.${t} ] && [ -r /etc/apt/sources.list.${t} ] ; then
-#			${slinky} /etc/apt/sources.list.${t} /etc/apt/sources.list
-#		fi
-#	fi
-#
-#	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
-#	csleep 1
-#
-#	#TODO:tesgris,dufo?
-#	${sco} -R root:root /etc/apt
-#	${scm} -R a-w /etc/apt/
-#	dqb "FOUR-LEGGED WH0R3"
-#}
-#
+
+function part1_5() {
+	dqb "part1_5()"
+
+	[ -z "${1}" ] && exit 66
+	[ -z "${2}" ] && exit 67
+	[ -d ${2} ] || exit 68
+
+	dqb "part1_5().pasr.ko"
+	csleep 1
+	local t
+	t=$(echo ${1} | cut -d "/" -f 1)
+
+	if [ ! -s /etc/apt/sources.list.${t} ] ; then
+		dqb "S3RV1CE F0R A VCANT C0FF1N"
+		[ -v mkt ] || exit 99
+		[ -z "${mkt}" ] && exit 98
+
+		local h
+		h=$(${mkt} -d)
+		[ $? -eq 0 ] || exit 97
+
+		csleep 1
+
+		if [ ! -s /etc/apt/sources.list.tmp ] ; then	
+			dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
+			csleep 1
+			touch ${h}/sources.list.tmp
+			local b
+
+			if [ "${CONF_env}" == "TOOR" ] && [ -v CONF_alt_root ] ; then
+				b="deb file://${2}"
+			else
+				b="deb https://REPOSITORY/merged"
+			fi
+
+			for x in DISTRO DISTRO-updates DISTRO-security ; do
+				echo "${b} ${x} main" >> ${h}/sources.list.tmp
+			done
+		else
+			${svm} /etc/apt/sources.list.tmp ${h}
+			fasdfasd ${h}/sources.list.tmp
+		fi
+
+		dqb "p1.5.2"
+		csleep 1
+		local tdmc
+
+		tdmc="sed -i 's/DISTRO/${t}/g'"
+		echo "${tdmc} ${h}/sources.list.tmp" | bash -s
+		csleep 1
+
+		if [ ! -z "${CONF_pkgsrv}" ] ; then
+			tdmc="sed -i 's/REPOSITORY/${CONF_pkgsrv}/g'" #TARRKK PRKL
+			echo "${tdmc} ${h}/sources.list.tmp" | bash -s
+			csleep 1
+		fi
+
+		${svm} ${h}/sources.list.tmp /etc/apt/sources.list.${t}
+		csleep 1
+
+		dqb "finally"
+		csleep 1
+	fi
+
+	${sco} -R root:root /etc/apt
+	${scm} -R a-w /etc/apt/
+	[ ${debug} -eq 1 ] && ls -las /etc/apt
+	csleep 1
+
+	dqb "p1.5 done"
+	csleep 1
+}
+
+function part1() {
+	dqb "()()() PART1 ${1} , ${2} ()()()()() "
+	[ -z "${1}" ] && exit 66
+	[ -z "${2}" ] && exit 67
+	[ -d ${2} ] || exit 68
+
+	csleep 1
+	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
+	csleep 1
+
+	[ -v ipt ] || dqb "SHOULD exit 96"
+	local c
+	local g
+	local t
+
+	g=$(date +%F)
+	t=$(echo ${1} | cut -d '/' -f 1 | tr -dc a-z) 
+
+	if [ -f /etc/apt/sources.list ] ; then
+		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:' | wc -l) #TARRKK PRKL
+
+		if [ ${c} -gt 0 ] ; then #ehtona pikemminkin https: poissaolo?
+			${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
+			csleep 1
+		fi
+	fi
+
+	if [ "${CONF_env}" == "TOOR" ] && [ -v CONF_alt_root ] ; then
+		part1_5 ${t} ${CONF_alt_root}/${t}
+	else
+		part1_5 ${t} ${2}
+	fi
+
+	if [ ! -f /etc/apt/sources.list ] ; then
+		if [ -s /etc/apt/sources.list.${t} ] && [ -r /etc/apt/sources.list.${t} ] ; then
+			${slinky} /etc/apt/sources.list.${t} /etc/apt/sources.list
+		fi
+	fi
+
+	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
+	csleep 1
+
+	#TODO:tesgris,dufo?
+	${sco} -R root:root /etc/apt
+	${scm} -R a-w /etc/apt/
+	dqb "FOUR-LEGGED WH0R3"
+}
+
 #tarvittiinko tätä kehitysymp?
 #function part2() {
 #	dqb "PART2.5.1 ( $1 , $2 , $3 ((("

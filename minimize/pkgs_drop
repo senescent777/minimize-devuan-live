@@ -23,9 +23,8 @@ mlocate,modem,mtools
 mythes
 #
 #nfs,jutut,poistuvat,aiemmin
-netcat-traditional,pavucontrol
+netcat-traditional,openssh,pavucontrol
 ppp,pciutils,procmail
-#
 #antaa olla rfkill toistaiseksi
 ristretto,screen,syslinux-common
 tex,vim

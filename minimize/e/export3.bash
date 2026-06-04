@@ -71,7 +71,7 @@ case "${mode}" in
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 		e22_rpg ${tgtfile} ${d}
-
+		#toisessa oksassa meni rp-kohta vähän toisin, prujhaisiko?
 	;;
 	f)
 		t=$(echo ${d} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
@@ -80,8 +80,8 @@ case "${mode}" in
 	;;
 	q)
 		#100526 vissiin osasi paketin tehdä toivottavalla sisällöllä
-		#VAIH:uusi testi käyntiiin (kelvollinen tuotos?/masentuuko se?/menevätkö liuittyvät tdstot kohdearkistoon?/yms)
-		#vissiin se exportointi/import nimenomaan g_dout kautta ongelma
+		#VAIH:uusi testi käyntiiin (kelvollinen tuotos?/masentuuko se?/menevätkö liittyvät tdstot kohdearkistoon?/yms)
+		#vissiin se exportointi/import nimenomaan g_doit kautta ongelma
 
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
@@ -104,6 +104,9 @@ case "${mode}" in
 		usage
 	;;
 	s)
+		#TODO:vissiin toisesta oksasta prujaaminen
+		#TODO:myös testaus, miten kehitysympstössä asentuu paketin sisältö
+		#TODO:fktiom nimeämisen miettiminen?
 		e22_stu ${tgtfile} 
 	;;
 #	b)

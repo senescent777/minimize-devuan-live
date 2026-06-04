@@ -8,6 +8,9 @@ if [ ! -v CONF_pubk ] ; then
 	[ "${CONF_env}" == "VED" ] && b=${CONF_testgris}
 	a=$(${odio} find ${b} -type f -name "keys.conf" | head -n 1)
 
+	#dqb "a= ${a}"
+	#csleep 10
+
 	if [ ! -z "${a}" ] ; then
 		if [ -s ${a} ] ; then
 			. ${a}
