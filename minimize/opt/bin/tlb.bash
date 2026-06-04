@@ -1,7 +1,7 @@
 #!/bin/bash
 debug=1
 
-if [ -f /.chroot ] ; then
+if [ "${CONF_env}" == "TOOR" ] ; then
         odio=""
 else
         odio=$(which sudo)
@@ -40,7 +40,7 @@ function ocs() {
 	fi
 }
 
-#se suuri mölinä jos resolv.conf puuttuu (parempi olisi jos ifup kautta tapahtuu?)
+#se suuri mölinä jos resolv.conf puuttuu
 if [ ! -f /etc/resolv.conf ] ; then
 	echo "ULIULIULI 666"
 	sleep 99
