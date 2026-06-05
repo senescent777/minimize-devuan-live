@@ -81,7 +81,7 @@ else
 	function check_binaries() {
 		dqb "imp2.check1"
 		odio="sudo" #TODO:tämä tivi uusiksi joskus
-		mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin? tpr() ainakin
+		mkt=$(${odio} which mktemp)
 		srat=$(${odio} which tar)
 		srat="${odio} ${srat} "
 		som=$(${odio} which mount)
