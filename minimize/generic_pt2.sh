@@ -52,22 +52,23 @@ e_h $(whoami) ${d0}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 csleep 2
 
-${odio} /opt/bin/tlb.bash
-csleep 2
-${sco} 0:0 /opt/bin/*
-${scm} 0400 /opt/bin/zxcv*
+#VAIH:/o/b - jutut tarkistuksen taakse vai ei?
+if [ "${CONF_env}" == "DEFAULT" ] ; then
+	${odio} /opt/bin/tlb.bash
+	csleep 2
+	${sco} 0:0 /opt/bin/*
+	${scm} 0400 /opt/bin/zxcv*
+fi
 
-#280526:ajetaanko tätä vai ei?
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then		
 	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
 else
 	dqb "FAILURE TO MUTILATE: /etc/resolc. von f "
 fi
 
-sleep 20
 dqb "BEYOND THE UNHOLY GRAVE"
 ls -las /etc/resolv*
-sleep 10
+sleep 6
 
 csleep 2
 ${fib}
@@ -78,7 +79,8 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
+#VAIH:ehto uusiksi?
+if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then
 	dqb "kö"
 	TLA
 else
@@ -217,6 +219,11 @@ t2pf ${d}
 #140526:minimalin pakettilista kopsattu .txt-tiedostoon
 
 if [ ${mode} -gt 3 ] ; then
+	#slimiin liittyen olk muitakin juttuja?
+	${fib}
+	${odio} /etc/init.d/ntpsec stop
+	echo "REMEMBER 2 /etc/init.d/wdm start";sleep 6
+
 	${sharpy} slim
 	csleep 5
 
