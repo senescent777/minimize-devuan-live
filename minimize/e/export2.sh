@@ -94,6 +94,7 @@ fi
 d=${d0}/${distro} #nykyään vähän turha tässä
 process_lib ${d}
 mop=${CONF_dm} 
+
 #suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 dqb "BEF0RE T1G N0R MKTMP"
 sleep 1
@@ -162,7 +163,6 @@ case "${mode}" in
 	3|4) 
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
 		#VAIH:turhia kommentteja wttuun sotkemasta
-
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
 
