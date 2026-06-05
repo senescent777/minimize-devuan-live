@@ -160,7 +160,6 @@ case "${mode}" in
 		exit 97
 	;;
 	3|4) 
-		
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
 		#VAIH:turhia kommentteja wttuun sotkemasta
 
@@ -172,8 +171,7 @@ case "${mode}" in
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
-			#TODO:e.tar-kikkailu -> other_pkgs() syystä gpg puuttuu
-			#... rekursion kanssa jos vaikka tekisi
+			#TODO:se jokin rekursiojuttu näille main?
 
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
@@ -192,7 +190,6 @@ case "${mode}" in
 		z2 /opt/bin/zxcv
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
-	#270526:tämäkin taas (VAIH)
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
@@ -206,7 +203,6 @@ case "${mode}" in
 	e) 
 		e22_pre_e ${E22_GS}
 		e22_pre_e ${E22_GM}
-		#130526:E22_GG  masenteluy löytyy jo fktiosta other_pkgs()
 
 		csleep 3
 		message
@@ -260,7 +256,6 @@ case "${mode}" in
 	;;
 esac
 
-#tuossa alla vielä jotain laittoa?
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
 
