@@ -40,10 +40,6 @@ fi
 [ $? -gt 0 ] && exit 56
 sleep 1
 
-#https://linuxopsys.com/use-dollar-at-in-bash-scripting
-#https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
-
-#240526:tämä aiheutti paljon nalkutusta kehitysymp
 function dis() {
 	dqb "sid $1 ;; $2 ((((("
 	[ -z "${1}" ] && exit 44
@@ -84,8 +80,7 @@ function dis() {
 			dqb "${odio} ${sifd} ${2}"
 			csleep 1	
 			[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
-			csleep 1
-	
+		
 			#${odio} ${sifd} -a
 			csleep 1
 
@@ -102,6 +97,7 @@ function dis() {
 	dqb "d1s.d0n3"
 }
 
+#TODO:toisessakin oksassa turhia kommentteja sotkemasta
 function part0() {
 	dqb "part0)))( ${1} ;; ${2})(((((("
 	[ -z "${1}" ] && exit 76
