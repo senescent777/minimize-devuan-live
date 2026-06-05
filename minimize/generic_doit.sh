@@ -81,7 +81,8 @@ function dis() {
 		if [ ! -z "${2}" ] ; then
 			#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
 			[ -z "${sifd}" ] && sifd=/sbin/ifdown
-			dqb "${odio} ${sifd} ${2}"	
+			dqb "${odio} ${sifd} ${2}"
+			csleep 1	
 			[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
 			csleep 1
 	
@@ -112,16 +113,8 @@ function part0() {
 	dis ${1} ${2}
 	local s
 	dqb "смерть шпионам"
-
-	#https://docs.xfce.org/xfce/xfce4-session/advanced
-	#https://superuser.com/questions/1222663/how-do-i-use-combine-ssh-agent-forwarding-and-xfce4
-	#https://forum.manjaro.org/t/how-to-disable-ssh-agent-autostart/89404
-	
-	dqb "#VAIH:jospa kokeilisi vähitellen miten xfquery-komennot vaikuttavat? (270426)"
-	#... meneekö sinne config.tar.bz2 asti muutokset esim?
-	#140526:vissiin tdstoon xfce4-session.xml menee tieto että agentit sammuksiin mutta	
-	#x-session-manager saattaa liittyä jtnkn
-
+		
+	#ehkä nuo komennot jotain tekevät mutta xfce4-session näkyy edelleen pgrepillä
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
 	${whack} ssh-agent*
@@ -130,13 +123,6 @@ function part0() {
 	dqb "H4RV35TER 0F 50RR0W"
 	csleep 1
 
-	#060426:tämäkö heittää pihalle ennenaikaisesti? ssh:n kanssa ehkä jotain	
-	#2804236:josko ssh-agentin sisältävän paketin voisi poistaa?
-
-	#140526:gnome-keyring*. libpam-gnome-keyring liittyvät?
-	#kts pkgs_drop jos qsee g_pt2 asjon jölkeen (vissiin ei)
-
-	#250526:onnistui kai sudottamalla tämä skripti, sammuttaa nuo listan mukaiset palvelut
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
 		#HUOM.271125:saisiko tällä tyylillä myös slimin sammutettua? saa, mutta...
