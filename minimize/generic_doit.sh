@@ -34,7 +34,7 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	[ ${debug} -gt 0 ] && ls -las ${d0}
-	exit 55
+	exit 55 #050626:tähänkö tökkäsi?
 fi
 
 [ $? -gt 0 ] && exit 56
@@ -81,10 +81,8 @@ function dis() {
 		if [ ! -z "${2}" ] ; then
 			#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
 			[ -z "${sifd}" ] && sifd=/sbin/ifdown
-
 			dqb "${odio} ${sifd} ${2}"	
 			[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
-
 			csleep 1
 	
 			#${odio} ${sifd} -a
@@ -127,6 +125,10 @@ function part0() {
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
 	${whack} ssh-agent*
+
+	csleep 5
+	dqb "H4RV35TER 0F 50RR0W"
+	csleep 1
 
 	#060426:tämäkö heittää pihalle ennenaikaisesti? ssh:n kanssa ehkä jotain	
 	#2804236:josko ssh-agentin sisältävän paketin voisi poistaa?
@@ -224,6 +226,9 @@ process_lib ${d} ${pkgcache}
 echo "AFTER PROCESS_LIB";sleep 1
 
 #==================================PART 1============================================================
+dqb "mode= ${mode}"
+dqb "debug= ${debug}"
+#enfor vai env?
 [ -v CONF_enforce ] || exit 99
 
 if [ -s ~/xorg.conf.new ] ; then
@@ -429,9 +434,6 @@ fi
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 #===================================================PART 3===========================================================
 message
-#menkööt toistaiseksi part3 kanssa (0403265)
-#common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain?
-
 #300526:part3() vissiin toimi, mutta miten CB0x - fktiot? nekin
 part3 ${d} ${pkgcache}
 
@@ -441,10 +443,10 @@ csleep 1
 
 #ehto tänään näin, huomenna taas toisin
 if [ "${CONF_env}" == "DEFAULT" ] ; then
-	#[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
+	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh
 
-	#TODO:TAAS kerran ffox-prof import/export - toiminnan varmistus, luultavasti export qsi taas
+	#TODO?:oikein pedantit tarkistukseT tähän if-blokkiin? ja importtiin kanssa koska kiukuttelut	
 	${d0}/import2.sh r ${d0} -v
 	echo $?
 	csleep 3
