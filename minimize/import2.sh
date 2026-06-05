@@ -63,6 +63,7 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	#130526:else-haara tarpeellinen joissain tilanteissa, ei poisteta
+	#TODO:viimeaikaisten sorkintojen takia tämä haara tulisi testata
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
@@ -78,22 +79,23 @@ else
 	fi
 
 	function check_binaries() {
-		echo "generic.replacement.4.check_bin"
+		dqb "imp2.check1"
+		odio="sudo" #TODO:tämä tivi uusiksi joskus
+		mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin? tpr() ainakin
+		srat=$(${odio} which tar)
+		srat="${odio} ${srat} "
+		som=$(${odio} which mount)
+		uom=$(${odio} which umount)
+		som="${odio} ${som}"
+		uom="${odio} ${uom}"
+		scm=$(${odio} which chmod)
+
 	}
 
 	function check_binaries2() {
 		echo "generic.replacement.4.check_bin2"
 	}
 
-	odio="sudo"
-	mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin? tpr() ainakin
-	srat=$(${odio} which tar)
-	srat="${odio} ${srat} "
-	som=$(${odio} which mount)
-	uom=$(${odio} which umount)
-	som="${odio} ${som}"
-	uom="${odio} ${uom}"
-	scm=$(${odio} which chmod)
 
 	function ocs() {
 		echo "ocs()))) ${1} ?"
@@ -159,10 +161,13 @@ else
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
+#TODO:turhia kommetteja tästäkin tdstosta wttuun
 dqb "ip2.m.Lpgqq"
 
 #HUOM.280426:käytetäänk tätä jossain? jep, ei vielä pois
 function cptp2() {
+	dqb "ip2m c tp2 ${1}, ${2}, ${3}"
+
 	[ -z "${1}" ] && echo 99
 	[ -d ${1} ] || exit 97
 
@@ -181,7 +186,7 @@ function cptp2() {
 		csleep 10
 
 		if [ -x ${t}/common_lib.sh ] ; then
-			enforce_access $(whoami) ${t}
+			enforce_access $(whoami) ${t} #${2} toka param turha?
 			csleep 10
 
 			dqb "1MP,2: running changedns.sh maY be necessary now to fix some things"
@@ -193,6 +198,8 @@ function cptp2() {
 		csleep 10
 	fi
 
+	csleep 1
+
 	if [ -d ${t} ] ; then
 		${scm} 0755 ${t}
 		${scm} 0555 ${t}/*.sh
@@ -201,6 +208,7 @@ function cptp2() {
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
+	csleep 1
 }
 
 dqb "HPL"
@@ -241,9 +249,8 @@ function tpr() {
 	[ $? -gt 0 ] && exit 19
 	dqb "INCLUDE OK"
 
-	local q
+	local q=$(${mkt} -d) #toimisiko näin?
 	local r
-	q=$(${mkt} -d) #toimisiko näin?
 	[ $? -gt 0 ] && exit 20
 
 	dqb "JUST BEFORE TAR ${1}/${2}"
@@ -267,10 +274,6 @@ function tpr() {
 	csleep 2
 }
 
-dqb "JUST B3F0RE 1ST CASE-BL0CK"
-csleep 2
-
-#130526:vaikutti toimivan tämä blokki (m itä nyut common_lib oikeudet ja gpg:n puute saattavat vähän sotkea, jokin muukin?)
 case "${mode}" in
 	-1) 
 		# "$0 -1 -v" , miten toimii? vissiin
@@ -330,11 +333,6 @@ dqb "m2pi.srcfile=${srcfile}"
 dqb "4th arra of..."
 csleep 5
 
-#HUOM.280426:jatkossa tämä skripti lienee turha sqroot-ympäristössä, voisi karsia siitä yuhdestä paketista
-#... paItsi että "$0 r"
-dqb "JUSTR BEFOERE 3SAC"
-csleep 2
-
 case "${mode}" in
 	1|0|3) #20526:ilmeinen bugi vihdoinkin korjattu
 		./sq-rot.sh ${mode} ${srcfile} -v
@@ -357,10 +355,6 @@ case "${mode}" in
 
 		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
 
-#		echo $?
-#		csleep 2
-#		echo "JUST VEFORE TPR"
-#		csleep 2
 
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 
