@@ -68,7 +68,7 @@ fi
 
 dqb "AFTER MUTILAT.10n"
 ls -las /etc/resolv*
-sleep 6
+csleep 6
 
 csleep 2
 ${fib}
