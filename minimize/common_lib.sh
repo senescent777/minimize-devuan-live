@@ -677,6 +677,10 @@ function check_binaries() {
 	E22_GS="${E22_GS} libgmp10 libisl23 libmpfr6 libmpc3 libzstd1 zlib1g"
 	E22_GS="${E22_GS} libstdc++6 libgomp1 cpp-12" #060426:tartteeko varsinaisen cpp:n kanssa?
 
+	#tämän siirto-> common_lib?
+	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
+
+
 	E22_GM="libc6 libselinux1"
 
 	E22_GM="${E22_GM} debianutils debconf liblocale-gettext-perl libtext-charwidth-perl libtext-iconv-perl libtext-wrapi18n-perl" # nfs-common

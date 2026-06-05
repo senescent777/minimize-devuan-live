@@ -60,7 +60,7 @@ else
 	exit 58
 fi
 
-[ -d  ${tgtfile} ] && exit 99
+[ -d  ${tgtfile} ] && exit 99 #P.V.H.H
 [ "${mode}" == "rp" ] || e22_hdr ${tgtfile} #P.V.H.H
 [ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta (josk jo takaisin)
 

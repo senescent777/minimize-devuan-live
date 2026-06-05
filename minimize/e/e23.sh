@@ -1,8 +1,7 @@
 #just_download_not_install-vipu olisi tietysti...
+#050626:turhia kommentteja tästäkin tdstosta vboisi poistaa, toisessakin oksassa
 
-
-#dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteeT keksitty
-function aswasw() { #privaatti fktio, tarkpoitus olla
+function aswasw() {
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
 	csleep 1
@@ -11,8 +10,7 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 		wlan0)
 			#E22:GN="libnl-3-200 ... "
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
-
+			
 			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
 			${shary} wpasupplicant
 		;;
@@ -21,7 +19,6 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 	esac
 }
 
-#280526:joko jo toimisi? ehkä
 function e23_tblz() {
 	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
 	csleep 1
@@ -46,9 +43,9 @@ function e23_tblz() {
 	csleep 1
 
 	${asy}
-	csleep 30
+	csleep 3
 
-	#actually necessary (riittäisikö 2 param kutsussa?)
+	#(riittäisikö 2 param kutsussa?)
 	e22_pre2 ${1} ${2}
 	other_horrors
 
@@ -62,19 +59,13 @@ function e23_other_pkgs() {
 
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
-
-	#${shary} ${E22_GS} #tämä oli jo kytsuvassa koodissa
 	csleep 1
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	${shary} ${E22_GI}
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	e22_pre_e ${E22_GG}
-
-	#tämän siirto-> common_lib?
-
-	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
-	e22_pre_e ${E23_GS}  #moni pak tarttee nämä
+	e22_pre_e ${E23_GS}
 
 	message
 	jules
@@ -99,23 +90,17 @@ function e23_other_pkgs() {
 	csleep 1
 }
 
-#äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
-#290526:vissiin saada aikaiseksi pakettia, jonka sisältö asentUI (tosin libgtk-narinaa)
 function e23_upgp() {
 	dqb " e23_upgp() "
 
 	${fib}
 	csleep 1
-
-	#LOPPUU SE PURPATUS PRKL
 	${shary} ${E22_GS}
 
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 
 	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
-	#csleep 1
-
 	dqb " e23_upgp() done"
 	csleep 1
 }
@@ -131,8 +116,6 @@ function e23_upgp2() {
 		;;
 		*)
 			${NKVD} ${1}/wpa*
-			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
-			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
 		;;
 	esac
 
@@ -149,11 +132,11 @@ function e23_qrs() {
 	[ -z "${2}" ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -z "${3}" ] && exit 44
-	#[ -f ${3} ] || exit 33
+
 	[ -z "${4}" ] && exit 43
-	#[ -f ${4} ] || exit 34
+
 	[ -z "${5}" ] && exit 43
-	#[ -f ${5} ] || exit 34
+
 
 	dqb "pars.0k"
 	csleep 1
@@ -162,7 +145,7 @@ function e23_qrs() {
 	${srat} -rvf ${1} ~/${3}
 	csleep 1
 
-	#tuleeko mukaan vai ei?
+
 	tar -tf ${1} | grep ${3} | wc -l
 	csleep 2
 
@@ -171,9 +154,7 @@ function e23_qrs() {
 	csleep 1
 
 	e22_settings ${2} ${4} ${5}
-	#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
 
-	#jospa ei hipsuja tähän find:iin
 	for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
 		${srat} -rvf ${1} ${f}
 	done
@@ -182,8 +163,6 @@ function e23_qrs() {
 	csleep 1
 }
 
-#29526:sai oikeastaan aikaiseksi paketin minkä sisältö ainakin osittain asentuu kun toistvasti renkkaa
-#30526:saattoi jo onnistua asentelu kiukuttelematta mutta voi tilanne muuttua q lisää sorkkii
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -201,10 +180,8 @@ function e23_dm() {
 		exit 666
 	fi
 
-	#jos ei ala muuten sujua ni ao riveistä mallia accept1:seen
 	
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
-	#[ $? -eq 0 ] || exit 54 #to state the obvious:initramfs-kikkailujen takia ei kande näin tehdä
 	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
 
 	${shary} libnuma1 libx265-199 libwraster6 libwings3
@@ -218,7 +195,6 @@ function e23_dm() {
 	csleep 10
 
 	${shary} libx11-6 libx11-xcb1 libx11-data libxext6 imagemagick-6-common libxmu6 libxmuu1 libgif7 libxpm4
-	#[ $? -eq 0 ] || exit 57 #jospa ei tämmöisiä tähän fktioon, tökkii
 	csleep 5
 
 	${shary} fontconfig fontconfig-config
@@ -246,22 +222,14 @@ function e23_dm() {
 	${shary} libxcursor1 libwutil5 man-db wmaker-common #libbz2-1.0
 	csleep 10
 	
-	# Depends:, libgcc-s1 (>= 3.0), libstdc++6 (>= 12)
-	# Depends:, libx11-6 (>= 2:1.6.0)
-	# Depends:), libicu72 (>= 72.1~rc-1~), liblzma5 (>= 5.1.1alpha+20120614), zlib1g (>= 1:1.2.3.3)
 	${shary} libicu72 libxfixes3 libxml2
 
-	# Depends:, libdrm2 (>= 2.4.75), libexpat1 (>= 2.0.1), libglapi-mesa (= 22.3.6-1+deb12u1), libx11-6 (>= 2:1.4.99.1), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0 (>= 1.13), libxcb-glx0 (>= 1.8), libxcb-present0, libxcb-randr0, libxcb-shm0, libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), libxext6, libxfixes3, libxshmfence1, libxxf86vm1, libgl1-mesa-dri
 
-	# Depends:, libpng16-16 (>= 1.6.2-1), libzvbi-common (= 0.2.41-1+deb12u1)
-	#
 
 	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
 
 
-	#
-
-	# Depends:, libgcc-s1 (>= 3.0), libstdc++6 (>= 11)
+	
 
 	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
 
@@ -302,8 +270,6 @@ function e23_dm() {
 
 #TODO:miten se Makefile-idea? kokeilisiko?
 
-
-#VAIH:param tarkistukset
 function e23_profs() {
 	dqb ";e23_profs) ${1} , ${2} , ${3} (()("
 	csleep 1
