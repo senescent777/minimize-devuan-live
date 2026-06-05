@@ -49,15 +49,12 @@ function parse_opts_2() {
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
 
-#DONE:/o/b alaiset sha-muutokkset (olisiko jo 28.5.25 tehty?)
-
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 	#[ $? -eq 0 ] || exit #tähänkö kosahtanut viime_aikoina?
 else
 	echo "W33P1NG UND3RR G4L4CTU5"
 	sleep 6
-	#cptp2 voisi lopuksi palauttaa x-oikeuden kirjastoon?
 	
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
@@ -86,23 +83,24 @@ else
 	}
 
 	function check_binaries() {
-		echo "fish.rot.1"
+		echo "rot13.check1"
 
 		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
-		scm=$(${odio} which chmod)	
-		[ -v CONF_algo ] || exit 77
+		scm=$(${odio} which chmod)
+	
+		[ -v CONF_algo ] || exit 666
 
 		case "${CONF_algo}" in
 			sha256)
 				sah6=$(${odio} which sha256sum)
 				ocs sha256sum
 			;;
-			sha512)
+			sha512) #TODO:toiseen oksaan tämä kanssa
 				sah6=$(${odio} which sha512sum)
 				ocs sha512sum
 			;;
 			*)
-				exit 99
+				exit 667
 			;;
 		esac
 
@@ -143,8 +141,9 @@ fi
 
 dqb "rot:AFTR common_lib"
 csleep 1
-[ -z "${distro}" ] && exit 26 #vähempikin tarkistelu riittäisi?
 [ -v CONF_env ] || exit 66
+
+[ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 
@@ -172,6 +171,7 @@ function pre() {
 
 		cd ${p}
 
+	#TODO:TURHIUA KOMMENTTEJA WTTUUN /(toisessa oksassa myös)
 	#gpg-tark kuitenkin ensin?
 	#090326:pitäisiköhän myös tämä tarkistus-osuus muuttaa fktioksi, ennen chroot-tark ?
 	#29526:josqs voisi kokeilla miten pre() toimii
@@ -256,6 +256,9 @@ else
 	exit 55
 fi
 
+dqb "sqr.aftr.check_par5"
+csleep 2
+
 #HUOM.lienee hyväksi siivota aiemmat tar:it kummittelemasta, tapahtuu skriptin lopussa kysymyksen takana
 #TODO:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
 
@@ -267,13 +270,15 @@ function common_part() {
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
 
-	[ -z "${2}"  ] && exit 11 # truhra parm? melkein
+	[ -z "${2}" ] && exit 11 # truhra parm? melkein
 	[ -d ${2} ] || exit 22
 	[ -d ${3} ] || exit 45
 	
 	[ "${1}" == "/" ] && exit 56
-	#DONE?:$1 kanssa lisätarkistuksia? koska NKVDm yöhemmin 
-	echo "paramz_0k" #260526:kiukuttelun takia ei dbq
+	[ -v CONF_hashfile ] || exit 98
+	[ -z "${CONF_hashfile}" ] && exit 99
+
+	dqb "paramz_0k"
 	csleep 1
 
 	cd /
@@ -441,9 +446,7 @@ case "${mode}" in
 		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est
 		common_part ${srcfile} ${d} /
 	;;
-	
-	#... tai sqrootissa oli menu- ja libw-pakettien asenynuksen kanssa pientä kiukuttelya, toistuuko?
-	#... exp2 rp vähän ritetty testailla 05/26
+	#... exp2 rp vähän yritetty testailla 05/26
 	0)
 		[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est
 		e="/"
@@ -456,19 +459,13 @@ case "${mode}" in
 
 		common_part ${srcfile} ${d} ${e}
 
-		#VAIH:kiukut6telut voisi poistaa (vai onko vielä moista 250626? vissiin)
-		#modaamattomalla kiekolla jos testaisi kanssa		
 		echo "sq.FART3: $?"
 		[ $? -eq 0 ] && ocs gpg
-		
-		#sleep 3
-		#exit 61
 
 		[ $? -eq 0 ] && part3 ${f}
 		[ $? -eq 0 ] && other_horrors
 	;;
 	3)
-		#140526 muutettu paikallinen ocs että stoppaa tarv
 		#TODO:e23_st() outputin asennus , kehitysymp
 		#TODO:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
 
