@@ -259,7 +259,6 @@ fi
 dqb "sqr.aftr.check_par5"
 csleep 2
 
-#HUOM.lienee hyväksi siivota aiemmat tar:it kummittelemasta, tapahtuu skriptin lopussa kysymyksen takana
 #TODO:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
 
 function common_part() {
@@ -381,7 +380,7 @@ function common_part() {
 	sleep 1
 	echo "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 	
-	#110526:vöib aiheuttaa nalkutusta jos odio ei asetettu
+	#110523:vöib aiheuttaa nalkutusta jos odio ei asetettu
 	sleep 1
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
@@ -413,7 +412,7 @@ function cptp2() {
 
 		if [ -x ${t}/common_lib.sh ] ; then
 			enforce_access $(whoami) ${t}
-			#TODO:tuota ao. tekstiä voisi varmaan päiuvittää koska x
+			#TODO:tesktiä joutunee muuttamaan			
 			dqb "TRO: running changedns.sh maY be necessary now to fix some things"
 		else
 			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
@@ -449,6 +448,7 @@ case "${mode}" in
 	#... exp2 rp vähän yritetty testailla 05/26
 	0)
 		[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est
+		
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
@@ -458,14 +458,15 @@ case "${mode}" in
 		sleep 6
 
 		common_part ${srcfile} ${d} ${e}
-
 		echo "sq.FART3: $?"
 		[ $? -eq 0 ] && ocs gpg
+
 
 		[ $? -eq 0 ] && part3 ${f}
 		[ $? -eq 0 ] && other_horrors
 	;;
 	3)
+
 		#TODO:e23_st() outputin asennus , kehitysymp
 		#TODO:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
 
