@@ -94,14 +94,12 @@ if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	sleep 1
 fi
 
-#VAIH:ao. riveihin muutoksia koska CONF_env tulosssa käyttöön
+#VAIH:ao. riveihin muutoksia koska CONF_env tulosssa käyttöön?
 if [ -z "${par3}" ] ; then
 	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .tar | grep -v .deb | grep -v .chroot | grep -v resolv)
 else
 	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep ${par3})
 fi
-
-#VAIH:tcmd:lle optioksi nuo pois grepattavat, --exclude
 
 for f in ${g} ; do
 	#echo "${f} :"
