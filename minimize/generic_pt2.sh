@@ -66,7 +66,7 @@ else
 	dqb "FAILURE TO MUTILATE: /etc/resolc. von f "
 fi
 
-dqb "BEYOND THE UNHOLY GRAVE"
+dqb "AFTER MUTILAT.10n"
 ls -las /etc/resolv*
 sleep 6
 
@@ -223,7 +223,6 @@ if [ ${mode} -gt 3 ] ; then
 	${fib}
 	${odio} /etc/init.d/ntpsec stop
 	echo "REMEMBER 2 /etc/init.d/wdm start";sleep 6
-
 	${sharpy} slim
 	csleep 5
 
