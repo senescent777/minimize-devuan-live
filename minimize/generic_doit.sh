@@ -31,14 +31,18 @@ function fallback() {
 	exit 111
 }
 
+echo "BFORE COMMON_LIB"
+sleep 6
+
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	[ ${debug} -gt 0 ] && ls -las ${d0}
-	exit 55
+	exit 55 #050626:tähänkö tökkäsi?
 fi
 
 [ $? -gt 0 ] && exit 56
+echo "AFTR COMMON_LIB"
 sleep 1
 
 #https://linuxopsys.com/use-dollar-at-in-bash-scripting
@@ -262,7 +266,7 @@ function pre_enforce() {
 	csleep 1
 	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 
-	if [ "${CONF_env}" == "DEFAULT" ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] ; then #050626:voi olla turha if koska x
 		if [ ! -d /opt/bin ] ; then
 			${smd} /opt/bin
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin

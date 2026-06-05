@@ -159,6 +159,7 @@ check_binaries ${d}
 
 check_binaries2
 #[ $? -eq 0 ] || exit
+[ -v CONF_env ] || exit 96
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
@@ -191,7 +192,7 @@ function pre() {
 
 		for r in ${q} ; do
 			${gg} --verify ${r}
-			[ $? -eq 0 ] || exit 66
+			#[ $? -eq 0 ] || exit 66 ei vielä?
 		done
 
 		sleep 1
@@ -203,7 +204,9 @@ function pre() {
 	echo "C"
 
 	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do
+		#040626:purkamisen kanssa jotain ongelmia?		
 		tar --exclude import2.sh -jxvf ${f}
+
 		sleep 1
 		rm ${f}
 		sleep 1

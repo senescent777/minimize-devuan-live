@@ -49,17 +49,19 @@ e_final
 e_h $(whoami) ${d0}
 
 echo "TODO:resolv-ULINAT PIKEMMINKIN ifup KANSSA 666!!!"
-csleep 20
+csleep 2
 
 #jos vaikka näin? ehkä tarttee jotain juttuja lisää
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 csleep 2
 
-#TODO:/o/b - jutut tarkistuksen taakse vai ei?
-${odio} /opt/bin/tlb.bash
-csleep 2
-${sco} 0:0 /opt/bin/*
-${scm} 0400 /opt/bin/zxcv*
+#VAIH:/o/b - jutut tarkistuksen taakse vai ei?
+if [ "${CONF_env}" == "DEFAULT" ] ; then
+	${odio} /opt/bin/tlb.bash
+	csleep 2
+	${sco} 0:0 /opt/bin/*
+	${scm} 0400 /opt/bin/zxcv*
+fi
 
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then		
 	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
