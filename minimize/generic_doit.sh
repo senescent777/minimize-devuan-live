@@ -77,24 +77,27 @@ function dis() {
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
 	dqb "aftr.int.faces"
 
-	if [ ! -z "${2}" ] ; then
-		#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
-		[ -z "${sifd}" ] && sifd=/sbin/ifdown
+	if [ -v CONF_iface ] ; then
+		if [ ! -z "${2}" ] ; then
+			#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
+			[ -z "${sifd}" ] && sifd=/sbin/ifdown
 
-		dqb "${odio} ${sifd} ${2}"	
-		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
+			dqb "${odio} ${sifd} ${2}"	
+			[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
 
-		csleep 1
+			csleep 1
 	
-		#${odio} ${sifd} -a
-		csleep 1
+			#${odio} ${sifd} -a
+			csleep 1
 
-		[ ${debug} -eq 1 ] && ${sifc};sleep 1
+			[ ${debug} -eq 1 ] && ${sifc};sleep 1
 	
-		${sip} link set ${2} down
-		[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+			${sip} link set ${2} down
+			[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+		fi
 	fi
-	
+
+	csleep 1
 	${odio} sysctl -p
 	csleep 1
 	dqb "d1s.d0n3"
@@ -196,6 +199,7 @@ function el_loco() {
 
 #140326:tarkkuutta peliin, ao. rivillä oli typo jnkn aikaa
 function adieu() {
+
 #	pidetäänpä nämä jutut kommenteissa sitä varten että saattuukin tarvitsemaan
 #
 #	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
@@ -213,11 +217,11 @@ function adieu() {
 
 	${whack} xfce4-session
 }
-
 #=====================================PART0=========================================================
 pkgcache=$(${mkt} -d)
-part0 ${distro} ${CONF_iface}
+part0 ${distro} ${CONF_iface} #?
 process_lib ${d} ${pkgcache}
+echo "AFTER PROCESS_LIB";sleep 1
 
 #==================================PART 1============================================================
 [ -v CONF_enforce ] || exit 99
@@ -256,7 +260,7 @@ function pre_enforce() {
 	csleep 1
 	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 
-	if [ "${CONF_env}" == "DEFAULT" ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] ; then #050626:voi olla turha if koska x
 		if [ ! -d /opt/bin ] ; then
 			${smd} /opt/bin
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
@@ -304,8 +308,8 @@ function pre_enforce() {
 	${svm} ${q} /etc/sudoers.d
 	csleep 1
 
-	local c4
-	c4=0
+	dqb "semtex"
+	local c4=0
 	csleep 1
 
 	#setup2 mennee vähän päällekkäin ytämän fktion kanssa toiminnallisesti
@@ -335,7 +339,7 @@ function pre_enforce() {
 	csleep 1
 }
 
-#250526:toka ehto ok? koita päättää
+#miten näidne pitäisi mennä? pre_enf ja enf  kutsumiset siis?
 if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
@@ -359,6 +363,7 @@ ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 #===================================================PART 2===================================
 #jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
 #TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
+
 c14=1
 c13=0
 
@@ -416,7 +421,7 @@ if [ "${CONF_env}" == "DEFAULT" ] ; then
 	#ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
 	c14=$(find ${d} -name "*.deb" | wc -l)
 
-	#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu (ehkä ok)
+	#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu
 	#... pitäisi kai nollaamisessa huomioida myös /.chroot
 	[ ${c14} -gt 0 ] || CONF_removepkgs=0
 fi
