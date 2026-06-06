@@ -319,11 +319,11 @@ function common_part() {
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "ko"		
 		else	
-			#ekan param lisätarkistukset yllä riittävät?
-			${NKVD} ${1}* 
-			${NKVD} ${2}/*.deb
-			${NKVD} ${2}/sha512sums*
-			${NKVD} ${2}/*.tar*
+			echo "SHOULD DO SOME NKVD-STUFF AROUND HERE"
+			#${NKVD} ${1}* 
+			#${NKVD} ${2}/*.deb
+			#${NKVD} ${2}/sha512sums*
+			#${NKVD} ${2}/*.tar*
 
 			exit 33
 		fi
@@ -333,7 +333,7 @@ function common_part() {
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 
 	#110523:vöib aiheuttaa nalkutusta jos odio ei asetettu
-	csleep 1
+	sleep 1
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
 
@@ -412,6 +412,7 @@ case "${mode}" in
 		echo "sq.FART3: $?"
 		[ $? -eq 0 ] && ocs gpg
 		
+
 		[ $? -eq 0 ] && part3 ${f}
 		[ $? -eq 0 ] && other_horrors
 	;;
