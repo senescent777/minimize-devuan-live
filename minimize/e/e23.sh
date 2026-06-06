@@ -26,7 +26,7 @@ function e23_tblz() {
 	[ -d ${1} ] || exit 15
 	[ -z "${2}" ] && exit 12
 	[ -z "${3}" ] && exit 13
-	[ -z "${4}" ] && exit 14 #HUOM.tämän trapeellisuus?
+	[ -z "${4}" ] && exit 14 #HUOM.tämän tARpeellisuus?
 
 	${fib}
 	${asy}
@@ -34,7 +34,7 @@ function e23_tblz() {
 
 	#message() tähän?
 	tpc7
-	#jotain excaliburiin liittyvää tuo tpc
+	#jotain excaliburiin liittyvää
 
 	echo "aswasw $1 vai $2 ? "
 	sleep 10
@@ -48,8 +48,10 @@ function e23_tblz() {
 	csleep 1
 
 	${asy}
-	#actually necessary (2 param kutsussa sopisi riittää)
-	e22_pre2  ${1} ${2}
+	csleep 3
+
+	#(riittäisikö 2 param kutsussa?)
+	e22_pre2 ${1} ${2}
 	other_horrors
 
 	dqb "e23_tblz()"
@@ -62,7 +64,6 @@ function e23_other_pkgs() {
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
 
-	#${shary} ${E22_GS} #tämä oli jo kutsuvassa koodissa
 	csleep 1
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
@@ -97,6 +98,7 @@ function e23_other_pkgs() {
 
 function e23_upgp() {
 	dqb " e23_upgp() "
+
 	${fib}
 	csleep 1
 
@@ -178,8 +180,8 @@ function e23_dm() {
 	csleep 2
 
 	${fib}
-	${shary} ${E22_GS}
-	${shary} ${E22_GM}
+	e22_pre_e ${E22_GS}
+	e22_pre_e ${E22_GM}
 	csleep 5
 
 	if [ "${1}" == "wdm" ] ; then
@@ -230,7 +232,8 @@ function e23_dm() {
 	csleep 10
 
 	${shary} libicu72 libxfixes3 libxml2
-	csleep 5
+	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
+	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
 
 	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
 	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
@@ -268,6 +271,8 @@ function e23_dm() {
 	dqb "e23_dm( done (((("
 	csleep 1
 }
+
+#TODO:miten se Makefile-idea? kokeilisiko?
 
 function e23_profs() {
 	dqb ";e23_profs) ${1} , ${2} , ${3} (()("

@@ -8,9 +8,6 @@ if [ ! -v CONF_pubk ] ; then
 	[ "${CONF_env}" == "VED" ] && b=${CONF_testgris}
 	a=$(${odio} find ${b} -type f -name "keys.conf" | head -n 1)
 
-	#dqb "a= ${a}"
-	#csleep 10
-
 	if [ ! -z "${a}" ] ; then
 		if [ -s ${a} ] ; then
 			. ${a}
@@ -90,7 +87,49 @@ function e22_ftr() {
 	cd ${p}
 }
 
-#TODO:se aqsp() prujaaminen tähän?
+#VAIH:se aqsp() prujaaminen tähän?
+
+#100526:return-kikkailu ei toiminut? "echo-tavassakin" on juttuja huomioitavana
+#... joku päivä jos maistuisi selvittää tuo "bash function retuRn value"-juttu että onnnaako vai ei?
+
+function aqsp() {
+	dqb "aqsp ${1} ; "
+	[ -z "${1}" ] && exit 97
+	[ -d ${1} ] || exit 96
+	local rv=0
+
+	if [ -v gg ] ; then #else-haarat takaisin josqs, ehkä
+		if [ -s ${1}/${CONF_hashfile}.sig ] ; then #eka ehto omalle rivilleen ja sit jhotain
+			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
+				${gg} --verify ${1}/${CONF_hashfile}.sig
+				rv=$?
+			fi
+		fi
+	fi
+
+	if [ -s ${1}/${CONF_hashfile} ] && [ -x ${sah6} ] && [ ${rv} -eq 0 ] ; then
+		local p=$(pwd)
+		cd ${1}
+
+		${sah6} -c ${CONF_hashfile} --ignore-missing
+		rv=$?
+		cd ${p}
+	else
+		rv=93
+	fi
+
+	dqb "rv= ${rv}"
+
+	if [ ${rv} -gt 0 ] ; then #toistaiseksi sqap() hoitamaan poistot
+		dqb "SMTHNG WENT WR09NG"	
+		${NKVD} ./*.deb 
+		${NKVD} ./${CONF_hashfile}*
+		${NKVD} ./*.tar
+	fi
+
+	dqb "aqsp  DONE"
+}
+
 #TODO:miten dblockin kanssa?
 
 function e22_pre1() {
@@ -339,7 +378,22 @@ function e22_acol() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#TODO:e22_pre_e() toisesta oksasta
+#VAIH:e22_pre_e() toisesta oksasta
+
+function e22_pre_e() {
+	local p
+	local q
+
+	if [ "${CONF_iface}" == "eth0:1" ] ; then
+		for p in $@ ; do
+			q=$(echo ${p} | grep -v dhcp)
+			[ -z "${q}" ] || ${shary} ${q}
+		done
+	else
+		for p in $@ ; do ${shary} ${p} ; done
+	fi
+}
+
 
 function e22_ext() {
 	dqb "e22_ext()"
@@ -414,7 +468,7 @@ function e22_ext() {
 	${sco} -R root:root ./sbin 
 	${scm} -R a-w ./sbin
 
-	${srat} -rvf ${1} ./etc ./sbin
+	${srat} -rvf ${1} ./etc ./sbin #jälkimmäinen hmisto takaisin 28526
 	echo $?
 
 	echo "#VAIH:suorityuksen keskeytys jos resolv.conf.jotain puuttuu"
