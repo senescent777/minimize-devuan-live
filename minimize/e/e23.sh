@@ -1,6 +1,5 @@
 #just_download_not_install-vipu olisi tietysti...
 
-
 function aswasw() {
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
@@ -19,15 +18,13 @@ function aswasw() {
 	esac
 }
 
+#TODO:vissiin muistettava toisessa oksassa katsoa kuinka monta param tälle fktiolle siellä menee
 function e23_tblz() {
 	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
 	[ -z "${2}" ] && exit 12
-
-	dqb "params maybe ok"
-	csleep 1
 
 	${fib}
 	${asy}
@@ -43,7 +40,7 @@ function e23_tblz() {
 	csleep 1
 
 	${asy}
-	csleep 30
+	csleep 3
 
 	#(riittäisikö 2 param kutsussa?)
 	e22_pre2 ${1} ${2}
@@ -163,6 +160,7 @@ function e23_qrs() {
 	csleep 1
 }
 
+#pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -223,15 +221,8 @@ function e23_dm() {
 	csleep 10
 	
 	${shary} libicu72 libxfixes3 libxml2
-
-
-
 	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
-
-
-
 	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
-
 	${shary} libpam-runtime
 	csleep 10
 
