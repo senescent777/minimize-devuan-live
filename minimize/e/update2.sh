@@ -84,7 +84,7 @@ if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	sleep 1
 fi
 
-#VAIH:ao. riveihin muutoksia? koska CONF_env tulosssa käyttöön
+#ao. riveihin muutoksia? koska CONF_env tulosssa käyttöön
 if [ -z "${par3}" ] ; then
 	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .tar | grep -v .deb | grep -v .chroot | grep -v resolv)
 else
