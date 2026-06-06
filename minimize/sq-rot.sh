@@ -245,6 +245,8 @@ function common_part() {
 	[ -d ${3} ] || exit 45
 	
 	[ "${1}" == "/" ] && exit 56
+	[ -v CONF_hashfile ] || exit 98
+	[ -z "${CONF_hashfile}" ] && exit 99
 	echo "paramz_0k"
 	csleep 1
 
