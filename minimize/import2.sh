@@ -61,6 +61,7 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	#130526:else-haara tarpeellinen joissain tilanteissa, ei poisteta
+	#TODO:testaapa uusiksi josqs
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
@@ -77,13 +78,7 @@ else
 
 	function check_binaries() {
 		echo "generic.replacement.4.check_bin"
-	}
-
-	function check_binaries2() {
-		echo "generic.replacement.4.check_bin2"
-	}
-
-	odio="sudo"
+			#odio="sudo"
 	mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin? tpr() ainakin
 	srat=$(${odio} which tar)
 	srat="${odio} ${srat} "
@@ -92,6 +87,13 @@ else
 	som="${odio} ${som}"
 	uom="${odio} ${uom}"
 	scm=$(${odio} which chmod)
+	}
+
+	function check_binaries2() {
+		echo "generic.replacement.4.check_bin2"
+	}
+
+
 
 	function ocs() {
 		echo "ocs()))) ${1} ?"
