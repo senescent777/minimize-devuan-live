@@ -26,30 +26,30 @@ function usage() {
 
 #"$0 1 tgtfile -v" - ajankohtainen 06/26?
 
-function parse_opts_1() {
-	dqb "rot.parse_opts_1() ${1} ((()"
-
-	if [ "${mode}" == "-2" ] ; then
-		dqb "å"
-		mode=${1}
-	fi
-}
-
+#function parse_opts_1() {
+#	dqb "rot.parse_opts_1() ${1} ((()"
+#
+#	if [ "${mode}" == "-2" ] ; then
+#		dqb "å"
+#		mode=${1}
+#	fi
+#}
+#
 #TODO:PARSETUS-HOMMAT UUSIKSI FRÅM SCRATCH
-function parse_opts_2() {
-	dqb "fish.rot.parseopts_2 )) ${1} ; ${2} (("
-
-	if [ -f ${2} ] || [ -d ${2} ] ; then
-		dqb "a"
-		if [ -z "${srcfile}" ] ; then
-			dqb "b"
-			if [ "${2}" != "-v" ] ; then
-				dqb "srcfile=${2}"			
-				srcfile=${2}
-			fi
-		fi
-	fi
-}
+#function parse_opts_2() {
+#	dqb "fish.rot.parseopts_2 )) ${1} ; ${2} (("
+#
+#	if [ -f ${2} ] || [ -d ${2} ] ; then
+#		dqb "a"
+#		if [ -z "${srcfile}" ] ; then
+#			dqb "b"
+#			if [ "${2}" != "-v" ] ; then
+#				dqb "srcfile=${2}"			
+#				srcfile=${2}
+#			fi
+#		fi
+#	fi
+#}
 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
@@ -240,6 +240,7 @@ fi
 
 dqb "sqr.aftr.check_par5"
 csleep 2
+
 #TODO:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
 
 function common_part() {
@@ -250,7 +251,7 @@ function common_part() {
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
 
-	[ -z "${2}"  ] && exit 11
+	[ -z "${2}" ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -d ${3} ] || exit 45
 
