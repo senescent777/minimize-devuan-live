@@ -110,6 +110,8 @@ function part0() {
 	local s
 	dqb "смерть шпионам"
 
+	#ehkä nuo komennot jotain tekevät mutta xfce4-session näkyy edelleen pgrepillä
+
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
 	${whack} ssh-agent*
@@ -275,8 +277,8 @@ function pre_enforce() {
 	${svm} ${q} /etc/sudoers.d
 	csleep 1
 
-	local c4
-	c4=0
+	dqb "semtex"
+	local c4=0
 	csleep 1
 
 	if [ -v CONF_dir ] ; then
