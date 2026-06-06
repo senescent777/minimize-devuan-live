@@ -6,9 +6,6 @@ d0=$(pwd)
 debug=0 #1
 d=${d0}/${distro} 
 
-#020426:uudelleen_nimeäminen josqs tämän hmistomn tdstoille?
-#240526:vissiin toimii sudon kautta ok tämä skripti
-
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
 		dqb "asdfasd.asdfgh"
@@ -45,10 +42,6 @@ fi
 echo "AFTR COMMON_LIB"
 sleep 1
 
-#https://linuxopsys.com/use-dollar-at-in-bash-scripting
-#https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
-
-#240526:tämä aiheutti paljon nalkutusta kehitysymp
 function dis() {
 	dqb "sid $1 ;; $2 ((((("
 	[ -z "${1}" ] && exit 44
@@ -120,15 +113,7 @@ function part0() {
 	dis ${1} ${2}
 	local s
 	dqb "смерть шпионам"
-
-	#https://docs.xfce.org/xfce/xfce4-session/advanced
-	#https://superuser.com/questions/1222663/how-do-i-use-combine-ssh-agent-forwarding-and-xfce4
-	#https://forum.manjaro.org/t/how-to-disable-ssh-agent-autostart/89404
-	
 	dqb "#VAIH:jospa kokeilisi vähitellen miten xfquery-komennot vaikuttavat? (270426)"
-	#... meneekö sinne config.tar.bz2 asti muutokset esim?
-	#140526:vissiin tdstoon xfce4-session.xml menee tieto että agentit sammuksiin mutta	
-	#x-session-manager saattaa liittyä jtnkn
 
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
@@ -154,8 +139,6 @@ function part0() {
 	${snt}
 }
 
-#150326:miten /proc/cmdline:n lokaaliasetukset vs /e/d/l ja tämän ao. kikkareen jutut
-
 function el_loco() {
 	dqb "el_loco ))${1} ; ${2}((((("
 	csleep 1
@@ -175,14 +158,10 @@ function el_loco() {
 		fasdfasd /etc/default/locale
 		csleep 1
 
-		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
-		#env vai locale minkä oksennukset tdstoon? vissiin env
-
 		env | grep LC >> /etc/default/locale
 		env | grep LAN >> /etc/default/locale
 
 		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
-		#jos riittäisi 10 riviä
 		csleep 1
 
 		cat /etc/timezone
@@ -215,8 +194,6 @@ function adieu() {
 #	csleep 1
 #	ls -las /dev/tty?
 #	csleep 5
-#210126:joskohan toimisi ilman näitä kikkailuja?
-#	#väärä tapa pakottaa uudelleen_kirjautuminen?
 
 	${whack} xfce4-session
 }
@@ -238,8 +215,6 @@ if [ -s ~/xorg.conf.new ] ; then
 		reqwreqw /etc/X11/xorg.conf
 	fi
 fi
-
-#HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan?
 
 function pre_enforce() {
 	dqb "pre_enforce() "
@@ -273,10 +248,7 @@ function pre_enforce() {
 		fi
 	
 		if [ -d ${1}/opt/bin ] ; then
-			#tämä mv ok?
 			${svm} ${1}/opt/bin/*.bash /opt/bin
-			#090326.2:miten /o/b/zxcv ?
-			#/o/b oikeudet ja omistajat tulisi jossain asettaa
 		fi
 	fi
 
@@ -284,10 +256,6 @@ function pre_enforce() {
 
 	# "semmoinen juttu" 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
-		#1. tämä blokki kai eniten aiheuttaisi ongelmia sqroot-ympstössä?
-		#2. o/b sisällön oikeuksia/omistajia varten taisi olla e_final
-		#3. changedns.vash: pientä yritystä hukata (exp2 ja update2)
-
 		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q}
 		done
@@ -300,7 +268,6 @@ function pre_enforce() {
 		reqwreqw ${q}
 		${scm} 0440 ${q}
 
-		#tämä mv ok?
 		${svm} ${q} /etc/sudoers.d
 		CB_LIST1=""
 		unset CB_LIST1
@@ -318,7 +285,6 @@ function pre_enforce() {
 	local c4=0
 	csleep 1
 	
-	#setup2 mennee vähän päällekkäin ytämän fktion kanssa toiminnallisesti
 	if [ -v CONF_dir ] ; then
 		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
 	else
@@ -326,8 +292,6 @@ function pre_enforce() {
 	fi
 
 	csleep 1
-	#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
-	#VAIH:setup2sessa kokeeksi fstab-kikkailut kommentteihin
 
 	if [ ${c4} -lt 1 ] ; then
 		csleep 1
@@ -372,9 +336,6 @@ csleep 1
 ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 
 #===================================================PART 2===================================
-#jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
-#TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
-
 c14=1
 c13=0
 
@@ -382,7 +343,7 @@ if [ ${mode} -gt 1 ] ; then
 	#nollasta ei tarttisi välittää koska exit aiempana
 	if [ -v LCF666 ] ; then
 		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l)
-		 #barm vuoksi näin
+		#barm vuoksi näin
 		[ $c13 -gt 0 ] && c14=0
 	
 		#profit
@@ -391,12 +352,8 @@ if [ ${mode} -gt 1 ] ; then
 	fi
 fi
 
-#josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta? kokeillaan
 el_loco ${c14} ${c13}
-#250526:c13 vai jokin muu mikä aiheuttaa lokaalien generoinnin?
-
 #=========================================================================================
-#1§405426:vissiin "mode 1"-kiukuttelut toistaiseksi ohi kehitysympstössä
 
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	${odio} passwd
@@ -410,7 +367,6 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 		#HUOM. tässä ei tartte exit jos myöhemmin joka tap
 	fi
 
-	#VAIH:jos C_env== VED ni common_lib +  root.conf omistajaksi root, jälkimmäisen saa vain omistaja lukea, tälle tdstolle vain ajo-oikeus kaikille
 	if [ "${CONF_env}" == "VED" ] ; then
 		#... aka "hands off" (qhan omega)
 		${sco} 0:0 ${d0}/*.conf
@@ -428,11 +384,9 @@ fi
 pre_part2
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
-	#ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
+	#ntp-muutokset tarpeellisia tuossa fktiossa vai ei?
 	c14=$(find ${d} -name "*.deb" | wc -l)
 
-	#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu
-	#... pitäisi kai nollaamisessa huomioida myös /.chroot
 	[ ${c14} -gt 0 ] || CONF_removepkgs=0
 fi
 
@@ -440,9 +394,6 @@ part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 
 #===================================================PART 3===========================================================
 message
-
-#menkööt toistaiseksi part3 kanssa (0403265)
-#common_lib.cwfgh() suhteen pitäisi nimittäin tehdä jotain?
 
 part3 ${d} ${pkgcache}
 other_horrors
@@ -475,8 +426,6 @@ ${scm} 0400 /opt/bin/zxcv*
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
 fi
-
-#ifup nykyään muuttelee tables-sääntöjä yhdellä jekulla joten ei erikseen tartte käskyttää...
 
 ${sipt} -L
 csleep 1

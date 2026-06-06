@@ -51,7 +51,7 @@ sleep 1
 t=$(pwd)
 
 echo "#TODO:tunaroinnin varalta lähteestä vkopio ennenq alkaa process_row() hakata"
-#VAIH:ja sitten oli se "resolv.conf"-juttukin ed. liittyen?
+#resolv-jutut jo kunnossqa 067/26?
 
 if [ "${CONF_env}" == "VED" ] && [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	echo "YLIULIULI asb asb ABC"
@@ -69,7 +69,6 @@ else
 	cd /
 fi
 
-#tämä wttuun josqs? vai ei?
 xo="*.tar --exclude .chroot --exclude *.deb --exclude changedns.* "
 
 if [ "${CONF_env}" != "DEFAULT" ]; then
@@ -81,22 +80,20 @@ function process_row() {
 	${tcmd} --exclude "${xo}" -rvf ${1} ${2}
 }
 
-#"merd2 vbain kerrabn" nykyään hoidettu e22.sh kautta
-
 if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb > ${d0}/MAN1.F2ST
 	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
 	sleep 1
 fi
 
-#VAIH:ao. riveihin muutoksia koska CONF_env tulosssa käyttöön?
+#ao. riveihin muutoksia koska CONF_env tulosssa käyttöön?
 if [ -z "${par3}" ] ; then
 	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .tar | grep -v .deb | grep -v .chroot | grep -v resolv)
 else
 	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep ${par3})
 fi
 
-#VAIH:tcmd:lle optioksi nuo pois grepattavat, --exclude
+#tcmd:lle optioksi nuo pois grepattavat, --exclude, olisiko jo?
 
 for f in ${g} ; do
 	#echo "${f} :"
@@ -111,5 +108,5 @@ for f in ${g} ; do
 	#sleep 1
 done
 
-#jotat ehtisi synkata 
+#jotta ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4

@@ -152,7 +152,7 @@ function e22_pre2() {
 function e22_cleanpkgs() {
 	dqb "e22_cleanpkgs()"
 	[ -z "${1}" ] && exit 56
-	#TODO?:lisää tarkistuksia tähän?
+	#lisää tarkistuksia tähän?
 
 	if [ -d ${1} ] ; then
 		${smr} ${1}/*.deb
@@ -281,7 +281,7 @@ function e22_acol() {
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
-	#[ -w ${1} ] || exit 9
+
 	[ -z "${2}" ] && exit 2
 	[ -z "${3}" ] && exit 3		
 	[ -z "${4}" ] && exit 5
@@ -483,7 +483,7 @@ function e22_arch() {
 
 	cd ${2}
 	${sah6} ./*.deb > ./${CONF_hashfile}
-	#TODO:olds piti viossiin saada grepattua pois tiusta aölta
+	#TODO:olds piti vissiin saada grepattua pois tuosta alta
 
 	for f in $(find . -type f -name "*pkgs*") ; do
 		[ ${3} -eq 1 ] && ${srat} -rvf ${1} ${f}
@@ -641,9 +641,9 @@ sleep 6
 
 function e22_sarram() {
 	dqb "e22_sarram()"
-	#[ -z "${1}" ] && exit 1
+
 	[ -s ${1} ] || exit 4 
-	#[ -w ${1} ] || exit 9
+
 	[ -z "${2}" ] && exit 11
 	[ -z "${3}" ] && exit 13
 	[ -s ${3} ] || exit 17

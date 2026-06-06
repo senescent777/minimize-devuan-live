@@ -115,7 +115,6 @@ else
 		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount?
 	}
 
-
 	function other_horrors() {
 		dqb "AZATH0TH AND OTHER H0RR0RR55.6"
 	}
@@ -125,8 +124,6 @@ else
 		which ${1}
 		echo "==================="
 	}
-
-	
 
 	#barm vuokxi
 	function enforce_access() {
@@ -374,14 +371,12 @@ fi
 dqb "IPM2.mode=${mode}"
 dqb "2ipm.distro=${distro}"
 dqb "m2pi.srcfile=${srcfile}"
+dqb "4th arra of..."
 csleep 5
 
 case "${mode}" in
 	1|0|3) #20526:ilmeinen bugi vihdoinkin korjattu
 		./sq-rot.sh ${mode} ${srcfile} -v
-		#dqb $?
-		#dqb "2IMP: 	AFTR S.Q.R"
-		#csleep 10
 	;; 
 	r)
 		dqb "NT R"
@@ -434,7 +429,6 @@ esac
 
 cptp2 ${d}
 cd ${olddir}
-#ettei umount unohdu 
 
 if [ -v part ] || [ -v CONF_dir ] ; then
 	echo "REMEMBER 2 UNM0UNT TH3S3:"
@@ -443,4 +437,3 @@ if [ -v part ] || [ -v CONF_dir ] ; then
 fi
 
 ${scm} 0555 $0
-#HUOM.290925: tämän skriptin pitäisi kuvakkeen kanssa löytyä filesystem.squashfs sisältä (no löytyykö?)

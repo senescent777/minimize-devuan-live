@@ -1,6 +1,5 @@
-#fktioksi tmä ni ei tartte globaalien mjien kanssa sählätä?
+#fktioksi ao. blokki ni ei tartte globaalien mjien kanssa sählätä?
 
-#VAIH:ROOT.CONF (esim linkittämällä)
 if [ -s ${d0}/$(whoami).conf ] ; then
 	#pitäisikö olla eri conf toisen repon skriptien kautta mentäessä?
 	echo "ALT.C0NF1G (. ${d0}/$(whoami).con )"
@@ -454,7 +453,6 @@ if [ $? -eq 0 ] ; then
 fi
 }
 
-#vaih:seuraavana pois komm
 #TODO:sqroot-ympäristön pkaettivalikoiman päivitys, mm. gpg_poistuu:syistä
 function CB01() {
 	dqb "common.lib.CB01( ${1} (( ${2} )"
@@ -547,13 +545,13 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	E22_GS="gcc-12-base libgcc-s1 libc6" 
-	
+	E22_GS="gcc-12-base libgcc-s1 libc6" 	
 	E22_GS="${E22_GS} libgmp10 libisl23 libmpfr6 libmpc3 libzstd1 zlib1g"
 	E22_GS="${E22_GS} libstdc++6 libgomp1 cpp-12"
 
+	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
+	
 	E22_GM="libc6 libselinux1"
-
 	E22_GM="${E22_GM} debianutils debconf liblocale-gettext-perl libtext-charwidth-perl libtext-iconv-perl libtext-wrapi18n-perl" # nfs-common
 	E22_GM="${E22_GM} debconf-i18n libelf1 libbpf1 " #zlib1,libc6
 	E22_GM="${E22_GM} libmnl0 libxtables12 " # oikeastaanm jo toisissakin jutussa mukana
@@ -818,7 +816,7 @@ function e_final() {
 	#exit
 }
 
-function e_h() { #VAIH:seur tämä pois kommenteista
+function e_h() {
 	dqb "EH ((( ${1} ;; ((( ${2} ))(((((("
 	[ -z "${1}" ] && exit 98
 	[ -d ${2} ] || exit 99
@@ -1089,7 +1087,6 @@ function part1() {
 	dqb "FOUR-LEGGED WH0R3"
 }
 
-#VAIH:seur. tämä pois kommenteista
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
 	csleep 6
@@ -1178,49 +1175,51 @@ function part2() {
 	dqb "PART2.5 d0ne"
 	csleep 1
 }
-#
-#function wopr() {
-#	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
-#	local r=$(find ${1} -type f -name "${2}*.deb" )
-#
-#	for s in ${r} ; do
-#		case "${3}" in
-#			reject_pkgs)
-#				${NKVD} ${s}
-#			;;
-#			accept_pkgs_1|accept_pkgs_2)
-#				efk1 ${s}
-#			;;
-#			*)
-#				exit 99
-#			;;
-#		esac
-#	done
-#
-#	csleep 1
-#}
-#
-#function common_lib_tool() {
-#	dqb "common_lib_tool( ${1}  ; ${2} )))) "
-#	[ -d ${1} ] || exit 66
-#	[ -z "${2}" ] && exit 67
-#	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSing f ILE"
-#
-#	dqb "WILL START PR0C3551NG TGTs NOW"
-#	csleep 1
-#	local q
-#
-#	for q in $(grep -v "#" ${1}/${2}) ; do
-#		dqb "outer; ${q}"
-#		wopr ${1} ${q} ${2}
-#
-#		if [ ${debug} -eq 1 ] ; then
-#			ls -las ${1}/${q}* | wc -l
-#		fi
-#	done
-#
-#	dqb "t00l DONE"
-#}
+
+#poistettu komm 050626,toimii:
+function wopr() {
+	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
+	local r=$(find ${1} -type f -name "${2}*.deb" )
+
+	for s in ${r} ; do
+		case "${3}" in
+			reject_pkgs)
+				${NKVD} ${s}
+			;;
+			accept_pkgs_1|accept_pkgs_2)
+				efk1 ${s}
+			;;
+			*)
+				exit 99
+			;;
+		esac
+	done
+
+	csleep 1
+}
+
+#poistettu komm 050626,toimii:
+function common_lib_tool() {
+	dqb "common_lib_tool( ${1}  ; ${2} )))) "
+	[ -d ${1} ] || exit 66
+	[ -z "${2}" ] && exit 67
+	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSing f ILE"
+
+	dqb "WILL START PR0C3551NG TGTs NOW"
+	csleep 1
+	local q
+
+	for q in $(grep -v "#" ${1}/${2}) ; do
+		dqb "outer; ${q}"
+		wopr ${1} ${q} ${2}
+
+		if [ ${debug} -eq 1 ] ; then
+			ls -las ${1}/${q}* | wc -l
+		fi
+	done
+
+	dqb "t00l DONE"
+}
 #function cg_udp6() {
 #	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
 #	csleep 1
@@ -1258,16 +1257,9 @@ function part2() {
 #	csleep 2
 #	dqb "d0n3"
 #}
-#
-#
-##160126:g.tar liittyvää kikkailua jatkossa? sittenkin check_bin() alta g-jutut -> cefgh()?
-##140326:libfortran-urputuksille j os tekisijojo tain?
-##libatomic1 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
-## libgfortran5 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
-### libquadmath0 : Depends: gcc-12-base (= 12.2.0-14) but 12.2.0-14+deb12u1 is installed
-###... jospa nyt aluksi selvittäisi mikä näitä tarvitsee?
-#
-function part3() { #VAIH:seur tämä pois kommenteista
+
+
+function part3() {
 	dqb "))() part3 ${1} ,((()()()()()( ${2} (((((((("
 	csleep 1
 

@@ -53,8 +53,6 @@ function parse_opts_1() {
 #			fi
 #		;;
 	esac
-
-	#290326:jspa tu case-esac esim. toimisi?
 }
 
 function parse_opts_2() {
@@ -135,10 +133,8 @@ dqb "ESAC1"
 csleep 1
 [ -d ${d0}/${tgtfile} ] && exit 64
 
-#-h pysähtyy ennen tätä riviä?
 e22_hdr ${tgtfile}
-#[ -v CONF_iface ] && ${sifd} ${CONF_iface} #tsoiatsieskei jhemmaan, renkkaaminen wtuttaa
-#jokin varmistus vielä että iface alhaalla?
+[ -v CONF_iface ] && ${sifd} ${CONF_iface} 
 
 #HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
 e22_pre1 ${d} ${distro}
@@ -168,9 +164,8 @@ case "${mode}" in
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
-
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy? eli 3. ehto tuohon alle?
-		#TODO:vastaava rivi toisessa oksassa, korjaa
+	
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
 			#TODO:se jokin rekursiojuttu näille main? (kts toinen oksa)
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
@@ -190,7 +185,6 @@ case "${mode}" in
 		z2 /opt/bin/zxcv
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
-	#30526:vissiin toisessa oksassa tämä case toimi	
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
@@ -250,6 +244,7 @@ case "${mode}" in
 #		e23_xyz
 #	;;
 	s)
+		#TODO:tämän testaus? siis sittenq kopsattu toisesta oksasta tuo fktio
 		e23_st
 	;;
 	*)
@@ -259,7 +254,6 @@ case "${mode}" in
 		echo "d0= ${d0}"
 		echo "dirname= $(dirname $0)"
 
-		#ensimmäisellä yrityksellä ei toiminut, uudestaan joku päivä
 		${d0}/export3.bash ${mode} ${tgtfile} -v
 		exit
 	;;

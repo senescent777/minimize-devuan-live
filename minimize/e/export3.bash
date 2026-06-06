@@ -63,7 +63,7 @@ fi
 [ -d  ${tgtfile} ] && exit 99 #P.V.H.H
 e22_hdr ${tgtfile}
 [ "${mode}" == "rp" ] || e22_hdr ${tgtfile} #P.V.H.H
-[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta (josk jo takaisin)
+[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 case "${mode}" in
 	rp) #VAIH:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms
@@ -79,10 +79,7 @@ case "${mode}" in
 		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
 	q)
-		#100526 vissiin osasi paketin tehdä toivottavalla sisällöllä
 		#VAIH:uusi testi käyntiiin (kelvollinen tuotos?/masentuuko se?/menevätkö liittyvät tdstot kohdearkistoon?/yms)
-		#vissiin se exportointi/import nimenomaan g_doit kautta ongelma
-
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
@@ -93,7 +90,6 @@ case "${mode}" in
 
 		#ei näin, kts cde() nykyinen sisältö
 		#bzip2 -c -z ${tgtfile}.tmp > ${tgtfile}
-
 	;;
 	p)
 		[ -v CONF_default_arhcive3 ] || exit 66

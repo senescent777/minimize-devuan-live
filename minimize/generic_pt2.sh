@@ -9,11 +9,11 @@ mode=3
 #VAIH:oma moodi slimin poisToa varten?
 
 function parse_opts_1() {
-	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
+	if [ -d ${d0}/${1} ] ; then
 		echo "#distro=${1}"
 	else
 		case  "${1}" in
-			0|1|2|3) #varsinainen numeerisuustarkistus olisi parempi?
+			0|1|2|3)
 				mode=${1}
 			;;
 			*)
@@ -48,14 +48,12 @@ csleep 2
 e_final
 e_h $(whoami) ${d0}
 
-echo "TODO:resolv-ULINAT PIKEMMINKIN ifup KANSSA 666!!!"
+#echo "resolv-ULINAT PIKEMMINKIN ifup KANSSA 666!!!"
 csleep 2
 
-#jos vaikka näin? ehkä tarttee jotain juttuja lisää
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 csleep 2
 
-#VAIH:/o/b - jutut tarkistuksen taakse vai ei?
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${odio} /opt/bin/tlb.bash
 	csleep 2
@@ -82,7 +80,7 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-#VAIH:ehto uusiksi?
+#050626:hyvä näin vaiko ehto uusiksi TAAS?
 if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then 
 	dqb "kö"
 	TLA
@@ -190,10 +188,8 @@ function t2pf() {
 	${NKVD} /tmp/*.tar
 	${smr} -rf /tmp/tmp.*
 
-	#rikkookohan jotain nykyään? eipäkai
 	${smr} -rf /usr/share/doc 
 
-	#fiksumpaa olisi kai muutella import2:ssa vastaava kohta
 	${NKVD} /OLD.tar
 	csleep 1
 	${srat} -cvf /OLD.tar /etc/X11 #TARKKUUTTA PRKL
@@ -224,7 +220,7 @@ t2pf ${d}
 #140526:minimalin pakettilista kopsattu .txt-tiedostoon
 
 if [ ${mode} -gt 3 ] ; then
-	#slimiin liittyen olk muitakin juttuja?
+	#slimiin liittyen oli muitakin juttuja?
 	${fib}
 	${odio} /etc/init.d/ntpsec stop
 	echo "REMEMBER 2 /etc/init.d/wdm start";sleep 6
@@ -299,7 +295,7 @@ echo "BELLvM C0NTRA HUMAN1TAT3M"
 csleep 1
 ${scm} 0555 ${d0}/common_lib.sh 
 
-#tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
+#tämäntyyppiselle if-blokille? voisi tehdä fktion jos mahd
 dqb "${whack} xfce4-session 1n ... s3c5"
 sleep 1
 ${whack} xfce4-session #toimiiko tämä?

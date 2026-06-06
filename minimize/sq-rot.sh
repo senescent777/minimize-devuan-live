@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0
+debug=1 #kunnes parsetyus kunnossa
 srcfile=""
 
 distro=$(cat /etc/devuan_version)
@@ -24,31 +24,33 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-#VAIH:"$0 1 tgtfile -v" - ajankohtainen 06/26?
+#"$0 1 tgtfile -v" - ajankohtainen 06/26?
 
 function parse_opts_1() {
 	dqb "rot.parse_opts_1() ${1} ((()"
 
 	if [ "${mode}" == "-2" ] ; then
+		dqb "å"
 		mode=${1}
 	fi
 }
 
+#TODO:PARSETUS-HOMMAT UUSIKSI FRÅM SCRATCH
 function parse_opts_2() {
-	dqb "fidh.rot.parseopts_2 )) ${1} ; ${2} (("
+	dqb "fish.rot.parseopts_2 )) ${1} ; ${2} (("
 
 	if [ -f ${2} ] || [ -d ${2} ] ; then
+		dqb "a"
 		if [ -z "${srcfile}" ] ; then
-			if [ "${2}" != "-v" ] ; then			
+			dqb "b"
+			if [ "${2}" != "-v" ] ; then
+				dqb "srcfile=${2}"			
 				srcfile=${2}
 			fi
 		fi
 	fi
 }
 
-#020626:olisko jo pre() - kohta prujattu?
-
-#resolv.conf vielä ongelma 0305-> ? 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
 #tuossa yllä tosin turhahko ls
@@ -94,7 +96,8 @@ else
 			sah6=$(${odio} which sha256sum)
 		;;
 		sha512)
-			echo "SHOULD OCS sha512"
+			ocs sha512sum
+			sah6=$(${odio} which sha512sum)
 		;;
 		*)
 			exit 667
@@ -219,7 +222,7 @@ function pre() {
 		fi
 	fi
 }
-	pre
+	
 fi
 
 [ -z "${srcfile}" ] && exit 44
@@ -247,7 +250,7 @@ function common_part() {
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
 
-	[ -z "${2}"  ] && exit 11 # truhra parm (110426)
+	[ -z "${2}"  ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -d ${3} ] || exit 45
 
@@ -409,7 +412,6 @@ case "${mode}" in
 		echo "sq.FART3: $?"
 		[ $? -eq 0 ] && ocs gpg
 		
-		
 		[ $? -eq 0 ] && part3 ${f}
 		[ $? -eq 0 ] && other_horrors
 	;;
@@ -426,6 +428,9 @@ case "${mode}" in
 	;;
 	k)
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
+
+		#050636:kokeeksi näin
+		[ "${CONF_env}" == "TOOR" ] && pre
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
