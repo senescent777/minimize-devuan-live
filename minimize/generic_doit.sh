@@ -80,8 +80,8 @@ function dis() {
 
 	if [ -v CONF_iface ] ; then
 		if [ ! -z "${2}" ] ; then
-			#TODO?:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
-			sifd=/sbin/ifdowm ?
+			#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
+			[ -z "${sifd}" ] && sifd=/sbin/ifdown
 			dqb "${odio} ${sifd} ${2}"	
 			csleep 1
 			[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
@@ -113,8 +113,9 @@ function part0() {
 	dis ${1} ${2}
 	local s
 	dqb "смерть шпионам"
-	dqb "#VAIH:jospa kokeilisi vähitellen miten xfquery-komennot vaikuttavat? (270426)"
-
+		
+	#ehkä nuo komennot jotain tekevät mutta xfce4-session näkyy edelleen pgrepillä
+	
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
 	${whack} ssh-agent*
@@ -157,6 +158,9 @@ function el_loco() {
 		${svm} /etc/default/locale /etc/default/locale.ÅLD
 		fasdfasd /etc/default/locale
 		csleep 1
+
+		#TODO:pitäisi kai kutsuvassa koodissa huomioida LCF666 vs env vs /e/d/locale
+		#.. siis onko huomoioitu kunnolla 3 eri lähdettä asetuksille vaiko ei?
 
 		env | grep LC >> /etc/default/locale
 		env | grep LAN >> /etc/default/locale
