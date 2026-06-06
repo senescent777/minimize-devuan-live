@@ -225,7 +225,6 @@ function cptp2() {
 		if [ -x ${t}/common_lib.sh ] ; then
 			enforce_access $(whoami) ${t} #${2} toka param turha?
 			csleep 10
-
 			#TODO:ao. tesktin muuttaminen
 			dqb "1MP,2: running changedns.sh maY be necessary now to fix some things"
 		else
