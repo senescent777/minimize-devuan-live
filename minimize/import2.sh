@@ -173,8 +173,8 @@ function cptp2() {
 			enforce_access $(whoami) ${t}
 			csleep 10
 
-			#TODO:teskti.uusiksi
-			dqb "1MP,2: running changedns.sh maY be necessary now to fix some things"
+			#DONE:teskti.uusiksi
+			dqb "1MP,2: running mutilatetc.bash maY be necessary now to fix some things"
 		else
 			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
 		fi
