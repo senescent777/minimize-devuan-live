@@ -931,97 +931,97 @@ function e_h() {
 	csleep 1
 }
 
-#TODO:tämä fktio pois koska g_doit
-function pre_enforce() {
-	dqb "pre_enforce() "
-	[ -z "${1}" ] && exit 98
-	[ -d ${1} ] || exit 97
-	[ -v mkt ] || exit 99
-	dqb "pars_ok"
-	csleep 1
-
-	local q
-	local f
-	q=$(${mkt} -d)
-	q=${q}/meshuqqah
-	csleep 1
-	fasdfasd ${q}
-	[ ${debug} -eq 1 ] && ls -las ${q}
-	csleep 1
-
-	[ -f ${q} ] || exit 33
-	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
-
-	dqb "BFOR3 testgris"
-	csleep 1
-
-	if [ "${CONF_env}" == "DEFAULT" ] && [ ! -d /opt/bin ] ; then
-		${smd} /opt/bin
-		[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
-	fi
-
-	if [ "${CONF_env}" == "DEFAULT" ] ; then
-		if [ -d ${1}/opt/bin ] ; then
-			${svm} ${1}/opt/bin/*.bash /opt/bin
-		fi
-	fi
-
-	e_final
-
-	if [ "${CONF_env}" == "DEFAULT" ] ; then
-
-		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
-			mangle_s ${f} ${q}
-		done
-	fi
-
-	csleep 1
-
-	if [ -s ${q} ] ; then
-		csleep 1
-		reqwreqw ${q}
-		${scm} 0440 ${q}
-
-		#tämä mv ok?
-		${svm} ${q} /etc/sudoers.d
-		CB_LIST1=""
-		unset CB_LIST1
-	fi
-
-	q=$(${mkt})
-	fasdfasd ${q}
-	dinf ${q}
-	reqwreqw ${q}
-	${scm} 0440 ${q}
-	${svm} ${q} /etc/sudoers.d
-	csleep 1
-
-	local c4
-	c4=0
-	csleep 1
-	if [ -v CONF_dir ] ; then
-		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
-	else
-		exit 99
-	fi
-
-	csleep 1
-
-	if [ ${c4} -lt 1 ] ; then
-		csleep 1
-		${scm} a+w /etc/fstab
-		csleep 1
-		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
-		csleep 1
-		${scm} a-w /etc/fstab
-		csleep 1
-		[ ${debug} -eq 1 ] && cat /etc/fstab
-		csleep 1
-	fi
-
-	dqb "pre_enforce() done"
-	csleep 1
-}
+#VAIH:tämä fktio pois koska g_doit
+#function pre_enforce() {
+#	dqb "pre_enforce() "
+#	[ -z "${1}" ] && exit 98
+#	[ -d ${1} ] || exit 97
+#	[ -v mkt ] || exit 99
+#	dqb "pars_ok"
+#	csleep 1
+#
+#	local q
+#	local f
+#	q=$(${mkt} -d)
+#	q=${q}/meshuqqah
+#	csleep 1
+#	fasdfasd ${q}
+#	[ ${debug} -eq 1 ] && ls -las ${q}
+#	csleep 1
+#
+#	[ -f ${q} ] || exit 33
+#	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
+#
+#	dqb "BFOR3 testgris"
+#	csleep 1
+#
+#	if [ "${CONF_env}" == "DEFAULT" ] && [ ! -d /opt/bin ] ; then
+#		${smd} /opt/bin
+#		[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
+#	fi
+#
+#	if [ "${CONF_env}" == "DEFAULT" ] ; then
+#		if [ -d ${1}/opt/bin ] ; then
+#			${svm} ${1}/opt/bin/*.bash /opt/bin
+#		fi
+#	fi
+#
+#	e_final
+#
+#	if [ "${CONF_env}" == "DEFAULT" ] ; then
+#
+#		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
+#			mangle_s ${f} ${q}
+#		done
+#	fi
+#
+#	csleep 1
+#
+#	if [ -s ${q} ] ; then
+#		csleep 1
+#		reqwreqw ${q}
+#		${scm} 0440 ${q}
+#
+#		#tämä mv ok?
+#		${svm} ${q} /etc/sudoers.d
+#		CB_LIST1=""
+#		unset CB_LIST1
+#	fi
+#
+#	q=$(${mkt})
+#	fasdfasd ${q}
+#	dinf ${q}
+#	reqwreqw ${q}
+#	${scm} 0440 ${q}
+#	${svm} ${q} /etc/sudoers.d
+#	csleep 1
+#
+#	local c4
+#	c4=0
+#	csleep 1
+#	if [ -v CONF_dir ] ; then
+#		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
+#	else
+#		exit 99
+#	fi
+#
+#	csleep 1
+#
+#	if [ ${c4} -lt 1 ] ; then
+#		csleep 1
+#		${scm} a+w /etc/fstab
+#		csleep 1
+#		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
+#		csleep 1
+#		${scm} a-w /etc/fstab
+#		csleep 1
+#		[ ${debug} -eq 1 ] && cat /etc/fstab
+#		csleep 1
+#	fi
+#
+#	dqb "pre_enforce() done"
+#	csleep 1
+#}
 
 function mangle2() {
 	[ -z  "${1}" ] && exit 99
