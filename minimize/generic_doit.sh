@@ -72,7 +72,8 @@ function dis() {
 
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
 	dqb "aftr.int.faces"
-
+	
+	#if [ -v CONF_iface ] ; then #tarpeen nykyään?
 	if [ ! -z "${2}" ] ; then
 		#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
 		[ -z "${sifd}" ] && sifd=/sbin/ifdown
@@ -90,6 +91,7 @@ function dis() {
 		${sip} link set ${2} down
 		[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 	fi
+	#fi
 	
 	${odio} sysctl -p
 	csleep 1
@@ -107,15 +109,6 @@ function part0() {
 	dis ${1} ${2}
 	local s
 	dqb "смерть шпионам"
-
-	#https://docs.xfce.org/xfce/xfce4-session/advanced
-	#https://superuser.com/questions/1222663/how-do-i-use-combine-ssh-agent-forwarding-and-xfce4
-	#https://forum.manjaro.org/t/how-to-disable-ssh-agent-autostart/89404
-	
-	dqb "#VAIH:jospa kokeilisi vähitellen miten xfquery-komennot vaikuttavat? (270426)"
-	#... meneekö sinne config.tar.bz2 asti muutokset esim?
-	#140526:vissiin tdstoon xfce4-session.xml menee tieto että agentit sammuksiin mutta	
-	#x-session-manager saattaa liittyä jtnkn
 
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
@@ -397,7 +390,7 @@ csleep 1
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh
 
-	#TODO:TAAS kerran ffox-prof import/export - toiminnan varmistus, luultavasti export qsi taas
+	#TODO:tämän kanssa jotain?
 	${d0}/import2.sh r ${d0} -v
 	echo $?
 	csleep 3
