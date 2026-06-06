@@ -240,7 +240,7 @@ function common_part() {
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
 
-	[ -z "${2}"  ] && exit 11 # truhra parm? melkein
+	[ -z "${2}" ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -d ${3} ] || exit 45
 	
@@ -365,8 +365,8 @@ function cptp2() {
 
 		if [ -x ${t}/common_lib.sh ] ; then
 			enforce_access $(whoami) ${t}
-			#TODO:tuota ao. tekstiä voisi varmaan päiuvittää koska x
-			dqb "TRO: running changedns.sh maY be necessary now to fix some things"
+			#VAIH:tuota ao. tekstiä voisi varmaan päiuvittää koska x
+			dqb "TRO: running mutilatetc.bash maY be necessary now to fix some things"
 		else
 			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
 		fi
