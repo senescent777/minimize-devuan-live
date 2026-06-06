@@ -50,10 +50,12 @@ e_h $(whoami) ${d0}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 csleep 2
 
-${odio} /opt/bin/tlb.bash
-csleep 2
-${sco} 0:0 /opt/bin/*
-${scm} 0400 /opt/bin/zxcv*
+if [ "${CONF_env}" == "DEFAULT" ] ; then
+	${odio} /opt/bin/tlb.bash
+	csleep 2
+	${sco} 0:0 /opt/bin/*
+	${scm} 0400 /opt/bin/zxcv*
+fi
 
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then		
 	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
@@ -201,6 +203,10 @@ t2pf ${d}
 [ ${mode} -eq 2 ] && exit
 
 if [ ${mode} -gt 3 ] ; then
+	#slimiin liittyen olk muitakin juttuja?
+	${fib}
+	${odio} /etc/init.d/ntpsec stop
+	echo "REMEMBER 2 /etc/init.d/wdm start";sleep 6
 	${sharpy} slim
 	csleep 5
 
