@@ -49,11 +49,10 @@ else
 fi
 
 [ -z "${distro}" ] && exit 6
-#d=${d0}/${distro} #nykyään vähän turha tässä
 process_lib ${d}
 
 if [ -x ${d0}/e/e22.sh ] ; then
-	.  ${d0}/e/e22.sh #tässä jotain vikaa vikaa? toiv ei
+	.  ${d0}/e/e22.sh
 	.  ${d0}/e/e23.sh
 else
 	echo "NO BACKEND FOUND"
@@ -61,12 +60,12 @@ else
 fi
 
 [ -d  ${tgtfile} ] && exit 99 #P.V.H.H
-[ "${mode}" == "rp" ] || e22_hdr ${tgtfile} #P.V.H.H
-[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta (josk jo takaisin)
+[ "${mode}" == "rp" ] || e22_hdr ${tgtfile}
+[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 case "${mode}" in
-	rp) #VAIH:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms
-		#siirtynee koodia casen ja fktion välillä vielä
+	rp)
+
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 
@@ -76,7 +75,8 @@ case "${mode}" in
 		c=$(tar -tf ${tgtfile} | grep f.tar | grep -v '.sha' | head -n 1)
 		t=/
 
-		if [ ! -z "${c}" ] ; then	
+		if [ ! -z "${c}" ] ; then
+			#TODO:tämän kanssa jotain?	
 			if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 				t=${CONF_testgris} 
 			fi
@@ -92,8 +92,6 @@ case "${mode}" in
 		${svm} ${d}/f.tar ${d}/f.tar.OLD
 		csleep 5
 	
-		##e22_rpg ${d}/f.tar ${d} ${t} ${gbk}	#VAIH:lottoa parametrit (tai koko fktio) kohdalleen	
-		##miten dblock() käskytys? voisi käyttää jotain tmp-hmistoa minne dumpata f.tar sisältö	
 		e22_arch ${d}/f.tar ${d} ${gbk}
 
 		if [ ! -z "${c}" ] ; then
@@ -111,13 +109,14 @@ case "${mode}" in
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
+
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	c)
-		#tämä kohta uusiksi tässä oksassa kanssa?
 		e22_cde ${tgtfile} ${d0} ${distro}
-		
-		#bzip2 -c -z ${tgtfile}.tmp > ${tgtfile}
+		mv ${tgtfile} ${tgtfile}.tmp
+		bzip2 -c -z ${tgtfile}.tmp > ${tgtfile}
+		[ $? -eq 0 ] && ${NKVD} ${tgtfile}.tmp
 	;;
 	p)
 		[ -v CONF_default_arhcive3 ] || exit 66

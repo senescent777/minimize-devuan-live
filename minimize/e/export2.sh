@@ -23,7 +23,7 @@ function usage() {
 	echo "$0 -h: shows tHis message about usage"
 }
 
-#VAIH:jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
+#jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
 #... jospa ensin export3:sen kanssa kokeilut ja sitttten
 
 if [ $# -gt 1 ] ; then
@@ -33,9 +33,6 @@ else
 	usage
 	exit 1	
 fi
-
-#"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
-#290426:parse_fktioiden siirto e22:seen olisi 1 idea, tosin siitä seurannee paljon säätöä
 
 function parse_opts_1() {
 	dqb "parse_opts_1( ${1})"
@@ -53,8 +50,6 @@ function parse_opts_1() {
 #			fi
 #		;;
 	esac
-
-	#290326:jspa tu case-esac esim. toimisi?
 }
 
 function parse_opts_2() {
@@ -65,7 +60,6 @@ function parse_opts_2() {
 			mop=${2}
 		;;
 #		*)
-#			#
 #			if [ "${mode}" == "-2" ] ; then
 #				mode=${1}
 #				tgtfile=${2}
@@ -76,17 +70,15 @@ function parse_opts_2() {
 	esac
 }
 
-#parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
 function fallback() { #tarpeellinen?
 	exit 59
 }
 
-if [ -x ${d0}/common_lib.sh ] ; then #200426:on edelleen tarpeellinen kirjasto
+if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#johdonmukaisuus virhekoodeissa olisi tietty kiva
 	exit 57
 fi
 
@@ -95,7 +87,6 @@ d=${d0}/${distro} #nykyään vähän turha tässä
 process_lib ${d}
 mop=${CONF_dm} 
 
-#suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 dqb "BEF0RE T1G N0R MKTMP"
 sleep 1
 
@@ -112,7 +103,6 @@ fi
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
 
-#vrt. toisen repon setup2
 E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	
 if [ -x ${d0}/e/e22.sh ] ; then
@@ -128,19 +118,15 @@ else
 	exit 58
 fi
 
-#https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 [ -z "${tgtfile}" ] && exit 98
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
 csleep 1
 [ -d ${d0}/${tgtfile} ] && exit 64
 
-#-h pysähtyy ennen tätä riviä?
 e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
-#jokin varmistus vielä että iface alhaalla?
 
-#HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
@@ -161,8 +147,10 @@ case "${mode}" in
 		exit 97
 	;;
 	3|4) 
+		
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
 		#VAIH:turhia kommentteja wttuun sotkemasta
+
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
 
@@ -171,7 +159,8 @@ case "${mode}" in
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
-			#TODO:se jokin rekursiojuttu näille main?
+			#TODO:e.tar-kikkailu -> other_pkgs() syystä gpg puuttuu
+			#... rekursion kanssa jos vaikka tekisi
 
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
@@ -203,7 +192,6 @@ case "${mode}" in
 	e) 
 		e22_pre_e ${E22_GS}
 		e22_pre_e ${E22_GM}
-
 		csleep 3
 		message
 		csleep 2
@@ -219,7 +207,6 @@ case "${mode}" in
 		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 	;;
 	g)
-		#VAIH:bissiin git mukaan tähänkin prkl?
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 
@@ -256,6 +243,7 @@ case "${mode}" in
 	;;
 esac
 
+#tuossa alla vielä jotain laittoa?
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
 

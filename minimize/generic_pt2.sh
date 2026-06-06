@@ -8,11 +8,11 @@ d=${d0}/${distro}
 mode=3
 
 function parse_opts_1() {
-	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
+	if [ -d ${d0}/${1} ] ; then
 		echo "#distro=${1}"
 	else
 		case  "${1}" in
-			0|1|2|3) #varsinainen numeerisuustarkistus olisi parempi?
+			0|1|2|3)
 				mode=${1}
 			;;
 			*)
@@ -44,21 +44,16 @@ dqb "BEFORE L1B"
 process_lib ${d}
 csleep 2
 
-#250426 final takaisin kommenteista jotta mutilatetc varmasti toimisi
 e_final
 e_h $(whoami) ${d0}
 
-#jos vaikka näin? ehkä tarttee jotain juttuja lisää
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 csleep 2
 
-#VAIH:/o/b - jutut tarkistuksen taakse vai ei?
-if [ "${CONF_env}" == "DEFAULT" ] ; then
-	${odio} /opt/bin/tlb.bash
-	csleep 2
-	${sco} 0:0 /opt/bin/*
-	${scm} 0400 /opt/bin/zxcv*
-fi
+${odio} /opt/bin/tlb.bash
+csleep 2
+${sco} 0:0 /opt/bin/*
+${scm} 0400 /opt/bin/zxcv*
 
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then		
 	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
@@ -66,9 +61,9 @@ else
 	dqb "FAILURE TO MUTILATE: /etc/resolc. von f "
 fi
 
-dqb "AFTER MUTILAT.10n"
+dqb "BEYOND THE UNHOLY GRAVE"
 ls -las /etc/resolv*
-csleep 6
+sleep 10
 
 csleep 2
 ${fib}
@@ -79,8 +74,7 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-#VAIH:ehto uusiksi?
-if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then
+if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
 	dqb "kö"
 	TLA
 else
@@ -96,7 +90,7 @@ function t2p_filler() {
 }
 
 ##140526 edelleen tarpeellinen blokki, puuttuvat paketit $d alla aiheuttavat? TODO:joko jo pois 06/26?
-#if [ -f /.chroot ] ; then
+#if [ "${CONF_env}" == "TOOR" ] ; then
 #	${sharpy} blu*
 #	${sharpy} nfs*
 #	${sharpy} rpc*
@@ -112,7 +106,6 @@ function t2p_filler() {
 #	#exit
 #fi
 
-#110526:josko nyt poistuisi?
 if [ "${CONF_iface}" != "wlan0" ] ; then
 	${sharpy} wpa*
 	#etc alaiset wpa-jutut voisi hoidella myös rm-komennolla?
@@ -132,7 +125,6 @@ function p2g() {
 	local g
 	local h
 
-	#jatkossa jos yhdistelisi common_lib_tool kanssa... paitsi että
 	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
 		dqb "SOON: \${sharpy} ${f}* "
 		csleep 1
@@ -150,17 +142,12 @@ function p2g() {
 	csleep 1
 }
 
-#VAIH:selvitä missä kohtaa gpg poistuu nykyään, koita saada epä-poistumaan
-#mode:n kanssa kikkailut voivat auttaa selvityksessä
-#
-#	#libgtk3 ei poistu, libgtk4 kyllä
-#
-#	if [ -f /.chroot ] ; then
+
+#	if [  "${CONF_env}" == "TOOR"] ; then
 #		dqb "SHOULD \${sharpy} slim* "
 #		csleep 1
 #
-#		#26226:/e/d/network saattaisi olla toimivampi idea kuin se aiempi tässä
-#
+
 #		dqb "t2p_filler()"
 #		csleep 1
 #
@@ -173,7 +160,6 @@ function p2g() {
 #		dqb "WOULD: A.I.C"
 #		csleep 1
 #	fi
-#
 
 function t2pf() {
 	dqb "gp2t.common_lib.T2P.FINAL( ${1} )"
@@ -185,10 +171,8 @@ function t2pf() {
 	${NKVD} /tmp/*.tar
 	${smr} -rf /tmp/tmp.*
 
-	#rikkookohan jotain nykyään? eipäkai
 	${smr} -rf /usr/share/doc 
 
-	#fiksumpaa olisi kai muutella import2:ssa vastaava kohta
 	${NKVD} /OLD.tar
 	csleep 1
 	${srat} -cvf /OLD.tar /etc/X11 #TARKKUUTTA PRKL
@@ -216,13 +200,7 @@ t2pf ${d}
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 2 ] && exit
 
-#140526:minimalin pakettilista kopsattu .txt-tiedostoon
-
 if [ ${mode} -gt 3 ] ; then
-	#slimiin liittyen olk muitakin juttuja?
-	${fib}
-	${odio} /etc/init.d/ntpsec stop
-	echo "REMEMBER 2 /etc/init.d/wdm start";sleep 6
 	${sharpy} slim
 	csleep 5
 
@@ -280,8 +258,6 @@ if [ ${mode} -gt 3 ] ; then
 #
 #	${sharpy} transmission ttyrec w2do
 #	csleep 5
-
-#VAIH:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että... (JOKO JO?)
 
 #	${sharpy} w3m wamerican wavemon
 #	csleep 5

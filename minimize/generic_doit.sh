@@ -6,7 +6,7 @@ d0=$(pwd)
 debug=0 #1
 d=${d0}/${distro} 
 
-#020426:uudelleen_nimeäminen josqs tämän hmistomn tdstoille?
+#020426:uudelleen_nimeäminen josqs tämän hmiston tdstoille?
 
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
@@ -34,7 +34,7 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	[ ${debug} -gt 0 ] && ls -las ${d0}
-	exit 55 #050626:tähänkö tökkäsi?
+	exit 55
 fi
 
 [ $? -gt 0 ] && exit 56
@@ -73,31 +73,29 @@ function dis() {
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
 	dqb "aftr.int.faces"
 
-	if [ -v CONF_iface ] ; then
-		if [ ! -z "${2}" ] ; then
-			#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
-			[ -z "${sifd}" ] && sifd=/sbin/ifdown
-			dqb "${odio} ${sifd} ${2}"
-			csleep 1	
-			[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
-		
-			#${odio} ${sifd} -a
-			csleep 1
+	if [ ! -z "${2}" ] ; then
+		#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
+		[ -z "${sifd}" ] && sifd=/sbin/ifdown
 
-			[ ${debug} -eq 1 ] && ${sifc};sleep 1
+		dqb "${odio} ${sifd} ${2}"	
+		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
+
+		csleep 1
 	
-			${sip} link set ${2} down
-			[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
-		fi
-	fi
+		#${odio} ${sifd} -a
+		csleep 1
 
-	csleep 1
+		[ ${debug} -eq 1 ] && ${sifc};sleep 1
+	
+		${sip} link set ${2} down
+		[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
+	fi
+	
 	${odio} sysctl -p
 	csleep 1
 	dqb "d1s.d0n3"
 }
 
-#TODO:toisessakin oksassa turhia kommentteja sotkemasta
 function part0() {
 	dqb "part0)))( ${1} ;; ${2})(((((("
 	[ -z "${1}" ] && exit 76
@@ -109,15 +107,21 @@ function part0() {
 	dis ${1} ${2}
 	local s
 	dqb "смерть шпионам"
-		
-	#ehkä nuo komennot jotain tekevät mutta xfce4-session näkyy edelleen pgrepillä
+
+	#https://docs.xfce.org/xfce/xfce4-session/advanced
+	#https://superuser.com/questions/1222663/how-do-i-use-combine-ssh-agent-forwarding-and-xfce4
+	#https://forum.manjaro.org/t/how-to-disable-ssh-agent-autostart/89404
+	
+	dqb "#VAIH:jospa kokeilisi vähitellen miten xfquery-komennot vaikuttavat? (270426)"
+	#... meneekö sinne config.tar.bz2 asti muutokset esim?
+	#140526:vissiin tdstoon xfce4-session.xml menee tieto että agentit sammuksiin mutta	
+	#x-session-manager saattaa liittyä jtnkn
+
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
 	${whack} ssh-agent*
 
-	csleep 5
-	dqb "H4RV35TER 0F 50RR0W"
-	csleep 1
+	#2804236:josko ssh-agentin sisältävän paketin voisi poistaa?
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
@@ -162,7 +166,6 @@ function el_loco() {
 		env | grep LAN >> /etc/default/locale
 
 		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
-		#jos riittäisi 10 riviä
 		csleep 1
 
 		cat /etc/timezone
@@ -181,9 +184,7 @@ function el_loco() {
 	fi
 }
 
-#140326:tarkkuutta peliin, ao. rivillä oli typo jnkn aikaa
 function adieu() {
-
 #	pidetäänpä nämä jutut kommenteissa sitä varten että saattuukin tarvitsemaan
 #
 #	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
@@ -196,21 +197,17 @@ function adieu() {
 #	csleep 1
 #	ls -las /dev/tty?
 #	csleep 5
-#210126:joskohan toimisi ilman näitä kikkailuja?
 #	#väärä tapa pakottaa uudelleen_kirjautuminen?
 
 	${whack} xfce4-session
 }
+
 #=====================================PART0=========================================================
 pkgcache=$(${mkt} -d)
-part0 ${distro} ${CONF_iface} #?
+part0 ${distro} ${CONF_iface}
 process_lib ${d} ${pkgcache}
-echo "AFTER PROCESS_LIB";sleep 1
 
 #==================================PART 1============================================================
-dqb "mode= ${mode}"
-dqb "debug= ${debug}"
-#enfor vai env?
 [ -v CONF_enforce ] || exit 99
 
 if [ -s ~/xorg.conf.new ] ; then
@@ -219,8 +216,6 @@ if [ -s ~/xorg.conf.new ] ; then
 		reqwreqw /etc/X11/xorg.conf
 	fi
 fi
-
-#HUOM. voisi jaksaa ajatella sitäkin että /e/s.d alaisen tdston nimen_muutos vaikuttaa myös g_doit toimintaan?
 
 function pre_enforce() {
 	dqb "pre_enforce() "
@@ -247,17 +242,14 @@ function pre_enforce() {
 	csleep 1
 	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 
-	if [ "${CONF_env}" == "DEFAULT" ] ; then #050626:voi olla turha if koska x
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		if [ ! -d /opt/bin ] ; then
 			${smd} /opt/bin
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
 		fi
 
 		if [ -d ${1}/opt/bin ] ; then
-			#tämä mv ok?
 			${svm} ${1}/opt/bin/*.bash /opt/bin
-			#090326.2:miten /o/b/zxcv ?
-			#/o/b oikeudet ja omistajat tulisi jossain asettaa
 		fi
 	fi
 
@@ -265,10 +257,6 @@ function pre_enforce() {
 
 	# "semmoinen juttu" 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
-		#1. tämä blokki kai eniten aiheuttaisi ongelmia sqroot-ympstössä?
-		#2. o/b sisällön oikeuksia/omistajia varten taisi olla e_final
-		#3. changedns.vash: pientä yritystä hukata (exp2 ja update2)
-
 		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q}
 		done
@@ -281,7 +269,6 @@ function pre_enforce() {
 		reqwreqw ${q}
 		${scm} 0440 ${q}
 
-		#tämä mv ok?
 		${svm} ${q} /etc/sudoers.d
 		CB_LIST1=""
 		unset CB_LIST1
@@ -295,11 +282,10 @@ function pre_enforce() {
 	${svm} ${q} /etc/sudoers.d
 	csleep 1
 
-	dqb "semtex"
-	local c4=0
+	local c4
+	c4=0
 	csleep 1
 
-	#setup2 mennee vähän päällekkäin ytämän fktion kanssa toiminnallisesti
 	if [ -v CONF_dir ] ; then
 		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
 	else
@@ -307,8 +293,6 @@ function pre_enforce() {
 	fi
 
 	csleep 1
-	#HUOM.261125:typot hyvä pitää minimissä konf-fileissä
-	#VAIH:setup2sessa kokeeksi fstab-kikkailut kommentteihin
 
 	if [ ${c4} -lt 1 ] ; then
 		csleep 1
@@ -326,7 +310,6 @@ function pre_enforce() {
 	csleep 1
 }
 
-#miten näidne pitäisi mennä? pre_enf ja enf  kutsumiset siis?
 if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
@@ -334,7 +317,7 @@ else
 	pre_enforce ${d0}
 fi
 
-if [ "${CONF_env}" != "DEFAULT" ] ; then #240526:saattaa muuttua vielä, nyt näin nalkutuksen minimoinnin takia
+if [ "${CONF_env}" != "DEFAULT" ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
@@ -348,9 +331,6 @@ ${snt}
 ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 
 #===================================================PART 2===================================
-#jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
-#TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
-
 c14=1
 c13=0
 
@@ -368,11 +348,7 @@ fi
 echo "TODO:tables-säännöt&&ntp josqs?"
 sleep 10
 
-#TODO?:/e/d/localeen kirjoittaminen jtnkin uusiksi?
-#josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta? kokeillaan
 el_loco ${c14} ${c13}
-#24526:se oli pikemminkin dpkg m,ikä halusi lokaaleita generoida
-
 #=========================================================================================
 
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
@@ -387,7 +363,6 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 		#HUOM. tässä ei tartte exit jos myöhemmin joka tap
 	fi
 
-	#VAIH:jos C_env== VED ni common_lib +  root.conf omistajaksi root, jälkimmäisen saa vain omistaja lukea, tälle tdstolle vain ajo-oikeus kaikille
 	if [ "${CONF_env}" == "VED" ] ; then
 		#... aka "hands off" (qhan omega)
 		${sco} 0:0 ${d0}/*.conf
@@ -405,30 +380,24 @@ fi
 pre_part2
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
-	#ntp-muutokset tarpeellisis tuossa fktiossa vai ei?
 	c14=$(find ${d} -name "*.deb" | wc -l)
 
-	#040526:kokeeksi ao. rivi pois kommenteista, mitä tapahtuu
-	#... pitäisi kai nollaamisessa huomioida myös /.chroot
 	[ ${c14} -gt 0 ] || CONF_removepkgs=0
 fi
 
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 #===================================================PART 3===========================================================
 message
-#300526:part3() vissiin toimi, mutta miten CB0x - fktiot? nekin
 part3 ${d} ${pkgcache}
 
 other_horrors
 dqb "AFTER THE HORROR"
 csleep 1
 
-#ehto tänään näin, huomenna taas toisin
 if [ "${CONF_env}" == "DEFAULT" ] ; then
-	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh
 
-	#TODO?:oikein pedantit tarkistukseT tähän if-blokkiin? ja importtiin kanssa koska kiukuttelut	
+	#TODO:TAAS kerran ffox-prof import/export - toiminnan varmistus, luultavasti export qsi taas
 	${d0}/import2.sh r ${d0} -v
 	echo $?
 	csleep 3
@@ -445,7 +414,6 @@ e_h $(whoami) ${d0}
 ${sco} 0:0 /opt/bin/*
 ${scm} 0400 /opt/bin/zxcv*
 
-#280526:ajetaanko tätä vai ei? vissiin ajetaan (30526)
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
 else

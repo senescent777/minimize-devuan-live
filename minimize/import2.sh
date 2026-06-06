@@ -63,7 +63,6 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	#130526:else-haara tarpeellinen joissain tilanteissa, ei poisteta
-	#TODO:viimeaikaisten sorkintojen takia tämä haara tulisi testata
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
@@ -79,23 +78,22 @@ else
 	fi
 
 	function check_binaries() {
-		dqb "imp2.check1"
-		odio="sudo" #TODO:tämä tivi uusiksi joskus
-		mkt=$(${odio} which mktemp)
-		srat=$(${odio} which tar)
-		srat="${odio} ${srat} "
-		som=$(${odio} which mount)
-		uom=$(${odio} which umount)
-		som="${odio} ${som}"
-		uom="${odio} ${uom}"
-		scm=$(${odio} which chmod)
-
+		echo "generic.replacement.4.check_bin"
 	}
 
 	function check_binaries2() {
 		echo "generic.replacement.4.check_bin2"
 	}
 
+	odio="sudo"
+	mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin? tpr() ainakin
+	srat=$(${odio} which tar)
+	srat="${odio} ${srat} "
+	som=$(${odio} which mount)
+	uom=$(${odio} which umount)
+	som="${odio} ${som}"
+	uom="${odio} ${uom}"
+	scm=$(${odio} which chmod)
 
 	function ocs() {
 		echo "ocs()))) ${1} ?"
@@ -152,7 +150,6 @@ dqb "srat: ${srat}"
 csleep 1
 dqb "LHP"
 	
-#josko tilansäästön nimissä kolmaskin ehto? tai ehkä ei pakko
 if [ -s /OLD.tar ] ; then
 	dqb "OLD.tar OK"
 else
@@ -161,22 +158,16 @@ else
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
-#TODO:turhia kommetteja tästäkin tdstosta wttuun
 dqb "ip2.m.Lpgqq"
 
-#HUOM.280426:käytetäänk tätä jossain? jep, ei vielä pois
 function cptp2() {
-	dqb "ip2m c tp2 ${1}, ${2}, ${3}"
-
 	[ -z "${1}" ] && echo 99
 	[ -d ${1} ] || exit 97
 
-	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
 	local t
 	t=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 	
 	if [ -f ${t}/common_lib.sh ] ; then
-		#pointti?
 		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
 			${gg} --verify ${t}/common_lib.sh.sig 		
 			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"		
@@ -186,9 +177,9 @@ function cptp2() {
 		csleep 10
 
 		if [ -x ${t}/common_lib.sh ] ; then
-			enforce_access $(whoami) ${t} #${2} toka param turha?
+			enforce_access $(whoami) ${t}
 			csleep 10
-			#TODO:ao. tesktin muuttaminen
+
 			dqb "1MP,2: running changedns.sh maY be necessary now to fix some things"
 		else
 			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
@@ -198,8 +189,6 @@ function cptp2() {
 		csleep 10
 	fi
 
-	csleep 1
-
 	if [ -d ${t} ] ; then
 		${scm} 0755 ${t}
 		${scm} 0555 ${t}/*.sh
@@ -208,16 +197,12 @@ function cptp2() {
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
-	csleep 1
 }
 
 dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-#olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3} siis)
 
 fox=$(${odio} which firefox)
-#130526;josko jo toimisi "$0 r" ? entä exp2 jutut?
-#josko profs.sh jotenkin liittyy profiili-kiukutteluun?
 
 function tpr() {
 	dqb "UPIR ) ${1} , ${2} , ${3} ("
@@ -249,12 +234,12 @@ function tpr() {
 	[ $? -gt 0 ] && exit 19
 	dqb "INCLUDE OK"
 
-	local q=$(${mkt} -d) #toimisiko näin?
+	local q
 	local r
+	q=$(${mkt} -d)
 	[ $? -gt 0 ] && exit 20
 
 	dqb "JUST BEFORE TAR ${1}/${2}"
-	#jos vielä härdelliä niin keskeytetään mikäli ei $2:sta löydä prefs.js?
 	r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l) #vielä jos arhc_4 ?
 	[ ${r} -gt 0 ] || exit 21
 	csleep 1
@@ -274,10 +259,11 @@ function tpr() {
 	csleep 2
 }
 
+dqb "JUST B3F0RE 1ST CASE-BL0CK"
+csleep 2
+
 case "${mode}" in
 	-1) 
-		# "$0 -1 -v" , miten toimii? vissiin
-		#siltä varaltam ettei, debug
 		dqb "DIPOLIN KÄPY"
 		csleep 3
 
@@ -333,12 +319,12 @@ dqb "m2pi.srcfile=${srcfile}"
 dqb "4th arra of..."
 csleep 5
 
+dqb "JUSTR BEFOERE 3SAC"
+csleep 2
+
 case "${mode}" in
-	1|0|3) #20526:ilmeinen bugi vihdoinkin korjattu
+	1|0|3)
 		./sq-rot.sh ${mode} ${srcfile} -v
-		#dqb $?
-		#dqb "2IMP: 	AFTR S.Q.R"
-		#csleep 10
 	;; 
 	r)
 		dqb "NT R"
@@ -400,4 +386,3 @@ if [ -v part ] || [ -v CONF_dir ] ; then
 fi
 
 ${scm} 0555 $0
-#HUOM.290925: tämän skriptin pitäisi kuvakkeen kanssa löytyä filesystem.squashfs sisältä (no löytyykö?)

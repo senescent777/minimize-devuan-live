@@ -69,7 +69,6 @@ function e22_ftr() {
 	cd ${p}
 }
 
-#100526:return-kikkailu ei toiminut? "echo-tavassakin" on juttuja huomioitavana
 #... joku päivä jos maistuisi selvittää tuo "bash function retuRn value"-juttu että onnnaako vai ei?
 
 function aqsp() {
@@ -110,8 +109,6 @@ function aqsp() {
 	dqb "aqsp  DONE"
 }
 
-#... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf (mitä muita on mistä sorkitaan? tämän tdstn fktiot)
-
 function e22_pre1() {
 	dqb "e22_pre1()"
 	[ -z "${1}" ] && exit 65
@@ -139,8 +136,7 @@ function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
 
 	[ -z "${1}" ] && exit 14
-	[ -s ${1} ] || exit 15 #"exp2 e" kautta tultaessa tökkäsi tähän kunnes (vielä 080326?)
-	#[ -w ${1} ] || exit 16 #ei näin?
+	[ -s ${1} ] || exit 15
 	[ -z "${2}" ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 23
@@ -153,17 +149,16 @@ function e22_dblock() {
 	csleep 1
 
 	[ ${debug} -eq 1 ] && pwd
-	#aval0n #tarpeellinen?
+
 	ls -la ${3}/*.deb | wc -l
 	
-	#HUOM.160326:ao. for-blokki omaksi fktioksi? reject/drop_pkgs huomiointi kanssa?
 	for s in ${PART175_LIST} ; do
 		${sharpy} ${s}*
 		${NKVD} ${3}/${s}*.deb
 	done
 	
 	local t
-	t=$(echo ${2} | cut -d "/" -f 1-6) #joitain tr-jekkuja vielä?
+	t=$(echo ${2} | cut -d "/" -f 1-6)
 	e22_ts ${t} ${3}
 	dqb "JST B3F0R3 3NF0RC3"
 	csleep 10
@@ -176,7 +171,6 @@ function e22_dblock() {
 	e22_cleanpkgs ${2}
 }
 
-#tämän kanssa jotain jurpoilua 28526
 function e22_pre2() {
 	dqb "e22pre2 )))) ${1} ; ${2} ; ${3} ; ${4} )()))) "
 	csleep 1
@@ -231,10 +225,7 @@ function e22_cleanpkgs() {
 	dqb "e22_cleanpkgs() DONE"
 }
 
-#VAIH:g_doit.part0() liittyviä juttuja, hyvä varmistaa että menevätkö muuttuneet xfce4-asetukset talteen asti 
-#... olisiko jo 05/26 loppuun mennessä selvitetty?
 csleep 1
-#010526:import2.sh pitäisi purkaa config.tar.bz2 qhan se vain löytyy
 
 function e22_config1() {
 	dqb "e22_config1()"
@@ -331,15 +322,13 @@ function e22_home() {
 	csleep 1
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-	#250526:"s" ehkä mukaan?, olennaisempaa zxcv:n kanssa karsinta
+
 	${srat} ${TARGET_TPX} --exclude olds --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
 
 	#miksi tässä eikä h_pre() ?
 	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 }
-
-#toistaiseksi privaatti fktio (tarvitseeko kutsua suoraan exp2 kautta oikeastaan?)
 
 function luca() {
 	[ -z "${1}" ] && exit 11
@@ -438,9 +427,6 @@ function e22_pre_e() {
 	fi
 }
 
-#verkkoyhteyttä vaativat jutut vain jos testgris ei asetettu? vaiko kutsuvan koodin puolella tarkistus?
-#VAIH:voisi taas kokeilla uudestaan miten "merd2+exp2 4" (28526 testi käynnissä 1take-haaran nkanssa)
-
 function e22_ext() {
 	dqb "e22_ext()"
 
@@ -481,7 +467,6 @@ function e22_ext() {
 		${spc} ./etc/dhcp/dhclient.conf.new ./etc/dhcp/dhclient.conf.1	
 	fi
 
-	#250526:resolv liittyen josko tilapäisesti pois zxcv:n listasta, jatkuva ulina kuitenkin
 	${spc} /etc/resolv.conf ./etc/resolv.conf.${st}
 
 	if [ ! -s ./etc/resolv.conf.1 ] ; then
@@ -507,15 +492,14 @@ function e22_ext() {
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
+
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
 	${scm} -R a-w ./sbin
-	${srat} -rvf ${1} ./etc ./sbin #jälkimmäinen hmisto takaisin 28526
-
+	${srat} -rvf ${1} ./etc ./sbin
 	echo $?
 	local f
-	#HUOM.250526:resolv.conf uutena
 
 	for f in $(find ./etc -type f -not -name "interfaces.*" -and -not  -name "resolv.*") ; do
 		${sah6} ${f} >> ${4}
@@ -621,46 +605,45 @@ function e22_arch() {
 	csleep 1
 }
 
-#function aval0n() { #prIvaattI, toimimaan+käyttöön?
+#function aval0n() {
 #	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 #}
 
-##080326:testattu senverranq pystyy, jotain kiukuttelua aiheutui (debbug-ulostuksen typot kenties)
-##function e22_rpg() {
-##	dqb "R-P-G ${1} , ${2} , ${3}"
-##	[ -z "${1}" ] && exit 99
-##	[ -z "${2}" ] && exit 98	
-##	[ -s "${1}" ] || exit 97
-##	[ -d ${2} ] || exit 96
-##	exit 95
+#function e22_rpg() {
+#	dqb "R-P-G ${1} , ${2} , ${3}"
+#	[ -z "${1}" ] && exit 99
+#	[ -z "${2}" ] && exit 98	
+#	[ -s "${1}" ] || exit 97
+#	[ -d ${2} ] || exit 96
+#	exit 95
+#
+##	e22_cleanpkgs ${2}
+##		
+##	${smr} ${2}/f.tar
+##	csleep 1
+##		
+##	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
+##	#... koko case pois käytöstä vaikka
+##	
+##	${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${d} -xvf ${1}
+##	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
+##	csleep 1
 ##
-###	e22_cleanpkgs ${2}
-###		
-###	${smr} ${2}/f.tar
-###	csleep 1
-###		
-###	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
-###	#... koko case pois käytöstä vaikka
-###	
-###	${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${d} -xvf ${1}
-###	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
-###	csleep 1
-###
-###	#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
-###			
-###	e22_arch ${1} ${2} ${4}
-###	cd ${2}
-###
-###	#sotkee sittenkin liikaa?
-###	#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
-###		
-###	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh
-###	#	${srat} -uvf  ${1} ${t}
-###	#done
-###		
-###	exit
-##}
+##	#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
+##			
+##	e22_arch ${1} ${2} ${4}
+##	cd ${2}
+##
+##	#sotkee sittenkin liikaa?
+##	#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
+##		
+##	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh
+##	#	${srat} -uvf  ${1} ${t}
+##	#done
+##		
+##	exit
+#}
 
 #TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
 
@@ -680,12 +663,6 @@ function e22_cde() {
 
 	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
 }
-
-#VAIH:uusi wmd-paketti kokeilun vuoksi 280526
-
-#1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (oliswikohan jo selvitetty?)
-#tässä tdstossa pre2() ja ext() , lisäksi common_lib kautta e_e -> enforce_access
-#-> merd2, g_doit, sq_rot, import2, export3, export2, e22_pre1()
 
 function z1() {
 	dqb "z1()"
@@ -717,7 +694,6 @@ function z2() {
 	${svm} ${1}.tmp ${1}
 	csleep 1
 
-	#että mitenkä? $1.sha uitenkin?
 	${sah6} --ignore-missing -c ${1}
 	csleep 3
 
@@ -736,9 +712,6 @@ function z3() {
 	csleep 1
 
 	if [ ! -s ${3} ] ; then
-		#tuleeko export3 mukaan?
-		#tässä EI karsita:resolv.conf
-
 		${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
 		csleep 1
 	fi
@@ -746,7 +719,6 @@ function z3() {
 	${srat} -rvf ${2} ${3}
 	local t=$(dirname ${1})
 
-	#onko riittävästi renkattu kohteessa?
 	${scm} go-w ${t}/*
 	${sco} -R 0:0 ${1}
 	${srat} -rvf ${2} ${1}*
@@ -795,12 +767,10 @@ function e22_sarram() {
 	#rules vedettiin jo aiemmin
 	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 	
-	#280526:jos nyt karsiutuisi zxcv:stä turhat
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v OLD | grep -v old) ; do 
 		${sah6} ${f} >> ${3}
 	done
 
-	#230326:ntp-jtut näyttäisi vetävän mukaan
 	if [ -x /usr/sbin/ntpd ] ; then
 		for f in $(${odio} find /etc -type f -name "ntp*" ) ; do
 			${srat} -rvf ${1} ${f}

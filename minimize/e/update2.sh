@@ -11,13 +11,11 @@ spc=$(which cp)
 n=$(whoami)
 
 par3=""
-#250526:kolammen parametrin suhteen toimibta testattu jo?
-#260526:testaus jouduttu laittamaan käyntiin
+
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
-		#250526:ehkä toimi omegan ajon jälkeen, testaa josqs uudestaan
-
+		
 		tcmd="sudo ${tcmd} "
 		spc="sudo ${spc} "
 	fi
@@ -32,15 +30,10 @@ tgt=${1}
 [ -s "${tgt}" ] || exit 16
 [ -r "${tgt}" ] || exit 17
 
-#echo "PARAMS CHECKED" #TODO:echo->dqb
-#sleep 1
-
 if [ -s ${d0}/$(whoami).conf ] ; then
-	#echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
 else
 	if [ -s ${d0}/../$(whoami).conf ] ; then
-		#echo "ALT.C0NF1G3"
 		. ${d0}/../$(whoami).conf
 	fi
 fi
@@ -58,7 +51,6 @@ sleep 1
 t=$(pwd)
 
 echo "#TODO:tunaroinnin varalta lähteestä vkopio ennenq alkaa process_row() hakata"
-#VAIH:ja sitten oli se "resolv.conf"-juttukin ed. liittyen?
 
 if [ "${CONF_env}" == "VED" ] && [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	echo "YLIULIULI asb asb ABC"
@@ -76,7 +68,6 @@ else
 	cd /
 fi
 
-#tämä wttuun josqs? vai ei?
 xo="*.tar --exclude .chroot --exclude *.deb --exclude changedns.* "
 
 if [ "${CONF_env}" != "DEFAULT" ]; then
@@ -84,7 +75,6 @@ if [ "${CONF_env}" != "DEFAULT" ]; then
 fi
 
 function process_row() {
-	#echo "TCMD --exclude ${xo} -rvf ${1} ${2}"
 	${tcmd} --exclude "${xo}" -rvf ${1} ${2}
 }
 
@@ -94,7 +84,7 @@ if [ ! -s ${d0}/MAN1.F2ST ] ; then
 	sleep 1
 fi
 
-#VAIH:ao. riveihin muutoksia koska CONF_env tulosssa käyttöön?
+#VAIH:ao. riveihin muutoksia? koska CONF_env tulosssa käyttöön
 if [ -z "${par3}" ] ; then
 	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .tar | grep -v .deb | grep -v .chroot | grep -v resolv)
 else
@@ -102,11 +92,8 @@ else
 fi
 
 for f in ${g} ; do
-	#echo "${f} :"
-
 	if [ -f ${f} ] ; then
-		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
-			#echo "... processinbfg"
+		if [ ! -d ${f} ] ; then
 			process_row ${tgt} ${f}
 		fi
 	fi

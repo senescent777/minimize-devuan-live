@@ -1,5 +1,5 @@
 #just_download_not_install-vipu olisi tietysti...
-#050626:turhia kommentteja tästäkin tdstosta vboisi poistaa, toisessakin oksassa
+
 
 function aswasw() {
 	dqb "aswasw( ${1} )"
@@ -43,7 +43,7 @@ function e23_tblz() {
 	csleep 1
 
 	${asy}
-	csleep 3
+	csleep 30
 
 	#(riittäisikö 2 param kutsussa?)
 	e22_pre2 ${1} ${2}
@@ -59,18 +59,22 @@ function e23_other_pkgs() {
 
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
+
 	csleep 1
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	${shary} ${E22_GI}
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	e22_pre_e ${E22_GG}
-	e22_pre_e ${E23_GS}
+
+	#tämän siirto-> common_lib? (toisessa oksassa jo tehty)
+
+	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
+	e22_pre_e ${E23_GS}  #moni pak tarttee nämä
 
 	message
 	jules
 
-	#pitäisikö libgmp olla if-lauseen ulkopuolella? mitkä aketit sitä tyavitsavet?
 	if [ ${1} -eq 1 ] ; then
 		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
 		${shary} runit-helper
@@ -95,12 +99,12 @@ function e23_upgp() {
 
 	${fib}
 	csleep 1
+
 	${shary} ${E22_GS}
 
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 
-	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
 	dqb " e23_upgp() done"
 	csleep 1
 }
@@ -154,7 +158,7 @@ function e23_qrs() {
 	csleep 1
 
 	e22_settings ${2} ${4} ${5}
-
+	
 	for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
 		${srat} -rvf ${1} ${f}
 	done
@@ -185,7 +189,7 @@ function e23_dm() {
 	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
 
 	${shary} libnuma1 libx265-199 libwraster6 libwings3
-	#TODO:sittenkin $?-testejä?
+
 	csleep 10
 
 	${shary} libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
@@ -229,11 +233,10 @@ function e23_dm() {
 	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
 
 
-	
 
 	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
 
-	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
+	${shary} libpam-runtime
 	csleep 10
 
 	${shary} libxdmcp6 menu twm libmd0
