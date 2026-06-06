@@ -66,11 +66,7 @@ function e23_other_pkgs() {
 	${shary} ${E22_GI}
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	e22_pre_e ${E22_GG}
-
-	#tämän siirto-> common_lib? (toisessa oksassa jo tehty)
-
-	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
-	e22_pre_e ${E23_GS}  #moni pak tarttee nämä
+	e22_pre_e ${E23_GS}
 
 	message
 	jules
