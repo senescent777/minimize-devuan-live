@@ -218,12 +218,13 @@ case "${mode}" in
 	g)
 		[ -v E22_GI ] || exit 95
 		#VAIH (muodostetun paketin toimivuuden testaus lähinnä)
-		e22_hdr ${d}/e.tar
 
-		#TODO:miten se E22_GG ? (toisessa oksasssa vastaava kohta siis)
+		e22_hdr ${d}/e.tar
 
 		${fib}
 		${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä
+		${shary} ${E22_GG}
+
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
 
@@ -245,6 +246,7 @@ case "${mode}" in
 #	;;
 	s)
 		#TODO:tämän testaus? siis sittenq kopsattu toisesta oksasta tuo fktio
+		#... ensin tulisi selvittää mikä oksa ja milloin fktiot läsnä?
 		e23_st
 	;;
 	*)
