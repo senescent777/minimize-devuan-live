@@ -56,8 +56,6 @@ function parse_opts_2() {
 
 }
 
-dqb "SHOULD gg --veriFy ${d0}/common_lib.sh HERE, MAYBE?"
-csleep 1
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -100,8 +98,6 @@ else
 	}
 fi
 
-dqb "imp2:AFTR common_lib"
-csleep 1
 [ -z "${distro}" ] && exit 6
 csleep 1
 
@@ -136,19 +132,17 @@ fi
 
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
-dqb "mkt= ${mkt} "
 
 [ -v srat ] || exit 8
 [ -z "${srat}" ] && exit 10
 
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${CONF_part0}
-dqb "L0G"
 
 ocs tar
-dqb "srat: ${srat}"
+
 csleep 1
-dqb "LHP"
+
 	
 if [ -s /OLD.tar ] ; then
 	dqb "OLD.tar OK"
@@ -158,7 +152,6 @@ else
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
-dqb "ip2.m.Lpgqq"
 
 function cptp2() {
 	[ -z "${1}" ] && echo 99
@@ -180,6 +173,7 @@ function cptp2() {
 			enforce_access $(whoami) ${t}
 			csleep 10
 
+			#TODO:teskti.uusiksi
 			dqb "1MP,2: running changedns.sh maY be necessary now to fix some things"
 		else
 			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
@@ -199,7 +193,6 @@ function cptp2() {
 	[ ${debug} -eq 1 ] && ls -las ${1}
 }
 
-dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 
 fox=$(${odio} which firefox)
@@ -226,20 +219,16 @@ function tpr() {
 		exit 17
 	fi
 
-	dqb "tpr.pars_ok"
-	csleep 2
 
 	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
 	. ${1}/${3}
 	[ $? -gt 0 ] && exit 19
-	dqb "INCLUDE OK"
 
 	local q
 	local r
 	q=$(${mkt} -d)
 	[ $? -gt 0 ] && exit 20
 
-	dqb "JUST BEFORE TAR ${1}/${2}"
 	r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l) #vielä jos arhc_4 ?
 	[ ${r} -gt 0 ] || exit 21
 	csleep 1
@@ -248,19 +237,15 @@ function tpr() {
 	[ $? -gt 0 ] && exit 22
 	csleep 2
 
-	dqb "JUST BEFORE impo_prof"
-	csleep 2
+	
 
 	imp_prof esr $(whoami) ${q}
 	dqb $?
 	csleep 2
 
-	dqb "UP1R D0N3"
-	csleep 2
+	
 }
 
-dqb "JUST B3F0RE 1ST CASE-BL0CK"
-csleep 2
 
 case "${mode}" in
 	-1) 
@@ -319,17 +304,12 @@ dqb "m2pi.srcfile=${srcfile}"
 dqb "4th arra of..."
 csleep 5
 
-dqb "JUSTR BEFOERE 3SAC"
-csleep 2
 
 case "${mode}" in
 	1|0|3)
 		./sq-rot.sh ${mode} ${srcfile} -v
 	;; 
 	r)
-		dqb "NT R"
-		csleep 5
-
 		[ -d ${srcfile} ] || exit 23
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
@@ -344,8 +324,6 @@ case "${mode}" in
 
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 
-		dqb "XP R"
-		csleep 5
 	;;
 #	q)
 #		# (turha case oikeastaan koska "$0 1"+"$0 r" (TODO?:jospa tekisi jotain liittyen)
