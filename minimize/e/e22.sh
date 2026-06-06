@@ -781,3 +781,10 @@ function e22_sarram() {
 
 	other_horrors
 }
+
+function e22_stu() { #jatkosäätöä josqs
+	echo "# ! / b ..."
+	echo "base64 -d << FOE | tar -jxv"
+	echo "${srat} -jcf \$opts | base64"
+	echo "FOE"
+}
