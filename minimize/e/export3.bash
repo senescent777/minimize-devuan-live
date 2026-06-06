@@ -99,7 +99,7 @@ case "${mode}" in
 		usage
 	;;
 	s)
-		#TODO:vissiin toisesta oksasta prujaaminen
+		#TODO:vissiin toisesta oksasta prujaaminen (missä ja milloin tuo stu?)
 		#TODO:myös testaus, miten kehitysympstössä asentuu paketin sisältö
 		#TODO:fktiom nimeämisen miettiminen?
 		e22_stu ${tgtfile} 
