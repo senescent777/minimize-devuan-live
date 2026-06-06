@@ -159,8 +159,7 @@ case "${mode}" in
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
-			#TODO:e.tar-kikkailu -> other_pkgs() syystä gpg puuttuu
-			#... rekursion kanssa jos vaikka tekisi
+			#TODO:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä
 
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
