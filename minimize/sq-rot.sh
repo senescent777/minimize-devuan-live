@@ -25,7 +25,7 @@ function usage() {
 }
 
 #"$0 1 tgtfile -v" - ajankohtainen 06/26?
-
+#
 #function parse_opts_1() {
 #	dqb "rot.parse_opts_1() ${1} ((()"
 #
@@ -35,7 +35,7 @@ function usage() {
 #	fi
 #}
 #
-#TODO:PARSETUS-HOMMAT UUSIKSI FRÅM SCRATCH
+##VAIH:PARSETUS-HOMMAT UUSIKSI FRÅM SCRATCH
 #function parse_opts_2() {
 #	dqb "fish.rot.parseopts_2 )) ${1} ; ${2} (("
 #
@@ -240,7 +240,6 @@ fi
 
 dqb "sqr.aftr.check_par5"
 csleep 2
-
 #TODO:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
 
 function common_part() {
@@ -251,7 +250,7 @@ function common_part() {
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
 
-	[ -z "${2}" ] && exit 11
+	[ -z "${2}"  ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -d ${3} ] || exit 45
 
@@ -320,11 +319,11 @@ function common_part() {
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "ko"		
 		else	
-			echo "SHOULD DO SOME NKVD-STUFF AROUND HERE"
-			#${NKVD} ${1}* 
-			#${NKVD} ${2}/*.deb
-			#${NKVD} ${2}/sha512sums*
-			#${NKVD} ${2}/*.tar*
+			#ekan param lisätarkistukset yllä riittävät?
+			${NKVD} ${1}* 
+			${NKVD} ${2}/*.deb
+			${NKVD} ${2}/sha512sums*
+			${NKVD} ${2}/*.tar*
 
 			exit 33
 		fi
@@ -334,7 +333,7 @@ function common_part() {
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 
 	#110523:vöib aiheuttaa nalkutusta jos odio ei asetettu
-	sleep 1
+	csleep 1
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
 
@@ -413,7 +412,6 @@ case "${mode}" in
 		echo "sq.FART3: $?"
 		[ $? -eq 0 ] && ocs gpg
 		
-
 		[ $? -eq 0 ] && part3 ${f}
 		[ $? -eq 0 ] && other_horrors
 	;;

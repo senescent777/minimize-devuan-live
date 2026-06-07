@@ -34,27 +34,27 @@ if [ $# -gt 0 ] ; then
 		debug=1
 	fi
 fi
-
-function parse_opts_1() {
-	dqb "parse_opts_1( ${1} )"
-
-	if [ "${mode}" == "-2" ] ; then
-		mode=${1}
-	fi
-}
-
-function parse_opts_2() {
-	dqb "(imp2.parseopts_2 ; ${1} ; ${2} ;"
-
-	if [ -f ${2} ] || [ -d ${2} ] ; then
-		if [ -z "${srcfile}" ] ; then
-			if [ "${2}" != "-v" ] ; then	
-				srcfile=${2}
-			fi
-		fi
-	fi
-
-}
+#
+#function parse_opts_1() {
+#	dqb "parse_opts_1( ${1} )"
+#
+#	if [ "${mode}" == "-2" ] ; then
+#		mode=${1}
+#	fi
+#}
+#
+#function parse_opts_2() {
+#	dqb "(imp2.parseopts_2 ; ${1} ; ${2} ;"
+#
+#	if [ -f ${2} ] || [ -d ${2} ] ; then
+#		if [ -z "${srcfile}" ] ; then
+#			if [ "${2}" != "-v" ] ; then	
+#				srcfile=${2}
+#			fi
+#		fi
+#	fi
+#
+#}
 
 dqb "SHOULD gg --veriFy ${d0}/common_lib.sh HERE, MAYBE?"
 csleep 1
@@ -225,6 +225,7 @@ function cptp2() {
 		if [ -x ${t}/common_lib.sh ] ; then
 			enforce_access $(whoami) ${t} #${2} toka param turha?
 			csleep 10
+
 			#TODO:ao. tesktin muuttaminen
 			dqb "1MP,2: running changedns.sh maY be necessary now to fix some things"
 		else

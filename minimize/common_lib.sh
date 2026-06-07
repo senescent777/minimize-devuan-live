@@ -66,7 +66,6 @@ sleep 6
 
 function fix_sudo() {
 	dqb "common_lib.fix_sud0.pt0"	
-	#DONE:sco, scm asettelu, josko tähän fktioon takaisin kanssa?
 	
 	sco=$(${odio} which chown)
 	[ y"${sco}" == "y" ] && exit 98
@@ -111,7 +110,7 @@ function other_horrors() {
 		dqb "1NTERBAL SUFFER1NG"
 
 		for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
-			#TODO:valmis palikka? mangle2 ei ihan
+			#valmis palikka? mangle2 ei ihan
 			${sco} -R root:root ${f}
 			${scm} 0400 ${f}
 		done
@@ -223,8 +222,6 @@ function check_bin_0() {
 	[ -z "${NKVD}" ] && exit 37
 	NKVD="${odio} ${NKVD} -fu "
 
-	#ehkä tämmöinen lista kuuluisi konftdstoon?
-	#4426:brl ja openssh uutena minimal_live liittyen, pois jos qsee (6426 ssh viskoi pihalle äksästä ennenaikaisesti, toistuuko?)
 	PART175_LIST="avahi blu cups exim4 nfs network mdadm sane rpc lm-sensors dnsmasq stubby brltty openssh" #  ssh too soon
 
 	#HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!
@@ -232,21 +229,20 @@ function check_bin_0() {
 	#sdi="${odio} ${sdi} -i "
 	csleep 2
 
-	#TODO:näille main jotain muutoksia?
+	#näille main jotain muutoksia?
 	sifu=$(${odio} which ifup)
 	sifd=$(${odio} which ifdown)
 	
 	sip=$(${odio} which ip)
 	sip="${odio} ${sip} "
-
 	smd=$(${odio} which mkdir)
+
 	sca=$(${odio} which chattr)
-	 #käytössä?
+	#käytössä?
 	sca="${odio} ${sca}"
+	
 	mkt=$(${odio} which mktemp)
 	tig=$(${odio} which git)
-
-	#05/26 riittävästi ulinaa resolv.conf kanssa?
 
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
@@ -285,13 +281,13 @@ function check_bin_0() {
 }
 
 check_bin_0
-#
-#function jules() { #TÄSSÄKIN VÄÄRIÄÖ MERKKEJÄ?
-#other_horrors
-#[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
-#}
-#
-#TODO?:jatkosäätöä josqs lähiaikoina? (kts e22.sh, KVG-jutut bissiin uusicksi)
+
+function jules() {
+other_horrors
+[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
+}
+
+#jatkosäätöä josqs lähiaikoina? (kts e22.sh, KVG-jutut bissiin uusicksi)
 function psqa() {
 	dqb "c.Q () () () () ${1} ;;;"
 	csleep 1
@@ -423,7 +419,8 @@ function efk2() {
 
 	csleep 1
 } #TARKKUUTTA PRKL
-function fromtend() { #tÄSSÄ VÄÄRIÄ MERKKEJÄ?
+
+function fromtend() { #tÄSSÄ VÄÄRIÄ MERKKEJÄ? toiv ei
 dqb "FRöMTEND"
 [ -v sd0 ] || exit 99
 [ -z "${sd0}" ] && exit 98
@@ -436,6 +433,7 @@ else
 ${odio} ${sd0} --force-confold -i $@
 fi
 }
+
 function cefgh() {
 [ -z "${1}" ] && exit 66
 [ -d ${1} ] || exit 67
@@ -481,14 +479,12 @@ function CB01() {
 	csleep 1
 	dqb "iZOMVIE"
 	
-	#TODO?:tgris-tetris?
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
 	[ -z "${gg}" ] && ${scm} a-wx ${1}/../common_lib.sh #$0 josko näin kuitenkin?
 	csleep 1
 	dqb "CcC"
 	
-#	[ -s ${1}/${CONF_hashfile}.bak ] && ${svm} ${1}/${CONF_hashfile}.bak ${1}/${CONF_hashfile}
 	common_pp3 ${1} ${2}
 	dqb "common.lib.CB01() DONE"
 	csleep 1
@@ -502,7 +498,7 @@ function CB01() {
 #echo "... FOR POSITIVE ANSWER MAY BREAK THINGS"
 #sleep 1
 #}
-#
+
 function CB02() {
 	dqb "CB02()"
 	csleep 1
@@ -648,7 +644,7 @@ function check_binaries() {
 	fi
 
 	sag=$(${odio} which apt-get)
-	sa=$(${odio} which apt) #tar4vitaanko jossain? jep
+	sa=$(${odio} which apt)
 
 	som=$(${odio} which mount)
 	uom=$(${odio} which umount)
@@ -696,6 +692,7 @@ function check_binaries2() {
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
+
 function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
 	dqb "TLA.testgris : ${CONF_testgris}"
@@ -813,7 +810,6 @@ function e_final() {
 	
 	csleep 1
 	dqb "ANALISIS CLINICOS ASD ASD 123"
-	#exit
 }
 
 function e_h() {
@@ -845,12 +841,10 @@ function e_h() {
 	dqb "HTAO EHT FO HTE TAOG EH)("
 	csleep 1
 
-	#tämäkö siihen "-v vs ei -v"-temppuiluun liittyy?
 	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
 	csleep 1
 
-	if [ "${CONF_env}" != "VED" ] ; then
-		#jos antaisi olla näin jnkn aikaa?
+	if [ "${CONF_env}" != "VED" ] ; then #ved vai default?
 		if [ -d ${2}/opt/bin ] ; then
 			${sco} -R root:root ${2}/opt/bin
 
@@ -1081,12 +1075,12 @@ function part1() {
 	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
 	csleep 1
 
-	#TODO?:tesgris,dufo?
 	${sco} -R root:root /etc/apt
 	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WH0R3"
 }
 
+#qseeko tässä jokin?
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
 	csleep 6
@@ -1154,13 +1148,13 @@ function part2() {
 	${lftr}
 	csleep 1
 
-	#150326:pitäisikohän tehdf vielä toinenkin veuiartlu barm buoksi?
 	if [ ! -z "${ipt}"  ] ; then
 		jules
 		local t
 
 		t=$(echo ${2} | tr -d -c 0-9)
 
+		#ved vai default?
 		if [  "${CONF_env}" != "VED"  ] && [ -d /opt/bin ] ; then
 			${odio} /opt/bin/tlb.bash ${t}
 		fi
@@ -1257,7 +1251,6 @@ function common_lib_tool() {
 #	csleep 2
 #	dqb "d0n3"
 #}
-
 
 function part3() {
 	dqb "))() part3 ${1} ,((()()()()()( ${2} (((((((("
@@ -1374,7 +1367,7 @@ function process_lib() {
 	TLA
 	dqb "common.process_lib.done()"
 }
-#
+
 function gpo() {
 	dqb "GPO"
 	local prevopt
