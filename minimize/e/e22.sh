@@ -87,10 +87,8 @@ function e22_ftr() {
 	cd ${p}
 }
 
-#VAIH:se aqsp() prujaaminen tähän?
-
-#100526:return-kikkailu ei toiminut? "echo-tavassakin" on juttuja huomioitavana
-#... joku päivä jos maistuisi selvittää tuo "bash function retuRn value"-juttu että onnnaako vai ei?
+#VAIH:se aqsp() prujaaminen tähän? piti olla jo
+#TODO:miten dblockin kanssa?
 
 function aqsp() {
 	dqb "aqsp ${1} ; "
@@ -129,8 +127,6 @@ function aqsp() {
 
 	dqb "aqsp  DONE"
 }
-
-#TODO:miten dblockin kanssa?
 
 function e22_pre1() {
 	dqb "e22_pre1()"
@@ -180,7 +176,7 @@ function e22_pre2() {
 	ls -las /etc/resolv.*
 	csleep 10
 
-	${sifu} ${1} #oli jemmassa koska renkkaaminen vituttaa
+	${sifu} ${1}
 	csleep 1
 
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
@@ -191,7 +187,6 @@ function e22_pre2() {
 function e22_cleanpkgs() {
 	dqb "e22_cleanpkgs()"
 	[ -z "${1}" ] && exit 56
-	#lisää tarkistuksia tähän?
 
 	if [ -d ${1} ] ; then
 		${smr} ${1}/*.deb
@@ -264,7 +259,6 @@ function e22_home_pre() {
 		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
 	fi
 
-	#310526:e_final jo hoitaa opt/bin - jutut? 
 	e_final
 	${srat} --exclude changedns.* -rvf ${1} /opt/bin
 
@@ -297,7 +291,6 @@ function e22_home() {
 	${srat} ${TARGET_TPX} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
 
-	#miksi tässä eikä h_pre() ?
 	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 }
 
@@ -312,8 +305,6 @@ function luca() {
 	for f in $(find /etc -type f -name "local*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 }
-
-#(meneekö rules.* kohteeseen useamman kerran? ehkä)
 
 function e22_acol() {
 	dqb "e22_acol()"
@@ -378,8 +369,7 @@ function e22_acol() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#VAIH:e22_pre_e() toisesta oksasta
-
+#e22_pre_e() toisesta oksasta
 function e22_pre_e() {
 	local p
 	local q
@@ -393,7 +383,6 @@ function e22_pre_e() {
 		for p in $@ ; do ${shary} ${p} ; done
 	fi
 }
-
 
 function e22_ext() {
 	dqb "e22_ext()"
@@ -450,7 +439,6 @@ function e22_ext() {
 	
 	local c=0	
 
-	#samantapAISta koodia oli jossain toisaalla kanssa
 	if [ -f /etc/apt/sources.list ] ; then
 		
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
@@ -468,12 +456,8 @@ function e22_ext() {
 	${sco} -R root:root ./sbin 
 	${scm} -R a-w ./sbin
 
-	${srat} -rvf ${1} ./etc ./sbin #jälkimmäinen hmisto takaisin 28526
+	${srat} -rvf ${1} ./etc ./sbin
 	echo $?
-
-	echo "#VAIH:suorityuksen keskeytys jos resolv.conf.jotain puuttuu"
-	#... pitäisi kanssa testata että toimii	
-	csleep 6
 
 	c=$(${srat} -tf ${1} | grep resolv.conf.${st} | wc -l)
 	[ ${c} -gt 0 ] || exit 97
@@ -537,9 +521,8 @@ function e22_arch() {
 
 	cd ${2}
 	${sah6} ./*.deb > ./${CONF_hashfile}
-	#TODO:olds piti vissiin saada grepattua pois tuosta alta
-
-	for f in $(find . -type f -name "*pkgs*") ; do
+	
+	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do
 		[ ${3} -eq 1 ] && ${srat} -rvf ${1} ${f}
 		${sah6} ${f} >> ./${CONF_hashfile}.1
 	done
@@ -562,7 +545,7 @@ function e22_arch() {
 	cd ${p}
 }
 
-#function aval0n() { #prIvaattI, toimimaan+käyttöön?
+#function aval0n() {
 #	dqb  \$ {sharpy} libavahi \* #saattaa sotkea ?
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 #}
@@ -619,10 +602,6 @@ function e22_cde() {
 	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
 }
 
-#1110426:jossain rikotaan /e/resolv.conf-linkki, voisi tehdä jotain qhan löytää missä (TODO?)
-#tässä tdstossa pre2() ja ext() , lisäksi common_lib kautta e_e -> enforce_access
-#-> merd2, g_doit, sq_rot, import2, export3, export2, e22_pre1()
-
 function z1() {
 	dqb "z1()"
 	[ -z "${1}" ] && exit 66
@@ -641,7 +620,7 @@ function z2() {
 	dqb "z2()"
 	[ -z "${1}" ] && exit 66
 
-	#TODO:ekan parametrin kanssa lisää tarkistuksia?
+	#ekan parametrin kanssa lisää tarkistuksia?
 	reqwreqw ${1}.tmp
 	csleep 1
 
@@ -673,7 +652,6 @@ function z3() {
 	csleep 1
 
 	if [ ! -s ${3} ] ; then
-		#tuleeko export3 mukaan?
 		${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
 		csleep 1
 	fi
@@ -681,7 +659,6 @@ function z3() {
 	${srat} -rvf ${2} ${3}
 	local t=$(dirname ${1})
 
-	#onko riittävästi renkattu kohteessa?
 	${scm} go-w ${t}/*
 	${sco} -R 0:0 ${1}
 	${srat} -rvf ${2} ${1}*
@@ -690,8 +667,8 @@ function z3() {
 }
 
 #(josko exp2 voisi korvata "tar -T -cf":llä?)
-echo "TODO:JOKO JO ntp-jutut kuntoon ?" #aftr2.bash saattoi liittyä
-sleep 6
+#echo "TODO:JOKO JO ntp-jutut kuntoon ?" #aftr2.bash saattoi liittyä
+
 
 function e22_sarram() {
 	dqb "e22_sarram()"
@@ -722,12 +699,12 @@ function e22_sarram() {
 	done
 
 	${srat} -rvf ${1} /etc/X11/default-display-manager
-	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka?
+
 	${scm} 0555 /etc/iptables
 	${scm} 0400 /etc/iptables/rules*
 	${scm} 0400 /etc/default/rules*
 
-	#31526:oliko rulesin kanssa vielä jotain?
+
 	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD | grep -v old) ; do 
@@ -742,4 +719,12 @@ function e22_sarram() {
 	fi
 
 	other_horrors
+}
+
+
+function e22_stu() { #jatkosäätöä josqs
+	echo "# ! / b ..."
+	echo "base64 -d << FOE | tar -jxv"
+	echo "${srat} -jcf \$opts | base64"
+	echo "FOE"
 }

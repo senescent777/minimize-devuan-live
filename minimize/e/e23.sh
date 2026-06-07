@@ -25,8 +25,9 @@ function e23_tblz() {
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 15
 	[ -z "${2}" ] && exit 12
-	[ -z "${3}" ] && exit 13
-	[ -z "${4}" ] && exit 14 #HUOM.tämän tARpeellisuus?
+
+#	[ -z "${3}" ] && exit 13
+#	[ -z "${4}" ] && exit 14 #HUOM.tämän trapeellisuus?
 
 	${fib}
 	${asy}
@@ -34,7 +35,7 @@ function e23_tblz() {
 
 	#message() tähän?
 	tpc7
-	#jotain excaliburiin liittyvää
+	#jotain excaliburiin liittyvää tuo tpc
 
 	echo "aswasw $1 vai $2 ? "
 	sleep 10
@@ -48,10 +49,8 @@ function e23_tblz() {
 	csleep 1
 
 	${asy}
-	csleep 3
-
-	#(riittäisikö 2 param kutsussa?)
-	e22_pre2 ${1} ${2}
+	# (2 param kutsussa sopisi riittää)
+	e22_pre2  ${1} ${2}
 	other_horrors
 
 	dqb "e23_tblz()"
@@ -66,7 +65,6 @@ function e23_other_pkgs() {
 
 	csleep 1
 
-	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	${shary} ${E22_GI}
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	${shary} ${E22_GG}
@@ -91,23 +89,18 @@ function e23_other_pkgs() {
 	csleep 1
 	${lftr}
 
-	#initrd-nalkutus mutkistanut asioita, josko a) /etc/kernel sisältö b) debian reference auttaisi? (tämä seur)
 	dqb "e23_other_pkgs() DONE"
 	csleep 1
 }
 
 function e23_upgp() {
 	dqb " e23_upgp() "
-
 	${fib}
 	csleep 1
 
 	${shary} ${E22_GS}
 	${sag} --no-install-recommends upgrade -u
 	echo $?
-
-	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
-	#csleep 1
 
 	dqb " e23_upgp() done"
 	csleep 1
@@ -124,9 +117,7 @@ function e23_upgp2() {
 		;;
 		*)
 			${NKVD} ${1}/wpa*
-			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
-			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
-		;;
+	;;
 	esac
 
 	dqb " e23_upgp2() done"
@@ -180,8 +171,8 @@ function e23_dm() {
 	csleep 2
 
 	${fib}
-	e22_pre_e ${E22_GS}
-	e22_pre_e ${E22_GM}
+	${shary} ${E22_GS}
+	${shary} ${E22_GM}
 	csleep 5
 
 	if [ "${1}" == "wdm" ] ; then
@@ -190,7 +181,6 @@ function e23_dm() {
 		echo "NOT SUPPORTED"
 		exit 666
 	fi
-
 	
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
 	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
@@ -232,8 +222,7 @@ function e23_dm() {
 	csleep 10
 
 	${shary} libicu72 libxfixes3 libxml2
-	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
-	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
+	csleep 5
 
 	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
 	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
@@ -271,8 +260,6 @@ function e23_dm() {
 	dqb "e23_dm( done (((("
 	csleep 1
 }
-
-#TODO:miten se Makefile-idea? kokeilisiko?
 
 function e23_profs() {
 	dqb ";e23_profs) ${1} , ${2} , ${3} (()("
@@ -312,3 +299,14 @@ function e23_profs() {
 	dqb "e23_profs() done"
 	csleep 1
 }
+
+
+
+function e23_st() { #josqs tämänkin testaus? (kts toisen repon setup1.bash)
+	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
+	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim
+	${shary} dmsetup libdevmapper1 libjte2
+	${shary} libefiboot1 libefivar1 libfreetype6 libfuse3-3 gettext-base
+	${shary} libisoburn1 libburn4 libisofs6 libfuse2 mtools
+	${shary} grub-common xorriso  geany  isolinux
+	}

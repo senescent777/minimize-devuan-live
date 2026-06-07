@@ -49,11 +49,11 @@ else
 fi
 
 [ -z "${distro}" ] && exit 6
-#d=${d0}/${distro} #nykyään vähän turha tässä
+
 process_lib ${d}
 
 if [ -x ${d0}/e/e22.sh ] ; then
-	.  ${d0}/e/e22.sh #tässä jotain vikaa vikaa? toiv ei
+	.  ${d0}/e/e22.sh
 	.  ${d0}/e/e23.sh
 else
 	echo "NO BACKEND FOUND"
@@ -61,16 +61,15 @@ else
 fi
 
 [ -d  ${tgtfile} ] && exit 99 #P.V.H.H
+e22_hdr ${tgtfile}
 [ "${mode}" == "rp" ] || e22_hdr ${tgtfile} #P.V.H.H
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 case "${mode}" in
-	rp) #VAIH:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms
-		#siirtynee koodia casen ja fktion välillä vielä
+	rp) 
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 		e22_rpg ${tgtfile} ${d}
-		#toisessa oksassa meni rp-kohta vähän toisin, prujhaisiko?
 	;;
 	f)
 		t=$(echo ${d} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
@@ -78,6 +77,7 @@ case "${mode}" in
 		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
 	q)
+		#VAIH:uusi testi käyntiiin (kelvollinen tuotos?/masentuuko se?/menevätkö liittyvät tdstot kohdearkistoon?/yms)
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
@@ -86,7 +86,7 @@ case "${mode}" in
 	c)
 		e22_cde ${tgtfile} ${d0} ${distro}
 
-		#ei näin, kts cde() nykyinen sisältö
+		#HUOM. EI NÄIN KOSKA e22_cde() NYKYINEN SISÄLTÖ
 		#bzip2 -c -z ${tgtfile}.tmp > ${tgtfile}
 	;;
 	p)
@@ -99,7 +99,7 @@ case "${mode}" in
 		usage
 	;;
 	s)
-		#TODO:vissiin toisesta oksasta prujaaminen (missä ja milloin tuo stu?)
+		#DONE:vissiin toisesta oksasta prujaaminen
 		#TODO:myös testaus, miten kehitysympstössä asentuu paketin sisältö
 		#TODO:fktiom nimeämisen miettiminen?
 		e22_stu ${tgtfile} 
