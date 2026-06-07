@@ -79,10 +79,15 @@ fi
 ls -las ./*.conf
 csleep 5
 
+#070626:varm vuoksi debug lisätty
 dqb "BFROE tig"
+csleep 2
+dqb "${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git SOON"
 csleep 2
 ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 [ $? -gt 0 ] && exit
+
+#TODO:main-oksa toimintakuntoiseksi joskus
 
 dqb "TGI KO"
 csleep 2
