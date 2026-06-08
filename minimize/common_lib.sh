@@ -488,7 +488,7 @@ function fromtend() {
 
 	export DEBIAN_FRONTEND=noninteractive
 
-	if [ ! -f /.chroot ] ; then #ei conf_alt_root ainakaan vielä
+	if [ "${CONF_env}" != "TOOR" ] ; then #ei conf_alt_root ainakaan vielä
 		dqb "${odio} -E ${sd0} --force-confold -i $@"
 		${odio} -E ${sd0} --force-confold -i $@
 	else
@@ -572,7 +572,7 @@ function CB02() {
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
 
-	[ -f /.chroot ] && message
+	[ "${CONF_env}" == "TOOR" ] && message
 	local p
 	for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
 
@@ -1160,7 +1160,7 @@ function part1_5() {
 			touch ${h}/sources.list.tmp
 			local b
 
-			if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
+			if [ "${CONF_env}" == "TOOR" ] && [ -v CONF_alt_root ] ; then
 				b="deb file://${2}"
 			else
 				b="deb https://REPOSITORY/merged"
@@ -1233,8 +1233,7 @@ function part1() {
 		fi
 	fi
 
-	#TODO:.chroot mäkeen
-	if [ -f /.chroot ] && [ -v CONF_alt_root ] ; then
+	if [ "${CONF_env}" == "TOOR" ] && [ -v CONF_alt_root ] ; then
 		part1_5 ${t} ${CONF_alt_root}/${t}
 	else
 		part1_5 ${t} ${2}
