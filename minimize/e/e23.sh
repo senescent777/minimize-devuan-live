@@ -161,6 +161,7 @@ function e23_qrs() {
 }
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
+#P.S. jälleen kerran oli urputusta paketin sisällön asennusvaiheessa accept1 kanssa EDELLEEN jotain numa numa jee
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -297,8 +298,6 @@ function e23_profs() {
 	dqb "e23_profs() done"
 	csleep 1
 }
-
-
 
 function e23_st() { #josqs tämänkin testaus? (kts toisen repon setup1.bash)
 	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
