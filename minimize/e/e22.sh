@@ -323,7 +323,7 @@ function e22_home() {
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 
-	${srat} ${TARGET_TPX} --exclude olds --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
+	${srat} "${TARGET_TPX}" --exclude olds --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
 
 	#miksi tässä eikä h_pre() ?

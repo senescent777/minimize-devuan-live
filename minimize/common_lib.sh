@@ -377,7 +377,7 @@ function common_pp3() {
 
 	if [ ${q} -lt 1 ] ; then
 		echo "SHOULD REMOVE ${1} / shasums . t x t"
-		echo "ibcovation \"${scm} a-x ${1} /../common_lib.sh;import2 1 \$something\" MAY ALSO HELP"
+		echo "ibcovation \${scm} a-x ${1} /../common_lib.sh;import2 1 \$something MAY ALSO HELP"
 .
 		${scm} a-wx ${r}/common_lib.sh
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
@@ -402,10 +402,11 @@ function common_pp3() {
 		dqb "SAH.1"
 		csleep 1
 
+		echo "#TODO:VARMISTA ETTÄ SAH.1-KOHTA FKTIOSS common_pp3() TOIMII" #MIELELLÄÄN SUURI MÖLINÄ JOS NÄMÄ JUTUT PUUTTUVAT
 		for s in $(grep -v '#' ${1}/${CONF_hashfile}.1 | grep -v drop | awk '{print $2}') ; do
 			dqb "${spc} ${1}/${s} ${2}"
 			${spc} ${1}/${s} ${2}
-			csleep 1
+			csleep 10
 		done
 	fi
 
@@ -1382,8 +1383,8 @@ function cg_pp2() {
 	dqb "d0n3"
 }
 
-dqb "HUOM. KANNATTAA KEHITYSYMP PURKAA PAKETTI RIITTÄVIN VALTUUKSIN ETTÄ PYSYVÄT SKRIPTIT AJAN TASALLA"
-csleep 6
+#dqb "HUOM. KANNATTAA KEHITYSYMP PURKAA PAKETTI RIITTÄVIN VALTUUKSIN ETTÄ PYSYVÄT SKRIPTIT AJAN TASALLA"
+#csleep 6
 
 function part3() {
 	dqb "))() part3 ${1} , ${2} (((((((("

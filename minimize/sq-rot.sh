@@ -230,7 +230,7 @@ else
 	exit 55
 fi
 
-#TODO:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
+#TODO:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?) (jokohan jo 06/26 varmistaisi?)
 
 function common_part() {
 	dqb "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
@@ -336,7 +336,7 @@ function common_part() {
 	fi
 
 	sleep 1
-	echo "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
+	echo "NECKST: ${srat} "${TARGET_TPX}" -C ${3} -xf ${1}"
 	
 	sleep 1
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}

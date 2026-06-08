@@ -50,6 +50,7 @@ function e23_tblz() {
 	dqb "e23_tblz() DONE"
 }
 
+#8626:pre_e pois jos kiukuttelua liikaa
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -60,7 +61,7 @@ function e23_other_pkgs() {
 	csleep 1
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
-	${shary} ${E22_GI}
+	e22_pre_e ${E22_GI}
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	e22_pre_e ${E22_GG}
 	e22_pre_e ${E23_GS}
@@ -87,13 +88,15 @@ function e23_other_pkgs() {
 	csleep 1
 }
 
+#080626:jotain pientä nalkutusta päivityspaketinkin kanssa, voisi tehdä jotain asialle josqs
 function e23_upgp() {
 	dqb " e23_upgp() "
 
 	${fib}
 	csleep 1
 
-	${shary} ${E22_GS}
+	#pre_e pois jos kiukuttelee liikaa
+	e22_pre_e ${E22_GS}
 
 	${sag} --no-install-recommends upgrade -u
 	echo $?
@@ -162,14 +165,16 @@ function e23_qrs() {
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
 #P.S. jälleen kerran oli urputusta paketin sisällön asennusvaiheessa accept1 kanssa EDELLEEN jotain numa numa jee
+#masentuu mutta...
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
 	csleep 2
 
+	#pitäisikö mennä näin kuitenkin?
 	${fib}
-	${shary} ${E22_GS}
-	${shary} ${E22_GM}
+	e22_pre_e ${E22_GS}
+	e22_pre_e ${E22_GM}
 	csleep 5
 
 	if [ "${1}" == "wdm" ] ; then

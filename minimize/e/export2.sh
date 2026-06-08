@@ -232,7 +232,7 @@ case "${mode}" in
 #		#:uusiksi vain koko pasq?
 #		e23_xyz
 #	;;
-	s)
+	s) #080626:testit vähitellen käytniin tämän kanssa
 		e23_st
 	;;
 	*)

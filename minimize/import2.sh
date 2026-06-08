@@ -235,17 +235,13 @@ function tpr() {
 	[ ${r} -gt 0 ] || exit 21
 	csleep 1
 
-	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/${2}
+	${srat} "${TARGET_TPX}" -C ${q} -xvf ${1}/${2}
 	[ $? -gt 0 ] && exit 22
 	csleep 2
 
-	
-
 	imp_prof esr $(whoami) ${q}
 	dqb $?
-	csleep 2
-
-	
+	csleep 2	
 }
 
 
