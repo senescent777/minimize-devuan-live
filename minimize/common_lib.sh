@@ -356,7 +356,7 @@ function psqa() {
 		csleep 1
 		cd ${p}
 	else
-		dqb "NO $CONF_algo}SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
+		dqb "NO SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
 		dqb "SHOULD \${NKVD} ${1}/ \*.deb"		
 		return 93
 	fi
@@ -809,7 +809,7 @@ function e_final() {
 	${sco} root:root /tmp
 	
 	csleep 1
-	dqb "ANALISIS CLINICOS ASD ASD 123"
+	dqb "SALA DE ANALISIS CLINICOS ASD ASD 123"
 }
 
 function e_h() {
