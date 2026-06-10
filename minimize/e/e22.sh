@@ -593,6 +593,9 @@ function e22_arch() {
 	if [ $? -gt 0 ] ; then
 		echo "SHOULD ${NKVD} ./*.deb ./${CONF_hashfile}* ./*.tar "
 		sleep 10
+		${NKVD} ./*.deb 
+		${NKVD} ./${CONF_hashfile}*
+		${NKVD} ./*.tar  
 	fi
 
 	dqb "BFRE TR"

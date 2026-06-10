@@ -338,8 +338,14 @@ function psqa() {
 			return 94
 		fi
 
-		#TODO:selvitä mikä tämän tdston kanssa on? jääkö tyhjäksi nykyään?
-		[ -f ${1}/${CONF_hashfile}.1 ] && ${sah6} --ignore-missing -c ${CONF_hashfile}.1
+		#VAIH:selvitä mikä tämän tdston kanssa on? jääkö tyhjäksi nykyään?
+		if [ -f ${1}/${CONF_hashfile}.1 ] ; then
+			${sah6} --ignore-missing -c ${CONF_hashfile}.1
+		else
+			echo "EILINRN PULLA 80 c"
+			#exit 666
+		fi
+
 		csleep 1
 		cd ${p}
 	else

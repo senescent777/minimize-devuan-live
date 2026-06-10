@@ -278,6 +278,7 @@ function common_part() {
 
 			if [ ${r} -eq 0 ] ; then
 				echo "SHOULD \$ {NKVD} \${1} * NOW"
+				${NKVD} ${1}*
 			fi
 		fi
 	fi
@@ -306,6 +307,7 @@ function common_part() {
 
 			echo "SHOULD: \$ {NKVD} ${1}* "
 			sleep 1
+			${NKVD} ${1}*
 			exit 43
 		fi
 
@@ -325,11 +327,11 @@ function common_part() {
 			dqb "ko"		
 		else
 			echo "SHOULD DO SOME NKVD-STUFF AROUND HERE"
-			#${NKVD} ${1}* 
-			#${NKVD} ${2}/*.deb
+			${NKVD} ${1}* 
+			${NKVD} ${2}/*.deb
 		
-			#${NKVD} ${2}/${CONF_hashfile}*
-			#${NKVD} ${2}/*.tar*
+			${NKVD} ${2}/${CONF_hashfile}*
+			${NKVD} ${2}/*.tar*
 
 			exit 33
 		fi
@@ -475,8 +477,8 @@ esac
 if [ $? -eq 0 ] ; then
 	if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
 		read -p " U  WANT 2 RM SOURCE ?" confirm
-		#270526:joskus takaisin toimintaan
-		[ "${confirm}" == "Y" ] && echo "SHOULD \$ {NKVD} \${srcfile}"
+	
+		[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
 	fi
 fi
 
