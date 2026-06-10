@@ -240,7 +240,8 @@ fi
 
 dqb "sqr.aftr.check_par5"
 csleep 2
-#TODO:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
+#VAIH:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
+#... eli alahan testata
 
 function common_part() {
 	dqb "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
@@ -364,8 +365,8 @@ function cptp2() {
 
 		if [ -x ${t}/common_lib.sh ] ; then
 			enforce_access $(whoami) ${t}
-			#TODO:tesktiä joutunee muuttamaan
-			dqb "TRO: running changedns.sh maY be necessary now to fix some things"
+		
+			dqb "TRO: running mutilatetc.bash maY be necessary now to fix some things"
 		else
 			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
 		fi
@@ -417,7 +418,7 @@ case "${mode}" in
 	;;
 	3)
 		
-		#TODO:e23_st() outputin asennus , kehitysymp
+		#VAIH:e23_st() outputin asennus , kehitysymp
 		#TODO:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
 
 		e=${d}

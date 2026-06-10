@@ -92,7 +92,6 @@ else
 
 		mkt=$(${odio} which mktemp)
 		scm=$(${odio} which chmod)
-		#sah6=$(${odio} which sha512sum) TODO:TÄMÄN KANSSA JUTTUJA
 
 		srat=$(${odio} which tar)
 		#eXit jos srat ei?
@@ -226,8 +225,8 @@ function cptp2() {
 			enforce_access $(whoami) ${t} #${2} toka param turha?
 			csleep 10
 
-			#TODO:ao. tesktin muuttaminen
-			dqb "1MP,2: running changedns.sh maY be necessary now to fix some things"
+		
+			dqb "1MP,2: running mutilatetc.bash maY be necessary now to fix some things"
 		else
 			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
 		fi

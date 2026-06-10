@@ -80,8 +80,8 @@ function dis() {
 
 	if [ -v CONF_iface ] ; then
 		if [ ! -z "${2}" ] ; then
-			#TODO?:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
-			sifd=/sbin/ifdowm ?
+
+			sifd=/sbin/ifdown
 			dqb "${odio} ${sifd} ${2}"	
 			csleep 1
 			[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
@@ -234,7 +234,7 @@ function pre_enforce() {
 	csleep 1
 
 	[ -f ${q} ] || exit 33
-	#TODO:katso lista läpi että mitä nykyään tarvitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
+	#TODO?:katso lista läpi että mitä nykyään tarvitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
 
 	dqb "BFOR3 testgris"
