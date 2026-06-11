@@ -489,16 +489,14 @@ function CB01() {
 	dqb "common.lib.CB01() DONE"
 	csleep 1
 }
-
-#function message() { #TÄSSÄ VÄÄRIÄ MERKKEJÄ?
-#echo "INSTALLING NEW PACKAGES IN x SECS"
-#sleep 1
-#echo "DO NOT xxx yyy"
-#sleep 1
-#echo "... FOR POSITIVE ANSWER MAY BREAK THINGS"
-#sleep 1
-#}
-
+function message() { #TÄSSÄ VÄÄRIÄ MERKKEJÄ?
+echo "INSTALLING NEW PACKAGES IN x SECS"
+sleep 1
+echo "DO NOT xxx yyy"
+sleep 1
+echo "... FOR POSITIVE ANSWER MAY BREAK THINGS"
+sleep 1
+}
 function CB02() {
 	dqb "CB02()"
 	csleep 1
@@ -857,108 +855,98 @@ function e_h() {
 	csleep 1
 }
 
-#function mangle2() {
-#	[ -z  "${1}" ] && exit 99
-#
-#	if [ -f ${1} ] ; then
-#		${scm} o-rwx ${1}
-#		${sco} root:root ${1}
-#	fi
-#}
-#
-#function e_e() {
-#	dqb "e_e"
-#	csleep 1
-#	
-#	fix_sudo
-#	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
-#
-#	for f in $(find /etc -name "sudo*" -type f | grep -v log) ; do
-#	done
-#
-#	other_horrors
-#	${scm} 0755 /etc
-#	${sco} -R root:root /etc
-#	${scm} 0555 /etc/network
-#	${scm} 0444 /etc/network/*
-#
-#	for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
-#	csleep 1
-#
-#	local f
-#	local c
-#
-#	f=$(date +%F)
-#	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
-#
-#	dqb "JUST BEF0RE MUTILATING RESOLV.CONF"
-#	csleep 5
-#
-#	if [ -f /etc/resolv.conf.${f} ] ; then
-#		dqb "SADF SADF SADFS ASDGH"
-#	else
-#		if [ -h /etc/resolv.conf ] ; then
-#			c=$(find /etc -type f -name "resolv.conf.*" -size +10c | wc -l )
-#
-#			if [ ${c} -gt 0 ] ; then 
-#				${smr} /etc/resolv.conf
-#			fi
-#		else
-#			${svm} /etc/resolv.conf /etc/resolv.conf.${f}
-#		fi
-#	fi
-#
-#	dqb "JUST AFTER MUTILATING RESOLV.CONF"
-#	csleep 2
-#	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-#	csleep 2
-#
-#	${sco} -R root:root /etc/wpa_supplicant
-#	${scm} -R a-w /etc/wpa_supplicant
-#
-#	for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
-#		${sco} -R root:root ${f}
-#		${scm} 0400 ${f}
-#	done
-#
-#	dqb "EE DONE"
-#	csleep 1
-#}
-#
-#function e_v() {
-#	dqb "e_v()"
-#	${sco} -R root:root /sbin
-#	${scm} -R 0755 /sbin
-#	dqb "e_V_2 IN 1 SECS"
-#	csleep 1
-#
-#	${sco} root:root /var
-#	${scm} 0755 /var
-#	${sco} root:staff /var/local
-#	${sco} root:mail /var/mail
-#	${sco} -R man:man /var/cache/man
-#	${scm} -R 0755 /var/cache/man
-#	
-#	dqb "EV DONE"
-#	csleep 1
-#}
-#
-#function enforce_access() {
-#	dqb "common_lib.enforce_access(${1} , ${2} ))))))"
-#	[ -z "${1}" ] && exit 67
-#	[ -z "${2}" ] && exit 68
-#	
-#	csleep 1
-#	dqb "pars.ok"
-#	
-#	e_e
-#	e_v
-#	e_h ${1} ${2}
-#	e_final
-#	jules
-#
-#	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
-#}
+function mangle2() {
+	[ -z  "${1}" ] && exit 99
+
+	if [ -f ${1} ] ; then
+		${scm} o-rwx ${1}
+		${sco} root:root ${1}
+	fi
+}
+
+function e_e() {
+	fix_sudo
+	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
+
+	for f in $(find /etc -name "sudo*" -type f | grep -v log) ; do
+		mangle2 ${f}
+	done
+
+	other_horrors
+	${scm} 0755 /etc
+	${sco} -R root:root /etc
+	${scm} 0555 /etc/network
+	${scm} 0444 /etc/network/*
+
+	for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
+	csleep 1
+
+	local f
+	local c
+
+	f=$(date +%F)
+	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
+
+	if [ -f /etc/resolv.conf.${f} ] ; then
+		dqb "SADF SADF SADFS ASDGH"
+	else
+		if [ -h /etc/resolv.conf ] ; then
+			c=$(find /etc -type f -name "resolv.conf.*" -size +10c | wc -l )
+
+			if [ ${c} -gt 0 ] ; then 
+				${smr} /etc/resolv.conf
+			fi
+		else
+			${svm} /etc/resolv.conf /etc/resolv.conf.${f}
+		fi
+	fi
+
+	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
+	csleep 2
+
+	${sco} -R root:root /etc/wpa_supplicant
+	${scm} -R a-w /etc/wpa_supplicant
+
+	for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
+		${sco} -R root:root ${f}
+		${scm} 0400 ${f}
+	done
+}
+
+function e_v() {
+	dqb "e_v()"
+	${sco} -R root:root /sbin
+	${scm} -R 0755 /sbin
+	dqb "e_V_2 IN 1 SECS"
+	csleep 1
+
+	${sco} root:root /var
+	${scm} 0755 /var
+	${sco} root:staff /var/local
+	${sco} root:mail /var/mail
+	${sco} -R man:man /var/cache/man
+	${scm} -R 0755 /var/cache/man
+	
+	dqb "EV DONE"
+	csleep 1
+}
+
+function enforce_access() {
+	dqb "common_lib.enforce_access(${1} , ${2} ))))))"
+	[ -z "${1}" ] && exit 67
+	[ -z "${2}" ] && exit 68
+	
+	csleep 1
+	dqb "pars.ok"
+	
+	e_e
+	e_v
+	e_h ${1} ${2}
+	e_final
+	jules
+
+	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
+}
 
 function part1_5() {
 	dqb "part1_5()"
@@ -1170,7 +1158,7 @@ function part2() {
 	csleep 1
 }
 
-#poistettu komm 050626,toimii:
+#poistettu komm 050626,toimii: ehkä
 function wopr() {
 	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
 	local r=$(find ${1} -type f -name "${2}*.deb" )
@@ -1192,7 +1180,7 @@ function wopr() {
 	csleep 1
 }
 
-#poistettu komm 050626,toimii:
+#poistettu komm 050626,toimii: ehkä
 function common_lib_tool() {
 	dqb "common_lib_tool( ${1}  ; ${2} )))) "
 	[ -d ${1} ] || exit 66

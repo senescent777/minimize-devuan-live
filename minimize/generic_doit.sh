@@ -113,7 +113,7 @@ function part0() {
 	dis ${1} ${2}
 	local s
 	dqb "смерть шпионам"
-	dqb "#VAIH:jospa kokeilisi vähitellen miten xfquery-komennot vaikuttavat? (270426)"
+	#VAIH:jospa kokeilisi vähitellen miten xfquery-komennot vaikuttavat? 
 
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
