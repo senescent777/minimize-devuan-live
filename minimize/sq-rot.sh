@@ -173,7 +173,7 @@ function pre() {
 	
 		for r in ${q} ; do
 			${gg} --verify ${r}
-			#TODO:exit jos vrheitä
+			#TODO?:exit jos vrheitä?
 		done
 	
 		sleep 1
@@ -230,7 +230,8 @@ else
 	exit 55
 fi
 
-#TODO:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?) (jokohan jo 06/26 varmistaisi?)
+#VAIH:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?) (jokohan jo 06/26 varmistaisi?)
+#... josko vähitelleb?
 
 function common_part() {
 	dqb "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
@@ -420,7 +421,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && other_horrors
 	;;
 	3)
-		#TODO:e23_st() outputin asennus , kehitysymp (tai siis)
+		#VAIH:e23_st() outputin asennus , kehitysymp (tai siis)
 		#TODO:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
 
 		e=${d}

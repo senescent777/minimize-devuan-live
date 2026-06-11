@@ -349,8 +349,9 @@ function psqa() {
 		csleep 1
 		cd ${p}
 	else
-		echo "TODO:MUISTA KORJATA VASTAAVA KOHTA TOISESSA OKSASSA, NO ... CAN BE CHECKED"
-		sleep 10
+		#echo "VAIH:MUISTA KORJATA VASTAAVA KOHTA TOISESSA OKSASSA, NO ... CAN BE CHECKED"
+		#sleep 10
+
 		dqb "NO SHASUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
 		dqb "SHOULD \${NKVD} ${1}/ \*.deb"		
 		return 93
@@ -1368,7 +1369,7 @@ function cg_udp6() {
 	csleep 1
 
 	if [ "${CONF_iface}" == "eth0:1" ] ; then
-		dqb "TODO:ehdollinen dhcp-pak karsinta?"
+		dqb "TODO?:ehdollinen dhcp-pak karsinta?"
 	fi
 }
 
