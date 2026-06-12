@@ -400,13 +400,15 @@ fi
 
 dqb "COMMON_PP3-DONE()"
 }
-function efk1() { #tässä vääriä merkkejä?
+
+function efk1() {
 dqb "efk1 $@"
 ${sdi} $@
 if [ $? -eq 0 ] ; then
 ${NKVD} $@
 fi
 }
+
 function efk2() {
 	dqb "efk2 )))))))) ${1} ))) ${2} )))))"
 	[ -z "${2}" ] && exit 98
@@ -489,7 +491,8 @@ function CB01() {
 	dqb "common.lib.CB01() DONE"
 	csleep 1
 }
-function message() { #TÄSSÄ VÄÄRIÄ MERKKEJÄ?
+
+function message() {
 echo "INSTALLING NEW PACKAGES IN x SECS"
 sleep 1
 echo "DO NOT xxx yyy"
@@ -497,6 +500,7 @@ sleep 1
 echo "... FOR POSITIVE ANSWER MAY BREAK THINGS"
 sleep 1
 }
+
 function CB02() {
 	dqb "CB02()"
 	csleep 1
@@ -1068,7 +1072,7 @@ function part1() {
 	dqb "FOUR-LEGGED WH0R3"
 }
 
-#qseeko tässä jokin?
+#qseeko tässä jokin? toiv ei enää
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
 	csleep 6
@@ -1202,7 +1206,8 @@ function common_lib_tool() {
 
 	dqb "t00l DONE"
 }
-#function cg_udp6() {
+
+#function cg_udp6() { #TODO:vissiin export2 kanssa testejä, toimiiok tämä (e22_ts())
 #	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
 #	csleep 1
 #	[ -z "${1}" ] && exit 65
@@ -1222,7 +1227,7 @@ function common_lib_tool() {
 #	dqb "D0NE"
 #	csleep 1
 #}
-#
+
 ##käytössä?
 #function cg_pp2() {
 #	dqb " GENERIC REPLACEMENT FOR daud.lib.pre_part2 ${1}"
@@ -1325,6 +1330,7 @@ function part3() {
 	[ -f ${1}/${CONF_hashfile} ] && ${NKVD} ${1}/${CONF_hashfile}*
 	other_horrors
 }
+
 function process_lib() {
 	dqb "process_lib( ${1} ) ${2} (((((((("
 	[ -z "${1}" ] && exit 66

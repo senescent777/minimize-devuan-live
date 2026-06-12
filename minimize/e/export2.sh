@@ -244,7 +244,6 @@ case "${mode}" in
 #		e23_xyz
 #	;;
 	s)
-		#VAIH:tämän testaus? siis sittenq kopsattu toisesta oksasta tuo fktio
 		e23_st
 	;;
 	*)

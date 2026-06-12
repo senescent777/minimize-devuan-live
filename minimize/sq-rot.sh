@@ -137,11 +137,11 @@ else
 		dqb "W T F ???"
 	}
 
-	for opt in $@ ; do
-		parse_opts_1 ${opt}
-		parse_opts_2 ${prevopt} ${opt}
-		prevopt=${opt}
-	done
+#	for opt in $@ ; do
+#		parse_opts_1 ${opt}
+#		parse_opts_2 ${prevopt} ${opt}
+#		prevopt=${opt}
+#	done
 fi
 
 dqb "rot:AFTR common_lib"
@@ -163,6 +163,17 @@ check_binaries ${d}
 check_binaries2
 #[ $? -eq 0 ] || exit
 [ -v CONF_env ] || exit 96
+
+if [ $# -gt 0 ] ; then
+	mode=${1}
+	[ -f ${1} ] && exit 99
+	[ "${2}" == "-v" ] || srcfile=${2}
+
+	#parse_opts pitäisi
+	if [ "${3}" == "-v" ] || [ "${4}" == "-v" ] ; then
+		debug=1
+	fi
+fi
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
@@ -342,6 +353,7 @@ function common_part() {
 	dqb "${srat} DONE"
 }
 
+#cptp2 -> common_lib vai ei?
 function cptp2() {
 	dqb "rot.c tp2 ${1}, ${2}, ${3}"
 
@@ -377,7 +389,7 @@ function cptp2() {
 	csleep 1
 
 	if [ -d ${t} ] ; then
-		dqb "HAIL2 TH3 CH13F"
+		dqb "HAIL2 TH3 TH13F"
 
 		${scm} 0755 ${t}
 		${scm} 0555 ${t}/*.sh
@@ -399,7 +411,7 @@ case "${mode}" in
 	;;
 	#... exp2 rp vähän yritetty testailla 05/26
 	0)
-		[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est
+		#[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est
 		
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
@@ -417,8 +429,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && other_horrors
 	;;
 	3)
-		
-		#VAIH:e23_st() outputin asennus , kehitysymp
+		#DONE:e23_st() outputin asennus , kehitysymp
 		#TODO:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
 
 		e=${d}

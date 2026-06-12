@@ -391,8 +391,6 @@ case "${mode}" in
 		[ -s ~/${CONF_default_arhcive2} ] || exit 29
 
 		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
-
-
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 
 		dqb "XP R"

@@ -36,7 +36,7 @@ CONF_testgris=/SMTH1NG
 #CONF_ksk=KeY.EFGHI
 #/kyrpto
 #
-TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude .chroot --exclude .gnupg/ "
+TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude ./rnd --exclude .chroot --exclude .gnupg/ "
 #
 CONF_dm=xdm
 #
