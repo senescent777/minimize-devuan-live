@@ -555,9 +555,10 @@ function e22_arch() {
 		csleep 1
 	fi
 
-	#VAIH:ceen kanssa jokin juttu?
+	#DONE?:ceen kanssa jokin juttu
 
 	if [ ${c} -lt 1 ] ; then
+		echo "N0 .deb - FIL35s UND3R ${2}"
 		exit 55
 	fi
 
@@ -577,12 +578,15 @@ function e22_arch() {
 		csleep 1
 	done
 
-	csleep 10
+	csleep 5
 
 	for f in e.tar g.tar ; do
 		dqb "sah6 ./${f}"
 		[ -s ./${f} ] && ${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
 	done
+
+	[ ${debug} -eq 1 ] && cat  ./${CONF_hashfile}.1
+	csleep 5
 
 	e22_tyg ./${CONF_hashfile}
 	[ -s  ./${CONF_hashfile}.1 ] && e22_tyg ./${CONF_hashfile}.1
