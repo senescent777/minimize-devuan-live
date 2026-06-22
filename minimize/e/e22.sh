@@ -537,7 +537,7 @@ function e22_arch() {
 	csleep 1
 
 	[ -z "${1}" ] && exit 1
-	[ -s ${1} ] || exit 
+	[ -s ${1} ] || exit 11
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 44
 	[ -z "${3}" ] && exit 53
@@ -555,7 +555,7 @@ function e22_arch() {
 		csleep 1
 	fi
 
-	#TODO:ceen kanssa jokin juttu
+	#VAIH:ceen kanssa jokin juttu?
 
 	if [ ${c} -lt 1 ] ; then
 		exit 55
