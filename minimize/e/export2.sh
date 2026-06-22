@@ -23,7 +23,7 @@ function usage() {
 	echo "$0 -h: shows tHis message about usage"
 }
 
-#VAIH:jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
+#jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
 #... jospa ensin export3:sen kanssa kokeilut ja sitttten
 
 if [ $# -gt 1 ] ; then
@@ -33,9 +33,6 @@ else
 	usage
 	exit 1	
 fi
-
-#"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
-#290426:parse_fktioiden siirto e22:seen olisi 1 idea, tosin siitä seurannee paljon säätöä
 
 function parse_opts_1() {
 	dqb "parse_opts_1( ${1})"
@@ -63,7 +60,6 @@ function parse_opts_2() {
 			mop=${2}
 		;;
 #		*)
-#			#
 #			if [ "${mode}" == "-2" ] ; then
 #				mode=${1}
 #				tgtfile=${2}
@@ -74,26 +70,23 @@ function parse_opts_2() {
 	esac
 }
 
-#parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
 function fallback() { #tarpeellinen?
 	exit 59
 }
 
-if [ -x ${d0}/common_lib.sh ] ; then #200426:on edelleen tarpeellinen kirjasto
+if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#johdonmukaisuus virhekoodeissa olisi tietty kiva
 	exit 57
 fi
 
 [ -z "${distro}" ] && exit 6
 d=${d0}/${distro} #nykyään vähän turha tässä
 process_lib ${d}
-mop=${CONF_dm}
+mop=${CONF_dm} 
 
-#suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 dqb "BEF0RE T1G N0R MKTMP"
 sleep 1
 
@@ -109,8 +102,9 @@ fi
 
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
-#miten sen E22_GG kanssa?
 
+E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
+	
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
 	[ $? -gt 0 ] && exit 66
@@ -124,19 +118,15 @@ else
 	exit 58
 fi
 
-#https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 [ -z "${tgtfile}" ] && exit 98
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
-cont=0
-dqb "ESAC1"
 csleep 1
 [ -d ${d0}/${tgtfile} ] && exit 64
 
 e22_hdr ${tgtfile}
-[ -v CONF_iface ] && ${sifd} ${CONF_iface} 
+[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
-#HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
@@ -157,22 +147,26 @@ case "${mode}" in
 		exit 97
 	;;
 	3|4) 
+		
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
-		#VAIH:turhia kommentteja wttuun sotkemasta	
+		#VAIH:turhia kommentteja wttuun sotkemasta
+
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
-		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy? eli 3. ehto tuohon alle?
-	
+
+		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
+		
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
-			#TODO:se jokin rekursiojuttu näille main? (kts toinen oksa)
+			#TODO:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä
+
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
 			doit=0
-		fi
+		fi	
 		
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
@@ -196,16 +190,13 @@ case "${mode}" in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) 
-		#VAIH:testailut uusicksi TAAS 666		
-
 		e22_pre_e ${E22_GS}
 		e22_pre_e ${E22_GM}
-
 		csleep 3
 		message
 		csleep 2
 
-		e23_tblz ${CONF_iface} ${CONF_dnsm}
+		e23_tblz ${CONF_iface} ${CONF_dnsm} 
 		dqb "BC/AD"
 		csleep 10
 		e23_other_pkgs ${CONF_dnsm}
@@ -217,16 +208,14 @@ case "${mode}" in
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
-		#VAIH (muodostetun paketin toimivuuden testaus lähinnä)
 		e22_hdr ${d}/e.tar
-
-		#TODO:miten se E22_GG ? (toisessa oksasssa vastaava kohta siis)
 
 		${fib}
 		${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä
+		${shary} ${E22_GG}
+
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
-
 		doit=0
 	;;
 	l)
@@ -243,21 +232,18 @@ case "${mode}" in
 #		#:uusiksi vain koko pasq?
 #		e23_xyz
 #	;;
-	s)
+	s) #080626:testit vähitellen käytniin tämän kanssa
 		e23_st
 	;;
 	*)
 		echo "MAYBE U SHOULD USE export3 INSTEAD"
 		sleep 5
-
-		echo "d0= ${d0}"
-		echo "dirname= $(dirname $0)"
-
 		${d0}/export3.bash ${mode} ${tgtfile} -v
 		exit
 	;;
 esac
 
+#tuossa alla vielä jotain laittoa?
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
 
