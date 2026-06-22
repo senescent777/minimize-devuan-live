@@ -555,6 +555,8 @@ function e22_arch() {
 		csleep 1
 	fi
 
+	#TODO:ceen kanssa jokin juttu
+
 	if [ ${c} -lt 1 ] ; then
 		exit 55
 	fi

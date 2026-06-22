@@ -1278,27 +1278,28 @@ function cg_udp6() {
 	csleep 1
 
 	if [ "${CONF_iface}" == "eth0:1" ] ; then
-		dqb "TODO?:ehdollinen dhcp-pak karsinta?"
+		dqb "VAIH:ehdollinen dhcp-pak karsinta?"
+		${sharpy} isc-dchp*
 	fi
 }
-
-#käytössä?
-function cg_pp2() {
-	dqb " GENERIC REPLACEMENT FOR daud.lib.pre_part2 ${1}"
-	csleep 1
-
-	${odio} /etc/init.d/ntpd stop
-	#$sharpy ntp* jo aiempana
-
-	for f in $(find /etc/init.d -type f -name "ntp*" ) ; do 
-		${odio} ${f} stop
-		csleep 1
-	done
-
-	csleep 2
-	dqb "d0n3"
-}
-
+#
+##käytössä?
+#function cg_pp2() {
+#	dqb " GENERIC REPLACEMENT FOR daud.lib.pre_part2 ${1}"
+#	csleep 1
+#
+#	${odio} /etc/init.d/ntpd stop
+#	#$sharpy ntp* jo aiempana
+#
+#	for f in $(find /etc/init.d -type f -name "ntp*" ) ; do 
+#		${odio} ${f} stop
+#		csleep 1
+#	done
+#
+#	csleep 2
+#	dqb "d0n3"
+#}
+#
 #dqb "HUOM. KANNATTAA KEHITYSYMP PURKAA PAKETTI RIITTÄVIN VALTUUKSIN ETTÄ PYSYVÄT SKRIPTIT AJAN TASALLA"
 #csleep 6
 
