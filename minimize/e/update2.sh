@@ -10,12 +10,17 @@ spc=$(which cp)
 [ -x ${spc} ] || exit 14
 n=$(whoami)
 
+par3=""
+
+
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
-		#omega.testit lienevät jo tehty onnistuneestyi 31/5/26 mennessä
+		
 		tcmd="sudo ${tcmd} "
 		spc="sudo ${spc} "
 	fi
+
+	par3=${3}
 else
 	exit 10
 fi
@@ -25,15 +30,10 @@ tgt=${1}
 [ -s "${tgt}" ] || exit 16
 [ -r "${tgt}" ] || exit 17
 
-echo "PARAMS CHECKED"
-sleep 1
-
 if [ -s ${d0}/$(whoami).conf ] ; then
-	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
 else
 	if [ -s ${d0}/../$(whoami).conf ] ; then
-		echo "ALT.C0NF1G3"
 		. ${d0}/../$(whoami).conf
 	fi
 fi
@@ -51,7 +51,6 @@ sleep 1
 t=$(pwd)
 
 echo "#TODO:tunaroinnin varalta lähteestä vkopio ennenq alkaa process_row() hakata"
-#resolv-jutut jo kunnossqa 067/26?
 
 if [ "${CONF_env}" == "VED" ] && [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	echo "YLIULIULI asb asb ABC"
@@ -75,32 +74,26 @@ if [ "${CONF_env}" != "DEFAULT" ]; then
 	xo="${xo} --exclude resolv.* "
 fi
 
-#020626:KUINKA MONTA KERTAA TÄMÄ PITÄÄ VIELÄ RENKATA????
 function process_row() {
 	${tcmd} --exclude "${xo}" -rvf ${1} ${2}
 }
 
 if [ ! -s ${d0}/MAN1.F2ST ] ; then
-	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb > ${d0}/MAN1.F2ST
+	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb | grep -v resolv > ${d0}/MAN1.F2ST
 	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
 	sleep 1
 fi
 
-#ao. riveihin muutoksia koska CONF_env tulosssa käyttöön?
+#ao. riveihin muutoksia? koska CONF_env tulosssa käyttöön
 if [ -z "${par3}" ] ; then
 	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .tar | grep -v .deb | grep -v .chroot | grep -v resolv)
 else
 	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep ${par3})
 fi
 
-#tcmd:lle optioksi nuo pois grepattavat, --exclude, olisiko jo?
-
 for f in ${g} ; do
-	#echo "${f} :"
-
 	if [ -f ${f} ] ; then
-		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
-			#echo "... processinbfg"
+		if [ ! -d ${f} ] ; then
 			process_row ${tgt} ${f}
 		fi
 	fi
@@ -108,5 +101,6 @@ for f in ${g} ; do
 	#sleep 1
 done
 
-#jotta ehtisi synkata 
+ls -las ${tgt}*
+#jottta ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4

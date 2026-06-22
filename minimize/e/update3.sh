@@ -52,3 +52,5 @@ if [ -s ${d0}/MAN1.F2ST ] ; then
 	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
 	echo "update2.sh ${tgt} ${2} ${3}"
 fi
+
+#060626:suattaapi olla turha tdsto nykyään
