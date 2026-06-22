@@ -6,7 +6,6 @@ d0=$(pwd)
 debug=0
 d=${d0}/${distro}
 mode=3
-#VAIH:oma moodi slimin poisToa varten?
 
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
@@ -48,9 +47,6 @@ csleep 2
 e_final
 e_h $(whoami) ${d0}
 
-#echo "resolv-ULINAT PIKEMMINKIN ifup KANSSA 666!!!"
-csleep 2
-
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 csleep 2
 
@@ -67,9 +63,9 @@ else
 	dqb "FAILURE TO MUTILATE: /etc/resolc. von f "
 fi
 
-dqb "AFTER MUTILAT.10n"
+dqb "BEYOND THE UNHOLY GRAVE"
 ls -las /etc/resolv*
-csleep 6
+sleep 10
 
 csleep 2
 ${fib}
@@ -80,8 +76,7 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-#050626:hyvä näin vaiko ehto uusiksi TAAS?
-if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then 
+if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
 	dqb "kö"
 	TLA
 else
@@ -96,26 +91,23 @@ function t2p_filler() {
 	csleep 1
 }
 
-#tarpeellinen blokki nykyään? (TODO:kts toisen oksan vastaava tdsto ja kohta)
-if [ "${CONF_env}" == "TOOR" ] ; then
-	${sharpy} blu*
-	${sharpy} nfs*
-	${sharpy} rpc*
+##140526 edelleen tarpeellinen blokki, puuttuvat paketit $d alla aiheuttavat? TODO:joko jo pois 06/26?
+#if [ "${CONF_env}" == "TOOR" ] ; then
+#	${sharpy} blu*
+#	${sharpy} nfs*
+#	${sharpy} rpc*
+#
+#	t2p_filler
+#
+#	${sharpy} dmsetup #tässä kohtaa jo gpg hukataan?
+#	${sharpy} at-spi2-core	
+#	${sharpy} psmisc
+#
+#	t2p_filler
+#	dqb "V1"
+#	#exit
+#fi
 
-	t2p_filler
-
-	${sharpy} dmsetup #tässä kohtaa jo gpg hukataan?
-	${sharpy} at-spi2-core	
-	${sharpy} psmisc
-
-	t2p_filler
-	dqb "V1"
-	#exit
-fi
-
-#HUOM.miten se wlan-juttu? loppupuolella jotain liittyvää?
-
-#110526:josko nyt poistuisi?
 if [ "${CONF_iface}" != "wlan0" ] ; then
 	${sharpy} wpa*
 	#etc alaiset wpa-jutut voisi hoidella myös rm-komennolla?
@@ -135,7 +127,6 @@ function p2g() {
 	local g
 	local h
 
-	#jatkossa jos yhdistelisi common_lib_tool kanssa... paitsi että
 	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
 		dqb "SOON: \${sharpy} ${f}* "
 		csleep 1
@@ -153,17 +144,12 @@ function p2g() {
 	csleep 1
 }
 
-#VAIH:selvitä missä kohtaa gpg poistuu nykyään, koita saada epä-poistumaan
-#mode:n kanssa kikkailut voivat auttaa selvityksessä
-#
-#	#libgtk3 ei poistu, libgtk4 kyllä
-#
-#	if [ -f /.chroot ] ; then
+
+#	if [  "${CONF_env}" == "TOOR"] ; then
 #		dqb "SHOULD \${sharpy} slim* "
 #		csleep 1
 #
-#		#26226:/e/d/network saattaisi olla toimivampi idea kuin se aiempi tässä
-#
+
 #		dqb "t2p_filler()"
 #		csleep 1
 #
@@ -176,7 +162,6 @@ function p2g() {
 #		dqb "WOULD: A.I.C"
 #		csleep 1
 #	fi
-#
 
 function t2pf() {
 	dqb "gp2t.common_lib.T2P.FINAL( ${1} )"
@@ -217,10 +202,8 @@ t2pf ${d}
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 2 ] && exit
 
-#140526:minimalin pakettilista kopsattu .txt-tiedostoon
-
 if [ ${mode} -gt 3 ] ; then
-	#slimiin liittyen oli muitakin juttuja?
+	#slimiin liittyen olk muitakin juttuja?
 	${fib}
 	${odio} /etc/init.d/ntpsec stop
 	echo "REMEMBER 2 /etc/init.d/wdm start";sleep 6
@@ -282,8 +265,6 @@ if [ ${mode} -gt 3 ] ; then
 #	${sharpy} transmission ttyrec w2do
 #	csleep 5
 
-#VAIH:wpasupplicant mäkeen silloinq ei tarvita, taisiis varmista että... (JOKO JO?)
-
 #	${sharpy} w3m wamerican wavemon
 #	csleep 5
 #
@@ -295,7 +276,7 @@ echo "BELLvM C0NTRA HUMAN1TAT3M"
 csleep 1
 ${scm} 0555 ${d0}/common_lib.sh 
 
-#tämäntyyppiselle if-blokille? voisi tehdä fktion jos mahd
+#tämäntyyppiselle if-blokille voisi tehdä fktion jos mahd
 dqb "${whack} xfce4-session 1n ... s3c5"
 sleep 1
 ${whack} xfce4-session #toimiiko tämä?
