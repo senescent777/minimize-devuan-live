@@ -77,20 +77,25 @@ else
 	fi
 
 	function check_binaries() {
-		echo "generic.replacement.4.check_bin"
-			#odio="sudo"
-	mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin? tpr() ainakin
-	srat=$(${odio} which tar)
-	srat="${odio} ${srat} "
-	som=$(${odio} which mount)
-	uom=$(${odio} which umount)
-	som="${odio} ${som}"
-	uom="${odio} ${uom}"
-	scm=$(${odio} which chmod)
+		dqb "imp2.check1"
+
+		mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin? tpr() ainakin
+		scm=$(${odio} which chmod)	
+
+		srat=$(${odio} which tar)
+		#eXit jos srat ei?
+
+		gg=$(${odio} which gpg)
+		som=$(${odio} which mount)
+		uom=$(${odio} which umount)
+		
 	}
 
 	function check_binaries2() {
 		echo "generic.replacement.4.check_bin2"
+		srat="${odio} ${srat} "
+		som="${odio} ${som}"
+		uom="${odio} ${uom}"
 	}
 
 
@@ -175,7 +180,7 @@ function cptp2() {
 			enforce_access $(whoami) ${t}
 			csleep 10
 
-			#DONE:teskti.uusiksi
+		
 			dqb "1MP,2: running mutilatetc.bash maY be necessary now to fix some things"
 		else
 			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
@@ -225,13 +230,13 @@ function tpr() {
 	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
 	. ${1}/${3}
 	[ $? -gt 0 ] && exit 19
-
-	local q
-	local r
-	q=$(${mkt} -d)
+	dqb "INCLUDE OK"
+	
+	local q=$(${mkt} -d)
 	[ $? -gt 0 ] && exit 20
-
-	r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l) #vielä jos arhc_4 ?
+	dqb "JUST BEFORE TAR ${1}/${2}"
+	#jos vielä härdelliä niin keskeytetään mikäli ei $2:sta löydä prefs.js?
+	local r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l) #vielä jos arhc_4 ?
 	[ ${r} -gt 0 ] || exit 21
 	csleep 1
 
@@ -297,11 +302,10 @@ else
 fi
 
 dqb "IPM2.mode=${mode}"
-dqb "2p1m.distro=${distro}"
+dqb "2ipm.distro=${distro}"
 dqb "m2pi.srcfile=${srcfile}"
 dqb "4th arra of..."
 csleep 5
-
 
 case "${mode}" in
 	1|0|3)
@@ -318,10 +322,10 @@ case "${mode}" in
 		[ -s ~/${CONF_default_arhcive2} ] || exit 29
 
 		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
-
-
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 
+		dqb "XP R"
+		csleep 5
 	;;
 #	q)
 #		# (turha case oikeastaan koska "$0 1"+"$0 r" (TODO?:jospa tekisi jotain liittyen)
