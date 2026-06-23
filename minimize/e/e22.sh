@@ -281,8 +281,6 @@ function e22_home_pre() {
 	[ -z "${3}" ] && exit 71
 	[ -z "${4}" ] && exit 73
 	[ -z "${5}" ] && exit 79
-	dqb "pars_ok"
-	csleep 1
 
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		e22_config1 ~ ${4}
@@ -585,7 +583,7 @@ function e22_arch() {
 		[ -s ./${f} ] && ${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
 	done
 
-	[ ${debug} -eq 1 ] && cat  ./${CONF_hashfile}.1
+	[ ${debug} -eq 1 ] && cat ./${CONF_hashfile}.1
 	csleep 5
 
 	e22_tyg ./${CONF_hashfile}
@@ -619,43 +617,42 @@ function e22_arch() {
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 #}
 
-#function e22_rpg() {
-#	dqb "R-P-G ${1} , ${2} , ${3}"
-#	[ -z "${1}" ] && exit 99
-#	[ -z "${2}" ] && exit 98	
-#	[ -s "${1}" ] || exit 97
-#	[ -d ${2} ] || exit 96
-#	exit 95
+function e22_rpg() {
+	dqb "R-P-G ${1} , ${2} , ${3}"
+	[ -z "${1}" ] && exit 99
+	[ -z "${2}" ] && exit 98	
+	[ -s "${1}" ] || exit 97
+	[ -d ${2} ] || exit 96
+	exit 95
+
+#	e22_cleanpkgs ${2}
+#		
+#	${smr} ${2}/f.tar
+#	csleep 1
+#		
+#	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
+#	#... koko case pois käytöstä vaikka
+#	
+#	${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${d} -xvf ${1}
+#	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
+#	csleep 1
 #
-##	e22_cleanpkgs ${2}
-##		
-##	${smr} ${2}/f.tar
-##	csleep 1
-##		
-##	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
-##	#... koko case pois käytöstä vaikka
-##	
-##	${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${d} -xvf ${1}
-##	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
-##	csleep 1
-##
-##	#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
-##			
-##	e22_arch ${1} ${2} ${4}
-##	cd ${2}
-##
-##	#sotkee sittenkin liikaa?
-##	#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
-##		
-##	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh
-##	#	${srat} -uvf  ${1} ${t}
-##	#done
-##		
-##	exit
-#}
+#	#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
+#			
+#	e22_arch ${1} ${2} ${4}
+#	cd ${2}
+#
+#	#sotkee sittenkin liikaa?
+#	#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
+#		
+#	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh
+#	#	${srat} -uvf  ${1} ${t}
+#	#done
+#		
+#	exit
+}
 
 #TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
-
 function e22_cde() {
 	dqb "e22_cde()"
 	
