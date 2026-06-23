@@ -26,9 +26,6 @@ function e23_tblz() {
 	[ -d ${1} ] || exit 15
 	[ -z "${2}" ] && exit 12
 
-#	[ -z "${3}" ] && exit 13
-#	[ -z "${4}" ] && exit 14 #HUOM.tämän trapeellisuus?
-
 	${fib}
 	${asy}
 	csleep 1
@@ -65,11 +62,11 @@ function e23_other_pkgs() {
 
 	csleep 1
 
-	${shary} ${E22_GI}
+	e22_pre_e ${E22_GI}
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
-	${shary} ${E22_GG}
+	e22_pre_e ${E22_GG}
 
-	${shary} ${E23_GS}  #moni pak tarttee nämä
+	e22_pre_e ${E23_GS}  #moni pak tarttee nämä
 	message
 	jules
 
@@ -98,7 +95,7 @@ function e23_upgp() {
 	${fib}
 	csleep 1
 
-	${shary} ${E22_GS}
+	e22_pre_e ${E22_GS}
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 

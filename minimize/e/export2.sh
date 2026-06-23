@@ -162,7 +162,7 @@ case "${mode}" in
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
 			#TODO:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä
 
-			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+			e23_tblz
 			e23_other_pkgs ${CONF_dnsm}
 		else
 			doit=0
@@ -196,7 +196,7 @@ case "${mode}" in
 		message
 		csleep 2
 
-		e23_tblz ${CONF_iface} ${CONF_dnsm} 
+		e23_tblz 
 		dqb "BC/AD"
 		csleep 10
 		e23_other_pkgs ${CONF_dnsm}
@@ -204,7 +204,7 @@ case "${mode}" in
 	t)
 		message
 		csleep 2
-		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+		e23_tblz
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
