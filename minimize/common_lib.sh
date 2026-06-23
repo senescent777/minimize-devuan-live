@@ -166,12 +166,12 @@ function check_bin_0() {
 
 	case "${CONF_algo}" in
 		sha256)
-			ocs sha256sum
 			sah6=$(${odio} which sha256sum)
+			ocs sha256sum
 		;;
 		sha512)
-			ocs sha512sum
 			sah6=$(${odio} which sha512sum)
+			ocs sha512sum
 		;;
 		*)
 			exit 99
@@ -383,7 +383,7 @@ function common_pp3() {
 
 		if [ $? -gt 0 ] ; then
 			${NKVD} ${1}/*.deb
-			${NKVD} ${1}/${CONF_hashfile}* #TÄMÄKÖ KUSI KOKO TDSTON?
+			${NKVD} ${1}/${CONF_hashfile}*
 			${NKVD} ${1}/*.tar*
 		fi
 
@@ -444,10 +444,14 @@ function cefgh() {
 	[ -d ${1} ] || exit 67
 
 	if [ -z "${gg}" ] ; then
+		dqb "SHOULD {sah6} -c ${1}/e.tar HERE"
+
 		if [ -s ${1}/e.tar.sha ] ; then
 			${sah6} -c ${1}/e.tar.sha
 			[ $? -eq 0 ] || ${NKVD} ${1}/e.tar*
 		fi
+
+		csleep 5
 
 		efk2 ${1}/e.tar ${1}
 		${NKVD} ${1}/e.tar
@@ -588,28 +592,31 @@ function check_binaries() {
 	sdi="${odio} ${sd0} -i "
 	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
-	#TODO:gt kanssa muutoksia, kts toinen oksa vastaava fktio
+	#VAIH:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta? mukaan toiseen oksaan?
+	E22_GT=""
+	E22_GU=""
 
-	E22_GT="isc-dhcp-client isc-dhcp-common "
+	if [ "${CONF_iface}" != "eth0:1" ] ; then
+		E22_GT="isc-dhcp-client isc-dhcp-common "
+		E22_GU="isc-dhcp "
+	fi
+
 	E22_GT="${E22_GT} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
 	E22_GT="${E22_GT} iptables"
 	E22_GT="${E22_GT} init-system-helpers" # iptables-persistent netfilter-persistent
 
-	E22_GU="isc-dhcp libnfnet libnetfilter libxtables libmnl libnftnl libnftables libnl-3-200 libnl-route libnl nftables"
+	E22_GU="${E22_GU} libnfnet libnetfilter libxtables libmnl libnftnl libnftables libnl-3-200 libnl-route libnl nftables"
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
 	
-	dqb "CEPHALIC CAnrAGE"
 	local t
 	t=""
-	csleep 1
 	
+	#HUOM. gpg:n opistumis-ongelmalle voisi vähitellen keksiä ratkaisun prkl
 	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 		[ -z "${1}" ] && exit 99
 		[ -d ${1} ] || exit 101
 
 		if [ -z "${2}" ]; then
-			dqb "TKMP"
-			csleep 5
 			t=$(${mkt} -d) 
 		else
 			t=${2}
@@ -621,9 +628,6 @@ function check_binaries() {
 		dqb "BF0R3 CVB0"
 		csleep 5
 	fi
-	
-	dqb "M2c -E"
-	csleep 1
 	
 	if [ -z "${gg}" ] ; then
 		CB01 ${1} ${t}
@@ -637,7 +641,7 @@ function check_binaries() {
 	ls ${t}/*.deb | wc -l
 	csleep 3
 
-	if [ "${CONF_env}" != "VED" ] ; then
+	if [ "${CONF_env}" != "VED" ] ; then #chroot-ehto myös?
 		for x in iptables ip6tables iptables-restore ip6tables-restore gpg ; do ocs ${x} ; done
 	fi
 
@@ -683,10 +687,10 @@ function check_binaries2() {
 
 	INITRD=No
 	export INITRD
-	dqb "netx : pt 2.22 "
+
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
 	
-	if [ "${CONF_env}" != "VED"  ] ; then 
+	if [ "${CONF_env}" != "VED" ] ; then #toistaiseksi näin?
 		${scm} a-wx /usr/sbin/update-initramfs #kokeeksi tämäkin, vissiin jotyain saa aikaan 050426
 	fi
 
@@ -706,7 +710,6 @@ function TLA() {
 	dqb "TLA.testgris : ${CONF_testgris}"
 	csleep 1
 	
-	#VAIH:CONF_env-juttuja (oliko jo aiemmin? toisessa okssasssa ainakin)
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ "${CONF_env}" == "TOOR" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
@@ -749,7 +752,6 @@ function mangle_s() {
 	local ab=$(${sah6} ${r} | awk '{print $1}' | tr -dc a-fA-F0-9)
 	local ac=$(${sah6} ${r} | awk '{print $2}' | tr -dc a-zA-Z0-9./)	
 	echo "${aa} ALL=NOPASSWD:${CONF_algo}:${ab} ${ac}" >> ${2}
-
 	dqb " mangle_s() done"
 }
 
@@ -771,7 +773,7 @@ function dinf() {
 		fi
 
 		echo -n "${CONF_algo}:" >> ${1}
-		t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9)
+		t=$(${sah6} ${g} | awk '{print $1}' | tr -dc a-fA-F0-9) #TARRKK PRKL
 		echo -n ${t} >> ${1}
 	done
 
@@ -783,6 +785,7 @@ function dinf() {
 
 function fasdfasd() {
 	dqb "fasdfasd ))) ${1} )))"
+	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
 	[ -z "${1}" ] && exit 99
 
 	csleep 1
@@ -895,6 +898,7 @@ function e_e() {
 	local c
 
 	f=$(date +%F)
+
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
 	if [ -f /etc/resolv.conf.${f} ] ; then
@@ -937,7 +941,6 @@ function e_v() {
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
 	
-	dqb "EV DONE"
 	csleep 1
 }
 
@@ -1091,7 +1094,6 @@ function part2() {
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."
-		#if  $INITRD = No  then ...
 		${lftr}
 		${fib}
 		csleep 1
@@ -1146,14 +1148,14 @@ function part2() {
 	${lftr}
 	csleep 1
 
-	if [ ! -z "${ipt}"  ] ; then
+	if [ ! -z "${ipt}" ] ; then
 		jules
 		local t
 
 		t=$(echo ${2} | tr -d -c 0-9)
 
 		#ved vai default?
-		if [  "${CONF_env}" != "VED"  ] && [ -d /opt/bin ] ; then
+		if [  "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 			${odio} /opt/bin/tlb.bash ${t}
 		fi
 	fi
@@ -1168,7 +1170,6 @@ function part2() {
 	csleep 1
 }
 
-#poistettu komm 050626,toimii: ehkä
 function wopr() {
 	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
 	local r=$(find ${1} -type f -name "${2}*.deb" )
@@ -1190,7 +1191,6 @@ function wopr() {
 	csleep 1
 }
 
-#poistettu komm 050626,toimii: ehkä
 function common_lib_tool() {
 	dqb "common_lib_tool( ${1}  ; ${2} )))) "
 	[ -d ${1} ] || exit 66
@@ -1234,7 +1234,7 @@ function common_lib_tool() {
 #	csleep 1
 #}
 
-##käytössä?
+#TODO:siirto siihen tdstoon mikä tarvitsee?
 #function cg_pp2() {
 #	dqb " GENERIC REPLACEMENT FOR daud.lib.pre_part2 ${1}"
 #	csleep 1
@@ -1264,6 +1264,8 @@ function part3() {
 	local n15=0
 	local t=""
 	
+	#TODO:näillä main merge-juttuja jatkossa?
+
 	if [ -z "${2}" ] ; then
 		t=$(mktemp -d)
 		#TODO:tässä kåskyttämään common_pp3() ?
@@ -1334,11 +1336,12 @@ function part3() {
  	fi
 
 	[ -f ${1}/${CONF_hashfile} ] && ${NKVD} ${1}/${CONF_hashfile}*
+	csleep 1	
 	other_horrors
 }
 
 function process_lib() {
-	dqb "process_lib( ${1} ) ${2} (((((((("
+	dqb "process_lib( ${1} ))) ${2} )(((((((("
 	[ -z "${1}" ] && exit 66
 	csleep 1
 	
