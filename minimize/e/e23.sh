@@ -28,10 +28,12 @@ function e23_tblz() {
 
 	${fib}
 	${asy}
+	csleep 1
 
 	#message() tähän?
 	tpc7
 	#jotain excaliburiin liittyvää
+
 	#$1 vai $2?
 	aswasw ${1}
 
@@ -40,7 +42,6 @@ function e23_tblz() {
 	csleep 1
 
 	${asy}
-	csleep 3
 
 	# (2 param kutsussa sopisi riittää)
 	e22_pre2 ${1} ${2}
@@ -309,5 +310,5 @@ function e23_st() { #120626:vissiin asentivat nämä paketit
 	${shary} dmsetup libdevmapper1 libjte2
 	${shary} libefiboot1 libefivar1 libfreetype6 libfuse3-3 gettext-base
 	${shary} libisoburn1 libburn4 libisofs6 libfuse2 mtools
-	${shary} grub-common xorriso  geany isolinux
+	${shary} grub-common xorriso geany isolinux
 	}
