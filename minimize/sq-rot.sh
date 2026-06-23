@@ -88,6 +88,8 @@ else
 		scm=$(${odio} which chmod)	
 		[ -v CONF_algo ] || exit 77
 
+		#TODO:muista toisessa oksassa siirtää algo-kikkailut fktio n sisään
+
 		case "${CONF_algo}" in
 			sha256)
 				sah6=$(${odio} which sha256sum)
@@ -135,6 +137,8 @@ else
 		prevopt=${opt}
 	done
 fi
+
+#pre-kohta toisessa okasassa vs tämä? tarttisiko tehdä jotain vai ei?
 
 dqb "rot:AFTR common_lib"
 csleep 1
@@ -230,8 +234,8 @@ else
 	exit 55
 fi
 
-#VAIH:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?) (jokohan jo 06/26 varmistaisi?)
-#... josko vähitelleb?
+#VAIH:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?) 
+#... jotain pientä laittoa vielä tarvitsee (230326)
 
 function common_part() {
 	dqb "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
@@ -248,6 +252,7 @@ function common_part() {
 	[ "${1}" == "/" ] && exit 56
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
+
 	echo "paramz_0k"
 	csleep 1
 
@@ -277,10 +282,7 @@ function common_part() {
 				fi
 			fi
 
-			if [ ${r} -eq 0 ] ; then
-				echo "SHOULD \$ {NKVD} \${1} * NOW"
-				${NKVD} ${1}*
-			fi
+			[ ${r} -eq 0 ] || ${NKVD} ${1}*
 		fi
 	fi
 
@@ -338,10 +340,10 @@ function common_part() {
 		fi
 	fi
 
-	sleep 1
-	echo "NECKST: ${srat} "${TARGET_TPX}" -C ${3} -xf ${1}"
+	csleep 1
+	dqb "NECKST: ${srat} "${TARGET_TPX}" -C ${3} -xf ${1}"
 	
-	sleep 1
+	csleep 1
 	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
 
@@ -370,7 +372,7 @@ function cptp2() {
 
 		if [ -x ${t}/common_lib.sh ] ; then
 			enforce_access $(whoami) ${t}
-			#VAIH:tuota ao. tekstiä voisi varmaan päiuvittää koska x
+
 			dqb "TRO: running mutilatetc.bash maY be necessary now to fix some things"
 		else
 			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
@@ -399,11 +401,11 @@ function cptp2() {
 
 case "${mode}" in
 	1)
-		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est
+		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est (josko voisi vähitellen...)
 		common_part ${srcfile} ${d} /
 	;;
 	0)
-		[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est
+		[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est (josko voisi vähitellen...)
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
@@ -413,7 +415,6 @@ case "${mode}" in
 		sleep 6
 
 		common_part ${srcfile} ${d} ${e}
-	
 		echo "sq.FART3: $?"
 		[ $? -eq 0 ] && ocs gpg
 
@@ -421,7 +422,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && other_horrors
 	;;
 	3)
-		#VAIH:e23_st() outputin asennus , kehitysymp (tai siis)
+		#DONE:e23_st() outputin asennus , kehitysymp (tai siis)
 		#TODO:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
 
 		e=${d}
@@ -432,6 +433,10 @@ case "${mode}" in
 	;;
 	k)
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
+
+		#050636:kokeeksi näin
+		[ "${CONF_env}" == "TOOR" ] && pre
+	
 		#VAIH:tuotaville avaimille jotain tark? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
 
 		[ -d ${srcfile} ] || exit 22
