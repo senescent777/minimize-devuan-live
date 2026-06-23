@@ -6,6 +6,8 @@ d0=$(pwd)
 debug=0 #1
 d=${d0}/${distro} 
 
+#020426:uudelleen_nimeäminen josqs tämän hmiston tdstoille?
+
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
 		dqb "asdfasd.asdfgh"
@@ -70,26 +72,27 @@ function dis() {
 
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
 	dqb "aftr.int.faces"
-
+	
 	#if [ -v CONF_iface ] ; then #tarpeen nykyään?
 	if [ ! -z "${2}" ] ; then
-		sifd=/sbin/ifdown
-		
+		#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
+		[ -z "${sifd}" ] && sifd=/sbin/ifdown
+
 		dqb "${odio} ${sifd} ${2}"	
 		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
-		
+
 		csleep 1
-		
+	
 		#${odio} ${sifd} -a
 		csleep 1
-		
+
 		[ ${debug} -eq 1 ] && ${sifc};sleep 1
 	
 		${sip} link set ${2} down
 		[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 	fi
 	#fi
-
+	
 	${odio} sysctl -p
 	csleep 1
 	dqb "d1s.d0n3"
@@ -102,14 +105,18 @@ function part0() {
 
 	dqb "pars.ok"
 	csleep 5
-	
+
 	dis ${1} ${2}
 	local s
 	dqb "смерть шпионам"
-	
+
+	#ehkä nuo komennot jotain tekevät mutta xfce4-session näkyy edelleen pgrepillä
+
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
 	${whack} ssh-agent*
+
+	#2804236:josko ssh-agentin sisältävän paketin voisi poistaa?
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
@@ -127,6 +134,8 @@ function part0() {
 	${snt}
 }
 
+#150326:miten /proc/cmdline:n lokaaliasetukset vs /e/d/l ja tämän ao. kikkareen jutut
+
 function el_loco() {
 	dqb "el_loco ))${1} ; ${2}((((("
 	csleep 1
@@ -134,11 +143,10 @@ function el_loco() {
 	if [ ${1} -gt 0 ] ; then
 		${smr} /etc/timezone
 		${smr} /etc/localtime
-
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
-	else
-		${odio} locale-gen
+	#else
+	#	${odio} locale-gen #tilapäisesti jemmaan koska kestää
 	fi
 
 	if [ ${2} -lt 1 ] ; then
@@ -172,7 +180,6 @@ function el_loco() {
 }
 
 function adieu() {
-
 #	pidetäänpä nämä jutut kommenteissa sitä varten että saattuukin tarvitsemaan
 #
 #	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
@@ -185,19 +192,17 @@ function adieu() {
 #	csleep 1
 #	ls -las /dev/tty?
 #	csleep 5
+#	#väärä tapa pakottaa uudelleen_kirjautuminen?
 
 	${whack} xfce4-session
 }
+
 #=====================================PART0=========================================================
 pkgcache=$(${mkt} -d)
 part0 ${distro} ${CONF_iface}
 process_lib ${d} ${pkgcache}
-echo "AFTER PROCESS_LIB";sleep 1
 
 #==================================PART 1============================================================
-dqb "mode= ${mode}"
-dqb "debug= ${debug}"
-#enfor vai env?
 [ -v CONF_enforce ] || exit 99
 
 if [ -s ~/xorg.conf.new ] ; then
@@ -225,19 +230,19 @@ function pre_enforce() {
 	csleep 1
 
 	[ -f ${q} ] || exit 33
-	#TODO?:katso lista läpi että mitä nykyään tarvitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
+	#TODO:katso lista läpi että mitä nykyään tarvitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
 
 	dqb "BFOR3 testgris"
 	csleep 1
 	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 
-	if [ "${CONF_env}" == "DEFAULT" ] ; then #050626:voi olla turha if koska x
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		if [ ! -d /opt/bin ] ; then
 			${smd} /opt/bin
 			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
 		fi
-	
+
 		if [ -d ${1}/opt/bin ] ; then
 			${svm} ${1}/opt/bin/*.bash /opt/bin
 		fi
@@ -275,7 +280,7 @@ function pre_enforce() {
 	dqb "semtex"
 	local c4=0
 	csleep 1
-	
+
 	if [ -v CONF_dir ] ; then
 		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
 	else
@@ -300,7 +305,6 @@ function pre_enforce() {
 	csleep 1
 }
 
-#miten näidne pitäisi mennä? pre_enf ja enf  kutsumiset siis?
 if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
@@ -314,7 +318,6 @@ if [ "${CONF_env}" != "DEFAULT" ] ; then
 else 
 	enforce_access $(whoami) ${d0}
 fi
-
 
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
@@ -332,10 +335,8 @@ if [ ${mode} -gt 1 ] ; then
 		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l)
 		 #barm vuoksi näin
 		[ $c13 -gt 0 ] && c14=0
-	
+		
 		#profit
-	else
-		echo "NO PREFERRED LC_TIME FOUND" #...ja Sit Jotain?
 	fi
 fi
 
@@ -388,11 +389,10 @@ other_horrors
 dqb "AFTER THE HORROR"
 csleep 1
 
-if [ "${CONF_env}" == "DEFAULT" ] ; then #tänään näin
+if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh
 
-	#TODO?:oikein pedantit tarkistukseT tähän if-blokkiin? ja importtiin kanssa koska kiukuttelut
-	
+	#TODO:tämän kanssa jotain?
 	${d0}/import2.sh r ${d0} -v
 	echo $?
 	csleep 3
@@ -409,10 +409,14 @@ e_h $(whoami) ${d0}
 ${sco} 0:0 /opt/bin/*
 ${scm} 0400 /opt/bin/zxcv*
 
-#tämä kyllä ajetaan mutta mitä jos r.conf.$x puuttuu? ja miksi puuttuu?
 if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+else
+	echo "NOTHING LEFT TO MUTILATE"
 fi
+
+sleep 20
+#ifup nykyään muuttelee tables-sääntöjä yhdellä jekulla joten ei erikseen tartte käskyttää...
 
 ${sipt} -L
 csleep 1
