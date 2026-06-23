@@ -29,11 +29,8 @@ function e22_hdr() {
 	fasdfasd ${1}
 
 	dd if=/dev/random bs=12 count=1 > ./rnd
-
 	${sr0} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
-
-	[ ${debug} -eq 1 ] && ls -las ${1}
 }
 
 function e22_tyg() {
@@ -172,6 +169,9 @@ function e22_pre2() {
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
 	${sag_u}
+
+	dqb "pre2.done"
+	csleep 1
 }
 
 function e22_cleanpkgs() {
@@ -213,6 +213,8 @@ function e22_config1() {
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 #nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
 
+#120426:vissiin menee kohteeseen fedi ja profs (mutta meneekö 1. mainittu myös juureen?)
+
 function e22_settings() {
 	dqb "e22_settings()"
 	[ -z "${1}" ] && exit 11
@@ -238,7 +240,7 @@ function e22_settings() {
 }
 
 function e22_home_pre() {
-
+	dqb "home:pre()"
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
@@ -477,7 +479,6 @@ function e22_ts() {
 
 	dqb "${svm} ${2}/*.deb ${1} IN 10 SECS"
 	csleep 10
-
 	${svm} ${2}/*.deb ${1}
 	[ $? -eq 0 ] || exit 56
 
@@ -505,8 +506,8 @@ function e22_arch() {
 	csleep 1
 	local p=$(pwd)
 	local c=$(find ${2} -type f -name "*.deb" | wc -l)
-	[ -v CONF_hashfile ] || exit 98
-	[ -z "${CONF_hashfile}" ] && exit 99
+	[ -v CONF_hashfile ] || exit 94
+	[ -z "${CONF_hashfile}" ] && exit 95
 
 	exit
 
@@ -529,16 +530,24 @@ function e22_arch() {
 
 	cd ${2}
 	${sah6} ./*.deb > ./${CONF_hashfile}
-	
+
+	csleep 5
+	dqb "${CONF_hashfile}.1"
+
 	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do
 		[ ${3} -eq 1 ] && ${srat} -rvf ${1} ${f}
 		${sah6} ${f} >> ./${CONF_hashfile}.1
 	done
 
+	csleep 5
+
 	for f in e.tar g.tar ; do
 		dqb "sah6 ./${f}"
 		${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
 	done
+
+	[ ${debug} -eq 1 ] && cat ./${CONF_hashfile}.1
+	csleep 5
 
 	e22_tyg ./${CONF_hashfile}
 	e22_tyg ./${CONF_hashfile}.1
@@ -551,6 +560,9 @@ function e22_arch() {
 	[ $? -gt 0 ] && ${NKVD} ./*.deb ./${CONF_hashfile}* ./*.tar #?
 	${srat} -rf ${1} ./*.deb ./${CONF_hashfile}* ./tim3stamp
 	cd ${p}
+
+	dqb "E22_A_DONE"
+	csleep 1
 }
 
 #function aval0n() {
