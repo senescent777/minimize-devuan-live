@@ -1,4 +1,3 @@
-#fktioksi ao. blokki ni ei tartte globaalien mjien kanssa sählätä?
 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	#pitäisikö olla eri conf toisen repon skriptien kautta mentäessä?
@@ -27,7 +26,6 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#VAIH:vähitellen kehitysYmp kanssa se g_doit ja omega (olisiko jo 06/26?)
 
 [ -v CONF_env ] || exit 99
 echo "CONF_env = ${CONF_env}"
@@ -65,7 +63,6 @@ echo "aftr 1nt1"
 sleep 6
 
 function fix_sudo() {
-	dqb "common_lib.fix_sud0.pt0"	
 	
 	sco=$(${odio} which chown)
 	[ y"${sco}" == "y" ] && exit 98
@@ -74,10 +71,11 @@ function fix_sudo() {
 	scm=$(${odio} which chmod)
 	[ y"${scm}" == "y" ] && exit 96
 	[ -x ${scm} ] || exit 95
+
 	sco="${odio} ${sco} "
 	scm="${odio} ${scm} "	
 
-	if [ "${CONF_env}" == "DEFAULT" ] ; then #EHTPOA SAATTAA JHOUTUA RENKKAAMAAN VIELÄ
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		dqb "1NNERMöST"
 
 		${sco} -R 0:0 /etc/sudoers.d
@@ -106,11 +104,10 @@ function fix_sudo() {
 function other_horrors() {
 	dqb "other_horrors"
 	
-	if [ "${CONF_env}" == "DEFAULT" ] ; then #HYVÄ NÄINB?
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		dqb "1NTERBAL SUFFER1NG"
 
 		for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
-			#valmis palikka? mangle2 ei ihan
 			${sco} -R root:root ${f}
 			${scm} 0400 ${f}
 		done
@@ -150,6 +147,7 @@ function ocs() {
 function check_bin_0() {
 	echo "check_bin_0"
 	sleep 1
+	dqb "cb1"
 
 	ocs dpkg
 	ocs tar
@@ -163,8 +161,8 @@ function check_bin_0() {
 	unset NKVD
 	csleep 1
 	
-	[ -v CONF_algo ] || exit 69
-	dqb ${CONF_algo}
+	csleep 6
+	[ -v CONF_algo ] || exit 77
 
 	case "${CONF_algo}" in
 		sha256)
@@ -176,7 +174,7 @@ function check_bin_0() {
 			sah6=$(${odio} which sha512sum)
 		;;
 		*)
-			exit 667
+			exit 99
 		;;
 	esac
 
@@ -266,6 +264,7 @@ function check_bin_0() {
 
 		local p=$(pwd)
 		cd /
+
 		${odio} ${sah6} -c /opt/bin/zxcv
 		[ $? -gt 0 ] && echo "dhoulf exit 1234!!!"
 		cd ${p}
@@ -282,7 +281,6 @@ other_horrors
 [ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 }
 
-#jatkosäätöä josqs lähiaikoina? (kts e22.sh, KVG-jutut bissiin uusicksi)
 function psqa() {
 	dqb "c.Q () () () () ${1} ;;;"
 	csleep 1
@@ -295,7 +293,6 @@ function psqa() {
 	#return 92 #ei näin?
 	#dpkg -V oli tässä josqs , [ -v ] takana
 
-	#040626:tapauksessa CONF_env==TOOR ohittamaan seur 2 riviä?
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
 
@@ -313,7 +310,7 @@ function psqa() {
 				dqb "KÖ"
 			else
 				dqb "SHOULD imp2 k \$dir !!!"
-				${NKVD} ${1}/${CONF_hashfile}.*
+				${NKVD} ${1}/${CONF_hashfile}*
 				return 95 #jatk exit pois
 			fi
 
@@ -336,7 +333,6 @@ function psqa() {
 		p=$(pwd)
 		cd ${1}
 
-		#HUOM.15525:pitäisiköhän reagoida tilanteeseen että asennettavia pak ei ole?
 		${sah6} -c ${CONF_hashfile} --ignore-missing
 
 		if [ $? -eq 0 ] ; then
@@ -346,7 +342,7 @@ function psqa() {
 			return 94
 		fi
 
-		#TODO:selvitä mikä tämän tdston kanssa on? jääkö tyhjäksi nykyään?		
+		#VAIH:selvitä mikä tämän tdston kanssa on? jääkö tyhjäksi nykyään?		
 		[ -f ${1}/${CONF_hashfile}.1 ] && ${sah6} --ignore-missing -c ${CONF_hashfile}.1
 		csleep 1
 		cd ${p}
@@ -360,48 +356,58 @@ function psqa() {
 	csleep 2
 }
 
-#040626:tämä vai CB02 missä vääriä merkkejä?
 #TODO:shasums:ien kopsaus $2:seen myös?
 #TODO:pikemminkin siellä $2-hmistossa käsin se sha-tarkstus?
-function common_pp3() {
-[ -z "${1}" ] && exit 99
-[ -d ${1} ] || exit 101
-[ -z "${2}" ] && exit 98
-[ -d ${2} ] || exit 102
+function common_pp3() {	
+	dqb "() common_pp3 )))))) ${1} ) ${2} )))))))))))))"
+	csleep 1
 
-local q=$(find ${1} -type f -name "*.deb" | wc -l)
-local r=$(echo ${1} | cut -d "/" -f 1-5)
+	[ -z "${1}" ] && exit 99
+	[ -d ${1} ] || exit 101
+	[ -z "${2}" ] && exit 98
+	[ -d ${2} ] || exit 102
 
-if [ ${q} -lt 1 ] ; then
-${scm} a-wx ${r}/common_lib.sh
-else
-psqa ${1}
-if [ $? -gt 0 ] ; then
-${NKVD} ${1}/*.deb
-${NKVD} ${1}/${CONF_hashfile}* #TÄMÄKÖ KUSI KOKO TDSTON?
-${NKVD} ${1}/*.tar*
-fi
+	[ ${debug} -eq 1 ] && pwd
+	csleep 1
 
-local s
-for s in $(grep -v '#' ${1}/${CONF_hashfile} | awk '{print $2}') ; do
-${svm} ${1}/${s} ${2}
-done
+	dqb "find ${1} -type f -name \* .deb"
+	csleep 3
 
-for s in $(grep -v '#' ${1}/${CONF_hashfile}.1 | grep -v drop | awk '{print $2}') ; do
-${spc} ${1}/${s} ${2}
-done
+	local q=$(find ${1} -type f -name "*.deb" | wc -l)
+	local r=$(echo ${1} | cut -d "/" -f 1-5)
 
-fi
+	if [ ${q} -lt 1 ] ; then
+		${scm} a-wx ${r}/common_lib.sh
+	else
+		psqa ${1}
 
-dqb "COMMON_PP3-DONE()"
+		if [ $? -gt 0 ] ; then
+			${NKVD} ${1}/*.deb
+			${NKVD} ${1}/${CONF_hashfile}* #TÄMÄKÖ KUSI KOKO TDSTON?
+			${NKVD} ${1}/*.tar*
+		fi
+
+		local s
+
+		for s in $(grep -v '#' ${1}/${CONF_hashfile} | awk '{print $2}') ; do
+			${svm} ${1}/${s} ${2}
+		done
+
+		for s in $(grep -v '#' ${1}/${CONF_hashfile}.1 | grep -v drop | awk '{print $2}') ; do
+			${spc} ${1}/${s} ${2}
+		done
+	fi
+
+	dqb "COMMON_PP3-DONE()"
 }
 
 function efk1() {
-dqb "efk1 $@"
-${sdi} $@
-if [ $? -eq 0 ] ; then
-${NKVD} $@
-fi
+	dqb "efk1 $@"
+	${sdi} $@
+
+	if [ $? -eq 0 ] ; then
+		${NKVD} $@
+	fi
 }
 
 function efk2() {
@@ -417,35 +423,41 @@ function efk2() {
 	csleep 1
 } #TARKKUUTTA PRKL
 
-function fromtend() { #tÄSSÄ VÄÄRIÄ MERKKEJÄ? toiv ei
-dqb "FRöMTEND"
-[ -v sd0 ] || exit 99
-[ -z "${sd0}" ] && exit 98
-[ -x ${sd0} ] || exit 97
-export DEBIAN_FRONTEND=noninteractive
-if [ "${CONF_env}" != "TOOR" ] ; then
-dqb "${odio} -E ${sd0} --force-confold -i $@"
-${odio} -E ${sd0} --force-confold -i $@
-else
-${odio} ${sd0} --force-confold -i $@
-fi
+function fromtend() {
+	dqb "FRöMTEND"
+	[ -v sd0 ] || exit 99
+	[ -z "${sd0}" ] && exit 98
+	[ -x ${sd0} ] || exit 97
+
+	export DEBIAN_FRONTEND=noninteractive
+
+	if [ "${CONF_env}" != "TOOR" ] ; then
+		dqb "${odio} -E ${sd0} --force-confold -i $@"
+		${odio} -E ${sd0} --force-confold -i $@
+	else
+		${odio} ${sd0} --force-confold -i $@
+	fi
 }
 
 function cefgh() {
-[ -z "${1}" ] && exit 66
-[ -d ${1} ] || exit 67
-if [ -z "${gg}" ] ; then
-if [ -s ${1}/e.tar.sha ] ; then
-${sah6} -c ${1}/e.tar.sha
-[ $? -eq 0 ] || ${NKVD} ${1}/e.tar*
-fi
-efk2 ${1}/e.tar ${1}
-${NKVD} ${1}/e.tar
-fi
-efk2 ${1}/f.tar ${1}
-if [ $? -eq 0 ] ; then
-[ -x ${gg} ] && ${NKVD} ${1}/f.tar
-fi
+	[ -z "${1}" ] && exit 66
+	[ -d ${1} ] || exit 67
+
+	if [ -z "${gg}" ] ; then
+		if [ -s ${1}/e.tar.sha ] ; then
+			${sah6} -c ${1}/e.tar.sha
+			[ $? -eq 0 ] || ${NKVD} ${1}/e.tar*
+		fi
+
+		efk2 ${1}/e.tar ${1}
+		${NKVD} ${1}/e.tar
+	fi
+
+	efk2 ${1}/f.tar ${1}
+	
+	if [ $? -eq 0 ] ; then
+		[ -x ${gg} ] && ${NKVD} ${1}/f.tar
+	fi
 }
 
 #TODO:sqroot-ympäristön pkaettivalikoiman päivitys, mm. gpg_poistuu:syistä
@@ -457,9 +469,7 @@ function CB01() {
 	[ -d ${1} ] || exit 100
 	[ -z "${2}" ] && exit 98
 	[ -d ${2} ] || exit 102
-	dqb "pars.0k"
-	
-#	#josko sittenkin kikkailisi ao. blokin -> cefgh ?
+
 #	if [ -s ${1}/g.tar ] ; then
 #		#JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen
 #		#... tai ilman gpg:tä voi tehdä vain sha-tarq ja sekin oikeastaan tapahtuu jo kutsuvassa koodissa
@@ -480,20 +490,20 @@ function CB01() {
 	gv=$(${odio} which gpgv)
 	[ -z "${gg}" ] && ${scm} a-wx ${1}/../common_lib.sh #$0 josko näin kuitenkin?
 	csleep 1
-	dqb "CcC"
 	
 	common_pp3 ${1} ${2}
+
 	dqb "common.lib.CB01() DONE"
 	csleep 1
 }
 
 function message() {
-echo "INSTALLING NEW PACKAGES IN x SECS"
-sleep 1
-echo "DO NOT xxx yyy"
-sleep 1
-echo "... FOR POSITIVE ANSWER MAY BREAK THINGS"
-sleep 1
+	echo "INSTALLING NEW PACKAGES IN x SECS"
+	sleep 1
+	echo "DO NOT xxx yyy"
+	sleep 1
+	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS"
+	sleep 1
 }
 
 function CB02() {
@@ -503,7 +513,6 @@ function CB02() {
 
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
-	dqb "c0b2.pars.0k"
 	
 	[ "${CONF_env}" == "TOOR" ] && message
 	local p
@@ -528,7 +537,7 @@ function CB02() {
 }
 
 function check_binaries() {
-	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} (((((((( ${2} )((((((( "
+	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ; ${2} ) "	
 	csleep 1
 	
 	dqb "6tr"
@@ -542,8 +551,10 @@ function check_binaries() {
 	E22_GS="${E22_GS} libgmp10 libisl23 libmpfr6 libmpc3 libzstd1 zlib1g"
 	E22_GS="${E22_GS} libstdc++6 libgomp1 cpp-12"
 
+	#moni pak tarttee nämä
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 	
+
 	E22_GM="libc6 libselinux1"
 	E22_GM="${E22_GM} debianutils debconf liblocale-gettext-perl libtext-charwidth-perl libtext-iconv-perl libtext-wrapi18n-perl" # nfs-common
 	E22_GM="${E22_GM} debconf-i18n libelf1 libbpf1 " #zlib1,libc6
@@ -553,7 +564,7 @@ function check_binaries() {
 	E22_GM="${E22_GM} libmnl0 libatm1 libpcre2-8-0 libmd0 libgssapi-krb5-2 "
 	E22_GM="${E22_GM} libbsd0 libcap2 libcap2-bin libdb5.3 libtirpc-common libtirpc3 iproute2"
 
-	E22_GM="${E22_GM} isc-dhcp-client isc-dhcp-common"
+	[ "${CONF_iface}" == "eth0:1" ] || E22_GM="${E22_GM} isc-dhcp-client isc-dhcp-common" #dhcp-jutut erilleen jotenkin?
 	E22_GM="${E22_GM} libpam0g libcrypt1 libaudit1 libpam-modules-bin libpam-modules "
 
 	E22_GM="${E22_GM} libbz2-1.0 libsemanage-common libsemanage2 libsepol2 passwd adduser ifupdown"
