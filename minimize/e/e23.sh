@@ -32,17 +32,16 @@ function e23_tblz() {
 
 	#message() tähän?
 	tpc7
-	#jotain excaliburiin liittyvää
+	#jotain excaliburiin liittyvää tuo tpc
 
 	#$1 vai $2?
 	aswasw ${1}
-
+	#VAIH:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
 	e22_pre_e ${E22_GT}
 
 	csleep 1
 
 	${asy}
-
 	# (2 param kutsussa sopisi riittää)
 	e22_pre2 ${1} ${2}
 	other_horrors
