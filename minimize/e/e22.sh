@@ -26,16 +26,10 @@ function e22_hdr() {
 	[ "${1}" == "-v" ] && exit 62
 	[ -f ${1} ] && echo "$1 ALR3ADY EX1STS"
 
-	dqb "pars_ok"
-	csleep 1
-
 	fasdfasd ./rnd
 	fasdfasd ${1}
 
-	csleep 1
-
 	dd if=/dev/random bs=12 count=1 > ./rnd
-	csleep 1
 
 	${sr0} -cvf ${1} ./rnd
 	[ $? -gt 0 ] && exit 60
@@ -58,7 +52,6 @@ function e22_tyg() {
 			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
 			csleep 1
 			${gg} --verify ${1}.sig
-			csleep 1
 		fi
 	fi
 }
@@ -68,9 +61,6 @@ function e22_ftr() {
 	[ -z "${1}" ] && exit 62
 	[ -s ${1} ] || exit 63
 	[ -r ${1} ] || exit 64
-
-	dqb "pars ok"
-	csleep 1
 
 	fasdfasd ${1}.sha
 	local p=$(pwd)
@@ -185,15 +175,19 @@ function e22_pre2() {
 }
 
 function e22_cleanpkgs() {
-	dqb "e22_cleanpkgs()"
-	[ -z "${1}" ] && exit 56
+	dqb "e22_cleanpkgs() "
+	[ -z "${1}" ] && exit 53
 
 	if [ -d ${1} ] ; then
 		${smr} ${1}/*.deb
 		${smr} ${1}/${CONF_hashfile}*
 		ls -las ${1}/*.deb | wc -l
 	fi
+
+	dqb "e22_cleanpkgs() DONE"
 }
+
+csleep 1
 
 function e22_config1() {
 	dqb "e22_config1()"
@@ -244,7 +238,7 @@ function e22_settings() {
 }
 
 function e22_home_pre() {
-	dqb "e22_home_pre()"
+	dqb "home:pre()"
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
@@ -260,7 +254,7 @@ function e22_home_pre() {
 	fi
 
 	e_final
-	${srat} --exclude changedns.* -rvf ${1} /opt/bin
+	${srat} --exclude "changedns.*" -rvf ${1} /opt/bin
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
@@ -291,6 +285,7 @@ function e22_home() {
 	${srat} ${TARGET_TPX} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
 
+	#miksi tässä eikä h_pre() ?
 	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
 }
 
@@ -306,6 +301,8 @@ function luca() {
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 }
 
+#(meneekö rules.* kohteeseen useamman kerran? ehkä)
+
 function e22_acol() {
 	dqb "e22_acol()"
 
@@ -316,7 +313,7 @@ function e22_acol() {
 	[ -z "${3}" ] && exit 3		
 	[ -z "${4}" ] && exit 5
 
-	dqb "åpars_ok"
+	dqb "PARS.OK"
 	csleep 1
 
 	${scm} 0555 /etc/iptables
@@ -369,7 +366,6 @@ function e22_acol() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#e22_pre_e() toisesta oksasta
 function e22_pre_e() {
 	local p
 	local q
@@ -398,7 +394,7 @@ function e22_ext() {
 	[ -d ${4} ] && exit 53
 	[ -f ${4} ] || exit 61
 
-	dqb "pars.ok"
+	dqb "paramz_ok"
 	csleep 1
 
 	local p
@@ -461,7 +457,7 @@ function e22_ext() {
 
 	c=$(${srat} -tf ${1} | grep resolv.conf.${st} | wc -l)
 	[ ${c} -gt 0 ] || exit 97
-	csleep 4
+	echo $?
 	local f
 	
 	for f in $(find ./etc -type f -not -name "interfaces.*" -and -not -name "resolv.*") ; do
@@ -479,6 +475,9 @@ function e22_ts() {
 	[ -z "${2}" ] && exit 16
 	[ -d ${2} ] || exit 17
 
+	dqb "${svm} ${2}/*.deb ${1} IN 10 SECS"
+	csleep 10
+
 	${svm} ${2}/*.deb ${1}
 	[ $? -eq 0 ] || exit 56
 
@@ -488,21 +487,23 @@ function e22_ts() {
 }
 
 function e22_arch() {
-	dqb "e22_arch()"
+	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
+	csleep 1
+
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 44
 	[ -z "${3}" ] && exit 53
 
-	dqb "pars_ok"
+	dqb "e22_a.pars maybe ok"
 	csleep 1
 	local p=$(pwd)
 
 	local c=$(find ${2} -type f -name "*.deb" | wc -l)
-
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
+
 	exit
 
 	if [ -f ${2}/${CONF_hashfile} ] ; then #turha tarq?
@@ -510,7 +511,10 @@ function e22_arch() {
 		csleep 1
 	fi
 
+	#DONE?:ceen kanssa jokin juttu
+
 	if [ ${c} -lt 1 ] ; then
+		echo "N0 .deb - FIL35s UND3R ${2}"
 		exit 55
 	fi
 
@@ -566,7 +570,7 @@ function e22_rpg() {
 #	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
 #	#... koko case pois käytöstä vaikka
 #	
-#	${srat} --exclude "${conf_HASHFILE}*" --exclude "*pkgs*" -C ${d} -xvf ${1}
+#	${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${d} -xvf ${1}
 #	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
 #	csleep 1
 #
@@ -667,14 +671,14 @@ function z3() {
 }
 
 #(josko exp2 voisi korvata "tar -T -cf":llä?)
-#echo "TODO:JOKO JO ntp-jutut kuntoon ?" #aftr2.bash saattoi liittyä
-
+echo "TODO:JOKO JO ntp-jutut kuntoon ?" #aftr2.bash saattoi liittyä
+sleep 6
 
 function e22_sarram() {
 	dqb "e22_sarram()"
-
+	#[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
-
+	#[ -w ${1} ] || exit 9
 	[ -z "${2}" ] && exit 11
 	[ -z "${3}" ] && exit 13
 	[ -s ${3} ] || exit 17
@@ -685,7 +689,6 @@ function e22_sarram() {
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
 	csleep 1
-
 	local f
 
 	for f in $(${odio} find /etc -type f -name "xorg*" -and -not -name "*.202*" ) ; do
@@ -694,17 +697,18 @@ function e22_sarram() {
 
 	csleep 1
 
+	#display_manager
 	for f in $(${odio} find /etc -type f -name "${2}*" -and -not -name "*.202*" ) ; do
 		${srat} -rvf ${1} ${f}
 	done
 
 	${srat} -rvf ${1} /etc/X11/default-display-manager
-
+	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka?
 	${scm} 0555 /etc/iptables
 	${scm} 0400 /etc/iptables/rules*
 	${scm} 0400 /etc/default/rules*
 
-
+	#rules vedettiin jo aiemmin
 	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD | grep -v old) ; do 
@@ -716,11 +720,11 @@ function e22_sarram() {
 			${srat} -rvf ${1} ${f}
 			${sah6} ${f} >> ${3}
 		done
+
 	fi
 
 	other_horrors
 }
-
 
 function e22_stu() { #jatkosäätöä josqs
 	echo "# ! / b ..."
