@@ -1,4 +1,4 @@
-if [ -v CONF_pkgdir ] ; then #varm vuoksi tätäkin 265226
+if [ -v CONF_pkgdir ] ; then #varm vuoksi täMäkin 265226
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
 fi
@@ -21,7 +21,6 @@ fi
 
 function e22_hdr() {
 	dqb "e22_hdr()"
-
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
 	[ -f ${1} ] && echo "$1 ALR3ADY EX1STS"
@@ -38,7 +37,8 @@ function e22_hdr() {
 }
 
 function e22_tyg() {
-	dqb "e22_tyg()"
+	dqb " ; e22_tyg( ${1} )(((("	
+
 	[ -z "${1}" ] && exit 45
 	[ -s ${1} ] || exit 46
 	[ -r ${1} ] || exit 47
@@ -124,8 +124,7 @@ function e22_pre1() {
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 66
 	[ -d ${1} ] || exit 111
-
-	dqb "pars ok"
+	dqb "pars_ok"
 	csleep 1
 
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
@@ -141,6 +140,8 @@ function e22_pre1() {
 	part1 ${2} ${1}
 	${scm} a-w /etc/apt/sources.list*
 }
+
+#TODO:common_lib fktio jos ei nimeäisi linkkejä uudestaan jatkossa
 
 function e22_pre2() {
 	dqb "e22_pre2()"
@@ -158,7 +159,6 @@ function e22_pre2() {
 		if [ -h  /etc/resolv.conf ] ; then
 			echo "-L"
 		else
-			#TODO:common_lib fktio jos ei nimeäisi linkkejä uudestaan jatkossa
 			[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
 		fi
 	fi
@@ -238,7 +238,7 @@ function e22_settings() {
 }
 
 function e22_home_pre() {
-	dqb "home:pre()"
+
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
@@ -254,19 +254,20 @@ function e22_home_pre() {
 	fi
 
 	e_final
-	${srat} --exclude "changedns.*" -rvf ${1} /opt/bin
+	${srat} --exclude "changedns*" -rvf ${1} /opt/bin
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
 	done	
 
+	#config.tar.bz2?
 	for t in $(find ~ -type f -name ${4} ) ; do
 		${srat} -rvf ${1} ${t}
 	done
 }
 
 function e22_home() {
-	dqb "e22_home()"
+	
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
@@ -296,7 +297,6 @@ function luca() {
 
 	${srat} -rvf ${1} /etc/timezone /etc/localtime 
 	local f
-
 	for f in $(find /etc -type f -name "local*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
 }
@@ -484,6 +484,11 @@ function e22_ts() {
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
 	cg_udp6 ${1}
+
+	ls -las ${1}/*.deb
+	csleep 10
+
+	dqb "e22_ts() done"
 }
 
 function e22_arch() {
@@ -491,7 +496,7 @@ function e22_arch() {
 	csleep 1
 
 	[ -z "${1}" ] && exit 1
-	[ -s ${1} ] || exit 
+	[ -s ${1} ] || exit 11
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 44
 	[ -z "${3}" ] && exit 53
@@ -499,7 +504,6 @@ function e22_arch() {
 	dqb "e22_a.pars maybe ok"
 	csleep 1
 	local p=$(pwd)
-
 	local c=$(find ${2} -type f -name "*.deb" | wc -l)
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
@@ -675,7 +679,7 @@ echo "TODO:JOKO JO ntp-jutut kuntoon ?" #aftr2.bash saattoi liittyä
 sleep 6
 
 function e22_sarram() {
-	dqb "e22_sarram()"
+	dqb "e22_sarram() "
 	#[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
 	#[ -w ${1} ] || exit 9
@@ -696,13 +700,13 @@ function e22_sarram() {
 	done
 
 	csleep 1
-
 	#display_manager
 	for f in $(${odio} find /etc -type f -name "${2}*" -and -not -name "*.202*" ) ; do
 		${srat} -rvf ${1} ${f}
 	done
 
 	${srat} -rvf ${1} /etc/X11/default-display-manager
+	
 	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka?
 	${scm} 0555 /etc/iptables
 	${scm} 0400 /etc/iptables/rules*
