@@ -384,8 +384,7 @@ function common_pp3() {
 
 	if [ ${q} -lt 1 ] ; then
 		echo "SHOULD REMOVE ${1} / shasums . t x t"
-		echo "ibcovation \${scm} a-x ${1} /../common_lib.sh;import2 1 \$something MAY ALSO HELP"
-.
+		
 		${scm} a-wx ${r}/common_lib.sh
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else

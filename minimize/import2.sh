@@ -235,7 +235,7 @@ function tpr() {
 	[ ${r} -gt 0 ] || exit 21
 	csleep 1
 
-	${srat} "${TARGET_TPX}" -C ${q} -xvf ${1}/${2}
+	${srat} -C ${q} -xvf ${1}/${2} #"${TARGET_TPX}" tilapäisesti kommentteihin 230626
 	[ $? -gt 0 ] && exit 22
 	csleep 2
 
