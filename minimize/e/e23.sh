@@ -42,7 +42,7 @@ function e23_tblz() {
 	${asy}
 	csleep 3
 
-	#(riittäisikö 2 param kutsussa?)
+	# (2 param kutsussa sopisi riittää)
 	e22_pre2 ${1} ${2}
 	other_horrors
 
@@ -50,7 +50,6 @@ function e23_tblz() {
 	dqb "e23_tblz() DONE"
 }
 
-#8626:pre_e pois jos kiukuttelua liikaa
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -84,6 +83,7 @@ function e23_other_pkgs() {
 
 	csleep 1
 	${lftr}
+
 	dqb "e23_other_pkgs() DONE"
 	csleep 1
 }
@@ -91,11 +91,9 @@ function e23_other_pkgs() {
 #080626:jotain pientä nalkutusta päivityspaketinkin kanssa, voisi tehdä jotain asialle josqs
 function e23_upgp() {
 	dqb " e23_upgp() "
-
 	${fib}
 	csleep 1
 
-	#pre_e pois jos kiukuttelee liikaa
 	e22_pre_e ${E22_GS}
 
 	${sag} --no-install-recommends upgrade -u
@@ -116,7 +114,7 @@ function e23_upgp2() {
 		;;
 		*)
 			${NKVD} ${1}/wpa*
-		;;
+	;;
 	esac
 
 	dqb " e23_upgp2() done"
@@ -184,7 +182,6 @@ function e23_dm() {
 		exit 666
 	fi
 
-	
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
 	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
 
@@ -227,9 +224,11 @@ function e23_dm() {
 	csleep 10
 	
 	${shary} libicu72 libxfixes3 libxml2
+	csleep 5
+
 	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
 	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
-	${shary} libpam-runtime
+	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttia
 	csleep 10
 
 	${shary} libxdmcp6 menu twm libmd0
@@ -304,11 +303,11 @@ function e23_profs() {
 	csleep 1
 }
 
-function e23_st() { #josqs tämänkin testaus? (kts toisen repon setup1.bash)
+function e23_st() { #120626:vissiin asentivat nämä paketit 
 	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
 	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim
 	${shary} dmsetup libdevmapper1 libjte2
 	${shary} libefiboot1 libefivar1 libfreetype6 libfuse3-3 gettext-base
 	${shary} libisoburn1 libburn4 libisofs6 libfuse2 mtools
-	${shary} grub-common xorriso  geany  isolinux
+	${shary} grub-common xorriso  geany isolinux
 	}
