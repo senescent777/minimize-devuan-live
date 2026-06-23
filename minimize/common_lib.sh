@@ -151,14 +151,11 @@ function check_bin_0() {
 	echo "check_bin_0"
 	sleep 1
 
-	dqb "cb01"
-
 	ocs dpkg
 	ocs tar
 	ocs shred
 	csleep 1
 
-	dqb "cb02"
 	unset sdi
 	unset sr0
 	unset srat
@@ -166,7 +163,6 @@ function check_bin_0() {
 	unset NKVD
 	csleep 1
 	
-	dqb "cb03"
 	[ -v CONF_algo ] || exit 69
 	dqb ${CONF_algo}
 
@@ -200,7 +196,6 @@ function check_bin_0() {
 	fi
 
 	csleep 1
-	dqb "cb04"
 
 	slinky=$(${odio} which ln)
 	slinky="${odio} ${slinky} -s "

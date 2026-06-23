@@ -28,18 +28,14 @@ function fallback() {
 	exit 111
 }
 
-echo "BFORE COMMON_LIB"
-sleep 6
-
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	[ ${debug} -gt 0 ] && ls -las ${d0}
-	exit 55 #050626:tähänkö tökkäsi?
+	exit 55
 fi
 
 [ $? -gt 0 ] && exit 56
-echo "AFTR COMMON_LIB"
 sleep 1
 
 function dis() {
@@ -49,12 +45,9 @@ function dis() {
 
 	dqb "ko.srap"
 	csleep 1
-
 	${scm} 0755 /etc/network
 	${sco} -R root:root /etc/network
 	${scm} a+r /etc/network/*
-
-	dqb "bfore int.faces"
 
 	if [ -f /etc/network/interfaces ] ; then
 		if [ ! -h /etc/network/interfaces ] ; then
@@ -78,25 +71,25 @@ function dis() {
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
 	dqb "aftr.int.faces"
 
-	if [ -v CONF_iface ] ; then
-		if [ ! -z "${2}" ] ; then
-
-			sifd=/sbin/ifdown
-			dqb "${odio} ${sifd} ${2}"	
-			csleep 1
-			[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
+	#if [ -v CONF_iface ] ; then #tarpeen nykyään?
+	if [ ! -z "${2}" ] ; then
+		sifd=/sbin/ifdown
 		
-			#${odio} ${sifd} -a
-			csleep 1
-
-			[ ${debug} -eq 1 ] && ${sifc};sleep 1
+		dqb "${odio} ${sifd} ${2}"	
+		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
+		
+		csleep 1
+		
+		#${odio} ${sifd} -a
+		csleep 1
+		
+		[ ${debug} -eq 1 ] && ${sifc};sleep 1
 	
-			${sip} link set ${2} down
-			[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
-		fi
+		${sip} link set ${2} down
+		[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 	fi
+	#fi
 
-	csleep 1
 	${odio} sysctl -p
 	csleep 1
 	dqb "d1s.d0n3"
@@ -113,15 +106,10 @@ function part0() {
 	dis ${1} ${2}
 	local s
 	dqb "смерть шпионам"
-	#VAIH:jospa kokeilisi vähitellen miten xfquery-komennot vaikuttavat? 
-
+	
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
 	${whack} ssh-agent*
-
-	csleep 5
-	dqb "H4RV35TER 0F 50RR0W"
-	csleep 1
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
@@ -157,6 +145,9 @@ function el_loco() {
 		${svm} /etc/default/locale /etc/default/locale.ÅLD
 		fasdfasd /etc/default/locale
 		csleep 1
+
+		#TODO:pitäisi kai kutsuvassa koodissa huomioida LCF666 vs env vs /e/d/locale
+		#.. siis onko huomoioitu kunnolla 3 eri lähdettä asetuksille vaiko ei?
 
 		env | grep LC >> /etc/default/locale
 		env | grep LAN >> /etc/default/locale
@@ -199,7 +190,7 @@ function adieu() {
 }
 #=====================================PART0=========================================================
 pkgcache=$(${mkt} -d)
-part0 ${distro} ${CONF_iface} #?
+part0 ${distro} ${CONF_iface}
 process_lib ${d} ${pkgcache}
 echo "AFTER PROCESS_LIB";sleep 1
 
@@ -317,22 +308,18 @@ else
 	pre_enforce ${d0}
 fi
 
-if [ "${CONF_env}" != "DEFAULT" ] ; then #240526:saattaa muuttua vielä, nyt näin nalkutuksen minimoinnin takia
+if [ "${CONF_env}" != "DEFAULT" ] ; then
 	dqb "BYPASSING enforce_access()"
 	csleep 2
 else 
 	enforce_access $(whoami) ${d0}
 fi
 
-csleep 2
-echo "JUST BEFORE PART1";sleep 1
+
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
 
 ${snt}
-csleep 1
-dqb "${svm} ${d0}/1c0ns/ \* .desktop ~/Desktop"
-csleep 1
 ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 
 #===================================================PART 2===================================
@@ -343,7 +330,7 @@ if [ ${mode} -gt 1 ] ; then
 	#nollasta ei tarttisi välittää koska exit aiempana
 	if [ -v LCF666 ] ; then
 		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l)
-		#barm vuoksi näin
+		 #barm vuoksi näin
 		[ $c13 -gt 0 ] && c14=0
 	
 		#profit
@@ -351,6 +338,9 @@ if [ ${mode} -gt 1 ] ; then
 		echo "NO PREFERRED LC_TIME FOUND" #...ja Sit Jotain?
 	fi
 fi
+
+echo "TODO:tables-säännöt&&ntp josqs?"
+sleep 10
 
 el_loco ${c14} ${c13}
 #=========================================================================================
@@ -384,24 +374,21 @@ fi
 pre_part2
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
-	#ntp-muutokset tarpeellisia tuossa fktiossa vai ei?
 	c14=$(find ${d} -name "*.deb" | wc -l)
 
 	[ ${c14} -gt 0 ] || CONF_removepkgs=0
 fi
 
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
-
 #===================================================PART 3===========================================================
 message
-
 part3 ${d} ${pkgcache}
+
 other_horrors
 dqb "AFTER THE HORROR"
 csleep 1
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then #tänään näin
-	[ -x ${d0}/common_lib.sh ] || echo "chmod +x ${d0}/common_lib.sh | import2.sh q ${d0} ";sleep 5
 	${scm} 0555 ${d0}/common_lib.sh
 
 	#TODO?:oikein pedantit tarkistukseT tähän if-blokkiin? ja importtiin kanssa koska kiukuttelut
