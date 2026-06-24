@@ -1,8 +1,5 @@
 #just_download_not_install-vipu olisi tietysti...
 
-#020426:dgsts.4 ja dgsts.5 , miten niiden kanssa nkuyään?lets find out? EIKU toinen skripti ja repo
-
-#010426:muutoksia josqs? dhclient ei tark ottaen pakollinen koska staattisetkin ip-osoitteen keksitty
 function aswasw() { #privaatti fktio, tarkpoitus olla
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
@@ -12,7 +9,6 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 		wlan0)
 			#E22:GN="libnl-3-200 ... "
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-			#${shary} libdbus-1-3 toistaiseksi jemmaan 280425, sotkee
 
 			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
 			${shary} wpasupplicant
@@ -22,7 +18,7 @@ function aswasw() { #privaatti fktio, tarkpoitus olla
 	esac
 }
 
-function e23_tblz() { #200426:vissiin edelleen vetää paketteja
+function e23_tblz() {
 	dqb "e23_tblz()"
 	csleep 1
 
@@ -358,7 +354,6 @@ function e23_dm() {
 #	E22_GX="${E22_GX} xscreensaver-data xscreensaver"
 #	${shary} ${E22_GX}  #libsystemd0
 
-#150326:teki ainakin kerran jotain toivottua (ehkä joutaa vielä arpoa minne juttuja kopsaillaan) 
 function e23_profs() {
 	dqb "e23_profs) $1 , $2 , $3 ("
 	csleep 1

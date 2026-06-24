@@ -79,10 +79,6 @@ case "${mode}" in
 		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
 	q)
-		#100526 vissiin osasi paketin tehdä toivottavalla sisällöllä
-		#VAIH:uusi testi käyntiiin (kelvollinen tuotos?/masentuuko se?/menevätkö liuittyvät tdstot kohdearkistoon?/yms)
-		#vissiin se exportointi/import nimenomaan g_dout kautta ongelma
-
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
@@ -95,6 +91,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && ${NKVD} ${tgtfile}.tmp
 	;;
 	p)
+		#25626:ehkä toimi kerrabn tuolloin
 		[ -v CONF_default_arhcive3 ] || exit 66
 		csleep 1
 		[ -v CONF_iface ] && ${sifu} ${CONF_iface}

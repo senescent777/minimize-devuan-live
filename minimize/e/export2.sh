@@ -186,10 +186,6 @@ case "${mode}" in
 		z2 /opt/bin/zxcv
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
-	#180426:osasi paketin muodostaa, asennuksen aikana pientä nalkutusta
-	#dpkg: dependency problems prevent configuration of libxml-parser-perl:
- 	#libxml-parser-perl depends on perl  however:
-	#010526:edelleen osasi paketin muodostaa, toimivuus vielä selvitettävä
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"

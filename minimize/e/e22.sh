@@ -174,28 +174,35 @@ cd ${p}
 #120426:vissiin menee kohteeseen fedi ja profs (mutta meneekö 1. mainittu myös juureen?)
 
 function e22_settings() {
+	dqb "e22_settings() ${1} ; ${2} ; ${3} ; ${4} )))( "
+	csleep 1
+
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
 	[ -z "${2}" ] && exit 44
 	[ -z "${3}" ] && exit 89
+
+	dqb "pars.ok"
+	csleep 1
+
 	if [ ! -x ${1}/${3} ] ; then
-		echo "SHOU.LD exp2 p asgfd asgfd"
+		echo "SHOU.LD exp3 p asgfd asgfd"
 		exit 24
 	fi
+
 	.  ${1}/${3}
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
 	exp_prof ${1}/${2} default-esr
 	[ -s ${1}/${2} ] || exit 32
-	local t
-	t=$(tar -tf ${1}/${2} | grep prefs.js | wc -l)
+
+	local t=$(tar -tf ${1}/${2} | grep prefs.js | wc -l)
 	dqb "FOUND PREFS: ${t}"
 	[ ${t} -lt 1 ] && exit 27
+
+	dqb "e22_settings() DONE"
+	csleep 1
 }
 
-#290326:toimii edelleen, mutta fediverse.tar juuressa, e22_settings() pitäisi vissiin muuttaa? (vielä 120426?)
-#040426:ei tarvinne CONF_testgris-ehtoa ainakaan verkkoyhteyden varalta, ei vedä kaloja
-#140426:vissiin toimiva fktio (ainakin ennen merd2-kikkailua)
-#160426:taitaa toimia edelleen
 function e22_home_pre() {
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
@@ -211,10 +218,6 @@ function e22_home_pre() {
 		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
 	fi
 
-	#HUOM.010526:toimiiko tämä kohta? e_final käyttöön?
-	#${scm} a-w  /opt/bin/*
-	#${scm} go-r /opt/bin/*
-	#${sco} 0:0 /opt/bin/*
 	e_final
 
 	${srat} -rvf ${1} /opt/bin
@@ -227,11 +230,6 @@ function e22_home_pre() {
 		${srat} -rvf ${1} ${t}
 	done
 }
-
-#290326:toimii, mutta $3 kanssa ehkä jotain?
-#29426:edelleen toimii?
-#140426:vissiin kopsaa kohdepakettin mitä pitääkin/kunnes toisin todistetaaN)
-#160426:taitaa toimia edelleen
 
 function e22_home() {
 	[ -z "${1}" ] && exit 67
