@@ -212,11 +212,11 @@ function e22_config1() {
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 #nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
-
 #120426:vissiin menee kohteeseen fedi ja profs (mutta meneekö 1. mainittu myös juureen?)
 
 function e22_settings() {
 	dqb "e22_settings()"
+
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
 	[ -z "${2}" ] && exit 44
@@ -239,6 +239,7 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
+#TODO:kekeksikö jonkin varmistuksen että profiili kanssa menee tariin?
 function e22_home_pre() {
 	dqb "home:pre()"
 	[ -z "${1}" ] && exit 67
@@ -269,12 +270,15 @@ function e22_home_pre() {
 }
 
 function e22_home() {
-	
+	dqb "home:pre()"
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
 	[ -d ${2} ] || exit 70
 	[ -z "${3}" ] && exit 71
+
+	dqb "pars_ok"
+	csleep 1
 
 	local t
 	local f
@@ -492,6 +496,7 @@ function e22_ts() {
 	dqb "e22_ts() done"
 }
 
+#28526 taas testailut menossa (vissiin muuten toimii mutta shasums.1 kanssa jotain?)
 function e22_arch() {
 	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
 	csleep 1
@@ -530,13 +535,13 @@ function e22_arch() {
 
 	cd ${2}
 	${sah6} ./*.deb > ./${CONF_hashfile}
-
 	csleep 5
 	dqb "${CONF_hashfile}.1"
 
 	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do
 		[ ${3} -eq 1 ] && ${srat} -rvf ${1} ${f}
 		${sah6} ${f} >> ./${CONF_hashfile}.1
+		csleep 1
 	done
 
 	csleep 5
@@ -727,7 +732,9 @@ function e22_sarram() {
 	#rules vedettiin jo aiemmin
 	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 
-	for f in $(find ~ -type f -name "*pkgs*" | grep -v .OLD | grep -v old) ; do 
+	#OLD vai .OLD? ja ja ja
+
+	for f in $(find ~ -type f -name "*pkgs*" | grep -v OLD | grep -v old) ; do 
 		${sah6} ${f} >> ${3}
 	done
 
