@@ -57,7 +57,6 @@ function e22_tyg() {
 	fi
 }
 
-#170326:lienee ok
 function e22_ftr() {
 	[ -z "${1}" ] && exit 62
 	[ -s ${1} ] || exit 63
@@ -76,36 +75,44 @@ function e22_ftr() {
 	cd ${p}
 }
 
-#020426:lienee delleen ok? (vai oliko jotain härdelliä resolv.conf kanssa?)
-#... tämä kyllä käskyttää enf_acc() -> e_e() -> rm resolv.conf (mitä muita on mistä sorkitaan? tämän tdstn fktiot)
-
 function e22_pre1() {
-[ -z "${1}" ] && exit 65
-[ -z "${2}" ] && exit 66
-[ -d ${1} ] || exit 111
-${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-${scm} -Rv 700 ${CONF_pkgdir}/partial/
-local lefid
-lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?	
-enforce_access $(whoami) ${lefid}
-csleep 1
-${scm} 0755 /etc/apt
-${scm} a+w /etc/apt/sources.list*
-part1 ${2} ${1}
-${scm} a-w /etc/apt/sources.list*
+	dqb "e22_pre1( ${1} ; ${2} ; ${3}) "
+	csleep 1
+
+	[ -z "${1}" ] && exit 65
+	[ -z "${2}" ] && exit 66
+	[ -d ${1} ] || exit 111
+
+	dqb "PARS OK"
+	csleep 1
+
+	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+	${scm} -Rv 700 ${CONF_pkgdir}/partial/
+
+	local lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?	
+	enforce_access $(whoami) ${lefid}
+	csleep 1
+
+	${scm} 0755 /etc/apt
+	${scm} a+w /etc/apt/sources.list*
+
+	part1 ${2} ${1}
+	${scm} a-w /etc/apt/sources.list*
+
+	csleep 1
+	dqb "E22_PRE1 done"
 }
 
 function e22_pre2() {
-	dqb "e22_pre2()"
+	dqb "e22_pre2( ${1} ; ${2} ; ${3} ; ${4} ; ${5} )"
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
-	[ -z "${3}" ] && exit 68
-	[ -z "${4}" ] && exit 69
+	
 	[ -d ${1} ] || exit 111
 	csleep 1
 	dqb "pars_ok"
 
-	local par4=$(echo ${4} | tr -d -c 0-9)
+	local par4=$(echo ${2} | tr -d -c 0-9)
 	echo $?
 	csleep 1
 
