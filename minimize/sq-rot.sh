@@ -88,27 +88,26 @@ else
 		fi
 	}
 
-	[ -v CONF_algo ] || exit 666
-
-	case "${CONF_algo}" in
-		sha256)
-			ocs sha256sum
-			sah6=$(${odio} which sha256sum)
-		;;
-		sha512)
-			ocs sha512sum
-			sah6=$(${odio} which sha512sum)
-		;;
-		*)
-			exit 667
-		;;
-	esac
-
 	function check_binaries() {
 		echo "rot13.check1"
 
 		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
 		scm=$(${odio} which chmod)
+		[ -v CONF_algo ] || exit 77
+
+		case "${CONF_algo}" in
+			sha256)
+				ocs sha256sum
+				sah6=$(${odio} which sha256sum)
+			;;
+			sha512)
+				ocs sha512sum
+				sah6=$(${odio} which sha512sum)
+			;;
+			*)
+				exit 99
+			;;
+		esac
 
 		srat=$(${odio} which tar)
 		#eXit jos srat ei?
@@ -146,7 +145,8 @@ fi
 
 dqb "rot:AFTR common_lib"
 csleep 1
-[ -z "${distro}" ] && exit 6 #vähempikin tarkistelu riittäisi?
+[ -z "${distro}" ] && exit 26
+[ -v CONF_env ] || exit 66
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -249,10 +249,8 @@ else
 	exit 55
 fi
 
-dqb "sqr.aftr.check_par5"
-csleep 2
 #VAIH:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
-#... eli alahan testata
+#... jotain pientä laittoa vielä tarvitsee (230326)
 
 function common_part() {
 	dqb "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
@@ -262,7 +260,7 @@ function common_part() {
 	[ -r ${1} ] || exit 3
 	[ -z "${3}" ] && exit 4
 
-	[ -z "${2}"  ] && exit 11
+	[ -z "${2}" ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -d ${3} ] || exit 45
 
@@ -270,19 +268,18 @@ function common_part() {
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
 
-	dqb "paramz_0k"
+	echo "paramz_0k"
 	csleep 1
 
 	cd /
 	local r
 	r=0
 
-	if [ -v gg ] ; then #josko näin kuitenkin?
+	if [ -v gg ] ; then
 		if  [ -s ${1}.sig ] ; then
 			dqb "A"
 			dqb "gg= ${gg}"
 
-			#jos pikemminkin tutkisi sen ~/.gnupg-hmiston array:n olemassssaolon sijaan?
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 				dqb "B"
 
@@ -334,19 +331,20 @@ function common_part() {
 			#ekan param lisätarkistukset yllä riittävät?
 			${NKVD} ${1}* 
 			${NKVD} ${2}/*.deb
-			${NKVD} ${2}/sha512sums*
+
+			${NKVD} ${2}/${CONF_hashfile}*
 			${NKVD} ${2}/*.tar*
 
 			exit 33
 		fi
 	fi
 
+	#TODO:toisessa oksassa tuo dqb-kohta
 	csleep 1
 	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
 
-	#110523:vöib aiheuttaa nalkutusta jos odio ei asetettu
 	csleep 1
-	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
+	${srat} "${TARGET_TPX}" -C ${3} -xf ${1}
 	[ $? -eq 0 ] || exit 36	
 
 	csleep 1
@@ -406,12 +404,12 @@ function cptp2() {
 
 case "${mode}" in
 	1)
-		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est
+		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est (josko voisi vähitellen...)
 		common_part ${srcfile} ${d} /
 	;;
 	#... exp2 rp vähän yritetty testailla 05/26
 	0)
-		#[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est
+		#[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est (josko voisi vähitellen...)
 		
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
@@ -429,7 +427,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && other_horrors
 	;;
 	3)
-		#DONE:e23_st() outputin asennus , kehitysymp
+		#DONE:e23_st() outputin asennus , kehitysymp (tai siis)
 		#TODO:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
 
 		e=${d}
@@ -444,6 +442,7 @@ case "${mode}" in
 		#050636:kokeeksi näin
 		[ "${CONF_env}" == "TOOR" ] && pre
 
+		#VAIH:tuotaville avaimille jotain tark? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
 		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd find out?)
@@ -484,9 +483,11 @@ case "${mode}" in
 esac
 
 #poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (TODO)
-if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
-	read -p " U  WANT 2 RM SOURCE ?" confirm
-	[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
+if [ $? -eq 0 ] ; then
+	if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
+		read -p " U  WANT 2 RM SOURCE ?" confirm
+		[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
+	fi
 fi
 
 cptp2 ${d0}
