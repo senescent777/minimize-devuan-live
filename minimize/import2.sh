@@ -271,9 +271,6 @@ function tpr() {
 		exit 17
 	fi
 
-	dqb "tpr.pars_ok"
-	csleep 2
-
 	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
 	. ${1}/${3}
 	[ $? -gt 0 ] && exit 19
@@ -363,9 +360,6 @@ case "${mode}" in
 		./sq-rot.sh ${mode} ${srcfile} -v
 	;; 
 	r)
-		dqb "NT R"
-		csleep 5
-
 		[ -d ${srcfile} ] || exit 23
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
