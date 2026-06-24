@@ -79,13 +79,14 @@ fi
 ls -las ./*.conf
 csleep 5
 
-dqb "BFROE tig"
-csleep 2
+#TODO:jos tämä merd toiseen repoon jatkossa?
+dqb "${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git SOON "
+csleep 5
 ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 [ $? -gt 0 ] && exit
 
 dqb "TGI KO"
-csleep 2
+csleep 20
 
 if [ -d  ./${CONF_BASE}.OLD ] ; then
 	for f in $(find ./${CONF_BASE}.OLD -type f -not -name conf) ; do
