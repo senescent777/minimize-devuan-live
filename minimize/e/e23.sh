@@ -61,7 +61,7 @@ function e23_other_pkgs() {
 	dqb "pars.ok"
 
 	csleep 1
-
+	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	e22_pre_e ${E22_GI}
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	e22_pre_e ${E22_GG}
@@ -94,7 +94,6 @@ function e23_upgp() {
 	dqb " e23_upgp() "
 	${fib}
 	csleep 1
-
 	e22_pre_e ${E22_GS}
 	${sag} --no-install-recommends upgrade -u
 	echo $?
