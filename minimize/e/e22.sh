@@ -108,9 +108,9 @@ function e22_pre2() {
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	
-	[ -d ${1} ] || exit 111
+	#[ -d ${1} ] || exit 111 MITVIT?
 	csleep 1
-	dqb "pars_ok"
+	dqb "pars_ok?"
 
 	local par4=$(echo ${2} | tr -d -c 0-9)
 	echo $?
@@ -129,7 +129,7 @@ function e22_pre2() {
 	ls -las /etc/resolv.*
 	csleep 10
 
-	${sifu} ${3}
+	${sifu} ${1}
 	csleep 1
 
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
