@@ -464,7 +464,7 @@ function cefgh() {
 	fi
 }
 
-#TODO:sqroot-ympäristön pkaettivalikoiman päivitys, mm. gpg_poistuu:syistä
+#TODO:sqroot-ympäristön pAKettivalikoiman päivitys, mm. gpg_poistuu:syistä
 function CB01() {
 	dqb "common.lib.CB01( ${1} (( ${2} )"
 	csleep 1
@@ -558,7 +558,6 @@ function check_binaries() {
 	#moni pak tarttee nämä
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 	
-
 	E22_GM="libc6 libselinux1"
 	E22_GM="${E22_GM} debianutils debconf liblocale-gettext-perl libtext-charwidth-perl libtext-iconv-perl libtext-wrapi18n-perl" # nfs-common
 	E22_GM="${E22_GM} debconf-i18n libelf1 libbpf1 " #zlib1,libc6
@@ -665,6 +664,7 @@ function check_binaries() {
 	dqb "b1nar135 0k"
 	csleep 1
 }
+
 function check_binaries2() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2 ))) ${1} ; ${2} ((((((("
 	csleep 1

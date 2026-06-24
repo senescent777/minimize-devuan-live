@@ -95,6 +95,12 @@ else
 		scm=$(${odio} which chmod)
 		[ -v CONF_algo ] || exit 77
 
+		#DONE?:viimeaikaisiin muutoksiin liittyen varmista että sqroot-ympäristössä on oikeanlainen konfiguraatio
+		#vissiin on jo 240626
+
+		#TODO:seuraavaksi varmista että nekros?.tar.bz3 sisältämät paketit asentuvat sqroot a laisuudessa
+		#... elikkäs uudelleen_pakkausta tapahtumaan kohta
+
 		case "${CONF_algo}" in
 			sha256)
 				sah6=$(${odio} which sha256sum)
@@ -217,8 +223,7 @@ function pre() {
 	sleep 1
 	echo "C"
 
-	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do
-		#040626:purkamisen kanssa jotain ongelmia?		
+	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do	
 		tar --exclude import2.sh -jxvf ${f}
 
 		sleep 1
@@ -339,12 +344,12 @@ function common_part() {
 		fi
 	fi
 
-	#TODO:toisessa oksassa tuo dqb-kohta
+	#TODO:toisessa oksassa tuo vastaava dqb-kohta
 	csleep 1
-	dqb "NECKST: ${srat} ${TARGET_TPX} -C ${3} -xf ${1}"
+	dqb "NECKST: ${srat}  (${TARGET_TPX} ) -C ${3} -xf ${1}"
 
 	csleep 1
-	${srat} "${TARGET_TPX}" -C ${3} -xf ${1}
+	${srat} -C ${3} -xf ${1} #TODO:pientä laittoa "${TARGET_TPX}" liittyen
 	[ $? -eq 0 ] || exit 36	
 
 	csleep 1
@@ -482,7 +487,7 @@ case "${mode}" in
 	;;
 esac
 
-#poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (TODO)
+#poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (VAIH?)
 if [ $? -eq 0 ] ; then
 	if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
 		read -p " U  WANT 2 RM SOURCE ?" confirm

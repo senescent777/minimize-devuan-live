@@ -194,6 +194,7 @@ else
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
+#TODO:tämä fktio -> common_lib ? vaiko ei?
 function cptp2() {
 
 	[ -z "${1}" ] && echo 99
