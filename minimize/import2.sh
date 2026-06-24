@@ -79,7 +79,7 @@ else
 	function check_binaries() {
 		dqb "imp2.check1"
 
-		mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin? tpr() ainakin
+		mkt=$(${odio} which mktemp)
 		scm=$(${odio} which chmod)	
 
 		srat=$(${odio} which tar)

@@ -476,6 +476,7 @@ case "${mode}" in
 	;;
 	*)
 		echo "-h"
+		exit
 	;;
 esac
 
