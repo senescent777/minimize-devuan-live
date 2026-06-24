@@ -90,7 +90,7 @@ else
 	function check_binaries() {
 		dqb "imp2.check1"
 
-		mkt=$(${odio} which mktemp)
+		mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin? tpr() ainakin
 		scm=$(${odio} which chmod)
 
 		srat=$(${odio} which tar)
@@ -172,7 +172,6 @@ fi
 
 [ -v mkt ] || exit 7
 [ -z "${mkt}" ] && exit 9
-dqb "mkt= ${mkt} "
 
 [ -v srat ] || exit 8
 [ -z "${srat}" ] && exit 10
@@ -195,10 +194,7 @@ else
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
-dqb "ip2.m.Lpgqq"
-
 function cptp2() {
-	dqb "ip2m c tp2 ${1}, ${2}, ${3}"
 
 	[ -z "${1}" ] && echo 99
 	[ -z "${2}" ] && echo 98
@@ -222,10 +218,9 @@ function cptp2() {
 		csleep 10
 
 		if [ -x ${t}/common_lib.sh ] ; then
-			enforce_access $(whoami) ${t} #${2} toka param turha?
+			enforce_access $(whoami) ${t}
 			csleep 10
 
-		
 			dqb "1MP,2: running mutilatetc.bash maY be necessary now to fix some things"
 		else
 			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
@@ -234,8 +229,6 @@ function cptp2() {
 		ls -las /etc/res*
 		csleep 10
 	fi
-
-	csleep 1
 
 	if [ -d ${t} ] ; then
 		dqb "HAIL UKK"
@@ -249,7 +242,6 @@ function cptp2() {
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
-	csleep 1
 }
 
 dqb "HPL"
@@ -273,9 +265,6 @@ function tpr() {
 	[ -f ${1}/${3} ] || exit 15
 	[ -s ${1}/${3} ] || exit 16
 
-	dqb "trp.pars_ok.0"
-	csleep 1
-
 	if [ ! -x ${1}/${3} ] ; then
 		dqb "CANNOT INCLUDE PROFS.HS 0 R WHÅTEVER"
 		dqb "$0 1 \$srcfile | chmod +x ${3} ?"
@@ -291,7 +280,7 @@ function tpr() {
 
 	dqb "INCLUDE OK"
 
-	local q=$(${mkt} -d) #toimisiko näin?
+	local q=$(${mkt} -d)
 	[ $? -gt 0 ] && exit 20
 
 	dqb "JUST BEFORE TAR ${1}/${2}"
@@ -304,20 +293,16 @@ function tpr() {
 	[ $? -gt 0 ] && exit 22
 	csleep 2
 
-	dqb "JUST BEFORE impo_prof"
-	csleep 2
-
 	imp_prof esr $(whoami) ${q}
 	dqb $?
-	csleep 2
-
-	dqb "UP1R D0N3"
 	csleep 2
 }
 
 case "${mode}" in
 	-1) 
-		# "$0 -1 -v" , miten toimii? vissiin
+		dqb "DIPOLIN KÄPY"
+		csleep 3
+
 		part=/dev/disk/by-uuid/${CONF_part0}
 		[ -b ${part} ] || dqb "no such thing as ${part}"
 		c=$(grep -c ${CONF_dir} /proc/mounts)
@@ -374,7 +359,7 @@ dqb "4th arra of..."
 csleep 5
 
 case "${mode}" in
-	1|0|3) #20526:ilmeinen bugi vihdoinkin korjattu
+	1|0|3)
 		./sq-rot.sh ${mode} ${srcfile} -v
 	;; 
 	r)
