@@ -49,10 +49,11 @@ else
 fi
 
 [ -z "${distro}" ] && exit 6
+#d=${d0}/${distro} #nykyään vähän turha tässä
 process_lib ${d}
 
 if [ -x ${d0}/e/e22.sh ] ; then
-	.  ${d0}/e/e22.sh
+	.  ${d0}/e/e22.sh #tässä jotain vikaa vikaa? toiv ei
 	.  ${d0}/e/e23.sh
 else
 	echo "NO BACKEND FOUND"
@@ -60,45 +61,17 @@ else
 fi
 
 [ -d  ${tgtfile} ] && exit 99 #P.V.H.H
-[ "${mode}" == "rp" ] || e22_hdr ${tgtfile}
-[ -v CONF_iface ] && ${sifd} ${CONF_iface}
+e22_hdr ${tgtfile}
+[ "${mode}" == "rp" ] || e22_hdr ${tgtfile} #P.V.H.H
+[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta (josk jo takaisin)
 
 case "${mode}" in
-	rp)
-
+	rp) #VAIH:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms
+		#siirtynee koodia casen ja fktion välillä vielä
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
+		e22_rpg ${tgtfile} ${d}
 
-		e22_cleanpkgs ${d}
-		e22_cleanpkgs ${CONF_pkgdir}
-
-		c=$(tar -tf ${tgtfile} | grep f.tar | grep -v '.sha' | head -n 1)
-		t=/
-
-		if [ ! -z "${c}" ] ; then
-			#TODO:tämän kanssa jotain?	
-			if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
-				t=${CONF_testgris} 
-			fi
-
-			${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${t} -xvf ${tgtfile}
-		fi
-
-		csleep 5
-		${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${d} -xvf ${d}/f.tar
-		csleep 5
-
-		[ $? -eq 0 ] || exit 99
-		${svm} ${d}/f.tar ${d}/f.tar.OLD
-		csleep 5
-	
-		e22_arch ${d}/f.tar ${d} ${gbk}
-
-		if [ ! -z "${c}" ] ; then
-			cd ${t}
-			${srat} -uvf ${tgtfile} ${c}
-			${srat} -uvf ${tgtfile} ${c}.sha
-		fi
 	;;
 	f)
 		t=$(echo ${d} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
@@ -106,17 +79,20 @@ case "${mode}" in
 		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
 	q)
+		#100526 vissiin osasi paketin tehdä toivottavalla sisällöllä
+		#VAIH:uusi testi käyntiiin (kelvollinen tuotos?/masentuuko se?/menevätkö liuittyvät tdstot kohdearkistoon?/yms)
+		#vissiin se exportointi/import nimenomaan g_dout kautta ongelma
+
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
-
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	c)
 		e22_cde ${tgtfile} ${d0} ${distro}
-	
-		#HUOM. EI NÄIN KOSKA e22_cde() NYKYINEN SISÄLTÖ
-		#bzip2 -c -z ${tgtfile}.tmp > ${tgtfile}
+		mv ${tgtfile} ${tgtfile}.tmp
+		bzip2 -c -z ${tgtfile}.tmp > ${tgtfile}
+		[ $? -eq 0 ] && ${NKVD} ${tgtfile}.tmp
 	;;
 	p)
 		[ -v CONF_default_arhcive3 ] || exit 66

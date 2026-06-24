@@ -95,47 +95,59 @@ part1 ${2} ${1}
 ${scm} a-w /etc/apt/sources.list*
 }
 
-#...note to self: oli varmaankin kommentti yllä cross-distro-syistä, ehkä jossain kohtaa jos sitä juttua teatsisi uudestaan
-#HUOM:KOITA PUUSILMÄ JAKSAA KATSOA TARKEMMIN MIKÄ ON HOMMAN NIMI 2. PARAMETRIN KANSSA
-
-#170426:josko esim. toimisi (resolv.conf kanssa vielä jotain?)
 function e22_pre2() {
-[ -z "${1}" ] && exit 66
-[ -z "${2}" ] && exit 67
-[ -z "${3}" ] && exit 68
-[ -z "${4}" ] && exit 69
-[ -d ${1} ] || exit 111
-par4=$(echo ${4} | tr -d -c 0-9)
-echo $?
-csleep 1
-if [ -d /etc/resolv.conf ] ; then
-echo "D"
-else
-if [ -h  /etc/resolv.conf ] ; then
-echo "-L"
-else
-[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
-fi
-fi
-ls -las /etc/resolv.*
-csleep 10
-${sifu} ${3}
-csleep 1
-${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-${scm} -Rv 700 ${CONF_pkgdir}/partial/
-${sag_u}
-}
-function e22_cleanpkgs() {
-[ -z "${1}" ] && exit 56
-if [ -d ${1} ] ; then
-${smr} ${1}/*.deb
-${smr} ${1}/sha512sums.txt*
-ls -las ${1}/*.deb | wc -l
-fi
+	dqb "e22_pre2()"
+	[ -z "${1}" ] && exit 66
+	[ -z "${2}" ] && exit 67
+	[ -z "${3}" ] && exit 68
+	[ -z "${4}" ] && exit 69
+	[ -d ${1} ] || exit 111
+	csleep 1
+	dqb "pars_ok"
+
+	local par4=$(echo ${4} | tr -d -c 0-9)
+	echo $?
+	csleep 1
+
+	if [ -d /etc/resolv.conf ] ; then
+		echo "D"
+	else
+		if [ -h  /etc/resolv.conf ] ; then
+			echo "-L"
+		else
+			[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
+		fi
+	fi
+
+	ls -las /etc/resolv.*
+	csleep 10
+
+	${sifu} ${3}
+	csleep 1
+
+	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+	${scm} -Rv 700 ${CONF_pkgdir}/partial/
+	${sag_u}
+
+	csleep 1
+	dqb "e22_pre2() DONE"
 }
 
-#290326:tämän kanssa jotain Jatkosäätöä vai ei?
-#120426:bissiin menee mukaan kohteeseen config.tar.bz2
+function e22_cleanpkgs() {
+	dqb "e22_cleanpkgs( ${1} )"
+	[ -z "${1}" ] && exit 56
+	csleep 1
+	dqb "params ok"
+
+	if [ -d ${1} ] ; then
+		${smr} ${1}/*.deb
+		${smr} ${1}/sha512sums.txt*
+		ls -las ${1}/*.deb | wc -l
+	fi
+
+	csleep 1
+	dqb "e22_cleanpkgs() DONE"
+}
 
 function e22_config1() {
 [ -z "${1}" ] && exit 11
@@ -152,8 +164,6 @@ cd ${p}
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
 #nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
-
-#290326:tämän kanssa jotain hatkosäätöä vai ei?
 #120426:vissiin menee kohteeseen fedi ja profs (mutta meneekö 1. mainittu myös juureen?)
 
 function e22_settings() {

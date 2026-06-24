@@ -10,17 +10,14 @@ spc=$(which cp)
 [ -x ${spc} ] || exit 14
 n=$(whoami)
 
-par3=""
-
-
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
-		
+		#TODO:testaus miten saa tOImimaan omegan ajon jlkeen?
+		#... pitäisi onnata qhan kohteen käyttöoik kunnossa
+
 		tcmd="sudo ${tcmd} "
 		spc="sudo ${spc} "
 	fi
-
-	par3=${3}
 else
 	exit 10
 fi
@@ -30,10 +27,15 @@ tgt=${1}
 [ -s "${tgt}" ] || exit 16
 [ -r "${tgt}" ] || exit 17
 
+echo "PARAMS CHECKED"
+sleep 1
+
 if [ -s ${d0}/$(whoami).conf ] ; then
+	echo "ALT.C0NF1G"
 	. ${d0}/$(whoami).conf
 else
 	if [ -s ${d0}/../$(whoami).conf ] ; then
+		echo "ALT.C0NF1G3"
 		. ${d0}/../$(whoami).conf
 	fi
 fi
@@ -50,57 +52,40 @@ ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 sleep 1
 t=$(pwd)
 
-echo "#TODO:tunaroinnin varalta lähteestä vkopio ennenq alkaa process_row() hakata"
-
-if [ "${CONF_env}" == "VED" ] && [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
-	echo "YLIULIULI asb asb ABC"
+if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
+	echo "YLIULIULI"
 	cd ${CONF_testgris}
-
-	echo "SHOULD MAKE BACKUP OF SOURCE"
-	sleep 1
-
-	echo "SHOULD ALSO AVOID UPFATING RESOLV.CONF"
-	sleep 1
 
 	#HUOM:-C olisi myös keksitty
 else
-	echo "NO TESTGRIS?"
 	cd /
 fi
 
-xo="*.tar --exclude .chroot --exclude *.deb --exclude changedns.* "
-
-if [ "${CONF_env}" != "DEFAULT" ]; then
-	xo="${xo} --exclude resolv.* "
-fi
-
 function process_row() {
-	${tcmd} --exclude "${xo}" -rvf ${1} ${2}
+	${tcmd} -rvf ${1} ${2}
 }
 
+#HUOM.170426:olisi hyvä keksiä tähänkin jotain siltä varalta että merd2 ei tulisi ylimääräisiä kopioita
+
 if [ ! -s ${d0}/MAN1.F2ST ] ; then
-	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb | grep -v resolv > ${d0}/MAN1.F2ST
+	${tcmd} -tf ${tgt} | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb > ${d0}/MAN1.F2ST
 	${tcmd} -rvf ${tgt} ${d0}/MAN1.F2ST
 	sleep 1
 fi
 
-#ao. riveihin muutoksia? koska CONF_env tulosssa käyttöön
-if [ -z "${par3}" ] ; then
-	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .tar | grep -v .deb | grep -v .chroot | grep -v resolv)
-else
-	g=$(grep -v '#' ${d0}/MAN1.F2ST | grep ${par3})
-fi
+echo "JUST BEFOR.E PROCESSING ROWS"
+sleep 1
 
-for f in ${g} ; do
+#toimiikohan kehitysynp.tössä niinqu pitää?
+#${tcmd} -T ${d0}/MAN1.F2ST --exclude '*.tar' --exclude '*.deb' -f ${tgt} -rv
+
+for f in $(grep -v '#' ${d0}/MAN1.F2ST | grep -v "${n}.conf" | grep -v .chroot | grep -v .tar | grep -v .deb  ) ; do
 	if [ -f ${f} ] ; then
-		if [ ! -d ${f} ] ; then
+		if [ ! -d ${f} ] ; then #"-h" - tark vielä?
 			process_row ${tgt} ${f}
 		fi
 	fi
-
-	#sleep 1
 done
 
-ls -las ${tgt}*
-#jottta ehtisi synkata 
+#jotat ehtisi synkata 
 sleep 6;sudo /bin/sync;sleep 4
