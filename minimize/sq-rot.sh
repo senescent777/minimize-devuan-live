@@ -340,11 +340,12 @@ function common_part() {
 		fi
 	fi
 
+	#240626:tarttisi jotain tehdä TPX suhteen vähitellen
 	csleep 1
-	dqb "NECKST: ${srat} "${TARGET_TPX}" -C ${3} -xf ${1}"
+	dqb "NECKST: ${srat} -C ${3} -xf ${1}" #"${TARGET_TPX}"
 	
 	csleep 1
-	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
+	${srat}  -C ${3} -xf ${1} #"${TARGET_TPX}"
 	[ $? -eq 0 ] || exit 36	
 
 	sleep 1

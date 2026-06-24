@@ -201,7 +201,6 @@ function cptp2() {
 }
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
-
 fox=$(${odio} which firefox)
 
 function tpr() {
@@ -226,7 +225,6 @@ function tpr() {
 		exit 17
 	fi
 
-
 	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
 	. ${1}/${3}
 	[ $? -gt 0 ] && exit 19
@@ -248,7 +246,6 @@ function tpr() {
 	dqb $?
 	csleep 2	
 }
-
 
 case "${mode}" in
 	-1) 

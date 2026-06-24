@@ -392,10 +392,11 @@ csleep 1
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh
 
-	#TODO:tämän kanssa jotain?
+	dqb "KOITA NYT PRKL SAADA TÄTÄ KAUTTA IMPORT2 TOIMIMAAN 666!!!"
+	csleep 66
 	${d0}/import2.sh r ${d0} -v
-	echo $?
-	csleep 3
+	[ $? -eq 0 ] || exit $?
+	csleep 34
 fi
 
 dqb "PR0F IMPORT DONE?"
