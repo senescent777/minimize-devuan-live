@@ -168,7 +168,7 @@ case "${mode}" in
 		reqwreqw /opt/bin/zxcv.tmp
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
+		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then #jälk ehtoon muutoksia vai ei?
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
