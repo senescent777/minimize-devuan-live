@@ -14,7 +14,6 @@ if [ ! -v CONF_pubk ] ; then
 		fi	
 	fi
 
-	csleep 1
 	unset a
 	unset b
 fi
@@ -276,7 +275,6 @@ function e22_home() {
 	[ -z "${2}" ] && exit 69
 	[ -d ${2} ] || exit 70
 	[ -z "${3}" ] && exit 71
-
 	dqb "pars_ok"
 	csleep 1
 
@@ -301,7 +299,8 @@ function luca() {
 	[ -z "${1}" ] && exit 11
 	[ -s ${1} ] || exit 12
 
-	${srat} -rvf ${1} /etc/timezone /etc/localtime 
+	${srat} -rvf ${1} /etc/timezone /etc/localtime
+
 	local f
 	for f in $(find /etc -type f -name "local*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
 	[ ${debug} -eq 1 ] && ${srat} -tf ${1} | grep local
@@ -457,14 +456,13 @@ function e22_ext() {
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
 	${scm} -R a-w ./sbin
-
 	${srat} -rvf ${1} ./etc ./sbin
 	echo $?
+	local f
 
 	c=$(${srat} -tf ${1} | grep resolv.conf.${st} | wc -l)
 	[ ${c} -gt 0 ] || exit 97
 	echo $?
-	local f
 	
 	for f in $(find ./etc -type f -not -name "interfaces.*" -and -not -name "resolv.*") ; do
 		${sah6} ${f} >> ${4}
@@ -610,6 +608,7 @@ function e22_rpg() {
 #	exit
 }
 
+#TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
 function e22_cde() {
 	dqb "e22_cde()"
 	
