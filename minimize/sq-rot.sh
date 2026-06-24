@@ -89,7 +89,7 @@ else
 	}
 
 	function check_binaries() {
-		echo "rot13.check1"
+		echo "fish-rot.1"
 
 		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
 		scm=$(${odio} which chmod)
@@ -97,12 +97,12 @@ else
 
 		case "${CONF_algo}" in
 			sha256)
-				ocs sha256sum
 				sah6=$(${odio} which sha256sum)
+				ocs sha256sum
 			;;
 			sha512)
-				ocs sha512sum
 				sah6=$(${odio} which sha512sum)
+				ocs sha512sum
 			;;
 			*)
 				exit 99
