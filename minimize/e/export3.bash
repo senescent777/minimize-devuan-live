@@ -49,7 +49,6 @@ else
 fi
 
 [ -z "${distro}" ] && exit 6
-#d=${d0}/${distro}
 process_lib ${d}
 
 if [ -x ${d0}/e/e22.sh ] ; then
@@ -60,18 +59,46 @@ else
 	exit 58
 fi
 
-[ -d ${tgtfile} ] && exit 99 #P.V.H.H
-e22_hdr ${tgtfile}
+[ -d  ${tgtfile} ] && exit 99 #P.V.H.H
 [ "${mode}" == "rp" ] || e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 case "${mode}" in
-	rp) #VAIH:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms
-		#siirtynee koodia casen ja fktion välillä vielä
+	rp)
+
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
-		e22_rpg ${tgtfile} ${d}
 
+		e22_cleanpkgs ${d}
+		e22_cleanpkgs ${CONF_pkgdir}
+
+		c=$(tar -tf ${tgtfile} | grep f.tar | grep -v '.sha' | head -n 1)
+		t=/
+
+		if [ ! -z "${c}" ] ; then
+			#TODO:tämän kanssa jotain?	
+			if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
+				t=${CONF_testgris} 
+			fi
+
+			${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${t} -xvf ${tgtfile}
+		fi
+
+		csleep 5
+		${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${d} -xvf ${d}/f.tar
+		csleep 5
+
+		[ $? -eq 0 ] || exit 99
+		${svm} ${d}/f.tar ${d}/f.tar.OLD
+		csleep 5
+	
+		e22_arch ${d}/f.tar ${d} ${gbk}
+
+		if [ ! -z "${c}" ] ; then
+			cd ${t}
+			${srat} -uvf ${tgtfile} ${c}
+			${srat} -uvf ${tgtfile} ${c}.sha
+		fi
 	;;
 	f)
 		t=$(echo ${d} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
@@ -82,17 +109,16 @@ case "${mode}" in
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
+
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	c)
-		#TODO:TÄMÄ UUSIKSI TAAS 666!!!
 		e22_cde ${tgtfile} ${d0} ${distro}
-		mv ${tgtfile} ${tgtfile}.tmp
-		bzip2 -c -z ${tgtfile}.tmp > ${tgtfile}
-		[ $? -eq 0 ] && ${NKVD} ${tgtfile}.tmp
+	
+		#HUOM. EI NÄIN KOSKA e22_cde() NYKYINEN SISÄLTÖ
+		#bzip2 -c -z ${tgtfile}.tmp > ${tgtfile}
 	;;
 	p)
-		#25626:ehkä toimi kerrabn tuolloin
 		[ -v CONF_default_arhcive3 ] || exit 66
 		csleep 1
 		[ -v CONF_iface ] && ${sifu} ${CONF_iface}
