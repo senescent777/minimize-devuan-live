@@ -70,6 +70,44 @@ function e22_ftr() {
 	cd ${p}
 }
 
+function aqsp() {
+	dqb "aqsp ${1} ; "
+	[ -z "${1}" ] && exit 97
+	[ -d ${1} ] || exit 96
+	local rv=0
+
+	if [ -v gg ] ; then #else-haarat takaisin josqs, ehkä
+		if [ -s ${1}/${CONF_hashfile}.sig ] ; then #eka ehto omalle rivilleen ja sit jhotain
+			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
+				${gg} --verify ${1}/${CONF_hashfile}.sig
+				rv=$?
+			fi
+		fi
+	fi
+
+	if [ -s ${1}/${CONF_hashfile} ] && [ -x ${sah6} ] && [ ${rv} -eq 0 ] ; then
+		local p=$(pwd)
+		cd ${1}
+
+		${sah6} -c ${CONF_hashfile} --ignore-missing
+		rv=$?
+		cd ${p}
+	else
+		rv=93
+	fi
+
+	dqb "rv= ${rv}"
+
+	if [ ${rv} -gt 0 ] ; then #toistaiseksi sqap() hoitamaan poistot
+		dqb "SMTHNG WENT WR09NG"	
+		${NKVD} ./*.deb 
+		${NKVD} ./${CONF_hashfile}*
+		${NKVD} ./*.tar
+	fi
+
+	dqb "aqsp  DONE"
+}
+
 function e22_pre1() {
 	dqb "e22_pre1( ${1} ; ${2} ; ${3}) "
 	csleep 1
