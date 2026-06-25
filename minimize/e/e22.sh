@@ -141,7 +141,6 @@ function e22_pre2() {
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 	
-	#[ -d ${1} ] || exit 111 MITVIT?
 	csleep 1
 	dqb "pars_ok?"
 
@@ -268,7 +267,7 @@ function e22_home_pre() {
 	fi
 
 	e_final
-	${srat} -rvf ${1} /opt/bin
+	${srat} --exclude "changedns*" -rvf ${1} /opt/bin
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
@@ -478,7 +477,8 @@ function e22_ext() {
 
 	echo $?
 	local f
-	for f in $(find ./etc -type f -not -name "interfaces.*" ) ; do
+
+	for f in $(find ./etc -type f -not -name "interfaces.*"  -and -not -name "resolv.*") ; do
 		${sah6} ${f} >> ${4}
 	done
 
@@ -502,7 +502,7 @@ function e22_ts() {
 
 function e22_arch() {
 	[ -z "${1}" ] && exit 1
-	[ -s ${1} ] || exit 
+	[ -s ${1} ] || exit 11
 	[ -d ${2} ] || exit 22
 	[ -w ${2} ] || exit 44
 	[ -z "${3}" ] && exit 53
@@ -609,7 +609,7 @@ function e22_rpg() {
 #	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
 #	#... koko case pois käytöstä vaikka
 #	
-#	${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${d} -xvf ${1}
+#	${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${d} -xvf ${1}
 #	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
 #	csleep 1
 #
