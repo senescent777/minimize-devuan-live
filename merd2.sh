@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0
+debug=1
 branch=""
 d0=$(pwd)
 
@@ -17,26 +17,26 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#VAIH:näiden 2 hyväksi jotain josqs
+#VAIH:näiden 2 hyväksi jotain josqs(onko jo tehty?)
 function parse_opts_1 () {
 	dqb "merd2.popts1 $1 ; $2"
 }
 
 function parse_opts_2 () {
-	
 	dqb "merd2.popts2 $1 ; $2"
-}
-
-if [ $# -gt 0 ] ; then
-	dqb "params_ok"
-
+	
 	if [ "${1}" == "-v" ] ; then
-		debug=1
+		#debug=1
 		branch=${2}
 	else
 		branch=${1}
-		[ "${2}" == "-v" ] && debug=1
+		#[ "${2}" == "-v" ] && debug=1
 	fi
+}
+
+if [ $# -gt 0 ] ; then
+	dqb "params maybe_ok"
+	parse_opts2 ${1} ${2}
 else
 	echo "${0} [-v] <branch> | ${0} <branch> [-v]"
 	exit 66
@@ -44,7 +44,7 @@ fi
 
 if [ ! -z "${branch}" ] ; then
 	branch=$(echo ${branch} | tr -dc a-zA-Z0-9/.)
-	branch="--branch ${branch}"
+	branch=" --branch ${branch} "
 fi
 
 dqb "branch=${branch}"
@@ -79,18 +79,17 @@ fi
 ls -las ./*.conf
 csleep 5
 
-#070626:varm vuoksi debug lisätty
-dqb "BFROE tig"
-csleep 2
-dqb "${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git SOON"
-csleep 2
+#TODO:jos tämä merd toiseen repoon jatkossa?
+dqb "${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git SOON "
+csleep 5
+exit
+
+#to state the obvious:suorastaan elintärkeätä olisi pysyä kärryillä, mikä oksa vedetään ja kuinka tuore sellainen
 ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 [ $? -gt 0 ] && exit
 
-#TODO:main-oksa toimintakuntoiseksi joskus
-
 dqb "TGI KO"
-csleep 2
+csleep 20
 
 if [ -d  ./${CONF_BASE}.OLD ] ; then
 	for f in $(find ./${CONF_BASE}.OLD -type f -not -name conf) ; do
@@ -125,6 +124,3 @@ else
 	#josko nyt jo?
 	for d in $(find ${d0} -type f -name "*.sh") ; do chmod 0555 ${d} ; done
 fi
-
-#210526:vissiin onnistui jo vetämään 1take-oksan
-#250526:vetäminen onnistui jo 2. kerran
