@@ -291,6 +291,9 @@ function psqa() {
 	#return 92 #ei näin?
 	#dpkg -V oli tässä josqs , [ -v ] takana
 
+	[ -v CONF_hashfile ] || exit 98
+	[ -z "${CONF_hashfile}" ] && exit 99
+	
 	if [ -v gg ] && [ -s ${1}/${CONF_hashfile}.sig ] ; then
 		dqb "))S))))( ${1} )"
 		csleep 1
@@ -360,6 +363,8 @@ function psqa() {
 	csleep 2
 }
 
+#TODO:shasums:ien kopsaus $2:seen myös?
+#TODO:pikemminkin siellä $2-hmistossa käsin se sha-tarkstus?
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} ) ${2} )))))))))))))"
 	csleep 1
@@ -382,10 +387,7 @@ function common_pp3() {
 	r=$(echo ${1} | cut -d "/" -f 1-5)
 
 	if [ ${q} -lt 1 ] ; then
-		echo "SHOULD REMOVE ${1} / shasums . t x t"
-		
 		${scm} a-wx ${r}/common_lib.sh
-		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
 
@@ -397,7 +399,6 @@ function common_pp3() {
 
 		local s
 
-		
 		for s in $(grep -v '#' ${1}/${CONF_hashfile} | awk '{print $2}') ; do
 			${svm} ${1}/${s} ${2}
 		done
@@ -407,7 +408,6 @@ function common_pp3() {
 		for s in $(grep -v '#' ${1}/${CONF_hashfile}.1 | grep -v drop | awk '{print $2}') ; do
 			dqb "${spc} ${1}/${s} ${2}"
 			${spc} ${1}/${s} ${2}
-			csleep 10
 		done
 	fi
 
@@ -531,6 +531,7 @@ function cefgh() {
 	fi
 }
 
+#TODO:sqroot-ympäristön pAKettivalikoiman päivitys, mm. gpg_poistuu:syistä
 function CB01() {
 	dqb "common.lib.CB01( ${1} (( ${2} )"
 	csleep 1
@@ -555,7 +556,7 @@ function CB01() {
 
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
-	[ -z "${gg}" ] && dqb "GPG COULD NOT BE INSTALLED"
+	
 	[ -z "${gg}" ] && ${scm} a-wx ${1}/../common_lib.sh #$0 josko näin kuitenkin?
 	csleep 1
 
@@ -631,7 +632,9 @@ function check_binaries() {
 		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # sha512sum
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
+		dqb "PISSE"
 	else
+		dqb "SCHEISSE"
 		y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # kilinwittu.sh  sha512sum
 	fi
 	
@@ -683,7 +686,6 @@ function check_binaries() {
 	fi
 
 	if [ -z "${ipt}" ] ; then
-		echo "SHOULD INSTALL OPÅTANÖES"
 		CB02 ${t}
 	fi
 
@@ -740,7 +742,8 @@ function check_binaries2() {
 	export INITRD
 
 
-	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
+	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
+
 	if [ "${CONF_env}" != "VED" ] ; then #toistaiseksi näin?
 		${scm} a-wx /usr/sbin/update-initramfs #kokeeksi tämäkin, vissiin jotyain saa aikaan 050426
 	fi
@@ -764,7 +767,7 @@ function TLA() {
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ "${CONF_env}" == "TOOR" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
+		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then #TODO:koitapa päättää miten pitäisi mennä (tämä vs tuo oksa)
 			dqb "JST B3F0R:tlb-b a s h"
 			[ -s /opt/bin/tlb.bash ] || exit 99
 			${scm} 0511 /opt/bin/tlb.bash
@@ -794,7 +797,6 @@ function mangle_s() {
 	${scm} 0555 ${r}
 
 	${sco} root:root ${r}
-	#vs /e/paswd ?
 
 	#toisinkin voisi kai tehdä (ab,ac)
 	local aa=$(whoami | tr -dc a-zA-Z0-9 )
@@ -873,10 +875,12 @@ function e_final() {
 }
 
 function e_h() {
+	dqb "EH ((( ${1} ;; ((( ${2} ))(((((("
 	[ -z "${1}" ] && exit 98
 	[ -d ${2} ] || exit 99
-
+	dqb "pars.ok"
 	csleep 1
+
 	${sco} root:root /home
 	${scm} 0755 /home
 	local c=$(grep $1 /etc/passwd | wc -l)
@@ -899,7 +903,7 @@ function e_h() {
 	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
 	csleep 1
 
-	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${2}/opt/bin ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${2}/opt/bin ] ; then #TODO:tämän oksan vs toisen oksan versio, koitra päättää
 		${sco} -R root:root ${2}/opt/bin
 		${scm} go-wr ${2}/opt/bin/*
 		${scm} 0400 ${2}/opt/bin/*.sh #liene ejo turha
@@ -938,6 +942,7 @@ function e_e() {
 
 	local f
 	local c
+
 	f=$(date +%F)
 
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
@@ -1275,6 +1280,7 @@ function part3() {
 
 	local n15=0
 	local t=""
+	#TODO:näillä main merge-juttuja jatkossa?
 
 	#TODO:muistettava sitten tämä if-blokki sulauttaa toisen oksan part3():seen
 	if [ -z "${2}" ] ; then
