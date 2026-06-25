@@ -24,8 +24,6 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-#VAIH:"$0 -1 -v" , toimiiko oikein?
-
 if [ $# -gt 0 ] ; then
 	mode=${1}
 	[ -f ${1} ] && exit 99
@@ -36,27 +34,27 @@ if [ $# -gt 0 ] ; then
 		debug=1
 	fi
 fi
-
-function parse_opts_1() {
-	dqb "parse_opts_1( ${1} )"
-
-	if [ "${mode}" == "-2" ] ; then
-		mode=${1}
-	fi
-}
-
-function parse_opts_2() {
-	dqb "(imp2.parseopts_2 ; ${1} ; ${2} ;"
-
-	if [ -f ${2} ] || [ -d ${2} ] ; then
-		if [ -z "${srcfile}" ] ; then
-			if [ "${2}" != "-v" ] ; then	
-				srcfile=${2}
-			fi
-		fi
-	fi
-
-}
+#
+#function parse_opts_1() {
+#	dqb "parse_opts_1( ${1} )"
+#
+#	if [ "${mode}" == "-2" ] ; then
+#		mode=${1}
+#	fi
+#}
+#
+#function parse_opts_2() {
+#	dqb "(imp2.parseopts_2 ; ${1} ; ${2} ;"
+#
+#	if [ -f ${2} ] || [ -d ${2} ] ; then
+#		if [ -z "${srcfile}" ] ; then
+#			if [ "${2}" != "-v" ] ; then	
+#				srcfile=${2}
+#			fi
+#		fi
+#	fi
+#
+#}
 
 
 if [ -x ${d0}/common_lib.sh ] ; then
@@ -81,7 +79,7 @@ else
 	function check_binaries() {
 		dqb "imp2.check1"
 
-		mkt=$(${odio} which mktemp)
+		mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin? tpr() ainakin
 		scm=$(${odio} which chmod)	
 
 		srat=$(${odio} which tar)
@@ -161,7 +159,7 @@ else
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
-
+#TODO:tämä fktio -> common_lib ? vaiko ei?
 function cptp2() {
 	[ -z "${1}" ] && echo 99
 	[ -d ${1} ] || exit 97
@@ -181,7 +179,6 @@ function cptp2() {
 		if [ -x ${t}/common_lib.sh ] ; then
 			enforce_access $(whoami) ${t}
 			csleep 10
-
 		
 			dqb "1MP,2: running mutilatetc.bash maY be necessary now to fix some things"
 		else
@@ -200,11 +197,8 @@ function cptp2() {
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
-	csleep 1
-	dqb "ALL DONE"
 }
 
-dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 fox=$(${odio} which firefox)
 
@@ -282,9 +276,6 @@ case "${mode}" in
 	;;
 esac
 
-dqb "debug: 1"
-echo "mode: ${mode} "
-echo "srcfile: ${srcfile} "
 [ -z "${srcfile}" ] && exit 44
 
 if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
@@ -297,7 +288,6 @@ else
 	exit 55
 fi
 
-#[ -s ${srcfile} ] || exit 34 #pitäIsikö olla if-blokin sisällä?
 [ -r ${srcfile} ] || exit 35
 
 if [ "${mode}" == "-3" ] || [ "${mode}" == "r" ] ; then
