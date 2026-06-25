@@ -1256,9 +1256,11 @@ function part2() {
 	csleep 1
 }
 
+#25626:vissiinb toimii
 function cg_udp6() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
 	csleep 1
+
 	[ -z "${1}" ] && exit 65
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
@@ -1277,12 +1279,11 @@ function cg_udp6() {
 	csleep 1
 
 	if [ "${CONF_iface}" == "eth0:1" ] ; then
-		dqb "VAIH:ehdollinen dhcp-pak karsinta?"
 		${sharpy} isc-dchp*
 	fi
 }
-#
-##käytössä?
+
+##käytössä? jos siirtäisi siihen tdstoon missä tarvitaan?
 #function cg_pp2() {
 #	dqb " GENERIC REPLACEMENT FOR daud.lib.pre_part2 ${1}"
 #	csleep 1

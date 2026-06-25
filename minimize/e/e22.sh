@@ -143,7 +143,7 @@ function e22_cleanpkgs() {
 
 	if [ -d ${1} ] ; then
 		${smr} ${1}/*.deb
-		${smr} ${1}/sha512sums.txt*
+		${smr} ${1}/${CONF_hashfile}*
 		ls -las ${1}/*.deb | wc -l
 	fi
 
@@ -353,6 +353,20 @@ function e22_acol() {
 
 [ -v CONF_BASEURL ] || exit 6
 
+function e22_pre_e() {
+	local p
+	local q
+
+	if [ "${CONF_iface}" == "eth0:1" ] ; then
+		for p in $@ ; do
+			q=$(echo ${p} | grep -v dhcp)
+			[ -z "${q}" ] || ${shary} ${q}
+		done
+	else
+		for p in $@ ; do ${shary} ${p} ; done
+	fi
+}
+
 function e22_ext() {
 	dqb "e22_ext()"
 	[ -z "${1}" ] && exit 1
@@ -455,8 +469,9 @@ function e22_arch() {
 	[ -w ${2} ] || exit 44
 	[ -z "${3}" ] && exit 53
 	local p=$(pwd)
-	if [ -f ${2}/sha512sums.txt ] ; then #turha tarq?
-		${NKVD} ${2}/sha512sums.txt*
+
+	if [ -f ${2}/${CONF_hashfile} ] ; then #turha tarq?
+		${NKVD} ${2}/${CONF_hashfile}*
 		csleep 1
 	fi
 
@@ -468,30 +483,71 @@ function e22_arch() {
 	fi
 
 	${scm} 0444 ${2}/*.deb
-	fasdfasd ${2}/sha512sums.txt
-	fasdfasd ${2}/sha512sums.txt.1
-	[ ${debug} -eq 1 ] && ls -las ${2}/sha*;sleep 3
+	fasdfasd ${2}/${CONF_hashfile}
+	fasdfasd ${2}/${CONF_hashfile}.1
+	[ ${debug} -eq 1 ] && ls -las ${2}/${CONF_hashfile}*;sleep 3
 
 	cd ${2}
-	${sah6} ./*.deb > ./sha512sums.txt
+	${sah6} ./*.deb > ./${CONF_hashfile}
 
 	for f in $(find . -type f -name "*pkgs*") ; do
 		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
-		${sah6} ${f} >> ./sha512sums.txt.1
+		${sah6} ${f} >> ./${CONF_hashfile}.1
 	done
 
 	for f in e.tar g.tar ; do
 		dqb "sah6 ./${f}"
-		${sah6} ./${f} >> ./sha512sums.txt.1 # | grep -v ${t} 
+		${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
 	done
-	e22_tyg ./sha512sums.txt
-	e22_tyg ./sha512sums.txt.1
+
+	e22_tyg ./${CONF_hashfile}
+	e22_tyg ./${CONF_hashfile}.1
 
 	psqa .
 	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
-	[ $? -gt 0 ] && ${NKVD} ./*.deb ./sha512sums* ./*.tar #?
-	${srat} -rf ${1} ./*.deb ./sha512sums.txt* ./tim3stamp
+	[ $? -gt 0 ] && ${NKVD} ./*.deb ./${CONF_hashfile}* ./*.tar #?
+	${srat} -rf ${1} ./*.deb ./${CONF_hashfile}* ./tim3stamp
 	cd ${p}
+}
+
+#tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
+function e22_dblock() {
+	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
+
+	[ -z "${1}" ] && exit 14
+	[ -s ${1} ] || exit 15
+	[ -z "${2}" ] && exit 11
+	[ -d ${2} ] || exit 22
+	[ -w ${2} ] || exit 23
+	[ -z "${3}" ] && exit 33
+	[ -d ${3} ] || exit 34
+	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
+	[ -z "${4}" ] && exit 37
+
+	dqb ".PARS-OK"
+	csleep 1
+
+	[ ${debug} -eq 1 ] && pwd
+
+	ls -la ${3}/*.deb | wc -l
+	
+	for s in ${PART175_LIST} ; do
+		${sharpy} ${s}*
+		${NKVD} ${3}/${s}*.deb
+	done
+	
+	local t
+	t=$(echo ${2} | cut -d "/" -f 1-6)
+	e22_ts ${t} ${3}
+	dqb "JST B3F0R3 3NF0RC3"
+	csleep 10
+	
+	enforce_access $(whoami) ${t}
+	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
+	csleep 10
+
+	e22_arch ${1} ${2} ${4}
+	e22_cleanpkgs ${2}
 }
 
 #function aval0n() { #prIvaattI, toimimaan+käyttöön?

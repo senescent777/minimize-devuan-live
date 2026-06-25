@@ -190,10 +190,6 @@ case "${mode}" in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) 
-		#300426:paketin muodostaa jälleen, sisällön toinmivuus slevitettävä
-		#010526:jos alkaa git hukkumaan säännöllisesti ni jotain tarttisi tehdä
-		#VAIH:testailut uusicksi TAAS 666		
-
 		e22_pre_e ${E22_GS}
 		e22_pre_e ${E22_GM}
 
@@ -248,12 +244,8 @@ case "${mode}" in
 	;;
 esac
 
-#exit
-
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
-	#HUOM.11326:d-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
-	#exit
 
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar
