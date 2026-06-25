@@ -83,19 +83,17 @@ function fallback() { #tarpeellinen?
 	exit 59
 }
 
-if [ -x ${d0}/common_lib.sh ] ; then #200426:on edelleen tarpeellinen kirjasto
+if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#johdonmukaisuus virhekoodeissa olisi tietty kiva
 	exit 57
 fi
 
 [ -z "${distro}" ] && exit 6
-d=${d0}/${distro} #nykyään vähän turha tässä
+d=${d0}/${distro}
 process_lib ${d}
-mop=${CONF_dm} #voinee joutua muuttamaan jatkossa?
+mop=${CONF_dm}
 
-#suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 dqb "BEF0RE T1G N0R MKTMP"
 sleep 1
 

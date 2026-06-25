@@ -1,6 +1,4 @@
-#just_download_not_install-vipu olisi tietysti...
-
-function aswasw() { #privaatti fktio, tarkpoitus olla
+function aswasw() {
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
 	csleep 1
@@ -49,13 +47,6 @@ function e23_tblz() {
 	dqb "e23_tblz()"
 }
 
-#btw. mikä muuten syynä libgfortran5-nalkutukseen?
-#HUOM.080326:1. param luultavasti tarpeellinen myös jatkossa
-
-#HUOM.110326:common_lib.tool():ille ulkoistaminen josqs? täsäs tdstossa vain määriteltäisiin mitä kys työkalulle syötetään?
-#... siinä ulkoistuksessa on kyllä semmoinen juttu
-
-#200426:vissiin edelleen vetää paketteja
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -71,12 +62,9 @@ function e23_other_pkgs() {
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	${shary} ${E22_GG}
 
-	#rämän eiirto-> common_lib?
+	#rämän eiirto-> common_lib? TAAS?
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 	${shary} ${E23_GS}  #moni pak tarttee nämä
-
-	#${shary} #bsd 
-	##${shary} seatd #130126:paskooko tämä kuitenkin asioita vai ei? ehkä
 
 	message
 	jules
@@ -97,14 +85,10 @@ function e23_other_pkgs() {
 	csleep 1
 	${lftr}
 
-	#initrd-nalkutus mutkistanut asioita, josko a) /etc/kernel sisältö b) debian reference auttaisi? (tämä seur)
 	dqb "e23_other_pkgs() DONE"
 	csleep 1
 }
 
-#äksän kanssa "+scm +usermod -seatd" se toimiva jekku?
-
-#190426:toimii
 function e23_upgp() {
 	dqb " e23_upgp() "
 
@@ -112,20 +96,15 @@ function e23_upgp() {
 	${fib}
 	csleep 1
 
-	#LOPPUU SE PURPATUS PRKL
 	${shary} ${E22_GS}
 
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 
-	#HUOM.081225:pitäisiköhän keskeyttää tässä jos upgrade qsee?
-	#csleep 1
-
 	dqb " e23_upgp() done"
 	csleep 1
 }
 
-#190426:toimii
 function e23_upgp2() {
 	dqb " e23_upgp2() "
 	[ -z "${1}" ] && exit 1 
@@ -146,7 +125,6 @@ function e23_upgp2() {
 	csleep 1
 }
 
-#170326:taitaa toimia, paketin teko ja sisältö
 function e23_qrs() {
 	dqb "e23_qrs()"
 
@@ -189,7 +167,6 @@ function e23_qrs() {
 	csleep 1
 }
 
-#190426:vissiin toimii, ÄLÄ SORKI
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -291,69 +268,6 @@ function e23_dm() {
 	csleep 1
 }
 
-
-
-#	#HUOM.osa riippuvuuksista piytäisi tulla e23_dm() kautta 
-#
-
-
-
-#	libstdc++6 (>= 11), 
-#	#	${shary}  libgnutls30
-#
-#	#wdm depends on xserver-xorg | xserver; however:
-#
-#	case "${1}" in
-#		xdm) #010126:pitäisiköhän tämäkin case testata?
-#			${shary} xdm
-#		;;
-#		wdm)
-#			${shary}  #audit1 ennen case?
-#			${shary} sysvinit-utils 
-#			${shary} libpipeline1
-#			csleep 1
-#
-#			${shary} wdm
-#		;;
-##		lxdm)
-##			#jos aikoo dbusista eroon ni libcups2 asennus ei hyvä idea
-##			#csleep 1
-##			${shary} libdeflate0 debliblerc4 
-##			csleep 1
-##			#acceptiin ainakin 2-0-common enne 2-0 ja sitten muuta tauhkaa hakien tässä kunnes alkaa riittää
-##			${shary}  libgtk2.0-common libgtk2.0-0
-##			csleep 1
-##			#gdk ennen gtk?
-##			${shary}   
-##			csleep 1
-##			${shary} gtk2-engines-pixbuf gtk2-engines 
-##			csleep 1
-##			${shary} lxdm 
-##			csleep 1
-
-##			#polkit-1-auth-agent:
-##			#${shary} lxsession-data libpolkit-agent-1-0 libpolkit-gobject-1-0 policykit-1 laptop-detect lsb-release
-##			#csleep 1
-##			#	 lxlock | xdg-utils, 
-##			# lxpolkit | polkit-1-auth-agent,  lxsession-logout
-##			${shary} lxpolkit lxsession-logout lxsession
-##			#csleep 1
-##		;;
-#		*)
-#		;;
-#	esac
-#
-
-
-#	#EI JUNALAUTTA
-#	E22_GX="netbase"
-#	E22_GX="${E22_GX} liblwp-protocol-https-perl libhttp-negotiate-perl libhtml-tagset-perl libhttp-message-perl libhttp-date-perl libhttp-cookies-perl libhtml-tree-perl libhtml-parser-perl libfile-listing-perl libencode-locale-perl"
-#	E22_GX="${E22_GX} ca-certificates libwww-perl "
-#
-#	E22_GX="${E22_GX}  
-#	E22_GX="${E22_GX} xscreensaver-data xscreensaver"
-#	${shary} ${E22_GX}  #libsystemd0
-
 function e23_profs() {
 	dqb "e23_profs) $1 , $2 , $3 ("
 	csleep 1
@@ -382,41 +296,3 @@ function e23_profs() {
 	dqb "e23_profs() done"
 	csleep 1
 }
-
-#function e23_xyz() {	
-#	${shary} libeudev1 keyboard-configuration #drm2 sekä shmfence _dm() kautta
-#	${shary} libpixman-1-0 libxfont2 libpciaccess0 libgcrypt20
-#	${shary} libxcvt0 xcvt #vetää vai ei? vssiin menee hi pakettiin 7426
-#
-#	csleep 30
-#	dpkg -l libxcvt*
-#	csleep 6
-#
-#	${shary} xserver-xorg-video-modesetting xserver-xorg-input-evtouch
-#	#libopengl0 tarvitaanm, e23() 
-#	${shary} libglu1-mesa libgl1-mesa-dri #gl1 muttei mesa löytyy jo aiemmin
-#
-#	#tässä alla vöib tulla suurempi lottoaminen (jospa jollain livecd:llä selvittäisi mitä oik tarv)
-#	${shary} x11-session-utils xfonts-utils xinit xfonts-scalable xfonts-75dpi xfonts-100dpi
-#	#{shary} xserver-xorg
-#
-#	${shary} xbitmaps x11-xfs-utils  xkb-data xfonts-base x11-xkb-utils
-#	${shary}  #xterm+xauth voIsi hoitaa e23_dm() kaUTTa? jo dm
-#
-#	#egl,audit,bsd0,, yms. dm() kautta
-#
-#	${shary} xserver-common xserver-xorg-core
-#	#xserver-xorg #tarvitseeko erikseen sanoa koska xorg?
-#	${shary} xorg xorg-docs-core xorg-docs #2. ja 3. oik. tarpeen?
-#
-#	#${shary} xserver-xorg-input-all xserver-xorg-input-libinput xserver-xorg-input-wacom 
-#
-#	#Depends:  (>= 2:21.1.7-3devuan1),  (>= 2.34),  (>= 0.5) | 
-#	${shary} xserver-xorg-legacy #tarvitsee vai ei?
-#	#server-xorg-video-all xserver-xorg-video-amdgpu
-#
-#	#${shary} xserver-xorg-video-ati xserver-xorg-video-fbdev xserver-xorg-video-intel 
-#	#${shary} xserver-xorg-video-nouveau xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa xserver-xorg-video-vmware
-#
-
-#}

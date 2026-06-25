@@ -49,21 +49,21 @@ else
 fi
 
 [ -z "${distro}" ] && exit 6
-#d=${d0}/${distro} #nykyään vähän turha tässä
+#d=${d0}/${distro}
 process_lib ${d}
 
 if [ -x ${d0}/e/e22.sh ] ; then
-	.  ${d0}/e/e22.sh #tässä jotain vikaa vikaa? toiv ei
+	.  ${d0}/e/e22.sh
 	.  ${d0}/e/e23.sh
 else
 	echo "NO BACKEND FOUND"
 	exit 58
 fi
 
-[ -d  ${tgtfile} ] && exit 99 #P.V.H.H
+[ -d ${tgtfile} ] && exit 99 #P.V.H.H
 e22_hdr ${tgtfile}
-[ "${mode}" == "rp" ] || e22_hdr ${tgtfile} #P.V.H.H
-[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta (josk jo takaisin)
+[ "${mode}" == "rp" ] || e22_hdr ${tgtfile}
+[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 case "${mode}" in
 	rp) #VAIH:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms

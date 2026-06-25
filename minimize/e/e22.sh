@@ -269,8 +269,8 @@ function e22_home() {
 	csleep 1
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-	#TODO:TPX-kohdan kanssa jotain muutoksia vaiko ei?
-	${srat} "${TARGET_TPX}" --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
+	#TODO:TPX-kohdan kanssa jotain muutoksia vaiko ei? "${TARGET_TPX}"
+	${srat}  --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
 
 	#miksi täsäs eokä h_pre() ?
@@ -279,8 +279,6 @@ function e22_home() {
 	dqb "e22_home() DONE"
 	csleep 1
 }
-
-
 
 function luca() {
 [ -z "${1}" ] && exit 11
@@ -453,7 +451,6 @@ function e22_ts() {
 	cg_udp6 ${1}
 }
 
-#170426:fktio taisi toimia  jnkn aikaa
 #josqs uusiksi testailut (se psqa() - juttu lähinnä , muita on jo testailtu 190426 mennessä)
 
 function e22_arch() {
@@ -507,42 +504,42 @@ function e22_arch() {
 #	dqb  \$ {NKVD} $ {CONF_pkgdir} / libavahi \* ?
 #}
 
-#function e22_rpg() {
-#	dqb "R-P-G ${1} , ${2} , ${3}"
-#	[ -z "${1}" ] && exit 99
-#	[ -z "${2}" ] && exit 98	
-#	[ -s "${1}" ] || exit 97
-#	[ -d ${2} ] || exit 96
-#	exit 95
-#
-##	e22_cleanpkgs ${2}
-##		
-##	${smr} ${2}/f.tar
-##	csleep 1
-##		
-##	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
-##	#... koko case pois käytöstä vaikka
-##	
-##	${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${d} -xvf ${1}
-##	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
-##	csleep 1
-##
-##	#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
-##			
-##	e22_arch ${1} ${2} ${4}
-##	cd ${2}
-##
-##	#sotkee sittenkin liikaa?
-##	#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
-##		
-##	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh
-##	#	${srat} -uvf  ${1} ${t}
-##	#done
-##		
-##	exit
-#}
+function e22_rpg() {
+	dqb "R-P-G ${1} , ${2} , ${3}"
+	[ -z "${1}" ] && exit 99
+	[ -z "${2}" ] && exit 98	
+	[ -s "${1}" ] || exit 97
+	[ -d ${2} ] || exit 96
+	exit 95
 
-#TODO:TÄMÄ PASKA UUSIKSI JÄLLEEN KERRAN
+#	e22_cleanpkgs ${2}
+#		
+#	${smr} ${2}/f.tar
+#	csleep 1
+#		
+#	#toimiiko tuo exclude? jos ei ni jotain tarttis tehrä
+#	#... koko case pois käytöstä vaikka
+#	
+#	${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${d} -xvf ${1}
+#	[ $? -eq 0 ] && ${svm} ${1} ${1}.OLD
+#	csleep 1
+#
+#	#... toimii vissiin mutta laitettu pois pelistä 241225 jokatapauksessa
+#			
+#	e22_arch ${1} ${2} ${4}
+#	cd ${2}
+#
+#	#sotkee sittenkin liikaa?
+#	#${srat} -rvf ${1} ./accept_pkgs* ./reject_pkgs* ./pkgs_drop
+#		
+#	#for t in $(${srat} -tf ${1}) ; do #fråm update2.sh
+#	#	${srat} -uvf  ${1} ${t}
+#	#done
+#		
+#	exit
+}
+
+#TODO:TÄMÄ PASKA UUSIKSI JÄLLEEN KERRAN?
 function e22_cde() {
 	dqb "e22_cde()"
 	
