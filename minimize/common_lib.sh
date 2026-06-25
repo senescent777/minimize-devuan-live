@@ -407,7 +407,6 @@ function common_pp3() {
 		echo "#TODO:VARMISTA ETTÄ SAH.1-KOHTA FKTIOSS common_pp3() TOIMII" #MIELELLÄÄN SUURI MÖLINÄ JOS NÄMÄ JUTUT PUUTTUVAT
 	
 		for s in $(grep -v '#' ${1}/${CONF_hashfile}.1 | grep -v drop | awk '{print $2}') ; do
-			dqb "${spc} ${1}/${s} ${2}"
 			${spc} ${1}/${s} ${2}
 		done
 	fi
