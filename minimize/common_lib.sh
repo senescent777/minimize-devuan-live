@@ -405,6 +405,7 @@ function common_pp3() {
 
 
 		echo "#TODO:VARMISTA ETTÄ SAH.1-KOHTA FKTIOSS common_pp3() TOIMII" #MIELELLÄÄN SUURI MÖLINÄ JOS NÄMÄ JUTUT PUUTTUVAT
+	
 		for s in $(grep -v '#' ${1}/${CONF_hashfile}.1 | grep -v drop | awk '{print $2}') ; do
 			dqb "${spc} ${1}/${s} ${2}"
 			${spc} ${1}/${s} ${2}
@@ -556,7 +557,6 @@ function CB01() {
 
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
-	
 	[ -z "${gg}" ] && ${scm} a-wx ${1}/../common_lib.sh #$0 josko näin kuitenkin?
 	csleep 1
 
@@ -650,7 +650,7 @@ function check_binaries() {
 
 	if [ "${CONF_iface}" != "eth0:1" ] ; then
 		E22_GT="isc-dhcp-client isc-dhcp-common "
-		E22_GU="isc-dhcp"
+		E22_GU="isc-dhcp "
 	fi
 
 	E22_GT="${E22_GT} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
@@ -681,7 +681,6 @@ function check_binaries() {
 	fi
 
 	if [ -z "${gg}" ] ; then
-		echo "SHOULD INSTALL GPG"
 		CB01 ${1} ${t}
 	fi
 
@@ -795,7 +794,6 @@ function mangle_s() {
 	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
 	#$r kanssa jotain t arkistuksia?
 	${scm} 0555 ${r}
-
 	${sco} root:root ${r}
 
 	#toisinkin voisi kai tehdä (ab,ac)
@@ -883,6 +881,8 @@ function e_h() {
 
 	${sco} root:root /home
 	${scm} 0755 /home
+
+	local f
 	local c=$(grep $1 /etc/passwd | wc -l)
 	local m=0555
 
@@ -890,8 +890,7 @@ function e_h() {
 		${sco} -R ${1}:${1} ~
 		csleep 1
 	fi
-
-	local f
+	
 	csleep 1
 	${scm} 0755 ${2}
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
