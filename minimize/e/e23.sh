@@ -88,7 +88,6 @@ function e23_other_pkgs() {
 	csleep 1
 }
 
-#080626:jotain pientä nalkutusta päivityspaketinkin kanssa, voisi tehdä jotain asialle josqs
 function e23_upgp() {
 	dqb " e23_upgp() "
 	${fib}
@@ -162,8 +161,7 @@ function e23_qrs() {
 }
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
-#P.S. jälleen kerran oli urputusta paketin sisällön asennusvaiheessa accept1 kanssa EDELLEEN jotain numa numa jee
-#masentuu mutta...
+
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
