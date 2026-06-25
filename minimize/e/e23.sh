@@ -54,13 +54,12 @@ function e23_other_pkgs() {
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
 
-	#${shary} ${E22_GS} #tämä oli jo kytsuvassa koodissa
 	csleep 1
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	${shary} ${E22_GI}
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
-	${shary} ${E22_GG}
+	e22_pre_e ${E22_GG}
 
 	#rämän eiirto-> common_lib? TAAS?
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
@@ -92,11 +91,10 @@ function e23_other_pkgs() {
 function e23_upgp() {
 	dqb " e23_upgp() "
 
-	#dqb "pars_ok"
 	${fib}
 	csleep 1
 
-	${shary} ${E22_GS}
+	e22_pre_e ${E22_GS}
 
 	${sag} --no-install-recommends upgrade -u
 	echo $?
@@ -173,8 +171,8 @@ function e23_dm() {
 	csleep 2
 
 	${fib}
-	${shary} ${E22_GS}
-	${shary} ${E22_GM}
+	e22_pre_e ${E22_GS}
+	e22_pre_e ${E22_GM}
 	csleep 5
 
 	if [ "${1}" == "wdm" ] ; then
