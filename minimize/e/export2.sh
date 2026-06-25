@@ -34,9 +34,6 @@ else
 	exit 1	
 fi
 
-#"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
-#290426:parse_fktioiden siirto e22:seen olisi 1 idea, tosin siitä seurannee paljon säätöä
-
 function parse_opts_1() {
 	dqb "parse_opts_1( ${1})"
 
@@ -53,8 +50,6 @@ function parse_opts_1() {
 #			fi
 #		;;
 	esac
-
-	#290326:jspa tu case-esac esim. toimisi?
 }
 
 function parse_opts_2() {

@@ -1,10 +1,10 @@
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
 
+#TODO:tietenkin tämä blokki uusiksi ASAP
 #if [ -v CONF_pubk ] ; then
 #	dqb "Å"
 #else
-#	#050326:jatkosäätöjä tähän vai ei?
 #	arsch=$(${odio} find / -type f -name "keys.conf" | head -n 1)
 #
 #	if [ -z "${arsch}" ] ; then
@@ -21,7 +21,6 @@ ${scm} -Rv 700 ${CONF_pkgdir}/partial/
 #	unset arsch
 #fi
 
-#170326:lienee ok
 function e22_hdr() {
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
@@ -36,10 +35,6 @@ function e22_hdr() {
 	[ $? -gt 0 ] && exit 60
 	[ ${debug} -eq 1 ] && ls -las ${1}
 }
-
-#tark-. olla priv fktio
-#170326:taitaa olla toimiva fktio nykyään (ellei toisin todisteta)
-#190426:toimii edelleen?
 
 function e22_tyg() {
 	[ -z "${1}" ] && exit 45
@@ -539,7 +534,7 @@ function e22_rpg() {
 #	exit
 }
 
-#TODO:TÄMÄ PASKA UUSIKSI JÄLLEEN KERRAN?
+#TODO:TÄMÄ PASKA UUSIKSI JÄLLEEN KERRAN? (tai siis kutsuvan koodin sorkinta)
 function e22_cde() {
 	dqb "e22_cde()"
 	
