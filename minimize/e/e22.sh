@@ -179,8 +179,6 @@ function e22_pre2() {
 
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
-	dqb "pars.maybe.ok"	
-	csleep 1
 
 	#HUOM.tämän sekoilun piti olla lopetettu
 	local par4=$(echo ${2} | tr -d -c 0-9)
