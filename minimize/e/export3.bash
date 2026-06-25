@@ -49,21 +49,21 @@ else
 fi
 
 [ -z "${distro}" ] && exit 6
-#d=${d0}/${distro} #nykyään vähän turha tässä
+#d=${d0}/${distro}
 process_lib ${d}
 
 if [ -x ${d0}/e/e22.sh ] ; then
-	.  ${d0}/e/e22.sh #tässä jotain vikaa vikaa? toiv ei
+	.  ${d0}/e/e22.sh
 	.  ${d0}/e/e23.sh
 else
 	echo "NO BACKEND FOUND"
 	exit 58
 fi
 
-[ -d  ${tgtfile} ] && exit 99 #P.V.H.H
+[ -d ${tgtfile} ] && exit 99 #P.V.H.H
 e22_hdr ${tgtfile}
-[ "${mode}" == "rp" ] || e22_hdr ${tgtfile} #P.V.H.H
-[ -v CONF_iface ] && ${sifd} ${CONF_iface} #toistaiseksi pois sotkemasta (josk jo takaisin)
+[ "${mode}" == "rp" ] || e22_hdr ${tgtfile}
+[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
 case "${mode}" in
 	rp) #VAIH:tämän testailu esim. kehitysymp, parametreja vähän lisää fktiolle yms
@@ -79,22 +79,20 @@ case "${mode}" in
 		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
 	q)
-		#100526 vissiin osasi paketin tehdä toivottavalla sisällöllä
-		#VAIH:uusi testi käyntiiin (kelvollinen tuotos?/masentuuko se?/menevätkö liuittyvät tdstot kohdearkistoon?/yms)
-		#vissiin se exportointi/import nimenomaan g_dout kautta ongelma
-
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	c)
+		#TODO:TÄMÄ UUSIKSI TAAS 666!!!
 		e22_cde ${tgtfile} ${d0} ${distro}
 		mv ${tgtfile} ${tgtfile}.tmp
 		bzip2 -c -z ${tgtfile}.tmp > ${tgtfile}
 		[ $? -eq 0 ] && ${NKVD} ${tgtfile}.tmp
 	;;
 	p)
+		#25626:ehkä toimi kerrabn tuolloin
 		[ -v CONF_default_arhcive3 ] || exit 66
 		csleep 1
 		[ -v CONF_iface ] && ${sifu} ${CONF_iface}

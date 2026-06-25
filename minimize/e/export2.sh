@@ -34,9 +34,6 @@ else
 	exit 1	
 fi
 
-#"$0 <mode> <file>  [distro] [-v]" olisi se peruslähtökohta (tai sitten saatanallisuus)
-#290426:parse_fktioiden siirto e22:seen olisi 1 idea, tosin siitä seurannee paljon säätöä
-
 function parse_opts_1() {
 	dqb "parse_opts_1( ${1})"
 
@@ -83,19 +80,17 @@ function fallback() { #tarpeellinen?
 	exit 59
 }
 
-if [ -x ${d0}/common_lib.sh ] ; then #200426:on edelleen tarpeellinen kirjasto
+if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#johdonmukaisuus virhekoodeissa olisi tietty kiva
 	exit 57
 fi
 
 [ -z "${distro}" ] && exit 6
-d=${d0}/${distro} #nykyään vähän turha tässä
+d=${d0}/${distro}
 process_lib ${d}
-mop=${CONF_dm} #voinee joutua muuttamaan jatkossa?
+mop=${CONF_dm}
 
-#suorituksen keskeytys aLEmpaa näille main jos ei löydy tai -x ?
 dqb "BEF0RE T1G N0R MKTMP"
 sleep 1
 
@@ -153,17 +148,14 @@ e22_cleanpkgs ${CONF_pkgdir}
 doit=1
 csleep 1
 
+dqb "JUST BEFORE ESAC"
+csleep 6
+
 case "${mode}" in
 	0)
 		exit 97
 	;;
-	3|4) 
-		#3 taisi toimia 04/26 tienoilla ainakin kerran
-		# 21426 onnasi viimeksi paketin rakennus tässä moodissa, sisältökin jnkin verran toimaa
-
-		#4 toimi viimeksi 180426
-		#merd2 taisi toimia 21.4 (entä sen jälkeen?)
-	
+	3|4) 	
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
 
@@ -171,7 +163,7 @@ case "${mode}" in
 		reqwreqw /opt/bin/zxcv.tmp
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then
+		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then #jälk ehtoon muutoksia vai ei?
 			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
@@ -189,10 +181,6 @@ case "${mode}" in
 		z2 /opt/bin/zxcv
 		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
-	#180426:osasi paketin muodostaa, asennuksen aikana pientä nalkutusta
-	#dpkg: dependency problems prevent configuration of libxml-parser-perl:
- 	#libxml-parser-perl depends on perl  however:
-	#010526:edelleen osasi paketin muodostaa, toimivuus vielä selvitettävä
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
@@ -204,10 +192,6 @@ case "${mode}" in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) 
-		#300426:paketin muodostaa jälleen, sisällön toinmivuus slevitettävä
-		#010526:jos alkaa git hukkumaan säännöllisesti ni jotain tarttisi tehdä
-		#VAIH:testailut uusicksi TAAS 666		
-
 		e22_pre_e ${E22_GS}
 		e22_pre_e ${E22_GM}
 
@@ -262,12 +246,8 @@ case "${mode}" in
 	;;
 esac
 
-#exit
-
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
-	#HUOM.11326:d-blokin tapa toimia aiheuttaa lisäsäätöä sqroot-ympäristössä, koita päättää mitä tehdä asialle
-	#exit
 
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar

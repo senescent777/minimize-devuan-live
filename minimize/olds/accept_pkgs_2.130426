@@ -7,7 +7,9 @@ dnsutils
 perl
 mime-support
 #
+#eudev-dbus-e2fsprogs oli siinä rejectissä, miten x-juttuja myös?
 cpp
+#menisikö näin? , cpp juuri ennen äksää?
 xkb-data
 x11-xkb-utils
 xserver-common
@@ -28,9 +30,7 @@ gpgconf
 gtk2-engines-pixbuf
 python3.11-minimal
 python3.11
-#
 menu
-twm
 psmisc
 git-man
 #
@@ -39,25 +39,14 @@ xinit
 xbitmaps
 xterm
 xfonts
-#
-sysvinit-utils
 lsb-base
-bsdextrautils
-groff-base
-debconf
 man-db
 #
-x11-apps
-x11-common
-x11-utils
-x11-xserver-utils
 #
-xserver-xorg
+x11
 xorg
 #route ennne dhcp
 iproute2
 isc-dhcp
 #
-# xserver-xorg | xserver, 
-#perl:any,  
 wdm
