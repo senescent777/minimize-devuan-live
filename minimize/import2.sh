@@ -56,6 +56,8 @@ fi
 #
 #}
 
+dqb "SHOULD gg --veriFy ${d0}/common_lib.sh HERE, MAYBE?"
+csleep 1
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -161,6 +163,7 @@ fi
 
 #TODO:tämä fktio -> common_lib ? vaiko ei?
 function cptp2() {
+
 	[ -z "${1}" ] && echo 99
 	[ -d ${1} ] || exit 97
 
