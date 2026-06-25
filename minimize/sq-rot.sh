@@ -25,26 +25,26 @@ function usage() {
 }
 
 #VAIH:"$0 1 tgtfile -v" - osaako menetellä oikein? (vielä 05/26?)
-
-function parse_opts_1() {
-	dqb "rot.parse_opts_1() ${1} ((()"
-
-	if [ "${mode}" == "-2" ] ; then
-		mode=${1}
-	fi
-}
-
-function parse_opts_2() {
-	dqb "rpus.ot.parseopts_2 )) ${1} ; ${2} (("
-
-	if [ -f ${2} ] || [ -d ${2} ] ; then
-		if [ -z "${srcfile}" ] ; then
-			if [ "${2}" != "-v" ] ; then			
-				srcfile=${2}
-			fi
-		fi
-	fi
-}
+#
+#function parse_opts_1() {
+#	dqb "rot.parse_opts_1() ${1} ((()"
+#
+#	if [ "${mode}" == "-2" ] ; then
+#		mode=${1}
+#	fi
+#}
+#
+#function parse_opts_2() {
+#	dqb "rpus.ot.parseopts_2 )) ${1} ; ${2} (("
+#
+#	if [ -f ${2} ] || [ -d ${2} ] ; then
+#		if [ -z "${srcfile}" ] ; then
+#			if [ "${2}" != "-v" ] ; then			
+#				srcfile=${2}
+#			fi
+#		fi
+#	fi
+#}
 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
@@ -131,11 +131,11 @@ else
 		dqb "W T F ???"
 	}
 
-	for opt in $@ ; do
-		parse_opts_1 ${opt}
-		parse_opts_2 ${prevopt} ${opt}
-		prevopt=${opt}
-	done
+#	for opt in $@ ; do
+#		parse_opts_1 ${opt}
+#		parse_opts_2 ${prevopt} ${opt}
+#		prevopt=${opt}
+#	done
 fi
 
 #pre-kohta toisessa okasassa vs tämä? tarttisiko tehdä jotain vai ei?
@@ -252,7 +252,6 @@ function common_part() {
 	[ "${1}" == "/" ] && exit 56
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
-
 	echo "paramz_0k"
 	csleep 1
 
