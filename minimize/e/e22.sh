@@ -1,4 +1,4 @@
-if [ -v CONF_pkgdir ] ; then #varm vuoksi tätäkin 265226
+if [ -v CONF_pkgdir ] ; then #varm vuoksi täMäkin 265226
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
 fi
@@ -171,6 +171,8 @@ function e22_dblock() {
 	e22_cleanpkgs ${2}
 }
 
+#TODO:common_lib fktio jos ei nimeäisi linkkejä uudestaan jatkossa
+
 function e22_pre2() {
 	dqb "e22pre2 )))) ${1} ; ${2} ; ${3} ; ${4} )()))) "
 	csleep 1
@@ -180,6 +182,7 @@ function e22_pre2() {
 	dqb "pars.maybe.ok"	
 	csleep 1
 
+	#HUOM.tämän sekoilun piti olla lopetettu
 	local par4=$(echo ${2} | tr -d -c 0-9)
 	echo $?
 	csleep 1
@@ -320,7 +323,7 @@ function e22_home() {
 	csleep 1
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-
+	#TODO:TPX kanssa jotain muutoksia kohta?
 	${srat} "${TARGET_TPX}" --exclude olds --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
 
@@ -499,6 +502,10 @@ function e22_ext() {
 	echo $?
 	local f
 
+	c=$(${srat} -tf ${1} | grep resolv.conf.${st} | wc -l)
+	[ ${c} -gt 0 ] || exit 97
+	echo $?
+
 	for f in $(find ./etc -type f -not -name "interfaces.*" -and -not  -name "resolv.*") ; do
 		${sah6} ${f} >> ${4}
 	done
@@ -548,6 +555,8 @@ function e22_arch() {
 	[ -v CONF_hashfile ] || exit 94
 	[ -z "${CONF_hashfile}" ] && exit 95
 
+	exit
+
 	if [ -f ${2}/${CONF_hashfile} ] ; then #turha tarq?
 		${NKVD} ${2}/${CONF_hashfile}*
 		csleep 1
@@ -588,22 +597,21 @@ function e22_arch() {
 
 	e22_tyg ./${CONF_hashfile}
 	[ -s  ./${CONF_hashfile}.1 ] && e22_tyg ./${CONF_hashfile}.1
-	dqb "AFTR TYG"
-	csleep 2
+	echo "TODO:TARKISTA ETTEI ./${CONF_hashfile}.1 TYHJÄ"	#tietyssä ilmeisesä tapauksessa näin käy
+	exit
 
-	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
 	psqa .
-	
-	if [ $? -gt 0 ] ; then
+	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
+	#TODO:muutakin säätöä tässä (turha ajaa tar jos sitä ennen poisteltu)	
+	[ $? -gt 0 ] && ${NKVD} ./*.deb ./${CONF_hashfile}* ./*.tar #?
+
+	if [ $? -gt 0 ] ; then #TODO:merge-jutut vähitellen qntoon
 		echo "SHOULD ${NKVD} ./*.deb ./${CONF_hashfile}* ./*.tar "
 		sleep 10
 		${NKVD} ./*.deb 
 		${NKVD} ./${CONF_hashfile}*
 		${NKVD} ./*.tar  
 	fi
-
-	dqb "BFRE TR"
-	csleep 10
 
 	${srat} -rf ${1} ./*.deb ./${CONF_hashfile}* ./tim3stamp
 	cd ${p}
@@ -773,6 +781,8 @@ function e22_sarram() {
 	#rules vedettiin jo aiemmin
 	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 	
+	#OLD vai .OLD? ja ja ja
+
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v OLD | grep -v old) ; do 
 		${sah6} ${f} >> ${3}
 	done
