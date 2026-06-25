@@ -280,6 +280,7 @@ function message() {
 	sleep 1
 }
 
+#TODO:jatkosäätöä josqs lähiaikoina?
 function psqa() {
 	dqb "c.Q () () () () ${1} ;;;"
 	csleep 1
@@ -361,6 +362,12 @@ function psqa() {
 	csleep 2
 }
 
+#HUOM.060426:ne kalat mitkä eivät listassa tulisi kai hukata
+#... tai helpompi että sha512sums mukaiset tilap hmistoon misytä sitten asennellaan, jölkjelle jääneet pois
+#efk2 2. param ja cefgh voisi liittyä asiaan
+
+#TODO:"palautusarvo-tarkistus" uusiksi josqs (JOKO JO 22426?)
+#TODO:jatkossa tämä tai kutsuva koodi viskomaan validit paketit tmp-hmistoon jatkoa vrten
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} ) ${2} )))))))))))))"
 	csleep 1
@@ -419,6 +426,8 @@ function common_pp3() {
 	dqb "() common_pp3 DONE"
 	csleep 1
 }
+
+#... tai siis vaatinee jnkn verran selvittelyä dpkg korvaaminen aptilla niin että
 
 function efk1() {
 	dqb "efk1 $@"
@@ -540,6 +549,20 @@ function cefgh() {
 function CB01() {
 	dqb "common.lib.CB01( ${1} (( ${2} )"
 	csleep 1
+	[ -z "${1}" ] && exit 99
+	[ -d ${1} ] || exit 100
+
+#	#180426:josko sittenkin kikkailisi ao. blokin -> cefgh ?
+#	if [ -s ${1}/g.tar ] ; then
+#		#JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen
+#		#... tai ilman gpg:tä voi tehdä vain sha-tarq ja sekin oikeastaan tapahtuu jo kutsuvassa koodissa
+#		#... g.tar:in saisi kyllä listaan mukaan
+#
+#		efk2 ${1}/g.tar /
+#		common_pp3 ${1}
+#		${NKVD} ${1}/g.tar
+#		exit 103
+#	fi
 
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
@@ -704,6 +727,23 @@ function check_binaries() {
 		for x in iptables ip6tables iptables-restore ip6tables-restore gpg ; do ocs ${x} ; done
 	fi
 
+	#HUOM.181225:muna-kana-tilanteen mahdollisuuden vuoksi tämä pitäisi ajaa ennen c_pp3() ?
+	#... pitäisiköhän gg:n suhteen jotain tehdä, imp2 kiukuttelut nimittäin
+
+	if [ -z "${gg}" ] ; then
+		CB01 ${1}
+	fi
+
+	if [ -z "${ipt}" ] ; then
+		CB02 ${1}
+	fi
+
+	dqb "#jäölk ÄYÖYÄ SDDFSDSDGH t. Paska-Ankka"
+	#echo "CBIN.BF0RE.OCS"
+	ls ${1}/*.deb | wc -l
+	csleep 3
+	for x in iptables ip6tables iptables-restore ip6tables-restore ; do ocs ${x} ; done
+
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
 	csleep 1
@@ -732,6 +772,7 @@ function check_binaries2() {
 	iptr="${odio} ${iptr} "
 	ip6tr="${odio} ${ip6tr} "
 
+	#HUOM.joutaisi varmaan nimeämistä miettiä, vöin tull skaannuksia
 	sharpy="${odio} ${sag} remove --purge --yes "
 	#HUOM. ${sag} oltava VIIMEISENÄ tai siis ao. kolmikosta
 	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
@@ -950,6 +991,8 @@ function mangle2() {
 	fi
 }
 
+#010426:pitäisiköhän vähän miettiä mistä tätä ao. fkftiota tarpeellista kutsua ja mistä ei?
+#170426:resolv.conf delliminen voi aiheuttaa härdelliä myöhemmin
 function e_e() {
 	csleep 1
 	fix_sudo
@@ -1181,6 +1224,7 @@ function part2() {
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."
+		#HUOM.080326:if  $INITRD = No  then , olisiko apua initramfs-urputuksen kanssa?
 		${lftr}
 		${fib}
 		csleep 1
@@ -1194,6 +1238,7 @@ function part2() {
 		done
 
 		${lftr}
+
 		${sharpy} libblu* libcupsfilters* libgphoto*
 		${lftr}
 
@@ -1312,6 +1357,9 @@ function part3() {
 
 	dqb "PARAMS_OK"
 	csleep 1
+	
+	local n15
+	n15=$(find ${1} -type f -name "*.deb" | wc -l)
 
 	local n15=0
 	local t=""

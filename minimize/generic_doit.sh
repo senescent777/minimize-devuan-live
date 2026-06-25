@@ -300,10 +300,12 @@ function pre_enforce() {
 		[ ${debug} -eq 1 ] && cat /etc/fstab
 		csleep 1
 	fi
+}
 
 	dqb "pre_enforce() done"
 	csleep 1
 }
+#=====================================PART0=========================================================
 
 if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"

@@ -50,6 +50,8 @@ function parse_opts_1() {
 #			fi
 #		;;
 	esac
+
+	#290326:jspa tu case-esac esim. toimisi?
 }
 
 function parse_opts_2() {

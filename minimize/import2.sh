@@ -24,6 +24,8 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
+#VAIH:"$0 -1 -v" , toimiiko oikein?
+
 if [ $# -gt 0 ] ; then
 	mode=${1}
 	[ -f ${1} ] && exit 99
@@ -198,8 +200,11 @@ function cptp2() {
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
+	csleep 1
+	dqb "ALL DONE"
 }
 
+dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 fox=$(${odio} which firefox)
 
@@ -277,6 +282,9 @@ case "${mode}" in
 	;;
 esac
 
+dqb "debug: 1"
+echo "mode: ${mode} "
+echo "srcfile: ${srcfile} "
 [ -z "${srcfile}" ] && exit 44
 
 if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
@@ -289,6 +297,7 @@ else
 	exit 55
 fi
 
+#[ -s ${srcfile} ] || exit 34 #pitäIsikö olla if-blokin sisällä?
 [ -r ${srcfile} ] || exit 35
 
 if [ "${mode}" == "-3" ] || [ "${mode}" == "r" ] ; then

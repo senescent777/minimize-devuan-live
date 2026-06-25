@@ -304,6 +304,9 @@ function e22_home() {
 	#TODO:TPX-kohdan kanssa jotain muutoksia vaiko ei? "${TARGET_TPX}"
 	${srat}  --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
+	#miksi täsäs eokä h_pre() ?
+	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
+}
 
 	#miksi täsäs eokä h_pre() ?
 	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
@@ -663,6 +666,7 @@ function z1() {
 
 	dqb "z1() DONE"
 	csleep 1
+	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
 }
 
 function z2() {
