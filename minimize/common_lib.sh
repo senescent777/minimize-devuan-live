@@ -343,8 +343,14 @@ function psqa() {
 			return 94
 		fi
 
-		#VAIH:selvitä mikä tämän tdston kanssa on? jääkö tyhjäksi nykyään?		
-		[ -f ${1}/${CONF_hashfile}.1 ] && ${sah6} --ignore-missing -c ${CONF_hashfile}.1
+		#VAIH:selvitä mikä tämän tdston kanssa on? jääkö tyhjäksi nykyään?
+		if [ -f ${1}/${CONF_hashfile}.1 ] ; then
+			${sah6} --ignore-missing -c ${CONF_hashfile}.1
+		else
+			echo "EILINRN PULLA 80 c"
+			#exit 666
+		fi
+
 		csleep 1
 		cd ${p}
 	else
@@ -616,7 +622,7 @@ function check_binaries() {
 		[ -z "${1}" ] && exit 99
 		[ -d ${1} ] || exit 101
 
-		if [ -z "${2}" ]; then
+		if [ -z "${2}" ] ; then
 			t=$(${mkt} -d) 
 		else
 			t=${2}
@@ -714,7 +720,7 @@ function TLA() {
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ "${CONF_env}" == "TOOR" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		if [ "${CONF_env}" != "VED" ] ; then #arpoo arpoo (jos ylempi if-lause vähän uusiksi?)	
+		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then #TODO:koitapa päättää miten pitäisi mennä 
 			
 			dqb "JST B3F0R:tlb-b a s h"
 			[ -s /opt/bin/tlb.bash ] || exit 99
@@ -1214,26 +1220,26 @@ function common_lib_tool() {
 	dqb "t00l DONE"
 }
 
-#function cg_udp6() { #TODO:vissiin export2 kanssa testejä, toimiiok tämä (e22_ts())
-#	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
-#	csleep 1
-#	[ -z "${1}" ] && exit 65
-#	[ -d ${1} ] || exit 66
-#	dqb "paramz 0k"
-#	csleep 1
-#
-#	dqb "${1} :"
-#	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb | wc -l
-#	csleep 3
-#
-#	dqb "${pkgdir} :"
-#	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb | wc -l
-#	csleep 3
-#
-#	common_lib_tool ${1} reject_pkgs
-#	dqb "D0NE"
-#	csleep 1
-#}
+function cg_udp6() {
+	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
+	csleep 1
+	[ -z "${1}" ] && exit 65
+	[ -d ${1} ] || exit 66
+	dqb "paramz 0k"
+	csleep 1
+
+	dqb "${1} :"
+	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb | wc -l
+	csleep 3
+
+	dqb "${pkgdir} :"
+	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb | wc -l
+	csleep 3
+
+	common_lib_tool ${1} reject_pkgs
+	dqb "D0NE"
+	csleep 1
+}
 
 #TODO:siirto siihen tdstoon mikä tarvitsee?
 #function cg_pp2() {
