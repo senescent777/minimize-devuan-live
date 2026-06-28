@@ -79,8 +79,7 @@ function e22_ftr() {
 	cd ${p}
 }
 
-#VAIH:se aqsp() prujaaminen tähän? piti olla jo
-#TODO:miten dblockin kanssa?
+#... joku päivä jos maistuisi selvittää tuo "bash function retuRn value"-juttu että onnnaako vai ei?
 
 function aqsp() {
 	dqb "aqsp ${1} ; "
