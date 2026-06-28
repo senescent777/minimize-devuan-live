@@ -17,26 +17,25 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-#VAIH:näiden 2 hyväksi jotain josqs(onko jo tehty?)
+#VAIH:näiden 2 hyväksi jotain josqs
 function parse_opts_1 () {
 	dqb "merd2.popts1 $1 ; $2"
 }
 
 function parse_opts_2 () {
 	dqb "merd2.popts2 $1 ; $2"
-	
-	if [ "${1}" == "-v" ] ; then
-		#debug=1
-		branch=${2}
-	else
-		branch=${1}
-		#[ "${2}" == "-v" ] && debug=1
-	fi
 }
 
 if [ $# -gt 0 ] ; then
-	dqb "params maybe_ok"
-	parse_opts2 ${1} ${2}
+	dqb "params_ok"
+
+	if [ "${1}" == "-v" ] ; then
+		debug=1
+		branch=${2}
+	else
+		branch=${1}
+		[ "${2}" == "-v" ] && debug=1
+	fi
 else
 	echo "${0} [-v] <branch> | ${0} <branch> [-v]"
 	exit 66
@@ -44,7 +43,7 @@ fi
 
 if [ ! -z "${branch}" ] ; then
 	branch=$(echo ${branch} | tr -dc a-zA-Z0-9/.)
-	branch=" --branch ${branch} "
+	branch="--branch ${branch}"
 fi
 
 dqb "branch=${branch}"
@@ -80,11 +79,10 @@ ls -las ./*.conf
 csleep 5
 
 #TODO:jos tämä merd toiseen repoon jatkossa?
-dqb "${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git SOON "
-csleep 5
-exit
 
-#to state the obvious:suorastaan elintärkeätä olisi pysyä kärryillä, mikä oksa vedetään ja kuinka tuore sellainen
+dqb "BFROE tig"
+csleep 2
+#fetch jatkossa?
 ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 [ $? -gt 0 ] && exit
 
@@ -114,10 +112,8 @@ csleep 1
 if [ -x ./${CONF_LIB} ] ; then
 	. ./${CONF_LIB}
 	enforce_access $(whoami) ${d0}/${CONF_BASE}
-
 else
 	echo "SMTHING WR0NG W/ ${CONF_LIB}"
-	
 	sudo mv  ./${CONF_BASE}/opt/bin/*.bash /opt/bin #entä zxcv-jutut?
 	sudo chmod 0511 /opt/bin/*.bash
 
