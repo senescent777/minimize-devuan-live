@@ -524,7 +524,7 @@ function e22_arch() {
 		csleep 1
 	fi
 
-	#DONE?:ceen kanssa jokin juttu
+	#DONE?:ceen kanssa jokin juttu?
 
 	if [ ${c} -lt 1 ] ; then
 		echo "N0 .deb - FIL35s UND3R ${2}"
@@ -543,7 +543,7 @@ function e22_arch() {
 
 	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do
 		[ ${3} -eq 1 ] && ${srat} -rvf ${1} ${f}
-		${sah6} ${f} >> ./${CONF_hashfile}.1
+		[ -s ./${f} ] && ${sah6} ${f} >> ./${CONF_hashfile}.1
 		csleep 1
 	done
 
@@ -558,7 +558,7 @@ function e22_arch() {
 	csleep 5
 
 	e22_tyg ./${CONF_hashfile}
-	e22_tyg ./${CONF_hashfile}.1
+	[ -s  ./${CONF_hashfile}.1 ] && e22_tyg ./${CONF_hashfile}.1
 	echo "TODO:TARKISTA ETTEI ./${CONF_hashfile}.1 TYHJÄ"	#tietyssä ilmeisesä tapauksessa näin käy
 	exit
 
