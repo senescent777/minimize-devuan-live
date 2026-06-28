@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0
+debug=1
 branch=""
 d0=$(pwd)
 
@@ -78,6 +78,8 @@ fi
 ls -las ./*.conf
 csleep 5
 
+#TODO:jos tämä merd toiseen repoon jatkossa?
+
 dqb "BFROE tig"
 csleep 2
 #fetch jatkossa?
@@ -85,7 +87,7 @@ ${tig} clone ${branch} https://${CONF_BASEURL}/${CONF_PT2}.git
 [ $? -gt 0 ] && exit
 
 dqb "TGI KO"
-csleep 2
+csleep 20
 
 if [ -d  ./${CONF_BASE}.OLD ] ; then
 	for f in $(find ./${CONF_BASE}.OLD -type f -not -name conf) ; do
