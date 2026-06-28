@@ -102,7 +102,6 @@ fi
 
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
-
 E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	
 if [ -x ${d0}/e/e22.sh ] ; then
@@ -147,7 +146,6 @@ case "${mode}" in
 		exit 97
 	;;
 	3|4) 
-		
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
 		#VAIH:turhia kommentteja wttuun sotkemasta
 
@@ -156,7 +154,6 @@ case "${mode}" in
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
-
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
@@ -232,7 +229,7 @@ case "${mode}" in
 #		#:uusiksi vain koko pasq?
 #		e23_xyz
 #	;;
-	s) #080626:testit vähitellen käytniin tämän kanssa
+	s) #lienee tekevän toimivaa oksennusta (28626)
 		e23_st
 	;;
 	*)
