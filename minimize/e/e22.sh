@@ -144,8 +144,10 @@ function e22_pre1() {
 
 #TODO:common_lib fktio jos ei nimeäisi linkkejä uudestaan jatkossa
 
-function e22_pre2() {
-	dqb "e22_pre2()"
+function e22_pre2() {	
+	dqb "e22pre2 )))) ${1} ; ${2} ; ${3} ; ${4} )()))) "
+	csleep 1
+
 	[ -z "${1}" ] && exit 66
 	[ -z "${2}" ] && exit 67
 
@@ -153,6 +155,11 @@ function e22_pre2() {
 	par4=$(echo ${2} | tr -d -c 0-9)
 	echo $?
 	csleep 1
+
+	[ -z "${par4}" ] && exit 89
+	csleep 10
+
+	#pedanttiuden nimissä tämmöisiä
 
 	if [ -d /etc/resolv.conf ] ; then
 		echo "D"
