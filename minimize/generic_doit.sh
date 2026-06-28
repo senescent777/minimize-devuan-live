@@ -155,7 +155,7 @@ function el_loco() {
 		csleep 1
 
 		#TODO:pitäisi kai kutsuvassa koodissa huomioida LCF666 vs env vs /e/d/locale
-		#.. siis onko huomoioitu kunnolla 3 eri lähdettä asetuksille vaiko ei?
+		#.. siis onko huomioitu kunnolla 3 eri lähdettä asetuksille vaiko ei?
 
 		env | grep LC >> /etc/default/locale
 		env | grep LAN >> /etc/default/locale
@@ -322,6 +322,7 @@ fi
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
 
+#260626:alla tuo mv menee pieleen jos ajetaan root-tunnuksella tämän skripti , tee jotain (TODO)
 ${snt}
 ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 
@@ -341,11 +342,11 @@ if [ ${mode} -gt 1 ] ; then
 fi
 
 echo "TODO:tables-säännöt&&ntp josqs?"
-sleep 10
-
+sleep 5
 el_loco ${c14} ${c13}
 #=========================================================================================
 
+#260626:passwd kanssa menee vähän mettään jos root-tunnuksella ajelaa, ytekisikö jotain ?
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	${odio} passwd
 
@@ -392,7 +393,7 @@ csleep 1
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh
 
-	#TODO:tämän kanssa jotain?
+	#TODO:tämän kanssa jotain? toisesta oksasta korjaukset?
 	${d0}/import2.sh r ${d0} -v
 	echo $?
 	csleep 3

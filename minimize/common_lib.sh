@@ -10,6 +10,7 @@ else
 		echo ". ${d}/conf"
 		. ${d}/conf
 	else
+		#TODO:tämä kohta uusiksi koska common_funcs/mksums ?
 	 	exit 57
 	fi	
 fi

@@ -65,7 +65,6 @@ fi
 
 case "${mode}" in
 	rp)
-
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 

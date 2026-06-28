@@ -98,8 +98,10 @@ else
 		#DONE?:viimeaikaisiin muutoksiin liittyen varmista että sqroot-ympäristössä on oikeanlainen konfiguraatio
 		#vissiin on jo 240626
 
-		#TODO:seuraavaksi varmista että nekros?.tar.bz3 sisältämät paketit asentuvat sqroot a laisuudessa
+		#VAIH:seuraavaksi varmista että nekros?.tar.bz3 sisältämät paketit asentuvat sqroot a laisuudessa
 		#... elikkäs uudelleen_pakkausta tapahtumaan kohta
+
+		#TODO:varmistapa vielä että sqroot alle menevät asennuspaketit ajan tasalla
 
 		case "${CONF_algo}" in
 			sha256)
@@ -120,7 +122,6 @@ else
 
 		gg=$(${odio} which gpg) #suattaapi olla että tähän tökkää, taisiis myöhemmin
 		[ -z "${gg}" ] && echo "SH0ULD.1NST.GPG"
-
 		NKVD=$(${odio} which shred)
 	}
 
@@ -349,7 +350,7 @@ function common_part() {
 	dqb "NECKST: ${srat}  (${TARGET_TPX} ) -C ${3} -xf ${1}"
 
 	csleep 1
-	${srat} -C ${3} -xf ${1} #TODO:pientä laittoa "${TARGET_TPX}" liittyen
+	${srat} --exclude rnd --exclude ./rnd -C ${3} -xf ${1} #TODO:pientä laittoa "${TARGET_TPX}" liittyen
 	[ $? -eq 0 ] || exit 36	
 
 	csleep 1
