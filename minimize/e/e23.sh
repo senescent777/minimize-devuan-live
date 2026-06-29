@@ -21,27 +21,26 @@ function e23_tblz() {
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
-	[ -d ${1} ] || exit 15
 	[ -z "${2}" ] && exit 12
-	[ -z "${3}" ] && exit 13
-	[ -z "${4}" ] && exit 14 #HUOM.tämän trapeellisuus?
 
 	${fib}
 	${asy}
-	#csleep 1
 
 	#message() tähän?
 	tpc7	#jotain excaliburiin liittyvää
-	aswasw ${2}
-	#TODO:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
-	${shary} ${E22_GT}
+	
+	#$1 vai $2?
+	aswasw ${1}
+
+	#VAIH:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
+	e22_pre_e ${E22_GT}
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 1
 
 	${asy}
-	#actually necessary
-	e22_pre2 ${1} ${3} ${2} ${4}
+	# (2 param kutsussa sopisi riittää)
+	e22_pre2 ${1} ${2}
 	other_horrors
 
 	dqb "e23_tblz()"
@@ -57,13 +56,13 @@ function e23_other_pkgs() {
 	csleep 1
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
-	${shary} ${E22_GI}
+	e22_pre_e ${E22_GI}
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	e22_pre_e ${E22_GG}
 
-	#rämän eiirto-> common_lib? TAAS?
+	#rämän eiirto-> common_lib? TAAS? JA TAAS!!!
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
-	${shary} ${E23_GS}  #moni pak tarttee nämä
+	e22_pre_e ${E23_GS}  #moni pak tarttee nämä
 
 	message
 	jules
@@ -132,11 +131,10 @@ function e23_qrs() {
 	[ -z "${2}" ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -z "${3}" ] && exit 44
-	#[ -f ${3} ] || exit 33
+
 	[ -z "${4}" ] && exit 43
-	#[ -f ${4} ] || exit 34
+
 	[ -z "${5}" ] && exit 43
-	#[ -f ${5} ] || exit 34
 
 	dqb "pars.0k"
 	csleep 1
@@ -228,7 +226,6 @@ function e23_dm() {
 	csleep 10
 
 	${shary} libicu72 libxfixes3 libxml2
-	${shary} 
 	csleep 5
 
 	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
@@ -269,10 +266,18 @@ function e23_dm() {
 function e23_profs() {
 	dqb "e23_profs) $1 , $2 , $3 ("
 	csleep 1
+
+	[ -z "${1}" ] && exit 76
+	[ -z "${2}" ] && exit 75
+	[ -z "${3}" ] && exit 74
+	[ -d "${2}" ] || exit 73
+	[ -s ${1} ] || exit 72
+	[ -s ${3} ] || exit 71
+
 	dqb "pars.0k"
 	csleep 1
 
-	q=$(mktemp -d)
+	q=$(${mkt} -d)
 	cd ${q}
 
 	[ $? -eq 0 ] || exit 77
