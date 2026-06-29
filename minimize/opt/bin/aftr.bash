@@ -1,7 +1,7 @@
 #!/bin/bash
 debug=1
 
-if [ -f /.chroot ] ; then
+if [ -f /.chroot ] ; then #TODO:CONF_env tilalle jos mahd
         odio=""
 else
         odio=$(which sudo)
@@ -21,10 +21,10 @@ iptr=$(${odio} which iptables-restore)
 ip6tr=$(${odio} which ip6tables-restore)
 #==========jokin kirjasto olisi hyvä laatia näille skripteille ===========
 
-#TODO:jokin param resolv.vonf-kikkailuja varten?
+#TODO?:jokin param resolv.vonf-kikkailuja varten?
 #TODO:entäse dot?
 
-#VAIH:ruleksiin oikeastaan, u- ja v- ketjujen oletusarvot, joputaisiko säätää?
+#VAIH:ruleksiin oikeastaan, u- ja v- ketjujen oletusarvot, joputaisiko säätää? (valmis jo 06/26?)
 ${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
 ${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
 #yo. jutut takaisin kommenteista sittenq ehkä ntpsec (tai ehkä varm vuoksi)

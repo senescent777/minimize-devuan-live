@@ -1,7 +1,7 @@
 #!/bin/bash
 debug=1
 
-if [ "${CONF_env}" == "TOOR" ] ; then
+if [ -f /.chroot ] ; then #TODO:CONF_env käyttöön js mhd
         odio=""
 else
         odio=$(which sudo)
