@@ -34,27 +34,27 @@ if [ $# -gt 0 ] ; then
 		debug=1
 	fi
 fi
-
-function parse_opts_1() {
-	dqb "parse_opts_1( ${1} )"
-
-	if [ "${mode}" == "-2" ] ; then
-		mode=${1}
-	fi
-}
-
-function parse_opts_2() {
-	dqb "(imp2.parseopts_2 ; ${1} ; ${2} ;"
-
-	if [ -f ${2} ] || [ -d ${2} ] ; then
-		if [ -z "${srcfile}" ] ; then
-			if [ "${2}" != "-v" ] ; then	
-				srcfile=${2}
-			fi
-		fi
-	fi
-
-}
+#
+#function parse_opts_1() {
+#	dqb "parse_opts_1( ${1} )"
+#
+#	if [ "${mode}" == "-2" ] ; then
+#		mode=${1}
+#	fi
+#}
+#
+#function parse_opts_2() {
+#	dqb "(imp2.parseopts_2 ; ${1} ; ${2} ;"
+#
+#	if [ -f ${2} ] || [ -d ${2} ] ; then
+#		if [ -z "${srcfile}" ] ; then
+#			if [ "${2}" != "-v" ] ; then	
+#				srcfile=${2}
+#			fi
+#		fi
+#	fi
+#
+#}
 
 
 if [ -x ${d0}/common_lib.sh ] ; then
@@ -79,7 +79,7 @@ else
 	function check_binaries() {
 		dqb "imp2.check1"
 
-		mkt=$(${odio} which mktemp)
+		mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin? tpr() ainakin
 		scm=$(${odio} which chmod)	
 
 		srat=$(${odio} which tar)
@@ -159,7 +159,7 @@ else
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
-
+#TODO:tämä fktio -> common_lib ? vaiko ei?
 function cptp2() {
 	[ -z "${1}" ] && echo 99
 	[ -d ${1} ] || exit 97
@@ -201,6 +201,7 @@ function cptp2() {
 }
 
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
+#olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3} siis)
 fox=$(${odio} which firefox)
 
 function tpr() {
