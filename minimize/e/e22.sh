@@ -1,25 +1,20 @@
 ${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 ${scm} -Rv 700 ${CONF_pkgdir}/partial/
 
-#TODO:tietenkin tämä blokki uusiksi ASAP
-#if [ -v CONF_pubk ] ; then
-#	dqb "Å"
-#else
-#	arsch=$(${odio} find / -type f -name "keys.conf" | head -n 1)
-#
-#	if [ -z "${arsch}" ] ; then
-#		dqb "B"
-#	else
-#		if [ -s ${arsch} ] ; then
-#			. ${arsch}
-#		else
-#			dqb "C"
-#		fi	
-#	fi
-#
-#	csleep 1
-#	unset arsch
-#fi
+if [ ! -v CONF_pubk ] ; then
+	b="/"
+	[ "${CONF_env}" == "VED" ] && b=${CONF_testgris}
+	a=$(${odio} find ${b} -type f -name "keys.conf" | head -n 1)
+
+	if [ ! -z "${a}" ] ; then
+		if [ -s ${a} ] ; then
+			. ${a}
+		fi	
+	fi
+
+	unset a
+	unset b
+fi
 
 function e22_hdr() {
 	[ -z "${1}" ] && exit 61
@@ -36,6 +31,7 @@ function e22_hdr() {
 	fasdfasd ./rnd
 	fasdfasd ${1}
 	csleep 1
+
 	dd if=/dev/random bs=12 count=1 > ./rnd
 	csleep 1
 	${sr0} -cvf ${1} ./rnd
@@ -44,9 +40,14 @@ function e22_hdr() {
 }
 
 function e22_tyg() {
+	dqb " ; e22_tyg( ${1} )(((("
+
 	[ -z "${1}" ] && exit 45
 	[ -s ${1} ] || exit 46
 	[ -r ${1} ] || exit 47
+
+	dqb "pars_ok"
+	csleep 1
 
 	if [ -x ${gg} ] ; then
 		if [ -v CONF_pubk ] ; then
@@ -54,7 +55,6 @@ function e22_tyg() {
 			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
 			csleep 1
 			${gg} --verify ${1}.sig
-			csleep 1
 		fi
 	fi
 }
@@ -64,10 +64,9 @@ function e22_ftr() {
 	[ -s ${1} ] || exit 63
 	[ -r ${1} ] || exit 64
 	fasdfasd ${1}.sha
-	local p
-	local q
-	p=$(pwd)
-	q=$(basename ${1})
+
+	local p=$(pwd)
+	local q=$(basename ${1})
 	cd $(dirname ${1})
 	${sah6} ./${q} > ${q}.sha
 	csleep 1
