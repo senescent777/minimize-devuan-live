@@ -292,6 +292,9 @@ function psqa() {
 	#return 92 #ei näin?
 	#dpkg -V oli tässä josqs , [ -v ] takana
 
+	[ -v CONF_hashfile ] || exit 98
+	[ -z "${CONF_hashfile}" ] && exit 99
+
 	if [ -v gg ] && [ -s ${1}/${CONF_hashfile}.sig ] ; then
 		dqb "))S))))( ${1} )"
 		csleep 1
@@ -380,8 +383,6 @@ function common_pp3() {
 	r=$(echo ${1} | cut -d "/" -f 1-5)
 
 	if [ ${q} -lt 1 ] ; then
-		echo "SHOULD REMOVE ${1} / shasums . t x t"
-		
 		${scm} a-wx ${r}/common_lib.sh
 		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
@@ -402,14 +403,9 @@ function common_pp3() {
 			${svm} ${1}/${s} ${2}
 		done
 
-		dqb "SAH.1"
-		csleep 1
-
 		echo "#TODO:VARMISTA ETTÄ SAH.1-KOHTA FKTIOSS common_pp3() TOIMII" #MIELELLÄÄN SUURI MÖLINÄ JOS NÄMÄ JUTUT PUUTTUVAT
 		for s in $(grep -v '#' ${1}/${CONF_hashfile}.1 | grep -v drop | awk '{print $2}') ; do
-			dqb "${spc} ${1}/${s} ${2}"
 			${spc} ${1}/${s} ${2}
-			csleep 10
 		done
 	fi
 
@@ -423,7 +419,6 @@ function efk1() {
 
 	if [ $? -eq 0 ] ; then
 		${NKVD} $@
-		dqb $?
 	fi
 }
 
@@ -492,7 +487,7 @@ function fromtend() {
 
 	export DEBIAN_FRONTEND=noninteractive
 
-	if [ "${CONF_env}" != "TOOR" ] ; then #ei conf_alt_root ainakaan vielä
+	if [ "${CONF_env}" != "TOOR" ] ; then
 		dqb "${odio} -E ${sd0} --force-confold -i $@"
 		${odio} -E ${sd0} --force-confold -i $@
 	else
@@ -558,7 +553,7 @@ function CB01() {
 
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
-	[ -z "${gg}" ] && dqb "GPG COULD NOT BE INSTALLED"
+
 	[ -z "${gg}" ] && ${scm} a-wx ${1}/../common_lib.sh #$0 josko näin kuitenkin?
 	csleep 1
 
@@ -605,10 +600,10 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	E22_GS="gcc-12-base libgcc-s1 libc6" #meneeköhän jännäksi 2. ja 3. kohdalla? jep, sicksi dpkg:n kanssa kuten menee
+	E22_GS="gcc-12-base libgcc-s1 libc6"
 	E22_GS="${E22_GS} libgmp10 libisl23 libmpfr6 libmpc3 libzstd1 zlib1g"
-	E22_GS="${E22_GS} libstdc++6 libgomp1 cpp-12" #060426:tartteeko varsinaisen cpp:n kanssa?
-	
+	E22_GS="${E22_GS} libstdc++6 libgomp1 cpp-12"
+
 	#moni pak tarttee nämä
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 	
@@ -628,12 +623,12 @@ function check_binaries() {
 
 	E22_GM="${E22_GM} libbz2-1.0 libsemanage-common libsemanage2 libsepol2 passwd adduser ifupdown"
 	E22_GM="${E22_GM} libblkid1 libmount1 libsmartcols1 mount net-tools"
-	E22_GM="${E22_GM} libacl1 libattr1 libgmp10 coreutils" #iproute2-doc iproute
+	E22_GM="${E22_GM} libacl1 libattr1 libgmp10 coreutils"
 
 	local y
 
 	if [ "${CONF_env}" == "VED" ] ; then
-		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # sha512sum#VAIH:sha-kohtaan muutoksia
+		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp"
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
 	else
@@ -654,7 +649,7 @@ function check_binaries() {
 
 	if [ "${CONF_iface}" != "eth0:1" ] ; then
 		E22_GT="isc-dhcp-client isc-dhcp-common "
-		E22_GU="isc-dhcp"
+		E22_GU="isc-dhcp "
 	fi
 
 	E22_GT="${E22_GT} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
@@ -684,12 +679,10 @@ function check_binaries() {
 	fi
 
 	if [ -z "${gg}" ] ; then
-		echo "SHOULD INSTALL GPG"
 		CB01 ${1} ${t}
 	fi
 
 	if [ -z "${ipt}" ] ; then
-		echo "SHOULD INSTALL OPÅTANÖES"
 		CB02 ${t}
 	fi
 
@@ -705,8 +698,11 @@ function check_binaries() {
 	dqb "second half of c_bin_1"
 	csleep 1
 
-	#[ "${CONF_env}" == "TOOR" ] || ocs dhclient
-	#csleep 1
+	#toistaiseksi näin
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
+		ocs dhclient
+		csleep 1
+	fi
 
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
@@ -781,28 +777,6 @@ function TLA() {
 #echo "VAIH:slaughter0() pois käytöstä vai mitenkä?"
 #sleep 6
 #
-##riittäisikö 512 ohitus vaiko vielä tr mukaan?
-#function slaughter0() {
-#	local aa
-#	local ab
-#	local ac
-##	local ad	
-#
-#	aa=$(echo $1 | awk '{print $1}' | tr -dc a-zA-Z0-9./) #TARKKUUTTA PRKL NÄIDEN KANSSA!!!
-#	ab=$(${sah6} ${aa})
-#
-#	#tähän alle jotain tr-kikkAIlua?
-#	#echo ${ab} | awk '{print $1,$2}' >> ${2} #TARKK PRKL
-#	# | tr -dc a-fA-F0-9 ?
-##
-##	echo -n ${ab}  >> ${2}
-##	echo -n " "  >> ${2}
-##	 >> ${2}
-#
-#	ac=$(echo ${ab} | awk '{print $1}' | tr -dc a-zA-Z0-9./)
-##	ad=$(echo ${ab} | awk '{print $2}' | tr -dc a-fA-F0-9 ) 
-#	echo "${ac}" >> ${2}
-#}
 
 function mangle_s() {
 	dqb " mangle_s( ${1} , ${2})"
