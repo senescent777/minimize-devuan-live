@@ -414,6 +414,8 @@ other_horrors
 dqb "AFTER THE HORROR"
 csleep 1
 
+#TODO:tOISessa oksassa tuo if-lause, onko kunnossa?
+
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh
 	dqb "KOITA NYT PRKL SAADA TÄTÄ KAUTTA IMPORT2 TOIMIMAAN 666!!!"
