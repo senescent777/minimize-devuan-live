@@ -25,26 +25,26 @@ function usage() {
 }
 
 #VAIH:"$0 1 tgtfile -v" - osaako menetellä oikein? (vielä 05/26?)
-#
-#function parse_opts_1() {
-#	dqb "rot.parse_opts_1() ${1} ((()"
-#
-#	if [ "${mode}" == "-2" ] ; then
-#		mode=${1}
-#	fi
-#}
-#
-#function parse_opts_2() {
-#	dqb "rpus.ot.parseopts_2 )) ${1} ; ${2} (("
-#
-#	if [ -f ${2} ] || [ -d ${2} ] ; then
-#		if [ -z "${srcfile}" ] ; then
-#			if [ "${2}" != "-v" ] ; then			
-#				srcfile=${2}
-#			fi
-#		fi
-#	fi
-#}
+
+function parse_opts_1() {
+	dqb "rot.parse_opts_1() ${1} ((()"
+
+	if [ "${mode}" == "-2" ] ; then
+		mode=${1}
+	fi
+}
+
+function parse_opts_2() {
+	dqb "rpus.ot.parseopts_2 )) ${1} ; ${2} (("
+
+	if [ -f ${2} ] || [ -d ${2} ] ; then
+		if [ -z "${srcfile}" ] ; then
+			if [ "${2}" != "-v" ] ; then			
+				srcfile=${2}
+			fi
+		fi
+	fi
+}
 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
@@ -88,8 +88,6 @@ else
 		scm=$(${odio} which chmod)	
 		[ -v CONF_algo ] || exit 77
 
-		#TODO:muista toisessa oksassa siirtää algo-kikkailut fktio n sisään
-
 		case "${CONF_algo}" in
 			sha256)
 				sah6=$(${odio} which sha256sum)
@@ -131,11 +129,11 @@ else
 		dqb "W T F ???"
 	}
 
-#	for opt in $@ ; do
-#		parse_opts_1 ${opt}
-#		parse_opts_2 ${prevopt} ${opt}
-#		prevopt=${opt}
-#	done
+	for opt in $@ ; do
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
 fi
 
 #pre-kohta toisessa okasassa vs tämä? tarttisiko tehdä jotain vai ei?
@@ -252,6 +250,7 @@ function common_part() {
 	[ "${1}" == "/" ] && exit 56
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
+
 	echo "paramz_0k"
 	csleep 1
 
@@ -307,7 +306,6 @@ function common_part() {
 			echo "aa: ${aa}"
 			echo "ab: ${ab}"
 
-			echo "SHOULD: \$ {NKVD} ${1}* "
 			sleep 1
 			${NKVD} ${1}*
 			exit 43
@@ -328,7 +326,6 @@ function common_part() {
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "ko"		
 		else
-			echo "SHOULD DO SOME NKVD-STUFF AROUND HERE"
 			${NKVD} ${1}* 
 			${NKVD} ${2}/*.deb
 		
@@ -339,12 +336,11 @@ function common_part() {
 		fi
 	fi
 
-	#240626:tarttisi jotain tehdä TPX suhteen vähitellen
 	csleep 1
-	dqb "NECKST: ${srat} -C ${3} -xf ${1}" #"${TARGET_TPX}"
+	dqb "NECKST: ${srat}  (${TARGET_TPX} )  -C ${3} -xf ${1}"
 	
 	csleep 1
-	${srat}  -C ${3} -xf ${1} #"${TARGET_TPX}"
+	${srat} --exclude rnd --exclude ./rnd -C ${3} -xf ${1} #TODO:pientä laittoa "${TARGET_TPX}" liittyen
 	[ $? -eq 0 ] || exit 36	
 
 	sleep 1
@@ -404,8 +400,9 @@ case "${mode}" in
 		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est (josko voisi vähitellen...)
 		common_part ${srcfile} ${d} /
 	;;
+	#... exp2 rp vähän yritetty testailla 05/26
 	0)
-		[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est (josko voisi vähitellen...)
+		#[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est (josko voisi vähitellen...)
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
@@ -437,8 +434,6 @@ case "${mode}" in
 		#050636:kokeeksi näin
 		[ "${CONF_env}" == "TOOR" ] && pre
 	
-		#VAIH:tuotaville avaimille jotain tark? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
-
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
 		
@@ -480,7 +475,7 @@ case "${mode}" in
 	;;
 esac
 
-#poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (TODO)
+#poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (VAIH?)
 if [ $? -eq 0 ] ; then
 	if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
 		read -p " U  WANT 2 RM SOURCE ?" confirm
