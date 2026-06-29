@@ -1,8 +1,7 @@
 #!/bin/bash
 debug=1
 
-
-if [ "CONF_env" == "TOOR" ] ; then
+if [ -f /.chroot ] ; then
         odio=""
 else
         odio=$(which sudo)
@@ -81,6 +80,9 @@ if [ -s /etc/resolv.conf ] ; then
 	for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do 
 		dda_snd ${s}
 	done
+else
+	echo "NYT SE VITUN VITTU"
+	sleep 66
 fi
 
 #================================
@@ -88,7 +90,7 @@ fi
 #miten muuten ne ipt/netf-persistent? oliko niissä jotain skriptihakemistoa? pystyisikö käyttämään?
 
 function ptn_dda() {
-	
+
 	local t
 	local u
 
