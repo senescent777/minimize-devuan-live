@@ -352,7 +352,7 @@ function psqa() {
 		csleep 1
 		cd ${p}
 	else
-		dqb "NO SHASUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
+		dqb "NO SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
 		dqb "SHOULD \${NKVD} ${1}/ \*.deb"		
 		return 93
 	fi
@@ -361,6 +361,8 @@ function psqa() {
 	csleep 2
 }
 
+#TODO:shasums:ien kopsaus $2:seen myös?
+#TODO:pikemminkin siellä $2-hmistossa käsin se sha-tarkstus?
 function common_pp3() {
 	dqb "() common_pp3 )))))) ${1} ) ${2} )))))))))))))"
 	csleep 1
@@ -384,7 +386,6 @@ function common_pp3() {
 
 	if [ ${q} -lt 1 ] ; then
 		${scm} a-wx ${r}/common_lib.sh
-		dqb "NO EXIT 55 HERE, CHIMAERA..."
 	else
 		psqa ${1}
 
@@ -395,9 +396,6 @@ function common_pp3() {
 		fi
 
 		local s
-
-		dqb "SAH.0"
-		csleep 1
 		
 		for s in $(grep -v '#' ${1}/${CONF_hashfile} | awk '{print $2}') ; do
 			${svm} ${1}/${s} ${2}
@@ -529,6 +527,7 @@ function cefgh() {
 	fi
 }
 
+#TODO:sqroot-ympäristön pAKettivalikoiman päivitys, mm. gpg_poistuu:syistä
 function CB01() {
 	dqb "common.lib.CB01( ${1} (( ${2} )"
 	csleep 1
@@ -604,7 +603,6 @@ function check_binaries() {
 	E22_GS="${E22_GS} libgmp10 libisl23 libmpfr6 libmpc3 libzstd1 zlib1g"
 	E22_GS="${E22_GS} libstdc++6 libgomp1 cpp-12"
 
-	#moni pak tarttee nämä
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 	
 
@@ -628,7 +626,7 @@ function check_binaries() {
 	local y
 
 	if [ "${CONF_env}" == "VED" ] ; then
-		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp"
+		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # sha512sum
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
 	else
@@ -759,10 +757,10 @@ function TLA() {
 	dqb "TLA.testgris : ${CONF_testgris}"
 	csleep 1
 
-	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ "${CONF_env}" == "TOOR" ] ; then #270526:hyvä näin?
+	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ "${CONF_env}" == "TOOR" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
+		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then #TODO:koitapa päättää miten pitäisi mennä
 			dqb "JST B3F0R:tlb-b a s h"
 			[ -s /opt/bin/tlb.bash ] || exit 99
 			${scm} 0511 /opt/bin/tlb.bash
@@ -774,9 +772,6 @@ function TLA() {
 
 
 #==================================================================
-#echo "VAIH:slaughter0() pois käytöstä vai mitenkä?"
-#sleep 6
-#
 
 function mangle_s() {
 	dqb " mangle_s( ${1} , ${2})"
@@ -796,7 +791,6 @@ function mangle_s() {
 	${scm} 0555 ${r}
 
 	${sco} root:root ${r}
-	#vs /e/paswd ?
 
 	#toisinkin voisi kai tehdä (ab,ac)
 	local aa=$(whoami | tr -dc a-zA-Z0-9 )
@@ -946,21 +940,17 @@ function e_e() {
 
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
-	dqb "JUST BEF0RE MUTILATING RESOLV.CONF"
-	csleep 5
 
 	if [ -f /etc/resolv.conf.${f} ] ; then
 		dqb "SADF SADF SADFS ASDGH"
 	else
 		if [ -h /etc/resolv.conf ] ; then
-			#arpoo arpoo
 			c=$(find /etc -type f -name "resolv.conf.*" -size +10c | wc -l )
 
 			if [ ${c} -gt 0 ] ; then 
 				${smr} /etc/resolv.conf
 			fi
 		else
-			#110526:josko nyt voisi olla hetken aikaa nuo linkitys-asiat?
 			${svm} /etc/resolv.conf /etc/resolv.conf.${f}
 		fi
 	fi
@@ -996,6 +986,7 @@ function e_v() {
 	${sco} root:mail /var/mail
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
+
 	csleep 1
 }
 
@@ -1212,7 +1203,7 @@ function part2() {
 
 		t=$(echo ${2} | tr -d -c 0-9)
 
-		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
+		if [  "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 			${odio} /opt/bin/tlb.bash ${t}
 		fi
 	fi
@@ -1227,7 +1218,6 @@ function part2() {
 	csleep 1
 }
 
-#25626:vissiinb toimii
 function cg_udp6() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
 	csleep 1
@@ -1254,7 +1244,7 @@ function cg_udp6() {
 	fi
 }
 
-##käytössä? jos siirtäisi siihen tdstoon missä tarvitaan?
+#TODO:siirto siihen tdstoon mikä tarvitsee?
 #function cg_pp2() {
 #	dqb " GENERIC REPLACEMENT FOR daud.lib.pre_part2 ${1}"
 #	csleep 1
@@ -1270,9 +1260,6 @@ function cg_udp6() {
 #	csleep 2
 #	dqb "d0n3"
 #}
-#
-#dqb "HUOM. KANNATTAA KEHITYSYMP PURKAA PAKETTI RIITTÄVIN VALTUUKSIN ETTÄ PYSYVÄT SKRIPTIT AJAN TASALLA"
-#csleep 6
 
 function part3() {
 	dqb "))() part3 ${1} , ${2} (((((((("
@@ -1313,7 +1300,6 @@ function part3() {
 	dqb "B3T4"
 	csleep 3
 
-	#060426:AO. RIVI TUOLLAINEN TARKOITUKSELLA, ÄLÄ SORKI!!!
 	efk1 ${t}/gcc-12-base*.deb ${t}/libgcc-s1*.deb ${t}/libc6*.deb
 	dqb "LAcKK.a"
 	csleep 3
@@ -1384,7 +1370,6 @@ function process_lib() {
 		fallback
 	fi
 
-	#jospa jatkossa c_b if-blokin jälkeen jokatap? silloin syytä tark että common_lib sisältää x.-oik
 	check_binaries ${1} ${2}
 	[ $? -eq 0 ] || dqb "SHOULD exit 67"
 
@@ -1392,7 +1377,7 @@ function process_lib() {
 	[ $? -eq 0 ] || dqb "SHOULD exit 68 också"
 
 	TLA
-	dqb "process_lib.done()"
+	dqb "common.process_lib.done()"
 }
 
 function gpo() {
