@@ -60,7 +60,6 @@ function parse_opts_2() {
 			mop=${2}
 		;;
 #		*)
-#			#
 #			if [ "${mode}" == "-2" ] ; then
 #				mode=${1}
 #				tgtfile=${2}
@@ -130,6 +129,7 @@ csleep 1
 #-h pysähtyy ennen tätä riviä?
 e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
+
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
@@ -151,6 +151,8 @@ case "${mode}" in
 		exit 97
 	;;
 	3|4) 	
+		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
+		#VAIH:turhia kommentteja wttuun sotkemasta
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
 
@@ -158,6 +160,7 @@ case "${mode}" in
 		reqwreqw /opt/bin/zxcv.tmp
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
+		
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
 			#TODO:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä
 			e23_tblz ${CONF_iface} ${CONF_dnsm}
@@ -190,7 +193,6 @@ case "${mode}" in
 	e) 
 		e22_pre_e ${E22_GS}
 		e22_pre_e ${E22_GM}
-
 		csleep 3
 		message
 		csleep 2
@@ -215,7 +217,6 @@ case "${mode}" in
 		
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
-
 		doit=0
 	;;
 	l)
