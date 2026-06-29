@@ -93,7 +93,7 @@ dqb "BEF0RE T1G N0R MKTMP"
 sleep 1
 
 if [ -z "${tig}" ] ; then
-	echo "SHOULD INSTALL GIT"
+	echo "SHOULD INSTALL GIT ($0 e)"
 	[ "${mode}" == "e" ] || exit 7
 fi
 
@@ -130,9 +130,6 @@ csleep 1
 #-h pysähtyy ennen tätä riviä?
 e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
-#jokin varmistus vielä että iface alhaalla?
-
-#HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
@@ -161,7 +158,8 @@ case "${mode}" in
 		reqwreqw /opt/bin/zxcv.tmp
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then #jälk ehtoon muutoksia vai ei?
+		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
+			#TODO:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä
 			e23_tblz ${CONF_iface} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
@@ -198,6 +196,8 @@ case "${mode}" in
 		csleep 2
 
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
+		dqb "BC/AD"
+		csleep 10
 		e23_other_pkgs ${CONF_dnsm}
 	;;
 	t)
@@ -207,12 +207,12 @@ case "${mode}" in
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
-		#VAIH (muodostetun paketin toimivuuden testaus lähinnä)
 		e22_hdr ${d}/e.tar
 
 		${fib}
 		${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä
-		#${shary} ${E22_GG}
+		${shary} ${E22_GG}
+		
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
 
@@ -229,7 +229,7 @@ case "${mode}" in
 		${shary} ntpsec
 	;;
 #	x)
-#		#uusiksi vain koko pasq?
+#		#:uusiksi vain koko pasq?
 #		e23_xyz
 #	;;
 	s) #lienee tekevän toimivaa oksennusta (28626)
@@ -243,6 +243,7 @@ case "${mode}" in
 	;;
 esac
 
+#tuossa alla vielä jotain laittoa?
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
 
