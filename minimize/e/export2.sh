@@ -50,8 +50,6 @@ function parse_opts_1() {
 #			fi
 #		;;
 	esac
-
-	#290326:jspa tu case-esac esim. toimisi?
 }
 
 function parse_opts_2() {
@@ -62,7 +60,6 @@ function parse_opts_2() {
 			mop=${2}
 		;;
 #		*)
-#			#
 #			if [ "${mode}" == "-2" ] ; then
 #				mode=${1}
 #				tgtfile=${2}
@@ -95,7 +92,7 @@ dqb "BEF0RE T1G N0R MKTMP"
 sleep 1
 
 if [ -z "${tig}" ] ; then
-	echo "SHOULD INSTALL GIT"
+	echo "SHOULD INSTALL GIT ($0 e)"
 	[ "${mode}" == "e" ] || exit 7
 fi
 
@@ -132,9 +129,7 @@ csleep 1
 #-h pysähtyy ennen tätä riviä?
 e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
-#jokin varmistus vielä että iface alhaalla?
 
-#HUOM!!! e22_pre2() AJAA sifu-KOMENNON JOTEN TÄSSÄ EI ERIKSEEN TARVITSE
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
@@ -156,6 +151,8 @@ case "${mode}" in
 		exit 97
 	;;
 	3|4) 	
+		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
+		#VAIH:turhia kommentteja wttuun sotkemasta
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
 
@@ -163,8 +160,10 @@ case "${mode}" in
 		reqwreqw /opt/bin/zxcv.tmp
 
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		if [ ${mode} -eq 3 ] && [ ! -v CONF_testgris ] ; then #jälk ehtoon muutoksia vai ei?
-			e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+		
+		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
+			#TODO:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä
+			e23_tblz ${CONF_iface} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
 			doit=0
@@ -194,37 +193,33 @@ case "${mode}" in
 	e) 
 		e22_pre_e ${E22_GS}
 		e22_pre_e ${E22_GM}
-
 		csleep 3
 		message
 		csleep 2
 
-		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+		e23_tblz ${CONF_iface} ${CONF_dnsm}
+		dqb "BC/AD"
+		csleep 10
 		e23_other_pkgs ${CONF_dnsm}
 	;;
 	t)
-		#300426:osannee paketin tehdä?
 		message
 		csleep 2
-		e23_tblz ${d} ${CONF_iface} ${distro} ${CONF_dnsm}
+		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
 	g)
 		[ -v E22_GI ] || exit 95
-		#VAIH (muodostetun paketin toimivuuden testaus lähinnä)
 		e22_hdr ${d}/e.tar
 
 		${fib}
 		${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä
+		${shary} ${E22_GG}
+		
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
-
 		doit=0
 	;;
 	l)
-		#1104236:desktop_live:n kanssa onnistui jo paketin asennus
-		#minimal_live:n kanssa ei
-		#010526:edelleen muodostaa paketin, sisällön validius selvitettävä
-
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
@@ -235,17 +230,21 @@ case "${mode}" in
 		${shary} ntpsec
 	;;
 #	x)
-#		#TODO:uusiksi vain koko pasq?
+#		#:uusiksi vain koko pasq?
 #		e23_xyz
 #	;;
-	s)
+	s) #lienee tekevän toimivaa oksennusta (28626)
 		e23_st
 	;;
 	*)
+		echo "MAYBE U SHOULD USE export3 INSTEAD"
+		sleep 5
+		${d0}/export3.bash ${mode} ${tgtfile} -v
 		exit
 	;;
 esac
 
+#tuossa alla vielä jotain laittoa?
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
 

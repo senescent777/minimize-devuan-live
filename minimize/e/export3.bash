@@ -85,11 +85,12 @@ case "${mode}" in
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	c)
-		#TODO:TÄMÄ UUSIKSI TAAS 666!!!
 		e22_cde ${tgtfile} ${d0} ${distro}
-		mv ${tgtfile} ${tgtfile}.tmp
-		bzip2 -c -z ${tgtfile}.tmp > ${tgtfile}
-		[ $? -eq 0 ] && ${NKVD} ${tgtfile}.tmp
+
+		#EI EDELLLEENKÄÄN NÄIN???
+		#mv ${tgtfile} ${tgtfile}.tmp
+		#bzip2 -c -z ${tgtfile}.tmp > ${tgtfile}
+		#[ $? -eq 0 ] && ${NKVD} ${tgtfile}.tmp
 	;;
 	p)
 		#25626:ehkä toimi kerrabn tuolloin
