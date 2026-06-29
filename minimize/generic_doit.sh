@@ -122,21 +122,16 @@ function part0() {
 	dis ${1}
 	local s
 	
-	#dw i'n gwybod sut i ddefnyddio Google Translate
+	
 	dqb "смерть шпионам"
 
-	#VAIH:KVG, saisiko xfce4-session olemaan käyttämättä tuota SSH-AGENT?
-	#https://docs.xfce.org/xfce/xfce4-session/advanced
-	#https://superuser.com/questions/1222663/how-do-i-use-combine-ssh-agent-forwarding-and-xfce4
-	#https://forum.manjaro.org/t/how-to-disable-ssh-agent-autostart/89404
+	#ehkä nuo komennot jotain tekevät mutta xfce4-session näkyy edelleen pgrepillä
 
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
 	${whack} ssh-agent*
-	csleep 5
-	dqb "H4RV35TER 0F 50RR0W"
-	csleep 1
-	#060426:tämäkö heittää pihalle ennenaikaisesti? ssh:n kanssa ehkä jotain	
+
+	#2804236:josko ssh-agentin sisältävän paketin voisi poistaa?
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
@@ -208,8 +203,6 @@ function el_loco() {
 
 #140326:tarkkuutta peliin, ao. rivillä oli typo jnkn aikaa
 function adieu() {
-	dqb "AUF W13DERSEHEN"
-
 #	pidetäänpä nämä jutut kommenteissa sitä varten että saattuukin tarvitsemaan
 #
 #	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
@@ -356,10 +349,6 @@ echo "JUST BEFORE PART1";sleep 1
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
 
-echo "JUST AFTR PRT1";sleep 1
-#aivopieru:jtnkin niin että voisi samalla kertaa purkaa paketin ja ajaa tämän skriptin trähän asti. Self-extracting archives?
-#KVG "bash here-doc examples"  (olisiko jo katsottu?)
-
 ${snt}
 csleep 1
 dqb "${svm} ${d0}/1c0ns/ \* .desktop ~/Desktop"
@@ -419,13 +408,13 @@ fi
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 #===================================================PART 3===========================================================
 message
-part3 ${d}
+part3 ${d} ${pkgcache}
 
 other_horrors
 dqb "AFTER THE HORROR"
 csleep 1
 
-if[ "${CONF_env}" == "DEFAULT" ] ; then
+if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh
 	dqb "KOITA NYT PRKL SAADA TÄTÄ KAUTTA IMPORT2 TOIMIMAAN 666!!!"
 	csleep 66
