@@ -1,5 +1,7 @@
-${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
-${scm} -Rv 700 ${CONF_pkgdir}/partial/
+if [ -v CONF_pkgdir ] ; then #varm vuoksi täMäkin 265226
+	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
+	${scm} -Rv 700 ${CONF_pkgdir}/partial/
+fi
 
 if [ ! -v CONF_pubk ] ; then
 	b="/"
@@ -17,6 +19,7 @@ if [ ! -v CONF_pubk ] ; then
 fi
 
 function e22_hdr() {
+	dqb "e22_hdr()"
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
 	[ -f ${1} ] && echo "$1 ALR3ADY EX1STS"
@@ -64,7 +67,6 @@ function e22_ftr() {
 	[ -s ${1} ] || exit 63
 	[ -r ${1} ] || exit 64
 	fasdfasd ${1}.sha
-
 	local p=$(pwd)
 	local q=$(basename ${1})
 	cd $(dirname ${1})
@@ -75,6 +77,8 @@ function e22_ftr() {
 	e22_tyg ${q}.sha
 	cd ${p}
 }
+
+#... joku päivä jos maistuisi selvittää tuo "bash function retuRn value"-juttu että onnnaako vai ei?
 
 function aqsp() {
 	dqb "aqsp ${1} ; "
@@ -122,7 +126,7 @@ function e22_pre1() {
 	[ -z "${2}" ] && exit 66
 	[ -d ${1} ] || exit 111
 
-	dqb "PARS OK"
+	dqb "pars ok"
 	csleep 1
 
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
@@ -212,9 +216,6 @@ function e22_config1() {
 	${sr0} -jcf ${2} ./xorg.conf* ./.config
 	[ -s ${2} ] || exit 99
 	cd ${p}
-
-	dqb "e22_config1() DONE"
-	csleep 1
 }
 
 #TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
@@ -222,16 +223,13 @@ function e22_config1() {
 #120426:vissiin menee kohteeseen fedi ja profs (mutta meneekö 1. mainittu myös juureen?)
 
 function e22_settings() {
-	dqb "e22_settings() ${1} ; ${2} ; ${3} ; ${4} )))( "
+	dqb "e22_settings()"
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
 	[ -z "${2}" ] && exit 44
 	[ -z "${3}" ] && exit 89
-
-	dqb "pars.ok"
-	csleep 1
 
 	if [ ! -x ${1}/${3} ] ; then
 		echo "SHOU.LD exp3 p asgfd asgfd"
@@ -263,7 +261,7 @@ function e22_home_pre() {
 	[ -z "${4}" ] && exit 73
 	[ -z "${5}" ] && exit 79
 
-	dqb "pars.ok"
+	dqb "pars_ok"
 	csleep 1
 
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
@@ -338,7 +336,7 @@ function e22_acol() {
 	[ -z "${3}" ] && exit 3		
 	[ -z "${4}" ] && exit 5
 
-	dqb "pars.ok"
+	dqb "PARS.OK"
 	csleep 1
 
 	${scm} 0555 /etc/iptables
@@ -389,9 +387,6 @@ function e22_acol() {
 	else
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
-
-	dqb "e22_acol() DONE"
-	csleep 1
 }
 
 [ -v CONF_BASEURL ] || exit 6
@@ -412,6 +407,7 @@ function e22_pre_e() {
 
 function e22_ext() {
 	dqb "e22_ext()"
+
 	[ -z "${1}" ] && exit 1
 	[ -d ${1} ] && exit 59
 	[ -f ${1} ] || exit 67
@@ -484,7 +480,7 @@ function e22_ext() {
 	echo $?
 	local f
 
-	for f in $(find ./etc -type f -not -name "interfaces.*"  -and -not -name "resolv.*") ; do
+	for f in $(find ./etc -type f -not -name "interfaces.*" -and -not -name "resolv.*") ; do
 		${sah6} ${f} >> ${4}
 	done
 
@@ -675,8 +671,7 @@ function z2() {
 	dqb "z2 ( ${1}) "
 	csleep 1
 	[ -z "${1}" ] && exit 66
-	dqb "pars ok"
-	csleep 1
+	#ekan parametrin kanssa lisää tarkistuksia?
 
 	reqwreqw ${1}.tmp
 	csleep 1
@@ -702,14 +697,12 @@ function z2() {
 }
 
 function z3() {
-	dqb "z3"
-	csleep 1
+	dqb "z3()"
 
 	[ -z "${1}" ] && exit 66
 	[ -s ${2} ] || exit 67
 	[ -z "${3}" ] && exit 68
 
-	dqb "oars ok"
 	csleep 1
 
 	fasdfasd ${3}
@@ -739,7 +732,6 @@ function z3() {
 
 function e22_sarram() {
 	dqb "e22_sarram()"
-	csleep 1
 
 	#[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
@@ -748,12 +740,11 @@ function e22_sarram() {
 	[ -z "${3}" ] && exit 13
 	[ -s ${3} ] || exit 17
 
-	dqb "PARAMS ok"
+	dqb "pars_ok"
 	csleep 1
 
 	${srat} -rf ${1} /etc/init.d/net*
 	${srat} -rf ${1} /etc/rcS.d/S*net*
-
 	csleep 1
 	local f
 
@@ -762,7 +753,7 @@ function e22_sarram() {
 	done
 
 	csleep 1
-
+	#display_manager
 	for f in $(${odio} find /etc -type f -name "${2}*" -and -not -name "*.202*" ) ; do
 		${srat} -rvf ${1} ${f}
 	done
@@ -785,9 +776,6 @@ function e22_sarram() {
 	fi
 
 	other_horrors
-
-	dqb "e22_sarram() DONE"
-	csleep 1
 }
 
 function e22_stu() { #jatkosäätöä josqs
