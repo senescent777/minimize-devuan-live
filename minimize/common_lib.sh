@@ -53,7 +53,6 @@ esac
 itni
 
 function fix_sudo() {
-	dqb "common_lib.fix_sud0.pt0"
 	
 	sco=$(${odio} which chown)
 	[ y"${sco}" == "y" ] && exit 98
@@ -67,7 +66,7 @@ function fix_sudo() {
 	scm="${odio} ${scm} "	
 
 	if [ "${CONF_env}" == "DEFAULT" ] ; then
-		dqb "INNERMöST"
+		dqb "1NNERMöST"
 
 		${sco} -R 0:0 /etc/sudoers.d
 		${scm} 0440 /etc/sudoers.d/*
@@ -630,15 +629,13 @@ function check_binaries() {
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
 	else
-		y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # kilinwittu.sh sha512sum
+		y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # kilinwittu.sh  sha512sum
 	fi
 	
 	for x in ${y} ; do ocs ${x} ; done
 
 	#HUOM.nämä e22_jutut tarkoituksella asetettu juuri tässä fktiossa
 	sdi="${odio} ${sd0} -i "
-
-
 	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
 	#VAIH:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta? mukaan toiseen oksaan?
@@ -655,6 +652,7 @@ function check_binaries() {
 	E22_GU="${E22_GU} libnfnet libnetfilter libxtables libmnl libnftnl libnftables libnl-3-200 libnl-route libnl nftables"
 
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
+
 	local t
 	t=""
 
@@ -770,7 +768,6 @@ function TLA() {
 	fi
 }
 
-
 #==================================================================
 
 function mangle_s() {
@@ -789,7 +786,6 @@ function mangle_s() {
 	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
 	#$r kanssa jotain t arkistuksia?
 	${scm} 0555 ${r}
-
 	${sco} root:root ${r}
 
 	#toisinkin voisi kai tehdä (ab,ac)
@@ -1202,7 +1198,7 @@ function part2() {
 		local t
 
 		t=$(echo ${2} | tr -d -c 0-9)
-
+		#ved vai default?
 		if [  "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 			${odio} /opt/bin/tlb.bash ${t}
 		fi
