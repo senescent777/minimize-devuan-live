@@ -56,6 +56,9 @@ fi
 #
 #}
 
+dqb "SHOULD gg --veriFy ${d0}/common_lib.sh HERE, MAYBE?"
+csleep 1
+
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -161,6 +164,7 @@ fi
 
 #TODO:tämä fktio -> common_lib ? vaiko ei?
 function cptp2() {
+
 	[ -z "${1}" ] && echo 99
 	[ -d ${1} ] || exit 97
 
@@ -180,7 +184,6 @@ function cptp2() {
 			enforce_access $(whoami) ${t}
 			csleep 10
 
-		
 			dqb "1MP,2: running mutilatetc.bash maY be necessary now to fix some things"
 		else
 			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
