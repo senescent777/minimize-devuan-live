@@ -19,6 +19,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
+
 [ -v CONF_env ] || exit 99
 echo "CONF_env = ${CONF_env}"
 sleep 5
@@ -430,7 +431,7 @@ function efk2() {
 	fi
 
 	csleep 1
-}
+} #TARKKUUTTA PRKL
 
 function wopr() {
 	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
@@ -1198,6 +1199,7 @@ function part2() {
 		local t
 
 		t=$(echo ${2} | tr -d -c 0-9)
+
 		#ved vai default?
 		if [  "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 			${odio} /opt/bin/tlb.bash ${t}
