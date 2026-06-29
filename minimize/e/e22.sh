@@ -26,6 +26,13 @@ function e22_hdr() {
 	[ "${1}" == "-v" ] && exit 62
 	[ -f ${1} ] && echo "$1 ALR3ADY EX1STS"
 
+	#onkohan hyvä idea?
+	if [ -f ${1} ] ; then
+		echo "$1 ALR3ADY EX1STS"
+		read -p " U SURE ?" confirm
+		[ "${confirm}" == "Y" ] || exit 99
+	fi
+
 	fasdfasd ./rnd
 	fasdfasd ${1}
 	csleep 1
@@ -304,9 +311,6 @@ function e22_home() {
 	#TODO:TPX-kohdan kanssa jotain muutoksia vaiko ei? "${TARGET_TPX}"
 	${srat}  --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
-	#miksi täsäs eokä h_pre() ?
-	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
-}
 
 	#miksi täsäs eokä h_pre() ?
 	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
@@ -533,12 +537,12 @@ function e22_arch() {
 
 	for f in $(find . -type f -name "*pkgs*") ; do
 		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
-		${sah6} ${f} >> ./${CONF_hashfile}.1
+		[ -s ./${f} ] && ${sah6} ${f} >> ./${CONF_hashfile}.1
 	done
 
 	for f in e.tar g.tar ; do
 		dqb "sah6 ./${f}"
-		${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
+		[ -s ./${f} ] && ${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
 	done
 
 	e22_tyg ./${CONF_hashfile}
@@ -666,7 +670,6 @@ function z1() {
 
 	dqb "z1() DONE"
 	csleep 1
-	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
 }
 
 function z2() {
