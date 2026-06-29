@@ -337,7 +337,7 @@ function common_part() {
 	fi
 
 	csleep 1
-	dqb "NECKST: ${srat}  (${TARGET_TPX} )  -C ${3} -xf ${1}"
+	dqb "NECKST: ${srat}  (${TARGET_TPX} ) -C ${3} -xf ${1}"
 	
 	csleep 1
 	${srat} --exclude rnd --exclude ./rnd -C ${3} -xf ${1} #TODO:pientä laittoa "${TARGET_TPX}" liittyen
