@@ -212,6 +212,7 @@ case "${mode}" in
 
 		${fib}
 		${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä
+		#${shary} ${E22_GG}
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
 
@@ -228,13 +229,16 @@ case "${mode}" in
 		${shary} ntpsec
 	;;
 #	x)
-#		#TODO:uusiksi vain koko pasq?
+#		#uusiksi vain koko pasq?
 #		e23_xyz
 #	;;
 	s) #lienee tekevän toimivaa oksennusta (28626)
 		e23_st
 	;;
 	*)
+		echo "MAYBE U SHOULD USE export3 INSTEAD"
+		sleep 5
+		${d0}/export3.bash ${mode} ${tgtfile} -v
 		exit
 	;;
 esac
