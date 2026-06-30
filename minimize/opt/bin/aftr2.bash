@@ -1,4 +1,3 @@
-#!/bin/bash
 debug=1
 #esit pois josqs, nyt näin
 exit 99
@@ -43,5 +42,4 @@ function clouds_case1_2() {
 	echo "dns";sleep 1
 	/etc/init.d/dnsmasq restart
 	pgrep dnsmasq
-
 }
