@@ -390,13 +390,17 @@ other_horrors
 dqb "AFTER THE HORROR"
 csleep 1
 
+#TODO:tOISessa oksassa tuo if-lause, onko kunnossa?
+
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh
+	dqb "KOITA NYT PRKL SAADA TÄTÄ KAUTTA IMPORT2 TOIMIMAAN 666!!!"
+	csleep 66
 
 	#TODO:tämän kanssa jotain? toisesta oksasta korjaukset?
 	${d0}/import2.sh r ${d0} -v
-	echo $?
-	csleep 3
+	[ $? -eq 0 ] || exit $?
+	csleep 34
 fi
 
 dqb "PR0F IMPORT DONE?"

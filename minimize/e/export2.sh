@@ -83,7 +83,7 @@ else
 fi
 
 [ -z "${distro}" ] && exit 6
-d=${d0}/${distro} #nykyään vähän turha tässä
+d=${d0}/${distro}
 process_lib ${d}
 mop=${CONF_dm} 
 
@@ -139,7 +139,9 @@ e22_cleanpkgs ${CONF_pkgdir}
 
 doit=1
 csleep 1
-#getopt .o "34uetglnxs" ...
+
+dqb "JUST BEFORE ESAC"
+csleep 6
 
 case "${mode}" in
 	0)

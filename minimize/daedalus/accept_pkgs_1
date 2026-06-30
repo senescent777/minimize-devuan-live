@@ -2,15 +2,54 @@ libgcc-s1
 libicu
 libgomp
 #
+zlib1g
+libgif7
+libnuma1
+libaom3
+libbz2-1.0
+libutempter0
+libgdbm
+#versionumeroista voisi typistää seur 3 kanssa
+libglapi-mesa_22.3
+libglvnd0_1.6.0
+libwayland-egl1
+#
+libpcre2-8-0
+libcrypt1
+libjansson4
+libmnl0
+libxtables12
+libjbig0
+libjpeg62-turbo
+liblcms2-2
+libltdl7
+libxshmfence1
+libcap-ng0
+libtinfo6
+libcap2
+libpipeline1
+#stdc aiemmaksi?
 libgdk-pixbuf2.0-common
 libgdk-pixbuf-2.0-0
 libgdk-pixbuf-2.0-bin
-libgdbm
 librsvg2-2
 librsvg2-common
 libstdc
 #
 libatspi2
+libglx0
+libgl1_1.6
+libglib2.0
+libffi
+libfftw3-double3
+#
+libblkid1
+libmount1
+#Depends: , ,  (>= 2.35.2-7~), , libselinux1 (>= 3.1~), 
+#
+# libglib2.0-data,
+#Depends: , , libx11-6 (>= 2:1.4.99.1) (äksät aiemmaksi josqs?)
+libglx-mesa0
 libgl
 #
 at-spi
@@ -22,7 +61,6 @@ libavahi-common-data
 libavahi-common3
 libavahi-client3
 #
-zlib1g
 libkrb5support0
 libkrb5-3
 libgssapi-krb5
@@ -39,13 +77,24 @@ gsettings-desktop-schemas
 #
 xkb-data
 libgtk-3-common
+libgtk-3-0
+libgtk-3-bin
 #
 gtk-update-icon-cache
 adwaita-icon-theme
 hicolor-icon-theme
-libxml
-shared-mime-info
 #
+#VAIH:, mitä tuon libxml.parser-perl kanssa tekee?
+#Depends: perl (>= 5.36.0-7+deb12u3), ,  (>= 2.14), , , 
+perlapi-5.36.0
+liburi-perl
+libwww-perl
+libxml-parser-perl
+#
+liblzma5
+libxml
+#
+shared-mime-info
 libcairo
 libcolord2
 libepoxy
@@ -58,57 +107,78 @@ libthai0
 libfreetype
 libxf
 #
-#180426:sittenkin parem,pi speksata erikseen nuo 2
+#uusi selvityskierros tarpeen vai ei?
+#libxcb1
+#libxcb-damage0
+#libxcb-dri2
+#libxcb-dri3
+#libxcb-present0
+#libxcb-randr0
+#libxcb-render0
+#libxcb-shape0
+#libxcb-shm0
+#libxcb-sync1
+#libxcb-xfixes0
+#libxcomposite
+#libxcursor
+libxc
+#
+libx11-data
 libx11-6
 libx11-xcb1
-#libx11-
-#x11-utils depends on libx11-xcb1 
 #
-libxr
+#siirretty aiemmaksi koska x
+libxau6
+libxdmcp6
+#
+#VAIH:xext-rivin sIIRTo aeiammaksi (minne asti?)
+libxext6
+#
+libxrender1
+libxrandr2
+#HUOM!!! NUO 2 PAREMPI ANTAA OLLLA ERIKSEEN TUOSSA YLLÄ
+#
 libpango-1
+libexpat
 libpangoft2
 libpangocairo
 libpangoxft
-libff
 #
 libwayland-client0
 libwayland-server0
-libwayland-egl1
 libwayland-cursor0
 #
-libxc
 libxdamage1
-libxext6
 libxi
 libxkb
 #
-libgtk-3-0
-libgtk-3-bin
-#
-#libwrsater tarvitsee gif7;bn
-libgif7
-#libuwtil tarvitsee wmakerin
 wmaker-common
-#
+libmd0
 libbsd0
+lsb-base
+#30625:mikähän kijrasto tämän taas tarvitsi?
 x11-common
 #
-libpcre2-8-0
 libvte-2.91-common
 libvte
+libaudit-common
+libaudit1
+debconf
+#
+libpam0g
+libpam-runtime
+#
+#Depends: , , ,, libselinux1 (>= 3.1~)
 libpam-modules-bin
+libdb5.3
+#Pre-Depends: , , , , , libselinux1 (>= 3.1~), , 
 libpam-modules_
 #
 perl-modules-
 libperl
 perl-base
-#TODO:libxml-parser-perl, mitä sen kanssa tekee?
-#
-#libav tarttee
 libmfx1
 #
-#libva-drm2
-#libav tarttee myös libva, libvdpau, libpoencl, ocl-
 libva-
 libva2
 #
@@ -125,30 +195,22 @@ libshine3
 libsnappy1v5
 libspeex1
 libsvtav1enc1
-#swresample oli aiemmin tössö
+#swresample oli aiemmin tässä
 libtheora0
 libtwolame0
 #
-#240426:numa mukana vai ei?
-libnuma1
 libx26
 libxv
 #
+libpng16-16
+libzvbi-common
 libzvbi0
+#Depends: libdrm-common (>= 2.4.114-1),
 libdrm
-#mm. heif tarvitsee aom3
-libaom3
-#
-#joko jo libav-pakettien kanssa asia kunnossa vai ei?
-#edelleen jaksaa nalkuttaa riippuvuukiststa dpkg
 #
 libavutil57
 libdav1d6
 #
-#oikeastaan jo ylempänä sillä libgl
-#libglib2
-#
-liblzma5
 libmp3lame
 libopenjp2-7
 libopus0
@@ -158,7 +220,7 @@ libvpx7
 libwebp
 libavcodec59
 #
-#HUOM.libsdwresample ja libsox ennen libav? päintoisin, swresample tarv:libavutil57, libsoxr0
+#HUOM.libsdwresample ja libsox ennen ? päintoisin, swresample tarv:, libsoxr0
 #
 glib-networking
 libso
@@ -169,69 +231,52 @@ libpython3.11-stdlib
 libgtk2.0-common
 libgtk2.0-0
 #
+#siirto ennen xt6,xtables?
+libxt
+#
+libnftnl11
+libgmp10
 libnftables
 liblqr-1-0
+#
 libde265-0
-#libx265-199 onjo ylempänä, tavallaabn
 libheif1
 #
-#näiden suhteen jotain?:   x11-utils x11-apps (vielä 120426?)
-#
 imagemagick-6-common
-libjbig0
-libjpeg62-turbo
-liblcms2-2
-libltdl7
-libpng16-16
+libdeflate0
+liblerc4
 libtiff6
 #
-#raster6 varten
+libice6
+libsm
 libxpm4
 libxmu
 #
-#huom.WINGS TARVITSEE WRASTERIN
-#
-#assuanin kanssa jokin ongelma vai ei? (124.26)
 libassuan0
 liberror-perl
 #
 libgbm1
-libexpat1
-libxshmfence1
-#
-#oikeastaan jo ylempänä libgl
-#libglapi-mesa
 #
 libegl-mesa0
 #
 libegl1
-libaudit1
 #
 seatd
+libseccomp2
+libsemanage-common
+libsepol
 libse
 #
 libunwind8
-libxau6
-libxdmcp6
-#
 libxaw7
-libxt
 libxx
-libsm
-libice6
-libtinfo6
+#
 libpixman
 libpciaccess
 libgcrypt20
 libeudev
 #
-#vissiin gcc-12/cpp-12? aiemmaksi?
 libisl
-#iproute2 varte?
-libcap2
-libcap-ng0
-#
-#debconf varten?
 libtext-wrapi18
 libfs6
 #
@@ -241,8 +286,10 @@ libfftw3-double3
 libmagickcore-6
 libmagickwand
 #
-libutempter0
 libwraster
 libwings3
+#
 libncursesw6
 libproc2-0
+#
+#libselinux1 (libse ylempänä) (libselinux1 siirto ennen libmount?)

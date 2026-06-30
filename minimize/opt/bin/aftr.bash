@@ -22,10 +22,10 @@ iptr=$(${odio} which iptables-restore)
 ip6tr=$(${odio} which ip6tables-restore)
 #==========jokin kirjasto olisi hyvä laatia näille skripteille ===========
 
-#TODO:jokin param resolv.vonf-kikkailuja varten?
+#TODO?:jokin param resolv.vonf-kikkailuja varten?
 #TODO:entäse dot?
 
-#VAIH:ruleksiin oikeastaan, u- ja v- ketjujen oletusarvot, joputaisiko säätää?
+#VAIH:ruleksiin oikeastaan, u- ja v- ketjujen oletusarvot, joputaisiko säätää? (valmis jo 06/26?)
 ${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
 ${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
 #yo. jutut takaisin kommenteista sittenq ehkä ntpsec (tai ehkä varm vuoksi)
@@ -81,6 +81,9 @@ if [ -s /etc/resolv.conf ] ; then
 	for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do 
 		dda_snd ${s}
 	done
+else
+	echo "NYT SE VITUN VITTU"
+	sleep 66
 fi
 
 #================================
@@ -88,7 +91,7 @@ fi
 #miten muuten ne ipt/netf-persistent? oliko niissä jotain skriptihakemistoa? pystyisikö käyttämään?
 
 function ptn_dda() {
-	
+
 	local t
 	local u
 

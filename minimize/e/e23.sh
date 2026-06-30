@@ -1,5 +1,3 @@
-#just_download_not_install-vipu olisi tietysti...
-
 function aswasw() {
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
@@ -23,7 +21,6 @@ function e23_tblz() {
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
-	[ -d ${1} ] || exit 15
 	[ -z "${2}" ] && exit 12
 
 	${fib}
@@ -65,6 +62,8 @@ function e23_other_pkgs() {
 	e22_pre_e ${E22_GI}
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	e22_pre_e ${E22_GG}
+
+	e22_pre_e ${E23_GS}  #moni pak tarttee nämä
 
 	e22_pre_e ${E23_GS}
 	message
@@ -167,8 +166,8 @@ function e23_dm() {
 	csleep 2
 
 	${fib}
-	${shary} ${E22_GS}
-	${shary} ${E22_GM}
+	e22_pre_e ${E22_GS}
+	e22_pre_e ${E22_GM}
 	csleep 5
 
 	if [ "${1}" == "wdm" ] ; then
@@ -270,10 +269,18 @@ function e23_profs() {
 	#[ -s ${3} ] || exit 71 #mikä tässä pykii?
 
 	csleep 1
+
+	[ -z "${1}" ] && exit 76
+	[ -z "${2}" ] && exit 75
+	[ -z "${3}" ] && exit 74
+	[ -d "${2}" ] || exit 73
+	[ -s ${1} ] || exit 72
+	[ -s ${3} ] || exit 71
+
 	dqb "pars.0k"
 	csleep 1
 
-	q=$(mktemp -d)
+	q=$(${mkt} -d)
 	cd ${q}
 
 	[ $? -eq 0 ] || exit 77
