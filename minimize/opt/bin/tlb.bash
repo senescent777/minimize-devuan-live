@@ -1,7 +1,7 @@
 #!/bin/bash
 debug=1
 
-if [ -f /.chroot ] ; then
+if [ -v CONF_enf ] && [ "${CONF_env}" == "TOOR" ] ; then #nyt näin
         odio=""
 else
         odio=$(which sudo)
