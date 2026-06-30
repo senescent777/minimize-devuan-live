@@ -251,12 +251,11 @@ function check_bin_0() {
 	export LANGUAGE
 	export LC_ALL
 	export LANG
-	
-	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then	
+
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 		[ -s /opt/bin/zxcv ] || echo "should exit 98"
 		[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
 		[ -s /opt/bin/zxcv.sha ] || echo "shoul.d ext1 8 97"
-
 
 		${odio} ${sah6} -c /opt/bin/zxcv.sha
 		[ $? -gt 0 ] && echo "gh0uls 0f n1n1w3h"
@@ -484,7 +483,9 @@ function CB01() {
 	[ -d ${2} ] || exit 102
 
 #	if [ -s ${1}/g.tar ] ; then
-
+#		#JOSPA TARKISTETTAISIIn g.tar ennen purq eikä sisällön purun jälkeen
+#		#... tai ilman gpg:tä voi tehdä vain sha-tarq ja sekin oikeastaan tapahtuu jo kutsuvassa koodissa
+#		#... g.tar:in saisi kyllä listaan mukaan
 #
 #		efk2 ${1}/g.tar /
 #		common_pp3 ${1} ${t}
@@ -504,8 +505,6 @@ function CB01() {
 	
 	common_pp3 ${1} ${2}
 
-	common_pp3 ${1} ${2}
-	
 	dqb "common.lib.CB01() DONE"
 	csleep 1
 }
@@ -610,8 +609,8 @@ function check_binaries() {
 	fi
 
 	E22_GT="${E22_GT} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
-	E22_GT="${E22_GT} iptables init-system-helpers" # iptables-persistent netfilter-persistent
-	E22_GU="${E22_GU} libnfnet libnetfilter libxtables libmnl libnftnl libnftables libnl-3-200 libnl-route libnl nftables"
+	E22_GT="${E22_GT} iptables"
+	E22_GT="${E22_GT} init-system-helpers" # iptables-persistent netfilter-persistent
 
 	E22_GU="${E22_GU} libnfnet libnetfilter libxtables libmnl libnftnl libnftables libnl-3-200 libnl-route libnl nftables"
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
@@ -718,15 +717,17 @@ function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
 	dqb "TLA.testgris : ${CONF_testgris}"
 	csleep 1
-
+	
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ "${CONF_env}" == "TOOR" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then #TODO:koitapa päättää miten pitäisi mennä
+		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then #TODO:koitapa päättää miten pitäisi mennä 
+			
 			dqb "JST B3F0R:tlb-b a s h"
 			[ -s /opt/bin/tlb.bash ] || exit 99
 			${scm} 0511 /opt/bin/tlb.bash
 
+			#tarkoituksella ilman param
 			${odio} /opt/bin/tlb.bash 
 		fi
 	fi
@@ -735,7 +736,7 @@ function TLA() {
 #==================================================================
 
 function mangle_s() {
-	dqb " mangle_s( ${1} , ${2})"
+	dqb " mangle_s( ${1} )"
 	csleep 1
 
 	[ -z "${1}" ] && exit 44
@@ -830,30 +831,17 @@ function e_final() {
 	dqb "SALA DE ANALISIS CLINICOS ASD ASD 123"
 }
 
-	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
-		${scm} go-rw /opt/bin/*
-		${scm} 0400 /opt/bin/*.sh #josko pääte pois? 
-		${scm} 0511 /opt/bin/*.bash
-		${sco} -R root:root /opt
-		${scm} 0755 /
-		${sco} root:root /
-	fi
-
-	${scm} 0777 /tmp
-	#${scm} o+w /tmp
-	#081225:+t pois koska exp2 u
-	${sco} root:root /tmp
-
-	csleep 1
-}
-
 function e_h() {
+	dqb "EH ((( ${1} ;; ((( ${2} ))(((((("
 	[ -z "${1}" ] && exit 98
 	[ -d ${2} ] || exit 99
-
+	dqb "pars.ok"
 	csleep 1
+
 	${sco} root:root /home
 	${scm} 0755 /home
+	
+	local f
 	local c=$(grep $1 /etc/passwd | wc -l)
 	local m=0555
 
@@ -862,28 +850,31 @@ function e_h() {
 		csleep 1
 	fi
 
-	local f
 	csleep 1
 	${scm} 0755 ${2}
+	dqb "FNID"
+	csleep 1
+	
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
-
+	dqb "HTAO EHT FO HTE TAOG EH)("
 	csleep 1
 
-	#tämäkö siihen "-v vs ei -v"-temppuiluun liittyy?
 	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
 	csleep 1
 
-	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${2}/opt/bin ] ; then
-		${sco} -R root:root ${2}/opt/bin
-		${scm} go-wr ${2}/opt/bin/*
-		${scm} 0400 ${2}/opt/bin/*.sh #liene ejo turha
-		${scm} 0511 ${2}/opt/bin/*.bash
+	if [ "${CONF_env}" != "VED" ] ; then #ved vai default?
+		if [ -d ${2}/opt/bin ] ; then
+			${sco} -R root:root ${2}/opt/bin
+
+			${scm} 0400 ${2}/opt/bin/*
+			${scm} 0511 ${2}/opt/bin/*.bash
+		fi
 	fi
 
+	dqb "EH DONE"
 	csleep 1
 }
-
 
 function mangle2() {
 	[ -z  "${1}" ] && exit 99
@@ -932,8 +923,6 @@ function e_e() {
 		fi
 	fi
 
-	dqb "JUST AFTER MUTILATING RESOLV.CONF"
-	csleep 2
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 	csleep 2
 
@@ -979,6 +968,10 @@ function enforce_access() {
 
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 }
+
+
+#tavoitetila dokumentoituna: https://www.devuan.org/os/packages
+#kts myös https://github.com/topics/sources-list
 
 function part1_5() {
 	dqb "part1_5()"
@@ -1053,6 +1046,7 @@ function part1_5() {
 	csleep 1
 }
 
+#HUOM.170326:JOS VAI N MITENKÄÄN MAHDOLLISTA NIIN EI TABLESIN KANSSA SAISI JÄÄDÄ ACCEPT-TILANTEESEEN
 function part1() {
 	dqb "()()() PART1 ${1} , ${2} ()()()()() "
 	[ -z "${1}" ] && exit 66
@@ -1252,27 +1246,10 @@ function cg_udp6() {
 	dqb "D0NE"
 	csleep 1
 
-	if [ "${CONF_iface}" == "eth0:1" ] ; then
+	if [ "${CONF_iface}" == "eth0:1" ] ; then #TODO:tulisi selvittää muiten käytännössä toimii
 		${sharpy} isc-dchp*
 	fi
 }
-
-#TODO:siirto siihen tdstoon mikä tarvitsee?
-#function cg_pp2() {
-#	dqb " GENERIC REPLACEMENT FOR daud.lib.pre_part2 ${1}"
-#	csleep 1
-#
-#	${odio} /etc/init.d/ntpd stop
-#	#$sharpy ntp* jo aiempana
-#
-#	for f in $(find /etc/init.d -type f -name "ntp*" ) ; do 
-#		${odio} ${f} stop
-#		csleep 1
-#	done
-#
-#	csleep 2
-#	dqb "d0n3"
-#}
 
 function part3() {
 	dqb "))() part3 ${1} ,((()()()()()( ${2} (((((((("
@@ -1286,14 +1263,14 @@ function part3() {
 
 	local n15=0
 	local t=""
+	
+	#TODO:näillä main merge-juttuja jatkossa?
 
-	#TODO:muistettava sitten tämä if-blokki sulauttaa toisen oksan part3():seen
 	if [ -z "${2}" ] ; then
-		t=$(${mkt} -d)
-    	#TODO:tässä kåskyttämään common_pp3() ?
+		t=$(mktemp -d)
+		#TODO:tässä kåskyttämään common_pp3() ?
 		n15=$(find ${1} -type f -name "*.deb" | wc -l)
 	else
-		#HUOM.jos on pedantti niin $2 alaiset .deb pitäisi myös testata shasums:ia vasten jnpp (TODO)
 		t=${2} #jotain mankelointia mukaan?
 		n15=$(find ${2} -type f -name "*.deb" | wc -l)
 	fi
@@ -1302,10 +1279,9 @@ function part3() {
 		cefgh ${1}
 	fi
 
-	csleep 10
+	csleep 1
 	jules
 
-	#HUOM.jos pp3:n sitä yhtä if-blkkia muuttaa niin sivuvaikutuksena pkgcachen alaiset joutuu ehkä tarkistamaan
 	common_pp3 ${1} ${t}
 	dqb "AL-fPGA"
 	csleep 1
