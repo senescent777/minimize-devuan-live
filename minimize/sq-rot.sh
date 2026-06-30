@@ -57,6 +57,7 @@ csleep 5
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
+	#[ $? -eq 0 ] || exit #tähänkö kosahtanut viime_aikoina?
 else
 	echo "W33P1NG UND3RR G4L4CTU5"
 	sleep 6
@@ -70,7 +71,7 @@ else
 			echo "ord1nary cqf"
 			. ${d}/conf
 		else
-		 	exit 75
+		 	exit 57
 		fi
 	fi
 
@@ -88,7 +89,7 @@ else
 	}
 
 	function check_binaries() {
-		echo "fish-rot.1"
+		echo "fish.rot.1"
 
 		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
 		scm=$(${odio} which chmod)
@@ -117,9 +118,10 @@ else
 		esac
 
 		srat=$(${odio} which tar)
-		srat="${odio} ${srat}"
+		#eXit jos srat ei?
+		srat="${odio} ${srat}" #tarpeen?
 
-		gg=$(${odio} which gpg)
+		gg=$(${odio} which gpg) #suattaapi olla että tähän tökkää, taisiis myöhemmin
 		[ -z "${gg}" ] && echo "SH0ULD.1NST.GPG"
 		NKVD=$(${odio} which shred)
 	}
@@ -149,75 +151,10 @@ else
 #	done
 fi
 
-#pre-kohta toisessa okasassa vs tämä? tarttisiko tehdä jotain vai ei?
-
 dqb "rot:AFTR common_lib"
 csleep 1
 [ -z "${distro}" ] && exit 26
 [ -v CONF_env ] || exit 66
-
-if [ "${CONF_env}" == "TOOR" ] ; then
-
-	
-function pre() {
-	echo "UNDER THE GRAV3YARD"
-	sleep 1
-
-	echo "A"
-	p=$(pwd)
-
-		q=$(find . -name "dgsts.?" )
-		cd ..
-
-		for r in ${q} ; do
-			dqb " -c ./${p}/${r}"
-			csleep 1
-			${sah6} -c ./${p}/${r} --ignore-missing
-			sleep 1
-		done
-
-		cd ${p}
-
-
-	sleep 1
-	cd ${p}
-	
-	if [ ! -z "${gg}" ] ; then
-		echo "B"
-		q=$(find . -name "*.sig" )
-	
-		for r in ${q} ; do
-			${gg} --verify ${r}
-			#TODO?:exit jos vrheitä?
-		done
-	
-		sleep 1
-	fi
-	
-	unset q
-	unset r
-	
-	sleep 1
-	echo "C"
-
-	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do
-		tar  -jxvf ${f} #--exclude import2.sh
-		sleep 1
-		rm ${f}
-		sleep 1
-	done
-
-	if [ ! -z "${gg}" ] ; then
-		if [ -s ${d0}/common_lib.sh.sig ] ; then
-			${gg} --verify ${d0}/common_lib.sh.sig
-			#exit jos ei ok
-		fi
-	fi
-
-}
-
-	pre
-fi
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -229,6 +166,8 @@ else
 fi
 
 check_binaries ${d}
+#[ $? -eq 0 ] || exit saattaa aiheuttaa ongelmia liialliset tarkistukset
+
 check_binaries2
 #[ $? -eq 0 ] || exit
 [ -v CONF_env ] || exit 96
@@ -304,7 +243,7 @@ function pre() {
 	
 fi
 
-[ -z "${srcfile}" ] && exit 104
+[ -z "${srcfile}" ] && exit 44
 [ -z "${distro}" ] && exit 46
 
 if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
@@ -323,27 +262,24 @@ fi
 function common_part() {
 	dqb "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
 
-	[ -z "${1}" ] && exit 91
-	[ -s ${1} ] || exit 2
-	[ -r ${1} ] || exit 3
-	[ -z "${3}" ] && exit 4
+	[ -z "${1}" ] && exit 91 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
+	[ -s ${1} ] || exit 92
+	[ -r ${1} ] || exit 93
+	[ -z "${3}" ] && exit 94
 
 	[ -z "${2}" ] && exit 11
 	[ -d ${2} ] || exit 22
-	[ -d ${3} ] || exit 45
-	
+	[ -d ${3} ] || exit 43
+
 	[ "${1}" == "/" ] && exit 56
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
-
 	echo "paramz_0k"
 	csleep 1
 
 	cd /
 	local r
-	local s
 	r=0
-	s=1
 
 	if [ -v gg ] ; then
 		if  [ -s ${1}.sig ] ; then
@@ -369,43 +305,30 @@ function common_part() {
 		fi
 	fi
 
-	echo "AFTR GPG $?"
 	csleep 1
+	#kts. common_lib.psqa()
+	local cfk=1
 
 	if [ -s ${1}.sha ] ; then
 		dqb "KHAZAD-DUM"
 		dqb "gg= ${gg}"
-		echo "sah: ${sah6}"
-		sleep 1
 
-		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f) #HUOM.TARKKANA SITTEN HIPSUjEN KANSSA 666!!!
+		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
+		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f) #HUOM.TARKKANA SITTEN HIPSUHEN KANSSA 666!!!
 		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
 
-		echo "AFTER ABC: $?"
-		sleep 5
-
 		if [ "${aa}" == "${ab}" ] ; then
-			dqb ${aa}
-			s=0
-		else
-			echo "aa: ${aa}"
-			echo "ab: ${ab}"
-
-			sleep 1
-			${NKVD} ${1}*
-			exit 43
+			dqb "aa=ab= ${aa}"
+			cfk=0
 		fi
 
-		echo "BEFORE NKVD: $?"
-		sleep 1
+		[ ${cfk} -eq 0 ] || ${NKVD} ${1}*
+		csleep 1
 	else
 		echo "NO ${CONF_hashfile}   CAN BE F0UND FOR ${1}"
 	fi
 
-	echo "AFTR SHA $?"
-	sleep 1
-
-	if [ ${s} -gt 0 ] ; then
+	if [ ${cfk} -gt 0 ] ; then
 		read -p " U  SURE ?" confirm
 
 		if [ "${confirm}" == "Y" ] ; then
@@ -422,16 +345,15 @@ function common_part() {
 		fi
 	fi
 
-	#TODO:toisessa oksassa tuo vastaava dqb-kohta
 	csleep 1
 	dqb "NECKST: ${srat}  (${TARGET_TPX} ) -C ${3} -xf ${1}"
 
 	csleep 1
-	${srat} --exclude rnd --exclude ./rnd -C ${3} -xf ${1} #TODO:pientä laittoa "${TARGET_TPX}" liittyen
+	${srat} --exclude rnd --exclude ./rnd -C ${3} -xf ${1} #vielä pientä laittoa "${TARGET_TPX}" liittyen?
 	[ $? -eq 0 ] || exit 36	
 
-	sleep 1
-	echo "common_part_DONE"
+	csleep 1
+	dqb "${srat} DONE"
 }
 
 #cptp2 -> common_lib vai ei?
@@ -444,6 +366,7 @@ function cptp2() {
 	dqb "cptp2:pars ok"
 	csleep 10
 
+	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
 	local t
 	t=$(echo ${1} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 
@@ -509,7 +432,6 @@ case "${mode}" in
 		[ $? -eq 0 ] && other_horrors
 	;;
 	3)
-		#DONE:e23_st() outputin asennus , kehitysymp (tai siis)
 		#TODO:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
 
 		e=${d}
@@ -527,25 +449,24 @@ case "${mode}" in
 		#VAIH:tuotaville avaimille jotain tark? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
-		
+		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd find out?)
+
 		if [ -v gg ] ; then
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 				dqb "NOP"
 				csleep 1
 
-				#olisi varmaan hyväksi importoida jossain järjestyksessä eikä miten sattuu
-				for f in $(find ${srcfile} -type f -name "*.sig" ) ; do
-					g=$(echo $f | cut -d . -f 1,2)
+				#for f in $(fnid $srcfile -type f -name "*.sig" ) ; do
+				#	g=$(echo $f | cut -d . -f 1,2)
 				#	check=$(smthing)
-				#	[ $check ] && 
-					${gg} --import ${g}
-					rm ${g}	
-				done
+				#	[ $check ] && gg --import $g
+				#	rm $g	
+				#done
 
-				#dqb "${gg} --import ${srcfile}/*.gpg soon"
-				#csleep 1
-				#
-				#${gg} --import ${srcfile}/*.gpg
+				dqb "${gg} --import ${srcfile}/*.gpg soon"
+				csleep 1
+
+				${gg} --import ${srcfile}/*.gpg
 				csleep 1
 
 				[ ${debug} -eq 1 ] && ${gg} --list-keys
@@ -562,7 +483,6 @@ case "${mode}" in
 	;;
 	*)
 		echo "-h"
-		exit
 	;;
 esac
 
