@@ -400,6 +400,7 @@ function common_pp3() {
 			${svm} ${1}/${s} ${2}
 		done
 
+		echo "#TODO:VARMISTA ETTÄ SAH.1-KOHTA FKTIOSS common_pp3() TOIMII" #MIELELLÄÄN SUURI MÖLINÄ JOS NÄMÄ JUTU...
 		for s in $(grep -v '#' ${1}/${CONF_hashfile}.1 | grep -v drop | awk '{print $2}') ; do
 			${spc} ${1}/${s} ${2}
 		done
@@ -1239,6 +1240,10 @@ function cg_udp6() {
 	common_lib_tool ${1} reject_pkgs
 	dqb "D0NE"
 	csleep 1
+
+	if [ "${CONF_iface}" == "eth0:1" ] ; then
+		${sharpy} isc-dchp*
+	fi
 }
 
 #TODO:siirto siihen tdstoon mikä tarvitsee?
