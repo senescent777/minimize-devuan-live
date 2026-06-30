@@ -89,7 +89,7 @@ else
 	}
 
 	function check_binaries() {
-		echo "fish-rot.1"
+		echo "fish.rot.1"
 
 		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
 		scm=$(${odio} which chmod)
@@ -119,6 +119,7 @@ else
 
 		srat=$(${odio} which tar)
 		#eXit jos srat ei?
+		srat="${odio} ${srat}" #tarpeen?
 
 		gg=$(${odio} which gpg) #suattaapi olla että tähän tökkää, taisiis myöhemmin
 		[ -z "${gg}" ] && echo "SH0ULD.1NST.GPG"
@@ -126,13 +127,13 @@ else
 	}
 
 	function check_binaries2() {
-		echo "irot.check2"
+		echo "fish.rot.2"
 		srat="${odio} ${srat}"
 		NKVD="${odio} ${NKVD} -fu "
 	}
 
 	function part3() {
-		dqb "rot.part3 :NOT SUPPORTED"
+		dqb "fish.rot.part3 :NOT SUPPORTED"
 	}
 
 	function other_horrors() {
@@ -261,14 +262,14 @@ fi
 function common_part() {
 	dqb "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
 
-	[ -z "${1}" ] && exit 1 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
-	[ -s ${1} ] || exit 2
-	[ -r ${1} ] || exit 3
-	[ -z "${3}" ] && exit 4
+	[ -z "${1}" ] && exit 91 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
+	[ -s ${1} ] || exit 92
+	[ -r ${1} ] || exit 93
+	[ -z "${3}" ] && exit 94
 
 	[ -z "${2}" ] && exit 11
 	[ -d ${2} ] || exit 22
-	[ -d ${3} ] || exit 45
+	[ -d ${3} ] || exit 43
 
 	[ "${1}" == "/" ] && exit 56
 	[ -v CONF_hashfile ] || exit 98
