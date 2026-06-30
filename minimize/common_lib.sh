@@ -863,7 +863,7 @@ function e_h() {
 	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
 	csleep 1
 
-	if [ "${CONF_env}" != "VED" ] ; then #ved vai default?
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then	#tänään näin
 		if [ -d ${2}/opt/bin ] ; then
 			${sco} -R root:root ${2}/opt/bin
 
@@ -1267,7 +1267,7 @@ function part3() {
 	#TODO:näillä main merge-juttuja jatkossa?
 
 	if [ -z "${2}" ] ; then
-		t=$(mktemp -d)
+		t=$(${mkt} -d)
 		#TODO:tässä kåskyttämään common_pp3() ?
 		n15=$(find ${1} -type f -name "*.deb" | wc -l)
 	else
