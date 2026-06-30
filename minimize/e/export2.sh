@@ -23,7 +23,7 @@ function usage() {
 	echo "$0 -h: shows tHis message about usage"
 }
 
-#VAIH:jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
+#jos muuttaisi blokin koskapa gpo() nykyään? (-h kanssa voisi tehdä toisinkin)
 #... jospa ensin export3:sen kanssa kokeilut ja sitttten
 
 if [ $# -gt 1 ] ; then
@@ -70,7 +70,6 @@ function parse_opts_2() {
 	esac
 }
 
-#parsetuksen knssa menee jännäksi jos conf pitää ladata ennen common_lib (no parse_opts:iin tiettty muutoksia?)
 d=${d0}/${distro}
 
 function fallback() { #tarpeellinen?
@@ -86,7 +85,7 @@ fi
 [ -z "${distro}" ] && exit 6
 d=${d0}/${distro}
 process_lib ${d}
-mop=${CONF_dm}
+mop=${CONF_dm} 
 
 dqb "BEF0RE T1G N0R MKTMP"
 sleep 1
@@ -97,13 +96,14 @@ if [ -z "${tig}" ] ; then
 fi
 
 if [ -z "${mkt}" ] ; then
-	echo "SHOULD INSTALL MKTEMP"
+	echo "SHOULD INSTALL MKTEMP ($0 e)"
 	exit 8
 fi
 
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
-
+E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
+	
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
 	[ $? -gt 0 ] && exit 66
@@ -117,16 +117,12 @@ else
 	exit 58
 fi
 
-#https://askubuntu.com/questions/1206167/download-packages-without-installing liittynee
 [ -z "${tgtfile}" ] && exit 98
 t=$(echo ${d} | cut -d '/' -f 1-5)
 
-cont=0
-dqb "ESAC1"
 csleep 1
 [ -d ${d0}/${tgtfile} ] && exit 64
 
-#-h pysähtyy ennen tätä riviä?
 e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
 
@@ -140,6 +136,7 @@ e22_cleanpkgs ${CONF_pkgdir}
 #HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun jossia n tilanteessa
 [ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
+
 doit=1
 csleep 1
 
@@ -150,24 +147,25 @@ case "${mode}" in
 	0)
 		exit 97
 	;;
-	3|4) 	
+	3|4) 
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
 		#VAIH:turhia kommentteja wttuun sotkemasta
+
 		[ -v CONF_default_arhcive3 ] || exit 66
 		z1 /opt/bin/zxcv
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
-
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
 			#TODO:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä
+
 			e23_tblz ${CONF_iface} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
 			doit=0
-		fi
+		fi	
 		
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
@@ -214,7 +212,7 @@ case "${mode}" in
 		${fib}
 		${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä
 		${shary} ${E22_GG}
-		
+
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
 		doit=0
@@ -225,7 +223,7 @@ case "${mode}" in
 		e23_dm ${mop}
 	;;
 	n)
-		#VAIH:ntp-jutut takaisin josqs?
+		#VAIH:ntp-jutut takaisin josqs? 260526 -> ?
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;
@@ -250,13 +248,10 @@ if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar
-	#z3?	
 
 	${srat} -rvf ${tgtfile} ${d}/f.tar* 
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
 fi
-
-#exit
 
 if [ -s ${tgtfile} ] ; then
 	e22_ftr ${tgtfile}

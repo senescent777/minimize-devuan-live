@@ -3,7 +3,6 @@ distro=$(cat /etc/devuan_version)
 
 #HUOM. tämä skripti ei välttämttä oleellinen chroot-ympäristön kannalta
 d=$(pwd)
-#VAIH:ajan tasalle tämä skripti (olisikojo?)
 
 if [ -s ${d}/${distro}/conf ] ; then
 	. ${d}/${distro}/conf
@@ -15,10 +14,9 @@ gol=$(which dialog)
 
 if  [ -z "${gol}" ] || [ ! -x ${gol} ] ; then
 	echo "apt-get install libtinfo6 libncursesw6 debianutils dialog"
-	#VAIH:-z vielä ennen -x
 fi
 
-case ${1} in
+case "${1}" in
 	merde)
 		if [ -x ${d}/../merd2.sh ] ; then
 			${d}/../merd2.sh ${2} ${3}

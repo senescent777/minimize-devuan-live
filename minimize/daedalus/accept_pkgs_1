@@ -237,7 +237,6 @@ libxt
 libnftnl11
 libgmp10
 libnftables
-#
 liblqr-1-0
 #
 libde265-0
@@ -259,6 +258,7 @@ liberror-perl
 libgbm1
 #
 libegl-mesa0
+#
 libegl1
 #
 seatd
@@ -281,6 +281,8 @@ libtext-wrapi18
 libfs6
 #
 libwutil5
+libbz2-1.0
+libfftw3-double3
 libmagickcore-6
 libmagickwand
 #

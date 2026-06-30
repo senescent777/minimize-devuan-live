@@ -7,7 +7,7 @@ function aswasw() {
 		wlan0)
 			#E22:GN="libnl-3-200 ... "
 			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-
+			
 			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
 			${shary} wpasupplicant
 		;;
@@ -17,7 +17,7 @@ function aswasw() {
 }
 
 function e23_tblz() {
-	dqb "e23_tblz()"
+	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
@@ -25,13 +25,17 @@ function e23_tblz() {
 
 	${fib}
 	${asy}
+	csleep 1
 
 	#message() tähän?
-	tpc7	#jotain excaliburiin liittyvää
-	
-	#$1 vai $2?
-	aswasw ${1}
+	tpc7
+	#jotain excaliburiin liittyvää tuo tpc
 
+	echo "aswasw $1 vai $2 ? "
+	sleep 10
+	exit
+
+	aswasw ${2}
 	#VAIH:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
 	e22_pre_e ${E22_GT}
 
@@ -54,7 +58,6 @@ function e23_other_pkgs() {
 	dqb "pars.ok"
 
 	csleep 1
-
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	e22_pre_e ${E22_GI}
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
@@ -62,6 +65,7 @@ function e23_other_pkgs() {
 
 	e22_pre_e ${E23_GS}  #moni pak tarttee nämä
 
+	e22_pre_e ${E23_GS}
 	message
 	jules
 
@@ -87,12 +91,9 @@ function e23_other_pkgs() {
 
 function e23_upgp() {
 	dqb " e23_upgp() "
-
 	${fib}
 	csleep 1
-
 	e22_pre_e ${E22_GS}
-
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 
@@ -111,9 +112,7 @@ function e23_upgp2() {
 		;;
 		*)
 			${NKVD} ${1}/wpa*
-			#HUOM.25725:pitäisi kai poistaa wpa-paketit tässä, aptilla myös?
-			#... vai lähtisikö vain siitä että g_pt2 ajettu ja täts it
-		;;
+	;;
 	esac
 
 	dqb " e23_upgp2() done"
@@ -134,6 +133,7 @@ function e23_qrs() {
 
 	[ -z "${5}" ] && exit 43
 
+
 	dqb "pars.0k"
 	csleep 1
 
@@ -150,9 +150,7 @@ function e23_qrs() {
 	csleep 1
 
 	e22_settings ${2} ${4} ${5}
-	#btw. mikä olikaan syy että q on tässä ekassa switch-case:ssa? pl siis että turha apt-renkkaus
 
-	#jospa ei hipsuja tähän find:iin
 	for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
 		${srat} -rvf ${1} ${f}
 	done
@@ -161,6 +159,7 @@ function e23_qrs() {
 	csleep 1
 }
 
+#pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -177,15 +176,10 @@ function e23_dm() {
 		echo "NOT SUPPORTED"
 		exit 666
 	fi
-
-	#jos ei ala muuten sujua ni ao riveistä mallia accept1:seen
 	
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
-	#[ $? -eq 0 ] || exit 54 #to state the obvious:initramfs-kikkailujen takia ei kande nöin tehdö
 	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
-
 	${shary} libnuma1 libx265-199 libwraster6 libwings3
-
 	csleep 10
 
 	${shary} libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
@@ -195,7 +189,6 @@ function e23_dm() {
 	csleep 10
 
 	${shary} libx11-6 libx11-xcb1 libx11-data libxext6 imagemagick-6-common libxmu6 libxmuu1 libgif7 libxpm4
-	#[ $? -eq 0 ] || exit 57 #jospa ei tämmöisiä tähän fktioon, tökkii
 	csleep 5
 
 	${shary} fontconfig fontconfig-config
@@ -226,7 +219,9 @@ function e23_dm() {
 	${shary} libicu72 libxfixes3 libxml2
 	csleep 5
 
-	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttiaq
+	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
+	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
+	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttia
 	csleep 10
 
 	${shary} libxdmcp6 menu twm libmd0
@@ -262,7 +257,17 @@ function e23_dm() {
 }
 
 function e23_profs() {
-	dqb "e23_profs) $1 , $2 , $3 ("
+	dqb ";e23_profs) ${1} , ${2} , ${3} (()("
+	csleep 1
+
+	[ -z "${1}" ] && exit 76
+	[ -z "${2}" ] && exit 75
+	[ -z "${3}" ] && exit 74
+
+	[ -d "${2}" ] || exit 73
+	[ -s ${1} ] || exit 72
+	#[ -s ${3} ] || exit 71 #mikä tässä pykii?
+
 	csleep 1
 
 	[ -z "${1}" ] && exit 76
@@ -297,7 +302,6 @@ function e23_profs() {
 	dqb "e23_profs() done"
 	csleep 1
 }
-
 
 function e23_st() { #120626:vissiin asentivat nämä paketit 
 	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools

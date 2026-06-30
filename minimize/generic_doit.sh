@@ -2,38 +2,31 @@
 mode=2
 distro=$(cat /etc/devuan_version)
 d0=$(pwd)
-#echo "d0=${d0}"
 [ -z "${distro}" ] && exit 6
 debug=0 #1
 d=${d0}/${distro} 
 
-#020426:uudelleen_nimeäminen josqs tämän hmistomn tdstoille?
+#020426:uudelleen_nimeäminen josqs tämän hmiston tdstoille?
 
 function parse_opts_1() {
-	dqb "parseopts_1 ) ${1} ; ${2}"
-
-	if [ -d ${d0}/${1} ] ; then #090326:kuinkahan oleellinen distron yliajo?
-		#toimiikohan tämä kohta? pitäiskö tegdä toisin, opts_2() ?
-		#distro=${1}
-		echo "I1RTS0 CNAGN3H"
+	if [ -d ${d0}/${1} ] ; then
+		dqb "asdfasd.asdfgh"
 	else
 		case  "${1}" in
-			0|1|2) #varsinainen numeerisuustarkistus parempi
+			0|1|2)
 				mode=${1}
 			;;
 			*)
-				dqb "invalid param"
 			;;
 		esac
 	fi
 }
 
 function parse_opts_2() {
-	dqb "parseopts_2 () ${1} ${2}"
+	dqb "g_doit.qwertupoy 1 2"
 }
 
 function fallback() {
-	echo "TO CONTINUE FURTHER IS POINTLESS, ESSENTIAL FILES MISSING OR NOT EXECUTABLE"
 	exit 111
 }
 
@@ -41,25 +34,19 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	[ ${debug} -gt 0 ] && ls -las ${d0}
-	echo "C0MM0N L1B N0t (AVA1LABL3 AND 3XECUTABL3)"
 	exit 55
 fi
 
 [ $? -gt 0 ] && exit 56
 sleep 1
 
-#https://linuxopsys.com/use-dollar-at-in-bash-scripting
-#https://tecadmin.net/bash-special-variables/ nuo ei välttis liity mutta
-
-dqb "b3f0r3 p.076"
-dqb "mode= ${mode}"
-csleep 1
-
 function dis() {
-	dqb "CHAMBERS OF 5HA0 L1N ${1}"
+	dqb "sid $1 ;; $2 ((((("
 	[ -z "${1}" ] && exit 44
-	csleep 1
+	[ -z "${2}" ] && echo "SHOULD exit 45"
 
+	dqb "ko.srap"
+	csleep 1
 	${scm} 0755 /etc/network
 	${sco} -R root:root /etc/network
 	${scm} a+r /etc/network/*
@@ -67,23 +54,16 @@ function dis() {
 	if [ -f /etc/network/interfaces ] ; then
 		if [ ! -h /etc/network/interfaces ] ; then
 			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
-		else
-			dqb " /e/n/i n0t a l1nk"
-		fi
-	else
-		dqb "/e/n/i n0t f0und"
+		fi	
 	fi
 
 	local t
-	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
+	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z) #TARKK PTKL
 
 	if [ -f /etc/network/interfaces.${t} ] ; then
-		dqb "LINKS-1-2-3"
 		${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
 		echo $?		
 		csleep 1
-	else
-		dqb "N0 \$UCH TH1NG A5 /etc/network/interfaces.${t}"
 	fi
 
 	${scm} 0555 /etc/network
@@ -91,38 +71,43 @@ function dis() {
 	csleep 1
 
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
-	if [ -v CONF_iface ] ; then
-		if [ ! -z "${CONF_iface}" ] ; then
-			${odio} ${sifd} ${CONF_iface}
-			csleep 1
+	dqb "aftr.int.faces"
 	
-		#	${odio} ${sifd} -a
-			csleep 1
+	#if [ -v CONF_iface ] ; then #tarpeen nykyään?
+	if [ ! -z "${2}" ] ; then
+		#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
+		[ -z "${sifd}" ] && sifd=/sbin/ifdown
 
-			[ ${debug} -eq 1 ] && ${sifc};sleep 1
-			dqb "${sip} link set ${CONF_iface} down"
+		dqb "${odio} ${sifd} ${2}"	
+		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
+
+		csleep 1
 	
-			${sip} link set ${CONF_iface} down
-			[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
-		fi
+		#${odio} ${sifd} -a
+		csleep 1
+
+		[ ${debug} -eq 1 ] && ${sifc};sleep 1
+	
+		${sip} link set ${2} down
+		[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 	fi
+	#fi
 	
-	csleep 1
 	${odio} sysctl -p
 	csleep 1
-
-	dqb "5HAD0W 0F TH3 BA\$T3t D0N3"
+	dqb "d1s.d0n3"
 }
 
 function part0() {
-	dqb "g_doit.common_lib.FART076 ${1}"
+	dqb "part0)))( ${1} ;; ${2})(((((("
 	[ -z "${1}" ] && exit 76
+	[ -z "${2}" ] && echo "SHOULD exit 78"
 
-	csleep 1
-	dis ${1}
+	dqb "pars.ok"
+	csleep 5
+
+	dis ${1} ${2}
 	local s
-	
-	
 	dqb "смерть шпионам"
 
 	#ehkä nuo komennot jotain tekevät mutta xfce4-session näkyy edelleen pgrepillä
@@ -145,29 +130,23 @@ function part0() {
 		${whack} ${s}*
 	done
 
-	dqb "alm0st d0n3"
-	csleep 1
 	${whack} nm-applet
 	${snt}
-	dqb "P.176 DONE"
-	csleep 1
 }
 
 #150326:miten /proc/cmdline:n lokaaliasetukset vs /e/d/l ja tämän ao. kikkareen jutut
 
 function el_loco() {
-	dqb "MI LOCO ${1} , ${2}"
+	dqb "el_loco ))${1} ; ${2}((((("
 	csleep 1
 
 	if [ ${1} -gt 0 ] ; then
-		#uutena seur 2 riviä
 		${smr} /etc/timezone
 		${smr} /etc/localtime
-
 		${odio} dpkg-reconfigure locales
 		${odio} dpkg-reconfigure tzdata
-	else
-		${odio} locale-gen
+	#else
+	#	${odio} locale-gen #tilapäisesti jemmaan koska kestää
 	fi
 
 	if [ ${2} -lt 1 ] ; then
@@ -175,14 +154,13 @@ function el_loco() {
 		fasdfasd /etc/default/locale
 		csleep 1
 
-		#menisikö vaikka näin? vai pitäisikö oksentaa vasta tuon yhden if-blokin jälkeen?
-		#env vai locale minkä oksennukset tdstoon? vissiin env
+		#TODO:pitäisi kai kutsuvassa koodissa huomioida LCF666 vs env vs /e/d/locale
+		#.. siis onko huomioitu kunnolla 3 eri lähdettä asetuksille vaiko ei?
 
 		env | grep LC >> /etc/default/locale
 		env | grep LAN >> /etc/default/locale
 
 		[ ${debug} -eq 1 ] && tail -n 10 /etc/default/locale
-		#jos riittäisi 10 riviä
 		csleep 1
 
 		cat /etc/timezone
@@ -201,7 +179,6 @@ function el_loco() {
 	fi
 }
 
-#140326:tarkkuutta peliin, ao. rivillä oli typo jnkn aikaa
 function adieu() {
 #	pidetäänpä nämä jutut kommenteissa sitä varten että saattuukin tarvitsemaan
 #
@@ -215,19 +192,17 @@ function adieu() {
 #	csleep 1
 #	ls -las /dev/tty?
 #	csleep 5
-#210126:joskohan toimisi ilman näitä kikkailuja?
 #	#väärä tapa pakottaa uudelleen_kirjautuminen?
+
 	${whack} xfce4-session
 }
-#=====================================PART0=========================================================
 
-part0 ${distro}
-process_lib ${d}
-echo "AFTER PROCESS_LIB";sleep 1
+#=====================================PART0=========================================================
+pkgcache=$(${mkt} -d)
+part0 ${distro} ${CONF_iface}
+process_lib ${d} ${pkgcache}
 
 #==================================PART 1============================================================
-dqb "mode= ${mode}"
-dqb "debug= ${debug}"
 [ -v CONF_enforce ] || exit 99
 
 if [ -s ~/xorg.conf.new ] ; then
@@ -344,54 +319,55 @@ else
 	enforce_access $(whoami) ${d0}
 fi
 
-csleep 2
-echo "JUST BEFORE PART1";sleep 1
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
 
+#260626:alla tuo mv menee pieleen jos ajetaan root-tunnuksella tämän skripti , tee jotain (TODO)
 ${snt}
-csleep 1
-dqb "${svm} ${d0}/1c0ns/ \* .desktop ~/Desktop"
-csleep 1
 ${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 
 #===================================================PART 2===================================
-#jos tästä hyötyä pulse-kikkareen kanssa: https://wiki.debian.org/PulseAudio#Stuttering_and_audio_interruptions
-#TAI vielä parempi?:kts devuanin alsa-ohjeet (https://dev1galaxy.org/viewtopic.php?id=7567) (https://dev1galaxy.org/viewtopic.php?id=6644) (https://wiki.debian.org/ALSA)
-
-c13=0
 c14=1
+c13=0
 
-if [ ${mode} -gt 1 ] ; then #nollasta ei tarttisi välittää koska exit aiempana
+if [ ${mode} -gt 1 ] ; then
+	#nollasta ei tarttisi välittää koska exit aiempana
 	if [ -v LCF666 ] ; then
-		c13=$(env | grep LC_TIME | grep -c ${LCF666})
-		#[ $c13 -gt 0 ] && c14=0
+		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l)
+		 #barm vuoksi näin
+		[ $c13 -gt 0 ] && c14=0
+		
 		#profit
-	else
-		echo "NO PREFERRED LC_TIME FOUND" #...ja Sit Jotain?
 	fi
 fi
 
-#josko sittenkin vain pakottaisi ainakin timezonen sorkinnat joka kerta? kkeillaan
+echo "TODO:tables-säännöt&&ntp josqs?"
+sleep 5
 el_loco ${c14} ${c13}
 #=========================================================================================
 
-if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then 
-	dqb "R (in 2 secs)"
-	csleep 1
+#260626:passwd kanssa menee vähän mettään jos root-tunnuksella ajelaa, ytekisikö jotain ?
+if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	${odio} passwd
 
 	if [ $? -eq 0 ] ; then
-		dqb "L (in 2 secs)"
-		csleep 1
 		passwd
 	fi
 
 	if [ $? -eq 0 ] ; then
 		adieu
 		#HUOM. tässä ei tartte exit jos myöhemmin joka tap
-	else
-		dqb "SHOULD NAG ABOUT HAMMAD HERE"
+	fi
+
+	if [ "${CONF_env}" == "VED" ] ; then
+		#... aka "hands off" (qhan omega)
+		${sco} 0:0 ${d0}/*.conf
+		${scm} 0444 ${d0}/*.conf
+		#${sca} +ui ${d0}/*.conf
+
+		${sco} 0:0 ${0}
+		${scm} 0444 ${0}
+		#${sca} +ui ${0}
 	fi
 
 	exit
@@ -421,6 +397,7 @@ if [ "${CONF_env}" == "DEFAULT" ] ; then
 	dqb "KOITA NYT PRKL SAADA TÄTÄ KAUTTA IMPORT2 TOIMIMAAN 666!!!"
 	csleep 66
 
+	#TODO:tämän kanssa jotain? toisesta oksasta korjaukset?
 	${d0}/import2.sh r ${d0} -v
 	[ $? -eq 0 ] || exit $?
 	csleep 34
@@ -443,6 +420,9 @@ else
 	echo "NOTHING LEFT TO MUTILATE"
 fi
 
+sleep 20
+#ifup nykyään muuttelee tables-sääntöjä yhdellä jekulla joten ei erikseen tartte käskyttää...
+
 ${sipt} -L
 csleep 1
 ${scm} 0555 ${d0}/common_lib.sh
@@ -453,8 +433,6 @@ ${fib}
 
 #===================================================PART 4(final)==========================================================
 if [ ${mode} -eq 2 ] ; then
-	echo "time to \$sifu \$CONF_iface or whåtever"
-	csleep 1
 	adieu
 	exit 
 fi

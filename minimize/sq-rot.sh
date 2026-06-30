@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0
+debug=1 #kunnes parsetyus kunnossa
 srcfile=""
 
 distro=$(cat /etc/devuan_version)
@@ -24,30 +24,36 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-#VAIH:"$0 1 tgtfile -v" - osaako menetellä oikein? (vielä 05/26?)
-
-function parse_opts_1() {
-	dqb "rot.parse_opts_1() ${1} ((()"
-
-	if [ "${mode}" == "-2" ] ; then
-		mode=${1}
-	fi
-}
-
-function parse_opts_2() {
-	dqb "rpus.ot.parseopts_2 )) ${1} ; ${2} (("
-
-	if [ -f ${2} ] || [ -d ${2} ] ; then
-		if [ -z "${srcfile}" ] ; then
-			if [ "${2}" != "-v" ] ; then			
-				srcfile=${2}
-			fi
-		fi
-	fi
-}
+#"$0 1 tgtfile -v" - ajankohtainen 06/26?
+#
+#function parse_opts_1() {
+#	dqb "rot.parse_opts_1() ${1} ((()"
+#
+#	if [ "${mode}" == "-2" ] ; then
+#		dqb "å"
+#		mode=${1}
+#	fi
+#}
+#
+##VAIH:PARSETUS-HOMMAT UUSIKSI FRÅM SCRATCH
+#function parse_opts_2() {
+#	dqb "fish.rot.parseopts_2 )) ${1} ; ${2} (("
+#
+#	if [ -f ${2} ] || [ -d ${2} ] ; then
+#		dqb "a"
+#		if [ -z "${srcfile}" ] ; then
+#			dqb "b"
+#			if [ "${2}" != "-v" ] ; then
+#				dqb "srcfile=${2}"			
+#				srcfile=${2}
+#			fi
+#		fi
+#	fi
+#}
 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
+#tuossa yllä tosin turhahko ls
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -82,11 +88,19 @@ else
 	}
 
 	function check_binaries() {
-		echo "fish.rot.1"
+		echo "fish-rot.1"
 
 		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
-		scm=$(${odio} which chmod)	
+		scm=$(${odio} which chmod)
 		[ -v CONF_algo ] || exit 77
+
+		#DONE?:viimeaikaisiin muutoksiin liittyen varmista että sqroot-ympäristössä on oikeanlainen konfiguraatio
+		#vissiin on jo 240626
+
+		#VAIH:seuraavaksi varmista että nekros?.tar.bz3 sisältämät paketit asentuvat sqroot a laisuudessa
+		#... elikkäs uudelleen_pakkausta tapahtumaan kohta
+
+		#TODO:varmistapa vielä että sqroot alle menevät asennuspaketit ajan tasalla
 
 		case "${CONF_algo}" in
 			sha256)
@@ -107,7 +121,6 @@ else
 
 		gg=$(${odio} which gpg)
 		[ -z "${gg}" ] && echo "SH0ULD.1NST.GPG"
-
 		NKVD=$(${odio} which shred)
 	}
 
@@ -129,11 +142,11 @@ else
 		dqb "W T F ???"
 	}
 
-	for opt in $@ ; do
-		parse_opts_1 ${opt}
-		parse_opts_2 ${prevopt} ${opt}
-		prevopt=${opt}
-	done
+#	for opt in $@ ; do
+#		parse_opts_1 ${opt}
+#		parse_opts_2 ${prevopt} ${opt}
+#		prevopt=${opt}
+#	done
 fi
 
 #pre-kohta toisessa okasassa vs tämä? tarttisiko tehdä jotain vai ei?
@@ -218,6 +231,78 @@ fi
 check_binaries ${d}
 check_binaries2
 #[ $? -eq 0 ] || exit
+[ -v CONF_env ] || exit 96
+
+if [ $# -gt 0 ] ; then
+	mode=${1}
+	[ -f ${1} ] && exit 99
+	[ "${2}" == "-v" ] || srcfile=${2}
+
+	#parse_opts pitäisi
+	if [ "${3}" == "-v" ] || [ "${4}" == "-v" ] ; then
+		debug=1
+	fi
+fi
+
+if [ "${CONF_env}" == "TOOR" ] ; then
+function pre() {
+	echo "UNDER THE GRAV3YARD"
+	sleep 1
+
+	echo "A"
+	p=$(pwd)
+
+	if [ ! -z "${sah6}" ] ; then
+		q=$(find . -name "dgsts.?" )
+		cd ..
+
+		for r in ${q} ; do
+			dqb " -c ./${p}/${r}"
+			csleep 1
+			${sah6} -c ./${p}/${r} --ignore-missing
+			sleep 1
+		done
+
+		cd ${p}
+	fi
+
+	sleep 1
+	cd ${p}
+
+	if [ ! -z "${gg}" ] ; then
+		echo "B"
+		q=$(find . -name "*.sig" )
+
+		for r in ${q} ; do
+			${gg} --verify ${r}
+			#[ $? -eq 0 ] || exit 66 ei vielä?
+		done
+
+		sleep 1
+	fi
+
+	unset q
+	unset r
+	sleep 1
+	echo "C"
+
+	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do	
+		tar --exclude import2.sh -jxvf ${f}
+
+		sleep 1
+		rm ${f}
+		sleep 1
+	done
+
+	if [ ! -z "${gg}" ] ; then
+		if [ -s ${d0}/common_lib.sh.sig ] ; then
+			${gg} --verify ${d0}/common_lib.sh.sig
+			[ $? -eq 0 ] || exit 67
+		fi
+	fi
+}
+	
+fi
 
 [ -z "${srcfile}" ] && exit 104
 [ -z "${distro}" ] && exit 46
@@ -232,7 +317,7 @@ else
 	exit 55
 fi
 
-#VAIH:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?) 
+#VAIH:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
 #... jotain pientä laittoa vielä tarvitsee (230326)
 
 function common_part() {
@@ -314,7 +399,7 @@ function common_part() {
 		echo "BEFORE NKVD: $?"
 		sleep 1
 	else
-		echo "NO SHASUMS CAN BE F0UND FOR ${1}"
+		echo "NO ${CONF_hashfile}   CAN BE F0UND FOR ${1}"
 	fi
 
 	echo "AFTR SHA $?"
@@ -325,10 +410,11 @@ function common_part() {
 
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "ko"		
-		else
+		else	
+			#ekan param lisätarkistukset yllä riittävät?
 			${NKVD} ${1}* 
 			${NKVD} ${2}/*.deb
-		
+
 			${NKVD} ${2}/${CONF_hashfile}*
 			${NKVD} ${2}/*.tar*
 
@@ -336,9 +422,10 @@ function common_part() {
 		fi
 	fi
 
+	#TODO:toisessa oksassa tuo vastaava dqb-kohta
 	csleep 1
 	dqb "NECKST: ${srat}  (${TARGET_TPX} ) -C ${3} -xf ${1}"
-	
+
 	csleep 1
 	${srat} --exclude rnd --exclude ./rnd -C ${3} -xf ${1} #TODO:pientä laittoa "${TARGET_TPX}" liittyen
 	[ $? -eq 0 ] || exit 36	
@@ -347,6 +434,7 @@ function common_part() {
 	echo "common_part_DONE"
 }
 
+#cptp2 -> common_lib vai ei?
 function cptp2() {
 	dqb "rot.c tp2 ${1}, ${2}, ${3}"
 
@@ -360,6 +448,7 @@ function cptp2() {
 	t=$(echo ${1} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 
 	if [ -f ${t}/common_lib.sh ] ; then
+		#onkohan tuossa tarkistuksessa pointtia?
 		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
 			#csleep 1
 			${gg} --verify ${t}/common_lib.sh.sig 
@@ -368,7 +457,7 @@ function cptp2() {
 
 		if [ -x ${t}/common_lib.sh ] ; then
 			enforce_access $(whoami) ${t}
-
+		
 			dqb "TRO: running mutilatetc.bash maY be necessary now to fix some things"
 		else
 			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
@@ -380,7 +469,7 @@ function cptp2() {
 	csleep 1
 
 	if [ -d ${t} ] ; then
-		dqb "HAIL UKK"
+		dqb "HAIL2 TH3 TH13F"
 
 		${scm} 0755 ${t}
 		${scm} 0555 ${t}/*.sh
@@ -403,6 +492,7 @@ case "${mode}" in
 	#... exp2 rp vähän yritetty testailla 05/26
 	0)
 		#[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est (josko voisi vähitellen...)
+		
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
@@ -414,7 +504,7 @@ case "${mode}" in
 		common_part ${srcfile} ${d} ${e}
 		echo "sq.FART3: $?"
 		[ $? -eq 0 ] && ocs gpg
-
+		
 		[ $? -eq 0 ] && part3 ${f}
 		[ $? -eq 0 ] && other_horrors
 	;;
@@ -433,7 +523,8 @@ case "${mode}" in
 
 		#050636:kokeeksi näin
 		[ "${CONF_env}" == "TOOR" ] && pre
-	
+
+		#VAIH:tuotaville avaimille jotain tark? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
 		
@@ -479,7 +570,6 @@ esac
 if [ $? -eq 0 ] ; then
 	if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
 		read -p " U  WANT 2 RM SOURCE ?" confirm
-	
 		[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
 	fi
 fi

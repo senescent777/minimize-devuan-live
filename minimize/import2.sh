@@ -83,7 +83,7 @@ else
 		dqb "imp2.check1"
 
 		mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin? tpr() ainakin
-		scm=$(${odio} which chmod)	
+		scm=$(${odio} which chmod)
 
 		srat=$(${odio} which tar)
 		#eXit jos srat ei?
@@ -172,6 +172,7 @@ function cptp2() {
 	t=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 	
 	if [ -f ${t}/common_lib.sh ] ; then
+		#pointti?
 		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
 			${gg} --verify ${t}/common_lib.sh.sig 		
 			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"		
@@ -233,7 +234,7 @@ function tpr() {
 	. ${1}/${3}
 	[ $? -gt 0 ] && exit 19
 	dqb "INCLUDE OK"
-	
+
 	local q=$(${mkt} -d)
 	[ $? -gt 0 ] && exit 20
 	dqb "JUST BEFORE TAR ${1}/${2}"
@@ -248,7 +249,7 @@ function tpr() {
 
 	imp_prof esr $(whoami) ${q}
 	dqb $?
-	csleep 2	
+	csleep 2
 }
 
 case "${mode}" in
@@ -358,7 +359,6 @@ esac
 
 cptp2 ${d}
 cd ${olddir}
-#ettei umount unohdu 
 
 if [ -v part ] || [ -v CONF_dir ] ; then
 	echo "REMEMBER 2 UNM0UNT TH3S3:"

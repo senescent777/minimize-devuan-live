@@ -1,15 +1,23 @@
 
 if [ -s ${d0}/$(whoami).conf ] ; then
-	echo "ALT.C0NF1G"
+	#pitäisikö olla eri conf toisen repon skriptien kautta mentäessä?
+	echo "ALT.C0NF1G (. ${d0}/$(whoami).con )"
+	#HUOM.sudo voi vähän sotkea tämän if-haaran tyoimintaa
 	. ${d0}/$(whoami).conf
 	sleep 5
 else
 	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+		echo ". ${d}/conf"
 		. ${d}/conf
 	else
+		#TODO:tämä kohta uusiksi koska common_funcs/mksums ?
 	 	exit 57
 	fi	
 fi
+
+unset sco
+unset scm
+unset odio
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -52,13 +60,15 @@ case "${CONF_env}" in
 esac
 
 itni
+echo "aftr 1nt1"
+sleep 6
 
 function fix_sudo() {
 	
 	sco=$(${odio} which chown)
 	[ y"${sco}" == "y" ] && exit 98
 	[ -x ${sco} ] || exit 97
-
+	
 	scm=$(${odio} which chmod)
 	[ y"${scm}" == "y" ] && exit 96
 	[ -x ${scm} ] || exit 95
@@ -94,9 +104,9 @@ function fix_sudo() {
 
 function other_horrors() {
 	dqb "other_horrors"
-
+	
 	if [ "${CONF_env}" == "DEFAULT" ] ; then
-		dqb "1NTERBAL ShUFFER1NG"
+		dqb "1NTERBAL SUFFER1NG"
 
 		for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
 			${sco} -R root:root ${f}
@@ -116,6 +126,8 @@ function other_horrors() {
 
 fix_sudo
 other_horrors
+echo "LOOl PIP WFT"
+#common_funcs tarttee
 
 function ocs() {
 	dqb "ocs () () ((( ${1} "
@@ -132,25 +144,24 @@ function ocs() {
 	fi
 }
 
+#common_funcs tarttee
 function check_bin_0() {
-	dqb "check_bin_0"
-	csleep 1
-
+	echo "check_bin_0"
+	sleep 1
 	dqb "cb1"
-	
+
 	ocs dpkg
 	ocs tar
 	ocs shred
 	csleep 1
 
-	dqb "cb2"
-	unset sdi #tekeeko tämä jotain? kyl , kts check_bin ,, "second half"
+	unset sdi
 	unset sr0
 	unset srat
 	unset sah6
 	unset NKVD
 	csleep 1
-
+	
 	csleep 6
 	[ -v CONF_algo ] || exit 77
 
@@ -177,22 +188,23 @@ function check_bin_0() {
 	[ -v sr0 ] || exit 80
 	[ -z "${sr0}" ] && exit 81
 	[ -x ${sr0} ] || exit 76
-
 	srat=${sr0}
-
+	
 	if [ ${debug} -eq 1 ] ; then
 		srat="${srat} -v "
 	fi
 
 	csleep 1
-	dqb "cb4"
 
 	slinky=$(${odio} which ln)
 	slinky="${odio} ${slinky} -s "
 	spc=$(${odio} which cp)
 	svm=$(${odio} which mv)
 	svm="${odio} ${svm} "
-	spc="${odio} ${spc} " #tämmöisten kanssa tarkkana sitten koska check_bin_2
+
+	spc="${odio} ${spc} "
+	#tämmöisten kanssa tarkkana sitten koska check_bin_2
+
 	whack=$(${odio} which pkill)
 	whack="${odio} ${whack} --signal 9 "
 	snt=$(${odio} which netstat)
@@ -208,18 +220,21 @@ function check_bin_0() {
 
 	#HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!
 	#sdi=$(${odio} which dpkg)
-
 	#sdi="${odio} ${sdi} -i "
 	csleep 2
 
+	#näille main jotain muutoksia?
 	sifu=$(${odio} which ifup)
 	sifd=$(${odio} which ifdown)
+	
 	sip=$(${odio} which ip)
 	sip="${odio} ${sip} "
-
 	smd=$(${odio} which mkdir)
-	sca=$(${odio} which chattr) #käytössä?
+
+	sca=$(${odio} which chattr)
+	#käytössä?
 	sca="${odio} ${sca}"
+	
 	mkt=$(${odio} which mktemp)
 	tig=$(${odio} which git)
 
@@ -264,20 +279,8 @@ function check_bin_0() {
 check_bin_0
 
 function jules() {
-	dqb "LE BIG MAC"
-	csleep 1
-	other_horrors
-	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
-	csleep 1
-}
-
-function message() {
-	echo "INSTALLING NEW PACKAGES IN x SECS"
-	sleep 1
-	echo "DO NOT ANSWER \"Yes\" TO QUESTIONS ABOUT IPTABLES"
-	sleep 1
-	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS"
-	sleep 1
+other_horrors
+[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 }
 
 function psqa() {
@@ -363,7 +366,7 @@ function psqa() {
 
 #TODO:shasums:ien kopsaus $2:seen myös?
 #TODO:pikemminkin siellä $2-hmistossa käsin se sha-tarkstus?
-function common_pp3() {
+function common_pp3() {	
 	dqb "() common_pp3 )))))) ${1} ) ${2} )))))))))))))"
 	csleep 1
 
@@ -378,11 +381,8 @@ function common_pp3() {
 	dqb "find ${1} -type f -name \* .deb"
 	csleep 3
 
-	local q
-	local r
-
-	q=$(find ${1} -type f -name "*.deb" | wc -l)
-	r=$(echo ${1} | cut -d "/" -f 1-5)
+	local q=$(find ${1} -type f -name "*.deb" | wc -l)
+	local r=$(echo ${1} | cut -d "/" -f 1-5)
 
 	if [ ${q} -lt 1 ] ; then
 		${scm} a-wx ${r}/common_lib.sh
@@ -396,19 +396,18 @@ function common_pp3() {
 		fi
 
 		local s
-		
+
 		for s in $(grep -v '#' ${1}/${CONF_hashfile} | awk '{print $2}') ; do
 			${svm} ${1}/${s} ${2}
 		done
 
-		echo "#TODO:VARMISTA ETTÄ SAH.1-KOHTA FKTIOSS common_pp3() TOIMII" #MIELELLÄÄN SUURI MÖLINÄ JOS NÄMÄ JUTUT PUUTTUVAT
+		echo "#TODO:VARMISTA ETTÄ SAH.1-KOHTA FKTIOSS common_pp3() TOIMII" #MIELELLÄÄN SUURI MÖLINÄ JOS NÄMÄ JUTU...
 		for s in $(grep -v '#' ${1}/${CONF_hashfile}.1 | grep -v drop | awk '{print $2}') ; do
 			${spc} ${1}/${s} ${2}
 		done
 	fi
 
-	dqb "() common_pp3 DONE"
-	csleep 1
+	dqb "COMMON_PP3-DONE()"
 }
 
 function efk1() {
@@ -433,52 +432,8 @@ function efk2() {
 	csleep 1
 } #TARKKUUTTA PRKL
 
-function wopr() {
-	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
-	local r=$(find ${1} -type f -name "${2}*.deb" )
-
-	for s in ${r} ; do
-		case "${3}" in
-			reject_pkgs)
-				${NKVD} ${s}
-			;;
-			accept_pkgs_1|accept_pkgs_2)
-				efk1 ${s}
-			;;
-			*)
-				exit 99
-			;;
-		esac
-	done
-
-	csleep 1
-}
-
-function common_lib_tool() {
-	dqb "common_lib_tool( ${1}  ; ${2} )))) "
-	[ -d ${1} ] || exit 66
-	[ -z "${2}" ] && exit 67
-	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSing f ILE"
-
-	dqb "WILL START PR0C3551NG TGTs NOW"
-	csleep 1
-	local q
-
-	for q in $(grep -v "#" ${1}/${2}) ; do
-		dqb "outer; ${q}"
-		wopr ${1} ${q} ${2}
-
-		if [ ${debug} -eq 1 ] ; then
-			ls -las ${1}/${q}* | wc -l
-		fi
-	done
-
-	dqb "t00l DONE"
-}
-
 function fromtend() {
 	dqb "FRöMTEND"
-
 	[ -v sd0 ] || exit 99
 	[ -z "${sd0}" ] && exit 98
 	[ -x ${sd0} ] || exit 97
@@ -491,19 +446,11 @@ function fromtend() {
 	else
 		${odio} ${sd0} --force-confold -i $@
 	fi
-
-	csleep 2
-	dqb "DNÖE"
 }
 
 function cefgh() {
-	dqb " cefgh( ${1} )))"
-
 	[ -z "${1}" ] && exit 66
 	[ -d ${1} ] || exit 67
-
-	dqb "pars ok"
-	csleep 1
 
 	if [ -z "${gg}" ] ; then
 		dqb "SHOULD {sah6} -c ${1}/e.tar HERE"
@@ -516,12 +463,11 @@ function cefgh() {
 		csleep 5
 
 		efk2 ${1}/e.tar ${1}
-		#[ $? -eq 0 ] && 
 		${NKVD} ${1}/e.tar
 	fi
 
 	efk2 ${1}/f.tar ${1}
-
+	
 	if [ $? -eq 0 ] ; then
 		[ -x ${gg} ] && ${NKVD} ${1}/f.tar
 	fi
@@ -549,17 +495,28 @@ function CB01() {
 	common_pp3 ${1} ${2}
 	for p in ${E22_GI} ; do efk1 ${2}/${p}*.deb ; done
 	csleep 1
-
+	dqb "iZOMVIE"
+	
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
-
 	[ -z "${gg}" ] && ${scm} a-wx ${1}/../common_lib.sh #$0 josko näin kuitenkin?
 	csleep 1
+	
+	common_pp3 ${1} ${2}
 
 	common_pp3 ${1} ${2}
 	
 	dqb "common.lib.CB01() DONE"
 	csleep 1
+}
+
+function message() {
+	echo "INSTALLING NEW PACKAGES IN x SECS"
+	sleep 1
+	echo "DO NOT xxx yyy"
+	sleep 1
+	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS"
+	sleep 1
 }
 
 function CB02() {
@@ -569,40 +526,45 @@ function CB02() {
 
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
-
+	
 	[ "${CONF_env}" == "TOOR" ] && message
 	local p
 	for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
-
+	
 	for p in ${E22_GV} ; do 
 		fromtend ${1}/${p}*.deb
 		[ $? -eq 0 ] && ${NKVD} ${1}/${p}*.deb
 	done
-
+	
+	dqb "GYUV DONE, NXT:P2T"
 	other_horrors
+	
 	ipt=$(${odio} which iptables)
 	ip6t=$(${odio} which ip6tables)
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
-
+	
 	[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh #tai $0 ?
 	dqb "CB02() D0.N3"
 	csleep 1
 }
 
 function check_binaries() {
-	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ; ${2} ) "
+	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ; ${2} ) "	
 	csleep 1
-
+	
+	dqb "6tr"
+	csleep 1
+	
 	ipt=$(${odio} which iptables)
-	ip6t=$(${odio} which ip6tables)
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	E22_GS="gcc-12-base libgcc-s1 libc6"
+	E22_GS="gcc-12-base libgcc-s1 libc6" 	
 	E22_GS="${E22_GS} libgmp10 libisl23 libmpfr6 libmpc3 libzstd1 zlib1g"
 	E22_GS="${E22_GS} libstdc++6 libgomp1 cpp-12"
 
+	#moni pak tarttee nämä
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 	
 	E22_GM="libc6 libselinux1"
@@ -621,19 +583,20 @@ function check_binaries() {
 	E22_GM="${E22_GM} libblkid1 libmount1 libsmartcols1 mount net-tools"
 	E22_GM="${E22_GM} libacl1 libattr1 libgmp10 coreutils"
 
+	dqb "before 0c.s"
 	local y
-
+	
 	if [ "${CONF_env}" == "VED" ] ; then
 		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # sha512sum
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
+		dqb "PISSE"
 	else
+		dqb "SCHEISSE"
 		y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # kilinwittu.sh  sha512sum
 	fi
 	
 	for x in ${y} ; do ocs ${x} ; done
-
-	#HUOM.nämä e22_jutut tarkoituksella asetettu juuri tässä fktiossa
 	sdi="${odio} ${sd0} -i "
 	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
@@ -650,11 +613,12 @@ function check_binaries() {
 	E22_GT="${E22_GT} iptables init-system-helpers" # iptables-persistent netfilter-persistent
 	E22_GU="${E22_GU} libnfnet libnetfilter libxtables libmnl libnftnl libnftables libnl-3-200 libnl-route libnl nftables"
 
+	E22_GU="${E22_GU} libnfnet libnetfilter libxtables libmnl libnftnl libnftables libnl-3-200 libnl-route libnl nftables"
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
-
+	
 	local t
 	t=""
-
+	
 	#HUOM. gpg:n opistumis-ongelmalle voisi vähitellen keksiä ratkaisun prkl
 	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 		[ -z "${1}" ] && exit 99
@@ -672,11 +636,11 @@ function check_binaries() {
 		dqb "BF0R3 CVB0"
 		csleep 5
 	fi
-
+	
 	if [ -z "${gg}" ] ; then
 		CB01 ${1} ${t}
 	fi
-
+	
 	if [ -z "${ipt}" ] ; then
 		CB02 ${t}
 	fi
@@ -692,7 +656,7 @@ function check_binaries() {
 	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
 	csleep 1
-
+	
 	#toistaiseksi näin
 	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		ocs dhclient
@@ -711,10 +675,10 @@ function check_binaries() {
 }
 
 function check_binaries2() {
-	dqb "c0mm0n_lib.ch3ck_b1nar135.2"
+	dqb "c0mm0n_lib.ch3ck_b1nar135.2 ))) ${1} ; ${2} ((((((("
 	csleep 1
-	[ -v sd0 ] || exit 666
-
+	[ -v sd0 ] || exit 66
+	
 	ipt="${odio} ${ipt} "
 	ip6t="${odio} ${ip6t} "
 	iptr="${odio} ${iptr} "
@@ -733,7 +697,8 @@ function check_binaries2() {
 	INITRD=No
 	export INITRD
 
-	lftr="${smr} -rf /run/live/medium/live/initrd.img* " 
+	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
+	
 	if [ "${CONF_env}" != "VED" ] ; then #toistaiseksi näin?
 		${scm} a-wx /usr/sbin/update-initramfs #kokeeksi tämäkin, vissiin jotyain saa aikaan 050426
 	fi
@@ -774,16 +739,18 @@ function mangle_s() {
 	csleep 1
 
 	[ -z "${1}" ] && exit 44
-	[ -x ${1} ] || exit 55
-	[ -z "${2}" ] && exit 45
+	[ -x ${1} ] || exit 55 #TÄHÄNKÖ TÖKKÄÄ 050626?
+	[ -z "${2}" ] && exit 45 #KUINKA MONTA PARAM?
 	[ -f ${2} ] || exit 54
+
+	[ -v CONF_algo ] || exit 98
+	[ -z "${CONF_algo}" ] && exit 99 
 
 	dqb "pars ok"
 	csleep 1
 
 	local r
 	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
-	#$r kanssa jotain t arkistuksia?
 	${scm} 0555 ${r}
 	${sco} root:root ${r}
 
@@ -819,10 +786,10 @@ function dinf() {
 
 	echo " /sbin/dhclient-script" >> ${1}
 	cat ${1}
+	echo "DINSDALE"
 	csleep 5
 }
 
-#=================================================================
 function fasdfasd() {
 	dqb "fasdfasd ))) ${1} )))"
 	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
@@ -834,7 +801,6 @@ function fasdfasd() {
 	${scm} 0644 ${1}
 }
 
-#olisiko jokin palikka jo aiemmin? e_jutut ? mangle2() ? ei ihan täsmä lleen kumpikaan
 function reqwreqw() {
 	[ -z "${1}" ] && exit 99
 	[ -f ${1} ] || exit 100
@@ -844,7 +810,25 @@ function reqwreqw() {
 }
 
 function e_final() {
+	dqb "ALOMST FINAL"
 	csleep 1
+
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then 
+		${scm} go-rw /opt/bin/*
+		${scm} 0400 /opt/bin/*.sh
+		${scm} 0511 /opt/bin/*.bash
+	fi
+
+	${scm} 0755 /
+	${sco} root:root /
+	dqb "D+T"
+	
+	${scm} 0777 /tmp
+	${sco} root:root /tmp
+	
+	csleep 1
+	dqb "SALA DE ANALISIS CLINICOS ASD ASD 123"
+}
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
 		${scm} go-rw /opt/bin/*
@@ -911,7 +895,6 @@ function mangle2() {
 }
 
 function e_e() {
-	csleep 1
 	fix_sudo
 	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
 
@@ -934,7 +917,6 @@ function e_e() {
 	f=$(date +%F)
 
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
-
 
 	if [ -f /etc/resolv.conf.${f} ] ; then
 		dqb "SADF SADF SADFS ASDGH"
@@ -962,14 +944,10 @@ function e_e() {
 		${sco} -R root:root ${f}
 		${scm} 0400 ${f}
 	done
-
-	csleep 1
 }
 
 function e_v() {
-	#180326:/sbin - rivien kanssa jotain ongelmaa? chown valittaa /sbin alaisista tdstoista...
-	#kiekolla bittejä poikittain?
-
+	dqb "e_v()"
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
 	dqb "e_V_2 IN 1 SECS"
@@ -981,16 +959,18 @@ function e_v() {
 	${sco} root:mail /var/mail
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
-
+	
 	csleep 1
 }
 
 function enforce_access() {
-	dqb "enforce_access(${1} , ${2} )"
+	dqb "common_lib.enforce_access(${1} , ${2} ))))))"
 	[ -z "${1}" ] && exit 67
 	[ -z "${2}" ] && exit 68
+	
 	csleep 1
-
+	dqb "pars.ok"
+	
 	e_e
 	e_v
 	e_h ${1} ${2}
@@ -999,9 +979,6 @@ function enforce_access() {
 
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 }
-
-#tavoitetila dokumentoituna: https://www.devuan.org/os/packages
-#kts myös https://github.com/topics/sources-list
 
 function part1_5() {
 	dqb "part1_5()"
@@ -1013,7 +990,7 @@ function part1_5() {
 	dqb "part1_5().pasr.ko"
 	csleep 1
 	local t
-	t=$(echo ${1} | cut -d "/" -f 1) #tr kanssa?
+	t=$(echo ${1} | cut -d "/" -f 1)
 
 	if [ ! -s /etc/apt/sources.list.${t} ] ; then
 		dqb "S3RV1CE F0R A VCANT C0FF1N"
@@ -1021,10 +998,9 @@ function part1_5() {
 		[ -z "${mkt}" ] && exit 98
 
 		local h
-		h=$(${mkt} -d) 
+		h=$(${mkt} -d)
 		[ $? -eq 0 ] || exit 97
 
-		dqb "MTKK"
 		csleep 1
 
 		if [ ! -s /etc/apt/sources.list.tmp ] ; then	
@@ -1051,7 +1027,7 @@ function part1_5() {
 		csleep 1
 		local tdmc
 
-		tdmc="sed -i 's/DISTRO/${t}/g'" #TARRKK PRKL
+		tdmc="sed -i 's/DISTRO/${t}/g'"
 		echo "${tdmc} ${h}/sources.list.tmp" | bash -s
 		csleep 1
 
@@ -1070,7 +1046,6 @@ function part1_5() {
 
 	${sco} -R root:root /etc/apt
 	${scm} -R a-w /etc/apt/
-
 	[ ${debug} -eq 1 ] && ls -las /etc/apt
 	csleep 1
 
@@ -1078,7 +1053,6 @@ function part1_5() {
 	csleep 1
 }
 
-#HUOM.170326:JOS VAI N MITENKÄÄN MAHDOLLISTA NIIN EI TABLESIN KANSSA SAISI JÄÄDÄ ACCEPT-TILANTEESEEN
 function part1() {
 	dqb "()()() PART1 ${1} , ${2} ()()()()() "
 	[ -z "${1}" ] && exit 66
@@ -1089,13 +1063,13 @@ function part1() {
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
 	csleep 1
 
-	[ -v ipt ] || dqb "SHOULD exit 69"
+	[ -v ipt ] || dqb "SHOULD exit 96"
 	local c
 	local g
 	local t
 
 	g=$(date +%F)
-	t=$(echo ${1} | cut -d '/' -f 1 | tr -dc a-z)  #TARRKK PRKL
+	t=$(echo ${1} | cut -d '/' -f 1 | tr -dc a-z) 
 
 	if [ -f /etc/apt/sources.list ] ; then
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:' | wc -l) #TARRKK PRKL
@@ -1126,6 +1100,7 @@ function part1() {
 	dqb "FOUR-LEGGED WH0R3"
 }
 
+#qseeko tässä jokin? toiv ei enää
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
 	csleep 6
@@ -1214,10 +1189,52 @@ function part2() {
 	csleep 1
 }
 
+function wopr() {
+	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
+	local r=$(find ${1} -type f -name "${2}*.deb" )
+
+	for s in ${r} ; do
+		case "${3}" in
+			reject_pkgs)
+				${NKVD} ${s}
+			;;
+			accept_pkgs_1|accept_pkgs_2)
+				efk1 ${s}
+			;;
+			*)
+				exit 99
+			;;
+		esac
+	done
+
+	csleep 1
+}
+
+function common_lib_tool() {
+	dqb "common_lib_tool( ${1}  ; ${2} )))) "
+	[ -d ${1} ] || exit 66
+	[ -z "${2}" ] && exit 67
+	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSing f ILE"
+
+	dqb "WILL START PR0C3551NG TGTs NOW"
+	csleep 1
+	local q
+
+	for q in $(grep -v "#" ${1}/${2}) ; do
+		dqb "outer; ${q}"
+		wopr ${1} ${q} ${2}
+
+		if [ ${debug} -eq 1 ] ; then
+			ls -las ${1}/${q}* | wc -l
+		fi
+	done
+
+	dqb "t00l DONE"
+}
+
 function cg_udp6() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
 	csleep 1
-
 	[ -z "${1}" ] && exit 65
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
@@ -1258,7 +1275,7 @@ function cg_udp6() {
 #}
 
 function part3() {
-	dqb "))() part3 ${1} , ${2} (((((((("
+	dqb "))() part3 ${1} ,((()()()()()( ${2} (((((((("
 	csleep 1
 
 	[ -z "${1}" ] && exit 99
@@ -1273,13 +1290,14 @@ function part3() {
 	#TODO:muistettava sitten tämä if-blokki sulauttaa toisen oksan part3():seen
 	if [ -z "${2}" ] ; then
 		t=$(${mkt} -d)
+    	#TODO:tässä kåskyttämään common_pp3() ?
 		n15=$(find ${1} -type f -name "*.deb" | wc -l)
 	else
 		#HUOM.jos on pedantti niin $2 alaiset .deb pitäisi myös testata shasums:ia vasten jnpp (TODO)
-		t=${2}
+		t=${2} #jotain mankelointia mukaan?
 		n15=$(find ${2} -type f -name "*.deb" | wc -l)
 	fi
-
+	
 	if [ ${n15} -lt 1 ] ; then
 		cefgh ${1}
 	fi
@@ -1342,7 +1360,7 @@ function part3() {
  	fi
 
 	[ -f ${1}/${CONF_hashfile} ] && ${NKVD} ${1}/${CONF_hashfile}*
-	csleep 1
+	csleep 1	
 	other_horrors
 }
 
@@ -1350,7 +1368,8 @@ function process_lib() {
 	dqb "process_lib( ${1} ))) ${2} )(((((((("
 	[ -z "${1}" ] && exit 66
 	csleep 1
-
+	
+	#pointti?
 	if [ -x "${gg}" ] && [ -s ${1}/lib.sh.sig ] ; then
 		dqb "SHOULD ${gg} --verify ${1}/lib.sh.sig ? "
 		${gg} --verify ${1}/lib.sh.sig
@@ -1359,7 +1378,7 @@ function process_lib() {
 	fi
 
 	csleep 1
-
+	
 	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then
 		.  ${1}/lib.sh
 	else
@@ -1368,7 +1387,7 @@ function process_lib() {
 
 	check_binaries ${1} ${2}
 	[ $? -eq 0 ] || dqb "SHOULD exit 67"
-
+	
 	check_binaries2
 	[ $? -eq 0 ] || dqb "SHOULD exit 68 också"
 

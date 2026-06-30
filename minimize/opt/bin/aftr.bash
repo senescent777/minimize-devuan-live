@@ -1,7 +1,8 @@
 #!/bin/bash
 debug=1
 
-if [ -f /.chroot ] ; then #TODO:CONF_env tilalle jos mahd
+
+if [ "CONF_env" == "TOOR" ] ; then
         odio=""
 else
         odio=$(which sudo)
