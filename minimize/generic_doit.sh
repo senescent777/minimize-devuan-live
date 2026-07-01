@@ -396,7 +396,7 @@ csleep 1
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh
 
-	#TODO:tämän kanssa jotain? toisesta oksasta korjaukset?
+	#010726:tämä jo kunnossa?
 	${d0}/import2.sh r ${d0} -v
 	echo $?
 	csleep 3
