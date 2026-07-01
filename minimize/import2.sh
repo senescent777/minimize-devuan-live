@@ -128,12 +128,12 @@ else
 	function enforce_access() {
 		dqb "imp2.3nf :NOT SUPPORTED"
 	}
-
-	for opt in $@ ; do
-		parse_opts_1 ${opt}
-		parse_opts_2 ${prevopt} ${opt}
-		prevopt=${opt}
-	done
+#
+#	for opt in $@ ; do
+#		parse_opts_1 ${opt}
+#		parse_opts_2 ${prevopt} ${opt}
+#		prevopt=${opt}
+#	done
 fi
 
 dqb "imp2:AFTR common_lib"
@@ -232,7 +232,7 @@ function cptp2() {
 	fi
 
 	if [ -d ${t} ] ; then
-		dqb "HAIL UKK"
+		dqb "f0rtunate 50n"
 
 		${scm} 0755 ${t}
 		${scm} 0555 ${t}/*.sh
@@ -287,7 +287,7 @@ function tpr() {
 	[ ${r} -gt 0 ] || exit 21
 	csleep 1
 
-	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/${2}
+	${srat} -C ${q} -xvf ${1}/${2} #${TARGET_TPX} tämän kanssa jotain?
 	[ $? -gt 0 ] && exit 22
 	csleep 2
 
@@ -326,9 +326,6 @@ case "${mode}" in
 	;;
 esac
 
-dqb "debug: 1"
-echo "mode: ${mode} "
-echo "srcfile: ${srcfile} "
 [ -z "${srcfile}" ] && exit 44
 
 if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
@@ -409,8 +406,8 @@ cd ${olddir}
 
 if [ -v part ] || [ -v CONF_dir ] ; then
 	echo "REMEMBER 2 UNM0UNT TH3S3:"
-	[ -z ${part} ] || grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan?
-	[ -z ${CONF_dir} ] || grep ${CONF_dir} /proc/mounts
+	[ -z "${part}" ] || grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan?
+	[ -z "${CONF_dir}" ] || grep ${CONF_dir} /proc/mounts
 fi
 
 ${scm} 0555 $0
