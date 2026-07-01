@@ -212,6 +212,7 @@ if [ -s ~/xorg.conf.new ] ; then
 	fi
 fi
 
+#TODO:meshuqqah kiukuttelun selvittely jos vielä toistuu, syyllinen tämä fktio vai mangle_s ?
 function pre_enforce() {
 	dqb "pre_enforce() "
 	[ -z "${1}" ] && exit 98
@@ -230,7 +231,8 @@ function pre_enforce() {
 	csleep 1
 
 	[ -f ${q} ] || exit 33
-	#TODO:katso lista läpi että mitä nykyään tarvitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
+	#VAIH:katso lista läpi että mitä nykyään tarvitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
+	#...ved kanssa lista kai ok, tarvitseeko TOOR oikeastaan listaa lainkaan?
 	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
 
 	dqb "BFOR3 testgris"
@@ -305,6 +307,7 @@ function pre_enforce() {
 	csleep 1
 }
 
+#30626:kesdkimmäinen ehto josqs uusiksi?
 if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
@@ -346,7 +349,7 @@ sleep 5
 el_loco ${c14} ${c13}
 #=========================================================================================
 
-#260626:passwd kanssa menee vähän mettään jos root-tunnuksella ajelaa, ytekisikö jotain ?
+#260626:passwd kanssa menee vähän mettään jos root-tunnuksella ajelllaan, tekisikö jotain ?
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	${odio} passwd
 
@@ -390,17 +393,13 @@ other_horrors
 dqb "AFTER THE HORROR"
 csleep 1
 
-#TODO:tOISessa oksassa tuo if-lause, onko kunnossa?
-
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh
-	dqb "KOITA NYT PRKL SAADA TÄTÄ KAUTTA IMPORT2 TOIMIMAAN 666!!!"
-	csleep 66
 
 	#TODO:tämän kanssa jotain? toisesta oksasta korjaukset?
 	${d0}/import2.sh r ${d0} -v
-	[ $? -eq 0 ] || exit $?
-	csleep 34
+	echo $?
+	csleep 3
 fi
 
 dqb "PR0F IMPORT DONE?"

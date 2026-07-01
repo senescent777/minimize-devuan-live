@@ -278,8 +278,8 @@ function check_bin_0() {
 check_bin_0
 
 function jules() {
-other_horrors
-[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
+	other_horrors
+	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 }
 
 function psqa() {
@@ -347,7 +347,7 @@ function psqa() {
 		if [ -f ${1}/${CONF_hashfile}.1 ] ; then
 			${sah6} --ignore-missing -c ${CONF_hashfile}.1
 		else
-			echo "EILINRN PULLA 80 c"
+			echo "EILINRN PULLA 90 c"
 			#exit 666
 		fi
 
@@ -388,7 +388,7 @@ function common_pp3() {
 	else
 		psqa ${1}
 
-		if [ $? -gt 0 ] ; then
+		if [ $? -gt 0 ] ; then #toimiiko vai ei?
 			${NKVD} ${1}/*.deb
 			${NKVD} ${1}/${CONF_hashfile}*
 			${NKVD} ${1}/*.tar*
@@ -472,7 +472,7 @@ function cefgh() {
 	fi
 }
 
-#TODO:sqroot-ympäristön pAKettivalikoiman päivitys, mm. gpg_poistuu:syistä
+#TODO:sqroot-ympäristön pAKettivalikoiman päivitys, mm. gpg_poistuu-syistä
 function CB01() {
 	dqb "common.lib.CB01( ${1} (( ${2} )"
 	csleep 1
@@ -552,8 +552,8 @@ function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ; ${2} ) "	
 	csleep 1
 	
-	dqb "6tr"
-	csleep 1
+#	dqb "6tr"
+#	csleep 1
 	
 	ipt=$(${odio} which iptables)
 	iptr=$(${odio} which iptables-restore)
@@ -583,23 +583,23 @@ function check_binaries() {
 	E22_GM="${E22_GM} libacl1 libattr1 libgmp10 coreutils"
 
 	dqb "before 0c.s"
-	local y
+	local y #TODO:alustus ennen if-blokkia vähitellen?
 	
 	if [ "${CONF_env}" == "VED" ] ; then
-		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # sha512sum
+		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp"
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
-		dqb "PISSE"
+		dqb "P1SSE"
 	else
-		dqb "SCHEISSE"
-		y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # kilinwittu.sh  sha512sum
+		dqb "SCHEISS3"
+		y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # kilinwittu.sh
 	fi
 	
 	for x in ${y} ; do ocs ${x} ; done
 	sdi="${odio} ${sd0} -i "
 	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
-	#VAIH:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta? mukaan toiseen oksaan?
+	#DONE?:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta? mukaan toiseen oksaan?
 	E22_GT=""
 	E22_GU=""
 
@@ -652,7 +652,8 @@ function check_binaries() {
 		for x in iptables ip6tables iptables-restore ip6tables-restore gpg ; do ocs ${x} ; done
 	fi
 
-	CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
+	#HUOM.30626:kts. pre_enforce() kommentit
+	[ "${CONF_env}" == "TOOR" ] || CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
 	csleep 1
 	
@@ -695,7 +696,6 @@ function check_binaries2() {
 
 	INITRD=No
 	export INITRD
-
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
 	
 	if [ "${CONF_env}" != "VED" ] ; then #toistaiseksi näin?
@@ -722,7 +722,6 @@ function TLA() {
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
 		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then #TODO:koitapa päättää miten pitäisi mennä 
-			
 			dqb "JST B3F0R:tlb-b a s h"
 			[ -s /opt/bin/tlb.bash ] || exit 99
 			${scm} 0511 /opt/bin/tlb.bash
@@ -904,7 +903,6 @@ function e_e() {
 
 	local f
 	local c
-
 	f=$(date +%F)
 
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
@@ -1264,7 +1262,7 @@ function part3() {
 	local n15=0
 	local t=""
 	
-	#TODO:näillä main merge-juttuja jatkossa?
+	#TODO?:näillä main merge-juttuja jatkossa?
 
 	if [ -z "${2}" ] ; then
 		t=$(${mkt} -d)

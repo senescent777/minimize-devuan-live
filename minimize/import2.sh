@@ -59,7 +59,6 @@ fi
 dqb "SHOULD gg --veriFy ${d0}/common_lib.sh HERE, MAYBE?"
 csleep 1
 
-
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
@@ -79,6 +78,15 @@ else
 		fi
 	fi
 
+	#debug=1
+	dqb "FALLBACK"
+	sleep 5
+
+	odio=$(which sudo)
+	
+	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
+	sleep 5
+
 	function check_binaries() {
 		dqb "imp2.check1"
 
@@ -91,23 +99,45 @@ else
 		gg=$(${odio} which gpg)
 		som=$(${odio} which mount)
 		uom=$(${odio} which umount)
-		
 	}
 
 	function check_binaries2() {
-		echo "generic.replacement.4.check_bin2"
-		srat="${odio} ${srat} "
+		echo "imp2.check2"
+	
 		som="${odio} ${som}"
 		uom="${odio} ${uom}"
+		srat="${odio} ${srat}"
 	}
 
+	function part3() {
+		dqb "imp2.part3 :NOT SUPPORTED"
+		#HUOM.25725:jos wrapperin kautta ajaessa saisi umount?
+	}
 
+	function other_horrors() {
+		dqb "AZATH0TH AND OTHER H0RR0RR55.6"
+	}
 
 	function ocs() {
-		echo "ocs()))) ${1} ?"
+		echo "======IPM2.=OCS( ${1} )="
+		which ${1}
+		echo "==================="
 	}
+
+	#barm vuokxi
+	function enforce_access() {
+		dqb "imp2.3nf :NOT SUPPORTED"
+	}
+
+	for opt in $@ ; do
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
 fi
 
+dqb "imp2:AFTR common_lib"
+csleep 1
 [ -z "${distro}" ] && exit 6
 csleep 1
 
@@ -148,12 +178,14 @@ fi
 
 olddir=$(pwd)
 part=/dev/disk/by-uuid/${CONF_part0}
+dqb "L0G"
 
 ocs tar
-
+dqb "srat: ${srat}"
 csleep 1
-
+dqb "LHP"
 	
+#josko tilansäästön nimissä kolmaskin ehto? tai ehkä ei pakko
 if [ -s /OLD.tar ] ; then
 	dqb "OLD.tar OK"
 else
@@ -162,12 +194,17 @@ else
 	${srat} -cf /OLD.tar /etc /sbin /home/stubby ~/Desktop
 fi
 
-#TODO:tämä fktio -> common_lib ? vaiko ei?
+#tämä fktio -> common_lib ? vaiko ei?
 function cptp2() {
 
 	[ -z "${1}" ] && echo 99
+	[ -z "${2}" ] && echo 98
 	[ -d ${1} ] || exit 97
 
+	dqb "cptp2:pars ok"
+	csleep 1
+
+	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
 	local t
 	t=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 	
@@ -195,15 +232,20 @@ function cptp2() {
 	fi
 
 	if [ -d ${t} ] ; then
+		dqb "HAIL UKK"
+
 		${scm} 0755 ${t}
 		${scm} 0555 ${t}/*.sh
 		${scm} 0444 ${t}/conf*
 		${scm} 0444 ${t}/*.deb
+
+		csleep 1
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
 }
 
+dqb "HPL"
 #TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3} siis)
 fox=$(${odio} which firefox)
@@ -233,17 +275,19 @@ function tpr() {
 	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
 	. ${1}/${3}
 	[ $? -gt 0 ] && exit 19
+
 	dqb "INCLUDE OK"
 
 	local q=$(${mkt} -d)
 	[ $? -gt 0 ] && exit 20
+
 	dqb "JUST BEFORE TAR ${1}/${2}"
 	#jos vielä härdelliä niin keskeytetään mikäli ei $2:sta löydä prefs.js?
 	local r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l) #vielä jos arhc_4 ?
 	[ ${r} -gt 0 ] || exit 21
 	csleep 1
 
-	${srat} -C ${q} -xvf ${1}/${2} #"${TARGET_TPX}" tilapäisesti kommentteihin 230626
+	${srat} ${TARGET_TPX} -C ${q} -xvf ${1}/${2}
 	[ $? -gt 0 ] && exit 22
 	csleep 2
 
@@ -282,6 +326,9 @@ case "${mode}" in
 	;;
 esac
 
+dqb "debug: 1"
+echo "mode: ${mode} "
+echo "srcfile: ${srcfile} "
 [ -z "${srcfile}" ] && exit 44
 
 if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
@@ -362,8 +409,8 @@ cd ${olddir}
 
 if [ -v part ] || [ -v CONF_dir ] ; then
 	echo "REMEMBER 2 UNM0UNT TH3S3:"
-	[ -z "${part}" ] || grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan?
-	[ -z "${CONF_dir}" ] || grep ${CONF_dir} /proc/mounts
+	[ -z ${part} ] || grep ${part} /proc/mounts #greppaus voi jäädä junnaamaan?
+	[ -z ${CONF_dir} ] || grep ${CONF_dir} /proc/mounts
 fi
 
 ${scm} 0555 $0
