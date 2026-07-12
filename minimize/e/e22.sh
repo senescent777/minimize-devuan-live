@@ -513,7 +513,7 @@ function e22_ts() {
 }
 
 #28526 taas testailut menossa (vissiin muuten toimii mutta shasums.1 kanssa jotain?)
-#TODO:ALAPA TESTAILLA MITEN TOIMII
+#VAIH:ALAPA TESTAILLA MITEN TOIMII
 function e22_arch() {
 	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
 	csleep 1
@@ -531,7 +531,7 @@ function e22_arch() {
 	[ -v CONF_hashfile ] || exit 94
 	[ -z "${CONF_hashfile}" ] && exit 95
 
-	exit
+	#exit
 
 	if [ -f ${2}/${CONF_hashfile} ] ; then #turha tarq?
 		${NKVD} ${2}/${CONF_hashfile}*
@@ -573,7 +573,7 @@ function e22_arch() {
 	csleep 5
 
 	e22_tyg ./${CONF_hashfile}
-	[ -s  ./${CONF_hashfile}.1 ] && e22_tyg ./${CONF_hashfile}.1
+	[ -s ./${CONF_hashfile}.1 ] && e22_tyg ./${CONF_hashfile}.1
 	echo "TODO:TARKISTA ETTEI ./${CONF_hashfile}.1 TYHJÄ"	#tietyssä ilmeisesä tapauksessa näin käy
 	exit
 
