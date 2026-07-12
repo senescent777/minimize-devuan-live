@@ -402,12 +402,15 @@ function e22_acol() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#TODO:CONF_iface parametriksi jatkossa?
+#VAIH:CONF_iface parametriksi jatkossa?
 function e22_pre_e() {
 	local p
 	local q
 
-	if [ "${CONF_iface}" == "eth0:1" ] ; then
+	[ -z "${1}" ] && exit 98
+
+	#if [ "${CONF_iface
+	if [ "${1}" == "eth0:1" ] ; then
 		for p in $@ ; do
 			q=$(echo ${p} | grep -v dhcp)
 			[ -z "${q}" ] || ${shary} ${q}
@@ -705,9 +708,9 @@ function e22_cde() {
 	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
 }
 
-#TODO:nimeäminen uusiksi? yleisen linjan mukaan?
-function z1() {
-	dqb "z1()) ${1} (()"
+#VAIH:nimeäminen uusiksi? yleisen linjan mukaan?
+function e22_z1() {
+	dqb "e22_z1()) ${1} (()"
 	[ -z "${1}" ] && exit 66
 	dqb "pars ok"
 	csleep 2
@@ -720,11 +723,11 @@ function z1() {
 	csleep 1
 	fasdfasd ${1}.tmp
 
-	dqb "z1() DONE"
+	dqb "e22_z1() DONE"
 	csleep 1
 }
 
-function z2() {
+function e22_z2() {
 	dqb "e22.z2((( ${1} ))(("
 	[ -z "${1}" ] && exit 66
 
@@ -755,12 +758,12 @@ function z2() {
 	e22_tyg ${1}
 	${sah6} ${1} > ${1}.sha
 
-	dqb "Z2.D0M3"
+	dqb "e22_z2.D0M3"
 	csleep 1
 }
 
-function z3() {
-	dqb "z3()((( ${1}"
+function e22_z3() {
+	dqb "e22_z3()((( ${1}"
 	[ -z "${1}" ] && exit 66
 	[ -s ${2} ] || exit 67
 	[ -z "${3}" ] && exit 68

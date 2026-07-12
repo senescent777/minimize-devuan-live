@@ -106,7 +106,7 @@ function other_horrors() {
 	dqb "other_horrors"
 	
 	if [ "${CONF_env}" == "DEFAULT" ] ; then
-		dqb "1NTERBAL SUFFER1NG"
+		dqb "hERBAL 5UFFER1NG"
 
 		for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
 			${sco} -R root:root ${f}
@@ -330,8 +330,8 @@ function psqa() {
 	if [ -s ${1}/${CONF_hashfile} ] && [ -x ${sah6} ] ; then
 		dqb "R ${1} "
 		csleep 1
-		local p
-		p=$(pwd)
+
+		local p=$(pwd)
 		cd ${1}
 
 		${sah6} -c ${CONF_hashfile} --ignore-missing
@@ -343,12 +343,11 @@ function psqa() {
 			return 94
 		fi
 
-		#VAIH:selvitä mikä tämän tdston kanssa on? jääkö tyhjäksi nykyään?
 		if [ -f ${1}/${CONF_hashfile}.1 ] ; then
 			${sah6} --ignore-missing -c ${CONF_hashfile}.1
 		else
 			echo "EILINRN PULLA 90 c"
-			#exit 666
+			#HUOM.12726:hashfile.1 ei välttämättä saataville ennen f.tar purkua joten suurta mölinää ei syytä laittaa käyntiin ennenq cefgh() ajettu 
 		fi
 
 		csleep 1
@@ -363,7 +362,7 @@ function psqa() {
 	csleep 2
 }
 
-#TODO:shasums:ien kopsaus $2:seen myös?
+#VAIH:shasums:ien kopsaus $2:seen myös?
 #TODO:pikemminkin siellä $2-hmistossa käsin se sha-tarkstus?
 function common_pp3() {	
 	dqb "() common_pp3 )))))) ${1} ) ${2} )))))))))))))"
@@ -400,10 +399,11 @@ function common_pp3() {
 			${svm} ${1}/${s} ${2}
 		done
 
-		echo "#TODO:VARMISTA ETTÄ SAH.1-KOHTA FKTIOSS common_pp3() TOIMII" #MIELELLÄÄN SUURI MÖLINÄ JOS NÄMÄ JUTU...
 		for s in $(grep -v '#' ${1}/${CONF_hashfile}.1 | grep -v drop | awk '{print $2}') ; do
 			${spc} ${1}/${s} ${2}
 		done
+
+		${spc} ${1}/${CONF_hashfile}* ${2}
 	fi
 
 	dqb "COMMON_PP3-DONE()"
@@ -585,16 +585,17 @@ function check_binaries() {
 	E22_GM="${E22_GM} libacl1 libattr1 libgmp10 coreutils"
 
 	dqb "before 0c.s"
-	local y #TODO:alustus ennen if-blokkia vähitellen?
+	#120726:joskohan jo toimisi näin?
+	local y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp"
 	
 	if [ "${CONF_env}" == "VED" ] ; then
-		y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp"
+		#y
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
 		dqb "P1SSE"
 	else
 		dqb "SCHEISS3"
-		y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # kilinwittu.sh
+		#y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # kilinwittu.sh
 	fi
 	
 	for x in ${y} ; do ocs ${x} ; done
@@ -723,7 +724,7 @@ function TLA() {
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ "${CONF_env}" == "TOOR" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then #TODO:koitapa päättää miten pitäisi mennä 
+		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then #TODO?:koitapa päättää miten pitäisi mennä 
 			dqb "JST B3F0R:tlb-b a s h"
 			[ -s /opt/bin/tlb.bash ] || exit 99
 			${scm} 0511 /opt/bin/tlb.bash
@@ -1247,7 +1248,10 @@ function cg_udp6() {
 	dqb "D0NE"
 	csleep 1
 
-	if [ "${CONF_iface}" == "eth0:1" ] ; then #TODO:tulisi selvittää muiten käytännössä toimii
+	echo " #TODO:tulisi selvittää muiten käytännössä toimii eth0:1, sharpy, cg_upd6/("
+	sleep 5
+
+	if [ "${CONF_iface}" == "eth0:1" ] ; then
 		${sharpy} isc-dchp*
 	fi
 }
@@ -1265,7 +1269,7 @@ function part3() {
 	local n15=0
 	local t=""
 	
-	#TODO?:näillä main merge-juttuja jatkossa?
+	#TODO?:näillä main merge-juttuja jatkossa? tai siis mitä tässä kohtaa pitä vielä tehdä?
 
 	if [ -z "${2}" ] ; then
 		t=$(${mkt} -d)

@@ -149,10 +149,10 @@ case "${mode}" in
 	;;
 	3|4) 
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
-		#VAIH:turhia kommentteja wttuun sotkemasta
+		#120726:lienee toimiva tämä case (aionain kerran roimi sill01m)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
-		z1 /opt/bin/zxcv
+		e22_z1 /opt/bin/zxcv
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
 		reqwreqw /opt/bin/zxcv.tmp
@@ -175,8 +175,8 @@ case "${mode}" in
 		fasdfasd /opt/bin/zxcv.tmp
 
 		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
-		z2 /opt/bin/zxcv #TODO:/o/b , /o/b/zxcv -> Const ?
-		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
+		e22_z2 /opt/bin/zxcv #TODO:/o/b , /o/b/zxcv -> Const ?
+		e22_z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
 	;;
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
@@ -189,6 +189,7 @@ case "${mode}" in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) 
+		#120726:lienee toimiva tämä case
 		e22_pre_e ${E22_GS}
 		e22_pre_e ${E22_GM}
 
@@ -206,7 +207,7 @@ case "${mode}" in
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
-	g)
+	g) #koska tämä viimeksi teatattu?
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 
@@ -219,6 +220,7 @@ case "${mode}" in
 		doit=0
 	;;
 	l)
+		#120726:lienee toimiva tämä case
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}

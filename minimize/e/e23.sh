@@ -16,6 +16,7 @@ function aswasw() {
 	esac
 }
 
+#vissiin 120726 sai viimeksi validia sisältöä aiolka+sxeksi
 function e23_tblz() {
 	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
 	csleep 1
@@ -52,6 +53,7 @@ function e23_tblz() {
 	csleep 1
 }
 
+#vissiin 120726 sai viimeksi validia sisältöä aiolka+sxeksi
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -100,6 +102,7 @@ function e23_upgp() {
 	csleep 1
 }
 
+#TODO:tämän se dhcp-karsinta kanssa?
 function e23_upgp2() {
 	dqb " e23_upgp2() "
 	[ -z "${1}" ] && exit 1 
@@ -159,7 +162,7 @@ function e23_qrs() {
 }
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
-#120726 viimeksi yritetty testata, tekeekö toimivaa sisältöä pakettiin
+#120726 viimeksi yritetty testata, tekeekö toimivaa sisältöä pakettiin, onnistui
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
