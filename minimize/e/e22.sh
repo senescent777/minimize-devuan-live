@@ -725,12 +725,13 @@ function z1() {
 }
 
 function z2() {
-	dqb "z2((( ${1} ))(("
+	dqb "e22.z2((( ${1} ))(("
 	[ -z "${1}" ] && exit 66
 
 	#ekan parametrin kanssa lisää tarkistuksia?
-	#.tmp tulisi kai olla olemassa ennenq reqw qtsutaan
-	[ -s ${1} ] || exit 76
+	#.tmp tulisi kai olla olemassa ennenq reqw qtsutaan ... paitsi että mv myöhemmin
+	#[ -s ${1} ] || exit 76
+
 	dqb "par\$ 0k"
 	csleep 1
 	
@@ -746,6 +747,7 @@ function z2() {
 	fasdfasd ${1}.sha
 
 	${svm} ${1}.tmp ${1}
+	[ $? -eq 0 ] || exit
 	csleep 1
 
 	${sah6} --ignore-missing -c ${1}
@@ -813,6 +815,7 @@ function e22_sarram() {
 
 	csleep 1
 	#display_manager
+
 	for f in $(${odio} find /etc -type f -name "${2}*" -and -not -name "*.202*" ) ; do
 		${srat} -rvf ${1} ${f}
 	done
