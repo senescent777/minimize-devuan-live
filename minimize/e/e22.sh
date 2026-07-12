@@ -531,14 +531,10 @@ function e22_arch() {
 	[ -v CONF_hashfile ] || exit 94
 	[ -z "${CONF_hashfile}" ] && exit 95
 
-	#exit
-
 	if [ -f ${2}/${CONF_hashfile} ] ; then #turha tarq?
 		${NKVD} ${2}/${CONF_hashfile}*
 		csleep 1
 	fi
-
-	#DONE?:ceen kanssa jokin juttu?
 
 	if [ ${c} -lt 1 ] ; then
 		echo "N0 .deb - FIL35s UND3R ${2}"
@@ -552,7 +548,7 @@ function e22_arch() {
 
 	cd ${2}
 	${sah6} ./*.deb > ./${CONF_hashfile}
-	csleep 5
+	csleep 1
 	dqb "${CONF_hashfile}.1"
 
 	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do #oliko olds kanssa jotain vei ai?
@@ -561,7 +557,7 @@ function e22_arch() {
 		csleep 1
 	done
 
-	csleep 5
+	csleep 1
 
 	#1209726: -f - tarq tässä tarpeen?
 	for f in e.tar g.tar ; do
@@ -571,18 +567,19 @@ function e22_arch() {
 
 	[ ${debug} -eq 1 ] && cat ./${CONF_hashfile}.1
 	csleep 5
-
 	e22_tyg ./${CONF_hashfile}
-	[ -s ./${CONF_hashfile}.1 ] && e22_tyg ./${CONF_hashfile}.1
-	echo "TODO:TARKISTA ETTEI ./${CONF_hashfile}.1 TYHJÄ"	#tietyssä ilmeisesä tapauksessa näin käy
-	exit
+
+	if [ -s ./${CONF_hashfile}.1 ] ; then
+		e22_tyg ./${CONF_hashfile}.1
+	else
+		dqb "./${CONF_hashfile}.1 EMPTY"
+		csleep 10
+		exit
+	fi
 
 	psqa .
-
 	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
-	#VAIH:muutakin säätöä tässä (turha ajaa tar jos sitä ennen poisteltu)	
 
-	#120726:olisikohan parempi ajaa NKVD fktiossa psqa() ? jokatap ei useampia jokereita samalle riville tuon kanssa
 	if [ $? -gt 0 ] ; then
 		${NKVD} ./*.deb
 		${NKVD} ./${CONF_hashfile}*
@@ -592,7 +589,6 @@ function e22_arch() {
 	fi
 
 	cd ${p}
-
 	dqb "E22_A_DONE"
 	csleep 1
 }
