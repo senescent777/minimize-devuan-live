@@ -797,3 +797,43 @@ function e22_stu() { #jatkosäätöä josqs
 	echo "${srat} -jcf \$opts | base64"
 	echo "FOE"
 }
+
+#tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
+#function e22_dblock() {
+#	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
+#
+#	[ -z "${1}" ] && exit 14
+#	[ -s ${1} ] || exit 15
+#	[ -z "${2}" ] && exit 11
+#	[ -d ${2} ] || exit 22
+#	[ -w ${2} ] || exit 23
+#	[ -z "${3}" ] && exit 33
+#	[ -d ${3} ] || exit 34
+#	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
+#	[ -z "${4}" ] && exit 37
+#
+#	dqb ".PARS-OK"
+#	csleep 1
+#
+#	[ ${debug} -eq 1 ] && pwd
+#
+#	ls -la ${3}/*.deb | wc -l
+#	
+#	for s in ${PART175_LIST} ; do
+#		${sharpy} ${s}*
+#		${NKVD} ${3}/${s}*.deb
+#	done
+#	
+#	local t
+#	t=$(echo ${2} | cut -d "/" -f 1-6)
+#	e22_ts ${t} ${3}
+#	dqb "JST B3F0R3 3NF0RC3"
+#	csleep 10
+#	
+#	enforce_access $(whoami) ${t}
+#	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
+#	csleep 10
+#
+#	e22_arch ${1} ${2} ${4}
+#	e22_cleanpkgs ${2}
+#}
