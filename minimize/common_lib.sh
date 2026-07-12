@@ -734,6 +734,8 @@ function TLA() {
 
 #==================================================================
 
+#HUOM.110726:tämä fktio osannee tehdä validia sisältöä, joten jos kehitysymp vielä qsee niin tutkittava mitkä versiot mistäkin paketeista on asennettu
+
 function mangle_s() {
 	dqb " mangle_s( ${1} )"
 	csleep 1
@@ -765,8 +767,7 @@ function mangle_s() {
 function dinf() {
 	local g
 	local t
-	local frist
-	frist=1
+	local frist=1
 
 	echo -n "#" >> ${1} #toimiiko näin?
 	echo -n " $(whoami)" | tr -dc a-zA-Z >> ${1}
