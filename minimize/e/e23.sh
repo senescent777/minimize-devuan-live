@@ -34,12 +34,10 @@ function e23_tblz() {
 	tpc7
 	#jotain excaliburiin liittyvää tuo tpc
 
-	echo "aswasw $1 vai $2 ? "
-	sleep 5
-	#exit
+	#120726:josnyt menisi oikein
+	aswasw ${1}
 
-	aswasw ${2}
-	#VAIH:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
+	#DONE?:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
 	e22_pre_e ${E22_GT}
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
