@@ -161,10 +161,14 @@ function e23_qrs() {
 }
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
+#120726 viimeksi yritetty testata, tekeekö toimivaa sisältöä pakettiin
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
 	csleep 2
+
+	dqb "pars.ök"
+	csleep 1
 
 	${fib}
 	e22_pre_e ${E22_GS}

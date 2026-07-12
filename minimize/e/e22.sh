@@ -250,9 +250,9 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
-#TODO:kekeksikö jonkin varmistuksen että profiili kanssa menee tariin?
+#TODO:kekekekeksisisisikö jonkin varmistuksen että profiili kanssa menee tariin?
 function e22_home_pre() {
-	dqb "home:pre()"
+	dqb "home_pre()"
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
@@ -260,6 +260,9 @@ function e22_home_pre() {
 	[ -z "${3}" ] && exit 71
 	[ -z "${4}" ] && exit 73
 	[ -z "${5}" ] && exit 79
+
+	dqb "paks_ok"
+	csleep 1
 
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		e22_config1 ~ ${4}
@@ -278,19 +281,22 @@ function e22_home_pre() {
 	for t in $(find ~ -type f -name ${4} ) ; do
 		${srat} -rvf ${1} ${t}
 	done
+
+	dqb "home.pre.-donr"
+	csleep 1
 }
 
 function e22_home() {
-	dqb "home:pre()"
+	dqb "e22_home()"
+
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
 	[ -d ${2} ] || exit 70
 	[ -z "${3}" ] && exit 71
+
 	dqb "pars_ok"
 	csleep 1
-
-
 	local f
 
 	${srat} -rvf ${1} ${2}/../${3}
@@ -303,7 +309,12 @@ function e22_home() {
 	csleep 1
 
 	#miksi tässä eikä h_pre() ?
-	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
+	for f in $(find ~ -type f -name "xorg.conf*" ) ; do 
+		${srat} -rvf ${1} ${f}
+	done
+
+	dqb "e22_hoem_dnoe()"
+	csleep 1
 }
 
 function luca() {
@@ -320,7 +331,7 @@ function luca() {
 
 #(meneekö rules.* kohteeseen useamman kerran? ehkä)
 
-#VAIH:e22_dblock TAKAISIN TAAS 666!!!
+#DONE?:e22_dblock TAKAISIN TAAS 666!!!
 
 function e22_acol() {
 	dqb "e22_acol()"
@@ -384,6 +395,9 @@ function e22_acol() {
 	else
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
+
+	dqb "DONeW EITH THE CALOYTES:MAGNET0"
+	csleep 1
 }
 
 [ -v CONF_BASEURL ] || exit 6
@@ -449,6 +463,7 @@ function e22_ext() {
 		${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
 	fi
 
+	#shclitn-d-kojhtaan josqs muutoksia vai ei?
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${st}
 	
 	if [ ! -s ./sbin/dhclient-script.1 ] ; then
@@ -459,7 +474,6 @@ function e22_ext() {
 	local c=0	
 
 	if [ -f /etc/apt/sources.list ] ; then
-		
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
 
 		if [ ${c} -lt 1 ] ; then
@@ -691,6 +705,7 @@ function e22_cde() {
 	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
 }
 
+#TODO:nimeäminen uusiksi? yleisen linjan mukaan?
 function z1() {
 	dqb "z1()) ${1} (()"
 	[ -z "${1}" ] && exit 66
@@ -710,12 +725,15 @@ function z1() {
 }
 
 function z2() {
-	dqb "z2((( ${1}))(("
+	dqb "z2((( ${1} ))(("
 	[ -z "${1}" ] && exit 66
-	dqb "par\$ 0k"
-	csleep 1
 
 	#ekan parametrin kanssa lisää tarkistuksia?
+	#.tmp tulisi kai olla olemassa ennenq reqw qtsutaan
+	[ -s ${1} ] || exit 76
+	dqb "par\$ 0k"
+	csleep 1
+	
 	reqwreqw ${1}.tmp
 	csleep 1
 
@@ -751,7 +769,7 @@ function z3() {
 	csleep 1
 
 	if [ ! -s ${3} ] ; then
-		#120726:mitense exp3?
+		#120726:mitense exp3? mitå siitä?
 		${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
 		csleep 1
 	fi
@@ -824,6 +842,8 @@ function e22_sarram() {
 	fi
 
 	other_horrors
+	dqb "OCT/NOV"
+	csleep 1
 }
 
 function e22_stu() { #jatkosäätöä josqs
