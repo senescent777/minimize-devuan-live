@@ -566,6 +566,8 @@ function check_binaries() {
 	#moni pak tarttee nämä
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
 	
+	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
+	
 	E22_GM="libc6 libselinux1"
 	E22_GM="${E22_GM} debianutils debconf liblocale-gettext-perl libtext-charwidth-perl libtext-iconv-perl libtext-wrapi18n-perl" # nfs-common
 	E22_GM="${E22_GM} debconf-i18n libelf1 libbpf1 " #zlib1,libc6

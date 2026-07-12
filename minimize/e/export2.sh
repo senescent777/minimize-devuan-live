@@ -191,13 +191,14 @@ case "${mode}" in
 	e) 
 		e22_pre_e ${E22_GS}
 		e22_pre_e ${E22_GM}
+
 		csleep 3
 		message
 		csleep 2
 
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 		dqb "BC/AD"
-		csleep 10
+		csleep 5
 		e23_other_pkgs ${CONF_dnsm}
 	;;
 	t)
@@ -281,11 +282,10 @@ esac
 #	e22_arch ${1} ${2} ${4}
 #	e22_cleanpkgs ${2}
 #}
-#
+
 #tuossa alla vielä jotain laittoa?
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
 	e22_hdr ${d}/f.tar
-
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar
 

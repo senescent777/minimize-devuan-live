@@ -23,6 +23,9 @@ function e23_tblz() {
 	[ -z "${1}" ] && exit 11
 	[ -z "${2}" ] && exit 12
 
+	dqb "pars ok"
+	csleep 1
+
 	${fib}
 	${asy}
 	csleep 1
@@ -47,7 +50,8 @@ function e23_tblz() {
 	e22_pre2 ${1} ${2}
 	other_horrors
 
-	dqb "e23_tblz()"
+	dqb "e23_tblz() DONE"
+	csleep 1
 }
 
 function e23_other_pkgs() { 
@@ -56,16 +60,13 @@ function e23_other_pkgs() {
 
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
-
 	csleep 1
+
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	e22_pre_e ${E22_GI}
-	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	e22_pre_e ${E22_GG}
-
 	e22_pre_e ${E23_GS}  #moni pak tarttee nämä
 
-	e22_pre_e ${E23_GS}
 	message
 	jules
 
