@@ -593,7 +593,7 @@ function e22_arch() {
 	csleep 1
 }
 
-#tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
+#fktiona vähän turhaq, tarkistuksia enemmän kun varsi.naista koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
 
@@ -609,9 +609,7 @@ function e22_dblock() {
 
 	dqb ".PARS-OK"
 	csleep 1
-
 	[ ${debug} -eq 1 ] && pwd
-
 	ls -la ${3}/*.deb | wc -l
 	
 	for s in ${PART175_LIST} ; do
@@ -619,18 +617,20 @@ function e22_dblock() {
 		${NKVD} ${3}/${s}*.deb
 	done
 	
-	local t
-	t=$(echo ${2} | cut -d "/" -f 1-6)
+	local t=$(echo ${2} | cut -d "/" -f 1-6)
 	e22_ts ${t} ${3}
 	dqb "JST B3F0R3 3NF0RC3"
-	csleep 10
+	csleep 5
 	
 	enforce_access $(whoami) ${t}
 	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-	csleep 10
+	csleep 5
 
 	e22_arch ${1} ${2} ${4}
 	e22_cleanpkgs ${2}
+
+	dqb "DBLOK DONE"
+	csleep 1
 }
 
 #function aval0n() {
