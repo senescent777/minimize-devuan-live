@@ -22,7 +22,7 @@ function e22_hdr() {
 	dqb "e22_hdr()"
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
-
+	
 	#onkohan hyvä idea?
 	if [ -f ${1} ] ; then
 		echo "$1 ALR3ADY EX1STS"
@@ -121,7 +121,8 @@ function aqsp() {
 }
 
 function e22_pre1() {
-	dqb "e22_pre1()"
+	dqb "e22_pre1( ${1} ; ${2} ; ${3}) "
+	csleep 1	
 
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 66
@@ -132,8 +133,7 @@ function e22_pre1() {
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
 	
-	local lefid
-	lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?	
+	local lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?	
 	enforce_access $(whoami) ${lefid}
 
 	csleep 1
@@ -153,7 +153,7 @@ function e22_pre2() {
 	[ -z "${2}" ] && exit 67
 
 	#HUOM.tämän sekoilun piti olla lopetettu
-	par4=$(echo ${2} | tr -d -c 0-9)
+	local par4=$(echo ${2} | tr -d -c 0-9)
 	echo $?
 	csleep 1
 
@@ -211,8 +211,7 @@ function e22_config1() {
 	dqb "pars.ok"
 	csleep 1
 
-	local p
-	p=$(pwd)
+	local p=$(pwd)
 	cd ${1}
 
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
@@ -235,7 +234,7 @@ function e22_settings() {
 	[ -z "${3}" ] && exit 89
 
 	if [ ! -x ${1}/${3} ] ; then
-		echo "SHOU.LD exp2 p asgfd asgfd"
+		echo "SHOU.LD exp3 p asgfd asgfd"
 		exit 24
 	fi
 
@@ -291,16 +290,16 @@ function e22_home() {
 	dqb "pars_ok"
 	csleep 1
 
-	local t
+
 	local f
 
 	${srat} -rvf ${1} ${2}/../${3}
-	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
+	local t=$(${srat} -tf ${1} | grep ${3} | wc -l)
 	[ ${t} -lt 1 ] && exit 72
 	csleep 1
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-	${srat} ${TARGET_TPX} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
+	${srat} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t} #120726:oliko ${TARGET_TPX} kNSSA VIELÄ JOTAIN?
 	csleep 1
 
 	#miksi tässä eikä h_pre() ?
@@ -325,6 +324,7 @@ function luca() {
 
 function e22_acol() {
 	dqb "e22_acol()"
+	csleep 1
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
@@ -344,7 +344,9 @@ function e22_acol() {
 	local ef
 	local g
 
-	for f in $(find /etc -type f -name "interfaces*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
+	for f in $(find /etc -type f -name "interfaces*" -and -not -name "*.202*" ) ; do 
+		${srat} -rvf ${1} ${f}
+	done
 
 	for f in $(${odio} find /etc -type f -name "rules*" -and -not -name "*.202*" ) ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
@@ -552,7 +554,7 @@ function e22_arch() {
 	csleep 5
 	dqb "${CONF_hashfile}.1"
 
-	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do
+	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do #oliko olds kanssa jotain vei ai?
 		[ ${3} -eq 1 ] && ${srat} -rvf ${1} ${f}
 		[ -s ./${f} ] && ${sah6} ${f} >> ./${CONF_hashfile}.1
 		csleep 1
@@ -560,9 +562,10 @@ function e22_arch() {
 
 	csleep 5
 
+	#1209726: -f - tarq tässä tarpeen?
 	for f in e.tar g.tar ; do
 		dqb "sah6 ./${f}"
-		${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
+		[ -s ./${f} ] && ${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
 	done
 
 	[ ${debug} -eq 1 ] && cat ./${CONF_hashfile}.1
@@ -574,10 +577,19 @@ function e22_arch() {
 	exit
 
 	psqa .
+
 	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
-	#TODO:muutakin säätöä tässä (turha ajaa tar jos sitä ennen poisteltu)	
-	[ $? -gt 0 ] && ${NKVD} ./*.deb ./${CONF_hashfile}* ./*.tar #?
-	${srat} -rf ${1} ./*.deb ./${CONF_hashfile}* ./tim3stamp
+	#VAIH:muutakin säätöä tässä (turha ajaa tar jos sitä ennen poisteltu)	
+
+	#120726:olisikohan parempi ajaa NKVD fktiossa psqa() ? jokatap ei useampia jokereita samalle riville tuon kanssa
+	if [ $? -gt 0 ] ; then
+		${NKVD} ./*.deb
+		${NKVD} ./${CONF_hashfile}*
+		${NKVD} ./*.tar
+	else
+		${srat} -rf ${1} ./*.deb ./${CONF_hashfile}* ./tim3stamp
+	fi
+
 	cd ${p}
 
 	dqb "E22_A_DONE"
@@ -643,8 +655,9 @@ function e22_cde() {
 }
 
 function z1() {
-	dqb "z1()"
+	dqb "z1()) ${1} (()"
 	[ -z "${1}" ] && exit 66
+	dqb "pars ok"
 	csleep 2
 
 	${NKVD} ${1}.tmp
@@ -654,11 +667,16 @@ function z1() {
 
 	csleep 1
 	fasdfasd ${1}.tmp
+
+	dqb "z1() DONE"
+	csleep 1
 }
 
 function z2() {
-	dqb "z2()"
+	dqb "z2((( ${1}))(("
 	[ -z "${1}" ] && exit 66
+	dqb "par\$ 0k"
+	csleep 1
 
 	#ekan parametrin kanssa lisää tarkistuksia?
 	reqwreqw ${1}.tmp
@@ -679,19 +697,24 @@ function z2() {
 	csleep 3
 	e22_tyg ${1}
 	${sah6} ${1} > ${1}.sha
+
+	dqb "Z2.D0M3"
+	csleep 1
 }
 
 function z3() {
-	dqb "z3()"
+	dqb "z3()((( ${1}"
 	[ -z "${1}" ] && exit 66
 	[ -s ${2} ] || exit 67
 	[ -z "${3}" ] && exit 68
-
 	csleep 1
+	dqb "pars.ko"
+
 	fasdfasd ${3}
 	csleep 1
 
 	if [ ! -s ${3} ] ; then
+		#120726:mitense exp3?
 		${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
 		csleep 1
 	fi
@@ -704,6 +727,8 @@ function z3() {
 	${srat} -rvf ${2} ${1}*
 	${scm} go-r ${t}/*
 	csleep 1
+
+	dqb "3pxe K0"
 }
 
 #(josko exp2 voisi korvata "tar -T -cf":llä?)
