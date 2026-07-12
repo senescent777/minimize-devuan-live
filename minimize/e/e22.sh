@@ -22,7 +22,6 @@ function e22_hdr() {
 	dqb "e22_hdr()"
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
-	[ -f ${1} ] && echo "$1 ALR3ADY EX1STS"
 
 	#onkohan hyvä idea?
 	if [ -f ${1} ] ; then
@@ -60,6 +59,7 @@ function e22_tyg() {
 }
 
 function e22_ftr() {
+	dqb "e22_ftr()"
 	[ -z "${1}" ] && exit 62
 	[ -s ${1} ] || exit 63
 	[ -r ${1} ] || exit 64
@@ -71,14 +71,17 @@ function e22_ftr() {
 	cd $(dirname ${1})
 	${sah6} ./${q} > ${q}.sha
 	csleep 1
+
 	${sah6} -c ${q}.sha
 	csleep 1
+
 	e22_tyg ${q}.sha
 	cd ${p}
 }
 
 #... joku päivä jos maistuisi selvittää tuo "bash function retuRn value"-juttu että onnnaako vai ei?
 
+#110726:ekana param voisi olla suoraan $1/conf_hashfile?
 function aqsp() {
 	dqb "aqsp ${1} ; "
 	[ -z "${1}" ] && exit 97
@@ -118,8 +121,7 @@ function aqsp() {
 }
 
 function e22_pre1() {
-	dqb "e22_pre1( ${1} ; ${2} ; ${3}) "
-	csleep 1
+	dqb "e22_pre1()"
 
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 66
@@ -209,7 +211,8 @@ function e22_config1() {
 	dqb "pars.ok"
 	csleep 1
 
-	local p=$(pwd)
+	local p
+	p=$(pwd)
 	cd ${1}
 
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
@@ -232,7 +235,7 @@ function e22_settings() {
 	[ -z "${3}" ] && exit 89
 
 	if [ ! -x ${1}/${3} ] ; then
-		echo "SHOU.LD exp3 p asgfd asgfd"
+		echo "SHOU.LD exp2 p asgfd asgfd"
 		exit 24
 	fi
 
@@ -258,9 +261,6 @@ function e22_home_pre() {
 	[ -z "${3}" ] && exit 71
 	[ -z "${4}" ] && exit 73
 	[ -z "${5}" ] && exit 79
-
-	dqb "pars_ok"
-	csleep 1
 
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		e22_config1 ~ ${4}
@@ -288,19 +288,19 @@ function e22_home() {
 	[ -z "${2}" ] && exit 69
 	[ -d ${2} ] || exit 70
 	[ -z "${3}" ] && exit 71
-
-	dqb "pars.ok"
+	dqb "pars_ok"
 	csleep 1
 
+	local t
 	local f
+
 	${srat} -rvf ${1} ${2}/../${3}
-	local t=$(${srat} -tf ${1} | grep ${3} | wc -l)
+	t=$(${srat} -tf ${1} | grep ${3} | wc -l)
 	[ ${t} -lt 1 ] && exit 72
 	csleep 1
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-	#TODO:TPX-kohdan kanssa jotain muutoksia vaiko ei? "${TARGET_TPX}"
-	${srat}  --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
+	${srat} ${TARGET_TPX} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
 	csleep 1
 
 	#miksi tässä eikä h_pre() ?
@@ -321,9 +321,10 @@ function luca() {
 
 #(meneekö rules.* kohteeseen useamman kerran? ehkä)
 
+#TODO:e22_dblock TAKAISIN TAAS 666!!!
+
 function e22_acol() {
 	dqb "e22_acol()"
-	csleep 1
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
@@ -343,9 +344,7 @@ function e22_acol() {
 	local ef
 	local g
 
-	for f in $(find /etc -type f -name "interfaces*" -and -not -name "*.202*" ) ; do 
-		${srat} -rvf ${1} ${f}
-	done
+	for f in $(find /etc -type f -name "interfaces*" -and -not -name "*.202*" ) ; do ${srat} -rvf ${1} ${f} ; done
 
 	for f in $(${odio} find /etc -type f -name "rules*" -and -not -name "*.202*" ) ; do
 		if [ -s ${f} ] && [ -r ${f} ] ; then
@@ -414,9 +413,6 @@ function e22_ext() {
 	[ -z "${4}" ] && exit 47
 	[ -d ${4} ] && exit 53
 	[ -f ${4} ] || exit 61
-	csleep 1
-	dqb "params ok"
-	csleep 1
 
 	dqb "paramz_ok"
 	csleep 1
@@ -438,7 +434,6 @@ function e22_ext() {
 
 	cd more_scripts/misc
 	echo $?
-
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
 
 	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
@@ -515,11 +510,11 @@ function e22_ts() {
 }
 
 #28526 taas testailut menossa (vissiin muuten toimii mutta shasums.1 kanssa jotain?)
+#TODO:ALAPA TESTAILLA MITEN TOIMII
 function e22_arch() {
 	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
 	csleep 1
 
-function e22_arch() {
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 11
 	[ -d ${2} ] || exit 22
@@ -554,65 +549,39 @@ function e22_arch() {
 
 	cd ${2}
 	${sah6} ./*.deb > ./${CONF_hashfile}
+	csleep 5
+	dqb "${CONF_hashfile}.1"
 
-	for f in $(find . -type f -name "*pkgs*") ; do
-		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
+	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do
+		[ ${3} -eq 1 ] && ${srat} -rvf ${1} ${f}
 		[ -s ./${f} ] && ${sah6} ${f} >> ./${CONF_hashfile}.1
+		csleep 1
 	done
+
+	csleep 5
 
 	for f in e.tar g.tar ; do
 		dqb "sah6 ./${f}"
-		[ -s ./${f} ] && ${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
+		${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
 	done
 
+	[ ${debug} -eq 1 ] && cat ./${CONF_hashfile}.1
+	csleep 5
+
 	e22_tyg ./${CONF_hashfile}
-	e22_tyg ./${CONF_hashfile}.1
+	[ -s  ./${CONF_hashfile}.1 ] && e22_tyg ./${CONF_hashfile}.1
+	echo "TODO:TARKISTA ETTEI ./${CONF_hashfile}.1 TYHJÄ"	#tietyssä ilmeisesä tapauksessa näin käy
+	exit
 
 	psqa .
 	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
+	#TODO:muutakin säätöä tässä (turha ajaa tar jos sitä ennen poisteltu)	
 	[ $? -gt 0 ] && ${NKVD} ./*.deb ./${CONF_hashfile}* ./*.tar #?
 	${srat} -rf ${1} ./*.deb ./${CONF_hashfile}* ./tim3stamp
 	cd ${p}
-}
 
-#tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
-function e22_dblock() {
-	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
-
-	[ -z "${1}" ] && exit 14
-	[ -s ${1} ] || exit 15
-	[ -z "${2}" ] && exit 11
-	[ -d ${2} ] || exit 22
-	[ -w ${2} ] || exit 23
-	[ -z "${3}" ] && exit 33
-	[ -d ${3} ] || exit 34
-	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
-	[ -z "${4}" ] && exit 37
-
-	dqb ".PARS-OK"
+	dqb "E22_A_DONE"
 	csleep 1
-
-	[ ${debug} -eq 1 ] && pwd
-
-	ls -la ${3}/*.deb | wc -l
-	
-	for s in ${PART175_LIST} ; do
-		${sharpy} ${s}*
-		${NKVD} ${3}/${s}*.deb
-	done
-	
-	local t
-	t=$(echo ${2} | cut -d "/" -f 1-6)
-	e22_ts ${t} ${3}
-	dqb "JST B3F0R3 3NF0RC3"
-	csleep 10
-	
-	enforce_access $(whoami) ${t}
-	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-	csleep 10
-
-	e22_arch ${1} ${2} ${4}
-	e22_cleanpkgs ${2}
 }
 
 #function aval0n() {
@@ -674,28 +643,21 @@ function e22_cde() {
 }
 
 function z1() {
-	dqb "z1( ${1} )"
-	csleep 1
-
+	dqb "z1()"
 	[ -z "${1}" ] && exit 66
-	dqb "pars ok"
 	csleep 2
-	${NKVD} ${1}.tmp
 
+	${NKVD} ${1}.tmp
 	${spc} ${1} ${1}.ÅLD
 	${spc} ${1}.sig ${1}.sig.ÅLD
 	${spc} ${1}.sha ${1}.sha.ÅLD
 
 	csleep 1
 	fasdfasd ${1}.tmp
-
-	dqb "z1() DONE"
-	csleep 1
 }
 
 function z2() {
-	dqb "z2 ( ${1}) "
-	csleep 1
+	dqb "z2()"
 	[ -z "${1}" ] && exit 66
 
 	#ekan parametrin kanssa lisää tarkistuksia?
@@ -717,9 +679,6 @@ function z2() {
 	csleep 3
 	e22_tyg ${1}
 	${sah6} ${1} > ${1}.sha
-
-	dqb "z2 ( ${1}) DONE"
-	csleep 1
 }
 
 function z3() {
@@ -733,7 +692,6 @@ function z3() {
 	csleep 1
 
 	if [ ! -s ${3} ] ; then
-		#tulöeeko export3 mukaan?
 		${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
 		csleep 1
 	fi
