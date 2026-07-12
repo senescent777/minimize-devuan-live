@@ -32,8 +32,8 @@ function e23_tblz() {
 	#jotain excaliburiin liittyvää tuo tpc
 
 	echo "aswasw $1 vai $2 ? "
-	sleep 10
-	exit
+	sleep 5
+	#exit
 
 	aswasw ${2}
 	#VAIH:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?

@@ -1360,6 +1360,9 @@ function process_lib() {
 		fallback
 	fi
 
+	dqb "JSUT BFORE CKEH_BIN 1"
+	csleep 1
+
 	check_binaries ${1} ${2}
 	[ $? -eq 0 ] || dqb "SHOULD exit 67"
 	

@@ -320,7 +320,7 @@ function luca() {
 
 #(meneekö rules.* kohteeseen useamman kerran? ehkä)
 
-#TODO:e22_dblock TAKAISIN TAAS 666!!!
+#VAIH:e22_dblock TAKAISIN TAAS 666!!!
 
 function e22_acol() {
 	dqb "e22_acol()"
@@ -388,6 +388,7 @@ function e22_acol() {
 
 [ -v CONF_BASEURL ] || exit 6
 
+#TODO:CONF_iface parametriksi jatkossa?
 function e22_pre_e() {
 	local p
 	local q
