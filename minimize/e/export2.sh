@@ -152,10 +152,11 @@ case "${mode}" in
 		#120726:lienee toimiva tämä case (aionain kerran roimi sill01m)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
-		e22_z1 /opt/bin/zxcv
+		CONF_hashfile3=/opt/bin/zxcv
+		e22_z1 ${CONF_hashfile3}
 
-		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
-		reqwreqw /opt/bin/zxcv.tmp
+		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} ${CONF_hashfile3}.tmp
+		reqwreqw ${CONF_hashfile3}.tmp
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 		
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
@@ -172,11 +173,11 @@ case "${mode}" in
 
 		e22_pre1 ${d} ${distro}
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
-		fasdfasd /opt/bin/zxcv.tmp
+		fasdfasd ${CONF_hashfile3}.tmp
 
-		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
-		e22_z2 /opt/bin/zxcv #TODO:/o/b , /o/b/zxcv -> Const ?
-		e22_z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
+		e22_sarram ${tgtfile} ${CONF_dm} ${CONF_hashfile3}.tmp
+		e22_z2 ${CONF_hashfile3} #VAIH:/o/b , /o/b/zxcv -> Const ?
+		e22_z3 ${CONF_hashfile3} ${tgtfile} ${d0}/MAN1.F2ST
 	;;
 	u|upgrade)
 		[ -v CONF_pkgdir ] || exit 96
