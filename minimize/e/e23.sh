@@ -102,7 +102,7 @@ function e23_upgp() {
 	csleep 1
 }
 
-#TODO:tämän se dhcp-karsinta kanssa?
+#TODO:tämän se dhcp-karsinta kanssa? (oliko case-esac syntaksin kanssa huomioitavaa? man bash barm vuoksi?)
 function e23_upgp2() {
 	dqb " e23_upgp2() "
 	[ -z "${1}" ] && exit 1 

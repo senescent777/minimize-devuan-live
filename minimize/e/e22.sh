@@ -143,7 +143,7 @@ function e22_pre1() {
 	${scm} a-w /etc/apt/sources.list*
 }
 
-#TODO:common_lib fktio jos ei nimeäisi linkkejä uudestaan jatkossa
+#TODO:common_lib fktio jos ei nimeäisi linkkejä uudestaan jatkossa, mikjä fktio olikaan
 
 function e22_pre2() {	
 	dqb "e22pre2 )))) ${1} ; ${2} ; ${3} ; ${4} )()))) "
