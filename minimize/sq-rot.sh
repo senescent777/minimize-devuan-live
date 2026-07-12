@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=1 #kunnes parsetyus kunnossa
+debug=1 #kunnes parsetyus kunnossa(110726:JOKO JO?)
 srcfile=""
 
 distro=$(cat /etc/devuan_version)
@@ -35,7 +35,7 @@ function usage() {
 #	fi
 #}
 #
-##VAIH:PARSETUS-HOMMAT UUSIKSI FRÅM SCRATCH
+#TODO:NOSE PARSETUS PRKL
 #function parse_opts_2() {
 #	dqb "fish.rot.parseopts_2 )) ${1} ; ${2} (("
 #
