@@ -409,7 +409,7 @@ function e22_pre_e() {
 
 	[ -z "${1}" ] && exit 98
 
-	#if [ "${CONF_iface
+	#if [ "
 	if [ "${1}" == "eth0:1" ] ; then
 		for p in $@ ; do
 			q=$(echo ${p} | grep -v dhcp)
@@ -716,7 +716,6 @@ function e22_cde() {
 	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkgs*
 }
 
-#VAIH:nimeäminen uusiksi? yleisen linjan mukaan?
 function e22_z1() {
 	dqb "e22_z1()) ${1} (()"
 	[ -z "${1}" ] && exit 66
