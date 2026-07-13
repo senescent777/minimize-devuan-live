@@ -120,11 +120,12 @@ case "${mode}" in
 				t=${CONF_testgris} 
 			fi
 
-			${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${t} -xvf ${tgtfile}
+			#VAIH:CONF_hashfile?
+			${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${t} -xvf ${tgtfile}
 		fi
 
 		csleep 5
-		${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${d} -xvf ${d}/f.tar
+		${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${d} -xvf ${d}/f.tar
 		csleep 5
 
 		[ $? -eq 0 ] || exit 99

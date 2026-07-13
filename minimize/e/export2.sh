@@ -39,6 +39,7 @@ function parse_opts_1() {
 
 	case "${1}" in
 		-p)
+			#TODO:VARMISTA ETTÄ TÄMÄ VIPY TOIMII!!!
 			if [ "${gbk}" == "-1" ] ; then
 				gbk=1
 			fi

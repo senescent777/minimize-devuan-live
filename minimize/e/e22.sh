@@ -705,6 +705,7 @@ function e22_cde() {
 	[ ${debug} -eq 1 ] && ls -las ${1}*
 	csleep 1
 
+	#HUOM.miten ne muut pkhs - jutut? TODO:selvitä tyluko aiemmin mukaan ne accept-tdstot?
 	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
 }
 

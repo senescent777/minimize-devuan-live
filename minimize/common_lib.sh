@@ -363,7 +363,7 @@ function psqa() {
 }
 
 #VAIH:shasums:ien kopsaus $2:seen myös?
-#TODO:pikemminkin siellä $2-hmistossa käsin se sha-tarkstus?
+#pikemminkin siellä $2-hmistossa käsin se sha-tarkstus? tai ehköä ei?
 function common_pp3() {	
 	dqb "() common_pp3 )))))) ${1} ) ${2} )))))))))))))"
 	csleep 1
@@ -393,6 +393,8 @@ function common_pp3() {
 			${NKVD} ${1}/*.tar*
 		fi
 
+		#HUOM.12726:svm, spc - jutut vosi ohittaa jos $2==$1
+		# if [ "${1}" != "${2}" ] ; then
 		local s
 
 		for s in $(grep -v '#' ${1}/${CONF_hashfile} | awk '{print $2}') ; do
@@ -404,6 +406,7 @@ function common_pp3() {
 		done
 
 		${spc} ${1}/${CONF_hashfile}* ${2}
+		#fi
 	fi
 
 	dqb "COMMON_PP3-DONE()"
@@ -472,7 +475,9 @@ function cefgh() {
 	fi
 }
 
-#TODO:sqroot-ympäristön pAKettivalikoiman päivitys, mm. gpg_poistuu-syistä
+#VAIH:sqroot-ympäristön pAKettivalikoiman päivitys, mm. gpg_poistuu-syistä
+#mitä nyt viimeksdi exp2:lla duunattu -> toimii pienellä urputuksella? (ne accpet-tdstot olisi hyvä saada sqroot asti kanssa)
+
 function CB01() {
 	dqb "common.lib.CB01( ${1} (( ${2} )"
 	csleep 1
@@ -493,7 +498,7 @@ function CB01() {
 #		exit 103
 #	fi
 
-	common_pp3 ${1} ${2}
+	common_pp3 ${1} ${2} #kuinkahan monta kertaa pitää tuo tarkistus ajaa, ennen CB0x-kutsuja jo...
 	for p in ${E22_GI} ; do efk1 ${2}/${p}*.deb ; done
 	csleep 1
 	dqb "iZOMVIE"
@@ -552,9 +557,6 @@ function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ; ${2} ) "	
 	csleep 1
 	
-#	dqb "6tr"
-#	csleep 1
-	
 	ipt=$(${odio} which iptables)
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
@@ -565,7 +567,6 @@ function check_binaries() {
 
 	#moni pak tarttee nämä
 	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
-	
 	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	
 	E22_GM="libc6 libselinux1"
@@ -589,20 +590,17 @@ function check_binaries() {
 	local y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp"
 	
 	if [ "${CONF_env}" == "VED" ] ; then
-		#y
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
 		dqb "P1SSE"
 	else
 		dqb "SCHEISS3"
-		#y="ifup ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp" # kilinwittu.sh
 	fi
 	
 	for x in ${y} ; do ocs ${x} ; done
 	sdi="${odio} ${sd0} -i "
 	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
-	#DONE?:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta? mukaan toiseen oksaan?
 	E22_GT=""
 	E22_GU=""
 
@@ -678,9 +676,14 @@ function check_binaries() {
 }
 
 function check_binaries2() {
+	#oikeastaaan ei tämä fktio ota vastaamn param,,,
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2 ))) ${1} ; ${2} ((((((("
 	csleep 1
-	[ -v sd0 ] || exit 66
+
+	#120726:toiv pois lähiaikoina ao. tarq
+	if [ "${CONF_env}" != "VED" ] ; then
+		[ -v sd0 ] || exit 66
+	fi
 	
 	ipt="${odio} ${ipt} "
 	ip6t="${odio} ${ip6t} "
@@ -1248,12 +1251,15 @@ function cg_udp6() {
 	dqb "D0NE"
 	csleep 1
 
-	echo " #TODO:tulisi selvittää muiten käytännössä toimii eth0:1, sharpy, cg_upd6/("
+	echo " #TODO:tulisi selvittää muiten käytännössä toimii eth0:1, sharpy, cg_upd6/(" #esim seur kerran q "exp2 u"
 	sleep 5
 
 	if [ "${CONF_iface}" == "eth0:1" ] ; then
 		${sharpy} isc-dchp*
 	fi
+
+	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6  DONE FOR NOW"
+	csleep 1
 }
 
 function part3() {
@@ -1273,21 +1279,24 @@ function part3() {
 
 	if [ -z "${2}" ] ; then
 		t=$(${mkt} -d)
-		#TODO:tässä kåskyttämään common_pp3() ?
+
+		#VAIH:tässä kåskyttämään common_pp3() ? vaiko toisessa haarassa kuitenkin?
 		n15=$(find ${1} -type f -name "*.deb" | wc -l)
 	else
 		t=${2} #jotain mankelointia mukaan?
 		n15=$(find ${2} -type f -name "*.deb" | wc -l)
+		#common_pp3 ${t} ${t}
 	fi
 	
 	if [ ${n15} -lt 1 ] ; then
 		cefgh ${1}
+		#common_pp3 ${1} ${t}
 	fi
 
 	csleep 1
 	jules
 
-	common_pp3 ${1} ${t}
+	common_pp3 ${1} ${t} #tämä kai pois jatkossa?
 	dqb "AL-fPGA"
 	csleep 1
 
@@ -1378,6 +1387,56 @@ function process_lib() {
 	TLA
 	dqb "common.process_lib.done()"
 }
+
+#function cptp2() {
+#	dqb "rot.c tp2 ${1}, ${2}, ${3}"
+#
+#	[ -z "${1}" ] && exit 99
+#	[ -d ${1} ] || exit 97
+#
+#	dqb "cptp2:pars ok"
+#	csleep 10
+#
+#	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
+#	local t
+#	t=$(echo ${1} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
+#
+#	if [ -f ${t}/common_lib.sh ] ; then
+#		#onkohan tuossa tarkistuksessa pointtia?
+#		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
+3			#csleep 1
+#			${gg} --verify ${t}/common_lib.sh.sig 
+#			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"
+#		fi
+3
+#		if [ -x ${t}/common_lib.sh ] ; then
+#			enforce_access $(whoami) ${t}
+#		
+#			dqb "TRO: running mutilatetc.bash maY be necessary now to fix some things"
+#		else
+#			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
+#		fi
+#		
+#		csleep 10
+#	fi
+#
+#	csleep 1
+#
+#	if [ -d ${t} ] ; then
+#		dqb "HAIL2 TH3 TH13F"
+#
+#		${scm} 0755 ${t}
+#		${scm} 0555 ${t}/*.sh
+#		${scm} 0444 ${t}/conf*
+#		${scm} 0444 ${t}/*.deb
+#
+#		csleep 1
+#	fi
+#
+#	[ ${debug} -eq 1 ] && ls -las ${1}
+#	csleep 1
+#	dqb "ALL DONE"
+#}
 
 function gpo() {
 	dqb "GPO"
