@@ -40,9 +40,9 @@ function parse_opts_1() {
 	case "${1}" in
 		-p)
 			#VAIH:VARMISTA ETTÄ TÄMÄ VIPY TOIMII!!! VISSIIN EI TOIMAA JUURI NYT
-			if [ "${gbk}" == "-1" ] ; then
+			#if [ "${gbk}" == "-1" ] ; then
 				gbk=1
-			fi
+			#fi
 		;;
 #		*)
 #			if [ -d ${d}/${1} ] ; then

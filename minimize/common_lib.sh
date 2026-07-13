@@ -370,7 +370,11 @@ function psqa() {
 		cd ${p}
 	else
 		dqb "NO SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
-		dqb "SHOULD \${NKVD} ${1}/ \*.deb"		
+		dqb "SHOULD \${NKVD} ${1}/ \*.deb"
+
+		#destoy rähän kanssa?		
+		destroy ${1}
+
 		return 93
 	fi
 
@@ -403,9 +407,11 @@ function common_pp3() {
 		psqa ${1}
 
 		if [ $? -gt 0 ] ; then #sittenkin psqa tekemään nuo?
-			${NKVD} ${1}/*.deb
-			${NKVD} ${1}/${CONF_hashfile}*
-			${NKVD} ${1}/*.tar*
+			#${NKVD} ${1}/*.deb
+			#${NKVD} ${1}/${CONF_hashfile}*
+			#${NKVD} ${1}/*.tar*
+
+			destroy ${1}
 		fi
 
 		#HUOM.12726:svm, spc - jutut vosi ohittaa jos $2==$1
