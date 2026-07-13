@@ -253,7 +253,7 @@ function check_bin_0() {
 	export LANG
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
-		[ -s /opt/bin/zxcv ] || echo "should exit 98"
+		[ -s /opt/bin/zxcv ] || echo "should exit 98" #TODO:Const-juttui
 		[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
 		[ -s /opt/bin/zxcv.sha ] || echo "shoul.d ext1 8 97"
 
@@ -282,6 +282,18 @@ function jules() {
 	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables
 }
 
+function destroy() {
+	[ -z "${1}" ] && exit 99
+	[ -d ${1} ] || exit 98
+
+	${NKVD} ${1}/*.deb
+	${NKVD} ${1}/${CONF_hashfile}*
+	${NKVD} ${1}/*.tar*
+
+	csleep 1
+	dqb "CONTENTS OF ${1} DESTROYED"
+}
+
 function psqa() {
 	dqb "c.Q () () () () ${1} ;;;"
 	csleep 1
@@ -297,6 +309,7 @@ function psqa() {
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
 
+	#TODO:parametrien kanssa voisi tehdä jotain
 	if [ -v gg ] && [ -s ${1}/${CONF_hashfile}.sig ] ; then
 		dqb "))S))))( ${1} )"
 		csleep 1
@@ -311,7 +324,10 @@ function psqa() {
 				dqb "KÖ"
 			else
 				dqb "SHOULD imp2 k \$dir !!!"
-				${NKVD} ${1}/${CONF_hashfile}*
+
+				#${NKVD} ${1}/${CONF_hashfile}*
+				destroy ${1}				
+
 				return 95 #jatk exit pois
 			fi
 
@@ -333,13 +349,13 @@ function psqa() {
 
 		local p=$(pwd)
 		cd ${1}
-
 		${sah6} -c ${CONF_hashfile} --ignore-missing
 
 		if [ $? -eq 0 ] ; then
 			dqb "Q.KO"
 		else
 			dqb "SHOULD \${NKVD} ${1}/ \* .deb"
+			destroy ${1}
 			return 94
 		fi
 
@@ -347,7 +363,7 @@ function psqa() {
 			${sah6} --ignore-missing -c ${CONF_hashfile}.1
 		else
 			echo "EILINRN PULLA 90 c"
-			#HUOM.12726:hashfile.1 ei välttämättä saataville ennen f.tar purkua joten suurta mölinää ei syytä laittaa käyntiin ennenq cefgh() ajettu 
+			#HUOM.12726:hashfile.1 ei välttämättä saataville ennen f.tar purkua joten suurta mölinää ei syytä laittaa käyntiin ennenq cefgh() ajettu (tai miteb lienee)
 		fi
 
 		csleep 1
@@ -362,10 +378,9 @@ function psqa() {
 	csleep 2
 }
 
-#VAIH:shasums:ien kopsaus $2:seen myös?
-#pikemminkin siellä $2-hmistossa käsin se sha-tarkstus? tai ehköä ei?
+#pikemminkin siellä $2-hmistossa käsin se sha-tarkstus?  ehkä ei kuitenkaan?
 function common_pp3() {	
-	dqb "() common_pp3 )))))) ${1} ) ${2} )))))))))))))"
+	dqb "() common_pp3 )))))) ${1} ) ${2} ))))))))))))) "
 	csleep 1
 
 	[ -z "${1}" ] && exit 99
@@ -387,26 +402,28 @@ function common_pp3() {
 	else
 		psqa ${1}
 
-		if [ $? -gt 0 ] ; then #toimiiko vai ei?
+		if [ $? -gt 0 ] ; then #sittenkin psqa tekemään nuo?
 			${NKVD} ${1}/*.deb
 			${NKVD} ${1}/${CONF_hashfile}*
 			${NKVD} ${1}/*.tar*
 		fi
 
 		#HUOM.12726:svm, spc - jutut vosi ohittaa jos $2==$1
-		# if [ "${1}" != "${2}" ] ; then
-		local s
+		 if [ "${1}" != "${2}" ] ; then
+			local s
 
-		for s in $(grep -v '#' ${1}/${CONF_hashfile} | awk '{print $2}') ; do
-			${svm} ${1}/${s} ${2}
-		done
+			for s in $(grep -v '#' ${1}/${CONF_hashfile} | awk '{print $2}') ; do
+				${svm} ${1}/${s} ${2}
+			done
 
-		for s in $(grep -v '#' ${1}/${CONF_hashfile}.1 | grep -v drop | awk '{print $2}') ; do
-			${spc} ${1}/${s} ${2}
-		done
+			for s in $(grep -v '#' ${1}/${CONF_hashfile}.1 | grep -v drop | awk '{print $2}') ; do
+				${spc} ${1}/${s} ${2}
+			done
 
-		${spc} ${1}/${CONF_hashfile}* ${2}
-		#fi
+			${spc} ${1}/${CONF_hashfile}* ${2}
+			ls -las ${2}/${CONF_hashfile}*
+			csleep 5
+		fi
 	fi
 
 	dqb "COMMON_PP3-DONE()"
@@ -498,7 +515,7 @@ function CB01() {
 #		exit 103
 #	fi
 
-	common_pp3 ${1} ${2} #kuinkahan monta kertaa pitää tuo tarkistus ajaa, ennen CB0x-kutsuja jo...
+	#common_pp3 ${1} ${2} #kuinkahan monta kertaa pitää tuo tarkistus ajaa, ennen CB0x-kutsuja jo...
 	for p in ${E22_GI} ; do efk1 ${2}/${p}*.deb ; done
 	csleep 1
 	dqb "iZOMVIE"
@@ -509,7 +526,6 @@ function CB01() {
 	csleep 1
 	
 	common_pp3 ${1} ${2}
-
 	dqb "common.lib.CB01() DONE"
 	csleep 1
 }
@@ -1233,7 +1249,7 @@ function common_lib_tool() {
 
 function cg_udp6() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
-	csleep 1
+	csleep 10
 	[ -z "${1}" ] && exit 65
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
@@ -1251,15 +1267,18 @@ function cg_udp6() {
 	dqb "D0NE"
 	csleep 1
 
-	echo " #TODO:tulisi selvittää muiten käytännössä toimii eth0:1, sharpy, cg_upd6/(" #esim seur kerran q "exp2 u"
+	echo " #VAIH:tulisi selvittää muiten käytännössä toimii eth0:1, sharpy, cg_upd6/(" #esim seur kerran q "exp2 u"
 	sleep 5
 
+	#130726:bissiin yritti poistaa dhcp-paketit ruossa alla
 	if [ "${CONF_iface}" == "eth0:1" ] ; then
 		${sharpy} isc-dchp*
+	else
+		dqn "NOTR EMOVING DCHP"
 	fi
 
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6  DONE FOR NOW"
-	csleep 1
+	csleep 10
 }
 
 function part3() {
@@ -1280,12 +1299,12 @@ function part3() {
 	if [ -z "${2}" ] ; then
 		t=$(${mkt} -d)
 
-		#VAIH:tässä kåskyttämään common_pp3() ? vaiko toisessa haarassa kuitenkin?
 		n15=$(find ${1} -type f -name "*.deb" | wc -l)
 	else
 		t=${2} #jotain mankelointia mukaan?
+		common_pp3 ${t} ${t} #toimisiko näin?
+		
 		n15=$(find ${2} -type f -name "*.deb" | wc -l)
-		#common_pp3 ${t} ${t}
 	fi
 	
 	if [ ${n15} -lt 1 ] ; then
@@ -1355,19 +1374,14 @@ function part3() {
 }
 
 function process_lib() {
-	dqb "process_lib( ${1} ))) ${2} )(((((((("
 	[ -z "${1}" ] && exit 66
-	csleep 1
 	
-	#pointti?
 	if [ -x "${gg}" ] && [ -s ${1}/lib.sh.sig ] ; then
 		dqb "SHOULD ${gg} --verify ${1}/lib.sh.sig ? "
 		${gg} --verify ${1}/lib.sh.sig
 		[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"
 		csleep 1
 	fi
-
-	csleep 1
 	
 	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then
 		.  ${1}/lib.sh
@@ -1388,7 +1402,38 @@ function process_lib() {
 	dqb "common.process_lib.done()"
 }
 
-#function cptp2() {
+function gpo() {
+	dqb "GPO"
+	local prevopt
+	local opt
+	prevopt=""
+
+	if [ $# -lt 1 ] ; then
+		echo "$0 -h"
+	fi
+
+	for opt in $@ ; do
+		case ${opt} in	
+			-v|--v)
+				debug=1
+			;;
+			-h|--h)
+				usage
+				exit
+			;;
+		esac
+
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
+}
+
+#https://stackoverflow.com/questions/16988427/calling-one-bash-script-from-another-script-passing-it-arguments-with-quotes-and
+gpo "$@"
+
+
+#function cptp2() { #TARKKUUTTA PRKL
 #	dqb "rot.c tp2 ${1}, ${2}, ${3}"
 #
 #	[ -z "${1}" ] && exit 99
@@ -1404,11 +1449,9 @@ function process_lib() {
 #	if [ -f ${t}/common_lib.sh ] ; then
 #		#onkohan tuossa tarkistuksessa pointtia?
 #		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
-3			#csleep 1
 #			${gg} --verify ${t}/common_lib.sh.sig 
 #			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"
 #		fi
-3
 #		if [ -x ${t}/common_lib.sh ] ; then
 #			enforce_access $(whoami) ${t}
 #		
@@ -1437,33 +1480,3 @@ function process_lib() {
 #	csleep 1
 #	dqb "ALL DONE"
 #}
-
-function gpo() {
-	dqb "GPO"
-	local prevopt
-	local opt
-	prevopt=""
-
-	if [ $# -lt 1 ] ; then
-		echo "$0 -h"
-	fi
-
-	for opt in $@ ; do
-		case ${opt} in	
-			-v|--v)
-				debug=1
-			;;
-			-h|--h)
-				usage
-				exit #181225:sen toisen repon juttuja. Kandeeko laittaa tätä?
-			;;
-		esac
-
-		parse_opts_1 ${opt}
-		parse_opts_2 ${prevopt} ${opt}
-		prevopt=${opt}
-	done
-}
-
-#https://stackoverflow.com/questions/16988427/calling-one-bash-script-from-another-script-passing-it-arguments-with-quotes-and
-gpo "$@"

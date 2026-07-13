@@ -533,7 +533,7 @@ function e22_ts() {
 #VAIH:ALAPA TESTAILLA MITEN TOIMII
 function e22_arch() {
 	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
-	csleep 1
+	csleep 10
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 11
@@ -569,7 +569,12 @@ function e22_arch() {
 	dqb "${CONF_hashfile}.1"
 
 	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do #oliko olds kanssa jotain vei ai?
-		[ ${3} -eq 1 ] && ${srat} -rvf ${1} ${f}
+		if [ ${3} -eq 1 ]; then
+			dqb "SOON: ${srat} -rvf ${1} ${f}"
+			${srat} -rvf ${1} ${f}
+			csleep 1
+		fi
+
 		[ -s ./${f} ] && ${sah6} ${f} >> ./${CONF_hashfile}.1
 		csleep 1
 	done
@@ -613,6 +618,7 @@ function e22_arch() {
 #fktiona vähän turhaq, tarkistuksia enemmän kun varsi.naista koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
+	csleep 30
 
 	[ -z "${1}" ] && exit 14
 	[ -s ${1} ] || exit 15

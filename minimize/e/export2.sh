@@ -39,7 +39,7 @@ function parse_opts_1() {
 
 	case "${1}" in
 		-p)
-			#TODO:VARMISTA ETTÄ TÄMÄ VIPY TOIMII!!!
+			#VAIH:VARMISTA ETTÄ TÄMÄ VIPY TOIMII!!! VISSIIN EI TOIMAA JUURI NYT
 			if [ "${gbk}" == "-1" ] ; then
 				gbk=1
 			fi
@@ -103,6 +103,7 @@ fi
 
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
+#oliko jo kirjastossa?
 E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	
 if [ -x ${d0}/e/e22.sh ] ; then
@@ -181,6 +182,7 @@ case "${mode}" in
 		e22_z3 ${CONF_hashfile3} ${tgtfile} ${d0}/MAN1.F2ST
 	;;
 	u|upgrade)
+		#130726:testaus vaiheessam pakjetrteja saa vedettyä ainakin
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
 		csleep 1
@@ -209,7 +211,7 @@ case "${mode}" in
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
-	g) #koska tämä viimeksi teatattu?
+	g) #koska tämä viimeksi teatattu? joko taas 07/26?
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 
