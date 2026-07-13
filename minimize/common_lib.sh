@@ -253,20 +253,22 @@ function check_bin_0() {
 	export LANG
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
-		[ -s /opt/bin/zxcv ] || echo "should exit 98" #TODO:Const-juttui
-		[ -s /opt/bin/zxcv.sig ] || echo "ahouls exit 99"
-		[ -s /opt/bin/zxcv.sha ] || echo "shoul.d ext1 8 97"
+		[ -v CONF_hashfile3 ] || exit 666
 
-		${odio} ${sah6} -c /opt/bin/zxcv.sha
+		[ -s ${CONF_hashfile3} ] || echo "should exit 98" 
+		[ -s ${CONF_hashfile3}.sig ] || echo "ahouls exit 99"
+		[ -s ${CONF_hashfile3}.sha ] || echo "shoul.d ext1 8 97"
+
+		${odio} ${sah6} -c ${CONF_hashfile3}.sha
 		[ $? -gt 0 ] && echo "gh0uls 0f n1n1w3h"
 
-		[ -z "${gg}" ] || ${gg} --verify /opt/bin/zxcv.sig
+		[ -z "${gg}" ] || ${gg} --verify ${CONF_hashfile3}.sig
 		[ $? -gt 0 ] && echo "dhoulf exit 126"
 
 		local p=$(pwd)
 		cd /
 
-		${odio} ${sah6} -c /opt/bin/zxcv
+		${odio} ${sah6} -c ${CONF_hashfile3}
 		[ $? -gt 0 ] && echo "dhoulf exit 1234!!!"
 		cd ${p}
 	fi

@@ -530,7 +530,7 @@ function e22_ts() {
 }
 
 #28526 taas testailut menossa (vissiin muuten toimii mutta shasums.1 kanssa jotain?)
-#VAIH:ALAPA TESTAILLA MITEN TOIMII
+#13726:ehkä toimii
 function e22_arch() {
 	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
 	csleep 10
