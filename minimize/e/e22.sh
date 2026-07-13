@@ -690,7 +690,7 @@ function e22_rpg() {
 #	exit
 }
 
-#TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
+#ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
 function e22_cde() {
 	dqb "e22_cde()"
 	
@@ -705,8 +705,9 @@ function e22_cde() {
 	[ ${debug} -eq 1 ] && ls -las ${1}*
 	csleep 1
 
-	#HUOM.miten ne muut pkhs - jutut? TODO:selvitä tyluko aiemmin mukaan ne accept-tdstot?
-	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
+
+	#13726:palautettu 2 kk takaa tuo pkgs, miksi oli poistunut? tstaa
+	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkgs*
 }
 
 #VAIH:nimeäminen uusiksi? yleisen linjan mukaan?
