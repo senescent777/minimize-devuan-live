@@ -212,19 +212,23 @@ if [ -s ~/xorg.conf.new ] ; then
 	fi
 fi
 
-#TODO:meshuqqah kiukuttelun selvittely jos vielä toistuu, syyllinen tämä fktio vai mangle_s ?
+#VAIH:meshuqqah kiukuttelun selvittely jos vielä toistuu, syyllinen tämä fktio vai mangle_s ?
 function pre_enforce() {
 	dqb "pre_enforce() "
+
 	[ -z "${1}" ] && exit 98
 	[ -d ${1} ] || exit 97
 	[ -v mkt ] || exit 99
+
 	dqb "pars_ok"
 	csleep 1
 
 	local q
 	local f
+	local g
+
 	q=$(${mkt} -d)
-	q=${q}/meshuqqah
+	q=${q}/meshuqqah #satunnainen tauhka tdston_nimenä ei vissiin toinimnhut?
 	csleep 1
 	fasdfasd ${q}
 	[ ${debug} -eq 1 ] && ls -las ${q}
@@ -233,29 +237,41 @@ function pre_enforce() {
 	[ -f ${q} ] || exit 33
 	#VAIH:katso lista läpi että mitä nykyään tarvitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
 	#...ved kanssa lista kai ok, tarvitseeko TOOR oikeastaan listaa lainkaan?
-	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
+
+	#parempi jos vain sanoisi ryhmän mihin pitää kuulua että x
+	if [ "${CONF_env}" == "VED" ] ; then
+		g="devuan"
+	else
+		g=$(whoami) # | tr -dc a-zA-Z0-9 ) vissiin tämä haara vpoi kusta?
+	fi
+
+	for f in ${CB_LIST1} ; do 
+		mangle_s ${f} ${q} ${g}
+	done
 
 	dqb "BFOR3 testgris"
 	csleep 1
 	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
+	[ -v CONF_DIR2 ] || exit 79
 
 	if [ "${CONF_env}" == "DEFAULT" ] ; then
-		if [ ! -d /opt/bin ] ; then
-			${smd} /opt/bin
-			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
+		if [ ! -d ${CONF_DIR2} ] ; then
+			${smd} ${CONF_DIR2}
+			[ $? -eq 0 ] || ${odio} ${smd} ${CONF_DIR2}
 		fi
 
-		if [ -d ${1}/opt/bin ] ; then
-			${svm} ${1}/opt/bin/*.bash /opt/bin
+		if [ -d ${1}${CONF_DIR2} ] ; then
+			${svm} ${1}/${CONF_DIR2}/*.bash ${CONF_DIR2}
 		fi
 	fi
 
 	e_final
 
 	# "semmoinen juttu" 
-	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
-		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
-			mangle_s ${f} ${q}
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then
+		#tämä osuus /e/s.d/m qsee?
+		for f in $(${odio} find ${CONF_DIR2} -type f -name "*.bash" ) ; do
+			mangle_s ${f} ${q} ${g}
 		done
 	fi
 
@@ -291,7 +307,7 @@ function pre_enforce() {
 
 	csleep 1
 
-	if [ ${c4} -lt 1 ] ; then
+	if [ ${c4} -lt 1 ] ; then #tämä blokki vs setup2.bash vastaava kohta...
 		csleep 1
 		${scm} a+w /etc/fstab
 		csleep 1
@@ -410,11 +426,11 @@ ${asy}
 e_final
 e_h $(whoami) ${d0}
 
-${sco} 0:0 /opt/bin/*
-${scm} 0400 /opt/bin/zxcv*
+${sco} 0:0 ${CONF_DIR2}/*
+${scm} 0400 ${CONF_hashfile3}*
 
-if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
-	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+if [ -x ${CONF_DIR2}/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
+	${odio} ${CONF_DIR2}/mutilatetc.bash ${CONF_dnsm}
 else
 	echo "NOTHING LEFT TO MUTILATE"
 fi

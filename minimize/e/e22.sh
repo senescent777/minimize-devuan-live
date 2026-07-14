@@ -110,6 +110,7 @@ function aqsp() {
 
 	dqb "rv= ${rv}"
 
+	#destroy() ?
 	if [ ${rv} -gt 0 ] ; then #toistaiseksi sqap() hoitamaan poistot
 		dqb "SMTHNG WENT WR09NG"	
 		${NKVD} ./*.deb 
@@ -190,7 +191,7 @@ function e22_cleanpkgs() {
 	dqb "e22_cleanpkgs() "
 	[ -z "${1}" ] && exit 53
 
-	if [ -d ${1} ] ; then
+	if [ -d ${1} ] ; then #destroy() ?
 		${smr} ${1}/*.deb
 		${smr} ${1}/${CONF_hashfile}*
 		ls -las ${1}/*.deb | wc -l
@@ -271,7 +272,7 @@ function e22_home_pre() {
 	fi
 
 	e_final
-	${srat} --exclude "changedns*" -rvf ${1} /opt/bin
+	${srat} --exclude "changedns*" -rvf ${1} /opt/bin #TODO:Const
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
@@ -280,6 +281,11 @@ function e22_home_pre() {
 	#config.tar.bz2?
 	for t in $(find ~ -type f -name ${4} ) ; do
 		${srat} -rvf ${1} ${t}
+	done
+
+	#14726:välillä näin päin
+	for f in $(find ~ -type f -name "xorg.conf*" ) ; do 
+		${srat} -rvf ${1} ${f}
 	done
 
 	dqb "home.pre.-donr"
@@ -308,11 +314,6 @@ function e22_home() {
 	${srat} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t} #120726:oliko ${TARGET_TPX} kNSSA VIELÄ JOTAIN?
 	csleep 1
 
-	#miksi tässä eikä h_pre() ?
-	for f in $(find ~ -type f -name "xorg.conf*" ) ; do 
-		${srat} -rvf ${1} ${f}
-	done
-
 	dqb "e22_hoem_dnoe()"
 	csleep 1
 }
@@ -330,8 +331,6 @@ function luca() {
 }
 
 #(meneekö rules.* kohteeseen useamman kerran? ehkä)
-
-#DONE?:e22_dblock TAKAISIN TAAS 666!!!
 
 function e22_acol() {
 	dqb "e22_acol()"
@@ -365,6 +364,7 @@ function e22_acol() {
 		fi
 	done
 
+	#TODO:tähän se /e/iptables oikeuksien palautus tuikempaan?
 	luca ${1}
 	other_horrors
 
@@ -402,7 +402,7 @@ function e22_acol() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#VAIH:CONF_iface parametriksi jatkossa?
+#DONE?:CONF_iface parametriksi jatkossa?
 function e22_pre_e() {
 	local p
 	local q
@@ -529,7 +529,6 @@ function e22_ts() {
 	dqb "e22_ts() done"
 }
 
-#28526 taas testailut menossa (vissiin muuten toimii mutta shasums.1 kanssa jotain?)
 #13726:ehkä toimii
 function e22_arch() {
 	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
@@ -581,7 +580,7 @@ function e22_arch() {
 
 	csleep 1
 
-	#1209726: -f - tarq tässä tarpeen?
+	#120726: "-s" - tarq tässä tarpeen?
 	for f in e.tar g.tar ; do
 		dqb "sah6 ./${f}"
 		[ -s ./${f} ] && ${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
@@ -602,7 +601,7 @@ function e22_arch() {
 	psqa .
 	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
 
-	if [ $? -gt 0 ] ; then
+	if [ $? -gt 0 ] ; then #destroy() ? tai siis...
 		${NKVD} ./*.deb
 		${NKVD} ./${CONF_hashfile}*
 		${NKVD} ./*.tar
@@ -710,7 +709,6 @@ function e22_cde() {
 	fasdfasd ${1}
 	[ ${debug} -eq 1 ] && ls -las ${1}*
 	csleep 1
-
 
 	#13726:palautettu 2 kk takaa tuo pkgs, miksi oli poistunut? tstaa
 	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkgs*
@@ -832,14 +830,13 @@ function e22_sarram() {
 
 	${srat} -rvf ${1} /etc/X11/default-display-manager
 	
-	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka?
+	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka? (miten muuten blokin s iirto?)
 	${scm} 0555 /etc/iptables
 	${scm} 0400 /etc/iptables/rules*
 	${scm} 0400 /etc/default/rules*
 
-	#rules vedettiin jo aiemmin
-	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
-
+	#HUOM.14726:rules vedettiin jo aiemmin, acol()
+	#for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 	#OLD vai .OLD? ja ja ja
 
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v OLD | grep -v old) ; do 
@@ -859,7 +856,7 @@ function e22_sarram() {
 	csleep 1
 }
 
-function e22_stu() { #jatkosäätöä josqs
+function e22_stu() { #jatkosäätöä josqs (gpg mukaan?)
 	echo "# ! / b ..."
 	echo "base64 -d << FOE | tar -jxv"
 	echo "${srat} -jcf \$opts | base64"

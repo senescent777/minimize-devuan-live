@@ -180,9 +180,12 @@ function check_bin_0() {
 	esac
 
 	sd0=$(${odio} which dpkg)
+
+	#if [ "${CONF_env}" != "VED" ] ; then
 	[ -v sd0 ] || exit 78
 	[ -z "${sd0}" ] && exit 79
 	[ -x ${sd0} ] || exit 77
+	#fi
 
 	sr0=$(${odio} which tar)
 	[ -v sr0 ] || exit 80
@@ -251,8 +254,9 @@ function check_bin_0() {
 	export LANGUAGE
 	export LC_ALL
 	export LANG
+	#[ -v CONF_DIR2 ] || exit 99 tähänkö tökkäsdi 14726?
 
-	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then
 		[ -v CONF_hashfile3 ] || exit 666
 
 		[ -s ${CONF_hashfile3} ] || echo "should exit 98" 
@@ -408,7 +412,7 @@ function common_pp3() {
 	else
 		psqa ${1}
 
-		if [ $? -gt 0 ] ; then #sittenkin psqa tekemään nuo?
+		if [ $? -gt 0 ] ; then #TODO:tulisi kai testata
 			#${NKVD} ${1}/*.deb
 			#${NKVD} ${1}/${CONF_hashfile}*
 			#${NKVD} ${1}/*.tar*
@@ -751,13 +755,15 @@ function TLA() {
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ "${CONF_env}" == "TOOR" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
-		if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then #TODO?:koitapa päättää miten pitäisi mennä 
+		[ -v CONF_DIR2 ] || exit 89	
+
+		if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then #TODO?:koitapa päättää miten pitäisi mennä 
 			dqb "JST B3F0R:tlb-b a s h"
-			[ -s /opt/bin/tlb.bash ] || exit 99
-			${scm} 0511 /opt/bin/tlb.bash
+			[ -s ${CONF_DIR2}/tlb.bash ] || exit 99 #vaih:CONF_DIR2
+			${scm} 0511 ${CONF_DIR2}/tlb.bash
 
 			#tarkoituksella ilman param
-			${odio} /opt/bin/tlb.bash 
+			${odio} ${CONF_DIR2}/tlb.bash 
 		fi
 	fi
 }
@@ -767,13 +773,14 @@ function TLA() {
 #HUOM.110726:tämä fktio osannee tehdä validia sisältöä, joten jos kehitysymp vielä qsee niin tutkittava mitkä versiot mistäkin paketeista on asennettu
 
 function mangle_s() {
-	dqb " mangle_s( ${1} )"
+	dqb " mangle_s( ${1} ( ${2} ( ${3} )"
 	csleep 1
 
 	[ -z "${1}" ] && exit 44
-	[ -x ${1} ] || exit 55 #TÄHÄNKÖ TÖKKÄÄ 050626?
-	[ -z "${2}" ] && exit 45 #KUINKA MONTA PARAM?
+	[ -x ${1} ] || exit 55
+	[ -z "${2}" ] && exit 45
 	[ -f ${2} ] || exit 54
+	#[ -z "${3}" ] && exit 65 ei vielä
 
 	[ -v CONF_algo ] || exit 98
 	[ -z "${CONF_algo}" ] && exit 99 
@@ -782,14 +789,16 @@ function mangle_s() {
 	csleep 1
 
 	local r
-	r=$(echo ${1} | tr -dc a-zA-Z0-9/.)
+	r=$(echo ${1} | tr -dc a-zA-Z0-9/._)
 	${scm} 0555 ${r}
 	${sco} root:root ${r}
 
-	#toisinkin voisi kai tehdä (ab,ac)
-	local aa=$(whoami | tr -dc a-zA-Z0-9 )
-	local ab=$(${sah6} ${r} | awk '{print $1}' | tr -dc a-fA-F0-9)
-	local ac=$(${sah6} ${r} | awk '{print $2}' | tr -dc a-zA-Z0-9./)	
+	#14726:bissiin qsee paskaa näin tai parametrit väärät
+	local aa=$(echo ${3} | tr -dc a-zA-Z0-9 )
+	r=$(${sah6} ${r})
+
+	local ab=$(echo ${r} | awk '{print $1}' | tr -dc a-fA-F0-9)
+	local ac=$(echo ${r} | awk '{print $2}' | tr -dc a-zA-Z0-9./_)	
 	echo "${aa} ALL=NOPASSWD:${CONF_algo}:${ab} ${ac}" >> ${2}
 	dqb " mangle_s() done"
 }
@@ -843,11 +852,12 @@ function reqwreqw() {
 function e_final() {
 	dqb "ALOMST FINAL"
 	csleep 1
+	#[ -v CONF_DIR2 ] || exit 99 #ei vielä, sqroot menevä konf...
 
-	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then 
-		${scm} go-rw /opt/bin/*
-		${scm} 0400 /opt/bin/*.sh
-		${scm} 0511 /opt/bin/*.bash
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then 
+		${scm} go-rw ${CONF_DIR2}/*
+		${scm} 0400 ${CONF_DIR2}/*.sh
+		${scm} 0511 ${CONF_DIR2}/*.bash
 	fi
 
 	${scm} 0755 /
@@ -893,12 +903,12 @@ function e_h() {
 	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
 	csleep 1
 
-	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then	#tänään näin
-		if [ -d ${2}/opt/bin ] ; then
-			${sco} -R root:root ${2}/opt/bin
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then	#tänään näin
+		if [ -d ${2}/${CONF_DIR2} ] ; then
+			${sco} -R root:root ${2}/${CONF_DIR2}
 
-			${scm} 0400 ${2}/opt/bin/*
-			${scm} 0511 ${2}/opt/bin/*.bash
+			${scm} 0400 ${2}/${CONF_DIR2}/*
+			${scm} 0511 ${2}/${CONF_DIR2}/*.bash
 		fi
 	fi
 
@@ -1195,10 +1205,11 @@ function part2() {
 		local t
 
 		t=$(echo ${2} | tr -d -c 0-9)
+		#[ -v CONF_DIR2 ] || exit 99 eivielä
 
 		#ved vai default?
-		if [  "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
-			${odio} /opt/bin/tlb.bash ${t}
+		if [  "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then
+			${odio} ${CONF_DIR2}/tlb.bash ${t}
 		fi
 	fi
 

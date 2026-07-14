@@ -1,4 +1,4 @@
-function aswasw() {
+function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() nykyään
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
 	csleep 1
@@ -17,6 +17,7 @@ function aswasw() {
 }
 
 #vissiin 120726 sai viimeksi validia sisältöä aiolka+sxeksi
+#TODO:uusicksi testaus kuitenkin lhiaikoina
 function e23_tblz() {
 	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
 	csleep 1
@@ -39,7 +40,7 @@ function e23_tblz() {
 	aswasw ${1}
 
 	#DONE?:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
-	e22_pre_e ${E22_GT}
+	e22_pre_e ${E22_GT} ${CONF_iface}
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 1
@@ -53,7 +54,7 @@ function e23_tblz() {
 	csleep 1
 }
 
-#vissiin 120726 sai viimeksi validia sisältöä aiolka+sxeksi
+#vissiin 120726 sai viimeksi validia sisältöä aiKAIsxeksi
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -65,7 +66,8 @@ function e23_other_pkgs() {
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	e22_pre_e ${E22_GI}
 	e22_pre_e ${E22_GG}
-	e22_pre_e ${E23_GS}  #moni pak tarttee nämä
+	e22_pre_e ${E23_GS} #e22_gs vs e23_gs ?
+	#140726:kutsuvassa koodissa vedettii n jo nuo?
 
 	message
 	jules
@@ -94,7 +96,7 @@ function e23_upgp() {
 	dqb " e23_upgp() "
 	${fib}
 	csleep 1
-	e22_pre_e ${E22_GS}
+	e22_pre_e ${E22_GS} ${CONF_iface}
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 
@@ -102,7 +104,7 @@ function e23_upgp() {
 	csleep 1
 }
 
-#TODO:tämän se dhcp-karsinta kanssa? (oliko case-esac syntaksin kanssa huomioitavaa? man bash barm vuoksi?)
+#TODO?:tämän se dhcp-karsinta kanssa? (oliko case-esac syntaksin kanssa huomioitavaa? man bash barm vuoksi?)
 function e23_upgp2() {
 	dqb " e23_upgp2() "
 	[ -z "${1}" ] && exit 1 
@@ -172,8 +174,8 @@ function e23_dm() {
 	csleep 1
 
 	${fib}
-	e22_pre_e ${E22_GS}
-	e22_pre_e ${E22_GM}
+	e22_pre_e ${E22_GS} ${CONF_iface}
+	e22_pre_e ${E22_GM} ${CONF_iface}
 	csleep 5
 
 	if [ "${1}" == "wdm" ] ; then
@@ -300,7 +302,7 @@ function e23_profs() {
 	csleep 1
 }
 
-function e23_st() { #120626:vissiin asentivat nämä paketit 
+function e23_st() { #120626:vissiin asentUivat nämä paketit 
 	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
 	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim
 	${shary} dmsetup libdevmapper1 libjte2

@@ -103,9 +103,10 @@ fi
 
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
-#oliko jo kirjastossa?
-E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
-	
+
+#oliko jo kirjastossa? jep (tai vertaa sisältöä vielä barm vuoksi)
+#E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
+
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
 	[ $? -gt 0 ] && exit 66
@@ -145,13 +146,16 @@ csleep 1
 dqb "JUST BEFORE ESAC"
 csleep 6
 
+dqb "TODO:lähiaikoina case 3 ja case e testaten uudelleen!!!!!"
+csleep 5
+
 case "${mode}" in
 	0)
 		exit 97
 	;;
 	3|4) 
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
-		#120726:lienee toimiva tämä case (aionain kerran roimi sill01m)
+		#120726:lienee toimiva tämä case (aiNAKin kerran roimi sill01m)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		CONF_hashfile3=/opt/bin/zxcv
@@ -160,16 +164,17 @@ case "${mode}" in
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} ${CONF_hashfile3}.tmp
 		reqwreqw ${CONF_hashfile3}.tmp
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		
+
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
 			#TODO:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä
+			#... tai jos case g prujaus...
 
 			e23_tblz ${CONF_iface} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
 			doit=0
-		fi	
-		
+		fi
+
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
 
@@ -182,7 +187,10 @@ case "${mode}" in
 		e22_z3 ${CONF_hashfile3} ${tgtfile} ${d0}/MAN1.F2ST
 	;;
 	u|upgrade)
-		#130726:testaus vaiheessam pakjetrteja saa vedettyä ainakin
+		#140726:testaus vaiheessa, pakETTeja saa vedettyä ainakin
+		#140726.2:pientä narinaa kirjastoista taisi olla joten jotain tarttisi tehrä
+		#.3: muutakin kiukuttelua, modaamattoman kiekon kanssa, selvitä toistuuko
+
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
 		csleep 1
@@ -193,7 +201,7 @@ case "${mode}" in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) 
-		#120726:lienee toimiva tämä case
+		#120726:lienee toimiva tämä case (jos kuitenkin uusiksi taas testaus)
 		e22_pre_e ${E22_GS} ${CONF_iface}
 		e22_pre_e ${E22_GM} ${CONF_iface}
 
@@ -211,13 +219,13 @@ case "${mode}" in
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
-	g) #koska tämä viimeksi teatattu? joko taas 07/26?
+	g) #koska tämä viimeksi teStattu? joko taas 07/26?
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 
 		${fib}
 		${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä
-		${shary} ${E22_GG}
+		${shary} ${E22_GG} #tartteeko molemmat E22_jutut gpg varten?
 
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
@@ -290,13 +298,13 @@ esac
 #}
 
 #tuossa alla vielä jotain laittoa?
-if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
+if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 	e22_hdr ${d}/f.tar
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar
 
-	${srat} -rvf ${tgtfile} ${d}/f.tar* 
-	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
+	${srat} -rvf ${tgtfile} ${d}/f.tar*
+	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar*
 fi
 
 if [ -s ${tgtfile} ] ; then
