@@ -219,7 +219,7 @@ case "${mode}" in
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
-	g) #koska tämä viimeksi teStattu? joko taas 07/26?
+	g) #koska tämä viimeksi teStattu? joko taas 07/26? esim 160726 (VAIH	)
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 

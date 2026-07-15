@@ -64,9 +64,9 @@ function e23_other_pkgs() {
 	csleep 1
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
-	e22_pre_e ${E22_GI}
-	e22_pre_e ${E22_GG}
-	e22_pre_e ${E23_GS} #e22_gs vs e23_gs ?
+	e22_pre_e ${E22_GI} ${CONF_iface}
+	e22_pre_e ${E22_GG} ${CONF_iface}
+	e22_pre_e ${E23_GS}  ${CONF_iface} #e22_gs vs e23_gs ?
 	#140726:kutsuvassa koodissa vedettii n jo nuo?
 
 	message
