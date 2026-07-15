@@ -1,6 +1,10 @@
 debug=1
-#esit pois josqs, nyt näin
+#eXit pois josqs, nyt näin
 exit 99
+
+#kts myös setup2.bash dalek-jutut
+CONF_hashfile3=/opt/bin/zxcv #VAIH:myös /o/b alaisiin käyttöön
+CONF_DIR2=/opt/bin
 
 #================================
 #ntp-kikkailut erilliseen skriptiin?
