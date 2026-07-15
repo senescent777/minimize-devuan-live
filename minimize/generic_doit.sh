@@ -229,8 +229,8 @@ function pre_enforce() {
 	local g
 
 	#q=$(${mkt} -d)
-	q=$(${mkt} -d qsipasq-XXXX)
-	q=${q}/meshuqqah #satunnainen tauhka tdston_nimenä ei vissiin toinimnut? riippuu tauhkasta, "man 5 sudoers"
+	q=$(${mkt} qsipasq-XXXX)
+	#q=${q}/meshuqqah #satunnainen tauhka tdston_nimenä ei vissiin toinimnut? riippuu tauhkasta, "man 5 sudoers"
 	csleep 1
 
 	fasdfasd ${q}
