@@ -264,7 +264,7 @@ function pre_enforce() {
 		fi
 
 		if [ -d ${1}${CONF_DIR2} ] ; then
-			${svm} ${1}/${CONF_DIR2}/*.bash ${CONF_DIR2}
+			${svm} ${1}${CONF_DIR2}/*.bash ${CONF_DIR2}
 		fi
 	fi
 

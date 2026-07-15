@@ -759,9 +759,9 @@ function TLA() {
 	else
 		[ -v CONF_DIR2 ] || exit 89	
 
-		if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then #TODO?:koitapa päättää miten pitäisi mennä 
+		if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then #koitapa päättää miten pitäisi mennä 
 			dqb "JST B3F0R:tlb-b a s h"
-			[ -s ${CONF_DIR2}/tlb.bash ] || exit 99 #vaih:CONF_DIR2
+			[ -s ${CONF_DIR2}/tlb.bash ] || exit 99
 			${scm} 0511 ${CONF_DIR2}/tlb.bash
 
 			#tarkoituksella ilman param
@@ -1316,8 +1316,6 @@ function part3() {
 
 	local n15=0
 	local t=""
-	
-	#TODO?:näillä main merge-juttuja jatkossa? tai siis mitä tässä kohtaa pitä vielä tehdä?
 
 	if [ -z "${2}" ] ; then
 		t=$(${mkt} -d)

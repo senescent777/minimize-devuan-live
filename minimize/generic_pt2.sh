@@ -51,15 +51,15 @@ e_h $(whoami) ${d0}
 csleep 2
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
-	#TODO:CONF_dir2, CONF_hashfile3
-	${odio} /opt/bin/tlb.bash
+	#VAIH:CONF_dir2, CONF_hashfile3
+	${odio} ${CONF_DIR2}/tlb.bash
 	csleep 2
-	${sco} 0:0 /opt/bin/*
-	${scm} 0400 /opt/bin/zxcv*
+	${sco} 0:0 ${CONF_DIR2}/*
+	${scm} 0400 ${CONF_hashfile3}*
 fi
 
-if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then		
-	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+if [ -x ${CONF_DIR2}/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then		
+	${odio} ${CONF_DIR2}/mutilatetc.bash ${CONF_dnsm}
 else
 	dqb "FAILURE TO MUTILATE: /etc/resolc. von f "
 fi
