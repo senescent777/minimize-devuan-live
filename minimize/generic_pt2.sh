@@ -51,6 +51,7 @@ e_h $(whoami) ${d0}
 csleep 2
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
+	#TODO:CONF_dir2, CONF_hashfile3
 	${odio} /opt/bin/tlb.bash
 	csleep 2
 	${sco} 0:0 /opt/bin/*
@@ -91,7 +92,7 @@ function t2p_filler() {
 	csleep 1
 }
 
-##140526 edelleen tarpeellinen blokki, puuttuvat paketit $d alla aiheuttavat? TODO:joko jo pois 06/26?
+##140526 edelleen tarpeellinen blokki, puuttuvat paketit $d alla aiheuttavat? TODO:joko jo pois 07/26?
 #if [ "${CONF_env}" == "TOOR" ] ; then
 #	${sharpy} blu*
 #	${sharpy} nfs*

@@ -116,7 +116,7 @@ function part0() {
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
 	${whack} ssh-agent*
 
-	#2804236:josko ssh-agentin sisältävän paketin voisi poistaa?
+	#2804236:josko ssh-agentin sisältävän paketin voisi poistaa? ajankohtaistra vielä 07/26?
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
@@ -213,6 +213,7 @@ if [ -s ~/xorg.conf.new ] ; then
 fi
 
 #VAIH:meshuqqah kiukuttelun selvittely jos vielä toistuu, syyllinen tämä fktio vai mangle_s ?
+#... yksi ehdokas olisi
 function pre_enforce() {
 	dqb "pre_enforce() "
 
@@ -227,15 +228,17 @@ function pre_enforce() {
 	local f
 	local g
 
-	q=$(${mkt} -d)
-	q=${q}/meshuqqah #satunnainen tauhka tdston_nimenä ei vissiin toinimnhut?
+	#q=$(${mkt} -d)
+	q=$(${mkt} -d qsipasq-XXXX)
+	q=${q}/meshuqqah #satunnainen tauhka tdston_nimenä ei vissiin toinimnut? riippuu tauhkasta, "man 5 sudoers"
 	csleep 1
+
 	fasdfasd ${q}
 	[ ${debug} -eq 1 ] && ls -las ${q}
 	csleep 1
 
 	[ -f ${q} ] || exit 33
-	#VAIH:katso lista läpi että mitä nykyään tarvitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
+	#DONE?:katso lista läpi että mitä nykyään tarvitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
 	#...ved kanssa lista kai ok, tarvitseeko TOOR oikeastaan listaa lainkaan?
 
 	#parempi jos vain sanoisi ryhmän mihin pitää kuulua että x
@@ -287,7 +290,7 @@ function pre_enforce() {
 		unset CB_LIST1
 	fi
 
-	q=$(${mkt})
+	q=$(${mkt} qsipasq3-XXXX) #15726:param uutena
 	fasdfasd ${q}
 	dinf ${q}
 	reqwreqw ${q}

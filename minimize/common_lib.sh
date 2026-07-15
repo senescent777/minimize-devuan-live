@@ -254,27 +254,29 @@ function check_bin_0() {
 	export LANGUAGE
 	export LC_ALL
 	export LANG
-	#[ -v CONF_DIR2 ] || exit 99 tähänkö tökkäsdi 14726?
 
-	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then
-		[ -v CONF_hashfile3 ] || exit 666
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
+		[ -v CONF_hashfile3 ] || exit 66
+		[ -v CONF_DIR2 ] || exit 99 #tähänkö tökkäsdi 14726? bssiin
 
-		[ -s ${CONF_hashfile3} ] || echo "should exit 98" 
-		[ -s ${CONF_hashfile3}.sig ] || echo "ahouls exit 99"
-		[ -s ${CONF_hashfile3}.sha ] || echo "shoul.d ext1 8 97"
+		if [ -d ${CONF_DIR2} ] ; then
+			[ -s ${CONF_hashfile3} ] || echo "should exit 98" 
+			[ -s ${CONF_hashfile3}.sig ] || echo "ahouls exit 99"
+			[ -s ${CONF_hashfile3}.sha ] || echo "shoul.d ext1 8 97"
+	
+			${odio} ${sah6} -c ${CONF_hashfile3}.sha
+			[ $? -gt 0 ] && echo "gh0uls 0f n1n1w3h"
 
-		${odio} ${sah6} -c ${CONF_hashfile3}.sha
-		[ $? -gt 0 ] && echo "gh0uls 0f n1n1w3h"
+			[ -z "${gg}" ] || ${gg} --verify ${CONF_hashfile3}.sig
+			[ $? -gt 0 ] && echo "dhoulf exit 126"
 
-		[ -z "${gg}" ] || ${gg} --verify ${CONF_hashfile3}.sig
-		[ $? -gt 0 ] && echo "dhoulf exit 126"
+			local p=$(pwd)
+			cd /
 
-		local p=$(pwd)
-		cd /
-
-		${odio} ${sah6} -c ${CONF_hashfile3}
-		[ $? -gt 0 ] && echo "dhoulf exit 1234!!!"
-		cd ${p}
+			${odio} ${sah6} -c ${CONF_hashfile3}
+			[ $? -gt 0 ] && echo "dhoulf exit 1234!!!"
+			cd ${p}
+		fi
 	fi
 
 	csleep 1
@@ -780,7 +782,7 @@ function mangle_s() {
 	[ -x ${1} ] || exit 55
 	[ -z "${2}" ] && exit 45
 	[ -f ${2} ] || exit 54
-	#[ -z "${3}" ] && exit 65 ei vielä
+	[ -z "${3}" ] && exit 65 #no nyt?
 
 	[ -v CONF_algo ] || exit 98
 	[ -z "${CONF_algo}" ] && exit 99 
@@ -788,12 +790,14 @@ function mangle_s() {
 	dqb "pars ok"
 	csleep 1
 
+	#150726: $2:selle jatkossa tr-jekku?
 	local r
 	r=$(echo ${1} | tr -dc a-zA-Z0-9/._)
+
 	${scm} 0555 ${r}
 	${sco} root:root ${r}
 
-	#14726:bissiin qsee paskaa näin tai parametrit väärät
+	#14726:bissiin qsee paskaa näin tai parametrit väärät (ellei sittebn tdstonimi)
 	local aa=$(echo ${3} | tr -dc a-zA-Z0-9 )
 	r=$(${sah6} ${r})
 
@@ -852,7 +856,7 @@ function reqwreqw() {
 function e_final() {
 	dqb "ALOMST FINAL"
 	csleep 1
-	#[ -v CONF_DIR2 ] || exit 99 #ei vielä, sqroot menevä konf...
+	[ -v CONF_DIR2 ] || exit 99 # sqroot menevä konf jok unno ssa?
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then 
 		${scm} go-rw ${CONF_DIR2}/*
@@ -1205,7 +1209,7 @@ function part2() {
 		local t
 
 		t=$(echo ${2} | tr -d -c 0-9)
-		#[ -v CONF_DIR2 ] || exit 99 eivielä
+		[ -v CONF_DIR2 ] || exit 99 #nyt jo?
 
 		#ved vai default?
 		if [  "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then
