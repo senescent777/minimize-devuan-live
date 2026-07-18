@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=1 #kunnes parsetyus kunnossa(110726:JOKO JO?)
+debug=0 #tilapäisesti nollakei ettäö asialliset hommat EHKÄ
 srcfile=""
 
 distro=$(cat /etc/devuan_version)
@@ -98,10 +98,10 @@ else
 		#DONE?:viimeaikaisiin muutoksiin liittyen varmista että sqroot-ympäristössä on oikeanlainen konfiguraatio
 		#vissiin on jo 240626
 
-		#VAIH:seuraavaksi varmista että nekros?.tar.bz3 sisältämät paketit asentuvat sqroot a laisuudessa
+		#DONE?:seuraavaksi varmista että nekros?.tar.bz3 sisältämät paketit asentuvat sqroot a laisuudessa
 		#... elikkäs uudelleen_pakkausta tapahtumaan kohta
 
-		#TODO:varmistapa vielä että sqroot alle menevät asennuspaketit ajan tasalla
+		#DONE?:varmistapa vielä että sqroot alle menevät asennuspaketit ajan tasalla
 
 		case "${CONF_algo}" in
 			sha256)
@@ -260,7 +260,7 @@ fi
 #... jotain pientä laittoa vielä tarvitsee (230326)
 
 function common_part() {
-	dqb "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
+	echo "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
 
 	[ -z "${1}" ] && exit 91 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
 	[ -s ${1} ] || exit 92
@@ -275,7 +275,7 @@ function common_part() {
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
 	echo "paramz_0k"
-	csleep 1
+	sleep 1
 
 	cd /
 	local r
@@ -334,9 +334,11 @@ function common_part() {
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "ko"		
 		else	
-			#ekan param lisätarkistukset yllä riittävät?
+			#ekan param lisätarkistukset yllä riittävät? entä destroy()?
 			${NKVD} ${1}* 
 			${NKVD} ${2}/*.deb
+
+			#destrpy()?
 
 			${NKVD} ${2}/${CONF_hashfile}*
 			${NKVD} ${2}/*.tar*
@@ -346,14 +348,14 @@ function common_part() {
 	fi
 
 	csleep 1
-	dqb "NECKST: ${srat}  (${TARGET_TPX} ) -C ${3} -xf ${1}"
+	dqb "NECKST: ${srat}  ( ${TARGET_TPX} ) -C ${3} -xf ${1}"
 
 	csleep 1
 	${srat} --exclude rnd --exclude ./rnd -C ${3} -xf ${1} #vielä pientä laittoa "${TARGET_TPX}" liittyen?
 	[ $? -eq 0 ] || exit 36	
 
-	csleep 1
-	dqb "${srat} DONE"
+	sleep 1
+	echo "${srat} DONE"
 }
 
 #cptp2 -> common_lib vai ei?
@@ -485,6 +487,9 @@ case "${mode}" in
 		echo "-h"
 	;;
 esac
+
+echo "atfr.esac"
+sleep 1
 
 #poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (VAIH?)
 if [ $? -eq 0 ] ; then

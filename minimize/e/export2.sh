@@ -104,8 +104,6 @@ fi
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
 
-#oliko jo kirjastossa? jep (tai vertaa sisältöä vielä barm vuoksi)
-#E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
@@ -158,7 +156,7 @@ case "${mode}" in
 		#120726:lienee toimiva tämä case (aiNAKin kerran roimi sill01m)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
-		CONF_hashfile3=/opt/bin/zxcv
+		#CONF_hashfile3=/opt/bin/zxcv
 		e22_z1 ${CONF_hashfile3}
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} ${CONF_hashfile3}.tmp
@@ -166,7 +164,7 @@ case "${mode}" in
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
-			#TODO:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä
+			#TODO:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä?
 			#... tai jos case g prujaus...
 
 			e23_tblz ${CONF_iface} ${CONF_dnsm}
@@ -183,13 +181,13 @@ case "${mode}" in
 		fasdfasd ${CONF_hashfile3}.tmp
 
 		e22_sarram ${tgtfile} ${CONF_dm} ${CONF_hashfile3}.tmp
-		e22_z2 ${CONF_hashfile3} #VAIH:/o/b , /o/b/zxcv -> Const ?
+		e22_z2 ${CONF_hashfile3}
 		e22_z3 ${CONF_hashfile3} ${tgtfile} ${d0}/MAN1.F2ST
 	;;
 	u|upgrade)
 		#140726:testaus vaiheessa, pakETTeja saa vedettyä ainakin
-		#140726.2:pientä narinaa kirjastoista taisi olla joten jotain tarttisi tehrä
-		#.3: muutakin kiukuttelua, modaamattoman kiekon kanssa, selvitä toistuuko
+		#170726:xserver-pakettien hukkaaminen ,  liittyykö g_pt2 ? No Ei
+		#elikkäs uusi yritys lähiaikoina
 
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
@@ -214,12 +212,12 @@ case "${mode}" in
 		csleep 5
 		e23_other_pkgs ${CONF_dnsm}
 	;;
-	t)
+	t) #toiminee mikäli case:t e tai 3 toimivat
 		message
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
-	g) #koska tämä viimeksi teStattu? joko taas 07/26? esim 160726 (VAIH	)
+	g) #17726:vissiin muodosti asentuvaa sisältöä tuolloin
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 
@@ -277,18 +275,18 @@ esac
 #	[ ${debug} -eq 1 ] && pwd
 #
 #	ls -la ${3}/*.deb | wc -l
-#	
+#
 #	for s in ${PART175_LIST} ; do
 #		${sharpy} ${s}*
 #		${NKVD} ${3}/${s}*.deb
 #	done
-#	
+#
 #	local t
 #	t=$(echo ${2} | cut -d "/" -f 1-6)
 #	e22_ts ${t} ${3}
 #	dqb "JST B3F0R3 3NF0RC3"
 #	csleep 10
-#	
+#
 #	enforce_access $(whoami) ${t}
 #	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
 #	csleep 10

@@ -180,7 +180,7 @@ function el_loco() {
 }
 
 function adieu() {
-#	pidetäänpä nämä jutut kommenteissa sitä varten että saattuukin tarvitsemaan
+#	pidetäänpä nämä jutut kommenteissa sitä varten että sattuukin tarvitsemaan
 #
 #	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
 #	csleep 5
@@ -312,11 +312,11 @@ function pre_enforce() {
 
 	if [ ${c4} -lt 1 ] ; then #tämä blokki vs setup2.bash vastaava kohta...
 		csleep 1
-		${scm} a+w /etc/fstab
+		${scm} a+w /etc/fstab #fasdfasd
 		csleep 1
 		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		csleep 1
-		${scm} a-w /etc/fstab
+		${scm} a-w /etc/fstab#reqwreqw
 		csleep 1
 		[ ${debug} -eq 1 ] && cat /etc/fstab
 		csleep 1
@@ -438,7 +438,7 @@ else
 	echo "NOTHING LEFT TO MUTILATE"
 fi
 
-sleep 20
+sleep 10
 #ifup nykyään muuttelee tables-sääntöjä yhdellä jekulla joten ei erikseen tartte käskyttää...
 
 ${sipt} -L

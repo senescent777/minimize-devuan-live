@@ -386,14 +386,14 @@ function psqa() {
 		return 93
 	fi
 
-	dqb " DONE WITH THE Q-FEVER () ;;;; (((((("
-	csleep 2
+	echo " DONE WITH THE Q-FEVER () ;;;; (((((("
+	sleep 1
 }
 
 #pikemminkin siellä $2-hmistossa käsin se sha-tarkstus?  ehkä ei kuitenkaan?
 function common_pp3() {	
-	dqb "() common_pp3 )))))) ${1} ) ${2} ))))))))))))) "
-	csleep 1
+	echo "() common_pp3 )))))) ${1} ) ${2} ))))))))))))) "
+	sleep 1
 
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 101
@@ -401,10 +401,10 @@ function common_pp3() {
 	[ -d ${2} ] || exit 102
 
 	[ ${debug} -eq 1 ] && pwd
-	csleep 1
+	#csleep 1
 
 	dqb "find ${1} -type f -name \* .deb"
-	csleep 3
+	#csleep 3
 
 	local q=$(find ${1} -type f -name "*.deb" | wc -l)
 	local r=$(echo ${1} | cut -d "/" -f 1-5)
@@ -436,11 +436,11 @@ function common_pp3() {
 
 			${spc} ${1}/${CONF_hashfile}* ${2}
 			ls -las ${2}/${CONF_hashfile}*
-			csleep 5
+			#csleep 5
 		fi
 	fi
 
-	dqb "COMMON_PP3-DONE()"
+	echo "COMMON_PP3-DONE()"
 }
 
 function efk1() {
@@ -772,8 +772,6 @@ function TLA() {
 
 #==================================================================
 
-#HUOM.110726:tämä fktio osannee tehdä validia sisältöä, joten jos kehitysymp vielä qsee niin tutkittava mitkä versiot mistäkin paketeista on asennettu
-
 function mangle_s() {
 	dqb " mangle_s( ${1} ( ${2} ( ${3} )"
 	csleep 1
@@ -791,8 +789,8 @@ function mangle_s() {
 	csleep 1
 
 	#150726: $2:selle jatkossa tr-jekku?
-	local r
-	r=$(echo ${1} | tr -dc a-zA-Z0-9/._)
+	local r=$(echo ${1} | tr -dc a-zA-Z0-9/._)
+	local s=$(echo ${2} | tr -dc a-zA-Z0-9/_-)
 
 	${scm} 0555 ${r}
 	${sco} root:root ${r}
@@ -803,7 +801,7 @@ function mangle_s() {
 
 	local ab=$(echo ${r} | awk '{print $1}' | tr -dc a-fA-F0-9)
 	local ac=$(echo ${r} | awk '{print $2}' | tr -dc a-zA-Z0-9./_)	
-	echo "${aa} ALL=NOPASSWD:${CONF_algo}:${ab} ${ac}" >> ${2}
+	echo "${aa} ALL=NOPASSWD:${CONF_algo}:${ab} ${ac}" >> ${s} #{2} ennen
 	dqb " mangle_s() done"
 }
 
@@ -1245,7 +1243,7 @@ function wopr() {
 		esac
 	done
 
-	csleep 1
+	#csleep 1
 }
 
 function common_lib_tool() {

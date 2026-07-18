@@ -50,7 +50,7 @@ ${spc} ${tgt} ${tgt}.OLD #cp vaiko mv?
 sleep 1
 t=$(pwd)
 
-echo "#TODO:tunaroinnin varalta lähteestä vkopio ennenq alkaa process_row() hakata"
+#18726:tuossa ylläjo tehdään vkopio ennenq processs_rpw() EDES ESITELLÄÄN
 
 if [ "${CONF_env}" == "VED" ] && [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 	echo "YLIULIULI asb asb ABC"
@@ -145,4 +145,4 @@ sleep 6;sudo /bin/sync;sleep 4
 #	e22_arch ${1} ${2} ${4}
 #	e22_cleanpkgs ${2}
 #}
-#
+#TODO:.hit huomioiva vkpio-skripti?

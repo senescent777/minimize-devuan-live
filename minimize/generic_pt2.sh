@@ -51,7 +51,6 @@ e_h $(whoami) ${d0}
 csleep 2
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
-	#VAIH:CONF_dir2, CONF_hashfile3
 	${odio} ${CONF_DIR2}/tlb.bash
 	csleep 2
 	${sco} 0:0 ${CONF_DIR2}/*
@@ -66,7 +65,7 @@ fi
 
 dqb "BEYOND THE UNHOLY GRAVE"
 ls -las /etc/resolv*
-sleep 10
+sleep 5
 
 csleep 2
 ${fib}
@@ -113,7 +112,7 @@ if [ "${CONF_iface}" != "wlan0" ] ; then
 	${sharpy} wpa*
 	#etc alaiset wpa-jutut voisi hoidella myös rm-komennolla?
 	t2p_filler
-	csleep 10
+	csleep 5
 fi
 
 #====================================================================
@@ -144,7 +143,6 @@ function p2g() {
 	dqb "p2g DONE"
 	csleep 1
 }
-
 
 #	if [  "${CONF_env}" == "TOOR"] ; then
 #		dqb "SHOULD \${sharpy} slim* "

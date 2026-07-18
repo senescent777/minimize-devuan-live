@@ -856,7 +856,7 @@ function e22_sarram() {
 	csleep 1
 }
 
-function e22_stu() { #jatkosäätöä josqs (gpg mukaan?)
+function e22_stu() { #jatkosäätöä josqs (gpg --clearsign -u $pubkeyid mukaan?)
 	echo "# ! / b ..."
 	echo "base64 -d << FOE | tar -jxv"
 	echo "${srat} -jcf \$opts | base64"
