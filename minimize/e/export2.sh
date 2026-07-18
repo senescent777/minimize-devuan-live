@@ -156,7 +156,7 @@ case "${mode}" in
 		#120726:lienee toimiva tämä case (aiNAKin kerran roimi sill01m)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
-		#CONF_hashfile3=/opt/bin/zxcv
+	
 		e22_z1 ${CONF_hashfile3}
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} ${CONF_hashfile3}.tmp

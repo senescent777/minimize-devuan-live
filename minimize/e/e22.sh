@@ -144,7 +144,8 @@ function e22_pre1() {
 	${scm} a-w /etc/apt/sources.list*
 }
 
-#TODO:common_lib fktio jos ei nimeäisi linkkejä uudestaan jatkossa, mikjä fktio olikaan
+#TODO?:common_lib fktio jos ei nimeäisi linkkejä uudestaan jatkossa, mikjä fktio olikaan
+#... e_e() ? vai dis() ?
 
 function e22_pre2() {	
 	dqb "e22pre2 )))) ${1} ; ${2} ; ${3} ; ${4} )()))) "
@@ -222,8 +223,7 @@ function e22_config1() {
 	cd ${p}
 }
 
-#TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
-#nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
+
 #120426:vissiin menee kohteeseen fedi ja profs (mutta meneekö 1. mainittu myös juureen?)
 
 function e22_settings() {
@@ -251,7 +251,9 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
-#TODO:kekekekeksisisisikö jonkin varmistuksen että profiili kanssa menee tariin?
+#kekekekeksisisisikö jonkin varmistuksen että profiili kanssa menee tariin?
+#...e22_settings() kyllä tekee yhden tarkistuksen
+
 function e22_home_pre() {
 	dqb "home_pre()"
 	[ -z "${1}" ] && exit 67
@@ -272,7 +274,7 @@ function e22_home_pre() {
 	fi
 
 	e_final
-	${srat} --exclude "changedns*" -rvf ${1} /opt/bin #TODO:Const
+	${srat} --exclude "changedns*" -rvf ${1} ${CONF_DIR2} #VAIH:Const
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
