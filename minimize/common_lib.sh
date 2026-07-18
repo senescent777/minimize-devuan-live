@@ -318,7 +318,7 @@ function psqa() {
 	#[ -z "${CONF_hashfile}" ] && exit 99
 
 	#VAIH:parametrien kanssa voisi tehdä jotain
-	if [ -v gg ] && [ -s ${1}/${§}.sig ] ; then
+	if [ -v gg ] && [ -s ${1}.sig ] ; then
 		dqb "))S))))( ${1} )"
 		csleep 1
 
@@ -334,7 +334,7 @@ function psqa() {
 				dqb "SHOULD imp2 k \$dir !!!"
 
 				#${NKVD} ${1}*
-				destroy ${1}				
+				destroy $(dirname ${1})				
 
 				return 95 #jatk exit pois
 			fi
