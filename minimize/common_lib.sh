@@ -356,7 +356,7 @@ function psqa() {
 		csleep 1
 
 		local p=$(pwd)
-		cd $(diename ${1})
+		cd $(dirname ${1})
 		${sah6} -c ${CONF_hashfile} --ignore-missing
 
 		if [ $? -eq 0 ] ; then
@@ -378,7 +378,7 @@ function psqa() {
 		cd ${p}
 	else
 		dqb "NO SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
-		dqb "SHOULD \${NKVD} ${1}/ \*.deb"
+		dqb "SHOULD \${NKVD} ${1} / \*.deb"
 
 		#destoy rähän kanssa?		
 		destroy $(dirname ${1})
