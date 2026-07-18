@@ -78,7 +78,6 @@ else
 		fi
 	fi
 
-	#debug=1
 	dqb "FALLBACK"
 	sleep 5
 
@@ -246,7 +245,7 @@ function cptp2() {
 }
 
 dqb "HPL"
-#TODO:ffox 147 (oikeastaan profs tulisi muuttaa tuohon liittyen)
+
 #olisi kai hyväksi selvittää missä kosahtaa kun common_lib pois pelistä (${CONF_default_archive3} siis)
 fox=$(${odio} which firefox)
 
@@ -275,7 +274,6 @@ function tpr() {
 	#fktioiden {im,ex}portointia jos kokeilisi? man bash...
 	. ${1}/${3}
 	[ $? -gt 0 ] && exit 19
-
 	dqb "INCLUDE OK"
 
 	local q=$(${mkt} -d)

@@ -906,11 +906,11 @@ function e_h() {
 	csleep 1
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then	#tänään näin
-		if [ -d ${2}/${CONF_DIR2} ] ; then
-			${sco} -R root:root ${2}/${CONF_DIR2}
+		if [ -d ${2}${CONF_DIR2} ] ; then
+			${sco} -R root:root ${2}${CONF_DIR2}
 
-			${scm} 0400 ${2}/${CONF_DIR2}/*
-			${scm} 0511 ${2}/${CONF_DIR2}/*.bash
+			${scm} 0400 ${2}${CONF_DIR2}/*
+			${scm} 0511 ${2}${CONF_DIR2}/*.bash
 		fi
 	fi
 
@@ -1207,11 +1207,11 @@ function part2() {
 		local t
 
 		t=$(echo ${2} | tr -d -c 0-9)
-		[ -v CONF_DIR2 ] || exit 99 #nyt jo?
+		[ -v CONF_DIR2 ] || exit 99
 
 		#ved vai default?
 		if [  "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then
-			${odio} ${CONF_DIR2}/tlb.bash ${t}
+			${odio} ${CONF_DIR2}tlb.bash ${t}
 		fi
 	fi
 

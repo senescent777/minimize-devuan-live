@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0 #tilapäisesti nollakei ettäö asialliset hommat EHKÄ
+debug=0 #tilapäisesti nollakei että asialliset hommat EHKÄ
 srcfile=""
 
 distro=$(cat /etc/devuan_version)
@@ -90,18 +90,8 @@ else
 
 	function check_binaries() {
 		echo "fish.rot.1"
-
-		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
 		scm=$(${odio} which chmod)
 		[ -v CONF_algo ] || exit 77
-
-		#DONE?:viimeaikaisiin muutoksiin liittyen varmista että sqroot-ympäristössä on oikeanlainen konfiguraatio
-		#vissiin on jo 240626
-
-		#DONE?:seuraavaksi varmista että nekros?.tar.bz3 sisältämät paketit asentuvat sqroot a laisuudessa
-		#... elikkäs uudelleen_pakkausta tapahtumaan kohta
-
-		#DONE?:varmistapa vielä että sqroot alle menevät asennuspaketit ajan tasalla
 
 		case "${CONF_algo}" in
 			sha256)
@@ -118,8 +108,7 @@ else
 		esac
 
 		srat=$(${odio} which tar)
-		#eXit jos srat ei?
-		srat="${odio} ${srat}" #tarpeen?
+		srat="${odio} ${srat}"
 
 		gg=$(${odio} which gpg) #suattaapi olla että tähän tökkää, taisiis myöhemmin
 		[ -z "${gg}" ] && echo "SH0ULD.1NST.GPG"
@@ -252,12 +241,14 @@ if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
 else
 	[ -d ${srcfile} ] || dqb "NOT A MAN"
 	[ -f ${srcfile} ] || dqb "NOT A CYBORG"
-	dqb "SMTHING WRONG WITH ${srcfile} "
-	exit 55
+
+	echo "SMTHING WRONG WITH ${srcfile} "
+	exit 65
 fi
 
 #VAIH:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
 #... jotain pientä laittoa vielä tarvitsee (230326)
+#josko jkpo 07/26 valmiiksi asti?
 
 function common_part() {
 	echo "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
@@ -375,7 +366,6 @@ function cptp2() {
 	if [ -f ${t}/common_lib.sh ] ; then
 		#onkohan tuossa tarkistuksessa pointtia?
 		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
-			#csleep 1
 			${gg} --verify ${t}/common_lib.sh.sig 
 			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"
 		fi
@@ -445,10 +435,11 @@ case "${mode}" in
 	k)
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
 
-		#050636:kokeeksi näin
 		[ "${CONF_env}" == "TOOR" ] && pre
 
 		#VAIH:tuotaville avaimille jotain tark? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
+		#... valmiiksi josqs?
+
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
 		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd find out?)
@@ -493,7 +484,7 @@ sleep 1
 
 #poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (VAIH?)
 if [ $? -eq 0 ] ; then
-	if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
+	if [ -s ${srcfile} ] && [ -f ${srcfile} ] ; then
 		read -p " U  WANT 2 RM SOURCE ?" confirm
 		[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
 	fi
