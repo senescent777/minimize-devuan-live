@@ -123,13 +123,13 @@ case "${mode}" in
 			${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${t} -xvf ${tgtfile}
 		fi
 
-		csleep 5
+		csleep 2
 		${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${d} -xvf ${d}/f.tar
-		csleep 5
+		csleep 2
 
 		[ $? -eq 0 ] || exit 99
 		${svm} ${d}/f.tar ${d}/f.tar.OLD
-		csleep 5
+		csleep 2
 	
 		e22_arch ${d}/f.tar ${d} ${gbk}
 

@@ -81,45 +81,47 @@ function e22_ftr() {
 
 #... joku päivä jos maistuisi selvittää tuo "bash function retuRn value"-juttu että onnnaako vai ei?
 
-#110726:ekana param voisi olla suoraan $1/conf_hashfile?
-function aqsp() {
-	dqb "aqsp ${1} ; "
-	[ -z "${1}" ] && exit 97
-	[ -d ${1} ] || exit 96
-	local rv=0
-
-	if [ -v gg ] ; then #else-haarat takaisin josqs, ehkä
-		if [ -s ${1}/${CONF_hashfile}.sig ] ; then #eka ehto omalle rivilleen ja sit jhotain
-			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-				${gg} --verify ${1}/${CONF_hashfile}.sig
-				rv=$?
-			fi
-		fi
-	fi
-
-	if [ -s ${1}/${CONF_hashfile} ] && [ -x ${sah6} ] && [ ${rv} -eq 0 ] ; then
-		local p=$(pwd)
-		cd ${1}
-
-		${sah6} -c ${CONF_hashfile} --ignore-missing
-		rv=$?
-		cd ${p}
-	else
-		rv=93
-	fi
-
-	dqb "rv= ${rv}"
-
-	#destroy() ?
-	if [ ${rv} -gt 0 ] ; then #toistaiseksi sqap() hoitamaan poistot
-		dqb "SMTHNG WENT WR09NG"	
-		${NKVD} ./*.deb 
-		${NKVD} ./${CONF_hashfile}*
-		${NKVD} ./*.tar
-	fi
-
-	dqb "aqsp  DONE"
-}
+#TODO?:testaapa esim e23_upgp testailun yhteydessä?
+#function aqsp() {
+#	dqb "aqsp ${1} ; "
+#	[ -z "${1}" ] && exit 97
+#	[ -s ${1} ] || exit 96
+#	local rv=0
+#
+#	if [ -v gg ] ; then #else-haarat takaisin josqs, ehkä
+#		if [ -s ${1}.sig ] ; then #eka ehto omalle rivilleen ja sit jhotain
+#			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
+#				${gg} --verify ${1}.sig
+#				rv=$?
+#			fi
+#		fi
+#	fi
+#
+#	if [ -s ${1} ] && [ -x ${sah6} ] && [ ${rv} -eq 0 ] ; then
+#		local p=$(pwd)
+#		cd $(dirname ${1})
+#
+#		${sah6} -c ${CONF_hashfile} --ignore-missing
+#		rv=$?
+#		cd ${p}
+#	else
+#		rv=93
+#	fi
+#
+#	dqb "rv= ${rv}"
+#
+#	#destroy() ?
+#	if [ ${rv} -gt 0 ] ; then #toistaiseksi sqap() hoitamaan poistot
+#		dqb "SMTHNG WENT WR09NG"	
+#		#${NKVD} ./*.deb 
+#		#${NKVD} ./${CONF_hashfile}*
+#		#${NKVD} ./*.tar
+#
+#		destroy $(dirname ${1})
+#	fi
+#
+#	dqb "aqsp  DONE"
+#}
 
 function e22_pre1() {
 	dqb "e22_pre1( ${1} ; ${2} ; ${3}) "
@@ -160,8 +162,7 @@ function e22_pre2() {
 	csleep 1
 
 	[ -z "${par4}" ] && exit 89
-	csleep 10
-
+	csleep 5
 	#pedanttiuden nimissä tämmöisiä
 
 	if [ -d /etc/resolv.conf ] ; then
@@ -175,7 +176,7 @@ function e22_pre2() {
 	fi
 
 	ls -las /etc/resolv.*
-	csleep 10
+	csleep 4
 
 	${sifu} ${1}
 	csleep 1
@@ -275,6 +276,7 @@ function e22_home_pre() {
 
 	e_final
 	${srat} --exclude "changedns*" -rvf ${1} ${CONF_DIR2} #VAIH:Const
+	#2 alinta silmukkaa pystyisi yhdistämään
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
@@ -406,14 +408,14 @@ function e22_acol() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#DONE?:CONF_iface parametriksi jatkossa?
+#TODO:jhospa kuitenkin debuqia varm buoksi
 function e22_pre_e() {
 	local p
 	local q
-
+	dqb "e22_pre_e( $@ )"
 	[ -z "${1}" ] && exit 98
+	exit
 
-	#if [ "
 	if [ "${1}" == "eth0:1" ] ; then
 		for p in $@ ; do
 			q=$(echo ${p} | grep -v dhcp)
@@ -491,6 +493,7 @@ function e22_ext() {
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
+
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
@@ -528,15 +531,15 @@ function e22_ts() {
 	cg_udp6 ${1}
 
 	ls -las ${1}/*.deb
-	csleep 10
+	csleep 5
 
 	dqb "e22_ts() done"
 }
 
-#13726:ehkä toimii
+#TODO:uusiksi testaus esim. exp2 u liittyen
 function e22_arch() {
 	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
-	csleep 10
+	csleep 5
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 11
@@ -546,13 +549,16 @@ function e22_arch() {
 
 	dqb "e22_a.pars maybe ok"
 	csleep 1
+
 	local p=$(pwd)
 	local c=$(find ${2} -type f -name "*.deb" | wc -l)
+	local q=${2}/${CONF_hashfile}
+
 	[ -v CONF_hashfile ] || exit 94
 	[ -z "${CONF_hashfile}" ] && exit 95
 
-	if [ -f ${2}/${CONF_hashfile} ] ; then #turha tarq?
-		${NKVD} ${2}/${CONF_hashfile}*
+	if [ -f ${q} ] ; then #turha tarq?
+		${NKVD} ${q}*
 		csleep 1
 	fi
 
@@ -562,9 +568,9 @@ function e22_arch() {
 	fi
 
 	${scm} 0444 ${2}/*.deb
-	fasdfasd ${2}/${CONF_hashfile}
-	fasdfasd ${2}/${CONF_hashfile}.1
-	[ ${debug} -eq 1 ] && ls -las ${2}/${CONF_hashfile}*;sleep 3
+	fasdfasd ${q}
+	fasdfasd ${q}.1
+	[ ${debug} -eq 1 ] && ls -las ${q}*;sleep 3
 
 	cd ${2}
 	${sah6} ./*.deb > ./${CONF_hashfile}
@@ -833,12 +839,6 @@ function e22_sarram() {
 	done
 
 	${srat} -rvf ${1} /etc/X11/default-display-manager
-	
-	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka? (miten muuten blokin s iirto?)
-	#${scm} 0550 /etc/iptables
-	#HUOM.14726:rules vedettiin jo aiemmin, acol()
-	#for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
-	#OLD vai .OLD? ja ja ja
 
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v OLD | grep -v old) ; do 
 		${sah6} ${f} >> ${3}
@@ -853,7 +853,7 @@ function e22_sarram() {
 	fi
 
 	other_horrors
-	dqb "OCT/NOV"
+	dqb "VON TCO"
 	csleep 1
 }
 

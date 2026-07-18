@@ -73,7 +73,6 @@ function dis() {
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
 	dqb "aftr.int.faces"
 	
-	#if [ -v CONF_iface ] ; then #tarpeen nykyään?
 	if [ ! -z "${2}" ] ; then
 		#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
 		[ -z "${sifd}" ] && sifd=/sbin/ifdown
@@ -91,7 +90,6 @@ function dis() {
 		${sip} link set ${2} down
 		[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 	fi
-	#fi
 	
 	${odio} sysctl -p
 	csleep 1
@@ -214,6 +212,8 @@ fi
 
 #VAIH:meshuqqah kiukuttelun selvittely jos vielä toistuu, syyllinen tämä fktio vai mangle_s ?
 #... yksi ehdokas olisi
+#28736 jo kunnossa?
+
 function pre_enforce() {
 	dqb "pre_enforce() "
 
@@ -228,7 +228,6 @@ function pre_enforce() {
 	local f
 	local g
 
-	#q=$(${mkt} -d)
 	q=$(${mkt} qsipasq-XXXX)
 	#q=${q}/meshuqqah #satunnainen tauhka tdston_nimenä ei vissiin toinimnut? riippuu tauhkasta, "man 5 sudoers"
 	csleep 1
@@ -310,14 +309,19 @@ function pre_enforce() {
 
 	csleep 1
 
+	#mitvit?
 	if [ ${c4} -lt 1 ] ; then #tämä blokki vs setup2.bash vastaava kohta...
+		#csleep 1
+		#${scm} a+w /etc/fstab #fasdfasd
+		fasdfasd /etc/fstab
 		csleep 1
-		${scm} a+w /etc/fstab #fasdfasd
-		csleep 1
+
 		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		csleep 1
-		${scm} a-w /etc/fstab#reqwreqw
+#		${scm} a-w /etc/fstab#reqwreqw
+		reqwreqw /etc/fstab
 		csleep 1
+
 		[ ${debug} -eq 1 ] && cat /etc/fstab
 		csleep 1
 	fi
@@ -422,7 +426,7 @@ if [ "${CONF_env}" == "DEFAULT" ] ; then
 fi
 
 dqb "PR0F IMPORT DONE?"
-csleep 5
+csleep 3
 
 jules
 ${asy}
@@ -438,7 +442,7 @@ else
 	echo "NOTHING LEFT TO MUTILATE"
 fi
 
-sleep 10
+sleep 5
 #ifup nykyään muuttelee tables-sääntöjä yhdellä jekulla joten ei erikseen tartte käskyttää...
 
 ${sipt} -L

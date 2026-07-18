@@ -104,7 +104,6 @@ fi
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
 
-
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
 	[ $? -gt 0 ] && exit 66
@@ -115,7 +114,7 @@ if [ -x ${d0}/e/e22.sh ] ; then
 	csleep 1
 else
 	echo "NO BACKEND FOUND"
-	exit 58
+	exit 85
 fi
 
 [ -z "${tgtfile}" ] && exit 98
@@ -154,6 +153,7 @@ case "${mode}" in
 	3|4) 
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
 		#120726:lienee toimiva tämä case (aiNAKin kerran roimi sill01m)
+		#18726:case 4 ytrstissä , vissiin toimaa
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		e22_z1 ${CONF_hashfile3}
@@ -186,7 +186,7 @@ case "${mode}" in
 	u|upgrade)
 		#140726:testaus vaiheessa, pakETTeja saa vedettyä ainakin
 		#170726:xserver-pakettien hukkaaminen ,  liittyykö g_pt2 ? No Ei
-		#elikkäs uusi yritys lähiaikoina
+		#elikkäs uusi yritys lähiaikoina (TODO)
 
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
@@ -198,7 +198,7 @@ case "${mode}" in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) 
-		#VAIH:jos kuitenkin uusiksi taas testaus
+		#18726:bissiin tekee asentuvan apketin
 		e22_pre_e ${E22_GS} ${CONF_iface}
 		e22_pre_e ${E22_GM} ${CONF_iface}
 

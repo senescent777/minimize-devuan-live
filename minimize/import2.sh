@@ -333,7 +333,7 @@ else
 	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	[ -f ${srcfile} ] || dqb "NOT A FILE"
 	dqb "SMTHING WRONG WITH ${srcfile} "
-	exit 55
+	exit 53
 fi
 
 [ -r ${srcfile} ] || exit 35

@@ -17,7 +17,7 @@ function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() 
 }
 
 #vissiin 120726 sai viimeksi validia sisältöä aiolka+sxeksi
-#VAIH:uusicksi testaus kuitenkin lhiaikoina
+#VAIH:uusicksi testaus kuitenkin lhiaikoina (ehkä toimii jo)
 function e23_tblz() {
 	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
 	csleep 1
@@ -40,6 +40,7 @@ function e23_tblz() {
 	aswasw ${1}
 
 	#DONE?:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
+	#pitäisiköhän paraetrit mennä toisinpäin?	
 	e22_pre_e ${E22_GT} ${CONF_iface}
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
