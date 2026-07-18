@@ -17,7 +17,7 @@ function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() 
 }
 
 #vissiin 120726 sai viimeksi validia sisältöä aiolka+sxeksi
-#TODO:uusicksi testaus kuitenkin lhiaikoina
+#VAIH:uusicksi testaus kuitenkin lhiaikoina
 function e23_tblz() {
 	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
 	csleep 1
@@ -66,7 +66,7 @@ function e23_other_pkgs() {
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	e22_pre_e ${E22_GI} ${CONF_iface}
 	e22_pre_e ${E22_GG} ${CONF_iface}
-	e22_pre_e ${E23_GS}  ${CONF_iface} #e22_gs vs e23_gs ?
+	e22_pre_e ${E23_GS} ${CONF_iface} #e22_gs vs e23_gs ?
 	#140726:kutsuvassa koodissa vedettii n jo nuo?
 
 	message

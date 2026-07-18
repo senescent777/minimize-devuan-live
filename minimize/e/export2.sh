@@ -144,7 +144,7 @@ csleep 1
 dqb "JUST BEFORE ESAC"
 csleep 6
 
-dqb "TODO:lähiaikoina case 3 ja case e testaten uudelleen!!!!!"
+dqb "VAIH:lähiaikoina case 3 ja case e testaten uudelleen!!!!!"
 csleep 5
 
 case "${mode}" in
@@ -156,7 +156,6 @@ case "${mode}" in
 		#120726:lienee toimiva tämä case (aiNAKin kerran roimi sill01m)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
-	
 		e22_z1 ${CONF_hashfile3}
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} ${CONF_hashfile3}.tmp

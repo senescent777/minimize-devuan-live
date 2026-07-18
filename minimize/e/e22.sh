@@ -366,7 +366,7 @@ function e22_acol() {
 		fi
 	done
 
-	#TODO:tähän se /e/iptables oikeuksien palautus tuikempaan?
+	#VAIH:tähän se /e/iptables oikeuksien palautus tuikempaan?
 	luca ${1}
 	other_horrors
 
@@ -374,6 +374,8 @@ function e22_acol() {
 		exit 112
 	fi
 
+	${scm} 0400 /etc/iptables/rules*
+	${scm} 0400 /etc/default/rules*
 	${srat} -rvf ${1} /etc/default/net*
 
 	case "${2}" in
@@ -445,7 +447,7 @@ function e22_ext() {
 	local st
 
 	p=$(pwd)
-	q=$(mktemp -d)
+	q=$(mktemp -d) #$mkt
 	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
 	st=$(echo ${3} | tr -d -c 0-9)
 
@@ -833,10 +835,7 @@ function e22_sarram() {
 	${srat} -rvf ${1} /etc/X11/default-display-manager
 	
 	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka? (miten muuten blokin s iirto?)
-	${scm} 0555 /etc/iptables
-	${scm} 0400 /etc/iptables/rules*
-	${scm} 0400 /etc/default/rules*
-
+	#${scm} 0550 /etc/iptables
 	#HUOM.14726:rules vedettiin jo aiemmin, acol()
 	#for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
 	#OLD vai .OLD? ja ja ja

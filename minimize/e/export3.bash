@@ -120,7 +120,6 @@ case "${mode}" in
 				t=${CONF_testgris} 
 			fi
 
-			#VAIH:CONF_hashfile?
 			${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${t} -xvf ${tgtfile}
 		fi
 
