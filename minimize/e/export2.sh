@@ -198,7 +198,7 @@ case "${mode}" in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) 
-		#120726:lienee toimiva tämä case (jos kuitenkin uusiksi taas testaus)
+		#VAIH:jos kuitenkin uusiksi taas testaus
 		e22_pre_e ${E22_GS} ${CONF_iface}
 		e22_pre_e ${E22_GM} ${CONF_iface}
 

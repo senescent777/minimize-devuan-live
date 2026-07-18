@@ -602,7 +602,7 @@ function e22_arch() {
 		exit
 	fi
 
-	psqa .
+	psqa ./${CONF_hashfile}
 	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
 
 	if [ $? -gt 0 ] ; then #destroy() ? tai siis...

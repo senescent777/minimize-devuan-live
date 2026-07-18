@@ -307,40 +307,40 @@ function psqa() {
 	csleep 1
 
 	[ -z "${1}" ] && exit 97
-	[ -d ${1} ] || exit 96
-	[ ${debug} -gt 0 ] && ls -las ${1}/${CONF_hashfile}*
+	[ -s ${1} ] || exit 96 #arpoo arpoo
+	[ ${debug} -gt 0 ] && ls -las ${1}*
 	csleep 1
 
 	#return 92 #ei näin?
 	#dpkg -V oli tässä josqs , [ -v ] takana
+	#
+	#[ -v CONF_hashfile ] || exit 98
+	#[ -z "${CONF_hashfile}" ] && exit 99
 
-	[ -v CONF_hashfile ] || exit 98
-	[ -z "${CONF_hashfile}" ] && exit 99
-
-	#TODO:parametrien kanssa voisi tehdä jotain
-	if [ -v gg ] && [ -s ${1}/${CONF_hashfile}.sig ] ; then
+	#VAIH:parametrien kanssa voisi tehdä jotain
+	if [ -v gg ] && [ -s ${1}/${§}.sig ] ; then
 		dqb "))S))))( ${1} )"
 		csleep 1
 
 		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubring.kbx yli 32 tavua?
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-			dqb "${gg} --verify ${1}/${CONF_hashfile}.sig "
+			dqb "${gg} --verify ${1}.sig "
 			csleep 1
-			${gg} --verify ${1}/${CONF_hashfile}.sig 
+			${gg} --verify ${1}.sig 
 
 			if [ $? -eq 0 ] ; then
 				dqb "KÖ"
 			else
 				dqb "SHOULD imp2 k \$dir !!!"
 
-				#${NKVD} ${1}/${CONF_hashfile}*
+				#${NKVD} ${1}*
 				destroy ${1}				
 
 				return 95 #jatk exit pois
 			fi
 
 			csleep 1
-			[ -f ${1}/${CONF_hashfile}.1.sig ] && ${gg} --verify ${1}/${CONF_hashfile}.1.sig
+			[ -f ${1}.1.sig ] && ${gg} --verify ${1}.1.sig
 			csleep 1
 		else
 			dqb "COULD NOT VERIFY SIGNATURES"
@@ -351,23 +351,23 @@ function psqa() {
 
 	csleep 2
 
-	if [ -s ${1}/${CONF_hashfile} ] && [ -x ${sah6} ] ; then
+	if [ -s ${1} ] && [ -x ${sah6} ] ; then
 		dqb "R ${1} "
 		csleep 1
 
 		local p=$(pwd)
-		cd ${1}
+		cd $(diename ${1})
 		${sah6} -c ${CONF_hashfile} --ignore-missing
 
 		if [ $? -eq 0 ] ; then
 			dqb "Q.KO"
 		else
 			dqb "SHOULD \${NKVD} ${1}/ \* .deb"
-			destroy ${1}
+			destroy $(dirname ${1})
 			return 94
 		fi
 
-		if [ -f ${1}/${CONF_hashfile}.1 ] ; then
+		if [ -f ${1}.1 ] ; then
 			${sah6} --ignore-missing -c ${CONF_hashfile}.1
 		else
 			echo "EILINRN PULLA 90 c"
@@ -381,7 +381,7 @@ function psqa() {
 		dqb "SHOULD \${NKVD} ${1}/ \*.deb"
 
 		#destoy rähän kanssa?		
-		destroy ${1}
+		destroy $(dirname ${1})
 
 		return 93
 	fi
@@ -412,7 +412,7 @@ function common_pp3() {
 	if [ ${q} -lt 1 ] ; then
 		${scm} a-wx ${r}/common_lib.sh
 	else
-		psqa ${1}
+		psqa ${1}/${CONF_hashfile}
 
 		if [ $? -gt 0 ] ; then #TODO:tulisi kai testata
 			#${NKVD} ${1}/*.deb
