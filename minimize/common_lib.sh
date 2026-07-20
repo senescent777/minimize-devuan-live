@@ -1268,6 +1268,34 @@ function common_lib_tool() {
 	dqb "t00l DONE"
 }
 
+
+function p2g() {
+	dqb " ((((((((((((((((( ${1} ) FED TO TEH PIGS"
+	csleep 1
+
+	[ -s ${1}/pkgs_drop ] || exit 66
+
+	local f
+	local g
+	local h
+
+	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
+		dqb "SOON: \${sharpy} ${f}* "
+		csleep 1
+		IFS="," read -a g <<< "${f}"
+
+		for h in ${g[@]} ; do
+			${sharpy} ${h}*
+		done
+
+		csleep 1
+		t2p_filler
+	done
+
+	dqb "common.p2g DONE"
+	csleep 1
+}
+
 function cg_udp6() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
 	csleep 10

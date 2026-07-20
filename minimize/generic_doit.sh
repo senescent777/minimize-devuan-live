@@ -47,6 +47,7 @@ function dis() {
 
 	dqb "ko.srap"
 	csleep 1
+
 	${scm} 0755 /etc/network
 	${sco} -R root:root /etc/network
 	${scm} a+r /etc/network/*
@@ -79,14 +80,12 @@ function dis() {
 
 		dqb "${odio} ${sifd} ${2}"	
 		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
-
 		csleep 1
 	
 		#${odio} ${sifd} -a
 		csleep 1
 
 		[ ${debug} -eq 1 ] && ${sifc};sleep 1
-	
 		${sip} link set ${2} down
 		[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 	fi
@@ -345,9 +344,12 @@ fi
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
 
-#260626:alla tuo mv menee pieleen jos ajetaan root-tunnuksella tämän skripti , tee jotain (TODO)
+#260626:alla tuo mv menee pieleen jos ajetaan root-tunnuksella tämän skripti , tee jotain (VAIH)
 ${snt}
-${svm} ${d0}/1c0ns/*.desktop ~/Desktop
+
+if [ "${CONF_env}" != "VED" ] ; then
+	${svm} ${d0}/1c0ns/*.desktop ~/Desktop
+fi
 
 #===================================================PART 2===================================
 c14=1

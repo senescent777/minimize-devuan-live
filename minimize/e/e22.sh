@@ -81,7 +81,7 @@ function e22_ftr() {
 
 #... joku päivä jos maistuisi selvittää tuo "bash function retuRn value"-juttu että onnnaako vai ei?
 
-#TODO?:testaapa esim e23_upgp testailun yhteydessä?
+#testaapa esim e23_upgp testailun yhteydessä? vai tartteeko?
 #function aqsp() {
 #	dqb "aqsp ${1} ; "
 #	[ -z "${1}" ] && exit 97
@@ -130,6 +130,7 @@ function e22_pre1() {
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 66
 	[ -d ${1} ] || exit 111
+
 	dqb "pars_ok"
 	csleep 1
 
@@ -408,8 +409,10 @@ function e22_acol() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#TODO:jhospa kuitenkin debuqia varm buoksi
+#VAIH:jhospa kuitenkin debuqia varm buoksi
 #se pilkutus-juttu , joutuu ehkä ottamaan käyttöön (kts. common_lib_tool(), wopr())
+#... tai siis p2g()
+
 function e22_pre_e() {
 	local p
 	local q
