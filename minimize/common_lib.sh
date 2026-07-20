@@ -4,7 +4,7 @@ if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G (. ${d0}/$(whoami).con )"
 	#HUOM.sudo voi vähän sotkea tämän if-haaran tyoimintaa
 	. ${d0}/$(whoami).conf
-	sleep 5
+	sleep 3
 else
 	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 		echo ". ${d}/conf"
@@ -30,7 +30,7 @@ function csleep() {
 
 [ -v CONF_env ] || exit 99
 echo "CONF_env = ${CONF_env}"
-sleep 5
+sleep 2
 
 case "${CONF_env}" in
 	TOOR)
@@ -61,7 +61,7 @@ esac
 
 itni
 echo "aftr 1nt1"
-sleep 6
+sleep 3
 
 function fix_sudo() {
 	
@@ -311,11 +311,7 @@ function psqa() {
 	[ ${debug} -gt 0 ] && ls -las ${1}*
 	csleep 1
 
-	#return 92 #ei näin?
 	#dpkg -V oli tässä josqs , [ -v ] takana
-	#
-	#[ -v CONF_hashfile ] || exit 98
-	#[ -z "${CONF_hashfile}" ] && exit 99
 
 	#DONE?:parametrien kanssa voisi tehdä jotain
 	if [ -v gg ] && [ -s ${1}.sig ] ; then
@@ -503,7 +499,7 @@ function cefgh() {
 	fi
 }
 
-#VAIH:sqroot-ympäristön pAKettivalikoiman päivitys, mm. gpg_poistuu-syistä
+#DONE?:sqroot-ympäristön pAKettivalikoiman päivitys, mm. gpg_poistuu-syistä
 #mitä nyt viimeksdi exp2:lla duunattu -> toimii pienellä urputuksella? (ne accpet-tdstot olisi hyvä saada sqroot asti kanssa)
 
 function CB01() {
@@ -614,7 +610,6 @@ function check_binaries() {
 	E22_GM="${E22_GM} libacl1 libattr1 libgmp10 coreutils"
 
 	dqb "before 0c.s"
-	#120726:joskohan jo toimisi näin?
 	local y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp"
 	
 	if [ "${CONF_env}" == "VED" ] ; then
@@ -786,14 +781,12 @@ function mangle_s() {
 	dqb "pars ok"
 	csleep 1
 
-	#150726: $2:selle jatkossa tr-jekku?
 	local r=$(echo ${1} | tr -dc a-zA-Z0-9/._)
 	local s=$(echo ${2} | tr -dc a-zA-Z0-9/_-)
 
 	${scm} 0555 ${r}
 	${sco} root:root ${r}
 
-	#14726:bissiin qsee paskaa näin tai parametrit väärät (ellei sittebn tdstonimi)
 	local aa=$(echo ${3} | tr -dc a-zA-Z0-9 )
 	r=$(${sah6} ${r})
 
@@ -1314,9 +1307,6 @@ function cg_udp6() {
 	common_lib_tool ${1} reject_pkgs
 	dqb "D0NE"
 	csleep 1
-
-	echo " #VAIH:tulisi selvittää muiten käytännössä toimii eth0:1, sharpy, cg_upd6/(" #esim seur kerran q "exp2 u"
-	sleep 5
 
 	#130726:bissiin yritti poistaa dhcp-paketit ruossa alla
 	if [ "${CONF_iface}" == "eth0:1" ] ; then
