@@ -157,7 +157,7 @@ csleep 1
 
 ${fib}
 csleep 1
-p2g ${d0}
+p2g ${d0}/pkgs_drop
 
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 0 ] && exit

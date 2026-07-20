@@ -1259,20 +1259,23 @@ function common_lib_tool() {
 	dqb "t00l DONE"
 }
 
-#TODO:pkgd_drop mukaan kutsuvan koodin puolekta
+#VAIH:pkgd_drop mukaan kutsuvan koodin puolekta
 #TODO:loopin sisälle wopr2, read-.kohdasta alkaisi
 function p2g() {
 	dqb " ((((((((((((((((( ${1} ) FED TO TEH PIGS"
 	csleep 1
 
-	[ -s ${1}/pkgs_drop ] || exit 66
+	[ -z "${1}" ] || && exit 76
+	[ -s ${1} ] || exit 66
+	csleep 1
+	dqb "common.p2g.-pars.ok"
 
 	local f
 	local g
 	local h
 
-	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
-		dqb "SOON: \${sharpy} ${f}* "
+	for f in $(grep -v '#' ${1}) ; do
+		dqb "SOON: wopr2 ); \$h ; ${3} ;;))"
 		csleep 1
 		IFS="," read -a g <<< "${f}"
 
