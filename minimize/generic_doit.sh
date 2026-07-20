@@ -309,16 +309,13 @@ function pre_enforce() {
 
 	csleep 1
 
-	#mitvit?
 	if [ ${c4} -lt 1 ] ; then #tämä blokki vs setup2.bash vastaava kohta...
-		#csleep 1
-		#${scm} a+w /etc/fstab #fasdfasd
 		fasdfasd /etc/fstab
 		csleep 1
 
 		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		csleep 1
-#		${scm} a-w /etc/fstab#reqwreqw
+
 		reqwreqw /etc/fstab
 		csleep 1
 

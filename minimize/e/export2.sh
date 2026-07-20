@@ -143,7 +143,7 @@ csleep 1
 dqb "JUST BEFORE ESAC"
 csleep 6
 
-dqb "VAIH:lähiaikoina case 3 ja case e testaten uudelleen!!!!!"
+dqb "DINE?:lähiaikoina case 3 ja case e testaten uudelleen!!!!!"
 csleep 5
 
 case "${mode}" in
@@ -198,9 +198,9 @@ case "${mode}" in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) 
-		#18726:bissiin tekee asentuvan apketin
-		e22_pre_e ${E22_GS} ${CONF_iface}
-		e22_pre_e ${E22_GM} ${CONF_iface}
+		#18726:bissiin teki asentuvan apketin touilloin
+		e22_pre_e ${CONF_iface} ${E22_GS}
+		e22_pre_e ${CONF_iface} ${E22_GM}
 
 		csleep 3
 		message
@@ -209,9 +209,10 @@ case "${mode}" in
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 		dqb "BC/AD"
 		csleep 5
+
 		e23_other_pkgs ${CONF_dnsm}
 	;;
-	t) #toiminee mikäli case:t e tai 3 toimivat
+	t) #toiminee mikäli case:t e tai 3 toimivat (TODO:testaaoa pre_e tämän kautta)
 		message
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}

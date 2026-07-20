@@ -409,6 +409,7 @@ function e22_acol() {
 [ -v CONF_BASEURL ] || exit 6
 
 #TODO:jhospa kuitenkin debuqia varm buoksi
+#se pilkutus-juttu , joutuu ehkä ottamaan käyttöön (kts. common_lib_tool(), wopr())
 function e22_pre_e() {
 	local p
 	local q
@@ -417,11 +418,17 @@ function e22_pre_e() {
 	exit
 
 	if [ "${1}" == "eth0:1" ] ; then
+		echo "A"
+		sleep 10
+
 		for p in $@ ; do
 			q=$(echo ${p} | grep -v dhcp)
 			[ -z "${q}" ] || ${shary} ${q}
 		done
 	else
+		echo "B"
+		sleep 10
+
 		for p in $@ ; do ${shary} ${p} ; done
 	fi
 }

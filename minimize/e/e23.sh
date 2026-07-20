@@ -41,7 +41,7 @@ function e23_tblz() {
 
 	#DONE?:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
 	#pitäisiköhän paraetrit mennä toisinpäin?	
-	e22_pre_e ${E22_GT} ${CONF_iface}
+	e22_pre_e $ ${CONF_iface} {E22_GT}
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 1
@@ -55,7 +55,7 @@ function e23_tblz() {
 	csleep 1
 }
 
-#vissiin 120726 sai viimeksi validia sisältöä aiKAIsxeksi
+#vissiin 120726 sai viimeksi validia sisältöä aiKAIsxeksi (entä nykyään?)
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -65,9 +65,9 @@ function e23_other_pkgs() {
 	csleep 1
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
-	e22_pre_e ${E22_GI} ${CONF_iface}
-	e22_pre_e ${E22_GG} ${CONF_iface}
-	e22_pre_e ${E23_GS} ${CONF_iface} #e22_gs vs e23_gs ?
+	e22_pre_e ${CONF_iface} ${E22_GI}
+	e22_pre_e ${CONF_iface} ${E22_GG}
+	e22_pre_e ${CONF_iface} ${E23_GS} #e22_gs vs e23_gs ?
 	#140726:kutsuvassa koodissa vedettii n jo nuo?
 
 	message
@@ -97,7 +97,8 @@ function e23_upgp() {
 	dqb " e23_upgp() "
 	${fib}
 	csleep 1
-	e22_pre_e ${E22_GS} ${CONF_iface}
+
+	e22_pre_e ${CONF_iface} ${E22_GS}
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 
@@ -166,6 +167,7 @@ function e23_qrs() {
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
 #120726 viimeksi yritetty testata, tekeekö toimivaa sisältöä pakettiin, onnistui
+#TODO:testaus uusicksi josqs koska y
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -175,8 +177,8 @@ function e23_dm() {
 	csleep 1
 
 	${fib}
-	e22_pre_e ${E22_GS} ${CONF_iface}
-	e22_pre_e ${E22_GM} ${CONF_iface}
+	e22_pre_e ${CONF_iface} ${E22_GS}
+	e22_pre_e ${CONF_iface} ${E22_GM} 
 	csleep 5
 
 	if [ "${1}" == "wdm" ] ; then
