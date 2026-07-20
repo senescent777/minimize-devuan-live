@@ -16,8 +16,8 @@ function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() 
 	esac
 }
 
-#vissiin 120726 sai viimeksi validia sisältöä aiolka+sxeksi
-#VAIH:uusicksi testaus kuitenkin lhiaikoina (ehkä toimii jo)
+#vissiin 120726 sai viimeksi validia sisältöä aiolka+sxeksi/uusi yrotys 20726 -> 
+#VAIH:uusicksi testaus kuitenkin lhiaikoina (pre_e() jo ok?)
 function e23_tblz() {
 	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
 	csleep 1

@@ -417,33 +417,20 @@ function e22_pre_e() {
 	local p
 	local q
 
-	#dqb "e22_pre_e( $@ )"
-	#[ -z "${1}" ] && exit 98
-	#exit
-	#
-	#
-	#	echo "A"
-	#	sleep 10
 
-		for p in $@ ; do
-			if [ "${1}" == "${p}" ] ; then
-				q=""
+	for p in $@ ; do
+		if [ "${1}" == "${p}" ] ; then
+			q=""
+		else
+			if [ "${1}" == "eth0:1" ] ; then
+				q=$(echo ${p} | grep -v dhcp)
 			else
-				if [ "${1}" == "eth0:1" ] ; then
-					q=$(echo ${p} | grep -v dhcp)
-				else
-					q=${p}
-				fi
+				q=${p}
 			fi
-
+		fi
 			[ -z "${q}" ] || ${shary} ${q}
-		done
-#	else
-#		echo "B"
-#		sleep 10
-#
-#		for p in $@ ; do ${shary} ${p} ; done
-#	fi
+	done
+
 }
 
 function e22_ext() {
