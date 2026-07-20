@@ -317,7 +317,7 @@ function psqa() {
 	#[ -v CONF_hashfile ] || exit 98
 	#[ -z "${CONF_hashfile}" ] && exit 99
 
-	#VAIH:parametrien kanssa voisi tehdä jotain
+	#DONE?:parametrien kanssa voisi tehdä jotain
 	if [ -v gg ] && [ -s ${1}.sig ] ; then
 		dqb "))S))))( ${1} )"
 		csleep 1
@@ -332,10 +332,7 @@ function psqa() {
 				dqb "KÖ"
 			else
 				dqb "SHOULD imp2 k \$dir !!!"
-
-				#${NKVD} ${1}*
 				destroy $(dirname ${1})				
-
 				return 95 #jatk exit pois
 			fi
 
@@ -591,6 +588,7 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
+	#TODO:I/G/S/M/T-juttuihin pilkutus
 	E22_GS="gcc-12-base libgcc-s1 libc6" 	
 	E22_GS="${E22_GS} libgmp10 libisl23 libmpfr6 libmpc3 libzstd1 zlib1g"
 	E22_GS="${E22_GS} libstdc++6 libgomp1 cpp-12"
@@ -1268,7 +1266,8 @@ function common_lib_tool() {
 	dqb "t00l DONE"
 }
 
-
+#TODO:pkgd_drop mukaan kutsuvan koodin puolekta
+#TODO:loopin sisälle wopr2, read-.kohdasta alkaisi
 function p2g() {
 	dqb " ((((((((((((((((( ${1} ) FED TO TEH PIGS"
 	csleep 1

@@ -36,12 +36,8 @@ function e23_tblz() {
 	tpc7
 	#jotain excaliburiin liittyvää tuo tpc
 
-	#120726:josnyt menisi oikein
-	aswasw ${1}
-
-	#DONE?:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
-	#pitäisiköhän paraetrit mennä toisinpäin?	
-	e22_pre_e $ ${CONF_iface} {E22_GT}
+	aswasw ${1}	
+	e22_pre_e $ ${CONF_iface} ${E22_GT}
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 1
@@ -67,9 +63,10 @@ function e23_other_pkgs() {
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	e22_pre_e ${CONF_iface} ${E22_GI}
 	e22_pre_e ${CONF_iface} ${E22_GG}
-	e22_pre_e ${CONF_iface} ${E23_GS} #e22_gs vs e23_gs ?
-	#140726:kutsuvassa koodissa vedettii n jo nuo?
+	e22_pre_e ${CONF_iface} ${E23_GS}
+	#e22_gs vs e23_gs ? eri asioita
 
+	#140726:kutsuvassa koodissa vedettii n jo nuo?
 	message
 	jules
 

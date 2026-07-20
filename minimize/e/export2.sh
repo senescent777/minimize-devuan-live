@@ -212,7 +212,7 @@ case "${mode}" in
 
 		e23_other_pkgs ${CONF_dnsm}
 	;;
-	t) #toiminee mikäli case:t e tai 3 toimivat (TODO:testaaoa pre_e tämän kautta)
+	t) #toiminee mikäli case:t e tai 3 toimivat (VAIH:testaaPa pre_e tämän kautta)
 		message
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
