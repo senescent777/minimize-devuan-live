@@ -4,7 +4,7 @@ if [ -s ${d0}/$(whoami).conf ] ; then
 	echo "ALT.C0NF1G (. ${d0}/$(whoami).con )"
 	#HUOM.sudo voi vähän sotkea tämän if-haaran tyoimintaa
 	. ${d0}/$(whoami).conf
-	sleep 3
+	sleep 5
 else
 	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
 		echo ". ${d}/conf"
@@ -30,7 +30,7 @@ function csleep() {
 
 [ -v CONF_env ] || exit 99
 echo "CONF_env = ${CONF_env}"
-sleep 2
+sleep 5
 
 case "${CONF_env}" in
 	TOOR)
@@ -61,7 +61,7 @@ esac
 
 itni
 echo "aftr 1nt1"
-sleep 3
+sleep 6
 
 function fix_sudo() {
 	
@@ -307,33 +307,40 @@ function psqa() {
 	csleep 1
 
 	[ -z "${1}" ] && exit 97
-	[ -s ${1} ] || exit 96 #arpoo arpoo
-	[ ${debug} -gt 0 ] && ls -las ${1}*
+	[ -d ${1} ] || exit 96
+	[ ${debug} -gt 0 ] && ls -las ${1}/${CONF_hashfile}*
 	csleep 1
 
+	#return 92 #ei näin?
 	#dpkg -V oli tässä josqs , [ -v ] takana
 
-	#DONE?:parametrien kanssa voisi tehdä jotain
-	if [ -v gg ] && [ -s ${1}.sig ] ; then
+	[ -v CONF_hashfile ] || exit 98
+	[ -z "${CONF_hashfile}" ] && exit 99
+
+	#TODO:parametrien kanssa voisi tehdä jotain
+	if [ -v gg ] && [ -s ${1}/${CONF_hashfile}.sig ] ; then
 		dqb "))S))))( ${1} )"
 		csleep 1
 
 		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubring.kbx yli 32 tavua?
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-			dqb "${gg} --verify ${1}.sig "
+			dqb "${gg} --verify ${1}/${CONF_hashfile}.sig "
 			csleep 1
-			${gg} --verify ${1}.sig 
+			${gg} --verify ${1}/${CONF_hashfile}.sig 
 
 			if [ $? -eq 0 ] ; then
 				dqb "KÖ"
 			else
 				dqb "SHOULD imp2 k \$dir !!!"
-				destroy $(dirname ${1})				
+
+				#${NKVD} ${1}/${CONF_hashfile}*
+				destroy ${1}				
+
 				return 95 #jatk exit pois
 			fi
 
 			csleep 1
-			[ -f ${1}.1.sig ] && ${gg} --verify ${1}.1.sig
+			[ -f ${1}/${CONF_hashfile}.1.sig ] && ${gg} --verify ${1}/${CONF_hashfile}.1.sig
 			csleep 1
 		else
 			dqb "COULD NOT VERIFY SIGNATURES"
@@ -344,23 +351,23 @@ function psqa() {
 
 	csleep 2
 
-	if [ -s ${1} ] && [ -x ${sah6} ] ; then
+	if [ -s ${1}/${CONF_hashfile} ] && [ -x ${sah6} ] ; then
 		dqb "R ${1} "
 		csleep 1
 
 		local p=$(pwd)
-		cd $(dirname ${1})
+		cd ${1}
 		${sah6} -c ${CONF_hashfile} --ignore-missing
 
 		if [ $? -eq 0 ] ; then
 			dqb "Q.KO"
 		else
 			dqb "SHOULD \${NKVD} ${1}/ \* .deb"
-			destroy $(dirname ${1})
+			destroy ${1}
 			return 94
 		fi
 
-		if [ -f ${1}.1 ] ; then
+		if [ -f ${1}/${CONF_hashfile}.1 ] ; then
 			${sah6} --ignore-missing -c ${CONF_hashfile}.1
 		else
 			echo "EILINRN PULLA 90 c"
@@ -371,10 +378,10 @@ function psqa() {
 		cd ${p}
 	else
 		dqb "NO SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
-		dqb "SHOULD \${NKVD} ${1} / \*.deb"
+		dqb "SHOULD \${NKVD} ${1}/ \*.deb"
 
 		#destoy rähän kanssa?		
-		destroy $(dirname ${1})
+		destroy ${1}
 
 		return 93
 	fi
@@ -405,7 +412,7 @@ function common_pp3() {
 	if [ ${q} -lt 1 ] ; then
 		${scm} a-wx ${r}/common_lib.sh
 	else
-		psqa ${1}/${CONF_hashfile}
+		psqa ${1}
 
 		if [ $? -gt 0 ] ; then #TODO:tulisi kai testata
 			#${NKVD} ${1}/*.deb
@@ -499,7 +506,7 @@ function cefgh() {
 	fi
 }
 
-#DONE?:sqroot-ympäristön pAKettivalikoiman päivitys, mm. gpg_poistuu-syistä
+#VAIH:sqroot-ympäristön pAKettivalikoiman päivitys, mm. gpg_poistuu-syistä
 #mitä nyt viimeksdi exp2:lla duunattu -> toimii pienellä urputuksella? (ne accpet-tdstot olisi hyvä saada sqroot asti kanssa)
 
 function CB01() {
@@ -584,32 +591,32 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	#VAIH:I/G/S/M/T-juttuihin pilkutus
-	E22_GS="gcc-12-base,libgcc-s1,libc6" 	
-	E22_GS="${E22_GS},libgmp10,libisl23,libmpfr6,libmpc3,libzstd1,zlib1g"
-	E22_GS="${E22_GS},libstdc++6,libgomp1,cpp-12"
+	E22_GS="gcc-12-base libgcc-s1 libc6" 	
+	E22_GS="${E22_GS} libgmp10 libisl23 libmpfr6 libmpc3 libzstd1 zlib1g"
+	E22_GS="${E22_GS} libstdc++6 libgomp1 cpp-12"
 
 	#moni pak tarttee nämä
-	E23_GS="zlib1g,libreadline8,groff-base,libgdbm6,libpipeline1,libseccomp2,libaudit1,libselinux1,man-db,sudo"
-	E22_GG="coreutils,libcurl3-gnutls,libexpat1,liberror-perl,libpcre2-8-0,git-man,git"
+	E23_GS="zlib1g libreadline8 groff-base libgdbm6 libpipeline1 libseccomp2 libaudit1 libselinux1 man-db sudo"
+	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
 	
-	E22_GM="libc6,libselinux1"
-	E22_GM="${E22_GM},debianutils,debconf,liblocale-gettext-perl,libtext-charwidth-perl,libtext-iconv-perl,libtext-wrapi18n-perl" # nfs-common
-	E22_GM="${E22_GM},debconf-i18n,libelf1,libbpf1" #zlib1,libc6
-	E22_GM="${E22_GM},libmnl0,libxtables12" # oikeastaanm jo toisissakin jutussa mukana
+	E22_GM="libc6 libselinux1"
+	E22_GM="${E22_GM} debianutils debconf liblocale-gettext-perl libtext-charwidth-perl libtext-iconv-perl libtext-wrapi18n-perl" # nfs-common
+	E22_GM="${E22_GM} debconf-i18n libelf1 libbpf1 " #zlib1,libc6
+	E22_GM="${E22_GM} libmnl0 libxtables12 " # oikeastaanm jo toisissakin jutussa mukana
 
-	E22_GM="${E22_GM},libcom-err2,libk5crypto3,libkeyutils1,libkrb5support0,libssl3,libkrb5-3,libkrb5support0"
-	E22_GM="${E22_GM},libmnl0,libatm1,libpcre2-8-0,libmd0,libgssapi-krb5-2"
-	E22_GM="${E22_GM},libbsd0,libcap2,libcap2-bin,libdb5.3,libtirpc-common,libtirpc3,iproute2"
+	E22_GM="${E22_GM} libcom-err2 libk5crypto3 libkeyutils1 libkrb5support0 libssl3 libkrb5-3 libkrb5support0"
+	E22_GM="${E22_GM} libmnl0 libatm1 libpcre2-8-0 libmd0 libgssapi-krb5-2 "
+	E22_GM="${E22_GM} libbsd0 libcap2 libcap2-bin libdb5.3 libtirpc-common libtirpc3 iproute2"
 
-	[ "${CONF_iface}" == "eth0:1" ] || E22_GM="${E22_GM},isc-dhcp-client,isc-dhcp-common" #dhcp-jutut erilleen jotenkin?
-	E22_GM="${E22_GM},libpam0g,libcrypt1,libaudit1,libpam-modules-bin,libpam-modules"
+	[ "${CONF_iface}" == "eth0:1" ] || E22_GM="${E22_GM} isc-dhcp-client isc-dhcp-common" #dhcp-jutut erilleen jotenkin?
+	E22_GM="${E22_GM} libpam0g libcrypt1 libaudit1 libpam-modules-bin libpam-modules "
 
-	E22_GM="${E22_GM},libbz2-1.0,libsemanage-common,libsemanage2,libsepol2,passwd,adduser,ifupdown"
-	E22_GM="${E22_GM},libblkid1,libmount1,libsmartcols1,mount,net-tools"
-	E22_GM="${E22_GM},libacl1,libattr1,libgmp10,coreutils"
+	E22_GM="${E22_GM} libbz2-1.0 libsemanage-common libsemanage2 libsepol2 passwd adduser ifupdown"
+	E22_GM="${E22_GM} libblkid1 libmount1 libsmartcols1 mount net-tools"
+	E22_GM="${E22_GM} libacl1 libattr1 libgmp10 coreutils"
 
 	dqb "before 0c.s"
+	#120726:joskohan jo toimisi näin?
 	local y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp"
 	
 	if [ "${CONF_env}" == "VED" ] ; then
@@ -622,19 +629,19 @@ function check_binaries() {
 	
 	for x in ${y} ; do ocs ${x} ; done
 	sdi="${odio} ${sd0} -i "
-	E22_GI="libassuan0,libbz2-1.0,libc6,libgcrypt20,libgpg-error0,libreadline8,libsqlite3-0,gpgconf,zlib1g,gpg"
+	E22_GI="libassuan0 libbz2-1.0 libc6 libgcrypt20 libgpg-error0 libreadline8 libsqlite3-0 gpgconf zlib1g gpg"
 
 	E22_GT=""
 	E22_GU=""
 
 	if [ "${CONF_iface}" != "eth0:1" ] ; then
-		E22_GT="isc-dhcp-client,isc-dhcp-common "
+		E22_GT="isc-dhcp-client isc-dhcp-common "
 		E22_GU="isc-dhcp "
 	fi
 
-	E22_GT="${E22_GT},libip4tc2,libip6tc2,libxtables12,netbase,libmnl0,libnetfilter-conntrack3,libnfnetlink0,libnftnl11,libnftables1,libedit2"
-	E22_GT="${E22_GT},iptables"
-	E22_GT="${E22_GT},init-system-helpers" # iptables-persistent netfilter-persistent
+	E22_GT="${E22_GT} libip4tc2 libip6tc2 libxtables12 netbase libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnftables1 libedit2"
+	E22_GT="${E22_GT} iptables"
+	E22_GT="${E22_GT} init-system-helpers" # iptables-persistent netfilter-persistent
 
 	E22_GU="${E22_GU} libnfnet libnetfilter libxtables libmnl libnftnl libnftables libnl-3-200 libnl-route libnl nftables"
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
@@ -781,12 +788,14 @@ function mangle_s() {
 	dqb "pars ok"
 	csleep 1
 
+	#150726: $2:selle jatkossa tr-jekku?
 	local r=$(echo ${1} | tr -dc a-zA-Z0-9/._)
 	local s=$(echo ${2} | tr -dc a-zA-Z0-9/_-)
 
 	${scm} 0555 ${r}
 	${sco} root:root ${r}
 
+	#14726:bissiin qsee paskaa näin tai parametrit väärät (ellei sittebn tdstonimi)
 	local aa=$(echo ${3} | tr -dc a-zA-Z0-9 )
 	r=$(${sah6} ${r})
 
@@ -897,11 +906,11 @@ function e_h() {
 	csleep 1
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then	#tänään näin
-		if [ -d ${2}${CONF_DIR2} ] ; then
-			${sco} -R root:root ${2}${CONF_DIR2}
+		if [ -d ${2}/${CONF_DIR2} ] ; then
+			${sco} -R root:root ${2}/${CONF_DIR2}
 
-			${scm} 0400 ${2}${CONF_DIR2}/*
-			${scm} 0511 ${2}${CONF_DIR2}/*.bash
+			${scm} 0400 ${2}/${CONF_DIR2}/*
+			${scm} 0511 ${2}/${CONF_DIR2}/*.bash
 		fi
 	fi
 
@@ -1198,11 +1207,11 @@ function part2() {
 		local t
 
 		t=$(echo ${2} | tr -d -c 0-9)
-		[ -v CONF_DIR2 ] || exit 99
+		[ -v CONF_DIR2 ] || exit 99 #nyt jo?
 
 		#ved vai default?
 		if [  "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then
-			${odio} ${CONF_DIR2}tlb.bash ${t}
+			${odio} ${CONF_DIR2}/tlb.bash ${t}
 		fi
 	fi
 
@@ -1259,42 +1268,9 @@ function common_lib_tool() {
 	dqb "t00l DONE"
 }
 
-#VAIH:pkgd_drop mukaan kutsuvan koodin puolekta
-#TODO:loopin sisälle wopr2, read-.kohdasta alkaisi (tosin E22_GX - juttujen  takia ei tarvinne, toinenkin kein o löytyy?)
-function p2g() {
-	dqb " ((((((((((((((((( ${1} ) FED TO TEH PIGS"
-	csleep 1
-
-	[ -z "${1}" ] || && exit 76
-	[ -s ${1} ] || exit 66
-	csleep 1
-	dqb "common.p2g.-pars.ok"
-
-	local f
-	local g
-	local h
-
-	for f in $(grep -v '#' ${1}) ; do
-		dqb "SOON: wopr2 ); \$h ; ${3} ;;))"
-		csleep 1
-		IFS="," read -a g <<< "${f}"
-
-		for h in ${g[@]} ; do
-			${sharpy} ${h}*
-		done
-
-		csleep 1
-		t2p_filler
-	done
-
-	dqb "common.p2g DONE"
-	csleep 1
-}
-
 function cg_udp6() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
-	csleep 4
-
+	csleep 10
 	[ -z "${1}" ] && exit 65
 	[ -d ${1} ] || exit 66
 	dqb "paramz 0k"
@@ -1302,15 +1278,18 @@ function cg_udp6() {
 
 	dqb "${1} :"
 	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb | wc -l
-	csleep 2
+	csleep 3
 
 	dqb "${pkgdir} :"
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb | wc -l
-	csleep 2
+	csleep 3
 
 	common_lib_tool ${1} reject_pkgs
 	dqb "D0NE"
 	csleep 1
+
+	echo " #VAIH:tulisi selvittää muiten käytännössä toimii eth0:1, sharpy, cg_upd6/(" #esim seur kerran q "exp2 u"
+	sleep 5
 
 	#130726:bissiin yritti poistaa dhcp-paketit ruossa alla
 	if [ "${CONF_iface}" == "eth0:1" ] ; then
@@ -1320,7 +1299,7 @@ function cg_udp6() {
 	fi
 
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6  DONE FOR NOW"
-	csleep 4
+	csleep 10
 }
 
 function part3() {

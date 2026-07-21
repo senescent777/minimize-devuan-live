@@ -120,16 +120,17 @@ case "${mode}" in
 				t=${CONF_testgris} 
 			fi
 
+			#VAIH:CONF_hashfile?
 			${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${t} -xvf ${tgtfile}
 		fi
 
-		csleep 2
+		csleep 5
 		${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${d} -xvf ${d}/f.tar
-		csleep 2
+		csleep 5
 
 		[ $? -eq 0 ] || exit 99
 		${svm} ${d}/f.tar ${d}/f.tar.OLD
-		csleep 2
+		csleep 5
 	
 		e22_arch ${d}/f.tar ${d} ${gbk}
 

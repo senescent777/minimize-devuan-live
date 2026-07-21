@@ -80,6 +80,7 @@ else
 
 	dqb "FALLBACK"
 	sleep 5
+
 	odio=$(which sudo)
 	
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
@@ -214,11 +215,11 @@ function cptp2() {
 		fi
 		
 		ls -las /etc/res*
-		csleep 5
+		csleep 10
 
 		if [ -x ${t}/common_lib.sh ] ; then
 			enforce_access $(whoami) ${t}
-			csleep 5
+			csleep 10
 
 			dqb "1MP,2: running mutilatetc.bash maY be necessary now to fix some things"
 		else
@@ -226,11 +227,11 @@ function cptp2() {
 		fi
 		
 		ls -las /etc/res*
-		csleep 5
+		csleep 10
 	fi
 
 	if [ -d ${t} ] ; then
-		dqb "f0rtunat3 50n"
+		dqb "f0rtunate 50n"
 
 		${scm} 0755 ${t}
 		${scm} 0555 ${t}/*.sh
@@ -332,7 +333,7 @@ else
 	[ -d ${srcfile} ] || dqb "NOT A DIR"
 	[ -f ${srcfile} ] || dqb "NOT A FILE"
 	dqb "SMTHING WRONG WITH ${srcfile} "
-	exit 53
+	exit 55
 fi
 
 [ -r ${srcfile} ] || exit 35

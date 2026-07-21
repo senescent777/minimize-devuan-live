@@ -47,7 +47,6 @@ function dis() {
 
 	dqb "ko.srap"
 	csleep 1
-
 	${scm} 0755 /etc/network
 	${sco} -R root:root /etc/network
 	${scm} a+r /etc/network/*
@@ -74,21 +73,25 @@ function dis() {
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
 	dqb "aftr.int.faces"
 	
+	#if [ -v CONF_iface ] ; then #tarpeen nykyään?
 	if [ ! -z "${2}" ] ; then
 		#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
 		[ -z "${sifd}" ] && sifd=/sbin/ifdown
 
 		dqb "${odio} ${sifd} ${2}"	
 		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
+
 		csleep 1
 	
 		#${odio} ${sifd} -a
 		csleep 1
 
 		[ ${debug} -eq 1 ] && ${sifc};sleep 1
+	
 		${sip} link set ${2} down
 		[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 	fi
+	#fi
 	
 	${odio} sysctl -p
 	csleep 1
@@ -211,8 +214,6 @@ fi
 
 #VAIH:meshuqqah kiukuttelun selvittely jos vielä toistuu, syyllinen tämä fktio vai mangle_s ?
 #... yksi ehdokas olisi
-#28736 jo kunnossa?
-
 function pre_enforce() {
 	dqb "pre_enforce() "
 
@@ -227,6 +228,7 @@ function pre_enforce() {
 	local f
 	local g
 
+	#q=$(${mkt} -d)
 	q=$(${mkt} qsipasq-XXXX)
 	#q=${q}/meshuqqah #satunnainen tauhka tdston_nimenä ei vissiin toinimnut? riippuu tauhkasta, "man 5 sudoers"
 	csleep 1
@@ -309,15 +311,13 @@ function pre_enforce() {
 	csleep 1
 
 	if [ ${c4} -lt 1 ] ; then #tämä blokki vs setup2.bash vastaava kohta...
-		fasdfasd /etc/fstab
 		csleep 1
-
+		${scm} a+w /etc/fstab #fasdfasd
+		csleep 1
 		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		csleep 1
-
-		reqwreqw /etc/fstab
+		${scm} a-w /etc/fstab#reqwreqw
 		csleep 1
-
 		[ ${debug} -eq 1 ] && cat /etc/fstab
 		csleep 1
 	fi
@@ -344,12 +344,9 @@ fi
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
 
-#260626:alla tuo mv menee pieleen jos ajetaan root-tunnuksella tämän skripti , tee jotain (VAIH)
+#260626:alla tuo mv menee pieleen jos ajetaan root-tunnuksella tämän skripti , tee jotain (TODO)
 ${snt}
-
-if [ "${CONF_env}" != "VED" ] ; then
-	${svm} ${d0}/1c0ns/*.desktop ~/Desktop
-fi
+${svm} ${d0}/1c0ns/*.desktop ~/Desktop
 
 #===================================================PART 2===================================
 c14=1
@@ -425,7 +422,7 @@ if [ "${CONF_env}" == "DEFAULT" ] ; then
 fi
 
 dqb "PR0F IMPORT DONE?"
-csleep 3
+csleep 5
 
 jules
 ${asy}
@@ -441,7 +438,7 @@ else
 	echo "NOTHING LEFT TO MUTILATE"
 fi
 
-sleep 5
+sleep 10
 #ifup nykyään muuttelee tables-sääntöjä yhdellä jekulla joten ei erikseen tartte käskyttää...
 
 ${sipt} -L

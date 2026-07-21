@@ -16,8 +16,8 @@ function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() 
 	esac
 }
 
-#vissiin 120726 sai viimeksi validia sisältöä aiolka+sxeksi/uusi yrotys 20726 -> 
-#VAIH:uusicksi testaus kuitenkin lhiaikoina (pre_e() jo ok?)
+#vissiin 120726 sai viimeksi validia sisältöä aiolka+sxeksi
+#TODO:uusicksi testaus kuitenkin lhiaikoina
 function e23_tblz() {
 	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
 	csleep 1
@@ -36,8 +36,11 @@ function e23_tblz() {
 	tpc7
 	#jotain excaliburiin liittyvää tuo tpc
 
-	aswasw ${1}	
-	e22_pre_e $ ${CONF_iface} ${E22_GT}
+	#120726:josnyt menisi oikein
+	aswasw ${1}
+
+	#DONE?:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
+	e22_pre_e ${E22_GT} ${CONF_iface}
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 1
@@ -51,7 +54,7 @@ function e23_tblz() {
 	csleep 1
 }
 
-#vissiin 120726 sai viimeksi validia sisältöä aiKAIsxeksi (entä nykyään?)
+#vissiin 120726 sai viimeksi validia sisältöä aiKAIsxeksi
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -61,12 +64,11 @@ function e23_other_pkgs() {
 	csleep 1
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
-	e22_pre_e ${CONF_iface} ${E22_GI}
-	e22_pre_e ${CONF_iface} ${E22_GG}
-	e22_pre_e ${CONF_iface} ${E23_GS}
-	#e22_gs vs e23_gs ? eri asioita
-
+	e22_pre_e ${E22_GI} ${CONF_iface}
+	e22_pre_e ${E22_GG} ${CONF_iface}
+	e22_pre_e ${E23_GS}  ${CONF_iface} #e22_gs vs e23_gs ?
 	#140726:kutsuvassa koodissa vedettii n jo nuo?
+
 	message
 	jules
 
@@ -94,8 +96,7 @@ function e23_upgp() {
 	dqb " e23_upgp() "
 	${fib}
 	csleep 1
-
-	e22_pre_e ${CONF_iface} ${E22_GS}
+	e22_pre_e ${E22_GS} ${CONF_iface}
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 
@@ -164,7 +165,6 @@ function e23_qrs() {
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
 #120726 viimeksi yritetty testata, tekeekö toimivaa sisältöä pakettiin, onnistui
-#TODO:testaus uusicksi josqs koska y
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -174,8 +174,8 @@ function e23_dm() {
 	csleep 1
 
 	${fib}
-	e22_pre_e ${CONF_iface} ${E22_GS}
-	e22_pre_e ${CONF_iface} ${E22_GM} 
+	e22_pre_e ${E22_GS} ${CONF_iface}
+	e22_pre_e ${E22_GM} ${CONF_iface}
 	csleep 5
 
 	if [ "${1}" == "wdm" ] ; then
