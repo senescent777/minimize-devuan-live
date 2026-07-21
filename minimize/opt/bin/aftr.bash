@@ -1,8 +1,8 @@
 #!/bin/bash
 debug=1
 
-#kts myös setup2.bash dalek-jutut
-CONF_hashfile3=/opt/bin/zxcv #VAIH:myös /o/b alaisiin käyttöön
+#kts myös setup2.bash dalek-jutut (x.s -> x.bash lähinnä)
+CONF_hashfile3=/opt/bin/zxcv #VAIH:myös /o/b alaisiin käyttöön (muitaq mutilatetc?)
 CONF_DIR2=/opt/bin
 
 if [ -v CONF_env ] && [ "${CONF_env}" == "TOOR"  ] ; then #30626:pitäisi keksiä jotain tähän, nyt näin
@@ -28,7 +28,7 @@ ip6tr=$(${odio} which ip6tables-restore)
 #jokin param resolv.vonf-kikkailuja varten?
 #TODO:entäse dot?
 
-#VAIH:ruleksiin oikeastaan, u- ja v- ketjujen oletusarvot, joputaisiko säätää? (olisiko jo 30626 hopidettu?)
+#DONE?:ruleksiin oikeastaan, u- ja v- ketjujen oletusarvot, joputaisiko säätää? (olisiko jo 30626 hopidettu?)
 ${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
 ${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
 #yo. jutut takaisin kommenteista sittenq ehkä ntpsec (tai ehkä varm vuoksi)
@@ -88,6 +88,9 @@ else
 	echo "NYT SE VITUN VITTU"
 	sleep 66
 fi
+
+echo "TODO:atrf.ptn2 , aftr.ptn_dda vähitellen"
+sleep 5
 
 #================================
 #ntp-kikkailut erilliseen skriptiin?
