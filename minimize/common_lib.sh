@@ -499,6 +499,30 @@ function cefgh() {
 	fi
 }
 
+function worf() {
+	dqb "wotrf ) ${1} ) ${2} ))) ${3} ))"
+	[ -z "${1}" ] && exit 76
+	[ -z "${2}" ] && exit 75
+
+	local t=$(echo ${1} | tr ',' '\020')
+	local u
+
+	for u in ${t} ; do
+		case "${2}" in
+			0)
+				${sharpy} ${u}*
+			;;
+			1)
+				efk1 ${3}/${u}*
+			;;
+			2)
+				#se greppaus-juttu vielä ni...
+				${shary} ${u}*
+			;;
+		esac
+	done
+}
+
 #DONE?:sqroot-ympäristön pAKettivalikoiman päivitys, mm. gpg_poistuu-syistä
 #mitä nyt viimeksdi exp2:lla duunattu -> toimii pienellä urputuksella? (ne accpet-tdstot olisi hyvä saada sqroot asti kanssa)
 
@@ -524,8 +548,12 @@ function CB01() {
 
 	#common_pp3 ${1} ${2} #kuinkahan monta kertaa pitää tuo tarkistus ajaa, ennen CB0x-kutsuja jo...
 	#toi v on HI aluts qts menn
-	for p in ${E22_GI} ; do efk1 ${2}/${p}*.deb ; done
-	
+	#HUOM. common_pp3() - kutsu takaisin jos kutsuvaan koodiin muutoksia tarkistuksiin liittyen
+
+	#VAIH:worf(GI 1 ${2})
+	#for p in ${E22_GI} ; do efk1 ${2}/${p}*.deb ; done
+	worf ${E22_GI} 1 ${2}	
+
 	csleep 1
 	dqb "iZOMVIE"
 	
@@ -557,9 +585,10 @@ function CB02() {
 	[ -d ${1} ] || exit 100
 	
 	[ "${CONF_env}" == "TOOR" ] && message
-	local p
-	for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
-	
+	#local p
+	#for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
+	worf ${E22_GU} 1 ${1}	
+
 	for p in ${E22_GV} ; do 
 		fromtend ${1}/${p}*.deb
 		[ $? -eq 0 ] && ${NKVD} ${1}/${p}*.deb
@@ -631,14 +660,14 @@ function check_binaries() {
 
 	if [ "${CONF_iface}" != "eth0:1" ] ; then
 		E22_GT="isc-dhcp-client,isc-dhcp-common "
-		E22_GU="isc-dhcp "
+		E22_GU="isc-dhcp,"
 	fi
 
 	E22_GT="${E22_GT},libip4tc2,libip6tc2,libxtables12,netbase,libmnl0,libnetfilter-conntrack3,libnfnetlink0,libnftnl11,libnftables1,libedit2"
 	E22_GT="${E22_GT},iptables"
 	E22_GT="${E22_GT},init-system-helpers" # iptables-persistent netfilter-persistent
 
-	E22_GU="${E22_GU} libnfnet libnetfilter libxtables libmnl libnftnl libnftables libnl-3-200 libnl-route libnl nftables"
+	E22_GU="${E22_GU},libnfnet,libnetfilter,libxtables,libmnl,libnftnl,libnftables,libnl-3-200,libnl-route,libnl,nftables"
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
 	
 	local t
@@ -1261,25 +1290,9 @@ function common_lib_tool() {
 	dqb "t00l DONE"
 }
 
-function worf() {
-	dqb "wotrf ) ${1} ) ${2} ))) ${3} ))"
-	[ -z "${1}" ] && exit 76
-	[ -z "${2}" ] && exit 75
 
-	local t=$(echo ${1} | tr [,] [:space:])
-	local u
-
-	for u in ${t} ; do
-		case "${2}" in
-			0)
-				${sharpy} ${u}*
-			;;
-		esac
-	done
-}
-
-#VAIH:pkgS_drop mukaan kutsuvan koodin puoleLta
-#TODO:loopin sisälle worf, read-kohdasta alkaisi (tosin E22_GX - juttujen  takia ei tarvinne, toinenkin kein o löytyy?)
+#DONE:pkgS_drop mukaan kutsuvan koodin puoleLta
+#VAIH:loopin sisälle worf, read-kohdasta alkaisi (tosin E22_GX - juttujen  takia ei tarvinne, toinenkin kein o löytyy?)
 function p2g() {
 	dqb " ((((((((((((((((( ${1} ) ${2} ) FED TO TEH PIGS"
 	csleep 1

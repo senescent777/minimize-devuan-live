@@ -414,7 +414,7 @@ function e22_acol() {
 #... tai siis p2g()
 
 function e22_pre_e() {
-	echo "TODO:worf( $@)"
+	echo "TODO:worf( $@)" #toiv kohta (worf asdad 2 )
 	exit
 
 #	local p

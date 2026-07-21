@@ -162,7 +162,7 @@ p2g ${d0}/pkgs_drop 0
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 0 ] && exit
 
-p2g ${d}
+p2g ${d}/pkgs_drop 0
 [ ${mode} -eq 1 ] && exit
 
 t2pf ${d}
