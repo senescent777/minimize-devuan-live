@@ -1263,17 +1263,30 @@ function common_lib_tool() {
 
 function worf() {
 	dqb "wotrf ) ${1} ) ${2} ))) ${3} ))"
+	[ -z "${1}" ] && exit 76
+	[ -z "${2}" ] && exit 75
+
+	local t=$(echo ${1} | tr [,] [:space:])
+	local u
+
+	for u in ${t} ; do
+		case "${2}" in
+			0)
+				${sharpy} ${u}*
+			;;
+		esac
+	done
 }
 
 #VAIH:pkgS_drop mukaan kutsuvan koodin puoleLta
 #TODO:loopin sisälle worf, read-kohdasta alkaisi (tosin E22_GX - juttujen  takia ei tarvinne, toinenkin kein o löytyy?)
 function p2g() {
-	dqb " ((((((((((((((((( ${1} ) FED TO TEH PIGS"
+	dqb " ((((((((((((((((( ${1} ) ${2} ) FED TO TEH PIGS"
 	csleep 1
 
 	[ -z "${1}" ] && exit 76
 	[ -s ${1} ] || exit 66
-	[ -z "${3}" ] && exit 56
+	[ -z "${2}" ] && exit 56
 
 	csleep 1
 	dqb "common.p2g.-pars.ok"
@@ -1291,7 +1304,7 @@ function p2g() {
 		#	${sharpy} ${h}*
 		#done
 
-		worf ${f} ${3}
+		worf ${f} ${2}
 		csleep 1
 		t2p_filler
 	done
