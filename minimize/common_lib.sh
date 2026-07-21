@@ -504,8 +504,9 @@ function worf() {
 	[ -z "${1}" ] && exit 76
 	[ -z "${2}" ] && exit 75
 
-	local t=$(echo ${1} | tr ',' '\020')
+	local t=$(echo ${1} | tr ',' '\040')
 	local u
+	local v
 
 	for u in ${t} ; do
 		case "${2}" in
@@ -515,9 +516,17 @@ function worf() {
 			1)
 				efk1 ${3}/${u}*
 			;;
+			3)
+				v=$(grep -v dhcp ${u})
+				[ -z "${v}" ] || efk1 ${3}/${v}*
+			;;
 			2)
 				#se greppaus-juttu vielä ni...
 				${shary} ${u}*
+			;;
+			4)
+				v=$(grep -v dhcp ${u})
+				[ -z "${v}" ] || ${shary} ${u}*
 			;;
 		esac
 	done

@@ -414,8 +414,6 @@ function e22_acol() {
 #... tai siis p2g()
 
 function e22_pre_e() {
-	echo "TODO:worf( $@)" #toiv kohta (worf asdad 2 )
-	exit
 
 #	local p
 #	local q
@@ -425,11 +423,13 @@ function e22_pre_e() {
 #		if [ "${1}" == "${p}" ] ; then
 #			q=""
 #		else
-#			if [ "${1}" == "eth0:1" ] ; then
-#				q=$(echo ${p} | grep -v dhcp)
-#			else
-#				q=${p}
-#			fi
+			if [ "${1}" == "eth0:1" ] ; then
+				echo "TODO:worf asdgf 2 zcxv"
+			else
+				echo "TODO: worf sdfgsdgf 4 uliuli"
+			fi
+			
+			exit
 #		fi
 #			[ -z "${q}" ] || ${shary} ${q}
 #	done
