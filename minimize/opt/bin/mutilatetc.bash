@@ -1,8 +1,6 @@
 #!/bin/bash
 
 CONF_algo=sha256
-
-
 debug=1
 odio="/usr/bin/sudo"
 smr=$(${odio} which rm)
@@ -16,7 +14,7 @@ ip6t=$(${odio} which ip6tables)
 gg=$(${odio} which gpg)
 
 #kts myös setup2.bash dalek-jutut
-CONF_hashfile3=/opt/bin/zxcv #VAIH:myös /o/b alaisiin käyttöön
+CONF_hashfile3=/opt/bin/zxcv #VAIH:myös /o/b alaisiin käyttöön (vielä 1 juttu liittyen)
 CONF_DIR2=/opt/bin
 
 case "${CONF_algo}" in
@@ -64,9 +62,9 @@ function gf() {
 
 gf ${CONF_hashfile3}
 #chattrin kanssa käviSi ktevämmin, lisäksi pitäisi reagoida jyrkemmin?
-c3=$(find /opt -name "zxcv*" -type f -perm /o+w,g+w,u+w | wc -l)
+c3=$(find ${CONF_DIR2} -name "zxcv*" -type f -perm /o+w,g+w,u+w | wc -l)
 [ ${c3} -gt 0 ] && exit 105
-c3=$(find /opt -name "zxcv*" -type f -perm /o+r,g+r | wc -l)
+c3=$(find ${CONF_DIR2} -name "zxcv*" -type f -perm /o+r,g+r | wc -l)
 [ ${c3} -gt 0 ] && exit 106
 
 #vähän kiikun kaakun onko fiksua sudottaa noita ao. komentoja , gg tilapäisesti jemmaan 280326
