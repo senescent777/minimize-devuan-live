@@ -366,8 +366,7 @@ if [ ${mode} -gt 1 ] ; then
 	fi
 fi
 
-echo "TODO:tables-säännöt&&ntp josqs?"
-sleep 5
+csleep 3
 el_loco ${c14} ${c13}
 #=========================================================================================
 
