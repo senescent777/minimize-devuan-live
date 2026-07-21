@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0 #tilapäisesti nollakei että asialliset hommat EHKÄ
+debug=0 # nollakSi jotta asialliset hommat EHKÄ
 srcfile=""
 
 distro=$(cat /etc/devuan_version)

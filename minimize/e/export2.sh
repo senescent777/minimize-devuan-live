@@ -104,7 +104,6 @@ fi
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
 
-
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
 	[ $? -gt 0 ] && exit 66
@@ -115,7 +114,7 @@ if [ -x ${d0}/e/e22.sh ] ; then
 	csleep 1
 else
 	echo "NO BACKEND FOUND"
-	exit 58
+	exit 85
 fi
 
 [ -z "${tgtfile}" ] && exit 98
@@ -144,7 +143,7 @@ csleep 1
 dqb "JUST BEFORE ESAC"
 csleep 6
 
-dqb "TODO:lähiaikoina case 3 ja case e testaten uudelleen!!!!!"
+dqb "DINE?:lähiaikoina case 3 ja case e testaten uudelleen!!!!!"
 csleep 5
 
 case "${mode}" in
@@ -154,9 +153,9 @@ case "${mode}" in
 	3|4) 
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
 		#120726:lienee toimiva tämä case (aiNAKin kerran roimi sill01m)
+		#18726:case 4 ytrstissä , vissiin toimaa
 
 		[ -v CONF_default_arhcive3 ] || exit 66
-		#CONF_hashfile3=/opt/bin/zxcv
 		e22_z1 ${CONF_hashfile3}
 
 		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} ${CONF_hashfile3}.tmp
@@ -187,7 +186,7 @@ case "${mode}" in
 	u|upgrade)
 		#140726:testaus vaiheessa, pakETTeja saa vedettyä ainakin
 		#170726:xserver-pakettien hukkaaminen ,  liittyykö g_pt2 ? No Ei
-		#elikkäs uusi yritys lähiaikoina
+		#elikkäs uusi yritys lähiaikoina (TODO)
 
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
@@ -199,9 +198,9 @@ case "${mode}" in
 		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 	;;
 	e) 
-		#120726:lienee toimiva tämä case (jos kuitenkin uusiksi taas testaus)
-		e22_pre_e ${E22_GS} ${CONF_iface}
-		e22_pre_e ${E22_GM} ${CONF_iface}
+		#18726:bissiin teki asentuvan apketin touilloin
+		e22_pre_e ${CONF_iface} ${E22_GS}
+		e22_pre_e ${CONF_iface} ${E22_GM}
 
 		csleep 3
 		message
@@ -210,9 +209,10 @@ case "${mode}" in
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 		dqb "BC/AD"
 		csleep 5
+
 		e23_other_pkgs ${CONF_dnsm}
 	;;
-	t) #toiminee mikäli case:t e tai 3 toimivat
+	t) #toiminee mikäli case:t e tai 3 toimivat (VAIH:testaaPa pre_e tämän kautta)
 		message
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
