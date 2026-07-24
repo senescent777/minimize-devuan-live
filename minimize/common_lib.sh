@@ -532,6 +532,27 @@ function worf() {
 	done
 }
 
+function wopr() {
+	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
+	local r=$(find ${1} -type f -name "${2}*.deb" )
+
+	for s in ${r} ; do
+		case "${3}" in
+			reject_pkgs)
+				${NKVD} ${s}
+			;;
+			accept_pkgs_1|accept_pkgs_2)
+				efk1 ${s}
+			;;
+			*)
+				exit 99
+			;;
+		esac
+	done
+
+	#csleep 1
+}
+
 #DONE?:sqroot-ympäristön pAKettivalikoiman päivitys, mm. gpg_poistuu-syistä
 #mitä nyt viimeksdi exp2:lla duunattu -> toimii pienellä urputuksella? (ne accpet-tdstot olisi hyvä saada sqroot asti kanssa)
 
@@ -1166,7 +1187,9 @@ function part1() {
 	dqb "FOUR-LEGGED WH0R3"
 }
 
-#qseeko tässä jokin? toiv ei enää
+echo "TODO:debig 2 part2()"
+sleep 6
+
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
 	csleep 6
@@ -1190,6 +1213,9 @@ function part2() {
 			${sharpy} ${s}*
 			csleep 1
 		done
+
+		echo "SHOULD EXIT HERE 4 DEBUG-REASSONS"
+		sleep 6
 
 		${lftr}
 		${sharpy} libblu* libcupsfilters* libgphoto*
@@ -1256,26 +1282,7 @@ function part2() {
 	csleep 1
 }
 
-function wopr() {
-	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
-	local r=$(find ${1} -type f -name "${2}*.deb" )
 
-	for s in ${r} ; do
-		case "${3}" in
-			reject_pkgs)
-				${NKVD} ${s}
-			;;
-			accept_pkgs_1|accept_pkgs_2)
-				efk1 ${s}
-			;;
-			*)
-				exit 99
-			;;
-		esac
-	done
-
-	#csleep 1
-}
 
 function common_lib_tool() {
 	dqb "common_lib_tool( ${1}  ; ${2} )))) "
@@ -1299,7 +1306,6 @@ function common_lib_tool() {
 	dqb "t00l DONE"
 }
 
-
 #DONE:pkgS_drop mukaan kutsuvan koodin puoleLta
 #VAIH:loopin sisälle worf, read-kohdasta alkaisi (tosin E22_GX - juttujen  takia ei tarvinne, toinenkin kein o löytyy?)
 function p2g() {
@@ -1308,7 +1314,7 @@ function p2g() {
 
 	[ -z "${1}" ] && exit 76
 	[ -s ${1} ] || exit 66
-	[ -z "${2}" ] && exit 56
+#	[ -z "${2}" ] && exit 56 #VAIH:toka param jatkossa pois
 
 	csleep 1
 	dqb "common.p2g.-pars.ok"
@@ -1326,7 +1332,7 @@ function p2g() {
 		#	${sharpy} ${h}*
 		#done
 
-		worf ${f} ${2}
+		worf ${f} 0 #${2}
 		csleep 1
 		t2p_filler
 	done

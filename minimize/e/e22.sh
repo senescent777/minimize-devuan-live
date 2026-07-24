@@ -424,9 +424,11 @@ function e22_pre_e() {
 #			q=""
 #		else
 			if [ "${1}" == "eth0:1" ] ; then
-				echo "TODO:worf asdgf 2 zcxv"
+				echo "VAIH:worf asdgf 2 zcxv"
+				worf ${2} 4
 			else
-				echo "TODO: worf sdfgsdgf 4 uliuli"
+				echo "VAIH: worf sdfgsdgf 4 uliuli"
+				worf ${2} 2
 			fi
 			
 			exit

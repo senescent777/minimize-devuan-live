@@ -76,6 +76,9 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
+#240726:jotain urputusta taisi taas tulla, korjaa jos mahd
+#bissiin mode 0 ok mutta sen jälkeen (tai ei oikeastaan se nollakaan)
+
 if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
 	dqb "kö"
 	TLA
@@ -93,7 +96,7 @@ function t2p_filler() {
 
 #140526 edelleen tarpeellinen blokki, puuttuvat paketit $d alla aiheuttavat? VAIH:joko jo pois 07/26?
 #20726:modaamattomalla kiekolla&&DEFAULT rpc "ic"-tilassa, dmsetup ii, myös spi2-cpre ja psmisc myös
-#entä TPPR? josko case-esac? tail alempi filler pois?
+#entä TPPR? josko case-esac? tai alempi filler pois?
 
 ##if [ "${CONF_env}" == "TOOR" ] ; then
 ##	${sharpy} blu*
@@ -127,8 +130,7 @@ if [ "${CONF_iface}" != "wlan0" ] ; then
 fi
 
 #====================================================================
-
-#20826:kts slim liittyen omega
+#20726:kts slim liittyen omega
 
 function t2pf() {
 	dqb "gp2t.common_lib.T2P.FINAL( ${1} )"
@@ -157,12 +159,12 @@ csleep 1
 
 ${fib}
 csleep 1
-p2g ${d0}/pkgs_drop 0
+p2g ${d0}/pkgs_drop #0
 
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 0 ] && exit
 
-p2g ${d}/pkgs_drop 0
+p2g ${d}/pkgs_drop #0
 [ ${mode} -eq 1 ] && exit
 
 t2pf ${d}
