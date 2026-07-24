@@ -199,7 +199,7 @@ case "${mode}" in
 	;;
 	e) 
 		#18726:bissiin teki asentuvan apketin touilloin
-		#24726:
+		#24726:VAIH
 
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
@@ -241,7 +241,9 @@ case "${mode}" in
 		e23_dm ${mop}
 	;;
 	n)
-		#VAIH:ntp-jutut takaisin josqs? 260526 -> ?
+		#24726:kokeeksi tehdään uusi paketti (VAIH)
+		#TODO:masentelu ja sivuvaikutukset
+
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;
