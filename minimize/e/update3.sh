@@ -55,6 +55,7 @@ fi
 
 #060626:suattaapi olla turha tdsto nykyään
 
+
 #tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
 #function e22_dblock() {
 #	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
@@ -94,3 +95,4 @@ fi
 #	e22_arch ${1} ${2} ${4}
 #	e22_cleanpkgs ${2}
 #}
+#
