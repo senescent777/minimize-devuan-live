@@ -1,7 +1,11 @@
 #!/bin/bash
 debug=1
 
-if [ "${CONF_env}" == "TOOR" ] ; then
+#kts myös setup2.bash dalek-jutut
+CONF_hashfile3=/opt/bin/zxcv #VAIH:myös /o/b alaisiin käyttöön
+CONF_DIR2=/opt/bin
+
+if [ -v CONF_env ] && [ "${CONF_env}" == "TOOR" ] ; then #nyt näin
         odio=""
 else
         odio=$(which sudo)

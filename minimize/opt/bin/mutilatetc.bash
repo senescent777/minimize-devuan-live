@@ -1,9 +1,6 @@
 #!/bin/bash
-#exit 99
-CONF_algo=sha256
-#kts toisn repon setup2 , dalek.s - jutut
 
-#VAIH:ao. komennoista järkevä kokonaisuus josqs (jos olisi jo 05/26?)
+CONF_algo=sha256
 debug=1
 odio="/usr/bin/sudo"
 smr=$(${odio} which rm)
@@ -16,6 +13,10 @@ ipt=$(${odio} which iptables)
 ip6t=$(${odio} which ip6tables)
 gg=$(${odio} which gpg)
 
+#kts myös setup2.bash dalek-jutut
+CONF_hashfile3=/opt/bin/zxcv #VAIH:myös /o/b alaisiin käyttöön (vielä 1 juttu liittyen)
+CONF_DIR2=/opt/bin
+
 case "${CONF_algo}" in
 	sha256)
 		sah6=$(${odio} which sha256sum)
@@ -24,6 +25,7 @@ case "${CONF_algo}" in
 		sah6=$(${odio} which sha512sum)
 	;;
 esac
+
 
 function dqb() {
 	[ ${debug} -eq 1 ] && echo ${1}
@@ -58,22 +60,22 @@ function gf() {
 	[ ${c2} -gt 0 ] && exit 105
 }
 
-gf /opt/bin/zxcv
+gf ${CONF_hashfile3}
 #chattrin kanssa käviSi ktevämmin, lisäksi pitäisi reagoida jyrkemmin?
-c3=$(find /opt -name "zxcv*" -type f -perm /o+w,g+w,u+w | wc -l)
+c3=$(find ${CONF_DIR2} -name "zxcv*" -type f -perm /o+w,g+w,u+w | wc -l)
 [ ${c3} -gt 0 ] && exit 105
-c3=$(find /opt -name "zxcv*" -type f -perm /o+r,g+r | wc -l)
+c3=$(find ${CONF_DIR2} -name "zxcv*" -type f -perm /o+r,g+r | wc -l)
 [ ${c3} -gt 0 ] && exit 106
 
 #vähän kiikun kaakun onko fiksua sudottaa noita ao. komentoja , gg tilapäisesti jemmaan 280326
 #if [ ! -z "${gg}" ] ; then
 #	if [ -x ${gg} ] ; then
-#		${odio} ${gg} --verify /opt/bin/zxcv.sig
+#		${odio} ${gg} --verify ${CONF_hashfile3}.sig
 #		[ $? -eq 0 ] || exit 107
 #	fi
 #fi
 #
-${odio} ${sah6} --ignore-missing -c /opt/bin/zxcv
+${odio} ${sah6} --ignore-missing -c ${CONF_hashfile3}
 [ $? -eq 0 ] || exit 108
 
 function gh() {
@@ -150,12 +152,12 @@ function clouds_pp1() {
 		if [ -h ${f} ] ; then #mikä ero -L nähden?
 			c0=$(find / -type f -name "${f}.*" | wc -l)
 			#if [ -s ${f}.1 ] || [ -s ${f}.0 ] ; then #riittäisikö nämä tark?
-		
+
 			if [ ${c0} -gt 0 ] ; then
 				${smr} ${f}
 				[ $? -gt 0 ] && dqb "FAILURE TO COMPLY WHILE TRYING TO REMOVE ${f}"
 			else
-				dqb "N.S.T.A.S: ${f}.xxx"			
+				dqb "N.S.T.A.S: ${f}.xxx"
 			fi
 		else
 			dqb "NOt A SHARk... link: ${f}"
@@ -204,7 +206,7 @@ function clouds_post() {
 	for f in $(find /etc -type f -name "resolv.conf*") ; do
 		${scm} 0444 ${f}
 		${sco} root:root ${f}
-	done	
+	done
 
 	for f in $(find /etc -type f -name "dhclient*") ; do
 		${scm} 0444 ${f}
@@ -219,13 +221,13 @@ function clouds_post() {
 	done
 
 	${scm} 0555 /sbin
-	p3r1m3tr	
+	p3r1m3tr
 
 	for f in $(find /etc -type f -name "ntp*") ; do
 		${scm} 0444 ${f}
                 ${sco} root:root ${f}
-	done	
-	
+	done
+
 	for f in $(find /etc/network -type f -name "interface*") ; do
 		${scm} 0444 ${f}
 		${sco} root:root ${f}
@@ -235,7 +237,7 @@ function clouds_post() {
 
 	${scm} 0555 /etc/dhcp
 	${scm} 0555 /etc/network
-	${sco} root:root /etc/network 
+	${sco} root:root /etc/network
 	${scm} 0555 /etc/init.d/ntpsec
 	${sco} 0:0 /etc/init.d/ntpsec
 
@@ -259,10 +261,12 @@ clouds_pre ${t}
 
 if [ -f /etc/resolv.conf.${t} ] ; then
 	${slinky} /etc/resolv.conf.${t} /etc/resolv.conf
+	[ $? -eq 0 ] || echo "LINKING FAILED"
 else
 	dqb "WHERE IS /etc/resolv.conf.${t} ???"
 fi
 
+sleep 10
 #280326:dhc-juttuihin liittyen miten sitten jos tunaroi dhclient-script:in kanssa? (common_lib saattaa liittyä myös)
 #... man dhclient.conf tietysti 1 lähtökohta
 
