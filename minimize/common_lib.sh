@@ -521,12 +521,14 @@ function worf() {
 				[ -z "${v}" ] || efk1 ${3}/${v}*
 			;;
 			2)
-				#se greppaus-juttu vielä ni...
-				${shary} ${u}*
+				${shary} ${u} #*
 			;;
 			4)
-				v=$(grep -v dhcp ${u})
-				[ -z "${v}" ] || ${shary} ${u}*
+				#ei vielä
+				#v=$(grep -v dhcp ${u})
+				#[ -z "${v}" ] || ${shary} ${u}*
+				
+				${shary} ${u} #* #jokerikin juono idea
 			;;
 		esac
 	done
@@ -1417,7 +1419,10 @@ function part3() {
 	dqb "LAcKK.a"
 	csleep 3
 
-	for p in ${E22_GS} ; do wopr ${t} ${p} accept_pkgs_1 ; done
+	echo "TODO:part3.E22GS.stuff" #worf() kautta pitäisi nykyään koska viimeisin stuntti
+	exit 96
+
+#	for p in ${E22_GS} ; do wopr ${t} ${p} accept_pkgs_1 ; done
 	dqb "önEGA-VGA RA"
 	csleep 3
 

@@ -199,7 +199,7 @@ case "${mode}" in
 	;;
 	e) 
 		#18726:bissiin teki asentuvan apketin touilloin
-		#24726;
+		#24726:
 
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
@@ -224,8 +224,11 @@ case "${mode}" in
 		e22_hdr ${d}/e.tar
 
 		${fib}
-		${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä
-		${shary} ${E22_GG} #tartteeko molemmat E22_jutut gpg varten?
+		#${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä muuten mutta
+		#${shary} ${E22_GG} #tartteeko molemmat E22_jutut gpg varten?
+	
+		e22_pre_e ${CONF_iface} ${E22_GI}
+		e22_pre_e ${CONF_iface} ${E22_GG}
 
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
