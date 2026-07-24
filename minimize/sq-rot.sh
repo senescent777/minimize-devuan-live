@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=1 #kunnes parsetyus kunnossa
+debug=0 # nollakSi jotta asialliset hommat EHKÄ
 srcfile=""
 
 distro=$(cat /etc/devuan_version)
@@ -35,7 +35,7 @@ function usage() {
 #	fi
 #}
 #
-##VAIH:PARSETUS-HOMMAT UUSIKSI FRÅM SCRATCH
+#TODO:NOSE PARSETUS PRKL
 #function parse_opts_2() {
 #	dqb "fish.rot.parseopts_2 )) ${1} ; ${2} (("
 #
@@ -90,18 +90,8 @@ else
 
 	function check_binaries() {
 		echo "fish.rot.1"
-
-		#mkt=$(${odio} which mktemp) #onkohan import2:sessakaan tarpeellinen?
 		scm=$(${odio} which chmod)
 		[ -v CONF_algo ] || exit 77
-
-		#DONE?:viimeaikaisiin muutoksiin liittyen varmista että sqroot-ympäristössä on oikeanlainen konfiguraatio
-		#vissiin on jo 240626
-
-		#VAIH:seuraavaksi varmista että nekros?.tar.bz3 sisältämät paketit asentuvat sqroot a laisuudessa
-		#... elikkäs uudelleen_pakkausta tapahtumaan kohta
-
-		#TODO:varmistapa vielä että sqroot alle menevät asennuspaketit ajan tasalla
 
 		case "${CONF_algo}" in
 			sha256)
@@ -118,8 +108,7 @@ else
 		esac
 
 		srat=$(${odio} which tar)
-		#eXit jos srat ei?
-		srat="${odio} ${srat}" #tarpeen?
+		srat="${odio} ${srat}"
 
 		gg=$(${odio} which gpg) #suattaapi olla että tähän tökkää, taisiis myöhemmin
 		[ -z "${gg}" ] && echo "SH0ULD.1NST.GPG"
@@ -252,15 +241,17 @@ if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
 else
 	[ -d ${srcfile} ] || dqb "NOT A MAN"
 	[ -f ${srcfile} ] || dqb "NOT A CYBORG"
-	dqb "SMTHING WRONG WITH ${srcfile} "
-	exit 55
+
+	echo "SMTHING WRONG WITH ${srcfile} "
+	exit 65
 fi
 
 #VAIH:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
 #... jotain pientä laittoa vielä tarvitsee (230326)
+#josko jkpo 07/26 valmiiksi asti?
 
 function common_part() {
-	dqb "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
+	echo "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
 
 	[ -z "${1}" ] && exit 91 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
 	[ -s ${1} ] || exit 92
@@ -275,7 +266,7 @@ function common_part() {
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
 	echo "paramz_0k"
-	csleep 1
+	sleep 1
 
 	cd /
 	local r
@@ -334,9 +325,11 @@ function common_part() {
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "ko"		
 		else	
-			#ekan param lisätarkistukset yllä riittävät?
+			#ekan param lisätarkistukset yllä riittävät? entä destroy()?
 			${NKVD} ${1}* 
 			${NKVD} ${2}/*.deb
+
+			#destrpy()?
 
 			${NKVD} ${2}/${CONF_hashfile}*
 			${NKVD} ${2}/*.tar*
@@ -346,14 +339,14 @@ function common_part() {
 	fi
 
 	csleep 1
-	dqb "NECKST: ${srat}  (${TARGET_TPX} ) -C ${3} -xf ${1}"
+	dqb "NECKST: ${srat}  ( ${TARGET_TPX} ) -C ${3} -xf ${1}"
 
 	csleep 1
 	${srat} --exclude rnd --exclude ./rnd -C ${3} -xf ${1} #vielä pientä laittoa "${TARGET_TPX}" liittyen?
 	[ $? -eq 0 ] || exit 36	
 
-	csleep 1
-	dqb "${srat} DONE"
+	sleep 1
+	echo "${srat} DONE"
 }
 
 #cptp2 -> common_lib vai ei?
@@ -373,7 +366,6 @@ function cptp2() {
 	if [ -f ${t}/common_lib.sh ] ; then
 		#onkohan tuossa tarkistuksessa pointtia?
 		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
-			#csleep 1
 			${gg} --verify ${t}/common_lib.sh.sig 
 			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"
 		fi
@@ -443,10 +435,11 @@ case "${mode}" in
 	k)
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
 
-		#050636:kokeeksi näin
 		[ "${CONF_env}" == "TOOR" ] && pre
 
 		#VAIH:tuotaville avaimille jotain tark? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
+		#... valmiiksi josqs?
+
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
 		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd find out?)
@@ -486,9 +479,12 @@ case "${mode}" in
 	;;
 esac
 
+echo "atfr.esac"
+sleep 1
+
 #poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (VAIH?)
 if [ $? -eq 0 ] ; then
-	if [ -s ${srcfile} ] ; then #riittävä tarq tapauksessa lähde==hakemisto?
+	if [ -s ${srcfile} ] && [ -f ${srcfile} ] ; then
 		read -p " U  WANT 2 RM SOURCE ?" confirm
 		[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
 	fi
