@@ -1527,7 +1527,6 @@ function gpo() {
 #https://stackoverflow.com/questions/16988427/calling-one-bash-script-from-another-script-passing-it-arguments-with-quotes-and
 gpo "$@"
 
-
 #function cptp2() { #TARKKUUTTA PRKL
 #	dqb "rot.c tp2 ${1}, ${2}, ${3}"
 #
