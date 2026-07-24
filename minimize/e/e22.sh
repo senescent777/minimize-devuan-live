@@ -191,7 +191,7 @@ function e22_pre2() {
 }
 
 function e22_cleanpkgs() {
-	dqb "e22_cleanpkgs() "
+	dqb "e22_cleanpkgs() ${1} )))))) "
 	[ -z "${1}" ] && exit 53
 
 	if [ -d ${1} ] ; then #destroy() ?
@@ -414,6 +414,8 @@ function e22_acol() {
 #... tai siis p2g()
 
 function e22_pre_e() {
+	dqb "e22_pre_e() ))) $@ )))))))("
+	csleep 1
 
 #	local p
 #	local q
@@ -431,7 +433,7 @@ function e22_pre_e() {
 				worf ${2} 2
 			fi
 			
-			exit
+#			exit
 #		fi
 #			[ -z "${q}" ] || ${shary} ${q}
 #	done
@@ -526,15 +528,18 @@ function e22_ext() {
 }
 
 function e22_ts() {
-	dqb "e22_ts()"
+	dqb "e22_ts( ${1} ;; ${2} )"
+	csleep 1
+
 	[ -z "${1}" ] && exit 13
 	[ -d ${1} ] || exit 14
 	[ -w ${1} ] || exit 15
 	[ -z "${2}" ] && exit 16
 	[ -d ${2} ] || exit 17
 
-	dqb "${svm} ${2}/*.deb ${1} IN 10 SECS"
-	csleep 10
+	dqb "${svm} ${2}/*.deb ${1} IN 5 SECS"
+	csleep 5
+
 	${svm} ${2}/*.deb ${1}
 	[ $? -eq 0 ] || exit 56
 
@@ -653,6 +658,7 @@ function e22_dblock() {
 
 	dqb ".PARS-OK"
 	csleep 1
+
 	[ ${debug} -eq 1 ] && pwd
 	ls -la ${3}/*.deb | wc -l
 	
@@ -660,7 +666,11 @@ function e22_dblock() {
 		${sharpy} ${s}*
 		${NKVD} ${3}/${s}*.deb
 	done
-	
+
+	ls -la ${3}/*.deb | wc -l
+	dqb "JST BFTr TS()"
+	csleep 10
+
 	local t=$(echo ${2} | cut -d "/" -f 1-6)
 	e22_ts ${t} ${3}
 	dqb "JST B3F0R3 3NF0RC3"

@@ -163,7 +163,7 @@ case "${mode}" in
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
-			#TODO:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä?
+			#TODO?:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä?
 			#... tai jos case g prujaus...
 
 			e23_tblz ${CONF_iface} ${CONF_dnsm}
@@ -185,8 +185,8 @@ case "${mode}" in
 	;;
 	u|upgrade)
 		#140726:testaus vaiheessa, pakETTeja saa vedettyä ainakin
-		#170726:xserver-pakettien hukkaaminen ,  liittyykö g_pt2 ? No Ei
-		#elikkäs uusi yritys lähiaikoina (TODO)
+		#170726:xserver-pakettien hukkaaminen ,  liittyykö g_pt2 ? No Ei ?
+		#elikkäs uusi yritys lähiaikoina (TODO) (qhan se part2...)
 
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
@@ -199,6 +199,8 @@ case "${mode}" in
 	;;
 	e) 
 		#18726:bissiin teki asentuvan apketin touilloin
+		#24726;
+
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
 

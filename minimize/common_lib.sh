@@ -689,11 +689,11 @@ function check_binaries() {
 	E22_GU=""
 
 	if [ "${CONF_iface}" != "eth0:1" ] ; then
-		E22_GT="isc-dhcp-client,isc-dhcp-common "
+		E22_GT="isc-dhcp-client,isc-dhcp-common,"
 		E22_GU="isc-dhcp,"
 	fi
 
-	E22_GT="${E22_GT},libip4tc2,libip6tc2,libxtables12,netbase,libmnl0,libnetfilter-conntrack3,libnfnetlink0,libnftnl11,libnftables1,libedit2"
+	E22_GT="${E22_GT}libip4tc2,libip6tc2,libxtables12,netbase,libmnl0,libnetfilter-conntrack3,libnfnetlink0,libnftnl11,libnftables1,libedit2"
 	E22_GT="${E22_GT},iptables"
 	E22_GT="${E22_GT},init-system-helpers" # iptables-persistent netfilter-persistent
 
