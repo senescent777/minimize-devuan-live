@@ -59,6 +59,46 @@ else
 	exit 58
 fi
 
+#tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
+#function e22_dblock() {
+#	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
+#
+#	[ -z "${1}" ] && exit 14
+#	[ -s ${1} ] || exit 15
+#	[ -z "${2}" ] && exit 11
+#	[ -d ${2} ] || exit 22
+#	[ -w ${2} ] || exit 23
+#	[ -z "${3}" ] && exit 33
+#	[ -d ${3} ] || exit 34
+#	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
+#	[ -z "${4}" ] && exit 37
+#
+#	dqb ".PARS-OK"
+#	csleep 1
+#
+#	[ ${debug} -eq 1 ] && pwd
+#
+#	ls -la ${3}/*.deb | wc -l
+#	
+#	for s in ${PART175_LIST} ; do
+#		${sharpy} ${s}*
+#		${NKVD} ${3}/${s}*.deb
+#	done
+#	
+#	local t
+#	t=$(echo ${2} | cut -d "/" -f 1-6)
+#	e22_ts ${t} ${3}
+#	dqb "JST B3F0R3 3NF0RC3"
+#	csleep 10
+#	
+#	enforce_access $(whoami) ${t}
+#	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
+#	csleep 10
+#
+#	e22_arch ${1} ${2} ${4}
+#	e22_cleanpkgs ${2}
+#}
+#
 [ -d  ${tgtfile} ] && exit 99 #P.V.H.H
 [ "${mode}" == "rp" ] || e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
@@ -80,16 +120,16 @@ case "${mode}" in
 				t=${CONF_testgris} 
 			fi
 
-			${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${t} -xvf ${tgtfile}
+			${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${t} -xvf ${tgtfile}
 		fi
 
-		csleep 5
-		${srat} --exclude "sha512sums*" --exclude "*pkgs*" -C ${d} -xvf ${d}/f.tar
-		csleep 5
+		csleep 2
+		${srat} --exclude "${CONF_hashfile}*" --exclude "*pkgs*" -C ${d} -xvf ${d}/f.tar
+		csleep 2
 
 		[ $? -eq 0 ] || exit 99
 		${svm} ${d}/f.tar ${d}/f.tar.OLD
-		csleep 5
+		csleep 2
 	
 		e22_arch ${d}/f.tar ${d} ${gbk}
 
@@ -141,44 +181,3 @@ case "${mode}" in
 esac
 
 e22_ftr ${tgtfile}
-
-
-#tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
-#function e22_dblock() {
-#	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
-#
-#	[ -z "${1}" ] && exit 14
-#	[ -s ${1} ] || exit 15
-#	[ -z "${2}" ] && exit 11
-#	[ -d ${2} ] || exit 22
-#	[ -w ${2} ] || exit 23
-#	[ -z "${3}" ] && exit 33
-#	[ -d ${3} ] || exit 34
-#	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
-#	[ -z "${4}" ] && exit 37
-#
-#	dqb ".PARS-OK"
-#	csleep 1
-#
-#	[ ${debug} -eq 1 ] && pwd
-#
-#	ls -la ${3}/*.deb | wc -l
-#	
-#	for s in ${PART175_LIST} ; do
-#		${sharpy} ${s}*
-#		${NKVD} ${3}/${s}*.deb
-#	done
-#	
-#	local t
-#	t=$(echo ${2} | cut -d "/" -f 1-6)
-#	e22_ts ${t} ${3}
-#	dqb "JST B3F0R3 3NF0RC3"
-#	csleep 10
-#	
-#	enforce_access $(whoami) ${t}
-#	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-#	csleep 10
-#
-#	e22_arch ${1} ${2} ${4}
-#	e22_cleanpkgs ${2}
-#}
