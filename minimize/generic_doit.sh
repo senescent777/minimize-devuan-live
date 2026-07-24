@@ -47,6 +47,7 @@ function dis() {
 
 	dqb "ko.srap"
 	csleep 1
+
 	${scm} 0755 /etc/network
 	${sco} -R root:root /etc/network
 	${scm} a+r /etc/network/*
@@ -73,25 +74,21 @@ function dis() {
 	#TEHTY:selvitä mikä kolmesta puolestaan rikkoo dbusin , eka ei, toinen kyllä, kolmas ei, sysctl ei
 	dqb "aftr.int.faces"
 	
-	#if [ -v CONF_iface ] ; then #tarpeen nykyään?
 	if [ ! -z "${2}" ] ; then
 		#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
 		[ -z "${sifd}" ] && sifd=/sbin/ifdown
 
 		dqb "${odio} ${sifd} ${2}"	
 		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
-
 		csleep 1
 	
 		#${odio} ${sifd} -a
 		csleep 1
 
 		[ ${debug} -eq 1 ] && ${sifc};sleep 1
-	
 		${sip} link set ${2} down
 		[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 	fi
-	#fi
 	
 	${odio} sysctl -p
 	csleep 1
@@ -116,7 +113,7 @@ function part0() {
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
 	${whack} ssh-agent*
 
-	#2804236:josko ssh-agentin sisältävän paketin voisi poistaa?
+	#2804236:josko ssh-agentin sisältävän paketin voisi poistaa? ajankohtaistra vielä 07/26?
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
@@ -180,7 +177,7 @@ function el_loco() {
 }
 
 function adieu() {
-#	pidetäänpä nämä jutut kommenteissa sitä varten että saattuukin tarvitsemaan
+#	pidetäänpä nämä jutut kommenteissa sitä varten että sattuukin tarvitsemaan
 #
 #	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
 #	csleep 5
@@ -212,48 +209,70 @@ if [ -s ~/xorg.conf.new ] ; then
 	fi
 fi
 
+#VAIH:meshuqqah kiukuttelun selvittely jos vielä toistuu, syyllinen tämä fktio vai mangle_s ?
+#... yksi ehdokas olisi
+#28736 jo kunnossa?
+
 function pre_enforce() {
 	dqb "pre_enforce() "
+
 	[ -z "${1}" ] && exit 98
 	[ -d ${1} ] || exit 97
 	[ -v mkt ] || exit 99
+
 	dqb "pars_ok"
 	csleep 1
 
 	local q
 	local f
-	q=$(${mkt} -d)
-	q=${q}/meshuqqah
+	local g
+
+	q=$(${mkt} qsipasq-XXXX)
+	#q=${q}/meshuqqah #satunnainen tauhka tdston_nimenä ei vissiin toinimnut? riippuu tauhkasta, "man 5 sudoers"
 	csleep 1
+
 	fasdfasd ${q}
 	[ ${debug} -eq 1 ] && ls -las ${q}
 	csleep 1
 
 	[ -f ${q} ] || exit 33
-	#TODO:katso lista läpi että mitä nykyään tarvitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
-	for f in ${CB_LIST1} ; do mangle_s ${f} ${q} ; done
+	#DONE?:katso lista läpi että mitä nykyään tarvitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
+	#...ved kanssa lista kai ok, tarvitseeko TOOR oikeastaan listaa lainkaan?
+
+	#parempi jos vain sanoisi ryhmän mihin pitää kuulua että x
+	if [ "${CONF_env}" == "VED" ] ; then
+		g="devuan"
+	else
+		g=$(whoami) # | tr -dc a-zA-Z0-9 ) vissiin tämä haara vpoi kusta?
+	fi
+
+	for f in ${CB_LIST1} ; do 
+		mangle_s ${f} ${q} ${g}
+	done
 
 	dqb "BFOR3 testgris"
 	csleep 1
 	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
+	[ -v CONF_DIR2 ] || exit 79
 
 	if [ "${CONF_env}" == "DEFAULT" ] ; then
-		if [ ! -d /opt/bin ] ; then
-			${smd} /opt/bin
-			[ $? -eq 0 ] || ${odio} ${smd} /opt/bin
+		if [ ! -d ${CONF_DIR2} ] ; then
+			${smd} ${CONF_DIR2}
+			[ $? -eq 0 ] || ${odio} ${smd} ${CONF_DIR2}
 		fi
 
-		if [ -d ${1}/opt/bin ] ; then
-			${svm} ${1}/opt/bin/*.bash /opt/bin
+		if [ -d ${1}${CONF_DIR2} ] ; then
+			${svm} ${1}${CONF_DIR2}/*.bash ${CONF_DIR2}
 		fi
 	fi
 
 	e_final
 
 	# "semmoinen juttu" 
-	if [ "${CONF_env}" == "DEFAULT" ] && [ -d /opt/bin ] ; then
-		for f in $(${odio} find /opt/bin -type f -name "*.bash" ) ; do
-			mangle_s ${f} ${q}
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then
+		#tämä osuus /e/s.d/m qsee?
+		for f in $(${odio} find ${CONF_DIR2} -type f -name "*.bash" ) ; do
+			mangle_s ${f} ${q} ${g}
 		done
 	fi
 
@@ -269,7 +288,7 @@ function pre_enforce() {
 		unset CB_LIST1
 	fi
 
-	q=$(${mkt})
+	q=$(${mkt} qsipasq3-XXXX) #15726:param uutena
 	fasdfasd ${q}
 	dinf ${q}
 	reqwreqw ${q}
@@ -289,14 +308,16 @@ function pre_enforce() {
 
 	csleep 1
 
-	if [ ${c4} -lt 1 ] ; then
+	if [ ${c4} -lt 1 ] ; then #tämä blokki vs setup2.bash vastaava kohta...
+		fasdfasd /etc/fstab
 		csleep 1
-		${scm} a+w /etc/fstab
-		csleep 1
+
 		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		csleep 1
-		${scm} a-w /etc/fstab
+
+		reqwreqw /etc/fstab
 		csleep 1
+
 		[ ${debug} -eq 1 ] && cat /etc/fstab
 		csleep 1
 	fi
@@ -305,6 +326,7 @@ function pre_enforce() {
 	csleep 1
 }
 
+#30626:kesdkimmäinen ehto josqs uusiksi?
 if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	csleep 2
@@ -322,9 +344,12 @@ fi
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
 
-#260626:alla tuo mv menee pieleen jos ajetaan root-tunnuksella tämän skripti , tee jotain (TODO)
+#260626:alla tuo mv menee pieleen jos ajetaan root-tunnuksella tämän skripti , tee jotain (VAIH)
 ${snt}
-${svm} ${d0}/1c0ns/*.desktop ~/Desktop
+
+if [ "${CONF_env}" != "VED" ] ; then
+	${svm} ${d0}/1c0ns/*.desktop ~/Desktop
+fi
 
 #===================================================PART 2===================================
 c14=1
@@ -341,12 +366,11 @@ if [ ${mode} -gt 1 ] ; then
 	fi
 fi
 
-echo "TODO:tables-säännöt&&ntp josqs?"
-sleep 5
+csleep 3
 el_loco ${c14} ${c13}
 #=========================================================================================
 
-#260626:passwd kanssa menee vähän mettään jos root-tunnuksella ajelaa, ytekisikö jotain ?
+#260626:passwd kanssa menee vähän mettään jos root-tunnuksella ajelllaan, tekisikö jotain ?
 if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	${odio} passwd
 
@@ -390,37 +414,33 @@ other_horrors
 dqb "AFTER THE HORROR"
 csleep 1
 
-#TODO:tOISessa oksassa tuo if-lause, onko kunnossa?
-
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh
-	dqb "KOITA NYT PRKL SAADA TÄTÄ KAUTTA IMPORT2 TOIMIMAAN 666!!!"
-	csleep 66
 
-	#TODO:tämän kanssa jotain? toisesta oksasta korjaukset?
+	#010726:tämä jo kunnossa?
 	${d0}/import2.sh r ${d0} -v
-	[ $? -eq 0 ] || exit $?
-	csleep 34
+	echo $?
+	csleep 3
 fi
 
 dqb "PR0F IMPORT DONE?"
-csleep 5
+csleep 3
 
 jules
 ${asy}
 e_final
 e_h $(whoami) ${d0}
 
-${sco} 0:0 /opt/bin/*
-${scm} 0400 /opt/bin/zxcv*
+${sco} 0:0 ${CONF_DIR2}/*
+${scm} 0400 ${CONF_hashfile3}*
 
-if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
-	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+if [ -x ${CONF_DIR2}/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
+	${odio} ${CONF_DIR2}/mutilatetc.bash ${CONF_dnsm}
 else
 	echo "NOTHING LEFT TO MUTILATE"
 fi
 
-sleep 20
+sleep 5
 #ifup nykyään muuttelee tables-sääntöjä yhdellä jekulla joten ei erikseen tartte käskyttää...
 
 ${sipt} -L
