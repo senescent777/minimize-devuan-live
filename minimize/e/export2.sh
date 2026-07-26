@@ -199,7 +199,7 @@ case "${mode}" in
 	;;
 	e) 
 		#18726:bissiin teki asentuvan apketin touilloin
-		#24726:VAIH
+		#24726:paketin osaisi bissiin muodostaa, testaapa miten oksennukset asentuvaqt (TODO)
 
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}

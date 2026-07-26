@@ -2,7 +2,8 @@
 if [ -s ${d0}/$(whoami).conf ] ; then
 	#pitäisikö olla eri conf toisen repon skriptien kautta mentäessä?
 	echo "ALT.C0NF1G (. ${d0}/$(whoami).con )"
-	#HUOM.sudo voi vähän sotkea tämän if-haaran tyoimintaa
+	#HUOM.sudo voi vähän sotkea tämän if-haaran toimintaa
+
 	. ${d0}/$(whoami).conf
 	sleep 3
 else
@@ -617,7 +618,8 @@ function CB02() {
 	[ -d ${1} ] || exit 100
 	
 	[ "${CONF_env}" == "TOOR" ] && message
-	#local p
+	local p
+
 	#for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
 	worf ${E22_GU} 1 ${1}	
 
@@ -1189,8 +1191,31 @@ function part1() {
 	dqb "FOUR-LEGGED WH0R3"
 }
 
-echo "TODO:debig 2 part2()"
-sleep 6
+echo "VAIH:debUg 2 part2()"
+sleep 26
+
+#HUOM.wopr()/worf() voisi otttaa käyttöön tässä
+function ten1() {
+
+	if [ "${1]}" == "wlan0" ] ; then
+		dqb "NOT REMOVING WPASUPPLICANT"
+		csleep 1
+	else
+		${sharpy} modem* wireless* 
+		${sharpy} wpa*
+		${sharpy} iw
+	fi
+
+	if [ "${1}" == "eth0:1" ] ; then
+		${sharpy} isc-dchp*
+	fi
+
+	csleep 10
+	dpkg -l wpa*
+	csleep 10	
+
+	
+}
 
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
@@ -1213,11 +1238,12 @@ function part2() {
 
 			dqb "processing ${s}"
 			${sharpy} ${s}*
-			csleep 1
+			csleep 3
 		done
 
 		echo "SHOULD EXIT HERE 4 DEBUG-REASSONS"
 		sleep 6
+#		exit #tässä ei vielä mene äksä rikki?
 
 		${lftr}
 		${sharpy} libblu* libcupsfilters* libgphoto*
@@ -1230,30 +1256,29 @@ function part2() {
 		${sharpy} python3-cups
 		${lftr}
 		csleep 1
-
-		case "${3}" in
-			wlan0)
-				dqb "NOT REMOVING WPASUPPLICANT"
-				csleep 1
-			;;
-			#VAIH:entä dhcp-pakettien poisto jollain ehdolla?
-			#010526:ensimmäisellä yrityksellä x meni pois pelistä, joten toistaiseksi kommentteihin
 		
-			#eth0:1) #jospa konsultoisi man-sivuja tämän kanssa?
-			#	${sharpy} modem* wireless* wpa*
-			#	${sharpy} iw lm-sensors
-			#	${sharpy} isc-dchp*
-			#;;
-			*)
-				${sharpy} modem* wireless* 
-				${sharpy} wpa*
-				${sharpy} iw lm-sensors
+		${sharpy} lm-sensors #uskaltaako poistaa jokatap?
+		ten1 ${3}
 
-				csleep 10
-				dpkg -l wpa*
-				csleep 10
-			;;
-		esac
+		#VAIH:sittenkin if-blokeilla tämä osuus? erilliseksi fktioksi jopa? dhcp-oakettien atkia niinq
+		#case "${3}" in
+		#	wlan0)
+		#	
+		#	;;
+		#	#VAIH:entä dhcp-pakettien poisto jollain ehdolla?
+		#	#010526:ensimmäisellä yrityksellä x meni pois pelistä, joten toistaiseksi kommentteihin
+		#
+		#	#eth0:1) #jospa konsultoisi man-sivuja tämän kanssa?
+		#	#	${sharpy} modem* wireless* wpa*
+		#	#	${sharpy} iw lm-sensors
+		#	#	
+		#	#;;
+		#	*)
+		#		 lm-sensors
+#
+
+#			;;
+#		esac
 	fi
 
 	dqb "PART2.5.2 )))))( $1 , $2"
@@ -1270,7 +1295,7 @@ function part2() {
 
 		#ved vai default?
 		if [  "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then
-			${odio} ${CONF_DIR2}tlb.bash ${t}
+			${odio} ${CONF_DIR2}/tlb.bash ${t}
 		fi
 	fi
 
@@ -1381,6 +1406,7 @@ function part3() {
 
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 101
+	#alla 2. param. kanssa riittävät tarq?
 
 	dqb "PARAMS_OK"
 	csleep 1
@@ -1419,10 +1445,13 @@ function part3() {
 	dqb "LAcKK.a"
 	csleep 3
 
-	echo "TODO:part3.E22GS.stuff" #worf() kautta pitäisi nykyään koska viimeisin stuntti
-	exit 96
+	echo "VAIH:part3.E22GS.stuff" #worf() kautta pitäisi nykyään koska viimeisin stuntti
+	#exit 96
 
+#26726:modaamattpan daed kannanlta värräi vesr asetnunut?
 #	for p in ${E22_GS} ; do wopr ${t} ${p} accept_pkgs_1 ; done
+	worf ${E22_GS} 1 ${t}	
+
 	dqb "önEGA-VGA RA"
 	csleep 3
 

@@ -3,6 +3,9 @@ function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() 
 	[ -z "${1}" ] && exit 56
 	csleep 1
 
+	#HUOM.26726:pikemminkin peräkkäisiä if-blokkeja , huomioisi paremmin eth/wlan/staatt/dyn ip  -asiat
+	#kts ten1() liittyen
+
 	case "${1}" in
 		wlan0)
 			#E22:GN="libnl-3-200 ... "

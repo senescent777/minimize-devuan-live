@@ -225,7 +225,6 @@ function e22_config1() {
 	cd ${p}
 }
 
-
 #120426:vissiin menee kohteeseen fedi ja profs (mutta meneekö 1. mainittu myös juureen?)
 
 function e22_settings() {
@@ -425,6 +424,8 @@ function e22_pre_e() {
 #		if [ "${1}" == "${p}" ] ; then
 #			q=""
 #		else
+
+			#HUOM.26726:ehkä muitakin karsimisjuttuja pitäisi huomioida kuin vain staattinen ip vs dhcp-paketit
 			if [ "${1}" == "eth0:1" ] ; then
 				echo "VAIH:worf asdgf 2 zcxv"
 				worf ${2} 4
@@ -626,7 +627,7 @@ function e22_arch() {
 	fi
 
 	psqa ./${CONF_hashfile}
-	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
+	#TODO?:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
 
 	if [ $? -gt 0 ] ; then #destroy() ? tai siis...
 		${NKVD} ./*.deb
