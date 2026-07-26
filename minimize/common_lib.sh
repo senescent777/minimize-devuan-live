@@ -645,12 +645,12 @@ function CB02() {
 
 	#for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
 	dqb "JUST BVEFORE worf ${E22_GU} 1 ${1}"
-	csleep 50
+	csleep 5
 
 	worf ${E22_GU} 1 ${1}	
 
 	dqb "JUST AFTER worf ${E22_GU} 1 ${1}	"
-	csleep 10
+	csleep 5
 
 	for p in ${E22_GV} ; do 
 		fromtend ${1}/${p}*.deb

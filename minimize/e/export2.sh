@@ -215,7 +215,7 @@ case "${mode}" in
 
 		e23_other_pkgs ${CONF_dnsm}
 		ls -las ${CONF_pkgdir}/libn*
-		csleep 66
+		csleep 16
 	;;
 	t) #toiminee mikäli case:t e tai 3 toimivat (VAIH:testaaPa pre_e tämän kautta)
 		message

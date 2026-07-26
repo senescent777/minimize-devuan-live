@@ -40,7 +40,7 @@ function e23_tblz() {
 	#jotain excaliburiin liittyvää tuo tpc
 
 	aswasw ${1}
-	csleep 50
+	csleep 10
 	dqb "JUST BEFORE e22_pre_e $ ${CONF_iface} ${E22_GT}"
 	csleep 10
 	
