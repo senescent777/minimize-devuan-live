@@ -500,6 +500,27 @@ function cefgh() {
 	fi
 }
 
+#HUOM.wopr()/worf() voisi otttaa käyttöön tässä
+function ten1() {
+
+	if [ "${1]}" == "wlan0" ] ; then
+		dqb "NOT REMOVING WPASUPPLICANT"
+		csleep 1
+	else
+		${sharpy} modem* wireless* 
+		${sharpy} wpa*
+		${sharpy} iw
+	fi
+
+	if [ "${1}" == "eth0:1" ] ; then
+		${sharpy} isc-dchp*
+	fi
+
+	csleep 10
+	dpkg -l wpa*
+	csleep 10	
+}
+
 function worf() {
 	dqb "wotrf ) ${1} ) ${2} ))) ${3} ))"
 	[ -z "${1}" ] && exit 76
@@ -521,15 +542,15 @@ function worf() {
 				v=$(grep -v dhcp ${u})
 				[ -z "${v}" ] || efk1 ${3}/${v}*
 			;;
-			2)
-				${shary} ${u} #*
+			2) #TODO:kts ten1() 2) ja 4) liittyen
+				${shary} ${u}
 			;;
 			4)
 				#ei vielä
 				#v=$(grep -v dhcp ${u})
 				#[ -z "${v}" ] || ${shary} ${u}*
 				
-				${shary} ${u} #* #jokerikin juono idea
+				${shary} ${u}  #jokerikin juono idea
 			;;
 		esac
 	done
@@ -609,6 +630,7 @@ function message() {
 	sleep 1
 }
 
+#pitäisikö tämä fktio olla GU esittelyjen jälkeen?
 function CB02() {
 	dqb "CB02()"
 	csleep 1
@@ -621,7 +643,13 @@ function CB02() {
 	local p
 
 	#for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
+	dqb "JUST BVEFORE worf ${E22_GU} 1 ${1}"
+	csleep 50
+
 	worf ${E22_GU} 1 ${1}	
+
+	dqb "JUST AFTER worf ${E22_GU} 1 ${1}	"
+	csleep 10
 
 	for p in ${E22_GV} ; do 
 		fromtend ${1}/${p}*.deb
@@ -697,11 +725,16 @@ function check_binaries() {
 		E22_GU="isc-dhcp,"
 	fi
 
-	E22_GT="${E22_GT}libip4tc2,libip6tc2,libxtables12,netbase,libmnl0,libnetfilter-conntrack3,libnfnetlink0,libnftnl11,libnftables1,libedit2"
-	E22_GT="${E22_GT},iptables"
-	E22_GT="${E22_GT},init-system-helpers" # iptables-persistent netfilter-persistent
+	E22_GT="${E22_GT}libip4tc2,libip6tc2,libxtables12,netbase,libmnl0"
 
+	#26726:libn-alkuisten kanssa kusee jokin vai ei?
+	E22_GT="${E22_GT},libnetfilter-conntrack3,libnfnetlink0,libnftnl11,libnftables1,libedit2"
+
+	E22_GT="${E22_GT},iptables,init-system-helpers" # iptables-persistent netfilter-persistent
+
+	#vai tässäkö?
 	E22_GU="${E22_GU},libnfnet,libnetfilter,libxtables,libmnl,libnftnl,libnftables,libnl-3-200,libnl-route,libnl,nftables"
+
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
 	
 	local t
@@ -1192,34 +1225,11 @@ function part1() {
 }
 
 echo "VAIH:debUg 2 part2()"
-sleep 26
-
-#HUOM.wopr()/worf() voisi otttaa käyttöön tässä
-function ten1() {
-
-	if [ "${1]}" == "wlan0" ] ; then
-		dqb "NOT REMOVING WPASUPPLICANT"
-		csleep 1
-	else
-		${sharpy} modem* wireless* 
-		${sharpy} wpa*
-		${sharpy} iw
-	fi
-
-	if [ "${1}" == "eth0:1" ] ; then
-		${sharpy} isc-dchp*
-	fi
-
-	csleep 10
-	dpkg -l wpa*
-	csleep 10	
-
-	
-}
+sleep 6
 
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
-	csleep 6
+	csleep 26
 
 	[ -z "${1}" ] && exit 55
 	[ -z "${2}" ] && exit 56

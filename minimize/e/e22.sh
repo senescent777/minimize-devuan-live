@@ -426,6 +426,8 @@ function e22_pre_e() {
 #		else
 
 			#HUOM.26726:ehkä muitakin karsimisjuttuja pitäisi huomioida kuin vain staattinen ip vs dhcp-paketit
+			#... pitäisi kai viedä $1 worf():ille sellaisenaan ja mussunmussun, kts ten1()
+
 			if [ "${1}" == "eth0:1" ] ; then
 				echo "VAIH:worf asdgf 2 zcxv"
 				worf ${2} 4

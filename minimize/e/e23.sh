@@ -39,8 +39,16 @@ function e23_tblz() {
 	tpc7
 	#jotain excaliburiin liittyvää tuo tpc
 
-	aswasw ${1}	
+	aswasw ${1}
+	csleep 50
+	dqb "JUST BEFORE e22_pre_e $ ${CONF_iface} ${E22_GT}"
+	csleep 10
+	
 	e22_pre_e $ ${CONF_iface} ${E22_GT}
+
+	csleep 10
+	dqb "JUST SFTER e22_pre_e $ ${CONF_iface} ${E22_GT}"
+	csleep 10
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 1

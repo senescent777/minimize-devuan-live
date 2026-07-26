@@ -143,7 +143,7 @@ csleep 1
 dqb "JUST BEFORE ESAC"
 csleep 6
 
-dqb "DINE?:lähiaikoina case 3 ja case e testaten uudelleen!!!!!"
+dqb "DINE?:lähiaikoina case 3  testaten uudelleen!!!!!"
 csleep 5
 
 case "${mode}" in
@@ -199,7 +199,8 @@ case "${mode}" in
 	;;
 	e) 
 		#18726:bissiin teki asentuvan apketin touilloin
-		#24726:paketin osaisi bissiin muodostaa, testaapa miten oksennukset asentuvaqt (TODO)
+		#24726:paketin osaisi bissiin muodostaa, testaapa miten oksennukset asentuvaqt (VAIH)
+		#... masentaessa libn* kanssa kusoo kuappiin vissiin
 
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
@@ -213,6 +214,8 @@ case "${mode}" in
 		csleep 5
 
 		e23_other_pkgs ${CONF_dnsm}
+		ls -las ${CONF_pkgdir}/libn*
+		csleep 66
 	;;
 	t) #toiminee mikäli case:t e tai 3 toimivat (VAIH:testaaPa pre_e tämän kautta)
 		message
