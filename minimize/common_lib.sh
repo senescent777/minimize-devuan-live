@@ -550,7 +550,8 @@ function worf() {
 				#v=$(grep -v dhcp ${u})
 				#[ -z "${v}" ] || ${shary} ${u}*
 				
-				${shary} ${u}  #jokerikin juono idea
+				${shary} ${u} #jokerikin huono idea tssä
+				csleep 1
 			;;
 		esac
 	done

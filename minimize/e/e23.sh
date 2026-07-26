@@ -44,7 +44,7 @@ function e23_tblz() {
 	dqb "JUST BEFORE e22_pre_e $ ${CONF_iface} ${E22_GT}"
 	csleep 10
 	
-	e22_pre_e $ ${CONF_iface} ${E22_GT}
+	e22_pre_e ${CONF_iface} ${E22_GT}
 
 	csleep 10
 	dqb "JUST SFTER e22_pre_e $ ${CONF_iface} ${E22_GT}"
