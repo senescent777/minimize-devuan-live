@@ -28,10 +28,7 @@ function csleep() {
 	[ ${debug} -eq 1 ] && sleep ${1}
 }
 
-
 [ -v CONF_env ] || exit 99
-#echo "CONF_env = ${CONF_env}"
-#sleep 2
 
 case "${CONF_env}" in
 	TOOR)
@@ -61,8 +58,6 @@ case "${CONF_env}" in
 esac
 
 itni
-#echo "aftr 1nt1"
-#sleep 3
 
 function fix_sudo() {
 	
@@ -127,7 +122,6 @@ function other_horrors() {
 
 fix_sudo
 other_horrors
-#echo "LOOl PIP WFT"
 
 function ocs() {
 	dqb "ocs () () ((( ${1} "
@@ -402,10 +396,6 @@ function common_pp3() {
 		psqa ${1}/${CONF_hashfile}
 
 		if [ $? -gt 0 ] ; then #TODO:tulisi kai testata
-			#${NKVD} ${1}/*.deb
-			#${NKVD} ${1}/${CONF_hashfile}*
-			#${NKVD} ${1}/*.tar*
-
 			destroy ${1}
 		fi
 
@@ -423,7 +413,6 @@ function common_pp3() {
 
 			${spc} ${1}/${CONF_hashfile}* ${2}
 			ls -las ${2}/${CONF_hashfile}*
-			#csleep 5
 		fi
 	fi
 
@@ -496,7 +485,7 @@ function cefgh() {
 #HUOM.wopr()/worf() voisi otttaa käyttöön tässä?
 #VAIH:jos hmisto $2 annettu ni dellimään sen alta juttuja
 function ten1() {
-	#kunnollinen param tarq voisi olla tössö
+	#kunnollinen param tarq voisi olla tässä
 
 	if [ "${1}" == "wlan0" ] ; then
 		dqb "NOT REMOVING WPASUPPLICANT"
@@ -506,19 +495,23 @@ function ten1() {
 		${sharpy} wpa*
 		${sharpy} iw
 
-		if [ -d ${2} ] ; then
-			${NKVD} ${2}/modem*
-			${NKVD} ${2}/wireless*
-			${NKVD} ${2}/wpa*
-			${NKVD} ${2}/iw*
+		if [ ! -z "${2}" ] ; then
+			if [ -d ${2} ] ; then
+				${NKVD} ${2}/modem*
+				${NKVD} ${2}/wireless*
+				${NKVD} ${2}/wpa*
+				${NKVD} ${2}/iw*
+			fi
 		fi
 	fi 
 
 	if [ "${1}" == "eth0:1" ] ; then
 		${sharpy} isc-dchp*
 
-		if [ -d ${2} ] ; then
-			${NKVD} ${2}/isc-dchp*
+		if [ ! -z "${2}" ] ; then
+			if [ -d ${2} ] ; then
+				${NKVD} ${2}/isc-dchp*
+			fi
 		fi
 	fi
 
@@ -698,6 +691,7 @@ function check_binaries() {
 	E22_GM="${E22_GM},libmnl0,libatm1,libpcre2-8-0,libmd0,libgssapi-krb5-2"
 	E22_GM="${E22_GM},libbsd0,libcap2,libcap2-bin,libdb5.3,libtirpc-common,libtirpc3,iproute2"
 
+	#29726;miten dhcp-jutut nykyään? tarpeellinen if?
 	[ "${CONF_iface}" == "eth0:1" ] || E22_GM="${E22_GM},isc-dhcp-client,isc-dhcp-common" #dhcp-jutut erilleen jotenkin?
 	E22_GM="${E22_GM},libpam0g,libcrypt1,libaudit1,libpam-modules-bin,libpam-modules"
 
@@ -1306,37 +1300,44 @@ function common_lib_tool() {
 
 	for q in $(grep -v "#" ${1}/${2}) ; do
 		dqb "outer; ${q}"
-		wopr ${1} ${q} ${2}
 
-		if [ ${debug} -eq 1 ] ; then
-			ls -las ${1}/${q}* | wc -l
+		if [ "${2}" != "pkgs_drop" ] ; then
+			wopr ${1} ${q} ${2}
+
+			if [ ${debug} -eq 1 ] ; then
+				ls -las ${1}/${q}* | wc -l
+			fi
+		else
+			worf ${q} 0
+			csleep 1
+			t2p_filler
 		fi
 	done
 
 	dqb "t00l DONE"
 }
 
-#27726:joutaisikhan jo yhdistää common_lib_tool():in kanssa?
-function p2g() {
-	dqb " ((((((((((((((((( ${1} ) ${2} ) FED TO TEH PIGS"
-	csleep 1
-
-	[ -z "${1}" ] && exit 76
-	[ -s ${1} ] || exit 66
-
-	csleep 1
-	dqb "common.p2g.-pars.ok"
-	local f
-
-	for f in $(grep -v '#' ${1}) ; do
-		worf ${f} 0
-		csleep 1
-		t2p_filler
-	done
-
-	dqb "common.p2g DONE"
-	csleep 1
-}
+##27726:joutaisikhan jo yhdistää common_lib_tool():in kanssa? (VAIH)
+#function p2g() {
+#	dqb " ((((((((((((((((( ${1} ) ${2} ) FED TO TEH PIGS"
+#	csleep 1
+#
+#	[ -z "${1}" ] && exit 76
+#	[ -s ${1} ] || exit 66
+#
+#	csleep 1
+#	dqb "common.p2g.-pars.ok"
+#	local f
+#
+#	for f in $(grep -v '#' ${1}) ; do
+#		worf ${f} 0
+#		csleep 1
+#		t2p_filler
+#	done
+#
+#	dqb "common.p2g DONE"
+#	csleep 1
+#}
 
 function cg_udp6() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
@@ -1358,13 +1359,6 @@ function cg_udp6() {
 	common_lib_tool ${1} reject_pkgs
 	dqb "D0NE"
 	csleep 1
-
-#	#VAIH:ten1() käyttöön
-#	if [ "" == "eth0:1" ] ; then
-#		${sharpy} isc-dchp*
-#	else
-#		dqn "NOTR EMOVING DCHP"
-#	fi
 	
 	ten1 ${CONF_iface} ${1}
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6  DONE FOR NOW"
@@ -1416,7 +1410,6 @@ function part3() {
 	dqb "LAcKK.a"
 	csleep 3
 
-	#echo "DONE?:part3.E22GS.stuff" #worf() kautta pitäisi nykyään koska viimeisin stuntti
 	worf ${E22_GS} 1 ${t}	
 
 	dqb "önEGA-VGA RA"

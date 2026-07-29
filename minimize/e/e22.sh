@@ -408,10 +408,6 @@ function e22_acol() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#DONE?:jhospa kuitenkin debuqia varm buoksi
-#se pilkutus-juttu , joutuu ehkä ottamaan käyttöön (kts. common_lib_tool(), wopr())
-#... tai siis p2g()
-
 function e22_pre_e() {
 	dqb "e22_pre_e() ))) $@ )))))))("
 	csleep 1
@@ -539,7 +535,7 @@ function e22_ts() {
 	dqb "e22_ts() done"
 }
 
-#VAIH:uusiksi testaus esim. exp2 u liittyen
+#DONE:uusiksi testaus esim. exp2 u liittyen, bissiin yoimii (29726)
 function e22_arch() {
 	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
 	csleep 5

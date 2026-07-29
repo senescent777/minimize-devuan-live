@@ -154,7 +154,7 @@ case "${mode}" in
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
 		#120726:lienee toimiva tämä case (aiNAKin kerran roimi sill01m)
 		#18726:case 4 ytrstissä , vissiin toimaa
-		#29726:uudet testit käynniossä case 3 kanssa (VAIH)
+		#29726:case 3 toimii ehkä
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		e22_z1 ${CONF_hashfile3}
@@ -187,7 +187,8 @@ case "${mode}" in
 	u|upgrade)
 		#140726:testaus vaiheessa, pakETTeja saa vedettyä ainakin
 		#170726:xserver-pakettien hukkaaminen ,  liittyykö g_pt2 ? No Ei ?
-		#elikkäs uusi yritys lähiaikoina (VAIH) (part2 jo ok 27726?)
+		#elikkäs uusi yritys lähiaikoina (DONE?) (part2 jo ok 27726?)
+		#bissiin sisältö masentuu ilman kiukutteuja, ainakin enimmäkseen
 
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD Be U P B Y No W"

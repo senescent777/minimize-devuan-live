@@ -76,7 +76,9 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-#29726:urputuksen jo poissa?
+#29726:urputukseT jo poissa?
+#No Ei. Edelleen modaamattomalla kiekolla kun pt2 ajaa ni äksä poistuu viim "omega 5"-kohdassa. KOITA KEKSIÄ MIKSI
+
 
 if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
 	dqb "kö"
@@ -158,12 +160,14 @@ csleep 1
 
 ${fib}
 csleep 1
-p2g ${d0}/pkgs_drop #0
+#p2g ${d0}/pkgs_drop #0
+common_lib_tool ${d0} pkgs_drop
 
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 0 ] && exit
 
-p2g ${d}/pkgs_drop #0
+#p2g ${d}/pkgs_drop #0
+common_lib_tool ${d} pkgs_drop 
 [ ${mode} -eq 1 ] && exit
 
 t2pf ${d}
