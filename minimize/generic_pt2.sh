@@ -76,8 +76,7 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-#240726:jotain urputusta taisi taas tulla, korjaa jos mahd
-#bissiin mode 0 ok mutta sen jälkeen (tai ei oikeastaan se nollakaan)
+#29726:urputuksen jo poissa?
 
 if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
 	dqb "kö"

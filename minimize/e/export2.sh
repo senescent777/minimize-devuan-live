@@ -1,6 +1,6 @@
 #!/bin/bash
 
-debug=1
+debug=0
 distro=$(cat /etc/devuan_version)
 
 d0=$(pwd)
@@ -154,6 +154,7 @@ case "${mode}" in
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
 		#120726:lienee toimiva tämä case (aiNAKin kerran roimi sill01m)
 		#18726:case 4 ytrstissä , vissiin toimaa
+		#29726:uudet testit käynniossä case 3 kanssa (VAIH)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		e22_z1 ${CONF_hashfile3}
@@ -186,21 +187,24 @@ case "${mode}" in
 	u|upgrade)
 		#140726:testaus vaiheessa, pakETTeja saa vedettyä ainakin
 		#170726:xserver-pakettien hukkaaminen ,  liittyykö g_pt2 ? No Ei ?
-		#elikkäs uusi yritys lähiaikoina (TODO) (qhan se part2...)
+		#elikkäs uusi yritys lähiaikoina (VAIH) (part2 jo ok 27726?)
 
 		[ -v CONF_pkgdir ] || exit 96
-		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
+		dqb " ${CONF_iface} SHOULD Be U P B Y No W"
 		csleep 1
 
 		e23_upgp
 		${sifd} ${CONF_iface}
 		csleep 1
-		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
+
+		#e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
+		ten1  ${CONF_iface} ${CONF_pkgdir}
 	;;
 	e) 
 		#18726:bissiin teki asentuvan apketin touilloin
 		#24726:paketin osaisi bissiin muodostaa, testaapa miten oksennukset asentuvaqt (VAIH)
 		#... masentaessa libn* kanssa kusoo kuappiin vissiin
+		#26726 jo korjattu e23_fktiot? bissiin
 
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
@@ -215,9 +219,9 @@ case "${mode}" in
 
 		e23_other_pkgs ${CONF_dnsm}
 		ls -las ${CONF_pkgdir}/libn*
-		csleep 16
+		csleep 6
 	;;
-	t) #toiminee mikäli case:t e tai 3 toimivat (VAIH:testaaPa pre_e tämän kautta)
+	t) #toiminee mikäli case:t e tai 3 toimivat 
 		message
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
@@ -225,11 +229,7 @@ case "${mode}" in
 	g) #17726:vissiin muodosti asentuvaa sisältöä tuolloin
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
-
 		${fib}
-		#${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä muuten mutta
-		#${shary} ${E22_GG} #tartteeko molemmat E22_jutut gpg varten?
-	
 		e22_pre_e ${CONF_iface} ${E22_GI}
 		e22_pre_e ${CONF_iface} ${E22_GG}
 

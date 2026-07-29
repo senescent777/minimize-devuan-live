@@ -30,8 +30,8 @@ function csleep() {
 
 
 [ -v CONF_env ] || exit 99
-echo "CONF_env = ${CONF_env}"
-sleep 2
+#echo "CONF_env = ${CONF_env}"
+#sleep 2
 
 case "${CONF_env}" in
 	TOOR)
@@ -61,8 +61,8 @@ case "${CONF_env}" in
 esac
 
 itni
-echo "aftr 1nt1"
-sleep 3
+#echo "aftr 1nt1"
+#sleep 3
 
 function fix_sudo() {
 	
@@ -77,7 +77,7 @@ function fix_sudo() {
 	sco="${odio} ${sco} "
 	scm="${odio} ${scm} "	
 
-	if [ "${CONF_env}" == "DEFAULT" ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] ; then #!VED jatkossa?
 		dqb "1NNERMöST"
 
 		${sco} -R 0:0 /etc/sudoers.d
@@ -106,7 +106,7 @@ function fix_sudo() {
 function other_horrors() {
 	dqb "other_horrors"
 	
-	if [ "${CONF_env}" == "DEFAULT" ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] ; then #!VED jatkossa?
 		dqb "hERBAL 5UFFER1NG"
 
 		for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
@@ -127,8 +127,7 @@ function other_horrors() {
 
 fix_sudo
 other_horrors
-echo "LOOl PIP WFT"
-#common_funcs tarttee
+#echo "LOOl PIP WFT"
 
 function ocs() {
 	dqb "ocs () () ((( ${1} "
@@ -180,13 +179,10 @@ function check_bin_0() {
 		;;
 	esac
 
-	sd0=$(${odio} which dpkg)
-
-	#if [ "${CONF_env}" != "VED" ] ; then
+	sd0=$(${odio} which dpkg)	
 	[ -v sd0 ] || exit 78
 	[ -z "${sd0}" ] && exit 79
 	[ -x ${sd0} ] || exit 77
-	#fi
 
 	sr0=$(${odio} which tar)
 	[ -v sr0 ] || exit 80
@@ -256,7 +252,7 @@ function check_bin_0() {
 	export LC_ALL
 	export LANG
 
-	if [ "${CONF_env}" == "DEFAULT" ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] ; then #!VED jatkossa?
 		[ -v CONF_hashfile3 ] || exit 66
 		[ -v CONF_DIR2 ] || exit 99 #tähänkö tökkäsdi 14726? bssiin
 
@@ -300,7 +296,7 @@ function destroy() {
 	${NKVD} ${1}/*.tar*
 
 	csleep 1
-	dqb "CONTENTS OF ${1} DESTROYED"
+	dqb "(ESSENTIAL) CONTENTS OF ${1} DESTROYED"
 }
 
 function psqa() {
@@ -314,7 +310,6 @@ function psqa() {
 
 	#dpkg -V oli tässä josqs , [ -v ] takana
 
-	#DONE?:parametrien kanssa voisi tehdä jotain
 	if [ -v gg ] && [ -s ${1}.sig ] ; then
 		dqb "))S))))( ${1} )"
 		csleep 1
@@ -374,9 +369,7 @@ function psqa() {
 		dqb "NO SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
 		dqb "SHOULD \${NKVD} ${1} / \*.deb"
 
-		#destoy rähän kanssa?		
 		destroy $(dirname ${1})
-
 		return 93
 	fi
 
@@ -500,25 +493,40 @@ function cefgh() {
 	fi
 }
 
-#HUOM.wopr()/worf() voisi otttaa käyttöön tässä
+#HUOM.wopr()/worf() voisi otttaa käyttöön tässä?
+#VAIH:jos hmisto $2 annettu ni dellimään sen alta juttuja
 function ten1() {
+	#kunnollinen param tarq voisi olla tössö
 
-	if [ "${1]}" == "wlan0" ] ; then
+	if [ "${1}" == "wlan0" ] ; then
 		dqb "NOT REMOVING WPASUPPLICANT"
 		csleep 1
 	else
 		${sharpy} modem* wireless* 
 		${sharpy} wpa*
 		${sharpy} iw
-	fi
+
+		if [ -d ${2} ] ; then
+			${NKVD} ${2}/modem*
+			${NKVD} ${2}/wireless*
+			${NKVD} ${2}/wpa*
+			${NKVD} ${2}/iw*
+		fi
+	fi 
 
 	if [ "${1}" == "eth0:1" ] ; then
 		${sharpy} isc-dchp*
+
+		if [ -d ${2} ] ; then
+			${NKVD} ${2}/isc-dchp*
+		fi
 	fi
 
-	csleep 10
+	csleep 5
 	dpkg -l wpa*
-	csleep 10	
+	csleep 5
+
+	dqb "TEN1 ENOD()"
 }
 
 function worf() {
@@ -538,11 +546,11 @@ function worf() {
 			1)
 				efk1 ${3}/${u}*
 			;;
-			3)
-				v=$(grep -v dhcp ${u})
-				[ -z "${v}" ] || efk1 ${3}/${v}*
-			;;
-			2) #TODO:kts ten1() 2) ja 4) liittyen
+			#3) #turha case?
+			#	v=$(grep -v dhcp ${u})
+			#	[ -z "${v}" ] || efk1 ${3}/${v}*
+			#;;
+			2) #TODO:kts ten1() 2) ja 4) liittyen, tämä+seur case kys fktiolle jatq?
 				${shary} ${u}
 			;;
 			4)
@@ -550,7 +558,7 @@ function worf() {
 				#v=$(grep -v dhcp ${u})
 				#[ -z "${v}" ] || ${shary} ${u}*
 				
-				${shary} ${u} #jokerikin huono idea tssä
+				${shary} ${u} #jokeri huono idea tssä
 				csleep 1
 			;;
 		esac
@@ -605,10 +613,7 @@ function CB01() {
 	#toi v on HI aluts qts menn
 	#HUOM. common_pp3() - kutsu takaisin jos kutsuvaan koodiin muutoksia tarkistuksiin liittyen
 
-	#VAIH:worf(GI 1 ${2})
-	#for p in ${E22_GI} ; do efk1 ${2}/${p}*.deb ; done
 	worf ${E22_GI} 1 ${2}	
-
 	csleep 1
 	dqb "iZOMVIE"
 	
@@ -643,14 +648,12 @@ function CB02() {
 	[ "${CONF_env}" == "TOOR" ] && message
 	local p
 
-	#for p in ${E22_GU} ; do efk1 ${1}/${p}*.deb ; done
 	dqb "JUST BVEFORE worf ${E22_GU} 1 ${1}"
-	csleep 5
-
+	csleep 2
 	worf ${E22_GU} 1 ${1}	
 
 	dqb "JUST AFTER worf ${E22_GU} 1 ${1}	"
-	csleep 5
+	csleep 2
 
 	for p in ${E22_GV} ; do 
 		fromtend ${1}/${p}*.deb
@@ -678,7 +681,6 @@ function check_binaries() {
 	iptr=$(${odio} which iptables-restore)
 	ip6tr=$(${odio} which ip6tables-restore)
 
-	#VAIH:I/G/S/M/T-juttuihin pilkutus
 	E22_GS="gcc-12-base,libgcc-s1,libc6" 	
 	E22_GS="${E22_GS},libgmp10,libisl23,libmpfr6,libmpc3,libzstd1,zlib1g"
 	E22_GS="${E22_GS},libstdc++6,libgomp1,cpp-12"
@@ -727,15 +729,9 @@ function check_binaries() {
 	fi
 
 	E22_GT="${E22_GT}libip4tc2,libip6tc2,libxtables12,netbase,libmnl0"
-
-	#26726:libn-alkuisten kanssa kusee jokin vai ei?
 	E22_GT="${E22_GT},libnetfilter-conntrack3,libnfnetlink0,libnftnl11,libnftables1,libedit2"
-
 	E22_GT="${E22_GT},iptables,init-system-helpers" # iptables-persistent netfilter-persistent
-
-	#vai tässäkö?
 	E22_GU="${E22_GU},libnfnet,libnetfilter,libxtables,libmnl,libnftnl,libnftables,libnl-3-200,libnl-route,libnl,nftables"
-
 	E22_GV="libip iptables_ iptables-" # netfilter-persistent
 	
 	local t
@@ -960,7 +956,7 @@ function e_final() {
 	${sco} root:root /tmp
 	
 	csleep 1
-	dqb "SALA DE ANALISIS CLINICOS ASD ASD 123"
+	dqb "SALA DE ANALIS CLINICOS ASD ASD 123"
 }
 
 function e_h() {
@@ -1225,12 +1221,12 @@ function part1() {
 	dqb "FOUR-LEGGED WH0R3"
 }
 
-echo "VAIH:debUg 2 part2()"
-sleep 6
+
+#DONE:vielä kerran modaamaton kiekko&&g_pt2, toimiiko? ehkä
 
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
-	csleep 26
+	csleep 16
 
 	[ -z "${1}" ] && exit 55
 	[ -z "${2}" ] && exit 56
@@ -1252,10 +1248,6 @@ function part2() {
 			csleep 3
 		done
 
-		echo "SHOULD EXIT HERE 4 DEBUG-REASSONS"
-		sleep 6
-#		exit #tässä ei vielä mene äksä rikki?
-
 		${lftr}
 		${sharpy} libblu* libcupsfilters* libgphoto*
 		${lftr}
@@ -1269,27 +1261,9 @@ function part2() {
 		csleep 1
 		
 		${sharpy} lm-sensors #uskaltaako poistaa jokatap?
+		dqb "JUST BEFORE ten1 ${3}"	
+		csleep 10
 		ten1 ${3}
-
-		#VAIH:sittenkin if-blokeilla tämä osuus? erilliseksi fktioksi jopa? dhcp-oakettien atkia niinq
-		#case "${3}" in
-		#	wlan0)
-		#	
-		#	;;
-		#	#VAIH:entä dhcp-pakettien poisto jollain ehdolla?
-		#	#010526:ensimmäisellä yrityksellä x meni pois pelistä, joten toistaiseksi kommentteihin
-		#
-		#	#eth0:1) #jospa konsultoisi man-sivuja tämän kanssa?
-		#	#	${sharpy} modem* wireless* wpa*
-		#	#	${sharpy} iw lm-sensors
-		#	#	
-		#	#;;
-		#	*)
-		#		 lm-sensors
-#
-
-#			;;
-#		esac
 	fi
 
 	dqb "PART2.5.2 )))))( $1 , $2"
@@ -1320,8 +1294,6 @@ function part2() {
 	csleep 1
 }
 
-
-
 function common_lib_tool() {
 	dqb "common_lib_tool( ${1}  ; ${2} )))) "
 	[ -d ${1} ] || exit 66
@@ -1344,33 +1316,20 @@ function common_lib_tool() {
 	dqb "t00l DONE"
 }
 
-#DONE:pkgS_drop mukaan kutsuvan koodin puoleLta
-#VAIH:loopin sisälle worf, read-kohdasta alkaisi (tosin E22_GX - juttujen  takia ei tarvinne, toinenkin kein o löytyy?)
+#27726:joutaisikhan jo yhdistää common_lib_tool():in kanssa?
 function p2g() {
 	dqb " ((((((((((((((((( ${1} ) ${2} ) FED TO TEH PIGS"
 	csleep 1
 
 	[ -z "${1}" ] && exit 76
 	[ -s ${1} ] || exit 66
-#	[ -z "${2}" ] && exit 56 #VAIH:toka param jatkossa pois
 
 	csleep 1
 	dqb "common.p2g.-pars.ok"
-
 	local f
-#	local g
-#	local h
 
 	for f in $(grep -v '#' ${1}) ; do
-		#dqb "SOON: wopr2 ); \$h ; ${3} ;;))"
-		#csleep 1
-		#IFS="," read -a g <<< "${f}"
-		#
-		#for h in ${g[@]} ; do
-		#	${sharpy} ${h}*
-		#done
-
-		worf ${f} 0 #${2}
+		worf ${f} 0
 		csleep 1
 		t2p_filler
 	done
@@ -1400,13 +1359,14 @@ function cg_udp6() {
 	dqb "D0NE"
 	csleep 1
 
-	#130726:bissiin yritti poistaa dhcp-paketit ruossa alla
-	if [ "${CONF_iface}" == "eth0:1" ] ; then
-		${sharpy} isc-dchp*
-	else
-		dqn "NOTR EMOVING DCHP"
-	fi
-
+#	#VAIH:ten1() käyttöön
+#	if [ "" == "eth0:1" ] ; then
+#		${sharpy} isc-dchp*
+#	else
+#		dqn "NOTR EMOVING DCHP"
+#	fi
+	
+	ten1 ${CONF_iface} ${1}
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6  DONE FOR NOW"
 	csleep 4
 }
@@ -1456,11 +1416,7 @@ function part3() {
 	dqb "LAcKK.a"
 	csleep 3
 
-	echo "VAIH:part3.E22GS.stuff" #worf() kautta pitäisi nykyään koska viimeisin stuntti
-	#exit 96
-
-#26726:modaamattpan daed kannanlta värräi vesr asetnunut?
-#	for p in ${E22_GS} ; do wopr ${t} ${p} accept_pkgs_1 ; done
+	#echo "DONE?:part3.E22GS.stuff" #worf() kautta pitäisi nykyään koska viimeisin stuntti
 	worf ${E22_GS} 1 ${t}	
 
 	dqb "önEGA-VGA RA"

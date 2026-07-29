@@ -5,6 +5,7 @@ function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() 
 
 	#HUOM.26726:pikemminkin peräkkäisiä if-blokkeja , huomioisi paremmin eth/wlan/staatt/dyn ip  -asiat
 	#kts ten1() liittyen
+	#TODO:vähitellen jotain	
 
 	case "${1}" in
 		wlan0)
@@ -20,7 +21,8 @@ function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() 
 }
 
 #vissiin 120726 sai viimeksi validia sisältöä aiolka+sxeksi/uusi yrotys 20726 -> 
-#VAIH:uusicksi testaus kuitenkin lhiaikoina (pre_e() jo ok?)
+#DONE?:uusicksi testaus kuitenkin lhiaikoina (pre_e() jo ok?)
+#260726 aikana saatu j toimimaan?
 function e23_tblz() {
 	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
 	csleep 1
@@ -40,15 +42,15 @@ function e23_tblz() {
 	#jotain excaliburiin liittyvää tuo tpc
 
 	aswasw ${1}
-	csleep 10
-	dqb "JUST BEFORE e22_pre_e $ ${CONF_iface} ${E22_GT}"
-	csleep 10
+	#csleep 5
+	#dqb "JUST BEFORE e22_pre_e ${CONF_iface} ${E22_GT}"
+	#csleep 5
 	
 	e22_pre_e ${CONF_iface} ${E22_GT}
 
-	csleep 10
-	dqb "JUST SFTER e22_pre_e $ ${CONF_iface} ${E22_GT}"
-	csleep 10
+	#csleep 5
+	#dqb "JUST SFTER e22_pre_e $ ${CONF_iface} ${E22_GT}"
+	#csleep 5
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 1
@@ -63,6 +65,7 @@ function e23_tblz() {
 }
 
 #vissiin 120726 sai viimeksi validia sisältöä aiKAIsxeksi (entä nykyään?)
+#260726 toimi taas?
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -115,23 +118,24 @@ function e23_upgp() {
 }
 
 #TODO?:tämän se dhcp-karsinta kanssa? (oliko case-esac syntaksin kanssa huomioitavaa? man bash barm vuoksi?)
-function e23_upgp2() {
-	dqb " e23_upgp2() "
-	[ -z "${1}" ] && exit 1 
-	[ -z "${2}" ] && exit 11
-
-	case "${2}" in
-		wlan0)
-			csleep 1
-		;;
-		*)
-			${NKVD} ${1}/wpa*
-	;;
-	esac
-
-	dqb " e23_upgp2() done"
-	csleep 1
-}
+#käskyttämään ten1() tai asw() ? 
+#function e23_upgp2() {
+#	dqb " e23_upgp2() "
+#	[ -z "${1}" ] && exit 1 
+#	[ -z "${2}" ] && exit 11
+#
+#	case "${2}" in
+#		wlan0)
+#			csleep 1
+#		;;
+#		*)
+#			${NKVD} ${1}/wpa*
+#	;;
+#	esac
+#
+#	dqb " e23_upgp2() done"
+#	csleep 1
+#}
 
 function e23_qrs() {
 	dqb "e23_qrs()"

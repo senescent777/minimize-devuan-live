@@ -1,4 +1,4 @@
-if [ -v CONF_pkgdir ] ; then #varm vuoksi täMäkin 265226
+if [ -v CONF_pkgdir ] ; then
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
 fi
@@ -169,7 +169,7 @@ function e22_pre2() {
 	if [ -d /etc/resolv.conf ] ; then
 		echo "D"
 	else
-		if [ -h  /etc/resolv.conf ] ; then
+		if [ -h /etc/resolv.conf ] ; then
 			echo "-L"
 		else
 			[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
@@ -368,7 +368,7 @@ function e22_acol() {
 		fi
 	done
 
-	#VAIH:tähän se /e/iptables oikeuksien palautus tuikempaan?
+	#DONE?:tähän se /e/iptables oikeuksien palautus tuikempaan?
 	luca ${1}
 	other_horrors
 
@@ -408,7 +408,7 @@ function e22_acol() {
 
 [ -v CONF_BASEURL ] || exit 6
 
-#VAIH:jhospa kuitenkin debuqia varm buoksi
+#DONE?:jhospa kuitenkin debuqia varm buoksi
 #se pilkutus-juttu , joutuu ehkä ottamaan käyttöön (kts. common_lib_tool(), wopr())
 #... tai siis p2g()
 
@@ -416,31 +416,14 @@ function e22_pre_e() {
 	dqb "e22_pre_e() ))) $@ )))))))("
 	csleep 1
 
-#	local p
-#	local q
-#
-#
-#	for p in $@ ; do
-#		if [ "${1}" == "${p}" ] ; then
-#			q=""
-#		else
+	#HUOM.26726:ehkä muitakin karsimisjuttuja pitäisi huomioida kuin vain staattinen ip vs dhcp-paketit
+	#... pitäisi kai viedä $1 worf():ille sellaisenaan ja mussunmussun, kts ten1()
 
-			#HUOM.26726:ehkä muitakin karsimisjuttuja pitäisi huomioida kuin vain staattinen ip vs dhcp-paketit
-			#... pitäisi kai viedä $1 worf():ille sellaisenaan ja mussunmussun, kts ten1()
-
-			if [ "${1}" == "eth0:1" ] ; then
-				echo "VAIH:worf asdgf 2 zcxv"
-				worf ${2} 4
-			else
-				echo "VAIH: worf sdfgsdgf 4 uliuli"
-				worf ${2} 2
-			fi
-			
-#			exit
-#		fi
-#			[ -z "${q}" ] || ${shary} ${q}
-#	done
-#
+	if [ "${1}" == "eth0:1" ] ; then #TODO:vähitellen jotain
+		worf ${2} 4
+	else
+		worf ${2} 2
+	fi
 }
 
 function e22_ext() {
@@ -556,7 +539,7 @@ function e22_ts() {
 	dqb "e22_ts() done"
 }
 
-#TODO:uusiksi testaus esim. exp2 u liittyen
+#VAIH:uusiksi testaus esim. exp2 u liittyen
 function e22_arch() {
 	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
 	csleep 5
@@ -584,7 +567,7 @@ function e22_arch() {
 
 	if [ ${c} -lt 1 ] ; then
 		echo "N0 .deb - FIL35s UND3R ${2}"
-		exit 55
+		exit 52
 	fi
 
 	${scm} 0444 ${2}/*.deb
@@ -622,7 +605,7 @@ function e22_arch() {
 
 	if [ -s ./${CONF_hashfile}.1 ] ; then
 		e22_tyg ./${CONF_hashfile}.1
-	else
+	else #tarpeellista tehdä näin?
 		dqb "./${CONF_hashfile}.1 EMPTY"
 		csleep 10
 		exit
@@ -833,7 +816,7 @@ function e22_z3() {
 
 #(josko exp2 voisi korvata "tar -T -cf":llä?)
 echo "TODO:JOKO JO ntp-jutut kuntoon ?" #aftr2.bash saattoi liittyä
-sleep 6
+sleep 3
 
 function e22_sarram() {
 	dqb "e22_sarram() "
