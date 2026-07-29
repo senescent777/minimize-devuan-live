@@ -58,6 +58,8 @@ case "${CONF_env}" in
 esac
 
 itni
+echo "aftr 1nt1"
+sleep 6
 
 function fix_sudo() {
 	
@@ -122,6 +124,8 @@ function other_horrors() {
 
 fix_sudo
 other_horrors
+echo "LOOl PIP WFT"
+#common_funcs tarttee
 
 function ocs() {
 	dqb "ocs () () ((( ${1} "
@@ -859,10 +863,13 @@ function mangle_s() {
 	csleep 1
 
 	[ -z "${1}" ] && exit 44
-	[ -x ${1} ] || exit 55
-	[ -z "${2}" ] && exit 45
+	[ -x ${1} ] || exit 55 #TÄHÄNKÖ TÖKKÄÄ 050626?
+	[ -z "${2}" ] && exit 45 #KUINKA MONTA PARAM?
 	[ -f ${2} ] || exit 54
 	[ -z "${3}" ] && exit 65 #no nyt?
+
+	[ -v CONF_algo ] || exit 98
+	[ -z "${CONF_algo}" ] && exit 99 
 
 	[ -v CONF_algo ] || exit 98
 	[ -z "${CONF_algo}" ] && exit 99 
@@ -1378,6 +1385,8 @@ function part3() {
 
 	local n15=0
 	local t=""
+	
+	#TODO:näillä main merge-juttuja jatkossa?
 
 	if [ -z "${2}" ] ; then
 		t=$(${mkt} -d)

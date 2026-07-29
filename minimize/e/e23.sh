@@ -28,6 +28,7 @@ function e23_tblz() {
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
+	[ -d ${1} ] || exit 15
 	[ -z "${2}" ] && exit 12
 
 	dqb "pars ok"
@@ -73,7 +74,6 @@ function e23_other_pkgs() {
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
 	csleep 1
-
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	e22_pre_e ${CONF_iface} ${E22_GI}
 	e22_pre_e ${CONF_iface} ${E22_GG}
@@ -294,7 +294,7 @@ function e23_profs() {
 	dqb "pars.0k"
 	csleep 1
 
-	q=$(${mkt} -d)
+	q=$(mktemp -d)
 	cd ${q}
 
 	[ $? -eq 0 ] || exit 77
