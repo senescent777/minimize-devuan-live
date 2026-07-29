@@ -51,21 +51,21 @@ e_h $(whoami) ${d0}
 csleep 2
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
-	${odio} /opt/bin/tlb.bash
+	${odio} ${CONF_DIR2}/tlb.bash
 	csleep 2
-	${sco} 0:0 /opt/bin/*
-	${scm} 0400 /opt/bin/zxcv*
+	${sco} 0:0 ${CONF_DIR2}/*
+	${scm} 0400 ${CONF_hashfile3}*
 fi
 
-if [ -x /opt/bin/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then		
-	${odio} /opt/bin/mutilatetc.bash ${CONF_dnsm}
+if [ -x ${CONF_DIR2}/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
+	${odio} ${CONF_DIR2}/mutilatetc.bash ${CONF_dnsm}
 else
 	dqb "FAILURE TO MUTILATE: /etc/resolc. von f "
 fi
 
 dqb "BEYOND THE UNHOLY GRAVE"
 ls -las /etc/resolv*
-sleep 10
+sleep 2
 
 csleep 2
 ${fib}
@@ -75,6 +75,10 @@ dqb "distro=${distro}"
 dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
+
+#29726:urputukseT jo poissa?
+#No Ei. Edelleen modaamattomalla kiekolla kun pt2 ajaa ni äksä poistuu viim "omega 5"-kohdassa. KOITA KEKSIÄ MIKSI
+
 
 if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
 	dqb "kö"
@@ -91,77 +95,43 @@ function t2p_filler() {
 	csleep 1
 }
 
-##140526 edelleen tarpeellinen blokki, puuttuvat paketit $d alla aiheuttavat? TODO:joko jo pois 06/26?
-#if [ "${CONF_env}" == "TOOR" ] ; then
-#	${sharpy} blu*
-#	${sharpy} nfs*
-#	${sharpy} rpc*
+#140526 edelleen tarpeellinen blokki, puuttuvat paketit $d alla aiheuttavat? VAIH:joko jo pois 07/26?
+#20726:modaamattomalla kiekolla&&DEFAULT rpc "ic"-tilassa, dmsetup ii, myös spi2-cpre ja psmisc myös
+#entä TPPR? josko case-esac? tai alempi filler pois?
+
+##if [ "${CONF_env}" == "TOOR" ] ; then
+##	${sharpy} blu*
+##	${sharpy} nfs*
+##
+##
+##	t2p_filler
+##
+##	 #tässä kohtaa jo gpg hukataan?
+##	${sharpy} at-spi2-core	
+##	
+##
+##	
+##	dqb "V1"
+##	#exit
+##fi
 #
-#	t2p_filler
+#${sharpy} rpc*
+#${sharpy} dmsetup
+#${sharpy} psmisc
+#t2p_filler
 #
-#	${sharpy} dmsetup #tässä kohtaa jo gpg hukataan?
-#	${sharpy} at-spi2-core	
-#	${sharpy} psmisc
-#
-#	t2p_filler
-#	dqb "V1"
-#	#exit
-#fi
+##dpkg -l
+##exit 55
 
 if [ "${CONF_iface}" != "wlan0" ] ; then
 	${sharpy} wpa*
 	#etc alaiset wpa-jutut voisi hoidella myös rm-komennolla?
 	t2p_filler
-	csleep 10
+	csleep 5
 fi
 
 #====================================================================
-
-function p2g() {
-	dqb "THE_PIG ((((((((((((((((( ${1} )"
-	csleep 1
-
-	[ -s ${1}/pkgs_drop ] || exit 66
-
-	local f
-	local g
-	local h
-
-	for f in $(grep -v '#' ${1}/pkgs_drop) ; do
-		dqb "SOON: \${sharpy} ${f}* "
-		csleep 1
-		IFS="," read -a g <<< "${f}"
-
-		for h in ${g[@]} ; do
-			${sharpy} ${h}*
-		done
-
-		csleep 1
-		t2p_filler
-	done
-
-	dqb "p2g DONE"
-	csleep 1
-}
-
-
-#	if [  "${CONF_env}" == "TOOR"] ; then
-#		dqb "SHOULD \${sharpy} slim* "
-#		csleep 1
-#
-
-#		dqb "t2p_filler()"
-#		csleep 1
-#
-#		#081225:jospa se minimal_live pohjaksi vähitellen, dbus+slim vituttaa
-#		dqb "Xorg -config ? "
-#		csleep 1
-#	else
-#		dqb "COULD? \${sharpy} slim;sudo /e/i.d/slim stop;sudo /e/i.d/wdm start"
-#		csleep 1
-#		dqb "WOULD: A.I.C"
-#		csleep 1
-#	fi
+#20726:kts slim liittyen omega
 
 function t2pf() {
 	dqb "gp2t.common_lib.T2P.FINAL( ${1} )"
@@ -190,12 +160,14 @@ csleep 1
 
 ${fib}
 csleep 1
-p2g ${d0}
+#p2g ${d0}/pkgs_drop #0
+common_lib_tool ${d0} pkgs_drop
 
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 0 ] && exit
 
-p2g ${d}
+#p2g ${d}/pkgs_drop #0
+common_lib_tool ${d} pkgs_drop 
 [ ${mode} -eq 1 ] && exit
 
 t2pf ${d}

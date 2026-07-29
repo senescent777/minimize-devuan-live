@@ -1,6 +1,6 @@
 #!/bin/bash
 
-debug=1
+debug=0
 distro=$(cat /etc/devuan_version)
 
 d0=$(pwd)
@@ -39,9 +39,10 @@ function parse_opts_1() {
 
 	case "${1}" in
 		-p)
-			if [ "${gbk}" == "-1" ] ; then
+			#VAIH:VARMISTA ETTÄ TÄMÄ VIPY TOIMII!!! VISSIIN EI TOIMAA JUURI NYT
+			#if [ "${gbk}" == "-1" ] ; then
 				gbk=1
-			fi
+			#fi
 		;;
 #		*)
 #			if [ -d ${d}/${1} ] ; then
@@ -114,7 +115,7 @@ if [ -x ${d0}/e/e22.sh ] ; then
 	csleep 1
 else
 	echo "NO BACKEND FOUND"
-	exit 58
+	exit 85
 fi
 
 [ -z "${tgtfile}" ] && exit 98
@@ -143,87 +144,111 @@ csleep 1
 dqb "JUST BEFORE ESAC"
 csleep 6
 
+dqb "DINE?:lähiaikoina case 3  testaten uudelleen!!!!!"
+csleep 5
+
 case "${mode}" in
 	0)
 		exit 97
 	;;
 	3|4) 
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
-		#VAIH:turhia kommentteja wttuun sotkemasta
+		#120726:lienee toimiva tämä case (aiNAKin kerran roimi sill01m)
+		#18726:case 4 ytrstissä , vissiin toimaa
+		#29726:case 3 toimii ehkä
 
 		[ -v CONF_default_arhcive3 ] || exit 66
-		z1 /opt/bin/zxcv
+		e22_z1 ${CONF_hashfile3}
 
-		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} /opt/bin/zxcv.tmp
-		reqwreqw /opt/bin/zxcv.tmp
+		e22_ext ${tgtfile} ${distro} ${CONF_dnsm} ${CONF_hashfile3}.tmp
+		reqwreqw ${CONF_hashfile3}.tmp
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
-		
+
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
-			#TODO:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä
+			#TODO?:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä?
+			#... tai jos case g prujaus...
 
 			e23_tblz ${CONF_iface} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
 			doit=0
-		fi	
-		
+		fi
+
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
 
 		e22_pre1 ${d} ${distro}
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
-		fasdfasd /opt/bin/zxcv.tmp
+		fasdfasd ${CONF_hashfile3}.tmp
 
-		e22_sarram ${tgtfile} ${CONF_dm} /opt/bin/zxcv.tmp
-		z2 /opt/bin/zxcv
-		z3 /opt/bin/zxcv ${tgtfile} ${d0}/MAN1.F2ST
+		e22_sarram ${tgtfile} ${CONF_dm} ${CONF_hashfile3}.tmp
+		e22_z2 ${CONF_hashfile3}
+		e22_z3 ${CONF_hashfile3} ${tgtfile} ${d0}/MAN1.F2ST
 	;;
 	u|upgrade)
+		#140726:testaus vaiheessa, pakETTeja saa vedettyä ainakin
+		#170726:xserver-pakettien hukkaaminen ,  liittyykö g_pt2 ? No Ei ?
+		#elikkäs uusi yritys lähiaikoina (DONE?) (part2 jo ok 27726?)
+		#bissiin sisältö masentuu ilman kiukutteuja, ainakin enimmäkseen
+
 		[ -v CONF_pkgdir ] || exit 96
-		dqb " ${CONF_iface} SHOULD BY UP BY NOW"
+		dqb " ${CONF_iface} SHOULD Be U P B Y No W"
 		csleep 1
 
 		e23_upgp
 		${sifd} ${CONF_iface}
 		csleep 1
-		e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
+
+		#e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
+		ten1  ${CONF_iface} ${CONF_pkgdir}
 	;;
 	e) 
-		e22_pre_e ${E22_GS}
-		e22_pre_e ${E22_GM}
+		#18726:bissiin teki asentuvan apketin touilloin
+		#24726:paketin osaisi bissiin muodostaa, testaapa miten oksennukset asentuvaqt (VAIH)
+		#... masentaessa libn* kanssa kusoo kuappiin vissiin
+		#26726 jo korjattu e23_fktiot? bissiin
+
+		e22_pre_e ${CONF_iface} ${E22_GS}
+		e22_pre_e ${CONF_iface} ${E22_GM}
+
 		csleep 3
 		message
 		csleep 2
 
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 		dqb "BC/AD"
-		csleep 10
+		csleep 5
+
 		e23_other_pkgs ${CONF_dnsm}
+		ls -las ${CONF_pkgdir}/libn*
+		csleep 6
 	;;
-	t)
+	t) #toiminee mikäli case:t e tai 3 toimivat 
 		message
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
-	g)
+	g) #17726:vissiin muodosti asentuvaa sisältöä tuolloin
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
-
 		${fib}
-		${shary} ${E22_GI} #ei tarvinne tässä pre_e kautta mennä
-		${shary} ${E22_GG}
+		e22_pre_e ${CONF_iface} ${E22_GI}
+		e22_pre_e ${CONF_iface} ${E22_GG}
 
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
 		doit=0
 	;;
 	l)
+		#120726:lienee toimiva tämä case
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
 	;;
 	n)
-		#VAIH:ntp-jutut takaisin josqs? 260526 -> ?
+		#24726:kokeeksi tehdään uusi paketti (VAIH)
+		#TODO:masentelu ja sivuvaikutukset
+
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;
@@ -242,15 +267,54 @@ case "${mode}" in
 	;;
 esac
 
-#tuossa alla vielä jotain laittoa?
-if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then 
-	e22_hdr ${d}/f.tar
+#tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
+#function e22_dblock() {
+#	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
+#
+#	[ -z "${1}" ] && exit 14
+#	[ -s ${1} ] || exit 15
+#	[ -z "${2}" ] && exit 11
+#	[ -d ${2} ] || exit 22
+#	[ -w ${2} ] || exit 23
+#	[ -z "${3}" ] && exit 33
+#	[ -d ${3} ] || exit 34
+#	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
+#	[ -z "${4}" ] && exit 37
+#
+#	dqb ".PARS-OK"
+#	csleep 1
+#
+#	[ ${debug} -eq 1 ] && pwd
+#
+#	ls -la ${3}/*.deb | wc -l
+#
+#	for s in ${PART175_LIST} ; do
+#		${sharpy} ${s}*
+#		${NKVD} ${3}/${s}*.deb
+#	done
+#
+#	local t
+#	t=$(echo ${2} | cut -d "/" -f 1-6)
+#	e22_ts ${t} ${3}
+#	dqb "JST B3F0R3 3NF0RC3"
+#	csleep 10
+#
+#	enforce_access $(whoami) ${t}
+#	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
+#	csleep 10
+#
+#	e22_arch ${1} ${2} ${4}
+#	e22_cleanpkgs ${2}
+#}
 
+#tuossa alla vielä jotain laittoa?
+if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
+	e22_hdr ${d}/f.tar
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar
 
-	${srat} -rvf ${tgtfile} ${d}/f.tar* 
-	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar* 
+	${srat} -rvf ${tgtfile} ${d}/f.tar*
+	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar*
 fi
 
 if [ -s ${tgtfile} ] ; then

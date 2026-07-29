@@ -1,9 +1,11 @@
-#just_download_not_install-vipu olisi tietysti...
-
-function aswasw() {
+function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() nykyään
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
 	csleep 1
+
+	#HUOM.26726:pikemminkin peräkkäisiä if-blokkeja , huomioisi paremmin eth/wlan/staatt/dyn ip  -asiat
+	#kts ten1() liittyen
+	#TODO:vähitellen jotain	
 
 	case "${1}" in
 		wlan0)
@@ -18,6 +20,9 @@ function aswasw() {
 	esac
 }
 
+#vissiin 120726 sai viimeksi validia sisältöä aiolka+sxeksi/uusi yrotys 20726 -> 
+#DONE?:uusicksi testaus kuitenkin lhiaikoina (pre_e() jo ok?)
+#260726 aikana saatu j toimimaan?
 function e23_tblz() {
 	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
 	csleep 1
@@ -25,6 +30,9 @@ function e23_tblz() {
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 15
 	[ -z "${2}" ] && exit 12
+
+	dqb "pars ok"
+	csleep 1
 
 	${fib}
 	${asy}
@@ -34,13 +42,16 @@ function e23_tblz() {
 	tpc7
 	#jotain excaliburiin liittyvää tuo tpc
 
-	echo "aswasw $1 vai $2 ? "
-	sleep 10
-	exit
+	aswasw ${1}
+	#csleep 5
+	#dqb "JUST BEFORE e22_pre_e ${CONF_iface} ${E22_GT}"
+	#csleep 5
+	
+	e22_pre_e ${CONF_iface} ${E22_GT}
 
-	aswasw ${2}
-	#VAIH:isc-dhcp-pakettien mukaanotto riippumaan CONF_iface:sta?
-	e22_pre_e ${E22_GT}
+	#csleep 5
+	#dqb "JUST SFTER e22_pre_e $ ${CONF_iface} ${E22_GT}"
+	#csleep 5
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 1
@@ -50,23 +61,26 @@ function e23_tblz() {
 	e22_pre2 ${1} ${2}
 	other_horrors
 
-	dqb "e23_tblz()"
+	dqb "e23_tblz() DONE"
+	csleep 1
 }
 
+#vissiin 120726 sai viimeksi validia sisältöä aiKAIsxeksi (entä nykyään?)
+#260726 toimi taas?
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
 
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
-
 	csleep 1
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
-	e22_pre_e ${E22_GI}
-	E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
-	e22_pre_e ${E22_GG}
+	e22_pre_e ${CONF_iface} ${E22_GI}
+	e22_pre_e ${CONF_iface} ${E22_GG}
+	e22_pre_e ${CONF_iface} ${E23_GS}
+	#e22_gs vs e23_gs ? eri asioita
 
-	e22_pre_e ${E23_GS}
+	#140726:kutsuvassa koodissa vedettii n jo nuo?
 	message
 	jules
 
@@ -94,7 +108,8 @@ function e23_upgp() {
 	dqb " e23_upgp() "
 	${fib}
 	csleep 1
-	e22_pre_e ${E22_GS}
+
+	e22_pre_e ${CONF_iface} ${E22_GS}
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 
@@ -102,23 +117,25 @@ function e23_upgp() {
 	csleep 1
 }
 
-function e23_upgp2() {
-	dqb " e23_upgp2() "
-	[ -z "${1}" ] && exit 1 
-	[ -z "${2}" ] && exit 11
-
-	case "${2}" in
-		wlan0)
-			csleep 1
-		;;
-		*)
-			${NKVD} ${1}/wpa*
-	;;
-	esac
-
-	dqb " e23_upgp2() done"
-	csleep 1
-}
+#TODO?:tämän se dhcp-karsinta kanssa? (oliko case-esac syntaksin kanssa huomioitavaa? man bash barm vuoksi?)
+#käskyttämään ten1() tai asw() ? 
+#function e23_upgp2() {
+#	dqb " e23_upgp2() "
+#	[ -z "${1}" ] && exit 1 
+#	[ -z "${2}" ] && exit 11
+#
+#	case "${2}" in
+#		wlan0)
+#			csleep 1
+#		;;
+#		*)
+#			${NKVD} ${1}/wpa*
+#	;;
+#	esac
+#
+#	dqb " e23_upgp2() done"
+#	csleep 1
+#}
 
 function e23_qrs() {
 	dqb "e23_qrs()"
@@ -161,14 +178,19 @@ function e23_qrs() {
 }
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
+#120726 viimeksi yritetty testata, tekeekö toimivaa sisältöä pakettiin, onnistui
+#TODO:testaus uusicksi josqs koska y
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
 	csleep 2
 
+	dqb "pars.ök"
+	csleep 1
+
 	${fib}
-	${shary} ${E22_GS}
-	${shary} ${E22_GM}
+	e22_pre_e ${CONF_iface} ${E22_GS}
+	e22_pre_e ${CONF_iface} ${E22_GM} 
 	csleep 5
 
 	if [ "${1}" == "wdm" ] ; then
@@ -268,8 +290,7 @@ function e23_profs() {
 	[ -d "${2}" ] || exit 73
 	[ -s ${1} ] || exit 72
 	#[ -s ${3} ] || exit 71 #mikä tässä pykii?
-
-	csleep 1
+	
 	dqb "pars.0k"
 	csleep 1
 
@@ -296,7 +317,7 @@ function e23_profs() {
 	csleep 1
 }
 
-function e23_st() { #120626:vissiin asentivat nämä paketit 
+function e23_st() { #120626:vissiin asentUivat nämä paketit 
 	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
 	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim
 	${shary} dmsetup libdevmapper1 libjte2
@@ -304,7 +325,6 @@ function e23_st() { #120626:vissiin asentivat nämä paketit
 	${shary} libisoburn1 libburn4 libisofs6 libfuse2 mtools
 	${shary} grub-common xorriso geany isolinux
 	}
-
 
 #tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
 #function e22_dblock() {

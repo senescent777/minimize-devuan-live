@@ -1,4 +1,4 @@
-if [ -v CONF_pkgdir ] ; then #varm vuoksi täMäkin 265226
+if [ -v CONF_pkgdir ] ; then
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
 fi
@@ -22,8 +22,7 @@ function e22_hdr() {
 	dqb "e22_hdr()"
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
-	[ -f ${1} ] && echo "$1 ALR3ADY EX1STS"
-
+	
 	#onkohan hyvä idea?
 	if [ -f ${1} ] ; then
 		echo "$1 ALR3ADY EX1STS"
@@ -60,6 +59,7 @@ function e22_tyg() {
 }
 
 function e22_ftr() {
+	dqb "e22_ftr()"
 	[ -z "${1}" ] && exit 62
 	[ -s ${1} ] || exit 63
 	[ -r ${1} ] || exit 64
@@ -71,67 +71,73 @@ function e22_ftr() {
 	cd $(dirname ${1})
 	${sah6} ./${q} > ${q}.sha
 	csleep 1
+
 	${sah6} -c ${q}.sha
 	csleep 1
+
 	e22_tyg ${q}.sha
 	cd ${p}
 }
 
 #... joku päivä jos maistuisi selvittää tuo "bash function retuRn value"-juttu että onnnaako vai ei?
 
-function aqsp() {
-	dqb "aqsp ${1} ; "
-	[ -z "${1}" ] && exit 97
-	[ -d ${1} ] || exit 96
-	local rv=0
-
-	if [ -v gg ] ; then #else-haarat takaisin josqs, ehkä
-		if [ -s ${1}/${CONF_hashfile}.sig ] ; then #eka ehto omalle rivilleen ja sit jhotain
-			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
-				${gg} --verify ${1}/${CONF_hashfile}.sig
-				rv=$?
-			fi
-		fi
-	fi
-
-	if [ -s ${1}/${CONF_hashfile} ] && [ -x ${sah6} ] && [ ${rv} -eq 0 ] ; then
-		local p=$(pwd)
-		cd ${1}
-
-		${sah6} -c ${CONF_hashfile} --ignore-missing
-		rv=$?
-		cd ${p}
-	else
-		rv=93
-	fi
-
-	dqb "rv= ${rv}"
-
-	if [ ${rv} -gt 0 ] ; then #toistaiseksi sqap() hoitamaan poistot
-		dqb "SMTHNG WENT WR09NG"	
-		${NKVD} ./*.deb 
-		${NKVD} ./${CONF_hashfile}*
-		${NKVD} ./*.tar
-	fi
-
-	dqb "aqsp  DONE"
-}
+#testaapa esim e23_upgp testailun yhteydessä? vai tartteeko?
+#function aqsp() {
+#	dqb "aqsp ${1} ; "
+#	[ -z "${1}" ] && exit 97
+#	[ -s ${1} ] || exit 96
+#	local rv=0
+#
+#	if [ -v gg ] ; then #else-haarat takaisin josqs, ehkä
+#		if [ -s ${1}.sig ] ; then #eka ehto omalle rivilleen ja sit jhotain
+#			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
+#				${gg} --verify ${1}.sig
+#				rv=$?
+#			fi
+#		fi
+#	fi
+#
+#	if [ -s ${1} ] && [ -x ${sah6} ] && [ ${rv} -eq 0 ] ; then
+#		local p=$(pwd)
+#		cd $(dirname ${1})
+#
+#		${sah6} -c ${CONF_hashfile} --ignore-missing
+#		rv=$?
+#		cd ${p}
+#	else
+#		rv=93
+#	fi
+#
+#	dqb "rv= ${rv}"
+#
+#	#destroy() ?
+#	if [ ${rv} -gt 0 ] ; then #toistaiseksi sqap() hoitamaan poistot
+#		dqb "SMTHNG WENT WR09NG"	
+#		#${NKVD} ./*.deb 
+#		#${NKVD} ./${CONF_hashfile}*
+#		#${NKVD} ./*.tar
+#
+#		destroy $(dirname ${1})
+#	fi
+#
+#	dqb "aqsp  DONE"
+#}
 
 function e22_pre1() {
 	dqb "e22_pre1( ${1} ; ${2} ; ${3}) "
-	csleep 1
+	csleep 1	
 
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 66
 	[ -d ${1} ] || exit 111
+
 	dqb "pars_ok"
 	csleep 1
 
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
 	
-	local lefid
-	lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?	
+	local lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?	
 	enforce_access $(whoami) ${lefid}
 
 	csleep 1
@@ -141,7 +147,8 @@ function e22_pre1() {
 	${scm} a-w /etc/apt/sources.list*
 }
 
-#TODO:common_lib fktio jos ei nimeäisi linkkejä uudestaan jatkossa
+#TODO?:common_lib fktio jos ei nimeäisi linkkejä uudestaan jatkossa, mikjä fktio olikaan
+#... e_e() ? vai dis() ?
 
 function e22_pre2() {	
 	dqb "e22pre2 )))) ${1} ; ${2} ; ${3} ; ${4} )()))) "
@@ -151,19 +158,18 @@ function e22_pre2() {
 	[ -z "${2}" ] && exit 67
 
 	#HUOM.tämän sekoilun piti olla lopetettu
-	par4=$(echo ${2} | tr -d -c 0-9)
+	local par4=$(echo ${2} | tr -d -c 0-9)
 	echo $?
 	csleep 1
 
 	[ -z "${par4}" ] && exit 89
-	csleep 10
-
+	csleep 5
 	#pedanttiuden nimissä tämmöisiä
 
 	if [ -d /etc/resolv.conf ] ; then
 		echo "D"
 	else
-		if [ -h  /etc/resolv.conf ] ; then
+		if [ -h /etc/resolv.conf ] ; then
 			echo "-L"
 		else
 			[ -f /etc/resolv.conf ] || ${slinky} /etc/resolv.conf.${par4} /etc/resolv.conf
@@ -171,7 +177,7 @@ function e22_pre2() {
 	fi
 
 	ls -las /etc/resolv.*
-	csleep 10
+	csleep 4
 
 	${sifu} ${1}
 	csleep 1
@@ -185,10 +191,10 @@ function e22_pre2() {
 }
 
 function e22_cleanpkgs() {
-	dqb "e22_cleanpkgs() "
+	dqb "e22_cleanpkgs() ${1} )))))) "
 	[ -z "${1}" ] && exit 53
 
-	if [ -d ${1} ] ; then
+	if [ -d ${1} ] ; then #destroy() ?
 		${smr} ${1}/*.deb
 		${smr} ${1}/${CONF_hashfile}*
 		ls -las ${1}/*.deb | wc -l
@@ -219,8 +225,6 @@ function e22_config1() {
 	cd ${p}
 }
 
-#TODO:ffox 147? https://www.phoronix.com/news/Firefox-147-XDG-Base-Directory  
-#nuo muutokset oikeastaan tdstoon ${CONF_default_archive3}
 #120426:vissiin menee kohteeseen fedi ja profs (mutta meneekö 1. mainittu myös juureen?)
 
 function e22_settings() {
@@ -248,9 +252,11 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
-#TODO:kekeksikö jonkin varmistuksen että profiili kanssa menee tariin?
+#kekekekeksisisisikö jonkin varmistuksen että profiili kanssa menee tariin?
+#...e22_settings() kyllä tekee yhden tarkistuksen
+
 function e22_home_pre() {
-	dqb "home:pre()"
+	dqb "home_pre()"
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
@@ -259,7 +265,7 @@ function e22_home_pre() {
 	[ -z "${4}" ] && exit 73
 	[ -z "${5}" ] && exit 79
 
-	dqb "pars_ok"
+	dqb "paks_ok"
 	csleep 1
 
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
@@ -269,7 +275,8 @@ function e22_home_pre() {
 	fi
 
 	e_final
-	${srat} --exclude "changedns*" -rvf ${1} /opt/bin
+	${srat} --exclude "changedns*" -rvf ${1} ${CONF_DIR2} #VAIH:Const
+	#2 alinta silmukkaa pystyisi yhdistämään
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
@@ -279,32 +286,40 @@ function e22_home_pre() {
 	for t in $(find ~ -type f -name ${4} ) ; do
 		${srat} -rvf ${1} ${t}
 	done
+
+	#14726:välillä näin päin
+	for f in $(find ~ -type f -name "xorg.conf*" ) ; do 
+		${srat} -rvf ${1} ${f}
+	done
+
+	dqb "home.pre.-donr"
+	csleep 1
 }
 
 function e22_home() {
-	dqb "home:pre()"
+	dqb "e22_home()"
+
 	[ -z "${1}" ] && exit 67
 	[ -s ${1} ] || exit 68
 	[ -z "${2}" ] && exit 69
 	[ -d ${2} ] || exit 70
 	[ -z "${3}" ] && exit 71
 
-	dqb "pars.ok"
+	dqb "pars_ok"
 	csleep 1
-
 	local f
+
 	${srat} -rvf ${1} ${2}/../${3}
 	local t=$(${srat} -tf ${1} | grep ${3} | wc -l)
 	[ ${t} -lt 1 ] && exit 72
 	csleep 1
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-	#TODO:TPX-kohdan kanssa jotain muutoksia vaiko ei? "${TARGET_TPX}"
-	${srat}  --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t}
+	${srat} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t} #120726:oliko ${TARGET_TPX} kNSSA VIELÄ JOTAIN?
 	csleep 1
 
-	#miksi tässä eikä h_pre() ?
-	for f in $(find ~ -type f -name "xorg.conf*" ) ; do ${srat} -rvf ${1} ${f} ; done
+	dqb "e22_hoem_dnoe()"
+	csleep 1
 }
 
 function luca() {
@@ -353,6 +368,7 @@ function e22_acol() {
 		fi
 	done
 
+	#DONE?:tähän se /e/iptables oikeuksien palautus tuikempaan?
 	luca ${1}
 	other_horrors
 
@@ -360,6 +376,8 @@ function e22_acol() {
 		exit 112
 	fi
 
+	${scm} 0400 /etc/iptables/rules*
+	${scm} 0400 /etc/default/rules*
 	${srat} -rvf ${1} /etc/default/net*
 
 	case "${2}" in
@@ -383,21 +401,24 @@ function e22_acol() {
 	else
 		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
 	fi
+
+	dqb "DONeW EITH THE CALOYTES:MAGNET0"
+	csleep 1
 }
 
 [ -v CONF_BASEURL ] || exit 6
 
 function e22_pre_e() {
-	local p
-	local q
+	dqb "e22_pre_e() ))) $@ )))))))("
+	csleep 1
 
-	if [ "${CONF_iface}" == "eth0:1" ] ; then
-		for p in $@ ; do
-			q=$(echo ${p} | grep -v dhcp)
-			[ -z "${q}" ] || ${shary} ${q}
-		done
+	#HUOM.26726:ehkä muitakin karsimisjuttuja pitäisi huomioida kuin vain staattinen ip vs dhcp-paketit
+	#... pitäisi kai viedä $1 worf():ille sellaisenaan ja mussunmussun, kts ten1()
+
+	if [ "${1}" == "eth0:1" ] ; then #TODO:vähitellen jotain
+		worf ${2} 4
 	else
-		for p in $@ ; do ${shary} ${p} ; done
+		worf ${2} 2
 	fi
 }
 
@@ -414,8 +435,8 @@ function e22_ext() {
 	[ -z "${4}" ] && exit 47
 	[ -d ${4} ] && exit 53
 	[ -f ${4} ] || exit 61
-	csleep 1
-	dqb "params ok"
+
+	dqb "paramz_ok"
 	csleep 1
 
 	dqb "paramz_ok"
@@ -427,7 +448,7 @@ function e22_ext() {
 	local st
 
 	p=$(pwd)
-	q=$(mktemp -d)
+	q=$(mktemp -d) #$mkt
 	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
 	st=$(echo ${3} | tr -d -c 0-9)
 
@@ -438,7 +459,6 @@ function e22_ext() {
 
 	cd more_scripts/misc
 	echo $?
-
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
 
 	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
@@ -451,6 +471,7 @@ function e22_ext() {
 		${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
 	fi
 
+	#shclitn-d-kojhtaan josqs muutoksia vai ei?
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${st}
 	
 	if [ ! -s ./sbin/dhclient-script.1 ] ; then
@@ -461,7 +482,6 @@ function e22_ext() {
 	local c=0	
 
 	if [ -f /etc/apt/sources.list ] ; then
-		
 		c=$(grep -v '#' /etc/apt/sources.list | grep 'http:'  | wc -l)
 
 		if [ ${c} -lt 1 ] ; then
@@ -472,6 +492,7 @@ function e22_ext() {
 	${svm} ./etc/apt/sources.list ./etc/apt/sources.list.tmp
 	${svm} ./etc/network/interfaces ./etc/network/interfaces.tmp
 	${spc} /etc/network/interfaces ./etc/network/interfaces.${r}
+
 	${sco} -R root:root ./etc
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
@@ -492,15 +513,18 @@ function e22_ext() {
 }
 
 function e22_ts() {
-	dqb "e22_ts()"
+	dqb "e22_ts( ${1} ;; ${2} )"
+	csleep 1
+
 	[ -z "${1}" ] && exit 13
 	[ -d ${1} ] || exit 14
 	[ -w ${1} ] || exit 15
 	[ -z "${2}" ] && exit 16
 	[ -d ${2} ] || exit 17
 
-	dqb "${svm} ${2}/*.deb ${1} IN 10 SECS"
-	csleep 10
+	dqb "${svm} ${2}/*.deb ${1} IN 5 SECS"
+	csleep 5
+
 	${svm} ${2}/*.deb ${1}
 	[ $? -eq 0 ] || exit 56
 
@@ -509,17 +533,16 @@ function e22_ts() {
 	cg_udp6 ${1}
 
 	ls -las ${1}/*.deb
-	csleep 10
+	csleep 5
 
 	dqb "e22_ts() done"
 }
 
-#28526 taas testailut menossa (vissiin muuten toimii mutta shasums.1 kanssa jotain?)
+#DONE:uusiksi testaus esim. exp2 u liittyen, bissiin yoimii (29726)
 function e22_arch() {
 	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
-	csleep 1
+	csleep 5
 
-function e22_arch() {
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 11
 	[ -d ${2} ] || exit 22
@@ -528,56 +551,85 @@ function e22_arch() {
 
 	dqb "e22_a.pars maybe ok"
 	csleep 1
+
 	local p=$(pwd)
 	local c=$(find ${2} -type f -name "*.deb" | wc -l)
+	local q=${2}/${CONF_hashfile}
+
 	[ -v CONF_hashfile ] || exit 94
 	[ -z "${CONF_hashfile}" ] && exit 95
 
-	exit
-
-	if [ -f ${2}/${CONF_hashfile} ] ; then #turha tarq?
-		${NKVD} ${2}/${CONF_hashfile}*
+	if [ -f ${q} ] ; then #turha tarq?
+		${NKVD} ${q}*
 		csleep 1
 	fi
 
-	#DONE?:ceen kanssa jokin juttu?
-
 	if [ ${c} -lt 1 ] ; then
 		echo "N0 .deb - FIL35s UND3R ${2}"
-		exit 55
+		exit 52
 	fi
 
 	${scm} 0444 ${2}/*.deb
-	fasdfasd ${2}/${CONF_hashfile}
-	fasdfasd ${2}/${CONF_hashfile}.1
-	[ ${debug} -eq 1 ] && ls -las ${2}/${CONF_hashfile}*;sleep 3
+	fasdfasd ${q}
+	fasdfasd ${q}.1
+	[ ${debug} -eq 1 ] && ls -las ${q}*;sleep 3
 
 	cd ${2}
 	${sah6} ./*.deb > ./${CONF_hashfile}
+	csleep 1
+	dqb "${CONF_hashfile}.1"
 
-	for f in $(find . -type f -name "*pkgs*") ; do
-		[ ${3} -eq 1 ] && ${srat} -rf ${1} ${f}
+	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do #oliko olds kanssa jotain vei ai?
+		if [ ${3} -eq 1 ]; then
+			dqb "SOON: ${srat} -rvf ${1} ${f}"
+			${srat} -rvf ${1} ${f}
+			csleep 1
+		fi
+
 		[ -s ./${f} ] && ${sah6} ${f} >> ./${CONF_hashfile}.1
+		csleep 1
 	done
 
+	csleep 1
+
+	#120726: "-s" - tarq tässä tarpeen?
 	for f in e.tar g.tar ; do
 		dqb "sah6 ./${f}"
 		[ -s ./${f} ] && ${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
 	done
 
+	[ ${debug} -eq 1 ] && cat ./${CONF_hashfile}.1
+	csleep 5
 	e22_tyg ./${CONF_hashfile}
-	e22_tyg ./${CONF_hashfile}.1
 
-	psqa .
-	#TODO:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
-	[ $? -gt 0 ] && ${NKVD} ./*.deb ./${CONF_hashfile}* ./*.tar #?
-	${srat} -rf ${1} ./*.deb ./${CONF_hashfile}* ./tim3stamp
+	if [ -s ./${CONF_hashfile}.1 ] ; then
+		e22_tyg ./${CONF_hashfile}.1
+	else #tarpeellista tehdä näin?
+		dqb "./${CONF_hashfile}.1 EMPTY"
+		csleep 10
+		exit
+	fi
+
+	psqa ./${CONF_hashfile}
+	#TODO?:psqa():n paluuuarvon kanssa testailua vielä, että oikeasti dellitään jos x tai siis
+
+	if [ $? -gt 0 ] ; then #destroy() ? tai siis...
+		${NKVD} ./*.deb
+		${NKVD} ./${CONF_hashfile}*
+		${NKVD} ./*.tar
+	else
+		${srat} -rf ${1} ./*.deb ./${CONF_hashfile}* ./tim3stamp
+	fi
+
 	cd ${p}
+	dqb "E22_A_DONE"
+	csleep 1
 }
 
-#tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
+#fktiona vähän turhaq, tarkistuksia enemmän kun varsi.naista koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
+	csleep 30
 
 	[ -z "${1}" ] && exit 14
 	[ -s ${1} ] || exit 15
@@ -593,26 +645,31 @@ function e22_dblock() {
 	csleep 1
 
 	[ ${debug} -eq 1 ] && pwd
-
 	ls -la ${3}/*.deb | wc -l
 	
 	for s in ${PART175_LIST} ; do
 		${sharpy} ${s}*
 		${NKVD} ${3}/${s}*.deb
 	done
-	
-	local t
-	t=$(echo ${2} | cut -d "/" -f 1-6)
+
+	ls -la ${3}/*.deb | wc -l
+	dqb "JST BFTr TS()"
+	csleep 10
+
+	local t=$(echo ${2} | cut -d "/" -f 1-6)
 	e22_ts ${t} ${3}
 	dqb "JST B3F0R3 3NF0RC3"
-	csleep 10
+	csleep 5
 	
 	enforce_access $(whoami) ${t}
 	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-	csleep 10
+	csleep 5
 
 	e22_arch ${1} ${2} ${4}
 	e22_cleanpkgs ${2}
+
+	dqb "DBLOK DONE"
+	csleep 1
 }
 
 #function aval0n() {
@@ -655,7 +712,7 @@ function e22_rpg() {
 #	exit
 }
 
-#TODO:ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
+#ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
 function e22_cde() {
 	dqb "e22_cde()"
 	
@@ -670,18 +727,17 @@ function e22_cde() {
 	[ ${debug} -eq 1 ] && ls -las ${1}*
 	csleep 1
 
-	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh
+	#13726:palautettu 2 kk takaa tuo pkgs, miksi oli poistunut? tstaa
+	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkgs*
 }
 
-function z1() {
-	dqb "z1( ${1} )"
-	csleep 1
-
+function e22_z1() {
+	dqb "e22_z1()) ${1} (()"
 	[ -z "${1}" ] && exit 66
 	dqb "pars ok"
 	csleep 2
-	${NKVD} ${1}.tmp
 
+	${NKVD} ${1}.tmp
 	${spc} ${1} ${1}.ÅLD
 	${spc} ${1}.sig ${1}.sig.ÅLD
 	${spc} ${1}.sha ${1}.sha.ÅLD
@@ -689,16 +745,21 @@ function z1() {
 	csleep 1
 	fasdfasd ${1}.tmp
 
-	dqb "z1() DONE"
+	dqb "e22_z1() DONE"
 	csleep 1
 }
 
-function z2() {
-	dqb "z2 ( ${1}) "
-	csleep 1
+function e22_z2() {
+	dqb "e22.z2((( ${1} ))(("
 	[ -z "${1}" ] && exit 66
 
 	#ekan parametrin kanssa lisää tarkistuksia?
+	#.tmp tulisi kai olla olemassa ennenq reqw qtsutaan ... paitsi että mv myöhemmin
+	#[ -s ${1} ] || exit 76
+
+	dqb "par\$ 0k"
+	csleep 1
+	
 	reqwreqw ${1}.tmp
 	csleep 1
 
@@ -711,6 +772,7 @@ function z2() {
 	fasdfasd ${1}.sha
 
 	${svm} ${1}.tmp ${1}
+	[ $? -eq 0 ] || exit
 	csleep 1
 
 	${sah6} --ignore-missing -c ${1}
@@ -718,22 +780,23 @@ function z2() {
 	e22_tyg ${1}
 	${sah6} ${1} > ${1}.sha
 
-	dqb "z2 ( ${1}) DONE"
+	dqb "e22_z2.D0M3"
 	csleep 1
 }
 
-function z3() {
-	dqb "z3()"
+function e22_z3() {
+	dqb "e22_z3()((( ${1}"
 	[ -z "${1}" ] && exit 66
 	[ -s ${2} ] || exit 67
 	[ -z "${3}" ] && exit 68
-
 	csleep 1
+	dqb "pars.ko"
+
 	fasdfasd ${3}
 	csleep 1
 
 	if [ ! -s ${3} ] ; then
-		#tulöeeko export3 mukaan?
+		#120726:mitense exp3? mitå siitä?
 		${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
 		csleep 1
 	fi
@@ -746,11 +809,13 @@ function z3() {
 	${srat} -rvf ${2} ${1}*
 	${scm} go-r ${t}/*
 	csleep 1
+
+	dqb "3pxe K0"
 }
 
 #(josko exp2 voisi korvata "tar -T -cf":llä?)
 echo "TODO:JOKO JO ntp-jutut kuntoon ?" #aftr2.bash saattoi liittyä
-sleep 6
+sleep 3
 
 function e22_sarram() {
 	dqb "e22_sarram() "
@@ -775,21 +840,12 @@ function e22_sarram() {
 
 	csleep 1
 	#display_manager
+
 	for f in $(${odio} find /etc -type f -name "${2}*" -and -not -name "*.202*" ) ; do
 		${srat} -rvf ${1} ${f}
 	done
 
 	${srat} -rvf ${1} /etc/X11/default-display-manager
-	
-	#HUOM.tätä ao. 3 riviä varten oli valmiskin palikka?
-	${scm} 0555 /etc/iptables
-	${scm} 0400 /etc/iptables/rules*
-	${scm} 0400 /etc/default/rules*
-
-	#rules vedettiin jo aiemmin
-	for f in $(${odio} find /etc -type f -name "rules.v?.?" -and -not -name "*.202*" ) ; do ${sah6} ${f} >> ${3} ; done
-
-	#OLD vai .OLD? ja ja ja
 
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v OLD | grep -v old) ; do 
 		${sah6} ${f} >> ${3}
@@ -804,9 +860,11 @@ function e22_sarram() {
 	fi
 
 	other_horrors
+	dqb "VON TCO"
+	csleep 1
 }
 
-function e22_stu() { #jatkosäätöä josqs
+function e22_stu() { #jatkosäätöä josqs (gpg --clearsign -u $pubkeyid mukaan?)
 	echo "# ! / b ..."
 	echo "base64 -d << FOE | tar -jxv"
 	echo "${srat} -jcf \$opts | base64"
