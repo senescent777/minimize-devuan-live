@@ -13,7 +13,7 @@ else
 	else
 		#TODO:tämä kohta uusiksi koska common_funcs/mksums ?
 	 	exit 57
-	fi	
+	fi
 fi
 
 unset sco
@@ -41,7 +41,7 @@ case "${CONF_env}" in
 	VED)
 		odio=""
 		[ -v CONF_testgris ] || exit 96
-			
+
 		function itni() {
 			dqb "itn1-3"
 			}
@@ -58,8 +58,6 @@ case "${CONF_env}" in
 esac
 
 itni
-echo "aftr 1nt1"
-sleep 6
 
 function fix_sudo() {
 	
@@ -124,8 +122,6 @@ function other_horrors() {
 
 fix_sudo
 other_horrors
-echo "LOOl PIP WFT"
-#common_funcs tarttee
 
 function ocs() {
 	dqb "ocs () () ((( ${1} "
@@ -486,10 +482,12 @@ function cefgh() {
 	fi
 }
 
-#HUOM.wopr()/worf() voisi otttaa käyttöön tässä?
-#VAIH:jos hmisto $2 annettu ni dellimään sen alta juttuja
+#HUOM.wopr()/worf() voisi otttaa käyttöön tässä? tai siis
+#DONE:jos hmisto $2 annettu ni dellimään sen alta juttuja
 function ten1() {
+	dqb "TEM10 ) ${1} ;; ${2} ;; ${3} ("
 	#kunnollinen param tarq voisi olla tässä
+	csleep 5
 
 	if [ "${1}" == "wlan0" ] ; then
 		dqb "NOT REMOVING WPASUPPLICANT"
@@ -554,7 +552,7 @@ function worf() {
 				#ei vielä
 				#v=$(grep -v dhcp ${u})
 				#[ -z "${v}" ] || ${shary} ${u}*
-				
+
 				${shary} ${u} #jokeri huono idea tssä
 				csleep 1
 			;;
@@ -863,13 +861,10 @@ function mangle_s() {
 	csleep 1
 
 	[ -z "${1}" ] && exit 44
-	[ -x ${1} ] || exit 55 #TÄHÄNKÖ TÖKKÄÄ 050626?
-	[ -z "${2}" ] && exit 45 #KUINKA MONTA PARAM?
+	[ -x ${1} ] || exit 55
+	[ -z "${2}" ] && exit 45
 	[ -f ${2} ] || exit 54
 	[ -z "${3}" ] && exit 65 #no nyt?
-
-	[ -v CONF_algo ] || exit 98
-	[ -z "${CONF_algo}" ] && exit 99 
 
 	[ -v CONF_algo ] || exit 98
 	[ -z "${CONF_algo}" ] && exit 99 
@@ -1222,36 +1217,41 @@ function part1() {
 	dqb "FOUR-LEGGED WH0R3"
 }
 
-
-#DONE:vielä kerran modaamaton kiekko&&g_pt2, toimiiko? ehkä
+#VAIH:uusicksi vain selvittelyt, modaamaton kiekko, g_pt2 ja o mega 5 yhdistelmä mikä ksän poistoa aiheuttaa
+#30726:nykyään "omega 5" laukaisee nimenomaan modatussa kiekossa äksän poiston, selvulletlyt uusiksi TAAS 666
 
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
-	csleep 16
+	csleep 5
 
 	[ -z "${1}" ] && exit 55
 	[ -z "${2}" ] && exit 56
 
 	dqb "PARS_OK"
-	csleep 1
+	csleep 5
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."
 		${lftr}
 		${fib}
-		csleep 1
+
+		#tähän kun stoppaa ni ei mene mitään rikki
+		#csleep 5
+		#exit 94
 
 		for s in ${PART175_LIST} ; do 
 			csleep 2
 
 			dqb "processing ${s}"
 			${sharpy} ${s}*
-			csleep 3
+			csleep 2
 		done
 
+		#exit #tässäkö jo kusee?
 		${lftr}
 		${sharpy} libblu* libcupsfilters* libgphoto*
 		${lftr}
+		#exit 49 #HUOM.30726:tässä jo  kosahtaa g_pt2 kautta, tulisi selvittää  mikä aiheuttaa, esim. iteroi part175 käsipelillä
 
 		#josko vielä pkexec:istä ajo-oik poisto? vai riittäisikö sharpy?
 		${sharpy} pkexec po*
@@ -1259,11 +1259,15 @@ function part2() {
 
 		${sharpy} python3-cups
 		${lftr}
+
 		csleep 1
-		
-		${sharpy} lm-sensors #uskaltaako poistaa jokatap?
+		#exit 48 #tähän asti uskaltaa? bissiin
+
+		#30726:sensors tuossa 175_listassa jo niin...		
+		#${sharpy} lm-sensors #uskaltaako poistaa jokatap?
+
 		dqb "JUST BEFORE ten1 ${3}"	
-		csleep 10
+		csleep 5
 		ten1 ${3}
 	fi
 
@@ -1324,28 +1328,6 @@ function common_lib_tool() {
 	dqb "t00l DONE"
 }
 
-##27726:joutaisikhan jo yhdistää common_lib_tool():in kanssa? (VAIH)
-#function p2g() {
-#	dqb " ((((((((((((((((( ${1} ) ${2} ) FED TO TEH PIGS"
-#	csleep 1
-#
-#	[ -z "${1}" ] && exit 76
-#	[ -s ${1} ] || exit 66
-#
-#	csleep 1
-#	dqb "common.p2g.-pars.ok"
-#	local f
-#
-#	for f in $(grep -v '#' ${1}) ; do
-#		worf ${f} 0
-#		csleep 1
-#		t2p_filler
-#	done
-#
-#	dqb "common.p2g DONE"
-#	csleep 1
-#}
-
 function cg_udp6() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
 	csleep 4
@@ -1385,8 +1367,6 @@ function part3() {
 
 	local n15=0
 	local t=""
-	
-	#TODO:näillä main merge-juttuja jatkossa?
 
 	if [ -z "${2}" ] ; then
 		t=$(${mkt} -d)

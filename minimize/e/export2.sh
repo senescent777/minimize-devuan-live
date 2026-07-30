@@ -103,8 +103,7 @@ fi
 
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
-E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
-	
+
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
 	[ $? -gt 0 ] && exit 66
@@ -189,10 +188,10 @@ case "${mode}" in
 		#140726:testaus vaiheessa, pakETTeja saa vedettyä ainakin
 		#170726:xserver-pakettien hukkaaminen ,  liittyykö g_pt2 ? No Ei ?
 		#elikkäs uusi yritys lähiaikoina (DONE?) (part2 jo ok 27726?)
-		#bissiin sisältö masentuu ilman kiukutteuja, ainakin enimmäkseen
+		#bissiin sisältö masentuu ilman kiukutteLuja, ainakin enimmäkseen
 
 		[ -v CONF_pkgdir ] || exit 96
-		dqb " ${CONF_iface} SHOULD Be U P B Y No W"
+		dqb " ${CONF_iface} SHOULD Be U P B Y No W - Heisenberg"
 		csleep 1
 
 		e23_upgp
@@ -200,7 +199,7 @@ case "${mode}" in
 		csleep 1
 
 		#e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
-		ten1  ${CONF_iface} ${CONF_pkgdir}
+		ten1 ${CONF_iface} ${CONF_pkgdir}
 	;;
 	e) 
 		#18726:bissiin teki asentuvan apketin touilloin
@@ -320,45 +319,3 @@ fi
 if [ -s ${tgtfile} ] ; then
 	e22_ftr ${tgtfile}
 fi
-
-
-#tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
-#function e22_dblock() {
-#	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
-#
-#	[ -z "${1}" ] && exit 14
-#	[ -s ${1} ] || exit 15
-#	[ -z "${2}" ] && exit 11
-#	[ -d ${2} ] || exit 22
-#	[ -w ${2} ] || exit 23
-#	[ -z "${3}" ] && exit 33
-#	[ -d ${3} ] || exit 34
-#	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
-#	[ -z "${4}" ] && exit 37
-#
-#	dqb ".PARS-OK"
-#	csleep 1
-#
-#	[ ${debug} -eq 1 ] && pwd
-#
-#	ls -la ${3}/*.deb | wc -l
-#	
-#	for s in ${PART175_LIST} ; do
-#		${sharpy} ${s}*
-#		${NKVD} ${3}/${s}*.deb
-#	done
-#	
-#	local t
-#	t=$(echo ${2} | cut -d "/" -f 1-6)
-#	e22_ts ${t} ${3}
-#	dqb "JST B3F0R3 3NF0RC3"
-#	csleep 10
-#	
-#	enforce_access $(whoami) ${t}
-#	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-#	csleep 10
-#
-#	e22_arch ${1} ${2} ${4}
-#	e22_cleanpkgs ${2}
-#}
-
