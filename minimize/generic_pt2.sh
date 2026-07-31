@@ -82,6 +82,13 @@ sleep 1
 #bissiin täytyisi wdm-paketit masennella g_pt2 jälk että alkaa x kadota?
 #lm-sensors-jutun jälkeen onko saanut äksän poistumista aikaan?
 
+#310726.1. testialusta 1 + (modaamaton d?)+ doit+pt2 kokonaan+wdm+omega=ei hukkaa äksää?
+#310826.2: testialusta 1, modaamaton daed, doit+pt2 kokonaan+wdm+wanha u+omega5==ok?
+#310926.3: modattu daed, doit+pt2 kokonaan -> tarpeellisia pak poistui, x pois pelistä
+#321026.4: modattu daed, doit, ei pt2, wdm, omage5 -> ei poistu liikaa
+#.5: wdm jälk wanha u, sitten omeha -> ei oheisvahinkoa
+#lopuksi uuden oemnan kanssa: haluaa hukata äksän
+
 if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
 	dqb "kö"
 	TLA
@@ -172,6 +179,7 @@ common_lib_tool ${d0} pkgs_drop
 
 common_lib_tool ${d} pkgs_drop 
 [ ${mode} -eq 1 ] && exit
+#mode 1 hukkaa liikaa? toisaalta modatulla kiekolla ei niin tarpeellista ajaa koko pt2
 
 t2pf ${d}
 [ $? -gt 0 ] && exit

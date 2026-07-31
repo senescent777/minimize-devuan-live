@@ -189,6 +189,7 @@ case "${mode}" in
 		#170726:xserver-pakettien hukkaaminen ,  liittyykö g_pt2 ? No Ei ?
 		#elikkäs uusi yritys lähiaikoina (DONE?) (part2 jo ok 27726?)
 		#bissiin sisältö masentuu ilman kiukutteLuja, ainakin enimmäkseen
+		#310726: tai siis kiukutteluja kyllä löytyy
 
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD Be U P B Y No W - Heisenberg"
@@ -198,14 +199,17 @@ case "${mode}" in
 		${sifd} ${CONF_iface}
 		csleep 1
 
-		#e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
-		ten1 ${CONF_iface} ${CONF_pkgdir}
+		##e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
+		#ten1 ${CONF_iface} ${CONF_pkgdir} #310726:uskaltaakohan tätäkään?
+		#saattaa olla ten1 tässä turha koska cg_udp6 myöhemmin
 	;;
 	e) 
 		#18726:bissiin teki asentuvan apketin touilloin
 		#24726:paketin osaisi bissiin muodostaa, testaapa miten oksennukset asentuvaqt (VAIH)
 		#... masentaessa libn* kanssa kusoo kuappiin vissiin
 		#26726 jo korjattu e23_fktiot? bissiin
+		#31726:pre_e():n dhcp-karsinta turhaa kikkailua, parempi että dellitään ensin turhat pak ja asenneraan tarpeellisen tilalle ?
+		#TODO:e/t/g/l/n/s testailu uudemman kerran
 
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
@@ -231,6 +235,7 @@ case "${mode}" in
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 		${fib}
+
 		e22_pre_e ${CONF_iface} ${E22_GI}
 		e22_pre_e ${CONF_iface} ${E22_GG}
 

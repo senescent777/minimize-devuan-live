@@ -382,10 +382,7 @@ function common_pp3() {
 	[ -d ${2} ] || exit 102
 
 	[ ${debug} -eq 1 ] && pwd
-	#csleep 1
-
 	dqb "find ${1} -type f -name \* .deb"
-	#csleep 3
 
 	local q=$(find ${1} -type f -name "*.deb" | wc -l)
 	local r=$(echo ${1} | cut -d "/" -f 1-5)
@@ -482,8 +479,6 @@ function cefgh() {
 	fi
 }
 
-#HUOM.wopr()/worf() voisi otttaa käyttöön tässä? tai siis
-#DONE:jos hmisto $2 annettu ni dellimään sen alta juttuja
 function ten1() {
 	dqb "TEM10 ) ${1} ;; ${2} ;; ${3} ("
 	#kunnollinen param tarq voisi olla tässä
@@ -541,10 +536,6 @@ function worf() {
 			1)
 				efk1 ${3}/${u}*
 			;;
-			#3) #turha case?
-			#	v=$(grep -v dhcp ${u})
-			#	[ -z "${v}" ] || efk1 ${3}/${v}*
-			#;;
 			2) #TODO:kts ten1() 2) ja 4) liittyen, tämä+seur case kys fktiolle jatq?
 				${shary} ${u}
 			;;
@@ -577,12 +568,7 @@ function wopr() {
 			;;
 		esac
 	done
-
-	#csleep 1
 }
-
-#DONE?:sqroot-ympäristön pAKettivalikoiman päivitys, mm. gpg_poistuu-syistä
-#mitä nyt viimeksdi exp2:lla duunattu -> toimii pienellä urputuksella? (ne accpet-tdstot olisi hyvä saada sqroot asti kanssa)
 
 function CB01() {
 	dqb "common.lib.CB01( ${1} (( ${2} )"
@@ -794,7 +780,7 @@ function check_binaries2() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2 ))) ${1} ; ${2} ((((((("
 	csleep 1
 
-	#120726:toiv pois lähiaikoina ao. tarq
+	#120726:toiv pois lähiaikoina ao. tarq (joko jo 312726?)
 	if [ "${CONF_env}" != "VED" ] ; then
 		[ -v sd0 ] || exit 66
 	fi
@@ -936,7 +922,7 @@ function reqwreqw() {
 function e_final() {
 	dqb "ALOMST FINAL"
 	csleep 1
-	[ -v CONF_DIR2 ] || exit 99 # sqroot menevä konf jok unno ssa?
+	[ -v CONF_DIR2 ] || exit 99
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then 
 		${scm} go-rw ${CONF_DIR2}/*
@@ -1091,7 +1077,6 @@ function enforce_access() {
 
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 }
-
 
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
 #kts myös https://github.com/topics/sources-list
@@ -1262,9 +1247,8 @@ function part2() {
 
 		csleep 1
 		#exit 48 #tähän asti uskaltaa? bissiin
-
 		#30726:sensors tuossa 175_listassa jo niin...		
-		#${sharpy} lm-sensors #uskaltaako poistaa jokatap?
+		#${sharpy} lm-sensors 
 
 		dqb "JUST BEFORE ten1 ${3}"	
 		csleep 5
@@ -1318,7 +1302,10 @@ function common_lib_tool() {
 			if [ ${debug} -eq 1 ] ; then
 				ls -las ${1}/${q}* | wc -l
 			fi
-		else
+		else #pitäisikö varmistaa että tässä haarassa käydään?
+			dqb "SOON: wofr ) ${q} 0 ) "
+			csleep 6
+
 			worf ${q} 0
 			csleep 1
 			t2p_filler
@@ -1348,8 +1335,10 @@ function cg_udp6() {
 	common_lib_tool ${1} reject_pkgs
 	dqb "D0NE"
 	csleep 1
-	
-	ten1 ${CONF_iface} ${1}
+
+	#TODO:selvitä jotenkin kuseeko tämä asioita?	
+	#ten1 ${CONF_iface} ${1}
+
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6  DONE FOR NOW"
 	csleep 4
 }
@@ -1457,7 +1446,7 @@ function process_lib() {
 	fi
 	
 	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then
-		.  ${1}/lib.sh
+		. ${1}/lib.sh
 	else
 		fallback
 	fi

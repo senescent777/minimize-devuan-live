@@ -527,7 +527,7 @@ function e22_ts() {
 
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
-	cg_udp6 ${1}
+	cg_udp6 ${1} #pitäisiköhän kommentoida jemmaan kokeeksi?
 
 	ls -las ${1}/*.deb
 	csleep 5
@@ -644,6 +644,7 @@ function e22_dblock() {
 	[ ${debug} -eq 1 ] && pwd
 	ls -la ${3}/*.deb | wc -l
 	
+	#310726:tämä blokki ok? ei sotke asioita?
 	for s in ${PART175_LIST} ; do
 		${sharpy} ${s}*
 		${NKVD} ${3}/${s}*.deb
