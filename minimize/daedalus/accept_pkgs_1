@@ -44,11 +44,10 @@ libffi
 libfftw3-double3
 #
 libblkid1
+libselinux1
 libmount1
-#Depends: , ,  (>= 2.35.2-7~), , libselinux1 (>= 3.1~), 
 #
-# libglib2.0-data,
-#Depends: , , libx11-6 (>= 2:1.4.99.1) (äksät aiemmaksi josqs?)
+libx11-6
 libglx-mesa0
 libgl
 #
@@ -84,8 +83,10 @@ gtk-update-icon-cache
 adwaita-icon-theme
 hicolor-icon-theme
 #
+#TODO:perl,libperl VÄHITELLEN
 #VAIH:, mitä tuon libxml.parser-perl kanssa tekee?
 #Depends: perl (>= 5.36.0-7+deb12u3), ,  (>= 2.14), , , 
+#
 perlapi-5.36.0
 liburi-perl
 libwww-perl
@@ -124,7 +125,7 @@ libxf
 libxc
 #
 libx11-data
-libx11-6
+#x11-6 oloi tässä
 libx11-xcb1
 #
 #siirretty aiemmaksi koska x
@@ -168,15 +169,15 @@ debconf
 libpam0g
 libpam-runtime
 #
-#Depends: , , ,, libselinux1 (>= 3.1~)
 libpam-modules-bin
 libdb5.3
-#Pre-Depends: , , , , , libselinux1 (>= 3.1~), , 
 libpam-modules_
 #
+#TODO:ylemmäksi nämä vai mitenkä?
 perl-modules-
 libperl
 perl-base
+#
 libmfx1
 #
 libva-
@@ -205,7 +206,6 @@ libxv
 libpng16-16
 libzvbi-common
 libzvbi0
-#Depends: libdrm-common (>= 2.4.114-1),
 libdrm
 #
 libavutil57
@@ -292,4 +292,3 @@ libwings3
 libncursesw6
 libproc2-0
 #
-#libselinux1 (libse ylempänä) (libselinux1 siirto ennen libmount?)
