@@ -540,7 +540,7 @@ function worf() {
 				${shary} ${u}
 			;;
 			4) #uusi yritys (case:t voisi ehkä jopa yhdistää qhan if-lausetta muuttaa)
-				v=$(echo ${u} grep dhcp | wc -l)
+				v=$(echo ${u} | grep dhcp | wc -l)
 
 				if [ ${v} -gt 0 ] ; then
 					dqb "SKIPPING ${u}"
