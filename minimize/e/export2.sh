@@ -143,9 +143,6 @@ csleep 1
 dqb "JUST BEFORE ESAC"
 csleep 6
 
-dqb "DINE?:lähiaikoina case 3  testaten uudelleen!!!!!"
-csleep 5
-
 case "${mode}" in
 	0)
 		exit 97
@@ -190,6 +187,7 @@ case "${mode}" in
 		#elikkäs uusi yritys lähiaikoina (DONE?) (part2 jo ok 27726?)
 		#bissiin sisältö masentuu ilman kiukutteLuja, ainakin enimmäkseen
 		#310726: tai siis kiukutteluja kyllä löytyy
+		#TODO:dblok kutsuvasta koodista part175 ja ten1 jemmaan, palauttelu testikierros kerrallaan
 
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD Be U P B Y No W - Heisenberg"
@@ -245,6 +243,30 @@ case "${mode}" in
 	;;
 	l)
 		#120726:lienee toimiva tämä case
+		#TODO:tähän kilkkeeseen liittyen ne perl-yms. urputukset voisdi vähitellen hoitaa, $distro/accept ...
+
+		# mesa-vdpau-drivers:amd64 depends on libvdpau1; however:
+		#  Package libvdpau1:amd64 is not installed.
+
+		#libperl5.36:amd64 depends on perl-modules-5.36 (>= 5.36.0-7+deb12u3); however:
+		#  Version of perl-modules-5.36 on system is 
+
+		#dpkg: dependency problems prevent configuration of libpython3.11-stdlib:amd64:
+		# libpython3.11-stdlib:amd64 depends on libpython3.11-minimal
+
+		#librsvg2-common:amd64 depends on librsvg2-2 (= 2.54.7+dfsg-1~deb12u1); however:
+  		#Version of librsvg2-2:amd64 on system is	
+
+		#libxml-parser-perl depends on perl (>= 5.36.0-7+deb12u3); however:
+		#  Version of perl on system is
+
+		#python3.11 depends on libpython3.11-stdlib (= 3.11.2-6+deb12u7); however:
+  		#Package libpython3.11-stdlib:amd64 is
+		
+		#perl depends on libperl5.36 (= 5.36.0-7+deb12u3); however:
+		#  Package libperl5.36:amd64 is
+		# git depends on perl; however
+
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}

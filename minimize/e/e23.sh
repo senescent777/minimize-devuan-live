@@ -151,7 +151,6 @@ function e23_qrs() {
 
 	[ -z "${5}" ] && exit 43
 
-
 	dqb "pars.0k"
 	csleep 1
 

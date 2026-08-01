@@ -7,6 +7,8 @@ debug=0
 d=${d0}/${distro}
 mode=3
 
+#010826:toimiiko tämä eri tavalla -v kanssa kuin ilman? sqroot...
+
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
 		echo "#distro=${1}"
@@ -75,19 +77,10 @@ dqb "distro=${distro}"
 dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
-#exit
 
-#29726:urputukseT jo poissa?
-#No Ei. Edelleen modaamattomalla kiekolla kun pt2 ajaa ni äksä poistuu viim "omega 5"-kohdassa. KOITA KEKSIÄ MIKSI
-#bissiin täytyisi wdm-paketit masennella g_pt2 jälk että alkaa x kadota?
-#lm-sensors-jutun jälkeen onko saanut äksän poistumista aikaan?
-
-#310726.1. testialusta 1 + (modaamaton d?)+ doit+pt2 kokonaan+wdm+omega=ei hukkaa äksää?
-#310826.2: testialusta 1, modaamaton daed, doit+pt2 kokonaan+wdm+wanha u+omega5==ok?
-#310926.3: modattu daed, doit+pt2 kokonaan -> tarpeellisia pak poistui, x pois pelistä
-#321026.4: modattu daed, doit, ei pt2, wdm, omage5 -> ei poistu liikaa
 #.5: wdm jälk wanha u, sitten omeha -> ei oheisvahinkoa
 #lopuksi uuden oemnan kanssa: haluaa hukata äksän
+#uudemmankin päivityspak kanssa se hukkaamisongelma kun mennään omegaan, jnties VIELÄ uusi yritys päivbityspak kanssa (kts miten ten1 ja part175 tällä krt)
 
 if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
 	dqb "kö"
@@ -96,8 +89,6 @@ else
 	part2 1 ${CONF_dnsm} ${CONF_iface}
 	[ $? -gt 0 ] && exit
 fi
-
-#exit #pois sitteq mahd
 
 function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 	dqb "FILLER"
@@ -130,16 +121,7 @@ function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 #${sharpy} dmsetup
 #${sharpy} psmisc
 #t2p_filler
-#
-##dpkg -l
-##exit 55
-#30726:kts ten1() nykyään ... tai miten filler?
-#if [ "${CONF_iface}" != "wlan0" ] ; then
-#	${sharpy} wpa*
-#	#etc alaiset wpa-jutut voisi hoidella myös rm-komennolla?
-#	t2p_filler
-#	csleep 5
-#fi
+#kommentoituja paskeita pois vähitellen
 
 #====================================================================
 #20726:kts slim liittyen omega

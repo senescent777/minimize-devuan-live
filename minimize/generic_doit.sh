@@ -7,6 +7,7 @@ debug=0 #1
 d=${d0}/${distro} 
 
 #020426:uudelleen_nimeäminen josqs tämän hmiston tdstoille?
+#010826:suattaapi olla että toimi sqroot-ympstössä toivotulla tavalla, ei isompaa härdelliä
 
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
@@ -75,7 +76,7 @@ function dis() {
 	dqb "aftr.int.faces"
 	
 	if [ ! -z "${2}" ] ; then
-		#VAIH:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
+		#DONE?:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
 		[ -z "${sifd}" ] && sifd=/sbin/ifdown
 
 		dqb "${odio} ${sifd} ${2}"	

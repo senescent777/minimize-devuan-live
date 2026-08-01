@@ -536,21 +536,26 @@ function worf() {
 			1)
 				efk1 ${3}/${u}*
 			;;
-			2) #TODO:kts ten1() 2) ja 4) liittyen, tämä+seur case kys fktiolle jatq?
+			2) #VAIH:kts ten1() 2) ja 4) liittyen, tämä+seur case kys fktiolle jatq?
 				${shary} ${u}
 			;;
-			4)
-				#ei vielä
-				#v=$(grep -v dhcp ${u})
-				#[ -z "${v}" ] || ${shary} ${u}*
+			4) #uusi yritys (case:t voisi ehkä jopa yhdistää qhan if-lausetta muuttaa)
+				v=$(echo ${u} grep dhcp | wc -l)
 
-				${shary} ${u} #jokeri huono idea tssä
+				if [ ${v} -gt 0 ] ; then
+					dqb "SKIPPING ${u}"
+				else
+					${shary} ${u} 					
+				fi
+
+				#[ -z "${v}" ] || ${shary} ${u}* #jokeri huono idea tssä
 				csleep 1
 			;;
 		esac
 	done
 }
 
+#HUOM.010826:ei jouda (vielä) worf() ja wopr() yhdistää koska find voi vähän harata vastaan joissain tapauksissa
 function wopr() {
 	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
 	local r=$(find ${1} -type f -name "${2}*.deb" )
@@ -1202,8 +1207,8 @@ function part1() {
 	dqb "FOUR-LEGGED WH0R3"
 }
 
-#VAIH:uusicksi vain selvittelyt, modaamaton kiekko, g_pt2 ja o mega 5 yhdistelmä mikä ksän poistoa aiheuttaa
-#30726:nykyään "omega 5" laukaisee nimenomaan modatussa kiekossa äksän poiston, selvulletlyt uusiksi TAAS 666
+#DONE:uusicksi vain selvittelyt, modaamaton kiekko, g_pt2 ja o mega 5 yhdistelmä mikä ksän poistoa aiheuttaa EHKÄ nyt kynnossa 010826
+#30726:nykyään "omega 5" laukaisee nimenomaan modatussa kiekossa äksän poiston, selvitelty mikä aiheutti (010826)
 
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
@@ -1220,10 +1225,6 @@ function part2() {
 		${lftr}
 		${fib}
 
-		#tähän kun stoppaa ni ei mene mitään rikki
-		#csleep 5
-		#exit 94
-
 		for s in ${PART175_LIST} ; do 
 			csleep 2
 
@@ -1232,12 +1233,10 @@ function part2() {
 			csleep 2
 		done
 
-		#exit #tässäkö jo kusee?
 		${lftr}
 		${sharpy} libblu* libcupsfilters* libgphoto*
 		${lftr}
-		#exit 49 #HUOM.30726:tässä jo  kosahtaa g_pt2 kautta, tulisi selvittää  mikä aiheuttaa, esim. iteroi part175 käsipelillä
-
+		
 		#josko vielä pkexec:istä ajo-oik poisto? vai riittäisikö sharpy?
 		${sharpy} pkexec po*
 		${lftr}
@@ -1246,8 +1245,8 @@ function part2() {
 		${lftr}
 
 		csleep 1
-		#exit 48 #tähän asti uskaltaa? bissiin
-		#30726:sensors tuossa 175_listassa jo niin...		
+
+		#010826:senrosit laukaisivat purkkavirityksen?	
 		#${sharpy} lm-sensors 
 
 		dqb "JUST BEFORE ten1 ${3}"	
@@ -1304,7 +1303,7 @@ function common_lib_tool() {
 			fi
 		else #pitäisikö varmistaa että tässä haarassa käydään?
 			dqb "SOON: wofr ) ${q} 0 ) "
-			csleep 6
+			csleep 2
 
 			worf ${q} 0
 			csleep 1
@@ -1336,7 +1335,7 @@ function cg_udp6() {
 	dqb "D0NE"
 	csleep 1
 
-	#TODO:selvitä jotenkin kuseeko tämä asioita?	
+	#VAIH:selvitä jotenkin, kuseeko tämä asioita?	
 	#ten1 ${CONF_iface} ${1}
 
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6  DONE FOR NOW"

@@ -415,7 +415,7 @@ function e22_pre_e() {
 	#HUOM.26726:ehkä muitakin karsimisjuttuja pitäisi huomioida kuin vain staattinen ip vs dhcp-paketit
 	#... pitäisi kai viedä $1 worf():ille sellaisenaan ja mussunmussun, kts ten1()
 
-	if [ "${1}" == "eth0:1" ] ; then #TODO:vähitellen jotain
+	if [ "${1}" == "eth0:1" ] ; then #VAIH:vähitellen jotain. Tai jos kuitenkin vain se dhcp-karsinta tässä.
 		worf ${2} 4
 	else
 		worf ${2} 2
@@ -644,11 +644,11 @@ function e22_dblock() {
 	[ ${debug} -eq 1 ] && pwd
 	ls -la ${3}/*.deb | wc -l
 	
-	#310726:tämä blokki ok? ei sotke asioita?
-	for s in ${PART175_LIST} ; do
-		${sharpy} ${s}*
-		${NKVD} ${3}/${s}*.deb
-	done
+#	#310726:tämä blokki ok? ei sotke asioita? VAIH:jemmaan tesdtailun vuoksi, kts exp2
+#	for s in ${PART175_LIST} ; do
+#		${sharpy} ${s}*
+#		${NKVD} ${3}/${s}*.deb
+#	done
 
 	ls -la ${3}/*.deb | wc -l
 	dqb "JST BFTr TS()"
