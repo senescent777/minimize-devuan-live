@@ -51,6 +51,8 @@ function usage() {
 #	fi
 #}
 
+#TODO:ne TPX-jutut, koita saada tar toimimaan kys mjan kanssa 
+
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
 #tuossa yllä tosin turhahko ls
@@ -172,6 +174,7 @@ if [ $# -gt 0 ] ; then
 	fi
 fi
 
+#TODO:tapaus sqroot+gpg puuttuu, jotain tarttisi tehrä vähitellen
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
 	echo "UNDER THE GRAV3YARD"
@@ -248,7 +251,7 @@ fi
 
 #VAIH:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
 #... jotain pientä laittoa vielä tarvitsee (230326)
-#josko jkpo 07/26 valmiiksi asti?
+#josko jkpo 08/26 valmiiksi asti?
 
 function common_part() {
 	echo "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"

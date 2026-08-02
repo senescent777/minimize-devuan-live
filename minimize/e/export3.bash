@@ -115,7 +115,7 @@ case "${mode}" in
 		t=/
 
 		if [ ! -z "${c}" ] ; then
-			#TODO:tämän kanssa jotain?	
+			#TODO?:tämän kanssa jotain? mitä?	
 			if [ -v CONF_testgris ] && [ -d ${CONF_testgris} ] ; then
 				t=${CONF_testgris} 
 			fi

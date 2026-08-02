@@ -101,30 +101,30 @@ function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 #20726:modaamattomalla kiekolla&&DEFAULT rpc "ic"-tilassa, dmsetup ii, myös spi2-cpre ja psmisc myös
 #entä TPPR? josko case-esac? tai alempi filler pois?
 
-##if [ "${CONF_env}" == "TOOR" ] ; then
-##	${sharpy} blu*
-##	${sharpy} nfs*
-##
-##
-##	t2p_filler
-##
-##	 #tässä kohtaa jo gpg hukataan?
-##	${sharpy} at-spi2-core	
-##	
-##
-##	
-##	dqb "V1"
-##	#exit
-##fi
-#
-#${sharpy} rpc*
-#${sharpy} dmsetup
-#${sharpy} psmisc
-#t2p_filler
-#kommentoituja paskeita pois vähitellen
+dqb "BLU NFS ???"
+csleep 6
 
+if [ "${CONF_env}" == "TOOR" ] ; then
+	${sharpy} blu*
+	${sharpy} nfs*
+	t2p_filler
+
+	 #tässä kohtaa jo gpg hukataan?
+	${sharpy} at-spi2-core	
+	
+	${sharpy} rpc*
+	${sharpy} dmsetup
+	${sharpy} psmisc
+	t2p_filler
+	
+	dqb "V1"
+	#exit
+fi
+
+#kommentoituja paskeita pois vähitellen
 #====================================================================
 #20726:kts slim liittyen omega
+#020826:jos välillä kokeilisi kehitellä .iso:n testausta varten eikä vaan renkata
 
 function t2pf() {
 	dqb "gp2t.common_lib.T2P.FINAL( ${1} )"

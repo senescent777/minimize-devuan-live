@@ -9,9 +9,7 @@ spc=$(which cp)
 [ -z "${spc}" ] && exit 13
 [ -x ${spc} ] || exit 14
 n=$(whoami)
-
 par3=""
-
 
 if [ $# -gt 1 ] ; then
 	if [ ${2} -eq 1 ] ; then
@@ -102,9 +100,8 @@ for f in ${g} ; do
 done
 
 ls -las ${tgt}*
-#jottta ehtisi synkata 
+#jottta ehtisi synkata (komento mukaan sudoeraiin?)
 sleep 6;sudo /bin/sync;sleep 4
-
 
 #tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
 #function e22_dblock() {

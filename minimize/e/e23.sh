@@ -316,7 +316,7 @@ function e23_profs() {
 	csleep 1
 }
 
-function e23_st() { #120626:vissiin asentUivat nämä paketit 
+function e23_st() { #020826:vissiin asentUivat nämä paketit (vaan miksi dms ja libdevm ie utle mukaan?)
 	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
 	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim
 	${shary} dmsetup libdevmapper1 libjte2

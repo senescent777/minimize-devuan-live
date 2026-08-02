@@ -11,8 +11,19 @@ else
 		echo ". ${d}/conf"
 		. ${d}/conf
 	else
-		#TODO:tämä kohta uusiksi koska common_funcs/mksums ?
-	 	exit 57
+		#VAIH:tämä kohta uusiksi koska common_funcs/mksums ?
+		b="/"
+		a=$(${odio} find ${b} -type f -name "$(whoami).conf" | head -n 1)
+		
+		if [ ! -z "${a}" ] ; then
+			if [ -s ${a} ] ; then
+				. ${a}
+			fi	
+		fi
+		
+		[ $? -eq 0 ] || exit 57
+		unset b
+		unset a	
 	fi
 fi
 
@@ -540,7 +551,7 @@ function worf() {
 				${shary} ${u}
 			;;
 			4) #uusi yritys (case:t voisi ehkä jopa yhdistää qhan if-lausetta muuttaa)
-				v=$(echo ${u} | grep dhcp | wc -l)
+				v=$(echo ${u} grep dhcp | wc -l)
 
 				if [ ${v} -gt 0 ] ; then
 					dqb "SKIPPING ${u}"
@@ -695,6 +706,7 @@ function check_binaries() {
 	dqb "before 0c.s"
 	local y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp"
 	
+	#020826:tarpeellinen blokki nykyään?
 	if [ "${CONF_env}" == "VED" ] ; then
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
@@ -823,6 +835,9 @@ function check_binaries2() {
 	dqb "b1nar135.2 0k.2" 
 	csleep 1
 }
+
+dqb "#TODO:selvitä mikä kusee ifup/ufdown kanssa , eikö resolv kunnossa TAASKAAN?"
+csleep 5
 
 function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
@@ -1015,7 +1030,7 @@ function e_e() {
 	${scm} 0444 /etc/network/*
 
 	for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
-	csleep 1
+	csleep 10
 
 	local f
 	local c
@@ -1038,7 +1053,7 @@ function e_e() {
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-	csleep 2
+	csleep 20
 
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
@@ -1225,13 +1240,18 @@ function part2() {
 		${lftr}
 		${fib}
 
+		#020826:blu/rpc/nfs , poistuuko vai ei?
 		for s in ${PART175_LIST} ; do 
-			csleep 2
+			csleep 5
 
 			dqb "processing ${s}"
 			${sharpy} ${s}*
-			csleep 2
+			echo $?
+			csleep 5
 		done
+
+		dpkg -l blu*
+		csleep 5
 
 		${lftr}
 		${sharpy} libblu* libcupsfilters* libgphoto*
@@ -1383,6 +1403,7 @@ function part3() {
 	dqb "B3T4"
 	csleep 3
 
+	#020826:sqrot-ympärist jotain urputusta täössä kohtaa? vaiko worf-kohdassa?
 	efk1 ${t}/gcc-12-base*.deb ${t}/libgcc-s1*.deb ${t}/libc6*.deb
 	dqb "LAcKK.a"
 	csleep 3

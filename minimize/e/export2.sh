@@ -187,7 +187,9 @@ case "${mode}" in
 		#elikkäs uusi yritys lähiaikoina (DONE?) (part2 jo ok 27726?)
 		#bissiin sisältö masentuu ilman kiukutteLuja, ainakin enimmäkseen
 		#310726: tai siis kiukutteluja kyllä löytyy
-		#TODO:dblok kutsuvasta koodista part175 ja ten1 jemmaan, palauttelu testikierros kerrallaan
+		#VAIH:dblok kutsuvasta koodista part175 ja ten1 jemmaan, palauttelu testikierros kerrallaan
+
+		#020836: sqroot "bind9-dnsutils depends on bind9-host | host; however" accept kusee vai jotain muuta?
 
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD Be U P B Y No W - Heisenberg"
@@ -244,28 +246,18 @@ case "${mode}" in
 	l)
 		#120726:lienee toimiva tämä case
 		#TODO:tähän kilkkeeseen liittyen ne perl-yms. urputukset voisdi vähitellen hoitaa, $distro/accept ...
-
-		# mesa-vdpau-drivers:amd64 depends on libvdpau1; however:
-		#  Package libvdpau1:amd64 is not installed.
-
-		#libperl5.36:amd64 depends on perl-modules-5.36 (>= 5.36.0-7+deb12u3); however:
-		#  Version of perl-modules-5.36 on system is 
-
-		#dpkg: dependency problems prevent configuration of libpython3.11-stdlib:amd64:
-		# libpython3.11-stdlib:amd64 depends on libpython3.11-minimal
-
-		#librsvg2-common:amd64 depends on librsvg2-2 (= 2.54.7+dfsg-1~deb12u1); however:
-  		#Version of librsvg2-2:amd64 on system is	
-
-		#libxml-parser-perl depends on perl (>= 5.36.0-7+deb12u3); however:
-		#  Version of perl on system is
-
-		#python3.11 depends on libpython3.11-stdlib (= 3.11.2-6+deb12u7); however:
-  		#Package libpython3.11-stdlib:amd64 is
 		
-		#perl depends on libperl5.36 (= 5.36.0-7+deb12u3); however:
-		#  Package libperl5.36:amd64 is
-		# git depends on perl; however
+		#020826: sqroot kanssa "twm depends on menu (>= 2.1.26); however:"
+		#libglx0:amd64 depends on libglx-mesa0; however:
+		#libwutil5:amd64 depends on wmaker-common
+		#libegl1:amd64 depends on libegl-mesa0
+		#libglx-mesa0:amd64 depends on libglapi-mesa
+		#libglx-mesa0:amd64 depends on libgl1-mesa-dri
+		#libgtk-3-0:amd64 depends on libgtk-3-common
+		#libegl-mesa0:amd64 depends on libglapi-mesa
+		#... accept-jutut qnnossa?
+		
+		#mesa-vdpau-drivers:amd64 depends on libvdpau1; however
 
 		csleep 1
 		[ -v CONF_dm ] || exit 77
