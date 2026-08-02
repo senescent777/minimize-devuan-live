@@ -9,8 +9,13 @@ libaom3
 libbz2-1.0
 libutempter0
 libgdbm
-#versionumeroista voisi typistää seur 3 kanssa
+#
+#TODO:jatkosäätöä TAAS?
+#versionumeroista voisi typistää seur 3 kanssa (VAIH)
 libglapi-mesa
+#
+#/jatkosäöätö?
+#
 libglvnd0_1.6.0
 libwayland-egl1
 #
@@ -32,14 +37,22 @@ libpipeline1
 libgdk-pixbuf2.0-common
 libgdk-pixbuf-2.0-0
 libgdk-pixbuf-2.0-bin
+#
+#020826:tähän jotain jatkosäätöä vai ei?
 librsvg2-2
 librsvg2-common
-libstdc
+#/jatkosäätö?
 #
+libstdc
 libatspi2
+#
+#020836:tpoimivassa u-paketissa ei näitä libgl1, libglx, pakeerreja (TODO:tekiskikö jotain?)
+libgl1-mesa-dri
 libglx-mesa0
 libglx0
 libgl1_1.6
+#/libgl
+#
 libglib2.0
 libffi
 libfftw3-double3
@@ -87,9 +100,9 @@ hicolor-icon-theme
 perl-modules-
 libperl
 perl-base
+perl
 #VAIH:perl,libperl VÄHITELLEN
 #VAIH:, mitä tuon libxml.parser-perl kanssa tekee?
-#Depends: perl (>= 5.36.0-7+deb12u3), ,  (>= 2.14), , , 
 #
 perlapi-5.36.0
 liburi-perl
@@ -183,7 +196,10 @@ libmfx1
 libva-
 libva2
 #
+#020826:vdpau-juttujen kanssa jotain? (TODO)
 libvdpau1
+#
+#
 libopencl1
 ocl-icd-
 #59
@@ -225,8 +241,12 @@ libavcodec59
 glib-networking
 libso
 #
+#020826:tämän kanssa jatkosäätöä? kirjastojen jatkoksi itse käärme?
 libpython3.11-minimal
 libpython3.11-stdlib
+#/jatkosäätö?
+#
+#
 #pitäisikö ao 2 riippuvuudet selvittää? ei juurinyt
 libgtk2.0-common
 libgtk2.0-0
@@ -251,15 +271,17 @@ libice6
 libsm
 libxpm4
 libxmu
-#
 libassuan0
+#
+#020826:ylemmäs listassa tämä?
 liberror-perl
 #
 libgbm1
 #
+#020826:jatkosäätöä? (TODO)
 libegl-mesa0
-#
 libegl1
+#
 #
 seatd
 libseccomp2
@@ -280,7 +302,10 @@ libisl
 libtext-wrapi18
 libfs6
 #
+#TODO:TAAS KERRAN RIIPPUVUUKSIEN METSÄSTYS???
 libwutil5
+#
+#
 libbz2-1.0
 libfftw3-double3
 libmagickcore-6
@@ -292,33 +317,29 @@ libwings3
 libncursesw6
 libproc2-0
 #
-#libglx0:amd64 depends on libglx-mesa0; however:
-#libwutil5:amd64 depends on wmaker-common
-#libegl1:amd64 depends on libegl-mesa0
-#libglx-mesa0:amd64 depends on libglapi-mesa
-#libglx-mesa0:amd64 depends on libgl1-mesa-dri
-#libgtk-3-0:amd64 depends on libgtk-3-common
-#libegl-mesa0:amd64 depends on libglapi-mesa
-#... accept-jutut qnnossa? tarpeelliset pak mukana?
+#libwutil5:amd64 depends on wmaker-common (tulisi löytyä l-oaketiSta)
+#libegl1:amd64 depends on libegl-mesa0 (egl1 ja egl-mesa, l-pak, löyt)
+#
+#libglx-mesa0:amd64 depends on (glx0,glx-mesa, l-pak, löyt)
+#libgtk-3-0:amd64 depends on libgtk-3-common (gkt-3 ja gtk-3-common mukana u-oaketin lisäksi l-paketissa, ongelma?)
+#libegl-mesa0:amd64 depends on libglapi-mesa (ei ole u-paketissa egl tai glapi)
+#... accept-jutut qnnossa? tarpeelliset pak mukana? u-aketissa 3-0, 3-bin, 3-common
 #		
-#mesa-vdpau-drivers:amd64 depends on libvdpau1; however
-# mesa-vdpau-drivers:amd64 depends on libvdpau1; however:´
-#  Package libvdpau1:amd64 is not installed.
+#mesa-vdpau-drivers:amd64 depends on 
+# mesa-vdpau-drivers:amd64 depends on (vdpau mukana? ei u-paketissa. l-paktissa mesa-vdpau, mutta se lib?)
 #libperl5.36:amd64 depends on perl-modules-5.36 (>= 5.36.0-7+deb12u3); however:
-#  Version of perl-modules-5.36 on system is 
+#  Version of perl-modules-5.36 on system is (miten nämä perlit mukana? u-paketissa libperl, perl_5, perl_base ja perl_modules)
 #
 #dpkg: dependency problems prevent configuration of libpython3.11-stdlib:amd64:
 # libpython3.11-stdlib:amd64 depends on libpython3.11-minimal
+# (pythonit mukana? u-paketissa lib-minimal, lib-stdlib, pyth3.11, pyth3.11-m ja 3 muuta , joikin niistä pois?)
 #
 #librsvg2-common:amd64 depends on librsvg2-2 (= 2.54.7+dfsg-1~deb12u1); however:
-#Version of librsvg2-2:amd64 on system is	
+#Version of librsvg2-2:amd64 on system is (väärä vesrio? vei eio mukana tarissa? u-pak sis rsvg2-2 ja rsvg2-vommon)	
 #
 #libxml-parser-perl depends on perl (>= 5.36.0-7+deb12u3); however:
-#  Version of perl on system is
+#  Version of perl on system is (u-paketissa xml2 ja xml-parser-perl, joten väärä versio?)
 #
 #python3.11 depends on libpython3.11-stdlib (= 3.11.2-6+deb12u7); however:
 #Package libpython3.11-stdlib:amd64 is
 #
-#perl depends on libperl5.36 (= 5.36.0-7+deb12u3); however:
-#  Package libperl5.36:amd64 is
-# git depends on perl; however
