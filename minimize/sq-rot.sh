@@ -175,6 +175,8 @@ if [ $# -gt 0 ] ; then
 fi
 
 #TODO:tapaus sqroot+gpg puuttuu, jotain tarttisi tehrä vähitellen
+#TODO:selv miksi f.tar ei poistu, layer 8 vai jotain muuta?
+
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
 	echo "UNDER THE GRAV3YARD"
