@@ -839,6 +839,9 @@ function check_binaries2() {
 dqb "#TODO:selvitä mikä kusee ifup/ufdown kanssa , eikö resolv kunnossa TAASKAAN?"
 csleep 5
 
+dqb "#TODO:kts myös export2 , case l"
+csleep 5
+
 function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
 	dqb "TLA.testgris : ${CONF_testgris}"

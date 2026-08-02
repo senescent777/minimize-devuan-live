@@ -258,6 +258,26 @@ case "${mode}" in
 		#... accept-jutut qnnossa?
 		
 		#mesa-vdpau-drivers:amd64 depends on libvdpau1; however
+		# mesa-vdpau-drivers:amd64 depends on libvdpau1; however:´
+		#  Package libvdpau1:amd64 is not installed.
+		#libperl5.36:amd64 depends on perl-modules-5.36 (>= 5.36.0-7+deb12u3); however:
+		#  Version of perl-modules-5.36 on system is 
+
+		#dpkg: dependency problems prevent configuration of libpython3.11-stdlib:amd64:
+		# libpython3.11-stdlib:amd64 depends on libpython3.11-minimal
+
+		#librsvg2-common:amd64 depends on librsvg2-2 (= 2.54.7+dfsg-1~deb12u1); however:
+  		#Version of librsvg2-2:amd64 on system is	
+
+		#libxml-parser-perl depends on perl (>= 5.36.0-7+deb12u3); however:
+		#  Version of perl on system is
+
+		#python3.11 depends on libpython3.11-stdlib (= 3.11.2-6+deb12u7); however:
+  		#Package libpython3.11-stdlib:amd64 is
+
+		#perl depends on libperl5.36 (= 5.36.0-7+deb12u3); however:
+		#  Package libperl5.36:amd64 is
+		# git depends on perl; however
 
 		csleep 1
 		[ -v CONF_dm ] || exit 77

@@ -100,7 +100,7 @@ for f in ${g} ; do
 done
 
 ls -las ${tgt}*
-#jottta ehtisi synkata (komento mukaan sudoeraiin?)
+#jottta ehtisi synkata (komento mukaan sudoERSiin?)
 sleep 6;sudo /bin/sync;sleep 4
 
 #tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
