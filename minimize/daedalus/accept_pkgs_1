@@ -10,7 +10,7 @@ libbz2-1.0
 libutempter0
 libgdbm
 #versionumeroista voisi typistää seur 3 kanssa
-libglapi-mesa_22.3
+libglapi-mesa
 libglvnd0_1.6.0
 libwayland-egl1
 #
@@ -37,6 +37,7 @@ librsvg2-common
 libstdc
 #
 libatspi2
+libglx-mesa0
 libglx0
 libgl1_1.6
 libglib2.0
@@ -48,7 +49,6 @@ libselinux1
 libmount1
 #
 libx11-6
-libglx-mesa0
 libgl
 #
 at-spi
@@ -83,7 +83,11 @@ gtk-update-icon-cache
 adwaita-icon-theme
 hicolor-icon-theme
 #
-#TODO:perl,libperl VÄHITELLEN
+#VAIH:ylemmäksi nämä vai mitenkä?
+perl-modules-
+libperl
+perl-base
+#VAIH:perl,libperl VÄHITELLEN
 #VAIH:, mitä tuon libxml.parser-perl kanssa tekee?
 #Depends: perl (>= 5.36.0-7+deb12u3), ,  (>= 2.14), , , 
 #
@@ -132,7 +136,7 @@ libx11-xcb1
 libxau6
 libxdmcp6
 #
-#VAIH:xext-rivin sIIRTo aeiammaksi (minne asti?)
+#DONE?:xext-rivin sIIRTo aeiammaksi (minne asti?)
 libxext6
 #
 libxrender1
@@ -173,10 +177,6 @@ libpam-modules-bin
 libdb5.3
 libpam-modules_
 #
-#TODO:ylemmäksi nämä vai mitenkä?
-perl-modules-
-libperl
-perl-base
 #
 libmfx1
 #
@@ -292,3 +292,33 @@ libwings3
 libncursesw6
 libproc2-0
 #
+#libglx0:amd64 depends on libglx-mesa0; however:
+#libwutil5:amd64 depends on wmaker-common
+#libegl1:amd64 depends on libegl-mesa0
+#libglx-mesa0:amd64 depends on libglapi-mesa
+#libglx-mesa0:amd64 depends on libgl1-mesa-dri
+#libgtk-3-0:amd64 depends on libgtk-3-common
+#libegl-mesa0:amd64 depends on libglapi-mesa
+#... accept-jutut qnnossa? tarpeelliset pak mukana?
+#		
+#mesa-vdpau-drivers:amd64 depends on libvdpau1; however
+# mesa-vdpau-drivers:amd64 depends on libvdpau1; however:´
+#  Package libvdpau1:amd64 is not installed.
+#libperl5.36:amd64 depends on perl-modules-5.36 (>= 5.36.0-7+deb12u3); however:
+#  Version of perl-modules-5.36 on system is 
+#
+#dpkg: dependency problems prevent configuration of libpython3.11-stdlib:amd64:
+# libpython3.11-stdlib:amd64 depends on libpython3.11-minimal
+#
+#librsvg2-common:amd64 depends on librsvg2-2 (= 2.54.7+dfsg-1~deb12u1); however:
+#Version of librsvg2-2:amd64 on system is	
+#
+#libxml-parser-perl depends on perl (>= 5.36.0-7+deb12u3); however:
+#  Version of perl on system is
+#
+#python3.11 depends on libpython3.11-stdlib (= 3.11.2-6+deb12u7); however:
+#Package libpython3.11-stdlib:amd64 is
+#
+#perl depends on libperl5.36 (= 5.36.0-7+deb12u3); however:
+#  Package libperl5.36:amd64 is
+# git depends on perl; however
