@@ -487,6 +487,9 @@ function cefgh() {
 	
 	if [ $? -eq 0 ] ; then
 		[ -x ${gg} ] && ${NKVD} ${1}/f.tar
+	else
+		dqb "COULD NOT DESTROY   ${1}/f.tar  YET"
+		csleep 5
 	fi
 }
 
@@ -990,7 +993,7 @@ function e_h() {
 	
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
-	dqb "HTAO EHT FO HTE TAOG EH)("
+	dqb "ETH TAOG FO EHT HTOA)("
 	csleep 1
 
 	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
@@ -1226,7 +1229,7 @@ function part1() {
 }
 
 #DONE:uusicksi vain selvittelyt, modaamaton kiekko, g_pt2 ja o mega 5 yhdistelmä mikä ksän poistoa aiheuttaa EHKÄ nyt kynnossa 010826
-#30726:nykyään "omega 5" laukaisee nimenomaan modatussa kiekossa äksän poiston, selvitelty mikä aiheutti (010826)
+#30726: "omega 5" laukaisi nimenomaan modatussa kiekossa äksän poiston, selvitelty mikä aiheutti (010826)
 
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
@@ -1266,7 +1269,7 @@ function part2() {
 
 		${sharpy} python3-cups
 		${lftr}
-
+		#030826:lftr jtnkn sotkee sqroot-tapauksessa tuota opak poistoa? tai muuten vain nollasta poikkeava virhekoodi part175 iteroinnissa
 		csleep 1
 
 		#010826:senrosit laukaisivat purkkavirityksen?	

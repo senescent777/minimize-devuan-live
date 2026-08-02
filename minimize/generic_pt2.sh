@@ -102,7 +102,8 @@ function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 #entä TPPR? josko case-esac? tai alempi filler pois?
 
 dqb "BLU NFS ???"
-csleep 6
+csleep 16
+#defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 	${sharpy} blu*

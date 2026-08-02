@@ -179,6 +179,8 @@ function e23_qrs() {
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
 #120726 viimeksi yritetty testata, tekeekö toimivaa sisältöä pakettiin, onnistui
 #TODO:testaus uusicksi josqs koska y
+#liittyen, mesa-vdpau ja sen kirjastot, jotain niiden kanssa?
+
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11

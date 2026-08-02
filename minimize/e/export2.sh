@@ -191,6 +191,10 @@ case "${mode}" in
 
 		#020836: sqroot "bind9-dnsutils depends on bind9-host | host; however" accept kusee vai jotain muuta?
 
+		#live-boot depends on live-boot-initramfs-tools | live-boot-backend; however:
+		#dpkg: dependency problems prevent configuration of mutt:
+		#dpkg: dependency problems prevent configuration of libgsasl18:amd64:
+
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD Be U P B Y No W - Heisenberg"
 		csleep 1

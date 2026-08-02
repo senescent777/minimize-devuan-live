@@ -271,7 +271,7 @@ function common_part() {
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
 	echo "paramz_0k"
-	sleep 1
+	sleep 10
 
 	cd /
 	local r
@@ -344,13 +344,13 @@ function common_part() {
 	fi
 
 	csleep 1
-	dqb "NECKST: ${srat}  ( ${TARGET_TPX} ) -C ${3} -xf ${1}"
+	echo "NECKST: ${srat}  ( ${TARGET_TPX} ) -C ${3} -xf ${1}"
 
-	csleep 1
+	sleep 10 #sqroot-testejä varten
 	${srat} --exclude rnd --exclude ./rnd -C ${3} -xf ${1} #vielä pientä laittoa "${TARGET_TPX}" liittyen?
 	[ $? -eq 0 ] || exit 36	
 
-	sleep 1
+	sleep 10
 	echo "${srat} DONE"
 }
 
@@ -426,10 +426,11 @@ case "${mode}" in
 		[ $? -eq 0 ] && ocs gpg
 		
 		[ $? -eq 0 ] && part3 ${f}
+
 		[ $? -eq 0 ] && other_horrors
 	;;
 	3)
-		#TODO:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
+		#TODO?:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
 
 		e=${d}
 		common_part ${srcfile} ${d} ${e}

@@ -710,6 +710,9 @@ function e22_rpg() {
 #	exit
 }
 
+dqb "TODO:VARMSITA TAAAS PRKL ETTÖÄ PKGS-JUTUT TULEVAQT e22_cde() OUTPUTIIN MUKAAN"
+csleep 10
+
 #ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
 function e22_cde() {
 	dqb "e22_cde()"
