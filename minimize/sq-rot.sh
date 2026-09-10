@@ -175,7 +175,7 @@ if [ $# -gt 0 ] ; then
 fi
 
 #TODO:tapaus sqroot+gpg puuttuu, jotain tarttisi tehrä vähitellen
-#TODO:selv miksi f.tar ei poistu, layer 8 vai jotain muuta?
+#VAIH:selv miksi f.tar ei poistu, layer 8 vai jotain muuta?
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
@@ -485,15 +485,22 @@ case "${mode}" in
 	;;
 esac
 
-echo "atfr.esac"
-sleep 1
+dqb "atfr.esac"
+csleep 1
 
 #poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (VAIH?)
 if [ $? -eq 0 ] ; then
 	if [ -s ${srcfile} ] && [ -f ${srcfile} ] ; then
 		read -p " U  WANT 2 RM SOURCE ?" confirm
-		[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
+
+		if [ "${confirm}" == "Y" ] ; then
+			dqb "WILL SOON ${NKVD} ${srcfile}"
+			csleep 10
+			${NKVD} ${srcfile} 
+			dqb $?
+		fi
 	fi
 fi
 
+csleep 5
 cptp2 ${d0}

@@ -11,7 +11,7 @@ else
 		echo ". ${d}/conf"
 		. ${d}/conf
 	else
-		#VAIH:tämä kohta uusiksi koska common_funcs/mksums ?
+		#VAIH:tämä kohta uusiksi koska common_funcs/mksums ? (olisiko jo 09/26 ok?)
 		b="/"
 		a=$(${odio} find ${b} -type f -name "$(whoami).conf" | head -n 1)
 		
@@ -465,9 +465,15 @@ function fromtend() {
 	fi
 }
 
+#10926:qseeko f.tar poisto vain silloiq debug=0 ?
 function cefgh() {
+	dqb "HGEFX ${1} ; ${2}"
 	[ -z "${1}" ] && exit 66
 	[ -d ${1} ] || exit 67
+	csleep 5
+
+	echo "cefgh: debug= ${debug}"
+	sleep 1
 
 	if [ -z "${gg}" ] ; then
 		dqb "SHOULD {sah6} -c ${1}/e.tar HERE"
@@ -484,13 +490,18 @@ function cefgh() {
 	fi
 
 	efk2 ${1}/f.tar ${1}
+	dqb "gg= ${gg}"
+	csleep 5
 	
-	if [ $? -eq 0 ] ; then
-		[ -x ${gg} ] && ${NKVD} ${1}/f.tar
+	if [ $? -eq 0 ] && [ -x ${gg} ] ; then
+		dqb " ${NKVD} ${1}/f.tar SOON"
+		csleep 10
+		${NKVD} ${1}/f.tar
 	else
 		dqb "COULD NOT DESTROY   ${1}/f.tar  YET"
-		csleep 5
 	fi
+
+	csleep 5
 }
 
 function ten1() {
@@ -839,10 +850,8 @@ function check_binaries2() {
 	csleep 1
 }
 
-dqb "#TODO:selvitä mikä kusee ifup/ufdown kanssa , eikö resolv kunnossa TAASKAAN?"
-csleep 5
-
-dqb "#TODO:kts myös export2 , case l"
+#10926:epäselvää mistä ifup/down/resolv kuseminen aiheutui, ehkä voisi kokeilla modaamattomalla kiekolla josqs, modatulla ei yleensä tapahdu
+dqb "#TODO:kts myös export2 , case l" #seur update-pak rakentamisen yhteydessä?
 csleep 5
 
 function TLA() {
@@ -1370,7 +1379,7 @@ function cg_udp6() {
 
 function part3() {
 	dqb "))() part3 ${1} ,((()()()()()( ${2} (((((((("
-	csleep 1
+	csleep 10
 
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 101
@@ -1415,15 +1424,17 @@ function part3() {
 	csleep 3
 
 	worf ${E22_GS} 1 ${t}	
-
 	dqb "önEGA-VGA RA"
 	csleep 3
 
+	#10926;jaatuuko paskettien asennus näillä main vaiko vasta findin kohdalla?
+	#... päivityspak liittyen siis
+	
 	common_lib_tool ${t} accept_pkgs_1
 	common_lib_tool ${t} accept_pkgs_2
 
 	dqb "g4RP D0NE"
-	csleep 1
+	csleep 10
 
 #	efk1 ${t}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
 #	[ $? -eq 0 ] || echo "SHOULD exit 66"
@@ -1445,7 +1456,7 @@ function part3() {
 	fi
 
 	dqb "LIBS DONE"
-	csleep 1
+	csleep 10
 	for f in $(find ${t} -name "*.deb" ) ; do ${sdi} ${f} ; done
 
 	if [ $? -eq  0 ] ; then
