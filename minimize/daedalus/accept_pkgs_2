@@ -1,10 +1,10 @@
-#bind9-jutut tarv: libkrb5, libgssapi-krb5-2
+#bind9-jutut tarv: libkrb5, libgssapi-krb5-2 (vaiko bind wttuun vaihteeksi?)
 nftables
 bind9-libs
 bind9-host
 bind9-dns
 dnsutils
-perl
+#perl jos kokeeksi accept1...
 mime-support
 #
 cpp
@@ -19,11 +19,15 @@ xserver-xorg-legacy
 xserver-common
 xserver-xorg-core
 #
+#020826:d-bussit wttuun vaihteeksui? 
 dbus-system-bus-common
 dbus-bin
 dbus-session-bus-common
 dbus-daemon
 dbus-x11
+#
+#TODO:mesa-vdpau-pak kanssa jotain?
+#
 gpgconf
 gtk2-engines-pixbuf
 python3.11-minimal
@@ -54,7 +58,7 @@ x11-xserver-utils
 #
 xserver-xorg
 xorg
-#route ennne dhcp
+#route ennne dhcp (btw: dhcp wttuun?)
 iproute2
 isc-dhcp
 #

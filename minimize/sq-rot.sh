@@ -51,6 +51,8 @@ function usage() {
 #	fi
 #}
 
+#TODO:ne TPX-jutut, koita saada tar toimimaan kys mjan kanssa 
+
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
 #tuossa yllä tosin turhahko ls
@@ -172,6 +174,9 @@ if [ $# -gt 0 ] ; then
 	fi
 fi
 
+#TODO:tapaus sqroot+gpg puuttuu, jotain tarttisi tehrä vähitellen
+#VAIH:selv miksi f.tar ei poistu, layer 8 vai jotain muuta?
+
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
 	echo "UNDER THE GRAV3YARD"
@@ -248,7 +253,7 @@ fi
 
 #VAIH:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
 #... jotain pientä laittoa vielä tarvitsee (230326)
-#josko jkpo 07/26 valmiiksi asti?
+#josko jkpo 08/26 valmiiksi asti?
 
 function common_part() {
 	echo "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
@@ -266,7 +271,7 @@ function common_part() {
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
 	echo "paramz_0k"
-	sleep 1
+	sleep 10
 
 	cd /
 	local r
@@ -339,13 +344,13 @@ function common_part() {
 	fi
 
 	csleep 1
-	dqb "NECKST: ${srat}  ( ${TARGET_TPX} ) -C ${3} -xf ${1}"
+	echo "NECKST: ${srat}  ( ${TARGET_TPX} ) -C ${3} -xf ${1}"
 
-	csleep 1
+	sleep 10 #sqroot-testejä varten
 	${srat} --exclude rnd --exclude ./rnd -C ${3} -xf ${1} #vielä pientä laittoa "${TARGET_TPX}" liittyen?
 	[ $? -eq 0 ] || exit 36	
 
-	sleep 1
+	sleep 10
 	echo "${srat} DONE"
 }
 
@@ -421,10 +426,11 @@ case "${mode}" in
 		[ $? -eq 0 ] && ocs gpg
 		
 		[ $? -eq 0 ] && part3 ${f}
+
 		[ $? -eq 0 ] && other_horrors
 	;;
 	3)
-		#TODO:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
+		#TODO?:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
 
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
@@ -479,15 +485,22 @@ case "${mode}" in
 	;;
 esac
 
-echo "atfr.esac"
-sleep 1
+dqb "atfr.esac"
+csleep 1
 
 #poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (VAIH?)
 if [ $? -eq 0 ] ; then
 	if [ -s ${srcfile} ] && [ -f ${srcfile} ] ; then
 		read -p " U  WANT 2 RM SOURCE ?" confirm
-		[ "${confirm}" == "Y" ] && ${NKVD} ${srcfile}
+
+		if [ "${confirm}" == "Y" ] ; then
+			dqb "WILL SOON ${NKVD} ${srcfile}"
+			csleep 10
+			${NKVD} ${srcfile} #destroy?
+			dqb $?
+		fi
 	fi
 fi
 
+csleep 5
 cptp2 ${d0}

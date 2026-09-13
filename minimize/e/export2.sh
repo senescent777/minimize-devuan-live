@@ -103,8 +103,7 @@ fi
 
 echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
 sleep 1
-E22_GG="coreutils libcurl3-gnutls libexpat1 liberror-perl libpcre2-8-0 git-man git"
-	
+
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
 	[ $? -gt 0 ] && exit 66
@@ -167,6 +166,7 @@ case "${mode}" in
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
 			#TODO?:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä?
 			#... tai jos case g prujaus...
+			#13926:jos ko siirtäisi tämän ig-blokin jnnkn sarram jlkeen?
 
 			e23_tblz ${CONF_iface} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
@@ -189,24 +189,35 @@ case "${mode}" in
 		#140726:testaus vaiheessa, pakETTeja saa vedettyä ainakin
 		#170726:xserver-pakettien hukkaaminen ,  liittyykö g_pt2 ? No Ei ?
 		#elikkäs uusi yritys lähiaikoina (DONE?) (part2 jo ok 27726?)
-		#bissiin sisältö masentuu ilman kiukutteuja, ainakin enimmäkseen
+		#bissiin sisältö masentuu ilman kiukutteLuja, ainakin enimmäkseen
+		#310726: tai siis kiukutteluja kyllä löytyy
+		#VAIH:dblok kutsuvasta koodista part175 ja ten1 jemmaan, palauttelu testikierros kerrallaan
+
+		#020836: sqroot "bind9-dnsutils depends on bind9-host | host; however" accept kusee vai jotain muuta?
+
+		#live-boot depends on live-boot-initramfs-tools | live-boot-backend; however:
+		#dpkg: dependency problems prevent configuration of mutt:
+		#dpkg: dependency problems prevent configuration of libgsasl18:amd64:
 
 		[ -v CONF_pkgdir ] || exit 96
-		dqb " ${CONF_iface} SHOULD Be U P B Y No W"
+		dqb " ${CONF_iface} SHOULD Be U P B Y No W - Heisenberg"
 		csleep 1
 
 		e23_upgp
 		${sifd} ${CONF_iface}
 		csleep 1
 
-		#e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
-		ten1  ${CONF_iface} ${CONF_pkgdir}
+		##e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
+		#ten1 ${CONF_iface} ${CONF_pkgdir} #310726:uskaltaakohan tätäkään?
+		#saattaa olla ten1 tässä turha koska cg_udp6 myöhemmin
 	;;
 	e) 
 		#18726:bissiin teki asentuvan apketin touilloin
 		#24726:paketin osaisi bissiin muodostaa, testaapa miten oksennukset asentuvaqt (VAIH)
 		#... masentaessa libn* kanssa kusoo kuappiin vissiin
 		#26726 jo korjattu e23_fktiot? bissiin
+		#31726:pre_e():n dhcp-karsinta turhaa kikkailua, parempi että dellitään ensin turhat pak ja asenneraan tarpeellisen tilalle ?
+		#TODO:e/t/g/l/n/s testailu uudemman kerran
 
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
@@ -232,6 +243,7 @@ case "${mode}" in
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 		${fib}
+
 		e22_pre_e ${CONF_iface} ${E22_GI}
 		e22_pre_e ${CONF_iface} ${E22_GG}
 
@@ -241,6 +253,40 @@ case "${mode}" in
 	;;
 	l)
 		#120726:lienee toimiva tämä case
+		#TODO:tähän kilkkeeseen liittyen ne perl-yms. urputukset voisdi vähitellen hoitaa, $distro/accept ...
+		
+		#020826: sqroot kanssa "twm depends on menu (>= 2.1.26); however:"
+		#libglx0:amd64 depends on libglx-mesa0; however:
+		#libwutil5:amd64 depends on wmaker-common
+		#libegl1:amd64 depends on libegl-mesa0
+		#libglx-mesa0:amd64 depends on libglapi-mesa
+		#libglx-mesa0:amd64 depends on libgl1-mesa-dri
+		#libgtk-3-0:amd64 depends on libgtk-3-common
+		#libegl-mesa0:amd64 depends on libglapi-mesa
+		#... accept-jutut qnnossa?
+		
+		#mesa-vdpau-drivers:amd64 depends on libvdpau1; however
+		# mesa-vdpau-drivers:amd64 depends on libvdpau1; however:´
+		#  Package libvdpau1:amd64 is not installed.
+		#libperl5.36:amd64 depends on perl-modules-5.36 (>= 5.36.0-7+deb12u3); however:
+		#  Version of perl-modules-5.36 on system is 
+
+		#dpkg: dependency problems prevent configuration of libpython3.11-stdlib:amd64:
+		# libpython3.11-stdlib:amd64 depends on libpython3.11-minimal
+
+		#librsvg2-common:amd64 depends on librsvg2-2 (= 2.54.7+dfsg-1~deb12u1); however:
+  		#Version of librsvg2-2:amd64 on system is	
+
+		#libxml-parser-perl depends on perl (>= 5.36.0-7+deb12u3); however:
+		#  Version of perl on system is
+
+		#python3.11 depends on libpython3.11-stdlib (= 3.11.2-6+deb12u7); however:
+  		#Package libpython3.11-stdlib:amd64 is
+
+		#perl depends on libperl5.36 (= 5.36.0-7+deb12u3); however:
+		#  Package libperl5.36:amd64 is
+		# git depends on perl; however
+
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
@@ -310,9 +356,9 @@ esac
 #tuossa alla vielä jotain laittoa?
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 	e22_hdr ${d}/f.tar
+	#jotenkin toisin jatkossa? pak suoraan tgtfilen alle?
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar
-
 	${srat} -rvf ${tgtfile} ${d}/f.tar*
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar*
 fi
@@ -320,45 +366,3 @@ fi
 if [ -s ${tgtfile} ] ; then
 	e22_ftr ${tgtfile}
 fi
-
-
-#tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
-#function e22_dblock() {
-#	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
-#
-#	[ -z "${1}" ] && exit 14
-#	[ -s ${1} ] || exit 15
-#	[ -z "${2}" ] && exit 11
-#	[ -d ${2} ] || exit 22
-#	[ -w ${2} ] || exit 23
-#	[ -z "${3}" ] && exit 33
-#	[ -d ${3} ] || exit 34
-#	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
-#	[ -z "${4}" ] && exit 37
-#
-#	dqb ".PARS-OK"
-#	csleep 1
-#
-#	[ ${debug} -eq 1 ] && pwd
-#
-#	ls -la ${3}/*.deb | wc -l
-#	
-#	for s in ${PART175_LIST} ; do
-#		${sharpy} ${s}*
-#		${NKVD} ${3}/${s}*.deb
-#	done
-#	
-#	local t
-#	t=$(echo ${2} | cut -d "/" -f 1-6)
-#	e22_ts ${t} ${3}
-#	dqb "JST B3F0R3 3NF0RC3"
-#	csleep 10
-#	
-#	enforce_access $(whoami) ${t}
-#	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-#	csleep 10
-#
-#	e22_arch ${1} ${2} ${4}
-#	e22_cleanpkgs ${2}
-#}
-

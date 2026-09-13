@@ -11,9 +11,27 @@ else
 		echo ". ${d}/conf"
 		. ${d}/conf
 	else
-		#TODO:tämä kohta uusiksi koska common_funcs/mksums ?
-	 	exit 57
-	fi	
+		#mksums takia tämä haara, ehkä toimii mutta toisenlainen ratkaisu saattaa olla parempi?
+		#joko common_funcs:in kautta mennessä rajataan findin hakua tai kopsataan kohde-hmistoonm conf jotta mkasuma yms löytää
+
+		[ -v b ] || b="/" #VAIH:asetetaan jatkossa bain jos ei ole jo sestettu (common.conf)
+		a=$(${odio} find ${b} -type f -name "$(whoami).conf" | head -n 1)
+		
+		#130926:mityenkähän ahjtaa toimia tämä haara sqrot-ympäristössä?
+
+		if [ ! -z "${a}" ] ; then
+			#echo "A= ${a}"
+			#sleep 10
+
+			if [ -s ${a} ] ; then
+				. ${a}
+			fi	
+		fi
+		
+		[ $? -eq 0 ] || exit 57
+		unset b
+		unset a	
+	fi
 fi
 
 unset sco
@@ -41,7 +59,7 @@ case "${CONF_env}" in
 	VED)
 		odio=""
 		[ -v CONF_testgris ] || exit 96
-			
+
 		function itni() {
 			dqb "itn1-3"
 			}
@@ -58,8 +76,6 @@ case "${CONF_env}" in
 esac
 
 itni
-echo "aftr 1nt1"
-sleep 6
 
 function fix_sudo() {
 	
@@ -124,8 +140,6 @@ function other_horrors() {
 
 fix_sudo
 other_horrors
-echo "LOOl PIP WFT"
-#common_funcs tarttee
 
 function ocs() {
 	dqb "ocs () () ((( ${1} "
@@ -188,6 +202,7 @@ function check_bin_0() {
 	[ -x ${sr0} ] || exit 76
 	srat=${sr0}
 	
+	#HUOM. TOIMIIKO TÄMÄ KOHTA KUTEN PITÄÄ? TARKISTA?
 	if [ ${debug} -eq 1 ] ; then
 		srat="${srat} -v "
 	fi
@@ -386,10 +401,7 @@ function common_pp3() {
 	[ -d ${2} ] || exit 102
 
 	[ ${debug} -eq 1 ] && pwd
-	#csleep 1
-
 	dqb "find ${1} -type f -name \* .deb"
-	#csleep 3
 
 	local q=$(find ${1} -type f -name "*.deb" | wc -l)
 	local r=$(echo ${1} | cut -d "/" -f 1-5)
@@ -399,11 +411,10 @@ function common_pp3() {
 	else
 		psqa ${1}/${CONF_hashfile}
 
-		if [ $? -gt 0 ] ; then #TODO:tulisi kai testata
+		if [ $? -gt 0 ] ; then #TODO?:tulisi kai testata
 			destroy ${1}
 		fi
 
-		#HUOM.12726:svm, spc - jutut vosi ohittaa jos $2==$1
 		 if [ "${1}" != "${2}" ] ; then
 			local s
 
@@ -461,9 +472,15 @@ function fromtend() {
 	fi
 }
 
+#11926:qseeko f.tar poisto vain silloiq debug=0 ? bissiin se tai $?
 function cefgh() {
+	dqb "HGEFX ${1} ; ${2}"
 	[ -z "${1}" ] && exit 66
 	[ -d ${1} ] || exit 67
+	csleep 5
+
+	echo "cefgh: debug= ${debug}"
+	sleep 1
 
 	if [ -z "${gg}" ] ; then
 		dqb "SHOULD {sah6} -c ${1}/e.tar HERE"
@@ -474,22 +491,30 @@ function cefgh() {
 		fi
 
 		csleep 5
-
 		efk2 ${1}/e.tar ${1}
 		${NKVD} ${1}/e.tar
 	fi
 
+	echo "gg= ${gg}"
 	efk2 ${1}/f.tar ${1}
 	
-	if [ $? -eq 0 ] ; then
-		[ -x ${gg} ] && ${NKVD} ${1}/f.tar
+	if [ $? -eq 0 ] && [ -x ${gg} ] ; then #-z mukaan?
+		csleep 5
+		dqb "HGEFX.inner: SH0ULD ${NKVD} ${1}/f.tar SOON"
+		csleep 10
+		${NKVD} ${1}/f.tar
+	else
+		echo "COULD NOT DESTROY   ${1}/f.tar  YET"
+		[ -x ${gg} ] || echo "MATTI NUSSI9" 
 	fi
+
+	sleep 5
 }
 
-#HUOM.wopr()/worf() voisi otttaa käyttöön tässä?
-#VAIH:jos hmisto $2 annettu ni dellimään sen alta juttuja
 function ten1() {
+	dqb "TEM10 ) ${1} ;; ${2} ;; ${3} ("
 	#kunnollinen param tarq voisi olla tässä
+	csleep 5
 
 	if [ "${1}" == "wlan0" ] ; then
 		dqb "NOT REMOVING WPASUPPLICANT"
@@ -543,25 +568,26 @@ function worf() {
 			1)
 				efk1 ${3}/${u}*
 			;;
-			#3) #turha case?
-			#	v=$(grep -v dhcp ${u})
-			#	[ -z "${v}" ] || efk1 ${3}/${v}*
-			#;;
-			2) #TODO:kts ten1() 2) ja 4) liittyen, tämä+seur case kys fktiolle jatq?
+			2) #VAIH:kts ten1() 2) ja 4) liittyen, tämä+seur case kys fktiolle jatq?
 				${shary} ${u}
 			;;
-			4)
-				#ei vielä
-				#v=$(grep -v dhcp ${u})
-				#[ -z "${v}" ] || ${shary} ${u}*
-				
-				${shary} ${u} #jokeri huono idea tssä
+			4) #uusi yritys (case:t voisi ehkä jopa yhdistää qhan if-lausetta muuttaa)
+				v=$(echo ${u} | grep dhcp | wc -l)
+
+				if [ ${v} -gt 0 ] ; then
+					dqb "SKIPPING ${u}"
+				else
+					${shary} ${u} 					
+				fi
+
+				#[ -z "${v}" ] || ${shary} ${u}* #jokeri huono idea tssä
 				csleep 1
 			;;
 		esac
 	done
 }
 
+#HUOM.010826:ei jouda (vielä) worf() ja wopr() yhdistää koska find voi vähän harata vastaan joissain tapauksissa
 function wopr() {
 	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
 	local r=$(find ${1} -type f -name "${2}*.deb" )
@@ -579,12 +605,7 @@ function wopr() {
 			;;
 		esac
 	done
-
-	#csleep 1
 }
-
-#DONE?:sqroot-ympäristön pAKettivalikoiman päivitys, mm. gpg_poistuu-syistä
-#mitä nyt viimeksdi exp2:lla duunattu -> toimii pienellä urputuksella? (ne accpet-tdstot olisi hyvä saada sqroot asti kanssa)
 
 function CB01() {
 	dqb "common.lib.CB01( ${1} (( ${2} )"
@@ -706,6 +727,7 @@ function check_binaries() {
 	dqb "before 0c.s"
 	local y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp"
 	
+	#130926:tai siis toimiiko kuten tarkoitus? ehkä, jos konfig kunnossa
 	if [ "${CONF_env}" == "VED" ] ; then
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
@@ -714,6 +736,7 @@ function check_binaries() {
 		dqb "SCHEISS3"
 	fi
 	
+	csleep 10
 	for x in ${y} ; do ocs ${x} ; done
 	sdi="${odio} ${sd0} -i "
 	E22_GI="libassuan0,libbz2-1.0,libc6,libgcrypt20,libgpg-error0,libreadline8,libsqlite3-0,gpgconf,zlib1g,gpg"
@@ -796,7 +819,7 @@ function check_binaries2() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2 ))) ${1} ; ${2} ((((((("
 	csleep 1
 
-	#120726:toiv pois lähiaikoina ao. tarq
+	#120726:toiv pois lähiaikoina ao. tarq (joko jo 312726?)
 	if [ "${CONF_env}" != "VED" ] ; then
 		[ -v sd0 ] || exit 66
 	fi
@@ -835,6 +858,10 @@ function check_binaries2() {
 	csleep 1
 }
 
+#10926:epäselvää mistä ifup/down/resolv kuseminen aiheutui, ehkä voisi kokeilla modaamattomalla kiekolla josqs, modatulla ei yleensä tapahdu
+dqb "#TODO:kts myös export2 , case l" #seur update-pak rakentamisen yhteydessä?
+csleep 5
+
 function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
 	dqb "TLA.testgris : ${CONF_testgris}"
@@ -863,13 +890,10 @@ function mangle_s() {
 	csleep 1
 
 	[ -z "${1}" ] && exit 44
-	[ -x ${1} ] || exit 55 #TÄHÄNKÖ TÖKKÄÄ 050626?
-	[ -z "${2}" ] && exit 45 #KUINKA MONTA PARAM?
+	[ -x ${1} ] || exit 55
+	[ -z "${2}" ] && exit 45
 	[ -f ${2} ] || exit 54
 	[ -z "${3}" ] && exit 65 #no nyt?
-
-	[ -v CONF_algo ] || exit 98
-	[ -z "${CONF_algo}" ] && exit 99 
 
 	[ -v CONF_algo ] || exit 98
 	[ -z "${CONF_algo}" ] && exit 99 
@@ -941,7 +965,7 @@ function reqwreqw() {
 function e_final() {
 	dqb "ALOMST FINAL"
 	csleep 1
-	[ -v CONF_DIR2 ] || exit 99 # sqroot menevä konf jok unno ssa?
+	[ -v CONF_DIR2 ] || exit 99
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then 
 		${scm} go-rw ${CONF_DIR2}/*
@@ -986,7 +1010,7 @@ function e_h() {
 	
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
-	dqb "HTAO EHT FO HTE TAOG EH)("
+	dqb "ETH TAOG FO EHT HTOA)("
 	csleep 1
 
 	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
@@ -1029,7 +1053,7 @@ function e_e() {
 	${scm} 0444 /etc/network/*
 
 	for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
-	csleep 1
+	csleep 10
 
 	local f
 	local c
@@ -1052,7 +1076,7 @@ function e_e() {
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-	csleep 2
+	csleep 20
 
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
@@ -1222,48 +1246,56 @@ function part1() {
 	dqb "FOUR-LEGGED WH0R3"
 }
 
-
-#DONE:vielä kerran modaamaton kiekko&&g_pt2, toimiiko? ehkä
+#DONE:uusicksi vain selvittelyt, modaamaton kiekko, g_pt2 ja o mega 5 yhdistelmä mikä ksän poistoa aiheuttaa EHKÄ nyt kynnossa 010826
+#30726: "omega 5" laukaisi nimenomaan modatussa kiekossa äksän poiston, selvitelty mikä aiheutti (010826)
+# ensin "doit -v 1" , sitten doit uudestaan , syynä jtnkn?
 
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
-	csleep 16
+	csleep 5
 
 	[ -z "${1}" ] && exit 55
 	[ -z "${2}" ] && exit 56
 
 	dqb "PARS_OK"
-	csleep 1
+	csleep 5
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."
 		${lftr}
 		${fib}
-		csleep 1
 
+		#020826:blu/rpc/nfs , poistuuko vai ei?
 		for s in ${PART175_LIST} ; do 
-			csleep 2
+			csleep 5
 
 			dqb "processing ${s}"
 			${sharpy} ${s}*
-			csleep 3
+			echo $?
+			csleep 5
 		done
+
+		dpkg -l blu*
+		csleep 5
 
 		${lftr}
 		${sharpy} libblu* libcupsfilters* libgphoto*
 		${lftr}
-
+		
 		#josko vielä pkexec:istä ajo-oik poisto? vai riittäisikö sharpy?
 		${sharpy} pkexec po*
 		${lftr}
 
 		${sharpy} python3-cups
 		${lftr}
+		#030826:lftr jtnkn sotkee sqroot-tapauksessa tuota opak poistoa? tai muuten vain nollasta poikkeava virhekoodi part175 iteroinnissa
 		csleep 1
-		
-		${sharpy} lm-sensors #uskaltaako poistaa jokatap?
+
+		#010826:senrosit laukaisivat purkkavirityksen?	
+		#${sharpy} lm-sensors 
+
 		dqb "JUST BEFORE ten1 ${3}"	
-		csleep 10
+		csleep 5
 		ten1 ${3}
 	fi
 
@@ -1314,7 +1346,10 @@ function common_lib_tool() {
 			if [ ${debug} -eq 1 ] ; then
 				ls -las ${1}/${q}* | wc -l
 			fi
-		else
+		else #pitäisikö varmistaa että tässä haarassa käydään?
+			dqb "SOON: wofr ) ${q} 0 ) "
+			csleep 2
+
 			worf ${q} 0
 			csleep 1
 			t2p_filler
@@ -1366,15 +1401,17 @@ function cg_udp6() {
 	common_lib_tool ${1} reject_pkgs
 	dqb "D0NE"
 	csleep 1
-	
-	ten1 ${CONF_iface} ${1}
+
+	#VAIH:selvitä jotenkin, kuseeko tämä asioita?	
+	#ten1 ${CONF_iface} ${1}
+
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6  DONE FOR NOW"
 	csleep 4
 }
 
 function part3() {
 	dqb "))() part3 ${1} ,((()()()()()( ${2} (((((((("
-	csleep 1
+	csleep 10
 
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 101
@@ -1385,17 +1422,13 @@ function part3() {
 
 	local n15=0
 	local t=""
-	
-	#TODO:näillä main merge-juttuja jatkossa?
 
 	if [ -z "${2}" ] ; then
 		t=$(${mkt} -d)
-
 		n15=$(find ${1} -type f -name "*.deb" | wc -l)
 	else
 		t=${2} #jotain mankelointia mukaan?
 		common_pp3 ${t} ${t} #toimisiko näin?
-		
 		n15=$(find ${2} -type f -name "*.deb" | wc -l)
 	fi
 	
@@ -1415,20 +1448,29 @@ function part3() {
 	dqb "B3T4"
 	csleep 3
 
+	#tässä kohtaa edelleen urputusta?
 	efk1 ${t}/gcc-12-base*.deb ${t}/libgcc-s1*.deb ${t}/libc6*.deb
 	dqb "LAcKK.a"
 	csleep 3
 
 	worf ${E22_GS} 1 ${t}	
-
 	dqb "önEGA-VGA RA"
 	csleep 3
+
+	#10926;jaatuuko paskettien asennus näillä main vaiko vasta findin kohdalla?
+	#... päivityspak liittyen siis
+	#... ehkä päivityspak viallinen (130926)
+	
+	#11926:mahd liittyen, modattu kiekko, sqrot 0 -v l- ja u. paketit: f.tar:poistuu
+	#modattu, rot 0 (ei -v) : f.tar ... ei poistu?
+	#modaamatn. -v: poistuu
 
 	common_lib_tool ${t} accept_pkgs_1
 	common_lib_tool ${t} accept_pkgs_2
 
-	dqb "g4RP D0NE"
-	csleep 1
+	#qseeko ennen vai jälkeen "accept-juttujen"?
+	echo "g4RP D0NE"
+	sleep 10
 
 #	efk1 ${t}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
 #	[ $? -eq 0 ] || echo "SHOULD exit 66"
@@ -1450,7 +1492,7 @@ function part3() {
 	fi
 
 	dqb "LIBS DONE"
-	csleep 1
+	csleep 10
 	for f in $(find ${t} -name "*.deb" ) ; do ${sdi} ${f} ; done
 
 	if [ $? -eq  0 ] ; then
@@ -1477,7 +1519,7 @@ function process_lib() {
 	fi
 	
 	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then
-		.  ${1}/lib.sh
+		. ${1}/lib.sh
 	else
 		fallback
 	fi

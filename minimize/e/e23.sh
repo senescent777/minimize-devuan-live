@@ -5,7 +5,7 @@ function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() 
 
 	#HUOM.26726:pikemminkin peräkkäisiä if-blokkeja , huomioisi paremmin eth/wlan/staatt/dyn ip  -asiat
 	#kts ten1() liittyen
-	#TODO:vähitellen jotain	
+	#TODO:vähitellen jotain?	
 
 	case "${1}" in
 		wlan0)
@@ -28,7 +28,6 @@ function e23_tblz() {
 	csleep 1
 
 	[ -z "${1}" ] && exit 11
-	[ -d ${1} ] || exit 15
 	[ -z "${2}" ] && exit 12
 
 	dqb "pars ok"
@@ -74,6 +73,7 @@ function e23_other_pkgs() {
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
 	csleep 1
+
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	e22_pre_e ${CONF_iface} ${E22_GI}
 	e22_pre_e ${CONF_iface} ${E22_GG}
@@ -151,7 +151,6 @@ function e23_qrs() {
 
 	[ -z "${5}" ] && exit 43
 
-
 	dqb "pars.0k"
 	csleep 1
 
@@ -180,6 +179,8 @@ function e23_qrs() {
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
 #120726 viimeksi yritetty testata, tekeekö toimivaa sisältöä pakettiin, onnistui
 #TODO:testaus uusicksi josqs koska y
+#liittyen, mesa-vdpau ja sen kirjastot, jotain niiden kanssa?
+
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -294,7 +295,7 @@ function e23_profs() {
 	dqb "pars.0k"
 	csleep 1
 
-	q=$(mktemp -d)
+	q=$(${mkt} -d)
 	cd ${q}
 
 	[ $? -eq 0 ] || exit 77
@@ -317,7 +318,7 @@ function e23_profs() {
 	csleep 1
 }
 
-function e23_st() { #120626:vissiin asentUivat nämä paketit 
+function e23_st() { #020826:vissiin asentUivat nämä paketit (vaan miksi dms ja libdevm ie utle mukaan?)
 	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
 	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim
 	${shary} dmsetup libdevmapper1 libjte2

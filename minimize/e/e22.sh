@@ -28,6 +28,11 @@ function e22_hdr() {
 		echo "$1 ALR3ADY EX1STS"
 		read -p " U SURE ?" confirm
 		[ "${confirm}" == "Y" ] || exit 99
+
+		if [ -x ${1} ] ; then
+			echo "EI NÄIN"
+			exit 98
+		fi
 	fi
 
 	fasdfasd ./rnd
@@ -415,7 +420,7 @@ function e22_pre_e() {
 	#HUOM.26726:ehkä muitakin karsimisjuttuja pitäisi huomioida kuin vain staattinen ip vs dhcp-paketit
 	#... pitäisi kai viedä $1 worf():ille sellaisenaan ja mussunmussun, kts ten1()
 
-	if [ "${1}" == "eth0:1" ] ; then #TODO:vähitellen jotain
+	if [ "${1}" == "eth0:1" ] ; then #VAIH:vähitellen jotain. Tai jos kuitenkin vain se dhcp-karsinta tässä.
 		worf ${2} 4
 	else
 		worf ${2} 2
@@ -435,9 +440,6 @@ function e22_ext() {
 	[ -z "${4}" ] && exit 47
 	[ -d ${4} ] && exit 53
 	[ -f ${4} ] || exit 61
-
-	dqb "paramz_ok"
-	csleep 1
 
 	dqb "paramz_ok"
 	csleep 1
@@ -530,7 +532,7 @@ function e22_ts() {
 
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
-	cg_udp6 ${1}
+	cg_udp6 ${1} #pitäisiköhän kommentoida jemmaan kokeeksi?
 
 	ls -las ${1}/*.deb
 	csleep 5
@@ -538,7 +540,6 @@ function e22_ts() {
 	dqb "e22_ts() done"
 }
 
-#DONE:uusiksi testaus esim. exp2 u liittyen, bissiin yoimii (29726)
 function e22_arch() {
 	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
 	csleep 5
@@ -592,7 +593,6 @@ function e22_arch() {
 
 	csleep 1
 
-	#120726: "-s" - tarq tässä tarpeen?
 	for f in e.tar g.tar ; do
 		dqb "sah6 ./${f}"
 		[ -s ./${f} ] && ${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
@@ -602,9 +602,9 @@ function e22_arch() {
 	csleep 5
 	e22_tyg ./${CONF_hashfile}
 
-	if [ -s ./${CONF_hashfile}.1 ] ; then
+	if [ -s ./${CONF_hashfile}.1 ] ; then #miski näin?
 		e22_tyg ./${CONF_hashfile}.1
-	else #tarpeellista tehdä näin?
+	else
 		dqb "./${CONF_hashfile}.1 EMPTY"
 		csleep 10
 		exit
@@ -626,6 +626,7 @@ function e22_arch() {
 	csleep 1
 }
 
+#TODO:jatkossa f.tar pois välistä? ulompaan arkistoon jhnkn tmp-hmistoon suoraan paketit?
 #fktiona vähän turhaq, tarkistuksia enemmän kun varsi.naista koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
@@ -647,10 +648,11 @@ function e22_dblock() {
 	[ ${debug} -eq 1 ] && pwd
 	ls -la ${3}/*.deb | wc -l
 	
-	for s in ${PART175_LIST} ; do
-		${sharpy} ${s}*
-		${NKVD} ${3}/${s}*.deb
-	done
+#	#310726:tämä blokki ok? ei sotke asioita? VAIH:jemmaan tesdtailun vuoksi, kts exp2
+#	for s in ${PART175_LIST} ; do
+#		${sharpy} ${s}*
+#		${NKVD} ${3}/${s}*.deb
+#	done
 
 	ls -la ${3}/*.deb | wc -l
 	dqb "JST BFTr TS()"
@@ -711,6 +713,8 @@ function e22_rpg() {
 #		
 #	exit
 }
+
+#DONE:VARMSITA TAAAS PRKL ETTÖÄ PKGS-JUTUT TULEVAQT e22_cde() OUTPUTIIN MUKAAN"
 
 #ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
 function e22_cde() {
@@ -865,49 +869,10 @@ function e22_sarram() {
 }
 
 function e22_stu() { #jatkosäätöä josqs (gpg --clearsign -u $pubkeyid mukaan?)
-	echo "# ! / b ..."
+	#echo "# ! / b ..."
+	head -n 1 $1
+
 	echo "base64 -d << FOE | tar -jxv"
-	echo "${srat} -jcf \$opts | base64"
+	${srat} -jc ${2} | base64
 	echo "FOE"
 }
-
-
-#tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
-#function e22_dblock() {
-#	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
-#
-#	[ -z "${1}" ] && exit 14
-#	[ -s ${1} ] || exit 15
-#	[ -z "${2}" ] && exit 11
-#	[ -d ${2} ] || exit 22
-#	[ -w ${2} ] || exit 23
-#	[ -z "${3}" ] && exit 33
-#	[ -d ${3} ] || exit 34
-#	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
-#	[ -z "${4}" ] && exit 37
-#
-#	dqb ".PARS-OK"
-#	csleep 1
-#
-#	[ ${debug} -eq 1 ] && pwd
-#
-#	ls -la ${3}/*.deb | wc -l
-#	
-#	for s in ${PART175_LIST} ; do
-#		${sharpy} ${s}*
-#		${NKVD} ${3}/${s}*.deb
-#	done
-#	
-#	local t
-#	t=$(echo ${2} | cut -d "/" -f 1-6)
-#	e22_ts ${t} ${3}
-#	dqb "JST B3F0R3 3NF0RC3"
-#	csleep 10
-#	
-#	enforce_access $(whoami) ${t}
-#	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-#	csleep 10
-#
-#	e22_arch ${1} ${2} ${4}
-#	e22_cleanpkgs ${2}
-#}

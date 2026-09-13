@@ -7,6 +7,8 @@ debug=0
 d=${d0}/${distro}
 mode=3
 
+#010826:toimiiko tämä eri tavalla -v kanssa kuin ilman? sqroot...
+
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then
 		echo "#distro=${1}"
@@ -76,9 +78,9 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-#29726:urputukseT jo poissa?
-#No Ei. Edelleen modaamattomalla kiekolla kun pt2 ajaa ni äksä poistuu viim "omega 5"-kohdassa. KOITA KEKSIÄ MIKSI
-
+#.5: wdm jälk wanha u, sitten omeha -> ei oheisvahinkoa
+#lopuksi uuden oemnan kanssa: haluaa hukata äksän
+#uudemmankin päivityspak kanssa se hukkaamisongelma kun mennään omegaan, jnties VIELÄ uusi yritys päivbityspak kanssa (kts miten ten1 ja part175 tällä krt)
 
 if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
 	dqb "kö"
@@ -88,7 +90,7 @@ else
 	[ $? -gt 0 ] && exit
 fi
 
-function t2p_filler() {
+function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 	dqb "FILLER"
 	${lftr}
 	${asy}
@@ -99,39 +101,31 @@ function t2p_filler() {
 #20726:modaamattomalla kiekolla&&DEFAULT rpc "ic"-tilassa, dmsetup ii, myös spi2-cpre ja psmisc myös
 #entä TPPR? josko case-esac? tai alempi filler pois?
 
-##if [ "${CONF_env}" == "TOOR" ] ; then
-##	${sharpy} blu*
-##	${sharpy} nfs*
-##
-##
-##	t2p_filler
-##
-##	 #tässä kohtaa jo gpg hukataan?
-##	${sharpy} at-spi2-core	
-##	
-##
-##	
-##	dqb "V1"
-##	#exit
-##fi
-#
-#${sharpy} rpc*
-#${sharpy} dmsetup
-#${sharpy} psmisc
-#t2p_filler
-#
-##dpkg -l
-##exit 55
+dqb "BLU NFS ???"
+csleep 16
+#defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista, bissiin näin
 
-if [ "${CONF_iface}" != "wlan0" ] ; then
-	${sharpy} wpa*
-	#etc alaiset wpa-jutut voisi hoidella myös rm-komennolla?
+if [ "${CONF_env}" == "TOOR" ] ; then
+	${sharpy} blu*
+	${sharpy} nfs*
 	t2p_filler
-	csleep 5
+
+	 #tässä kohtaa jo gpg hukataan?
+	${sharpy} at-spi2-core	
+	
+	${sharpy} rpc*
+	${sharpy} dmsetup
+	${sharpy} psmisc
+	t2p_filler
+	
+	dqb "V1"
+	#exit
 fi
 
+#kommentoituja paskeita pois vähitellen
 #====================================================================
 #20726:kts slim liittyen omega
+#020826:jos välillä kokeilisi kehitellä .iso:n testausta varten eikä vaan renkata
 
 function t2pf() {
 	dqb "gp2t.common_lib.T2P.FINAL( ${1} )"
@@ -160,15 +154,15 @@ csleep 1
 
 ${fib}
 csleep 1
-#p2g ${d0}/pkgs_drop #0
 common_lib_tool ${d0} pkgs_drop
 
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 0 ] && exit
+#30726:vissiin tähän asti taisteltu toimimaan
 
-#p2g ${d}/pkgs_drop #0
 common_lib_tool ${d} pkgs_drop 
 [ ${mode} -eq 1 ] && exit
+#mode 1 hukkaa liikaa? toisaalta modatulla kiekolla ei niin tarpeellista ajaa koko pt2
 
 t2pf ${d}
 [ $? -gt 0 ] && exit
