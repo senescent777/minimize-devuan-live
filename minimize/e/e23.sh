@@ -20,6 +20,9 @@ function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() 
 	esac
 }
 
+#vissiin 120726 sai viimeksi validia sisältöä aiolka+sxeksi/uusi yrotys 20726 -> 
+#DONE?:uusicksi testaus kuitenkin lhiaikoina (pre_e() jo ok?)
+#260726 aikana saatu j toimimaan?
 function e23_tblz() {
 	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
 	csleep 1

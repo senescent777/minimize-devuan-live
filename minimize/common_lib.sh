@@ -1121,6 +1121,7 @@ function enforce_access() {
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 }
 
+
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
 #kts myös https://github.com/topics/sources-list
 
@@ -1357,6 +1358,28 @@ function common_lib_tool() {
 
 	dqb "t00l DONE"
 }
+
+##27726:joutaisikhan jo yhdistää common_lib_tool():in kanssa? (VAIH)
+#function p2g() {
+#	dqb " ((((((((((((((((( ${1} ) ${2} ) FED TO TEH PIGS"
+#	csleep 1
+#
+#	[ -z "${1}" ] && exit 76
+#	[ -s ${1} ] || exit 66
+#
+#	csleep 1
+#	dqb "common.p2g.-pars.ok"
+#	local f
+#
+#	for f in $(grep -v '#' ${1}) ; do
+#		worf ${f} 0
+#		csleep 1
+#		t2p_filler
+#	done
+#
+#	dqb "common.p2g DONE"
+#	csleep 1
+#}
 
 function cg_udp6() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"

@@ -143,6 +143,9 @@ csleep 1
 dqb "JUST BEFORE ESAC"
 csleep 6
 
+dqb "DINE?:lähiaikoina case 3  testaten uudelleen!!!!!"
+csleep 5
+
 case "${mode}" in
 	0)
 		exit 97
