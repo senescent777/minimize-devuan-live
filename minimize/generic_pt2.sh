@@ -103,7 +103,7 @@ function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 
 dqb "BLU NFS ???"
 csleep 16
-#defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista
+#defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista, bissiin näin
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 	${sharpy} blu*

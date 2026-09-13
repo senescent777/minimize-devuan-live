@@ -11,11 +11,18 @@ else
 		echo ". ${d}/conf"
 		. ${d}/conf
 	else
-		#VAIH:tämä kohta uusiksi koska common_funcs/mksums ? (olisiko jo 09/26 ok?)
-		b="/"
+		#mksums takia tämä haara, ehkä toimii mutta toisenlainen ratkaisu saattaa olla parempi?
+		#joko common_funcs:in kautta mennessä rajataan findin hakua tai kopsataan kohde-hmistoonm conf jotta mkasuma yms löytää
+
+		[ -v b ] || b="/" #VAIH:asetetaan jatkossa bain jos ei ole jo sestettu (common.conf)
 		a=$(${odio} find ${b} -type f -name "$(whoami).conf" | head -n 1)
 		
+		#130926:mityenkähän ahjtaa toimia tämä haara sqrot-ympäristössä?
+
 		if [ ! -z "${a}" ] ; then
+			#echo "A= ${a}"
+			#sleep 10
+
 			if [ -s ${a} ] ; then
 				. ${a}
 			fi	
@@ -195,6 +202,7 @@ function check_bin_0() {
 	[ -x ${sr0} ] || exit 76
 	srat=${sr0}
 	
+	#HUOM. TOIMIIKO TÄMÄ KOHTA KUTEN PITÄÄ? TARKISTA?
 	if [ ${debug} -eq 1 ] ; then
 		srat="${srat} -v "
 	fi
@@ -403,11 +411,10 @@ function common_pp3() {
 	else
 		psqa ${1}/${CONF_hashfile}
 
-		if [ $? -gt 0 ] ; then #TODO:tulisi kai testata
+		if [ $? -gt 0 ] ; then #TODO?:tulisi kai testata
 			destroy ${1}
 		fi
 
-		#HUOM.12726:svm, spc - jutut vosi ohittaa jos $2==$1
 		 if [ "${1}" != "${2}" ] ; then
 			local s
 
@@ -465,7 +472,7 @@ function fromtend() {
 	fi
 }
 
-#10926:qseeko f.tar poisto vain silloiq debug=0 ?
+#11926:qseeko f.tar poisto vain silloiq debug=0 ? bissiin se tai $?
 function cefgh() {
 	dqb "HGEFX ${1} ; ${2}"
 	[ -z "${1}" ] && exit 66
@@ -484,24 +491,24 @@ function cefgh() {
 		fi
 
 		csleep 5
-
 		efk2 ${1}/e.tar ${1}
 		${NKVD} ${1}/e.tar
 	fi
 
+	echo "gg= ${gg}"
 	efk2 ${1}/f.tar ${1}
-	dqb "gg= ${gg}"
-	csleep 5
 	
-	if [ $? -eq 0 ] && [ -x ${gg} ] ; then
-		dqb " ${NKVD} ${1}/f.tar SOON"
+	if [ $? -eq 0 ] && [ -x ${gg} ] ; then #-z mukaan?
+		csleep 5
+		dqb "HGEFX.inner: SH0ULD ${NKVD} ${1}/f.tar SOON"
 		csleep 10
 		${NKVD} ${1}/f.tar
 	else
-		dqb "COULD NOT DESTROY   ${1}/f.tar  YET"
+		echo "COULD NOT DESTROY   ${1}/f.tar  YET"
+		[ -x ${gg} ] || echo "MATTI NUSSI9" 
 	fi
 
-	csleep 5
+	sleep 5
 }
 
 function ten1() {
@@ -720,7 +727,7 @@ function check_binaries() {
 	dqb "before 0c.s"
 	local y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp"
 	
-	#020826:tarpeellinen blokki nykyään?
+	#130926:tai siis toimiiko kuten tarkoitus? ehkä, jos konfig kunnossa
 	if [ "${CONF_env}" == "VED" ] ; then
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
@@ -729,6 +736,7 @@ function check_binaries() {
 		dqb "SCHEISS3"
 	fi
 	
+	csleep 10
 	for x in ${y} ; do ocs ${x} ; done
 	sdi="${odio} ${sd0} -i "
 	E22_GI="libassuan0,libbz2-1.0,libc6,libgcrypt20,libgpg-error0,libreadline8,libsqlite3-0,gpgconf,zlib1g,gpg"
@@ -1239,6 +1247,7 @@ function part1() {
 
 #DONE:uusicksi vain selvittelyt, modaamaton kiekko, g_pt2 ja o mega 5 yhdistelmä mikä ksän poistoa aiheuttaa EHKÄ nyt kynnossa 010826
 #30726: "omega 5" laukaisi nimenomaan modatussa kiekossa äksän poiston, selvitelty mikä aiheutti (010826)
+# ensin "doit -v 1" , sitten doit uudestaan , syynä jtnkn?
 
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
@@ -1393,12 +1402,10 @@ function part3() {
 
 	if [ -z "${2}" ] ; then
 		t=$(${mkt} -d)
-
 		n15=$(find ${1} -type f -name "*.deb" | wc -l)
 	else
 		t=${2} #jotain mankelointia mukaan?
 		common_pp3 ${t} ${t} #toimisiko näin?
-		
 		n15=$(find ${2} -type f -name "*.deb" | wc -l)
 	fi
 	
@@ -1418,7 +1425,7 @@ function part3() {
 	dqb "B3T4"
 	csleep 3
 
-	#020826:sqrot-ympärist jotain urputusta täössä kohtaa? vaiko worf-kohdassa?
+	#tässä kohtaa edelleen urputusta?
 	efk1 ${t}/gcc-12-base*.deb ${t}/libgcc-s1*.deb ${t}/libc6*.deb
 	dqb "LAcKK.a"
 	csleep 3
@@ -1429,12 +1436,18 @@ function part3() {
 
 	#10926;jaatuuko paskettien asennus näillä main vaiko vasta findin kohdalla?
 	#... päivityspak liittyen siis
+	#... ehkä päivityspak viallinen (130926)
 	
+	#11926:mahd liittyen, modattu kiekko, sqrot 0 -v l- ja u. paketit: f.tar:poistuu
+	#modattu, rot 0 (ei -v) : f.tar ... ei poistu?
+	#modaamatn. -v: poistuu
+
 	common_lib_tool ${t} accept_pkgs_1
 	common_lib_tool ${t} accept_pkgs_2
 
-	dqb "g4RP D0NE"
-	csleep 10
+	#qseeko ennen vai jälkeen "accept-juttujen"?
+	echo "g4RP D0NE"
+	sleep 10
 
 #	efk1 ${t}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
 #	[ $? -eq 0 ] || echo "SHOULD exit 66"

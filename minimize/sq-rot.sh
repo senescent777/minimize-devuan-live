@@ -496,7 +496,7 @@ if [ $? -eq 0 ] ; then
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "WILL SOON ${NKVD} ${srcfile}"
 			csleep 10
-			${NKVD} ${srcfile} 
+			${NKVD} ${srcfile} #destroy?
 			dqb $?
 		fi
 	fi

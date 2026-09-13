@@ -367,6 +367,7 @@ if [ ${mode} -gt 1 ] ; then
 	fi
 fi
 
+#10926:vissiin locon kanssa asiat kunnossa
 csleep 3
 el_loco ${c14} ${c13}
 #=========================================================================================
