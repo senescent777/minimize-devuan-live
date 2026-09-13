@@ -28,6 +28,11 @@ function e22_hdr() {
 		echo "$1 ALR3ADY EX1STS"
 		read -p " U SURE ?" confirm
 		[ "${confirm}" == "Y" ] || exit 99
+
+		if [ -x ${1} ] ; then
+			echo "EI NÄIN"
+			exit 98
+		fi
 	fi
 
 	fasdfasd ./rnd
@@ -535,7 +540,6 @@ function e22_ts() {
 	dqb "e22_ts() done"
 }
 
-#DONE:uusiksi testaus esim. exp2 u liittyen, bissiin yoimii (29726)
 function e22_arch() {
 	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
 	csleep 5
@@ -589,7 +593,6 @@ function e22_arch() {
 
 	csleep 1
 
-	#120726: "-s" - tarq tässä tarpeen?
 	for f in e.tar g.tar ; do
 		dqb "sah6 ./${f}"
 		[ -s ./${f} ] && ${sah6} ./${f} >> ./${CONF_hashfile}.1 # | grep -v ${t} 
@@ -599,9 +602,9 @@ function e22_arch() {
 	csleep 5
 	e22_tyg ./${CONF_hashfile}
 
-	if [ -s ./${CONF_hashfile}.1 ] ; then
+	if [ -s ./${CONF_hashfile}.1 ] ; then #miski näin?
 		e22_tyg ./${CONF_hashfile}.1
-	else #tarpeellista tehdä näin?
+	else
 		dqb "./${CONF_hashfile}.1 EMPTY"
 		csleep 10
 		exit
@@ -623,6 +626,7 @@ function e22_arch() {
 	csleep 1
 }
 
+#TODO:jatkossa f.tar pois välistä? ulompaan arkistoon jhnkn tmp-hmistoon suoraan paketit?
 #fktiona vähän turhaq, tarkistuksia enemmän kun varsi.naista koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
@@ -710,8 +714,7 @@ function e22_rpg() {
 #	exit
 }
 
-dqb "TODO:VARMSITA TAAAS PRKL ETTÖÄ PKGS-JUTUT TULEVAQT e22_cde() OUTPUTIIN MUKAAN"
-csleep 10
+#DONE:VARMSITA TAAAS PRKL ETTÖÄ PKGS-JUTUT TULEVAQT e22_cde() OUTPUTIIN MUKAAN"
 
 #ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
 function e22_cde() {
@@ -866,8 +869,10 @@ function e22_sarram() {
 }
 
 function e22_stu() { #jatkosäätöä josqs (gpg --clearsign -u $pubkeyid mukaan?)
-	echo "# ! / b ..."
+	#echo "# ! / b ..."
+	head -n 1 $1
+
 	echo "base64 -d << FOE | tar -jxv"
-	echo "${srat} -jcf \$opts | base64"
+	${srat} -jc ${2} | base64
 	echo "FOE"
 }

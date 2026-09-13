@@ -163,6 +163,7 @@ case "${mode}" in
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
 			#TODO?:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä?
 			#... tai jos case g prujaus...
+			#13926:jos ko siirtäisi tämän ig-blokin jnnkn sarram jlkeen?
 
 			e23_tblz ${CONF_iface} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
@@ -352,9 +353,9 @@ esac
 #tuossa alla vielä jotain laittoa?
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
 	e22_hdr ${d}/f.tar
+	#jotenkin toisin jatkossa? pak suoraan tgtfilen alle?
 	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
 	e22_ftr ${d}/f.tar
-
 	${srat} -rvf ${tgtfile} ${d}/f.tar*
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar*
 fi
