@@ -412,7 +412,7 @@ function common_pp3() {
 	else
 		psqa ${1}/${CONF_hashfile}
 
-		if [ $? -gt 0 ] ; then #TODO?:tulisi kai testata
+		if [ $? -gt 0 ] ; then #TODO?:tulisi kai testata (vaiko d-juttu -> psqa())
 			destroy ${1}
 		fi
 
@@ -444,25 +444,25 @@ function efk1() {
 	fi
 }
 
-#taroeellinen fktio? voisiko cefg hoitaa kyuitenkin?=
-function efk2() {
-	dqb "efk2 )))))))) ${1} ))) ${2} )))))"
-	[ -z "${1}" ] && exit 96
-	[ -f ${1} ] || exit 97 
-	[ -z "${2}" ] && exit 98
-	[ -d ${2} ] || exit 99
-	dqb "epk2.pars.ok"
-
-	if [ -s ${1} ] && [ -r ${1} ] ; then
-		${odio} ${sr0} -C ${2} -xf ${1}
-		dqb $?
-	else
-		dqb "WE NEED T0 TALK ABT ${1}"
-	fi
-
-	csleep 1
-	dqb "eqp oned"
-} #TARKKUUTTA PRKL
+#taroeellinen fktio? voisiko cefg hoitaa kyuitenkin?= (VAIH)
+#function efk2() {
+#	dqb "efk2 )))))))) ${1} ))) ${2} )))))"
+#	[ -z "${1}" ] && exit 96
+#	#[ -f ${1} ] || exit 97 
+#	[ -z "${2}" ] && exit 98
+#	[ -d ${2} ] || exit 99
+#	dqb "epk2.pars.ok"
+#
+#	if [ -s ${1} ] && [ -r ${1} ] ; then
+#		${odio} ${sr0} -C ${2} -xf ${1}
+#		dqb $?
+#	else
+#		dqb "WE NEED T0 TALK ABT ${1}"
+#	fi
+#
+#	csleep 1
+#	dqb "eqp oned"
+#} #TARKKUUTTA PRKL
 
 function fromtend() {
 	dqb "FRöMTEND"
@@ -1364,34 +1364,6 @@ function common_lib_tool() {
 	done
 
 	dqb "t00l DONE"
-}
-
-function cg_udp6() {
-	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
-	csleep 4
-
-	[ -z "${1}" ] && exit 65
-	[ -d ${1} ] || exit 66
-	dqb "paramz 0k"
-	csleep 1
-
-	dqb "${1} :"
-	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb | wc -l
-	csleep 2
-
-	dqb "${pkgdir} :"
-	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb | wc -l
-	csleep 2
-
-	common_lib_tool ${1} reject_pkgs
-	dqb "D0NE"
-	csleep 1
-
-	#VAIH:selvitä jotenkin, kuseeko tämä asioita?	
-	#ten1 ${CONF_iface} ${1}
-
-	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6  DONE FOR NOW"
-	csleep 4
 }
 
 function part3() {
