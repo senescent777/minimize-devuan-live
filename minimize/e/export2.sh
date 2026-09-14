@@ -143,9 +143,6 @@ csleep 1
 dqb "JUST BEFORE ESAC"
 csleep 6
 
-dqb "DINE?:lähiaikoina case 3  testaten uudelleen!!!!!"
-csleep 5
-
 case "${mode}" in
 	0)
 		exit 97
@@ -163,17 +160,8 @@ case "${mode}" in
 		reqwreqw ${CONF_hashfile3}.tmp
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 
-		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
-			#TODO?:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä?
-			#... tai jos case g prujaus...
-			#13926:jos ko siirtäisi tämän ig-blokin jnnkn sarram jlkeen?
-
-			e23_tblz ${CONF_iface} ${CONF_dnsm}
-			e23_other_pkgs ${CONF_dnsm}
-		else
-			doit=0
-		fi
-
+	
+		#other ja tblz aiemmin juuri ennen home_ore	
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
 
@@ -184,6 +172,18 @@ case "${mode}" in
 		e22_sarram ${tgtfile} ${CONF_dm} ${CONF_hashfile3}.tmp
 		e22_z2 ${CONF_hashfile3}
 		e22_z3 ${CONF_hashfile3} ${tgtfile} ${d0}/MAN1.F2ST
+
+		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
+			#TODO?:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä?
+			#... tai jos case g prujaus...
+			#13926:jos ko siirtäisi tämän ig-blokin jnnkn sarram jlkeen?
+			exit
+
+			e23_tblz ${CONF_iface} ${CONF_dnsm}
+			e23_other_pkgs ${CONF_dnsm}
+		else
+			doit=0
+		fi
 	;;
 	u|upgrade)
 		#140726:testaus vaiheessa, pakETTeja saa vedettyä ainakin
@@ -208,7 +208,7 @@ case "${mode}" in
 		csleep 1
 
 		##e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
-		#ten1 ${CONF_iface} ${CONF_pkgdir} #310726:uskaltaakohan tätäkään?
+		ten1 ${CONF_iface} ${CONF_pkgdir} #310726:uskaltaakohan tätäkään?
 		#saattaa olla ten1 tässä turha koska cg_udp6 myöhemmin
 	;;
 	e) 
@@ -355,12 +355,13 @@ esac
 
 #tuossa alla vielä jotain laittoa?
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
-	e22_hdr ${d}/f.tar
+	e22_hdr #${d}/f.tar
 	#jotenkin toisin jatkossa? pak suoraan tgtfilen alle?
-	e22_dblock ${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
-	e22_ftr ${d}/f.tar
-	${srat} -rvf ${tgtfile} ${d}/f.tar*
+	e22_dblock #${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
+	e22_ftr #${d}/f.tar
+	#${srat} -rvf ${tgtfile} ${d}/f.tar*
 	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar*
+	exit
 fi
 
 if [ -s ${tgtfile} ] ; then

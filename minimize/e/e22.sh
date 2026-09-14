@@ -626,7 +626,7 @@ function e22_arch() {
 	csleep 1
 }
 
-#TODO:jatkossa f.tar pois välistä? ulompaan arkistoon jhnkn tmp-hmistoon suoraan paketit?
+#VAIH:jatkossa f.tar pois välistä? ulompaan arkistoon jhnkn tmp-hmistoon suoraan paketit?
 #fktiona vähän turhaq, tarkistuksia enemmän kun varsi.naista koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
@@ -649,10 +649,11 @@ function e22_dblock() {
 	ls -la ${3}/*.deb | wc -l
 	
 #	#310726:tämä blokki ok? ei sotke asioita? VAIH:jemmaan tesdtailun vuoksi, kts exp2
-#	for s in ${PART175_LIST} ; do
-#		${sharpy} ${s}*
-#		${NKVD} ${3}/${s}*.deb
-#	done
+
+	for s in ${PART175_LIST} ; do
+		${sharpy} ${s}*
+		${NKVD} ${3}/${s}*.deb
+	done
 
 	ls -la ${3}/*.deb | wc -l
 	dqb "JST BFTr TS()"

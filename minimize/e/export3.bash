@@ -98,7 +98,13 @@ fi
 #	e22_arch ${1} ${2} ${4}
 #	e22_cleanpkgs ${2}
 #}
-#
+
+if [ "${mode}" == "s" ] ; then
+	[ -d ${tgtfile} ] || exit 98
+	e22_stu $0 ${tgtfile} 
+	exit
+fi
+
 [ -d ${tgtfile} ] && exit 99 #P.V.H.H
 [ "${mode}" == "rp" ] || e22_hdr ${tgtfile}
 [ -v CONF_iface ] && ${sifd} ${CONF_iface}
@@ -165,10 +171,6 @@ case "${mode}" in
 	;;
 	-h)
 		usage
-	;;
-	s)
-		#130926:joutaisi vielä vähän miettiä
-		e22_stu $0 ${tgtfile} 
 	;;
 #	b)
 #		#230326:tekee jo jotain, vielä sietää miettiä onko siinä pointtia mitä tekee
