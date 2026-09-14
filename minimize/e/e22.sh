@@ -257,9 +257,6 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
-#kekekekeksisisisikö jonkin varmistuksen että profiili kanssa menee tariin?
-#...e22_settings() kyllä tekee yhden tarkistuksen
-
 function e22_home_pre() {
 	dqb "home_pre()"
 	[ -z "${1}" ] && exit 67
@@ -280,7 +277,7 @@ function e22_home_pre() {
 	fi
 
 	e_final
-	${srat} --exclude "changedns*" -rvf ${1} ${CONF_DIR2} #VAIH:Const
+	${srat} --exclude "changedns*" -rvf ${1} ${CONF_DIR2}
 	#2 alinta silmukkaa pystyisi yhdistämään
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
@@ -301,6 +298,7 @@ function e22_home_pre() {
 	csleep 1
 }
 
+#TODO:olds-hmiston karsiminen
 function e22_home() {
 	dqb "e22_home()"
 
