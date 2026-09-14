@@ -8,6 +8,7 @@ d=${d0}/${distro}
 
 #020426:uudelleen_nimeäminen josqs tämän hmiston tdstoille?
 #010826:suattaapi olla että toimi sqroot-ympstössä toivotulla tavalla, ei isompaa härdelliä
+#130926:tällöin kyllä toimi kiukuttelemattakysm ympstössä
 
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then

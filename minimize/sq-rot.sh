@@ -175,7 +175,8 @@ if [ $# -gt 0 ] ; then
 fi
 
 #TODO:tapaus sqroot+gpg puuttuu, jotain tarttisi tehrä vähitellen
-#VAIH:selv miksi f.tar ei poistu, layer 8 vai jotain muuta?
+#DIBE?:selv miksi f.tar ei poistu, layer 8 vai jotain muuta?
+#130926:bissiin sqroot-ympstössä onnistuu masentelu suht pienellä nalqtuksella
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {

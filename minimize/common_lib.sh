@@ -14,7 +14,7 @@ else
 		#mksums takia tämä haara, ehkä toimii mutta toisenlainen ratkaisu saattaa olla parempi?
 		#joko common_funcs:in kautta mennessä rajataan findin hakua tai kopsataan kohde-hmistoonm conf jotta mkasuma yms löytää
 
-		[ -v b ] || b="/" #VAIH:asetetaan jatkossa bain jos ei ole jo sestettu (common.conf)
+		[ -v b ] || b="/" #DONE?:asetetaan jatkossa bain jos ei ole jo sestettu (common.conf)
 		a=$(${odio} find ${b} -type f -name "$(whoami).conf" | head -n 1)
 		
 		#130926:mityenkähän ahjtaa toimia tämä haara sqrot-ympäristössä?
@@ -373,7 +373,8 @@ function psqa() {
 			${sah6} --ignore-missing -c ${CONF_hashfile}.1
 		else
 			echo "EILINRN PULLA 90 c"
-			#HUOM.12726:hashfile.1 ei välttämättä saataville ennen f.tar purkua joten suurta mölinää ei syytä laittaa käyntiin ennenq cefgh() ajettu (tai miteb lienee)
+			#HUOM.12726:hashfile.1 ei välttämättä saatavillA ennen f.tar purkua
+			# joten suurta mölinää ei syytä laittaa käyntiin ennenq cefgh() ajettu (tai miteb lienee)
 		fi
 
 		csleep 1
@@ -443,17 +444,24 @@ function efk1() {
 	fi
 }
 
+#taroeellinen fktio? voisiko cefg hoitaa kyuitenkin?=
 function efk2() {
 	dqb "efk2 )))))))) ${1} ))) ${2} )))))"
+	[ -z "${1}" ] && exit 96
+	[ -f ${1} ] || exit 97 
 	[ -z "${2}" ] && exit 98
+	[ -d ${2} ] || exit 99
+	dqb "epk2.pars.ok"
 
 	if [ -s ${1} ] && [ -r ${1} ] ; then
 		${odio} ${sr0} -C ${2} -xf ${1}
+		dqb $?
 	else
 		dqb "WE NEED T0 TALK ABT ${1}"
 	fi
 
 	csleep 1
+	dqb "eqp oned"
 } #TARKKUUTTA PRKL
 
 function fromtend() {
@@ -1121,7 +1129,6 @@ function enforce_access() {
 	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 }
 
-
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
 #kts myös https://github.com/topics/sources-list
 
@@ -1358,28 +1365,6 @@ function common_lib_tool() {
 
 	dqb "t00l DONE"
 }
-
-##27726:joutaisikhan jo yhdistää common_lib_tool():in kanssa? (VAIH)
-#function p2g() {
-#	dqb " ((((((((((((((((( ${1} ) ${2} ) FED TO TEH PIGS"
-#	csleep 1
-#
-#	[ -z "${1}" ] && exit 76
-#	[ -s ${1} ] || exit 66
-#
-#	csleep 1
-#	dqb "common.p2g.-pars.ok"
-#	local f
-#
-#	for f in $(grep -v '#' ${1}) ; do
-#		worf ${f} 0
-#		csleep 1
-#		t2p_filler
-#	done
-#
-#	dqb "common.p2g DONE"
-#	csleep 1
-#}
 
 function cg_udp6() {
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
