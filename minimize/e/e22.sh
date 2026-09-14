@@ -514,6 +514,34 @@ function e22_ext() {
 	cd ${p}
 }
 
+function cg_udp6() { #VAIH:->e22.sh?
+	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
+	csleep 4
+
+	[ -z "${1}" ] && exit 65
+	[ -d ${1} ] || exit 66
+	dqb "paramz 0k"
+	csleep 1
+
+	dqb "${1} :"
+	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb | wc -l
+	csleep 2
+
+	dqb "${pkgdir} :"
+	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb | wc -l
+	csleep 2
+
+	common_lib_tool ${1} reject_pkgs
+	dqb "D0NE"
+	csleep 1
+
+	#VAIH:selvitä jotenkin, kuseeko tämä asioita?	
+	ten1 ${CONF_iface} ${1}
+
+	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6  DONE FOR NOW"
+	csleep 4
+}
+
 function e22_ts() {
 	dqb "e22_ts( ${1} ;; ${2} )"
 	csleep 1

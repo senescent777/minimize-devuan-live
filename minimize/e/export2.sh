@@ -152,6 +152,7 @@ case "${mode}" in
 		#120726:lienee toimiva tämä case (aiNAKin kerran roimi sill01m)
 		#18726:case 4 ytrstissä , vissiin toimaa
 		#29726:case 3 toimii ehkä
+		#VAIH:nelosem uusi testi (ekhä rekee toimivaa oksennusta)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		e22_z1 ${CONF_hashfile3}
@@ -160,7 +161,6 @@ case "${mode}" in
 		reqwreqw ${CONF_hashfile3}.tmp
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 
-	
 		#other ja tblz aiemmin juuri ennen home_ore	
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
@@ -173,6 +173,7 @@ case "${mode}" in
 		e22_z2 ${CONF_hashfile3}
 		e22_z3 ${CONF_hashfile3} ${tgtfile} ${d0}/MAN1.F2ST
 
+		#koko tätä skriptiä turhahko ajaa jos env != default
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
 			#TODO?:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä?
 			#... tai jos case g prujaus...
@@ -184,6 +185,30 @@ case "${mode}" in
 		else
 			doit=0
 		fi
+	;;
+	e) #TODO:e/t/g/l/n/s testailu uudemman kerranALOITTAEN TÄSTÄ
+
+		#18726:bissiin teki asentuvan apketin touilloin
+		#24726:paketin osaisi bissiin muodostaa, testaapa miten oksennukset asentuvaqt (VAIH)
+		#... masentaessa libn* kanssa kusoo kuappiin vissiin
+		#26726 jo korjattu e23_fktiot? bissiin
+		#31726:pre_e():n dhcp-karsinta turhaa kikkailua, parempi että dellitään ensin turhat pak ja asenneraan tarpeellisen tilalle ?
+		
+
+		e22_pre_e ${CONF_iface} ${E22_GS}
+		e22_pre_e ${CONF_iface} ${E22_GM}
+
+		csleep 3
+		message
+		csleep 2
+
+		e23_tblz ${CONF_iface} ${CONF_dnsm}
+		dqb "BC/AD"
+		csleep 5
+
+		e23_other_pkgs ${CONF_dnsm}
+		ls -las ${CONF_pkgdir}/libn*
+		csleep 6
 	;;
 	u|upgrade)
 		#140726:testaus vaiheessa, pakETTeja saa vedettyä ainakin
@@ -210,29 +235,6 @@ case "${mode}" in
 		##e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 		ten1 ${CONF_iface} ${CONF_pkgdir} #310726:uskaltaakohan tätäkään?
 		#saattaa olla ten1 tässä turha koska cg_udp6 myöhemmin
-	;;
-	e) 
-		#18726:bissiin teki asentuvan apketin touilloin
-		#24726:paketin osaisi bissiin muodostaa, testaapa miten oksennukset asentuvaqt (VAIH)
-		#... masentaessa libn* kanssa kusoo kuappiin vissiin
-		#26726 jo korjattu e23_fktiot? bissiin
-		#31726:pre_e():n dhcp-karsinta turhaa kikkailua, parempi että dellitään ensin turhat pak ja asenneraan tarpeellisen tilalle ?
-		#TODO:e/t/g/l/n/s testailu uudemman kerran
-
-		e22_pre_e ${CONF_iface} ${E22_GS}
-		e22_pre_e ${CONF_iface} ${E22_GM}
-
-		csleep 3
-		message
-		csleep 2
-
-		e23_tblz ${CONF_iface} ${CONF_dnsm}
-		dqb "BC/AD"
-		csleep 5
-
-		e23_other_pkgs ${CONF_dnsm}
-		ls -las ${CONF_pkgdir}/libn*
-		csleep 6
 	;;
 	t) #toiminee mikäli case:t e tai 3 toimivat 
 		message
