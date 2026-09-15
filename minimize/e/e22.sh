@@ -257,6 +257,9 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
+#kekekekeksisisisikö jonkin varmistuksen että profiili kanssa menee tariin?
+#...e22_settings() kyllä tekee yhden tarkistuksen
+
 function e22_home_pre() {
 	dqb "home_pre()"
 	[ -z "${1}" ] && exit 67
@@ -278,7 +281,7 @@ function e22_home_pre() {
 
 	e_final
 	${srat} --exclude "changedns*" -rvf ${1} ${CONF_DIR2}
-	#2 alinta silmukkaa pystyisi yhdistämään
+	#2 alinta silmukkaa pystyisi yhdistämään, seur testikeirr jo? (TODO)
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
@@ -298,7 +301,6 @@ function e22_home_pre() {
 	csleep 1
 }
 
-#TODO:olds-hmiston karsiminen
 function e22_home() {
 	dqb "e22_home()"
 
@@ -318,7 +320,9 @@ function e22_home() {
 	csleep 1
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-	${srat} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t} #120726:oliko ${TARGET_TPX} kNSSA VIELÄ JOTAIN?
+	#TODO:seur testikierr tuo olds karsinta varmisztaen
+	${srat} --exclude "*.deb" --exclude "*.conf" --exclude olds -rvf ${1} /home/stubby ${t}
+	#120726:oliko ${TARGET_TPX} kNSSA VIELÄ JOTAIN?
 	csleep 1
 
 	dqb "e22_hoem_dnoe()"
@@ -418,7 +422,7 @@ function e22_pre_e() {
 	#HUOM.26726:ehkä muitakin karsimisjuttuja pitäisi huomioida kuin vain staattinen ip vs dhcp-paketit
 	#... pitäisi kai viedä $1 worf():ille sellaisenaan ja mussunmussun, kts ten1()
 
-	if [ "${1}" == "eth0:1" ] ; then #VAIH:vähitellen jotain. Tai jos kuitenkin vain se dhcp-karsinta tässä.
+	if [ "${1}" == "eth0:1" ] ; then #DONE?:vähitellen jotain. Tai jos kuitenkin vain se dhcp-karsinta tässä.
 		worf ${2} 4
 	else
 		worf ${2} 2
@@ -448,7 +452,7 @@ function e22_ext() {
 	local st
 
 	p=$(pwd)
-	q=$(mktemp -d) #$mkt
+	q=$(${mkt} -d) #mktemp enne
 	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
 	st=$(echo ${3} | tr -d -c 0-9)
 
@@ -512,7 +516,7 @@ function e22_ext() {
 	cd ${p}
 }
 
-function cg_udp6() { #VAIH:->e22.sh?
+function cg_udp6() { 
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
 	csleep 4
 
@@ -558,7 +562,7 @@ function e22_ts() {
 
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
-	cg_udp6 ${1} #pitäisiköhän kommentoida jemmaan kokeeksi?
+	cg_udp6 ${1}
 
 	ls -las ${1}/*.deb
 	csleep 5
@@ -653,7 +657,7 @@ function e22_arch() {
 }
 
 #VAIH:jatkossa f.tar pois välistä? ulompaan arkistoon jhnkn tmp-hmistoon suoraan paketit?
-#fktiona vähän turhaq, tarkistuksia enemmän kun varsi.naista koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
+
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
 	csleep 30
@@ -674,8 +678,6 @@ function e22_dblock() {
 	[ ${debug} -eq 1 ] && pwd
 	ls -la ${3}/*.deb | wc -l
 	
-#	#310726:tämä blokki ok? ei sotke asioita? VAIH:jemmaan tesdtailun vuoksi, kts exp2
-
 	for s in ${PART175_LIST} ; do
 		${sharpy} ${s}*
 		${NKVD} ${3}/${s}*.deb
@@ -740,10 +742,6 @@ function e22_rpg() {
 #		
 #	exit
 }
-
-#DONE:VARMSITA TAAAS PRKL ETTÖÄ PKGS-JUTUT TULEVAQT e22_cde() OUTPUTIIN MUKAAN"
-
-#ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
 function e22_cde() {
 	dqb "e22_cde()"
 	
@@ -758,7 +756,6 @@ function e22_cde() {
 	[ ${debug} -eq 1 ] && ls -las ${1}*
 	csleep 1
 
-	#13726:palautettu 2 kk takaa tuo pkgs, miksi oli poistunut? tstaa
 	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkgs*
 }
 
@@ -896,7 +893,6 @@ function e22_sarram() {
 }
 
 function e22_stu() { #jatkosäätöä josqs (gpg --clearsign -u $pubkeyid mukaan?)
-	#echo "# ! / b ..."
 	head -n 1 $1
 
 	echo "base64 -d << FOE | tar -jxv"

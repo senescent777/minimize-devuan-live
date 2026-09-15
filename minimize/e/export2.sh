@@ -83,9 +83,8 @@ else
 	exit 57
 fi
 
-[ "${CONF_env}" == "DEFAULT" ] || exit 5 #koko tätä skriptiä turhahko ajaa jos env != default
+[ "${CONF_env}" == "DEFAULT" ] || exit 99
 [ -z "${distro}" ] && exit 6
-
 d=${d0}/${distro}
 process_lib ${d}
 mop=${CONF_dm} 
@@ -151,8 +150,7 @@ case "${mode}" in
 	;;
 	3|4) 
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
-
-		#VAIH:nelosem uusi testi (ekhä rekee toimivaa oksennusta)
+		#DONE?:nelosem uusi testi (ekhä rekee toimivaa oksennusta)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		e22_z1 ${CONF_hashfile3}
@@ -173,10 +171,10 @@ case "${mode}" in
 		e22_z2 ${CONF_hashfile3}
 		e22_z3 ${CONF_hashfile3} ${tgtfile} ${d0}/MAN1.F2ST
 
+		#koko tätä skriptiä turhahko ajaa jos env != default
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
 			#TODO?:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä?
 			#... tai jos case g prujaus...
-			#13926:jos ko siirtäisi tämän ig-blokin jnnkn sarram jlkeen?
 			exit
 
 			e23_tblz ${CONF_iface} ${CONF_dnsm}
@@ -206,7 +204,7 @@ case "${mode}" in
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
-	g) 
+	g)
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 		${fib}
@@ -219,10 +217,6 @@ case "${mode}" in
 		doit=0
 	;;
 	u|upgrade)
-		#140726:testaus vaiheessa, pakETTeja saa vedettyä ainakin
-		#170726:xserver-pakettien hukkaaminen ,  liittyykö g_pt2 ? No Ei ?
-		#elikkäs uusi yritys lähiaikoina (DONE?) (part2 jo ok 27726?)
-		#bissiin sisältö masentuu ilman kiukutteLuja, ainakin enimmäkseen
 		#310726: tai siis kiukutteluja kyllä löytyy
 		#VAIH:dblok kutsuvasta koodista part175 ja ten1 jemmaan, palauttelu testikierros kerrallaan
 
@@ -240,11 +234,11 @@ case "${mode}" in
 		${sifd} ${CONF_iface}
 		csleep 1
 
-		##e23_upgp2 ${CONF_pkgdir} ${CONF_iface}
 		ten1 ${CONF_iface} ${CONF_pkgdir} #310726:uskaltaakohan tätäkään?
 		#saattaa olla ten1 tässä turha koska cg_udp6 myöhemmin
 	;;
 	l)
+		#120726:lienee toimiva tämä case
 		#TODO:tähän kilkkeeseen liittyen ne perl-yms. urputukset voisdi vähitellen hoitaa, $distro/accept ...
 		
 		#020826: sqroot kanssa "twm depends on menu (>= 2.1.26); however:"

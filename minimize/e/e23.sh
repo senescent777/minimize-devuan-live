@@ -1,3 +1,5 @@
+#150926:jos makefile-jutut kohta ajankohtaisia?
+
 function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() nykyään
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
@@ -39,15 +41,10 @@ function e23_tblz() {
 	#jotain excaliburiin liittyvää tuo tpc
 
 	aswasw ${1}
-	#csleep 5
-	#dqb "JUST BEFORE e22_pre_e ${CONF_iface} ${E22_GT}"
-	#csleep 5
+
 	
 	e22_pre_e ${CONF_iface} ${E22_GT}
 
-	#csleep 5
-	#dqb "JUST SFTER e22_pre_e $ ${CONF_iface} ${E22_GT}"
-	#csleep 5
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 1
@@ -61,8 +58,6 @@ function e23_tblz() {
 	csleep 1
 }
 
-#vissiin 120726 sai viimeksi validia sisältöä aiKAIsxeksi (entä nykyään?)
-#260726 toimi taas?
 function e23_other_pkgs() { 
 	dqb "e23_other_pkgs()"
 	#toista param? eiole
@@ -115,24 +110,6 @@ function e23_upgp() {
 }
 
 #TODO?:tämän se dhcp-karsinta kanssa? (oliko case-esac syntaksin kanssa huomioitavaa? man bash barm vuoksi?)
-#käskyttämään ten1() tai asw() ? 
-#function e23_upgp2() {
-#	dqb " e23_upgp2() "
-#	[ -z "${1}" ] && exit 1 
-#	[ -z "${2}" ] && exit 11
-#
-#	case "${2}" in
-#		wlan0)
-#			csleep 1
-#		;;
-#		*)
-#			${NKVD} ${1}/wpa*
-#	;;
-#	esac
-#
-#	dqb " e23_upgp2() done"
-#	csleep 1
-#}
 
 function e23_qrs() {
 	dqb "e23_qrs()"
@@ -143,9 +120,7 @@ function e23_qrs() {
 	[ -z "${2}" ] && exit 11
 	[ -d ${2} ] || exit 22
 	[ -z "${3}" ] && exit 44
-
 	[ -z "${4}" ] && exit 43
-
 	[ -z "${5}" ] && exit 43
 
 	dqb "pars.0k"
@@ -174,9 +149,9 @@ function e23_qrs() {
 }
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
-#120726 viimeksi yritetty testata, tekeekö toimivaa sisältöä pakettiin, onnistui
+
 #TODO:testaus uusicksi josqs koska y
-#liittyen, mesa-vdpau ja sen kirjastot, jotain niiden kanssa?
+
 
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
