@@ -410,10 +410,8 @@ case "${mode}" in
 		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est (josko voisi vähitellen...)
 		common_part ${srcfile} ${d} /
 	;;
-	#... exp2 rp vähän yritetty testailla 05/26
 	0)
-		#[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est (josko voisi vähitellen...)
-		
+		#bissiin uskaltaa dev-env kanssa tämän jo ajaa?
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
@@ -487,7 +485,8 @@ case "${mode}" in
 esac
 
 dqb "atfr.esac"
-csleep 1
+echo "TODO:VARMISTA ETTÄ KYSYMYS POISTOSTA ESITETÄÄN"
+csleep 10
 
 #poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (VAIH?)
 if [ $? -eq 0 ] ; then
@@ -500,8 +499,12 @@ if [ $? -eq 0 ] ; then
 			${NKVD} ${srcfile} #destroy?
 			dqb $?
 		fi
+	else
+		echo "SMTHNG WRNG WTH \${srcfile}"
 	fi
+else
+	echo "SMTHING WENT WRONG BEFORE THIS"
 fi
 
-csleep 5
+sleep 10
 cptp2 ${d0}

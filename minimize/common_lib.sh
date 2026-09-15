@@ -47,6 +47,7 @@ function csleep() {
 }
 
 [ -v CONF_env ] || exit 99
+#tyhjyydfen tarkistus myös?
 
 case "${CONF_env}" in
 	TOOR)
@@ -480,7 +481,7 @@ function fromtend() {
 	fi
 }
 
-#11926:qseeko f.tar poisto vain silloiq debug=0 ? bissiin se tai $?
+#11926:qseeko f.tar poisto vain silloiq debug=0 ? bissiin se tai $? (EHKÄ)
 function cefgh() {
 	dqb "HGEFX ${1} ; ${2}"
 	[ -z "${1}" ] && exit 66
@@ -499,13 +500,15 @@ function cefgh() {
 		fi
 
 		csleep 5
-		efk2 ${1}/e.tar ${1}
+		#efk2 ${1}/e.tar ${1}
+		${odio} ${sr0} -C ${1} -xf ${1}/e.tar
 		${NKVD} ${1}/e.tar
 	fi
 
 	echo "gg= ${gg}"
-	efk2 ${1}/f.tar ${1}
-	
+	#efk2 ${1}/f.tar ${1}
+	${odio} ${sr0} -C ${1} -xf ${1}/f.tar
+
 	if [ $? -eq 0 ] && [ -x ${gg} ] ; then #-z mukaan?
 		csleep 5
 		dqb "HGEFX.inner: SH0ULD ${NKVD} ${1}/f.tar SOON"
@@ -629,7 +632,8 @@ function CB01() {
 #		#... tai ilman gpg:tä voi tehdä vain sha-tarq ja sekin oikeastaan tapahtuu jo kutsuvassa koodissa
 #		#... g.tar:in saisi kyllä listaan mukaan
 #
-#		efk2 ${1}/g.tar /
+#		#efk2 ${1}/g.tar /
+#${odio} ${sr0} -C ${2} -xf ${1}
 #		common_pp3 ${1} ${t}
 #		${NKVD} ${1}/g.tar
 #		exit 103
@@ -1401,6 +1405,7 @@ function part3() {
 	dqb "AL-fPGA"
 	csleep 1
 
+	#tä,män tulisi poistella ei-toivotut .deb ennen asennusta (poistaako?)
 	common_lib_tool ${t} reject_pkgs
 	dqb "B3T4"
 	csleep 3
@@ -1414,19 +1419,13 @@ function part3() {
 	dqb "önEGA-VGA RA"
 	csleep 3
 
-	#10926;jaatuuko paskettien asennus näillä main vaiko vasta findin kohdalla?
-	#... päivityspak liittyen siis
-	#... ehkä päivityspak viallinen (130926)
-	
-	#11926:mahd liittyen, modattu kiekko, sqrot 0 -v l- ja u. paketit: f.tar:poistuu
-	#modattu, rot 0 (ei -v) : f.tar ... ei poistu?
-	#modaamatn. -v: poistuu
-
+	#viallinen u-paketti bissiin auheittiu viimeaikaisen härdellin ja pulinat pois (15926)
 	common_lib_tool ${t} accept_pkgs_1
 	common_lib_tool ${t} accept_pkgs_2
 
 	#qseeko ennen vai jälkeen "accept-juttujen"?
 	echo "g4RP D0NE"
+	ls -las ${1}/*.tar
 	sleep 10
 
 #	efk1 ${t}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
