@@ -103,6 +103,7 @@ perl-base
 perl
 #VAIH:perl,libperl VÄHITELLEN
 #VAIH:, mitä tuon libxml.parser-perl kanssa tekee?
+#150926:SELVITÄ LÖYTYYKÖ NOITA libperl-paketteja JHOSTAIN TARISTA?
 #
 perlapi-5.36.0
 liburi-perl
@@ -244,6 +245,7 @@ libso
 #020826:tämän kanssa jatkosäätöä? kirjastojen jatkoksi itse käärme?
 libpython3.11-minimal
 libpython3.11-stdlib
+#150926:löytyykö yo. kirjastoja?
 #/jatkosäätö?
 #
 #
