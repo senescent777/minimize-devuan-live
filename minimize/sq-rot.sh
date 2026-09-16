@@ -349,7 +349,7 @@ function common_part() {
 
 	sleep 10 #sqroot-testejä varten
 	${srat} --exclude rnd --exclude ./rnd -C ${3} -xf ${1} #vielä pientä laittoa "${TARGET_TPX}" liittyen?
-	[ $? -eq 0 ] || exit 36	
+	[ $? -eq 0 ] || exit 36	#jospa viallisen arkiston deletoisi?
 
 	sleep 10
 	echo "${srat} DONE"
@@ -485,7 +485,7 @@ case "${mode}" in
 esac
 
 dqb "atfr.esac"
-echo "TODO:VARMISTA ETTÄ KYSYMYS POISTOSTA ESITETÄÄN"
+echo "vaih:VARMISTA ETTÄ KYSYMYS POISTOSTA ESITETÄÄN" #-v kanssa ok? miten ilman?
 csleep 10
 
 #poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (VAIH?)

@@ -1,3 +1,6 @@
+#TODO:distron arpominen $3 jos on, /etc/jotain muuten
+#TODO;konftdston kanssa jotain säätöä myös?
+#... ehkä globaali(t) mja(t) d(0) mäkeen myös samassa yhteydessä?
 
 if [ -s ${d0}/$(whoami).conf ] ; then
 	#pitäisikö olla eri conf toisen repon skriptien kautta mentäessä?
@@ -11,13 +14,9 @@ else
 		echo ". ${d}/conf"
 		. ${d}/conf
 	else
-		#mksums takia tämä haara, ehkä toimii mutta toisenlainen ratkaisu saattaa olla parempi?
-		#joko common_funcs:in kautta mennessä rajataan findin hakua tai kopsataan kohde-hmistoonm conf jotta mkasuma yms löytää
-
 		[ -v b ] || b="/" #DONE?:asetetaan jatkossa bain jos ei ole jo sestettu (common.conf)
-		a=$(${odio} find ${b} -type f -name "$(whoami).conf" | head -n 1)
-		
-		#130926:mityenkähän ahjtaa toimia tämä haara sqrot-ympäristössä?
+		a=$(${odio} find ${b} -type f -name "$(whoami).conf" | head -n 1)		
+		#130926:mitenkähän ahjtaa toimia tämä haara sqrot-ympäristössä? let's find out
 
 		if [ ! -z "${a}" ] ; then
 			#echo "A= ${a}"
