@@ -3,21 +3,6 @@ if [ -v CONF_pkgdir ] ; then
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
 fi
 
-if [ ! -v CONF_pubk ] ; then
-	b="/"
-	[ "${CONF_env}" == "VED" ] && b=${CONF_testgris}
-	a=$(${odio} find ${b} -type f -name "keys.conf" | head -n 1)
-
-	if [ ! -z "${a}" ] ; then
-		if [ -s ${a} ] ; then
-			. ${a}
-		fi	
-	fi
-
-	unset a
-	unset b
-fi
-
 function e22_hdr() {
 	dqb "e22_hdr()"
 	[ -z "${1}" ] && exit 61
@@ -54,6 +39,22 @@ function e22_tyg() {
 	csleep 1
 
 	if [ -x ${gg} ] ; then
+		#VAIH:ao. blokki siihen flktioon mikä tarttee sen
+		if [ ! -v CONF_pubk ] ; then
+			local b="/"
+			[ "${CONF_env}" == "VED" ] && b=${CONF_testgris}
+			local a=$(${odio} find ${b} -type f -name "keys.conf" | head -n 1)
+
+			if [ ! -z "${a}" ] ; then
+				if [ -s ${a} ] ; then
+					. ${a}
+				fi	
+			fi
+
+			unset a
+			unset b
+		fi
+
 		if [ -v CONF_pubk ] ; then
 			${gg} -u ${CONF_pubk} -sb ${1}
 			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
