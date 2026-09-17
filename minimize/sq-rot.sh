@@ -220,6 +220,7 @@ function pre() {
 	sleep 1
 	echo "C"
 
+	#TODO:d0 parametriksi
 	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do	
 		tar --exclude import2.sh -jxvf ${f}
 
@@ -411,6 +412,7 @@ case "${mode}" in
 		common_part ${srcfile} ${d} /
 	;;
 	0)
+		#l-pakettia masentaessa se libvdpau vielä
 		#bissiin uskaltaa dev-env kanssa tämän jo ajaa?
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
@@ -485,8 +487,9 @@ case "${mode}" in
 esac
 
 dqb "atfr.esac"
-echo "vaih:VARMISTA ETTÄ KYSYMYS POISTOSTA ESITETÄÄN" #-v kanssa ok? miten ilman?
-csleep 10
+#echo "vaih:VARMISTA ETTÄ KYSYMYS POISTOSTA ESITETÄÄN" #-v kanssa ok? miten ilman? ehkä qsee
+#csleep 10
+#17+026:syyllinen qsemiseen ehkä löydetty
 
 #poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (VAIH?)
 if [ $? -eq 0 ] ; then

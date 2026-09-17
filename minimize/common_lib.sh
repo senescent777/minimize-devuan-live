@@ -2,37 +2,43 @@
 #TODO;konftdston kanssa jotain säätöä myös?
 #... ehkä globaali(t) mja(t) d(0) mäkeen myös samassa yhteydessä?
 
-if [ -s ${d0}/$(whoami).conf ] ; then
-	#pitäisikö olla eri conf toisen repon skriptien kautta mentäessä?
-	echo "ALT.C0NF1G (. ${d0}/$(whoami).con )"
-	#HUOM.sudo voi vähän sotkea tämän if-haaran toimintaa
-
-	. ${d0}/$(whoami).conf
+function guess_conf() {
+	echo "guecc_conf ) ${1} ("
 	sleep 3
-else
-	if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-		echo ". ${d}/conf"
-		. ${d}/conf
+
+	if [ -s ${d0}/$(whoami).conf ] ; then
+		echo "ALT.C0NF1G (. ${d0}/$(whoami).con )"
+		. ${d0}/$(whoami).conf
+		#sleep 3
 	else
-		[ -v b ] || b="/" #DONE?:asetetaan jatkossa bain jos ei ole jo sestettu (common.conf)
-		a=$(${odio} find ${b} -type f -name "$(whoami).conf" | head -n 1)		
-		#130926:mitenkähän ahjtaa toimia tämä haara sqrot-ympäristössä? let's find out
+		echo "ååå"
+		sleep 3
 
-		if [ ! -z "${a}" ] ; then
-			#echo "A= ${a}"
-			#sleep 10
+		if [ -d ${d} ] && [ -s ${d}/conf ] ; then
+			echo ". ${d}/conf"
+			. ${d}/conf
+		else
+			[ -v b ] || b="/"
+			local a=$(${odio} find ${b} -type f -name "$(whoami).conf" | head -n 1)		
+			#130926:mitenkähän mahtaa toimia tämä haara sqrot-ympäristössä? let's find out
 
-			if [ -s ${a} ] ; then
-				. ${a}
-			fi	
+			if [ ! -z "${a}" ] ; then
+				if [ -s ${a} ] ; then
+					. ${a}
+				fi	
+			fi
+				
+			[ $? -eq 0 ] || exit 57
+			
+			#TODO:jatkossa nuo globaalit wttuun
+			unset b
+			unset a				
 		fi
-		
-		[ $? -eq 0 ] || exit 57
-		unset b
-		unset a	
 	fi
-fi
+}
 
+guess_conf "${3}"
+#exit
 unset sco
 unset scm
 unset odio
@@ -117,10 +123,12 @@ function fix_sudo() {
 }
 
 function other_horrors() {
-	dqb "other_horrors"
-	
+	echo "other_horrors"
+	sleep 3
+
 	if [ "${CONF_env}" == "DEFAULT" ] ; then #!VED jatkossa?
-		dqb "hERBAL 5UFFER1NG"
+		echo "hERBAL 5UFFER1NG"
+		sleep 1
 
 		for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
 			${sco} -R root:root ${f}
@@ -129,13 +137,18 @@ function other_horrors() {
 
 		${scm} 0550 /etc/iptables
 		${sco} -R root:root /etc/iptables
+
+		#170926:suattaapi olla että näillä main pykii jokin 
 		${scm} 0400 /etc/default/rules*
+
 		${scm} 0555 /etc/default
 		${sco} -R root:root /etc/default
+
+		echo $?
 	fi
 
-	dqb " DONE"
-	csleep 1
+	echo " DONE"
+	sleep 1
 }
 
 fix_sudo
