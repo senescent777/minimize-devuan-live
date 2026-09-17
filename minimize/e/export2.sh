@@ -150,7 +150,7 @@ case "${mode}" in
 	;;
 	3|4) 
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
-		#DONE?:nelosem uusi testi (ekhä rekee toimivaa oksennusta)
+		#DONE:nelosem uusi testi (ekhä rekee toimivaa oksennusta)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		e22_z1 ${CONF_hashfile3}
@@ -183,7 +183,7 @@ case "${mode}" in
 			doit=0
 		fi
 	;;
-	e) #TODO:e/t/g/l/n/s testailu uudemman kerranALOITTAEN TÄSTÄ
+	e) #VAIH:e/t/g/l/n/s testailu uudemman kerranALOITTAEN TÄSTÄ
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
 
@@ -339,15 +339,17 @@ esac
 #	e22_cleanpkgs ${2}
 #}
 
-#tuossa alla vielä jotain laittoa?
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
-	e22_hdr #${d}/f.tar
+	#e22_hdr #${d}/f.tar
 	#jotenkin toisin jatkossa? pak suoraan tgtfilen alle?
-	e22_dblock #${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
-	e22_ftr #${d}/f.tar
+
+	e22_dblock ${tgtfile} ${d} ${CONF_pkgdir} ${gbk}
+	#${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
+
+	#e22_ftr #${d}/f.tar
 	#${srat} -rvf ${tgtfile} ${d}/f.tar*
-	[ $? -eq 0 ] && ${NKVD} ${d}/f.tar*
-	exit
+	#[ $? -eq 0 ] && ${NKVD} ${d}/f.tar*
+	#exit
 fi
 
 if [ -s ${tgtfile} ] ; then
