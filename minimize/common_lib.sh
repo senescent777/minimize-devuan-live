@@ -139,7 +139,7 @@ function other_horrors() {
 		${sco} -R root:root /etc/iptables
 
 		#170926:suattaapi olla että näillä main pykii jokin 
-		${scm} 0400 /etc/default/rules*
+		#${scm} 0400 /etc/default/rules* kokeeksi jemmaan
 
 		${scm} 0555 /etc/default
 		${sco} -R root:root /etc/default
