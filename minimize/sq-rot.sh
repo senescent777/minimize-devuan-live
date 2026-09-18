@@ -51,7 +51,7 @@ function usage() {
 #	fi
 #}
 
-#TODO:ne TPX-jutut, koita saada tar toimimaan kys mjan kanssa 
+#VAIH:ne TPX-jutut, koita saada  toimimaan kys mjan kanssa 
 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 csleep 5
@@ -157,7 +157,7 @@ else
 fi
 
 check_binaries ${d}
-#[ $? -eq 0 ] || exit saattaa aiheuttaa ongelmia liialliset tarkistukset
+#[ $? -eq 0 ] || exit saattaa aiheuttaa ongelmia liialliset kistukset
 
 check_binaries2
 #[ $? -eq 0 ] || exit
@@ -174,16 +174,19 @@ if [ $# -gt 0 ] ; then
 	fi
 fi
 
-#TODO:tapaus sqroot+gpg puuttuu, jotain tarttisi tehrä vähitellen
-#VAIH:selv miksi f.tar ei poistu, layer 8 vai jotain muuta?
+#TODO:tapaus sqroot+gpg puuttuu, jotain ttisi tehrä vähitellen
+
+#130926:bissiin sqroot-ympstössä onnistuu masentelu suht pienellä nalqtuksella
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
-	echo "UNDER THE GRAV3YARD"
+	echo "UNDER THE GRAV3YARD ${1}"
 	sleep 1
 
 	echo "A"
 	p=$(pwd)
+	echo "p: ${p}"
+	sleep 4
 
 	if [ ! -z "${sah6}" ] ; then
 		q=$(find . -name "dgsts.?" )
@@ -219,7 +222,8 @@ function pre() {
 	sleep 1
 	echo "C"
 
-	for f in $(find ${d0} -type f -name "nekros?".tar.bz3 ) ; do	
+	#VAIH:d0 parametriksi
+	for f in $(find ${1} -type f -name "nekros?".tar.bz3 ) ; do	
 		tar --exclude import2.sh -jxvf ${f}
 
 		sleep 1
@@ -228,8 +232,8 @@ function pre() {
 	done
 
 	if [ ! -z "${gg}" ] ; then
-		if [ -s ${d0}/common_lib.sh.sig ] ; then
-			${gg} --verify ${d0}/common_lib.sh.sig
+		if [ -s ${d1}/common_lib.sh.sig ] ; then
+			${gg} --verify ${d1}/common_lib.sh.sig
 			[ $? -eq 0 ] || exit 67
 		fi
 	fi
@@ -252,7 +256,7 @@ else
 fi
 
 #VAIH:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
-#... jotain pientä laittoa vielä tarvitsee (230326)
+#... jotain pientä laittoa vielä vitsee? (18926)
 #josko jkpo 08/26 valmiiksi asti?
 
 function common_part() {
@@ -309,8 +313,8 @@ function common_part() {
 		dqb "KHAZAD-DUM"
 		dqb "gg= ${gg}"
 
-		#tuon .sha:n kanssa 1 lisätarkistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
-		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f) #HUOM.TARKKANA SITTEN HIPSUHEN KANSSA 666!!!
+		#tuon .sha:n kanssa 1 lisä  kistus ehkä? yhteistä mjonoa löytyykö? $1 vs $1.sha ?
+		local aa=$(cat ${1}.sha | awk '{print $1}' | tr -d -c 0-9a-f) #HUOM.KKANA SITTEN HIPSUHEN KANSSA 666!!!
 		local ab=$(${sah6} ${1} | awk '{print $1}' | tr -d -c 0-9a-f)
 
 		if [ "${aa}" == "${ab}" ] ; then
@@ -330,7 +334,7 @@ function common_part() {
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "ko"		
 		else	
-			#ekan param lisätarkistukset yllä riittävät? entä destroy()?
+			#ekan param lisä kistukset yllä riittävät? entä destroy()?
 			${NKVD} ${1}* 
 			${NKVD} ${2}/*.deb
 
@@ -344,11 +348,12 @@ function common_part() {
 	fi
 
 	csleep 1
-	echo "NECKST: ${srat}  ( ${TARGET_TPX} ) -C ${3} -xf ${1}"
+	echo "NECKST: ${srat} -C ${3} -xf ${1}  ${TARGET_TPX} "
 
 	sleep 10 #sqroot-testejä varten
-	${srat} --exclude rnd --exclude ./rnd -C ${3} -xf ${1} #vielä pientä laittoa "${TARGET_TPX}" liittyen?
-	[ $? -eq 0 ] || exit 36	
+	${srat} -C ${3} -xf ${1} ${TARGET_TPX}
+#vielä pientä laittoa  liittyen? vaiko jo vamlitsta?
+	[ $? -eq 0 ] || exit 36	#jospa viallisen arkiston deletoisi?
 
 	sleep 10
 	echo "${srat} DONE"
@@ -369,7 +374,7 @@ function cptp2() {
 	t=$(echo ${1} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 
 	if [ -f ${t}/common_lib.sh ] ; then
-		#onkohan tuossa tarkistuksessa pointtia?
+		#onkohan tuossa kistuksessa pointtia?
 		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
 			${gg} --verify ${t}/common_lib.sh.sig 
 			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"
@@ -409,10 +414,9 @@ case "${mode}" in
 		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est (josko voisi vähitellen...)
 		common_part ${srcfile} ${d} /
 	;;
-	#... exp2 rp vähän yritetty testailla 05/26
 	0)
-		#[ "${CONF_env}" == "VED" ] && exit 49 #varm. vältt.- est (josko voisi vähitellen...)
-		
+		#l-pakettia masentaessa se libvdpau vielä
+		#bissiin uskaltaa dev-env kanssa tämän jo ajaa?
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
@@ -430,7 +434,7 @@ case "${mode}" in
 		[ $? -eq 0 ] && other_horrors
 	;;
 	3)
-		#TODO?:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät tark se ilmeisin este)
+		#TODO?:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät k se ilmeisin este)
 
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
@@ -439,11 +443,11 @@ case "${mode}" in
 		other_horrors
 	;;
 	k)
-		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET TARKISTAA
+		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET KISTAA
 
-		[ "${CONF_env}" == "TOOR" ] && pre
+		[ "${CONF_env}" == "TOOR" ] && pre ${d0}
 
-		#VAIH:tuotaville avaimille jotain tark? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
+		#VAIH:tuotaville avaimille jotain k? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
 		#... valmiiksi josqs?
 
 		[ -d ${srcfile} ] || exit 22
@@ -486,9 +490,11 @@ case "${mode}" in
 esac
 
 dqb "atfr.esac"
-csleep 1
+#17+026:syyllinen qsemiseen ehkä löydetty tai sittenb ei
 
-#poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin tarkistus lisätä (VAIH?)
+#poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin kistus lisätä (VAIH?)
+#TODO:tuo ehto alla pitänee uusia, jatkossa piut paut other_horrorsin suhteen
+
 if [ $? -eq 0 ] ; then
 	if [ -s ${srcfile} ] && [ -f ${srcfile} ] ; then
 		read -p " U  WANT 2 RM SOURCE ?" confirm
@@ -499,8 +505,12 @@ if [ $? -eq 0 ] ; then
 			${NKVD} ${srcfile} #destroy?
 			dqb $?
 		fi
+	else
+		echo "SMTHNG WRNG WTH \${srcfile}"
 	fi
+else
+	echo "SMTHING WENT WRONG BEFORE THIS"
 fi
 
-csleep 5
+sleep 10
 cptp2 ${d0}
