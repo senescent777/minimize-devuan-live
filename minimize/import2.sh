@@ -63,7 +63,7 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	#130526:else-haara tarpeellinen joissain tilanteissa, ei poisteta
-	#TODO:viimeaikaisten sorkintojen takia tämä haara tulisi testata
+	#TODO:viimeaikaisten sorkintojen takia tämä haara tulisi testata (k vai q lähinnä?)
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
@@ -284,7 +284,8 @@ function tpr() {
 	[ ${r} -gt 0 ] || exit 21
 	csleep 1
 
-	${srat} -C ${q} -xvf ${1}/${2} #${TARGET_TPX} tämän kanssa jotain?
+	#18926:jokojo toimisi?
+	${srat} -C ${q} -xvf ${1}/${2} ${TARGET_TPX}
 	[ $? -gt 0 ] && exit 22
 	csleep 2
 
@@ -371,7 +372,7 @@ case "${mode}" in
 		csleep 5
 	;;
 #	q)
-#		# (turha case oikeastaan koska "$0 1"+"$0 r" (TODO?:jospa tekisi jotain liittyen)
+#	
 #		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
 #		
 #		[ -z "${fox}" ] && exit 26

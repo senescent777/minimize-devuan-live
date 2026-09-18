@@ -36,7 +36,7 @@ CONF_testgris=/SMTH1NG
 #CONF_ksk=KeY.EFGHI
 #/kyrpto
 #
-TARGET_TPX="--exclude tim3stamp --exclude rnd --exclude ./rnd --exclude .chroot --exclude .gnupg/ "
+
 #
 CONF_dm=xdm
 #
@@ -46,5 +46,8 @@ CONF_default_arhcive3=profs.sh
 #
 CONF_PT2=minimize-devuan-live
 CONF_LIB=minimize/common_lib.sh
-CONF_hashfile3=/opt/bin/zxcv #VAIH:myös /o/b alaisiin käyttöön
+CONF_hashfile3=/opt/bin/zxcv #DONE?:myös /o/b alaisiin käyttöön
 CONF_DIR2=/opt/bin
+#
+TARGET_TPX="--exclude tim3stamp --exclude rnd " 
+#--exclude .gnupg/ " qsee?  --exclude .chroot puolestaan turha

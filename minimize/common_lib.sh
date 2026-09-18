@@ -1,22 +1,34 @@
-#TODO:distron arpominen $3 jos on, /etc/jotain muuten
-#TODO;konftdston kanssa jotain säätöä myös?
+#VAIH:distron arpominen $3 jos on, /etc/jotain muuten
+#VAIH:konftdston kanssa jotain säätöä myös?
 #... ehkä globaali(t) mja(t) d(0) mäkeen myös samassa yhteydessä?
 
 function guess_conf() {
 	echo "guecc_conf ) ${1} ("
 	sleep 3
 
-	if [ -s ${d0}/$(whoami).conf ] ; then
-		echo "ALT.C0NF1G (. ${d0}/$(whoami).con )"
-		. ${d0}/$(whoami).conf
+	local d00=$(pwd)
+	local d02=$(cat /etc/devuan_version)
+	local d01=${d00}/${d02}
+
+	if [ ! -z "${1}" ] ; then
+		if [ -d ${d00}/${1} ] ; then
+			d01=${d00}/${1}
+		fi
+	fi
+
+	#tähän glob mjan "distro" asetus jos -d $d01 ?
+
+	if [ -s ${d00}/$(whoami).conf ] ; then
+		echo "ALT.C0NF1G (. ${d00}/$(whoami).con )"
+		. ${d00}/$(whoami).conf
 		#sleep 3
 	else
 		echo "ååå"
 		sleep 3
 
-		if [ -d ${d} ] && [ -s ${d}/conf ] ; then
-			echo ". ${d}/conf"
-			. ${d}/conf
+		if [ -d ${d01} ] && [ -s ${d01}/conf ] ; then
+			echo ". ${d01}/conf"
+			. ${d01}/conf
 		else
 			[ -v b ] || b="/"
 			local a=$(${odio} find ${b} -type f -name "$(whoami).conf" | head -n 1)		
@@ -35,6 +47,10 @@ function guess_conf() {
 			unset a				
 		fi
 	fi
+
+	unset d00
+	unset d01
+	unset d02
 }
 
 guess_conf "${3}"
@@ -425,9 +441,9 @@ function common_pp3() {
 	else
 		psqa ${1}/${CONF_hashfile}
 
-		if [ $? -gt 0 ] ; then #TODO?:tulisi kai testata (vaiko d-juttu -> psqa())
-			destroy ${1}
-		fi
+		#if [ $? -gt 0 ] ; then #17926:psqa() käskyttää destroy() virhetilanteissa joten tässä ei ihan pakko
+		#	destroy ${1}
+		#fi
 
 		 if [ "${1}" != "${2}" ] ; then
 			local s
@@ -1142,7 +1158,7 @@ function enforce_access() {
 	e_final
 	jules
 
-	[ $debug -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
+	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
 }
 
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
