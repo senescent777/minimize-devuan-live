@@ -323,7 +323,7 @@ function e22_home() {
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 	#TODO:seur testikierr tuo olds karsinta varmisztaen
 	${srat} --exclude "*.deb" --exclude "*.conf" --exclude olds -rvf ${1} /home/stubby ${t}
-	#120726:oliko ${TARGET_TPX} kNSSA VIELÄ JOTAIN?
+	#180796: ${TARGET_TPX} käyttöön tähän? 
 	csleep 1
 
 	dqb "e22_hoem_dnoe()"
@@ -584,12 +584,12 @@ function e22_arch() {
 	dqb "e22_a.pars maybe ok"
 	csleep 1
 
+	[ -v CONF_hashfile ] || exit 94
+	[ -z "${CONF_hashfile}" ] && exit 95
+
 	local p=$(pwd)
 	local c=$(find ${2} -type f -name "*.deb" | wc -l)
 	local q=${2}/${CONF_hashfile}
-
-	[ -v CONF_hashfile ] || exit 94
-	[ -z "${CONF_hashfile}" ] && exit 95
 
 	if [ -f ${q} ] ; then #turha tarq?
 		${NKVD} ${q}*
@@ -606,7 +606,10 @@ function e22_arch() {
 	fasdfasd ${q}.1
 	[ ${debug} -eq 1 ] && ls -las ${q}*;sleep 3
 
-	cd ${2}
+	#cd ${2}
+	echo "TODO:POLUT UUSIKSI e22_arch()"
+	exit
+
 	${sah6} ./*.deb > ./${CONF_hashfile}
 	csleep 1
 	dqb "${CONF_hashfile}.1"

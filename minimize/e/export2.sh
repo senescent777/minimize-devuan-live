@@ -71,7 +71,7 @@ function parse_opts_2() {
 	esac
 }
 
-d=${d0}/${distro}
+d=${d0}/${distro} #tämä vai alempi pois?
 
 function fallback() { #tarpeellinen?
 	exit 59
@@ -137,6 +137,7 @@ e22_cleanpkgs ${CONF_pkgdir}
 #HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun jossia n tilanteessa
 [ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 [ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
+#TODO:destroy() hoitamaan nuio yo. kalat?
 
 doit=1
 csleep 1
@@ -183,7 +184,7 @@ case "${mode}" in
 			doit=0
 		fi
 	;;
-	e) #VAIH:e/t/g/l/n/s testailu uudemman kerranALOITTAEN TÄSTÄ
+	e) #170926 sai aikaiseksi paketin, mikä jopa asentui (toistuuko?)
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
 
@@ -204,7 +205,7 @@ case "${mode}" in
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
-	g)
+	g) #TODO:tämnäö tetsaus seuvaarana?
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 		${fib}
@@ -340,16 +341,8 @@ esac
 #}
 
 if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
-	#e22_hdr #${d}/f.tar
-	#jotenkin toisin jatkossa? pak suoraan tgtfilen alle?
-
+	#2. param. jatkossa d0? miksi?
 	e22_dblock ${tgtfile} ${d} ${CONF_pkgdir} ${gbk}
-	#${d}/f.tar ${d} ${CONF_pkgdir} ${gbk}
-
-	#e22_ftr #${d}/f.tar
-	#${srat} -rvf ${tgtfile} ${d}/f.tar*
-	#[ $? -eq 0 ] && ${NKVD} ${d}/f.tar*
-	#exit
 fi
 
 if [ -s ${tgtfile} ] ; then
