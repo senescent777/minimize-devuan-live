@@ -420,7 +420,7 @@ function e22_pre_e() {
 	#HUOM.26726:ehkä muitakin karsimisjuttuja pitäisi huomioida kuin vain staattinen ip vs dhcp-paketit
 	#... pitäisi kai viedä $1 worf():ille sellaisenaan ja mussunmussun, kts ten1()
 
-	if [ "${1}" == "eth0:1" ] ; then #VAIH:vähitellen jotain. Tai jos kuitenkin vain se dhcp-karsinta tässä.
+	if [ "${1}" == "eth0:1" ] ; then #DONE?:vähitellen jotain. Tai jos kuitenkin vain se dhcp-karsinta tässä.
 		worf ${2} 4
 	else
 		worf ${2} 2
@@ -626,8 +626,8 @@ function e22_arch() {
 	csleep 1
 }
 
-#TODO:jatkossa f.tar pois välistä? ulompaan arkistoon jhnkn tmp-hmistoon suoraan paketit?
-#fktiona vähän turhaq, tarkistuksia enemmän kun varsi.naista koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
+#VAIH:jatkossa f.tar pois välistä? ulompaan arkistoon jhnkn tmp-hmistoon suoraan paketit?
+
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
 	csleep 30
@@ -713,10 +713,6 @@ function e22_rpg() {
 #		
 #	exit
 }
-
-#DONE:VARMSITA TAAAS PRKL ETTÖÄ PKGS-JUTUT TULEVAQT e22_cde() OUTPUTIIN MUKAAN"
-
-#ao. fktion kanssa sitä self_extracting_archive-juttua kokeillen (JOKO JO 170426?)
 function e22_cde() {
 	dqb "e22_cde()"
 	
@@ -869,7 +865,6 @@ function e22_sarram() {
 }
 
 function e22_stu() { #jatkosäätöä josqs (gpg --clearsign -u $pubkeyid mukaan?)
-	#echo "# ! / b ..."
 	head -n 1 $1
 
 	echo "base64 -d << FOE | tar -jxv"
