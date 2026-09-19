@@ -97,7 +97,7 @@ function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 	csleep 1
 }
 
-#140526 edelleen tarpeellinen blokki, puuttuvat paketit $d alla aiheuttavat? VAIH:joko jo pois 07/26?
+#140526 edelleen peellinen blokki, puuttuvat paketit $d alla aiheuttavat? VAIH:joko jo pois 07/26?
 #20726:modaamattomalla kiekolla&&DEFAULT rpc "ic"-tilassa, dmsetup ii, myös spi2-cpre ja psmisc myös
 #entä TPPR? josko case-esac? tai alempi filler pois?
 
@@ -141,7 +141,7 @@ function t2pf() {
 
 	${NKVD} /OLD.tar
 	csleep 1
-	${srat} -cvf /OLD.tar /etc/X11 #TARKKUUTTA PRKL
+	${srat} -cvf /OLD.tar /etc/X11 #KKUUTTA PRKL
 
 	for f in $(find /var/log -type f) ; do ${NKVD} ${f} ; done
 	df
@@ -162,7 +162,7 @@ common_lib_tool ${d0} pkgs_drop
 
 common_lib_tool ${d} pkgs_drop 
 [ ${mode} -eq 1 ] && exit
-#mode 1 hukkaa liikaa? toisaalta modatulla kiekolla ei niin tarpeellista ajaa koko pt2
+#mode 1 hukkaa liikaa? toisaalta modatulla kiekolla ei niin peellista ajaa koko pt2
 
 t2pf ${d}
 [ $? -gt 0 ] && exit
@@ -172,7 +172,7 @@ if [ ${mode} -gt 3 ] ; then
 	#slimiin liittyen olk muitakin juttuja?
 	${fib}
 	${odio} /etc/init.d/ntpsec stop
-	echo "REMEMBER 2 /etc/init.d/wdm start";sleep 6
+	echo "REMEMBER 2 /etc/init.d/wdm st rt";sleep 6
 	${sharpy} slim
 	csleep 5
 

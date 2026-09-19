@@ -51,10 +51,9 @@ function usage() {
 #	fi
 #}
 
-#VAIH:ne TPX-jutut, koita saada  toimimaan kys mjan kanssa 
-
+#DONE?:ne TPX-jutut, koita saada  toimimaan kys mjan kanssa 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-csleep 5
+#csleep 5
 #tuossa yllä tosin turhahko ls
 
 if [ -x ${d0}/common_lib.sh ] ; then
@@ -62,11 +61,11 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	#[ $? -eq 0 ] || exit #tähänkö kosahtanut viime_aikoina?
 else
 	echo "W33P1NG UND3RR G4L4CTU5"
-	sleep 6
+	#sleep 6
 	
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
-		sleep 2
+		#sleep 2
 		. ${d0}/$(whoami).conf
 	else
 		if [ -d ${d} ] && [ -s ${d}/conf ] ; then
@@ -79,7 +78,7 @@ else
 
 	odio=""	
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
-	sleep 5
+	#sleep 5
 
 	function ocs() {
 		local t=$(${odio} which ${1})
@@ -143,7 +142,7 @@ else
 fi
 
 dqb "rot:AFTR common_lib"
-csleep 1
+#csleep 1
 [ -z "${distro}" ] && exit 26
 [ -v CONF_env ] || exit 66
 
@@ -153,7 +152,7 @@ if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 else
 	echo $?
 	echo "N 0 L1.B"
-	csleep 1
+	#csleep 1
 fi
 
 check_binaries ${d}
@@ -175,18 +174,17 @@ if [ $# -gt 0 ] ; then
 fi
 
 #TODO:tapaus sqroot+gpg puuttuu, jotain ttisi tehrä vähitellen
-
 #130926:bissiin sqroot-ympstössä onnistuu masentelu suht pienellä nalqtuksella
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
 	echo "UNDER THE GRAV3YARD ${1}"
-	sleep 1
+	#sleep 1
 
 	echo "A"
 	p=$(pwd)
 	echo "p: ${p}"
-	sleep 4
+	#sleep 4
 
 	if [ ! -z "${sah6}" ] ; then
 		q=$(find . -name "dgsts.?" )
@@ -194,15 +192,15 @@ function pre() {
 
 		for r in ${q} ; do
 			dqb " -c ./${p}/${r}"
-			csleep 1
+			#csleep 1
 			${sah6} -c ./${p}/${r} --ignore-missing
-			sleep 1
+			#sleep 1
 		done
 
 		cd ${p}
 	fi
 
-	sleep 1
+	#sleep 1
 	cd ${p}
 
 	if [ ! -z "${gg}" ] ; then
@@ -214,25 +212,25 @@ function pre() {
 			#[ $? -eq 0 ] || exit 66 ei vielä?
 		done
 
-		sleep 1
+		#sleep 1
 	fi
 
 	unset q
 	unset r
-	sleep 1
+	#sleep 1
 	echo "C"
 
 	#VAIH:d0 parametriksi
 	for f in $(find ${1} -type f -name "nekros?".tar.bz3 ) ; do	
 		tar --exclude import2.sh -jxvf ${f}
 
-		sleep 1
+		#sleep 1
 		rm ${f}
-		sleep 1
+		#sleep 1
 	done
 
 	if [ ! -z "${gg}" ] ; then
-		if [ -s ${d1}/common_lib.sh.sig ] ; then
+		if [ -s ${1}/common_lib.sh.sig ] ; then
 			${gg} --verify ${d1}/common_lib.sh.sig
 			[ $? -eq 0 ] || exit 67
 		fi
@@ -255,9 +253,8 @@ else
 	exit 65
 fi
 
-#VAIH:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
+#DONE?:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
 #... jotain pientä laittoa vielä vitsee? (18926)
-#josko jkpo 08/26 valmiiksi asti?
 
 function common_part() {
 	echo "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
@@ -275,7 +272,7 @@ function common_part() {
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
 	echo "paramz_0k"
-	sleep 10
+	#sleep 10
 
 	cd /
 	local r
@@ -305,7 +302,7 @@ function common_part() {
 		fi
 	fi
 
-	csleep 1
+	#csleep 1
 	#kts. common_lib.psqa()
 	local cfk=1
 
@@ -323,7 +320,7 @@ function common_part() {
 		fi
 
 		[ ${cfk} -eq 0 ] || ${NKVD} ${1}*
-		csleep 1
+		#csleep 1
 	else
 		echo "NO ${CONF_hashfile}   CAN BE F0UND FOR ${1}"
 	fi
@@ -336,26 +333,27 @@ function common_part() {
 		else	
 			#ekan param lisä kistukset yllä riittävät? entä destroy()?
 			${NKVD} ${1}* 
-			${NKVD} ${2}/*.deb
-
-			#destrpy()?
-
-			${NKVD} ${2}/${CONF_hashfile}*
-			${NKVD} ${2}/*.tar*
+#			#${NKVD} ${2}/*.deb
+#
+#			#VAIH:destrpy()?
+#
+#			${NKVD} ${2}/${CONF_hashfile}*
+#			${NKVD} ${2}/*.tar*
+			destroy ${2}
 
 			exit 33
 		fi
 	fi
 
-	csleep 1
+	#csleep 1
 	echo "NECKST: ${srat} -C ${3} -xf ${1}  ${TARGET_TPX} "
 
-	sleep 10 #sqroot-testejä varten
+	#sleep 10 #sqroot-testejä varten
 	${srat} -C ${3} -xf ${1} ${TARGET_TPX}
-#vielä pientä laittoa  liittyen? vaiko jo vamlitsta?
+
 	[ $? -eq 0 ] || exit 36	#jospa viallisen arkiston deletoisi?
 
-	sleep 10
+	#sleep 10
 	echo "${srat} DONE"
 }
 
@@ -367,7 +365,7 @@ function cptp2() {
 	[ -d ${1} ] || exit 97
 
 	dqb "cptp2:pars ok"
-	csleep 10
+	#csleep 10
 
 	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
 	local t
@@ -388,10 +386,10 @@ function cptp2() {
 			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
 		fi
 		
-		csleep 10
+		#csleep 10
 	fi
 
-	csleep 1
+	#csleep 1
 
 	if [ -d ${t} ] ; then
 		dqb "HAIL2 TH3 TH13F"
@@ -401,37 +399,55 @@ function cptp2() {
 		${scm} 0444 ${t}/conf*
 		${scm} 0444 ${t}/*.deb
 
-		csleep 1
+		#csleep 1
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
-	csleep 1
+	#csleep 1
 	dqb "ALL DONE"
 }
+
+doIt=0
 
 case "${mode}" in
 	1)
 		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est (josko voisi vähitellen...)
 		common_part ${srcfile} ${d} /
+		[ $? -eq 0 ] && doIt=1
 	;;
 	0)
 		#l-pakettia masentaessa se libvdpau vielä
 		#bissiin uskaltaa dev-env kanssa tämän jo ajaa?
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
-		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
-		f=$(dirname ${f})
 
+		#TODO:hisput wttuun vai ei?
+		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
+
+		f=$(dirname ${f})
 		echo "bfore sqr.comm_p: $?"
-		sleep 6
+		#sleep 6
 
 		common_part ${srcfile} ${d} ${e}
 		echo "sq.FART3: $?"
-		[ $? -eq 0 ] && ocs gpg
-		
-		[ $? -eq 0 ] && part3 ${f}
 
-		[ $? -eq 0 ] && other_horrors
+		if [ $? -eq 0 ] ; then
+			doIt=1
+			ocs gpg	
+		fi
+
+		if [ $? -eq 0 ] && [ ${doIt} -eq 1 ] ; then
+			doIt=1 
+			part3 ${f}
+		else
+			doIt=0
+		fi
+
+		if [ $? -eq 0 ] && [ ${doIt} -eq 1 ] ; then
+			other_horrors
+		else
+			doIt=0
+		fi
 	;;
 	3)
 		#TODO?:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät k se ilmeisin este)
@@ -457,7 +473,7 @@ case "${mode}" in
 		if [ -v gg ] ; then
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 				dqb "NOP"
-				csleep 1
+				#csleep 1
 
 				#for f in $(fnid $srcfile -type f -name "*.sig" ) ; do
 				#	g=$(echo $f | cut -d . -f 1,2)
@@ -467,13 +483,13 @@ case "${mode}" in
 				#done
 
 				dqb "${gg} --import ${srcfile}/*.gpg soon"
-				csleep 1
+				#csleep 1
 
 				${gg} --import ${srcfile}/*.gpg
-				csleep 1
+				#csleep 1
 
 				[ ${debug} -eq 1 ] && ${gg} --list-keys
-				csleep 2
+				#csleep 2
 			fi
 		else
 			dqb "NO-GO-THEOREM"
@@ -491,17 +507,15 @@ esac
 
 dqb "atfr.esac"
 #17+026:syyllinen qsemiseen ehkä löydetty tai sittenb ei
+#VAIH:tuo ehto alla pitänee uusia, jatkossa piut paut other_horrorsin suhteen
 
-#poistelu ajank vain jos tehty lähteelle jotain sitä ennen? vissiin pitäisi jokin kistus lisätä (VAIH?)
-#TODO:tuo ehto alla pitänee uusia, jatkossa piut paut other_horrorsin suhteen
-
-if [ $? -eq 0 ] ; then
+if [ ${doIt} -eq 1 ] ; then
 	if [ -s ${srcfile} ] && [ -f ${srcfile} ] ; then
 		read -p " U  WANT 2 RM SOURCE ?" confirm
 
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "WILL SOON ${NKVD} ${srcfile}"
-			csleep 10
+			#csleep 10
 			${NKVD} ${srcfile} #destroy?
 			dqb $?
 		fi
@@ -512,5 +526,5 @@ else
 	echo "SMTHING WENT WRONG BEFORE THIS"
 fi
 
-sleep 10
+#sleep 10
 cptp2 ${d0}

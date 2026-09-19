@@ -1,5 +1,7 @@
 #!/bin/bash
 mode=2
+
+#190926:pääsisiköhön jatkossa noista d,d0,distro-mjista eroon jtnkn? tai yhteistoiminta guess_conf kanssa?
 distro=$(cat /etc/devuan_version)
 d0=$(pwd)
 [ -z "${distro}" ] && exit 6
@@ -40,7 +42,7 @@ else
 fi
 
 [ $? -gt 0 ] && exit 56
-sleep 1
+#sleep 1
 
 function dis() {
 	dqb "sid $1 ;; $2 ((((("
@@ -61,7 +63,7 @@ function dis() {
 	fi
 
 	local t
-	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z) #TARKK PTKL
+	t=$(echo ${1} | cut -d '/' -f 1 | tr -d -c a-zA-Z) #KK PKL
 
 	if [ -f /etc/network/interfaces.${t} ] ; then
 		${slinky} /etc/network/interfaces.${t} /etc/network/interfaces
@@ -87,7 +89,9 @@ function dis() {
 		#${odio} ${sifd} -a
 		csleep 1
 
+		#tämmöiselle riville jos saisi fktion tyyliin dqb ja csleep
 		[ ${debug} -eq 1 ] && ${sifc};sleep 1
+
 		${sip} link set ${2} down
 		[ $? -eq 0 ] || echo "PROBLEMS WITH NETWORK CONNECTION"
 	fi
@@ -103,7 +107,7 @@ function part0() {
 	[ -z "${2}" ] && echo "SHOULD exit 78"
 
 	dqb "pars.ok"
-	csleep 5
+	#csleep 5
 
 	dis ${1} ${2}
 	local s
@@ -174,12 +178,12 @@ function el_loco() {
 	if [ ${debug} -gt 0 ] ; then
 		env | grep LC
 		env | grep LAN
-		csleep 5
+		#csleep 5
 	fi
 }
 
 function adieu() {
-#	pidetäänpä nämä jutut kommenteissa sitä varten että sattuukin tarvitsemaan
+#	pidetäänpä nämä jutut kommenteissa sitä varten että sattuukin vitsemaan
 #
 #	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
 #	csleep 5
@@ -238,8 +242,8 @@ function pre_enforce() {
 	csleep 1
 
 	[ -f ${q} ] || exit 33
-	#DONE?:katso lista läpi että mitä nykyään tarvitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
-	#...ved kanssa lista kai ok, tarvitseeko TOOR oikeastaan listaa lainkaan?
+	#DONE?:katso lista läpi että mitä nykyään vitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
+	#...ved kanssa lista kai ok, vitseeko TOOR oikeastaan listaa lainkaan?
 
 	#parempi jos vain sanoisi ryhmän mihin pitää kuulua että x
 	if [ "${CONF_env}" == "VED" ] ; then
@@ -254,7 +258,7 @@ function pre_enforce() {
 
 	dqb "BFOR3 testgris"
 	csleep 1
-	#HUOM:$1/o/b alainen sisältö yulisi tietenkin tarkistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
+	#HUOM:$1/o/b alainen sisältö yulisi tietenkin kistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 	[ -v CONF_DIR2 ] || exit 79
 
 	if [ "${CONF_env}" == "DEFAULT" ] ; then
@@ -296,11 +300,11 @@ function pre_enforce() {
 	reqwreqw ${q}
 	${scm} 0440 ${q}
 	${svm} ${q} /etc/sudoers.d
-	csleep 1
+	#csleep 1
 
 	dqb "semtex"
 	local c4=0
-	csleep 1
+	#csleep 1
 
 	if [ -v CONF_dir ] ; then
 		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
@@ -308,11 +312,11 @@ function pre_enforce() {
 		exit 99
 	fi
 
-	csleep 1
+	#csleep 1
 
 	if [ ${c4} -lt 1 ] ; then #tämä blokki vs setup2.bash vastaava kohta...
 		fasdfasd /etc/fstab
-		csleep 1
+		#csleep 1
 
 		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		csleep 1
@@ -331,18 +335,19 @@ function pre_enforce() {
 #30626:kesdkimmäinen ehto josqs uusiksi?
 if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
-	csleep 2
+	#csleep 2
 else 
 	pre_enforce ${d0}
 fi
 
 if [ "${CONF_env}" != "DEFAULT" ] ; then
 	dqb "BYPASSING enforce_access()"
-	csleep 2
+	#csleep 2
 else 
 	enforce_access $(whoami) ${d0}
 fi
 
+#190926:miksi ytarvfitsikaan 2 påaram?
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
 
@@ -358,7 +363,7 @@ c14=1
 c13=0
 
 if [ ${mode} -gt 1 ] ; then
-	#nollasta ei tarttisi välittää koska exit aiempana
+	#nollasta ei ttisi välittää koska exit aiempana
 	if [ -v LCF666 ] ; then
 		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l)
 		 #barm vuoksi näin
@@ -369,7 +374,7 @@ if [ ${mode} -gt 1 ] ; then
 fi
 
 #10926:vissiin locon kanssa asiat kunnossa
-csleep 3
+#csleep 3
 el_loco ${c14} ${c13}
 #=========================================================================================
 
@@ -383,7 +388,7 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 
 	if [ $? -eq 0 ] ; then
 		adieu
-		#HUOM. tässä ei tartte exit jos myöhemmin joka tap
+		#HUOM. tässä ei tte exit jos myöhemmin joka tap
 	fi
 
 	if [ "${CONF_env}" == "VED" ] ; then
@@ -415,19 +420,18 @@ part3 ${d} ${pkgcache}
 
 other_horrors
 dqb "AFTER THE HORROR"
-csleep 1
+#csleep 1
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh
 
-	#010726:tämä jo kunnossa?
 	${d0}/import2.sh r ${d0} -v
 	echo $?
-	csleep 3
+	#csleep 3
 fi
 
 dqb "PR0F IMPORT DONE?"
-csleep 3
+#csleep 3
 
 jules
 ${asy}
@@ -443,11 +447,11 @@ else
 	echo "NOTHING LEFT TO MUTILATE"
 fi
 
-sleep 5
-#ifup nykyään muuttelee tables-sääntöjä yhdellä jekulla joten ei erikseen tartte käskyttää...
+#sleep 5
+#ifup nykyään muuttelee tables-sääntöjä yhdellä jekulla joten ei erikseen tte käskyttää...
 
 ${sipt} -L
-csleep 1
+#csleep 1
 ${scm} 0555 ${d0}/common_lib.sh
 ${scm} a-wx $0
 

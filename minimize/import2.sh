@@ -62,8 +62,8 @@ csleep 1
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
-	#130526:else-haara tarpeellinen joissain tilanteissa, ei poisteta
-	#TODO:viimeaikaisten sorkintojen takia tämä haara tulisi testata (k vai q lähinnä?)
+	#130526:else-haara peellinen joissain tilanteissa, ei poisteta
+	#TODO:viimeaikaisten sorkintojen takia tämä haara tulisi testata (09/26:k vai q lähinnä?)
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
@@ -88,7 +88,7 @@ else
 	function check_binaries() {
 		dqb "imp2.check1"
 
-		mkt=$(${odio} which mktemp) #tarvittiinko tätä johonkin? tpr() ainakin
+		mkt=$(${odio} which mktemp) #vittiinko tätä johonkin? tpr() ainakin
 		scm=$(${odio} which chmod)
 
 		srat=$(${odio} which tar)
@@ -148,7 +148,7 @@ fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 csleep 1
-#HUOM. tähän ei "process_lib ${d}" , mennään tarkoituksella toisella tavalla (ainakin jnkin aikaa)
+#HUOM. tähän ei "process_lib ${d}" , mennään koituksella toisella tavalla (ainakin jnkin aikaa)
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -278,7 +278,7 @@ function tpr() {
 	local q=$(${mkt} -d)
 	[ $? -gt 0 ] && exit 20
 
-	dqb "JUST BEFORE TAR ${1}/${2}"
+	dqb "JUST BEFORE T R ${1}/${2}"
 	#jos vielä härdelliä niin keskeytetään mikäli ei $2:sta löydä prefs.js?
 	local r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l) #vielä jos arhc_4 ?
 	[ ${r} -gt 0 ] || exit 21
