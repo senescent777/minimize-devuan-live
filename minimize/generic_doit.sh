@@ -409,7 +409,6 @@ pre_part2
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	c14=$(find ${d} -name "*.deb" | wc -l)
-
 	[ ${c14} -gt 0 ] || CONF_removepkgs=0
 fi
 
@@ -420,7 +419,9 @@ part3 ${d} ${pkgcache}
 
 other_horrors
 dqb "AFTER THE HORROR"
-#csleep 1
+
+echo "TODO:FFOX-PROFiILI-JUTUT , VARMISTA ETTÄ TOIMII"
+sleep 10
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh
@@ -431,7 +432,7 @@ if [ "${CONF_env}" == "DEFAULT" ] ; then
 fi
 
 dqb "PR0F IMPORT DONE?"
-#csleep 3
+csleep 3
 
 jules
 ${asy}

@@ -1,5 +1,5 @@
-#VAIH:distron arpominen $3 jos on, /etc/jotain muuten
-#VAIH:konftdston kanssa jotain säätöä myös?
+#DONE?:distron arpominen $3 jos on, /etc/jotain muuten
+#DONE?:konftdston kanssa jotain säätöä myös?
 
 function guess_conf() {
 	echo "guecc_conf ) ${1} ("
@@ -66,7 +66,7 @@ function csleep() {
 }
 
 [ -v CONF_env ] || exit 99
-#tyhjyydfen kistus myös?
+#tyhjyydfen kristus myös?
 
 case "${CONF_env}" in
 	TOOR)
@@ -525,10 +525,10 @@ function cefgh() {
 			[ $? -eq 0 ] || ${NKVD} ${1}/e.tar*
 		fi
 
-		#csleep 5
+		csleep 5
 		#efk2 ${1}/e.tar ${1}
 		${odio} ${sr0} -C ${1} -xf ${1}/e.tar
-		${NKVD} ${1}/e.tar
+		${NKVD} ${1}/e.tar #190926:onkohan hyvä juttu delliä tässä?
 	fi
 
 	echo "gg= ${gg}"
@@ -608,18 +608,18 @@ function worf() {
 			2) #VAIH:kts ten1() 2) ja 4) liittyen, tämä+seur case kys fktiolle jatq?
 				${shary} ${u}
 			;;
-			4) #uusi yritys (case:t voisi ehkä jopa yhdistää qhan if-lausetta muuttaa)
-				v=$(echo ${u} | grep dhcp | wc -l)
-
-				if [ ${v} -gt 0 ] ; then
-					dqb "SKIPPING ${u}"
-				else
-					${shary} ${u} 					
-				fi
-
-				#[ -z "${v}" ] || ${shary} ${u}* #jokeri huono idea tssä
-				#csleep 1
-			;;
+#			4) #uusi yritys (case:t voisi ehkä jopa yhdistää qhan if-lausetta muuttaa)
+#				v=$(echo ${u} | grep dhcp | wc -l)
+#
+#				if [ ${v} -gt 0 ] ; then
+#					dqb "SKIPPING ${u}"
+#				else
+#					${shary} ${u} 					
+#				fi
+#
+#				#[ -z "${v}" ] || ${shary} ${u}* #jokeri huono idea tssä
+#				#csleep 1
+#			;;
 		esac
 	done
 }
@@ -754,8 +754,8 @@ function check_binaries() {
 	E22_GM="${E22_GM},libmnl0,libatm1,libpcre2-8-0,libmd0,libgssapi-krb5-2"
 	E22_GM="${E22_GM},libbsd0,libcap2,libcap2-bin,libdb5.3,libtirpc-common,libtirpc3,iproute2"
 
-	#29726;miten dhcp-jutut nykyään? peellinen if?
-	[ "${CONF_iface}" == "eth0:1" ] || E22_GM="${E22_GM},isc-dhcp-client,isc-dhcp-common" #dhcp-jutut erilleen jotenkin?
+	#19926;miten dhcp-jutut nykyään? peellinen if? TODO?:selvitä
+	[ "${CONF_iface}" == "eth0:1" ] || E22_GM="${E22_GM},isc-dhcp-client,isc-dhcp-common"
 	E22_GM="${E22_GM},libpam0g,libcrypt1,libaudit1,libpam-modules-bin,libpam-modules"
 
 	E22_GM="${E22_GM},libbz2-1.0,libsemanage-common,libsemanage2,libsepol2,passwd,adduser,ifupdown"
@@ -782,8 +782,9 @@ function check_binaries() {
 	E22_GT=""
 	E22_GU=""
 
+	#190926:tarpeellista täsäs GT:n kansa kikkailla dhcp kanssa jos e22_pre_e tekee jotain vastaavaa
 	if [ "${CONF_iface}" != "eth0:1" ] ; then
-		E22_GT="isc-dhcp-client,isc-dhcp-common,"
+		#E22_GT="isc-dhcp-client,isc-dhcp-common,"
 		E22_GU="isc-dhcp,"
 	fi
 
@@ -835,11 +836,12 @@ function check_binaries() {
 	dqb "second half of c_bin_1"
 	#csleep 1
 	
-	#toistaiseksi näin
-	#if [ "${CONF_env}" == "DEFAULT" ] ; then
+#	#toistaiseksi näin (eivielä 19026 uskalla kommentoida ehtoa pois?)
+#	if [ "${CONF_env}" == "DEFAULT" ] ; then
+	if [ "${CONF_iface}" != "eth0:1" ] ; then
 		ocs dhclient
 		#csleep 1
-	#fi
+	fi
 
 	sag=$(${odio} which apt-get)
 	sa=$(${odio} which apt)
@@ -1191,6 +1193,7 @@ function part1_5() {
 			touch ${h}/sources.list.tmp
 			local b
 
+			#tai jos repon paikalle jnkn proxyn?
 			if [ "${CONF_env}" == "TOOR" ] && [ -v CONF_alt_root ] ; then
 				b="deb file://${2}"
 			else

@@ -422,6 +422,7 @@ case "${mode}" in
 		[ ${mode} -eq 0 ] || e=${d}
 
 		#TODO:hisput wttuun vai ei?
+		#TODO:mitä jos ei löydy .tar ?
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
 
 		f=$(dirname ${f})
@@ -507,7 +508,7 @@ esac
 
 dqb "atfr.esac"
 #17+026:syyllinen qsemiseen ehkä löydetty tai sittenb ei
-#VAIH:tuo ehto alla pitänee uusia, jatkossa piut paut other_horrorsin suhteen
+#DONE?:tuo ehto alla pitänee uusia, jatkossa piut paut other_horrorsin suhteen
 
 if [ ${doIt} -eq 1 ] ; then
 	if [ -s ${srcfile} ] && [ -f ${srcfile} ] ; then
