@@ -30,8 +30,8 @@ dbus-x11
 #
 gpgconf
 gtk2-engines-pixbuf
-python3.11-minimal
-python3.11
+#python3.11-minimal
+#python3.11
 #
 menu
 twm

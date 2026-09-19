@@ -11,7 +11,6 @@ libutempter0
 libgdbm
 #
 #TODO:jatkosäätöä TAAS?
-#versionumeroista voisi typistää seur 3 kanssa (VAIH)
 libglapi-mesa
 #
 #/jatkosäöätö?
@@ -33,7 +32,10 @@ libcap-ng0
 libtinfo6
 libcap2
 libpipeline1
+#
 #stdc aiemmaksi?
+libstdc
+#
 libgdk-pixbuf2.0-common
 libgdk-pixbuf-2.0-0
 libgdk-pixbuf-2.0-bin
@@ -43,10 +45,10 @@ librsvg2-2
 librsvg2-common
 #/jatkosäätö?
 #
-libstdc
+#stdc oli aiemmin tässä
 libatspi2
 #
-#020836:tpoimivassa u-paketissa ei näitä libgl1, libglx, pakeerreja (TODO:tekiskikö jotain?)
+#020836:tpoimivassa u-paketissa ei näitä libgl1, libglx, pakeTTeja (TODO?:tekiskikö jotain?)
 libgl1-mesa-dri
 libglx-mesa0
 libglx0
@@ -91,11 +93,6 @@ xkb-data
 libgtk-3-common
 libgtk-3-0
 libgtk-3-bin
-#
-gtk-update-icon-cache
-adwaita-icon-theme
-hicolor-icon-theme
-#
 #VAIH:ylemmäksi nämä vai mitenkä?
 perl-modules-
 libperl
@@ -103,11 +100,18 @@ perl-base
 perl
 #VAIH:perl,libperl VÄHITELLEN
 #VAIH:, mitä tuon libxml.parser-perl kanssa tekee?
-#
+#150926:SELVITÄ LÖYTYYKÖ NOITA libperl-paketteja JHOSTAIN TARISTA?
 perlapi-5.36.0
 liburi-perl
 libwww-perl
 libxml-parser-perl
+#
+#
+gtk-update-icon-cache
+adwaita-icon-theme
+hicolor-icon-theme
+#
+#perl-jutut aiemmin täössä
 #
 liblzma5
 libxml
@@ -149,7 +153,6 @@ libx11-xcb1
 libxau6
 libxdmcp6
 #
-#DONE?:xext-rivin sIIRTo aeiammaksi (minne asti?)
 libxext6
 #
 libxrender1
@@ -241,9 +244,12 @@ libavcodec59
 glib-networking
 libso
 #
-#020826:tämän kanssa jatkosäätöä? kirjastojen jatkoksi itse käärme?
+#020826:tämän kanssa jatkosäätöä? kirjastojen jatkoksi itse käärme? (letsa find out 160926)
 libpython3.11-minimal
 libpython3.11-stdlib
+python3.11-minimal
+python3.11
+#150926:löytyykö yo. kirjastoja?
 #/jatkosäätö?
 #
 #
@@ -251,7 +257,6 @@ libpython3.11-stdlib
 libgtk2.0-common
 libgtk2.0-0
 #
-#siirto ennen xt6,xtables?
 libxt
 #
 libnftnl11

@@ -2,7 +2,10 @@
 #080626:vaihteeksi pois kommnteisdta osa riveistä
 #udev
 xserver
+#
 dbus
+#150926:poistetaanko dbus*.deb ennen asentelua vai ei?
+#
 #initramfs
 #live
 #e2fsprogs
