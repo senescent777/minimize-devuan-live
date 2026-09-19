@@ -420,14 +420,16 @@ function e22_pre_e() {
 	dqb "e22_pre_e() ))) $@ )))))))("
 	csleep 1
 
-	#HUOM.26726:ehkä muitakin karsimisjuttuja pitäisi huomioida kuin vain staattinen ip vs dhcp-paketit
-	#... pitäisi kai viedä $1 worf():ille sellaisenaan ja mussunmussun, kts ten1()
-
-	if [ "${1}" == "eth0:1" ] ; then #DONE?:vähitellen jotain. Tai jos kuitenkin vain se dhcp-karsinta tässä.
-		worf ${2} 4
-	else
+#	#HUOM.26726:ehkä muitakin karsimisjuttuja pitäisi huomioida kuin vain staattinen ip vs dhcp-paketit
+#	#... pitäisi kai viedä $1 worf():ille sellaisenaan ja mussunmussun, kts ten1()
+#
+#	#HUOM.190926:suattaapi muuttua turhaksi osa worf():in switch-case:sta tai koko tämä fkiokin samalla
+#
+#	if [ "${1}" == "eth0:1" ] ; then #DONE?:vähitellen jotain. Tai jos kuitenkin vain se dhcp-karsinta tässä.
+#		worf ${2} 4
+#	else
 		worf ${2} 2
-	fi
+#	fi
 }
 
 function e22_ext() {

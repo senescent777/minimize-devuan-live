@@ -138,7 +138,7 @@ e22_cleanpkgs ${CONF_pkgdir}
 #[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
 #[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 destroy ${d}
-#VAIH:destroy() hoitamaan nuio yo. kalat?
+#DONE?:destroy() hoitamaan nuio yo. kalat?
 
 doIt=1
 csleep 1
@@ -189,24 +189,24 @@ case "${mode}" in
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
 
-		csleep 3
+		csleep 2
 		message
 		csleep 2
 
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 		dqb "BC/AD"
-		csleep 5
+		csleep 2
 
 		e23_other_pkgs ${CONF_dnsm}
 		ls -las ${CONF_pkgdir}/libn*
-		csleep 6
+		csleep 2
 	;;
 	t) #toiminee mikäli case:t e tai 3 toimivat 
 		message
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
-	g) #190926:osaa jo muodostaa paketin, seuraav8 testaus (TODO)
+	g) #190926:osaa jo muodostaa paketin, seuraav8 testaus (VAIH: modaamattomalla kiekolla)
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 		${fib}
@@ -216,15 +216,21 @@ case "${mode}" in
 		e22_pre_e ${CONF_iface} ${E22_GG}
 
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
+		#VAIH:varmista että e.tar.sha tulee mukaan, tarvitaan
+		e22_ftr ${d}/e.tar
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
+
+		x=$(${srat} -tf ${tgtfile} | grep e.tar.sha | wc -l}
+		[ ${x} -gt 0 ]  || exit 94
 		doIt=0
 	;;
 	n)
-		#190926:muodostaa paketin? jep , masentuu?
+		#190926:muodostaa paketin? jep , masentuu? "sqrot 3" kautta
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;
-	s) #190926:muodostaa paketin? jep , masentuu?
+	s) #190926:muodostaa paketin? jep , masentuu? "sqrot 3" kautta
+		#TODO:libburn-juttuja accept1:seen
 		e23_st
 	;;
 	u|upgrade)

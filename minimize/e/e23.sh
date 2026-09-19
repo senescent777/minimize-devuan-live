@@ -7,19 +7,26 @@ function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() 
 
 	#HUOM.26726:pikemminkin peräkkäisiä if-blokkeja , huomioisi paremmin eth/wlan/staatt/dyn ip  -asiat
 	#kts ten1() liittyen
-	#TODO?:vähitellen jotain?	
+	#VAIH:vähitellen jotain? E22:_GT , GU, GM hyödyntäern?
 
-	case "${1}" in
-		wlan0)
-			#E22:GN="libnl-3-200 ... "
-			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-			
-			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
-			${shary} wpasupplicant
-		;;
-		*)
-		;;
-	esac
+#	case "" in
+#		)
+#			#E22:GN="libnl-3-200 ... "
+#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
+
+	if [ "${1}" == "wlan0" ] ; then			
+		${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
+		${shary} wpasupplicant
+	fi
+
+	if [ "${1}" != "eth0:1" ] ; then
+		worf isc-dhcp-client,isc-dhcp-common 2
+	fi
+
+#		;;
+#		*)
+#		;;
+#	esac
 }
 
 function e23_tblz() {
@@ -40,11 +47,9 @@ function e23_tblz() {
 	tpc7
 	#jotain excaliburiin liittyvää tuo tpc
 
-	aswasw ${1}
-
-	
-	e22_pre_e ${CONF_iface} ${E22_GT}
-
+	#190926:joutaisi ksi josqs siirtää dhcp-jutut pre_e -> asw
+	aswasw ${1}	
+	e22_pre_e ${1} ${E22_GT}
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 1
@@ -149,9 +154,7 @@ function e23_qrs() {
 }
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
-
 #TODO:testaus uusicksi josqs koska y
-
 
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
@@ -217,7 +220,7 @@ function e23_dm() {
 
 	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
 	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
-	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttia
+	${shary} libpam-runtime
 	csleep 10
 
 	${shary} libxdmcp6 menu twm libmd0
@@ -289,6 +292,18 @@ function e23_profs() {
 	dqb "e23_profs() done"
 	csleep 1
 }
+
+#libsio
+# Depends:
+#
+#libburn4 (>= 1.5.4), libc6 (>= 2.34), libisofs6 (>= 1.5.4), libjte2, libreadline8 (>= 6.0)
+
+#llibburn4
+# Depends:
+#
+#libc6 (>= 2.14)
+
+
 
 function e23_st() { #020826:vissiin asentUivat nämä paketit (vaan miksi dms ja libdevm ie utle mukaan? karsitaan?)
 	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
