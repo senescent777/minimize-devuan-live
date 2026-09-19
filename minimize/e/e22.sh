@@ -606,9 +606,10 @@ function e22_arch() {
 	fasdfasd ${q}.1
 	[ ${debug} -eq 1 ] && ls -las ${q}*;sleep 3
 
-	#cd ${2}
-	echo "TODO:POLUT UUSIKSI e22_arch()"
-	exit
+	cd ${2}
+	#jtnkn toisin jatkossa kuitenkin?
+	#echo "TODO:POLUT UUSIKSI e22_arch()"
+	#exit
 
 	${sah6} ./*.deb > ./${CONF_hashfile}
 	csleep 1
@@ -689,16 +690,16 @@ function e22_dblock() {
 
 	ls -la ${3}/*.deb | wc -l
 	dqb "JST BFTr TS()"
-	csleep 10
+	csleep 1
 
 	local t=$(echo ${2} | cut -d "/" -f 1-6)
 	e22_ts ${t} ${3}
 	dqb "JST B3F0R3 3NF0RC3"
-	csleep 5
+	csleep 1
 	
 	enforce_access $(whoami) ${t}
 	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-	csleep 5
+	csleep 1
 
 	e22_arch ${1} ${2} ${4}
 	e22_cleanpkgs ${2}

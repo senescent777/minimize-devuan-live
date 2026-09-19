@@ -71,7 +71,7 @@ function parse_opts_2() {
 	esac
 }
 
-d=${d0}/${distro} #tämä vai alempi pois?
+#d=${d0}/${distro} #tämä vai alempi pois?
 
 function fallback() { #tarpeellinen?
 	exit 59
@@ -135,11 +135,12 @@ e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
 #HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun jossia n tilanteessa
-[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
-[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
-#TODO:destroy() hoitamaan nuio yo. kalat?
+#[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
+#[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
+destroy ${d}
+#VAIH:destroy() hoitamaan nuio yo. kalat?
 
-doit=1
+doIt=1
 csleep 1
 
 dqb "JUST BEFORE ESAC"
@@ -172,16 +173,16 @@ case "${mode}" in
 		e22_z2 ${CONF_hashfile3}
 		e22_z3 ${CONF_hashfile3} ${tgtfile} ${d0}/MAN1.F2ST
 
-		#koko tätä skriptiä turhahko ajaa jos env != default
+		#koko tätä skriptiä turhahko ajaa jos env != default ?
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
 			#TODO?:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä?
-			#... tai jos case g prujaus...
+			#... tai jos case g prujaus... elleiu case g sisältö e23:sen fktioksi jnpp
 			exit
 
 			e23_tblz ${CONF_iface} ${CONF_dnsm}
 			e23_other_pkgs ${CONF_dnsm}
 		else
-			doit=0
+			doIt=0
 		fi
 	;;
 	e) #170926 sai aikaiseksi paketin, mikä jopa asentui (toistuuko?)
@@ -205,17 +206,26 @@ case "${mode}" in
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
-	g) #TODO:tämnäö tetsaus seuvaarana?
+	g) #190926:osaa jo muodostaa paketin, seuraav8 testaus (TODO)
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 		${fib}
 
+		#onko aina tarpeellista ase4ntaa, riittäisikö joskus vain vetää paketit /v alle?
 		e22_pre_e ${CONF_iface} ${E22_GI}
 		e22_pre_e ${CONF_iface} ${E22_GG}
 
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
-		doit=0
+		doIt=0
+	;;
+	n)
+		#190926:muodostaa paketin? jep , masentuu?
+		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
+		${shary} ntpsec
+	;;
+	s) #190926:muodostaa paketin? jep , masentuu?
+		e23_st
 	;;
 	u|upgrade)
 		#310726: tai siis kiukutteluja kyllä löytyy
@@ -278,20 +288,10 @@ case "${mode}" in
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
 	;;
-	n)
-		#24726:kokeeksi tehdään uusi paketti (VAIH)
-		#TODO:masentelu ja sivuvaikutukset
-
-		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
-		${shary} ntpsec
-	;;
 #	x)
 #		#:uusiksi vain koko pasq?
 #		e23_xyz
 #	;;
-	s) #lienee tekevän toimivaa oksennusta (28626)
-		e23_st
-	;;
 	*)
 		echo "MAYBE U SHOULD USE export3 INSTEAD"
 		sleep 5
@@ -340,7 +340,7 @@ esac
 #	e22_cleanpkgs ${2}
 #}
 
-if [ -d ${d} ] && [ ${doit} -eq 1 ] ; then
+if [ -d ${d} ] && [ ${doIt} -eq 1 ] ; then
 	#2. param. jatkossa d0? miksi?
 	e22_dblock ${tgtfile} ${d} ${CONF_pkgdir} ${gbk}
 fi
