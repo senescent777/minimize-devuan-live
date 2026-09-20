@@ -10,9 +10,9 @@ mode=3
 #010826:toimiiko tämä eri tavalla -v kanssa kuin ilman? sqroot...
 
 function parse_opts_1() {
-	if [ -d ${d0}/${1} ] ; then
-		echo "#distro=${1}"
-	else
+#	if [ -d ${d0}/${1} ] ; then #VAIH:jatkossa toisin? guess_conf() ?
+#		echo "#distro=${1}"
+#	else
 		case  "${1}" in
 			0|1|2|3)
 				mode=${1}
@@ -21,7 +21,7 @@ function parse_opts_1() {
 				dqb "invalid param"
 			;;
 		esac
-	fi
+#	fi
 }
 
 function parse_opts_2() {
@@ -78,7 +78,6 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-#.5: wdm jälk wanha u, sitten omeha -> ei oheisvahinkoa
 #lopuksi uuden oemnan kanssa: haluaa hukata äksän
 #uudemmankin päivityspak kanssa se hukkaamisongelma kun mennään omegaan, jnties VIELÄ uusi yritys päivbityspak kanssa (kts miten ten1 ja part175 tällä krt)
 
@@ -86,6 +85,7 @@ if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto 
 	dqb "kö"
 	TLA
 else
+	#DONE:part2()seen barm vuoksi $2 t arkistus? tai siis lisää?
 	part2 1 ${CONF_dnsm} ${CONF_iface}
 	[ $? -gt 0 ] && exit
 fi
@@ -106,7 +106,7 @@ csleep 16
 #defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista, bissiin näin
 
 if [ "${CONF_env}" == "TOOR" ] ; then
-	${sharpy} blu*
+	${sharpy} blu* #poistuu vai ei? initramfs-tools liittyy?
 	${sharpy} nfs*
 	t2p_filler
 
@@ -122,9 +122,6 @@ if [ "${CONF_env}" == "TOOR" ] ; then
 	#exit
 fi
 
-#kommentoituja paskeita pois vähitellen
-#====================================================================
-#20726:kts slim liittyen omega
 #020826:jos välillä kokeilisi kehitellä .iso:n testausta varten eikä vaan renkata
 
 function t2pf() {

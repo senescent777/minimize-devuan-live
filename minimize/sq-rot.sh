@@ -51,10 +51,7 @@ function usage() {
 #	fi
 #}
 
-#DONE?:ne TPX-jutut, koita saada  toimimaan kys mjan kanssa 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-#csleep 5
-#tuossa yllä tosin turhahko ls
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -142,7 +139,7 @@ else
 fi
 
 dqb "rot:AFTR common_lib"
-#csleep 1
+csleep 1
 [ -z "${distro}" ] && exit 26
 [ -v CONF_env ] || exit 66
 
@@ -160,7 +157,7 @@ check_binaries ${d}
 
 check_binaries2
 #[ $? -eq 0 ] || exit
-[ -v CONF_env ] || exit 96
+[ -v CONF_env ] || exit 96 #riittäisikö 1 trq tämän kanssa?
 
 if [ $# -gt 0 ] ; then
 	mode=${1}
@@ -173,18 +170,18 @@ if [ $# -gt 0 ] ; then
 	fi
 fi
 
-#TODO:tapaus sqroot+gpg puuttuu, jotain ttisi tehrä vähitellen
-#130926:bissiin sqroot-ympstössä onnistuu masentelu suht pienellä nalqtuksella
+#VAIH:tapaus sqroot+gpg puuttuu, jotain ttisi tehrä vähitellen (esim .se e.tar)
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
 	echo "UNDER THE GRAV3YARD ${1}"
-	#sleep 1
+	sleep 1
 
+	#TODO:koitahan saada aikaiseksi havainnoida, travitaanko $1 oikeasti vakoi ie?
 	echo "A"
 	p=$(pwd)
 	echo "p: ${p}"
-	#sleep 4
+	sleep 1
 
 	if [ ! -z "${sah6}" ] ; then
 		q=$(find . -name "dgsts.?" )
@@ -200,7 +197,7 @@ function pre() {
 		cd ${p}
 	fi
 
-	#sleep 1
+	sleep 1
 	cd ${p}
 
 	if [ ! -z "${gg}" ] ; then
@@ -217,16 +214,18 @@ function pre() {
 
 	unset q
 	unset r
-	#sleep 1
 	echo "C"
 
-	#VAIH:d0 parametriksi
+	#nekros2 kanssa joitain muutoksia vbaiko ei?
+	#tar --exclude import2.sh -jxvf nekros1
+	#rm nekros1
+	#...
+	#tar -C $distro -jxvf $f
+	#...
+
 	for f in $(find ${1} -type f -name "nekros?".tar.bz3 ) ; do	
 		tar --exclude import2.sh -jxvf ${f}
-
-		#sleep 1
 		rm ${f}
-		#sleep 1
 	done
 
 	if [ ! -z "${gg}" ] ; then
@@ -252,9 +251,6 @@ else
 	echo "SMTHING WRONG WITH ${srcfile} "
 	exit 65
 fi
-
-#DONE?:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
-#... jotain pientä laittoa vielä vitsee? (18926)
 
 function common_part() {
 	echo "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
@@ -422,6 +418,7 @@ case "${mode}" in
 		[ ${mode} -eq 0 ] || e=${d}
 
 		#TODO:hisput wttuun vai ei?
+		#TODO:mitä jos ei löydy .tar ?
 		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
 
 		f=$(dirname ${f})
@@ -507,7 +504,7 @@ esac
 
 dqb "atfr.esac"
 #17+026:syyllinen qsemiseen ehkä löydetty tai sittenb ei
-#VAIH:tuo ehto alla pitänee uusia, jatkossa piut paut other_horrorsin suhteen
+#DONE?:tuo ehto alla pitänee uusia, jatkossa piut paut other_horrorsin suhteen
 
 if [ ${doIt} -eq 1 ] ; then
 	if [ -s ${srcfile} ] && [ -f ${srcfile} ] ; then

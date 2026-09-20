@@ -104,10 +104,14 @@ function dis() {
 function part0() {
 	dqb "part0)))( ${1} ;; ${2})(((((("
 	[ -z "${1}" ] && exit 76
-	[ -z "${2}" ] && echo "SHOULD exit 78"
-
+	
+	#20926:hyvä näin? ehkä sittenq typot kojrattu
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
+		[ -z "${2}" ] && exit 78
+	fi
+	
 	dqb "pars.ok"
-	#csleep 5
+	csleep 2
 
 	dis ${1} ${2}
 	local s
@@ -118,8 +122,6 @@ function part0() {
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
 	${whack} ssh-agent*
-
-	#2804236:josko ssh-agentin sisältävän paketin voisi poistaa? ajankohtaistra vielä 07/26?
 
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
@@ -157,7 +159,7 @@ function el_loco() {
 		fasdfasd /etc/default/locale
 		csleep 1
 
-		#TODO:pitäisi kai kutsuvassa koodissa huomioida LCF666 vs env vs /e/d/locale
+		#TODO?:pitäisi kai kutsuvassa koodissa huomioida LCF666 vs env vs /e/d/locale
 		#.. siis onko huomioitu kunnolla 3 eri lähdettä asetuksille vaiko ei?
 
 		env | grep LC >> /etc/default/locale
@@ -202,6 +204,7 @@ function adieu() {
 
 #=====================================PART0=========================================================
 pkgcache=$(${mkt} -d)
+#mitä jos iface puuttuu konffista? part0 suoritus pyshtynee? tekisikö jotain vei ei?
 part0 ${distro} ${CONF_iface}
 process_lib ${d} ${pkgcache}
 
@@ -214,10 +217,6 @@ if [ -s ~/xorg.conf.new ] ; then
 		reqwreqw /etc/X11/xorg.conf
 	fi
 fi
-
-#VAIH:meshuqqah kiukuttelun selvittely jos vielä toistuu, syyllinen tämä fktio vai mangle_s ?
-#... yksi ehdokas olisi
-#28736 jo kunnossa?
 
 function pre_enforce() {
 	dqb "pre_enforce() "
@@ -332,7 +331,6 @@ function pre_enforce() {
 	csleep 1
 }
 
-#30626:kesdkimmäinen ehto josqs uusiksi?
 if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	#csleep 2
@@ -409,10 +407,10 @@ pre_part2
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	c14=$(find ${d} -name "*.deb" | wc -l)
-
 	[ ${c14} -gt 0 ] || CONF_removepkgs=0
 fi
 
+#miten tuo 3. parametri? tarpeellinen nykyään?
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 #===================================================PART 3===========================================================
 message
@@ -420,7 +418,9 @@ part3 ${d} ${pkgcache}
 
 other_horrors
 dqb "AFTER THE HORROR"
-#csleep 1
+
+echo "DONE?:FFOX-PROFiILI-JUTUT , VARMISTA ETTÄ TOIMII"
+sleep 2
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh
@@ -431,7 +431,7 @@ if [ "${CONF_env}" == "DEFAULT" ] ; then
 fi
 
 dqb "PR0F IMPORT DONE?"
-#csleep 3
+csleep 3
 
 jules
 ${asy}
