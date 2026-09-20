@@ -78,7 +78,6 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-#.5: wdm jälk wanha u, sitten omeha -> ei oheisvahinkoa
 #lopuksi uuden oemnan kanssa: haluaa hukata äksän
 #uudemmankin päivityspak kanssa se hukkaamisongelma kun mennään omegaan, jnties VIELÄ uusi yritys päivbityspak kanssa (kts miten ten1 ja part175 tällä krt)
 
@@ -86,7 +85,7 @@ if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto 
 	dqb "kö"
 	TLA
 else
-	#VAIH:part2()seen barm vuoksi $2 t arkistus? tai siis lisää?
+	#DONE:part2()seen barm vuoksi $2 t arkistus? tai siis lisää?
 	part2 1 ${CONF_dnsm} ${CONF_iface}
 	[ $? -gt 0 ] && exit
 fi

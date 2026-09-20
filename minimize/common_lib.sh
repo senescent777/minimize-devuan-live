@@ -761,7 +761,7 @@ function check_binaries() {
 	E22_GM="${E22_GM},libmnl0,libatm1,libpcre2-8-0,libmd0,libgssapi-krb5-2"
 	E22_GM="${E22_GM},libbsd0,libcap2,libcap2-bin,libdb5.3,libtirpc-common,libtirpc3,iproute2"
 
-	#19926:miten dhcp-jutut nykyään? peellinen if? TODO?:selvitä
+	#19926:miten dhcp-jutut nykyään? peellinen if? TODO?:selvitä?
 	[ "${CONF_iface}" == "eth0:1" ] || E22_GM="${E22_GM},isc-dhcp-client,isc-dhcp-common"
 	E22_GM="${E22_GM},libpam0g,libcrypt1,libaudit1,libpam-modules-bin,libpam-modules"
 
@@ -870,12 +870,8 @@ function check_binaries() {
 function check_binaries2() {
 	#oikeastaaan ei tämä fktio ota vastaamn param,,,
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2 ))) ${1} ; ${2} ((((((("
-	#csleep 1
 
-	#120726:toiv pois lähiaikoina ao. trq (joko jo 312726?)
-	#if [ "${CONF_env}" != "VED" ] ; then
 		[ -v sd0 ] || exit 66
-	#fi
 	
 	ipt="${odio} ${ipt} "
 	ip6t="${odio} ${ip6t} "
@@ -1202,11 +1198,11 @@ function part1_5() {
 
 		if [ ! -s /etc/apt/sources.list.tmp ] ; then	
 			dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
-			#csleep 1
+			csleep 1
 			touch ${h}/sources.list.tmp
 			local b
 
-			#tai jos repon paikalle jnkn proxyn?
+			#tai jos repon paikalle jkn proxy?
 			if [ "${CONF_env}" == "TOOR" ] && [ -v CONF_alt_root ] ; then
 				b="deb file://${2}"
 			else
@@ -1298,10 +1294,6 @@ function part1() {
 	${scm} -R a-w /etc/apt/
 	dqb "FOUR-LEGGED WH0R3"
 }
-
-#DONE:uusicksi vain selvittelyt, modaamaton kiekko, g_pt2 ja o mega 5 yhdistelmä mikä ksän poistoa aiheuttaa EHKÄ nyt kynnossa 010826
-#30726: "omega 5" laukaisi nimenomaan modatussa kiekossa äksän poiston, selvitelty mikä aiheutti (010826)
-# ensin "doit -v 1" , sitten doit uudestaan , syynä jtnkn?
 
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("

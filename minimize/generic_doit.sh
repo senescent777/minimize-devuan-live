@@ -105,9 +105,9 @@ function part0() {
 	dqb "part0)))( ${1} ;; ${2})(((((("
 	[ -z "${1}" ] && exit 76
 	
-	#20926:hyvä näin?
-	if [ "${CONF_env}" == "DEFAUJLT" ] ; then
-		[ -z "${2}" ] && exit 78 #echo "SHOULD "
+	#20926:hyvä näin? ehkä sittenq typot kojrattu
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
+		[ -z "${2}" ] && exit 78
 	fi
 	
 	dqb "pars.ok"
@@ -161,7 +161,7 @@ function el_loco() {
 		fasdfasd /etc/default/locale
 		csleep 1
 
-		#TODO:pitäisi kai kutsuvassa koodissa huomioida LCF666 vs env vs /e/d/locale
+		#TODO?:pitäisi kai kutsuvassa koodissa huomioida LCF666 vs env vs /e/d/locale
 		#.. siis onko huomioitu kunnolla 3 eri lähdettä asetuksille vaiko ei?
 
 		env | grep LC >> /etc/default/locale
@@ -337,7 +337,6 @@ function pre_enforce() {
 	csleep 1
 }
 
-#30626:kesdkimmäinen ehto josqs uusiksi?
 if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 	#csleep 2

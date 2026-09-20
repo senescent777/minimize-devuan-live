@@ -139,7 +139,7 @@ else
 fi
 
 dqb "rot:AFTR common_lib"
-#csleep 1
+csleep 1
 [ -z "${distro}" ] && exit 26
 [ -v CONF_env ] || exit 66
 
@@ -157,7 +157,7 @@ check_binaries ${d}
 
 check_binaries2
 #[ $? -eq 0 ] || exit
-[ -v CONF_env ] || exit 96
+[ -v CONF_env ] || exit 96 #riittäisikö 1 trq tämän kanssa?
 
 if [ $# -gt 0 ] ; then
 	mode=${1}
@@ -170,8 +170,7 @@ if [ $# -gt 0 ] ; then
 	fi
 fi
 
-#TODO:tapaus sqroot+gpg puuttuu, jotain ttisi tehrä vähitellen (esim .se e.tar)
-#130926:bissiin sqroot-ympstössä onnistuu masentelu suht pienellä nalqtuksella
+#VAIH:tapaus sqroot+gpg puuttuu, jotain ttisi tehrä vähitellen (esim .se e.tar)
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
