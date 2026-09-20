@@ -10,9 +10,9 @@ mode=3
 #010826:toimiiko tämä eri tavalla -v kanssa kuin ilman? sqroot...
 
 function parse_opts_1() {
-	if [ -d ${d0}/${1} ] ; then #TODO:jatkossa toisin? guess_conf() ?
-		echo "#distro=${1}"
-	else
+#	if [ -d ${d0}/${1} ] ; then #VAIH:jatkossa toisin? guess_conf() ?
+#		echo "#distro=${1}"
+#	else
 		case  "${1}" in
 			0|1|2|3)
 				mode=${1}
@@ -21,7 +21,7 @@ function parse_opts_1() {
 				dqb "invalid param"
 			;;
 		esac
-	fi
+#	fi
 }
 
 function parse_opts_2() {
@@ -107,7 +107,7 @@ csleep 16
 #defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista, bissiin näin
 
 if [ "${CONF_env}" == "TOOR" ] ; then
-	${sharpy} blu*
+	${sharpy} blu* #poistuu vai ei? initramfs-tools liittyy?
 	${sharpy} nfs*
 	t2p_filler
 
@@ -123,9 +123,6 @@ if [ "${CONF_env}" == "TOOR" ] ; then
 	#exit
 fi
 
-#kommentoituja paskeita pois vähitellen
-#====================================================================
-#20726:kts slim liittyen omega
 #020826:jos välillä kokeilisi kehitellä .iso:n testausta varten eikä vaan renkata
 
 function t2pf() {

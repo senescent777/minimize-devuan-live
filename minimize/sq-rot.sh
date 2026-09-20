@@ -51,10 +51,7 @@ function usage() {
 #	fi
 #}
 
-#DONE?:ne TPX-jutut, koita saada  toimimaan kys mjan kanssa 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-#csleep 5
-#tuossa yllä tosin turhahko ls
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
@@ -173,18 +170,19 @@ if [ $# -gt 0 ] ; then
 	fi
 fi
 
-#TODO:tapaus sqroot+gpg puuttuu, jotain ttisi tehrä vähitellen
+#TODO:tapaus sqroot+gpg puuttuu, jotain ttisi tehrä vähitellen (esim .se e.tar)
 #130926:bissiin sqroot-ympstössä onnistuu masentelu suht pienellä nalqtuksella
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
 	echo "UNDER THE GRAV3YARD ${1}"
-	#sleep 1
+	sleep 1
 
+	#TODO:koitahan saada aikaiseksi havainnoida, travitaanko $1 oikeasti vakoi ie?
 	echo "A"
 	p=$(pwd)
 	echo "p: ${p}"
-	#sleep 4
+	sleep 1
 
 	if [ ! -z "${sah6}" ] ; then
 		q=$(find . -name "dgsts.?" )
@@ -200,7 +198,7 @@ function pre() {
 		cd ${p}
 	fi
 
-	#sleep 1
+	sleep 1
 	cd ${p}
 
 	if [ ! -z "${gg}" ] ; then
@@ -217,16 +215,18 @@ function pre() {
 
 	unset q
 	unset r
-	#sleep 1
 	echo "C"
 
-	#VAIH:d0 parametriksi
+	#nekros2 kanssa joitain muutoksia vbaiko ei?
+	#tar --exclude import2.sh -jxvf nekros1
+	#rm nekros1
+	#...
+	#tar -C $distro -jxvf $f
+	#...
+
 	for f in $(find ${1} -type f -name "nekros?".tar.bz3 ) ; do	
 		tar --exclude import2.sh -jxvf ${f}
-
-		#sleep 1
 		rm ${f}
-		#sleep 1
 	done
 
 	if [ ! -z "${gg}" ] ; then
@@ -252,9 +252,6 @@ else
 	echo "SMTHING WRONG WITH ${srcfile} "
 	exit 65
 fi
-
-#DONE?:purkaessa voisi ohittaa rnd, .rnd jos ei siis niin jo tee (eli mitä TPX syönyt?)
-#... jotain pientä laittoa vielä vitsee? (18926)
 
 function common_part() {
 	echo "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"

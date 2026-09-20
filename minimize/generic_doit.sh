@@ -104,7 +104,12 @@ function dis() {
 function part0() {
 	dqb "part0)))( ${1} ;; ${2})(((((("
 	[ -z "${1}" ] && exit 76
-	[ -z "${2}" ] && exit 78 #echo "SHOULD "
+	
+	#20926:hyvä näin?
+	if [ "${CONF_env}" == "DEFAUJLT" ] ; then
+		[ -z "${2}" ] && exit 78 #echo "SHOULD "
+	fi
+	
 	dqb "pars.ok"
 	csleep 2
 
@@ -421,8 +426,8 @@ part3 ${d} ${pkgcache}
 other_horrors
 dqb "AFTER THE HORROR"
 
-echo "VAIH:FFOX-PROFiILI-JUTUT , VARMISTA ETTÄ TOIMII"
-sleep 5
+echo "DONE?:FFOX-PROFiILI-JUTUT , VARMISTA ETTÄ TOIMII"
+sleep 2
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh

@@ -521,7 +521,9 @@ function cefgh() {
 		dqb "SHOULD {sah6} -c ${1}/e.tar HERE"
 
 		if [ -s ${1}/e.tar.sha ] ; then
+			#TODO:tapsua sq-rot , koita saada trkist menemään läpi
 			${sah6} -c ${1}/e.tar.sha
+			exit
 			[ $? -eq 0 ] || ${NKVD} ${1}/e.tar*
 		fi
 
@@ -550,8 +552,11 @@ function cefgh() {
 
 function ten1() {
 	dqb "TEM10 ) ${1} ;; ${2} ;; ${3} ("
-	#kunnollinen param trq voisi olla tässä (VAIH)
-	[ -z "${1}" ] && exit 56
+	
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
+		[ -z "${1}" ] && exit 56
+	fi
+	
 	dqb "t1m10.pars.ok"
 	csleep 1
 
@@ -784,11 +789,13 @@ function check_binaries() {
 	E22_GT=""
 	E22_GU=""
 
-	#190926:tarpeellista täsäs GT:n kansa kikkailla dhcp kanssa jos e22_pre_e tekee jotain vastaavaa
+	#190926:tarpeellista täsäs GT:n kansa kikkailla dhcp kanssa jos e22_pre_e tekee jotain vastaavaa?
 	#-v , -z - testit myös?
-	if [ "${CONF_iface}" != "eth0:1" ] ; then
-		#E22_GT="isc-dhcp-client,isc-dhcp-common,"
-		E22_GU="isc-dhcp,"
+	if [ -v CONF_iface ] && [ ! -z "${CONF_iface}" ] ; then
+		if [ "${CONF_iface}" != "eth0:1" ] ; then
+			#E22_GT="isc-dhcp-client,isc-dhcp-common,"
+			E22_GU="isc-dhcp,"
+		fi
 	fi
 
 	E22_GT="${E22_GT}libip4tc2,libip6tc2,libxtables12,netbase,libmnl0"
@@ -1302,9 +1309,12 @@ function part2() {
 
 	[ -z "${1}" ] && exit 55
 	[ -z "${2}" ] && exit 56
-	#VAIH:kolmannelle parametrille ta rkistus?
-	[ -z "${3}" ] && exit 75
-
+	
+	#hycä näin?
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
+		[ -z "${3}" ] && exit 75
+	fi
+	
 	dqb "PARS_OK"
 	csleep 1
 
@@ -1313,7 +1323,8 @@ function part2() {
 		${lftr}
 		${fib}
 
-		#020826:blu/rpc/nfs , poistuuko vai ei?
+		#020826:blu/rpc/nfs , poistuuko vai ei? 
+		#20926:bluez ainakin jäi kummittelwmaan sqroot kautta
 		for s in ${PART175_LIST} ; do 
 			#csleep 5
 
