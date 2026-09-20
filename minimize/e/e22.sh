@@ -8,9 +8,8 @@ function e22_hdr() {
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
 	
-	#onkohan hyvä idea?
 	if [ -f ${1} ] ; then
-		echo "$1 ALR3ADY EX1STS"
+		echo "${1} ALR3ADY EX1STS"
 		read -p " U SURE ?" confirm
 		[ "${confirm}" == "Y" ] || exit 99
 
@@ -39,7 +38,7 @@ function e22_tyg() {
 	csleep 1
 
 	if [ -x ${gg} ] ; then
-		#VAIH:ao. blokki siihen flktioon mikä tarttee sen
+		#DONE:ao. blokki siihen flktioon mikä tarttee sen
 		if [ ! -v CONF_pubk ] ; then
 			local b="/"
 			[ "${CONF_env}" == "VED" ] && b=${CONF_testgris}
@@ -282,20 +281,21 @@ function e22_home_pre() {
 
 	e_final
 	${srat} --exclude "changedns*" -rvf ${1} ${CONF_DIR2}
-	#2 alinta silmukkaa pystyisi yhdistämään, seur testikeirr jo? (TODO)
+	#2 alinta silmukkaa pystyisi yhdistämään, seur testikeirr jo? (VAIH)
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
 	done	
 
 	#config.tar.bz2?
-	for t in $(find ~ -type f -name ${4} ) ; do
+#	for t in $(find ~ -type f -name ${4} ) ; do
+	for t in $(find ~ -type f -name ${4} -or  -name "xorg.conf*" ) ; do 
 		${srat} -rvf ${1} ${t}
-	done
-
-	#14726:välillä näin päin
-	for f in $(find ~ -type f -name "xorg.conf*" ) ; do 
-		${srat} -rvf ${1} ${f}
+#	done
+#
+#	#14726:välillä näin päin
+#	for f in $(find ~ -type f -name "xorg.conf*" ) ; do 
+#		${srat} -rvf ${1} ${f}
 	done
 
 	dqb "home.pre.-donr"
@@ -323,7 +323,7 @@ function e22_home() {
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 	#TODO:seur testikierr tuo olds karsinta varmisztaen
 	${srat} --exclude "*.deb" --exclude "*.conf" --exclude olds -rvf ${1} /home/stubby ${t}
-	#180796: ${TARGET_TPX} käyttöön tähän? 
+	#180796: ${TARGET_TPX} käyttöön tähän? tartteeko?
 	csleep 1
 
 	dqb "e22_hoem_dnoe()"
@@ -376,7 +376,6 @@ function e22_acol() {
 		fi
 	done
 
-	#DONE?:tähän se /e/iptables oikeuksien palautus tuikempaan?
 	luca ${1}
 	other_horrors
 
@@ -397,7 +396,7 @@ function e22_acol() {
 		;;
 	esac
 
-	if [ ${3} -gt 0 ] ; then #-eq 1
+	if [ ${3} -gt 0 ] ; then
 		for f in $(find /etc -type f -name "stubby*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
 		for f in $(find /etc -type f -name "dns*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
 	fi
@@ -420,9 +419,6 @@ function e22_pre_e() {
 	dqb "e22_pre_e() ))) $@ )))))))("
 	csleep 1
 
-#	#HUOM.26726:ehkä muitakin karsimisjuttuja pitäisi huomioida kuin vain staattinen ip vs dhcp-paketit
-#	#... pitäisi kai viedä $1 worf():ille sellaisenaan ja mussunmussun, kts ten1()
-#
 #	#HUOM.190926:suattaapi muuttua turhaksi osa worf():in switch-case:sta tai koko tämä fkiokin samalla
 #
 #	if [ "${1}" == "eth0:1" ] ; then #DONE?:vähitellen jotain. Tai jos kuitenkin vain se dhcp-karsinta tässä.
@@ -455,7 +451,7 @@ function e22_ext() {
 	local st
 
 	p=$(pwd)
-	q=$(${mkt} -d) #mktemp enne
+	q=$(${mkt} -d)
 	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
 	st=$(echo ${3} | tr -d -c 0-9)
 
@@ -540,7 +536,7 @@ function cg_udp6() {
 	dqb "D0NE"
 	csleep 1
 
-	#VAIH:selvitä jotenkin, kuseeko tämä asioita?	
+	#VAIH:selvitä jotenkin, kuseeko tämä asioita?	ei kei enää 09/26?
 	ten1 ${CONF_iface} ${1}
 
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6  DONE FOR NOW"
@@ -610,8 +606,8 @@ function e22_arch() {
 
 	cd ${2}
 	#jtnkn toisin jatkossa kuitenkin?
-	#echo "TODO:POLUT UUSIKSI e22_arch() ?"
-	#exit
+	#echo "TODO:POLUT UUSIKSI e22_arch() ?" jatkossa sah ja muut saisivat paaremtriksi ./$distro/ ?
+	#...esim cut on krkdsitty jos roi muuta keksi , vaiko sqrot.sh muuttaminen mieluummin?
 
 	${sah6} ./*.deb > ./${CONF_hashfile}
 	csleep 1

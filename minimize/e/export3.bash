@@ -111,6 +111,7 @@ fi
 
 case "${mode}" in
 	rp)
+		#TODO:nöille main muutoksia?
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 

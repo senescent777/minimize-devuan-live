@@ -19,6 +19,7 @@ function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() 
 		${shary} wpasupplicant
 	fi
 
+	#TODO:E22_D?
 	if [ "${1}" != "eth0:1" ] ; then
 		worf isc-dhcp-client,isc-dhcp-common 2
 	fi
@@ -303,9 +304,10 @@ function e23_profs() {
 #
 #libc6 (>= 2.14)
 
-
-
 function e23_st() { #020826:vissiin asentUivat nämä paketit (vaan miksi dms ja libdevm ie utle mukaan? karsitaan?)
+		#VAIH:se libburn-juttu
+		#TODO:joitain git-juttuha mukaan myös (git.-cola ja mitäö näitä olikaan)
+		
 	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
 	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim
 	${shary} dmsetup libdevmapper1 libjte2

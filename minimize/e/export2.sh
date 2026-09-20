@@ -71,8 +71,6 @@ function parse_opts_2() {
 	esac
 }
 
-#d=${d0}/${distro} #tämä vai alempi pois?
-
 function fallback() { #tarpeellinen?
 	exit 59
 }
@@ -119,7 +117,7 @@ else
 fi
 
 [ -z "${tgtfile}" ] && exit 98
-t=$(echo ${d} | cut -d '/' -f 1-5)
+#t=$(echo ${d} | cut -d '/' -f 1-5) käytetäänkö tätä jopssain?
 
 csleep 1
 [ -d ${d0}/${tgtfile} ] && exit 64
@@ -130,17 +128,13 @@ e22_hdr ${tgtfile}
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
-#TODO:reagointi siigen että 1. param tyhjä, jos ei siis olejo (on)
+#DONE:reagointi siigen että 1. param tyhjä, jos ei siis olejo (on)
 e22_pre2 ${CONF_iface} ${CONF_dnsm}
 
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
-#HUOM.nämä voivat jtnkin suhtautua ylempään e22_hdr()-qtsuun jossia n tilanteessa
-#[ -f ${d}/e.tar ] && ${NKVD} ${d}/e.tar
-#[ -f ${d}/f.tar ] && ${NKVD} ${d}/f.tar
 destroy ${d}
-#DONE?:destroy() hoitamaan nuio yo. kalat?
 
 doIt=1
 csleep 1
@@ -154,7 +148,7 @@ case "${mode}" in
 	;;
 	3|4) 
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
-		#DONE:nelosem uusi testi (ekhä rekee toimivaa oksennusta)
+		#DONE:nelosem uusi testi (ekhä teki toimivaa oksennusta)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		e22_z1 ${CONF_hashfile3}
@@ -169,7 +163,7 @@ case "${mode}" in
 
 		e22_pre1 ${d} ${distro}
 
-		#TODO:varmista että 2. param tarkistetaan
+		#DONE:varmista että 2. param tarkistetaan (1)
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
 
 		fasdfasd ${CONF_hashfile3}.tmp
@@ -184,9 +178,8 @@ case "${mode}" in
 			#... tai jos case g prujaus... elleiu case g sisältö e23:sen fktioksi jnpp
 			exit
 
-			#TODO:kts että 1. param tarkistetaan
+			#DONE:kts että 1. param tarkistetaan (jep)
 			e23_tblz ${CONF_iface} ${CONF_dnsm}
-
 			e23_other_pkgs ${CONF_dnsm}
 		else
 			doIt=0
@@ -194,6 +187,12 @@ case "${mode}" in
 	;;
 	e) #170926 sai aikaiseksi paketin, mikä jopa asentui (toistuuko?)
 		#20926:ao. fktion kanssa ekan parametrin kanssa nykyään riittää että on ei-tyhjä
+	
+		#TODO:e ja sitä seuraavat caset soveltuvin osin:testaa miten nykyiset oksennukset toikmiavt sqroot-yumpstössä
+		#... siis e/g/l/u-paketit pitäisi muodostaa uusiksi sqroot vart koska filesystem.squashfs kusi paskaa 20926
+		#lisäksi myös grub.cfg:stä tuli väärä versio kiekolle jotain remasterointiskriptejäkin pitäisi tutkia
+		#... taio miten jos sqr-ymp asentaisi ensin u , sitten l?
+
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
 
@@ -201,9 +200,7 @@ case "${mode}" in
 		message
 		csleep 2
 
-		#TODO:ekan param trq josei olejo
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
-
 		dqb "BC/AD"
 		csleep 2
 
@@ -216,7 +213,8 @@ case "${mode}" in
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
-	g) #190926:osaa jo muodostaa paketin, seuraav8 testaus (VAIH: modaamattomalla kiekolla)
+	g) #200926:osaa jo muodostaa paketin, seuraav8 testaus (VAIH: modaamattomalla kiekolla, jäänee kiinni e.tar t a r kistuksesta)
+	#TODO:sqrootin kanssa pelittämään (cefgh() , se sah6kophta)
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 		${fib}
@@ -226,11 +224,10 @@ case "${mode}" in
 		e22_pre_e ${CONF_iface} ${E22_GG}
 
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
-		#VAIH:varmista että e.tar.sha tulee mukaan, tarvitaan
+		#DONE:varmista että e.tar.sha tulee mukaan, tarvitaan (jos olisi jo 20926 qunnossa?)
 		e22_ftr ${d}/e.tar
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
 
-	#20926:löytyikö jo qseva kohta?
 		x=$(${srat} -tf ${tgtfile} | grep e.tar.sha | wc -l)
 		[ ${x} -gt 0 ]  || exit 94
 		doIt=0
@@ -241,7 +238,7 @@ case "${mode}" in
 		${shary} ntpsec
 	;;
 	s) #190926:muodostaa paketin? jep , masentuu? "sqrot 3" kautta
-		#TODO:libburn-juttuja accept1:seen
+		#VAIH:libburn-juttuja accept1:seen
 		e23_st
 	;;
 	u|upgrade)
@@ -262,8 +259,9 @@ case "${mode}" in
 		${sifd} ${CONF_iface}
 		csleep 1
 
-		#TODO:miten se ekan param tarkistus?
-		ten1 ${CONF_iface} ${CONF_pkgdir} #310726:uskaltaakohan tätäkään?
+		#DONE:miten se ekan param tarkistus? löytyy nykyään
+		ten1 ${CONF_iface} ${CONF_pkgdir} 
+		#310726:uskaltaakohan tätäkään?
 		#saattaa olla ten1 tässä turha koska cg_udp6 myöhemmin
 	;;
 	l)
