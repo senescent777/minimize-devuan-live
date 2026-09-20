@@ -278,13 +278,14 @@ function tpr() {
 	local q=$(${mkt} -d)
 	[ $? -gt 0 ] && exit 20
 
-	dqb "JUST BEFORE T R ${1}/${2}"
+	
 	#jos vielä härdelliä niin keskeytetään mikäli ei $2:sta löydä prefs.js?
 	local r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l) #vielä jos arhc_4 ?
 	[ ${r} -gt 0 ] || exit 21
 	csleep 1
 
 	#18926:jokojo toimisi?
+	dqb "JUST BEFORE ${srat} -C ${q} -xvf ${1}/${2} ${TARGET_TPX}"
 	${srat} -C ${q} -xvf ${1}/${2} ${TARGET_TPX}
 	[ $? -gt 0 ] && exit 22
 	csleep 2

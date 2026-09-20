@@ -10,7 +10,7 @@ mode=3
 #010826:toimiiko tämä eri tavalla -v kanssa kuin ilman? sqroot...
 
 function parse_opts_1() {
-	if [ -d ${d0}/${1} ] ; then
+	if [ -d ${d0}/${1} ] ; then #TODO:jatkossa toisin? guess_conf() ?
 		echo "#distro=${1}"
 	else
 		case  "${1}" in
@@ -86,6 +86,7 @@ if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto 
 	dqb "kö"
 	TLA
 else
+	#VAIH:part2()seen barm vuoksi $2 t arkistus? tai siis lisää?
 	part2 1 ${CONF_dnsm} ${CONF_iface}
 	[ $? -gt 0 ] && exit
 fi

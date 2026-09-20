@@ -550,8 +550,10 @@ function cefgh() {
 
 function ten1() {
 	dqb "TEM10 ) ${1} ;; ${2} ;; ${3} ("
-	#kunnollinen param trq voisi olla tässä
-	#csleep 5
+	#kunnollinen param trq voisi olla tässä (VAIH)
+	[ -z "${1}" ] && exit 56
+	dqb "t1m10.pars.ok"
+	csleep 1
 
 	if [ "${1}" == "wlan0" ] ; then
 		dqb "NOT REMOVING WPASUPPLICANT"
@@ -754,7 +756,7 @@ function check_binaries() {
 	E22_GM="${E22_GM},libmnl0,libatm1,libpcre2-8-0,libmd0,libgssapi-krb5-2"
 	E22_GM="${E22_GM},libbsd0,libcap2,libcap2-bin,libdb5.3,libtirpc-common,libtirpc3,iproute2"
 
-	#19926;miten dhcp-jutut nykyään? peellinen if? TODO?:selvitä
+	#19926:miten dhcp-jutut nykyään? peellinen if? TODO?:selvitä
 	[ "${CONF_iface}" == "eth0:1" ] || E22_GM="${E22_GM},isc-dhcp-client,isc-dhcp-common"
 	E22_GM="${E22_GM},libpam0g,libcrypt1,libaudit1,libpam-modules-bin,libpam-modules"
 
@@ -783,6 +785,7 @@ function check_binaries() {
 	E22_GU=""
 
 	#190926:tarpeellista täsäs GT:n kansa kikkailla dhcp kanssa jos e22_pre_e tekee jotain vastaavaa
+	#-v , -z - testit myös?
 	if [ "${CONF_iface}" != "eth0:1" ] ; then
 		#E22_GT="isc-dhcp-client,isc-dhcp-common,"
 		E22_GU="isc-dhcp,"
@@ -827,7 +830,7 @@ function check_binaries() {
 	ls ${t}/*.deb | wc -l
 	#csleep 3
 
-	if [ "${CONF_env}" != "VED" ] ; then #chroot-ehto myös?
+	if [ "${CONF_env}" != "VED" ] ; then #20926:ei ihan vielä pois tämä if
 		for x in iptables ip6tables iptables-restore ip6tables-restore gpg ; do ocs ${x} ; done
 	fi
 
@@ -836,11 +839,14 @@ function check_binaries() {
 	dqb "second half of c_bin_1"
 	#csleep 1
 	
-#	#toistaiseksi näin (eivielä 19026 uskalla kommentoida ehtoa pois?)
-#	if [ "${CONF_env}" == "DEFAULT" ] ; then
-	if [ "${CONF_iface}" != "eth0:1" ] ; then
-		ocs dhclient
-		#csleep 1
+#	#toistaiseksi näin (eivielä 20926 uskalla kommentoida ehtoa pois?)
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -v CONF_iface] ; then
+		if [ ! -z "${CONF_iface}" ] ; then
+			if [ "${CONF_iface}" != "eth0:1" ] ; then
+				ocs dhclient
+				#csleep 1
+			fi
+		fi
 	fi
 
 	sag=$(${odio} which apt-get)
@@ -1292,13 +1298,15 @@ function part1() {
 
 function part2() {
 	dqb "PART2.5.1 ( $1 , $2 , $3 ((("
-	#csleep 5
+	csleep 1
 
 	[ -z "${1}" ] && exit 55
 	[ -z "${2}" ] && exit 56
+	#VAIH:kolmannelle parametrille ta rkistus?
+	[ -z "${3}" ] && exit 75
 
 	dqb "PARS_OK"
-	#csleep 5
+	csleep 1
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."

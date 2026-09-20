@@ -104,10 +104,9 @@ function dis() {
 function part0() {
 	dqb "part0)))( ${1} ;; ${2})(((((("
 	[ -z "${1}" ] && exit 76
-	[ -z "${2}" ] && echo "SHOULD exit 78"
-
+	[ -z "${2}" ] && exit 78 #echo "SHOULD "
 	dqb "pars.ok"
-	#csleep 5
+	csleep 2
 
 	dis ${1} ${2}
 	local s
@@ -202,6 +201,7 @@ function adieu() {
 
 #=====================================PART0=========================================================
 pkgcache=$(${mkt} -d)
+#mitä jos iface puuttuu konffista? part0 suoritus pyshtynee? tekisikö jotain vei ei?
 part0 ${distro} ${CONF_iface}
 process_lib ${d} ${pkgcache}
 
@@ -412,6 +412,7 @@ if [ "${CONF_env}" == "DEFAULT" ] ; then
 	[ ${c14} -gt 0 ] || CONF_removepkgs=0
 fi
 
+#miten tuo 3. parametri? tarpeellinen nykyään?
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
 #===================================================PART 3===========================================================
 message
@@ -420,8 +421,8 @@ part3 ${d} ${pkgcache}
 other_horrors
 dqb "AFTER THE HORROR"
 
-echo "TODO:FFOX-PROFiILI-JUTUT , VARMISTA ETTÄ TOIMII"
-sleep 10
+echo "VAIH:FFOX-PROFiILI-JUTUT , VARMISTA ETTÄ TOIMII"
+sleep 5
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh
