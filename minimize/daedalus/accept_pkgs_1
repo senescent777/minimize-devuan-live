@@ -307,7 +307,7 @@ libisl
 libtext-wrapi18
 libfs6
 #
-#TODO:TAAS KERRAN RIIPPUVUUKSIEN METSÄSTYS???
+#TODO:TAAS KERRAN RIIPPUVUUKSIEN METSÄSTYS??? VAIKO SELVITÄ MIKÄ SQROOTIN KANSSA KUSEE
 libwutil5
 #
 #
@@ -348,3 +348,6 @@ libproc2-0
 #python3.11 depends on libpython3.11-stdlib (= 3.11.2-6+deb12u7); however:
 #Package libpython3.11-stdlib:amd64 is
 #
+#190926 lisäyksiä, e23_st() liittyy
+libburn4
+libiso
