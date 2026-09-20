@@ -557,8 +557,8 @@ function e22_ts() {
 	[ -z "${2}" ] && exit 16
 	[ -d ${2} ] || exit 17
 
-	dqb "${svm} ${2}/*.deb ${1} IN 5 SECS"
-	csleep 5
+	dqb "${svm} ${2}/*.deb ${1} IN 2 SECS"
+	csleep 2
 
 	${svm} ${2}/*.deb ${1}
 	[ $? -eq 0 ] || exit 56
@@ -568,14 +568,14 @@ function e22_ts() {
 	cg_udp6 ${1}
 
 	ls -las ${1}/*.deb
-	csleep 5
+	csleep 2
 
 	dqb "e22_ts() done"
 }
 
 function e22_arch() {
 	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
-	csleep 5
+	csleep 1
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 11
@@ -610,7 +610,7 @@ function e22_arch() {
 
 	cd ${2}
 	#jtnkn toisin jatkossa kuitenkin?
-	#echo "TODO:POLUT UUSIKSI e22_arch()"
+	#echo "TODO:POLUT UUSIKSI e22_arch() ?"
 	#exit
 
 	${sah6} ./*.deb > ./${CONF_hashfile}
@@ -636,7 +636,7 @@ function e22_arch() {
 	done
 
 	[ ${debug} -eq 1 ] && cat ./${CONF_hashfile}.1
-	csleep 5
+	csleep 2
 	e22_tyg ./${CONF_hashfile}
 
 	if [ -s ./${CONF_hashfile}.1 ] ; then #miski näin?
@@ -663,11 +663,11 @@ function e22_arch() {
 	csleep 1
 }
 
-#VAIH:jatkossa f.tar pois välistä? ulompaan arkistoon jhnkn tmp-hmistoon suoraan paketit?
+#DONE?:jatkossa f.tar pois välistä? ulompaan arkistoon jhnkn tmp-hmistoon suoraan paketit?
 
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
-	csleep 30
+	csleep 3
 
 	[ -z "${1}" ] && exit 14
 	[ -s ${1} ] || exit 15

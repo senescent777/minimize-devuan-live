@@ -130,7 +130,9 @@ e22_hdr ${tgtfile}
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
+#TODO:reagointi siigen että 1. param tyhjä, jos ei siis olejo (on)
 e22_pre2 ${CONF_iface} ${CONF_dnsm}
+
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
@@ -166,7 +168,10 @@ case "${mode}" in
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
 
 		e22_pre1 ${d} ${distro}
+
+		#TODO:varmista että 2. param tarkistetaan
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
+
 		fasdfasd ${CONF_hashfile3}.tmp
 
 		e22_sarram ${tgtfile} ${CONF_dm} ${CONF_hashfile3}.tmp
@@ -179,13 +184,16 @@ case "${mode}" in
 			#... tai jos case g prujaus... elleiu case g sisältö e23:sen fktioksi jnpp
 			exit
 
+			#TODO:kts että 1. param tarkistetaan
 			e23_tblz ${CONF_iface} ${CONF_dnsm}
+
 			e23_other_pkgs ${CONF_dnsm}
 		else
 			doIt=0
 		fi
 	;;
 	e) #170926 sai aikaiseksi paketin, mikä jopa asentui (toistuuko?)
+		#20926:ao. fktion kanssa ekan parametrin kanssa nykyään riittää että on ei-tyhjä
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
 
@@ -193,7 +201,9 @@ case "${mode}" in
 		message
 		csleep 2
 
+		#TODO:ekan param trq josei olejo
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
+
 		dqb "BC/AD"
 		csleep 2
 
@@ -220,7 +230,8 @@ case "${mode}" in
 		e22_ftr ${d}/e.tar
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
 
-		x=$(${srat} -tf ${tgtfile} | grep e.tar.sha | wc -l}
+	#20926:löytyikö jo qseva kohta?
+		x=$(${srat} -tf ${tgtfile} | grep e.tar.sha | wc -l)
 		[ ${x} -gt 0 ]  || exit 94
 		doIt=0
 	;;
@@ -251,6 +262,7 @@ case "${mode}" in
 		${sifd} ${CONF_iface}
 		csleep 1
 
+		#TODO:miten se ekan param tarkistus?
 		ten1 ${CONF_iface} ${CONF_pkgdir} #310726:uskaltaakohan tätäkään?
 		#saattaa olla ten1 tässä turha koska cg_udp6 myöhemmin
 	;;
