@@ -510,11 +510,11 @@ function cefgh() {
 	dqb "HGEFX ${1} ; ${2}"
 	[ -z "${1}" ] && exit 66
 	[ -d ${1} ] || exit 67
-	#csleep 5
 
 	if [ -z "${gg}" ] ; then
 		local p=$(pwd)
 		cd ${1}
+		#TODO:Const
 		dqb "SHOULD {sah6} -c ./e.tar HERE"
 
 		if [ -s ./e.tar.sha ] ; then
@@ -532,21 +532,16 @@ function cefgh() {
 		cd ${p}
 	fi
 
-	echo "gg= ${gg}"
-	#efk2 ${1}/f.tar ${1}
+	dqb "gg= ${gg}"
 	${odio} ${sr0} -C ${1} -xf ${1}/f.tar
 
 	if [ $? -eq 0 ] && [ -x ${gg} ] ; then #-z mukaan?
-		#csleep 5
 		dqb "HGEFX.inner: SH0ULD ${NKVD} ${1}/f.tar SOON"
-		#csleep 10
 		${NKVD} ${1}/f.tar
 	else
 		echo "COULD NOT DESTROY   ${1}/f.tar  YET"
 		[ -x ${gg} ] || echo "MATTI NUSSI9" 
 	fi
-
-	#sleep 5
 }
 
 function ten1() {
@@ -561,7 +556,6 @@ function ten1() {
 
 	if [ "${1}" == "wlan0" ] ; then
 		dqb "NOT REMOVING WPASUPPLICANT"
-		#csleep 1
 	else
 		${sharpy} modem* wireless* 
 		${sharpy} wpa*
@@ -587,10 +581,7 @@ function ten1() {
 		fi
 	fi
 
-	#csleep 5
 	dpkg -l wpa*
-	#csleep 5
-
 	dqb "TEN1 ENOD()"
 }
 
@@ -611,21 +602,9 @@ function worf() {
 			1)
 				efk1 ${3}/${u}*
 			;;
-			2) #DONE?:kts ten1() 2) ja 4) liittyen, tämä+seur case kys fktiolle jatq?
+			2)
 				${shary} ${u}
 			;;
-#			4) #uusi yritys (case:t voisi ehkä jopa yhdistää qhan if-lausetta muuttaa)
-#				v=$(echo ${u} | grep dhcp | wc -l)
-#
-#				if [ ${v} -gt 0 ] ; then
-#					dqb "SKIPPING ${u}"
-#				else
-#					${shary} ${u} 					
-#				fi
-#
-#				#[ -z "${v}" ] || ${shary} ${u}* #jokeri huono idea tssä
-#				#csleep 1
-#			;;
 		esac
 	done
 }
