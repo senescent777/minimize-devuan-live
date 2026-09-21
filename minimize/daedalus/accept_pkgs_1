@@ -49,10 +49,13 @@ librsvg2-common
 libatspi2
 #
 #020836:tpoimivassa u-paketissa ei näitä libgl1, libglx, pakeTTeja (TODO?:tekiskikö jotain?)
+libx11-xcb1
+#libglx-mesa0:amd64 depends on libx11-xcb1
 libgl1-mesa-dri
 libglx-mesa0
 libglx0
-libgl1_1.6
+#libgl1_1.6
+libgl1
 #/libgl
 #
 libglib2.0
@@ -147,7 +150,7 @@ libxc
 #
 libx11-data
 #x11-6 oloi tässä
-libx11-xcb1
+#libx11-xcb1 oli tässä aiemmin
 #
 #siirretty aiemmaksi koska x
 libxau6
