@@ -123,8 +123,6 @@ function part0() {
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
 	${whack} ssh-agent*
 
-	#2804236:josko ssh-agentin sisältävän paketin voisi poistaa? ajankohtaistra vielä 07/26?
-
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
 		#HUOM.271125:saisiko tällä tyylillä myös slimin sammutettua? saa, mutta...
@@ -219,10 +217,6 @@ if [ -s ~/xorg.conf.new ] ; then
 		reqwreqw /etc/X11/xorg.conf
 	fi
 fi
-
-#VAIH:meshuqqah kiukuttelun selvittely jos vielä toistuu, syyllinen tämä fktio vai mangle_s ?
-#... yksi ehdokas olisi
-#28736 jo kunnossa?
 
 function pre_enforce() {
 	dqb "pre_enforce() "

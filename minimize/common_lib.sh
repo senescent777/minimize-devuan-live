@@ -518,19 +518,23 @@ function cefgh() {
 	#sleep 1
 
 	if [ -z "${gg}" ] ; then
-		dqb "SHOULD {sah6} -c ${1}/e.tar HERE"
+		local p=$(pwd)
+		cd ${1}
+		dqb "SHOULD {sah6} -c ./e.tar HERE"
 
-		if [ -s ${1}/e.tar.sha ] ; then
-			#TODO:tapsua sq-rot , koita saada trkist menemään läpi
-			${sah6} -c ${1}/e.tar.sha
+		if [ -s ./e.tar.sha ] ; then
+			#VAIH:tapsua sq-rot , koita saada trkist menemään läpi
+			${sah6} -c ./e.tar.sha
 			exit
-			[ $? -eq 0 ] || ${NKVD} ${1}/e.tar*
+			[ $? -eq 0 ] || ${NKVD} ./e.tar*
 		fi
 
-		csleep 5
-		#efk2 ${1}/e.tar ${1}
-		${odio} ${sr0} -C ${1} -xf ${1}/e.tar
-		${NKVD} ${1}/e.tar #190926:onkohan hyvä juttu delliä tässä?
+		csleep 2
+		${odio} ${sr0} -xf ./e.tar #srat?
+		${NKVD} ./e.tar
+		#190926:onkohan hyvä juttu delliä tässä?
+
+		cd p
 	fi
 
 	echo "gg= ${gg}"
@@ -612,7 +616,7 @@ function worf() {
 			1)
 				efk1 ${3}/${u}*
 			;;
-			2) #VAIH:kts ten1() 2) ja 4) liittyen, tämä+seur case kys fktiolle jatq?
+			2) #DONE?:kts ten1() 2) ja 4) liittyen, tämä+seur case kys fktiolle jatq?
 				${shary} ${u}
 			;;
 #			4) #uusi yritys (case:t voisi ehkä jopa yhdistää qhan if-lausetta muuttaa)
