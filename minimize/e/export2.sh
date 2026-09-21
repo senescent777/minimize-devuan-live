@@ -130,10 +130,10 @@ e22_pre1 ${d} ${distro}
 
 #DONE:reagointi siigen että 1. param tyhjä, jos ei siis olejo (on)
 e22_pre2 ${CONF_iface} ${CONF_dnsm}
-
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
 
+#cleanpkgs() vs destroy() , olennaista eroa?
 destroy ${d}
 
 doIt=1
@@ -188,9 +188,12 @@ case "${mode}" in
 	e) #170926 sai aikaiseksi paketin, mikä jopa asentui (toistuuko?)
 		#20926:ao. fktion kanssa ekan parametrin kanssa nykyään riittää että on ei-tyhjä
 	
-		#TODO:e ja sitä seuraavat caset soveltuvin osin:testaa miten nykyiset oksennukset toikmiavt sqroot-yumpstössä
+		#TODO:e ja sitä seuraavat caset soveltuvin osin:testaa miten nykyiset oksennukset toikmiavt sqroot-ympstössä
+
 		#... siis e/g/l/u-paketit pitäisi muodostaa uusiksi sqroot vart koska filesystem.squashfs kusi paskaa 20926
-		#lisäksi myös grub.cfg:stä tuli väärä versio kiekolle jotain remasterointiskriptejäkin pitäisi tutkia
+		#lisäksi myös grub.cfg:stä tuli väärä versio kiekolle joten remasterointiskriptejäkin pitäisi tutkia
+		#22926:alettu sorkkai remasterointiskriptejä jotta edes grub.cfg suhteen saisi asiat qntoon		
+
 		#... taio miten jos sqr-ymp asentaisi ensin u , sitten l?
 
 		e22_pre_e ${CONF_iface} ${E22_GS}
@@ -214,7 +217,7 @@ case "${mode}" in
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
 	g) #200926:osaa jo muodostaa paketin, seuraav8 testaus (VAIH: modaamattomalla kiekolla, jäänee kiinni e.tar t a r kistuksesta)
-	#TODO:sqrootin kanssa pelittämään (cefgh() , se sah6kophta)
+	#VAIH:sqrootin kanssa pelittämään (cefgh() , se sah6kophta)
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 		${fib}
@@ -224,7 +227,7 @@ case "${mode}" in
 		e22_pre_e ${CONF_iface} ${E22_GG}
 
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
-		#DONE:varmista että e.tar.sha tulee mukaan, tarvitaan (jos olisi jo 20926 qunnossa?)
+
 		e22_ftr ${d}/e.tar
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
 

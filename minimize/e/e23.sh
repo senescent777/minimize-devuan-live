@@ -156,7 +156,8 @@ function e23_qrs() {
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
 #TODO:testaus uusicksi josqs koska y
-
+#TODO:libvdpau1, perl, libgl1, libglx0, libglx-mesa0, libx11-xcb1 mukaanjos puuttuu?
+#... siis 2 ekaa lisäten lähinnä
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
