@@ -419,13 +419,7 @@ function e22_pre_e() {
 	dqb "e22_pre_e() ))) $@ )))))))("
 	csleep 1
 
-#	#HUOM.190926:suattaapi muuttua turhaksi osa worf():in switch-case:sta tai koko tämä fkiokin samalla
-#
-#	if [ "${1}" == "eth0:1" ] ; then #DONE?:vähitellen jotain. Tai jos kuitenkin vain se dhcp-karsinta tässä.
-#		worf ${2} 4
-#	else
 		worf ${2} 2
-#	fi
 }
 
 function e22_ext() {
@@ -606,7 +600,7 @@ function e22_arch() {
 
 	cd ${2}
 	#jtnkn toisin jatkossa kuitenkin?
-	#echo "TODO:POLUT UUSIKSI e22_arch() ?" jatkossa sah ja muut saisivat paaremtriksi ./$distro/ ?
+	#echo "TODO?:POLUT UUSIKSI e22_arch() ?" jatkossa sah ja muut saisivat paaremtriksi ./$distro/ ?
 	#...esim cut on krkdsitty jos roi muuta keksi , vaiko sqrot.sh muuttaminen mieluummin?
 
 	${sah6} ./*.deb > ./${CONF_hashfile}
@@ -658,8 +652,6 @@ function e22_arch() {
 	dqb "E22_A_DONE"
 	csleep 1
 }
-
-#DONE?:jatkossa f.tar pois välistä? ulompaan arkistoon jhnkn tmp-hmistoon suoraan paketit?
 
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
@@ -745,6 +737,7 @@ function e22_rpg() {
 #		
 #	exit
 }
+
 function e22_cde() {
 	dqb "e22_cde()"
 	
@@ -827,7 +820,6 @@ function e22_z3() {
 	csleep 1
 
 	if [ ! -s ${3} ] ; then
-		#120726:mitense exp3? mitå siitä?
 		${sr0} -tf ${2} | grep -v .tar | grep -v .deb > ${3}
 		csleep 1
 	fi
