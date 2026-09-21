@@ -529,7 +529,7 @@ function cefgh() {
 		${NKVD} ./e.tar
 		#190926:onkohan hyvä juttu delliä tässä?
 
-		cd p
+		cd ${p}
 	fi
 
 	echo "gg= ${gg}"
