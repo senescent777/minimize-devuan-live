@@ -471,7 +471,6 @@ function efk1() {
 	fi
 }
 
-#oeellinen fktio? voisiko cefg hoitaa kyuitenkin?= (DONE?)
 #function efk2() {
 #	dqb "efk2 )))))))) ${1} ))) ${2} )))))"
 #	[ -z "${1}" ] && exit 96
@@ -507,15 +506,11 @@ function fromtend() {
 	fi
 }
 
-#11926:qseeko fr poisto vain silloiq debug=0 ? bissiin se tai $? (EHKÄ)
 function cefgh() {
 	dqb "HGEFX ${1} ; ${2}"
 	[ -z "${1}" ] && exit 66
 	[ -d ${1} ] || exit 67
 	#csleep 5
-
-	#echo "cefgh: debug= ${debug}"
-	#sleep 1
 
 	if [ -z "${gg}" ] ; then
 		local p=$(pwd)
