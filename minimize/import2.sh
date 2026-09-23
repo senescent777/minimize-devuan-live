@@ -295,6 +295,7 @@ function tpr() {
 	csleep 2
 }
 
+#TODO:testaapa pitkästä aikaa caset
 case "${mode}" in
 	-1) 
 		dqb "DIPOLIN KÄPY"

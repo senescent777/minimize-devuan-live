@@ -471,6 +471,7 @@ function efk1() {
 	fi
 }
 
+#oeellinen fktio? voisiko cefg hoitaa kyuitenkin?= (DONE?)
 #function efk2() {
 #	dqb "efk2 )))))))) ${1} ))) ${2} )))))"
 #	[ -z "${1}" ] && exit 96
@@ -514,7 +515,6 @@ function cefgh() {
 	if [ -z "${gg}" ] ; then
 		local p=$(pwd)
 		cd ${1}
-		#TODO:Const
 		dqb "SHOULD {sah6} -c ./e.tar HERE"
 
 		if [ -s ./e.tar.sha ] ; then
@@ -532,7 +532,7 @@ function cefgh() {
 		cd ${p}
 	fi
 
-	dqb "gg= ${gg}"
+	#echo "gg= ${gg}"
 	${odio} ${sr0} -C ${1} -xf ${1}/f.tar
 
 	if [ $? -eq 0 ] && [ -x ${gg} ] ; then #-z mukaan?
@@ -631,8 +631,6 @@ function wopr() {
 
 function CB01() {
 	dqb "common.lib.CB01( ${1} (( ${2} )"
-	#csleep 1
-
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 100
 	[ -z "${2}" ] && exit 98
@@ -759,7 +757,6 @@ function check_binaries() {
 		dqb "SCHEISS3"
 	fi
 	
-	#csleep 10
 	for x in ${y} ; do ocs ${x} ; done
 	sdi="${odio} ${sd0} -i "
 	E22_GI="libassuan0,libbz2-1.0,libc6,libgcrypt20,libgpg-error0,libreadline8,libsqlite3-0,gpgconf,zlib1g,gpg"
@@ -800,7 +797,6 @@ function check_binaries() {
 		common_pp3 ${1} ${t}
 		
 		dqb "BF0R3 CVB0"
-		#csleep 5
 	fi
 	
 	if [ -z "${gg}" ] ; then
@@ -813,7 +809,6 @@ function check_binaries() {
 
 	dqb "#jäölk ÄYÖYÄ SDDFSDSDGH t. Paska-Ankka"
 	ls ${t}/*.deb | wc -l
-	#csleep 3
 
 	if [ "${CONF_env}" != "VED" ] ; then #20926:ei ihan vielä pois tämä if
 		for x in iptables ip6tables iptables-restore ip6tables-restore gpg ; do ocs ${x} ; done
@@ -822,10 +817,9 @@ function check_binaries() {
 	#HUOM.30626:kts. pre_enforce() kommentit
 	[ "${CONF_env}" == "TOOR" ] || CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
-	#csleep 1
 	
 #	#toistaiseksi näin (eivielä 20926 uskalla kommentoida ehtoa pois?)
-	if [ "${CONF_env}" == "DEFAULT" ] && [ -v CONF_iface] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] && [ -v CONF_iface ] ; then
 		if [ ! -z "${CONF_iface}" ] ; then
 			if [ "${CONF_iface}" != "eth0:1" ] ; then
 				ocs dhclient
@@ -842,14 +836,13 @@ function check_binaries() {
 	sifc=$(${odio} which ifconfig)
 
 	dqb "b1nar135 0k"
-	#csleep 1
 }
 
 function check_binaries2() {
 	#oikeastaaan ei tämä fktio ota vastaamn param,,,
 	dqb "c0mm0n_lib.ch3ck_b1nar135.2 ))) ${1} ; ${2} ((((((("
 
-		[ -v sd0 ] || exit 66
+	[ -v sd0 ] || exit 66
 	
 	ipt="${odio} ${ipt} "
 	ip6t="${odio} ${ip6t} "

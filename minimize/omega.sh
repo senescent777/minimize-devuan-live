@@ -17,6 +17,8 @@ if [ $# -gt 0 ] ; then
 	mode=${1}
 fi
 
+#HUOM.239.26: näiden 2 seur. if-blokin kanssa voi tulla ongelmia jos asentaa u-paketin ennen l-pakettia
+
 if [ ${mode} -eq 5 ] ; then
 	sudo /etc/init.d/ntpsec stop
 	sudo apt --fix-broken install
