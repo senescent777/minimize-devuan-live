@@ -9,9 +9,6 @@ function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() 
 	#kts ten1() liittyen
 	#VAIH:vähitellen jotain? E22:_GT , GU, GM hyödyntäern?
 
-#	case "" in
-#		)
-#			#E22:GN="libnl-3-200 ... "
 #			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
 
 	if [ "${1}" == "wlan0" ] ; then			
@@ -19,15 +16,10 @@ function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() 
 		${shary} wpasupplicant
 	fi
 
-	#TODO:E22_D?
+	#TODO?:E22_D?
 	if [ "${1}" != "eth0:1" ] ; then
 		worf isc-dhcp-client,isc-dhcp-common 2
 	fi
-
-#		;;
-#		*)
-#		;;
-#	esac
 }
 
 function e23_tblz() {
@@ -48,7 +40,7 @@ function e23_tblz() {
 	tpc7
 	#jotain excaliburiin liittyvää tuo tpc
 
-	#190926:joutaisi ksi josqs siirtää dhcp-jutut pre_e -> asw
+	#190926:joutaisi ksi josqs siirtää dhcp-jutut pre_e -> asw ?
 	aswasw ${1}	
 	e22_pre_e ${1} ${E22_GT}
 

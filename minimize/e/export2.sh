@@ -17,7 +17,7 @@ function usage() {
 	echo "$0 e <tgtfile> [distro?] [-v]: archives the Essential .deb packages"
 	echo
 
-	echo "$0 l <tgtfile> [-v] [ -d preferred_displaymanager? ] : makes a packaged containing .deb-files for a (preferred) displaymanager"
+	echo "$0 l <tgtfile> [-v] [ -d preferred_displaymanager? ] : makes a packaged containing .deb-files for a (preferred) displaymanager(only wdm this time)"
 	echo "$0 g adds Gpg for signature checks, maybe?"
 	echo "$0 t ... option for ipTables"
 	echo "$0 -h: shows tHis message about usage"
@@ -71,13 +71,14 @@ function parse_opts_2() {
 	esac
 }
 
-function fallback() { #tarpeellinen?
+function fallback() { #tarpeellinen? no lis lib.-sh hukataan ni eghkä, muistuttatamaan
 	exit 59
 }
 
 if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
+	echo "MAYBE chmod a+x YOU-KONW-WTAH"
 	exit 57
 fi
 
@@ -128,7 +129,6 @@ e22_hdr ${tgtfile}
 e22_pre1 ${d} ${distro}
 [ ${debug} -eq 1 ] && pwd;sleep 6
 
-#DONE:reagointi siigen että 1. param tyhjä, jos ei siis olejo (on)
 e22_pre2 ${CONF_iface} ${CONF_dnsm}
 e22_cleanpkgs ${d}
 e22_cleanpkgs ${CONF_pkgdir}
@@ -148,7 +148,7 @@ case "${mode}" in
 	;;
 	3|4) 
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
-		#DONE:nelosem uusi testi (ekhä teki toimivaa oksennusta)
+		#DONE:nelosem uusi testi (ekhä teki toimivaa oksennusta 09/26)
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		e22_z1 ${CONF_hashfile3}
@@ -162,10 +162,7 @@ case "${mode}" in
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
 
 		e22_pre1 ${d} ${distro}
-
-		#DONE:varmista että 2. param tarkistetaan (1)
 		e22_acol ${tgtfile} ${CONF_iface} ${CONF_dnsm} ${CONF_enforce}
-
 		fasdfasd ${CONF_hashfile3}.tmp
 
 		e22_sarram ${tgtfile} ${CONF_dm} ${CONF_hashfile3}.tmp
@@ -188,7 +185,7 @@ case "${mode}" in
 	e) #170926 sai aikaiseksi paketin, mikä jopa asentui (toistuuko?)
 		#20926:ao. fktion kanssa ekan parametrin kanssa nykyään riittää että on ei-tyhjä
 	
-		#TODO:e ja sitä seuraavat caset soveltuvin osin:testaa miten nykyiset oksennukset toikmiavt sqroot-ympstössä
+		#VAIH:e ja sitä seuraavat caset soveltuvin osin:testaa miten nykyiset oksennukset toikmiavt sqroot-ympstössä
 
 		#... siis e/g/l/u-paketit pitäisi muodostaa uusiksi sqroot vart koska filesystem.squashfs kusi paskaa 20926
 		#lisäksi myös grub.cfg:stä tuli väärä versio kiekolle joten remasterointiskriptejäkin pitäisi tutkia
@@ -216,7 +213,7 @@ case "${mode}" in
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
-	g) #200926:osaa jo muodostaa paketin, seuraav8 testaus (VAIH: modaamattomalla kiekolla, jäänee kiinni e.tar t a r kistuksesta)
+	g) #modaamattoman kiekon kanssa jo ok tämä case?
 	#VAIH:sqrootin kanssa pelittämään (cefgh() , se sah6kophta)
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
@@ -245,14 +242,19 @@ case "${mode}" in
 		e23_st
 	;;
 	u|upgrade)
-		#310726: tai siis kiukutteluja kyllä löytyy
-		#VAIH:dblok kutsuvasta koodista part175 ja ten1 jemmaan, palauttelu testikierros kerrallaan
-
 		#020836: sqroot "bind9-dnsutils depends on bind9-host | host; however" accept kusee vai jotain muuta?
 
 		#live-boot depends on live-boot-initramfs-tools | live-boot-backend; however:
 		#dpkg: dependency problems prevent configuration of mutt:
 		#dpkg: dependency problems prevent configuration of libgsasl18:amd64:
+
+		#ntp, jos se pitäisi tjnkn pois päältä jos ei oikeasti tartte
+		#270926:joskohan jo oksennukset toimisi?
+		#ihan maaliin asti ei vielä päästy, äksä poistuu omega 5 seurauksena
+		#libxcb1 se ongelma?
+
+		#JOKO JO PRKL?
+		${shary} libxcb1 libx11-data libx11-6 libx11-xcb1
 
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD Be U P B Y No W - Heisenberg"
@@ -261,11 +263,6 @@ case "${mode}" in
 		e23_upgp
 		${sifd} ${CONF_iface}
 		csleep 1
-
-		#DONE:miten se ekan param tarkistus? löytyy nykyään
-		ten1 ${CONF_iface} ${CONF_pkgdir} 
-		#310726:uskaltaakohan tätäkään?
-		#saattaa olla ten1 tässä turha koska cg_udp6 myöhemmin
 	;;
 	l)
 		#120726:lienee toimiva tämä case
