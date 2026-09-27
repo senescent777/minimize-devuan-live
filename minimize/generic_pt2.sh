@@ -101,11 +101,11 @@ function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 #20726:modaamattomalla kiekolla&&DEFAULT rpc "ic"-tilassa, dmsetup ii, myös spi2-cpre ja psmisc myös
 #entä TPPR? josko case-esac? tai alempi filler pois?
 
-dqb "BLU NFS ???"
-csleep 16
-#defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista, bissiin näin
-
 if [ "${CONF_env}" == "TOOR" ] ; then
+	dqb "BLU NFS \?"
+	csleep 16
+	#defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista, bissiin näin
+
 	${sharpy} blu* #poistuu vai ei? initramfs-tools liittyy?
 	${sharpy} nfs*
 	t2p_filler

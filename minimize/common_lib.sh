@@ -1352,7 +1352,6 @@ function common_lib_tool() {
 	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSing f ILE"
 
 	dqb "WLL STRT PRC3551NG TGTs NW"
-	#csleep 1
 	local q
 
 	for q in $(grep -v "#" ${1}/${2}) ; do
@@ -1366,10 +1365,8 @@ function common_lib_tool() {
 			fi
 		else #pitäisikö varmistaa että tässä haarassa käydään?
 			dqb "SOON: wofr ) ${q} 0 ) "
-			#csleep 2
 
 			worf ${q} 0
-			#csleep 1
 			t2p_filler
 		fi
 	done
@@ -1379,14 +1376,12 @@ function common_lib_tool() {
 
 function part3() {
 	dqb "))() part3 ${1} ,((()()()()()( ${2} (((((((("
-	#csleep 10
 
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 101
 	#alla 2. param. kanssa riittävät trq?
 
 	dqb "PARAMS_OK"
-	#csleep 1
 
 	local n15=0
 	local t=""
@@ -1405,26 +1400,21 @@ function part3() {
 		#common_pp3 ${1} ${t}
 	fi
 
-	#csleep 1
 	jules
 
 	common_pp3 ${1} ${t} #tämä kai pois jatkossa?
 	dqb "AL-fPGA"
-	#csleep 1
 
 	#tä,män tulisi poistella ei-toivotut .deb ennen asennusta (poistaako?)
 	common_lib_tool ${t} reject_pkgs
 	dqb "B3T4"
-	#csleep 3
 
 	#tässä kohtaa edelleen urputusta?
 	efk1 ${t}/gcc-12-base*.deb ${t}/libgcc-s1*.deb ${t}/libc6*.deb
 	dqb "LAcKK.a"
-	#csleep 3
 
 	worf ${E22_GS} 1 ${t}	
 	dqb "önEGA-VGA RA"
-	#csleep 3
 
 	#viallinen u-paketti bissiin auheittiu viimeaikaisen härdellin ja pulinat pois (15926)
 	common_lib_tool ${t} accept_pkgs_1
@@ -1433,7 +1423,6 @@ function part3() {
 	#qseeko ennen vai jälkeen "accept-juttujen"?
 	echo "g4RP D0NE"
 	ls -las ${1}/*.tar
-	#sleep 10
 
 #	efk1 ${t}/lib*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
 #	[ $? -eq 0 ] || echo "SHOULD exit 66"
@@ -1448,26 +1437,22 @@ function part3() {
 
 	if [ $? -eq  0 ] ; then
                dqb "part3.1 ok"
-              # csleep 1
                ${NKVD} ${t}/lib*.deb
 	else
                exit 66
 	fi
 
 	dqb "LIBS DONE"
-	#csleep 10
 	for f in $(find ${t} -name "*.deb" ) ; do ${sdi} ${f} ; done
 
 	if [ $? -eq  0 ] ; then
 		dqb "part3.2 ok"
-		#csleep 1
 		${NKVD} ${t}/*.deb
 	else
 	       	exit 67
  	fi
 
-	[ -f ${1}/${CONF_hashfile} ] && ${NKVD} ${1}/${CONF_hashfile}*
-	#csleep 1	
+	[ -f ${1}/${CONF_hashfile} ] && ${NKVD} ${1}/${CONF_hashfile}*	
 	other_horrors
 }
 

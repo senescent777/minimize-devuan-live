@@ -21,13 +21,13 @@ fi
 
 if [ ${mode} -eq 5 ] ; then
 	sudo /etc/init.d/ntpsec stop
-	sudo apt --fix-broken install
+	sudo apt --fix-broken install #jos kesympi versiuo toiumisi ... No Ei
 	sudo /etc/init.d/slim stop
 	exit
 fi
 
 if [ ${mode} -eq 6 ] ; then
-	sudo apt-get remove --purge slim*
+	sudo apt-get remove --purge slim* #No Ei
 	sudo /etc/init.d/wdm start
 	exit
 fi

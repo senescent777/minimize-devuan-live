@@ -328,28 +328,19 @@ function common_part() {
 			dqb "ko"		
 		else	
 			#ekan param lisä kistukset yllä riittävät? entä destroy()?
-			${NKVD} ${1}* 
-#			#${NKVD} ${2}/*.deb
-#
-#			#VAIH:destrpy()?
-#
-#			${NKVD} ${2}/${CONF_hashfile}*
-#			${NKVD} ${2}/*.tar*
+			#tämä hyvä näin?
 			destroy ${2}
 
 			exit 33
 		fi
 	fi
 
-	#csleep 1
 	echo "NECKST: ${srat} -C ${3} -xf ${1}  ${TARGET_TPX} "
 
-	#sleep 10 #sqroot-testejä varten
 	${srat} -C ${3} -xf ${1} ${TARGET_TPX}
 
 	[ $? -eq 0 ] || exit 36	#jospa viallisen arkiston deletoisi?
 
-	#sleep 10
 	echo "${srat} DONE"
 }
 
