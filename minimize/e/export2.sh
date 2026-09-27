@@ -191,7 +191,7 @@ case "${mode}" in
 		#lisäksi myös grub.cfg:stä tuli väärä versio kiekolle joten remasterointiskriptejäkin pitäisi tutkia
 		#22926:alettu sorkkai remasterointiskriptejä jotta edes grub.cfg suhteen saisi asiat qntoon		
 
-		#... taio miten jos sqr-ymp asentaisi ensin u , sitten l?
+		#... tai miten jos sqr-ymp asentaisi ensin u , sitten l?
 
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
@@ -214,7 +214,7 @@ case "${mode}" in
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
 	g) #modaamattoman kiekon kanssa jo ok tämä case?
-	#VAIH:sqrootin kanssa pelittämään (cefgh() , se sah6kophta)
+	#DONE?:sqrootin kanssa pelittämään (cefgh() , se sah6kophta)
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 		${fib}
@@ -224,7 +224,6 @@ case "${mode}" in
 		e22_pre_e ${CONF_iface} ${E22_GG}
 
 		e22_dblock ${d}/e.tar ${d} ${CONF_pkgdir} ${gbk}
-
 		e22_ftr ${d}/e.tar
 		${srat} -rvf ${tgtfile} ${d}/e.tar*
 
@@ -238,7 +237,8 @@ case "${mode}" in
 		${shary} ntpsec
 	;;
 	s) #190926:muodostaa paketin? jep , masentuu? "sqrot 3" kautta
-		#VAIH:libburn-juttuja accept1:seen
+		#270926;nalkutuksetkin saatu pois pl libdevmapper ja dmsetup jotka pitäisi kai asentaa samalla kertaa
+
 		e23_st
 	;;
 	u|upgrade)
@@ -251,10 +251,18 @@ case "${mode}" in
 		#ntp, jos se pitäisi tjnkn pois päältä jos ei oikeasti tartte
 		#270926:joskohan jo oksennukset toimisi?
 		#ihan maaliin asti ei vielä päästy, äksä poistuu omega 5 seurauksena
-		#libxcb1 se ongelma?
+		#libxcb1 se ongelma? ehkä ei
 
 		#JOKO JO PRKL?
 		${shary} libxcb1 libx11-data libx11-6 libx11-xcb1
+
+		#x11-apps
+ 		# x11-session-utils x11-xkb-utils xauth xcvt xfce4-helpers xfdesktop4-data
+ 		# xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable xinit
+ 		# xscreensaver-data xserver-common xserver-xorg-legacy
+		#nämä poistettabvaksi haluttavien joukossa masentelun jälkeen
+		# -> paketin rakentelu uusiksi TAAS , jotenin eri tavalla vain?
+
 
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD Be U P B Y No W - Heisenberg"
@@ -265,7 +273,7 @@ case "${mode}" in
 		csleep 1
 	;;
 	l)
-		#120726:lienee toimiva tämä case
+		#120726:lieni toimiva tämä case, miten sen jälkeen?
 		#TODO:tähän kilkkeeseen liittyen ne perl-yms. urputukset voisdi vähitellen hoitaa, $distro/accept ...
 		
 		#020826: sqroot kanssa "twm depends on menu (>= 2.1.26); however:"
@@ -308,6 +316,9 @@ case "${mode}" in
 #		#:uusiksi vain koko pasq?
 #		e23_xyz
 #	;;
+	r)
+		${shary} chromium
+	;;	
 	*)
 		echo "MAYBE U SHOULD USE export3 INSTEAD"
 		sleep 5
