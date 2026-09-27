@@ -263,7 +263,11 @@ case "${mode}" in
 		#nämä poistettabvaksi haluttavien joukossa masentelun jälkeen
 		# -> paketin rakentelu uusiksi TAAS , jotenin eri tavalla vain?
 
-
+		#fråm sqrot: libinput10:amd64 depends on libinput-bin
+	#uusin u-paketti sillälailla P.V.H.H. että sqroot-ympstössäkin meinaa äksä poistua
+	#eli ten1() käskytyksen kanssa jotain tehtävä? part2/( ...
+	#vai stkeeko l-paketti kanssa?
+	
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD Be U P B Y No W - Heisenberg"
 		csleep 1

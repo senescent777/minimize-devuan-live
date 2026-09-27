@@ -531,7 +531,7 @@ function cg_udp6() {
 	csleep 1
 
 	#VAIH:selvitä jotenkin, kuseeko tämä asioita?	ei kai enää 09/26? pl ehkä u-paketin muodfostuksessa?
-	ten1 ${CONF_iface} ${1}
+	#ten1 ${CONF_iface} ${1}
 
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6  DONE FOR NOW"
 	csleep 4
