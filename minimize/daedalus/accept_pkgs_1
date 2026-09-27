@@ -49,7 +49,12 @@ librsvg2-common
 libatspi2
 #
 #020836:tpoimivassa u-paketissa ei näitä libgl1, libglx, pakeTTeja (TODO?:tekiskikö jotain?)
+#VAIH:x11-xcb1 RIIPPUVUUKSIEN SELVITYS (muitaq x11-6 ei vissiin ja sen tarv)
+libxcb1
+libx11-data
+libx11-6
 libx11-xcb1
+#
 #libglx-mesa0:amd64 depends on libx11-xcb1
 libgl1-mesa-dri
 libglx-mesa0
@@ -66,7 +71,6 @@ libblkid1
 libselinux1
 libmount1
 #
-libx11-6
 libgl
 #
 at-spi
@@ -133,7 +137,7 @@ libfreetype
 libxf
 #
 #uusi selvityskierros tarpeen vai ei?
-#libxcb1
+#
 #libxcb-damage0
 #libxcb-dri2
 #libxcb-dri3
@@ -147,10 +151,6 @@ libxf
 #libxcomposite
 #libxcursor
 libxc
-#
-libx11-data
-#x11-6 oloi tässä
-#libx11-xcb1 oli tässä aiemmin
 #
 #siirretty aiemmaksi koska x
 libxau6
@@ -286,7 +286,7 @@ liberror-perl
 #
 libgbm1
 #
-#020826:jatkosäätöä? (TODO)
+#libegl-mesa0:amd64 depends on libx11-xcb1 (>= 2:1.8.4); however
 libegl-mesa0
 libegl1
 #
@@ -310,7 +310,7 @@ libisl
 libtext-wrapi18
 libfs6
 #
-#TODO:TAAS KERRAN RIIPPUVUUKSIEN METSÄSTYS??? VAIKO SELVITÄ MIKÄ SQROOTIN KANSSA KUSEE
+#270926:onko jo kunnossa wdm riippuvuudet vai ei?
 libwutil5
 #
 #
@@ -351,6 +351,11 @@ libproc2-0
 #python3.11 depends on libpython3.11-stdlib (= 3.11.2-6+deb12u7); however:
 #Package libpython3.11-stdlib:amd64 is
 #
-#190926 lisäyksiä, e23_st() liittyy
+#e23_st() liittyy
 libburn4
+libjte2
 libiso
+#
+#bissiin samaan aikaan masennettava seur 2
+libdevmapper
+dmsetup
