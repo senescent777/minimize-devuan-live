@@ -102,15 +102,17 @@ function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 #entä TPPR? josko case-esac? tai alempi filler pois?
 
 if [ "${CONF_env}" == "TOOR" ] ; then
+	#saattaa liittyä johnkin jssain tlant: Stopping bluetooth:start-stop-daemon: nothing in /proc - not mounted?
+
 	dqb "BLU NFS \?"
-	csleep 16
+	csleep 6
 	#defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista, bissiin näin
 
 	${sharpy} blu* #poistuu vai ei? initramfs-tools liittyy?
 	${sharpy} nfs*
 	t2p_filler
 
-	 #tässä kohtaa jo gpg hukataan?
+	#tässä kohtaa jo gpg hukataan?
 	${sharpy} at-spi2-core	
 	
 	${sharpy} rpc*

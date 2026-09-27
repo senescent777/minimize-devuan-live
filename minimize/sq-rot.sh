@@ -170,7 +170,7 @@ if [ $# -gt 0 ] ; then
 	fi
 fi
 
-#VAIH:tapaus sqroot+gpg puuttuu, jotain ttisi tehrä vähitellen (esim .se e.tar)
+#DONE?:tapaus sqroot+gpg puuttuu, jotain ttisi tehrä vähitellen (esim .se e.tar)
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {

@@ -1,9 +1,7 @@
 #DONE?:distron arpominen $3 jos on, /etc/jotain muuten
-#DONE?:konftdston kanssa jotain säätöä myös?
 
 function guess_conf() {
 	echo "guecc_conf ) ${1} ("
-	#sleep 2
 
 	local d00=$(pwd)
 	local d02=$(cat /etc/devuan_version)
@@ -22,7 +20,6 @@ function guess_conf() {
 		. ${d00}/$(whoami).conf
 	else
 		echo "ååå"
-		#sleep 1
 
 		if [ -d ${d01} ] && [ -s ${d01}/conf ] ; then
 			echo ". ${d01}/conf"
@@ -52,7 +49,6 @@ function guess_conf() {
 }
 
 guess_conf "${3}"
-#exit
 unset sco
 unset scm
 unset odio
@@ -1285,16 +1281,12 @@ function part2() {
 		#020826:blu/rpc/nfs , poistuuko vai ei? 
 		#20926:bluez ainakin jäi kummittelwmaan sqroot kautta
 		for s in ${PART175_LIST} ; do 
-			#csleep 5
-
 			dqb "processing ${s}"
 			${sharpy} ${s}*
 			echo $?
-			#csleep 5
 		done
 
 		dpkg -l blu*
-		#csleep 5
 
 		${lftr}
 		${sharpy} libblu* libcupsfilters* libgphoto*
@@ -1307,20 +1299,16 @@ function part2() {
 		${sharpy} python3-cups
 		${lftr}
 		#030826:lftr jtnkn sotkee sqroot-tapauksessa tuota opak poistoa? tai muuten vain nollasta poikkeava virhekoodi part175 iteroinnissa
-		#csleep 1
 
 		#010826:senrosit laukaisivat purkkavirityksen?	
 		#${sharpy} lm-sensors 
 
 		dqb "JUST BEFORE ten1 ${3}"	
-		#csleep 5
 		ten1 ${3}
 	fi
 
 	dqb "PART2.5.2 )))))( $1 , $2"
-	#csleep 1
 	${lftr}
-	#csleep 1
 
 	if [ ! -z "${ipt}" ] ; then
 		jules
