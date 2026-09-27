@@ -419,13 +419,7 @@ function e22_pre_e() {
 	dqb "e22_pre_e() ))) $@ )))))))("
 	csleep 1
 
-#	#HUOM.190926:suattaapi muuttua turhaksi osa worf():in switch-case:sta tai koko tämä fkiokin samalla
-#
-#	if [ "${1}" == "eth0:1" ] ; then #DONE?:vähitellen jotain. Tai jos kuitenkin vain se dhcp-karsinta tässä.
-#		worf ${2} 4
-#	else
-		worf ${2} 2
-#	fi
+	worf ${2} 2
 }
 
 function e22_ext() {
@@ -536,7 +530,7 @@ function cg_udp6() {
 	dqb "D0NE"
 	csleep 1
 
-	#VAIH:selvitä jotenkin, kuseeko tämä asioita?	ei kei enää 09/26?
+	#VAIH:selvitä jotenkin, kuseeko tämä asioita?	ei kai enää 09/26?
 	ten1 ${CONF_iface} ${1}
 
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6  DONE FOR NOW"
@@ -606,8 +600,8 @@ function e22_arch() {
 
 	cd ${2}
 	#jtnkn toisin jatkossa kuitenkin?
-	#echo "TODO:POLUT UUSIKSI e22_arch() ?" jatkossa sah ja muut saisivat paaremtriksi ./$distro/ ?
-	#...esim cut on krkdsitty jos roi muuta keksi , vaiko sqrot.sh muuttaminen mieluummin?
+	#echo "TODO?:POLUT UUSIKSI e22_arch() ?" jatkossa sah ja muut saisivat paaremtriksi ./$distro/ ?
+	#...esim cut on kEKdsitty jos ei muuta keksi , vaiko sqrot.sh muuttaminen mieluummin?
 
 	${sah6} ./*.deb > ./${CONF_hashfile}
 	csleep 1
@@ -658,8 +652,6 @@ function e22_arch() {
 	dqb "E22_A_DONE"
 	csleep 1
 }
-
-#DONE?:jatkossa f.tar pois välistä? ulompaan arkistoon jhnkn tmp-hmistoon suoraan paketit?
 
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
