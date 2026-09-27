@@ -55,7 +55,6 @@ libx11-data
 libx11-6
 libx11-xcb1
 #
-#libglx-mesa0:amd64 depends on libx11-xcb1
 libgl1-mesa-dri
 libglx-mesa0
 libglx0
@@ -281,15 +280,13 @@ libxpm4
 libxmu
 libassuan0
 #
-#020826:ylemmäs listassa tämä?
+#020826:ylemmäs listassa tämä? mihin asti?
 liberror-perl
 #
 libgbm1
 #
-#libegl-mesa0:amd64 depends on libx11-xcb1 (>= 2:1.8.4); however
 libegl-mesa0
 libegl1
-#
 #
 seatd
 libseccomp2
