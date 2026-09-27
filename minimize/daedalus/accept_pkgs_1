@@ -10,11 +10,7 @@ libbz2-1.0
 libutempter0
 libgdbm
 #
-#TODO:jatkosäätöä TAAS?
 libglapi-mesa
-#
-#/jatkosäöätö?
-#
 libglvnd0_1.6.0
 libwayland-egl1
 #
@@ -48,8 +44,7 @@ librsvg2-common
 #stdc oli aiemmin tässä
 libatspi2
 #
-#020836:tpoimivassa u-paketissa ei näitä libgl1, libglx, pakeTTeja (TODO?:tekiskikö jotain?)
-#VAIH:x11-xcb1 RIIPPUVUUKSIEN SELVITYS (muitaq x11-6 ei vissiin ja sen tarv)
+#DONE?:x11-xcb1 RIIPPUVUUKSIEN SELVITYS (muitaq x11-6 ei vissiin ja sen tarv)
 libxcb1
 libx11-data
 libx11-6
@@ -58,7 +53,6 @@ libx11-xcb1
 libgl1-mesa-dri
 libglx-mesa0
 libglx0
-#libgl1_1.6
 libgl1
 #/libgl
 #
@@ -70,6 +64,7 @@ libblkid1
 libselinux1
 libmount1
 #
+#lieneenkö jo turha tuossa tuo libgl?
 libgl
 #
 at-spi
@@ -99,14 +94,14 @@ xkb-data
 libgtk-3-common
 libgtk-3-0
 libgtk-3-bin
-#VAIH:ylemmäksi nämä vai mitenkä?
+#VAIH:ylemmäksi nämä vai mitenkä? kuinka ylös?
 perl-modules-
 libperl
 perl-base
 perl
 #VAIH:perl,libperl VÄHITELLEN
 #VAIH:, mitä tuon libxml.parser-perl kanssa tekee?
-#150926:SELVITÄ LÖYTYYKÖ NOITA libperl-paketteja JHOSTAIN TARISTA?
+#150926:SELVITÄ LÖYTYYKÖ NOITA libperl-paketteja JHOSTAIN TARISTA? (28926 vielä ajank?)
 perlapi-5.36.0
 liburi-perl
 libwww-perl
@@ -356,3 +351,6 @@ libiso
 #bissiin samaan aikaan masennettava seur 2
 libdevmapper
 dmsetup
+#
+libinput-bin
+libinput
