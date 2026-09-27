@@ -79,7 +79,6 @@ function dis() {
 	dqb "aftr.int.faces"
 	
 	if [ ! -z "${2}" ] ; then
-		#DONE?:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
 		[ -z "${sifd}" ] && sifd=/sbin/ifdown
 
 		dqb "${odio} ${sifd} ${2}"	
@@ -241,7 +240,7 @@ function pre_enforce() {
 	csleep 1
 
 	[ -f ${q} ] || exit 33
-	#DONE?:katso lista läpi että mitä nykyään vitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
+
 	#...ved kanssa lista kai ok, vitseeko TOOR oikeastaan listaa lainkaan?
 
 	#parempi jos vain sanoisi ryhmän mihin pitää kuulua että x
@@ -418,9 +417,6 @@ part3 ${d} ${pkgcache}
 
 other_horrors
 dqb "AFTER THE HORROR"
-
-echo "DONE?:FFOX-PROFiILI-JUTUT , VARMISTA ETTÄ TOIMII"
-sleep 2
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh

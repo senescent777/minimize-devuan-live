@@ -433,6 +433,7 @@ case "${mode}" in
 			ocs gpg	
 		fi
 
+		#mikä idea tässä?
 		if [ $? -eq 0 ] && [ ${doIt} -eq 1 ] ; then
 			doIt=1 
 			part3 ${f}
@@ -503,8 +504,7 @@ case "${mode}" in
 esac
 
 dqb "atfr.esac"
-#17+026:syyllinen qsemiseen ehkä löydetty tai sittenb ei
-#DONE?:tuo ehto alla pitänee uusia, jatkossa piut paut other_horrorsin suhteen
+#TODO:lähteen poisto, saisiko takaisin toimimaan josqs?
 
 if [ ${doIt} -eq 1 ] ; then
 	if [ -s ${srcfile} ] && [ -f ${srcfile} ] ; then
@@ -523,5 +523,4 @@ else
 	echo "SMTHING WENT WRONG BEFORE THIS"
 fi
 
-#sleep 10
 cptp2 ${d0}

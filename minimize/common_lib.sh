@@ -518,21 +518,17 @@ function cefgh() {
 		dqb "SHOULD {sah6} -c ./e.tar HERE"
 
 		if [ -s ./e.tar.sha ] ; then
-			#VAIH:tapsua sq-rot , koita saada trkist menemään läpi
 			${sah6} -c ./e.tar.sha
-			exit
 			[ $? -eq 0 ] || ${NKVD} ./e.tar*
 		fi
 
 		csleep 2
 		${odio} ${sr0} -xf ./e.tar #srat?
 		${NKVD} ./e.tar
-		#190926:onkohan hyvä juttu delliä tässä?
 
 		cd ${p}
 	fi
 
-	#echo "gg= ${gg}"
 	${odio} ${sr0} -C ${1} -xf ${1}/f.tar
 
 	if [ $? -eq 0 ] && [ -x ${gg} ] ; then #-z mukaan?
