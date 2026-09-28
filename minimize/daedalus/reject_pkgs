@@ -1,7 +1,6 @@
 #eudev
-#080626:vaihteeksi pois kommnteisdta osa riveistä
 #udev
-xserver
+#xserver #270926:jos vaihteeksi näin?
 #
 dbus
 #150926:poistetaanko dbus*.deb ennen asentelua vai ei?
@@ -9,12 +8,11 @@ dbus
 #initramfs
 #live
 #e2fsprogs
-#TODO:bind9 wttuun vaihteeksi?
+#bind9 pois vai ei?
 #
 #dirmngr joihinkin juttuihin tämä suorastaan tarvitaan, gpgv tuntuu vain sotkevan
 gpgv
 #
-#python3-pil-jutut jemmaan 090226, loppuu purpatus prkl
 python3-pil
 #parenpi pitää libav tuossa alla ei-kommentoituna (swreample kanssa)
 libav
@@ -24,3 +22,4 @@ libsw
 live-boot
 mutt
 libgsasl
+#miten xz-utils nykyään?
