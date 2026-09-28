@@ -19,14 +19,13 @@ xserver-xorg-legacy
 xserver-common
 xserver-xorg-core
 #
-#020826:d-bussit wttuun vaihteeksui? 
 dbus-system-bus-common
 dbus-bin
 dbus-session-bus-common
 dbus-daemon
 dbus-x11
 #
-#TODO:mesa-vdpau-pak kanssa jotain?
+#TODO:vähitellen mesa-vdpau-pak kanssa jotain?
 #
 gpgconf
 gtk2-engines-pixbuf
