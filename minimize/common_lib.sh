@@ -1303,8 +1303,8 @@ function part2() {
 		#010826:senrosit laukaisivat purkkavirityksen?	
 		#${sharpy} lm-sensors 
 
-		dqb "JUST BEFORE ten1 ${3}"	
-		ten1 ${3}
+		#dqb "JUST BEFORE ten1 ${3}"	#280926:kokeeksi kommentoitu pois tästä
+		#ten1 ${3}
 	fi
 
 	dqb "PART2.5.2 )))))( $1 , $2"
@@ -1325,12 +1325,9 @@ function part2() {
 
 	if [ ${debug} -eq 1 ] ; then
 		${snt}
-		#sleep 1
 	fi
 
-	#csleep 1
 	dqb "PART2.5 d0ne"
-	#csleep 1
 }
 
 function common_lib_tool() {

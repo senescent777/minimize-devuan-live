@@ -129,9 +129,12 @@ function part0() {
 		for t in $(find /etc/init.d -name "${s}*" ) ; do
 			${odio} ${t} stop
 			csleep 1
+			${scm} a-wx ${t} #uutena
+			csleep 1
 		done
 
 		${whack} ${s}*
+		csleep 1
 	done
 
 	${whack} nm-applet
@@ -411,6 +414,8 @@ fi
 
 #miten tuo 3. parametri? tarpeellinen nykyään?
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
+[ ${CONF_removepkgs} -eq 1  ] && ten1 ${CONF_iface} #280926:kokeeksi näin päin (ennen part2() ...)
+
 #===================================================PART 3===========================================================
 message
 part3 ${d} ${pkgcache}

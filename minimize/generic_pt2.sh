@@ -85,9 +85,9 @@ if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto 
 	dqb "kö"
 	TLA
 else
-	#DONE:part2()seen barm vuoksi $2 t arkistus? tai siis lisää?
 	part2 1 ${CONF_dnsm} ${CONF_iface}
 	[ $? -gt 0 ] && exit
+	#ehdollinen ten1() tähän vai ei?
 fi
 
 function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
@@ -103,6 +103,7 @@ function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 	#saattaa liittyä johnkin jssain tlant: Stopping bluetooth:start-stop-daemon: nothing in /proc - not mounted?
+	#sqrppt-juttujen kanssa jotain muutoksie, ehkä?
 
 	dqb "BLU NFS \?"
 	csleep 6
@@ -120,6 +121,15 @@ if [ "${CONF_env}" == "TOOR" ] ; then
 	${sharpy} psmisc
 	t2p_filler
 	
+	#uutena 280926
+	csleep 5 
+	${scm} a-wx /etc/init.d/blu*
+	${scm} a-wx /etc/init.d/nfs*
+	${scm} a-wx /etc/init.d/rpc*
+	${scm} a-wx /etc/init.d/slim*
+	ls -las /etc/init.d
+	csleep 6
+
 	dqb "V1"
 	#exit
 fi

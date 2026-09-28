@@ -23,6 +23,17 @@ if [ ${mode} -eq 5 ] ; then
 	sudo /etc/init.d/ntpsec stop
 	sudo apt --fix-broken install #jos kesympi versiuo toiumisi ... No Ei
 	sudo /etc/init.d/slim stop
+
+	#uutena 280926
+	scm="sudo chmod" #TODO:lisää common_lib prujaamista kohta, jotta sqrootin kautta järkevästi
+	csleep 5 
+	${scm} a-wx /etc/init.d/blu*
+	${scm} a-wx /etc/init.d/nfs*
+	${scm} a-wx /etc/init.d/rpc*
+	${scm} a-wx /etc/init.d/slim*
+	ls -las /etc/init.d
+	csleep 6
+
 	exit
 fi
 
