@@ -63,7 +63,7 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	#130526:else-haara peellinen joissain tilanteissa, ei poisteta
-	#TODO:viimeaikaisten sorkintojen takia tämä haara tulisi testata (09/26:k vai q lähinnä?)
+	#TODO:viimeaikaisten sorkintojen takia tämä haara tulisi testata (09/26:r vai q lähinnä?)
 
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
@@ -295,6 +295,7 @@ function tpr() {
 	csleep 2
 }
 
+#TODO:testaapa pitkästä aikaa caset
 case "${mode}" in
 	-1) 
 		dqb "DIPOLIN KÄPY"

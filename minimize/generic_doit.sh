@@ -79,7 +79,6 @@ function dis() {
 	dqb "aftr.int.faces"
 	
 	if [ ! -z "${2}" ] ; then
-		#DONE?:pitäisi kai huomioida jtnkn että sifd ei välttämättä asetettu
 		[ -z "${sifd}" ] && sifd=/sbin/ifdown
 
 		dqb "${odio} ${sifd} ${2}"	
@@ -130,9 +129,12 @@ function part0() {
 		for t in $(find /etc/init.d -name "${s}*" ) ; do
 			${odio} ${t} stop
 			csleep 1
+			${scm} a-wx ${t} #uutena
+			csleep 1
 		done
 
 		${whack} ${s}*
+		csleep 1
 	done
 
 	${whack} nm-applet
@@ -241,7 +243,7 @@ function pre_enforce() {
 	csleep 1
 
 	[ -f ${q} ] || exit 33
-	#DONE?:katso lista läpi että mitä nykyään vitaan misssäkin tilanteessa /VED/TOOR/DEFAULT)
+
 	#...ved kanssa lista kai ok, vitseeko TOOR oikeastaan listaa lainkaan?
 
 	#parempi jos vain sanoisi ryhmän mihin pitää kuulua että x
@@ -412,15 +414,14 @@ fi
 
 #miten tuo 3. parametri? tarpeellinen nykyään?
 part2 ${CONF_removepkgs} ${CONF_dnsm} ${CONF_iface}
+[ ${CONF_removepkgs} -eq 1  ] && ten1 ${CONF_iface} #280926:kokeeksi näin päin (ennen part2() ...)
+
 #===================================================PART 3===========================================================
 message
 part3 ${d} ${pkgcache}
 
 other_horrors
 dqb "AFTER THE HORROR"
-
-echo "DONE?:FFOX-PROFiILI-JUTUT , VARMISTA ETTÄ TOIMII"
-sleep 2
 
 if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0555 ${d0}/common_lib.sh

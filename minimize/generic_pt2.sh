@@ -8,11 +8,10 @@ d=${d0}/${distro}
 mode=3
 
 #010826:toimiiko tämä eri tavalla -v kanssa kuin ilman? sqroot...
+#290926: -v, ei -v vs gpg poistuminen?
 
 function parse_opts_1() {
-#	if [ -d ${d0}/${1} ] ; then #VAIH:jatkossa toisin? guess_conf() ?
-#		echo "#distro=${1}"
-#	else
+
 		case  "${1}" in
 			0|1|2|3)
 				mode=${1}
@@ -21,7 +20,6 @@ function parse_opts_1() {
 				dqb "invalid param"
 			;;
 		esac
-#	fi
 }
 
 function parse_opts_2() {
@@ -79,15 +77,15 @@ dqb "mode=${mode} "
 sleep 1
 
 #lopuksi uuden oemnan kanssa: haluaa hukata äksän
-#uudemmankin päivityspak kanssa se hukkaamisongelma kun mennään omegaan, jnties VIELÄ uusi yritys päivbityspak kanssa (kts miten ten1 ja part175 tällä krt)
+#2x0926:uudemmankin päivityspak kanssa se hukkaamisongelma kun mennään omegaan, jnties VIELÄ uusi yritys päivbityspak kanssa (kts miten ten1 ja part175 tällä krt)
 
 if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
 	dqb "kö"
 	TLA
 else
-	#DONE:part2()seen barm vuoksi $2 t arkistus? tai siis lisää?
 	part2 1 ${CONF_dnsm} ${CONF_iface}
 	[ $? -gt 0 ] && exit
+	#ehdollinen ten1() tähän vai ei?
 fi
 
 function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
@@ -101,16 +99,20 @@ function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 #20726:modaamattomalla kiekolla&&DEFAULT rpc "ic"-tilassa, dmsetup ii, myös spi2-cpre ja psmisc myös
 #entä TPPR? josko case-esac? tai alempi filler pois?
 
-dqb "BLU NFS ???"
-csleep 16
-#defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista, bissiin näin
-
 if [ "${CONF_env}" == "TOOR" ] ; then
+	#saattaa liittyä johnkin jssain tlant: Stopping bluetooth:start-stop-daemon: nothing in /proc - not mounted?
+	#sqrOOt-juttujen kanssa jotain muutoksie, ehkä?
+	#27926 rakenneltu .iso sai jo oikean grub.cfg mutta äksän kanssa vähän kusi (slim->wdm-siirtymä jäi puolitiehen niinqu)
+
+	dqb "BLU NFS \?"
+	csleep 6
+	#defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista, bissiin näin
+
 	${sharpy} blu* #poistuu vai ei? initramfs-tools liittyy?
 	${sharpy} nfs*
 	t2p_filler
 
-	 #tässä kohtaa jo gpg hukataan?
+	#tässä kohtaa jo gpg hukataan?
 	${sharpy} at-spi2-core	
 	
 	${sharpy} rpc*
@@ -118,12 +120,20 @@ if [ "${CONF_env}" == "TOOR" ] ; then
 	${sharpy} psmisc
 	t2p_filler
 	
+	#uutena 280926
+	csleep 5 
+	${scm} a-wx /etc/init.d/blu*
+	${scm} a-wx /etc/init.d/nfs*
+	${scm} a-wx /etc/init.d/rpc*
+	${scm} a-wx /etc/init.d/slim*
+	ls -las /etc/init.d
+	csleep 6
+
 	dqb "V1"
 	#exit
 fi
 
-#020826:jos välillä kokeilisi kehitellä .iso:n testausta varten eikä vaan renkata
-
+#vs destroy()
 function t2pf() {
 	dqb "gp2t.common_lib.T2P.FINAL( ${1} )"
 	csleep 1
