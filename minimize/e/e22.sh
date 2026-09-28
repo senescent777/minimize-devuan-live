@@ -7,7 +7,7 @@ function e22_hdr() {
 	dqb "e22_hdr()"
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
-	
+
 	if [ -f ${1} ] ; then
 		echo "${1} ALR3ADY EX1STS"
 		read -p " U SURE ?" confirm
@@ -28,7 +28,7 @@ function e22_hdr() {
 }
 
 function e22_tyg() {
-	dqb " ; e22_tyg( ${1} )(((("	
+	dqb " ; e22_tyg( ${1} )(((("
 
 	[ -z "${1}" ] && exit 45
 	[ -s ${1} ] || exit 46
@@ -46,7 +46,7 @@ function e22_tyg() {
 			if [ ! -z "${a}" ] ; then
 				if [ -s ${a} ] ; then
 					. ${a}
-				fi	
+				fi
 			fi
 
 			unset a
@@ -116,8 +116,8 @@ function e22_ftr() {
 #
 #	#destroy() ?
 #	if [ ${rv} -gt 0 ] ; then #toistaiseksi sqap() hoitamaan poistot
-#		dqb "SMTHNG WENT WR09NG"	
-#		#${NKVD} ./*.deb 
+#		dqb "SMTHNG WENT WR09NG"
+#		#${NKVD} ./*.deb
 #		#${NKVD} ./${CONF_hashfile}*
 #		#${NKVD} ./*.tar
 #
@@ -129,7 +129,7 @@ function e22_ftr() {
 
 function e22_pre1() {
 	dqb "e22_pre1( ${1} ; ${2} ; ${3}) "
-	csleep 1	
+	csleep 1
 
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 66
@@ -140,8 +140,8 @@ function e22_pre1() {
 
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
-	
-	local lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?	
+
+	local lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?
 	enforce_access $(whoami) ${lefid}
 
 	csleep 1

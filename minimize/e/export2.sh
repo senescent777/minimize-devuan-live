@@ -183,15 +183,10 @@ case "${mode}" in
 		fi
 	;;
 	e) #170926 sai aikaiseksi paketin, mikä jopa asentui (toistuuko?)
-		#20926:ao. fktion kanssa ekan parametrin kanssa nykyään riittää että on ei-tyhjä
-	
 		#VAIH:e ja sitä seuraavat caset soveltuvin osin:testaa miten nykyiset oksennukset toikmiavt sqroot-ympstössä
 
-		#... siis e/g/l/u-paketit pitäisi muodostaa uusiksi sqroot vart koska filesystem.squashfs kusi paskaa 20926
-		#lisäksi myös grub.cfg:stä tuli väärä versio kiekolle joten remasterointiskriptejäkin pitäisi tutkia
-		#22926:alettu sorkkai remasterointiskriptejä jotta edes grub.cfg suhteen saisi asiat qntoon		
-
-		#... tai miten jos sqr-ymp asentaisi ensin u , sitten l?
+		#... siis l/u-paketit pitäisi VIELÄ muodostaa uusiksi sqroot vart koska filesystem.squashfs kusi paskaa edelleen 280926
+		#(grub.cfg lisnee jo kunnossa)
 
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
@@ -238,11 +233,10 @@ case "${mode}" in
 	;;
 	s) #190926:muodostaa paketin? jep , masentuu? "sqrot 3" kautta
 		#270926;nalkutuksetkin saatu pois pl libdevmapper ja dmsetup jotka pitäisi kai asentaa samalla kertaa
-
 		e23_st
 	;;
 	u|upgrade)
-		
+
 		#28926:mutt, gsasl ja bind9 eivät enää ongelma?
 
 		#ntp, jos se pitäisi tjnkn pois päältä jos ei oikeasti tartte
@@ -267,7 +261,7 @@ case "${mode}" in
 	#uusin u-paketti sillälailla P.V.H.H. että sqroot-ympstössäkin meinaa äksä poistua
 	#eli ten1() käskytyksen kanssa jotain tehtävä? part2/( ...
 	#vai stkeeko l-paketti kanssa?
-	
+
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD Be U P B Y No W - Heisenberg"
 		csleep 1
@@ -279,10 +273,10 @@ case "${mode}" in
 	l)
 		#120726:lieni toimiva tämä case, miten sen jälkeen?
 		#VAIH?:tähän kilkkeeseen liittyen ne perl-yms. urputukset voisdi vähitellen hoitaa, $distro/accept ...
-		#28926:modatun kiekon kanssa uusin oksennus toimi, modaamattoman kanssa ei koska se 1 libzvb-jotain paq, jopsa yrittäisi vielä	
-	
+		#28926:modatun kiekon kanssa uusin oksennus toimi, modaamattoman kanssa ei koska se 1 libzvb-jotain paq, jopsa yrittäisi viel
+
 		#mesa-omngelm,ay jo ratkaistu 28926 mennessä?
-		
+
 		#mesa-vdpau-drivers:amd64 depends on libvdpau1; however
 		# mesa-vdpau-drivers:amd64 depends on libvdpau1; however:´
 		#  Package libvdpau1:amd64 is not installed.
@@ -305,6 +299,11 @@ case "${mode}" in
 		#  Package libperl5.36:amd64 is
 		# git depends on perl; however
 
+		#28926:nuo yo. paketit eivät enää ongelma? sen sijaan modaamattomalla kiekolla asentaen ensin toimiva u-paketti, sitten uusin l-paketti, on
+		# uhkaa äksä poistua niinqu
+		#miten jos l ennen u?
+		#no niinpäin parempi, ehkä jopa uskaltaisi VIELÄ uutta u-pakettia? (tekee l-pak jäölkeen?)
+
 		csleep 1
 		[ -v CONF_dm ] || exit 77
 		e23_dm ${mop}
@@ -315,7 +314,7 @@ case "${mode}" in
 #	;;
 	r)
 		${shary} chromium
-	;;	
+	;;
 	*)
 		echo "MAYBE U SHOULD USE export3 INSTEAD"
 		sleep 5
