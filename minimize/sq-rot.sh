@@ -57,8 +57,7 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 	#[ $? -eq 0 ] || exit #tähänkö kosahtanut viime_aikoina?
 else
-	echo "W33P1NG UND3RR G4L4CTU5"
-	#sleep 6
+	dqb "W33P1NG UND3RR G4L4CTU5"
 	
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
@@ -75,7 +74,6 @@ else
 
 	odio=""	
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
-	#sleep 5
 
 	function ocs() {
 		local t=$(${odio} which ${1})
@@ -170,14 +168,16 @@ if [ $# -gt 0 ] ; then
 	fi
 fi
 
-#VAIH:tapaus sqroot+gpg puuttuu, jotain ttisi tehrä vähitellen (esim .se e.tar)
+#gpg, sq-root ja e.tar, lienee jo kunnossa=
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
 	echo "UNDER THE GRAV3YARD ${1}"
 	sleep 1
 
-	#TODO:koitahan saada aikaiseksi havainnoida, travitaanko $1 oikeasti vakoi ie?
+	echo "#TODO:koitahan saada aikaiseksi havainnoida, travitaanko $1 oikeasti vakoi ie?"
+	sleep 5
+
 	echo "A"
 	p=$(pwd)
 	echo "p: ${p}"
@@ -242,8 +242,13 @@ fi
 [ -z "${distro}" ] && exit 46
 
 if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
-	[ -d ${srcfile} ] || dqb "NOT A DIR"
-	dqb "SD"
+	if [ -d ${srcfile} ] ; then
+		[ "${mode}" == "k" ] || exit 32
+	else	
+		dqb "NOT A DIR"
+	fi
+
+	dqb "SDD"
 else
 	[ -d ${srcfile} ] || dqb "NOT A MAN"
 	[ -f ${srcfile} ] || dqb "NOT A CYBORG"
@@ -252,12 +257,15 @@ else
 	exit 65
 fi
 
+#VAIH:koita keksiäö jotain sen varalta ettö kjä tunaroi hmistomn tedton sikaan parametriksi ao. fktiolle asti
 function common_part() {
 	echo "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
 
 	[ -z "${1}" ] && exit 91 #pitäisi kai keskEyttää suoritus aiemmin tässä tap
 	[ -s ${1} ] || exit 92
 	[ -r ${1} ] || exit 93
+	[ -d ${1} ] && exit 90
+
 	[ -z "${3}" ] && exit 94
 
 	[ -z "${2}" ] && exit 11
@@ -267,8 +275,7 @@ function common_part() {
 	[ "${1}" == "/" ] && exit 56
 	[ -v CONF_hashfile ] || exit 98
 	[ -z "${CONF_hashfile}" ] && exit 99
-	echo "paramz_0k"
-	#sleep 10
+	dqb "paramz_0k"
 
 	cd /
 	local r
@@ -298,7 +305,6 @@ function common_part() {
 		fi
 	fi
 
-	#csleep 1
 	#kts. common_lib.psqa()
 	local cfk=1
 
@@ -316,7 +322,6 @@ function common_part() {
 		fi
 
 		[ ${cfk} -eq 0 ] || ${NKVD} ${1}*
-		#csleep 1
 	else
 		echo "NO ${CONF_hashfile}   CAN BE F0UND FOR ${1}"
 	fi
@@ -328,28 +333,16 @@ function common_part() {
 			dqb "ko"		
 		else	
 			#ekan param lisä kistukset yllä riittävät? entä destroy()?
-			${NKVD} ${1}* 
-#			#${NKVD} ${2}/*.deb
-#
-#			#VAIH:destrpy()?
-#
-#			${NKVD} ${2}/${CONF_hashfile}*
-#			${NKVD} ${2}/*.tar*
+			#tämä hyvä näin?
 			destroy ${2}
 
 			exit 33
 		fi
 	fi
 
-	#csleep 1
 	echo "NECKST: ${srat} -C ${3} -xf ${1}  ${TARGET_TPX} "
-
-	#sleep 10 #sqroot-testejä varten
 	${srat} -C ${3} -xf ${1} ${TARGET_TPX}
-
 	[ $? -eq 0 ] || exit 36	#jospa viallisen arkiston deletoisi?
-
-	#sleep 10
 	echo "${srat} DONE"
 }
 
@@ -361,7 +354,6 @@ function cptp2() {
 	[ -d ${1} ] || exit 97
 
 	dqb "cptp2:pars ok"
-	#csleep 10
 
 	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
 	local t
@@ -381,11 +373,7 @@ function cptp2() {
 		else
 			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
 		fi
-		
-		#csleep 10
 	fi
-
-	#csleep 1
 
 	if [ -d ${t} ] ; then
 		dqb "HAIL2 TH3 TH13F"
@@ -394,12 +382,9 @@ function cptp2() {
 		${scm} 0555 ${t}/*.sh
 		${scm} 0444 ${t}/conf*
 		${scm} 0444 ${t}/*.deb
-
-		#csleep 1
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
-	#csleep 1
 	dqb "ALL DONE"
 }
 
@@ -417,13 +402,12 @@ case "${mode}" in
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 
-		#TODO:hisput wttuun vai ei?
+		#VAIH:hisput wttuun vai ei?
 		#TODO:mitä jos ei löydy .tar ?
-		f=$(tar -tf ${srcfile} | grep '.tar' | head -n 1)
+		f=$(tar -tf ${srcfile} | grep .tar | head -n 1)
 
 		f=$(dirname ${f})
 		echo "bfore sqr.comm_p: $?"
-		#sleep 6
 
 		common_part ${srcfile} ${d} ${e}
 		echo "sq.FART3: $?"
@@ -433,6 +417,7 @@ case "${mode}" in
 			ocs gpg	
 		fi
 
+		#mikä idea tässä?
 		if [ $? -eq 0 ] && [ ${doIt} -eq 1 ] ; then
 			doIt=1 
 			part3 ${f}
@@ -503,8 +488,7 @@ case "${mode}" in
 esac
 
 dqb "atfr.esac"
-#17+026:syyllinen qsemiseen ehkä löydetty tai sittenb ei
-#DONE?:tuo ehto alla pitänee uusia, jatkossa piut paut other_horrorsin suhteen
+#TODO:lähteen poisto, saisiko takaisin toimimaan josqs?
 
 if [ ${doIt} -eq 1 ] ; then
 	if [ -s ${srcfile} ] && [ -f ${srcfile} ] ; then
@@ -523,5 +507,4 @@ else
 	echo "SMTHING WENT WRONG BEFORE THIS"
 fi
 
-#sleep 10
 cptp2 ${d0}
