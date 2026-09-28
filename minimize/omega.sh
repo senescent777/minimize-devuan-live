@@ -18,6 +18,7 @@ if [ $# -gt 0 ] ; then
 fi
 
 #HUOM.239.26: näiden 2 seur. if-blokin kanssa voi tulla ongelmia jos asentaa u-paketin ennen l-pakettia
+#päintoisin näyttäisi myös yhdistelmä modaamaton kiekko+moderni l+wanha u toimivan ilman turhaa sekoilua (29926)
 
 if [ ${mode} -eq 5 ] ; then
 	sudo /etc/init.d/ntpsec stop

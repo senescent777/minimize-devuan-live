@@ -706,7 +706,6 @@ function CB02() {
 
 function check_binaries() {
 	dqb "c0mm0n_lib.ch3ck_b1nar135 ( ${1} ; ${2} ) "	
-	#csleep 1
 	
 	ipt=$(${odio} which iptables)
 	iptr=$(${odio} which iptables-restore)
@@ -787,7 +786,6 @@ function check_binaries() {
 
 		cefgh ${1}
 		common_pp3 ${1} ${t}
-		
 		dqb "BF0R3 CVB0"
 	fi
 	
@@ -815,7 +813,6 @@ function check_binaries() {
 		if [ ! -z "${CONF_iface}" ] ; then
 			if [ "${CONF_iface}" != "eth0:1" ] ; then
 				ocs dhclient
-				#csleep 1
 			fi
 		fi
 	fi
@@ -867,17 +864,13 @@ function check_binaries2() {
 	smd="${odio} ${smd}"
 
 	dqb "b1nar135.2 0k.2" 
-	#csleep 1
 }
 
 #10926:epäselvää mistä ifup/down/resolv kuseminen aiheutui, ehkä voisi kokeilla modaamattomalla kiekolla josqs, modatulla ei yleensä tapahdu
-dqb "#TODO:kts myös export2 , case l" #seur update-pak rakentamisen yhteydessä?
-#csleep 5
 
 function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
 	dqb "TLA.testgris : ${CONF_testgris}"
-	#csleep 1
 	
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ "${CONF_env}" == "TOOR" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
@@ -899,7 +892,6 @@ function TLA() {
 
 function mangle_s() {
 	dqb " mangle_s( ${1} ( ${2} ( ${3} )"
-	#csleep 1
 
 	[ -z "${1}" ] && exit 44
 	[ -x ${1} ] || exit 55
@@ -911,7 +903,6 @@ function mangle_s() {
 	[ -z "${CONF_algo}" ] && exit 99 
 
 	dqb "pars ok"
-	#csleep 1
 
 	local r=$(echo ${1} | tr -dc a-zA-Z0-9/._)
 	local s=$(echo ${2} | tr -dc a-zA-Z0-9/_-)

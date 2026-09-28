@@ -8,11 +8,10 @@ d=${d0}/${distro}
 mode=3
 
 #010826:toimiiko tämä eri tavalla -v kanssa kuin ilman? sqroot...
+#290926: -v, ei -v vs gpg poistuminen?
 
 function parse_opts_1() {
-#	if [ -d ${d0}/${1} ] ; then #VAIH:jatkossa toisin? guess_conf() ?
-#		echo "#distro=${1}"
-#	else
+
 		case  "${1}" in
 			0|1|2|3)
 				mode=${1}
@@ -21,7 +20,6 @@ function parse_opts_1() {
 				dqb "invalid param"
 			;;
 		esac
-#	fi
 }
 
 function parse_opts_2() {
@@ -79,7 +77,7 @@ dqb "mode=${mode} "
 sleep 1
 
 #lopuksi uuden oemnan kanssa: haluaa hukata äksän
-#uudemmankin päivityspak kanssa se hukkaamisongelma kun mennään omegaan, jnties VIELÄ uusi yritys päivbityspak kanssa (kts miten ten1 ja part175 tällä krt)
+#2x0926:uudemmankin päivityspak kanssa se hukkaamisongelma kun mennään omegaan, jnties VIELÄ uusi yritys päivbityspak kanssa (kts miten ten1 ja part175 tällä krt)
 
 if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
 	dqb "kö"
@@ -103,7 +101,8 @@ function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 	#saattaa liittyä johnkin jssain tlant: Stopping bluetooth:start-stop-daemon: nothing in /proc - not mounted?
-	#sqrppt-juttujen kanssa jotain muutoksie, ehkä?
+	#sqrOOt-juttujen kanssa jotain muutoksie, ehkä?
+	#27926 rakenneltu .iso sai jo oikean grub.cfg mutta äksän kanssa vähän kusi (slim->wdm-siirtymä jäi puolitiehen niinqu)
 
 	dqb "BLU NFS \?"
 	csleep 6
@@ -134,8 +133,7 @@ if [ "${CONF_env}" == "TOOR" ] ; then
 	#exit
 fi
 
-#020826:jos välillä kokeilisi kehitellä .iso:n testausta varten eikä vaan renkata
-
+#vs destroy()
 function t2pf() {
 	dqb "gp2t.common_lib.T2P.FINAL( ${1} )"
 	csleep 1
