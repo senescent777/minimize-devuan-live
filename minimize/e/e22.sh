@@ -38,7 +38,6 @@ function e22_tyg() {
 	csleep 1
 
 	if [ -x ${gg} ] ; then
-		#DONE:ao. blokki siihen flktioon mikä tarttee sen
 		if [ ! -v CONF_pubk ] ; then
 			local b="/"
 			[ "${CONF_env}" == "VED" ] && b=${CONF_testgris}
@@ -677,6 +676,9 @@ function e22_dblock() {
 		${sharpy} ${s}*
 		${NKVD} ${3}/${s}*.deb
 	done
+
+	dqb "SHOULD: apt autoremove?"
+	csleep 1
 
 	ls -la ${3}/*.deb | wc -l
 	dqb "JST BFTr TS()"

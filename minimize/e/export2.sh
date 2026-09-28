@@ -242,16 +242,16 @@ case "${mode}" in
 		e23_st
 	;;
 	u|upgrade)
-		#020836: sqroot "bind9-dnsutils depends on bind9-host | host; however" accept kusee vai jotain muuta?
-
-		#live-boot depends on live-boot-initramfs-tools | live-boot-backend; however:
-		#dpkg: dependency problems prevent configuration of mutt:
-		#dpkg: dependency problems prevent configuration of libgsasl18:amd64:
+		
+		#28926:mutt, gsasl ja bind9 eivät enää ongelma?
 
 		#ntp, jos se pitäisi tjnkn pois päältä jos ei oikeasti tartte
 		#270926:joskohan jo oksennukset toimisi?
 		#ihan maaliin asti ei vielä päästy, äksä poistuu omega 5 seurauksena
 		#libxcb1 se ongelma? ehkä ei
+
+		#kokeeksi tämmöinen (entä fix-broken install?)
+		${odio} apt autoremove
 
 		#JOKO JO PRKL?
 		${shary} libxcb1 libx11-data libx11-6 libx11-xcb1
@@ -278,17 +278,10 @@ case "${mode}" in
 	;;
 	l)
 		#120726:lieni toimiva tämä case, miten sen jälkeen?
-		#TODO:tähän kilkkeeseen liittyen ne perl-yms. urputukset voisdi vähitellen hoitaa, $distro/accept ...
-		
-		#020826: sqroot kanssa "twm depends on menu (>= 2.1.26); however:"
-		#libglx0:amd64 depends on libglx-mesa0; however:
-		#libwutil5:amd64 depends on wmaker-common
-		#libegl1:amd64 depends on libegl-mesa0
-		#libglx-mesa0:amd64 depends on libglapi-mesa
-		#libglx-mesa0:amd64 depends on libgl1-mesa-dri
-		#libgtk-3-0:amd64 depends on libgtk-3-common
-		#libegl-mesa0:amd64 depends on libglapi-mesa
-		#... accept-jutut qnnossa?
+		#VAIH?:tähän kilkkeeseen liittyen ne perl-yms. urputukset voisdi vähitellen hoitaa, $distro/accept ...
+		#28926:modatun kiekon kanssa uusin oksennus toimi, modaamattoman kanssa ei koska se 1 libzvb-jotain paq, jopsa yrittäisi vielä	
+	
+		#mesa-omngelm,ay jo ratkaistu 28926 mennessä?
 		
 		#mesa-vdpau-drivers:amd64 depends on libvdpau1; however
 		# mesa-vdpau-drivers:amd64 depends on libvdpau1; however:´

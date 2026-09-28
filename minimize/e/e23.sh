@@ -80,7 +80,7 @@ function e23_other_pkgs() {
 		[ $? -eq 0 ] || exit 3
 
 		${shary} libev4
-		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan libc6 uudelleenas tässä?
+		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan  uudelleenas tässä?
 		${shary} stubby
 	fi
 
@@ -146,7 +146,7 @@ function e23_qrs() {
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
 #VAIH:testaus uusicksi josqs koska y (27926 vaikuttaisi siltä että osdaltaan uusi l-paketti aiheuttaa äksän poistumisen)
 
-#TODO?:libvdpau1, perl, libgl1, libglx0, libglx-mesa0, libx11-xcb1 mukaanjos puuttuu?
+#TODO?:libvdpau1, perl, , ,,  mukaanjos puuttuu?
 #... siis 2 ekaa lisäten lähinnä?
 
 function e23_dm() {
@@ -169,11 +169,6 @@ function e23_dm() {
 		exit 666
 	fi
 	
-
-# libzvbi0:amd64 depends on libzvbi-common (= 0.2.41-1+deb12u1); however:
-#  Package libzvbi-common is not installed.
-
-
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
 	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
 	${shary} libnuma1 libx265-199 libwraster6 libwings3
@@ -216,8 +211,19 @@ function e23_dm() {
 	${shary} libicu72 libxfixes3 libxml2
 	csleep 5
 
-	${shary} libglx-mesa0 libffi8 libvzbi-common libzvbi0 git-man
-	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
+# , , , , , , ,  (>= 1.8), , , ,  , , ,  , , 
+#
+#-
+#, ,
+#-
+#
+#-
+#
+# (>= 2.29),  (>= 3.0), 
+#, 
+
+	${shary} libgl1-mesa-dri libxcb-glx0 libglx-mesa0 libffi8 libzvbi-common libzvbi0 git-man
+	${shary} libdb5.3 debconf libdeflate0 liblerc4 	
 	${shary} libpam-runtime
 	csleep 10
 
