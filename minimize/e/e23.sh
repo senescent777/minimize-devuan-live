@@ -6,7 +6,7 @@ function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() 
 	csleep 1
 
 
-	#VAIH:vähitellen jotain? E22:_GT , GU, GM hyödyntäen?
+	#VAIH:vähitellen jotain? E22:_GT , GU, GM hyödyntäen? taisi siis voiko nykyiselllään hyödyntää?
 #			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
 
 	if [ "${1}" == "wlan0" ] ; then
@@ -38,7 +38,7 @@ function e23_tblz() {
 	tpc7
 	#jotain excaliburiin liittyvää tuo tpc
 
-	#190926:joutaisi ksi josqs siirtää dhcp-jutut pre_e -> asw ?
+	#joutaisi kai josqs siirtää dhcp-jutut pre_e -> asw tai siis mitenkä?
 	aswasw ${1}	
 	e22_pre_e ${1} ${E22_GT}
 
@@ -96,6 +96,9 @@ function e23_upgp() {
 	${fib}
 	csleep 1
 
+	#JOKO JO PRKL?
+	${shary} libxcb1 libx11-data libx11-6 libx11-xcb1
+
 	e22_pre_e ${CONF_iface} ${E22_GS}
 	${sag} --no-install-recommends upgrade -u
 	echo $?
@@ -146,20 +149,13 @@ function e23_qrs() {
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
 #VAIH:testaus uusicksi josqs koska y (27926 vaikuttaisi siltä että osdaltaan uusi l-paketti aiheuttaa äksän poistumisen)
 
-#TODO?:libvdpau1, perl, , ,,  mukaanjos puuttuu?
-#... siis 2 ekaa lisäten lähinnä? tai siis perl jo qnnossa?
+#VAIH?: perl, , ,,  mukaanjos puuttuu?
+#... siis 1 ekaa lisäten lähinnä? tai siis perl jo qnnossa?
 
 echo "MUISTA : uusi l+wanha u tässä järj, mitä taaphtuu?"
 sleep 1
-echo "TODO:libvdpau, mesa-vdpau, mukaan dm() juttuihin?"
+echo "VAIH:libvdpau, mesa-vdpau, mukaan dm() juttuihin?"
 sleep 10
-
-#Provides: vdpau-driver
-#Depends: libvdpau1, libc6 (>= 2.34), libdrm-amdgpu1 (>= 2.4.110), libdrm-nouveau2 (>= 2.4.66), libdrm-radeon1 (>= 2.4.31), libdrm2 (>= 2.4.75), libelf1 (>= 0.142), libexpat1 (>= 2.0.1), libgcc-s1 (>= 3.4), libllvm15, libstdc++6 (>= 11), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0, libxcb-present0, libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), libxshmfence1, libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)
-
-#Depends: libc6 (>= 2.34), libx11-6 (>= 2:1.4.99.1), libxext6
-
-
 
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
@@ -181,30 +177,48 @@ function e23_dm() {
 		exit 666
 	fi
 
-	#TODO:aivan Ior BOckina iteriuden ao. pakkausten riippuvuudet josko silleen jotain saavuttaisi?
-	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
-	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
-	${shary} libnuma1 libx265-199 libwraster6 libwings3
-	csleep 3
-
-	${shary} libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
-	csleep 3
-
-	${shary} liblzma5 libopenjp2-7 libltdl7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
-	csleep 3
+	#HUOM.jutut ennen libpangoa/666 jälkeen uusia, kommentteihin jos qsee EHKÄ
 
 	#290926:ao. paketitko aiheuttavat äksän poistumisen?
 	${shary} libxcb1 libx11-6 libx11-xcb1 libx11-data
-
-	${shary} libxext6 imagemagick-6-common libxmu6 libxmuu1 libgif7 libxpm4
 	csleep 3
 
-	${shary} fontconfig fontconfig-config
-	${shary} libdav1d6 libde265-0 libfribidi0 libglib2.0-0 libglib2.0-data libharfbuzz0b
-	${shary} libthai0 libxft2 libxrender1 libxrandr2
+	${shary} libxext6 libffi8 libtinfo6 libxml2 libz3-4 libdrm2
+	${shary} fontconfig libfontconfig1 fontconfig fontconfig-config libfribidi0
+	${shary} libglib2.0-0 libglib2.0-data libharfbuzz0b libthai0 libfreetype6
 	csleep 3
 
-	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
+	#
+	${shary} zlib1g libllvm15 libdrm-radeon1 libdrm-nouveau2 libdrm-amdgpu1 libvdpau1 mesa-vdpau
+	csleep 3
+	
+	${shary} libxft2 libxrender1 libxrandr2
+	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
+	${shary} libbz2-1.0 libfftw3-double3 libheif1 libjbig0 libjpeg62-turbo liblcms2-2
+	csleep 3
+
+	${shary} liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
+	csleep 3
+
+	${shary} imagemagick-6-common libmagickcore-6.q16-6 libnuma1
+	${shary} libgif7 libmagickwand-6.q16-6 libxmu6 libxpm4
+	csleep 3
+
+	${shary} libx265-199 libwraster6 libwings3 libwutil5 wmaker-common
+	csleep 3
+
+	#TODO:saatanallinen selvitysralli tästä eteenp ellei jotain ilmene
+
+	${shary} libfontenc1  
+	csleep 3
+
+	${shary}  libxmuu1 
+	csleep 3
+
+	${shary} libdav1d6 libde265-0 	
+	csleep 3
+
+	${shary} libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
 	csleep 3
 
 	${shary} libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 
@@ -220,14 +234,14 @@ function e23_dm() {
 	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
 	csleep 3
 
-	${shary} libxcursor1 libwutil5 man-db wmaker-common #libbz2-1.0
+	${shary} libxcursor1 man-db wmaker-common #
 	csleep 3
 
-	${shary} libicu72 libxfixes3 libxml2
+	${shary} libicu72 libxfixes3 
 	csleep 3
 
 	#28926:ehkä lingl1-libpam-runtime -pakettiewn riippuvuudet nyt kunnossa
-	${shary} libgl1-mesa-dri libxcb-glx0 libglx-mesa0 libffi8 libzvbi-common libzvbi0 git-man
+	${shary} libgl1-mesa-dri libxcb-glx0 libglx-mesa0  libzvbi-common libzvbi0 git-man
 	${shary} libdb5.3 debconf libdeflate0 liblerc4
 	${shary} libpam-runtime
 	csleep 3
@@ -243,7 +257,7 @@ function e23_dm() {
 	${shary} libgtk-3-0 libgtk-3-common libice6
 	csleep 3
 
-	${shary} libseat1 libseccomp2 libtinfo6 #libpipeline1?
+	${shary} libseat1 libseccomp2  #libpipeline1?
 	${shary} libunwind8
 	csleep 3
 

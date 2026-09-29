@@ -236,6 +236,8 @@ case "${mode}" in
 		e23_st
 	;;
 	u|upgrade)
+		echo "REMEMBER: l bfore u"
+		sleep 5
 
 		#28926:mutt, gsasl ja bind9 eivät enää ongelma?
 
@@ -244,11 +246,10 @@ case "${mode}" in
 		#ihan maaliin asti ei vielä päästy, äksä poistuu omega 5 seurauksena
 		#libxcb1 se ongelma? ehkä ei
 
-		#kokeeksi tämmöinen (entä fix-broken install?)
+		#kokeeksi tämmöinen (entä fix-broken install? upgp() tekee sen)
 		${odio} apt autoremove
 
-		#JOKO JO PRKL?
-		${shary} libxcb1 libx11-data libx11-6 libx11-xcb1
+	
 
 		#x11-apps
  		# x11-session-utils x11-xkb-utils xauth xcvt xfce4-helpers xfdesktop4-data
@@ -258,9 +259,9 @@ case "${mode}" in
 		# -> paketin rakentelu uusiksi TAAS , jotenin eri tavalla vain?
 
 		#fråm sqrot: libinput10:amd64 depends on libinput-bin
-	#uusin u-paketti sillälailla P.V.H.H. että sqroot-ympstössäkin meinaa äksä poistua
-	#eli ten1() käskytyksen kanssa jotain tehtävä? part2/( ...
-	#vai stkeeko l-paketti kanssa?
+		#uusin u-paketti sillälailla P.V.H.H. että sqroot-ympstössäkin meinaa äksä poistua
+		#eli ten1() käskytyksen kanssa jotain tehtävä? part2/( ...
+		#vai stkeeko l-paketti kanssa?
 
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD Be U P B Y No W - Heisenberg"
@@ -271,6 +272,9 @@ case "${mode}" in
 		csleep 1
 	;;
 	l)
+		echo "REMEMBER: l bfore u"
+		sleep 5
+
 		#120726:lieni toimiva tämä case, miten sen jälkeen?
 		#VAIH?:tähän kilkkeeseen liittyen ne perl-yms. urputukset voisdi vähitellen hoitaa, $distro/accept ...
 		#28926:modatun kiekon kanssa uusin oksennus toimi, modaamattoman kanssa ei koska se 1 libzvb-jotain paq, jopsa yrittäisi viel
