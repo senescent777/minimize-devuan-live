@@ -148,6 +148,9 @@ function e23_qrs() {
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
 #VAIH:testaus uusicksi josqs koska y (27926 vaikuttaisi siltä että osdaltaan uusi l-paketti aiheuttaa äksän poistumisen)
+#29926:eilinen l-paketti vaikutti toimivalta, testaus sqrootissa toivottava
+#29926.2:joskus tietenkin kokeiltava jtnknin että vetääkö fktion uusin versio ne toivottavat paketit
+
 
 #VAIH?: perl, , ,,  mukaanjos puuttuu?
 #... siis 1 ekaa lisäten lähinnä? tai siis perl jo qnnossa?
@@ -188,7 +191,7 @@ function e23_dm() {
 	${shary} libglib2.0-0 libglib2.0-data libharfbuzz0b libthai0 libfreetype6
 	csleep 3
 
-	#
+	${shary} libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 libxshmfence1	
 	${shary} zlib1g libllvm15 libdrm-radeon1 libdrm-nouveau2 libdrm-amdgpu1 libvdpau1 mesa-vdpau
 	csleep 3
 	
@@ -200,6 +203,7 @@ function e23_dm() {
 	${shary} liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
 	csleep 3
 
+	#TODO:saatanallinen selvitysralli tästä eteenp-> libgl1  ellei jotain ilmene
 	${shary} imagemagick-6-common libmagickcore-6.q16-6 libnuma1
 	${shary} libgif7 libmagickwand-6.q16-6 libxmu6 libxpm4
 	csleep 3
@@ -207,22 +211,13 @@ function e23_dm() {
 	${shary} libx265-199 libwraster6 libwings3 libwutil5 wmaker-common
 	csleep 3
 
-	#TODO:saatanallinen selvitysralli tästä eteenp ellei jotain ilmene
-
-	${shary} libfontenc1  
-	csleep 3
-
-	${shary}  libxmuu1 
-	csleep 3
-
-	${shary} libdav1d6 libde265-0 	
+	${shary} libfontenc1 libxmuu1 libdav1d6 libde265-0 	
 	csleep 3
 
 	${shary} libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
 	csleep 3
 
-	${shary} libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 
-	${shary} libxcb-shape0 libxshmfence1 libxcb-damage0 libxcb-shm0 libxcb-render0 #hyvä idea ksekittää nämä inxcb-jutut?
+	${shary} libxcb-shape0  libxcb-damage0 libxcb-shm0 libxcb-render0 #hyvä idea ksekittää nämä inxcb-jutut?
 	csleep 3
 
 	${shary} libglvnd0 libegl-mesa0 libgl1 libxaw7 libegl1
