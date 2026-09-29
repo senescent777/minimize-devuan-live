@@ -1,4 +1,6 @@
 #!/bin/bash
+echo "#TODO:näihin mjien asetteluihin alussa konf-riippuvuisia muutoksia eli CONF_env määräisi jostain"
+sleep 5
 
 odio=$(which sudo)
 smr=$(${odio} which rm)
@@ -11,6 +13,15 @@ whack=$(${odio} which pkill)
 whack="${whack} --signal 9 "
 svm=$(${odio} which mv)
 svm="${odio} ${svm}"
+
+function dqb() {
+	[ ${debug} -eq 1 ] && echo ${1}
+}
+
+function csleep() {
+	[ ${debug} -eq 1 ] && sleep ${1}
+}
+
 mode=3
 
 if [ $# -gt 0 ] ; then
@@ -21,12 +32,12 @@ fi
 #päintoisin näyttäisi myös yhdistelmä modaamaton kiekko+moderni l+wanha u toimivan ilman turhaa sekoilua (29926)
 
 if [ ${mode} -eq 5 ] ; then
-	sudo /etc/init.d/ntpsec stop
-	sudo apt --fix-broken install #jos kesympi versiuo toiumisi ... No Ei
-	sudo /etc/init.d/slim stop
+	${odio} /etc/init.d/ntpsec stop
+	${odio} apt --fix-broken install #jos kesympi versiuo toiumisi ... No Ei
+	${odio} /etc/init.d/slim stop
 
 	#uutena 280926
-	scm="sudo chmod" #TODO:lisää common_lib prujaamista kohta, jotta sqrootin kautta järkevästi
+	scm="${odio} chmod" #TODO:lisää common_lib prujaamista kohta, jotta sqrootin kautta järkevästi?
 	csleep 5 
 	${scm} a-wx /etc/init.d/blu*
 	${scm} a-wx /etc/init.d/nfs*
@@ -39,8 +50,8 @@ if [ ${mode} -eq 5 ] ; then
 fi
 
 if [ ${mode} -eq 6 ] ; then
-	sudo apt-get remove --purge slim* #No Ei
-	sudo /etc/init.d/wdm start
+	${odio} apt-get remove --purge slim* #No Ei
+	${odio} /etc/init.d/wdm start
 	exit
 fi
 
