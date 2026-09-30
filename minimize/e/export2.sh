@@ -188,6 +188,7 @@ case "${mode}" in
 		#... siis l/u-paketit pitäisi VIELÄ muodostaa uusiksi sqroot vart koska filesystem.squashfs kusi paskaa edelleen 280926
 		#(grub.cfg lisnee jo kunnossa)
 
+		#TODO:apt-offline mukaan jko E22_G-juttuihin vako vasta other_pkgs?
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
 
@@ -266,6 +267,18 @@ case "${mode}" in
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD Be U P B Y No W - Heisenberg"
 		csleep 1
+
+		#30926 oli toimivan u-paketin kanssa seuraavaa:
+		#libxml-parser-perl depends on perl (>= 5.36.0-7+deb12u3); however:
+		#librsvg2-common:amd64 depends on librsvg2-2 (= 2.54.7+dfsg-1~deb12u1); however
+		# libpython3.11-stdlib:amd64 depends on libpython3.11-minimal (= 3.11.2-6+deb12u7); however:
+		#libperl5.36:amd64 depends on perl-modules-5.36 (>= 5.36.0-7+deb12u3); however
+		#libgsasl18:amd64 depends on libgssglue1 (ja muita)
+		#python3.11 depends on libpython3.11-stdlib (= 3.11.2-6+deb12u7); however:
+		#perl depends on libperl5.36 (= 5.36.0-7+deb12u3); however:
+		# mutt depends on libgpgme11 (>= 1.11.1); however: (ja muita)
+		# git depends on perl; however:
+		#reject_pkgs muuttaminen jos ei muuta keksi?
 
 		e23_upgp
 		${sifd} ${CONF_iface}

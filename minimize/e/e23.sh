@@ -6,7 +6,7 @@ function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() 
 	csleep 1
 
 
-	#VAIH:vähitellen jotain? E22:_GT , GU, GM hyödyntäen? taisi siis voiko nykyiselllään hyödyntää?
+	#VAIH:vähitellen jotain? E22:_GT , GU, GM hyödyntäen? tai siis voiko nykyiselllään hyödyntää?
 #			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
 
 	if [ "${1}" == "wlan0" ] ; then
@@ -151,7 +151,6 @@ function e23_qrs() {
 #29926:eilinen l-paketti vaikutti toimivalta, testaus sqrootissa toivottava
 #29926.2:joskus tietenkin kokeiltava jtnknin että vetääkö fktion uusin versio ne toivottavat paketit
 
-
 #VAIH?: perl, , ,,  mukaanjos puuttuu?
 #... siis 1 ekaa lisäten lähinnä? tai siis perl jo qnnossa?
 
@@ -160,6 +159,7 @@ sleep 1
 echo "VAIH:libvdpau, mesa-vdpau, mukaan dm() juttuihin?"
 sleep 10
 
+#30926:tähän voi tulla isompia muutoksia koska a-offline
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -195,6 +195,14 @@ function e23_dm() {
 	${shary} zlib1g libllvm15 libdrm-radeon1 libdrm-nouveau2 libdrm-amdgpu1 libvdpau1 mesa-vdpau
 	csleep 3
 	
+	#Depends: libc6 (>= 2.14), zlib1g (>= 1:1.1.4)
+	#Depends: libc6 (>= 2.4), libx11-6
+	#Depends: libc6 (>= 2.34)
+	#Depends: libc6 (>= 2.34), libgcc-s1 (>= 3.0), libstdc++6 (>= 11)
+
+	${shary} libfontenc1 libxmuu1 libdav1d6 libde265-0 	
+	csleep 3
+	
 	${shary} libxft2 libxrender1 libxrandr2
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
 	${shary} libbz2-1.0 libfftw3-double3 libheif1 libjbig0 libjpeg62-turbo liblcms2-2
@@ -203,16 +211,29 @@ function e23_dm() {
 	${shary} liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
 	csleep 3
 
-	#TODO:saatanallinen selvitysralli tästä eteenp-> libgl1  ellei jotain ilmene
+	#VAIH:saatanallinen selvitysralli tästä eteenp-> libgl1  ellei jotain ilmene
+	#-
+	#Depends: libbz2-1.0, libc6 (>= 2.35), libfftw3-double3 (>= 3.3.10), libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.10.1), libgcc-s1 (>= 3.3.1), libgomp1 (>= 6), libheif1 (>= 1.4.0), libjbig0 (>= 2.0), libjpeg62-turbo (>= 1.3.1), liblcms2-2 (>= 2.6), liblqr-1-0 (>= 0.4.0), libltdl7 (>= 2.4.7), liblzma5 (>= 5.1.1alpha+20120614), libopenjp2-7 (>= 2.0.0), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.5.0~rc1), libwebp7 (>= 1.2.4), libwebpdemux2 (>= 1.2.4), libwebpmux3 (>= 1.2.4), libx11-6, libxext6, libxml2 (>= 2.7.4), zlib1g (>= 1:1.1.4), imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
+	#Depends: libc6 (>= 2.34)
+	#Depends: libc6 (>= 2.14)
+	#Depends: libc6 (>= 2.33), libgcc-s1 (>= 3.3.1), libgomp1 (>= 4.9), libmagickcore-6.q16-6 (>= 8:6.9.11.60+dfsg-1.6+deb12u13), libx11-6, imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
+	#Depends: libc6 (>= 2.14), libx11-6, libxext6, libxt6
+	#Depends: libc6 (>= 2.34), libx11-6
+
 	${shary} imagemagick-6-common libmagickcore-6.q16-6 libnuma1
 	${shary} libgif7 libmagickwand-6.q16-6 libxmu6 libxpm4
 	csleep 3
 
+	#Depends: libc6 (>= 2.34), libnuma1 (>= 2.0.11), libstdc++6 (>= 4.1.1)
+	#Depends: libc6 (>= 2.33), libgif7 (>= 5.1), libjpeg62-turbo (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.0.3), libwebp7, libx11-6, libxext6, libxmu6 (>= 2:1.1.3), libxpm4
+	#Depends: libc6 (>= 2.33), libfontconfig1 (>= 2.12.6), libpango-1.0-0 (>= 1.22.0), libpangoft2-1.0-0 (>= 1.14.0), libpangoxft-1.0-0 (>= 1.14.0), libwraster6 (>= 0.95.8), libwutil5 (>= 0.95.5), libx11-6, libxext6, libxft2 (>> 2.1.1), wmaker-common (>= 0.95.9-3)
+	#Depends: libc6 (>= 2.34), wmaker-common (>= 0.95.9-3)
+	#
+
 	${shary} libx265-199 libwraster6 libwings3 libwutil5 wmaker-common
 	csleep 3
 
-	${shary} libfontenc1 libxmuu1 libdav1d6 libde265-0 	
-	csleep 3
+
 
 	${shary} libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
 	csleep 3
