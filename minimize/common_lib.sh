@@ -601,14 +601,16 @@ function worf() {
 	done
 }
 
-#HUOM.010826:ei jouda (vielä) worf() ja wopr() yhdistää koska find voi vähän harata vastaan joissain tapauksissa
+#TODO:selvitä varm. vuoksi, toimiiko tuo reject-case vai ei?
 function wopr() {
 	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
 	local r=$(find ${1} -type f -name "${2}*.deb" )
+	csleep 5
 
 	for s in ${r} ; do
 		case "${3}" in
 			reject_pkgs)
+				dqb "${NKVD} ${s}"
 				${NKVD} ${s}
 			;;
 			accept_pkgs_1|accept_pkgs_2)
@@ -838,6 +840,7 @@ function check_binaries2() {
 	iptr="${odio} ${iptr} "
 	ip6tr="${odio} ${ip6tr} "
 
+	#TODO:shary:n kanssa muutoksia jatkossa? a-offline...
 	sharpy="${odio} ${sag} remove --purge --yes "
 	#HUOM. ${sag} oltava VIIMEISENÄ tai siis ao. kolmikosta
 	shary="${odio} ${sag} --no-install-recommends reinstall --yes "
@@ -845,6 +848,9 @@ function check_binaries2() {
 	sag="${odio} ${sag} "
 
 	sa="${odio} ${sa} "
+	asy="${odio} ${sa} autoremove --yes "
+	fib="${odio} ${sa} --fix-broken install "
+
 	sifu="${odio} ${sifu} "
 	sifd="${odio} ${sifd} "
 
@@ -852,21 +858,20 @@ function check_binaries2() {
 	export INITRD
 	lftr="${smr} -rf /run/live/medium/live/initrd.img* "
 	
-	if [ "${CONF_env}" != "VED" ] ; then #toistaiseksi näin?
-		${scm} a-wx /usr/sbin/update-initramfs #kokeeksi tämäkin, vissiin jotyain saa aikaan 050426
+	#30926.1.:muuttaako ehtoa joskus vai ei?
+	#30926.2.:a-wx voi aiheuttaa joitain ongelmia pakettien asentelussa, sittenkin pois?
+	if [ "${CONF_env}" != "VED" ] ; then
+		${scm} a-wx /usr/sbin/update-initramfs
 	fi
 
 	srat="${odio} ${srat} "
-	asy="${odio} ${sa} autoremove --yes "
-	fib="${odio} ${sa} --fix-broken install "
+
 	som="${odio} ${som} "
 	uom="${odio} ${uom} "
-	smd="${odio} ${smd}"
+	smd="${odio} ${smd} "
 
 	dqb "b1nar135.2 0k.2" 
 }
-
-#10926:epäselvää mistä ifup/down/resolv kuseminen aiheutui, ehkä voisi kokeilla modaamattomalla kiekolla josqs, modatulla ei yleensä tapahdu
 
 function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
@@ -1321,6 +1326,7 @@ function part2() {
 	dqb "PART2.5 d0ne"
 }
 
+#TODO:tässäkin se reject-tapauksen toiminnan selvitys barm vuoksi
 function common_lib_tool() {
 	dqb "common_lib_tool( ${1}  ; ${2} )))) "
 	[ -d ${1} ] || exit 66
@@ -1328,6 +1334,7 @@ function common_lib_tool() {
 	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSing f ILE"
 
 	dqb "WLL STRT PRC3551NG TGTs NW"
+	csleep 5
 	local q
 
 	for q in $(grep -v "#" ${1}/${2}) ; do
@@ -1347,6 +1354,7 @@ function common_lib_tool() {
 		fi
 	done
 
+	csleep 1
 	dqb "t00l DONE"
 }
 
