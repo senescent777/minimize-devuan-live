@@ -337,23 +337,22 @@ function destroy() {
 
 function psqa() {
 	dqb "c.Q () () () () ${1} ;;;"
-	#csleep 1
 
 	[ -z "${1}" ] && exit 97
 	[ -s ${1} ] || exit 96 #arpoo arpoo
 	[ ${debug} -gt 0 ] && ls -las ${1}*
-	#csleep 1
+
 
 	#dpkg -V oli tässä josqs , [ -v ] takana
 
 	if [ -v gg ] && [ -s ${1}.sig ] ; then
 		dqb "))S))))( ${1} )"
-		#csleep 1
+	
 
 		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubring.kbx yli 32 tavua?
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 			dqb "${gg} --verify ${1}.sig "
-			#csleep 1
+			
 			${gg} --verify ${1}.sig 
 
 			if [ $? -eq 0 ] ; then
@@ -364,9 +363,9 @@ function psqa() {
 				return 95 #jatk exit pois
 			fi
 
-			#csleep 1
+		
 			[ -f ${1}.1.sig ] && ${gg} --verify ${1}.1.sig
-			#csleep 1
+			
 		else
 			dqb "COULD NOT VERIFY SIGNATURES"
 		fi
@@ -374,11 +373,11 @@ function psqa() {
 		dqb "Лаврентий Берия MADE .txt.sig DISAPPEAR"
 	fi
 
-	#csleep 2
+
 
 	if [ -s ${1} ] && [ -x ${sah6} ] ; then
 		dqb "R ${1} "
-		#csleep 1
+	
 
 		local p=$(pwd)
 		cd $(dirname ${1})
@@ -400,7 +399,7 @@ function psqa() {
 			# joten suurta mölinää ei syytä laittaa käyntiin ennenq cefgh() ajettu (tai miteb lienee)
 		fi
 
-		#csleep 1
+		
 		cd ${p}
 	else
 		dqb "NO SUMS CAN BE CHECK3D FOR R3AQS0N 0R AN0TH3R"
@@ -411,7 +410,7 @@ function psqa() {
 	fi
 
 	echo " DONE WITH THE Q-FEVER () ;;;; (((((("
-	#sleep 1
+	
 }
 
 #pikemminkin siellä $2-hmistossa käsin se sha-kstus?  ehkä ei kuitenkaan?
@@ -446,12 +445,16 @@ function common_pp3() {
 				${svm} ${1}/${s} ${2}
 			done
 
+			#011026:tässäkö pitäisi accept/drop/reject kopsautua?
+			#olisiko niin että kiukuttelut koskevat vain yhtä arjistoa?
 			for s in $(grep -v '#' ${1}/${CONF_hashfile}.1 | grep -v drop | awk '{print $2}') ; do
+				dqb " SHOULD ${spc} ${1}/${s} ${2}"
 				${spc} ${1}/${s} ${2}
 			done
 
 			${spc} ${1}/${CONF_hashfile}* ${2}
 			ls -las ${2}/${CONF_hashfile}*
+			csleep 5
 		fi
 	fi
 
@@ -601,17 +604,19 @@ function worf() {
 	done
 }
 
-#TODO:selvitä varm. vuoksi, toimiiko tuo reject-case vai ei?
+#VAIH:selvitä varm. vuoksi, toimiiko tuo reject-case vai ei?
 function wopr() {
 	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
 	local r=$(find ${1} -type f -name "${2}*.deb" )
-	csleep 5
+	csleep 2
 
 	for s in ${r} ; do
 		case "${3}" in
 			reject_pkgs)
 				dqb "${NKVD} ${s}"
 				${NKVD} ${s}
+				dqb $?
+				csleep 1
 			;;
 			accept_pkgs_1|accept_pkgs_2)
 				efk1 ${s}
@@ -1326,15 +1331,21 @@ function part2() {
 	dqb "PART2.5 d0ne"
 }
 
-#TODO:tässäkin se reject-tapauksen toiminnan selvitys barm vuoksi
+#VAIH:tässäkin se reject-tapauksen toiminnan selvitys barm vuoksi
+#011026:toimkivabn u-paketinj kanssa tuli "MISS ILE" - ulinaa nimittäin
+
 function common_lib_tool() {
 	dqb "common_lib_tool( ${1}  ; ${2} )))) "
 	[ -d ${1} ] || exit 66
 	[ -z "${2}" ] && exit 67
-	[ -s ${1}/${2} ] || dqb "SHOULD COMPLAIN ABT MISSing f ILE"
+
+	if [ ! -s ${1}/${2} ] ; then
+		dqb "SHOULD COMPLAIN ABT MISSing f ILE"
+		sleep 16
+	fi
 
 	dqb "WLL STRT PRC3551NG TGTs NW"
-	csleep 5
+	csleep 2
 	local q
 
 	for q in $(grep -v "#" ${1}/${2}) ; do
@@ -1390,6 +1401,7 @@ function part3() {
 	dqb "AL-fPGA"
 
 	#tä,män tulisi poistella ei-toivotut .deb ennen asennusta (poistaako?)
+	#TODO:selvitä, löytyykö toivotusta sijainnista reject vai ei?
 	common_lib_tool ${t} reject_pkgs
 	dqb "B3T4"
 
