@@ -22,4 +22,10 @@ libsw
 live-boot
 mutt
 libgsasl
+#011026:UUSIA, KOMMENTTEIHIN JOS HOMMAT QSEE
+libxml-parser-perl
+librsvg2-common
+libpython3.11-stdlib
+libperl5.36
+python3.11
 #miten xz-utils nykyään?
