@@ -84,6 +84,9 @@ function e23_other_pkgs() {
 		${shary} stubby
 	fi
 
+	#uutena 30926
+	${shary} libmagic-mcg libmagic1 python3-magic apt-offline
+
 	csleep 1
 	${lftr}
 
@@ -156,10 +159,15 @@ function e23_qrs() {
 
 echo "MUISTA : uusi l+wanha u tässä järj, mitä taaphtuu?"
 sleep 1
-echo "VAIH:libvdpau, mesa-vdpau, mukaan dm() juttuihin?"
+echo "DONE?:libvdpau, mesa-vdpau, mukaan dm() juttuihin?"
 sleep 10
 
 #30926:tähän voi tulla isompia muutoksia koska a-offline
+#Depends: python3:any, apt, less, python3-magic
+#Depends: python3:any, libmagic1 (>= 1:5.39)
+#Depends: libbz2-1.0, libc6 (>= 2.33), liblzma5 (>= 5.1.1alpha+20120614), zlib1g (>= 1:1.1.4), libmagic-mgc (= 1:5.44-3)
+#
+
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
 	[ -z "${1}" ] && exit 11
@@ -194,13 +202,12 @@ function e23_dm() {
 	${shary} libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 libxshmfence1	
 	${shary} zlib1g libllvm15 libdrm-radeon1 libdrm-nouveau2 libdrm-amdgpu1 libvdpau1 mesa-vdpau
 	csleep 3
-	
-	#Depends: libc6 (>= 2.14), zlib1g (>= 1:1.1.4)
-	#Depends: libc6 (>= 2.4), libx11-6
-	#Depends: libc6 (>= 2.34)
-	#Depends: libc6 (>= 2.34), libgcc-s1 (>= 3.0), libstdc++6 (>= 11)
 
-	${shary} libfontenc1 libxmuu1 libdav1d6 libde265-0 	
+	${shary} libfontenc1 libdav1d6 libmagickcore-6.q16-6 libnuma1
+
+	#ao. blokki ehkä kunnossa
+	${shary} libxmuu1 libde265-0 
+	${shary} libexpat1 libwayland-client0 libglvnd0 #glvnd vai glvnd0?
 	csleep 3
 	
 	${shary} libxft2 libxrender1 libxrandr2
@@ -208,81 +215,86 @@ function e23_dm() {
 	${shary} libbz2-1.0 libfftw3-double3 libheif1 libjbig0 libjpeg62-turbo liblcms2-2
 	csleep 3
 
-	${shary} liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
+	${shary} liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3 libxt6
 	csleep 3
 
-	#VAIH:saatanallinen selvitysralli tästä eteenp-> libgl1  ellei jotain ilmene
-	#-
-	#Depends: libbz2-1.0, libc6 (>= 2.35), libfftw3-double3 (>= 3.3.10), libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.10.1), libgcc-s1 (>= 3.3.1), libgomp1 (>= 6), libheif1 (>= 1.4.0), libjbig0 (>= 2.0), libjpeg62-turbo (>= 1.3.1), liblcms2-2 (>= 2.6), liblqr-1-0 (>= 0.4.0), libltdl7 (>= 2.4.7), liblzma5 (>= 5.1.1alpha+20120614), libopenjp2-7 (>= 2.0.0), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.5.0~rc1), libwebp7 (>= 1.2.4), libwebpdemux2 (>= 1.2.4), libwebpmux3 (>= 1.2.4), libx11-6, libxext6, libxml2 (>= 2.7.4), zlib1g (>= 1:1.1.4), imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
-	#Depends: libc6 (>= 2.34)
-	#Depends: libc6 (>= 2.14)
-	#Depends: libc6 (>= 2.33), libgcc-s1 (>= 3.3.1), libgomp1 (>= 4.9), libmagickcore-6.q16-6 (>= 8:6.9.11.60+dfsg-1.6+deb12u13), libx11-6, imagemagick-6-common (>= 8:6.9.6.2+dfsg-3)
-	#Depends: libc6 (>= 2.14), libx11-6, libxext6, libxt6
-	#Depends: libc6 (>= 2.34), libx11-6
-
-	${shary} imagemagick-6-common libmagickcore-6.q16-6 libnuma1
+	#ao. blokki qnnnosa?
+	${shary} imagemagick-6-common 
 	${shary} libgif7 libmagickwand-6.q16-6 libxmu6 libxpm4
 	csleep 3
 
-	#Depends: libc6 (>= 2.34), libnuma1 (>= 2.0.11), libstdc++6 (>= 4.1.1)
-	#Depends: libc6 (>= 2.33), libgif7 (>= 5.1), libjpeg62-turbo (>= 1.3.1), libmagickwand-6.q16-6 (>= 8:6.9.10.2), libpng16-16 (>= 1.6.2-1), libtiff6 (>= 4.0.3), libwebp7, libx11-6, libxext6, libxmu6 (>= 2:1.1.3), libxpm4
-	#Depends: libc6 (>= 2.33), libfontconfig1 (>= 2.12.6), libpango-1.0-0 (>= 1.22.0), libpangoft2-1.0-0 (>= 1.14.0), libpangoxft-1.0-0 (>= 1.14.0), libwraster6 (>= 0.95.8), libwutil5 (>= 0.95.5), libx11-6, libxext6, libxft2 (>> 2.1.1), wmaker-common (>= 0.95.9-3)
-	#Depends: libc6 (>= 2.34), wmaker-common (>= 0.95.9-3)
-	#
-
+	#ao. blokki qnnossa?
 	${shary} libx265-199 libwraster6 libwings3 libwutil5 wmaker-common
 	csleep 3
 
-
-
-	${shary} libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
+	#ao. blokki qnnossa?
+	${shary} libgbm1 libglapi-mesa  libwayland-server0 libwayland-cursor0 libwayland-egl1
 	csleep 3
 
-	${shary} libxcb-shape0  libxcb-damage0 libxcb-shm0 libxcb-render0 #hyvä idea ksekittää nämä inxcb-jutut?
+	#ao blokki qnnossa?
+	${shary} libxcb-shape0 libxcb-damage0 libxcb-shm0 libxcb-render0
 	csleep 3
 
-	${shary} libglvnd0 libegl-mesa0 libgl1 libxaw7 libegl1
+	#ao. blokki qnnossa?
+	${shary} libglx0 libegl-mesa0 libgl1 libxaw7 libegl1
 	csleep 3
 
+	#ao. blokki qnnossa?
 	${shary} libxcomposite1 libxi6 libxinerama1 libxkbfile1
 	csleep 3
 
-	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
+	#ao. blokki qnnossa?
+	${shary} libice6 libsm6 x11-common libuuid1
+	${shary} libxtst6 libxv1 libxxf86dga1 libxxf86vm1
 	csleep 3
 
-	${shary} libxcursor1 man-db wmaker-common #
-	csleep 3
-
+	#ao. blokki ehkä qnnossa
+	${shary} debconf bsdextrautils groff-base libgdbm6 libpipeline1 libseccomp2
 	${shary} libicu72 libxfixes3 
 	csleep 3
 
+	${shary} libxcursor1 man-db
+	csleep 3
+
 	#28926:ehkä lingl1-libpam-runtime -pakettiewn riippuvuudet nyt kunnossa
-	${shary} libgl1-mesa-dri libxcb-glx0 libglx-mesa0  libzvbi-common libzvbi0 git-man
-	${shary} libdb5.3 debconf libdeflate0 liblerc4
+	${shary} libgl1-mesa-dri libxcb-glx0 libglx-mesa0 libzvbi-common libzvbi0 git-man
+	${shary} libdb5.3 libdeflate0 liblerc4
 	${shary} libpam-runtime
 	csleep 3
 
-	${shary} libxdmcp6 menu twm libmd0
+	#VAIH:tästä eteenpäin vielä iterointia?
+	#Depends: libc6 (>= 2.34), libmd0 (>= 1.0.3-2)
+	#Depends: libbsd0 (>= 0.2.0), libc6 (>= 2.4)
+	#Depends: libc6 (>= 2.33), libgcc-s1 (>= 3.0), libstdc++6 (>= 11)
+	#Depends: menu (>= 2.1.26), libc6 (>= 2.14), libice6 (>= 1:1.0.0), libsm6, libx11-6, libxext6, libxmu6, libxt6
+	#Depends: libc6 (>= 2.33)
+
+	${shary} libbsd0 libxdmcp6 menu twm libmd0
 	csleep 3
 
- 	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common libbsd0 libcap-ng0
+	#Depends: libc6 (>= 2.34)
+	#-
+	#Depends: libc6 (>= 2.4), libglib2.0-0 (>= 2.62), at-spi2-common
+	#-
+
+ 	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common  libcap-ng0
 	csleep 3
 
 	${shary} libxau6  #C
-	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0
-	${shary} libgtk-3-0 libgtk-3-common libice6
+	${shary} libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common 
+	${shary} libgtk-3-0 libgtk-3-common 
 	csleep 3
 
-	${shary} libseat1 libseccomp2  #libpipeline1?
+	${shary} libseat1
 	${shary} libunwind8
 	csleep 3
 
 	${shary} lsb-base psmisc #A
-	${shary} bsdextrautils groff-base
+	
 	${shary} init-system-helpers  #xscreensaver?
 	csleep 3
 
-	${shary} x11-apps x11-common x11-utils
+	${shary} x11-apps x11-utils
 	csleep 3
 
 	${shary} x11-xserver-utils xserver-xorg #D

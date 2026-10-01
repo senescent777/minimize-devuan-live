@@ -184,11 +184,14 @@ case "${mode}" in
 	;;
 	e) #170926 sai aikaiseksi paketin, mikä jopa asentui (toistuuko?)
 		#VAIH:e ja sitä seuraavat caset soveltuvin osin:testaa miten nykyiset oksennukset toikmiavt sqroot-ympstössä
+		#011026: tämän casen ja g:n tuotokset vissiin toimivat sqrootissa qhan sq.-rotin vain saisi purkamaan suosiolla
 
 		#... siis l/u-paketit pitäisi VIELÄ muodostaa uusiksi sqroot vart koska filesystem.squashfs kusi paskaa edelleen 280926
 		#(grub.cfg lisnee jo kunnossa)
 
-		#TODO:apt-offline mukaan jko E22_G-juttuihin vako vasta other_pkgs?
+		#VAIH:apt-offline mukaan : other_pkgs()
+		#TODO:tetenkin a-o:n sisältävän tarin testaus
+
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
 
@@ -210,7 +213,7 @@ case "${mode}" in
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
 	g) #modaamattoman kiekon kanssa jo ok tämä case?
-	#DONE?:sqrootin kanssa pelittämään (cefgh() , se sah6kophta)
+
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
 		${fib}
@@ -280,6 +283,7 @@ case "${mode}" in
 		# git depends on perl; however:
 		#reject_pkgs muuttaminen jos ei muuta keksi?
 
+		#011026:jotain pientä nalkutusta oli uudemman u-paketin kanssa sqrootissa (wanhampaa, tmivaa ei testattu)
 		e23_upgp
 		${sifd} ${CONF_iface}
 		csleep 1
@@ -320,6 +324,9 @@ case "${mode}" in
 		# uhkaa äksä poistua niinqu
 		#miten jos l ennen u?
 		#no niinpäin parempi, ehkä jopa uskaltaisi VIELÄ uutta u-pakettia? (tekee l-pak jäölkeen?)
+
+		#011026:bissiin 289.9.26 tuotos masentiu ilman turhia kiukutteluita myös sqrootissa, varmistettava
+		#uudemmista arkistoista eos 		
 
 		csleep 1
 		[ -v CONF_dm ] || exit 77
