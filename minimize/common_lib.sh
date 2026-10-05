@@ -445,7 +445,6 @@ function common_pp3() {
 				${svm} ${1}/${s} ${2}
 			done
 
-			#011026:tässäkö pitäisi accept/drop/reject kopsautua?
 			#olisiko niin että kiukuttelut koskevat vain yhtä arjistoa?
 			for s in $(grep -v '#' ${1}/${CONF_hashfile}.1 | grep -v drop | awk '{print $2}') ; do
 				dqb " SHOULD ${spc} ${1}/${s} ${2}"
@@ -604,7 +603,6 @@ function worf() {
 	done
 }
 
-#VAIH:selvitä varm. vuoksi, toimiiko tuo reject-case vai ei?
 function wopr() {
 	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
 	local r=$(find ${1} -type f -name "${2}*.deb" )
@@ -613,6 +611,7 @@ function wopr() {
 	for s in ${r} ; do
 		case "${3}" in
 			reject_pkgs)
+				#bissiin tähän asti mennään
 				dqb "${NKVD} ${s}"
 				${NKVD} ${s}
 				dqb $?
@@ -1331,8 +1330,8 @@ function part2() {
 	dqb "PART2.5 d0ne"
 }
 
-#VAIH:tässäkin se reject-tapauksen toiminnan selvitys barm vuoksi
 #011026:toimkivabn u-paketinj kanssa tuli "MISS ILE" - ulinaa nimittäin
+#knties sums.1 puuttuu joistain kaloista
 
 function common_lib_tool() {
 	dqb "common_lib_tool( ${1}  ; ${2} )))) "
@@ -1401,7 +1400,7 @@ function part3() {
 	dqb "AL-fPGA"
 
 	#tä,män tulisi poistella ei-toivotut .deb ennen asennusta (poistaako?)
-	#TODO:selvitä, löytyykö toivotusta sijainnista reject vai ei?
+
 	common_lib_tool ${t} reject_pkgs
 	dqb "B3T4"
 

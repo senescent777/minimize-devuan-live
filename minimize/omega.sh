@@ -1,6 +1,24 @@
 #!/bin/bash
-echo "#TODO:näihin mjien asetteluihin alussa konf-riippuvuisia muutoksia eli CONF_env määräisi jostain"
+echo "#VAIH:näihin mjien asetteluihin alussa konf-riippuvuisia muutoksia eli CONF_env määräisi jostain"
 sleep 5
+
+#d00=$(pwd)
+#d02=$(cat /etc/devuan_version)
+#d01=${d00}/${d02}
+#
+#if [ -s ${d00}/$(whoami).conf ] ; then
+#	echo "ALT.C0NF1G (. ${d00}/$(whoami).con )"
+#	. ${d00}/$(whoami).conf
+#else
+#	echo "ååå"
+#
+#	if [ -d ${d01} ] && [ -s ${d01}/conf ] ; then
+#		echo ". ${d01}/conf"
+#		. ${d01}/conf
+#	else
+#		echo "whåtever"
+#	fi
+#fi
 
 odio=$(which sudo)
 smr=$(${odio} which rm)
