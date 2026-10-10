@@ -192,8 +192,8 @@ libmfx1
 libva-
 libva2
 #
-#vdpau-juttujen kanssa jotain? (VAIH)
-#Depends: libc6 (>= 2.34), libx11-6 (>= 2:1.4.99.1), libxext6
+#vdpau-juttujen kanssa jotain? (DONE?)
+#Depends: 
 libvdpau1
 #
 #

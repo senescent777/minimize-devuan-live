@@ -14,7 +14,7 @@ dbus
 gpgv
 #
 python3-pil
-#parenpi pitää libav tuossa alla ei-kommentoituna (swreample kanssa)
+#parenpi pitää libav tuossa alla ei-kommentoituna (swreSample kanssa)
 libav
 libsw
 #
@@ -31,6 +31,9 @@ python3.11
 #miten xz-utils nykyään?
 #TODO:xserver pois kommenteista?
 libdpkg-perl
-libperl5.36
-#libxml-parser-perl
-#uudemmassa up-paketissa oli niitä muitakin lin-jotaibn-perl-pq.-..
+libhtml-parser-perl
+libhttp-daemon-perl
+#josko olisi yksinkertaisempaa vain delliä kaikki perl-oaketit?
+perl
+#TODO:mesa-vdpau ja libvdpau1 vetäminen mukaan e23_upg() jos ei muuten lähde skulaamaan=
+xz-utils
