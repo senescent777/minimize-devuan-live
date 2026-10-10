@@ -167,13 +167,12 @@ function e23_qrs() {
 
 echo "MUISTA : uusi l+wanha u tässä järj, mitä taaphtuu?"
 sleep 1
-echo "DONE?:libvdpau, mesa-vdpau, mukaan dm() juttuihin?"
-sleep 10
 
-#30926:tähän voi tulla isompia muutoksia koska a-offline
+
+#30926:tähän voi tulla isompia muutoksia koska a-offline ?
 #Depends: python3:any, apt, less, python3-magic
 #Depends: python3:any, libmagic1 (>= 1:5.39)
-#Depends: libbz2-1.0, libc6 (>= 2.33), liblzma5 (>= 5.1.1alpha+20120614), zlib1g (>= 1:1.1.4), libmagic-mgc (= 1:5.44-3)
+#Depends: libbz2-1.0, (>= 2.33), liblzma5 (>= 5.1.1alpha+20120614), zlib1g (>= 1:1.1.4), libmagic-mgc (= 1:5.44-3)
 #
 
 function e23_dm() {
@@ -198,7 +197,7 @@ function e23_dm() {
 
 	#HUOM.jutut ennen libpangoa/666 jälkeen uusia, kommentteihin jos qsee EHKÄ
 
-	#290926:ao. paketitko aiheuttavat äksän poistumisen?
+	#290926:ao. paketitko aiheuttavat äksän poistumisen? ei kai
 	${shary} libxcb1 libx11-6 libx11-xcb1 libx11-data
 	csleep 3
 
@@ -318,9 +317,22 @@ function e23_dm() {
 	${shary} x11-apps x11-utils
 	csleep 3
 
+#Depends: (>= 2.34), (>= 1:1.0.0), ,  (>= 2:1.0.14), (>> 1.1.2), , ,  (>= 2:1.1.3),  (>= 2:1.1.3), 
+# (>= 2:1.5.0), , , 
+#Depends:  (>= 2:1.17.2-2), xserver-xorg-video-all | xorg-driver-video, xserver-xorg-input-all | xorg-driver-input,
+#  (>= 1.4), 
+#Depends: ,  (>= 2.34), (>= 2.12.6),  (>= 2.2.1),  (>= 1:1.0.0),  (>= 6),  (>= 1.1.5),,  (>= 2:1.0.14), ,
+#  (>> 2.1.1), (>= 2:1.1.4), , 
+#Depends:  (>= 2.34), ,  (>= 1:1.0.9), ,  (>= 2:1.1.3)
+
+	${shary} xserver-xorg-core xkb-data x11-xkb-utils xbitmaps libutempter0
 	${shary} x11-xserver-utils xserver-xorg #D
 	${shary} xterm xauth
 	csleep 3
+
+#Depends:  ,  (>= 0.76-13.1),  (>= 3.0-6), , , , , ,, ,  (>= 0.99.7.1), 
+#libselinux1 (>= 3.1~), (>= 0.95.0),  (>= 0.95.8),  (>= 0.95.5), ,
+# (>= 1:1.0.9), ,  (>= 2:1.1.4),  (>= 2:1.1.3)
 
 	${shary} wdm
 	dqb "e23_dm( done (((("

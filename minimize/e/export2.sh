@@ -39,7 +39,7 @@ function parse_opts_1() {
 
 	case "${1}" in
 		-p)
-			#VAIH:VARMISTA ETTÄ TÄMÄ VIPY TOIMII!!! VISSIIN EI TOIMAA JUURI NYT
+			#VAIH:VARMISTA ETTÄ TÄMÄ VIPu TOIMII!!! VISSIIN EI TOIMAA JUURI NYT (josko vähitellen?)
 			#if [ "${gbk}" == "-1" ] ; then
 				gbk=1
 			#fi
@@ -189,10 +189,7 @@ case "${mode}" in
 		#... siis l/u-paketit pitäisi VIELÄ muodostaa uusiksi sqroot vart koska filesystem.squashfs kusi paskaa edelleen 280926
 		#(grub.cfg lisnee jo kunnossa)
 
-		#VAIH:apt-offline mukaan : other_pkgs()
-		#VAIH:tIetenkin a-o:n sisältävän tarin testaus
-		#VAIH:uusimman oksennuksen testaus (oliko offline mulkana?)
-
+		#101026:asentunee uusin tuotos ainakin sqroot ulkopuolella
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
 
@@ -213,7 +210,7 @@ case "${mode}" in
 		csleep 2
 		e23_tblz ${CONF_iface} ${CONF_dnsm}
 	;;
-	g) #modaamattoman kiekon kanssa jo ok tämä case?
+	g) #modaamattoman kiekon kanssa jo ok tämä case? jep
 
 		[ -v E22_GI ] || exit 95
 		e22_hdr ${d}/e.tar
@@ -254,7 +251,6 @@ case "${mode}" in
 		#kokeeksi tämmöinen (entä fix-broken install? upgp() tekee sen)
 		${odio} apt autoremove
 
-	
 
 		#x11-apps
  		# x11-session-utils x11-xkb-utils xauth xcvt xfce4-helpers xfdesktop4-data
@@ -287,7 +283,7 @@ case "${mode}" in
 		#011026:jotain pientä nalkutusta oli uudemman u-paketin kanssa sqrootissa (wanhampaa, tmivaa ei testattu)
 		#VAIH:lib-xxx-perl-paketit kokeeksi pois, ehkö myös xserver-oaq? (reject)
 
-		#VAIH:voisi selvittää mitä reject_pkgs poissaolo tekee vai tekeekö mitään?		
+		#VAIH:voisi selvittää mitä reject_pkgs poissaolo tekee vai tekeekö mitään?
 		#no ainakin sums.1+reject hukkaaminen johti äksän poistoyritykseen, mitä jos vain reject pois?
 		#rejectin poiston jälkeen -fix-broken yritti poistaa äksän ja sitä ennen libvdpau-nalq eli jos pakottaisi ainakin kys kirjaston mukaan upg() - fktioon ?
 
@@ -295,8 +291,9 @@ case "${mode}" in
 		#101026.1:modaamaton kiekko, uudemmat e.l , o5 just emnnen u -> ei psko äksää
 		#.2:yleisimmin käytetty modattu, uudemmat el + o5 -> ei pskov
 
-		#TODO:uusimman oksennuksen testaus, jos pykii ni rejectin kanssa jotain
-	
+		#DONE:uusimman oksennuksen testaus, jos pykii ni rejectin kanssa jotain... epiä lähtrenyt vielä loikkimaan
+		#... elikkäs uusi tar punnertaen(TODO) (mitem mesa-vdpau?)
+
 		e23_upgp
 		${sifd} ${CONF_iface}
 		csleep 1
