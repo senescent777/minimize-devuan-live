@@ -10,11 +10,7 @@ libbz2-1.0
 libutempter0
 libgdbm
 #
-#TODO:jatkosäätöä TAAS?
 libglapi-mesa
-#
-#/jatkosäöätö?
-#
 libglvnd0_1.6.0
 libwayland-egl1
 #
@@ -40,19 +36,21 @@ libgdk-pixbuf2.0-common
 libgdk-pixbuf-2.0-0
 libgdk-pixbuf-2.0-bin
 #
-#020826:tähän jotain jatkosäätöä vai ei?
 librsvg2-2
 librsvg2-common
-#/jatkosäätö?
 #
 #stdc oli aiemmin tässä
 libatspi2
 #
-#020836:tpoimivassa u-paketissa ei näitä libgl1, libglx, pakeTTeja (TODO?:tekiskikö jotain?)
+libxcb1
+libx11-data
+libx11-6
+libx11-xcb1
+#
 libgl1-mesa-dri
 libglx-mesa0
 libglx0
-libgl1_1.6
+libgl1
 #/libgl
 #
 libglib2.0
@@ -63,7 +61,7 @@ libblkid1
 libselinux1
 libmount1
 #
-libx11-6
+#lieneenkö jo turha tuossa tuo libgl?
 libgl
 #
 at-spi
@@ -93,14 +91,14 @@ xkb-data
 libgtk-3-common
 libgtk-3-0
 libgtk-3-bin
-#VAIH:ylemmäksi nämä vai mitenkä?
+#VAIH:ylemmäksi nämä vai mitenkä? kuinka ylös?
 perl-modules-
 libperl
 perl-base
 perl
 #VAIH:perl,libperl VÄHITELLEN
 #VAIH:, mitä tuon libxml.parser-perl kanssa tekee?
-#150926:SELVITÄ LÖYTYYKÖ NOITA libperl-paketteja JHOSTAIN TARISTA?
+#150926:SELVITÄ LÖYTYYKÖ NOITA libperl-paketteja JHOSTAIN TARISTA? (28926 vielä ajank?)
 perlapi-5.36.0
 liburi-perl
 libwww-perl
@@ -130,24 +128,20 @@ libfreetype
 libxf
 #
 #uusi selvityskierros tarpeen vai ei?
-#libxcb1
-#libxcb-damage0
-#libxcb-dri2
-#libxcb-dri3
-#libxcb-present0
-#libxcb-randr0
-#libxcb-render0
-#libxcb-shape0
-#libxcb-shm0
-#libxcb-sync1
-#libxcb-xfixes0
+#
+libxcb-damage0
+libxcb-dri2
+libxcb-dri3
+libxcb-present0
+libxcb-randr0
+libxcb-render0
+libxcb-shape0
+libxcb-shm0
+libxcb-sync1
+libxcb-xfixes0
 #libxcomposite
 #libxcursor
 libxc
-#
-libx11-data
-#x11-6 oloi tässä
-libx11-xcb1
 #
 #siirretty aiemmaksi koska x
 libxau6
@@ -177,7 +171,6 @@ wmaker-common
 libmd0
 libbsd0
 lsb-base
-#30625:mikähän kijrasto tämän taas tarvitsi?
 x11-common
 #
 libvte-2.91-common
@@ -199,7 +192,8 @@ libmfx1
 libva-
 libva2
 #
-#020826:vdpau-juttujen kanssa jotain? (TODO)
+#vdpau-juttujen kanssa jotain? (DONE?)
+#Depends: 
 libvdpau1
 #
 #
@@ -278,15 +272,13 @@ libxpm4
 libxmu
 libassuan0
 #
-#020826:ylemmäs listassa tämä?
+#020826:ylemmäs listassa tämä? mihin asti?
 liberror-perl
 #
 libgbm1
 #
-#020826:jatkosäätöä? (TODO)
 libegl-mesa0
 libegl1
-#
 #
 seatd
 libseccomp2
@@ -307,9 +299,8 @@ libisl
 libtext-wrapi18
 libfs6
 #
-#TODO:TAAS KERRAN RIIPPUVUUKSIEN METSÄSTYS??? VAIKO SELVITÄ MIKÄ SQROOTIN KANSSA KUSEE
+#270926:onko jo kunnossa wdm riippuvuudet vai ei? ehkä onjo?
 libwutil5
-#
 #
 libbz2-1.0
 libfftw3-double3
@@ -321,33 +312,19 @@ libwings3
 #
 libncursesw6
 libproc2-0
-#
-#libwutil5:amd64 depends on wmaker-common (tulisi löytyä l-oaketiSta)
-#libegl1:amd64 depends on libegl-mesa0 (egl1 ja egl-mesa, l-pak, löyt)
-#
-#libglx-mesa0:amd64 depends on (glx0,glx-mesa, l-pak, löyt)
-#libgtk-3-0:amd64 depends on libgtk-3-common (gkt-3 ja gtk-3-common mukana u-oaketin lisäksi l-paketissa, ongelma?)
-#libegl-mesa0:amd64 depends on libglapi-mesa (ei ole u-paketissa egl tai glapi)
-#... accept-jutut qnnossa? tarpeelliset pak mukana? u-aketissa 3-0, 3-bin, 3-common
-#		
-#mesa-vdpau-drivers:amd64 depends on 
-# mesa-vdpau-drivers:amd64 depends on (vdpau mukana? ei u-paketissa. l-paktissa mesa-vdpau, mutta se lib?)
-#libperl5.36:amd64 depends on perl-modules-5.36 (>= 5.36.0-7+deb12u3); however:
-#  Version of perl-modules-5.36 on system is (miten nämä perlit mukana? u-paketissa libperl, perl_5, perl_base ja perl_modules)
-#
-#dpkg: dependency problems prevent configuration of libpython3.11-stdlib:amd64:
-# libpython3.11-stdlib:amd64 depends on libpython3.11-minimal
-# (pythonit mukana? u-paketissa lib-minimal, lib-stdlib, pyth3.11, pyth3.11-m ja 3 muuta , joikin niistä pois?)
-#
-#librsvg2-common:amd64 depends on librsvg2-2 (= 2.54.7+dfsg-1~deb12u1); however:
-#Version of librsvg2-2:amd64 on system is (väärä vesrio? vei eio mukana tarissa? u-pak sis rsvg2-2 ja rsvg2-vommon)	
-#
-#libxml-parser-perl depends on perl (>= 5.36.0-7+deb12u3); however:
-#  Version of perl on system is (u-paketissa xml2 ja xml-parser-perl, joten väärä versio?)
-#
-#python3.11 depends on libpython3.11-stdlib (= 3.11.2-6+deb12u7); however:
-#Package libpython3.11-stdlib:amd64 is
-#
-#190926 lisäyksiä, e23_st() liittyy
+#e23_st() liittyy
 libburn4
+libjte2
 libiso
+#
+#bissiin samaan aikaan masennettava seur 2
+libdevmapper
+dmsetup
+#
+libinput-bin
+libinput
+#
+#101026:uutena, poisjos qsee
+libelf1
+libexpat1
+libllvm15
