@@ -175,8 +175,7 @@ function pre() {
 	echo "UNDER THE GRAV3YARD ${1}"
 	sleep 1
 
-	echo "#TODO:koitahan saada aikaiseksi havainnoida, travitaanko $1 oikeasti vakoi ie?"
-	sleep 5
+	#011026: $1 ei vissiin niin tarpeellinen sq-root-ympstössä , $p kelvannee myös
 
 	echo "A"
 	p=$(pwd)

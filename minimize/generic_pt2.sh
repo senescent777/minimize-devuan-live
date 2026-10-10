@@ -76,8 +76,9 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-#lopuksi uuden oemnan kanssa: haluaa hukata äksän
+#lopuksi uuden oemnan kanssa: haluaa hukata äksän (vielä 10/26?)
 #2x0926:uudemmankin päivityspak kanssa se hukkaamisongelma kun mennään omegaan, jnties VIELÄ uusi yritys päivbityspak kanssa (kts miten ten1 ja part175 tällä krt)
+#011026:suoRitus pysähtyi python3-cups poiston jälkeen kun ilman -v , kts toistuuko? tai siis
 
 if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
 	dqb "kö"
@@ -131,6 +132,7 @@ if [ "${CONF_env}" == "TOOR" ] ; then
 
 	dqb "V1"
 	#exit
+	#011026:jokohan jo sqeoorissa alkaisi blu-jutut poistua...
 fi
 
 #vs destroy()
