@@ -157,7 +157,7 @@ case "${mode}" in
 		reqwreqw ${CONF_hashfile3}.tmp
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 
-		#other ja tblz aiemmin juuri ennen home_ore	
+		#other ja tblz aiemmin juuri ennen home_Pre	
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
 
@@ -183,14 +183,15 @@ case "${mode}" in
 		fi
 	;;
 	e) #170926 sai aikaiseksi paketin, mikä jopa asentui (toistuuko?)
-		#VAIH:e ja sitä seuraavat caset soveltuvin osin:testaa miten nykyiset oksennukset toikmiavt sqroot-ympstössä
+		#VAIH:e ja sitä seuraavat caset soveltuvin osin:testaa miten nykyiset oksennukset toimivat sqroot-ympstössä
 		#011026: tämän casen ja g:n tuotokset vissiin toimivat sqrootissa qhan sq.-rotin vain saisi purkamaan suosiolla
 
 		#... siis l/u-paketit pitäisi VIELÄ muodostaa uusiksi sqroot vart koska filesystem.squashfs kusi paskaa edelleen 280926
 		#(grub.cfg lisnee jo kunnossa)
 
 		#VAIH:apt-offline mukaan : other_pkgs()
-		#TODO:tetenkin a-o:n sisältävän tarin testaus
+		#TODO:tIetenkin a-o:n sisältävän tarin testaus
+		#TODO:uusimman oksennuksen testaus (oliko offline mulkana?)
 
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
@@ -231,12 +232,12 @@ case "${mode}" in
 		doIt=0
 	;;
 	n)
-		#190926:muodostaa paketin? jep , masentuu? "sqrot 3" kautta
+		#190926:muodostaa paketin? jep , masentuu? "sqrot 3" kautta (konffaus taisi olla vielä)
 		${shary} lsb-base netbase python3 python3-ntp tzdata libbsd0 libcap2 libssl3
 		${shary} ntpsec
 	;;
 	s) #190926:muodostaa paketin? jep , masentuu? "sqrot 3" kautta
-		#270926;nalkutuksetkin saatu pois pl libdevmapper ja dmsetup jotka pitäisi kai asentaa samalla kertaa
+		#270926:nalkutuksetkin saatu pois pl libdevmapper ja dmsetup jotka pitäisi kai asentaa samalla kertaa
 		e23_st
 	;;
 	u|upgrade)
@@ -285,9 +286,17 @@ case "${mode}" in
 
 		#011026:jotain pientä nalkutusta oli uudemman u-paketin kanssa sqrootissa (wanhampaa, tmivaa ei testattu)
 		#VAIH:lib-xxx-perl-paketit kokeeksi pois, ehkö myös xserver-oaq? (reject)
-		#TODO:voisi selvittää mitä reject_pkgs poissaolo tekee vai tekeekö mitään?		
-		#TODO:myös, mitä tekee omega5 juuri ennen u-udemman u-paketin masennusta
 
+		#VAIH:voisi selvittää mitä reject_pkgs poissaolo tekee vai tekeekö mitään?		
+		#no ainakin sums.1+reject hukkaaminen johti äksän poistoyritykseen, mitä jos vain reject pois?
+		#rejectin poiston jälkeen -fix-broken yritti poistaa äksän ja sitä ennen libvdpau-nalq eli jos pakottaisi ainakin kys kirjaston mukaan upg() - fktioon ?
+
+		#VAIH:myös, mitä tekee omega5 juuri ennen u-udemman u-paketin masennusta
+		#101026.1:modaamaton kiekko, uudemmat e.l , o5 just emnnen u -> ei psko äksää
+		#.2:yleisimmin käytetty modattu, uudemmat el + o5 -> ei pskov
+
+		#TODO:uusimman oksennuksen testaus, jos pykii ni rejectin kanssa jotain
+	
 		e23_upgp
 		${sifd} ${CONF_iface}
 		csleep 1

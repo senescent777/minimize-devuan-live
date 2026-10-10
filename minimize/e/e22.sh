@@ -286,15 +286,10 @@ function e22_home_pre() {
 		${srat} -rvf ${1} ${t}
 	done	
 
-	#config.tar.bz2?
-#	for t in $(find ~ -type f -name ${4} ) ; do
-	for t in $(find ~ -type f -name ${4} -or  -name "xorg.conf*" ) ; do 
+	#config.tar.bz2
+
+	for t in $(find ~ -type f -name ${4} -or -name "xorg.conf*" ) ; do 
 		${srat} -rvf ${1} ${t}
-#	done
-#
-#	#14726:välillä näin päin
-#	for f in $(find ~ -type f -name "xorg.conf*" ) ; do 
-#		${srat} -rvf ${1} ${f}
 	done
 
 	dqb "home.pre.-donr"
@@ -450,12 +445,19 @@ function e22_ext() {
 
 	[ ${debug} -eq 1 ] && pwd
 	cd ${q}
+
 	#VAIH:vähitellen se merd siirto ao. repoomn (seur sitten mv)
 	${tig} clone https://${CONF_BASEURL}/more_scripts.git
 	[ $? -eq 0 ] || exit 66
 
 	cd more_scripts/misc
 	echo $?
+
+	#findin kautta jatkossa
+	${svm} ~/Desktop/merd2.sh ~/Desktop/merd2.sh.ÅLD
+	${spc} merd2.sh ~/Desktop
+	csleep 2
+
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
 
 	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then

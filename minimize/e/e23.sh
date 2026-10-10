@@ -60,7 +60,7 @@ function e23_other_pkgs() {
 
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
-	csleep 1
+	csleep 6
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	e22_pre_e ${CONF_iface} ${E22_GI}
@@ -86,12 +86,11 @@ function e23_other_pkgs() {
 
 	#uutena 30926
 	${shary} libmagic-mcg libmagic1 python3-magic apt-offline
-
-	csleep 1
+	csleep 15
 	${lftr}
 
 	dqb "e23_other_pkgs() DONE"
-	csleep 1
+	csleep 10
 }
 
 function e23_upgp() {
@@ -101,7 +100,14 @@ function e23_upgp() {
 
 	#JOKO JO PRKL?
 	${shary} libxcb1 libx11-data libx11-6 libx11-xcb1
-	#TODO:libelf,linexpat1 yms mukaan vai ei? (kts accept2)
+	#TODO?:libelf,linexpat1 yms mukaan vai ei? (kts accept2)
+
+	#Depends: libc6 (>= 2.14), libgcc1 (>= 1:3.0), 
+	#, (>= 6), (>= 1.0.3),  (>= 1.7.3), , 
+	#Depends: libc6 (>= 2.34), 
+
+
+	${shary} libgl1 libva-x11-2 libva2 libxext6 #libx11-6  jo aiemmin
 	${shary} libvdpau1 mesa-vdpau-drivers
 
 	e22_pre_e ${CONF_iface} ${E22_GS}
@@ -264,37 +270,50 @@ function e23_dm() {
 	${shary} libpam-runtime
 	csleep 3
 
-	#VAIH:tästä eteenpäin vielä iterointia?
-	#Depends: libc6 (>= 2.34), libmd0 (>= 1.0.3-2)
-	#Depends: libbsd0 (>= 0.2.0), libc6 (>= 2.4)
-	#Depends: libc6 (>= 2.33), libgcc-s1 (>= 3.0), libstdc++6 (>= 11)
-	#Depends: menu (>= 2.1.26), libc6 (>= 2.14), libice6 (>= 1:1.0.0), libsm6, libx11-6, libxext6, libxmu6, libxt6
-	#Depends: libc6 (>= 2.33)
-
+	#qnnossa?
 	${shary} libbsd0 libxdmcp6 menu twm libmd0
 	csleep 3
 
-	#Depends: libc6 (>= 2.34)
-	#-
-	#Depends: libc6 (>= 2.4), libglib2.0-0 (>= 2.62), at-spi2-common
-	#-
-
- 	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common  libcap-ng0
+	#qnnossa tähän atsi?
+ 	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common libcap-ng0
 	csleep 3
 
-	${shary} libxau6  #C
-	${shary} libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common 
+	#Depends:  (>= 2.4)
+	#Depends:  (>= 2.42.10+dfsg-1), , 
+	# (>= 2.34), (>= 2.59.0),  (>= 1.3.1),  (>= 1.6.2-1), (>= 4.0.3)
+	#-
+	#Depends: , , ,  (>= 2.15.1),  (>= 2.35.1), 
+	# (>= 2.34),  (>= 1.14.0),  (>= 1.14.0),  (>= 0.1.10),  (>= 1.7.0),  (>= 1.4.3), 
+	# (>= 2.12.6),  (>= 0.19.7),  (>= 2.40.0),(>= 2.59.0),  (>= 2.2.0), 
+	#(>= 1.45.5),  (>= 1.44.0), (>= 1.44.0),  (>= 1.20.0), (>= 1.14.91),  (>= 1.15.0),
+	#  (>= 2:1.4.99.1),  (>= 1:0.4.5),  (>> 1.1.2),  (>= 1:1.1), ,
+	# , (>= 2:1.2.99.4),  (>= 2:1.1.4),  (>= 0.5.0), (>= 2:1.5.0),  (>= 3.24.37-2)
+	#Depends:  | gsettings-backend
+
+	#pangot ja cairot aiemmaksi?
+	${shary} dconf-gsettings-backend libxau6 libatk-bridge2.0-0 libcairo-gobject2 libcairo2 libcolord2 libcups2 libepoxy0 libpangocairo-1.0-0 #C
+	${shary} adwaita-icon-theme hicolor-icon-theme shared-mime-info libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libxdamage1 libxkbcommon0
 	${shary} libgtk-3-0 libgtk-3-common 
 	csleep 3
 
-	${shary} libseat1
-	${shary} libunwind8
-	csleep 3
+	#mitä näiden kanssa tekee?
+	#Depends: seatd | logind, (>= 2.33), libsystemd0 (>= 238)
+	#Depends:  (>= 2.34),  (>= 5.1.1alpha+20110809)
+	#Depends: sysvinit-utils (>= 3.05-4~)
+	#Depends:  (>= 2.34), 
+	#-
 
-	${shary} lsb-base psmisc #A
-	
+	${shary} libseat1 libunwind8
+	${shary} lsb-base psmisc #A	
 	${shary} init-system-helpers  #xscreensaver?
 	csleep 3
+
+	#Depends: ,  (>= 1.6.2-1), ,,  (>= 2:1.7.5),  (>= 2:1.0.14), , 
+	#, , ,  (>> 1.1.2), ,  (>> 2.1.1),(>= 2:1.2.99.4),  (>= 1:1.1.0),
+	# (>= 2:1.1.3),  (>= 2:1.1.3), ,  (>= 1:1.1.0),
+	#Depends: , (>= 2.12.6), , , , (>= 2:1.6.9), , ,  (>= 1.6),
+	# (>= 1:0.3-1), , (>> 2.1.1),, , , , ,  (>= 2:1.2.0), ,
+	# (>= 1:1.1.0), , 
 
 	${shary} x11-apps x11-utils
 	csleep 3
