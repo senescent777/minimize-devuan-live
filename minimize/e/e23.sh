@@ -101,6 +101,8 @@ function e23_upgp() {
 
 	#JOKO JO PRKL?
 	${shary} libxcb1 libx11-data libx11-6 libx11-xcb1
+	#TODO:libelf,linexpat1 yms mukaan vai ei? (kts accept2)
+	${shary} libvdpau1 mesa-vdpau-drivers
 
 	e22_pre_e ${CONF_iface} ${E22_GS}
 	${sag} --no-install-recommends upgrade -u

@@ -284,7 +284,9 @@ case "${mode}" in
 		#reject_pkgs muuttaminen jos ei muuta keksi?
 
 		#011026:jotain pientä nalkutusta oli uudemman u-paketin kanssa sqrootissa (wanhampaa, tmivaa ei testattu)
-		#TODO:lib-xxx-perl-paketit kokeeksi pois, ehkö myls xserver-oaq? (reject)		
+		#VAIH:lib-xxx-perl-paketit kokeeksi pois, ehkö myös xserver-oaq? (reject)
+		#TODO:voisi selvittää mitä reject_pkgs poissaolo tekee vai tekeekö mitään?		
+		#TODO:myös, mitä tekee omega5 juuri ennen u-udemman u-paketin masennusta
 
 		e23_upgp
 		${sifd} ${CONF_iface}

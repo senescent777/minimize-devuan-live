@@ -450,6 +450,7 @@ function e22_ext() {
 
 	[ ${debug} -eq 1 ] && pwd
 	cd ${q}
+	#VAIH:vähitellen se merd siirto ao. repoomn (seur sitten mv)
 	${tig} clone https://${CONF_BASEURL}/more_scripts.git
 	[ $? -eq 0 ] || exit 66
 
@@ -467,7 +468,7 @@ function e22_ext() {
 		${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
 	fi
 
-	#shclitn-d-kojhtaan josqs muutoksia vai ei?
+	#dhclient-kohtaan josqs muutoksia vai ei?
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${st}
 	
 	if [ ! -s ./sbin/dhclient-script.1 ] ; then
