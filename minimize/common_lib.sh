@@ -1368,6 +1368,7 @@ function common_lib_tool() {
 	dqb "t00l DONE"
 }
 
+#TODO:paloittain selvittely missä kohtaa u-paketin masentelu poistaa äksän
 function part3() {
 	dqb "))() part3 ${1} ,((()()()()()( ${2} (((((((("
 
@@ -1403,6 +1404,7 @@ function part3() {
 
 	common_lib_tool ${t} reject_pkgs
 	dqb "B3T4"
+	#exit 66
 
 	#tässä kohtaa edelleen urputusta?
 	efk1 ${t}/gcc-12-base*.deb ${t}/libgcc-s1*.deb ${t}/libc6*.deb
@@ -1410,10 +1412,12 @@ function part3() {
 
 	worf ${E22_GS} 1 ${t}	
 	dqb "önEGA-VGA RA"
+	#exit 66
 
 	#viallinen u-paketti bissiin auheittiu viimeaikaisen härdellin ja pulinat pois (15926)
 	common_lib_tool ${t} accept_pkgs_1
 	common_lib_tool ${t} accept_pkgs_2
+	#exit 66
 
 	#qseeko ennen vai jälkeen "accept-juttujen"?
 	echo "g4RP D0NE"
@@ -1429,6 +1433,7 @@ function part3() {
 
 	local f
 	for f in $(find ${t} -name "lib*.deb" ) ; do ${sdi} ${f} ; done
+	#exit 66
 
 	if [ $? -eq  0 ] ; then
                dqb "part3.1 ok"
@@ -1439,6 +1444,7 @@ function part3() {
 
 	dqb "LIBS DONE"
 	for f in $(find ${t} -name "*.deb" ) ; do ${sdi} ${f} ; done
+	#exit 66
 
 	if [ $? -eq  0 ] ; then
 		dqb "part3.2 ok"
