@@ -3,29 +3,13 @@ if [ -v CONF_pkgdir ] ; then
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
 fi
 
-if [ ! -v CONF_pubk ] ; then
-	b="/"
-	[ "${CONF_env}" == "VED" ] && b=${CONF_testgris}
-	a=$(${odio} find ${b} -type f -name "keys.conf" | head -n 1)
-
-	if [ ! -z "${a}" ] ; then
-		if [ -s ${a} ] ; then
-			. ${a}
-		fi	
-	fi
-
-	unset a
-	unset b
-fi
-
 function e22_hdr() {
 	dqb "e22_hdr()"
 	[ -z "${1}" ] && exit 61
 	[ "${1}" == "-v" ] && exit 62
-	
-	#onkohan hyvä idea?
+
 	if [ -f ${1} ] ; then
-		echo "$1 ALR3ADY EX1STS"
+		echo "${1} ALR3ADY EX1STS"
 		read -p " U SURE ?" confirm
 		[ "${confirm}" == "Y" ] || exit 99
 
@@ -44,7 +28,7 @@ function e22_hdr() {
 }
 
 function e22_tyg() {
-	dqb " ; e22_tyg( ${1} )(((("	
+	dqb " ; e22_tyg( ${1} )(((("
 
 	[ -z "${1}" ] && exit 45
 	[ -s ${1} ] || exit 46
@@ -54,6 +38,21 @@ function e22_tyg() {
 	csleep 1
 
 	if [ -x ${gg} ] ; then
+		if [ ! -v CONF_pubk ] ; then
+			local b="/"
+			[ "${CONF_env}" == "VED" ] && b=${CONF_testgris}
+			local a=$(${odio} find ${b} -type f -name "keys.conf" | head -n 1)
+
+			if [ ! -z "${a}" ] ; then
+				if [ -s ${a} ] ; then
+					. ${a}
+				fi
+			fi
+
+			unset a
+			unset b
+		fi
+
 		if [ -v CONF_pubk ] ; then
 			${gg} -u ${CONF_pubk} -sb ${1}
 			[ $? -eq 0 ] || dqb "SIGNING FAILED, SHOUDL IUNSTALLLL PRIVATE KEYS OR SMTHING ELSE"
@@ -117,8 +116,8 @@ function e22_ftr() {
 #
 #	#destroy() ?
 #	if [ ${rv} -gt 0 ] ; then #toistaiseksi sqap() hoitamaan poistot
-#		dqb "SMTHNG WENT WR09NG"	
-#		#${NKVD} ./*.deb 
+#		dqb "SMTHNG WENT WR09NG"
+#		#${NKVD} ./*.deb
 #		#${NKVD} ./${CONF_hashfile}*
 #		#${NKVD} ./*.tar
 #
@@ -130,7 +129,7 @@ function e22_ftr() {
 
 function e22_pre1() {
 	dqb "e22_pre1( ${1} ; ${2} ; ${3}) "
-	csleep 1	
+	csleep 1
 
 	[ -z "${1}" ] && exit 65
 	[ -z "${2}" ] && exit 66
@@ -141,8 +140,8 @@ function e22_pre1() {
 
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
-	
-	local lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?	
+
+	local lefid=$(echo ${1} | tr -d -c 0-9a-zA-Z/) #entä cut?
 	enforce_access $(whoami) ${lefid}
 
 	csleep 1
@@ -280,21 +279,17 @@ function e22_home_pre() {
 	fi
 
 	e_final
-	${srat} --exclude "changedns*" -rvf ${1} ${CONF_DIR2} #VAIH:Const
-	#2 alinta silmukkaa pystyisi yhdistämään
+	${srat} --exclude "changedns*" -rvf ${1} ${CONF_DIR2}
+	#2 alinta silmukkaa pystyisi yhdistämään, seur testikeirr jo? (VAIH)
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
 	done	
 
-	#config.tar.bz2?
-	for t in $(find ~ -type f -name ${4} ) ; do
-		${srat} -rvf ${1} ${t}
-	done
+	#config.tar.bz2
 
-	#14726:välillä näin päin
-	for f in $(find ~ -type f -name "xorg.conf*" ) ; do 
-		${srat} -rvf ${1} ${f}
+	for t in $(find ~ -type f -name ${4} -or -name "xorg.conf*" ) ; do 
+		${srat} -rvf ${1} ${t}
 	done
 
 	dqb "home.pre.-donr"
@@ -320,7 +315,9 @@ function e22_home() {
 	csleep 1
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-	${srat} --exclude "*.deb" --exclude "*.conf" -rvf ${1} /home/stubby ${t} #120726:oliko ${TARGET_TPX} kNSSA VIELÄ JOTAIN?
+	#TODO:seur testikierr tuo olds karsinta varmisztaen
+	${srat} --exclude "*.deb" --exclude "*.conf" --exclude olds -rvf ${1} /home/stubby ${t}
+	#180796: ${TARGET_TPX} käyttöön tähän? tartteeko?
 	csleep 1
 
 	dqb "e22_hoem_dnoe()"
@@ -373,7 +370,6 @@ function e22_acol() {
 		fi
 	done
 
-	#DONE?:tähän se /e/iptables oikeuksien palautus tuikempaan?
 	luca ${1}
 	other_horrors
 
@@ -394,7 +390,7 @@ function e22_acol() {
 		;;
 	esac
 
-	if [ ${3} -gt 0 ] ; then #-eq 1
+	if [ ${3} -gt 0 ] ; then
 		for f in $(find /etc -type f -name "stubby*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
 		for f in $(find /etc -type f -name "dns*" -and -not -name "*.202*" ) ; do ${srat} -rf ${1} ${f} ; done
 	fi
@@ -417,14 +413,7 @@ function e22_pre_e() {
 	dqb "e22_pre_e() ))) $@ )))))))("
 	csleep 1
 
-	#HUOM.26726:ehkä muitakin karsimisjuttuja pitäisi huomioida kuin vain staattinen ip vs dhcp-paketit
-	#... pitäisi kai viedä $1 worf():ille sellaisenaan ja mussunmussun, kts ten1()
-
-	if [ "${1}" == "eth0:1" ] ; then #DONE?:vähitellen jotain. Tai jos kuitenkin vain se dhcp-karsinta tässä.
-		worf ${2} 4
-	else
-		worf ${2} 2
-	fi
+	worf ${2} 2
 }
 
 function e22_ext() {
@@ -450,17 +439,25 @@ function e22_ext() {
 	local st
 
 	p=$(pwd)
-	q=$(mktemp -d) #$mkt
+	q=$(${mkt} -d)
 	r=$(echo ${2} | cut -d '/' -f 1 | tr -d -c a-zA-Z)
 	st=$(echo ${3} | tr -d -c 0-9)
 
 	[ ${debug} -eq 1 ] && pwd
 	cd ${q}
+
+	#VAIH:vähitellen se merd siirto ao. repoomn (seur sitten mv)
 	${tig} clone https://${CONF_BASEURL}/more_scripts.git
 	[ $? -eq 0 ] || exit 66
 
 	cd more_scripts/misc
 	echo $?
+
+	#findin kautta jatkossa
+	${svm} ~/Desktop/merd2.sh ~/Desktop/merd2.sh.ÅLD
+	${spc} merd2.sh ~/Desktop
+	csleep 2
+
 	${spc} /etc/dhcp/dhclient.conf ./etc/dhcp/dhclient.conf.${st}
 
 	if [ ! -s ./etc/dhcp/dhclient.conf.1 ] ; then
@@ -473,7 +470,7 @@ function e22_ext() {
 		${spc} ./etc/resolv.conf.new ./etc/resolv.conf.1
 	fi
 
-	#shclitn-d-kojhtaan josqs muutoksia vai ei?
+	#dhclient-kohtaan josqs muutoksia vai ei?
 	${spc} /sbin/dhclient-script ./sbin/dhclient-script.${st}
 	
 	if [ ! -s ./sbin/dhclient-script.1 ] ; then
@@ -514,6 +511,34 @@ function e22_ext() {
 	cd ${p}
 }
 
+function cg_udp6() { 
+	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6 ${1}"
+	csleep 4
+
+	[ -z "${1}" ] && exit 65
+	[ -d ${1} ] || exit 66
+	dqb "paramz 0k"
+	csleep 1
+
+	dqb "${1} :"
+	[ ${debug} -eq 1 ] && ls -las ${1}/*.deb | wc -l
+	csleep 2
+
+	dqb "${pkgdir} :"
+	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}/*.deb | wc -l
+	csleep 2
+
+	common_lib_tool ${1} reject_pkgs
+	dqb "D0NE"
+	csleep 1
+
+	#VAIH:selvitä jotenkin, kuseeko tämä asioita?	ei kai enää 09/26? pl ehkä u-paketin muodfostuksessa?
+	#ten1 ${CONF_iface} ${1}
+
+	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6  DONE FOR NOW"
+	csleep 4
+}
+
 function e22_ts() {
 	dqb "e22_ts( ${1} ;; ${2} )"
 	csleep 1
@@ -524,25 +549,25 @@ function e22_ts() {
 	[ -z "${2}" ] && exit 16
 	[ -d ${2} ] || exit 17
 
-	dqb "${svm} ${2}/*.deb ${1} IN 5 SECS"
-	csleep 5
+	dqb "${svm} ${2}/*.deb ${1} IN 2 SECS"
+	csleep 2
 
 	${svm} ${2}/*.deb ${1}
 	[ $? -eq 0 ] || exit 56
 
 	fasdfasd ${1}/tim3stamp
 	date > ${1}/tim3stamp
-	cg_udp6 ${1} #pitäisiköhän kommentoida jemmaan kokeeksi?
+	cg_udp6 ${1}
 
 	ls -las ${1}/*.deb
-	csleep 5
+	csleep 2
 
 	dqb "e22_ts() done"
 }
 
 function e22_arch() {
 	dqb "e22_arch( ${1} )  ${2} ) ${3} ) ))) ) ("
-	csleep 5
+	csleep 1
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 11
@@ -553,12 +578,12 @@ function e22_arch() {
 	dqb "e22_a.pars maybe ok"
 	csleep 1
 
+	[ -v CONF_hashfile ] || exit 94
+	[ -z "${CONF_hashfile}" ] && exit 95
+
 	local p=$(pwd)
 	local c=$(find ${2} -type f -name "*.deb" | wc -l)
 	local q=${2}/${CONF_hashfile}
-
-	[ -v CONF_hashfile ] || exit 94
-	[ -z "${CONF_hashfile}" ] && exit 95
 
 	if [ -f ${q} ] ; then #turha tarq?
 		${NKVD} ${q}*
@@ -576,6 +601,10 @@ function e22_arch() {
 	[ ${debug} -eq 1 ] && ls -las ${q}*;sleep 3
 
 	cd ${2}
+	#jtnkn toisin jatkossa kuitenkin?
+	#echo "TODO?:POLUT UUSIKSI e22_arch() ?" jatkossa sah ja muut saisivat paaremtriksi ./$distro/ ?
+	#...esim cut on kEKdsitty jos ei muuta keksi , vaiko sqrot.sh muuttaminen mieluummin?
+
 	${sah6} ./*.deb > ./${CONF_hashfile}
 	csleep 1
 	dqb "${CONF_hashfile}.1"
@@ -599,7 +628,7 @@ function e22_arch() {
 	done
 
 	[ ${debug} -eq 1 ] && cat ./${CONF_hashfile}.1
-	csleep 5
+	csleep 2
 	e22_tyg ./${CONF_hashfile}
 
 	if [ -s ./${CONF_hashfile}.1 ] ; then #miski näin?
@@ -626,11 +655,9 @@ function e22_arch() {
 	csleep 1
 }
 
-#VAIH:jatkossa f.tar pois välistä? ulompaan arkistoon jhnkn tmp-hmistoon suoraan paketit?
-
 function e22_dblock() {
 	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
-	csleep 30
+	csleep 3
 
 	[ -z "${1}" ] && exit 14
 	[ -s ${1} ] || exit 15
@@ -648,24 +675,26 @@ function e22_dblock() {
 	[ ${debug} -eq 1 ] && pwd
 	ls -la ${3}/*.deb | wc -l
 	
-#	#310726:tämä blokki ok? ei sotke asioita? VAIH:jemmaan tesdtailun vuoksi, kts exp2
-#	for s in ${PART175_LIST} ; do
-#		${sharpy} ${s}*
-#		${NKVD} ${3}/${s}*.deb
-#	done
+	for s in ${PART175_LIST} ; do
+		${sharpy} ${s}*
+		${NKVD} ${3}/${s}*.deb
+	done
+
+	dqb "SHOULD: apt autoremove?"
+	csleep 1
 
 	ls -la ${3}/*.deb | wc -l
 	dqb "JST BFTr TS()"
-	csleep 10
+	csleep 1
 
 	local t=$(echo ${2} | cut -d "/" -f 1-6)
 	e22_ts ${t} ${3}
 	dqb "JST B3F0R3 3NF0RC3"
-	csleep 5
+	csleep 1
 	
 	enforce_access $(whoami) ${t}
 	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
-	csleep 5
+	csleep 1
 
 	e22_arch ${1} ${2} ${4}
 	e22_cleanpkgs ${2}
@@ -727,7 +756,6 @@ function e22_cde() {
 	[ ${debug} -eq 1 ] && ls -las ${1}*
 	csleep 1
 
-	#13726:palautettu 2 kk takaa tuo pkgs, miksi oli poistunut? tstaa
 	${srat} --exclude "*merd*" -jcvf ${1} ./*.sh ./pkgs_drop ./${3}/*.sh ./${3}/*pkgs*
 }
 
