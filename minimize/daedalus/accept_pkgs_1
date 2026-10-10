@@ -129,16 +129,16 @@ libxf
 #
 #uusi selvityskierros tarpeen vai ei?
 #
-#libxcb-damage0
-#libxcb-dri2
-#libxcb-dri3
-#libxcb-present0
-#libxcb-randr0
-#libxcb-render0
-#libxcb-shape0
-#libxcb-shm0
-#libxcb-sync1
-#libxcb-xfixes0
+libxcb-damage0
+libxcb-dri2
+libxcb-dri3
+libxcb-present0
+libxcb-randr0
+libxcb-render0
+libxcb-shape0
+libxcb-shm0
+libxcb-sync1
+libxcb-xfixes0
 #libxcomposite
 #libxcursor
 libxc
@@ -323,3 +323,8 @@ dmsetup
 #
 libinput-bin
 libinput
+#
+#101026:uutena, poisjos qsee
+libelf1
+libexpat1
+libllvm15

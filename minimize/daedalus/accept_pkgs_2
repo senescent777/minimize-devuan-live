@@ -27,7 +27,9 @@ dbus-x11
 #
 #VAIH:vähitellen mesa-vdpau-pak kanssa jotain? jos qsee ni takaisin kommentteihin
 #
-#Depends: libdrm-amdgpu1 (>= 2.4.110), libdrm-nouveau2 (>= 2.4.66), libdrm-radeon1 (>= 2.4.31), libdrm2 (>= 2.4.75), libelf1 (>= 0.142), libexpat1 (>= 2.0.1), libgcc-s1 (>= 3.4), libllvm15, libstdc++6 (>= 11), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0, libxcb-present0, libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), libxshmfence1, libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)
+#Depends: libdrm-amdgpu1 (>= 2.4.110), libdrm-nouveau2 (>= 2.4.66), libdrm-radeon1 (>= 2.4.31), libdrm2 (>= 2.4.75), 
+#libelf1 (>= 0.142), libexpat1 (>= 2.0.1), , libllvm15, , , libxcb-dri2-0 (>= 1.8), libxcb-dri3-0, libxcb-present0, libxcb-sync1, libxcb-xfixes0, 
+# (>= 1.9.2), ,
 mesa-vdpau-drivers
 #
 gpgconf
