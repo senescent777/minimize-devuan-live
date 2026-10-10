@@ -85,8 +85,8 @@ function e23_other_pkgs() {
 	fi
 
 	#uutena 30926
-	${shary} libmagic-mcg libmagic1 python3-magic apt-offline
-	csleep 15
+	${shary} libmagic-mgc libmagic1 python3-magic apt-offline 
+	csleep 55
 	${lftr}
 
 	dqb "e23_other_pkgs() DONE"

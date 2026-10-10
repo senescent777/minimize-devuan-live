@@ -190,8 +190,8 @@ case "${mode}" in
 		#(grub.cfg lisnee jo kunnossa)
 
 		#VAIH:apt-offline mukaan : other_pkgs()
-		#TODO:tIetenkin a-o:n sisältävän tarin testaus
-		#TODO:uusimman oksennuksen testaus (oliko offline mulkana?)
+		#VAIH:tIetenkin a-o:n sisältävän tarin testaus
+		#VAIH:uusimman oksennuksen testaus (oliko offline mulkana?)
 
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
