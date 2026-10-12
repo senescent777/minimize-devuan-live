@@ -1,10 +1,9 @@
-#bind9-jutut tarv: libkrb5, libgssapi-krb5-2 (vaiko bind wttuun vaihteeksi?)
+#bind9-jutut tarv: libkrb5, libgssapi-krb5-2
 nftables
 bind9-libs
 bind9-host
 bind9-dns
 dnsutils
-#perl jos kokeeksi accept1...
 mime-support
 #
 cpp
@@ -25,11 +24,9 @@ dbus-session-bus-common
 dbus-daemon
 dbus-x11
 #
-#VAIH:vähitellen mesa-vdpau-pak kanssa jotain? jos qsee ni takaisin kommentteihin
+#DONE?:vähitellen mesa-vdpau-pak kanssa jotain? jos qsee ni takaisin kommentteihin
 #
-#Depends: libdrm-amdgpu1 (>= 2.4.110), libdrm-nouveau2 (>= 2.4.66), libdrm-radeon1 (>= 2.4.31), libdrm2 (>= 2.4.75), 
-#libelf1 (>= 0.142), libexpat1 (>= 2.0.1), , libllvm15, , , libxcb-dri2-0 (>= 1.8), libxcb-dri3-0, libxcb-present0, libxcb-sync1, libxcb-xfixes0, 
-# (>= 1.9.2), ,
+#Depends:  pitäisi olla kaikki accept1 tai E22_GS,GM kautta
 mesa-vdpau-drivers
 #
 gpgconf
