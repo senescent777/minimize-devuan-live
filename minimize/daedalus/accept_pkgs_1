@@ -36,9 +36,9 @@ libwayland-egl1
 #libgdk-pixbuf2.0-common
 #libgdk-pixbuf-2.0-0
 #libgdk-pixbuf-2.0-bin
-##
-#librsvg2-2
-#librsvg2-common
+#121026 uutena
+librsvg2-2
+librsvg2-common
 ##
 ##stdc oli aiemmin tässä
 #libatspi2
@@ -67,7 +67,7 @@ libfftw3-double3
 ##
 #at-spi
 #libatk1.0-0
-#libdbus-1-3
+libdbus-1-3
 #libatk-bridge
 ##
 libavahi-common-data
@@ -97,10 +97,18 @@ perl-modules-
 libperl
 #perl-base
 #perl
-#pitäisiköhän asentaa libperl ja riippuvat yhderssä läjässsä?
 #perlapi-5.36.0
+#libexpat1
 #liburi-perl
 #libwww-perl
+#libhtml-tagset-perl
+#
+#libhtml-parser-perl:amd64 depends on perl (>= 5.36.0-7+deb12u3); however
+#Depends: perl (>= 5.36.0-4), perlapi-5.36.0, libc6 (>= 2.14), libexpat1 (>= 2.0.1), liburi-perl, libwww-perl
+#Depends: perl (>= 5.36.0-7+deb12u3), perlapi-5.36.0, libc6 (>= 2.14), libhtml-tagset-perl, liburi-perl
+#miten tuon xmlparserin kanssa tekee? masentaen perl vai ei?
+#entä libhtml?
+#
 #libxml-parser-perl
 ##
 ##
@@ -181,18 +189,19 @@ wmaker-common
 libpam0g
 libpam-runtime
 libpam-modules-bin
-libdb5.3 #tarvitseeko libpam tätä?
+libdb5.3 
+#121026:tarvitseeko libpam libdb53 vai ei?
 libpam-modules_
 ##
 ##
 #libmfx1
+#121026 uutena libva
+libva2
+libva-
+#
 ##
-#libva-
-#libva2
-##
-##vdpau-juttujen kanssa jotain? (DONE?)
-##Depends: 
-#libvdpau1
+#121026:uutena vdpau
+libvdpau1
 ##
 ##
 #libopencl1
@@ -221,14 +230,14 @@ libx26
 ##
 libavutil57
 libdav1d6
-#
+#121026:openjp uutena
 #libmp3lame
-#libopenjp2-7
+libopenjp2-7
 #libopus0
 #libswresample4
 #libvorbis
 #libvpx7
-#libwebp
+libwebp
 libavcodec59
 ##
 ##HUOM.libsdwresample ja libsox ennen ? päintoisin, swresample tarv:, libsoxr0
@@ -236,9 +245,9 @@ libavcodec59
 #glib-networking
 #libso
 ##libp heti tirpc jälkeen?
-libpython3
-#libpython3.11-minimal
-#libpython3.11-stdlib
+#libpython3
+libpython3.11-minimal
+libpython3.11-stdlib
 #python3.11-minimal
 #python3.11
 #
@@ -251,7 +260,8 @@ libpython3
 ##
 #libnftnl11
 #libgmp10
-#libnftables
+#121026:nftables uutena
+libnftables
 liblqr-1-0
 libde265-0
 libheif1
@@ -268,9 +278,8 @@ imagemagick-6-common
 #libassuan0
 ##
 #liberror-perl
-##
-#libgbm1
-##
+#
+libgbm1
 libegl-mesa0
 libegl1
 ##
@@ -317,7 +326,6 @@ libinput
 ##
 ##101026:uutena, poisjos qsee
 #libelf1
-#libexpat1
 #libllvm15
 #
 #sqroot-testien jöälkeen, 111926:

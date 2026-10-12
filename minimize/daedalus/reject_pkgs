@@ -18,12 +18,14 @@
 #libav
 #libsw
 ##
-##30926:POISTUVATKO NUO VAI EI?
-#live-boot
-#mutt
+live-boot
+#mutta takaisin pois 121026, live myös, jos taas qsee ni...
+mutt
 #libgsasl
-##011026:UUSIA, KOMMENTTEIHIN JOS HOMMAT QSEE
-#libxml-parser-perl
+#
+#121026:miten xml-parser ja dbus, uskaltaisiko poistaa? no aluksi 1. mainittu
+libxml-parser-perl
+#
 #librsvg2-common
 #libpython3.11-stdlib
 #libperl5.36
