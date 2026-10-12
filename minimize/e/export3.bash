@@ -159,7 +159,9 @@ case "${mode}" in
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	c)
-		#noto to self:tämän tuotos ei sitten riitä muuttamaan kaikkia juttuja squash-hmiston alaisuudessa
+		#note to self:tämän tuotos ei sitten riitä muuttamaan kaikkia juttuja squash-hmiston alaisuudessa
+		#TODO:jospa välillä koklaisi "exp2 e" tuotoksia siis
+
 		e22_cde ${tgtfile} ${d0} ${distro}
 	
 		#HUOM. EI NÄIN KOSKA e22_cde() NYKYINEN SISÄLTÖ

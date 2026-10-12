@@ -84,7 +84,7 @@ function e23_other_pkgs() {
 		${shary} stubby
 	fi
 
-	#uutena 30926
+	#travitseeko offline jotain kautta lzma5?
 	${shary} libmagic-mgc libmagic1 python3-magic apt-offline 
 	csleep 55
 	${lftr}
@@ -106,11 +106,14 @@ function e23_upgp() {
 	#, (>= 6), (>= 1.0.3),  (>= 1.7.3), , 
 	#Depends: libc6 (>= 2.34), 
 
+#Depends: libdrm-amdgpu1 (>= 2.4.110), libdrm-nouveau2 (>= 2.4.66), libdrm-radeon1 (>= 2.4.31), libdrm2 (>= 2.4.75), 
+#libelf1 (>= 0.142), libexpat1 (>= 2.0.1), , libllvm15, , , libxcb-dri2-0 (>= 1.8), libxcb-dri3-0, libxcb-present0, libxcb-sync1, libxcb-xfixes0, 
+# (>= 1.9.2), ,
 
 	${shary} libgl1 libva-x11-2 libva2 libxext6 #libx11-6  jo aiemmin
 	${shary} libvdpau1 mesa-vdpau-drivers
 
-	e22_pre_e ${CONF_iface} ${E22_GS}
+	e22_pre_e ${CONF_iface} ${E22_GS} #gm myös?
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 
@@ -162,18 +165,11 @@ function e23_qrs() {
 #29926:eilinen l-paketti vaikutti toimivalta, testaus sqrootissa toivottava
 #29926.2:joskus tietenkin kokeiltava jtnknin että vetääkö fktion uusin versio ne toivottavat paketit
 
-#VAIH?: perl, , ,,  mukaanjos puuttuu?
-#... siis 1 ekaa lisäten lähinnä? tai siis perl jo qnnossa?
-
-echo "MUISTA : uusi l+wanha u tässä järj, mitä taaphtuu?"
-sleep 1
-
+#echo "MUISTA : uusi l+wanha u tässä järj, mitä taaphtuu?"
+#sleep 1
 
 #30926:tähän voi tulla isompia muutoksia koska a-offline ?
-#Depends: python3:any, apt, less, python3-magic
-#Depends: python3:any, libmagic1 (>= 1:5.39)
-#Depends: libbz2-1.0, (>= 2.33), liblzma5 (>= 5.1.1alpha+20120614), zlib1g (>= 1:1.1.4), libmagic-mgc (= 1:5.44-3)
-#
+#Depends: , (>= 2.33), liblzma5 (>= 5.1.1alpha+20120614),  (>= 1:1.1.4),  (= 1:5.44-3)
 
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
@@ -185,7 +181,7 @@ function e23_dm() {
 
 	${fib}
 	e22_pre_e ${CONF_iface} ${E22_GS}
-	e22_pre_e ${CONF_iface} ${E22_GM}
+	e22_pre_e ${CONF_iface} ${E22_GM} #libelf ja libexpat tätä kautta
 	csleep 5
 
 	if [ "${1}" == "wdm" ] ; then

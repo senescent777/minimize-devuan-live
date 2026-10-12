@@ -280,19 +280,20 @@ case "${mode}" in
 		# git depends on perl; however:
 		#reject_pkgs muuttaminen jos ei muuta keksi?
 
-		#011026:jotain pientä nalkutusta oli uudemman u-paketin kanssa sqrootissa (wanhampaa, tmivaa ei testattu)
+		#011026:jotain pientä nalkutusta oli uudemman u-paketin kanssa sqrootissa (wanhempaa, tmivaa ei testattu)
 		#VAIH:lib-xxx-perl-paketit kokeeksi pois, ehkö myös xserver-oaq? (reject)
 
 		#VAIH:voisi selvittää mitä reject_pkgs poissaolo tekee vai tekeekö mitään?
 		#no ainakin sums.1+reject hukkaaminen johti äksän poistoyritykseen, mitä jos vain reject pois?
 		#rejectin poiston jälkeen -fix-broken yritti poistaa äksän ja sitä ennen libvdpau-nalq eli jos pakottaisi ainakin kys kirjaston mukaan upg() - fktioon ?
+		#rejectin poisto ei oleellinen? pikemminkin accept?
 
 		#VAIH:myös, mitä tekee omega5 juuri ennen u-udemman u-paketin masennusta
 		#101026.1:modaamaton kiekko, uudemmat e.l , o5 just emnnen u -> ei psko äksää
 		#.2:yleisimmin käytetty modattu, uudemmat el + o5 -> ei pskov
 
 		#DONE:uusimman oksennuksen testaus, jos pykii ni rejectin kanssa jotain... epiä lähtrenyt vielä loikkimaan
-		#... elikkäs uusi tar punnertaen(TODO) (mitem mesa-vdpau?)
+		#... elikkäs uusi tar punnertaen(VAIH) (mitem mesa-vdpau?)
 
 		e23_upgp
 		${sifd} ${CONF_iface}
