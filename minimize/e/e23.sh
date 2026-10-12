@@ -1,4 +1,4 @@
-#150926:jos makefile-jutut kohta ajankohtaisia?
+#150926:jos makefile-jutut kohta ajankohtaisia? a-offline saattaa muuttaa tilanteen
 
 function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() nykyään
 	dqb "aswasw( ${1} )"
@@ -273,16 +273,6 @@ function e23_dm() {
  	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common libcap-ng0
 	csleep 3
 
-	#Depends:  (>= 2.4)
-	#Depends:  (>= 2.42.10+dfsg-1), , 
-	# (>= 2.34), (>= 2.59.0),  (>= 1.3.1),  (>= 1.6.2-1), (>= 4.0.3)
-	#-
-	#Depends: , , ,  (>= 2.15.1),  (>= 2.35.1), 
-	# (>= 2.34),  (>= 1.14.0),  (>= 1.14.0),  (>= 0.1.10),  (>= 1.7.0),  (>= 1.4.3), 
-	# (>= 2.12.6),  (>= 0.19.7),  (>= 2.40.0),(>= 2.59.0),  (>= 2.2.0), 
-	#(>= 1.45.5),  (>= 1.44.0), (>= 1.44.0),  (>= 1.20.0), (>= 1.14.91),  (>= 1.15.0),
-	#  (>= 2:1.4.99.1),  (>= 1:0.4.5),  (>> 1.1.2),  (>= 1:1.1), ,
-	# , (>= 2:1.2.99.4),  (>= 2:1.1.4),  (>= 0.5.0), (>= 2:1.5.0),  (>= 3.24.37-2)
 	#Depends:  | gsettings-backend
 
 	#pangot ja cairot aiemmaksi?
@@ -303,32 +293,19 @@ function e23_dm() {
 	${shary} init-system-helpers  #xscreensaver?
 	csleep 3
 
-	#Depends: ,  (>= 1.6.2-1), ,,  (>= 2:1.7.5),  (>= 2:1.0.14), , 
-	#, , ,  (>> 1.1.2), ,  (>> 2.1.1),(>= 2:1.2.99.4),  (>= 1:1.1.0),
-	# (>= 2:1.1.3),  (>= 2:1.1.3), ,  (>= 1:1.1.0),
-	#Depends: , (>= 2.12.6), , , , (>= 2:1.6.9), , ,  (>= 1.6),
-	# (>= 1:0.3-1), , (>> 2.1.1),, , , , ,  (>= 2:1.2.0), ,
-	# (>= 1:1.1.0), , 
-
 	${shary} x11-apps x11-utils
 	csleep 3
 
-#Depends: (>= 2.34), (>= 1:1.0.0), ,  (>= 2:1.0.14), (>> 1.1.2), , ,  (>= 2:1.1.3),  (>= 2:1.1.3), 
-# (>= 2:1.5.0), , , 
+
 #Depends:  (>= 2:1.17.2-2), xserver-xorg-video-all | xorg-driver-video, xserver-xorg-input-all | xorg-driver-input,
 #  (>= 1.4), 
-#Depends: ,  (>= 2.34), (>= 2.12.6),  (>= 2.2.1),  (>= 1:1.0.0),  (>= 6),  (>= 1.1.5),,  (>= 2:1.0.14), ,
-#  (>> 2.1.1), (>= 2:1.1.4), , 
-#Depends:  (>= 2.34), ,  (>= 1:1.0.9), ,  (>= 2:1.1.3)
 
 	${shary} xserver-xorg-core xkb-data x11-xkb-utils xbitmaps libutempter0
 	${shary} x11-xserver-utils xserver-xorg #D
 	${shary} xterm xauth
 	csleep 3
 
-#Depends:  ,  (>= 0.76-13.1),  (>= 3.0-6), , , , , ,, ,  (>= 0.99.7.1), 
 #libselinux1 (>= 3.1~), (>= 0.95.0),  (>= 0.95.8),  (>= 0.95.5), ,
-# (>= 1:1.0.9), ,  (>= 2:1.1.4),  (>= 2:1.1.3)
 
 	${shary} wdm
 	dqb "e23_dm( done (((("
@@ -374,7 +351,7 @@ function e23_profs() {
 }
 
 function e23_st() {
-	#TODO:joitain git-juttuha mukaan myös (git.-cola ja mitäö näitä olikaan)
+	#TODO:joitain git-juttuha mukaan myös (git-cola ja mitä näitä olikaan)
 
 	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
 	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim

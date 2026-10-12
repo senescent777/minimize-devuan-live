@@ -183,13 +183,9 @@ case "${mode}" in
 		fi
 	;;
 	e) #170926 sai aikaiseksi paketin, mikä jopa asentui (toistuuko?)
-		#VAIH:e ja sitä seuraavat caset soveltuvin osin:testaa miten nykyiset oksennukset toimivat sqroot-ympstössä
+		#DONE?:e ja sitä seuraavat caset soveltuvin osin:testaa miten nykyiset oksennukset toimivat sqroot-ympstössä
 		#011026: tämän casen ja g:n tuotokset vissiin toimivat sqrootissa qhan sq.-rotin vain saisi purkamaan suosiolla
 
-		#... siis l/u-paketit pitäisi VIELÄ muodostaa uusiksi sqroot vart koska filesystem.squashfs kusi paskaa edelleen 280926
-		#(grub.cfg lisnee jo kunnossa)
-
-		#101026:asentunee uusin tuotos ainakin sqroot ulkopuolella
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
 
@@ -241,59 +237,21 @@ case "${mode}" in
 		echo "REMEMBER: l bfore u"
 		sleep 5
 
-		#28926:mutt, gsasl ja bind9 eivät enää ongelma?
 
-		#ntp, jos se pitäisi tjnkn pois päältä jos ei oikeasti tartte
-		#270926:joskohan jo oksennukset toimisi?
-		#ihan maaliin asti ei vielä päästy, äksä poistuu omega 5 seurauksena
-		#libxcb1 se ongelma? ehkä ei
 
 		#kokeeksi tämmöinen (entä fix-broken install? upgp() tekee sen)
 		${odio} apt autoremove
 
 
-		#x11-apps
- 		# x11-session-utils x11-xkb-utils xauth xcvt xfce4-helpers xfdesktop4-data
- 		# xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable xinit
- 		# xscreensaver-data xserver-common xserver-xorg-legacy
-		#nämä poistettabvaksi haluttavien joukossa masentelun jälkeen
-		# -> paketin rakentelu uusiksi TAAS , jotenin eri tavalla vain?
-
-		#fråm sqrot: libinput10:amd64 depends on libinput-bin
-		#uusin u-paketti sillälailla P.V.H.H. että sqroot-ympstössäkin meinaa äksä poistua
-		#eli ten1() käskytyksen kanssa jotain tehtävä? part2/( ...
-		#vai stkeeko l-paketti kanssa?
+		
 
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD Be U P B Y No W - Heisenberg"
 		csleep 1
 
-		#30926 oli toimivan u-paketin kanssa seuraavaa:
-		#libxml-parser-perl depends on perl (>= 5.36.0-7+deb12u3); however:
-		#librsvg2-common:amd64 depends on librsvg2-2 (= 2.54.7+dfsg-1~deb12u1); however
-		# libpython3.11-stdlib:amd64 depends on libpython3.11-minimal (= 3.11.2-6+deb12u7); however:
-		#libperl5.36:amd64 depends on perl-modules-5.36 (>= 5.36.0-7+deb12u3); however
-		#libgsasl18:amd64 depends on libgssglue1 (ja muita)
-		#python3.11 depends on libpython3.11-stdlib (= 3.11.2-6+deb12u7); however:
-		#perl depends on libperl5.36 (= 5.36.0-7+deb12u3); however:
-		# mutt depends on libgpgme11 (>= 1.11.1); however: (ja muita)
-		# git depends on perl; however:
-		#reject_pkgs muuttaminen jos ei muuta keksi?
+		
 
-		#011026:jotain pientä nalkutusta oli uudemman u-paketin kanssa sqrootissa (wanhempaa, tmivaa ei testattu)
-		#VAIH:lib-xxx-perl-paketit kokeeksi pois, ehkö myös xserver-oaq? (reject)
-
-		#VAIH:voisi selvittää mitä reject_pkgs poissaolo tekee vai tekeekö mitään?
-		#no ainakin sums.1+reject hukkaaminen johti äksän poistoyritykseen, mitä jos vain reject pois?
-		#rejectin poiston jälkeen -fix-broken yritti poistaa äksän ja sitä ennen libvdpau-nalq eli jos pakottaisi ainakin kys kirjaston mukaan upg() - fktioon ?
-		#rejectin poisto ei oleellinen? pikemminkin accept?
-
-		#VAIH:myös, mitä tekee omega5 juuri ennen u-udemman u-paketin masennusta
-		#101026.1:modaamaton kiekko, uudemmat e.l , o5 just emnnen u -> ei psko äksää
-		#.2:yleisimmin käytetty modattu, uudemmat el + o5 -> ei pskov
-
-		#DONE:uusimman oksennuksen testaus, jos pykii ni rejectin kanssa jotain... epiä lähtrenyt vielä loikkimaan
-		#... elikkäs uusi tar punnertaen(VAIH) (mitem mesa-vdpau?)
+		#121026:suht tuore l-paketti + viimeisimmät versiot accept/reject + modaamaton kiekko -> EHKÄ ei mennyt x rikki (toistuuko?)
 
 		e23_upgp
 		${sifd} ${CONF_iface}
@@ -301,43 +259,7 @@ case "${mode}" in
 	;;
 	l)
 		echo "REMEMBER: l bfore u"
-		sleep 5
-
-		#120726:lieni toimiva tämä case, miten sen jälkeen?
-		#VAIH?:tähän kilkkeeseen liittyen ne perl-yms. urputukset voisdi vähitellen hoitaa, $distro/accept ...
-		#28926:modatun kiekon kanssa uusin oksennus toimi, modaamattoman kanssa ei koska se 1 libzvb-jotain paq, jopsa yrittäisi viel
-
-		#mesa-omngelm,ay jo ratkaistu 28926 mennessä?
-
-		#mesa-vdpau-drivers:amd64 depends on libvdpau1; however
-		# mesa-vdpau-drivers:amd64 depends on libvdpau1; however:´
-		#  Package libvdpau1:amd64 is not installed.
-		#libperl5.36:amd64 depends on perl-modules-5.36 (>= 5.36.0-7+deb12u3); however:
-		#  Version of perl-modules-5.36 on system is 
-
-		#dpkg: dependency problems prevent configuration of libpython3.11-stdlib:amd64:
-		# libpython3.11-stdlib:amd64 depends on libpython3.11-minimal
-
-		#librsvg2-common:amd64 depends on librsvg2-2 (= 2.54.7+dfsg-1~deb12u1); however:
-  		#Version of librsvg2-2:amd64 on system is	
-
-		#libxml-parser-perl depends on perl (>= 5.36.0-7+deb12u3); however:
-		#  Version of perl on system is
-
-		#python3.11 depends on libpython3.11-stdlib (= 3.11.2-6+deb12u7); however:
-  		#Package libpython3.11-stdlib:amd64 is
-
-		#perl depends on libperl5.36 (= 5.36.0-7+deb12u3); however:
-		#  Package libperl5.36:amd64 is
-		# git depends on perl; however
-
-		#28926:nuo yo. paketit eivät enää ongelma? sen sijaan modaamattomalla kiekolla asentaen ensin toimiva u-paketti, sitten uusin l-paketti, on
-		# uhkaa äksä poistua niinqu
-		#miten jos l ennen u?
-		#no niinpäin parempi, ehkä jopa uskaltaisi VIELÄ uutta u-pakettia? (tekee l-pak jäölkeen?)
-
-		#011026:bissiin 289.9.26 tuotos masentiu ilman turhia kiukutteluita myös sqrootissa, varmistettava
-		#uudemmista arkistoista eos 		
+		sleep 5		
 
 		csleep 1
 		[ -v CONF_dm ] || exit 77
