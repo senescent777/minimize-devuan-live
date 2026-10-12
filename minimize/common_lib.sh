@@ -1,4 +1,5 @@
 #DONE?:distron arpominen $3 jos on, /etc/jotain muuten
+#HUOM. -v - ongelmaan saattaa liittyä common_lib oikeudet pikemminkinq debug
 
 function guess_conf() {
 	echo "guecc_conf ) ${1} ("
@@ -128,18 +129,15 @@ function fix_sudo() {
 	fi
 	
 	[ ${debug} -eq 1 ] && ls -las /usr/bin/sudo*
-	#csleep 1
 	dqb "fix_sud0.d0n3"
 }
 
 function other_horrors() {
-	echo "other_horrors"
-	#sleep 1
-
+	dqb "other_horrors"
+	
 	if [ "${CONF_env}" == "DEFAULT" ] ; then #!VED jatkossa?
-		echo "hERBAL 5UFFER1NG"
-		#sleep 1
-
+		dqb "hERBAL 5UFFER1NG"
+	
 		for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
 			${sco} -R root:root ${f}
 			${scm} 0400 ${f}
@@ -157,8 +155,7 @@ function other_horrors() {
 		echo $?
 	fi
 
-	echo " DONE"
-	#sleep 1
+	dqb " DONE"
 }
 
 fix_sudo
@@ -181,23 +178,18 @@ function ocs() {
 
 #common_funcs ttee
 function check_bin_0() {
-	echo "check_bin_0"
-	#sleep 1
-	dqb "cb1"
+	dqb "cb01"
 
 	ocs dpkg
 	ocs tar
 	ocs shred
-	#csleep 1
 
 	unset sdi
 	unset sr0
 	unset srat
 	unset sah6
 	unset NKVD
-	#csleep 1
-	
-	#csleep 6
+
 	[ -v CONF_algo ] || exit 77
 
 	case "${CONF_algo}" in
@@ -230,8 +222,6 @@ function check_bin_0() {
 		srat="${srat} -v "
 	fi
 
-	#csleep 1
-
 	slinky=$(${odio} which ln)
 	slinky="${odio} ${slinky} -s "
 	spc=$(${odio} which cp)
@@ -257,7 +247,6 @@ function check_bin_0() {
 	#HUOM.YRITÄ SINÄKIN SAATANAN SIMPANSSI JA VITUN PUOLIAPINA KÄSITTÄÄ ETTÄ EI NÄIN 666!!!
 	#sdi=$(${odio} which dpkg)
 	#sdi="${odio} ${sdi} -i "
-	#csleep 2
 
 	#näille main jotain muutoksia?
 	sifu=$(${odio} which ifup)
@@ -290,7 +279,7 @@ function check_bin_0() {
 
 	if [ "${CONF_env}" == "DEFAULT" ] ; then #!VED jatkossa?
 		[ -v CONF_hashfile3 ] || exit 66
-		[ -v CONF_DIR2 ] || exit 99 #tähänkö tökkäsdi 14726? bssiin
+		[ -v CONF_DIR2 ] || exit 99
 
 		if [ -d ${CONF_DIR2} ] ; then
 			[ -s ${CONF_hashfile3} ] || echo "should exit 98" 
@@ -312,7 +301,6 @@ function check_bin_0() {
 		fi
 	fi
 
-	#csleep 1
 	dqb "cb0 done"
 }
 
@@ -331,7 +319,6 @@ function destroy() {
 	${NKVD} ${1}/${CONF_hashfile}*
 	${NKVD} ${1}/*.tar*
 #
-#	csleep 1
 	dqb "(ESSENTIAL) CONTENTS OF ${1} DESTROYED"
 }
 
@@ -342,13 +329,11 @@ function psqa() {
 	[ -s ${1} ] || exit 96 #arpoo arpoo
 	[ ${debug} -gt 0 ] && ls -las ${1}*
 
-
 	#dpkg -V oli tässä josqs , [ -v ] takana
 
 	if [ -v gg ] && [ -s ${1}.sig ] ; then
 		dqb "))S))))( ${1} )"
 	
-
 		#pitäisikö testata dgdts-hmiston sisltöä tai .gnupg? pubring.kbx yli 32 tavua?
 		if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 			dqb "${gg} --verify ${1}.sig "
@@ -363,9 +348,7 @@ function psqa() {
 				return 95 #jatk exit pois
 			fi
 
-		
-			[ -f ${1}.1.sig ] && ${gg} --verify ${1}.1.sig
-			
+			[ -f ${1}.1.sig ] && ${gg} --verify ${1}.1.sig			
 		else
 			dqb "COULD NOT VERIFY SIGNATURES"
 		fi
@@ -373,12 +356,9 @@ function psqa() {
 		dqb "Лаврентий Берия MADE .txt.sig DISAPPEAR"
 	fi
 
-
-
 	if [ -s ${1} ] && [ -x ${sah6} ] ; then
 		dqb "R ${1} "
 	
-
 		local p=$(pwd)
 		cd $(dirname ${1})
 		${sah6} -c ${CONF_hashfile} --ignore-missing
@@ -398,7 +378,6 @@ function psqa() {
 			#HUOM.12726:hashfile.1 ei välttämättä saatavillA ennen f.tar purkua
 			# joten suurta mölinää ei syytä laittaa käyntiin ennenq cefgh() ajettu (tai miteb lienee)
 		fi
-
 		
 		cd ${p}
 	else
@@ -409,14 +388,12 @@ function psqa() {
 		return 93
 	fi
 
-	echo " DONE WITH THE Q-FEVER () ;;;; (((((("
-	
+	dqb " DONE WITH THE Q-FEVER () ;;;; (((((("	
 }
 
 #pikemminkin siellä $2-hmistossa käsin se sha-kstus?  ehkä ei kuitenkaan?
 function common_pp3() {	
-	echo "() common_pp3 )))))) ${1} ) ${2} ))))))))))))) "
-	#sleep 1
+	dqb "() common_pp3 )))))) ${1} ) ${2} ))))))))))))) "
 
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 101
@@ -453,11 +430,11 @@ function common_pp3() {
 
 			${spc} ${1}/${CONF_hashfile}* ${2}
 			ls -las ${2}/${CONF_hashfile}*
-			csleep 5
+			csleep 3
 		fi
 	fi
 
-	echo "COMMON_PP3-DONE()"
+	dqb "COMMON_PP3-DONE()"
 }
 
 function efk1() {
@@ -469,7 +446,7 @@ function efk1() {
 	fi
 }
 
-#oeellinen fktio? voisiko cefg hoitaa kyuitenkin?= (DONE?)
+#oleellinen fktio? voisiko cefg hoitaa kyuitenkin?= (DONE?)
 #function efk2() {
 #	dqb "efk2 )))))))) ${1} ))) ${2} )))))"
 #	[ -z "${1}" ] && exit 96
@@ -676,7 +653,6 @@ function message() {
 #pitäisikö tämä fktio olla GU esittelyjen jälkeen?
 function CB02() {
 	dqb "CB02()"
-	#csleep 1
 	jules
 
 	[ -z "${1}" ] && exit 99
@@ -686,11 +662,9 @@ function CB02() {
 	local p
 
 	dqb "JUST BVEFORE worf ${E22_GU} 1 ${1}"
-	#csleep 2
 	worf ${E22_GU} 1 ${1}	
 
 	dqb "JUST AFTER worf ${E22_GU} 1 ${1}	"
-	#csleep 2
 
 	for p in ${E22_GV} ; do 
 		fromtend ${1}/${p}*.deb
@@ -1356,9 +1330,8 @@ function common_lib_tool() {
 			if [ ${debug} -eq 1 ] ; then
 				ls -las ${1}/${q}* | wc -l
 			fi
-		else #pitäisikö varmistaa että tässä haarassa käydään?
+		else
 			dqb "SOON: wofr ) ${q} 0 ) "
-
 			worf ${q} 0
 			t2p_filler
 		fi
@@ -1368,7 +1341,8 @@ function common_lib_tool() {
 	dqb "t00l DONE"
 }
 
-#TODO:paloittain selvittely missä kohtaa u-paketin masentelu poistaa äksän
+#VAIH:paloittain selvittely missä kohtaa u-paketin masentelu poistaa äksän
+#VAIH:muista myös a-offline, pp3-sdi-välille muutoksia
 function part3() {
 	dqb "))() part3 ${1} ,((()()()()()( ${2} (((((((("
 
@@ -1397,27 +1371,31 @@ function part3() {
 
 	jules
 
-	common_pp3 ${1} ${t} #tämä kai pois jatkossa?
-	dqb "AL-fPGA"
+	#if [ ! -x /usr/bin/apt-offline ] ; then
+		common_pp3 ${1} ${t} #tämä kai pois jatkossa?
+		dqb "AL-fPGA"
 
-	#tä,män tulisi poistella ei-toivotut .deb ennen asennusta (poistaako?)
+		#tämän tulisi poistella ei-toivotut .deb ennen asennusta 
 
-	common_lib_tool ${t} reject_pkgs
-	dqb "B3T4"
-	#exit 66
+		common_lib_tool ${t} reject_pkgs
+		dqb "B3T4"
+		#exit 66 #tässä mitään tietebkään tapahdu koska 111026 tienoilla rejectin sisältö kommentoitu jemmaann
 
-	#tässä kohtaa edelleen urputusta?
-	efk1 ${t}/gcc-12-base*.deb ${t}/libgcc-s1*.deb ${t}/libc6*.deb
-	dqb "LAcKK.a"
+		#tässä kohtaa edelleen urputusta?
+		efk1 ${t}/gcc-12-base*.deb ${t}/libgcc-s1*.deb ${t}/libc6*.deb
+		dqb "LAcKK.a"
 
-	worf ${E22_GS} 1 ${t}	
-	dqb "önEGA-VGA RA"
-	#exit 66
+		worf ${E22_GS} 1 ${t}	
+		dqb "önEGA-VGA RA"
+		#exit 66 #ei tässäkään?
 
-	#viallinen u-paketti bissiin auheittiu viimeaikaisen härdellin ja pulinat pois (15926)
-	common_lib_tool ${t} accept_pkgs_1
-	common_lib_tool ${t} accept_pkgs_2
-	#exit 66
+		#tässä kohtaa jokin johtaa äksän poistoon?
+		common_lib_tool ${t} accept_pkgs_1
+		#exit 66
+
+		common_lib_tool ${t} accept_pkgs_2
+		#exit 66
+	#fi
 
 	#qseeko ennen vai jälkeen "accept-juttujen"?
 	echo "g4RP D0NE"
@@ -1429,7 +1407,6 @@ function part3() {
 #
 #	efk1 ${t}/*.deb #HUOM.SAATANAN TONTTU EI SE NÄIN MENE 666
 #	[ $? -eq 0 ] || echo "SHOULD exit 67"	
-
 
 	local f
 	for f in $(find ${t} -name "lib*.deb" ) ; do ${sdi} ${f} ; done
@@ -1464,7 +1441,6 @@ function process_lib() {
 		dqb "SHOULD ${gg} --verify ${1}/lib.sh.sig ? "
 		${gg} --verify ${1}/lib.sh.sig
 		[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"
-		#csleep 1
 	fi
 	
 	if [ -d ${1} ] && [ -x ${1}/lib.sh ] ; then
@@ -1474,7 +1450,6 @@ function process_lib() {
 	fi
 
 	dqb "JSUT BFORE CKEH_BIN 1"
-	#csleep 1
 
 	check_binaries ${1} ${2}
 	[ $? -eq 0 ] || dqb "SHOULD exit 67"
