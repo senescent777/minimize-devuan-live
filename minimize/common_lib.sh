@@ -482,10 +482,15 @@ function fromtend() {
 	fi
 }
 
+#11926:qseeko f.tar poisto vain silloiq debug=0 ? bissiin se tai $?
 function cefgh() {
 	dqb "HGEFX ${1} ; ${2}"
 	[ -z "${1}" ] && exit 66
 	[ -d ${1} ] || exit 67
+	csleep 5
+
+	echo "cefgh: debug= ${debug}"
+	sleep 1
 
 	if [ -z "${gg}" ] ; then
 		local p=$(pwd)
@@ -513,6 +518,8 @@ function cefgh() {
 		echo "COULD NOT DESTROY   ${1}/f.tar  YET"
 		[ -x ${gg} ] || echo "MATTI NUSSI9" 
 	fi
+
+	sleep 5
 }
 
 function ten1() {
@@ -580,6 +587,7 @@ function worf() {
 	done
 }
 
+#HUOM.010826:ei jouda (vielä) worf() ja wopr() yhdistää koska find voi vähän harata vastaan joissain tapauksissa
 function wopr() {
 	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
 	local r=$(find ${1} -type f -name "${2}*.deb" )
@@ -728,6 +736,7 @@ function check_binaries() {
 		dqb "SCHEISS3"
 	fi
 	
+	csleep 10
 	for x in ${y} ; do ocs ${x} ; done
 	sdi="${odio} ${sd0} -i "
 	E22_GI="libassuan0,libbz2-1.0,libc6,libgcrypt20,libgpg-error0,libreadline8,libsqlite3-0,gpgconf,zlib1g,gpg"
@@ -850,6 +859,10 @@ function check_binaries2() {
 
 	dqb "b1nar135.2 0k.2" 
 }
+
+#10926:epäselvää mistä ifup/down/resolv kuseminen aiheutui, ehkä voisi kokeilla modaamattomalla kiekolla josqs, modatulla ei yleensä tapahdu
+dqb "#TODO:kts myös export2 , case l" #seur update-pak rakentamisen yhteydessä?
+csleep 5
 
 function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
@@ -1245,7 +1258,7 @@ function part2() {
 	fi
 	
 	dqb "PARS_OK"
-	csleep 1
+	csleep 5
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."
