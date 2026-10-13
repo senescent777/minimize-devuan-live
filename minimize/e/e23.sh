@@ -1,25 +1,23 @@
-#150926:jos makefile-jutut kohta ajankohtaisia?
+#150926:jos makefile-jutut kohta ajankohtaisia? a-offline saattaa muuttaa tilanteen
 
 function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() nykyään
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
 	csleep 1
 
-	#HUOM.26726:pikemminkin peräkkäisiä if-blokkeja , huomioisi paremmin eth/wlan/staatt/dyn ip  -asiat
-	#kts ten1() liittyen
-	#TODO?:vähitellen jotain?	
 
-	case "${1}" in
-		wlan0)
-			#E22:GN="libnl-3-200 ... "
-			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
-			
-			${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
-			${shary} wpasupplicant
-		;;
-		*)
-		;;
-	esac
+	#VAIH:vähitellen jotain? E22:_GT , GU, GM hyödyntäen? tai siis voiko nykyiselllään hyödyntää?
+#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
+
+	if [ "${1}" == "wlan0" ] ; then
+		${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
+		${shary} wpasupplicant
+	fi
+
+	#TODO?:E22_D?
+	if [ "${1}" != "eth0:1" ] ; then
+		worf isc-dhcp-client,isc-dhcp-common 2
+	fi
 }
 
 function e23_tblz() {
@@ -40,11 +38,9 @@ function e23_tblz() {
 	tpc7
 	#jotain excaliburiin liittyvää tuo tpc
 
-	aswasw ${1}
-
-	
-	e22_pre_e ${CONF_iface} ${E22_GT}
-
+	#joutaisi kai josqs siirtää dhcp-jutut pre_e -> asw tai siis mitenkä?
+	aswasw ${1}	
+	e22_pre_e ${1} ${E22_GT}
 
 	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
 	csleep 1
@@ -64,7 +60,7 @@ function e23_other_pkgs() {
 
 	[ -z "${1}" ] && exit 11
 	dqb "pars.ok"
-	csleep 1
+	csleep 6
 
 	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
 	e22_pre_e ${CONF_iface} ${E22_GI}
@@ -72,7 +68,6 @@ function e23_other_pkgs() {
 	e22_pre_e ${CONF_iface} ${E23_GS}
 	#e22_gs vs e23_gs ? eri asioita
 
-	#140726:kutsuvassa koodissa vedettii n jo nuo?
 	message
 	jules
 
@@ -85,15 +80,17 @@ function e23_other_pkgs() {
 		[ $? -eq 0 ] || exit 3
 
 		${shary} libev4
-		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan libc6 uudelleenas tässä?
+		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan  uudelleenas tässä?
 		${shary} stubby
 	fi
 
-	csleep 1
+	#travitseeko offline jotain kautta lzma5?
+	${shary} libmagic-mgc libmagic1 python3-magic apt-offline 
+	csleep 55
 	${lftr}
 
 	dqb "e23_other_pkgs() DONE"
-	csleep 1
+	csleep 10
 }
 
 function e23_upgp() {
@@ -101,7 +98,22 @@ function e23_upgp() {
 	${fib}
 	csleep 1
 
-	e22_pre_e ${CONF_iface} ${E22_GS}
+	#JOKO JO PRKL?
+	${shary} libxcb1 libx11-data libx11-6 libx11-xcb1
+	#TODO?:libelf,linexpat1 yms mukaan vai ei? (kts accept2)
+
+	#Depends: libc6 (>= 2.14), libgcc1 (>= 1:3.0), 
+	#, (>= 6), (>= 1.0.3),  (>= 1.7.3), , 
+	#Depends: libc6 (>= 2.34), 
+
+#Depends: libdrm-amdgpu1 (>= 2.4.110), libdrm-nouveau2 (>= 2.4.66), libdrm-radeon1 (>= 2.4.31), libdrm2 (>= 2.4.75), 
+#libelf1 (>= 0.142), libexpat1 (>= 2.0.1), , libllvm15, , , libxcb-dri2-0 (>= 1.8), libxcb-dri3-0, libxcb-present0, libxcb-sync1, libxcb-xfixes0, 
+# (>= 1.9.2), ,
+
+	${shary} libgl1 libva-x11-2 libva2 libxext6 #libx11-6  jo aiemmin
+	${shary} libvdpau1 mesa-vdpau-drivers
+
+	e22_pre_e ${CONF_iface} ${E22_GS} #gm myös?
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 
@@ -109,7 +121,7 @@ function e23_upgp() {
 	csleep 1
 }
 
-#TODO?:tämän se dhcp-karsinta kanssa? (oliko case-esac syntaksin kanssa huomioitavaa? man bash barm vuoksi?)
+#TODO?:tämän se dhcp-karsinta kanssa? (oliko case-esac syntaksin kanssa huomioitavaa? man bash barm vuoksi?) vielä ajank 10/26?
 
 function e23_qrs() {
 	dqb "e23_qrs()"
@@ -149,9 +161,15 @@ function e23_qrs() {
 }
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
+#VAIH:testaus uusicksi josqs koska y (27926 vaikuttaisi siltä että osdaltaan uusi l-paketti aiheuttaa äksän poistumisen)
+#29926:eilinen l-paketti vaikutti toimivalta, testaus sqrootissa toivottava
+#29926.2:joskus tietenkin kokeiltava jtnknin että vetääkö fktion uusin versio ne toivottavat paketit
 
-#TODO:testaus uusicksi josqs koska y
+#echo "MUISTA : uusi l+wanha u tässä järj, mitä taaphtuu?"
+#sleep 1
 
+#30926:tähän voi tulla isompia muutoksia koska a-offline ?
+#Depends: , (>= 2.33), liblzma5 (>= 5.1.1alpha+20120614),  (>= 1:1.1.4),  (= 1:5.44-3)
 
 function e23_dm() {
 	dqb "e23_dm())) ${1} )"
@@ -163,7 +181,7 @@ function e23_dm() {
 
 	${fib}
 	e22_pre_e ${CONF_iface} ${E22_GS}
-	e22_pre_e ${CONF_iface} ${E22_GM} 
+	e22_pre_e ${CONF_iface} ${E22_GM} #libelf ja libexpat tätä kautta
 	csleep 5
 
 	if [ "${1}" == "wdm" ] ; then
@@ -172,84 +190,126 @@ function e23_dm() {
 		echo "NOT SUPPORTED"
 		exit 666
 	fi
+
+	#HUOM.jutut ennen libpangoa/666 jälkeen uusia, kommentteihin jos qsee EHKÄ
+
+	#290926:ao. paketitko aiheuttavat äksän poistumisen? ei kai
+	${shary} libxcb1 libx11-6 libx11-xcb1 libx11-data
+	csleep 3
+
+	${shary} libxext6 libffi8 libtinfo6 libxml2 libz3-4 libdrm2
+	${shary} fontconfig libfontconfig1 fontconfig fontconfig-config libfribidi0
+	${shary} libglib2.0-0 libglib2.0-data libharfbuzz0b libthai0 libfreetype6
+	csleep 3
+
+	${shary} libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 libxshmfence1	
+	${shary} zlib1g libllvm15 libdrm-radeon1 libdrm-nouveau2 libdrm-amdgpu1 libvdpau1 mesa-vdpau
+	csleep 3
+
+	${shary} libfontenc1 libdav1d6 libmagickcore-6.q16-6 libnuma1
+
+	#ao. blokki ehkä kunnossa
+	${shary} libxmuu1 libde265-0 
+	${shary} libexpat1 libwayland-client0 libglvnd0 #glvnd vai glvnd0?
+	csleep 3
 	
+	${shary} libxft2 libxrender1 libxrandr2
 	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
-	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
-	${shary} libnuma1 libx265-199 libwraster6 libwings3
-	csleep 10
+	${shary} libbz2-1.0 libfftw3-double3 libheif1 libjbig0 libjpeg62-turbo liblcms2-2
+	csleep 3
 
-	${shary} libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
-	csleep 5
+	${shary} liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3 libxt6
+	csleep 3
 
-	${shary} liblzma5 libopenjp2-7 libltdl7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
-	csleep 10
+	#ao. blokki qnnnosa?
+	${shary} imagemagick-6-common 
+	${shary} libgif7 libmagickwand-6.q16-6 libxmu6 libxpm4
+	csleep 3
 
-	${shary} libx11-6 libx11-xcb1 libx11-data libxext6 imagemagick-6-common libxmu6 libxmuu1 libgif7 libxpm4
-	csleep 5
+	#ao. blokki qnnossa?
+	${shary} libx265-199 libwraster6 libwings3 libwutil5 wmaker-common
+	csleep 3
 
-	${shary} fontconfig fontconfig-config
-	${shary} libdav1d6 libde265-0 libfribidi0 libglib2.0-0 libglib2.0-data libharfbuzz0b
-	${shary} libthai0 libxft2 libxrender1 libxrandr2
-	csleep 10
+	#ao. blokki qnnossa?
+	${shary} libgbm1 libglapi-mesa  libwayland-server0 libwayland-cursor0 libwayland-egl1
+	csleep 3
 
-	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
-	${shary} libxcb1
-	csleep 5
+	#ao blokki qnnossa?
+	${shary} libxcb-shape0 libxcb-damage0 libxcb-shm0 libxcb-render0
+	csleep 3
 
-	${shary} libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 
-	${shary} libxcb-shape0 libxshmfence1 libxcb-damage0 libxcb-shm0 libxcb-render0 #hyvä idea ksekittää nämä inxcb-jutut?
-	csleep 10
+	#ao. blokki qnnossa?
+	${shary} libglx0 libegl-mesa0 libgl1 libxaw7 libegl1
+	csleep 3
 
-	${shary} libglvnd0 libegl-mesa0 libgl1 libxaw7 libegl1
-	csleep 5
-
+	#ao. blokki qnnossa?
 	${shary} libxcomposite1 libxi6 libxinerama1 libxkbfile1
-	csleep 10
+	csleep 3
 
-	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
-	csleep 5
+	#ao. blokki qnnossa?
+	${shary} libice6 libsm6 x11-common libuuid1
+	${shary} libxtst6 libxv1 libxxf86dga1 libxxf86vm1
+	csleep 3
 
-	${shary} libxcursor1 libwutil5 man-db wmaker-common #libbz2-1.0
-	csleep 10
+	#ao. blokki ehkä qnnossa
+	${shary} debconf bsdextrautils groff-base libgdbm6 libpipeline1 libseccomp2
+	${shary} libicu72 libxfixes3 
+	csleep 3
 
-	${shary} libicu72 libxfixes3 libxml2
-	csleep 5
+	${shary} libxcursor1 man-db
+	csleep 3
 
-	${shary} libglx-mesa0 libffi8 libzvbi0 git-man
-	${shary} libdb5.3 debconf libdeflate0 liblerc4 #mukaan?	
-	${shary} libpam-runtime #E22_GM toisi pari libpam-pakettttia
-	csleep 10
+	#28926:ehkä lingl1-libpam-runtime -pakettiewn riippuvuudet nyt kunnossa
+	${shary} libgl1-mesa-dri libxcb-glx0 libglx-mesa0 libzvbi-common libzvbi0 git-man
+	${shary} libdb5.3 libdeflate0 liblerc4
+	${shary} libpam-runtime
+	csleep 3
 
-	${shary} libxdmcp6 menu twm libmd0
-	csleep 5
+	#qnnossa?
+	${shary} libbsd0 libxdmcp6 menu twm libmd0
+	csleep 3
 
- 	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common libbsd0 libcap-ng0 
-	csleep 10
+	#qnnossa tähän atsi?
+ 	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common libcap-ng0
+	csleep 3
 
-	${shary} libxau6  #C
-	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0 
-	${shary} libgtk-3-0 libgtk-3-common libice6  #libheif versio ok?
-	csleep 5
+	#Depends:  | gsettings-backend
 
-	${shary} libseat1 libseccomp2 libtinfo6 #libpipeline1?
-	${shary} libunwind8
-	csleep 10
+	#pangot ja cairot aiemmaksi?
+	${shary} dconf-gsettings-backend libxau6 libatk-bridge2.0-0 libcairo-gobject2 libcairo2 libcolord2 libcups2 libepoxy0 libpangocairo-1.0-0 #C
+	${shary} adwaita-icon-theme hicolor-icon-theme shared-mime-info libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libxdamage1 libxkbcommon0
+	${shary} libgtk-3-0 libgtk-3-common 
+	csleep 3
 
-	${shary} lsb-base psmisc #A
-	${shary} bsdextrautils groff-base 
+	#mitä näiden kanssa tekee?
+	#Depends: seatd | logind, (>= 2.33), libsystemd0 (>= 238)
+	#Depends:  (>= 2.34),  (>= 5.1.1alpha+20110809)
+	#Depends: sysvinit-utils (>= 3.05-4~)
+	#Depends:  (>= 2.34), 
+	#-
+
+	${shary} libseat1 libunwind8
+	${shary} lsb-base psmisc #A	
 	${shary} init-system-helpers  #xscreensaver?
-	csleep 5
+	csleep 3
 
-	${shary} x11-apps x11-common x11-utils
-	csleep 10
+	${shary} x11-apps x11-utils
+	csleep 3
 
+
+#Depends:  (>= 2:1.17.2-2), xserver-xorg-video-all | xorg-driver-video, xserver-xorg-input-all | xorg-driver-input,
+#  (>= 1.4), 
+
+	${shary} xserver-xorg-core xkb-data x11-xkb-utils xbitmaps libutempter0
 	${shary} x11-xserver-utils xserver-xorg #D
 	${shary} xterm xauth
-	csleep 5
+	csleep 3
 
-	${shary} wdm 
+#libselinux1 (>= 3.1~), (>= 0.95.0),  (>= 0.95.8),  (>= 0.95.5), ,
+
+	${shary} wdm
 	dqb "e23_dm( done (((("
-	csleep 1
+	csleep 3
 }
 
 function e23_profs() {
@@ -263,7 +323,7 @@ function e23_profs() {
 	[ -d "${2}" ] || exit 73
 	[ -s ${1} ] || exit 72
 	#[ -s ${3} ] || exit 71 #mikä tässä pykii?
-	
+
 	dqb "pars.0k"
 	csleep 1
 
@@ -290,7 +350,9 @@ function e23_profs() {
 	csleep 1
 }
 
-function e23_st() { #020826:vissiin asentUivat nämä paketit (vaan miksi dms ja libdevm ie utle mukaan? karsitaan?)
+function e23_st() {
+	#TODO:joitain git-juttuha mukaan myös (git-cola ja mitä näitä olikaan)
+
 	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
 	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim
 	${shary} dmsetup libdevmapper1 libjte2
@@ -319,18 +381,18 @@ function e23_st() { #020826:vissiin asentUivat nämä paketit (vaan miksi dms ja
 #	[ ${debug} -eq 1 ] && pwd
 #
 #	ls -la ${3}/*.deb | wc -l
-#	
+#
 #	for s in ${PART175_LIST} ; do
 #		${sharpy} ${s}*
 #		${NKVD} ${3}/${s}*.deb
 #	done
-#	
+#
 #	local t
 #	t=$(echo ${2} | cut -d "/" -f 1-6)
 #	e22_ts ${t} ${3}
 #	dqb "JST B3F0R3 3NF0RC3"
 #	csleep 10
-#	
+#
 #	enforce_access $(whoami) ${t}
 #	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
 #	csleep 10

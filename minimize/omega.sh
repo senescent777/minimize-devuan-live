@@ -1,4 +1,24 @@
 #!/bin/bash
+echo "#VAIH:näihin mjien asetteluihin alussa konf-riippuvuisia muutoksia eli CONF_env määräisi jostain"
+sleep 5
+
+#d00=$(pwd)
+#d02=$(cat /etc/devuan_version)
+#d01=${d00}/${d02}
+#
+#if [ -s ${d00}/$(whoami).conf ] ; then
+#	echo "ALT.C0NF1G (. ${d00}/$(whoami).con )"
+#	. ${d00}/$(whoami).conf
+#else
+#	echo "ååå"
+#
+#	if [ -d ${d01} ] && [ -s ${d01}/conf ] ; then
+#		echo ". ${d01}/conf"
+#		. ${d01}/conf
+#	else
+#		echo "whåtever"
+#	fi
+#fi
 
 odio=$(which sudo)
 smr=$(${odio} which rm)
@@ -11,22 +31,45 @@ whack=$(${odio} which pkill)
 whack="${whack} --signal 9 "
 svm=$(${odio} which mv)
 svm="${odio} ${svm}"
+
+function dqb() {
+	[ ${debug} -eq 1 ] && echo ${1}
+}
+
+function csleep() {
+	[ ${debug} -eq 1 ] && sleep ${1}
+}
+
 mode=3
 
 if [ $# -gt 0 ] ; then
 	mode=${1}
 fi
 
+#HUOM.239.26: näiden 2 seur. if-blokin kanssa voi tulla ongelmia jos asentaa u-paketin ennen l-pakettia
+#päintoisin näyttäisi myös yhdistelmä modaamaton kiekko+moderni l+wanha u toimivan ilman turhaa sekoilua (29926)
+
 if [ ${mode} -eq 5 ] ; then
-	sudo /etc/init.d/ntpsec stop
-	sudo apt --fix-broken install
-	sudo /etc/init.d/slim stop
+	${odio} /etc/init.d/ntpsec stop
+	${odio} apt --fix-broken install #jos kesympi versiuo toiumisi ... No Ei
+	${odio} /etc/init.d/slim stop
+
+	#uutena 280926
+	scm="${odio} chmod" #TODO:lisää common_lib prujaamista kohta, jotta sqrootin kautta järkevästi?
+	csleep 5 
+	${scm} a-wx /etc/init.d/blu*
+	${scm} a-wx /etc/init.d/nfs*
+	${scm} a-wx /etc/init.d/rpc*
+	${scm} a-wx /etc/init.d/slim*
+	ls -las /etc/init.d
+	csleep 6
+
 	exit
 fi
 
 if [ ${mode} -eq 6 ] ; then
-	sudo apt-get remove --purge slim*
-	sudo /etc/init.d/wdm start
+	${odio} apt-get remove --purge slim* #No Ei
+	${odio} /etc/init.d/wdm start
 	exit
 fi
 

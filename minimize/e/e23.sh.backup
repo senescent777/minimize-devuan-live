@@ -1,0 +1,354 @@
+#150926:jos makefile-jutut kohta ajankohtaisia?
+
+function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() nykyään
+	dqb "aswasw( ${1} )"
+	[ -z "${1}" ] && exit 56
+	csleep 1
+
+
+	#VAIH:vähitellen jotain? E22:_GT , GU, GM hyödyntäen?
+#			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
+
+	if [ "${1}" == "wlan0" ] ; then
+		${shary} libnl-3-200 libnl-genl-3-200 libnl-route-3-200 libpcsclite1 #libreadline8 # libssl3 adduser
+		${shary} wpasupplicant
+	fi
+
+	#TODO?:E22_D?
+	if [ "${1}" != "eth0:1" ] ; then
+		worf isc-dhcp-client,isc-dhcp-common 2
+	fi
+}
+
+function e23_tblz() {
+	dqb "; )e23_tblz( ( ${1} ( ${2} (((  ${3} )( (((  ${4}   )"
+	csleep 1
+
+	[ -z "${1}" ] && exit 11
+	[ -z "${2}" ] && exit 12
+
+	dqb "pars ok"
+	csleep 1
+
+	${fib}
+	${asy}
+	csleep 1
+
+	#message() tähän?
+	tpc7
+	#jotain excaliburiin liittyvää tuo tpc
+
+	#190926:joutaisi ksi josqs siirtää dhcp-jutut pre_e -> asw ?
+	aswasw ${1}	
+	e22_pre_e ${1} ${E22_GT}
+
+	[ ${debug} -eq 1 ] && ls -las ${CONF_pkgdir}
+	csleep 1
+
+	${asy}
+	# (2 param kutsussa sopisi riittää)
+	e22_pre2 ${1} ${2}
+	other_horrors
+
+	dqb "e23_tblz() DONE"
+	csleep 1
+}
+
+function e23_other_pkgs() { 
+	dqb "e23_other_pkgs()"
+	#toista param? eiole
+
+	[ -z "${1}" ] && exit 11
+	dqb "pars.ok"
+	csleep 1
+
+	#josko jollain optiolla saisi apt:in lataamaan paketit vain leikisti? --simulate? tai --no-download?
+	e22_pre_e ${CONF_iface} ${E22_GI}
+	e22_pre_e ${CONF_iface} ${E22_GG}
+	e22_pre_e ${CONF_iface} ${E23_GS}
+	#e22_gs vs e23_gs ? eri asioita
+
+	message
+	jules
+
+	if [ ${1} -eq 1 ] ; then
+		${shary} libgmp10 libhogweed6 libidn2-0 libnettle8
+		${shary} runit-helper
+		${shary} dnsmasq-base dnsmasq dns-root-data #dnsutils
+
+		${lftr} 
+		[ $? -eq 0 ] || exit 3
+
+		${shary} libev4
+		${shary} libgetdns10 libbsd0 libidn2-0 libssl3 libunbound8 libyaml-0-2 #sotkeekohan  uudelleenas tässä?
+		${shary} stubby
+	fi
+
+	csleep 1
+	${lftr}
+
+	dqb "e23_other_pkgs() DONE"
+	csleep 1
+}
+
+function e23_upgp() {
+	dqb " e23_upgp() "
+	${fib}
+	csleep 1
+
+	e22_pre_e ${CONF_iface} ${E22_GS}
+	${sag} --no-install-recommends upgrade -u
+	echo $?
+
+	dqb " e23_upgp() done"
+	csleep 1
+}
+
+#TODO?:tämän se dhcp-karsinta kanssa? (oliko case-esac syntaksin kanssa huomioitavaa? man bash barm vuoksi?) vielä ajank 10/26?
+
+function e23_qrs() {
+	dqb "e23_qrs()"
+
+	[ -z "${1}" ] && exit 77
+	[ -s ${1} ] || exit 66
+	[ -r ${1} ] || exit 55
+	[ -z "${2}" ] && exit 11
+	[ -d ${2} ] || exit 22
+	[ -z "${3}" ] && exit 44
+	[ -z "${4}" ] && exit 43
+	[ -z "${5}" ] && exit 43
+
+	dqb "pars.0k"
+	csleep 1
+
+	e22_config1 ~ ${3}
+	${srat} -rvf ${1} ~/${3}
+	csleep 1
+
+	#tuleeko mukaan vai ei?
+	tar -tf ${1} | grep ${3} | wc -l
+	csleep 2
+
+	dqb "BEFORE NVDk"
+	[ -f ${4} ] && ${NKVD} ~/${4}
+	csleep 1
+
+	e22_settings ${2} ${4} ${5}
+
+	for f in $(find ${2} -maxdepth 1 -type f -name ${4} -or -name ${5} | grep -v pulse) ; do
+		${srat} -rvf ${1} ${f}
+	done
+
+	[ ${debug} -eq 1 ] && tar -tf ${1} | grep ${4} | wc -l
+	csleep 1
+}
+
+#pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
+#VAIH:testaus uusicksi josqs koska y (27926 vaikuttaisi siltä että osdaltaan uusi l-paketti aiheuttaa äksän poistumisen)
+
+#TODO?:libvdpau1, perl, , ,,  mukaanjos puuttuu?
+#... siis 2 ekaa lisäten lähinnä? tai siis perl jo qnnossa?
+
+echo "MUISTA : uusi l+wanha u tässä järj, mitä taaphtuu?"
+sleep 1
+echo "TODO:libvdpau, mesa-vdpau, mukaan dm() juttuihin?"
+sleep 10
+
+#Provides: vdpau-driver
+#Depends: libvdpau1, libc6 (>= 2.34), libdrm-amdgpu1 (>= 2.4.110), libdrm-nouveau2 (>= 2.4.66), libdrm-radeon1 (>= 2.4.31), libdrm2 (>= 2.4.75), libelf1 (>= 0.142), libexpat1 (>= 2.0.1), libgcc-s1 (>= 3.4), libllvm15, libstdc++6 (>= 11), libx11-xcb1 (>= 2:1.8.4), libxcb-dri2-0 (>= 1.8), libxcb-dri3-0, libxcb-present0, libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), libxshmfence1, libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)
+
+#Depends: libc6 (>= 2.34), libx11-6 (>= 2:1.4.99.1), libxext6
+
+
+
+function e23_dm() {
+	dqb "e23_dm())) ${1} )"
+	[ -z "${1}" ] && exit 11
+	csleep 2
+
+	dqb "pars.ök"
+	csleep 1
+
+	${fib}
+	e22_pre_e ${CONF_iface} ${E22_GS}
+	e22_pre_e ${CONF_iface} ${E22_GM}
+	csleep 5
+
+	if [ "${1}" == "wdm" ] ; then
+		dqb "dm.k0"
+	else
+		echo "NOT SUPPORTED"
+		exit 666
+	fi
+
+	#TODO:aivan Ior BOckina iteriuden ao. pakkausten riippuvuudet josko silleen jotain saavuttaisi?
+	${shary} libpango-1.0-0 libpangoft2-1.0-0 libpangoxft-1.0-0
+	${shary} libmagickcore-6.q16-6 libmagickwand-6.q16-6
+	${shary} libnuma1 libx265-199 libwraster6 libwings3
+	csleep 3
+
+	${shary} libfftw3-double3 libfontconfig1 libfontenc1 libfreetype6 libheif1 libjbig0 libjpeg62-turbo liblcms2-2 liblqr-1-0
+	csleep 3
+
+	${shary} liblzma5 libopenjp2-7 libltdl7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3
+	csleep 3
+
+	#290926:ao. paketitko aiheuttavat äksän poistumisen?
+	${shary} libxcb1 libx11-6 libx11-xcb1 libx11-data
+
+	${shary} libxext6 imagemagick-6-common libxmu6 libxmuu1 libgif7 libxpm4
+	csleep 3
+
+	${shary} fontconfig fontconfig-config
+	${shary} libdav1d6 libde265-0 libfribidi0 libglib2.0-0 libglib2.0-data libharfbuzz0b
+	${shary} libthai0 libxft2 libxrender1 libxrandr2
+	csleep 3
+
+	${shary} libdrm2 libexpat1 libgbm1 libglapi-mesa libwayland-client0 libwayland-server0 libwayland-cursor0 libwayland-egl1
+	csleep 3
+
+	${shary} libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-randr0 libxcb-sync1 libxcb-xfixes0 
+	${shary} libxcb-shape0 libxshmfence1 libxcb-damage0 libxcb-shm0 libxcb-render0 #hyvä idea ksekittää nämä inxcb-jutut?
+	csleep 3
+
+	${shary} libglvnd0 libegl-mesa0 libgl1 libxaw7 libegl1
+	csleep 3
+
+	${shary} libxcomposite1 libxi6 libxinerama1 libxkbfile1
+	csleep 3
+
+	${shary} libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libsm6
+	csleep 3
+
+	${shary} libxcursor1 libwutil5 man-db wmaker-common #libbz2-1.0
+	csleep 3
+
+	${shary} libicu72 libxfixes3 libxml2
+	csleep 3
+
+	#28926:ehkä lingl1-libpam-runtime -pakettiewn riippuvuudet nyt kunnossa
+	${shary} libgl1-mesa-dri libxcb-glx0 libglx-mesa0 libffi8 libzvbi-common libzvbi0 git-man
+	${shary} libdb5.3 debconf libdeflate0 liblerc4
+	${shary} libpam-runtime
+	csleep 3
+
+	${shary} libxdmcp6 menu twm libmd0
+	csleep 3
+
+ 	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common libbsd0 libcap-ng0
+	csleep 3
+
+	${shary} libxau6  #C
+	${shary} libgdbm6 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libglx0
+	${shary} libgtk-3-0 libgtk-3-common libice6
+	csleep 3
+
+	${shary} libseat1 libseccomp2 libtinfo6 #libpipeline1?
+	${shary} libunwind8
+	csleep 3
+
+	${shary} lsb-base psmisc #A
+	${shary} bsdextrautils groff-base
+	${shary} init-system-helpers  #xscreensaver?
+	csleep 3
+
+	${shary} x11-apps x11-common x11-utils
+	csleep 3
+
+	${shary} x11-xserver-utils xserver-xorg #D
+	${shary} xterm xauth
+	csleep 3
+
+	${shary} wdm
+	dqb "e23_dm( done (((("
+	csleep 3
+}
+
+function e23_profs() {
+	dqb ";e23_profs) ${1} , ${2} , ${3} (()("
+	csleep 1
+
+	[ -z "${1}" ] && exit 76
+	[ -z "${2}" ] && exit 75
+	[ -z "${3}" ] && exit 74
+
+	[ -d "${2}" ] || exit 73
+	[ -s ${1} ] || exit 72
+	#[ -s ${3} ] || exit 71 #mikä tässä pykii?
+
+	dqb "pars.0k"
+	csleep 1
+
+	q=$(${mkt} -d)
+	cd ${q}
+
+	[ $? -eq 0 ] || exit 77
+	pwd
+	csleep 1
+
+	dqb "SHOULD ifup \$iface BEFORE \${tig} clone"
+	csleep 1
+
+	[ -v CONF_BASEURL ] || exit 78
+	${tig} clone https://${CONF_BASEURL}/more_scripts.git
+	[ $? -eq 0 ] || exit 79
+
+	${svm} more_scripts/profs/${3}* ${2}
+	${scm} 0555 ${2}/${3}*
+	${sr0} -rvf ${1} ${2}/${3}*
+	csleep 1
+
+	dqb "e23_profs() done"
+	csleep 1
+}
+
+function e23_st() {
+	#TODO:joitain git-juttuha mukaan myös (git.-cola ja mitäö näitä olikaan)
+
+	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
+	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim
+	${shary} dmsetup libdevmapper1 libjte2
+	${shary} libefiboot1 libefivar1 libfreetype6 libfuse3-3 gettext-base
+	${shary} libisoburn1 libburn4 libisofs6 libfuse2 mtools
+	${shary} grub-common xorriso geany isolinux
+	}
+
+#tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
+#function e22_dblock() {
+#	dqb "e22_dblock(${1} , ${2} , ${3} , ${4} )))) "
+#
+#	[ -z "${1}" ] && exit 14
+#	[ -s ${1} ] || exit 15
+#	[ -z "${2}" ] && exit 11
+#	[ -d ${2} ] || exit 22
+#	[ -w ${2} ] || exit 23
+#	[ -z "${3}" ] && exit 33
+#	[ -d ${3} ] || exit 34
+#	#[ -w ${3} ] || exit 35 #tämän kanssa taas jotain, man bash...
+#	[ -z "${4}" ] && exit 37
+#
+#	dqb ".PARS-OK"
+#	csleep 1
+#
+#	[ ${debug} -eq 1 ] && pwd
+#
+#	ls -la ${3}/*.deb | wc -l
+#
+#	for s in ${PART175_LIST} ; do
+#		${sharpy} ${s}*
+#		${NKVD} ${3}/${s}*.deb
+#	done
+#
+#	local t
+#	t=$(echo ${2} | cut -d "/" -f 1-6)
+#	e22_ts ${t} ${3}
+#	dqb "JST B3F0R3 3NF0RC3"
+#	csleep 10
+#
+#	enforce_access $(whoami) ${t}
+#	dqb "ENFORC1NG D0N3, arch() 15 N3XT"
+#	csleep 10
+#
+#	e22_arch ${1} ${2} ${4}
+#	e22_cleanpkgs ${2}
+#}

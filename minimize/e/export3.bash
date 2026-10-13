@@ -111,6 +111,7 @@ fi
 
 case "${mode}" in
 	rp)
+		#TODO:nöille main muutoksia? esim mitä?
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 
@@ -151,6 +152,7 @@ case "${mode}" in
 		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
 	q)
+		#131026:profiilijuttuihin muutoksia ffoxin uuden version takia vai ei?
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
@@ -158,6 +160,9 @@ case "${mode}" in
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	c)
+		#note to self:tämän tuotos ei sitten riitä muuttamaan kaikkia juttuja squash-hmiston alaisuudessa
+		#TODO:jospa välillä koklaisi "exp2 e" tuotoksia siis
+
 		e22_cde ${tgtfile} ${d0} ${distro}
 	
 		#HUOM. EI NÄIN KOSKA e22_cde() NYKYINEN SISÄLTÖ
