@@ -147,8 +147,8 @@ case "${mode}" in
 		exit 97
 	;;
 	3|4) 
-		#TODO:main-oksan kanssa testaus josqs (merd2+exp2)
-		#DONE:nelosem uusi testi (ekhä teki toimivaa oksennusta 09/26)
+		#TODO:main-oksan kanssa testaus josqs (merd2+exp2) (tai 1take olisi kanssa)
+		#TODO:nelosne kanssna uusi testi 10/26 aikana
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		e22_z1 ${CONF_hashfile3}
@@ -171,8 +171,7 @@ case "${mode}" in
 
 		#koko tätä skriptiä turhahko ajaa jos env != default ?
 		if [ ${mode} -eq 3 ] && [ "${CONF_env}" == "DEFAULT" ] ; then
-			#TODO?:tähän alle ehkä joskus muutoksia, rekursion tarkiotus liittyä?
-			#... tai jos case g prujaus... elleiu case g sisältö e23:sen fktioksi jnpp
+			#131026:tämäkin varmaan joskus testiin?
 			exit
 
 			#DONE:kts että 1. param tarkistetaan (jep)
@@ -182,9 +181,8 @@ case "${mode}" in
 			doIt=0
 		fi
 	;;
-	e) #170926 sai aikaiseksi paketin, mikä jopa asentui (toistuuko?)
-		#DONE?:e ja sitä seuraavat caset soveltuvin osin:testaa miten nykyiset oksennukset toimivat sqroot-ympstössä
-		#011026: tämän casen ja g:n tuotokset vissiin toimivat sqrootissa qhan sq.-rotin vain saisi purkamaan suosiolla
+	e) #011026: tämän casen ja g:n tuotokset vissiin toimivat sqrootissa qhan sq.-rotin vain saisi purkamaan suosiolla
+	#131026:vissiin tämän casen uusin oksennus toimaa
 
 		e22_pre_e ${CONF_iface} ${E22_GS}
 		e22_pre_e ${CONF_iface} ${E22_GM}
@@ -234,30 +232,24 @@ case "${mode}" in
 		e23_st
 	;;
 	u|upgrade)
+		#121026:suht tuore l-paketti + viimeisimmät versiot accept/reject + modaamaton kiekko -> EHKÄ ei mennyt x rikki 
+
 		echo "REMEMBER: l bfore u"
 		sleep 5
-
-
 
 		#kokeeksi tämmöinen (entä fix-broken install? upgp() tekee sen)
 		${odio} apt autoremove
 
-
-		
-
 		[ -v CONF_pkgdir ] || exit 96
 		dqb " ${CONF_iface} SHOULD Be U P B Y No W - Heisenberg"
 		csleep 1
-
-		
-
-		#121026:suht tuore l-paketti + viimeisimmät versiot accept/reject + modaamaton kiekko -> EHKÄ ei mennyt x rikki (toistuuko?)
 
 		e23_upgp
 		${sifd} ${CONF_iface}
 		csleep 1
 	;;
 	l)
+		#TODO:tuoreimman outputin testaus, dm() kuitenkin tullut muutoksia
 		echo "REMEMBER: l bfore u"
 		sleep 5		
 
@@ -270,6 +262,8 @@ case "${mode}" in
 #		e23_xyz
 #	;;
 	r)
+		${fib}
+		${shary} chromium-common libdouble-conversion3 libharfbuzz-subset0 libminizip1 libopenh264-7 mesa-va-drivers
 		${shary} chromium
 	;;
 	*)

@@ -111,7 +111,7 @@ fi
 
 case "${mode}" in
 	rp)
-		#TODO:nöille main muutoksia?
+		#TODO:nöille main muutoksia? esim mitä?
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 
@@ -152,6 +152,7 @@ case "${mode}" in
 		e22_arch ${tgtfile} ${d} ${gbk}
 	;;
 	q)
+		#131026:profiilijuttuihin muutoksia ffoxin uuden version takia vai ei?
 		[ -v CONF_default_arhcive ] || exit 33
 		[ -v CONF_default_arhcive2 ] || exit 34
 		[ -v CONF_default_arhcive3 ] || exit 35
