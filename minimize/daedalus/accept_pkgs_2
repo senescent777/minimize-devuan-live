@@ -1,69 +1,44 @@
-#bind9-jutut tarv: libkrb5, libgssapi-krb5-2
 nftables
 bind9-libs
 bind9-host
 bind9-dns
 dnsutils
 mime-support
-#
 cpp
 xkb-data
 x11-xkb-utils
 xserver-common
-#
-#libc6 ennen legacy, xserver-common ennen legacy
 xserver-xorg-legacy
-#
-#utyils ennen:common
 xserver-common
 xserver-xorg-core
-#
 dbus-system-bus-common
 dbus-bin
 dbus-session-bus-common
 dbus-daemon
 dbus-x11
-#
-#DONE?:vähitellen mesa-vdpau-pak kanssa jotain? jos qsee ni takaisin kommentteihin
-#
-#Depends:  pitäisi olla kaikki accept1 tai E22_GS,GM kautta
 mesa-vdpau-drivers
-#
 gpgconf
 gtk2-engines-pixbuf
-#python3.11-minimal
-#python3.11
-#
 menu
 twm
 psmisc
 git-man
-#
 xauth
 xinit
 xbitmaps
 xterm
 xfonts
-#
 sysvinit-utils
 lsb-base
 bsdextrautils
 groff-base
 debconf
 man-db
-#
-#
 x11-apps
 x11-common
 x11-utils
 x11-xserver-utils
-#
 xserver-xorg
 xorg
-#route ennne dhcp (btw: dhcp wttuun?)
 iproute2
-isc-dhcp
-#
-# xserver-xorg | xserver, 
-#perl:any,  
 wdm
