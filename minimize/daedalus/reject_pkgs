@@ -3,7 +3,6 @@
 ##xserver #270926:jos vaihteeksi näin?
 ##
 #dbus
-##150926:poistetaanko dbus*.deb ennen asentelua vai ei?
 ##
 ##initramfs
 ##live
@@ -23,21 +22,21 @@ live-boot
 mutt
 #libgsasl
 #
-#121026:miten xml-parser ja dbus, uskaltaisiko poistaa? no aluksi 1. mainittu
-libxml-parser-perl
+#131026:miten xml-parser ja dbus, uskaltaisiko poistaa? no aluksi 1. mainittu
+#libxml-parser-perl
 #
 #librsvg2-common
 #libpython3.11-stdlib
 #libperl5.36
 #python3.11
-##miten xz-utils nykyään?
-##TODO:xserver pois kommenteista?
+#
+#131026:miten xz-utils nykyään? takas pois?
+#xz-utils
+#
 #libdpkg-perl
 #libhtml-parser-perl
 #libhttp-daemon-perl
 ##josko olisi yksinkertaisempaa vain delliä kaikki perl-oaketit?
 #perl
-##TODO:mesa-vdpau ja libvdpau1 vetäminen mukaan e23_upg() jos ei muuten lähde skulaamaan=
-#xz-utils
 #101026 kokeeksi kommentteihin koko paska dwbug-tarkoituksissa
 #btw mitebn wpasupplicant ja nano?
