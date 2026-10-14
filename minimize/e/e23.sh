@@ -108,7 +108,6 @@ function e23_upgp() {
 
 #Depends: libdrm-amdgpu1 (>= 2.4.110), libdrm-nouveau2 (>= 2.4.66), libdrm-radeon1 (>= 2.4.31), libdrm2 (>= 2.4.75), 
 #libelf1 (>= 0.142), libexpat1 (>= 2.0.1), , libllvm15, , , libxcb-dri2-0 (>= 1.8), libxcb-dri3-0, libxcb-present0, libxcb-sync1, libxcb-xfixes0, 
-# (>= 1.9.2), ,
 
 	${shary} libgl1 libva-x11-2 libva2 libxext6 #libx11-6  jo aiemmin
 	${shary} libvdpau1 mesa-vdpau-drivers
@@ -161,10 +160,7 @@ function e23_qrs() {
 }
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
-#VAIH:testaus uusicksi josqs koska y (27926 vaikuttaisi siltä että osdaltaan uusi l-paketti aiheuttaa äksän poistumisen)
-#29926:eilinen l-paketti vaikutti toimivalta, testaus sqrootissa toivottava
-#29926.2:joskus tietenkin kokeiltava jtnknin että vetääkö fktion uusin versio ne toivottavat paketit
-
+#141026:toimiiko uusin oksennus vai ei?
 #echo "MUISTA : uusi l+wanha u tässä järj, mitä taaphtuu?"
 #sleep 1
 
@@ -259,7 +255,7 @@ function e23_dm() {
 	${shary} libxcursor1 man-db
 	csleep 3
 
-	#28926:ehkä lingl1-libpam-runtime -pakettiewn riippuvuudet nyt kunnossa
+	#28926:ehkä liBgl1-libpam-runtime -pakettien riippuvuudet nyt kunnossa
 	${shary} libgl1-mesa-dri libxcb-glx0 libglx-mesa0 libzvbi-common libzvbi0 git-man
 	${shary} libdb5.3 libdeflate0 liblerc4
 	${shary} libpam-runtime
@@ -283,10 +279,7 @@ function e23_dm() {
 
 	#mitä näiden kanssa tekee?
 	#Depends: seatd | logind, (>= 2.33), libsystemd0 (>= 238)
-	#Depends:  (>= 2.34),  (>= 5.1.1alpha+20110809)
 	#Depends: sysvinit-utils (>= 3.05-4~)
-	#Depends:  (>= 2.34), 
-	#-
 
 	${shary} libseat1 libunwind8
 	${shary} lsb-base psmisc #A	
@@ -296,9 +289,7 @@ function e23_dm() {
 	${shary} x11-apps x11-utils
 	csleep 3
 
-
 #Depends:  (>= 2:1.17.2-2), xserver-xorg-video-all | xorg-driver-video, xserver-xorg-input-all | xorg-driver-input,
-#  (>= 1.4), 
 
 	${shary} xserver-xorg-core xkb-data x11-xkb-utils xbitmaps libutempter0
 	${shary} x11-xserver-utils xserver-xorg #D
