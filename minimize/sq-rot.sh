@@ -215,17 +215,18 @@ function pre() {
 	unset r
 	echo "C"
 
-	#nekros2 kanssa joitain muutoksia vbaiko ei?
-	#tar --exclude import2.sh -jxvf nekros1
-	#rm nekros1
-	#...
-	#tar -C $distro -jxvf $f
-	#...
-
-	for f in $(find ${1} -type f -name "nekros?".tar.bz3 ) ; do	
-		tar --exclude import2.sh -jxvf ${f}
-		rm ${f}
-	done
+#TODO:jotain tarttis tehrä tässä vähitellen
+#	#nekros2 kanssa joitain muutoksia vbaiko ei?
+#	#tar --exclude import2.sh -jxvf nekros1
+#	#rm nekros1
+#	#...
+#	#tar -C $distro -jxvf $f
+#	#...
+#
+#	for f in $(find ${1} -type f -name "nekros?".tar.bz3 ) ; do	
+#		tar --exclude import2.sh -jxvf ${f}
+#		rm ${f}
+#	done
 
 	if [ ! -z "${gg}" ] ; then
 		if [ -s ${1}/common_lib.sh.sig ] ; then

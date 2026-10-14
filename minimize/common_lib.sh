@@ -64,6 +64,8 @@ function csleep() {
 
 [ -v CONF_env ] || exit 99
 #tyhjyydfen kristus myös?
+echo ${CONF_env}
+sleep 2
 
 case "${CONF_env}" in
 	TOOR)
@@ -482,15 +484,10 @@ function fromtend() {
 	fi
 }
 
-#11926:qseeko f.tar poisto vain silloiq debug=0 ? bissiin se tai $?
 function cefgh() {
 	dqb "HGEFX ${1} ; ${2}"
 	[ -z "${1}" ] && exit 66
 	[ -d ${1} ] || exit 67
-	csleep 5
-
-	echo "cefgh: debug= ${debug}"
-	sleep 1
 
 	if [ -z "${gg}" ] ; then
 		local p=$(pwd)
@@ -518,8 +515,6 @@ function cefgh() {
 		echo "COULD NOT DESTROY   ${1}/f.tar  YET"
 		[ -x ${gg} ] || echo "MATTI NUSSI9" 
 	fi
-
-	sleep 5
 }
 
 function ten1() {
@@ -587,7 +582,6 @@ function worf() {
 	done
 }
 
-#HUOM.010826:ei jouda (vielä) worf() ja wopr() yhdistää koska find voi vähän harata vastaan joissain tapauksissa
 function wopr() {
 	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
 	local r=$(find ${1} -type f -name "${2}*.deb" )
@@ -736,7 +730,6 @@ function check_binaries() {
 		dqb "SCHEISS3"
 	fi
 	
-	csleep 10
 	for x in ${y} ; do ocs ${x} ; done
 	sdi="${odio} ${sd0} -i "
 	E22_GI="libassuan0,libbz2-1.0,libc6,libgcrypt20,libgpg-error0,libreadline8,libsqlite3-0,gpgconf,zlib1g,gpg"
@@ -859,10 +852,6 @@ function check_binaries2() {
 
 	dqb "b1nar135.2 0k.2" 
 }
-
-#10926:epäselvää mistä ifup/down/resolv kuseminen aiheutui, ehkä voisi kokeilla modaamattomalla kiekolla josqs, modatulla ei yleensä tapahdu
-dqb "#TODO:kts myös export2 , case l" #seur update-pak rakentamisen yhteydessä?
-csleep 5
 
 function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
@@ -1131,7 +1120,6 @@ function part1_5() {
 	[ -d ${2} ] || exit 68
 
 	dqb "part1_5().pasr.ko"
-	#csleep 1
 	local t
 	t=$(echo ${1} | cut -d "/" -f 1)
 
@@ -1143,8 +1131,6 @@ function part1_5() {
 		local h
 		h=$(${mkt} -d)
 		[ $? -eq 0 ] || exit 97
-
-		#csleep 1
 
 		if [ ! -s /etc/apt/sources.list.tmp ] ; then	
 			dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
@@ -1168,33 +1154,26 @@ function part1_5() {
 		fi
 
 		dqb "p1.5.2"
-		#csleep 1
 		local tdmc
 
 		tdmc="sed -i 's/DISTRO/${t}/g'"
 		echo "${tdmc} ${h}/sources.list.tmp" | bash -s
-		#csleep 1
 
 		if [ ! -z "${CONF_pkgsrv}" ] ; then
 			tdmc="sed -i 's/REPOSITORY/${CONF_pkgsrv}/g'" #RKK PRKL
 			echo "${tdmc} ${h}/sources.list.tmp" | bash -s
-			#csleep 1
 		fi
 
 		${svm} ${h}/sources.list.tmp /etc/apt/sources.list.${t}
-		#csleep 1
 
 		dqb "finally"
-		#csleep 1
 	fi
 
 	${sco} -R root:root /etc/apt
 	${scm} -R a-w /etc/apt/
 	[ ${debug} -eq 1 ] && ls -las /etc/apt
-	#csleep 1
 
 	dqb "p1.5 done"
-	#csleep 1
 }
 
 #HUOM.170326:JOS VAI N MITENKÄÄN MAHDOLLISTA NIIN EI TABLESIN KANSSA SAISI JÄÄDÄ ACCEPT-TILANTEESEEN
@@ -1204,9 +1183,7 @@ function part1() {
 	[ -z "${2}" ] && exit 67
 	[ -d ${2} ] || exit 68
 
-	#csleep 1
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
-	#csleep 1
 
 	[ -v ipt ] || dqb "SHOULD exit 96"
 	local c
@@ -1221,7 +1198,6 @@ function part1() {
 
 		if [ ${c} -gt 0 ] ; then #ehtona pikemminkin https: poissaolo?
 			${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
-			#csleep 1
 		fi
 	fi
 
@@ -1238,7 +1214,6 @@ function part1() {
 	fi
 
 	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
-	#csleep 1
 
 	${sco} -R root:root /etc/apt
 	${scm} -R a-w /etc/apt/
@@ -1258,7 +1233,7 @@ function part2() {
 	fi
 	
 	dqb "PARS_OK"
-	csleep 5
+	csleep 1
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."
