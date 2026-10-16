@@ -324,7 +324,7 @@ function e22_home() {
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
 
-	#VAIH:seur testikierr tuo olds karsinta varmisztaen
+	#DONE?:seur testikierr tuo olds karsinta varmisztaen
 	${srat} --exclude "*.deb" --exclude "*.conf" --exclude olds -rvf ${1} /home/stubby ${t}
 
 	#180796: ${TARGET_TPX} käyttöön tähän? tartteeko?
@@ -412,8 +412,8 @@ function e22_acol() {
 	if  [ ${ef} -eq 1 ] ; then
 		dqb "SMTHING"
 	else
-		#VAIH:tämä kohta uusiksi ASAP koska g_doit muutokset 06/26!!!
-		#VAIH:Const , conf_enforce_prefix, koska Syyt
+		#DONE?:tämä kohta uusiksi ASAP koska g_doit muutokset 06/26!!!
+		#DONE?:Const , conf_enforce_prefix, koska Syyt
 		#${srat} -rf ${1} /etc/sudoers.d/qsipasq* /etc/fstab
 
 		${scm} -R a+r /etc/sudoers.d
