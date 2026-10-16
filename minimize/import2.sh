@@ -48,7 +48,7 @@ fi
 #
 #	if [ -f ${2} ] || [ -d ${2} ] ; then
 #		if [ -z "${srcfile}" ] ; then
-#			if [ "${2}" != "-v" ] ; then	
+#			if [ "${2}" != "-v" ] ; then
 #				srcfile=${2}
 #			fi
 #		fi
@@ -63,10 +63,13 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	#130526:else-haara peellinen joissain tilanteissa, ei poisteta
-	echo "#VAIH:viimeaikaisten sorkintojen takia tämä haara tulisi testata (09/26:r vai ?)"
+
+	echo "#DONE?:viimeaikaisten sorkintojen takia tämä haara tulisi testata (09/26:r vai ?)"
 	#151026:onnistuu firefoxin käskyttäminen mutta jäi junnaamaan profile manageriin
 	#vielä jokin testi vaiko ei?
-	
+
+	#... miten muuten .config/firefox? sen shteen jotain vai ei?
+
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
 		sleep 2
@@ -83,7 +86,7 @@ else
 	dqb "FALLBACK"
 	sleep 5
 	odio=$(which sudo)
-	
+
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
 	sleep 5
 
@@ -103,7 +106,7 @@ else
 
 	function check_binaries2() {
 		echo "imp2.check2"
-	
+
 		som="${odio} ${som}"
 		uom="${odio} ${uom}"
 		srat="${odio} ${srat}"
@@ -150,11 +153,11 @@ fi
 
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 csleep 1
-#HUOM. tähän ei "process_lib ${d}" , mennään koituksella toisella tavalla (ainakin jnkin aikaa)
+#HUOM. tähän ei "process_lib ${d}" , mennään coituksella toisella tavalla (ainakin jnkin aikaa)
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
-else	
+else
 	echo $?
 	dqb "N 0 L1.B"
 	csleep 1
@@ -184,7 +187,7 @@ ocs tar
 dqb "srat: ${srat}"
 csleep 1
 dqb "LHP"
-	
+
 #josko tilansäästön nimissä kolmaskin ehto? tai ehkä ei pakko
 if [ -s /OLD.tar ] ; then
 	dqb "OLD.tar OK"
@@ -204,17 +207,17 @@ function cptp2() {
 	dqb "cptp2:pars ok"
 	csleep 1
 
-	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
+	#tr-kikkailu tässä ei niitä parhaimpia ideoita
 	local t
 	t=$(echo ${1} | cut -d '/' -f 1-5 | tr -d -c 0-9a-zA-Z/.)
-	
+
 	if [ -f ${t}/common_lib.sh ] ; then
 		#pointti?
 		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
-			${gg} --verify ${t}/common_lib.sh.sig 		
-			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"		
+			${gg} --verify ${t}/common_lib.sh.sig
+			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"
 		fi
-		
+
 		ls -las /etc/res*
 		csleep 5
 
@@ -226,7 +229,7 @@ function cptp2() {
 		else
 			dqb "n s t as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
 		fi
-		
+
 		ls -las /etc/res*
 		csleep 5
 	fi
@@ -281,7 +284,6 @@ function tpr() {
 	local q=$(${mkt} -d)
 	[ $? -gt 0 ] && exit 20
 
-	
 	#jos vielä härdelliä niin keskeytetään mikäli ei $2:sta löydä prefs.js?
 	local r=$(${srat} -tf ${1}/${2} | grep prefs.js | wc -l) #vielä jos arhc_4 ?
 	[ ${r} -gt 0 ] || exit 21
@@ -362,29 +364,25 @@ csleep 5
 case "${mode}" in
 	1|0|3)
 		./sq-rot.sh ${mode} ${srcfile} -v
-	;; 
+	;;
 	r)
 		[ -d ${srcfile} ] || exit 23
 		[ -v CONF_default_arhcive ] || exit 24
  		[ -v CONF_default_arhcive2 ] || exit 25
 		[ -v CONF_default_arhcive3 ] || exit 18
-		
+
 		[ -z "${fox}" ] && exit 26
 		[ -x ${fox} ] || exit 27
 		[ -s ~/${CONF_default_arhcive2} ] || exit 29
 
-		#TODO: exclude "chromium*" mukaan, voi syödä levytilaa moinen
-		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
-
+		${sr0}  --exclude "chromium*" -C ~ -jxf ~/${CONF_default_arhcive2}
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 
 		dqb "XP R"
 		csleep 5
 	;;
 #	q)
-#	
 #		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
-#		
 #		[ -z "${fox}" ] && exit 26
 #		[ -x ${fox} ] || exit 27
 #

@@ -251,8 +251,6 @@ else
 	exit 65
 fi
 
-#DONE:koita keksiä jotain sen varalta ettö kjä tunaroi hmistomn tedton sikaan parametriksi ao. fktiolle asti
-#... kys tap exit ja pulinat pois
 function common_part() {
 	echo "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
 
@@ -395,8 +393,7 @@ case "${mode}" in
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 
-		#DONE?:hisput wttuun vai ei?
-		#TODO:mitä jos ei löydy .tar ? common_part() tulisi keskeyttää
+		#VAIH:mitä jos ei löydy .tar ? common_part() tulisi keskeyttää
 		f=$(tar -tf ${srcfile} | grep .tar | head -n 1)
 
 		f=$(dirname ${f})
@@ -475,9 +472,9 @@ case "${mode}" in
 esac
 
 dqb "atfr.esac"
-#TODO:lähteen poisto, saisiko takaisin toimimaan josqs? 
-
-if [ ${doIt} -eq 1 ] ; then
+#TODO?:lähteen poisto, saisiko takaisin toimimaan josqs? 
+#
+#if [ ${doIt} -eq 1 ] ; then
 	if [ -s ${srcfile} ] && [ -f ${srcfile} ] ; then
 		read -p " U  WANT 2 RM SOURCE ?" confirm
 
@@ -489,8 +486,8 @@ if [ ${doIt} -eq 1 ] ; then
 	else
 		echo "SMTHNG WRNG WTH \${srcfile}"
 	fi
-else
-	echo "SMTHING WENT WRONG BEFORE THIS"
-fi
+#else
+#	echo "SMTHING WENT WRONG BEFORE THIS"
+#fi
 
 cptp2 ${d0}

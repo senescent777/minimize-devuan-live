@@ -154,7 +154,7 @@ function e22_pre1() {
 #TODO?:common_lib fktio jos ei nimeäisi linkkejä uudestaan jatkossa, mikjä fktio olikaan
 #... e_e() ? vai dis() ?
 
-function e22_pre2() {	
+function e22_pre2() {
 	dqb "e22pre2 )))) ${1} ; ${2} ; ${3} ; ${4} )()))) "
 	csleep 1
 
@@ -229,7 +229,8 @@ function e22_config1() {
 	${sr0} --exclude "chromium*" -jcvf ${2} ./xorg.conf* ./.config
 	csleep 6
 
-	[ -s ${2} ] || exit 99	
+	[ -s ${2} ] || exit 99
+
 	cd ${p}
 	dqb "e22_config1()"
 	csleep 5
@@ -278,7 +279,6 @@ function e22_home_pre() {
 	dqb "paks_ok"
 	csleep 1
 
-	#kolmonen==conf_enforce jotebn...
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		e22_config1 ~ ${4}
 		${NKVD} ~/${5}		
