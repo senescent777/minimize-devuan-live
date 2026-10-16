@@ -96,7 +96,7 @@ function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 	csleep 1
 }
 
-#140526 edelleen peellinen blokki, puuttuvat paketit $d alla aiheuttavat? VAIH:joko jo pois 07/26?
+#140526 edelleen peellinen blokki, puuttuvat paketit $d alla aiheuttavat? DONE?:joko jo pois 07/26?
 #20726:modaamattomalla kiekolla&&DEFAULT rpc "ic"-tilassa, dmsetup ii, myös spi2-cpre ja psmisc myös
 #entä TPPR? josko case-esac? tai alempi filler pois?
 

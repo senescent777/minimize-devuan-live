@@ -1308,8 +1308,9 @@ function common_lib_tool() {
 	dqb "t00l DONE"
 }
 
-#VAIH:paloittain selvittely missä kohtaa u-paketin masentelu poistaa äksän
-#VAIH:muista myös a-offline, pp3-sdi-välille muutoksia
+#DONE?:paloittain selvittely missä kohtaa u-paketin masentelu poistaa äksän
+echo "#VAIH:muista myös a-offline, pp3-sdi-välille muutoksia"
+
 function part3() {
 	dqb "))() part3 ${1} ,((()()()()()( ${2} (((((((("
 

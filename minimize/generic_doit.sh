@@ -231,7 +231,7 @@ function pre_enforce() {
 	local f
 	local g
 
-	#VAIH:etuliitteestä Const ja -> conf koska Syyt (conf_enforce_prefix niinqu)
+	#DONE?:etuliitteestä Const ja -> conf koska Syyt (conf_enforce_prefix niinqu)
 	#q=$(${mkt} qsipasq-XXXX)
 	[ -v CONF_enforce_prefix ] || exit 99
 	q=$(${mkt} ${CONF_enforce_prefix}-XXXX)
@@ -347,7 +347,8 @@ fi
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
 
-#260626:alla tuo mv menee pieleen jos ajetaan root-tunnuksella tämän skripti , tee jotain (VAIH)
+echo "#260626:alla tuo mv menee pieleen jos ajetaan root-tunnuksella tämän skripti , tee jotain (VAIH)"
+sleep 1
 ${snt}
 
 if [ "${CONF_env}" != "VED" ] ; then
