@@ -111,7 +111,7 @@ fi
 
 case "${mode}" in
 	rp)
-		#TODO:nöille main muutoksia? esim mitä?
+		#TODO:näille main muutoksia? esim mitä?
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 
@@ -146,7 +146,7 @@ case "${mode}" in
 			${srat} -uvf ${tgtfile} ${c}.sha
 		fi
 	;;
-	f)
+	f) #mitenkähän toimii nykyään?
 		t=$(echo ${d} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
 		enforce_access $(whoami) ${t}
 		e22_arch ${tgtfile} ${d} ${gbk}
@@ -160,8 +160,9 @@ case "${mode}" in
 		e23_qrs ${tgtfile} ${d0} ${CONF_default_arhcive2} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 	;;
 	c)
-		#note to self:tämän tuotos ei sitten riitä muuttamaan kaikkia juttuja squash-hmiston alaisuudessa
-		#TODO:jospa välillä koklaisi "exp2 e" tuotoksia siis
+		#note to self:tämän tuotos ei sitten riitä muuttamaan kaikkia tarpeellisia juttuja squash-hmiston alaisuudessa
+		#TODO:jospa välillä koklaisi "exp2 3" tuotoksia sqrootissa siis
+		#CONF_enforce ehkä liittyy jotenkin johonkin?
 
 		e22_cde ${tgtfile} ${d0} ${distro}
 	

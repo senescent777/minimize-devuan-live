@@ -64,6 +64,8 @@ function csleep() {
 
 [ -v CONF_env ] || exit 99
 #tyhjyydfen kristus myös?
+echo ${CONF_env}
+sleep 2
 
 case "${CONF_env}" in
 	TOOR)
@@ -462,7 +464,7 @@ function efk1() {
 #		dqb "WE NEED T0 TALK ABT ${1}"
 #	fi
 #
-#	csleep 1
+
 #	dqb "eqp oned"
 #} #KKUUTTA PRKL
 
@@ -482,15 +484,10 @@ function fromtend() {
 	fi
 }
 
-#11926:qseeko f.tar poisto vain silloiq debug=0 ? bissiin se tai $?
 function cefgh() {
 	dqb "HGEFX ${1} ; ${2}"
 	[ -z "${1}" ] && exit 66
 	[ -d ${1} ] || exit 67
-	csleep 5
-
-	echo "cefgh: debug= ${debug}"
-	sleep 1
 
 	if [ -z "${gg}" ] ; then
 		local p=$(pwd)
@@ -518,8 +515,6 @@ function cefgh() {
 		echo "COULD NOT DESTROY   ${1}/f.tar  YET"
 		[ -x ${gg} ] || echo "MATTI NUSSI9" 
 	fi
-
-	sleep 5
 }
 
 function ten1() {
@@ -587,7 +582,6 @@ function worf() {
 	done
 }
 
-#HUOM.010826:ei jouda (vielä) worf() ja wopr() yhdistää koska find voi vähän harata vastaan joissain tapauksissa
 function wopr() {
 	dqb "wpor ) ${1} ; ${2} ; ${3} ; )"
 	local r=$(find ${1} -type f -name "${2}*.deb" )
@@ -636,17 +630,15 @@ function CB01() {
 	#HUOM. common_pp3() - kutsu takaisin jos kutsuvaan koodiin muutoksia kistuksiin liittyen
 
 	worf ${E22_GI} 1 ${2}	
-	#csleep 1
+
 	dqb "iZOMVIE"
 	
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
 	[ -z "${gg}" ] && ${scm} a-wx ${1}/../common_lib.sh #$0 josko näin kuitenkin?
-	#csleep 1
-	#
+
 	common_pp3 ${1} ${2}
 	dqb "common.lib.CB01() DONE"
-	#csleep 1
 }
 
 function message() {
@@ -689,7 +681,6 @@ function CB02() {
 	
 	[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh #tai $0 ?
 	dqb "CB02() D0.N3"
-	#csleep 1
 }
 
 function check_binaries() {
@@ -736,7 +727,6 @@ function check_binaries() {
 		dqb "SCHEISS3"
 	fi
 	
-	csleep 10
 	for x in ${y} ; do ocs ${x} ; done
 	sdi="${odio} ${sd0} -i "
 	E22_GI="libassuan0,libbz2-1.0,libc6,libgcrypt20,libgpg-error0,libreadline8,libsqlite3-0,gpgconf,zlib1g,gpg"
@@ -860,10 +850,6 @@ function check_binaries2() {
 	dqb "b1nar135.2 0k.2" 
 }
 
-#10926:epäselvää mistä ifup/down/resolv kuseminen aiheutui, ehkä voisi kokeilla modaamattomalla kiekolla josqs, modatulla ei yleensä tapahdu
-dqb "#TODO:kts myös export2 , case l" #seur update-pak rakentamisen yhteydessä?
-csleep 5
-
 function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
 	dqb "TLA.testgris : ${CONF_testgris}"
@@ -939,7 +925,6 @@ function dinf() {
 	echo " /sbin/dhclient-script" >> ${1}
 	cat ${1}
 	echo "DINSDALE"
-	#csleep 5
 }
 
 function fasdfasd() {
@@ -947,7 +932,6 @@ function fasdfasd() {
 	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
 	[ -z "${1}" ] && exit 99
 
-	#csleep 1
 	${odio} touch ${1}
 	${sco} $(whoami):$(whoami) ${1}
 	${scm} 0644 ${1}
@@ -956,14 +940,12 @@ function fasdfasd() {
 function reqwreqw() {
 	[ -z "${1}" ] && exit 99
 	[ -f ${1} ] || exit 100
-	#csleep 1
 	${sco} 0:0 ${1}
 	${scm} a-w ${1}
 }
 
 function e_final() {
 	dqb "ALOMST FINAL"
-	#csleep 1
 	[ -v CONF_DIR2 ] || exit 99
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then 
@@ -979,7 +961,6 @@ function e_final() {
 	${scm} 0777 /tmp
 	${sco} root:root /tmp
 	
-	#csleep 1
 	dqb "SALA DE ANALIS CLINICOS ASD ASD 123"
 }
 
@@ -988,7 +969,6 @@ function e_h() {
 	[ -z "${1}" ] && exit 98
 	[ -d ${2} ] || exit 99
 	dqb "pars.ok"
-	#csleep 1
 
 	${sco} root:root /home
 	${scm} 0755 /home
@@ -999,21 +979,16 @@ function e_h() {
 
 	if [ ${c} -gt 0 ] ; then
 		${sco} -R ${1}:${1} ~
-		#csleep 1
 	fi
 
-	#csleep 1
 	${scm} 0755 ${2}
 	dqb "FNID"
-	#csleep 1
 	
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
 	dqb "ETH TAOG FO EHT HTOA)("
-	#csleep 1
 
 	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
-	#csleep 1
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then	#tänään näin
 		if [ -d ${2}${CONF_DIR2} ] ; then
@@ -1025,7 +1000,6 @@ function e_h() {
 	fi
 
 	dqb "EH DONE"
-	#csleep 1
 }
 
 function mangle2() {
@@ -1052,7 +1026,6 @@ function e_e() {
 	${scm} 0444 /etc/network/*
 
 	for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
-	#csleep 10
 
 	local f
 	local c
@@ -1075,8 +1048,7 @@ function e_e() {
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-	#csleep 20
-#
+
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
 
@@ -1091,7 +1063,6 @@ function e_v() {
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
 	dqb "e_V_2 IN 1 SECS"
-	#csleep 1
 
 	${sco} root:root /var
 	${scm} 0755 /var
@@ -1099,8 +1070,6 @@ function e_v() {
 	${sco} root:mail /var/mail
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
-	
-	#csleep 1
 }
 
 function enforce_access() {
@@ -1108,7 +1077,6 @@ function enforce_access() {
 	[ -z "${1}" ] && exit 67
 	[ -z "${2}" ] && exit 68
 	
-	#csleep 1
 	dqb "pars.ok"
 	
 	e_e
@@ -1131,7 +1099,6 @@ function part1_5() {
 	[ -d ${2} ] || exit 68
 
 	dqb "part1_5().pasr.ko"
-	#csleep 1
 	local t
 	t=$(echo ${1} | cut -d "/" -f 1)
 
@@ -1143,8 +1110,6 @@ function part1_5() {
 		local h
 		h=$(${mkt} -d)
 		[ $? -eq 0 ] || exit 97
-
-		#csleep 1
 
 		if [ ! -s /etc/apt/sources.list.tmp ] ; then	
 			dqb "MUST MUTILATE sources.list FOR SEXUAL PURPOSES"
@@ -1168,33 +1133,26 @@ function part1_5() {
 		fi
 
 		dqb "p1.5.2"
-		#csleep 1
 		local tdmc
 
 		tdmc="sed -i 's/DISTRO/${t}/g'"
 		echo "${tdmc} ${h}/sources.list.tmp" | bash -s
-		#csleep 1
 
 		if [ ! -z "${CONF_pkgsrv}" ] ; then
 			tdmc="sed -i 's/REPOSITORY/${CONF_pkgsrv}/g'" #RKK PRKL
 			echo "${tdmc} ${h}/sources.list.tmp" | bash -s
-			#csleep 1
 		fi
 
 		${svm} ${h}/sources.list.tmp /etc/apt/sources.list.${t}
-		#csleep 1
 
 		dqb "finally"
-		#csleep 1
 	fi
 
 	${sco} -R root:root /etc/apt
 	${scm} -R a-w /etc/apt/
 	[ ${debug} -eq 1 ] && ls -las /etc/apt
-	#csleep 1
 
 	dqb "p1.5 done"
-	#csleep 1
 }
 
 #HUOM.170326:JOS VAI N MITENKÄÄN MAHDOLLISTA NIIN EI TABLESIN KANSSA SAISI JÄÄDÄ ACCEPT-TILANTEESEEN
@@ -1204,9 +1162,7 @@ function part1() {
 	[ -z "${2}" ] && exit 67
 	[ -d ${2} ] || exit 68
 
-	#csleep 1
 	dqb "man date;man hwclock; sudo date --set | sudo hwclock --set --date if necessary"
-	#csleep 1
 
 	[ -v ipt ] || dqb "SHOULD exit 96"
 	local c
@@ -1221,7 +1177,6 @@ function part1() {
 
 		if [ ${c} -gt 0 ] ; then #ehtona pikemminkin https: poissaolo?
 			${svm} /etc/apt/sources.list /etc/apt/sources.list.${g}
-			#csleep 1
 		fi
 	fi
 
@@ -1238,7 +1193,6 @@ function part1() {
 	fi
 
 	[ ${debug} -eq 1 ] && cat /etc/apt/sources.list
-	#csleep 1
 
 	${sco} -R root:root /etc/apt
 	${scm} -R a-w /etc/apt/
@@ -1258,7 +1212,7 @@ function part2() {
 	fi
 	
 	dqb "PARS_OK"
-	csleep 5
+	csleep 1
 
 	if [ ${1} -eq 1 ] ; then
 		dqb "pHGHGUYFLIHLYGLUYROI mglwafh..."

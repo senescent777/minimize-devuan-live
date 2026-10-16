@@ -1,9 +1,11 @@
 CONF_env=DEFAULT
+#512 takaisin josqs?
 CONF_algo=sha256
 CONF_hashfile=sha512sums.txt
 #
 CONF_iface=iface
 CONF_enforce="0 or 1"
+CONF_enforce_prefix=qsipasq
 debug=0
 CONF_dnsm=0
 #CONF_dsn="INSERT LIST OF DNS/DOT SERVERS HERE"
@@ -36,7 +38,6 @@ CONF_testgris=/SMTH1NG
 #CONF_ksk=KeY.EFGHI
 #/kyrpto
 #
-
 #
 CONF_dm=xdm
 #

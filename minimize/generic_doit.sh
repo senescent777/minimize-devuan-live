@@ -9,8 +9,6 @@ debug=0 #1
 d=${d0}/${distro} 
 
 #020426:uudelleen_nimeäminen josqs tämän hmiston tdstoille?
-#010826:suattaapi olla että toimi sqroot-ympstössä toivotulla tavalla, ei isompaa härdelliä
-#130926:tällöin kyllä toimi kiukuttelematta kys ympstössä
 
 function parse_opts_1() {
 	if [ -d ${d0}/${1} ] ; then #18926:tekeekö tällä haaralla mitään nykyään?
@@ -42,7 +40,6 @@ else
 fi
 
 [ $? -gt 0 ] && exit 56
-#sleep 1
 
 function dis() {
 	dqb "sid $1 ;; $2 ((((("
@@ -182,7 +179,6 @@ function el_loco() {
 	if [ ${debug} -gt 0 ] ; then
 		env | grep LC
 		env | grep LAN
-		#csleep 5
 	fi
 }
 
@@ -190,15 +186,15 @@ function adieu() {
 #	pidetäänpä nämä jutut kommenteissa sitä varten että sattuukin vitsemaan
 #
 #	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
-#	csleep 5
+
 #	groups #ryhmiin kuulumisen muutokset eivät tapahtune ennen uloskirjautumista?
-#	csleep 5
+
 #	#140126:aiemmin oli scm ennen usermod, lieneekö järjestyksellä merkitystä
 #
 #	${scm} g+rw /dev/tty0
-#	csleep 1
+
 #	ls -las /dev/tty?
-#	csleep 5
+
 #	#väärä tapa pakottaa uudelleen_kirjautuminen?
 
 	${whack} xfce4-session
@@ -212,6 +208,7 @@ process_lib ${d} ${pkgcache}
 
 #==================================PART 1============================================================
 [ -v CONF_enforce ] || exit 99
+[ -v CONF_enforce_prefix ] || exit 101
 
 if [ -s ~/xorg.conf.new ] ; then
 	if [ ! -s /etc/X11/xorg.conf ] ; then
@@ -234,8 +231,12 @@ function pre_enforce() {
 	local f
 	local g
 
-	q=$(${mkt} qsipasq-XXXX)
-	#q=${q}/meshuqqah #satunnainen tauhka tdston_nimenä ei vissiin toinimnut? riippuu tauhkasta, "man 5 sudoers"
+	#VAIH:etuliitteestä Const ja -> conf koska Syyt (conf_enforce_prefix niinqu)
+	#q=$(${mkt} qsipasq-XXXX)
+	[ -v CONF_enforce_prefix ] || exit 99
+	q=$(${mkt} ${CONF_enforce_prefix}-XXXX)
+
+	#satunnainen tauhka (/e/s.d alaisena) tdston_nimenä ... toimivuus riippuu tauhkasta, "man 5 sudoers"
 	csleep 1
 
 	fasdfasd ${q}
@@ -277,7 +278,7 @@ function pre_enforce() {
 
 	# "semmoinen juttu" 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then
-		#tämä osuus /e/s.d/m qsee?
+		#tämä osuus /e/s.d/m qsee? vielä 10/26?
 		for f in $(${odio} find ${CONF_DIR2} -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q} ${g}
 		done
@@ -295,17 +296,17 @@ function pre_enforce() {
 		unset CB_LIST1
 	fi
 
-	q=$(${mkt} qsipasq3-XXXX) #15726:param uutena
+	#q=$(${mkt} qsipasq3-XXXX)
+	q=$(${mkt} ${CONF_enforce_prefix}3-XXXX)
+
 	fasdfasd ${q}
 	dinf ${q}
 	reqwreqw ${q}
 	${scm} 0440 ${q}
 	${svm} ${q} /etc/sudoers.d
-	#csleep 1
 
 	dqb "semtex"
 	local c4=0
-	#csleep 1
 
 	if [ -v CONF_dir ] ; then
 		c4=$(grep ${CONF_dir} /etc/fstab | wc -l)
@@ -313,11 +314,8 @@ function pre_enforce() {
 		exit 99
 	fi
 
-	#csleep 1
-
 	if [ ${c4} -lt 1 ] ; then #tämä blokki vs setup2.bash vastaava kohta...
 		fasdfasd /etc/fstab
-		#csleep 1
 
 		${odio} echo "/dev/disk/by-uuid/${CONF_part0} ${CONF_dir} auto nosuid,noexec,noauto,user 0 2" >> /etc/fstab
 		csleep 1
@@ -335,19 +333,17 @@ function pre_enforce() {
 
 if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
-	#csleep 2
 else 
 	pre_enforce ${d0}
 fi
 
 if [ "${CONF_env}" != "DEFAULT" ] ; then
 	dqb "BYPASSING enforce_access()"
-	#csleep 2
 else 
 	enforce_access $(whoami) ${d0}
 fi
 
-#190926:miksi ytarvfitsikaan 2 påaram?
+#190926:miksi ytarvfitsikaan 2 påaram? kts part1_5
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
 
@@ -373,8 +369,6 @@ if [ ${mode} -gt 1 ] ; then
 	fi
 fi
 
-#10926:vissiin locon kanssa asiat kunnossa
-#csleep 3
 el_loco ${c14} ${c13}
 #=========================================================================================
 
@@ -428,7 +422,6 @@ if [ "${CONF_env}" == "DEFAULT" ] ; then
 
 	${d0}/import2.sh r ${d0} -v
 	echo $?
-	#csleep 3
 fi
 
 dqb "PR0F IMPORT DONE?"
@@ -448,11 +441,9 @@ else
 	echo "NOTHING LEFT TO MUTILATE"
 fi
 
-#sleep 5
 #ifup nykyään muuttelee tables-sääntöjä yhdellä jekulla joten ei erikseen tte käskyttää...
 
 ${sipt} -L
-#csleep 1
 ${scm} 0555 ${d0}/common_lib.sh
 ${scm} a-wx $0
 
