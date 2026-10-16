@@ -28,7 +28,7 @@ function guess_conf() {
 		else
 			[ -v b ] || b="/"
 			local a=$(${odio} find ${b} -type f -name "$(whoami).conf" | head -n 1)		
-			#130926:mitenkähän mahtaa toimia tämä haara sqrot-ympäristössä? let's find out
+			#130926:mitenkähän mahtaa toimia tämä haara sqrot-ympäristössä? let's fnid out
 
 			if [ ! -z "${a}" ] ; then
 				if [ -s ${a} ] ; then
@@ -1347,25 +1347,21 @@ function part3() {
 
 		common_lib_tool ${t} reject_pkgs
 		dqb "B3T4"
-		#exit 66 #tässä mitään tietebkään tapahdu koska 111026 tienoilla rejectin sisältö kommentoitu jemmaann
-
+		
 		#tässä kohtaa edelleen urputusta?
 		efk1 ${t}/gcc-12-base*.deb ${t}/libgcc-s1*.deb ${t}/libc6*.deb
 		dqb "LAcKK.a"
 
 		worf ${E22_GS} 1 ${t}	
 		dqb "önEGA-VGA RA"
-		#exit 66 #ei tässäkään?
 
-		#tässä kohtaa jokin johtaa äksän poistoon?
+		#tässä kohtaa jokin johti äksän poistoon (toiv ei enää)
 		common_lib_tool ${t} accept_pkgs_1
 		#exit 66
 
 		common_lib_tool ${t} accept_pkgs_2
-		#exit 66
 	#fi
 
-	#qseeko ennen vai jälkeen "accept-juttujen"?
 	echo "g4RP D0NE"
 	ls -las ${1}/*.tar
 

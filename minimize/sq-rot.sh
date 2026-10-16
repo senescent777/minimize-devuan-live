@@ -167,6 +167,7 @@ if [ $# -gt 0 ] ; then
 fi
 
 #gpg, sq-root ja e.tar, lienee jo kunnossa?
+#161026:$0 0 aiheutti find-nalkutusta, toistuuko? pebkac?
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
@@ -180,13 +181,14 @@ function pre() {
 	echo "p: ${p}"
 	sleep 1
 
+	#JUOPM.dgsts.y sisältöä vastaavat tdstot olisi hyvä kamnssa löytyä
 	if [ ! -z "${sah6}" ] ; then
-		q=$(find . -name "dgsts.?" )
-		cd ..
+		q=$(find ${p} -name "dgsts.?" )
+		cd /
 
 		for r in ${q} ; do
-			dqb " -c ./${p}/${r}"
-			${sah6} -c ./${p}/${r} --ignore-missing
+			dqb " -c ./${r}"
+			${sah6} -c ./${r} --ignore-missing
 		done
 
 		cd ${p}
@@ -440,7 +442,7 @@ case "${mode}" in
 
 		[ -d ${srcfile} ] || exit 22
 		dqb "KLM"
-		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd find out?)
+		#avaInten allekirjoittamiseen oli muuten omakin optio (gpg --edit-key ? letd fNId out?)
 
 		if [ -v gg ] ; then
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
