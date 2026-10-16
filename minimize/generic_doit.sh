@@ -208,6 +208,7 @@ process_lib ${d} ${pkgcache}
 
 #==================================PART 1============================================================
 [ -v CONF_enforce ] || exit 99
+[ -v CONF_enforce_prefix ] || exit 101
 
 if [ -s ~/xorg.conf.new ] ; then
 	if [ ! -s /etc/X11/xorg.conf ] ; then
