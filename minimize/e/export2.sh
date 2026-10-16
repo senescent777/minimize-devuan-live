@@ -101,8 +101,8 @@ if [ -z "${mkt}" ] ; then
 	exit 8
 fi
 
-echo "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
-sleep 1
+dqb "JUST BEFORE INCLUDING FLIES 1nt0 50UP"
+csleep 1
 
 if [ -x ${d0}/e/e22.sh ] ; then
 	.  ${d0}/e/e22.sh
@@ -148,7 +148,8 @@ case "${mode}" in
 	;;
 	3|4) 
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2) (tai 1take olisi kanssa)
-		#VAIH:nelosne kanssna uusi testi 10/26 aikana
+		#DONE?:nelosne kanssna uusi testi 10/26 aikana
+		#TODO:VIELÄ KERTRAN NÖLOSEN TESTI KOSKAPA e22_acol() PLUS CONF_enforce
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		e22_z1 ${CONF_hashfile3}

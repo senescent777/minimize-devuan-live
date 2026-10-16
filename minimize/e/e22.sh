@@ -400,7 +400,9 @@ function e22_acol() {
 	if  [ ${ef} -eq 1 ] ; then
 		dqb "SMTHING"
 	else
-		${srat} -rf ${1} /etc/sudoers.d/meshuqqah /etc/fstab
+		#VAIH:tämä kohta uusiksi ASAP koska g_doit muutokset 06/26!!!
+		#TODO:Const , conf_enforce_prefix, koska Syyt
+		${srat} -rf ${1} /etc/sudoers.d/qsipasq* /etc/fstab
 	fi
 
 	dqb "DONeW EITH THE CALOYTES:MAGNET0"
