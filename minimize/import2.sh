@@ -373,7 +373,9 @@ case "${mode}" in
 		[ -x ${fox} ] || exit 27
 		[ -s ~/${CONF_default_arhcive2} ] || exit 29
 
+		#TODO: exclude "chromium*" mukaan, voi syödä levytilaa moinen
 		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
+
 		tpr ${srcfile} ${CONF_default_arhcive} ${CONF_default_arhcive3}
 
 		dqb "XP R"

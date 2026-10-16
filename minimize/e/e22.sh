@@ -210,23 +210,29 @@ function e22_cleanpkgs() {
 csleep 1
 
 function e22_config1() {
-	dqb "e22_config1()"
+	dqb "e22_config1( ${1} ( £{2})"
+	csleep 2
 
 	[ -z "${1}" ] && exit 11
 	[ -d ${1} ] || exit 22
 	[ -z "${2}" ] && exit 11
 
 	dqb "pars.ok"
-	csleep 1
+	csleep 2
 
 	local p=$(pwd)
 	cd ${1}
 
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
-	${sr0} -jcf ${2} ./xorg.conf* ./.config
-	[ -s ${2} ] || exit 99
-	
+
+	#miten se $rat ja -v , saisiko toimimaan josqs?
+	${sr0} --exclude "chromium*" -jcvf ${2} ./xorg.conf* ./.config
+	csleep 6
+
+	[ -s ${2} ] || exit 99	
 	cd ${p}
+	dqb "e22_config1()"
+	csleep 5
 }
 
 #120426:vissiin menee kohteeseen fedi ja profs (mutta meneekö 1. mainittu myös juureen?)
@@ -272,6 +278,7 @@ function e22_home_pre() {
 	dqb "paks_ok"
 	csleep 1
 
+	#kolmonen==conf_enforce jotebn...
 	if [ ${3} -eq 1 ] && [ -d ${2} ] ; then
 		e22_config1 ~ ${4}
 		${NKVD} ~/${5}		
@@ -279,6 +286,7 @@ function e22_home_pre() {
 	fi
 
 	e_final
+	#161026:turha exclude jo?
 	${srat} --exclude "changedns*" -rvf ${1} ${CONF_DIR2}
 	#2 alinta silmukkaa pystyisi yhdistämään, seur testikeirr jo? (DONE)
 
