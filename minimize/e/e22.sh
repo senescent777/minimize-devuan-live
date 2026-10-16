@@ -401,8 +401,12 @@ function e22_acol() {
 		dqb "SMTHING"
 	else
 		#VAIH:tämä kohta uusiksi ASAP koska g_doit muutokset 06/26!!!
-		#TODO:Const , conf_enforce_prefix, koska Syyt
-		${srat} -rf ${1} /etc/sudoers.d/qsipasq* /etc/fstab
+		#VAIH:Const , conf_enforce_prefix, koska Syyt
+		[ -v CONF_enforce ] || exit 99
+		[ -v CONF_enforce_prefix ] || exit 101
+
+		#${srat} -rf ${1} /etc/sudoers.d/qsipasq* /etc/fstab
+		${srat} -rf ${1} /etc/fstab /etc/sudoers.d/${CONF_enforce_prefix}*
 	fi
 
 	dqb "DONeW EITH THE CALOYTES:MAGNET0"
