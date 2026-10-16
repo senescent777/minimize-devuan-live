@@ -464,7 +464,7 @@ function efk1() {
 #		dqb "WE NEED T0 TALK ABT ${1}"
 #	fi
 #
-#	csleep 1
+
 #	dqb "eqp oned"
 #} #KKUUTTA PRKL
 
@@ -630,17 +630,15 @@ function CB01() {
 	#HUOM. common_pp3() - kutsu takaisin jos kutsuvaan koodiin muutoksia kistuksiin liittyen
 
 	worf ${E22_GI} 1 ${2}	
-	#csleep 1
+
 	dqb "iZOMVIE"
 	
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
 	[ -z "${gg}" ] && ${scm} a-wx ${1}/../common_lib.sh #$0 josko näin kuitenkin?
-	#csleep 1
-	#
+
 	common_pp3 ${1} ${2}
 	dqb "common.lib.CB01() DONE"
-	#csleep 1
 }
 
 function message() {
@@ -683,7 +681,6 @@ function CB02() {
 	
 	[ -z "${ipt}" ] && ${scm} a-wx $(pwd)/common_lib.sh #tai $0 ?
 	dqb "CB02() D0.N3"
-	#csleep 1
 }
 
 function check_binaries() {
@@ -928,7 +925,6 @@ function dinf() {
 	echo " /sbin/dhclient-script" >> ${1}
 	cat ${1}
 	echo "DINSDALE"
-	#csleep 5
 }
 
 function fasdfasd() {
@@ -936,7 +932,6 @@ function fasdfasd() {
 	#HUOM.ei-olemassaoleva tdstonnimi sallittava parametriksi
 	[ -z "${1}" ] && exit 99
 
-	#csleep 1
 	${odio} touch ${1}
 	${sco} $(whoami):$(whoami) ${1}
 	${scm} 0644 ${1}
@@ -945,14 +940,12 @@ function fasdfasd() {
 function reqwreqw() {
 	[ -z "${1}" ] && exit 99
 	[ -f ${1} ] || exit 100
-	#csleep 1
 	${sco} 0:0 ${1}
 	${scm} a-w ${1}
 }
 
 function e_final() {
 	dqb "ALOMST FINAL"
-	#csleep 1
 	[ -v CONF_DIR2 ] || exit 99
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then 
@@ -968,7 +961,6 @@ function e_final() {
 	${scm} 0777 /tmp
 	${sco} root:root /tmp
 	
-	#csleep 1
 	dqb "SALA DE ANALIS CLINICOS ASD ASD 123"
 }
 
@@ -977,7 +969,6 @@ function e_h() {
 	[ -z "${1}" ] && exit 98
 	[ -d ${2} ] || exit 99
 	dqb "pars.ok"
-	#csleep 1
 
 	${sco} root:root /home
 	${scm} 0755 /home
@@ -988,21 +979,16 @@ function e_h() {
 
 	if [ ${c} -gt 0 ] ; then
 		${sco} -R ${1}:${1} ~
-		#csleep 1
 	fi
 
-	#csleep 1
 	${scm} 0755 ${2}
 	dqb "FNID"
-	#csleep 1
 	
 	for f in $(find ${2} -type d) ; do ${scm} 0755 ${f} ; done
 	for f in $(find ${2} -type f) ; do ${scm} 0444 ${f} ; done
 	dqb "ETH TAOG FO EHT HTOA)("
-	#csleep 1
 
 	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
-	#csleep 1
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then	#tänään näin
 		if [ -d ${2}${CONF_DIR2} ] ; then
@@ -1014,7 +1000,6 @@ function e_h() {
 	fi
 
 	dqb "EH DONE"
-	#csleep 1
 }
 
 function mangle2() {
@@ -1041,7 +1026,6 @@ function e_e() {
 	${scm} 0444 /etc/network/*
 
 	for f in $(find /etc/network -type d ) ; do ${scm} 0555 ${f} ; done
-	#csleep 10
 
 	local f
 	local c
@@ -1064,8 +1048,7 @@ function e_e() {
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las /etc/resolv.*
-	#csleep 20
-#
+
 	${sco} -R root:root /etc/wpa_supplicant
 	${scm} -R a-w /etc/wpa_supplicant
 
@@ -1080,7 +1063,6 @@ function e_v() {
 	${sco} -R root:root /sbin
 	${scm} -R 0755 /sbin
 	dqb "e_V_2 IN 1 SECS"
-	#csleep 1
 
 	${sco} root:root /var
 	${scm} 0755 /var
@@ -1088,8 +1070,6 @@ function e_v() {
 	${sco} root:mail /var/mail
 	${sco} -R man:man /var/cache/man
 	${scm} -R 0755 /var/cache/man
-	
-	#csleep 1
 }
 
 function enforce_access() {
@@ -1097,7 +1077,6 @@ function enforce_access() {
 	[ -z "${1}" ] && exit 67
 	[ -z "${2}" ] && exit 68
 	
-	#csleep 1
 	dqb "pars.ok"
 	
 	e_e

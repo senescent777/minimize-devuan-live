@@ -61,7 +61,6 @@ else
 	
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
-		#sleep 2
 		. ${d0}/$(whoami).conf
 	else
 		if [ -d ${d} ] && [ -s ${d}/conf ] ; then
@@ -147,7 +146,6 @@ if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 else
 	echo $?
 	echo "N 0 L1.B"
-	#csleep 1
 fi
 
 check_binaries ${d}
@@ -168,7 +166,7 @@ if [ $# -gt 0 ] ; then
 	fi
 fi
 
-#gpg, sq-root ja e.tar, lienee jo kunnossa=
+#gpg, sq-root ja e.tar, lienee jo kunnossa?
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 function pre() {
@@ -188,9 +186,7 @@ function pre() {
 
 		for r in ${q} ; do
 			dqb " -c ./${p}/${r}"
-			#csleep 1
 			${sah6} -c ./${p}/${r} --ignore-missing
-			#sleep 1
 		done
 
 		cd ${p}
@@ -207,15 +203,13 @@ function pre() {
 			${gg} --verify ${r}
 			#[ $? -eq 0 ] || exit 66 ei vielä?
 		done
-
-		#sleep 1
 	fi
 
 	unset q
 	unset r
 	echo "C"
 
-#TODO:jotain tarttis tehrä tässä vähitellen
+#TODO:jotain tarttis tehrä tässä vähitellen , jatkossa korkeintaan g.tar vastaavan purkaisi tässä?
 #	#nekros2 kanssa joitain muutoksia vbaiko ei?
 #	#tar --exclude import2.sh -jxvf nekros1
 #	#rm nekros1
@@ -257,7 +251,8 @@ else
 	exit 65
 fi
 
-#VAIH:koita keksiäö jotain sen varalta ettö kjä tunaroi hmistomn tedton sikaan parametriksi ao. fktiolle asti
+#DONE:koita keksiä jotain sen varalta ettö kjä tunaroi hmistomn tedton sikaan parametriksi ao. fktiolle asti
+#... kys tap exit ja pulinat pois
 function common_part() {
 	echo "rot.common_part ))))) ${1} , ${2} , ${3} ))))))"
 
@@ -297,7 +292,6 @@ function common_part() {
 					r=$?
 
 					#[ -f ${1}.sha.sig.1 ] && ${gg} --verify ${1}.sha.sig.1 mikäö idea tässä?
-					#csleep 1
 				fi
 			fi
 
@@ -397,16 +391,16 @@ case "${mode}" in
 		[ $? -eq 0 ] && doIt=1
 	;;
 	0)
-		#l-pakettia masentaessa se libvdpau vielä
 		#bissiin uskaltaa dev-env kanssa tämän jo ajaa?
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 
-		#VAIH:hisput wttuun vai ei?
-		#TODO:mitä jos ei löydy .tar ?
+		#DONE?:hisput wttuun vai ei?
+		#TODO:mitä jos ei löydy .tar ? common_part() tulisi keskeyttää
 		f=$(tar -tf ${srcfile} | grep .tar | head -n 1)
 
 		f=$(dirname ${f})
+		[ $? -eq 0 ] || exit $?
 		echo "bfore sqr.comm_p: $?"
 
 		common_part ${srcfile} ${d} ${e}
@@ -442,10 +436,9 @@ case "${mode}" in
 	;;
 	k)
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET KISTAA
-
 		[ "${CONF_env}" == "TOOR" ] && pre ${d0}
 
-		#VAIH:tuotaville avaimille jotain k? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
+		#VAIH:tuotaville avaimille jotain trq? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
 		#... valmiiksi josqs?
 
 		[ -d ${srcfile} ] || exit 22
@@ -455,7 +448,6 @@ case "${mode}" in
 		if [ -v gg ] ; then
 			if [ ! -z "${gg}" ] && [ -x ${gg} ] ; then
 				dqb "NOP"
-				#csleep 1
 
 				#for f in $(fnid $srcfile -type f -name "*.sig" ) ; do
 				#	g=$(echo $f | cut -d . -f 1,2)
@@ -465,13 +457,8 @@ case "${mode}" in
 				#done
 
 				dqb "${gg} --import ${srcfile}/*.gpg soon"
-				#csleep 1
-
 				${gg} --import ${srcfile}/*.gpg
-				#csleep 1
-
 				[ ${debug} -eq 1 ] && ${gg} --list-keys
-				#csleep 2
 			fi
 		else
 			dqb "NO-GO-THEOREM"
@@ -488,7 +475,7 @@ case "${mode}" in
 esac
 
 dqb "atfr.esac"
-#TODO:lähteen poisto, saisiko takaisin toimimaan josqs?
+#TODO:lähteen poisto, saisiko takaisin toimimaan josqs? 
 
 if [ ${doIt} -eq 1 ] ; then
 	if [ -s ${srcfile} ] && [ -f ${srcfile} ] ; then
@@ -496,7 +483,6 @@ if [ ${doIt} -eq 1 ] ; then
 
 		if [ "${confirm}" == "Y" ] ; then
 			dqb "WILL SOON ${NKVD} ${srcfile}"
-			#csleep 10
 			${NKVD} ${srcfile} #destroy?
 			dqb $?
 		fi

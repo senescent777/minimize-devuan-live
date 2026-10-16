@@ -63,8 +63,10 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	. ${d0}/common_lib.sh
 else
 	#130526:else-haara peellinen joissain tilanteissa, ei poisteta
-	#TODO:viimeaikaisten sorkintojen takia tämä haara tulisi testata (09/26:r vai q lähinnä?)
-
+	echo "#VAIH:viimeaikaisten sorkintojen takia tämä haara tulisi testata (09/26:r vai ?)"
+	#151026:onnistuu firefoxin käskyttäminen mutta jäi junnaamaan profile manageriin
+	#vielä jokin testi vaiko ei?
+	
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
 		sleep 2
@@ -262,6 +264,7 @@ function tpr() {
 	[ -r ${1}/${2} ] || exit 14
 
 	[ -f ${1}/${3} ] || exit 15
+	#entä -r ?
 	[ -s ${1}/${3} ] || exit 16
 
 	if [ ! -x ${1}/${3} ] ; then
@@ -284,7 +287,6 @@ function tpr() {
 	[ ${r} -gt 0 ] || exit 21
 	csleep 1
 
-	#18926:jokojo toimisi?
 	dqb "JUST BEFORE ${srat} -C ${q} -xvf ${1}/${2} ${TARGET_TPX}"
 	${srat} -C ${q} -xvf ${1}/${2} ${TARGET_TPX}
 	[ $? -gt 0 ] && exit 22
@@ -295,11 +297,13 @@ function tpr() {
 	csleep 2
 }
 
-#TODO:testaapa pitkästä aikaa caset
+#DONE?:testaapa pitkästä aikaa caset
 case "${mode}" in
 	-1) 
+		#151026:tässä saattaa olla jokin juttu miksi ei ilman -v ... sleep? No Ei
+		# vivun -v kanssa teki mitä pitääkin
 		dqb "DIPOLIN KÄPY"
-		csleep 3
+		sleep 3
 
 		part=/dev/disk/by-uuid/${CONF_part0}
 		[ -b ${part} ] || dqb "no such thing as ${part}"
@@ -316,11 +320,13 @@ case "${mode}" in
 		#remember:to_umount olisi hyvä muistuttaa kuitenkin
 	;;
 	2)
+		#151026:vivun -v kanssa teki mitä pitikin
 		${uom} ${CONF_dir}
 		csleep 1
 		${som} | grep ${CONF_dir}
 	;;
 	-h)
+		#151026:toimii, tosin voisi sanoa "$0 -h" jos ilman param qtsuu
 		usage
 		exit
 	;;

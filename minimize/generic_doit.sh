@@ -207,7 +207,7 @@ part0 ${distro} ${CONF_iface}
 process_lib ${d} ${pkgcache}
 
 #==================================PART 1============================================================
-[ -v CONF_enforce ] || exit 99
+[ -vpre_enforCONF_enforce ] || exit 99
 
 if [ -s ~/xorg.conf.new ] ; then
 	if [ ! -s /etc/X11/xorg.conf ] ; then
@@ -230,8 +230,9 @@ function pre_enforce() {
 	local f
 	local g
 
+	#TODO:etuliitteestä Const ja -> conf koska Syyt (conf_enforce_prefix niinqu)
 	q=$(${mkt} qsipasq-XXXX)
-	#satunnainen tauhka tdston_nimenä ... toimivuus riippuu tauhkasta, "man 5 sudoers"
+	#satunnainen tauhka (/e/s.d alaisena) tdston_nimenä ... toimivuus riippuu tauhkasta, "man 5 sudoers"
 	csleep 1
 
 	fasdfasd ${q}
