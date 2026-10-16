@@ -280,7 +280,7 @@ function e22_home_pre() {
 
 	e_final
 	${srat} --exclude "changedns*" -rvf ${1} ${CONF_DIR2}
-	#2 alinta silmukkaa pystyisi yhdistämään, seur testikeirr jo? (VAIH)
+	#2 alinta silmukkaa pystyisi yhdistämään, seur testikeirr jo? (DONE)
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
@@ -315,8 +315,10 @@ function e22_home() {
 	csleep 1
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-	#TODO:seur testikierr tuo olds karsinta varmisztaen
+
+	#VAIH:seur testikierr tuo olds karsinta varmisztaen
 	${srat} --exclude "*.deb" --exclude "*.conf" --exclude olds -rvf ${1} /home/stubby ${t}
+
 	#180796: ${TARGET_TPX} käyttöön tähän? tartteeko?
 	csleep 1
 
@@ -339,8 +341,8 @@ function luca() {
 #(meneekö rules.* kohteeseen useamman kerran? ehkä)
 
 function e22_acol() {
-	dqb "e22_acol()"
-	csleep 1
+	dqb "e22_acol(( ${1} (( ${2} ( ${3} ( ${4} )"
+	csleep 2
 
 	[ -z "${1}" ] && exit 1
 	[ -s ${1} ] || exit 4 
@@ -396,20 +398,29 @@ function e22_acol() {
 	fi
 
 	ef=$(echo ${4} | tr -d -c 0-9)
+	[ -v CONF_enforce ] || exit 99
+	[ -v CONF_enforce_prefix ] || exit 101
 
 	if  [ ${ef} -eq 1 ] ; then
 		dqb "SMTHING"
 	else
 		#VAIH:tämä kohta uusiksi ASAP koska g_doit muutokset 06/26!!!
 		#VAIH:Const , conf_enforce_prefix, koska Syyt
-		[ -v CONF_enforce ] || exit 99
-		[ -v CONF_enforce_prefix ] || exit 101
-
 		#${srat} -rf ${1} /etc/sudoers.d/qsipasq* /etc/fstab
-		${srat} -rf ${1} /etc/fstab /etc/sudoers.d/${CONF_enforce_prefix}*
+
+		${scm} -R a+r /etc/sudoers.d
+		csleep 5
+
+		${srat} -rvf ${1} /etc/fstab /etc/sudoers.d/${CONF_enforce_prefix}*
+		csleep 5
+
+		${scm} 0440 /etc/sudoers.d/*
+		${scm} 0750 /etc/sudoers.d
+		${odio} ls -las /etc/sudoers.d
+		csleep 5		
 	fi
 
-	dqb "DONeW EITH THE CALOYTES:MAGNET0"
+	dqb "DONeW EITH THE CALOYTES:MAngET0"
 	csleep 1
 }
 
@@ -452,7 +463,7 @@ function e22_ext() {
 	[ ${debug} -eq 1 ] && pwd
 	cd ${q}
 
-	#VAIH:vähitellen se merd siirto ao. repoomn (seur sitten mv)
+	#DONE?:vähitellen se merd siirto ao. repoomn (seur sitten mv)
 	${tig} clone https://${CONF_BASEURL}/more_scripts.git
 	[ $? -eq 0 ] || exit 66
 
@@ -502,6 +513,7 @@ function e22_ext() {
 	${scm} -R a-w ./etc
 	${sco} -R root:root ./sbin 
 	${scm} -R a-w ./sbin
+
 	${srat} -rvf ${1} ./etc ./sbin
 	echo $?
 	local f

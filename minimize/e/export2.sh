@@ -149,7 +149,7 @@ case "${mode}" in
 	3|4) 
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2) (tai 1take olisi kanssa)
 		#DONE?:nelosne kanssna uusi testi 10/26 aikana
-		#TODO:VIELÄ KERTRAN NÖLOSEN TESTI KOSKAPA e22_acol() PLUS CONF_enforce
+		#VAIH:VIELÄ KERTRAN NÖLOSEN TESTI KOSKAPA e22_acol() PLUS CONF_enforce
 
 		[ -v CONF_default_arhcive3 ] || exit 66
 		e22_z1 ${CONF_hashfile3}
