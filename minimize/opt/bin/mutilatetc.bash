@@ -1,6 +1,8 @@
 #!/bin/bash
-
+#exit 99
 CONF_algo=sha256
+
+#ao. komennoista järkevä kokonaisuus , olisiko jo 06/26 loppuun mennessä?
 debug=1
 odio="/usr/bin/sudo"
 smr=$(${odio} which rm)
@@ -12,10 +14,6 @@ slinky="${odio} ${slinky} -s "
 ipt=$(${odio} which iptables)
 ip6t=$(${odio} which ip6tables)
 gg=$(${odio} which gpg)
-
-#kts myös setup2.bash dalek-jutut
-CONF_hashfile3=/opt/bin/zxcv #VAIH:myös /o/b alaisiin käyttöön (vielä 1 juttu liittyen)
-CONF_DIR2=/opt/bin
 
 case "${CONF_algo}" in
 	sha256)
@@ -60,22 +58,22 @@ function gf() {
 	[ ${c2} -gt 0 ] && exit 105
 }
 
-gf ${CONF_hashfile3}
+gf /opt/bin/zxcv
 #chattrin kanssa käviSi ktevämmin, lisäksi pitäisi reagoida jyrkemmin?
-c3=$(find ${CONF_DIR2} -name "zxcv*" -type f -perm /o+w,g+w,u+w | wc -l)
+c3=$(find /opt -name "zxcv*" -type f -perm /o+w,g+w,u+w | wc -l)
 [ ${c3} -gt 0 ] && exit 105
-c3=$(find ${CONF_DIR2} -name "zxcv*" -type f -perm /o+r,g+r | wc -l)
+c3=$(find /opt -name "zxcv*" -type f -perm /o+r,g+r | wc -l)
 [ ${c3} -gt 0 ] && exit 106
 
 #vähän kiikun kaakun onko fiksua sudottaa noita ao. komentoja , gg tilapäisesti jemmaan 280326
 #if [ ! -z "${gg}" ] ; then
 #	if [ -x ${gg} ] ; then
-#		${odio} ${gg} --verify ${CONF_hashfile3}.sig
+#		${odio} ${gg} --verify /opt/bin/zxcv.sig
 #		[ $? -eq 0 ] || exit 107
 #	fi
 #fi
 #
-${odio} ${sah6} --ignore-missing -c ${CONF_hashfile3}
+${odio} ${sah6} --ignore-missing -c /opt/bin/zxcv
 [ $? -eq 0 ] || exit 108
 
 function gh() {
