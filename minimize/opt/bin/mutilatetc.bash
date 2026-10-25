@@ -1,8 +1,10 @@
 #!/bin/bash
-#exit 99
+CONF_hashfile3=/opt/bin/zxcv
+CONF_DIR2=/opt/bin
 CONF_algo=sha256
 
-#ao. komennoista järkevä kokonaisuus , olisiko jo 06/26 loppuun mennessä?
+#TODO:muista myös dalek.s, siinä oli juttuja
+
 debug=1
 odio="/usr/bin/sudo"
 smr=$(${odio} which rm)
@@ -58,22 +60,22 @@ function gf() {
 	[ ${c2} -gt 0 ] && exit 105
 }
 
-gf /opt/bin/zxcv
+gf ${CONF_hashfile3}
 #chattrin kanssa käviSi ktevämmin, lisäksi pitäisi reagoida jyrkemmin?
-c3=$(find /opt -name "zxcv*" -type f -perm /o+w,g+w,u+w | wc -l)
+c3=$(find ${CONF_dir2} -name "zxcv*" -type f -perm /o+w,g+w,u+w | wc -l)
 [ ${c3} -gt 0 ] && exit 105
-c3=$(find /opt -name "zxcv*" -type f -perm /o+r,g+r | wc -l)
+c3=$(find  ${CONF_dir2} -name "zxcv*" -type f -perm /o+r,g+r | wc -l)
 [ ${c3} -gt 0 ] && exit 106
 
 #vähän kiikun kaakun onko fiksua sudottaa noita ao. komentoja , gg tilapäisesti jemmaan 280326
 #if [ ! -z "${gg}" ] ; then
 #	if [ -x ${gg} ] ; then
-#		${odio} ${gg} --verify /opt/bin/zxcv.sig
+#		${odio} ${gg} --verify ${CONF_hashfile3}.sig
 #		[ $? -eq 0 ] || exit 107
 #	fi
 #fi
 #
-${odio} ${sah6} --ignore-missing -c /opt/bin/zxcv
+${odio} ${sah6} --ignore-missing -c ${CONF_hashfile3}
 [ $? -eq 0 ] || exit 108
 
 function gh() {

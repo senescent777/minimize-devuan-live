@@ -1,7 +1,10 @@
 #!/bin/bash
 debug=1
+CONF_hashfile3=/opt/bin/zxcv
+CONF_DIR2=/opt/bin
+CONF_algo=sha256
 
-if [ -v CONF_env ] && [ "${CONF_env}" == "TOOR" ] ; then #nyt näin
+if [ -v CONF_env ] && [ "${CONF_env}" == "TOOR" ] ; then #jotain tarttis ensin...
         odio=""
 else
         odio=$(which sudo)

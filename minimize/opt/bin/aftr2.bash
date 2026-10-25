@@ -1,6 +1,7 @@
 debug=1
-#esit pois josqs, nyt näin
-exit 99
+CONF_hashfile3=/opt/bin/zxcv
+CONF_DIR2=/opt/bin
+#jotain ntp-kokeiluja vaiko ei?
 
 #================================
 #ntp-kikkailut erilliseen skriptiin?
