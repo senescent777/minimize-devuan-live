@@ -111,7 +111,7 @@ fi
 
 case "${mode}" in
 	rp)
-		#TODO:näille main muutoksia? esim mitä?
+		#TODO?:näille main muutoksia? esim mitä?
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 

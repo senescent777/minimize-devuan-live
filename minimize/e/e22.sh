@@ -222,7 +222,6 @@ function e22_config1() {
 
 	local p=$(pwd)
 	cd ${1}
-
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
 
 	#miten se $rat ja -v , saisiko toimimaan josqs?
@@ -263,9 +262,6 @@ function e22_settings() {
 	[ ${t} -lt 1 ] && exit 27
 }
 
-#kekekekeksisisisikö jonkin varmistuksen että profiili kanssa menee tariin?
-#...e22_settings() kyllä tekee yhden tarkistuksen
-
 function e22_home_pre() {
 	dqb "home_pre()"
 	[ -z "${1}" ] && exit 67
@@ -288,7 +284,6 @@ function e22_home_pre() {
 	e_final
 	#161026:turha exclude jo?
 	${srat} --exclude "changedns*" -rvf ${1} ${CONF_DIR2}
-	#2 alinta silmukkaa pystyisi yhdistämään, seur testikeirr jo? (DONE)
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do
 		${srat} -rvf ${1} ${t}
@@ -323,8 +318,6 @@ function e22_home() {
 	csleep 1
 
 	t=$(echo ${2} | tr -d -c 0-9a-zA-Z/ | cut -d / -f 1-5)
-
-	#DONE?:seur testikierr tuo olds karsinta varmisztaen
 	${srat} --exclude "*.deb" --exclude "*.conf" --exclude olds -rvf ${1} /home/stubby ${t}
 
 	#180796: ${TARGET_TPX} käyttöön tähän? tartteeko?
@@ -412,10 +405,6 @@ function e22_acol() {
 	if  [ ${ef} -eq 1 ] ; then
 		dqb "SMTHING"
 	else
-		#DONE?:tämä kohta uusiksi ASAP koska g_doit muutokset 06/26!!!
-		#DONE?:Const , conf_enforce_prefix, koska Syyt
-		#${srat} -rf ${1} /etc/sudoers.d/qsipasq* /etc/fstab
-
 		${scm} -R a+r /etc/sudoers.d
 		csleep 5
 
@@ -424,6 +413,7 @@ function e22_acol() {
 
 		${scm} 0440 /etc/sudoers.d/*
 		${scm} 0750 /etc/sudoers.d
+		#entä $sco?
 		${odio} ls -las /etc/sudoers.d
 		csleep 5		
 	fi
@@ -471,14 +461,13 @@ function e22_ext() {
 	[ ${debug} -eq 1 ] && pwd
 	cd ${q}
 
-	#DONE?:vähitellen se merd siirto ao. repoomn (seur sitten mv)
 	${tig} clone https://${CONF_BASEURL}/more_scripts.git
 	[ $? -eq 0 ] || exit 66
 
 	cd more_scripts/misc
 	echo $?
 
-	#findin kautta jatkossa
+	#findin kautta jatkossa (kts home_pre())
 	${svm} ~/Desktop/merd2.sh ~/Desktop/merd2.sh.ÅLD
 	${spc} merd2.sh ~/Desktop
 	csleep 2
@@ -558,7 +547,7 @@ function cg_udp6() {
 	dqb "D0NE"
 	csleep 1
 
-	#VAIH:selvitä jotenkin, kuseeko tämä asioita?	ei kai enää 09/26? pl ehkä u-paketin muodfostuksessa?
+	#ten1 pois?
 	#ten1 ${CONF_iface} ${1}
 
 	dqb " GENERIC REPLACEMENT FOR daud.lib.UPDP-6  DONE FOR NOW"
@@ -635,7 +624,7 @@ function e22_arch() {
 	csleep 1
 	dqb "${CONF_hashfile}.1"
 
-	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do #oliko olds kanssa jotain vei ai?
+	for f in $(find . -type f -name "*pkgs*" | grep -v olds) ; do
 		if [ ${3} -eq 1 ]; then
 			dqb "SOON: ${srat} -rvf ${1} ${f}"
 			${srat} -rvf ${1} ${f}
@@ -768,6 +757,7 @@ function e22_rpg() {
 #		
 #	exit
 }
+
 function e22_cde() {
 	dqb "e22_cde()"
 	
