@@ -231,8 +231,6 @@ function pre_enforce() {
 	local f
 	local g
 
-	#DONE?:etuliitteestä Const ja -> conf koska Syyt (conf_enforce_prefix niinqu)
-	#q=$(${mkt} qsipasq-XXXX)
 	[ -v CONF_enforce_prefix ] || exit 99
 	q=$(${mkt} ${CONF_enforce_prefix}-XXXX)
 
@@ -278,7 +276,6 @@ function pre_enforce() {
 
 	# "semmoinen juttu" 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then
-		#tämä osuus /e/s.d/m qsee? vielä 10/26?
 		for f in $(${odio} find ${CONF_DIR2} -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q} ${g}
 		done
@@ -296,7 +293,6 @@ function pre_enforce() {
 		unset CB_LIST1
 	fi
 
-	#q=$(${mkt} qsipasq3-XXXX)
 	q=$(${mkt} ${CONF_enforce_prefix}3-XXXX)
 
 	fasdfasd ${q}
@@ -387,7 +383,7 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	fi
 
 	if [ "${CONF_env}" == "VED" ] ; then
-		#... aka "hands off" (qhan omega)
+		#... aka "hands off"
 		${sco} 0:0 ${d0}/*.conf
 		${scm} 0444 ${d0}/*.conf
 		#${sca} +ui ${d0}/*.conf
