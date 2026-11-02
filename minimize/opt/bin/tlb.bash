@@ -4,7 +4,7 @@ CONF_hashfile3=/opt/bin/zxcv
 CONF_DIR2=/opt/bin
 CONF_algo=sha256
 
-if [ -v CONF_env ] && [ "${CONF_env}" == "TOOR" ] ; then #jotain tarttis ensin...
+if [ -v CONF_env ] && [ "${CONF_env}" == "TOOR" ] ; then #jotain tarttis ensin... KTS VAIKKAPA setup2.bash
         odio=""
 else
         odio=$(which sudo)

@@ -1,4 +1,5 @@
 debug=1
+#kts. setup2.bash
 CONF_hashfile3=/opt/bin/zxcv
 CONF_DIR2=/opt/bin
 #jotain ntp-kokeiluja vaiko ei?

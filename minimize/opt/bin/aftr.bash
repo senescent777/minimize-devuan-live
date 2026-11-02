@@ -3,7 +3,7 @@ debug=1
 CONF_hashfile3=/opt/bin/zxcv
 CONF_DIR2=/opt/bin
 
-if [ -v CONF_env ] && [ "${CONF_env}" == "TOOR"  ] ; then #vissiin tarttisi tehrä jotain ennen tätä ehtoa
+if [ -v CONF_env ] && [ "${CONF_env}" == "TOOR"  ] ; then #vissiin tarttisi tehrä jotain ennen tätä ehtoa (kts setup2.bash)
         odio=""
 else
         odio=$(which sudo)

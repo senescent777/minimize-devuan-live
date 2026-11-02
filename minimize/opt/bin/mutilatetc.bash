@@ -1,4 +1,5 @@
 #!/bin/bash
+#setup2.bash voisi ottaa mallia joissain jutuissa
 CONF_hashfile3=/opt/bin/zxcv
 CONF_DIR2=/opt/bin
 CONF_algo=sha256
