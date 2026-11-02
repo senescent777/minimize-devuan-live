@@ -82,6 +82,7 @@ function dis() {
 		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
 		csleep 1
 	
+		#011126:ao. komento taas käyttöön?
 		#${odio} ${sifd} -a
 		csleep 1
 
@@ -267,6 +268,7 @@ function pre_enforce() {
 			[ $? -eq 0 ] || ${odio} ${smd} ${CONF_DIR2}
 		fi
 
+		#TODO:kts setup2.f5b() tähän kohtaan liittyen
 		if [ -d ${1}${CONF_DIR2} ] ; then
 			${svm} ${1}${CONF_DIR2}/*.bash ${CONF_DIR2}
 		fi
@@ -432,6 +434,7 @@ e_h $(whoami) ${d0}
 ${sco} 0:0 ${CONF_DIR2}/*
 ${scm} 0400 ${CONF_hashfile3}*
 
+#011126:1 ajokerta ei nykyään riitä?
 if [ -x ${CONF_DIR2}/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} ${CONF_DIR2}/mutilatetc.bash ${CONF_dnsm}
 else
