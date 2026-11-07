@@ -183,8 +183,10 @@ function e22_pre2() {
 	ls -las /etc/resolv.*
 	csleep 4
 
-	${sifu} ${1}
-	csleep 1
+	if [ ! -v CONF_zzz ] ; then #pitäisikö olla pois kommenteista vai ei?
+		${sifu} ${1}
+		csleep 1
+	fi
 
 	${sco} -Rv _apt:root ${CONF_pkgdir}/partial/
 	${scm} -Rv 700 ${CONF_pkgdir}/partial/
