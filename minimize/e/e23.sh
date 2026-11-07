@@ -1,12 +1,12 @@
 #150926:jos makefile-jutut kohta ajankohtaisia? a-offline saattaa muuttaa tilanteen
 
-function aswasw() { #14726:dhclient masentelu tähän vai ei? toisaalta pre_e() nykyään
+function aswasw() { #dhclient masentelu tähän vai ei? toisaalta pre_e() nykyään
 	dqb "aswasw( ${1} )"
 	[ -z "${1}" ] && exit 56
 	csleep 1
 
 
-	#VAIH:vähitellen jotain? E22:_GT , GU, GM hyödyntäen? tai siis voiko nykyiselllään hyödyntää?
+	#vähitellen jotain? E22:_GT , GU, GM hyödyntäen? tai siis voiko nykyiselllään hyödyntää?
 #			#https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=wpasupplicant=2:2.10-12+deb12u2
 
 	if [ "${1}" == "wlan0" ] ; then
@@ -86,7 +86,7 @@ function e23_other_pkgs() {
 
 	#travitseeko offline jotain kautta lzma5?
 	${shary} libmagic-mgc libmagic1 python3-magic apt-offline 
-	csleep 55
+	csleep 15
 	${lftr}
 
 	dqb "e23_other_pkgs() DONE"
@@ -98,13 +98,11 @@ function e23_upgp() {
 	${fib}
 	csleep 1
 
-	#JOKO JO PRKL?
 	${shary} libxcb1 libx11-data libx11-6 libx11-xcb1
 	#TODO?:libelf,linexpat1 yms mukaan vai ei? (kts accept2)
 
-	#Depends: libc6 (>= 2.14), libgcc1 (>= 1:3.0), 
+	#Depends:  (>= 2.14), libgcc1 (>= 1:3.0), 
 	#, (>= 6), (>= 1.0.3),  (>= 1.7.3), , 
-	#Depends: libc6 (>= 2.34), 
 
 #Depends: libdrm-amdgpu1 (>= 2.4.110), libdrm-nouveau2 (>= 2.4.66), libdrm-radeon1 (>= 2.4.31), libdrm2 (>= 2.4.75), 
 #libelf1 (>= 0.142), libexpat1 (>= 2.0.1), , libllvm15, , , libxcb-dri2-0 (>= 1.8), libxcb-dri3-0, libxcb-present0, libxcb-sync1, libxcb-xfixes0, 
@@ -120,7 +118,8 @@ function e23_upgp() {
 	csleep 1
 }
 
-#TODO?:tämän se dhcp-karsinta kanssa? (oliko case-esac syntaksin kanssa huomioitavaa? man bash barm vuoksi?) vielä ajank 10/26?
+#(oliko case-esac syntaksin kanssa huomioitavaa? man bash barm vuoksi?) vielä ajank 10/26?
+#mihin sitä dhco-karsintaa edes?
 
 function e23_qrs() {
 	dqb "e23_qrs()"
@@ -160,9 +159,8 @@ function e23_qrs() {
 }
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
-#141026:toimiiko uusin oksennus vai ei?
+
 #echo "MUISTA : uusi l+wanha u tässä järj, mitä taaphtuu?"
-#sleep 1
 
 #30926:tähän voi tulla isompia muutoksia koska a-offline ?
 #Depends: , (>= 2.33), liblzma5 (>= 5.1.1alpha+20120614),  (>= 1:1.1.4),  (= 1:5.44-3)
@@ -189,7 +187,6 @@ function e23_dm() {
 
 	#HUOM.jutut ennen libpangoa/666 jälkeen uusia, kommentteihin jos qsee EHKÄ
 
-	#290926:ao. paketitko aiheuttavat äksän poistumisen? ei kai
 	${shary} libxcb1 libx11-6 libx11-xcb1 libx11-data
 	csleep 3
 
@@ -204,7 +201,6 @@ function e23_dm() {
 
 	${shary} libfontenc1 libdav1d6 libmagickcore-6.q16-6 libnuma1
 
-	#ao. blokki ehkä kunnossa
 	${shary} libxmuu1 libde265-0 
 	${shary} libexpat1 libwayland-client0 libglvnd0 #glvnd vai glvnd0?
 	csleep 3
@@ -217,37 +213,29 @@ function e23_dm() {
 	${shary} liblqr-1-0 libltdl7 liblzma5 libopenjp2-7 libpng16-16 libtiff6 libwebp7 libwebpdemux2 libwebpmux3 libxt6
 	csleep 3
 
-	#ao. blokki qnnnosa?
 	${shary} imagemagick-6-common 
 	${shary} libgif7 libmagickwand-6.q16-6 libxmu6 libxpm4
 	csleep 3
 
-	#ao. blokki qnnossa?
 	${shary} libx265-199 libwraster6 libwings3 libwutil5 wmaker-common
 	csleep 3
 
-	#ao. blokki qnnossa?
 	${shary} libgbm1 libglapi-mesa  libwayland-server0 libwayland-cursor0 libwayland-egl1
 	csleep 3
 
-	#ao blokki qnnossa?
 	${shary} libxcb-shape0 libxcb-damage0 libxcb-shm0 libxcb-render0
 	csleep 3
 
-	#ao. blokki qnnossa?
 	${shary} libglx0 libegl-mesa0 libgl1 libxaw7 libegl1
 	csleep 3
 
-	#ao. blokki qnnossa?
 	${shary} libxcomposite1 libxi6 libxinerama1 libxkbfile1
 	csleep 3
 
-	#ao. blokki qnnossa?
 	${shary} libice6 libsm6 x11-common libuuid1
 	${shary} libxtst6 libxv1 libxxf86dga1 libxxf86vm1
 	csleep 3
 
-	#ao. blokki ehkä qnnossa
 	${shary} debconf bsdextrautils groff-base libgdbm6 libpipeline1 libseccomp2
 	${shary} libicu72 libxfixes3 
 	csleep 3
@@ -255,17 +243,14 @@ function e23_dm() {
 	${shary} libxcursor1 man-db
 	csleep 3
 
-	#28926:ehkä liBgl1-libpam-runtime -pakettien riippuvuudet nyt kunnossa
 	${shary} libgl1-mesa-dri libxcb-glx0 libglx-mesa0 libzvbi-common libzvbi0 git-man
 	${shary} libdb5.3 libdeflate0 liblerc4
 	${shary} libpam-runtime
 	csleep 3
 
-	#qnnossa?
 	${shary} libbsd0 libxdmcp6 menu twm libmd0
 	csleep 3
 
-	#qnnossa tähän atsi?
  	${shary} libaom3 at-spi2-common libatk1.0-0 libaudit-common libcap-ng0
 	csleep 3
 

@@ -28,7 +28,7 @@ function guess_conf() {
 		else
 			[ -v b ] || b="/"
 			local a=$(${odio} find ${b} -type f -name "$(whoami).conf" | head -n 1)		
-			#130926:mitenkähän mahtaa toimia tämä haara sqrot-ympäristössä? let's find out
+			#130926:mitenkähän mahtaa toimia tämä haara sqrot-ympäristössä? let's fnid out
 
 			if [ ! -z "${a}" ] ; then
 				if [ -s ${a} ] ; then
@@ -193,6 +193,9 @@ function check_bin_0() {
 	unset NKVD
 
 	[ -v CONF_algo ] || exit 77
+
+	#bissiin ei näin kuitenkaan
+	[ -s /etc/resolv.conf ] || echo "MAYBE MUTILATETC.BASH?"
 
 	case "${CONF_algo}" in
 		sha256)
@@ -630,7 +633,6 @@ function CB01() {
 	#HUOM. common_pp3() - kutsu takaisin jos kutsuvaan koodiin muutoksia kistuksiin liittyen
 
 	worf ${E22_GI} 1 ${2}	
-
 	dqb "iZOMVIE"
 	
 	gg=$(${odio} which gpg)
@@ -643,11 +645,8 @@ function CB01() {
 
 function message() {
 	echo "INSTALLING NEW PACKAGES IN x SECS"
-	#sleep 1
 	echo "DO NOT xxx yyy"
-	#sleep 1
 	echo "... FOR POSITIVE ANSWER MAY BREAK THINGS"
-	#sleep 1
 }
 
 #pitäisikö tämä fktio olla GU esittelyjen jälkeen?
@@ -707,8 +706,10 @@ function check_binaries() {
 	E22_GM="${E22_GM},libmnl0,libatm1,libpcre2-8-0,libmd0,libgssapi-krb5-2"
 	E22_GM="${E22_GM},libbsd0,libcap2,libcap2-bin,libdb5.3,libtirpc-common,libtirpc3,iproute2"
 
+	E22_D="isc-dhcp-client,isc-dhcp-common"
+
 	#19926:miten dhcp-jutut nykyään? peellinen if? TODO?:selvitä?
-	[ "${CONF_iface}" == "eth0:1" ] || E22_GM="${E22_GM},isc-dhcp-client,isc-dhcp-common"
+	[ "${CONF_iface}" == "eth0:1" ] || E22_GM="${E22_GM},${E22_D}"
 	E22_GM="${E22_GM},libpam0g,libcrypt1,libaudit1,libpam-modules-bin,libpam-modules"
 
 	E22_GM="${E22_GM},libbz2-1.0,libsemanage-common,libsemanage2,libsepol2,passwd,adduser,ifupdown"
@@ -718,7 +719,7 @@ function check_binaries() {
 	dqb "before 0c.s"
 	local y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp"
 	
-	#130926:tai siis toimiiko kuten koitus? ehkä, jos konfig kunnossa
+	#130926:tai siis toimiiko kuten coitus? ehkä, jos konfig kunnossa
 	if [ "${CONF_env}" == "VED" ] ; then
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"
@@ -735,10 +736,10 @@ function check_binaries() {
 	E22_GU=""
 
 	#190926:tarpeellista täsäs GT:n kansa kikkailla dhcp kanssa jos e22_pre_e tekee jotain vastaavaa?
-	#-v , -z - testit myös?
+
 	if [ -v CONF_iface ] && [ ! -z "${CONF_iface}" ] ; then
 		if [ "${CONF_iface}" != "eth0:1" ] ; then
-			#E22_GT="isc-dhcp-client,isc-dhcp-common,"
+			#E22_GT="${E22_D},"
 			E22_GU="isc-dhcp,"
 		fi
 	fi
@@ -787,7 +788,7 @@ function check_binaries() {
 	[ "${CONF_env}" == "TOOR" ] || CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
 	
-#	#toistaiseksi näin (eivielä 20926 uskalla kommentoida ehtoa pois?)
+	#toistaiseksi näin (eivielä 20926 uskalla kommentoida ehtoa pois?)
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -v CONF_iface ] ; then
 		if [ ! -z "${CONF_iface}" ] ; then
 			if [ "${CONF_iface}" != "eth0:1" ] ; then
@@ -1180,6 +1181,7 @@ function part1() {
 		fi
 	fi
 
+	#alt_root-kohta voi muuttus jos jos/qn alkaa a-offilnen kanssa säätää
 	if [ "${CONF_env}" == "TOOR" ] && [ -v CONF_alt_root ] ; then
 		part1_5 ${t} ${CONF_alt_root}/${t}
 	else
@@ -1219,8 +1221,7 @@ function part2() {
 		${lftr}
 		${fib}
 
-		#020826:blu/rpc/nfs , poistuuko vai ei? 
-		#20926:bluez ainakin jäi kummittelwmaan sqroot kautta
+		#261026:blu-jutut jo ok?
 		for s in ${PART175_LIST} ; do 
 			dqb "processing ${s}"
 			${sharpy} ${s}*
@@ -1239,8 +1240,7 @@ function part2() {
 
 		${sharpy} python3-cups
 		${lftr}
-		#030826:lftr jtnkn sotkee sqroot-tapauksessa tuota opak poistoa? tai muuten vain nollasta poikkeava virhekoodi part175 iteroinnissa
-
+		
 		#010826:senrosit laukaisivat purkkavirityksen?	
 		#${sharpy} lm-sensors 
 
@@ -1270,9 +1270,6 @@ function part2() {
 
 	dqb "PART2.5 d0ne"
 }
-
-#011026:toimkivabn u-paketinj kanssa tuli "MISS ILE" - ulinaa nimittäin
-#knties sums.1 puuttuu joistain kaloista
 
 function common_lib_tool() {
 	dqb "common_lib_tool( ${1}  ; ${2} )))) "
@@ -1308,8 +1305,8 @@ function common_lib_tool() {
 	dqb "t00l DONE"
 }
 
-#VAIH:paloittain selvittely missä kohtaa u-paketin masentelu poistaa äksän
-#VAIH:muista myös a-offline, pp3-sdi-välille muutoksia
+echo "#VAIH:muista myös a-offline, pp3-sdi-välille muutoksia"
+
 function part3() {
 	dqb "))() part3 ${1} ,((()()()()()( ${2} (((((((("
 
@@ -1343,28 +1340,22 @@ function part3() {
 		dqb "AL-fPGA"
 
 		#tämän tulisi poistella ei-toivotut .deb ennen asennusta 
-
 		common_lib_tool ${t} reject_pkgs
 		dqb "B3T4"
-		#exit 66 #tässä mitään tietebkään tapahdu koska 111026 tienoilla rejectin sisältö kommentoitu jemmaann
-
+		
 		#tässä kohtaa edelleen urputusta?
 		efk1 ${t}/gcc-12-base*.deb ${t}/libgcc-s1*.deb ${t}/libc6*.deb
 		dqb "LAcKK.a"
 
 		worf ${E22_GS} 1 ${t}	
 		dqb "önEGA-VGA RA"
-		#exit 66 #ei tässäkään?
 
-		#tässä kohtaa jokin johtaa äksän poistoon?
+		#tässä kohtaa jokin johti äksän poistoon (toiv ei enää)
 		common_lib_tool ${t} accept_pkgs_1
-		#exit 66
 
 		common_lib_tool ${t} accept_pkgs_2
-		#exit 66
 	#fi
 
-	#qseeko ennen vai jälkeen "accept-juttujen"?
 	echo "g4RP D0NE"
 	ls -las ${1}/*.tar
 
@@ -1377,7 +1368,6 @@ function part3() {
 
 	local f
 	for f in $(find ${t} -name "lib*.deb" ) ; do ${sdi} ${f} ; done
-	#exit 66
 
 	if [ $? -eq  0 ] ; then
                dqb "part3.1 ok"
@@ -1388,7 +1378,6 @@ function part3() {
 
 	dqb "LIBS DONE"
 	for f in $(find ${t} -name "*.deb" ) ; do ${sdi} ${f} ; done
-	#exit 66
 
 	if [ $? -eq  0 ] ; then
 		dqb "part3.2 ok"

@@ -111,7 +111,7 @@ fi
 
 case "${mode}" in
 	rp)
-		#TODO:näille main muutoksia? esim mitä?
+		#TODO?:näille main muutoksia? esim mitä?
 		[ -s "${tgtfile}" ] || exit 67
 		[ -r "${tgtfile}" ] || exit 68
 
@@ -172,7 +172,11 @@ case "${mode}" in
 	p)
 		[ -v CONF_default_arhcive3 ] || exit 66
 		csleep 1
-		[ -v CONF_iface ] && ${sifu} ${CONF_iface}
+
+		if [ ! -v CONF_zzz ] ; then
+			[ -v CONF_iface ] && ${sifu} ${CONF_iface}
+		fi
+
 		e23_profs ${tgtfile} ${d0} ${CONF_default_arhcive3}	
 	;;
 	-h)

@@ -1,11 +1,9 @@
 #!/bin/bash
 debug=1
-
-#kts myös setup2.bash dalek-jutut (x.s -> x.bash lähinnä)
-CONF_hashfile3=/opt/bin/zxcv #VAIH:myös /o/b alaisiin käyttöön (muitaq mutilatetc?)
+CONF_hashfile3=/opt/bin/zxcv
 CONF_DIR2=/opt/bin
 
-if [ -v CONF_env ] && [ "${CONF_env}" == "TOOR"  ] ; then #30626:pitäisi keksiä jotain tähän, nyt näin
+if [ -v CONF_env ] && [ "${CONF_env}" == "TOOR"  ] ; then #vissiin tarttisi tehrä jotain ennen tätä ehtoa (kts setup2.bash)
         odio=""
 else
         odio=$(which sudo)
@@ -28,7 +26,7 @@ ip6tr=$(${odio} which ip6tables-restore)
 #jokin param resolv.vonf-kikkailuja varten?
 #TODO:entäse dot?
 
-#DONE?:ruleksiin oikeastaan, u- ja v- ketjujen oletusarvot, joputaisiko säätää? (olisiko jo 30626 hopidettu?)
+#miten ne  u- ja v- ketjujen oletusarvot, tarvitseeko tehdä jotain?
 ${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
 ${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
 #yo. jutut takaisin kommenteista sittenq ehkä ntpsec (tai ehkä varm vuoksi)
@@ -89,9 +87,6 @@ else
 	sleep 66
 fi
 
-echo "TODO:atrf.ptn2 , aftr.ptn_dda vähitellen"
-sleep 5
-
 #================================
 #ntp-kikkailut erilliseen skriptiin?
 #miten muuten ne ipt/netf-persistent? oliko niissä jotain skriptihakemistoa? pystyisikö käyttämään?
@@ -135,3 +130,5 @@ function clouds_case1_2() {
 	pgrep dnsmasq
 
 }
+
+echo "TODO:atrf.ptn2 , aftr.ptn_dda vähitellen?"

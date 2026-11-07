@@ -82,6 +82,7 @@ function dis() {
 		[ -z "${sifd}" ] || ${odio} ${sifd} ${2}
 		csleep 1
 	
+		#011126:ao. komento taas käyttöön?
 		#${odio} ${sifd} -a
 		csleep 1
 
@@ -231,8 +232,6 @@ function pre_enforce() {
 	local f
 	local g
 
-	#VAIH:etuliitteestä Const ja -> conf koska Syyt (conf_enforce_prefix niinqu)
-	#q=$(${mkt} qsipasq-XXXX)
 	[ -v CONF_enforce_prefix ] || exit 99
 	q=$(${mkt} ${CONF_enforce_prefix}-XXXX)
 
@@ -269,6 +268,7 @@ function pre_enforce() {
 			[ $? -eq 0 ] || ${odio} ${smd} ${CONF_DIR2}
 		fi
 
+		#TODO:kts setup2.f5b() tähän kohtaan liittyen
 		if [ -d ${1}${CONF_DIR2} ] ; then
 			${svm} ${1}${CONF_DIR2}/*.bash ${CONF_DIR2}
 		fi
@@ -278,7 +278,6 @@ function pre_enforce() {
 
 	# "semmoinen juttu" 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then
-		#tämä osuus /e/s.d/m qsee? vielä 10/26?
 		for f in $(${odio} find ${CONF_DIR2} -type f -name "*.bash" ) ; do
 			mangle_s ${f} ${q} ${g}
 		done
@@ -296,7 +295,6 @@ function pre_enforce() {
 		unset CB_LIST1
 	fi
 
-	#q=$(${mkt} qsipasq3-XXXX)
 	q=$(${mkt} ${CONF_enforce_prefix}3-XXXX)
 
 	fasdfasd ${q}
@@ -347,7 +345,8 @@ fi
 part1 ${distro} ${d}
 [ ${mode} -eq 0 ] && exit
 
-#260626:alla tuo mv menee pieleen jos ajetaan root-tunnuksella tämän skripti , tee jotain (VAIH)
+echo "#260626:alla tuo mv menee pieleen jos ajetaan root-tunnuksella tämän skripti , tee jotain (VAIH)"
+sleep 1
 ${snt}
 
 if [ "${CONF_env}" != "VED" ] ; then
@@ -386,7 +385,7 @@ if [ ${mode} -eq 1 ] || [ ${CONF_changepw} -eq 1 ] ; then
 	fi
 
 	if [ "${CONF_env}" == "VED" ] ; then
-		#... aka "hands off" (qhan omega)
+		#... aka "hands off"
 		${sco} 0:0 ${d0}/*.conf
 		${scm} 0444 ${d0}/*.conf
 		#${sca} +ui ${d0}/*.conf
@@ -435,6 +434,7 @@ e_h $(whoami) ${d0}
 ${sco} 0:0 ${CONF_DIR2}/*
 ${scm} 0400 ${CONF_hashfile3}*
 
+#011126:1 ajokerta ei nykyään riitä?
 if [ -x ${CONF_DIR2}/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
 	${odio} ${CONF_DIR2}/mutilatetc.bash ${CONF_dnsm}
 else
