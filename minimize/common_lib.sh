@@ -194,6 +194,9 @@ function check_bin_0() {
 
 	[ -v CONF_algo ] || exit 77
 
+	#bissiin ei näin kuitenkaan
+	[ -s /etc/resolv.conf ] || echo "MAYBE MUTILATETC.BASH?"
+
 	case "${CONF_algo}" in
 		sha256)
 			sah6=$(${odio} which sha256sum)
@@ -713,12 +716,10 @@ function check_binaries() {
 	E22_GM="${E22_GM},libblkid1,libmount1,libsmartcols1,mount,net-tools"
 	E22_GM="${E22_GM},libacl1,libattr1,libgmp10,coreutils"
 
-	
-
 	dqb "before 0c.s"
 	local y="/sbin/ifup /sbin/ifdown apt-get apt ip netstat ${sd0} ${sr0} mount umount mkdir mktemp"
 	
-	#130926:tai siis toimiiko kuten koitus? ehkä, jos konfig kunnossa
+	#130926:tai siis toimiiko kuten coitus? ehkä, jos konfig kunnossa
 	if [ "${CONF_env}" == "VED" ] ; then
 		ipt="/usr/sbin/iptables"
 		gg="/usr/bin/gpg"

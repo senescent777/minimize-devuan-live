@@ -25,31 +25,31 @@ function usage() {
 }
 
 #"$0 1 tgtfile -v" - ajankohtainen 06/26?
-#
-#function parse_opts_1() {
-#	dqb "rot.parse_opts_1() ${1} ((()"
-#
-#	if [ "${mode}" == "-2" ] ; then
-#		dqb "å"
-#		mode=${1}
-#	fi
-#}
-#
-#TODO:NOSE PARSETUS PRKL
-#function parse_opts_2() {
-#	dqb "fish.rot.parseopts_2 )) ${1} ; ${2} (("
-#
-#	if [ -f ${2} ] || [ -d ${2} ] ; then
-#		dqb "a"
-#		if [ -z "${srcfile}" ] ; then
-#			dqb "b"
-#			if [ "${2}" != "-v" ] ; then
-#				dqb "srcfile=${2}"			
-#				srcfile=${2}
-#			fi
-#		fi
-#	fi
-#}
+
+function parse_opts_1() {
+	dqb "rot.parse_opts_1() ${1} ((()"
+
+	if [ "${mode}" == "-2" ] ; then
+		dqb "å"
+		mode=${1}
+	fi
+}
+
+#VAIH:NOSE PARSETUS PRKL (vielä sqroot-ymp.testi)
+function parse_opts_2() {
+	dqb "fish.rot.parseopts_2 )) ${1} ; ${2} (("
+
+	if [ -f ${2} ] || [ -d ${2} ] ; then
+		dqb "a"
+		if [ -z "${srcfile}" ] ; then
+			dqb "b"
+			if [ "${2}" != "-v" ] ; then
+				dqb "srcfile=${2}"			
+				srcfile=${2}
+			fi
+		fi
+	fi
+}
 
 [ ${debug} -eq 1 ] && ls -las /etc/resolv.*
 
@@ -128,11 +128,13 @@ else
 		dqb "W T F ???"
 	}
 
-#	for opt in $@ ; do
-#		parse_opts_1 ${opt}
-#		parse_opts_2 ${prevopt} ${opt}
-#		prevopt=${opt}
-#	done
+	#function destroy() {} #tarvitaanko?
+
+	for opt in $@ ; do
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
 fi
 
 dqb "rot:AFTR common_lib"
@@ -155,16 +157,16 @@ check_binaries2
 #[ $? -eq 0 ] || exit
 [ -v CONF_env ] || exit 96 #riittäisikö 1 trq tämän kanssa?
 
-if [ $# -gt 0 ] ; then
-	mode=${1}
-	[ -f ${1} ] && exit 99
-	[ "${2}" == "-v" ] || srcfile=${2}
-
-	#parse_opts pitäisi
-	if [ "${3}" == "-v" ] || [ "${4}" == "-v" ] ; then
-		debug=1
-	fi
-fi
+#if [ $# -gt 0 ] ; then
+#	mode=${1}
+#	[ -f ${1} ] && exit 99
+#	[ "${2}" == "-v" ] || srcfile=${2}
+#
+#	#parse_opts pitäisi
+#	if [ "${3}" == "-v" ] || [ "${4}" == "-v" ] ; then
+#		debug=1
+#	fi
+#fi
 
 #gpg, sq-root ja e.tar, lienee jo kunnossa?
 #161026:$0 0 aiheutti find-nalkutusta, toistuuko? pebkac?
@@ -474,6 +476,8 @@ case "${mode}" in
 esac
 
 dqb "atfr.esac"
+dqb "REMEMBER: omega 5 | omega 6 BFRE plain omega"
+
 #TODO?:lähteen poisto, saisiko takaisin toimimaan josqs? 
 #
 #if [ ${doIt} -eq 1 ] ; then
