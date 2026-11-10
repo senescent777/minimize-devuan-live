@@ -126,7 +126,7 @@ e22_hdr ${tgtfile}
 #VAIH:sifd-kikkailut jnkin vivun tai konf-option taakse
 if [ ! -v CONF_zzz ] ; then 
 	dqb "sifd soon"
-	csleep 1
+	csleep 1	
 	[ -v CONF_iface ] && ${sifd} ${CONF_iface}
 fi
 
@@ -152,8 +152,7 @@ case "${mode}" in
 	;;
 	3|4) 
 		#TODO:main-oksan kanssa testaus josqs (merd2+exp2) (tai 1take olisi kanssa)
-		#TODO:profiilin exp/imp toiminnan varmistus jälleen kerrab , erit ffox päiv tak
-
+	
 		[ -v CONF_default_arhcive3 ] || exit 66
 		e22_z1 ${CONF_hashfile3}
 
@@ -161,7 +160,7 @@ case "${mode}" in
 		reqwreqw ${CONF_hashfile3}.tmp
 		#HUOM.31725:jatkossa jos vetelisi paketteja vain jos $d alta ei löydy?
 
-		#other ja tblz aiemmin juuri ennen home_Pre
+		#other ja tblz aiemmin juuri ennen home_Pre	
 		e22_home_pre ${tgtfile} ${d} ${CONF_enforce} ${CONF_default_arhcive2} ${CONF_default_arhcive}
 		e22_home ${tgtfile} ${d} ${CONF_default_arhcive} 
 
