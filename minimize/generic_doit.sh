@@ -268,9 +268,18 @@ function pre_enforce() {
 			[ $? -eq 0 ] || ${odio} ${smd} ${CONF_DIR2}
 		fi
 
-		#TODO:kts setup2.f5b() tähän kohtaan liittyen
+		local f2
+
+		#VAIH:kts setup2.f5b() tähän kohtaan liittyen
 		if [ -d ${1}${CONF_DIR2} ] ; then
-			${svm} ${1}${CONF_DIR2}/*.bash ${CONF_DIR2}
+			#${svm} ${1}${CONF_DIR2}/*.bash ${CONF_DIR2}
+
+			for f in $(find ${1}${CONF_DIR2} -type f -name '*.s') ; do
+				f2=$(echo ${f}  | cut -d '.' -f 2)
+				head -n 1 $0 >  ${f2}.bash
+				grep -v '#' ${2} >> ${f2}.bash
+				grep -v '#' ${f} >> ${f2}.bash
+			done
 		fi
 	fi
 

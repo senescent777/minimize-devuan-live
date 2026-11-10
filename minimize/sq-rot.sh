@@ -35,7 +35,11 @@ function parse_opts_1() {
 	fi
 }
 
-#VAIH:NOSE PARSETUS PRKL (vielä sqroot-ymp.testi)
+echo "#VAIH:NOSE PARSETUS PRKL (vielä sqroot-ymp.testi)"
+sleep 5
+
+#TODO:koita muistaa myös uuden .iso:n rakennus, voisi kiinnittää huomiota siihen mitä bz3,bz3 menee squash sisä- vs ulkopuolelle
+
 function parse_opts_2() {
 	dqb "fish.rot.parseopts_2 )) ${1} ; ${2} (("
 
@@ -151,22 +155,22 @@ else
 fi
 
 check_binaries ${d}
-#[ $? -eq 0 ] || exit saattaa aiheuttaa ongelmia liialliset kistukset
+
 
 check_binaries2
 #[ $? -eq 0 ] || exit
 [ -v CONF_env ] || exit 96 #riittäisikö 1 trq tämän kanssa?
 
-#if [ $# -gt 0 ] ; then
+
 #	mode=${1}
 #	[ -f ${1} ] && exit 99
 #	[ "${2}" == "-v" ] || srcfile=${2}
 #
-#	#parse_opts pitäisi
+
 #	if [ "${3}" == "-v" ] || [ "${4}" == "-v" ] ; then
 #		debug=1
 #	fi
-#fi
+
 
 #gpg, sq-root ja e.tar, lienee jo kunnossa?
 #161026:$0 0 aiheutti find-nalkutusta, toistuuko? pebkac?
@@ -397,7 +401,7 @@ case "${mode}" in
 		e="/"
 		[ ${mode} -eq 0 ] || e=${d}
 
-		#VAIH:mitä jos ei löydy .tar ? common_part() tulisi keskeyttää
+		#DONE?:mitä jos ei löydy .tar ? common_part() tulisi keskeyttää
 		f=$(tar -tf ${srcfile} | grep .tar | head -n 1)
 
 		f=$(dirname ${f})
