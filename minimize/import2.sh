@@ -24,37 +24,37 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-if [ $# -gt 0 ] ; then
-	mode=${1}
-	[ -f ${1} ] && exit 99
-	[ "${2}" == "-v" ] || srcfile=${2}
+#if [ $# -gt 0 ] ; then
+#	mode=${1}
+#	[ -f ${1} ] && exit 99
+#	[ "${2}" == "-v" ] || srcfile=${2}
+#
+#	#parse_opts pitäisi
+#	if [ "${3}" == "-v" ] || [ "${4}" == "-v" ] ; then
+#		debug=1
+#	fi
+#fi
 
-	#parse_opts pitäisi
-	if [ "${3}" == "-v" ] || [ "${4}" == "-v" ] ; then
-		debug=1
+function parse_opts_1() {
+	dqb "parse_opts_1( ${1} )"
+
+	if [ "${mode}" == "-2" ] ; then
+		mode=${1}
 	fi
-fi
-#
-#function parse_opts_1() {
-#	dqb "parse_opts_1( ${1} )"
-#
-#	if [ "${mode}" == "-2" ] ; then
-#		mode=${1}
-#	fi
-#}
-#
-#function parse_opts_2() {
-#	dqb "(imp2.parseopts_2 ; ${1} ; ${2} ;"
-#
-#	if [ -f ${2} ] || [ -d ${2} ] ; then
-#		if [ -z "${srcfile}" ] ; then
-#			if [ "${2}" != "-v" ] ; then
-#				srcfile=${2}
-#			fi
-#		fi
-#	fi
-#
-#}
+}
+
+function parse_opts_2() {
+	dqb "(imp2.parseopts_2 ; ${1} ; ${2} ;"
+
+	if [ -f ${2} ] || [ -d ${2} ] ; then
+		if [ -z "${srcfile}" ] ; then
+			if [ "${2}" != "-v" ] ; then
+				srcfile=${2}
+			fi
+		fi
+	fi
+
+}
 
 dqb "SHOULD gg --veriFy ${d0}/common_lib.sh HERE, MAYBE?"
 csleep 1
@@ -131,12 +131,12 @@ else
 	function enforce_access() {
 		dqb "imp2.3nf :NOT SUPPORTED"
 	}
-#
-#	for opt in $@ ; do
-#		parse_opts_1 ${opt}
-#		parse_opts_2 ${prevopt} ${opt}
-#		prevopt=${opt}
-#	done
+
+	for opt in $@ ; do
+		parse_opts_1 ${opt}
+		parse_opts_2 ${prevopt} ${opt}
+		prevopt=${opt}
+	done
 fi
 
 dqb "imp2:AFTR common_lib"
@@ -381,24 +381,24 @@ case "${mode}" in
 		dqb "XP R"
 		csleep 5
 	;;
-#	q)
-#		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
-#		[ -z "${fox}" ] && exit 26
-#		[ -x ${fox} ] || exit 27
-#
-#		[ -v CONF_default_arhcive ] || exit 24
-# 		[ -v CONF_default_arhcive2 ] || exit 25
-#		[ -v CONF_default_arhcive3 ]  || exit 18
-#
-#		#HUOM.110326:olisi parempi , varm. buoksi delliä tai nimetä uudetsaan aiemmatr default_arch ja default_arch2
-#
-#		c=$(${srat} -tf ${srcfile} | grep ${CONF_default_arhcive} | wc -l)
-#		[ ${c} -gt 0 ] || exit 27
-#		common_part ${srcfile} ${d} /
-#
-#		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
-#		tpr ${d0} ${CONF_default_arhcive} ${CONF_default_arhcive3}
-#	;;
+	q)
+		#btw. ffox 147-jutut enemmän ${CONF_default_archive3}:n heiniä
+		[ -z "${fox}" ] && exit 26
+		[ -x ${fox} ] || exit 27
+
+		[ -v CONF_default_arhcive ] || exit 24
+ 		[ -v CONF_default_arhcive2 ] || exit 25
+		[ -v CONF_default_arhcive3 ]  || exit 18
+
+		#HUOM.110326:olisi parempi , varm. buoksi delliä tai nimetä uudetsaan aiemmatr default_arch ja default_arch2
+
+		c=$(${srat} -tf ${srcfile} | grep ${CONF_default_arhcive} | wc -l)
+		[ ${c} -gt 0 ] || exit 27
+		common_part ${srcfile} ${d} /
+
+		${sr0} -C ~ -jxf ~/${CONF_default_arhcive2}
+		tpr ${d0} ${CONF_default_arhcive} ${CONF_default_arhcive3}
+	;;
 	-3)
 		dqb "do_Nothing()"
 	;;

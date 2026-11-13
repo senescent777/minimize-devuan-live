@@ -1,12 +1,14 @@
 #DONE?:distron arpominen $3 jos on, /etc/jotain muuten
 #HUOM. -v - ongelmaan saattaa liittyä common_lib oikeudet pikemminkinq debug
 
+#palautusarvo olisi tietysti kiva juttu
 function guess_conf() {
 	echo "guecc_conf ) ${1} ("
 
 	local d00=$(pwd)
 	local d02=$(cat /etc/devuan_version)
 	local d01=${d00}/${d02}
+	g_cfile=""
 
 	if [ ! -z "${1}" ] ; then
 		if [ -d ${d00}/${1} ] ; then
@@ -18,13 +20,15 @@ function guess_conf() {
 
 	if [ -s ${d00}/$(whoami).conf ] ; then
 		echo "ALT.C0NF1G (. ${d00}/$(whoami).con )"
-		. ${d00}/$(whoami).conf
+		#. ${d00}/$(whoami).conf
+		g_cfile=${d00}/$(whoami).conf
 	else
 		echo "ååå"
 
 		if [ -d ${d01} ] && [ -s ${d01}/conf ] ; then
 			echo ". ${d01}/conf"
-			. ${d01}/conf
+		#	. ${d01}/conf
+			g_cfile=${d01}/conf
 		else
 			[ -v b ] || b="/"
 			local a=$(${odio} find ${b} -type f -name "$(whoami).conf" | head -n 1)		
@@ -32,7 +36,8 @@ function guess_conf() {
 
 			if [ ! -z "${a}" ] ; then
 				if [ -s ${a} ] ; then
-					. ${a}
+		#			. ${a}
+					g_cfile=${a}
 				fi	
 			fi
 				
@@ -43,6 +48,8 @@ function guess_conf() {
 			unset a				
 		fi
 	fi
+
+	. ${g_cfile}
 
 	unset d00
 	unset d01

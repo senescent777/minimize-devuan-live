@@ -219,7 +219,7 @@ if [ -s ~/xorg.conf.new ] ; then
 fi
 
 function pre_enforce() {
-	dqb "pre_enforce() "
+	dqb "pre_emforce ) ${1} ; ${2} ( "
 
 	[ -z "${1}" ] && exit 98
 	[ -d ${1} ] || exit 97
@@ -275,6 +275,8 @@ function pre_enforce() {
 			#${svm} ${1}${CONF_DIR2}/*.bash ${CONF_DIR2}
 
 			for f in $(find ${1}${CONF_DIR2} -type f -name '*.s') ; do
+				dqb "MANGLING ${f} BEYOND RECQG"				
+		
 				f2=$(echo ${f}  | cut -d '.' -f 2)
 				head -n 1 $0 >  ${f2}.bash
 				grep -v '#' ${2} >> ${f2}.bash
@@ -341,7 +343,7 @@ function pre_enforce() {
 if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 else 
-	pre_enforce ${d0}
+	pre_enforce ${d0} ${g_cfile}
 fi
 
 if [ "${CONF_env}" != "DEFAULT" ] ; then
@@ -372,8 +374,6 @@ if [ ${mode} -gt 1 ] ; then
 		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l)
 		 #barm vuoksi näin
 		[ $c13 -gt 0 ] && c14=0
-		
-		#profit
 	fi
 fi
 
