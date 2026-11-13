@@ -104,13 +104,16 @@ function e23_upgp() {
 	#Depends:  (>= 2.14), libgcc1 (>= 1:3.0), 
 	#, (>= 6), (>= 1.0.3),  (>= 1.7.3), , 
 
-#Depends: libdrm-amdgpu1 (>= 2.4.110), libdrm-nouveau2 (>= 2.4.66), libdrm-radeon1 (>= 2.4.31), libdrm2 (>= 2.4.75), 
-#libelf1 (>= 0.142), libexpat1 (>= 2.0.1), , libllvm15, , , libxcb-dri2-0 (>= 1.8), libxcb-dri3-0, libxcb-present0, libxcb-sync1, libxcb-xfixes0, 
+#Depends:  (>= 2.4.110),(>= 2.4.66),  (>= 2.4.31),  (>= 2.4.75), 
+#libelf1 (>= 0.142), libexpat1 (>= 2.0.1), ,
+# , , , , , , 
 
-	${shary} libgl1 libva-x11-2 libva2 libxext6 #libx11-6  jo aiemmin
+	${shary} libgl1 libva-x11-2 libva2 libxext6
+	#libx11-6  jo aiemmin
 	${shary} libvdpau1 mesa-vdpau-drivers
 
-	e22_pre_e ${CONF_iface} ${E22_GS} #gm myös?
+	e22_pre_e ${CONF_iface} ${E22_GS}
+	#gm myös?
 	${sag} --no-install-recommends upgrade -u
 	echo $?
 
@@ -159,8 +162,7 @@ function e23_qrs() {
 }
 
 #pitää sitten jaksaa muistaa että tämän fktion tuotoksen asentuminen riippuu niistä accept-tdstoista kanssa
-
-#echo "MUISTA : uusi l+wanha u tässä järj, mitä taaphtuu?"
+#MUISTA : uusi l+wanha u tässä järj, mitä taaphtuu?
 
 #30926:tähän voi tulla isompia muutoksia koska a-offline ?
 #Depends: , (>= 2.33), liblzma5 (>= 5.1.1alpha+20120614),  (>= 1:1.1.4),  (= 1:5.44-3)
@@ -327,15 +329,17 @@ function e23_profs() {
 }
 
 function e23_st() {
-	#TODO:joitain git-juttuha mukaan myös (git-cola ja mitä näitä olikaan)
-
 	${shary} liblz4-1 liblzma5 liblzo2-2 libzstd1 squashfs-tools
 	${shary} libbz2-1.0 libmagic1 libcap2 genisoimage wodim
 	${shary} dmsetup libdevmapper1 libjte2
 	${shary} libefiboot1 libefivar1 libfreetype6 libfuse3-3 gettext-base
 	${shary} libisoburn1 libburn4 libisofs6 libfuse2 mtools
 	${shary} grub-common xorriso geany isolinux
-	}
+
+	#VAIH:joitain git-juttuha mukaan myös (git-cola ja mitä näitä olikaan)
+	${shary} python3-distutils python3-qtpy git-core libjs-jquery libjs-underscore libjs-modernizr node-html5shiv
+
+}
 
 #tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
 #function e22_dblock() {

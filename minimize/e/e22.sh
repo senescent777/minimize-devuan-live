@@ -212,7 +212,7 @@ function e22_cleanpkgs() {
 csleep 1
 
 function e22_config1() {
-	dqb "e22_config1( ${1} ( £{2})"
+	dqb "e22_config1( ${1} ( ${2} )"
 	csleep 2
 
 	[ -z "${1}" ] && exit 11
@@ -254,7 +254,8 @@ function e22_settings() {
 
 	.  ${1}/${3}
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
-	#TODO:pitäisi jaksaa taaaaads tarkstaa ETTÄ MENEEKÖ NE PRKLEEN IMPORT/EXPORT-HOMMAT OK
+
+	#VAIH:pitäisi jaksaa taaaaads tarkstaa ETTÄ MENEEKÖ NE PRKLEEN IMPORT/EXPORT-HOMMAT OK
 	exp_prof ${1}/${2} default-esr
 
 	[ -s ${1}/${2} ] || exit 32
