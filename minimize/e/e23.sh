@@ -338,7 +338,7 @@ function e23_st() {
 
 	#VAIH:joitain git-juttuha mukaan myös (git-cola ja mitä näitä olikaan)
 	${shary} python3-distutils python3-qtpy git-core libjs-jquery libjs-underscore libjs-modernizr node-html5shiv
-
+	${shary} git-cola
 }
 
 #tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
