@@ -1,0 +1,113 @@
+#TODO:entäse dot?
+
+#miten ne  u- ja v- ketjujen oletusarvot, tarvitseeko tehdä jotain?
+${ipt} -A INPUT -p udp -m udp --sport 53 -j b 
+${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
+#yo. jutut takaisin kommenteista sittenq ehkä ntpsec (tai ehkä varm vuoksi)
+
+${ipt} -D u 2
+${ipt} -D v 2
+
+
+function dda_snd() {
+	dqb "dda_snd( ${1})"
+
+	local t
+	local u
+
+	t=$(echo ${1} | tr -d -c 0-9.)
+	# | cut -c 15) eivielä
+
+	u=$(echo ${1} | grep 192.168 | wc -l)
+	#
+
+	if [ ${u} -gt 0 ] ; then
+		dqb "AA"
+		${ipt} -A u -p udp -m udp -s ${t} --sport 53 -j ACCEPT 
+		${ipt} -A v -p udp -m udp -d ${t} --dport 53 -j ACCEPT
+	else
+		dqb "AB"
+		#HUOM.070326:oli AIEmmin -{s,d} ${t} ja sitten taas
+		${ipt} -A b -p udp -m udp -s ${t} --sport 53 -j ACCEPT 
+		${ipt} -A e -p udp -m udp -d ${t} --dport 53 -j ACCEPT
+	fi
+}
+
+function tod_dda() { 
+	dqb "tod_dda( ${1} ) "
+#
+#	local t
+#	t=$(echo ${1} | tr -d -c 0-9. | cut -c 15) #cut uutena, olisi hyvä laittaa toimimaan toivotulla tavalla kanssa
+#
+#	${ipt} -A u -p tcp --sport 853 -s ${t} -j c
+#	${ipt} -A v -p tcp --dport 853 -d ${t} -j f
+}
+
+#up/post-up tämäkin
+function clouds_case1_1() {
+	if [ -s /home/stubby/.stubby.yml ] ; then
+		#tähän alle muutoksdia?
+		for s in $(grep -v '#' /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do tod_dda ${s} ; done
+	else
+		dqb "NO CONF FOUND, HAVE TO USE ALT CONF"
+
+		if [ z"${CONF_dsn}" != "z" ] ; then
+			for s in ${CONF_dsn} ;  do tod_dda ${s} ; done
+		fi
+	fi
+}
+
+if [ -s /etc/resolv.conf ] ; then
+		#tähän alle muutoksdia?
+	for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do 
+		dda_snd ${s}
+	done
+else
+	echo "NYT SE VITUN VITTU"
+	sleep 66
+fi
+
+
+function ptn_dda() {
+
+	local t
+	local u
+
+	t=$(echo ${1} | tr -d -c 0-9.)
+	# | cut -c 15) eivielä
+
+	u=$(echo ${1} | grep 192.168 | wc -l) #
+
+	if [ ${u} -gt 0 ] ; then
+		${ipt} -A u -p udp -m udp -s ${t} --sport 123 -j ACCEPT
+		${ipt} -A v -p udp -m udp -d ${t} --dport 123 -j ACCEPT
+	else
+		${ipt} -A b -p udp -m udp -s ${t} --sport 123 -j ACCEPT
+		${ipt} -A e -p udp -m udp -d ${t} --dport 123 -j ACCEPT
+	fi
+}
+
+function ptn2() {
+	if [ -x /usr/sbin/ntpd ] ; then
+		${ipt} -A INPUT -p udp -m udp --sport 123 -j b 
+		${ipt} -A OUTPUT -p udp -m udp --dport 123 -j e
+
+		csleep 1
+		dqb "SHOULD START /etc/init.d/ntpsec AROUND HERE"
+		csleep 1
+	fi
+}
+
+function clouds_case0_2() {
+	/etc/init.d/dnsmasq stop
+	${whack} dnsmasq*
+}
+
+function clouds_case1_2() {
+	echo "dns";sleep 1
+	/etc/init.d/dnsmasq restart
+	pgrep dnsmasq
+
+}
+
+echo "TODO:atrf.ptn2 , aftr.ptn_dda vähitellen?"
