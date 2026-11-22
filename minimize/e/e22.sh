@@ -255,7 +255,7 @@ function e22_settings() {
 	.  ${1}/${3}
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
 
-	#VAIH:pitäisi jaksaa taaaaads tarkstaa ETTÄ MENEEKÖ NE PRKLEEN IMPORT/EXPORT-HOMMAT OK
+	#DONE?:pitäisi jaksaa taaaaads tarkstaa ETTÄ MENEEKÖ NE PRKLEEN IMPORT/EXPORT-HOMMAT OK
 	exp_prof ${1}/${2} default-esr
 
 	[ -s ${1}/${2} ] || exit 32
@@ -286,7 +286,7 @@ function e22_home_pre() {
 	fi
 
 	e_final
-	#161026:turha exclude jo?
+	#161026:turha exclude jo? mitern nykyään pitäisi mennä rajauksien?
 	${srat} --exclude "changedns*" -rvf ${1} ${CONF_DIR2}
 
 	for t in $(find ~ -type f -name merd2.sh | head -n 1) ; do

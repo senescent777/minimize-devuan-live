@@ -231,6 +231,10 @@ case "${mode}" in
 	;;
 	s) #190926:muodostaa paketin? jep , masentuu? "sqrot 3" kautta
 		#270926:nalkutuksetkin saatu pois pl libdevmapper ja dmsetup jotka pitäisi kai asentaa samalla kertaa
+		
+		e22_pre_e ${CONF_iface} ${E22_GS}
+		e22_pre_e ${CONF_iface} ${E22_GM}
+
 		e23_st
 	;;
 	u|upgrade)
