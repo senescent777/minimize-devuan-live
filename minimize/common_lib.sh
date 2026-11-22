@@ -1,6 +1,14 @@
 #DONE?:distron arpominen $3 jos on, /etc/jotain muuten
 #HUOM. -v - ongelmaan saattaa liittyä common_lib oikeudet pikemminkinq debug
 
+
+echo "VAIH:PITÄISI VARMISTAA IHAN AIKUISTEN OIKEASTI ETTÄ ACCEPT-TILANTEESEEN EI PERKELE JÄÄDÄ!!!!!"
+sleep 2
+
+#... elikkäs jyrkempi meno tlb ja aft kanssa halt exitin sijaan
+#, lisäksi netfilter-persistent starttaamaan inittabin kautta jos mahd
+#rcs.d alla kuuluisi kai olla persisnent- ja networking. skriptien linkit  vain kerran kutakin?
+
 #palautusarvo olisi tietysti kiva juttu
 function guess_conf() {
 	echo "guecc_conf ) ${1} ("
@@ -20,14 +28,12 @@ function guess_conf() {
 
 	if [ -s ${d00}/$(whoami).conf ] ; then
 		echo "ALT.C0NF1G (. ${d00}/$(whoami).con )"
-		#. ${d00}/$(whoami).conf
 		g_cfile=${d00}/$(whoami).conf
 	else
 		echo "ååå"
 
 		if [ -d ${d01} ] && [ -s ${d01}/conf ] ; then
 			echo ". ${d01}/conf"
-		#	. ${d01}/conf
 			g_cfile=${d01}/conf
 		else
 			[ -v b ] || b="/"
@@ -36,14 +42,13 @@ function guess_conf() {
 
 			if [ ! -z "${a}" ] ; then
 				if [ -s ${a} ] ; then
-		#			. ${a}
 					g_cfile=${a}
 				fi	
 			fi
 				
 			[ $? -eq 0 ] || exit 57
 			
-			#TODO:jatkossa nuo globaalit wttuun
+			#TODO?:jatkossa nuo globaalit wttuun
 			unset b
 			unset a				
 		fi
@@ -56,7 +61,9 @@ function guess_conf() {
 	unset d02
 }
 
+#151125:lottoaminen voi mennä pieleenkin jos env!=default
 guess_conf "${3}"
+
 unset sco
 unset scm
 unset odio
@@ -420,6 +427,7 @@ function common_pp3() {
 
 	if [ ${q} -lt 1 ] ; then
 		${scm} a-wx ${r}/common_lib.sh
+		#TODO?: $0 jatkossa? tai siis mihin osoittaa?
 	else
 		psqa ${1}/${CONF_hashfile}
 
@@ -506,7 +514,7 @@ function cefgh() {
 
 		if [ -s ./e.tar.sha ] ; then
 			${sah6} -c ./e.tar.sha
-			[ $? -eq 0 ] || ${NKVD} ./e.tar*
+			[ $? -eq 0 ] || ${NKVD} ./e.tar* #NKVD pois jatkossa?
 		fi
 
 		csleep 2
@@ -644,7 +652,9 @@ function CB01() {
 	
 	gg=$(${odio} which gpg)
 	gv=$(${odio} which gpgv)
-	[ -z "${gg}" ] && ${scm} a-wx ${1}/../common_lib.sh #$0 josko näin kuitenkin?
+
+	#TODO?: $0 käyttöön vai ei? riippuu mihin osoittaa
+	[ -z "${gg}" ] && ${scm} a-wx ${1}/../common_lib.sh #$0 #josko näin kuitenkin?
 
 	common_pp3 ${1} ${2}
 	dqb "common.lib.CB01() DONE"
@@ -763,7 +773,7 @@ function check_binaries() {
 	#HUOM. gpg:n opistumis-ongelmalle voisi vähitellen keksiä ratkaisun prkl
 	if [ -z "${ipt}" ] || [ -z "${gg}" ] ; then
 		[ -z "${1}" ] && exit 99
-		[ -d ${1} ] || exit 101
+		[ -d ${1} ] || exit 102
 
 		if [ -z "${2}" ] ; then
 			t=$(${mkt} -d) 
@@ -858,6 +868,44 @@ function check_binaries2() {
 	dqb "b1nar135.2 0k.2" 
 }
 
+function sss() {
+	dqb "sss ) ${1} ) ${2}"
+	local f2
+	local g2
+
+	#VAIH:kts setup2.f5b() tähän kohtaan liittyen
+	csleep 1
+
+	[ -z "${1}" ] && exit 39
+	[ -d ${1}/${CONF_DIR2} ] || exit 40
+	[ -z "${2}" ] && exit 41
+	[ -s ${2} ] || exit 42
+	[ -s ${2} ] || exit 43
+
+#	if [ -d ${1}/${CONF_DIR2} ] ; then
+		#211126:polkuja joutaa viilata vielä
+		g2=${1}/./${CONF_DIR2}
+
+		for f in $(find ${g2} -type f -name '*.s' -not -name 'lib.s') ; do
+			dqb "MANGLING ${f} BEYOND RECQG"				
+			f2=$(echo ${f} | cut -d '.' -f 2)
+
+			#151126:ehkä pystyisi kikkailemaan niinkin ettei tarvitse erillistä kirjastoa /o/b alla
+			fasdfasd ${f2}.bash
+			head -n 1 $0 > ${f2}.bash
+			grep -v '#' ${2} >> ${f2}.bash
+			grep -v '#' ${g2}/lib.s >> ${f2}.bash 
+			
+			
+			grep -v '#' ${f} >> ${f2}.bash
+		done
+#	else
+#		dqb " ${1}/${CONF_DIR2} does not exist"
+#	fi
+
+	dqb "sss ) ${1} done"
+}
+
 function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
 	dqb "TLA.testgris : ${CONF_testgris}"
@@ -868,12 +916,16 @@ function TLA() {
 		[ -v CONF_DIR2 ] || exit 89	
 
 		if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then #koitapa päättää miten pitäisi mennä 
-			dqb "JST B3F0R:tlb-b a s h"
+			echo "JST B3F0R: ${odio} ${CONF_DIR2} / tlb.bash "
+			sleep 10
+
 			[ -s ${CONF_DIR2}/tlb.bash ] || exit 99
 			${scm} 0511 ${CONF_DIR2}/tlb.bash
 
 			#koituksella ilman param
-			${odio} ${CONF_DIR2}/tlb.bash 
+			${odio} ${CONF_DIR2}/tlb.bash
+		else
+			dqb "NO SUCH THNG ADS: ${CONF_DIR2}"
 		fi
 	fi
 }
@@ -953,7 +1005,7 @@ function reqwreqw() {
 }
 
 function e_final() {
-	dqb "ALOMST FINAL"
+	dqb "Alm0st f1NAL"
 	[ -v CONF_DIR2 ] || exit 99
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then 
@@ -968,7 +1020,10 @@ function e_final() {
 	
 	${scm} 0777 /tmp
 	${sco} root:root /tmp
-	
+
+	#tekeekö o+t mitään merkittävää tässä vai ei?
+	#${scm} o+t /tmp
+
 	dqb "SALA DE ANALIS CLINICOS ASD ASD 123"
 }
 
@@ -1318,7 +1373,7 @@ function part3() {
 	dqb "))() part3 ${1} ,((()()()()()( ${2} (((((((("
 
 	[ -z "${1}" ] && exit 99
-	[ -d ${1} ] || exit 101
+	[ -d ${1} ] || exit 103
 	#alla 2. param. kanssa riittävät trq?
 
 	dqb "PARAMS_OK"
@@ -1359,7 +1414,6 @@ function part3() {
 
 		#tässä kohtaa jokin johti äksän poistoon (toiv ei enää)
 		common_lib_tool ${t} accept_pkgs_1
-
 		common_lib_tool ${t} accept_pkgs_2
 	#fi
 
@@ -1398,6 +1452,8 @@ function part3() {
 }
 
 function process_lib() {
+	dqb "PORCESS LIB ) ${1}"
+	csleep 1
 	[ -z "${1}" ] && exit 66
 	
 	if [ -x "${gg}" ] && [ -s ${1}/lib.sh.sig ] ; then
@@ -1473,6 +1529,7 @@ gpo "$@"
 #			${gg} --verify ${t}/common_lib.sh.sig 
 #			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"
 #		fi
+#
 #		if [ -x ${t}/common_lib.sh ] ; then
 #			enforce_access $(whoami) ${t}
 #		

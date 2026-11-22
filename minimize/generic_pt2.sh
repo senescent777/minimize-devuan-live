@@ -57,7 +57,8 @@ if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0400 ${CONF_hashfile3}*
 fi
 
-if [ -x ${CONF_DIR2}/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
+#151126:vika ehto ok vai ei?
+if [ -x ${CONF_DIR2}/mutilatetc.bash ] && [ -v CONF_dnsm ] && [ "${CONF_env}" != "TOOR" ]  ; then
 	${odio} ${CONF_DIR2}/mutilatetc.bash ${CONF_dnsm}
 else
 	dqb "FAILURE TO MUTILATE: /etc/resolc. von f "
@@ -106,7 +107,7 @@ if [ "${CONF_env}" == "TOOR" ] ; then
 	#27926 rakenneltu .iso sai jo oikean grub.cfg mutta äksän kanssa vähän kusi (slim->wdm-siirtymä jäi puolitiehen niinqu)
 
 	dqb "BLU NFS \?"
-	csleep 6
+	csleep 16
 	#defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista, bissiin näin
 
 	${sharpy} blu* #poistuu vai ei? initramfs-tools liittyy?
@@ -127,12 +128,15 @@ if [ "${CONF_env}" == "TOOR" ] ; then
 	${scm} a-wx /etc/init.d/nfs*
 	${scm} a-wx /etc/init.d/rpc*
 	${scm} a-wx /etc/init.d/slim*
+
 	ls -las /etc/init.d
 	csleep 6
 
 	dqb "V1"
-	#exit
+	csleep 10	
+
 	#011026:jokohan jo sqeoorissa alkaisi blu-jutut poistua...
+	#191126:jos vielä kerran varmistaisi, vissiin poistuu blu jo
 fi
 
 #vs destroy()

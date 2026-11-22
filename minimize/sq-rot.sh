@@ -1,5 +1,5 @@
 #!/bin/bash
-debug=0 # nollakSi jotta asialliset hommat EHKÄ
+debug=0
 srcfile=""
 
 distro=$(cat /etc/devuan_version)
@@ -35,10 +35,8 @@ function parse_opts_1() {
 	fi
 }
 
-echo "#VAIH:NOSE PARSETUS PRKL (vielä sqroot-ymp.testi)"
-sleep 5
-
-#TODO:koita muistaa myös uuden .iso:n rakennus, voisi kiinnittää huomiota siihen mitä bz3,bz3 menee squash sisä- vs ulkopuolelle
+#161126:sen yhden tar:in purq squash juureen kusee juttuja? vai jokin muu? nekros2 vs jotain?
+csleep 5
 
 function parse_opts_2() {
 	dqb "fish.rot.parseopts_2 )) ${1} ; ${2} (("
@@ -62,7 +60,8 @@ if [ -x ${d0}/common_lib.sh ] ; then
 	#[ $? -eq 0 ] || exit #tähänkö kosahtanut viime_aikoina?
 else
 	dqb "W33P1NG UND3RR G4L4CTU5"
-	
+	#TODO:konfig siirto/kopsaus vähitellebn?	
+
 	if [ -s ${d0}/$(whoami).conf ] ; then
 		echo "ALT.C0fn.1G"
 		. ${d0}/$(whoami).conf
@@ -133,6 +132,8 @@ else
 	}
 
 	#function destroy() {} #tarvitaanko?
+	echo "JST BFR PRS1NG"
+	sleep 10
 
 	for opt in $@ ; do
 		parse_opts_1 ${opt}
@@ -146,6 +147,7 @@ csleep 1
 [ -z "${distro}" ] && exit 26
 [ -v CONF_env ] || exit 66
 
+#TODO:process_lib() tahikka TLA() näille main? ehdollisena korkeintaan
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
 	[ $? -eq 0 ] || exit
@@ -155,28 +157,15 @@ else
 fi
 
 check_binaries ${d}
-
-
 check_binaries2
 #[ $? -eq 0 ] || exit
 [ -v CONF_env ] || exit 96 #riittäisikö 1 trq tämän kanssa?
-
-
-#	mode=${1}
-#	[ -f ${1} ] && exit 99
-#	[ "${2}" == "-v" ] || srcfile=${2}
-#
-
-#	if [ "${3}" == "-v" ] || [ "${4}" == "-v" ] ; then
-#		debug=1
-#	fi
-
 
 #gpg, sq-root ja e.tar, lienee jo kunnossa?
 #161026:$0 0 aiheutti find-nalkutusta, toistuuko? pebkac?
 
 if [ "${CONF_env}" == "TOOR" ] ; then
-function pre() {
+function erp() {
 	echo "UNDER THE GRAV3YARD ${1}"
 	sleep 1
 
@@ -217,18 +206,18 @@ function pre() {
 	unset r
 	echo "C"
 
-#TODO:jotain tarttis tehrä tässä vähitellen , jatkossa korkeintaan g.tar vastaavan purkaisi tässä?
+#VAIH:jotain tarttis tehrä tässä vähitellen , jatkossa korkeintaan g.tar vastaavan purkaisi tässä?
 #	#nekros2 kanssa joitain muutoksia vbaiko ei?
 #	#tar --exclude import2.sh -jxvf nekros1
 #	#rm nekros1
 #	#...
 #	#tar -C $distro -jxvf $f
 #	#...
-#
-#	for f in $(find ${1} -type f -name "nekros?".tar.bz3 ) ; do	
-#		tar --exclude import2.sh -jxvf ${f}
-#		rm ${f}
-#	done
+
+	for f in $(find ${1} -type f -name "nekros?".tar.bz3) ; do # | head -n 1
+		tar --exclude import2.sh -jxvf ${f}
+		rm ${f}
+	done
 
 	if [ ! -z "${gg}" ] ; then
 		if [ -s ${1}/common_lib.sh.sig ] ; then
@@ -236,6 +225,8 @@ function pre() {
 			[ $? -eq 0 ] || exit 67
 		fi
 	fi
+
+	echo "ERP ONED"
 }
 	
 fi
@@ -250,7 +241,7 @@ if [ -s ${srcfile} ] || [ -d ${srcfile} ] ; then
 		dqb "NOT A DIR"
 	fi
 
-	dqb "SDD"
+	echo "SDD"
 else
 	[ -d ${srcfile} ] || dqb "NOT A MAN"
 	[ -f ${srcfile} ] || dqb "NOT A CYBORG"
@@ -267,10 +258,10 @@ function common_part() {
 	[ -r ${1} ] || exit 93
 	[ -d ${1} ] && exit 90
 
+	#151126:näiden param takia vähintäänkin nekros1 pitäisi purkaa 
 	[ -z "${3}" ] && exit 94
-
 	[ -z "${2}" ] && exit 11
-	[ -d ${2} ] || exit 22
+	[ -d ${2} ] || exit 22 #kuinkahan oleellinen tarkistus? liittyen case b)
 	[ -d ${3} ] || exit 43
 
 	[ "${1}" == "/" ] && exit 56
@@ -389,9 +380,14 @@ function cptp2() {
 }
 
 doIt=0
+echo "mode: ${mode}"
+csleep 5
 
 case "${mode}" in
 	1)
+		#171126:minimaalisesti modatulla kiekolla slim deaktivoitui ennenaikaisesti, voisi tehdä jotain (TODO?)
+		#"seatd/seat.c:86 could not open terminal to clean vt 0" saattaa liittyä
+
 		[ "${CONF_env}" == "VED" ] && exit 47 #varm. vältt.- est (josko voisi vähitellen...)
 		common_part ${srcfile} ${d} /
 		[ $? -eq 0 ] && doIt=1
@@ -431,7 +427,8 @@ case "${mode}" in
 		fi
 	;;
 	3)
-		#TODO?:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät k se ilmeisin este)
+		#VAIH:puoliksi onnistuneen "$0 0" masentelun jatkaminen (common_part edeltävät k se ilmeisin este)
+		#tai jospa erillinen case moista varteb
 
 		e=${d}
 		common_part ${srcfile} ${d} ${e}
@@ -439,9 +436,20 @@ case "${mode}" in
 		part3 ${d}
 		other_horrors
 	;;
+	3b) #kokeellinen jutska
+		ocs gpg
+		part3 ${d}
+		other_horrors
+	;;
+	b) #k:n lopuksi tämä case?
+		echo "SHOULD mkdir  \$OTHER_DIR IF DOES NOT EXIST"
+		echo "SHOULD mv/cp ${d} \$OTHER_DIR"
+		echo "SHOULD cp *.conf \$OTHER_DIR"
+	;;
 	k)
+		#TODO:sqrootissa, jos ei ajaisikaanm tätä tai ykköstä/kolmosta oletussijainnista käsin, mityä slloin tapahtuu?
 		#HUOM. TÄMÄ MUISTETTAVA AJAA JOS HALUAA ALLEKIRJOITUKSET KISTAA
-		[ "${CONF_env}" == "TOOR" ] && pre ${d0}
+		[ "${CONF_env}" == "TOOR" ] && erp ${d0}
 
 		#VAIH:tuotaville avaimille jotain trq? jos on jo ennestään jotain av ni niitä vasten testaa uudet, esim.
 		#... valmiiksi josqs?
@@ -461,9 +469,14 @@ case "${mode}" in
 				#	rm $g	
 				#done
 
+				#151126:mitä jos ei löydy gpg-kaloja lähde-hmiston alta?
+				#221126:olisi myös hyväksi tarkistaa etteivät tdstot nolla-pituisia
+
 				dqb "${gg} --import ${srcfile}/*.gpg soon"
 				${gg} --import ${srcfile}/*.gpg
 				[ ${debug} -eq 1 ] && ${gg} --list-keys
+
+				[ "${CONF_env}" == "TOOR" ] && dqb "$0 b now?"
 			fi
 		else
 			dqb "NO-GO-THEOREM"
@@ -500,4 +513,5 @@ dqb "REMEMBER: omega 5 | omega 6 BFRE plain omega"
 #	echo "SMTHING WENT WRONG BEFORE THIS"
 #fi
 
-cptp2 ${d0}
+#201126:tämäkö aiheuttaa ongelmia?
+[ "${CONF_env}" == "TOOR" ] || cptp2 ${d0}

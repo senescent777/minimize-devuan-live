@@ -2,25 +2,29 @@
 echo "#VAIH:näihin mjien asetteluihin alussa konf-riippuvuisia muutoksia eli CONF_env määräisi jostain"
 sleep 5
 
-#d00=$(pwd)
-#d02=$(cat /etc/devuan_version)
-#d01=${d00}/${d02}
-#
-#if [ -s ${d00}/$(whoami).conf ] ; then
-#	echo "ALT.C0NF1G (. ${d00}/$(whoami).con )"
-#	. ${d00}/$(whoami).conf
-#else
-#	echo "ååå"
-#
-#	if [ -d ${d01} ] && [ -s ${d01}/conf ] ; then
-#		echo ". ${d01}/conf"
-#		. ${d01}/conf
-#	else
-#		echo "whåtever"
-#	fi
-#fi
+d00=$(pwd)
+d02=$(cat /etc/devuan_version)
+d01=${d00}/${d02}
+odio=""
 
-odio=$(which sudo)
+if [ -s ${d00}/$(whoami).conf ] ; then
+	echo "ALT.C0NF1G (. ${d00}/$(whoami).con )"
+	. ${d00}/$(whoami).conf
+else
+	echo "ååå"
+
+	if [ -d ${d01} ] && [ -s ${d01}/conf ] ; then
+		echo ". ${d01}/conf"
+		. ${d01}/conf
+	else
+		echo "whåtever"
+	fi
+fi
+
+if [ "${CONF_env}" != "TOOR" ] ; then
+	odio=$(which sudo)
+fi
+
 smr=$(${odio} which rm)
 smr="${odio} ${smr} "
 
@@ -55,8 +59,10 @@ if [ ${mode} -eq 5 ] ; then
 	${odio} /etc/init.d/slim stop
 
 	#uutena 280926
-	scm="${odio} chmod" #TODO:lisää common_lib prujaamista kohta, jotta sqrootin kautta järkevästi?
+	scm="${odio} chmod"
+	#TODO?:lisää common_lib prujaamista kohta, jotta sqrootin kautta järkevästi?
 	csleep 5 
+
 	${scm} a-wx /etc/init.d/blu*
 	${scm} a-wx /etc/init.d/nfs*
 	${scm} a-wx /etc/init.d/rpc*
@@ -70,6 +76,7 @@ fi
 if [ ${mode} -eq 6 ] ; then
 	${odio} apt-get remove --purge slim* #No Ei
 	${odio} /etc/init.d/wdm start
+	#miten tuo usermod?
 	exit
 fi
 

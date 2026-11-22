@@ -24,17 +24,6 @@ function usage() {
 	echo "	\t also in that case, srcfile=the_dir_that_contains_some_named_keys"
 }
 
-#if [ $# -gt 0 ] ; then
-#	mode=${1}
-#	[ -f ${1} ] && exit 99
-#	[ "${2}" == "-v" ] || srcfile=${2}
-#
-#	#parse_opts pitäisi
-#	if [ "${3}" == "-v" ] || [ "${4}" == "-v" ] ; then
-#		debug=1
-#	fi
-#fi
-
 function parse_opts_1() {
 	dqb "parse_opts_1( ${1} )"
 
@@ -64,7 +53,6 @@ if [ -x ${d0}/common_lib.sh ] ; then
 else
 	#130526:else-haara peellinen joissain tilanteissa, ei poisteta
 
-	echo "#DONE?:viimeaikaisten sorkintojen takia tämä haara tulisi testata (09/26:r vai ?)"
 	#151026:onnistuu firefoxin käskyttäminen mutta jäi junnaamaan profile manageriin
 	#vielä jokin testi vaiko ei?
 
@@ -154,6 +142,7 @@ fi
 echo "in case of trouble, \"chmod a-x common_lib.sh\" or \"chmod a-x \${distro}/lib.sh\" may help"
 csleep 1
 #HUOM. tähän ei "process_lib ${d}" , mennään coituksella toisella tavalla (ainakin jnkin aikaa)
+#211126:mitnkähän nykyään? , voisiko ottaa prosessoinnin jo käyttöön?
 
 if [ -d ${d} ] && [ -x ${d}/lib.sh ] ; then
 	. ${d}/lib.sh
@@ -299,7 +288,6 @@ function tpr() {
 	csleep 2
 }
 
-#DONE?:testaapa pitkästä aikaa caset
 case "${mode}" in
 	-1) 
 		#151026:tässä saattaa olla jokin juttu miksi ei ilman -v ... sleep? No Ei
