@@ -74,3 +74,10 @@ libwings3
 libinput-bin
 libinput
 #071126:libgtk3 kanssa jotain ulinaa nykyään?
+#
+#uutena 151126
+libjte2
+libisofs6
+libburn4
+libisoburn
+libdevmapper
