@@ -1,4 +1,6 @@
 debug=1
+exit
+
 #kts. setup2.bash
 CONF_hashfile3=/opt/bin/zxcv
 CONF_DIR2=/opt/bin
