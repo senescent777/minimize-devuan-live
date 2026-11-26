@@ -255,9 +255,7 @@ function e22_settings() {
 	.  ${1}/${3}
 	[ -f ${1}/${2} ] && mv ${1}/${2} ${1}/${2}.ÅLD
 
-	#DONE?:pitäisi jaksaa taaaaads tarkstaa ETTÄ MENEEKÖ NE PRKLEEN IMPORT/EXPORT-HOMMAT OK
 	exp_prof ${1}/${2} default-esr
-
 	[ -s ${1}/${2} ] || exit 32
 	local t
 
@@ -285,7 +283,12 @@ function e22_home_pre() {
 		e22_settings ${2}/.. ${5} ${CONF_default_arhcive3}
 	fi
 
+	#261126:riittää tuo e_f() ? vaiko lisää renkkaamista?
 	e_final
+	
+	#TODO:pitäisi kai miettiä vähän, $d/$conf_dir2 alta ne .s tarkistuksien alaiseksi se kantava idea
+	#e22_home() ja e22_z3() liittyisivät aiheeseen
+
 	#161026:turha exclude jo? mitern nykyään pitäisi mennä rajauksien?
 	${srat} --exclude "changedns*" -rvf ${1} ${CONF_DIR2}
 
@@ -471,7 +474,7 @@ function e22_ext() {
 	cd more_scripts/misc
 	echo $?
 
-	#findin kautta jatkossa (kts home_pre())
+	#findin kautta jatkossa (kts home_pre()) (TODO:josq0 vähitellen?)
 	${svm} ~/Desktop/merd2.sh ~/Desktop/merd2.sh.ÅLD
 	${spc} merd2.sh ~/Desktop
 	csleep 2
@@ -523,6 +526,7 @@ function e22_ext() {
 	[ ${c} -gt 0 ] || exit 97
 	echo $?
 	
+	#TODO:voisiko näkä kikkailut jo poistaa?
 	for f in $(find ./etc -type f -not -name "interfaces.*" -and -not -name "resolv.*") ; do
 		${sah6} ${f} >> ${4}
 	done
@@ -834,9 +838,11 @@ function e22_z2() {
 
 function e22_z3() {
 	dqb "e22_z3()((( ${1}"
+
 	[ -z "${1}" ] && exit 66
 	[ -s ${2} ] || exit 67
 	[ -z "${3}" ] && exit 68
+
 	csleep 1
 	dqb "pars.ko"
 
@@ -895,6 +901,7 @@ function e22_sarram() {
 
 	${srat} -rvf ${1} /etc/X11/default-display-manager
 
+	#TODO:jatkossa haetaan jostain muualta? ts kovolangoitettuja juttuja vähemmäksi
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v OLD | grep -v old) ; do 
 		${sah6} ${f} >> ${3}
 	done

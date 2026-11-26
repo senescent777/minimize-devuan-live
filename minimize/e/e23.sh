@@ -333,16 +333,9 @@ function e23_profs() {
 #HUOM. myös setup2.bash.ignis()
 
 function e23_st() {
-
-	
-
 	${shary} liblz4-1 liblzma5 liblzo2-2 squashfs-tools # libzstd1, zlib1g E22_GS kautta
 	#libbz2, libcap2 saisi E22_GM kautta
 	
-
-
-
-
 	${shary} libbz2-1.0 libmagic-mgc libmagic1 libcap2 genisoimage wodim
 
 	#?
@@ -351,33 +344,28 @@ function e23_st() {
 
 	${shary} dmsetup libdevmapper1 libjte2 libbrotli1 libpng16-16
 
-
 	#E23_GS sisältäisi readline8
 	#libfuse2 vs libfuse3 ?
 
 	${shary} libefiboot1 libefivar1 libfreetype6 libfuse3-3 gettext-base libreadline8
 
-
-
 	${shary} libacl1 libisoburn1 libburn4 libisofs6 libfuse2 mtools
-
-
 
 	#E22_GS sisältää gcc_s1, libstdc
 
-	${shary} libatk1.0-0 libcairo2 libgdk-pixbuf-2.0-0 libglib2.0-0 libgtk-3-0 libpango-1.0-0 libpangocairo-1.0-0
+#	${shary} libatk1.0-0 libcairo2 libgdk-pixbuf-2.0-0 libglib2.0-0 libgtk-3-0 libpango-1.0-0 libpangocairo-1.0-0
 	${shary} grub-common xorriso isolinux
 	${shary} geany-common geany
 
-	#VAIH:joitain git-juttuJa mukaan myös (git-cola ja mitä näitä olikaan ... gitk parempi idea?)
-
-	#Depends: , python3-pyqt5, python3-pyqt5.qtchart, python3-pyqt5.qtmultimedia, python3-pyqt5.qtopengl, python3-pyqt5.qtpositioning, python3-pyqt5.qtquick, python3-pyqt5.qtremoteobjects, python3-pyqt5.qtsensors, python3-pyqt5.qtserialport, python3-pyqt5.qtsql, python3-pyqt5.qtsvg, python3-pyqt5.qttexttospeech, python3-pyqt5.qtwebchannel, python3-pyqt5.qtwebkit, python3-pyqt5.qtwebsockets, python3-pyqt5.qtxmlpatterns, python3-pyqt5.sip, 
-
-
-	${shary} python3-lib2to3 python3-packaging python3-pyqt5
-	${shary} python3-distutils python3-qtpy git-core libjs-jquery libjs-underscore libjs-modernizr node-html5shiv
-
-	${shary} git-cola
+#	#VAIH:joitain git-juttuJa mukaan myös (git-cola ja mitä näitä olikaan ... gitk parempi idea?)
+#... ehkä jokin muu kuin kola
+#	#Depends: , python3-pyqt5, python3-pyqt5.qtchart, python3-pyqt5.qtmultimedia, python3-pyqt5.qtopengl, python3-pyqt5.qtpositioning, python3-pyqt5.qtquick, python3-pyqt5.qtremoteobjects, python3-pyqt5.qtsensors, python3-pyqt5.qtserialport, python3-pyqt5.qtsql, python3-pyqt5.qtsvg, python3-pyqt5.qttexttospeech, python3-pyqt5.qtwebchannel, python3-pyqt5.qtwebkit, python3-pyqt5.qtwebsockets, python3-pyqt5.qtxmlpatterns, python3-pyqt5.sip, 
+#
+#
+#	${shary} python3-lib2to3 python3-packaging python3-pyqt5
+#	${shary} python3-distutils python3-qtpy git-core libjs-jquery libjs-underscore libjs-modernizr node-html5shiv
+#
+#	${shary} git-cola
 }
 
 #tktiona vähän turhaq, tarkistuksia enemmän kun varsnsiats koodia, toisaalta voisi prujata fktion sisällön niihin 2 kohtaan export2:sessa
