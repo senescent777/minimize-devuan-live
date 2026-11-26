@@ -263,14 +263,14 @@ function pre_enforce() {
 	#HUOM:$1/o/b alainen sisältö yulisi tietenkin kistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 	[ -v CONF_DIR2 ] || exit 79
 
-	#if [ "${CONF_env}" == "DEFAULT" ] ; then
+	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		if [ ! -d ${CONF_DIR2} ] ; then
 			${smd} ${CONF_DIR2}
 			[ $? -eq 0 ] || ${odio} ${smd} ${CONF_DIR2}
 		fi
 
-		sss ${1} ${g_cfile} #TODO:jälk glob pois 
-	#fi
+	#	sss ${1} ${g_cfile} #TODO:jälk glob pois 
+	fi
 
 	e_final
 
