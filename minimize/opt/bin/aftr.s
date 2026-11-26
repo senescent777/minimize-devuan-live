@@ -46,8 +46,10 @@ function tod_dda() {
 #up/post-up tämäkin
 function clouds_case1_1() {
 	if [ -s /home/stubby/.stubby.yml ] ; then
-		#tähän alle muutoksdia?
-		for s in $(grep -v '#' /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do tod_dda ${s} ; done
+		#tähän alle muutoksdia? jep
+		for s in $(cat /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do 
+			tod_dda ${s} ; 
+		done
 	else
 		dqb "NO CONF FOUND, HAVE TO USE ALT CONF"
 
@@ -58,8 +60,8 @@ function clouds_case1_1() {
 }
 
 if [ -s /etc/resolv.conf ] ; then
-		#tähän alle muutoksdia?
-	for s in $(grep -v '#' /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do 
+	#nykyään näin	
+	for s in $(cat /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do 
 		dda_snd ${s}
 	done
 else

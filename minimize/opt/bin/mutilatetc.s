@@ -1,8 +1,8 @@
 
 function gf() {
-	dqb "gf $1, $2"
-	csleep 1
-
+#	dqb "gf $1, $2"
+#	csleep 1
+#
 	[ -z "${1}" ] && exit 103
 	local c2
 
@@ -39,18 +39,19 @@ c3=$(find  ${CONF_dir2} -name "zxcv*" -type f -perm /o+r,g+r | wc -l)
 #		[ $? -eq 0 ] || exit 107
 #	fi
 #fi
-#
+
+
 ${odio} ${sah6} --ignore-missing -c ${CONF_hashfile3}
 [ $? -eq 0 ] || exit 108
 #TODO:tähän asti -> lib jatkossa?
 
 function gh() {
-	dqb "gh $1 , $2"
-	csleep 1
+#	dqb "gh $1 , $2"
+#	csleep 1
 
 	[ -z "${1}" ] && exit 108
 	local c2
-	dqb "raps.0kj"
+	dqb "hg.raps.0kj"
 
 	if [ -z "${2}" ] ; then
 		c2=$(${odio} find ${1} -type f  -not -user 0 | wc -l)
@@ -100,7 +101,7 @@ function itin2 {
 itin2
 
 function clouds_pp1() {
-	dqb "#c.pp.1  ( ${1} )"
+#	dqb "#c.pp.1  ( ${1} )"
 	local f
 	local c0
 
@@ -138,25 +139,25 @@ function clouds_pp1() {
 		${svm} /etc/network/interfaces /etc/network/interfaces.OLD
 	fi
 
-	csleep 1
-	dqb "...done"
+#	csleep 1
+#	dqb "...done"
 }
 
 function clouds_pre() {
-	dqb "cdns.clouds_pre( ${1}, ${2} )"
-	csleep 1
+#	dqb "cdns.clouds_pre( ${1}, ${2} )"
+#	csleep 1
 
 	clouds_pp1
 	csleep 1
 
-	dqb "... done"
+#	dqb "... done"
 }
 
 function clouds_post() {
-	dqb "cdns.clouds_post() "
-	dqb "scm= ${scm}"
-	dqb "sco =${sco}"
-
+#	dqb "cdns.clouds_post() "
+#	dqb "scm= ${scm}"
+#	dqb "sco =${sco}"
+#
 	csleep 1
 	local f
 
@@ -198,7 +199,7 @@ function clouds_post() {
 	${scm} 0555 /etc/init.d/ntpsec
 	${sco} 0:0 /etc/init.d/ntpsec
 
-	if [ ${debug} -eq 1 ] ; then
+	if [ ${debug} -eq 1 ] ; then #jos gerppaa risuaidan ni kandee grepata myös dfebug
 		${ipt} -L  #
 		csleep 1
 		dqb "666"
@@ -210,9 +211,11 @@ function clouds_post() {
 }
 
 #====================================================================
-[ $# -lt 1 ] && exit 99 #TODO:tarkistus uusiksi koska x
+#[ $# -lt 1 ] && exit 99 #VAIH:tarkistus uusiksi koska x
+[ -z "${1}" ] && exit 99
 t=$(echo ${1} | tr -dc a-zA-Z0-9/.)
-
+slinky=$(${odio} which ln)
+slinky="${odio} ${slinky} -s "
 clouds_pre ${t}
 #ei olisi hyväksi hukata /e/r.conf
 
