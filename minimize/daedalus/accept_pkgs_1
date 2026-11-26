@@ -74,6 +74,8 @@ libwings3
 libinput-bin
 libinput
 #071126:libgtk3 kanssa jotain ulinaa nykyään?
+#libpython kanssa myös
+#TODO:jospa tekisi jorain
 #
 #uutena 151126
 libjte2
