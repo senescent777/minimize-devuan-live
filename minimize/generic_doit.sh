@@ -53,6 +53,7 @@ function dis() {
 	${sco} -R root:root /etc/network
 	${scm} a+r /etc/network/*
 
+	#tämän ai kai outäöis koskea linkkeihin
 	if [ -f /etc/network/interfaces ] ; then
 		if [ ! -h /etc/network/interfaces ] ; then
 			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
@@ -218,11 +219,8 @@ if [ -s ~/xorg.conf.new ] ; then
 	fi
 fi
 
-echo "setup2.f5b-JEKKU JO KÄYTTÖÖN ASAP"
-sleep 10
-
 function pre_enforce() {
-	dqb "pre_emforce ) ${1} ; ${2} ( "
+	dqb "pre em_force ) ${1} ; ${2} ( "
 
 	[ -z "${1}" ] && exit 98
 	[ -d ${1} ] || exit 97
@@ -329,16 +327,17 @@ function pre_enforce() {
 	csleep 1
 }
 
-echo "VAIH:sss() testaus just ennen tàtà if-blokkia"
-sleep 6
-
-if [ ! -d ${CONF_DIR2} ] ; then
-	${smd} ${CONF_DIR2}
-	[ $? -eq 0 ] || ${odio} ${smd} ${CONF_DIR2}
-fi
-
-sss ${d0} ${g_cfile}
-exit
+#251126:tripla-s vain tarvittaessa jatqs?
+#echo "VAIH:sss() testaus just ennen tàtà if-blokkia"
+#sleep 6
+#
+#if [ ! -d ${CONF_DIR2} ] ; then
+#	${smd} ${CONF_DIR2}
+#	[ $? -eq 0 ] || ${odio} ${smd} ${CONF_DIR2}
+#fi
+#
+#sss ${d0} ${g_cfile}
+#exit
 
 if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"

@@ -1,8 +1,7 @@
 #DONE?:distron arpominen $3 jos on, /etc/jotain muuten
 #HUOM. -v - ongelmaan saattaa liittyä common_lib oikeudet pikemminkinq debug
 
-
-echo "VAIH:PITÄISI VARMISTAA IHAN AIKUISTEN OIKEASTI ETTÄ ACCEPT-TILANTEESEEN EI PERKELE JÄÄDÄ!!!!!"
+echo "VAIH:PITÄISI VARM ISTAA IHAN AIKUISTEN OIKEASTI ETTÄ ACCEPT-TILANTEESEEN EI PERKELE JÄÄDÄ!!!!!"
 sleep 2
 
 #... elikkäs jyrkempi meno tlb ja aft kanssa halt exitin sijaan
@@ -79,7 +78,7 @@ function csleep() {
 [ -v CONF_env ] || exit 99
 #tyhjyydfen kristus myös?
 echo ${CONF_env}
-sleep 2
+sleep 8
 
 case "${CONF_env}" in
 	TOOR)
@@ -109,9 +108,13 @@ case "${CONF_env}" in
 esac
 
 itni
+echo "odio: ${odio} "
+sleep 9
 
 function fix_sudo() {
-	
+	echo "ODUS XIF"
+	sleep 3
+
 	sco=$(${odio} which chown)
 	[ y"${sco}" == "y" ] && exit 98
 	[ -x ${sco} ] || exit 97
@@ -151,7 +154,7 @@ function fix_sudo() {
 function other_horrors() {
 	dqb "other_horrors"
 	
-	if [ "${CONF_env}" == "DEFAULT" ] ; then #!VED jatkossa?
+	if [ "${CONF_env}" == "DEFAULT" ] ; then #!VED jatkossa? (TODO)
 		dqb "hERBAL 5UFFER1NG"
 	
 		for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
@@ -805,7 +808,7 @@ function check_binaries() {
 	[ "${CONF_env}" == "TOOR" ] || CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
 	
-	#toistaiseksi näin (eivielä 20926 uskalla kommentoida ehtoa pois?)
+	#TODO:josq0 vähitellen eka tarq pois?
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -v CONF_iface ] ; then
 		if [ ! -z "${CONF_iface}" ] ; then
 			if [ "${CONF_iface}" != "eth0:1" ] ; then
@@ -869,12 +872,12 @@ function check_binaries2() {
 }
 
 function sss() {
-	dqb "sss ) ${1} ) ${2}"
+	echo "sss ) ${1} ) ${2}"
 	local f2
 	local g2
 
-	#VAIH:kts setup2.f5b() tähän kohtaan liittyen
-	csleep 1
+	#VAIH
+	sleep 1
 
 	[ -z "${1}" ] && exit 39
 	[ -d ${1}/${CONF_DIR2} ] || exit 40
@@ -885,19 +888,23 @@ function sss() {
 #	if [ -d ${1}/${CONF_DIR2} ] ; then
 		#211126:polkuja joutaa viilata vielä
 		g2=${1}/./${CONF_DIR2}
-
+	
 		for f in $(find ${g2} -type f -name '*.s' -not -name 'lib.s') ; do
-			dqb "MANGLING ${f} BEYOND RECQG"				
+			echo "MANGLING ${f} BEYOND RECQG"				
 			f2=$(echo ${f} | cut -d '.' -f 2)
+			${scm} a+r ${f}
 
 			#151126:ehkä pystyisi kikkailemaan niinkin ettei tarvitse erillistä kirjastoa /o/b alla
 			fasdfasd ${f2}.bash
 			head -n 1 $0 > ${f2}.bash
-			grep -v '#' ${2} >> ${f2}.bash
-			grep -v '#' ${g2}/lib.s >> ${f2}.bash 
-			
-			
-			grep -v '#' ${f} >> ${f2}.bash
+
+			#JOKO JO???
+			${odio} grep -v '#' ${2} >> ${f2}.bash
+			${odio} grep -v '#' ${g2}/lib.s >> ${f2}.bash 
+			${odio} grep -v '#' ${f} >> ${f2}.bash
+
+			sleep 1
+			${scm} a-r ${f}
 		done
 #	else
 #		dqb " ${1}/${CONF_DIR2} does not exist"
@@ -910,6 +917,7 @@ function TLA() {
 	dqb "TLA.ipt :  ${ipt} "
 	dqb "TLA.testgris : ${CONF_testgris}"
 	
+	#TODO:env-tarq, voisiko niitä karsia?
 	if [ -z "${ipt}" ] || [ "${ipt}" == "${odio}" ] || [ "${CONF_env}" == "TOOR" ] ; then
 		echo "5H0ULD-1N\$TALL-1PTABL35!!!"
 	else
@@ -1005,8 +1013,9 @@ function reqwreqw() {
 }
 
 function e_final() {
-	dqb "Alm0st f1NAL"
+	echo "Alm0st f1NAL"
 	[ -v CONF_DIR2 ] || exit 99
+	sleep 10
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then 
 		${scm} go-rw ${CONF_DIR2}/*
@@ -1021,21 +1030,26 @@ function e_final() {
 	${scm} 0777 /tmp
 	${sco} root:root /tmp
 
-	#tekeekö o+t mitään merkittävää tässä vai ei?
-	#${scm} o+t /tmp
+	#tekeekö o+t mitään merkittävää tässä vai ei? 221126 alettu kokeilemaan
+	${scm} o+t /tmp
 
-	dqb "SALA DE ANALIS CLINICOS ASD ASD 123"
+	echo "SALA DE ANALIS CLINICOS ASD ASD 123"
+	sleep 1
 }
 
 function e_h() {
-	dqb "EH ((( ${1} ;; ((( ${2} ))(((((("
+	echo "EH ((( ${1} ;; ((( ${2} ))(((((("
 	[ -z "${1}" ] && exit 98
 	[ -d ${2} ] || exit 99
-	dqb "pars.ok"
+	echo "pars.ok"
 
+	#221126;mennäänkö tänän kohtraabn?
 	${sco} root:root /home
 	${scm} 0755 /home
 	
+	ls -las /home
+	sleep 10
+
 	local f
 	local c=$(grep $1 /etc/passwd | wc -l)
 	local m=0555
@@ -1052,11 +1066,13 @@ function e_h() {
 	dqb "ETH TAOG FO EHT HTOA)("
 
 	for f in $(find ${2} -type f -name "*.sh" ) ; do ${scm} ${m} ${f} ; done
+	dqb "${CONF_DIR2} SOON"
+	csleep 6
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then	#tänään näin
 		if [ -d ${2}${CONF_DIR2} ] ; then
 			${sco} -R root:root ${2}${CONF_DIR2}
-
+			#TODO:ao, rivi uusicksi
 			${scm} 0400 ${2}${CONF_DIR2}/*
 			${scm} 0511 ${2}${CONF_DIR2}/*.bash
 		fi
@@ -1074,6 +1090,7 @@ function mangle2() {
 	fi
 }
 
+#251126:pitäisikö tämäkin debugata?
 function e_e() {
 	fix_sudo
 	for f in $(find /etc/sudoers.d/ -type f) ; do mangle2 ${f} ; done
@@ -1085,6 +1102,10 @@ function e_e() {
 	other_horrors
 	${scm} 0755 /etc
 	${sco} -R root:root /etc
+
+	dqb "TODO:voisi välillä testailla miten wpasupplicant nykyään , esim-konf jostain jnpp"
+	csleep 6
+
 	${scm} 0555 /etc/network
 	${scm} 0444 /etc/network/*
 
@@ -1096,6 +1117,7 @@ function e_e() {
 
 	[ -f /sbin/dhclient-script.${f} ] || ${spc} /sbin/dhclient-script /sbin/dhclient-script.${f}
 
+	#221126:pitäisikö trq olla toisessa järjestyksessä?
 	if [ -f /etc/resolv.conf.${f} ] ; then
 		dqb "SADF SADF SADFS ASDGH"
 	else
@@ -1136,12 +1158,13 @@ function e_v() {
 }
 
 function enforce_access() {
-	dqb "common_lib.enforce_access(${1} , ${2} ))))))"
+	echo "common_lib.enforce_access(${1} , ${2} ))))))"
 	[ -z "${1}" ] && exit 67
 	[ -z "${2}" ] && exit 68
 	
-	dqb "pars.ok"
-	
+	echo "pars.ok"
+	sleep 5
+
 	e_e
 	e_v
 	e_h ${1} ${2}

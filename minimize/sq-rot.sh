@@ -74,6 +74,7 @@ else
 		fi
 	fi
 
+	#HUOM. nollaus vöib aiheuttaa sivuvaikutuksia
 	odio=""	
 	echo "MAYBE U SHOULD chmod a+x ${d0}/common_lib.sh"
 
@@ -111,12 +112,17 @@ else
 		gg=$(${odio} which gpg) #suattaapi olla että tähän tökkää, taisiis myöhemmin
 		[ -z "${gg}" ] && echo "SH0ULD.1NST.GPG"
 		NKVD=$(${odio} which shred)
+
+		sco=$(${odio} which chown)
+		scm=$(${odio} which chmod)
 	}
 
 	function check_binaries2() {
 		echo "fish.rot.2"
 		srat="${odio} ${srat}"
 		NKVD="${odio} ${NKVD} -fu "
+		sco="${odio} ${sco} "
+		scm="${odio} ${scm} "	
 	}
 
 	function part3() {
@@ -226,7 +232,7 @@ function erp() {
 		fi
 	fi
 
-	echo "ERP ONED"
+	echo "ERP 3n0D"
 }
 	
 fi
@@ -331,24 +337,51 @@ function common_part() {
 		fi
 	fi
 
-	echo "NECKST: ${srat} -C ${3} -xf ${1}  ${TARGET_TPX} "
-	${srat} -C ${3} -xf ${1} ${TARGET_TPX}
+	#exclude ennen muita optioita?
+	echo "NECKST: ${srat}  ${TARGET_TPX} -C ${3} -xf ${1}  "
+	${srat} ${TARGET_TPX} -C ${3} -xf ${1}
+
+	#To state te obvious:"sudo tar" is dangerous
+
 	[ $? -eq 0 ] || exit 36	#jospa viallisen arkiston deletoisi?
 	echo "${srat} DONE"
 }
 
 #cptp2 -> common_lib vai ei?
 function cptp2() {
-	dqb "rot.c tp2 ${1}, ${2}, ${3}"
-
+	echo "rot.c tp2 ${1}, ${2}, ${3}"
+	sleep 1
 	[ -z "${1}" ] && exit 99
 	[ -d ${1} ] || exit 97
 
-	dqb "cptp2:pars ok"
+	echo "cptp2:pars ok"
+	sleep 1
 
 	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
+	#... kovolangoituksesta puhumattakaan
+
+	#uutena 221126 (else-haaraan jatkossa)
+	echo "sco: ${sco}"
+	echo "scm: ${scm}"
+	sleep 6
+
+	${sco} 0:0 /home
+	${scm} 0755 /home
+	csleep 1
+
+	${sco} -R 0:0 /opt
+	${scm} -R a-w /opt
+	csleep 1
+
+	${sco} 0:0 /
+	${scm} go-w /
+	csleep 1
+
 	local t
 	t=$(echo ${1} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
+
+	echo "JUST BEFORE COMMON_LIB"
+	sleep 10
 
 	if [ -f ${t}/common_lib.sh ] ; then
 		#onkohan tuossa kistuksessa pointtia?
@@ -362,8 +395,12 @@ function cptp2() {
 		
 			dqb "TRO: running mutilatetc.bash maY be necessary now to fix some things"
 		else
-			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
+			echo "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things (how abt chmod?) "
+			sleep 67
 		fi
+	else
+		echo "SHOULD GO PROMPT CRITICAL RIGHT NOW"
+		sleep 66
 	fi
 
 	if [ -d ${t} ] ; then
@@ -376,7 +413,7 @@ function cptp2() {
 	fi
 
 	[ ${debug} -eq 1 ] && ls -las ${1}
-	dqb "ALL DONE"
+	echo "ptp2 ALL DONE";sleep 1
 }
 
 doIt=0
@@ -514,4 +551,4 @@ dqb "REMEMBER: omega 5 | omega 6 BFRE plain omega"
 #fi
 
 #201126:tämäkö aiheuttaa ongelmia?
-[ "${CONF_env}" == "TOOR" ] || cptp2 ${d0}
+cptp2 ${d0}

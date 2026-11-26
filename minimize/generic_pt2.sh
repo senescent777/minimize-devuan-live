@@ -77,9 +77,8 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-#lopuksi uuden oemnan kanssa: haluaa hukata äksän (vielä 10/26?)
-#2x0926:uudemmankin päivityspak kanssa se hukkaamisongelma kun mennään omegaan, jnties VIELÄ uusi yritys päivbityspak kanssa (kts miten ten1 ja part175 tällä krt)
-#011026:suoRitus pysähtyi python3-cups poiston jälkeen kun ilman -v , kts toistuuko? tai siis
+011026:suoRitus pysähtyi python3-cups poiston jälkeen kun ilman -v , kts toistuuko? tai siis
+#261126:GPG-SIRKUKSELLE EDELLEEN SYYTÄ TEHDÄ JOTAIN
 
 if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
 	dqb "kö"
@@ -103,9 +102,9 @@ function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 	#saattaa liittyä johnkin jssain tlant: Stopping bluetooth:start-stop-daemon: nothing in /proc - not mounted?
-	#sqrOOt-juttujen kanssa jotain muutoksie, ehkä?
-	#27926 rakenneltu .iso sai jo oikean grub.cfg mutta äksän kanssa vähän kusi (slim->wdm-siirtymä jäi puolitiehen niinqu)
 
+	#261126:voisiko jo tämän blokin poistaa?
+	
 	dqb "BLU NFS \?"
 	csleep 16
 	#defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista, bissiin näin
