@@ -77,7 +77,7 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-011026:suoRitus pysähtyi python3-cups poiston jälkeen kun ilman -v , kts toistuuko? tai siis
+#011026:suoRitus pysähtyi python3-cups poiston jälkeen kun ilman -v , kts toistuuko? tai siis
 #261126:GPG-SIRKUKSELLE EDELLEEN SYYTÄ TEHDÄ JOTAIN
 
 if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
