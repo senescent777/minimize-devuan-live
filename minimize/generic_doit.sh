@@ -1,7 +1,7 @@
 #!/bin/bash
 mode=2
 
-#190926:pääsisiköhön jatkossa noista d,d0,distro-mjista eroon jtnkn? tai yhteistoiminta guess_conf kanssa?
+#190926:pääsisiköhän jatkossa noista d,d0,distro-mjista eroon jtnkn? tai yhteistoiminta guess_conf kanssa?
 distro=$(cat /etc/devuan_version)
 d0=$(pwd)
 [ -z "${distro}" ] && exit 6
@@ -53,6 +53,7 @@ function dis() {
 	${sco} -R root:root /etc/network
 	${scm} a+r /etc/network/*
 
+	#tämän ai kai outäöis koskea linkkeihin
 	if [ -f /etc/network/interfaces ] ; then
 		if [ ! -h /etc/network/interfaces ] ; then
 			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
@@ -209,7 +210,7 @@ process_lib ${d} ${pkgcache}
 
 #==================================PART 1============================================================
 [ -v CONF_enforce ] || exit 99
-[ -v CONF_enforce_prefix ] || exit 101
+[ -v CONF_enforce_prefix ] || exit 102
 
 if [ -s ~/xorg.conf.new ] ; then
 	if [ ! -s /etc/X11/xorg.conf ] ; then
@@ -219,7 +220,7 @@ if [ -s ~/xorg.conf.new ] ; then
 fi
 
 function pre_enforce() {
-	dqb "pre_enforce() "
+	dqb "pre em_force ) ${1} ; ${2} ( "
 
 	[ -z "${1}" ] && exit 98
 	[ -d ${1} ] || exit 97
@@ -262,17 +263,14 @@ function pre_enforce() {
 	#HUOM:$1/o/b alainen sisältö yulisi tietenkin kistaa ennen kopsailua, check_bin hoitaa jälkikäteen?
 	[ -v CONF_DIR2 ] || exit 79
 
-	if [ "${CONF_env}" == "DEFAULT" ] ; then
+	#if [ "${CONF_env}" == "DEFAULT" ] ; then
 		if [ ! -d ${CONF_DIR2} ] ; then
 			${smd} ${CONF_DIR2}
 			[ $? -eq 0 ] || ${odio} ${smd} ${CONF_DIR2}
 		fi
 
-		#TODO:kts setup2.f5b() tähän kohtaan liittyen
-		if [ -d ${1}${CONF_DIR2} ] ; then
-			${svm} ${1}${CONF_DIR2}/*.bash ${CONF_DIR2}
-		fi
-	fi
+		sss ${1} ${g_cfile} #TODO:jälk glob pois 
+	#fi
 
 	e_final
 
@@ -329,10 +327,22 @@ function pre_enforce() {
 	csleep 1
 }
 
+#251126:tripla-s vain tarvittaessa jatqs?
+#echo "VAIH:sss() testaus just ennen tàtà if-blokkia"
+#sleep 6
+#
+#if [ ! -d ${CONF_DIR2} ] ; then
+#	${smd} ${CONF_DIR2}
+#	[ $? -eq 0 ] || ${odio} ${smd} ${CONF_DIR2}
+#fi
+#
+#sss ${d0} ${g_cfile}
+#exit
+
 if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 else 
-	pre_enforce ${d0}
+	pre_enforce ${d0} ${g_cfile}
 fi
 
 if [ "${CONF_env}" != "DEFAULT" ] ; then
@@ -363,8 +373,6 @@ if [ ${mode} -gt 1 ] ; then
 		c13=$(env | grep LC_TIME | grep ${LCF666} | wc -l)
 		 #barm vuoksi näin
 		[ $c13 -gt 0 ] && c14=0
-		
-		#profit
 	fi
 fi
 
@@ -435,7 +443,9 @@ ${sco} 0:0 ${CONF_DIR2}/*
 ${scm} 0400 ${CONF_hashfile3}*
 
 #011126:1 ajokerta ei nykyään riitä?
-if [ -x ${CONF_DIR2}/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
+#151126:vika ehto ok vai ei?
+
+if [ -x ${CONF_DIR2}/mutilatetc.bash ] && [ -v CONF_dnsm ] && [ "${CONF_env}" != "TOOR" ] ; then
 	${odio} ${CONF_DIR2}/mutilatetc.bash ${CONF_dnsm}
 else
 	echo "NOTHING LEFT TO MUTILATE"
