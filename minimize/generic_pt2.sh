@@ -57,7 +57,8 @@ if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0400 ${CONF_hashfile3}*
 fi
 
-if [ -x ${CONF_DIR2}/mutilatetc.bash ] && [ -v CONF_dnsm ] ; then
+#151126:vika ehto ok vai ei?
+if [ -x ${CONF_DIR2}/mutilatetc.bash ] && [ -v CONF_dnsm ] && [ "${CONF_env}" != "TOOR" ]  ; then
 	${odio} ${CONF_DIR2}/mutilatetc.bash ${CONF_dnsm}
 else
 	dqb "FAILURE TO MUTILATE: /etc/resolc. von f "
@@ -76,9 +77,8 @@ dqb "removepkgs=${CONF_removepkgs}"
 dqb "mode=${mode} "
 sleep 1
 
-#lopuksi uuden oemnan kanssa: haluaa hukata äksän (vielä 10/26?)
-#2x0926:uudemmankin päivityspak kanssa se hukkaamisongelma kun mennään omegaan, jnties VIELÄ uusi yritys päivbityspak kanssa (kts miten ten1 ja part175 tällä krt)
 #011026:suoRitus pysähtyi python3-cups poiston jälkeen kun ilman -v , kts toistuuko? tai siis
+#261126:GPG-SIRKUKSELLE EDELLEEN SYYTÄ TEHDÄ JOTAIN
 
 if [ ${CONF_removepkgs} -eq 1 ] && [ "${CONF_env}" != "TOOR" ] ; then # 2. ehto ok?
 	dqb "kö"
@@ -102,11 +102,11 @@ function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 
 if [ "${CONF_env}" == "TOOR" ] ; then
 	#saattaa liittyä johnkin jssain tlant: Stopping bluetooth:start-stop-daemon: nothing in /proc - not mounted?
-	#sqrOOt-juttujen kanssa jotain muutoksie, ehkä?
-	#27926 rakenneltu .iso sai jo oikean grub.cfg mutta äksän kanssa vähän kusi (slim->wdm-siirtymä jäi puolitiehen niinqu)
 
+	#261126:voisiko jo tämän blokin poistaa?
+	
 	dqb "BLU NFS \?"
-	csleep 6
+	csleep 16
 	#defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista, bissiin näin
 
 	${sharpy} blu* #poistuu vai ei? initramfs-tools liittyy?
@@ -127,12 +127,15 @@ if [ "${CONF_env}" == "TOOR" ] ; then
 	${scm} a-wx /etc/init.d/nfs*
 	${scm} a-wx /etc/init.d/rpc*
 	${scm} a-wx /etc/init.d/slim*
+
 	ls -las /etc/init.d
 	csleep 6
 
 	dqb "V1"
-	#exit
+	csleep 10	
+
 	#011026:jokohan jo sqeoorissa alkaisi blu-jutut poistua...
+	#191126:jos vielä kerran varmistaisi, vissiin poistuu blu jo
 fi
 
 #vs destroy()
