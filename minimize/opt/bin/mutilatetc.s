@@ -1,6 +1,6 @@
 
 function gf() {
-	dqb "gf $1, $2"
+	dqb "gf ${1}, ${2} #"
 	csleep 1
 
 	[ -z "${1}" ] && exit 103
@@ -26,9 +26,9 @@ function gf() {
 
 gf ${CONF_hashfile3}
 #chattrin kanssa käviSi ktevämmin, lisäksi pitäisi reagoida jyrkemmin?
-c3=$(find ${CONF_dir2} -name "zxcv*" -type f -perm /o+w,g+w,u+w | wc -l)
+c3=$(${odio} find ${CONF_dir2} -name "zxcv*" -type f -perm /o+w,g+w,u+w | wc -l)
 [ ${c3} -gt 0 ] && exit 105
-c3=$(find  ${CONF_dir2} -name "zxcv*" -type f -perm /o+r,g+r | wc -l)
+c3=$(${odio} find  ${CONF_dir2} -name "zxcv*" -type f -perm /o+r,g+r | wc -l)
 [ ${c3} -gt 0 ] && exit 106
 
 
@@ -45,7 +45,7 @@ ${odio} ${sah6} --ignore-missing -c ${CONF_hashfile3}
 #TODO:tähän asti -> lib jatkossa?
 
 function gh() {
-	dqb "gh $1 , $2"
+	dqb "gh ${1} , ${2} #"
 	csleep 1
 
 	[ -z "${1}" ] && exit 108
@@ -71,29 +71,32 @@ function gh() {
 }
 
 function itin2 {
+	dqb "niti"
 	local c
-	c=$(find /etc -name "iptab*" -type d -perm /o+w,o+r,o+x | wc -l)
+
+	local c
+	c=$(${odio} find /etc -name "iptab*" -type d -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 111
 
-       	c=$(find /etc -name "iptab*" -type d -perm /g+w | wc -l)
+       	c=$(${odio} find /etc -name "iptab*" -type d -perm /g+w | wc -l)
 	[ ${c} -gt 0 ] && exit 123
 
 	gf /etc iptab
-	${odio} rm /etc/default/rules*
+	#${smr} /etc/default/rules* qseeko tässä jokin? findin kautta?
 
 	c=$(${odio} find /etc -name "rules.v?.?" -type f -perm /g+x,g+w | wc -l)
 	[ ${c} -gt 0 ] && exit 114
 
 	gh /etc rules.v
-	c=$(find /etc -name "sudoers*" -type d -perm /o+w,o+r,o+x | wc -l)
+	c=$(${odio} find /etc -name "sudoers*" -type d -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 117
 	gf /etc sudoers
 
-	c=$(find /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
+	c=$(${odio} find /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 120
 	gf /etc/sudoers.d
 
-	c=$(find /etc -name "ntp*" -type f -perm /o+w | wc -l)
+	c=$(${odio} find /etc -name "ntp*" -type f -perm /o+w | wc -l)
 	gh /etc ntp
 }
 
@@ -101,13 +104,17 @@ itin2
 
 function clouds_pp1() {
 	dqb "#c.pp.1  ( ${1} )"
+	dqb "smr: ${smr}"
+	dqb "svm: ${svm}"
+	csleep 10
+
 	local f
 	local c0
 
-	for f in etc/resolv.conf etc/dhcp/dhclient.conf ; do
+	for f in resolv.conf dhclient.conf ; do
 		if [ -h ${f} ] ; then
 			#mikä ero -L nähden?
-			c0=$(find / -type f -name "${f}.*" | wc -l)
+			c0=$(${odio} find /etc -type f -name "${f}.*" | wc -l)
 			#if [ -s ${f}.1 ] || [ -s ${f}.0 ] ; then #riittäisikö nämä tark?
 
 			if [ ${c0} -gt 0 ] ; then
@@ -123,7 +130,7 @@ function clouds_pp1() {
 	done
 
 #280326:toistaiseksi jemmaan dhslcient-skriptiin sekaantuminen kunnes miettinyt vähän
-#	c0=$(find /sbin -type f -name "dhclient-script.*" | wc -l)
+#	c0=$(${odio} find /sbin -type f -name "dhclient-script.*" | wc -l)
 #	#
 #	#if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 
 #
@@ -160,19 +167,19 @@ function clouds_post() {
 	csleep 1
 	local f
 
-	for f in $(find /etc -type f -name "resolv.conf*") ; do
+	for f in $(${odio} find /etc -type f -name "resolv.conf*") ; do
 		${scm} 0444 ${f}
 		${sco} root:root ${f}
 	done
 
-	for f in $(find /etc -type f -name "dhclient*") ; do
+	for f in $(${odio} find /etc -type f -name "dhclient*") ; do
 		${scm} 0444 ${f}
 		${sco} root:root ${f}
 	done
 
 	${scm} 0555 /etc/dhcp
 
-	for f in $(find /sbin -type f -name "dhclient*") ; do
+	for f in $(${odio} find /sbin -type f -name "dhclient*") ; do
 		${scm} 0555 ${f}
 		${sco} root:root ${f}
 	done
@@ -180,12 +187,12 @@ function clouds_post() {
 	${scm} 0555 /sbin
 	p3r1m3tr
 
-	for f in $(find /etc -type f -name "ntp*") ; do
+	for f in $(${odio} find /etc -type f -name "ntp*") ; do
 		${scm} 0444 ${f}
                 ${sco} root:root ${f}
 	done
 
-	for f in $(find /etc/network -type f -name "interface*") ; do
+	for f in $(${odio} find /etc/network -type f -name "interface*") ; do
 		${scm} 0444 ${f}
 		${sco} root:root ${f}
 	done
@@ -198,7 +205,7 @@ function clouds_post() {
 	${scm} 0555 /etc/init.d/ntpsec
 	${sco} 0:0 /etc/init.d/ntpsec
 
-	if [ ${debug} -eq 1 ] ; then
+	if [ ${debug} -eq 1 ] ; then #jos debug ni risuaita kanssa tjsp
 		${ipt} -L  #
 		csleep 1
 		dqb "666"
