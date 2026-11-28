@@ -526,7 +526,8 @@ function e22_ext() {
 	[ ${c} -gt 0 ] || exit 97
 	echo $?
 	
-	#TODO:voisiko näkä kikkailut jo poistaa?
+	#TODO:voisiko näkä kikkailut jo poistaa? "-not - name" siis
+	#TODO:fnid() ?
 	for f in $(find ./etc -type f -not -name "interfaces.*" -and -not -name "resolv.*") ; do
 		${sah6} ${f} >> ${4}
 	done
@@ -901,7 +902,8 @@ function e22_sarram() {
 
 	${srat} -rvf ${1} /etc/X11/default-display-manager
 
-	#TODO:jatkossa haetaan jostain muualta? ts kovolangoitettuja juttuja vähemmäksi
+	#TODO:jatkossa haetaan jostain muualta? ts kovolangoitettuja juttuja vähemmäksi ($d0 parempi?)
+	#TODO:jotain kautta ne ./o/b/*.s - jutskat mukaan	
 	for f in $(find ~ -type f -name "*pkgs*" | grep -v OLD | grep -v old) ; do 
 		${sah6} ${f} >> ${3}
 	done
