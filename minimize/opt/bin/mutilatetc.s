@@ -1,36 +1,38 @@
 
+#TODO?:tämä kijastoon? fkfiota qtsuvan rivin kanssa? tai oikeastaan gf-sah6-gh  
 function gf() {
-#	dqb "gf $1, $2"
-#	csleep 1
-#
+
 	[ -z "${1}" ] && exit 103
 	local c2
 
 	if [ -z "${2}" ] ; then
-		c2=$(${odio} find ${1} -type d -not -user 0 | wc -l)
+		c2=$(${fnid} ${1} -type d -not -user 0 | wc -l)
 	else
-		dqb "find ${1} -name ${2} -type d -not \$smthing"
-		c2=$(${odio} find ${1} -name "${2}*" -type d -not -user 0 | wc -l)
+		dqb "fnid ${1} -name ${2} -type d -not \$smthing"
+		c2=$(${fnid} ${1} -name "${2}*" -type d -not -user 0 | wc -l)
 	fi
 
 	[ ${c2} -gt 0 ] && exit 104
 
 	if [ -z "${2}" ] ; then
-		c2=$(${odio} find ${1} -type d -not -group 0 | wc -l)
+		c2=$(${fnid} ${1} -type d -not -group 0 | wc -l)
 	else
-		c2=$(${odio} find ${1} -name "${2}*" -type d -not -group 0 | wc -l)
+		c2=$(${fnid} ${1} -name "${2}*" -type d -not -group 0 | wc -l)
 	fi
 
 	[ ${c2} -gt 0 ] && exit 105
 }
 
 gf ${CONF_hashfile3}
-#chattrin kanssa käviSi ktevämmin, lisäksi pitäisi reagoida jyrkemmin?
-c3=$(find ${CONF_dir2} -name "zxcv*" -type f -perm /o+w,g+w,u+w | wc -l)
-[ ${c3} -gt 0 ] && exit 105
-c3=$(find  ${CONF_dir2} -name "zxcv*" -type f -perm /o+r,g+r | wc -l)
-[ ${c3} -gt 0 ] && exit 106
 
+#TODO:basename.- ja dirname- juttuja tuohon alle nyt ei hyvin
+#gh-itin-fnid-jutut mielellään siinä järjestyksessä että tablesin ehtii oikaista tarvottaessa
+
+#chattrin kanssa käviSi ktevämmin, lisäksi pitäisi reagoida jyrkemmin?
+c3=$(${fnid} ${CONF_dir2} -name "zxcv*" -type f -perm /o+w,g+w,u+w | wc -l)
+[ ${c3} -gt 0 ] && exit 105
+c3=$(${fnid}  ${CONF_dir2} -name "zxcv*" -type f -perm /o+r,g+r | wc -l)
+[ ${c3} -gt 0 ] && exit 106
 
 #vähän kiikun kaakun onko fiksua sudottaa noita ao. komentoja , gg tilapäisesti jemmaan 280326
 #if [ ! -z "${gg}" ] ; then
@@ -40,13 +42,12 @@ c3=$(find  ${CONF_dir2} -name "zxcv*" -type f -perm /o+r,g+r | wc -l)
 #	fi
 #fi
 
-
 ${odio} ${sah6} --ignore-missing -c ${CONF_hashfile3}
 [ $? -eq 0 ] || exit 108
 #TODO:tähän asti -> lib jatkossa?
 
 function gh() {
-#	dqb "gh $1 , $2"
+#	dqb "gh ${1} , ${2} ; ###"
 #	csleep 1
 
 	[ -z "${1}" ] && exit 108
@@ -54,47 +55,48 @@ function gh() {
 	dqb "hg.raps.0kj"
 
 	if [ -z "${2}" ] ; then
-		c2=$(${odio} find ${1} -type f  -not -user 0 | wc -l)
+		c2=$(${fnid} ${1} -type f  -not -user 0 | wc -l)
 	else
-		dqb "find ${1} -type f -name "
-		c2=$(${odio} find ${1} -type f -name "${2}*" -not -user 0 | wc -l)
+		dqb "${fnid} ${1} -type f -name "
+		c2=$(${fnid} ${1} -type f -name "${2}*" -not -user 0 | wc -l)
 	fi
 
 	[ ${c2} -gt 0 ] && exit 106
 
 	if [ -z "${2}" ] ; then
-		c2=$(${odio} find ${1} -type f -not -group 0 | wc -l)
+		c2=$(${fnid} ${1} -type f -not -group 0 | wc -l)
 	else
-		c2=$(${odio} find ${1} -type f -name "${2}*" -not -group 0 | wc -l)
+		c2=$(${fnid} ${1} -type f -name "${2}*" -not -group 0 | wc -l)
 	fi
 
 	[ ${c2} -gt 0 ] && exit 107
 }
 
 function itin2 {
+	dqb "nirrti"
 	local c
-	c=$(find /etc -name "iptab*" -type d -perm /o+w,o+r,o+x | wc -l)
+	c=$(${fnid} /etc -name "iptab*" -type d -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 111
 
-       	c=$(find /etc -name "iptab*" -type d -perm /g+w | wc -l)
+       	c=$(${fnid} /etc -name "iptab*" -type d -perm /g+w | wc -l)
 	[ ${c} -gt 0 ] && exit 123
 
 	gf /etc iptab
-	${odio} rm /etc/default/rules*
+	#${srm}/etc/default/rules* #aiheuttaa omngelmia?
 
-	c=$(${odio} find /etc -name "rules.v?.?" -type f -perm /g+x,g+w | wc -l)
+	c=$(${fnid} /etc -name "rules.v?.?" -type f -perm /g+x,g+w | wc -l)
 	[ ${c} -gt 0 ] && exit 114
 
 	gh /etc rules.v
-	c=$(find /etc -name "sudoers*" -type d -perm /o+w,o+r,o+x | wc -l)
+	c=$(${fnid} /etc -name "sudoers*" -type d -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 117
 	gf /etc sudoers
 
-	c=$(find /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
+	c=$(${fnid} /etc/sudoers.d -type f -perm /o+w,o+r,o+x | wc -l)
 	[ ${c} -gt 0 ] && exit 120
 	gf /etc/sudoers.d
 
-	c=$(find /etc -name "ntp*" -type f -perm /o+w | wc -l)
+	c=$(${fnid} /etc -name "ntp*" -type f -perm /o+w | wc -l)
 	gh /etc ntp
 }
 
@@ -105,13 +107,14 @@ function clouds_pp1() {
 	local f
 	local c0
 
-	for f in etc/resolv.conf etc/dhcp/dhclient.conf ; do
+	for f in resolv.conf dhclient.conf ; do
 		if [ -h ${f} ] ; then
 			#mikä ero -L nähden?
-			c0=$(find / -type f -name "${f}.*" | wc -l)
+			c0=$(${fnid} /etc -type f -name "${f}.*" | wc -l)
 			#if [ -s ${f}.1 ] || [ -s ${f}.0 ] ; then #riittäisikö nämä tark?
 
 			if [ ${c0} -gt 0 ] ; then
+				#qseeko tässä kohtaa jokin vai ei?
 				${smr} ${f}
 				[ $? -gt 0 ] && dqb "FAILURE TO COMPLY WHILE TRYING TO REMOVE ${f}"
 			else
@@ -124,7 +127,7 @@ function clouds_pp1() {
 	done
 
 #280326:toistaiseksi jemmaan dhslcient-skriptiin sekaantuminen kunnes miettinyt vähän
-#	c0=$(find /sbin -type f -name "dhclient-script.*" | wc -l)
+#	c0=$(${fnid} /sbin -type f -name "dhclient-script.*" | wc -l)
 #	#
 #	#if [ -s /sbin/dhclient-script.1 ] || [ -s /sbin/dhclient-script.0 ] ; then 
 #
@@ -161,19 +164,19 @@ function clouds_post() {
 	csleep 1
 	local f
 
-	for f in $(find /etc -type f -name "resolv.conf*") ; do
+	for f in $(${fnid} /etc -type f -name "resolv.conf*") ; do
 		${scm} 0444 ${f}
 		${sco} root:root ${f}
 	done
 
-	for f in $(find /etc -type f -name "dhclient*") ; do
+	for f in $(${fnid} /etc -type f -name "dhclient*") ; do
 		${scm} 0444 ${f}
 		${sco} root:root ${f}
 	done
 
 	${scm} 0555 /etc/dhcp
 
-	for f in $(find /sbin -type f -name "dhclient*") ; do
+	for f in $(${fnid} /sbin -type f -name "dhclient*") ; do
 		${scm} 0555 ${f}
 		${sco} root:root ${f}
 	done
@@ -181,12 +184,12 @@ function clouds_post() {
 	${scm} 0555 /sbin
 	p3r1m3tr
 
-	for f in $(find /etc -type f -name "ntp*") ; do
+	for f in $(${fnid} /etc -type f -name "ntp*") ; do
 		${scm} 0444 ${f}
                 ${sco} root:root ${f}
 	done
 
-	for f in $(find /etc/network -type f -name "interface*") ; do
+	for f in $(${fnid} /etc/network -type f -name "interface*") ; do
 		${scm} 0444 ${f}
 		${sco} root:root ${f}
 	done
@@ -202,7 +205,7 @@ function clouds_post() {
 	if [ ${debug} -eq 1 ] ; then #jos gerppaa risuaidan ni kandee grepata myös dfebug
 		${ipt} -L  #
 		csleep 1
-		dqb "666"
+		dqb "GOAT NUMBER #666"
 		${ip6t} -L #olisi parempi ajaa vain jos löytyy
 		csleep 1 #
 	fi #
@@ -211,7 +214,7 @@ function clouds_post() {
 }
 
 #====================================================================
-#[ $# -lt 1 ] && exit 99 #VAIH:tarkistus uusiksi koska x
+#[ $# -lt 1 ] && exit 99 #HUOM. einäin koska x
 [ -z "${1}" ] && exit 99
 t=$(echo ${1} | tr -dc a-zA-Z0-9/.)
 slinky=$(${odio} which ln)

@@ -8,7 +8,6 @@ ${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
 ${ipt} -D u 2
 ${ipt} -D v 2
 
-
 function dda_snd() {
 	dqb "dda_snd( ${1})"
 
@@ -27,7 +26,6 @@ function dda_snd() {
 		${ipt} -A v -p udp -m udp -d ${t} --dport 53 -j ACCEPT
 	else
 		dqb "AB"
-		#HUOM.070326:oli AIEmmin -{s,d} ${t} ja sitten taas
 		${ipt} -A b -p udp -m udp -s ${t} --sport 53 -j ACCEPT 
 		${ipt} -A e -p udp -m udp -d ${t} --dport 53 -j ACCEPT
 	fi
@@ -69,7 +67,6 @@ else
 	sleep 66
 fi
 
-
 function ptn_dda() {
 
 	local t
@@ -78,6 +75,7 @@ function ptn_dda() {
 	t=$(echo ${1} | tr -d -c 0-9.)
 	# | cut -c 15) eivielä
 
+	u=0
 	u=$(echo ${1} | grep 192.168 | wc -l) #
 
 	if [ ${u} -gt 0 ] ; then
