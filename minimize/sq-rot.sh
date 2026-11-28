@@ -360,22 +360,7 @@ function cptp2() {
 	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
 	#... kovolangoituksesta puhumattakaan
 
-	#uutena 221126 (else-haaraan jatkossa)
-	echo "sco: ${sco}"
-	echo "scm: ${scm}"
-	sleep 6
 
-	${sco} 0:0 /home
-	${scm} 0755 /home
-	csleep 1
-
-	${sco} -R 0:0 /opt
-	${scm} -R a-w /opt
-	csleep 1
-
-	${sco} 0:0 /
-	${scm} go-w /
-	csleep 1
 
 	local t
 	t=$(echo ${1} | cut -d "/" -f 1-5 | tr -d -c 0-9a-zA-Z/.)
@@ -383,23 +368,64 @@ function cptp2() {
 	echo "JUST BEFORE COMMON_LIB"
 	sleep 10
 
-	if [ -f ${t}/common_lib.sh ] ; then
-		#onkohan tuossa kistuksessa pointtia?
-		if [ -s ${t}/common_lib.sh.sig ] && [ ! -z "${gg}" ] ; then
-			${gg} --verify ${t}/common_lib.sh.sig 
-			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"
-		fi
+	local u=0
 
-		if [ -x ${t}/common_lib.sh ] ; then
-			enforce_access $(whoami) ${t}
-		
-			dqb "TRO: running mutilatetc.bash maY be necessary now to fix some things"
-		else
-			echo "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things (how abt chmod?) "
-			sleep 67
+	if [ -f ${t}/common_lib.sh ] ; then
+		if [ -s ${t}/common_lib.sh ] ; then
+			if [ -x ${t}/common_lib.sh ] ; then
+				u=1
+			fi
 		fi
+	fi
+
+	if [ ${u} -gt 0 ] ; then
+#		#onkohan tuossa kistuksessa pointtia?
+#		.sig ] && [ ! -z "${gg}" ] ; then
+#			${gg} --verify ${t}/common_lib.sh.sig 
+#			[ $? -eq 0 ] || echo "SHOULD HALT AND CATCH FIRE NOW"
+#		fi
+#
+#		
+		enforce_access $(whoami) ${t}
+#		
+#			dqb "TRO: running mutilatetc.bash maY be necessary now to fix some things"
+#		else
+#			echo "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things (how abt chmod?) "
+#			sleep 67
+#		fi
 	else
 		echo "SHOULD GO PROMPT CRITICAL RIGHT NOW"
+		sleep 6
+
+		#uutena 221126 (else-haaraan jatkossa)
+		echo "sco: ${sco}"
+		echo "scm: ${scm}"
+		sleep 6
+	
+		#e_h() tulisi tehdä tämä
+		${sco} 0:0 /home
+		${scm} 0755 /home
+		csleep 1
+	
+		#VAIH:e_final() hoitamaan?
+		${sco} -R 0:0 /opt
+		${scm} -R a-w /opt
+		csleep 1
+	
+		#e_final()
+		${sco} 0:0 /
+		${scm} go-w /
+		csleep 1
+
+		#JOKO JO???
+		local p=$(pwd)
+		cd /
+		${scm} go+rx .
+		${scm} go+rx ..
+		${sco} 0:0 .
+		${sco} 0:0 ..	
+		cd ${p}
+	
 		sleep 66
 	fi
 

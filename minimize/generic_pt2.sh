@@ -57,7 +57,7 @@ if [ "${CONF_env}" == "DEFAULT" ] ; then
 	${scm} 0400 ${CONF_hashfile3}*
 fi
 
-#151126:vika ehto ok vai ei?
+#151126:vika ehto ok vai ei? tartteeko dev-env tätä?
 if [ -x ${CONF_DIR2}/mutilatetc.bash ] && [ -v CONF_dnsm ] && [ "${CONF_env}" != "TOOR" ]  ; then
 	${odio} ${CONF_DIR2}/mutilatetc.bash ${CONF_dnsm}
 else
@@ -96,47 +96,46 @@ function t2p_filler() { #käytössä nykyään? common_lib_tool kautta
 	csleep 1
 }
 
-#140526 edelleen peellinen blokki, puuttuvat paketit $d alla aiheuttavat? DONE?:joko jo pois 07/26?
+#DONE?:joko jo pois 07/26?
 #20726:modaamattomalla kiekolla&&DEFAULT rpc "ic"-tilassa, dmsetup ii, myös spi2-cpre ja psmisc myös
-#entä TPPR? josko case-esac? tai alempi filler pois?
-
-if [ "${CONF_env}" == "TOOR" ] ; then
-	#saattaa liittyä johnkin jssain tlant: Stopping bluetooth:start-stop-daemon: nothing in /proc - not mounted?
-
-	#261126:voisiko jo tämän blokin poistaa?
-	
-	dqb "BLU NFS \?"
-	csleep 16
-	#defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista, bissiin näin
-
-	${sharpy} blu* #poistuu vai ei? initramfs-tools liittyy?
-	${sharpy} nfs*
-	t2p_filler
-
-	#tässä kohtaa jo gpg hukataan?
-	${sharpy} at-spi2-core	
-	
-	${sharpy} rpc*
-	${sharpy} dmsetup
-	${sharpy} psmisc
-	t2p_filler
-	
-	#uutena 280926
-	csleep 5 
-	${scm} a-wx /etc/init.d/blu*
-	${scm} a-wx /etc/init.d/nfs*
-	${scm} a-wx /etc/init.d/rpc*
-	${scm} a-wx /etc/init.d/slim*
-
-	ls -las /etc/init.d
-	csleep 6
-
-	dqb "V1"
-	csleep 10	
-
-	#011026:jokohan jo sqeoorissa alkaisi blu-jutut poistua...
-	#191126:jos vielä kerran varmistaisi, vissiin poistuu blu jo
-fi
+#
+#if [ "${CONF_env}" == "TOOR" ] ; then
+#	#saattaa liittyä johnkin jssain tlant: Stopping bluetooth:start-stop-daemon: nothing in /proc - not mounted?
+#
+#	#261126:voisiko jo tämän blokin poistaa? selvittely VAIH
+#	
+#	dqb "BLU NFS \?"
+#	csleep 16
+#	#defalt-tapauksessa psmisc ja rpcbind sisältävät vain konf? varmista, bissiin näin
+#
+#	${sharpy} blu* #poistuu vai ei? initramfs-tools liittyy?
+#	${sharpy} nfs*
+#	t2p_filler
+#
+#	#tässä kohtaa jo gpg hukataan?
+#	${sharpy} at-spi2-core	
+#	
+#	${sharpy} rpc*
+#	${sharpy} dmsetup
+#	${sharpy} psmisc
+#	t2p_filler
+#	
+#	#uutena 280926
+#	csleep 5 
+#	${scm} a-wx /etc/init.d/blu*
+#	${scm} a-wx /etc/init.d/nfs*
+#	${scm} a-wx /etc/init.d/rpc*
+#	${scm} a-wx /etc/init.d/slim*
+#
+#	ls -las /etc/init.d
+#	csleep 6
+#
+#	dqb "V1"
+#	csleep 10	
+#
+#	#011026:jokohan jo sqeoorissa alkaisi blu-jutut poistua...
+#	#191126:jos vielä kerran varmistaisi, vissiin poistuu blu jo
+#fi
 
 #vs destroy()
 function t2pf() {
@@ -170,7 +169,6 @@ common_lib_tool ${d0} pkgs_drop
 
 [ $? -gt 0 ] && exit
 [ ${mode} -eq 0 ] && exit
-#30726:vissiin tähän asti taisteltu toimimaan
 
 common_lib_tool ${d} pkgs_drop 
 [ ${mode} -eq 1 ] && exit

@@ -37,7 +37,7 @@ function guess_conf() {
 		else
 			[ -v b ] || b="/"
 			local a=$(${odio} find ${b} -type f -name "$(whoami).conf" | head -n 1)		
-			#130926:mitenkähän mahtaa toimia tämä haara sqrot-ympäristössä? let's fnid out
+			#130926:mitenkähän mahtaa toimia tämä haara sqrot-ympäristössä? let's fnid out (lienee ok?)
 
 			if [ ! -z "${a}" ] ; then
 				if [ -s ${a} ] ; then
@@ -77,8 +77,9 @@ function csleep() {
 
 [ -v CONF_env ] || exit 99
 #tyhjyydfen kristus myös?
+[ -z "${CONF_env}" ] && exit 100
 echo ${CONF_env}
-sleep 8
+sleep 4
 
 case "${CONF_env}" in
 	TOOR)
@@ -108,11 +109,11 @@ case "${CONF_env}" in
 esac
 
 itni
-echo "odio: ${odio} "
-sleep 9
+#echo "odio: ${odio} "
+#sleep 9
 
 function fix_sudo() {
-	echo "ODUS XIF"
+	echo "ODioUS zIpF()"
 	sleep 3
 
 	sco=$(${odio} which chown)
@@ -154,7 +155,7 @@ function fix_sudo() {
 function other_horrors() {
 	dqb "other_horrors"
 	
-	if [ "${CONF_env}" == "DEFAULT" ] ; then #!VED jatkossa? (TODO)
+	if [ "${CONF_env}" == "DEFAULT" ] ; then #!VED jatkossa? tei ehto kokonaan pois? (TODO)
 		dqb "hERBAL 5UFFER1NG"
 	
 		for f in $(${odio} find /etc -type f -name "rules.*" ) ; do
@@ -431,6 +432,7 @@ function common_pp3() {
 	if [ ${q} -lt 1 ] ; then
 		${scm} a-wx ${r}/common_lib.sh
 		#TODO?: $0 jatkossa? tai siis mihin osoittaa?
+		#TODO:kirjaston_nimi -> Const?
 	else
 		psqa ${1}/${CONF_hashfile}
 
@@ -485,7 +487,6 @@ function efk1() {
 #		dqb "WE NEED T0 TALK ABT ${1}"
 #	fi
 #
-
 #	dqb "eqp oned"
 #} #KKUUTTA PRKL
 
@@ -611,7 +612,6 @@ function wopr() {
 	for s in ${r} ; do
 		case "${3}" in
 			reject_pkgs)
-				#bissiin tähän asti mennään
 				dqb "${NKVD} ${s}"
 				${NKVD} ${s}
 				dqb $?
@@ -808,8 +808,8 @@ function check_binaries() {
 	[ "${CONF_env}" == "TOOR" ] || CB_LIST1="$(${odio} which halt) $(${odio} which reboot) /usr/bin/which ${sifu} ${sifd}"
 	dqb "second half of c_bin_1"
 	
-	#TODO:josq0 vähitellen eka tarq pois?
-	if [ "${CONF_env}" == "DEFAULT" ] && [ -v CONF_iface ] ; then
+	#VAIH:josq0 vähitellen eka tarq pois?
+	if [ -v CONF_iface ] ; then
 		if [ ! -z "${CONF_iface}" ] ; then
 			if [ "${CONF_iface}" != "eth0:1" ] ; then
 				ocs dhclient
@@ -872,12 +872,11 @@ function check_binaries2() {
 }
 
 function sss() {
-	echo "sss ) ${1} ) ${2}"
+	dqb "sss ) ${1} ) ${2}"
 	local f2
 	local g2
 
-	#VAIH
-	sleep 1
+	csleep 1
 
 	[ -z "${1}" ] && exit 39
 	[ -d ${1}/${CONF_DIR2} ] || exit 40
@@ -885,10 +884,14 @@ function sss() {
 	[ -s ${2} ] || exit 42
 	[ -s ${2} ] || exit 43
 
-#	if [ -d ${1}/${CONF_DIR2} ] ; then
+
 		#211126:polkuja joutaa viilata vielä
 		g2=${1}/./${CONF_DIR2}
-	
+
+		#HUOM.281126:jos tämän kirjaston järjkestelisi uudelleen niin ei tarvitsisi erillistöä lib.s, "head -n" riittäisi
+		${scm} a+r ${g2}/lib.s	
+		${scm} a+r ${2}
+
 		for f in $(find ${g2} -type f -name '*.s' -not -name 'lib.s') ; do
 			echo "MANGLING ${f} BEYOND RECQG"				
 			f2=$(echo ${f} | cut -d '.' -f 2)
@@ -904,11 +907,12 @@ function sss() {
 			${odio} grep -v '#' ${f} >> ${f2}.bash
 
 			sleep 1
-			${scm} a-r ${f}
+			${scm} a-rx ${f}
 		done
-#	else
-#		dqb " ${1}/${CONF_DIR2} does not exist"
-#	fi
+
+		csleep 1
+		${scm} a-rx ${g2}/lib.s	
+
 
 	dqb "sss ) ${1} done"
 }
@@ -924,10 +928,12 @@ function TLA() {
 		[ -v CONF_DIR2 ] || exit 89	
 
 		if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then #koitapa päättää miten pitäisi mennä 
-			echo "JST B3F0R: ${odio} ${CONF_DIR2} / tlb.bash "
-			sleep 10
+			dqb "JST B3F0R: ${odio} ${CONF_DIR2} / tlb.bash "
+			csleep 5
 
-			[ -s ${CONF_DIR2}/tlb.bash ] || exit 99
+			#g_doit mode 0 ja 1 pitäisi sallia
+			#lisäksi sqroot-ympstössä pitäisi a) muokata tbls-säännölt b) tallentaa c( mahdollistaa netfilter.persistentin tekemä lataaminen
+			[ -s ${CONF_DIR2}/tlb.bash ] || echo "SHOULD exit 99"
 			${scm} 0511 ${CONF_DIR2}/tlb.bash
 
 			#koituksella ilman param
@@ -992,7 +998,7 @@ function dinf() {
 
 	echo " /sbin/dhclient-script" >> ${1}
 	cat ${1}
-	echo "DINSDALE"
+	dqb "DINSDALE"
 }
 
 function fasdfasd() {
@@ -1013,9 +1019,9 @@ function reqwreqw() {
 }
 
 function e_final() {
-	echo "Alm0st f1NAL"
+	dqb "Alm0st f1NAL"
 	[ -v CONF_DIR2 ] || exit 99
-	sleep 10
+	csleep 5
 
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then 
 		${scm} go-rw ${CONF_DIR2}/*
@@ -1030,28 +1036,42 @@ function e_final() {
 	${scm} 0777 /tmp
 	${sco} root:root /tmp
 
+	#uutena 281126
+	local p=$(pwd)
+	cd /
+
+	${scm} go+rx .
+	${scm} go+rx ..
+	${sco} 0:0 .
+	${sco} 0:0 ..	
+	cd ${p}
+
 	#tekeekö o+t mitään merkittävää tässä vai ei? 221126 alettu kokeilemaan
 	${scm} o+t /tmp
+
+	#barm vuoksi lisätty 281126
+	${sco} -R 0:0 /opt
+	${scm} -R a-w /opt
 
 	echo "SALA DE ANALIS CLINICOS ASD ASD 123"
 	sleep 1
 }
 
 function e_h() {
-	echo "EH ((( ${1} ;; ((( ${2} ))(((((("
+	dqb "EH ((( ${1} ;; ((( ${2} ))(((((("
 	[ -z "${1}" ] && exit 98
 	[ -d ${2} ] || exit 99
-	echo "pars.ok"
+	dqb "pars.ok"
 
 	#221126;mennäänkö tänän kohtraabn?
 	${sco} root:root /home
 	${scm} 0755 /home
 	
 	ls -las /home
-	sleep 10
+	csleep 5
 
 	local f
-	local c=$(grep $1 /etc/passwd | wc -l)
+	local c=$(grep ${1} /etc/passwd | wc -l)
 	local m=0555
 
 	if [ ${c} -gt 0 ] ; then
@@ -1072,7 +1092,7 @@ function e_h() {
 	if [ "${CONF_env}" == "DEFAULT" ] && [ -d ${CONF_DIR2} ] ; then	#tänään näin
 		if [ -d ${2}${CONF_DIR2} ] ; then
 			${sco} -R root:root ${2}${CONF_DIR2}
-			#TODO:ao, rivi uusicksi
+			#TODO:ao, rivi uusicksi vähitellen
 			${scm} 0400 ${2}${CONF_DIR2}/*
 			${scm} 0511 ${2}${CONF_DIR2}/*.bash
 		fi
@@ -1103,7 +1123,7 @@ function e_e() {
 	${scm} 0755 /etc
 	${sco} -R root:root /etc
 
-	dqb "TODO:voisi välillä testailla miten wpasupplicant nykyään , esim-konf jostain jnpp"
+	dqb "VAIH:voisi välillä testailla miten wpasupplicant nykyään , esim-konf jostain jnpp"
 	csleep 6
 
 	${scm} 0555 /etc/network
@@ -1158,12 +1178,12 @@ function e_v() {
 }
 
 function enforce_access() {
-	echo "common_lib.enforce_access(${1} , ${2} ))))))"
+	dqb "common_lib.enforce_access(${1} , ${2} ))))))"
 	[ -z "${1}" ] && exit 67
 	[ -z "${2}" ] && exit 68
 	
-	echo "pars.ok"
-	sleep 5
+	dqb "pars.ok"
+	csleep 5
 
 	e_e
 	e_v
@@ -1172,6 +1192,7 @@ function enforce_access() {
 	jules
 
 	[ ${debug} -eq 1 ] && ${odio} ls -las /etc/iptables;sleep 2
+	dqb "3NF0RC D0N3"
 }
 
 #tavoitetila dokumentoituna: https://www.devuan.org/os/packages
@@ -1266,7 +1287,7 @@ function part1() {
 		fi
 	fi
 
-	#alt_root-kohta voi muuttus jos jos/qn alkaa a-offilnen kanssa säätää
+	#alt_root-kohta voi muuttuA jos jos/qn alkaa a-offLInen kanssa säätää
 	if [ "${CONF_env}" == "TOOR" ] && [ -v CONF_alt_root ] ; then
 		part1_5 ${t} ${CONF_alt_root}/${t}
 	else
@@ -1329,7 +1350,7 @@ function part2() {
 		#010826:senrosit laukaisivat purkkavirityksen?	
 		#${sharpy} lm-sensors 
 
-		#dqb "JUST BEFORE ten1 ${3}"	#280926:kokeeksi kommentoitu pois tästä
+		#dqb "JUST BEFORE ten1 ${3}"	#280926:kokeeksi kommentoitu pois tästä, hyvä niin?
 		#ten1 ${3}
 	fi
 
@@ -1540,7 +1561,6 @@ gpo "$@"
 #	[ -d ${1} ] || exit 97
 #
 #	dqb "cptp2:pars ok"
-
 #
 #	#tr-kikkailu tässä ei niitä parhaimpia ideoita 
 #	local t
@@ -1561,10 +1581,8 @@ gpo "$@"
 #			dqb "n s 3x3cutabl3 as ${t}/common_lib.sh, needed 2 3nf0rc3 some things  "
 #		fi
 #		
-
 #	fi
 #
-
 #
 #	if [ -d ${t} ] ; then
 #		dqb "HAIL2 TH3 TH13F"
@@ -1574,10 +1592,8 @@ gpo "$@"
 #		${scm} 0444 ${t}/conf*
 #		${scm} 0444 ${t}/*.deb
 #
-
 #	fi
 #
 #	[ ${debug} -eq 1 ] && ls -las ${1}
-
 #	dqb "ALL DONE"
 #}

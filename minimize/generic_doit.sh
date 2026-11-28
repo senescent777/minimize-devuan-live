@@ -53,7 +53,7 @@ function dis() {
 	${sco} -R root:root /etc/network
 	${scm} a+r /etc/network/*
 
-	#tämän ai kai outäöis koskea linkkeihin
+	#tämän ei kai ptäöis i koskea linkkeihin
 	if [ -f /etc/network/interfaces ] ; then
 		if [ ! -h /etc/network/interfaces ] ; then
 			${svm} /etc/network/interfaces /etc/network/interfaces.$(date +%F)
@@ -103,7 +103,6 @@ function part0() {
 	dqb "part0)))( ${1} ;; ${2})(((((("
 	[ -z "${1}" ] && exit 76
 	
-	#20926:hyvä näin? ehkä sittenq typot kojrattu
 	if [ "${CONF_env}" == "DEFAULT" ] ; then
 		[ -z "${2}" ] && exit 78
 	fi
@@ -116,6 +115,7 @@ function part0() {
 	dqb "смерть шпионам"
 
 	#ehkä nuo komennot jotain tekevät mutta xfce4-session näkyy edelleen pgrepillä
+	#vielä 11/26?
 
 	xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
 	xfconf-query -c xfce4-session -p /startup/gpg-agent/enabled -n -t bool -s false
@@ -124,6 +124,7 @@ function part0() {
 	for s in ${PART175_LIST} ; do
 		dqb ${s}
 		#HUOM.271125:saisiko tällä tyylillä myös slimin sammutettua? saa, mutta...
+		#miten 11/26?
 
 		for t in $(find /etc/init.d -name "${s}*" ) ; do
 			${odio} ${t} stop
@@ -188,17 +189,12 @@ function adieu() {
 #	pidetäänpä nämä jutut kommenteissa sitä varten että sattuukin vitsemaan
 #
 #	${odio} usermod -G devuan,cdrom,floppy,audio,dip,video,plugdev,netdev,tty devuan #,input tämä vai tty?
-
 #	groups #ryhmiin kuulumisen muutokset eivät tapahtune ennen uloskirjautumista?
-
 #	#140126:aiemmin oli scm ennen usermod, lieneekö järjestyksellä merkitystä
 #
 #	${scm} g+rw /dev/tty0
-
 #	ls -las /dev/tty?
-
 #	#väärä tapa pakottaa uudelleen_kirjautuminen?
-
 	${whack} xfce4-session
 }
 
@@ -236,13 +232,12 @@ function pre_enforce() {
 	[ -v CONF_enforce_prefix ] || exit 99
 	q=$(${mkt} ${CONF_enforce_prefix}-XXXX)
 
-	#satunnainen tauhka (/e/s.d alaisena) tdston_nimenä ... toimivuus riippuu tauhkasta, "man 5 sudoers"
+	#satunnainen tauhka (/e/s.d alaisena) tdston_nimenä? toimivuus riippuu tauhkasta, "man 5 sudoers"
 	csleep 1
 
 	fasdfasd ${q}
 	[ ${debug} -eq 1 ] && ls -las ${q}
 	csleep 1
-
 	[ -f ${q} ] || exit 33
 
 	#...ved kanssa lista kai ok, vitseeko TOOR oikeastaan listaa lainkaan?
@@ -269,7 +264,7 @@ function pre_enforce() {
 			[ $? -eq 0 ] || ${odio} ${smd} ${CONF_DIR2}
 		fi
 
-		sss ${1} ${g_cfile} #TODO:jälk glob pois 
+		sss ${1} ${g_cfile} #TODO:jälk glob pois + seur if-blokin sisälle
 	#fi
 
 	e_final
@@ -327,18 +322,7 @@ function pre_enforce() {
 	csleep 1
 }
 
-#251126:tripla-s vain tarvittaessa jatqs?
-#echo "VAIH:sss() testaus just ennen tàtà if-blokkia"
-#sleep 6
-#
-#if [ ! -d ${CONF_DIR2} ] ; then
-#	${smd} ${CONF_DIR2}
-#	[ $? -eq 0 ] || ${odio} ${smd} ${CONF_DIR2}
-#fi
-#
-#sss ${d0} ${g_cfile}
-#exit
-
+#tarviiko dev-env kanssa ajaa pre_e ? silloinkin tarttsi sudoersia sorkkia mutta o/b jutut ei pakko lisätä
 if [ -s /etc/sudoers.d/meshuqqah ] || [ "${CONF_env}" == "TOOR" ] || [ ${CONF_enforce} -eq 0 ] ; then
 	dqb "BYPASSING pre_enforce()"
 else 
@@ -443,7 +427,7 @@ ${sco} 0:0 ${CONF_DIR2}/*
 ${scm} 0400 ${CONF_hashfile3}*
 
 #011126:1 ajokerta ei nykyään riitä?
-#151126:vika ehto ok vai ei?
+#281126:missä tilanteissa mutilatetc tarttee ajaa? riittäisikö default_encv?
 
 if [ -x ${CONF_DIR2}/mutilatetc.bash ] && [ -v CONF_dnsm ] && [ "${CONF_env}" != "TOOR" ] ; then
 	${odio} ${CONF_DIR2}/mutilatetc.bash ${CONF_dnsm}
@@ -452,7 +436,7 @@ else
 fi
 
 #ifup nykyään muuttelee tables-sääntöjä yhdellä jekulla joten ei erikseen tte käskyttää...
-
+#TODO:Const tuohon alle?
 ${sipt} -L
 ${scm} 0555 ${d0}/common_lib.sh
 ${scm} a-wx $0
