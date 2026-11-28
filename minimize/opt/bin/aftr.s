@@ -8,7 +8,6 @@ ${ipt} -A OUTPUT -p udp -m udp --dport 53 -j e
 ${ipt} -D u 2
 ${ipt} -D v 2
 
-
 function dda_snd() {
 	dqb "dda_snd( ${1})"
 
@@ -27,7 +26,6 @@ function dda_snd() {
 		${ipt} -A v -p udp -m udp -d ${t} --dport 53 -j ACCEPT
 	else
 		dqb "AB"
-		#HUOM.070326:oli AIEmmin -{s,d} ${t} ja sitten taas
 		${ipt} -A b -p udp -m udp -s ${t} --sport 53 -j ACCEPT 
 		${ipt} -A e -p udp -m udp -d ${t} --dport 53 -j ACCEPT
 	fi
@@ -46,9 +44,9 @@ function tod_dda() {
 #up/post-up tämäkin
 function clouds_case1_1() {
 	if [ -s /home/stubby/.stubby.yml ] ; then
-		for s in $(grep -v '#' 
-		for s in $(cat /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do
-			tod_dda ${s} 
+		#tähän alle muutoksdia? jep
+		for s in $(cat /home/stubby/.stubby.yml | grep address_data | cut -d ':' -f 2) ; do 
+			tod_dda ${s} ; 
 		done
 	else
 		dqb "NO CONF FOUND, HAVE TO USE ALT CONF"
@@ -60,7 +58,7 @@ function clouds_case1_1() {
 }
 
 if [ -s /etc/resolv.conf ] ; then
-	for s in $(grep -v '#'
+	#nykyään näin	
 	for s in $(cat /etc/resolv.conf | grep names | grep -v 127. | awk '{print $2}') ; do 
 		dda_snd ${s}
 	done
@@ -68,7 +66,6 @@ else
 	echo "NYT SE VITUN VITTU"
 	sleep 66
 fi
-
 
 function ptn_dda() {
 
@@ -78,6 +75,7 @@ function ptn_dda() {
 	t=$(echo ${1} | tr -d -c 0-9.)
 	# | cut -c 15) eivielä
 
+	u=0
 	u=$(echo ${1} | grep 192.168 | wc -l) #
 
 	if [ ${u} -gt 0 ] ; then

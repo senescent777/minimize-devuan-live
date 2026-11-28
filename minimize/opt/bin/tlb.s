@@ -1,4 +1,4 @@
-#se suuri mölinä jos resolv.conf puuttuu
+#"Se Suuri Mölinä" jos resolv.conf puuttuu
 if [ ! -f /etc/resolv.conf ] ; then
 	echo "ULIULIULI 666"
 	sleep 99
@@ -36,8 +36,6 @@ ${ip6tr} /etc/iptables/rules.v6.${p}
 tlah $?
 csleep 1
 dqb "v6 reloaded ok"
-
-
 
 ${ipt} -D INPUT 8
 ${ipt} -D INPUT 7
